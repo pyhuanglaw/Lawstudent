@@ -2,8 +2,9 @@
    都不扣時段次數，只花時間：坐在樹下 20 分、看公布欄 0 分、下象棋 30 分（08:00～11:00）、盪鞦韆 10 分（20:00 以後）、拜土地公 5 分（一天一次）、直飲台 0 分、摸貓 5 分、餵貓 5 分（各一天一次）。
    存檔（一般狀態，不是劇情旗標）：G.daily.park＝{treeDay, treeUsed:[], chessN, chessOpen, swingN, shrineDay, fountainDay, catName, petDay, feedDay, sawTutorAd}；
    G.daily.catCans：小罐貓罐頭的數量（便利商店 35 元，AA_164 5-4）。舊存檔沒有＝從頭開始。
-   位置（zones3d.js buildWzPark 加的互動點，park 欄位）：老樹下的圓椅（tree）、鞦韆（swing）、公布欄（notice）、涼亭的象棋（chess）、土地公（shrine）、直飲台（fountain）、貓（cat，圓椅北邊）。
-   測試：node tests/wz_park_talk_unit.js */
+   位置（zones3d.js buildWzPark 加的互動點，park 欄位）：老樹下的圓椅（tree）、鞦韆（swing）、公布欄（notice）、涼亭的象棋（chess）、土地公（shrine）、直飲台（fountain）、貓（cat，圓椅北邊；下雨在涼亭的石桌底下）。
+   公園裡照時段出現的路人、走進公園的一句、點路人的一句：AA_283（企劃線 8b312c12），在這個檔案最後一段；3D 的人由 crowd3d.js 的 CROWD.parkSpots 照 S.groups 放。
+   測試：node tests/wz_park_talk_unit.js、node tests/wz_park_people_unit.js */
 'use strict';
 const PARK=(function(){
   const S={};
@@ -57,7 +58,7 @@ const PARK=(function(){
         if(P.treeUsed.includes(sl)){ const alt=[0,1,2].find(q=>!P.treeUsed.includes(q)); if(alt!=null) sl=alt; }   /* 同一天第二次：換同一季的另一句（深夜那一欄以外），不重複 */
         P.treeUsed.push(sl); GM.advance(1/3); await GM.say(null,cat(G,TREE[se][sl])); stand(GM); return 'tree'; }
       if(k==='notice'){ const L=S.notices(G); for(let n=0;n<10;n++){ const i=await GM.choose(L.map(q=>({t:q[0]})).concat([{t:'不看了'}])); const q=L[i]; if(!q) break; await GM.say(null,q[1]); if(q[2]) await GM.say(null,q[2]); if(q[3]) P.sawTutorAd=true; } return 'notice'; }
-      if(k==='chess'){ const h=hr(G); if(h<8||h>=11){ GM.toast('下象棋：08:00～11:00',2600); return 'closed'; }
+      if(k==='chess'){ if(S.rainy(G)) return 'closed';   /* 下雨公園一個人都沒有（AA_283 第 1 節）：象棋的互動點也藏起來（zones3d.js）*/ const h=hr(G); if(h<8||h>=11){ GM.toast('下象棋：08:00～11:00',2600); return 'closed'; }
         const o=CHESS_OPEN[(P.chessOpen|0)%3]; P.chessOpen=(P.chessOpen|0)+1; await GM.say(o[0]?{name:o[0]}:null,o[1]);
         const n=P.chessN|0; let r; if(n<4) r=['lose','lose','draw','win'][n]; else { const x=Math.random(), w=Math.min(0.5,n*0.05); r=x<w?'win':(x<w+0.15?'draw':'lose'); } P.chessN=n+1;
         GM.advance(0.5); const sr=S.year(G)>=4?1:0; const pool=CHESS[r][sr]; const t=r==='lose'?pool[(P.loseN|0)%pool.length]:pool[0]; if(r==='lose') P.loseN=(P.loseN|0)+1;
@@ -76,5 +77,84 @@ const PARK=(function(){
   /* 明軒介紹家教時（AA_163）：看過公布欄那張廣告的，多一句旁白（AA_171 第 2 節；明軒的事件不讀它，只有這句旁白讀）*/
   S.tutorAdEcho=G=>!!(G&&G.daily&&G.daily.park&&G.daily.park.sawTutorAd);
   S.TUTOR_AD_ECHO='你想起公園公布欄的那張紙。';
+  /* ===== 公園裡的人（AA_283，企劃線 8b312c12，AA-C 2026-10-18 定稿；DL-13／AA283-PARK-1021）=====
+     第 1 節 誰幾點在：S.groups(G)＝今天的表（平日；週末換成中午一家人野餐、孩子提早到 10:00；寒暑假孩子 09:00～11:00、15:00～17:00、沒有課輔班；
+       下雨一個人都沒有、貓在涼亭的石桌底下；大三上第 9 週路人照常、只有貓不在）。國定假日（平日放的假）照週末；校定的停課日（運動會）國小和上班的人照常＝平日。
+       課輔班的老師不取名（不是沛珊：她大三起在台南，AA_282）。3D 的人：crowd3d.js 的 CROWD.parkSpots。
+     第 2 節 走進公園的一句：S.entryTick（story3d.js 的 S.tick 每一格叫）——一天第一次走進公園、照當時的時段；時段重疊照表上面那一列（課輔班那二十分鐘照課輔班）；
+       那個時段沒有人（例：平日 13:00～15:30）這次不播、下次走進來再看；和 AA_171 7b 那句（story3d.js AMBIENT 的 park）不同一天播兩句。
+       提到貓的三句（遛狗、22:00 以後、下雨）大三上第 9 週不播（貓不見了；08:00～09:00 改成下一列象棋那句）。
+     第 3 節 點路人：S.bindTap／S.tap——一個人一天一次、同一種人輪流說、不連續重複；學生、情侶只有旁白；下象棋的阿伯＝AA_171 第 3 節的下一盤（這裡不另寫）。
+       路人都不取名、不記關係（不碰 SOCIAL）。
+     存檔（一般狀態，G.daily.park）：entryDay（今天播過那一句）、pplDay＋pplDone（今天點過的人）、pplLast（每一種人上一次說第幾句）；舊存檔沒有＝今天還沒播、還沒點過 */
+  S.rainy=G=>!!G&&(G.weather==='rain'||G.weather==='typhoon');
+  S.catUnder=G=>S.rainy(G)&&!S.catLost(G);   /* 下雨：貓在涼亭的石桌底下（AA_164 5-2；zones3d.js buildWzPark 照這個放）*/
+  /* 放假的日子（週末、國定假日）照週末的表；校定的停課日（運動會）不算——國小、上班的人照常 */
+  S.dayOff=function(G){ if(typeof CALENDAR==='undefined') return G.weekday===0||G.weekday===6; const d=CALENDAR.dateOf(G.day); if(d.wd>=6) return true; const hol=CALENDAR.holiday(G.day); return !!hol&&!(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[d.key]); };
+  /* 寒暑假＝兩個學期中間（CALENDAR.termOf 是 null）；畢業那年的九月以後沒有學期表，照平常上學 */
+  S.onBreak=function(G){ if(typeof CALENDAR==='undefined'||CALENDAR.termOf(G.day)) return false; const r=CALENDAR.termDays&&CALENDAR.termDays('Y4S2'); return !(r&&G.day>r.to+90); };
+  S.schoolDay=G=>!S.dayOff(G)&&!S.onBreak(G);
+  /* 第 1 節的表（照表的順序）：spot＝crowd3d.js 的哪一群人、id＝第 2 節的哪一列、key＝這一天的哪一個時段、n＝人數（照表；上班族照第 2 節那句「兩個上班族」）*/
+  S.groups=function(G){ if(!G||S.rainy(G)) return []; const off=S.dayOff(G), brk=!off&&S.onBreak(G), wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:G.weekday;
+    const out=[{spot:'am',id:'am',key:'am',t0:6,t1:8,n:[4,6]},{spot:'dog',id:'dog',key:'dog',t0:7,t1:9,n:[1,2]},{spot:'chess',id:'chess',key:'chess',t0:8,t1:11,n:[3,4]}];   /* 象棋：下棋 2＋圍觀 1～2 */
+    out.push(off?{spot:'noon',id:'picnic',key:'picnic',t0:12,t1:13,n:[3,4]}:{spot:'noon',id:'office',key:'office',t0:12,t1:13,n:[2,2]});   /* 週末中午：一家人（大人兩個、孩子一兩個）*/
+    if(off) out.push({spot:'kids',id:'kids',key:'kids',t0:10,t1:17.5,n:[3,5]});
+    else if(brk) out.push({spot:'kids',id:'kids',key:'kidsAM',t0:9,t1:11,n:[3,5]},{spot:'kids',id:'kids',key:'kidsPM',t0:15,t1:17,n:[3,5]});
+    else out.push({spot:'kids',id:'kids',key:'kids',t0:15.5,t1:17.5,n:[3,5]});   /* 孩子＋帶孫子的阿嬤 */
+    if(!off&&!brk&&(wd===2||wd===4)) out.push({spot:'tutor',id:'tutor',key:'tutor',t0:17,t1:17+1/3,n:[6,8],pass:true});   /* 週二、週四 17:00～17:20：從入口 B 走到入口 A */
+    out.push({spot:'walk',id:'walk',key:'walk',t0:18,t1:20,n:[2,4]},{spot:'night',id:'night',key:'night',t0:20,t1:22,n:[2,4]});
+    return out; };
+  S.groupsAt=(G,h)=>{ h=h==null?hr(G):h; return S.groups(G).filter(g=>h>=g.t0&&h<g.t1); };
+  /* 第 2 節：走進公園的一句 */
+  const ENTRY={am:'阿嬤們在甩手，數到一百就換一隻。',dog:'一隻柴犬拉著主人往貓的方向走，被拉了回去。',chess:'涼亭裡有人說「將軍」。旁邊看的人比下的人還急。',office:'樹下兩個上班族在吃便當，識別證翻到背面。',
+    picnic:'一家人在樹下鋪了野餐墊，小孩在追鴿子。',kids:'溜滑梯那邊很吵。阿嬤坐在旁邊一直喊「慢一點」。',tutor:'一排小孩背著書包走過去，老師走在最後面點人數。',walk:'散步的人繞著老樹走，一圈、兩圈。',
+    night:'鞦韆有人在盪，盪得不高。',late:'公園沒有人。圓椅上只剩{cat}。',rain:'公園沒有人。涼亭的石桌底下，有一團橘白色的。'};
+  S.entryLine=function(G,h){ h=h==null?hr(G):h; const lost=S.catLost(G);
+    if(S.rainy(G)) return lost?null:ENTRY.rain;
+    if(h>=22||h<6) return lost?null:cat(G,ENTRY.late);
+    const on=S.groupsAt(G,h).filter(g=>!(lost&&g.id==='dog'));
+    const g=on.find(q=>q.id==='tutor')||on[0]; return g?ENTRY[g.id]:null; };
+  /* 在公園裡嗎（WZ_PARK_LAYOUT 的入口段＋主園區，扣掉西北角）：從主巷進入口 A 要往裡走 0.3 m 才算 */
+  S.inPark=function(x,z){ if(typeof WZ_PARK_LAYOUT==='undefined') return false; const A=WZ_PARK_LAYOUT.area, f=A.front, b=A.back;
+    if(x>f.x0&&x<f.x1&&z>f.z0+0.3&&z<=f.z1) return true;
+    return x>b.x0&&x<b.x1&&z>b.z0&&z<b.z1&&!(b.cut&&x<b.cut.x1&&z>b.cut.z0); };
+  S.entrySaid=G=>S.rec(G).entryDay===G.day;   /* 今天走進公園的那一句播過了（AA_171 7b 那句今天就不播）*/
+  S.ambSaid=G=>!!(G&&G.flags&&G.flags.amb&&G.flags.amb['park'+G.day]);   /* story3d.js AMBIENT 的 7b（key 'park'）今天播過了 */
+  S._wasIn=null;
+  S.entryTick=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.player||!E.player.obj) return null; const p=E.player.obj.position, inside=G.zone==='wenzhou'&&S.inPark(p.x,p.z), was=S._wasIn; S._wasIn=inside;
+    if(!inside||was) return null;   /* 走進來的那一刻（讀檔、進區域時就在公園裡也算）*/
+    if(S.entrySaid(G)||S.ambSaid(G)) return null; const line=S.entryLine(G); if(!line) return null;
+    S.rec(G).entryDay=G.day; if(GM.caption) GM.caption('',line,3200); return line; };
+  /* 第 3 節：點路人 */
+  const Q=t=>({t}), N=t=>({nar:true,t});   /* Q＝他說的（對話框寫是誰，引號拿掉）；N＝旁白（括號照原文）*/
+  const TAP={ am_f:{who:'晨運的阿嬤',lines:[[Q('少年仔，這麼早？')],[Q('你們讀書的，要多動。')],[Q('今天冷，手要甩久一點。')]],only:{2:G=>{ const m=month(G); return m===12||m<=2; }}},   /* 第三句只在 12～2 月 */
+    am_m:{who:'晨運的阿伯',lines:[[N('（他甩著手，對你點了一下頭。）')],[Q('早。')]]},
+    dog:{who:'遛狗的人',lines:[[Q('牠不咬人啦，牠只是想看貓。')],[Q('早！')]]},
+    chess_watch:{who:'圍觀象棋的',lines:[[Q('看就好，不要講話。')]]},
+    office:{who:'上班族',lines:[[N('（他對你點了一下頭，繼續吃便當。）')]]},
+    kid:{who:'放學的孩子',lines:[[Q('哥哥，你要盪鞦韆要排隊喔。')],[Q('你知道那隻貓叫什麼嗎？……我們都叫牠麻糬。')]]},
+    grandma:{who:'帶孫子的阿嬤',lines:[[Q('孫子啦。他媽媽六點才下班。')]]},
+    tutor:{who:'課輔班的老師',lines:[[Q('不好意思，借過一下。'),N('（孩子在後面跟著說「借過——」）')]]},
+    walker:{who:'散步的人',lines:[[N('（她點點頭，繼續走她的第三圈。）')]]},
+    night:{who:null,lines:[[N('你決定不要打擾他們。')]]} };   /* 學生、情侶：不能點，只有一句旁白 */
+  const KID_MOCHI='我們都叫牠麻糬。……你也是？';   /* 玩家取的名字也是麻糬：孩子那句換成這句 */
+  S.TAP=TAP; S.ENTRY=ENTRY; S.KID_MOCHI=KID_MOCHI;
+  S.whoOf=(G,role)=>role==='kid'&&!S.schoolDay(G)?'孩子':(TAP[role]&&TAP[role].who);   /* 週末、放假的孩子不是「放學的」（對話框的名字）*/
+  /* 這一種人這次說哪一句：上一次的下一句（輪流；不連續重複），這個月份沒有的句子跳過 */
+  S.tapPick=function(G,role){ const T=TAP[role]; if(!T) return null; const P=S.rec(G), last=P.pplLast&&typeof P.pplLast[role]==='number'?P.pplLast[role]:null, n=T.lines.length;
+    const ok=j=>!(T.only&&T.only[j])||T.only[j](G); let i=null; for(let s=0;s<n;s++){ const j=((last==null?0:last+1)+s)%n; if(ok(j)){ i=j; break; } } if(i==null) return null;
+    const who=S.whoOf(G,role); return {i,script:T.lines[i].map(x=>x.nar?{t:x.t}:{who,t:role==='kid'&&i===1&&S.catName(G)==='麻糬'?KID_MOCHI:x.t})}; };
+  S.tapped=(G,key)=>{ const P=S.rec(G); return P.pplDay===G.day&&Array.isArray(P.pplDone)&&P.pplDone.includes(key); };
+  S.tap=async function(GM,n,key,role){ const G=GM.G, P=S.rec(G); if(S.tapped(G,key)) return null; const pk=S.tapPick(G,role); if(!pk) return null;
+    if(P.pplDay!==G.day||!Array.isArray(P.pplDone)){ P.pplDay=G.day; P.pplDone=[]; } P.pplDone.push(key); P.pplLast=Object.assign({},P.pplLast,{[role]:pk.i});
+    if(n){ n.talk=null; n.talkLabel=null; }   /* 一個人一天一次：說完就不能再點 */
+    if(typeof CROWD!=='undefined'&&CROWD.overhear) await CROWD.overhear(GM,n,pk.script);
+    else { GM.sceneBegin(); try{ for(const x of pk.script) await GM.say(x.who?{name:x.who,obj:n&&n.obj}:null,x.t); } finally { GM.sceneEnd(); } }
+    return pk; };
+  /* 3D 的路人建好時（crowd3d.js）：這個人點了會怎樣。p.key＝這一天、這個時段的第幾個人；p.role 見 TAP（chess_play＝下棋的阿伯；family、tutor_kid 不能點）*/
+  S.bindTap=function(GM,n,p){ if(!n||!p) return n; n.parkRole=p.role; n.parkKey=p.key;
+    if(p.role==='chess_play'){ n.talkLabel='下象棋'; n.talk=()=>S.interact(GM,{park:'chess'}); return n; }
+    if(!TAP[p.role]||S.tapped(GM.G,p.key)){ n.talk=null; n.talkLabel=null; return n; }
+    n.talkLabel='打招呼'; n.talk=()=>S.tap(GM,n,p.key,p.role); return n; };
   return S;
 })();
