@@ -289,7 +289,8 @@ async def walk(p, run, base, sid, out):
         n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False); await pg.wait_for_timeout(2500)
         res['book_lines'] = (await pg.evaluate("window.__LOG||[]"))[n0:]
         st = await pg.evaluate(ST); res['after_book'] = st; say('   %s 約完：%s；%s' % (sid, json.dumps(st['inv'], ensure_ascii=False), [x['t'] for x in res['book_lines']]))
-        T = [x['t'] for x in res['book_lines']]
+        lg = trace.get('log') or []; last_menu = max((i for i, x in enumerate(lg) if x[0] == '［選項］'), default=-1)
+        T = [x[1] for x in lg[last_menu + 1:]] + [x['t'] for x in res['book_lines']]   # 選了時間以後她說的話（talk_invite_now 的 log 尾巴＋之後的）；02:5x 第一輪只看 book_lines，漏掉了那一句
         if sid == 'LIB_HERE':   # 兩個人都已經在總圖：當面約總圖＝直接開始（不是手機那句「我就在總圖。三樓。不要講話，傳訊息。」）
             phone_line = [t for t in T if '傳訊息' in t or '不要講話' in t]
             run.check('LIB_HERE：在閱覽室當面約「去總圖一起念書」「現在一起過去」——她沒有回手機那句「…不要講話，傳訊息。」', not phone_line, json.dumps(T[:8], ensure_ascii=False)[:400])
