@@ -327,9 +327,10 @@ async def s_an(p, run, base, sid, out):
 
 # ---------------------------------------------------------------- #3 女朋友的學期末約會（以安）
 GF_TAG = 'te_gf_Y4S1_heroine_01'
+# 2026-10-22 rc2 第一輪：以安的飯桌那一句照學期（tableByTerm.Y4S1「二月考完以前…」），不是通用的 table
 TE_INFO = """(()=>{ const G=GAME.G, w=TERMEND.windowOf('Y4S1'); let fin=[]; try{ fin=CLS.examList(G,'Y4S1').filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day).map(e=>({d:CALENDAR.dateOf(e.day).key, day:e.day, c:e.name||e.title||e.course||e.id||''})); }catch(e){ fin=['ERR '+e.message]; }
   let es=null; try{ es=TERMEND.examStart(G,w); }catch(e){}
-  let g=null; try{ const x=TERMEND.gf('heroine_01','Y4S1'); g={invite:typeof x.invite==='function'?'(函式)':x.invite, h:x.h, place:x.placeName, wd:x.wd, table:x.table}; }catch(e){ g='ERR '+e.message; }
+  let g=null; try{ const x=TERMEND.gf('heroine_01','Y4S1'); const tb=x.tableByTerm&&x.tableByTerm.Y4S1; g={invite:typeof x.invite==='function'?'(函式)':x.invite, h:x.h, place:x.placeName, wd:x.wd, table:Array.isArray(tb)?tb[0]:(tb||x.table)}; }catch(e){ g='ERR '+e.message; }
   return {from:CALENDAR.dateOf(w.from).key, to:CALENDAR.dateOf(w.to).key, fromDay:w.from, toDay:w.to, finals:fin, examStart:es!=null?CALENDAR.dateOf(es).key:null, examStartDay:es, gf:g}; })()"""
 GF_DAY = """(()=>{ try{ const R=TERMEND.rec(GAME.G,'Y4S1'); const d=(R.gfDay||{}).heroine_01; return d==null?null:{day:d, key:d>=0?CALENDAR.dateOf(d).key:null}; }catch(e){ return 'ERR '+e.message; } })()"""
 
@@ -365,13 +366,16 @@ async def s_gf_an(p, run, base, sid, out):
         m = found[0]; dd = m['day']; await run.shot(pg, '%s_invite' % sid)
         pend = await pg.evaluate(PEND + "(%s)" % json.dumps(GF_TAG)); res['pend'] = pend
         lastfin = max([f['day'] for f in info['finals'] if isinstance(f, dict)] or [None]) if any(isinstance(f, dict) for f in info['finals']) else None
-        run.check('%s：邀約在約會當天 12:00 才到（%s %.2f）' % (sid, m['d'], m['h']), abs(m['h'] - 12) < 0.05 and len(found) == 1, J(found))
+        # 2026-10-22 rc2 第一輪：手機的訊息照「真的收到的時間」記（PHONE 佇列準時送＝現在的時間），跳過時間到 12:00 再淡入淡出，記成 12:02～12:03——
+        # 要看的是「當天中午才到、前幾天沒有」，容許到 12:15
+        run.check('%s：邀約在約會當天 12:00 才到（%s %.2f；前幾天中午都沒有）' % (sid, m['d'], m['h']), 12 - 1e-6 <= m['h'] < 12.25 and len(found) == 1, J(found))
         run.check('%s：句子照舊「%s」' % (sid, (info['gf'] or {}).get('invite') if isinstance(info['gf'], dict) else '?'), isinstance(info['gf'], dict) and m['text'] == info['gf'].get('invite'), J(m))
         run.check('%s：回覆期限＝當天 17:30（%s）' % (sid, (pend or {}).get('untilKey')), bool(pend) and abs(pend['until'] - (dd * 24 + 17.5)) < 0.01, J(pend))
         run.check('%s：那一天在你最後一科期末考以後（最後一科 %s、約會 %s）' % (sid, [f['d'] for f in info['finals'] if isinstance(f, dict)][-1:] or '—', m['d']),
                   (lastfin is None or dd > lastfin) and dd >= info['fromDay'], J({'finals': info['finals'], 'examStart': info['examStart'], 'dd': m['d']}))
         await answer(pg, cdp, run, 'p:heroine_01', GF_TAG, '好。', sid)
-        await pg.wait_for_timeout(1500)
+        # 回了以後要等下一次手機規則（TERMEND.phone → pickCheck）才排出遊；畫面每秒 1 格時 1.5 秒不夠（rc2 第一輪）
+        await wait_for(pg, cdp, run, "OUT.rec(GAME.G).some(q=>q.id==='%s')" % GF_TAG, max_s=90, label=sid)
         q = await pg.evaluate(OUTQ + "('^te_gf_Y4S1_heroine_01')"); res['out'] = q
         h_gf = (info['gf'] or {}).get('h') if isinstance(info['gf'], dict) else None
         run.check('%s：回「好。」＝排出遊「學期末的飯」在同一天（%s）' % (sid, J(q, 200)), any(x['day'] == dd and (h_gf is None or abs(x['h'] - h_gf) < 0.01) for x in q), J(q))
