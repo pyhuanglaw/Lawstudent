@@ -22775,7 +22775,7 @@
    },
    "source": "AA_290 第 4 節（88e42c1c 10-18 05:41、82085e70）；稽核：deliveries.json、白名單、AA outbox 都沒登記（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "AA 定稿（D100）；內容是使用者 10-18 選擇題",
-   "next": "【LAWWW（帳號 A）10-22 09:2x】AA_232 芷若×子晴整條線進開發分支（1ecb7124，放 v9.10.6；白名單 AA_232@afebee54、BB_194@a90e8569、AA_243@20d5734f、AA_244@2d3a0735）；AA_288 由 AA_351／AA_384 取代、已進開發分支；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW（帳號 A）2026-10-22 07:4x】AA_232 芷若×子晴（C22）交子代理實作中；AA_288 可昕慢慢分手由 AA_351 取代、子代理實作中（AA351-KX-DRIFT-1021）；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：deliveries.json 補兩筆；照 AA_290 4-1／4-2 逐檔對開發分支，列出還沒做的（至少 AA_232 全部、AA_288 可昕慢慢分手、口氣表殘餘），排進佇列 ｜ deliveries.json 補兩筆；照 AA_290 4-1／4-2 換 story_import_allow.json、重匯；三個優先（經濟系、寒暑假、美國）用得到的先接",
+   "next": "【LAWWW 帳號 A 10-22 10:4x】AA_385（企劃線 088556ed＋第 9 節 028dc128）進開發分支：子代理 0fc65c3f、55cbb6bc，合併 9df36c20（第 1～8 項：結局 C「九月」、選奕廷那一句、閒聊階梯重新匯入、ZZ_TOLD_YT 找她說話先演、4-6 改公館宵夜、交往中只擋校外約會（soloOk）、日本路線婉拒改當面）；第 9 節 LAWWW 2f040388；tests/aa385_zz_unit.js 30 項（修改前 FAILED 24）；白名單 AA_232→088556ed、AA_385@028dc128、ladder_bb／ladder_bb_y1s2→088556ed；放 v9.10.6，BB 測。子代理解讀與人物頁兩個名稱（ZQ_ZR_FILM_DAY、ZZ_TOLD_YT）待 AA 定 ｜ 【LAWWW（帳號 A）10-22 09:2x】AA_232 芷若×子晴整條線進開發分支（1ecb7124，放 v9.10.6；白名單 AA_232@afebee54、BB_194@a90e8569、AA_243@20d5734f、AA_244@2d3a0735）；AA_288 由 AA_351／AA_384 取代、已進開發分支；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW（帳號 A）2026-10-22 07:4x】AA_232 芷若×子晴（C22）交子代理實作中；AA_288 可昕慢慢分手由 AA_351 取代、子代理實作中（AA351-KX-DRIFT-1021）；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：deliveries.json 補兩筆；照 AA_290 4-1／4-2 逐檔對開發分支，列出還沒做的（至少 AA_232 全部、AA_288 可昕慢慢分手、口氣表殘餘），排進佇列 ｜ deliveries.json 補兩筆；照 AA_290 4-1／4-2 換 story_import_allow.json、重匯；三個優先（經濟系、寒暑假、美國）用得到的先接",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -29161,6 +29161,27 @@
    },
    "source": "BB 帳號 A 10-22 10:13 測試回報",
    "authorized": "既有授權（BUG）"
+  },
+  {
+   "id": "BUG-ZR-FY-NEVER-SET-1022",
+   "title": "ZR_FY（芷若選了方奕廷）整個遊戲沒有地方設：尾聲芷若 zr.fy、2029 明信片「另一種筆跡」那一行永遠不出現（AA_385 子代理 10-22 回報）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【LAWWW 帳號 A 10-22 10:4x】修了：zrzq3d.js mirror 照 ZZ.fy='seeing' 記 ZR_FY（只會變 true；舊存檔 FANG_F3 接受＝ZZ 建起來 seeing 也算）；tests/zr_fy_flag_unit.js（修改前 9df36c20 FAILED 3）；放 v9.10.6，BB 測",
+   "first": {
+    "term": "Y3S2",
+    "week": 15,
+    "earliest": "F3 芷若接受方奕廷的玩家（尾聲、2029 明信片）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_385 子代理回報",
+   "authorized": "既有授權（讀了卻沒有地方設的旗標＝BUG）"
   }
  ]
 }

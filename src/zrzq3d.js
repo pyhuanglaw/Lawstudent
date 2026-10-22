@@ -55,7 +55,7 @@ const ZRZQ=(function(){
   const LV=['none','hint','mutual','confirmed'];
   S.raise=(R,lv)=>{ if(LV.indexOf(lv)>LV.indexOf(R.yt||'none')) R.yt=lv; };   /* 23-4：祐廷知道多少只會變多 */
   /* 狀態的鏡像：ZZ_STATE（flagIs 用）、ZZ_DATING（交往中＝true；企劃線閒聊階梯的 notFlags 用，AA_385 第 3 項：NO_DATE_ZZ、NO_ZZ_YET、4-1 第 5 句）*/
-  const mirror=(G,R)=>{ G.flags.ZZ_STATE=R.state; G.flags.ZZ_DATING=R.state==='dating'; };
+  const mirror=(G,R)=>{ G.flags.ZZ_STATE=R.state; G.flags.ZZ_DATING=R.state==='dating'; if(R.fy==='seeing') G.flags.ZR_FY=true; };   /* ZR_FY：芷若選了方奕廷（尾聲 postgrad3d.js 的 zr.fy／fy.zr、2029 明信片「另一種筆跡」那一行，AA_345 F3、AA_331）——原本整個遊戲沒有地方設（AA_385 子代理 10-22 回報），照 ZZ.fy='seeing' 記，只會變 true */
 
   /* ---------- 三場的日子（4-0、23-2）：那學期的第幾週、星期幾、幾點；她們畢業以後（2028-06-03 以後）換地點與時間（4-0 第二張表）----------
      h＝觸發、meet＝事件時間（4-2 九點半離開總圖、21:50 相遇）、end＝時段結束（祐廷在別的事件、約會、睡覺：結束時還在時段內才演，過了就順延到下一個學期的同一天）*/
