@@ -28770,7 +28770,7 @@
    "id": "BB106-L389-1022",
    "title": "BB_106 L389（可昕和品妤在社科院門口）還沒做（events.js 1090 行附近）",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28785,17 +28785,13 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "讀 BB_106@71b3e6c3 L389 照稿做（白名單已有 BB_106）",
-   "pausedReason": "遊戲裡可昕來台大只有 2D 的出遊（BB_107 K2、K11、K5「我們的日子」選來台大），沒有她在 3D 校園的作息；「她來台大的那幾天」幾點在社科院門口要 AA 定（D79）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:2x；問 AA（send_message，附三題建議）",
-   "resumeWhen": "AA 回覆可以實作的規格（哪幾天、時間窗、品妤不在時怎麼辦）",
-   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "next": "【LAWWW（帳號 A）10-22 06:2x】AA 06:2x 回規格（AA_383 第 7 節，企劃線 bc8a1f5d）：照 xai.acceptance 做；白名單 AA_383 → bc8a1f5d。AA：排在三個優先項目後面",
    "xai": {
-    "receiver": "AA",
+    "receiver": "LAWWW",
     "branch": "claude/story-planning",
-    "spec": "BB_106@71b3e6c3 第 389 行",
-    "acceptance": "三題的定稿（可以直接實作）",
-    "ack": "SENT"
+    "spec": "AA_383 第 7 節（企劃線 bc8a1f5d）＋BB_106@71b3e6c3 第 389 行",
+    "acceptance": "「我們的日子」選來台大那幾天（K2、K11 不算；到 2028-06；分開的沒有），約好見面前 60～15 分鐘社科院門口走到旁邊才演、整個遊戲一次；沒有 MET_PINYU 插品妤自我介紹並記 MET_PINYU；品妤那天不在學校就不去、留到下一個來台大的日子；兩句不算見面",
+    "ack": "ACTIONED"
    }
   },
   {
