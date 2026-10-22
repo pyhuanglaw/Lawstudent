@@ -28831,6 +28831,28 @@
     "ack": "ACK"
    },
    "sha": "fdd9b3f5"
+  },
+  {
+   "id": "BUG-SIS-CAFE-NOSEAT-1022",
+   "title": "和學姊一起走到 Café：自己開始，但兩個人沒坐下（Café 的學姊照作息是舊代號 sis 生成，invites3d.js 的 S.arrive、作罷、坐到她旁邊只找 GM.npc.heroine_05）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上和學姊約好、當面「現在一起過去」Café",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 05:4x 讀碼（企劃線 27568bc9，BB_00 狀態；BB_218）",
+   "authorized": "D110；BB 測試回報",
+   "done": "開發分支（LAWWW 10-22 06:0x）：invites3d.js 五處 GM.npc[iv.who] 改成 S.npcOf（先找 heroine_05、再找別名 sis，EVENTS.npcOf）；tests/inv_both_present_unit.js 第 9 項（修改前 b7c250b0 FAIL、修改後 ALL PASS）；invites、invite_people、invite_whynot、aa379_sis_y2y3 照過",
+   "next": "BB 瀏覽器重跑 bothwalk2（一起走到 Café 坐下）；不在 v9.10.4（已知問題寫進發布紀錄），下一版 v9.10.5"
   }
  ]
 }
