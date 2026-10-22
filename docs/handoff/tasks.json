@@ -28531,7 +28531,7 @@
    "id": "ART-ZR-HAIR-1022",
    "title": "芷若 Blender 版的頭髮照參考圖：頭頂有一點蓬度、側分的瀏海一大片蓋過額頭、長度到肩下的微捲（現在頭頂平、像戴頭盔、到下巴）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -28546,13 +28546,13 @@
    },
    "source": "LAWWW 驗收 888831c4（2026-10-22 04:4x）；LAWWW2 README「還不到的地方」第一點",
    "authorized": "使用者 10-22 04:0x「林芷若3d好憨」（同一件的下一輪）；D100 第 6 點",
-   "next": "照參考圖（assets/portraits/heroine_02/campus/neutral.png、BB 通過的參考圖 06）；遊戲渲染器同鏡頭前後；交件附截圖，LAWWW 驗收",
+   "next": "【LAWWW（帳號 A）2026-10-22 05:1x】LAWWW2 0198f820 第九版：LAWWW 驗收通過、已接開發分支（只換 bl_heroine_02.vrm）；還不到：波浪比參考圖規則、斜看遠側一兩條髮片反光、轉頭時頭到上胸的頭髮拉伸 ｜ 照參考圖（assets/portraits/heroine_02/campus/neutral.png、BB 通過的參考圖 06）；遊戲渲染器同鏡頭前後；交件附截圖，LAWWW 驗收",
    "xai": {
     "spec": "參考圖 06＋2D 立繪",
     "branch": "claude/second-ai-env-art",
     "acceptance": "頭頂不再像頭盔、側分瀏海、到肩下；Café 圍裙、眼鏡照舊對得上",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -28801,6 +28801,35 @@
    "source": "AA（帳號 A）10-22 05:03（BB 05:02 在 9cf16124 測到）",
    "authorized": "D109、D110",
    "next": "白名單 AA_383@67b7b2ca；rel_lines.js 加一版、story3d.js relUp 照出遊地點選；測試讀稿逐字"
+  },
+  {
+   "id": "ART-TONE-NEUTRAL-1022",
+   "title": "色調映射 ACES→Neutral（全遊戲；陽光下的臉不再灰白、晚上的燈暖；?tone=aces 回到舊的）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "新遊戲第一個畫面",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）10-22 05:09 交件 fdd9b3f5（ART-POLISH）",
+   "authorized": "D108、D110（LAWWW2 3D 美術與光影）；全遊戲畫面風格，發布時告訴使用者、可改回",
+   "next": "【LAWWW（帳號 A）2026-10-22 05:1x】tone_neutral_default.diff 已套開發分支；黃昏偏橘，發布前看幾個黃昏的畫面；下一版發布時告訴使用者",
+   "xai": {
+    "spec": "test_shots/tone_1022/README.md",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "21 個同鏡頭 A/B",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": "fdd9b3f5"
   }
  ]
 }

@@ -13100,6 +13100,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "已套進開發分支；單元測試等 v9.10.4 發布前的瀏覽器測試跑完再跑（不同時跑，避免搶 CPU）"
+  },
+  {
+   "id": "DL-LAWWW2-0198f820",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "0198f820",
+   "what": "芷若頭髮第九版：分線改到人物左邊 +12°、及肩到肩下的微捲、頭頂和太陽穴加蓬度、深棕髮；只換 bl_heroine_02.vrm",
+   "task": "ART-ZR-HAIR-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW 驗收（D100 第 6 點）：通過——比上一版接近參考圖 06（不再像頭盔、到肩下、側分）；Café 圍裙、走路、坐下截圖正常；已接開發分支"
+  },
+  {
+   "id": "DL-LAWWW2-fdd9b3f5",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "fdd9b3f5",
+   "what": "色調映射 ACES→Neutral（patches/tone_neutral_default.diff，engine3d.js 3 行；?tone=aces 回到舊的）：21 個同鏡頭 A/B，亮度差 ±0.03、彩度高 20～50%，陽光下的臉不再灰白",
+   "task": "ART-TONE-NEUTRAL-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已接開發分支（下一版）；全遊戲的畫面風格——發布時跟使用者講清楚、可以改回來"
   }
  ],
  "ignored": [
