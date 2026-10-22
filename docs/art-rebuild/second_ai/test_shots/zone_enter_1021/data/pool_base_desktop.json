@@ -1,0 +1,1103 @@
+[
+ {
+  "frames": 10,
+  "steadyMs": 3368,
+  "over100": 8,
+  "over250": 6,
+  "top": [
+   {
+    "t": 26.46,
+    "ms": 18506,
+    "newProg": 4
+   },
+   {
+    "t": 4.27,
+    "ms": 4276,
+    "newProg": 0
+   },
+   {
+    "t": 35.2,
+    "ms": 3604,
+    "newProg": 0
+   },
+   {
+    "t": 31.59,
+    "ms": 3529,
+    "newProg": 0
+   },
+   {
+    "t": 7.82,
+    "ms": 3368,
+    "newProg": 6
+   },
+   {
+    "t": 28.06,
+    "ms": 1567,
+    "newProg": 0
+   },
+   {
+    "t": 4.45,
+    "ms": 179,
+    "newProg": 62
+   },
+   {
+    "t": 7.95,
+    "ms": 135,
+    "newProg": 0
+   },
+   {
+    "t": 35.27,
+    "ms": 73,
+    "newProg": 0
+   },
+   {
+    "t": 26.5,
+    "ms": 36,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    4.27,
+    4276,
+    0
+   ],
+   [
+    4.45,
+    179,
+    62
+   ],
+   [
+    7.82,
+    3368,
+    6
+   ],
+   [
+    7.95,
+    135,
+    0
+   ],
+   [
+    26.46,
+    18506,
+    4
+   ],
+   [
+    26.5,
+    36,
+    0
+   ],
+   [
+    28.06,
+    1567,
+    0
+   ],
+   [
+    31.59,
+    3529,
+    0
+   ],
+   [
+    35.2,
+    3604,
+    0
+   ],
+   [
+    35.27,
+    73,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 709,
+    "merge": 24,
+    "merged": 59
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.wz_cat",
+    "cached": false,
+    "start": 0.92,
+    "done": 8.37
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 1.07,
+    "done": 1.38
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 1.18,
+    "done": 4.05
+   },
+   {
+    "k": "bldg.wz_park",
+    "cached": true,
+    "start": 1.18,
+    "done": 4.15
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 1.18,
+    "done": 4.16
+   },
+   {
+    "k": "bldg.wz_jphouse",
+    "cached": true,
+    "start": 1.18,
+    "done": 4.19
+   },
+   {
+    "k": "bldg.cafe_exterior",
+    "cached": true,
+    "start": 1.18,
+    "done": 4.2
+   },
+   {
+    "k": "char.npc_nf9",
+    "cached": false,
+    "start": 1.21,
+    "done": 8.42
+   },
+   {
+    "k": "char.npc_nf10",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.45
+   },
+   {
+    "k": "char.npc_nf11",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.53
+   },
+   {
+    "k": "char.npc_nf12",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.51
+   },
+   {
+    "k": "char.npc_nm9",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.63
+   },
+   {
+    "k": "char.npc_nm11",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.61
+   },
+   {
+    "k": "char.npc_nm13",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.67
+   },
+   {
+    "k": "char.npc_nm16",
+    "cached": false,
+    "start": 1.22,
+    "done": 8.69
+   },
+   {
+    "k": "bldg.cafe_interior",
+    "cached": false,
+    "start": 8.64,
+    "done": 8.79
+   }
+  ],
+  "progEnd": 97,
+  "tex": 265,
+  "geo": 292,
+  "zone": "wenzhou",
+  "prewarm": {
+   "ms": 3118.800000000745,
+   "attachMs": 2899.800000000745,
+   "compileMs": 216.40000000037253,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 757,
+   "timedOut": true
+  },
+  "label": "公館 → 溫州街（第一次）",
+  "enterMs": 8323,
+  "progStart": 66,
+  "texStart": 152,
+  "geoStart": 128,
+  "visibleMaxMs": 135,
+  "visibleStallMs": 135,
+  "visibleExcessMs": 0,
+  "blackMs": 7823
+ },
+ {
+  "frames": 30,
+  "steadyMs": 880,
+  "over100": 28,
+  "over250": 27,
+  "top": [
+   {
+    "t": 11.55,
+    "ms": 11258,
+    "newProg": -10
+   },
+   {
+    "t": 18.24,
+    "ms": 6523,
+    "newProg": 4
+   },
+   {
+    "t": 0.3,
+    "ms": 3387,
+    "newProg": 0
+   },
+   {
+    "t": 20.5,
+    "ms": 2236,
+    "newProg": 0
+   },
+   {
+    "t": 21.81,
+    "ms": 1297,
+    "newProg": 0
+   },
+   {
+    "t": 26.88,
+    "ms": 1045,
+    "newProg": 0
+   },
+   {
+    "t": 23.82,
+    "ms": 1031,
+    "newProg": 0
+   },
+   {
+    "t": 24.83,
+    "ms": 1014,
+    "newProg": 0
+   },
+   {
+    "t": 29.69,
+    "ms": 1011,
+    "newProg": 0
+   },
+   {
+    "t": 25.83,
+    "ms": 1004,
+    "newProg": 0
+   },
+   {
+    "t": 34.02,
+    "ms": 1001,
+    "newProg": 0
+   },
+   {
+    "t": 35.01,
+    "ms": 989,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.3,
+    3387,
+    0
+   ],
+   [
+    11.55,
+    11258,
+    -10
+   ],
+   [
+    11.71,
+    161,
+    0
+   ],
+   [
+    18.24,
+    6523,
+    4
+   ],
+   [
+    18.27,
+    29,
+    0
+   ],
+   [
+    20.5,
+    2236,
+    0
+   ],
+   [
+    20.52,
+    12,
+    0
+   ],
+   [
+    21.81,
+    1297,
+    0
+   ],
+   [
+    22.79,
+    975,
+    0
+   ],
+   [
+    23.82,
+    1031,
+    0
+   ],
+   [
+    24.83,
+    1014,
+    0
+   ],
+   [
+    25.83,
+    1004,
+    0
+   ],
+   [
+    26.88,
+    1045,
+    0
+   ],
+   [
+    27.76,
+    880,
+    0
+   ],
+   [
+    28.68,
+    916,
+    0
+   ],
+   [
+    29.69,
+    1011,
+    0
+   ],
+   [
+    30.53,
+    842,
+    0
+   ],
+   [
+    31.32,
+    792,
+    0
+   ],
+   [
+    32.17,
+    850,
+    0
+   ],
+   [
+    33.02,
+    847,
+    0
+   ],
+   [
+    34.02,
+    1001,
+    0
+   ],
+   [
+    35.01,
+    989,
+    0
+   ],
+   [
+    35.8,
+    797,
+    0
+   ],
+   [
+    36.66,
+    853,
+    0
+   ],
+   [
+    37.43,
+    771,
+    0
+   ],
+   [
+    38.26,
+    834,
+    0
+   ],
+   [
+    39.09,
+    830,
+    0
+   ],
+   [
+    39.92,
+    832,
+    0
+   ],
+   [
+    40.76,
+    838,
+    0
+   ],
+   [
+    41.58,
+    822,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 45,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.cafe_interior",
+    "cached": true,
+    "start": 0.53,
+    "done": 0.61
+   },
+   {
+    "k": "char.npc_nf13",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.42
+   },
+   {
+    "k": "char.npc_nf14",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.39
+   },
+   {
+    "k": "char.npc_nf15",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.52
+   },
+   {
+    "k": "char.npc_nf16",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.48
+   },
+   {
+    "k": "char.npc_nm17",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.33
+   },
+   {
+    "k": "char.npc_nm18",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.46
+   },
+   {
+    "k": "char.npc_nm19",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.6
+   },
+   {
+    "k": "char.npc_nm10",
+    "cached": false,
+    "start": 0.53,
+    "done": 12.55
+   }
+  ],
+  "progEnd": 91,
+  "tex": 130,
+  "geo": 157,
+  "zone": "cafe",
+  "prewarm": {
+   "ms": 124.29999999888241,
+   "attachMs": 19.799999998882413,
+   "compileMs": 91,
+   "texMs": 13,
+   "textures": 69,
+   "mpix": 10.548874999999997,
+   "skipped": 198,
+   "timedOut": false
+  },
+  "label": "溫州街 → 咖啡廳（第一次）",
+  "enterMs": 12078,
+  "progStart": 97,
+  "texStart": 265,
+  "geoStart": 292,
+  "visibleMaxMs": 6523,
+  "visibleStallMs": 10217,
+  "visibleExcessMs": 5239,
+  "blackMs": 11578
+ },
+ {
+  "frames": 16,
+  "steadyMs": 2246,
+  "over100": 14,
+  "over250": 12,
+  "top": [
+   {
+    "t": 18.35,
+    "ms": 12283,
+    "newProg": 4
+   },
+   {
+    "t": 3.23,
+    "ms": 2923,
+    "newProg": -31
+   },
+   {
+    "t": 22.19,
+    "ms": 2686,
+    "newProg": 0
+   },
+   {
+    "t": 5.95,
+    "ms": 2617,
+    "newProg": 2
+   },
+   {
+    "t": 26.73,
+    "ms": 2346,
+    "newProg": 0
+   },
+   {
+    "t": 29.06,
+    "ms": 2339,
+    "newProg": 0
+   },
+   {
+    "t": 33.63,
+    "ms": 2339,
+    "newProg": 0
+   },
+   {
+    "t": 35.87,
+    "ms": 2246,
+    "newProg": 0
+   },
+   {
+    "t": 31.29,
+    "ms": 2225,
+    "newProg": 0
+   },
+   {
+    "t": 24.38,
+    "ms": 2186,
+    "newProg": 0
+   },
+   {
+    "t": 19.51,
+    "ms": 1109,
+    "newProg": 0
+   },
+   {
+    "t": 0.31,
+    "ms": 851,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    0.31,
+    851,
+    0
+   ],
+   [
+    3.23,
+    2923,
+    -31
+   ],
+   [
+    3.33,
+    105,
+    46
+   ],
+   [
+    5.95,
+    2617,
+    2
+   ],
+   [
+    6.07,
+    116,
+    0
+   ],
+   [
+    18.35,
+    12283,
+    4
+   ],
+   [
+    18.38,
+    26,
+    0
+   ],
+   [
+    18.4,
+    22,
+    0
+   ],
+   [
+    19.51,
+    1109,
+    0
+   ],
+   [
+    22.19,
+    2686,
+    0
+   ],
+   [
+    24.38,
+    2186,
+    0
+   ],
+   [
+    26.73,
+    2346,
+    0
+   ],
+   [
+    29.06,
+    2339,
+    0
+   ],
+   [
+    31.29,
+    2225,
+    0
+   ],
+   [
+    33.63,
+    2339,
+    0
+   ],
+   [
+    35.87,
+    2246,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 261,
+    "merge": 17,
+    "merged": 59
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.wz_cat",
+    "cached": true,
+    "start": 0.6,
+    "done": 0.88
+   },
+   {
+    "k": "bldg.wenzhou_street",
+    "cached": true,
+    "start": 0.68,
+    "done": 0.89
+   },
+   {
+    "k": "bldg.wz_scooter",
+    "cached": true,
+    "start": 0.73,
+    "done": 3.1
+   },
+   {
+    "k": "bldg.wz_park",
+    "cached": true,
+    "start": 0.73,
+    "done": 3.18
+   },
+   {
+    "k": "bldg.wz_props",
+    "cached": true,
+    "start": 0.73,
+    "done": 3.18
+   },
+   {
+    "k": "bldg.wz_jphouse",
+    "cached": true,
+    "start": 0.73,
+    "done": 3.2
+   },
+   {
+    "k": "bldg.cafe_exterior",
+    "cached": true,
+    "start": 0.73,
+    "done": 3.21
+   },
+   {
+    "k": "char.npc_nf17",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.47
+   },
+   {
+    "k": "char.npc_nf18",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.51
+   },
+   {
+    "k": "char.npc_nf19",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.58
+   },
+   {
+    "k": "char.npc_nf20",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.61
+   },
+   {
+    "k": "char.npc_nm12",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.65
+   },
+   {
+    "k": "char.npc_nm14",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.67
+   },
+   {
+    "k": "char.npc_nm15",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.71
+   },
+   {
+    "k": "char.npc_nm20",
+    "cached": false,
+    "start": 0.75,
+    "done": 6.73
+   }
+  ],
+  "progEnd": 112,
+  "tex": 268,
+  "geo": 302,
+  "zone": "wenzhou",
+  "prewarm": {
+   "ms": 2485.4000000003725,
+   "attachMs": 2349.2000000011176,
+   "compileMs": 134.30000000074506,
+   "texMs": 0,
+   "textures": 0,
+   "mpix": 0,
+   "skipped": 762,
+   "timedOut": true
+  },
+  "label": "咖啡廳 → 溫州街（第二次）",
+  "enterMs": 6542,
+  "progStart": 91,
+  "texStart": 130,
+  "geoStart": 157,
+  "visibleMaxMs": 0,
+  "visibleStallMs": 0,
+  "visibleExcessMs": 0,
+  "blackMs": 6042
+ },
+ {
+  "frames": 25,
+  "steadyMs": 1188,
+  "over100": 23,
+  "over250": 22,
+  "top": [
+   {
+    "t": 8.6,
+    "ms": 9289,
+    "newProg": 0
+   },
+   {
+    "t": 12.45,
+    "ms": 3738,
+    "newProg": 4
+   },
+   {
+    "t": 14.32,
+    "ms": 1842,
+    "newProg": 0
+   },
+   {
+    "t": 15.88,
+    "ms": 1555,
+    "newProg": 0
+   },
+   {
+    "t": 18.73,
+    "ms": 1451,
+    "newProg": 0
+   },
+   {
+    "t": 21.52,
+    "ms": 1448,
+    "newProg": 0
+   },
+   {
+    "t": 17.28,
+    "ms": 1398,
+    "newProg": 0
+   },
+   {
+    "t": 38.27,
+    "ms": 1391,
+    "newProg": 0
+   },
+   {
+    "t": 36.88,
+    "ms": 1379,
+    "newProg": 0
+   },
+   {
+    "t": 20.07,
+    "ms": 1344,
+    "newProg": 0
+   },
+   {
+    "t": 35.5,
+    "ms": 1335,
+    "newProg": 0
+   },
+   {
+    "t": 28.54,
+    "ms": 1253,
+    "newProg": 0
+   }
+  ],
+  "rows": [
+   [
+    8.6,
+    9289,
+    0
+   ],
+   [
+    8.71,
+    109,
+    0
+   ],
+   [
+    12.45,
+    3738,
+    4
+   ],
+   [
+    12.46,
+    19,
+    0
+   ],
+   [
+    12.48,
+    18,
+    0
+   ],
+   [
+    14.32,
+    1842,
+    0
+   ],
+   [
+    15.88,
+    1555,
+    0
+   ],
+   [
+    17.28,
+    1398,
+    0
+   ],
+   [
+    18.73,
+    1451,
+    0
+   ],
+   [
+    20.07,
+    1344,
+    0
+   ],
+   [
+    21.52,
+    1448,
+    0
+   ],
+   [
+    22.71,
+    1188,
+    0
+   ],
+   [
+    23.87,
+    1161,
+    0
+   ],
+   [
+    25.05,
+    1183,
+    0
+   ],
+   [
+    26.1,
+    1052,
+    0
+   ],
+   [
+    27.29,
+    1187,
+    0
+   ],
+   [
+    28.54,
+    1253,
+    0
+   ],
+   [
+    29.58,
+    1032,
+    0
+   ],
+   [
+    30.68,
+    1103,
+    0
+   ],
+   [
+    31.87,
+    1186,
+    0
+   ],
+   [
+    33.02,
+    1159,
+    0
+   ],
+   [
+    34.16,
+    1138,
+    0
+   ],
+   [
+    35.5,
+    1335,
+    0
+   ],
+   [
+    36.88,
+    1379,
+    0
+   ],
+   [
+    38.27,
+    1391,
+    0
+   ]
+  ],
+  "marks": [
+   {
+    "what": "loadZone",
+    "ms": 32,
+    "merge": 0,
+    "merged": 0
+   }
+  ],
+  "loads": [
+   {
+    "k": "bldg.cafe_interior",
+    "cached": true,
+    "start": 0.52,
+    "done": 0.6
+   },
+   {
+    "k": "char.npc_nf1",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.79
+   },
+   {
+    "k": "char.npc_nf2",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.82
+   },
+   {
+    "k": "char.npc_nf3",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.9
+   },
+   {
+    "k": "char.npc_nf4",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.85
+   },
+   {
+    "k": "char.npc_nm1",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.93
+   },
+   {
+    "k": "char.npc_nm2",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.87
+   },
+   {
+    "k": "char.npc_nm3",
+    "cached": false,
+    "start": 0.52,
+    "done": 8.98
+   },
+   {
+    "k": "char.npc_nm4",
+    "cached": false,
+    "start": 0.52,
+    "done": 9
+   }
+  ],
+  "progEnd": 91,
+  "tex": 129,
+  "geo": 166,
+  "zone": "cafe",
+  "prewarm": {
+   "ms": 419.30000000074506,
+   "attachMs": 7.800000000745058,
+   "compileMs": 215.7000000011176,
+   "texMs": 195.30000000074506,
+   "textures": 69,
+   "mpix": 10.548874999999997,
+   "skipped": 198,
+   "timedOut": false
+  },
+  "label": "溫州街 → 咖啡廳（第二次）",
+  "enterMs": 8984,
+  "progStart": 112,
+  "texStart": 268,
+  "geoStart": 302,
+  "visibleMaxMs": 3738,
+  "visibleStallMs": 10093,
+  "visibleExcessMs": 1362,
+  "blackMs": 8484
+ }
+]
