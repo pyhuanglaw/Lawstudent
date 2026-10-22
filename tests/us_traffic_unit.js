@@ -5,7 +5,8 @@
 //   4 讓人：玩家站在車道上，車停在玩家前 4 m 以外；玩家走開車再開。開出邊界（±44）從另一頭回來
 //   5 接線：us3d.js 三處（導航、備用方塊、正式模型）跳過歸車流的車；story3d.js 進超市街生成路人＋開車；index.html 在 us3d.js 後面載入
 //   6 路人的路線（S.usStreetRoutes）：不碰配置的障礙物（0.3 m 餘裕）、不進馬路；美國版路人外型膚色、髮色有好幾種
-// 修改前（開發分支 f2336295）：沒有 US_TRAFFIC（第 1 項起 FAIL）。用法：node tests/us_traffic_unit.js
+//   7 S.start 用遊戲真正的 E.zone 形狀（沒有 id、id 在 def.id；BB 10-22 10:13 在候選 364dabe0 的瀏覽器裡車不會開）：超市街回 true、照時間放車；別的區域 false
+// 修改前（開發分支 f2336295）：沒有 US_TRAFFIC（第 1 項起 FAIL）；第 7 項修改前（0bb6e8c0）FAIL。用法：node tests/us_traffic_unit.js
 'use strict';
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..'); let fails=0;
@@ -65,4 +66,13 @@ check('5. story3d.js 進超市街：生成路人（美國版外型）＋US_TRAFF
   for(const r of (routes||[])) for(let i=0;i<r.length;i++){ const a=r[i], b=r[(i+1)%r.length]; for(let k=0;k<=20;k++){ const x=a[0]+(b[0]-a[0])*k/20, z=a[1]+(b[1]-a[1])*k/20; if(inBlock(x,z)||onRoad(z)) { bad.push([+x.toFixed(1),+z.toFixed(1)]); break; } } }
   check('6. 路人路線 5 條（北側人行道兩條、超市門口、南側人行道、亞洲超市門口）：不碰障礙物、不進馬路',!!routes&&routes.length===5&&!bad.length,J({n:routes&&routes.length,bad:bad.slice(0,5)}));
   check('6. 美國版路人：7 個人膚色 7 種、髮色至少 5 種',!!specs&&new Set(specs.map(s=>s.skin)).size===7&&new Set(specs.map(s=>s.hair.color)).size>=5,J(specs&&specs.map(s=>[s.skin,s.hair.color]))); }
-console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+/* 7 */
+(async()=>{
+  global.THREE={Group:class{ constructor(){ this.children=[]; } add(o){ this.children.push(o); } },Color:class{ constructor(c){ this.c=c; } }};
+  const mkObj=()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{set(){}},visible:true,traverse(){} });
+  global.ASSETS={loadOne:async()=>({scene:{getObjectByName:n=>({name:n,clone:()=>mkObj()})}})};
+  const mkGM=def=>{ const extras=[]; const zone={group:{},nav:{},spawn:{},def}; return {G:{hour:14,day:5},E:{zone,extras,addExtra(x){ extras.push(x); },player:{obj:{position:{x:0,z:0}}}}}; };
+  const GM=mkGM({id:'us_market_street'}); const ok1=T.start(GM); await new Promise(r=>setTimeout(r,20));
+  const GM2=mkGM({id:'us_campus'}); const ok2=T.start(GM2);
+  check('7. 遊戲的 E.zone（沒有 id，id 在 def.id）：超市街 start 回 true、白天放 8 台車＋號誌時鐘；別的區域 false',ok1===true&&Array.isArray(T.cars)&&T.cars.length===8&&GM.E.extras.length===9&&ok2===false&&typeof T.zoneId==='function'&&T.zoneId({def:{id:'x'}})==='x'&&T.zoneId({id:'y',def:{id:'x'}})==='y',J({ok1,cars:T.cars&&T.cars.length,extras:GM.E.extras.length,ok2}));
+  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();
