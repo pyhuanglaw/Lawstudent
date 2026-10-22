@@ -2,7 +2,7 @@
 
 帳號 A 的 LAWWW2，2026-10-22 02:3x～05:5x UTC。
 
-- **狀態**：WIP，等佇列 j24b 的 `seats_on_furniture` 跑完就交件；`READY_FOR_ART_REVIEW`。
+- **狀態**：已交件；`READY_FOR_ART_REVIEW`（場景美術由使用者驗收）。
 - **起因**：做溫州街兩家新店（WZ-SHOP-AA364-ART）時，巷子裡定食的吧台高腳凳要帶 `lift`。回頭查 118 巷四家店，吧台高腳椅都沒帶。
 
 ## 看到什麼
@@ -38,12 +38,14 @@
 - `node tests/l118_shops_unit.js`：ALL PASS（j24）。
 - `tests/seats_on_furniture.py`（l118_cafe2、l118_pasta、l118_omu、l118_tea）：
   - j24 那一次，Playwright 找不到預設的 headless shell，沒跑起來。這不是測試失敗，也不算通過。
-  - 改用 `executable_path` 指到預裝的 Chromium，排在佇列 j24b 重跑。
+  - j24b 改用 `executable_path` 指到預裝的 Chromium 重跑（開發分支 `be8c1b0e`＋patch）：
+    - 慢讀咖啡 14、Pasta 118 16、蛋包飯研究所 15、一一八茶飲 2 個座位；
+    - 有問題 0。
 
 ## 接法（LAWWW）
 
 1. `git apply docs/art-rebuild/second_ai/patches/l118_bar_lift.diff`
-   - 對開發分支 `c08889bf` 乾淨。
+   - 對開發分支 `c08889bf`、`4660ca57` 乾淨。
    - 和 `wz0_prop_nav`、`wz_shops2`、`dorm_lounge`、`us_market_cam`、`us_ms_seethru` 一起疊著套也乾淨。
 2. 跑 `node tests/l118_bar_lift_unit.js`、`node tests/l118_shops_unit.js`、`tests/seats_on_furniture.py`（四家店）。
 
