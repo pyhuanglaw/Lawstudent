@@ -1272,6 +1272,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "學姊大二到大三空窗補八場：研究室、seminar 報告、想寫的東西（論文方向由來）、兩年生日、訪談法扶律師、明年夏天（美國，當面）、結果（電話）；七位台詞量盤點（可昕 1423／學姊 395）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_381_法律系大四下_交換延畢的畢業典禮那天_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 做第 1、2 項；AA 繼續查大四下其他類別（第二部分）",
+   "next": "LAWWW 開 AA381-Y4S2-FIX-1021／BB 照第 4 節測",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "交換延畢（日本、美國路線＝和以安、學姊交往的玩家）6/2 典禮那天大家說「畢業快樂」：15 句換版本；語彤週四作息一次定完"
   }
  ],
  "items": [
