@@ -25300,7 +25300,7 @@
    "id": "US-LIFE-AA340-1020",
    "title": "美國交換那一學期（大四上 8/2～12/23）每一週玩家能做什麼：AA_340 的系統缺口 S1～S12（美國學期日曆、一鍵上課、9/4 以後快轉與摘要日、台灣選課提示與缺考不出、時差、不能約台灣朋友、回程時間…）＋空白週補稿 G1～G7＋學姊在美國的作息",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -25312,8 +25312,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）17:4x】S7 補修已由 src/y5s1_3d.js 做（AA_357 dd578e81）；剩 S8 亞利桑那時差（大峽谷 10/7～10/14，r2y4b3d.js:366-378 已有出遊）——小細節，排在 BB 驗收之後；BB 瀏覽器驗收 BB-TEST-US-LIFE-1021 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：S7 補修（courses.js 沒有強制執行法、法律倫理）——大五子代理照 AA_357 1-1 做週一、週三補修一鍵上課 ｜ 【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
-   "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
+   "next": "BB 瀏覽器驗收 BB-TEST-US-LIFE-1021（docs/handoff/bb_checklists/BB_US_LIFE_1021.md） ｜ 【LAWWW（帳號 A）17:4x】S7 補修已由 src/y5s1_3d.js 做（AA_357 dd578e81）；剩 S8 亞利桑那時差（大峽谷 10/7～10/14，r2y4b3d.js:366-378 已有出遊）——小細節，排在 BB 驗收之後；BB 瀏覽器驗收 BB-TEST-US-LIFE-1021 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：S7 補修（courses.js 沒有強制執行法、法律倫理）——大五子代理照 AA_357 1-1 做週一、週三補修一鍵上課 ｜ 【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先",
+   "done": "S1～S12 都在開發分支：子代理 dd049047＋cde34b2e（a1899084，us_life_unit 132 項）；S7 大五上補修 src/y5s1_3d.js（dd578e81）；S8 時差（美東 −12／11/5 起 −13、去了大峽谷 10/7～10/14 −15、舊金山那一週 −16、台灣朋友回訊息照台灣時間換算）在 us_life3d.js（AA370 M8，7872db30；tests/aa370_us_unit.js M8，10-22 07:2x 重跑 ALL PASS）"
   },
   {
    "id": "HOL-FF-AA340-1020",
@@ -28096,7 +28097,7 @@
    "id": "BUG-PG-RETURN-TEXT-1021",
    "title": "畢業以後的出遊演完都出 OUT 預設的「回到台大。」（6/9 典禮、K26、麵店、PG 的見面格）：退宿住家裡的玩家不是回台大",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v5",
    "first": {
@@ -28111,7 +28112,8 @@
    },
    "source": "畢業後子代理 2026-10-21 22:2x 順手發現",
    "authorized": "bug 修正（D87）",
-   "next": "照 PG 的回程，住家裡的寫回家"
+   "next": "BB 瀏覽器：畢業以後（2029-06-28 退宿）6/9 典禮或麵店、PG 固定格演完，字幕是「回到家。」不是「回到台大。」 ｜ 照 PG 的回程，住家裡的寫回家",
+   "done": "開發分支 a11c6c55（LAWWW 帳號 A 10-22 04:4x）：outings3d.js S.backText——畢業以後退宿（HOME.movedOut）的出遊沒寫 back 的字幕＝「回到家。」，住公館套房＝「回到公館的套房。」，其他照舊「回到台大。」；用在 DATE 出遊和一般出遊兩處。tests/pg_return_text_unit.js（06:12 全部掃過、07:1x 重跑 ALL PASS）"
   },
   {
    "id": "US-MARKET-CROWD-1021",
