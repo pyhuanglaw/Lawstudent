@@ -32,7 +32,7 @@ ROM.end(G3,'kexin','apart_talk'); check('12. 和可昕分開以後：知道的�
 // K3 選①（BB_191 9-2、9-4 #2）：在場的人才知道
 global.STORY={knows:(id)=>['heroine_01','yu'].includes(id)};
 let G5={day:40,flags:{dating_kexin:true,KX_INTRO:'gf'}}; ROM.rec(G5);
-check('13. K3 選①（舊存檔遷移也一樣）：阿哲一定在、在場（STORY.knows）的以安、小語知道，他也知道他們知道；不認識的語彤、柏翰，不在 K3 的沛珊、芷若不知道',['zhe','heroine_01','yu'].every(x=>ROM.knowsGF(G5,x)&&ROM.ytKnows(G5,x,'kexin')&&G5.flags.knowsRel[x].kexin.source==='ev_mid_autumn_bbq')&&['heroine_03','classmate_bohan','classmate_peishan','heroine_02'].every(x=>!ROM.knowsGF(G5,x)));
+check('13. K3 選①（舊存檔遷移也一樣）：阿哲一定在、在場（STORY.knows）的以安、Alison 知道，他也知道他們知道；不認識的語彤、柏翰，不在 K3 的沛珊、芷若不知道',['zhe','heroine_01','yu'].every(x=>ROM.knowsGF(G5,x)&&ROM.ytKnows(G5,x,'kexin')&&G5.flags.knowsRel[x].kexin.source==='ev_mid_autumn_bbq')&&['heroine_03','classmate_bohan','classmate_peishan','heroine_02'].every(x=>!ROM.knowsGF(G5,x)));
 let G6={day:40,flags:{dating_kexin:true,KX_INTRO:'quiz',KX_MET_NOODLE_TEAM:true}}; ROM.rec(G6);
 check('13. K3 選②③（只說是經濟系的同學）：誰都不知道（阿凱除外）',['zhe','heroine_01','yu','classmate_peishan'].every(x=>!ROM.knowsGF(G6,x))&&ROM.knowsGF(G6,'kai'));
 let G7={day:40,flags:{dating_kexin:true,dating_heroine_02:true,romance:{heroine_03:{status:'none',since:null,knows:['heroine_02'],suspicion:0,history:[]}}}}; ROM.rec(G7);

@@ -2,6 +2,7 @@
 //   第 1 節：交換延畢的玩家（日本、美國路線，PG.delayed）6/2 典禮那天大家不說「畢業快樂」：15 句換版本（GRADUATED 照舊，只換字）；臺灣路線照舊。
 //   第 2 節：語彤週四 17:00～20:00——大三上 12/16 以後總圖三樓、大三下 2/24 起田野訪談、大四上起（2028-09-04～）總圖三樓到她畢業。
 //   句子從企劃檔讀（git show d14a0388），逐句對。修改前：第 1、2 節全部 FAIL（除了臺灣路線照舊那幾項）。用法：node tests/aa381_y4s2_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js'); const {check}=H; const {execSync}=require('child_process');
 const DOC=execSync('git -c core.quotepath=false show d14a0388:"docs/story_planning/AA_381_法律系大四下_交換延畢的畢業典禮那天_修正稿.md"',{cwd:H.ROOT,encoding:'utf8'});
 const row=k=>{ const r=DOC.split('\n').find(l=>l.startsWith('| ')&&l.includes(k)); if(!r) throw new Error('企劃檔找不到這一列：'+k); const c=r.split('|').map(x=>x.trim()); return {now:c[2],dly:c[3]}; };

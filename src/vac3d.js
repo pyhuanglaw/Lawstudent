@@ -208,7 +208,7 @@ const VAC=(function(){
     if(F.VA10!=='yes'||(OUT.get(G,'vac_va10')||{}).state==='missed'){ const m=C.missPhoto; if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_photo')&&now>=T(d0+m.d,m.h)&&G.day<=d1) PHONE.at(G,d0+m.d,m.h,m.ms.map(x=>P(g,x)),'va10_photo'); }
     if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_back')&&now>=T(d1,C.back.h)&&G.day<=d1+2){ const M=C.back.ms.map(x=>P(g,x)); if(!went) for(const x of C.missTail) M.push(P(g,x)); PHONE.at(G,d1,C.back.h,M,'va10_back'); } };
   S.va10Trip=async function(GM){ const G=GM.G, C=Dt().VA10, d0=DK(C.from), d1=DK(C.to), F=G.flags; if(!C||d0==null) return false;
-    const I={key:'VA10',with:null,A:{id:'VA10',place:{kind:'abroad'},season:'summer',trip:{sd:d0,ed:d1,start:{h:8},end:{h:18}},mates:C.mates||[]},yk:null}; S.tripMsgs(G,I);   /* mates：阿哲、小語、柏翰（AA_369 H4）*/
+    const I={key:'VA10',with:null,A:{id:'VA10',place:{kind:'abroad'},season:'summer',trip:{sd:d0,ed:d1,start:{h:8},end:{h:18}},mates:C.mates||[]},yk:null}; S.tripMsgs(G,I);   /* mates：阿哲、Alison、柏翰（AA_369 H4）*/
     for(const id in (C.datingMsg||{})){ const m=C.datingMsg[id], d=DK(m.day); if(F['dating_'+id]&&d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,m.h,m.ms.map(t=>({th:'p:'+id,from:id,text:t})),'va10_dm_'+id); }   /* AA_369 H1：以安在京都，交往中 8/27 21:00 她私訊 */
     for(const st of C.steps){ const extra=[]; for(const id in (st.dating||{})) if(F['dating_'+id]) extra.push(...st.dating[id]); await S.jump(GM,T(d0+st.d,st.h),'香港'); await S.key(GM,{bg:null,lines:st.lines.concat(extra)},I); }
     await S.jump(GM,T(d1,18),'香港'); F.BACK_FROM_VA10=G.day; return true; };

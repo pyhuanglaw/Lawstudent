@@ -162,7 +162,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('6. 還沒重新聯絡上：不發心意邀約（她不先找人）', !(G.msgs||[]).some(x=>(x.tag||'').indexOf(ID)>=0&&/^te_/.test(x.tag||'')));
     w=setup('Y3S2',{PS_BACK_FIRST:1}); SOCIAL.rel(ID).npcRom=10; G.termend={contact:{Y3S2:{[ID]:{pts:20,k:{}}}},think:{}}; const PL=TERMEND.plan(G,w);
     check('6. 大三起：朋友的邀約不發（AA_250 第 5 節：她不來這一桌）', !PL.friend.includes(ID)&&!PL.heart.includes(ID), JSON.stringify(PL));
-    w=setup('Y4S1',{PS_BACK_FIRST:1}); date(ID); run(w.from,20,21,0.05); const g=(G.msgs||[]).find(x=>x.tag==='te_gf_Y4S1_'+ID);
+    w=setup('Y4S1',{PS_BACK_FIRST:1}); date(ID); run(w.from,20,21,0.05); { const dd=(((G.termend||{}).Y4S1||{}).gfDay||{})[ID]; if(dd!=null&&dd>=0) run(dd,11.9,12.1,0.05); }   /* AA_378 #3：約會當天 12:00 才傳 */ const g=(G.msgs||[]).find(x=>x.tag==='te_gf_Y4S1_'+ID);
     PHONE.answer(G,'te_gf_Y4S1_'+ID,0); STORY.phoneRules(GM); const qg=OUT.get(G,'te_gf_Y4S1_'+ID);
     check('6. 交往中（大四上）：女朋友的學期末約會「期末考完了！今天吃飯，我想吃熱的。」在台南', !!g&&g.text==='期末考完了！今天吃飯，我想吃熱的。'&&!!qg&&qg.place==='台南・她學校附近的簡餐'&&qg.back==='搭最後一班高鐵回到臺北。', JSON.stringify([g&&g.text,qg]));
     TERMEND.hookFor=hf; }

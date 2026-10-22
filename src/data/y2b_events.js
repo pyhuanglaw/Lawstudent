@@ -137,7 +137,7 @@ const Y2B_EVENTS=(function(){
       {label:'fin'},{set:{ZR_LAST_SHIFT:'seen'},mem:[{npc:'heroine_02',tag:'TICKET_STUB',note:'最後一個班，她給的電影票根'}]} ] };
 
   /* ---- 1B-07 可昕 K12「兩邊的朋友第一次一起吃飯」：2027-03-25（四）18:00 阿鳳麵店（出遊；3/21 21:00 的邀約答應了才有）---- */
-  const yuBh=G=>knows('yu',G)&&knows('classmate_bohan',G);   /* AA_375 第 15 項：小語拉著柏翰去讀書會（兩個都在場）*/
+  const yuBh=G=>knows('yu',G)&&knows('classmate_bohan',G);   /* AA_375 第 15 項：Alison 拉著柏翰去讀書會（兩個都在場）*/
   const TWO_CIRCLES={ id:'ev_kexin_two_circles', title:'兩邊的朋友', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
       {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'smile',text:'上次是烤肉，這次是麵。'},
@@ -158,10 +158,10 @@ const Y2B_EVENTS=(function(){
       {choice:[{text:'「予樂，夠了。」',goto:'n1'},{text:'「阿哲，夠了。」',goto:'n2'},{text:'（不阻止）',goto:'n3'}]},
       {label:'n1'},{speaker:'予樂',text:'你是司機，你沒有投票權。'},{goto:'an'},
       {label:'n2'},{speaker:'zhe',text:'我被法律系的自己人背叛了。'},{goto:'an'},
-      {label:'n3'},{if:{custom:G=>knows('yu',G)},speaker:null,text:'（兩個人的綽號貼滿整桌，小語在旁邊幫忙記。）'},   /* 小語不在場就不出這一句（AA_316 第 3 節「沒在的就不出他們的句子」）*/
+      {label:'n3'},{if:{custom:G=>knows('yu',G)},speaker:null,text:'（兩個人的綽號貼滿整桌，Alison 在旁邊幫忙記。）'},   /* Alison 不在場就不出這一句（AA_316 第 3 節「沒在的就不出他們的句子」）*/
       {label:'an'},
       {if:{custom:G=>knows('heroine_01',G)||yuBh(G)},advance:toH(19+40/60)},
-      {if:{custom:G=>knows('heroine_01',G)},speaker:'heroine_01',text:'我們八點讀書會。……很高興認識妳。'},   /* AA_375 第 15 項：小語、柏翰也是讀書會的 */
+      {if:{custom:G=>knows('heroine_01',G)},speaker:'heroine_01',text:'我們八點讀書會。……很高興認識妳。'},   /* AA_375 第 15 項：Alison、柏翰也是讀書會的 */
       {if:{custom:yuBh},speaker:'yu',text:'（拉著柏翰站起來）可昕下次見！'},
       {if:{custom:G=>knows('heroine_01',G)||yuBh(G)},speaker:'kexin',expression:'neutral',text:'嗯。下次見。'},
       {advance:toH(20.5)},
@@ -169,10 +169,10 @@ const Y2B_EVENTS=(function(){
       {speaker:'予樂',text:'「麵店分店」。不准改。'},
       {speaker:'kexin',expression:'laugh',text:'……她取名字一向這樣。'},
       {set:{KX_MET_NOODLE_TEAM:true,KX_CIRCLES_MET:true}} ],
-    /* 介紹說了「女朋友」：在場的人知道（阿哲一定在；小語、柏翰、以安認識才在）；群組「麵店分店」 */
+    /* 介紹說了「女朋友」：在場的人知道（阿哲一定在；Alison、柏翰、以安認識才在）；群組「麵店分店」 */
     after:(G)=>{ const here=['zhe'].concat(['yu','classmate_bohan','heroine_01'].filter(id=>knows(id,G)));
       if(G.flags.KX_CIRCLES_INTRO==='gf'&&typeof ROM!=='undefined'&&ROM.learn) for(const id of here){ ROM.learn(G,id,'kexin','ev_kexin_two_circles'); if(ROM.tellYt) ROM.tellYt(G,id,'kexin'); }
-      if(typeof PHONE!=='undefined'&&PHONE.join) PHONE.join(G,'noodle_branch','麵店分店'); G.flags.NOODLE_BRANCH_MEMBERS=['kexin','yule','zhe']; } };   /* AA_375 第 15 項：20:30 開的群組不算小語、柏翰（19:40 去讀書會了）*/
+      if(typeof PHONE!=='undefined'&&PHONE.join) PHONE.join(G,'noodle_branch','麵店分店'); G.flags.NOODLE_BRANCH_MEMBERS=['kexin','yule','zhe']; } };   /* AA_375 第 15 項：20:30 開的群組不算 Alison、柏翰（19:40 去讀書會了）*/
 
   /* ---- 1B-08 語彤事件 13b「助教」：大三上第 1 週第一次在麵店遇到她（週二、四 17:30～20:30）；沒遇到＝第 2 週週一總圖 ---- */
   const TA_LINES=[ {speaker:'heroine_03',text:'系上老師叫我當助教。質性研究方法。'},

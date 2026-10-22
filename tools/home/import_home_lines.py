@@ -2,10 +2,12 @@
 用法：python3 tools/home/import_home_lines.py [企劃線的 ref，帳號 B 值班期間預設 origin/claude/cool-heisenberg-o8kuqx]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+from import_guard import alison
 REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/cool-heisenberg-o8kuqx'
 PATH = 'docs/story_planning/AA_138_回家_家人台詞池.md'
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
-md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{PATH}'], text=True)
+md = alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{PATH}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 def section(title):
     i = md.index('**' + title); j = md.find('\n**', i + 2); k = md.find('\n## ', i)
     ends = [x for x in (j, k) if x > 0]; return md[i:min(ends) if ends else len(md)]

@@ -6,6 +6,7 @@
 //       4. 9/3 以前、經濟系、已經認識：不演；
 //       5. story3d.js talkSis 沒有「閱覽室不能講話」那一行；台階版最後一句照舊。
 // 修改前：第 2、3、5 項 FAIL。用法：node tests/aa379_sis_lib_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), path=require('path'), cp=require('child_process');
 const {check}=H;

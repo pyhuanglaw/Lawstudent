@@ -1,4 +1,4 @@
-"""小語（李語晴，yu）的髮型：棕色中長捲髮（蓬鬆、前面到胸口、後面到肩胛骨下面）＋旁分瀏海（Blender 髮片網格；LAWWW2，角色模型 D59）。
+"""Alison（李語晴，yu）的髮型：棕色中長捲髮（蓬鬆、前面到胸口、後面到肩胛骨下面）＋旁分瀏海（Blender 髮片網格；LAWWW2，角色模型 D59）。
 參考圖 yu.webp：暖棕色、分線在人物的右邊、瀏海往人物的左邊撥（靠分線的短、越往左越長到顴骨）、整頭自然的大波浪、頭頂蓬；
 右邊一支金色長方形髮夾（配件另外做）。
 做法：從杜可昕的 kexin_hair.py 複製（它本身是 LAWWW 的 p03_hair 改的：前面的長髮貼胸前垂下、正側面從肩膀後面繞、背後往兩邊散開、
@@ -37,7 +37,7 @@ def make_atlas(seed=SEED):
     h, w = reg('cardB')
     put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.26, 0.42), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.72, 0.84, 1.0, hw_k=(1.0, 1.35), lean=0.15, power=0.75, full=2.4, minw=4.0))
     h, w = reg('bang')       # 空氣瀏海（同沈以安的做法）：上段一半合成一片，下段分成 5 束細髮束、長短不一、慢慢收尖，束和束之間露出額頭
-    put('bang', HB._strand_color(rng, h, w, 0.82, sheen=(0.18, 0.30), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.40, 0.80, 1.0, hw_k=(0.8, 1.1), lean=0.15, power=0.8, full=2.0, minw=3.0))   # 第四版：4 束、上段一半就分開（稀一點）   # 小語：旁分的長瀏海（每片髮尾分成 3 束，同芷若）
+    put('bang', HB._strand_color(rng, h, w, 0.82, sheen=(0.18, 0.30), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.40, 0.80, 1.0, hw_k=(0.8, 1.1), lean=0.15, power=0.8, full=2.0, minw=3.0))   # 第四版：4 束、上段一半就分開（稀一點）   # Alison：旁分的長瀏海（每片髮尾分成 3 束，同芷若）
     h, w = reg('lock')       # 垂落的髮束：長、髮尾 18% 分束、彼此重疊（遠看不會變成點狀）
     put('lock', HB._strand_color(rng, h, w, 0.72, sheen=(0.10, 0.22), tip_light=0.08, base=BASE), HB._clumps(rng, h, w, 5, 0.84, 0.94, 1.0, edge_taper=0.03, hw_k=(1.2, 1.55), lean=0.06, power=0.7, full=3.5, minw=4.0))   # 可昕第八版：髮尾鈍一點（參考圖是整齊的長直髮，背面看是平剪）
     h, w = reg('shell')
@@ -64,7 +64,7 @@ def apply(m):
 
     def vol(a, v):           # 頭頂服貼（比祐廷薄）、前額上方一點蓬度、兩側貼
         aa = az(a); ca = math.cos(math.radians(aa))
-        top = 0.011 + 0.010 * float(sstep(0.10, 0.55, v)) - 0.004 * float(sstep(0.75, 0.97, v))   # 小語：頭頂蓬一點（可昕 0.008）
+        top = 0.011 + 0.010 * float(sstep(0.10, 0.55, v)) - 0.004 * float(sstep(0.75, 0.97, v))   # Alison：頭頂蓬一點（可昕 0.008）
         side = 1 - 0.45 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))
         return top * side * (0.7 + 0.3 * max(ca, 0.0)) + max(ca, 0.0) * 0.004 * float(sstep(0.2, 0.6, v))
 
@@ -96,7 +96,7 @@ def apply(m):
     z_hang = H.brow_z - 0.052           # 耳垂附近：這個高度以下頭髮改成往下垂
     # 髮尾高度（方位角 → z）：前面兩側到下巴（框住臉）、兩側到肩膀、後面最長
     TIP_A = [36, 50, 62, 72, 82, 95, 108, 120, 135, 180]
-    TIP_Z = [neck_z - 0.170, neck_z - 0.180, neck_z - 0.130, neck_z - 0.040, neck_z - 0.120, neck_z - 0.180, neck_z - 0.210, neck_z - 0.230, neck_z - 0.240, neck_z - 0.250]   # 小語：前面到胸口、後面到肩胛骨下面（比可昕短）
+    TIP_Z = [neck_z - 0.170, neck_z - 0.180, neck_z - 0.130, neck_z - 0.040, neck_z - 0.120, neck_z - 0.180, neck_z - 0.210, neck_z - 0.230, neck_z - 0.240, neck_z - 0.250]   # Alison：前面到胸口、後面到肩胛骨下面（比可昕短）
     def z_tip(a): return float(np.interp(az(a), TIP_A, TIP_Z))
 
     # ---- 1. 髮殼 ----
@@ -198,14 +198,14 @@ def apply(m):
         a = -180 + 360 * (k + rng.uniform(0.25, 0.75)) / 56
         if az(a) < 36: continue
         hang_card(a, 0.90 - rng.uniform(0, 0.06), 0.0040 + 0.001 * rng.random(), rng.uniform(1.5, 1.8), 'lock',
-                  curl=rng.uniform(-4, 4), wave=0.011 + 0.005 * rng.random(), wph=1.6 * math.radians(a) + rng.uniform(-0.7, 0.7), flip=0.012 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.016, 0.012))   # 小語第二版：大波浪 1.2–1.8 cm
+                  curl=rng.uniform(-4, 4), wave=0.011 + 0.005 * rng.random(), wph=1.6 * math.radians(a) + rng.uniform(-0.7, 0.7), flip=0.012 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.016, 0.012))   # Alison 第二版：大波浪 1.2–1.8 cm
     GR.append(('main', f0, len(mb.F))); f0 = len(mb.F)
     DBG['layer'] = 'outer'
     for k in range(40):        # 外層：碎一點、長短不一（可昕 40 片）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
         if az(a) < 38: continue
         vr = 0.86 - rng.uniform(0, 0.12); of = 0.0070 + 0.002 * rng.random(); wf = rng.uniform(1.2, 1.5); rg = 'cardB' if rng.random() < 0.4 else 'lock'
-        cu = rng.uniform(-6, 6); wv = 0.012 + 0.007 * rng.random(); ph = 1.6 * math.radians(a) + rng.uniform(-0.9, 0.9); fl = 0.012 + 0.008 * rng.random(); td = rng.uniform(-0.030, 0.020)   # 小語第二版：外層波浪 1.4–2.2 cm、長短差大一點（蓬鬆、有層次）
+        cu = rng.uniform(-6, 6); wv = 0.012 + 0.007 * rng.random(); ph = 1.6 * math.radians(a) + rng.uniform(-0.9, 0.9); fl = 0.012 + 0.008 * rng.random(); td = rng.uniform(-0.030, 0.020)   # Alison 第二版：外層波浪 1.4–2.2 cm、長短差大一點（蓬鬆、有層次）
         # 第八版：兩側（55–130°）的外層收進主層裡面（正面看，正側面的髮片是側著的，比主層突出就是一條往外飄的細線）
         sk = float(sstep(55, 70, az(a)) * (1 - sstep(115, 130, az(a))))
         hang_card(a, vr, of - 0.0040 * sk, wf, rg, curl=0.6 * cu * (1 - 0.7 * sk), wave=0.9 * wv, wph=ph, flip=fl, tip_dz=0.6 * td, tight=sk)
@@ -228,7 +228,7 @@ def apply(m):
         width = wfac * 0.011 * (0.55 + 0.45 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
         if os.environ.get('HAIR_DEBUG'): print('   fringe a0=%.1f drift=%.1f tip %s w %.3f' % (a0, drift, np.round(P[-1], 3).tolist(), wfac * 0.011))
         mb.ribbon(P, side, D, width, 'bang', 'head', np.zeros(len(P)), arch=0.10, tt=np.linspace(0, 1, len(P)))
-    # 小語：旁分瀏海——從分線（PART −12°，人物右邊）往人物的左邊撥：靠分線的短（眉毛）、越往左越長（到顴骨）
+    # Alison：旁分瀏海——從分線（PART −12°，人物右邊）往人物的左邊撥：靠分線的短（眉毛）、越往左越長（到顴骨）
     # 第二版：斜撥——第一版每片只往左偏 6–12°，正面看是一排齊瀏海；改成往左斜撥 16–30°、片窄一點、長短錯開（空氣感）
     for k, a0 in enumerate((-10.0, -3.0, 4.0, 11.0, 18.0)):     # 第四版：髮根都在分線上、片窄（1.2–1.5 cm）、斜撥 30–48°；貼圖分束稀一點（看得到額頭，參考圖的空氣感）
         s_ = (a0 + 10.0) / 28.0

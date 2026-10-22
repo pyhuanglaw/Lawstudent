@@ -71,7 +71,7 @@ GM.money=function(n){ G.money+=n; };
   check('5. 字卡寫「日本」',cards.some(c=>c[1]==='日本'));
   fresh(D('2026-08-28'),20.9,'dorm',{}); G.stage='law'; meet('kai'); run(20.9,21.2); check('5. 沒去：8/28 21:00 阿凱「📷（秋葉原的街…）」「買到了」',txt('p:kai').includes('kai:買到了'));
   // 6. 大一暑假的訊息
-  fresh(D('2026-07-06'),21.4,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); check('6. 7/6 21:30 小語「隊輔第一天 我已經沒聲音了」',txt('g:noodle_team').includes('yu:隊輔第一天 我已經沒聲音了'));
+  fresh(D('2026-07-06'),21.4,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21.4,21.6); check('6. 7/6 21:30 Alison「隊輔第一天 我已經沒聲音了」',txt('g:noodle_team').includes('yu:隊輔第一天 我已經沒聲音了'));
   fresh(D('2026-07-31'),20.9,'dorm',{dating_heroine_03:true}); G.stage='law'; run(20.9,21.2); check('6. 交往中、整個暑假沒排事：7/31 語彤「你暑假是不是很閒」「那明天下午陪我去進貨」',txt('p:heroine_03').includes('heroine_03:那明天下午陪我去進貨'));
   fresh(D('2026-07-31'),20.9,'dorm',{dating_heroine_03:true}); G.stage='law'; G.vac={reg:{'C03@Y1':'yes'},seen:{},log:[]}; run(20.9,21.2); check('6. 有排事＝不傳',!txt('p:heroine_03').length);
   // 7. 衝突、存讀檔

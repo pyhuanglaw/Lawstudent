@@ -1,11 +1,12 @@
 // AA_377（企劃線 b7c437a1；AA 2026-10-21 定稿）法律系大三下（臺灣、日本、美國三條路線）：時間、人在哪、作廢設定——不需要瀏覽器。任務 AA377-Y3S2-FIX-1021。
 //   1 日本路線比較行政法照日期（4/13～5/5 兩句輪流、5/6 以後第一堂一次町公所、拿掉期末報告那句）　2 哲 4 日本版跳轉照當地時間、「臺灣十二點」
-//   3 公法讀書會大三下整學期（期中週停）、芯慈「讀書會你的位子」、以安「讀書會小語」要參加過讀書會　4 以安租公寓（訊息、視訊、群組、階梯 A6-L2）
+//   3 公法讀書會大三下整學期（期中週停）、芯慈「讀書會你的位子」、以安「讀書會 Alison」要參加過讀書會　4 以安租公寓（訊息、視訊、群組、階梯 A6-L2）
 //   5 以安在日本的訊息池照日期（櫻花只在 4 月、期中只在第 8～9 週、「這禮拜的課很難」7/21 以前）　7 挽回中：A6 整層略過、餞行、228 旁白
 //   8 芷若大三下只排週三、四 19:00～22:00（＝階梯的 workShifts）、期末心意／朋友邀約　10 子晴「你考完了吧」　11 芷若「六月的週五」「幫忙一個月」　12 「第六週」
 //   13 可昕 5/3 日本版　14 柏翰日本版　15 語彤 Y6-L1 一起做過田野　16 語彤 Y6-L4 沒有田野的發現　17 3/28 摘要（3/25 就入住）　18 床墊「不知道誰的課表」　19 以安 4/13 視訊日本 22:00
 //   6 語彤 Y6-L3 和祐廷拍的杜鵑花（AN3_AZALEA；第 6-3 節四種玩家、「（給她看手機裡的另一張）」）　9 民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（第 6-1 節言詞辯論的練習）、第 15 週板書
 //   第 20 項是 AA 改自己的補稿（不在遊戲裡）。台詞逐字比對企劃線的稿（git show eab1eba3；第 1～5 節和 b7c437a1 一字不差，第 6 節是 AA 回 LAWWW 的三題）。修改前（開發分支 c69c91a5）：第 2～19 項 29 個 FAIL（第 1 項在 014a38bc 已經做好，照樣通過；標「對照」的照樣通過）。用法：node tests/aa377_y3s2_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -80,7 +81,7 @@ const inMD=t=>MD.indexOf(t)>=0;
     ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const b=EVENTS.cond(xc.if);
     check('3. 芯慈「讀書會你的位子，我們沒有人坐。」只給參加過讀書會的',!!xc&&a===false&&b===true,J({a,b}));
     fresh('2028-04-16',20,'dorm'); const c=R2Y3B.AB_WHEN.t2[2](G,G.day); ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'}; const d=R2Y3B.AB_WHEN.t2[2](G,G.day);
-    check('3. 以安「讀書會小語有沒有好好排題目？」那則只給參加過讀書會的',R2Y3B_EVENTS.AB.t2[2].L[0].indexOf('讀書會小語有沒有好好排題目？')===0&&c===false&&d===true,J({c,d})); });
+    check('3. 以安「讀書會 Alison 有沒有好好排題目？」那則只給參加過讀書會的',R2Y3B_EVENTS.AB.t2[2].L[0].indexOf('讀書會 Alison 有沒有好好排題目？')===0&&c===false&&d===true,J({c,d})); });
   /* ---- 4 以安租公寓 ---- */
   await sec('4',async()=>{
     const AB=R2Y3B_EVENTS.AB, jpTxt=J(JP_EVENTS||STORY_EVENTS), A62=LADDER.byTerm.Y3S2.heroine_01.steps.find(s=>s.id==='A6-L2');

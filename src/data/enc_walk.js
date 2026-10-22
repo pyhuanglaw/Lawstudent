@@ -1393,7 +1393,7 @@ const ENC_WALK={
   {
    "who": "yu",
    "spot": "D20",
-   "normal": "老街口今天沒有人在點名。你想起小語數到二十四。",
+   "normal": "老街口今天沒有人在點名。你想起 Alison 數到二十四。",
    "afterBreakup": ""
   },
   {
@@ -1512,7 +1512,7 @@ const ENC_WALK={
  {
   "who": "yu",
   "spot": "D01",
-  "normal": "展場出口的蓋章台前面排著幾個小孩。你想起小語在找第六個章。",
+  "normal": "展場出口的蓋章台前面排著幾個小孩。你想起 Alison 在找第六個章。",
   "afterBreakup": ""
  },
  {

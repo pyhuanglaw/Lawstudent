@@ -456,12 +456,17 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-12 主線 8「回來」：新店員記得點法（AA_185 1-2、BB_99 3-2）：日本路線 9/4 起、美國路線 12/24 起第一次走進兩點半 Café ---- */
   const REG=G=>(+G.flags.CAFE_VISITS||0)>=3, Z11=G=>done(G,'ev_zhiruo_no_sugar');
+  /* AA_378 #4（企劃線 5cd35678）：日本路線 8/5 就回國，8/6～9/2 芷若還在 Café（Z11 到 8/26 都演得到）——那段時間進過 Café 的，9/4 不再當成「剛回來」：
+     新店員的點法照現在的條件、「……芷若姊走以前交代的。她說你的第一杯一定要點對。」、旁白「（她已經去英國了。店裡其他的都還在。）」。8 月沒進過的照現在。進過＝G.habits 的 place:cafe:<時段> 在那幾天有記 */
+  const AUG=G=>{ if(!(typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='JP')) return false; const a=D('2028-08-06'), b=D('2028-09-02'), H=G.habits||{};
+    for(const k in H){ if(!/^place:cafe:/.test(k)||/:with:/.test(k)) continue; if(((H[k]&&H[k].days)||[]).some(d=>d>=a&&d<=b)) return true; } return false; };
   EV.push({ id:'ev_back_home_cafe', title:'回來', participants:[], location:'cafe', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>{ const r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null, d=r==='JP'?D('2028-09-04'):r==='US'?D('2028-12-24'):null; return d!=null&&G.day>=d&&!G.flags.BACK_HOME; }},
-    dialogue:[ IF(G=>REG(G)&&Z11(G),{speaker:'新店員',text:'熱拿鐵，不加糖？'}),IF(G=>REG(G)&&!Z11(G),{speaker:'新店員',text:'熱拿鐵，少糖？'}),   /* 看過 Z11 換「不加糖」（裁定第 17 點）*/
-      IF(REG,{speaker:'新店員',text:'……芷若姊交代的。她說你回來那天，第一杯一定要點對。'}),
-      UN(REG,{speaker:'新店員',text:'你是……法律系的那位？'}),UN(REG,{speaker:'新店員',text:'芷若姊說，你回來的話要跟你說一聲：歡迎回來。'}),
-      nar('（半年。大家都還在。）'),
+    dialogue:[ IF(G=>(AUG(G)||REG(G))&&Z11(G),{speaker:'新店員',text:'熱拿鐵，不加糖？'}),IF(G=>(AUG(G)||REG(G))&&!Z11(G),{speaker:'新店員',text:'熱拿鐵，少糖？'}),   /* 看過 Z11 換「不加糖」（裁定第 17 點）*/
+      IF(AUG,{speaker:'新店員',text:'……芷若姊走以前交代的。她說你的第一杯一定要點對。'}),
+      IF(G=>!AUG(G)&&REG(G),{speaker:'新店員',text:'……芷若姊交代的。她說你回來那天，第一杯一定要點對。'}),
+      IF(G=>!AUG(G)&&!REG(G),{speaker:'新店員',text:'你是……法律系的那位？'}),IF(G=>!AUG(G)&&!REG(G),{speaker:'新店員',text:'芷若姊說，你回來的話要跟你說一聲：歡迎回來。'}),
+      IF(AUG,nar('（她已經去英國了。店裡其他的都還在。）')),UN(AUG,nar('（半年。大家都還在。）')),
       {stamp:['BACK_HOME']} ] });
 
   /* ===================== 可昕（大四上、寒假；和可昕交往中。邀約、出遊、沒去在 r2y4a3d.js）===================== */

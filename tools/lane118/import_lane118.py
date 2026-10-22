@@ -19,7 +19,7 @@ def src():
     if not hits: sys.exit(PATH + '：不在匯入白名單')
     sha = hits[-1]['sha']; ok, why = IG.allowed(PATH, sha, allow)
     if not ok: sys.exit(why)
-    return sha, subprocess.check_output(['git', 'show', f'{sha}:{PATH}'], cwd=ROOT).decode('utf-8')
+    return sha, IG.alison(subprocess.check_output(['git', 'show', f'{sha}:{PATH}'], cwd=ROOT).decode('utf-8'))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 
 
 def clean(s): return s.replace('**', '').replace('`', '').strip()
@@ -87,7 +87,7 @@ def quotes(block):
 
 def build():
     sha, t = src()
-    NAME2ID = {'阿哲': 'zhe', '小語': 'yu'}
+    NAME2ID = {'阿哲': 'zhe', 'Alison': 'yu'}
     shops = []
     for r in rows(t, '店 id'):
         if len(r) < 5: continue
@@ -113,7 +113,7 @@ def build():
     opts = re.search(r'選項：「(.+?)」→ 阿哲「(.+?)」.*?／「(.+?)」→ 阿哲「(.+?)」', s4)
     rot = re.search(r'順序輪：([a-z0-9]+(?:\s*→\s*[a-z0-9]+)+)', s4)
     weekly = re.findall(r'^\s*- 「(.+?)」(?:（去 ([a-z0-9]+) 那週）)?\s*$', s4, re.M)
-    pair = re.search(r'小語那句換成「(.+?)」', s4)
+    pair = re.search(r'Alison 那句換成「(.+?)」', s4)
     if not (closed and order and group and first and opts and rot and len(weekly) == 4 and pair): sys.exit('第 2、4 節有欄位找不到')
     rotation = [x.strip() for x in rot.group(1).split('→')]
     wl = {}

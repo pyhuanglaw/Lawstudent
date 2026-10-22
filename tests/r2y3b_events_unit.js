@@ -57,12 +57,12 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
 
   // ---------- 2-Y3-27 228 河濱 ----------
   fresh('2028-02-27',21.1,'dorm'); grpJoin(); ['zhe','yu','heroine_01','classmate_bohan'].forEach(id=>R(id,'FRI')); rules(); const q228=OUT.get(G,'y3s2_228');
-  check('H0. 2/27 21:00 阿哲兩則；排 2/28 14:00 公館河濱', txt('g:noodle_team').join('|')==='zhe:明天放假 河濱 兩點|zhe:小語說要帶風箏'&&q228&&q228.day===D('2028-02-28')&&q228.h===14);
+  check('H0. 2/27 21:00 阿哲兩則；排 2/28 14:00 公館河濱', txt('g:noodle_team').join('|')==='zhe:明天放假 河濱 兩點|zhe:Alison 說要帶風箏'&&q228&&q228.day===D('2028-02-28')&&q228.h===14);
   picks=[1]; await run('ev_y3s2_228');
   check('H1. 去了：以安在場（「三月二十五號以前，還有四個週末。」、柏翰「三個半」）', has('（坐在階梯上，手帳攤開）三月二十五號以前，還有四個週末。')&&has('三個半。今天放假，不算。')&&G.flags.Y3S2_228===true);
   check('H2. 選「（坐到以安旁邊）」：手帳上四個空的週末', has('……你也要算嗎？')&&has('（她把手帳轉過來：四個週末，每一格都還空著。）'), JSON.stringify(opts[0]));
   fresh('2028-02-27',21.1,'dorm'); grpJoin(); R('zhe','FRI'); R('yu','FRI'); rules(); at('2028-02-28',14.3); OUT.tick(GM); at('2028-02-28',17.6); rules();
-  check('H. 沒去：17:30 小語在群組（風箏卡在樹上）', txt('g:noodle_team').includes('yu:（照片：河濱的天空，一個風箏卡在樹上）')&&txt('g:noodle_team').includes('yu:是風的問題！！'));
+  check('H. 沒去：17:30 Alison 在群組（風箏卡在樹上）', txt('g:noodle_team').includes('yu:（照片：河濱的天空，一個風箏卡在樹上）')&&txt('g:noodle_team').includes('yu:是風的問題！！'));
 
   // ---------- 2-Y3-28 杜鵑花第三張 ----------
   { const s=STORY.schedEnt(CHARACTERS.heroine_01,Object.assign(fresh('2028-03-09',12.2,'campus'),{})); check('Z0. 3/9 12:10 以安在椰林大道（作息只有這一天）', !!s&&s.zone==='campus'&&/2-Y3-28/.test(s.note||''), JSON.stringify(s)); }
@@ -78,12 +78,12 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-03-09',12.7,'dorm'); R('heroine_01','FRI'); ct('heroine_01'); rules();
   check('Z3. 不在群組、FRIEND 以上：私訊同兩則', txt('p:heroine_01').join('|')==='heroine_01:（照片：杜鵑花。和前兩年同一個位置。）|heroine_01:第三張。');
 
-  // ---------- 2-Y3-29 C6 小語的社團經費 ----------
+  // ---------- 2-Y3-29 C6 Alison 的社團經費 ----------
   fresh('2028-03-15',21.1,'dorm',{U_ASSOC:true}); grpJoin(); R('yu','FAM'); rules();
-  check('C0. 3/15 21:00 小語三則（欸／你明天中午有空嗎／社團的錢的事 想問你）、兩個回覆', txt('p:yu').join('|')==='yu:欸|yu:你明天中午有空嗎|yu:社團的錢的事 想問你'&&PHONE.byAsk(G,'y3_yu_c6').ask.opts.length===2);
+  check('C0. 3/15 21:00 Alison 三則（欸／你明天中午有空嗎／社團的錢的事 想問你）、兩個回覆', txt('p:yu').join('|')==='yu:欸|yu:你明天中午有空嗎|yu:社團的錢的事 想問你'&&PHONE.byAsk(G,'y3_yu_c6').ask.opts.length===2);
   answer('y3_yu_c6',0); at('2028-03-16',12.6); rules();
-  { const s=STORY.schedEnt(CHARACTERS.yu,G); check('C0. 回「有。」：3/16 12:30 小語在霖澤館一樓（作息）', txt('p:yu').includes('yu:好！！')&&!!s&&s.zone==='linze'); }
-  G.zone='linze'; check('C0. 12:30～13:00 在霖澤館：到了（事件另外要小語在場 npcPresent）', R2Y3B.c6MeetDue(G)&&ev('ev_yu_club_money').npcPresent==='yu');
+  { const s=STORY.schedEnt(CHARACTERS.yu,G); check('C0. 回「有。」：3/16 12:30 Alison 在霖澤館一樓（作息）', txt('p:yu').includes('yu:好！！')&&!!s&&s.zone==='linze'); }
+  G.zone='linze'; check('C0. 12:30～13:00 在霖澤館：到了（事件另外要 Alison 在場 npcPresent）', R2Y3B.c6MeetDue(G)&&ev('ev_yu_club_money').npcPresent==='yu');
   picks=[2]; await run('ev_yu_club_money');
   check('C1. 有 U_ASSOC：「先照社團的規則」那個選項；選了＝「對！我們社團有規則！……我去找出來。」', opts[0].length===3&&/先照社團的規則/.test(opts[0][2])&&has('對！我們社團有規則！……我去找出來。'), JSON.stringify(opts));
   check('C2. 「妳真正想要的是什麼？」→「這個不用去法服。」', has('妳真正想要的是什麼？')&&has('……我想要帳對得起來，學弟也還會來社課。')&&has('那先找社團的指導老師。這個不用去法服。')&&G.flags.YU_C6==='rule'&&G.flags.YU_C6_DAY===D('2028-03-16'));
@@ -91,10 +91,10 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('C2. 3/23 21:40 鞠躬的熊；記 YU_CLUB_BEAR', txt('p:yu').includes('yu:（貼圖：一隻鞠躬的熊）')&&txt('p:yu').includes('yu:少的三千是場地押金 忘了報 還在')&&SOCIAL.has('yu','YU_CLUB_BEAR'));
   fresh('2028-03-15',21.1,'dorm'); grpJoin(); R('yu','FAM'); rules(); answer('y3_yu_c6',1);
   { const L=txt('p:yu'); const m=nested('y3_yu_c6_phone');
-    check('C3. 選「現在說？」：手機版照小語的習慣拆開（不打句號）；沒有 U_ASSOC＝兩個選項', L.includes('player:現在說？')&&L.includes('yu:欸 成發的錢對不起來')&&L.includes('yu:可是三千塊')&&!L.some(t=>/^yu:.*。$/.test(t))&&!!m&&m.ask.opts.length===2, JSON.stringify(L)); }
+    check('C3. 選「現在說？」：手機版照 Alison 的習慣拆開（不打句號）；沒有 U_ASSOC＝兩個選項', L.includes('player:現在說？')&&L.includes('yu:欸 成發的錢對不起來')&&L.includes('yu:可是三千塊')&&!L.some(t=>/^yu:.*。$/.test(t))&&!!m&&m.ask.opts.length===2, JSON.stringify(L)); }
   answer('y3_yu_c6_phone',0); rules(); at('2028-03-23',21.7); rules();
   check('C3. 手機版也有「這個不用去法服。」、3/23 那則', txt('p:yu').includes('player:那先找社團的指導老師。這個不用去法服。')&&txt('p:yu').includes('yu:……他是學弟耶')&&txt('p:yu').includes('yu:找到了！！'));
-  fresh('2028-03-16',12.6,'linze'); R('yu','FAM'); check('C. 沒回「有。」：3/16 小語不在那裡、不演', !R2Y3B.c6MeetDue(G));
+  fresh('2028-03-16',12.6,'linze'); R('yu','FAM'); check('C. 沒回「有。」：3/16 Alison 不在那裡、不演', !R2Y3B.c6MeetDue(G));
 
   // ---------- 2-Y3-30 可昕 K18 ----------
   fresh('2028-03-15',21.6,'dorm'); date('kexin'); rules();
@@ -132,7 +132,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   // ---------- 2-Y3-33 語 4 ----------
   const yuHere=()=>{ const n={id:'yu',charId:'yu',obj:{position:{x:0.5,y:0,z:0}},lv:0}; GM.npc.yu=n; E.npcs=[n]; };
   fresh('2028-03-13',10,'campus'); R('yu','FAM'); yuHere(); const y4=ev('ev_yu_alone_breakfast');
-  check('Y1. 第 4 週週一 10:00 經過傅鐘（小語在旁邊）：可以演', EVENTS.check(y4));
+  check('Y1. 第 4 週週一 10:00 經過傅鐘（Alison 在旁邊）：可以演', EVENTS.check(y4));
   picks=[2]; await run('ev_yu_alone_breakfast');
   check('Y1. 「欸，我在練習。一個人吃早餐。」…「你幫我找，那就不是一個人了啊。」', has('欸，我在練習。一個人吃早餐。')&&has('（笑出來）我說，你幫我找，那就不是一個人了啊。')&&opts[0].length===3);
   check('Y2. 選第三個：沒有「原來……是這種感覺」；「……我也沒有。」；記 YU4_SAT、YU4 sat（尾聲讀 YU4_ALONE）', !said.some(s=>/原來.*是這種感覺/.test(s.t))&&has('欸，你剛剛都沒講話。')&&has('……我也沒有。')&&SOCIAL.has('yu','YU4_SAT')&&G.flags.YU4==='sat'&&G.flags.YU4_ALONE===true);
@@ -194,7 +194,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('F0. 「好。」→「記得吃飯」；4/13 臺灣 19:30＝日本 20:30 視訊（接起來）', txt('p:zhe').includes('zhe:記得吃飯')&&fq&&fq.h===20.5&&fq.verb==='接起來');
   ACTIVITIES.rec(G).att['public_law_group@'+D('2028-02-24')]={h:20,end:'full'};   /* 芯慈那句要參加過讀書會（AA_377 第 3 項）*/
   await run('ev_far_call_jp');
-  check('F1. 在麵店團：「你那邊幾點？……你吃什麼？給我看。」、小語、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（她從廚房探出頭，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='阿姨（畫面外）')&&G.flags.FAR_CALL==='jp');
+  check('F1. 在麵店團：「你那邊幾點？……你吃什麼？給我看。」、Alison、柏翰（日本版，AA_377 第 14 項）、芯慈（參加過讀書會）、語彤探頭、阿姨「隔著螢幕也要問！」；FAR_CALL jp', has('你那邊幾點？……你吃什麼？給我看。')&&has('你瘦了！……不對，是鏡頭。')&&has('你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。')&&has('讀書會你的位子，我們沒有人坐。')&&has('（她從廚房探出頭，舉起田野筆記，沒說話。）')&&has('滷蛋要不要！隔著螢幕也要問！')&&said.some(s=>s.who==='阿姨（畫面外）')&&G.flags.FAR_CALL==='jp');
   check('F2. 和以安 FRIEND 以上：以安那則沒有「理由：」', has('（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）')&&!said.some(s=>/理由：便利商店/.test(s.t)));
   fresh('2028-04-13',19.5,'dorm',{EXCHANGE_ROUTE:'JP'}); R('zhe','FAM'); date('heroine_01'); await run('ev_far_call_jp');
   check('F. 不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的台詞', has('就這樣？')&&!has('你瘦了！……不對，是鏡頭。')&&!has('滷蛋要不要！隔著螢幕也要問！')&&!said.some(s=>/他吃飯糰/.test(s.t)));
@@ -209,7 +209,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-24',10,'campus'); R('yu','FAM'); yuHere(); check('Y5-1. 4/24 早上經過傅鐘：可以演', EVENTS.check(ev('ev_yu_alone_movie')));
   picks=[1]; await run('ev_yu_alone_movie');
   check('Y5-1. 當面「旁邊坐一個也是一個人來的女生……」；「妳也坐倒數第三排？」→「對！下次我還要坐那裡。」；記 YU_ALONE', has('週六我一個人去看電影。')&&has('旁邊坐一個也是一個人來的女生。她說一個人看電影的人，都坐倒數第三排。')&&has('對！下次我還要坐那裡。')&&SOCIAL.has('yu','YU_ALONE'));
-  fresh('2028-04-27',19.2,'noodle'); R('yu','FAM'); check('Y5-2. 4/24 沒去學校：4/27 19:00 麵店可以演；小語在麵店（作息）', EVENTS.check(ev('ev_yu_alone_movie_noodle'))&&(STORY.schedEnt(CHARACTERS.yu,G)||{}).zone==='noodle');
+  fresh('2028-04-27',19.2,'noodle'); R('yu','FAM'); check('Y5-2. 4/24 沒去學校：4/27 19:00 麵店可以演；Alison 在麵店（作息）', EVENTS.check(ev('ev_yu_alone_movie_noodle'))&&(STORY.schedEnt(CHARACTERS.yu,G)||{}).zone==='noodle');
   await run('ev_yu_alone_movie_noodle');
   check('Y5-2. 麵店版第一句「欸，跟你說。週六我一個人去看電影。」', said[0].t==='欸，跟你說。週六我一個人去看電影。'&&SOCIAL.has('yu','YU_ALONE'));
   check('Y5-3. 任何一版都不是只有訊息（當面、麵店、視訊都有那幾句）', ev('ev_yu_alone_movie_video').dialogue.some(l=>l.text==='旁邊坐一個也是一個人來的女生。她說一個人看電影的人，都坐倒數第三排。'));
@@ -220,9 +220,9 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-24',19.5,'cafe'); R('heroine_02','FAM'); SOCIAL.remember('yu','YU_ALONE',''); R('yu','FAM');
   check('Z11-0. 4/24 以後第一次在 Café 和芷若點餐：可以演', EVENTS.check(ev('ev_zhiruo_third_row')));
   picks=[0]; await run('ev_zhiruo_third_row');
-  check('Z11-1. 聽過語 5：「上週在戲院……」；「那個女生是小語。」→「……阿哲的那個小語？」；ZHIRUO_MET_YU', has('上週在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。')&&opts[0][0]==='「那個女生是小語。」'&&has('……阿哲的那個小語？')&&has('那下次遇到她，我請她一杯。')&&SOCIAL.has('heroine_02','ZHIRUO_MET_YU')&&G.flags.ZR_Z11B==='yu');
+  check('Z11-1. 聽過語 5：「上週在戲院……」；「那個女生是 Alison。」→「……阿哲的那個 Alison？」；ZHIRUO_MET_YU', has('上週在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。')&&opts[0][0]==='「那個女生是 Alison。」'&&has('……阿哲的那個 Alison？')&&has('那下次遇到她，我請她一杯。')&&SOCIAL.has('heroine_02','ZHIRUO_MET_YU')&&G.flags.ZR_Z11B==='yu');
   at('2028-05-08',22.2); rules();
-  check('Z11-1. 5/8 22:07「小語傳了一張票根給我。她說她也坐倒數第三排。」', txt('p:heroine_02').includes('heroine_02:小語傳了一張票根給我。她說她也坐倒數第三排。'));
+  check('Z11-1. 5/8 22:07「Alison 傳了一張票根給我。她說她也坐倒數第三排。」', txt('p:heroine_02').includes('heroine_02:Alison 傳了一張票根給我。她說她也坐倒數第三排。'));
   fresh('2028-05-02',19.5,'cafe'); R('heroine_02','FAM'); picks=[0]; await run('ev_zhiruo_third_row');
   check('Z11. 5/1 以後才第一次去：「前陣子在戲院」；沒聽過語 5＝兩個選項', has('前陣子在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。')&&opts[0].length===2&&has('想好了再跟你說。'));
   fresh('2028-04-22',23.1,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_02','FRI'); ct('heroine_02'); rules();
@@ -487,7 +487,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('L4. 台灣路線 7/15 10:00：宿舍系統那一則先到，旁白「（最後一次抽籤。四樓。）」', has('（最後一次抽籤。四樓。）')&&txt('g:dorm').some(t=>t.endsWith('大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。')));
   fresh('2028-07-15',10,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); said=[]; await HOME.breakArrive(GM); check('L4. 日本路線：沒有那一句旁白（姊姊幫你填表）', !has('（最後一次抽籤。四樓。）'));
   fresh('2028-07-09',12.1,'dorm'); grpJoin(); R('heroine_03','FAM'); R('yu','FAM'); rules(); answer('yt_bday_y3',0);
-  check('YT. 7/9 12:00 麵店團小語「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十三個了。」', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十三個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
+  check('YT. 7/9 12:00 麵店團 Alison「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十三個了。」', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十三個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
   fresh('2028-07-09',12.1,'dorm'); R('heroine_03','FAM'); rules(); check('YT. 不在群組、和語彤 FAMILIAR 以上：她的私訊放同一個按鈕', !!PHONE.byAsk(G,'yt_bday_y3')&&txt('p:heroine_03').includes(':今天是語彤的生日。'));
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const zsq=OUT.get(G,'y3_zr_slips');
   check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「兩點半（店休）」', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!zsq&&zsq.day===D('2028-08-05')&&zsq.h===14&&zsq.place==='兩點半（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));
@@ -577,7 +577,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   await zqDinner(['我去','先不說','好。']);
   check('Q15-Q5. D10 第二次、先不說：「我喜歡你。講完了。」換成「我上次講的，沒有收回。……換你。」；「好。」→ 交往', has('我上次講的，沒有收回。……換你。')&&!has('我喜歡你。講完了。')&&G.flags.dating_heroine_04===true&&!G.flags.ZQ_Q15, JSON.stringify(said.map(x=>x.t)));
 
-  { const M=SOCIAL.MEMORY_LABEL, W={XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在傅鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是小語',XINCI_FIRST:'以安不在的那學期，她第一次考第一'};
+  { const M=SOCIAL.MEMORY_LABEL, W={XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在傅鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'以安不在的那學期，她第一次考第一'};
     check('D13 人物面板名稱照 AA_343 第 5 節（四項）', Object.keys(W).every(k=>M[k]===W[k]), JSON.stringify(Object.keys(W).map(k=>M[k]))); }
 
   // ---------- 接線 ----------

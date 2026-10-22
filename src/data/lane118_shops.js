@@ -533,7 +533,7 @@ const LANE118_SHOPS={
   "weekly": {
    "noodle2": "中午 118？",
    "dian": "今天換一間 我想吃滇緬",
-   "korea": "中午走不走 小語說要韓式",
+   "korea": "中午走不走 Alison 說要韓式",
    "home": "家常菜 今天排骨"
   },
   "pairedYu": "我們在巷口等你"

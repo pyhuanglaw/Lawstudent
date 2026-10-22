@@ -399,7 +399,7 @@ const HOME=(function(){
     if(o.k==='dorm'){ H.lbreak=null; H.bskip=null; await S.back(GM); return false; }
     { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake){ await S.breakJump(GM,nx); await S.breakArrive(GM); } else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過要停的時間（例：除夕 12:00 以前不會，出遊的晚上會）：停在那裡 */
     return H.at; }
-  /* 放假的手機（AA_183 3-2）：7/9 語彤的生日（12:00 麵店團群組小語；不在群組、和語彤有點熟以上＝她的私訊）、7/15 10:00 大二宿舍抽籤（一定抽中）＋10:05 阿哲。
+  /* 放假的手機（AA_183 3-2）：7/9 語彤的生日（12:00 麵店團群組 Alison；不在群組、和語彤有點熟以上＝她的私訊）、7/15 10:00 大二宿舍抽籤（一定抽中）＋10:05 阿哲。
      story3d.js 的 S.phoneRules 每次呼叫（在家、在外面都一樣；跳過時間的時候每小時一次）*/
   S.breakPhone=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||(G.stage||'law')!=='law') return; const now=T(G.day,G.hour);
     /* 暑住（AA_197 1-3）：大一～大三下學期最後一天 12:00 宿舍系統問；選的結果記 G.home.stay[暑假]＝'stay'／'home'（沒回＝續住）*/

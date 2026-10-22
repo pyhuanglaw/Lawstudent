@@ -174,7 +174,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2028-02-18',20,'dorm'); noodle(); runTo('2028-02-18',21.25); { const r=PHONE.answer(G,'hol63_y3w_zhe',1); STORY.phoneRules(GM); check('6-3-5. 回「不去。」→ 阿哲「好喔」，不排出遊',!!r&&r.out.map(x=>x.text).join('|')==='不去。|好喔'&&!OUT.get(G,'hol63_y3w_noodle')); }
   fresh('2028-02-20',13,'dorm',{EXCHANGE_ROUTE:'JP',X1_JP:D('2028-02-20'),HOL_Y3W_NOODLE:'go'}); STORY.phoneRules(GM); { const q=OUT.get(G,'hol63_y3w_noodle');
     check('6-3-5. 日本路線 2/20 14:00 退宿、人還在臺北：一樣排得到 2/20 18:00 那一頓（AA_345 H1）',!!q&&q.day===D('2028-02-20')&&q.h===18); }
-  // 大四寒假：1/17 照 Y4_PATH 三版、1/24、1/31 小語
+  // 大四寒假：1/17 照 Y4_PATH 三版、1/24、1/31 Alison
   { const v={}; for(const [p,push] of [['bar'],['grad','fail'],['undecided'],['other'],['grad','pass']]){ fresh('2029-01-16',10,'dorm',{Y4_PATH:p,Y4_PUSH:push,EXCHANGE_ROUTE:'TW'}); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); v[p+(push?'/'+push:'')]=lbl(now())+' '+cards[0][1]; }
     for(const r of ['JP','US']){ fresh('2029-01-16',10,'dorm',{Y4_PATH:'bar',EXCHANGE_ROUTE:r}); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); v[r]=lbl(now())+' '+cards[0][1]; }
     check('6-3-6. 大四寒假 1/17 18:30：國考「（寒假。你每天八點到總圖，坐同一個位子。）」／研究所要考筆試「（筆試前兩週。你把考古題做到第五年。）」／還沒決定「（寒假。你還沒決定，每天還是去總圖坐一下。）」',
@@ -182,7 +182,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
     check('6-3-6. AA_345 H5：推甄上了「（寒假。推甄上了，你還是每天去總圖，先讀研究所要修的書。）」／實習（先不考）「（寒假。你不用考試。事務所寄來一份實習前要先讀的資料。）」／日本、美國路線（交換延畢）「（寒假。你的考試還要再一年。每天還是到總圖坐一下。）」蓋過上面',
       v['grad/pass']==='1/17 18:30 （寒假。推甄上了，你還是每天去總圖，先讀研究所要修的書。）'&&v.other==='1/17 18:30 （寒假。你不用考試。事務所寄來一份實習前要先讀的資料。）'&&v.JP==='1/17 18:30 （寒假。你的考試還要再一年。每天還是到總圖坐一下。）'&&v.US==='1/17 18:30 （寒假。你的考試還要再一年。每天還是到總圖坐一下。）',JSON.stringify(v)); }
   fresh('2029-01-22',10,'dorm',{Y4_PATH:'bar',EXCHANGE_ROUTE:'JP'}); { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); check('6-3-6. 1/24 18:30「（寒假第五週。總圖的人比期末考的時候還多。）」（交換延畢的日本路線也一樣）',cards[0][0]==='1/24（三）18:30'&&cards[0][1]==='（寒假第五週。總圖的人比期末考的時候還多。）',JSON.stringify(cards)); }
-  fresh('2029-01-31',20,'dorm'); noodle(); runTo('2029-01-31',21.25); check('6-3-6. 1/31 21:00 麵店團，小語「考試的人 加油」「沒考試的人 不要吵他們」',JSON.stringify(msg('hol63_y4w_yu'))===JSON.stringify(['g:noodle_team|yu:考試的人 加油','g:noodle_team|yu:沒考試的人 不要吵他們']));
+  fresh('2029-01-31',20,'dorm'); noodle(); runTo('2029-01-31',21.25); check('6-3-6. 1/31 21:00 麵店團，Alison「考試的人 加油」「沒考試的人 不要吵他們」',JSON.stringify(msg('hol63_y4w_yu'))===JSON.stringify(['g:noodle_team|yu:考試的人 加油','g:noodle_team|yu:沒考試的人 不要吵他們']));
   // 暑假：大一 8/12、大二 8/15、大三 7/18（宿舍／家裡兩版；日本路線在國外不停）
   { const r=[]; for(const [k,h0,want] of [['2026-08-10',10,'（暑假過了一半。你把大二上的課表排了三次。）'],['2027-08-12',10,'（八月中。你把大三的課表印出來，貼在書桌前面。）'],['2028-07-16',10,'（暑假的宿舍很安靜。走廊只聽得到冷氣的聲音。）']]){ fresh(k,h0,'dorm'); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); r.push([lbl(now()),cards[0][1],cards[0][1]===want]); }
     fresh('2028-07-16',10,'dorm'); atHome(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); r.push([lbl(now()),cards[0][1],cards[0][1]==='（你在家裡的書桌讀書。媽媽每兩個小時進來問一次要不要吃水果。）']);

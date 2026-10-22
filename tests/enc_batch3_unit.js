@@ -1,10 +1,11 @@
 // 自由出行第三批景點的偶遇：AA 六位（AA_271，AA-C 01e9d706／aa_walk_v1.json 0b478a53）＋BB 五位（BB_213＋bb_walk_v1.json batch:3，b0c20f70）：
 //   1. 資料：六列、作息同一筆（dates、vacation、weeks 也一樣）、followUp＝之後在學校的一句、同行／離開／重訪的台詞都在、互動點都在景點上；
-//   2. 新條件：dates（含頭尾；以安回台中、阿哲回高雄，除夕～初三不排）、vacation（語彤 D14 寒暑假）、weeks 陣列（柏翰第 6、7 週、小語第 3、6、11、14 週、芯慈第 4、12 週）；
-//   3. 同行：小語 D01、阿哲 D29 不限關係；柏翰 D11 朋友以上；芯慈不一起走；
+//   2. 新條件：dates（含頭尾；以安回台中、阿哲回高雄，除夕～初三不排）、vacation（語彤 D14 寒暑假）、weeks 陣列（柏翰第 6、7 週、Alison 第 3、6、11、14 週、芯慈第 4、12 週）；
+//   3. 同行：Alison D01、阿哲 D29 不限關係；柏翰 D11 朋友以上；芯慈不一起走；
 //   4. BB 五位（第 8 項）：學期、週次、下雨（D08 沒有、D10 台階有遮照常）、沛珊沒有前任版、可昕的予樂讓位句、大四上學姊不在北投；
 //   5. 修改前（9264002f）：沒有這些列、weeks 陣列被當成單雙週。
 // 用法：node tests/enc_batch3_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.location={search:''}; global.document={getElementById:()=>null,addEventListener(){}};
@@ -67,14 +68,14 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
   let G=mk(STORY.termDay('Y1S2',6,7),11); check('5. 柏翰 D11：大一下第 6 週週日 11:00',at(G,'D11')==='classmate_bohan',why(G,'D11'));
   G=mk(STORY.termDay('Y1S2',8,7),11); check('5. 第 8 週：不在（只有第 6、7 週）',at(G,'D11')==='');
   G=mk(STORY.termDay('Y1S1',6,7),11); check('5. 大一上第 6 週：不在（大一下～大二下）',at(G,'D11')==='');
-  G=mk(STORY.termDay('Y3S1',3,7),14); check('5. 小語 D01：大三上第 3 週週日 14:00',at(G,'D01')==='yu',why(G,'D01'));
+  G=mk(STORY.termDay('Y3S1',3,7),14); check('5. Alison D01：大三上第 3 週週日 14:00',at(G,'D01')==='yu',why(G,'D01'));
   G=mk(STORY.termDay('Y3S1',5,7),14); check('5. 第 5 週：不在（子晴那一週）',at(G,'D01')==='');
   G=mk(STORY.termDay('Y2S1',3,7),14); check('5. 大二：不在（大三起）',at(G,'D01')==='');
   G=mk(STORY.termDay('Y1S1',4,7),14); check('5. 芯慈 D02：第 4 週週日 14:00',at(G,'D02')==='classmate_xinci',why(G,'D02'));
   G=mk(STORY.termDay('Y1S1',5,7),14); check('5. 第 5 週：不在（第 4、12 週）',at(G,'D02')===''); delete STAGE.classmate_bohan; }
 // 6. 同行
 { const tr=(who,st)=>{ STAGE[who]=st; return ENC.tier(GG,who); };
-  let G=mk(STORY.termDay('Y3S1',3,7),14); G.trip={}; check('6. 小語 D01：認識就能一起走一段（不限關係）',ENC.canJoin(G,rowOf('yu','D01'),tr('yu','ACQUAINTANCE')));
+  let G=mk(STORY.termDay('Y3S1',3,7),14); G.trip={}; check('6. Alison D01：認識就能一起走一段（不限關係）',ENC.canJoin(G,rowOf('yu','D01'),tr('yu','ACQUAINTANCE')));
   G=mk(STORY.termDay('Y1S2',6,7),11); G.trip={}; check('6. 柏翰 D11：有點熟不一起走、朋友才一起走',!ENC.canJoin(G,rowOf('classmate_bohan','D11'),tr('classmate_bohan','FAMILIAR'))&&ENC.canJoin(G,rowOf('classmate_bohan','D11'),tr('classmate_bohan','FRIEND')));
   G=mk(STORY.termDay('Y1S1',4,7),14); G.trip={}; check('6. 芯慈 D02：不一起走',!ENC.canJoin(G,rowOf('classmate_xinci','D02'),tr('classmate_xinci','FRIEND')));
   G=mk(K('2026-02-14'),15); G.trip={}; check('6. 阿哲 D29：認識就能一起走一段',ENC.canJoin(G,rowOf('zhe','D29'),tr('zhe','ACQUAINTANCE')));
