@@ -749,17 +749,23 @@ async def s_zr_tw(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+F3Q = "(()=>{ const q=(typeof OUT==='undefined'?null:OUT.get(GAME.G,'y3_fang_f3')); const F=GAME.G.flags; return {q:q?{state:q.state,h:q.h,day:CALENDAR.dateOf(q.day).key}:null, J1:F.FANG_F3_J1==null?null:CALENDAR.dateOf(F.FANG_F3_J1).key, F3:F.FANG_F3||null, zone:GAME.G.zone, ZR_FY:F.ZR_FY===undefined?null:F.ZR_FY, fy:(F.ZZ||{}).fy||null}; })()"
+
+
 @guard
 async def s_zr_jp529(p, run, base, sid, out):
-    """日本路線 5/29：日本 22:00 奕廷打來（接起來、選「說你剛好有兩張票。」）→ 待到 22:20：芷若那則「奕廷約我…我說好。」不傳"""
-    res = out.setdefault(sid, {})
+    """日本路線 5/29：日本 22:00 奕廷打來（接起來、選「說你剛好有兩張票。」）→ 待到 22:20：芷若那則「奕廷約我…我說好。」不傳。
+    ZR_JP529＝人待在 3D 的「你的房間」（jp_room）；ZR_JP529H＝人在 2D 的據點（jp_hub，平常在日本的畫面）"""
+    res = out.setdefault(sid, {}); hub = sid.endswith('H')
     pf = dict(BASE0, EXCHANGE_ROUTE='JP', EXCH_RULE=1, X1_JP={'$day': '2028-02-20'}, JP_DEPARTED={'$day': '2028-03-25'}, AN_SENDOFF='together')
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-29', 21.5, 'jp_room', preflags=pf, rels={ZR: 'FAMILIAR', 'npc_fangyt': 'FAMILIAR'}, quiet=False, label=sid + '（日本路線、在日本；2028-05-29（一）日本 21:30 宿舍房間）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-29', 21.5, 'jp_hub' if hub else 'jp_room', preflags=pf, rels={ZR: 'FAMILIAR', 'npc_fangyt': 'FAMILIAR'}, quiet=False,
+                                       label=sid + ('（日本路線、在日本；2028-05-29（一）日本 21:30 據點（2D 的國際學生宿舍））' if hub else '（日本路線、在日本；2028-05-29（一）日本 21:30 3D 的宿舍房間，人一直待在房間裡）'))
     try:
         await pg.evaluate(HOOK2); n0 = await log_len(pg); d = await dayk(pg, '2028-05-29')
-        ok, ch = await wait_out(pg, cdp, run, 'y3_fang_f3', 900, sid, picks=['「說你剛好有兩張票。」'], also='GAME.G.day>%d' % d)
+        pk = ['「說你剛好有兩張票。」'] + (['共用廚房'] if hub else [])   # 據點：照玩家去共用廚房打發時間（「在房間休息一下」會走進 3D 房間），等 22:00
+        ok, ch = await wait_out(pg, cdp, run, 'y3_fang_f3', 900, sid, picks=pk, also=('GAME.G.day>%d' % d) + ('' if hub else '||GAME.G.hour>=23.3'))
         await drive(pg, cdp, run, picks=['「說你剛好有兩張票。」'], max_s=120, label=sid)
-        f3 = await pg.evaluate(FL + "('FANG_F3')"); pr = prompts(ch); res['call'] = [f3, pr, texts(await log_since(pg, n0))[-8:]]
+        f3 = await pg.evaluate(FL + "('FANG_F3')"); pr = prompts(ch); res['call'] = [f3, pr, texts(await log_since(pg, n0))[-8:]]; res['f3q'] = await pg.evaluate(F3Q); say('   %s 奕廷那一通：%s' % (sid, J(res['f3q'])))
         run.check('%s：日本 22:00 奕廷打來（接起來）、選「說你剛好有兩張票。」→ FANG_F3 bought' % sid, ok and f3 == 'bought', J(res['call']))
         ok2, _ = await wait_for(pg, cdp, run, "GAME.G.hour>=22.34||GAME.G.day>%d" % d, max_s=900, label=sid)
         st = await pg.evaluate(STATE); dm = [m for m in await msgs(pg, 'p:heroine_02') if m['tag'] == 'y3_zr_f3_jp' or '奕廷約我' in m['text'] or '我說好' in m['text']]; res['dm'] = [st, dm]
@@ -767,9 +773,9 @@ async def s_zr_jp529(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['AN_SKIP', 'AN_SLEEP', 'ZQ_STICKER', 'ZQ_NOREPLY', 'ZQ_SLEEP', 'KX_CALL', 'KX_LATE', 'PS_CALL', 'PS_FF', 'PS_SLEEP', 'ZR_JP529', 'ZR_JP', 'ZR_TW']
+ORDER = ['AN_SKIP', 'AN_SLEEP', 'ZQ_STICKER', 'ZQ_NOREPLY', 'ZQ_SLEEP', 'KX_CALL', 'KX_LATE', 'PS_CALL', 'PS_FF', 'PS_SLEEP', 'ZR_JP529', 'ZR_JP529H', 'ZR_JP', 'ZR_TW']
 FN = {'AN_SKIP': s_an_skip, 'AN_SLEEP': s_an_sleep, 'ZQ_STICKER': s_zq_sticker, 'ZQ_NOREPLY': s_zq_noreply, 'ZQ_SLEEP': s_zq_sleep, 'KX_CALL': s_kx_call, 'KX_LATE': s_kx_late,
-      'PS_CALL': s_ps_call, 'PS_FF': s_ps_ff, 'PS_SLEEP': s_ps_sleep, 'ZR_JP529': s_zr_jp529, 'ZR_JP': s_zr_jp, 'ZR_TW': s_zr_tw}
+      'PS_CALL': s_ps_call, 'PS_FF': s_ps_ff, 'PS_SLEEP': s_ps_sleep, 'ZR_JP529': s_zr_jp529, 'ZR_JP529H': s_zr_jp529, 'ZR_JP': s_zr_jp, 'ZR_TW': s_zr_tw}
 
 
 async def main():
