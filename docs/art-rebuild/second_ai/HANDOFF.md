@@ -595,7 +595,18 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-22 10:5x 進度（帳號 A LAWWW2；最新，蓋過下面 09:3x 那一節）
+### ▶▶ 10-22 11:4x 進度（帳號 A LAWWW2；最新，蓋過下面 10:5x 那一節）
+- **LAWWW 10:57**：nm3 已整合、角色美術驗收通過（開發分支 `eece763b`）；outbox 改已驗收／ACTIONED（`c38d77e8`）。下一步照 LAWWW：巡場景第 4 區公館＋查 BB-C 的三角形 +15～19%。
+- **crowd_far_lod 第三版**（PERF-CROWD-LOD-1021）：`patches/crowd_far_lod.diff` 對齊 `eece763b`（`character3d.js` 和 skirt_drive 同一行合在一起）＋nm3 遠距離版本重做；19 支測試 ALL PASS（j53）。patch、LOD 在 `583cf89d`，說明 `7ccab572`，outbox `eab38bf3`。等 LAWWW 在 v9.10.5 之後接。
+- **巡場景第 4 區公館巡過一輪**（`ART_DIRECTOR_PATROL.md` 第 4 節；j51、j54 18 張，開發分支 `f9941cfd`）：
+  - 15:00 人行道一排亮條（P2）→ **已交件**：七樓樓板（14 棟、+168 三角形、draw call 不變），`gongguan_shops.glb`＋`wz_street.py` 一行；說明 `test_shots/gg_shadow_cap_1022/`；GLB、腳本在 WIP `8de84f34`。
+  - BB-C 的 +15～19%＝X86 第二階段 `0582af9f`（店面加高、`gongguan_far`），照設計，不用改。
+  - j57：`gongguan_glb_integration` 在 `eece763b` 本來就 FAIL 1 項（導航格完全相同；正式模型多擋 95 格＝雜物腳印，測試期待過時），換 GLB 後同一個結果；交給 LAWWW。
+- **下一步**：巡場景第 5 區溫州街（`ART_DIRECTOR_PATROL.md` 巡查順序）；有派工就先做派工。
+- 不碰：ART-13、ART-CH-PINYU（使用者 10-17「修改人物的事情暫停」）。
+- 只在本機的：截圖原檔（`$SP/patrol4/`、`$SP/ggcap/`）、探測用的 GLB；都可以照 repo 裡的腳本重做。
+
+### ▶▶ 10-22 10:5x 進度（帳號 A LAWWW2；被上面 11:4x 那一節取代）
 - **LAWWW 10:44 ACK＋已整合**：天花板第二版接進開發分支 `cf82803b`（8 GLB＋4 json＋7 腳本＋`ceiling_lights.diff`），DL-LAWWW2-5262e88a「已整合待測試」，放 v9.10.6、交 BB 瀏覽器看；outbox 已改已整合／ACTIONED。
 - **交件（10:5x）**：ART-CEIL-LAWWW-ROOMS-1022 第二版（修正）`5262e88a`（GLB、腳本、patch 在 `ab5dd930`），outbox SHA `00977c03`。
   - 骨架、燈框、燈箱、吸頂日光燈照舊是方盒，整組 `WALL_`、`dir` 朝下（鏡頭在上面時藏起來，從下面看同一組三角形）；平的燈板單面。
