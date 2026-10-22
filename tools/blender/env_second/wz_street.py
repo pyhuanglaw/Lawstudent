@@ -584,6 +584,7 @@ def apartment(spec):
         elif sd < 0: tall(wall, -W / 2, -W / 2 + 0.2, -D, -0.25)
         else: tall(wall, W / 2 - 0.2, W / 2, -D, -0.25)
     tall(wall, -W / 2, W / 2, -D, -D + 0.2)
+    if HI: xf.box(wall, -W / 2 + 0.2, W / 2 - 0.2, HI - 0.2, HI, -D + 0.2, -0.25)   # 七樓樓板（在樓裡面，看不到）：七樓以上不投影以後，陰影計算裡整棟樓沒有屋頂，下午太陽從頂上照進中空的樓、再從二到六樓的窗洞照出來，人行道上一排亮條（LAWWW2 巡場景第 4 區 10-22）；這塊會投影，把一到六樓蓋起來
     for f in range(1, F): xf.box(band_hi if (HI and f >= 6) else band, -W / 2 - 0.03, W / 2 + 0.03, GH + (f - 1) * FH - 0.09, GH + (f - 1) * FH + 0.09, -0.25, 0.08)
     xf.box(band_hi, -W / 2 - 0.04, W / 2 + 0.04, totalH + 0.9, totalH + 0.97, -0.26, 0.05)
     xf.box(acc_hi(M['roof']) if HI else acc(M['roof']), -W / 2 + 0.2, W / 2 - 0.2, totalH - 0.05, totalH + 0.05, -D + 0.2, -0.2)
