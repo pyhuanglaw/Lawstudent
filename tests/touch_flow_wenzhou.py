@@ -158,10 +158,13 @@ async def main():
         # 5. 坐下（窗邊雙人桌；那個位子有人坐了就找最近的空位——2026-10-22 v9.10.4 發布前：改成第 18 天（10/4 週六）以後，14:56 窗邊那張已經有客人，遊戲照規則不給「坐」）
         seat = await pg.evaluate("""(()=>{ const E=GAME.E, used=new Set(); for(const n of E.npcs){ const q=n.seat||n.seatTarget; if(q) used.add(q.x.toFixed(1)+','+q.z.toFixed(1)); }
             let best=null, bd=1e9; for(const q of (E.zone.seats||[])){ if(q.taken||q.bar||q.sofa||used.has(q.x.toFixed(1)+','+q.z.toFixed(1))) continue; const d=Math.hypot(q.x-4.5,q.z-2.5); if(d<bd){ bd=d; best=q; } }
-            return best?[best.x,best.z]:null; })()""")
-        sx, sz = seat if seat else (4.5, 2.5)
-        if seat and math.hypot(sx - 4.5, sz - 2.35) > 0.3: print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(sx, 2), round(sz, 2)))
-        st = await walk_to(pg, t, sx, sz, 'seat', tol=0.9)
+            if(!best) return null; const ap=GAME.seatApproach?GAME.seatApproach(best):null; return [best.x,best.z].concat(ap?[ap[0],ap[1]]:[]); })()""")
+        if seat and math.hypot(seat[0] - 4.5, seat[1] - 2.35) > 0.3:
+            # 換到別的位子：走到遊戲自己算的「走近這個座位」那一點（GAME.seatApproach，坐下時就是從那裡坐的），不然可能停在桌子另一邊、離座位 0.8 m 就不出「坐」
+            print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(seat[0], 2), round(seat[1], 2)))
+            st = await walk_to(pg, t, seat[2], seat[3], 'seat', tol=0.4) if len(seat) >= 4 else await walk_to(pg, t, seat[0], seat[1], 'seat', tol=0.5)
+        else:
+            st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
         await pg.wait_for_timeout(600); st = await state(pg)
         check('靠近座位出現「坐」的按鈕', '坐' in st['interact'], st['interact'])
         await t.tap_el('#interact'); await pg.wait_for_timeout(3000)
