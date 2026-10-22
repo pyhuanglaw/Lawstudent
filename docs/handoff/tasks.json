@@ -28968,7 +28968,7 @@
     "receiver": "AA",
     "ack": "ACTIONED"
    },
-   "done": "開發分支（LAWWW 帳號 A 10-22 07:3x）：story3d.js S.sisEarly＋legacyOk——學姊（heroine_05）法律系、開學 2025-09-01 起、afternoonDone 以前也照作息（schedFor、whereIs 兩處 LEGACY 判斷；閱覽室、Café 坐下的 until 兩處照作息結束）；以安、阿哲、Alison、阿凱、周教授照舊；經濟系照舊。tests/sis_pre94_presence_unit.js（修改前 809ea58b 2 FAIL、修改後 ALL PASS）；學姊、開局相關 27 支 ALL PASS"
+   "done": "開發分支 367b8dfc（LAWWW 帳號 A 10-22 07:2x）：story3d.js S.sisEarly＋legacyOk——學姊（heroine_05）法律系、開學 2025-09-01 起、afternoonDone 以前也照作息（schedFor、whereIs 兩處 LEGACY 判斷；閱覽室、Café 坐下的 until 兩處照作息結束）；以安、阿哲、Alison、阿凱、周教授照舊；經濟系照舊。tests/sis_pre94_presence_unit.js（修改前 809ea58b 2 FAIL、修改後 ALL PASS）；學姊、開局相關 27 支＋用到 afternoonDone 的 93 支 ALL PASS"
   }
  ]
 }
