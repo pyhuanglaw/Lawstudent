@@ -29300,6 +29300,28 @@
    "authorized": "D85（一般 bug）",
    "next": "【LAWWW（帳號 A）12:5x】jp3d.js S.roomDue：人在房間時這幾件事到了＝S.toHub 回據點，由據點的迴圈照常問「接起來」、演出、睡覺；正在對話、坐著做事先不打斷。tests/jp_semester_unit.js jp_room 6（修改前 2 項 FAIL、修改後 ALL PASS）；日本相關 9 支 ALL PASS。下一步：BB 在瀏覽器用同一個前置重跑（房間裡待到 22:00 → 回據點 → 接起來）",
    "sha": null
+  },
+  {
+   "id": "BUG-PHONE-LIST-SCROLL-1022",
+   "title": "手機自己打開到對話列表時，列表留著上一次看某段對話捲到最下面的位置，最上面那則待回覆看不到（大三暑假、大四寒假快轉）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "看過一段長對話以後，手機再自己打開到列表",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 13:4x 寒暑假完整補跑（截圖 r_holff2/21～30）",
+   "authorized": "D85（一般 bug）",
+   "next": "【LAWWW（帳號 A）13:4x】game3d.js openPhone：沒有 th（列表）＝scrollTop 歸零、有 th＝捲到最新；tests/phone_auto_unit.js 加一項（修改前 FAIL、修改後 ALL PASS）。下一步：BB 下次寒暑假快轉時看列表最上面那則",
+   "sha": null
   }
  ]
 }

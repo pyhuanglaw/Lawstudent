@@ -574,7 +574,7 @@ const GAME = (function(){
     h+='<div class="item muted" style="margin-top:8px">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>';
     return h; }
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
-  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); if(th){ const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）*/
+  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); { const pb=$('phoneBody'); if(pb) pb.scrollTop=th?pb.scrollHeight:0; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）；打開列表：回到最上面（待回覆、最新的在最上面——BB 10-22 13:4x：列表留著上一次看對話捲到最下面的位置，大三暑假、大四寒假自動打開時看不到最上面那則待回覆）*/
   let phoneWaiters=[];
   /* 對話、選項出來的時候，手機、筆記本開著就先收起來（BB-C BB_218：起床約 4 秒後才出「早安。今天的課：」，玩家先打開手機，對話就壓在手機下面；
      2026-10-17 經濟系 9/11 下課選單同樣被手機蓋住）。一定要回的訊息（ask.must）還沒回時不收。不跑 afterPhoneClose（那是玩家自己看完手機的旁白）*/
