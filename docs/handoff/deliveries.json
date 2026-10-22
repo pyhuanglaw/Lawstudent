@@ -13242,7 +13242,7 @@
    "task": "ART-DIRECTOR-LAWWW2",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:0x：第二版反套、第三版套上，zones3d.js 不變）；room_ceiling、l118_arcade、機場／美國 10 支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW"
+   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:0x：第二版反套、第三版套上，zones3d.js 不變）；room_ceiling、l118_arcade、機場／美國 10 支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW｜【LAWWW（帳號 A）12:1x】這筆描述的機場出境／入境、美國大超市天花板 GLB 實際在 f43c45b4；88af9e7a 是 outbox 那一筆（ignored 另記 f43c45b4 covered）"
   },
   {
    "date": "2026-10-22",
@@ -16788,6 +16788,267 @@
    "kind": "wip",
    "reason": "草原超市和竹葉亞洲超市之間的停車場、馬路 WIP；LAWWW（帳號 A）21:4x UTC 分類",
    "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "0e2a595c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-d3f57c91",
+   "reason": "ART-NPC-NM3-HAIR-1022 路人 npc_nm3 耳上短髮的 WIP 檢查點（npc_hair_m.py 五個選用參數、npc.py nm3 第三版、bl_npc_nm3.vrm；順手把 outbox 天花板第二版改已整合），10 分鐘後 d3f57c91 交件同一份 VRM（位元組相同）、已驗收；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "ab5dd930",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-5262e88a",
+   "reason": "ART-CEIL-LAWWW-ROOMS-1022 天花板第二版改法的 WIP 檢查點（骨架、燈框、201 燈箱、男宿吸頂燈還原方盒放進 WALL_、男宿大門鋁框跟前牆淡出；八份 GLB、七支腳本、ceiling_lights.diff），5262e88a 交件包含全部（outbox 第 107 筆寫明，GLB 位元組相同）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "c8fd873e",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-5262e88a",
+   "reason": "天花板第二版的說明草稿、遊戲內前後（j45）、ceiling_lights.diff、ceiling_more.diff 還原成已整合的第一版、outbox 狀態與巡查表更新的 WIP 檢查點，5262e88a 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "84afddfa",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-5262e88a",
+   "reason": "天花板第二版「骨架、燈框只留底面」試做的 WIP 檢查點（七份 GLB＋腳本），ab5dd930 改回方盒放進 WALL_（只留底面從下面平視格子不見，沒採用），最後版本是 5262e88a 交件（DL 寫明取代只留底面）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "6f4ac9f7",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-63d4a3e3",
+   "reason": "ceiling_more.diff 改對開發分支 2181fe4d、LIC-GAPS-1017 第二次 licenses_gaps_1022.diff 的 WIP 檢查點，14 分鐘後 63d4a3e3 交件（天花板＝DL-LAWWW2-63d4a3e3、授權＝DL-LAWWW2-63d4a3e3-lic，LAWWW 4d3a305d 都已接）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "f0e3be18",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-63d4a3e3",
+   "reason": "ART-CEIL-LAWWW-ROOMS-1022 四間（201、男宿門廳、霖澤館、萬才館）天花板單面＋ceiling_more.diff、#129 美國校園候車亭屋頂＋us_campus_shelter.diff 的 WIP 檢查點，63d4a3e3 交件（候車亭＝DL-LAWWW2-63d4a3e3-shelter，us_campus.glb 位元組相同）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "5296d9ee",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（美國 C 棟 208 只用搖桿實玩 j39b：鏡頭一直在人後面、不用改；只有巡查表一行＋一張截圖）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "7d4d6cd5",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（美國巡場景 j38b 重拍 11 張；新發現的候車亭 P2 之後在 63d4a3e3 修好＝DL-LAWWW2-63d4a3e3-shelter）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "f43c45b4",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-88af9e7a",
+   "reason": "機場出境／入境、美國大超市天花板單面朝下（三份 GLB＋腳本、l118_arcade.diff 第三版）＝outbox 第 103 筆 09:0x 追加的那一批，交付記成 DL-LAWWW2-88af9e7a、LAWWW 2181fe4d 已接（GLB 位元組相同）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "2ae925f2",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-30c74db4",
+   "reason": "PS-SKIRT-LEG 的 WIP 存檔（peishan_skirt_bones.py、skirt_vis.js、skirt_drive.diff 草稿），23 分鐘後 30c74db4 交件第二十八版 VRM＋skirt_drive.diff、已驗收；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "27a5690b",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4af2ff35",
+   "reason": "六個房間天花板單面朝下的遊戲內前後（j36b）放進 l118_arcade_1022 README，是 4af2ff35 交件說明的一部分；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "04500366",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4af2ff35",
+   "reason": "118 巷天花板＋鄰居店面的遊戲內前後兩張（j35c）與 README，是 4af2ff35 交件說明的一部分；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "240b19e4",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4af2ff35",
+   "reason": "118 巷鄰居店面卡 18 張重拍（曝光 1.8）＋九間店 GLB 重匯（另附 j26b 法學院重拍的巡場景紀錄），GLB 和 4af2ff35 交件、開發分支位元組相同；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "f8a5345f",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4af2ff35",
+   "reason": "118 巷鄰居店面曝光 0.35→1.8（lane118_neighbors.py）＋README 草稿的 WIP，4af2ff35 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "7c1a30c6",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄第 11 節（118 巷天花板、進門空白、六個房間天花板施工中；j26 是截圖工具的問題；溫州街 j11 沒有新的 P1）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "4aeb5531",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4af2ff35",
+   "reason": "118 巷九間店天花板單面朝下＋店門外鄰居店面卡、l118_arcade.diff 第一版的 WIP 檢查點，之後重拍重匯、4af2ff35 交件（outbox 第 103 筆）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "c5aff881",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-f9a969cd-cam",
+   "reason": "溫州街店家室內鏡頭遮擋交件後補拍的 j33（鏡頭在人前面：定食燈籠、半熟吊燈網點透空），只改兩份 README＋一張對照圖，屬 f9a969cd 交件說明（outbox 第 101 筆 remaining 寫明 j33 補拍）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "f8db7013",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-f9a969cd-cam",
+   "reason": "溫州街店家室內鏡頭遮擋的遊戲內前後（j30）README，2 分鐘後 f9a969cd 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "a7ccb044",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄第 10 節（林家乾麵座位、定食燈籠、半熟排煙罩已修；一盞隔間、半熟吊燈待遊戲內 j30）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "a86d21ce",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-e703d408",
+   "reason": "118 巷吧台高腳椅 lift 交件說明草稿（j24 遊戲內前後、l118_bar_lift_unit 結果），44 分鐘後 e703d408 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "147d06b5",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-b874f99a",
+   "reason": "美國超市鏡頭交件說明草稿（us_market_cam_1022 README）＋巡場景紀錄（C208 走廊鏡頭查過、AA364 j23 三項），4 分鐘後 b874f99a 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "297e71bf",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-f9a969cd-aa364",
+   "reason": "WZ-SHOP-AA364-ART 說明的 WIP（林家乾麵、巷子裡定食遊戲內截圖、j23 結果與第二版修正），f9a969cd 交件第四版；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "887ad0e9",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-b874f99a",
+   "reason": "US-PATROL-1021 超市街站牌柱網點透空 us_ms_seethru.diff 的 WIP，b874f99a 交件（DL 寫明 us_ms_seethru.diff）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "47eb0d5a",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-b874f99a",
+   "reason": "US-PATROL-1021 巡場景紀錄（j14）＋超市一進門鏡頭 WIP（us_asian_market.glb 重建、us_market_cam.diff），b874f99a 交件（DL 寫明 47eb0d5a，GLB 位元組相同）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "b216df4c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-93967011-lamps",
+   "reason": "超市街路燈光圈遊戲內前後三張（j18）README，93967011 交件（同一個 commit 另有色調 A/B 21 鏡頭＝DL-LAWWW2-fdd9b3f5、ART-WZ7 已在溫州街模型＝DL-LAWWW2-59dfa3a8 兩份 README 的小修改）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "305a58c9",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-fdd9b3f5",
+   "reason": "ART-POLISH 第 2 批色調映射開關 patch（tone_neutral.diff、曲線換算）＋HANDOFF 03:5x 的 WIP，fdd9b3f5 交件（改成預設 Neutral＝tone_neutral_default.diff）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "c0efcc8a",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-f9a969cd-aa364",
+   "reason": "LICENSES patch licenses_1022.diff（交誼廳、林家乾麵／定食室內、B5 菜單）：交誼廳那列 LAWWW 2a67b144 照原文接了（DL-LAWWW2-e6512c87），林家／定食改由 d04223db 五列接（7e5d3882），B5 菜單那列（shop_menu_tea_wz.png）開發分支 LICENSES.md 還沒有、待補；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "3588cc8c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-e6512c87",
+   "reason": "ART-DORM-LOUNGE-1021 男宿交誼廳正式模型 dorm_hall.glb 換新的 WIP（＋LICENSES 交誼廳那列、Blender 對照圖），e6512c87 交件（DL 寫明 dorm_hall.glb 3588cc8c）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "3a7f9a92",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-e6512c87",
+   "reason": "ART-DORM-LOUNGE-1021 交誼廳家具腳本、貼圖、dorm_lounge.diff 的 WIP（另有林家乾麵／定食 README 草稿＝DL-LAWWW2-f9a969cd-aa364），e6512c87 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "b43e3aa9",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-e703d408",
+   "reason": "118 巷吧台高腳椅座位帶 lift 0.31 的 WIP（lane118_shops.py、四份 layout.json、l118_bar_lift.diff），e703d408 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "2970217d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-f9a969cd-aa364",
+   "reason": "WZ-SHOP-AA364-ART 巷口茶飲、夏日冰菓室菜單照 AA_364、鐵捲門「五月見」、定食木札放大的 WIP；菜單在 wenzhou_street.glb（7be8b62f 已包含，隨 ART-WZ0 接進開發分支），f9a969cd 交件寫明（outbox 第 100 筆）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "c9e7fcd5",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-223252e5",
+   "reason": "ART-ECON-3D-GAP-1021 文學院、行政大樓、校史館大門的遊戲內前後（j9）＋四份模型說明檔 out 欄位改回 assets 路徑，5 分鐘後 223252e5 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "bc5b08a8",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-93967011-airport",
+   "reason": "ART-VAC-AIRPORT-1021 新的機場 GLB 放進 assets（DL 寫明 bc5b08a8）＋街景 json 的 out 路徑改回 assets，93967011 交件機場第二版；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "9bb094f6",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（博雅東側一樓遊戲內已看過 j8，等三棟大門 j9 一起交＝之後的 223252e5）；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "31ae6897",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-93967011-airport",
+   "reason": "ART-VAC-AIRPORT-1021 機場窗外遠景正式渲染（ap_outside 白天／晚上、airport_backdrop.py 修正、Blender 對照）的 WIP，GLB 在 bc5b08a8、93967011 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "9da5d7c1",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-93967011-airport",
+   "reason": "ART-VAC-AIRPORT-1021 Blender 前後對照圖（報到島背牆鋁收邊、帷幕框鋁灰）的 WIP，93967011 交件；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "25da22cb",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-93967011-airport",
+   "reason": "ART-VAC-AIRPORT-1021 交件說明草稿（巡場景六件事、airport_cam_night.diff、單元測試），93967011 交件機場第二版；LAWWW（帳號 A）12:1x UTC 分類"
+  },
+  {
+   "sha": "396adcbb",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-2ccd1e60",
+   "reason": "ART-ECON-3D-GAP-1021 宿舍 412 換改法（撤回 2bc9992d 洗手間頂板、dorm_seethru.diff 補光）的 WIP，2ccd1e60 交件（dorm_seethru.diff 第三版：412 洗手間補光；dorm_room4.glb 位元組相同）；LAWWW（帳號 A）12:1x UTC 分類"
   }
  ]
 }
