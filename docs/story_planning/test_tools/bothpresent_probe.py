@@ -408,6 +408,13 @@ async def tea(p, run, base, out):
     try:
         await pg.evaluate("(()=>{ const R=SOCIAL.rel('heroine_05'); R.fam=Math.max(R.fam||0,48); R.trust=Math.max(R.trust||0,32); R.comf=Math.max(R.comf||0,20); const V=GAME.G.visited||(GAME.G.visited={}); for(const z of ['wz_teahouse','wenzhou']) V[z]=true; })()")
         await L.phone_away(pg, cdp)
+        # 使用者存檔的 9/27 本來就排了 14:00「去政大找可昕」（開車 30 分鐘＝13:30 一讀檔就跳「出發」，蓋住手機；10-22 04:12 候選第一輪停在這裡）：照玩家按「不去了」
+        for _ in range(8):
+            ops = await opts(pg)
+            if ops and any(o.startswith('出發：') for o in ops):
+                run.setup('TEA：存檔裡 9/27 本來排了別的出遊（%s）→ 照玩家按「不去了」' % ops[0][:24]); await pick(pg, cdp, '不去了', wait=10); await pg.wait_for_timeout(1500); continue
+            if not ops: await pg.wait_for_timeout(1500)
+        await L.phone_away(pg, cdp)
         await phone(pg, cdp, 'friends')
         await tap_q(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
         ok1, o1 = await pick(pg, cdp, '去一盞喝茶'); ok2, o2 = (False, [])
