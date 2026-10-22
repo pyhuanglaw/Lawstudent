@@ -1,17 +1,20 @@
 /* ===== 林芷若 × 高子晴：從摯友到戀人（條件式 NPC 感情線）——接線 =====
-   台詞：src/data/zrzq_events.js（ZRZQ_LINES，照 AA_232 afebee54 不改字）；機制：BB_194 §23（a90e8569）；4-4 的甲：AA_243 第 2 節（20d5734f）。
-   任務：USER_WANTS C22、AA243-P02、AA290-INTAKE（AA_232 部分）。這個檔只用掛勾接進去，不改 story3d.js、r2y3b3d.js、postgrad3d.js 的內部：
+   台詞：src/data/zrzq_events.js（ZRZQ_LINES，照 AA_232 088556ed、AA_385 028dc128 不改字）；機制：BB_194 §23（a90e8569）；4-4 的甲：AA_243 第 2 節（20d5734f）。
+   任務：USER_WANTS C22、AA243-P02、AA290-INTAKE（AA_232 部分）。這個檔大多用掛勾接進去（story3d.js 只有 talkCharacter 問 S.preTalk 那兩行、invites3d.js 只看 partner.soloOk）：
    - STORY.PHONE_RULES（S.sync，每一輪；在家、在日本、快轉也會跑）：建 ZZ、記每學期「她自己條件成立」、F3 的結果、祐廷不在台灣時世界照樣發生（seen:false）、F3 婉拒的訊息；
    - STORY.TICKS（S.tick，每 0.5 秒）：時間到了帶到場自動演（4-2、4-3、4-4、4-2b、4-7）；人在家＝包住 STORY.y4HomeDue／y4FromHome（同 y34b3d.js）先離開家；
-   - 4-5（Café 自動）、4-6（找子晴說話）、第三節 Café 那四句：data 的事件，條件問這裡（dailyOk、ukOk、f3ToldDue）；
-   - 和祐廷的互斥（23-5）：芷若、子晴的 CHARACTERS.partner＝{zz}，包住 STORY.partnerOn——她們交往中（dating）時，約會、單獨的邀約、期末的心意邀約、告白照「她有交往的對象」那一套
-     （termend_lines.js 的 NOPE.partner 本來就有芷若、子晴那一句，BB_203 5-1 C5）；mutual_interest 以前照常；
+   - 4-5（Café 自動）、4-6（找子晴說話）、第三節 Café 那四句：data 的事件，條件問這裡（dailyOk、ukOk、f3ToldDue、f3Away）；
+   - 其中一人自己告訴祐廷（AA_385 第 4 節，ZZ_TOLD_YT）：story3d.js talkCharacter 問 S.preTalk——說話前面接演、演完照常閒聊（同 AA_379 2-3）；
+   - 尾聲 PG.epiLine：結局 C、芷若選了方奕廷（AA_385 第 2 節）——子晴那一句後面多一句旁白，芷若、奕廷照 zr.fy、fy.zr；
+   - 和祐廷的互斥（23-5）：芷若、子晴的 CHARACTERS.partner＝{zz, soloOk}，包住 STORY.partnerOn——她們交往中（dating）時，校外約會（L2／L3）、期末的心意邀約、告白照「她有交往的對象」那一套
+     （termend_lines.js 的 NOPE.partner 本來就有芷若、子晴那一句，BB_203 5-1 C5）；吃飯、散步、一盞照常（AA_385 第 6 節：只擋 L2／L3，soloOk）；mutual_interest 以前照常；
    - F3（r2y3b3d.js）婉拒的存檔：包住 R2Y3B.f3CafeDue（不演「……我說好。」）、收回日本路線那則「我說好」；
    - MSG.tok 的「兩人是朋友」「兩人是好朋友」「兩人交往中」（子晴「芷若在英國」那三則；msg3d.js 原本「兩人是朋友」一律 true）：照 ZZ 的狀態（AA_385 第 9 節）；尾聲 PG.EPI_AFTER_CG：結局 B／C 那一行。
    存檔：G.flags.ZZ＝{state, since（建立的那天；舊存檔讀檔那天以前的場次不補演）, ev:{事件 id:{day,seen,…}}, yt（祐廷知道多少：none／hint／mutual／confirmed）,
      sem:{學期:{zr,zq}}（A／B 誰先開口）, fy（方奕廷：declined／went／seeing）, f3, forceB, held（uk／fy）, version, datingDay, datingTerm, lastDay, month, ending}；
-     G.flags.ZZ_STATE（狀態的鏡像，給階梯、事件條件用 flagIs）、YT_SAW_ZZ_1、YT_SAW_ZZ_2、YT_HEARD_ZZ、YT_ZZ_FEEL。舊存檔沒有＝第一次跑到時建 {state:'friends'}，不改任何既有欄位。
-   測試：node tests/zrzq_line_unit.js */
+     G.flags.ZZ_STATE（狀態的鏡像，給階梯、事件條件用 flagIs）、ZZ_DATING（交往中＝true，閒聊階梯的 notFlags 用，AA_385 第 3 項）、YT_SAW_ZZ_1、YT_SAW_ZZ_2、YT_HEARD_ZZ、YT_ZZ_FEEL；
+     告訴祐廷的那一位記憶 ZZ_TOLD_YT。舊存檔沒有＝第一次跑到時建 {state:'friends'}，不改任何既有欄位。
+   測試：node tests/zrzq_line_unit.js、node tests/aa385_zz_unit.js */
 'use strict';
 const ZRZQ=(function(){
   const S={}, ZR='heroine_02', ZQ='heroine_04', BOTH=[ZR,ZQ];
@@ -34,11 +37,9 @@ const ZRZQ=(function(){
   const abroad=(G,day)=>typeof STORY!=='undefined'&&!!STORY.abroad&&STORY.abroad(day==null?G:Object.assign({},G,{day}));   /* 祐廷交換（日本、美國）人在國外 */
   const route=G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute?STORY.routeAbroadRoute(G):null;
   const atHome=G=>typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G);
-  const contact=(G,id)=>typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,id);
   const romOf=(G,id)=>((G.flags&&G.flags.romance)||{})[id]||null;   /* 只讀（不替沒有紀錄的人建一筆）*/
   const datingYT=(G,id)=>{ const F=G.flags||{}, R=romOf(G,id); return F['dating_'+id]===true||!!(R&&(R.status==='dating'||R.status==='paused')); };   /* paused＝對質後「等你說清楚」，還沒分開 */
   const lt=(G,d,h)=>h+(typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0);   /* 臺灣時間 → 玩家手機的時間（人在日本 +1）*/
-  const film=t=>typeof ZRZQ_FILM!=='undefined'?ZRZQ_FILM(t):String(t);   /* 「小津」→《秋天的晚飯》（AA_312 第 12 列）*/
   const evs=G=>{ if(!G.events||typeof G.events!=='object') G.events={done:{},last:{},count:0}; if(!G.events.done) G.events.done={}; if(!G.events.last) G.events.last={}; return G.events; };
 
   /* ---------- 存檔 ---------- */
@@ -53,6 +54,8 @@ const ZRZQ=(function(){
   S.dating=G=>!!(G&&G.flags&&G.flags.ZZ&&G.flags.ZZ.state==='dating');
   const LV=['none','hint','mutual','confirmed'];
   S.raise=(R,lv)=>{ if(LV.indexOf(lv)>LV.indexOf(R.yt||'none')) R.yt=lv; };   /* 23-4：祐廷知道多少只會變多 */
+  /* 狀態的鏡像：ZZ_STATE（flagIs 用）、ZZ_DATING（交往中＝true；企劃線閒聊階梯的 notFlags 用，AA_385 第 3 項：NO_DATE_ZZ、NO_ZZ_YET、4-1 第 5 句）*/
+  const mirror=(G,R)=>{ G.flags.ZZ_STATE=R.state; G.flags.ZZ_DATING=R.state==='dating'; };
 
   /* ---------- 三場的日子（4-0、23-2）：那學期的第幾週、星期幾、幾點；她們畢業以後（2028-06-03 以後）換地點與時間（4-0 第二張表）----------
      h＝觸發、meet＝事件時間（4-2 九點半離開總圖、21:50 相遇）、end＝時段結束（祐廷在別的事件、約會、睡覺：結束時還在時段內才演，過了就順延到下一個學期的同一天）*/
@@ -136,7 +139,7 @@ const ZRZQ=(function(){
       if(ctx.held){ R.state='held'; R.held='uk'; R.ev[id].held=true; if(seen) R.heldSeen=true; }
       else { R.state='dating'; R.datingDay=s.day; R.datingTerm=s.term; }
       if(seen){ F.YT_HEARD_ZZ=true; S.raise(R,'mutual'); } }
-    F.ZZ_STATE=R.state; };
+    mirror(G,R); };
 
   /* ---------- 4-2b：方奕廷 F3 那一晚（23-6）----------
      F3（r2y3b3d.js f3Go 記 FANG_F3_DAY：5/29，或延到 6/19）那時的狀態決定芷若的回答（ZZ.fy）和 4-2b 演哪一種：
@@ -159,19 +162,24 @@ const ZRZQ=(function(){
     return Object.assign({mode:'play'},s); };
   S.mindLines=function(G,s){ const M=L.MIND, a=M[s.ver==='dating'?'dating':(s.ver==='mutual'?'mutual':'first')]; return s.park?a.map(([w,t])=>[w,M.park[t]||t]):a; };
   S.mindSync=function(G){ const R=S.rec(G), m=S.mindDue(G); if(m&&m.mode==='skip') R.ev.ev_zz_zq_mind={day:m.day,seen:false,v:m.ver,park:!!m.park};
-    if(R.fy==='went'){ const s=S.mindSlot(G); if(s&&G.day>s.day){ R.fy='seeing'; R.state='held'; R.held='fy'; G.flags.ZZ_STATE=R.state; } } };   /* 看完電影以後：芷若選方奕廷（結局 C）*/
-  /* 第三節：婉拒（已經和子晴在交往）——Café 那四句（ev_zz_f3_told）；日本路線（人在國外）＝第七節第 6 點的訊息；方奕廷之後傳給祐廷三則 */
-  S.f3ToldDue=G=>{ const F=G.flags||{}, R=F.ZZ; return law(G)&&!!R&&R.fy==='declined'&&R.f3==='dating'&&F.FANG_F3_DAY!=null&&G.day>=F.FANG_F3_DAY&&!abroad(G)&&!(route(G)==='JP'&&abroad(G,F.FANG_F3_DAY)); };
+    if(R.fy==='went'){ const s=S.mindSlot(G); if(s&&G.day>s.day){ R.fy='seeing'; R.state='held'; R.held='fy'; mirror(G,R); } } };   /* 看完電影以後：芷若選方奕廷（結局 C）*/
+  /* 第三節：婉拒（已經和子晴在交往）——Café 那四句（ev_zz_f3_told）；方奕廷之後傳給祐廷三則。
+     日本路線（F3 那天祐廷在日本，f3Away）＝AA_385 第 7 項改當面：同 AA_296 ⑤（r2y3b3d.js S.F3_JP）——8/5 回國以後、9/1 以前第一次在 Café 找她說話，第一句前面加「你不在的時候，」；
+     那段時間都沒找她＝就沒有這一段（不補訊息）。原本第七節第 6 點的訊息版（zz_f3_jp）拿掉；舊存檔已經收到那四則的＝她已經說了，不再當面說 */
+  S.F3_JP={from:'2028-08-05',to:'2028-09-01'};   /* r2y3b3d.js 沒有 S.F3_JP 時的備用（同一組日子）*/
+  S.f3Away=G=>{ const F=G.flags||{}; return route(G)==='JP'&&F.FANG_F3_DAY!=null&&abroad(G,F.FANG_F3_DAY); };
+  S.f3ToldDue=G=>{ const F=G.flags||{}, R=F.ZZ; if(!(law(G)&&!!R&&R.fy==='declined'&&R.f3==='dating'&&F.FANG_F3_DAY!=null&&G.day>=F.FANG_F3_DAY&&!abroad(G))) return false;
+    if((G.msgs||[]).some(m=>m&&m.tag==='zz_f3_jp')) return false; if(!S.f3Away(G)) return true;
+    const W=(typeof R2Y3B!=='undefined'&&R2Y3B.F3_JP)||S.F3_JP, a=D(W.from), b=D(W.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
   S.f3Told=G=>{ const R=S.rec(G); S.raise(R,'confirmed'); S.coupleMem(G); };   /* 她自己說了「我跟子晴在一起」＝祐廷知道（23-4）*/
   S.cutMsg=function(G,tag){ if(typeof PHONE==='undefined'||!PHONE.rec) return false; if((G.msgs||[]).some(m=>m&&m.tag===tag)) return false;   /* 已經送到的不收回 */
     const P=PHONE.rec(G); let n=0; for(let i=P.q.length-1;i>=0;i--) if(P.q[i]&&P.q[i].tag===tag){ P.q.splice(i,1); n++; }
     if(!Array.isArray(P.cut)) P.cut=[]; if(!P.cut.includes(tag)) P.cut.push(tag); return n>0; };
   S.f3MsgSync=function(G){ const F=G.flags, R=S.rec(G); if(R.fy!=='declined'||F.FANG_F3_DAY==null||typeof PHONE==='undefined') return; const d=F.FANG_F3_DAY;
     S.cutMsg(G,'y3_zr_f3_jp');   /* r2y3b3d.js f3Go 日本路線那則「……我說好。」：婉拒的存檔不傳 */
-    if(R.f3==='dating'){
-      if(route(G)==='JP'&&abroad(G,d)&&met(G,ZR,'FAMILIAR')&&contact(G,ZR)) PHONE.at(G,d,lt(G,d,22+7/60),L.F3_TOLD_MSG.map(t=>({th:'p:'+ZR,from:ZR,text:film(t)})),'zz_f3_jp');
-      if(met(G,'npc_fangyt','FAMILIAR')) PHONE.at(G,d+1,lt(G,d+1,21),L.F3_FANG.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),'zz_f3_fang'); }
-    if(R.yt!=='confirmed'&&(G.msgs||[]).some(m=>m&&m.tag==='zz_f3_jp')){ S.raise(R,'confirmed'); S.coupleMem(G); } };
+    S.cutMsg(G,'zz_f3_jp');   /* AA_385 第 7 項：日本路線改回國以後當面說（上面 f3ToldDue）；舊存檔排著還沒收到的那四則收回（已經收到的不收回）*/
+    if(R.f3==='dating'&&met(G,'npc_fangyt','FAMILIAR')) PHONE.at(G,d+1,lt(G,d+1,21),L.F3_FANG.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),'zz_f3_fang');
+    if(R.yt!=='confirmed'&&(G.msgs||[]).some(m=>m&&m.tag==='zz_f3_jp')){ S.raise(R,'confirmed'); S.coupleMem(G); } };   /* 舊存檔已經收到那四則＝她說了，祐廷知道 */
 
   /* ---------- 4-7 祐廷得知（只在她們真的交往以後；23-3）----------
      4-4 之後的下一個學期第 2 週週五 14:30（入場同 4-4 的表）；4-4 在大三下 6/2（畢業前一天）＝6/3 畢業典禮（總圖前面）；祐廷不在台灣＝他回來以後的第一個週五；
@@ -189,11 +197,29 @@ const ZRZQ=(function(){
     return Object.assign({mode:'play'},c); };
   S.coupleMem=function(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.remember) return; if(!SOCIAL.has||!SOCIAL.has(ZR,'ZR_WITH_ZQ')) SOCIAL.remember(ZR,'ZR_WITH_ZQ',''); if(!SOCIAL.has||!SOCIAL.has(ZQ,'ZQ_WITH_ZR')) SOCIAL.remember(ZQ,'ZQ_WITH_ZR',''); };   /* 人物頁：她們的關係（knows）*/
 
+  /* ---------- 其中一人自己告訴祐廷（AA_385 第 4 節，ZZ_TOLD_YT）----------
+     不放進閒聊階梯：找她說話時先演，演完照常閒聊（story3d.js talkCharacter 問這裡，同 AA_379 2-3 的 SISY23.preTalk；芷若在吧檯上班也一樣，演完照常點餐）。
+     條件：她們在交往中；祐廷還不知道（yt 不是 confirmed）；和她 FRIEND 以上；兩人沒有一起被祐廷傷害過（ZQ_ZR_ENDED_DAY：她們不會主動告訴他）；
+     祐廷兩個都認識（子晴那一句說「芷若」、人物頁兩人各記一條，同 4-7）。誰先遇到就誰講，只講一次：記在講的那一位（記憶 ZZ_TOLD_YT）＝祐廷知道（confirmed，S.sync 也認）*/
+  S.TOLD_EV={[ZR]:'ev_zz_told_zr',[ZQ]:'ev_zz_told_zq'};
+  S.toldDue=function(G,id){ if(!law(G)||!S.TOLD_EV[id]||typeof SOCIAL==='undefined'||!SOCIAL.has) return false; const R=G.flags.ZZ;   /* 只讀（說話時每次都問，不替沒有 ZZ 的存檔建一筆）*/
+    if(!R||typeof R!=='object'||R.state!=='dating'||R.yt==='confirmed'||G.flags.ZQ_ZR_ENDED_DAY!=null) return false;
+    if(BOTH.some(x=>SOCIAL.has(x,'ZZ_TOLD_YT'))) return false;
+    return BOTH.every(x=>knows(G,x))&&stageAt(id,'FRIEND'); };
+  S.preTalk=async function(GM,id,o){ const G=GM&&GM.G; if(!G||!S.toldDue(G,id)||typeof EVENTS==='undefined'||!EVENTS.runLines) return false;
+    const eid=S.TOLD_EV[id], ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===eid):null; if(!ev) return false;
+    const R=S.rec(G), E=evs(G); E.done[eid]=(E.done[eid]||0)+1; E.last[eid]=G.day; R.ev[eid]={day:G.day,seen:true};
+    SOCIAL.remember(id,'ZZ_TOLD_YT',''); S.raise(R,'confirmed'); S.coupleMem(G);   /* 先記（同 SISY23.preTalk）：演到一半出錯也不會每次說話都重來 */
+    const sc=!!(o&&o.scene); if(sc&&GM.sceneBegin) GM.sceneBegin({adv:id});   /* scene：吧檯的店員那一條路還沒開對話（story3d.js 的點餐在後面）*/
+    try{ await EVENTS.runLines(ev.dialogue,ev); } finally { if(sc&&GM.sceneEnd) GM.sceneEnd(); }
+    return true; };
+
   /* ---------- 4-5、4-6：交往以後（沒有固定日子；4-5、4-6 合起來一個月最多一則，照順序，條件不到的先跳過）---------- */
   S.monthOk=G=>S.rec(G).month!==monthKey(G.day);
   const night=G=>hh(G)>=21||(+G.hour||0)>=24||hh(G)<5;
   S.DAILY_IF=[()=>true,()=>true,G=>G.weather==='rain'&&(hh(G)>=18||(+G.hour||0)>=24),()=>true,()=>true];   /* 第 3 則：Café 下雨的晚上 */
-  S.UK_IF=[G=>hh(G)>=3.5&&hh(G)<6,night,night,night];   /* 第 1 則：她那邊晚上九點＝臺灣凌晨四、五點；其他：一起熬夜 */
+  S.SUPPER=G=>G.zone==='gongguan'&&hh(G)>=22&&(+G.hour||0)<24;   /* 公館宵夜（23:00 前後，倫敦是下午）：祐廷在公館、子晴在公館的時段（characters.js 平日 22～24 點）*/
+  S.UK_IF=[S.SUPPER,night,night,night];   /* 第 1 則：AA_385 第 5 項改到公館宵夜（原本她那邊晚上九點＝臺灣凌晨四、五點，子晴的作息到 24:00 演不到）；其他：一起熬夜 */
   const firstOk=(G,pre,conds,n)=>{ for(let i=1;i<=conds.length;i++){ if(G.events&&G.events.done&&G.events.done[pre+i]) continue; if(!conds[i-1](G)) continue; return i===n; } return false; };
   S.dailyOk=function(G,n){ if(!law(G)) return false; const R=S.rec(G); if(R.state!=='dating'||!S.monthOk(G)||abroad(G)||!inTaipei(G,ZQ)) return false; if(G.flags&&G.flags.companion) return false;   /* 和別人一起來的（約好的見面）不插進來 */
     return firstOk(G,'ev_zz_daily_',S.DAILY_IF,n); };
@@ -219,11 +245,13 @@ const ZRZQ=(function(){
   /* ---------- 結局（第五節；23-7：遊戲結束時判定，尾聲加一行）---------- */
   S.ending=function(G){ const st=S.rec(G).state; if(st==='dating') return 'B'; if(['held','mutual_interest','feelings_emerging'].includes(st)) return 'C'; return 'A'; };
   S.endLine=function(G){ const R=S.rec(G), e=S.ending(G); R.ending=e;
-    if(e==='A'){ if(R.state==='friends'){ R.state='remain_friends'; G.flags.ZZ_STATE=R.state; } return null; }   /* 始終是最好的朋友：照兩人原本的尾聲，不加遺憾句 */
+    if(e==='A'){ if(R.state==='friends'){ R.state='remain_friends'; mirror(G,R); } return null; }   /* 始終是最好的朋友：照兩人原本的尾聲，不加遺憾句 */
     if(e==='B') return L.END.B;   /* 祐廷沒看過任何一場也一樣有（23-7）*/
     if(R.state==='held'&&R.held==='uk') return L.END.C_UK;
-    if(R.fy==='seeing') return null;   /* 選了方奕廷的 C：AA 還沒寫那一句（23-7），先不加 */
+    if(R.fy==='seeing') return null;   /* 選了方奕廷的 C：那一句旁白接在子晴那一句後面（下面包住的 PG.epiLine，AA_385 第 2 節），CG 以後不再加 */
     return L.END.C; };
+  /* 結局 C、芷若選了方奕廷（AA_385 第 2 節；英國那一版「她回來再說」優先，同上）：尾聲芷若、奕廷照他們自己那一版、子晴那一句後面多一句旁白 */
+  S.fyEnd=function(G){ const R=G&&G.flags&&G.flags.ZZ; return !!R&&typeof R==='object'&&R.fy==='seeing'&&!(R.state==='held'&&R.held==='uk')&&S.ending(G)==='C'; };
 
   /* ---------- 帶到場 ---------- */
   S.zoneCat=function(G){ const z=G.zone||''; if(atHome(G)) return 'home'; if(z==='cafe') return 'cafe'; if(['library','library_hall','lawlib','soclib'].includes(z)) return 'lib';
@@ -273,12 +301,12 @@ const ZRZQ=(function(){
   S.next=function(G){ if(!law(G)) return null; const m=S.mindDue(G); if(m&&m.mode==='play') return m; const d=S.due(G); if(d&&d.mode==='play') return d; return S.learnDue(G); };
 
   /* ---------- 每一輪（PHONE_RULES：在家、在日本、快轉也會跑）---------- */
-  S.sync=function(G){ if(!G||!G.flags) return; S._G=G; const R=S.rec(G); if(!law(G)){ G.flags.ZZ_STATE=R.state; return; }
+  S.sync=function(G){ if(!G||!G.flags) return; S._G=G; const R=S.rec(G); if(!law(G)){ mirror(G,R); return; }
     S.semSync(G); S.f3Sync(G); S.mindSync(G);
     const d=S.due(G); if(d&&d.mode==='unseen') S.resolve(G,d.key,d,false,d.key==='serious'?S.seriousCtx(G,d):{});
     S.f3MsgSync(G);
-    if(R.state==='dating'&&R.yt!=='confirmed'&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&BOTH.some(id=>knows(G,id)&&SOCIAL.has(id,'ZZ_TOLD_YT'))){ S.raise(R,'confirmed'); S.coupleMem(G); }   /* 23-4：其中一人自己告訴他（閒聊階梯的 mem ZZ_TOLD_YT，台詞 AA 寫好再接）*/
-    G.flags.ZZ_STATE=R.state; };
+    if(R.state==='dating'&&R.yt!=='confirmed'&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&BOTH.some(id=>knows(G,id)&&SOCIAL.has(id,'ZZ_TOLD_YT'))){ S.raise(R,'confirmed'); S.coupleMem(G); }   /* 23-4：其中一人自己告訴他（記憶 ZZ_TOLD_YT；AA_385 第 4 節，上面的 S.preTalk）*/
+    mirror(G,R); };
   /* ---------- 每 0.5 秒（STORY.TICKS）：回傳 true＝開始演了 ---------- */
   let busy=false; S._fail={};
   const go=(id,f)=>{ busy=true; S._p=Promise.resolve().then(f).catch(e=>{ console.warn('ZRZQ',id,e); S._fail[id]=true; }).finally(()=>{ busy=false; }); return true; };   /* S._p：測試等它演完；帶到場出錯＝這次遊戲不再試（不每 0.5 秒重來）*/
@@ -303,7 +331,8 @@ const ZRZQ=(function(){
     return out; };
 
   /* ---------- 掛上去 ---------- */
-  if(typeof CHARACTERS!=='undefined') for(const [a,b] of [[ZR,ZQ],[ZQ,ZR]]) if(CHARACTERS[a]&&!CHARACTERS[a].partner) CHARACTERS[a].partner={zz:b};   /* 23-5：她們交往中＝「她有交往的對象」 */
+  if(typeof CHARACTERS!=='undefined') for(const [a,b] of [[ZR,ZQ],[ZQ,ZR]]) if(CHARACTERS[a]&&!CHARACTERS[a].partner) CHARACTERS[a].partner={zz:b,soloOk:true};   /* 23-5：她們交往中＝「她有交往的對象」；
+     soloOk：只擋 L2／L3（校外約會）和告白，祐廷約她們吃飯、散步、一盞（invites3d.js 的 partnerBlock）照常——她們是朋友（AA_385 第 6 節；婉拒照系統現成那幾句，不換）*/
   if(typeof STORY!=='undefined'){
     if(STORY.partnerOn&&!STORY._zrzqPartner){ const p0=STORY.partnerOn; STORY.partnerOn=function(G,p){ if(p&&p.zz) return S.dating(G); return p0.apply(this,arguments); }; STORY._zrzqPartner=true; }
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.sync(G));
@@ -332,5 +361,13 @@ const ZRZQ=(function(){
     const k=A&&Array.isArray(A.keys)?A.keys.find(x=>x&&x.day==='07-05'):null; if(k&&Array.isArray(k.lines)&&!k._zrzq){ k.lines.push(G=>S.bkkLines(G)); k._zrzq=true; } }
   /* 尾聲：結局 B（明信片）、C（她回來再說／我們還沒想好）那一行 */
   if(typeof PG!=='undefined'&&Array.isArray(PG.EPI_AFTER_CG)) PG.EPI_AFTER_CG.push(async GM=>{ const t=S.endLine(GM.G); if(t) await GM.say(null,t); });
+  /* 尾聲：結局 C、芷若選了方奕廷（S.fyEnd；AA_385 第 2 節）——芷若、奕廷照他們自己那一版（postgrad3d.js epiLine 的 ZR_FY 那一列：zr.fy、fy.zr；問他們那一句時當成 ZR_FY，存檔不改）；
+     子晴那一句後面多一句旁白（L.END.C_FY；子晴不說破、不寫遺憾）——旁白寫的是三個人坐在一起：芷若、奕廷也在那一桌（epiPresent）、她們都不是祐廷的伴侶才加 */
+  if(typeof PG!=='undefined'&&PG.epiLine&&!PG._zrzq){ const e0=PG.epiLine; PG.epiLine=function(G,id){ const fy=(id===ZR||id===ZQ||id==='npc_fangyt')&&S.fyEnd(G), F=G.flags;
+      if(fy&&id!==ZQ&&!PG.dating(G,ZR)&&F.ZR_FY!==true){ const had=Object.prototype.hasOwnProperty.call(F,'ZR_FY'), old=F.ZR_FY; F.ZR_FY=true;
+        try{ return e0.apply(this,arguments); } finally { if(had) F.ZR_FY=old; else delete F.ZR_FY; } }
+      const out=e0.apply(this,arguments);
+      if(fy&&id===ZQ&&Array.isArray(out)&&!PG.dating(G,ZR)&&!PG.dating(G,ZQ)&&PG.epiPresent(G,ZR)&&PG.epiPresent(G,'npc_fangyt')) return out.concat([[null,L.END.C_FY]]);
+      return out; }; PG._zrzq=true; }
   return S;
 })();

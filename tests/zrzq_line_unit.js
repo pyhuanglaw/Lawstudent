@@ -1,10 +1,11 @@
-// 林芷若 × 高子晴：從摯友到戀人（條件式 NPC 感情線；企劃線 AA_232 afebee54、BB_194 §23、AA_243 第 2 節甲；src/data/zrzq_events.js、src/zrzq3d.js）——不需要瀏覽器。
+// 林芷若 × 高子晴：從摯友到戀人（條件式 NPC 感情線；企劃線 AA_232 088556ed、BB_194 §23、AA_243 第 2 節甲；src/data/zrzq_events.js、src/zrzq3d.js）——不需要瀏覽器。
+//   （AA_385 改的七題另外在 tests/aa385_zz_unit.js；這裡跟著改：稿換 088556ed、4-6 第 1 則改公館宵夜、日本路線婉拒改回國以後在 Café 當面說）
 //   0 接線（index.html、TICKS、PHONE_RULES、事件都在、src 沒有「小語」）　1 讀稿逐字對照（台詞每一句都在稿裡；稿上的對話每一句都有接）　2 三場的日期與時間（每學期同一週、同一個星期幾、同一個時間）
 //   3 自動播放（4-2：不管人在哪裡都帶到 Café 門口、入場旁白照位置、21:50）　4 順序（前一場沒播，後一場不播）、播過不重播
 //   5 4-3 朋友版／一般版、{課名}　6 4-4 A／B、甲（那學期在追其中一人＝只有 4-4 順延）　7 條件不成立＝順延到下學期同週同星期同時間（交往中、分手那學期、路線 B）
 //   8 她們畢業以後的版本（地點、入場旁白一起換）　9 祐廷在國外（交換）：世界照樣發生、沒有畫面；芷若在英國的學期跳過
 //   10 狀態推進到 dating、4-4「先這樣」（大二下）、交換回來以後的 4-4　11 4-7 祐廷得知只在 dating 以後（兩版、聽過 4-4 的第一句、畢業典禮那天）
-//   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線的訊息、方奕廷三則；r2y3b 的「我說好」不演）
+//   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線回國以後當面說、方奕廷三則；r2y3b 的「我說好」不演）
 //   14 互斥（她們交往中＝她有交往的對象；曖昧期照常）　15 舊存檔　16 結局（尾聲那一行）　17 4-5、4-6　18 手機子晴「芷若在英國」三則的標籤（AA_385 第 9 節）、在家、跳過時間的停點
 // 修改前（開發分支 b857600c）：ZRZQ 不存在，除了「稿上有」以外全部 FAIL。用法：node tests/zrzq_line_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -41,9 +42,9 @@ const txt=()=>said.map(s=>s.t), has=t=>said.some(s=>s.t===t);
 const exp=arr=>ZRZQ_TOLINES(arr).map(l=>l.text.replace(/\{name\}/g,'祐廷'));
 const seq=arr=>{ const want=exp(arr), got=txt(); for(let i=0;i+want.length<=got.length;i++) if(want.every((w,k)=>got[i+k]===w)) return true; return false; };   /* 一整段照順序連著出現 */
 const L=typeof ZRZQ_LINES!=='undefined'?ZRZQ_LINES:null;
-/* 稿：企劃線 AA_232（afebee54；沒有這個 commit 就用 origin/claude/story-planning）、BB_194 */
+/* 稿：企劃線 AA_232（088556ed＝AA_385 跟著改的版本；沒有這個 commit 就用 origin/claude/story-planning）、BB_194 */
 const show=(refs,p)=>{ for(const r of refs){ try{ return cp.execSync('git show "'+r+':'+p+'"',{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){} } return null; };
-const SPEC=show(['afebee54','origin/claude/story-planning'],'docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md');
+const SPEC=show(['088556ed','origin/claude/story-planning'],'docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md');
 const BB=show(['a90e8569','origin/claude/story-planning'],'docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md');
 const ZR='heroine_02', ZQ='heroine_04';
 
@@ -55,17 +56,17 @@ const ZR='heroine_02', ZQ='heroine_04';
     return [typeof ZRZQ!=='undefined'&&!!L&&ids.every(id=>STORY_EVENTS.some(e=>e.id===id))&&a>0&&b>a&&c>b&&z>c,[a,b,c,z].join(',')]; });
   await chk('0. 新檔沒有「小語」（Alison 改名，AA_380）、顯示的台詞沒有真實導演「小津」（AA_312 第 12 列：換成《秋天的晚飯》）',()=>{
     const src=['src/data/zrzq_events.js','src/zrzq3d.js'].map(f=>fs.existsSync(path.join(ROOT,f))?fs.readFileSync(path.join(ROOT,f),'utf8'):'').join('');
-    const shown=ZRZQ_EVENTS.flatMap(e=>(e.dialogue||[]).map(l=>l.text||'')).concat(L.F3_TOLD_MSG.map(ZRZQ_FILM),ZRZQ_TOLINES(L.MIND.first).map(l=>l.text));
+    const shown=ZRZQ_EVENTS.flatMap(e=>(e.dialogue||[]).map(l=>l.text||'')).concat(ZRZQ_TOLINES(L.F3_TOLD_JP).map(l=>l.text),ZRZQ_TOLINES(L.MIND.first).map(l=>l.text));
     return [src.length>0&&!/小語/.test(src)&&!shown.some(t=>/小津/.test(t))&&shown.some(t=>/《秋天的晚飯》/.test(t)),''];
   });
 
   /* ===================== 1 讀稿逐字 ===================== */
-  await chk('1. 稿讀得到（AA_232 afebee54、BB_194）',()=>[!!SPEC&&!!BB&&/林芷若 × 高子晴/.test(SPEC),'']);
+  await chk('1. 稿讀得到（AA_232 088556ed、BB_194）',()=>[!!SPEC&&!!BB&&/林芷若 × 高子晴/.test(SPEC),'']);
   const WHO={zr:'芷若',zq:'子晴',yt:'祐廷'};
   const flat=()=>{ const out=[]; const add=(arr,tag)=>{ for(const [w,t] of arr) out.push({w,t,tag}); };
     add(L.HOME,'4-2'); for(const k of ['first','mutual','dating']) add(L.MIND[k],'4-2b'); add(L.NEXT_FRIEND,'4-3'); add(L.NEXT,'4-3'); add(L.NEXT_END.plain,'4-3'); add(L.NEXT_END.friend,'4-3');
     for(const k of ['A','B','END','HELD','AGAIN','AGAIN_A']) add(L.SERIOUS[k],'4-4'); L.DAILY.forEach(d=>add(d,'4-5')); L.UK.forEach(d=>add(d,'4-6'));
-    add(L.LEARN.hurt,'4-7'); add(L.LEARN.friend,'4-7'); add(L.F3_TOLD,'三'); for(const t of L.F3_TOLD_MSG) out.push({w:'zr',t,tag:'七-6'});
+    add(L.LEARN.hurt,'4-7'); add(L.LEARN.friend,'4-7'); add(L.F3_TOLD,'三');   /* 七-6 的訊息版 AA_385 第 7 項拿掉了；日本路線那一版（F3_TOLD_JP）、ZZ_TOLD_YT（TOLD）、C_FY 只在 AA_385，tests/aa385_zz_unit.js 對稿 */
     for(const k of ['B','C_UK','C']) out.push({w:'n',t:L.END[k],tag:'五'}); return out; };
   await chk('1. 程式裡的每一句都在 AA_232 裡（人物：句子／「句子」／旁白原文；入場旁白、結局那一行、方奕廷三則、內心選項、4-7 第一句的改法也是）',()=>{
     if(!SPEC) return [false,'讀不到稿']; const bad=[];
@@ -88,13 +89,14 @@ const ZR='heroine_02', ZQ='heroine_04';
       '（萬才館門口。子晴在講電話。）':'（小公園門口。子晴在講電話。）','（萬才館門口。子晴在等人。芷若從溫州街那邊走過來。）':'（小公園的長椅。子晴在等人。芷若從巷口走過來。）',
       '（芷若勾住她的手臂。兩人往公館走。你在門口站了一下，才走另一邊。）':'（芷若勾住她的手臂。兩人往公館走。你在路燈下站了一下，才走另一邊。）'};
     return [okSpec&&J(P)===J(want),okSpec?'':'稿上找不到替換']; });
-  await chk('1. 稿上（4-2～七）每一句對話都有接進來（不接的：入場旁白的說明、被第九節取代的兩句開頭、4-6 兩人私下的原版（七-3：「想妳」不在祐廷面前）、4-7 作廢的第三版）',()=>{
+  await chk('1. 稿上（4-2～七）每一句對話都有接進來（不接的：入場旁白的說明、被第九節取代的兩句開頭、4-6 兩人私下的原版（七-3：「想妳」不在祐廷面前）、4-7 作廢的第三版、七-6 的訊息版（AA_385 第 7 項拿掉））',()=>{
     if(!SPEC) return [false,'讀不到稿']; const lines=SPEC.split('\n'), i0=lines.findIndex(s=>/^### 4-2\./.test(s)), i1=lines.findIndex(s=>/^## 五/.test(s)), i7=lines.findIndex(s=>/^## 七/.test(s)), i8=lines.findIndex(s=>/^## 八/.test(s));
     const i3=lines.findIndex(s=>/^## 三/.test(s)), i4=lines.findIndex(s=>/^## 四/.test(s));
-    const pick=(a,b)=>lines.slice(a,b).filter(s=>/^\s*>\s/.test(s)).map(s=>s.replace(/^\s*>\s*/,'').trim());
+    const pick=(a,b)=>lines.slice(a,b).filter(s=>/^\s*>\s/.test(s)).map(s=>s.replace(/^\s*>\s*/,'').trim().replace(/（20\d\d-\d\d-\d\d `AA_385` 第 \d+ 項：[^）]*）$/,''));   /* 088556ed：AA_385 改過的句子後面附了改字說明（不是台詞）*/
     const ex=['（入場旁白照第九節的表，依祐廷那時在哪裡挑一句。）','（公館。二輪戲院剛散場，你正要過馬路，看到子晴和芷若從門口走出來。）','（你經過醉月湖，聽到熟悉的聲音。轉角那邊是子晴和芷若。你停下來，她們沒看到你。）'];
     const iUK=lines.findIndex(s=>/^### 4-6/.test(s)), iUKend=lines.findIndex(s=>/^- AA 補：/.test(s)&&lines.indexOf(s)>iUK), i47=lines.findIndex(s=>/^### 4-7/.test(s)), iVoid=lines.findIndex(s=>/作廢/.test(s)&&lines.indexOf(s)>i47);
-    const voided=new Set(pick(iUK,iUKend).concat(lines.slice(iVoid,i1).filter(s=>/^\s*>\s/.test(s)&&lines.indexOf(s)<lines.findIndex((q,k)=>k>iVoid&&/^- 他之後/.test(q))).map(s=>s.replace(/^\s*>\s*/,'').trim())));
+    const i76=lines.findIndex(s=>/^6\. ~~\*\*F3 婉拒那四句的國外訊息版/.test(s)), i76end=lines.findIndex((s,k)=>k>i76&&!/^\s*>\s/.test(s));   /* 七-6 訊息版：AA_385 第 7 項拿掉（「下面這四句不用」）*/
+    const voided=new Set(pick(iUK,iUKend).concat(lines.slice(iVoid,i1).filter(s=>/^\s*>\s/.test(s)&&lines.indexOf(s)<lines.findIndex((q,k)=>k>iVoid&&/^- 他之後/.test(q))).map(s=>s.replace(/^\s*>\s*/,'').trim()),i76>0?pick(i76+1,i76end):[]));
     const all=pick(i3,i4).concat(pick(i0,i1),pick(i7,i8)).filter(s=>!ex.includes(s)&&!voided.has(s));
     const mine=new Set(flat().map(x=>{ const lab=WHO[x.w.slice(0,2)]; return lab?lab+'：'+x.t:x.t; }));
     const miss=all.filter(s=>!mine.has(s));
@@ -253,12 +255,13 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('13. 對照：芷若接受（曖昧期去看了）＝r2y3b 那一場照演',()=>{
     fresh('2028-05-30',15,'cafe'); both('FAM'); zz({state:'feelings_emerging',since:0,lastDay:D('2028-03-08')}); Object.assign(G.flags,{FANG_F3_DAY:D('2028-05-29'),FANG_F3:'bought'}); rules();
     return [R2Y3B.f3CafeDue(G)===true&&!EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_zz_f3_told')),'']; });
-  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」不會出現（AA_296 ⑤ 起日本路線本來就不排；排了也會收回），改成第七節第 6 點的四則訊息（22:07 當地）；方奕廷熟悉以上＝隔天 21:00 三則',async()=>{
+  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」不會出現（AA_296 ⑤ 起日本路線本來就不排；排了也會收回）；芷若不傳訊息（七-6 的訊息版 AA_385 第 7 項拿掉），8/5 回國以後在 Café 當面說（「你不在的時候，」那一版，tests/aa385_zz_unit.js）；方奕廷熟悉以上＝隔天 21:00 三則',async()=>{
     fresh('2028-05-29',21.2,'dorm',{EXCHANGE_ROUTE:'JP'}); both('FAM'); R('npc_fangyt','FAM'); G.contacts[ZR]=1; zz({state:'dating',since:0,lastDay:D('2026-06-05'),datingDay:D('2026-06-05'),datingTerm:'Y1S2'});
     R2Y3B.f3Go(G,G.day); const q0=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp'); rules(); const q1=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp');
     at('2028-05-29',23.5); rules(); at('2028-05-30',22.5); rules();
     const zr=(G.msgs||[]).filter(m=>m.th==='p:heroine_02').map(m=>m.text), fy=(G.msgs||[]).filter(m=>m.tag==='zz_f3_fang'||m.th==='p:npc_fangyt').map(m=>m.text);
-    return [!q1&&J(zr)===J(['奕廷約我去看《秋天的晚飯》。','我說不行。我跟子晴在一起。','他回「好」，然後傳了一大段那個導演的事。','他人很好。'])&&L.F3_FANG.every(t=>fy.includes(t))&&G.flags.ZZ.yt==='confirmed',J({q0,q1,zr,fy})]; });
+    const ev=STORY_EVENTS.find(e=>e.id==='ev_zz_f3_told'), d0=!EVENTS.check(ev); at('2028-08-05',15); G.zone='cafe'; rules(); const d1=EVENTS.check(ev);
+    return [!q1&&!zr.length&&L.F3_FANG.every(t=>fy.includes(t))&&G.flags.ZZ.yt!=='confirmed'&&d0&&d1,J({q0,q1,zr,fy,yt:G.flags.ZZ.yt,d0,d1})]; });
 
   /* ===================== 14 互斥 ===================== */
   await chk('14. 她們交往中（dating）＝「她有交往的對象」：校外約會、告白不出現（DATE）；互相喜歡（mutual_interest）時照常',()=>{
@@ -291,11 +294,11 @@ const ZR='heroine_02', ZQ='heroine_04';
     const b=!EVENTS.check(e(2)); at('2026-10-05',19); const c=EVENTS.check(e(2))&&!EVENTS.check(e(3)); await EVENTS.run(e(2));
     at('2026-11-05',19); const d=!EVENTS.check(e(3))&&EVENTS.check(e(4)); G.weather='rain'; const f=EVENTS.check(e(3))&&!EVENTS.check(e(4));
     return [a&&a2&&b&&c&&d&&f,J({a,a2,b,c,d,f})]; });
-  await chk('17. 4-6：芷若在英國（大三上）、找子晴說話：晚上＝她給祐廷看的那幾則；臺灣凌晨四點多＝第七節第 3 點那一段（「想妳」「我也是」不在祐廷面前）',async()=>{
-    fresh('2027-10-13',22,'gongguan'); both('FRI'); zz({state:'dating',since:0,yt:'confirmed'});
+  await chk('17. 4-6：芷若在英國（大三上）、找子晴說話：晚上＝她給祐廷看的那幾則；公館宵夜（22:00～24:00）＝第七節第 3 點那一段（AA_385 第 5 項，原本臺灣凌晨四點多；「想妳」「我也是」不在祐廷面前）',async()=>{
+    fresh('2027-10-13',21.5,'dorm'); both('FRI'); zz({state:'dating',since:0,yt:'confirmed'});
     const e=i=>STORY_EVENTS.find(x=>x.id==='ev_zz_uk_'+i), a=!EVENTS.check(e(1))&&EVENTS.check(e(2)); said=[]; await EVENTS.run(e(2)); const a2=said.length===2&&said[0].who==='高子晴（手機）'&&said[1].who==='林芷若（手機）';
-    at('2027-11-13',28.3); const b=EVENTS.check(e(1)); said=[]; await EVENTS.run(e(1));
-    return [a&&a2&&b&&seq(L.UK[0])&&!has('想妳。')&&!has('我也是。'),J({a,a2,b,said})]; });
+    at('2027-11-13',28.3); const b0=!EVENTS.check(e(1)); at('2027-11-15',23); G.zone='gongguan'; const b=EVENTS.check(e(1)); said=[]; await EVENTS.run(e(1));
+    return [a&&a2&&b0&&b&&seq(L.UK[0])&&!has('想妳。')&&!has('我也是。'),J({a,a2,b0,b,said})]; });
 
   /* ===================== 17b 曼谷（AA_244）===================== */
   const A244=show(['2d3a0735','origin/claude/story-planning'],'docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md');
