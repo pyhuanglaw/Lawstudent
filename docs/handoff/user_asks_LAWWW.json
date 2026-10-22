@@ -890,6 +890,24 @@
    "status": "進行中",
    "task": "ART-ZR-CAFE-PORTRAIT-1022",
    "note": "iPhone 截圖：Café 當班（圍裙版）立繪。查到 assets/portraits/heroine_02/cafe/neutral.webp 是最早的低解析度立繪放大的（銳利度 58，全部 133 張最低；手臂旁、兩腿間有白邊）。先關掉當班自動換圍裙版（adv3d.js A.CAFE_APRON=false），當班也用清楚的平常那一套；BB 照 D97 寫提示詞跟使用者要高解析度圍裙版"
+  },
+  {
+   "id": "UA-LAWWW-1022-04",
+   "at": "2026-10-22T15:0x",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-A-1022",
+   "note": "P0 換班口令：停止一般開發（背景全部單元測試停在 nav_soclib，前面都過）、交班保存"
+  },
+  {
+   "id": "UA-LAWWW-1022-05",
+   "at": "2026-10-22T15:0x",
+   "quote": "你要等其他AI都交班之後做最後檢查 才交班",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-A-1022",
+   "note": "和 AI_SESSION_HANDOFF.md 第 5 節「LAWWW 最後做」一致；已通知 LAWWW2、AA、BB 交班、回報 SHA；收齊後 duty sync、check、incr、roles、asks，再 snapshot、duty handoff"
   }
  ]
 }
