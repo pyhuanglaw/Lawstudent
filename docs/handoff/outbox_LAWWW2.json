@@ -1400,13 +1400,13 @@
    "files": [
     "docs/art-rebuild/second_ai/patches/licenses_gaps_1022.diff"
    ],
-   "state": "已交付",
+   "state": "已驗收",
    "remaining": "",
-   "next": "LAWWW 套 licenses_gaps_1022.diff（對開發分支 2181fe4d 的 LICENSES.md git apply 乾淨；取代 10-21 的 lic_gaps_dorm_room4.diff，兩份不要都套）",
+   "next": "已接進開發分支 4d3a305d（10-21 那份沒套，不重複）；ntu_gym_ceremony.webp、gym_arena.glb 開發分支本來就有 → 四項缺漏齊了，任務已驗收｜原 next：LAWWW 套 licenses_gaps_1022.diff（對開發分支 2181fe4d 的 LICENSES.md git apply 乾淨；取代 10-21 的 lic_gaps_dorm_room4.diff，兩份不要都套）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "核對結果：ntu_gym_ceremony.webp、gym_arena.glb 開發分支已經有（第 261、262 行）；缺的是 dorm_room4.glb（四人房，取代雙人房 dorm_interior.glb）→ 補一列（來源腳本、Poly Haven 五張 CC0、PIL 畫的名牌）｜10-22 09:3x 第二次（LAWWW 08:34：開發分支還是沒有 dorm_room4.glb、機車行道具組）：licenses_gaps_1022.diff 只在「第二個 AI」那一節最後追加 6 列——dorm_room4.glb（腳本、PIL 名牌、Poly Haven 五張）、Poly Haven metal_plate（Rob Tuytel）、green_metal_rust（Rob Tuytel）、rusty_painted_metal（Amal Kumar）、rubber_tiles（Amal Kumar）（作者用 Poly Haven API 核對）、機車行道具組（BB-B 做、LAWWW2-B 驗收 d9388b2a；檔案還沒進開發分支，那一列寫「目前沒有畫面用到」）"
+   "ack": "ACTIONED",
+   "note": "核對結果：ntu_gym_ceremony.webp、gym_arena.glb 開發分支已經有（第 261、262 行）；缺的是 dorm_room4.glb（四人房，取代雙人房 dorm_interior.glb）→ 補一列（來源腳本、Poly Haven 五張 CC0、PIL 畫的名牌）｜10-22 09:3x 第二次（LAWWW 08:34：開發分支還是沒有 dorm_room4.glb、機車行道具組）：licenses_gaps_1022.diff 只在「第二個 AI」那一節最後追加 6 列——dorm_room4.glb（腳本、PIL 名牌、Poly Haven 五張）、Poly Haven metal_plate（Rob Tuytel）、green_metal_rust（Rob Tuytel）、rusty_painted_metal（Amal Kumar）、rubber_tiles（Amal Kumar）（作者用 Poly Haven API 核對）、機車行道具組（BB-B 做、LAWWW2-B 驗收 d9388b2a；檔案還沒進開發分支，那一列寫「目前沒有畫面用到」）｜LAWWW 09:37：licenses_gaps_1022.diff 套上，任務標「已驗收」"
   },
   {
    "task": "GRADE-GOLDEN-DEFAULT",
@@ -2070,13 +2070,13 @@
     "docs/art-rebuild/second_ai/patches/ceiling_more.diff（tests/room_ceiling_unit.js）",
     "docs/art-rebuild/second_ai/test_shots/ceil_more_1022/（README、rooms_max_before_after、rooms_default_before_after、classroom_grid、apmk_before_after）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "鏡頭在天花板上面時燈具從上面看是浮著的（和其他室內一樣）；霖澤館二樓看得到電梯車廂頂；博雅、普通、總圖 3F、法圖一樓的格子（我的 GLB，P3）沒改；真機沒看過",
-   "next": "LAWWW：git apply patches/ceiling_more.diff（只有 tests/room_ceiling_unit.js，對 2181fe4d 乾淨）＋換四份 GLB（assets/models/env/，同檔名），跑 room_ceiling_unit、nav_buildings_unit；遊戲程式不用改",
+   "next": "已接進開發分支 4d3a305d（放 v9.10.6；任務「已整合待測試」，BB 瀏覽器看）；場景美術等使用者驗收；第二版（燈板、燈箱＋博雅／普通／總圖 3F／法圖）另一筆｜原 next：LAWWW：git apply patches/ceiling_more.diff（只有 tests/room_ceiling_unit.js，對 2181fe4d 乾淨）＋換四份 GLB（assets/models/env/，同檔名），跑 room_ceiling_unit、nav_buildings_unit；遊戲程式不用改",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "四間雙指拉到最遠（6 m）、最陡（俯角 1.05）時整個畫面是天花板的背面 → 天花板材質單面（四邊形本來就朝下）。201 只改天花板以後，T 型骨架（方盒，57 條）從上面看是一整片白格子 → 只留底面、單面朝下（三角形 684→114）。dorm_hall、linze、wancai 幾何資料逐位元組相同，只少了雙面；201 其他 28 個網格、17 張貼圖逐位元組相同。room_ceiling_unit：新測試＋開發分支的四份 FAIL 8 → 新的四份 ALL PASS（33 份 GLB）；開發分支的測試＋新的四份 ALL PASS；nav_buildings ALL PASS。遊戲內前後 j42（5aa16a70）、j43（2181fe4d，201 最後一版）：最遠最陡四間都從整片白變成看得進房間；預設鏡頭四間不變。READY_FOR_ART_REVIEW"
+   "ack": "ACTIONED",
+   "note": "四間雙指拉到最遠（6 m）、最陡（俯角 1.05）時整個畫面是天花板的背面 → 天花板材質單面（四邊形本來就朝下）。201 只改天花板以後，T 型骨架（方盒，57 條）從上面看是一整片白格子 → 只留底面、單面朝下（三角形 684→114）。dorm_hall、linze、wancai 幾何資料逐位元組相同，只少了雙面；201 其他 28 個網格、17 張貼圖逐位元組相同。room_ceiling_unit：新測試＋開發分支的四份 FAIL 8 → 新的四份 ALL PASS（33 份 GLB）；開發分支的測試＋新的四份 ALL PASS；nav_buildings ALL PASS。遊戲內前後 j42（5aa16a70）、j43（2181fe4d，201 最後一版）：最遠最陡四間都從整片白變成看得進房間；預設鏡頭四間不變。READY_FOR_ART_REVIEW｜LAWWW 09:37 ACK：照 63d4a3e3 接進 4d3a305d（在 3256ce62 舊 GLB 上 room_ceiling FAIL 8，換新四份 ALL PASS；rooms_glb、nav_buildings、cafe／dorm seethru ALL PASS）"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",
@@ -2088,13 +2088,13 @@
     "docs/art-rebuild/second_ai/patches/us_campus_shelter.diff（src/us3d.js 一行、tests/us_campus_shelter_unit.js）",
     "docs/art-rebuild/second_ai/test_shots/us_campus_shelter_1022/（README、shelter_before_after）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "屋頂從上面看是一片平的淺灰（沒有接縫、排水溝）；候車亭在畫面裡時多一次 draw call；真機沒看過",
-   "next": "LAWWW：git apply patches/us_campus_shelter.diff（對 2181fe4d 乾淨）＋換 us_campus.glb、us_campus.json，跑 us_campus_shelter_unit、us_ms_seethru_unit、nav_buildings_unit",
+   "next": "已接進開發分支 4d3a305d（DL-LAWWW2-63d4a3e3-shelter）；場景美術等使用者驗收｜原 next：LAWWW：git apply patches/us_campus_shelter.diff（對 2181fe4d 乾淨）＋換 us_campus.glb、us_campus.json，跑 us_campus_shelter_unit、us_ms_seethru_unit、nav_buildings_unit",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "美國巡場景重拍（j38b us_campus_spawn_3）看到的 P2，LAWWW 09:00「候車亭屋頂全黑那件你修就好」：屋頂原本和柱子同一個深灰金屬 usu_steel（遊戲沒有環境貼圖，從上面看幾乎是黑的）→ 自己一個材質 usu_shelter_roof（淺灰烤漆鋁板 #b4b8bb、金屬度 0.1）；us3d.js SEE_MATS 加 us_campus（usu_steel、usu_shelter_glass、usu_shelter_roof 擋人時網點透空，和超市街站牌柱同一套）。GLB 三角形不變（132,611：usu_steel 140→128、屋頂 12）、材質 74→75。us_campus_shelter_unit：開發分支 FAILED 3 → ALL PASS；us_ms_seethru_unit、nav_buildings ALL PASS。遊戲內前後 j42、j44。READY_FOR_ART_REVIEW"
+   "ack": "ACTIONED",
+   "note": "美國巡場景重拍（j38b us_campus_spawn_3）看到的 P2，LAWWW 09:00「候車亭屋頂全黑那件你修就好」：屋頂原本和柱子同一個深灰金屬 usu_steel（遊戲沒有環境貼圖，從上面看幾乎是黑的）→ 自己一個材質 usu_shelter_roof（淺灰烤漆鋁板 #b4b8bb、金屬度 0.1）；us3d.js SEE_MATS 加 us_campus（usu_steel、usu_shelter_glass、usu_shelter_roof 擋人時網點透空，和超市街站牌柱同一套）。GLB 三角形不變（132,611：usu_steel 140→128、屋頂 12）、材質 74→75。us_campus_shelter_unit：開發分支 FAILED 3 → ALL PASS；us_ms_seethru_unit、nav_buildings ALL PASS。遊戲內前後 j42、j44。READY_FOR_ART_REVIEW｜LAWWW 09:37 ACK：us_campus_shelter.diff、us_campus.glb／.json、us_campus.py 接進 4d3a305d；舊版 FAILED 3 → ALL PASS，us_ms_seethru＋us_* 九支 ALL PASS"
   }
  ]
 }
