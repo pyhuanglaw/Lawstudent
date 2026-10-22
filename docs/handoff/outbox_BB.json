@@ -1075,11 +1075,12 @@
     "docs/story_planning/test_tools/aa378_probe.py"
    ],
    "state": "WIP",
-   "remaining": "9/5、9/3 10:00 閱覽室，腳本在 NPC 清單裡找不到學姊（四段都是）：查是她沒生成還是腳本找錯（診斷排在下一支）；大廳二樓：她的作息沒有大廳那一格，正常玩遇不到",
-   "next": "診斷完重跑 MEET 四段",
+   "remaining": "9/4 以前那一句：9/3 是開場劇情（閱覽室不生成她），改 9/2 重跑（排在佇列）",
+   "next": "aa378pre（MEET_PRE 9/2）跑完就交",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "未派",
+   "note": "使用者自己的存檔 9/24（使用者卡住的情況）PASS：從大廳走進 3F，找她說話直接演第一次見面、演完認識、手機有她；新局 9/5 PASS；已認識的照一般閒聊＋約她去… PASS"
   },
   {
    "task": "INV-BOTH-PRESENT-1021",
