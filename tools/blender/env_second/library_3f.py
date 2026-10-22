@@ -56,8 +56,8 @@ M = {
     'chairwood': L.pbr('l3_chair_wood', 'walnut_veneer', tile=0.8, target='#9c7552', maps=('diff',), res=256, rough_value=0.55),   # fine_grained_wood 在椅子上像軟木塞（第一版的渲染）
     'ceil': L.pbr('l3_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
     'seat': L.flat('l3_seat_fabric', '#34493d', rough=0.9),
-    'tbar': L.flat('l3_ceiling_grid', '#dcdcd8', rough=0.5),
-    'light': L.flat('l3_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
+    'tbar': L.flat('l3_ceiling_grid', '#dcdcd8', rough=0.5, cull=True),   # 輕鋼架、燈框只做底面、單面朝下（LAWWW2 10-22：鏡頭拉到最遠最陡、在天花板上面時看不到）
+    'light': L.flat('l3_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc'), cull=True),
     'cornice': L.flat('l3_cornice', '#e9e2d3', rough=0.8),
     'base': L.flat('l3_baseboard', '#3a2a1e', rough=0.6),
     'frame': L.flat('l3_window_frame', '#3a3d40', rough=0.45, metal=0.3),
@@ -145,15 +145,15 @@ mk('floor').box(XI0, XI1, -0.03, 0.0, ZI0, ZI1)
 hquad(mk('ceil'), XI0, XI1, ZI0, ZI1, H)
 gx = XI0 + 0.25
 while gx < XI1 - 0.1:                                                          # 輕鋼架（60 cm）
-    mk('tbar').box(gx - 0.012, gx + 0.012, H - 0.012, H, ZI0, ZI1); gx += 0.6
+    hquad(mk('tbar'), gx - 0.012, gx + 0.012, ZI0, ZI1, H - 0.012); gx += 0.6   # 只做底面（原本 1.2 cm 高的方盒，從上面看是浮著的白線）
 gz = ZI0 + 0.1
 while gz < ZI1 - 0.1:
-    mk('tbar').box(XI0, XI1, H - 0.012, H, gz - 0.012, gz + 0.012); gz += 0.6
+    hquad(mk('tbar'), XI0, XI1, gz - 0.012, gz + 0.012, H - 0.0125); gz += 0.6   # 低 0.5 mm：交叉的地方不疊面
 for (tx, tz) in TABLES:                                                        # 長桌正上方一條長燈（沿桌子長邊）
-    mk('tbar').box(tx - 2.24, tx + 2.24, H - 0.03, H - 0.006, tz - 0.16, tz + 0.16)
+    hquad(mk('tbar'), tx - 2.24, tx + 2.24, tz - 0.16, tz + 0.16, H - 0.03)   # 燈框：只做底面
     hquad(mk('light'), tx - 2.2, tx + 2.2, tz - 0.12, tz + 0.12, H - 0.031)
 for (cx, cz) in [(0.0, -5.4), (0.0, -1.2), (0.0, 2.4), (0.0, 6.2), (-8.6, 6.4), (8.6, 6.4), (-8.4, -5.8), (8.4, -5.8), (-8.4, 0.6), (-8.4, 3.0), (7.6, 3.6), (7.6, -4.2)]:   # 走道的方燈
-    mk('tbar').box(cx - 0.64, cx + 0.64, H - 0.02, H - 0.004, cz - 0.34, cz + 0.34)
+    hquad(mk('tbar'), cx - 0.64, cx + 0.64, cz - 0.34, cz + 0.34, H - 0.02)   # 燈框：只做底面
     hquad(mk('light'), cx - 0.6, cx + 0.6, cz - 0.3, cz + 0.3, H - 0.021)
 for (cx, cz) in [(-4.0, -5.2), (4.0, -5.2), (-4.0, 6.4), (4.0, 6.4), (0.0, 0.6)]:   # 冷氣出風口（方形、四方向的格柵）
     g = mk('grille'); g.box(cx - 0.3, cx + 0.3, H - 0.025, H - 0.005, cz - 0.3, cz + 0.3)

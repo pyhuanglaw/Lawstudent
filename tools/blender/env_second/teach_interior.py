@@ -41,8 +41,8 @@ M = {
     'part': L.flat('tb_partition', '#e9e4d9' if WARM else '#ebe9e3', rough=0.9),
     'base': L.flat('tb_baseboard', '#5a5650', rough=0.6),
     'ceil': L.pbr('tb_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
-    'tbar': L.flat('tb_ceiling_grid', '#dcdcd8', rough=0.5),
-    'light': L.flat('tb_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
+    'tbar': L.flat('tb_ceiling_grid', '#dcdcd8', rough=0.5, cull=True),   # 輕鋼架、燈框只做底面、單面朝下（LAWWW2 10-22：鏡頭拉到最遠最陡、在天花板上面時看不到）
+    'light': L.flat('tb_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc'), cull=True),
     'granite': L.pbr('tb_stair_granite', 'granite_tile_03', tile=1.2, target='#8f8b85', sat=0.4, normal=0.4, maps=('diff', 'nor'), rough_value=0.4),
     'nosing': L.flat('tb_nosing', '#34363a', rough=0.7),
     'steel': L.flat('tb_steel', '#c9ccd0', rough=0.28, metal=0.45),
@@ -103,14 +103,14 @@ def ceiling(lv, y, rects):
         hquad(mk(lv, 'ceil'), x0, x1, z0, z1, y)
         k = math.ceil((x0 - XI0) / 0.6 + 1e-6)
         while XI0 + k * 0.6 < x1 - 0.05:
-            x = XI0 + k * 0.6; mk(lv, 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
+            x = XI0 + k * 0.6; hquad(mk(lv, 'tbar'), x - 0.012, x + 0.012, z0, z1, y - 0.012); k += 1   # 只做底面（原本 1.2 cm 高的方盒，從上面看是浮著的白線）
         k = math.ceil((z0 - ZI0) / 0.6 + 1e-6)
         while ZI0 + k * 0.6 < z1 - 0.05:
-            z = ZI0 + k * 0.6; mk(lv, 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
+            z = ZI0 + k * 0.6; hquad(mk(lv, 'tbar'), x0, x1, z - 0.012, z + 0.012, y - 0.0125); k += 1   # 低 0.5 mm：交叉的地方不疊面
     for x in LP['xs']:
         for z in LP['zs']:
             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
-            mk(lv, 'tbar').box(x - 0.62, x + 0.62, y - 0.02, y - 0.004, z - 0.17, z + 0.17)
+            hquad(mk(lv, 'tbar'), x - 0.62, x + 0.62, z - 0.17, z + 0.17, y - 0.02)   # 燈框：只做底面
             hquad(mk(lv, 'light'), x - 0.6, x + 0.6, z - 0.15, z + 0.15, y - 0.021)
 ceiling(0, C0, [(XI0, XI1, WL['z1'], ZI1), (XI0, WL['x0'], ZI0, WL['z1']), (WL['x1'], XI1, ZI0, WL['z1']), (WL['x0'], WL['x1'], ZI0, WL['z0'])])
 for (a, b, c, d) in ((WL['x0'], WL['x1'], WL['z0'] - 0.02, WL['z0']), (WL['x0'], WL['x1'], WL['z1'], WL['z1'] + 0.02)):

@@ -40,7 +40,7 @@ MAT = {
     'screen':  B.pbr('cls_screen', None, tint=B.srgb('#f4f3ef'), rough=0.9),
     'frame':   B.pbr('cls_frame', None, tint=B.srgb('#c9ccd0'), rough=0.35, metal=0.6),
     'glass':   B.pbr('cls_glass', None, tint=B.srgb('#c4d6dc'), rough=0.05, alpha=0.25),
-    'light':   B.pbr('cls_light', None, tint=B.srgb('#fffaf0'), rough=0.9, emit=B.srgb('#fff8ea')),
+    'light':   B.pbr('cls_light', None, tint=B.srgb('#fffaf0'), rough=0.9, emit=B.srgb('#fff8ea'), cull=True),   # 燈箱也只做底面、單面朝下（LAWWW2 10-22）
 }
 root = B.group('Classroom201')
 
@@ -132,7 +132,7 @@ while gz <= D / 2 + 1e-6:
 for i in range(4):
     for j in range(6):
         cx, cz = -5.4 + i * 3.6, -7.0 + j * 2.8
-        B.box(f'light_{i}_{j}', MAT['light'], cx - 0.6, cx + 0.6, H - 0.04, H - 0.02, cz - 0.15, cz + 0.15, root)
+        B.quad(f'light_{i}_{j}', MAT['light'], [(cx - 0.6, H - 0.04, cz - 0.15), (cx + 0.6, H - 0.04, cz - 0.15), (cx + 0.6, H - 0.04, cz + 0.15), (cx - 0.6, H - 0.04, cz + 0.15)], root)   # 原本 2 cm 厚的方盒：只留底面
 
 B.join_by_material(root, 'CLS', keep=lambda ob: 'WALL_' in ob.name or ob.name.startswith('seat_'))
 B.export(OUT, ROOT, gpu_instances=True)
