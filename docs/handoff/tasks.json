@@ -28638,6 +28638,64 @@
    "source": "使用者 2026-10-22 03:4x（UA-LAWWW-1022-03）",
    "authorized": "使用者直接回報",
    "next": "【LAWWW（帳號 A）2026-10-22 03:4x】①先關掉當班自動換圍裙版（src/adv3d.js A.CAFE_APRON=false），當班也用平常那一套（campus，清楚）；②BB 照 D97 寫提示詞跟使用者要高解析度的圍裙版（和 campus 同一張臉、同構圖）；收到後換上 cafe/neutral.webp、A.CAFE_APRON 改 true"
+  },
+  {
+   "id": "ART-VAC-AIRPORT-1021",
+   "title": "3D 機場第二版（桃園機場出境／入境大廳；交換出發、送機、寒暑假出國共用）：報到島背牆、帷幕框、輸送帶、窗外遠景；鏡頭碰撞與夜間（airport_cam_night.diff）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v4",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "第一次出國（寒暑假出國活動或交換出發）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）outbox 4edb06b5（10-22 04:46 訊息）；接 VAC-A2",
+   "authorized": "D108（場景程式歸 LAWWW2）、D99 第三（美國交換）",
+   "next": "【LAWWW（帳號 A）2026-10-22 04:4x】93967011 已套進開發分支 1c53b397（airport_cam_night.diff 第二版＋airport_dep／arr.glb）；單元測試 airport_cam_unit＋美國區域 11 支等 v9.10.4 發布測試跑完；19 換匯處背光偏暗＝LAWWW2 下一輪；建築、場景的 ART_APPROVED 只有使用者能標",
+   "xai": {
+    "spec": "LAWWW2 README test_shots/airport_1021",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "j15b 前後對照；單元測試全過",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": "93967011"
+  },
+  {
+   "id": "US-MS-NIGHT-1021",
+   "title": "美國街道路燈的地面光圈（晚上 20:00 前後；us_lamp_pools.diff）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "area": "v4",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國交換晚上走在街上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）outbox 4edb06b5（10-22 04:46 訊息）",
+   "authorized": "D108、D99 第三",
+   "next": "【LAWWW（帳號 A）2026-10-22 04:4x】93967011 已套進開發分支 1c53b397；單元測試 us_lamp_pools_unit、nav_us_unit 等 v9.10.4 發布測試跑完",
+   "xai": {
+    "spec": "LAWWW2 README test_shots/us_lamp_pools_1022",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "20:00 前後截圖；單元測試全過",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": "93967011"
   }
  ]
 }
