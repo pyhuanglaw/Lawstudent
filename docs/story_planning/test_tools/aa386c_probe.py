@@ -787,12 +787,12 @@ async def opts2(pg):
 
 async def book_day(pg, cdp, run, sid, res):
     """手機「朋友」→ 她的「約」→ 去校外… → 第一個能選的一日遊地點 → 交通 → 第一個能選的日子 → 第一個能選的出發時間 → 就這樣約。回傳 (約好了, 每一層)"""
-    levels = []; res.setdefault('book', []).append(levels)
+    levels = []; res.setdefault('book', []).append(levels); tried = set()
     await L.phone_away(pg, cdp); await phone_tab(pg, cdp, 'friends')
     got = await tap_sel_js(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
     if not got:
         row = await pg.evaluate("((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\n/g,'｜').slice(0,300)"); levels.append(['（手機「朋友」沒有她的「約」）', row]); await L.phone_away(pg, cdp); return False, levels
-    for _ in range(10):
+    for _ in range(16):
         t0 = time.time(); ops = None
         while time.time() - t0 < 40:
             s = await L.state(pg)
@@ -803,7 +803,11 @@ async def book_day(pg, cdp, run, sid, res):
         tx = [o['t'] for o in ops]; levels.append(tx); say('   %s 約：%s' % (sid, [x[:16] for x in tx]))
         k = next((i for i, x in enumerate(tx) if x.startswith('就這樣約')), None)
         if k is None: k = next((i for i, x in enumerate(tx) if x.startswith('去校外')), None)
+        if k is None and any(x.startswith(('今天 ', '明天 ')) for x in tx):   # 日期那一層：不選「今天」（時間都過了，全灰）、試過的不再選（Node 走過 57bab0c0：今天＝五個時間全灰）
+            k = next((i for i, o in enumerate(ops) if not o['dim'] and not o['t'].startswith(('今天', '算了')) and o['t'] not in tried), None)
+            if k is not None: tried.add(tx[k])
         if k is None: k = next((i for i, o in enumerate(ops) if not o['dim'] and not o['t'].startswith(SKIPBOOK) and not o['t'].startswith('兩天一夜')), None)
+        if k is None: k = next((i for i, x in enumerate(tx) if x.startswith('換一天')), None)   # 時間都灰＝換一天
         if k is None: break
         done = tx[k].startswith('就這樣約')
         await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1300)
