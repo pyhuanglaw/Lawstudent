@@ -1287,6 +1287,22 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "交換延畢（日本、美國路線＝和以安、學姊交往的玩家）6/2 典禮那天大家說「畢業快樂」：15 句換版本；語彤週四作息一次定完"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_377_法律系大三下_三條路線_修正稿.md",
+    "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW 改芷若大三下交往中期末約會那一句（週四 22:00）、Kevin 生日群組那則對分手過的玩家照發",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW 02:50 七題：AA_377 第 7 節（228 兩句都換＝對；床墊三處＝對；芷若大三下心意第二次照 LAWWW 補的；交往中「禮拜五九點」→「禮拜四十點，等我下班。」）；AA_379 2-9（分手過八場不演＝對，Kevin 群組照發；2-3、2-6 當面版＝對；茶葉不是道具＝對）"
   }
  ],
  "items": [
