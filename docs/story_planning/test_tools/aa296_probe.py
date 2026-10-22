@@ -761,6 +761,9 @@ async def s_zr_tw(p, run, base, sid, out):
     b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-31', 19.0, 'campus', preflags=pf, rels={ZR: 'FRIEND', 'npc_fangyt': 'FAMILIAR'}, label=sid + '（對照：臺灣路線；5/29 答應了奕廷的約；2028-05-31（三）19:00 校園——大三下她只排週三、四 19:00～22:00）')
     try:
         await pg.evaluate(HOOK2)
+        # 【前置】5 月初來過 Café＝「倒數第三排」（2-Y3-40 Z11b，4/24 起第一次點餐、priority 9）已經演過（v6_aa296e：沒演過的存檔第 2 次說話先演它，店員一天一件，F3 那段要隔天）
+        z11 = await pg.evaluate("(()=>{ const G=GAME.G; G.events=G.events||{done:{},last:{},count:0}; G.events.done=G.events.done||{}; G.events.last=G.events.last||{}; G.events.done.ev_zhiruo_third_row=1; G.events.last.ev_zhiruo_third_row=STORY.dayOfKey('2028-05-03'); G.flags.ZR_Z11B='who'; return true; })()")
+        run.setup('[前置] %s：5/3 在 Café 演過「倒數第三排」（events.done.ev_zhiruo_third_row、ZR_Z11B who）→ %s' % (sid, z11))
         await zr_cafe(pg, cdp, run, sid, res, ZR_TW, ZR_JP)
     finally: await finish_page(run, sid, res, errs, b)
 

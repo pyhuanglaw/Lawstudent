@@ -253,6 +253,7 @@ async def go_class(pg, cdp, run, sc):
 async def ffloop(pg, cdp, run, sc, until_key, until_h, n=30):
     """一直快轉到 until；中間有「去上課」就去上課（玩家會去）"""
     for i in range(n):
+        await pg.wait_for_timeout(3000); await drain(pg, cdp, pref=sc.get('pref', []), secs=90)   # 醒來、停下來以後先站幾秒（玩家會看一下）：讓遊戲有機會開始那一刻的事件（r_us_life 第一次：04:30 一醒來就按床快轉，時差那一段沒機會演）
         sn = await pg.evaluate(SNAP)
         if (sn['key'], sn['h']) >= (until_key, until_h): return True
         cls = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.uslClass&&!i.hidden); return it?it.label:null; })()")
@@ -292,8 +293,8 @@ SCENS = [
   # US-I 不能約臺灣朋友：9/20 15:00 公寓，阿哲 FRIEND＋有聯絡方式 → 手機「人」阿哲那一列沒有「約」、寫「你人在美國。」
   dict(id='USI_noinvite', key='2028-09-20', h=15.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT + "LV('zhe',60,50,50);",
        steps=[('phoneppl', 'zhe')], cflags=[]),
-  # US-J 10/16 21:00 學姊「改過的報告拿了 A。」（交往中、US2 有值）；10/15 還沒有
-  dict(id='USJ_report', key='2028-10-16', h=20.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, US2='keep'), js=USJS + DATE + PLAT,
+  # US-J 10/16 21:00 學姊「改過的報告拿了 A。」（交往中、US2＝there／missed：r2y4a3d.js；原本設 'keep' 不是遊戲用的值）；10/15 還沒有
+  dict(id='USJ_report', key='2028-10-16', h=20.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, US2='there'), js=USJS + DATE + PLAT,
        steps=[('until', 21.4)], wantMsg=['改過的報告拿了 A。'], cflags=['US2']),
   # US-F 萬聖節（AA_340 G4＋AA_345 I2；BB 2026-10-21 18:4x 補）：10/31 17:57 公寓 → 18:00 門鈴「（開門）」＝蘋果（沒去過亞洲超市三個不同的日子）；
   #   [捷徑] 跳到 18:59 → 19:00 第二次門鈴「（開門）」＝戴皇冠的小女孩、剩下的都給她
@@ -399,11 +400,13 @@ async def main():
                     elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
                     elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
                     elif st[0] == 'use': await use(pg, cdp, run, st[1])
-                    elif st[0] == 'bedpick': await bedpick(pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
+                    elif st[0] == 'bedpick':   # 讀檔那一刻的事件（例：抵達那天的公寓、亞洲超市、打給媽媽）先演完再去床（r_us_life 第一次 USA：邊演邊按床，床的選單是空的）
+                        await pg.wait_for_timeout(3000); await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+                        await bedpick(pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
                     elif st[0] == 'ffloop': await ffloop(pg, cdp, run, sc, st[1], st[2])
                     elif st[0] == 'phoneppl':
                         r = await pg.evaluate("(id=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); return 1; })(%s)" % json.dumps(st[1])); await pg.wait_for_timeout(1500)
-                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"ppl\"]')||[...document.querySelectorAll('#phoneTabs button')].find(x=>/人/.test(x.textContent)); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
+                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"friends\"]')||document.querySelector('#phoneTabs button[data-ptab=\"ppl\"]')||[...document.querySelectorAll('#phoneTabs button')].find(x=>/朋友|人/.test(x.textContent)); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
                         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"); await run.shot(pg, 'phone_ppl_' + sc['id'])
                         say('   手機「人」：%s' % txt[:400].replace('\n', '｜'))
                         if '你人在美國。' not in txt: bad.append('%s：手機「人」沒有「你人在美國。」' % sc['id'])
