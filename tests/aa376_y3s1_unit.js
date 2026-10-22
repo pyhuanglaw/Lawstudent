@@ -33,7 +33,8 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   money(n){ G.money+=n; },
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const D=k=>STORY.dayOfKey(k), J=x=>JSON.stringify(x);
-const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},msgs:[]};
+/* ROOM_Y2、ROOM_Y3：大三上的存檔都已經搬過 312、507（沒有這兩個，到宿舍會先演搬房間的字卡）*/
+const fresh=(key,hour,zone,flags)=>{ const day=typeof key==='number'?key:D(key); G={v:3,day,hour,zone:zone||'dorm',stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true,ROOM_Y2:true,ROOM_Y3:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{},msgs:[]};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); ROM.rec(G); said=[]; opts=[]; picks=[]; cards=[]; caps=[]; GM.npc={}; E.interactables=[]; E.npcs.length=0; ADV.active=false; if(typeof Y3FILL!=='undefined'&&Y3FILL.reset) Y3FILL.reset(); return G; };
 const LV={ACQ:[10,0,0],FAM:[25,10,10],FRI:[45,30,10],CLO:[65,50,45]};
 const R=(id,lv)=>{ const r=SOCIAL.rel(id); const [f,t,c]=LV[lv]; r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); };
@@ -194,12 +195,13 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
   // ===== 19. 大一的初識事件限大一 =====
   await sec('19',async()=>{
     const C=[['ev_sis_w1','cafe',['2025-09-10','2027-09-15'],15],['ev_fangyt_pothos','campus',['2025-09-10','2027-09-15'],12.5],['ev_prof_zhou_office','wancai',['2025-09-11','2027-09-16'],15.5],['ev_grad_info_session','wancai',['2025-09-12','2027-09-17'],15]];
-    const out=C.map(([id,z,[y1,y3],h])=>{ fresh(y1,h,z); const a=EVENTS.check(ev(id)); fresh(y3,h,z); const b=EVENTS.check(ev(id)); return [id,a,b]; });
+    const M={MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:STORY.LAW_D0};   /* [前置] 新局：法律系主線第一天（day_min 照這個算）*/
+    const out=C.map(([id,z,[y1,y3],h])=>{ fresh(y1,h,z,M); const a=EVENTS.check(ev(id)); fresh(y3,h,z,M); const b=EVENTS.check(ev(id)); return [id,a,b]; });
     check('19. ev_sis_w1、ev_fangyt_pothos、ev_prof_zhou_office、ev_grad_info_session：大一照常、大三上不演（大一沒觸發就不演）',out.every(([,a,b])=>a===true&&b===false),J(out));
   });
   // ===== 20. 交換志願表 =====
   await sec('20',async()=>{
-    const d17=D('2027-11-17'); fresh(d17,15.5,'cafe'); R('heroine_01','FAM'); picks=['還在想']; await STORY.an15Cafe(GM); const o=(opts[0]||[]).slice();
+    const d17=D('2027-11-17'); fresh(d17,15.5,'cafe'); R('heroine_01','FAM'); PHONE.at(G,d17-1,21,[{th:'p:heroine_01',from:'heroine_01',text:'明天下午三點半，兩點半 Café。交換的志願表，後天截止。'}],'y3_an15_invite'); PHONE.tick(G); picks=['還在想']; await STORY.an15Cafe(GM);   /* [前置] 11/16 21:00 她約了（an15Due 要有這一則）*/ const o=(opts[0]||[]).slice();
     fresh('2027-11-18',9,'dorm'); const L=STORY.routeNarrLines(G);
     check('20. 臺灣路線：「嗯。大四還沒開始，我想在這裡過。」「（你想，大四還沒開始。你想在這裡過。）」',o[0]==='「嗯。大四還沒開始，我想在這裡過。」'&&L[1]==='（你想，大四還沒開始。你想在這裡過。）'&&!J(o.concat(L)).includes('臺灣的大四'),J([o,L]));
   });
