@@ -656,8 +656,8 @@ async def s_ps_ff(p, run, base, sid, out):
     try:
         await settle(pg, cdp, run, sid); n0 = await log_len(pg); d = await dayk(pg, '2027-08-07')
         r = await bed2(pg, cdp, run, ('快轉',), sid); ops, got = r if r else ([], None); res['bed'] = [ops, got]
-        run.check('%s：暑假宿舍的床有「快轉」' % sid, got == '快轉', J(ops))
-        if got != '快轉': return
+        run.check('%s：暑假宿舍的床有「快轉」' % sid, bool(got) and got.startswith('快轉'), J(ops))   # 按鈕字＝「快轉」＋說明小字（腳本 10-22 13:0x 改）
+        if not (got and got.startswith('快轉')): return
         mo = []
         for _ in range(10):
             mo = await opts(pg)
@@ -713,7 +713,7 @@ async def zr_cafe(pg, cdp, run, sid, res, want, other):
     if not pos:   # 不在班：等到傍晚再進來一次
         say('   %s 芷若不在 Café，等到傍晚再來' % sid); await quick_go(pg, cdp, 'campus'); await skip(pg, cdp, '等到傍晚', sid); await go_cafe(pg, cdp, run, sid); await settle(pg, cdp, run, sid)
         pos = await pg.evaluate(NPC + "(%s)" % json.dumps(ZRS))
-    st = await pg.evaluate(STATE); res['pos'] = [pos, st]
+    st = await pg.evaluate(STATE); wt = await pg.evaluate("(()=>{ try{ return GAME.whereText('heroine_02')||''; }catch(e){ return 'ERR '+e; } })()"); res['pos'] = [pos, st, wt]
     run.check('%s：芷若在 Café（%s %.2f）' % (sid, st['key'], st['h']), bool(pos), J(res['pos']))
     if not pos: return
     said = []; labs = []
@@ -730,7 +730,7 @@ async def zr_cafe(pg, cdp, run, sid, res, want, other):
 async def s_zr_jp(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     pf = dict(JPF, **BASEF, Y4_PATH_DAY={'$day': '2028-08-05'}, FANG_F3='bought', FANG_F3_DAY={'$day': '2028-05-29'}, FANG_F3_J1={'$day': '2028-05-29'})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-08-06', 16.0, 'campus', preflags=pf, rels={ZR: 'FRIEND', 'npc_fangyt': 'FAMILIAR'}, label=sid + '（日本路線、8/5 回國；5/29 答應了奕廷的約（FANG_F3 bought）；2028-08-06（日）16:00 校園）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-08-07', 19.0, 'campus', preflags=pf, rels={ZR: 'FRIEND', 'npc_fangyt': 'FAMILIAR'}, label=sid + '（日本路線、8/5 回國；5/29 答應了奕廷的約（FANG_F3 bought）；2028-08-07（一）19:00 校園——她 8/6（日）沒有班，回國後第一個班是 8/7）')
     try:
         await pg.evaluate(HOOK2)
         run.note('%s：22:07 那則私訊不傳——讀檔在 8/6 不算證據（規則只在 5/29～6/20 跑），看 ZR_JP529' % sid)
@@ -742,7 +742,7 @@ async def s_zr_jp(p, run, base, sid, out):
 async def s_zr_tw(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     pf = dict(TWF, **BASE0, FANG_F3='bought', FANG_F3_DAY={'$day': '2028-05-29'}, FANG_F3_J1={'$day': '2028-05-29'})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-31', 16.0, 'campus', preflags=pf, rels={ZR: 'FRIEND', 'npc_fangyt': 'FAMILIAR'}, label=sid + '（對照：臺灣路線；5/29 答應了奕廷的約；2028-05-31（三）16:00 校園）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-05-31', 19.0, 'campus', preflags=pf, rels={ZR: 'FRIEND', 'npc_fangyt': 'FAMILIAR'}, label=sid + '（對照：臺灣路線；5/29 答應了奕廷的約；2028-05-31（三）19:00 校園——大三下她只排週三、四 19:00～22:00）')
     try:
         await pg.evaluate(HOOK2)
         await zr_cafe(pg, cdp, run, sid, res, ZR_TW, ZR_JP)
