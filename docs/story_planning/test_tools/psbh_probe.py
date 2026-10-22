@@ -318,7 +318,8 @@ async def s_w4(p, run, base, sid, out):
     try:
         run.check('%s：前置——%s' % (sid, '和沛珊交往中' if dating else '沒和沛珊交往'), (PS in r['partners']) == dating and r['knows'].get(PS), json.dumps(r, ensure_ascii=False))
         await drive(pg, cdp, run, max_s=30, label=sid)
-        door = await L.find_it(pg, '研討室 A')
+        # 2026-10-22 rc2：研討室 A 變成走得進去的房間（rooms_glb3d.js wancai_sema），門的互動點寫「進入 研討室 A」——門口照樣先問社課（CLS.roomDoorBusy）
+        door = await L.find_it(pg, '研討室 A') or await L.find_it(pg, '進入 研討室 A')
         ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'] + 0.6, 0.9, '二樓研討室 A 門口', lv=1, max_s=600)
         for _ in range(60):   # 讀書會 20:00：門口等到開始前（時間照走）
             if (await pg.evaluate("GAME.G.hour")) >= 19.95: break
