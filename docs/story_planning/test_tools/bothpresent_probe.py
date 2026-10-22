@@ -1,7 +1,8 @@
 """BB（帳號 A）2026-10-22：INV-BOTH-PRESENT-1021＋BUG-SIS-STUDY-COMPANION-1021（開發分支 2f9413a9；使用者 10-21 23:2x「有約好任何事情 改成只要兩個都在場
 就不用一起走或說話才能開始」；23:1x 試玩：和學姊在總圖讀完、當場再約變成跟著走、讀書開始不了、跟到宿舍）。
 使用者那份 day8 存檔在 LAWWW 的環境、BB 讀不到：照它的狀況自己做（LAWWW 01:14 說可以）。
-  SCHED：第 7 天（9/23 週二）13:30 宿舍，手機「朋友」→ 學姊「約」→「去總圖一起念書」→「今天 15:30」→ 手機「跳過時間」（應停在 15:20）→ 手機「地點」快速前往總圖
+  SCHED：第 7 天（9/23 週二）17:30 宿舍，手機「朋友」→ 學姊「約」→「去總圖一起念書」→「今天 19:00」→ 手機「等到晚上」（應停在 18:50）；
+         （平日白天約總圖她會說「她已經在那裡」＝不排約，所以用晚上 19:00）→ 手機「地點」快速前往總圖
          → 不說話、不點座位：看會不會自己開始、兩個人一起坐下（淡出淡入）、演完站起來。
   NOW：接著（她還在大廳）走過去說話 →「約她去…」→「去總圖一起念書」→「現在一起過去」→ 直接開始（不跟著走、不是 going）。
   WALK_DORM：第 8 天（9/24 週三）10:00 閱覽室（她平日白天在這裡）→ 當面「現在一起過去」總圖 → 她跟著（going）→ 手機快速前往宿舍 → 作罷（訊息「…後來作罷了。」）、她沒有跟進宿舍。
@@ -171,22 +172,22 @@ async def close(b):
 
 async def sched(p, run, base, out):
     res = out.setdefault('SCHED', {})
-    b, pg, cdp, errs, rel = await launch_load(p, run, base, 7, 13.5, 'dorm', 'SCHED')
+    b, pg, cdp, errs, rel = await launch_load(p, run, base, 7, 17.5, 'dorm', 'SCHED')
     try:
         await L.phone_away(pg, cdp)
         txt = await phone(pg, cdp, 'friends')
         got = await tap_q(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
         run.check('SCHED：手機「朋友」有學姊的「約」', bool(got), txt[:200])
         ok1, o1 = await pick(pg, cdp, '去總圖一起念書'); ok2, o2 = (False, [])
-        if ok1: ok2, o2 = await pick(pg, cdp, '今天 15:30')
+        if ok1: ok2, o2 = await pick(pg, cdp, '今天 19:00')
         res['menus'] = [o1, o2]; n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False)
         res['book_lines'] = (await pg.evaluate("window.__LOG||[]"))[n0:]
         st = await pg.evaluate(ST); iv = [v for v in st['inv'] if v['state'] == 'accepted' and v['place'] == 'library']
         say('   SCHED 約：%s；她說 %s' % (st['inv'], [x['t'] for x in res['book_lines']]))
         if not iv:
             run.note('SCHED：手機約 9/23 19:00 總圖她沒答應（%s）→【捷徑】INV.accept 直接約好（這一段要測的是到了以後）' % json.dumps([x['t'] for x in res['book_lines']], ensure_ascii=False)[:200])
-            await pg.evaluate("INV.accept(GAME.G,'heroine_05','library',GAME.G.day,15.5,{by:'player'})")
-        run.check('SCHED：用手機約好 15:30 總圖（accepted）', bool(iv), json.dumps(st['inv'], ensure_ascii=False))
+            await pg.evaluate("INV.accept(GAME.G,'heroine_05','library',GAME.G.day,19,{by:'player'})")
+        run.check('SCHED：用手機約好 19:00 總圖（accepted）', bool(iv), json.dumps(st['inv'], ensure_ascii=False))
         await L.phone_away(pg, cdp)
         # 等到晚上：應停在 18:50
         await phone(pg, cdp, 'today')
@@ -198,7 +199,7 @@ async def sched(p, run, base, out):
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
         await L.phone_away(pg, cdp)
         st = await pg.evaluate(ST); res['after_skip'] = st
-        run.check('SCHED：手機「跳過時間」停在約好的時間前 10 分鐘（15:20）', bool(got) and abs(st['h'] - (15.5 - 1 / 6)) < 0.06, '%s h=%.3f' % (got, st['h']))
+        run.check('SCHED：手機「跳過時間」停在約好的時間前 10 分鐘（18:50）', bool(got) and abs(st['h'] - (19 - 1 / 6)) < 0.06, '%s h=%.3f' % (got, st['h']))
         # 快速前往總圖，不說話
         ok, info = await quick_go(pg, cdp, 'library_hall'); res['go'] = info
         run.check('SCHED：手機快速前往總圖', ok, json.dumps(info, ensure_ascii=False))
@@ -206,7 +207,7 @@ async def sched(p, run, base, out):
         await run.shot(pg, 'SCHED_arrive')
         first, last = await watch_auto(pg, cdp, run, 'SCHED', secs=120); res['first'] = first; res['last'] = last
         say('   SCHED 自動開始：%s' % json.dumps(first, ensure_ascii=False))
-        run.check('SCHED：她在、你在＝沒說話、沒點座位就自己開始（15:15～16:00 之間）', bool(first), json.dumps(last, ensure_ascii=False)[:400])
+        run.check('SCHED：她在、你在＝沒說話、沒點座位就自己開始（18:45～19:30 之間）', bool(first), json.dumps(last, ensure_ascii=False)[:400])
         if first:
             run.check('SCHED：開始時兩個人一起坐下（你有座位、她有座位、距離 ≤ 1.6 m）', first['pseat'] and bool(first['her']) and bool(first['her']['seat']) and (first['her']['d'] or 9) <= 1.6, json.dumps(first, ensure_ascii=False)[:400])
             n0 = len(await pg.evaluate("window.__LOG||[]")); h0 = first['h']
