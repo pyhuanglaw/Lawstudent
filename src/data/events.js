@@ -7,6 +7,7 @@
 const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
 /* 柏翰×沛珊那一段（大一下第 7 週起的 partner、4/15 期中晚餐公開、大二上第 6 週分手、ps_split_group）：認識沛珊、而且沒有和她交往（AA_374 第 11 項）*/
 const PS_BH={custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_peishan',G)&&!(G.flags&&G.flags.dating_classmate_peishan)};
+const PS_NOBH={custom:G=>!!(G.flags&&G.flags.dating_classmate_peishan)&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_bohan',G)};   /* AA_245（企劃線 2af03a63）：沛珊和柏翰沒在一起（玩家和沛珊交往中，AA_374 第 11 項同一個條件）、認識柏翰＝期中晚餐換柏翰自己的三句 */
 /* 沛珊說分手的那一件（AA_374 第 18 項）：看過 P3（ev_peishan_decision）而且有點熟以上＝原本的兩句；沒看過 P3、或還不熟＝短的兩句（附錄 B E6）*/
 const PS_SPLIT_FULL={custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_peishan_decision)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.friendLevel&&['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('classmate_peishan'))};
 /* 沛珊 P2（ev_peishan_doubt）在大一下開學（2026-02-23）以後才演：「…比坐在霖澤館這半年都自在。」；大一上（含寒假）照原句「這一個多月」（AA_373 #24）*/
@@ -868,7 +869,8 @@ const STORY_EVENTS=[
       {if:PS_BH,speaker:null,text:'全桌安靜三秒。'},
       {if:PS_BH,speaker:'classmate_peishan',expression:'neutral',text:'對，我們在一起了。你們吃你們的。'},
       {if:PS_BH,speaker:'classmate_bohan',expression:'neutral',text:'上禮拜的事。'},
-      {if:PS_BH,speaker:null,text:'（他把另一半滷蛋推回她碗裡。）'} ],   /* AA_209 附錄A §2（2-1 第 5 節第 1 點：沛珊前一句接得上，不改）*/
+      {if:PS_BH,speaker:null,text:'（他把另一半滷蛋推回她碗裡。）'},
+      {if:PS_NOBH,speaker:null,text:'（柏翰把每個人的麵錢算好，寫在餐巾紙上。）'},{if:PS_NOBH,speaker:'classmate_bohan',expression:'neutral',text:'一個人一百一十五。阿哲你多一顆蛋，一百二十五。'},{if:PS_NOBH,speaker:'zhe',expression:'neutral',text:'……你連這個都算。'} ],   /* AA_245 第 1 節：沒在一起的版本 */   /* AA_209 附錄A §2（2-1 第 5 節第 1 點：沛珊前一句接得上，不改）*/
     consequences:{stamp:['supperMid2Day'],memo:'考完的晚餐（阿鳳麵店長桌）'},
     outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||typeof STORY==='undefined'||!STORY.knows('classmate_peishan',G)||(G.flags&&G.flags.dating_classmate_peishan)) return;   /* 和沛珊交往中：沒有柏翰那一段（AA_374 第 11 項）*/
       PHONE.at(G,q.day,Math.max(20.5,G.day===q.day?G.hour:0),[{th:'g:noodle_team',from:'zhe',text:'📷（一顆切成兩半的滷蛋）'},{th:'g:noodle_team',from:'zhe',text:'柏翰幫沛珊切的。'},{th:'g:noodle_team',from:'zhe',text:'……他們在一起了。'}],'zhe_supper_mid2_egg');   /* AA_373 #16：照交接包 v2（2026-10-16 改）——阿哲傳滷蛋照片，配「柏翰幫沛珊切的。」「……他們在一起了。」（原本只有「……喔。」看不出發生什麼事）*/
@@ -1556,7 +1558,7 @@ const STORY_EVENTS=[
   /* 沛珊和柏翰（交接包 v2 C21 第一個畫面；草稿第 3 節、BB_100 2-3，使用者 2026-10-13 定案：沛珊大一下和柏翰交往，玩家只看到一部分，沒有選項會讓他們在一起或分開）：
      大一下第 4 週法服讀書會結束（afterActivity，classes3d.js 的 afterActEvent）——她和柏翰一起走出萬才館，一路在爭下週誰報告哪一題；祐廷在後面收白板。只有畫面（旁白用原文的描述）。
      還沒認識沛珊的玩家沒有。第二個畫面（期中的麵店長桌）跟大一下期中的宵夜一起做 */
-  { id:'ev_peishan_bohan_w4', title:'走出萬才館', participants:['classmate_peishan','classmate_bohan'], location:'wancai', trigger:'activity', afterActivity:'public_law_group',   /* BB_191 §8-7：大一下第 4 週週四公法讀書會散場（原本週三法服讀書會）*/ term:['Y1S2'], weeks:[4], once:true, prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]}, background:'blur',
+  { id:'ev_peishan_bohan_w4', title:'走出萬才館', participants:['classmate_peishan','classmate_bohan'], location:'wancai', trigger:'activity', afterActivity:'public_law_group',   /* BB_191 §8-7：大一下第 4 週週四公法讀書會散場（原本週三法服讀書會）*/ term:['Y1S2'], weeks:[4], once:true, prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}],notFlags:['dating_classmate_peishan']}, background:'blur',   /* AA_245 第 3 節：沛珊和柏翰沒在一起（玩家和她交往中）不演 */
     dialogue:[ {speaker:null,text:'（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）'},{speaker:null,text:'（你在後面收白板。）'} ] },
   /* 主線 2（交接包 v2 C2）：除夕（STORY.lunarNewYear 的前一天，2026-02-16）。固定節點：除夕 12:00 以後、人有空就演（auto，在哪裡都可以——家裡用 2D）；
      如果除夕還沒演就上床，睡覺時演（sleep）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。演完時間往後 2 小時。記全域旗標 FAMILY_LAND_Y1（teacher／ask／lawyer；大三主線 9、大二上物權第 7 週的回想讀它）*/

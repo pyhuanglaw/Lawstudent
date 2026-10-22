@@ -18363,9 +18363,9 @@
    "title": "AA_245 沛珊×柏翰沒在一起的版本：ev_midterm_supper_y1s2 換柏翰算麵錢三句（outingMissed 不傳）；ev_peishan_split／ev_peishan_bohan_split 只演一件、沒在一起兩件都不演；characters.js L68 條件照 BB_100 2-3",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：characters.js:69 partner 加 AA_245／BB_100 2-3 條件（大一下開學時 dating_classmate_peishan＝不成立）；ev_midterm_supper_y1s2 沒在一起換三句、outingMissed 不傳；沒在一起兩個分開事件都不演 ｜ AA_245（AA-C 2af03a63）",
+   "next": "BB 瀏覽器：大一上期末就和沛珊交往的存檔，大一下第 8 週期中晚餐＝柏翰算麵錢三句（沒有「對，我們在一起了」）；第 4 週公法讀書會散場沒有「沛珊和柏翰一起走出萬才館」 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：characters.js:69 partner 加 AA_245／BB_100 2-3 條件（大一下開學時 dating_classmate_peishan＝不成立）；ev_midterm_supper_y1s2 沒在一起換三句、outingMissed 不傳；沒在一起兩個分開事件都不演 ｜ AA_245（AA-C 2af03a63）",
    "first": {
     "term": "Y1S2",
     "week": 8,
@@ -18392,7 +18392,8 @@
      "evidence": "已做：ev_peishan_split／ev_peishan_bohan_split 互斥只演一件（src/data/events.js:3200-3201、3686-3688 notEvents，AA_313 6-5 第 11 點）；沒做：src/data/characters.js:69 沛珊 partner 仍無條件（from Y1S2 到 Y2S1 第 6 週），沒有「大一下開學已和祐廷交往＝沒在一起」；ev_midterm_supper_y1s2（events.js:816-830）仍固定「柏翰幫沛珊把滷蛋切成兩半」，沒有換柏翰算麵錢三句的版本",
      "note": "沛珊柏翰沒在一起的版本大多沒做"
     }
-   ]
+   ],
+   "done": "開發分支（LAWWW 帳號 A 10-22 07:4x）：「沒在一起」照 AA_374 第 11 項同一個條件（玩家和沛珊交往中）——①ev_midterm_supper_y1s2 交往中、認識柏翰＝柏翰算麵錢三句（PS_NOBH，照稿 2af03a63），公開那一段原本就不演；②ev_peishan_bohan_w4 加 notFlags dating_classmate_peishan；③分手兩件只演 ev_peishan_split（ev_peishan_bohan_split 已退休、split 交往中不演，AA_374 已做）；outingMissed 交往中不傳（AA_374 已做）。tests/aa245_psbh_unit.js（修改前 b947f4eb 2 FAIL、修改後 ALL PASS）；aa374_y2s1、aa373_y1s2、aa209_s4、aa185_y12、v2_c11、v2_c14、events_interface ALL PASS"
   },
   {
    "id": "V0-ECON-CHARS",

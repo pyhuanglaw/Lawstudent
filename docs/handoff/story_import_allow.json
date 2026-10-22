@@ -1521,6 +1521,14 @@
    "approvedBy": "AA-C 2026-10-21 定稿（D100、D109；使用者 10-18 選的四題＋第⑤題照 AA 建議大二上起）；D0～D6 台詞手動放進遊戲（子代理實作，LAWWW 帳號 A 合併時逐句對稿）",
    "task": "AA351-KX-DRIFT-1021",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md",
+   "sha": "2af03a63",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 定稿（D98、D100）；第 1 節柏翰三句手動放進 events.js ev_midterm_supper_y1s2（PS_NOBH），第 3 節 ev_peishan_bohan_w4 notFlags；tests/aa245_psbh_unit.js 逐句對稿",
+   "task": "AA245-PSBH",
+   "kind": "text"
   }
  ]
 }
