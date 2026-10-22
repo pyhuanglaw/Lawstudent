@@ -28,7 +28,8 @@ MSGS = """(()=>(GAME.G.msgs||[]).filter(m=>m.th==='p:heroine_05'||/學姊|書瑀
 
 
 async def opts(pg):
-    return await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+    """看得到的選項（#choices 收起來的時候按鈕還留在網頁裡，不算）"""
+    return await pg.evaluate("(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return []; return [...ch.querySelectorAll('button')].map(b=>b.textContent.trim()); })()")
 
 
 async def pick(pg, cdp, prefix, wait=20, advance=False):
@@ -51,7 +52,7 @@ async def pick(pg, cdp, prefix, wait=20, advance=False):
         c = await pg.evaluate("(p=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.trim().startsWith(p)); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(prefix))
         if not c: return True, ops
         await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1400)
-        if (await opts(pg)) != ops: return True, ops
+        if (await opts(pg)) != ops: return True, ops   # 選單收起來（對話、下一層）或換了＝點到了
     return False, ops
 
 
