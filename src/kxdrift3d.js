@@ -1,6 +1,8 @@
 /* ===== 可昕「個性磨合不了，慢慢分手」（AA_351 事件包，企劃線 c29c49eb；AA-C 2026-10-21 定稿，取代 AA_288 第 3～6 節；任務 AA351-KX-DRIFT-1021、USER_WANTS C23）=====
    使用者 10-18 選的四題（AA_288 檔首）：她生氣的來源＝她確實知道的事＋她自己的不安；做對了就避得掉；分手只在學期末；分開以後只能當朋友、不能復合（第⑤題照 AA：大二上起）。
    台詞一字不改（D109：AA 寫的才演），這個檔不補台詞。程式自己加的只有系統字：出遊的標題（「可昕打電話來」那種）、D0 不說的那個選項「（不說）」——回報給 AA 確認。
+   AA_384（企劃線 b6588bf5，AA 2026-10-22 回 LAWWW 的十四題；AA_351 本文同一個 commit 跟著改）：第 1～3、7 項的句子在 S.LF（朋友層的訊息回覆、尾聲的朋友版、一學期一次的午餐、畢業典禮那天 12:00）；
+     第 4 項 D6 拿掉「祐廷的生日」、第 5 項 D0／D1／D1b 只看玩家自己約的、第 6 項 D1 拿掉 118 巷；第 8～14 項照舊（第 10 項：D1b 說了也算）。
    - 誰會走（第 1 節）：法律系、和可昕交往中、而且只和她一位（ROM.partners 只有 kexin）、大二上（2026-09-07）到大四下（畢業典禮那一週）。中途開始了另一段＝停住、數字凍結（21 天也不算）。
      交換那一學期（日本路線大三下、美國路線大四上；人在國外的日子也算）：D1、D1b、D2 的見面、D4、D5 不演，等回臺灣以後；D3 照演；21 天不算。寒暑假（她在高雄）：不算 21 天，D4、D5 不演。大四下不演 D4、D5（數字照記）。
    - 計數 KX_CRACK（第 2 節；ROM.crack，最低 0）：
@@ -10,7 +12,8 @@
      數字到 2、4、6 各演一次 D2、D3、D4（第一次到；降下去再上來不重演）；修補成功以後又到 6＝直接 D5。
    - 場（第 3 節；事件 ev_kx_drift_r1、_r1b、_r2、_r3、_r4、_r5、_r5_call、_r6）：
        D0 答應（或約）另一位女主角單獨出去的那一刻（邀約的吃飯／散步／一盞、校外約會、去她的縣市）：多一個選單「（跟可昕說一聲）」→ 祐廷傳一則、她照順序回、−1，那一次不會有 D1；
-       D1 沒說、地點在公館／溫州街／118 巷、這學期第一次：那天 21:00（出遊還沒結束＝結束後 30 分鐘）她打來；沒接＝隔天 12:00 兩則＋D2；
+         只算玩家自己約的（AA_384 第 5 項）：劇情裡在手機答應的出遊（OUT.plan 的事件）、她們約你的邀約（INV.offer，by:'npc'）D0、D1、D1b 都不看；
+       D1 沒說、地點在公館／溫州街（118 巷沒有可以單獨約的地點，AA_384 第 6 項拿掉）、這學期第一次：那天 21:00（出遊還沒結束＝結束後 30 分鐘）她打來；沒接＝隔天 12:00 兩則＋D2；
        D1b 14 天內和同一位單獨出去兩次以上：下一次和可昕見面（出遊、約會、K5）開頭她直接問，一學期一次；
        D2 D1 吵起來（+1、+2、沒接）或第一次到 2：之後兩天她回訊息只回短的；第三天 21:00 問週六；週六 18:30 政大山下；
        D3 第一次到 4、大二下起：那週的平日 22:00（臺灣時間）她打視訊；23:00 予樂私訊（有她的聯絡方式才有）；
@@ -18,11 +21,16 @@
        修補期 35 天：結束那天 <6＝KX_REPAIRED，下一次「我們的日子」見面她說「這個月你都有先講。」；
        D5 只在學期末：期末考最後一天（祐廷自己的最後一科，CLS.lastExamEnd）21:00 她傳，隔天 19:00 政大宿舍樓下；沒到＝21:00 她打來；也沒接＝隔天 12:00 文字版。
          記 ROM.end(G,'kexin','drift')、KX_ENDED='drift'、KX_ENDED_ON；已經排好的她的出遊、校外約會、排在手機裡還沒送的她的訊息都取消；
-       D6 前 60 天她不傳、回訊息只回短的；第 61 天起第一個自然的日子她先傳，接著約那個週六 12:30 公館吃午餐；之後照朋友。
+       D6 前 60 天她不傳、回訊息只回短的；第 61 天起第一個自然的日子（祐廷放榜考上；都沒有＝她自己的好消息。祐廷的生日 AA_384 第 4 項拿掉）她先傳，接著約那個週六 12:30 公館吃午餐；之後照朋友。
    - 分開以後：ROM.canStart(G,'kexin') 一律 false（不能復合）；學期末心意邀約、女朋友的期末約會沒有她（TERMEND.plan 的 kx 也關掉）；K5、K7、交往版閒聊階梯照原本的規則停（看 dating_kexin）；
-     尾聲不用前任那一版（PG.exLines 回 null）——現在的尾聲沒有可昕的朋友版（要 AA 補）。
+     尾聲不用前任那一版（PG.exLines 回 null），用朋友版：她坐在同一桌、EPI_ORDER 最後一個（AA_384 第 2 項，PG.epiPresent／epiLine）；
+     照朋友（D6 那頓午餐以後，沒約成＝照朋友那天起）以後（AA_384 第 1、3、7 項；第 61 天到那頓午餐之間照舊只回短的）：
+       訊息回覆用朋友層 R（S.LF.msg、S.LF.msg2；包住 MSG.pick／pick2／topics／replyAt：情況版先〔在國外 → 放假、在高雄 → 考試週 → 深夜〕、沒有才用一般版、同一種輪流；
+         晚安兩則輪流、不看熟悉度；第二批只開她的生日 4/24、新年；祐廷在國外＝她照臺灣的時間回，她那邊 23:30 以後用 L 層那兩則〔MSG_POOL 可昕的「祐廷在國外」，美國、日本各一〕）；
+       一學期一次的午餐（S.r7Rule：照朋友的下一個學期起到大四下，第 6 週週四 21:00 她約、週六 12:30 公館，三套輪流；交換那一學期不排；那天不行＝「好。下次。」那學期不排；沒到＝她傳一則、不扣任何數字）；
+       畢業典禮那天 12:00 的訊息換成朋友版（PG.MSGS 的 pg_kx_ex；被發現、劈腿那一條照舊「恭喜。」）。
    - 存檔：G.flags.KX_DRIFT（下面 S.rec）、KX_REPAIRED、KX_ENDED、KX_ENDED_ON；KX_CRACK 舊存檔沒有＝0；大三以後才讀進來的存檔從讀檔那天開始算（21 天、出遊紀錄不往回補）。
-   測試：node tests/aa351_kx_drift_unit.js */
+   測試：node tests/aa351_kx_drift_unit.js、node tests/aa384_kx_friend_unit.js */
 'use strict';
 const KXDRIFT=(function(){
   const S={};
@@ -42,13 +50,12 @@ const KXDRIFT=(function(){
   const K=t=>({th:TH,from:KX,text:t});
   S.HER=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];   /* 另一位女主角（DATE.HEROINES 去掉可昕）*/
   S.TERMS=['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
-  S.R1B_COUNT_TOLD=true;   /* D1b：說了一聲的那一次也算（第 3 節 D1b「有沒有先說都算——說了她就知道」）；D0 寫「D1b 也不算那一次」，兩句衝突，照 D1b 那一節，回報 AA */
+  S.R1B_COUNT_TOLD=true;   /* D1b：說了一聲的那一次也算（第 3 節 D1b「有沒有先說都算——說了她就知道」；AA_384 第 10 項確認，AA_351 D0 那半句「D1b 也不算那一次」已刪）*/
   S.R1B_DAYS=14;   /* D1b：14 天內（兩次出去相差不到 14 天）*/
   S.GAP=21;   /* 連續 21 天沒見面、也沒視訊 */
   S.REPAIR=35;   /* 修補期 */
   S.D6_QUIET=60;   /* D6：前 60 天 */
-  S.D6_LOOK=30;   /* D6：第 61 天起看多久以內有沒有「自然的日子」（祐廷的生日、放榜考上）；沒有＝第 61 天傳她自己的好消息（LAWWW 暫定，回報 AA）*/
-  S.YT_BDAY=null;   /* 祐廷的生日（'MM-DD'）：遊戲裡還沒定（BB_178 第 14 條「如果之後要定」）＝這一種不會發生 */
+  S.D6_LOOK=30;   /* D6：第 61 天起看多久以內有沒有「自然的日子」（祐廷放榜考上）；沒有＝第 61 天傳她自己的好消息（LAWWW 暫定，回報 AA）。祐廷的生日那一種拿掉（AA_384 第 4 項：人物設定，留給使用者）*/
   S.INTERN_KEY='2028-11-23';   /* 她的實習上了（r2y4a_events.js ev_kexin_intern_result：「我事務所的實習也上了」）：這天以前＝還沒到實習的年份 */
   /* 祐廷放榜、考上的事（D6「祐廷有放榜、考上的事」）：track＝他在等這一場的結果，ok＝考上 */
   S.PASS=[{key:'2028-11-23',h:15,track:G=>typeof R2Y4A!=='undefined'&&!!R2Y4A.pushOn&&R2Y4A.pushOn(G)&&G.flags.Y4_PUSH==null,ok:G=>G.flags.Y4_PUSH==='pass'},   /* 推甄放榜（r2y4a3d.js）*/
@@ -57,7 +64,7 @@ const KXDRIFT=(function(){
   /* ---------- 台詞（AA_351 第 3 節原文，一字不改；「（…）」＝旁白，其他＝可昕說）---------- */
   S.L={
     d0:{opt:'（跟可昕說一聲）',no:'（不說）',say:'週六我跟{她}去{地點}吃飯。',reply:['好。吃完跟我說好不好吃。','好啊。不要吃太晚。','好啦。幫我看一下那家的菜單，我下次要去。']},
-    r1:{ring:'（手機響了。可昕。）',where:{'公館':'你今天在公館？','溫州街':'你今天在溫州街？','118 巷':'你今天在 118 巷？'},lines:['予樂說看到你，跟一個女生。','她是誰不重要。你為什麼沒跟我講？'],
+    r1:{ring:'（手機響了。可昕。）',where:{'公館':'你今天在公館？','溫州街':'你今天在溫州街？'},lines:['予樂說看到你，跟一個女生。','她是誰不重要。你為什麼沒跟我講？'],
       opts:[{t:'「我忘了講。對不起。」',say:['……好。下次講。','（電話掛得很快。）'],n:0},{t:'「只是一起吃飯。」',say:['我又沒說你們怎樣。','我是問你為什麼沒講。','……算了，我要去洗澡。'],n:1},{t:'「妳想太多了吧。」',say:['操。','好，我想太多。晚安。'],n:2}],
       missed:['你昨天在公館。','打給你也不接。']},
     r1b:{lines:['你最近常跟{她}出去耶。','……我沒有怎樣，我只是問。'],
@@ -75,8 +82,31 @@ const KXDRIFT=(function(){
     r5:{ask:'明天晚上七點，我宿舍樓下。',scene:'政大・宿舍樓下',talk:['我想了一個禮拜。','我們分開好不好。','我不想每次見面，都在算你又遲到幾分鐘。','你應該也不想每次都在猜我為什麼生氣。'],
       opts:[{t:'「再試一次？」',say:['我們試過了。','……試了一整個學期。']},{t:'「……好。」',say:['嗯。','（她點頭，很久沒說話。）']},{t:'（不說話）',say:['你看，你又不講話。','（她笑了一下，眼睛是紅的。）']}],
       close:['我先上去了。','到家傳一下。這個我還是想知道。'],home:['到了。','嗯。'],callOpen:['我在樓下等了一個小時。','……那我在電話裡講。'],callClose:['我要上去了。','……晚安。'],text:'昨天的事，我寫在這裡。'},
-    r6:{short:['嗯','最近很忙','嗯'],bday:['欸。','生日快樂。'],pass:['欸。','恭喜。'],news:['欸。','我實習上了。……想說跟你講一下。'],newsEarly:['欸。','我們讀書會的考古題終於做完了。……想說跟你講一下。'],
+    r6:{short:['嗯','最近很忙','嗯'],pass:['欸。','恭喜。'],news:['欸。','我實習上了。……想說跟你講一下。'],newsEarly:['欸。','我們讀書會的考古題終於做完了。……想說跟你講一下。'],
       lunch:'週六中午，公館。吃個飯。',lunchOpts:['好。','那天不行。'],scene:'公館',lines:['（你到的時候，她已經坐好了。）','你遲到了。','（她看了一下手機。）','……三分鐘。算了。','先點餐。這頓我請。']} };
+  /* ---------- 分開以後當朋友的句子（AA_384 第 1、2、3、7 項原文，一字不改）----------
+     msg：朋友層 R 的訊息回覆，格式同 MSG_POOL 的可昕（BB_178 第 5 節）；msgs＝一個框一則泡泡，照順序。「祐廷在國外」不另寫：照 L 層那兩則（MSG_POOL 可昕 variant「祐廷在國外」，S.frAbroad）。
+     msg2：第二批話題（格式同 MSG2_POOL）：生日快樂（她的生日 4/24）、新年快樂；謝謝、還好嗎不開（分開以後沒有對應的事件）。
+     epi：尾聲的朋友版（[說話的人, 台詞]，null＝旁白；同 POSTGRAD_LINES）。lunch：一學期一次的午餐（sets＝三套，旁白＋她一句）。grad：畢業典禮那天 12:00 她傳的 */
+  S.LF={
+    msg:[{topic:'chat',tier:'R',variant:null,msgs:['在爬坡。','你呢？又在總圖？'],tags:[],ask:null,src:'AA_384 第 1 項 chat 平常（三則輪流）'},
+      {topic:'chat',tier:'R',variant:null,msgs:['在宿舍寫報告。','予樂在旁邊唱歌，很難聽。'],tags:[],ask:null,src:'AA_384 第 1 項 chat 平常（三則輪流）'},
+      {topic:'chat',tier:'R',variant:null,msgs:['在等公車。','幹嘛？'],tags:[],ask:null,src:'AA_384 第 1 項 chat 平常（三則輪流）'},
+      {topic:'chat',tier:'R',variant:'考試週',msgs:['在念。考完再說。'],tags:[],ask:null,src:'AA_384 第 1 項 chat 考試週'},
+      {topic:'chat',tier:'R',variant:'放假、在高雄',msgs:['在高雄。','（照片：一碗很大的肉燥飯）'],tags:[],ask:null,src:'AA_384 第 1 項 chat 放假、在高雄'},
+      {topic:'chat',tier:'R',variant:'深夜',msgs:['還沒睡。報告寫不完。','你也早點睡。'],tags:[],ask:null,src:'AA_384 第 1 項 chat 深夜'},
+      {topic:'share_cat',tier:'R',variant:null,msgs:['政大的貓還是比較胖。'],tags:[],ask:null,src:'AA_384 第 1 項 share_cat'},
+      {topic:'share_food',tier:'R',variant:null,msgs:['看起來不錯。','下次跟予樂去吃。'],tags:[],ask:null,src:'AA_384 第 1 項 share_food'},
+      {topic:'share_notes',tier:'R',variant:null,msgs:['你的字還是一樣醜。'],tags:[],ask:null,src:'AA_384 第 1 項 share_notes'},
+      {topic:'night',tier:'R',variant:null,msgs:['晚安。'],tags:[],ask:null,src:'AA_384 第 1 項 night（兩則輪流）'},
+      {topic:'night',tier:'R',variant:null,msgs:['嗯，晚安。'],tags:[],ask:null,src:'AA_384 第 1 項 night（兩則輪流）'}],
+    msg2:[{topic:'bday',cond:null,tier:'R',msgs:['謝謝。','……你還記得喔。'],tags:[],src:'AA_384 第 1 項 第二批 生日快樂（她的生日 4/24）'},
+      {topic:'newyear',cond:null,tier:'R',msgs:['新年快樂。','（長頸鹿貼圖）'],tags:[],src:'AA_384 第 1 項 第二批 新年快樂'}],
+    epi:[[null,'（可昕最後一個到，外套還沒脫。）'],[KX,'我遲到了。'],[KX,'……這次換我。']],
+    lunch:{ask:'週六中午，公館。予樂也來。',opts:['好。','那天不行。'],no:'好。下次。',
+      sets:[['（予樂一坐下就開始講她的報告。可昕一直吐槽她，偶爾也吐槽你。）','你還是點一樣的。'],['（可昕先到，已經幫三個人點好了。）','予樂說要減肥，所以我幫她點了大碗的。'],['（予樂遲到了。可昕看了一下手機。）','……十二分鐘。她比你還誇張。']],
+      missed:'我們吃完了。予樂說你欠她一頓。'},
+    grad:['恭喜。','下禮拜六換我。……予樂會拍一百張。'] };
 
   /* ---------- 存檔（G.flags.KX_DRIFT；舊存檔沒有＝第一次用到時建，from＝那一天）----------
      from 開始算的那一天；th 第一次到 2／4／6 的時間；outs 單獨出去的紀錄 [{k:'inv'|'date'|'hv', id, who, place, area, day, told, st:'live'|'done'|'gone', end}]；
@@ -123,9 +153,10 @@ const KXDRIFT=(function(){
   S.tell=async function(GM,x){ const G=GM.G, R=S.rec(G), text=S.d0Text(G,x); x.told=true; x.toldAt=now(G);
     if(typeof PHONE!=='undefined'){ PHONE.post(G,{th:TH,from:'player',who:null,text}); const L=S.L.d0.reply, i=(R.d0n|0)%L.length, at=S.replyAt(G); R.d0n=(R.d0n|0)+1; PHONE.at(G,at.day,at.h,[K(L[i])],null); }   /* 她回：照順序輪 */
     await GM.say({name:(G.name||'祐廷')+'（手機）'},text); S.add(G,-1,'d0'); return true; };
-  /* 邀約（吃飯、散步、一盞＝INVITE_DATA 的「兩個人單獨」；Café、總圖是有理由的、不算）*/
-  S.AREA=z=>(z==='noodle'||z==='gongguan')?'公館':((z==='wenzhou'||/^wz_/.test(String(z||''))||z==='cafe')?'溫州街':((z==='lane118'||/^l118_/.test(String(z||'')))?'118 巷':null));
-  S.invSolo=function(iv){ if(typeof INV==='undefined'||!iv) return false; const P=INV.place(iv.place), D=typeof INVITE_DATA!=='undefined'?INVITE_DATA:{};
+  /* 邀約（吃飯、散步、一盞＝INVITE_DATA 的「兩個人單獨」；Café、總圖是有理由的、不算）。D1 只看公館、溫州街（AA_384 第 6 項：118 巷沒有可以單獨約的地點，拿掉）*/
+  S.AREA=z=>(z==='noodle'||z==='gongguan')?'公館':((z==='wenzhou'||/^wz_/.test(String(z||''))||z==='cafe')?'溫州街':null);
+  /* 只算玩家自己約的（AA_384 第 5 項）：她們約你的（INV.offer 的 by:'npc'，劇情事件發的）不算——兩個人都在那裡直接開始（INV.autoStart → startTogether）也一樣 */
+  S.invSolo=function(iv){ if(typeof INV==='undefined'||!iv||iv.by==='npc') return false; const P=INV.place(iv.place), D=typeof INVITE_DATA!=='undefined'?INVITE_DATA:{};
     return !!P&&S.HER.includes(iv.who)&&((D.soloKinds||[]).includes(P.kind)||(D.soloPlaces||[]).includes(P.id)); };
   S.invTell=async function(GM,iv){ if(!iv||iv.kxd) return null; iv.kxd=1; const G=GM.G; if(!S.on(G)||!S.invSolo(iv)) return null; const P=INV.place(iv.place);
     return S.offerTell(GM,{k:'inv',id:iv.id,who:iv.who,place:P.name,area:S.AREA(P.zone),day:iv.day}); };
@@ -258,8 +289,7 @@ const KXDRIFT=(function(){
     if(typeof PHONE!=='undefined'){ const P=PHONE.rec(G), mine=it=>!!it&&(PHONE.th?PHONE.th(it):(it.th||''))===TH;   /* 只拿掉她那一段（p:kexin）排著的；群組裡她的照送 */
       P.q=P.q.filter(q=>{ if(/^kx_drift_/.test(String(q.tag||''))) return true; const its=q.items||[], keep=its.filter(it=>!mine(it)); if(keep.length===its.length) return true; q.items=keep; return keep.length>0; }); } };
   /* ---------- D6 朋友 ---------- */
-  S.occasions=function(G,E){ const lo=E+S.D6_QUIET+1, hi=lo+S.D6_LOOK, C=[];
-    if(S.YT_BDAY) for(let d=lo;d<=hi;d++){ const x=CALENDAR.dateOf(d); if(String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0')===S.YT_BDAY){ C.push({day:d,kind:'bday'}); break; } }
+  S.occasions=function(G,E){ const lo=E+S.D6_QUIET+1, hi=lo+S.D6_LOOK, C=[];   /* 自然的日子：祐廷放榜、考上（AA_384 第 4 項：祐廷的生日拿掉）*/
     S.PASS.forEach((p,i)=>{ const d=DK(p.key); let on=false; try{ on=d!=null&&d>=lo&&d<=hi&&!!p.track(G); }catch(e){ on=false; } if(on) C.push({day:d,kind:'pass',i}); });
     return C.sort((a,b)=>a.day-b.day); };
   S.r6Send=function(G,r,L,day,h){ PHONE.at(G,day,h,L.map(K),'kx_drift_r6_msg'); r.st='sent'; r.msgDay=day; S.r6Ask(G,r,day,h+1/6,1); };
@@ -272,14 +302,58 @@ const KXDRIFT=(function(){
     if(r.st==='occ'){ const h=Math.max(21,(+G.hour||0)%24); let c=r.cand[0];
       while(c&&c.kind==='pass'&&now(G)>=T(c.day,21)&&!S.PASS[c.i].ok(G)){ r.cand.shift(); c=r.cand[0]; }   /* 放榜那天 21:00（結果 15:00 出來）沒考上：不是可以恭喜的日子 */
       if(!c){ if(now(G)>=T(G.day,21)||G.day>E+S.D6_QUIET+1) S.r6Send(G,r,G.day>=DK(S.INTERN_KEY)?S.L.r6.news:S.L.r6.newsEarly,G.day,h); return; }   /* 都沒有＝她自己的好消息 */
-      if(G.day<c.day||now(G)<T(c.day,21)) return; S.r6Send(G,r,c.kind==='bday'?S.L.r6.bday:S.L.r6.pass,G.day,h); return; }
+      if(G.day<c.day||now(G)<T(c.day,21)) return; S.r6Send(G,r,S.L.r6.pass,G.day,h); return; }
     if(r.st==='asked'){ const a=F.KXD_R6_ANS;
       if(a==='yes'){ delete F.KXD_R6_ANS; r.st='planned'; OUT.plan(G,{id:'kx_drift_r6_'+r.sat,ev:'ev_kx_drift_r6',day:r.sat,h:12.5,late:0.75,place:S.L.r6.scene,title:'和可昕：'+S.L.r6.scene,travel:'騎車約 10 分鐘',travelH:1/6,alarm:true}); return; }
       if(a==='no'||now(G)>r.untilAsk){ delete F.KXD_R6_ANS; S.r6No(G,r); } } };
 
+  /* ---------- 分開以後當朋友（AA_384）----------
+     S.drift：這個存檔是「慢慢分手」分開的（KX_ENDED drift、現在沒有和她交往）；S.frOn：而且已經照朋友了（D6 那頓午餐以後；午餐沒約成＝照朋友那天起，AA_384 第 1 項）*/
+  S.drift=G=>!!G&&!!G.flags&&G.flags.KX_ENDED==='drift'&&G.flags.dating_kexin!==true&&law(G);
+  S.frOn=G=>{ if(!S.drift(G)) return false; const R=G.flags.KX_DRIFT; return !!R&&!!R.r6&&R.r6.st==='friend'; };
+  S.frRot=(G,k,c)=>{ const R=S.rec(G), W=R.fr&&typeof R.fr==='object'?R.fr:(R.fr={}), i=(W[k]|0)%c.length; W[k]=i+1; return c[i]; };   /* 同一種輪流（三則、兩則輪流）*/
+  /* 祐廷在國外（日本、美國；遊戲的時鐘是當地時間）：她照她那邊（臺灣）的時間回——可昕沒有自己的回覆時間（MSG 的預設：5～30 分鐘、00:30～08:00 睡了）。
+     不在國外＝null（照 MSG 原本的 replyAt）*/
+  S.frReplyAt=function(G){ const z=tz(G,G.day); if(!z||typeof MSG==='undefined'||!MSG.timing) return null; const Tm=MSG.timing(KX), tw=now(G)-z, d=Math.floor(tw/24+1e-9), h=tw-d*24, sm=(a,b)=>a+((G.day*37+11)%(Math.max(1,b-a+1)));
+    const asleep=Tm.sleep!=null&&(Tm.sleep>=12?(h>=Tm.sleep||h<Tm.wake):(h>=Tm.sleep&&h<Tm.wake)); let at, late=false, imm=false;
+    if(asleep){ at=T((Tm.sleep>=12&&h>=Tm.sleep)?d+1:d,Tm.wake+sm(0,20)/60); late=true; } else { const m=sm(Tm.free[0],Tm.free[1]); at=tw+m/60; imm=m<=2; }
+    const loc=at+z, ld=Math.floor(loc/24+1e-9); return {day:ld,h:+(loc-ld*24).toFixed(4),late,immediate:imm,kxTw:true}; };
+  /* 她回的那一刻、她那邊（臺灣）的時間：情況版照這個判斷（深夜、考試週、放假在高雄）——隔天早上才回的，不用「還沒睡」那一則 */
+  S.frHerG=function(G){ const at=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,KX):{day:G.day,h:+G.hour||0}, t=T(at.day,at.h)-tz(G,G.day), d=Math.floor(t/24+1e-9);
+    return {G:Object.assign({},G,{day:d,hour:+(t-d*24).toFixed(4),weekday:wdOf(d)}),at}; };
+  S.FR_ORDER=['放假、在高雄','考試週','深夜'];   /* 情況版的順序（msg3d.js：在國外 → 放假 → 考試週 → 深夜；在國外是 S.frAbroad）*/
+  S.frAbroad=function(G,Gh,at){ const r=STORY.routeAbroadRoute?STORY.routeAbroadRoute(G):null; if(!r||!(STORY.abroad&&STORY.abroad(G))||(at&&at.late)) return null;
+    const h=(+Gh.hour||0)%24; if(!(h>=23.5||h<5)) return null;   /* 只在她那邊 23:30 以後（MSG_POOL 那兩則的 variantNote）*/
+    const tag=r==='US'?'美國路線':'日本路線', P=typeof MSG_POOL!=='undefined'&&MSG_POOL.people&&MSG_POOL.people[KX];
+    return ((P&&P.replies)||[]).find(e=>e&&e.topic==='chat'&&e.variant==='祐廷在國外'&&(e.tags||[]).includes(tag))||null; };   /* 照 L 層那兩則（美國、日本各一），朋友也用 */
+  S.frPick=function(G,topic,sub){ const keys=topic==='share'?['share_'+(sub||'cat'),'share']:[topic], all=S.LF.msg.filter(e=>keys.includes(e.topic)); if(!all.length) return null;
+    const H=S.frHerG(G), Gh=H.G;
+    if(topic==='chat'){ const ab=S.frAbroad(G,Gh,H.at); if(ab) return ab; }
+    for(const v of S.FR_ORDER){ const c=all.filter(e=>e.variant===v&&typeof MSG!=='undefined'&&MSG.sitOk&&MSG.sitOk(Gh,KX,v,{late:!!H.at.late},e)===true); if(c.length) return S.frRot(G,topic+'|'+v,c); }
+    const gen=all.filter(e=>!e.variant); return gen.length?S.frRot(G,topic,gen):null; };
+  S.frPick2=function(G,topic){ const e=S.LF.msg2.find(x=>x.topic===topic); return e?{e,act:null}:null; };   /* 生日快樂、新年快樂（謝謝、還好嗎不開）*/
+
+  /* ---------- 「她會約」：一學期一次的午餐（AA_384 第 3 項）----------
+     照朋友的下一個學期起（照朋友那天在寒暑假＝前一個學期的下一個）、到大四下；交換那一學期不排（寒暑假本來就不是第 6 週）。
+     第 6 週週四 21:00 她傳「週六中午，公館。予樂也來。」（好。／那天不行。）；那天不行＝她回「好。下次。」、那學期不排；到週六 11:30 都沒回＝那學期也不排（不傳）。
+     週六 12:30 公館（出遊，當面）：三套輪流（演過一套換下一套，R.r7.n）；沒到＝她傳一則，不扣任何數字。記錄 KX_DRIFT.r7＝{n, t:{學期:{st, thu, sat, until}}} */
+  S.r7From=G=>{ const r=S.rec(G).r6; if(!r||r.st!=='friend') return null; const i=S.idx(termAt(r.friend!=null?r.friend:G.day)); return i<0?0:i+1; };
+  S.r7Set=G=>((S.rec(G).r7||{}).n|0)%S.LF.lunch.sets.length;
+  S.r7Rule=function(G){ const F=G.flags, R=S.rec(G), t=termOf(G.day); if(!t||typeof PHONE==='undefined'||typeof OUT==='undefined') return; const i=S.idx(t.id), i0=S.r7From(G); if(i0==null||i<0||i<i0) return;   /* S.TERMS 只到大四下 */
+    const X=R.r7&&typeof R.r7==='object'?R.r7:(R.r7={n:0,t:{}}); if(!X.t||typeof X.t!=='object') X.t={}; const x=X.t[t.id], LL=S.LF.lunch;
+    if(!x){ const thu=STORY.termDay?STORY.termDay(t.id,6,4):null; if(thu==null) return; const sat=thu+2, until=T(sat,11.5);
+      if(S.exch(G,thu)||S.exch(G,sat)){ X.t[t.id]={st:'exch'}; return; }   /* 交換那一學期不排 */
+      if(now(G)<T(thu,21)) return; if(now(G)>until){ X.t[t.id]={st:'late',thu,sat}; return; }   /* 讀進來的時候那一週已經過了：這學期不排 */
+      const tag='kx_drift_r7_ask_'+t.id;
+      PHONE.at(G,thu,21,[Object.assign(K(LL.ask),{ask:{id:tag,until,opts:[{t:LL.opts[0],set:{KXD_R7_ANS:t.id+':yes'}},{t:LL.opts[1],set:{KXD_R7_ANS:t.id+':no'},say:[{from:KX,text:LL.no}]}]}})],tag);
+      X.t[t.id]={st:'asked',thu,sat,until}; return; }
+    if(x.st==='asked'){ let a=F.KXD_R7_ANS; if(a!=null&&String(a).split(':')[0]!==t.id){ delete F.KXD_R7_ANS; a=null; }   /* 別的學期留下來的答案不算 */
+      if(a===t.id+':yes'){ delete F.KXD_R7_ANS; x.st='planned'; OUT.plan(G,{id:'kx_drift_r7_'+t.id,ev:'ev_kx_drift_r7',day:x.sat,h:12.5,late:0.75,place:S.L.r6.scene,title:'和可昕、予樂：'+S.L.r6.scene,travel:'騎車約 10 分鐘',travelH:1/6,alarm:true,term:t.id}); return; }
+      if(a===t.id+':no'||now(G)>x.until){ if(a===t.id+':no') delete F.KXD_R7_ANS; x.st=a===t.id+':no'?'declined':'noreply'; } } };
+
   /* ---------- 規則（STORY.PHONE_RULES：空下來的每一格、跳過時間每小時）---------- */
   S.rule=function(G){ if(!G||!G.flags||!law(G)||typeof OUT==='undefined'||typeof PHONE==='undefined') return; const F=G.flags;
-    if(F.KX_ENDED==='drift'&&F.dating_kexin!==true){ S.r6Rule(G); return; }
+    if(F.KX_ENDED==='drift'&&F.dating_kexin!==true){ S.r6Rule(G); S.r7Rule(G); return; }
     if(F.dating_kexin!==true||!S.inRange(G)) return; const R=S.rec(G);
     if(!S.on(G)){ R.gapDay=Math.max(R.gapDay,G.day); S.freeze(G,R); return; }   /* 中途開始了另一段：停住、數字凍結 */
     S.scanOuts(G,R); S.scanTrips(G,R); S.gapTick(G,R); S.th(G,R); S.repairTick(G,R); S.r2Rule(G,R); S.r3Rule(G,R); S.r4Rule(G,R); S.r5Rule(G,R); };
@@ -304,7 +378,8 @@ const KXDRIFT=(function(){
       if(k===0||k===1) R.repairEnd=(q?q.day:G.day)+S.REPAIR; else if(!R.r5) R.r5={st:'pending',at:now(G),via:'r4'}; return; }
     if(key==='r5'){ S.end(G,'meet'); R.r5.home=true; return; }
     if(key==='r5c'){ S.end(G,'call'); return; }
-    if(key==='r6'){ const r=R.r6||(R.r6={}); r.st='friend'; r.friend=G.day; r.lunch=G.day; } };
+    if(key==='r6'){ const r=R.r6||(R.r6={}); r.st='friend'; r.friend=G.day; r.lunch=G.day; return; }
+    if(key==='r7'){ const X=R.r7||(R.r7={n:0,t:{}}), x=X.t&&q&&X.t[q.term]; X.n=(X.n|0)+1; if(x) x.st='done'; } };   /* 演過一套換下一套 */
   S.miss=function(G,GM,q,key){ const R=S.rec(G);
     if(key==='r1'){ if(R.r1) R.r1.st='missed'; if(!S.on(G)) return; S.add(G,1,'r1_missed'); const a=(R.r1&&R.r1.area)||'公館', L=S.L.r1.missed.slice(); if(a!=='公館') L[0]=L[0].replace('公館',a);   /* 「你昨天在公館。」：地點照實際那一個 */
       PHONE.at(G,q.day+1,12,L.map(K),'kx_drift_r1_missed_'+q.day); S.r2Start(G,R,'r1'); return; }
@@ -313,7 +388,9 @@ const KXDRIFT=(function(){
     if(key==='r4'){ if(R.r4) R.r4.st='missed'; R.r4Pick='noshow'; PHONE.at(G,G.day,Math.max(+G.hour||0,q.h+0.75),[K(S.L.r4.ok)],'kx_drift_r4_noshow'); if(!R.r5) R.r5={st:'pending',at:now(G),via:'r4'}; return; }   /* 沒到：她傳「好。」，等 D5（+0）*/
     if(key==='r5'){ if(R.r5) R.r5.st='call'; OUT.plan(G,S.callOut('kx_drift_r5_call','ev_kx_drift_r5_call',q.day,21)); return; }   /* 20:00 還沒來：21:00 她打來 */
     if(key==='r5c'){ if(R.r5) R.r5.st='text'; PHONE.at(G,q.day+1,12,[K(S.L.r5.text)].concat(S.L.r5.talk.map(K)),'kx_drift_r5_text'); return; }   /* 電話也沒接：隔天 12:00 文字版 */
-    if(key==='r6'){ const r=R.r6; if(r&&r.st==='planned') S.r6No(G,r); } };
+    if(key==='r6'){ const r=R.r6; if(r&&r.st==='planned') S.r6No(G,r); return; }
+    if(key==='r7'){ const X=R.r7, x=X&&X.t&&q?X.t[q.term]:null; if(x) x.st='missed';   /* 沒到：她傳一則，不扣任何數字（AA_384 第 3 項）*/
+      PHONE.at(G,q.day,Math.max(q.day===G.day?(+G.hour||0):0,q.h+(q.late!=null?q.late:0.75)),[K(S.LF.lunch.missed)],'kx_drift_r7_missed_'+(q.term||q.day)); } };
 
   /* ---------- 事件（STORY_EVENTS；trigger 'outing'，由這個檔排）---------- */
   const say=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:KX,text:t};
@@ -330,7 +407,8 @@ const KXDRIFT=(function(){
     base('ev_kx_drift_r4','講開',1.5,'r4',[{scene:L.r4.scene,bg:'nccu_food'}].concat(L.r4.lines.map(say),choiceBlock('r4',L.r4.opts))),
     base('ev_kx_drift_r5','分開',0.5,'r5',[{scene:L.r5.scene,bg:'nccu_dorm'}].concat(L.r5.talk.map(say),choiceBlock('r5',L.r5.opts),L.r5.close.map(say))),
     base('ev_kx_drift_r5_call','分開',0.25,'r5c',[{scene:'電話'}].concat(L.r5.callOpen.map(say),L.r5.talk.map(say),choiceBlock('r5c',L.r5.opts),L.r5.callClose.map(say))),
-    base('ev_kx_drift_r6','朋友',1.5,'r6',[{scene:L.r6.scene,bg:'gongguan'}].concat(L.r6.lines.map(say))) ];
+    base('ev_kx_drift_r6','朋友',1.5,'r6',[{scene:L.r6.scene,bg:'gongguan'}].concat(L.r6.lines.map(say))),
+    base('ev_kx_drift_r7','她會約',1.5,'r7',[{scene:L.r6.scene,bg:'gongguan'}].concat(...S.LF.lunch.sets.map((set,k)=>set.map(t=>Object.assign({if:{custom:G=>S.r7Set(G)===k}},say(t)))))) ];   /* AA_384 第 3 項：一學期一次的午餐（三套輪流：S.r7Set）*/
   if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
 
   /* ---------- 掛上去（包住別的系統；不改那些檔）---------- */
@@ -360,11 +438,25 @@ const KXDRIFT=(function(){
   if(typeof KXOD!=='undefined'&&KXOD.herWeek&&!KXOD._kxd){ KXOD._kxd=true; const hw0=KXOD.herWeek;
     KXOD.herWeek=function(G){ const hide=typeof OUT!=='undefined'?OUT.rec(G).filter(q=>/^kx_drift_(r1_|r3$|r5_call$)/.test(String(q.id||''))&&(q.state==='planned'||q.state==='done')):[]; const st=hide.map(q=>q.state);
       for(const q of hide) q.state='kxd_hide'; try{ return hw0.apply(this,arguments); } finally { hide.forEach((q,i)=>{ q.state=st[i]; }); } }; }
-  if(typeof PG!=='undefined'&&PG.exLines&&!PG._kxd){ PG._kxd=true; const ex0=PG.exLines; PG.exLines=function(G,id){ if(id===KX&&G&&G.flags&&G.flags.KX_ENDED==='drift') return null; return ex0.apply(this,arguments); }; }   /* 尾聲不用前任那一版 */
-  if(typeof MSG!=='undefined'&&MSG.send&&!MSG._kxd){ MSG._kxd=true; const op0=MSG.open, tp0=MSG.topics, sd0=MSG.send;
-    const drift=G=>!!G&&!!G.flags&&G.flags.KX_ENDED==='drift'&&G.flags.dating_kexin!==true&&law(G);
-    MSG.open=function(G,id){ if(id===KX&&drift(G)) return {ok:true,mode:'kxdrift'}; return op0.apply(this,arguments); };   /* 分開以後照樣傳得到（原本「分開以後不開」）*/
-    MSG.topics=function(G,id){ const r=tp0.apply(this,arguments); return id===KX&&drift(G)?r.filter(q=>q.k!=='night'&&q.k!=='course'):r; };
+  if(typeof PG!=='undefined'&&PG.exLines&&!PG._kxd){ PG._kxd=true; const ex0=PG.exLines; PG.exLines=function(G,id){ if(id===KX&&G&&G.flags&&G.flags.KX_ENDED==='drift') return null; return ex0.apply(this,arguments); };   /* 尾聲不用前任那一版 */
+    /* 尾聲的朋友版（AA_384 第 2 項）：她坐在同一桌，照 EPI_ORDER 現在的位置（最後一個）；旁白＋兩句 */
+    const ep0=PG.epiPresent, el0=PG.epiLine;
+    if(ep0) PG.epiPresent=function(G,id){ if(id===KX&&S.drift(G)) return true; return ep0.apply(this,arguments); };
+    if(el0) PG.epiLine=function(G,id){ if(id===KX&&S.drift(G)) return S.LF.epi.map(x=>x.slice()); return el0.apply(this,arguments); };
+    /* 畢業典禮那天 12:00 她傳的（AA_384 第 7 項；PG.MSGS 的 pg_kx_ex＝POSTGRAD_LINES.PHONE.kexinEx）：分開以後當朋友的換成兩句；被發現、劈腿那一條照舊「恭喜。」*/
+    const gm=Array.isArray(PG.MSGS)?PG.MSGS.find(m=>m&&m.tag==='pg_kx_ex'):null;
+    if(gm&&typeof gm.items==='function'){ const it0=gm.items; gm.items=function(G){ if(S.drift(G)) return S.LF.grad.map(K); return it0.apply(this,arguments); }; } }
+  if(typeof MSG!=='undefined'&&MSG.send&&!MSG._kxd){ MSG._kxd=true; const op0=MSG.open, tp0=MSG.topics, sd0=MSG.send, pk0=MSG.pick, p20=MSG.pick2, ra0=MSG.replyAt;
+    MSG.open=function(G,id){ if(id===KX&&S.drift(G)) return {ok:true,mode:'kxdrift'}; return op0.apply(this,arguments); };   /* 分開以後照樣傳得到（原本「分開以後不開」）*/
+    /* 話題：照朋友以前（前 60 天、到 D6 那頓午餐）沒有晚安；照朋友以後是朋友層——晚安（兩則輪流）照時間開、不看熟悉度（MSG 原本的晚安要第 4 階；她知道祐廷和別人交往中照 MSG 不開）*/
+    MSG.topics=function(G,id){ const r=tp0.apply(this,arguments); if(id!==KX||!S.drift(G)) return r; if(!S.frOn(G)) return r.filter(q=>q.k!=='night'&&q.k!=='course');
+      const out=r.filter(q=>q.k!=='course'), h=(+G.hour||0)%24, nt=(MSG.TOPICS||[]).find(q=>q.k==='night');
+      if(nt&&!out.some(q=>q.k==='night')&&!(h<21.5&&h>=5)&&!(MSG.takenFor&&MSG.takenFor(G,KX))){ const i=out.findIndex(q=>!!MSG.isT2&&MSG.isT2(q.k)); out.splice(i<0?out.length:i,0,nt); }
+      return out; };
+    /* 回什麼：照朋友以後用朋友層（S.LF）；第二批只有生日快樂、新年快樂 */
+    if(pk0) MSG.pick=function(G,id,topic,sub,ctx){ if(id===KX&&S.frOn(G)) return S.frPick(G,topic,sub); return pk0.apply(this,arguments); };
+    if(p20) MSG.pick2=function(G,id,topic,peek){ if(id===KX&&S.frOn(G)) return S.frPick2(G,topic); return p20.apply(this,arguments); };
+    if(ra0) MSG.replyAt=function(G,id){ if(id===KX&&S.frOn(G)){ const r=S.frReplyAt(G); if(r) return r; } return ra0.apply(this,arguments); };   /* 祐廷在國外：照她那邊的時間回 */
     MSG.send=function(G,id,topic,sub){ if(id===KX&&G&&G.flags){ const s=S.shortNow(G); if(s){ const r=S.shortSend(G,id,topic,sub,s.lines,s.key); if(r) return r; } } return sd0.apply(this,arguments); }; }
   /* 只回短的：D2 之後兩天（交往中）、D6 分開以後到吃完那頓午餐（照順序）*/
   S.shortNow=function(G){ const F=G.flags||{}, R=F.KX_DRIFT; if(!R) return null;
