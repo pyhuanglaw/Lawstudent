@@ -1014,7 +1014,7 @@ const Z3 = (function(){
   /* 溫州街小公園（ART-WZ1 擴大版，LAWWW2-B 48aed1c9／ceb545f2；AA_164 第 5 節）：導航格、座位、路燈的地面光圈都照 WZ_PARK_LAYOUT（Blender 模型 tools/blender/env_second/wz_park.py 讀同一份）。
      入口段 x 20.2–31.8、z 5–17（主巷進來）＋A3、A4 後面的主園區 x 8.4–36、z 17–29（西北角是巷底那棟 F1）；入口 B 從北巷（x 3.3–8.2）進來。
      外觀是正式模型 bldg.wz_park；載入前、載入失敗時的備用（D38 ③）：草地、樹、長椅、路燈用套件，涼亭、遊戲場這些用低矮的色塊標出位置（不是隱形牆），模型載入後藏起來（userData.wzParkFb）。
-     互動點（公布欄、象棋、土地公、直飲台）和貓的事件照 AA_171（src/wzpark3d.js；AA_164 5-4、5-6，DL-09／DL-13）；公園的路人見 AA_283（企劃已交，任務 AA283-PARK-1021，還沒接）。改這裡要跑 node tests/wz_park_unit.js、tests/reachability_all.py、tests/touch_flow_wenzhou.py */
+     互動點（公布欄、象棋、土地公、直飲台）和貓的事件照 AA_171（src/wzpark3d.js；AA_164 5-4、5-6，DL-09／DL-13）；公園的路人照 AA_283（crowd3d.js 的 CROWD.parkSpots；下雨貓在涼亭的石桌底下、象棋的互動點藏起來）。改這裡要跑 node tests/wz_park_unit.js、node tests/wz_park_people_unit.js、tests/reachability_all.py、tests/touch_flow_wenzhou.py */
   /* 溫州街的貓（ART-WZ5，bldg.wz_cat）：三個姿勢留一個（原點＝四腳中間的地面、頭朝 +z）；照學期換樣子（AA_171 第 7 節、LAWWW2-B 的說明）：
      大二上胖（fat 1.0）、大二下瘦一點（0.5）；大三起有項圈名牌；大三上第 10 週（找到以後那一週）左前腳有繃帶；大四毛色淡（cat_fur_old）*/
   function wzCatModel(root,G,pose){ const T=G&&typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, id=T?T.id:'', yr=+id.charAt(1)||1;
@@ -1045,10 +1045,13 @@ const Z3 = (function(){
     for(const st of L.seats){ const pk=st.kind==='swing'?'swing':(/老樹下的圓椅/.test(st.label||'')?'tree':null);
       const ap=pk==='swing'?[st.x,(swg?swg.z:st.z)-1.4]:null;   /* 鞦韆：座位在座板上（ART-PARK2），前後左右 0.9 m 內都在鞦韆架的導航阻擋（z 23.9～25.7）裡，從架子前面走近（QA-HANDOFF-B1 reachability_all）*/
       E.interactables.push(Object.assign({x:st.x,z:st.z,radius:1.3,label:st.label,seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},ap?{ap}:{})},pk?{park:pk}:{})); }
-    for(const q of (L.interact||[])) E.interactables.push({x:q.x,z:q.z,radius:1.4,label:q.label,park:q.kind});
+    for(const q of (L.interact||[])){ const it={x:q.x,z:q.z,radius:1.4,label:q.label,park:q.kind};
+      if(q.kind==='chess') Object.defineProperty(it,'hidden',{enumerable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return !!(G&&typeof PARK!=='undefined'&&PARK.rainy&&PARK.rainy(G)); }});   /* 下雨公園一個人都沒有＝沒有人下象棋（AA_283 第 1 節）*/
+      E.interactables.push(it); }
     const G0=typeof GAME!=='undefined'&&GAME.G, catHere=!(typeof PARK!=='undefined'&&G0&&PARK.catLost(G0));   /* 大三上第 9 週貓不見了（AA_166 線四）*/
-    const ring=L.items.find(i=>i.kind==='ring_bench'); const catAt=ring?{x:ring.x,z:ring.z+(ring.r||1.45),yaw:Math.PI}:null;
-    if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null; E.interactables.push({x:catAt.x,z:catAt.z+0.2,radius:1.4,label:nm?'摸摸'+nm:'那隻貓',park:'cat'}); }
+    const ring=L.items.find(i=>i.kind==='ring_bench'), under=!!(catHere&&pav&&typeof PARK!=='undefined'&&G0&&PARK.catUnder&&PARK.catUnder(G0));   /* 下雨：貓躲在涼亭的石桌底下（AA_164 5-2、AA_283 第 1 節；石桌在涼亭中間，地台 0.14 m）*/
+    const catAt=under?{x:pav.x+0.3,z:pav.z+0.05,yaw:Math.PI/2,y:0.14}:(ring?{x:ring.x,z:ring.z+(ring.r||1.45),yaw:Math.PI}:null);
+    if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null; E.interactables.push({x:catAt.x,z:catAt.z+(under?0:0.2),radius:1.4,label:nm?'摸摸'+nm:'那隻貓',park:'cat'}); }
     for(const it of L.items) if(it.kind==='park_lamp'){ const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(it.x,0.03,it.z); g.add(pool); pools.push(pool); }
     // 睡在老樹圓椅上的橘白色胖貓（AA_164 5-1、AA_171 第 7 節；3D 正式模型是 ART-WZ5，到之前用套件的貓）
     { const bf=catAt&&catHere?{x:catAt.x-0.05,z:catAt.z+0.45,yaw:catAt.yaw-Math.PI/2}:null; if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
@@ -1058,6 +1061,7 @@ const Z3 = (function(){
         cat.add(dk,new THREE.TorusGeometry(0.16,0.026,6,14,Math.PI*1.1),-0.02,cy+0.035,-0.02,0.4,{rx:-Math.PI/2});
         const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); cg.position.set(bf.x+0.05,0,bf.z-0.45); cg.rotation.y=bf.yaw+Math.PI/2;
         const catG=new THREE.Group(); catG.name='wz_cat'; catG.userData.dyn=true; catG.add(cg); g.add(catG);   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
+        if(under){ catG.position.y=catAt.y-0.45; catG.userData.under=true; }   /* 套件的貓、正式模型（0.47）都是照圓椅的座面（0.45 m）放的：石桌底下整組放低到涼亭的地台上 */
         if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return; const m=wzCatModel(c.scene.clone(true),G0,'lie'); if(!m) return;
           m.position.set(bf.x+0.05,0.47,bf.z-0.45); m.rotation.y=bf.yaw+Math.PI; cg.visible=false; catG.add(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
     // 備用外觀（模型載入後藏起來）
