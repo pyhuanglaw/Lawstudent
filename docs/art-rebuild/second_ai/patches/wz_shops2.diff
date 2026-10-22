@@ -95,7 +95,7 @@ index 0b6b66c..eeae256 100644
  };
  if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;
 diff --git a/src/zones3d.js b/src/zones3d.js
-index eaeda82..8804cab 100644
+index eaeda82..9668b96 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -791,7 +791,7 @@ const Z3 = (function(){
@@ -131,7 +131,7 @@ index eaeda82..8804cab 100644
          if(o.curtains){ const ct=W3.canvasTex('curtain',64,128,(x,w,h)=>{ x.fillStyle='#d9c9a8'; x.fillRect(0,0,w,h); for(let i=0;i<w;i+=8){ const gg=x.createLinearGradient(i,0,i+8,0); gg.addColorStop(0,'rgba(0,0,0,0.10)'); gg.addColorStop(0.5,'rgba(255,255,255,0.10)'); gg.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gg; x.fillRect(i,0,8,h); } }); for(const sx of [-1,1]){ const c=new THREE.Mesh(new THREE.PlaneGeometry(0.38,2.0),new THREE.MeshStandardMaterial({map:ct,color:o.curtains,roughness:0.95,side:THREE.DoubleSide})); const q=at(wx+sx*1.3,0.24); c.position.set(q[0],WY-0.1,q[1]); c.rotation.y=ry; part.add(c); } const rod=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.03,0.03),M('#8f9399')); { const q=at(wx,0.24); rod.position.set(q[0],Math.min(WY+0.88,H-0.08),q[1]); } rod.rotation.y=ry; part.add(rod); }
          // 窗光落在地板上的光斑（下午暖光／清晨冷光，夜晚消失）
          const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.2),new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending})); sp.rotation.x=-Math.PI/2; { const q=at(wx+0.4,1.6); sp.position.set(q[0],0.012,q[1]); } sp.rotation.z=ry; sp.userData.dyn=true; g.add(sp); zone.sunPatches.push(sp); } }
-@@ -1599,17 +1599,17 @@ const Z3 = (function(){
+@@ -1599,18 +1599,18 @@ const Z3 = (function(){
       做法照麵店：room() 的空房間＋家具色塊是備用（D38 ③），正式模型 bldg.wz_*_interior 載入後整組藏起來（attachRoomGLB：WALL_ 淡出牆）。
       一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
       這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
@@ -149,10 +149,12 @@ index eaeda82..8804cab 100644
        const fbM=M('#a88b6a',{rough:0.8});
        for(const b of L.blocks){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]-cz); g.add(m); }   /* 備用的家具色塊（模型載入後藏起來）*/
 -      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:{}; z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）*/
+-        E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl),shop:key}); }
 +      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:(st.lift?{lift:st.lift}:{}); z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl,st.ap?{ap:st.ap}:{}));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）；lift＝吧台高腳凳（巷子裡定食的吧台，座面 0.72 m：坐姿抬高 0.27，和 Café 的吧台一樣）*/
-         E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl),shop:key}); }
++        E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl,st.ap?{ap:st.ap}:{}),shop:key}); }   /* 按鈕的座位也要帶 ap：「坐下」用的是這一份（GAME.freeSeat 沒人坐就原樣回傳）*/
        const ex=L.exit; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},ex.spawn)}});
        /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10 */
+       const CUST={brunch:{cashier:'點餐',chalkboard:'看今日推薦'},teahouse:{tea:'喝茶',garden:'看院子',tokonoma:'看床之間的掛軸'},print:{print:'印東西',stationery:'買文具'}}[key]||{};
 @@ -1619,6 +1619,10 @@ const Z3 = (function(){
        const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
        return z; } }; }
@@ -175,10 +177,10 @@ index eaeda82..8804cab 100644
       淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
 diff --git a/tests/wz_shops2_unit.js b/tests/wz_shops2_unit.js
 new file mode 100644
-index 0000000..f108473
+index 0000000..910973d
 --- /dev/null
 +++ b/tests/wz_shops2_unit.js
-@@ -0,0 +1,72 @@
+@@ -0,0 +1,75 @@
 +// 溫州街林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）——不需要瀏覽器。
 +// 建出真正的區域：出生點、每個座位、出口、點餐／看菜單的位置走得到；沒有小孤島；店面窗外的景大小；溫州街的兩個店門從主巷走得到、原本的「看」拿掉、出來的落點站得住。
 +// 修改前：沒有 wz_lin 區域（第 1 項就失敗）。用法：node tests/wz_shops2_unit.js
@@ -220,11 +222,14 @@ index 0000000..f108473
 +  const bad=seats.filter(i=>!reachI(i,sp)).map(i=>'('+i.x+','+i.z+')');
 +  check('2. '+L.name+'：每個座位旁邊站得住、從門口走得到',!bad.length,bad.join('、'));
 +  /* 「坐下」會先走到椅子旁邊（GAME.seatApproach：座位指定的 ap，或前 0.5、後 0.6、左右 0.55、後 0.7／0.75、前 0.8、後 0.9 m，第一個站得住、走得到的點）。
-+     j23 reachability_all（10-22）：林家乾麵第一張桌子（夾在攤車和第二張桌子中間）的兩張椅子一個候選都站不住，seatApproach 退回椅子前面 0.5 m＝桌子裡面，走過去卡住 */
-+  const apBad=(E.zone.seats||[]).filter(s=>{ const fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0);
++     j23 reachability_all（10-22）：林家乾麵第一張桌子（夾在攤車和第二張桌子中間）的兩張椅子一個候選都站不住，seatApproach 退回椅子前面 0.5 m＝桌子裡面，走過去卡住。
++     j23b（10-22）：ap 只寫進區域的座位表（z.seats），「坐下」按鈕的座位是另一份、沒有 ap（GAME.seatMenu → freeSeat 沒人坐就原樣回傳 → seatApproach），所以照舊卡住：這裡量按鈕的座位 */
++  const apBad=seats.map(i=>i.seat).filter(s=>{ const fx=Math.sin(s.yaw||0), fz=Math.cos(s.yaw||0);
 +    const C=[...(s.ap?[[s.ap[0]-s.x,s.ap[1]-s.z]]:[]),[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]];
 +    return !C.some(([dx,dz])=>{ const x=s.x+dx, zz=s.z+dz; if(!E.canStand(x,zz,0.3,0)) return false; const p=E.pathTo(sp[0],sp[1],0,x,zz,0); return !!p&&p.length>0&&Math.hypot(p[p.length-1][0]-x,p[p.length-1][1]-zz)<=0.6; }); }).map(s=>'('+s.x+','+s.z+')');
 +  check('2. '+L.name+'：每張椅子「坐下」走近的點至少一個站得住、從門口走得到（GAME.seatApproach 的候選）',!apBad.length,apBad.join('、'));
++  { const wa=L.seats.filter(s=>s.ap), miss=wa.filter(s=>{ const i=seats.find(q=>Math.abs(q.seat.x-s.x)<1e-6&&Math.abs(q.seat.z-s.z)<1e-6), q=(E.zone.seats||[]).find(q=>Math.abs(q.x-s.x)<1e-6&&Math.abs(q.z-s.z)<1e-6); return !(i&&i.seat.ap&&q&&q.ap&&i.seat.ap[0]===s.ap[0]&&i.seat.ap[1]===s.ap[1]&&q.ap[0]===s.ap[0]&&q.ap[1]===s.ap[1]); });
++    if(wa.length) check('2. '+L.name+'：配置寫了 ap 的座位，「坐下」按鈕和區域的座位表都帶著',!miss.length,wa.length+' 個'+(miss.length?'；少了 '+miss.map(s=>'('+s.x+','+s.z+')').join('、'):'')); }
 +  const ex=E.interactables.find(i=>i.exit&&i.exit.to==='wenzhou');
 +  check('2. '+L.name+'：「'+(ex&&ex.label)+'」走得到',!!ex&&reachI(ex,sp));
 +  const pts=(L.interact||[]).map(q=>({x:q.x,z:q.z,radius:1.0}));
