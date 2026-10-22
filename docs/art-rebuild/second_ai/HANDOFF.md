@@ -595,7 +595,35 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-22 05:3x 進度（帳號 A LAWWW2；最新，蓋過下面 05:1x 那一節）
+### ▶▶ 10-22 05:5x 進度（帳號 A LAWWW2；最新，蓋過下面 05:3x 那一節）
+- **LAWWW 已接（標已整合）**：
+  - 芷若頭髮第九版 `0198f820` LAWWW 驗收通過，接進 `154c639e`；
+  - 色調映射 Neutral 預設 `fdd9b3f5`，同一個 commit 接進；
+  - 機場第二版＋美國路燈光圈 `93967011`，接進 `1c53b397`。
+  - outbox、user_asks 已更新（`3e52fc59`）。開發分支最新 `c08889bf`。
+- **美國超市鏡頭兩件交件** `b874f99a`（`test_shots/us_market_cam_1022/README.md`）：
+  - j29 遊戲內前後：草原超市、亞洲超市晚上一進門，修改前門框擋人、修改後鏡頭在店裡；超市街站牌柱變網點。
+  - 兩支單元測試在套好的工作目錄 ALL PASS。
+  - outbox 未派。
+- **WZ-SHOP-AA364-ART**：
+  - j23b 瀏覽器 reachability 林家乾麵還是卡住。原因：`ap` 只寫進區域的座位表，「坐下」按鈕的座位是另一份。
+  - **第三版**（按鈕的座位也帶 `ap`）：單元測試第二版 2 FAIL、第三版 ALL PASS；j23c 瀏覽器 reachability ALL PASS。
+  - **第四版**（巷子裡定食和紙燈籠網點透空：配置 `seeThru`＋區域 `seeThru`）`8d1ff6b1`：第三版 3 FAIL、第四版 ALL PASS。
+  - 遊戲內前後排在 j30。
+- **半熟早午餐第一張桌子，鏡頭被排煙罩擋住**：
+  - 排煙罩、開放層架、杯子、罐子掛在後牆上，原本不在後牆的組。
+  - 改成歸後牆的組，後牆淡出時一起藏。重建 `wz_brunch_interior.glb`（三角形不變 17,958、節點 36→40）`8d1ff6b1`。
+  - 這份 GLB 也帶著 `612028f6` 的椅子方向修正（開發分支還是舊的、椅子反的）。
+  - 遊戲內前後排在 j30。
+- **118 巷吧台高腳椅 lift**：
+  - README `a86d21ce`；j24 前後截圖：修改前坐進凳子、修改後坐在凳面上。
+  - 單元測試在 `c08889bf` 修改前 8 FAIL、修改後 ALL PASS。
+  - `seats_on_furniture` 在 j24 沒跑起來（Playwright），排 j24b 用 pwwrap 重跑。
+- **還沒交件、還沒通知的**：WZ0 `59dfa3a8`、美國超市 `b874f99a`、AA364 第四版、半熟 GLB、118 巷 lift。等 j30、j24b 出來，一則訊息通知 LAWWW。
+- 六份 patch（`l118_bar_lift`、`dorm_lounge`、`wz0_prop_nav`、`wz_shops2`、`us_market_cam`、`us_ms_seethru`）在 `c08889bf` 上疊著套都乾淨。
+- 佇列：j25（男宿交誼廳，跑中）→ j30 → j24b → j11 → j26。
+
+### ▶▶ 10-22 05:3x 進度（帳號 A LAWWW2；被上面 05:5x 那一節取代）
 - **ART-WZ0 交件** `59dfa3a8`（outbox `4ae4910d`）：j19d 重拍 12 張前後、`wz0_prop_nav.diff` 第二版瀏覽器回歸 ALL PASS；接法寫在 `test_shots/wz0_1021/README.md`。還沒通知 LAWWW（等 j29、j23b 一起發一則）。
 - **美國巡場景 j14 的發現**（`ART_DIRECTOR_PATROL.md` 第 9 節）：
   - 兩間超市一進門鏡頭在店外（P1）→ `us_market_cam.diff`＋重建 `us_asian_market.glb`（`47eb0d5a`、`baf53ffd`）；
