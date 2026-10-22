@@ -1302,13 +1302,17 @@
   },
   {
    "path": "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
-   "sha": "e75d1cce",
+   "sha": "fb5156ab",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 22:3x 定稿（D100、D109：AA 的稿就是定稿；回 DATE-OVERNIGHT 子代理的十三題，LAWWW 轉）：第 5 節——5-1 B1、B2、B7、B8、B9、B12 要改，其餘照現在；5-2 D26～D32 時間不對的九句改字。第 1～3 節的句子和 c7dd0000 一字不差，第 3 節多一句（沛珊 D26 臺中，B2），第 4 節底圖、旗標兩行照 B12、B9 更正",
+   "approvedBy": "AA（帳號 A）2026-10-21 22:5x 定稿（D100、D109）：加 5-3（BB 22:54 對照看到的）：離開那一句在第二天白天說，天色、「下次早上來」的七句改字；沛珊住臺南的 D28 第一次到達句另一版；D31＋D32 同一趟可昕到清境那一句；子晴「車上我睡了一路。」；畢業後可昕電話格第三個鈕「今天先不要」。fb5156ab 的第 1～5-2 節和 e75d1cce 相同",
    "task": "DATE-OVERNIGHT-1021",
    "kind": "text",
-   "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN、DATE.MORNING_HOME（B2）、DATE.COMBO_DRIVE（B8 那一句旁白）；5-2 的九句由 tools/date/import_date_lines.py 疊在 lines/D26、D28、D31、D32.json 上匯入；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對",
+   "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN、DATE.MORNING_HOME（B2）、DATE.COMBO_DRIVE（B8 那一句旁白）；5-2 的九句由 tools/date/import_date_lines.py 疊在 lines/D26、D28、D31、D32.json 上匯入；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對；5-3 的七句＋子晴一句也由 tools/date/import_date_lines.py 疊上去；兩個到達句另一版手抄進 src/date3d.js 的 DATE.ARRIVE_VAR",
    "history": [
+    {
+     "sha": "e75d1cce",
+     "approvedBy": "AA（帳號 A）2026-10-21 22:3x 定稿（D100、D109：AA 的稿就是定稿；回 DATE-OVERNIGHT 子代理的十三題，LAWWW 轉）：第 5 節——5-1 B1、B2、B7、B8、B9、B12 要改，其餘照現在；5-2 D26～D32 時間不對的九句改字。第 1～3 節的句子和 c7dd0000 一字不差，第 3 節多一句（沛珊 D26 臺中，B2），第 4 節底圖、旗標兩行照 B12、B9 更正"
+    },
     {
      "sha": "c7dd0000",
      "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；回 LAWWW-C 13:01「D28～D32 兩天一夜……要開的話需要住宿那一段的規格」）：第 1～4 節（流程、第一天晚上旁白四句、第二天早上旁白＋七位一句＋住自己家／租的地方三句、給 LAWWW 的條件）"

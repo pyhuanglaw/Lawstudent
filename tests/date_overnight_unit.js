@@ -1,7 +1,7 @@
-// 兩天一夜的約會（DATE-OVERNIGHT-1021；企劃線 AA_359@e75d1cce（第 5 節：AA 回十三題、5-2 九句改字；原本 c7dd0000），大原則 AA_128 第 119 行、第 52 行，AA_126 1-1）：src/date3d.js＋outings3d.js 的 OUT.go。
+// 兩天一夜的約會（DATE-OVERNIGHT-1021；企劃線 AA_359@fb5156ab（第 5 節：AA 回十三題、5-2 九句改字、5-3 BB 對照看到的；之前 e75d1cce、c7dd0000），大原則 AA_128 第 119 行、第 52 行，AA_126 1-1）：src/date3d.js＋outings3d.js 的 OUT.go。
 // 不需要瀏覽器。用法：node tests/date_overnight_unit.js（稿用 git show 讀；證明修改前會失敗時，舊程式放在別的資料夾，SPEC_GIT_DIR＝這個 repo）
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
-const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='e75d1cce', SPEC_PATH='docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md';
+const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='fb5156ab', SPEC_PATH='docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|DATE|DATE_DATA|DATE_LINES|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
@@ -36,7 +36,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
 (async()=>{
   // ===== 0. 句子照稿（AA_359@c7dd0000 逐字）、匯入白名單 =====
   let spec=''; try{ spec=cp.execSync('git show '+SPEC_SHA+':"'+SPEC_PATH+'"',{cwd:GIT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
-  const SP={night:{},narr:null,morning:{},own:{},home:{},fix52:[],drive:null};
+  const SP={night:{},narr:null,morning:{},own:{},home:{},fix52:[],drive:null,fix53:[],var53:{}};
   if(spec){ const rows=s=>s.split('\n').filter(l=>l.startsWith('|')&&!/^\|[-| :]+\|$/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
     const part=(a,b)=>{ const i=spec.indexOf(a), j=b?spec.indexOf(b,i+1):spec.length; return i<0?'':spec.slice(i,j<0?spec.length:j); };
     for(const r of rows(part('## 2.','## 3.'))){ const k=/^還沒交往/.test(r[0])?'single':(/^交往中/.test(r[0])?'dating':(/^D26/.test(r[0])?'home':(/^D28/.test(r[0])?'rent':null))); if(k) SP.night[k]=r[1]; }
@@ -44,7 +44,13 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     for(const r of rows(s3)){ const id=NAME[r[0]], m=/^「(.*)」$/.exec(r[1]||''); if(id&&m) SP.morning[id]=m[1]; }
     for(const l of s3.split('\n')){ const m=/^\s*-\s*(以安|芷若|沛珊)（D2[68][^）]*）：「(.*)」\s*$/.exec(l); if(m) SP.own[NAME[m[1]]]=m[2]; }
     for(const l of s3.split('\n')){ const m=/^\s*-\s*沛珊（D26[^）]*台中老家[^）]*）：「([^「」]*)」/.exec(l); if(m) SP.home.classmate_peishan=m[1]; }   /* 第 3 節第 4 句（5-1 B2）*/
-    for(const r of rows(part('### 5-2.',null))){ if(!/^D\d\d$/.test(r[0])) continue; const who=NAME[r[1].slice(0,2)], o=/「([^「」]*)」/.exec(r[2]||''), n=/「([^「」]*)」/.exec(r[3]||''); SP.fix52.push({loc:r[0],who,old:o&&o[1],neu:n&&n[1]}); }
+    { const s53=part('### 5-3.',null);   /* 5-3（fb5156ab）：七列離開句、兩個到達句另一版、子晴那一句 */
+      for(const r of rows(s53)){ if(!/^D\d\d$/.test(r[0])) continue; const who=NAME[r[1].slice(0,2)], o=/「([^「」]*)」/.exec(r[2]||''), n=/「([^「」]*)」/.exec(r[3]||''); SP.fix53.push({loc:r[0],who,old:o&&o[1],neu:n&&n[1]}); }
+      const q=t=>(String(t||'').match(/「[^「」]*」/g)||[]).map(x=>x.slice(1,-1)), seg=(a,b)=>{ const i=s53.indexOf(a); if(i<0) return ''; const j=b?s53.indexOf(b,i+1):-1; return s53.slice(i,j<0?s53.length:j); };
+      const ps=seg('沛珊大三起住在台南','（原句'); SP.var53.ps=q(ps); SP.var53.psOld=q(seg('（原句','留給'));
+      const kx=/同一趟的版本「([^「」]*)」/.exec(s53), kxOld=/可昕第一次：「([^「」]*)」/.exec(s53); SP.var53.kx=kx&&kx[1]; SP.var53.kxOld=kxOld&&kxOld[1];
+      const zq=/子晴一般：「([^「」]*)」→ 不分版本都改「([^「」]*)」/.exec(s53); SP.var53.zq=zq&&{old:zq[1],neu:zq[2]}; }
+    for(const r of rows(part('### 5-2.','### 5-3.'))){ if(!/^D\d\d$/.test(r[0])) continue; const who=NAME[r[1].slice(0,2)], o=/「([^「」]*)」/.exec(r[2]||''), n=/「([^「」]*)」/.exec(r[3]||''); SP.fix52.push({loc:r[0],who,old:o&&o[1],neu:n&&n[1]}); }
     { const m=/旁白「(（吃完早餐[^」]*）)」/.exec(part('- **B8','- **B9')); SP.drive=m&&m[1]; } }
   check('0. 讀得到稿 AA_359@'+SPEC_SHA+'：晚上四種、早上旁白、七位一句、住自己家／租的地方三句',!!spec&&Object.keys(SP.night).length===4&&!!SP.narr&&Object.keys(SP.morning).length===7&&Object.keys(SP.own).length===3,J(SP));
   check('0. 晚上那一句（第 2 節）四種逐字：兩間房／民宿／她回家／她回租的地方',!!D().NIGHT&&['single','dating','home','rent'].every(k=>D().NIGHT[k]===SP.night[k]),J([D().NIGHT,SP.night]));
@@ -235,5 +241,23 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     for(const f of SP.fix52){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]); if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(f.neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+f.neu); }
     check('14. 5-2：九句都換成「改成」那一欄（只在那個地點、那個人；舊句不見了）',SP.fix52.length===9&&!bad.length,bad.join('；'));
     check('14. 5-2：date_lines.js 的來源寫著 AA_359@'+SPEC_SHA,DATE_LINES.source.includes('AA_359_兩天一夜的約會_住宿那一段.md@'+SPEC_SHA),DATE_LINES.source.slice(-200)); });
+  await sec('14d',async()=>{
+    // 5-3（fb5156ab）：離開那一句在第二天白天說（七句改字、子晴一句）；兩個到達句另一版（DATE.ARRIVE_VAR）
+    const texts=(x,o)=>{ if(Array.isArray(x)) x.forEach(v=>texts(v,o)); else if(x&&typeof x==='object'){ if(typeof x.text==='string') o.push(x.text); for(const k in x) if(k!=='text') texts(x[k],o); } return o; };
+    const bad=[]; for(const f of SP.fix53.concat(SP.var53.zq?[{loc:'D32',who:'heroine_04',old:SP.var53.zq.old,neu:SP.var53.zq.neu}]:[])){ const T=texts((((DATE_LINES.loc[f.loc]||{}).lines||{})[f.who]),[]); if(T.includes(f.old)) bad.push(f.loc+' '+f.who+' 還有舊句：'+f.old); if(!T.includes(f.neu)) bad.push(f.loc+' '+f.who+' 沒有新句：'+f.neu); }
+    check('14. 5-3：離開句七句＋子晴「車上我睡了一路。山路好彎。」都換了（舊句不見了）',SP.fix53.length===7&&!!SP.var53.zq&&!bad.length,bad.join('；')||J(SP.fix53.length));
+    const V=D().ARRIVE_VAR||[], vps=V.find(v=>v.loc==='D28'&&v.who==='classmate_peishan'), vkx=V.find(v=>v.loc==='D32'&&v.who==='kexin');
+    check('14. 5-3：兩個到達句另一版逐字照稿（沛珊住臺南的 D28、D31＋D32 同一趟可昕到清境）',!!vps&&J(vps.to)===J(SP.var53.ps)&&J(vps.from)===J(SP.var53.psOld)&&!!vkx&&vkx.to[0]===SP.var53.kx&&vkx.from[0]===SP.var53.kxOld,J({vps,vkx,sp:SP.var53}));
+    const L28=(((DATE_LINES.loc.D28||{}).lines||{}).classmate_peishan||{}).arrive.first, t28={who:'classmate_peishan',locs:['D28'],day:STORY.dayOfKey('2027-10-16')};
+    fresh(t28.day-1,20,{}); const w0=D().whereOn; D().whereOn=()=>({city:'台南',own:'rent'}); const a=D().arriveVar(G,t28,L28,{}); D().whereOn=()=>({city:'台北'}); const b=D().arriveVar(G,t28,L28,{}); D().whereOn=w0;
+    check('14. 5-3：沛珊住臺南（她那天在租的地方）＝「歡迎來臺南！今天我帶路。」那一組；還沒搬去＝原句',J(a.lines.map(x=>x.text))===J(SP.var53.ps)&&J(b.lines.map(x=>x.text))===J(SP.var53.psOld),J([a.lines,b.lines]));
+    const L32=(((DATE_LINES.loc.D32||{}).lines||{}).kexin||{}).arrive.first, t32={who:'kexin',locs:['D32'],day:STORY.dayOfKey('2027-10-17')};
+    const c=D().arriveVar(G,t32,L32,{combo:true}), e=D().arriveVar(G,t32,L32,{});
+    check('14. 5-3：D31＋D32 同一趟可昕到清境＝「'+SP.var53.kx+'」、下一句不變；只去清境照原句',c.lines[0].text===SP.var53.kx&&c.lines[1].text===L32.lines[1].text&&e.lines[0].text===SP.var53.kxOld,J([c.lines,e.lines])); });
+  await sec('15',async()=>{
+    // BB 10-21 22:54：讀「到達」那次強制存檔以後選「改時間」，q.arrived 要清掉（不然之後不會趕不上、出發車程 0）；摘要的回程寫「最晚」
+    const src=fs.readFileSync(path.join(ROOT,'src/date3d.js'),'utf8'), mv=src.slice(src.indexOf('S.move=async function'),src.indexOf('改時間她回一句'));
+    check('15. 改時間的三種改法都清掉 q.arrived',(mv.match(/delete q\.arrived;/g)||[]).length===3,String((mv.match(/delete q\.arrived;/g)||[]).length));
+    check('15. 兩天一夜的摘要、時間選單寫「最晚」回到台大（第二天兩個點走完就回，大約中午到下午）',/住一晚，'\+S\.dayLabel\(G,w\.day\+1\)\.trim\(\)\+' 最晚約 /.test(src)&&/住一晚，第二天最晚/.test(src)); });
   console.log(fails?'\nFAILED '+fails:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
