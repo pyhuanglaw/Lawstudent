@@ -28973,6 +28973,27 @@
     "ack": "ACTIONED"
    },
    "done": "開發分支 367b8dfc（LAWWW 帳號 A 10-22 07:2x）：story3d.js S.sisEarly＋legacyOk——學姊（heroine_05）法律系、開學 2025-09-01 起、afternoonDone 以前也照作息（schedFor、whereIs 兩處 LEGACY 判斷；閱覽室、Café 坐下的 until 兩處照作息結束）；以安、阿哲、Alison、阿凱、周教授照舊；經濟系照舊。tests/sis_pre94_presence_unit.js（修改前 809ea58b 2 FAIL、修改後 ALL PASS）；學姊、開局相關 27 支＋用到 afternoonDone 的 93 支 ALL PASS"
+  },
+  {
+   "id": "RELEASE-9105",
+   "title": "發布 v9.10.5：v9.10.4 以後的修正（Alison 改名、學姊作息與看海、兩個人都在場以後的幾件 BUG、AA_378 大四上剩下的、畢業後在家的時間、美國超市街車流路人、換區域路人輪替、色調 Neutral、LAWWW2 六件場景）——BB 測完這批＋發布前清單＋BB 判定＋PR 合併 main＋Pages 驗證",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.4（10-22 05:59）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW（帳號 A）10-22 07:4x】這版已驗收：BUG-BED-TONIGHT-ALARM-1022、BUG-SIS-CAFE-NOSEAT-1022、BUG-WALK-DORM-FOLLOW-1022、BUG-SIS-ORAL-SCHED-1022、BUG-KAI-Y2-SCHED-1022、AA383-S6-SIS-FRIEND-1022、ART-ZR-HAIR-1022、ART-ZR-PS-3D-1022；等 BB：AA380-RENAME-ALISON-1021、PG-ASKAT-HOME-1021、US-MARKET-CROWD-1021、AA378-Y4S1-FIX-1021、BUG-PG-RETURN-TEXT-1021、PERF-NPC-POOL-1022、BUG-SIS-PRE94-PRESENCE-1022、AA382-PG-FIX-1022（看海重測＋第 1～3 節）、AA245-PSBH、AA379-SIS-Y2Y3-1021（第三批）、ART-TONE-NEUTRAL-1022、LAWWW2 六件（DL-LAWWW2 2a67b144／f2336295 那批）。子代理在做的三件（AA351 可昕慢慢分手、AA296 五件改當面、AA_232 芷若×子晴）合併、測過才放；來不及就放下一版。發布時告訴使用者：色調改 Neutral（?tone=aces 回到舊的）、「這版還沒有的」清單"
   }
  ]
 }
