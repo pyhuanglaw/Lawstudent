@@ -1,8 +1,8 @@
 diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
-index 0b6b66c..eeae256 100644
+index 0b6b66c..c5c8579 100644
 --- a/src/data/wz_shops_layout.js
 +++ b/src/data/wz_shops_layout.js
-@@ -130,6 +130,91 @@ const WZ_SHOPS_LAYOUT = {
+@@ -130,6 +130,92 @@ const WZ_SHOPS_LAYOUT = {
        {x: -3.0, z: -1.2, kind: 'tokonoma', label: '看床之間的掛軸'}
      ],
      wallsFade: {back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
@@ -56,6 +56,7 @@ index 0b6b66c..eeae256 100644
 +    note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
 +    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
 +    spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
++    seeThru: ['GLOW_wz_teishoku_washi'],   /* 和紙燈籠擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空（engine3d.js 樹幹透視；區域 seeThru）。LAWWW2 10-22 j23：晚上坐四人桌，靠門那一盞吊在鏡頭前面 */
 +    exit: {at: {x: -2.0, z: 3.55}, label: '離開巷子裡定食', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
 +    enterAt: {x: -4.8, z: -4.6, label: '進去巷子裡定食', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
 +    items: [
@@ -95,7 +96,7 @@ index 0b6b66c..eeae256 100644
  };
  if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;
 diff --git a/src/zones3d.js b/src/zones3d.js
-index eaeda82..9668b96 100644
+index eaeda82..240dd44 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -791,7 +791,7 @@ const Z3 = (function(){
@@ -131,7 +132,7 @@ index eaeda82..9668b96 100644
          if(o.curtains){ const ct=W3.canvasTex('curtain',64,128,(x,w,h)=>{ x.fillStyle='#d9c9a8'; x.fillRect(0,0,w,h); for(let i=0;i<w;i+=8){ const gg=x.createLinearGradient(i,0,i+8,0); gg.addColorStop(0,'rgba(0,0,0,0.10)'); gg.addColorStop(0.5,'rgba(255,255,255,0.10)'); gg.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gg; x.fillRect(i,0,8,h); } }); for(const sx of [-1,1]){ const c=new THREE.Mesh(new THREE.PlaneGeometry(0.38,2.0),new THREE.MeshStandardMaterial({map:ct,color:o.curtains,roughness:0.95,side:THREE.DoubleSide})); const q=at(wx+sx*1.3,0.24); c.position.set(q[0],WY-0.1,q[1]); c.rotation.y=ry; part.add(c); } const rod=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.03,0.03),M('#8f9399')); { const q=at(wx,0.24); rod.position.set(q[0],Math.min(WY+0.88,H-0.08),q[1]); } rod.rotation.y=ry; part.add(rod); }
          // 窗光落在地板上的光斑（下午暖光／清晨冷光，夜晚消失）
          const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.2),new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending})); sp.rotation.x=-Math.PI/2; { const q=at(wx+0.4,1.6); sp.position.set(q[0],0.012,q[1]); } sp.rotation.z=ry; sp.userData.dyn=true; g.add(sp); zone.sunPatches.push(sp); } }
-@@ -1599,18 +1599,18 @@ const Z3 = (function(){
+@@ -1599,26 +1599,32 @@ const Z3 = (function(){
       做法照麵店：room() 的空房間＋家具色塊是備用（D38 ③），正式模型 bldg.wz_*_interior 載入後整組藏起來（attachRoomGLB：WALL_ 淡出牆）。
       一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
       這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
@@ -144,6 +145,7 @@ index eaeda82..9668b96 100644
 -      const z=room(E,{w:L.w,d:L.d,h:L.h,warm:key!=='print',cool:key==='print',wallColor:L.wallColor,floorTex:W3.stoneTex(WZ_FLOOR[L.floor]||'#d9cbb0'),spawn:sp,windows:tea||!winXs.length?false:undefined,winWall:'front',winXs})   /* 阿德影印是日光燈：warm:false（LAWWW2-B 10-16 建議，截圖 wz_shops_ingame/print_entry_night.webp）*/;
 +      const z=room(E,{w:L.w,d:L.d,h:L.h,warm:key!=='print',cool:key==='print',wallColor:L.wallColor,floorTex:W3.stoneTex(WZ_FLOOR[L.floor]||'#d9cbb0'),spawn:sp,windows:tea||!winXs.length?false:undefined,winWall:'front',winXs,winW:L.front&&L.front.viewW,winH:L.front&&L.front.viewH,winY:L.front&&L.front.viewY,view:L.front&&L.front.view,viewDepth:L.front&&L.front.viewDepth})   /* 阿德影印是日光燈：warm:false（LAWWW2-B 10-16 建議，截圖 wz_shops_ingame/print_entry_night.webp）*/;
        const g0=z.group, nav=z.nav, cz=tea?(9.6-L.d/2):0;   /* 一盞：房間 z −5～9.6 */
++      if(L.seeThru) z.seeThru=true;   /* 室內的網點透空要區域打開（engine3d.js updateSeeThrough）*/
        if(cz){ g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz); }
        const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
        const fbM=M('#a88b6a',{rough:0.8});
@@ -155,8 +157,11 @@ index eaeda82..9668b96 100644
        const ex=L.exit; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},ex.spawn)}});
        /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10 */
        const CUST={brunch:{cashier:'點餐',chalkboard:'看今日推薦'},teahouse:{tea:'喝茶',garden:'看院子',tokonoma:'看床之間的掛軸'},print:{print:'印東西',stationery:'買文具'}}[key]||{};
-@@ -1619,6 +1619,10 @@ const Z3 = (function(){
-       const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
+       for(const q of (L.interact||[])) if(CUST[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:1.0,label:CUST[q.kind],wzShop:key,kind:q.kind});
+       P3.mergeStatic(g);
+-      const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
++      const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root);
++        if(L.seeThru) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||m.userData.seeThrough||!L.seeThru.includes(m.name)) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));   /* L.seeThru：這些材質擋住人、或離鏡頭太近時網點透空（巷子裡定食的和紙燈籠）*/
        return z; } }; }
    const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
 +  /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
@@ -166,7 +171,7 @@ index eaeda82..9668b96 100644
    // ---------- 和平東路二段 118 巷（D46；使用者 2026-10-18 02:2x「118巷如果已經做好了，現在就放進這個發佈版本」）----------
    /* 配置 src/data/lane118_layout.js（Blender 的 lane118_street.glb 讀同一份，座標相同：x 往東、z 往南）；店家、點餐、常客、阿哲週一揪人在 src/lane118.js（AA_280）。
       可走：巷子＋兩側人行道（x −5～5、z −41.5～33.8）、南端過辛亥路到台大後門（x −2～2、z 33.8～49.5）；兩條小巷、和平東路是背景。店先不做室內：店門口點餐。
-@@ -1688,7 +1692,7 @@ const Z3 = (function(){
+@@ -1688,7 +1694,7 @@ const Z3 = (function(){
      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
@@ -177,10 +182,10 @@ index eaeda82..9668b96 100644
       淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
 diff --git a/tests/wz_shops2_unit.js b/tests/wz_shops2_unit.js
 new file mode 100644
-index 0000000..910973d
+index 0000000..bd19c33
 --- /dev/null
 +++ b/tests/wz_shops2_unit.js
-@@ -0,0 +1,75 @@
+@@ -0,0 +1,90 @@
 +// 溫州街林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）——不需要瀏覽器。
 +// 建出真正的區域：出生點、每個座位、出口、點餐／看菜單的位置走得到；沒有小孤島；店面窗外的景大小；溫州街的兩個店門從主巷走得到、原本的「看」拿掉、出來的落點站得住。
 +// 修改前：沒有 wz_lin 區域（第 1 項就失敗）。用法：node tests/wz_shops2_unit.js
@@ -194,6 +199,7 @@ index 0000000..910973d
 +  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
 +  'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
 +for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++ASSETS.loadOne=()=>new Promise(()=>{});   /* 正式模型不載入（導航、座位、互動點不靠模型；第 5 項自己換成假的）*/
 +let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 +const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 +function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
@@ -255,4 +261,18 @@ index 0000000..910973d
 +  }
 +  check('4. 溫州街：原本的「看林家乾麵」「看定食店」換成進店',!E.interactables.some(i=>i.label==='看林家乾麵'||i.label==='看定食店'));
 +  check('4. 溫州街：其他三家的店門照舊',['brunch','print','teahouse'].every(k=>E.interactables.some(i=>i.exit&&i.exit.to==='wz_'+k))); }
-+console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
++// 5. 巷子裡定食的和紙燈籠網點透空（j23：晚上坐四人桌，靠門那一盞吊在鏡頭前面）：配置的材質真的在正式模型裡；模型接上以後那個材質標了 seeThrough、patch 過 shader，區域打開 seeThru；林家乾麵不開
++(async()=>{
++  { const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/wz_teishoku_interior.glb')), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8'));
++    const names=(j.materials||[]).map(m=>m.name), want=WZ_SHOPS_LAYOUT.teishoku.seeThru||[];
++    check('5. 巷子裡定食：配置的網點透空材質在正式模型裡（'+want.join('、')+'）',want.length>0&&want.every(nm=>names.includes(nm)),names.filter(nm=>/washi/.test(nm)).join('、')); }
++  const pend=[], MATS=['GLOW_wz_teishoku_washi','wz_teishoku_wood','wz_teishoku_vc'];
++  ASSETS.loadOne=k=>{ if(k==='bldg.wz_teishoku_interior'){ const g=new THREE.Group(); for(const nm of MATS){ const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),new THREE.MeshStandardMaterial({name:nm})); me.name=nm; g.add(me); } const p=Promise.resolve({scene:g}); pend.push(p); return p; } return new Promise(()=>{}); };
++  const z=loadZone('wz_teishoku'); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
++  const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.material&&MATS.includes(o.material.name)) mats[o.material.name]=o.material; });
++  check('5. 巷子裡定食：區域打開 seeThru（室內的網點透空）',z.seeThru===true);
++  check('5. 巷子裡定食：和紙燈籠標了 seeThrough、patch 過 shader',!!(mats.GLOW_wz_teishoku_washi&&mats.GLOW_wz_teishoku_washi.userData.seeThrough&&mats.GLOW_wz_teishoku_washi.userData._st));
++  check('5. 巷子裡定食：其他材質不透空',MATS.slice(1).every(nm=>mats[nm]&&!mats[nm].userData.seeThrough),Object.keys(mats).length+' 種材質');
++  const zl=loadZone('wz_lin'); check('5. 林家乾麵：不開 seeThru',!zl.seeThru);
++  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
++})();

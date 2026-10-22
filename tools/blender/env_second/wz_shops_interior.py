@@ -88,6 +88,13 @@ def wm(side, key):
     m = Mesh(f'{side}_{key}', M[key]); walls[side].append(m); return m
 
 
+def wvc(side):
+    """牆的組裡的頂點色零件（掛在牆上的小東西：罐子）"""
+    for m in walls[side]:
+        if isinstance(m, L.CMesh): return m
+    m = L.CMesh(f'{side}_vc', M['vc']); walls[side].append(m); return m
+
+
 def wall_box(side, key, a0, a1, y0, y1, t0=0.0, t1=0.12):
     m = wm(side, key)
     if side == 'back': m.box(a0, a1, y0, y1, Z0 + t0, Z0 + t1)
@@ -199,11 +206,12 @@ def build_brunch():
     cx = x0 + 3.6; xf.rbox(acc('steel'), cx - 0.35, cx + 0.35, 0.92, 1.38, z0 + 0.05, z0 + 0.5, r=0.03); xf.rbox(acc('black'), cx - 0.3, cx + 0.3, 1.0, 1.08, z0 + 0.45, z0 + 0.55, r=0.01)
     for j in (-0.15, 0.15): acc('black').cyl((cx + j, 1.2, z0 + 0.5), (cx + j, 1.1, z0 + 0.58), 0.03, seg=8)                           # 咖啡機的沖煮頭
     for j in range(3): Xf(x0 + 4.4, z0 + 0.3).lathe(acc('ceramic'), [(0.0, 0.0), (0.12, 0.0), (0.13, 0.015), (0.0, 0.015)], 0, 0.92 + j * 0.02, 0)   # 盤子疊
-    xf.rbox(acc('steel'), x0 + 0.05, x0 + 1.3, 2.05, 2.15, z0, z0 + 0.7, r=0.01); xf.rbox(acc('steel'), x0 + 0.35, x0 + 1.0, 2.15, H, z0, z0 + 0.35, r=0.01)   # 排煙罩
-    for j in range(2): xf.rbox(acc('wood_lt'), x0 + 1.6, x1 - 0.2, 1.55 + j * 0.4, 1.58 + j * 0.4, Z0 + 0.12, Z0 + 0.36, r=0.008)          # 開放層架
-    for j in range(8): Xf(x0 + 1.75 + j * 0.3, Z0 + 0.24).lathe(acc('ceramic'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.09), (0.045, 0.09)], 0, 1.98, 0, seg=10)   # 杯子
+    # 排煙罩、開放層架、杯子、罐子掛在後牆上：放進後牆的組（鏡頭退到後牆外面、後牆淡出時一起藏；原本留著，坐第一張桌子時排煙罩的煙囪擋住整個畫面，LAWWW2 10-22 j23）
+    xf.rbox(wm('back', 'steel'), x0 + 0.05, x0 + 1.3, 2.05, 2.15, z0, z0 + 0.7, r=0.01); xf.rbox(wm('back', 'steel'), x0 + 0.35, x0 + 1.0, 2.15, H, z0, z0 + 0.35, r=0.01)   # 排煙罩
+    for j in range(2): xf.rbox(wm('back', 'wood_lt'), x0 + 1.6, x1 - 0.2, 1.55 + j * 0.4, 1.58 + j * 0.4, Z0 + 0.12, Z0 + 0.36, r=0.008)          # 開放層架
+    for j in range(8): Xf(x0 + 1.75 + j * 0.3, Z0 + 0.24).lathe(wm('back', 'ceramic'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.09), (0.045, 0.09)], 0, 1.98, 0, seg=10)   # 杯子
     for j in range(5):
-        col = ['#c8a26a', '#e3d6b0', '#7a5a3a', '#d9c7a0', '#9a6a3a'][j]; Xf(x0 + 1.8 + j * 0.45, Z0 + 0.24).vbox(-0.06, 0.06, 1.58, 1.8, -0.06, 0.06, col)   # 罐子
+        col = ['#c8a26a', '#e3d6b0', '#7a5a3a', '#d9c7a0', '#9a6a3a'][j]; cx_ = x0 + 1.8 + j * 0.45; wvc('back').crbox(cx_ - 0.06, cx_ + 0.06, 1.58, 1.8, Z0 + 0.18, Z0 + 0.30, col, r=0.012)   # 罐子
     f_ = it['fridge']; Xf(f_['x'], f_['z']).rbox(acc('steel'), -f_['w'] / 2, f_['w'] / 2, 0.0, f_['h'], -f_['d'] / 2, f_['d'] / 2, r=0.03)
     for y0_, y1_ in ((1.1, 1.75), (0.15, 0.95)): acc('black').box(f_['x'] - 0.3, f_['x'] - 0.27, y0_ + 0.2, y1_ - 0.2, f_['z'] + f_['d'] / 2, f_['z'] + f_['d'] / 2 + 0.04)
     # 出餐檯：木頭檯身、檯面、上面一層出餐板（兩根柱）、保溫燈；右端是蛋計時器
@@ -520,7 +528,7 @@ def build_teahouse():
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=True)
 for side, ms in walls.items():
     for m in ms:
-        m.name = f'WALL_{side}_{m.name}'; ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
+        m.name = f'WALL_{side}_{m.name}'; ob = m.finish(root, uv=not isinstance(m, L.CMesh), props={'dir': DIRS[side]})
 finish_wall_imgs()
 VC.finish(root, uv=False)
 if NOTE_Q:
