@@ -203,6 +203,8 @@ const ZRZQ=(function(){
   /* ---------- 曼谷（大三暑假 T03，子晴揪的那一團；AA_244、23-4）：她們交往中＝芷若也去 ----------
      6/10 私訊多「芷若也去」（包住 VAC.phone，只在送出那一刻）；同行的人加芷若（她不再傳「那邊的咖啡怎麼樣？」）；
      夜市那天（7/5）多一句椰子汁的旁白——祐廷第一次看到她們這樣（4-7 還沒演）＝這一場算 4-7，照 4-7 那一版接（S.bkkLines，vac3d.js 的關鍵事件照台詞跑）*/
+  S.BKK_D0='2028-07-03';
+  S.bkkWith=function(G){ const R=G&&G.flags&&G.flags.ZZ; if(!R||typeof R!=='object'||R.state!=='dating') return false; const d=D(S.BKK_D0); return R.datingDay==null||d==null||R.datingDay<=d; };   /* 芷若那幾天在不在曼谷（characters.js 芷若 absentDates 的 when）：7/3 那天她們交往中（交往不會分開，datingDay 在 7/3 以前）。只讀存檔、不建 ZZ（presence 每一格都問）*/
   S.bkkCard=()=>typeof VAC_DATA!=='undefined'&&VAC_DATA.A?VAC_DATA.A.T03||null:null;
   const curG=()=>(typeof GAME!=='undefined'&&GAME&&GAME.G)||S._G||null;
   S.learnBkk=function(G,hurt){ const R=S.rec(G), E=evs(G); if(R.ev.ev_zz_yt_learns) return; R.ev.ev_zz_yt_learns={day:G.day,seen:true,v:hurt?'hurt':'friend',bkk:true};
