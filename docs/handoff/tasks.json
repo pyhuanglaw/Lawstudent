@@ -29250,7 +29250,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
    "authorized": "D100（測試歸 BB）、D110",
-   "next": "【LAWWW（帳號 A）14:0x】BB 14:0x：第 2 項（可昕慢慢分手 kxdrift，lw6 9f9e13cc）ALL PASS，四段（說一聲／不說／修補／分開）沒有 JS 例外；第 13 項 AA_364 5-5 味噌湯拿掉＝開發分支 732237be（BB 的 wzshop_probe d98a6749 已照改）；第 14 項 aa386a（15 個情境）、aa386b（9 個）寫好（企劃線 e8ed6f20），aa386c（3-3、12/24、4-2、階梯 S5-L8／S6-L1）接著寫；第 7～12 項畫面檢查搬到第二條線 ｜ 【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "next": "【LAWWW（帳號 A）14:5x】BB 14:45 美國交換第一批（f5c7e17b）：USC_class、USE_notw、USF_apple／cookie／dating PASS；USD_kexin FAIL（遊戲）→ BUG-KX-ANNIV4V-ALARM-1022 修好；USA／USB／USI／USJ 腳本 FAIL 改好重跑；第 3 項芷若×子晴 lw6 除 Z44 腳本（{name}）全 PASS ｜ 【LAWWW（帳號 A）14:0x】BB 14:0x：第 2 項（可昕慢慢分手 kxdrift，lw6 9f9e13cc）ALL PASS，四段（說一聲／不說／修補／分開）沒有 JS 例外；第 13 項 AA_364 5-5 味噌湯拿掉＝開發分支 732237be（BB 的 wzshop_probe d98a6749 已照改）；第 14 項 aa386a（15 個情境）、aa386b（9 個）寫好（企劃線 e8ed6f20），aa386c（3-3、12/24、4-2、階梯 S5-L8／S6-L1）接著寫；第 7～12 項畫面檢查搬到第二條線 ｜ 【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
    "xai": {
     "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
     "branch": "claude/story-planning（BB_219）",
@@ -29375,6 +29375,28 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-KX-ANNIV4V-ALARM-1022",
+   "title": "美國路線大四、和可昕交往中：10/17 週年視訊（當地 09:00）不叫醒，晚上照常睡到中午就錯過（KX_ANNIV 4 missed）",
+   "area": null,
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 7,
+    "earliest": "美國路線 2028-10-17",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 14:45（RELEASE-9106-TEST 美國交換 r_us_life USD_kexin，開發分支 f5c7e17b）",
+   "authorized": "D85（bug 修正）",
+   "cause": "story3d.js kx_anniv4v 的 OUT.plan 沒有 alarm（wakeAlarms 只看 alarm）；那天第一堂 13:00，床的早上選項＝12:00",
+   "next": "【LAWWW（帳號 A）14:5x】kx_anniv4v 加 alarm:true（08:30 叫醒）；舊存檔已經排好、沒有 alarm 的補上。us_life_unit S8 兩項（修改前 FAIL）ALL PASS；wakeAlarms／kx_anniv／bedOptions 相關 17 支 ALL PASS。下一步：BB 重跑 USD_kexin"
   }
  ]
 }
