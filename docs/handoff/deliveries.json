@@ -13074,6 +13074,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW 驗收（D100 第 6 點）：臉通過（成人比例、不是動畫大眼睛），已接；頭髮還不到參考圖（頭頂平、比參考圖短、側分大片瀏海沒有）——另開 ART-ZR-HAIR-1022 給 LAWWW2；Café 圍裙、吧台座位等 v9.10.4 發布測試跑完再在瀏覽器看"
+  },
+  {
+   "id": "DL-LAWWW2-93967011-airport",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "what": "機場第二版：patches/airport_cam_night.diff（us3d.js＋tests/airport_cam_unit.js）＋airport_dep.glb、airport_arr.glb（bc5b08a8）；j15b 重拍 04 門框透空、07 報到櫃台看得到人、09／13／15 修好；19 換匯處背光偏暗（下一輪）",
+   "task": "ART-VAC-AIRPORT-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已套進開發分支；單元測試等 v9.10.4 發布前的瀏覽器測試跑完再跑（不同時跑，避免搶 CPU）"
+  },
+  {
+   "id": "DL-LAWWW2-93967011-lamps",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "what": "美國路燈地面光圈：patches/us_lamp_pools.diff（us3d.js＋tests/us_lamp_pools_unit.js）；20:00 前後 4 張",
+   "task": "US-MS-NIGHT-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已套進開發分支；單元測試等 v9.10.4 發布前的瀏覽器測試跑完再跑（不同時跑，避免搶 CPU）"
   }
  ],
  "ignored": [
