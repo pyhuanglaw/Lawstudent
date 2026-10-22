@@ -593,8 +593,8 @@ async def s_v4(p, run, base, sid, out):
             await pg.wait_for_timeout(3000)
         log = (await pg.evaluate("window.__LOG||[]"))[n0:]; fl = await pg.evaluate(SB4F); M = await msgs(pg); res.update({'log': log, 'ch': ch, 'flags': fl, 'msgs': M[-4:]})
         prompt = [c for c in ch if any(o.startswith('接起來') for o in c['opts'])]
-        run.check('%s：22:30 跳出「接起來：…打電話來」（%s ｜ %s）' % (sid, prompt[0]['at'] if prompt else '—', prompt[0]['opts'] if prompt else '—'),
-                  bool(prompt) and 22.4 <= float(prompt[0]['at'].split()[1]) <= 22.75, json.dumps(ch[-5:], ensure_ascii=False)[:400])
+        run.check('%s：22:30 那一通前後跳出「接起來：…打電話來」（出遊系統約提前 15 分鐘問；%s ｜ %s）' % (sid, prompt[0]['at'] if prompt else '—', prompt[0]['opts'] if prompt else '—'),
+                  bool(prompt) and 22.0 <= float(prompt[0]['at'].split()[1]) <= 22.75, json.dumps(ch[-5:], ensure_ascii=False)[:400])
         if miss:
             got = [m for m in M if m['text'] in V4_MISS]
             run.check('%s：沒接＝22:40 她傳「%s」、記 missed' % (sid, '」「'.join(V4_MISS)), [m['text'] for m in got][-2:] == V4_MISS and all(abs(m['h'] - (22 + 40 / 60)) < 0.1 for m in got[-2:]) and fl.get('SIS_VDAY_Y4') == 'missed',
