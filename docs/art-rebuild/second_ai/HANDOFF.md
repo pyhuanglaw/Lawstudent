@@ -595,7 +595,22 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-22 06:3x 進度（帳號 A LAWWW2；最新，蓋過下面 05:5x 那一節）
+### ▶▶ 10-22 07:4x 進度（帳號 A LAWWW2；最新，蓋過下面 06:3x 那一節）
+- **六件交件已整合**：LAWWW 06:46 開發分支 `f2336295`（7 份 patch、素材、腳本；Node 單元測試 468 支過；瀏覽器流程派 BB）。outbox 六筆改「已整合／ACTIONED」（`a1c86c44`）。LICENSES 五列 `d04223db` 已傳 SHA，LAWWW 接進 `7e5d3882`。
+- **118 巷九間店＋六個房間的天花板（WIP，還沒交件）**：
+  - 起因：118 巷天花板雙面、朝上，鏡頭在 3.21 m、天花板 3.2 m；雙指拉遠（室內最遠 6 m）、往上拖（俯角最大 1.05）就是一大片白（j34）。
+  - 同一個寫法還在：日本宿舍房間（2.5 m，預設鏡頭 2.84 m 就在上面）、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A（`jp_dorm`、`flat_classroom`、`linze_upper`、`wancai_seminar`）。
+  - 進門時鏡頭在騎樓：門靠側牆的店，畫面一側是店外的空白（15～33%，兩側前角 37～41%）。
+  - 改法：天花板（含廚房）單面朝下；店門外兩側貼 118 巷街景拍的鄰居店面（新 `tools/blender/env_second/lane118_neighbors.py`，18 張，透視、和店面平行、鏡頭平移），歸左右牆、`at`＝牆線；`patches/l118_arcade.diff`：`zones3d.js` attachRoomGLB 讀 `at`＋`tests/l118_arcade_unit.js`＋`tests/room_ceiling_unit.js`。
+  - 測試：l118_arcade_unit 開發分支 774f49c7 FAIL 54 → 套 patch＋新 GLB ALL PASS；只換 GLB 不套 patch 鄰居店面擋人 6～9 個鏡頭位置（GLB 和 patch 要一起接）。room_ceiling_unit 開發分支 FAIL 30 → ALL PASS。
+  - 檢查點：`4aeb5531`（118 巷）、`5e4ab029`（六個房間＋patch 第二版）。
+  - 還沒有：j35 遊戲內前後（跑中）、j35b 在 809ea58b 上驗（devwt_tip 是稀疏工作目錄，room_ceiling／l118_shops 在那裡跑不準）、j36 六個房間前後＋其他室內「拉到最遠最陡」盤點、README。
+- **fast_shots.py 修正**（`e2f297de`）：樓層照 `pos.lv`、高度用 `E.settleY`。j26 法學院晚上一樓「陷進地板」、201 教室門口「埋在台階裡」是截圖工具的問題（排序照區域，二樓那張之後的一樓沿用二樓；y＝0）；j26b 重拍確認中。
+- **雙 AI**：LAWWW 07:00（us3d.js 三行 `4fb93ba4`，之後改 us3d 從那裡接）、07:19（user_asks 5 筆改「在遊戲裡」，已改 `c861de0e`）、07:24（PERF-NPC-POOL-1022 `e63ba5d2`：請重量「咖啡廳 → 溫州街（第二次）」，排 j37）。都不用回覆。
+- j11（溫州街 24 張）：沒有新的 P1。
+- 佇列：j35（跑中）→ j26b → j35b → j37（量時間，期間不要開 Blender）→ j36。
+
+### ▶▶ 10-22 06:3x 進度（帳號 A LAWWW2；被上面 07:4x 那一節取代）
 - **LAWWW 06:00**：v9.10.4 已發布（main `4a8d17f9`），開發分支 `27de6170`。不用回覆，沒有回。
 - **男宿交誼廳交件** `e6512c87`（outbox `0a996226`，未派）：j25 遊戲內前後、5 支單元測試、flow_dorm_hall 27 項、reachability 32 個互動點 ALL PASS。
 - **鏡頭遮擋盤點工具** `tools/blender/env_second/room_cam_audit.py`（`e86c5966`）：

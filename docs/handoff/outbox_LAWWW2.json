@@ -2014,6 +2014,27 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED",
    "note": "118 巷四家店吧台高腳椅（座面 0.76 m）17 個座位帶 lift 0.31：原本人坐進凳子裡（凳面在腰上）。l118_bar_lift_unit 修改前 8 FAIL、修改後 ALL PASS；j24 遊戲內側面前後；j24b seats_on_furniture 四家店 47 個座位有問題 0｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK｜LAWWW 06:34 ACK，整合中（開發分支 6cfc73fd 上 7 份 patch 疊套乾淨，跑單元測試；瀏覽器流程派 BB）｜LAWWW 06:46 已整合進開發分支 f2336295（7 份 patch 疊套、素材、腳本都進了；Node 單元測試 468 支過；瀏覽器流程派 BB；場景美術等使用者驗收）"
+  },
+  {
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5e4ab029",
+   "files": [
+    "tools/blender/env_second/lane118_shops.py",
+    "tools/blender/env_second/lane118_neighbors.py",
+    "tools/blender/env_second/textures/gen/l118_nb_*.jpg",
+    "assets/models/env/second_ai/l118_*.glb／.json（9 間）",
+    "tools/blender/env_second/{jp_dorm,flat_classroom,linze_upper,wancai_seminar}.py",
+    "assets/models/env/second_ai/{jp_room,linze_202,linze_3f,linze_4f,wancai_multi,wancai_sema}.glb／.json",
+    "docs/art-rebuild/second_ai/patches/l118_arcade.diff（src/zones3d.js、tests/l118_arcade_unit.js、tests/room_ceiling_unit.js）"
+   ],
+   "state": "WIP",
+   "remaining": "j35 遊戲內前後、j35b 在 809ea58b 上驗、j36 六個房間前後＋其他室內盤點、README（test_shots/l118_arcade_1022/）",
+   "next": "做完遊戲內前後、README 再交件（通知 LAWWW）；GLB 和 patch 一起接（只換 GLB 不套 patch，鄰居店面會擋人）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "自領",
+   "note": "118 巷九間店：天花板雙面朝上（鏡頭 3.21 m、天花板 3.2 m，拉遠／往上拖一大片白）→ 單面朝下；進門時畫面一側是店外的空白（15～33%）→ 兩側貼 118 巷街景拍的鄰居店面（歸左右牆、at＝牆線）。同樣的天花板：日本宿舍房間（2.5 m，預設鏡頭就在上面）、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A。l118_arcade_unit 774f49c7 FAIL 54 → ALL PASS；room_ceiling_unit FAIL 30 → ALL PASS"
   }
  ]
 }
