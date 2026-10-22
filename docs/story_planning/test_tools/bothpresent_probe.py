@@ -123,6 +123,13 @@ async def enter_reading_room(pg, cdp, run):
     return (await pg.evaluate("GAME.G.zone")) == 'library', it[3]
 
 
+CONS = {}
+DIAG = """(()=>{ const G=GAME.G, n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')); const P=GAME.E.player;
+  return {h:+(+G.hour).toFixed(3), pBusy:!!P.busy, pSeat:!!P.seat, depth:GAME.D?GAME.D.busyDepth:null, dActive:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active),
+    her:n?{id:n.id, busy:!!n.busy, beh:n.beh||null, seat:!!n.seat, talk:typeof n.talk, label:n.talkLabel||null}:null, inv:(G.invites||[]).map(v=>({who:v.who,state:v.state,place:v.place})),
+    meetable:typeof INV!=='undefined'&&INV.meetable?!!INV.meetable(G,'heroine_05'):null, phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())}; })()"""
+
+
 async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
     """當面：走到她旁邊 →「和學姊說話」→ 聊完的選單「約她去…」→「去總圖一起念書」→「現在一起過去」。回傳 (選到了沒, 過程)"""
     trace = {}
@@ -134,7 +141,9 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
     await run.shot(pg, '%s_before_talk' % tag)
     got = False; trace['talks'] = []
     for k in range(3):   # 第一次說話可能是升階那一段（SOCIAL.playUp：便條）、那一次沒有約人的選單；照玩家再說一次
+        trace.setdefault('diag', []).append({'before': await pg.evaluate(DIAG)})
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        trace['diag'][-1]['after_tap'] = await pg.evaluate(DIAG); trace['diag'][-1]['console'] = (CONS.get(id(pg)) or [])[-4:]
         got, ops = await pick(pg, cdp, '約她去', wait=40, advance=True); trace['menu'] = ops
         trace['talks'].append([(x['n'], x['t']) for x in (await pg.evaluate("window.__LOG||[]"))[-6:]])
         if got: break
@@ -151,6 +160,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
 
 async def launch_load(p, run, base, day, h, zone, label):
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=os.environ.get('PORTRAIT') != '1')   # PORTRAIT=1：直向（橫向的當面約地點選單第一排點不到，P1 已報）
+    cons = []; pg.on('console', lambda m: cons.append(('%s %s' % (m.type, m.text))[:240]) if m.type in ('warning', 'error') else None); CONS[id(pg)] = cons   # 診斷：console 的 warn／error
     await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
     st = json.loads(json.dumps(base)); G = st.get('G', st); F = G['flags']
     for k in list(F.keys()):
@@ -260,9 +270,12 @@ async def sched(p, run, base, out):
 
 
 async def walk(p, run, base, sid, out):
-    res = out.setdefault(sid, {}); dest = 'dorm' if sid in ('WALK_DORM', 'WALK_CAFE_DORM') else 'library_hall'
-    place = '去兩點半 Café 坐坐' if sid == 'WALK_CAFE_DORM' else '去總圖一起念書'
-    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218）')
+    # 02:5x 改：閱覽室（總圖 3F）約「去總圖一起念書」她回「我就在總圖…」（她已經在總圖）＝不會跟著走；一起走的三項改約總圖以外的地方（半熟 08:00 開、Café 11:00 開），
+    # 在閱覽室當面約總圖另外測（LIB_HERE：LAWWW 01:48 ②「已經在總圖當面再約＝直接開始」）
+    res = out.setdefault(sid, {}); dest = {'WALK_DORM': 'dorm', 'WALK_CAFE_DORM': 'dorm', 'WALK_ARRIVE': 'cafe', 'LIB_HERE': None}[sid]
+    place = {'WALK_DORM': '去半熟吃早午餐', 'WALK_CAFE_DORM': '去兩點半 Café 坐坐', 'WALK_ARRIVE': '去兩點半 Café 坐坐', 'LIB_HERE': '去總圖一起念書'}[sid]
+    hour = 11.0 if place.startswith('去兩點半') else 10.0
+    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, hour, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218；約「%s」）' % place)
     try:
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
         ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
@@ -276,9 +289,18 @@ async def walk(p, run, base, sid, out):
         n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False); await pg.wait_for_timeout(2500)
         res['book_lines'] = (await pg.evaluate("window.__LOG||[]"))[n0:]
         st = await pg.evaluate(ST); res['after_book'] = st; say('   %s 約完：%s；%s' % (sid, json.dumps(st['inv'], ensure_ascii=False), [x['t'] for x in res['book_lines']]))
+        T = [x['t'] for x in res['book_lines']]
+        if sid == 'LIB_HERE':   # 兩個人都已經在總圖：當面約總圖＝直接開始（不是手機那句「我就在總圖。三樓。不要講話，傳訊息。」）
+            phone_line = [t for t in T if '傳訊息' in t or '不要講話' in t]
+            run.check('LIB_HERE：在閱覽室當面約「去總圖一起念書」「現在一起過去」——她沒有回手機那句「…不要講話，傳訊息。」', not phone_line, json.dumps(T[:8], ensure_ascii=False)[:400])
+            started = any(v['state'] in ('done', 'together') for v in st['inv']) or st['dlg'] or st['pseat']
+            run.check('LIB_HERE：兩個人都在總圖＝直接開始（LAWWW 01:48 ②）', bool(started), json.dumps({'inv': st['inv'], 'lines': T[:8]}, ensure_ascii=False)[:400])
+            await run.shot(pg, 'LIB_HERE_after')
+            res['errs'] = errs[:3]; run.check('LIB_HERE：沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
+            await close(b); return
         going = any(v['state'] == 'going' for v in st['inv'])
-        if not going: run.note('%s：她沒答應或沒有跟（%s）' % (sid, json.dumps([x['t'] for x in res['book_lines']], ensure_ascii=False)[:300]))
-        run.check('%s：閱覽室約「現在一起過去」%s＝她跟著走（going、follow）' % (sid, '去 Café' if sid == 'WALK_CAFE_DORM' else '去總圖大廳'), going and bool(st['her']) and st['her']['beh'] == 'follow', json.dumps(st, ensure_ascii=False)[:400])
+        if not going: run.note('%s：她沒答應或沒有跟（%s）' % (sid, json.dumps(T, ensure_ascii=False)[:300]))
+        run.check('%s：閱覽室約「%s」「現在一起過去」＝她跟著走（going、follow）' % (sid, place), going and bool(st['her']) and st['her']['beh'] == 'follow', json.dumps(st, ensure_ascii=False)[:400])
         await run.shot(pg, '%s_following' % sid)
         ok, info = await quick_go(pg, cdp, dest); res['go'] = info
         run.check('%s：手機快速前往 %s' % (sid, dest), ok, json.dumps(info, ensure_ascii=False))
@@ -291,7 +313,7 @@ async def walk(p, run, base, sid, out):
         else:
             first, last = await watch_auto(pg, cdp, run, sid, secs=60); res['first'] = first; res['last'] = last
             say('   %s 到了：%s' % (sid, json.dumps(first or last, ensure_ascii=False)))
-            run.check('WALK_ARRIVE：一起走到總圖＝不用說話就開始', bool(first), json.dumps(last, ensure_ascii=False)[:400])
+            run.check('WALK_ARRIVE：一起走到 Café＝不用說話就開始', bool(first), json.dumps(last, ensure_ascii=False)[:400])
             if first:
                 run.check('WALK_ARRIVE：開始時兩個人一起坐下', first['pseat'] and bool(first['her']) and bool(first['her']['seat']), json.dumps(first, ensure_ascii=False)[:400])
                 n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp); await pg.wait_for_timeout(2500)
