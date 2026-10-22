@@ -1,13 +1,13 @@
 {
  "objects": 57,
  "unique_meshes": 57,
- "tris": 6352,
- "tris_drawn": 6352,
+ "tris": 9316,
+ "tris_drawn": 9316,
  "materials": 25,
  "out": "assets/models/env/second_ai/putong_interior.glb",
- "bytes": 846480,
+ "bytes": 1043908,
  "texres": 512,
- "tris_total": 6352,
+ "tris_total": 9316,
  "layout": "src/data/putong_layout.js",
  "note": "兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）；桌椅由遊戲放"
 }

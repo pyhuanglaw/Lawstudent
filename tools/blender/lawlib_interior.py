@@ -37,7 +37,7 @@ random.seed(46)
 B.reset(texres=512)
 root = B.group('LawLibrary', props={'kind': 'lawlib_interior', 'w': W, 'd': D})
 G = [B.group('L0_root', root), B.group('L1_root', root)]
-DIRS = {'N': [0, 0, 1], 'S': [0, 0, -1], 'W': [1, 0, 0], 'E': [-1, 0, 0]}
+DIRS = {'N': [0, 0, 1], 'S': [0, 0, -1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'ceil': [0, -1, 0]}   # ceil：天花板的輕鋼架、燈框（往室內＝往下：鏡頭比它高時和牆一樣藏起來）
 
 # ---------------- 材質 ----------------
 def img_mat(name, png, rough=0.7, emit=False):
@@ -53,7 +53,7 @@ M = {
     'slab': L.flat('ll_slab', '#e9e7e1', rough=0.9),
     'wall': L.flat('ll_wall', '#ebe8e1', rough=0.9),
     'ceil': L.pbr('ll_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),   # 礦纖天花板（輕鋼架 60 cm 一格）
-    'tbar': L.flat('ll_ceiling_grid', '#dcdcd8', rough=0.5, cull=True),   # 輕鋼架、燈框只做底面、單面朝下（LAWWW2 10-22：鏡頭拉到最遠最陡、在天花板上面時看不到）
+    'tbar': L.flat('ll_ceiling_grid', '#dcdcd8', rough=0.5),   # 輕鋼架、燈框：方盒照舊，整組放在 L{lv}_WALL_ceil_tbar（dir 朝下）：鏡頭拉到最遠最陡、比天花板高時藏起來（LAWWW2 10-22 第二版：只留底面的話從下面平視看遠處會不見）
     'light': L.flat('ll_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc'), cull=True),
     'walnut': L.pbr('ll_walnut', 'walnut_veneer', tile=1.2, target='#6b4a33', maps=('diff',), res=512, rough_value=0.5),
     'endpanel': L.pbr('ll_endpanel', 'walnut_veneer', tile=1.2, target='#6e4c34', maps=('diff',), res=512, rough_value=0.45),
@@ -180,12 +180,12 @@ def ceiling(lv, y, rects, grid0, troffers, smoke):
         gx, gz = grid0
         k = math.ceil((x0 - gx) / 0.6 + 1e-6)
         while gx + k * 0.6 < x1 - 0.05:
-            x = gx + k * 0.6; hquad(mk(lv, 'tbar'), x - 0.012, x + 0.012, z0, z1, y - 0.012); k += 1   # 只做底面（原本 1.2 cm 高的方盒，從上面看是浮著的白線）
+            x = gx + k * 0.6; wm(lv, 'ceil', 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
         k = math.ceil((z0 - gz) / 0.6 + 1e-6)
         while gz + k * 0.6 < z1 - 0.05:
-            z = gz + k * 0.6; hquad(mk(lv, 'tbar'), x0, x1, z - 0.012, z + 0.012, y - 0.0125); k += 1   # 低 0.5 mm：交叉的地方不疊面
+            z = gz + k * 0.6; wm(lv, 'ceil', 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
     for (cx, cz, w, d) in troffers:
-        hquad(mk(lv, 'tbar'), cx - w / 2 - 0.02, cx + w / 2 + 0.02, cz - d / 2 - 0.02, cz + d / 2 + 0.02, y - 0.02)   # 燈框：只做底面
+        wm(lv, 'ceil', 'tbar').box(cx - w / 2 - 0.02, cx + w / 2 + 0.02, y - 0.02, y - 0.004, cz - d / 2 - 0.02, cz + d / 2 + 0.02)
         hquad(mk(lv, 'light'), cx - w / 2, cx + w / 2, cz - d / 2, cz + d / 2, y - 0.021)
     for (cx, cz) in smoke:
         mk(lv, 'white').cyl((cx, y - 0.035, cz), (cx, y, cz), 0.055, seg=12)

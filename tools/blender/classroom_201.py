@@ -33,14 +33,14 @@ MAT = {
     'seat':    B.pbr('cls_seat', 'wood_table_001', tile=0.8, target='#b98a5c'),            # 照片：木翻椅
     'woodL':   B.pbr('cls_lectern', 'fine_grained_wood', tile=1.0, target='#a87d55'),      # 照片：木講桌
     'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, sat=0.2, target='#f2f1ee', normal=0.25, cull=True),   # 單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
-    'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6, cull=True),   # T 型骨架只做底面、單面朝下：鏡頭在天花板上面時不會看到一整片白格子（LAWWW2 10-22）
+    'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6),   # T 型骨架：方盒照舊；合併後的網格叫 WALL_ceil_grid（dir 朝下）：鏡頭比天花板高時和牆一樣藏起來（LAWWW2 10-22 第二版）
     'metal':   B.pbr('cls_metal', None, tint=B.srgb('#3d4146'), rough=0.4, metal=0.7),
     'steel':   B.pbr('cls_steel', None, tint=B.srgb('#c9ccd0'), rough=0.3, metal=1.0),
     'board':   B.pbr('cls_board', None, tint=B.srgb('#25403a'), rough=0.6),
     'screen':  B.pbr('cls_screen', None, tint=B.srgb('#f4f3ef'), rough=0.9),
     'frame':   B.pbr('cls_frame', None, tint=B.srgb('#c9ccd0'), rough=0.35, metal=0.6),
     'glass':   B.pbr('cls_glass', None, tint=B.srgb('#c4d6dc'), rough=0.05, alpha=0.25),
-    'light':   B.pbr('cls_light', None, tint=B.srgb('#fffaf0'), rough=0.9, emit=B.srgb('#fff8ea'), cull=True),   # 燈箱也只做底面、單面朝下（LAWWW2 10-22）
+    'light':   B.pbr('cls_light', None, tint=B.srgb('#fffaf0'), rough=0.9, emit=B.srgb('#fff8ea')),   # 燈箱：方盒照舊；合併後叫 WALL_ceil_light（dir 朝下），同上
 }
 root = B.group('Classroom201')
 
@@ -121,20 +121,23 @@ B.box('WALL_S_doorleaf', MAT['woodL'], C['door']['x'] - 0.75, C['door']['x'] + 0
 
 # ---------------- 天花板：白色方格天花板（T 型骨架）＋日光燈 ----------------
 B.quad('ceiling', MAT['ceiling'], [(-W / 2, H, -D / 2), (W / 2, H, -D / 2), (W / 2, H, D / 2), (-W / 2, H, D / 2)], root)
-# T 型骨架：原本是 2.4 cm × 1.9 cm 的方盒，鏡頭在天花板上面時看到方盒的頂面＝整間教室蓋著白格子。
-# 改成只有底面（原本方盒底面的位置）、單面朝下：從下面看一樣，從上面看不到。z 向的低 1 mm，交叉的地方不疊面。
+# T 型骨架、燈箱：鏡頭雙指拉到最遠、往上拖到最陡時在天花板上面，方盒的頂面是蓋著整間教室的白格子（LAWWW2 10-22）。
+# 只留底面的話，從下面平視看遠處 2.4 cm 寬的平面投影不到一個像素（骨架不見了），所以方盒照舊；
+# 下面 join_by_material 合併以後改名 WALL_ceil_grid／WALL_ceil_light、dir 朝下：鏡頭比它高時和牆一樣藏起來（attachRoomGLB 的淡出，程式不用改）。
 gx = -W / 2
 while gx <= W / 2 + 1e-6:
-    B.quad(f'grid_x_{gx:.1f}', MAT['grid'], [(gx - 0.012, H - 0.02, -D / 2), (gx + 0.012, H - 0.02, -D / 2), (gx + 0.012, H - 0.02, D / 2), (gx - 0.012, H - 0.02, D / 2)], root); gx += 0.6
+    B.box(f'grid_x_{gx:.1f}', MAT['grid'], gx - 0.012, gx + 0.012, H - 0.02, H - 0.001, -D / 2, D / 2, root); gx += 0.6
 gz = -D / 2
 while gz <= D / 2 + 1e-6:
-    B.quad(f'grid_z_{gz:.1f}', MAT['grid'], [(-W / 2, H - 0.021, gz - 0.012), (W / 2, H - 0.021, gz - 0.012), (W / 2, H - 0.021, gz + 0.012), (-W / 2, H - 0.021, gz + 0.012)], root); gz += 0.6
+    B.box(f'grid_z_{gz:.1f}', MAT['grid'], -W / 2, W / 2, H - 0.02, H - 0.001, gz - 0.012, gz + 0.012, root); gz += 0.6
 for i in range(4):
     for j in range(6):
         cx, cz = -5.4 + i * 3.6, -7.0 + j * 2.8
-        B.quad(f'light_{i}_{j}', MAT['light'], [(cx - 0.6, H - 0.04, cz - 0.15), (cx + 0.6, H - 0.04, cz - 0.15), (cx + 0.6, H - 0.04, cz + 0.15), (cx - 0.6, H - 0.04, cz + 0.15)], root)   # 原本 2 cm 厚的方盒：只留底面
+        B.box(f'light_{i}_{j}', MAT['light'], cx - 0.6, cx + 0.6, H - 0.04, H - 0.02, cz - 0.15, cz + 0.15, root)
 
 B.join_by_material(root, 'CLS', keep=lambda ob: 'WALL_' in ob.name or ob.name.startswith('seat_'))
+for _src, _dst in (('CLS_cls_grid', 'WALL_ceil_grid'), ('CLS_cls_light', 'WALL_ceil_light')):   # 天花板的骨架、燈箱：鏡頭比它高時藏起來（dir＝往室內＝往下）
+    _ob = bpy.data.objects[_src]; _ob.name = _dst; _ob['dir'] = [0.0, -1.0, 0.0]
 B.export(OUT, ROOT, gpu_instances=True)
 if RENDER:
     B.render_views(RENDER, 'classroom', [('from_door', (0.0, 3.9, 7.6), (-1.5, 1.2, -6.5)), ('from_lectern', (2.5, 2.2, -7.0), (-0.5, 1.4, 4.0)), ('row2_side', (7.0, 2.8, 0.5), (-2.0, 1.0, -1.5))],
