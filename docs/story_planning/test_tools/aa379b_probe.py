@@ -366,8 +366,13 @@ async def s_result_sleep(p, run, base, sid, out):
         hit, waited = await wait_plan(pg, 'sisy23_result'); q0 = await pg.evaluate(OUTQ); res['out0'] = q0; res['plan_wait_s'] = waited
         run.check('%s：3/15 21:30 的電話排好了（讀檔後等了 %s 秒）' % (sid, waited), any(q['id'] == 'sisy23_result' and q['state'] == 'planned' for q in q0), json.dumps(q0, ensure_ascii=False))
         st0 = await pg.evaluate(STATE)
-        ops = await bed(pg, cdp, run, '睡到明天', sid, prefer='鬧鐘'); res['bed'] = ops   # BUG-BED-TONIGHT-ALARM-1022（67ef327a 起）：今晚還有約＝床給「睡一下、鬧鐘叫醒」；有就照玩家選它
-        run.check('%s：21:00 床的選項寫到今晚 21:30 的電話（約好的時間／鬧鐘；BUG-BED-TONIGHT-ALARM-1022）' % sid, any(('鬧鐘' in o or '電話' in o or '21:30' in o) for o in (ops or [])), json.dumps(ops, ensure_ascii=False))
+        ops = await bed(pg, cdp, run, '睡到明天', sid, prefer='叫醒你'); res['bed'] = ops or []   # BUG-BED-TONIGHT-ALARM-1022（b7c250b0）：今晚還有約＝床只給「睡一下（hh:mm 叫醒你）」＋「再撐一下」；照玩家選「睡一下」
+        ops = ops or []; wake = [o for o in ops if '叫醒你' in o]
+        import re as _re
+        hm = [tuple(map(int, m)) for o in wake for m in _re.findall(r'(\d{1,2}):(\d{2})', o)]
+        run.check('%s：今晚 21:30 還有她的電話＝床沒有「睡到明天」、有「睡一下（hh:mm 叫醒你）」（BUG-BED-TONIGHT-ALARM-1022）' % sid, bool(wake) and not any(o.startswith('睡到明天') for o in ops), json.dumps(ops, ensure_ascii=False))
+        run.check('%s：叫醒的時間在 21:30 以前' % sid, bool(hm) and all(h * 60 + m < 21 * 60 + 30 for h, m in hm), json.dumps({'叫醒': wake, '時間': hm}, ensure_ascii=False))
+        res['bed_says_why'] = any(('電話' in o or '溫書瑀' in o or '學姊' in o or '約' in o) for o in wake)   # 觀察（不算 PASS／FAIL）：選項有沒有寫是為了什麼事叫醒
         ok, ch = await wait_for(pg, cdp, run, "!!GAME.G.flags.SIS_US_RESULT||(GAME.G.day>%d&&!GAME.E.player.busy)" % st0['day'], max_s=300, picks=['要慶祝嗎'], label=sid)
         await drive(pg, cdp, run, max_s=40, label=sid); res['ch'] = ch
         fl = await pg.evaluate(FLAGS); res['flags'] = fl; q1 = await pg.evaluate(OUTQ); res['out1'] = q1
