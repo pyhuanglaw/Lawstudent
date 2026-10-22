@@ -28534,7 +28534,7 @@
    "id": "ART-ZR-PS-3D-1022",
    "title": "芷若、沛珊的 3D 人物看起來憨（使用者 10-22 04:0x 對 LAWWW2：「林芷若3d好憨 沛珊也是」）：在遊戲裡拍臉部近景找具體原因，一次改一樣、同鏡頭比；名字、身高、髮型、服裝識別照通過的參考圖",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -28556,13 +28556,14 @@
     "acceptance": "遊戲內同鏡頭前後對照；LAWWW 判定和參考圖一致、不憨",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "LAWWW（帳號 A）10-22 04:4x 驗收（D100 第 6 點）：沛珊第二十七版通過、芷若的臉通過（頭髮另開 ART-ZR-HAIR-1022，05:1x 通過）；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/（zr_ps_front_1100、ps_face_1100、dusk_tone_*，開發分支 6cfc73fd，Playwright SwiftShader 手機模擬，不是 iPhone）：兩個 VRM 載入正常、白天黃昏沒有看得出來的問題；Café 當班圍裙 3D／2D 都還沒開（等使用者給高解析度圍裙立繪，ART-ZR-CAFE-PORTRAIT-1022）"
   },
   {
    "id": "ART-ZR-HAIR-1022",
    "title": "芷若 Blender 版的頭髮照參考圖：頭頂有一點蓬度、側分的瀏海一大片蓋過額頭、長度到肩下的微捲（現在頭頂平、像戴頭盔、到下巴）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -28584,7 +28585,8 @@
     "acceptance": "頭頂不再像頭盔、側分瀏海、到肩下；Café 圍裙、眼鏡照舊對得上",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "LAWWW（帳號 A）10-22 05:1x 驗收（D100 第 6 點，角色美術由 LAWWW 看遊戲內截圖驗收）：LAWWW2 0198f820 第九版，遊戲內截圖 docs/art-rebuild/checks/lawww_1022/zr_face_1100.webp、zr_ps_front_1100.webp（開發分支 6cfc73fd，Playwright SwiftShader 手機模擬，不是 iPhone）：到肩下的微捲、側分、深棕、眼鏡，不再像戴頭盔；記下的小缺點（波浪比參考圖規則、斜看遠側髮片反光、轉頭時頭髮拉伸）不擋"
   },
   {
    "id": "AA383-BB0400-1022",
@@ -28829,7 +28831,7 @@
    "id": "AA383-S6-SIS-FRIEND-1022",
    "title": "AA_383 第 6 節（企劃線 67b7b2ca）：學姊升到朋友的三句（rel_lines.js up.FRIEND：筆電闔上、「你要吃什麼？我請你。」）在出遊裡、地點不是她讀書的地方（一盞、半熟、麵店、溫州街、校外約會地點）＝換「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」；Café、總圖、法圖、研究室照原本",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28845,7 +28847,8 @@
    "source": "AA（帳號 A）10-22 05:03（BB 05:02 在 9cf16124 測到）",
    "authorized": "D109、D110",
    "next": "BB 瀏覽器：學姊熟悉→朋友的那一天約她去一盞（或半熟、麵店），見面時三句是手機收進包包那一版，接「這裡不能讀書。」；在 Café 照原本",
-   "done": "開發分支（LAWWW 10-22 06:3x）：rel_lines.js 學姊 up.FRIEND 兩個版本——約出去、地點不是她讀書的地方（一盞、半熟、麵店、溫州街）＝「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」；Café、總圖約見面、在 3D 直接找她說話＝原本筆電那一版。social3d.js 的版本挑選多一個 ctx（upLine、playUp），invites3d.js 的 S.meet 傳見面地點。白名單 AA_383 → 67b7b2ca。tests/aa383_s6_unit.js（修改前 c045438d 樹 FAIL 2 項、修改後 ALL PASS，逐句對稿）；rel_feel、rel_lines、rel_progress、social_rel_sync、inv_both_present、invites、aa383、sis_cafe 照過"
+   "done": "開發分支（LAWWW 10-22 06:3x）：rel_lines.js 學姊 up.FRIEND 兩個版本——約出去、地點不是她讀書的地方（一盞、半熟、麵店、溫州街）＝「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」；Café、總圖約見面、在 3D 直接找她說話＝原本筆電那一版。social3d.js 的版本挑選多一個 ctx（upLine、playUp），invites3d.js 的 S.meet 傳見面地點。白名單 AA_383 → 67b7b2ca。tests/aa383_s6_unit.js（修改前 c045438d 樹 FAIL 2 項、修改後 ALL PASS，逐句對稿）；rel_feel、rel_lines、rel_progress、social_rel_sync、inv_both_present、invites、aa383、sis_cafe 照過",
+   "evidence": "BB（帳號 A）10-22 06:47～06:52（BB_218「AA383-S6-SIS-FRIEND-1022」節）：開發分支 f2336295（含 1a9b5761），Playwright 手機橫向、不用 turbo——TEA（約在一盞）開場是「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」、沒有筆電那三句；CAFE_UP（兩點半 Café）照舊筆電那一版；都坐著演、演完 done、沒有 JS 例外"
   },
   {
    "id": "ART-TONE-NEUTRAL-1022",

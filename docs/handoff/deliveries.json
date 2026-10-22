@@ -13059,8 +13059,8 @@
    "what": "沛珊 3D 第二十七版（使用者 10-22「沛珊也是（好憨）」）：眼距 1.45→1.10 眼寬、眼睛放大、眉毛壓低、人中下巴縮短、臉收窄；分線另一邊也有往外撥的瀏海；眼鏡 84→72.7 mm（bl_classmate_peishan.vrm＋glasses_peishan.glb／.json，兩個一起換）",
    "task": "ART-ZR-PS-3D-1022",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW 驗收（D100 第 6 點，不是 BB）：通過——比第二十六版接近參考圖（中分、兩側往外撥、眼睛不分那麼開、眼鏡不那麼大）；已接進開發分支，瀏覽器裡看區域、劇情鏡頭的截圖等 v9.10.4 發布測試跑完"
+   "integration": "已驗收",
+   "note": "LAWWW 驗收（D100 第 6 點，不是 BB）：通過——比第二十六版接近參考圖（中分、兩側往外撥、眼睛不分那麼開、眼鏡不那麼大）；已接進開發分支，瀏覽器裡看區域、劇情鏡頭的截圖等 v9.10.4 發布測試跑完 ｜ 10-22 07:4x LAWWW（帳號 A）：角色美術 LAWWW 驗收通過（D100 第 6 點；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/）"
   },
   {
    "id": "DL-LAWWW2-888831c4",
@@ -13072,8 +13072,8 @@
    "what": "芷若 3D 改用 Blender 版當預設（使用者 10-22「林芷若3d好憨」）：assets3d.js 一行（patches/zhiruo_default_bl.diff）＋bl_heroine_02.vrm＋glasses_zhiruo.glb／.json；臉：眼距 1.28→1.09 眼寬、眼睛放大、嘴收窄往上、下巴縮短；八字瀏海收進來；眼鏡 84→76.6 mm",
    "task": "ART-ZR-PS-3D-1022",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW 驗收（D100 第 6 點）：臉通過（成人比例、不是動畫大眼睛），已接；頭髮還不到參考圖（頭頂平、比參考圖短、側分大片瀏海沒有）——另開 ART-ZR-HAIR-1022 給 LAWWW2；Café 圍裙、吧台座位等 v9.10.4 發布測試跑完再在瀏覽器看"
+   "integration": "已驗收",
+   "note": "LAWWW 驗收（D100 第 6 點）：臉通過（成人比例、不是動畫大眼睛），已接；頭髮還不到參考圖（頭頂平、比參考圖短、側分大片瀏海沒有）——另開 ART-ZR-HAIR-1022 給 LAWWW2；Café 圍裙、吧台座位等 v9.10.4 發布測試跑完再在瀏覽器看 ｜ 10-22 07:4x LAWWW（帳號 A）：角色美術 LAWWW 驗收通過（D100 第 6 點；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/）"
   },
   {
    "id": "DL-LAWWW2-93967011-airport",
@@ -13111,8 +13111,8 @@
    "what": "芷若頭髮第九版：分線改到人物左邊 +12°、及肩到肩下的微捲、頭頂和太陽穴加蓬度、深棕髮；只換 bl_heroine_02.vrm",
    "task": "ART-ZR-HAIR-1022",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW 驗收（D100 第 6 點）：通過——比上一版接近參考圖 06（不再像頭盔、到肩下、側分）；Café 圍裙、走路、坐下截圖正常；已接開發分支"
+   "integration": "已驗收",
+   "note": "LAWWW 驗收（D100 第 6 點）：通過——比上一版接近參考圖 06（不再像頭盔、到肩下、側分）；Café 圍裙、走路、坐下截圖正常；已接開發分支 ｜ 10-22 07:4x LAWWW（帳號 A）：角色美術 LAWWW 驗收通過（D100 第 6 點；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/）"
   },
   {
    "id": "DL-LAWWW2-fdd9b3f5",
