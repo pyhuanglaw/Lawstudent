@@ -29347,6 +29347,34 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
+  },
+  {
+   "id": "ART-WZ-LIN-MENU-1022",
+   "title": "林家乾麵牆上菜單貼圖加「貢丸湯 30」（AA_364 第 5 節，企劃線 d56da150；點餐選單已有，貼圖還沒有）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "【LAWWW（帳號 A）14:3x】LAWWW2 14:38 ACK：排在沛珊第三十一版之後——shops_tex.py aa364 補上、重匯 wz_lin_interior.glb、wz_shops_layout.js menu_strips 註解；交件照舊格式（outbox＋SHA），LAWWW 整合、BB 看畫面",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "走進溫州街林家乾麵",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_364 第 5 節（企劃線 d56da150）；WZ-SHOP-AA364-SYS",
+   "authorized": "D108、D110（3D 美術與場景程式歸 LAWWW2）",
+   "xai": {
+    "spec": "AA_364 第 5 節（d56da150）：林家菜單多「貢丸湯 30」；src/wzshops3d.js WZS.AA364 林家 menu",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "wz_lin_interior.glb 牆上菜單看得到「貢丸湯 30」（遊戲內截圖）；wz_aa364_shops_unit、nav 單元測試照過",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
