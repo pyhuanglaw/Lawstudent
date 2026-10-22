@@ -2030,7 +2030,12 @@ const STORY_EVENTS=[
       {label:'d2'},{speaker:'kexin',expression:'laugh',text:'你自己想。……你想五年了吧。'},{goto:'end'},
       {label:'d3'},{speaker:null,text:'（她看著你收好，嘴角動了一下。）'},{goto:'end'},
       {label:'y3'},{speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第三年。我們好像真的會一直轉下去。'},{goto:'b0'},
-      {label:'y4'},{speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第四年。'},
+      /* 第四年（AA_378 #10，企劃線 5cd35678；照 BB_209 第 4 節、AA_224 2-c）：自己一組選項；原本接第三年那組（「會啊。」「轉到頭暈怎麼辦？」回的是第三年「會一直轉下去」）*/
+      {label:'y4'},{speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。'},
+      {choice:[{text:'「明年也一起過。」',goto:'c1'},{text:'「時間好快。」',goto:'c2'},{text:'（不說話，看著她）',goto:'c3'}]},
+      {label:'c1'},{speaker:'kexin',expression:'smile',text:'好。寫進表格。'},{goto:'end'},
+      {label:'c2'},{speaker:'kexin',expression:'smile',text:'對啊。四年前你還不知道政大怎麼走。'},{goto:'end'},
+      {label:'c3'},{speaker:'kexin',expression:'teasing',text:'……幹嘛一直看。'},{goto:'end'},
       {label:'b0'},{choice:[{text:'「會啊。」',goto:'b1'},{text:'「轉到頭暈怎麼辦？」',goto:'b2'},{text:'（不說話，看著她）',goto:'b3'}]},
       {label:'b1'},{speaker:'kexin',expression:'smile',text:'好。'},{goto:'end'},
       {label:'b2'},{speaker:'kexin',expression:'laugh',text:'那就一起暈。'},{goto:'end'},

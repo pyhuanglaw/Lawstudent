@@ -527,6 +527,9 @@ const STORY = (function(){
     'Y6-L1':G=>S.ytEv13(G),'Y6-L7':G=>S.ytEv13(G),'Y6-L5':G=>!!(G.flags&&G.flags.RENT_RENEWED)};
   /* AA_375 第 11 項：可昕 K4-L2（兩邊的朋友見面）第 5 週起（週次在 tools/ladder/import_ladder.py 疊；3/21 邀約之後），只給 3/25 那場去了的玩家——
      答應了（KX_CIRCLES_GO）才說（見面以前是 lines、見過是 linesIf）；回了「那天不行」、3/25 過了沒去（沒有 ev_kexin_two_circles）、沒收到邀約＝這一層直接算過 */
+  /* AA_378 #1（企劃線 5cd35678）：以安 A7-L2「今年生日不是中秋。」只在她生日 2028-09-15（五）當天聊；那天沒聊到就不出（之後直接算過）*/
+  S.LADDER_HOLD['A7-L2']=G=>G.day===S.dayOfKey('2028-09-15');
+  S.LADDER_SKIP['A7-L2']=G=>G.day>S.dayOfKey('2028-09-15');
   S.LADDER_HOLD['K4-L2']=G=>!!(G.flags&&G.flags.KX_CIRCLES_GO===true)||!!(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles);
   S.LADDER_SKIP['K4-L2']=G=>{ if(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles) return false; if(G.flags&&G.flags.KX_CIRCLES_GO===false) return true; const d=S.dayOfKey('2027-03-25'); return d!=null&&G.day>d; };
   /* 語彤事件 13（AA_259：2027-12-16 第 15 週）：事件做好時設 YT_EV13（暫名）。她的作息照日期換（事件演不演，週四都不再顧店）*/

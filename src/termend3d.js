@@ -86,8 +86,8 @@ const TERMEND=(function(){
   /* 這段期間不在台灣的人不約（AA_259 第 4 節第 5 點 cf864bff）：照人物的 presence（芷若大三上、大四在英國；以安大三下在日本）；在臺北、不在台大的（kind:'taipei'：子晴大四）照約；
      在臺灣的別的城市（kind:'city'：沛珊大三起在台南，AA_282 第 5 節第 5 點）照約，地點照那一學期的 over（台南她學校附近）；放榜後還沒重新聯絡上的（presence 的 lost，AA_282 第 2 節：她不先找人）不約 */
   S.away=function(G,w,id){ if(typeof STORY==='undefined'||!STORY.presence) return false; const d=S.fromDay(w,id), p=STORY.presence(id,Object.assign({},G,{day:d})); return !p.here&&(!!p.lost||(p.kind!=='taipei'&&p.kind!=='city')); };
-  /* 玩家人在國外（交換路線；AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：整段時段都在國外（日本路線大三下）＝臺灣這邊什麼都不發；中途回來（美國路線 12/23）＝回來那天起才發 */
-  S.backDay=function(G,w){ if(typeof STORY==='undefined'||!STORY.abroad) return w.from; for(let d=w.from;d<=w.to;d++) if(!STORY.abroad(Object.assign({},G,{day:d}))) return d; return null; };
+  /* 玩家人在國外（交換路線；AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：整段時段都在國外（日本路線大三下）＝臺灣這邊什麼都不發；中途回來（美國路線 12/23）＝回來的隔天起才發（AA_378 #12）*/
+  S.backDay=function(G,w){ if(typeof STORY==='undefined'||!STORY.abroad) return w.from; for(let d=w.from;d<=w.to;d++) if(!STORY.abroad(Object.assign({},G,{day:d}))) return d===w.from?d:(d+1<=w.to?d+1:null); return null; };   /* 中途回來＝回來的隔天起（AA_378 #12，企劃線 5cd35678：美國路線 12/23 回國那晚只有阿凱的私訊，學期末時段從 12/24 開始——原本 12/23 當面又約一次宵夜）*/
   /* 期末邀約從玩家自己最後一科考完的隔天開始（AA_375 第 6 項）：時段第一天（第 16 週週四）以後還有期末考的＝最後一科的隔天（大二下：端午 6/9 停課，行政救濟補考 6/11（五）上午＝6/12 起）；
      最後一科在時段第一天以前或當天考完＝照時段第一天（那天晚上 20:30 已經考完）。考試照 CLS.examList（這學期修的、考五題的法律課，含補考那一堂）*/
   S.examStart=function(G,w){ if(typeof CLS==='undefined'||!CLS.examList) return w.from; let last=null; try{ for(const e of CLS.examList(G,w.id)) if(e.kind==='final'&&(last==null||e.day>last)) last=e.day; }catch(e){ return w.from; } return last!=null&&last>w.from?last+1:w.from; };
