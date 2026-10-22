@@ -11,10 +11,11 @@
    - F3（r2y3b3d.js）婉拒的存檔：包住 R2Y3B.f3CafeDue（不演「……我說好。」）、收回日本路線那則「我說好」；
    - MSG.tok 的「兩人是朋友」「兩人是好朋友」「兩人交往中」（子晴「芷若在英國」那三則；msg3d.js 原本「兩人是朋友」一律 true）：照 ZZ 的狀態（AA_385 第 9 節）；尾聲 PG.EPI_AFTER_CG：結局 B／C 那一行。
    存檔：G.flags.ZZ＝{state, since（建立的那天；舊存檔讀檔那天以前的場次不補演）, ev:{事件 id:{day,seen,…}}, yt（祐廷知道多少：none／hint／mutual／confirmed）,
-     sem:{學期:{zr,zq}}（A／B 誰先開口）, fy（方奕廷：declined／went／seeing）, f3, forceB, held（uk／fy）, version, datingDay, datingTerm, lastDay, month, ending}；
+     sem:{學期:{zr,zq}}（A／B 誰先開口）, fy（方奕廷：declined／went／seeing）, f3（none／dating／mutual／first／friends／yt＝AA_387 第 8 節因為祐廷拒絕）, forceB, held（uk／fy）, version, datingDay, datingTerm, lastDay, month, ending}；
      G.flags.ZZ_STATE（狀態的鏡像，給階梯、事件條件用 flagIs）、ZZ_DATING（交往中＝true，閒聊階梯的 notFlags 用，AA_385 第 3 項）、YT_SAW_ZZ_1、YT_SAW_ZZ_2、YT_HEARD_ZZ、YT_ZZ_FEEL；
      告訴祐廷的那一位記憶 ZZ_TOLD_YT。舊存檔沒有＝第一次跑到時建 {state:'friends'}，不改任何既有欄位。
-   測試：node tests/zrzq_line_unit.js、node tests/aa385_zz_unit.js */
+     ZR_F3_NO（AA_387 第 8 節：她因為祐廷拒絕方奕廷＝F3 那天；S.f3Sync）。
+   測試：node tests/zrzq_line_unit.js、node tests/aa385_zz_unit.js、node tests/aa387_zr_last_unit.js（第 8 節）*/
 'use strict';
 const ZRZQ=(function(){
   const S={}, ZR='heroine_02', ZQ='heroine_04', BOTH=[ZR,ZQ];
@@ -144,12 +145,22 @@ const ZRZQ=(function(){
   /* ---------- 4-2b：方奕廷 F3 那一晚（23-6）----------
      F3（r2y3b3d.js f3Go 記 FANG_F3_DAY：5/29，或延到 6/19）那時的狀態決定芷若的回答（ZZ.fy）和 4-2b 演哪一種：
      dating＝婉拒、情侶版；mutual_interest／held（先這樣）＝婉拒、跟子晴說了、「知道自己在意」版、之後 4-4 一律 B；feelings_emerging 兩人都單身＝接受、去看了、「第一次在意」版、之後選方奕廷（seeing、held）；
-     friends、其中一人和祐廷交往中或在分手的那學期＝照原本的方奕廷路線（她接受＝seeing），不演 */
+     friends、其中一人和祐廷交往中或在分手的那學期＝照原本的方奕廷路線（她接受＝seeing），不演。
+     AA_387 第 8 節（企劃線 608b9adc）：原本會接受（went、seeing）的，F3 那天先看她心裡是不是祐廷（S.ytHeart）——是＝她拒絕方奕廷（fy declined、f3 'yt'、記 ZR_F3_NO＝F3 那天；
+     不記 ZR_FY、不演 4-2b）；方奕廷那通電話照演（r2y3b3d.js f3Go 照舊排）；之後在 Café 她說的是拒絕版（r2y3b_events.js ev_zhiruo_f3_cafe）。
+     和子晴交往中（dating）、曖昧（mutual_interest／held uk）的照上面原本的婉拒；只在 F3 新發生的那一刻判斷，舊存檔已經過了的 F3 不改（R.f3Day 已經是那一天）*/
+  /* AA_387 第 1 節第 2 點：她的心意條件＝學期末心意邀約那一套（TERMEND.cond：C1 戀愛 30、C2 正式約會 4 次含心願地點、C4～C6、C10）＋C8（ROM.canStart）；C7（國外）不看——她 9/2 才走。
+     C9（另一位先和祐廷重新交往）程式裡沒有這一項（TERMEND.heartWhy 也沒有），照現在。最後一場的條件（src/zr_last3d.js）也用這一個 */
+  S.heartOk=function(G){ if(!G||!G.flags||typeof TERMEND==='undefined'||!TERMEND.cond) return false; const c=TERMEND.cond(G,ZR); if(!c||!c.ok) return false;
+    return !(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,ZR)); };
+  /* 第 8 節的三條：杯子那一場沒有演過（ZR_CUP 沒有值）、沒和祐廷交往、上面的心意條件 ok */
+  S.ytHeart=G=>!!G&&!!G.flags&&G.flags.ZR_CUP==null&&!datingYT(G,ZR)&&S.heartOk(G);
   S.f3Sync=function(G){ const F=G.flags, R=S.rec(G); if(F.FANG_F3_DAY==null||R.f3Day===F.FANG_F3_DAY) return; R.f3Day=F.FANG_F3_DAY;
     if(F.FANG_F3==='congrats'){ R.f3='none'; return; }   /* 和祐廷交往中：F3 不發生 */
     const st=R.state, t=termAt(F.FANG_F3_DAY), clear=!BOTH.some(id=>datingYT(G,id))&&!BOTH.some(id=>S.frozenTerm(G,id,t));
     if(st==='dating'){ R.fy='declined'; R.f3='dating'; }
     else if(clear&&(st==='mutual_interest'||(st==='held'&&R.held==='uk'))){ R.fy='declined'; R.f3='mutual'; R.forceB=true; }
+    else if(S.ytHeart(G)){ R.fy='declined'; R.f3='yt'; F.ZR_F3_NO=F.FANG_F3_DAY; }   /* AA_387 第 8 節：她心裡是祐廷＝拒絕方奕廷 */
     else if(clear&&st==='feelings_emerging'){ R.fy='went'; R.f3='first'; }
     else { R.fy='seeing'; R.f3='friends'; } };
   /* 看電影那天＝F3 之後的第一個週三：5/31 萬才館門口（吉他社練完，21:00）；F3 延到 6/19＝6/21（三）21:30 溫州街的小公園（她們已經畢業）*/
@@ -348,8 +359,9 @@ const ZRZQ=(function(){
       try{ if(G){ const h0=(+G.hour||0); for(const u of S.upcoming(G)) if(u.day===G.day&&u.h>h0+1e-6&&u.h<h1) out.push({h:u.h,why:'有事發生'}); out.sort((a,b)=>a.h-b.h); } }catch(e){ console.warn('ZRZQ skipStops',e); }
       return out; }; CLS._zrzq=true; }
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.STOPS)) HOME.STOPS.push((G,t)=>S.upcoming(G).map(u=>T(u.day,u.h)).filter(x=>t==null||x>t));
-  /* F3 婉拒的存檔：「奕廷約我去看電影。……我說好。」那一場不演（第三節：婉拒，取代「我想試試看」）*/
-  if(typeof R2Y3B!=='undefined'&&R2Y3B.f3CafeDue&&!R2Y3B._zrzq){ const f0=R2Y3B.f3CafeDue; R2Y3B.f3CafeDue=function(G){ const R=G&&G.flags&&G.flags.ZZ; if(R&&R.fy==='declined') return false; return f0.apply(this,arguments); }; R2Y3B._zrzq=true; }
+  /* F3 婉拒的存檔：「奕廷約我去看電影。……我說好。」那一場不演（第三節：婉拒，取代「我想試試看」）。
+     AA_387 第 8 節：因為祐廷拒絕的（ZR_F3_NO）照演這一場，換拒絕版（r2y3b_events.js ev_zhiruo_f3_cafe 照 ZR_F3_NO 分支）*/
+  if(typeof R2Y3B!=='undefined'&&R2Y3B.f3CafeDue&&!R2Y3B._zrzq){ const f0=R2Y3B.f3CafeDue; R2Y3B.f3CafeDue=function(G){ const R=G&&G.flags&&G.flags.ZZ; if(R&&R.fy==='declined'&&G.flags.ZR_F3_NO==null) return false; return f0.apply(this,arguments); }; R2Y3B._zrzq=true; }
   /* 手機子晴「芷若在英國」那三則（BB_178 第 2 節；AA_385 第 9 節選③，企劃線 028dc128）：friends、feelings_emerging、mutual_interest、held＝好朋友（「芷若這個月打來了」）、
      dating＝交往中；「兩人是朋友」（下雨的照片）只給沒有 ZZ 的舊存檔當備援 */
   S.GOOD=['friends','feelings_emerging','mutual_interest','held','remain_friends'];
