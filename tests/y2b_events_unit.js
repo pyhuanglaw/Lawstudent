@@ -89,7 +89,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   { const s=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('A2. 大一下事件 4 交往版記 YT_AUNT_KNOWS', /\{if:\{flags:\['dating_heroine_03'\]\},set:\{YT_AUNT_KNOWS:true\}\}/.test(s)); }
   fresh('2027-05-22',9.2,'wancai'); R('heroine_03','FRI'); said=[]; check('A3. 不是法服成員：5/22 沒有在場版', !Y2B.auntDue(G));
   at('2027-05-25',18); G.zone='noodle'; SOCIAL.remember('heroine_03','LAW_MEETS_LIFE',''); said=[]; const hit=EVENTS.onInteract('heroine_03'); await new Promise(r=>setTimeout(r,5));
-  check('A3. 之後在麵店和語彤說話：三句＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('禮拜六我陪阿姨去法服。')&&has('阿姨出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
+  check('A3. 之後在麵店和語彤說話：三句（AA_375 第 9 項：「上次我陪阿姨去法服。」）＋「就是你那天傳的那一頁」；記 RENT_CONSULTATION', hit&&has('上次我陪阿姨去法服。')&&has('阿姨出來的時候在笑。')&&has('就是你那天傳的那一頁。')&&SOCIAL.has('heroine_03','RENT_CONSULTATION'), JSON.stringify(lines()));
   fresh('2027-06-12',21.2,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules();
   check('A3. 都沒遇到：6/12 21:00 三句（第一句「前陣子」）', txt('p:heroine_03').join('|')==='heroine_03:前陣子我陪阿姨去法服。|heroine_03:裡面的人說，租約到期以前，他不能趕我們。|heroine_03:阿姨出來的時候在笑。');
   fresh('2027-05-25',18,'noodle'); said=[]; const hit4=EVENTS.onInteract('heroine_03'); fresh('2027-06-12',21.2,'dorm'); ct('heroine_03'); rules();
@@ -119,7 +119,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   at('2027-06-09',19.5); check('Q2. 兩週以後：不說', !EVENTS.check(ev('ev_ziqing_dad_sorry'),{chain:true}));
   fresh('2027-05-18',22.5,'gongguan'); R('heroine_04','FRI'); check('Q3. 沒看過 Q6：沒有騎樓那一場', !EVENTS.check(dv));
   ct('heroine_04'); at('2027-06-04',22.2); rules();
-  check('Q3. 6/4 22:00 四則、沒有提到遊戲；兩個回覆', txt('p:heroine_04').join('|')==='heroine_04:欸跟你說|heroine_04:我爸上禮拜來過|heroine_04:……我跟芷若去河堤走了一圈|heroine_04:沒事'&&PHONE.byAsk(G,'y2_zq_dad_msg').ask.opts.length===2&&G.flags.ZQ_DAD_HEARD===true);
+  check('Q3. 6/4 22:00 四則（AA_255 第 7 節的版本，AA_375 第 4 節提醒）、沒有提到遊戲；兩個回覆', txt('p:heroine_04').join('|')==='heroine_04:我爸上禮拜來過|heroine_04:搭計程車來 搭計程車回去|heroine_04:他問我最近在忙什麼 我說寫程式|heroine_04:……我跟芷若去河堤走了一圈 沒事'&&PHONE.byAsk(G,'y2_zq_dad_msg').ask.opts.length===2&&G.flags.ZQ_DAD_HEARD===true);
   check('Q4. 6/4 那則不是「我爸剛走」的寫法', !txt('p:heroine_04').some(t=>/剛走|爸.*走了/.test(t)));
 
   // ---------- 1B-06 芷若 Z9 ----------
@@ -159,7 +159,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); at('2027-03-23',21.1); rules();
   check('T3b. 不回：3/23 21:00「週四。六點。你還沒回。」', txt('p:kexin').includes('kexin:週四。六點。你還沒回。'));
   fresh('2027-03-25',18,'dorm'); date('kexin'); SOCIAL.remember('heroine_01','FIRST_MET',''); picks=[1,2]; await run('ev_kexin_two_circles');
-  check('T4. 認識以安：19:40「我八點讀書會。……很高興認識妳。」→ 可昕「嗯。下次見。」；八點半結尾', has('我八點讀書會。……很高興認識妳。')&&has('嗯。下次見。')&&has('（八點半。予樂說要開一個群組，名字她來取。）'));
+  check('T4. 認識以安：19:40「我們八點讀書會。……很高興認識妳。」（AA_375 第 15 項）→ 可昕「嗯。下次見。」；八點半結尾', has('我們八點讀書會。……很高興認識妳。')&&has('嗯。下次見。')&&has('（八點半。予樂說要開一個群組，名字她來取。）'));
 
   // ---------- 1B-08 語彤 13b、事件 12 ----------
   fresh('2027-09-07',18,'noodle'); R('heroine_03','FRI'); check('13b. 大三上第 1 週週二 18:00 麵店：可以演', EVENTS.check(ev('ev_yt_ta_news')));

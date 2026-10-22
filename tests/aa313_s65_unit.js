@@ -22,7 +22,7 @@ check('8. 分手以後回到「溫學姊」', PHONE.who(m)==='溫學姊');
   check('8. Café 小交流：大二起換「今天改了兩段論文。」', !!sm&&sm.lGrad&&sm.lGrad[0]==='「今天改了兩段論文。」'&&/it\.lGrad&&T&&!\/\^Y1\/\.test\(T\.id\)\?it\.lGrad:it\.l/.test(st)); }
 { const a=STORY_EVENTS.find(e=>e.id==='ev_peishan_split'), b=STORY_EVENTS.find(e=>e.id==='ev_peishan_bohan_split'); const t=a.dialogue.filter(l=>l.text).map(l=>l.text);
   check('11. 沛珊 ev_peishan_split：先「我們上週分開了。我自己說的。」再說原因', t[0]==='我們上週分開了。我自己說的。'&&t[1]==='柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。', JSON.stringify(t));
-  check('11. 兩個事件互斥（notEvents 互相指）', (a.prereq.notEvents||[]).includes('ev_peishan_bohan_split')&&(b.prereq.notEvents||[]).includes('ev_peishan_split')); }
+  check('11. 同一件事只聽一次（AA_374 第 18 項起合併成 ev_peishan_split）：ev_peishan_split 不演給演過 ev_peishan_bohan_split 的舊存檔；ev_peishan_bohan_split 不再演', (a.prereq.notEvents||[]).includes('ev_peishan_bohan_split')&&typeof b.prereq.custom==='function'&&b.prereq.custom({flags:{},events:{done:{}}})===false); }
 { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('10. 法服的「研究所學姊」名字框改「雅筑學姊」（AA-C 35933478；不會被當成溫書瑀）', !/研究所學姊/.test(st)&&/S\.FAFU_OPEN=\[\['雅筑學姊','今天兩桌。你跟我。'\]/.test(st)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

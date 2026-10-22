@@ -46,9 +46,9 @@ GM.money=function(n){ G.money+=n; };
   L=await g1([]); check('1. 只認識阿哲：只有阿哲那一句（不認識的人不說話）',L.length===1&&/^阿哲：第三題/.test(L[0]),JSON.stringify(L));
   // 語彤 10 的時間
   const at=(term,w,wd,hh,stage)=>{ const d=termDay(term,w,wd); fresh(d,hh,'noodle'); R('heroine_03',...(stage||LV.FRI)); meet('heroine_03'); return EVENTS.check(Y10); };
-  check('2. 大二上第 10 週週二 20:50、麵店、朋友：會演',at('Y2S1',10,2,20+50/60));
-  check('2. 第 9 週不演；週三不演；20:30 不演；有點熟不演',!at('Y2S1',9,2,20+50/60)&&!at('Y2S1',10,3,20+50/60)&&!at('Y2S1',10,2,20.5)&&!at('Y2S1',10,4,21,LV.FAM));
-  check('2. 大二上沒遇到：大二下週四 21:10 照樣演；大三上不演',at('Y2S2',3,4,21+10/60)&&!at('Y3S1',3,4,21));
+  check('2. 大一下第 10 週週二 20:50、麵店、朋友：會演（AA_374 第 9 項：只在大一下，原本大二上第 10 週起）',at('Y1S2',10,2,20+50/60));
+  check('2. 第 9 週不演；週三不演；20:30 不演；有點熟不演',!at('Y1S2',9,2,20+50/60)&&!at('Y1S2',10,3,20+50/60)&&!at('Y1S2',10,2,20.5)&&!at('Y1S2',10,4,21,LV.FAM));
+  check('2. 大一下沒遇到：大二上、大二下、大三上都不補（AA_374 第 9 項）',!at('Y2S1',10,2,20+50/60)&&!at('Y2S2',3,4,21+10/60)&&!at('Y3S1',3,4,21));
   // 台詞
   const play=async(flags,pick)=>{ fresh(termDay('Y2S1',10,2),20.8,'noodle',flags); R('heroine_03',...LV.FRI); meet('heroine_03'); said=[]; opts=[]; picks=[pick]; await EVENTS.run(Y10); return {L:linesN(),O:opts[0]||[]}; };
   let r=await play({},'為什麼不說');

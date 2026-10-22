@@ -4,6 +4,7 @@
 要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
 AA_372 第 13、18 項以安的兩句：企劃線 ladder_aa.json@7fca0df5 已經改好（AA_372 第 6 節），原本疊在這裡的那段拿掉了。
 AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句、第 6 節第 4 題一句同樣疊在大一下的階梯上（byTerm.Y1S2）。
+AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（週次、句子、選項）用 _fix 疊在 ladder_*_y2s1／y2s2.json 上。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -110,6 +111,40 @@ if A373:
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'AA_373 {item}：大一下 {cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
     out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（大一下 6 句）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
+# ---- 大二的修正稿（企劃線，白名單上的 commit；AA 定稿）：一層的一個欄位疊在 ladder_*_y2s1／y2s2.json 上——整個欄位相同才換（週次、句子、選項）；
+#      那個檔下一版自己改好了（已經是新值）就跳過，舊值、新值都不是＝停下來（企劃改過了，要重看）。每一項先確認修正稿裡有那一句「改成」。
+#      AA_374（AA374-Y2S1-FIX-1021）第 14 項：可昕 K3-L4 週次 [6,16]→[6,6]（互考 10/23 只有一次；第 6 週沒聊到就跳過，不卡住後面的層）
+def _fix(prefix, label, patches):
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return
+    P, SHA = next(iter(A.items()))
+    ok, why = G.allowed(P, SHA, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True)
+    for item, term, cid, sid, field, old, new, quote in patches:
+        if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
+        if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
+        cur = st.get(field)
+        if cur == new: continue
+        if cur != old: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} {sid} 的 {field} 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        if new is None: st.pop(field, None)
+        else: st[field] = new
+    out['source'] += f'＋{os.path.basename(P)[:6]}@{SHA}（{label}）'
+_fix('docs/story_planning/AA_374_', '可昕 K3-L4 週次', [
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'week', [6, 16], [6, 6], '週次改 **[6,6]**'),
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'skipAfterWeek', None, 6, '週次改 **[6,6]**')])
+#      AA_375（AA375-Y2S2-FIX-1021）第 7 項：語彤 Y4-L7 大二下改「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」（助教是大三上 1B-08 的新消息；
+#      原本的兩句和兩個選項都在講已經確定的助教，整層換成這一句、選項拿掉）；第 11 項：可昕 K4-L2 第 5 週起（3/21 邀約之後；只給 3/25 去了的玩家在 story3d.js 的
+#      LADDER_HOLD／LADDER_SKIP）；第 12 項：芷若 Z4-L4 第 11 週以後跳過（同子晴 Q4-L4：週次 [3,11]＋skipAfterWeek 11；英國的信 5/11 第 12 週就到了）
+_fix('docs/story_planning/AA_375_', '語彤 Y4-L7、可昕 K4-L2、芷若 Z4-L4', [
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'lines', ['下學期我要當訪談課的助教了。老師說，教室我可以自己排。', '我想把椅子都擺成斜的。'],
+     ['下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。'], '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'choices', [{'t': '「妳會做得很好。」', 'reply': '希望啦。第一堂要自我介紹，我還沒想好要講什麼。'}, {'t': '「老師說了什麼？」', 'reply': '她說每週要改二十份作業。我還在算時間夠不夠。'}],
+     None, '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 11 項', 'Y2S2', 'kexin', 'K4-L2', 'week', [3, 16], [5, 16], '週次改**第 5 週起**'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'week', [3, 16], [3, 11], '第 11 週以後跳過（同子晴 Q4-L4）'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'skipAfterWeek', None, 11, '第 11 週以後跳過（同子晴 Q4-L4）')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

@@ -82,7 +82,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(d4,21,'campus',{dating_kexin:false}); const P3b=STORY.neededPick(G,d4).map(e=>e.id);
   check('5. 交往中的可昕：不看熟不熟（第 4 週「物權報告要一個例子」）；沒交往就沒有',P3.includes('kx_example')&&!P3b.includes('kx_example'),JSON.stringify([P3,P3b,d4]));
   const notYet=NEEDED_MSGS.list.filter(e=>{ try{ return e.cond&&!e.cond({flags:{lawclub:true,dating_kexin:true,ECON_TOGETHER:true,JOB_TUTOR:true,POTHOS:true,INVITED_CLUB:true,RENT_CONSULTATION:true,STUDYGROUP_LEADER:true,noodleTableDay:1,RENT_RUMOR:true,BOHAN_GROUP:'ask'},events:{done:{ev_peishan_decision:1,ev_yutong_landlord:1,ev_xinci_second:1,ev_yu_together:1}},habits:{}}); }catch(e){ return false; } }).map(e=>e.id).filter(id=>!/^an_rules$|^an_lead$|^an_topics$/.test(id));
-  check('5. 還沒發生的事件（語彤事件 11、Z7、ev_bohan_scores、子晴 Q6 PLAYTESTED）那幾則先不出現；模擬法庭三則換掉了；慈 3 之後的 xc_drama 讀 ev_xinci_second',JSON.stringify(notYet.sort())===JSON.stringify(['bh_scores','yt_dish','zq_name','zr_beans'].sort())&&!NEEDED_MSGS.list.some(e=>/_moot$/.test(e.id)),JSON.stringify(notYet));
+  check('5. 還沒發生的事件（語彤事件 11、Z7、ev_bohan_scores、子晴 Q6 PLAYTESTED）那幾則先不出現、mx_tutor 大二上拿掉（AA_374 第 22 項）；模擬法庭三則換掉了；慈 3 之後的 xc_drama 讀 ev_xinci_second',JSON.stringify(notYet.sort())===JSON.stringify(['bh_scores','mx_tutor','yt_dish','zq_name','zr_beans'].sort())&&!NEEDED_MSGS.list.some(e=>/_moot$/.test(e.id)),JSON.stringify(notYet));
   // 5b. 每一則各一句、交往版、依條件換的版本（AA_179 第 4、4-1 節；BB_97 11-1、11-2；BB_205 第 4～8 節）
   { const J=JSON.stringify, E=id=>NEEDED_MSGS.list.find(e=>e.id===id), MF=(id,g)=>STORY.neededMissFor(g||G,E(id),E(id).who);
     fresh(S913,21,'campus',{}); 
@@ -92,14 +92,14 @@ GM.money=function(n){ G.money+=n; };
     check('5b. 子晴爸爸那則：Q8（ev_ziqing_dad_visit）演過就不說',MF('zq_dad')&&/我爸要來那則/.test(MF('zq_dad')[0])&&(G.events.done.ev_ziqing_dad_visit=1,MF('zq_dad')===null)); delete G.events.done.ev_ziqing_dad_visit;
     const V=(id)=>{ const v=STORY.neededVar(G,E(id)); return {msg:v.msg||E(id).msg,resp:v.resp||E(id).resp}; };
     check('5b. 子晴爸爸：沒看過 Q6 的第三則「他說要來看我」；看過的「他說要看我做的遊戲」（BB_205 第 5 節）',V('zq_dad').msg[2]==='他說要來看我'&&V('zq_dad').msg[0]==='欸跟你說'&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),V('zq_dad').msg[2]==='他說要看我做的遊戲')&&E('zq_dad').term==='Y2S2');
-    check('5b. 明軒說明會：沒有 SAW_HIM_STUDY 換「你要去嗎」那一版；有的「幫我佔第一排」',/你要去嗎/.test(V('mx_seat').msg[0])&&/那我們第一排見/.test(V('mx_seat').resp[0])&&(SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),/幫我佔第一排/.test(V('mx_seat').msg[0]))&&J(E('mx_seat').w)==='[3,3]');
+    check('5b. 明軒說明會：沒有 SAW_HIM_STUDY 換「你要去嗎」那一版；有的「幫我佔第一排」',/你要去嗎/.test(V('mx_seat').msg[0])&&/那我們第一排見/.test(V('mx_seat').resp[0])&&(SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),/幫我佔第一排/.test(V('mx_seat').msg[0]))&&J(E('mx_seat').w)==='[4,4]'&&J(E('mx_seat').at)===J({day:'2027-03-15',h:21}));   /* AA_375 第 10 項：3/15（一）21:00 發（原本第 3 週 3/14 那一組）*/
     check('5b. 阿凱鍵盤：沒有 KAI_KEYBOARD 換「我網拍買的鍵盤」；有的「大一那把」',/網拍買的/.test(V('kai_kb').msg[0])&&(SOCIAL.remember('kai','KAI_KEYBOARD',''),/大一那把/.test(V('kai_kb').msg[0])));
     check('5b. 學姊大二只剩法圖那本書（sis_report 刪）；可昕 kx_cv 是期中報告的摘要',/行政救濟的書/.test(E('sis_list').msg[0])&&!E('sis_report')&&/期中報告的摘要/.test(E('kx_cv').msg[0])&&E('sis_list').miss[0]==='那本書我借到了。');
     check('5b. 每一則都有自己的 miss（或 null），沒有舊的一人一句表',NEEDED_MSGS.list.every(e=>e.miss===null||Array.isArray(e.miss))&&Object.keys(NEEDED_MSGS.miss).length===0);
     // 實際流程：送出時用換過的版本
-    fresh(STORY.termDay('Y2S2',3,7),20.9,'campus',{}); KNOW(['classmate_mingxuan']); run(21,21.05);
+    fresh(STORY.termDay('Y2S2',4,1),20.9,'campus',{}); KNOW(['classmate_mingxuan']); run(21,21.05);   /* AA_375 第 10 項：3/15（一）21:00 */
     const mx=(G.msgs||[]).filter(m=>m.from==='classmate_mingxuan').map(m=>m.text);
-    check('5b. 手機實際收到明軒沒有 SAW_HIM_STUDY 的兩則',J(mx)===J(['交換說明會週四中午 你要去嗎','我只是去聽聽 順便吃便當 😂']),J(mx)); }
+    check('5b. 手機實際收到明軒沒有 SAW_HIM_STUDY 的兩則（3/15 21:00）',J(mx)===J(['交換說明會週四中午 你要去嗎','我只是去聽聽 順便吃便當 😂']),J(mx)); }
   // 6. 語彤每四週
   fresh(S913,21,'campus',{noodleTableDay:1}); KNOW(['heroine_03']); run(21,21.05);
   const has=d=>STORY.neededPick(G,d).some(e=>e.id==='yt_auntie');

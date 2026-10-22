@@ -92,7 +92,7 @@ const ENCOUNTERS={
     {who:'heroine_01',spot:'D09',why:'她和公法讀書會的人坐在茶館最裡面那一桌，桌上攤著一張時間表。',days:[6],from:15,to:19,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[10],stageMin:'FAMILIAR',busy:'short',join:false,memo:null,away:'和讀書會在貓空',
       lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','下次讀書會你要不要來旁聽？時間我再傳給你。'],friend:['{name}？小語剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','七點我下山。你等我，我們一起搭纜車。']},src:'AA_162 8、8-1、8-5'},
     {who:'heroine_03',spot:'D18',why:'她跟在一位老師後面，在訪問一位擦香爐的阿嬤。',days:[6],from:10,to:17,terms:['Y3S1','Y3S2'],weeks:[12],stageMin:'ACQUAINTANCE',busy:'yes',busyLine:'（她看到你，點了一下頭，繼續聽阿嬤說話。）',join:false,memo:'ENC_D18_YT',away:'在九份做田野',lines:{},src:'AA_162 8、8-1（她在工作，只點頭；之後在學校說一句）'},
-    {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
+    {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],termWeeks:{Y2S2:[15]}/* AA_375 第 4 項：大二下 5/29（六）14:00 系籃在新體育館比賽，外澳只在第 15 週 6/5；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
       lines:{acq:['欸！你也來外澳？下來啊！','水很冷！……超冷。下來就知道。'],friend:['哥！我們差一個人推板子。你來！','你不會衝浪？我也不會啊，我們都在被浪打。快下來！']},src:'AA_162 8、8-1、8-5'},
     {who:'yu',spot:'D20',why:'她在老街口數人頭，手上拿著社團的點名單。',days:[6],from:10,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[6],termWeeks:{Y1S2:[8]}/* AA_373 #5（企劃線 a48fe1b7）：大一下第 6 週週六 4/4 她在麵店團的春假旅行，烏來改第 8 週週六 4/18（期中考完那個週六）；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:null,away:'和社團在烏來',
       lines:{all:['欸{name}？你也來烏來？對了我在點名，二十三、二十四……','好啦我先忙，你自己玩！不要掉到溪裡！']},src:'AA_162 8、8-1'},

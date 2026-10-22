@@ -242,9 +242,9 @@ const K=t=>'kexin:'+t;
   check('11. D2 沒上債各第 5 週：依據兩個選項；沒回週訊息：「我學長退租，房東本來說押金扣一半。」',opts[0].length===2&&said[0].t==='我學長退租，房東本來說押金扣一半。'&&has('他自己去問，房東改口說牆上有釘子洞，全部不退。'));
 
   // 12. 2-Y2-14 G1
-  { const e=ev('ev_midterm_walkout_y2s2'); check('12. 考完債各期中（afterClass oblig_spec、afterExam mid、大二下）才有；翹考沒有',e.trigger==='class'&&e.afterClass==='oblig_spec'&&e.afterExam==='mid'&&JSON.stringify(e.term)===JSON.stringify(['Y2S2'])); }
+  { const e=ev('ev_midterm_walkout_y2s2'); check('12. 考完最後一科期中（AA_375 第 8 項：法學英文 4/15；afterClass legal_english、afterExam mid、大二下）才有；翹考沒有',e.trigger==='class'&&e.afterClass==='legal_english'&&e.afterExam==='mid'&&JSON.stringify(e.term)===JSON.stringify(['Y2S2'])); }
   fresh('2027-04-20',12,'linze',{met_yu:true}); for(const id of ['heroine_03','heroine_01','classmate_xinci']) meet(id); await play('ev_midterm_walkout_y2s2');
-  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是贈與。')&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('我寫了三頁。第二題值得。')&&has('期中考完了。今天之後，我不跟你們對答案。')&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
+  check('12. W1 認識全部：旁白＋五句（以安那句沒有「理由：」）',said.length===6&&has('債各的第二題，我寫了『買賣不破租賃』。……題目問的是租賃。')/* AA_375 第 8 項 */&&has('贈與那題我也寫錯了。我們一起錯。')&&has('……第二題寫完，我才發現背面還有一題。')&&has('我寫了三頁。第二題值得。')&&has('期中考完了。今天之後，我不跟你們對答案。')&&!any(/理由：/),JSON.stringify(said.map(s=>s.t)));
   fresh('2027-04-20',12,'linze',{met_yu:true}); meet('heroine_01'); await play('ev_midterm_walkout_y2s2'); check('12. W2 不認識語彤：沒有她那句',!has('……第二題寫完，我才發現背面還有一題。'));
 
   // 13. 2-Y2-15 生日
@@ -321,7 +321,7 @@ const K=t=>'kexin:'+t;
   check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車；沒有小語（不認識）以外的人',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left'&&!has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'));
   run('2027-05-08',21.25,23.25); check('14. 先走：21:30 群組兩張照片；沒有 23:00',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
   { const k12=ev('ev_kexin_two_circles'); if(k12&&typeof k12.after==='function'){ fresh('2027-03-25',20.5,'noodle',{met_yu:true}); date('kexin'); meet('classmate_bohan'); G.flags.KX_CIRCLES_MET=true; k12.after(G); run('2027-04-28',20.75,21.25);
-    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組、阿哲小語柏翰都在',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','yu:我也要！！','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch'))); }
+    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組；AA_375 第 15 項：小語、柏翰 19:40 先去讀書會，群組不算他們——只有阿哲',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1']),JSON.stringify(txt('g:noodle_branch'))); }
     else check('14. 1B-07 的 ev_kexin_two_circles 還沒進來（這個檢查跳過）',true); }
   bus({NOODLE_BRANCH_MEMBERS:['kexin','yule','zhe','classmate_bohan']});
   check('14. 1B-07 記的成員（小語那天不在、柏翰在）：邀約是阿哲「+1」、柏翰「那天我在總圖。」，沒有小語',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch')));
@@ -332,17 +332,17 @@ const K=t=>'kexin:'+t;
   fresh('2027-05-11',22,'dorm'); R('heroine_02','FRI'); date('heroine_02'); run('2027-05-11',22.5,22.75);
   check('15. 交往中：5/11 22:40 三則',JSON.stringify(txt('p:heroine_02'))===JSON.stringify(['heroine_02:信來了。','heroine_02:……錄取了。','heroine_02:我現在不想打字。你可以打給我嗎。']));
   ans('y2r2_zr_admit',0); await go('y2r2_zr_call'); check('15. Z2 打過去：「我在哭。開心的啦。」；ZR_ADMIT_CALL stayed',has('我在哭。開心的啦。')&&has('（你們沒有再說什麼。電話一直沒掛。）')&&G.flags.ZR_ADMIT_CALL==='stayed');
-  to('2027-05-12',19.5); G.zone='wancai'; R('heroine_04','FAM'); ROM.learn(G,'heroine_04','heroine_02','test'); check('15. 5/12（三）19:30 萬才館：子晴的演唱會那件可以觸發',EVENTS.check(ev('ev_zhiruo_concert')));
-  await play('ev_zhiruo_concert'); check('15. Z2 交往版：「……她是不是已經跟你說了。」「昨天晚上。」「可惡。我以為我是第一個。……好啦，你是男朋友，你先。」',has('……她是不是已經跟你說了。')&&has('昨天晚上。')&&has('可惡。我以為我是第一個。……好啦，你是男朋友，你先。')&&!has('安可那首。哭到隔壁的人遞面紙給她。'));
-  G.zone='cafe'; await play('ev_zhiruo_admitted',['四個月很快']); check('15. Z2 Café 5/12：「昨天那通電話，我後來睡著了。你掛了嗎？」「……你好笨。電話費。」',has('昨天那通電話，我後來睡著了。你掛了嗎？')&&has('……你好笨。電話費。')&&has('九月我就走了。四個月。')&&G.flags.ZR_ADMITTED===true);
-  fresh('2027-05-12',19.5,'wancai',{ZR_NOMINATED:true}); R('heroine_04','FAM'); R('heroine_02','FAM');
-  check('15. 5/13、5/26 不觸發；只認識子晴（不到 FAMILIAR）不觸發',EVENTS.check(ev('ev_zhiruo_concert'))&&(()=>{ to('2027-05-13',19.5); return !EVENTS.check(ev('ev_zhiruo_concert')); })()&&(()=>{ to('2027-05-12',19.5); R('heroine_04','ACQ'); const r=!EVENTS.check(ev('ev_zhiruo_concert')); R('heroine_04','FAM'); return r; })());
+  to('2027-05-12',19.5); G.zone='cafe'; await play('ev_zhiruo_admitted',['五個多月很快']); check('15. Z2 Café 5/12：「昨天那通電話，我後來睡著了。你掛了嗎？」「……你好笨。電話費。」（AA_375 第 2 項：「九月我就走了。五個多月。」）',has('昨天那通電話，我後來睡著了。你掛了嗎？')&&has('……你好笨。電話費。')&&has('九月我就走了。五個多月。')&&G.flags.ZR_ADMITTED===true);
+  to('2027-05-17',19.5); G.zone='wancai'; R('heroine_04','FAM'); ROM.learn(G,'heroine_04','heroine_02','test'); check('15. 5/17（一）19:30 萬才館：子晴的演唱會那件可以觸發（AA_375 第 13 項：演唱會 5/15（六）晚上，5/17 以後才說）',EVENTS.check(ev('ev_zhiruo_concert')));
+  await play('ev_zhiruo_concert'); check('15. Z2 交往版：「……她是不是已經跟你說了。」「上禮拜。」（5/11 那通電話是上禮拜）「可惡。我以為我是第一個。……好啦，你是男朋友，你先。」',has('……她是不是已經跟你說了。')&&has('上禮拜。')&&has('可惡。我以為我是第一個。……好啦，你是男朋友，你先。')&&!has('安可那首。哭到隔壁的人遞面紙給她。'));
+  fresh('2027-05-17',19.5,'wancai',{ZR_NOMINATED:true}); R('heroine_04','FAM'); R('heroine_02','FAM');
+  check('15. 5/12、5/13 不觸發（AA_375 第 13 項：5/17 起）；只認識子晴（不到 FAMILIAR）不觸發',EVENTS.check(ev('ev_zhiruo_concert'))&&(()=>{ to('2027-05-13',19.5); return !EVENTS.check(ev('ev_zhiruo_concert')); })()&&(()=>{ to('2027-05-12',19.5); return !EVENTS.check(ev('ev_zhiruo_concert')); })()&&(()=>{ to('2027-05-17',19.5); R('heroine_04','ACQ'); const r=!EVENTS.check(ev('ev_zhiruo_concert')); R('heroine_04','FAM'); return r; })());
   await play('ev_zhiruo_concert'); check('15. Z1 一般版：子晴四句（她等了五個月）；芷若記 HEARD_FROM_ZIQING',has('欸，你知道芷若在演唱會哭嗎？')&&has('安可那首。哭到隔壁的人遞面紙給她。')&&has('她說是因為英國那邊的錄取信來了。她等了五個月。')&&has('……她還沒跟你說吧。她要自己說。你裝不知道。')&&SOCIAL.has('heroine_02','HEARD_FROM_ZIQING'));
   G.zone='cafe'; await play('ev_zhiruo_admitted',['裝不知道']); check('15. Z1 Café 裝不知道：「子晴跟你說了吧。你裝得很爛。」',has('子晴跟你說了吧。你裝得很爛。')&&has('一月那則的下文。……你等到了。'));
   fresh('2027-05-19',19.5,'wancai',{}); R('heroine_04','FAM'); R('heroine_02','FAM'); await play('ev_zhiruo_concert'); check('15. Z3 沒演過 Z7：子晴「她申請交換，等了五個月」',has('她說是因為英國那邊的錄取信來了。她申請交換，等了五個月。'));
   fresh('2027-05-20',15,'cafe',{}); R('heroine_02','FAM'); await play('ev_zhiruo_admitted',['九月走']); check('15. Z3 Café：「下學期我要去英國交換。那邊的信，前幾天來了。」；沒聽子晴說＝「這幾天一直想跟每個客人說。……結果都沒說。」（AA_338 第 6 節：禁用模板句「你是第三個」改掉）',has('下學期我要去英國交換。那邊的信，前幾天來了。')&&has('這幾天一直想跟每個客人說。……結果都沒說。')&&!any(/你是第三個/)&&has('嗯。九月初。……還有三個多月。'));
   fresh('2027-05-11',22,'dorm'); R('heroine_02','FRI'); date('heroine_02'); run('2027-05-11',22.5,23.75); check('15. 交往中沒打：23:30「……沒事。明天再說。」、ZR_ADMIT_CALL none',txt('p:heroine_02').slice(-1)[0]==='heroine_02:……沒事。明天再說。'&&G.flags.ZR_ADMIT_CALL==='none');
-  G.zone='cafe'; to('2027-05-13',15); await play('ev_zhiruo_admitted',['四個月很快']); check('15. 沒打的 Café：「錄取了。……那天你沒打來。」（她把吧檯擦了一遍，沒有看你。）',has('錄取了。……那天你沒打來。')&&has('（她把吧檯擦了一遍，沒有看你。）'));
+  G.zone='cafe'; to('2027-05-13',15); await play('ev_zhiruo_admitted',['五個多月很快']); check('15. 沒打的 Café：「錄取了。……那天你沒打來。」（她把吧檯擦了一遍，沒有看你。）',has('錄取了。……那天你沒打來。')&&has('（她把吧檯擦了一遍，沒有看你。）'));
 
   // 16. 2-Y2-18 明軒
   fresh('2027-05-25',18,'noodle'); R('classmate_mingxuan','FRI'); check('16. X1 5/25（二）18:00 麵店、明軒 FRIEND：滷蛋那件觸發；5/26 不觸發',EVENTS.check(ev('ev_mx_m2_egg'))&&(()=>{ to('2027-05-26',18); const r=!EVENTS.check(ev('ev_mx_m2_egg')); to('2027-05-25',18); return r; })());

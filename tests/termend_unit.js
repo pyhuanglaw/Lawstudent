@@ -111,8 +111,8 @@ GM.money=function(n){ G.money+=n; };
   { const d=TERMEND.dinnerDay(G,TERMEND.windowOf('Y1S2'),TERMEND_LINES.HEART.heroine_03,'heroine_03'); check('7. 語彤大一下：6/18 筆試以後的週四（6/25 超出時段＝那就 6/19 以後的第一天）',d!=null&&d>=D('2026-06-19')&&d<=D('2026-06-21'),String(d-D('2026-06-19'))); }
   // 8. 交往中的女朋友：另外的學期末約會，不佔名額
   fresh(D('2025-12-18'),20,'campus',{dating_heroine_02:true}); G.stage='law';
-  { run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y1S1_heroine_02'); check('8. 芷若（交往中）：「禮拜五九點，等我下班。」',!!m&&m.text==='禮拜五九點，等我下班。');
-    PHONE.answer(G,'te_gf_Y1S1_heroine_02',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_gf_Y1S1_heroine_02'); check('8. 接了＝排在週五 21:00（不佔只能接一個）',!!q&&q.te.kind==='gf'&&CALENDAR.dateOf(q.day).wd%7===5&&q.h===21&&!G.termend.Y1S1.picked,JSON.stringify(q)); }
+  { run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y1S1_heroine_02'); check('8. 芷若（交往中）：「禮拜五十點，等我下班。」（AA_373 第 6 節第 9 題：大一上～大二上她晚班到 22:00，「九點」改「十點」）',!!m&&m.text==='禮拜五十點，等我下班。');
+    PHONE.answer(G,'te_gf_Y1S1_heroine_02',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_gf_Y1S1_heroine_02'); check('8. 接了＝排在週五 22:00（她下班以後；不佔只能接一個）',!!q&&q.te.kind==='gf'&&CALENDAR.dateOf(q.day).wd%7===5&&q.h===22&&!G.termend.Y1S1.picked,JSON.stringify(q)); }
   // 9. 約會收尾不再有告白
   { fresh(D('2025-11-01'),18,'campus',{}); const r=await DATE.confessOffer(GM,{who:'heroine_01'}); check('9. 正式約會的收尾不再有告白（DATE.confessOffer＝false）',r===false&&!opts.length); }
   // 9b. 使用者 2026-10-17 改（BB_203 303fe766）：每個學期都一樣＝她的戀愛 ≥ 30＋4 次正式約會含心願地點＋她當時願意；第 6 階、答應線、祐廷的戀愛、大一上的例外都不用了

@@ -117,7 +117,7 @@ GM.money=function(n){ G.money+=n; };
     const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q0=OUT.get(G,'vac_C08@Y1_re_heroine_01');
     check('11. AA_369 M3：以安 7/25 起回台中（重逢那天人在老家）＝不約總圖、不排重逢（7/24 當天不傳；第 7 節第 2 題那句 7/25 她回台中那天才傳，見 tests/aa369_hol_unit.js）',!A.includes('heroine_01:明天下午三點，總圖門口。')&&!q0,JSON.stringify([A,q0]));
     check('11. 芷若大一暑假在台中：回國當天「回來了？……我 26 號回臺北。」，還沒約',Z.includes('heroine_02:回來了？……我 26 號回臺北。')&&!OUT.get(G,'vac_C08@Y1_re_heroine_02'),JSON.stringify(Z));
-    G.day=D('2026-08-25'); run(20.9,21.2); const q2=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/25 21:00「明天我九點下班。」→ 8/26 21:00 Café 重逢',txt('p:heroine_02').includes('heroine_02:明天我九點下班。')&&!!q2&&q2.day===D('2026-08-26')&&q2.h===21);
+    G.day=D('2026-08-25'); run(20.9,21.2); const q2=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/25 21:00「明天我十點下班。」→ 8/26 22:00 Café 重逢（AA_373 第 6 節第 9 題：她晚班到 22:00）',txt('p:heroine_02').includes('heroine_02:明天我十點下班。')&&!!q2&&q2.day===D('2026-08-26')&&q2.h===22);
     VAC.missed(GM,q2); G.day=D('2026-08-27'); run(11.9,12.2); check('11. 重逢沒到：隔天 12:00 芷若「昨天的那杯，我自己喝了。」',txt('p:heroine_02').includes('heroine_02:昨天的那杯，我自己喝了。'));
     /* 以安在臺北的那一趟（日本五天 8/28 回來，她 8/8 就回臺北了）：回國當天約、隔天 15:00 總圖門口 */
     fresh(D('2026-08-28'),17.9,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); VAC.rec(G).reg['C05@Y1']='done'; run(17.9,21.2);

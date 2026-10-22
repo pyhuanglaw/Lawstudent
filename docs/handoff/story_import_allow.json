@@ -1347,6 +1347,30 @@
    "task": "DATE-T7A-HOMETOWN-1021",
    "kind": "text",
    "note": "第 9 節 T7a 兩句手抄進 src/date3d.js 的 DATE.T7A_YES（第 8 節 S6 的婉拒兩句 DATE.HOME_NO 之前已經手抄、同一份稿）；tests/date_t7a_unit.js 從這個 commit 讀稿逐字對。T7b（出國的日子要擋）不在這一筆的範圍"
+  },
+  {
+   "path": "docs/story_planning/AA_374_法律系大二上_重演與人在哪_修正稿.md",
+   "sha": "6fc64130",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 14 項可昕 K3-L4 的週次由 tools/ladder/import_ladder.py 疊在 ladder_bb_y2s1.json 上匯入（[6,16]→[6,6]）；第 2 項已在 AA_372 第 3 項、第 20 項已在 AA_369 第 7 節第 10 題；其他項照稿手動放進 story3d.js、events.js、needed_msgs.js、characters.js、msg3d.js、classes3d.js、termend3d.js（tests/aa374_y2s1_unit.js）",
+   "task": "AA374-Y2S1-FIX-1021",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_375_法律系大二下_芷若最後一個班與時間_修正稿.md",
+   "sha": "45121a97",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 7 項語彤 Y4-L7、第 11 項可昕 K4-L2 週次、第 12 項芷若 Z4-L4 週次由 tools/ladder/import_ladder.py 疊在 ladder_aa_y2s2.json、ladder_bb_y2s2.json 上匯入；其他項照稿手動放進 characters.js、encounters.js、termend_lines.js、termend3d.js、invites.js、eat3d.js、msg3d.js、vac_activities.js、vac3d.js、y2r2_3d.js、y2b_events.js、y2b3d.js、needed_msgs.js、group_events.js、group3d.js、events.js、story3d.js（tests/aa375_y2s2_unit.js）；第 4 節提醒的 AA_255 兩件（說明會散場三句、6/4 子晴四則）照 AA_255@f218a3e0；LAWWW 補充 AA_373 第 6 節第 9 題（企劃線 bdab2f42）芷若 6/3 以前「九點」改「十點」、22:00 一起做",
+   "task": "AA375-Y2S2-FIX-1021",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md",
+   "sha": "f2de8d1c",
+   "status": "approved",
+   "approvedBy": "AA-C／AA（帳號 A）定稿（D100、D109；第①級補稿）；這次只用第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱），AA_375 第 4 節提醒還沒進遊戲；照稿手動放進 src/y2r2_3d.js（tests/aa375_y2s2_unit.js）。其他學期的補稿還沒做",
+   "task": "AA375-Y2S2-FIX-1021",
+   "kind": "text"
   }
  ]
 }

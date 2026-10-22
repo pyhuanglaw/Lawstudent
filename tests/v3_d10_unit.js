@@ -42,7 +42,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 週五晚上、第 11 週（AA_243 #20：第 12～15 週）、23:30：不在便利商店',(!e||e.zone!=='cvs')&&(!e2||e2.zone!=='cvs')&&(!e3||e3.zone!=='cvs'));
   const at=(day,hh,know)=>{ fresh(day,hh,'cvs'); G.weekday=wdOf(day); const k0=STORY.knows; STORY.knows=id=>know; try{ return EVENTS.check(X); } finally { STORY.knows=k0; } };
   check('2. 事件：第 14 週週一 00:30 便利商店、認識芯慈＝會演；不認識、23:30、第 19 週以後不演',at(mon,24.5,true)&&!at(mon,24.5,false)&&!at(mon,23.5,true)&&!at(termDay('Y2S2',1,1),24.5,true));
-  const play=async(pick)=>{ fresh(mon,24.5,'cvs'); meet('classmate_xinci'); said=[]; opts=[]; picks=[pick]; await EVENTS.run(X); return L0(); };
+  const play=async(pick)=>{ fresh(mon,24.5,'cvs'); meet('classmate_xinci'); SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; opts=[]; picks=[pick]; await EVENTS.run(X); return L0(); };   /* AA_374 第 10 項：借過她筆記的玩家照原句（沒借過的另外在 tests/aa374_y2s1_unit.js）*/
   let L=await play(0);
   check('3. 開場、她說三年的第二名、「你的比我想的好。」；「妳有跟她說過嗎？」→「說什麼？『妳好，我是三年的第二名』？」「她笑，很短。」「不要。」；XINCI_SECOND',L.includes('芯慈：聯合模考的排名貼在牆上。她第一，我第二。三年。')&&L.includes('芯慈：（很平靜）我借你的筆記，是想知道第一名以外的人，筆記怎麼寫。……你的比我想的好。')&&L.slice(-3).join('｜')==='芯慈：說什麼？『妳好，我是三年的第二名』？｜她笑，很短。｜芯慈：不要。'&&SOCIAL.has('classmate_xinci','XINCI_SECOND'),JSON.stringify(L));
   L=await play(1); check('3. 「這部劇在演什麼？」→ 十分鐘的劇情、「十二點四十。我今天比了十八個小時，剩下這半小時是我的。」',L.includes('芯慈：啊。我講太多了。')&&L.includes('芯慈：十二點四十。我今天比了十八個小時，剩下這半小時是我的。'));

@@ -141,8 +141,9 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   const tk=id=>MSG.topics(G,id).map(q=>q.k); const K=k=>STORY.dayOfKey(k);
   const reply=()=>{ const q=PHONE.rec(G).q; return q.length?q[q.length-1].items.map(x=>x.text):[]; };
   { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
-    if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; if(src.indexOf(t.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
-      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257 原文裡（逐字）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
+    const SUBST={'heroine_02:十點，店門口。':'九點，店門口。'};   /* AA 裁定的改字（原文找改字前的那句）：AA_373 第 6 節第 9 題（企劃線 bdab2f42）「九點」改「十點」——芷若生日 L 回問，只在 2025、2026 開 */
+    if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; const t0=SUBST[id+':'+t]||t; if(src.indexOf(t0.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
+      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257 原文裡（逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
   { mk('heroine_01',1,K('2025-09-14'),15); const a=tk('heroine_01').includes('bday'); G.day=K('2025-09-15'); G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('bday');
     check('H2. 以安 9/15：當天才有「生日快樂」',!a&&b); const r=MSG.send(G,'heroine_01','bday'); check('H2. 傳了：回「謝謝。」（A）',r.ok&&r.text==='生日快樂'&&reply()[0]==='謝謝。',JSON.stringify(reply())); }
   { const ny=k=>{ mk('heroine_01',3,K(k),15); return tk('heroine_01').includes('newyear'); };
