@@ -368,12 +368,27 @@ const R2Y3B_EVENTS=(function(){
       {label:'b'},{speaker:'npc_fangyt',text:'我沒有剛好。'},{speaker:'npc_fangyt',text:'我買了。'},{goto:'end'},
       {label:'c'},{speaker:'npc_fangyt',text:'不要。這個我要自己來。'},
       {label:'end'} ] };
+  /* 拒絕版（AA_387 第 8 節，企劃線 608b9adc；台詞照稿）：F3 那天她心裡是祐廷（ZR_F3_NO，src/zrzq3d.js 的 f3Sync）——臺灣路線兩句＋兩個選項；日本路線（8/5 回國以後第一次進 Café）過去式三句、沒有選項 */
+  const ZR_NO={custom:G=>(G.flags||{}).ZR_F3_NO!=null};
   const F3_CAFE={ id:'ev_zhiruo_f3_cafe', title:'很老的那部', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.f3CafeDue(G); }},
-    dialogue:[ {unless:JP,speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+    dialogue:[ {if:ZR_NO,goto:'no'},
+      {unless:JP,speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
       {unless:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……我說好。'},
       {if:JP,speaker:'heroine_02',text:'奕廷約我去看了一部電影。很老的那部，《秋天的晚飯》。'},   /* 日本路線：8/5 回國以後第一次進 Café，句子改成過去式（AA_296 2-3-1 ⑤，企劃線 3f406dbc；原本是 22:07 的私訊）*/
-      {if:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……那時候，我說好了。'} ] };
+      {if:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……那時候，我說好了。'},
+      {goto:'end'},
+      {label:'no'},{if:JP,goto:'no_jp'},
+      {speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+      {speaker:'heroine_02',text:'……我說不行。'},
+      {choice:[{text:'「為什麼？」',goto:'no_a'},{text:'「他一定很失望。」',goto:'no_b'}]},
+      {label:'no_a'},{speaker:'heroine_02',text:'……你不要問。'},{goto:'end'},
+      {label:'no_b'},{speaker:'heroine_02',text:'他說「好」，然後跟我講了十分鐘那部電影的導演。……他人很好。'},{goto:'end'},
+      {label:'no_jp'},
+      {speaker:'heroine_02',text:'你不在的時候，奕廷約我去看一部很老的電影。'},
+      {speaker:'heroine_02',text:'……我說不行。'},
+      {speaker:'heroine_02',text:'你不要問為什麼。'},
+      {label:'end'} ] };
 
   /* ---------- 2-Y3-51 美國路線 X1 退宿：2028-07-25（二）14:00 宿舍 507（暑假續住的；回家住的接在學期結束搬家那一段，r2y3b3d.js）---------- */
   const X1US={ id:'ev_x1_moveout_us', title:'退宿', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
