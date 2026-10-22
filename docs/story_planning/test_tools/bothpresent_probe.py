@@ -374,7 +374,8 @@ async def walk(p, run, base, sid, out):
                     res['seat_diag'] = await pg.evaluate("""(()=>{ const E=GAME.E, n=(E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')); if(!n) return null; const s=n.seat;
                       const inList=!!(s&&(E.zone.seats||[]).includes(s)); const near=(E.zone.seats||[]).filter(q=>s&&Math.hypot(q.x-s.x,q.z-s.z)<2.3).map(q=>({x:q.x,z:q.z,yaw:+(q.yaw||0).toFixed(2),label:q.label||null,taken:!!q.taken,
                         by:(E.npcs||[]).filter(m=>m!==n&&(m.seat||m.seatTarget)&&Math.hypot((m.seat||m.seatTarget).x-q.x,(m.seat||m.seatTarget).z-q.z)<0.35).map(m=>m.charId||m.id)}));
-                      let pr=null; try{ pr=INV.pairSeats(GAME,n,'cafe'); }catch(e){ pr='ERR '+e.message; } return {seat:s?{x:s.x,z:s.z}:null, inList, near, pair:pr&&pr.me?{me:[pr.me.x,pr.me.z]}:pr}; })()""")
+                      let pr=null; try{ pr=INV.pairSeats(GAME,n,'cafe'); }catch(e){ pr='ERR '+e.message; } const all=(E.npcs||[]).filter(x=>x&&(x.charId==='heroine_05'||x.id==='sis')).map(x=>({id:x.id||'',charId:x.charId||'',seat:!!x.seat,pose:x.pose||'',beh:x.beh||''}));
+                      return {seat:s?{x:s.x,z:s.z}:null, inList, near, pair:pr&&pr.me?{me:[pr.me.x,pr.me.z]}:pr, nId:n.id||'', gmNpc:!!(GAME.npc&&GAME.npc.heroine_05), gmSame:!!(GAME.npc&&GAME.npc.heroine_05===n), npcOfSame:INV.npcOf(GAME,'heroine_05')===n, all}; })()""")
                     say('   WALK_ARRIVE 座位診斷：%s' % json.dumps(res['seat_diag'], ensure_ascii=False)[:700])
                 n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp); await pg.wait_for_timeout(2500)
                 lines = (await pg.evaluate("window.__LOG||[]"))[max(0, n0 - 1):]; res['lines'] = lines
