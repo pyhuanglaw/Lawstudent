@@ -28696,6 +28696,90 @@
     "ack": "ACK"
    },
    "sha": "93967011"
+  },
+  {
+   "id": "BUG-BED-TONIGHT-ALARM-1022",
+   "title": "晚上上床不會被今天晚上約好的事叫醒：3/15 21:00 上床，床的選項沒寫 21:30 學姊的電話，睡過去就記 SIS_US_RESULT missed（story3d.js bedOptions 晚上只算明天的 S.wakeAlarms；今天晚上標 alarm 的出遊沒算）；學姊 21:10 台階、19:00 生日同一個情況",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "area": "v3",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "學姊大三的約（晚上的出遊、電話）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
+   "authorized": "D110；BB 測試回報",
+   "next": "晚上的床也把 S.outStopsToday(G,hh) 放進鬧鐘（叫醒時間在今天晚上，同白天的小睡）；tests 先重現"
+  },
+  {
+   "id": "BUG-KAI-Y2-SCHED-1022",
+   "title": "阿凱大二以後的作息還是每晚在宿舍書桌（characters.js 130 行附近）：手機「朋友」可能顯示他「就在這裡」，人卻不在 312",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v3",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "大二上的晚上在宿舍",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
+   "authorized": "D110；BB 測試回報",
+   "next": "讀碼確認大二以後宿舍房號、阿凱住哪；作息照住的地方"
+  },
+  {
+   "id": "BB106-L389-1022",
+   "title": "BB_106 L389（可昕和品妤在社科院門口）還沒做（events.js 1090 行附近）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "BB_106 那一場的日子",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
+   "authorized": "D110；BB 測試回報",
+   "next": "讀 BB_106@71b3e6c3 L389 照稿做（白名單已有 BB_106）"
+  },
+  {
+   "id": "BUG-SIS-ORAL-SCHED-1022",
+   "title": "5/29 學姊口試那天，她的 3D 作息還是平日 9～17 點在總圖 3F（characters.js 75 行附近）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v3",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "2027-05-29 學姊口試",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
+   "authorized": "D110；BB 測試回報",
+   "next": "那天作息改成不在總圖（口試）；照 AA 的口試那一場"
   }
  ]
 }
