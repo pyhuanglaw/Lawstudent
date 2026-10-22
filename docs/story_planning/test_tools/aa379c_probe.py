@@ -19,6 +19,9 @@
              （開頭旁白照地點、「學姊好，我是{name}，妳的直屬學弟。」…選「大一太忙了。」→「嗯。大一都很忙。……我也是。」…「以後有問題，私訊我。……這次記得問。」）；
              記 met_sis、SIS_W1、SIS_W1_LATE、FIRST_MET、關係＋3；沒有大一 W1 的句子；再找她說話不再演
   W1_LATE_NODM 【前置：大二上用晚到版認識她＝met_sis、SIS_W1、SIS_W1_LATE、FIRST_MET、熟 5】2026-09-21 20:51：21:00～21:20 沒有「明天中午有空嗎。」（2-1 要熟悉以上）、沒有排研究室
+  ORAL_AM    BUG-SIS-ORAL-SCHED-1022（LAWWW a3d2185d）：2029-05-29（二）09:54 宿舍，學姊＝朋友 → 手機「朋友」寫「口試（霖澤館的研究室）」→ 手機「地點」到總圖 3F，她不在
+  KAI_Y1     大一 2025-10-01（三）21:00 宿舍 203：房間裡有阿凱（書桌）、手機「朋友」阿凱寫「就在這裡」（對照組）
+  KAI_Y2     BUG-KAI-Y2-SCHED-1022（LAWWW c89f17df）：大二 2026-10-01（四）21:00 宿舍 312：手機「朋友」阿凱寫「在他那棟宿舍」、沒有「就在這裡」；房間裡沒有他
 【前置】讀使用者存檔改日期、時間、地點（每個情境寫在 run.setup）；quiet_events（條件事件不演、要回的訊息不自己打開手機；手機訊息、出遊、找人說話（interact 事件）照常）。
 使用者存檔裡和可昕交往中（romance）：讀檔前拿掉（不然每個情境都變成「同時和可昕交往」），dating_* 全部 false（同 aa379b_probe.py）。
 路線、Y4_PATH other（不跳「大四要怎麼過」）、美國的 X1_US（不演 7/25 退宿）、日本的 X1_JP／JP_DEPARTED、情境自己的前置旗標：讀檔前寫進存檔。
@@ -513,9 +516,56 @@ async def s_w1_nodm(p, run, base, sid, out):
     await close(b)
 
 
-ORDER = ['W1_LATE', 'W1_LATE_NODM', 'S31_CAFE', 'S31_OUT', 'S32_GO', 'S32_RIDE', 'S32_DATE', 'S32_NO', 'S32_US', 'S32_JP', 'S34_IV', 'S34_NOIV', 'S34_DATE_IV']
+ORDER = ['W1_LATE', 'W1_LATE_NODM', 'S31_CAFE', 'S31_OUT', 'S32_GO', 'S32_RIDE', 'S32_DATE', 'S32_NO', 'S32_US', 'S32_JP', 'S34_IV', 'S34_NOIV', 'S34_DATE_IV', 'ORAL_AM', 'KAI_Y1', 'KAI_Y2']
 FN = {'W1_LATE': s_w1, 'W1_LATE_NODM': s_w1_nodm, 'S31_CAFE': s31, 'S31_OUT': s31, 'S32_GO': s32, 'S32_RIDE': s32, 'S32_DATE': s32, 'S32_NO': s32, 'S32_US': s32_none, 'S32_JP': s32_none,
-      'S34_IV': s34, 'S34_NOIV': s34, 'S34_DATE_IV': s34}
+      'S34_IV': s34, 'S34_NOIV': s34, 'S34_DATE_IV': s34, 'ORAL_AM': s_oral, 'KAI_Y1': s_kai, 'KAI_Y2': s_kai}
+
+
+# ---------------------------------------------------------------- LAWWW 10-22 06:24 派的兩件作息修正（BB 05:02 回報；開發分支 1a9b5761 起）
+KAI = """(()=>{ const n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='kai'||x.id==='kai')&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.pose||'',n.id]:null; })()"""
+ORAL_AWAY = '口試（霖澤館的研究室）'
+
+
+async def s_oral(p, run, base, sid, out):
+    """ORAL_AM：BUG-SIS-ORAL-SCHED-1022（a3d2185d）——2029-05-29（二）她 16:00 口試：上午手機「朋友」寫「口試（霖澤館的研究室）」、手機「地點」到總圖 3F 她不在"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r, name = await launch(p, run, base, '2029-05-29', 9.9, 'dorm', 'FRIEND', flags=TWF, label=sid + '（口試那天上午）')
+    try:
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        st = await pg.evaluate(STATE); row = await friends_row(pg, cdp, run, ID, sid); txt = (row or {}).get('text') or ''; res['row'] = txt; res['at'] = st
+        run.check('%s：%s %05.2f 手機「朋友」學姊寫「%s」' % (sid, st['key'], st['h'], ORAL_AWAY), ORAL_AWAY in txt, txt[:200])
+        went = await quick_go(pg, cdp, 'library'); her = None; t0 = time.time()
+        while went and time.time() - t0 < 30:
+            her = await pg.evaluate(HER)
+            if her: break
+            await pg.wait_for_timeout(2000)
+        res['her'] = her; await run.shot(pg, '%s_library' % sid)
+        run.check('%s：手機「地點」到總圖 3F（%s），她不在' % (sid, (await pg.evaluate(STATE))['h']), went and not her, json.dumps({'went': went, 'her': her, 'now': await pg.evaluate(STATE)}, ensure_ascii=False))
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
+async def s_kai(p, run, base, sid, out):
+    """KAI_Y1：大一 2025-10-01（三）21:00 宿舍 203＝阿凱在房間（書桌）、手機「朋友」寫「就在這裡」；
+    KAI_Y2：BUG-KAI-Y2-SCHED-1022（c89f17df）——大二 2026-10-01（四）21:00 宿舍 312＝手機「朋友」阿凱寫「在他那棟宿舍」、沒有「就在這裡」，房間裡沒有他"""
+    res = out.setdefault(sid, {}); y2 = sid == 'KAI_Y2'
+    key = '2026-10-01' if y2 else '2025-10-01'
+    b, pg, cdp, errs, r, name = await launch(p, run, base, key, 21.0, 'dorm', None, label=sid + ('（大二上晚上，312）' if y2 else '（大一上晚上，203）'))
+    try:
+        await drive(pg, cdp, run, max_s=30, label=sid); await pg.wait_for_timeout(3000)
+        st = await pg.evaluate(STATE); kai = await pg.evaluate(KAI); res['kai'] = kai; res['room'] = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {ROOM_Y2:F.ROOM_Y2||null, kaiRoommate:typeof STORY!=='undefined'&&STORY.kaiRoommate?STORY.kaiRoommate(GAME.G):null}; })()")
+        await run.shot(pg, '%s_room' % sid)
+        row = await friends_row(pg, cdp, run, 'kai', sid); txt = (row or {}).get('text') or ''; res['row'] = txt; res['at'] = st
+        if y2:
+            run.check('%s：%s %05.2f 手機「朋友」阿凱寫「在他那棟宿舍」、沒有「就在這裡」' % (sid, st['key'], st['h']), '在他那棟宿舍' in txt and '就在這裡' not in txt, txt[:200])
+            run.check('%s：房間裡沒有阿凱' % sid, not kai, json.dumps({'kai': kai, 'room': res['room']}, ensure_ascii=False))
+        else:
+            run.check('%s：%s %05.2f 房間裡有阿凱（書桌）' % (sid, st['key'], st['h']), bool(kai), json.dumps({'kai': kai, 'room': res['room']}, ensure_ascii=False))
+            run.check('%s：手機「朋友」阿凱寫「就在這裡」' % sid, '就在這裡' in txt, txt[:200])
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
 
 
 async def main():
