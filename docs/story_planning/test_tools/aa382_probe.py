@@ -309,6 +309,8 @@ async def s_sea(p, run, sid, out):
             slot = [x for x in rec['prompts'] if any('法圖旁邊那家' in o for o in x['opts'])]
             run.check('SEA_GO：六月的固定格照排：6/1 18:05 左右「出發：和…：法圖旁邊那家」', bool(slot) and slot[0]['key'] == '2030-06-01' and 17.9 <= slot[0]['h'] <= 18.3, json.dumps(slot[:1], ensure_ascii=False)[:300])
             run.check('SEA_GO：固定格她那一句是新句「%s」（AA_382 第 3 節）、沒有舊句「%s」' % (SIS_0606_NEW, SIS_0606_OLD), SIS_0606_NEW in T and SIS_0606_OLD not in T, json.dumps([t for t in T if '盆栽' in t or '看海' in t], ensure_ascii=False))
+            capt = [x['t'] for x in log if x['n'] == '［字幕］']; res['captions'] = capt[-12:]
+            run.check('SEA_GO：BUG-PG-RETURN-TEXT-1021 畢業退宿（住家裡）以後，6/1 固定格（法圖旁邊那家）演完的字幕是「回到家。」、沒有「回到台大。」', '回到家。' in capt and '回到台大。' not in capt, json.dumps(capt[-10:], ensure_ascii=False))
         if sc['ans'] == 1:
             run.check('SEA_NO：回「明天不行。」→ 她回「%s」' % SEA_NO_REPLY, SEA_NO_REPLY in Mt and Mt.index(SEA_NO_REPLY) > Mt.index(SEA_ASK[1]) if SEA_ASK[1] in Mt else False, json.dumps(Mt, ensure_ascii=False)[:300])
         if sc['ans'] == 0 or sid == 'SEA_LATE':
