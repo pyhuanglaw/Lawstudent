@@ -1257,6 +1257,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "使用者定：小語改名 Alison（和陳語彤會看錯）；只改叫法，不改人"
+  },
+  {
+   "task": "SIS-LEAD-1021（AA379-SIS-Y2Y3-1021）",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 做 AA_379 第 2 節八場（新事件）",
+   "next": "LAWWW 實作／BB 照 2-8 測；第三批（大四研究助理、每月訊息）AA 之後寫",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "學姊大二到大三空窗補八場：研究室、seminar 報告、想寫的東西（論文方向由來）、兩年生日、訪談法扶律師、明年夏天（美國，當面）、結果（電話）；七位台詞量盤點（可昕 1423／學姊 395）"
   }
  ],
  "items": [
