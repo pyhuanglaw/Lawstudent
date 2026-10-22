@@ -284,9 +284,9 @@ const Y2B_EVENTS=(function(){
       {speaker:'classmate_peishan',text:'對不起。'},
       {choice:[{text:'「妳還好嗎？」',goto:'a'},{text:'「妳現在在哪？」',goto:'b'},{text:'（先不說話）',goto:'c'}]},
       {label:'a'},{speaker:'classmate_peishan',text:'我現在很好。真的。'},{goto:'e'},
-      {label:'b'},{speaker:'classmate_peishan',text:'台南。'},{goto:'e'},
+      {label:'b'},{speaker:'classmate_peishan',text:'台中。在家。'},{goto:'e'},   /* AA_296 ④ 台中版（企劃線 ed0daea9：8/7 她在台中老家，同 AA_350 P1）*/
       {label:'c'},{speaker:'classmate_peishan',text:'……你可以生氣。我只是想先打給你。'},
-      {label:'e'},{speaker:'classmate_peishan',text:'我現在在台南。你要來的話，跟我說。'},
+      {label:'e'},{speaker:'classmate_peishan',text:'開學以後，我在台南。你要來的話，跟我說。'},
       {speaker:null,text:'（她等了一下，才掛電話。）'} ],
     after:G=>{ const y=Y2(); if(y&&y.psBackAnswered) y.psBackAnswered(G); },
     outingMissed:G=>{ const y=Y2(); if(y&&y.psBackMissed) y.psBackMissed(G); } };

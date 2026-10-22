@@ -538,6 +538,8 @@ const R2Y3B=(function(){
        「（還沒想好怎麼回）」＝手機的按鈕照留到隔天 21:00；之後在手機回了貼紙＝她馬上打來（OUT 的電話 y3_zq_exe_call；Q.call out）。
        到期限還是沒回＝21:00 她打來（y3_zq_noreply_call：前 2 小時才排、不跳「排進行程」；回了貼紙就取消）；沒接（睡著、在忙，過了 30 分鐘）＝原本那一則私訊 y3_zq_noreply ---- */
   S.ZQ_CALL={sticker:'y3_zq_exe_call',none:'y3_zq_noreply_call',late:0.5,lead:2};
+  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：收到檔案的隔天 21:00 還沒回（Q.res 沒有值）*/
+  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const Q=G.flags&&G.flags.ZQ_Q15; if(!Q||Q.res!=null||Q.day==null||G.day!==Q.day+2) return []; const q=outGet(G,S.ZQ_CALL.none); if(q&&q.state!=='planned') return []; return [{h:21,why:'手機響了'}]; });
   S.exeDue=G=>{ const Q=G.flags&&G.flags.ZQ_Q15; return !!Q&&Q.seen==null&&now(G)>=T(Q.day+1,12)&&now(G)<T(Q.day+2,0); };
   S.exeScene=async function(GM){ const G=GM.G, Q=G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return false; Q.seen=G.day; const o=(X.Q15.opts||[]).find(x=>x.k===Q.k)||{}, home=atHome(G), A=typeof ADV!=='undefined'?ADV:null;
     const bg=home&&typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark';

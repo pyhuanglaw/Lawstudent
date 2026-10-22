@@ -265,6 +265,8 @@ const Y34B=(function(){
      出遊的電話照 r2y3b3d.js 那幾通的寫法（OUT：接起來、沒有「不去了」）；約好的時間前 2 小時才排（手機「今天」不會一早就寫著她要打來；快轉每小時跑一次規則也停得到），不跳「排進行程」。
      沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊（S.an18Dm，AN_CHOICE dm）。人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
   S.AN18_VIDEO={id:'y4_an18_video',ev:'ev_an_her_choice_video',h:22,late:0.5,lead:2};
+  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：條件同 S.an18Phone 走到 S.an18Video 的那一支 */
+  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('an18'); if(d==null||G.day!==d||!law(G)||F.AN_CHOICE!=null||!met('heroine_01')||!US(G)||!dating(G,'heroine_01')) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.AN18_VIDEO.id):null; if(q&&q.state!=='planned') return []; return [{h:tzH(G,d,S.AN18_VIDEO.h),why:'手機響了'}]; });
   S.an18Dm=function(G){ const F=G.flags, d=D('an18'); if(d==null||F.AN_CHOICE!=null) return; F.AN_CHOICE='dm'; remember('heroine_01','AN_CHOICE_TOLD','第一批知道'); at(G,d,tzH(G,d,22),[DM('heroine_01','我決定了。考台大法研所，商法組。'),DM('heroine_01','先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')],'y4_an18_dm'); };   /* 新寫（AA_323 1B-19；AA_337 第 4 節改句：禁用句型「你是第 N 個」）*/
   S.an18Video=function(G){ const V=S.AN18_VIDEO, d=D('an18'), O=typeof OUT!=='undefined'?OUT:null; if(d==null) return; const h=tzH(G,d,V.h), t=T(d,h), q=O?O.get(G,V.id):null;
     if(!q){ if(O&&G.day===d&&NOW(G)>=t-V.lead&&NOW(G)<t+V.late) O.plan(G,{id:V.id,ev:V.ev,day:d,h,late:V.late,must:true,place:'視訊',title:'以安打視訊來（台灣 22:00）',verb:'接起來',travel:'',travelH:0,back:'視訊結束。',silent:true});

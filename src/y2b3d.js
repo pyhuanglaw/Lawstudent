@@ -90,6 +90,8 @@ const Y2B=(function(){
      電話照 r2y3b3d.js 那幾通的寫法（OUT：接起來、沒有「不去了」）；前 2 小時才排（手機「今天」不會一早就寫著她要打來；放假在家快轉每小時跑一次規則也停得到），不跳「排進行程」。
      沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊。接了、沒接都記 PS_BACK_READ＝那一天（放榜以後重新聯絡上：r2y4b3d.js psReconnected 讀）*/
   S.PS_CALL={id:'y3_ps_back_call',ev:'ev_peishan_back_call',h:21,late:0.5,lead:2};
+  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：條件同上面 1B-11 那一段（消失期傳過訊息、沒交往、還沒回）*/
+  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('2027-08-07'); if(d==null||G.day!==d||F.PS_BACK_READ!=null||dating(G,'classmate_peishan')) return []; const a=D('2026-12-18'), b=D('2027-08-06'); if(!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b)) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.PS_CALL.id):null; if(q&&q.state!=='planned') return []; return [{h:S.PS_CALL.h,why:'手機響了'}]; });
   S.psBackPhone=function(G,d){ const C=S.PS_CALL, O=typeof OUT!=='undefined'?OUT:null, t=T(d,C.h), q=O?O.get(G,C.id):null;
     if(!q){ if(O&&G.day===d&&now(G)>=t-C.lead&&now(G)<t+C.late) O.plan(G,{id:C.id,ev:C.ev,day:d,h:C.h,late:C.late,must:true,place:'電話',title:'沛珊打電話來',verb:'接起來',call:true,travel:'',travelH:0,back:'電話掛了。',silent:true});
       else if(now(G)>=t+C.late) S.psBackMissed(G); return; }   /* 那一段沒跑到規則（讀檔、整段在別的劇情裡）＝照原本那兩則 */

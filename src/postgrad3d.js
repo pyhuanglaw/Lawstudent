@@ -347,6 +347,8 @@ const PG=(function(){
      最後那一句旁白是那天晚上的宵夜，不另外排出遊。9/7「一試過了。二試十月。」（pg_r1kx_2029）是中途的結果，照用私訊 */
   S.KX_BAR={at:15+5/60,until:16};
   S.kxBarOk=G=>S.dating(G,'kexin')&&G.flags.BAR_SIT_2029!==true;
+  /* 3D 的跳過時間停在她打來的時間（AA 10-22 08:41；PG 的「跳到下一件事」本來就停在場景；睡覺照舊算沒接）*/
+  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const d=S.DK(Y[2029].r2); if(d==null||G.day!==d||!S.kxBarOk(G)||(S.rec&&S.rec(G).done&&S.rec(G).done.kx_bar_2029)) return []; return [{h:S.KX_BAR.at,why:'手機響了'}]; });
   async function kxBarCall(GM){ const G=GM.G, K=L().R2.kexinCall, me={name:nmD(G,'kexin')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
     GM.sceneBegin(); try{ await GM.say(null,K.narr); for(const t of K.lines) await GM.say(me,t);
       const k=await GM.choose(K.opts.map(o=>({t:o.t}))); for(const t of (K.opts[k]||K.opts[0]).say) await GM.say(me,t);

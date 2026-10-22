@@ -1,5 +1,5 @@
-// AA_296 2-3-1「只用手機演的重要劇情：改成當面或演出來的電話」五項（企劃線 3f406dbc，AA-C 2026-10-21 定稿；任務 AA296-PHONE-LIVE-1021）——不需要瀏覽器。
-//   0  逐字對稿：從 git 讀 3f406dbc 的稿（第 2-3-1 節），每一項程式碼區塊裡的句子（旁白、「人物：句子」、選項、各選項的回答）和遊戲實際演出來的比（照順序、一字不差）；
+// AA_296 2-3-1「只用手機演的重要劇情：改成當面或演出來的電話」五項（企劃線 3f406dbc，AA-C 2026-10-21 定稿；④ 台中版 ed0daea9，AA 10-22 08:41；任務 AA296-PHONE-LIVE-1021）——不需要瀏覽器。
+//   0  逐字對稿：從 git 讀 ed0daea9 的稿（第 2-3-1 節），每一項程式碼區塊裡的句子（旁白、「人物：句子」、選項、各選項的回答）和遊戲實際演出來的比（照順序、一字不差）；
 //      沒接的替代版＝稿上寫的「現在」那幾則私訊（照原本的字）
 //   ①  以安新 18，美國路線、和以安交往中：臺灣 22:00（當地 10:00）她打來的視訊（前 2 小時才排、不跳「排進行程」、只有「接起來」）；AN_CHOICE video、AN_CHOICE_TOLD「第一批知道」；
 //      三選一照 AN18（交往版）、第三個是「知道。Alison 說我背叛憲法。」那一版；沒接（睡著、在忙）＝原本兩則私訊（AN_CHOICE dm）；沒交往＝照舊群組；讀 AN_CHOICE 的地方（以安 A7-L5）video 當成 here
@@ -8,7 +8,8 @@
 //   ③  可昕考上律師（交往中、沒報 2029 國考）：12/14 15:05 她打來（兩個選項、最後一句旁白、不排出遊）；過了 16:00 還沒演到＝原本兩則私訊；跳到下一件事停在 15:05；9/7 照用私訊
 //   ④  沛珊回來（消失期傳過訊息、沒交往）：2027-08-07 21:00 她打來（三個選項）；沒接＝原本兩則私訊；PS_BACK_READ 照舊記那一天（放榜後重新聯絡上）；沒傳過、交往中照舊
 //   ⑤  芷若答應奕廷的約，日本路線：22:07 的私訊不傳；8/5 回國以後第一次進 Café 當面說（過去式那兩句）；8/5 以前、9/1 以後沒有；臺灣路線照舊
-// 修改前（開發分支 b947f4eb）：FAIL 見任務回報。用法：node tests/aa296_phone_live_unit.js
+//   停點 跳過時間碰到這幾通電話停下來（AA 10-22 08:41；睡覺照舊算沒接）：CLS.skipStops 有「手機響了」——①當地 10:00、② 21:00、③ 15:05、④ 21:00；條件不成立的沒有
+// 修改前（開發分支 b947f4eb）：FAIL 見任務回報；ed0daea9 那兩句、停點（開發分支 0eb26ed0）FAIL。用法：node tests/aa296_phone_live_unit.js
 require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), {execSync}=require('child_process');
@@ -22,7 +23,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };   /* 地點字幕（{scene}�
 const J=JSON.stringify, D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;
 
 // ---------------- 讀稿 ----------------
-const DOC=execSync('git -c core.quotepath=false show 3f406dbc:"docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md"',{cwd:H.ROOT,encoding:'utf8'});
+const DOC=execSync('git -c core.quotepath=false show ed0daea9:"docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md"',{cwd:H.ROOT,encoding:'utf8'});
 const S231=(()=>{ const a=DOC.indexOf('### 2-3-1.'), b=DOC.indexOf('### 2-3-2.'); return a<0?'':DOC.slice(a,b<0?undefined:b); })();
 const MK=['①','②','③','④','⑤'];
 const ITEM=n=>{ const i=MK.indexOf(n), a=S231.indexOf('**'+n), b=i<4?S231.indexOf('**'+MK[i+1]):-1; return a<0?'':S231.slice(a,b<0?undefined:b); };
@@ -47,7 +48,7 @@ const P1=parse(blocks(I1)[0]), P2a=parse(blocks(I2)[0]), P2b=parse(blocks(I2)[1]
 const nowDm=s=>q((String(s).split('\n').find(l=>/^- 現在/.test(l))||''));   /* 「現在只有兩則私訊：「…」「…」」那一行 */
 const DM1=nowDm(I1), DM3=nowDm(I3), DM4=nowDm(I4);
 const EXE_OPTS=q((I2.split('\n').find(l=>/直接在場面裡給兩個選項/.test(l))||'').replace(/^[^：]*：/,'')).slice(0,2);
-check('0. 讀到稿：3f406dbc 第 2-3-1 節五項；①②③④⑤ 的程式碼區塊、沒接的那幾則私訊、② 場面裡的兩個選項都找得到',
+check('0. 讀到稿：ed0daea9 第 2-3-1 節五項；①②③④⑤ 的程式碼區塊、沒接的那幾則私訊、② 場面裡的兩個選項都找得到',
   S231.length>0&&P1.intro.length===5&&P1.after.length===2&&P2a.intro.length===7&&P2b.intro.length===6&&P3.opts&&P3.opts.length===2&&P4.opts&&P4.opts.length===3&&P5.intro.length===2&&DM1.length===2&&DM3.length===2&&DM4.length===2&&EXE_OPTS.length===2,
   J({P1:[P1.intro.length,P1.after.length],P2a:P2a.intro.length,P2b:P2b.intro.length,P3:P3.opts,P4:P4.opts,P5:P5.intro.length,DM1,DM3,DM4,EXE_OPTS}));
 check('0. 稿上 ① 的三選一（「'+(q(P1.notes[0]||'').slice(0,3).join('」「'))+'」）照 AN18、第三個用「'+(q(P1.notes[0]||'')[3]||'')+'」那一版',q(P1.notes[0]||'').length===4&&/Alison 說我背叛憲法/.test(q(P1.notes[0]||'')[3]||''),J(P1.notes));
@@ -220,6 +221,25 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     G=fresh('2028-05-29',21.1,'dorm'); H.FAMILIAR('npc_fangyt'); H.FAMILIAR('heroine_02'); ct('heroine_02'); rules(); await goOut('y3_fang_f3',['剛好有兩張']); G.zone='cafe'; at('2028-05-31',19.5);
     const tw=EVENTS.check(ev('ev_zhiruo_f3_cafe')); await run('ev_zhiruo_f3_cafe');
     check('⑤ 臺灣路線照舊：之後第一次在 Café 就演、原本那兩句',tw&&J(said().map(x=>x.t))===J(TWL),J(said()));
+  });
+
+  /* ======================= 停點：跳過時間碰到她打來要停（AA 10-22 08:41）======================= */
+  await sec('停點',async()=>{
+    const st=G=>CLS.skipStops({G},23.95).filter(a=>a.why==='手機響了').map(a=>+a.h.toFixed(3));
+    let G=fresh('2028-10-19',7,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); date('heroine_01'); const a1=st(G); G.flags.AN_CHOICE='dm'; const a2=st(G);
+    G=fresh('2028-10-18',7,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); date('heroine_01'); const a3=st(G);
+    check('停點 ①：以安視訊那天當地 07:00 跳過時間＝停在 10:00（臺灣 22:00）；已經記了 AN_CHOICE、前一天都不停',J(a1)===J([10])&&!a2.length&&!a3.length,J([a1,a2,a3]));
+    const d0=D('2028-06-09'); G=fresh('2028-06-11',12,'dorm',{ZQ_Q15:{day:d0,k:'first',res:null}}); const b1=st(G); G.flags.ZQ_Q15.res='none'; const b2=st(G);
+    G=fresh('2028-06-10',12,'dorm',{ZQ_Q15:{day:d0,k:'first',res:null}}); const b3=st(G);
+    check('停點 ②：收到檔案的隔天還沒回＝那天 12:00 跳過時間停在 21:00（她打來）；已經定案、前一天都不停',J(b1)===J([21])&&!b2.length&&!b3.length,J([b1,b2,b3]));
+    const kx=fl=>{ const G=H.fresh('2029-12-14',10,'dorm',Object.assign({BAR_REG:false},fl||{})); G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; H.FRIEND('kexin'); return G; };
+    G=kx(); H.date('kexin'); const c1=st(G); PG.rec(G).done.kx_bar_2029=1; const c2=st(G); G=kx(); const c3=st(G);
+    check('停點 ③：可昕考上律師那天 10:00 跳過時間＝停在 15:05；演過了、沒有交往都不停',J(c1)===J([+(15+5/60).toFixed(3)])&&!c2.length&&!c3.length,J([c1,c2,c3]));
+    const ps=(msg,fl)=>{ const G=fresh('2027-08-07',12,'dorm',fl); H.FRIEND('classmate_peishan'); ct('classmate_peishan'); if(msg) PHONE.postAt(G,{th:'p:classmate_peishan',from:'player',text:'生日快樂'},D('2027-03-15'),20); return G; };
+    G=ps(true); const e1=st(G); G=ps(false); const e2=st(G); G=ps(true,{dating_classmate_peishan:true}); const e3=st(G); G=ps(true,{PS_BACK_READ:D('2027-08-07')}); const e4=st(G);
+    check('停點 ④：沛珊回來那天（消失期傳過訊息）12:00 跳過時間＝停在 21:00；沒傳過、交往中、已經回過都不停',J(e1)===J([21])&&!e2.length&&!e3.length&&!e4.length,J([e1,e2,e3,e4]));
+    G=ps(true); const w=STORY.tonightAlarm?STORY.tonightAlarm(G,12):null;
+    check('停點：睡覺照舊不叫醒（今晚的鬧鐘不算這幾通，AA 08:41：睡著＝沒接、給私訊）',!w||!/沛珊|手機響了/.test(w.why||''),J(w));
   });
 
   /* ======================= 接線 ======================= */

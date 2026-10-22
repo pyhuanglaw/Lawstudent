@@ -1532,11 +1532,18 @@
   },
   {
    "path": "docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md",
-   "sha": "3f406dbc",
+   "sha": "ed0daea9",
    "status": "approved",
-   "approvedBy": "AA-C／AA 定稿（D100、D109）；第 2-3-1 節五項手動放進 y34b3d.js（以安視訊）、r2y3b3d.js／r2y3b_events.js（子晴回答.exe、芷若日本路線）、postgrad3d.js／postgrad_lines.js（可昕考上律師）、y2b3d.js／y2b_events.js（沛珊回來）；tests/aa296_phone_live_unit.js 逐句對稿（「小語」照 rename_alison 換 Alison）",
+   "approvedBy": "AA（帳號 A）2026-10-22 08:41 改 ④ 沛珊 8/7 電話台中版兩句（「台中。在家。」「開學以後，我在台南。你要來的話，跟我說。」，同 AA_350 P1），其餘照 3f406dbc；手動放進 y2b_events.js；tests/aa296_phone_live_unit.js 讀 ed0daea9 逐句對稿（D100、D109）",
    "task": "AA296-PHONE-LIVE-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "3f406dbc",
+     "approvedBy": "AA-C／AA 定稿（D100、D109）；第 2-3-1 節五項手動放進 y34b3d.js（以安視訊）、r2y3b3d.js／r2y3b_events.js（子晴回答.exe、芷若日本路線）、postgrad3d.js／postgrad_lines.js（可昕考上律師）、y2b3d.js／y2b_events.js（沛珊回來）；tests/aa296_phone_live_unit.js 逐句對稿（「小語」照 rename_alison 換 Alison）",
+     "task": "AA296-PHONE-LIVE-1021"
+    }
+   ]
   }
  ]
 }

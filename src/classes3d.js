@@ -700,7 +700,9 @@ const CLS=(function(){
      - 跳完：NPC 作息、目標、HUD 照新的時間更新（story3d.js 的 S.tick），自動存檔。 */
   const opening=G=>typeof STORY!=='undefined'&&STORY.opening?STORY.opening(G):G.day<3;   /* 開場劇情的日子（法律系第 1、2 天、經濟系 2024-09-01）*/
   S.canSkip=function(GM){ const G=GM.G; if(!G||opening(G)) return '第一、二天先跟著劇情走'; if(late(G)) return '已經過午夜了，回宿舍睡覺吧（睡醒就是明天）'; if(GM.D&&GM.D.active) return '對話中'; if(GM.E&&GM.E.player&&GM.E.player.busy) return '現在不能跳'; return ''; };
+  S.STOP_FNS=[];   /* 事件包各自的停點：CLS.STOP_FNS.push(fn)，fn(G,h0,h1) 回傳 [{h,why}]（h＝今天幾點）。AA_296 那幾通電話（AA 10-22 08:41：跳過時間碰到她打來要停下來，睡覺照舊算沒接）——電話打來前 2 小時才排進 OUT，跳過時間一開始就要知道 */
   S.skipStops=function(GM,h1){ const G=GM.G, out=[]; const h0=hr(G);
+    for(const f of S.STOP_FNS){ try{ for(const a of (f(G,h0,h1)||[])) if(a&&a.h>h0&&a.h<h1) out.push(a); }catch(e){ console.warn('CLS.STOP_FNS',e); } }
     for(const it of S.dayItems(G)){ const sp=(it.c.specials||[]).find(q=>q.w===it.week&&q.content); if(sp&&it.t0-1/6>h0&&it.t0-1/6<h1) out.push({h:it.t0-1/6,why:'特殊課堂：'+it.c.name}); }
     for(const it of S.dayItems(G)){ if(it.exam&&!S.rec(G).done[it.key]&&it.t0-1/6>h0&&it.t0-1/6<h1) out.push({h:it.t0-1/6,why:'考試：'+it.c.name}); }   /* 考試不給翹（AA_294 ①）：跳過時間停在考試前 10 分鐘，接著 S.oneTick 帶進考場 */
     for(const iv of (G.invites||[])){ if(iv.day===G.day&&iv.accepted&&!iv.done&&iv.h-1/6>h0&&iv.h-1/6<h1) out.push({h:iv.h-1/6,why:'約好的時間：'+(iv.label||'')}); }
