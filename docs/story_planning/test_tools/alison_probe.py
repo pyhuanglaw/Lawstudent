@@ -57,12 +57,14 @@ async def newgame(p, run, out):
         await pg.add_init_script(INIT); await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         if not await pg.evaluate("Array.isArray(window.__seen)"): await pg.evaluate(INIT)
         await L.tap(pg, cdp, '#btnNewLaw'); say('   NEWGAME：標題「從法律系開始」')
-        t0 = time.time(); idle = 0; last = None; picks = 0
+        # 2026-10-22（候選 364dabe0 第一輪）：按下去以後開場旁白在演，GAME.G 還是預設的日子（9/17 晚上、宿舍）——原本「日子 ≥ 8/25 就停」第一格就成立，只記到 2 段字。
+        # 改成：開場演完、遊戲把日子設成 8 月（迎新宿營）以後，照玩家一路點到第一次可以自由走動（連續 12 秒沒有對話、選項）＋至少看過 20 段字；上限 25 分鐘
+        t0 = time.time(); idle = 0; last = None; picks = 0; started = False
         while time.time() - t0 < 1500:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             st = await pg.evaluate(STATE)
+            if st and st['key'] < '2025-09-01': started = True
             if st and st['key'] != last: last = st['key']; say('   [%5.1f 分] %s' % ((time.time() - t0) / 60, json.dumps(st, ensure_ascii=False))); await run.shot(pg, 'NEWGAME_%s' % st['key'])
-            if st and st['key'] >= '2025-08-25': break
             if await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): await L.phone_away(pg, cdp); continue
             s = await L.state(pg)
             if s['choices']:
@@ -74,7 +76,8 @@ async def newgame(p, run, out):
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); idle = 0; continue
             if s.get('busy'): await pg.wait_for_timeout(700); continue
             idle += 1
-            if idle >= 12: break   # 沒有對話、選項：可以自由走動了
+            if idle >= 12 and started and len(await pg.evaluate("window.__seen||[]")) >= 20: break   # 開場演完、沒有對話、選項：可以自由走動了
+            if idle >= 12 and not started: idle = 0
             await pg.wait_for_timeout(1000)
         st = await pg.evaluate(STATE); res['end'] = st; await run.shot(pg, 'NEWGAME_free')
         seen = await pg.evaluate("window.__seen||[]"); res['seen_n'] = len(seen)

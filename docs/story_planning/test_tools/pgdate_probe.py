@@ -218,9 +218,11 @@ async def home_case(p, run, sid):
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         try:
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
-            keys = ['2029-06-01', '2029-06-02', '2029-06-28', '2029-06-17']
+            keys = ['2029-06-01', '2029-06-02', '2029-06-28', '2029-06-17', '2026-09-06', '2027-09-05', '2028-09-03']
             dk = await pg.evaluate("(ks=>{ const o={}; for(const k of ks) o[k]=STORY.dayOfKey(k); return o; })(%s)" % json.dumps(keys))
             st = base_state(dk, '2029-06-17', h, [KX], None); st['flags']['KX_CRACK'] = 1; st['home'] = {'at': True}
+            # 2026-10-22（候選 364dabe0 第一輪）：最小存檔沒有 ROOM_Y2～Y4＝讀檔就演「大二上開學前搬新房間」（主線 3：從家裡帶回宿舍拆箱），人不在家——三年的搬房間都記成搬過了
+            st['flags'].update({'ROOM_Y2': dk['2026-09-06'], 'ROOM_Y3': dk['2027-09-05'], 'ROOM_Y4': dk['2028-09-03'], 'ROOM_Y4_ITEMS': [], 'BOX_KEPT_Y4': None})
             st['weekday'] = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % st['day'])
             await L.load_state(pg, st); await pg.wait_for_timeout(5000); await pg.evaluate(HOOK)
             await pg.evaluate("(()=>{ const r=SOCIAL.rel('kexin'); r.fam=45; r.trust=30; SOCIAL.remember('kexin','FIRST_MET',''); })()")
