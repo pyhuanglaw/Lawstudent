@@ -13799,8 +13799,8 @@
    "title": "溫州街路邊小物（AA-B 做、LAWWW2-B 驗收 97f315ca）：安全帽、傘桶等",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】溫州街路邊小物擺放（同上，跟溫州街收尾 ART-WZ0 一起看能不能先放） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：和 ART-WZ6 一起：DL-11 開工時搬進開發分支並擺上溫州街（路邊小物不依賴劇情，也可以先擺） ｜ wz7_street_props.glb 跟 DL-13／AA_167 溫州街故事線一起放",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 說三件已經在溫州街模型裡（ART-WZ0 交件 59dfa3a8），已整合進開發分支；BB 看溫州街 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】溫州街路邊小物擺放（同上，跟溫州街收尾 ART-WZ0 一起看能不能先放） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：和 ART-WZ6 一起：DL-11 開工時搬進開發分支並擺上溫州街（路邊小物不依賴劇情，也可以先擺） ｜ wz7_street_props.glb 跟 DL-13／AA_167 溫州街故事線一起放",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -16402,9 +16402,9 @@
    "title": "溫州街舊店面翻修：盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW（帳號 A）15:4x】恢復：使用者 2026-10-21 15:2x 對 LAWWW2（帳號 A）：「溫州街修改直接收尾 舊店面翻修繼續」（UA-LAWWW2-1021-08）——解除 10-17 05:0x「溫州街修改也暫停」；照原規劃盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖 ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：和 ART-VSLICE 一起請使用者決定；recheckOn 改新日期 ｜ LAWWW2-B 盤點舊店面",
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 交件（分支 12fc2b23）已整合進開發分支：7 份 patch 照順序疊套、素材照 LAWWW2 分支；全部 Node 單元測試 468 支過；瀏覽器流程派 BB；READY_FOR_ART_REVIEW ｜ 【LAWWW（帳號 A）15:4x】恢復：使用者 2026-10-21 15:2x 對 LAWWW2（帳號 A）：「溫州街修改直接收尾 舊店面翻修繼續」（UA-LAWWW2-1021-08）——解除 10-17 05:0x「溫州街修改也暫停」；照原規劃盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖 ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：和 ART-VSLICE 一起請使用者決定；recheckOn 改新日期 ｜ LAWWW2-B 盤點舊店面",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -24103,7 +24103,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW-C 19:4x UTC】BB-C b4ade498 報「和熟人一起吃，點餐卡死」＝不是卡死：BB 的 drain 優先選「不用了」；開發分支 716590fb 重跑 lunch118c＋瀏覽器直接追：招呼「幾位？……那邊那張可以坐。」→ 菜單正常；巷子門口的常客在 SwiftShader 約 30 秒才補一次（正常手機幾秒）；從巷子進店 12:15 以安坐在店裡（3 次）。請 BB 改腳本點品項重驗、印遊戲時間 ｜ 【15:5x】AA_280@719ac68a 店裡的招呼三句（一起來的「幾位？……那邊那張可以坐。」、滇香「坐這邊。椒麻雞今天比較辣喔。」、慢讀「插座在窗邊。點好了我再送過去。」）白名單更新、重匯 lane118_shops.js ｜ 【15:4x】在門口等的常客、約好的午餐跟著進店坐好（L118.populateShop，進店、待在店裡都會補）；在店裡點餐照樣一起吃——flow_lane118（阿哲週一午餐：進六張犁麵舖 → 阿哲在店裡 → 櫃台點餐一起吃 → 離開 → 回台大）開發分支 ALL PASS；lane118_unit 第 6 項。店門口寫的招呼（「幾位？裡面有位子。」）在店裡說，已請 AA 看 ｜ 【10-20 14:4x 開發分支接好】LAWWW2-C 43cf956a（九間室內 GLB＋layout）＋d269942b（遊戲內測試、接線 diff、flow_l118_shops.py ALL PASS）→ LAWWW-C 照 diff 接：src/l118_shops3d.js（九個區域 l118_<id>、晚上門外巷子調暗）、src/data/l118_shop_layouts.js（tools/lane118/gen_shop_layouts.py 產生）、巷子店門口營業時間「進○○」／沒開照舊鐵門拉下來一半、店員在店裡（每間換底模）。tests/l118_shops_unit.js（修改前 FAIL）。下一步：BB 驗九間（坐每張椅子、reachability_all）；AA_311 店員外觀、熟客招呼、H1～H9 接（LANE118-SHOP-STORY-1020）；X68 118 巷偶遇 ｜ 【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 交件（分支 12fc2b23）已整合進開發分支：7 份 patch 照順序疊套、素材照 LAWWW2 分支；全部 Node 單元測試 468 支過；瀏覽器流程派 BB；READY_FOR_ART_REVIEW ｜ 吧台高腳椅 lift（e703d408） ｜ 【LAWWW-C 19:4x UTC】BB-C b4ade498 報「和熟人一起吃，點餐卡死」＝不是卡死：BB 的 drain 優先選「不用了」；開發分支 716590fb 重跑 lunch118c＋瀏覽器直接追：招呼「幾位？……那邊那張可以坐。」→ 菜單正常；巷子門口的常客在 SwiftShader 約 30 秒才補一次（正常手機幾秒）；從巷子進店 12:15 以安坐在店裡（3 次）。請 BB 改腳本點品項重驗、印遊戲時間 ｜ 【15:5x】AA_280@719ac68a 店裡的招呼三句（一起來的「幾位？……那邊那張可以坐。」、滇香「坐這邊。椒麻雞今天比較辣喔。」、慢讀「插座在窗邊。點好了我再送過去。」）白名單更新、重匯 lane118_shops.js ｜ 【15:4x】在門口等的常客、約好的午餐跟著進店坐好（L118.populateShop，進店、待在店裡都會補）；在店裡點餐照樣一起吃——flow_lane118（阿哲週一午餐：進六張犁麵舖 → 阿哲在店裡 → 櫃台點餐一起吃 → 離開 → 回台大）開發分支 ALL PASS；lane118_unit 第 6 項。店門口寫的招呼（「幾位？裡面有位子。」）在店裡說，已請 AA 看 ｜ 【10-20 14:4x 開發分支接好】LAWWW2-C 43cf956a（九間室內 GLB＋layout）＋d269942b（遊戲內測試、接線 diff、flow_l118_shops.py ALL PASS）→ LAWWW-C 照 diff 接：src/l118_shops3d.js（九個區域 l118_<id>、晚上門外巷子調暗）、src/data/l118_shop_layouts.js（tools/lane118/gen_shop_layouts.py 產生）、巷子店門口營業時間「進○○」／沒開照舊鐵門拉下來一半、店員在店裡（每間換底模）。tests/l118_shops_unit.js（修改前 FAIL）。下一步：BB 驗九間（坐每張椅子、reachability_all）；AA_311 店員外觀、熟客招呼、H1～H9 接（LANE118-SHOP-STORY-1020）；X68 118 巷偶遇 ｜ 【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -25830,7 +25830,7 @@
    "id": "ART-DORM-LOUNGE-1021",
    "title": "男宿交誼廳家具（LAWWW2 清查 B16）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "LAWWW2-C 清查 caf482d1 B16",
    "first": {
@@ -25843,7 +25843,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 照清查 B16",
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 交件（分支 12fc2b23）已整合進開發分支：7 份 patch 照順序疊套、素材照 LAWWW2 分支；全部 Node 單元測試 468 支過；瀏覽器流程派 BB；READY_FOR_ART_REVIEW ｜ LAWWW2 照清查 B16",
    "xai": {
     "spec": "LAWWW2 清查 B16",
     "branch": "claude/focused-cray-c9uwvw",
@@ -26829,7 +26829,7 @@
    "title": "溫州街店面（AA_364）場景：林家乾麵（A4）、巷子裡定食（B3）能進去內用——室內照 118 巷店面做法（換招牌、桌椅、牆上菜單）、區域接線；巷口茶飲、夏日冰菓室做外帶窗口（冰店 10～4 月鐵捲門＋「五月見」）",
    "owner": "LAWWW2",
    "area": "ART",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -26847,7 +26847,7 @@
    "pausedReason": "D99 三個優先項目（經濟系、寒暑假、美國交換）先做",
    "resumeWhen": "v9.10.3 發布後",
    "recheckOn": "2026-10-28",
-   "next": "LAWWW2：室內、外帶窗口、鐵捲門、區域與導航（D108）；菜單牆上的字照 AA_364 第 2 節；店名照 D77",
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 交件（分支 12fc2b23）已整合進開發分支：7 份 patch 照順序疊套、素材照 LAWWW2 分支；全部 Node 單元測試 468 支過；瀏覽器流程派 BB；READY_FOR_ART_REVIEW ｜ LAWWW2：室內、外帶窗口、鐵捲門、區域與導航（D108）；菜單牆上的字照 AA_364 第 2 節；店名照 D77",
    "xai": {
     "spec": "AA_364 第 1、2 節（企劃線 2b0429cd）",
     "branch": "claude/second-ai-env-art",
@@ -28132,7 +28132,7 @@
    },
    "source": "LAWWW2（帳號 A）2026-10-21 22:18 交件 US-MARKET-STREET 的「還不到」",
    "authorized": "D99 第三項美國交換；一般開發（D87）",
-   "next": "照現有 US 人流（us_life3d／us3d 的路人）加超市街的路人與車流；LAWWW2 補停車場路燈光圈"
+   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 超市一進門鏡頭、站牌柱透空已整合（b874f99a）；車流、路人照舊是 LAWWW 的 ｜ 照現有 US 人流（us_life3d／us3d 的路人）加超市街的路人與車流；LAWWW2 補停車場路燈光圈"
   },
   {
    "id": "BUG-KX-OD-SKIPALL-1021",
@@ -28229,7 +28229,7 @@
    "id": "PG-ASKAT-HOME-1021",
    "title": "畢業以後的固定格：該問「出發」的時間（PGDATE.askAt）照 baseHome 算車程，人在家裡、baseHome 不成立時用原本的車程（18:35 問），從家裡出發卻照家裡算 30 分鐘（19:05 到）；再晚一點出發可昕的 AA_351 就算遲到",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v6",
    "first": {
@@ -28244,7 +28244,8 @@
    },
    "source": "BB（帳號 A）10-21 22:54 Node 對照（AA366／AA367）",
    "authorized": "bug 修正（D85）",
-   "next": "pgdates3d.js askAt 傳 fromHome＝HOME.at(G)（人在家就照家裡算）；等 y3／約會子代理合併後做（兩個都動 pgdates3d.js）"
+   "next": "BB 瀏覽器：畢業以後住家裡、可昕的固定格（19:00）：18:15 問出發、照家裡 30 分鐘到、不算遲到",
+   "done": "開發分支（LAWWW 10-22 06:3x，6cfc73fd）：outings3d.js 的 baseHome 改成「人在家裡」就照家裡出發算車程（原本只有經濟系那一年 HOME.baseMode）——OUT.due、PG 固定格 askAt、鬧鐘、跳過時間的停點一起對；tests/pg_askat_home_unit.js（修改前 4660ca57 FAIL 2、修改後 ALL PASS）；全部 Node 單元測試 468 支過（y5_delay 的阿凱那一項是 BUG-KAI-Y2-SCHED 的預期，已改）"
   },
   {
    "id": "BUG-SIS-STUDY-COMPANION-1021",

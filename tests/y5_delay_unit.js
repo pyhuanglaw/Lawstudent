@@ -194,15 +194,15 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
       !bad.length&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道','河堤 五點半'])&&!!qk&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候不能看手機。……你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
   // ===== G5 2-2 人在哪裡（七處矛盾＋過時的閒聊）=====
   { const ent=(id,key,h)=>{ const G=grad(key,h,{EXCHANGE_ROUTE:'TW'}); return STORY.schedEnt(CHARACTERS[id],G); }, z=e=>e?e.zone:null;
-    const kai0=z(ent('kai','2029-06-20',20)), kai1=z(ent('kai','2029-07-02',20)), kai2=z(ent('kai','2029-07-06',22.5));
+    const k0=ent('kai','2029-06-20',20), kai0=k0?(k0.zone||k0.away||null):null, kai1=z(ent('kai','2029-07-02',20)), kai2=z(ent('kai','2029-07-06',22.5));   /* kai0：大二起他住別棟（BUG-KAI-Y2-SCHED-1022，c89f17df）＝「在他那棟宿舍」，不是你這棟的 dorm */
     grad('2029-07-02',20,{}); const kp=STORY.presence('kai',H.G), kAway=STORY.awayOnDate('kai',H.G);
     const sis0=z(ent('heroine_05','2029-06-20',10)), sis1=z(ent('heroine_05','2029-07-03',10)), sis2=z(ent('heroine_05','2029-07-04',20)), sis3=z(ent('heroine_05','2029-07-02',20)), sis4=z(ent('heroine_05','2029-07-07',11));
     const zr1=z(ent('heroine_02','2029-09-04',11)), zr2=z(ent('heroine_02','2029-09-07',15)), zr3=z(ent('heroine_02','2029-09-05',20)), xc0=z(ent('classmate_xinci','2029-05-22',16)), xc1=z(ent('classmate_xinci','2029-06-05',16));
     grad('2028-08-01',10,{}); delete H.G.flags.GRADUATED; const fy=STORY.presence('npc_fangyt',H.G), fyR=STORY.reachable('npc_fangyt',H.G); grad('2028-07-10',10,{}); const fyT=STORY.presence('npc_fangyt',H.G).kind;
     grad('2029-07-01',10,{}); const p1=STORY.presence('pool_1',H.G), p4=STORY.presence('pool_4',H.G); grad('2029-06-20',10,{}); const p1b=STORY.presence('pool_1',H.G).here;
-    const okAll=kai0==='dorm'&&kai1==null&&kai2==='gongguan'&&kp.kind==='taipei'&&kAway&&sis0==='library'&&sis1==null&&sis2!=='lawlib'&&sis3==='cafe'&&sis4==='library'&&zr1!=='campus'&&zr2!=='campus'&&zr3==='cafe'&&xc0==='library'&&xc1!=='library'
+    const okAll=kai0==='在他那棟宿舍'&&kai1==null&&kai2==='gongguan'&&kp.kind==='taipei'&&kAway&&sis0==='library'&&sis1==null&&sis2!=='lawlib'&&sis3==='cafe'&&sis4==='library'&&zr1!=='campus'&&zr2!=='campus'&&zr3==='cafe'&&xc0==='library'&&xc1!=='library'
       &&fy.here===false&&fy.city==='嘉義'&&!fyR&&fyT==='trip'&&p1.here===false&&p1.kind==='after'&&p1b===true;
-    check('G5. 2-2 作息、presence：阿凱 6/28 起不在宿舍（臺北上班、只留週五晚上公館）；學姊 7 月起平日白天、週三法圖拿掉（一二四晚上 Café、週六上午總圖）；芷若 9 月起校園兩筆拿掉；心慈 6 月起平日下午總圖拿掉；方奕廷 2028-07 起在嘉義；同屆不熟的同學 6/28 起畢業不在學校',
+    check('G5. 2-2 作息、presence：阿凱 6/28 起不在宿舍（6/20 還在他那棟宿舍；臺北上班、只留週五晚上公館）；學姊 7 月起平日白天、週三法圖拿掉（一二四晚上 Café、週六上午總圖）；芷若 9 月起校園兩筆拿掉；心慈 6 月起平日下午總圖拿掉；方奕廷 2028-07 起在嘉義；同屆不熟的同學 6/28 起畢業不在學校',
       okAll,JSON.stringify({kai0,kai1,kai2,kp,kAway,sis0,sis1,sis2,sis3,sis4,zr1,zr2,zr3,xc0,xc1,fy,fyR,fyT,p1,p4,p1b})); }
   { const okIf=(id,t)=>{ const e=(SMALLTALK[id]||[]).find(x=>typeof x==='object'&&x.t===t); return !!e&&(!e.if||EVENTS.cond(e.if)); };
     grad('2029-07-02',20,{}); const k1=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z1=okIf('zhe','「系籃週五練球，來坐也可以。」'), z2=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
