@@ -2911,6 +2911,8 @@ const STORY = (function(){
     return out.sort((a,b)=>a.h-b.h); };
   /* 今天標 alarm 的出遊（X81：8/30 載可昕上山）在白天的床邊選項也要寫：跳過時間會停在出發前 10 分鐘（CLS.skipStops 同一個時間），原本只有晚上的選項有寫（BUG-E37-DORM-SLEEP-1021，BB 10-21）*/
   S.outStopsToday=function(G,h0){ const out=[]; if(typeof OUT==='undefined'||!OUT.rec) return out; for(const q of OUT.rec(G)){ if(!q.alarm||q.state!=='planned'||q.day!==G.day) continue; const dep=q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0)); if(dep-1/6>h0+0.05) out.push({h:dep-1/6,why:'約好的時間：'+q.title}); } return out.sort((x,y)=>x.h-y.h); };
+  /* 今天晚上（h0 以後、午夜以前）第一個鬧鐘：S.wakeAlarms 的今天（出發前 30 分鐘）；那個已經過了、出遊還沒出發的，出發前 10 分鐘（S.outStopsToday，和跳過時間同一個停點）*/
+  S.tonightAlarm=function(G,h0){ const A=S.wakeAlarms(G,G.day).filter(a=>a.h>h0+0.05&&a.h<24).concat(S.outStopsToday(G,h0).filter(a=>a.h<24)); A.sort((a,b)=>a.h-b.h); return A[0]||null; };
   S.missText=function(G,day,h0,h1){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return ''; const its=CLS.dayItems(G,day).filter(it=>!it.exam&&!CLS.storyClass(Object.assign({},G,{day}),it)&&it.t0+0.5>h0&&it.t0+0.5<=h1&&!(CLS.rec(G).done[it.key]));
     return its.length?'會錯過：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):''; };
   /* 小睡的長度（30 分鐘、1 小時、2 小時；maxH 以內——圖書館、自習區的桌上趴著睡最多 1 小時）：預設在下一堂課前 20 分鐘叫醒 */
@@ -2926,6 +2928,7 @@ const STORY = (function(){
     if(S.opening(G)){ out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'}); out.push({kind:'stay',t:'再撐一下'}); return out; }
     if(!night){ out.push(...S.napOptions(G,2));
       if(hh<17.5){ const ms=S.missText(G,G.day,hh,18), dm=typeof DATE!=='undefined'&&DATE.alarmsFor?DATE.alarmsFor(G,G.day).filter(q=>q.dep>hh&&q.dep<18).map(q=>hm(q.dep)+' '+q.label):[]; const miss=[ms,dm.length?'會錯過：'+dm.join('、'):''].filter(Boolean).join('。'); const oa=S.outStopsToday(G,hh).find(q=>q.h<18), ms2=oa?S.missText(G,G.day,hh,oa.h):''; out.push({kind:'nap',to:18,t:'睡到傍晚（不設鬧鐘）',hint:oa?'18:00——但'+oa.why+'，'+hm(oa.h)+' 會叫醒你'+(ms2?'。'+ms2:''):'睡到 18:00'+(miss?'。'+miss:'')}); } }
+    else if(!late&&hh>=17.5&&S.tonightAlarm(G,hh)){ const ta=S.tonightAlarm(G,hh); out.push({kind:'nap',to:ta.h,t:'睡一下（'+hm(ta.h)+' 叫醒你）',hint:ta.why+'，鬧鐘 '+hm(ta.h)+' 會叫醒你'}); }   /* 今天晚上還沒到的約（標 alarm 的出遊、電話、答應了的約）：鬧鐘一定叫醒，不給睡到明天（BUG-BED-TONIGHT-ALARM-1022：3/15 21:00 上床只算明天的鬧鐘，21:30 學姊的電話睡過去就記 missed）*/
     else { const day=G.day+1, its=typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'?CLS.dayItems(G,day).filter(it=>!CLS.storyClass(Object.assign({},G,{day}),it)):[], first=its.length?its[0]:null, A=S.wakeAlarms(G,day);
       const morning=first?Math.max(6.5,first.t0-1):7.5;
       for(const [k,lab,w0,why] of [['morning',morning>=17?'睡到明天晚上':morning>=13?'睡到明天下午':morning>=11?'睡到明天中午':'睡到明天早上',morning,first?(first.exam?'考試 ':'第一堂 ')+hm(first.t0)+' '+first.c.name+'前一小時':'明天沒有課'],['noon','睡到明天中午',12,''],['afternoon','睡到明天下午',14,''],['evening','睡到明天晚上',18,'']]){
