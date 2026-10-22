@@ -1421,6 +1421,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW 13:4x 十個解讀（AA_386 第 6 節）：九個照 LAWWW 的讀法"
+  },
+  {
+   "task": "BB119-Y4-1017",
+   "branch": "claude/story-planning",
+   "sha": "608b9adc",
+   "files": [
+    "docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW 實作 ev_zhiruo_last_screening（白名單 AA_387@608b9adc）；F3 拒絕版一起改（zrzq3d.js fy、ev_zhiruo_f3_cafe）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "USER_WANTS D53：芷若 2028-08-26 出國前最後一場定稿（BB_119 3-2 提案定稿）；條件改用學期末心意那一套；F3 那天心意條件到、杯子沒演過的她拒絕方奕廷"
   }
  ],
  "items": [
