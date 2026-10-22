@@ -459,7 +459,7 @@ async def s_z44(p, run, base, sid, out):
             run.check('%s：甲＝6/5 14:30～18:00 沒有帶到醉月湖、沒有演 4-4；狀態還是 mutual_interest（順延到下一個學期）' % sid,
                       zz['state'] == 'mutual_interest' and 'ev_zz_serious' not in zz['ev'] and not any('醉月湖' in t for t in caps(await log_since(pg, n0))), J({'zz': zz, 'said': T[-6:]}))
         else:
-            want0 = await pg.evaluate("(()=>{ const s=ZRZQ.slotOf('serious','Y1S2'), c=ZRZQ.seriousCtx(GAME.G,s); return ZRZQ_TOLINES(ZRZQ.seriousLines(GAME.G,c)).filter(x=>x&&typeof x.text==='string').map(x=>x.text); })()")
+            want0 = await pg.evaluate("(()=>{ const s=ZRZQ.slotOf('serious','Y1S2'), c=ZRZQ.seriousCtx(GAME.G,s); return ZRZQ_TOLINES(ZRZQ.seriousLines(GAME.G,c)).filter(x=>x&&typeof x.text==='string').map(x=>x.text.split('{name}').join(GAME.G.name||'祐廷')); })()")   # {name}＝玩家名字（v6_zrzq 第一次：腳本沒換，FAIL 在「{name}心想」那一句）
             n0, pos = await zz_wait_scene(pg, cdp, run, sid, want0[0] if want0 else '', "GAME.G.hour>=18.1||GAME.G.day>%d" % d)
             L1 = await log_since(pg, n0); T = texts(L1); zz = await pg.evaluate(ZZQ); res['said'] = T; res['pos'] = pos; res['zz'] = zz
             run.check('%s：14:30 遊戲自己帶到醉月湖（%s）' % (sid, J(pos)), pos['zone'] == 'campus' and abs(pos['x'] + 34.5) < 8 and abs(pos['z'] + 97.2) < 8, J(pos))
