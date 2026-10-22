@@ -66,7 +66,9 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
     check('2. 語彤「週六 21:30，麵店打烊以後」；子晴「週六 23:00，公館宵夜」；學姊「週六 18:30，法圖旁邊那家」（稿上的地點字幕例子）',/週六 21:30，\*\*麵店打烊以後\*\*/.test(S('heroine_03'))&&h('heroine_03','2029-06')===21.5&&pl('heroine_03','2029-06')==='麵店打烊以後'
       &&/週六 23:00，\*\*公館宵夜\*\*/.test(S('heroine_04'))&&h('heroine_04','2029-06')===23&&pl('heroine_04','2029-06')==='公館宵夜'&&/週六 18:30，\*\*法圖旁邊那家\*\*/.test(S('heroine_05'))&&h('heroine_05','2029-06')===18.5&&pl('heroine_05','2029-06')==='法圖旁邊那家'&&/「法圖旁邊那家」/.test(doc));
     check('2. 沛珊：平常「週六 22:00 視訊」；2029-10、2030-03、2030-06、2030-10 去台南（週六當天來回、高鐵）',/週六 22:00 \*\*視訊\*\*/.test(S('classmate_peishan'))&&/（2029-10、2030-03、2030-06、2030-10）：週六當天來回，坐高鐵/.test(S('classmate_peishan'))&&h('classmate_peishan','2029-08')===22&&pl('classmate_peishan','2029-08')==='視訊'
-      &&['2029-10','2030-03','2030-06','2030-10'].every(ym=>M('classmate_peishan',ym).m==='tn')&&(PGDATE.MODE.tn||{}).travel==='高鐵約一小時四十分鐘'&&(PGDATE.MODE.tn||{}).fare===2700); });
+      &&['2029-10','2030-03','2030-06','2030-10'].every(ym=>M('classmate_peishan',ym).m==='tn')&&(PGDATE.MODE.tn||{}).travel==='高鐵約一小時四十分鐘'&&(PGDATE.MODE.tn||{}).fare===2700);
+    { const G=fresh('2029-06-03',10,{},'classmate_peishan'), sp=ym=>(PGDATE.sixSlot(G,'classmate_peishan',ym,D(ym+'-06'),M('classmate_peishan',ym))||{}).place;
+      check('2. 沛珊去台南的地點字幕（AA_367 第 10 節 A3）：2029-10、2030-03、2030-06「台南・她的學校」；2030-10「台南・她實習的國小」',['2029-10','2030-03','2030-06'].every(ym=>sp(ym)==='台南・她的學校')&&sp('2030-10')==='台南・她實習的國小',JSON.stringify(['2029-10','2030-03','2030-06','2030-10'].map(sp))); } });
   /* ---------- 3 日子 ---------- */
   await sec('3',async()=>{
     { const P=plan(fresh('2029-06-03',10,{},'heroine_01')).heroine_01;

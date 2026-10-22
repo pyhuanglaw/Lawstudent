@@ -126,7 +126,8 @@ const PGDATE=(function(){
   S.MONTHS=(()=>{ const out=[]; for(let y=2029,m=6;y<2031;){ out.push(y+'-'+String(m).padStart(2,'0')); if(++m>12){ m=1; y++; } } return out; })();   /* 2029-06～2030-12 */
   const ymOf=day=>{ const x=CALENDAR.dateOf(day); return x.y+'-'+String(x.m).padStart(2,'0'); };
   S.sixSlot=function(G,who,ym,day,md){ const M=S.MODE[md.m], n=nm(who), tl=M.kind==='tn'?'去台南找'+n:'和'+n+'：'+M.place;
-    return Object.assign({who,key:ym,day,h:md.h,line:S.line(who,ym),id:'pg_date_'+who+'_'+ym,ev:'ev_pg_date_'+who+'_'+ym,title:tl},M); };
+    return Object.assign({who,key:ym,day,h:md.h,line:S.line(who,ym),id:'pg_date_'+who+'_'+ym,ev:'ev_pg_date_'+who+'_'+ym,title:tl},M,M.kind==='tn'&&S.TN_PLACE[ym]?{place:S.TN_PLACE[ym]}:{}); };
+  S.TN_PLACE={'2030-10':'台南・她實習的國小'};   /* AA_367 第 10 節 A3（企劃線 a7bd9741 起）：2030-10 那一句是「帶你來看我實習的學校。」——地點字幕換這一個；2029-10、2030-03、2030-06 照「台南・她的學校」*/
   /* 這一天有別的事（第 0 節「那一天撞到別的停點」）：稿上舉的四天、PG 的場景（S.STEPS：時間到了一定演的）、別的出遊（排好的、去過的）、可昕的格子；
      只在手機上的訊息不算（不佔那一天）——見回報給 AA 的問題。d0～d1＝要看的日子 */
   S.busyDays=function(G,d0,d1){ const out=new Set(), add=d=>{ if(d!=null&&d>=d0&&d<=d1) out.add(d); };
