@@ -20,10 +20,10 @@ from lib2 import B, Mesh, g2b, bpy, bmesh, Vector   # noqa: E402
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 STYLE = ARGS[ARGS.index('--style') + 1] if '--style' in ARGS else 'zhiruo'
 # 鏡框形狀：超橢圓 |x/RX|^NP + |y/RY|^NP = 1（NP 2＝橢圓；越大越方）；顏色、主人
-SPEC = {'zhiruo': dict(RX=0.022, RY=0.022 * 0.96, NP=2.0, col='#a68b80', owner='heroine_02'),
-        'wei': dict(RX=0.025, RY=0.0165, NP=4.5, col='#3e3f44', owner='prof_wei')}[STYLE]
+SPEC = {'zhiruo': dict(RX=0.022, RY=0.022 * 0.96, NP=2.0, col='#a68b80', owner='heroine_02', SEP=0.0766),   # SEP：芷若新的臉（使用者 10-22「好憨」）眼睛往中間 3.4 mm：84→76.6 mm
+        'wei': dict(RX=0.025, RY=0.0165, NP=4.5, col='#3e3f44', owner='prof_wei', SEP=0.084)}[STYLE]
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/glasses_%s.glb' % STYLE)
-SEP, R_RIM, WIRE = 0.084, SPEC['RX'], 0.00085      # 鏡片中心距、鏡框半寬（中心線）、金屬線半徑
+SEP, R_RIM, WIRE = SPEC['SEP'], SPEC['RX'], 0.00085      # 鏡片中心距、鏡框半寬（中心線）、金屬線半徑
 SEP = float(os.environ.get('GLASSES_SEP') or SEP)   # 使用者 10-22「好憨」：臉的眼距改了，鏡片中心距跟著改（環境變數試尺寸，不改檔）
 RY, NP = SPEC['RY'], SPEC['NP']; RYN = RY / 0.96    # RYN：鼻托、鉸鏈的高度照原本圓框的比例（圓框時＝R_RIM）
 B.reset(texres=256)

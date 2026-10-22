@@ -194,10 +194,11 @@ def apply(m):
     # 參考圖 06 的臉部特寫：分線旁的頭髮越過髮際線後馬上往兩邊撥開，沿著額頭外側斜斜往下、經過眉尾外面，
     # 髮尾在眼睛旁（顴骨高度），和臉旁垂下來的頭髮接成框住臉的弧線；額頭中間露出一個倒 V。
     # 第六版是「分線旁到眉毛、往外越長」的側分瀏海：近看是一排橫過額頭的齊瀏海（遊戲內臉部特寫），所以改成這種走法。
+    V_A = float(os.environ.get('ZR_V_A') or 16.0); V_Z = float(os.environ.get('ZR_V_Z') or 0.008)   # 使用者 10-22「好憨」：額頭的倒 V 收小（第七版 23°、1.4 cm）
     def curtain_card(sgn, t, vroot, off, wfac, rr):
         """t：0＝最靠分線（倒 V 的內緣）→ 1＝最外面；控制點用（方位角, v）：髮根 → 髮際線 → 額頭外上方 → 眼睛旁"""
         a1 = PART + sgn * (3.0 + 13.0 * t)
-        a2 = sgn * (23.0 + 11.0 * t) + rr * 1.5; z2 = H.brow_top + 0.014 - 0.004 * t
+        a2 = sgn * (V_A + 11.0 * t) + rr * 1.5; z2 = H.brow_top + V_Z - 0.004 * t   # 使用者 10-22「好憨」：V_A、V_Z：額頭的倒 V 大小（環境變數 ZR_V_A、ZR_V_Z 可以試）
         a3 = sgn * (41.0 + 11.0 * t) + rr * 2.0; z3 = eye_z - 0.004 - 0.024 * t - 0.006 * abs(rr)
         ctrl = np.array([[PART + sgn * (0.8 + 7.0 * t), vroot], [a1, 0.0], [a2, v_at_z(a2, z2)], [a3, v_at_z(a3, z3)]])
         AV = catmull(ctrl, 8)

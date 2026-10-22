@@ -3,8 +3,11 @@
 import p00_face as PF
 import h01_face as F
 
-LIN = dict(D_CHIN=0.007, BROW_DROP=0.0045, EYE_SX=1.02, EYE_SZ=0.66, EYE_TILT=0.05, EYE_IN=0.0028, EYE_LIFT=0.0005, CHEEK_TINT_K=0.7,   # 第二版：眼睛小一點（樣本的眼睛高 2.3 cm，第一版 ×0.80 還是動畫式的大圓眼）、腮紅拿掉 70%
-           CHIN_WIDEN=0.55, JAW_OUT=0.0038, MOUTH_K=1.65, FACE_NARROW=0.96, IRIS_FRAC=0.50,
+# 使用者 10-22「林芷若3d好憨 沛珊也是」（LAWWW2）：第一版（10-10）的內眼角距離＝眼寬 1.28 倍、嘴寬 4.8 cm 又低（人中長）、下巴長——眼睛分得開、下半臉像馬臉。
+# 改：EYE_IN 0.0028→0.0075（1.09 倍）、EYE_SX 1.02→1.06、EYE_SZ 0.66→0.74、IRIS_FRAC 0.50→0.54、BROW_DROP 0.0045→0.0060、MOUTH_K 1.65→1.25、
+# MOUTH_DOWN（預設 0.0020）→0.0003、D_CHIN 0.007→0.002、FACE_NARROW 0.96→0.945。眼鏡（glasses_zhiruo.py）鏡片中心距 84→76.6 mm；瀏海（p02_hair.py V_A、V_Z）收進來。
+LIN = dict(D_CHIN=0.002, BROW_DROP=0.0060, EYE_SX=1.06, EYE_SZ=0.74, EYE_TILT=0.05, EYE_IN=0.0075, EYE_LIFT=0.0005, CHEEK_TINT_K=0.7,   # 第二版：眼睛小一點（樣本的眼睛高 2.3 cm，第一版 ×0.80 還是動畫式的大圓眼）、腮紅拿掉 70%
+           CHIN_WIDEN=0.55, JAW_OUT=0.0038, MOUTH_K=1.25, FACE_NARROW=0.945, IRIS_FRAC=0.54, MOUTH_DOWN=0.0003,
            EYELINE_K=0.95, WING=0.0022, LASH_N=26, LASH_L=0.9, BROW_K=1.1, BROW_ARCH=0.8, BROW_COL=(0.20, 0.15, 0.13), BROW_A=0.9,
            LIP_OUT=(0.86, 0.56, 0.56), LIP_IN=(0.76, 0.40, 0.44), LIP_HI=(0.94, 0.74, 0.74), LIP_A=0.85)
 
