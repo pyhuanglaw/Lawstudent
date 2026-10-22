@@ -2161,13 +2161,31 @@
     "tools/blender/char_second/peishan_face.py、peishan_hair.py、glasses_peishan.py、peishan.py（說明）",
     "docs/art-rebuild/second_ai/char_review/peishan_v29/（README、accept_ref_game_face、lookdev_v28_v29、game_normal_distance）"
    ],
-   "state": "驗收沒過（退回第三十版）",
-   "remaining": "瀏海髮尾比參考圖厚、齊（散在鏡框上的細碎髮沒做）；後腦、馬尾還是一條條髮片；T 恤領口、臉白脖子紅沒動（這次只改臉、頭髮）；真機沒看過",
+   "state": "已交付",
+   "remaining": "LAWWW 13:0x 驗收沒過（不接進遊戲），改做第三十版（下一筆）；瀏海髮尾比參考圖厚、齊（散在鏡框上的細碎髮沒做）；後腦、馬尾還是一條條髮片；T 恤領口、臉白脖子紅沒動（這次只改臉、頭髮）；真機沒看過",
    "next": "LAWWW：換 VRM＋眼鏡 GLB＋json（同檔名、兩個一起換；程式、manifest 不用改）；角色美術驗收（D100 第 6 點，照你 11:59 的格式：accept_ref_game_face.webp＋README 逐項表＋game_normal_distance.webp）；表情只有 Blink／Blink_L／Blink_R 80→94",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
    "note": "使用者 11:5x「你花這麼多時間改沛珊長裙結果她人還是很醜 臉啊頭髮啊 醜死了」（UA-LAWWW2-1022-02，P0）。原因（第二十八版和參考圖並排）：髮色純黑（遊戲渲染器中位數 0.047,0.024,0.016，參考圖 0.21,0.18,0.17）、額頭整片露出＋幾根黑尖刺、眼睛小沒神（基本形 Fcl_EYE_Close 0.2；C.LOOK.hideEye 藏掉高光網格，虹膜亮點太小）、眉毛平的灰帶、臉一片白、眼鏡粗黑圈。改：中分八字瀏海（每邊 8 片 1.6～2.6 cm 重疊髮片、露出到眉頭的窄倒 V）、髮色深灰棕（量到 0.204,0.165,0.149）、髮絲對比降低；眼型 Close 0.06、眼睛放大、虹膜大亮點、上眼線／睫毛加粗、眉毛細深微彎、珊瑚唇色、腮紅留多一點、鼻樑兩側淡陰影；眼鏡框線半徑 0.85→0.58 mm、鏡框 21→23 mm、槍灰金屬。身體、衣服、骨架相同（頭髮側鏈 6 根骨頭差 ≤0.12 mm）；表情 15 組名字不變，只有 Blink／Blink_L／Blink_R 80→94（遊戲渲染器拍過眨眼，閉滿）。舊版開關 PS_FACE_V／PS_HAIR_V／PS_GLASSES_V=28 做出來和原本位元組相同；照 README 指令從頭重做和交件檔位元組相同。遊戲內 j60／j61／j62（1ad1a710，Playwright 手機橫向，不是 iPhone）：Café 臉部近景正面＋三分之四側和參考圖並排、Café／201 教室／公館一般距離前後。我的逐項判斷：瀏海形狀對、質感還不到；髮色對；眼睛接近；眉毛對；唇色對。READY_FOR_ART_REVIEW（角色美術 LAWWW 驗收）｜sha：說明、圖在 9b0ec2db；VRM、眼鏡、腳本在前面的 f510b1b7（WIP 檢查點），9b0ec2db 包含全部｜LAWWW 13:0x（開發分支 620821e1、USER_WANTS C27 11707a19）：驗收沒過，不接進遊戲——髮色、眉毛、唇色對，眼睛接近；瀏海不對（兩側太短像安全帽、沒有臉旁垂到下巴的長碎髮）、臉白脖子紅像面具；三分之四側梳痕太明顯、馬尾太緊。v9.10.5 維持第二十七版。改做第三十版（見下一筆）"
+  },
+  {
+   "task": "ART-ZR-PS-3D-1022",
+   "branch": "claude/second-ai-env-art",
+   "sha": "a540863f",
+   "files": [
+    "assets/models/char/second_ai/bl_classmate_peishan.vrm（同檔名，第三十版）",
+    "assets/models/char/second_ai/glasses_peishan.glb（＋glasses_peishan.json，同檔名；第二十九版那次改的，這次沒動，開發分支還是舊的，要一起換）",
+    "tools/blender/char_second/peishan_hair.py、peishan_face.py",
+    "docs/art-rebuild/second_ai/char_review/peishan_v30/（README、accept_ref_game_face、game_normal_distance、lookdev_v29_v30、skin_fix_abc）"
+   ],
+   "state": "已交付",
+   "remaining": "髮尾還是比參考圖粗（一根根的細髮在遊戲距離會變鋸齒點）；耳朵後上方往後梳的髮片尾端一階一階（第二十九版以前就有，近拍側面才看得到）；臉的五官還是 VRoid 動畫臉（照單子不動眼睛）；馬尾只低 0.6 cm；膚色只在 Café 量過；真機沒看過",
+   "next": "LAWWW：換 VRM＋眼鏡 GLB＋json（同檔名、一起換；程式、manifest 不用改）；角色美術驗收（D100 第 6 點，同你 11:59 的格式：accept_ref_game_face.webp＋README 逐項表＋game_normal_distance.webp）；表情和第二十九版完全一樣",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "LAWWW 13:0x 退回第二十九版（620821e1、C27）後的第三十版。照退件單改：①瀏海兩側長到顴骨下面（髮尾比眉毛低 5.8 cm，第二十九版 4.3），蓋住眉尾和鏡框外側上角；分線偏右 10°，左邊外面幾片往外移、和右邊對稱（試做 g7 遊戲內斜前方看左邊太陽穴露出硬邊）；髮尾 4 束、62～80% 才分開（g2 從一半分開像梳子、瀏海看起來只到額頭中間）；每邊一綹細碎髮越過鏡框外側上角；②臉旁每邊 3 綹到下巴、下段散開（g7 側面像三條平行線）；頭頂貼頭皮（髮殼蓬度 1.1＋0.85 → 0.8＋0.4 cm）；③膚色：原因是脖子、胸口在 MToon 陰影那一邊，陰影色 0xcf967f × 粉紅的身體貼圖＝飽和的紅（Café 量：臉頰 18°、脖子胸口 12°）→ 身體的陰影不乘貼圖（VRM 沒有 _ShadeTexture）、身體貼圖乘和臉一樣的暖色、臉畫淡陰影：脖子、胸口 17°、臉頰 19～20°，亮度一樣；遊戲內改材質試過 A／B／C，臉也不乘的話陰影那邊嘴唇不見（C），所以臉照舊；④三分之四側梳痕淡（髮片法線偏角 0.25 → 0.08、紋路對比降低）；馬尾綁點 −44° → −48°（約 0.6 cm；−52° 耳朵後上方髮片尾端交叉翹出一根黑棍子）、中段粗 16%、後頸 3 撮碎髮長一點；⑤髮色（頭頂中位數 0.200,0.141,0.118 → 0.208,0.149,0.122）、眉毛、眼睛（貼圖、網格位元組相同）、唇色（211,110,85 → 209,110,79）不動。身體、衣服、臉的網格和第二十九版相同；骨架只有馬尾 6 根骨頭 ≤6.4 mm；表情 15 組完全一樣（眨眼拍過，閉滿）。照 README 指令從頭重做和交件檔位元組相同；舊版開關 PS_HAIR_V／PS_FACE_V=29 做回第二十九版、=28 做回第二十八版，位元組相同（用這一版腳本驗）。遊戲內 j63／j65（開發分支 11707a19，Playwright 手機橫向，不是 iPhone）：Café 臉部近景正面＋三分之四側和參考圖並排、Café／201 教室／公館一般距離前後。我的逐項判斷：瀏海長度對、髮尾接近、越過鏡框對、臉旁碎髮對、頭頂對、膚色對、梳痕對、馬尾接近、髮色眉毛眼睛唇色不動。READY_FOR_ART_REVIEW（角色美術 LAWWW 驗收）｜sha：說明、圖、VRM 在下一個 commit"
   }
  ]
 }

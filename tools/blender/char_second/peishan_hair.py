@@ -99,7 +99,7 @@ if V29:
 # 第三十版（LAWWW 13:0x 驗收第二十九版沒通過：瀏海太短像一頂安全帽、太陽穴是硬的一條邊、臉旁沒有長碎髮、頭頂太蓬、三分之四側有梳痕、馬尾太高太緊）：
 # 髮色照第二十九版（LAWWW：對，不要動）。PS_HAIR_V=29 做回第二十九版、=28 做回第二十八版（位元組相同）。
 V30 = os.environ.get('PS_HAIR_V', '30') not in ('28', '29')
-if V30: TIE_ELEV = -52.0      # 馬尾綁低一點（−44° → −52°：參考圖背面綁在後頸、耳垂下面）
+if V30: TIE_ELEV = float(os.environ.get('HAIR_TIE_ELEV', '-48'))      # 馬尾綁低一點（−44° → −48°：參考圖背面綁在後頸、耳垂下面；試做 −52°：耳朵後上方往後梳的髮片尾端交叉、翹出一根黑色的棍子）
 
 
 def _json_env(name, default):
@@ -439,11 +439,11 @@ def apply(m):
     # 太陽穴的髮際線：幾束細碎髮從髮際線稍前方往後梳，讓邊緣不是一條硬線
     # 第七版拿掉：BB-C v5「太陽穴的白線」就是這幾束（細碎髮貼圖側著看是亮的線）
     # 後頸幾束沒收進馬尾的短碎髮（參考圖背面）：從髮際線稍上方往下垂 3～4 cm
-    NAPE_DROP = {-163: 36, 152: 34, 168: 30}       # 第三十版：其中三束長一點（LAWWW：馬尾鬆一點、散出幾綹）
+    NAPE_DROP = {int(k): v for k, v in _json_env('HAIR_NAPE_DROP', {'-163': 36, '152': 34, '168': 30} if V30 else {}).items()}   # 第三十版：其中三束長一點（LAWWW：馬尾鬆一點、散出幾綹）
     for a in (-170, -163, -148, -134, 140, 152, 168):   # 沛珊：後頸沒收進馬尾的碎髮多幾束（鬆）
         b0_ = hairline_beta(a) + 7; q = []
         for k in range(8):
-            t = k / 7; d = sph(a + 4 * t * np.sign(a), b0_ - (NAPE_DROP.get(a, 22) if V30 else 22) * t); q.append(c + d * (H.R(d) + 0.0045 + 0.003 * t))
+            t = k / 7; d = sph(a + 4 * t * np.sign(a), b0_ - NAPE_DROP.get(a, 22) * t); q.append(c + d * (H.R(d) + 0.0045 + 0.003 * t))
         Q = H.push(np.array(q), 0.004); Dq = _unit(Q - c); Tq = tangents(Q)
         mb.ribbon(Q, _unit(np.cross(Dq, Tq)), Dq, 0.010, 'wisp', 'head', np.zeros(len(Q)), arch=0.0, both=True)
     # （試過頭頂另外加拱起的細碎髮：遊戲裡在頭的剪影上變成一條條暗色的「電線」，拿掉）
@@ -510,9 +510,12 @@ def apply(m):
             CUR = [(1, 11, 0.014, 0.017), (3, 17, 0.006, 0.020), (6, 24, -0.002, 0.022), (10, 31, -0.010, 0.024), (15, 39, -0.020, 0.025),
                    (20, 47, -0.033, 0.025), (26, 55, -0.046, 0.023), (32, 61, -0.058, 0.021)]
         CUR = _json_env('HAIR_CUR', CUR)
+        CUR_SYM = float(os.environ.get('HAIR_CUR_SYM', '1.0' if V30 else '0'))
         for sgn_c in (1.0, -1.0):
             for k, (dh_, dt_a, zt, w0) in enumerate(CUR):
                 ah = PART + sgn_c * dh_; at = PART + sgn_c * dt_a
+                if sgn_c * PART < 0:   # 第三十版：分線偏人物右邊，左邊那一片簾子窄——外面幾片的髮尾往外移到和右邊對臉的中線對稱（遊戲內斜前方看：左邊太陽穴露出一條皮膚、髮際線一階一階的硬邊）
+                    w_ = CUR_SYM * sstep(1.0, 7.0, k); at += sgn_c * 2 * abs(PART) * w_; ah += sgn_c * abs(PART) * w_
                 ar = PART + sgn_c * (0.8 + 0.15 * dh_); vr = 0.20 + 0.012 * k
                 dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0040)
                 bh = hairline_beta(ah) + 3.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + CUR_LIFT[0])
@@ -566,14 +569,17 @@ def apply(m):
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
         SIDE_SET = ((0.0, 0.26, 'lock', 0.0), (0.35 * sgn, 0.20, 'lock', 0.005)) if sgn * PART > 0 else ((0.0, 0.22, 'lock', 0.0),)
         if V30: SIDE_SET = ((0.0, 0.30, 'lock', 0.0), (0.40 * sgn, 0.22, 'lock', 0.006), (-0.35 * sgn, 0.20, 'lock', -0.005))   # 第三十版：兩邊都 3 綹、寬一點（LAWWW：臉兩側各兩三綹長的碎髮垂到下巴）
-        for rot, wfac, reg, dx in SIDE_SET:   # 第八版再細（第七版遊戲裡像黑色的棒子）   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+        SPREAD = _json_env('HAIR_SIDE_SPREAD', [0.0, -0.004, 0.014] if V30 else [0.0, 0.0, 0.0])   # 第三十版：下段往前後散開（m，正＝往後；試做 g7 側面看是三條平行的線）
+        back = np.array([0.0, 1.0, 0.0])
+        for i_, (rot, wfac, reg, dx) in enumerate(SIDE_SET):   # 第八版再細（第七版遊戲裡像黑色的棒子）   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
             twist = np.linspace(0, 0.15 * sgn, len(P))[:, None]   # 第八版：少扭一點（0.5：下端轉過來，正面看往內勾）
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
             width = 0.010 * (wfac / 0.26) * (1 - 0.70 * sstep(0.15, 1.0, s / L)) * (0.6 + 0.4 * sstep(0.0, 0.08, s / L))   # 第十一版（BB-C：根部約 1 cm、往下變細、末端半透明；第十版到下巴還是一樣寬，像黑鐵絲）
-            mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
+            bk = _unit(back - Tn * np.sum(back * Tn, 1)[:, None]) * (SPREAD[i_] * sstep(0.25, 1.0, s / L))[:, None]
+            mb.ribbon(P + nrm * dx + bk, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
         for a_r, a_m, wq in ():   # 第二版拿掉臉頰旁彎的短碎髮（BB-C：像鬢角的捲髮）

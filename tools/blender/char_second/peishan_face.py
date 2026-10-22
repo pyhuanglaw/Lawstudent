@@ -101,11 +101,16 @@ def paint_nose_v29(m):
 # 第三十版（LAWWW 13:0x 驗收第二十九版：臉一片白粉、脖子和胸口偏紅，交界像戴面具；臉要有一點點陰影）：
 #   臉的貼圖照「臉的形狀」畫柔和的暖色陰影——越朝側面、朝下（顴骨外側、下顎、下巴下面），越接近遊戲裡脖子在陰影裡的暖色；
 #   整張臉往參考圖的暖米色靠一點（參考圖額頭、臉頰 sRGB 約 0.89, 0.78, 0.71；第二十九版的臉貼圖 0.96, 0.87, 0.86 偏粉白）。
-#   身體的貼圖不動。眼睛、眉毛、唇色照第二十九版（LAWWW：對，不要動）。PS_FACE_V=29 做回第二十九版。
+#   眼睛、眉毛、唇色照第二十九版（LAWWW：對，不要動）。PS_FACE_V=29 做回第二十九版。
+#   脖子、胸口偏紅的原因（遊戲內 Café 14:00 量第二十九版：臉頰色相 18°、脖子和胸口 12°）：下巴下面、胸口在 MToon 的陰影那一邊，
+#   陰影色＝C.LOOK 的 0xcf967f × 陰影貼圖（＝身體的皮膚貼圖，粉紅）→ 飽和的紅；臉大多在受光那一邊。
+#   身體的陰影不乘皮膚貼圖（陰影色就是 C.LOOK 的 0xcf967f）：遊戲內同一個鏡頭脖子、胸口 12° → 17°（臉頰 19～20°），亮度和臉一樣；
+#   臉也這樣做的話，陰影那一邊的嘴唇不見（試做 C），所以臉照舊。身體貼圖也乘同一個暖色：受光的時候臉和手臂、胸口同一個色調。
 V30 = _os.environ.get('PS_FACE_V', '30') not in ('28', '29')
 SKIN_K = float(_os.environ.get('SKIN_K') or 0.36)                        # 陰影濃度（最暗的地方和陰影色混多少）
 SKIN_WARM = _json.loads(_os.environ.get('SKIN_WARM') or '[1.0, 0.985, 0.955]')   # 整張臉乘這個顏色（藍少一點＝暖一點）
 SKIN_SHADE = _json.loads(_os.environ.get('SKIN_SHADE') or '[0.84, 0.64, 0.56]')  # 陰影色（遊戲裡脖子在陰影裡的暖色一帶）
+SKIN_BODY_NOSHADE = (_os.environ.get('SKIN_BODY_NOSHADE') or '1') != '0'          # 身體的陰影不乘皮膚貼圖
 
 
 def paint_skin_v30(m):
@@ -128,8 +133,20 @@ def paint_skin_v30(m):
     rgb[mask] = rgb[mask] * np.array(SKIN_WARM)
     rgb[mask] = F.mix(rgb[mask], SKIN_SHADE, (sh * SKIN_K)[mask])
     out[..., :3] = np.clip(F.dilate_into(rgb, mask), 0, 1)
-    F.set_tex(mat, C.image_from_array('PS_Face_00', out.astype(np.float32)))
+    F.set_tex(mat, C.image_from_array('PS_Face_30', out.astype(np.float32)))
     print('  skin shading (v30): K %.2f, %d px shaded > 0.5' % (SKIN_K, int((sh > 0.5).sum())))
+
+
+def body_skin_v30(m):
+    """第三十版：身體的皮膚貼圖乘同一個暖色；陰影不乘貼圖（陰影色＝C.LOOK 的皮膚陰影色，不再被粉紅的貼圖壓成紅色）"""
+    import h01_face as F
+    import common as C
+    b = m['body']; k = F.mat_index(b, 'Body_00_SKIN'); mat = b.data.materials[k]; e = mat.vrm_addon_extension.mtoon1
+    out = F.img_array(e.pbr_metallic_roughness.base_color_texture.index.source).copy()
+    out[..., :3] = np.clip(out[..., :3] * np.array(SKIN_WARM), 0, 1)
+    F.set_tex(mat, C.image_from_array('PS_Body_30', out.astype(np.float32)))
+    if SKIN_BODY_NOSHADE: e.extensions.vrmc_materials_mtoon.shade_multiply_texture.index.source = None
+    print('  body skin (v30): warm %s, shade texture %s' % (SKIN_WARM, 'none' if SKIN_BODY_NOSHADE else 'kept'))
 
 
 def apply(m):
@@ -142,3 +159,4 @@ def apply(m):
         F.paint_iris = orig
     if V29 and NOSE_K > 0: paint_nose_v29(m)
     if V30 and SKIN_K > 0: paint_skin_v30(m)
+    if V30: body_skin_v30(m)
