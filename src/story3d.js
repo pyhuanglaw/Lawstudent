@@ -575,7 +575,7 @@ const STORY = (function(){
   S.LADDER_WEEK_IF={'A3-L6':{if:{events:['ev_yu_together']},week:[14,18]},'Y3-L5':{if:{events:['ev_yu_together']},week:[14,18]}};   /* AA_243 #59：16 週制起始改第 14 週 */
   S.LADDER_EVENT_ALIAS={ev_an_study_group:'ev_public_law_group'};
   /* AA_378 #9（源檔 6e0d1313 的 choiceVariants）：以安 A7-L5 選項②兩種說法一次只出一個——演過新 18 當面那一場（AN_CHOICE here：萬才館走廊）＝「妳媽媽後來呢？」，沒演過（群組、美國的私訊、還沒到）＝「妳媽媽知道嗎？」*/
-  S.LADDER_CHOICE_IF['A7-L5']={'「妳媽媽後來呢？」':{flagIs:{AN_CHOICE:'here'}},'「妳媽媽知道嗎？」':{custom:G=>!(G&&G.flags&&G.flags.AN_CHOICE==='here')}};
+  S.LADDER_CHOICE_IF['A7-L5']={'「妳媽媽後來呢？」':{flagIs:{AN_CHOICE:['here','video']}},'「妳媽媽知道嗎？」':{custom:G=>!(G&&G.flags&&['here','video'].includes(G.flags.AN_CHOICE))}};   /* AA_296 2-3-1 ①：美國路線她打來的視訊（AN_CHOICE video）也是聽她當面說完，當成 here 那一類 */
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
     const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }

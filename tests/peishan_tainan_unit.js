@@ -2,7 +2,7 @@
 //   1. presence：8/6～9/3 台中老家、開學前 2 天回台南；大三、大四學期中在台南（kind 'city'、不在臺北、不在台大）；寒暑假台中（期末考最後一天的第 3 天回去）；
 //      手機「現在大概在」：重新聯絡上以前「很久沒聯絡」、以後「在台中」「在台南」（第 1 節的表）
 //   2. 大三起沒有臺北的作息、偶遇（溫州街課輔班、公館書店、美術館 D06、烏來 D20、動物園 D08 的大三下／大四下）；大一下的 D08 照舊；enc_walk D06.cafe 拿掉
-//   3. 第 2 節的訊息：8/07 21:00 消失期傳過訊息的回一則；之後第一次傳訊息「好久不見。……我現在在台南。」「你要來的話，跟我說。」
+//   3. 第 2 節的訊息：8/07 21:00 消失期傳過訊息的回一則（AA_296 2-3-1 ④ 起是她打來的電話，沒接才是那兩則；2026-10-22 改了期待值）；之後第一次傳訊息「好久不見。……我現在在台南。」「你要來的話，跟我說。」
 //   4. 邀約：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn）、寒暑假「我去台中找妳？」；約臺北的地點＝「郭沛珊在台南，不在臺北。」；還沒重新聯絡上的不能約；沒有視訊（沒交往的不開）
 //   5. 閒聊階梯：大三上～大四下 context:'date'，3D 搭話不推進，去台南那一天演完接著聊一層（一天一層）；寒暑假去台中不推進
 //   6. 學期末心意邀約、女朋友的學期末約會：大三起在台南她學校附近（地點字幕、走回她租的地方、搭最後一班高鐵回臺北、票錢 2700）；時段在她回台中以前；朋友的邀約不發；還沒重新聯絡上的不發
@@ -90,9 +90,13 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
 
   // ===== 3. 第 2 節的訊息 =====
   { const d7=D('2027-08-07');
+    /* AA_296 2-3-1 ④（企劃線 3f406dbc）：8/07 21:00 改成她打來；那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）*/
     fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
-    run(d7,20,21.5);
-    check('3. 消失期傳過訊息（沒交往）：8/07 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」（只有這兩則）；之後不是「很久沒聯絡」', JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)))===JSON.stringify([ID+':……這半年我都沒看手機。對不起。',ID+':我現在很好。'])&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify(txt(TH_PS)));
+    run(d7,20,20.75); { const q=OUT.get(G,'y3_ps_back_call'); said=[]; picks=[0]; if(q&&OUT.due(G)) await OUT.go(GM,q); }
+    check('3. 消失期傳過訊息（沒交往）：8/07 21:00 她打來（「……喂。」…「我現在在台南。你要來的話，跟我說。」）、沒有私訊；之後不是「很久沒聯絡」', has('……喂。')&&has('我現在很好。真的。')&&!txt(TH_PS).some(t=>t.startsWith(ID))&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify([said.map(s=>s.t),txt(TH_PS)]));
+    fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); (G.msgs||(G.msgs=[])).push({th:TH_PS,from:'player',who:null,text:'妳還好嗎？',day:D('2027-03-01'),h:20});
+    run(d7,20,21.75);
+    check('3. 消失期傳過訊息、那一通沒接：8/07 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」（只有這兩則）；之後不是「很久沒聯絡」', JSON.stringify(txt(TH_PS).filter(t=>t.startsWith(ID)))===JSON.stringify([ID+':……這半年我都沒看手機。對不起。',ID+':我現在很好。'])&&typeof G.flags.PS_BACK_READ==='number'&&STORY.presence(ID,G).away==='在台中', JSON.stringify(txt(TH_PS)));
     fresh(d7,20,'dorm',{}); R(ID,'FRI'); C(ID); run(d7,20,21.5);
     check('3. 沒傳過：8/07 不回、她也不先傳（大二下那一則重考的問題放榜以後不傳）、還是「很久沒聯絡」、不能去找她', !txt(TH_PS).length&&STORY.presence(ID,G).lost===true&&HV.offer(G,ID)===null, JSON.stringify(txt(TH_PS)));
     G.day=D('2027-08-12'); G.hour=20; const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22);
