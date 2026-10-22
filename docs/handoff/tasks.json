@@ -28540,6 +28540,27 @@
    "source": "BB 10-22 03:16 讀碼（瀏覽器還沒驗證）",
    "authorized": "D110",
    "next": "Node 先重現再修"
+  },
+  {
+   "id": "ART-ZR-CAFE-PORTRAIT-1022",
+   "title": "芷若 Café 當班的圍裙版立繪太糊（使用者 10-22 iPhone「林芷若太糊了吧」）：assets/portraits/heroine_02/cafe/neutral.webp 是最早的低解析度立繪（約 250×880）放大到 600×1000、白邊沒去乾淨",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "芷若在兩點半當班時說話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-22 03:4x（UA-LAWWW-1022-03）",
+   "authorized": "使用者直接回報",
+   "next": "【LAWWW（帳號 A）2026-10-22 03:4x】①先關掉當班自動換圍裙版（src/adv3d.js A.CAFE_APRON=false），當班也用平常那一套（campus，清楚）；②BB 照 D97 寫提示詞跟使用者要高解析度的圍裙版（和 campus 同一張臉、同構圖）；收到後換上 cafe/neutral.webp、A.CAFE_APRON 改 true"
   }
  ]
 }

@@ -881,6 +881,15 @@
    "status": "已完成",
    "task": "BACKLOG-SWEEP-1021",
    "note": "上一則因工作階段重新啟動沒做完，重做一次"
+  },
+  {
+   "id": "UA-LAWWW-1022-03",
+   "at": "2026-10-22T03:4x",
+   "quote": "林芷若太糊了吧",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-ZR-CAFE-PORTRAIT-1022",
+   "note": "iPhone 截圖：Café 當班（圍裙版）立繪。查到 assets/portraits/heroine_02/cafe/neutral.webp 是最早的低解析度立繪放大的（銳利度 58，全部 133 張最低；手臂旁、兩腿間有白邊）。先關掉當班自動換圍裙版（adv3d.js A.CAFE_APRON=false），當班也用清楚的平常那一套；BB 照 D97 寫提示詞跟使用者要高解析度圍裙版"
   }
  ]
 }
