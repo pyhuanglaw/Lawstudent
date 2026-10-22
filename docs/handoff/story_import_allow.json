@@ -948,12 +948,16 @@
   },
   {
    "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",
-   "sha": "bdab2f42",
+   "sha": "e75d1cce",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js；bdab2f42（第 0～5 節和 a48fe1b7 相同，加第 6 節）：AA（帳號 A）2026-10-21 22:0x 定稿（D100、D109：AA 的稿就是定稿）：第 6-1 節「date_lines.js」那一列（可昕不跟祐廷比輸贏，使用者 10-18：「她沒有在跟我比」）由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入；LAWWW 2026-10-21 交 DATE-OVERNIGHT-1021 子代理（aadate）。bdab2f42 只比 a48fe1b7 多第 6 節（git diff 0 行刪除），第 1～5 節和 a48fe1b7 一字不差",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js；bdab2f42（第 0～5 節和 a48fe1b7 相同，加第 6 節）：AA（帳號 A）2026-10-21 22:0x 定稿（D100、D109：AA 的稿就是定稿）：第 6-1 節「date_lines.js」那一列（可昕不跟祐廷比輸贏，使用者 10-18：「她沒有在跟我比」）由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入；LAWWW 2026-10-21 交 DATE-OVERNIGHT-1021 子代理（aadate）。bdab2f42 只比 a48fe1b7 多第 6 節（git diff 0 行刪除），第 1～5 節和 a48fe1b7 一字不差；e75d1cce：AA（帳號 A）2026-10-21 22:3x 更正 6-1「date_lines.js」那一列（兩欄都寫整句：「有一隻羊在看我。我在看它。平手。」→「有一隻羊一直在看我。……牠應該也餓了。走，吃飯。」，AA_359 第 5 節 B1），e75d1cce 只比 bdab2f42 多那一列的改字和一行說明，第 1～5 節一字不差",
    "task": "AA373-Y1S2-FIX-1021",
    "kind": "text",
    "history": [
+    {
+     "sha": "bdab2f42",
+     "approvedBy": "AA（帳號 A）2026-10-21 22:0x 定稿（加第 6 節；6-1「date_lines.js」那一列「現在」欄只寫了羊那句的最後兩個字）"
+    },
     {
      "sha": "a48fe1b7",
      "approvedBy": "AA（帳號 A）2026-10-21 定稿（開發分支 172696ca 用的那一版；aadate 分支開自 80af0168，沒有這一筆）"
@@ -1298,12 +1302,18 @@
   },
   {
    "path": "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
-   "sha": "c7dd0000",
+   "sha": "e75d1cce",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；回 LAWWW-C 13:01「D28～D32 兩天一夜……要開的話需要住宿那一段的規格」）：第 1～4 節（流程、第一天晚上旁白四句、第二天早上旁白＋七位一句＋住自己家／租的地方三句、給 LAWWW 的條件）",
+   "approvedBy": "AA（帳號 A）2026-10-21 22:3x 定稿（D100、D109：AA 的稿就是定稿；回 DATE-OVERNIGHT 子代理的十三題，LAWWW 轉）：第 5 節——5-1 B1、B2、B7、B8、B9、B12 要改，其餘照現在；5-2 D26～D32 時間不對的九句改字。第 1～3 節的句子和 c7dd0000 一字不差，第 3 節多一句（沛珊 D26 臺中，B2），第 4 節底圖、旗標兩行照 B12、B9 更正",
    "task": "DATE-OVERNIGHT-1021",
    "kind": "text",
-   "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對"
+   "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN、DATE.MORNING_HOME（B2）、DATE.COMBO_DRIVE（B8 那一句旁白）；5-2 的九句由 tools/date/import_date_lines.py 疊在 lines/D26、D28、D31、D32.json 上匯入；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對",
+   "history": [
+    {
+     "sha": "c7dd0000",
+     "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；回 LAWWW-C 13:01「D28～D32 兩天一夜……要開的話需要住宿那一段的規格」）：第 1～4 節（流程、第一天晚上旁白四句、第二天早上旁白＋七位一句＋住自己家／租的地方三句、給 LAWWW 的條件）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_350_回LAWWW_AA_QUESTIONS_1021_M_N十八題.md",

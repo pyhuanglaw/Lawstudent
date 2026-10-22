@@ -6,7 +6,8 @@
   - 各地點的台詞 date_system/lines/Dxx.json（白名單逐檔列的才讀；BB_128 2-9 的格式，原樣放進 DATE_LINES.loc）；BB 五位 3-6 的出發、差不多了、一個都沒做就走、合照還不行。
 格子裡「／」分開的是輪流用的幾句；同一句裡有好幾個「」＝連發幾則訊息（例：「好。」「我跟阿姨說那天不顧店。」）。「」以外的說明不進遊戲。
   - 疊在上面的改句：AA_373 6-1「`date_lines.js`」那一列（可昕不跟祐廷比輸贏，使用者 10-18）——「現在」欄的第 n 句換成「AA 定」欄的第 n 句；
-    只換一字不差的 text；「……」開頭、沒有一字不差的那一句＝「……」是前面照舊（只換後面那一段）。找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
+    AA_359 5-2 的表（D26～D32 只能在第二天說、或時間不對的幾句，AA 改字）——那個地點、那個人的「現在」換成「改成」（引號裡的字；括號裡的說明不進遊戲）。
+    兩種都只換一字不差的 text（e75d1cce 起 6-1 兩欄都是整句，原本「……」開頭只換後面那一段的做法拿掉）；找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -16,7 +17,8 @@ ALLOW = G.load(ROOT)
 SP = 'docs/story_planning/'
 FILES = {'bb': SP + 'BB_128_校外單獨約會_心願地點與淡水示範規格.md', 'aa': SP + 'AA_127_以安語彤_心願約會與邀約變化.md',
          'pbb': SP + 'date_system/date_prefs_bb.json', 'paa': SP + 'date_system/date_prefs_aa.json',
-         'fix373': SP + 'AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md'}   # 6-1 date_lines.js 那一列（AA373-Y1S2-FIX-1021）
+         'fix373': SP + 'AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md',   # 6-1 date_lines.js 那一列（AA373-Y1S2-FIX-1021）
+         'fix359': SP + 'AA_359_兩天一夜的約會_住宿那一段.md'}   # 5-2 D26～D32 時間不對的九句（DATE-OVERNIGHT-1021）
 APPROVED = G.approved_files(ALLOW, SP)
 for p in FILES.values():
     ok, why = G.allowed(p, APPROVED.get(p, ''), ALLOW)
@@ -142,14 +144,29 @@ for old, new in FIX:
     hit = [o for o in texts(LOC) if o['text'] == old]
     for o in hit:
         o['text'] = new
-    if not hit and old.startswith('……'):   # 「……」＝前面照舊：只換後面那一段
-        tail, nt = old[2:], (new[2:] if new.startswith('……') else new)
-        hit = [o for o in texts(LOC) if o['text'].endswith(tail)]
-        for o in hit:
-            o['text'] = o['text'][:-len(tail)] + nt
     FIXED.append((old, new, len(hit)))
     if not hit:
         print('AA_373 6-1：找不到「' + old + '」，沒換')
+# AA_359 5-2：D26～D32 時間不對的句子（| 地點 | 誰、哪一句 | 現在 | 改成 |）——只在那個地點、那個人的台詞裡換
+md = show(FILES['fix359']); head = next((l for l in md.splitlines() if l.startswith('### 5-2. ')), None)
+if not head:
+    sys.exit('拆不出來：' + FILES['fix359'] + '@' + APPROVED[FILES['fix359']] + ' 沒有 5-2 節')
+FIXED359 = []
+for r in rows(section(md, head)):
+    if len(r) < 4 or not re.match(r'D\d\d$', r[0]):
+        continue
+    who = next((v for k, v in NAME.items() if r[1].startswith(k)), None)
+    old, new = re.findall(r'「([^「」]*)」', r[2]), re.findall(r'「([^「」]*)」', r[3])
+    if not who or len(old) != 1 or len(new) != 1:
+        sys.exit('拆不出來（5-2 那一列）：' + json.dumps(r, ensure_ascii=False))
+    hit = [o for o in texts(((LOC.get(r[0]) or {}).get('lines') or {}).get(who)) if o['text'] == old[0]]
+    for o in hit:
+        o['text'] = new[0]
+    FIXED359.append((r[0], who, old[0], new[0], len(hit)))
+    if not hit:
+        print('AA_359 5-2：' + r[0] + ' ' + who + ' 找不到「' + old[0] + '」，沒換')
+if len(FIXED359) != 9:
+    sys.exit('拆不出來：AA_359 5-2 應該是九句，拆出 ' + str(len(FIXED359)) + ' 句')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
@@ -161,3 +178,4 @@ with open(dst, 'w', encoding='utf8') as fo:
     fo.write("'use strict';\nconst DATE_LINES=" + json.dumps(out, ensure_ascii=False) + ';\n')
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
 print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o, n, c in FIXED))
+print('AA_359 5-2 改句：' + '；'.join(f'{l} {w}「{o}」→「{n}」{c} 處' for l, w, o, n, c in FIXED359))

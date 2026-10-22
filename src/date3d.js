@@ -7,7 +7,7 @@
      G.dateLog[id]＝{count, wishKnown, wish, byLoc:{D13:2}, cancels:[], last:{trip,day}}
      G.trips＝[{trip:'T0001', who, locs:['D13'], day, depart, back, transport, fare, by:'player'|'her', wish, status, spots:[], departed}]
      G.groupTrips＝[{loc, day, members:[…]}]（一群人去，不計數）
-   兩天一夜（DATE-OVERNIGHT-1021，AA_359）：trip 的 kind:'overnight'、nights:1、lodging、leave、night；G.flags.DATE_OVERNIGHT＝{地點 id:次數}。測試：node tests/date_overnight_unit.js */
+   兩天一夜（DATE-OVERNIGHT-1021，AA_359）：trip 的 kind:'overnight'、nights:1、lodging、leave、night；G.flags.DATE_OVERNIGHT＝{人物 id:次數}（一趟記一次，AA_359 5-1 B9）。測試：node tests/date_overnight_unit.js */
 'use strict';
 const DATE=(function(){
   const S={};
@@ -93,11 +93,13 @@ const DATE=(function(){
   /* ===== 預約與出發（DATE-S3～S5 的第一版；AA_128 第 4 節）＝接在出遊系統（outings3d.js 的 OUT）上：時間到了問、轉場、回程照 OUT =====
      預約時算交通與回程：單程時間照地點資料「從臺大單程」；開車從宿舍出發要先回家取車，去回各多 30 分（AA_128 4-1，AA 暫定）。 */
   S.STAY={half:2.5,evening:2.5,day:6.5};   /* 當天來回的停留時間（小時，不含交通）；兩天一夜（overnight）另外算（S.OVERNIGHT、S.planOvernight）*/
-  /* ===== 兩天一夜（DATE-OVERNIGHT-1021；企劃線 AA_359@c7dd0000，大原則 AA_128 第 119 行、第 52 行，AA_126 1-1）=====
+  /* ===== 兩天一夜（DATE-OVERNIGHT-1021；企劃線 AA_359@e75d1cce（第 5 節：AA 回十三題、5-2 九句改字），大原則 AA_128 第 119 行、第 52 行，AA_126 1-1）=====
      第一天 09:00 出發 → 到達那一句 → 互動點最多 2 個 → 晚上那一句旁白（S.NIGHT）→ 換日不演（STORY.travelOvernight）→ 第二天 08:30「（第二天早上。）」＋她一句（S.MORNING）
      → 互動點最多 2 個（第一天走過的不列）→ 19:00 前離開那一句 → 回程（照當天來回的回程）。D31＋D32 同一趟：第一天日月潭、第二天清境，各用各自的到達、離開句（日月潭的離開句不用）。
      第 6 階或交往中才約得到（S.canOvernight）；兩天都要空、她兩天都在那個地方或臺北（S.overnightWhere）；考試週不能排（AA_126 1-1）；錢＝交通照表＋住宿（地點資料的 lodging，2,500）。
-     存檔：trip 多 nights:1、lodging、leave（第二天離開的時間）、night（那一晚是哪一種）；G.flags.DATE_OVERNIGHT＝{地點 id:次數}（現在只記，AA_359 第 4 節）。舊存檔沒有＝當天來回、{}。 */
+     有時間的三個互動點（5-1 B7）：D28 夕陽、D30 星星只在第一天的第二個點、演完至少到 18:00／20:00；D32 雲海只在第二天的第一個點（S.TIMED）。D28 兩天都用 d28a，選夕陽那一點才換 d28b（B12，S.POINT_BG）。
+     D31＋D32 第二天：早上那一句之後「（吃完早餐，你們開車上清境。一個半小時。）」、時間推 1.5 小時，再到清境的到達那一句（B8，S.COMBO_DRIVE）。
+     存檔：trip 多 nights:1、lodging、leave（第二天離開的時間）、night（那一晚是哪一種）；G.flags.DATE_OVERNIGHT＝{人物 id:次數}（一趟一次、D31＋D32 也是一次；現在只記，AA_359 第 4 節、5-1 B9；還沒發布，不轉舊存檔）。舊存檔沒有＝當天來回、{}。 */
   S.OVERNIGHT={depart:9,morning:8.5,leave:19,dayEnd:22,maxSpots:2};   /* 第一天出發、第二天早上、第二天最晚離開（AA_359 第 1 節）；第一天互動點做到 22:00（稿沒寫，LAWWW 暫定）；每天最多 2 個 */
   S.lodging=()=>(D().lodging|0)||2500;
   S.canOvernight=(G,id)=>!!(G&&G.flags&&G.flags['dating_'+id])||S.stageNum(id)>=6;   /* 第 6 階或交往中（AA_128 第 119 行）*/
@@ -141,9 +143,12 @@ const DATE=(function(){
      誰約得到：學姊以外照 INV.whyNot（有聯絡方式、不是陌生人）＋AA_126 4-1「第 5 階以後的私下約會」（交往中不看階段）＋她自己沒有伴侶、沒有在等你說清楚；
      任一方有伴侶的完整規則是 DATE-S7（AA_128 4-5）。她指定的交通（DATE_PREFS，BB 填）、改交通時她的一句、改三次她的一句：BB 交了再接。 */
   S.listable=function(locId){ const L=S.loc(locId); if(!L) return false; return S.bgKeys(locId).length>0&&!!((LN().loc||{})[locId]);   /* 有底圖才出現在清單（DATE-L01～L32）；底圖也給自由出行用（DL-06B 的貓空、九份…），約會要等那個地點的台詞審完匯入才列（不然到了現場她一句話都沒有）*/ };
-  /* 地點的底圖（OUT.BG 的 dxx_base_*）：D28 兩張（d28a 第一天、d28b 第二天，AA_359 第 4 節）＝dxx 後面多一個字母，照第幾天挑；其他照登記的順序第一張 */
+  /* 地點的底圖（OUT.BG 的 dxx_base_*）：dxx 後面多一個字母的（D28 的 d28a、d28b）用第一張（a）——AA_359 5-1 B12：d28b 是夕陽圖，兩天都用 d28a，選「海堤的夕陽」才換（S.POINT_BG）；其他照登記的順序第一張 */
   S.bgKeys=function(locId){ const B=typeof OUT!=='undefined'&&OUT.BG?OUT.BG:{}, re=new RegExp('^'+String(locId).toLowerCase()+'[a-z]?_base'); return Object.keys(B).filter(k=>re.test(k)); };
-  S.bgKey=function(locId,dayIdx){ const K=S.bgKeys(locId); if(!K.length) return null; const lt=K.filter(k=>/^d\d\d[a-z]_base/.test(k)).sort(); return lt.length?lt[Math.min(dayIdx|0,lt.length-1)]:K[0]; };
+  S.bgKey=function(locId){ const K=S.bgKeys(locId); if(!K.length) return null; const lt=K.filter(k=>/^d\d\d[a-z]_base/.test(k)).sort(); return lt.length?lt[0]:K[0]; };   /* 第二個參數（第幾天）不再用：兩天同一張（B12）*/
+  /* 某個互動點自己的底圖（B12：「海堤的夕陽」＝d28b）：OUT.BG 裡那個字首的第一張；沒有＝null（照原本那一張）*/
+  S.POINT_BG={'D28.sunset':'d28b'};
+  S.pointBg=function(pid){ const pre=S.POINT_BG[pid]; if(!pre) return null; return S.bgKeys(String(pid).split('.')[0]).find(k=>k.indexOf(pre+'_base')===0)||null; };
   S.kindAt=function(locId,depart){ const K=((S.loc(locId)||{}).kinds||['half']).filter(k=>S.STAY[k]); if(!K.length) return null; return depart>=16&&K.includes('evening')?'evening':(K.includes('half')||K.includes('day')?K.find(k=>k!=='evening'):K[0]); };
   S.TIMES={half:[9,10,13,14,15],evening:[17,18,19],day:[8,9],overnight:[9]};   /* 兩天一夜：第一天 09:00 出發（AA_359 第 1 節）*/
   /* 「兩天一夜…」清單：可以住一晚的地點（D26、D27 一日或兩天一夜都開；D28～D32 只有兩天一夜），有底圖、有台詞的才列 */
@@ -396,51 +401,63 @@ const DATE=(function(){
     const spent=Math.max(0,(m0|0)-(G.money|0))+(t.fare|0), ph=(G.album||[]).some(a=>a.trip===t.trip);
     await GM.say(null,'（今天去了'+L.name+'：'+spots.map(id=>(pts.find(p=>p.id===id)||{}).name).join('、')+'。'+(spent?'花了 '+spent+' 元'+(t.fare?'（含來回車資）':'')+'。':'')+(ph?'照片存進相簿。':'')+'）');   /* 結算畫面：去了哪裡、做了什麼、花了多少錢、相簿（不顯示好感數字）*/
     return r; };
-  /* ===== 兩天一夜的那兩天（AA_359@c7dd0000 第 1～3 節；句子照稿逐字，tests/date_overnight_unit.js 從稿讀出來對）=====
-     晚上旁白一句、不演住宿（交往中也不演房間裡的事）；第二天早上旁白「（第二天早上。）」＋她一句。她住自己家、租的地方的那幾種換成 S.MORNING_OWN。 */
+  /* ===== 兩天一夜的那兩天（AA_359@e75d1cce 第 1～3 節、第 5 節；句子照稿逐字，tests/date_overnight_unit.js 從稿讀出來對）=====
+     晚上旁白一句、不演住宿（交往中也不演房間裡的事）；第二天早上旁白「（第二天早上。）」＋她一句。她住自己家、租的地方的那幾種換成 S.MORNING_OWN（沛珊在台中老家的 D26＝S.MORNING_HOME）。 */
   S.NIGHT={single:'（晚上住在車站附近的旅館。兩間房，隔著一道牆。）',dating:'（晚上住在一間小民宿。窗外很安靜。）',home:'（晚上她回家。你住在車站附近的旅館。）',rent:'（晚上她回租的地方。你住在車站附近的旅館。）'};   /* 還沒交往／交往中／她在自己家（D26 以安、芷若在臺中的家）／她在租的地方（D28 沛珊大三起在台南）*/
   S.MORNING_NARR='（第二天早上。）';
   S.MORNING={heroine_01:'早餐我查過了。……走路五分鐘。',heroine_02:'我六點就醒了。換地方睡，都這樣。',heroine_03:'……這裡的蛋餅，沒有阿姨煎的好吃。',heroine_04:'昨天我又弄到兩點。……今天你負責叫我。',
     heroine_05:'（保溫瓶已經裝好熱茶）……出發前喝一口。',classmate_peishan:'我四點半就醒了。……習慣了。我在大廳等你。',kexin:'行程表我昨天晚上重寫了。……你看一下第二天。'};
   S.MORNING_OWN={heroine_01:'我媽多做了一份早餐。……叫我帶給你。',heroine_02:'我出門的時候，我媽問我跟誰。……我說回來再講。',classmate_peishan:'我在樓下。早餐我買好了。'};   /* 以安、芷若（D26 臺中）、沛珊（D28 臺南）；沛珊「四點半起床」照 BB_198 2-3 */
+  S.MORNING_HOME={classmate_peishan:'我在樓下。早餐從我家店裡帶來的。'};   /* 沛珊 D26 臺中、她剛好在台中老家（AA_359 第 3 節、5-1 B2：她家開早餐店，不借 D28 那句）*/
   S.nightKind=(G,t,own)=>own==='home'?'home':(own==='rent'?'rent':(G.flags&&G.flags['dating_'+t.who]?'dating':'single'));
-  S.morningLine=(id,own)=>(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
+  S.morningLine=(id,own)=>(own==='home'&&S.MORNING_HOME[id])||(own&&S.MORNING_OWN[id])||S.MORNING[id]||null;
+  /* 有時間的三個互動點（AA_359 5-1 B7：台詞寫死了時間，兩天一夜要限制；一日約會不限）：day＝第幾天、at＝那一天的第幾個點（0 起算）才列；until＝演完至少到幾點（接晚上那一句）。
+     第一天只走一個點就「今天先到這裡」＝夕陽、星星那一趟就沒有了，第二天不補 */
+  S.TIMED={'D28.sunset':{day:1,at:1,until:18},'D30.stars':{day:1,at:1,until:20},'D32.cloud':{day:2,at:0}};
+  S.timedOk=(pid,dayNo,at)=>{ const T=S.TIMED[pid]; return !T||(T.day===dayNo&&T.at===at); };
+  /* 同一趟的第二天換地點（AA_359 5-1 B8：日月潭→清境開車約 1 小時 30 分）：早上那一句之後的旁白、時間推幾小時；取代原本第二天的「（清境農場。）」那一行 */
+  S.COMBO_DRIVE={'D31+D32':{narr:'（吃完早餐，你們開車上清境。一個半小時。）',h:1.5}};
   /* 一天的互動點（最多 S.OVERNIGHT.maxSpots 個）：時間不夠的灰掉；走過的不列（同一個地點的四個點分兩天走完）。回傳這一天做了哪些 */
-  S.dayRound=async function(GM,t,pts,spots,visits,o){ const G=GM.G, day=[];
-    while(day.length<S.OVERNIGHT.maxSpots){ const left=pts.filter(p=>!spots.includes(p.id)); if(!left.length) break; const now=G.day*24+G.hour;
+  S.dayRound=async function(GM,t,pts,spots,visits,o){ const G=GM.G, day=[];   /* o.dayNo：第一天／第二天（有時間的互動點，S.TIMED）；o.bg：{k} 現在的底圖（互動點換底圖時記下來，S.POINT_BG）*/
+    while(day.length<S.OVERNIGHT.maxSpots){ const left=pts.filter(p=>!spots.includes(p.id)&&S.timedOk(p.id,o.dayNo,day.length)); if(!left.length) break; const now=G.day*24+G.hour;
       const opts=left.map(p=>({t:p.name,hint:(p.min|0)+' 分'+(p.cost?'　'+p.cost+' 元':''),dis:now+(p.min|0)/60>o.endH,why:'時間差不多了'})).concat([{t:o.stop(day.length)}]);
       const k=await GM.choose(opts.map(x=>x.dis?{t:x.t,hint:x.why,dim:true}:x)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast('時間差不多了'); continue; }
-      const p=left[k]; spots.push(p.id); day.push(p.id); const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);
+      const p=left[k]; spots.push(p.id); day.push(p.id); { const pb=S.pointBg(p.id); if(pb){ setBg(pb); if(o.bg) o.bg.k=pb; } }   /* 夕陽那一點換 d28b（B12）*/
+      const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);
+      { const T=S.TIMED[p.id]; if(T&&T.until!=null&&G.hour<T.until&&GM.advance) GM.advance(T.until-G.hour); }   /* 夕陽演完至少到 18:00、星星 20:00（B7），接晚上那一句 */
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
     return day; };
   const setBg=key=>{ if(typeof ADV!=='undefined'&&ADV.setBg&&typeof OUT!=='undefined'&&OUT.bg) ADV.setBg(key?OUT.bg(key):'dark'); };
-  /* 兩天：OUT.go 已經轉場到第一個地點（底圖 S.bgKey(第一個地點, 0)）；演完回到 OUT.go 照當天來回的回程（從最後一個地點回來）*/
+  /* 兩天：OUT.go 已經轉場到第一個地點（底圖 S.bgKey(第一個地點)）；演完回到 OUT.go 照當天來回的回程（從最後一個地點回來）*/
   S.sceneOvernight=async function(GM,q,t){ const G=GM.G, id=t.who, me={name:nameOf(id),charId:id}, O=S.OVERNIGHT, d1=t.day;
     const l1=t.locs[0], l2=t.locs[t.locs.length-1], two=l2!==l1, Lg=S.log(G,id), v1=Lg.byLoc[l1]|0, v2=two?(Lg.byLoc[l2]|0):v1, m0=G.money|0, spots=[];
     const P1=S.points(l1), P2=two?S.points(l2):P1, t2=Object.assign({},t,{locs:[l2],day:d1+1});   /* 第二天的台詞照第二天的地點、日期（D31＋D32 的第二天是清境）*/
     const L1=S.loc(l1); await GM.say(null,'（'+L1.name+'。）'); if(L1.admission&&GM.money) GM.money(-L1.admission,L1.name+' 門票');
     await S.arriveLine(GM,t,v1);   /* 第一天：到達那一句 */
-    await S.dayRound(GM,t,P1,spots,v1,{endH:d1*24+O.dayEnd,stop:()=>'今天先到這裡'});
+    const bg={k:S.bgKey(l1)};   /* 現在的底圖（OUT.go 轉場時用的那一張）*/
+    await S.dayRound(GM,t,P1,spots,v1,{endH:d1*24+O.dayEnd,stop:()=>'今天先到這裡',dayNo:1,bg});
     const own=(S.overnightWhere(G,id,d1,t.locs)||{}).own||null; t.night=S.nightKind(G,t,own);
     await GM.say(null,S.NIGHT[t.night]); if(GM.money) GM.money(-((t.lodging|0)||S.lodging()),'住宿');   /* 第一天晚上：旁白一句，不演；住宿一律 2,500（她回自己家、租的地方也一樣）*/
     if(GM.fade) await GM.fade(true);
     if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,d1+1,O.morning); else { G.day=d1+1; G.weekday=(G.weekday+1)%7; G.hour=O.morning; }   /* 換日不演（出遊住外面一晚：不演宿舍的夜晚事件）*/
-    if(!two){ const b2=S.bgKey(l1,1); if(b2&&b2!==S.bgKey(l1,0)) setBg(b2); }   /* D28：第二天換 d28b */
+    if(!two&&bg.k!==S.bgKey(l1)){ bg.k=S.bgKey(l1); setBg(bg.k); }   /* 第二天早上回到 d28a（前一天傍晚是夕陽那一張，B12）*/
     if(GM.fade) await GM.fade(false);
     await GM.say(null,S.MORNING_NARR); { const ml=S.morningLine(id,own); if(ml) await GM.say(me,ml); }   /* 第二天 08:30：旁白＋她一句 */
-    if(two){ const L2=S.loc(l2); setBg(S.bgKey(l2,0)); await GM.say(null,'（'+L2.name+'。）'); if(L2.admission&&GM.money) GM.money(-L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2); }   /* D31＋D32：第二天到清境，清境的到達那一句 */
-    const n1=spots.length; await S.dayRound(GM,t2,P2,spots,v2,{endH:(d1+1)*24+(t.leave!=null?t.leave:O.leave),stop:n=>n||n1?'差不多了，回去吧':'就這樣回去'});
+    if(two){ const L2=S.loc(l2), cd=S.COMBO_DRIVE[l1+'+'+l2];   /* D31＋D32：吃完早餐開車上清境（B8：旁白、時間推 1.5 小時；取代「（清境農場。）」那一行），清境的到達那一句 */
+      if(cd){ await GM.say(null,cd.narr); if(GM.advance) GM.advance(cd.h); } bg.k=S.bgKey(l2); setBg(bg.k); if(!cd) await GM.say(null,'（'+L2.name+'。）');
+      if(L2.admission&&GM.money) GM.money(-L2.admission,L2.name+' 門票'); await S.arriveLine(GM,t2,v2); }
+    const n1=spots.length; await S.dayRound(GM,t2,P2,spots,v2,{endH:(d1+1)*24+(t.leave!=null?t.leave:O.leave),stop:n=>n||n1?'差不多了，回去吧':'就這樣回去',dayNo:2,bg});
     t.spots=spots; for(const l of t.locs) S.mem(G,id,l).last=spots.filter(s=>s.indexOf(l+'.')===0);
     if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,{fam:1}); t.status='cancelled'; if(!await S.speak(GM,id,'leaveEarly',t,{obj:null})) await GM.say(me,'……就這樣？'); return {counted:false}; }   /* 兩天一個互動點都沒做：照當天來回（不算次數、熟悉 +1）*/
     await S.closeLine(GM,t2,v2);   /* 第二天 19:00 前：離開那一句（D31＋D32 用清境的；日月潭的不用）*/
     return S.settleOvernight(GM,t,spots,P1.concat(two?P2:[]),v1,m0); };
-  /* 結算：一趟只算一次（AA_128 第 52 行）；DATE_OVERNIGHT 記這個地點住過幾次（D31＋D32 兩個都記）*/
+  /* 結算：一趟只算一次（AA_128 第 52 行）；DATE_OVERNIGHT 記和這個人兩天一夜過幾次（一趟一次，D31＋D32 也是一次；AA_359 5-1 B9：地點的次數 dateLog 的 byLoc 已經有）*/
   S.settleOvernight=async function(GM,t,spots,pts,visits,m0){ const G=GM.G, id=t.who, w=S.wishOf(id), firstWish=!!w&&t.locs.includes(w)&&!S.log(G,id).wish;
     t.spots=spots; t.status='done'; const r=S.complete(G,t);
     if(r.counted&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ SOCIAL.adjust(id,S.GAIN[Math.min(visits,2)]); if(firstWish) SOCIAL.adjust(id,{npcRom:4,trust:3}); }
     if(r.counted&&typeof TERMEND!=='undefined'&&TERMEND.contact) TERMEND.contact(G,id,'meet');
     if(r.counted&&r.count===1) G.flags['DATED_1_'+id]=true;
-    if(r.counted){ const F=G.flags, DO=F.DATE_OVERNIGHT&&typeof F.DATE_OVERNIGHT==='object'?F.DATE_OVERNIGHT:(F.DATE_OVERNIGHT={}); for(const l of t.locs) DO[l]=(DO[l]|0)+1; }
+    if(r.counted){ const F=G.flags, DO=F.DATE_OVERNIGHT&&typeof F.DATE_OVERNIGHT==='object'?F.DATE_OVERNIGHT:(F.DATE_OVERNIGHT={}); DO[id]=(DO[id]|0)+1; }
     if(r.counted) await S.confessOffer(GM,t);
     const spent=Math.max(0,(m0|0)-(G.money|0))+(t.fare|0), ph=(G.album||[]).some(a=>a.trip===t.trip);
     await GM.say(null,'（這兩天去了'+t.locs.map(l=>(S.loc(l)||{}).name).join('、')+'：'+spots.map(s=>(pts.find(p=>p.id===s)||{}).name).join('、')+'。'+(spent?'花了 '+spent+' 元（含來回車資、住宿）。':'')+(ph?'照片存進相簿。':'')+'）');
