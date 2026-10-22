@@ -1302,7 +1302,7 @@
   {
    "task": "ART-DIRECTOR-LAWWW2",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "bf3ed802",
    "files": [
     "assets/models/env/second_ai/campus_socsci.glb",
     "assets/models/env/second_ai/campus_socsci.json",
@@ -1310,18 +1310,18 @@
     "docs/art-rebuild/second_ai/patches/soc_court_wire.diff",
     "docs/art-rebuild/second_ai/test_shots/soc_court_1021_wip/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "公告欄晚上沒有自己的燈、光之間的地面偏暗、牆上大字晚上照不到（巡場景清單）",
    "next": "LAWWW 換 GLB＋json、套 soc_court_wire.diff（ck_bell_wash 加 fog=false），跑 socsci_place_unit、nav_soclib_unit（LAWWW2 在 5845667e 跑過 ALL PASS）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "SOC-COURT-1021 社科院中庭夜間光＋院系公告欄（巡場景第 1 區校園；C 交班的 WIP，帳號 A 收尾）。疊面：門洞兩側重疊白牆拿掉、洗牆光離牆 3 cm；剩下的只有加法光圈互相疊。READY_FOR_ART_REVIEW"
+   "ack": "ACTIONED",
+   "note": "SOC-COURT-1021 社科院中庭夜間光＋院系公告欄（巡場景第 1 區校園；C 交班的 WIP，帳號 A 收尾）。疊面：門洞兩側重疊白牆拿掉、洗牆光離牆 3 cm；剩下的只有加法光圈互相疊。READY_FOR_ART_REVIEW｜sha 原本寫「（本 commit）」：交件 commit bf3ed802（GLB 在 738341a8）｜10-22 11:0x 對帳：開發分支 eece763b 上 git apply -R --check 成立＝已整合（LAWWW e7bd9146 整合）"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "46d20af9",
    "files": [
     "assets/models/env/second_ai/us_shared.glb",
     "assets/models/env/second_ai/us_shared.json",
@@ -1329,13 +1329,13 @@
     "docs/art-rebuild/second_ai/patches/c208_plate_fade.diff",
     "docs/art-rebuild/second_ai/test_shots/c208_door_fade_1021/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "BUG-CAM-C208-1021（走廊鏡頭卡牆）另外交",
    "next": "LAWWW 換 us_shared.glb＋json、套 c208_plate_fade.diff（src/us3d.js）；nav_us_unit、us_life_unit 在 5e297de9 上 ALL PASS；BB 用 artrev2 同角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "BB_218 補拍不通過：C208 B 門外套、掛勾、門牌沒跟著牆淡出 → 外套／掛勾／白板／貼紙放進 WALL_<牆>_deco_*；臥室 C 門板原本誤歸南牆（對照表沒有 bedC）→ lau_w；門牌用 us3d.js winParts 跟著內牆藏。遊戲內前後：c208_door_fade_1021"
+   "ack": "ACTIONED",
+   "note": "BB_218 補拍不通過：C208 B 門外套、掛勾、門牌沒跟著牆淡出 → 外套／掛勾／白板／貼紙放進 WALL_<牆>_deco_*；臥室 C 門板原本誤歸南牆（對照表沒有 bedC）→ lau_w；門牌用 us3d.js winParts 跟著內牆藏。遊戲內前後：c208_door_fade_1021｜sha 原本寫「（本 commit）」：交件 46d20af9（patch 最後一版 508ac343）｜LAWWW ed65d8cd 整合（BB 重拍 FIXED，DL-LAWWW2-46d20af9 已驗收）；10-22 11:0x 在 eece763b 上 git apply -R --check 成立"
   },
   {
    "task": "ART-BALCONY-POTS",

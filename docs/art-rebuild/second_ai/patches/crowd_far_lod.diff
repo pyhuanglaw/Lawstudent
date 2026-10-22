@@ -1,5 +1,5 @@
 diff --git a/src/assets3d.js b/src/assets3d.js
-index 5ff6d7f1..98d7508e 100644
+index a81a8228..4cef2a77 100644
 --- a/src/assets3d.js
 +++ b/src/assets3d.js
 @@ -233,11 +233,20 @@ const ASSETS = (function(){
@@ -34,7 +34,7 @@ index 5ff6d7f1..98d7508e 100644
    A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
    A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
 diff --git a/src/character3d.js b/src/character3d.js
-index fc26e72c..4215b071 100644
+index e71c7bbb..9cce9571 100644
 --- a/src/character3d.js
 +++ b/src/character3d.js
 @@ -93,6 +93,33 @@ const CHAR = (function(){
@@ -71,9 +71,9 @@ index fc26e72c..4215b071 100644
    function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
      applyLook(model);
      const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
-@@ -114,12 +141,13 @@ const CHAR = (function(){
-     root.userData={driver:'vrm',spec,k:H/1.75,parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
-     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
+@@ -121,12 +148,13 @@ const CHAR = (function(){
+         drv.push({o,A,B:Bb,LA,LB,A0:i0(A),B0:Bb&&i0(Bb),LA0:i0(LA),LB0:LB&&i0(LB),CA:ch&&ch[0],CB:ch&&ch[1],CA0:ch&&i0(ch[0]),CB0:ch&&ch[1]&&i0(ch[1]),dn,fw,dir:d.dir||1,max:d.max==null?0.85:+d.max,sig:+d.sig||0.3,gate:Array.isArray(d.gate)&&d.gate.length===4?d.gate.map(Number):null}); }); }
+       if(drv.length) root.userData.drive=drv; }
      const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
 +    root.userData.farLOD=attachFar(key,model);   /* 無名路人的遠距離版本（有的話；預設藏著）*/
      return root; }
@@ -86,12 +86,12 @@ index fc26e72c..4215b071 100644
    // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
    // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
    // 兩段式 IK（大腿轉向目標、膝蓋彎曲角用餘弦定理），腳掌維持動畫原本的方向；比身體低的那隻腳搆不到時，整個身體先往下沉。
-@@ -235,11 +263,11 @@ const CHAR = (function(){
+@@ -252,11 +280,11 @@ const CHAR = (function(){
      if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
      // 表情：眨眼、嘴型
      const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
--    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); }); }
-+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); },u.isFar); }
+-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.drive) skirtDrive(u.drive); }); }
++    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.drive) skirtDrive(u.drive); },u.isFar); }
    // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
    // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
    // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
@@ -101,7 +101,7 @@ index fc26e72c..4215b071 100644
    // ---- 建立 ----
    // 建立順序：VRM（spec.model）→ GLB（spec.model 或 spec.fallbackModel，例如主角的 TEMP_PLAYER_DEV_MODEL）→ 程序化 placeholder
 diff --git a/src/engine3d.js b/src/engine3d.js
-index 6913a214..720a35da 100644
+index 1f871de3..aa6039c2 100644
 --- a/src/engine3d.js
 +++ b/src/engine3d.js
 @@ -242,7 +242,7 @@ const E3 = (function(){
