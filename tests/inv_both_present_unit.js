@@ -7,6 +7,7 @@
 //       4. 你不在約定的地方：不會開始；過了時間照舊記沒赴約；
 //       5. 一起走到約定的地方（S.arrive）：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）；
 //       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
+//       8. 在 3F 閱覽室（或大廳）當面約學姊「現在一起過去」總圖：直接開始，不念手機那句（BB 10-22 03:01；修改前 3F 那一項 FAIL）。
 //       7. 一盞的緣側（並排、相距 1.8 m）：你坐她旁邊；2 m 外的隔壁桌、前後排、背對背不配對（BB 10-22 02:23；修改前第一項 FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
@@ -63,4 +64,8 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
       check('7. 2 m 外的'+lab+'：不算她旁邊（不配對）',pr===null,JSON.stringify(pr)); }
     E.zone={seats:[her,{x:0,z:1.9,yaw:Math.PI,lv:0}],roomAt:()=>null}; n.seat=her; const pr=INV.pairSeats(GM,n,'cafe');
     check('7. 隔著桌子面對面（1.9 m）：配對',!!pr&&pr.me.z===1.9,JSON.stringify(pr)); }
+  /* 8 在 3F 閱覽室當面約學姊「去總圖一起念書」「現在一起過去」（平日白天她本來就在總圖）：直接開始，不念手機那句（BB 10-22 03:01）*/
+  for(const zone of ['library','library_hall']){ const G=setup('2025-09-24',10,zone); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; E.zone.seats[0]=n.seat;
+    H.picks=['去總圖一起念書','現在一起過去']; let iv=null; iv=await INV.flow(GM,'heroine_05',n,true);
+    check('8. '+(zone==='library'?'3F 閱覽室':'總圖大廳')+'（9/24 週三 10:00）當面約學姊「去總圖一起念書」「現在一起過去」：直接開始（done、她不跟著走），沒有「我就在總圖。三樓。不要講話，傳訊息。」',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!H.said.some(x=>/傳訊息/.test(x.t)),JSON.stringify({st:iv&&iv.state,beh:n.beh,said:H.said.map(x=>x.t).slice(0,4)})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

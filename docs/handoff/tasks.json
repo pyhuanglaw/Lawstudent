@@ -28435,6 +28435,27 @@
    "source": "BB 10-22 02:23 第 1 點（BB_218 最後一節 9b67d2d5；圖 docs/story_planning/test_shots/inv_menu_1022/當面約學姊_地點選單_橫向_第一排被切掉.jpg）",
    "authorized": "D110",
    "next": "【LAWWW（帳號 A）2026-10-22 02:3x】src/adv3d.js 橫向兩欄改 align-content:start（從上往下排，放不下就在選單裡往下捲，底部淡出提示）；tests/choices_landscape_css.py（不開遊戲，抄 CSS 量第一個按鈕：修之前 3 項 FAIL、修之後 16 項全過）。BB 重測當面約學姊（橫向）②③"
+  },
+  {
+   "id": "BUG-INV-LIB-HERE-1022",
+   "title": "在 3F 閱覽室當面約學姊「去總圖一起念書」「現在一起過去」：她回手機那句「我就在總圖。三樓。不要講話，傳訊息。」、沒有開始（地點「總圖」的區域是大廳 library_hall，人在 3F library 不算已經在那裡；學姊平日 9～17 的規則回 here）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "認識學姊以後在總圖當面約她讀書",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 10-22 03:01 第 1 點 (a)（bothpresent_probe LIB_HERE）",
+   "authorized": "D110",
+   "next": "【LAWWW（帳號 A）2026-10-22 03:3x】invites3d.js flow：當面、人已經在那個地方（總圖大廳和 3F 都算）、選「現在」、她回 here＝直接開始（一起坐下、演見面），不念手機那句；inv_both_present_unit 第 8 項（修改前 2 項 FAIL）。不是「現在」的（例：10:00 在閱覽室約下午三點）照舊回那一句——要不要當面的版本問 AA。BB 重跑 LIB_HERE"
   }
  ]
 }

@@ -319,7 +319,9 @@ const INV=(function(){
     const te=typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null;   /* 期末時段裡約吃飯＝期末的飯（BB_203 第 1 節第 13 點、AA_268）*/
     if(te&&te.refuse){ act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700); await GM.say(who,'「'+te.refuse+'」'); return null; }   /* 關係結束、還不能重新開始（C8、C9）*/
     act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700);
-    if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const here=!!W.now&&!!n&&P.zone===G.zone;   /* 兩個人已經在那個地方（例：在總圖讀完、當場再約一次讀書；使用者 10-21 23:1x）：不用一起走過去 */
+    const same=!!n&&(P.zone===G.zone||(P.zone==='library_hall'&&G.zone==='library'));   /* 當面、人已經在那個地方（總圖：大廳和 3F 閱覽室都算）*/
+    if(W.now&&same&&r.res==='here'){ r.res='accept'; delete r.lines; }   /* 兩個人都在那裡、約「現在」＝直接開始，不念手機那句（學姊平日的總圖「我就在總圖。三樓。不要講話，傳訊息。」；BB 10-22 03:01；使用者 10-21 23:2x「只要兩個都在場 就不用一起走或說話才能開始」）*/
+    if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const here=!!W.now&&same;   /* 兩個人已經在那個地方（例：在總圖讀完、當場再約一次讀書；使用者 10-21 23:1x）：不用一起走過去 */
       const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now&&!here,by:'player'}); const tail=here?'':(W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。');
       if(NC){ await GM.say(who,'「'+NC.line+'」'); if(tail) await GM.say(null,tail); } else if(r.lines){ await S.playLines(GM,who,r.lines,r); if(tail) await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       S.teMark(GM,iv,id,P,W);
