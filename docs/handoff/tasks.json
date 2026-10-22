@@ -27321,7 +27321,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 17:4x：D99 第二優先的瀏覽器驗收還沒有 BB 任務（清單 LAWWW-C 寫好、瀏覽器沒跑過）",
    "authorized": "D100（測試歸 BB）；D99 第二、第三優先",
-   "next": "【LAWWW（帳號 A）13:4x】BB 完整補跑 ALL PASS → 已驗收；另開 BUG-PHONE-LIST-SCROLL-1022（列表捲動，6d7b8ff6）；阿哲 10/1 舊存檔那則（522dbf6a）BB 另外驗 ｜ 【LAWWW（帳號 A）2026-10-22 12:0x】BB 10-21 問的三個清單差異（大一寒假 1/20 vs 1/31、大三寒假 1/19 旁白卡沒停、1/10 21:30 姊姊訊息沒自動打開）＋阿哲 10/1 ask 沒期限：LAWWW 一直沒回（漏了一天）→ 子代理對照程式查中，查完回 BB 更正後的清單；BB 先做大一、大三寒假除夕以後到開學的完整補跑（D99 第二優先排在 v9.10.6 清單前面） ｜ 照清單順序走；有問題列重現步驟給 LAWWW",
+   "next": "【LAWWW（帳號 A）14:0x】阿哲 10/1 舊存檔那則（522dbf6a）BB 驗過：第一條線 cd262656 PASS；大一寒假、大三寒假（Y1W、Y3W）舊底檔「週六中秋烤肉」從 27 次變 0 次，手機自己打開的只剩那個假期自己的訊息 ｜ 【LAWWW（帳號 A）13:4x】BB 完整補跑 ALL PASS → 已驗收；另開 BUG-PHONE-LIST-SCROLL-1022（列表捲動，6d7b8ff6）；阿哲 10/1 舊存檔那則（522dbf6a）BB 另外驗 ｜ 【LAWWW（帳號 A）2026-10-22 12:0x】BB 10-21 問的三個清單差異（大一寒假 1/20 vs 1/31、大三寒假 1/19 旁白卡沒停、1/10 21:30 姊姊訊息沒自動打開）＋阿哲 10/1 ask 沒期限：LAWWW 一直沒回（漏了一天）→ 子代理對照程式查中，查完回 BB 更正後的清單；BB 先做大一、大三寒假除夕以後到開學的完整補跑（D99 第二優先排在 v9.10.6 清單前面） ｜ 照清單順序走；有問題列重現步驟給 LAWWW",
    "xai": {
     "spec": "docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md；src/holff3d.js、src/home3d.js（合併 92030b76）；tests/holiday_ff_unit.js",
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
@@ -29234,7 +29234,7 @@
    "title": "瀏覽器驗收 v9.10.6 的東西（開發分支 91c5c7ea）：AA296、可昕慢慢分手（AA351／AA384／E 節）、芷若×子晴（AA_232／AA_385、曼谷）、可昕國外訊息與她那邊的時間、ZR_FY 尾聲、KAI-PICKUP、LAWWW2 天花板第二／四版與 118 巷、沛珊長裙樓梯、美國校園候車亭、nm3 短髮、公館斜亮條、遠距離路人低面數",
    "area": "TEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -29248,7 +29248,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
    "authorized": "D100（測試歸 BB）、D110",
-   "next": "【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "next": "【LAWWW（帳號 A）14:0x】BB 14:0x：第 2 項（可昕慢慢分手 kxdrift，lw6 9f9e13cc）ALL PASS，四段（說一聲／不說／修補／分開）沒有 JS 例外；第 13 項 AA_364 5-5 味噌湯拿掉＝開發分支 732237be（BB 的 wzshop_probe d98a6749 已照改）；第 14 項 aa386a（15 個情境）、aa386b（9 個）寫好（企劃線 e8ed6f20），aa386c（3-3、12/24、4-2、階梯 S5-L8／S6-L1）接著寫；第 7～12 項畫面檢查搬到第二條線 ｜ 【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
    "xai": {
     "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
     "branch": "claude/story-planning（BB_219）",
