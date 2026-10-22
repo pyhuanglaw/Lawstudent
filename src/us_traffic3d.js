@@ -37,7 +37,8 @@ const US_TRAFFIC=(function(){
     c.x+=c.v*c.dir*dt; if(c.x*c.dir>S.X1){ let nx=-S.X1*c.dir; if(ctx.cars) for(const o of ctx.cars){ if(o!==c&&o.lane===c.lane&&(o.x-nx)*c.dir<S.MINGAP+0.5) nx=o.x-(S.MINGAP+0.5)*c.dir; } c.x=nx; }   /* 開出邊界：從另一頭回來（入口有車就排在它後面，邊界外看不到） */
     return c.x; };
   /* 進超市街時開始（story3d.js 生成路人那一段呼叫）：讀 bldg.us_cars，複製車子的節點、上色、車燈開著，放進 E.extras（每一格 update） */
-  S.start=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, L=MSL(); if(!E||!E.zone||E.zone.id!=='us_market_street'||!L||typeof ASSETS==='undefined'||!ASSETS.loadOne) return false;
+  S.zoneId=z=>z?(z.id||(z.def&&z.def.id)||null):null;   /* 遊戲的 E.zone 沒有 id、在 def.id（BB 10-22 10:13：原本看 E.zone.id＝永遠不開車，配置等紅燈的車也不畫＝馬路是空的）*/
+  S.start=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, L=MSL(); if(!E||!E.zone||S.zoneId(E.zone)!=='us_market_street'||!L||typeof ASSETS==='undefined'||!ASSETS.loadOne) return false;
     const zone=E.zone, init=S.initial(L,G?G.hour:12,G?G.day:0); if(!init.length) return false;
     const clock={t:S.T0,obj:new THREE.Group()}; clock.update=dt=>{ clock.t+=Math.min(dt,0.1); };
     ASSETS.loadOne('bldg.us_cars').then(src=>{ if(!src||!src.scene||E.zone!==zone) return; const cars=[], paint={}; let k=0;
