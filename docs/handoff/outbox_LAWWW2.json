@@ -1830,12 +1830,12 @@
     "tools/blender/env_second/airport_backdrop.py",
     "docs/art-rebuild/second_ai/test_shots/airport_1021/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "19 換匯處背光面還偏暗（下一輪看要不要調淺牆色）",
-   "next": "LAWWW 套 airport_cam_night.diff 第二版（us3d.js＋tests/airport_cam_unit.js；對 6b6ecd80 乾淨）＋換 airport_dep／arr.glb（bc5b08a8），跑 airport_cam_unit 和美國區域那 11 支",
+   "next": "已接進開發分支 1c53b397（LAWWW 10-22）；單元測試 LAWWW 等 v9.10.4 發布前的瀏覽器測試跑完再跑",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "note": "ART-VAC-AIRPORT-1021（VAC-A2 的機場）：鏡頭牆＋網點透空（區域實體 seeThru）、晚上窗外換夜景、報到島背牆烤漆灰＋鋁收邊；j15b 04、07 修好"
   },
   {
@@ -1846,12 +1846,12 @@
     "docs/art-rebuild/second_ai/patches/us_lamp_pools.diff",
     "docs/art-rebuild/second_ai/test_shots/us_lamp_pools_1022/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "",
-   "next": "LAWWW 套 us_lamp_pools.diff（us3d.js＋tests/us_lamp_pools_unit.js；對 6b6ecd80 乾淨、和機場 patch 一起套也乾淨），跑 us_lamp_pools_unit、nav_us_unit",
+   "next": "已接進開發分支 1c53b397（LAWWW 10-22）；單元測試 LAWWW 等 v9.10.4 發布前的瀏覽器測試跑完再跑",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "note": "US-MS-NIGHT-1021：超市街停車場燈桿、眼鏡蛇頭路燈、公寓社區路燈的地面光圈（E.lampGlows，入夜才開）；遊戲內 20:00 前後 4 張"
   },
   {
@@ -1863,12 +1863,12 @@
     "docs/art-rebuild/second_ai/patches/tone_neutral.diff",
     "docs/art-rebuild/second_ai/test_shots/tone_1022/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "iPhone 實機顏色、雨天陰天沒拍",
-   "next": "LAWWW 挑一個 patch 套（建議 tone_neutral_default.diff：預設 Neutral 曝光 ×1.3，?tone=aces 回到舊的；對 7e00ad05、c617b2e0 乾淨，src/engine3d.js 3 行），跑 nav_levels_unit、nav_buildings_unit，發布前畫面測試照平常",
+   "next": "LAWWW 套 tone_neutral_default.diff，已接進開發分支 154c639e（預設 Neutral，?tone=aces 回到舊的）；LAWWW 說下一版發布時告訴使用者",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "note": "第 2 批全域光影：21 個同鏡頭 A/B（Playwright＋SwiftShader）：亮度差 ±0.03、沒有變白，彩度高 20～50%（陽光下的臉 0.30→0.37、椰林大道晚上 0.43→0.65）；美術總監決定建議改預設。人物材質 C.LOOK、燈光表沒動"
   },
   {
@@ -1881,13 +1881,13 @@
     "tools/blender/char/heroine_02.py",
     "docs/art-rebuild/second_ai/char_review/zhiruo_hair_1022/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "波浪比參考圖規則；斜看遠的那一邊有一兩條側著的髮片反光；轉頭時頭和上胸之間的頭髮會拉伸（沒有彈簧骨）；劇情鏡頭、真機沒看過",
-   "next": "LAWWW 驗收（D100 第 6 點）後換一個檔 assets/models/char/bl_heroine_02.vrm（同檔名，manifest、程式、眼鏡都不用改；7e00ad05 已經用 Blender 版當預設），人物回歸照平常（Café 吧台、座位、圍裙）",
+   "next": "LAWWW 驗收通過（D100 第 6 點，10-22 05:1x：到肩下微捲、側分、深棕，不再像頭盔），已接進開發分支 154c639e",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "使用者 10-22「林芷若3d好憨」的下一輪（LAWWW 04:4x 驗收 888831c4：臉通過、頭髮像頭盔到下巴；BB_221 同意見）。分線 −4°→+12°（人物的左邊，第八版左右做反）、及肩到肩下、頭頂 2.2 cm＋太陽穴蓬、波浪波長 7.5 cm 照高度對齊、深棕；六個版本 h9a～h9f 遊戲渲染器同鏡頭比，採用 h9f"
+   "ack": "ACTIONED",
+   "note": "使用者 10-22「林芷若3d好憨」的下一輪（LAWWW 04:4x 驗收 888831c4：臉通過、頭髮像頭盔到下巴；BB_221 同意見）。分線 −4°→+12°（人物的左邊，第八版左右做反）、及肩到肩下、頭頂 2.2 cm＋太陽穴蓬、波浪波長 7.5 cm 照高度對齊、深棕；六個版本 h9a～h9f 遊戲渲染器同鏡頭比，採用 h9f｜LAWWW 驗收通過、接進 154c639e"
   },
   {
    "task": "ART-WZ0",
@@ -1909,6 +1909,26 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "溫州街舊店面翻修第二、三批：照 AA_164 7b 補缺的層、公館騎樓 39 樣門口雜物、販賣機展示窗；門口雜物導航阻擋（正式模型接上才擋）。j19c 回歸 ALL PASS、j19d 遊戲內前後 12 張"
+  },
+  {
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/second-ai-env-art",
+   "sha": "b874f99a",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_market_cam.diff",
+    "docs/art-rebuild/second_ai/patches/us_ms_seethru.diff",
+    "assets/models/env/second_ai/us_asian_market.glb",
+    "assets/models/env/second_ai/us_asian_market.json",
+    "tools/blender/env_second/us_asian_market.py",
+    "docs/art-rebuild/second_ai/test_shots/us_market_cam_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "草原超市店裡的貨架、冷藏櫃沒有當鏡頭牆（沒量）；社區、美國校園的燈桿還沒標網點透空；巡場景被對話框蓋住的幾張還沒重拍；真機沒看過",
+   "next": "LAWWW 套 us_market_cam.diff、us_ms_seethru.diff（只動 src/us3d.js＋兩支新測試；對 7e00ad05 乾淨，和 airport_cam_night.diff、us_lamp_pools.diff 任何順序一起套都乾淨）＋換 us_asian_market.glb／.json（47eb0d5a、baf53ffd），跑 us_market_cam_unit、us_ms_seethru_unit 和美國其他 8 支單元測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "US-PATROL-1021（巡場景 j14 看到的）：①草原超市、亞洲超市一進門鏡頭在店外隔著黑色門框（P1）→草原超市四面外牆當鏡頭牆、亞洲超市正面的玻璃／框／門歸南牆一起淡出；②超市街下公車站牌柱擋住人（P2）→usms_vc_metal 網點透空。單元測試修改前 6＋1 FAIL、修改後 ALL PASS；遊戲內前後 j29"
   }
  ]
 }
