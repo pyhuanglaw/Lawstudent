@@ -93,6 +93,7 @@ MAT = {
     'plant':   pbr('plant', None, tint=srgb('#4f7a46'), rough=0.85),
     'soil':    pbr('soil', None, tint=srgb('#4a3a2c'), rough=0.95),
 }
+MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
 
 # ---------------- 幾何 ----------------
 PM = PL.materials('lz_')   # 盆栽的材質（樹皮、土、葉子）

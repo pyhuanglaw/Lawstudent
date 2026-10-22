@@ -17146,9 +17146,9 @@
    "title": "LICENSES.md 缺漏：ntu_gym_ceremony.webp、dorm_room4.glb（兩條分支都沒有）；gym_arena.glb、機車行道具組兩筆（只有 funny 有）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】LICENSES.md 補 ntu_gym_ceremony.webp、dorm_room4.glb、gym_arena.glb、機車行道具組（來源、作者、授權照各交付紀錄） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：LICENSES.md 補三筆（來源、作者、授權照各交付紀錄）；機車行道具組進開發分支時一起補 ｜ 照各交付的來源與授權補列；機車行道具組跟 ART-BG-AA185 背景一起進開發分支時補",
+   "next": "【LAWWW 帳號 A 10-22 09:3x】LAWWW2 63d4a3e3 licenses_gaps_1022.diff 整合：dorm_room4.glb、四張 Poly Haven 貼圖（附作者）、機車行道具組都有列；ntu_gym_ceremony.webp、gym_arena.glb 本來就有 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】LICENSES.md 補 ntu_gym_ceremony.webp、dorm_room4.glb、gym_arena.glb、機車行道具組（來源、作者、授權照各交付紀錄） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：LICENSES.md 補三筆（來源、作者、授權照各交付紀錄）；機車行道具組進開發分支時一起補 ｜ 照各交付的來源與授權補列；機車行道具組跟 ART-BG-AA185 背景一起進開發分支時補",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -17175,7 +17175,8 @@
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "2026-10-22 09:3x LAWWW 帳號 A 核對 LICENSES.md（開發分支，套上 LAWWW2 63d4a3e3 licenses_gaps_1022.diff 以後）：dorm_room4.glb、Poly Haven metal_plate／green_metal_rust（Rob Tuytel）、rusty_painted_metal／rubber_tiles（Amal Kumar）、機車行道具組各一列；ntu_gym_ceremony.webp 一列、gym_arena.glb 兩列本來就有。只改文件，沒有程式與畫面"
   },
   {
    "id": "V1-AA194-L",
@@ -29004,7 +29005,7 @@
    "id": "ART-CEIL-LAWWW-ROOMS-1022",
    "title": "201 教室（classroom_201）、男宿門廳（dorm_hall）、霖澤館二樓（linze_interior）、萬才館二樓（wancai_interior）：鏡頭拉到最遠最陡時天花板整片白——天花板 cull＋朝下、重新匯出（程式不用改；同 l118_arcade 的做法）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "art",
    "first": {
@@ -29019,7 +29020,7 @@
    },
    "source": "LAWWW2 08:34（docs/art-rebuild/second_ai/test_shots/l118_arcade_1022/README.md 其他 26 個室內的盤點）",
    "authorized": "D100、D108（3D 美術與場景歸 LAWWW2）；D110",
-   "next": "LAWWW2 改 tools/blender/classroom_201.py、dorm_hall.py、linze_interior.py、wancai_interior.py 的天花板（單面朝下＋cull）、重新匯出 GLB；交件附遊戲內前後；放 v9.10.6",
+   "next": "【LAWWW 帳號 A 10-22 09:3x】LAWWW2 63d4a3e3 交件、開發分支整合（四份 GLB 單面、201 T 型骨架只留底面；room_ceiling_unit 修改前 FAIL 8 → ALL PASS）；放 v9.10.6；BB 瀏覽器看：四間拉到最遠最陡看得進房間、預設鏡頭不變 ｜ LAWWW2 改 tools/blender/classroom_201.py、dorm_hall.py、linze_interior.py、wancai_interior.py 的天花板（單面朝下＋cull）、重新匯出 GLB；交件附遊戲內前後；放 v9.10.6",
    "xai": {
     "spec": "l118_arcade_1022/README.md 的天花板盤點；同 room_ceiling_unit 的檢查",
     "branch": "claude/second-ai-env-art",

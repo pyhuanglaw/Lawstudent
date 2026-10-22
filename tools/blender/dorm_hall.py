@@ -111,6 +111,7 @@ MAT = {
     'white':   pbr('dm_white', None, tint=srgb('#e9e7e2'), rough=0.5),
     'rubber':  pbr('dm_rubber', None, tint=srgb('#3a3f46'), rough=0.8),
 }
+MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
 def imgmat(name, fn, rough=0.8, emit=0.0):
     """本作畫的圖（tools/blender/env_second/textures/gen/）：交誼廳的公告、時鐘、標籤、地毯（dorm_lounge_tex.py）"""
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bsdf = N['Principled BSDF']

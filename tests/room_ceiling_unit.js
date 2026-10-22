@@ -3,7 +3,7 @@
 //   （118 巷九間店、日本宿舍房間、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A、機場出境／入境、美國大超市原本都是雙面、朝上：日本宿舍房間天花板 2.5 m、預設鏡頭 2.84 m，一進門就看到天花板的上面）。
 //   單面朝下：從下面看得到、鏡頭在上面時看得穿（和 zones3d.js room() 的天花板、溫州街店家、便利商店一樣）。
 // 檢查（每一份 GLB）：
-//   ①天花板（材質名字結尾 ceiling、kceiling、ceiling_boards、_deck（美國大超市的頂板），那個材質最上面 0.3 m 以內的三角形：一盞茶屋的天花板木板也用在 0.82 m 高的檯面）都是單面、每個三角形朝下；
+//   ①天花板（材質名字結尾 ceiling、kceiling、ceiling_boards、_deck（美國大超市的頂板）、cls_grid（201 教室天花板的 T 型骨架：原本是方盒，鏡頭在上面時整間教室蓋著白格子），那個材質最上面 0.3 m 以內、和 2 m 以上水平的三角形：一盞茶屋的天花板木板也用在 0.82 m 高的檯面；男宿門廳一樓的天花板比二樓的低）都是單面、每個三角形朝下；
 //   ②天花板那一層（最低的天花板高度往上）沒有雙面的「一大片」水平面：單一三角形 > 3.5 m²、長寬都超過 1.5 m（天花板最小的一一八茶飲一片 6 m²；
 //     燈具、牆頂、鋁框是細長條，霖澤館 3F／4F 電梯井的頂蓋 2.9 m² 是實心量體的剖面，不算）。
 // 用法：node tests/room_ceiling_unit.js
@@ -11,6 +11,7 @@ const fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..'), DIR='assets/models/env/second_ai/';
 const GLBS=['l118_dian','l118_self','l118_tea','l118_home','l118_cafe2','l118_pasta','l118_korea','l118_omu','l118_noodle2',
   'jp_room','linze_202','linze_3f','linze_4f','wancai_multi','wancai_sema','airport_arr','airport_dep','us_market',
+  '../classroom_201','../dorm_hall','../linze_interior','../wancai_interior',   /* LAWWW 的四份（assets/models/env/；ART-CEIL-LAWWW-ROOMS-1022）*/
   'wz_print_interior','wz_lin_interior','wz_teishoku_interior','wz_brunch_interior','wz_teahouse_interior','cvs_interior','cafe_interior','noodle_interior','bookstore_interior','dorm_interior','dorm_room4'];
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 /* 讀 GLB：每個網格節點（套上節點的位移、旋轉、縮放）的三角形、材質名字、單雙面 */
@@ -31,12 +32,13 @@ function glb(rel){ const b=fs.readFileSync(path.join(ROOT,rel)), n=b.readUInt32L
 const nrm=t=>{ const u=[t.b[0]-t.a[0],t.b[1]-t.a[1],t.b[2]-t.a[2]], w=[t.c[0]-t.a[0],t.c[1]-t.a[1],t.c[2]-t.a[2]], n=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]], l=Math.hypot(...n)||1; return {n:n.map(q=>q/l),area:l/2}; };
 for(const id of GLBS){ const rel=DIR+id+'.glb';
   if(!fs.existsSync(path.join(ROOT,rel))){ check(id+'：有正式模型',false,rel); continue; }
-  const T=glb(rel), cm=T.filter(t=>/(ceiling(_boards)?|_deck)$/.test(t.mat)), top={}; for(const t of cm) top[t.mat]=Math.max(top[t.mat]||-1e9,t.a[1],t.b[1],t.c[1]);
-  const ce=cm.filter(t=>Math.min(t.a[1],t.b[1],t.c[1])>=top[t.mat]-0.3);
+  const T=glb(rel), cm=T.filter(t=>/(ceiling(_boards)?|_deck|^cls_grid)$/.test(t.mat)), top={}; for(const t of cm) top[t.mat]=Math.max(top[t.mat]||-1e9,t.a[1],t.b[1],t.c[1]);
+  const ceTop=cm.filter(t=>Math.min(t.a[1],t.b[1],t.c[1])>=top[t.mat]-0.3);
+  const ce=cm.filter(t=>{ const y=Math.min(t.a[1],t.b[1],t.c[1]); return y>=top[t.mat]-0.3||(y>=2.0&&Math.abs(nrm(t).n[1])>0.97); });   /* 多層樓：2 m 以上每一層的天花板（男宿門廳一樓）也要單面朝下 */
   if(!ce.length){ check(id+'：有天花板（材質名字結尾 ceiling、ceiling_boards）',false); continue; }
-  const bad=ce.filter(t=>t.ds||nrm(t).n[1]>-0.99), mats=[...new Set(ce.map(t=>t.mat+(t.ds?'（雙面）':'')))];
+  const bad=ce.filter(t=>t.ds||nrm(t).n[1]>-0.9),   /* 朝下：法線離正下方 25° 以內（機場出境的弧形天花板有 8°～14° 斜的）*/ mats=[...new Set(ce.map(t=>t.mat+(t.ds?'（雙面）':'')))];
   check(id+'：天花板單面、朝下',bad.length===0,bad.length?(bad.length+'／'+ce.length+' 個三角形不是；'+mats.join('、')):mats.join('、'));
-  const H=Math.min(...ce.map(t=>Math.min(t.a[1],t.b[1],t.c[1])));
+  const H=Math.min(...ceTop.map(t=>Math.min(t.a[1],t.b[1],t.c[1])));
   let mx=0, who=''; for(const t of T){ if(!t.ds||Math.min(t.a[1],t.b[1],t.c[1])<H-0.02) continue; const {n,area}=nrm(t), ex=Math.max(t.a[0],t.b[0],t.c[0])-Math.min(t.a[0],t.b[0],t.c[0]), ez=Math.max(t.a[2],t.b[2],t.c[2])-Math.min(t.a[2],t.b[2],t.c[2]); if(Math.abs(n[1])>0.97&&Math.min(ex,ez)>1.5&&area>mx){ mx=area; who=t.node+'／'+t.mat+' '+ex.toFixed(2)+'×'+ez.toFixed(2)+' m'; } }
   check(id+'：天花板那一層沒有雙面的一大片水平面（單一三角形 ≤ 3.5 m²，長寬都超過 1.5 m 的才算）',mx<=3.5,'天花板 '+H.toFixed(2)+' m；最大一片 '+mx.toFixed(2)+' m²'+(who?'（'+who+'）':'')); }
 console.log(fails?('FAIL '+fails):'ALL PASS'); process.exit(fails?1:0);
