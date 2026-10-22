@@ -1579,34 +1579,36 @@
   {
    "task": "BUG-CAFE-FLOOR-MIRROR-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "2a682738",
+   "sha": "2ccd1e60",
    "files": [
-    "tools/blender/env_second/cafe_layout.py",
     "assets/models/env/second_ai/cafe_interior.glb",
-    "assets/models/env/second_ai/cafe_interior.json"
+    "assets/models/env/second_ai/cafe_interior.json",
+    "docs/art-rebuild/second_ai/test_shots/indoor_seethru_1022/"
    ],
-   "state": "WIP",
-   "remaining": "遊戲內重拍（佇列 j13）→ 正式交件",
-   "ack": "ACK",
-   "note": "原本 state：WIP：Café 自流坪地板粗糙度貼圖匯出成 0.004（鏡面，吊燈下面反光成白點）→ 0.78；只換 GLB；LAWWW 21:19Z：重拍看完和 412 一起交",
-   "next": "LAWWW2：遊戲內重拍（佇列 j13）看完，和 412 洗手間一起交件",
+   "state": "已交付",
+   "remaining": "真機沒看過",
+   "ack": "DELIVERED",
+   "note": "原本 state：WIP：Café 自流坪地板粗糙度貼圖匯出成 0.004（鏡面，吊燈下面反光成白點）→ 0.78；只換 GLB；LAWWW 21:19Z：重拍看完和 412 一起交；10-22 01:4x 交件：j13 遊戲內地板白點沒了（模型 2a682738）",
+   "next": "LAWWW 換 cafe_interior.glb＋json（和 cafe_seethru.diff 第二版一起）",
    "receiver": "LAWWW",
-   "noDirectIntegrate": true
+   "noDirectIntegrate": false
   },
   {
    "task": "ART-ECON-3D-GAP-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "396adcbb",
+   "sha": "2ccd1e60",
    "files": [
-    "docs/art-rebuild/second_ai/patches/dorm_seethru.diff"
+    "docs/art-rebuild/second_ai/patches/dorm_seethru.diff",
+    "docs/art-rebuild/second_ai/test_shots/dorm412_1021/",
+    "docs/art-rebuild/second_ai/test_shots/indoor_seethru_1022/"
    ],
-   "state": "WIP",
-   "remaining": "遊戲內重拍（佇列 j12）→ 正式交件",
-   "ack": "ACK",
-   "note": "宿舍 412；原本 state：WIP：洗手間頂板（2bc9992d）沒有用、已撤回；改成洗手間牆磚、地磚加進 DORM_BOUNCE（併進 dorm_seethru.diff 第二版，對 d22748f5 乾淨；tests/dorm_seethru_unit.js 修改前 2 FAIL、修改後 ALL PASS）；LAWWW 21:19Z：重拍看完一起交",
-   "next": "LAWWW2：遊戲內重拍（佇列 j12）看完交 dorm_seethru.diff 第二版",
+   "state": "已交付",
+   "remaining": "上舖網點範圍大、有點吵（engine3d uSeeR）；真機沒看過",
+   "ack": "DELIVERED",
+   "note": "宿舍 412；原本 state：WIP：洗手間頂板（2bc9992d）沒有用、已撤回；改成洗手間牆磚、地磚加進 DORM_BOUNCE（併進 dorm_seethru.diff 第二版，對 d22748f5 乾淨；tests/dorm_seethru_unit.js 修改前 2 FAIL、修改後 ALL PASS）；LAWWW 21:19Z：重拍看完一起交；10-22 01:4x 交件：第三版加 z.seeThru（室內透空從來沒開過的 bug）；j12 洗手間白磁磚、j21 大一 203 坐著鏡頭在北看得到人",
+   "next": "LAWWW git apply dorm_seethru.diff（第三版，對 77554430 乾淨）",
    "receiver": "LAWWW",
-   "noDirectIntegrate": true
+   "noDirectIntegrate": false
   },
   {
    "task": "ART-ECON-3D-GAP-1021",
@@ -1729,6 +1731,26 @@
    "ack": "DELIVERED",
    "note": "四棟拱廊大門＋博雅東側一樓；原本 state：已交件（2026-10-21 23:3x）：READY_FOR_ART_REVIEW；只換 GLB、不用改程式；四棟大門 30519553（雙開玻璃木門＋補漏光）、博雅東側一樓玻璃帶 0343b994；遊戲內正面前後對照 8 張＋博雅 2 張（j8、j9）；2026-10-22 01:1x 傳 LAWWW（DELIVERED）；模型 30519553（大門）、0343b994（博雅）；說明與前後對照 223252e5",
    "noDirectIntegrate": false
+  },
+  {
+   "task": "ART-ECON-3D-GAP-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "2ccd1e60",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/cafe_seethru.diff",
+    "assets/models/env/second_ai/cafe_interior.glb",
+    "assets/models/env/second_ai/cafe_interior.json",
+    "tools/blender/env_second/cafe_layout.py",
+    "tools/blender/env_second/cafe_interior.py",
+    "docs/art-rebuild/second_ai/test_shots/indoor_seethru_1022/"
+   ],
+   "state": "已交付",
+   "remaining": "電線變點線後還看得到一點；真機沒看過",
+   "next": "LAWWW git apply cafe_seethru.diff（第二版，對 77554430 乾淨）＋換 cafe_interior.glb＋json",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "Café 吊燈電線網點透空＋吊燈光暈白天不亮（71ca706a 起）；第二版加 z.seeThru（區域實體）；j21 遊戲內電線變點線"
   }
  ]
 }
