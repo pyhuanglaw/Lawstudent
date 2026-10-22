@@ -327,6 +327,5 @@ const ZRZQ=(function(){
     const k=A&&Array.isArray(A.keys)?A.keys.find(x=>x&&x.day==='07-05'):null; if(k&&Array.isArray(k.lines)&&!k._zrzq){ k.lines.push(G=>S.bkkLines(G)); k._zrzq=true; } }
   /* 尾聲：結局 B（明信片）、C（她回來再說／我們還沒想好）那一行 */
   if(typeof PG!=='undefined'&&Array.isArray(PG.EPI_AFTER_CG)) PG.EPI_AFTER_CG.push(async GM=>{ const t=S.endLine(GM.G); if(t) await GM.say(null,t); });
-  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ const M=SOCIAL.MEMORY_LABEL; if(!M.ZR_WITH_ZQ) M.ZR_WITH_ZQ='她和子晴在交往'; if(!M.ZQ_WITH_ZR) M.ZQ_WITH_ZR='她和芷若在交往'; }
   return S;
 })();

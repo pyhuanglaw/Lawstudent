@@ -200,11 +200,11 @@ const ZR='heroine_02', ZQ='heroine_04';
     return [seq(Q.AGAIN.concat(Q.AGAIN_A,Q.A.slice(Q.fromA),Q.END))&&Z.state==='dating'&&G.events.done.ev_zz_serious_again===1&&!G.events.done.ev_zz_serious,J(Z)]; });
 
   /* ===================== 11 4-7 ===================== */
-  await chk('11. 4-7 只在 dating 以後：mutual_interest 的存檔 9/18 不演；交往（6/5）以後＝下一個學期第 2 週週五 9/18 14:30，一般朋友版；聽過 4-4 的第一句「妳們……真的在一起了？」；祐廷知道（confirmed）',async()=>{
+  await chk('11. 4-7 只在 dating 以後：mutual_interest 的存檔 9/18 不演；交往（6/5）以後＝下一個學期第 2 週週五 9/18 14:30，一般朋友版；聽過 4-4 的第一句「妳們……真的在一起了？」；祐廷知道（confirmed）、人物頁兩人各多一條「她和○○在交往」',async()=>{
     fresh('2026-09-18',14.6,'campus'); both('FAM'); zz({state:'mutual_interest',since:0,lastDay:D('2026-06-05')}); const a=await tick();
     fresh('2026-09-18',14.6,'dorm',{YT_HEARD_ZZ:true}); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',lastDay:D('2026-06-05'),yt:'mutual'}); const b=await tick(); const Z=G.flags.ZZ;
     const want=[['yt',L.LEARN.heard]].concat(L.LEARN.friend.slice(1));
-    return [!a&&b&&said[0].t===L.IN.serious.out&&seq(want)&&Z.yt==='confirmed'&&Z.ev.ev_zz_yt_learns&&SOCIAL.has(ZR,'ZR_WITH_ZQ'),J({a,b,s:said.slice(0,3)})]; });
+    return [!a&&b&&said[0].t===L.IN.serious.out&&seq(want)&&Z.yt==='confirmed'&&Z.ev.ev_zz_yt_learns&&SOCIAL.has(ZR,'ZR_WITH_ZQ')&&SOCIAL.has(ZQ,'ZQ_WITH_ZR')&&SOCIAL.MEMORY_LABEL.ZR_WITH_ZQ==='她和子晴在交往'&&SOCIAL.MEMORY_LABEL.ZQ_WITH_ZR==='她和芷若在交往',J({a,b,s:said.slice(0,3)})]; });
   await chk('11. 4-7：兩人一起被祐廷傷害過（§22）＝「干你屁事」那一版；沒聽過 4-4＝「妳們……在一起了？」',async()=>{
     fresh('2026-09-18',14.6,'campus',{ZQ_ZR_ENDED_DAY:D('2025-12-01')}); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',lastDay:D('2026-06-05')}); await tick();
     return [seq(L.LEARN.hurt)&&has('干你屁事。'),J(txt())]; });
