@@ -336,13 +336,16 @@ GF_DAY = """(()=>{ try{ const R=TERMEND.rec(GAME.G,'Y4S1'); const d=(R.gfDay||{}
 @guard
 async def s_gf_an(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-12-20', 21.5, 'dorm', preflags=TWF, dating=('heroine_01',), label=sid + '（臺灣路線、和以安交往中；2028-12-20（三）21:30 宿舍）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-12-20', 21.5, 'dorm', preflags=dict(TWF, **BASEF, Y4_PATH_DAY={'$day': '2028-06-20'}), dating=('heroine_01',), label=sid + '（臺灣路線、和以安交往中；2028-12-20（三）21:30 宿舍）')
     try:
         info = await pg.evaluate(TE_INFO); res['info'] = info; say('   %s 學期末時段／期末考：%s' % (sid, J(info, 900)))
         run.note('%s：【讀資料】大四上學期末時段 %s～%s；你的期末考（最後一科）%s；照 AA_375 第 6 項，邀約從 %s 起；以安的期末約會 %s' % (
             sid, info['from'], info['to'], [f['d'] for f in info['finals'] if isinstance(f, dict)], info['examStart'], J(info['gf'], 200)))
         found = None; seen = []
-        for k in range(12):
+        # 2026-10-22（候選 364dabe0 第一輪）：12 輪不夠——考試那兩天白天的床只有「小睡」，一輪只過半小時到一個半小時，12/23 中午就用完了（排好的日子是 12/25）。
+        # 改成 24 輪；最後一科考完以後，中午看完手機就「跳過時間」到晚上再睡（不跳考試那幾天，免得錯過考試）
+        lastfin0 = max([f['day'] for f in info['finals'] if isinstance(f, dict)] or [-1])
+        for k in range(24):
             st = await pg.evaluate(STATE)
             if st['h'] < 12.1:
                 await skip(pg, cdp, '等到中午', sid)
@@ -353,6 +356,7 @@ async def s_gf_an(p, run, base, sid, out):
             say('   %s %s %.2f：以安的期末邀約 %d 則；排好的日子 %s' % (sid, st['key'], st['h'], len(M), J(gd)))
             if M: found = M; break
             if st['day'] > info['toDay']: break
+            if st['day'] > lastfin0 and st['h'] < 19.5: await skip(pg, cdp, '等到晚上', sid)
             await sleep_night(pg, cdp, run, sid)
         res['seen'] = seen; res['msg'] = found
         run.check('%s：大四上學期末，以安傳了期末約會的邀約' % sid, bool(found), J(seen, 600))
