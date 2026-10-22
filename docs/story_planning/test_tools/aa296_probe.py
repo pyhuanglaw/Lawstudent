@@ -703,6 +703,17 @@ ZR_TW = ['奕廷約我去看電影。很老的那部，《秋天的晚飯》。'
 ZRS = ['heroine_02']
 
 
+async def counter_talk(pg, cdp, run, label):
+    """芷若在吧檯後面上班：照玩家走到吧檯的點餐點（店員在班時那一點的按鈕＝和店員說話，engine3d.js「店員擋住了吧檯的點餐點」）按互動，點完對話"""
+    it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.counter==='cafe'&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    if not it: return [], ''
+    await L.go_to(pg, cdp, run, it[0], it[1] + 0.9, 1.2, '吧檯點餐點', max_s=180); await pg.wait_for_timeout(1200)
+    lab = await pg.evaluate(LAB); say('   %s 吧檯前的按鈕：「%s」' % (label, lab))
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+    ch = await drive(pg, cdp, run, picks=['不用了'], max_s=150, label=label)
+    return ch, lab
+
+
 async def zr_cafe(pg, cdp, run, sid, res, want, other):
     await settle(pg, cdp, run, sid)
     ok, tries = await go_cafe(pg, cdp, run, sid); res['go'] = [ok, tries]
@@ -718,7 +729,8 @@ async def zr_cafe(pg, cdp, run, sid, res, want, other):
     if not pos: return
     said = []; labs = []
     for k in range(2):
-        n0 = await log_len(pg); ch, lab = await talk(pg, cdp, run, ZRS, ('芷若',), label=sid); T = texts(await log_since(pg, n0)); said.append(T); labs.append(lab)
+        n0 = await log_len(pg); staff = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc.heroine_02; return !!(n&&n.staff==='cafe'); })()")
+        ch, lab = await (counter_talk(pg, cdp, run, sid) if staff else talk(pg, cdp, run, ZRS, ('芷若',), label=sid)); T = texts(await log_since(pg, n0)); said.append(T); labs.append(lab)
         if any(t in T for t in want + other): break
     res['said'] = said; res['labs'] = labs; allT = [t for T in said for t in T]
     dn = await pg.evaluate("!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_zhiruo_f3_cafe)"); res['done'] = dn
