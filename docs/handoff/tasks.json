@@ -27306,7 +27306,7 @@
    "title": "瀏覽器驗收寒暑假快轉（D99 第二優先）：docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md 第一節（每個假期成績公布那天起：到下一個有事的日子／過三天／過一週、中途收到要回的訊息停下打開手機、除夕回家、摘要日一句）",
    "area": "TEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -27320,7 +27320,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 17:4x：D99 第二優先的瀏覽器驗收還沒有 BB 任務（清單 LAWWW-C 寫好、瀏覽器沒跑過）",
    "authorized": "D100（測試歸 BB）；D99 第二、第三優先",
-   "next": "照清單順序走；有問題列重現步驟給 LAWWW",
+   "next": "【LAWWW（帳號 A）2026-10-22 12:0x】BB 10-21 問的三個清單差異（大一寒假 1/20 vs 1/31、大三寒假 1/19 旁白卡沒停、1/10 21:30 姊姊訊息沒自動打開）＋阿哲 10/1 ask 沒期限：LAWWW 一直沒回（漏了一天）→ 子代理對照程式查中，查完回 BB 更正後的清單；BB 先做大一、大三寒假除夕以後到開學的完整補跑（D99 第二優先排在 v9.10.6 清單前面） ｜ 照清單順序走；有問題列重現步驟給 LAWWW",
    "xai": {
     "spec": "docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md；src/holff3d.js、src/home3d.js（合併 92030b76）；tests/holiday_ff_unit.js",
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
@@ -29225,6 +29225,34 @@
    },
    "source": "BB 帳號 A 10-22 11:07 RELEASE-9105 判定附註",
    "authorized": "既有授權（BUG）"
+  },
+  {
+   "id": "RELEASE-9106-TEST",
+   "title": "瀏覽器驗收 v9.10.6 的東西（開發分支 91c5c7ea）：AA296、可昕慢慢分手（AA351／AA384／E 節）、芷若×子晴（AA_232／AA_385、曼谷）、可昕國外訊息與她那邊的時間、ZR_FY 尾聲、KAI-PICKUP、LAWWW2 天花板第二／四版與 118 巷、沛珊長裙樓梯、美國校園候車亭、nm3 短髮、公館斜亮條、遠距離路人低面數",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "各學期（見各項）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
+   "authorized": "D100（測試歸 BB）、D110",
+   "next": "排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "xai": {
+    "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
+    "branch": "claude/story-planning（BB_219）",
+    "acceptance": "每項 PASS／FAIL＋重現步驟＋截圖；Playwright 不是 iPhone",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
