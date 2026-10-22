@@ -1788,13 +1788,13 @@
     "tools/blender/char_second/glasses_peishan.py",
     "docs/art-rebuild/second_ai/char_review/peishan_1022/README.md"
    ],
-   "state": "已交付",
-   "remaining": "BB 照 D59 驗收（臉和參考圖一致；新加的另一邊瀏海改了 BB-C 10-17 第七版的決定）；遊戲內（區域、劇情鏡頭）截圖等換檔以後",
-   "next": "BB 驗收通過後 LAWWW 換兩個檔（VRM＋眼鏡 GLB 一起換，同檔名，manifest 不用改）",
-   "noDirectIntegrate": true,
+   "state": "已整合",
+   "remaining": "遊戲內（區域、劇情鏡頭）截圖等 v9.10.4 發布測試跑完；真機沒看過",
+   "next": "LAWWW 驗收通過（D100 第 6 點，10-22 04:4x）、已接進開發分支 7e00ad05，v9.10.5 發布",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "使用者 10-22 04:0x「沛珊也是（好憨）」UA-LAWWW2-1022-01：第二十七版——眼距 1.45→1.10 眼寬、眼睛放大、眉毛壓低、人中下巴縮短、臉收窄、兩邊瀏海、眼鏡 84→72.7 mm。READY_FOR_ART_REVIEW"
+   "ack": "ACTIONED",
+   "note": "使用者 10-22 04:0x「沛珊也是（好憨）」UA-LAWWW2-1022-01：第二十七版——眼距 1.45→1.10 眼寬、眼睛放大、眉毛壓低、人中下巴縮短、臉收窄、兩邊瀏海、眼鏡 84→72.7 mm。READY_FOR_ART_REVIEW｜10-22 04:4x LAWWW 驗收：通過（另一邊的瀏海照立繪，取代 BB-C 10-17「塞到耳後」）；D59 作廢，角色美術由 LAWWW 驗收（D100 第 6 點）"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",
@@ -1810,13 +1810,13 @@
     "tools/blender/char_second/glasses_zhiruo.py",
     "docs/art-rebuild/second_ai/char_review/zhiruo_1022/README.md"
    ],
-   "state": "已交付",
-   "remaining": "BB 照 D59 驗收；頭頂頭髮偏平（下一輪）；遊戲內（Café、劇情鏡頭）截圖等接上以後",
-   "next": "BB 驗收通過後 LAWWW 套 zhiruo_default_bl.diff（assets3d.js 一行：url 換 Blender 版）＋換 bl_heroine_02.vrm、glasses_zhiruo.glb——三樣一起接",
-   "noDirectIntegrate": true,
+   "state": "已整合",
+   "remaining": "頭髮另開 ART-ZR-HAIR-1022（頭頂平、到下巴；參考圖到肩下、側分瀏海）；遊戲內截圖等 v9.10.4 發布測試跑完",
+   "next": "LAWWW 驗收：臉通過（D100 第 6 點，10-22 04:4x）、已接進開發分支 7e00ad05；頭髮做 ART-ZR-HAIR-1022",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "使用者 10-22 04:0x「林芷若3d好憨」UA-LAWWW2-1022-01：預設從 VRoid 加工版換成 Blender 版；臉眼距 1.28→1.09、嘴收窄往上、下巴縮短；八字瀏海 23°→16°；眼鏡 84→76.6 mm（魏教授那副不變）。READY_FOR_ART_REVIEW"
+   "ack": "ACTIONED",
+   "note": "使用者 10-22 04:0x「林芷若3d好憨」UA-LAWWW2-1022-01：預設從 VRoid 加工版換成 Blender 版；臉眼距 1.28→1.09、嘴收窄往上、下巴縮短；八字瀏海 23°→16°；眼鏡 84→76.6 mm（魏教授那副不變）。READY_FOR_ART_REVIEW｜10-22 04:4x LAWWW 驗收：臉通過、頭髮不到參考圖；D59 作廢，角色美術由 LAWWW 驗收（D100 第 6 點）"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",

@@ -220,10 +220,10 @@
    "at": "2026-10-22T04:0x",
    "quote": "林芷若3d好憨 沛珊也是",
    "kind": "原話",
-   "status": "已交付（待 BB 驗收、LAWWW 接）",
-   "task": "ART-DIRECTOR-LAWWW2",
+   "status": "已整合（7e00ad05，待 v9.10.5 發布）；芷若頭髮做 ART-ZR-HAIR-1022",
+   "task": "ART-ZR-PS-3D-1022",
    "src": "使用者直接對帳號 A 的 LAWWW2 說",
-   "note": "P0。理解：兩人的 3D 外觀改到不憨；使用者 10-17「修改人物的事情暫停」對這兩位解除（這一句是使用者自己提的人物外觀問題）。身分不動（名字、身高、髮型、服裝識別照 BB 通過的參考圖）。現況：芷若預設 vroid_heroine_02.vrm（10-10）、Blender 版 bl_heroine_02 只在 ?blchar；沛珊 bl_classmate_peishan.vrm 第二十六版。做法：遊戲渲染器臉部近景（佇列 j28）→ 對參考圖找原因 → 一次改一樣、同鏡頭比 → BB 照 D59 驗收 → LAWWW 接。通知 LAWWW、BB（04:0x）。04:4x 交件：沛珊第二十七版 1598a47d（char_review/peishan_1022）、芷若改用 Blender 版＋新臉 888831c4（char_review/zhiruo_1022、patches/zhiruo_default_bl.diff）；前後對照圖已傳給使用者"
+   "note": "P0。理解：兩人的 3D 外觀改到不憨；使用者 10-17「修改人物的事情暫停」對這兩位解除（這一句是使用者自己提的人物外觀問題）。身分不動（名字、身高、髮型、服裝識別照 BB 通過的參考圖）。現況：芷若預設 vroid_heroine_02.vrm（10-10）、Blender 版 bl_heroine_02 只在 ?blchar；沛珊 bl_classmate_peishan.vrm 第二十六版。做法：遊戲渲染器臉部近景（佇列 j28）→ 對參考圖找原因 → 一次改一樣、同鏡頭比 → LAWWW 驗收（D100 第 6 點；當時誤寫 BB／D59） → LAWWW 接。通知 LAWWW、BB（04:0x）。04:4x 交件：沛珊第二十七版 1598a47d（char_review/peishan_1022）、芷若改用 Blender 版＋新臉 888831c4（char_review/zhiruo_1022、patches/zhiruo_default_bl.diff）；前後對照圖已傳給使用者｜04:4x LAWWW 驗收（D100 第 6 點，D59 作廢）：沛珊第二十七版通過；芷若臉通過、頭髮不到參考圖（另開 ART-ZR-HAIR-1022，同一件的下一輪）；兩件已接進開發分支 7e00ad05，v9.10.5 發布"
   }
  ]
 }
