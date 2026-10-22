@@ -1,8 +1,8 @@
 diff --git a/src/us3d.js b/src/us3d.js
-index 1a0dd7dd..bb40ba06 100644
+index abb1675e..b7420d4e 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
-@@ -345,8 +345,31 @@ const US3=(function(){
+@@ -360,8 +360,31 @@ const US3=(function(){
    const AP=()=>AIRPORT_T2_LAYOUT;
    const TAIPEI={to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0}};   /* 搭車離開機場 → 回到台北（公館，校門口那一側；和校園「走出校門」的落點一樣）*/
    const LOOK_AP={checkin:'報到櫃台。排隊的人推著兩三個行李箱。',info:'服務台。可以問航班、借推車。',fids:'航班看板。東京、舊金山、香港……一排一排往上跳。',mart:'便利商店。賣的東西和外面一樣，貴一點。',cafe:'咖啡店。坐滿了在等登機的人。',fx:'外幣兌換。看板上是今天的匯率。',info_arr:'旅客服務台。可以問怎麼搭車進市區。',cafe_arr:'咖啡店。有人拖著行李，在等接機的人。',fids_arr:'抵達看板。剛落地的班次一個一個變成「已抵達」。'};
@@ -35,7 +35,7 @@ index 1a0dd7dd..bb40ba06 100644
        const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;   /* room() 以原點為中心：框要蓋住整個範圍（出境的下車處到 z 30）；室內鏡頭照 bounds 夾住 */
        const sp=isDep?L.spawn_curb:L.spawn_customs;
        const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#e9e7e2',floorTex:W3.stoneTex('#d8d6d0'),spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}});
-@@ -361,13 +384,14 @@ const US3=(function(){
+@@ -376,13 +399,14 @@ const US3=(function(){
        if(!isDep) for(const d of L.exits) nav.freeRect(d.x-d.w/2+0.2,Bd.z1-1.2,d.x+d.w/2-0.2,Bd.z1-0.5);   /* 入境：正面那一整片是一個阻擋，出口的門由遊戲打開（配置的說明）*/
        if(isDep){ const C=L.curb; nav.blockRect((Bd.x0+Bd.x1)/2,(C.road_z0+Bd.z1)/2,Bd.x1-Bd.x0,Bd.z1-C.road_z0,0,0); }   /* 車道（下車處以外）：人站在人行道 */
        nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
@@ -52,7 +52,7 @@ index 1a0dd7dd..bb40ba06 100644
        // 座位、互動點
        const IT=E.interactables; z.seats=[];
        for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-0.45)>0.02) st.lift=s.y-0.45; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
-@@ -387,7 +411,9 @@ const US3=(function(){
+@@ -402,7 +426,10 @@ const US3=(function(){
        // 正式模型
        z.formal=false; const KEY='bldg.airport_'+key; if(has(KEY)) ASSETS.loadOne(KEY).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
          root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
@@ -60,12 +60,13 @@ index 1a0dd7dd..bb40ba06 100644
 +        glow=glowMats(root,/^GLOW_(?!ap_outside)/); outside=glowMats(root,/^GLOW_ap_outside_m$/).concat(isDep?[]:apMats(root,/^ap_concrete$/)); apSeeThru(root,E);
 +        outPlanes={day:[],night:[]}; root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='GLOW_ap_outside') outPlanes.day.push(o); else if(/^GLOW_ap_outside_night/.test(o.name)){ outPlanes.night.push(o); for(const m of [].concat(o.material)) if(m&&!m.userData.apNight){ m.userData.apNight=true; m.color.multiplyScalar(0.15); } } });   /* 夜景平面：顯示的是圖本身的自發光，基本色壓低，不被大廳的燈照亮 */
 +        const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
++      z.seeThru=true;   /* 網點透空：引擎看的是區域實體（E.zone.seeThru），只寫在上面的定義上沒有作用（宿舍、Café 同一個錯，10-22）*/
        return z; } }; }
    const airport_dep=apZone('dep'), airport_arr=apZone('arr');
  
 diff --git a/tests/airport_cam_unit.js b/tests/airport_cam_unit.js
 new file mode 100644
-index 00000000..287ebfae
+index 00000000..401a6d6d
 --- /dev/null
 +++ b/tests/airport_cam_unit.js
 @@ -0,0 +1,87 @@
@@ -117,7 +118,7 @@ index 00000000..287ebfae
 +(async()=>{
 +for(const id of ['airport_dep','airport_arr']){ const isDep=id==='airport_dep'; tag='['+id+'] '; const def=Z3.ZONES[id]; const z=loadZone(id); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
 +  const L=isDep?AIRPORT_T2_LAYOUT.dep:AIRPORT_T2_LAYOUT.arr, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6), parts=solidParts(L,isDep,H), dist=def.camDist||3.8;
-+  check('區域開了室內網點透空（seeThru）',def.seeThru===true);
++  check('區域開了室內網點透空（seeThru：區域實體上，引擎的 updateSeeThrough 看 E.zone.seeThru）',z.seeThru===true);
 +  check('鏡頭碰撞用的牆（zone.camCols[0]）',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length>=(isDep?10:4),z.camCols&&z.camCols[0]?z.camCols[0].length+' 塊':'沒有');
 +  let n=0, bad=0, badOld=0, ex=null; const Bd=L.bounds;
 +  for(let x=Bd.x0+0.5;x<=Bd.x1-0.5;x+=1.0) for(let zz=Bd.z0+0.5;zz<=Bd.z1-0.5;zz+=1.0){ if(!E.canStand(x,zz,0.32,0)) continue; const tgt=new THREE.Vector3(x,1.45,zz);
