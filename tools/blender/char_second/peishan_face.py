@@ -98,6 +98,40 @@ def paint_nose_v29(m):
     print('  nose shading (v29): eye z %.4f tip %s, %d px' % (ez, np.round(tip, 4), int((band * sel > 0.2).sum())))
 
 
+# 第三十版（LAWWW 13:0x 驗收第二十九版：臉一片白粉、脖子和胸口偏紅，交界像戴面具；臉要有一點點陰影）：
+#   臉的貼圖照「臉的形狀」畫柔和的暖色陰影——越朝側面、朝下（顴骨外側、下顎、下巴下面），越接近遊戲裡脖子在陰影裡的暖色；
+#   整張臉往參考圖的暖米色靠一點（參考圖額頭、臉頰 sRGB 約 0.89, 0.78, 0.71；第二十九版的臉貼圖 0.96, 0.87, 0.86 偏粉白）。
+#   身體的貼圖不動。眼睛、眉毛、唇色照第二十九版（LAWWW：對，不要動）。PS_FACE_V=29 做回第二十九版。
+V30 = _os.environ.get('PS_FACE_V', '30') not in ('28', '29')
+SKIN_K = float(_os.environ.get('SKIN_K') or 0.36)                        # 陰影濃度（最暗的地方和陰影色混多少）
+SKIN_WARM = _json.loads(_os.environ.get('SKIN_WARM') or '[1.0, 0.985, 0.955]')   # 整張臉乘這個顏色（藍少一點＝暖一點）
+SKIN_SHADE = _json.loads(_os.environ.get('SKIN_SHADE') or '[0.84, 0.64, 0.56]')  # 陰影色（遊戲裡脖子在陰影裡的暖色一帶）
+
+
+def paint_skin_v30(m):
+    """第三十版：臉的皮膚貼圖照臉的幾何法線畫柔和的暖色陰影（光從前上方來的方向），再整體往暖米色靠一點"""
+    import h01_face as F
+    import common as C
+    f = m['face']; skin = F.mat_index(f, 'Face_00_SKIN'); mat = f.data.materials[skin]; e = mat.vrm_addon_extension.mtoon1
+    out = F.img_array(e.pbr_metallic_roughness.base_color_texture.index.source).copy(); H, W = out.shape[:2]
+    R = F.rest_pose(f); TV, _ = F.tris(f, skin)
+    fn = np.cross(R[TV[:, 1]] - R[TV[:, 0]], R[TV[:, 2]] - R[TV[:, 0]])      # 面積加權的面法線 → 頂點法線（幾何的，不是 VRoid 改過的平滑法線）
+    nv = np.zeros_like(R)
+    for k in range(3): np.add.at(nv, TV[:, k], fn)
+    nv /= np.maximum(np.linalg.norm(nv, axis=1, keepdims=True), 1e-12)
+    B = C.co(f); mid = np.abs(B[:, 0]) < 0.002; tip_i = int(np.argmax(np.where(mid, R[:, 1], -1)))
+    if nv[tip_i, 1] < 0: nv = -nv                                          # 鼻頭的法線要朝前（+y）
+    N, mask = F.raster(f, skin, W, H, nv); N /= np.maximum(np.linalg.norm(N, axis=-1, keepdims=True), 1e-9)
+    L = np.array([0.0, 0.80, 0.60]); L /= np.linalg.norm(L)                 # 前上方
+    lit = np.clip(N @ L, 0, 1); sh = (1 - F.ss(0.35, 0.85, lit)) * mask
+    rgb = out[..., :3]
+    rgb[mask] = rgb[mask] * np.array(SKIN_WARM)
+    rgb[mask] = F.mix(rgb[mask], SKIN_SHADE, (sh * SKIN_K)[mask])
+    out[..., :3] = np.clip(F.dilate_into(rgb, mask), 0, 1)
+    F.set_tex(mat, C.image_from_array('PS_Face_00', out.astype(np.float32)))
+    print('  skin shading (v30): K %.2f, %d px shaded > 0.5' % (SKIN_K, int((sh > 0.5).sum())))
+
+
 def apply(m):
     import h01_face as F
     orig = F.paint_iris
@@ -107,3 +141,4 @@ def apply(m):
     finally:
         F.paint_iris = orig
     if V29 and NOSE_K > 0: paint_nose_v29(m)
+    if V30 and SKIN_K > 0: paint_skin_v30(m)
