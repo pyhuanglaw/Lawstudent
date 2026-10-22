@@ -29276,7 +29276,7 @@
    },
    "source": "AA（帳號 A）2026-10-22 12:38 交付（企劃線 5ef4e291、3-4 改植物園 e848154a；outbox 34e0623a）；USER_WANTS C25（使用者 10-21「學姊才是真正的女主角」）",
    "authorized": "D109（AA 劇情自主）、D110；C25",
-   "next": "【LAWWW（帳號 A）13:3x】子代理 e4a2dedf 合併進開發分支（52038bda）：src/sis_b4_3d.js＋src/data/sis_b4_events.js（10 個事件）；第 1 節四場包在 SISY23.preTalk（Café、法圖、閱覽室、總圖自習區；熟悉以上；交往中版）；第 2 節 2-6 那一句（聽過她提美國＝階梯過了 S4-Lx、SIS5_EXCHANGE_APP、SIS_ADV_EXCH go）；第 3 節六個節日（OUT 出遊、3-6 電話、no／missed 的私訊；期末約會避開 12/24）；第 4 節三件事＋兩次正式約會後告白（BB_122 9-2 答應句）；階梯 S5-L8／S6-L1 匯入。tests/aa386_sis_batch4_unit.js 77 項修改前 43 FAIL、修改後 ALL PASS；全部 488 支 ALL PASS（子代理）；LAWWW 合併後重跑相關 39 支 ALL PASS（wz_aa364 第 I 項等子代理照 d56da150 更新）。十個解讀問 AA；下一步：派 BB（AA_386 第 5 節的測試清單） ｜ 【LAWWW（帳號 A）12:4x】白名單加 AA_386@e848154a、階梯兩份 JSON@5ef4e291；子代理在獨立 worktree 照第 1～5 節實作＋單元測試（修改前 FAIL）→ LAWWW 合併、全部單元測試 → 派 BB（第 5 節的測試清單）；放 v9.10.6",
+   "next": "【LAWWW（帳號 A）13:4x】AA 第 6 節（9a814945）回十個解讀：九個照讀法；改植物園 4 小時（sis_b4_events.js）、加人物頁提示「她在等她說好的那一天」（date3d.js S.hint）、重新交往的第 1 節照常演（本來就成立，加測試）；aa386 測試第 6 節 3 項（修改前 2 FAIL）；相關 33 支 ALL PASS ｜ 【LAWWW（帳號 A）13:3x】子代理 e4a2dedf 合併進開發分支（52038bda）：src/sis_b4_3d.js＋src/data/sis_b4_events.js（10 個事件）；第 1 節四場包在 SISY23.preTalk（Café、法圖、閱覽室、總圖自習區；熟悉以上；交往中版）；第 2 節 2-6 那一句（聽過她提美國＝階梯過了 S4-Lx、SIS5_EXCHANGE_APP、SIS_ADV_EXCH go）；第 3 節六個節日（OUT 出遊、3-6 電話、no／missed 的私訊；期末約會避開 12/24）；第 4 節三件事＋兩次正式約會後告白（BB_122 9-2 答應句）；階梯 S5-L8／S6-L1 匯入。tests/aa386_sis_batch4_unit.js 77 項修改前 43 FAIL、修改後 ALL PASS；全部 488 支 ALL PASS（子代理）；LAWWW 合併後重跑相關 39 支 ALL PASS（wz_aa364 第 I 項等子代理照 d56da150 更新）。十個解讀問 AA；下一步：派 BB（AA_386 第 5 節的測試清單） ｜ 【LAWWW（帳號 A）12:4x】白名單加 AA_386@e848154a、階梯兩份 JSON@5ef4e291；子代理在獨立 worktree 照第 1～5 節實作＋單元測試（修改前 FAIL）→ LAWWW 合併、全部單元測試 → 派 BB（第 5 節的測試清單）；放 v9.10.6",
    "wants": "C25",
    "sha": "e4a2dedf"
   },
@@ -29285,7 +29285,7 @@
    "title": "日本路線人在 3D 的「你的房間」：必接的電話／視訊／出遊、日本的停點、事件、回程、凌晨都不會跳出來（JP.tick 人在房間直接回傳 true，據點的迴圈不跑）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y3S2",
@@ -29300,7 +29300,8 @@
    "source": "BB（帳號 A）10-22 12:5x RELEASE-9106-TEST（AA296 ⑤，固定副本 9f9e13cc，Playwright）：日本 21:30 讀檔在 jp_room、待到 01:36，沒有「接起來：方奕廷打電話來」、FANG_F3 一直是 null",
    "authorized": "D85（一般 bug）",
    "next": "【LAWWW（帳號 A）12:5x】jp3d.js S.roomDue：人在房間時這幾件事到了＝S.toHub 回據點，由據點的迴圈照常問「接起來」、演出、睡覺；正在對話、坐著做事先不打斷。tests/jp_semester_unit.js jp_room 6（修改前 2 項 FAIL、修改後 ALL PASS）；日本相關 9 支 ALL PASS。下一步：BB 在瀏覽器用同一個前置重跑（房間裡待到 22:00 → 回據點 → 接起來）",
-   "sha": null
+   "sha": null,
+   "evidence": "BB（帳號 A）10-22 13:5x 開發分支 46760208（Playwright 手機模擬，不是 iPhone）：ZR_JP529 人待在 3D 房間 → 自動回據點、22:05 只問「接起來：方奕廷打電話來」→ FANG_F3 bought、ZR_FY true；ZR_JP529H 據點對照同上；沒有 JS 例外"
   },
   {
    "id": "BUG-PHONE-LIST-SCROLL-1022",

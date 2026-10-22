@@ -109,7 +109,7 @@ const DATE=(function(){
     if(!L.wish) return {ok:false,why:'wish'};
     const w=S.willing(G,id); if(!w.ok) return {ok:false,why:w.why}; if(id==='heroine_05'&&S.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&S.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
   /* 人物頁的進度提示（AA_128 3-2；不寫數字） */
-  S.hint=function(G,id){ const L=S.log(G,id); if(S.stageNum(id)<5) return null;
+  S.hint=function(G,id){ const L=S.log(G,id); { const rb=S.rebuildOf(G,id); if(rb&&rb.done) return '她在等她說好的那一天'; }   /* AA_386 第 6 節：演過三件事、還沒重新交往的期間 */ if(S.stageNum(id)<5) return null;
     if(L.count<4) return '再多一些兩個人出去的時間';
     if(!L.wish){ if(!L.wishKnown) return '她好像有一個很想去的地方'; const nm=S.wishName(G,id); return nm?`她提過想去${nm}`:null; }
     return null; };

@@ -13,7 +13,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 const ok0=load('src/data/sis_y2y3_events.js')&&load('src/sis_y2y3_3d.js'), ok1=load('src/data/sis_b4_events.js'), ok2=load('src/sis_b4_3d.js');
-let doc=''; try{ doc=cp.execSync('git show e848154a:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 9a814945:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISB4!=='undefined'?SISB4:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -32,7 +32,7 @@ const sisN={id:'sis',charId:ID,name:'溫學姊',obj:{position:{x:1,y:0,z:1}},sea
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中斷這一節）',false,String(e&&e.stack||e).slice(0,300)); } };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
-  check('0. 讀稿（企劃線 e848154a AA_386：3-4 是臺北植物園）',doc.length>5000&&inDoc('## 4. 重新開始：她的三件事')&&inDoc('2/14 14:00 臺北植物園'));
+  check('0. 讀稿（企劃線 9a814945 AA_386：3-4 是臺北植物園；第 6 節 AA 回十個解讀）',doc.length>5000&&inDoc('## 4. 重新開始：她的三件事')&&inDoc('2/14 14:00 臺北植物園'));
   check('0. 新檔載得到：SISB4、SISB4_LINES、SISB4_EVENTS（第 3 節五場出遊＋說話前接演五段＝10 筆）',ok0&&ok1&&ok2&&!!X()&&Array.isArray(SISB4_EVENTS)&&SISB4_EVENTS.length===10&&['ev_sis_adv_grad','ev_sis_adv_exch','ev_sis_adv_pick','ev_sis_adv_y4','ev_sis_xmas_y2','ev_sis_xmas_y3','ev_sis_vday_y2','ev_sis_vday_y3','ev_sis_vday_y4','ev_sis_three_conditions'].every(id=>!!ev(id)),J({ok0,ok1,ok2,n:typeof SISB4_EVENTS!=='undefined'&&SISB4_EVENTS.length}));
   await sec('0',async()=>{   /* 修改前沒有 SISB4：每一節照樣跑、照樣算 FAIL（不在第 0 項就停）*/
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
@@ -245,6 +245,12 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { brk('ex'); at('2028-04-12',10); stage6(); const w=TERMEND.windowOf('Y3S2'); const h0=TERMEND.heartWhy(H.G,ID,w); await pre([0]); const h1=TERMEND.heartWhy(H.G,ID,w);
     setup('2028-04-12',10,'dorm','CLOSE'); stage6(); const Lg=DATE.log(H.G,ID); Lg.count=4; Lg.wish=true; const h2=TERMEND.heartWhy(H.G,ID,w);
     check('4-2. 期末的心意邀約（第一次的台詞）不給分開過的玩家（演三件事前後都不發）；沒分開過的照舊',h0===false&&h1===false&&h2===true,J({h0,h1,h2})); }
+  /* AA_386 第 6 節（AA 10-22 13:4x 回十個解讀）：植物園 4 小時；演過三件事、還沒重新交往＝人物頁提示「她在等她說好的那一天」；分開以後又重新交往的，第 1 節窗口還在照常演 */
+  check('6. 3-4 植物園 4 小時（14:00～18:00，「出來的時候天已經暗了」）',ev('ev_sis_vday_y2').hours===4&&inDoc('植物園 3.5 小時改 4 小時'),String(ev('ev_sis_vday_y2').hours));
+  { brk('ex'); at('2028-04-12',10); const h0=DATE.hint(H.G,ID); await pre([0]); const h1=DATE.hint(H.G,ID); stage6(); H.G.zone='dorm'; await date(H.G); H.G.day+=3; H.picks=[0,0]; await date(H.G); const h2=DATE.hint(H.G,ID), back=H.G.flags.dating_heroine_05===true;
+    check('6. 人物頁提示：演過三件事、還沒重新交往＝「她在等她說好的那一天」；演之前、重新交往以後不是這一句',h1==='她在等她說好的那一天'&&h0!=='她在等她說好的那一天'&&back&&h2!=='她在等她說好的那一天'&&inDoc('她在等她說好的那一天'),J({h0,h1,h2,back}));
+    H.G.zone='library'; at('2028-05-02',10); const e=ev1();
+    check('6. 分開以後又重新交往（現在交往中）：第 1 節的窗口還在＝照常演（大三下第 11 週 1-4）',back&&e==='ev_sis_adv_y4',J({back,e})); }
   check('4-2. 答應的兩句在稿裡（AA_386 4-2）',inDoc('學姊「三件事。一，你做到了。」')&&inDoc('學姊「二，我也想好了。三，……這次，我選你。」'));
   });
 
