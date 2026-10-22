@@ -13360,6 +13360,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "開發分支 LAWWW 帳號 A 10:5x 實作（zrzq3d.js f3MsgSync、social3d.js MEMORY_LABEL）；aa385_zz_unit 33 項（新的兩項修改前 958c3fc1 FAIL）、zrzq_line_unit 第 13 項改新時間；放 v9.10.6"
+  },
+  {
+   "id": "DL-LAWWW2-d3f57c91",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "d3f57c91",
+   "what": "男宿路人 char.npc_nm3 耳上短髮（第三版）：bl_npc_nm3.vrm＋npc.py、npc_hair_m.py（五個選用參數，不給＝原本）；臉、衣服、骨架位元組相同，只有頭髮網格與貼圖不同",
+   "task": "ART-NPC-NM3-HAIR-1022",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 帳號 A 10:5x）；角色美術 LAWWW 驗收（遊戲內前後截圖，Playwright 不是 iPhone）；npc_ambient、anon_pool、anon_dedup、perf_npc_pool、vrm_release ALL PASS；放 v9.10.6"
   }
  ],
  "ignored": [

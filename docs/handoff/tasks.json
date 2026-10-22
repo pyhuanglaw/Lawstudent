@@ -29118,9 +29118,9 @@
    "title": "男宿路人 char.npc_nm3（bl_npc_nm3.vrm，說明：淺棕側分短髮、駝色針織衫）在遊戲裡頭髮接近及肩，側後方看像女生（BB 帳號 A 10-22 09:51，候選 364dabe0 男宿二樓走廊；截圖企劃線 docs/story_planning/test_shots/rel9105_1022/男宿二樓走廊_長椅前面的路人_364dabe0.webp）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
-   "next": "【LAWWW2 10:18 ACK】排在天花板第二版（約 10:4x）之後；交 VRM＋遊戲內側後方前後 ｜ LAWWW2：照說明把頭髮改成短髮（耳上、後頸露出），臉、衣服不動；交 VRM＋遊戲內前後截圖；LAWWW 驗收（D100 第 6 點角色美術）",
+   "next": "【LAWWW 帳號 A 10-22 10:5x】LAWWW2 d3f57c91 交件、開發分支整合；角色美術 LAWWW 驗收通過（D100 第 6 點）；放 v9.10.6 ｜ 【LAWWW2 10:18 ACK】排在天花板第二版（約 10:4x）之後；交 VRM＋遊戲內側後方前後 ｜ LAWWW2：照說明把頭髮改成短髮（耳上、後頸露出），臉、衣服不動；交 VRM＋遊戲內前後截圖；LAWWW 驗收（D100 第 6 點角色美術）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -29138,8 +29138,9 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "VRM 換上後男宿二樓走廊側後方看是男生短髮；遊戲內前後截圖；anon_pool／character 相關 Node 單元測試過",
     "receiver": "LAWWW",
-    "ack": "ACK"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "2026-10-22 10:5x LAWWW 帳號 A 看 LAWWW2 的遊戲內前後截圖（d3f57c91 docs/art-rebuild/second_ai/test_shots/npc_nm3_hair_1022/game_before_after、game_head_zoom；Playwright 手機橫向、男宿二樓走廊 20:24，不是 iPhone）：玩家鏡頭與側後方近拍都看得出是男生耳上短髮、後頸露出；臉、衣服不變（LAWWW2 逐項比過位元組相同）；npc_ambient、anon_pool、anon_dedup、perf_npc_pool、vrm_release ALL PASS。還不到：後腦稍蓬、只拍了晚上走廊"
   },
   {
    "id": "BUG-US-TRAFFIC-ZONEID-1022",

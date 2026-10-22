@@ -56,7 +56,8 @@ VARIANTS = {
                 clothes=style(rgb(240, 238, 232), rgb(70, 86, 120), rgb(30, 30, 34), rgb(234, 232, 226), tex='linen', neck='V', ptex='denim')),   # 白色 V 領上衣＋深藍牛仔褲＋黑球鞋
     'nm3': dict(sex='m', base='HairSample_Male', head=0.93, height=1.76, iris='#3a2818',
                 face=dict(EYE_SX=1.10, EYE_SZ=0.70, EYE_TILT=-0.01, BROW_ARCH=0.40, BROW_K=1.50, FACE_NARROW=0.960, CHIN_WIDEN=0.62, JAW_OUT=0.0046, MOUTH_K=1.40),
-                hair=dict(seed=20261213, part=20.0, col=(0.38, 0.27, 0.18), tip=(-0.006, 0.0, 0.0, 0.004, 0.0, -0.006, -0.012, -0.020, -0.016, -0.012), nape=0.022, vol=0.95, curl=(16, 30)),
+                hair=dict(seed=20261213, part=20.0, col=(0.38, 0.27, 0.18), tip=(-0.006, 0.0, 0.0, 0.010, 0.012, 0.016, 0.020, 0.006, 0.006, 0.004), nape=0.0, nape_c=0.0, vol=0.75, curl=(16, 30),
+                          side_taper=0.75, nape_taper=0.85, shell_root=1.0, v_min=-0.04, shell_v0=0.05),   # 第三版（ART-NPC-NM3-HAIR-1022，LAWWW 10-22 09:56：BB 在男宿二樓走廊看到「側後方看像女生」）：耳上短髮、後頸露出——鬢角、耳朵上面、後頸都短（原本 tip 蓋到耳朵上半、後頸往下 3.4 cm），兩側和後腦越靠髮尾越貼頭；髮尾短時髮殼下緣不調暗、從髮際線上面一點開始（不然耳朵上方露出一條深色的線）。瀏海不變
                 clothes=style(rgb(156, 123, 90), rgb(180, 180, 176), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve=1.0, sleeve_k=0.82, ease=0.85)),   # 淺棕側分＋駝色針織衫＋淺灰長褲＋白球鞋（第二版：磚紅在遊戲裡太紅，使用者 2026-10-17 不要鮮紅色上衣）
     'nm4': dict(sex='m', base='Sakurada_Fumiriya', head=0.97, height=1.73, iris='#241c18',
                 face=dict(EYE_SX=1.04, EYE_SZ=0.72, EYE_TILT=0.02, BROW_ARCH=0.60, BROW_K=1.55, FACE_NARROW=0.985, CHIN_WIDEN=0.66, JAW_OUT=0.0044, MOUTH_K=1.50),
@@ -325,12 +326,12 @@ JP_STYLE = {
     'nf9': dict(bang='center', part=0.0, wave=0.012), 'nf10': dict(bang='center', part=0.0), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
     'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', part=0.0, wave=0.010), 'nf16': dict(bang='air'),
     'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', part=0.0, wave=0.014), 'nf20': dict(bang='air', flip=0.020),
-    'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm3': dict(wave=0.004), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
+    'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),   # nm3 原本 wave=0.004（微捲燙），10-22 改耳上短髮時拿掉（短髮的髮尾捲起來會往外翹）
     'nm8': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm9': dict(bang='center', tipfront=CENTER_M, part=0.0),
     'nm10': dict(bang='center', tipfront=CENTER_M, part=0.0), 'nm11': dict(wave=0.004), 'nm12': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
     'nm14': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.005, vol=1.12), 'nm15': dict(wave=0.005), 'nm17': dict(bang='heavy', tipfront=MASH_M, vol=1.10),
     'nm18': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm20': dict(wave=0.006),
-    # 不變（短髮、側分、平頭：日劇裡也常見的清爽短髮）：nm1、nm4、nm6、nm7、nm13、nm16、nm19
+    # 不變（短髮、側分、平頭：日劇裡也常見的清爽短髮）：nm1、nm4、nm6、nm7、nm13、nm16、nm19；nm3 10-22 改成耳上短髮（參數在 VARIANTS）
 }
 
 
