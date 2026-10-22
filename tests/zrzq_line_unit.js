@@ -253,12 +253,12 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('13. 對照：芷若接受（曖昧期去看了）＝r2y3b 那一場照演',()=>{
     fresh('2028-05-30',15,'cafe'); both('FAM'); zz({state:'feelings_emerging',since:0,lastDay:D('2028-03-08')}); Object.assign(G.flags,{FANG_F3_DAY:D('2028-05-29'),FANG_F3:'bought'}); rules();
     return [R2Y3B.f3CafeDue(G)===true&&!EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_zz_f3_told')),'']; });
-  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」收回，改成第七節第 6 點的四則訊息（22:07 當地）；方奕廷熟悉以上＝隔天 21:00 三則',async()=>{
+  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」不會出現（AA_296 ⑤ 起日本路線本來就不排；排了也會收回），改成第七節第 6 點的四則訊息（22:07 當地）；方奕廷熟悉以上＝隔天 21:00 三則',async()=>{
     fresh('2028-05-29',21.2,'dorm',{EXCHANGE_ROUTE:'JP'}); both('FAM'); R('npc_fangyt','FAM'); G.contacts[ZR]=1; zz({state:'dating',since:0,lastDay:D('2026-06-05'),datingDay:D('2026-06-05'),datingTerm:'Y1S2'});
     R2Y3B.f3Go(G,G.day); const q0=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp'); rules(); const q1=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp');
     at('2028-05-29',23.5); rules(); at('2028-05-30',22.5); rules();
     const zr=(G.msgs||[]).filter(m=>m.th==='p:heroine_02').map(m=>m.text), fy=(G.msgs||[]).filter(m=>m.tag==='zz_f3_fang'||m.th==='p:npc_fangyt').map(m=>m.text);
-    return [q0&&!q1&&J(zr)===J(['奕廷約我去看《秋天的晚飯》。','我說不行。我跟子晴在一起。','他回「好」，然後傳了一大段那個導演的事。','他人很好。'])&&L.F3_FANG.every(t=>fy.includes(t))&&G.flags.ZZ.yt==='confirmed',J({q0,q1,zr,fy})]; });
+    return [!q1&&J(zr)===J(['奕廷約我去看《秋天的晚飯》。','我說不行。我跟子晴在一起。','他回「好」，然後傳了一大段那個導演的事。','他人很好。'])&&L.F3_FANG.every(t=>fy.includes(t))&&G.flags.ZZ.yt==='confirmed',J({q0,q1,zr,fy})]; });
 
   /* ===================== 14 互斥 ===================== */
   await chk('14. 她們交往中（dating）＝「她有交往的對象」：校外約會、告白不出現（DATE）；互相喜歡（mutual_interest）時照常',()=>{
