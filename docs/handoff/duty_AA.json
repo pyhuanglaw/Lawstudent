@@ -3,8 +3,8 @@
  "account": "A",
  "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
  "branch": "claude/story-planning",
- "since": "2026-10-21T15:24Z",
- "state": "on",
- "sinceSha": "8d32ed63",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-10-22T15:04Z",
+ "sha": "89a556d0",
+ "snapshot": "2026-10-22T1504Z_A_AA.json"
 }
