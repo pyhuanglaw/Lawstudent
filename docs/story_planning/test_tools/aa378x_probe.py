@@ -34,7 +34,8 @@ PEND = """(id=>{ const m=PHONE.pending(GAME.G).find(x=>x.ask&&x.ask.id===id); if
 OUTQ = """(re=>(typeof OUT==='undefined'?[]:OUT.rec(GAME.G)).filter(q=>new RegExp(re).test(q.id||'')).map(q=>({id:q.id, d:CALENDAR.dateOf(q.day).key, day:q.day, wd:CALENDAR.dateOf(q.day).wd%7, h:+(+q.h).toFixed(3), state:q.state, title:q.title||'', place:q.place||''})))"""
 SETUP = """(([rels,dating,flags])=>{ const G=GAME.G, F=G.flags; const V={ACQ:[8,0,0],FAMILIAR:[25,0,0],FRIEND:[45,30,10],CLOSE:[65,50,45]};
   const day0=STORY.dayOfKey('2025-09-24'); G.contacts=G.contacts||{};
-  for(const id in rels){ const R=SOCIAL.rel(id), v=V[rels[id]]; R.fam=v[0]; R.trust=v[1]; R.comf=v[2]; SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=day0; }
+  for(const id in rels){ const R=SOCIAL.rel(id), v=V[rels[id]]; R.fam=v[0]; R.trust=v[1]; R.comf=v[2]; SOCIAL.remember(id,'FIRST_MET',''); if(G.contacts[id]==null) G.contacts[id]=day0;
+    const so=G.social||(G.social={}), U=so.relUp||(so.relUp={}), k={ACQ:1,FAMILIAR:2,FRIEND:3,CLOSE:4}[rels[id]]|0; if((U[id]|0)<k) U[id]=k; }   /* 2026-10-22：早就升到這一階、門檻台詞（SOCIAL.playUp）說過了——不然下一次說話先演升階台詞、這次不走閒聊階梯（候選 364dabe0 第二輪以安 9/15）*/
   if(rels.heroine_05){ F.met_sis=true; F.SIS_W1=true; }
   Object.assign(F,flags||{});
   for(const id of dating||[]){ try{ ROM.start(G,id); }catch(e){} F['dating_'+id]=true; const R=SOCIAL.rel(id); R.fam=Math.max(R.fam|0,70); R.trust=Math.max(R.trust|0,60); R.comf=Math.max(R.comf|0,60); R.rom=70; R.npcRom=70; if(G.contacts[id]==null) G.contacts[id]=day0; SOCIAL.remember(id,'FIRST_MET',''); }
@@ -336,13 +337,16 @@ GF_DAY = """(()=>{ try{ const R=TERMEND.rec(GAME.G,'Y4S1'); const d=(R.gfDay||{}
 @guard
 async def s_gf_an(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-12-20', 21.5, 'dorm', preflags=TWF, dating=('heroine_01',), label=sid + '（臺灣路線、和以安交往中；2028-12-20（三）21:30 宿舍）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-12-20', 21.5, 'dorm', preflags=dict(TWF, **BASEF, Y4_PATH_DAY={'$day': '2028-06-20'}), dating=('heroine_01',), label=sid + '（臺灣路線、和以安交往中；2028-12-20（三）21:30 宿舍）')
     try:
         info = await pg.evaluate(TE_INFO); res['info'] = info; say('   %s 學期末時段／期末考：%s' % (sid, J(info, 900)))
         run.note('%s：【讀資料】大四上學期末時段 %s～%s；你的期末考（最後一科）%s；照 AA_375 第 6 項，邀約從 %s 起；以安的期末約會 %s' % (
             sid, info['from'], info['to'], [f['d'] for f in info['finals'] if isinstance(f, dict)], info['examStart'], J(info['gf'], 200)))
         found = None; seen = []
-        for k in range(12):
+        # 2026-10-22（候選 364dabe0 第一輪）：12 輪不夠——考試那兩天白天的床只有「小睡」，一輪只過半小時到一個半小時，12/23 中午就用完了（排好的日子是 12/25）。
+        # 改成 24 輪；最後一科考完以後，中午看完手機就「跳過時間」到晚上再睡（不跳考試那幾天，免得錯過考試）
+        lastfin0 = max([f['day'] for f in info['finals'] if isinstance(f, dict)] or [-1])
+        for k in range(24):
             st = await pg.evaluate(STATE)
             if st['h'] < 12.1:
                 await skip(pg, cdp, '等到中午', sid)
@@ -353,6 +357,7 @@ async def s_gf_an(p, run, base, sid, out):
             say('   %s %s %.2f：以安的期末邀約 %d 則；排好的日子 %s' % (sid, st['key'], st['h'], len(M), J(gd)))
             if M: found = M; break
             if st['day'] > info['toDay']: break
+            if st['day'] > lastfin0 and st['h'] < 19.5: await skip(pg, cdp, '等到晚上', sid)
             await sleep_night(pg, cdp, run, sid)
         res['seen'] = seen; res['msg'] = found
         run.check('%s：大四上學期末，以安傳了期末約會的邀約' % sid, bool(found), J(seen, 600))
@@ -419,7 +424,15 @@ async def cafe_back(pg, cdp, run, sid, res):
         s = await L.state(pg)
         if s['dlg'] and not shot: await run.shot(pg, '%s_back' % sid); shot = True
         await drive(pg, cdp, run, max_s=90, label=sid); await pg.wait_for_timeout(1500)
-    T = texts(await log_since(pg, n0)); q1 = await pg.evaluate(CAFEQ); res['said'] = T; res['q1'] = q1
+    q1 = await pg.evaluate(CAFEQ)
+    if not q1['back']:   # 2026-10-22：進 Café 的 enter 事件照清單順序，隨機的「咖啡買錯」（ev_wrong_coffee，35%）排在「回來」前面——先演了它就出去、下次再進來（玩家會遇到的樣子）
+        T0 = texts(await log_since(pg, n0)); res['first_entry'] = T0; say('   %s 第一次進 Café 沒有演「回來」（先演了：%s）；出去再進來一次' % (sid, J(T0, 300)))
+        run.note('%s：第一次進 Café 先演了別的 enter 事件 %s，「回來」沒演；出去再進來（照玩家下次再來）' % (sid, J(T0, 200)))
+        await quick_go(pg, cdp, 'wenzhou'); await settle(pg, cdp, run, sid)
+        ok2, tries2 = await go_cafe(pg, cdp, run, sid); res['go2'] = [ok2, tries2]; await pg.wait_for_timeout(1500)
+        for _ in range(3): await drive(pg, cdp, run, max_s=90, label=sid); await pg.wait_for_timeout(1500)
+        q1 = await pg.evaluate(CAFEQ)
+    T = texts(await log_since(pg, n0)); res['said'] = T; res['q1'] = q1
     say('   %s 進 Café：%s' % (sid, J(T, 700)))
     return ok, T, q0, q1
 
