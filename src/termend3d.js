@@ -125,7 +125,9 @@ const TERMEND=(function(){
        （原本時段第一天 20:15 傳、飯排在兩天後——「今天不讀書」「今天晚上我空著」說的「今天」都不對）。S.FROM 照舊：學姊大四上 12/23 才從美國回來（BUG-SIS-Y4S1-DATEINV-1021）*/
     { const RG=R.gfDay||(R.gfDay={});
       for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id, dg=Math.max(S.fromDay(w,id),d1); if(PHONE.sent(G,tag)||now<T(dg,0)) continue;
-        if(RG[id]==null){ const dd=S.dinnerDay(G,w,Object.assign({},g,{h:g.h||18.5,gf:true}),id); RG[id]=dd==null?-1:dd; }   /* gf：女朋友版（S.XMAS_GF 避開那一天）*/
+        const pick=()=>{ const dd=S.dinnerDay(G,w,Object.assign({},g,{h:g.h||18.5,gf:true}),id); RG[id]=dd==null?-1:dd; S.gfOff(G,w,id); };
+        if(RG[id]==null) pick();   /* gf：女朋友版（S.XMAS_GF 避開那一天、S.GF_FIXED 固定那一天）*/
+        if(RG[id]>=0&&now>=T(RG[id],12)&&S.eveningBusy(G,RG[id])) pick();   /* 排好以後、邀約以前，那天晚上又有了別的出遊＝照同一套規則往後讓（不重複約在同一個晚上）*/
         const dd=RG[id]; if(dd<0||now<T(dd,12)) continue;
         PHONE.at(G,dd,12,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
@@ -136,9 +138,15 @@ const TERMEND=(function(){
   S.eveningBusy=(G,d)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&(q.state==='planned'||q.state==='done')&&!/^te_/.test(q.id||'')&&q.h>=17);   /* AA_378 S4：那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）*/
   /* 女朋友版的學期末約會要避開的那一天（AA_386 第 3 節）：學姊交往中，大二上、大三上的 12/24 晚上是她約的聖誕（Café 門口、研究室；src/sis_b4_3d.js）*/
   S.XMAS_GF={heroine_05:{Y2S1:'2026-12-24',Y3S1:'2027-12-24'}};
+  /* 女朋友版的學期末約會固定那一天（AA_386 3-3，企劃線 d0468be4）：學姊大四上 12/24 18:30（她 12/23 回來的隔天；兩條路線一樣）。其他人照 S.dinnerDay 的規則 */
+  S.GF_FIXED={heroine_05:{Y4S1:'2028-12-24'}};
+  /* 固定那一天沒排成（那天晚上有別的約、往後讓了）＝AA_386 3-3 備援：12/24 21:00 她私訊（sis_b4_3d.js SISB4.xm3Fallback；3-2 有來才有）*/
+  S.gfOff=function(G,w,id){ const fx=S.GF_FIXED[id]&&S.GF_FIXED[id][w.id]?DK(S.GF_FIXED[id][w.id]):null; if(fx==null) return; const dd=S.rec(G,w.id).gfDay[id]; if(dd===fx) return;
+    if(id==='heroine_05'&&w.id==='Y4S1'&&typeof SISB4!=='undefined'&&SISB4.xm3Fallback) SISB4.xm3Fallback(G); };
   S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, xg=spec.gf&&S.XMAS_GF[who]&&S.XMAS_GF[who][w.id]?DK(S.XMAS_GF[who][w.id]):null, ok=d=>d!==xm&&d!==xg&&!S.eveningBusy(G,d)&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=(S.rec(G,w.id).plan||{}).back||w.from; let lo=Math.max(w.from+1,pb+1,G.day);
     if(who==='heroine_03'&&w.id==='Y1S2'){ const d=DK('2026-06-19'); if(d!=null) lo=Math.max(lo,d); }   /* 語彤 6/18 雙主修筆試以前不來（AA_250 第 2 節）*/   /* xm：可昕大二上的期末約會避開 12/25（那天晚上是她排的聖誕行程，AA_325 2-Y2-07）*/
     const c=CHARACTERS[who], hi=c&&c.presence&&c.presence.home?Math.min(w.to,w.termTo):w.to;   /* 寒暑假回老家的（可昕、沛珊，AA_276 第 3 節第 2 點）：限定在期末考最後一天後第 2 天以前，第 3 天她們就回老家了 */
+    { const fx=spec.gf&&S.GF_FIXED[who]&&S.GF_FIXED[who][w.id]?DK(S.GF_FIXED[who][w.id]):null; if(fx!=null&&fx>=w.from&&fx<=hi&&ok(fx)) return fx; }   /* 固定那一天（那天晚上已經有別的約＝照下面的規則往後讓）*/
     if(spec.wd!=null){ for(let d=lo;d<=hi;d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===spec.wd&&ok(d)) return d; } }
     for(let d=Math.max(lo,w.from+2,pb+2);d<=hi;d++) if(ok(d)) return d; for(let d=lo;d<=hi;d++) if(ok(d)) return d; return null; };
   S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:S.friend(who,w.id))); if(!spec||typeof OUT==='undefined') return false;

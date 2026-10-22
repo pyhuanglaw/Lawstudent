@@ -119,12 +119,12 @@ const SISB4=(function(){
   /* 情人節（交往中）：這學期的裂縫計數 -1（AA_126 7-2；已經是 0 就不動，同 pgdates3d.js 可昕的）*/
   S.crackDown=function(G){ const k=(typeof ROM!=='undefined'&&ROM.CRACK&&ROM.CRACK[ID])||'SIS_CRACK'; if(!G||!G.flags||!((+G.flags[k]||0)>0)) return 0;
     if(typeof ROM!=='undefined'&&ROM.crack) ROM.crack(G,ID,-1); else G.flags[k]=(+G.flags[k]||0)-1; return -1; };
-  /* 3-3（AA_386，企劃線 c6a290fe：原本加在大四上學期末那頓的兩句改成當天的私訊——那一頓臺灣路線排在 12/25、美國路線 12/26，從來不在 12/24）：
-     2028-12-24（日）21:00，和她交往中、3-2 研究室那晚有來（SIS_XMAS_Y3 there）；那一天一開始就排好（約的時間才送到），錯過那一天不補 */
+  /* 3-3 備援（AA_386，企劃線 d0468be4）：學姊交往版大四上那一頓固定 12/24 18:30；12/24 晚上已經有別的約、照現有規則往後讓的，當晚 21:00 她私訊三則（3-2 研究室那晚有來才有）。
+     termend3d.js 排定（或改排）她這一頓、不在 12/24 的時候叫這裡；12/24 已經過了就不補 */
   S.XM3={day:'2028-12-24',h:21,tag:'sisb4_xmas_y4_dm'};
-  S.xm3=function(G){ const F=G.flags, X=S.XM3, d=D(X.day); if(d==null||G.day!==d||sent(G,X.tag)||F.SIS_XMAS_Y3!=='there'||!dating(G)||!contact(G,d)||!Array.isArray(L.x3b)) return;
-    PHONE.at(G,d,X.h,L.x3b.concat([route(G)==='US'?L.x3bUs:L.x3bMe]).map(dm),X.tag); };
-  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.asks,S.call,S.xm3]){ try{ f(G); }catch(e){ console.warn('SISB4 phone',e); } } };
+  S.xm3Fallback=function(G){ const F=G&&G.flags, X=S.XM3, d=D(X.day); if(!F||d==null||G.day>d||now(G)>=T(d,24)||sent(G,X.tag)||F.SIS_XMAS_Y3!=='there'||!law(G)||!dating(G)||!contact(G,d)||!Array.isArray(L.x3b)) return false;
+    PHONE.at(G,d,X.h,L.x3b.concat([route(G)==='US'?L.x3bUs:L.x3bMe]).map(dm),X.tag); return true; };
+  S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.asks,S.call]){ try{ f(G); }catch(e){ console.warn('SISB4 phone',e); } } };
 
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
   /* 說話前接演的掛勾（不改 story3d.js）：talkSis、talkCharacter（學姊）本來就在說話前問 SISY23.preTalk——包一層：AA_379 的 2-3／2-6 那一段沒演，才問這裡的 S.preTalk
