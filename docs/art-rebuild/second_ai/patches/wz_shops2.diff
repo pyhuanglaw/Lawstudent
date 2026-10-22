@@ -95,7 +95,7 @@ index 0b6b66c3..f81818d9 100644
  };
  if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;
 diff --git a/src/zones3d.js b/src/zones3d.js
-index cd667466..33c52839 100644
+index cd667466..a2a6e868 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -791,7 +791,7 @@ const Z3 = (function(){
@@ -112,7 +112,7 @@ index cd667466..33c52839 100644
      for(const [ax,az,ry,ls] of [[14.6,3.9,Math.PI,['二手書','民法・刑法','教科書收購']],[-2.4,-3.9,0,['本日定食','鯖魚 / 豚汁','11:30–20:00']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,az); ab.rotation.y=ry; g.add(ab); nav.blockCircle(ax,az,0.35); }
      // 店面（不能進去的）用「看櫥窗」：清楚表示只能看，不假裝有完整室內
 -    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}]) E.interactables.push(Object.assign({radius:1.6},it));
-+    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku))))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成下面 wzShopDoors 的「進去」 */
++    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku))))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成上面 wzShopDoors（三家新店的店門那一段）的「進去」 */
      // 騎樓柱子
      for(const px of [16.3,23.0,29.7]) nav.blockRect(px,-5.3,0.6,0.6,0,0.05);   /* B5 騎樓的柱子；中間 23.0＝巷口茶飲和夏日冰菓室的分隔柱（溫州街 v5，LAWWW2-B 31323eb9）*/
      // v9.3 參考圖 07 的街道細節：Café 門前的紅磚人行道（平的，不改導航、腳不會陷進去；外緣一條低路緣）＋路口的「溫州街 Wenzhou St.」路名牌

@@ -55,6 +55,8 @@ const DORM_LAYOUT={
     {"type":"vending","lv":0,"x":4.0,"z":7.35,"ry":3.1416},
     {"type":"vending","lv":0,"x":5.2,"z":7.35,"ry":3.1416},
     {"type":"water","lv":0,"x":6.5,"z":7.45,"ry":3.1416},
+    {"type":"bins","lv":0,"x":7.45,"z":7.55,"w":1.1,"ry":3.1416},
+    {"type":"planter","lv":0,"x":13.35,"z":7.4,"r":0.3},
     {"type":"longTable","lv":0,"x":5.4,"z":4.2,"w":2.4,"d":0.8,"seats":2},
     {"type":"planter","lv":0,"x":-2.0,"z":7.2,"r":0.3},
     {"type":"water","lv":1,"x":-3.1,"z":-1.15,"ry":0},

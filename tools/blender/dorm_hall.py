@@ -100,7 +100,7 @@ MAT = {
     'paper':   pbr('dm_paper', None, tint=srgb('#ece6d8'), rough=0.9),
     'paper2':  pbr('dm_paper2', None, tint=srgb('#f3d9a0'), rough=0.9),
     'paper3':  pbr('dm_paper3', None, tint=srgb('#cfe3ea'), rough=0.9),
-    'fabric':  pbr('dm_fabric', 'fabric_leather_02', tile=1.0, sat=0.4, target='#6a6455'),                  # 交誼廳的沙發
+    'fabric':  pbr('dm_fabric', 'fabric_leather_02', tile=0.8, sat=0.55, target='#5b4434'),                 # 交誼廳的沙發（深咖啡色人造皮，ART-DORM-LOUNGE-1021）
     'black':   pbr('dm_black', None, tint=srgb('#1d1f22'), rough=0.3),
     'screen':  pbr('dm_screen', None, tint=srgb('#1a2430'), rough=0.2, emit=srgb('#24323f')),
     'vend':    pbr('dm_vend', None, tint=srgb('#d4d8dc'), rough=0.35, metal=0.25),
@@ -111,6 +111,23 @@ MAT = {
     'white':   pbr('dm_white', None, tint=srgb('#e9e7e2'), rough=0.5),
     'rubber':  pbr('dm_rubber', None, tint=srgb('#3a3f46'), rough=0.8),
 }
+def imgmat(name, fn, rough=0.8, emit=0.0):
+    """本作畫的圖（tools/blender/env_second/textures/gen/）：交誼廳的公告、時鐘、標籤、地毯（dorm_lounge_tex.py）"""
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bsdf = N['Principled BSDF']
+    bsdf.inputs['Roughness'].default_value = rough; m['tile'] = 1.0
+    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(TEX2, 'gen', fn), check_existing=True)
+    nt.links.new(tx.outputs['Color'], bsdf.inputs['Base Color'])
+    if emit:
+        nt.links.new(tx.outputs['Color'], bsdf.inputs['Emission Color']); bsdf.inputs['Emission Strength'].default_value = emit
+    return m
+MAT.update({   # 交誼廳（ART-DORM-LOUNGE-1021）：新加四個材質＝一樓多四個 draw call
+    'atlas':   imgmat('dm_lounge_atlas', 'dorm_lounge_atlas.png', rough=0.85),              # 公告、時鐘、請自備杯子、回收桶標籤、地毯
+    'vendlit': imgmat('dm_vend_panel', 'dorm_vend_panel.png', rough=0.3, emit=0.55),          # 自動販賣機亮著的展示窗
+    'curtain': pbr('dm_curtain', 'rough_linen', tile=1.2, sat=0.5, target='#c7cdb2', base_dir=TEX2, normal=0.5),   # 窗簾（淺灰綠麻布）
+    'shell':   pbr('dm_shell', None, tint=srgb('#7d8a96'), rough=0.55),                     # 長桌的塑膠椅（椅面、椅背）
+    'rug':     pbr('dm_rug', 'dirty_carpet', tile=0.9, sat=0.45, target='#4b5361', base_dir=TEX2, normal=0.6),   # 沙發區的地毯（深灰藍；滾邊用 paper）
+})
+ATL = json.load(open(os.path.join(TEX2, 'gen', 'dorm_lounge_atlas.json'), encoding='utf8'))   # 圖集各區的 UV（u0, v0, u1, v1）
 PM = PL.materials('dm_')
 
 # ---------------- 幾何小工具（和總圖、萬才館室內同一套）----------------
@@ -170,6 +187,38 @@ def group(name, parent=None, props=None):
     if parent: ob.parent = parent
     for k, v in (props or {}).items(): ob[k] = v
     return ob
+
+def _toB(rot):
+    """遊戲座標的旋轉（繞 x、y、z，依序）→ Blender 座標的旋轉矩陣"""
+    Pm = Matrix(((1, 0, 0), (0, 0, -1), (0, 1, 0)))
+    Rg = Matrix.Rotation(rot[2], 3, 'Z') @ Matrix.Rotation(rot[1], 3, 'Y') @ Matrix.Rotation(rot[0], 3, 'X')
+    return Pm @ Rg @ Pm.transposed()
+
+def rbox(name, mat, c, sz, parent=None, rot=(0.0, 0.0, 0.0), bevel=0.0, seg=1, props=None):
+    """中心 c、大小 sz（遊戲座標 x、y、z）、可以轉的圓角方塊（沙發坐墊、靠墊、扶手）"""
+    bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0)
+    bmesh.ops.scale(bm, verts=bm.verts, vec=(sz[0], sz[2], sz[1]))
+    if bevel > 0: bmesh.ops.bevel(bm, geom=list(bm.edges), offset=min(bevel, min(sz) * 0.45), segments=seg, affect='EDGES')
+    bmesh.ops.transform(bm, verts=bm.verts, matrix=_toB(rot).to_4x4(), space=Matrix.Identity(4))
+    bmesh.ops.translate(bm, verts=bm.verts, vec=g2b(*c)); bm.normal_update(); box_uv(bm, mat['tile'] if 'tile' in mat else 1.0)
+    return mesh_obj(name, bm, mat, parent, props)
+
+def tquad(name, mat, uvr, pts, parent=None):
+    """四邊形＋指定的 UV 範圍 uvr＝(u0, v0, u1, v1)；pts＝左下、右下、右上、左上（從正面看）"""
+    u0, v0, u1, v1 = uvr
+    bm = bmesh.new(); vs = [bm.verts.new(g2b(*p)) for p in pts]; fc = bm.faces.new(vs); uv = bm.loops.layers.uv.verify()
+    for lp, (u, v) in zip(fc.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uv].uv = (u, v)
+    bm.normal_update(); return mesh_obj(name, bm, mat, parent)
+
+_RIGHT = {'-z': (-1, 0, 0), '+z': (1, 0, 0), '-x': (0, 0, 1), '+x': (0, 0, -1)}   # 面向 facing 的東西，從正面看的「右邊」
+def wquad(name, region, c, w, h, facing, parent=None, mat=None, uvr=None):
+    """貼在牆上的圖（圖集的一區）：中心 c、寬 w、高 h、面向 facing（'-z'＝朝北…）"""
+    R = _RIGHT[facing]; x, y, z = c
+    pts = [(x - R[0] * w / 2, y - h / 2, z - R[2] * w / 2), (x + R[0] * w / 2, y - h / 2, z + R[2] * w / 2),
+           (x + R[0] * w / 2, y + h / 2, z + R[2] * w / 2), (x - R[0] * w / 2, y + h / 2, z - R[2] * w / 2)]
+    return tquad(name, mat or MAT['atlas'], uvr or ATL[region], pts, parent)
+
+SMOOTH_MATS = ('dm_fabric', 'dm_shell', 'dm_curtain')   # 匯出時平滑（照角度分開硬邊）：沙發、塑膠椅、窗簾
 
 root = group('DormHall')
 L0 = group('L0_root', root); L1 = group('L1_root', root)
@@ -344,10 +393,14 @@ box('L1_rail_curb', MAT['stair'], WL['x0'], MW['x0'], Y1 - ST, Y1 + 0.08, CO['z0
 
 # ================================================================ 6. 家具
 def chair(prefix, parent, x, y, z, yaw):
+    """長桌的椅子：灰藍塑膠椅面、微微後傾的椅背、鐵管腳（後腳往上接到椅背）；坐的人面向 +z（ART-DORM-LOUNGE-1021，原本是木板方塊）"""
     g = group(prefix, parent); g.location = g2b(x, y, z); g.rotation_euler = (0, 0, yaw)
-    box(prefix + '_seat', MAT['wood'], -0.22, 0.22, 0.43, 0.47, -0.21, 0.21, g)
-    box(prefix + '_back', MAT['wood'], -0.21, 0.21, 0.5, 0.85, -0.23, -0.2, g)
-    for (lx, lz) in ((-0.19, -0.18), (0.19, -0.18), (-0.19, 0.18), (0.19, 0.18)): box(f'{prefix}_leg_{lx}_{lz}', MAT['frame'], lx - 0.015, lx + 0.015, 0.0, 0.43, lz - 0.015, lz + 0.015, g)
+    rbox(prefix + '_seat', MAT['shell'], (0, 0.45, 0.01), (0.44, 0.035, 0.42), g, bevel=0.015, seg=2)
+    rbox(prefix + '_back', MAT['shell'], (0, 0.72, -0.2), (0.42, 0.28, 0.03), g, rot=(math.radians(-8), 0, 0), bevel=0.012, seg=2)
+    for sx in (-0.19, 0.19):
+        cyl(f'{prefix}_lf_{sx}', MAT['steel'], (sx, 0.0, 0.19), (sx, 0.44, 0.17), 0.011, g, seg=6)
+        cyl(f'{prefix}_lb_{sx}', MAT['steel'], (sx, 0.0, -0.19), (sx, 0.86, -0.25), 0.011, g, seg=6)
+        cyl(f'{prefix}_lr_{sx}', MAT['steel'], (sx, 0.425, 0.17), (sx, 0.425, -0.2), 0.009, g, seg=6)
     return g
 
 for i, f in enumerate(L['furniture']):
@@ -374,43 +427,101 @@ for i, f in enumerate(L['furniture']):
         box(pre + '_frame', MAT['wood'], -1.2, 1.2, 1.0, 2.2, -0.03, 0.03, g); box(pre + '_cork', MAT['cork'], -1.13, 1.13, 1.07, 2.13, 0.03, 0.04, g)
         for k, (px, py, m) in enumerate(((-0.8, 1.75, 'paper'), (-0.25, 1.8, 'paper2'), (0.3, 1.7, 'paper'), (0.85, 1.78, 'paper3'), (-0.5, 1.3, 'paper3'), (0.5, 1.3, 'paper2'))):
             box(f'{pre}_p{k}', MAT[m], px - 0.2, px + 0.2, py - 0.26, py + 0.26, 0.04, 0.045 + (0.003 if k < 4 else 0.0), g)   # 上排比下排前面 3 mm（原本同一個平面，上下排疊到的角會閃，BUG-COPLANAR-DEV）
-    elif t == 'sofa':
+    elif t == 'sofa':   # 三人座人造皮沙發（ART-DORM-LOUNGE-1021）：底座、三個坐墊、三個往後傾的靠墊、圓扶手、短腳；外框照導航 2.2×0.9、坐墊面 0.45 m
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
-        box(pre + '_base', MAT['fabric'], -1.1, 1.1, 0.08, 0.3, -0.43, 0.43, g, bevel=0.02)
-        for sx in (-0.49, 0.49): box(f'{pre}_cush_{sx}', MAT['fabric'], sx - 0.48, sx + 0.48, 0.3, 0.44, -0.25, 0.41, g, bevel=0.03)
-        box(pre + '_back', MAT['fabric'], -1.0, 1.0, 0.3, 0.82, -0.43, -0.23, g, bevel=0.03)
-        for sx in (-1, 1): box(f'{pre}_arm_{sx}', MAT['fabric'], sx * 1.02 - 0.08, sx * 1.02 + 0.08, 0.26, 0.6, -0.43, 0.43, g, bevel=0.02)
-        for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): box(f'{pre}_leg_{lx}_{lz}', MAT['frame'], lx * 1.0 - 0.03, lx * 1.0 + 0.03, 0.0, 0.08, lz * 0.36 - 0.03, lz * 0.36 + 0.03, g)
-    elif t == 'coffeeTable':
-        box(pre + '_top', MAT['wood'], f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y + 0.38, y + 0.42, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, P, bevel=0.01)
-        for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): box(f'{pre}_leg_{lx}_{lz}', MAT['frame'], f['x'] + lx * (f['w'] / 2 - 0.06) - 0.02, f['x'] + lx * (f['w'] / 2 - 0.06) + 0.02, y, y + 0.38, f['z'] + lz * (f['d'] / 2 - 0.06) - 0.02, f['z'] + lz * (f['d'] / 2 - 0.06) + 0.02, P)
-        box(pre + '_mag', MAT['paper3'], f['x'] - 0.12, f['x'] + 0.1, y + 0.42, y + 0.425, f['z'] - 0.2, f['z'] + 0.12, P)
-    elif t == 'tv':   # 電視（掛牆）＋電視櫃
-        box(pre + '_panel', MAT['black'], f['x'] - 0.04, f['x'] + 0.04, y + 1.15, y + 2.05, f['z'] - f['w'] / 2, f['z'] + f['w'] / 2, P)
-        box(pre + '_screen', MAT['screen'], f['x'] - 0.046, f['x'] - 0.04, y + 1.19, y + 2.01, f['z'] - f['w'] / 2 + 0.04, f['z'] + f['w'] / 2 - 0.04, P)
-        box(pre + '_cab', MAT['wood'], f['x'] - 0.4, f['x'] + 0.1, y, y + 0.48, f['z'] - 0.75, f['z'] + 0.75, P, bevel=0.01)
-    elif t == 'vending':   # 自動販賣機：機身、展示窗（一排一排的飲料）、投幣口、取物口
+        rr = random.Random(77 + i)
+        rbox(pre + '_base', MAT['fabric'], (0, 0.2, -0.02), (2.2, 0.2, 0.84), g, bevel=0.03, seg=2)
+        rbox(pre + '_backframe', MAT['fabric'], (0, 0.52, -0.37), (2.2, 0.48, 0.14), g, bevel=0.04, seg=2)
+        for k, sx in enumerate((-0.62, 0.0, 0.62)):
+            rbox(f'{pre}_cush_{k}', MAT['fabric'], (sx, 0.375 + rr.uniform(-0.01, 0.003), 0.06), (0.61, 0.15, 0.68), g, rot=(0, 0, rr.uniform(-0.012, 0.012)), bevel=0.055, seg=3)
+            rbox(f'{pre}_bcush_{k}', MAT['fabric'], (sx, 0.6, -0.235), (0.6, 0.42, 0.16), g, rot=(math.radians(-10) + rr.uniform(-0.03, 0.03), 0, 0), bevel=0.06, seg=3)
+        for sx in (-1, 1): rbox(f'{pre}_arm_{sx}', MAT['fabric'], (sx * 1.02, 0.45, -0.02), (0.16, 0.34, 0.86), g, bevel=0.07, seg=3)
+        for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): cyl(f'{pre}_leg_{lx}_{lz}', MAT['frame'], (lx * 1.0, 0.0, lz * 0.36), (lx * 1.0, 0.1, lz * 0.36), 0.022, g, seg=8, r2=0.03)
+    elif t == 'coffeeTable':   # 矮桌：木桌面（深色收邊）、下層層板放雜誌；桌上折起來的報紙、遙控器、面紙盒、馬克杯
+        x, z, w, dd = f['x'], f['z'], f['w'], f['d']
+        rbox(pre + '_top', MAT['wood'], (x, y + 0.4, z), (w, 0.04, dd), P, bevel=0.012, seg=2)
+        rbox(pre + '_apron', MAT['frame'], (x, y + 0.365, z), (w - 0.06, 0.03, dd - 0.06), P)
+        rbox(pre + '_shelf', MAT['wood'], (x, y + 0.12, z), (w - 0.1, 0.025, dd - 0.1), P)
+        for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): rbox(f'{pre}_leg_{lx}_{lz}', MAT['frame'], (x + lx * (w / 2 - 0.05), y + 0.19, z + lz * (dd / 2 - 0.05)), (0.035, 0.38, 0.035), P)
+        rbox(pre + '_news', MAT['paper'], (x - 0.06, y + 0.426, z - 0.28), (0.3, 0.012, 0.42), P, rot=(0, 0.2, 0))
+        rbox(pre + '_remote', MAT['black'], (x + 0.14, y + 0.43, z + 0.08), (0.05, 0.02, 0.18), P, rot=(0, -0.4, 0), bevel=0.006)
+        rbox(pre + '_tissue', MAT['white'], (x - 0.13, y + 0.47, z + 0.4), (0.13, 0.1, 0.24), P, bevel=0.012, seg=2)
+        cyl(pre + '_mug', MAT['white'], (x + 0.17, y + 0.42, z + 0.42), (x + 0.17, y + 0.52, z + 0.42), 0.04, P, seg=14)
+        for k in range(3): rbox(f'{pre}_mag_{k}', MAT[('paper3', 'paper2', 'paper')[k]], (x + 0.02 * k, y + 0.14 + 0.012 * k, z - 0.12 + 0.05 * k), (0.24, 0.01, 0.32), P, rot=(0, 0.15 * k, 0))
+    elif t == 'tv':   # 掛牆的薄電視＋矮電視櫃（三格門片、把手）、機上盒、直立的遊戲機、兩支手把；櫃子在導航的 0.45×1.5 裡面
+        x, z, w = f['x'], f['z'], f['w']; cx = x - 0.12
+        rbox(pre + '_panel', MAT['black'], (x + 0.11, y + 1.6, z), (0.05, 0.92, w), P, bevel=0.008)
+        rbox(pre + '_screen', MAT['screen'], (x + 0.084, y + 1.61, z), (0.004, 0.86, w - 0.04), P)
+        rbox(pre + '_cab', MAT['wood'], (cx, y + 0.27, z), (0.42, 0.42, 1.46), P, bevel=0.01)
+        rbox(pre + '_plinth', MAT['frame'], (cx + 0.02, y + 0.03, z), (0.36, 0.06, 1.4), P)
+        for k in range(3):
+            zz = z - 0.48 + k * 0.48
+            rbox(f'{pre}_door_{k}', MAT['wood'], (cx - 0.213, y + 0.27, zz), (0.008, 0.36, 0.45), P)
+            rbox(f'{pre}_handle_{k}', MAT['steel'], (cx - 0.224, y + 0.4, zz), (0.012, 0.015, 0.14), P)
+        rbox(pre + '_stb', MAT['black'], (cx + 0.02, y + 0.505, z - 0.42), (0.2, 0.05, 0.3), P, bevel=0.005)
+        rbox(pre + '_console', MAT['white'], (cx + 0.05, y + 0.66, z + 0.42), (0.1, 0.32, 0.26), P, bevel=0.015, seg=2)
+        rbox(pre + '_console_base', MAT['black'], (cx + 0.05, y + 0.49, z + 0.42), (0.14, 0.02, 0.2), P)
+        for k in range(2): rbox(f'{pre}_pad_{k}', MAT['black' if k else 'white'], (cx - 0.07, y + 0.5, z + 0.04 + k * 0.17), (0.1, 0.035, 0.15), P, rot=(0, 0.3 * (k - 0.5), 0), bevel=0.012, seg=2)
+    elif t == 'vending':   # 自動販賣機（第一台淺灰、第二台紅色）：機身、亮著的展示窗（dorm_vend_panel.png：最上面一排奶茶「售完」，遊戲文字）、玻璃、投幣口、紙鈔口、退幣口、取物口
+        vi = [j for j, ff in enumerate(L['furniture']) if ff['type'] == 'vending'].index(i)
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
-        box(pre + '_body', MAT['vend'], -0.5, 0.5, 0.0, 1.85, -0.37, 0.37, g, bevel=0.02)
-        box(pre + '_win', MAT['white'], -0.42, 0.22, 0.62, 1.75, 0.37, 0.38, g)
-        cols = ['red', 'blue', 'yellow', 'green', 'white', 'red']
-        for j in range(4):
-            for i in range(6): box(f'{pre}_can_{i}_{j}', MAT[cols[(i + j) % 6]], -0.38 + i * 0.1, -0.31 + i * 0.1, 0.68 + j * 0.27, 0.86 + j * 0.27, 0.38, 0.4, g)
-            box(f'{pre}_btnrow_{j}', MAT['frame'], -0.4, 0.2, 0.64 + j * 0.27, 0.66 + j * 0.27, 0.38, 0.4, g)
-        box(pre + '_coin', MAT['frame'], 0.28, 0.42, 0.95, 1.25, 0.37, 0.39, g); box(pre + '_slot', MAT['black'], -0.35, 0.15, 0.18, 0.36, 0.37, 0.39, g)
-    elif t == 'water':   # 飲水機
+        body = MAT['vend'] if vi % 2 == 0 else MAT['red']
+        rbox(pre + '_body', body, (0, 0.95, -0.03), (1.0, 1.8, 0.68), g, bevel=0.02, seg=2)
+        rbox(pre + '_plinth', MAT['black'], (0, 0.03, -0.02), (0.96, 0.06, 0.66), g)
+        rbox(pre + '_door', body, (0, 0.96, 0.33), (0.98, 1.74, 0.05), g, bevel=0.012, seg=2)
+        u0 = 0.0 if vi % 2 == 0 else 0.5
+        tquad(pre + '_panel', MAT['vendlit'], (u0, 0.0, u0 + 0.5, 1.0), [(-0.44, 0.6, 0.357), (0.2, 0.6, 0.357), (0.2, 1.8, 0.357), (-0.44, 1.8, 0.357)], g)
+        quad(pre + '_glass', MAT['glass'], [(-0.44, 0.6, 0.368), (0.2, 0.6, 0.368), (0.2, 1.8, 0.368), (-0.44, 1.8, 0.368)], g, tile=1.0)
+        for (xa, xb, ya, yb) in ((-0.47, -0.44, 0.57, 1.83), (0.2, 0.23, 0.57, 1.83), (-0.47, 0.23, 0.57, 0.6), (-0.47, 0.23, 1.8, 1.83)):
+            box(f'{pre}_wf_{xa:.2f}_{ya:.2f}', MAT['black'], xa, xb, ya, yb, 0.355, 0.372, g)
+        rbox(pre + '_coinplate', MAT['steel'], (0.34, 1.28, 0.362), (0.13, 0.22, 0.012), g, bevel=0.004)
+        rbox(pre + '_coin', MAT['black'], (0.34, 1.33, 0.369), (0.012, 0.05, 0.004), g)
+        rbox(pre + '_bill', MAT['black'], (0.34, 1.1, 0.366), (0.12, 0.09, 0.012), g)
+        rbox(pre + '_lcd', MAT['screen'], (0.34, 1.47, 0.366), (0.1, 0.04, 0.008), g)
+        rbox(pre + '_return', MAT['black'], (0.34, 0.8, 0.366), (0.08, 0.07, 0.012), g)
+        rbox(pre + '_slot', MAT['black'], (-0.12, 0.27, 0.36), (0.62, 0.22, 0.02), g)
+        rbox(pre + '_flap', MAT['frame'], (-0.12, 0.29, 0.37), (0.58, 0.16, 0.01), g, rot=(0.25, 0, 0))
+    elif t == 'water':   # 飲水機（熱、溫、冰三個出水口；牆上「請自備杯子」，遊戲文字）：白色機身、不鏽鋼頂板、深色出水區、出水口上蓋與按鈕、滴水盤、指示燈
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
-        box(pre + '_body', MAT['white'], -0.2, 0.2, 0.0, 1.25, -0.2, 0.2, g, bevel=0.02)
-        box(pre + '_tray', MAT['frame'], -0.16, 0.16, 0.62, 0.66, 0.14, 0.26, g)
-        for k, c in enumerate(('red', 'blue', 'white')): box(f'{pre}_tap_{k}', MAT[c], -0.12 + k * 0.1, -0.08 + k * 0.1, 0.92, 0.98, 0.2, 0.24, g)
-    elif t == 'longTable':
-        box(pre + '_top', MAT['wood'], f['x'] - f['w'] / 2, f['x'] + f['w'] / 2, y + 0.72, y + 0.76, f['z'] - f['d'] / 2, f['z'] + f['d'] / 2, P, bevel=0.01)
-        for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): box(f'{pre}_leg_{lx}_{lz}', MAT['frame'], f['x'] + lx * (f['w'] / 2 - 0.1) - 0.025, f['x'] + lx * (f['w'] / 2 - 0.1) + 0.025, y, y + 0.72, f['z'] + lz * (f['d'] / 2 - 0.1) - 0.025, f['z'] + lz * (f['d'] / 2 - 0.1) + 0.025, P)
+        rbox(pre + '_body', MAT['white'], (0, 0.62, 0), (0.4, 1.24, 0.4), g, bevel=0.02, seg=2)
+        rbox(pre + '_top', MAT['steel'], (0, 1.255, 0), (0.41, 0.03, 0.41), g, bevel=0.008)
+        rbox(pre + '_alcove', MAT['frame'], (0, 0.86, 0.203), (0.32, 0.38, 0.008), g)
+        rbox(pre + '_hood', MAT['white'], (0, 1.07, 0.235), (0.34, 0.06, 0.07), g, bevel=0.01)
+        for k, c in enumerate(('red', 'white', 'blue')):
+            tx = -0.1 + k * 0.1
+            cyl(f'{pre}_tap_{k}', MAT['steel'], (tx, 0.98, 0.235), (tx, 1.04, 0.235), 0.012, g, seg=8)
+            rbox(f'{pre}_btn_{k}', MAT[c], (tx, 1.07, 0.272), (0.06, 0.035, 0.008), g, bevel=0.004)
+        rbox(pre + '_tray', MAT['steel'], (0, 0.68, 0.235), (0.3, 0.025, 0.08), g, bevel=0.004)
+        for k in range(5): rbox(f'{pre}_grille_{k}', MAT['black'], (-0.12 + k * 0.06, 0.694, 0.235), (0.012, 0.004, 0.07), g)
+        for k, c in enumerate(('red', 'green')): rbox(f'{pre}_led_{k}', MAT[c], (0.11 + k * 0.035, 1.17, 0.201), (0.015, 0.015, 0.004), g)
+        dw = abs((LB['z1'] if f['lv'] == 0 else CO['z0']) - f['z'])   # 到背後那面牆的距離
+        wquad(pre + '_cups', 'cups', (0, 1.52, -dw + 0.012), 0.42, 0.42 * (590 - 482) / 424, '+z', g)
+    elif t == 'longTable':   # 長桌（木桌面、鐵腳、橫桿）＋塑膠椅；桌上疊著的書、攤開的筆記本和筆、筆袋、保溫瓶（有人在這裡讀書）
+        x, z, w, dd = f['x'], f['z'], f['w'], f['d']
+        rbox(pre + '_top', MAT['wood'], (x, y + 0.74, z), (w, 0.04, dd), P, bevel=0.01, seg=2)
+        for lx in (-1, 1):
+            for lz in (-1, 1): rbox(f'{pre}_leg_{lx}_{lz}', MAT['frame'], (x + lx * (w / 2 - 0.12), y + 0.36, z + lz * (dd / 2 - 0.1)), (0.04, 0.72, 0.04), P)
+            rbox(f'{pre}_brace_{lx}', MAT['frame'], (x + lx * (w / 2 - 0.12), y + 0.62, z), (0.03, 0.04, dd - 0.2), P)
+        rbox(pre + '_rail', MAT['frame'], (x, y + 0.62, z - dd / 2 + 0.1), (w - 0.24, 0.03, 0.03), P)
         n = f.get('seats', 2)
         for k in range(n):
-            sx = f['x'] - f['w'] / 2 + f['w'] * (k + 0.5) / n
-            for s in (-1, 1): chair(f'{pre}_ch_{k}_{s}', P, sx, y, f['z'] + s * (f['d'] / 2 + 0.38), math.pi if s > 0 else 0.0)
-        box(pre + '_book', MAT['blue'], f['x'] - 0.5, f['x'] - 0.2, y + 0.76, y + 0.79, f['z'] - 0.12, f['z'] + 0.1, P)
+            sx = x - w / 2 + w * (k + 0.5) / n
+            for s_ in (-1, 1): chair(f'{pre}_ch_{k}_{s_}', P, sx, y, z + s_ * (dd / 2 + 0.38), math.pi if s_ > 0 else 0.0)
+        rbox(pre + '_book0', MAT['blue'], (x - 0.62, y + 0.775, z - 0.12), (0.2, 0.03, 0.27), P, rot=(0, 0.12, 0), bevel=0.004)
+        rbox(pre + '_book1', MAT['red'], (x - 0.6, y + 0.8, z - 0.1), (0.18, 0.022, 0.25), P, rot=(0, -0.08, 0), bevel=0.004)
+        rbox(pre + '_note', MAT['paper'], (x + 0.3, y + 0.765, z + 0.12), (0.42, 0.008, 0.29), P, rot=(0, 0.2, 0))
+        rbox(pre + '_pen', MAT['black'], (x + 0.36, y + 0.774, z + 0.1), (0.13, 0.01, 0.01), P, rot=(0, 0.6, 0))
+        rbox(pre + '_case', MAT['green'], (x - 0.1, y + 0.79, z + 0.15), (0.2, 0.06, 0.07), P, rot=(0, 0.3, 0), bevel=0.02, seg=2)
+        cyl(pre + '_bottle', MAT['steel'], (x + 0.85, y + 0.76, z - 0.2), (x + 0.85, y + 0.98, z - 0.2), 0.035, P, seg=12)
+    elif t == 'bins':   # 資源回收桶三個（一般垃圾、紙類、寶特瓶・鐵鋁罐；ART-DORM-LOUNGE-1021 新增）：桶身、上蓋、投入口、正面的標籤（圖集）
+        g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
+        bw = (f['w'] - 0.04 * 2) / 3
+        for k, m in enumerate(('rubber', 'green', 'blue')):
+            bx = -f['w'] / 2 + bw / 2 + k * (bw + 0.04)
+            rbox(f'{pre}_body_{k}', MAT[m], (bx, 0.38, 0), (bw, 0.76, 0.4), g, bevel=0.03, seg=2)
+            rbox(f'{pre}_lid_{k}', MAT[m], (bx, 0.79, 0), (bw + 0.02, 0.06, 0.42), g, bevel=0.02, seg=2)
+            rbox(f'{pre}_slot_{k}', MAT['black'], (bx, 0.821, 0.03), (bw * 0.6, 0.006, 0.13), g)
+            lw = bw * 0.86; wquad(f'{pre}_label_{k}', f'bin{k}', (bx, 0.6, 0.2015), lw, lw * 68 / 424, '+z', g)
     elif t == 'planter':
         PL.potted(mesh_obj, PM, pre, P, f['x'], y + 0.5, f['z'], f['r'], seed=601 + i, h=1.1)
         bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=16, radius1=f['r'] * 0.85, radius2=f['r'], depth=0.5)
@@ -419,6 +530,60 @@ for i, f in enumerate(L['furniture']):
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
         box(pre + '_seat', MAT['wood'], -f['w'] / 2, f['w'] / 2, 0.42, 0.46, -f['d'] / 2, f['d'] / 2, g, bevel=0.01)
         for sx in (-1, 1): box(f'{pre}_leg_{sx}', MAT['steel'], sx * (f['w'] / 2 - 0.12) - 0.025, sx * (f['w'] / 2 - 0.12) + 0.025, 0.0, 0.42, -f['d'] * 0.45, f['d'] * 0.45, g)
+
+# ================================================================ 6b. 交誼廳的牆上、天花板、地毯（ART-DORM-LOUNGE-1021；都不在走路的地方，不動導航）
+LZ = LB['z1']; EX = CO['x1']   # 南牆（窗、販賣機那一面）、東牆（電視那一面）的牆面
+# 吊扇兩支：貼天花板的款式，扇葉在 3.09～3.11 m——比宿舍鏡頭最高的 3.0 m（dorm3d.js camMaxY）高，不會擋在鏡頭和人中間
+for k, (fx, fz) in enumerate(((7.0, 5.0), (11.2, 5.4))):
+    cyl(f'L0_fan{k}_canopy', MAT['white'], (fx, HC - 0.04, fz), (fx, HC, fz), 0.07, L0, seg=16)
+    cyl(f'L0_fan{k}_rod', MAT['white'], (fx, HC - 0.16, fz), (fx, HC - 0.04, fz), 0.018, L0, seg=8)
+    cyl(f'L0_fan{k}_motor', MAT['white'], (fx, HC - 0.27, fz), (fx, HC - 0.16, fz), 0.13, L0, seg=20, r2=0.11)
+    cyl(f'L0_fan{k}_cap', MAT['steel'], (fx, HC - 0.29, fz), (fx, HC - 0.27, fz), 0.06, L0, seg=12)
+    for b in range(3):
+        a = b * 2 * math.pi / 3 + k * 0.5
+        rbox(f'L0_fan{k}_arm{b}', MAT['steel'], (fx + math.cos(a) * 0.17, HC - 0.235, fz + math.sin(a) * 0.17), (0.18, 0.012, 0.035), L0, rot=(0, -a, 0))
+        rbox(f'L0_fan{k}_blade{b}', MAT['wood'], (fx + math.cos(a) * 0.5, HC - 0.235, fz + math.sin(a) * 0.5), (0.58, 0.01, 0.13), L0, rot=(0.12, -a, 0), bevel=0.004)
+# 冷氣（分離式室內機，東牆靠走廊那一段）
+rbox('L0_ac_body', MAT['white'], (EX - 0.11, 2.75, 2.6), (0.2, 0.28, 0.92), L0, bevel=0.03, seg=2)
+rbox('L0_ac_vent', MAT['frame'], (EX - 0.205, 2.65, 2.6), (0.012, 0.035, 0.8), L0)
+rbox('L0_ac_led', MAT['green'], (EX - 0.212, 2.8, 2.98), (0.004, 0.012, 0.03), L0)
+cyl('L0_ac_pipe', MAT['white'], (EX - 0.04, 2.66, 3.08), (EX - 0.04, 2.0, 3.08), 0.03, L0, seg=8)
+# 時鐘（南牆兩扇窗中間的上方）：黑框、白錶面（圖集）、指針指 10 點 10 分
+cx, cy, cz = 9.9, 2.78, LZ - 0.02
+cyl('L0_clock_rim', MAT['black'], (cx, cy, LZ - 0.005), (cx, cy, LZ - 0.045), 0.18, L0, seg=32)
+wquad('L0_clock_face', 'clock', (cx, cy, LZ - 0.047), 0.33, 0.33, '-z', L0)
+for nm, th, ln, wd in (('h', -math.radians(55), 0.085, 0.014), ('m', math.radians(60), 0.13, 0.009)):   # th：從 12 點順時針（從正面看）；面向 -z 時「右」是 -x
+    dx, dy = -math.sin(th), math.cos(th)
+    rbox(f'L0_clock_{nm}', MAT['black'], (cx + dx * ln / 2, cy + dy * ln / 2, LZ - 0.052), (ln, wd, 0.004), L0, rot=(0, 0, math.atan2(dy, dx)))
+# 公告欄（東牆、電視南邊）：木框、軟木板、四張公告（圖集），每張微微歪一點
+bz0, bz1, by0, by1 = 5.75, 7.15, 1.05, 2.05
+rbox('L0_board_frame', MAT['wood'], (EX - 0.015, (by0 + by1) / 2, (bz0 + bz1) / 2), (0.03, by1 - by0, bz1 - bz0), L0, bevel=0.005)
+rbox('L0_board_cork', MAT['cork'], (EX - 0.031, (by0 + by1) / 2, (bz0 + bz1) / 2), (0.004, by1 - by0 - 0.08, bz1 - bz0 - 0.08), L0)
+for k, (rg, zc, yc, w_, h_, tilt) in enumerate((('rules', 6.02, 1.76, 0.33, 0.466, 0.02), ('club', 6.45, 1.74, 0.33, 0.466, -0.035), ('laundry', 6.88, 1.77, 0.33, 0.466, 0.015), ('lost', 6.3, 1.26, 0.3, 0.282, -0.02))):
+    wquad(f'L0_board_p{k}', rg, (EX - 0.036 - k * 0.002, yc, zc), w_, h_, '-x', L0)
+    ob = bpy.data.objects[f'L0_board_p{k}']; ob.data.transform(Matrix.Translation(g2b(EX, yc, zc)) @ Matrix.Rotation(tilt, 4, 'X') @ Matrix.Translation(-g2b(EX, yc, zc)))
+# 窗簾（南牆兩扇窗，打開收在兩側）：橫桿＋兩片有波浪摺的麻布
+def curtain(prefix, xa, xb, zc, y0, y1, folds=5, amp=0.035):
+    n = folds * 8; bm = bmesh.new(); top, bot = [], []
+    for k in range(n + 1):
+        t = k / n; x = xa + (xb - xa) * t; z = zc - amp * math.sin(2 * math.pi * folds * t)
+        top.append(bm.verts.new(g2b(x, y1, z))); bot.append(bm.verts.new(g2b(x, y0, z)))
+    uv = bm.loops.layers.uv.verify()
+    for k in range(n):
+        fc = bm.faces.new((bot[k], bot[k + 1], top[k + 1], top[k]))
+        for lp, (u, v) in zip(fc.loops, ((k / n, 0), ((k + 1) / n, 0), ((k + 1) / n, 1), (k / n, 1))): lp[uv].uv = (u * (xb - xa) * 1.6, v * (y1 - y0) / 1.2)
+    bm.normal_update(); return mesh_obj(prefix, bm, MAT['curtain'], L0)
+for k, (a, b) in enumerate(((7.4, 9.4), (10.4, 12.4))):   # 窗台凸出到牆面前 12 cm：窗簾在 16 cm 外，不會插進窗台
+    cyl(f'L0_crod_{k}', MAT['steel'], (a - 0.2, 2.64, LZ - 0.16), (b + 0.2, 2.64, LZ - 0.16), 0.012, L0, seg=8)
+    for e in (a - 0.2, b + 0.2): rbox(f'L0_crod_{k}_br_{e:.1f}', MAT['steel'], (e, 2.64, LZ - 0.08), (0.02, 0.02, 0.16), L0)
+    curtain(f'L0_curtain_{k}_l', a - 0.18, a + 0.18, LZ - 0.16, 0.92, 2.62)
+    curtain(f'L0_curtain_{k}_r', b - 0.18, b + 0.18, LZ - 0.16, 0.92, 2.62)
+# 地毯（沙發和電視中間；深灰藍、米色滾邊；1.4 cm 厚，不擋路）
+rx0, rx1, rz0, rz1, rb = 9.4, 12.6, 3.0, 6.2, 0.08
+rbox('L0_rug', MAT['rug'], ((rx0 + rx1) / 2, 0.007, (rz0 + rz1) / 2), (rx1 - rx0 - 2 * rb, 0.014, rz1 - rz0 - 2 * rb), L0)
+for nm, (cx_, cz_, sx_, sz_) in (('n', ((rx0 + rx1) / 2, rz0 + rb / 2, rx1 - rx0, rb)), ('s', ((rx0 + rx1) / 2, rz1 - rb / 2, rx1 - rx0, rb)),
+                                 ('w', (rx0 + rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb)), ('e', (rx1 - rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb))):
+    rbox(f'L0_rug_edge_{nm}', MAT['paper'], (cx_, 0.0075, cz_), (sx_, 0.015, sz_), L0)
 
 # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆照方向分組：一起淡出）----------------
 def flatten(level_root):
@@ -454,8 +619,10 @@ for r_, pre in ((L0, 'L0'), (L1, 'L1')): flatten(r_); join_by_material(r_, pre)
 # ---------------- 匯出 ----------------
 for ob in scene.objects:
     if ob.type == 'MESH':
-        sm = ob.data.materials[0].name.startswith(('dm_leaf_dark', 'dm_leaf_mid'))
+        mn = ob.data.materials[0].name
+        sm = mn.startswith(('dm_leaf_dark', 'dm_leaf_mid') + SMOOTH_MATS)
         for p in ob.data.polygons: p.use_smooth = sm
+        if mn.startswith(SMOOTH_MATS): ob.data.set_sharp_from_angle(angle=math.radians(40))   # 沙發的圓角、窗簾的摺：平滑，但方塊的直角保持硬邊
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in scene.objects if ob.type == 'MESH')
 bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82, export_yup=True, export_apply=True,
