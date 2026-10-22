@@ -114,13 +114,18 @@ async def enter_reading_room(pg, cdp, run):
     """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
     it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
     if not it: return False, 'no door'
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
+    ok = await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
+    lab = it[3]
+    if not ok:   # LIB_HERE 測的是「兩個人都在總圖時當面約總圖」，走到樓梯間不是這一項要測的；走不到（雲端 1 fps）就放到門口，再照玩家按門進去
+        run.setup('LIB_HERE：雲端 1 fps 走不到大廳二樓的樓梯間 → 把玩家放到樓梯間門口（E.placeAt，第 %d 層），再照玩家按「%s」進 3F 閱覽室' % (it[2], it[3]))
+        await pg.evaluate("(([x,z,l])=>{ const E=GAME.E,P=E.player; P.path=null; P.target=null; E.placeAt(P,x,z,l); try{ E.unstick&&E.unstick(P,8); }catch(e){} })(%s)" % json.dumps(it[:3]))
+        await pg.wait_for_timeout(3000); lab = '%s（走不到，捷徑放到門口）' % it[3]
     await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(1000)
         if (await pg.evaluate("GAME.G.zone")) == 'library': break
     await pg.wait_for_timeout(4000)
-    return (await pg.evaluate("GAME.G.zone")) == 'library', it[3]
+    return (await pg.evaluate("GAME.G.zone")) == 'library', lab
 
 
 CONS = {}
@@ -128,6 +133,25 @@ DIAG = """(()=>{ const G=GAME.G, n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='her
   return {h:+(+G.hour).toFixed(3), pBusy:!!P.busy, pSeat:!!P.seat, depth:GAME.D?GAME.D.busyDepth:null, dActive:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active),
     her:n?{id:n.id, busy:!!n.busy, beh:n.beh||null, seat:!!n.seat, talk:typeof n.talk, label:n.talkLabel||null}:null, inv:(G.invites||[]).map(v=>({who:v.who,state:v.state,place:v.place})),
     meetable:typeof INV!=='undefined'&&INV.meetable?!!INV.meetable(G,'heroine_05'):null, phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())}; })()"""
+
+
+MENU_GEOM = """(()=>{ const box=document.getElementById('choices'), bs=box?[...box.querySelectorAll('button')]:[]; if(!bs.length) return null;
+  const b=bs[0], r=b.getBoundingClientRect(), br=box.getBoundingClientRect(), el=document.elementFromPoint(r.left+r.width/2, r.top+r.height/2);
+  return {n:bs.length, first:b.textContent.trim().slice(0,16), top:Math.round(r.top), bottom:Math.round(r.bottom), boxTop:Math.round(br.top), vh:innerHeight, vw:innerWidth,
+    hit:el===b||b.contains(el), scrollTop:box.scrollTop, sh:box.scrollHeight, ch:box.clientHeight, disp:getComputedStyle(box).display, adv:document.body.classList.contains('adv-on')}; })()"""
+
+
+async def menu_geom(pg, run, tag, place):
+    """be8c1b0e（手機橫向：ADV 裡的選單太長時第一排點得到）：當面約的地點選單一出來、還沒捲動前，量第一個按鈕在不在畫面裡、點不點得到"""
+    g = None
+    for _ in range(30):
+        ops = await opts(pg)
+        if any(o.startswith(place) for o in ops): g = await pg.evaluate(MENU_GEOM); break
+        await pg.wait_for_timeout(600)
+    if g and g['vw'] > g['vh']:
+        ok = g['hit'] and g['top'] >= 0 and g['bottom'] <= g['vh']
+        run.check('%s：橫向，當面約的地點選單一出來，第一排就在畫面裡、點得到（be8c1b0e；沒有先捲動）' % tag, ok, json.dumps(g, ensure_ascii=False))
+    return g
 
 
 async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
@@ -151,6 +175,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
         st2 = await pg.evaluate(ST)
         if st2['her']: await L.go_to(pg, cdp, run, st2['her']['x'], st2['her']['z'], 1.2, '學姊', max_s=60, lv=await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"))
     if not got: return False, trace
+    trace['menu_geom'] = await menu_geom(pg, run, tag, place)
     got, ops = await pick(pg, cdp, place, wait=20); trace['places'] = ops
     if not got: return False, trace
     got, ops = await pick(pg, cdp, '現在一起過去', wait=20); trace['times'] = ops
