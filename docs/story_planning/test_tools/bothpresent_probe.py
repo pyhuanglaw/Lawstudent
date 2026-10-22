@@ -114,13 +114,18 @@ async def enter_reading_room(pg, cdp, run):
     """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
     it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
     if not it: return False, 'no door'
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
+    ok = await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
+    lab = it[3]
+    if not ok:   # LIB_HERE 測的是「兩個人都在總圖時當面約總圖」，走到樓梯間不是這一項要測的；走不到（雲端 1 fps）就放到門口，再照玩家按門進去
+        run.setup('LIB_HERE：雲端 1 fps 走不到大廳二樓的樓梯間 → 把玩家放到樓梯間門口（E.placeAt，第 %d 層），再照玩家按「%s」進 3F 閱覽室' % (it[2], it[3]))
+        await pg.evaluate("(([x,z,l])=>{ const E=GAME.E,P=E.player; P.path=null; P.target=null; E.placeAt(P,x,z,l); try{ E.unstick&&E.unstick(P,8); }catch(e){} })(%s)" % json.dumps(it[:3]))
+        await pg.wait_for_timeout(3000); lab = '%s（走不到，捷徑放到門口）' % it[3]
     await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(1000)
         if (await pg.evaluate("GAME.G.zone")) == 'library': break
     await pg.wait_for_timeout(4000)
-    return (await pg.evaluate("GAME.G.zone")) == 'library', it[3]
+    return (await pg.evaluate("GAME.G.zone")) == 'library', lab
 
 
 CONS = {}
