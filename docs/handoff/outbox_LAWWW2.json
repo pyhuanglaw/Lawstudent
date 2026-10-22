@@ -1997,6 +1997,23 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "溫州街店家室內鏡頭遮擋（盤點工具 room_cam_audit.py）：一盞 29.3%→2.4%（隔間當鏡頭牆、正面那一排歸 WALL_engawa、燈籠網點透空）、半熟 11.4%→5.2%（排煙罩歸後牆、吊燈網點透空；也帶著 612028f6 的椅子方向）；wz_shops_cam_unit 修改前 12 FAIL、修改後 ALL PASS；j30 遊戲內前後、座位 0 問題"
+  },
+  {
+   "task": "LANE118-SHOPS-1020",
+   "branch": "claude/second-ai-env-art",
+   "sha": "e703d408",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/l118_bar_lift.diff",
+    "tools/blender/env_second/lane118_shops.py",
+    "docs/art-rebuild/second_ai/test_shots/l118_lift_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "腳沒有特別放到腳踏圈上（整個人抬高，近看腳懸空）；真機沒看過",
+   "next": "LAWWW 套 l118_bar_lift.diff（src/l118_shops3d.js 一行、src/data/l118_shop_layouts.js、四份 l118_*.layout.json 只多 lift、tests/l118_bar_lift_unit.js；對 4660ca57 乾淨），跑 l118_bar_lift_unit、l118_shops_unit、seats_on_furniture（l118_cafe2、l118_pasta、l118_omu、l118_tea）；GLB 不用換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "118 巷四家店吧台高腳椅（座面 0.76 m）17 個座位帶 lift 0.31：原本人坐進凳子裡（凳面在腰上）。l118_bar_lift_unit 修改前 8 FAIL、修改後 ALL PASS；j24 遊戲內側面前後；j24b seats_on_furniture 四家店 47 個座位有問題 0"
   }
  ]
 }
