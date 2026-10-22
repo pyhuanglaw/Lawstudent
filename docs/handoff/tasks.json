@@ -23787,7 +23787,7 @@
    "title": "v9.10.2 發布後檢查：TESTING 第五節其他幾支＋還沒在瀏覽器看過的項目",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -23801,7 +23801,7 @@
    },
    "source": "使用者 2026-10-19 01:4x：「你先發佈然後剩下的測試留在等一下的交班」",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：對 main 9335763d 的乾淨 worktree 跑 reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7＋deploy_check 的 us_campus、us_lawlib；TEST_RESULTS 第 3 節瀏覽器項目派 BB（D100），結果寫回 RELEASES；有壞就修、發 v9.10.3 ｜ 對 main 9335763d（乾淨 worktree）跑 docs/TESTING.md 第五節其他幾支：reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7（10-18 22:2x 對開發分支 ALL PASS，之後只改手機訊息畫面、翹課轉述、版本字樣）；deploy_check 沒走的 us_campus、us_lawlib；TEST_RESULTS_1018.md 第 3 節還沒在瀏覽器看過的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪）。有壞的修、重發 v9.10.3。測試可以派 BB（D100），BB 不在就 LAWWW 自己跑",
+   "next": "【LAWWW（帳號 A）14:2x】被取代：v9.10.2 以後已發布 v9.10.3～v9.10.5（各自跑過發布前測試）；這裡列的 TESTING 第五節其他幾支（reachability_all、flow_class_real、minimap_direction、zone_transitions、p0_movement、save_compat_v7、us_campus／us_lawlib）在 v9.10.6 發布前全跑（RELEASE-9106） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：對 main 9335763d 的乾淨 worktree 跑 reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7＋deploy_check 的 us_campus、us_lawlib；TEST_RESULTS 第 3 節瀏覽器項目派 BB（D100），結果寫回 RELEASES；有壞就修、發 v9.10.3 ｜ 對 main 9335763d（乾淨 worktree）跑 docs/TESTING.md 第五節其他幾支：reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7（10-18 22:2x 對開發分支 ALL PASS，之後只改手機訊息畫面、翹課轉述、版本字樣）；deploy_check 沒走的 us_campus、us_lawlib；TEST_RESULTS_1018.md 第 3 節還沒在瀏覽器看過的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪）。有壞的修、重發 v9.10.3。測試可以派 BB（D100），BB 不在就 LAWWW 自己跑",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -23809,7 +23809,9 @@
      "evidence": "docs/RELEASES.md v9.10.2 節列「沒跑、留到交班」的 TESTING 第五節七支與 TEST_RESULTS 第 3 節瀏覽器項目；docs/handoff/TEST_RESULTS_1018.md 最後更新 8462e078（10-19 01:53），之後沒有對 main 9335763d 跑這些的紀錄或提交",
      "note": "線上 v9.10.2 的發布後檢查一直沒跑"
     }
-   ]
+   ],
+   "replacedBy": "RELEASE-9106",
+   "reason": "v9.10.3～v9.10.5 已發布、各自跑過發布前測試；剩下的 TESTING 第五節幾支併進 RELEASE-9106 的發布前清單（LAWWW 帳號 A 10-22 14:1x，D85）"
   },
   {
    "id": "REL-9103-1020",
@@ -29324,6 +29326,27 @@
    "authorized": "D85（一般 bug）",
    "next": "【LAWWW（帳號 A）13:4x】game3d.js openPhone：沒有 th（列表）＝scrollTop 歸零、有 th＝捲到最新；tests/phone_auto_unit.js 加一項（修改前 FAIL、修改後 ALL PASS）。下一步：BB 下次寒暑假快轉時看列表最上面那則",
    "sha": null
+  },
+  {
+   "id": "RELEASE-9106",
+   "title": "發布 v9.10.6：v9.10.5 以後的（AA296 只用手機演的改當面、可昕慢慢分手、芷若×子晴、學姊第四批 AA_386、溫州街四家店 AA_364、遠距離路人低面數、日本 3D 房間電話、手機列表捲動、進場事件先劇情、舊存檔烤肉期限；AA_387、公園路人、沛珊第三十一版趕得上才放）——BB 判定＋發布前清單（TESTING 第五節 1～9 全跑）＋PR 合併 main＋Pages 驗證",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
   }
  ]
 }
