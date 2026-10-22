@@ -2107,13 +2107,13 @@
     "tools/blender/{classroom_201,dorm_hall,linze_interior,wancai_interior,lawlib_interior}.py、tools/blender/env_second/{teach_interior,library_3f}.py",
     "docs/art-rebuild/second_ai/test_shots/ceil_more_1022/（README 第二版、mine_max、rooms_max、classroom_grid、low_before_after、low_quads_rejected、dorm_gate_before_after）"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "偵煙器、冷氣出風口、霖澤館二樓電梯車廂頂從上面還看得到；骨架整組一起藏（鏡頭剛好在天花板高度附近時會整組消失或出現，和牆淡出一樣）；真機沒看過",
    "next": "LAWWW：git apply patches/ceiling_lights.diff（對 4d3a305d／0bb6e8c0／cc4528be 乾淨；第一版 ceiling_more.diff 已接，不要再套）＋換八份 GLB（＋四份 .json），patch 和模型一起接（舊測試配新模型 201 會 FAIL 1）；跑 room_ceiling_unit、nav_buildings_unit；遊戲程式不用改",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "第二版（修正）：骨架、輕鋼架、燈框、201 的燈箱、男宿門廳的吸頂日光燈＝方盒照舊（從下面看同一組三角形），整組放進名字含 WALL_、dir＝[0,−1,0] 的節點：鏡頭比它高時和牆一樣藏起來（各區域 fadeWalls＋引擎 hideFaded 現成的邏輯；attachRoomGLB、B3.attachFormal 都收 WALL_）；平的燈板單面（霖澤館、萬才館、博雅、普通、總圖 3F、法圖）。09:3x 試過骨架只留底面、單面朝下：j46 從下面平視看（俯角 0.06）遠處的格子不見了（2.4 cm 平面投影不到一個像素），沒有採用（README 有對照圖）。八份和原本比：每個材質的世界座標三角形完全相同，只有節點名字／dir、天花板／燈板不再雙面。男宿門廳順便：大門鋁框、門把放進前牆那一組 WALL_（鏡頭在門外時一起淡出：一進男宿的第一個畫面原本粗黑框擋住人，巡場景第 3 區 j47 看到的，P1）。七份在開發分支 4d3a305d 的工作樹匯出（本分支的博雅、普通配置是舊的，會把空橋的門做回去）。room_ceiling_unit：新測試＋4d3a305d 的模型 FAIL 8 → 第二版 ALL PASS（37 份）；舊測試＋第二版 FAIL 1（201 骨架改回方盒）。遊戲內：j48＋j48b（最遠最陡：骨架、燈都藏起來；從下面看和原本一樣）、j49（男宿一進門前後；nav_buildings ALL PASS）。10:5x 在 cc4528be 重跑：新測試＋舊模型 FAIL 8／新模型 ALL PASS／舊測試＋新模型 FAIL 1、nav_buildings ALL PASS。READY_FOR_ART_REVIEW｜sha：說明、圖、outbox 在 5262e88a；八份 GLB、七支腳本、patch 在前一個 ab5dd930（WIP 檢查點），5262e88a 包含全部"
+   "ack": "ACTIONED",
+   "note": "第二版（修正）：骨架、輕鋼架、燈框、201 的燈箱、男宿門廳的吸頂日光燈＝方盒照舊（從下面看同一組三角形），整組放進名字含 WALL_、dir＝[0,−1,0] 的節點：鏡頭比它高時和牆一樣藏起來（各區域 fadeWalls＋引擎 hideFaded 現成的邏輯；attachRoomGLB、B3.attachFormal 都收 WALL_）；平的燈板單面（霖澤館、萬才館、博雅、普通、總圖 3F、法圖）。09:3x 試過骨架只留底面、單面朝下：j46 從下面平視看（俯角 0.06）遠處的格子不見了（2.4 cm 平面投影不到一個像素），沒有採用（README 有對照圖）。八份和原本比：每個材質的世界座標三角形完全相同，只有節點名字／dir、天花板／燈板不再雙面。男宿門廳順便：大門鋁框、門把放進前牆那一組 WALL_（鏡頭在門外時一起淡出：一進男宿的第一個畫面原本粗黑框擋住人，巡場景第 3 區 j47 看到的，P1）。七份在開發分支 4d3a305d 的工作樹匯出（本分支的博雅、普通配置是舊的，會把空橋的門做回去）。room_ceiling_unit：新測試＋4d3a305d 的模型 FAIL 8 → 第二版 ALL PASS（37 份）；舊測試＋第二版 FAIL 1（201 骨架改回方盒）。遊戲內：j48＋j48b（最遠最陡：骨架、燈都藏起來；從下面看和原本一樣）、j49（男宿一進門前後；nav_buildings ALL PASS）。10:5x 在 cc4528be 重跑：新測試＋舊模型 FAIL 8／新模型 ALL PASS／舊測試＋新模型 FAIL 1、nav_buildings ALL PASS。READY_FOR_ART_REVIEW｜sha：說明、圖、outbox 在 5262e88a；八份 GLB、七支腳本、patch 在前一個 ab5dd930（WIP 檢查點），5262e88a 包含全部｜LAWWW 10:44 ACK：開發分支 cf82803b 已整合（8 GLB＋4 json＋7 腳本＋ceiling_lights.diff；新測試舊模型 FAIL 8→新模型 ALL PASS；nav_buildings 等 ALL PASS），DL-LAWWW2-5262e88a 已整合待測試、放 v9.10.6、交 BB 瀏覽器看；美術 READY_FOR_ART_REVIEW"
   }
  ]
 }
