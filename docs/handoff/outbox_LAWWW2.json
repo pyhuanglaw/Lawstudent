@@ -1466,13 +1466,13 @@
     "tools/blender/env_second/dorm_y1_items.py",
     "docs/art-rebuild/second_ai/test_shots/dorm203_tape_box_1021/"
    ],
-   "state": "已整合（LAWWW 18:58 ACK，整合中）",
+   "state": "已整合",
    "remaining": "玩家鏡頭拉到最近時紙箱上的字太小（只改方向、沒改大小）；只拍 15:00",
    "next": "LAWWW 換 dorm_y1_items.glb＋.json（37884326），不用改程式；BB 用 box_check.py 重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "LAWWW 18:58Z ACK",
-   "note": "BB_218「左右鏡像」：其實是上下顛倒（腳本故意 ang 182° 倒著寫）；壓平後靠著放、底蓋著地，側板的字本來就是正的→改正的；遊戲內貼近對照：原本倒的、現在正的"
+   "ack": "ACK",
+   "note": "BB_218「左右鏡像」：其實是上下顛倒（腳本故意 ang 182° 倒著寫）；壓平後靠著放、底蓋著地，側板的字本來就是正的→改正的；遊戲內貼近對照：原本倒的、現在正的；原本 state：已整合（LAWWW 18:58 ACK，整合中）；ack：LAWWW 18:58Z ACK"
   },
   {
    "task": "BUG-CAM-C208-1021",
@@ -1487,8 +1487,8 @@
    "next": "LAWWW git apply c208_cam_walls.diff（對 a9da472a 乾淨；us3d.js aptCamCols＋engine3d.js followCam 一行＋tests/us_cam_walls_unit.js）；BB 用 artrev2 角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "LAWWW 18:58Z ACK（engine3d.js 那一行看過）；開發分支 1b6b1eed 用 git apply -R --check 確認已在裡面",
-   "note": "第二版 eec79b9e：外牆鏡頭碰撞加高到壁板 H+0.4；遊戲內 57、58、62、77 從整個畫面是牆變成看得到人；在 a9da472a 上 us_cam_walls、teach_cam_walls、nav_us、us_life ALL PASS；engine3d.js 一行是 LAWWW 的檔案"
+   "ack": "ACTIONED",
+   "note": "第二版 eec79b9e：外牆鏡頭碰撞加高到壁板 H+0.4；遊戲內 57、58、62、77 從整個畫面是牆變成看得到人；在 a9da472a 上 us_cam_walls、teach_cam_walls、nav_us、us_life ALL PASS；engine3d.js 一行是 LAWWW 的檔案；原本 ack：LAWWW 18:58Z ACK（engine3d.js 那一行看過）；開發分支 1b6b1eed 用 git apply -R --check 確認已在裡面"
   },
   {
    "task": "ART-02-GONGTONG-1021",
@@ -1503,13 +1503,13 @@
    "next": "LAWWW git apply art02_gongtong_doors.diff（對 a9da472a 乾淨；teach3d.js＋tests/teach_doors_unit.js）；不用加資產（門模組在已整合的 furniture_study.glb）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "LAWWW 18:58Z ACK；開發分支 1b6b1eed 用 git apply -R --check 確認已在裡面",
-   "note": "接續 ART-02（教室門模組，已結案）：共同教學館沒有正式室內殼，關著的門還是木板——共同教學館關著的門（1F 兩間洗手間、2F 203）：黑色長方形→門框、木門片、觀景窗、把手、門牌；teach_doors_unit 修改前 FAIL／修改後 ALL PASS；在 a9da472a 上 teach_doors、nav_teach、teach_cam_walls、teach_class ALL PASS"
+   "ack": "ACTIONED",
+   "note": "接續 ART-02（教室門模組，已結案）：共同教學館沒有正式室內殼，關著的門還是木板——共同教學館關著的門（1F 兩間洗手間、2F 203）：黑色長方形→門框、木門片、觀景窗、把手、門牌；teach_doors_unit 修改前 FAIL／修改後 ALL PASS；在 a9da472a 上 teach_doors、nav_teach、teach_cam_walls、teach_class ALL PASS；原本 ack：LAWWW 18:58Z ACK；開發分支 1b6b1eed 用 git apply -R --check 確認已在裡面"
   },
   {
    "task": "ART-GYM2-INT",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "dec70791",
    "files": [
     "docs/art-rebuild/second_ai/patches/gym_arena_int.diff",
     "assets/models/env/second_ai/gym_arena.glb",
@@ -1525,8 +1525,8 @@
    "next": "LAWWW git apply gym_arena_int.diff v3（對 a9da472a 乾淨，5 個檔）＋換 gym_arena.glb、gym_interior.glb＋json（dec70791、5d6c715f）；跑 gym_arena_unit、gym_unit、group_events_unit、v0_c2_unit",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "LAWWW 19:14Z：a3837c1c（推到 bb03ceac）；之後 LAWWW 接上 AA_371 的「看主球場」「大螢幕」（8a9b05f2→108f601e），典禮布置掛勾 z.ceremonyOn",
-   "note": "3F 主球場接成區域：1F 樓梯口上樓、紅龍拿掉；第二輪修遊戲內抓到的四個問題（進場／坐看台高處鏡頭在牆裡、扶手穿過人、入口通道看不見的牆、藏著的演唱會光暈）；gym_arena_unit 11～15 項修改前 FAIL、修改後 ALL PASS；遊戲內前後對照 7 個角度"
+   "ack": "ACTIONED",
+   "note": "3F 主球場接成區域：1F 樓梯口上樓、紅龍拿掉；第二輪修遊戲內抓到的四個問題（進場／坐看台高處鏡頭在牆裡、扶手穿過人、入口通道看不見的牆、藏著的演唱會光暈）；gym_arena_unit 11～15 項修改前 FAIL、修改後 ALL PASS；遊戲內前後對照 7 個角度；原本 ack：LAWWW 19:14Z：a3837c1c（推到 bb03ceac）；之後 LAWWW 接上 AA_371 的「看主球場」「大螢幕」（8a9b05f2→108f601e），典禮布置掛勾 z.ceremonyOn；sha 原本寫「（本 commit）」：outbox 登記在 c1e65c33，patch v3＋GLB 最後一版在 dec70791"
   },
   {
    "task": "BACKLOG-A7-WZPARK-COPLANAR",
@@ -1542,8 +1542,8 @@
    "next": "LAWWW 換 wz_park.glb＋wz_park.py（c53c3c6d），不用改程式；開發分支 a9da472a 的 wz_park.glb 還是修改前那一版",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "LAWWW 19:14Z：a3837c1c（推到 bb03ceac）；登記成 BACKLOG-A7-WZPARK-COPLANAR（已整合待測試）",
-   "note": "溫州街收尾①：小公園一定會閃 11→0、遠處才閃 18→1（涼亭頂 0.04 m²）；涼亭樑、神龕背板、環狀步道、公布欄軟木板各移 3～5 mm；物件、材質、三角形不變"
+   "ack": "ACTIONED",
+   "note": "溫州街收尾①：小公園一定會閃 11→0、遠處才閃 18→1（涼亭頂 0.04 m²）；涼亭樑、神龕背板、環狀步道、公布欄軟木板各移 3～5 mm；物件、材質、三角形不變；原本 ack：LAWWW 19:14Z：a3837c1c（推到 bb03ceac）；登記成 BACKLOG-A7-WZPARK-COPLANAR（已整合待測試）"
   },
   {
    "task": "PERF-CROWD-LOD-1021",
@@ -1553,9 +1553,13 @@
     "tools/lod/npc_lod.py",
     "docs/art-rebuild/second_ai/patches/crowd_far_lod.diff"
    ],
-   "state": "WIP（20:4x 開工通知已送 LAWWW，DELIVERED、沒 ACK）：工具＋patch（assets3d／character3d／engine3d）＋tests/npc_far_unit.js 修改前 FAIL、修改後 ALL PASS；21:4x 材質改成照 MToon 公式算明暗（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮），新檢查最大差 0.002；18 支相關單元測試前後都 ALL PASS；patch 對 80af0168 乾淨",
-   "remaining": "遊戲內量測（tools/shots/crowd_lod_audit.py，修改前後；佇列 j10，會用新版材質）→ 遠距離 GLB 放進 assets/models/char/second_ai/lod/＋LICENSES → README＋交件",
-   "ack": "LAWWW 20:11Z 派工（P2）；xai.ack 由 LAWWW 改（tasks.json 是 LAWWW 的檔），這裡記自領"
+   "state": "WIP",
+   "remaining": "j10 遊戲內量測整理；LAWWW 20:55Z 加的兩項（zone_dispose_unit、renderer.info.memory 換區前後）；README；交件",
+   "ack": "ACK",
+   "note": "原本 state：WIP（20:4x 開工通知已送 LAWWW，DELIVERED、沒 ACK）：工具＋patch（assets3d／character3d／engine3d）＋tests/npc_far_unit.js 修改前 FAIL、修改後 ALL PASS；21:4x 材質改成照 MToon 公式算明暗（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮），新檢查最大差 0.002；18 支相關單元測試前後都 ALL PASS；patch 對 80af0168 乾淨；原本 ack：LAWWW 20:11Z 派工（P2）；xai.ack 由 LAWWW 改（tasks.json 是 LAWWW 的檔），這裡記自領；LAWWW 20:55Z ACK 做法（只換 isExtra 無名路人和 GM.extras、換區域釋放網格貼圖＋zone_dispose_unit、遠的不跑彈簧骨、patch 對最新開發分支）",
+   "next": "LAWWW2：j10 量測看完＋補 zone_dispose_unit、換區前後 renderer.info.memory → README → 交 crowd_far_lod.diff＋lod GLB",
+   "receiver": "LAWWW",
+   "noDirectIntegrate": true
   },
   {
    "task": "BUG-CAFE-KIT-GLOW-1021",
@@ -1564,9 +1568,13 @@
    "files": [
     "docs/art-rebuild/second_ai/patches/cafe_kit_glow.diff"
    ],
-   "state": "已整合（LAWWW 80af0168，2026-10-21 21:19Z）",
+   "state": "已整合",
    "remaining": "瀏覽器 cafe_glb_integration 修改前後（佇列 j13）會一起補在 Café 的交件說明",
-   "ack": "LAWWW 整合 80af0168"
+   "ack": "ACTIONED",
+   "note": "原本 state：已整合（LAWWW 80af0168，2026-10-21 21:19Z）；原本 ack：LAWWW 整合 80af0168",
+   "next": "BB 看畫面（LAWWW 派）；LAWWW2 瀏覽器 cafe_glb_integration 重跑結果出來回報（佇列 j13）",
+   "receiver": "LAWWW",
+   "noDirectIntegrate": false
   },
   {
    "task": "BUG-CAFE-FLOOR-MIRROR-1021",
@@ -1577,23 +1585,31 @@
     "assets/models/env/second_ai/cafe_interior.glb",
     "assets/models/env/second_ai/cafe_interior.json"
    ],
-   "state": "WIP：Café 自流坪地板粗糙度貼圖匯出成 0.004（鏡面，吊燈下面反光成白點）→ 0.78；只換 GLB",
+   "state": "WIP",
    "remaining": "遊戲內重拍（佇列 j13）→ 正式交件",
-   "ack": "—"
+   "ack": "ACK",
+   "note": "原本 state：WIP：Café 自流坪地板粗糙度貼圖匯出成 0.004（鏡面，吊燈下面反光成白點）→ 0.78；只換 GLB；LAWWW 21:19Z：重拍看完和 412 一起交",
+   "next": "LAWWW2：遊戲內重拍（佇列 j13）看完，和 412 洗手間一起交件",
+   "receiver": "LAWWW",
+   "noDirectIntegrate": true
   },
   {
-   "task": "ART-ECON-3D-GAP-1021（宿舍 412）",
+   "task": "ART-ECON-3D-GAP-1021",
    "branch": "claude/second-ai-env-art",
    "sha": "396adcbb",
    "files": [
     "docs/art-rebuild/second_ai/patches/dorm_seethru.diff"
    ],
-   "state": "WIP：洗手間頂板（2bc9992d）沒有用、已撤回；改成洗手間牆磚、地磚加進 DORM_BOUNCE（併進 dorm_seethru.diff 第二版，對 d22748f5 乾淨；tests/dorm_seethru_unit.js 修改前 2 FAIL、修改後 ALL PASS）",
+   "state": "WIP",
    "remaining": "遊戲內重拍（佇列 j12）→ 正式交件",
-   "ack": "—"
+   "ack": "ACK",
+   "note": "宿舍 412；原本 state：WIP：洗手間頂板（2bc9992d）沒有用、已撤回；改成洗手間牆磚、地磚加進 DORM_BOUNCE（併進 dorm_seethru.diff 第二版，對 d22748f5 乾淨；tests/dorm_seethru_unit.js 修改前 2 FAIL、修改後 ALL PASS）；LAWWW 21:19Z：重拍看完一起交",
+   "next": "LAWWW2：遊戲內重拍（佇列 j12）看完交 dorm_seethru.diff 第二版",
+   "receiver": "LAWWW",
+   "noDirectIntegrate": true
   },
   {
-   "task": "ART-ECON-3D-GAP-1021（榕樹氣根）",
+   "task": "ART-ECON-3D-GAP-1021",
    "branch": "claude/second-ai-env-art",
    "sha": "f858b47c",
    "files": [
@@ -1602,28 +1618,47 @@
     "tools/blender/env_second/tree_atlas.py",
     "docs/art-rebuild/second_ai/test_shots/banyan_roots_1021/"
    ],
-   "state": "已整合（LAWWW ae968ffb，22:4x 用 git log 確認）；原本：已交件（2026-10-21 21:3x 傳 LAWWW，DELIVERED、沒 ACK）：READY_FOR_ART_REVIEW；說明 c36c2dbe",
+   "state": "已整合",
    "remaining": "鏡頭前最近的葉片卡逆光時還是很暗（樹冠的問題，這一版沒動）；真機沒看過",
    "next": "LAWWW 換 street_trees.glb＋json，不用改程式",
    "sent": "2026-10-21T21:3xZ",
    "receiver": "LAWWW",
-   "ack": "已整合 ae968ffb"
+   "ack": "ACTIONED",
+   "note": "榕樹氣根；原本 state：已整合（LAWWW ae968ffb，22:4x 用 git log 確認）；原本：已交件（2026-10-21 21:3x 傳 LAWWW，DELIVERED、沒 ACK）：READY_FOR_ART_REVIEW；說明 c36c2dbe；原本 ack：已整合 ae968ffb",
+   "noDirectIntegrate": false
   },
   {
-   "task": "BUG-NAV-LAMPPOST-1021＋ART-ECON-3D-GAP-1021（椰林大道路燈）",
+   "task": "BUG-NAV-LAMPPOST-1021",
    "branch": "claude/second-ai-env-art",
    "sha": "5f03d748",
    "files": [
-    "docs/art-rebuild/second_ai/patches/lamppost_nav.diff",
+    "docs/art-rebuild/second_ai/patches/lamppost_nav.diff"
+   ],
+   "state": "已整合",
+   "remaining": "大道路中間比邊緣暗（這一版不加燈）；真機沒看過",
+   "next": "LAWWW git apply lamppost_nav.diff（已在 ae968ffb）；BB 測過（PASS），P3：正面推三盞在 1.1～1.6 m 停住，LAWWW2 查要不要縮小阻擋",
+   "sent": "2026-10-21T21:3xZ",
+   "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "燈柱導航（拆自原第 84 筆）；原本 state：已整合（LAWWW ae968ffb，22:4x 用 git log 確認）；原本：已交件（2026-10-21 21:3x 傳 LAWWW，DELIVERED、沒 ACK）：燈柱導航 FUNCTIONAL_VERIFIED、路燈畫面 READY_FOR_ART_REVIEW；Node 兩支修改前 FAIL／後 ALL PASS；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS、項目相同；說明 fb8546f3；原本 ack：已整合 ae968ffb",
+   "noDirectIntegrate": false
+  },
+  {
+   "task": "ART-ECON-3D-GAP-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5f03d748",
+   "files": [
     "docs/art-rebuild/second_ai/patches/campus_avenue_lamps.diff",
     "docs/art-rebuild/second_ai/test_shots/avenue_lamps_1021/"
    ],
-   "state": "已整合（LAWWW ae968ffb，22:4x 用 git log 確認）；原本：已交件（2026-10-21 21:3x 傳 LAWWW，DELIVERED、沒 ACK）：燈柱導航 FUNCTIONAL_VERIFIED、路燈畫面 READY_FOR_ART_REVIEW；Node 兩支修改前 FAIL／後 ALL PASS；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS、項目相同；說明 fb8546f3",
+   "state": "已整合",
    "remaining": "大道路中間比邊緣暗（這一版不加燈）；真機沒看過",
-   "next": "LAWWW 先 git apply lamppost_nav.diff 再 campus_avenue_lamps.diff（照順序對 80af0168 乾淨）",
+   "next": "LAWWW git apply campus_avenue_lamps.diff（已在 ae968ffb）；BB 看畫面（LAWWW 派）",
    "sent": "2026-10-21T21:3xZ",
    "receiver": "LAWWW",
-   "ack": "已整合 ae968ffb"
+   "ack": "ACTIONED",
+   "note": "椰林大道路燈（拆自原第 84 筆）；原本 state：已整合（LAWWW ae968ffb，22:4x 用 git log 確認）；原本：已交件（2026-10-21 21:3x 傳 LAWWW，DELIVERED、沒 ACK）：燈柱導航 FUNCTIONAL_VERIFIED、路燈畫面 READY_FOR_ART_REVIEW；Node 兩支修改前 FAIL／後 ALL PASS；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS、項目相同；說明 fb8546f3；原本 ack：已整合 ae968ffb",
+   "noDirectIntegrate": false
   },
   {
    "task": "US-MARKET-STREET",
@@ -1639,12 +1674,14 @@
     "tools/blender/env_second/us_market_street_tex.py",
     "docs/art-rebuild/second_ai/test_shots/us_market_street_1021/"
    ],
-   "state": "已整合（LAWWW d2252a05，22:4x 用 git log 確認）；原本：已交件（2026-10-21 22:2x 傳 LAWWW，DELIVERED、沒 ACK）：READY_FOR_ART_REVIEW；patch 對 80af0168 乾淨；Node us_market_street_unit 修改前 6 FAIL→ALL PASS、nav_us／us_life／exch_min 前後 ALL PASS；遊戲內 12 張；模型 fa7c85e2、說明 07967c55",
+   "state": "已整合",
    "remaining": "晚上停車場偏暗（路燈沒有地面光圈，LAWWW2 下一步）；路口白天那張重拍（佇列 j17）；車不會動、沒有路人（美國篇人流是 LAWWW 的範圍）；真機沒看過",
    "next": "LAWWW git apply us_market_street.diff，放 us_market_street.glb／.json／.layout.json",
    "sent": "2026-10-21T22:2xZ",
    "receiver": "LAWWW",
-   "ack": "已整合 d2252a05"
+   "ack": "ACTIONED",
+   "note": "原本 state：已整合（LAWWW d2252a05，22:4x 用 git log 確認）；原本：已交件（2026-10-21 22:2x 傳 LAWWW，DELIVERED、沒 ACK）：READY_FOR_ART_REVIEW；patch 對 80af0168 乾淨；Node us_market_street_unit 修改前 6 FAIL→ALL PASS、nav_us／us_life／exch_min 前後 ALL PASS；遊戲內 12 張；模型 fa7c85e2、說明 07967c55；原本 ack：已整合 d2252a05",
+   "noDirectIntegrate": false
   },
   {
    "task": "PERF-ZONE-ENTER-1018",
@@ -1657,14 +1694,18 @@
     "assets/models/env/second_ai/wz_jphouse.glb",
     "assets/models/env/second_ai/wz_jphouse.json"
    ],
-   "state": "WIP：zone_prewarm.diff（zones3d.js 的 Z3.prewarm＋game3d.js 的 enter 淡入前等它；tests/zone_prewarm_unit.js 修改前 2 FAIL、修改後 ALL PASS；對 34e488e4、80af0168 都乾淨）；wz_jphouse.glb 不再帶整張 2048² 招牌圖集（63d3bc5e）",
+   "state": "WIP",
    "remaining": "遊戲內換區域量測修改前（j16）、修改後（j16a）跑完才交件；game3d.js 是 LAWWW 的檔，交件前先通知",
-   "ack": "—"
+   "ack": "未派",
+   "note": "原本 state：WIP：zone_prewarm.diff（zones3d.js 的 Z3.prewarm＋game3d.js 的 enter 淡入前等它；tests/zone_prewarm_unit.js 修改前 2 FAIL、修改後 ALL PASS；對 34e488e4、80af0168 都乾淨）；wz_jphouse.glb 不再帶整張 2048² 招牌圖集（63d3bc5e）",
+   "next": "LAWWW2：j16c 量測整理 → README → 交 zone_prewarm.diff（game3d.js 一行是 LAWWW 的檔，交件時說明）",
+   "receiver": "LAWWW",
+   "noDirectIntegrate": true
   },
   {
-   "task": "ART-ECON-3D-GAP-1021（四棟拱廊大門＋博雅東側一樓）",
+   "task": "ART-ECON-3D-GAP-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "30519553",
+   "sha": "223252e5",
    "files": [
     "assets/models/env/second_ai/campus_library.glb",
     "assets/models/env/second_ai/campus_library.json",
@@ -1680,11 +1721,13 @@
     "tools/blender/env_second/campus_teach.py",
     "docs/art-rebuild/second_ai/test_shots/campus_doors_1021/"
    ],
-   "state": "已交件（2026-10-21 23:3x）：READY_FOR_ART_REVIEW；只換 GLB、不用改程式；四棟大門 30519553（雙開玻璃木門＋補漏光）、博雅東側一樓玻璃帶 0343b994；遊戲內正面前後對照 8 張＋博雅 2 張（j8、j9）",
+   "state": "已交付",
    "remaining": "門打不開、走不進去（外觀）；陰影深的門下半木作看不出凹板；博雅一樓玻璃白天偏黑（沒有環境貼圖）；真機沒看過",
    "next": "LAWWW 換這五棟的 .glb＋.json（我的分支 claude/second-ai-env-art）；不用改程式",
    "receiver": "LAWWW",
-   "ack": "—"
+   "ack": "DELIVERED",
+   "note": "四棟拱廊大門＋博雅東側一樓；原本 state：已交件（2026-10-21 23:3x）：READY_FOR_ART_REVIEW；只換 GLB、不用改程式；四棟大門 30519553（雙開玻璃木門＋補漏光）、博雅東側一樓玻璃帶 0343b994；遊戲內正面前後對照 8 張＋博雅 2 張（j8、j9）；2026-10-22 01:1x 傳 LAWWW（DELIVERED）；模型 30519553（大門）、0343b994（博雅）；說明與前後對照 223252e5",
+   "noDirectIntegrate": false
   }
  ]
 }
