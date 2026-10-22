@@ -124,19 +124,28 @@ def vtext(d, x, y, text, sz, col, gap=1.08):
 
 
 def lin_menu():
-    """林家乾麵左牆的價目：上面一塊木板寫店名，下面五張紅紙直書（品名＋價錢）"""
+    """林家乾麵左牆的價目：上面一塊木板寫店名，下面六張紅紙直書（品名＋價錢）
+    第二版（AA_364 第 5 節第 2 點，LAWWW 10-22 13:5x）：加「貢丸湯 30」（和明軒的「小碗乾麵＋貢丸湯 70」對上）——五張 → 六張，紙窄一點、字小一點。
+    後面幾張（布簾、定食的木札、暖簾）照舊：亂數照第一版（五張）的用量往下走，那幾張圖的位元組不變。"""
+    st = rnd.getstate()
     W, H = 1100, 620; im = Image.new('RGB', (W, H), (238, 232, 220)); d = ImageDraw.Draw(im)
     d.rectangle([0, 0, W, 132], fill=(122, 82, 48))
     for y in range(4, 132, 9): d.line([0, y + rnd.randint(-2, 2), W, y + rnd.randint(-2, 2)], fill=(108, 72, 42), width=2)   # 木紋
     d.text((330, 18), '林家乾麵', font=f(96), fill=(244, 228, 196))
-    items = [('乾麵（小）', '40'), ('乾麵（大）', '55'), ('餛飩湯', '40'), ('燙青菜', '35'), ('滷蛋', '15')]
+    items = [('乾麵（小）', '40'), ('乾麵（大）', '55'), ('餛飩湯', '40'), ('貢丸湯', '30'), ('燙青菜', '35'), ('滷蛋', '15')]
+    PW, STEP = 156, 178                                                    # 紙寬、間距（第一版 180、214）
     for i, (n, p) in enumerate(items):
-        x0 = 30 + i * 214; col = (196 + rnd.randint(-8, 8), 44 + rnd.randint(-6, 6), 38)
-        d.rectangle([x0, 160, x0 + 180, H - 24], fill=col)
-        for _ in range(60): xx, yy = rnd.randint(x0, x0 + 180), rnd.randint(160, H - 24); d.point((xx, yy), fill=(col[0] - 20, col[1] - 10, col[2] - 8))   # 紙的纖維
-        vtext(d, x0 + 52, 186, n, 66, (24, 18, 16))
-        d.text((x0 + 44, H - 108), p, font=f(70), fill=(24, 18, 16))
+        x0 = 20 + i * STEP; col = (196 + rnd.randint(-8, 8), 44 + rnd.randint(-6, 6), 38)
+        d.rectangle([x0, 160, x0 + PW, H - 24], fill=col)
+        for _ in range(60): xx, yy = rnd.randint(x0, x0 + PW), rnd.randint(160, H - 24); d.point((xx, yy), fill=(col[0] - 20, col[1] - 10, col[2] - 8))   # 紙的纖維
+        vtext(d, x0 + (PW - 60) // 2, 184, n, 60, (24, 18, 16))
+        tw = d.textlength(p, font=f(66)); d.text((x0 + (PW - tw) / 2, H - 104), p, font=f(66), fill=(24, 18, 16))
     im.filter(ImageFilter.GaussianBlur(0.5)).save(os.path.join(GEN, 'lin_menu.png'))
+    rnd.setstate(st)                                                       # 第一版五張的亂數用量（木紋 15×2、每張紙 2＋60×2）
+    for y in range(4, 132, 9): rnd.randint(-2, 2); rnd.randint(-2, 2)
+    for i in range(5):
+        x0 = 30 + i * 214; rnd.randint(-8, 8); rnd.randint(-6, 6)
+        for _ in range(60): rnd.randint(x0, x0 + 180); rnd.randint(160, H - 24)
 
 
 def lin_curtain():
