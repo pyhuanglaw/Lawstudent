@@ -421,6 +421,10 @@ async def cafe_back(pg, cdp, run, sid, res):
     await settle(pg, cdp, run, sid)
     q0 = await pg.evaluate(CAFEQ); res['q0'] = q0; say('   %s 進 Café 前：%s' % (sid, J(q0)))
     n0 = await log_len(pg)
+    rng0 = bool(os.environ.get('RNG0'))
+    if rng0:   # BUG-CAFE-RANDOM-ORDER-1022（LAWWW 36ea78f4）的驗證：進 Café 那一下讓隨機事件一定想演（Math.random 回 0.01），看主線「回來」還是不是先演
+        await pg.evaluate("(()=>{ window.__R0=window.__R0||Math.random; Math.random=()=>0.01; })()")
+        run.setup('[捷徑] %s：進 Café 那一下 Math.random 固定 0.01（「咖啡買錯」35%% 一定想演），演完還原' % sid)
     ok, tries = await go_cafe(pg, cdp, run, sid); res['go'] = [ok, tries]; await pg.wait_for_timeout(1500)
     run.check('%s：9/4 用手機「地點」走進 Café（第 %d 次按）' % (sid, tries), ok, J(await pg.evaluate(STATE)))
     shot = False
@@ -428,7 +432,10 @@ async def cafe_back(pg, cdp, run, sid, res):
         s = await L.state(pg)
         if s['dlg'] and not shot: await run.shot(pg, '%s_back' % sid); shot = True
         await drive(pg, cdp, run, max_s=90, label=sid); await pg.wait_for_timeout(1500)
+    if rng0: await pg.evaluate("(()=>{ if(window.__R0) Math.random=window.__R0; })()")
     q1 = await pg.evaluate(CAFEQ)
+    T1 = texts(await log_since(pg, n0)); res['first_entry_said'] = T1
+    run.check('%s：第一次進 Café 就演「回來」、沒有先演別的進場事件（BUG-CAFE-RANDOM-ORDER-1022，36ea78f4）%s' % (sid, '【隨機固定成一定想演】' if rng0 else ''), bool(q1['back']), J(T1, 300))
     if not q1['back']:   # 2026-10-22：進 Café 的 enter 事件照清單順序，隨機的「咖啡買錯」（ev_wrong_coffee，35%）排在「回來」前面——先演了它就出去、下次再進來（玩家會遇到的樣子）
         T0 = texts(await log_since(pg, n0)); res['first_entry'] = T0; say('   %s 第一次進 Café 沒有演「回來」（先演了：%s）；出去再進來一次' % (sid, J(T0, 300)))
         run.note('%s：第一次進 Café 先演了別的 enter 事件 %s，「回來」沒演；出去再進來（照玩家下次再來）' % (sid, J(T0, 200)))

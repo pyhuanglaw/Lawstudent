@@ -305,6 +305,7 @@ SB4F = """(()=>{ const F=GAME.G.flags; const o={}; for(const k of ['SIS_ADV_EXCH
   o.where=(()=>{ try{ return GAME.whereText('heroine_05')||''; }catch(e){ return ''; } })(); return o; })()"""
 WHERE = "(()=>{ try{ return GAME.whereText('heroine_05')||''; }catch(e){ return 'ERR '+e; } })()"
 READ4 = ('cafe', 'lawlib', 'library', 'library_hall')
+QUICK3 = ('cafe', 'lawlib', 'library_hall')   # 手機「地點」到得了的三個（沒有總圖 3F 閱覽區）：讀檔時間挑她在這三個地方的時候
 # 她在哪（STORY.whereIs，手機「朋友」那一句的來源）：拿目前的存檔換日期、時間查（不改遊戲狀態），用來決定讀檔到哪一刻
 SCAN = """(([days,hours])=>{ const out=[]; for(const k of days){ const d=STORY.dayOfKey(k), wd=CALENDAR.dateOf(d).wd%7; for(const h of hours){ const g=Object.assign({},GAME.G,{day:d,hour:h,weekday:wd});
   let w=null; try{ w=STORY.whereIs({G:g,E:GAME.E},'heroine_05'); }catch(e){ w={zone:null,err:String(e)}; } out.push([k,h,(w&&w.zone)||null,(w&&(w.away||w.act))||null]); } } return out; })"""
@@ -382,7 +383,7 @@ JPCHK = """(()=>{ const G=GAME.G; const a=SISB4.preTalkEv(Object.assign({},G,{zo
 
 async def s_adv(p, run, base, sid, out):
     res = out.setdefault(sid, {}); C = ADV[sid]
-    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, C['days'], HOURS, READ4, C['lv'], dating=C['dating'], flags=dict({'Y4_PATH': 'other'}, **C['flags']), label=sid + '（' + C['desc'] + '）')
+    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, C['days'], HOURS, QUICK3, C['lv'], dating=C['dating'], flags=dict({'Y4_PATH': 'other'}, **C['flags']), label=sid + '（' + C['desc'] + '）')
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         if C.get('jp'):
@@ -404,7 +405,7 @@ async def s_adv(p, run, base, sid, out):
 async def s_adv_acq(p, run, base, sid, out):
     """不熟（晚到版認識的樣子，熟 5）：大一下 4/6 找她說話，四場都不出現"""
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, ['2026-04-06', '2026-04-07', '2026-04-08'], HOURS, READ4, 'LATE', flags={'Y4_PATH': 'other'}, label=sid + '（大一下 4/6 起、學姊只是認識（熟 5））')
+    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, ['2026-04-06', '2026-04-07', '2026-04-08'], HOURS, QUICK3, 'LATE', flags={'Y4_PATH': 'other'}, label=sid + '（大一下 4/6 起、學姊只是認識（熟 5））')
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         log, wt, z = await find_her(pg, cdp, run, sid, []); fl = await pg.evaluate(SB4F); res.update({'at': at, 'where': wt, 'log': log, 'flags': fl})
@@ -622,7 +623,7 @@ async def s_reb(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     C = {'REB_EARLY': ('ex', '2027-09-20', 'EARLY', '分開才 4 週'), 'REB_OK': ('ex', '2027-08-30', 'OK', '分開 7 週'), 'REB_CAUGHT': ('friend_after_catch', '2027-08-30', 'CAUGHT', '被發現退回朋友 7 週')}[sid]
     days = ['2027-10-20', '2027-10-21', '2027-10-22']
-    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, days, HOURS, READ4, 'FRIEND', flags={'Y4_PATH': 'other'},
+    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, days, HOURS, QUICK3, 'FRIEND', flags={'Y4_PATH': 'other'},
                                                      label=sid + '（2027-10-20（三）起；學姊朋友；【前置】和她交往過、%s 分開（%s，%s）、現在沒有和別人交往）' % (C[1], C[0], C[3]))
     try:
         pre = await pg.evaluate(EXREC + "(%s)" % json.dumps([C[0], '2027-03-01', C[1]])); res['pre'] = pre
@@ -667,7 +668,7 @@ LADGET = "(k=>{ const so=GAME.G.social||{}; return {idx:(so.ladder||{})[k], day:
 
 async def s_lad(p, run, base, sid, out):
     res = out.setdefault(sid, {}); C = LAD[sid]
-    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, C['days'], HOURS, READ4, C['lv'], dating=C['dating'], flags=dict({'Y4_PATH': 'other'}, **C['flags']), label=sid + '（' + C['desc'] + '）')
+    b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, C['days'], HOURS, QUICK3, C['lv'], dating=C['dating'], flags=dict({'Y4_PATH': 'other'}, **C['flags']), label=sid + '（' + C['desc'] + '）')
     try:
         ls = await pg.evaluate(LADSET + "(%s)" % json.dumps([C['term'], C['step']])); res['ladder'] = ls
         run.setup('[前置] %s：閒聊階梯學姊這學期的進度設在 %s（G.social.ladder[%s]＝%s，下面三層 %s）' % (sid, C['step'], ls['key'], ls['idx'], ls['ids']))
@@ -786,12 +787,12 @@ async def opts2(pg):
 
 async def book_day(pg, cdp, run, sid, res):
     """手機「朋友」→ 她的「約」→ 去校外… → 第一個能選的一日遊地點 → 交通 → 第一個能選的日子 → 第一個能選的出發時間 → 就這樣約。回傳 (約好了, 每一層)"""
-    levels = []; res.setdefault('book', []).append(levels)
+    levels = []; res.setdefault('book', []).append(levels); tried = set()
     await L.phone_away(pg, cdp); await phone_tab(pg, cdp, 'friends')
     got = await tap_sel_js(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
     if not got:
         row = await pg.evaluate("((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\n/g,'｜').slice(0,300)"); levels.append(['（手機「朋友」沒有她的「約」）', row]); await L.phone_away(pg, cdp); return False, levels
-    for _ in range(10):
+    for _ in range(16):
         t0 = time.time(); ops = None
         while time.time() - t0 < 40:
             s = await L.state(pg)
@@ -802,7 +803,11 @@ async def book_day(pg, cdp, run, sid, res):
         tx = [o['t'] for o in ops]; levels.append(tx); say('   %s 約：%s' % (sid, [x[:16] for x in tx]))
         k = next((i for i, x in enumerate(tx) if x.startswith('就這樣約')), None)
         if k is None: k = next((i for i, x in enumerate(tx) if x.startswith('去校外')), None)
+        if k is None and any(x.startswith(('今天 ', '明天 ')) for x in tx):   # 日期那一層：不選「今天」（時間都過了，全灰）、試過的不再選（Node 走過 57bab0c0：今天＝五個時間全灰）
+            k = next((i for i, o in enumerate(ops) if not o['dim'] and not o['t'].startswith(('今天', '算了')) and o['t'] not in tried), None)
+            if k is not None: tried.add(tx[k])
         if k is None: k = next((i for i, o in enumerate(ops) if not o['dim'] and not o['t'].startswith(SKIPBOOK) and not o['t'].startswith('兩天一夜')), None)
+        if k is None: k = next((i for i, x in enumerate(tx) if x.startswith('換一天')), None)   # 時間都灰＝換一天
         if k is None: break
         done = tx[k].startswith('就這樣約')
         await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1300)
@@ -872,7 +877,7 @@ async def s_reb_dates(p, run, base, sid, out):
         b, pg, cdp, errs, r, name = await launch(p, run, base, '2027-10-22', 20.0, 'dorm', 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-22（五）20:00 宿舍；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點；沒有找她說話＝沒演 4-1）')
         at = ('2027-10-22', 20.0)
     else:
-        b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, days, HOURS, READ4, 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-20（三）起；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點）')
+        b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, days, HOURS, QUICK3, 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-20（三）起；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點）')
     try:
         pre = await pg.evaluate(S6SET + "(%s)" % json.dumps(['2027-08-30'])); res['pre'] = pre
         run.setup('[前置] %s：讀檔後設學姊第 6 階（熟 60、信任 45、自在 40、她的戀愛 55、祐廷的戀愛 30）、交往紀錄 ex（2027-03-01～08-30）、約會紀錄 4 次含心願地點 → %s' % (sid, json.dumps(pre, ensure_ascii=False)))
