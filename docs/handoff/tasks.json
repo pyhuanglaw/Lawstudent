@@ -28500,6 +28500,34 @@
    "next": "【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
   },
   {
+   "id": "ART-ZR-PS-3D-1022",
+   "title": "芷若、沛珊的 3D 人物看起來憨（使用者 10-22 04:0x 對 LAWWW2：「林芷若3d好憨 沛珊也是」）：在遊戲裡拍臉部近景找具體原因，一次改一樣、同鏡頭比；名字、身高、髮型、服裝識別照通過的參考圖",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系那一年第一次進兩點半 Café（芷若）；法律系大一上（沛珊）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-22 04:0x 直接對 LAWWW2；LAWWW2 04:01 訊息（user_asks_LAWWW2.json UA-LAWWW2-1022-01）",
+   "authorized": "使用者直接交代（10-17「修改人物的事情暫停」對這兩位解除）；D100 第 6 點角色美術由 LAWWW 驗收",
+   "next": "【LAWWW（帳號 A）2026-10-22 04:1x】LAWWW2 拍臉部近景找原因 → 改 → 交件；LAWWW 看遊戲內截圖驗收（D100 第 6 點），換 VRM（盡量同檔名、manifest 不改）。不能動的：character3d.js MODEL_PROPS——芷若的 glasses、earrings、apron 三個節點名字（Café 當班才穿圍裙）；沛珊的 glasses 是另外的 GLB（prop.glasses_peishan）掛在 glasses 那個名字上；VRM 表情（CHAR.setExpr）；身高 1.61／1.63；沛珊 manifest 的 armOut 9、armBack 0.45、armFwd 0.15；芷若 blUrl（?blchar）",
+   "xai": {
+    "spec": "使用者原話＋BB 通過的參考圖",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "遊戲內同鏡頭前後對照；LAWWW 判定和參考圖一致、不憨",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
    "id": "AA372-S7-TAICHUNG-WEEKEND-1022",
    "title": "AA_372 第 7 節（企劃線 da55ec2b）：以安第 4／8／12 週末、沛珊單數週末回台中（presence trip）——手機的約照 T7a 打開、只列 D26（沛珊答應新句）；前一天在臺北約那個週末的校外約會要擋（以安 S6「那幾天我在台中。……換一天。」、沛珊新句）",
    "owner": "LAWWW",
