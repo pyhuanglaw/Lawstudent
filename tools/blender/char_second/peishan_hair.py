@@ -84,6 +84,25 @@ REG_PX = {'long': (0, 320, 0, 1024), 'swept': (320, 576, 0, 1024), 'lock': (576,
 DEEP = np.array([0.058, 0.044, 0.038]); BASE = np.array([0.125, 0.098, 0.084]); LIGHT = np.array([0.245, 0.195, 0.165]); SHEEN = np.array([0.400, 0.330, 0.285])   # 第二版：深黑褐、看得出一束一束的亮面（立繪；BB-C 10-17：第一版純黑一塊）
 # 第二版（2026-10-10）：照參考圖 01 取樣的灰棕（臉旁長髮、馬尾的中位數約 sRGB (0.35, 0.28, 0.24)、暗部 (0.27, 0.20, 0.17)）；
 # 第一版 #3a2820 一帶偏暖偏深，遊戲裡打光之後像黑髮、瀏海尖端很硬
+# 第二十九版（使用者 10-22 11:5x「臉啊頭髮啊 醜死了」，LAWWW2）：
+#   - 遊戲渲染器裡頭髮的中位數是 sRGB (0.04, 0.02, 0.01)＝一頂純黑的安全帽；參考圖 classmate_peishan.webp 頭髮的中位數 (0.21, 0.18, 0.17)、
+#     亮的那一成 (0.35, 0.31, 0.30)：深棕灰、看得出一束一束。整組顏色調亮、往參考圖的灰棕靠（HAIR_K 試亮度）。
+#   - 前面改成參考圖的中分八字瀏海（見 apply 的「3b」）。PS_HAIR_V=28 做回第二十八版（顏色、瀏海都是舊的，位元組相同）。
+V29 = os.environ.get('PS_HAIR_V', '29') != '28'
+if V29:
+    # 試做 a1（這組顏色、K 1.0）遊戲渲染器量到 (0.125, 0.09, 0.07)：太暗、偏紅棕（打光和 MToon 的暖色陰影都偏暖）→ 顏色偏冷一點、K 1.2
+    _K = float(os.environ.get('HAIR_K', '1.3'))     # 試做 f3（K 1.2）量到中位數 (0.18, 0.15, 0.13)，參考圖 (0.21, 0.18, 0.17)
+    DEEP = np.array([0.100, 0.092, 0.092]) * _K; BASE = np.array([0.235, 0.214, 0.212]) * _K
+    LIGHT = np.array([0.390, 0.360, 0.355]) * _K; SHEEN = np.array([0.600, 0.560, 0.550]) * _K
+
+
+def _json_env(name, default):
+    """試參數用：環境變數（JSON）蓋過預設值，不改檔案就能一次只改一樣、同鏡頭比"""
+    import json
+    s = os.environ.get(name); return json.loads(s) if s else default
+
+
+CUR_LIFT = _json_env('HAIR_CUR_LIFT', [0.0150, 0.0115, 0.0065])   # 八字瀏海離皮膚多遠（m）：越過髮際線、中段、髮尾
 
 
 def reg_uv(name, pad=4):
@@ -108,9 +127,12 @@ def _wobble(f, rng, amp, wl):
     return f[y[:, None], x0 % w] * (1 - fr) + f[y[:, None], (x0 + 1) % w] * fr
 
 
+STREAK = (0.10, 0.28, 0.24) if V29 else (0.18, 0.42, 0.38)   # 第二十九版：髮束、大塊明暗的對比降低（試做 f2 遊戲渲染器裡像木紋，一條一條很硬）；1px 細紋也淡一點（f4 遊戲內的距離變成雜訊）
+
+
 def _strand_color(rng, h, w, root_dark=0.8, sheen=None, tip_light=0.06, base=BASE):
     """細髮絲（1px）＋中等髮束（4px）＋大的明暗（16px），沿長度方向拉長；髮根暗、髮尾稍亮；柔和的高光帶"""
-    S = _streaks(rng, h, w, 2, 90, 0.18) + _streaks(rng, h, w, 6, 170, 0.42) + _streaks(rng, h, w, 20, 360, 0.38)
+    S = _streaks(rng, h, w, 2, 90, STREAK[0]) + _streaks(rng, h, w, 6, 170, STREAK[1]) + _streaks(rng, h, w, 20, 360, STREAK[2])
     S = _wobble(S, rng, 1.6, 260)
     t = ((np.arange(h) + 0.5) / h)[:, None]
     g = root_dark + (1 - root_dark) * sstep(0.0, 0.3, t) + tip_light * t
@@ -178,6 +200,13 @@ def make_atlas(seed=SEED):
         x0, x1, y0, y1 = REG_PX[nm]; h, w = y1 - y0, x1 - x0
         A = _clumps(rng, h, w, 5, 0.50, lens[0], lens[1], hw_k=(0.95, 1.25), lean=0.10, power=0.6, full=3.0, minw=2.2)
         put(nm, _strand_color(rng, h, w, 0.82, tip_light=0.05), A)
+    if V29:     # 八字瀏海的寬髮片（第二十九版用 bangA 這一格；舊的空氣瀏海貼圖已經沒有用到）：整片不透明、最後兩成分成 5 束柔和收尖，邊緣有長短不一的髮絲
+        rc = np.random.default_rng(seed + 29)        # 另一個亂數：不影響後面髮殼、髮圈的貼圖
+        x0, x1, y0, y1 = REG_PX['bangA']; h, w = y1 - y0, x1 - x0
+        # 試做 a1：髮尾分束只在最後兩成、尖端齊（像剪齊的帽沿）→ 從 64% 開始分 6 束、長短差多一點、慢慢收細（參考圖的髮尾一撮一撮、有細的碎髮）
+        # 試做 f4 遊戲內（男宿走廊、公館，鏡頭 1.5 m）：6 束細髮尖在遊戲的距離變成一排鋸齒點 → 4 束、寬一點、最細的針尖不要（minw 6 px）
+        A = _edge_breakup(rc, _clumps(rc, h, w, 4, 0.68, 0.84, 1.0, edge_taper=0.05, hw_k=(1.25, 1.5), power=0.9, full=1.8, minw=6.0), 0.04)
+        put('bangA', _strand_color(rc, h, w, 0.88, sheen=(0.10, 0.26), tip_light=0.10), A)
     # 髮殼：不透明、偏暗；髮際線那一端細細的鋸齒
     x0, x1, y0, y1 = REG_PX['shell']; h, w = y1 - y0, x1 - x0
     A = _clumps(rng, h, w, 14, 0.975, 0.99, 1.0, hw_k=(1.1, 1.4), power=0.55)   # 第十三版：4 → 14 束（BB-C：髮際線前緣一階一階；細的髮尖比大鋸齒自然）   # 同上（原本 3 束、0.93）
@@ -438,6 +467,7 @@ def apply(m):
             d = sph(a, bt); r = H.R(d, True); bt += (z_tip - (c[2] + d[2] * r)) / max(0.03, r) * 57.3 * 0.8
         return bt
 
+    if V29: bangs = []        # 第二十九版：舊的窄瀏海拿掉，換成下面「3b」的八字瀏海
     for ah, at, zt, w0, reg in bangs:
         ar = PART + (ah - PART) * 0.55; vr = 0.33
         dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0042)
@@ -451,6 +481,35 @@ def apply(m):
         side = _unit(np.cross(D, Tn)); width = w0 * (0.55 + 0.45 * sstep(0.0, 0.3, np.linspace(0, 1, n)))
         if os.environ.get('HAIR_DEBUG'): print('   bang', ah, at, 'root', np.round(p_root, 3), 'hl', np.round(p_h, 3), 'tip', np.round(P[-1], 3), 'w', np.round(width[[0, n // 2, -1]], 3), 'side', np.round(side[n // 2], 2))
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(n), arch=0.10)
+    # ---- 3b. 中分八字瀏海（第二十九版，使用者 10-22 11:5x「臉啊頭髮啊 醜死了」）----
+    # 參考圖 classmate_peishan.webp（平常、微笑、大頭像）：分線在中間，兩邊的頭髮從分線往下、往外垂成兩片簾子，
+    # 蓋住額頭的兩個角和眉毛的外側；露出的額頭是中間一個窄的倒 V（分線那裡約 1 cm、眉毛的高度約 3～4 cm）；
+    # 靠中間的髮尾停在眉毛附近、往外撥，越往外越長，最外面到顴骨、包住臉的兩側。
+    # 第二十八版是一根一根 1.1～1.3 cm 的窄髮片＋近黑色：正面看是幾根黑色的刺，額頭整片露出來。
+    # 這一版每邊 7 片 2.0～2.6 cm 寬、彼此重疊的髮片（bangA 的寬髮片貼圖：整片不透明、只有髮尾分束），
+    # 從分線旁邊的頭頂出發、越過髮際線時離額頭約 1.5 cm（蓬），雙面（側面看得到內側）。
+    if V29:
+        # 試做 a1 的 7 片：眉毛高度露出的額頭約 4.5 cm 寬（參考圖約 2.6 cm，到眉頭）→ 最裡面加一片短的、裡面兩片的髮尾往中間收
+        # 試做 f2（最裡面髮尾 9°、15°）：中間只剩分線下面一點點，正面看像一排齊瀏海 → 裡面幾片的髮尾往外撥、停在眉頭上方，露出到眉頭的倒 V
+        CUR = [(1, 13, 0.014, 0.016), (4, 19, 0.008, 0.020), (8, 25, 0.002, 0.023), (13, 32, -0.006, 0.025), (19, 40, -0.014, 0.026),
+               (25, 48, -0.024, 0.025), (31, 55, -0.034, 0.023), (37, 61, -0.043, 0.021)]   # （越過髮際線、髮尾的方位角離分線幾度，髮尾高度相對眉毛 m，寬度 m）
+        CUR = _json_env('HAIR_CUR', CUR)
+        for sgn_c in (1.0, -1.0):
+            for k, (dh_, dt_a, zt, w0) in enumerate(CUR):
+                ah = PART + sgn_c * dh_; at = PART + sgn_c * dt_a
+                ar = PART + sgn_c * (0.8 + 0.15 * dh_); vr = 0.20 + 0.012 * k
+                dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0040)
+                bh = hairline_beta(ah) + 3.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + CUR_LIFT[0])
+                bt = beta_at_z(at, H.brow_z + zt + rng.uniform(-0.0015, 0.0015))
+                am = ah + (at - ah) * 0.45; bm = bh + (bt - bh) * 0.55; dm = sph(am, bm); p_m = c + dm * (H.R(dm, True) + CUR_LIFT[1])
+                dtt = sph(at, bt); p_t = c + dtt * (H.R(dtt, True) + CUR_LIFT[2])
+                P = catmull(np.array([p_root, p_h, p_m, p_t]), 20); P, sl = resample(P, 36); n = len(P)
+                marg = np.linspace(0.010, CUR_LIFT[2] - 0.001, n)
+                P = H.push(P, marg); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2; P = H.push(P, marg)
+                D = _unit(P - c); Tn = tangents(P); side = _unit(np.cross(D, Tn)); t = np.linspace(0, 1, n)
+                width = w0 * (0.70 + 0.30 * sstep(0.0, 0.22, t)) * (1 - 0.30 * sstep(0.70, 1.0, t))
+                if os.environ.get('HAIR_DEBUG'): print('   curtain', sgn_c, dh_, 'hl', np.round(p_h, 3), 'tip', np.round(P[-1], 3), 'w', round(w0, 3))
+                mb.ribbon(P, side, D, width, 'bangA', 'head', np.zeros(n), arch=0.12, both=True)
     n_bang = len(mb.F) - n_shell - n_swept
 
     # ---- 4. 臉旁碎髮（太陽穴 → 下顎 → 胸口）與耳前短碎髮 ----
@@ -572,7 +631,7 @@ def apply(m):
     img = C.image_from_array('S01_HairCard', atlas, os.path.join(wip, 's01_hair_atlas.png'))
     mat = C.mtoon_from('F00_000_Hair_00_HAIR_01', 'S01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
-    mt.shade_color_factor = (0.80, 0.70, 0.70)     # 原本的頭髮陰影偏藍紫；深棕髮的陰影用暖色
+    mt.shade_color_factor = (0.78, 0.74, 0.74) if V29 else (0.80, 0.70, 0.70)     # 原本的頭髮陰影偏藍紫；深棕髮的陰影用暖色（第二十九版：灰棕髮，陰影不要太紅）
     try:      # Sendagaya Shino 樣本的頭髮材質有一張加亮的 MatCap（Matcap_RimHair）：頭頂、髮片邊緣斜著看會發白光（第一版的頭頂一圈白邊）
         mt.matcap_texture.index.source = None; mt.matcap_factor = (0.0, 0.0, 0.0)
     except Exception as ex: print('  matcap off failed', ex)

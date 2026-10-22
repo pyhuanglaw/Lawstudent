@@ -13,9 +13,15 @@ from lib2 import B, Mesh, g2b, bpy, bmesh, Vector   # noqa: E402
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/glasses_peishan.glb')
 SEP, R_RIM, WIRE = 0.0727, 0.021, 0.00085          # 鏡片中心距、鏡框半徑（中心線）、金屬線半徑（第二十七版的臉眼睛往中間 5 mm：84→72.7 mm、23→21 mm，使用者 10-22「好憨」）
+# 第二十九版（使用者 10-22 11:5x「臉啊頭髮啊 醜死了」）：參考圖是細的深灰金屬框，第二十八版的框線 1.7 mm、近黑，近看是兩個粗黑圈蓋在臉上。
+# 線改細（半徑 0.85 → 0.58 mm）、鏡框大一點、顏色改成深的槍灰金屬（#2e2826 → #4f4a47、金屬度 0.30 → 0.45，遊戲沒有環境貼圖、上限 0.45）。PS_GLASSES_V=28 做回舊的。
+V29 = os.environ.get('PS_GLASSES_V', '29') != '28'
+if V29: WIRE, R_RIM = 0.00058, 0.023      # 鏡框半徑 21 → 23 mm：參考圖的圓框比眼睛大一圈（鏡片中心距照舊 72.7 mm，鼻樑那段 26.7 mm）
 SEP = float(os.environ.get('GLASSES_SEP') or SEP); R_RIM = float(os.environ.get('GLASSES_R') or R_RIM)   # 使用者 10-22「好憨」：臉的眼距改了，鏡片中心距跟著改（環境變數試尺寸，不改檔）
+WIRE = float(os.environ.get('GLASSES_WIRE') or WIRE)
+FRAME_COL, FRAME_METAL, FRAME_ROUGH = ('#4f4a47', 0.45, 0.28) if V29 else ('#2e2826', 0.30, 0.35)
 B.reset(texres=256)
-M = {'frame': L.flat('glasses_frame', '#2e2826', rough=0.35, metal=0.30),
+M = {'frame': L.flat('glasses_frame', FRAME_COL, rough=FRAME_ROUGH, metal=FRAME_METAL),
      'lens': L.flat('glasses_lens', '#dfe8ee', rough=0.05, alpha=0.12)}
 root = B.group('glasses_peishan', props={'kind': 'prop_glasses', 'owner': 'classmate_peishan', 'ipd': SEP, 'front': '-z'})
 fr = Mesh('glasses_frame', M['frame']); ln = Mesh('glasses_lens', M['lens'])
