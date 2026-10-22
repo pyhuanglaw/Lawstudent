@@ -1396,7 +1396,7 @@
   {
    "task": "LIC-GAPS-1017",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "63d4a3e3",
    "files": [
     "docs/art-rebuild/second_ai/patches/licenses_gaps_1022.diff"
    ],
@@ -2060,7 +2060,7 @@
   {
    "task": "ART-CEIL-LAWWW-ROOMS-1022",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "63d4a3e3",
    "files": [
     "tools/blender/classroom_201.py",
     "tools/blender/dorm_hall.py",
@@ -2081,7 +2081,7 @@
   {
    "task": "ART-DIRECTOR-LAWWW2",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "63d4a3e3",
    "files": [
     "tools/blender/env_second/us_campus.py",
     "assets/models/env/second_ai/us_campus.glb／.json（同檔名）",
