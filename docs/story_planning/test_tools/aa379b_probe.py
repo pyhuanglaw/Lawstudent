@@ -299,6 +299,16 @@ async def close(b):
     except Exception: pass
 
 
+async def wait_plan(pg, oid, max_s=120):
+    """手機規則跑過、出遊排好了才往下（遊戲主迴圈每一輪跑手機規則；讀檔後、剛回覆完要等一下）。回傳 (那一筆或 None, 等了幾秒)"""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        q = await pg.evaluate(OUTQ); hit = next((x for x in q if x['id'] == oid), None)
+        if hit: return hit, round(time.time() - t0, 1)
+        await pg.wait_for_timeout(2000)
+    return None, round(time.time() - t0, 1)
+
+
 async def msgs(pg, th=TH):
     return await pg.evaluate(MSGS + "(%s)" % json.dumps(th))
 
@@ -317,9 +327,9 @@ async def s_lab_skip(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs, r, name = await launch(p, run, base, '2026-09-22', 8.0, 'dorm', 'FAMILIAR', flags={'SIS_LAB_GO': True}, label=sid + '（前置：9/21 已經回「好。」＝SIS_LAB_GO）')
     try:
-        await drive(pg, cdp, run, max_s=30, label=sid); await pg.wait_for_timeout(3000)
-        q0 = await pg.evaluate(OUTQ); res['out0'] = q0
-        run.check('%s：9/22 研究室的出遊排好了（12:20）' % sid, any(q['id'] == 'sisy23_lab' and q['state'] == 'planned' and abs(q['h'] - 12.333) < 0.01 for q in q0), json.dumps(q0, ensure_ascii=False))
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        hit, waited = await wait_plan(pg, 'sisy23_lab'); q0 = await pg.evaluate(OUTQ); res['out0'] = q0; res['plan_wait_s'] = waited
+        run.check('%s：9/22 研究室的出遊排好了（12:20；讀檔後等了 %s 秒）' % (sid, waited), any(q['id'] == 'sisy23_lab' and q['state'] == 'planned' and abs(q['h'] - 12.333) < 0.01 for q in q0), json.dumps(q0, ensure_ascii=False))
         await phone_tab(pg, cdp, 'today'); today = await pg.evaluate("((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\n/g,'｜').slice(0,700)"); res['today'] = today
         await run.shot(pg, '%s_phone_today' % sid); await L.phone_away(pg, cdp)
         got = await skip(pg, cdp, '等到下午', sid); st = await pg.evaluate(STATE); res['after_skip'] = st; res['skip'] = got
@@ -336,11 +346,11 @@ async def s_lab_skip(p, run, base, sid, out):
 
 async def s_result_sleep(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r, name = await launch(p, run, base, '2028-03-15', 21.0, 'dorm', 'FRIEND', flags={'EXCHANGE_ROUTE': 'TW'}, label=sid)
+    b, pg, cdp, errs, r, name = await launch(p, run, base, '2028-03-15', 20.5, 'dorm', 'FRIEND', flags={'EXCHANGE_ROUTE': 'TW'}, label=sid + '（20:30 讀檔，等電話排好再上床）')
     try:
-        await drive(pg, cdp, run, max_s=30, label=sid); await pg.wait_for_timeout(2000)
-        q0 = await pg.evaluate(OUTQ); res['out0'] = q0
-        run.check('%s：3/15 21:30 的電話排好了' % sid, any(q['id'] == 'sisy23_result' and q['state'] == 'planned' for q in q0), json.dumps(q0, ensure_ascii=False))
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        hit, waited = await wait_plan(pg, 'sisy23_result'); q0 = await pg.evaluate(OUTQ); res['out0'] = q0; res['plan_wait_s'] = waited
+        run.check('%s：3/15 21:30 的電話排好了（讀檔後等了 %s 秒）' % (sid, waited), any(q['id'] == 'sisy23_result' and q['state'] == 'planned' for q in q0), json.dumps(q0, ensure_ascii=False))
         st0 = await pg.evaluate(STATE)
         ops = await bed(pg, cdp, run, '睡到明天', sid); res['bed'] = ops
         ok, ch = await wait_for(pg, cdp, run, "GAME.G.day>%d&&!GAME.E.player.busy" % st0['day'], max_s=240, picks=['要慶祝嗎'], label=sid)
@@ -378,7 +388,9 @@ async def s_ask(p, run, base, sid, out):
                   json.dumps({'now': st, 'msgs': M[-3:]}, ensure_ascii=False)[:500])
         if reply:
             got = await answer(pg, cdp, run, A['ask'], reply, sid); res['answered'] = got
-            await pg.wait_for_timeout(4000); M2 = await msgs(pg); q = await pg.evaluate(OUTQ); res['out'] = q
+            if mode == 'NO': await pg.wait_for_timeout(6000)
+            else: hit, waited = await wait_plan(pg, A['out'], 90); res['plan_wait_s'] = waited
+            M2 = await msgs(pg); q = await pg.evaluate(OUTQ); res['out'] = q
             if mode == 'NO':
                 run.check('%s：回「%s」→ 她回「%s」、沒有排出遊' % (sid, reply, A['no']), any(m['text'] == A['no'] for m in M2) and not any(x['id'] == A['out'] for x in q), json.dumps({'msgs': M2[-3:], 'out': q}, ensure_ascii=False)[:400])
             else:
