@@ -25766,7 +25766,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 2ccd1e60：宿舍 412 洗手間牆磚地磚補光（dorm_seethru.diff 第三版）整合進 e8c4ce7a；室內網點透空（宿舍上舖、Café 電線）一起進 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】LAWWW2 交件 223252e5（四棟拱廊大門雙開玻璃木門、博雅東側一樓玻璃帶，READY_FOR_ART_REVIEW）只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；宿舍 412 的對照（259d2ceb）LAWWW2 還在交。BB 看畫面 ｜ 【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
    "xai": {
     "spec": "LAWWW2 清查 B8",
     "branch": "claude/focused-cray-c9uwvw",
@@ -25774,7 +25774,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "sha": "7b4fb34b"
+   "sha": "e8c4ce7a"
   },
   {
    "id": "ART-PHOTO-CMP-1021",
@@ -27868,7 +27868,7 @@
    "id": "BUG-FUNDS-TOAST-MULTI-1021",
    "title": "快轉一次跨過好幾個月：生活費照月加，提示只寫最後一個月（經濟系 6/8 一次進 10,000、提示 5,000）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "area": "UI",
    "first": {
@@ -27883,13 +27883,14 @@
    },
    "source": "BB（帳號 A）2026-10-21 21:4x P3（UI-MONEY-TOAST-ADV-1021 驗收時看到）",
    "authorized": "UI 修正（D87）",
-   "next": "【LAWWW（帳號 A）21:3x】STORY.fundsJoin：五個快轉迴圈（home3d.js 兩處、econff3d.js、jp3d.js、us_life3d.js）合成一則寫總數「家裡匯來 5、6 月的生活費：10,000 元」；tests/funds_join_unit.js（修改前 3 項 FAIL）；BB 經濟系天天睡覺那條 6/8 看提示"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】BB 10-22 01:3x 瀏覽器測：經濟系 6/8 15:00 +10,000「家裡匯來 5、6 月的生活費」、7/10 +5,000 ＝PASS ｜ 【LAWWW（帳號 A）21:3x】STORY.fundsJoin：五個快轉迴圈（home3d.js 兩處、econff3d.js、jp3d.js、us_life3d.js）合成一則寫總數「家裡匯來 5、6 月的生活費：10,000 元」；tests/funds_join_unit.js（修改前 3 項 FAIL）；BB 經濟系天天睡覺那條 6/8 看提示",
+   "evidence": "BB 2026-10-22 01:33 瀏覽器流程測試（Playwright＋SwiftShader，不是 iPhone；企劃線 BB_218、outbox_BB 983d4c98）：經濟系天天睡覺，6/8 15:00 +10,000、提示「家裡匯來 5、6 月的生活費：10,000 元」；7/10 +5,000「這個月的生活費」＝PASS。iPhone 實機尚未驗證"
   },
   {
    "id": "BUG-CAFE-FLOOR-MIRROR-1021",
    "title": "兩點半 Café 店內自流坪地板是鏡面（粗糙度貼圖匯出成 0.004），吊燈下面反光成一個白點",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -27904,14 +27905,15 @@
    },
    "source": "LAWWW2（帳號 A）2026-10-21 21:18 訊息（outbox 第 81 筆 2a682738）",
    "authorized": "D108；美術修正",
-   "next": "LAWWW2 只換 cafe_interior.glb＋json（粗糙度 0.78），重拍看完和 412 洗手間一起交件",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】LAWWW2 交件 2ccd1e60（cafe_interior.glb 2a682738）整合進 e8c4ce7a；BB 看畫面 ｜ LAWWW2 只換 cafe_interior.glb＋json（粗糙度 0.78），重拍看完和 412 洗手間一起交件",
    "xai": {
     "spec": "LAWWW2 21:18 訊息",
     "branch": "claude/second-ai-env-art",
     "acceptance": "吊燈下面沒有白點（遊戲內對照）",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "e8c4ce7a"
   },
   {
    "id": "BUG-INTERMS-PARTNER-1021",
@@ -27960,7 +27962,7 @@
    "id": "AA377-Y3S2-FIX-1021",
    "title": "AA_377 法律系大三下三條路線修正（企劃線 b7c437a1）：高 #1 jp3d.js 日本比較行政法兩句照日期換、#2 哲 4 視訊日本版 advance 照當地時間（4/29 冠軍賽直播演不到）；中：公法讀書會大三下整學期＋以安走後小語排題目、以安在日本照 AA_341 租公寓、以安訊息池照日期、杜鵑花照片看 AN3_AZALEA、日本路線挽回中 A6／228、芷若大三下只週三四晚班（workShifts）、民訴第 14 週板書改「言詞辯論的順序」；低 11 項；#19 以安視訊改日本 22:00",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "v4",
    "first": {
@@ -27975,8 +27977,8 @@
    },
    "source": "AA（帳號 A）2026-10-21 22:13 交（企劃線 b7c437a1；子代理盤點 2469df7f）",
    "authorized": "D109、D110",
-   "next": "【LAWWW（帳號 A）2026-10-22 01:5x】第 1 項（日本路線比較行政法照日期：4/13～5/5 兩句輪流、5/6 以後第一堂出一次町公所、拿掉期末報告那句）在 y3 做完、合併進 014a38bc；第 2、9 項問 AA（9＝民訴第 14 週整週模擬法庭的其他句子；2＝片段換還是整句換），其他照稿接著做 ｜ 和 AA376-Y3S1-FIX-1021 一起給下一個空出來的子代理（大三）",
-   "sha": "014a38bc"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】19 項都做了（第 1 項 014a38bc，其他 c51e4b72；第 2、4、6、9、17 項 AA 第 6 節回了，白名單 AA_377@eab1eba3）：tests/aa377_y3s2_unit.js（修改前 29 FAIL）＋8 支舊測試照新句改；439 支全過。BB 照 AA_377 第 5 節測（日本 4/13 不提町公所、4/29 冠軍賽演得到、3/26 不說四月、5/22 民訴沒有模擬法庭、芷若只有週三四晚上） ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】第 1 項（日本路線比較行政法照日期：4/13～5/5 兩句輪流、5/6 以後第一堂出一次町公所、拿掉期末報告那句）在 y3 做完、合併進 014a38bc；第 2、9 項問 AA（9＝民訴第 14 週整週模擬法庭的其他句子；2＝片段換還是整句換），其他照稿接著做 ｜ 和 AA376-Y3S1-FIX-1021 一起給下一個空出來的子代理（大三）",
+   "sha": "c51e4b72"
   },
   {
    "id": "BUG-DATE-FARE-DOUBLE-1021",
@@ -28260,7 +28262,7 @@
    },
    "source": "企劃線 AA_379（6a105a4d；便條版 e865aa5f 作廢）；AA 10-21 23:01、23:02 訊息；使用者 23:1x、23:2x（經 AA）",
    "authorized": "使用者 23:2x 直接定；D109",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】events.js ev_sis_w1 加 library、library_hall（開頭兩句、最後一句閱覽室版，中間照台階版）；story3d.js talkSis 拿掉那一行；tests/aa379_sis_lib_unit.js（逐字對 6a105a4d）；v1_batch3_unit 的舊斷言（閱覽室只有一行）照使用者 23:2x 改。BB：9/5 白天閱覽室、大廳自習區找她說話＝認識；9/3 以前照舊；已經認識的閱覽室裡閒聊、當面約都出得來 ｜ events.js ev_sis_w1 加 library、library_hall；story3d.js talkSis 拿掉那一行；寫測試"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】BB 01:3x：直接讀檔在 3F 閱覽室，學姊沒有生成（GAME.npc 沒有 sis，只有以安）；BB 改成從大廳走進去重跑中。登記 BUG-SIS-LIB-LOAD-1022（讀檔會重算星期、她的作息判斷正常，LAWWW 這邊重現不了，等 BB 結果） ｜ 【LAWWW（帳號 A）2026-10-21 23:2x UTC】events.js ev_sis_w1 加 library、library_hall（開頭兩句、最後一句閱覽室版，中間照台階版）；story3d.js talkSis 拿掉那一行；tests/aa379_sis_lib_unit.js（逐字對 6a105a4d）；v1_batch3_unit 的舊斷言（閱覽室只有一行）照使用者 23:2x 改。BB：9/5 白天閱覽室、大廳自習區找她說話＝認識；9/3 以前照舊；已經認識的閱覽室裡閒聊、當面約都出得來 ｜ events.js ev_sis_w1 加 library、library_hall；story3d.js talkSis 拿掉那一行；寫測試"
   },
   {
    "id": "INV-BOTH-PRESENT-1021",
@@ -28281,7 +28283,8 @@
    },
    "source": "使用者 2026-10-21 23:2x 直接對 LAWWW（UA-LAWWW-1021-10；USER_WANTS D55）",
    "authorized": "使用者直接定",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】invites3d.js：S.autoStart（INV.tick）——約好的時間（前 15 分鐘～後 30 分鐘）、你在約定的區域、她也在（含舊的 sis 別名）＝直接開始；S.startTogether：有座位的地方（總圖、Café、麵店、茶館、早午餐）兩個人一起坐下（淡出淡入）再演 S.meet、演完你站起來；S.flow：已經在那個地方當面約「現在一起過去」＝直接開始，不變成跟著走；S.arrive：一起走到了直接開始（取代 10-16 的「她先坐下、你坐到旁邊或說話才開始」）；同行時走進宿舍（dorm、dorm_*、fdorm）或回臺北的家＝作罷。tests/inv_both_present_unit.js（修改前 6 項 FAIL；照使用者存檔 fatiao3d_save_day8_1.json 的 iv6 重現）、invites_unit 舊流程那 5 項改新規則；約會相關 234 支全過。BB：用使用者的存檔（第 7 天晚上總圖）重走一次；flow_invite_phone.py 第 94～96 行「自己走到阿哲旁邊」會被自動開始搶先，要照新規則改 ｜ invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】BB 01:3x：時間到兩個人都在總圖＝自己開始、並排坐下 PASS；「現在一起過去」NOT TESTED（重跑中）；麵店沒有一起坐下＝BUG-INV-NOODLE-PAIR-1022，87ca6aba 修好（找對面的位子） ｜ 【LAWWW（帳號 A）2026-10-21 23:3x UTC】invites3d.js：S.autoStart（INV.tick）——約好的時間（前 15 分鐘～後 30 分鐘）、你在約定的區域、她也在（含舊的 sis 別名）＝直接開始；S.startTogether：有座位的地方（總圖、Café、麵店、茶館、早午餐）兩個人一起坐下（淡出淡入）再演 S.meet、演完你站起來；S.flow：已經在那個地方當面約「現在一起過去」＝直接開始，不變成跟著走；S.arrive：一起走到了直接開始（取代 10-16 的「她先坐下、你坐到旁邊或說話才開始」）；同行時走進宿舍（dorm、dorm_*、fdorm）或回臺北的家＝作罷。tests/inv_both_present_unit.js（修改前 6 項 FAIL；照使用者存檔 fatiao3d_save_day8_1.json 的 iv6 重現）、invites_unit 舊流程那 5 項改新規則；約會相關 234 支全過。BB：用使用者的存檔（第 7 天晚上總圖）重走一次；flow_invite_phone.py 第 94～96 行「自己走到阿哲旁邊」會被自動開始搶先，要照新規則改 ｜ invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）",
+   "sha": "87ca6aba"
   },
   {
    "id": "AA380-RENAME-ALISON-1021",
@@ -28345,6 +28348,72 @@
    "source": "LAWWW2 PERF-ZONE-ENTER-1018 交件（3d6f2cee；docs/art-rebuild/second_ai/test_shots/zone_enter_1021/README.md）",
    "authorized": "D110（LAWWW 開發整合自己決定）；使用者 X14「電腦換畫面卡一兩秒」",
    "next": "【LAWWW（帳號 A）2026-10-22 01:5x】登記；排在 D99 三項之後（不影響遊玩流程）"
+  },
+  {
+   "id": "BUG-INV-NOODLE-PAIR-1022",
+   "title": "約好在麵店：阿哲坐著，你沒有坐到他旁邊、站在門口演完（pairSeats 只找 1.3 m 內的空位；麵店一張桌子兩個位子面對面、相距 1.6 m）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次約在麵店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 10-22 01:33 第一批結果第 2 點（flow_invite_phone_bp.py）",
+   "authorized": "D110",
+   "sha": "87ca6aba",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】旁邊沒有就找對面（1.7 m）；tests/inv_both_present_unit.js 第 6 項。BB 重跑 flow_invite_phone_bp"
+  },
+  {
+   "id": "BUG-SIS-LIB-LOAD-1022",
+   "title": "直接讀檔在總圖 3F 閱覽室（9/5、9/24 10:00）：學姊沒有生成（schedEnt 說她在 library 9～17）；從大廳走進去會不會有，BB 重跑中",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "2025-09-04 以後在閱覽室讀檔",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB 10-22 01:33 第一批結果第 3 點",
+   "authorized": "D110",
+   "pausedReason": "LAWWW 重現不了（讀檔會照日期重算星期，schedFor／schedEnt 判斷正常）",
+   "resumeWhen": "BB 回報從大廳走進去的結果（有＝讀檔的問題；沒有＝生成的問題）",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】等 BB；BB 另外提：她的作息沒有大廳二樓那一格，自習區版的開頭正常玩遇不到（不算錯）"
+  },
+  {
+   "id": "AA381-Y4S2-FIX-1021",
+   "title": "AA_381 法律系大四下修正稿第一部分（企劃線 d14a0388）：1 交換延畢（日本、美國路線）6/2 典禮那天被說「畢業快樂」——15 句換交換延畢的版本（GRADUATED 不動）；2 語彤週四作息一次定完（大三上 12/16 起總圖三樓、大三下 2/24 起田野、大四上起總圖三樓到她畢業）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "v5",
+   "first": {
+    "term": "Y4S2",
+    "week": 15,
+    "earliest": "2029-06-02 畢業典禮",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-22 01:49 訊息；企劃線 AA_381 d14a0388",
+   "authorized": "D109、D110",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】學姊大二到大三八場（AA379-SIS-Y2Y3-1021）之後；AA 還在查第二部分"
   }
  ]
 }
