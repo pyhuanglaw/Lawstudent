@@ -176,14 +176,36 @@ async def menu_geom(pg, cdp, run, tag, place):
     return g
 
 
+HER_LV = "(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"
+
+
+async def approach_her(pg, cdp, run, max_total=300):
+    """照玩家追著她走：每一段只走到她「現在」的位置附近（她在逛街會一直移動；10-22 05:4x bothwalk2 走到她 143 秒前站的地方，人早就走了）。
+    走到 2.5 m 內她會停下來看你（engine3d.js 335：可以搭話的人在走走時，玩家 2.8 m 內就停）＝再走近一點、等按鈕出來。回傳最後的距離"""
+    t0 = time.time(); d = None
+    while time.time() - t0 < max_total:
+        st = await pg.evaluate(ST); her = st['her']
+        if not her: return None
+        d = her['d']
+        if d is not None and d < 2.5: break
+        await L.go_to(pg, cdp, run, her['x'], her['z'], 2.0, '學姊', max_s=25, lv=await pg.evaluate(HER_LV))
+    st = await pg.evaluate(ST); her = st['her']
+    if her and her['d'] is not None and her['d'] < 3.0:
+        await L.go_to(pg, cdp, run, her['x'], her['z'], 1.2, '學姊', max_s=30, lv=await pg.evaluate(HER_LV))
+        for _ in range(10):   # 互動按鈕每隔幾格才更新（1 fps）：等它出來再按
+            if (await L.state(pg))['interact']: break
+            await pg.wait_for_timeout(800)
+        st = await pg.evaluate(ST); her = st['her']
+    return her['d'] if her else None
+
+
 async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
     """當面：走到她旁邊 →「和學姊說話」→ 聊完的選單「約她去…」→「去總圖一起念書」→「現在一起過去」。回傳 (選到了沒, 過程)"""
     trace = {}
     st = await pg.evaluate(ST); her = st['her']; trace['her0'] = her
     if not her: return False, trace
-    lv = await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()")
-    ok = await L.go_to(pg, cdp, run, her['x'], her['z'], 1.2, '學姊', max_s=150, lv=lv)
-    trace['near'] = ok; trace['button'] = (await L.state(pg))['interact']
+    dn = await approach_her(pg, cdp, run, max_total=300)
+    trace['near'] = dn is not None and dn < 2.0; trace['near_d'] = dn; trace['button'] = (await L.state(pg))['interact']
     await run.shot(pg, '%s_before_talk' % tag)
     got = False; trace['talks'] = []
     for k in range(3):   # 第一次說話可能是升階那一段（SOCIAL.playUp：便條）、那一次沒有約人的選單；照玩家再說一次
@@ -194,8 +216,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
         trace['talks'].append([(x['n'], x['t']) for x in (await pg.evaluate("window.__LOG||[]"))[-6:]])
         if got: break
         await drain(pg, cdp, choose_first=True); await pg.wait_for_timeout(1500)
-        st2 = await pg.evaluate(ST)
-        if st2['her']: await L.go_to(pg, cdp, run, st2['her']['x'], st2['her']['z'], 1.2, '學姊', max_s=60, lv=await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"))
+        await approach_her(pg, cdp, run, max_total=180)
     if not got: return False, trace
     trace['menu_geom'] = await menu_geom(pg, cdp, run, tag, place)
     got, ops = await pick(pg, cdp, place, wait=20); trace['places'] = ops
