@@ -13373,6 +13373,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "開發分支整合（LAWWW 帳號 A 10:5x）；角色美術 LAWWW 驗收（遊戲內前後截圖，Playwright 不是 iPhone）；npc_ambient、anon_pool、anon_dedup、perf_npc_pool、vrm_release ALL PASS；放 v9.10.6"
+  },
+  {
+   "id": "DL-LAWWW2-e481eaee",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "e481eaee",
+   "what": "公館 15:00 人行道一排等距的斜亮條（巡場景第 4 區 P2）：14 棟七樓以上的店面在七樓樓板位置加一塊會投影、從外面看不到的樓板（+168 三角形、draw call 不變）；gongguan_shops.glb／.json＋wz_street.py（GLB、腳本在 8de84f34）",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "開發分支整合（LAWWW 帳號 A 11:5x）；street_props_nav_unit ALL PASS；tests/gongguan_glb_integration.py 第 2 項期待過時（正式模型多擋 GG_PROP_BLOCKS 95 格）已改成 ?nobldg 補上同一份再比，瀏覽器等 v9.10.5 發布前測試跑完再跑；放 v9.10.6；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [
