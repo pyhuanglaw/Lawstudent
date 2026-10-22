@@ -28915,7 +28915,7 @@
    "id": "BUG-WALK-DORM-FOLLOW-1022",
    "title": "一起走的路上手機快速前往宿舍：約作罷了，學姊卻被帶進男生宿舍的房間、站在你旁邊（invites3d.js S.entryFor 的 going 沒排除宿舍、家；宿舍建好時先照作息把她生在你旁邊，dropGoing 才取消）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": "v1",
    "first": {
@@ -28931,7 +28931,8 @@
    "source": "BB（帳號 A）10-22 06:1x（企劃線 971cb0cf；畫面 docs/story_planning/test_shots/inv_walk_1022/一起走改回宿舍_學姊跟進男生宿舍_f9d60c63.webp）；使用者 10-21 23:1x「回宿舍學姊還跟著」",
    "authorized": "D110；使用者原話（D55 那一列）",
    "done": "開發分支（LAWWW 10-22 06:2x）：S.entryFor 的 going——人在宿舍（走廊、房間、女舍，S.privateZone）或臺北的家（HOME.at）、又不是約定的地方＝不回 follow（作息照原本的，她不在宿舍）；S.arrive／tick 的 dropGoing 照舊作罷。tests/inv_both_present_unit.js 第 10 項（修改前 c045438d FAIL、修改後 ALL PASS）；invites、invite_people、invite_whynot、aa379_sis_y2y3、schedule_refresh、presence、home 照過",
-   "next": "BB 瀏覽器重跑 WALK_DORM、WALK_CAFE_DORM（麵店、Café 兩條）"
+   "next": "BB 瀏覽器重跑 WALK_DORM、WALK_CAFE_DORM（麵店、Café 兩條）",
+   "evidence": "BB（帳號 A）10-22 06:4x bothwalk5（BB_218 c60150ac；修正前後同時間同角度截圖在企劃線 test_shots/inv_walk_1022/）：開發分支 6cfc73fd，Playwright 橫向、不用 turbo——麵店、Café 兩條：她跟著走 → 手機快速前往宿舍 → 邀約 cancelled＋「…後來作罷了。」→ 宿舍房間裡沒有她（右下角「走出房間」）；JS 例外 0"
   }
  ]
 }
