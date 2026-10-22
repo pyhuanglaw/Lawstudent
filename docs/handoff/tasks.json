@@ -25759,7 +25759,7 @@
    "id": "AA296-PHONE-LIVE-1021",
    "title": "AA_296 2-3-1：法律系四年只用手機演的五件重要劇情改成當面或演出來的電話（以安新 18 美國交往版視訊 AN_CHOICE video；子晴 Q15 回答.exe 場面裡兩選項＋她打來；可昕考上律師 12/14 15:05 電話；沛珊回來 8/7 21:00 電話；芷若答應奕廷的約日本路線 8/5 回國後 Café 當面）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "企劃線 AA_296 2-3（3f406dbc）；USER_WANTS X25 的 AA 那一半完成",
    "first": {
@@ -25772,7 +25772,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:3x UTC】和 AA350-ANSWERS-1021 同一批派；測試寫死的照改（y34b_events_unit:268、r2y3b_events_unit:552～574、bar_exam_unit:77）"
+   "next": "【LAWWW（帳號 A）2026-10-22 07:3x】核對：五項都還沒做（grep 新台詞都沒有）；子代理在 worktree 照 AA_296 第 2-3-1 節做（程式＋規格點名的寫死測試＋新測試 tests/aa296_phone_live_unit.js，修改前要失敗）；做完 LAWWW 合併、跑回歸、派 BB ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 AA350-ANSWERS-1021 同一批派；測試寫死的照改（y34b_events_unit:268、r2y3b_events_unit:552～574、bar_exam_unit:77）"
   },
   {
    "id": "ART-ECON-3D-GAP-1021",
@@ -28527,7 +28527,7 @@
    },
    "source": "AA（帳號 A）10-22 03:08",
    "authorized": "D109、D110",
-   "next": "【BB 07:2x（BB_218 46612bb1）】第 4 節學姊 2030 生日看海六種（去、坐旁邊、不行、不回、遲到、只是朋友對照）ALL PASS：台詞順序、旗標、15:00 照片、出遊狀態都對、沒有 JS 例外；第 1～3 節（交換延畢 6 句、可昕我們的日子 4 句、六位每月一句、sixOff）BB 還沒測 ｜ 【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
+   "next": "【LAWWW（帳號 A）10-22 07:3x】AA 07:29 第 4 節改三處（企劃線 116d5c72）：6/1 私訊換字、答應了沒到 09:30「九點半了。我先去。」——開發分支做好（postgrad_lines.js SEA_Y5.late、postgrad3d.js pg_sis_sea_late＋S.seaMissed），aa382_pg_unit 讀 116d5c72（24 項 ALL PASS）；BB：看海那一段重測私訊兩則的字、答應了沒到的 09:30 那一則 ｜ 【BB 07:2x（BB_218 46612bb1）】第 4 節學姊 2030 生日看海六種（去、坐旁邊、不行、不回、遲到、只是朋友對照）ALL PASS：台詞順序、旗標、15:00 照片、出遊狀態都對、沒有 JS 例外；第 1～3 節（交換延畢 6 句、可昕我們的日子 4 句、六位每月一句、sixOff）BB 還沒測 ｜ 【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
   },
   {
    "id": "ART-ZR-PS-3D-1022",

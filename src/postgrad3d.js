@@ -156,6 +156,7 @@ const PG=(function(){
     {tag:'pg_yt_2030_r2',at:['2030-12-13',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt2.map(t=>GR('heroine_03',t))},
     /* 學姊 2030 年的生日（AA_382 第 4 節）*/
     {tag:'pg_sis_sea_ask',at:[SEA_DAY0,21],cond:G=>S.seaOk(G),items:G=>S.seaItems(G)},
+    {tag:'pg_sis_sea_late',at:[SEA_DAY,9.5],cond:G=>S.seaOk(G)&&G.flags.PG_SIS_SEA==='yes'&&G.flags.SIS_BDAY_Y5!=='sea'&&S.seaMissed(G),items:G=>[P_('heroine_05',L().SEA_Y5.late)]},   /* 回了「好。」、9:00 卻沒到（出遊錯過，116d5c72）：09:30 她先傳一則，15:00 照片照下一筆 */
     {tag:'pg_sis_sea_alone',at:[SEA_DAY,15],cond:G=>S.seaOk(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&G.flags.SIS_BDAY_Y5!=='sea',items:G=>L().SEA_Y5.alone.map(t=>P_('heroine_05',t)),after:G=>{ G.flags.SIS_BDAY_Y5='alone'; }} ].concat(yearMsgs(2029),yearMsgs(2030));
   /* ---------- 出遊（可以不去的）---------- */
   S.PLAZA={x:-34,z:12.5,yaw:Math.PI};   /* 傅鐘廣場北緣（zones3d.js：傅鐘 (-38,16.5)）*/
@@ -170,9 +171,10 @@ const PG=(function(){
     return OUT.plan(G,{id:'pg_sis_bday',ev:'ev_pg_sis_bday',day:S.gradDay(),h:20.5,late:0.5,place:'霖澤館・研究室',title:'學姊的生日：研究室，八點半',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.planKx=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_kx_grad',ev:'ev_pg_kx_grad',day:S.DK('2029-06-09'),h:16.5,late:0.5,place:'政大',title:'兩個畢業典禮（政大）',travel:'開車約 40 分鐘',travelH:2/3});
   /* 學姊 2030 年的生日（AA_382 第 4 節，企劃線 e6d4a198）：畢業以後和學姊交往中（她在臺灣上班）。6/1（六）21:00 私訊「好。」／「明天不行。」（沒回＝到 6/2 09:00 為止）→
-     「好。」＝6/2（日）09:00 她家樓下（跳過時間、睡覺停在出發前），開車約一小時到北海岸；沒去（明天不行、沒回、約了沒到）＝6/2 15:00 她傳照片「看到了。」。
+     「好。」＝6/2（日）09:00 她家樓下（跳過時間、睡覺停在出發前），開車約一小時到北海岸；沒去（明天不行、沒回、約了沒到）＝6/2 15:00 她傳照片「看到了。」；約了沒到的 09:30 先傳「九點半了。我先去。」（企劃線 116d5c72）。
      旗標 SIS_BDAY_Y5（sea／alone），和 SIS_BDAY_Y1～Y4 同一套；6/2 那天算有事（src/pgdates3d.js 的 busyDays：固定格不排在那天）*/
   S.seaOk=G=>!!G&&!!G.flags&&!!G.flags.GRADUATED&&S.dating(G,'heroine_05')&&!G.flags.EPILOGUE_DONE;
+  S.seaMissed=G=>{ const o=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'pg_sis_sea'):null; return !!o&&o.state==='missed'; };   /* 答應了、出遊錯過（9:30 還沒到，或出發前選了不去）*/
   S.seaItems=function(G){ const Y=L().SEA_Y5, a=P_('heroine_05',Y.ask[0]), b=P_('heroine_05',Y.ask[1]);
     b.ask={id:'pg_sis_sea',until:T(SEA_DAY,9),opts:[{t:Y.opts[0],set:{PG_SIS_SEA:'yes'}},{t:Y.opts[1],set:{PG_SIS_SEA:'no'},say:[{from:'heroine_05',text:Y.no}]}]}; return [a,b]; };
   S.planSea=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_sis_sea',ev:'ev_pg_sis_sea',day:S.DK(SEA_DAY),h:9,late:0.5,place:'她家樓下',title:'學姊的生日：九點，她家樓下',travel:'開車約 15 分鐘',travelH:0.25,back:'回到臺北。',alarm:true,who:'heroine_05'});

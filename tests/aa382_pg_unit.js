@@ -1,11 +1,12 @@
-// AA_382 畢業以後修正稿（企劃線 e6d4a198；任務 AA382-PG-FIX-1022）——不需要瀏覽器。
-//   0  逐字對稿：從 git 讀 e6d4a198 的稿（第 1 節六句、第 4 節學姊看海、第 5 節明軒），和資料、程式裡的句子比
+// AA_382 畢業以後修正稿（企劃線 e6d4a198；第 4 節看海 116d5c72；任務 AA382-PG-FIX-1022）——不需要瀏覽器。
+//   0  逐字對稿：從 git 讀 116d5c72 的稿（第 1 節六句、第 4 節學姊看海、第 5 節明軒），和資料、程式裡的句子比
 //   1  交換延畢的美國路線還要補修兩門課：撥穗後、6/3 的日期卡「還差一門實習和兩門課」；日本路線照舊；9/4「都是大四的學弟妹」；10/17「週二去法扶」；2/11「開學跟你沒有關係」
 //   2  學姊 2030 年的生日（第 4 節）：畢業以後和學姊交往中＝6/1（六）21:00 私訊兩則＋「好。」／「明天不行。」；
 //      「好。」＝6/2（日）09:00 她家樓下（跳過時間、睡覺會停：alarm），到了地點字幕「北海岸」（10:00）、海邊的背景、她的四句、兩個選項各自的回答、最後一句；SIS_BDAY_Y5 sea；15:00 不傳照片
-//   3  沒去：「明天不行。」＝她回「好。……那我自己去。拍照給你。」、不排出遊、15:00「📷（照片：堤防上，一雙鞋）」「看到了。」、SIS_BDAY_Y5 alone；沒回、答應了沒到也一樣
+//   3  沒去：「明天不行。」＝她回「好。……那我自己去。拍照給你。」、不排出遊、15:00「📷（照片：堤防上，一雙鞋）」「看到了。」、SIS_BDAY_Y5 alone；沒回也一樣；
+//      答應了沒到（出遊錯過）＝09:30 先傳「九點半了。我先去。」（116d5c72，BB 07:28 之後 AA 補的），15:00 照樣；去了、明天不行、沒回都沒有這一則
 //   4  沒有交往（朋友、分手過）＝沒有這一段；6/2 那天算有事（PGDATE.busyDays，還沒回私訊也一樣）
-// 修改前（開發分支 6b6ecd80）：第 0 節第 4 節那幾項、第 1 節美國路線、第 2～4 節全部 FAIL。用法：node tests/aa382_pg_unit.js
+// 修改前（開發分支 6b6ecd80）：第 0 節第 4 節那幾項、第 1 節美國路線、第 2～4 節全部 FAIL；116d5c72 那三處（開發分支 74fb0ec4）：第 0 節第 4 節、第 3 節「九點半了」FAIL。用法：node tests/aa382_pg_unit.js
 require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), {execSync}=require('child_process');
@@ -14,7 +15,7 @@ const NAMES=/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5|PG_DATES|PGDATE)$/;
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.CG_REGISTRY={};
 for(const f of ['src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/data/pg_dates.js','src/pgdates3d.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
-const DOC=execSync('git -c core.quotepath=false show e6d4a198:"docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md"',{cwd:H.ROOT,encoding:'utf8'});
+const DOC=execSync('git -c core.quotepath=false show 116d5c72:"docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md"',{cwd:H.ROOT,encoding:'utf8'});
 const sec=n=>{ const a=DOC.indexOf('\n## '+n+'.'), b=DOC.indexOf('\n## ',a+4); return a<0?'':DOC.slice(a,b<0?undefined:b); };
 const q=s=>[...String(s).matchAll(/「([^」]*)」/g)].map(m=>m[1]);   /* 「」包起來的句子 */
 const row=(s,k)=>{ const r=s.split('\n').find(l=>l.startsWith('| '+k+' |')); if(!r) throw new Error('企劃檔找不到第 '+k+' 列'); return r.split('|').map(x=>x.trim()); };
@@ -36,9 +37,9 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
     check('0. 第 1 節第 2 項：6/3 的日期卡有日本路線（照舊）和美國路線（「'+us2[0]+'」）兩列',us2.length===1&&txt('2029-06-03').includes(us2[0])&&txt('2029-06-03').includes('（同屆的人都畢業了。你還差一門實習，九月再回學校。）'),J(txt('2029-06-03')));
     check('0. 第 1 節第 3 項：K26 交換延畢那一句換成「'+k26[0]+'」，舊的那一句不在了',k26.length===1&&src('src/r2y4b3d.js').includes("'"+k26[0]+"'")&&!src('src/r2y4b3d.js').includes('你還差一門實習。……那今天先慶祝我的。'));
     check('0. 第 1 節第 4～6 項：9/4、10/17、2/11 的日期卡照稿',r4.length===1&&r5.length===1&&r6.length===1&&txt('2029-09-04').includes(r4[0])&&txt('2029-10-17').includes(r5[0])&&txt('2030-02-11').includes(r6[0]),J([txt('2029-09-04'),txt('2029-10-17'),txt('2030-02-11')]));
-    const s4=sec(4).split('\n').filter(l=>!l.startsWith('## ')&&!/^- (接的是|這個月的固定格)/.test(l)).join('\n'), want=q(s4);
-    const t=x=>Array.isArray(x)?x[1]:x, got=[...Y.ask,...Y.opts,Y.no,'北海岸',...Y.open.map(t),...[].concat(...Y.choose.map(o=>[o.t,...o.say.map(t)])),...Y.close.map(t),...Y.alone];
-    check('0. 第 4 節：私訊兩則、兩個選項、「明天不行。」的回答、地點字幕、海邊的四句、兩個選項和各自的回答、最後一句、沒去的兩則，照稿的順序一字不差',J(got)===J(want),J(got)+' ≠ '+J(want));
+    const s4=sec(4).split('\n').filter(l=>!l.startsWith('## ')&&!/^- (接的是|這個月的固定格)/.test(l)).join('\n').replace(/（20\d\d-\d\d-\d\d[^）]*）/g,''), want=q(s4);   /* 116d5c72 在私訊那一行加了修改說明（裡面有「明天」）：不是台詞 */
+    const t=x=>Array.isArray(x)?x[1]:x, got=[...Y.ask,...Y.opts,Y.no,'北海岸',...Y.open.map(t),...[].concat(...Y.choose.map(o=>[o.t,...o.say.map(t)])),...Y.close.map(t),Y.opts[1],...Y.alone,Y.opts[0],Y.late,Y.alone[1]];   /* 116d5c72：「回「明天不行。」」那一行、「回了「好。」，9:00 卻沒到」那一行 */
+    check('0. 第 4 節：私訊兩則、兩個選項、「明天不行。」的回答、地點字幕、海邊的四句、兩個選項和各自的回答、最後一句、沒去的兩則、答應了沒到的那一則，照稿的順序一字不差',J(got)===J(want),J(got)+' ≠ '+J(want));
     const s5=q(row(sec(5),'`postgrad_lines.js` 尾聲 `mx.bar2030`')[4]);
     check('0. 第 5 節：明軒 2030 年放榜那天「'+s5[0]+'」',s5.length===1&&J(POSTGRAD_LINES.EPI&&POSTGRAD_LINES.EPI.mx&&POSTGRAD_LINES.EPI.mx.bar2030)===J([s5[0]]),J(POSTGRAD_LINES.EPI&&POSTGRAD_LINES.EPI.mx)); }
   // ---- 1. 交換延畢：美國路線兩門補修 ----
@@ -69,7 +70,14 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
     at('2030-06-02',15.1); PHONE.tick(G); check('3. 沒回：15:00 一樣傳照片、SIS_BDAY_Y5 alone',J(sisTh().slice(-2))===J(Y.alone)&&G.flags.SIS_BDAY_Y5==='alone',J(sisTh().slice(-3))); }
   { const G=sea(); at('2030-06-01',21); PHONE.answer(G,'pg_sis_sea',0); H.tick(); H.at('2030-06-02',9.6); for(const o of OUT.expire(G)) OUT.onMissed(GM,o);
     at('2030-06-02',15.1); PHONE.tick(G); const o=OUT.get(G,'pg_sis_sea');
-    check('3. 答應了沒到（9:30 以後）：出遊 missed、15:00 傳照片、SIS_BDAY_Y5 alone',!!o&&o.state==='missed'&&J(sisTh().slice(-2))===J(Y.alone)&&G.flags.SIS_BDAY_Y5==='alone',J([o&&o.state,sisTh().slice(-3)])); }
+    check('3. 答應了沒到（9:30 以後）：出遊 missed、15:00 傳照片、SIS_BDAY_Y5 alone',!!o&&o.state==='missed'&&J(sisTh().slice(-2))===J(Y.alone)&&G.flags.SIS_BDAY_Y5==='alone',J([o&&o.state,sisTh().slice(-3)]));
+    const th=sisTh(), i=th.indexOf(Y.late||'九點半了。我先去。'), m=(G.msgs||[]).find(x=>x.text===(Y.late||'九點半了。我先去。'));
+    check('3. 答應了沒到：09:30 她先傳「'+(Y.late||'九點半了。我先去。')+'」，在 15:00 的照片前面（116d5c72）',i>=0&&i<th.indexOf(Y.alone[0])&&!!m&&m.day===D('2030-06-02')&&Math.abs(m.h-9.5)<1e-6,J([th.slice(-4),m&&[m.day-D('2030-06-02'),m.h]])); }
+  { const late=Y.late||'九點半了。我先去。';
+    const G1=sea(); at('2030-06-01',21); PHONE.answer(G1,'pg_sis_sea',1); H.tick(); at('2030-06-02',15.1); PHONE.tick(G1); const a=sisTh().includes(late);
+    const G2=sea(); at('2030-06-01',21); at('2030-06-02',15.1); PHONE.tick(G2); const b=sisTh().includes(late);
+    const G3=sea(); at('2030-06-01',21); PHONE.answer(G3,'pg_sis_sea',0); H.tick(); H.at('2030-06-02',8.6); await goOut('pg_sis_sea',['生日快樂']); at('2030-06-02',15.1); PHONE.tick(G3); const c=sisTh().includes(late);
+    check('3. 回「明天不行。」、沒回、真的去了：都沒有「'+late+'」',!a&&!b&&!c,J([a,b,c])); }
   // ---- 4. 沒有交往 ----
   { const G=sea({},()=>{ H.CLOSE('heroine_05'); }); at('2030-06-01',21); at('2030-06-02',15.1); PHONE.tick(G);
     check('4. 學姊是朋友（沒有交往）＝沒有 6/1 的私訊、沒有 15:00 的照片、沒有旗標；6/2 不算有事',!sisTh().includes(Y.ask[0]||'明天，計畫本上那一格是空的。……我故意的。')&&!sisTh().includes('看到了。')&&G.flags.SIS_BDAY_Y5==null&&typeof PGDATE!=='undefined'&&!PGDATE.busyDays(G,D('2030-06-01'),D('2030-06-03')).has(D('2030-06-02')),J(sisTh().slice(-2))); }

@@ -1486,11 +1486,18 @@
   },
   {
    "path": "docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md",
-   "sha": "e6d4a198",
+   "sha": "116d5c72",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節六句、第 4 節學姊 2030 年的生日（看海）、第 5 節明軒照稿手動放進 src/story3d.js、src/postgrad3d.js（CARDS_DELAY、SEA_Y5 的流程）、src/data/postgrad_lines.js（SEA_Y5、mx.bar2030）、src/r2y4b3d.js（K26）；第 2、3 節是 AA_366、AA_367 的新版本（import_pg_dates.py）；tests/aa382_pg_unit.js 逐句對稿",
+   "approvedBy": "AA（帳號 A）2026-10-22 07:29 改第 4 節三處（BB 07:28 瀏覽器觀察）：6/1 21:00 兩則私訊換字（「明天」放在有選項的那一則）、答應了沒到 6/2 09:30 多一則「九點半了。我先去。」、「明天不行。」照舊；手動放進 postgrad_lines.js SEA_Y5、postgrad3d.js pg_sis_sea_late；tests/aa382_pg_unit.js 讀 116d5c72 逐句對稿（D100、D109）",
    "task": "AA382-PG-FIX-1022",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "e6d4a198",
+     "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節六句、第 4 節學姊 2030 年的生日（看海）、第 5 節明軒照稿手動放進 src/story3d.js、src/postgrad3d.js（CARDS_DELAY、SEA_Y5 的流程）、src/data/postgrad_lines.js（SEA_Y5、mx.bar2030）、src/r2y4b3d.js（K26）；第 2、3 節是 AA_366、AA_367 的新版本（import_pg_dates.py）；tests/aa382_pg_unit.js 逐句對稿",
+     "task": "AA382-PG-FIX-1022"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md",
