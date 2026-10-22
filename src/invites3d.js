@@ -165,7 +165,7 @@ const INV=(function(){
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); } if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
-      if(SO.playUp) await SO.playUp(GM,who,iv.who);   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節） */
+      if(SO.playUp) await SO.playUp(GM,who,iv.who,{place:P.id,outing:true});   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節）；傳見面的地點（學姊在一盞這類不讀書的地方升到朋友換一版，AA_383 第 6 節） */
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
       if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(ml) await GM.say(/^「/.test(ml)?who:null,ml); else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
       { const FA=((D().people[iv.who]||{}).firstAt||{})[P.id]; if(FA&&!(G.invites||[]).some(q=>q!==iv&&q.who===iv.who&&q.place===P.id&&q.state==='done')) await S.playLines(GM,who,FA); }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/

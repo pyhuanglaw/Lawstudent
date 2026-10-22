@@ -28770,7 +28770,7 @@
    "id": "BB106-L389-1022",
    "title": "BB_106 L389（可昕和品妤在社科院門口）還沒做（events.js 1090 行附近）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28785,7 +28785,18 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "讀 BB_106@71b3e6c3 L389 照稿做（白名單已有 BB_106）"
+   "next": "讀 BB_106@71b3e6c3 L389 照稿做（白名單已有 BB_106）",
+   "pausedReason": "遊戲裡可昕來台大只有 2D 的出遊（BB_107 K2、K11、K5「我們的日子」選來台大），沒有她在 3D 校園的作息；「她來台大的那幾天」幾點在社科院門口要 AA 定（D79）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:2x；問 AA（send_message，附三題建議）",
+   "resumeWhen": "AA 回覆可以實作的規格（哪幾天、時間窗、品妤不在時怎麼辦）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/story-planning",
+    "spec": "BB_106@71b3e6c3 第 389 行",
+    "acceptance": "三題的定稿（可以直接實作）",
+    "ack": "SENT"
+   }
   },
   {
    "id": "BUG-SIS-ORAL-SCHED-1022",
@@ -28813,7 +28824,7 @@
    "id": "AA383-S6-SIS-FRIEND-1022",
    "title": "AA_383 第 6 節（企劃線 67b7b2ca）：學姊升到朋友的三句（rel_lines.js up.FRIEND：筆電闔上、「你要吃什麼？我請你。」）在出遊裡、地點不是她讀書的地方（一盞、半熟、麵店、溫州街、校外約會地點）＝換「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」；Café、總圖、法圖、研究室照原本",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28828,7 +28839,8 @@
    },
    "source": "AA（帳號 A）10-22 05:03（BB 05:02 在 9cf16124 測到）",
    "authorized": "D109、D110",
-   "next": "白名單 AA_383@67b7b2ca；rel_lines.js 加一版、story3d.js relUp 照出遊地點選；測試讀稿逐字"
+   "next": "BB 瀏覽器：學姊熟悉→朋友的那一天約她去一盞（或半熟、麵店），見面時三句是手機收進包包那一版，接「這裡不能讀書。」；在 Café 照原本",
+   "done": "開發分支（LAWWW 10-22 06:3x）：rel_lines.js 學姊 up.FRIEND 兩個版本——約出去、地點不是她讀書的地方（一盞、半熟、麵店、溫州街）＝「（她把手機收進包包。）」「今天什麼都沒帶。難得。」「這一次我請你。」；Café、總圖約見面、在 3D 直接找她說話＝原本筆電那一版。social3d.js 的版本挑選多一個 ctx（upLine、playUp），invites3d.js 的 S.meet 傳見面地點。白名單 AA_383 → 67b7b2ca。tests/aa383_s6_unit.js（修改前 c045438d 樹 FAIL 2 項、修改後 ALL PASS，逐句對稿）；rel_feel、rel_lines、rel_progress、social_rel_sync、inv_both_present、invites、aa383、sis_cafe 照過"
   },
   {
    "id": "ART-TONE-NEUTRAL-1022",

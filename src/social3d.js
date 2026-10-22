@@ -129,9 +129,9 @@ const SOCIAL = (function(){
   S.friendLevel=function(id){ const r=S.rel(id); let s=(r.fam>=60&&r.trust>=45&&r.comf>=40)?'CLOSE_FRIEND':((r.fam>=40&&r.trust>=25)?'FRIEND':(r.fam>=20?'FAMILIAR':(r.fam>=5?'ACQUAINTANCE':'STRANGER')));
     const d=RL()[id], cap=d&&d.cap?d.cap(G):null; if(cap&&FL.indexOf(cap)<FL.indexOf(s)) s=cap; return s; };
   /* 好幾個版本（[{if,l}／{if,t}…]）取第一個成立的；不是版本清單就原樣 */
-  const pickV=v=>{ if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&!('n' in v[0])&&(('l' in v[0])||('t' in v[0]))){ for(const x of v) if(!x.if||x.if(G)) return x; return null; } return v; };
-  S.upLine=function(id){ const d=RL()[id]; if(!d||!d.up||!G.social) return null; const lv=FL.indexOf(S.friendLevel(id)), done=((G.social.relUp||{})[id])|0;
-    for(let k=lv;k>=2&&k>done;k--){ const e=pickV(d.up[FL[k]]); if(!e) continue; if(e.wait&&!e.wait(G)) continue; return {stage:FL[k],k,l:e.l||[],ch:e.ch||null,set:e.set||null}; } return null; };   /* set：演完要記的旗標（阿凱撕掉膠帶＝KAI_TAPE_GONE）*/
+  const pickV=(v,ctx)=>{ if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&!('n' in v[0])&&(('l' in v[0])||('t' in v[0]))){ for(const x of v) if(!x.if||x.if(G,ctx)) return x; return null; } return v; };   /* ctx：升階台詞在哪裡見面（invites3d.js 的 S.meet 傳 {place}；AA_383 第 6 節）*/
+  S.upLine=function(id,ctx){ const d=RL()[id]; if(!d||!d.up||!G.social) return null; const lv=FL.indexOf(S.friendLevel(id)), done=((G.social.relUp||{})[id])|0;
+    for(let k=lv;k>=2&&k>done;k--){ const e=pickV(d.up[FL[k]],ctx); if(!e) continue; if(e.wait&&!e.wait(G)) continue; return {stage:FL[k],k,l:e.l||[],ch:e.ch||null,set:e.set||null}; } return null; };   /* set：演完要記的旗標（阿凱撕掉膠帶＝KAI_TAPE_GONE）*/
   S.markUp=function(id,k){ const U=G.social.relUp||(G.social.relUp={}); if((U[id]|0)<k){ U[id]=k; (G.social.relUpDay||(G.social.relUpDay={}))[id]=G.day; } };   /* relUpDay：那天說的（方奕廷「我下週上山」之後的那一週要知道是哪一天）*/
   S.byeLine=function(id){ const d=RL()[id]; if(!d||!d.bye) return null; const s=S.friendLevel(id), B=d.bye;
     const v=pickV((s==='CLOSE_FRIEND'&&B.CLOSE_FRIEND)||((s==='CLOSE_FRIEND'||s==='FRIEND')&&B.FRIEND)||B.base); return v?(v.l||v):null; };
@@ -153,7 +153,7 @@ const SOCIAL = (function(){
   S.playSteps=async function(GM,who,id,steps){ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
       const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };
   /* 門檻台詞＋小選擇（不加數值）；說了回傳 true（先記下來，演到一半出錯也不會每次都說） */
-  S.playUp=async function(GM,who,id){ const U=S.upLine(id); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l); if(U.set&&G.flags) Object.assign(G.flags,U.set);
+  S.playUp=async function(GM,who,id,ctx){ const U=S.upLine(id,ctx); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l); if(U.set&&G.flags) Object.assign(G.flags,U.set);
     if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c) await S.playSteps(GM,who,id,c.r); } return true; };
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>{ if(!MEMORY_LABEL[m.tag]) return null; const nt=S.noteShown(id,m); return MEMORY_LABEL[m.tag]+(nt?'（'+nt+'）':''); }).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
   const MEMORY_LABEL={AN_L1_NOTES_PHONE:'跟她說筆記寫在手機上',AN_L1_NOTES_PAPER:'跟她說筆記寫紙本（說好考前互借一頁）',AN_L2_PLANNER:'看過她的手帳（右欄寫理由）',AN_L3_DORM:'知道她也住宿舍（宿舍規則十七頁，她讀完了）',AN_L4_HOME:'知道她家在台中、媽媽每個月一次的晚餐',AN_L5_CONST:'憲法課她坐第三排',AN_L6_RULE_EXAMPLE:'跟她舉過一條沒有理由的規則',AN_L6_RULE_NONE:'跟她說自己都照規則',AN_L7_RUN:'知道她早上六點跑步（那時候沒人找她討論事情）',AN_L8_MIDTERM:'和她聊過期中考的準備',AN_L9_REASON:'聽她說為什麼講話都先準備理由',AN_L10_WINTER:'知道她寒假回台中、媽媽要教她一道菜',AN_L10_PHOTO_PROMISE:'說好寒假互傳照片',
