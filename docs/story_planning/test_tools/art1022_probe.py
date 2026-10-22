@@ -24,6 +24,7 @@ PST = """(()=>{ const E=GAME.E, P=E.player, c=E.camera.position, n=E.nav; return
   seat:P.seat?{x:+P.seat.x.toFixed(2), z:+P.seat.z.toFixed(2), lift:P.seat.lift||0}:null, px:+P.obj.position.x.toFixed(2), py:+P.obj.position.y.toFixed(3), pz:+P.obj.position.z.toFixed(2),
   pose:P.pose||'', busy:!!P.busy, cam:[+c.x.toFixed(2), +c.y.toFixed(2), +c.z.toFixed(2)], nav:n?[n.ox, n.oz, n.w, n.h]:null,
   btn:(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()}; })()"""
+OCC = """(pts=>pts.map(([x,z])=>{ const n=(GAME.E.npcs||[]).find(q=>q&&q.obj&&q.obj.visible!==false&&!q.hidden&&Math.hypot(q.obj.position.x-x,q.obj.position.z-z)<0.6); return n?(n.charId||n.id||'路人'):null; }))"""
 SEE = """(names=>{ const found={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!names.includes(m.name)) continue;
   const f=found[m.name]||(found[m.name]={n:0, see:0}); f.n++; if(m.userData&&m.userData.seeThrough) f.see++; } }); return found; })"""
 NPC = """(id=>{ const n=(GAME.E.npcs||[]).find(x=>x&&x.charId===id&&x.obj&&x.obj.visible!==false&&!x.hidden); if(!n) return null; const P=GAME.E.player.obj.position;
@@ -171,8 +172,11 @@ async def s_wz_cam(p, run, base, sid):
     res = out.setdefault(sid, {})
     b, pg, cdp, errs = await load(p, run, base, '2025-10-04', 13.0, 'wenzhou', sid + '（10/4 週六 13:00 溫州街）')
     try:
-        for k, nm, picks in (('teahouse', '一盞', ('back_left', 'back_right', 'mid')), ('brunch', '半熟', ('left', 'right'))):
+        SH = [x for x in os.environ.get('SHOPS', 'teahouse,brunch').split(',') if x]
+        for n_, (k, nm, picks) in enumerate([t for t in (('teahouse', '一盞', ('back_left', 'back_right', 'mid')), ('brunch', '半熟', ('left', 'right'))) if t[0] in SH]):
             r = res.setdefault(k, {}); zid = 'wz_' + k
+            if n_ > 0:   # 2026-10-22（候選 364dabe0 第一輪）：從一盞門口走到半熟門口約 63 m，1 fps 四分鐘走不到；改成重新讀檔回溫州街主巷再走（約 13 m）
+                await close(b); b, pg, cdp, errs = await load(p, run, base, '2025-10-04', 13.0, 'wenzhou', sid + '（10/4 週六 13:00 溫州街，%s）' % nm)
             ok, it = await use(pg, cdp, run, lambda i: i['to'] == zid, zid, desc=nm + '的門')
             st = await pg.evaluate(PST); r['enter'] = st
             chk(run, sid, '%s：從溫州街的店門走進去' % nm, st['zone'] == zid, st)
@@ -244,7 +248,17 @@ async def s_lounge(p, run, base, sid):
             it = next((i for i in its if pat in i['label']), None)
             if not it: chk(run, sid, '交誼廳有「%s」' % pat, False, res['its']); continue
             if pat.startswith('坐'):
-                s1 = await sit(pg, cdp, run, it, pat); res[pat] = s1; await run.shot(pg, '%s_%s' % (sid, pat))
+                cands = [i for i in its if pat in i['label']]
+                occ = await pg.evaluate(OCC + "(%s)" % json.dumps([[i['seat']['x'], i['seat']['z']] for i in cands]))
+                free = [i for i, o in zip(cands, occ) if not o]; res[pat + '_occupied'] = occ
+                if free: it = free[0]
+                say('   %s：%d 個，有人坐的 %s（2026-10-22 第一輪：沙發被住宿生坐走、按鈕不出現）' % (pat, len(cands), occ))
+                s1 = None
+                for tr in range(3):
+                    s1 = await sit(pg, cdp, run, it, pat + ('' if not tr else '（第 %d 次）' % (tr + 1)))
+                    if s1['seat']: break
+                    await pg.wait_for_timeout(15000)   # 二樓走廊窄，路人站在長椅前面就過不去：等他走開
+                res[pat] = s1; await run.shot(pg, '%s_%s' % (sid, pat))
                 chk(run, sid, '「%s」坐得下' % pat, bool(s1['seat']), s1); await stand(pg, cdp)
             else:
                 await go_it(pg, cdp, run, it, 1.0); await run.shot(pg, '%s_%s' % (sid, pat))
