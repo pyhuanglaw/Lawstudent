@@ -29048,7 +29048,7 @@
    },
    "source": "AA_232 子代理回報（LAWWW 帳號 A 10-22 09:2x 合併 1ecb7124）",
    "authorized": "D109（AA 定稿的句子照放）",
-   "next": "【LAWWW 帳號 A 10-22 09:5x】做了：tools/msg/build_pool.py 收 BB_178 第 2 節交往中那一句（子晴「剛跟芷若視訊完」「她那邊才下午」，標「兩人交往中」＋〔週日 22:30 以後〕），重產 msg_pool.js（421 則，其他不變）；msg3d.js S.tok 認得「週日 22:30 以後」（單一星期幾）；tests/zz_msg_lines_unit.js（修改前 FAILED 5）。放 v9.10.6，BB 測。好朋友（每月視訊）那一句還沒收：ZZ 哪一個狀態算「好朋友」問 AA ｜ 讀 BB_178 第 2 節找那一句、build_pool.py 加標籤條件、重產、單元測試"
+   "next": "【LAWWW 帳號 A 10-22 09:5x】AA_385 第 9 節（企劃線 028dc128，AA 選③）也做了：好朋友「芷若這個月打來了」「她說那邊的貓不給摸」〔每月第一個週日以後那一週〕＝friends、feelings_emerging、mutual_interest、held；交往中那一句；「兩人是朋友」（下雨照片）只給沒有 ZZ 的舊存檔（zrzq3d.js MSG.tok、msg3d.js S.tok、build_pool.py 重產 422 則）；tests/zz_msg_lines_unit.js（修改前 FAILED 5）、zrzq_line_unit 第 18 項改新規則 ｜ 【LAWWW 帳號 A 10-22 09:5x】做了：tools/msg/build_pool.py 收 BB_178 第 2 節交往中那一句（子晴「剛跟芷若視訊完」「她那邊才下午」，標「兩人交往中」＋〔週日 22:30 以後〕），重產 msg_pool.js（421 則，其他不變）；msg3d.js S.tok 認得「週日 22:30 以後」（單一星期幾）；tests/zz_msg_lines_unit.js（修改前 FAILED 5）。放 v9.10.6，BB 測。好朋友（每月視訊）那一句還沒收：ZZ 哪一個狀態算「好朋友」問 AA ｜ 讀 BB_178 第 2 節找那一句、build_pool.py 加標籤條件、重產、單元測試"
   },
   {
    "id": "ZZ-FANG-EV2-DECLINED-1022",
@@ -29112,6 +29112,34 @@
    },
    "source": "LAWWW 帳號 A 10-22 修 BUG-MSG-ABROAD-VARIANT-1022 時發現",
    "authorized": "既有授權（BUG）"
+  },
+  {
+   "id": "ART-NPC-NM3-HAIR-1022",
+   "title": "男宿路人 char.npc_nm3（bl_npc_nm3.vrm，說明：淺棕側分短髮、駝色針織衫）在遊戲裡頭髮接近及肩，側後方看像女生（BB 帳號 A 10-22 09:51，候選 364dabe0 男宿二樓走廊；截圖企劃線 docs/story_planning/test_shots/rel9105_1022/男宿二樓走廊_長椅前面的路人_364dabe0.webp）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "LAWWW2：照說明把頭髮改成短髮（耳上、後頸露出），臉、衣服不動；交 VRM＋遊戲內前後截圖；LAWWW 驗收（D100 第 6 點角色美術）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "所有玩家（男宿）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 帳號 A 10-22 09:51 測試回報",
+   "authorized": "既有授權（D100 LAWWW2 3D 美術；人物小錯誤可以修）",
+   "xai": {
+    "spec": "BB 10-22 09:51 回報＋bl_npc_nm3 的說明（淺棕側分短髮）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "VRM 換上後男宿二樓走廊側後方看是男生短髮；遊戲內前後截圖；anon_pool／character 相關 Node 單元測試過",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

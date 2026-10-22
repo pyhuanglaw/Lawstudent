@@ -394,9 +394,12 @@ p.sit('chat', ['在寫', '十二點以後最順'], '深夜', variantNote='兩則
 p.sit('chat', ['剛 build 好', '（截圖）', '沒有紅字'], '深夜', variantNote='兩則輪流')
 p.sit('chat', ['在工作室', '下班了還不想走'], '大四', variantNote='工作室；兩則輪流')
 p.sit('chat', ['下班了', '在捷運上睡著坐過一站'], '大四', variantNote='工作室；兩則輪流')
-# 芷若在英國（bb6baddf 第 2 節；R 以上，祐廷認識芷若；一段期間只播一次——src/msg3d.js）。「兩人是朋友」那一句＋交往中（ZZ.state＝dating，
-# src/zrzq3d.js 的 MSG.tok「兩人交往中」；ZZ-MSGPOOL-LINE-1022）那一句〔週日 22:30 以後〕。好朋友（每月視訊）那一句還沒收：ZZ 的哪一個狀態算「好朋友」要問 AA
+# 芷若在英國（bb6baddf 第 2 節；R 以上，祐廷認識芷若；一段期間只播一次——src/msg3d.js）。三種照子晴×芷若的 ZZ 狀態（src/zrzq3d.js 的 MSG.tok）：
+# 「兩人是朋友」＝沒有 ZZ 的舊存檔（備援）；好朋友＝friends、feelings_emerging、mutual_interest、held（AA_385 第 9 節選③，企劃線 028dc128）〔每月第一個週日以後那一週〕；
+# 交往中＝dating（ZZ-MSGPOOL-LINE-1022）〔週日 22:30 以後〕
 p.sit('chat', ['芷若發了一張下雨的照片', '她那邊好像每天都在下雨'], '芷若在英國', ['兩人是朋友'], tier='R',
+      variantNote='R 以上，祐廷認識芷若；一段期間只播一次', src='BB_178 2 在幹嘛 芷若在英國')
+p.sit('chat', ['芷若這個月打來了', '她說那邊的貓不給摸'], '芷若在英國', ['兩人是好朋友', '每月第一個週日以後那一週'], tier='R',
       variantNote='R 以上，祐廷認識芷若；一段期間只播一次', src='BB_178 2 在幹嘛 芷若在英國')
 p.sit('chat', ['剛跟芷若視訊完', '她那邊才下午'], '芷若在英國', ['兩人交往中', '週日 22:30 以後'], tier='R',
       variantNote='R 以上，祐廷認識芷若；一段期間只播一次', src='BB_178 2 在幹嘛 芷若在英國')

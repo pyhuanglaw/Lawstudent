@@ -5,7 +5,7 @@
 //   8 她們畢業以後的版本（地點、入場旁白一起換）　9 祐廷在國外（交換）：世界照樣發生、沒有畫面；芷若在英國的學期跳過
 //   10 狀態推進到 dating、4-4「先這樣」（大二下）、交換回來以後的 4-4　11 4-7 祐廷得知只在 dating 以後（兩版、聽過 4-4 的第一句、畢業典禮那天）
 //   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線的訊息、方奕廷三則；r2y3b 的「我說好」不演）
-//   14 互斥（她們交往中＝她有交往的對象；曖昧期照常）　15 舊存檔　16 結局（尾聲那一行）　17 4-5、4-6　18 手機「兩人是朋友」、在家、跳過時間的停點
+//   14 互斥（她們交往中＝她有交往的對象；曖昧期照常）　15 舊存檔　16 結局（尾聲那一行）　17 4-5、4-6　18 手機子晴「芷若在英國」三則的標籤（AA_385 第 9 節）、在家、跳過時間的停點
 // 修改前（開發分支 b857600c）：ZRZQ 不存在，除了「稿上有」以外全部 FAIL。用法：node tests/zrzq_line_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -313,7 +313,8 @@ const ZR='heroine_02', ZQ='heroine_04';
     return [a&&b&&c,J({a,b,c,t:txt()})]; });
 
   /* ===================== 18 其他接線 ===================== */
-  await chk('18. 手機的「兩人是朋友」：她們交往中＝false、其他＝true（「兩人交往中」反過來，給之後收進回覆池的那一句）',()=>{ fresh('2027-10-13',22,'dorm'); zz({state:'mutual_interest',since:0}); const a=MSG.tok(G,ZQ,'兩人是朋友'), a2=MSG.tok(G,ZQ,'兩人交往中'); zz({state:'dating'}); return [a===true&&a2===false&&MSG.tok(G,ZQ,'兩人是朋友')===false&&MSG.tok(G,ZQ,'兩人交往中')===true,'']; });
+  await chk('18. 手機子晴「芷若在英國」三則的標籤（AA_385 第 9 節選③）：mutual_interest＝兩人是好朋友；dating＝兩人交往中；兩人是朋友只給沒有 ZZ 的舊存檔',()=>{ fresh('2027-10-13',22,'dorm'); zz({state:'mutual_interest',since:0}); const t=()=>['兩人是朋友','兩人是好朋友','兩人交往中'].map(p=>MSG.tok(G,ZQ,p)); const a=t(); zz({state:'dating'}); const b=t(); delete G.flags.ZZ; const c=t();
+    return [J(a)===J([false,true,false])&&J(b)===J([false,false,true])&&J(c)===J([true,false,false]),J({a,b,c})]; });
   await chk('18. 其中一人自己告訴他（閒聊階梯記 ZZ_TOLD_YT，23-4）＝祐廷知道（confirmed）、4-7 就不演',()=>{
     fresh('2026-09-10',15,'campus'); both('FAM'); zz({state:'dating',since:0,datingDay:D('2026-06-05'),datingTerm:'Y1S2',yt:'mutual'}); SOCIAL.remember(ZQ,'ZZ_TOLD_YT',''); rules(); at('2026-09-18',14.6);
     return [G.flags.ZZ.yt==='confirmed'&&!ZRZQ.next(G),'']; });

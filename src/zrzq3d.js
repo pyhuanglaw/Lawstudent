@@ -7,7 +7,7 @@
    - 和祐廷的互斥（23-5）：芷若、子晴的 CHARACTERS.partner＝{zz}，包住 STORY.partnerOn——她們交往中（dating）時，約會、單獨的邀約、期末的心意邀約、告白照「她有交往的對象」那一套
      （termend_lines.js 的 NOPE.partner 本來就有芷若、子晴那一句，BB_203 5-1 C5）；mutual_interest 以前照常；
    - F3（r2y3b3d.js）婉拒的存檔：包住 R2Y3B.f3CafeDue（不演「……我說好。」）、收回日本路線那則「我說好」；
-   - MSG.tok 的「兩人是朋友」（msg3d.js 原本一律 true）：交往中＝false；尾聲 PG.EPI_AFTER_CG：結局 B／C 那一行。
+   - MSG.tok 的「兩人是朋友」「兩人是好朋友」「兩人交往中」（子晴「芷若在英國」那三則；msg3d.js 原本「兩人是朋友」一律 true）：照 ZZ 的狀態（AA_385 第 9 節）；尾聲 PG.EPI_AFTER_CG：結局 B／C 那一行。
    存檔：G.flags.ZZ＝{state, since（建立的那天；舊存檔讀檔那天以前的場次不補演）, ev:{事件 id:{day,seen,…}}, yt（祐廷知道多少：none／hint／mutual／confirmed）,
      sem:{學期:{zr,zq}}（A／B 誰先開口）, fy（方奕廷：declined／went／seeing）, f3, forceB, held（uk／fy）, version, datingDay, datingTerm, lastDay, month, ending}；
      G.flags.ZZ_STATE（狀態的鏡像，給階梯、事件條件用 flagIs）、YT_SAW_ZZ_1、YT_SAW_ZZ_2、YT_HEARD_ZZ、YT_ZZ_FEEL。舊存檔沒有＝第一次跑到時建 {state:'friends'}，不改任何既有欄位。
@@ -319,8 +319,11 @@ const ZRZQ=(function(){
   if(typeof HOME!=='undefined'&&Array.isArray(HOME.STOPS)) HOME.STOPS.push((G,t)=>S.upcoming(G).map(u=>T(u.day,u.h)).filter(x=>t==null||x>t));
   /* F3 婉拒的存檔：「奕廷約我去看電影。……我說好。」那一場不演（第三節：婉拒，取代「我想試試看」）*/
   if(typeof R2Y3B!=='undefined'&&R2Y3B.f3CafeDue&&!R2Y3B._zrzq){ const f0=R2Y3B.f3CafeDue; R2Y3B.f3CafeDue=function(G){ const R=G&&G.flags&&G.flags.ZZ; if(R&&R.fy==='declined') return false; return f0.apply(this,arguments); }; R2Y3B._zrzq=true; }
-  /* 手機的「兩人是朋友」（子晴「芷若在英國」那幾則，BB_178 第 2 節）：交往中就不是 */
-  if(typeof MSG!=='undefined'&&MSG.tok&&!MSG._zrzq){ const t0=MSG.tok; MSG.tok=function(G,id,p){ if(p==='兩人是朋友') return !S.dating(G); if(p==='兩人交往中') return S.dating(G); return t0.apply(this,arguments); }; MSG._zrzq=true; }   /* 「兩人交往中」：BB_178 第 2 節交往中那一句進回覆池時用（tools/msg/build_pool.py 還沒收）*/
+  /* 手機子晴「芷若在英國」那三則（BB_178 第 2 節；AA_385 第 9 節選③，企劃線 028dc128）：friends、feelings_emerging、mutual_interest、held＝好朋友（「芷若這個月打來了」）、
+     dating＝交往中；「兩人是朋友」（下雨的照片）只給沒有 ZZ 的舊存檔當備援 */
+  S.GOOD=['friends','feelings_emerging','mutual_interest','held','remain_friends'];
+  if(typeof MSG!=='undefined'&&MSG.tok&&!MSG._zrzq){ const t0=MSG.tok; MSG.tok=function(G,id,p){ const R=G&&G.flags&&G.flags.ZZ&&typeof G.flags.ZZ==='object'?G.flags.ZZ:null;
+      if(p==='兩人是朋友') return !R; if(p==='兩人是好朋友') return !!R&&S.GOOD.includes(R.state); if(p==='兩人交往中') return S.dating(G); return t0.apply(this,arguments); }; MSG._zrzq=true; }   /* 「兩人交往中」：BB_178 第 2 節交往中那一句進回覆池時用（tools/msg/build_pool.py 還沒收）*/
   /* 曼谷（T03）：私訊多一句、同行的人、夜市那天的椰子汁 */
   { const A=S.bkkCard();
     if(A&&A.signup&&typeof VAC!=='undefined'&&VAC.phone&&!VAC._zrzq){ const v0=VAC.phone; VAC.phone=function(GM){ const s=A.signup, keep=s.msgs, G=GM&&GM.G;
