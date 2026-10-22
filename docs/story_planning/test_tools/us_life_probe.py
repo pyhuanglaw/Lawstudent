@@ -400,11 +400,13 @@ async def main():
                     elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
                     elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
                     elif st[0] == 'use': await use(pg, cdp, run, st[1])
-                    elif st[0] == 'bedpick': await bedpick(pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
+                    elif st[0] == 'bedpick':   # 讀檔那一刻的事件（例：抵達那天的公寓、亞洲超市、打給媽媽）先演完再去床（r_us_life 第一次 USA：邊演邊按床，床的選單是空的）
+                        await pg.wait_for_timeout(3000); await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+                        await bedpick(pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
                     elif st[0] == 'ffloop': await ffloop(pg, cdp, run, sc, st[1], st[2])
                     elif st[0] == 'phoneppl':
                         r = await pg.evaluate("(id=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); return 1; })(%s)" % json.dumps(st[1])); await pg.wait_for_timeout(1500)
-                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"ppl\"]')||[...document.querySelectorAll('#phoneTabs button')].find(x=>/人/.test(x.textContent)); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
+                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"friends\"]')||document.querySelector('#phoneTabs button[data-ptab=\"ppl\"]')||[...document.querySelectorAll('#phoneTabs button')].find(x=>/朋友|人/.test(x.textContent)); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
                         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"); await run.shot(pg, 'phone_ppl_' + sc['id'])
                         say('   手機「人」：%s' % txt[:400].replace('\n', '｜'))
                         if '你人在美國。' not in txt: bad.append('%s：手機「人」沒有「你人在美國。」' % sc['id'])
