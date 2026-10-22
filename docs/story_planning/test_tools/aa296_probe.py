@@ -507,7 +507,8 @@ async def s_zq_noreply(p, run, base, sid, out):
         await skip(pg, cdp, '等到傍晚', sid); ops, got, ok = await sleep2(pg, cdp, run, ('睡到明天',), sid); res['bed10'] = [ops, got]
         n1 = await log_len(pg)
         await skip(pg, cdp, '等到晚上', sid); st = await pg.evaluate(STATE); res['at20'] = st
-        q20 = await outq(pg, '^y3_zq_'); say('   %s 20:00 的出遊：%s' % (sid, J(q20)))
+        await wait_for(pg, cdp, run, "OUT.rec(GAME.G).some(q=>q.id==='y3_zq_noreply_call')||GAME.G.hour>=20.5", max_s=90, label=sid)   # 跳過時間以後等遊戲自己更新一次（SwiftShader 約 30 秒一次；實機約 0.5 秒）再看
+        q20 = await outq(pg, '^y3_zq_'); st20 = await pg.evaluate(STATE); say('   %s 20:00 以後的出遊（%s %.2f）：%s' % (sid, st20['key'], st20['h'], J(q20)))
         run.check('%s：6/11 跳到 20:00：已經排好 21:00「子晴打電話來」（前 2 小時才排）' % sid, any(x['id'] == 'y3_zq_noreply_call' and x['state'] == 'planned' and x['d'] == '2028-06-11' and abs(x['h'] - 21) < 0.01 for x in q20), J({'st': st, 'out': q20}))
         ok, ch = await wait_out(pg, cdp, run, 'y3_zq_noreply_call', 900, sid)
         await drive(pg, cdp, run, max_s=120, label=sid)
