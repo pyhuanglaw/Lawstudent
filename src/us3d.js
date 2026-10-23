@@ -40,8 +40,13 @@ const US3=(function(){
     const c=document.createElement('canvas'); c.width=256; c.height=128; const x=c.getContext('2d'); x.fillStyle=bg||'#7a2a26'; x.fillRect(0,0,256,128); x.fillStyle=fg||'#f4efe6'; x.textAlign='center'; x.textBaseline='middle';
     x.font='600 72px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif'; x.fillText(String(text||''),128,68);
     const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; const m=o.material.clone(); m.map=t; m.color=new THREE.Color(0xffffff); o.material=m; }
-  /* 「看」的文字：只寫東西是什麼（企劃還沒寫這些地方的文字；AA 寫好時換掉，劇情文字不由開發組自己編）*/
+  /* 「看」的文字：只寫東西是什麼（企劃還沒寫這些地方的文字；AA 寫好時換掉，劇情文字不由開發組自己編）。
+     美國校園、法學院圖書館、超市街的告示：AA_412 第 5 節定稿（AA-B 10-23）；機場、公寓、合租戶、社區照原本的字（AA_412 5-4：AA 看過，可以用）*/
   const lookText=s=>s;
+  /* 照日期、交往中換的「看」：互動點的 look 用 getter（按下去的那一刻照遊戲時鐘＝美國當地日期算）*/
+  const lookGet=(it,fn)=>Object.defineProperty(it,'look',{get:()=>fn(G_()),enumerable:true,configurable:true});
+  const dkey=G=>G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:'';   /* 'YYYY-MM-DD'（字串比大小＝比日期）*/
+  const sisDating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F.dating_heroine_05===true||!!(R.heroine_05&&R.heroine_05.status==='dating'); };
 
   // =================== 公寓室內 us_apartment ===================
   const APT=()=>US_APARTMENT_LAYOUT;
@@ -267,19 +272,28 @@ const US3=(function(){
   /* 公車站（從社區搭公車來）→ 法學院前的人行道 → 台階下「進教室」「進圖書館」；校門「往活動中心」這一版關著。
      老校區、樹林、對面的房子都是背景（走不到，配置的 blocks 擋住）。正式模型 bldg.us_campus（tools/blender/env_second/us_campus.py，配置同一份；四季照 usSeason）。
      進教室：usClass＝交換系統接（美國的課是 2D 課堂，下課回到 spawn_class_out）；沒有接的時候只說一句 */
-  const LOOK_CAMPUS={class:'法學院的台階。上去的走廊兩邊都是教室，門上貼著課號和上課時間。',gate:'往學生活動中心的路，兩旁是一排老橡樹。（這一版還沒開放。）'};
+  /* AA_412 5-1：「進教室」（現在沒有課的時候；有課＝交換系統直接上課）、「往活動中心」關著＝說玩家看得懂的理由（AA_399；原本暫用字最後那一句括號拿掉）；
+     活動中心路口多一句、照日期換（同 us_life3d.js 的換季：10/16 起多一句、11/18 起換成落葉、12/2 初雪起換成雪）*/
+  const LOOK_CAMPUS={class:'法學院的台階。上去的走廊兩邊都是教室，門上貼著課號和上課時間。現在沒有你的課。',gate:'往學生活動中心的路，兩旁是一排老橡樹。活動中心在整修，路口圍了一圈欄杆。',
+    gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-18','葉子掉得差不多了，地上都是橡實。'],['2028-10-16','橡樹的葉子開始轉紅了。']]};
+  const campusLook=(id,G)=>{ if(id!=='gate') return LOOK_CAMPUS[id]||null; const k=dkey(G), s=k?LOOK_CAMPUS.gateSeason.find(q=>k>=q[0]):null; return LOOK_CAMPUS.gate+(s?s[1]:''); };
   const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
     interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
         if(q.id==='bus') it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)};                                         /* 回社區的入口（和登機抵達、從超市回來同一個點）*/
         else if(q.id==='library') it.exit={to:'us_lawlib',spawn:Object.assign({},US_LAWLIB_LAYOUT.spawn)};
         else if(q.id==='class'){ it.usClass='law'; it.look=lookText(LOOK_CAMPUS.class); }
-        else if(q.id==='gate'){ it.usGate='union'; it.look=lookText(LOOK_CAMPUS.gate); }
+        else if(q.id==='gate'){ it.usGate='union'; lookGet(it,G=>campusLook('gate',G)); }
         else it.look=lookText(q.label+'。');
         IT.push(it); } } });
   // =================== 法學院圖書館 us_lawlib（SCN-US-LIB；US-CAMPUS-WIRE-1018）===================
   /* 一樓：大門、服務台、中庭長桌（坐下可以讀書）、窗前短桌、圓桌、軟椅；樓上書庫這一版關著（樓梯口紅絨繩）。
      正式模型 bldg.us_lawlib（tools/blender/env_second/us_lawlib.py，配置同一份）。一樓走廊的天花板（樓板底）4.2 m：鏡頭在這下面（camDist 5）；四面牆各自淡出（WALL_<面>_*）*/
-  const LOOK_LIB={desk:'服務台。館員在蓋還書章，旁邊一盒鉛筆，寫著可以自己拿。',stair_rope:'樓梯口拉著紅絨繩，掛著一張牌子：樓上書庫整理中，暫停開放。',window:'彩色玻璃窗，拼的是一架天平和幾本書。有幾片玻璃的顏色比較淡。',stacks:'書架。一整排深紅色書背的判例彙編，編號一路排到最裡面。',catalog:'查詢電腦。螢幕還停在前一個人查的那一頁：一本英國的契約法。'};
+  /* AA_412 5-2（查詢電腦照原本的字）；服務台：交往中、10/1 以後、她在圖書館的時候（平日 09:00～11:30，USL.sisAt 在 us_lawlib）多一句 */
+  const LOOK_LIB={desk:'服務台。館員在蓋還書章。旁邊一盒鉛筆，牌子上寫著：自己拿。',stair_rope:'樓梯口拉著紅絨繩，牌子上寫著：樓上書庫整理中，暫停開放。要借樓上的書，到服務台填單。',window:'彩色玻璃窗，拼的是一架天平和幾本書。下午的光照進來，天平的影子落在長桌上。',stacks:'書架。一整排深紅色書背的判例彙編，書背上的金字磨掉了一半。',catalog:'查詢電腦。螢幕還停在前一個人查的那一頁：一本英國的契約法。',
+    deskSis:'（館員看到你，往中庭的長桌點了一下頭。她在那裡。）'};
+  const sisInLib=G=>{ if(!G||!sisDating(G)||dkey(G)<'2028-10-01') return false; const h=((G.hour%24)+24)%24, w=G.weekday; if(!(w>=1&&w<=5&&h>=9&&h<11.5)) return false;
+    if(typeof USL==='undefined'||!USL.sisAt) return false; const a=USL.sisAt(G); return !!(a&&a.zone==='us_lawlib'); };
+  const libLook=(id,G,label)=>{ const t=LOOK_LIB[id]; if(!t) return label!=null?label+'。':null; return id==='desk'&&sisInLib(G)?t+LOOK_LIB.deskSis:t; };
   const us_lawlib={ id:'us_lawlib', name:'法學院圖書館（美國）', indoor:true, camDist:US_LAWLIB_LAYOUT.cam_dist||5.0, build(E){ const L=US_LAWLIB_LAYOUT, Bd=L.bounds, H=4.2;
     const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;   /* 鏡頭可以退到牆外 1.5 m（牆淡出），不會卡在牆面上 */
     const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#e9e3d4',floorTex:W3.stoneTex('#5f7f93'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
@@ -295,7 +309,7 @@ const US3=(function(){
     const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 檯燈、嵌燈整天都亮 */
     const IT=E.interactables; z.seats=[];
     for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st);   /* ap：椅子後面是方柱的那一張，走近點另外給（配置算好的）*/ IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st},s.kind==='lounge'?{label:'坐在軟椅上'}:{label:'坐下來讀書',study:true})); }   /* study：坐下的選單有「讀書」（和總圖一樣）*/
-    for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usLib:q.id,look:lookText(LOOK_LIB[q.id]||q.label+'。')});
+    for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usLib:q.id}; lookGet(it,G=>libLook(q.id,G,q.label)); IT.push(it); }
     for(const X of L.exits){ const sp=Object.assign({},(X.to==='us_campus'&&US_CAMPUS_LAYOUT[X.spawn])||US_CAMPUS_LAYOUT.spawn_library_out); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
     z.formal=false; if(has('bldg.us_lawlib')) ASSETS.loadOne('bldg.us_lawlib').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
@@ -369,6 +383,7 @@ const US3=(function(){
      從 OUT 門出來 → 停車場 → 路口的斑馬線過馬路（中央分隔島只在斑馬線那裡斷開）→ 竹葉亞洲超市。
      正式模型 bldg.us_market_street（tools/blender/env_second/us_market_street.py，配置 us_market_street.layout.json 同一份；四季照 usSeason）。
      公車：usBus＝交換系統可以攔下來換成自己的字卡、時間（社區、校園的公車同一個做法）*/
+  const LOOK_MS={lease:'空的店面。玻璃上貼著招租的紙，一個電話號碼。旁邊還看得到舊招牌的膠痕，以前是一家洗衣店。'};   /* AA_412 5-3「看招租的告示」*/
   const us_market_street=MS()?outdoorZone({ id:'us_market_street', name:'超市街（美國）', size:[84,76], glb:'bldg.us_market_street', layout:MS, spawn:L=>L.spawn_bus,
     /* 燈頭位置照 us_market_street.py：停車場燈桿每支兩個燈頭（桿子前後 1.1 m、冷白光）；眼鏡蛇頭路燈的燈頭在桿子往馬路 2.75 m */
     lampPools:L=>[].concat(...(L.poles||[]).map(p=>[-1.1,1.1].map(d=>({x:p.x,z:p.z+d,r:7.5,op:0.24,color:0xeef2ff}))),
@@ -377,7 +392,7 @@ const US3=(function(){
         if(q.id==='pb_in') it.exit={to:'us_market',spawn:Object.assign({},US_MARKET_LAYOUT.spawn)};
         else if(q.id==='am_in') it.exit={to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)};
         else if(q.id==='bus'){ it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)}; it.usBus='community'; }
-        else if(q.look) it.look=lookText(q.look);
+        else if(q.look) it.look=lookText(LOOK_MS[q.id]||q.look);   /* 配置（LAWWW2 的 layout.json）寫的字是暫用；AA 定稿的照 LOOK_MS */
         IT.push(it); } } }):null;
 
   // =================== 桃園機場第二航廈 airport_dep／airport_arr ===================
@@ -471,6 +486,6 @@ const US3=(function(){
   for(const k in SPAWN) delete SPAWN[k].note;
   /* 交換系統（LAWWW-C 的 src/exchange3d.js，比這個檔先載入）：出發、登機抵達、睡醒、凌晨走回公寓、手機「地點」都讀 EXCH.SPAWN（LAWWW-C 21:13 的介面）*/
   if(typeof EXCH!=='undefined'&&EXCH.SPAWN) Object.assign(EXCH.SPAWN,{airport_dep:Object.assign({},SPAWN.airport_dep),us_outside:Object.assign({},SPAWN.us_outside),us_apartment:Object.assign({},SPAWN.us_apartment_bed)});
-  return {usSeasonKey,usSeason,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,us_market_street,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
+  return {usSeasonKey,usSeason,LOOK_CAMPUS,LOOK_LIB,LOOK_MS,campusLook,libLook,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,us_market_street,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
 })();
 Z3.ZONES.us_campus=US3.us_campus; Z3.ZONES.us_lawlib=US3.us_lawlib; Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr; if(US3.us_market_street) Z3.ZONES.us_market_street=US3.us_market_street;

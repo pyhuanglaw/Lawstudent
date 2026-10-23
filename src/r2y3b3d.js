@@ -157,6 +157,18 @@ const R2Y3B=(function(){
     if(G.day===d13&&PHONE.sent(G,'y3_far_call')&&F.FAR_CALL_NO!==true&&!outGet(G,'y3_far_call')&&hh(G)<lt(G,d13,19.75))
       plan(G,{id:'y3_far_call',ev:'ev_far_call_jp',day:d13,h:lt(G,d13,19.5),late:0.25,place:'視訊',title:'阿哲打視訊來（麵店，日本 20:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
   S.farPhoto=G=>{ const d=D('2028-04-13'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一碗麵）'}],'y3_far_photo'); };
+  /* 主線 8「遠方」美國版（AA_412 第 2 節）：9/20（三）臺灣 21:00＝美國 09:00 阿哲私訊；9/21（四）美國 07:30（臺灣 19:30）視訊（15 分鐘沒接＝沒接＝美國 07:45 照片）。
+     照日本版 S.farPhone（條件：在麵店團，或和阿哲 FAMILIAR 以上；「明天不行。」記 FAR_CALL_NO、不演）；遊戲時鐘＝美國當地，臺灣的時間用 lt 換。
+     日本版是晚上、美國版是早上：私訊到了就排（不等到當天），標 alarm——睡覺會在 07:00 醒（同可昕週年視訊 story3d.js kx_anniv4v：沒有鬧鐘就睡到中午錯過）；之後回「明天不行。」就取消 */
+  const inUS=(G,day)=>isUS(G)&&abroad(G,day);
+  S.farPhoneUS=function(G){ const d20=D('2028-09-20'), d21=D('2028-09-21'); if(d20==null||d21==null||G.day<d20||G.day>d21||!inUS(G,d21)) return; if(!(grp(G)||met(G,'zhe','FAMILIAR'))) return; const F=G.flags, Z=M('p:zhe','zhe');
+    if(now(G)>=T(d20,lt(G,d20,21))&&now(G)<T(d21,lt(G,d21,19.5))&&!PHONE.sent(G,'us_far_call'))
+      PHONE.at(G,d20,lt(G,d20,21),[Object.assign(Z('明天你那邊早上七點半 視訊 給我起床'),{ask:{id:'us_far_call',until:T(d21,lt(G,d21,19.5)),opts:[{t:'好。',say:[{from:'zhe',text:'記得吃飯'}]},{t:'明天不行。',say:[{from:'zhe',text:'好啦 那下次'}],set:{FAR_CALL_NO:true}}]}})],'us_far_call');
+    const q=outGet(G,'us_far_call');
+    if(F.FAR_CALL_NO===true){ if(q&&q.state==='planned') q.state='cancelled'; return; }
+    if(PHONE.sent(G,'us_far_call')&&!q&&now(G)<T(d21,lt(G,d21,19.75)))
+      plan(G,{id:'us_far_call',ev:'ev_far_call_us',day:d21,h:lt(G,d21,19.5),late:0.25,alarm:true,place:'視訊',title:'阿哲打視訊來（麵店，臺灣 19:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
+  S.farPhotoUS=G=>{ const d=D('2028-09-21'); if(d==null) return; PHONE.at(G,d,lt(G,d,19.75),[{th:grp(G)?NG:'p:zhe',from:'zhe',text:'（照片：長桌上空著一個位子，前面放了一碗麵）'}],'us_far_photo'); };
 
   /* ===================== 2-Y3-39 語 5「一個人的電影」：4/22（六）21:00 她傳兩則；日本路線 4/24 10:00 視訊（日本 11:00）===================== */
   S.yu5Phone=function(G){ const d22=D('2028-04-22'), d24=D('2028-04-24'); if(d22==null||G.day<d22||G.day>d24||!met(G,'yu','FAMILIAR')||!dmOk(G,'yu')) return; const Y=M('p:yu','yu');
@@ -576,7 +588,7 @@ const R2Y3B=(function(){
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
     S.groupPhone(G); S.azaleaPhone(G); S.c6Phone(G); S.k18Phone(G); S.xunPhone(G); S.yu4Phone(G); S.jpPhone(G); S.toastPhone(G);
-    S.sakuraPhone(G); S.farPhone(G); S.yu5Phone(G); S.z11bPhone(G); S.kxBdayPhone(G);
+    S.sakuraPhone(G); S.farPhone(G); S.farPhoneUS(G); S.yu5Phone(G); S.z11bPhone(G); S.kxBdayPhone(G);
     S.xcPhone(G); S.noticePhone(G); S.k20Phone(G); S.f3Phone(G); S.lotteryPhone(G);
     S.whitePhone(G); S.farVideoPhone(G); S.abPhone(G); S.anBackPhone(G);
     S.summerPlanPhone(G); S.ytBdayPhone(G); S.slipsPhone(G); S.z13Phone(G); S.q15Phone(G); };
