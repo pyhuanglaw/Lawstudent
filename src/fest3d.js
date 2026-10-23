@@ -70,6 +70,7 @@ const FEST=(function(){
     if(k==='qixi'&&id!=='kexin'&&dating(G,'kexin')) return false;   /* 和可昕交往中，七夕只有可昕的 */
     return true; };
   S.dedicated=function(G,id,k,y){ const c=S.cell(id,k); if(!c||c.aa414) return true; const dd=c.dedicated||{};
+    if(id==='kexin'&&k==='qixi'&&typeof R2Y3A!=='undefined'&&Array.isArray(R2Y3A.QIXI)&&R2Y3A.QIXI.some(x=>String(x.key).slice(0,4)===String(y)&&(!x.ok||x.ok(G)))) return true;   /* 可昕交往中的七夕視訊 2026、2028（還有 2027 沒去高雄的）在 r2y3a3d.js S.qixiPhone：這裡不再自動打一通（BB-B 10-23：8/19 兩通 21:00 視訊）*/
     if(dd.all&&dd.all.includes(y)) return true; if(dd.dt&&dd.dt.includes(y)&&dating(G,id)) return true; return false; };
   S.ver=function(G,id,k){ if(dating(G,id)) return 'dt'; const c=S.cell(id,k)||{}; return c.s5&&stageNum(id)===5?'s5':'s6'; };
   S.cellLines=function(c,ver){ if(!c) return null; if(ver==='dt') return c.dt||c.s6||null; if(ver==='s5') return c.s5||c.s6||null; return c.s6||null; };

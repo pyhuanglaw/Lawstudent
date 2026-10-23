@@ -262,6 +262,11 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     REG({cg_our_car_kh_kexin:{file:'new',title:'我們有車'}}); setup('2028-08-26',10,{lv:{[KX]:'dt'}}); const m=await play({id:KX,k:'qixi',y:2028,mode:'meet'}); check('9. 高雄那一張 CG 畫好登錄以後才放（cg_our_car_kh_kexin）',J(H.cgs)===J(['cg_our_car_kh_kexin'])); delete global.CG_REGISTRY; }
   { setup('2026-08-19',9,{lv:{[KX]:'dt'}}); rules(); const q=OUT.get(H.G,'fest_kexin_qixi_2026_video'); at('2026-08-19',20.95); const g=q?await goOut(q.id):{L:[]};
     check('9. 沒約她：21:00 她打視訊來「七夕。……你不來，我就自己看港口。」',!!q&&q.verb==='接起來'&&J(g.L)===J(['七夕。……你不來，我就自己看港口。']),J({q,L:g.L})); }
+  /* BB-B 10-23：可昕交往中 2026-08-19 排了兩通 21:00 視訊（r2y3a3d.js 的 kx_qixi_2026＋這裡的 fest_kexin_qixi_2026_video）——r2y3a 的七夕視訊是專屬場次，FEST 不再自動打（「專屬場次優先」）*/
+  { const R0=globalThis.R2Y3A; globalThis.R2Y3A={QIXI:[{key:'2026-08-19',ok:()=>true},{key:'2027-08-08',ok:()=>false},{key:'2028-08-26',ok:()=>true}]};
+    try{ setup('2026-08-19',9,{lv:{[KX]:'dt'}}); rules(); const q=OUT.get(H.G,'fest_kexin_qixi_2026_video');
+      check('9b. r2y3a3d.js 有那一年的七夕視訊（2026、2028）＝FEST 不另外打（一天只有一通 21:00 視訊）',!q&&x.dedicated(H.G,KX,'qixi',2026)&&x.dedicated(H.G,KX,'qixi',2028),J(q)); }
+    finally{ if(R0===undefined) delete globalThis.R2Y3A; else globalThis.R2Y3A=R0; } }
   { setup('2025-12-24',10,{lv:{[KX]:'dt'}}); const m=await play({id:KX,k:'xmas',y:2025,mode:'meet'});
     check('9. 2025 聖誕：「聖誕節。……我從山上下來了。你要請客。」（沒有禮物：照現有）',J(m.L)===J(['聖誕節。……我從山上下來了。你要請客。'])&&!m.O.length,J(m)); }
   { setup('2026-03-13',21.05,{lv:{[KX]:6}}); rules(); check('9. 沒交往（分開以後只能當朋友）：不約、不演',!dms(KX).length&&!x.flowOpt(H.G,KX,null,false)); }
