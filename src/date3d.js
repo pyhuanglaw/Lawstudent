@@ -154,7 +154,7 @@ const DATE=(function(){
   S.tripOn=(G,day)=>S.tripAt(G,day,0,24);
   S.tripDays=G=>{ const out=new Set(); for(const t of (G&&G.trips)||[]) if(liveTrip(t)) for(let d=t.day;d<=t.day+(t.kind==='overnight'?(t.nights||1):0);d++) out.add(d); return out; };
   S.tripTitle=t=>'和'+nameOf(t.who)+'去'+(t.locs||[]).map(l=>(S.loc(l)||{}).name||l).join('、')+(t.kind==='overnight'?'（兩天一夜）':'');
-  S.book=function(G,o){ const P=S.plan(G,o); if(!P.ok) return P; if(P.kind==='overnight'&&!S.canOvernight(G,o.who)) return {ok:false,why:'兩天一夜要第 6 階或交往中'}; S.rec(G); const id=S.newTripId(G);
+  S.book=function(G,o){ if(o.fromHome==null) o=Object.assign({},o,{fromHome:S.fromHomeOn(G,o.day)}); const P=S.plan(G,o); if(!P.ok) return P; if(P.kind==='overnight'&&!S.canOvernight(G,o.who)) return {ok:false,why:'兩天一夜要第 6 階或交往中'}; S.rec(G); const id=S.newTripId(G);
     const trip={trip:id,who:o.who,locs:P.locs,day:o.day,depart:P.depart,back:P.back,kind:P.kind,transport:P.transport,fare:P.fare,fareV:2,by:o.by||'player',status:'booked',spots:[],departed:false,moves:0};   /* fareV 2＝車資照表（來回）*/
     if(P.kind==='overnight') Object.assign(trip,{nights:1,lodging:P.lodging,leave:P.leave});
     G.trips.push(trip);
@@ -182,6 +182,7 @@ const DATE=(function(){
   /* 同一趟的第二天（AA_128 第 116 行：D31＋D32）：第二個地點也要能住一晚、而且在清單上（有底圖、有台詞）*/
   S.comboOf=locId=>((S.loc(locId)||{}).combo||[]).find(c=>((S.loc(c)||{}).kinds||[]).includes('overnight')&&S.listable(c)&&S.loc(locId).id<c)||null;
   S.canAsk=function(G,id){ if(!S.HEROINES.includes(id)) return {ok:false,why:'不能約'};
+    { const last=S.lastDay(); if(last!=null&&G.day>last) return {ok:false,why:'畢業典禮以後不能預約'}; if(S.playerAbroad(G,G.day)) return {ok:false,why:'你在國外'}; }   /* DATE-S8（AA_128 11-1）*/
     if(typeof INV!=='undefined'&&INV.whyNot){ const w=INV.whyNot(G,id); if(w) return {ok:false,why:w}; }
     return S.canAskCore(G,id); };
   /* INV.whyNot 以外的條件（第 5 階、她在等你說清楚、她有交往的對象）：INV.whyNot 也用它（AA_350 T7a：她在台中、約得到才打開手機的「約」；不能叫 canAsk，會繞回 whyNot）*/
@@ -212,12 +213,14 @@ const DATE=(function(){
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
   S.t7aYes=(G,id,only,day)=>only&&S.T7A_YES[id]&&S.homeCity(G,id,day)?S.T7A_YES[id]:null;
   /* 這個時間能不能約（o：who、locs、day、depart、transport、fromHome、skip＝改時間時排除的那一趟）→ {ok, why, warns, plan, cost} */
-  S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind})); const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
+  S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind,fromHome:o.fromHome!=null?o.fromHome:S.fromHomeOn(G,o.day)}));   /* 出發地照那一天（AA_128 11-1：寒暑假住臺北的家，車就在家裡，不加取車的 30 分）*/ const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
     const day=o.day, a=P.depart, b=P.back, no=w=>({ok:false,why:w,warns,plan:P}), ov=P.kind==='overnight', O=S.OVERNIGHT;
     if(ov&&!S.canOvernight(G,o.who)) return no('兩天一夜要第 6 階或交往中');   /* AA_128 第 119 行（選單本來就不列；直接呼叫也擋）*/
     if(day<G.day||(day===G.day&&a<G.hour+0.25)) return no('這個時間已經過了');
     if(a<7) return no('太早了');
     if(b>23.5) return no('回來會超過 23:30，來回趕不上');
+    { const last=S.lastDay(); if(last!=null&&(ov?day+1:day)>last) return no('畢業典禮以後不能預約'); }   /* AA_128 11-1（DATE-S8）：最後能預約的日子是畢業典禮前一天（2029-06-01）；畢業後篇、交換延畢的大五上都不開放 */
+    for(const d of (ov?[day,day+1]:[day])) if(S.playerAbroad(G,d)) return no('你那時候在國外');   /* AA_128 11-1：日本、美國路線在國外的期間（STORY.ROUTE_DATES 出發日～返台日）不能預約 D01～D32 */
     /* 要看的時段：當天來回＝出發到回來；兩天一夜＝第一天出發到半夜、第二天到回來（她的作息看第一天到 22:00、第二天 08:30 起）*/
     const span=ov?[[day,a,24,a,O.dayEnd],[day+1,0,b,O.morning,P.leave]]:[[day,a,b,a,b]], dw=d=>d===day?'那天 ':'隔天 ';
     if(ov||P.kind==='day') for(const [d] of span){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T&&T.exam) return no('考試週'); }   /* AA_126 1-1（企劃線第 41 行）：「一日遊和兩天一夜在考試週的日子不能選，行程表上直接標『考試週』」（期中第 8～9 週、期末第 16 週）；半日、晚上照舊（只避開考試時段）——BUG-DATE-EXAMWEEK-DAY-1021 */
@@ -235,7 +238,9 @@ const DATE=(function(){
     for(const [d,x,y] of span){ const iv=(G.invites||[]).find(v=>liveIv(v)&&v.day===d&&v.h<y&&v.h+(((typeof INV!=='undefined'&&INV.place&&INV.place(v.place))||{}).stay||1)>x); if(iv) return no(dw(d)+hm(iv.h)+' 已經約了'+nameOf(iv.who));
       const oq=(G.outings||[]).find(q=>q.state==='planned'&&!q.dateTrip&&q.day===d&&q.h<y+0.5&&q.h+1.5>x); if(oq) return no(dw(d)+hm(oq.h)+' 有別的行程：'+(oq.title||oq.place||'')); }
     if(ov){ const w=S.overnightWhere(G,o.who,day,P.locs); if(!w.ok) return no(w.why); }   /* AA_359 第 1 節：她兩天都在那個地方，或在臺北可以一起出發（含 AA_350 S6 回台中的那幾天）*/
-    else { const hn=S.homeNo(G,o.who,day,P.locs[0]); if(hn) return no(hn); }   /* AA_350 S6：她回台中那幾天（放在她的作息之前：人不在臺北，不是在上班）*/
+    else { const hn=S.homeNo(G,o.who,day,P.locs[0]); if(hn) return no(hn);   /* AA_350 S6：她回台中那幾天（放在她的作息之前：人不在臺北，不是在上班）*/
+      if(!S.noTaipei(G,o.who,day,P.locs[0])){ const wd=S.dayWhere(G,o.who,day,P.locs); if(!wd.ok) return no(wd.why); } }   /* AA_128 11-2（DATE-S8）：約的那一天她在國外、聯絡不到、在別的城市＝不能約（原本只看今天）；沛珊不上來照下面 noTaipei 那一句 */
+    { const pt=S.partnerOnDay(G,o.who,day); if(pt) return no(pt); const off=S.herOff(G,o.who,day,ov?null:a+P.travelH); if(off) return no(off); }   /* 那一天她有交往的對象（AA_128 4-5）；她自己不約的日子、時段（11-2：學姊出發前、口試前一週；子晴下午三點以後、大四只有週六）*/
     if(typeof INV!=='undefined'&&INV.busyAt){ for(const [d,,,x,y] of span){ let e=null; if(ov){ for(let h=x;h<y-1e-6&&!e;h+=1) e=INV.busyAt(G,o.who,d,h,Math.min(1,y-h)); } else e=INV.busyAt(G,o.who,d,a,b-a);   /* 兩天一夜：一小時一小時看（兩天都要空）*/
       if(e) return no((ov&&d!==day?'隔天她':'她那時候')+(e.act==='class'?'要上課':(e.act==='work'?'要上班':'有事'))); } }
     const nt=S.noTaipei(G,o.who,day,P.locs[0]); if(nt) return no(nt);
@@ -257,13 +262,36 @@ const DATE=(function(){
   S.stillOn=function(G,t){ const id=t.who; if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚。'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象。'};
     return S.overnightWhere(G,id,t.day,t.locs); };
+  /* ===== 四年裡什麼時候約得到（DATE-S8；AA_128 11-1、11-2）=====
+     祐廷：最後能預約的日子是畢業典禮前一天（2029-06-01，交換延畢的也一樣）；日本、美國路線在國外的期間不能預約；寒暑假從臺北的家出發（車就在家裡）。
+     她：約的那一天在國外（芷若英國、以安日本、學姊美國）、聯絡不到（沛珊）、在別的城市（寒暑假回老家、出遊）＝不能約；那一天有交往的對象＝不能約；
+     學姊出發去美國前一週、口試（5/29）前一週不約；子晴下午兩點才醒（三點以後才約得到），大四在工作室上班只有週六。原因照預約畫面的寫法（灰掉、寫原因）*/
+  S.LAST_DAY='2029-06-01';
+  S.lastDay=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.LAST_DAY):null;
+  S.playerAbroad=(G,day)=>typeof STORY!=='undefined'&&!!STORY.abroad&&!!STORY.abroad(Object.assign({},G,{day}));
+  /* 出發地（AA_128 4-1、11-1）：寒暑假住臺北的家（法律系的寒暑假；經濟系休學以後、畢業退宿以後、交換退宿以後也住家裡）＝不加回家取車的時間 */
+  S.fromHomeOn=function(G,day){ if(typeof HOME==='undefined') return false; if((G.stage||'law')==='law'&&HOME.breakOf&&HOME.breakOf(day)) return true;
+    if((HOME.baseMode&&HOME.baseMode(G))||(HOME.pgHome&&HOME.pgHome(G))) return true; return typeof STORY!=='undefined'&&!!STORY.movedOut&&!!STORY.movedOut(Object.assign({},G,{day})); };
+  /* 當天來回：那一天她在臺北，或就在那個地點的城市（照 overnightWhere 的一天版）*/
+  S.dayWhere=function(G,id,day,locs){ const dest=cityOf((S.loc(locs[0])||{}).area), p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,Object.assign({},G,{day})):{here:true};
+    if(!p.here&&(p.lost||p.kind==='unreachable')) return {ok:false,why:'她那時候'+(p.away||'聯絡不到')+'。'};
+    const w=S.whereOn(G,id,day); if(w.city==='台北'||(w.city&&w.city===dest)) return {ok:true};
+    return {ok:false,why:(w.own==='home'&&S.HOME_NO[id])||(w.city?'她那時候在'+w.city+'。':'她那時候'+(/^[在回]/.test(w.away||'')?'':'在')+(w.away||'不在臺北')+'。')}; };
+  S.partnerOnDay=function(G,id,day){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c||!c.partner||typeof STORY==='undefined') return ''; const G2=Object.assign({},G,{day});
+    return (STORY.partnerOn?STORY.partnerOn(G2,c.partner):(STORY.inTerms&&STORY.inTerms(G2,c.partner)))?'她那時候有交往的對象':''; };
+  S.HER_OFF={heroine_05:[['2028-07-26','2028-08-01'],['2029-05-22','2029-05-28']]};   /* 學姊：8/2 出發去美國前一週、5/29 口試前一週（AA_128 11-2、BB_128 3-3）*/
+  S.herOff=function(G,id,day,arrive){ for(const [a,b] of (S.HER_OFF[id]||[])){ const x=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(a):null, y=x!=null?STORY.dayOfKey(b):null; if(x!=null&&y!=null&&day>=x&&day<=y) return '她那時候有事'; }
+    if(id==='heroine_04'&&arrive!=null){ if(arrive<15-1e-6) return '她那時候有事';   /* 子晴下午兩點才醒，三點以後再約（AA_128 11-2、BB_70、BB_123）*/
+      const T=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(day):null, wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day).wd%7:6;
+      if(T&&/^Y[45]S/.test(T)&&wd!==6) return '她那時候有事'; }   /* 大四在工作室上班：只有週六 15:00 以後（兩天一夜不看這兩條：AA_359 有她兩天一夜的句子）*/
+    return ''; };
   const wdName=d=>'日一二三四五六'[((d%7)+7)%7];
   S.dayLabel=function(G,day){ const k=day-G.day; const dt=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day):null; const md=dt?dt.m+'/'+dt.d:'第 '+day+' 天';
     const wd=dt&&dt.wd!=null?dt.wd:(G.weekday+k); return (k===0?'今天 ':k===1?'明天 ':'')+md+'（'+wdName(wd)+'）'; };
   /* 選日期、出發時間（預約、改時間共用）→ {day, depart, kind, check} 或 null */
   S.pickWhen=async function(GM,o){ const G=GM.G; const days=[]; for(let k=0;k<7;k++) days.push(G.day+k); const ov=o.kind==='overnight';   /* 兩天一夜：日期寫兩天、只有 09:00 出發、回程寫第二天 */
     for(;;){ const dOpts=days.map(d=>({t:S.dayLabel(G,d)+(ov?'～'+S.dayLabel(G,d+1).replace(/^(今天|明天) /,''):'')})); dOpts.push({t:'算了'}); const di=await GM.choose(dOpts); if(di>=days.length) return null; const day=days[di];
-      const K=ov?['overnight']:((S.loc(o.locs[0])||{}).kinds||['half']).filter(k=>S.STAY[k]); const hs=[...new Set(K.flatMap(k=>S.TIMES[k]||[]))].sort((x,y)=>x-y);
+      const K=ov?['overnight']:((S.loc(o.locs[0])||{}).kinds||['half']).filter(k=>S.STAY[k]); const sd=ov?null:S.sunsetDepart(o.locs[0],day); const hs=[...new Set(K.flatMap(k=>S.TIMES[k]||[]).concat(sd!=null?[sd]:[]))].sort((x,y)=>x-y);   /* 淡水多一個「夕陽前兩小時」的出發時間（DATE-C2）*/
       const rows=hs.map(h=>({h,c:S.check(G,Object.assign({},o,{day,depart:h,kind:ov?'overnight':undefined}))}));
       const tOpts=rows.map(r=>({t:hm(r.h)+' 出發',hint:r.c.ok?((ov?'住一晚，第二天最晚':'')+'回到台大約 '+hm(r.c.plan.back)+(r.c.warns.length?'。'+r.c.warns.join('；'):'')):r.c.why,dim:!r.c.ok})); tOpts.push({t:'換一天'}); tOpts.push({t:'算了'});
       for(;;){ const ti=await GM.choose(tOpts); if(ti===rows.length) break; if(ti>rows.length) return null; const r=rows[ti]; if(!r.c.ok){ if(GM.toast) GM.toast(r.c.why,2600); continue; } return {day,depart:r.h,kind:r.c.plan.kind,check:r.c}; } } };
@@ -271,7 +299,8 @@ const DATE=(function(){
      當面約（n）用她的名字講；其他時候是手機訊息（名字後面「（手機）」，同時寫進手機的對話串）。還沒匯入的人或格子＝不說話（只有旁白）。 */
   const LN=()=>typeof DATE_LINES!=='undefined'?DATE_LINES:{lines:{},prefs:{}};
   const noodleOff=day=>typeof PLACES!=='undefined'&&!!PLACES.hours&&!!PLACES.hours.noodle&&!(PLACES.typhoonClosed&&PLACES.typhoonClosed('noodle',day))&&!PLACES.isOpen('noodle',12,day)&&!PLACES.isOpen('noodle',18,day);
-  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休/.test(String(x))||noodleOff(t.day)}};   /* 語彤「那天店裡公休」只在麵店已定的公休日（AA_127 第 8 節；沒有固定的每週公休日＝其他日子用第一句）*/
+  S.LINE_IF={heroine_03:{accept:(G,t,x)=>!/公休/.test(String(x))||noodleOff(t.day)},
+    kexin:{depart:(G,t,x)=>String(x)!=='我到了。這是告知。'}};   /* 可昕不用「這是告知」（AA_426 第 3 節、AA_188 口氣表）：BB_128 3-6 出發那一欄還有這一句，先不播、列給 AA（DATE-C2 接上出發訊息時發現）*/   /* 語彤「那天店裡公休」只在麵店已定的公休日（AA_127 第 8 節；沒有固定的每週公休日＝其他日子用第一句）*/
   S.lineFor=function(G,id,kind,t){ const L=((LN().lines||{})[id]||{})[kind]; if(!L||!L.length) return null; const f=(S.LINE_IF[id]||{})[kind]; const ok=L.filter(x=>!f||f(G,t||{},x)); if(!ok.length) return null;
     const lg=S.log(G,id); if(!lg.lineIdx||typeof lg.lineIdx!=='object') lg.lineIdx={}; const k=(lg.lineIdx[kind]|0)%ok.length; lg.lineIdx[kind]=(lg.lineIdx[kind]|0)+1; return [].concat(ok[k]); };
   S.speak=async function(GM,id,kind,t,n){ const G=GM.G, msgs=S.lineFor(G,id,kind,t); if(!msgs) return false; return S.sayLines(GM,id,msgs,n); };
@@ -307,7 +336,7 @@ const DATE=(function(){
       const T=(L.transport||[]).filter(x=>x.mode&&(!two||x.mode==='car')), pref=S.prefOf(id,loc); let prefOff=false; if(two) mode='car'; if(pref&&T.some(x=>x.mode===pref)){ T.sort((a,b)=>(b.mode===pref)-(a.mode===pref)); mode=pref; }   /* 她的偏好排第一、預設選它；D31＋D32 只能開車（清境要車）*/
       if(two&&pref&&pref!=='car') prefOff=true;
       if(T.length>1){ const to=T.map(x=>{ const tr=S.travel(loc,x.mode); return {t:tr.label+(x.mode===pref?'（她想這樣去）':''),hint:'單程約 '+tr.minutes+' 分、來回 '+tr.fare+' 元'+(x.mode==='car'?'（從宿舍要先回家取車，多 30 分）':'')}; });   /* 車資是來回（AA_128 第 70 行）*/ const ti=await GM.choose(to); mode=T[ti].mode; prefOff=!!pref&&mode!==pref; }
-      const o={who:id,locs:two?[loc,two]:[loc],transport:mode,fromHome:false,kind}; const w=await S.pickWhen(GM,o); if(!w) return null;
+      const o={who:id,locs:two?[loc,two]:[loc],transport:mode,kind}; const w=await S.pickWhen(GM,o); if(!w) return null;
       const P=w.check.plan, ov=P.kind==='overnight', sum=ov?'和'+nameOf(id)+'去'+names+'（兩天一夜）：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，住一晚，'+S.dayLabel(G,w.day+1).trim()+' 最晚約 '+hm(P.back)+' 回到台大。預計花費 '+w.check.cost+' 元（含住宿 '+P.lodging+' 元）。'
         :'和'+nameOf(id)+'去'+L.name+'：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+' 出發，'+P.travelLabel+'單程約 '+Math.round(P.travelH*60)+' 分鐘，預計花費 '+w.check.cost+' 元，約 '+hm(P.back)+' 回到台大。';
       await GM.say(null,sum+(w.check.warns.length?'（'+w.check.warns.join('；')+'）':'')); const k=await GM.choose([{t:'就這樣約'},{t:'重新選'},{t:'算了'}]); if(k===2) return null; if(k===1) continue;
@@ -336,7 +365,8 @@ const DATE=(function(){
     if(t.kind==='overnight'){ const sc=S.stillOn(G,t); if(!sc.ok){ GM.sceneBegin(); try{ await GM.say(null,'今天 '+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+q.place+'。'+sc.why); } finally { GM.sceneEnd(); } t.status='missed'; q.state='missed'; return 'no'; } }   /* 她第一天沒辦法來（AA_359 第 4 節）＝錯過：取消、不算次數、不扣關係、住宿費不扣 */
     const now=G.day*24+G.hour, dep=t.day*24+t.depart, late=!q.arrived&&now-dep>1;   /* q.arrived：已經到了那裡（OUT.go 到達時存檔；讀檔後重新演這一段）——不是遲到（車程超過 1 小時的，原本讀檔會變成「這次趕不上了」）*/
     const opts=late?[{t:'改時間'},{t:'今天不去了'}]:[{t:'出發',hint:q.place+'　'+q.travel},{t:'改時間'},{t:'今天不去了'}];
-    let k; GM.sceneBegin(); try{ await GM.say(null,'今天 '+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+q.place+'。'+(late?'……這次趕不上了。':'現在要出發嗎？')); k=await GM.choose(opts); } finally { GM.sceneEnd(); }
+    let k; GM.sceneBegin(); try{ if(!late&&!t.departSaid){ t.departSaid=true; await S.speak(GM,t.who,'depart',t); }   /* 出發時間到：她傳一則訊息（BB_128 2-5 第 1 步、3-6 的「出發」；BB 五位，輪流；一趟一次）*/
+      await GM.say(null,'今天 '+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+q.place+'。'+(late?'……這次趕不上了。':'現在要出發嗎？')); k=await GM.choose(opts); } finally { GM.sceneEnd(); }
     const pick=opts[k]&&opts[k].t;
     if(pick==='出發'){ t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; }
     if(pick==='改時間'){ return S.move(GM,q,t); }
@@ -381,6 +411,10 @@ const DATE=(function(){
     const N=Math.floor((Date.UTC(dt.y,dt.m-1,dt.d)-Date.UTC(dt.y,0,0))/864e5), g=2*Math.PI/365*(N-1), eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)),
       de=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g), la=25.17*Math.PI/180,
       ha=Math.acos(Math.cos(90.833*Math.PI/180)/(Math.cos(la)*Math.cos(de))-Math.tan(la)*Math.tan(de))*180/Math.PI, min=720-4*(121.44-ha)-eq+480; return hm(min/60); };
+  /* 夕陽前約兩小時出發（AA_128 第 8 節：淡水示範「出發時間照季節：夕陽前約兩小時出發」；DATE-C2）：那天日落時間減兩小時，取到半點；不是有夕陽收尾的地點＝null */
+  S.SUNSET_LOCS={D13:2};
+  S.sunsetH=day=>{ const m=/^(\d+):(\d+)$/.exec(S.sunset(day)||''); return m?+m[1]+ +m[2]/60:null; };
+  S.sunsetDepart=function(locId,day){ const k=S.SUNSET_LOCS[locId]; if(k==null) return null; const h=S.sunsetH(day); return h==null?null:Math.floor((h-k)*2)/2; };
   /* 台詞組的 if／unless（Dxx.json 原樣匯入的條件：flags＝旗標都要有、memory＝記憶都要有；AA_389 第 1 點 D13 交換回來版 ZR_UK_BACK、D01 語彤 YT_TEN_MINUTES）*/
   const setCond=(G,c)=>{ if(!c) return true; const F=(G&&G.flags)||{}; if(Array.isArray(c.flags)&&c.flags.some(f=>!F[f])) return false;
     if(Array.isArray(c.memory)&&c.memory.some(m=>!(m&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(m.npc,m.tag)))) return false; return true; };
@@ -392,7 +426,7 @@ const DATE=(function(){
     const fill=x=>String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||'');
     const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
         const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
-    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:c.t}))); await run((set.choice[k]||{}).reply); } return true; };
+    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:c.t}))), c=set.choice[k]||set.choice[0]; await run(c.reply); return {pick:c}; } return true; };   /* 有選項＝回傳選了哪一個（請客的 extra）*/
   const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
   const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
   /* 到達那一句的另一版（AA_359 5-3，企劃線 fb5156ab）：照情況換掉第一次那一組裡的幾句（同一個位置），其他句不動 */
@@ -413,6 +447,8 @@ const DATE=(function(){
     if(!set&&S.likeOf(id,pid)==='dislike'){ const dl=((((LN().loc||{})[t.locs[0]]||{}).dislikeLine||{})[id]||{})[pid]; if(dl) set={lines:[{who:id,text:dl}]}; }
     if(!set) set=S.pickSet(G,id,H.normal,t,pid+'.normal');
     const played=await S.playSet(GM,id,set,t);
+    { const c=played&&played.pick, p=c&&S.isTreat(c.t)?S.points(t.locs[0]).find(x=>x.id===pid):null; if(p&&(p.extra|0)>0&&GM.money) GM.money(-(p.extra|0),p.name+'（請她）'); }   /* 祐廷說要請客的選項＝另外扣她那一份（AA_128 5-1、5-2 的 extra；淡水飲料攤「我請。」60）*/
+    if(!hi&&/\.photo$/.test(pid)&&(id!=='kexin'||brokeUp(G,id))) await S.speak(GM,id,'noPair',t,{obj:null});   /* 合照還不到第 6 階：她說一句、只幫她拍（BB_128 2-4、3-6；可昕只有分開以後才說，交往中一定可以合照）*/
     if(hi){ const xk=Object.keys(H).find(k=>k.indexOf('extra:合照')===0); const x=xk&&H[xk]; if(x) await S.playSet(GM,id,Array.isArray(x)?S.pickSet(G,id,x,t,pid+'.extra'):x,t); }   /* 合照：第 6 階以上或交往中才有的那一句 */
     if(!m.picks.includes(pid)) m.picks.push(pid); return played; };
   S.closeLine=async function(GM,t,visits){ const G=GM.G, id=t.who, C=(LL(id,t.locs[0])||{}).closing; if(!C) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
@@ -429,8 +465,8 @@ const DATE=(function(){
       return S.settle(GM,t,spots,pts,visits,m0,{quick:true}); }
     await S.arriveLine(GM,t,visits);   /* 抵達句（第一次／普通／交往中）*/
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
-      const opts=left.map(p=>({t:p.name,hint:(p.min|0)+' 分'+(p.cost?'　'+p.cost+' 元':''),dis:now+(p.min|0)/60>endH,why:'時間差不多了'})).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
-      const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast('時間差不多了'); n--; continue; }   /* 灰掉的（時間不夠）按了只提示，不結束 */
+      const opts=left.map(p=>{ const rw=S.rainOff(G,p.id); return {t:p.name,hint:(p.min|0)+' 分'+(p.cost?'　'+p.cost+' 元':''),dis:!!rw||now+(p.min|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
+      const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }   /* 灰掉的（時間不夠、下雨停用）按了只提示，不結束 */
       const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);   /* 互動點的反應（沒有台詞的地點照舊一句旁白）*/
       const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
@@ -520,6 +556,11 @@ const DATE=(function(){
   S.confessDecide=function(G,id){ const L=S.log(G,id); if((L.notYetN|0)>=2) return 'yes'; const line=S.YES_LINE[id]; if(line==null) return 'yes'; const CD=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(CD&&!CD.notYet) return 'yes';   /* 沒有「還沒」台詞的人（語彤：YT_NOT_YET 作廢）＝答應 */
     const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):null; return r&&(+r.npcRom||0)>=line?'yes':'notYet'; };
   /* 這一趟有沒有吃東西的互動點（AA_223 第 3 節：餐廳、小吃、甜點、飲料都算；只逛、只玩扭蛋不算）：子晴告白的第一句 */
+  /* 請客的選項（AA_128 5-2：「這杯我請。」「茶葉蛋我買。」）：我請、我買給妳、我付；「下次我請」「那我請飲料」（互動點的 extra 不是飲料那一份）不算 */
+  S.isTreat=t=>{ const x=String(t||'').replace(/[「」]/g,''); return /我請|我買給妳|我付/.test(x)&&!/下次|飲料/.test(x); };
+  /* 雨天停用的互動點（BB_128 2-2：淡水「長椅停用（『椅子是濕的』）」；DATE-C2）：灰掉、寫原因 */
+  S.RAIN_OFF={'D13.bench':'椅子是濕的'};
+  S.rainOff=(G,pid)=>(G&&(G.weather==='rain'||G.weather==='typhoon')&&S.RAIN_OFF[pid])||'';
   S.EAT=['D04.snack','D05.cafe','D06.cafe','D09.tea','D10.snack','D12.tea','D13.drink','D15.store','D16.rest','D18.snack','D18.teahouse','D20.street','D22.fish','D23.cook','D24.street','D25.cafe','D28.alley','D30.stall','D31.egg','D32.stall'];
   S.ate=t=>!!t&&Array.isArray(t.spots)&&t.spots.some(id=>S.EAT.includes(id));
   const CL=id=>(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES[id])||null;
@@ -542,7 +583,7 @@ const DATE=(function(){
     if(res==='unwilling'){ await run(CV(D.unwilling,G,t,k)); return 'unwilling'; }
     L.notYetN=(L.notYetN|0)+1; L.notYet.n=L.notYetN; await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]={n:L.notYetN,day:G.day}; return 'notYet'; };
   /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
-  S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
+  S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)||S.rainOff(G,p.id)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
   /* 相簿（Life Album，AA_128 5-1、5-2 拍照位置）：拍照的互動點存一張（底圖＋她的人物圖層；合照要第 6 階或交往中）。G.album＝[{kind,trip,who,loc,day,h,both}]；手機「相簿」照時間排 */
   S.photoAt=function(GM,t,p){ if(!/\.photo$/.test(p.id)) return false; const G=GM.G; if(!Array.isArray(G.album)) G.album=[]; if(G.album.some(a=>a.trip===t.trip)) return false;
     const both=!!(G.flags&&G.flags['dating_'+t.who])||S.stageNum(t.who)>=6; G.album.push({kind:'date',trip:t.trip,who:t.who,loc:t.locs[0],day:G.day,h:+(G.hour%24).toFixed(2),both}); if(GM.toast) GM.toast('照片存進相簿',2200); return true; };

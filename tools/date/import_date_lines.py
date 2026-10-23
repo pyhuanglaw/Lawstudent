@@ -3,7 +3,7 @@
   - BB_128 3-7（BB 五位）、AA_127 第 8 節（以安、語彤）：答應、答應（和她交往中）、改時間、同一行程改到第三次、改交通；
   - BB_128 3-6「不分地點的句子」：取消、放鴿子兩欄（BB 五位）；AA_127 1-7、2-7：取消、30 天內第二次取消兩列（以安、語彤）；
   - date_prefs_bb.json＋date_prefs_aa.json 合併（why 欄不進遊戲）；
-  - 各地點的台詞 date_system/lines/Dxx.json（白名單逐檔列的才讀；BB_128 2-9 的格式，原樣放進 DATE_LINES.loc）；BB 五位 3-6 的出發、差不多了、一個都沒做就走、合照還不行。
+  - 各地點的台詞 date_system/lines/Dxx.json（白名單逐檔列的才讀；BB_128 2-9 的格式，原樣放進 DATE_LINES.loc；寫成旁白的開發說明改成註記，NOTE_NARR）；BB 五位 3-6 的出發、差不多了、一個都沒做就走、合照還不行。
 格子裡「／」分開的是輪流用的幾句；同一句裡有好幾個「」＝連發幾則訊息（例：「好。」「我跟阿姨說那天不顧店。」）。「」以外的說明不進遊戲。
   - 疊在上面的改句：AA_373 6-1「`date_lines.js`」那一列（可昕不跟祐廷比輸贏，使用者 10-18）——「現在」欄的第 n 句換成「AA 定」欄的第 n 句；
     AA_359 5-2 的表（D26～D32 只能在第二天說、或時間不對的幾句，AA 改字）、5-3 的表（離開那一句在第二天白天說：天色、「下次早上來」的七句）和子晴那一句——那個地點、那個人的「現在」換成「改成」（引號裡的字；括號裡的說明不進遊戲）。
@@ -194,6 +194,13 @@ for o in hit:
 FIXED359.append(('5-3 D32', 'heroine_04', m.group(1), m.group(2), len(hit)))
 if not hit:
     print('AA_359 5-3：D32 heroine_04 找不到「' + m.group(1) + '」，沒換')
+# 地點檔裡寫成旁白、其實是給開發看的條件或伏筆說明：改成 who:'note'（遊戲不顯示）。整句相同才改，其他旁白不動（DATE-C3：淡水示範的反應，
+# 遊戲裡原本會演出「（第 6 階以上）」——D13 以安、學姊的合照那一句前面；「（第 3 節她的心願的伏筆）」——D13 可昕欄杆第一次的選項②）
+NOTE_NARR = {'第 6 階以上', '第 3 節她的心願的伏筆'}
+noted = [o for o in texts(LOC) if o.get('who') == 'narr' and o['text'] in NOTE_NARR]
+for o in noted:
+    o['who'] = 'note'
+print('旁白改成註記（不顯示）：', len(noted), '行')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))

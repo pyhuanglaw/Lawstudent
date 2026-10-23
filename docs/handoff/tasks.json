@@ -6596,7 +6596,7 @@
    "title": "四年裡約得到的時間表",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：DATE.canAsk／check 加 PG.on(G)（或 F.GRADUATED）的擋，原因寫「畢業了」；動手前跟 AA 確認畢業後篇仍不開放 ｜ —",
    "priority": "P2",
    "first": {
@@ -6618,7 +6618,8 @@
      "evidence": "她在哪裡：INV.whyNot src/invites3d.js:46-52（消失期、上山、回老家、台南）、DATE.noTaipei src/date3d.js:157；祐廷在美國 src/us_life3d.js:123、在日本 src/jp3d.js 關掉邀約。缺：AA_128 11-1「最後能預約的是畢業典禮前一天、畢業後篇不開放預約」——date3d.js、invites3d.js 都沒有看 GRADUATED／PG.on",
      "note": "畢業後篇還能約校外約會，和 AA_128 不合"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:2x LAWWW-B：四年裡約得到的時間表：DATE.check／canAsk 加 2029-06-01 以後不能預約、交換在國外不能約、她那天在國外／聯絡不到／在別的城市／有伴侶／學姊出發前一週與口試前一週／子晴到職以後的限制。tests/date_s8_c2_unit.js 33 PASS"
   },
   {
    "id": "DATE-C1",
@@ -6654,7 +6655,7 @@
    "title": "交接包_校外約會 C2",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：做 DATE-S6 的 2D 疊圖（讀企劃線 date_system/art/D13_coords.json）；向 AA 要 TASTE 說法 ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
@@ -6676,14 +6677,15 @@
      "evidence": "D13 淡水系統面能玩：預約→出發→抵達句→互動點→結算（DATE-S3 瀏覽器 flow_trip_date ALL PASS；tests/date_scene_unit.js）、日落時間 DATE.sunset src/date3d.js:222。缺：底圖上的互動點標記＋直向下方按鈕列（現在是文字選單，src/date3d.js:208 註「2D 熱區與人物圖層是 DATE-S6」）；{lastDrink} 的 TASTE 說法 AA 還沒給（src/date3d.js:217-219）",
      "note": "文字選單版能玩，2D 疊圖版還沒做"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:2x LAWWW-B：D13 示範的系統面：淡水夕陽前 2 小時的出發時間（DATE.sunsetH／sunsetDepart）、雨天長椅濕的、「我請」類選項照 AA_128 5-2 扣 extra、出發時她一則 BB_128 3-6 訊息。沒做：2D 疊圖（日期立繪沒有）、{lastDrink}、雨天版飲料與合照句（沒台詞）"
   },
   {
    "id": "DATE-C3",
    "title": "交接包_校外約會 C3",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：SYS-04／DATE-S6：照 BB_128 2-3 疊圖規格接 coords 與人物圖層（坐姿、祐廷背影有沒有圖請 BB 確認） ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
@@ -6705,7 +6707,8 @@
      "evidence": "七位在淡水的反應台詞已匯入（src/data/date_lines.js loc.D13 的 lines／likes，七位都有）；人物站位、疊圖沒做（企劃線 date_system/art/D01～D32_coords.json、人物約會服立繪都在，開發分支沒接）",
      "note": "字有了，畫面還沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:2x LAWWW-B：D13 七位的反應：第 6 階以下合照點她說 noPair、只有你拍；import_date_lines.py 把三句企劃註記改成 note 不顯示"
   },
   {
    "id": "DATE-C4",
@@ -6735,7 +6738,7 @@
      "note": "去心願地點會算數，但心願那一整場沒有"
     }
    ],
-   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。"
+   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。 ｜2026-10-23 21:2x LAWWW-B：第 2 輪：AA_426 重匯，hold 0（子晴、學姊、可昕三位的心願事件都演）；tests/date_wish_unit.js 83 PASS。AA 待解：學姊自己的邀約週五 21:00 萬才館出發、開陽明山回來 00:50 超過 23:30 的預約規則，永遠送不出去"
   },
   {
    "id": "DATE-C5",
@@ -6765,7 +6768,7 @@
      "note": "去心願地點會算數，但心願那一整場沒有"
     }
    ],
-   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。"
+   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。 ｜2026-10-23 21:2x LAWWW-B：第 2 輪：同 DATE-C4（wish_bb @967b4273a）"
   },
   {
    "id": "DATE-C6",
@@ -6802,7 +6805,7 @@
    "title": "交接包_校外約會 C7",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：照 AA_126 7-2 在 DATE 預約加節日場次與好感；以安 2029-02-14 D26 臺中那一場放 CG ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
@@ -6824,7 +6827,8 @@
      "evidence": "已有：各人逐年的節日場面在事件包裡（可昕情人節 src/y2r2_3d.js、src/data/r2y3a_events.js:538、r2y4a_events.js:550；以安白色情人節 ev_an_white_day（r2y3b_events.js）；芷若在國外的生日、聖誕視訊 src/data/y2b_events.js:257-264；學姊生日 src/y34b3d.js 1B-17、postgrad）。沒有：AA_126 第 7 節的通用節日單獨約會（一天中午、晚上兩場、第 6 階／交往中才約得到、好感表）、以安 2029 臺中情人節（節日 CG cg_valentine_taichung_heroine01 登錄了沒放）、BB_124 五位的開車節日約會",
      "note": "個別節日場面有，通用節日約會沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:2x LAWWW-B：節日開車：DATE.fromHomeOn（從台北的家出發不再加 30 分鐘取車）；fest3d.js S.drive、an_yt_hol3d.js D26 還照舊加 30 分鐘（要改的地方在子代理報告，LAWWW-B 下一批）"
   },
   {
    "id": "DATE-L01",
