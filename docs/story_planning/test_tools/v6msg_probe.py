@@ -530,11 +530,15 @@ async def pc_us(p, run, base, sid, res, key):
           R.first=R.first||STORY.dayOfKey('2028-09-22'); return {read:L, pending:R2Y4A.pc2Pending(G).map(c=>c.key+'@'+c.zone), abroad:!!STORY.abroad(G), route:STORY.route(G)}; })(%s)""" % json.dumps(key))
         run.setup('[前置] %s：%s 以前的當成讀過：%s → 剩下 %s（abroad %s、路線 %s）' % (sid, key, pre.get('read'), pre.get('pending'), pre.get('abroad'), pre.get('route')))
         it = None
-        for k in range(12):
+        for k in range(30):   # 11:1x：容器重開後 load 14，24 秒內沒放出來（第一次 9 秒就有）＝最多等 60 秒；還沒有就記狀態、直接叫 R2Y4A.tick 一次（同 FY_PC 第二次診斷）
             await pg.wait_for_timeout(2000)
             it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
             if it: break
-        res['it'] = it; run.check('%s：公寓裡有「明信片」' % sid, bool(it), J({'it': it, 'pre': pre}, 600))
+        res['waited_s'] = 2 * (k + 1)
+        if not it:
+            res['diag'] = await pg.evaluate(DIAG_PC2.replace("try{ R2Y4A.pc2Place(GAME);", "try{ out.tickRet=R2Y4A.tick(GAME,0.5); out.afterTick=!!(E.interactables||[]).find(i=>i.zrPostcard2); R2Y4A.pc2Place(GAME);"))
+            res['state'] = await L.state(pg)
+        res['it'] = it; run.check('%s：公寓裡有「明信片」（等了 %d 秒）' % (sid, res['waited_s']), bool(it), J({'it': it, 'pre': pre, 'diag': res.get('diag'), 'state': res.get('state')}, 1200))
         if not it: return
         # 第一次（11:0x）只等 150 秒：畫面 0.4 fps，人還在往臥室的走道走就停了（截圖 03_PC_US9_at）＝腳本；改成最多 420 秒、沒到再點一次
         lab = ''
