@@ -3,9 +3,9 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-18",
  "ruleSource": {
-  "branch": "claude/confident-ritchie-8rwh7t",
-  "sha": "5335c494",
-  "updated": "2026-10-21T15:24Z"
+  "branch": "claude/modest-rubin-2lyp7g",
+  "sha": "719cca3b",
+  "updated": "2026-10-23T06:46Z"
  },
  "accounts": [
   "A",
@@ -13,73 +13,85 @@
   "C",
   "D"
  ],
- "onDuty": "A",
- "previous": "C",
+ "onDuty": "B",
+ "previous": "A",
  "accountState": {
-  "A": "on",
-  "B": "off",
+  "A": "off",
+  "B": "on",
   "C": "off",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "A",
-   "session": "session_01Eds6msqpsuzNEw98sdw8JX",
-   "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "5335c494",
-   "sinceSha": "5335c494",
-   "since": "2026-10-21T15:24Z",
+   "account": "B",
+   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "719cca3b",
+   "sinceSha": "719cca3b",
+   "since": "2026-10-23T06:46Z",
    "state": "on",
    "prev": {
-    "account": "C",
-    "session": "session_01Me1thu8Zn934H58kWKNfuF",
-    "branch": "claude/adoring-meitner-mqzst8",
-    "sha": "7c58b598"
+    "account": "A",
+    "session": "session_01Eds6msqpsuzNEw98sdw8JX",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "sha": "1fec8d9f"
    }
   },
   "LAWWW2": {
-   "account": "A",
-   "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
-   "branch": "claude/second-ai-env-art",
-   "sha": "d337bfba",
-   "since": "2026-10-21T15:26Z",
+   "account": "B",
+   "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "9d53752f",
+   "since": "2026-10-23T06:47Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "2b4f2028",
-   "handedOffAt": "2026-10-18T12:24Z",
-   "handoffSnapshot": "2026-10-18T1224Z_C_LAWWW2.json"
+   "sinceSha": "ff339df1",
+   "handedOffAt": "2026-10-17T02:49Z",
+   "handoffSnapshot": "2026-10-17T0248Z_B_LAWWW2.json"
   },
   "AA": {
-   "account": "A",
-   "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
-   "branch": "claude/story-planning",
-   "sha": "a54ec2b4",
-   "since": "2026-10-21T15:24Z",
+   "account": "B",
+   "session": "session_016ACZaD4oB9tX94WqQR4dkS",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2055f064",
+   "since": "2026-10-23T06:44Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "8d32ed63",
-   "handedOffAt": "2026-10-18T12:24Z",
-   "handoffSnapshot": "2026-10-18T1224Z_C_AA.json"
+   "sinceSha": "4a25046b",
+   "handedOffAt": "2026-10-17T02:39Z",
+   "handoffSnapshot": "2026-10-17T0238Z_B_AA.json"
   },
   "BB": {
-   "account": "A",
-   "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
-   "branch": "claude/story-planning",
-   "sha": "a54ec2b4",
-   "since": "2026-10-21T15:24Z",
+   "account": "B",
+   "session": "session_01J1g2TPcPzWrihXSY2WvseV",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "28fef8fd",
+   "since": "2026-10-23T06:46Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "a71fe506",
-   "handedOffAt": "2026-10-18T12:24Z",
-   "handoffSnapshot": "2026-10-18T1224Z_C_BB.json"
+   "sinceSha": "4a25046b",
+   "handedOffAt": "2026-10-17T02:39Z",
+   "handoffSnapshot": "2026-10-22T1508Z_A_BB.json"
   }
  },
  "lastHandoff": {
-  "from": "C",
-  "at": "2026-10-21T14:59Z",
+  "from": "A",
+  "at": "2026-10-22T15:11Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-10-21T1459Z_C_LAWWW.json"
+   "LAWWW2": {
+    "file": "2026-10-22T1509Z_A_LAWWW2.json",
+    "ref": "origin/claude/second-ai-env-art"
+   },
+   "AA": {
+    "file": "2026-10-22T1507Z_A_AA.json",
+    "ref": "origin/claude/story-planning"
+   },
+   "BB": {
+    "file": "2026-10-22T1508Z_A_BB.json",
+    "ref": "origin/claude/story-planning"
+   },
+   "LAWWW": "2026-10-22T1511Z_A_LAWWW.json"
   },
   "closed": true
  },
@@ -234,9 +246,65 @@
     }
    },
    "until": "2026-10-21T15:28Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01Eds6msqpsuzNEw98sdw8JX",
+     "branch": "claude/confident-ritchie-8rwh7t",
+     "sha": "1fec8d9f",
+     "since": "2026-10-21T15:24Z",
+     "handedOffAt": "2026-10-22T15:11Z",
+     "state": "handed-off"
+    }
+   },
+   "until": "2026-10-23T06:46Z"
+  },
+  {
+   "account": "A",
+   "role": "LAWWW2",
+   "roles": {
+    "LAWWW2": {
+     "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
+     "branch": "claude/second-ai-env-art",
+     "sha": "88eb607a",
+     "state": "handed-off",
+     "handedOffAt": "2026-10-22T15:09Z"
+    }
+   },
+   "until": "2026-10-23T06:47Z"
+  },
+  {
+   "account": "A",
+   "role": "AA",
+   "roles": {
+    "AA": {
+     "session": "session_019Y3emYqxxC4Ch1GGf4fMzw",
+     "branch": "claude/story-planning",
+     "sha": "dea49ab3",
+     "state": "handed-off",
+     "handedOffAt": "2026-10-22T15:07Z"
+    }
+   },
+   "until": "2026-10-23T06:47Z"
+  },
+  {
+   "account": "A",
+   "role": "BB",
+   "roles": {
+    "BB": {
+     "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
+     "branch": "claude/story-planning",
+     "sha": "7e03e3b9",
+     "state": "handed-off",
+     "handedOffAt": "2026-10-22T15:08Z"
+    }
+   },
+   "until": "2026-10-23T06:47Z"
   }
  ],
- "pending": null,
  "anomalies": [
   {
    "kind": "post-handoff-writes",
@@ -340,9 +408,74 @@
     "e089132e..a71fe506"
    ],
    "note": "duty verify 第 6 項：duty.json 記的 e089132e 是 BB-C 10-20 13:0x 接班時的 SHA（它交班時沒有用 duty handoff 更新），之後的 57 個 commit 是它值班期間的正常工作，最後一個 a71fe506 就是它自己的交班 commit（10-21 14:30，HANDOFF_GAP_MATRIX 第 1 節）。帳號 A 的 BB 已從這個分支接班（duty sync 15:3x）。LAWWW（帳號 A）查核"
+  },
+  {
+   "kind": "stale-sync",
+   "role": "LAWWW",
+   "account": "B",
+   "at": "2026-10-23T06:5xZ",
+   "resolved": true,
+   "note": "LAWWW-B 接班時第一次 duty sync（seq 25，06:47）用的是還沒更新的本機遠端分支，讀到 B 三個職位 10-17 的舊交班狀態，把 lastHandoff 覆蓋成「B 交班」、多寫一筆 pending（duty verify 第 8 項）。重新 fetch 後 sync（seq 26、27）三位都是 on；lastHandoff 從 RULE_SOURCE 719cca3bc 還原成帳號 A 10-22 15:11 的交班紀錄，pending 移除。教訓：duty sync 前先 fetch 三條職位分支",
+   "evidence": [
+    "719cca3bc:docs/handoff/duty.json",
+    "seq 25～27"
+   ],
+   "wrongValues": {
+    "lastHandoff": {
+     "from": "B",
+     "at": "2026-10-23T06:47Z",
+     "kind": "handoff",
+     "snapshots": {
+      "LAWWW2": {
+       "file": "2026-10-17T0248Z_B_LAWWW2.json",
+       "ref": "origin/claude/funny-albattani-iawshm"
+      },
+      "AA": {
+       "file": "2026-10-17T0238Z_B_AA.json",
+       "ref": "origin/claude/cool-heisenberg-o8kuqx"
+      }
+     }
+    },
+    "pending": {
+     "from": "B",
+     "rolesHandedOff": [
+      "AA",
+      "BB",
+      "LAWWW2"
+     ]
+    }
+   }
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "AA",
+   "branch": "claude/story-planning",
+   "from": "A",
+   "to": "B",
+   "at": "2026-10-23T06:5xZ",
+   "reviewedThrough": "4a25046b",
+   "resolved": true,
+   "evidence": [
+    "dea49ab3..4a25046b"
+   ],
+   "note": "帳號 A AA 交班（dea49ab3）以後的 commit 是 AA 自己的交班登記 bbbf3e26（duty_AA.json＋快照）和 BB 的交班 commit、合併 4a25046b（10-22 15:06～15:08），交班後沒有工作 commit；已全部併進 AA-B 分支 claude/cool-heisenberg-o8kuqx。LAWWW-B（帳號 B）接班時查核"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "BB",
+   "branch": "claude/story-planning",
+   "from": "A",
+   "to": "B",
+   "at": "2026-10-23T06:5xZ",
+   "reviewedThrough": "4a25046b",
+   "resolved": true,
+   "evidence": [
+    "7e03e3b9..4a25046b"
+   ],
+   "note": "帳號 A BB 交班（7e03e3b9）以後的 commit 是 BB 自己的交班登記 d3c7951d（duty_BB.json 手寫，TOOL-DUTY-HANDOFF-BRANCH-1022）和合併 4a25046b，交班後沒有工作 commit；已併進 BB-B 分支。LAWWW-B（帳號 B）接班時查核"
   }
  ],
- "seq": 21,
+ "seq": 27,
  "chain": [
   {
    "seq": 1,
@@ -489,6 +622,48 @@
    "at": "2026-10-21T15:28Z",
    "account": "A",
    "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 22,
+   "at": "2026-10-22T15:11Z",
+   "account": "A",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 23,
+   "at": "2026-10-22T15:11Z",
+   "account": "A",
+   "role": "LAWWW",
+   "event": "handoff"
+  },
+  {
+   "seq": 24,
+   "at": "2026-10-23T06:46Z",
+   "account": "B",
+   "role": "LAWWW",
+   "event": "register"
+  },
+  {
+   "seq": 25,
+   "at": "2026-10-23T06:47Z",
+   "account": "B",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 26,
+   "at": "2026-10-23T06:47Z",
+   "account": "B",
+   "role": "AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 27,
+   "at": "2026-10-23T06:49Z",
+   "account": "B",
+   "role": "LAWWW2",
    "event": "sync"
   }
  ]

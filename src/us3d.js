@@ -213,7 +213,7 @@ const US3=(function(){
      超市街（US-PATROL-1021，LAWWW2 10-22 巡場景）：從社區搭公車來，下車的地方 (−22.6, 12.9) 面向北、鏡頭在後面，站牌柱剛好在鏡頭和人中間——
      一根直的柱子把人切成兩半。模型裡的金屬桿（停車場燈桿、路燈、號誌桿、站牌柱、公車亭的框）都是 usms_vc_metal
      （us_market_street.py 匯出時把純色材質轉成頂點色）。測試：node tests/us_ms_seethru_unit.js */
-  const SEE_MATS={us_market_street:/^usms_vc_metal$/};
+  const SEE_MATS={us_market_street:/^usms_vc_metal$/, us_campus:/^(usu_steel|usu_shelter_glass|usu_shelter_roof)$/};   /* 美國校園：公車站候車亭（框、玻璃、屋頂）、站牌柱擋人時網點透空（LAWWW2 10-22，j38b）*/
   function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, noSkyline:o.noSkyline!==false, build(E){   /* noSkyline：不畫引擎的遠景剪影（台北的山和城市大樓；US-CAMPUS-WIRE-1018）*/ const L=o.layout(), B=L.bounds;
     const g=new THREE.Group(); const nav=new E3.NavGrid(B.x1-B.x0,B.z1-B.z0,0.5,B.x0,B.z0);
     nav.blockOutside(B.x0+0.5,B.z0+0.5,B.x1-0.5,B.z1-0.5);

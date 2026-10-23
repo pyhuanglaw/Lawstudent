@@ -233,11 +233,20 @@ const ASSETS = (function(){
   /* 縮好的 canvas 換成 ImageBitmap、canvas 釋放：iOS Safari 的 2D canvas 有總量上限（超過整個 canvas 會變黑，懷疑和 BUG-MAPBLACK「按地圖變黑」有關）；ImageBitmap 不算在內。
      先用 canvas 上傳（第一次畫就是縮過的），bitmap 好了再換一次；context 掉了恢復時 bitmap 還在，可以重新上傳。 */
   function toBitmap(c){ if(c._bm||typeof createImageBitmap!=='function') return; c._bm=true; createImageBitmap(c).then(bm=>{ c._bmResult=bm; for(const t of (c._capTex||[])){ if(t.image===c){ t.image=bm; t.needsUpdate=true; } } c._capTex=null; c.width=1; c.height=1; }).catch(()=>{}); }
+  /* 路人底模的遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：anon 底模同一個資料夾的 lod/<檔名>.lod.glb（tools/lod/npc_lod.py：同一副骨架；
+     臉的皮膚＋身體＋衣服一個網格、顏色烘成頂點色，頭髮一個網格；約 6,400 三角形）。manifest 寫 lod:null 可以關掉單一個、lod:'網址' 可以指定。
+     character3d.js 的 attachFar 把它綁到每個人自己的骨頭上，engine3d.js 決定遠近（30 m）*/
+  A.lodUrl=function(key){ const m=A.manifest[key]; if(!m) return null; if(m.lod!==undefined) return m.lod; return m.anon&&/\/bl_npc_[^/]+\.vrm$/.test(m.url)?m.url.replace(/\/(bl_npc_[^/]+)\.vrm$/,'/lod/$1.lod.glb'):null; };
+  function loadLOD(url){ const buf64=d=>{ const bin=atob(d); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return u8.buffer; };
+    return new Promise((res,rej)=>{ const done=g=>{ const parts=[]; let sk=null; g.scene.traverse(o=>{ if(o.isSkinnedMesh){ parts.push({geo:o.geometry,mat:o.material}); if(!sk) sk=o.skeleton; } }); if(!sk||!parts.length){ rej(new Error('no skinned mesh')); return; } res({names:sk.bones.map(b=>b.name),ibm:sk.boneInverses.map(m=>m.clone()),parts}); };
+      const data=window.ASSET_DATA&&window.ASSET_DATA[url]; if(data){ loader().parse(buf64(data),'',done,rej); return; }
+      fetchBuf(url).then(buf=>loader().parse(buf,'',done,rej)).catch(()=>{ fetch(url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(buf64(j.b64),'',done,rej)).catch(rej); }); }); }
   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
-        const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
+        const lu=A.lodUrl(key), lodP=lu?loadLOD(lu).catch(e=>{ console.warn('npc far LOD',key,e&&e.message); return null; }):Promise.resolve(null);   /* 路人底模的遠距離版本：和 VRM 一起下載（小檔）；沒有或失敗＝照舊畫原本的人 */
+        const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });
         const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
         fetchBuf(m.url).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
       const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
@@ -278,7 +287,7 @@ const ASSETS = (function(){
     /* 貼圖要從 uniforms 找：VRM 的 MToon 是 ShaderMaterial，貼圖放在 uniforms（for…in 一張都找不到——2026-10-17 batch 16 zone_memory：換區域回校園貼圖 659→801→980→1101，幾何沒有長）*/
     const tex=v=>{ if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } };
     const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k of Object.getOwnPropertyNames(m)) tex(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) tex(u.value); } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
-    try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); }catch(e){ console.warn('VRM unload',key,e); }
+    try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); if(c.lod) for(const p of c.lod.parts) disp({geometry:p.geo,material:[p.mat].concat(p.toon||[])}); }catch(e){ console.warn('VRM unload',key,e); }   /* 遠距離版本（p.toon＝character3d.js 做的卡通材質）一起放掉 */
     delete A.cache[key]; delete A.status[key]; A.unloaded=(A.unloaded|0)+1; return true; };
   A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
   A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };

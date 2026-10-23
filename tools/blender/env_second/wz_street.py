@@ -511,7 +511,22 @@ def bake(mesh, tag, xf, x, y, z):
 def inst(mesh, tag, xf, x, y, z, sx=1.0):
     wx, _, wz = xf.p(x, 0, z); ob = B.instance(mesh, f'{tag}_{len(_inst)}', wx, y, wz, root, ry=xf.ry); _inst.append(1)
     if sx != 1.0: ob.scale = (sx, 1.0, 1.0)   # 建築自己的 x（寬度方向）
+    if abs(y) < 0.05: prop_fp(mesh, tag, wx, wz, xf.ry, sx)
     return ob
+
+
+# 地上的雜物腳印（世界座標，人貼牆走會不會穿過去）：輸出 <OUT>.props.json，tests/street_props_nav_unit.js 和遊戲的導航格比對（ART-WZ0，LAWWW2 2026-10-21）。
+# 門口凸出牆面、又在人走得到的地方的，要在 zones3d.js 擋住那幾格（或移進門廊）。
+PROP_FP, _bbc = [], {}
+def prop_fp(mesh, tag, wx, wz, ry, sx=1.0):
+    if mesh.name not in _bbc:
+        vs = mesh.vertices
+        if not len(vs): _bbc[mesh.name] = None
+        else: _bbc[mesh.name] = (min(v.co.x for v in vs), max(v.co.x for v in vs), min(-v.co.y for v in vs), max(-v.co.y for v in vs), max(v.co.z for v in vs))
+    bb = _bbc[mesh.name]
+    if bb is None or bb[4] < 0.1: return                                                  # 貼地的薄片不算
+    c, s_ = math.cos(ry), math.sin(ry); pts = [(wx + lx * sx * c + lz * s_, wz - lx * sx * s_ + lz * c) for lx in (bb[0], bb[1]) for lz in (bb[2], bb[3])]
+    PROP_FP.append(dict(tag=tag, rect=[round(min(p[0] for p in pts), 3), round(min(p[1] for p in pts), 3), round(max(p[0] for p in pts), 3), round(max(p[1] for p in pts), 3)], h=round(bb[4], 2)))
 
 
 def apartment(spec):
@@ -569,6 +584,7 @@ def apartment(spec):
         elif sd < 0: tall(wall, -W / 2, -W / 2 + 0.2, -D, -0.25)
         else: tall(wall, W / 2 - 0.2, W / 2, -D, -0.25)
     tall(wall, -W / 2, W / 2, -D, -D + 0.2)
+    if HI: xf.box(wall, -W / 2 + 0.2, W / 2 - 0.2, HI - 0.2, HI, -D + 0.2, -0.25)   # 七樓樓板（在樓裡面，看不到）：七樓以上不投影以後，陰影計算裡整棟樓沒有屋頂，下午太陽從頂上照進中空的樓、再從二到六樓的窗洞照出來，人行道上一排亮條（LAWWW2 巡場景第 4 區 10-22）；這塊會投影，把一到六樓蓋起來
     for f in range(1, F): xf.box(band_hi if (HI and f >= 6) else band, -W / 2 - 0.03, W / 2 + 0.03, GH + (f - 1) * FH - 0.09, GH + (f - 1) * FH + 0.09, -0.25, 0.08)
     xf.box(band_hi, -W / 2 - 0.04, W / 2 + 0.04, totalH + 0.9, totalH + 0.97, -0.26, 0.05)
     xf.box(acc_hi(M['roof']) if HI else acc(M['roof']), -W / 2 + 0.2, W / 2 - 0.2, totalH - 0.05, totalH + 0.05, -D + 0.2, -0.2)
@@ -877,7 +893,7 @@ print('{"cull_bottoms_tris": %d}' % _cull)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
-WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
+WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
 # 有字的小牌子（菜單、價目、告示、門簾）不合貼圖集：效能第三輪試過另一張 512 格的貼圖集，寬的菜單被壓扁、字橫向糊掉（遊戲截圖看得出來），退回各自的材質
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
@@ -894,3 +910,4 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)
+L.write_json(OUT[:-4] + '.props.json', {'set': SET, 'note': '地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用', 'props': PROP_FP})

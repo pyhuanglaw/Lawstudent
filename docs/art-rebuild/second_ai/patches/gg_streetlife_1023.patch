@@ -1,0 +1,34 @@
+--- a/src/zones3d.js	2026-10-23 13:07:25.138509022 +0000
++++ b/src/zones3d.js	2026-10-23 13:27:04.700873642 +0000
+@@ -683,6 +683,21 @@
+     const scRow=(xc,z,n,ry,grp)=>{ for(let k=0;k<n;k++){ const c=scC[(scIdx++*5+3)%7], s=TK.scooter(c); s.position.set(xc+(k-(n-1)/2)*0.85,0,z+((k*7)%3-1)*0.06); s.rotation.y=ry+((k*5)%3-1)*0.05; s.userData.ggScooter=grp; if(ggScGLB){ ggScG.add(s); ggScList.push({o:s,color:c,grp}); } else g.add(s); } nav.blockRect(xc,z-0.04,n*0.85+0.5,1.7,0); };
+     for(let i=0;i<14;i++){ const x=-70+i*10; scRow(x,-32,Math.abs(x)<12?1:3,0,'N'+(x<-55?0:x<-35?1:x<5?2:x<35?3:4)); }
+     for(let i=0;i<8;i++){ const x=-60+i*14; scRow(x,6.8,3,Math.PI,'S'+(x<-40?0:x<0?1:2)); }
++    /* 騎樓外、人行道上的生活感（ART-GG-STREETLIFE-1023，LAWWW2-B 10-23；使用者「店面外看出去的景也都很假」：從店裡、從騎樓往外看是一大片空的鋪面廣場）。
++       ① 騎樓柱子外一排機車（車頭朝騎樓，z 17.35～18.95；臺北的騎樓前就是一整排機車）：路人沿 z 16.5 走（story3d.js walkRoutes）不擋；
++          有互動的店門口（麵店、茶行、書店、便利商店、輪轉單車）前後各留 2.6 m、往溫州街的巷口不停車；機車一段跨一根柱子，隔一根柱子留缺口，從廣場走得進騎樓。
++       ② 捷運出口東邊、圓環東邊各一個腳踏車停車架（和校園同一套 W3.bikeRack：整排合成一塊）。
++       ③ 人行道上一排行道樹（樹穴＋矮緣石），避開路人的斜線（(−40,14.5)→(0,10)→(40,14)）和路邊的機車。
++       導航阻擋在套件階段就加（機車、車架、樹本來就是套件畫的，正式模型只換機車的外觀）。測試：tests/gongguan_layout_nav.py、tests/reachability_all.py（公館）、node tests/street_props_nav_unit.js */
++    { const DOORS=[-63,-52.8,-41.6,-29.4,-0.3], clear=x=>DOORS.every(d=>Math.abs(x-d)>2.6)&&x>-66; let seg=0;
++      for(const [x0,x1] of [[-59.8,-55.8],[-49.6,-44.6],[-38.4,-32.6],[-25.2,-21.2],[-16,-12],[-6.8,-3],[3,7.4],[13.6,17.6],[21.6,25.6],[30.6,34.6],[39.6,43.6],[49.6,53.6],[57.6,61.6],[66.6,70.6]]){   /* 每一段跨在一根騎樓柱子前面，下一根柱子前面空著＝從廣場走進騎樓的缺口（柱子兩側各 2 m 多）*/
++        const n=Math.min(5,Math.max(2,Math.floor((x1-x0-0.5)/0.85)+1)), xc=(x0+x1)/2; if(!clear(x0)||!clear(x1)) console.warn('騎樓前的機車擋到店門口',x0,x1); scRow(xc,18.15,n,0,'A'+(seg++)); } }   /* 一段一組：機車的近／遠模型照「鏡頭到這一組中心」切換（attachWzScooters 的 LOD），一組 30 m 寬時整組 20 台都用近的模型，三角形多 7～9 萬 */
++    for(const [x,z,n] of [[-14.5,9.2,7],[34,9.2,8]]){ const r=W3.bikeRack(n); r.name='gg_bike_rack'; place(g,r,x,z,Math.PI); nav.blockRect(x,z,n*0.6+0.6,1.4,0); }   /* 停車架：車頭朝騎樓（π）、整排一塊 */
++    { const pitM=new THREE.MeshStandardMaterial({color:0x3b332b,roughness:1}), curbM=new THREE.MeshStandardMaterial({color:0xa8a49c,roughness:0.85}), pit=new THREE.Group(); pit.name='gg_tree_pits';
++      for(const [x,z] of [[-53,9.4],[-7,9.0],[7.5,9.0],[46,9.6],[58,9.6]]){ const t=TREE(0.95); t.name='gg_street_tree'; place(g,t,x,z,(x*0.37)%6.28); nav.blockCircle(x,z,0.7);
++        const soil=new THREE.Mesh(new THREE.PlaneGeometry(1.3,1.3),pitM); soil.rotation.x=-Math.PI/2; soil.position.set(x,0.012,z); pit.add(soil);
++        for(const [dx,dz,w,d] of [[0,-0.69,1.5,0.1],[0,0.69,1.5,0.1],[-0.69,0,0.1,1.3],[0.69,0,0.1,1.3]]){ const c=new THREE.Mesh(new THREE.BoxGeometry(w,0.08,d),curbM); c.position.set(x+dx,0.04,z+dz); c.receiveShadow=true; pit.add(c); } }   /* 樹穴：黑土＋一圈矮緣石（整區合併時併成兩塊）*/
++      g.add(pit); }
+     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.5); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.5); }
+     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
+     nav.blockRect(-30,15.1,7.2,1.0,0); for(const fx of [-34.2,-25.8,-25.0]) nav.blockCircle(fx,15.1,0.25);   /* 捷運出口東邊的 GONGGUAN 花台、三朵藍色小花（bldg.gongguan_far；夾在路人 z 16.5、(−40,14.5)→(0,10) 兩條路線中間） */
+@@ -702,7 +717,8 @@
+     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
+     gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
+     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+-    if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
++    if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車');
++      g.traverse(o=>{ if(o.isLOD&&/^scooters_A\d+$/.test(o.name)) o.addLevel(new THREE.Object3D(),40); });   /* 騎樓前那一排（ART-GG-STREETLIFE-1023）：40 m 外不畫（一台 600 個三角形、40 多台；從廣場一端看過去多 3 萬多個三角形，那麼遠只看得到一個小點）*/ }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
+     return zone; } };
+   // ---------- 溫州街 ----------
+   // ---------- 溫州街（v9 重建：台北巷弄＋日式宿舍；TK 街景套件）----------

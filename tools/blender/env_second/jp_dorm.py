@@ -88,7 +88,7 @@ class Room(K.Shop):
             'cloth': L.vc_material(f'{rid}_cloth', rough=0.95),   # 棉被、枕頭、外套（平滑著色的布）
             'steel': L.flat('l118_steel', '#b9bec2', rough=0.28, metal=0.45), 'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')), 'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
-            'ceil': L.flat(f'{rid}_ceiling', '#f1efe9', rough=0.9),
+            'ceil': L.flat(f'{rid}_ceiling', '#f1efe9', rough=0.9, cull=True),   # 單面朝下（10-22：原本雙面朝上；天花板 2.5 m、預設鏡頭 2.84 m，一進房間畫面上半就是天花板的上面）
             'print': img_mat(f'{rid}_print', f'{rid}_print.png', rough=0.55), 'screen': img_mat(f'GLOW_{rid}_screen', f'{rid}_print.png', rough=0.3, emit=0.6),
         }
         M['fabric'].node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.92
@@ -186,7 +186,7 @@ def build(rid):
     fl = Mesh(f'{rid}_floorm', M['floor']); fl.box(X0, X1, -0.05, 0.0, Z0, GZ); fl.box(dx + dw / 2 + 0.05, X1, -0.05, 0.0, GZ, Z1); fl.finish(c.root)
     gk = Mesh(f'{rid}_genkanm', M['tile']); gk.box(X0, dx + dw / 2 + 0.05, -0.05, -0.012, GZ, Z1); gk.finish(c.root)
     c.vc.cbox(X0, dx + dw / 2 + 0.05, -0.012, 0.004, GZ - 0.035, GZ, '#6b4c34')        # 玄關的框（上一階的木頭收邊）
-    ce = Mesh(f'{rid}_ceiling', M['ceil']); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(c.root)
+    ce = Mesh(f'{rid}_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)   # 朝下
     trim = '#8a6a4c'
     # ---------- 北牆：一整面鋁框推拉窗（遊戲 room() 的窗：中心 (0, WY)、2.2 × 1.6）----------
     wl = c.wg('N', 'wall', M['wall']); fr = c.wg('N', 'frame', M['vcm'], cm=True); gl = c.wg('N', 'glass', M['glass']); tr = c.wg('N', 'trim', M['vc'], cm=True)
