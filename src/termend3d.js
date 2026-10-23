@@ -218,7 +218,8 @@ const TERMEND=(function(){
     if(a.flag&&G.flags&&G.flags[a.flag]!=null) return null;
     return H; };
   S.hook=async function(GM,term,who){ const G=GM.G, H=S.hookFor(G,term,who); if(!H) return null; const Lx=L(), R=S.rec(G,term);
-    await run(GM,who,lines(H.say,G)); const k=await GM.choose([{t:resolve(H.ok,G)},{t:Lx.HOOK_NO}]); R.hook={who,ok:k===0};
+    await run(GM,who,lines(H.say,G)); if(H.noOpt){ if(H.then) await run(GM,who,lines(H.then,G)); R.hook={who,ok:false,noOpt:true}; return false; }   /* noOpt：她照樣說，不給接的選項（AA_389 第 2 點：沒有下文的鉤子）*/
+    const k=await GM.choose([{t:resolve(H.ok,G)},{t:Lx.HOOK_NO}]); R.hook={who,ok:k===0};
     if(k===0&&H.after) await run(GM,who,lines(H.after,G));
     if(H.then) await run(GM,who,lines(H.then,G));   /* then：選不選都講（芷若大二上「放映完隔天，我就回台中了。」，AA_369 第 9 節第 1 題）*/
     if(k!==0) return false;

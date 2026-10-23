@@ -272,13 +272,13 @@ const TERMEND_LINES=(function(){
           
           classmate_mingxuan:{say:'系籃寒假要集訓三天。',ok:'「最後一天我去看。」',act:{c15:'mx_game'}}},
     Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我也想去。」',act:{vac:'C02@Y2'}},
-          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
+          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'},noOpt:true},   /* AA_369 M2；AA_389 第 2 點：9/2 送機那一場（AA_390，ZR-SENDOFF-L-1023）做好以前選項先不出——做好時拿掉 noOpt */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
           npc_fangyt:{say:'八月一號到四號，我要去日本爬山。',ok:'「我可以去嗎？」',act:{flag:'HOOK_T02'}}},
     Y3S1:{heroine_01:{say:'三月二十五號出發。',ok:G=>G.flags&&G.flags.EXCHANGE_ROUTE==='JP'?'「那天我們同一班。」':'「出發那天我去送妳。」',act:{flag:'HOOK_AN_SENDOFF'}},
-          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'}},
+          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'},noOpt:true},   /* AA_389 第 2 點：測試版那一場（AA389-ZQ-GAME-1023）做好以前選項先不出 */
           classmate_peishan:{say:'去國小看課那幾次，我是真的很喜歡。',ok:'「哪天去看你們上課？」',act:{c15:'ps_class'}}},
     Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='US'),act:{flag:'HOOK_SIS_SENDOFF'}},
-          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'}},classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
+          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'},noOpt:true},   /* AA_389 第 2 點：不出選項——她照樣說暑假計畫，玩家沒有「我去」*/classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
     /* 大四上（AA_262 第 2 節第 8 點，AA-C 10-20 更正：以安不延畢，2029-02-03 和祐廷同一場）：只給臺灣路線、選②、推甄沒上；接了＝寒假一起讀（AA_327 2-Y4-27：r2y4a3d.js 的寒假總圖那一句）*/
     Y4S1:{heroine_01:{say:'你也二月三號考？……那寒假一起讀。總圖，早上八點。',ok:'「好。八點。」',if:G=>{ const F=(G&&G.flags)||{}, r=F.EXCHANGE_ROUTE; return r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH==='fail'; },act:{flag:'HOOK_AN_WINTER_STUDY'}}} };
   const HOOK_NO='（笑了一下，沒有接話。）';   /* 不接（AA_270 第 1 節）：對方不回，直接接收尾，不扣不記 */

@@ -290,5 +290,10 @@ GM.money=function(n){ G.money+=n; };
     check('16. AA_361 九位 × 大二上～大四上的句子照原文（42 句；在國外的學期不寫；學姊大四上那句照 AA_363 S1「我昨天回來的」，見 9f）',!bad.length&&!(F.heroine_02.genByTerm||{}).Y3S1&&!(F.heroine_01.genByTerm||{}).Y3S2&&!F.classmate_xinci.genByTerm&&JSON.stringify(F.npc_fangyt.genByTerm)===JSON.stringify({Y1S2:'考完了嗎？吃個飯。七月我就要上山了。'})/* 方奕廷只有 AA_373 #12 的大一下那句 */&&!F.classmate_peishan.genByTerm,bad.join('、'));
     const src=fs.readFileSync(path.join(ROOT,'src/termend3d.js'),'utf8');
     check('16. 送朋友邀約先讀 genByTerm[學期]，再讀 genBySem（上／下學期末，AA_369 L1），沒有才用 gen；大一上照 y1s1；婉拒先讀 noBySem',/send\(id,'friend',w\.id==='Y1S1'\?f\.y1s1:\(\(f\.genByTerm&&f\.genByTerm\[w\.id\]\)\|\|\(f\.genBySem&&f\.genBySem\[sem\]\)\|\|f\.gen\),\(f\.noBySem&&f\.noBySem\[sem\]\)\|\|f\.no\)/.test(src)); }
+  // 12. AA_389 第 2 點（企劃線 345234b3）：HOOK_ZR_SENDOFF、HOOK_ZQ_GAME 補場做好以前不出選項；HOOK_T03 不出選項——她照樣說自己的計畫，玩家沒有「我去」那個選項、不記旗標
+  for(const [term,who,say,flag,day] of [['Y2S2','heroine_02','九月二號出發。','HOOK_ZR_SENDOFF','2027-06-10'],['Y3S1','heroine_04','發表會那個遊戲，我想做到可以上架。','HOOK_ZQ_GAME','2028-01-10'],['Y3S2','heroine_04','七月三號到七號 曼谷','HOOK_T03','2028-06-10']]){
+    fresh(D(day),19,'campus',{}); G.stage='law'; meet(who); G.events.done.ev_ziqing_secret_game=1; said=[]; opts=[]; picks=[0];
+    const r=await TERMEND.hook(GM,term,who); const L=lines();
+    check('12. '+term+' '+who+'：照樣說「'+say+'」、不出選項、不記 '+flag,L.some(t=>t.endsWith(say))&&!opts.length&&G.flags[flag]==null,JSON.stringify({r,L,opts,f:G.flags[flag]})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
