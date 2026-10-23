@@ -29929,7 +29929,7 @@
    "title": "學姊第十批：交往中跨年、除夕、前任、畢業後朋友",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_396 學姊第十批（企劃線 53af5dfc，提前）：交往中三年跨年、三年除夕 21:30 電話、前任四場、畢業以後每季 Café；新背景 alley_conv_night；實作 SIS-B10-L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
@@ -30371,7 +30371,7 @@
    "title": "AA_396 學姊第十批（跨年、除夕電話、前任四場、畢業後每季 Café）：實作",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23】AA_396（企劃線 53af5dfc）；排在 SIS-B9-L-1023 之後；跨年排在 AA_210 頂樓之前；alley_conv_night 背景 BB 跟使用者要",
    "first": {
@@ -30385,7 +30385,9 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
-   "authorized": "D100、D109（AA 劇情自主決定）"
+   "authorized": "D100、D109（AA 劇情自主決定）",
+   "sha": "2c4b4bf92",
+   "note": "2026-10-23 LAWWW-B 實作 2c4b4bf92（tests/aa396_sis_b10_unit.js）；3-3 照稿改霖澤館一樓大廳（5F 還沒做好）；背景 zuiyue_night、ntu_library_night、alley_conv_night 還沒有（暗底）。待 BB 測（清單第 22～25 項）。"
   },
   {
    "id": "AA389-REST-L-1023",
