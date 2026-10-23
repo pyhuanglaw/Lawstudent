@@ -119,7 +119,7 @@ await sec(3,async()=>{ const yph=()=>{ Y.m9Phone(H.G); PHONE.tick(H.G); };
   check('3. 朋友（沒交往）：沒有這通電話',H.G.flags.SIS_DEFENSE==='missed'&&!OUT.get(H.G,'y4_m9_call')); });
 /* ---- 4、5 ---- */
 await sec(4,async()=>{ const e=STORY_EVENTS.find(x=>x.id==='ev_sis_lab_desk'), t=J(e&&e.dialogue||[]);
-  check('4. 研究室走不到（5F～8F 關著）：便條改乙「中午十二點二十以後，總圖三樓。研究室我只放書。」；她平日 9～17 點在總圖三樓（library）',t.includes('中午十二點二十以後，總圖三樓。研究室我只放書。')&&!t.includes('我在這裡。」')&&CHARACTERS.heroine_05.daily_schedule.some(r=>r.zone==='library'&&r.from<=12.34&&r.to>=13&&J(r.days)===J([1,2,3,4,5])),t.slice(0,80)); });
+  check('4. 研究室 5F 開了（AA_399 1-2，10-23）：便條回到甲「中午十二點二十以後，我在這裡。」；她週一～週四 12:20～14:00 在研究室（linze_5f），其他平日白天照舊總圖（library）',t.includes('中午十二點二十以後，我在這裡。」')&&!t.includes('研究室我只放書')&&CHARACTERS.heroine_05.daily_schedule.some(r=>r.zone==='linze_5f'&&Math.abs(r.from-(12+20/60))<1e-9&&r.to===14&&J(r.days)===J([1,2,3,4]))&&CHARACTERS.heroine_05.daily_schedule.some(r=>r.zone==='library'&&r.from<=12.34&&r.to>=13&&J(r.days)===J([1,2,3,4,5])),t.slice(0,80)); });
 await sec(5,async()=>{ const ID='heroine_05', X=SISY23;
   const s5=(flags)=>{ const G=H.fresh('2027-11-24',20,'dorm',Object.assign({met_sis:true,SIS_W1:true,EXCHANGE_ROUTE:'TW'},flags||{})); H.FRIEND(ID); G.contacts={[ID]:G.day-60}; G.outings=[]; H.at('2027-11-24',20); X.phone(G); H.at('2027-11-24',21); X.phone(G); PHONE.tick(G); return G; };
   const iv=STORY_EVENTS.find(x=>x.id==='ev_sis_interview'), b=iv&&iv.dialogue.findIndex(n=>n.label==='b'), e2=iv&&iv.dialogue.findIndex(n=>n.label==='end');

@@ -32,7 +32,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   if(!X()){ H.done(); return; }
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
   check('0. index.html 接在 y3fill3d.js 後面；talkSis、talkCharacter 都先問 SISY23.preTalk',/y3fill3d\.js[^\n]*\n<script src="src\/data\/sis_y2y3_events\.js[^\n]*\n<script src="src\/sis_y2y3_3d\.js/.test(html)&&(st.match(/SISY23\.preTalk\) await SISY23\.preTalk\(GM\)/g)||[]).length===2);
-  const LATER=['（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，總圖三樓。研究室我只放書。」）'];   /* 後來的稿改過的：AA_392 第 4 節乙（研究室走不到，便條寫總圖三樓）*/
+  const LATER=['（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）'];   /* 後來的稿改過的：AA_392 第 4 節乙（研究室走不到，便條寫總圖三樓）→ AA_399 1-2（10-23 研究室 5F 開了）回到甲案原句 */
   const allTxt=J(SISY23_LINES)+J(SISY23_EVENTS), quoted=[...allTxt.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISY23_LINES).flat().filter(x=>typeof x==='string'));
   const notIn=quoted.filter(t=>!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
@@ -45,7 +45,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     check('1. 研究室：八張桌子、靠門的位子、照顏色排書；「（幫她把最重的那一排推進去）」→「……謝謝。你比電梯可靠。」；SIS_LAB_DESK went',L[0]==='（研究室有八張桌子。她的在門邊，門一開就撞到椅背。）'&&L.includes('……也好。誰來了我都知道。')&&L.includes('……謝謝。你比電梯可靠。')&&!L.includes('……你的。')&&H.G.flags.SIS_LAB_DESK==='went',J(L));
     at('2026-09-22',18.1); rules(); check('1. 去了：18:00 沒有「搬完了。」',!dms().includes('搬完了。')); }
   { setup('2026-09-21',20,'dorm','FAMILIAR'); dateSis(); at('2026-09-21',21.05); rules(); PHONE.answer(H.G,'sisy23_lab_ask',0); const L=await play('ev_sis_lab_desk',[0]);
-    check('1. 交往中：最後多一段便條「中午十二點二十以後，總圖三樓。研究室我只放書。」「……你的。」',L.includes('（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，總圖三樓。研究室我只放書。」）')&&L[L.length-1]==='……你的。'&&L.includes('照顏色好找。照作者，我會一直想要不要調整。'),J(L)); }
+    check('1. 交往中：最後多一段便條「中午十二點二十以後，我在這裡。」（AA_399 1-2 甲案）「……你的。」',L.includes('（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）')&&L[L.length-1]==='……你的。'&&L.includes('照顏色好找。照作者，我會一直想要不要調整。'),J(L)); }
   { setup('2026-09-21',20,'dorm','FAMILIAR'); at('2026-09-21',21.05); rules(); PHONE.answer(H.G,'sisy23_lab_ask',1); rules(); const a=dms().slice(-1)[0];
     at('2026-09-22',18.05); rules();
     check('1. 「明天中午有課。」→「好。我自己搬兩趟。」、沒有出遊；9/22 18:00「📷（排好的書架）」「搬完了。」、SIS_LAB_DESK missed',a==='好。我自己搬兩趟。'&&!OUT.get(H.G,'sisy23_lab')&&J(dms().slice(-2))===J(['📷（排好的書架）','搬完了。'])&&H.G.flags.SIS_LAB_DESK==='missed',J(dms())); }
