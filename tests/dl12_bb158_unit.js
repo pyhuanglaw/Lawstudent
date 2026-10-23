@@ -53,7 +53,7 @@ const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_
   { STAGE.heroine_02='FRIEND'; const G=mkG(SAT); G.hour=10; const says=[]; const GM={G,sceneBegin(){},sceneEnd(){},fade:async()=>{},advance(h){ G.hour+=h; },caption(){},say:async(w,t)=>{ says.push((w?'W:':'N:')+t); },autosave(){}};
     const iv1={id:'iv1',who:'heroine_02',place:'brunch',zone:'wz_brunch',day:SAT,h:10,state:'going'}; G.invites.push(iv1); await INV.meet(GM,iv1,null); const s1=says.splice(0);
     const iv2={id:'iv2',who:'heroine_02',place:'brunch',zone:'wz_brunch',day:SAT+7,h:10,state:'going'}; G.invites.push(iv2); await INV.meet(GM,iv2,null); const s2=says.splice(0);
-    check('8. 第一次和芷若去半熟：見面以後多「（她點完餐，看了開放廚房很久。）」＋她的一句；第二次不再說',s1.includes('N:（她點完餐，看了開放廚房很久。）')&&s1.includes('W:「……她做蛋的時候，跟我拉花一樣，不說話。」')&&!s2.some(t=>/開放廚房|拉花/.test(t)),JSON.stringify([s1,s2]).slice(0,300)); }
+    check('8. 第一次和芷若去半熟：見面以後多「（她點完餐，看了開放廚房很久。）」＋她的一句；第二次不再說',s1.includes('N:（她點完餐，看了開放廚房很久。）')&&s1.includes('W:「她煎蛋的時候都不講話欸，好專心。」')&&s1.includes('W:「我拉花的時候也是，被叫一下就歪掉。」')/* BB_172 Z7 */&&!s2.some(t=>/開放廚房|拉花/.test(t)),JSON.stringify([s1,s2]).slice(0,300)); }
   { const L=[]; const walk=v=>{ if(typeof v==='string') L.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
     for(const id of ['heroine_02','heroine_04','heroine_05','classmate_peishan','kexin','kai','classmate_mingxuan','npc_fangyt']){ const p=PD[id]; for(const k of ['brunch','teahouse']){ walk(p.acc&&p.acc[k]); walk(p.firstAt&&p.firstAt[k]); } walk(p.partnerSay); }
     const long=L.filter(t=>t.replace(/^[「（]|[」）]$/g,'').length>40); check('9. BB_158 的每一句都在 40 字以內（共 '+L.length+' 句）',L.length>=30&&!long.length,long.join(' / ')); }

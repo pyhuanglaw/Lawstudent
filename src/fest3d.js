@@ -293,7 +293,7 @@ const FEST=(function(){
 
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.cardTick(GM)); }
   if(typeof OUT!=='undefined'){ if(Array.isArray(OUT.BEFORE)) OUT.BEFORE.push((GM,q)=>q&&q.dateTrip?S.dateBefore(GM,q):null); if(Array.isArray(OUT.AFTER)) OUT.AFTER.push((GM,q)=>S.nyeAfter(GM,q)); }
-  /* invites3d.js 要接的三處（另一個工作階段在改那個檔，這裡不動它；tests/aa416_fest_unit.js 第 13 節照這三處在記憶體裡接上、實際跑過 INV.flow／INV.meet）：
+  /* invites3d.js 接的三處（已經接上，LAWWW-B 10-23 19:2x；tests/aa416_fest_unit.js 第 13 節對真正的 invites3d.js 跑 INV.flow／INV.meet）：
      ① S.flow 的選項迴圈，「opts.push({t:'算了'});」那一行前面加一行：
           const fsIdx=opts.length, fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null; if(fsO) opts.push(fsO);
      ② 同一個迴圈，「if(k===vdIdx) return HV.video(GM,id);」和「if(k>=PL.length) return null;」中間加：

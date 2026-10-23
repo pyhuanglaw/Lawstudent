@@ -270,6 +270,7 @@ const INV=(function(){
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); } if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
+      if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);   /* 約在她節日的見面（AA_416）：先演節日那一段，再照那個地方原本的內容 */
       if(SO.playUp) await SO.playUp(GM,who,iv.who,{place:P.id,outing:true});   /* 升階以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節）；傳見面的地點（學姊在一盞這類不讀書的地方升到朋友換一版，AA_383 第 6 節） */
       const ml=SO.meetLine?SO.meetLine(iv.who,P.id):null;   /* 見面時的旁白：地點×階段（BB_120 第 1 節；沒有那一格照舊） */
       const sp=P.sport?S.sportLines(G,iv.who,P.id):null;   /* 一起運動（AA_417 第 3 節）：第一次（子晴、可昕）→ 一起的時候（輪流一句）→ 打完、跑完 → 結束 */
@@ -436,8 +437,9 @@ const INV=(function(){
     const vd=!n&&typeof HV!=='undefined'&&HV.videoOffer?HV.videoOffer(G,id):null;   /* 沛珊交往中、她在台南：「視訊？」（AA_349 K5；晚上 21:00～22:30、一週最多兩次）*/
     for(;;){ const opts=PL.map(Q=>({t:Q.verb,hint:S.placeWhy(G,id,Q)})); if(dOk){ const ca=DATE.canAsk(G,id); opts.push({t:'去校外…',hint:ca.ok?'約會：選地點、日期、時間':ca.why,dim:!ca.ok}); } const hvIdx=hv?opts.length:-1; if(hv){ const HL=HOMETOWN_LINES[HV.key?HV.key(G,id):id]||HOMETOWN_LINES[id]; opts.push({t:HL.ask,hint:hv.ok?'當天來回　'+HL.travel:hv.why,dim:!hv.ok}); }   /* 沛珊在台南那一組（HV.key，AA_328 3-09）*/
       const vdIdx=vd?opts.length:-1; if(vd){ const VL=(HOMETOWN_LINES[HV.key(G,id)]||{}).video||{}; opts.push({t:VL.ask||'視訊？',hint:vd.ok?vd.hint:vd.why,dim:!vd.ok}); }
+      const fsIdx=opts.length, fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null; if(fsO) opts.push(fsO);   /* 約她過節（AA_416，fest3d.js）：她的節日前後，清單最後多一個「約她過節：…」；約不到的灰掉、選了說原因 */
       opts.push({t:'算了'});   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
-      k=await GM.choose(opts); if(dOk&&k===PL.length) return DATE.menu(GM,id,n); if(k===hvIdx) return HV.ask(GM,id); if(k===vdIdx) return HV.video(GM,id); if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why);
+      k=await GM.choose(opts); if(dOk&&k===PL.length) return DATE.menu(GM,id,n); if(k===hvIdx) return HV.ask(GM,id); if(k===vdIdx) return HV.video(GM,id); if(fsO&&k===fsIdx){ if(fsO.dim){ await GM.say(null,fsO.hint+'。'); continue; } return FEST.ask(GM,id,n); } if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why);
       { const ps=S.partnerBlock(G,id,PL[k])&&(((D().people||{})[id]||{}).partnerSay||{})[PL[k].id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); } }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
     const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
     k=await GM.choose(to); if(k>=T.length) return null; const W=Object.assign({},T[k]);

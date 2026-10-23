@@ -7,6 +7,7 @@
 //   10 禮物（四樣各送、錢有扣、沒有準備不扣分、送過不列、錢不夠不能選、不合適只加信任）
 //   11 AA_414 的 2/14 第 6 階也演（以安、語彤）、以安 1-4 第 6 階的換字、2029 的 CG 補救
 //   12 校外約會（date3d.js）約在她的節日：到了先演節日那一段
+//   13 invites3d.js 接上的三處（實際的檔案）：INV.flow 的「約她過節」選項（約好了灰掉、說原因再選）、INV.meet 先演節日那一段
 // 修改前（開發分支 f4804619）：沒有 src/fest3d.js、src/data/fest_events.js——全部 FAIL。用法：node tests/aa416_fest_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -301,18 +302,20 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('12. 校外約會（date3d.js）約在 3/14：到了先演節日那一段（OUT.BEFORE）、記一場',r===true&&said()[0]==='白色情人節要回禮。我回你一首歌。……很短。'&&x.rec(H.G).bk.some(b=>b.who===ZQ&&b.ref==='T9001'),J(said())); }
   });
 
-  /* ======================= 13 invites3d.js 要接的三處（在記憶體裡接上一份，實際跑 INV.flow、INV.meet）======================= */
+  /* ======================= 13 invites3d.js 接上的三處（實際的檔案：INV.flow 的「約她過節」選項、INV.meet 的 FEST.meet）======================= */
   await sec('13',async()=>{
-  const src=fs.readFileSync(path.join(H.ROOT,'src/invites3d.js'),'utf8'), A1="opts.push({t:'算了'});", A2="if(k===vdIdx) return HV.video(GM,id);", A3="if(iv.ask) await S.walkAsk(GM,iv,who);";
-  let INVH=null; if(/FEST\.flowOpt/.test(src)) INVH=INV; else if(src.indexOf(A1)>=0&&src.indexOf(A2)>=0&&src.indexOf(A3)>=0){
-    const s2=src.replace(A1,"const fsIdx=opts.length, fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null; if(fsO) opts.push(fsO); "+A1)
-      .replace(A2,A2+" if(fsO&&k===fsIdx){ if(fsO.dim){ await GM.say(null,fsO.hint+'。'); continue; } return FEST.ask(GM,id,n); }")
-      .replace(A3,A3+" if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);").replace(/^const INV\s*=/m,'globalThis.INV_HOOKED=');
-    vm.runInThisContext(s2,{filename:'invites3d.hooked.js'}); INVH=globalThis.INV_HOOKED; }
-  check('13. invites3d.js 找得到三個接的地方（「opts.push({t:\'算了\'});」、「if(k===vdIdx) return HV.video(GM,id);」、「if(iv.ask) await S.walkAsk(GM,iv,who);」）',!!INVH);
-  if(!INVH) return;
+  const src=fs.readFileSync(path.join(H.ROOT,'src/invites3d.js'),'utf8');
+  const hooks=[["const fsIdx=opts.length, fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null; if(fsO) opts.push(fsO);","opts.push({t:'算了'});"],
+    ["if(k===vdIdx) return HV.video(GM,id); if(fsO&&k===fsIdx){ if(fsO.dim){ await GM.say(null,fsO.hint+'。'); continue; } return FEST.ask(GM,id,n); } if(k>=PL.length) return null;",null],
+    ["if(iv.fest&&typeof FEST!=='undefined'&&FEST.meet) await FEST.meet(GM,iv,who);",null]];
+  const hk=hooks.map(([h,before])=>{ const i=src.indexOf(h); return i>=0&&src.indexOf(h,i+1)<0&&(!before||src.indexOf(before,i)>i); });
+  const iAsk=src.indexOf('if(iv.ask) await S.walkAsk(GM,iv,who);'), iFm=src.indexOf(hooks[2][0]), iUp=src.indexOf('if(SO.playUp) await SO.playUp(');
+  check('13. invites3d.js 接上三處：選項迴圈「算了」前面加 FEST.flowOpt、選了走 FEST.ask（灰掉的說原因再選一次）、S.meet 在 walkAsk 後、playUp 前 FEST.meet',hk.every(Boolean)&&iAsk>=0&&iAsk<iFm&&iFm<iUp,J(hk));
+  const INVH=typeof INV!=='undefined'?INV:null; if(!INVH) return;
   setup('2026-03-13',10,{lv:{[ZQ]:6}}); H.said=[]; H.opts=[]; H.picks=['約她過節',0,0]; const iv=await INVH.flow(GM,ZQ,null,false); const O=H.opts.slice();
   check('13. 手機約子晴：清單最後多「約她過節：白色情人節」→ 中午場 → 兩點半 Café；排進邀約（iv.fest）',!!iv&&!!iv.fest&&iv.place==='cafe'&&O[0].includes('約她過節：白色情人節'),J({O,iv}));
+  H.said=[]; H.opts=[]; H.picks=['約她過節','算了']; const iv2=await INVH.flow(GM,ZQ,null,false); const L2=said(), O2=H.opts.slice();
+  check('13. 約好以後再約一次：那一項灰掉（「已經約好了」），選了說「已經約好了。」、回到清單再選（選「算了」結束，沒有多一筆邀約）',iv2==null&&L2.includes('已經約好了。')&&O2.length===2&&O2[0].some(o=>/約她過節/.test(o))&&(H.G.invites||[]).filter(q=>q.fest).length===1,J({L2,O2}));
   at('2026-03-14',12); H.said=[]; await INVH.meet(GM,iv,null); const L=said();
   check('13. 見面：先演節日那一段（「白色情人節要回禮。我回你一首歌。……很短。」），再照 Café 原本的內容；記一起過了',L[0]==='白色情人節要回禮。我回你一首歌。……很短。'&&L.length>1&&X().rec(H.G).done['heroine_04:white:2026']==='meet'&&iv.state==='done',J(L));
   });
