@@ -29,3 +29,4 @@ r34 zrlast_probe.py R34_YT_DOOR,R34_YT_DOOR_NOD,R34_YT_NYE3,R34_ZHE_GE,R34_ZHE_N
 b6a2 zrlast_probe.py B6_V,B6_VMISS,B6_VCANYON   # 13:3x 加：B6_V 腳本修正（8/27 也是旁白、ffloop 停在視訊選項）
 b6r zrlast_probe.py B6_SEND_AIR,B6_SEND_AIR_D,B6_DEF_WAIT,B6_DEF_CALL,B6_NOTE,B6_NOTE_F   # 15:0x 加：送機、口試、便條六個腳本修正
 b6dr zrlast_probe.py B6_IV1,B6_IV2_YES,B6_IV2_NO,B6_LOTUS_W,B6_LOTUS_M   # 15:5x 加：ff_once 守約好的時間＋沒有快轉時睡到早上／睡覺
+b6er zrlast_probe.py B6_LIB_GO,B6_LIB_GO_D,B6_DAD   # 16:2x 加：3F 進去後等到 11:00；DAD 負載高卡在 12:00
