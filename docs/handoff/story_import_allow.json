@@ -1769,6 +1769,38 @@
    "approvedBy": "AA-B 2026-10-23 09:1x 定稿、09:34 改旁白（D109）；LAWWW-B 10-23 實作 src/family_xmas3d.js；10:2x 改大一（895496a7）",
    "task": "SIS-XMAS-GIFT-L-1023、DL-AA406",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md",
+   "sha": "ce4f34378",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/zq_testbuild3d.js、termend_lines.js HOOK_ZQ_GAME",
+   "task": "AA389-REST-L-1023",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_401_可昕學期末約會的二選一_寒假來高雄.md",
+   "sha": "18251b0e1",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 termend_lines.js KX_ASK、termend3d.js kexinDinner、src/kx_khh3d.js、hometown3d.js",
+   "task": "AA389-REST-L-1023",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_402_柏翰芯慈大二起的閒聊_SMALLTALK.md",
+   "sha": "235cf61ac",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/data/events.js SMALLTALK",
+   "task": "AA389-REST-L-1023",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_403_這一段你來講_ev_grad_debate的兌現.md",
+   "sha": "720f32472",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/data/events.js ev_grad_debate_teach",
+   "task": "AA389-REST-L-1023",
+   "kind": "text"
   }
  ]
 }

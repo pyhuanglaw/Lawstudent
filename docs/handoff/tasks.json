@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-21T15:5xZ LAWWW（帳號 A）：AA_363（R、S、T）對到 AA-Q-1021-AA360／TE／Y5 改待開工；新增 AA363-S2-ECON-MONEY-1021、BUG-CAM-C208-1021",
+  "updated": "2026-10-23T10:5xZ LAWWW-B（AA313-S4／S5、AA389-REST 已整合待測試；AA313-S4S5-REST-1023）",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -24688,7 +24688,7 @@
    "title": "AA_313 第 4 節：以安 43 場、語彤 25 場的修正（語彤不在法服、以安大四階梯重匯、以安不去香港、語彤大三閒聊 LADDER_HOLD、假期活動卡、測試寫死的句子、大二聖誕 12/17、名字欄統一「沈以安」、告白白板 {name}、語彤大三跨年電話、邀約選單「去阿鳳麵店吃飯」）",
    "area": "v3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -24710,14 +24710,16 @@
      "evidence": "已做：AA 推的 19 句（26565012）、第 10 點以安第一次自我介紹（e319a31a，X70）、語彤不在法服（characters.js 註 AA_255）、語彤大三 LADDER_HOLD（story3d.js:504-509）；沒做：名字欄與目標的「小安」→「以安」（story3d.js 28 處、game3d.js 2 處、guide3d.js 1 處）、告白白板仍寫死「沈以安喜歡祐廷」不是 {name}（termend_lines.js:32）、邀約選單仍是「去公館吃飯（阿鳳麵店）」不是「去阿鳳麵店吃飯」（invites.js）",
      "note": "以安語彤修正做了一部分，名字欄等還沒改"
     }
-   ]
+   ],
+   "sha": "4d2d3d40e",
+   "note": "2026-10-23 LAWWW-B 子代理 af98f159 實作 4d2d3d40e（合併 d04270aa6，tests/aa313_s4s5_unit.js；合併後全套 503 支 0 失敗）。跳過的項目移到 AA313-S4S5-REST-1023。"
   },
   {
    "id": "AA313-S5-1020",
    "title": "AA_313 第 5 節：麵店團法律系四年逐場（102 個事件＋課堂）——重新匯入 syllabus.js（課堂 22 句，企劃 10816dd5）、msg2_pool.js（AA_202 小語「明天見面再說」）、enc_walk.js／date_lines.js 的原檔已同步；5-1 給程式的 9 點（博覽會學姊兩行刪、小語傳單那句、阿哲「哥」看 ZHE_CALLS_GE；大一五個事件加 term Y1、notes／kaogu／mingxuan_ball 加 once、宵夜補旁白；語 3 沒去改 12/19 22:00 電話；柏翰分開後第一次見面多一句；聖誕 12/17 前後腳到＋保溫杯那句；阿哲 2028 暑假留臺北（D29、characters.js:57）；camp_y1「公館那條街上有一間麵店」；明軒「哈哈」「CP 值」等測試寫死表 5-8；5-1 第 11 點）",
    "area": "v3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -24739,7 +24741,9 @@
      "evidence": "已做：AA 推的 40 句（2e53f6d4）、syllabus 已從 57b2a7b3 重匯（晚於 10816dd5）、阿哲「哥」看 ZHE_CALLS_GE（story3d.js:1051、y2r2_3d.js:313、encounter3d.js:16）；沒做：msg2_pool 沒有小語「明天見面再說」、camp_y1 沒有「公館那條街上有一間麵店」（grep 0 筆），5-1 其他點（大一五個事件加 term、notes／kaogu／mingxuan_ball 加 once、語 3 改 12/19 電話、聖誕 12/17 保溫杯…）沒有逐點提交紀錄",
      "note": "麵店團四年修正只做了 AA 直接改的部分"
     }
-   ]
+   ],
+   "sha": "f3133da44、a4ab0421a",
+   "note": "2026-10-23 LAWWW-B 子代理 af98f159 實作 f3133da44、a4ab0421a（合併 d04270aa6；全套 503 支 0 失敗）。跳過的項目移到 AA313-S4S5-REST-1023；5-1 第 15 點照 AA_389 改成 AA_402（AA389-REST-L-1023 已做）。"
   },
   {
    "id": "BUG-CAFE-REFILL-1020",
@@ -29655,9 +29659,9 @@
    "title": "子晴測試版＋九份下文（HOOK_ZQ_GAME 補場，併九份「下次給你玩」）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_400 子晴的測試版（2028-03-07 私訊→3/8 12:10 總圖二樓；房間玩一次三種回饋；貓接 AA_397；做好拿掉 termend_lines HOOK_ZQ_GAME noOpt）（企劃線 ce4f3437）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "next": "【LAWWW-B 10-23】已實作 AA389-REST-L-1023（ab96e72ff）｜【LAWWW-B 10-23 08:5x】AA 已交 AA_400 子晴的測試版（2028-03-07 私訊→3/8 12:10 總圖二樓；房間玩一次三種回饋；貓接 AA_397；做好拿掉 termend_lines HOOK_ZQ_GAME noOpt）（企劃線 ce4f3437）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -29684,9 +29688,9 @@
    "title": "可昕期末約會二選一（AA_313 §2-5#3）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_401 可昕學期末約會每場加二選一（大二上～大五上；答應去高雄那次寒暑假多兩則訊息、ev_hv_kx 多一句）（企劃線 18251b0e）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "next": "【LAWWW-B 10-23】已實作 AA389-REST-L-1023（1987127f2）｜【LAWWW-B 10-23 08:5x】AA 已交 AA_401 可昕學期末約會每場加二選一（大二上～大五上；答應去高雄那次寒暑假多兩則訊息、ev_hv_kx 多一句）（企劃線 18251b0e）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -29713,9 +29717,9 @@
    "title": "柏翰、芯慈不做完整階梯：每學期各補兩句 SMALLTALK（AA_313 5-1#15 以 AA_389 為準）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_402 柏翰、芯慈 SMALLTALK 大二起每學期各兩句（企劃線 235cf61a）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "next": "【LAWWW-B 10-23】已實作 AA389-REST-L-1023（a887134f8）｜【LAWWW-B 10-23 08:5x】AA 已交 AA_402 柏翰、芯慈 SMALLTALK 大二起每學期各兩句（企劃線 235cf61a）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -29742,9 +29746,9 @@
    "title": "ev_grad_debate 兌現（AA 寫）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_403「這一段你來講」改當面 ev_grad_debate_teach（企劃線 720f3247）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "next": "【LAWWW-B 10-23】已實作 AA389-REST-L-1023（a47de7d4e）｜【LAWWW-B 10-23 08:5x】AA 已交 AA_403「這一段你來講」改當面 ev_grad_debate_teach（企劃線 720f3247）；實作 AA389-REST-L-1023 ｜ AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
    "first": {
     "term": "Y4S2",
     "week": null,
@@ -30394,7 +30398,7 @@
    "title": "AA_389 剩下四件實作：AA_400 子晴測試版、AA_401 可昕學期末約會二選一、AA_402 柏翰芯慈 SMALLTALK、AA_403 這一段你來講（當面）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23】AA_400～403（企劃線 a1f5a270）；wish_bb.py 沛珊「台中很遠」（814bf8c5）和 AA_398 第 2 節一起重新匯入；排在 SIS-NO-THREE-1023 之後",
    "first": {
@@ -30408,7 +30412,9 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
-   "authorized": "D100、D109（AA 劇情自主決定）"
+   "authorized": "D100、D109（AA 劇情自主決定）",
+   "sha": "ab96e72ff、1987127f2、a887134f8、a47de7d4e",
+   "note": "2026-10-23 LAWWW-B：AA_400 ab96e72ff（src/zq_testbuild3d.js，tests/aa400_zq_testbuild_unit.js）、AA_401 1987127f2（KX_ASK、src/kx_khh3d.js，tests/aa401_kx_khh_unit.js）、AA_402 a887134f8（SMALLTALK，tests/aa402_smalltalk_unit.js）、AA_403 a47de7d4e（ev_grad_debate_teach，tests/aa403_grad_debate_teach_unit.js）。各自單元測試 ALL PASS；待 BB 測（清單第 27～34 項）。"
   },
   {
    "id": "SIS-XMAS-GIFT-L-1023",
@@ -30459,6 +30465,27 @@
    "source": "LAWWW-B 10-23 SIS-B6-L-1023 實作（4cf513b52）",
    "area": "v4",
    "next": "BB 照 docs/handoff/bb_checklists/BB_SIS_B6_1023.md 十項測，排在 RELEASE-9106-TEST 之後"
+  },
+  {
+   "id": "AA313-S4S5-REST-1023",
+   "title": "AA_313 第 4、5 節子代理跳過的項目：312 室友房間、Alison 營隊鉤子、大四頂樓芯慈不認識版、大三跨年群組認識判斷、沒去的照片、男宿頂樓訪客規定",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【LAWWW-B 10-23】逐項對 audit_1022 §4／§5 和現在的程式；字不確定的先問 AA（D79）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上營隊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "d04270aa6 合併訊息（子代理 af98f159 的回報）",
+   "authorized": "D109、D111"
   }
  ]
 }
