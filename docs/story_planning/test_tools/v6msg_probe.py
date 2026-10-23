@@ -536,8 +536,13 @@ async def pc_us(p, run, base, sid, res, key):
             if it: break
         res['it'] = it; run.check('%s：公寓裡有「明信片」' % sid, bool(it), J({'it': it, 'pre': pre}, 600))
         if not it: return
-        await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=150); await pg.wait_for_timeout(800)
-        lab = await pg.evaluate(LAB); pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
+        # 第一次（11:0x）只等 150 秒：畫面 0.4 fps，人還在往臥室的走道走就停了（截圖 03_PC_US9_at）＝腳本；改成最多 420 秒、沒到再點一次
+        lab = ''
+        for k in range(2):
+            await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=420); await pg.wait_for_timeout(800)
+            lab = await pg.evaluate(LAB)
+            if '明信片' in (lab or ''): break
+        pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
         res['reach'] = [pp, lab]; await run.shot(pg, '%s_at' % sid)
         run.check('%s：走得到、互動鈕是「明信片」' % sid, '明信片' in (lab or ''), J({'pos': pp, 'lab': lab, 'it': it}, 400))
         if '明信片' not in (lab or ''): return
