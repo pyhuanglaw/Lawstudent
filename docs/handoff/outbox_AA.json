@@ -1481,6 +1481,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW 14:5x 六題；第 1 節加第 5、6 點，第 8 節加第 4 條"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "3a509150",
+   "files": [
+    "docs/story_planning/AA_388_學姊第五批_七夕.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_388 第 3 節 ev_sis_qixi（三年七夕，交往中、她自己約；SIS_QIXI 旗標）；BB：照第 3 節第 4 點測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "C25 學姊第五批（AA-B 2026-10-23）；白色情人節不做學姊版（第 0 節）"
   }
  ],
  "items": [
