@@ -184,6 +184,7 @@ const SOCIAL = (function(){
   /* 面板名稱：大四前半（AA_327 01～29）。AA_345 第 4 節定稿（F11）*/ Object.assign(MEMORY_LABEL,{CHICAGO_TRIP:'芝加哥的週末，她把行程表摺起來收進口袋',PLG_LAST_RULE:'讀書會交棒那天，白板上只剩一條：「說理由。」',PICKED_HER_UP:'她從美國回來那晚，去機場接她'});
   /* AA_344 第 3 節：③ KX7_LAST_TERM 換新名稱（ladder.js 匯入的舊名稱「她怕畢業以後忘記假設」：這裡優先）；④ 以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 已刪 */ MEMORY_LABEL.KX7_LAST_TERM='她怕畢業以後約吃飯要排半個月';
   /* 面板名稱：208 的週末（AA_412 第 3-8 節，AA-B 10-23；src/us208_3d.js）*/ Object.assign(MEMORY_LABEL,{US208_MEMO:'書瑀幫你看 Legal Writing 的作業',US208_LUROU:'書瑀煮了有一點焦的滷肉',US208_CLIPPING:'書瑀的爸爸寄了一張剪報到美國',US208_REHEARSAL:'聽書瑀練習英文報告',US208_EXTRA_HOUR:'冬令時間那天，計畫本空了一格',US208_PLANT:'書瑀在救客廳那盆植物',US208_LASTWEEK:'期末那個週末，坐在 208 的沙發上讀書'});
+  /* 面板名稱：美國篇的空白日（AA_424，AA-B 10-23；src/us_blank3d.js）——AA_424 沒有寫名稱，照台詞暫定、待 AA 定 */ Object.assign(MEMORY_LABEL,{US_FALLBREAK_LAKE:'秋假的湖邊，長椅只有你們兩個',US_FALLBREAK_STUDY:'秋假的自習室，她空出一格',US_ASIAN_MARKET:'陪書瑀去竹葉，她買了一包八角',US_LAKE_DOG:'書瑀說她小時候很怕狗',US_SYLLABUS:'書瑀把每一門課的 syllabus 攤在桌上',US_LAUNDRY:'社區的洗衣間，左邊那台會吃硬幣'});
   Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'她研究所放榜那晚，在麵店',AN_COLUMBIA:'她說哥大上了，八月要去紐約'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱 AA_345 第 4 節定稿（G7）*/
   Object.assign(MEMORY_LABEL,{PS7_SPECIAL_ED:'沛珊說她晚兩年',PS7_DECIDE:'沛珊選了國小'});   /* 沛珊大四上的階梯記憶（AA_262 第 6 點、BB_209：階梯台詞照 AA_282 改了，名稱跟著改；企劃的階梯表 BB_142 還是舊名稱，匯入的 LADDER.labels 會帶舊的——這裡優先）*/
   MEMORY_LABEL.ZR_WITH_ZQ='她和子晴在交往'; MEMORY_LABEL.ZQ_WITH_ZR='她和芷若在交往';   /* 芷若×子晴：祐廷知道她們在一起以後的人物頁（AA_232 4-7「他之後在人物頁看到兩人的關係」；src/zrzq3d.js 的 coupleMem）*/
@@ -191,7 +192,7 @@ const SOCIAL = (function(){
   MEMORY_LABEL.ZR_LAST_SCREENING='出國前的最後一場，二輪戲院';   /* 芷若：出國前的最後一場（AA_387 第 4 節，企劃線 608b9adc；src/zr_last3d.js）*/
   Object.assign(MEMORY_LABEL,{SIS5_NOT_BUSY:'學姊說碩士生不閒',SAW_HER_OFF:'她出發那天，你在機場等她',SIS_OLD_NOTES:'她把大二債各的筆記給你',SIS_XMAS_PENCIL:'她送了你一支刻了名字的鉛筆',W3_TAUGHT:'她要你把那一段講給她聽',ZQ_TESTBUILD:'她給了你遊戲的測試版'});   /* AA_398 第 50 列（使用者 10-23：學姊不數件數）：原本 ladder 匯入的「學姊的第三件事「還在想」」，這裡有就不從階梯文件拿 */
   MEMORY_LABEL.ZR_SAW_OFF='她出發那天，你去了機場';   /* 芷若 2027-09-02 送機（AA_390 第 3 節，企劃線 5f4b9c7b；src/zr_sendoff3d.js）*/
-  Object.assign(MEMORY_LABEL,{SIS_SAW_BRUNCH:'她在早午餐店看到你在打工',ENC_PARK_ZQ:'夜裡在公園的鞦韆遇到她'});   /* 面板名稱：溫州街（AA_420 第 8、10 節，BB_148 8b；src/data/wz_events.js、src/wzlines3d.js）*/
+  Object.assign(MEMORY_LABEL,{SIS_SAW_BRUNCH:'她在早午餐店看到你在打工',ENC_PARK_ZQ:'夜裡在公園的鞦韆遇到她',TEA_CEREMONY:'一起去過茶席'});   /* 面板名稱：溫州街（AA_420 第 8、10 節，BB_148 8b；茶席 AA_167；src/data/wz_events.js、src/wzlines3d.js）*/
   /* 面板名稱：以安、語彤交往中的節日・第一批（AA_414，企劃線 b1fc4bf30；src/an_yt_hol3d.js）*/ Object.assign(MEMORY_LABEL,{AN_VDAY_TC:'情人節去台中找她',AN_VDAY_OMAMORI:'她從東京帶回來一個學業御守',AN_VDAY_PEN:'送她一支鋼筆',AN_VDAY_CHOCO:'送她一盒巧克力',AN_VDAY_CALL:'初二那天，她躲到陽台打給你',YT_VDAY_RIVER:'店休那天，阿姨叫你們去別的地方',YT_VDAY_SHOP:'阿姨在門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'阿姨叫她拿年糕給你',YT_MOON:'中秋在麵店門口剝柚子'});
   /* 面板名稱：節日（AA_416 1-7，企劃線 ed80edb71；src/fest3d.js）：HOL_<節日>_<年>＝「<年> 的情人節，和她一起過」，照節日換字 */ for(const [k,t] of [['VDAY','情人節'],['WHITE','白色情人節'],['QIXI','七夕'],['BDAY','生日'],['XMAS','聖誕節'],['NYE','跨年']]) for(let y=2025;y<=2029;y++) MEMORY_LABEL['HOL_'+k+'_'+y]=y+' 的'+t+'，和她一起過';
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
