@@ -2,7 +2,7 @@
 """台詞比對（D100e，AA 用）：程式裡顯示給玩家的中文字串，和企劃稿逐字比對，找出「抄的時候抄錯」的句子。
 
 做法：
-- 企劃稿：企劃線某個 ref（預設 origin/claude/magical-albattani-bk7b4n）的 docs/story_planning/ 最上層 md＋ladder/date_system 的 json，
+- 企劃稿：企劃線某個 ref（預設＝duty.json 值班 AA 的分支）的 docs/story_planning/ 最上層 md＋ladder/date_system 的 json，
   抽出「」裡的字、程式碼區塊裡「人物：句子」的句子、json 的字串。
 - 程式：src/*.js、src/data/*.js 的字串常值（含中文、去掉標點後至少 4 個字）。
 - 每個程式字串：稿裡有一模一樣的 → 對；沒有、但有很像的（相似度 ≥ --ratio，預設 0.8）→ 列為「可能抄錯」，附最像的那句和出處；
@@ -20,7 +20,7 @@ PUNCT = re.compile(r'[\s，。、？！?!：:；;「」『』（）()…—\-～
 
 
 def git(*a):
-    return subprocess.run(['git', *a], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    return subprocess.run(['git', '-c', 'core.quotepath=false', *a], cwd=ROOT, capture_output=True, text=True, check=True).stdout   # quotepath：中文檔名不加引號（不然企劃稿 .md 會被當成不是 .md 漏掉）
 
 
 def norm(s):
@@ -94,9 +94,19 @@ def code_strings(files):
     return out
 
 
+def default_ref():
+    """預設＝值班 AA 的企劃線（docs/handoff/duty.json 的 roles.AA.branch；10-22 以前寫死帳號 C 的 magical-albattani，帳號 A 值班時讀到舊稿）"""
+    try:
+        with open(os.path.join(ROOT, 'docs/handoff/duty.json'), encoding='utf-8') as f:
+            b = json.load(f)['roles']['AA']['branch']
+        return 'origin/' + b
+    except Exception:
+        return 'origin/claude/magical-albattani-bk7b4n'
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--ref', default='origin/claude/magical-albattani-bk7b4n')
+    ap.add_argument('--ref', default=default_ref())
     ap.add_argument('--files', default='')
     ap.add_argument('--ratio', type=float, default=0.8)
     ap.add_argument('--orphans', action='store_true')

@@ -138,7 +138,7 @@ const US3=(function(){
      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
   function aptZone(o){ return { id:o.id, name:o.name, indoor:true, camDist:3.6, seeThru:true, build(E){ const L=o.layout(), H=L.ceilY||2.6;
     const openRoom=id=>{ const r=L.rooms.find(q=>q.id===id); return !r||(r.walk!==false&&!APT_CLOSED.has(r.id)); };
-    const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#b48a64'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
+    const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#cfb796'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
     for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
     z.nav=aptNav(L); aptFallback(L,fb);

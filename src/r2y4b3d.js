@@ -503,13 +503,13 @@ const R2Y4B=(function(){
     await scene(GM,async()=>{ await GM.say(null,n===1?'秋假。社區的停車場空了一半。':(G.flags.MET_LONG?'何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。':'你把三門課的閱讀都讀完了。')); }); return true; };   /* AA 稿這兩句沒有括號，照原樣 */
   S.canyonAfter=function(G,kind){ if(typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,'heroine_05'); L.count=(L.count|0)+2; if(kind==='tw'){ L.wish=true; L.wishKnown=true; } }   /* 算 2 次正式約會（台灣路線也算她的心願地點）*/
     if(kind==='us'&&typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_05',{rom:2,npcRom:2});   /* 她和祐廷的戀愛各 +2（AA_291 2-1）*/
-    if(kind==='tw'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')) (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; };   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）*/
+    if(kind==='tw'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')){ (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; G.flags.SIS_GF_CANYON=G.day; } };   /* SIS_GF_CANYON：大峽谷才交往（AA_392 第 1-3 節：中秋那組不演；從第一組開始）*/   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）*/
 
   /* ===================== 2-Y4-57 台灣、日本路線：學姊在美國（8/2～12/23）——每週的訊息、視訊、秋假大峽谷 ===================== */
   /* AA_378 第 1 節 S1（企劃線 f2de8d1c；使用者 10-21 22:5x「學姊才是真正的女主角」）：不輪播——每一則、每一組最多一次。「到了。」拿出每週那一套，她落地那天 8/3（四）07:00 傳（臺灣時間）；
      T1、T2 都兩週一則（8/7、8/21……12/11，十格）、T3 視訊每週；T1 照順序，楓樹那則 9/25 以前不出（輪到它還沒到 9/25，先出下表的一則）；
      那一段用完、或輪到的不能出，就用 SA_X（照順序、「最早」那天以後才出、各一次；最早那天起兩週內才能出，X0 四週——AA 23:11 確認）；表也用完那一格就不傳 */
-  /* 「到了。」不另外傳（AA_378 S1 更正，企劃線 5cd35678）：8/3 09:00 家族群組已經有 US0「到了。三件事。……算了，一件：這裡的天空很大。」（y34b3d.js），原本 8/3 07:00 那則會重複 */
+  /* 「到了。」不另外傳（AA_378 S1 更正，企劃線 5cd35678）：8/3 09:00 家族群組已經有 US0「到了。天空很大。」（AA_398 第 29、30 列）（y34b3d.js），原本 8/3 07:00 那則會重複 */
   S.SA_T1=[['（照片：超市的花生醬貨架）','我買了一罐太大的花生醬。'],['（照片：圖書館的長桌）','這邊的圖書館開到半夜兩點。'],['（照片：校園裡一棵開始變紅的楓樹）','九月底，葉子先紅了一棵。']];
   S.SA_T1_FROM=[null,null,'2028-09-25'];
   S.SA_X=[{from:'2028-09-11',days:28,L:['（照片：超市架上的一盒烏龍茶）','找到臺灣的烏龍茶了。很貴。我還是買了。']},   /* X0 不分季節：四週內（到 10/8），T2 的玩家 10/2 那一格收得到（AA 23:11，企劃線 c0734889；「臺灣」8f138c5b）*/
@@ -518,11 +518,15 @@ const R2Y4B=(function(){
     {from:'2028-11-24',L:['（照片：一盤火雞，旁邊一小碗白飯）','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。']},{from:'2028-12-04',L:['（照片：計畫本十二月那一頁）','最後一格寫的是回臺灣。']}];
   S.SA_X_DAYS=14;   /* 最早那天起兩週內才能出（AA 確認 LAWWW 23:10 的解讀）；個別的寫 days */
   S.SA_V_SETS=3; S.SA_V_NARR='（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）';   /* T3 三組用完以後只有這一行旁白（大峽谷邀約照現在的條件接在後面）*/
+  /* AA_392 第 1-3 節：交往中的六組視訊（ev_sis_video_gf），照順序、各一次；from＝那一組最早的週日（中秋、冬令時間、感恩節、回臺灣那幾週），還沒到就那一週只有旁白；
+     canyon＝臺灣路線 10/13 大峽谷才交往的不演（中秋那組）*/
+  S.SA_VD=[{from:'2028-08-13'},{from:'2028-09-03'},{from:'2028-10-01',canyon:false},{from:'2028-11-05'},{from:'2028-11-26'},{from:'2028-12-10'}];
+  S.SA_VG_NARR='（視訊。她那邊是週六晚上。你們講到她那邊快十二點，她說要睡了，鏡頭又開了三分鐘才關。）';
   S.SA_T2=[{L:['論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。','你大四上的課排得怎樣？'],O:[{t:'還好，不算太滿。'},{t:'很滿。'}]},
     {L:['今天第一次在這邊開車。這邊紅燈可以右轉，我在路口停了很久，後面一直按喇叭。','你最近有在開車嗎？'],O:[{t:'有，週末開。'},{t:'沒有。'}]},
     {L:['圖書館我待到十二點。旁邊的人讀到兩點，我先走了。','你研究所的事，決定了嗎？不用現在回答。'],O:[{t:'決定了。',if:G=>!!G.flags.Y4_PATH},{t:'還在想。'}]},
     {L:['這邊的人問我還好嗎，我都說還好。','……你那邊呢？'],O:[{t:'還好。'},{t:'其實有點累。'}]}];   /* 她問了要有回覆按鈕；她不再回（一來一回就停）*/
-  S.saOn=G=>law(G)&&route(G)!=='US'&&knows('heroine_05',G)&&stageAt('heroine_05','ACQUAINTANCE')&&!isEx(G,'heroine_05')&&!dating(G,'heroine_05');   /* 和學姊分手過：沒有訊息池、沒有邀約 */
+  S.saOn=G=>law(G)&&route(G)!=='US'&&knows('heroine_05',G)&&stageAt('heroine_05','ACQUAINTANCE')&&!isEx(G,'heroine_05');   /* 和學姊分手過：沒有訊息池、沒有邀約；交往中也排（AA_392 第 1 節：女朋友的每週視訊＋T1、SA_X 照片，saGf）*/
   /* 每週一格（k＝第幾週，8/6 那一週＝0）：週日 08:00 決定這一週是哪一段；T1、T2 的訊息臺灣週一 09:00（11/5 起 10:00；手機訊息不撞課），T3 視訊臺灣週日 10:00（她那邊週六晚上，AA_378 S2：原本週一 09:00 撞必修強制執行法）*/
   S.saChecks=function(){ if(S._sac) return S._sac; const out=[]; const a=DK('2028-08-06'), b=DK('2028-12-17'), w=DK('2028-11-05'); if(a==null||b==null) return out;
     for(let d=a;d<=b;d+=7) out.push({day:d,h:8,vDay:d,vH:10,mDay:d+1,mH:d>=w?10:9}); return (S._sac=out); };
@@ -541,26 +545,46 @@ const R2Y4B=(function(){
     if(tier===2&&R.i2<S.SA_T2.length) return {t2:R.i2};
     while((R.ix|0)<S.SA_X.length&&day>saFrom(S.SA_X[R.ix|0].from)+(S.SA_X[R.ix|0].days||S.SA_X_DAYS)-1) R.ix=(R.ix|0)+1;   /* 過期的不出（之後也不出）*/
     const x=S.SA_X[R.ix|0]; return x&&day>=saFrom(x.from)?{x:R.ix|0}:null; };
+  /* AA_392 第 1-2 節：交往中（臺灣、日本路線）——T1、SA_X 照片照朋友版兩週一則（照片是生活的事，不分關係）；每週日 10:00 視訊六組照順序（S.SA_VD）、各一次，沒輪到的週次＝旁白；
+     大峽谷那一週（10/7 出發～10/15 回來）跳過不補；已經過了的時間不排；沒接＝她傳「你在忙。下週。」（ev_sis_video_gf.outingMissed）；連續兩週沒接，第三週她不打，改傳「這週我先不打了。你有空打給我。」，下一週照常 */
+  const saGf=(G,R,c,k)=>{ const F=G.flags;
+    if(!(k%2)){ const p=saPick(G,R,1,c.mDay); if(p){ const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag,x:p.x}); } }
+    const cq=outGet(G,'y4_sis_canyon'), d7=DK('2028-10-07'), d15=DK('2028-10-15'); if(cq&&cq.state!=='missed'&&c.vDay>=d7&&c.vDay<=d15) return;   /* 大峽谷那一週 */
+    if(T(c.vDay,c.vH)+1<=now(G)) return;   /* 已經過了（讀檔、事件跳過時間）：不補 */
+    const last=R.log.filter(e=>e.kind==='gvideo'||e.kind==='gskip').slice(-2), miss=e=>e.kind==='gvideo'&&(q=>!!q&&q.state==='missed')(outGet(G,e.tag));
+    if(last.length===2&&last.every(miss)){ const tag='y4_sa_gskip_'+k; PHONE.at(G,c.vDay,c.vH,[SISP('這週我先不打了。你有空打給我。')],tag); R.log.push({k,kind:'gskip',tag}); return; }
+    let g=R.g|0; while(g<S.SA_VD.length&&S.SA_VD[g].canyon===false&&F.SIS_GF_CANYON!=null) g++;
+    let set=S.SA_VD.length; if(g<S.SA_VD.length&&c.vDay>=saFrom(S.SA_VD[g].from)){ set=g; g++; } R.g=g;
+    const tag='y4_sa_g_'+k; plan(G,{id:tag,ev:'ev_sis_video_gf',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和書瑀視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,gset:set}}); R.log.push({k,kind:'gvideo',tag,set}); };
+  S.sisGfSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_g_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.gset:S.SA_VD.length; };
+  S.sisGfThanksPhoto=G=>{ const R=S.saRec(G); return R.log.some(e=>e.kind==='x'&&e.x===4&&PHONE.sent(G,e.tag)&&(G.msgs||[]).some(m=>m.tag===e.tag&&(m.day<G.day||(m.day===G.day&&m.h<=G.hour)))); };   /* V5：那一週已經收到感恩節照片（SA_X 第 5 則）*/
   const saWeekly=G=>{ if(!S.saOn(G)) return; const R=S.saRec(G), C=S.saChecks(), n=now(G);
     for(let k=R.k+1;k<C.length;k++){ const c=C[k]; if(T(c.day,c.h)>n) break; R.k=k; if(n-T(c.day,c.h)>48) continue;   /* 讀檔跳過很久的不補 */
+      if(dating(G,'heroine_05')){ saGf(G,R,c,k); continue; }   /* AA_392 第 1 節：交往中走女朋友那一套（不收 T2、朋友版 T3）*/
       const tgt=S.saTarget(G); if(!R.tier) R.tier=tgt; else if(tgt<R.tier) R.tier=tgt; else if(tgt>R.tier){ const last=R.log.slice(-3); if(last.filter(e=>saReplied(G,e)).length>=2) R.tier=Math.min(tgt,R.tier+1); }   /* 最近三則回兩則以上才升 */
       G.flags.SIS_ABROAD_TIER=R.tier;   /* 每週的段（AA_327 2-Y4-57 第 4 節）*/
+      if(R.tier===2&&k%2){ const tag='y4_sa_s_'+k, set=Math.min(R.t2v|0,S.SA_S_SETS); R.t2v=(R.t2v|0)+1;   /* AA_395 2-1：T2 的奇數週＝臺灣週日 10:00 十分鐘的短視訊（三組各一次，之後旁白；沒接那一組不補）*/
+        plan(G,{id:tag,ev:'ev_sis_video_short',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（十分鐘）',travel:'',travelH:0,hours:0.2,back:'視訊結束。',sa:{k,sset:set}}); R.log.push({k,kind:'video',tag}); continue; }   /* kind video：接了就算回過（saReplied）*/
       if(R.tier===1||R.tier===2){ if(k%2) continue; const p=saPick(G,R,R.tier,c.mDay); if(!p) continue;   /* T1、T2：兩週一則（第 0、2、4……格＝8/7、8/21……12/11）*/
         if(p.t2!=null){ const it=S.SA_T2[p.t2], tag='y4_sa_t2_'+k; R.i2++; const L=it.L.map(t=>SISP(t)); L[L.length-1].ask={id:tag,until:T(c.mDay+7,0),opts:it.O.filter(o=>!o.if||o.if(G)).map(o=>({t:o.t}))}; PHONE.at(G,c.mDay,c.mH,L,tag); R.log.push({k,kind:'t2',tag}); }
-        else { const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag}); } }
+        else { const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag,x:p.x}); } }
       else { const tag='y4_sa_v_'+k; R.vset=Math.min(R.i3|0,S.SA_V_SETS); R.i3=(R.i3|0)+1; plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,set:R.vset}}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
+  S.SA_S_SETS=3;   /* AA_395 2-1 短視訊三組 */
+  S.sisShortSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_s_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.sset:0; };
   S.sisVideoSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.set:0; };
   S.sisInviteDue=G=>{ const d30=DK('2028-09-30'), F=G.flags; if(d30==null||G.day>d30||G.day+7<=d30||F.SIS_CANYON_ASK!=null||F.SIS_CANYON!=null) return false;   /* 9/30 以前最後一次視訊 */
-    const R=S.saRec(G); if(R.tier!==3) return false; if(!(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum('heroine_05')>=6)) return false;
+    const R=S.saRec(G); if(R.tier!==3) return false; if(!(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum('heroine_05')>=5)) return false;   /* AA_395 2-3（AA 10-23 08:4x 定第 2 條）：第 6 階 → 第 5 階以上＋9/1～9/30 接過至少兩次 T3 視訊 */
+    { const a=DK('2028-09-01'); if(a==null||S.sisSepVideos(G)<2) return false; }
     if(!(typeof DATE!=='undefined'&&DATE.log&&(DATE.log(G,'heroine_05').count|0)>=2)) return false; if(S.saRate(G)<0.5) return false;   /* 第 6 階、出國前至少 2 次正式約會、回覆率 ≥ 0.5、正在 T3（BB_204 9-1）*/
     if(partners(G).length&&typeof TERMEND!=='undefined'&&TERMEND.willing&&!TERMEND.willing(G,'heroine_05').ok) return false; return true; };
+  S.sisSepVideos=G=>{ const a=DK('2028-09-01'), b=DK('2028-09-30'); if(a==null||b==null||typeof OUT==='undefined') return 0; return OUT.rec(G).filter(q=>/^y4_sa_v_/.test(q.id)&&q.state==='done'&&q.day>=a&&q.day<=b).length; };   /* 9 月接過的 T3 視訊（短視訊不算）*/
   S.sisVideoAfter=function(G){ if(typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_05',{npcRom:1});   /* T3：她的戀愛 +1 */
     const F=G.flags, d30=DK('2028-09-30');
     if(F.SIS_CANYON_ASK==='wait'&&!PHONE.sent(G,'y4_sa_canyon_ask')) PHONE.post(G,Object.assign(SISP('九月底以前跟我說。'),{tag:'y4_sa_canyon_ask',ask:{id:'y4_sa_canyon_ask',until:T(d30,21),opts:[{t:'我去。',set:{SIS_CANYON_ASK:'go'}},{t:'這次不行。',set:{SIS_CANYON_ASK:'no'}}]}}));   /* 9/30 21:00 以前再問一次 */
     sisCanyonRules(G); };
   const sisCanyonRules=G=>{ const F=G.flags, d7=DK('2028-10-07'), d11=DK('2028-10-11');
     if(F.SIS_CANYON_ASK==='go'&&!outGet(G,'y4_sis_canyon')&&now(G)<T(d7,7.5)) plan(G,{id:'y4_sis_canyon',ev:'ev_sis_canyon',day:d7,h:7,late:0.5,place:'桃園機場',title:'秋假：去大峽谷找學姊',travel:'捷運約一小時（機票家裡出）',travelH:1,back:'回到臺北。'});
-    if(S.saOn(G)&&F.SIS_CANYON==null&&at(G,'2028-10-11',9)&&G.day<=d11+3){ const q=outGet(G,'y4_sis_canyon'); if(q&&q.state==='planned') return; S.sisCanyonMissed(G); } };
+    if(S.saOn(G)&&!dating(G,'heroine_05')&&F.SIS_CANYON==null&&at(G,'2028-10-11',9)&&G.day<=d11+3){   /* 交往中不收朋友版的照片（saOn 交往中也開，AA_392 第 1 節）*/ const q=outGet(G,'y4_sis_canyon'); if(q&&q.state==='planned') return; S.sisCanyonMissed(G); } };
   S.sisCanyonMissed=function(G){ const F=G.flags, d11=DK('2028-10-11'); if(F.SIS_CANYON!=null) return; F.SIS_CANYON='photo';   /* 條件沒到、「這次不行」：她那邊 10/10 晚上（臺灣 10/11 早上）傳照片 */
     PHONE.at(G,d11,9,[SISP('（照片：峽谷的邊緣，四個交換生背對鏡頭站成一排）'),SISP('秋假和同學來大峽谷。風很大。'),SISP('……你以後有機會，一定要來一次。',{ask:{id:'y4_sa_canyon_photo',opts:[{t:'好漂亮。',say:[{from:'heroine_05',text:'嗯。照片拍不出來。'}]},{t:'學姊玩得開心。',say:[{from:'heroine_05',text:'好。你也是。'}]}]}})],'y4_sa_canyon_photo'); };
 
@@ -708,7 +732,7 @@ const R2Y4B=(function(){
   /* ===================== 掛上去 ===================== */
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); }
   if(typeof ACTIVITIES!=='undefined'&&Array.isArray(ACTIVITIES.list)&&!ACTIVITIES.list.some(a=>a.id==='act_bar_study')) ACTIVITIES.list.push(S.ACT);
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)) CLS.IN_CLASS.push((GM,it)=>S.journal(GM,it));
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it)=>S.journal(GM,it); f.due=(G,it)=>!!it&&!!it.c&&it.c.id==='legal_research'&&!it.exam&&law(G)&&it.term==='Y4S2'&&it.week===15&&!G.flags.LR_JOURNAL_Y4; CLS.IN_CLASS.push(f); }   /* due：學期中的快轉（src/semff3d.js）停在這一堂前面 */
   if(typeof PG!=='undefined'){ if(Array.isArray(PG.MSGS)) for(const m of S.MSGS) if(!PG.MSGS.some(x=>x.tag===m.tag)) PG.MSGS.push(m); if(Array.isArray(PG.STEPS)) for(const s of S.STEPS) if(!PG.STEPS.some(x=>x.id===s.id)) PG.STEPS.push(s); if(Array.isArray(PG.stops)) PG.stops.push(G=>S.stop(G)); S.patchEpilogue(); }
   if(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.door&&!NOODLE_CLOSED._r2y4b){ const orig=NOODLE_CLOSED.door; NOODLE_CLOSED._r2y4b=true;
     NOODLE_CLOSED.door=async function(GM){ const G=GM.G; if(S.aunTrip(G)&&!(NOODLE_CLOSED.storyDue&&NOODLE_CLOSED.storyDue(G))){ GM.sceneBegin(); try{ await GM.say(null,S.AUNT_DOOR); } finally { GM.sceneEnd(); } return true; } return orig.apply(this,arguments); }; }   /* 2029-04-19～25 阿姨跟團出國（語彤 16b）*/

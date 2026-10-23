@@ -40,15 +40,15 @@ const keepOn=(day,h)=>{ G.day=day; G.hour=h; G.weekday=wdOf(day); };
   const go=async(flags,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); run(18.2,18.3); const q3=OUT.get(G,'kx_bday_y1s2'); picks=[pick]; said=[]; opts=[]; let cgs=[]; global.ADV.cg=id=>{ cgs.push(id); return true; }; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[],cgs}; };
   let r=await go({},'（點蠟燭');
   check('6. 去政大：旁白流蘇（AA_209 改字）、她「風很大。你點，我擋。」；12/3 沒去過＝沒有「我帶了另一個。」',r.L[0]==='四月底的政大，校門口那排流蘇開成白色的。風一吹，白色的花掉了一地。'&&r.L.some(t=>t.endsWith('風很大。你點，我擋。'))&&!r.O.includes('「我帶了另一個。」'),JSON.stringify(r.O));
-  check('7. 點蠟燭：BCG-45 → 「火點著了。她的手被照得很亮。」「……好。現在許願。」→「願望許好了。說出來就不準了。今天你點餐。」（AA_209）',r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.includes('火點著了。她的手被照得很亮。')&&r.L.some(t=>t.endsWith('願望許好了。說出來就不準了。今天你點餐。')));
+  check('7. 點蠟燭：BCG-45 → 「火點著了。她的手被照得很亮。」「……好。現在許願。」→「願望許好了。說出來就不準了。……走，下山。」（AA_209；AA_313 第 2 節第 26 列）',r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.includes('火點著了。她的手被照得很亮。')&&r.L.some(t=>t.endsWith('願望許好了。說出來就不準了。……走，下山。'))&&!r.L.some(t=>t.endsWith('今天你點餐。')));
   r=await go({KX_DEC3:{1:'visit'}},'「我帶了另一個。」');
   check('8. 12/3 去過政大＝有「我帶了另一個。」；也到 BCG-45 那一拍',r.O.includes('「我帶了另一個。」')&&r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.some(t=>t.endsWith('兩個蛋糕？……好，我都會吃完。')));
   r=await go({},'「先上車');
-  check('9. 「先上車，車裡沒風。」→「規定」那句以後還是到 BCG-45',r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.some(t=>t.endsWith('……我剛剛訂的規定。')));
+  check('9. 「先上車，車裡沒風。」→「不行。在外面點。……車裡會有蠟燭的味道。」（AA_313 第 2 節第 26 列，原本「規定」那句）以後還是到 BCG-45',r.cgs.includes('cg_birthday_tassel_kexin')&&r.L.some(t=>t.endsWith('不行。在外面點。……車裡會有蠟燭的味道。'))&&!r.L.some(t=>/規定/.test(t)));
   keepOn(BD+1,7.5); run(7.5,8.2); check('10. 去了＝KX_BDAY {1:"visit"}、沒有「我等了一天。」',G.flags.KX_BDAY[1]==='visit'&&!G.msgs.some(m=>m.tag==='kx_bday_none'));
   r=await go({E18B_GIFT:'notebook'},'（點蠟燭'); check('11. 經濟系那年送過筆記本：多一句「那本筆記本，寫到第十二頁了。」',r.L.some(t=>t.endsWith('那本筆記本，寫到第十二頁了。')));
-  r=await go({E18A_DOUHUA:true},'（點蠟燭'); { const i=r.L.findIndex(t=>t.endsWith('說出來就不準了。今天你點餐。'));
-    check('11. 經濟系那年吃過豆花（E18A_DOUHUA）：「……今天你點餐。」（AA_209 合成一句）之後「你第一次跟我單獨吃的，是豆花。」「……今天不准點豆花。」（BB-B a48d7f8a）',i>=0&&r.L[i+1].endsWith('你第一次跟我單獨吃的，是豆花。')&&r.L[i+2].endsWith('……今天不准點豆花。'),JSON.stringify(r.L.slice(i,i+3))); }
+  r=await go({E18A_DOUHUA:true},'（點蠟燭'); { const i=r.L.findIndex(t=>t.endsWith('說出來就不準了。……走，下山。'));
+    check('11. 經濟系那年吃過豆花（E18A_DOUHUA）：「……走，下山。」（AA_209 合成一句、AA_313 第 2 節第 26 列）之後「你第一次跟我單獨吃的，是豆花。」「……今天不准點豆花。」（BB-B a48d7f8a）',i>=0&&r.L[i+1].endsWith('你第一次跟我單獨吃的，是豆花。')&&r.L[i+2].endsWith('……今天不准點豆花。'),JSON.stringify(r.L.slice(i,i+3))); }
   r=await go({},'（點蠟燭'); check('11. 沒有 E18A_DOUHUA：沒有這兩句',!r.L.some(t=>/豆花/.test(t)));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

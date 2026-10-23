@@ -73,7 +73,7 @@ class Room(K.Shop):
         self.root = B.group(self.sid, props={'kind': 'wancai_sema', 'layout': 'wancai_sema.layout.json'})
         self.blocks, self.seats, self.inter = [], [], []; self.clerk = self.order = self.counter = None
         self.M = M = {
-            'floor': L.pbr('wancai_sema_floor', 'laminate_floor_02', tile=1.4, target='#9c7a58', contrast=0.7, normal=0.25, maps=('diff', 'nor'), res=512, rough_value=0.45),
+            'floor': L.pbr('wancai_sema_floor', 'laminate_floor_02', tile=1.4, target='#cdb594', contrast=0.7, normal=0.25, maps=('diff', 'nor'), res=512, rough_value=0.45),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
             'wall': L.pbr('wancai_sema_wall', 'painted_plaster_wall', tile=2.0, target='#ece7dc', contrast=0.3, normal=0.1, maps=('diff', 'nor'), res=256, rough_value=0.85),
             'wain': L.pbr('wancai_sema_wain', 'walnut_veneer', tile=0.9, target='#7a5a40', contrast=0.8, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.5),
             'wood': L.pbr('wancai_sema_wood', 'wood_table_001', tile=1.1, target='#8e6a4a', contrast=0.8, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.4),

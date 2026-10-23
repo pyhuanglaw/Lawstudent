@@ -19,7 +19,7 @@ check('2. 以安：看過三次（RECOGNIZABLE）、還沒認識＝照樣「不�
 SOCIAL.meet('heroine_01','putong');
 check('3. 認識以後＝「沈以安」', nm()==='沈以安', nm());
 { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
-  check('4. 照作息生出來的人：搭話按鈕＝「和」＋SOCIAL.displayName＋「說話」', /talkLabel:bgOnly\?null:'和'\+SOCIAL\.displayName\(id\)\+'說話'/.test(src)); }
+  check('4. 照作息生出來的人：搭話按鈕＝「和」＋SOCIAL.npcName（交往中的叫法，否則 displayName；BUG-SIS-DATING-NAME-1023）＋「說話」', /talkLabel:bgOnly\?null:'和'\+SOCIAL\.npcName\(id\)\+'說話'/.test(src)&&/S\.npcName=function\(id\)\{ return S\.datingName\(id\)\|\|S\.displayName\(id\); \}/.test(fs.readFileSync(path.join(__dirname,'..','src/social3d.js'),'utf8'))); }
 { const id=Object.keys(CHARACTERS).find(k=>CHARACTERS[k].social_layer==='B'&&CHARACTERS[k].descriptor);
   if(id){ for(let i=0;i<3;i++) SOCIAL.noticed(id); check('5. 不熟的同學（B 層）照舊：RECOGNIZABLE＝descriptor', SOCIAL.displayName(id)===CHARACTERS[id].descriptor, id+' '+SOCIAL.displayName(id)); }
   else check('5. 找得到有 descriptor 的 B 層同學', false); }

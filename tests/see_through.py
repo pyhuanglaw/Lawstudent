@@ -5,7 +5,10 @@
 判定（跑之前就定好，不依結果調整）：
   - 情境有效：關掉透視時（uSeeR=0）看得到的比例 < 40%（代表樹幹真的擋住了玩家）
   - 透視有效：打開時 ≥ 60%
-  - 演出鏡頭、室內不開透視；樹幹以外的材質沒有被改
+  - 演出鏡頭、室內（沒有開 seeThru 的區域）不開透視；樹幹以外的材質沒有被改
+  - 這兩項讀的是遊戲迴圈每一格算的 uSeeR：量之前先確認迴圈在跑。
+    （SEE-THROUGH-FAIL-1023，LAWWW2-B 10-23）讀檔以後手機會自動打開（要回覆的訊息，D103），遊戲暫停（E.paused）、uSeeR 停在上一格的值，兩項一直 FAIL（117.7、169.3）。
+    所以讀檔後收起手機、關掉自動打開。宿舍有開 seeThru（上舖床板、被子擋住鏡頭時網點透空，zones3d.js），室內那一項改看麵店。
 用法：python3 tests/see_through.py [URL]   （預設 http://127.0.0.1:8765/index.html）"""
 import asyncio, json, sys
 from playwright.async_api import async_playwright
@@ -45,7 +48,7 @@ async def main():
         check('引擎有樹幹透視', has)
         async def load(zone, x, z, yaw):
             st = {'zone': zone, 'hour': 10.5, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': x, 'z': z, 'yaw': yaw}, 'flags': FLAGS}
-            await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st))
+            await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); if(typeof STORY!=='undefined'&&STORY.phoneAuto) STORY.phoneAuto=()=>{}; if(GAME.closePhone) GAME.closePhone(); if(GAME.closeMenu) GAME.closeMenu(); })(%s)" % json.dumps(st))
             for i in range(120):
                 ok = await pg.evaluate("(()=>{ const m=GAME.E.player.obj.userData&&GAME.E.player.obj.userData.model; return !m||!m.userData||m.userData.driver!=='pending'; })()")
                 if ok: break
@@ -66,13 +69,18 @@ async def main():
             print('   ', name, info, 'off', off, 'on', on)
             check(f'{name}：情境有效（關掉透視時玩家被擋住，看得到 < 40%）', off['n'] > 500 and off['frac'] < 0.4, f"off={off['frac']} n={off['n']}")
             check(f'{name}：打開透視看得到玩家 ≥ 60%', on['frac'] >= 0.6, f"on={on['frac']}")
+        # 迴圈在跑（下面兩項讀的是每一格算的值；暫停時讀到的是上一格的舊值）
+        fr = await pg.evaluate("(async()=>{ const f0=GAME.E.frame; await new Promise(r=>setTimeout(r,1500)); return {d:GAME.E.frame-f0, paused:!!GAME.E.paused}; })()")
+        check('量測前遊戲迴圈在跑（沒有被手機、選單暫停）', fr['d'] > 0 and not fr['paused'], json.dumps(fr))
         # 演出鏡頭時不開
         r = await pg.evaluate("(async()=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(-50,1.6,-11),new THREE.Vector3(-50,1.2,-5)); await new Promise(r=>setTimeout(r,1500)); const v=E.seeThrough.uSeeR.value; E.endCinematic(); return v; })()")
         check('演出鏡頭時不開透視', r == 0, str(r))
-        await load('dorm', 0, 2.5, 3.1416)
+        await load('noodle', 0, 2.4, 3.1416)
         await pg.wait_for_timeout(2000)
+        fr = await pg.evaluate("(async()=>{ const f0=GAME.E.frame; await new Promise(r=>setTimeout(r,1500)); return {d:GAME.E.frame-f0, paused:!!GAME.E.paused, zone:GAME.E.zone.def.id, indoor:!!GAME.E.indoor, seeThru:!!GAME.E.zone.seeThru}; })()")
+        check('麵店：室內、沒有開 seeThru、迴圈在跑', fr['d'] > 0 and not fr['paused'] and fr['indoor'] and not fr['seeThru'], json.dumps(fr))
         r = await pg.evaluate("GAME.E.seeThrough.uSeeR.value")
-        check('室內不開透視', r == 0, str(r))
+        check('室內（麵店）不開透視', r == 0, str(r))
         check('沒有 JS 例外', not errs, str(errs[:3]))
         await b.close()
     print('ALL PASS' if not fails else 'FAILED: ' + ', '.join(fails))

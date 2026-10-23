@@ -232,7 +232,7 @@ const Y2B=(function(){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM));
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt));
     if(STORY.fafuShift&&!STORY._y2bFafu){ const orig=STORY.fafuShift; STORY.fafuShift=async function(GM){ if(S.auntDue(GM.G)) return S.auntConsult(GM); return orig.apply(this,arguments); }; STORY._y2bFafu=true; } }
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)) CLS.IN_CLASS.push((GM,it,prof,ct)=>S.leaseClass(GM,it,prof,ct));
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.leaseClass(GM,it,prof,ct); f.due=(G,it)=>!!it&&!!it.c&&it.c.id==='oblig_spec'&&!it.exam&&law(G)&&it.term==='Y2S2'&&it.week===6&&!done(G,'ev_yt_lease_class'); CLS.IN_CLASS.push(f); }   /* due：學期中的快轉（src/semff3d.js）停在這一堂前面 */
   if(typeof MSG!=='undefined'&&MSG.send&&!MSG._y2b){ const orig=MSG.send; MSG.send=function(G,id,topic,sub){ if(id==='classmate_peishan'&&S.psFirstDue(G)){ const r=S.psFirst(G,id,topic,sub); if(r) return r; } return orig.apply(this,arguments); }; MSG._y2b=true; }
   return S;
 })();

@@ -1,7 +1,8 @@
 // AA_245（企劃線 2af03a63；任務 AA245-PSBH）沛珊×柏翰沒在一起的版本（玩家和沛珊交往中＝AA_374 第 11 項同一個條件）——不需要瀏覽器。
 //   0 讀稿：第 1 節柏翰自己的三句逐字在 AA_245
-//   1 大一下期中晚餐（ev_midterm_supper_y1s2）：和沛珊交往中、認識柏翰＝柏翰算麵錢三句（沒有公開那一段）；沒交往＝照舊公開、沒有算麵錢；交往中但不認識柏翰＝都沒有
-//   2 大一下第 4 週「走出萬才館」（ev_peishan_bohan_w4）：和沛珊交往中不演（prereq）；沒交往照舊
+//   1 大一下期中晚餐（ev_midterm_supper_y1s2）：和沛珊交往中＝AA_409 第 1 節（滷蛋夾一半給你；麵店團已經知道＝一行旁白），接著 AA_245 第 1 節柏翰算麵錢三句（c42a0dd3 更正：並存；認識柏翰才有）；沒交往＝照舊公開
+//   2 大一下第 4 週「走出萬才館」（ev_peishan_bohan_w4）：和沛珊交往中＝AA_409 第 2 節她等你收白板（原本 AA_245 第 3 節不演）；沒交往照舊
+//   AA_409（企劃線 86016b84；使用者 10-23 選擇題：沛珊大一上期末可以交往）逐字對稿
 //   3 大二上第 6 週的分手：ev_peishan_split 交往中不演（AA_374 已做，對照）、ev_peishan_bohan_split 不會演（只留一件）
 // 修改前（開發分支 b947f4eb）：第 0 節照樣過，第 1 節「交往中」、第 2 節 FAIL。用法：node tests/aa245_psbh_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -43,18 +44,27 @@ const NM=id=>SOCIAL.displayName?SOCIAL.displayName(id):(CHARACTERS[id]||{}).name
 const {execSync}=require('child_process');
 let DOC=''; try{ DOC=execSync('git -c core.quotepath=false show 2af03a63:"docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
 const s1=(DOC.split('## 1.')[1]||'').split('\n## ')[0], bq=s1.split('\n').filter(l=>l.startsWith('> ')).map(l=>l.slice(2).replace(/^(柏翰|阿哲)：/,''));
-const NEW=['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
-check('0. 讀稿：AA_245 第 1 節柏翰的三句，和遊戲裡要演的一字不差',J(bq)===J(NEW),J(bq));
+let D409=''; try{ D409=execSync('git -c core.quotepath=false show 86016b84:"docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
+const NEW=['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）','……喔。','全桌安靜三秒。','對。你們吃你們的。','（Alison 在桌子底下踢了阿哲一腳。）'], OLD=['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）','一個人一百一十五。阿哲你多一顆蛋，一百二十五。','……你連這個都算。'];
+const W4=['（讀書會結束。你收白板的時候，沛珊站在門口等。）','下週那一題，你報。……我想聽你講。','（你們一起走出萬才館。柏翰走在前面，一個人。）'], TOLD='（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）';
+check('0. 讀稿：AA_409 第 1、2 節交往中的句子都在稿裡（一字不差）',!!D409&&[...NEW,...W4,TOLD].every(t=>D409.includes(t.replace(/^（|）$/g,''))),J([...NEW,...W4,TOLD].filter(t=>!D409.includes(t.replace(/^（|）$/g,'')))));
 (async()=>{
   const sup=async(dating,knowBohan)=>{ fresh(termDay('Y1S2',8,3),19,'noodle',Object.assign({DORM_FOUR:true},dating?{dating_classmate_peishan:true}:{})); R('classmate_peishan','FRI'); R('yu','FAM'); if(knowBohan) R('classmate_bohan','FAM'); said=[]; picks=[0,0]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); return said.map(s=>s.t); };
   const a=await sup(true,true), b=await sup(false,true), c=await sup(true,false);
-  check('1. 和沛珊交往中、認識柏翰：柏翰算麵錢三句（照稿的順序），沒有公開那一段',J(a.filter(t=>NEW.includes(t)))===J(NEW)&&!a.some(t=>/對，我們在一起了|滷蛋切成兩半|上禮拜的事/.test(t)),J(a.slice(-5)));
-  check('1. 沒交往（對照）：照舊公開「對，我們在一起了。你們吃你們的。」，沒有算麵錢',b.some(t=>/對，我們在一起了/.test(t))&&!b.some(t=>NEW.includes(t)),J(b.slice(-5)));
-  check('1. 交往中但還不認識柏翰：兩段都沒有',!c.some(t=>NEW.includes(t))&&!c.some(t=>/對，我們在一起了/.test(t)),J(c.slice(-4)));
+  check('1. 和沛珊交往中：滷蛋夾一半給你、「對。你們吃你們的。」、Alison 踢阿哲（AA_409 第 1 節，照稿順序）；沒有柏翰×沛珊公開那一段',J(a.filter(t=>NEW.includes(t)))===J(NEW)&&!a.some(t=>/對，我們在一起了|滷蛋切成兩半|上禮拜的事/.test(t)),J(a.slice(-6)));
+  check('1. 接著柏翰算麵錢三句（AA_245 第 1 節；AA_409 c42a0dd3 更正：兩個並存，滷蛋在前、柏翰在後）',J(a.filter(t=>OLD.includes(t)))===J(OLD)&&a.lastIndexOf(NEW[4])<a.indexOf(OLD[0]),J(a.slice(-4)));
+  check('1. 這一場以後，這一桌的人知道了（ROM）：下一次＝一行旁白「沒有人說話」',ROM.knowsOf(G,'zhe','classmate_peishan')&&await (async()=>{ fresh(termDay('Y1S2',8,3),19,'noodle',{dating_classmate_peishan:true}); R('classmate_peishan','FRI'); R('yu','FAM'); R('classmate_bohan','FAM'); ROM.learn(G,'yu','classmate_peishan','present'); said=[]; picks=[0,0]; await EVENTS.run(ev('ev_midterm_supper_y1s2')); const L=said.map(x=>x.t); return L.includes(TOLD)&&!L.includes('全桌安靜三秒。')&&L.indexOf(OLD[0])>L.indexOf(TOLD); })());
+  check('1. 沒交往（對照）：照舊公開「對，我們在一起了。你們吃你們的。」，沒有算麵錢',b.some(t=>/對，我們在一起了/.test(t))&&!b.includes(NEW[0])&&!b.includes(NEW[4])&&!b.some(t=>OLD.includes(t)),J(b.slice(-5)));
+  check('1. 交往中、還不認識柏翰：照樣是滷蛋那一版（不提柏翰）；沒有公開柏翰那一段、沒有算麵錢',J(c.filter(t=>NEW.includes(t)))===J(NEW)&&!c.some(t=>/對，我們在一起了/.test(t))&&!c.some(t=>OLD.includes(t)),J(c.slice(-4)));
   const w4=ev('ev_peishan_bohan_w4'), pre=dating=>{ fresh(termDay('Y1S2',4,4),18,'wancai',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.cond(w4.prereq); };
-  check('2. 「走出萬才館」：和沛珊交往中不演（prereq 不成立）；沒交往照舊',!!w4&&pre(false)===true&&pre(true)===false,J([pre(false),pre(true)]));
+  check('2. 「走出萬才館」：交往中也演（prereq 成立）；沒交往照舊',!!w4&&pre(false)===true&&pre(true)===true,J([pre(false),pre(true)]));
+  { pre(true); said=[]; await EVENTS.run(w4); const L=said.map(x=>x.t); pre(false); said=[]; await EVENTS.run(w4); const L0=said.map(x=>x.t);
+    check('2. 交往中＝她等你收白板、「下週那一題，你報。……我想聽你講。」、柏翰走在前面（AA_409 第 2 節）；沒交往＝沛珊和柏翰一起走出萬才館',J(L)===J(W4)&&L0[0]==='（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）',J([L,L0])); }
   const sp=dating=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',dating?{dating_classmate_peishan:true}:{}); R('classmate_peishan','FRI'); return EVENTS.check(ev('ev_peishan_split')); };
   const bs=()=>{ fresh(termDay('Y2S1',6,1),12.3,'linze',{}); R('classmate_peishan','FRI'); return EVENTS.cond(ev('ev_peishan_bohan_split').prereq); };
   check('3. 大二上第 6 週的分手只演一件：ev_peishan_split 沒交往照演、交往中不演（AA_374，對照）；ev_peishan_bohan_split 不演',sp(false)===true&&sp(true)===false&&bs()===false,J([sp(false),sp(true),bs()]));
+  { const e=SMALLTALK.classmate_bohan.find(x=>typeof x==='object'&&/週三晚上空出來/.test(x.t)); fresh(termDay('Y2S1',8,2),12,'linze',{}); const no=!EVENTS.cond(e.unless); fresh(termDay('Y2S1',8,2),12,'linze',{dating_classmate_peishan:true}); const yes1=EVENTS.cond(e.unless);
+    fresh(termDay('Y2S1',8,2),12,'linze',{}); ROM.get(G,'classmate_peishan').sinceDay=termDay('Y1S1',16,5); const yes2=EVENTS.cond(e.unless);
+    check('4. 柏翰「這學期我週三晚上空出來了。」只給他和沛珊真的交往過的玩家：和沛珊交往中、或大一下以前就和她交往過＝不說（AA_409 第 3 節）',!!e&&no&&yes1&&yes2,J([no,yes1,yes2])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

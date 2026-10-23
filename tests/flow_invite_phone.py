@@ -1,7 +1,7 @@
 """真實玩家流程：用手機約朋友吃飯、赴約（D54 ⑥；src/invites3d.js）。不用 ?turbo。
 [前置／捷徑] 讀檔：第 3 天（9/19 週五）17:00 宿舍房間、去過阿鳳麵店（快速前往的清單才有它）；第一、二天和阿哲的關係照劇情
   （舊版 rel 12＋7、第一天在阿鳳麵店一起吃過麵＝SHARED_MEAL 記憶，story3d.js 記的）；關掉條件事件（這個測試不測劇情，避免其他事件插進來）。
-A. 手機「朋友」→ 阿哲「約」→ 選「去公館吃飯（阿鳳麵店）」→「今天 19:00」→ 旁白「阿哲答應了」；手機「今天」列出約好的；「訊息」有一則。
+A. 手機「朋友」→ 阿哲「約」→ 選「去阿鳳麵店吃飯」→「今天 19:00」→ 旁白「阿哲答應了」；手機「今天」列出約好的；「訊息」有一則。
 B. 手機「跳過時間」選「等到晚上」→ 在約好的時間前 10 分鐘停下來（18:50）。
 C. 手機「地點」→ 阿鳳麵店（快速前往）→ 阿哲已經坐在店裡等 → 自己走過去、按「和阿哲說話」→ 見面：時間過了 45 分鐘、邀約變成見到了、訊息「和阿哲在阿鳳麵店」。
 用法：python3 tests/flow_invite_phone.py URL [輸出資料夾]"""
@@ -55,7 +55,7 @@ async def main():
         await tap_sel(pg, cdp, '#phoneBody [data-inv="zhe"]'); await pg.wait_for_timeout(1500)
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
         run.check('選地方：Café、總圖、吃飯、散步、算了', any('阿鳳麵店' in o for o in opts) and any('溫州街' in o for o in opts), json.dumps(opts, ensure_ascii=False))
-        await choose(pg, cdp, '去公館吃飯')
+        await choose(pg, cdp, '去阿鳳麵店吃飯')
         opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)")
         run.check('選時間：今天 19:00（手機約不能「現在一起過去」）', any(o.startswith('今天 19:00') for o in opts) and not any('現在一起' in o for o in opts), json.dumps(opts, ensure_ascii=False))
         await choose(pg, cdp, '今天 19:00')

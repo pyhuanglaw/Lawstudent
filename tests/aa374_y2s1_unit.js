@@ -65,14 +65,15 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 2 項（已在 AA_372 第 3 項）=====
   check('2. 對照（已在 AA_372 第 3 項）：芯慈借筆記、柏翰考古題、明軒系籃是 once、只在大一上',['ev_xinci_notes','ev_bohan_kaogu','ev_mingxuan_ball'].every(id=>ev(id).once===true&&J(ev(id).term)===J(['Y1S1'])));
   // ===== 第 3、4、5、22 項：主線 4「這週的訊息」的週次 =====
-  { const pick=(k,ids,flags)=>{ fresh(D(k),21.5,'dorm',flags); for(const id of ids) R(id,'FAM'); return STORY.neededPick(G,D(k)).map(e=>e.id); };
+  { const pick=(k,ids,flags,done)=>{ fresh(D(k),21.5,'dorm',flags); for(const id of ids) R(id,'FAM'); for(const e of done||[]) G.events.done[e]=1; return STORY.neededPick(G,D(k)).map(e=>e.id); };
     const y1=pick('2026-09-13',['yu']), y2=pick('2026-09-20',['yu']);
     check('3. Alison「社團博覽會你站哪一攤？」第 1 週（9/13 週日）就收到——博覽會 9/16～17 以前（BB 測試）；第 2 週不再挑',y1.includes('yu_expo')&&!y2.includes('yu_expo')&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').w)===J([1,1]),J([y1,y2]));
     fresh(D('2026-09-13'),21,'dorm',{}); R('yu','FAM'); STORY.neededRules(GM); PHONE.tick(G); const m=TH('p:yu').find(x=>x.text==='社團博覽會你站哪一攤？我要去偷看。');
     check('3. 真的排進手機：9/13 21:00',!!m&&K(m.day)==='2026-09-13'&&m.h===21,J(m&&[K(m.day),m.h]));
     const z13=pick('2026-12-06',['zhe']), z14=pick('2026-12-13',['zhe']);
     check('4. 阿哲「週六系籃缺一個記分的」第 14 週（12/13 發，週六＝12/19 系籃）；第 13 週（12/6）不發',z14.includes('zhe_score')&&!z13.includes('zhe_score'),J([z13,z14]));
-    const a12=pick('2026-11-29',['heroine_01']), a13=pick('2026-12-06',['heroine_01']), ar=pick('2026-12-06',['heroine_01'],{AN10_PICK:'reason'}), af=pick('2026-12-06',['heroine_01'],{AN10_PICK:'fafu'});
+    const TF=['ev_an_tutor_family_1'], a12=pick('2026-11-29',['heroine_01'],{},TF), a13=pick('2026-12-06',['heroine_01'],{},TF), ar=pick('2026-12-06',['heroine_01'],{AN10_PICK:'reason'},TF), af=pick('2026-12-06',['heroine_01'],{AN10_PICK:'fafu'},TF), an0=pick('2026-12-06',['heroine_01']);
+    check('5. 以安公文那則：12/1 麵店那場（ev_an_tutor_family_1）沒演過的不發（AA_313 4-3）；第一則只說「公文我拿到了。」',!an0.includes('an_admin')&&J(NEEDED_MSGS.list.find(e=>e.id==='an_admin').msg)===J(['公文我拿到了。','……先看哪一段？我想先自己看懂。']),J(an0));
     check('5. 以安公文那則：第 12 週（11/29，12/1 麵店那場以前）不發；第 13 週（12/6）發',!a12.includes('an_admin')&&a13.includes('an_admin'),J([a12,a13]));
     check('5. 麵店那場選了「妳可以先陪他們看駁回的理由。」（AN10_PICK reason）的玩家不發；選別的照發',!ar.includes('an_admin')&&af.includes('an_admin'),J([ar,af]));
     const t3=pick('2026-09-27',['classmate_mingxuan'],{JOB_TUTOR:true}), t4=pick('2026-10-04',['classmate_mingxuan'],{JOB_TUTOR:true});

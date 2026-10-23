@@ -136,7 +136,7 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
   check('9. 泡腳：溫媽媽先說「學弟，坐。」，再換學姊',L2[0]==='溫媽媽：學弟，坐。水很燙，慢慢放。'&&/^溫書瑀：/.test(L2[1]||''),JSON.stringify(L2)); delete STAGE.heroine_05;
   G=mk(STORY.termDay('Y4S1',13,1),12); G.social={mem:{classmate_bohan:[{tag:'ENC_D09_BH',day:G.day-3}]}}; const q1=ENC.schoolLine(G,'classmate_bohan');
   G.social.mem.classmate_bohan.push({tag:'ENC_D06_BH',day:G.day-30}); G.daily={}; const q2=ENC.schoolLine(G,'classmate_bohan');
-  check('9. 柏翰貓空之後的一句：美術館那句沒說過＝「阿哲問的話，就說我在總圖」，說過＝「阿哲問的話，你照實說」（AA-C 668ba2c6）',!!q1&&/阿哲問的話，就說我在總圖/.test(q1.lines[0])&&!!q2&&(q2.tag==='ENC_D06_BH'||/阿哲問的話，你照實說/.test(q2.lines[0])),JSON.stringify([q1,q2]));
+  check('9. 柏翰貓空之後的一句（AA_389 第 3 點，企劃線 345234b3：兩句合成一句、不分美術館那句）：「貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。」',!!q1&&q1.lines[0]==='貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。'&&!!q2&&(q2.tag==='ENC_D06_BH'||q2.lines[0]===q1.lines[0]),JSON.stringify([q1,q2]));
   G=mk(STORY.termDay('Y1S1',7,7),16,{flags:{dating_kexin:true}}); G.trip={}; const L3=[]; await ENC.meet({G,say:async(w,t)=>L3.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')},rowOf('kexin','D09'),ENC.tier(G,'kexin'));
   const yl=ENC_WALK.intro.find(q=>q.who==='kexin'&&q.spot==='D09'); check('9. 可昕 D09 一起走：予樂先帶邵鈞走（intro 第二批）',!!yl&&L3.includes('予樂：'+yl.line),JSON.stringify(L3)); }
 // 7. 修改前

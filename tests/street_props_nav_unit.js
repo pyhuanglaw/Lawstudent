@@ -26,7 +26,9 @@ for(const [zid,glb] of SETS){ const f=path.join(ROOT,'assets/models/env/second_a
   global.GAME={G:{hour:15,weather:'clear',flags:{},zone:zid}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
   const z=Z3.ZONES[zid].build(E), nav=z.nav||E.nav; E.zone=z; z.def=Z3.ZONES[zid];
   // 模型的 .then 要等 E.zone 是這個區域（區域接法裡的 E.zone!==zone 檢查）；套件階段先記下可走的格數，接上以後再比
-  const free0=nav.b.reduce((n,v)=>n+(v?0:1),0); await new Promise(r=>setTimeout(r,0)); const free1=nav.b.reduce((n,v)=>n+(v?0:1),0);
+  const free0=nav.b.reduce((n,v)=>n+(v?0:1),0), b0=Array.from(nav.b); await new Promise(r=>setTimeout(r,0)); const free1=nav.b.reduce((n,v)=>n+(v?0:1),0);
+  // 套件階段就已經擋住的雜物（118 巷：全部在店門退縮的門廊裡＝建築的導航阻擋範圍內，LAWWW2-B 10-23）不用另外擋；有雜物在外面才要求接上以後多擋
+  const outside=props.filter(p=>{ const r=p.rect; for(let x=r[0];x<=r[2];x+=0.25) for(let zz=r[1];zz<=r[3];zz+=0.25){ const [cx,cz]=nav.toCell(x,zz); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows&&!b0[cz*nav.cols+cx]) return true; } return false; }).length;
   const blocked=(x,zz)=>{ const [cx,cz]=nav.toCell(x,zz); return cx<0||cz<0||cx>=nav.cols||cz>=nav.rows||!!nav.b[cz*nav.cols+cx]; };
   const R=0.3, canStand=(x,zz)=>{ if(blocked(x,zz)) return false; for(let a=0;a<16;a++){ const t=a/16*Math.PI*2; if(blocked(x+Math.cos(t)*R,zz+Math.sin(t)*R)) return false; } return true; };
   const bad=[];
@@ -34,7 +36,8 @@ for(const [zid,glb] of SETS){ const f=path.join(ROOT,'assets/models/env/second_a
     for(let x=r[0]-0.5;x<=r[2]+0.5;x+=0.05) for(let zz=r[1]-0.5;zz<=r[3]+0.5;zz+=0.05){ if(!canStand(x,zz)) continue; const dx=Math.max(r[0]-x,0,x-r[2]), dz=Math.max(r[1]-zz,0,zz-r[3]); const ov=R-Math.hypot(dx,dz); if(ov>worst){ worst=ov; at=[+x.toFixed(2),+zz.toFixed(2)]; } }
     if(worst>0.02) bad.push(`${p.tag} 在 (${((r[0]+r[2])/2).toFixed(1)}, ${((r[1]+r[3])/2).toFixed(1)})：人站在 ${JSON.stringify(at)} 身體重疊 ${(worst*100).toFixed(0)} cm`); }
   check(`${zid}：${props.length} 個地上雜物，人貼牆走不會穿過去（重疊 ≤ 2 cm）`,!bad.length,bad.join('；'));
-  check(`${zid}：雜物的阻擋是模型接上以後才加（套件備用模型沒有這些雜物，不能先擋）`,free1<free0,`可走的格子 ${free0} → ${free1}`); }
+  if(outside) check(`${zid}：雜物的阻擋是模型接上以後才加（套件備用模型沒有這些雜物，不能先擋）`,free1<free0,`可走的格子 ${free0} → ${free1}；在阻擋範圍外的雜物 ${outside} 個`);
+  else check(`${zid}：雜物全部在建築的阻擋範圍內（門廊），模型接上以後不多擋`,free1===free0,`可走的格子 ${free0} → ${free1}`); }
 check('至少檢查了一份街景模型的雜物',tested>0);
 console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
 })();

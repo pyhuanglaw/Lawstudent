@@ -38,8 +38,11 @@ const OUT=(function(){
     /* DL-06C 第三批（spots_v3 3b599624；使用者 10-17 核准的 33 張，abad2fa0 照原檔複製）*/ d01_base_afternoon:{label:'華山1914文創園區・下午',image:'assets/bg/d01_base_afternoon.webp'}, d02_base_overcast:{label:'松山文創園區・陰天',image:'assets/bg/d02_base_overcast.webp'}, d02_base_rain:{label:'松山文創園區・雨後',image:'assets/bg/d02_base_rain.webp'}, d03_base_afternoon:{label:'參創生活園區・下午',image:'assets/bg/d03_base_afternoon.webp'}, d05_base_dusk:{label:'光典臺北・黃昏',image:'assets/bg/d05_base_dusk.webp'}, d07_base_afternoon:{label:'國家人權博物館景美紀念園區・下午',image:'assets/bg/d07_base_afternoon.webp'}, d08_base_morning:{label:'臺北市立動物園・早上',image:'assets/bg/d08_base_morning.webp'}, d10_base_dusk:{label:'碧潭・黃昏',image:'assets/bg/d10_base_dusk.webp'}, d11_base_afternoon:{label:'新北投溫泉區・下午',image:'assets/bg/d11_base_afternoon.webp'}, d14_base_sunset:{label:'淡水漁人碼頭・夕陽',image:'assets/bg/d14_base_sunset.webp'}, d17_base_morning:{label:'野柳地質公園・早上',image:'assets/bg/d17_base_morning.webp'}, d19_base_morning:{label:'金瓜石・早上',image:'assets/bg/d19_base_morning.webp'}, d21_base_afternoon:{label:'三峽老街・下午',image:'assets/bg/d21_base_afternoon.webp'}, d26_base_golden:{label:'臺中草悟道與國立臺灣美術館・傍晚',image:'assets/bg/d26_base_golden.webp'}, d27_base_morning:{label:'嘉義檜意森活村・早上',image:'assets/bg/d27_base_morning.webp'}, d28a_base_day:{label:'臺南國立臺灣文學館與安平・白天',image:'assets/bg/d28a_base_day.webp'}, d28b_base_sunset:{label:'臺南國立臺灣文學館與安平・夕陽',image:'assets/bg/d28b_base_sunset.webp'}, d29_base_afternoon:{label:'高雄駁二藝術特區・下午',image:'assets/bg/d29_base_afternoon.webp'}, d30_base_dusk:{label:'花蓮七星潭・黃昏',image:'assets/bg/d30_base_dusk.webp'}, d31_base_morning:{label:'南投日月潭・早上',image:'assets/bg/d31_base_morning.webp'} };   /* 期中考完的晚餐（交接包 v2 C11、C21）：麵店有 3D 區域，長桌這一幕先用 2D 底 */   /* 春假 K8 的三個目的地（BB_96 9-5；交接包 v2 C9）、嘉義老家（AA_12 主線 2；C2）：圖還沒有＝深色底＋地點字幕 */   /* K2 可昕來台大（BB_95 9-3 的最小版本：依序換 2D 背景；之後可以換成遊戲校園的畫面）*/
   S.BG.ntu_court_night={label:'台大・新體育館旁的籃球場（晚上）',image:'assets/bg/ntu_court_night.webp'};   /* 哲 2（AA_177 第 5 節）：ART-BG-COURT 派給 LAWWW2-B，圖來了填 assets/bg/ntu_court_night.webp */
   S.BG.ntu_gym_ceremony={label:'綜合體育館・開學典禮',image:'assets/bg/ntu_gym_ceremony.webp'};   /* ART-GYM-BG1 v3 正式版（LAWWW2-B a3529675；使用者 00:3x「開學典禮可以!!!」）：8/31 開學典禮（STORY.ceremonyY1）；畢業典禮版另做 */
+  S.BG.us_farmers_market={label:'美國・週六市集',image:'assets/bg/us_chapel_steps.webp'};   /* 學姊七夕 1-3 美國路線（AA_388 第 3 節第 3 點，SIS-QIXI-L-1023）：美國篇的校園附近街景（F08 那一批）還沒有＝先用校園底圖（小教堂前的台階）；BB 跟使用者要圖，到了改成 assets/bg/us_farmers_market.webp */
   S.BG.d32_base_afternoon={label:'南投清境農場・下午',image:'assets/bg/d32_base_afternoon.webp'};   /* DL-06C 少的那一張（使用者 10-17 核准的 33 張之一，abad2fa0 照原檔複製）：兩天一夜 D31＋D32 的第二天在清境（DATE-OVERNIGHT-1021，AA_359 第 1 節）*/
   S.BG.car_morning={label:'車上（早上）',image:'assets/bg/car_morning.webp'}; S.BG.car_night={label:'車上（晚上）',image:'assets/bg/car_night.webp'}; S.BG.car_rain={label:'車上（雨天）',image:'assets/bg/car_rain.webp'}; S.BG.car_day={label:'車上',image:'assets/bg/car.webp'};   /* BB-C 第 92 組 car（fdd8383c，使用者生成）：家用小客車白天；只給 bg 'car'（可昕開車那幾場，政大校門口→車上）用，寫死 car_morning 的照舊 */   /* BG-08（LAWWW2-B 702a2838）*/
+  /* 店員的支線第二批（AA_404 第 2 節「新地點」，src/sideq3d.js）：中和・華新街（一條掛滿招牌的窄街，沒有品牌）、羅斯福路的動物醫院——還沒有圖＝深色底（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/
+  Object.assign(S.BG,{hwaxin_street:{label:'中和・華新街',image:null},vet_clinic:{label:'羅斯福路・動物醫院',image:null}});
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
   const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_day'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_day'; };
   S.bg=id=>{ if(id==='car') id=carVariant(); const b=S.BG[id]; return b&&b.image?(b.night?{image:b.image,night:true}:{image:b.image}):'dark'; };   /* night：白天的圖調暗當晚上（adv3d.js #adv.night）*/
@@ -74,7 +77,7 @@ const OUT=(function(){
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
-  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ DATE.tick(GM); }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒 */ for(const q of S.expire(G)) S.onMissed(GM,q);
+  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
@@ -97,10 +100,11 @@ const OUT=(function(){
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
+    const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
     if(dt){ const L0=DATE.loc((DATE.trip(G,q.dateTrip)||{locs:[]}).locs[0])||{}; const bg=DATE.bgKey?DATE.bgKey(L0.id,0):Object.keys(S.BG).find(k=>k.startsWith(String(L0.id||'').toLowerCase()+'_base'));   /* DATE.bgKey：地點的底圖（D28 兩天都用 d28a，夕陽那一點才換 d28b：AA_359 5-1 B12，date3d.js 的 S.POINT_BG）*/
       if(typeof ADV!=='undefined') ADV.begin({background:bg?S.bg(bg):'dark'}); await GM.fade(false); for(const f of S.BEFORE){ try{ await f(GM,q,null); }catch(e){ console.warn('OUT.BEFORE',e); } }   /* 校外約會也一樣有開頭（OUT.BEFORE）、結尾（OUT.AFTER）*/
-      try{ await DATE.scene(GM,q); { const tw=DATE.trip(G,q.dateTrip); if(tw&&tw.who==='kexin'&&typeof STORY!=='undefined'&&STORY.kxExchTalkDue&&STORY.kxExchTalkDue(G)) await STORY.kxExchTalk(GM,'face'); } await S.runAfter(GM,q,null); } finally { running.delete(q.id); afterDone.delete(q.id); }   /* 1A-05 第 2-6 節：和可昕約會的最後（11/15～11/17 的下一次見面）；結尾的 OUT.AFTER 在它之後 */ q.state='done'; delete q.arrived; if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+      try{ await DATE.scene(GM,q); { const tw=DATE.trip(G,q.dateTrip); if(tw&&tw.who==='kexin'&&typeof STORY!=='undefined'&&STORY.kxExchTalkDue&&STORY.kxExchTalkDue(G)) await STORY.kxExchTalk(GM,'face'); } await S.runAfter(GM,q,null); } finally { running.delete(q.id); afterDone.delete(q.id); }   /* 1A-05 第 2-6 節：和可昕約會的最後（11/15～11/17 的下一次見面）；結尾的 OUT.AFTER 在它之後 */ q.state='done'; delete q.arrived; fill(); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
       const tr2=DATE.trip(G,q.dateTrip); await GM.fade(true); GM.advance(tr2?(DATE.travel(tr2.locs[tr2.locs.length-1],tr2.transport)||{minutes:30}).minutes/60:0.5); if(tr2&&tr2.fare&&GM.money) GM.money(-tr2.fare,'交通'); await GM.fade(false); if(GM.caption) GM.caption('',q.back||S.backText(G),2400);
       if(GM.autosave) GM.autosave(); return true; }
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
@@ -111,12 +115,13 @@ const OUT=(function(){
     if(kxHere&&typeof STORY!=='undefined'&&STORY.kxExchTalkDue&&STORY.kxExchTalkDue(G)) await STORY.kxExchTalk(GM,'face');   /* 1A-05 第 2-6 節：交換志願表要讓她知道（11/15～11/17 的下一次見面，在最後）*/
     if(kxHere&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if(kxHere&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
-      let go=!!st; if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
+      let go=!!st; if(go&&st.id==='K-L6'&&q.ev==='ev_kexin_video_study') go=false;   /* AA_313 第 2 節第 54 列：K4 一起讀書的視訊那晚不接 K-L6（同一個「讀書時的聲音」，留到下一次見面）*/
+      if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
         if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); } }
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
-    await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    await GM.fade(true); GM.advance(ev.hours||2); fill(); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };
   return S;
