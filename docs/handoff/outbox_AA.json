@@ -2042,6 +2042,22 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "回 BB_301（LAWWW-B 第 61 項）：美國篇交往中 10 天、挽回中 21 天的空白日全部補；挽回中週六的群組一則接 BB_204 REPAIR「每週」那一列。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "310d6cc67",
+   "files": [
+    "docs/story_planning/AA_425_AA422與423審稿更正.md",
+    "docs/story_planning/AA_207_AB65第2批_大一上BB人物事件改稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B 的子代理照 AA_425 換 AA_422／AA_423 的台詞；AA_207 第 7 節六處",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "獨立審稿以後的更正版；AA_422 3-1 可昕知情版心意邀約不做（BB_119：她的求和只在祐廷單身時）。"
   }
  ],
  "items": [
