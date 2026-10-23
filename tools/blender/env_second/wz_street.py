@@ -537,7 +537,9 @@ def apartment(spec):
     wall_hi = Mesh(f'NOSHADOW_wall_{spec["id"]}', wall_mat(kind)) if HI else wall
     gt = spec['ground']; rec = 1.3 if gt == 'shop' else (4.3 if gt == 'arcade' else 0.2)
     if SET == 'gongguan' and 'sf' not in spec and spec['id'] in SF_GG and gt == 'arcade': spec = dict(spec, sf=SF_GG[spec['id']])   # ART-GG-SHOPS-1018：公館騎樓店面（wz_shopkit.arcade_front_v2）
-    if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館、118 巷照舊
+    if SET == 'lane118' and 'sf' not in spec and gt == 'shop' and spec.get('lane118') in SF_L118:   # ART-L118-FACADE-3D-1023（使用者 10-23「118店面…外觀還是很2D」）：118 巷九間店改用店面組件＋立體淺店內
+        _sf = SF_L118[spec['lane118']]; spec = dict(spec, sf=_sf, shop=dict(spec['shop'], type=_sf.get('kind', spec['shop']['type'])))
+    if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館照舊（騎樓另外一套 SF_GG）
         sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
         if sfx: spec = dict(spec, sf=sfx)
     if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + (2.7 if spec['sf'].get('inner') else 1.3)   # 店門退縮成門廊；有立體淺店內的，一樓牆體從玻璃後 2.7 m 開始
@@ -811,7 +813,7 @@ def housedoor(spec, xf, W, rng, rec):
 
 
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
-if SET in ('wenzhou', 'gongguan'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
+if SET in ('wenzhou', 'gongguan', 'lane118'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
 if SET in ('wenzhou', 'gongguan'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
 if SET == 'wenzhou':
