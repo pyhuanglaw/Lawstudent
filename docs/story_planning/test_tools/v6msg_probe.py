@@ -331,9 +331,10 @@ async def send_chat(pg, cdp, run, pid, label):
     return {'ok': bool(c) and bool(mine), 'n0': n0, 'st': st, 'q': q, 'mine': mine, 'tops': tops}
 
 
-async def wait_reply(pg, cdp, run, pid, n0, max_s, label):
-    """時間照走等她回（不跳過時間）；max_s 秒還沒回，就手機「跳過時間」到下一段再看"""
-    cond = "(GAME.G.msgs||[]).slice(%d).some(m=>m.th==='p:%s'&&m.from===%s)" % (n0, pid, json.dumps(pid))
+async def wait_reply(pg, cdp, run, pid, n0, max_s, label, want=None):
+    """時間照走等她回（不跳過時間）；max_s 秒還沒回，就手機「跳過時間」到下一段再看。
+    want＝傳的時候排進佇列的那一則回覆的最後一句（BB-B 10-23：MX_TW2340 先收到她的週年預告，原本一收到她的任何一則就停）"""
+    cond = "(GAME.G.msgs||[]).slice(%d).some(m=>m.th==='p:%s'&&m.from===%s%s)" % (n0, pid, json.dumps(pid), ('&&String(m.text||"")===' + json.dumps(want, ensure_ascii=False)) if want else '')
     ok, ch = await wait_for(pg, cdp, run, cond, max_s=max_s, label=label)
     how = '時間照走'
     if not ok:
@@ -358,9 +359,10 @@ def reply_of(R):
     return T, (got[0]['d'] if got else None), (got[0]['h'] if got else None)
 
 
-async def one_send(pg, cdp, run, res, sid, pid, max_s=240):
+async def one_send(pg, cdp, run, res, sid, pid, max_s=600):   # BB-B 10-23：240 → 600 秒（MX_JP2340 回覆排在 23:48，240 秒遊戲時間還沒走到）
     s = await send_chat(pg, cdp, run, pid, sid)
-    ok, got, how = await wait_reply(pg, cdp, run, pid, s['n0'], max_s, sid) if s['ok'] else (False, [], '沒傳成')
+    q = [x for x in (s.get('q') or []) if not x.get('tag') and x.get('texts')]
+    ok, got, how = await wait_reply(pg, cdp, run, pid, s['n0'], max_s, sid, want=(q[0]['texts'][-1] if q else None)) if s['ok'] else (False, [], '沒傳成')
     st = await pg.evaluate(STATE); tz = await pg.evaluate(TZQ + "(%d)" % st['day'])
     r = {'send': s, 'got': got, 'how': how, 'end': st, 'tz': tz}; res.setdefault('sends', {})[pid] = r
     say('   %s %s 回（%s）：%s' % (sid, pid, how, J(got, 400)))
