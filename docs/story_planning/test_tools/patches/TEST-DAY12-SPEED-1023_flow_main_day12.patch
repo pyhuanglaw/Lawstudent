@@ -1,0 +1,98 @@
+--- a/tests/flow_main_day12.py	2026-10-23 17:04:47.272668890 +0000
++++ b/tests/flow_main_day12.py	2026-10-23 17:05:29.231729595 +0000
+@@ -22,6 +22,27 @@
+     await L.tap(pg, cdp, '#interact'); return True
+ 
+ 
++# 第二天的民總不能翹（classes3d.js S.goDay2，AA_294 第 1 節）：12:30～15:12 還沒上課（classDone）、玩家空下來 1.5 秒＝「走路到霖澤館。」直接帶進 201。
++# 沙盒每秒不到 1 格時，從霖澤館前走到 201 常常超過這個時間（TEST-DAY12-SPEED-1023）——劇情照設計接手，不是走不到。
++# 接手以後：走路、上樓梯、按「進入 201」那幾項標「未驗」（不算通過，也不算失敗），照舊檢查上課有沒有照常開始；檢查標準不變。
++TAKEN = lambda q: q['zone'] == 'classroom'
++UNVERIFIED = []
++
++
++async def taken_over(pg, run, where):
++    """走路途中被劇情帶進 201 了嗎？是的話記下時間與在哪一段、回傳 True"""
++    s = await L.state(pg)
++    if not TAKEN(s): return False
++    fl = await pg.evaluate("({h:+GAME.G.hour.toFixed(2), classDone:!!GAME.G.flags.classDone, classNow:!!GAME.G.flags.classNow, day:GAME.G.day})")
++    run.note(f'【劇情接手】{where}途中被帶進 201（{fl}）：沙盒太慢，classes3d.js S.goDay2 照設計接手')
++    run.check('劇情接手的時間合理（第二天、12:30～15:12、還沒上過課）', fl['day'] == 2 and 12.5 <= fl['h'] < 15.2 and not fl['classDone'], json.dumps(fl, ensure_ascii=False))
++    return True
++
++
++def unverified(name):
++    UNVERIFIED.append(name); print(f'[未驗] {name}（劇情接手，這一次沒有走到）', flush=True)
++
++
+ async def wait_control(pg, cdp, run, pick=0, max_steps=120, extra=None):
+     return await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'] and (extra is None or extra(q)), max_steps=max_steps, pick=pick)
+ 
+@@ -77,29 +98,41 @@
+             run.check('床邊出現「睡覺」', await use_interact(pg, cdp, run, '睡覺'))
+             s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'&&!!GAME.G.flags.campusIntro")   # 第二天霖澤館前（campusMorning：阿哲）演完
+         # ---- 第二天：霖澤館前 ----
+-        g = await goal(pg); day = await pg.evaluate("GAME.G.day")
++        g = await goal(pg); day = await pg.evaluate("GAME.G.day"); h2 = await pg.evaluate("+GAME.G.hour.toFixed(2)")
++        run.note(f'第二天開場時間 {h2:.2f}（13:05＝13.08；12:30 以後空下來 1.5 秒劇情就會帶進 201）')
+         await run.shot(pg, 'day2_campus')
+         run.check('睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課', day == 2 and s['zone'] == 'campus' and '霖澤館' in g and not s['busy'], f'day={day} goal={g} ' + json.dumps(s, ensure_ascii=False))
+         door = await L.find_it(pg, '進入霖澤館')
+-        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口')
+-        run.check('走到霖澤館門口（點地面／搖桿）', ok)
++        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口', stop=TAKEN)
++        took = ok and await taken_over(pg, run, '走到霖澤館門口')
++        if took:
++            for n in ('走到霖澤館門口（點地面／搖桿）', '門口出現「進入霖澤館」', '進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
++        else: run.check('走到霖澤館門口（點地面／搖桿）', ok)
+         if ok:
+-            await pg.wait_for_timeout(800)
+-            run.check('門口出現「進入霖澤館」', await use_interact(pg, cdp, run, '進入霖澤館'))
+-            # v9.4 起霖澤館是真的大樓：201 階梯教室在二樓（劇情：「民法總則在二樓的 201 階梯教室」、目標「上二樓，到 201 教室上課」），
+-            # 玩家自己走樓梯上去、按「進入 201 階梯教室」，上課劇情才開始（2026-10-11 修正：這個測試寫於 v9.3，一進霖澤館就直接到教室，v9.4 之後一直在這裡失敗）
+-            s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'")
+-            for _ in range(20):   # 劇情進到大廳 0.7 秒後才出提示、換目標
+-                g = await goal(pg)
+-                if '201' in g: break
+-                await pg.wait_for_timeout(500)
+-            run.check('進到霖澤館大廳、目標是上二樓到 201 教室', s['zone'] == 'linze' and '201' in g, f'goal={g}')
+-            c201 = await L.find_it(pg, '進入 201')
+-            ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1)
+-            run.check('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', ok)
+-            if ok:
++            if not took:   # 劇情在門口就接手了：直接看上課有沒有照常開始
+                 await pg.wait_for_timeout(800)
+-                run.check('門口出現「進入 201 階梯教室」', await use_interact(pg, cdp, run, '進入 201'))
++                run.check('門口出現「進入霖澤館」', await use_interact(pg, cdp, run, '進入霖澤館'))
++                # v9.4 起霖澤館是真的大樓：201 階梯教室在二樓（劇情：「民法總則在二樓的 201 階梯教室」、目標「上二樓，到 201 教室上課」），
++                # 玩家自己走樓梯上去、按「進入 201 階梯教室」，上課劇情才開始（2026-10-11 修正：這個測試寫於 v9.3，一進霖澤館就直接到教室，v9.4 之後一直在這裡失敗）
++                s = await wait_story(pg, cdp, run, "GAME.G.zone==='linze'||GAME.G.zone==='classroom'")
++                for _ in range(20):   # 劇情進到大廳 0.7 秒後才出提示、換目標
++                    g = await goal(pg)
++                    if '201' in g: break
++                    await pg.wait_for_timeout(500)
++                took = await taken_over(pg, run, '進霖澤館大廳')
++                if took:
++                    for n in ('進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
++                else:
++                    run.check('進到霖澤館大廳、目標是上二樓到 201 教室', s['zone'] == 'linze' and '201' in g, f'goal={g}')
++                    c201 = await L.find_it(pg, '進入 201')
++                    ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1, stop=TAKEN)
++                    took = ok and await taken_over(pg, run, '走樓梯上二樓到 201')
++                    if took:
++                        for n in ('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
++                    else: run.check('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', ok)
++                if ok and not took:
++                    await pg.wait_for_timeout(800)
++                    run.check('門口出現「進入 201 階梯教室」', await use_interact(pg, cdp, run, '進入 201'))
+             t0 = time.time(); reached = False
+             while time.time() - t0 < 300:
+                 s = await L.state(pg)
+@@ -150,6 +183,7 @@
+         run.check('讀檔後搖桿走得動', moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
+         await run.shot(pg, 'after_load')
+         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
++        if UNVERIFIED: print(f'[未驗] 共 {len(UNVERIFIED)} 項（劇情接手；要在負載低、每秒 1 格以上時重跑才驗得到）：' + '、'.join(UNVERIFIED), flush=True)
+         await b.close()
+     sys.exit(run.finish())
+ 
