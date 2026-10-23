@@ -16350,9 +16350,9 @@
    "title": "實作 AB65-2 大一上 BB 人物事件改稿（AA_207 e2f2f9df）：換句、結構、新條件、新開局矛盾 9 項",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_207 本文第 2～4 節＋附錄第 2、5 節逐條對 events.js、story3d.js 大一上 BB 人物事件（先 grep 原句定位），不動旗標與選項數量；做完交 AA 照 AA_197 1-7 驗收 ｜ CAMP-L1 之後、和 START-WEEK（familyGroupD1、kexinFirstMsg、學姊初遇、明軒系籃開頭）一起做；照 AA_207 本文第 2～4 節＋附錄第 2、5 節；不動旗標與選項數量；驗收 AA_197 1-7",
+   "next": "【LAWWW-B 10-23 19:2x】做完（子代理，03b327ded）：AA_207 第 1～6 節，以 3e9bf250 為原句，55 處換句；後來改過的約 30 列照現行版不重套；學姊攤位 met_sis、阿凱 weekday、明軒家裡的事 term、芷若紙杯十分之一；tests/ab65_2_unit.js 30 項。BB 第 77 項；AA 核對照 AA_197 1-7 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_207 本文第 2～4 節＋附錄第 2、5 節逐條對 events.js、story3d.js 大一上 BB 人物事件（先 grep 原句定位），不動旗標與選項數量；做完交 AA 照 AA_197 1-7 驗收 ｜ CAMP-L1 之後、和 START-WEEK（familyGroupD1、kexinFirstMsg、學姊初遇、明軒系籃開頭）一起做；照 AA_207 本文第 2～4 節＋附錄第 2、5 節；不動旗標與選項數量；驗收 AA_197 1-7",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16582,7 +16582,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 做 AB65-2-L：先用 tools/story/check_lines.py --files src/data/events.js,src/story3d.js 對 AA_207 與附錄，扣掉後來 AA_303／AA_313 已改過的句子，再照第 2～4 節換句、加 term 與條件；做完請 AA 核對 ｜ AA_207 已交（e2f2f9df）；LAWWW-B 照 AB65-2-L 實作，AA-B 做完核對",
+   "next": "【LAWWW-B 10-23 19:2x】AB65-2-L 已整合待測試（03b327ded） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 做 AB65-2-L：先用 tools/story/check_lines.py --files src/data/events.js,src/story3d.js 對 AA_207 與附錄，扣掉後來 AA_303／AA_313 已改過的句子，再照第 2～4 節換句、加 term 與條件；做完請 AA 核對 ｜ AA_207 已交（e2f2f9df）；LAWWW-B 照 AB65-2-L 實作，AA-B 做完核對",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -17378,7 +17378,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 先請 AA 標出 AA_211 第 2～4 節哪些已被 AA_325／AA_338 取代，再照剩下的改 events.js 三場群戲與手機；做完 AA 核對 ｜ ①階梯匯入＋程式四點已做（3800eb7d，ladder_y1s2_y2s1_unit）②AA_211 第 2、2-1、3、4 節事件、手機、群戲（BB_181 九項的事件部分：E2、E3、明軒 zhe_game、S3-L6 等）③AA 核對",
+   "next": "【LAWWW-B 10-23 19:2x】第②部分交給子代理（同 AB65-2 的做法：原句還在才換、後來改過的照現行版） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 先請 AA 標出 AA_211 第 2～4 節哪些已被 AA_325／AA_338 取代，再照剩下的改 events.js 三場群戲與手機；做完 AA 核對 ｜ ①階梯匯入＋程式四點已做（3800eb7d，ladder_y1s2_y2s1_unit）②AA_211 第 2、2-1、3、4 節事件、手機、群戲（BB_181 九項的事件部分：E2、E3、明軒 zhe_game、S3-L6 等）③AA 核對",
    "first": {
     "term": "Y2S1",
     "week": 1,
