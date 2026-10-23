@@ -1962,7 +1962,7 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined'||PHONE.sent(G,'kx_our_day_miss')) return; PHONE.at(G,G.day,Math.max(G.hour,q.h+1),[{th:'p:kexin',from:'kexin',text:'我等了一下。沒關係，下週同一天。'}],'kx_our_day_miss'); },
     dialogue:[ {if:{custom:G=>(G.flags.KX_OUR_DAY||{}).mode==='nccu'},scene:'政大・山下的小吃街',bg:'nccu_food'},{if:{custom:G=>(G.flags.KX_OUR_DAY||{}).mode==='ntu'},scene:'台大・社科院門口',bg:'ntu_soc'},
       {if:{custom:G=>(G.flags.KX_OUR_DAY||{}).mode==='mid'},scene:'公館',bg:'gongguan'},{if:{custom:G=>(G.flags.KX_OUR_DAY||{}).mode==='video'},scene:'視訊',bg:'video'},
-      {speaker:null,text:'她把手機給你看。'},{speaker:'kexin',expression:'smile',text:'我們的行事曆，那一格我寫了字。'},{speaker:'kexin',expression:'smile',text:'不是「約會」。是「我們」。'} ] },
+      {speaker:null,text:'她把手機上的行事曆對著你。'},{speaker:'kexin',expression:'smile',text:'那一格我寫了『我們』。……『約會』兩個字太噁心了。'} ] },   /* AA_313 第 21 列（AA_389 第 4 點確認）：見面、視訊都通；原本「不是『約會』。是『我們』。」是同學期第二句「不是 X，是 Y」*/
   /* K5 之後每週的「我們的日子」（AA-B 2026-10-16 裁定）：一句地點字幕，接著 OUT.go 推進她的閒聊階梯（沒有新台詞）。
      第 5 週起第一次（K7 有準備東西的玩家）：字幕之後先說「你送的那個，我放在書桌上。」（只一次）。撞到別的出遊、選了別的＝「好，這週換一天。」；單純略過沒有台詞 */
   { id:'ev_kexin_our_day_wk', title:'我們的日子', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2,

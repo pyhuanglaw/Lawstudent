@@ -50,13 +50,13 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
   // ---- 9-3 K5「我們的日子」----
   { const M2=termDay('Y1S2',2,1); fresh(M2,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,KX_VDAY_SEE:true}); run(20.9,21.1);
     let P=TH('p:kexin').filter(m=>m.tag==='kx_our_day'); const msg=P.map(m=>m.text);
-    check('6. K5 第 2 週週一 21:00：「我們選一天。……」「名字很重要。」、情人節說過想見她的多一句在「名字很重要。」之後（BB_161 ⑰）、最後一則帶三個日子',msg.join('｜')==='我們選一天。不是約會日，是「我們的日子」。｜名字很重要。｜你情人節說想見我。這個週末我已經空下來了。'/* AA_373 #10 */&&JSON.stringify(P[P.length-1].ask.opts.map(o=>o.t))==='["週五晚上。","週六。","週日下午。"]',msg.join('｜'));
+    check('6. K5 第 2 週週一 21:00：「我們選一天。……」（「名字很重要。」刪掉，AA_389 第 4 點）、情人節說過想見她的多一句接在後面（BB_161 ⑰）、最後一則帶三個日子',msg.join('｜')==='我們選一天。不是約會日，是「我們的日子」。｜你情人節說想見我。這個週末我已經空下來了。'/* AA_373 #10 */&&JSON.stringify(P[P.length-1].ask.opts.map(o=>o.t))==='["週五晚上。","週六。","週日下午。"]',msg.join('｜'));
     PHONE.answer(G,P[P.length-1].ask.id,2); run(21.1,21.2); P=TH('p:kexin'); const m2=P.find(m=>m.text==='週日下午很好。隔天要上課，我們不會玩太晚。');
-    check('6. 選「週日下午。」：她的回覆帶四種方式',!!m2&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["我開車去政大。","妳來台大。","約在中間。","視訊也算。"]',JSON.stringify(P.map(m=>m.text)));
+    check('6. 選「週日下午。」：她的回覆帶四種方式',!!m2&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["我開車去政大。","妳來台大。","約在外面。","視訊也算。"]',JSON.stringify(P.map(m=>m.text)));
     PHONE.answer(G,m2.ask.id,0); run(21.2,21.3); const q=OUT.get(G,'kx_our_day1');
     check('6. 選「我開車去政大。」：「好。我負責選宵夜。」、KX_OUR_DAY {sun, nccu}、排同一週週日 14:00（提案值）',TH('p:kexin').some(m=>m.text==='好。我負責選宵夜。')&&JSON.stringify(G.flags.KX_OUR_DAY)==='{"day":"sun","mode":"nccu"}'&&!!q&&q.day===termDay('Y1S2',2,7)&&q.h===14,JSON.stringify({od:G.flags.KX_OUR_DAY,q}));
     picks=[]; said=[]; G.day=q.day; G.hour=13.5; await OUT.go(GM,q); const L=lines();
-    check('6. 第一次的那一天：「她把手機給你看。」「我們的行事曆，那一格我寫了字。」「不是「約會」。是「我們」。」',JSON.stringify(L)===JSON.stringify(['她把手機給你看。','杜可昕：我們的行事曆，那一格我寫了字。','杜可昕：不是「約會」。是「我們」。']),JSON.stringify(L));
+    check('6. 第一次的那一天（AA_313 第 21 列）：「她把手機上的行事曆對著你。」「那一格我寫了『我們』。……『約會』兩個字太噁心了。」',JSON.stringify(L)===JSON.stringify(['她把手機上的行事曆對著你。','杜可昕：那一格我寫了『我們』。……『約會』兩個字太噁心了。']),JSON.stringify(L));
     fresh(M2,21.2,'dorm',{introDone:true,dating_kexin:true,KX_OUR_DAY:{day:'fri',mode:'video'}}); run(21.2,21.3); const q2=OUT.get(G,'kx_our_day1');
     check('6. 視訊也算＋週五晚上：週五 19:00、接起來',!!q2&&q2.day===termDay('Y1S2',2,5)&&q2.h===19&&q2.verb==='接起來');
     G.day=q2.day; G.hour=20; const ex=OUT.expire(G); for(const x of ex) OUT.onMissed(GM,x); run(20,20.1); G.day+=7; OUT.onMissed(GM,q2); run(20,20.1);
