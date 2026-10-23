@@ -69,8 +69,8 @@ const sizes=[];
     check('服務學習（一）：週三下午都翹掉＝0 次；排了 9 次＋第 15、16 週補做 2 次；成績單不列',(R().attend.service_1||0)===0&&svcItems.length===11&&svcItems.filter(it=>it.week>=15).length===2,svcItems.map(it=>it.week).join(',')); }
   { const g=log.say.filter(s=>/大一上的成績出來了/.test(s)); const d0=dayOf('2026-01-05');
     check('大一上的成績單：只發一次、在學期結束後的第一個早上（2026-01-05）',g.length===1&&g[0].startsWith(d0+':'),g.join(' | '));
-    const rep=R().grades.Y1S1||{}; const okv=Object.keys(rep).every(id=>rep[id]===CLS.gradeOf(R().prep[id]||0));
-    check('成績照準備次數（≥10 很好、≥5 不錯、其他 過了）',okv&&Object.keys(rep).length>=5,JSON.stringify(rep)); }
+    const rep=R().grades.Y1S1||{}; const okv=Object.keys(rep).every(id=>rep[id]===(CLS.attCourse(CLS.byId(id))?((R().attend[id]||0)>=CLS.ATT_PASS?'及格':'不及格'):CLS.gradeOf(R().prep[id]||0)));
+    check('成績：法律課照準備次數（≥10 很好、≥5 不錯、其他 過了）；看出席的課照出席三堂（D43）',okv&&Object.keys(rep).length>=5,JSON.stringify(rep)); }
   { const sel=log.say.filter(s=>/選課結果出來了/.test(s)); const d0=dayOf('2026-02-22');
     check('大一下的選課結果：只問一次、在開學前一天（2026-02-22）',sel.length===1&&sel[0].startsWith(d0+':'),sel.join(' | '));
     check('大一下的課表沒有法律與社會（下）（2026-10-14 課程調整刪掉，AA_130）、週二下午沒有課；也沒有那個選修群組',R().electives.Y1S2_ls===undefined&&!CLS.dayItems(G,dayOf('2026-03-03')).some(it=>it.c.id==='law_society_2'||(it.slot&&it.slot.wd===2&&it.slot.block==='pm1')),JSON.stringify(R().electives)); }

@@ -117,7 +117,7 @@ const mkG=(day,hour)=>({day,hour,flags:{},weekday:CALENDAR.dateOf(day).wd%7});
 function afterSkip(){
 // ---------- 成績單、自學 ----------
 { const R={prep:{con_law1:12,crim_gen1:6,civ_general:2}}; const G=Object.assign(mkG(dayOf('2026-01-05'),7.5),{courses:R}); const rep=CLS.reportFor(G,'Y1S1');
-  check('成績（文字）：準備 ≥10 很好、≥5 不錯、其他 過了（沒有「沒過」）；舊代號的紀錄（con_law1）自動換成新代號（const_1）',rep.const_1==='很好'&&rep.crim_gen1==='不錯'&&rep.civ_general==='過了'&&Object.values(rep).every(v=>['很好','不錯','過了'].includes(v)),JSON.stringify(rep));
+  check('成績（文字）：法律課照準備 ≥10 很好、≥5 不錯、其他 過了；看出席的課（D43，10-14 使用者：三堂才及格）照出席寫及格／不及格；舊代號的紀錄（con_law1）自動換成新代號（const_1）',rep.const_1==='很好'&&rep.crim_gen1==='不錯'&&rep.civ_general==='過了'&&Object.keys(rep).every(id=>CLS.attCourse(CLS.byId(id))?rep[id]==='不及格':['很好','不錯','過了'].includes(rep[id]))&&rep.chinese_y1==='不及格',JSON.stringify(rep));
   const said=[]; const GM={G,sceneBegin(){},sceneEnd(){},say:async(n,t)=>{ said.push(t); },toast(t){ said.push('toast:'+t); }};
   (async()=>{ await CLS.morning(GM); const n1=said.length; await CLS.morning(GM); check('學期結束的第一個早上發成績單一次（第二次不再發）',n1>=2&&said.length===n1&&!!G.courses.grades.Y1S1,said.slice(0,2).join(' | '));
     finish(); })(); }
