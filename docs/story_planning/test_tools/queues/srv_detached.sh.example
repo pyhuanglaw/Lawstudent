@@ -1,0 +1,3 @@
+#!/bin/bash
+# 不跟工作階段的背景工作綁在一起（背景工作 2 小時會被收掉）
+for pp in "lw 8782" "lw6 8784" "lw7 8776"; do set -- $pp; cd /tmp/claude-0/-home-user-Lawstudent/773c49b9-ad25-576f-b588-101fb9f8321d/scratchpad/$1 && setsid nohup python3 -m http.server $2 > /tmp/claude-0/-home-user-Lawstudent/773c49b9-ad25-576f-b588-101fb9f8321d/scratchpad/bbtest/srv$2.log 2>&1 < /dev/null & done

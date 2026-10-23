@@ -105,6 +105,10 @@ CHK = """(a=>{ const G=GAME.G, F=G.flags, LOG=window.__LOG||[]; const msgs=(G.ms
   o.money=(GAME.G.money|0)-(window.__M0|0); o.fade=(()=>{ const f=document.getElementById('fade'); return f?getComputedStyle(f).opacity:'?'; })(); return o; })(%s)"""
 async def verify(pg, run, sc):
     a = {'flags': sc.get('cflags', []), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
+    for _ in range(10):   # BB-B 10-23：黑幕淡出中（US370_lake 0.94，截圖已經沒有黑幕）＝等它淡完再看，最多 5 秒
+        fo = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return f?+getComputedStyle(f).opacity:0; })()")
+        if fo <= 0.05: break
+        await pg.wait_for_timeout(500)
     o = await pg.evaluate(CHK % json.dumps(a)); txt = o['lines'] + o['msgTexts']; probs = []
     for w in sc.get('want', []):
         if not any(w in t for t in txt): probs.append('應該有「%s」，沒有' % w)
