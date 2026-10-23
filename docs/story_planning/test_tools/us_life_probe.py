@@ -32,8 +32,8 @@ async def drain(pg, cdp, pref=None, secs=120):
             if MID['n'] < 3 and MID['run'] and any(k in (s.get('dtext') or '') for k in MID['keys']):
                 MID['n'] += 1; await MID['run'].shot(pg, 'mid_%s_%d' % (MID['id'], MID['n']))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if await phone_open(pg): await close_phone(pg); continue   # BB-B 10-23：手機自己打開時人物也是 busy，原本先等 busy＝手機永遠不收（US370_k23 卡在 09:02）
         if s['busy']: await pg.wait_for_timeout(600); continue
-        if await phone_open(pg): await close_phone(pg); continue
         await pg.wait_for_timeout(1000); s = await L.state(pg)
         if not (s['dlg'] or s['choices'] or s['busy']): return True
     return False
@@ -69,8 +69,8 @@ async def play_until(pg, cdp, run, h, sc, secs=420):
         sn = await pg.evaluate(SNAP)
         if sn['h'] >= h: return True
         s = await L.state(pg)
+        if sc.get('asks') and not s['dlg'] and not s['choices'] and await answer(pg, cdp, sc['asks']): continue   # BB-B 10-23：要回的訊息先回（手機自己打開＝busy，原本先 drain 就不回）
         if s['dlg'] or s['choices'] or s['busy']: await drain(pg, cdp, pref=sc.get('pref', []) + ['出發', '接起來'], secs=180); continue
-        if sc.get('asks') and await answer(pg, cdp, sc['asks']): continue
         if await phone_open(pg): await close_phone(pg)
         if last and sn['h'] == last['h'] and time.time() - t0 > 30: pass
         last = sn; await pg.wait_for_timeout(2500)
@@ -318,10 +318,10 @@ SCENS = [
   dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
        steps=[('sleep',), ('ffloop', '2028-12-23', 9.3)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05', '阿姨好。……上次的鳳梨酥，很好吃。', '（九點。廚房裡有粥的味道。你回來了。）'], none=['伯母好。……我是書瑀。'], msgAt={'📷（每個人手上的禮物，都很眼熟。）': ('2028-12-22', 21.5, 0.1)}, cflags=['US_TRIP_DONE', 'US1']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
   # ===== AA370-US-FIX-1021（AA_370 第 5 節、LAWWW 20:23；開發分支 d22748f5 起）=====
-  # K23 和可昕：10/18 當地 09:00 三則（視訊各自說）→ 回「改天。」→「好。那週六晚上九點，你那邊早上九點。」→ 10/21 08:45「接起來：和可昕視訊」→ 視訊：「我要考律師。從現在開始準備。」
+  # K23 和可昕：10/18 當地 09:00 三則（視訊各自說；第一則 AA_378 改成「你的那條路，現在走到哪了？」，BB-B 10-23 跟上）→ 回「改天。」→「好。那週六晚上九點，你那邊早上九點。」→ 10/21 08:45「接起來：和可昕視訊」→ 視訊：「我要考律師。從現在開始準備。」
   dict(id='US370_k23', key='2028-10-18', h=8.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + ALONE + PLAT,
        steps=[('until', 9.3), ('ffloop', '2028-10-21', 9.6)], asks={'y4_kx23': '改天。'}, pref=['接起來', '「（照實說自己的選擇）」', '出發'],
-       wantMsg=['大四要走哪條路，你決定了嗎？不用現在說。', '週五晚上七點，你那邊是早上。我們視訊，各自說。', '好。那週六晚上九點，你那邊早上九點。'], want=['我要考律師。從現在開始準備。'], cflags=['KX23_CALL']),
+       wantMsg=['你的那條路，現在走到哪了？不用現在說。', '週五晚上七點，你那邊是早上。我們視訊，各自說。', '好。那週六晚上九點，你那邊早上九點。'], want=['我要考律師。從現在開始準備。'], cflags=['KX23_CALL']),
   # 湖邊（交往中）：8/5 17:30「傍晚去湖邊走走。……走路十五分鐘。」→ 18:30 出發：湖邊 →「台灣這時候，天快亮了。」（不是吃宵夜）
   dict(id='US370_lake', key='2028-08-05', h=17.2, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
        steps=[('until', 19.6, 900)], pref=['出發：湖邊', '出發'], wantMsg=['傍晚去湖邊走走。……走路十五分鐘。'], want=['台灣這時候，天快亮了。'], none=['台灣這時候，已經在吃宵夜了。'], cflags=['US_LAKE_FIRST']),
