@@ -1549,6 +1549,111 @@ for _sc in R7:
     _sc['js'] = SAYH + _sc.get('js', '')
     _sc.setdefault('once', [w for w in _sc.get('want', []) if len(w) > 6 and not w.startswith('CHOICE:') and w not in _sc.get('rep', [])])   # 同 R6；選單、說好會重複的（rep）不算
 SCENS = SCENS + R7
+# ---- R8：清單第 57～60 項（LAWWW-B 10-23 17:30 派，開發分支 9c71e004a）——霖澤館 5F 研究室（CLOSED-SPACES-1023，src/lab5f3d.js）＋交往中叫「書瑀」（AA_411）----
+#   57 4F 刷卡門「往 5F 以上」：她在研究室（碩一～碩三週一～週四 12:20～14:00）＋見過她＝「傳訊息給學姊／算了」→ 兩分鐘後照關係開門一句 → 進 5F；一天一次；其他時候只有門上那一句
+#   58 14:00 她說「我要去總圖了。」→ 回 4F 樓梯間、不卡、不重複
+#   59 研究室出遊改在 5F 演：校園／宿舍出發＝ADV 底圖 blur、人在 linze_5f；家裡出發照舊 2D；聖誕夜只亮她的燈、口試中門牌、兩張書桌坐旁邊；演完回原處
+#   60 交往中三句＋按鈕、標題卡、系統提醒換「書瑀」；沒交往、分手以後照舊「學姊」
+CAP2 = " if(GAME.caption&&!GAME.caption.__c2){ const c0=GAME.caption; const f=function(a,b){ try{ window.__LOG.push({n:'CAPTION2',t:'CAPTION2:'+(b==null?'':String(b)),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return c0.apply(this,arguments); }; f.__c2=1; GAME.caption=f; }"   # 門上那一句（GM.caption 的第二個參數；舊的 CAPTION 只記第一個）
+ZHK = (" if(!window.__ZH){ window.__ZH=1; window.__ZL=[]; window.__LZ=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ const P=GAME.E.player; window.__ZL.push({z:GAME.G.zone,seat:!!P.seat,t:String(t).slice(0,24)}); }catch(e){} return s0.apply(this,arguments); };"
+       " if(typeof LZUP!=='undefined') for(const k of ['examSign','labLights']){ const f0=LZUP[k]; if(typeof f0==='function') LZUP[k]=function(){ try{ window.__LZ.push(k+':'+[...arguments].join(',')); }catch(e){} return f0.apply(this,arguments); }; } }")   # 每一句話當時在哪一區、有沒有坐著；研究室的燈和口試門牌叫了什麼
+R8H = SAYH + CAP2 + ZHK + " " + BGHOOK + ";"
+LOWLV = " LV('heroine_05',25,10,10);"   # 有點熟（FAMILIAR）
+LAB_DOOR = '5 樓以上是研究室，樓梯間的門要刷教職員證。'
+OPEN = {'low': '……有事嗎。進來。', 'friend': '你來了。進來，小聲一點。', 'lover': '（她開了門，沒有說話，拉你的袖子進去。）'}
+N4UP = NEAR('4F 樓梯間「往 5F 以上」', label='往 5F 以上'); DOOR = ('usep', '^往 5F 以上$')
+N5DN = NEAR('5F 樓梯間「走樓梯下樓（4F）」', label='走樓梯下樓（4F）'); DOWN = ('usep', '^走樓梯下樓（4F）$')
+NSIS = ('jsrun', "(()=>{ const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,-5.65,4.2,0); else P.obj.position.set(-5.65,0,4.2); return [-5.65,4.2]; })()", '主角直接放到學姊的位子旁邊（不從樓梯間走過去：負載高會逾時）')   # 【捷徑】
+IN5 = ('wait', "GAME.G.zone==='linze_5f'", 120, '進到 5F')
+SISDESK = "(n=>!!n&&Math.hypot(n.obj.position.x+5.65,n.obj.position.z-5.45)<0.8)(GAME.npc&&GAME.npc.heroine_05)"
+CHN = lambda t: "(t=>(window.__LOG||[]).filter(x=>String(x.t).startsWith('CHOICE:')&&String(x.t).includes(t)).length)(%s)" % json.dumps(t, ensure_ascii=False)
+FREEQ = "(()=>{ const P=GAME.E.player; return !P.busy&&!(GAME.D&&GAME.D.active); })()"
+SCHEDZ = "(()=>{ const e=STORY.schedEnt(CHARACTERS.heroine_05,GAME.G); return e?e.zone:null; })()"
+CAPQ = LNQ('CAPTION2:' + LAB_DOOR)
+def LABS(i, key, h, js, tier, more=None, extra=None):
+    st = [N4UP, MK('heroine_05'), DOOR, IN5, ('chk', '她坐在 5F 研究室靠窗的位子（sis_desk）', SISDESK, True), NSIS, ('talk', 'heroine_05')] + (more or [])
+    ok = [('「傳訊息給學姊／算了」出現一次', CHN('傳訊息給學姊'), 1), ('今天按過（LAB5_DOOR＝今天）', "GAME.G.flags.LAB5_DOOR===GAME.G.day", True)] + (extra or [])
+    return dict(id=i, key=key, h=h, zone='linze_4f', flags=dict(TW3), js=R8H + js, pref=['傳訊息給學姊'], steps=st,
+                want=[OPEN[tier]], none=[v for k, v in OPEN.items() if k != tier], jsok=ok)
+def LABX(i, key, h, flags, js, why):   # 只有門上那一句
+    return dict(id=i, key=key, h=h, zone='linze_4f', flags=flags, js=R8H + js, pref=['算了'], steps=[N4UP, DOOR, ('wait', CAPQ + '>0', 60, '門上那一句')],
+                none=list(OPEN.values()), jsok=[(why + '：沒有「傳訊息給學姊」', CHN('傳訊息給學姊'), 0), (why + '：門上那一句', CAPQ, lambda n: isinstance(n, int) and n >= 1), (why + '：還在 4F', "GAME.G.zone", 'linze_4f')])
+R8 = [
+  # 57＋58：有點熟（2026-09-22 週二 12:27，碩一）→ 開門一句（有點熟）→ 5F → 說話 →【捷徑】撥到 13:55 → 14:00「我要去總圖了。」回 4F
+  LABS('LAB57_LOW', '2026-09-22', 12.45, SISB + LOWLV, 'low',
+       more=[('jump', 'GAME.G.day', 13.92, '同一天 13:55（在研究室等到 14:00）'), ('wait', "GAME.G.zone==='linze_4f'", 900, '14:00 她去總圖、祐廷回到 4F'), ('until', 14.15, 600)],
+       extra=[('「我要去總圖了。」只說一次', LOGN('我要去總圖了。'), 1), ('回到 4F、恢復控制', FREEQ, True), ('14:00 以後她的作息不在 5F', SCHEDZ, lambda z: z != 'linze_5f'), ('LAB5_IN 清掉', "GAME.G.flags.LAB5_IN==null", True)]),
+  # 57：朋友 → 開門一句（朋友）；同一天再下樓、再按一次＝只有門上那一句
+  LABS('LAB57_FRIEND', '2026-09-22', 12.45, SISF, 'friend',
+       more=[N5DN, DOWN, ('wait', "GAME.G.zone==='linze_4f'", 120, '回到 4F'), ('pref', ['算了']), N4UP, DOOR, ('wait', CAPQ + '>0', 60, '第二次：門上那一句')],
+       extra=[('第二次：門上那一句', CAPQ, lambda n: isinstance(n, int) and n >= 1), ('第二次：還在 4F', "GAME.G.zone", 'linze_4f')]),
+  # 57：交往中 → 旁白「拉你的袖子進去」
+  LABS('LAB57_LOVER', '2026-09-22', 12.45, SIS_D, 'lover'),
+  LABX('LAB57_1500', '2026-09-22', 15.0, dict(TW3), SISF, '15:00'),
+  LABX('LAB57_FRI', '2026-09-25', 12.5, dict(TW3), SISF, '週五'),
+  LABX('LAB57_US', '2028-09-26', 12.5, dict(TWF), Y4 + SISF, '她在美國（2028-09-26 週二）'),
+]
+# 59：出遊改在 5F（[前置] OUT.plan 寫一筆和遊戲同欄位的出遊；從校園／宿舍站著等「出發」）
+def PLAN(o): return " OUT.plan(G,Object.assign(%s,{day:G.day}));" % json.dumps(o, ensure_ascii=False)   # 和遊戲同欄位，日子＝今天
+def OUT5(i, key, h, zone, js, o, pref, ev, extra=None, home=False, want=None):
+    st = ([('jsrun', "(()=>{ void HOME.arriveQuiet(GAME); return true; })()", '直接到臺北的家（家裡的選單）')] if home else []) + [('until', o['h'] + 0.6, 1500)]
+    ok = [('演了 %s' % ev, "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done[%s])" % json.dumps(ev), True)]
+    if home: ok += [('從家裡出發：照舊 2D（沒有進 5F）', "(window.__ZL||[]).some(x=>x.z==='linze_5f')", False), ('從家裡出發：沒有 blur 底圖', LNQ('BG:blur'), 0),
+                    ('從家裡出發：研究室走廊的照片', "(window.__LOG||[]).filter(x=>/^BG:.*(linze_prof_hall|ra_lab)/.test(String(x.t))).length", lambda n: isinstance(n, int) and n >= 1)]
+    else: ok += [('演的時候人在 5F', "(window.__ZL||[]).filter(x=>x.z==='linze_5f').length", lambda n: isinstance(n, int) and n >= 2), ('底圖是模糊的 3D（BG:blur）', LNQ('BG:blur'), lambda n: isinstance(n, int) and n >= 1),
+                ('沒有研究室走廊的照片', "(window.__LOG||[]).filter(x=>/^BG:.*(linze_prof_hall|ra_lab)/.test(String(x.t))).length", 0), ('演完回到原本的地方', "GAME.G.zone", zone)]
+    return dict(id=i, key=key, h=h, zone=zone, flags=dict(TWF), js=R8H + Y4 + js + PLAN(o), pref=pref, steps=st, want=want or [], jsok=ok + (extra or []))
+O_DESK = {'id': 'sisy23_lab', 'ev': 'ev_sis_lab_desk', 'day': 0, 'h': 12 + 20 / 60, 'late': 0.25, 'place': '霖澤館・研究室', 'title': '研究室（幫學姊搬書）', 'travel': '走路 約 10 分鐘', 'travelH': 1 / 6}
+O_XMAS = {'id': 'sisb4_xmas_y3', 'ev': 'ev_sis_xmas_y3', 'day': 0, 'h': 21, 'late': 0.25, 'place': '霖澤館・研究室', 'title': '聖誕夜（霖澤館・研究室）', 'travel': '走路 約 10 分鐘', 'travelH': 1 / 6}
+O_PLAN = {'id': 'r3_sis_plan_lab', 'ev': 'ev_sis_plan_lab', 'day': 0, 'h': 19, 'late': 0.5, 'place': '霖澤館・研究室', 'title': '研究室', 'travel': '走路 約 10 分鐘', 'travelH': 1 / 6}
+O_DESKS = {'id': 'r3_desk_2029-03-07', 'ev': 'ev_sis_y4_desks', 'day': 0, 'h': 21, 'late': 0.75, 'place': '霖澤館・研究室', 'title': '研究室', 'travel': '走路 約 10 分鐘', 'travelH': 1 / 6}
+O_DEF = {'id': 'y4_m9', 'ev': 'ev_sis_defense', 'day': 0, 'h': 16, 'late': 2, 'place': '霖澤館・研究室的走廊', 'title': '學姊的口試', 'travel': '', 'travelH': 1 / 6, 'hours': 1}
+O_BDAY = {'id': 'pg_sis_bday', 'ev': 'ev_pg_sis_bday', 'day': 0, 'h': 20.5, 'late': 0.5, 'place': '霖澤館・研究室', 'title': '學姊的生日：研究室，八點半', 'travel': '走過去約 10 分鐘', 'travelH': 1 / 6}
+DESK_NOTE = '（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）'
+R8 += [
+  OUT5('LAB59_DESK_CAMPUS', '2026-09-22', 11.8, 'campus', SISF, O_DESK, ['出發：研究室', '「照顏色排？」'], 'ev_sis_lab_desk', want=['（研究室有八張桌子。她的在門邊，門一開就撞到椅背。）']),
+  OUT5('LAB59_DESK_DORM_D', '2026-09-22', 11.8, 'dorm', SIS_D, O_DESK, ['出發：研究室', '「照顏色排？」'], 'ev_sis_lab_desk', want=[DESK_NOTE]),
+  OUT5('LAB59_XMAS_DORM', '2027-12-24', 20.5, 'dorm', SIS_D, O_XMAS, ['出發：聖誕夜'], 'ev_sis_xmas_y3', extra=[('只亮她那一盞燈（labLights:sis）', "(window.__LZ||[]).includes('labLights:sis')", True), ('演完燈恢復（labLights:all）', "(window.__LZ||[]).slice(-1)[0]", 'labLights:all')]),
+  OUT5('LAB59_XMAS_HOME', '2027-12-24', 20.62, 'dorm', SIS_D, O_XMAS, ['出發：聖誕夜'], 'ev_sis_xmas_y3', home=True),   # 已經到出發時間才回家（家裡選單一出來就有「出發」）
+  OUT5('LAB59_PLAN_CAMPUS', '2029-01-10', 18.5, 'campus', SISF, O_PLAN, ['出發：研究室'], 'ev_sis_plan_lab'),
+  OUT5('LAB59_DESKS_DORM_D', '2029-03-07', 20.5, 'dorm', SIS_D, O_DESKS, ['出發：研究室'], 'ev_sis_y4_desks', extra=[('兩張書桌：祐廷坐她旁邊（演的時候坐著）', "(window.__ZL||[]).filter(x=>x.z==='linze_5f'&&x.seat).length", lambda n: isinstance(n, int) and n >= 1)]),
+  OUT5('LAB59_DEF_CAMPUS', '2029-05-29', 15.6, 'campus', SISF, O_DEF, ['出發：學姊的口試', '出發'], 'ev_sis_defense', extra=[('口試中門牌：演的時候顯示、演完拿掉', "(window.__LZ||[]).filter(x=>x.startsWith('examSign')).join('｜')", lambda s: isinstance(s, str) and s.startswith('examSign:true') and s.endswith('examSign:false'))]),
+  OUT5('LAB59_BDAY_DORM_D', '2029-06-02', 20.0, 'dorm', SIS_D, O_BDAY, ['出發：書瑀的生日', '出發：學姊的生日'], 'ev_pg_sis_bday',
+       extra=[('出遊按鈕寫「書瑀的生日」（交往中）', CHN('出發：書瑀的生日'), lambda n: isinstance(n, int) and n >= 1), ('出遊按鈕沒有「學姊的生日」', CHN('出發：學姊的生日'), 0), ('標題卡寫「書瑀的生日」', LNQ('CARD:書瑀的生日'), lambda n: isinstance(n, int) and n >= 1)]),
+]
+# 60：交往中叫「書瑀」
+NTEA = NEAR('一一八茶飲 點餐', label='點餐（一一八茶飲）')
+def SY_TEA(i, js, name, other):
+    return dict(id=i, key='TERMDAY:Y2S1:5:2', h=12.3, zone='l118_tea', flags=dict(TW3), js=R8H + js, pref=['紅茶拿鐵', '也幫' + name + '點一杯', '無糖綠茶', '去冰'],
+                steps=[('jump', 'GAME.G.day', 12.52, '她的時段'), WAITNPC('heroine_05'), NTEA, ORDER('一一八茶飲')],
+                jsok=[('選項「也幫%s點一杯」' % name, CHN('也幫' + name + '點一杯'), lambda n: isinstance(n, int) and n >= 1), ('沒有「也幫%s點一杯」' % other, CHN('也幫' + other + '點一杯'), 0)])
+EXJS0 = SIS_D + " G.flags.dating_heroine_05=false; try{ const R=G.flags.romance&&G.flags.romance.heroine_05; if(R) R.status='ended'; }catch(e){}"   # [前置] 交往過、分手了
+HOOKRUN = ('jsrun', "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.hook(GAME,'Y3S2','heroine_05'); }catch(e){ console.warn('HOOKRUN',e); } finally{ GAME.sceneEnd(); } })(); return true; })()", '直接叫大三下期末女朋友版約會的鉤子（TERMEND.hook Y3S2 學姊）')   # 【捷徑】
+N4STUDY = NEAR('4F 窗邊自習座位', label='坐窗邊（自習）'); STUDY = ('usep', '^坐窗邊（自習）$')
+def SY_STUDY(i, js, name):
+    return dict(id=i, key='2029-03-06', h=15.0, zone='linze_4f', flags=dict(TWF, grad_reading=True), js=R8H + Y4 + js, pref=['讀書', '一小時', '讀' + name + '給的那篇文章'],
+                steps=[N4STUDY, STUDY, ('until', 15.4, 400)],
+                jsok=[('讀書選單「讀%s給的那篇文章」' % name, CHN('讀' + name + '給的那篇文章'), lambda n: isinstance(n, int) and n >= 1)] + ([('沒有「讀學姊給的那篇文章」', CHN('讀學姊給的那篇文章'), 0)] if name != '學姊' else []))
+def SY_BTN(i, js, name):   # 出遊按鈕：三筆 OUT.plan（標題照遊戲的寫法），選「晚一點」
+    o = [{'id': 'sy_t1', 'ev': 'ev_none_sy1', 'day': 0, 'h': 0, 'late': 0.5, 'place': '學姊家的巷口', 'title': '跨年：學姊家的巷口', 'travel': '捷運 約 30 分鐘', 'travelH': 0.5},
+         {'id': 'sy_t2', 'ev': 'ev_none_sy2', 'day': 0, 'h': 0, 'late': 0.5, 'place': '桃園機場', 'title': '接機（學姊）', 'travel': '開車 約 1 小時', 'travelH': 1}]
+    fix = " { for(const id of ['sy_t1','sy_t2']){ const q=OUT.get(G,id); if(q) q.h=G.hour+0.3; } }"
+    return dict(id=i, key='2027-12-31', h=19.0, zone='dorm', flags=dict(TWF), js=R8H + js + ''.join(PLAN(x) for x in o) + fix, pref=['晚一點'], steps=[('until', 19.5, 900)],
+                jsok=[('「出發：跨年：%s家的巷口」' % name, CHN('出發：跨年：' + name + '家的巷口'), lambda n: isinstance(n, int) and n >= 1), ('「出發：接機（%s）」' % name, CHN('出發：接機（' + name + '）'), lambda n: isinstance(n, int) and n >= 1),
+                      ('排進行程的系統提醒用「%s」' % name, "(window.__LOG||[]).filter(x=>/排進行程/.test(String(x.t))&&String(x.t).includes(%s)).length" % json.dumps('跨年：' + name, ensure_ascii=False), lambda n: isinstance(n, int) and n >= 1)])
+R8 += [
+  SY_TEA('SY60_TEA_D', SIS_D, '書瑀', '學姊'), SY_TEA('SY60_TEA_F', SISF, '學姊', '書瑀'), SY_TEA('SY60_TEA_EX', EXJS0, '學姊', '書瑀'),
+  dict(id='SY60_HOOK_D', key='2028-06-12', h=20.0, zone='dorm', flags=dict(TWF), js=R8H + SIS_D, pref=['不'], steps=[HOOKRUN],
+       jsok=[('鉤子的選項「「那天我去送妳。」」', CHN('「那天我去送妳。」'), lambda n: isinstance(n, int) and n >= 1), ('沒有「送學姊」', CHN('「那天我去送學姊。」'), 0)]),
+  dict(id='SY60_HOOK_F', key='2028-06-12', h=20.0, zone='dorm', flags=dict(TWF), js=R8H + SISF, pref=['不'], steps=[HOOKRUN],
+       jsok=[('沒交往：「「那天我去送學姊。」」或沒有鉤子', "(()=>{ const a=%s, b=%s; return a>0&&b===0?'學姊版':(a===0&&b===0?'沒有鉤子（條件不到）':'錯：'+a+'/'+b); })()" % (CHN('「那天我去送學姊。」'), CHN('「那天我去送妳。」')), lambda s: s in ('學姊版', '沒有鉤子（條件不到）'))]),
+  SY_STUDY('SY60_STUDY_D', SIS_D, '書瑀'), SY_STUDY('SY60_STUDY_F', SISF, '學姊'),
+  SY_BTN('SY60_BTN_D', SIS_D, '書瑀'), SY_BTN('SY60_BTN_F', SISF, '學姊'), SY_BTN('SY60_BTN_EX', EXJS0, '學姊'),
+  dict(id='SY60_LADDER', key='2029-03-06', h=15.0, zone='dorm', flags=dict(TWF), js=R8H + Y4 + SIS_D, steps=[],
+       jsok=[('交往中：「妳變成學姊了。」不換（shuyuT 只換標題）', "SOCIAL.shuyuT?SOCIAL.shuyuT('妳變成學姊了。'):'(沒有 shuyuT)'", '妳變成學姊了。'),
+             ('交往中：「直屬學姊」不換', "SOCIAL.shuyuT?SOCIAL.shuyuT('直屬學姊'):'(沒有 shuyuT)'", '直屬學姊')]),
+]
+SCENS = SCENS + R8
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
