@@ -22,6 +22,9 @@
     if(i<0) return; const q=floors[i], up=FLOOR_NO(q)>+f.slice(0,1); const sp=q.zone==='linze'?{x:4.6,z:-4.9,lv:q.lv|0,yaw:Math.PI}:Object.assign({},LINZE_UPPER_LAYOUTS[q.zone.slice(6)].spawn);
     if(GM.caption) GM.caption('','電梯往'+(up?'上':'下')+'……',1800); await GM.enter(q.zone,sp); }
   S_.ride=ride;
+  /* 3F、4F、5F 的窗景兩層（法學院廣場的大樟樹在窗前 7～8 m，CLOSED-SPACES-1023 第 1 項的「窗戶對著一棵樹」，LAWWW2-B 10-23）：近景＝12 m 以內的樹冠，遠景＝法學院前的路、椰林。
+     景深照 tools/shots/shop_views_layers.json（白天、晚上一樣）；W3.setWindowView 照 VIEW_LAYERS 疊近景（room() 的窗） */
+  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{linze_3f:{far:26.91,near:2.67},linze_4f:{far:38.67,near:2.14},linze_5f:{far:18.97,near:3.69}});
   /* 5F：會議室門上的「口試中」（WALL_P3_EXAM_SIGN）平常藏起來；研究室的燈：LAB_tubes（三盞日光燈）、LAB_SIS_LAMP（學姊桌上的檯燈）。
      事件用 LZUP.examSign(true／false)、LZUP.labLights('all'｜'sis'｜'off')（'sis'＝只開她那一盞檯燈）；進 5F 以前、以後叫都可以（正式模型載好時照這裡的狀態），離開事件要叫回來（examSign(false)、labLights('all')）；
      燈光：'sis'／'off' 時整層的環境光、天花板燈調暗（區域的 applyTime：室內的時候引擎設完環境光以後叫它），檯燈那裡多一盞暖色的點光（'sis'）*/

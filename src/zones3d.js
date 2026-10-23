@@ -238,6 +238,13 @@ const Z3 = (function(){
     for(const x of [22,38,54,70,86]){ const b=TREE(1.15+((x/16)%2)*0.1); place(g,b,x,-80,x*0.4); nav.blockCircle(x,-80,0.9); }
     for(const x of [30,46,62,88]){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }   /* 第十九批：x=78 的花圃會擋在往萬才館的新小路上，移到 88 */
     for(const x of [12,100]){ const t=TREE(1.3); place(g,t,x,-96,0); nav.blockCircle(x,-96,0.9); const t2=TREE(1.0); place(g,t2,x+(x<50?-6:6),-108,1); nav.blockCircle(x+(x<50?-6:6),-108,0.8); }
+    /* 霖澤館西段正面的大樟樹（CLOSED-SPACES-1023，LAWWW2-B 10-23；AA_399 1-1「她的位子在走廊最後一間、靠窗，窗戶對著一棵樹」：5F 碩士班研究室那扇窗前。
+       LAWWW-B 10-23 16:02 選 A：種一棵真的樹，從廣場看也在）。樹高 19 m：樟樹的樹冠在 0.24H～0.96H、半徑約 0.38H，五樓的窗（17～18.5 m）看出去是樹冠上半部；
+       離霖澤館正面（z −103）8.5 m，樹冠不碰牆；離霖澤館入口（x 34）、公告欄（16.6, −100.6）都遠。樹穴 2.4 m 見方＋矮緣石；導航只擋樹幹 */
+    { const BX=24.5, BZ=-94.5; const t=TK.tree(19,4242,{sp:'camphor'}); t.name='linze_big_camphor'; place(g,t,BX,BZ,0.6); nav.blockCircle(BX,BZ,1.0);
+      const pit=new THREE.Group(); pit.name='linze_big_camphor_pit'; const soil=new THREE.Mesh(new THREE.PlaneGeometry(2.2,2.2),new THREE.MeshStandardMaterial({color:0x3b332b,roughness:1})); soil.rotation.x=-Math.PI/2; soil.position.set(BX,0.014,BZ); soil.receiveShadow=true; pit.add(soil);
+      const curbM=new THREE.MeshStandardMaterial({color:0xa8a49c,roughness:0.85}); for(const [dx,dz,w,d] of [[0,-1.15,2.4,0.12],[0,1.15,2.4,0.12],[-1.15,0,0.12,2.2],[1.15,0,0.12,2.2]]){ const c=new THREE.Mesh(new THREE.BoxGeometry(w,0.12,d),curbM); c.position.set(BX+dx,0.06,BZ+dz); c.castShadow=c.receiveShadow=true; pit.add(c); }
+      g.add(pit); }
     /* 第十九批拿掉兩段矮籬 (48,-106.5)、(74,-106.5)：大半埋在霖澤館、萬才館的牆裡 */
     // 霖澤館、萬才館（v9.3 第十九批，照使用者提供的照片重做，CK.lawhall）：灰色花崗石下三層＋紅磚方格上層＋寬花崗石轉角＋薄屋頂板。
     // 霖澤館：穿過整棟的三層樓高門廊（穿堂）、整排寬台階。佔地中心和舊版相同
