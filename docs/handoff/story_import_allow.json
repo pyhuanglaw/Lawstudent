@@ -1986,7 +1986,7 @@
   },
   {
    "path": "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md",
-   "sha": "7a6469099",
+   "sha": "d805bceee",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "DL-10",
@@ -2103,9 +2103,9 @@
   },
   {
    "path": "docs/story_planning/AA_424_美國篇空白日_週六秋假迎新週.md",
-   "sha": "355980037",
+   "sha": "a4ee6c74a",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 19:0x 定稿（D109）",
+   "approvedBy": "AA-B 2026-10-23 19:0x 定稿（D109）；第 7 節（9/9 改成她來借洗衣機、9/23 群組、記憶名稱）AA-B 19:4x",
    "task": "US-AA424-1023",
    "kind": "text",
    "note": "src/us_blank3d.js、src/data/us_blank_lines.js（tests/aa424_us_blank_unit.js）"

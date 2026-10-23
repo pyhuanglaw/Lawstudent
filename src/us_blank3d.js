@@ -79,7 +79,7 @@ const US_BLANK=(function(){
     PHONE.at(G,d,21,L,'usb_chi_1111'); };
 
   S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!here(G)) return;
-    try{ S.grpPhone(G); S.satPhone(G); S.chiPhone(G); }catch(e){ console.warn('US_BLANK.phone',e); } };
+    try{ S.grpPhone(G); S.satPhone(G); S.chiPhone(G); S.laundryPhone(G); }catch(e){ console.warn('US_BLANK.phone',e); } };
 
   /* ======================= 日期卡（第 2 節六張、第 5 節一張）：USL.SUM 多幾張，每張有 if ======================= */
   S.cardIf=(c,G)=>(!!c.dating&&S.fbDating(G))||(!!c.repair&&S.fbRepair(G))||(!!c.chicago&&S.chiOK(G));
@@ -106,7 +106,12 @@ const US_BLANK=(function(){
   /* ======================= 第 3-4 節 9/9 社區的洗衣間（交往中、還沒演 US2）======================= */
   S.LAUNDRY_DAY='2028-09-09';
   S.laundryOn=(G,day)=>here(G)&&dating(G)&&day===D(S.LAUNDRY_DAY)&&!done(G,'ev_usb_laundry');
-  S.laundryDue=G=>S.laundryOn(G,G.day)&&G.hour<24&&hh(G)>=8&&hh(G)<12;   /* 那天上午 */
+  S.laundryDue=G=>false;   /* AA_424 第 7-1 節：不再是「上午去洗衣服才演」，改成 10:30 她私訊、11:00 在 214（S.laundryPhone、OUT.STAGE）*/
+  S.laundryPhone=function(G){ const L=X.LAUNDRY, d=D(L.d), F=G.flags; if(d==null) return;
+    if(S.laundryOn(G,d)&&now(G)>=T(d,L.ask)&&now(G)<T(d,L.h)&&!PHONE.sent(G,'usb_laundry_ask'))
+      PHONE.at(G,d,G.day===d?Math.max(L.ask,G.hour):L.ask,[{th:'p:'+S5,from:S5,text:L.msg,ask:{id:'usb_laundry_ask',until:T(d,L.h),opts:[{t:L.yes,set:{USB_LAUNDRY:'go'}},{t:L.no,say:[{from:S5,text:L.noReply}],set:{USB_LAUNDRY:'no'}}]}}],'usb_laundry_ask');
+    if(F.USB_LAUNDRY==='go'&&typeof OUT!=='undefined'&&!OUT.get(G,'usb_laundry')&&now(G)<T(d,L.h)+0.75)
+      OUT.plan(G,{id:'usb_laundry',ev:'ev_usb_laundry',day:d,h:L.h,late:0.75,must:true,place:'你的公寓（214）',title:'她來借洗衣機',travel:'',travelH:0}); };
   S.isLaundryDoor=(it,G)=>!!it&&!!G&&G.zone==='us_apartment'&&!!it.look&&it.label==='洗衣機';   /* us3d.js 的關著的門（配置 doors 的 laundry，label「洗衣機」）*/
   S.laundry=async function(GM,it){ const G=GM.G; let k=1;
     GM.sceneBegin(); try{ k=await GM.choose([{t:'洗衣服',hint:'40 分鐘'},{t:'只看看'}]); } finally { GM.sceneEnd(); }
@@ -133,12 +138,12 @@ const US_BLANK=(function(){
   if(USL.club&&!USL._usbClub){ const c0=USL.club; USL.club=function(GM){ if(GM&&GM.G&&S.studyDue(GM.G)) return S.club(GM); return c0.apply(this,arguments); }; USL._usbClub=true; }
 
   /* ======================= 快轉的停點（包住 USL.nextStop）：9/9 11:00 洗衣間、10/12 19:30 自習室（同 208 的週末：到那裡才演的事，快轉停在開始的時候）======================= */
-  S.stops=G=>{ const out=[]; { const d=D(S.LAUNDRY_DAY); if(d!=null&&S.laundryOn(G,d)) out.push(T(d,11)); } { const d=D(S.STUDY_DAY); if(d!=null&&S.studyOn(G,d)) out.push(T(d,19.5)); } return out; };
+  S.stops=G=>{ const out=[]; { const d=D(S.LAUNDRY_DAY); if(d!=null&&S.laundryOn(G,d)) out.push(T(d,X.LAUNDRY.ask)); }   /* 9/9 10:30 她的私訊 */ { const d=D(S.STUDY_DAY); if(d!=null&&S.studyOn(G,d)) out.push(T(d,19.5)); } return out; };
   if(USL.nextStop&&!USL._usbStop){ const n0=USL.nextStop; USL.nextStop=function(G,t0){ let best=n0.apply(this,arguments); if(!G||!G.flags) return best;
       for(const x of S.stops(G)) if(x>t0+1e-6&&(best==null||x<best)) best=x; return best; }; USL._usbStop=true; }
 
   /* ======================= 3D 的出遊：竹葉亞洲超市、法學院圖書館（OUT.STAGE：演之前換到那個區域，畫面用模糊的 3D）======================= */
-  S.STAGES={ev_usb_asian:{zone:'us_asian_market'},ev_usb_syllabus:{zone:'us_lawlib',sisSeat:3,mySeat:0}};   /* 圖書館：中庭第一張長閱覽桌，她和你對面（同 USL.sisSync 的位子）*/
+  S.STAGES={ev_usb_asian:{zone:'us_asian_market'},ev_usb_syllabus:{zone:'us_lawlib',sisSeat:3,mySeat:0},ev_usb_laundry:{zone:'us_apartment'}};   /* 9/9：她站在 214 門口（AA_424 第 7-1 節）*/   /* 圖書館：中庭第一張長閱覽桌，她和你對面（同 USL.sisSync 的位子）*/
   S.staged=null;
   S.stage=async function(GM,q,ev){ const cfg=ev&&S.STAGES[ev.id]; if(!cfg) return null; const G=GM.G, E=GM.E, P=E&&E.player;
     if(!G||!P||!P.obj||!GM.enter||!here(G)||P.riding||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES[cfg.zone]||!Z3.ZONES[G.zone]) return null;
@@ -175,7 +180,6 @@ const US_BLANK=(function(){
   /* ======================= 給 BB_301 的工具（us_sweep61.js）：那一天有哪些「到那裡／那個時候才演」的（不是手機、不是日期卡、不是出遊）======================= */
   S.scenesOn=function(G,day){ const out=[];
     if(S.orientOn(G,day)) out.push('8/15 迎新週的摘要（那天第一次出門，或快轉跳過）');
-    if(S.laundryOn(G,day)) out.push('09:00～12:00 社區的洗衣間（公寓「洗衣機」→「洗衣服」）');
     if(S.studyOn(G,day)) out.push('19:00～21:00 會所自習室（她在；去讀書才演）');
     return out; };
 

@@ -58,7 +58,7 @@ const GRP=[
   ['2028-08-26',['開學第一週的閱讀很多。先讀每一份的開頭和結尾。'],'好。我試試看。',[]],
   ['2028-09-09',['Legal Writing 的教授改得很細。交之前，大聲念一次。'],'念完就知道哪裡卡了。',[':（她按了一個讚。）']],
   ['2028-09-16',['📷（湖邊的步道，起了霧）','早上的湖。'],'好漂亮。',[]],
-  ['2028-09-23',['C 棟洗衣間左邊那台會吃硬幣。不要用。'],'我被吃過了。',['heroine_05:我也是。']],
+  ['2028-09-23',['C 棟的烘衣機，濾網要自己清。不清會烘不乾。'],'我上次就烘不乾。',['heroine_05:我也是。']],
   ['2028-09-30',['市場街週六早上有農夫市集。蘋果很便宜。'],'明天去看看。',[]],
   ['2028-10-07',['秋假圖書館只開到下午五點。'],'謝謝提醒。',[]],
   ['2028-10-14',['📷（法學院前面的樹，葉子紅了一半）','開始變了。'],'臺灣看不到這個。',['heroine_05:嗯。']],
@@ -130,7 +130,7 @@ const SATS=[
 const SCN={
   ev_usb_asian:{lines:['（貨架很窄。她拿起一包八角，看了很久，放進籃子。）','醬油有。冰糖沒有。','……那就以後再說。'],opts:['「妳要煮什麼？」','「籃子給我。」'],a:['還沒決定。先買。'],b:['好。','（她把籃子交給你，又拿了一包米粉。）'],mem:'US_ASIAN_MARKET',scene:'竹葉亞洲超市'},
   ev_usb_lake_dog:{lines:['（湖邊的步道上，有人在遛狗。）','這裡的狗都很大。','……我小時候很怕狗。'],opts:['「現在呢？」','（陪她站著）'],a:['現在只怕大的。'],b:['（一隻大狗經過。她往你這邊靠了一點。）'],mem:'US_LAKE_DOG',scene:'湖邊'},
-  ev_usb_syllabus:{lines:['（開學後的第一個週六。三樓靠窗，她把每一門課的 syllabus 攤在桌上。）','第一週的閱讀很多。','你的也拿來。一起排。'],opts:['「好。」','「我自己排。」'],a:['（她在計畫本後面多畫了一頁格子，寫上你的名字。）'],b:['好。排好給我看。'],mem:'US_SYLLABUS',scene:'法學院圖書館'},
+  ev_usb_syllabus:{lines:['（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）','第一週的閱讀很多。','你的也拿來。一起排。'],opts:['「好。」','「我自己排。」'],a:['（她在計畫本後面多畫了一頁格子，寫上你的名字。）'],b:['好。排好給我看。'],mem:'US_SYLLABUS',scene:'法學院圖書館'},
   ev_usb_fb_lake:{lines:['（秋假的校園沒什麼人。湖邊的長椅，只有你們兩個。）','好久沒有一個下午不用讀書。','（她把計畫本放在膝上，沒有打開。）'],opts:['「那今天不讀。」','「要不要走一圈？」'],a:['嗯。今天不讀。','（她把計畫本收進包包。）'],b:['好。走慢一點。'],mem:'US_FALLBREAK_LAKE',scene:'湖邊'} };
 await sec('S',async()=>{
   for(const [ka,kd,h,msg,tag,evid,zone] of SATS){
@@ -150,22 +150,25 @@ await sec('S',async()=>{
     check('S7. 竹葉：她站在你前面（3D，GM.npc 有學姊）',H.entered[0]==='us_asian_market'); }
 });
 
-/* ======================= L 第 3-4 節 9/9 洗衣間、AA_412 3-2 ======================= */
-const LAUNDRY=['（烘衣機轉著。她坐在長椅上看書，旁邊放著摺好的衣服。）','還要一陣子。','……你要洗的話，左邊那台會吃硬幣。'];
+/* ======================= L 第 3-4 節 9/9 她來借洗衣機（AA_424 第 7-1 節，a4ee6c74a：每一戶自己有洗衣機）、AA_412 3-2 ======================= */
+const LAUNDRY=['（門鈴響了。她抱著一袋衣服站在門口。）','室友的衣服在我們那台裡面，放了兩天。','……借一下你的。','（洗衣機轉著。她坐在你的沙發上看書。）','還要一陣子。'];
 const DOOR={x:-0.65,z:2.4,radius:0.75,lv:0,label:'洗衣機',look:'洗衣機和烘衣機疊在一起。'};
 await sec('L',async()=>{
-  for(const [k,opt,tail] of [[0,'「謝謝提醒。」',['嗯。我已經被吃過了。']],[1,'（坐到她旁邊）',['（烘衣機停了。她沒有馬上站起來。）']]]){
-    const G=fresh('2028-09-09',10,'us_apartment',{US2:'dating'}); dateSis(); H.picks=[0,k]; H.said=[]; H.opts=[]; await STORY.interact(DOOR,GM);
-    check('L1. 9/9 10:00 交往中：公寓「洗衣機」→「洗衣服」＝社區的洗衣間（'+opt+'），台詞逐字、記 US_LAUNDRY、40 分鐘',J(H.opts[0])===J(['洗衣服','只看看'])&&J(said())===J(LAUNDRY.concat(tail))&&J(H.opts[1])===J(['「謝謝提醒。」','（坐到她旁邊）'])&&capt.includes('社區的洗衣間')&&SOCIAL.has(S5,'US_LAUNDRY')&&Math.abs(G.hour-(10+40/60))<1e-6,J(L())); }
-  { const G=fresh('2028-09-09',10,'us_apartment',{US2:'dating'}); dateSis(); H.picks=[1]; H.said=[]; await STORY.interact(DOOR,GM);
-    check('L2. 「只看看」＝原本「看」的字（AA_287）、不演',capt.includes('洗衣機和烘衣機疊在一起。烘衣機的濾網要自己清。')&&!H.said.length&&!SOCIAL.has(S5,'US_LAUNDRY'),J(capt)); }
-  for(const [k,h,dt,why] of [['2028-09-09',13,true,'中午以後'],['2028-09-09',10,false,'挽回中'],['2028-09-16',10,true,'9/16']]){
+  for(const [k,opt,tail] of [[0,'「要喝什麼？」',['水就好。']],[1,'（坐到她旁邊）',['（烘衣機停了。她沒有馬上站起來。）']]]){
+    const G=fresh('2028-09-09',10,'us_apartment',{US2:'dating'}); dateSis(); at('2028-09-09',10.5); rules();
+    const m=(G.msgs||[]).find(x=>x.th==='p:'+S5&&x.text==='你在家嗎？'); check('L0. 9/9 10:30 交往中：她私訊「你在家嗎？」（在。／不在。）',!!m&&J(m.ask.opts.map(o=>o.t))===J(['在。','不在。']),J(m));
+    ans('usb_laundry_ask',0); rules(); const q=OUT.get(G,'usb_laundry'); check('L0. 「在。」＝11:00 排「她來借洗衣機」（214）',!!q&&q.h===11&&q.ev==='ev_usb_laundry',J(q));
+    at('2028-09-09',10.95); H.picks=[k]; await go('usb_laundry');
+    check('L1. 9/9 11:00 在 214（'+opt+'）：台詞逐字、記 US_LAUNDRY',J(said().slice(0,LAUNDRY.length))===J(LAUNDRY)&&J(said().slice(LAUNDRY.length))===J(tail)&&SOCIAL.has(S5,'US_LAUNDRY'),J(L())); }
+  { const G=fresh('2028-09-09',10,'us_apartment',{US2:'dating'}); dateSis(); at('2028-09-09',10.5); rules(); ans('usb_laundry_ask',1); rules();
+    check('L2. 「不在。」＝她「好。我等她們。」、不演',(G.msgs||[]).some(x=>x.from===S5&&x.text==='好。我等她們。')&&!OUT.get(G,'usb_laundry')); }
+  for(const [k,h,dt,why] of [['2028-09-09',13,true,'9/9 下午'],['2028-09-09',10,false,'挽回中'],['2028-09-16',10,true,'9/16']]){
     const G=fresh(k,h,'us_apartment',{US2:dt?'dating':'repair'}); if(dt) dateSis(); H.picks=[0]; H.said=[]; await STORY.interact(DOOR,GM);
-    check('L3. '+why+'：「洗衣服」只是洗衣服（40 分鐘、衣服洗好了），不演',!H.said.length&&!SOCIAL.has(S5,'US_LAUNDRY')&&Math.abs(G.hour-(h+40/60))<1e-6&&toasts.includes('衣服洗好了。')); }
+    check('L3. '+why+'：公寓「洗衣機」的「洗衣服」只是洗衣服（40 分鐘、衣服洗好了），不演',!H.said.length&&!SOCIAL.has(S5,'US_LAUNDRY')&&Math.abs(G.hour-(h+40/60))<1e-6&&toasts.includes('衣服洗好了。')); }
   { const G=fresh('2028-09-08',22,'us_apartment',{US2:'dating'}); dateSis();
     const a=USL.nextStop(G,T(D('2028-09-08'),22)); G.events.done.ev_usb_laundry=1; const b=USL.nextStop(G,T(D('2028-09-08'),22));
     const G2=fresh('2028-09-08',22,'us_apartment',{US2:'repair'}); const c=USL.nextStop(G2,T(D('2028-09-08'),22));
-    check('L4. 快轉：交往中 9/9 11:00 停（演過就不停）；挽回中不停在那裡',a===T(D('2028-09-09'),11)&&b!==a&&c!==T(D('2028-09-09'),11),J([a,b,c].map(x=>x==null?null:[CALENDAR.dateOf(Math.floor(x/24)).key,x%24]))); }
+    check('L4. 快轉：交往中 9/9 10:30 停（她的私訊；演過就不停）；挽回中不停在那裡',a===T(D('2028-09-09'),10.5)&&b!==a&&c!==T(D('2028-09-09'),10.5),J([a,b,c].map(x=>x==null?null:[CALENDAR.dateOf(Math.floor(x/24)).key,x%24]))); }
   /* AA_412 3-2 */
   { const lurou=['（還沒進門就聞到了。醬油、八角，還有一點焦味。）','亞洲超市買得到八角。冰糖沒有，我用一般的糖。'];
     const G=fresh('2028-09-23',15,'us_shared',{US2:'dating'}); dateSis(); SOCIAL.remember(S5,'US_ASIAN_MARKET',''); H.picks=[0]; H.said=[]; await EVENTS.run(ev('ev_us208_lurou'),{noTitle:true});
@@ -243,7 +246,7 @@ await sec('C',async()=>{
 
 /* ======================= Z 給 BB 的工具 ======================= */
 await sec('Z',()=>{ const G=fresh('2028-09-09',8,'us_apartment',{US2:'dating'}); dateSis();
-  check('Z1. US_BLANK.scenesOn：9/9 交往中＝洗衣間；8/15＝迎新摘要；10/12 挽回中＝自習室',US_BLANK.scenesOn(G,D('2028-09-09')).length===1&&US_BLANK.scenesOn(G,D('2028-08-15')).length===1&&US_BLANK.scenesOn(G,D('2028-10-12')).length===0); });
+  check('Z1. US_BLANK.scenesOn：9/9 改成手機約（不算到那裡才演）；8/15＝迎新摘要；10/12 挽回中＝自習室',US_BLANK.scenesOn(G,D('2028-09-09')).length===0&&US_BLANK.scenesOn(G,D('2028-08-15')).length===1&&US_BLANK.scenesOn(G,D('2028-10-12')).length===0); });
 
 H.done();
 })();
