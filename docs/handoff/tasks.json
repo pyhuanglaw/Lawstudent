@@ -7252,7 +7252,7 @@
    "title": "約會地點 D15 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：沒有底圖",
    "priority": "P2",
    "first": {
@@ -7277,14 +7277,15 @@
    ],
    "resumeWhen": "企劃線 date_system/art 的 D15 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "notes": "【LAWWW-B 10-23 18:1x】底圖接上（DATE-L-BG4-1023，23b01fa69），列得出來了；BB 第 63 項。"
   },
   {
    "id": "DATE-L16",
    "title": "約會地點 D16 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：沒有底圖",
    "priority": "P2",
    "first": {
@@ -7309,7 +7310,8 @@
    ],
    "resumeWhen": "企劃線 date_system/art 的 D16 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "notes": "【LAWWW-B 10-23 18:1x】底圖接上（DATE-L-BG4-1023，23b01fa69），列得出來了；BB 第 63 項。"
   },
   {
    "id": "DATE-L17",
@@ -7471,7 +7473,7 @@
    "title": "約會地點 D22 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：沒有底圖",
    "priority": "P2",
    "first": {
@@ -7496,14 +7498,15 @@
    ],
    "resumeWhen": "企劃線 date_system/art 的 D22 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "notes": "【LAWWW-B 10-23 18:1x】底圖接上（DATE-L-BG4-1023，23b01fa69），列得出來了；BB 第 63 項。"
   },
   {
    "id": "DATE-L23",
    "title": "約會地點 D23 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：沒有底圖",
    "priority": "P2",
    "first": {
@@ -7528,7 +7531,8 @@
    ],
    "resumeWhen": "企劃線 date_system/art 的 D23 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
    "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
-   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停",
+   "notes": "【LAWWW-B 10-23 18:1x】底圖接上（DATE-L-BG4-1023，23b01fa69），列得出來了；BB 第 63 項。"
   },
   {
    "id": "DATE-L24",
