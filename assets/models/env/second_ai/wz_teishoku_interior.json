@@ -1,15 +1,15 @@
 {
- "objects": 37,
- "unique_meshes": 37,
- "tris": 19488,
- "tris_drawn": 19488,
- "materials": 24,
- "out": "assets/models/env/second_ai/wz_teishoku_interior.glb",
- "bytes": 1575400,
+ "objects": 38,
+ "unique_meshes": 38,
+ "tris": 19724,
+ "tris_drawn": 19724,
+ "materials": 30,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/trnew/wz_teishoku_interior.glb",
+ "bytes": 1613012,
  "texres": 512,
  "shop": "teishoku",
  "layout": 1,
- "tris_total": 19488,
+ "tris_total": 19724,
  "seats": 18,
  "block_problems": []
 }

@@ -180,7 +180,7 @@ def sq13_korea(root, X1):
     def at(t, y): return (cx + 0.0665 * math.cos(t), y, cz + 0.0665 * math.sin(t))
     k = 6; pts = [a - 0.55 + 1.1 * i / k for i in range(k + 1)]
     for i in range(k):
-        p.quad(lm, [at(pts[i + 1], y0 + 0.05), at(pts[i], y0 + 0.05), at(pts[i], y0 + 0.11), at(pts[i + 1], y0 + 0.11)], uv=(((i + 1) / k, 0), (i / k, 0), (i / k, 1), ((i + 1) / k, 1)))
+        p.quad(lm, [at(pts[i + 1], y0 + 0.05), at(pts[i], y0 + 0.05), at(pts[i], y0 + 0.11), at(pts[i + 1], y0 + 0.11)], uv=((1 - (i + 1) / k, 0), (1 - i / k, 0), (1 - i / k, 1), (1 - (i + 1) / k, 1)))   # 角度越大越往看的人的左邊：U 反過來（不然字是反的）
     return p.finish(root)
 
 
