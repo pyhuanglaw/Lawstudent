@@ -2368,6 +2368,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "騎樓柱子外 69 台機車（跨柱子、留缺口、有互動的店門口前後 2.6 m 淨空）、兩個腳踏車停車架、五棵行道樹＋樹穴；gongguan_layout_nav 51 PASS、reachability_all 公館 ALL PASS、street_props_nav_unit ALL PASS；最重鏡頭 33.3 萬三角形（原本 27.2 萬）"
+  },
+  {
+   "task": "GG-WALKERS-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "bf7b77ff",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gg_walkers_1023.patch（story3d.js walkRoutes.gongguan）",
+    "docs/art-rebuild/second_ai/test_shots/gg_walkers_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "騎樓裡的路線沒加（騎樓 2.4 m 深放不下 ±1 m 路點偏移；要的話 extras 要能讓單一路線偏移小一點）；真機沒看過",
+   "next": "LAWWW：patch 進開發分支（和街景 patch 一起）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "廣場多一條繞過圓環北側的路線；原本 z 16.5 那條改 z 16、x −30 改 −22（路點偏移擦過機車、進花台）；路人數量沒改；gongguan_layout_nav 51 PASS、reachability 公館 ALL PASS、street_props_nav ALL PASS"
   }
  ]
 }
