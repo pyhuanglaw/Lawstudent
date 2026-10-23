@@ -2545,6 +2545,25 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 10-23 19:3x：patch、GLB、窗景都進開發 2a672d9a8；lab5f3d.js 讀 me_desk 同意；水果攤老闆在 closed3d.js，09:00～22:00 站 owner；linze_5f、lab5f、linze_upper、nav_buildings、aa413_wz、wz_shops ALL PASS；touch_flow_wenzhou 發布前 LAWWW-B 跑）",
    "note": "B6 前的機車留 3.4 m（scRow 加 gap，其他機車不變）；互動點：買水果 (35.3,−3.9)、看 (33.6,−3.9)、布告欄 (−16.65,−3.8)；cvs 在 F.CVS_FROM==='wenzhou' 時用 cvs_wz（景深 10.6）；店員位置照舊"
+  },
+  {
+   "task": "CLOSED-SPACES-1023 第 3 項：總圖研究小間（2F 東側）＋5F 書庫（AA_399 第 3 節，企劃 claude/cool-heisenberg-o8kuqx）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/library_carrels.{glb,json,layout.json}、library_stacks.{glb,json,layout.json}",
+    "assets/models/env/views/library_carrels_{day,night}.webp、library_stacks_{day,night}.webp",
+    "docs/art-rebuild/second_ai/patches/library_upper_1023.patch（對開發 984ee75f3 apply --check 過；新檔 src/library_upper3d.js、src/data/library_upper_layouts.js、tests/library_upper_unit.js）",
+    "tools/blender/env_second/library_upper.py、lib5f_atlas.py、textures/gen/lib5f_books.*、library_carrels_print.png、library_stacks_print.png",
+    "docs/art-rebuild/second_ai/test_shots/library_upper_1023/README.md＋截圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；測試樹 INTEGRATED：library_upper_unit（新，20 項）、library_b1、nav_buildings、guide、placemap、quick_travel、zone_dispose、zone_prewarm ALL PASS（984ee75f3＋patch）；reachability 大廳＋閱覽室＋研究小間＋書庫 ALL PASS（96 點）、flow_library_floors ALL PASS（27 項）（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "學姊的時期美國期間除外、預約、敲玻璃、她和方奕廷的 NPC、借書是劇情接線（LAWWW-B）；其他九間沒有人；門沒有動畫；iPhone 沒看過",
+   "next": "LAWWW-B 套 patch、放 GLB 和窗景；看 nav_buildings_unit 兩項電梯樓層的修改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "入口我決定：大廳二樓東牆「研究小間」門打開；書庫搭電梯（三部電梯 1F～6F，4F、6F 關）。站位：carrels.spots sis_knock／sis_seat／sis_note／my_door／my_seat；stacks.spots fang／fang_look／ref_plant；interact row_300…row_380、row_j、row_ref"
   }
  ]
 }

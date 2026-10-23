@@ -84,6 +84,105 @@
   - `assets/models/env/second_ai/library_carrels.{glb,json,layout.json}`、`library_stacks.{glb,json,layout.json}`
   - `assets/models/env/views/library_carrels_{day,night}.webp`、`library_stacks_{day,night}.webp`（窗外的景，遊戲裡拍的；6 m／10 m 內沒有東西，所以只有一層）
   - `tools/blender/env_second/library_upper.py`、`lib5f_atlas.py`、`textures/gen/lib5f_books.{png,json}`、`library_carrels_print.png`、`library_stacks_print.png`
-- patch：`docs/art-rebuild/second_ai/patches/library_upper_1023.patch`（見下面）。
+- patch：`docs/art-rebuild/second_ai/patches/library_upper_1023.patch`（對開發 `984ee75f3` `git apply --check` 過）：
+  - 新檔：`src/library_upper3d.js`（兩個區域、`LUP`）、`src/data/library_upper_layouts.js`（`library_upper.py --js` 產生，不要手改）、`tests/library_upper_unit.js`。
+  - `index.html`：載入兩個新檔（在 `library_b1_3d.js` 後面）。
+  - `src/data/library_layout.js`：
+    - doors 的 carrels 加 `to`、`back`（`closed` 留著：研究小間的區域沒載入時照舊是「看」）。
+    - 大廳、閱覽室電梯的「4F–6F 書庫」換成 4F（關）、5F 書庫（開，`library_stacks`）、6F（關）。
+    - 新的 `stacks.elevator`（書庫那一部電梯：位置和大廳同一個井、base 5、樓層 1F～6F）。
+  - `src/library3d.js`：
+    - 有研究小間的區域時，「研究小間」的門是出口。
+    - 電梯樓層的出生點照樓層的區域找那一部電梯（`zoneElev`；原本「別的區域」一律當成閱覽室）。
+    - 樓層簡介（畫的字、看的字）改成 5F 開放。
+    - 回傳 `hallFloors`、`readingFloors`（單元測試用）。
+  - `src/guide3d.js`（大廳 ⇄ 研究小間、電梯 ⇄ 書庫；圖書館裡換區域不顯示「沒開」）、`src/placemap3d.js`（地圖釘＝總圖）、`src/data/places.js`（名字、開館時間 08:00–22:00）。
+  - `src/story3d.js` 兩行：書庫進來、待著叫 `LUP.populate`（背景讀者；拿掉這兩行就沒有）。
+  - `tools/shots/shop_views_layers.py`、`.json`：兩個窗景 `library_carrels`、`library_stacks`。
+  - **LAWWW-B 的測試檔（請看一下）**：
+    - `tests/nav_buildings_unit.js` 兩項：原本檢查「電梯 4 個樓層、4F 以上關著」，改成 6 個樓層（4F 關、5F 書庫開、6F 關）。
+    - `tests/library_b1_unit.js` 一項：guide 的比對允許 `library_b1` 後面再接研究小間（我的檔）。
 
-（以下測試、截圖、效能在拍完後補上。）
+## 截圖（遊戲內，Playwright＋SwiftShader；不是 iPhone 實機）
+
+2028-03-08（週三）：學姊用 03 的時期。截圖時設了今天有預約 08、她已經貼了便利貼（`carrelDay`、`carrelNoteDay`）。
+
+### 研究小間
+
+![研究小間](game_carrels.jpg)
+
+- 左上：門廳往東看走廊（15:00），盡頭是閱讀角的窗。
+- 右上：03 門外，小窗裡看得到她的檯燈和貼在玻璃上的黃色便利貼。
+- 左下：03 裡面（鏡頭在研究小間裡）：她的筆電、影印稿、計畫本、保溫瓶、便利貼。
+- 右下：08 今天有預約，門開著。
+
+![研究小間 2](game_carrels2.jpg)
+
+- 左上：閱讀角的窗（11:00）。
+- 右上：一般鏡頭、21:00（鏡頭比天花板高時，天花板和燈具淡出）。
+- 左下：大廳二樓東牆的「研究小間」門（大廳的模型沒有改）。
+
+### 5F 書庫
+
+![書庫](game_stacks.jpg)
+
+- 左上：出電梯的地方：5F 樓層牌、配置圖、館藏查詢、樓梯間的門（鎖著）。
+- 右上：最裡面那一排：左邊西牆的參考書，右邊 R1 期刊合訂本。站著的是**路人代替**，只是標出方奕廷的位置，不是他的模型。
+- 左下：中間的橫向走道，端板的類號牌（300 科學總論、R10…）。
+- 右下：南邊窗下的閱覽桌，窗外是椰林大道（11:00）。
+
+![書庫 2](game_stacks2.jpg)
+
+- 左：一般鏡頭（玩家在 R6、R7 中間的走道）。右：21:00 的閱覽桌（夜景）。
+
+### 窗外的景（遊戲裡的校園拍的）
+
+![窗景](views.jpg)
+
+- 上：研究小間的窗（總圖南側二樓的高度，往南）。下：書庫的窗（5F 的高度 19.5 m，往西看椰林大道）。
+
+### Blender（Cycles；天花板藏起來，曝光過亮，不是遊戲畫面）
+
+![Blender](blender.jpg)
+
+## 效能（遊戲內同一張截圖的 draw call／三角形）
+
+| 鏡頭 | calls | 三角形 |
+|---|---|---|
+| 研究小間：走廊 | 82 | 2.5 萬 |
+| 研究小間：03 門外 | 62 | 2.5 萬 |
+| 研究小間：08（有玩家） | 100 | 9.9 萬 |
+| 研究小間：一般鏡頭 21:00 | 93 | 6.3 萬 |
+| 書庫：電梯前（有玩家） | 91 | 11.1 萬 |
+| 書庫：最裡面那一排（有一個路人） | 71 | 10.2 萬 |
+| 書庫：橫向走道 | 97 | 8.1 萬 |
+| 書庫：一般鏡頭（有玩家，看得到大半層） | 121 | 15.2 萬 |
+
+- 模型：研究小間 2.1 萬三角形、17 種材質、1.96 MB；書庫 7.7 萬三角形（書用 GPU instancing：1,507 個物件、79 個網格）、16 種材質、2.01 MB。
+- 人物多的時候三角形主要是人物（一個 VRM 約 7 萬）。
+
+## 測試
+
+| 測試 | 測試樹 | 結果 |
+|---|---|---|
+| `node tests/library_upper_unit.js`（新） | 開發 `984ee75f3`＋patch；`03b327ded`＋patch | ALL PASS（20 項） |
+| `library_b1_unit`、`nav_buildings_unit`、`guide_unit`、`guide_declutter_unit`、`placemap_unit`、`quick_travel_unit`、`zone_dispose_unit`、`zone_prewarm_unit` | 同上 | ALL PASS |
+| `tests/reachability_all.py --zones library_hall,library,library_carrels,library_stacks` | `03b327ded`＋patch | ALL PASS（96 個互動點、6 個出入口到達點） |
+| `tests/flow_library_floors.py`（真實走路，不用 turbo；含電梯） | `03b327ded`＋patch | ALL PASS（27 項） |
+| 遊戲內截圖 13 張 | 同上 | 沒有 JS 例外 |
+| Blender `navcheck` | — | 0 個問題（研究小間 5 個座位、書庫 10 個） |
+
+- `library_upper_unit` 用修改前的開發分支跑：第 1 項 FAIL（沒有這兩個區域），後面不跑。
+- 第一版 `library_upper_unit` 抓到一個真的問題：08 的門擋路的範圍沒寫進配置，沒有預約也走得進去。已修。
+- 截圖修過的：掛勾穿到走廊、茶几是方塊、從上面看天花板燈具是一塊塊灰板、書庫東牆「樓梯間」牌子左右相反。
+
+## 還沒做到的、要 LAWWW-B 決定的
+
+1. **學姊的時期**：`LUP.sisPeriod` 只照日期（2028-02～2029-05），**美國期間除外**要 LAWWW-B 判斷（換掉這個函式或加條件）。
+2. **預約**：服務台預約、一次三小時、一天一次（AA_399 3-1）是 LAWWW-B 的程式；我只做「今天有預約 08 就開門、可以坐」，看 `G.flags.carrelDay`。
+3. **敲玻璃**：她在的時段把 `door03` 的 label 換成「敲玻璃」、照關係顯示便利貼的字、`LUP.note(true)`（或寫 `G.flags.carrelNoteDay`）——劇情接線。
+4. **她和方奕廷的 NPC**：站位在 spots，NPC 由 LAWWW-B 放（03 的門關著，她直接放在 `sis_seat`）。
+5. **借書**（AA_399 3-2）：「看那一排」的 interact 已經有 id，借書的流程由 LAWWW-B 接。
+6. 研究小間其他九間門都關著、裡面沒有人。之後要背景的人坐在別間（從小窗看得到），再說。
+7. 門是靜止的：08 的門只有開、關兩種擺法，沒有開門的動畫。
+8. iPhone 沒看過。

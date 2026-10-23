@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **20:4x 更新**：
+    - 已交：③ 總圖研究小間＋5F 書庫（本 commit，`test_shots/library_upper_1023/README.md`、`patches/library_upper_1023.patch`，對開發 `984ee75f3` apply --check 過）。
+      - 遊戲內兩輪截圖修了：掛勾穿到走廊、茶几方塊、天花板燈具從上面看是灰板（改放 WALL_C）、書庫東牆牌子左右相反；08 的門擋路寫進配置（單元測試抓到）。
+      - reachability（大廳、閱覽室、研究小間、書庫）、flow_library_floors、單元測試都 ALL PASS。
+    - 收到（P2，不用回）：LAWWW-B 20:11Z ART-WZ-MARKET-1023 溫州街小公園二手市集攤位（開發 7447bd8b4，每月第一個週六 09～13，入口步道 (26.0,12.6)、雨天老樹下 (26.0,18.3)，WZL.market），排在 ⑤ 後面。
+    - 下一項：④ 體育館 3F SET_CEREMONY（開學、畢業典禮；A16）→ ⑤ ART-WZ6 → 二手市集。
   - **19:5x 更新**：
     - LAWWW-B 19:3x：5F 研究室、AA_413 已整合進開發 `2a672d9a8`（outbox 改 ACTIONED）；佇列 ④ 後面加 ⑤ ART-WZ6（AA_420 第 9 節，tasks.json DL-11：房間六件物件、阿德影印兩種外觀、一盞簷廊貓碗、三家店上班站位）。
     - ③ AA_399 第 3 節（WIP `68e29bbed`）：`library_upper.py` 兩個區域 library_carrels（研究小間十間，學姊 03／玩家 08）、library_stacks（5F 書庫十排＋參考書）。
