@@ -1801,6 +1801,14 @@
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 10-23 實作 src/data/events.js ev_grad_debate_teach",
    "task": "AA389-REST-L-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_397_店員的支線_順手的事.md",
+   "sha": "8f1701b23",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 08:2x 定稿、09:09 更正子晴住處（D109）；LAWWW-B 10-23 子代理實作 src/sideq3d.js、wzpark3d.js（合併 400657c77）",
+   "task": "SIDEQ-AA397-1023、WZ-CAT-LIFE-1023",
+   "kind": "text"
   }
  ]
 }
