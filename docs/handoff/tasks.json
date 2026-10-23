@@ -30056,7 +30056,7 @@
    "id": "ART-L118-FACADE-3D-1023",
    "title": "118 巷九間店面外觀做成立體（門窗內退、有厚度的招牌雨遮、玻璃後看得到店內、店門口深度與陰影）；導航、店門互動點照 lane118_layout.js 不動",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -30079,13 +30079,15 @@
     "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "82725bf8（整合 6b2827942）",
+   "note": "2026-10-23 11:4x LAWWW-B 整合 6b2827942：GLB＋腳本＋貼圖集＋兩個測試 patch；單元 street_props_nav_unit、l118_*、lane118_* ALL PASS；gongguan_glb_integration 背景跑；BB 畫面＋flow_lane118／flow_l118_shops（清單第 37 項）；READY_FOR_ART_REVIEW，場景 ART_APPROVED 由使用者。溫州街同一套 wz_shopkit 還沒重建（LAWWW2 下次重建時店內也會變 unlit）。"
   },
   {
    "id": "ART-GG-FACADE-3D-1023",
    "title": "公館店面外觀（G00～G14 已套騎樓組件 SF_GG，使用者還是覺得醜）：遊戲內拍、找具體原因再改",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -30108,13 +30110,15 @@
     "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "82725bf8（整合 6b2827942）",
+   "note": "2026-10-23 11:4x LAWWW-B 整合 6b2827942：GLB＋腳本＋貼圖集＋兩個測試 patch；單元 street_props_nav_unit、l118_*、lane118_* ALL PASS；gongguan_glb_integration 背景跑；BB 畫面＋flow_lane118／flow_l118_shops（清單第 37 項）；READY_FOR_ART_REVIEW，場景 ART_APPROVED 由使用者。溫州街同一套 wz_shopkit 還沒重建（LAWWW2 下次重建時店內也會變 unlit）。"
   },
   {
    "id": "ART-SHOP-VIEWS-1023",
    "title": "店裡往外看的景（窗景、門外）很假：每間店從實際窗、門口位置重拍白天／黃昏／夜景、距離照實際；118 巷改視差窗、門口近景放真的 3D（人行道、機車、電線桿）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -30137,7 +30141,8 @@
     "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "2026-10-23 11:4x LAWWW-B ACK LAWWW2 開工：W3.windowMat 兩層視差（遠景＋透明近景）；場景程式照 D108 由 LAWWW2 改；交件附受影響區域、效能、前後截圖。"
   },
   {
    "id": "WZ-CAT-LIFE-1023",
