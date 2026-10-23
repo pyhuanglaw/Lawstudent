@@ -1224,7 +1224,7 @@ R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.
 def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
 # ---- 3D：痕跡道具（TRACE_SQxx，zones3d.js traceVis）、貓（wz_cat，zones3d.js buildWzPark）----
 R7_TRQ = """(id=>{ const out=[], R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(!R.test(o.name||'')) return; let w=true; for(let p=o;p;p=p.parent) if(p.visible===false){ w=false; break; }
-  let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); const v=new THREE.Vector3(); o.getWorldPosition(v);
+  let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); o.updateWorldMatrix(true,true); const bx=new THREE.Box3().setFromObject(o), v=new THREE.Vector3(); if(!bx.isEmpty()) bx.getCenter(v); else o.getWorldPosition(v);
   out.push({n:o.name,vis:o.visible,wvis:w,op:+op.toFixed(2),x:+v.x.toFixed(2),y:+v.y.toFixed(2),z:+v.z.toFixed(2)}); }); return out; })(%s)"""   # wvis＝自己和上面每一層都 visible（真的畫出來）
 def TRACEQ(i): return R7_TRQ % json.dumps(i)
 def TRACEN(i): return "(id=>{ let n=0; const R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(R.test(o.name||'')) n++; }); return n>0; })(%s)" % json.dumps(i)
@@ -1250,9 +1250,9 @@ INPARK = "(p=>!!PARK.inPark(p.x,p.z))(GAME.E.player.obj.position)"
 R7_HIDE = """(on=>{ const cv=GAME.E.renderer.domElement; for(const e of document.body.children){ if(e===cv||e.contains(cv)) continue; e.style.visibility=on?'hidden':''; }
   if(cv.parentElement&&cv.parentElement!==document.body) for(const e of cv.parentElement.children){ if(e!==cv) e.style.visibility=on?'hidden':''; }
   GAME.E.player.obj.visible=!on; })"""   # 同 window47_probe.py 的 HIDEUI
-# 主角站到目標 d 公尺外走得到的格子；鏡頭在主角後面（目標在畫面中間偏遠）——face：鏡頭改在目標那一側（看牆淡出）
+# 主角站到目標 d 公尺外走得到的格子；鏡頭在主角後面（目標在畫面中間偏遠）——face：鏡頭改在目標那一側（看牆淡出）。目標位置＝包圍盒中心（TRACE_* 的變換烘在幾何裡，節點位置是原點）
 R7_SHOTAT = """(t=>{ const E=GAME.E, P=E.player; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} let o=null; if(t.name||t.re){ const R=t.re?new RegExp(t.re):null; E.scene.traverse(x=>{ if(!o&&(x.name===t.name||(R&&R.test(x.name||'')))) o=x; }); }
-  let O=null; if(o){ let q=null; if(t.child){ const R2=new RegExp(t.child); o.traverse(x=>{ if(!q&&x!==o&&R2.test(x.name||'')&&(x.visible||!t.visOnly)) q=x; }); } if(!q&&t.first&&o.children.length) q=o.children[0]; O=new THREE.Vector3(); (q||o).getWorldPosition(O); }
+  let O=null; if(o){ let q=null; if(t.child){ const R2=new RegExp(t.child); o.traverse(x=>{ if(!q&&x!==o&&R2.test(x.name||'')&&(x.visible||!t.visOnly)) q=x; }); } if(!q&&t.first&&o.children.length) q=o.children[0]; const tg=q||o; tg.updateWorldMatrix(true,true); const bx=new THREE.Box3().setFromObject(tg); O=new THREE.Vector3(); if(!bx.isEmpty()) bx.getCenter(O); else tg.getWorldPosition(O); }
   else if(t.x!=null) O=new THREE.Vector3(t.x,0,t.z); if(!O) return null;
   const free=(x,z)=>!E.nav||!E.nav.free||E.nav.free(x,z); let best=null; const ds=(t.d?[t.d]:[]).concat([2.2,1.8,2.6,3.0,1.4,3.6]);
   for(const d of ds){ for(let k=0;k<24&&!best;k++){ const a=(t.a0||0)+k*Math.PI/12, x=O.x+Math.sin(a)*d, z=O.z+Math.cos(a)*d; if(free(x,z)) best={x,z,d}; } if(best) break; }
