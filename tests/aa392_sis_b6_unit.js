@@ -2,6 +2,7 @@
 //   1  第 1 節：交往中（臺灣、日本路線，她在美國）每週日 10:00 視訊（ev_sis_video_gf）：六組照順序、各一次，還沒到那一組的週次只有旁白；T1、SA_X 照片照收，T2 不收；
 //      逐字對稿（六組、旁白）；沒接＝「你在忙。下週。」；連兩週沒接，第三週她不打「這週我先不打了。你有空打給我。」，下一週照常；
 //      臺灣路線大峽谷才交往：大峽谷那一週不排、下一個週日從第一組開始、中秋那組不演
+//   3  第 3 節：交往中口試沒到——21:00 她打來（21:00 以前自己打也一樣），兩個選項；5/30 12:20～13:00 研究室的蛋糕
 //   2  第 2 節：期末「那天我去送學姊。」只給臺灣路線；7/26 21:05 私訊三選一（開車＝原本、到機場等她＝新的一場、去不了＝客運版多一句）；群組按鈕不再出；交往中的送機多兩行
 // 修改前（開發分支 8f9b305c1）：第 1 項 FAIL（交往中整個秋天沒有每週一格）。用法：node tests/aa392_sis_b6_unit.js
 require('./alison.js');
@@ -96,5 +97,20 @@ await sec(2,async()=>{ const hk=TERMEND_LINES.HOOK.Y3S2.heroine_05, fl=r=>({flag
   check('2. 交往中、機場等她：「回程喝。」後面「到了先在群組說，再打給你。」',idx('到了先在群組說，再打給你。')===idx('回程喝。')+1,J(H.said.map(x=>x.t)));
   fresh('2028-08-02',7.9,'TW'); H.FRIEND('heroine_05'); H.G.flags.SIS_RIDE='two'; OUT.plan(H.G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:D('2028-08-02'),h:8,place:'學姊家樓下',title:'載學姊',travel:'',travelH:0}); await goOut('y4_sis_airport');
   check('2. 沒交往：車上那一版沒有那兩行',has('回程路上喝。冰的。')&&!has('到了先在群組說，再打給你。')); });
+/* ---- 3 ---- */
+await sec(3,async()=>{ const yph=()=>{ Y.m9Phone(H.G); PHONE.tick(H.G); };
+  const s3=()=>{ fresh('2029-05-28',21,'TW'); H.FRIEND('heroine_05'); H.date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); yph(); H.at('2029-05-29',18.5); OUT.tick(GM); yph(); };
+  s3(); H.at('2029-05-29',19); yph(); const q0=OUT.get(H.G,'y4_m9_call');
+  check('3. 交往中、口試沒到：18:30 那則照舊，21:00 她打電話來（「書瑀打電話來」）',H.G.flags.SIS_DEFENSE==='missed'&&thx('p:heroine_05').includes('……你今天在忙？好。晚上打給我。')&&!!q0&&q0.h===21&&q0.title==='書瑀打電話來'&&q0.verb==='接起來',J(q0));
+  H.at('2029-05-29',21); await goOut('y4_m9_call',[0]); const C=['（電話那頭有人在笑。研究室的人在幫她慶祝。）','等一下。……好，我走到外面了。','過了。委員問了兩個小時。','嗯。','下次不要忘。……蛋糕還有一半，明天中午研究室。'];
+  check('3. 電話：「等一下。……好，我走到外面了。」「過了。委員問了兩個小時。」→「對不起，我忘了時間。」→「嗯。」「下次不要忘。……蛋糕還有一半，明天中午研究室。」；記 SIS_DEFENSE_CALL',C.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(C[i-1])))&&H.G.flags.SIS_DEFENSE_CALL===true,J(H.said.map(x=>x.t)));
+  const k=OUT.get(H.G,'y4_m9_cake');
+  check('3. 明天中午研究室：5/30（三）12:20～13:00 出遊',!!k&&keyOf(k.day)==='2029-05-30'&&Math.abs(k.h-(12+20/60))<1e-6&&Math.abs(k.h+k.late-13)<1e-6&&CALENDAR.dateOf(k.day).wd===3,J(k));
+  H.at('2029-05-30',12.3); await goOut('y4_m9_cake'); check('3. 有來：「（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）」',has('（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'));
+  s3(); H.at('2029-05-29',21); yph(); await goOut('y4_m9_call',[1]); check('3. 「恭喜。」→「……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。」',has('……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。')&&!!OUT.get(H.G,'y4_m9_cake'));
+  s3(); H.at('2029-05-29',19); PHONE.answer(H.G,'y4_m9_callme',0); yph(); const q1=OUT.get(H.G,'y4_m9_call');
+  check('3. 21:00 以前自己打（18:30 那則的「（打給她）」）：同一通，現在就打（「打給書瑀」）',!!q1&&q1.h===19&&q1.verb==='打過去'&&q1.ev==='ev_sis_defense_call',J(q1));
+  fresh('2029-05-28',21,'TW'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); yph(); H.at('2029-05-29',18.5); OUT.tick(GM); yph(); H.at('2029-05-29',21); yph();
+  check('3. 朋友（沒交往）：沒有這通電話',H.G.flags.SIS_DEFENSE==='missed'&&!OUT.get(H.G,'y4_m9_call')); });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

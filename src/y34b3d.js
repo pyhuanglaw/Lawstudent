@@ -344,7 +344,11 @@ const Y34B=(function(){
       OUT.plan(G,{id:'y4_m9',ev:'ev_sis_defense',day:d,h:16,late:2,place:'霖澤館・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1});   /* 5/29 16:00～18:00 走廊的窗口 */
     if(F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)){ F.SIS_DEFENSE='missed';
       if(inGrp(G,'family_law')) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after');
-      if(dt) at(G,d,18.5,[DM('heroine_05','過了。'),DM('heroine_05','……你今天在忙？好。晚上打給我。')],'y4_m9_dm_after'); } };
+      if(dt) at(G,d,18.5,[DM('heroine_05','過了。'),DM('heroine_05','……你今天在忙？好。晚上打給我。',{ask:{id:'y4_m9_callme',until:T(d,21),opts:[{t:'（打給她）',set:{SIS_DEF_CALL_ME:true}}]}})],'y4_m9_dm_after'); }
+    /* AA_392 第 3 節：交往中、口試沒到——21:00 演一通電話（她打來）；21:00 以前玩家自己打（18:30 那則的「（打給她）」）也演同一通（ev_sis_defense_call） */
+    if(dt&&F.SIS_DEF_CALL_ME&&F.SIS_DEFENSE_CALL==null&&typeof OUT!=='undefined'&&NOW(G)<T(d,21)){ const q=OUT.get(G,'y4_m9_call'); if(q&&q.state==='planned'&&q.h===21) Object.assign(q,{h:G.hour,late:0.5,verb:'打過去',title:'打給書瑀'}); }   /* 已經排了 21:00 的：改成現在打 */
+    if(dt&&F.SIS_DEFENSE==='missed'&&F.SIS_DEFENSE_CALL==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9_call')&&G.day===d){ const me=!!F.SIS_DEF_CALL_ME&&NOW(G)<T(d,21);
+      if(me||NOW(G)<T(d,21.75)) OUT.plan(G,{id:'y4_m9_call',ev:'ev_sis_defense_call',day:d,h:me?G.hour:21,late:me?0.5:0.75,place:'電話',verb:me?'打過去':'接起來',no:'先不接',title:me?'打給書瑀':'書瑀打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'}); } };
   /* ---------------- 每 0.5 秒（STORY.TICKS）---------------- */
   let busy=false;
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y34B',e)).finally(()=>{ busy=false; }); return true; };
@@ -580,6 +584,16 @@ const Y34B=(function(){
     {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
+  /* AA_392 第 3 節：口試那天沒到（交往版）的電話；「明天中午研究室」＝5/30 12:20～13:00 出遊（可以不去，沒來不補）*/
+  const M9_CALL=[ {scene:'電話',bg:'dark'},
+    {speaker:null,text:'（電話那頭有人在笑。研究室的人在幫她慶祝。）'},
+    {speaker:'heroine_05',text:'等一下。……好，我走到外面了。'},
+    {speaker:'heroine_05',text:'過了。委員問了兩個小時。'},
+    {choice:[{text:'「對不起，我忘了時間。」',goto:'m9c_a'},{text:'「恭喜。」',goto:'m9c_b'}]},
+    {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
+    {label:'m9c_b'},{speaker:'heroine_05',text:'……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
+    {label:'m9c_end'},{set:{SIS_DEFENSE_CALL:true}} ];
+  const M9_CAKE=[ {scene:'霖澤館・研究室',bg:'dark'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];
   /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
   const AIRPORT_WAIT=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {speaker:null,text:'（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）'},
@@ -750,6 +764,9 @@ const Y34B=(function(){
     { id:'ev_sis_birthday_video_y3', title:'學姊的生日（視訊）', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'dark', dialogue:BDAY_VIDEO },
     { id:'ev_sis_airport', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:3, dialogue:AIRPORT,
       outingMissed:G=>{ if(G.flags.SIS_SENDOFF==null) G.flags.SIS_RIDE=null; } },   /* 答應了沒去＝照「沒說要送」：她搭客運 */
+    { id:'ev_sis_defense_call', title:'口試那天的電話', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, dialogue:M9_CALL,
+      afterOuting:G=>{ const d=D('m9'); if(typeof OUT!=='undefined'&&d!=null&&!OUT.get(G,'y4_m9_cake')) OUT.plan(G,{id:'y4_m9_cake',ev:'ev_sis_defense_cake',day:d+1,h:12+20/60,late:2/3,place:'霖澤館・研究室',title:'研究室的蛋糕',travel:'',travelH:1/6,hours:0.5,back:'回到教室那一層。'}); } },
+    { id:'ev_sis_defense_cake', title:'研究室的蛋糕', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5, dialogue:M9_CAKE },
     { id:'ev_sis_airport_wait', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:AIRPORT_WAIT },   /* 沒到：她 09:00 照客運版傳（SIS_RIDE 沒有）*/
     { id:'ev_sis_depart_us', title:'一起出發', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:DEPART_US },
     { id:'ev_sis_gate_us', title:'登機口', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:GATE_US },
