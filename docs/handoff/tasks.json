@@ -24659,7 +24659,7 @@
    "title": "AA_313 第 2、3 節（可昕法律系四年 31 場的修正：測試寫死的句子、「兩校互考」改互相出題、逐場表給程式、兩段電話、msg2_pool 重產）＋AA_263 檔尾 11 條＋學姊階梯「學姊」→「妳」＋KX8_NO_ASSUME 改名",
    "area": "v3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -24673,7 +24673,7 @@
    },
    "source": "AA-C 10-20 14:23（企劃分支 81d6fe17：AA_313、AA_263 檔尾 92feec6b、7feecfdd）",
    "authorized": "AA 定稿（D100）",
-   "next": "【LAWWW（帳號 A）15:1x 盤點】唯讀子代理逐點對照（開發分支 efebfa12、企劃線 6409f9ba）：§2 沒做 36（含 2-3 A／B 兩通電話）、AA_263 (b) 部分 2（talkSis 備用句、子晴大四三句）；逐點清單、證據、寫死的測試、要問 AA 的 (b) 九點都在 docs/handoff/audit_1022/AA313_REMAINING_1022.md；date_lines 回退的 16 處 10-22 已修（BUG-DATE-LINES-REVERT-1022） ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_313 第 2、3 節逐場表改 story3d.js／events.js（兩校互考→互相出題、兩段電話）、改寫死的測試、重產 msg2_pool、KX8_NO_ASSUME 改名＋舊存檔對應；AA_263 檔尾 11 條；學姊階梯「學姊」→「妳」跟 AA312 一起 ｜ X64～X81 這批之後，和 AA_314 1A 一起排（擋玩家流程的先做）；學姊階梯跟 AA_312 重匯一起；第 63 列 BB 手測",
+   "next": "【LAWWW-B 10-23 07:4x】交背景子代理在獨立工作樹照 audit_1022/AA313_REMAINING_1022.md §2～§5 沒做／部分的列逐條改（AA_389 第 6 點：逐場表為準、小語→Alison；AA 沒給字的跳過列出），改寫死的測試、跑完整 Node 測試；LAWWW-B 審查後合併 ｜ 【LAWWW（帳號 A）15:1x 盤點】唯讀子代理逐點對照（開發分支 efebfa12、企劃線 6409f9ba）：§2 沒做 36（含 2-3 A／B 兩通電話）、AA_263 (b) 部分 2（talkSis 備用句、子晴大四三句）；逐點清單、證據、寫死的測試、要問 AA 的 (b) 九點都在 docs/handoff/audit_1022/AA313_REMAINING_1022.md；date_lines 回退的 16 處 10-22 已修（BUG-DATE-LINES-REVERT-1022） ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_313 第 2、3 節逐場表改 story3d.js／events.js（兩校互考→互相出題、兩段電話）、改寫死的測試、重產 msg2_pool、KX8_NO_ASSUME 改名＋舊存檔對應；AA_263 檔尾 11 條；學姊階梯「學姊」→「妳」跟 AA312 一起 ｜ X64～X81 這批之後，和 AA_314 1A 一起排（擋玩家流程的先做）；學姊階梯跟 AA_312 重匯一起；第 63 列 BB 手測",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -29599,6 +29599,27 @@
    "authorized": "D100、D109（AA 劇情自主決定）"
   },
   {
+   "id": "SIS-B6-L-1023",
+   "title": "學姊第六批實作（AA_392）：她在美國時女朋友的每週視訊、送機答應了就有（含機場等她）、口試沒到那通電話、研究室便條、第二次訪談、荷花池、出發前總圖、她爸爸的下次、日本路線生日邊界",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23】AA_392 第 10 節程式點；等 SIS-QIXI-L-1023 合併後做（同一批學姊檔，不並行）；第 4 點研究室便條看 3D 定甲／乙；背景 community_room、botanical_lotus 先用現有的、BB 跟使用者要；單元測試修改前 FAIL；BB 補測",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
    "id": "AA389-ZR-SENDOFF-1023",
    "title": "芷若 2027-09-02 出發那天（AA_390；HOOK_ZR_SENDOFF 補場，寫好以前選項不出）",
    "area": "STORY",
@@ -29750,7 +29771,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
+   "next": "【LAWWW-B 10-23 07:4x】第 1、2、3、4、7、9 點已接（f2c18dda5、7e5a10e3b、19b8fed42、129bd42b0）；第 5 點 a62375fab（2029 不問；2028 有 ev_kexin_birthday_y3 所以照問、日本路線照舊 y2028_japan，已告訴 AA）；第 6 點跟 AA313-FIXES 一起交背景子代理（獨立工作樹，LAWWW-B 審查後合併）｜照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -29790,9 +29811,9 @@
    "title": "學姊第六批：說了沒發生的 9 件＋她在美國時女朋友的每週視訊（程式位置 AA_391 第 3 節：r2y4b3d.js:525／506、送機 termend_lines.js:280＋y34b3d.js:223／561–575、口試 y34b3d.js:340、characters.js 學姊作息）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "next": "【LAWWW-B 10-23 07:4x】AA 已交 AA_392（企劃線 946ff2f1，比預定 10:30 早）；實作開 SIS-B6-L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
     "term": "Y2S1",
     "week": null,
