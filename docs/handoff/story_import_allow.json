@@ -1857,6 +1857,42 @@
    "approvedBy": "AA-B 2026-10-23 12:3x 定稿（D109；使用者 10-23 選擇題 C）；LAWWW-B 子代理實作 src/data/food_fav_lines.js；38b3c9dd 第 4 節補充（缺字、記憶名稱）",
    "task": "FOOD-FAV-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d15_base_night.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-L-BG4-1023",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的四張之一（稽核 D 10-21 USER_WANTS D33：「5 張圖其實早就核准了」，d32 已在 669b4fa3c）；照原檔複製到 assets/bg，登錄 OUT.BG：D15 陽明山夜景（學姊的心願地點） 的約會有底圖才列"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d16_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-L-BG4-1023",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的四張之一（稽核 D 10-21 USER_WANTS D33：「5 張圖其實早就核准了」，d32 已在 669b4fa3c）；照原檔複製到 assets/bg，登錄 OUT.BG：D16 北海岸兜風 的約會有底圖才列"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d22_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-L-BG4-1023",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的四張之一（稽核 D 10-21 USER_WANTS D33：「5 張圖其實早就核准了」，d32 已在 669b4fa3c）；照原檔複製到 assets/bg，登錄 OUT.BG：D22 石門水庫 的約會有底圖才列"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d23_base_sunset.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-L-BG4-1023",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的四張之一（稽核 D 10-21 USER_WANTS D33：「5 張圖其實早就核准了」，d32 已在 669b4fa3c）；照原檔複製到 assets/bg，登錄 OUT.BG：D23 桃園竹圍漁港 的約會有底圖才列"
   }
  ]
 }

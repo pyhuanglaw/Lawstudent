@@ -30785,6 +30785,24 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上（博雅討論室、總圖）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "DATE-L-BG4-1023",
+   "title": "約會地點 D15 陽明山夜景（學姊的心願地點）、D16 北海岸、D22 石門水庫、D23 竹圍漁港：使用者 10-17 核准的底圖當時沒複製，有台詞卻不能約（USER_WANTS D33）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "notes": "【LAWWW-B 10-23 18:5x】abad2fa0 原檔複製（blob 85fdd0ac、611aa4ba、ea4c0825、f435b58d）進 assets/bg、登錄 OUT.BG、匯入白名單；32 處裡 32 處有底圖＋台詞（DATE.listable）。四處都要開車（needsCar）。tests/date_book_unit.js 第 5、9 項跟著改；BB 第 63 項。"
   }
  ]
 }
