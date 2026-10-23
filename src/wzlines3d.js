@@ -3,17 +3,20 @@
    線一（阿德影印）：1-1 第 3 班以後；1-2 大二上第 6～10 週的班；1-3、1-4 法服值班的週六（出門提醒「法服值班（今天陪阿德）」，那天早午餐自動請假；「這次不去」順延一次，再沒去就停）；
      1-5 1-4 之後兩週、最早大二上第 13 週（大二上第 15 週 1-4 還沒做完、1-2 選「也不太懂」＝搬走；沒有 1-2 的玩家大二下第 1 週直接記搬走，不演）；
      阿芃的三個問題第 2、5、9 班，第 9 班結尾 1-6；1-7 C02 法律生活營 2028-07-02 下午（大三升大四，日本路線不在；VAC.jump 走過那一刻時停下來演），7/5 21:00 阿德的訊息。
-   線二（一盞茶屋）：2-1、2-3、2-6 週六下午，打工或喝茶都可以（AA_420 4-1；2-1 要茶屋第 2 班以後的週六或週六下午第 2 次來喝茶）；2-2 要在二手市集買舊地圖集（市集還沒做：WZ_YE_MAP_BOUGHT）；
+   線二（一盞茶屋）：2-1、2-3、2-6 週六下午，打工或喝茶都可以（AA_420 4-1；2-1 要茶屋第 2 班以後的週六或週六下午第 2 次來喝茶）；2-2 要在二手市集買舊地圖集（WZ_YE_MAP_BOUGHT；買了以後的下一個週六下午，2-1 以前買的＝2-1 演完以後的第一個週六下午，AA_420 12-2）；
      2-4 公法讀書會那一晚（大三上起，clubEvent）；2-5 以安的訊息（AN_MOM_TEA＋AN_YE_STUDY 的隔天 21:00）；2-6 大四上起（美國路線大四下）；大四下結束都沒遇到＝下次來茶屋蘇姨一句。
    線三（半熟早午餐）：3-1 第 4 班起的旁白；3-2 第 7 班；3-3 3-2 之後至少兩週、大二以後的週末班；3-4 法服值班的週六（同線一的週六規則）；3-3' 下一個週末班；3-5 之後第三個週末班；
      沒幫忙的那一條：第 10 班以後先生回來（沒有卡片）。
    線四（小公園，大三上第 10 週）：餵過貓三次以上＝走進公園演 4-1；「找貓」（公園、巷子、茶屋院子）：陪的人照 AA_420 6-2 的順序；茶屋院子＝4-3（芷若在倫敦：拍照傳給她）；
      沒找到＝第 11 週以後第一次進公園 4-4。之後第一次和陪的人說話多一句（語彤是隔天 21:00 的照片）。
-   單一事件：WZ-B3、B4、C3（之後每個考試週週二 19:00 一次考古題讀書會，一科準備 +2）、C4、C5、C6（那週五 17:00 走廊小展）、T3、T4、T5、P4（＋6/18 私訊、6/25 法律小教室）、P5。
+   單一事件：WZ-B3、B4、C3（之後每個考試週週二 19:00 一次考古題讀書會，一科準備 +2）、C4、C5、C6（那週五 17:00 走廊小展）、T3、T4、T5、P1（第一次在 08:00～11:00 進公園）、P4（＋6/18 私訊、6/25 法律小教室）、P5。
+   WZ-P2 二手市集（AA_420 12-2）：每月第一個週六 09:00～13:00 公園的「逛二手市集」（S.market）；買的書放宿舍書架、大二起賣大一的教科書。
+   約人（src/invites3d.js 的掛勾）：WZ-T3 以後的茶席 teahouse_ceremony（每月第三個週日下午，AA_167）；WZ-T4 SIS_TEAHOUSE＝學姊的一盞、茶席降成「有點熟」（BB_148 8b）。
    既有事件多一句（linesIf，不改條件）：ev_ziqing_show（WZ_ZQ_POSTER）、ev_sis_defense（WZ_SIS_THESIS）、ev_an_mother_map（AN_MOM_TEA）、ev_yt_lease_text（WZ_COPY_LEASE≥2，在 y2b_events.js）。
-   之後聊天一句（STORY.PRE_TALK；學姊走 SISY23.preTalk）：學姊 SIS_SAW_BRUNCH、SIS_TEAHOUSE；子晴 ENC_PARK_ZQ；陪找貓的人；麵店長桌的阿哲；那罐茶可以送人（以安、語彤、學姊、芷若，對方要在台灣）。
+   之後聊天一句（STORY.PRE_TALK；學姊走 SISY23.preTalk）：學姊 SIS_SAW_BRUNCH、SIS_TEAHOUSE；子晴 ENC_PARK_ZQ；陪找貓的人；麵店長桌的阿哲；芷若在公園（每學年第一次，BB_148 第 7 節）；那罐茶可以送人（以安、語彤、學姊、芷若，對方要在台灣）。
    課堂回想（CLS.IN_CLASS）：智財第 4 週（NOTE_COPY_FAIR）、保險法第 5 週（NOTE_INS_CLAUSE）、勞動法第 6 週（NOTE_HOLIDAY_WAGE），那一科準備 +1。
-   存檔：全部在 G.flags（舊存檔沒有＝都還沒發生）；餵貓次數 G.daily.park.feedN（src/wzpark3d.js）。測試：node tests/aa420_wz_unit.js */
+   存檔：全部在 G.flags（舊存檔沒有＝都還沒發生）；餵貓次數 G.daily.park.feedN（src/wzpark3d.js）、芷若的公園那句 G.daily.park.zrYear、二手市集 G.daily.market。
+   測試：node tests/aa420_wz_unit.js、node tests/aa420_wz2_unit.js */
 'use strict';
 const WZL=(function(){
   const S={};
@@ -124,7 +127,7 @@ const WZL=(function(){
   /* 線二（週六下午，打工或喝茶）：2-6 → 2-2 → 2-3 → 2-1 */
   S.line2Due=function(G,how){ const F=G.flags; if(!law(G)||!sat(G)||hh(G)<12||hh(G)>=18) return null; const ye=+F.WZ_YE||0;
     if(ye>=1&&!F.WZ_LU_GONE&&!done(G,'ev_wz_t2c')){ const t=S.term(G); if(t&&(S.usLate(G)?t.id==='Y4S2':(t.id==='Y4S1'||t.id==='Y4S2'))) return 'ev_wz_t2c'; }
-    if(ye>=1&&F.WZ_YE_MAP_BOUGHT&&!F.WZ_YE_MAP) return 'ev_wz_t_map';   /* 二手市集（WZ-P2）還沒做：買到舊地圖集的玩家才有 */
+    if(ye>=1&&F.WZ_YE_MAP_BOUGHT&&!F.WZ_YE_MAP&&!F.WZ_LU_GONE&&!done(G,'ev_wz_t2c')&&(G.events.last||{}).ev_wz_t2a!==G.day) return 'ev_wz_t_map';   /* 2-2：在二手市集買了舊地圖集（S.market）以後的週六下午；2-1 以前就買了的＝2-1 演完以後的第一個週六下午（不是 2-1 那一天，AA_420 12-2）；呂老師搬走以後沒有 */
     if(ye===1&&!done(G,'ev_wz_t2b')&&S.after(G,'Y2S1',3)) return 'ev_wz_t2b';
     if(ye===0&&!done(G,'ev_wz_t2a')){ const j=J()&&J().job(G,'tea'), M=J()?J().rec(G)._meta.n:{}; const n2=how==='shift'?(((j&&j.shifts)|0)+1>=2):((M.teaSat|0)>=2); if(n2) return 'ev_wz_t2a'; }
     return null; };
@@ -182,7 +185,11 @@ const WZL=(function(){
     if(S.p4Due(G)) return fire(GM,'ev_wz_p4');
     if(S.classDue(G)) return fire(GM,'ev_wz_p4_class');
     if(S.p5Due(G)){ const F=G.flags, t=S.term(G), R=F.WZ_P5=Object.assign({},F.WZ_P5); R[t.id]=(R[t.id]|0)+1; R.last=G.day; return fire(GM,'ev_wz_p5',()=>{ if(!F.ENC_PARK_ZQ_SEEN){ F.ENC_PARK_ZQ_SEEN=G.day; F.WZ_ZQ_P5_FU=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.remember('heroine_04','ENC_PARK_ZQ',''); SOCIAL.adjust('heroine_04',{fam:1}); } } }); }
+    if(S.p1Due(G)) return fire(GM,'ev_wz_p1');
     return false; };
+  /* WZ-P1（AA_164 5-6）：第一次在 08:00～11:00 進公園（象棋的阿伯在的時候）；下雨公園沒有人（AA_283）、貓不在的那幾段（大三上第 10 週、收養以後）不演 */
+  S.p1Due=function(G){ if(done(G,'ev_wz_p1')) return false; const h=hh(G); if(h<8||h>=11) return false;
+    if(typeof PARK!=='undefined'&&((PARK.rainy&&PARK.rainy(G))||(PARK.catLost&&PARK.catLost(G))||(PARK.catGone&&PARK.catGone(G)))) return false; return true; };
   /* WZ-P4（AA_420 8-5：大一下第 3 週～2026-12-16，週二、四 17:00～17:30）*/
   S.p4Due=function(G){ const F=G.flags; if(done(G,'ev_wz_p4')||!S.after(G,'Y1S2',3)) return false; const e=DK('2026-12-16'); if(e==null||G.day>e) return false; const w=wd(G.day), h=hh(G);
     if(!(w===2||w===4)||h<17||h>=17.5) return false; if(typeof PARK!=='undefined'&&PARK.schoolDay&&!PARK.schoolDay(G)) return false; if(typeof PARK!=='undefined'&&PARK.rainy&&PARK.rainy(G)) return false;
@@ -236,8 +243,14 @@ const WZL=(function(){
   S.preTalk=async function(GM,w,id){ const G=GM.G, F=G.flags; if(!law(G)) return;
     if(F.WZ_CAT_FU===id&&S.FU[id]&&G.day>(+F.WZ_CAT_FOUND||0)){ F.WZ_CAT_FU=null; await GM.say(w,S.FU[id]); return; }
     if(id==='heroine_04'&&F.WZ_ZQ_P5_FU&&G.day>(+F.ENC_PARK_ZQ_SEEN||0)){ F.WZ_ZQ_P5_FU=false; await GM.say(w,'昨天那個 bug，鞦韆解決了。……今天換你盪。'); return; }
+    if(id==='heroine_02'){ const t=S.zrPark(GM); if(t){ await GM.say(w,t); return; } }
     if(id==='zhe'&&G.zone==='noodle'&&F.NOODLE_SAW_APRON&&!F.WZ_ZHE_APRON){ F.WZ_ZHE_APRON=G.day; await GM.say(w,F.ZHE_CALLS_GE?'哥，你今天沒穿圍裙喔？':G.name+'，你今天沒穿圍裙喔？'); return; }
     await S.teaGift(GM,w,id); };
+  /* 芷若在公園（BB_148 第 7 節；AA_420 第 8 節：照舊）：每學年第一次在公園遇到她說一句；她在台灣的學期才有（大一、大二、大三下：大三上 2027-09～2028-02、2028-09 起在英國）。
+     不管玩家給貓取什麼名字都一樣（她叫的是她的）。記在 G.daily.park.zrYear（偶遇用的狀態，不是劇情旗標）*/
+  S.ZR_PARK={1:'我叫牠『常客』。每天都來，從來不點東西。',2:'常客今天也坐老位子。……牠比我還準時。',3:'牠有名牌了。上面沒寫『常客』。……沒關係，我知道是牠。'};
+  S.zrPark=function(GM){ const G=GM.G; if(G.zone!=='wenzhou'||!parkIn(GM)||!S.inTaiwan(G,'heroine_02')) return null; const y=S.year(G); if(!S.ZR_PARK[y]) return null;
+    const P=typeof PARK!=='undefined'&&PARK.rec?PARK.rec(G):((G.daily||(G.daily={})).park||(G.daily.park={})); const R=P.zrYear=Object.assign({},P.zrYear); if(R[y]!=null) return null; R[y]=G.day; return S.ZR_PARK[y]; };
   S.sisPre=async function(GM){ const G=GM.G, F=G.flags, w=who('heroine_05'); if(!law(G)) return false;
     if(F.WZ_SIS_BRUNCH_FU&&(G.events.last||{}).ev_wz_b4!==G.day){ F.WZ_SIS_BRUNCH_FU=false; await GM.say(w,'週六早上的蛋，今天也是半熟嗎？'); return false; }
     if(F.WZ_SIS_TEA_FU&&(G.events.last||{}).ev_wz_t4!==G.day){ F.WZ_SIS_TEA_FU=false; await GM.say(w,'茶屋那壺水，我後來查了。……原來不能用滾的。'); return false; }
@@ -268,6 +281,76 @@ const WZL=(function(){
     const am=E('ev_an_mother_map'); if(am&&!am._wz&&Array.isArray(am.dialogue)){ am._wz=true; am.dialogue.push({if:{flags:['AN_MOM_TEA']},speaker:'heroine_01',text:'我媽說，你泡的茶很穩。……她很少稱讚人。'}); } };   /* AA_166 第 5 節 WZ-T5 */
   S.patch();
 
+  // ================= WZ-P2 二手市集（AA_420 12-2，企劃線 d805bceee；AA_171 第 2 節公布欄那一則）=================
+  /* 每月第一個週六 09:00～13:00，公園；下雨照開（攤子搬到老樹下：互動點換位置），颱風天沒有。「逛二手市集」20 分鐘，不扣時段次數（AA_160）。
+     買：每個月攤上一本「很舊的書」，照表的順序輪流（從 2025 年 9 月起算的月份：9 月小說、10 月辭典、11 月地圖集……；輪到的已經買過＝往下一本；一天只有一本、每本只能買一次）；
+       WZ_YE≥1（線二 2-1 演過）以後第一次逛的那一次市集一定是舊的地圖集（不照順序；那一次沒買就回到輪流），記 WZ_YE_MAP_BOUGHT → 2-2（line2Due）。
+       三本都買過：只有那一句旁白。買的書放宿舍書架（STORY.ROOM_EXTRA，「看」照表的那一句）。
+     賣（法律系大二起）：自己大一的教科書（書店買的 G.flags.books；舊存檔買過民總的 F.textbook），一本 100～200 元（照書名固定：100、150、200 三種）；
+       學弟妹的三句輪流；賣掉的那一本不再算有（F.books[書名]＝false：自學、期末不加，書店可以再買）。舊《民法》（AA_12 0-3）選了是「這本不賣。」。
+     存檔 G.daily.market＝{bought:{novel,dict,atlas:日}, sold:{書名:日}, soldN, yeSeen, visit}（舊存檔沒有＝都還沒）*/
+  S.MARKET={ books:[
+      {k:'novel',name:'沒有封面的小說',price:50,say:'封面不見了，五十。',look:'沒有封面的小說。你看了三章，還是不知道書名。'},
+      {k:'dict',name:'很舊的國語辭典',price:80,say:'字比現在的多。八十。',look:'舊的國語辭典。前一個主人在『溫』那一頁畫了線。'},
+      {k:'atlas',name:'舊的地圖集',price:150,say:'這本很舊了，一百五。',nar:'（封面掉了一半。裡面的溫州街，比現在長一截。）',look:'舊的地圖集。溫州街那一頁，你折了一個角。'} ],
+    none:'（攤子上都是童書和舊雜誌。）',
+    sell:['學長，上面的筆記可以留著嗎？','這本有畫重點耶。……畫得好多。','謝謝學長。我會好好用。'], sellWho:['學妹','學弟','學妹'],
+    civil:'舊《民法》', keep:'這本不賣。',
+    at:{clear:[26.0,12.6],rain:[26.0,18.3]} };   /* 互動點：入口的步道兩邊（AA_164 5-6）；下雨＝老樹下（樹圍的圓椅外面）*/
+  S.mrec=G=>{ const d=G.daily||(G.daily={}); if(!d.market||typeof d.market!=='object') d.market={}; const M=d.market; if(!M.bought||typeof M.bought!=='object') M.bought={}; if(!M.sold||typeof M.sold!=='object') M.sold={}; return M; };
+  S.marketDay=G=>{ if(!G||typeof CALENDAR==='undefined') return false; const q=CALENDAR.dateOf(G.day); return q.wd===6&&q.d<=7&&G.weather!=='typhoon'&&!(CALENDAR.typhoon&&CALENDAR.typhoon(G.day)); };
+  S.marketOn=G=>{ if(!S.marketDay(G)) return false; const h=G.hour%24; return h>=9&&h<13; };
+  S.marketBook=function(G){ const M=S.mrec(G), F=G.flags||{}, B=S.MARKET.books;
+    if(Object.keys(M.bought).some(k=>M.bought[k]===G.day)) return null;   /* 這次市集已經買了那一本 */
+    if(M.bought.atlas==null&&(+F.WZ_YE||0)>=1&&(M.yeSeen==null||M.yeSeen===G.day)) return B.find(b=>b.k==='atlas');
+    const q=CALENDAR.dateOf(G.day), n=(((q.y*12+q.m-1)-(2025*12+8))%3+3)%3; for(let k=0;k<3;k++){ const b=B[(n+k)%3]; if(M.bought[b.k]==null) return b; } return null; };   /* 這個月輪到的那一本已經買了＝照表的順序往下一本 */
+  S.allBought=G=>{ const M=S.mrec(G); return S.MARKET.books.every(b=>M.bought[b.k]!=null); };
+  /* 自己大一的教科書（還在手上的）：大一上下學期的必修、選修（CLS.bookList 同一套：研討、實習沒有）*/
+  S.y1Books=function(G){ const F=G.flags||{}, own=t=>!!((F.books&&F.books[t])||(t==='民法總則'&&F.textbook&&!(F.books&&F.books[t]===false)));
+    if(typeof CLS==='undefined'||!CLS.termCourses||!CLS.bookTitle) return own('民法總則')?['民法總則']:[];
+    const out=[], seen=new Set(); for(const tid of ['Y1S1','Y1S2']) for(const c of CLS.termCourses(G,tid)){ if((c.kind!=='required'&&c.kind!=='elective')||(CLS.BOOK_SKIP&&CLS.BOOK_SKIP.has(c.id))) continue; const t=CLS.bookTitle(c); if(seen.has(t)) continue; seen.add(t); if(own(t)) out.push(t); }
+    return out; };
+  S.sellPrice=t=>100+50*([...String(t)].reduce((a,c)=>a+c.charCodeAt(0),0)%3);
+  S.sellOn=G=>law(G)&&S.year(G)>=2;
+  S.market=async function(GM){ const G=GM.G; if(!S.marketOn(G)) return false; const M=S.mrec(G), F=G.flags, X=S.MARKET; GM.sceneBegin();
+    try{ GM.advance(1/3); M.visit=G.day; if(S.allBought(G)) await GM.say(null,X.none);
+      for(let n=0;n<12;n++){ const b=S.marketBook(G); if(b&&b.k==='atlas'&&M.yeSeen==null&&(+F.WZ_YE||0)>=1) M.yeSeen=G.day;
+        const opts=[]; if(b) opts.push({t:'買'+b.name+'（'+b.price+' 元）',dim:(G.money|0)<b.price,hint:'錢不夠。',k:'buy'});
+        if(S.sellOn(G)) opts.push({t:'賣大一的教科書',k:'sell'}); opts.push({t:'不逛了',k:'no'});
+        const o=opts[await GM.choose(opts)]||{k:'no'}; if(o.k==='no') break;
+        if(o.k==='buy'){ if(o.dim){ if(GM.toast) GM.toast(o.hint,2400); continue; } GM.money(-b.price); M.bought[b.k]=G.day; if(b.k==='atlas') F.WZ_YE_MAP_BOUGHT=G.day;
+          await GM.say({name:'攤主'},b.say); if(b.nar) await GM.say(null,b.nar); continue; }
+        if(o.k==='sell') await S.sell(GM); }
+    } finally { GM.sceneEnd(); }
+    return true; };
+  S.sell=async function(GM){ const G=GM.G, M=S.mrec(G), F=G.flags, X=S.MARKET; const L=S.y1Books(G);
+    const opts=L.map(t=>({t:'《'+t+'》（'+S.sellPrice(t)+' 元）',title:t})); opts.push({t:X.civil,civil:true}); opts.push({t:'不賣了'});
+    const o=opts[await GM.choose(opts)]; if(!o||(!o.title&&!o.civil)) return false;
+    if(o.civil){ await GM.say({name:G.name||'祐廷'},X.keep); return false; }
+    const i=(M.soldN|0)%3; M.soldN=(M.soldN|0)+1; M.sold[o.title]=G.day; F.books=Object.assign({},F.books,{[o.title]:false}); if(o.title==='民法總則'&&F.textbook) F.textbook=false; GM.money(S.sellPrice(o.title));
+    await GM.say({name:X.sellWho[i]},X.sell[i]); return true; };
+  S.roomBooks=function(G,L){ const M=G&&G.daily&&G.daily.market; if(!M||!M.bought) return; for(const b of S.MARKET.books) if(M.bought[b.k]!=null) L.push([b.name,b.look]); };
+  S.addMarket=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)) return; const p=S.MARKET.at[G&&G.weather==='rain'?'rain':'clear'];
+    E.interactables.push({x:p[0],z:p[1],radius:1.4,label:'逛二手市集',wzMarket:true,get hidden(){ const G=GM.G; return !(G&&S.marketOn(G)); }}); };
+
+  // ================= 約人：茶席、學姊的一盞（src/invites3d.js 的掛勾）=================
+  /* WZ-T3 以後的茶席（AA_166 第 5 節、AA_167「茶席」）：約人地點的一種 teahouse_ceremony，每月第三個週日下午、約一個人、最低「朋友」；照「一起去 Café 坐坐」加數值（SOCIAL.activity 'cafe'），
+     記憶「一起去過茶席」。見面：旁白＋蘇姨一句＋那個人的一句（以安、語彤 AA 寫；BB 的人物 BB 沒有寫＝只有旁白和蘇姨）。地點名稱、選項文字是系統字。*/
+  S.thirdSun=d=>{ const q=CALENDAR.dateOf(d); return q.wd===7&&q.d>=15&&q.d<=21; };
+  S.CEREMONY_LINES={ open:'蘇姨在緣側鋪了一塊布，一枝花插在竹筒裡。四個杯子，兩個空位。', su:'茶席不說話也可以。說話也可以。',
+    heroine_01:['（她把手帳收進包包，拉鍊拉上。）','今天不看了。'], heroine_03:['……這樣坐著，聽得到院子。'] };
+  S.CEREMONY={id:'teahouse_ceremony',zone:'wz_teahouse',name:'一盞的茶席',verb:'去一盞的茶席',kind:'reason',minStage:'FRIEND',stay:1.25,memory:'TEA_CEREMONY',sitAct:'sit',days:[0],hours:[12,18],
+    show:G=>law(G)&&!!(G.flags||{}).WZ_TEA_SEAT,
+    avail:(G,day)=>S.thirdSun(day),
+    when:(G,together)=>{ const out=[], h=G.hour%24;   /* 約的時間：今天就是茶席＝今天還沒過的；再加下一次茶席（今天的都過了才加）*/
+      if(S.thirdSun(G.day)){ if(together&&h>=12&&h<=16.75) out.push({now:true,day:G.day,h}); for(const t of [14,15.5]) if(t>h+0.4) out.push({day:G.day,h:t}); }
+      if(!out.some(q=>!q.now)){ let d=G.day+1; while(!S.thirdSun(d)) d++; for(const t of [14,15.5]) out.push({day:d,h:t}); } return out; },
+    scene:async(GM,iv,who)=>{ const X=S.CEREMONY_LINES; await GM.say(null,X.open); await GM.say({name:'蘇姨'},X.su); for(const t of X[iv.who]||[]) await GM.say(/^（/.test(t)?null:who,t); } };
+  /* WZ-T4 SIS_TEAHOUSE（BB_148 8b）：一盞（teahouse）對學姊的最低階段從「朋友」降成「有點熟」；茶席也可以約她（同樣「有點熟」）。她沒有男朋友（AA-C 10-18），兩個人單獨的規則照舊（S.partnerBlock）*/
+  S.inviteStage=(G,id,P)=>id==='heroine_05'&&!!(G&&G.flags&&G.flags.SIS_TEAHOUSE)&&!!P&&(P.id==='teahouse'||P.id==='teahouse_ceremony')?'FAMILIAR':null;
+  if(typeof INVITE_DATA!=='undefined'&&Array.isArray(INVITE_DATA.places)&&!INVITE_DATA.places.some(p=>p.id==='teahouse_ceremony')) INVITE_DATA.places.push(S.CEREMONY);
+  if(typeof INV!=='undefined'&&Array.isArray(INV.MIN_STAGE)&&!INV.MIN_STAGE.includes(S.inviteStage)) INV.MIN_STAGE.push(S.inviteStage);
+
   // ================= 每一格 =================
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)||typeof CALENDAR==='undefined'||busy(GM)) return false;
     if(G.zone==='wancai'&&S.lineAt(GM)) return true;
@@ -278,8 +361,9 @@ const WZL=(function(){
     if(STORY.TICKS) STORY.TICKS.push(S.tick);
     if(STORY.PHONE_RULES) STORY.PHONE_RULES.push(S.phone);
     if(STORY.PRE_TALK) STORY.PRE_TALK.push(S.preTalk);
-    if(STORY.populate&&!STORY._wzlPop){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId==='wenzhou') S.addSearch(GM); }catch(e){ console.warn('WZL.populate',e); } return r; }; STORY._wzlPop=true; }
-    if(STORY.interact&&!STORY._wzlInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(it&&it.wzCat&&GM&&GM.G) return S.search(GM); return o0.apply(this,arguments); }; STORY._wzlInteract=true; } }
+    if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,L)=>S.roomBooks(G,L));   /* 二手市集買的書（宿舍書架）*/
+    if(STORY.populate&&!STORY._wzlPop){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ if(zoneId==='wenzhou'){ S.addSearch(GM); S.addMarket(GM); } }catch(e){ console.warn('WZL.populate',e); } return r; }; STORY._wzlPop=true; }
+    if(STORY.interact&&!STORY._wzlInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(it&&it.wzCat&&GM&&GM.G) return S.search(GM); if(it&&it.wzMarket&&GM&&GM.G) return S.market(GM); return o0.apply(this,arguments); }; STORY._wzlInteract=true; } }
   if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._wz){ const p0=SISY23.preTalk;
     SISY23.preTalk=Object.assign(async function(GM){ const r=await p0.apply(this,arguments); if(!r) await S.sisPre(GM); return r; },p0,{_wz:true}); }
   return S;

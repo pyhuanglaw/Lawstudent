@@ -4,7 +4,7 @@
    什麼時候演、演完觸發什麼（關係、旗標、筆記、房間物件、手機）在 src/wzlines3d.js（WZL）；這裡只有事件本身（trigger:'manual'／'outing'／clubEvent，由 WZL 叫）。
    事件 id：線一 ev_wz_c2、ev_wz_c_lease1～4（4m＝搬走）、ev_wz_c7a～c、ev_wz_c_apeng、ev_wz_c_camp；線二 ev_wz_t2a、ev_wz_t_map、ev_wz_t2b、ev_wz_t_study、ev_wz_t2c；
    線三 ev_wz_b2、ev_wz_b_ins、ev_wz_b_ins2、ev_wz_b_ins_self、ev_wz_b_back、ev_wz_b_home（沒幫忙的那一條）；線四 ev_wz_p_lost、ev_wz_p_found、ev_wz_p_back（4-4）；
-   單一事件 ev_wz_b3、ev_wz_b4、ev_wz_c3、ev_wz_c4、ev_wz_c5、ev_wz_c6、ev_wz_c6_show、ev_wz_t3、ev_wz_t4、ev_wz_t5、ev_wz_p4、ev_wz_p4_class、ev_wz_p5、ev_wz_bh_group。
+   單一事件 ev_wz_b3、ev_wz_b4、ev_wz_c3、ev_wz_c4、ev_wz_c5、ev_wz_c6、ev_wz_c6_show、ev_wz_t3、ev_wz_t4、ev_wz_t5、ev_wz_p1、ev_wz_p4、ev_wz_p4_class、ev_wz_p5、ev_wz_bh_group。
    背景：店裡、公園、萬才館一樓＝3D（'blur'）；營隊＝camp_school；萬才館研討室 A＝wancai_seminar；社科院的走廊（還沒有圖）＝先用社科院門口 ntu_soc；考古題讀書會＝soc_library。 */
 'use strict';
 const WZ_EVENTS=(function(){
@@ -65,7 +65,8 @@ const WZ_EVENTS=(function(){
     {speaker:'阿芃',text:'爸，你剛剛說「我們法律系」。'},
     {speaker:'阿德',text:'……我說錯了。'},
     {set:{WZ_COPY_SHOP:'stay'}} ] }));
-  L.push(ev('ev_wz_c_lease4m','本店已遷至轉角',{ dialogue:[ N('A1 的鐵捲門上貼著「本店已遷至轉角」。轉角那間店面比原來小一半，玻璃門上的價目表一樣貼得滿滿的。'),
+  /* 搬走的版本（AA_167；開場旁白照 AA_420 12-1：不露出店位編號）*/
+  L.push(ev('ev_wz_c_lease4m','本店已遷至轉角',{ dialogue:[ N('（影印店原本那一間的鐵捲門拉下來了，上面貼著「本店已遷至轉角」。轉角那間店面比原來小一半，玻璃門上的價目表一樣貼得滿滿的。）'),
     {speaker:'阿德',text:'小一點，也是一間店。機器還是那幾台。'},
     {set:{WZ_COPY_SHOP:'moved'}} ] }));
   /* 1-6 之前：阿芃的三個問題（WZ-C7；第 2、5、9 班；AA_165 2-7，第 3 題照 AA_420 2-4）*/
@@ -324,6 +325,8 @@ const WZ_EVENTS=(function(){
     {if:C((w,G)=>w.p5First(G)&&w.dating(G,ZQ)),speaker:ZQ,text:'你來剛好。幫我看這一行。……眼睛看螢幕。'},
     {if:C((w,G)=>w.p5First(G)&&w.year(G)===3),speaker:ZQ,text:'畢業專題還有 bug。我每天晚上來這裡，跟它們一個一個談。'},
     {speaker:ZQ,text:'我回去了。這個 bug，明天早上它自己會懂。'} ] }));
+  /* WZ-P1 第一次走進公園（AA_164 5-6；第一次在 08:00～11:00 進公園，WZL.parkTick）*/
+  L.push(ev('ev_wz_p1','第一次走進公園',{ dialogue:[ {speaker:'下象棋的阿伯',text:'那隻貓有三個名字。阿伯叫牠所長，小孩叫麻糬，Café 那個女孩子叫牠常客。你想叫牠什麼都可以，牠都不會理你。'} ] }));
   /* 柏翰的考古題讀書會（AA_166 第 5 節：BH_STUDY_GROUP 以後每個考試週一次，一科準備 +2，AA_124 2-3）*/
   L.push(ev('ev_wz_bh_group','考古題讀書會',{ trigger:'outing', once:false, background:'dark', hours:2, dialogue:[ {scene:'社科院圖書館',bg:'soc_library'},
     {call:async(G,GM)=>{ const w=W(); if(w&&w.bhGroupPick) await w.bhGroupPick(GM); }} ] }));
