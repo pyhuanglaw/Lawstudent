@@ -33,6 +33,7 @@ const LIBRARY_LAYOUT={
       {"label":"4F–6F 書庫","open":false,"why":"書庫整理中","toast":"4 樓以上的書庫這學期在整理，按鈕按不亮"} ] },
   "entrance":{ "x":0, "exitZ":8.3, "spawn":{"x":0,"z":6.6,"lv":0,"yaw":3.1416} },
   "stairDoor":{ "x":11.8, "z":-6.0, "lv":1, "label":"樓梯間：往 3F 閱覽區", "spawn":{"x":10.8,"z":-6.0,"lv":1,"yaw":-1.5708} },
+  "b1Door":{ "x":-11.8, "z":-2.4, "lv":0, "w":1.1, "label":"走樓梯下 B1", "spawn":{"x":-10.1,"z":-2.4,"lv":0,"yaw":1.5708}, "note":"總圖 B1（CLOSED-SPACES-1023 第 2 項，LAWWW2-B 10-23；LAWWW-B 選 A）：一樓西牆的樓梯間門，換那一扇窗（z −2.4）；B1 是 library_b1 區域（src/library_b1_3d.js），spawn＝從 B1 走上來站的位置" },
   "reading":{ "spawnFromStairs":{"x":0,"z":7,"yaw":3.1416},
     "elevator":{ "x0":8.8, "x1":10.8, "z0":-1.0, "z1":1.2, "doorX0":9.2, "doorX1":10.4, "doorZ":-1.0, "callZ":-2.0, "base":3,
       "floors":[ {"label":"1F 大廳、出口","zone":"library_hall","lv":0,"open":true}, {"label":"2F 自習區","zone":"library_hall","lv":1,"open":true},
@@ -73,6 +74,7 @@ const LIBRARY_LAYOUT={
     {"type":"planter","lv":1,"x":-11.2,"z":0.6,"r":0.4}
   ],
   "signs":[
+    { "lv":0, "text":"樓梯間　B1 自習室・討論室 ↓", "x":-11.84, "z":-2.4, "y":2.78, "ry":1.5708, "w":2.4 },
     {"lv":1,"text":"自習區　請保持安靜","x":-11.82,"z":0.0,"y":3.75,"ry":1.5708,"w":2.6},
     {"lv":1,"text":"3F 閱覽區　東側樓梯間 →","x":7.0,"z":-8.82,"y":2.9,"ry":0,"w":3.0},
     {"lv":0,"text":"總圖書館","x":0,"z":1.45,"y":4.1,"ry":0,"w":3.0}
