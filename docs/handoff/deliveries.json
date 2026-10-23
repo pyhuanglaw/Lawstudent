@@ -13957,7 +13957,7 @@
    "task": "CLOSED-SPACES-1023",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 19:3x：patch linze_5f_lab8_1023（lab5f3d.js DESK_ME 改讀 me_desk、lab5f_unit 讀 sis_desk）＋GLB／layout；linze_5f、lab5f、linze_upper、nav_buildings ALL PASS"
+   "note": "LAWWW-B 10-23 19:2x：patch linze_5f_lab8_1023（lab5f3d.js DESK_ME 改讀 me_desk、lab5f_unit 讀 sis_desk）＋GLB／layout；linze_5f、lab5f、linze_upper、nav_buildings ALL PASS"
   },
   {
    "id": "DL-LW2-AA413",
@@ -13970,7 +13970,7 @@
    "task": "WZ-AA413-1023",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 19:3x：patch aa413_wz_1023＋wenzhou_street GLB、cvs_wz 窗景；老闆 NPC 放在 closed3d.js（WZS.AA413.fruit.owner，營業時間）；aa413_wz、wz_shops、closed ALL PASS；touch_flow_wenzhou 發布前要跑"
+   "note": "LAWWW-B 10-23 19:2x：patch aa413_wz_1023＋wenzhou_street GLB、cvs_wz 窗景；老闆 NPC 放在 closed3d.js（WZS.AA413.fruit.owner，營業時間）；aa413_wz、wz_shops、closed ALL PASS；touch_flow_wenzhou 發布前要跑"
   }
  ],
  "ignored": [

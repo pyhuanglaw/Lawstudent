@@ -165,20 +165,20 @@ await sec(9,()=>{ const tk=()=>MSG.topics(H.G,ZR).map(q=>q.k); const Q=()=>PHONE
   let r=MSG.send(H.G,ZR,'bday'); let q=Q(); const wed=D('2027-09-29');
   check('9. 朋友：「謝謝。……你怎麼知道。」照英國作息（一週回一兩次：週三 22:00 以後，前面「抱歉，這週比較忙。」）',r.ok&&r.text==='生日快樂'&&q.day===wed&&q.h>=22&&J(q.items.map(i=>i.text))===J(['抱歉，這週比較忙。','謝謝。……你怎麼知道。']),J(q));
   zr('2027-09-28',20,'close'); r=MSG.send(H.G,ZR,'bday'); q=Q();
-  check('9. 好朋友、曖昧：當天回「謝謝！我今天一個人去看了一部電影。……你傳來的時候，剛好散場。」',r.ok&&q.day===H.G.day&&q.h>20&&q.h<21&&J(q.items.map(i=>i.text))===J(['謝謝！我今天一個人去看了一部電影。……你傳來的時候，剛好散場。']),J(q));
+  check('9. 好朋友、曖昧：當天回「謝謝！今天我給自己放假，一個人去看電影。」（AA_419 第 5 節第 1 點換句）',r.ok&&q.day===H.G.day&&q.h>20&&q.h<21&&J(q.items.map(i=>i.text))===J(['謝謝！今天我給自己放假，一個人去看電影。']),J(q));
   zr('2028-09-28',20,'dating'); check('9. 2028-09-28 交往中：有「生日快樂」',tk().includes('bday'),J(tk())); r=MSG.send(H.G,ZR,'bday'); q=Q();
   check('9. 交往中：「謝謝。……晚上視訊的時候再說一次。」',r.ok&&J(q.items.map(i=>i.text))===J(['謝謝。……晚上視訊的時候再說一次。']),J(q));
   zr('2028-09-28',10,'close'); MSG.send(H.G,ZR,'bday'); q=Q();
-  check('9. 她那邊半夜（夏令：臺灣 06:00～15:00）傳的：15:00 以後她起床回，先「我剛起床。」',q.day===H.G.day&&q.h>=15&&q.h<16&&q.items[0].text==='我剛起床。'&&q.items[1].text==='謝謝！我今天一個人去看了一部電影。……你傳來的時候，剛好散場。',J(q));
+  check('9. 她那邊半夜（夏令：臺灣 06:00～15:00）傳的：15:00 以後她起床回，不接「我剛起床。」（AA_419 第 5 節第 1 點）',q.day===H.G.day&&q.h>=15&&q.h<16&&q.items.length===1&&q.items[0].text==='謝謝！今天我給自己放假，一個人去看電影。',J(q));
   zr('2028-01-01',1,'friend'); check('9. 2028-01-01（她在英國）：有「新年快樂」',tk().includes('newyear')&&!tk().includes('bday'),J(tk()));
   r=MSG.send(H.G,ZR,'newyear'); q=Q();
   check('9. 1/1 臺灣 01:00、朋友：當下就回「新年快樂。你們先跨了。」（不等週三週日、不加「抱歉」）',r.ok&&q.day===H.G.day&&q.h>1&&q.h<1.1&&J(q.items.map(i=>i.text))===J(['新年快樂。你們先跨了。']),J(q));
   zr('2028-01-01',7.5,'close'); MSG.send(H.G,ZR,'newyear'); q=Q();
   check('9. 1/1 臺灣 07:30、好朋友：當下就回「你們先跨了。……我這邊還有八個小時。新年快樂。」',q.day===H.G.day&&q.h<7.6&&J(q.items.map(i=>i.text))===J(['你們先跨了。……我這邊還有八個小時。新年快樂。']),J(q));
   zr('2028-01-01',10,'close'); MSG.send(H.G,ZR,'newyear'); q=Q();
-  check('9. 1/1 臺灣 10:00（08:00 以後）、好朋友：照英國作息（冬令 16:00 以後起床回，先「我剛起床。」）',q.day===H.G.day&&q.h>=16&&q.items[0].text==='我剛起床。'&&q.items[1].text==='你們先跨了。……我這邊還有八個小時。新年快樂。',J(q));
+  check('9. 1/1 臺灣 10:00（08:00 以後）、好朋友：照英國作息回，不接「我剛起床。」；08:00 以後那兩句「新年快樂！這邊也過了。」「昨天跨年，街上好多人。」（AA_419 第 5 節第 1、2 點）',q.day===H.G.day&&q.h>=16&&J(q.items.map(i=>i.text))===J(['新年快樂！這邊也過了。','昨天跨年，街上好多人。']),J(q));
   zr('2028-01-01',10,'friend'); MSG.send(H.G,ZR,'newyear'); q=Q();
-  check('9. 1/1 臺灣 10:00、朋友：照英國作息（週日 22:00 以後）',q.day===D('2028-01-02')&&q.h>=22&&q.items[1].text==='新年快樂。你們先跨了。',J(q));
+  check('9. 1/1 臺灣 10:00、朋友：照英國作息（週日 22:00 以後）、08:00 以後那一句「新年快樂。」（AA_419 第 5 節第 2 點）',q.day===D('2028-01-02')&&q.h>=22&&q.items[1].text==='新年快樂。',J(q));
   zr('2029-01-01',3,'dating'); MSG.send(H.G,ZR,'newyear'); q=Q();
   check('9. 2029-01-01 交往中、臺灣 03:00：當下就回「我這邊還沒。……等一下視訊再說。」',q.day===H.G.day&&q.h<3.1&&J(q.items.map(i=>i.text))===J(['我這邊還沒。……等一下視訊再說。']),J(q));
   zr('2027-10-20',15,'close'); check('9. 平常日子（2027-10-20）：沒有生日、新年按鈕（照舊只有在幹嘛、分享…）',!tk().includes('bday')&&!tk().includes('newyear')&&tk().includes('chat'),J(tk()));
@@ -204,6 +204,22 @@ await sec(11,()=>{ const s=D('2028-10-01'); zr('2028-10-01',6,'dating',{EXCHANGE
   check('11. 前提：美國路線、人在美國（臺灣 −12）',STORY.abroad(H.G)&&STORY.tzOffset(H.G)===-12);
   rules(); const q=q0('zruk_w_2028-10-01'); check('11. 臺灣週日 22:00＝當地週日 10:00',!!q&&q.day===s&&q.h===10,J(q));
   zr('2028-09-30',6,'close',{EXCHANGE_ROUTE:'US'}); rules(); check('11. 每月：臺灣週六 21:00 的私訊＝當地週六 09:00',PHONE.rec(H.G).q.some(x=>x.tag==='zruk_m_ask_2028-10'&&x.day===D('2028-09-30')&&x.h===9),J(PHONE.rec(H.G).q)); });
+
+/* ======================= 12. AA_419 第 5 節（AA-B 18:5x，企劃線 e24de240c）：美國那學期的時間與六句、2028 交往中的生日視訊 ======================= */
+await sec(12,async()=>{ zr('2028-11-05',6,'dating',{EXCHANGE_ROUTE:'US'}); const d=D('2028-11-05'); rules(); const q=q0('zruk_w_2028-11-05');
+  check('12. 美國那學期（英國冬令）：英國週日 15:00＝印第安納 10:00',!!q&&q.day===d&&q.h===10&&/15:00|下午 3:00/.test(q.title),J(q));
+  ZRUK.rec(H.G).w.o=0; ZRUK.rec(H.G).w.used=[]; const L1=ZRUK.weekLines(H.G,d,false), L2=ZRUK.weekLines(H.G,d,false), T2=L2.map(x=>x.text||'').join('|'), C2=JSON.stringify(L2);
+  check('12. 每週開頭 2：「你那邊才早上吧。我這邊下午了。」',L2[0].text==='你那邊才早上吧。我這邊下午了。',L2[0].text);
+  check('12. 收尾「你那邊才早上吧。……要去上課了？」、選項「要去了。」',T2.includes('你那邊才早上吧。……要去上課了？')&&C2.includes('「要去了。」')&&!C2.includes('「早點睡。」'));
+  zr('2028-11-04',6,'close',{EXCHANGE_ROUTE:'US'}); rules(); const m=(PHONE.rec(H.G).q.find(x=>x.tag==='zruk_m_ask_2028-11')||{items:[]}).items[0];
+  check('12. 每月前一天的私訊：「明天你那邊早上十點？」',!!m&&m.text==='明天你那邊早上十點？',JSON.stringify(m));
+  ZRUK.rec(H.G).m.o=1; ZRUK.rec(H.G).m.c=1; const ML=ZRUK.monthLines(H.G,D('2028-11-05')); check('12. 每月開頭 2、收尾 2 換成美國那學期的',ML[0].text==='你那邊才早上吧。我這邊剛吃完午餐。'&&ML[ML.length-1].text==='你那邊快中午了。去吃飯。',JSON.stringify([ML[0],ML[ML.length-1]]));
+  zr('2028-10-08',9,'dating'); const d2=D('2028-10-08'); ZRUK.rec(H.G).w.o=1; const L3=ZRUK.weekLines(H.G,d2,false); check('12. 人在臺灣：照原本「你那邊十點了吧。……」',/^你那邊十點了吧。/.test(L3[0].text),L3[0].text);
+  zr('2028-09-28',12,'dating'); rules(); const b=q0('zruk_bday28'); check('12. 2028-09-28（四）臺灣 21:00：她的生日視訊',!!b&&b.day===D('2028-09-28')&&b.h===21,J(b));
+  const lines=await play(b,[1]); const r=SOCIAL.rel(ZR);
+  check('12. 「你先說。」「生日快樂。」「……嗯。聽到了。」……「……明年的生日，我要回去過。」',['你先說。','生日快樂。','……嗯。聽到了。','（她把手機靠在一疊書上，鏡頭有點歪。）','今天一個人去看了一部片。這裡的戲院，沒有倒數第三排。','……明年的生日，我要回去過。'].every(t=>H.has(t)),J(lines));
+  check('12. 「明年我去找妳。」→「……機票很貴喔。」「好。」；記憶 HOL_BDAY_2028',H.has('……機票很貴喔。')&&H.has('好。')&&SOCIAL.has(ZR,'HOL_BDAY_2028'));
+  zr('2028-09-28',12,'close'); rules(); check('12. 沒交往：沒有生日視訊',!q0('zruk_bday28')); });
 
 H.done();
 })();

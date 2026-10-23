@@ -82,8 +82,12 @@ const ZRUK=(function(){
   S.W_CLOSE_Q='你那邊很晚了吧。';
   S.W_CLOSE={sleep:{t:'早點睡。',r:['好。……晚安。',N('（視訊結束。）')]},more:{t:'再講十分鐘。',r:['好。……我泡一杯茶，你看我泡。',N('（十分鐘以後，她先說了晚安。）')]},fix:'你要去吃晚餐了吧。……去吧。'};
   S.ASK={q:'明天晚上十點？',yes:'好。',no:'這次不行。',noR:'好。下個月。'};
+  /* 祐廷人在美國（2028-09～12，印第安納；AA_419 第 5 節第 4 點）：視訊照她那邊英國週日 15:00（他那邊早上），修補以後的版本也是；六句換 */
+  S.usP=(G,d)=>tz(G,d)<=-11;   /* 美國（照 STORY.tzOffset：比臺灣慢 12～13 小時）*/
+  S.US={ask:'明天你那邊早上十點？',mOpen2:'你那邊才早上吧。我這邊剛吃完午餐。',mClose2:'你那邊快中午了。去吃飯。',wOpen2:'你那邊才早上吧。我這邊下午了。',wCloseQ:'你那邊才早上吧。……要去上課了？',sleepT:'要去了。'};
+  S.callH=(G,d,base)=>S.usP(G,d)?15+off(G,d):base;   /* 臺灣時間幾點打：美國那學期＝英國 15:00 */
   S.MISS={m:'沒接。……下個月見。',w:'沒接。……你在忙吧。',w2:'又沒接。……沒關係。'};
-  S.T2={bday:{friend:'謝謝。……你怎麼知道。',close:'謝謝！我今天一個人去看了一部電影。……你傳來的時候，剛好散場。',dating:'謝謝。……晚上視訊的時候再說一次。'},
+  S.T2={bday:{friend:'謝謝。……你怎麼知道。',close:'謝謝！今天我給自己放假，一個人去看電影。',dating:'謝謝。……晚上視訊的時候再說一次。'},
         newyear:{friend:'新年快樂。你們先跨了。',close:'你們先跨了。……我這邊還有八個小時。新年快樂。',dating:'我這邊還沒。……等一下視訊再說。'}};
   S.W_FROM='2028-09-01';   /* 每週的視訊：2028-09 她到英國以後 */
 
@@ -105,9 +109,9 @@ const ZRUK=(function(){
   const run=async(L,ev)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(L,ev); return L; };
 
   /* ---------- 第 1 節 每月 ---------- */
-  S.monthLines=function(G,d){ const R=S.rec(G).m, op=S.M_OPEN[R.o%S.M_OPEN.length]; R.o++;
+  S.monthLines=function(G,d){ const R=S.rec(G).m, us=S.usP(G,G.day), oi=R.o%S.M_OPEN.length, op=us&&oi===1?S.US.mOpen2:S.M_OPEN[oi]; R.o++;
     const nx=S.nextM(G,d); if(nx.reset) R.used=[]; R.used.push(nx.id); if(nx.id==='M6') R.seenM6=true;
-    const cl=S.M_CLOSE[R.c%S.M_CLOSE.length]; R.c++;
+    const ci=R.c%S.M_CLOSE.length, cl=us&&ci===1?S.US.mClose2:S.M_CLOSE[ci]; R.c++;
     const sp=S.M[nx.id], dS=D(S.SECOND), say=sp.second&&dS!=null&&d>=dS?sp.second:sp.say;
     log(R.log,{ym:keyOf(d).slice(0,7),day:d,ans:'yes',topic:nx.id});
     return [Z(op)].concat(topicLines(say,sp.opts),[Z(cl)]); };
@@ -116,27 +120,27 @@ const ZRUK=(function(){
   S.monthOk=function(G,sd){ if(!law(G)||!S.inUK(G,sd-1)||!S.inUK(G,sd)) return false; if(typeof ZRZQ!=='undefined'&&ZRZQ.dating&&ZRZQ.dating(G)) return false;
     const o=MSG.open(onDay(G,sd),ZR); return !!(o&&o.ok&&o.mode==='uk'&&o.uk==='close'); };
   S.monthIds=sd=>{ const ym=keyOf(sd).slice(0,7); return {ym,ask:'zruk_m_ask_'+ym,id:'zruk_m_'+ym,miss:'zruk_m_miss_'+ym}; };
-  S.monthCall=function(G,sd,tw){ const I=S.monthIds(sd), call=T(sd,22);
-    if(!PHONE.sent(G,I.ask)){ if(tw<call-0.25&&S.monthOk(G,sd)){ const a=S.toGame(G,sd-1,21), c=S.toGame(G,sd,22);
-        PHONE.at(G,a.day,a.h,[Object.assign(dm(S.ASK.q),{ask:{id:I.ask,until:T(c.day,c.h-0.25),opts:[{t:S.ASK.yes},{t:S.ASK.no,say:[{from:ZR,text:S.ASK.noR}]}]}})],I.ask); }
+  S.monthCall=function(G,sd,tw){ const I=S.monthIds(sd), CH=S.callH(G,sd,22), call=T(sd,CH);
+    if(!PHONE.sent(G,I.ask)){ if(tw<call-0.25&&S.monthOk(G,sd)){ const a=S.toGame(G,sd-1,21), c=S.toGame(G,sd,CH);
+        PHONE.at(G,a.day,a.h,[Object.assign(dm(S.usP(G,sd)?S.US.ask:S.ASK.q),{ask:{id:I.ask,until:T(c.day,c.h-0.25),opts:[{t:S.ASK.yes},{t:S.ASK.no,say:[{from:ZR,text:S.ASK.noR}]}]}})],I.ask); }
       return; }
     const m=PHONE.byAsk(G,I.ask), ans=m&&m.ans!=null?m.ans:null;
     if(ans===1){ const L=OUT.rec(G), i=L.findIndex(q=>q.id===I.id&&q.state==='planned'&&!q.arrived); if(i>=0) L.splice(i,1);   /* 「這次不行。」：那個月不打 */
       const R=S.rec(G).m; if(!R.log.some(e=>e.ym===I.ym)) log(R.log,{ym:I.ym,day:sd,ans:'no'}); return; }
     if(OUT.get(G,I.id)||tw>=call+0.25||!(ans===0||Math.floor(tw/24+1e-9)===sd)||!S.monthOk(G,sd)) return;   /* 回「好。」就排；沒回的到那個週日才排（照樣打）*/
-    const c=S.toGame(G,sd,22);
-    OUT.plan(G,{id:I.id,ev:S.EV_M,day:c.day,h:c.h,late:0.25,place:'視訊',verb:'接起來',no:'先不接',title:'和芷若視訊（英國'+hm(22-off(G,sd))+'）',travel:'',travelH:0,back:'視訊結束。',alarm:true,zr:{k:'m',ym:I.ym,d:sd,h:22}}); };
+    const c=S.toGame(G,sd,CH);
+    OUT.plan(G,{id:I.id,ev:S.EV_M,day:c.day,h:c.h,late:0.25,place:'視訊',verb:'接起來',no:'先不接',title:'和芷若視訊（英國'+hm(CH-off(G,sd))+'）',travel:'',travelH:0,back:'視訊結束。',alarm:true,zr:{k:'m',ym:I.ym,d:sd,h:CH}}); };
   S.monthly=function(G){ const tw=S.twNow(G), td=Math.floor(tw/24+1e-9), done=new Set();
     for(const sd of [S.firstSun(td),S.firstSun(td+1)]){ if(done.has(sd)) continue; done.add(sd); if(td===sd-1||td===sd) S.monthCall(G,sd,tw); } };
 
   /* ---------- 第 2 節 每週 ---------- */
   S.weekLines=function(G,d,fix){ const R=S.rec(G).w, nx=S.nextW(G,d); if(nx.reset) R.used=[]; R.o+=1+nx.skip; if(!R.used.includes(nx.id)) R.used.push(nx.id);
-    const win=S.winter(G,d), op=nx.open===1?(fix?S.W_OPEN2.fix:(win?S.W_OPEN2.winter:S.W_OPEN2.summer)):S.W_OPEN[nx.open];
+    const win=S.winter(G,d), us=S.usP(G,G.day), op=nx.open===1?(us?S.US.wOpen2:(fix?S.W_OPEN2.fix:(win?S.W_OPEN2.winter:S.W_OPEN2.summer))):S.W_OPEN[nx.open];
     const sp=S.W[nx.id], say=nx.id==='W12'?(win?sp.winter:sp.summer):sp.say;   /* 冬令又看過 M6 的不會挑到 W12（availW）*/
     R.miss=0; log(R.log,{day:d,ans:'yes',topic:nx.id,fix:!!fix});
     let tail;
-    if(fix) tail=[Z(S.W_CLOSE.fix)];   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫 */
-    else { const C=S.W_CLOSE; tail=[Z(S.W_CLOSE_Q),{choice:[{text:'「'+C.sleep.t+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
+    if(fix&&!us) tail=[Z(S.W_CLOSE.fix)];   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫 */
+    else { const C=S.W_CLOSE; tail=[Z(us?S.US.wCloseQ:S.W_CLOSE_Q),{choice:[{text:'「'+(us?S.US.sleepT:C.sleep.t)+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
       {label:'zruk_ws'}].concat(C.sleep.r.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true)},{goto:'zruk_we'},{label:'zruk_wt'}],
       C.more.r.map((t,i)=>typeof t==='string'?Z(t):Object.assign({},t,i===C.more.r.length-1?{advance:1/6}:{})),[{call:g=>S.sleepPick(g,false)},{label:'zruk_we'}]); }
     return [Z(op)].concat(topicLines(say,sp.opts),tail); };
@@ -146,7 +150,7 @@ const ZRUK=(function(){
   S.playW=async function(G,GM,ev){ const q=S.curQ(G,S.EV_W), d=q&&q.zr&&q.zr.d!=null?q.zr.d:S.twDay(G), fix=q&&q.zr?!!q.zr.fix:S.fixOn(G); return run(S.weekLines(G,d,fix),ev); };
   S.weekly=function(G){ const tw=S.twNow(G), d=Math.floor(tw/24+1e-9); if(wdOf(d)!==0) return; const w0=D(S.W_FROM); if(w0==null||d<w0) return;
     if(!S.inUK(G,d)||MSG.ukRow(G,ZR)!=='dating') return; const id='zruk_w_'+keyOf(d); if(OUT.get(G,id)) return;
-    const fix=S.fixOn(G), h=fix?17:22; if(tw>=T(d,h)+0.25) return; const c=S.toGame(G,d,h);
+    const fix=S.fixOn(G), h=S.callH(G,d,fix?17:22); if(tw>=T(d,h)+0.25) return; const c=S.toGame(G,d,h);
     OUT.plan(G,{id,ev:S.EV_W,day:c.day,h:c.h,late:0.25,place:'視訊',verb:'接起來',no:'先不接',title:'和芷若視訊（英國'+hm(h-off(G,d))+'）',travel:'',travelH:0,back:'視訊結束。',alarm:true,zr:{k:'w',d,h,fix}}); };
   /* 修補以後的八週接了幾次（BB_119：六次以上＝修補成功；判斷由那一段的程式做）*/
   S.fixAnswered=function(G){ const L=S.rec(G).w.log.filter(e=>e.fix&&(e.ans==='yes'||e.ans==='missed')).slice(0,8); return {n:L.filter(e=>e.ans==='yes').length,of:L.length}; };
@@ -159,13 +163,20 @@ const ZRUK=(function(){
 
   /* ---------- 手機規則（每次 STORY.phoneRules → MSG.ukDaily）---------- */
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined'||typeof OUT==='undefined'||typeof MSG==='undefined'||typeof CALENDAR==='undefined') return;
-    try{ S.monthly(G); }catch(e){ console.warn('ZRUK monthly',e); } try{ S.weekly(G); }catch(e){ console.warn('ZRUK weekly',e); } };
+    try{ S.monthly(G); }catch(e){ console.warn('ZRUK monthly',e); } try{ S.weekly(G); }catch(e){ console.warn('ZRUK weekly',e); } try{ S.bday28(G); }catch(e){ console.warn('ZRUK bday28',e); } };
+  /* ---------- 2028 交往中的生日視訊（AA_419 第 5 節第 3 點）：2028-09-28（四）臺灣 21:00 她打來（AA_416 第 2 節：那天不是週日也打）；數值照 AA_416 1-7 視訊版、記憶 HOL_BDAY_2028 ---------- */
+  S.BDAY28='2028-09-28'; S.EV_B='ev_zr_uk_bday28';
+  S.bday28=function(G){ const d=D(S.BDAY28); if(d==null) return; const tw=S.twNow(G); if(Math.floor(tw/24+1e-9)!==d||OUT.get(G,'zruk_bday28')) return;
+    if(!S.inUK(G,d)||MSG.ukRow(G,ZR)!=='dating'||tw>=T(d,21)+0.25) return; const c=S.toGame(G,d,21);
+    OUT.plan(G,{id:'zruk_bday28',ev:S.EV_B,day:c.day,h:c.h,late:0.25,place:'視訊',verb:'接起來',no:'先不接',title:'和芷若視訊（她的生日）',travel:'',travelH:0,back:'視訊結束。',alarm:true}); };
 
   /* ---------- 第 3 節 生日、新年的按鈕 ---------- */
   const md=G=>{ const x=cal(G.day+Math.floor((+G.hour||0)/24)); return x.m*100+x.d; };
   S.t2Entry=function(G,topic){ if(!law(G)||!S.T2[topic]||typeof MSG==='undefined'||!MSG.inUK(G,ZR)) return null; const row=MSG.ukRow(G,ZR), t=S.T2[topic][row]; if(!t) return null;
     if(topic==='bday'&&md(G)!==928) return null; if(topic==='newyear'&&md(G)!==101) return null;   /* 英國的新年只有 1/1 */
-    return {topic,tier:row==='dating'?'L':(row==='close'?'L':'R'),msgs:[t],tags:[],variant:'在英國',zrUk:row,src:'AA_419 第 3 節'}; };
+    const late=topic==='newyear'&&!S.immediateNY(G)&&S.NY_LATE[row];   /* 1/1 臺灣 08:00 以後：英國也過了午夜（AA_419 第 5 節第 2 點）*/
+    return {topic,tier:row==='dating'?'L':(row==='close'?'L':'R'),msgs:[].concat(late||t),tags:[],variant:'在英國',zrUk:row,noWake:true,src:'AA_419 第 3 節、第 5 節'}; };   /* noWake：生日、新年的按鈕回覆不接「我剛起床。」（AA_419 第 5 節第 1 點）*/
+  S.NY_LATE={friend:'新年快樂。',close:['新年快樂！這邊也過了。','昨天跨年，街上好多人。'],dating:'新年快樂。……這次我們同一年了。'};
   S.topics2=(G,id)=>id!==ZR?[]:[{k:'bday',t:'生日快樂'},{k:'newyear',t:'新年快樂'}].filter(q=>!!S.t2Entry(G,q.k));
   S.immediateNY=G=>{ const h=(+G.hour||0)%24; return md(G)===101&&h<8; };   /* 1/1 臺灣 00:00～08:00（MSG.replyAt 裡的 G 是臺灣時間：jp3d.js、us_life3d.js 換算後才叫進來）*/
   if(typeof MSG!=='undefined'&&!MSG._zruk){ MSG._zruk=true;
@@ -178,6 +189,10 @@ const ZRUK=(function(){
   /* ---------- 事件 ---------- */
   S.EV_M='ev_zr_uk_monthly'; S.EV_W='ev_zr_uk_weekly';
   S.EVENTS=[
+    {id:'ev_zr_uk_bday28',title:'生日的視訊',participants:[ZR],location:'any',trigger:'outing',once:true,background:'dark',hours:0.5,
+      dialogue:[{scene:'視訊',bg:'video'},Z('你先說。'),{speaker:'player',text:'生日快樂。'},Z('……嗯。聽到了。'),N('（她把手機靠在一疊書上，鏡頭有點歪。）'),Z('今天一個人去看了一部片。這裡的戲院，沒有倒數第三排。'),Z('……明年的生日，我要回去過。'),
+        {choice:[{text:'「我等妳。」',goto:'zb_a'},{text:'「明年我去找妳。」',goto:'zb_b'}]},{label:'zb_a'},Z('嗯。你說的喔。'),{goto:'zb_e'},{label:'zb_b'},Z('……機票很貴喔。'),Z('好。'),{label:'zb_e'},
+        {call:G=>{ if(typeof SOCIAL!=='undefined'){ if(SOCIAL.adjust) SOCIAL.adjust(ZR,{fam:2,comf:3,npcRom:3}); if(SOCIAL.remember) SOCIAL.remember(ZR,'HOL_BDAY_2028',''); } }}]},
     {id:S.EV_M,title:'視訊',participants:[ZR],location:'any',trigger:'outing',background:'dark',hours:0.5,
       dialogue:[{scene:'視訊',bg:'video'},{call:(G,GM,ev)=>S.playM(G,GM,ev)}],outingMissed:(G,GM,q)=>S.missed(G,q)},
     {id:S.EV_W,title:'視訊',participants:[ZR],location:'any',trigger:'outing',background:'dark',hours:0.5,

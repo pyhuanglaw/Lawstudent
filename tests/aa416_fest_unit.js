@@ -19,7 +19,7 @@ try{ load('src/data/an_yt_hol_events.js'); load('src/an_yt_hol3d.js'); }catch(e)
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/fest_events.js'); ok2=load('src/fest3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof FEST!=='undefined'?FEST:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ return ''; } };
-const doc=git('ed80edb71','AA_416_節日總規格_三個情人節生日聖誕_七位.md'), doc122=git('5788b1cb4','BB_122_溫學姊戀愛線v2_分手前後與重新開始.md'), doc124=git('968473469','BB_124_節日開車約會與健身_BB人物.md');
+const doc=git('2af5f4899','AA_416_節日總規格_三個情人節生日聖誕_七位.md')   /* 2af5f4899：第 11 節（10-23 19:2x）學姊禮物價錢、送花那一句 */, doc122=git('5788b1cb4','BB_122_溫學姊戀愛線v2_分手前後與重新開始.md'), doc124=git('968473469','BB_124_節日開車約會與健身_BB人物.md');
 const norm=t=>String(t).replace(/^（/,'').replace(/）$/,'').replace(/[。：]$/,'');   /* 稿裡沒有括號的動作描寫：演成旁白、加（）*/
 const inDoc=(t,d)=>(d||doc).indexOf(t)>=0||(d||doc).indexOf(norm(t))>=0;
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin', ALL=[AN,ZR,YT,ZQ,SIS,PS,KX];
@@ -213,12 +213,12 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-08-18',10,{lv:{[SIS]:6}}); const a=await ask(SIS,[1,0]); const q=a.r;
     check('7. 七夕第 6 階：開車上陽明山（D15 開車 40 分＋取車 30 分、油錢 150）、晚上場（只有這個地方）',!!q&&a.O.length===1&&q.title==='七夕（開車上陽明山）'&&q.fest.bg==='d15_base_night'&&Math.abs(q.travelH-(40/60+0.5))<1e-9&&q.fest.fare===150&&q.h===19,J({q,O:a.O}));
     at('2026-08-19',17.7); money=[]; const g=await goOut(q.id); check('7. 「一年見一次，很辛苦吧。」「我以前覺得，排好的話，一年一次也可以。」（油錢有扣）',J(g.L)===J(['一年見一次，很辛苦吧。','我以前覺得，排好的話，一年一次也可以。'])&&J(money)===J([-150]),J({L:g.L,money})); }
-  { setup('2028-06-02',10,{lv:{[SIS]:'dt'},flags:{EXCHANGE_ROUTE:'TW'}}); H.G.money=50; const m=await play({id:SIS,k:'bday',y:2028,mode:'meet'},[0]);
+  { setup('2028-06-02',10,{lv:{[SIS]:'dt'},flags:{EXCHANGE_ROUTE:'TW'}}); H.G.money=500; money=[]; const m=await play({id:SIS,k:'bday',y:2028,mode:'meet'},[0]);
     check('7. 2028 生日（沒有專屬的那一年）交往中＝第 6 階的兩句＋「……我把計畫本那一天塗掉了。」；禮物照 BB_122 3-7（W8 以後才有「今天先不改了」券）；螢光筆「實用。……謝謝。這週就會用完。」',J(m.L)===J(['生日？期末考前。我從來沒有好好過過。','……今年讓你排。我不看時間。','……我把計畫本那一天塗掉了。','實用。……謝謝。這週就會用完。'])&&J(m.O[0])===J(['一盒綠色螢光筆','一本空白筆記本','期末考前的蜂蜜檸檬','手寫的「今天先不改了」券','一束花','（沒有準備）']),J(m));
     setup('2028-06-01',10,{lv:{[SIS]:6},flags:{EXCHANGE_ROUTE:'JP'}}); const a=await ask(SIS,[0]); at('2028-06-02',21.9); const g=a.r?await goOut(a.r.id):{L:[]};
     check('7. 2028 生日日本路線：視訊 22:00「研究室沒有蛋糕。……我買了一個布丁。」「你看，蠟燭插不進去。」',!!a.r&&a.r.h===22&&J(g.L)===J(['研究室沒有蛋糕。……我買了一個布丁。','你看，蠟燭插不進去。']),J({q:a.r,L:g.L})); }
-  { setup('2026-12-24',10,{lv:{[SIS]:6}}); const m=await play({id:SIS,k:'xmas',y:2026,mode:'meet'},[4]);
-    check('7. 聖誕第 6 階「聖誕節。今天家族沒有聚餐。」「……所以只有我們兩個。」；一束花＝「……謝謝。研究室沒有花瓶。」',J(m.L)===J(['聖誕節。今天家族沒有聚餐。','……所以只有我們兩個。','……謝謝。研究室沒有花瓶。']),J(m.L)); }
+  { setup('2026-12-24',10,{lv:{[SIS]:6}}); H.G.money=1000; money=[]; const m=await play({id:SIS,k:'xmas',y:2026,mode:'meet'},[4]);
+    check('7. 聖誕第 6 階「聖誕節。今天家族沒有聚餐。」「……所以只有我們兩個。」；一束花 500 元＝「花喔。……我要去找一個瓶子。」（AA_416 第 11 節第 6 點）',J(m.L)===J(['聖誕節。今天家族沒有聚餐。','……所以只有我們兩個。','花喔。……我要去找一個瓶子。'])&&J(money)===J([-500]),J({L:m.L,money})); }
   { setup('2027-03-13',21.05,{lv:{[SIS]:'dt'}}); rules(); check('7. 她約（沒有專屬的 3/14）：「明天晚上七點。法圖門口。」',J(dms(SIS))===J(['明天晚上七點。法圖門口。']),J(dms(SIS)));
     PHONE.answer(H.G,'fest_ask_heroine_05_white_2027',1); check('7. 「那天不行。」→「好。那我寫論文。」',dms(SIS).slice(-1)[0]==='好。那我寫論文。');
     setup('2027-02-13',21.05,{lv:{[SIS]:'dt'}}); rules(); check('7. 2027 情人節（交往中有專屬 S.HOL）：通用版不約',!PHONE.byAsk(H.G,'fest_ask_heroine_05_vday_2027')); }

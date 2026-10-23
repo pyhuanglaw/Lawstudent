@@ -1,6 +1,6 @@
 /* 沛珊放榜那天：交往中的版本（任務 PS-RESULTS-1018；BB_119 1b-3（企劃線 a54ec2b4）、9-2 的到場；AA_276 6-2（e55fda50）；AA_282 第 1 節／AA_349 K8（f5e9acae）；台詞一字不改）
    - 給誰：2027-08-06 那天和她交往中的玩家（消失期開始時交往中＝整段都聯絡著，PS_KEPT；PEISHAN_WAIT 永遠到不了，AA_360 第 5 節）。
-   - 10:00 她先傳「你現在在哪？」；兩分鐘後「我現在去搭客運。」「到總圖外面的台階。我中午到。」（「不管玩家回什麼」：祐廷的回覆企劃沒有寫字，這裡不出選項，她接著傳）→ 12:00 出遊「總圖外面的台階」（從家裡出發約 30 分鐘，比她早到）。
+   - 10:00 她先傳「你現在在哪？」；兩分鐘後「我現在去搭客運。」「到總圖外面的台階。我中午到。」（祐廷的回覆「在家。」／「在家。怎麼了？」，AA_416 第 11 節第 4 點；選哪個、不回都一樣，她接著傳）→ 12:00 出遊「總圖外面的台階」（從家裡出發約 30 分鐘，比她早到）。
    - 12:00 以前到：她從公館那邊跑過來（BCG-22 就是這一拍）；12:15 還沒到：她傳「我到了。台階這邊，樹蔭下面。」，等到 13:00；12:00 以後才到、或 13:00 帶到場（R4，她的答案要當面說）：
      旁白「（八月的午後。她坐在台階上，看到你，才站起來。）」，其他一樣。
    - 台詞：「上了。我要去當老師了。」（CG cg_results_day_peishan）→ PS_KEPT「那半年，每天晚上十一點，我都傳一則給你。……現在可以白天講了。」（STORY.PS_KEEP_BACK）→「……你幫我想想，第一堂課要講什麼。」→ 祐廷的三個回答照 BB_97 4-4（「講框外面的人。」只給有 NOT_FOR_ME 的玩家）。
@@ -19,7 +19,7 @@ const PSR=(function(){
   S.q=G=>typeof OUT!=='undefined'&&OUT.get?OUT.get(G,OID):null;
   /* 手機：10:00、10:02；排出遊；12:15 還沒到 */
   S.phone=function(G){ if(!S.on(G)||typeof PHONE==='undefined') return; const d=DK(KEY), F=G.flags; if(G.day<d||G.day>d||F.PS_RESULTS) return;
-    if(now(G)>=T(d,10)&&!PHONE.sent(G,'ps_results_where')) PHONE.at(G,d,10,[P(S.LINES.where)],'ps_results_where');
+    if(now(G)>=T(d,10)&&!PHONE.sent(G,'ps_results_where')) PHONE.at(G,d,10,[Object.assign(P(S.LINES.where),{ask:{id:'ps_results_where',until:T(d,12),opts:[{t:'在家。'},{t:'在家。怎麼了？'}]}})],'ps_results_where');   /* AA_416 第 11 節第 4 點：兩個選項；選哪個、不回，兩分鐘後她都接那兩句 */
     if(now(G)>=T(d,10+2/60)&&!PHONE.sent(G,'ps_results_bus')){ PHONE.at(G,d,10+2/60,[P(S.LINES.bus),P(S.LINES.steps)],'ps_results_bus');
       if(typeof OUT!=='undefined'&&!S.q(G)) OUT.plan(G,{id:OID,ev:'ev_peishan_results',day:d,h:12,late:1,early:0.5,must:true,place:'總圖外面的台階',title:'總圖外面的台階 12:00',travel:'走過去 約 15 分鐘',travelH:0.25,homeTravel:'捷運＋走路 約 30 分鐘',back:'回家。'}); }
     const q=S.q(G); if(q&&q.state!=='done'&&now(G)>=T(d,12.25)&&now(G)<T(d,13)&&!PHONE.sent(G,'ps_results_wait')) PHONE.at(G,d,12.25,[P(S.LINES.wait)],'ps_results_wait'); };

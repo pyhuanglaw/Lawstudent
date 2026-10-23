@@ -124,11 +124,11 @@ const FEST_DATA=(function(){
           vid:{years:[2028],route:'JP',lines:[W('研究室沒有蛋糕。……我買了一個布丁。'),W('你看，蠟燭插不進去。')]}},   /* 臺灣 21:00＝日本 22:00 */
         xmas:{s6:[W('聖誕節。今天家族沒有聚餐。'),W('……所以只有我們兩個。')],dedicated:{dt:[2026,2027,2028]}} },   /* 交往中 sis_b4_3d.js、2028 期末約會 */
       ask:{lines:['明天晚上七點。法圖門口。'],no:['好。那我寫論文。'],h:19,place:'法圖門口',bg:'ntu_linze'},
-      gifts:[ {id:'highlighter',name:'一盒綠色螢光筆',price:0,ok:true,lines:[W('實用。……謝謝。這週就會用完。')]},   /* BB_122 3-7（單身以後那一欄）；稿沒有價錢 */
-        {id:'notebook',name:'一本空白筆記本',price:0,ok:true,lines:[W('我有很多本了。……這本我留著，不排東西。')]},
-        {id:'honey',name:'期末考前的蜂蜜檸檬',price:0,ok:true,lines:[W('這個時候送這個。你很懂。')]},
+      gifts:[ {id:'highlighter',name:'一盒綠色螢光筆',price:120,ok:true,lines:[W('實用。……謝謝。這週就會用完。')]},   /* BB_122 3-7（單身以後那一欄）；價錢 AA_416 第 11 節第 6 點（2af5f4899）*/
+        {id:'notebook',name:'一本空白筆記本',price:250,ok:true,lines:[W('我有很多本了。……這本我留著，不排東西。')]},
+        {id:'honey',name:'期末考前的蜂蜜檸檬',price:80,ok:true,lines:[W('這個時候送這個。你很懂。')]},
         {id:'coupon',name:'手寫的「今天先不改了」券',price:0,ok:true,lines:[W('我用了。昨天。')],cond:G=>typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):false},   /* W8 以後才有 */
-        {id:'flowers',name:'一束花',price:0,ok:true,lines:[W('……謝謝。研究室沒有花瓶。')]} ],   /* AA_416 第 7 節：原本「我第一次收到不是畢業典禮的花。」改這一句 */
+        {id:'flowers',name:'一束花',price:500,ok:true,lines:[W('花喔。……我要去找一個瓶子。')]} ],   /* AA_416 第 11 節第 6 點：原本「我第一次收到不是畢業典禮的花。」（「這是我第一次」句型）換這一句 */
       none:[W('沒關係。……你來了，今天就不算沒過。')] },
     /* ---------------- 第 8 節 郭沛珊 ---------------- */
     [PS]:{

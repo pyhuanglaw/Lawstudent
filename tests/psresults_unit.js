@@ -25,6 +25,7 @@ if(!X()){ H.done(); return; }
 
 await sec(1,()=>{ setup(9.5); step(9.9); check('1. 09:54 還沒',!H.msgs('p:'+ID).length);
   step(10); check('1. 10:00「你現在在哪？」',J(H.msgs('p:'+ID))===J(['你現在在哪？']),J(H.msgs('p:'+ID)));
+  { const m=(H.G.msgs||[]).find(x=>x.text==='你現在在哪？'); check('1. 兩個選項「在家。」「在家。怎麼了？」（AA_416 第 11 節第 4 點）',!!m&&!!m.ask&&J(m.ask.opts.map(o=>o.t))===J(['在家。','在家。怎麼了？']),J(m&&m.ask)); }
   step(10.05); check('1. 10:02「我現在去搭客運。」「到總圖外面的台階。我中午到。」',J(H.msgs('p:'+ID))===J(['你現在在哪？','我現在去搭客運。','到總圖外面的台階。我中午到。']),J(H.msgs('p:'+ID)));
   const q=OUT.get(H.G,'ps_results'); check('1. 排 12:00 總圖外面的台階、不能選不去（must）',!!q&&q.day===D&&q.h===12&&q.must&&q.ev==='ev_peishan_results'&&q.place==='總圖外面的台階',J(q));
   step(12.1); check('1. 12:06 還沒有「我到了」',!H.msgs('p:'+ID).includes('我到了。台階這邊，樹蔭下面。'));
