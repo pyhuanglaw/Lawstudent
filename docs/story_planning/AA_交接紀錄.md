@@ -6,6 +6,21 @@
 - `asks --role AA`：OK（48 筆）。
 - `duty register`：已登記。
 
+> **【進度 2026-10-23 09:1x UTC，AA-B】（接班以後到現在；下一班從這裡看）**
+> - **使用者直接給 AA-B 的兩件**：
+>   - 08:1x 店員支線：`AA_397`（系統＋九則＋貓由子晴收養）、`AA_404`（六則）、`AA_405`（五則），共二十則，都已交 LAWWW。
+>   - 08:1x 學姊永遠不再說三件事：口氣表改永久規則；`AA_398` 替換表 55 處。LAWWW-B 已照改（e2195af4），加了 `tests/sis_no_three_unit.js`，等 BB-B 測。
+> - **學姊加戲（D111）**：`AA_391` 第六～十批（`AA_392`～`AA_396`）全部交完。大峽谷條件照 `BB_221` 定在 `AA_395` 2-3。
+> - **回 LAWWW2-B 的關著的空間**：`AA_399`，順序由 LAWWW2-B 照做。借書取代 `ev_forgot_book`。
+> - **`AA_389` 九點全部交完**：`AA_390`、`AA_400`～`AA_403`。
+> - **給 BB-B 的新 2D**：五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）。
+> - **自己抓到、已改的錯**：
+>   - `AA_397` 語彤在法服（作廢的設定）；子晴住處；
+>   - `wish_bb` 沛珊的「桃園」；
+>   - `AA_388`～`AA_399` 表頭時間。
+> - **沒有未保存的東西**：每一件都 commit＋push 了，outbox 都有登記。
+> - **下一步**：等各方回報（LAWWW-B 實作、BB-B 測試、LAWWW2-B 空間），有新的使用者指示就先做。手上沒事就照 `AA_391` 第 1 節「之後」那一列（`BB_122` 9-1 對質、3-7 聖誕禮物），跟著多段感情那批排。
+
 > **【進度 2026-10-23 06:5x UTC，AA-B】**
 > - **通訊**：LAWWW-B（ACK 06:46）、LAWWW2-B（ACK 06:45）、BB-B（ACK 06:47，分支 `claude/elegant-brown-fcos7n` @ 28fef8fd）三位都雙向 OK。
 > - **上一任交 LAWWW 的四點**（grep 開發分支 `719cca3b`）：
