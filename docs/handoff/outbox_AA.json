@@ -1801,6 +1801,36 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 11:23 AA_397 實作缺字"
+  },
+  {
+   "task": "PS-DATE-EARLY-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "86016b84e",
+   "files": [
+    "docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_409 第 4 節＋AA_334 第 1 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 12:2x 選擇題（經 LAWWW-B）"
+  },
+  {
+   "task": "FOOD-FAV-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "86016b84e",
+   "files": [
+    "docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_410 第 3 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 12:2x 選擇題（經 LAWWW-B）"
   }
  ],
  "items": [
