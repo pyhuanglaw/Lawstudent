@@ -45,7 +45,15 @@ VIEWS = {
     'l118_korea': ('lane118', [0, 15.5], [2.8, 1.6, 15.5], [-40, 1.6, 15.5], 5.5, 3.4),
     'l118_omu': ('lane118', [0, 1.5], [2.8, 1.6, 1.5], [-40, 1.6, 1.5], 5.5, 3.4),
     'l118_noodle2': ('lane118', [0, -10.5], [2.8, 1.6, -10.5], [-40, 1.6, -10.5], 5.5, 3.4),
+    # 霖澤館 3F、4F、5F（room() 的窗、W3.windowMat）：窗前 7～8 m 有法學院廣場的大樟樹（樹高 19 m，CLOSED-SPACES-1023，LAWWW2-B 10-23），
+    #   近景＝12 m 以內的樹冠（TOP 放到 40 m：不切高度），遠景＝法學院前的路、椰林、社科院。鏡頭位置和原本 window_views.py 的一樣（3F、4F 在 x 30；5F 在研究室那扇窗 x 24.4）
+    'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60], 12.0, 40.0),
+    'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60], 12.0, 40.0),
+    'linze_5f': ('campus', [24, -98], [24.4, 17.7, -101.6], [24.4, 9.0, -60], 12.0, 40.0),
 }
+# 近景邊緣淡出（上緣、左右各佔畫面的比例）：霖澤館的大樟樹樹冠高過照片上緣（3F 往上 40°，照片只到 22°），
+#   遊戲裡從窗下往上看，近景照片的上緣變成樹冠上一條水平切線（10-23 第一版 3F、4F 都看得到）；改成往上緣慢慢變透明
+FADE = {'linze_3f': (0.32, 0.06), 'linze_4f': (0.32, 0.06), 'linze_5f': (0.25, 0.06)}
 TIMES = {'day': 11.0, 'night': 20.5}
 WAIT_ASSETS = "for(let i=0;i<240;i++){ const st=ASSETS.status||{}; const pend=Object.keys(st).filter(k=>!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))); if(!pend.length) break; await new Promise(r=>setTimeout(r,250)); }"
 # 拍完一般截圖以後（fast_shots 的 post）：景深兩組中位數＋三張畫面（遠景、近景黑底、近景白底）的 PNG data URL
@@ -81,9 +89,18 @@ def _blur(x, r):
     return (c[k:k + H, k:k + W] - c[:H, k:k + W] - c[k:k + H, :W] + c[:H, :W]) / (k * k)
 
 
-def matte(b, w):
+def edge_fade(H, W, top, side):
+    """上緣（top×H 列）、左右（side×W 欄）由 1 平滑降到 0 的係數（H×W）"""
+    ss = lambda t: t * t * (3 - 2 * t)
+    fy = ss(np.clip((np.arange(H) + 0.5) / max(1, top * H), 0, 1)) if top > 0 else np.ones(H)
+    x = np.minimum(np.arange(W) + 0.5, W - 0.5 - np.arange(W)); fx = ss(np.clip(x / max(1, side * W), 0, 1)) if side > 0 else np.ones(W)
+    return fy[:, None] * fx[None, :]
+
+
+def matte(b, w, fade=None):
     """黑底、白底兩張 → 有透明度的近景（顏色＝黑底 ÷ alpha）。
-    透明的地方填上旁邊的顏色（預乘的模糊 ÷ alpha 的模糊）：遊戲取樣時雙線性插值會混到透明像素的顏色，填黑的話邊緣一圈黑邊"""
+    透明的地方填上旁邊的顏色（預乘的模糊 ÷ alpha 的模糊）：遊戲取樣時雙線性插值會混到透明像素的顏色，填黑的話邊緣一圈黑邊。
+    fade＝(上緣, 左右)：最後把透明度乘上 edge_fade（顏色不動）"""
     B = np.asarray(b).astype(np.float32) / 255; W = np.asarray(w).astype(np.float32) / 255
     a = np.clip(1.0 - (W - B).mean(axis=2), 0.0, 1.0)
     a = np.where(a < 0.02, 0.0, a)                                     # 雜訊當成全透明
@@ -93,9 +110,18 @@ def matte(b, w):
         pa = _blur(F * a[..., None], r); aa = _blur(a, r)[..., None]; est = pa / np.maximum(aa, 1e-6)
         hole = (a < 1e-3)[..., None] & (aa > 1e-4) & (fill.sum(axis=2, keepdims=True) == 0)
         fill = np.where(hole, est, fill)
+    if fade: a = a * edge_fade(a.shape[0], a.shape[1], *fade)
     return Image.fromarray(np.dstack([np.clip(fill, 0, 1) * 255, a[..., None] * 255]).astype(np.uint8), 'RGBA'), float(a.mean())
 
 
+REM = os.environ.get('VIEWS_REMATTE')   # 只重新去背：讀上次存下來的原始三張（<名稱>_nb.png、_nw.png），不開瀏覽器、不重拍、景深不動
+if REM:
+    for k in VIEWS:
+        if ONLY and k not in ONLY: continue
+        for t in TIMES:
+            name = f'{k}_{t}'; near, cover = matte(Image.open(os.path.join(REM, f'{name}_nb.png')).convert('RGB'), Image.open(os.path.join(REM, f'{name}_nw.png')).convert('RGB'), FADE.get(k))
+            near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88); print('rematte', name, round(cover, 3))
+    sys.exit(0)
 tmp = tempfile.mkdtemp(prefix='shopviews2_'); RAW = os.environ.get('VIEWS_RAW', tmp)
 shots = []
 for k, (zone, ppos, pos, look, D, *top) in VIEWS.items():
@@ -113,7 +139,7 @@ for line in r.stdout.splitlines():
     if line.startswith('shotfail'): print(line[:300]); continue
     if not line.startswith('post '): continue
     _, out, js = line.split(' ', 2); d = json.loads(js); name = os.path.basename(out)[:-4]; k, t = name.rsplit('_', 1)
-    imgs = d.pop('imgs'); far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw)
+    imgs = d.pop('imgs'); far = png(imgs['far']); nb, nw = png(imgs['nb']), png(imgs['nw']); near, cover = matte(nb, nw, FADE.get(k))
     for kk, im in (('far', far), ('nb', nb), ('nw', nw)): im.save(os.path.join(RAW, f'{name}_{kk}.png'))   # 原始的三張（重新去背用）
     far.save(os.path.join(OUTDIR, f'{k}_{t}.webp'), quality=86); near.save(os.path.join(OUTDIR, f'{k}_near_{t}.webp'), quality=88)
     d['cover'] = round(cover, 3); depth[name] = d; done += 1

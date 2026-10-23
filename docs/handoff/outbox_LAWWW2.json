@@ -2476,18 +2476,19 @@
   {
    "task": "法學院廣場的大樟樹（LAWWW-B 選 A）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "d756789b",
+   "sha": "（本 commit）",
    "files": [
-    "docs/art-rebuild/second_ai/patches/linze_tree_1023_WIP.patch",
-    "assets/models/env/views/linze_*（south、201、3F～5F、3F～5F 近景）"
+    "docs/art-rebuild/second_ai/patches/linze_tree_1023.patch（src/zones3d.js、src/linze_upper3d.js、tools/shots/*；對開發 700cb0b7f apply --check 過）",
+    "assets/models/env/views/linze_*（south、201 重拍；3F～5F 遠景＋近景）",
+    "docs/art-rebuild/second_ai/test_shots/linze_tree_1023/README.md＋截圖"
    ],
-   "state": "WORK_IN_PROGRESS（CHECKPOINT_SAVED）",
-   "remaining": "校園導航測試、遊戲內 3F～5F 窗景截圖、README",
-   "next": "沛珊第三十二版之後接著做",
-   "noDirectIntegrate": true,
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "樹冠上緣在窗景裡是淡出（近景照片只拍到 22°）；晚上的窗景沒另外截圖；iPhone 沒看過",
+   "next": "LAWWW-B 套 patch＋放照片、跑 campus_layout_nav／reachability campus",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "—",
-   "note": "還沒交付，不要整合"
+   "ack": "SENT",
+   "note": "checkpoint d756789b 之後：3F、4F 樹冠上緣的水平切線改成淡出（FADE）"
   }
  ]
 }
