@@ -1,69 +1,69 @@
 {
  "noodle_day": {
   "D": 9,
-  "near": 3.33,
-  "far": 22.4,
-  "nNear": 4,
-  "nFar": 146,
-  "sky": 0.465,
+  "near": 4.01,
+  "far": 13.31,
+  "nNear": 19,
+  "nFar": 167,
+  "sky": 0.418,
   "cam": [
    -63,
    2.1,
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.007
+  "cover": 0.035
  },
  "noodle_night": {
   "D": 9,
-  "near": 3.33,
-  "far": 22.4,
-  "nNear": 4,
-  "nFar": 146,
-  "sky": 0.465,
+  "near": 4.01,
+  "far": 13.31,
+  "nNear": 19,
+  "nFar": 167,
+  "sky": 0.418,
   "cam": [
    -63,
    2.1,
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.007
+  "cover": 0.035
  },
  "bookstore_day": {
   "D": 9,
   "near": 8.96,
-  "far": 13.31,
-  "nNear": 27,
-  "nFar": 121,
-  "sky": 0.439,
+  "far": 12.48,
+  "nNear": 38,
+  "nFar": 140,
+  "sky": 0.398,
   "cam": [
    -41.6,
    2.1,
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.048
+  "cover": 0.068
  },
  "bookstore_night": {
   "D": 9,
   "near": 8.96,
-  "far": 13.31,
-  "nNear": 27,
-  "nFar": 121,
-  "sky": 0.439,
+  "far": 12.48,
+  "nNear": 38,
+  "nFar": 140,
+  "sky": 0.398,
   "cam": [
    -41.6,
    2.1,
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.048
+  "cover": 0.068
  },
  "cvs_day": {
   "D": 9,
   "near": 6.54,
   "far": 22.4,
-  "nNear": 72,
+  "nNear": 74,
   "nFar": 108,
   "sky": 0.43,
   "cam": [
@@ -72,13 +72,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.127
+  "cover": 0.13
  },
  "cvs_night": {
   "D": 9,
   "near": 6.54,
   "far": 22.4,
-  "nNear": 72,
+  "nNear": 74,
   "nFar": 108,
   "sky": 0.43,
   "cam": [
@@ -87,7 +87,7 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.128
+  "cover": 0.131
  },
  "cafe_day": {
   "D": 7,

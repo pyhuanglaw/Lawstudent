@@ -30596,7 +30596,7 @@
    "title": "公館騎樓前的機車、單車架、路人（店裡往窗外看太空；LAWWW2 提案、LAWWW 同意）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -30610,7 +30610,7 @@
    },
    "source": "LAWWW2-B 10-23 12:15 提案（ART-SHOP-VIEWS-1023 第一批交件）；使用者 10-23「店面外看出去的景也都很假」",
    "authorized": "D108、D111（LAWWW-B 10-23 13:0x 同意）",
-   "next": "排在 WZ-CAT-LIFE-1023、SQ16 輪轉單車互動點之後；會動 GG_PROP_BLOCKS／導航：交件前跑 gongguan_layout_nav.py、street_props_nav_unit.js、reachability_all.py 公館段、附截圖",
+   "next": "【LAWWW-B 10-23 13:5x】合併 5fed31e9：騎樓柱子外 69 台機車（14 段、LOD 40 m）、兩個腳踏車停車架、行道樹五棵；麵店、書店窗景景深＋三家窗景重拍；gongguan_layout_nav 51 PASS、reachability gongguan、street_props_nav、nav_buildings ALL PASS；效能最重鏡頭 27.2→33.3 萬三角形、147→167 draw call；路人路線（兩條）同意加，LAWWW2 下一個小 patch；BB 清單第 55 項 ｜ 排在 WZ-CAT-LIFE-1023、SQ16 輪轉單車互動點之後；會動 GG_PROP_BLOCKS／導航：交件前跑 gongguan_layout_nav.py、street_props_nav_unit.js、reachability_all.py 公館段、附截圖",
    "xai": {
     "spec": "LAWWW2-B 10-23 12:15 提案",
     "owner": "LAWWW2",
@@ -30618,7 +30618,8 @@
     "acceptance": "公館街景加停好的機車、單車架、路人；導航測試通過＋遊戲內截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "5fed31e9"
   },
   {
    "id": "SIDEQ-AA408-6-1023",
@@ -30693,6 +30694,35 @@
    "source": "AA_405（1fa2b494a）SQ16；AA_408 第 1 節過期一句；AA_405 第 3 節（f923751c）",
    "authorized": "D109、D111",
    "next": "【LAWWW-B 10-23 14:3x】做完：公館「找車行老闆」一天一次、第 5 次起開口；招呼兩句輪流；普通 201 門口週四 19:30～21:00「問登山社的人」（第 5～15 週，SQ16 進行中）；回車行做完；隔天紙條；每學期換名字（五個）；過期「那台車我拆了」；tests/sq_traces_unit.js 第 4 節；BB 清單第 54 項 ｜ 【LAWWW-B 10-23 14:1x】問 AA 七項（觸發、招呼、登山社社課、問社團的字與說話框、結果句、期限、痕跡名字）；SIDEQ.bikeShop 先不定義（按鈕不出現）"
+  },
+  {
+   "id": "SEE-THROUGH-FAIL-1023",
+   "title": "tests/see_through.py 兩項 FAIL（演出鏡頭時不開透視 117.70、室內不開透視 169.33）：開發分支 fb75d67ea 本來就有，不是窗景 patch",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "所有玩家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-23 12:15、13:48 回報",
+   "authorized": "D108（場景鏡頭歸 LAWWW2；改 engine3d 先告訴 LAWWW）",
+   "next": "排在 118 巷窗景第二批之後：查是測試過時還是鏡頭透視真的壞了；交件附前後數字",
+   "xai": {
+    "spec": "tests/see_through.py",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "see_through.py ALL PASS 或寫清楚測試過時的原因（檢查標準不變）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
