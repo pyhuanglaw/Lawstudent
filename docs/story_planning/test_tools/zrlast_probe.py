@@ -1222,6 +1222,10 @@ def NOTE_T(i): return 'TOAST:📓 筆記：' + FAVL['note'][i]
 GE1 = lambda n: isinstance(n, int) and n >= 1
 R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"
 def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
+R7_NEAR = "(p=>{ const E=GAME.E, P=E.player, it=(E.interactables||[]).find(i=>!i.hidden&&(p.label==null||i.label===p.label)&&(p.room==null||i.room===p.room)&&(p.park==null||i.park===p.park)); if(!it) return false; const lv=it.lv|0; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} for(const d of [0.8,1.1,1.5,0.5,2.0]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(!E.nav||!E.nav.free||E.nav.free(x,z)) return [+x.toFixed(2),+z.toFixed(2),lv]; } return false; })(%s)"
+def NEAR(desc, **p): return ('jsrun', R7_NEAR % json.dumps(p, ensure_ascii=False), '主角直接放到「%s」旁邊（不從區域入口走過去：機器負載高，從入口走幾十公尺會逾時）' % desc)   # 【捷徑】
+NBIKE = NEAR('找車行老闆', label='找車行老闆'); NGGTEA = NEAR('清葉茶行 買一杯飲料', label='買一杯飲料'); N201 = NEAR('普通 201 門口', room='201')
+NWZTEA = NEAR('溫州街巷口茶飲的窗口', label='買一杯飲料'); NTREE = NEAR('老樹下的圓椅', label='坐在老樹下的圓椅'); NNOTICE = NEAR('公園公布欄', label='看公布欄'); NCAT = NEAR('公園的貓', park='cat')
 # ---- 3D：痕跡道具（TRACE_SQxx，zones3d.js traceVis）、貓（wz_cat，zones3d.js buildWzPark）----
 R7_TRQ = """(id=>{ const out=[], R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(!R.test(o.name||'')) return; let w=true; for(let p=o;p;p=p.parent) if(p.visible===false){ w=false; break; }
   let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); o.updateWorldMatrix(true,true); const bx=new THREE.Box3().setFromObject(o), v=new THREE.Vector3(); if(!bx.isEmpty()) bx.getCenter(v); else o.getWorldPosition(v);
@@ -1291,11 +1295,11 @@ R7 = [
   dict(id='CAT50_COLD', key='2028-12-12', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat'), ('usep', '^麻糬$')], pref=[], want=[CAT_COLD],
        jsok=[('寒流（12/11～12/14）：縮成一團（CAT_curl）在涼亭石桌底下', R7_CAT, CATOK(True, 'curl')), ('高度在涼亭地台上（y < 0.35）', "(c=>c&&c.y)(%s)" % R7_CAT, lambda y: isinstance(y, (int, float)) and y < 0.35)]),
   dict(id='CAT50_STAY', key='2028-12-14', h=22.25, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, pref=[], want=[],
-       steps=[TREE, CATSHOT('2245'), ('chk', '23:00 以前：還縮在石桌下', R7_CAT, CATOK(True, 'curl')), ('chk', '人在公園裡', INPARK, True), ('until', 23.1),
+       steps=[NTREE, TREE, CATSHOT('2245'), ('chk', '23:00 以前：還縮在石桌下', R7_CAT, CATOK(True, 'curl')), ('chk', '人在公園裡', INPARK, True), ('until', 23.1),
               ('chk', '待在公園裡過 23:00：還在公園裡', INPARK, True), ('shot', '2306', CATT, None)],
        jsok=[('23:00 以後：公園沒有貓（不顯示）', R7_CAT, CATGONE), ('12/15～16 以前沒有「看圓椅」按鈕', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
   dict(id='CAT50_ZQ', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE, pref=['「我幫妳抱。」'],
-       steps=[TREE, ('until', 22.75), ('shot', 'after', CATT, None)], want=CAT_EV0 + CAT_EVB, cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True},
+       steps=[NTREE, TREE, ('until', 22.75), ('shot', 'after', CATT, None)], want=CAT_EV0 + CAT_EVB, cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True},
        jsok=[('子晴帶走那一場演完（23:00 以前）：公園沒有貓', R7_CAT, CATGONE), ('現在還不到 23:00', "GAME.G.hour<23", True)]),
   dict(id='CAT50_AFTER', key='2028-12-14', h=23.5, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
        jsok=[('12/14 23:30 進公園：沒有貓', R7_CAT, CATGONE), ('沒有「看圓椅」按鈕（12/17 起才有）', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
@@ -1359,19 +1363,19 @@ R7 = [
   dict(id='FOOD51_ZQ_ABSENT', key='2028-12-09', h=20.4, zone='cafe', flags=dict(TWF), js=Y4 + ZQF, pref=['拿鐵'], steps=[CAFEC],
        none=['CHOICE:也幫子晴點一杯'] + R7T(FAVL['heroine_04']['know']), dmoney=-120, jsok=[('週六晚上：子晴不在店裡', "!(GAME.npc&&GAME.npc.heroine_04)", True)]),
   dict(id='FOOD51_KX_RIGHT', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['青茶', '帶一杯給可昕', '無糖'],
-       steps=[MK('kexin'), TEA, ('chk', '帶給她的那一杯：錢照價錢扣（30＋30）', MONEYD, -60), ('chk', '記下帶了哪一杯', KXQ, '青茶/0'), ('until', 19.0)],
+       steps=[NWZTEA, MK('kexin'), TEA, ('chk', '帶給她的那一杯：錢照價錢扣（30＋30）', MONEYD, -60), ('chk', '記下帶了哪一杯', KXQ, '青茶/0'), ('until', 19.0)],
        want=R7T(FAVL['kexin']['right']) + ['CHOICE:帶一杯給可昕｜（就這樣）'], none=R7T(FAVL['kexin']['know']),
        jsok=[('FAV.right', FAVR('kexin'), True), ('記憶 REMEMBERED_HER', MEMQ('kexin', 'REMEMBERED_HER'), True), ('筆記本有可昕那一行', NOTEQ('kexin'), True), ('約會演完：那一杯用掉了', KXQ, None)]),
   dict(id='FOOD51_KX_KNOW', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['青茶', '帶一杯給可昕', '半糖'],
-       steps=[MK('kexin'), TEA, ('chk', '記下帶了哪一杯', KXQ, '青茶/1'), ('until', 19.0)], want=R7T(FAVL['kexin']['know']), none=R7T(FAVL['kexin']['right'])[:1] + R7T(FAVL['kexin']['itemOnly']),
+       steps=[NWZTEA, MK('kexin'), TEA, ('chk', '記下帶了哪一杯', KXQ, '青茶/1'), ('until', 19.0)], want=R7T(FAVL['kexin']['know']), none=R7T(FAVL['kexin']['right'])[:1] + R7T(FAVL['kexin']['itemOnly']),
        jsok=[('第一次帶有糖的＝知道（KNOW_FAV_KX）', MEMQ('kexin', 'KNOW_FAV_KX'), True), ('筆記本有可昕那一行', NOTEQ('kexin'), True), ('還沒算點對', FAVR('kexin'), False)]),
   dict(id='FOOD51_KX_HALF', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN + KXKNOW, pref=['青茶', '帶一杯給可昕', '半糖'],
-       steps=[TEA, ('until', 19.0)], want=R7T(FAVL['kexin']['itemOnly']), none=R7T(FAVL['kexin']['know']), jsok=[('還沒算點對', FAVR('kexin'), False)]),
+       steps=[NWZTEA, TEA, ('until', 19.0)], want=R7T(FAVL['kexin']['itemOnly']), none=R7T(FAVL['kexin']['know']), jsok=[('還沒算點對', FAVR('kexin'), False)]),
   dict(id='FOOD51_KX_RED', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['紅茶', '帶一杯給可昕', '無糖'],
-       steps=[TEA, ('chk', '記下帶了哪一杯', KXQ, '紅茶/0'), ('until', 19.0)], want=WRONG('kexin', '紅茶'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
+       steps=[NWZTEA, TEA, ('chk', '記下帶了哪一杯', KXQ, '紅茶/0'), ('until', 19.0)], want=WRONG('kexin', '紅茶'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
   dict(id='FOOD51_KX_MELON', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['冬瓜檸檬', '帶一杯給可昕', '無糖'],
-       steps=[MK('kexin'), TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)], want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
-  dict(id='FOOD51_KX_NOTRIP', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ, pref=['青茶', '帶一杯給可昕'], steps=[TEA],
+       steps=[NWZTEA, MK('kexin'), TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)], want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
+  dict(id='FOOD51_KX_NOTRIP', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ, pref=['青茶', '帶一杯給可昕'], steps=[NWZTEA, TEA],
        none=['CHOICE:帶一杯給可昕'], dmoney=-30),   # 沒有排學期末約會：沒有「帶一杯給可昕」
   dict(id='FOOD51_ZR_SAME', key='TERMDAY:Y1S2:5:2', h=19.5, zone='cafe', flags=dict(TW3),
        js=NOKX + " LV('heroine_02',45,30,20); SOCIAL.remember('heroine_02','ASKED_HER_DRINK',''); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵';", pref=['也幫芷若點一杯', '熱可可', '加一份濃縮'],
@@ -1415,14 +1419,14 @@ R7 = [
   dict(id='SQ45_SQ13_EARLY', key='TERMDAY:Y1S2:5:2', h=12.3, zone='l118_korea', flags=dict(TW3), js=SQB('韓食小廚'), pref=['海苔飯捲', '「要我幫忙嗎？」'], steps=[ORDER('韓食小廚')],
        none=SQL['SQ13']['open'][:1], jsok=[('大一：不開口（大二上起）', SQST('SQ13'), None)]),
   dict(id='SQ45_SQ14', key='2028-03-08', h=14.0, zone='wz_teahouse', flags=dict(TW3), js=SQB('溫州街・一盞') + CATN, pref=['凍頂烏龍', '「要我幫忙嗎？」', '出發：回診'],
-       steps=[TEAH, ('chk', '掛著：兩週內把貓放進外出籠', SQST('SQ14'), 'open/cage'), ENT('2028-03-08', 15.0, 'wenzhou'), ('usep', '^看麻糬$'), ('until', 17.2), ('chk', '動物醫院回來＝做完', SQST('SQ14'), 'done/done'),
+       steps=[TEAH, ('chk', '掛著：兩週內把貓放進外出籠', SQST('SQ14'), 'open/cage'), ENT('2028-03-08', 15.0, 'wenzhou'), NCAT, ('usep', '^看麻糬$'), ('until', 17.2), ('chk', '動物醫院回來＝做完', SQST('SQ14'), 'done/done'),
               ENT('2028-03-09', 14.0, 'wz_teahouse'), TEAH, TRWAIT('SQ14'), TRCHK('SQ14', True, '隔天：水屋上的舊貓照片（3D）'), ('shot', 'photo', TT('SQ14'), None), ENT('2028-03-10', 14.0, 'wz_teahouse'), TEAH],
        want=SQL['SQ14']['open'] + [SQL['SQ14']['cage']] + SQL['SQ14']['chip'] + [SQL['SQ14']['backN']] + SQL['SQ14']['back'] + [SQL['SQ14'][k] for k in ('tea', 'photo', 'greet')] + TOASTS('SQ14'), dmoney=-840),   # 280×3
   dict(id='SQ52_SQ14_NOTICE', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE + SQ14DONE, pref=['「我幫妳抱。」', '領養'],
-       steps=[TREE, ('until', 22.75), ('jump', "STORY.dayOfKey('2028-12-15')", 11.8, '隔天中午前'), ('until', 12.3), ('jump', "STORY.dayOfKey('2028-12-17')", 16.0, '12/17 下午'), NOTICE],
+       steps=[NTREE, TREE, ('until', 22.75), ('jump', "STORY.dayOfKey('2028-12-15')", 11.8, '隔天中午前'), ('until', 12.3), ('jump', "STORY.dayOfKey('2028-12-17')", 16.0, '12/17 下午'), NNOTICE, NOTICE],
        wantMsg=CAT_VET + SQL['SQ14']['zq'], want=[ADOPT, SQL['SQ14']['notice']], once=CAT_EV0),   # 做完 SQ14：12/15 子晴的照片多兩句、12/17 領養告示多「（豆花）」
   dict(id='SQ52_SQ14_NO', key='2028-12-17', h=16.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + NOKX + CATN + SQ08DONE + " G.flags.ZQ_CAT_NIGHT=true;", pref=['領養'],
-       steps=[NOTICE], want=[ADOPT], none=[SQL['SQ14']['notice']], once=[]),   # [前置] 那一場演過、沒有 SQ14
+       steps=[NNOTICE, NOTICE], want=[ADOPT], none=[SQL['SQ14']['notice']], once=[]),   # [前置] 那一場演過、沒有 SQ14
   dict(id='SQ45_SQ15', key='2026-10-06', h=15.0, zone='bookstore', flags=dict(TW3), js=SQB('舊路書房') + SISF, pref=['只是看看', '「要我幫忙嗎？」', '「這本我買。」', '學姊大一的民法總則'],
        steps=[BOOKB, ('chk', '掛著：一週內去整理', SQST('SQ15'), 'open/sort'), ENT('2026-10-07', 15.0, 'bookstore'), BOOKB, ('chk', '買下來＝做完', SQST('SQ15'), 'done/done'),
               ('meet', 'heroine_05', '+1', '+6'), ('talk', 'heroine_05'), ENT('2026-10-20', 14.0, 'dorm'), ROOMI],
@@ -1453,10 +1457,10 @@ R7 = [
   dict(id='SQ45_SQ17_MAY', key='2027-05-11', h=15.0, zone='l118_tea', flags=dict(TW3), js=SQB('一一八茶飲'), pref=['紅茶拿鐵', '「要我幫忙嗎？」'], steps=[ORDER('一一八茶飲')],
        none=SQL['SQ17']['open'][:1], jsok=[('五月：不開口（大二下 3～4 月）', SQST('SQ17'), None)]),
   dict(id='SQ45_SQ18', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=SQB('清葉茶行') + CATN + SQ08DONE, pref=['青茶 微糖', '「要我幫忙嗎？」', '出發：週日早上', '餵貓表', '摸摸麻糬'],
-       steps=[GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8), ('chk', '清掃日演完＝做完', SQST('SQ18'), 'done/done'), ENT('2027-10-12', 16.0, 'wenzhou'), NOTICE, ('usep', '^摸摸麻糬$')],
+       steps=[NGGTEA, GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8), ('chk', '清掃日演完＝做完', SQST('SQ18'), 'done/done'), ENT('2027-10-12', 16.0, 'wenzhou'), NNOTICE, NOTICE, NCAT, ('usep', '^摸摸麻糬$')],
        want=SQL['SQ18']['open'] + [SQL['SQ18'][k] for k in ('clean', 'chief', 'who', 'sheet', 'stay', 'cup', 'knows', 'tag')] + TOASTS('SQ18'), none=[SQL['SQ18']['papers']], rep=[SQL['SQ18']['knows']], dmoney=-40),   # 運費＝一杯，錢沒變
   dict(id='SQ45_SQ18_NO08', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=SQB('清葉茶行'), pref=['青茶 微糖', '「要我幫忙嗎？」', '出發：週日早上'],
-       steps=[GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8)], want=[SQL['SQ18']['papers'], SQL['SQ18']['cup']], none=[SQL['SQ18']['sheet']], dmoney=-40),   # 沒貼過餵貓表
+       steps=[NGGTEA, GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8)], want=[SQL['SQ18']['papers'], SQL['SQ18']['cup']], none=[SQL['SQ18']['sheet']], dmoney=-40),   # 沒貼過餵貓表
   dict(id='SQ45_SQ19', key='2026-10-07', h=12.3, zone='wz_teishoku', flags=dict(TW3), js=SQB('巷子裡定食'), pref=['炸雞定食', '「要我幫忙嗎？」', '「看了最後一行。」'],
        steps=[WZORD, ('chk', '掛著：一週內還她', SQST('SQ19'), 'open/ret'), ENT('2026-10-08', 12.1, 'l118_home'), WAITNPC('classmate_xinci'), ('talk', 'classmate_xinci'), ('chk', '還了＝做完', SQST('SQ19'), 'done/done'),
               ENT('2026-10-09', 12.3, 'wz_teishoku'), WZORD, TRWAIT('SQ19'), TRCHK('SQ19', True, '隔天：結帳台的失物竹籃（3D）'), ('shot', 'basket', TT('SQ19'), None), NEXT(1, 12.3), WZORD,
@@ -1492,7 +1496,7 @@ R7 = [
        want=[SQL[i]['lapse'] for i in ('SQ14', 'SQ19', 'SQ20')] + [SQL['SQ20']['certs']], none=[SQL['SQ19']['basket'], SQL['SQ20']['greet']], dmoney=-1000,
        jsok=[('三則都過期、店員都交代過', LAPSEQ % json.dumps(['SQ14', 'SQ19', 'SQ20']), ['SQ14:lapsed/told', 'SQ19:lapsed/told', 'SQ20:lapsed/told'])]),
   dict(id='SQ45_LAPSE_GG', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + LAPSE5 % json.dumps([['SQ15', 'sort'], ['SQ18', 'go']]), pref=['青茶 微糖', '只是看看'],
-       steps=[GGTEA, ENT('2027-10-05', 15.0, 'bookstore'), BOOKB], want=[SQL['SQ18']['lapse'], SQL['SQ15']['lapse']], dmoney=-40,
+       steps=[NGGTEA, GGTEA, ENT('2027-10-05', 15.0, 'bookstore'), BOOKB], want=[SQL['SQ18']['lapse'], SQL['SQ15']['lapse']], dmoney=-40,
        jsok=[('兩則都過期、店員都交代過', LAPSEQ % json.dumps(['SQ15', 'SQ18']), ['SQ15:lapsed/told', 'SQ18:lapsed/told']), ('SQ15 過期＝書拿去回收', "GAME.G.flags.SQ15_BOOK", 'recycled')]),
   # ======== 53. 做完的痕跡 3D 道具（五家店）========
   TRSCN('SQ12', '2027-10-11', 12.3, 'l118_pasta', 'lane118', '2027-10-12'),
@@ -1512,23 +1516,23 @@ R7 = [
               ENT('2026-10-19', 12.3, 'l118_pasta'), TRWAIT('SQ12'), ('shot', 'pasta', TT('SQ12'), None), TRCHK('SQ12', False, '沒做：Pasta 沒有照片')]),
   # ======== 54. SQ16 輪轉單車 ========
   dict(id='SQ54_BIKE', key='2026-09-28', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL, pref=['「要我幫忙嗎？」', '「請問一下，這張貼紙是你們社團的嗎？」'],
-       steps=[('chk', '公館多「找車行老闆」（SIDEQ.bikeShop 有了才顯示）', SQ16_BTN, True), BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE,
+       steps=[('chk', '公館多「找車行老闆」（SIDEQ.bikeShop 有了才顯示）', SQ16_BTN, True), NBIKE, BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE,
               ('chk', '前四次（一天一次）：沒有開口', SQST('SQ16'), None), ('chk', '算了 4 次', "SIDEQ.bikeN(GAME.G)", 4), NEXT(1, 15.0), BIKE, ('chk', '第 5 次開口 →「要我幫忙嗎？」＝掛進去（兩週內）', SQST('SQ16'), 'open/ask'),
               ('chk', '手機「今天」：輪轉單車那一則＋「問登山社的人」', TODAYQ, lambda s: isinstance(s, str) and SQT['SQ16'] in s and '問登山社的人' in s),
-              ENT('2026-10-08', 19.6, 'putong'), ('chk', '週四 19:36：201 門口的字變「問登山社的人」', HIKEQ, True), ('usep', '^問登山社的人$'), ('chk', '問到了：下一步回車行', SQST('SQ16'), 'open/back'),
-              ENT('2026-10-09', 15.0, 'gongguan'), BIKE, ('chk', '回車行＝做完', SQST('SQ16'), 'done/done'), ('shot', 'day0', TT('SQ16'), None), TRCHK('SQ16', False, '做完當天：還沒有紙條（3D）'),
+              ENT('2026-10-08', 19.6, 'putong'), ('chk', '週四 19:36：201 門口的字變「問登山社的人」', HIKEQ, True), N201, ('usep', '^問登山社的人$'), ('chk', '問到了：下一步回車行', SQST('SQ16'), 'open/back'),
+              ENT('2026-10-09', 15.0, 'gongguan'), NBIKE, BIKE, ('chk', '回車行＝做完', SQST('SQ16'), 'done/done'), ('shot', 'day0', TT('SQ16'), None), TRCHK('SQ16', False, '做完當天：還沒有紙條（3D）'),
               NEXT(1, 15.0), BIKE, ('shot', 'day1', TT('SQ16'), None), TRCHK('SQ16', True, '隔天：騎樓淑女車籃子上的紙條（3D）'), NEXT(10, 15.0), BIKE,
               ('jump', "STORY.dayOfKey('2027-02-23')", 15.0, '下學期開學（大二下第 1 週）'), BIKE, NEXT(6, 15.0), BIKE],
        want=SQL['SQ16']['greet'] + SQL['SQ16']['open'] + [SQL['SQ16']['look'], 'CHOICE:「' + SQL['SQ16']['ask'] + '」｜（先不要）'] + SQL['SQ16']['club'] + SQL['SQ16']['msg'] + [SQL['SQ16']['back'], SQL['SQ16']['note'], SQ16_RENAME, SQ16_LENT] + TOASTS('SQ16'),
        none=[SQL['SQ16']['lapse']], rep=SQL['SQ16']['greet'], dmoney=0, jsok=[('下學期第二次來：不再換名字', LOGN(SQ16_RENAME), lambda n: isinstance(n, int) and n >= 1 and n <= 2)]),
   dict(id='SQ54_LAPSE', key='2026-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + " G.flags.BIKE_SHOP={n:4,day:G.day-1,g:0};", pref=['「要我幫忙嗎？」'],
-       steps=[BIKE, ('chk', '開口、掛進去', SQST('SQ16'), 'open/ask'), ENT('2026-10-26', 15.0, 'gongguan'), BIKE, ('chk', '兩週內沒去問＝過期', SQST('SQ16'), lambda x: isinstance(x, str) and x.startswith('lapsed')),
+       steps=[NBIKE, BIKE, ('chk', '開口、掛進去', SQST('SQ16'), 'open/ask'), ENT('2026-10-26', 15.0, 'gongguan'), BIKE, ('chk', '兩週內沒去問＝過期', SQST('SQ16'), lambda x: isinstance(x, str) and x.startswith('lapsed')),
               NEXT(1, 15.0), BIKE, ('shot', 'lapsed', TT('SQ16'), None), TRCHK('SQ16', False, '過期：沒有紙條（3D）')],
        want=[SQL['SQ16']['lapse']], none=[SQL['SQ16']['note'], SQL['SQ16']['back']], rep=SQL['SQ16']['greet'], dmoney=0),   # [前置] 前四次已經來過（第 5 次＝今天）
   dict(id='SQ54_HIKE_TIME', key='2026-10-07', h=19.75, zone='putong', flags=dict(TW3), js=NOKX + " SIDEQ.rec(G).SQ16={state:'open',step:'ask',day:D('2026-10-02'),term:'Y2S1',by:D('2026-10-16')};", pref=[], want=[],
        steps=[('chk', '週三 19:45：201 門口不是「問登山社的人」', HIKEQ, False), ENT('2026-10-08', 18.0, 'putong'), ('chk', '週四 18:00：也不是', HIKEQ, False),
               ('jump', 'GAME.G.day', 19.75, '同一天 19:45'), ('chk', '週四 19:45：是', HIKEQ, True), ('jump', 'GAME.G.day', 21.1, '同一天 21:06'), ('chk', '21:00 以後：又不是', HIKEQ, False)]),   # [前置] SQ16 掛著（問登山社那一步）
-  dict(id='SQ54_Y1', key='2026-04-06', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + " G.flags.BIKE_SHOP={n:9,day:G.day-1,g:0};", pref=['「要我幫忙嗎？」'], steps=[BIKE],
+  dict(id='SQ54_Y1', key='2026-04-06', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + " G.flags.BIKE_SHOP={n:9,day:G.day-1,g:0};", pref=['「要我幫忙嗎？」'], steps=[NBIKE, BIKE],
        none=SQL['SQ16']['open'][:1], dmoney=0, jsok=[('大一：不開口（大二起）', SQST('SQ16'), None), ('平常的招呼', "(window.__LOG||[]).some(x=>%s.includes(x.t))" % json.dumps(SQL['SQ16']['greet'], ensure_ascii=False), True)]),
 ]
 for _sc in R7:
