@@ -1753,6 +1753,124 @@ R9 = [
        jsok=[('舊存檔：讀檔前沒有 G.invReply，約過以後有了', "!!GAME.G.invReply", True)]),
 ]
 SCENS = SCENS + R9
+# ===== R10：第 62、67、71 項（CLOSED-SPACES-1023、AA_413、AA_399 第 2 節；開發分支 8cfc1b7de；事實照子代理 19:3x 讀程式：closed3d.js、wzshops3d.js、b1story3d.js）=====
+def PLACEAT(x, z, note, lv=0): return ('jsrun', "(()=>{ const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,%s,%s,%d); else P.obj.position.set(%s,0,%s); return true; })()" % (x, z, lv, x, z), note)
+SETH = lambda v: ('jsrun', "(()=>{ window.%s=GAME.G.hour+GAME.G.day*24; return true; })()" % v, '記下現在的時間（讀資料用）')
+SEQ = lambda arr: "(A=>(window.__LOG||[]).map(x=>String(x.t).replace(/^CAPTION2:/,'')).filter(t=>A.includes(t)))(%s)" % json.dumps(arr, ensure_ascii=False)
+EXACT = lambda t: "(t=>(window.__LOG||[]).slice(window.__LN|0).filter(x=>String(x.t).replace(/^CAPTION2:/,'')===t).length)(%s)" % json.dumps(t, ensure_ascii=False)
+TA = ['（小窗裡：她站在黑板前面。一年級的學弟妹低著頭在寫。她寫字很快，寫完會停下來等。）', '（她在黑板上畫了一張圖，有人舉手，她點了一下頭。）', '（她在上課。）']
+TA_CLOSED = '101 教室。今天這個時段沒有課，門鎖著。'
+N101 = NEAR('霖澤館 1F 101 教室', label='101 教室'); U101 = ('usep', '^101 教室$')
+SISMET = " G.flags.met_sis=true; G.flags.SIS_W1=true;"
+R10 = [
+  # 62-①：小窗三句照「看過幾個不同的週」（TA101_N）；同一週第二次＝（她在上課。）
+  dict(id='TA62_WIN', key='2026-09-22', h=19.0, zone='linze', flags=dict(TW3), js=SISF + SISMET,
+       steps=[N101, U101, U101, ('addday', 7), N101, U101, ('addday', 7), N101, U101],
+       jsok=[('小窗的句子依序：第一週、同一週再看、第二週、第三週', SEQ(TA), [TA[0], TA[2], TA[1], TA[2]]), ('TA101_N＝看過 3 個週', "GAME.G.flags.TA101_N", 3)]),
+  # 62-②：期中週（第 8 週）、週三：照舊「今天這個時段沒有課」
+  dict(id='TA62_MID', key='2026-10-27', h=19.0, zone='linze', flags=dict(TW3), js=SISF + SISMET,
+       steps=[N101, ('mark', 'window.__LN=(window.__LOG||[]).length;'), U101, ('chk', '期中週：門鎖著那一句', LNQ(TA_CLOSED), lambda n: isinstance(n, int) and n >= 1),
+              ('jump', "STORY.dayOfKey('2026-09-23')", 19.0, '換到週三 2026-09-23 19:00'), N101, ('mark', 'window.__LN=(window.__LOG||[]).length;'), U101,
+              ('chk', '週三：門鎖著那一句', LNQ(TA_CLOSED), lambda n: isinstance(n, int) and n >= 1)],
+       none=TA),
+  # 62-③：20:20～20:40 她站在 101 門口；第一次說話多一句（朋友／交往中），第二次沒有
+  dict(id='TA62_DOOR_F', key='2026-09-22', h=20.35, zone='linze', flags=dict(TW3), js=SISF + SISMET, pref=['就這樣'],
+       steps=[('wait', "!!(GAME.npc&&GAME.npc.heroine_05)", 600, '她從 101 出來'), PLACEAT(-3, -4.4, '主角放到 101 門口前'), ('talk', 'heroine_05'), ('talk', 'heroine_05')],
+       jsok=[('第一次多一句「……你在外面看了多久。」（只一次）', LNQ('……你在外面看了多久。'), 1), ('TA101_TALK 記了', "GAME.G.flags.TA101_TALK!=null", True)]),
+  dict(id='TA62_DOOR_D', key='2026-09-22', h=20.35, zone='linze', flags=dict(TW3), js=SIS_D + SISMET, pref=['就這樣'],
+       steps=[('wait', "!!(GAME.npc&&GAME.npc.heroine_05)", 600, '她從 101 出來'), PLACEAT(-3, -4.4, '主角放到 101 門口前'), ('talk', 'heroine_05'), ('talk', 'heroine_05')],
+       jsok=[('交往中第一次多一句「我在上課的時候，不要從窗戶看我。……我會分心。」（只一次）', LNQ('我在上課的時候，不要從窗戶看我。……我會分心。'), 1), ('沒有朋友版那一句', LNQ('……你在外面看了多久。'), 0)]),
+  # 62-④：洗衣間（大一週日 21:00～22:00 第一次阿凱一句；之後、大二沒有；一次 40 分鐘）
+  dict(id='LAUNDRY62_Y1', key='2025-09-28', h=21.1, zone='dorm_hall', flags=dict(TW3), js='', pref=['洗衣服'],
+       steps=[NEAR('宿舍一樓洗衣間', label='洗衣間'), SETH('__H0'), ('usep', '^洗衣間$'), ('chk', '洗一次 40 分鐘', "(GAME.G.hour+GAME.G.day*24)-window.__H0", lambda v: isinstance(v, (int, float)) and 0.6 <= v <= 0.8),
+              NEAR('宿舍一樓洗衣間', label='洗衣間'), ('usep', '^洗衣間$')],
+       jsok=[('阿凱「這台烘衣機要投兩次。第一次是騙你的。」只一次', LNQ('這台烘衣機要投兩次。第一次是騙你的。'), 1), ('KAI_LAUNDRY 記了', "GAME.G.flags.KAI_LAUNDRY!=null", True),
+             ('第二次是「衣服洗好了。」', LNQ('衣服洗好了。'), lambda n: isinstance(n, int) and n >= 1)]),
+  dict(id='LAUNDRY62_Y2', key='2026-09-27', h=21.1, zone='dorm_hall', flags=dict(TW3), js='', pref=['洗衣服'],
+       steps=[NEAR('宿舍一樓洗衣間', label='洗衣間'), ('usep', '^洗衣間$')],
+       jsok=[('大二：沒有阿凱那一句', LNQ('這台烘衣機要投兩次'), 0), ('衣服洗好了。', LNQ('衣服洗好了。'), lambda n: isinstance(n, int) and n >= 1)]),
+]
+# 67：溫州街日日便利、阿忠水果、自助洗衣
+NCVS = NEAR('溫州街日日便利門口', label='進入日日便利'); UCVS = ('usep', '^進入日日便利$')
+NCHK = NEAR('日日便利櫃台', label='結帳：飯糰／咖啡／飲料'); UCHK = ('usep', '^結帳')
+NOUT = NEAR('日日便利門口', label='離開便利商店'); UOUT = ('usep', '^離開便利商店$')
+WCVS = ('wait', "GAME.G.zone==='cvs'", 300, '進到日日便利（cvs）'); WWZ = ('wait', "GAME.G.zone==='wenzhou'", 300, '回到溫州街')
+FRUIT_N = lambda n: " try{ EAT.rec(G).n['阿忠水果']=%d; }catch(e){}" % n
+NFR = NEAR('阿忠水果', label='買水果'); UFR = ('usep', '^買水果$')
+R10 += [
+  dict(id='WZ67_CVS_DAY', key='2026-10-06', h=14.0, zone='wenzhou', flags=dict(TW3), js='', pref=['不用了'],
+       steps=[NCVS, UCVS, WCVS, ('mark', 'window.__LN=(window.__LOG||[]).length;'), NCHK, UCHK, ('chk', '白天第一次：「歡迎光臨。要袋子嗎？」', EXACT('歡迎光臨。要袋子嗎？'), 1),
+              ('chk', '是從溫州街進來（CVS_FROM）', "GAME.G.flags.CVS_FROM", 'wenzhou'), NOUT, UOUT, WWZ],
+       jsok=[('離開回到溫州街日日便利門口（44, 2.4 附近）', "(p=>Math.hypot(p.x-44,p.z-2.4)<2.5)(GAME.E.player.obj.position)", True), ('CVS_FROM 清掉', "!GAME.G.flags.CVS_FROM", True), ('WZ_CVS_N＝1', "GAME.G.flags.WZ_CVS_N", 1)]),
+  dict(id='WZ67_CVS_NIGHT', key='2026-10-06', h=23.0, zone='wenzhou', flags=dict(TW3), js='', pref=['不用了'],
+       steps=[NCVS, UCVS, WCVS, ('mark', 'window.__LN=(window.__LOG||[]).length;'), NCHK, UCHK, ('chk', '半夜第一次：「要袋子嗎？」（不是白天那句）', EXACT('要袋子嗎？'), 1),
+              ('chk', '沒有白天那句', EXACT('歡迎光臨。要袋子嗎？'), 0)]),
+  dict(id='WZ67_CVS_5TH', key='2026-10-06', h=14.0, zone='wenzhou', flags=dict(TW3), js=" G.flags.WZ_CVS_N=4;", pref=['不用了'],
+       steps=[NCVS, UCVS, WCVS, ('mark', 'window.__LN=(window.__LOG||[]).length;'), NCHK, UCHK, ('chk', '第 5 次起白天：「歡迎光臨。」', EXACT('歡迎光臨。'), 1),
+              ('jump', 'GAME.G.day', 23.0, '同一天 23:00'), ('mark', 'window.__LN=(window.__LOG||[]).length;'), NCHK, UCHK, ('chk', '第 5 次起半夜：「又這麼晚。」', EXACT('又這麼晚。'), 1)]),
+  dict(id='WZ67_CVS_EXAM', key='TERMDAY:Y2S1:8:2', h=21.5, zone='wenzhou', flags=dict(TW3), js=" G.money=Math.max(G.money|0,5000);", pref=['咖啡', '飯糰', '飲料'],
+       steps=[NCVS, UCVS, WCVS, NCHK, UCHK, NCHK, UCHK],
+       jsok=[('考試週 21:00 以後：「考試週喔。咖啡第二杯半價。」一天一次', LNQ('考試週喔。咖啡第二杯半價。'), 1), ('WZ_CVS_EXAM＝今天', "GAME.G.flags.WZ_CVS_EXAM===GAME.G.day", True)]),
+  dict(id='WZ67_CVS_GG', key='2026-10-06', h=14.0, zone='gongguan', flags=dict(TW3), js='', pref=['不用了'],
+       steps=[NEAR('公館便利商店門口', label='進入便利商店'), ('usep', '^進入便利商店$'), WCVS, ('chk', '公館進來（CVS_FROM＝gongguan）', "GAME.G.flags.CVS_FROM", 'gongguan'),
+              NCHK, UCHK, NOUT, UOUT, ('wait', "GAME.G.zone==='gongguan'", 300, '回到公館')],
+       jsok=[('公館進去的照舊回公館', "GAME.G.zone", 'gongguan')], none=['歡迎光臨。要袋子嗎？']),
+  dict(id='FRUIT67_JUN', key='2027-06-10', h=15.0, zone='wenzhou', flags=dict(TW3), js=" G.money=Math.max(G.money|0,5000);", pref=['「送人。」', '芒果'],
+       steps=[('mark', 'window.__LN=(window.__LOG||[]).length; window.__MA=GAME.G.money|0;'), NFR, UFR],
+       jsok=[('第一次：「要吃還是要送人？」', LNQ('要吃還是要送人？'), 1), ('送人：「那我幫你挑漂亮的。」', LNQ('那我幫你挑漂亮的。'), 1), ('6 月有芒果', LNQ('芒果（一盒）'), lambda n: isinstance(n, int) and n >= 1),
+             ('錢扣 150', "(GAME.G.money|0)-(window.__MA|0)", -150)]),
+  dict(id='FRUIT67_OCT', key='2026-10-14', h=15.0, zone='wenzhou', flags=dict(TW3), js=" G.money=Math.max(G.money|0,5000);", pref=['「自己吃。」', '芭樂'],
+       steps=[NFR, UFR], jsok=[('10 月沒有芒果、草莓、柳丁', "['芒果','草莓','柳丁'].map(t=>(window.__LOG||[]).filter(x=>String(x.t).startsWith('CHOICE:')&&String(x.t).includes(t)).length)", [0, 0, 0]),
+                              ('有芭樂', LNQ('芭樂（一袋三顆）'), lambda n: isinstance(n, int) and n >= 1)]),
+  dict(id='FRUIT67_DEC', key='2026-12-10', h=15.0, zone='wenzhou', flags=dict(TW3), js=" G.money=Math.max(G.money|0,5000);", pref=['「自己吃。」', '草莓'],
+       steps=[NFR, UFR], jsok=[('12 月有草莓、柳丁', "['草莓（一盒）','柳丁（一袋）'].map(t=>(window.__LOG||[]).filter(x=>String(x.t).startsWith('CHOICE:')&&String(x.t).includes(t)).length>0)", [True, True])]),
+  dict(id='FRUIT67_5TH', key='2027-06-10', h=15.0, zone='wenzhou', flags=dict(TW3), js=" G.money=Math.max(G.money|0,5000);" + FRUIT_N(4), pref=['芒果'],
+       steps=[NFR, UFR, ('jump', "STORY.dayOfKey('2026-10-14')", 15.0, '換到 10 月'), NFR, UFR],
+       jsok=[('第 5 次起 6～8 月：「今天的芒果很甜，要不要？」', LNQ('今天的芒果很甜，要不要？'), 1), ('其他月：「學生仔，今天的芭樂很脆。」', LNQ('學生仔，今天的芭樂很脆。'), 1), ('不再問要吃還是送人', LNQ('要吃還是要送人？'), 0)]),
+  dict(id='FRUIT67_CLOSED', key='2026-10-14', h=23.0, zone='wenzhou', flags=dict(TW3), js='',
+       steps=[NFR, UFR], jsok=[('23:00：「阿忠水果：09:00～22:00」', LNQ('阿忠水果：09:00～22:00'), lambda n: isinstance(n, int) and n >= 1), ('沒有開問', LNQ('要吃還是要送人？'), 0)]),
+  dict(id='BOARD67', key='2026-09-15', h=15.0, zone='wenzhou', flags=dict(TW3), js='',
+       steps=[NEAR('自助洗衣布告欄', label='看布告欄'), ('usep', '^看布告欄$'), ('jump', "STORY.dayOfKey('2027-03-10')", 15.0, '換到 3 月'), NEAR('自助洗衣布告欄', label='看布告欄'), ('usep', '^看布告欄$')],
+       jsok=[('9 月：家教', LNQ('（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）'), 1), ('3 月：租屋', LNQ('（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）'), 1)]),
+]
+# 71：總圖 B1
+BOH = " LV('classmate_bohan',45,30,10); LV('classmate_xinci',45,30,10);"
+R10 += [
+  # ①考古題小組：週六 16:00 出發 → B1 討論室 1（模糊 3D），柏翰站白板前、芯慈坐著；演完回到出發的地方
+  dict(id='B1_71_GROUP', key='TERMDAY:Y2S1:5:6', h=15.6, zone='campus', flags=dict(TW3), js=BOH + " G.flags.BOHAN_GROUP='yes'; G.flags.BOHAN_GROUP_DAY=G.day-3;" + R8H, pref=['出發：考古題小組', '出發'],
+       steps=[('until', 16.8, 1800)],
+       jsok=[('演了考古題小組', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_bohan_group_session)", True), ('演的時候人在 B1（library_b1）', "(window.__ZL||[]).filter(x=>x.z==='library_b1').length", lambda n: isinstance(n, int) and n >= 1),
+             ('底圖是模糊的 3D（BG:blur）', LNQ('BG:blur'), lambda n: isinstance(n, int) and n >= 1), ('演完回到校園', "GAME.G.zone", 'campus')]),
+  # ②國考讀書會：3/1（四）19:40 走到 B1 討論室 2：人已經坐好；19:45 起才有「參加：國考讀書會」
+  dict(id='B1_71_BAR', key='2029-03-01', h=19.6, zone='library_b1', flags=dict(TW3, Y4_PATH='bar'), js=BOH + " LV('zhe',45,30,10);" + R8H, pref=['參加：國考讀書會'],
+       steps=[('wait', "!!(GAME.npc&&GAME.npc.zhe&&GAME.npc.zhe.b1Bar)", 600, '19:30 以後阿哲、柏翰坐進討論室 2'),
+              ('chk', '柏翰也在（b1Bar）', "!!(GAME.npc&&GAME.npc.classmate_bohan&&GAME.npc.classmate_bohan.b1Bar)", True),
+              NEAR('討論室 2 集合點', label='國考讀書會（討論室 2）'), ('mark', 'window.__LN=(window.__LOG||[]).length;'), ('usep', '^國考讀書會'),
+              ('chk', '19:45 以前按：「國考讀書會：今天 20:00 在這裡集合。」', LNQ('國考讀書會：今天 20:00 在這裡集合。'), lambda n: isinstance(n, int) and n >= 1),
+              ('jump', 'GAME.G.day', 19.8, '同一天 19:48'), NEAR('討論室 2 集合點', label='國考讀書會（討論室 2）'), ('usep', '^國考讀書會'), ('until', 20.2, 1500)],
+       jsok=[('有「參加：國考讀書會」', LNQ('CHOICE:參加：國考讀書會'), lambda n: isinstance(n, int) and n >= 1)]),
+  # ③期末前一週 22:30 從總圖門口「從側門下 B1」→ 柏翰在自習室；23:30 以後在自習室裡＝那一句；同一學期再去不說
+  dict(id='B1_71_NIGHT', key='TERMDAY:Y2S1:15:3', h=22.5, zone='campus', flags=dict(TW3), js=BOH + R8H, pref=['從側門下 B1'],
+       steps=[NEAR('總圖門口', label='進入總圖書館'), ('usep', '^進入總圖書館$'), ('wait', "GAME.G.zone==='library_b1'", 300, '下到 B1'),
+              ('wait', "!!(GAME.npc&&GAME.npc.classmate_bohan&&GAME.npc.classmate_bohan.b1Night)", 600, '柏翰在自習室（b1Night）'),
+              PLACEAT(0, -5, '主角放到 24 小時自習室中間'), ('jump', 'GAME.G.day', 23.45, '同一天 23:27'),
+              ('wait', LNQ('十一點四十。你還有二十分鐘可以決定要不要回宿舍。') + '>0', 900, '23:30 以後那一句'),
+              ('addday', 1), ('jump', 'GAME.G.day', 23.45, '隔天 23:27（同一學期）'), PLACEAT(0, -5, '主角還在自習室'), ('until', 23.6, 900)],
+       jsok=[('那一句同一學期只說一次', LNQ('十一點四十。你還有二十分鐘可以決定要不要回宿舍。'), 1), ('B1_NIGHT 記了這學期', "!!(GAME.G.flags.B1_NIGHT&&GAME.G.flags.B1_NIGHT.Y2S1!=null)", True)]),
+  # ④大廳關門以後走 B1 樓梯：回到校園總圖門口
+  dict(id='B1_71_STAIRS', key='TERMDAY:Y2S1:6:3', h=23.0, zone='library_b1', flags=dict(TW3), js='',
+       steps=[NEAR('B1 樓梯', label='走樓梯上 1F'), ('usep', '^走樓梯上 1F$'), ('wait', "GAME.G.zone==='campus'", 300, '回到校園')],
+       jsok=[('「大廳已經關了，從樓梯間的側門出去。」', LNQ('大廳已經關了，從樓梯間的側門出去。'), lambda n: isinstance(n, int) and n >= 1), ('在總圖門口（80, 0 附近）', "(p=>Math.hypot(p.x-80,p.z)<3)(GAME.E.player.obj.position)", True)]),
+  # ⑤知道 L1 那本書以後：自助借還書機借得到、還書口還得了
+  dict(id='B1_71_LOAN', key='TERMDAY:Y1S1:6:3', h=14.0, zone='library_b1', flags=dict(TW3), js=" try{ LOANS.know(G,'L1'); }catch(e){}", pref=['借《'],
+       steps=[NEAR('自助借還書機', label='自助借還書機'), ('usep', '^自助借還書機$'), ('chk', '借到 L1', "(GAME.G.loans||[]).some(l=>l.book==='L1')", True),
+              ('pref', ['還《']), NEAR('還書口', label='還書口'), ('usep', '^還書口$')],
+       jsok=[('還了：G.loans 沒有 L1', "(GAME.G.loans||[]).some(l=>l.book==='L1')", False), ('LOAN_RET.L1 記了', "!!(GAME.G.flags.LOAN_RET&&GAME.G.flags.LOAN_RET.L1!=null)", True),
+             ('借、還的提示', "[(window.__LOG||[]).some(x=>String(x.t).includes('借了《')),(window.__LOG||[]).some(x=>String(x.t).includes('還了《'))]", [True, True])]),
+]
+for _s in R10:   # 台詞、字卡、底圖、區域都要記（CAP2、ZHK、BGHOOK）
+    if 'R8H' not in str(_s.get('_h', '')) and R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R10
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
