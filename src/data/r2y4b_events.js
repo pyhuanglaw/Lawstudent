@@ -383,7 +383,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'g4'},{speaker:'heroine_05',text:'這邊五點就天黑了。'},{speaker:'heroine_05',text:'從圖書館走回來，路上都沒有人。'},{speaker:null,text:'（她停了一下。）'},
       {speaker:'heroine_05',text:'……天黑得早，我就比較常想到你。說完了，換你講。'},   /* 這一段裡唯一一句講感情的話（AA_202 3-1 第 7 點）*/
       {choice:[{text:'「我也是。」',goto:'g4a'},{text:'「妳要早點回去。」',goto:'g4b'}]},
-      {label:'g4a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她低頭整理了一下桌上的書。）'},{end:true},
+      {label:'g4a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她低頭整理了一下桌上的書）'},{end:true},
       {label:'g4b'},{speaker:'heroine_05',text:'好。我會。'},{end:true},
       {label:'g5'},{if:{custom:G=>R().sisGfThanksPhoto(G)},speaker:'heroine_05',text:'照片你看到了吧。'},{unless:{custom:G=>R().sisGfThanksPhoto(G)},speaker:'heroine_05',text:'同學的媽媽請我去吃感恩節。'},
       {speaker:'heroine_05',text:'火雞很乾。她多煮了一碗白飯給我。……我吃完了。'},

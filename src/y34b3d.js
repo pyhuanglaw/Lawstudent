@@ -590,7 +590,7 @@ const Y34B=(function(){
     {speaker:'heroine_05',text:'等一下。……好，我走到外面了。'},
     {speaker:'heroine_05',text:'過了。委員問了兩個小時。'},
     {choice:[{text:'「對不起，我忘了時間。」',goto:'m9c_a'},{text:'「恭喜。」',goto:'m9c_b'}]},
-    {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
+    {label:'m9c_a'},{speaker:'heroine_05',text:'嗯。'},{speaker:null,text:'（她停了一下）'},{speaker:'heroine_05',text:'下次不要忘。……蛋糕還有一半，明天中午研究室。'},{goto:'m9c_end'},
     {label:'m9c_b'},{speaker:'heroine_05',text:'……謝謝。他們買的蛋糕把我的名字寫錯了。明天中午你來，我給你看。'},
     {label:'m9c_end'},{set:{SIS_DEFENSE_CALL:true}} ];
   const M9_CAKE=[ {scene:'霖澤館・研究室',bg:'dark'},{speaker:null,text:'（蛋糕上寫著『溫書玉』。她用叉子把那個字刮掉了。）'},{set:{SIS_DEFENSE_CAKE:'went'}} ];

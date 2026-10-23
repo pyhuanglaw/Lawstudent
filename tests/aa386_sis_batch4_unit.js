@@ -15,7 +15,8 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 const ok0=load('src/data/sis_y2y3_events.js')&&load('src/sis_y2y3_3d.js'), ok1=load('src/data/sis_b4_events.js'), ok2=load('src/sis_b4_3d.js');
 let doc=''; try{ doc=cp.execSync('git show d0468be4:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc398=''; try{ doc398=cp.execSync('git show e81a1afe:"docs/story_planning/AA_398_學姊不再說三件事_全遊戲替換表.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc398=''; }   /* AA_398（使用者 10-23：學姊不數件數）的替換句也算稿 */
-const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0;
+let doc392=''; try{ doc392=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc392=''; }   /* AA_392 第 6 節荷花池也接在這兩個檔 */
+const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0||doc392.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISB4!=='undefined'?SISB4:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const setup=(key,h,zone,lv,flags)=>{ const G=H.fresh(key,h,zone||'dorm',Object.assign({met_sis:true,SIS_W1:true},flags||{})); if(lv) H[lv](ID); G.contacts=G.contacts||{}; G.contacts[ID]=G.day-30; G.outings=[]; if(STORY._bindGM) STORY._bindGM(GM); return G; };
@@ -34,7 +35,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
   check('0. 讀稿（企劃線 d0468be4 AA_386：3-4 是臺北植物園；第 6 節 AA 回十個解讀；3-3 那一頓固定 12/24＋備援私訊）',doc.length>5000&&inDoc('## 4. 重新開始：她的三件事')&&inDoc('2/14 14:00 臺北植物園')&&inDoc('固定排 2028-12-24（日）18:30')&&inDoc('當晚 21:00 改成她私訊三則'));
-  check('0. 新檔載得到：SISB4、SISB4_LINES、SISB4_EVENTS（第 3 節五場出遊＋說話前接演五段＝10 筆）',ok0&&ok1&&ok2&&!!X()&&Array.isArray(SISB4_EVENTS)&&SISB4_EVENTS.length===10&&['ev_sis_adv_grad','ev_sis_adv_exch','ev_sis_adv_pick','ev_sis_adv_y4','ev_sis_xmas_y2','ev_sis_xmas_y3','ev_sis_vday_y2','ev_sis_vday_y3','ev_sis_vday_y4','ev_sis_three_conditions'].every(id=>!!ev(id)),J({ok0,ok1,ok2,n:typeof SISB4_EVENTS!=='undefined'&&SISB4_EVENTS.length}));
+  check('0. 新檔載得到：SISB4、SISB4_LINES、SISB4_EVENTS（第 3 節五場出遊＋說話前接演五段＝10 筆；AA_392 第 6 節荷花池＝11）',ok0&&ok1&&ok2&&!!X()&&Array.isArray(SISB4_EVENTS)&&SISB4_EVENTS.length===11&&['ev_sis_adv_grad','ev_sis_adv_exch','ev_sis_adv_pick','ev_sis_adv_y4','ev_sis_xmas_y2','ev_sis_xmas_y3','ev_sis_vday_y2','ev_sis_vday_y3','ev_sis_vday_y4','ev_sis_three_conditions'].every(id=>!!ev(id)),J({ok0,ok1,ok2,n:typeof SISB4_EVENTS!=='undefined'&&SISB4_EVENTS.length}));
   await sec('0',async()=>{   /* 修改前沒有 SISB4：每一節照樣跑、照樣算 FAIL（不在第 0 項就停）*/
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
     check('0. index.html：sis_b4_events.js、sis_b4_3d.js 接在 sis_y2y3_3d.js 後面（?v= 照舊）',/src\/sis_y2y3_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b4_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b4_3d\.js\?v=[^"]+"><\/script>/.test(html));

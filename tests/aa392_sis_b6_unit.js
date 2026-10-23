@@ -5,6 +5,7 @@
 //   3  第 3 節：交往中口試沒到——21:00 她打來（21:00 以前自己打也一樣），兩個選項；5/30 12:20～13:00 研究室的蛋糕
 //   4  第 4 節：研究室走不到——便條改乙（總圖三樓）
 //   5  第 5 節：第一次訪談選「下次還要記嗎？」→ 11/24 私訊、11/27 第二次訪談；不行／沒到 13:00「記完了。」
+//   6  第 6 節：荷花池——交往中、大二情人節植物園約過的；7/1 私訊、7/3 09:00；2 月有來／沒來兩種選項；不行＝7/3 10:00 照片
 //   2  第 2 節：期末「那天我去送學姊。」只給臺灣路線；7/26 21:05 私訊三選一（開車＝原本、到機場等她＝新的一場、去不了＝客運版多一句）；群組按鈕不再出；交往中的送機多兩行
 // 修改前（開發分支 8f9b305c1）：第 1 項 FAIL（交往中整個秋天沒有每週一格）。用法：node tests/aa392_sis_b6_unit.js
 require('./alison.js');
@@ -16,7 +17,7 @@ global.CG_REGISTRY={};
 load('src/noodle_closed3d.js'); load('src/data/r2y4b_events.js'); load('src/r2y4b3d.js');
 { const L2=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(EXCH|Y34B|MSG|MSG2_POOL)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
   L2('src/exchange3d.js'); L2('src/data/msg2_pool.js'); L2('src/msg3d.js'); L2('src/y34b3d.js'); }
-{ const L3=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }; L3('src/data/sis_y2y3_events.js'); L3('src/sis_y2y3_3d.js'); }
+{ const L3=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }; L3('src/data/sis_y2y3_events.js'); L3('src/sis_y2y3_3d.js'); L3('src/data/sis_b4_events.js'); L3('src/sis_b4_3d.js'); }
 const Y=Y34B, has=t=>H.said.some(x=>x.t===t), idx=t=>H.said.findIndex(x=>x.t===t), thx=t=>(H.G.msgs||[]).filter(m=>m.th===t).map(m=>m.text);
 const yphone=()=>{ Y.sisPhone(H.G); PHONE.tick(H.G); };
 const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.picks=picks||[]; if(!q) return false; await OUT.go(GM,q); return true; };
@@ -131,5 +132,19 @@ await sec(5,async()=>{ const ID='heroine_05', X=SISY23;
   s5({SIS_IV_AGAIN:true}); PHONE.answer(H.G,'sisy23_iv2_ask',1); X.phone(H.G); PHONE.tick(H.G); H.at('2027-11-27',13); X.phone(H.G); PHONE.tick(H.G);
   check('5. 回「那天不行。」→「好。我自己記。」；11/27 13:00「記完了。」',thx('p:heroine_05').includes('好。我自己記。')&&thx('p:heroine_05').includes('記完了。')&&!OUT.get(H.G,'sisy23_iv2')&&H.G.flags.SIS_INTERVIEW2==='missed',J(thx('p:heroine_05')));
   s5({}); check('5. 第一次沒選「下次還要記嗎？」：沒有這則',!thx('p:heroine_05').length); });
+/* ---- 6 ---- */
+await sec(6,async()=>{ const ID='heroine_05', X=SISB4;
+  const s6=(v2)=>{ const G=H.fresh('2027-07-01',20,'dorm',{met_sis:true,SIS_W1:true,EXCHANGE_ROUTE:'TW'}); H.FRIEND(ID); H.date(ID); if(v2) G.flags.SIS_VDAY_Y2=v2; G.contacts={[ID]:G.day-60}; G.outings=[]; H.at('2027-07-01',20); X.phone(G); H.at('2027-07-01',21); X.phone(G); PHONE.tick(G); return G; };
+  s6('went'); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb4_lotus_ask');
+  check('6. 交往中、情人節植物園約過：7/1 21:00「荷花開了。」「週六早上九點，植物園。早上開得比較好。」；「好。」／「那天不行。」',J(thx('p:heroine_05'))===J(['荷花開了。','週六早上九點，植物園。早上開得比較好。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(thx('p:heroine_05')));
+  PHONE.answer(H.G,'sisb4_lotus_ask',0); X.phone(H.G); const q=OUT.get(H.G,'sisb4_lotus');
+  check('6. 「好。」→ 7/3（六）09:00 臺北植物園・荷花池',!!q&&keyOf(q.day)==='2027-07-03'&&q.h===9&&CALENDAR.dateOf(q.day).wd===6,J(q));
+  const r0=Object.assign({},SOCIAL.rel(ID)); H.at('2027-07-03',8.6); await goOut('sisb4_lotus',[0]); const r1=SOCIAL.rel(ID);
+  check('6. 2 月有來：「二月的時候，這裡只有水。」→「妳說妳喜歡什麼都還沒長出來的時候。」→「嗯。」「長出來也不錯。」；SIS_LOTUS went；熟悉 +2、自在 +3、她的戀愛 +2',has('二月的時候，這裡只有水。')&&H.opts[0]&&H.opts[0][0]==='「妳說妳喜歡什麼都還沒長出來的時候。」'&&!H.opts[0].includes('「上次我沒來。」')&&has('長出來也不錯。')&&H.G.flags.SIS_LOTUS==='went'&&r1.fam-r0.fam===2&&r1.comf-r0.comf===3&&r1.npcRom-r0.npcRom===2,J({o:H.opts,d:[r1.fam-r0.fam,r1.comf-r0.comf,r1.npcRom-r0.npcRom]}));
+  s6('missed'); PHONE.answer(H.G,'sisb4_lotus_ask',0); X.phone(H.G); H.at('2027-07-03',8.6); await goOut('sisb4_lotus',[0]);
+  check('6. 2 月沒來：「上次我沒來。」→「所以這次是補的。……你遲到四個月。」',H.opts[0]&&H.opts[0][0]==='「上次我沒來。」'&&has('所以這次是補的。……你遲到四個月。'),J(H.opts));
+  s6('no'); PHONE.answer(H.G,'sisb4_lotus_ask',1); X.phone(H.G); PHONE.tick(H.G); H.at('2027-07-03',10); X.phone(H.G); PHONE.tick(H.G);
+  check('6. 「那天不行。」→「好。我拍給你看。」；7/3 10:00「📷（荷花池，開了幾朵）」',thx('p:heroine_05').includes('好。我拍給你看。')&&thx('p:heroine_05').includes('📷（荷花池，開了幾朵）')&&!OUT.get(H.G,'sisb4_lotus'),J(thx('p:heroine_05')));
+  s6(null); check('6. 情人節植物園沒約過：沒有這則',!thx('p:heroine_05').length); });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

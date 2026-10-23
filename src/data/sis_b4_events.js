@@ -21,6 +21,8 @@ const SISB4_LINES={
   /* 3-4 情人節・植物園：2027-02-13（六）21:00 私訊；沒來＝2/14 17:00 */
   v2Ask:['明天下午兩點，植物園門口。','我想走一走。不讀書的那種。'], v2Yes:'好。', v2NoT:'明天不行。', v2No:'好。我自己去。',
   v2Missed:['📷（荷花池，只有水）','走完了。荷花池，下次再看。'],
+  /* AA_392 第 6 節（企劃線 e81a1afe1）：荷花池（2027 夏天）——交往中、大二寒假情人節植物園約過的（來了或沒來都算）*/
+  lotusAsk:['荷花開了。','週六早上九點，植物園。早上開得比較好。'], lotusYes:'好。', lotusNoT:'那天不行。', lotusNo:'好。我拍給你看。', lotusMissed:['📷（荷花池，開了幾朵）'],
   /* 3-5 情人節・她寒假那一天的假：2028-02-13（日）21:00 私訊；沒來＝2/14 15:00 */
   v3Ask:['明天是我寒假那一天的假。','早上十點，公館捷運站二號出口。其他的沒排。'], v3Yes:'好。', v3NoT:'明天不行。', v3No:'好。那一格先空著。',
   v3Missed:['📷（一碗湯圓）','坐到終點站了。有湯圓。'],
@@ -144,6 +146,17 @@ const SISB4_EVENTS=(function(){
         Object.assign({set:{SIS_VDAY_Y2:'went'}},mem('SIS_VDAY_Y2',VDAY)) ],
       after:G=>crack(G),
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'vday_y2'); } },
+    /* ---------- AA_392 第 6 節：2027-07-03（六）09:00 植物園・荷花池（沒有底圖：botanical_lotus 先顯示暗底，BB 跟使用者要圖）---------- */
+    { id:'ev_sis_lotus', title:'荷花池', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+      dialogue:[ {scene:'植物園・荷花池',bg:'botanical_lotus'},
+        N('（整片都是葉子，花不多，開了幾朵。）'),
+        SIS('二月的時候，這裡只有水。'),
+        {choice:[{text:'「妳說妳喜歡什麼都還沒長出來的時候。」',if:{flagIs:{SIS_VDAY_Y2:'went'}},goto:'l_a'},{text:'「上次我沒來。」',unless:{flagIs:{SIS_VDAY_Y2:'went'}},goto:'l_b'},{text:'（拍一張）',goto:'l_c'}]},
+        {label:'l_a'},SIS('嗯。'),N('（她看了一下）'),SIS('長出來也不錯。'),{goto:'l_end'},
+        {label:'l_b'},SIS('所以這次是補的。……你遲到四個月。'),{goto:'l_end'},
+        {label:'l_c'},SIS('我也拍了。我們拍的是同一朵。'),
+        {label:'l_end'},{set:{SIS_LOTUS:'went'},consequences:{rel:{[ID]:{fam:2,comf:3,npcRom:2}}}} ],   /* 熟悉 +2、自在 +3、她的戀愛 +2 */
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lotus'); } },
     /* ---------- 3-5 2028-02-14（一）10:00 公館捷運站 → 公車上 → 終點站；時間推到 15:00 左右 ---------- */
     { id:'ev_sis_vday_y3', title:'情人節', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:5,
       dialogue:[ {scene:'公館捷運站',bg:'gongguan'},

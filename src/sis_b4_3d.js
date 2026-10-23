@@ -94,12 +94,16 @@ const SISB4=(function(){
     {k:'vday_y2',ask:'2027-02-13',h:21,lines:L.v2Ask,yes:L.v2Yes,noT:L.v2NoT,no:L.v2No,flag:'SIS_VDAY_Y2',ok:'went',go:'SIS_VDAY_Y2_GO',
       out:{id:'sisb4_vday_y2',ev:'ev_sis_vday_y2',day:'2027-02-14',h:14,late:0.25,place:'臺北植物園',title:'情人節（臺北植物園）',travel:'捷運 約 20 分鐘',travelH:1/3},
       miss:{day:'2027-02-14',h:17,lines:L.v2Missed}},
+    /* AA_392 第 6 節：荷花池——大二寒假情人節植物園約過的（SIS_VDAY_Y2 有值：來了、沒來、回不行都算）；7/1（四）21:00 → 7/3（六）09:00；不行或沒到 7/3 10:00 她傳照片 */
+    {k:'lotus',ask:'2027-07-01',h:21,cond:G=>G.flags.SIS_VDAY_Y2!=null,lines:L.lotusAsk,yes:L.lotusYes,noT:L.lotusNoT,no:L.lotusNo,flag:'SIS_LOTUS',ok:'went',go:'SIS_LOTUS_GO',
+      out:{id:'sisb4_lotus',ev:'ev_sis_lotus',day:'2027-07-03',h:9,late:0.25,place:'臺北植物園・荷花池',title:'荷花池（臺北植物園）',travel:'捷運 約 20 分鐘',travelH:1/3},
+      miss:{day:'2027-07-03',h:10,lines:L.lotusMissed}},
     {k:'vday_y3',ask:'2028-02-13',h:21,lines:L.v3Ask,yes:L.v3Yes,noT:L.v3NoT,no:L.v3No,flag:'SIS_VDAY_Y3',ok:'went',go:'SIS_VDAY_Y3_GO',
       out:{id:'sisb4_vday_y3',ev:'ev_sis_vday_y3',day:'2028-02-14',h:10,late:0.25,place:'公館捷運站',title:'情人節（公館捷運站二號出口）',travel:'走路 約 15 分鐘',travelH:0.25},   /* 在臺北的家照出遊系統現有的算法（OUT.trip）*/
       miss:{day:'2028-02-14',h:15,lines:L.v3Missed}} ];
   S.asks=function(G){ const F=G.flags;
     for(const a of S.HOL){ const d=D(a.ask), od=D(a.out.day), md=D(a.miss.day); if(d==null||od==null||md==null||!Array.isArray(a.lines)) continue; const tag='sisb4_'+a.k+'_ask';
-      if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,a.out.h)&&S.okDate(G)&&contact(G,d)){   /* 那一天一開始就排好（約的時間才送到；快轉會停在要回的訊息）*/
+      if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,a.out.h)&&S.okDate(G)&&(!a.cond||a.cond(G))&&contact(G,d)){   /* 那一天一開始就排好（約的時間才送到；快轉會停在要回的訊息）*/
         const M=a.lines.map(dm); M[M.length-1].ask={id:tag,until:T(od,a.out.h),opts:[{t:a.yes,set:{[a.go]:true}},{t:a.noT,set:{[a.go]:false,[a.flag]:'no'},say:[{from:ID,text:a.no}]}]};
         PHONE.at(G,d,a.h,M,tag); }
       if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,a.out.h+a.out.late)) plan(G,Object.assign({},a.out,{day:od}));
