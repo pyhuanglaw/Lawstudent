@@ -256,7 +256,8 @@
     "match": "C.【表外】沒有對應任務",
     "task": "JP-ROOM-3D-1021"
    }
-  ]
+  ],
+  "timeNote1023": "LAWWW-B 10-23 17:2x～18:0x 的紀錄（tasks notes、USER_WANTS、BB 清單、commit 訊息、給其他 AI 的訊息）裡寫的「19:0x～21:1x」是時間標錯：實際都在 17:2x～18:0x UTC 之間（18:05 核對 date -u）。內容照舊有效。"
  },
  "tasks": [
   {
