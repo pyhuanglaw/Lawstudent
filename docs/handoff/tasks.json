@@ -29597,6 +29597,172 @@
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "id": "AA389-ZR-SENDOFF-1023",
+   "title": "芷若 2027-09-02 出發那天（AA_390；HOOK_ZR_SENDOFF 補場，寫好以前選項不出）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "2027-09-02",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_389（企劃線 345234b3）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_389 第 2 點",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA389-ZQ-GAME-1023",
+   "title": "子晴測試版＋九份下文（HOOK_ZQ_GAME 補場，併九份「下次給你玩」）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "子晴遊戲線",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_389（企劃線 345234b3）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_389 第 2、8 點",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA389-KX-TERMDATE-1023",
+   "title": "可昕期末約會二選一（AA_313 §2-5#3）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上期末（可昕線）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_389（企劃線 345234b3）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_389 第 8 點",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA389-BH-XC-SMALLTALK-1023",
+   "title": "柏翰、芯慈不做完整階梯：每學期各補兩句 SMALLTALK（AA_313 5-1#15 以 AA_389 為準）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_389（企劃線 345234b3）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_389 第 8 點",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA389-GRAD-DEBATE-1023",
+   "title": "ev_grad_debate 兌現（AA 寫）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 10-23 交接檔「AA-B 2026-10-23 新增」（c60b0ba9）登記；AA 寫好交 LAWWW",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "大四",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_389（企劃線 345234b3）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_389 第 8 點",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA389-L-1023",
+   "title": "AA_389 回 AA_313 九點的程式部分：D13 重新匯入＋新旗標 ZR_UK_BACK（2028-02-19 記）、回來版旁白；HOOK_T03 不出選項、ZR_SENDOFF／ZQ_GAME 選項先不出；ENC_D09_BH 兩句合一、拿掉 linesIfNot；第 20、21 列；可昕生日按鈕 2028、2029（build_msg2.py）；AA_127 重新匯入（以安放鴿子兩句）；第 9 節三句舊句＋AA_312 B 表第 2、4、6 列",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上起（多學年）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 06:55 交付（DL-AA389）",
+   "authorized": "D109、D111"
   }
  ]
 }
