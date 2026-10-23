@@ -30700,7 +30700,7 @@
    "title": "tests/see_through.py 兩項 FAIL（演出鏡頭時不開透視 117.70、室內不開透視 169.33）：開發分支 fb75d67ea 本來就有，不是窗景 patch",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -30714,15 +30714,16 @@
    },
    "source": "LAWWW2-B 10-23 12:15、13:48 回報",
    "authorized": "D108（場景鏡頭歸 LAWWW2；改 engine3d 先告訴 LAWWW）",
-   "next": "排在 118 巷窗景第二批之後：查是測試過時還是鏡頭透視真的壞了；交件附前後數字",
+   "next": "【LAWWW-B 10-23 14:4x】LAWWW2 b1cb4030：兩項都是測試過時（讀檔後手機自動打開＝E.paused、量到舊值；宿舍本來就 seeThru:true），透視沒壞、engine3d 不改；tests/see_through.py：讀檔後收手機、STORY.phoneAuto 換空函式、加「量測前遊戲迴圈在跑」、室內改看麵店；拿掉引擎歸零時 FAIL 117.70（抓得到真的壞）；修改後 ALL PASS（LAWWW2 瀏覽器）",
    "xai": {
     "spec": "tests/see_through.py",
     "owner": "LAWWW2",
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "see_through.py ALL PASS 或寫清楚測試過時的原因（檢查標準不變）",
     "receiver": "LAWWW",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": "b1cb4030"
   },
   {
    "id": "BUG-SIS-DATING-NAME-1023",
