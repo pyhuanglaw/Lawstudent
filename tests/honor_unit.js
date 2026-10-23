@@ -54,7 +54,7 @@ await sec(3,async()=>{ const d=termDay('Y1S2',3,2); at(d,13); H.G.flags.HONOR_Y1
 await sec(4,()=>{ const d=termDay('Y1S1',5,1); at(d,10); const R=CLS.rec(H.G); const cs=CLS.termCourses(H.G,'Y1S1'), att=cs.filter(CLS.attCourse), sv=cs.find(c=>c.kind==='service');
   check('4. 大一上看出席的課：國文、英文、體育、通識這類（法律課、服務學習不算）',att.length>=3&&att.every(c=>!CLS.isExamCourse(c)&&c.kind!=='service'),att.map(c=>c.name).join('、'));
   const c1=att[0], c2=att[1]; R.attend[c1.id]=2; R.attend[c2.id]=3; const g=CLS.reportFor(H.G,'Y1S1');
-  check('4. 成績單：兩堂「不及格」、三堂「及格」',g[c1.id]==='不及格'&&g[c2.id]==='及格',J([g[c1.id],g[c2.id]]));
+  check('4. 成績單：兩堂「不及格（下學期重修）」、三堂「及格」',g[c1.id]==='不及格（下學期重修）'&&g[c2.id]==='及格',J([g[c1.id],g[c2.id]]));
   const h=CLS.weekHTML(H.G);
   check('4. 課表：「出席 2／3 堂（三堂及格）」「已達及格（3 次）」',h.includes(c1.name+' 出席 2／3 堂（三堂及格）')&&h.includes(c2.name+' 已達及格（3 次）'));
   check('4. 服務學習照舊只記次數',!sv||h.includes(sv.name+' '+(R.attend[sv.id]||0)+'／')); });
@@ -67,8 +67,9 @@ await sec(5,()=>{ const d=termDay('Y1S1',12,1); at(d,8); const R=CLS.rec(H.G), a
   at(d,10); const R2=CLS.rec(H.G); for(const c of CLS.termCourses(H.G,'Y1S1').filter(CLS.attCourse)) R2.attend[c.id]=3; X().phone(H.G); PHONE.tick(H.G); check('5. 都滿三堂：不提醒',!H.msgs('sys').length); });
 
 await sec(6,async()=>{ const d=termDay('Y1S2',1,1); at(d,9); const n=lawCs('Y1S1').length; setExam('Y1S1',Array(n).fill(4)); await CLS.showGrades(GM,'Y1S1');
-  check('6. 成績單最後一行「書卷獎」',/　書卷獎$/.test(H.said.slice(-1)[0].t),H.said.slice(-1)[0].t.slice(-30));
-  at(d,9); setExam('Y1S1',Array(n).fill(2)); await CLS.showGrades(GM,'Y1S1'); check('6. 沒拿到：沒有',!/書卷獎/.test(H.said.slice(-1)[0].t)); });
+  const gl=()=>(H.said.find(s=>/：/.test(s.t)&&/　/.test(s.t))||{t:''}).t;   /* 成績那一行（後面可能接重修的說明）*/
+  check('6. 成績單最後一項「書卷獎」',/　書卷獎$/.test(gl()),gl().slice(-30));
+  at(d,9); setExam('Y1S1',Array(n).fill(2)); await CLS.showGrades(GM,'Y1S1'); check('6. 沒拿到：沒有',!/書卷獎/.test(gl())); });
 
 H.done();
 })();

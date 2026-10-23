@@ -43,7 +43,7 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     check('6. 民法總則（正式 '+(p1.cls.length+p1.bank.length)+' 題、AI '+p1.ai.length+' 題）：正式題夠，不用 AI 題',p1.ai.length>0&&r1.ok&&r1.qs.every(q=>q.status==='USER_CONFIRMED'));
     for(const [c,t,d] of [['civpro_1','Y3S1','2027-12-28'],['civpro_2','Y3S2','2028-06-12'],['company_law','Y3S1','2027-12-28'],['insurance','Y3S2','2028-06-12'],['negotiable','Y3S2','2028-06-12'],['labor_law','Y3S2','2028-06-12']]){ const rr=CLS.drawExam(mkG(dayOf(d),9),c,t,'final'); check('6. '+c+'（'+t+'）可以開考',rr.ok&&rr.qs.length===5,JSON.stringify(rr.n)); } }
   { const G=mkG(dayOf('2026-01-20'),9); const rep=CLS.reportFor(G,'Y1S1'), bad=Object.entries(rep).filter(([k,v])=>/題庫不足/.test(v));
-    check('6. GRADE-NOBANK：期末考沒考的課＝「缺考」（題數算進 AI 補的題）；成績單沒有「題庫不足」',!bad.length&&rep.const_1==='缺考',JSON.stringify(rep)); }
+    check('6. GRADE-NOBANK：期末考沒考的課＝「缺考」（題數算進 AI 補的題）；成績單沒有「題庫不足」；缺考算被當（D42：「缺考（不及格，下學期重修）」）',!bad.length&&/^缺考（不及格，下學期重修）$/.test(rep.const_1),JSON.stringify(rep)); }
   // 6. 不足 5 題（現在沒有這種課了：暫時把憲法（下）的題庫減到 3 題，確認不開考的路照舊）
   { const keep=EXAM_BANK.questions.slice(); let k=0; EXAM_BANK.questions=EXAM_BANK.questions.filter(q=>!(q.course==='const_2'&&q.term==='Y1S2')||(k++<3));
     const G=mkG(dayOf('2026-06-15'),9); const it={c:CLS.byId('const_2'),exam:'final',term:'Y1S2',key:'x'}; const GM=mkGM(G); errs.length=0; const res=await CLS.runExam(GM,it);
