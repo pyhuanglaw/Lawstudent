@@ -2349,6 +2349,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "六樣痕跡在遊戲裡 traceOn true 顯示、false 不顯示（每一格看）；牆上的兩樣跟著牆淡出；GLB 只多痕跡節點（+12～236 三角形）"
+  },
+  {
+   "task": "ART-GG-STREETLIFE-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5fed31e9",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gg_streetlife_1023.patch（zones3d.js，對開發 fb75d67ea）",
+    "docs/art-rebuild/second_ai/patches/gg_streetlife_views_1023.patch（world3d.js VIEW_LAYERS 景深）",
+    "assets/models/env/views/{cvs,noodle,bookstore}_{day,night}.webp＋_near_{day,night}.webp（重拍 12 張）",
+    "tools/shots/shop_views_layers.json",
+    "docs/art-rebuild/second_ai/test_shots/gg_streetlife_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "路人要加 walkRoutes（story3d，LAWWW 決定；兩條站得住的路線寫在 README）；店門口正前方還是空的鋪面（門口淨空規則）；晚上沒另外拍；真機沒看過",
+   "next": "LAWWW：兩個 patch＋12 張窗景進開發分支；畫面驗收派 BB；要不要加路人路線",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "騎樓柱子外 69 台機車（跨柱子、留缺口、有互動的店門口前後 2.6 m 淨空）、兩個腳踏車停車架、五棵行道樹＋樹穴；gongguan_layout_nav 51 PASS、reachability_all 公館 ALL PASS、street_props_nav_unit ALL PASS；最重鏡頭 33.3 萬三角形（原本 27.2 萬）"
   }
  ]
 }
