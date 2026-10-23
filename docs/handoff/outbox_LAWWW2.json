@@ -2221,6 +2221,26 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "LAWWW 13:59 派工（AA_364 第 5 節，企劃線 d56da150）：林家乾麵牆上紅紙菜單加「貢丸湯 30」，順序 乾麵（小）40／乾麵（大）55／餛飩湯 40／貢丸湯 30／燙青菜 35／滷蛋 15（和開發分支 7047436e 的 wzshops3d.js wall 那一行一樣）。我 14:38 ACK。貼圖六張紙（紙寬 180 → 156、字 66 → 60 px）；亂數照第一版五張的用量往下走，布簾、定食木札、暖簾等其他 6 張貼圖位元組不變（md5 驗過）。GLB 重匯：三角形 18,206、材質 18 都不變；和舊檔比只有菜單貼圖換了，另外桌上小物 32 個三角形的切法不同（同一個範圍、同一個形狀，Blender 重匯就會這樣）。｜LAWWW2-B 10-23 07:1x：用腳本在這個容器重拍遊戲內前後（開發分支 719cca3b＋這個 GLB；菜單近拍 15:00／20:00、一般鏡頭 15:00／20:00），六張紅紙順序和 wzshops3d.js wall 一樣；README test_shots/wz_lin_menu_1022"
+  },
+  {
+   "task": "ART-NO-DARK-WOOD-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "15551b2f",
+   "files": [
+    "tools/blender/env_second/library_3f.py",
+    "assets/models/env/second_ai/library_3f.glb（＋.json）",
+    "tools/blender/library_interior.py",
+    "assets/models/env/library_interior.glb",
+    "tools/blender/env_second/floors/scan_floors.py",
+    "docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/（README＋前後兩張）"
+   ],
+   "state": "交付",
+   "remaining": "第二批（6fbe2830：九個室內＋src patch）遊戲內截圖拍完再交；淺店內 wood_dk／wood_lt 隨 118 巷、公館店面一起改；3F 主球場、2D 背景兩張；真機沒看過",
+   "next": "LAWWW：拿第一批四個檔進開發分支（遊戲程式不用改）；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 10-23 07:3x「不要深色木地板 整個遊戲都不要」（D112）。第一批：圖書館 3F l3_parquet、總圖大廳二樓 lb_parquet，#a07a55 → #cdb594（同宿舍四人房），平均 161,123,86 → 206,182,149；GLB 結構不變；遊戲內前後（開發 719cca3b＋GLB）"
   }
  ]
 }
