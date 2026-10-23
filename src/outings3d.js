@@ -75,7 +75,7 @@ const OUT=(function(){
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
-  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ DATE.tick(GM); }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒 */ for(const q of S.expire(G)) S.onMissed(GM,q);
+  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();

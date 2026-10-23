@@ -30142,7 +30142,7 @@
    "id": "WZ-CAT-LIFE-1023",
    "title": "溫州街的貓要能動、能互動（3D 骨架走路、照時段天氣換位置姿勢、「摸摸貓」）；收養劇情（其中一位女主角收養）AA 寫",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -30165,7 +30165,8 @@
     "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "2026-10-23 10:5x：劇情部分（寒流、12/14、照片、告示、收養後選單）併進 SIDEQ-AA397-1023 的背景子代理；LAWWW2 的貓模型、位置、姿勢照舊（D108）。"
   },
   {
    "id": "CLOSED-SPACES-1023",
@@ -30246,7 +30247,7 @@
    "id": "UX-INV-GO-1023",
    "title": "約會快到的提醒可以直接到約會地點（使用者 10-23 08:2x，D58）：校園約人 INV 提醒時跳「直接過去／自己走過去」、手機今天的約可以「前往」；校外約會 1 小時前提醒時可以提早出發",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": null,
    "first": {
@@ -30261,7 +30262,8 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:4x】校園約人做好：invites3d.js S.goPrompt（約好前 30 分鐘～後 15 分鐘、不在那一區、空下來問一次「直接過去」／「自己走過去」；OUT 該出發先問）、S.goNow（快速前往 force）；手機「今天約好的」每筆「前往」；tests/inv_go_unit.js（HEAD 版例外 FAIL）、相關 257 支 ALL PASS。還沒做：校外約會 1 小時前提早出發（出發時間到照舊有一鍵「出發」）｜BB 補測 ｜ 【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測"
+   "next": "【LAWWW-B 10-23 08:4x】校園約人做好：invites3d.js S.goPrompt（約好前 30 分鐘～後 15 分鐘、不在那一區、空下來問一次「直接過去」／「自己走過去」；OUT 該出發先問）、S.goNow（快速前往 force）；手機「今天約好的」每筆「前往」；tests/inv_go_unit.js（HEAD 版例外 FAIL）、相關 257 支 ALL PASS。還沒做：校外約會 1 小時前提早出發（出發時間到照舊有一鍵「出發」）｜BB 補測 ｜ 【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測",
+   "note": " 2026-10-23 11:1x LAWWW-B：校外約會出發前 60 分鐘提醒的時候就可以「現在出發」（date3d.js S.early、outings3d.js OUT.tick 等選單；抵達＝約好的時間，中間時間直接過去）／「到時間再說」照舊；tests/date_book_unit.js 第 6 節。待 BB 測（清單第 35 項）。"
   },
   {
    "id": "BUG-BOOK-OVERDUE-1023",

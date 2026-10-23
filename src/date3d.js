@@ -319,7 +319,13 @@ const DATE=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(!G) return; S.rec(G); if(G.dateLog._daily!==G.day){ G.dateLog._daily=G.day; S.daily(G); }
     if(G.flags&&!G.flags.SIS_EXAM_DONE&&typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey(S.SIS_EXAM_END)&&!S.sisPreexam(G)) G.flags.SIS_EXAM_DONE=true;   /* 學姊研究所筆試考完（2026-02-02 以後）：學姊心願 D15 的條件（wish_bb.json，BB-C 68f18538，取代 SIS_HEALED）*/
     for(const t of G.trips){ if(t.status!=='booked'||typeof OUT==='undefined'||!OUT.get) continue; const q=OUT.get(G,'date_'+t.trip); if(q&&q.state==='missed') t.status='missed'; }   /* 玩家沒出發（過了出發時間，OUT.expire）＝錯過：不算次數、不扣關係（照一日約會；兩天一夜的住宿是晚上才扣，所以也不扣）；行程不再佔那兩天 */
-    const now=G.day*24+G.hour; for(const t of G.trips){ if(t.status!=='booked'||t.reminded) continue; const dep=t.day*24+t.depart; if(now>=dep-1&&now<dep){ t.reminded=true; const L=S.loc(t.locs[0])||{}; if(GM.toast) GM.toast('手機｜提醒：'+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+(L.name||'')+'。',3200); } } };
+    const now=G.day*24+G.hour; for(const t of G.trips){ if(t.status!=='booked'||t.reminded) continue; const dep=t.day*24+t.depart; if(now>=dep-1&&now<dep){ t.reminded=true; const L=S.loc(t.locs[0])||{}, msg='手機｜提醒：'+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+(L.name||'')+'。'; if(GM.toast) GM.toast(msg,3200);
+      const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'date_'+t.trip):null; if(q&&q.state==='planned'&&!q.arrived&&GM.choose&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!(GM.D&&GM.D.active)) return S.early(GM,q,t,msg); } } };   /* 可以提早出發（UX-INV-GO-1023）：OUT.tick 等這個選單結束 */
+  /* 出發前 60 分鐘提醒的時候就可以出發（使用者 10-23「現在有提醒有約會快到 應該要新增可以直接到約會地點的功能」，UX-INV-GO-1023）：
+     「現在出發」＝和出發時間到的「出發」一樣（OUT.go：抵達不早於約好的時間，中間的時間直接過去）；「到時間再說」＝照舊，出發時間到再問。系統字，不是台詞 */
+  S.early=async function(GM,q,t,msg){ const G=GM.G; if(t.kind==='overnight'&&!S.stillOn(G,t).ok) return 'later';   /* 她第一天沒辦法來：出發時間到 S.prompt 交代 */
+    let k; GM.sceneBegin(); try{ await GM.say(null,msg); k=await GM.choose([{t:'現在出發',hint:[q.place,q.travel].filter(Boolean).join('　')},{t:'到時間再說'}]); } finally { GM.sceneEnd(); }
+    if(k!==0||q.state!=='planned') return 'later'; t.departed=true; t.status='going'; await OUT.go(GM,q); return 'go'; };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   /* 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）：那天約好的校外約會。h＝出發前 30 分鐘（鬧鐘）、dep＝出發時間（story3d.js 的 wakeAlarms、小睡；classes3d.js 的 skipStops 停在出發前 10 分鐘）*/

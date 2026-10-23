@@ -87,7 +87,11 @@ const ADV2=global.ADV; ADV2.active=false;
   // ---------- 6 出發前 60 分鐘提醒、daily ----------
   fresh(day,9,'dorm',{}); const tt=DATE.book(G,Object.assign({},base,{day,depart:15})); toasts=[]; GM.toast=t=>toasts.push(t);
   G.hour=13.9; DATE.tick(GM); check('6. 出發前 61 分鐘還不提醒',!toasts.length);
-  G.hour=14.05; DATE.tick(GM); DATE.tick(GM); check('6. 出發前 60 分鐘：手機提醒一次「15:00，你約了…去淡水金色水岸。」',toasts.length===1&&/15:00，你約了.*淡水金色水岸/.test(toasts[0]),JSON.stringify(toasts));
+  G.hour=14.05; opts=[]; picks=['到時間再說']; const p6=DATE.tick(GM); if(p6&&p6.then) await p6; DATE.tick(GM); check('6. 出發前 60 分鐘：手機提醒一次「15:00，你約了…去淡水金色水岸。」',toasts.length===1&&/15:00，你約了.*淡水金色水岸/.test(toasts[0]),JSON.stringify(toasts));
+  const q6=OUT.get(G,'date_'+tt.trip); check('6. 提醒的時候可以提早出發（UX-INV-GO-1023）：「現在出發」／「到時間再說」；選到時間再說＝照舊還沒出發、不再問',!!(p6&&p6.then)&&JSON.stringify(opts[0])===JSON.stringify(['現在出發','到時間再說'])&&q6.state==='planned'&&!tt.departed,JSON.stringify(opts));
+  { fresh(day,9,'dorm',{}); const te=DATE.book(G,Object.assign({},base,{day,depart:15})), qe=OUT.get(G,'date_'+te.trip); G.hour=14.05; opts=[]; said=[]; picks=['現在出發','就這樣回去']; let hourAtScene=null; const sc0=DATE.scene; DATE.scene=async(GMx,q)=>{ hourAtScene=G.day*24+G.hour; return sc0(GMx,q); };
+    const r=await OUT.tick(GM); DATE.scene=sc0; const tr=DATE.trip(G,te.trip)||{};
+    check('6. 選「現在出發」：直接去，到的時候是約好的時間（15:00＋車程），中間的時間直接過去；行程算出發了',r!==null&&tr.departed===true&&hourAtScene!=null&&Math.abs(hourAtScene-(qe.day*24+qe.h))<1e-6&&said.some(s=>/15:00，你約了/.test(s.t)),JSON.stringify({r,hourAtScene,qh:qe.day*24+qe.h,st:tr.status,said:said.slice(0,3)})); }
   G.flags.FLAKED_heroine_03=day-40; DATE.log(G,'heroine_03').cancels=[day-40]; G.dateLog._daily=null; DATE.tick(GM); check('6. 每天一次 daily：30 天沒再取消就清掉 FLAKED',G.flags.FLAKED_heroine_03==null); GM.toast=()=>{};
   // ---------- 7 改時間：完整的日期時間選單 ----------
   fresh(day,9,'dorm',{}); const tm=DATE.book(G,Object.assign({},base,{day,depart:15})); const qm=OUT.get(G,'date_'+tm.trip); picks=['選別的日期和時間','明天','10:00'];
