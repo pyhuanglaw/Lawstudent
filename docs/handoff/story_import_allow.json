@@ -2236,6 +2236,15 @@
    "task": "V6-S5、V6-A2、V6-A5、V6-B4",
    "kind": "text",
    "note": "src/cracktalk3d.js、src/data/cracktalk_lines.js（tests/v6_crack_unit.js）：裂縫到 3 的談話；只用到談話與裂縫來源那幾節"
+  },
+  {
+   "path": "docs/story_planning/AA_163_D79回覆_法服週六值班與家教.md",
+   "sha": "d64110e1f",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-16 定稿（第②級；D109）；a06d3f545 是 AA 還沒審的 WIP（18 週改字），不用",
+   "task": "V2-B32、SYS-13",
+   "kind": "text",
+   "note": "家教第 2 節（每堂 1,200、第 4 堂 TUTOR_WHY、漏週、大二繼續、考試週停、結尾訊息）；週次照 16 週換算"
   }
  ]
 }
