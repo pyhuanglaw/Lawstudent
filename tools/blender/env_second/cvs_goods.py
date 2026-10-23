@@ -318,8 +318,9 @@ def solid_uv(col):
 
 
 class Goods:
-    def __init__(self, name, mat):
-        self.name, self.mat = name, mat; self.bm = bmesh.new(); self.uv = self.bm.loops.layers.uv.new('UVMap'); self.n = 0
+    def __init__(self, name, mat, lod=0):
+        """lod=1：隔著店面玻璃遠看用的低面數（瓶罐六邊、少幾圈，袋子少幾格；2026-10-23 公館、118 巷店面，一條街幾百瓶）"""
+        self.name, self.mat, self.lod = name, mat, lod; self.bm = bmesh.new(); self.uv = self.bm.loops.layers.uv.new('UVMap'); self.n = 0
 
     # ---- 基本形狀（遊戲座標）
     def _face(self, pts, uvs):
@@ -349,7 +350,7 @@ class Goods:
         back = (cx - nrm[0] * D / 2, cz - nrm[2] * D / 2)        # 背面的中心（貼著貨架）
         def P(u, y, off):                                         # u∈[0,1] 由左往右、off＝離背面往外
             return (back[0] + rgt[0] * (u - 0.5) * W + nrm[0] * off, y, back[1] + rgt[2] * (u - 0.5) * W + nrm[2] * off)
-        US, VS, seal = (0.0, 0.15, 0.5, 0.85, 1.0), (0.0, 0.07, 0.35, 0.65, 0.93, 1.0), 0.07
+        US, VS, seal = ((0.0, 0.5, 1.0), (0.0, 0.12, 0.88, 1.0), 0.07) if self.lod else ((0.0, 0.15, 0.5, 0.85, 1.0), (0.0, 0.07, 0.35, 0.65, 0.93, 1.0), 0.07)
         def off(u, v):
             sv = 0.0 if v <= seal or v >= 1 - seal else math.sin(math.pi * (v - seal) / (1 - 2 * seal)) ** 0.55
             return D * (0.3 + 0.7 * math.sin(math.pi * u) ** 0.5 * sv) if 0 < u < 1 else D * 0.3
@@ -396,12 +397,14 @@ class Goods:
         self._face(pts, [uvpt] * seg)
 
     def cup(self, cx, cz, y, p, face='+z'):
-        r1, r0, h = p['w'] / 2, p['w'] / 2 * 0.8, p['h']
-        self.ring(cx, cz, y, y + h, r0, r1, 10, p['cell'], face=face); lid = cell_uv(p['cell'], 'side')
-        self.disc(cx, cz, y + h, r1 + 0.003, 10, solid_uv('#ffffff')); self.n += 1
+        r1, r0, h = p['w'] / 2, p['w'] / 2 * 0.8, p['h']; sg = 6 if self.lod else 10
+        self.ring(cx, cz, y, y + h, r0, r1, sg, p['cell'], face=face); lid = cell_uv(p['cell'], 'side')
+        self.disc(cx, cz, y + h, r1 + 0.003, sg, solid_uv('#ffffff')); self.n += 1
 
     def can(self, cx, cz, y, p, face='+z'):
         r, h = p['w'] / 2, p['h']
+        if self.lod:
+            self.ring(cx, cz, y, y + h, r, r, 6, p['cell'], face=face); self.disc(cx, cz, y + h, r, 6, solid_uv('#c9ccd0')); self.n += 1; return
         self.ring(cx, cz, y + 0.008, y + h - 0.01, r, r, 10, p['cell'], face=face)
         self.ring(cx, cz, y, y + 0.008, r * 0.86, r, 10, p['cell'], uvpt=solid_uv('#c9ccd0'))
         self.ring(cx, cz, y + h - 0.01, y + h, r, r * 0.88, 10, p['cell'], uvpt=solid_uv('#c9ccd0'))
@@ -410,12 +413,15 @@ class Goods:
     def bottle(self, cx, cz, y, p, face='+z'):
         """寶特瓶：瓶身（液體顏色）、標籤（包裝）、瓶肩、瓶頸、瓶蓋"""
         r, h = p['w'] / 2, p['h']; liq = solid_uv(p.get('liquid', '#ffffff'))
-        prof = [(0.0, r * 0.9, liq), (0.02, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.18, r * 0.78, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
+        prof = [(0.0, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))] if self.lod else \
+               [(0.0, r * 0.9, liq), (0.02, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.18, r * 0.78, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
         prof = [(y + t * h / 0.235, rr, u) for t, rr, u in prof]
         for (ya, ra, ua), (yb, rb, ub) in zip(prof, prof[1:]):
-            if ua is None: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], face=face)
-            else: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], uvpt=ua, face=face)
+            sg = 6 if self.lod else 8
+            if ua is None: self.ring(cx, cz, ya, yb, ra, rb, sg, p['cell'], face=face)
+            else: self.ring(cx, cz, ya, yb, ra, rb, sg, p['cell'], uvpt=ua, face=face)
         cap = solid_uv(p['accent'] if p['accent'] in SOLIDS else ('#ffffff' if p['bg'] != '#ffffff' else '#2f7ed8'))
+        if self.lod: self.disc(cx, cz, y + h * 0.212 / 0.235, r * 0.4, 6, cap); self.n += 1; return   # 低面數：瓶蓋只畫頂面
         self.ring(cx, cz, y + h * 0.9, y + h, r * 0.42, r * 0.42, 8, p['cell'], uvpt=cap); self.disc(cx, cz, y + h, r * 0.42, 8, cap); self.n += 1
 
     def tag(self, x0, x1, y0, y1, zf, face, price):
@@ -468,7 +474,7 @@ class Goods:
             if a + p['w'] > a1 - 0.02: break
             start = a
             # 矮的商品往上疊（真的便利商店麵包、面紙、杯麵會疊兩三層；2026-10-15 後牆層板上方空一大截）：瓶子、罐子不疊
-            tiers = 1 if p['shape'] in ('bottle', 'can') else max(1, min(2, int((hmax + 0.01) // (p['h'] + 0.004))))
+            tiers = 1 if (p['shape'] in ('bottle', 'can') or self.lod) else max(1, min(2, int((hmax + 0.01) // (p['h'] + 0.004))))   # 低面數（隔著玻璃）不疊
             if tiers > 1 and rng.random() < 0.25: tiers -= 1
             for i in range(n):
                 if a + p['w'] > a1 - 0.02: break

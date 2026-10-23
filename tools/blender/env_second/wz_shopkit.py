@@ -541,7 +541,7 @@ def goods():
         from PIL import Image
         full = CG.make_atlas(os.path.join(tempfile.gettempdir(), 'wz_goods_atlas_full.png')); out = os.path.join(GEN, 'wz_goods_atlas.jpg')
         Image.open(full).convert('RGB').resize((1024, 1024), Image.LANCZOS).save(out, quality=88)   # 隔著玻璃 3～8 m：一格 64 px 就夠
-        _GOODS['g'] = CG.Goods('sk_goods', CG.atlas_material('wz_goods_atlas', out)); _GOODS['rng'] = random.Random(23)
+        _GOODS['g'] = CG.Goods('sk_goods', CG.atlas_material('wz_goods_atlas', out), lod=1); _GOODS['rng'] = random.Random(23)
     return _GOODS['g']
 
 
@@ -668,11 +668,11 @@ def shallow_interior(spec, xf, iw, gz, ih):
             while x_ < iw / 2 - 0.66:
                 if rr2.random() > 0.12: gbox(xf, x_, x_ + 0.31, yy, yy + 0.31, zb + 0.04, zb + 0.05, rr2.choice(rec)['cell'])
                 x_ += 0.36
-        vb(-iw / 2 + 0.3, iw / 2 - 0.3, y0, y0 + 1.05, zb, zb + 0.3, '#a8865e', r=0)                         # CD 架（一格一格的彩色細條＝CD 的側邊）
+        vb(-iw / 2 + 0.3, iw / 2 - 0.3, y0, y0 + 1.05, zb, zb + 0.3, '#a8865e', r=0)                         # CD 架：四層，CD 的側邊用書背貼圖（一層一片；第一版一片一個方塊，三萬多個三角形）
+        bm_ = in_mat('books')
         for t in range(4):
-            yy = y0 + 0.08 + t * 0.24; x_ = -iw / 2 + 0.36
-            while x_ < iw / 2 - 0.4:
-                w_ = rr2.uniform(0.004, 0.011); vb(x_, x_ + w_, yy, yy + 0.142, zb + 0.18, zb + 0.305, rr2.choice(['#1d1d1f', '#e8e4dc', '#b8231c', '#2f4a6a', '#e8b84a', '#3c7d3a', '#c89ae8', '#f08a24']), r=0); x_ += w_ + 0.002
+            yy = y0 + 0.08 + t * 0.24; v1 = 1 - (t % 6) * 0.155
+            uvq(f'sk_in_cds_{pid}_{t}', bm_, xf, [(-iw / 2 + 0.36, yy, zb + 0.305), (iw / 2 - 0.36, yy, zb + 0.305), (iw / 2 - 0.36, yy + 0.142, zb + 0.305), (-iw / 2 + 0.36, yy + 0.142, zb + 0.305)], (0, v1 - 0.065, (iw - 0.72) / 1.4, v1))
         for (bx_, bz_) in ((-iw / 2 + 1.3, gz - 1.2), (-iw / 2 + 2.6, gz - 1.2)):                          # 木箱唱片櫃：四隻腳、箱子、唱片立著（朝街那一面是封面）
             vb(bx_ - 0.4, bx_ + 0.4, y0 + 0.4, y0 + 0.75, bz_ - 0.5, bz_ + 0.5, '#9a7650', r=0.01)
             for (lx_, lz_) in ((-0.36, -0.46), (0.36, -0.46), (-0.36, 0.46), (0.36, 0.46)): vb(bx_ + lx_ - 0.03, bx_ + lx_ + 0.03, y0, y0 + 0.4, bz_ + lz_ - 0.03, bz_ + lz_ + 0.03, '#7a5a3a', r=0)
