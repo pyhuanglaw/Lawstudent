@@ -29871,7 +29871,7 @@
    "title": "學姊第八批：大二整年＋兩個暑假（學校裡）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23 08:0x】AA 已交 AA_394 學姊第八批・大二整年與兩個暑假（企劃線 744a8726，比預定 16:00 早）；實作 SIS-B8L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
@@ -30220,7 +30220,7 @@
    "title": "AA_394 學姊第八批・大二整年與兩個暑假：實作",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23】AA_394 學姊第八批・大二整年與兩個暑假（企劃線 744a8726）程式點；接在 SIS-B6-L-1023 之後（同一批學姊檔，不並行）；單元測試修改前 FAIL；BB 補測",
    "first": {
@@ -30234,7 +30234,9 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
-   "authorized": "D100、D109（AA 劇情自主決定）"
+   "authorized": "D100、D109（AA 劇情自主決定）",
+   "sha": "a49bc0ed0",
+   "note": "2026-10-23 LAWWW-B 實作 a49bc0ed0（tests/aa394_sis_b8_unit.js）；3-2 和 AA_379 2-3 同一天撞到時順延到下一個週三（到第 9 週）；債各筆記只記旗標＋記憶，房間物件還沒接。待 BB 測（清單第 15～17 項）。"
   },
   {
    "id": "UX-INV-GO-1023",

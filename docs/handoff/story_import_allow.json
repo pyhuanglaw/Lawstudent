@@ -1737,6 +1737,14 @@
    "approvedBy": "AA-B 2026-10-23 07:4x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_jp3d.js、src/data/sis_jp_events.js、msg_pool（build_pool.py）",
    "task": "SIS-B7-L-1023、SIS-B7-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_394_學姊第八批_大二整年與兩個暑假.md",
+   "sha": "e81a1afe1",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 07:5x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_b8_3d.js、src/data/sis_b8_events.js",
+   "task": "SIS-B8-L-1023、SIS-B8-1023",
+   "kind": "text"
   }
  ]
 }
