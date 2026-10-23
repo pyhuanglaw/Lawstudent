@@ -1820,10 +1820,10 @@
   },
   {
    "path": "docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md",
-   "sha": "29e41dd8",
+   "sha": "47dd827c",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）",
-   "task": "SIDEQ-AA397-1023",
+   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）；47dd827c 第 5 節 Alison 營隊鉤子（termend_lines.js yu_camp2）",
+   "task": "SIDEQ-AA397-1023、AA313-S4S5-REST-1023",
    "kind": "text"
   }
  ]
