@@ -4,6 +4,7 @@
    - 打工的玩家（熟練 3 以上）多的那一句、有班那天的黑板：等 DL-10 的打工系統（全域 JOBS.at(G,'brunch'|'print'|'teahouse') → {lv, today, board}）；還沒有 JOBS 時不播。
    - 和人約的早午餐（invites3d.js 的 brunch）不走這裡（AA_172 1-1：約會的台詞之後再寫）。
    - AA_364 的四家（第 4、5 節：林家乾麵、巷子裡定食內用；巷口茶飲、夏日冰菓室外帶窗口）也在這裡（S.AA364、S.order364；吃過的、老樣子登記到 src/eat3d.js）。測試：node tests/wz_aa364_shops_unit.js
+   順手的事（AA_397，src/sideq3d.js）：AA_364 三家點完最後叫 SIDEQ.atShop；林家做完 SQ01 的招呼一次、菜單牆多一行；冰菓室 SQ03 的窗口多「看價目板」；一盞茶屋的蘇姨（SQ08 問一次）。
    存檔：G.daily.wzs＝{printWk, printUsed:[], brunchW, gardenN, tokoN}（影印旁白「同一週不重複」；其餘是輪流的位置）。AA_364 的四家不另外存（次數、上一次點的在 G.eat，src/eat3d.js）。 */
 const WZS=(()=>{
   const S={};
@@ -104,7 +105,8 @@ const WZS=(()=>{
   S.windowItems=function(){ const W=S.WINDOW, ice=()=>{ const G=typeof GAME!=='undefined'&&GAME.G; return !G||S.inSeason('ice',G); };
     return [{x:W.tea.x,z:W.tea.z,radius:1.4,label:'買一杯飲料',wzShop:'tea',kind:'window'},
       {x:W.ice.x,z:W.ice.z,radius:1.4,label:'買一碗冰',wzShop:'ice',kind:'window',get hidden(){ return !ice(); }},
-      {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',look:S.AA364.ice.shutter,get hidden(){ return ice(); }}]; };
+      {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',look:S.AA364.ice.shutter,get hidden(){ return ice(); }},
+      {x:W.ice.x+1.0,z:W.ice.z,radius:1.0,label:'看價目板',wzShop:'ice',kind:'board',get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !(G&&typeof SIDEQ!=='undefined'&&SIDEQ.boardOpen&&SIDEQ.boardOpen(G)); }}]; };   /* 順手的事 SQ03（AA_397）：掛著那一則的時候才有 */
   /* 店員要不要站在窗口（story3d.js 進溫州街時放）：開門的時候才在（冰菓室 10～4 月鐵捲門拉著） */
   S.windowClerk=(k,G)=>S.inSeason(k,G)&&S.isOpen364(k,G);
   /* 點餐：關門＝和其他店一樣寫開放時間、下次開門（toast）→ 店員招呼 → 選單（老樣子）→ 扣錢 →「（你點了{品名}。）」→ 時間 → 吃過的＋第一次的旁白
@@ -113,7 +115,8 @@ const WZS=(()=>{
     if(D.shutter&&!S.inSeason(k,G)){ await GM.say(null,D.shutter); return false; }   /* 冰菓室 10～4 月（按鈕已經換成「看」；保險）*/
     if(!S.isOpen364(k,G)){ GM.toast(PLACES.closedText(D.zone,hr(G),G.day),4500); return false; }
     const E_=typeof EAT!=='undefined'?EAT:null, who={name:D.who};
-    await GM.say(who,S.greet364(k,G));
+    const sqG=typeof SIDEQ!=='undefined'&&SIDEQ.greet?SIDEQ.greet(G,D.key):null;   /* 順手的事 SQ01 做完以後，林家老闆的招呼一次（AA_397）*/
+    await GM.say(who,sqG||S.greet364(k,G));
     const items=S.menu364(k,G), opts=items.map(m=>({t:m[0]+'　'+(m[1]?m[1]+' 元':'免費'),dim:(G.money|0)<m[1]})); opts.push({t:'不用了'});
     const i=E_?await E_.choose(GM,D.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts);   /* 第 5 次起多「老樣子」（src/eat3d.js）*/
     if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
@@ -123,6 +126,7 @@ const WZS=(()=>{
       if(E_){ if(D.dine) tg=await E_.after(GM,D.key,nm); else await E_.ordered(GM,D.key,nm); }   /* 內用：吃過的＋一起吃（AA_329）；外帶：只記吃過的 */
       if(!tg&&D.done) await GM.say(null,D.done); };   /* 吃完（一個人）的旁白（第 5 節第 4 點）；一起吃了＝結尾換成一起吃的那一句 */
     if(D.dine) await seated(GM,run); else await run();
+    if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop){ try{ await SIDEQ.atShop(GM,D.key,{item:nm,price:p}); }catch(e){ console.warn('SIDEQ',e); } }   /* 順手的事：店員偶爾多一句（AA_397）*/
     if(GM.autosave) GM.autosave(); return true; };
 
   // ---------- 共用：品項＋價錢的選單 ----------
@@ -141,14 +145,15 @@ const WZS=(()=>{
     try{
       if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
-      else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); }
+      else if(k==='teahouse'&&kind==='tea'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'su');   /* 順手的事 SQ08：問蘇姨（下午）*/ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }
       else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/
         if(j&&j.lv>=1) await GM.say(null,'阿德：「自己印吧。你知道機器在哪裡。」');
         await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); },false,'阿德影印輸出'); }
       else if(k==='print'&&kind==='stationery'){ await buy(GM,S.STATIONERY,0,async x=>{ await GM.say(null,x[2]); }); }
-      else if(S.AA364[k]&&kind==='menu'&&S.AA364[k].wall){ await GM.say(null,S.AA364[k].wall); }   /* AA_364：看菜單（林家牆上的紅紙、定食店吧台上方的木札），0 分鐘 */
+      else if(S.AA364[k]&&kind==='menu'&&S.AA364[k].wall){ await GM.say(null,S.AA364[k].wall); const sw=typeof SIDEQ!=='undefined'&&SIDEQ.wallExtra?SIDEQ.wallExtra(G,S.AA364[k].key):null; if(sw) await GM.say(null,sw); }   /* SQ01 做完：牆上多一行手寫（AA_397）*/
+      else if(k==='ice'&&kind==='board'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.iceBoard) await SIDEQ.iceBoard(GM); }   /* SQ03：看價目板、選誰來寫 */   /* AA_364：看菜單（林家牆上的紅紙、定食店吧台上方的木札），0 分鐘 */
       else if(S.AA364[k]){ await S.order364(GM,k); }   /* AA_364：點餐（林家攤車旁、定食店結帳台、騎樓的窗口）；冰菓室 10～4 月的「看」＝鐵捲門那一句 */
     } finally { GM.sceneEnd(); } };
   return S;
