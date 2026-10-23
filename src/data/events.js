@@ -3402,9 +3402,9 @@ const STORY_EVENTS=[
      她的三件事：第三件看 ASKED_TELL_ME（BB_108 第 1 節）*/
   { id:'ev_sis_results_dinner', title:'學姊上榜聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'永康街・咖哩店',bg:'yongkang_curry'},{unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'},
-      {speaker:'heroine_05',expression:'smile',text:'一，謝謝大家。二，這次的題目，是我自己選的。三……'},
+      {speaker:'heroine_05',expression:'smile',text:'謝謝大家。……這次的題目，是我自己選的。'},
       {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'smile',text:'有人叫我考得怎樣都要說。我說了。下次換他。'},
-      {unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'neutral',text:'三，今天我請。不要跟我搶。'} ],
+      {unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'neutral',text:'還有，今天我請。不要跟我搶。'} ],
     consequences:{memo:'學姊上榜的家族聚餐'} },
   /* 沛珊 P4 交接讀書會（BB_97 4-3；大二下第 1 週週三的法服讀書會，只在這一週；classes3d.js 的 clubEvent）：她休學重考前最後一次；交出去的是每週的題目整理（讀書會本身由研究所學長姐帶）。
      「我接。」只給大一去過法服讀書會 5 次以上的玩家＝STUDYGROUP_LEADER；不說話＝柏翰接（不設）。沒去的：那晚 21:30 讀書會群組她的最後一則（story3d.js）*/

@@ -637,15 +637,15 @@ const STORY = (function(){
     const once=(k,L)=>{ if(R[k]) return false; R[k]=G.day; out.lines.push(...L); return true; };
     const frontKey=/^Y2/.test(t.id)?'s1':(t.id==='Y3S1'?'s6':(/^Y4/.test(t.id)?'s9':null));
     if(t.id==='Y3S1') out.sign=S.fafuK(G)%2===1;   /* 隔一次和祐廷同一桌（第 1、3、5 次）＝她簽名 */
-    if(phase==='front'){ if(frontKey==='s1') once('s1',['學弟，今年換你寫。三件事。','一，日期。二，他的原話。三……第三件，你寫完再告訴我。']);
-      else if(frontKey==='s6') once('s6',['今天你跟我一桌。兩件事。','一，寫下來。二，先不要判斷。']);
-      else if(frontKey==='s9'&&once('s9',['一件事。我只是路過。'])) out.noon=true;
+    if(phase==='front'){ if(frontKey==='s1') once('s1',['學弟，今年換你寫紀錄。','日期，還有他的原話。……還有一個，你寫完再告訴我。']);
+      else if(frontKey==='s6') once('s6',['今天你跟我一桌。','先寫下來。不要急著判斷。']);
+      else if(frontKey==='s9'&&once('s9',['我只是路過。'])) out.noon=true;
       return out; }
     if(frontKey&&R[frontKey]===G.day) return out;   /* 排在最前面的那一句說了的那天，民眾之後不再說 */
-    if(/^Y2/.test(t.id)){ if(once('s2',['上次的第三件。','……他最後說的那一句，要寫下來。通常最重要。'])) return out;
+    if(/^Y2/.test(t.id)){ if(once('s2',['上次說的那一個。','……他最後說的那一句，要寫下來。通常最重要。'])) return out;
       if(once('s3',[{n:'（她把你的紀錄拿過去，看了一遍，還給你。）'},'原話寫得很好。……不要替他整理成好聽的話。'])) return out;
       if(o&&o.retell&&once('s4',['你讓他講完才開口。','重點是，你沒有看錶。'])) return out;
-      const m3=S.dayOfKey('2027-03-19'); if(m3!=null&&G.day>=m3) once('s5',['一件事。九月我還在這裡。……換一個身分。']); return out; }
+      const m3=S.dayOfKey('2027-03-19'); if(m3!=null&&G.day>=m3) once('s5',['九月我還在這裡。……換一個身分。']); return out; }
     if(t.id==='Y3S1'){ if(out.sign&&once('s7',['以前都是學長簽。……我還不太習慣。'])) return out; once('s8',['帶橘子的阿伯問我是不是升官了。','……我說，是升學。']); return out; }
     if(/^Y4/.test(t.id)){ if(once('s10',['你的紀錄，學弟拿去當範本了。','……原話都還在。'])) return out; once('s11',['我論文的第三章，是在這張圓桌旁邊想出來的。']); }
     return out; };
@@ -2187,15 +2187,15 @@ const STORY = (function(){
     { const f6=termDay('Y2S1',6,5), D0=(G.events&&G.events.done)||{}; if(f6!=null&&G.day===f6&&!D0.ev_peishan_split&&!D0.ev_peishan_bohan_split&&!F.dating_classmate_peishan&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'ps_split_group')){ F.HEARD_PS_SPLIT=true;
         const g=t=>({th:'g:noodle_team',from:'classmate_peishan',text:t});
         PHONE.at(G,f6,21,[g('說一件事，說完就好。'),g('我和柏翰分開了。是我說的。我們都好。'),g('……大家照常吃飯，不用特別安慰我。'),{th:'g:noodle_team',from:'zhe',text:'……收到。'}],'ps_split_group'); } }
-    /* 學姊 M2 換題目（BB_97 2-5；AA_177 第 8 節②：大二寒假 1/20（三）21:00 家族群組，所有家族成員都看得到，不以 W9 為前置）：讀書計畫的照片＋三件事；
-       祐廷可以回第三件（咖哩那句要有 FAMILY_DINNER）；到隔天 9:00 還沒回＝Kevin「三，考完請吃飯！」她「……好。」 */
+    /* 學姊 M2 換題目（BB_97 2-5；AA_177 第 8 節②：大二寒假 1/20（三）21:00 家族群組，所有家族成員都看得到，不以 W9 為前置）：讀書計畫的照片＋計畫本最後一格空著（AA_398 第 12～14 列：學姊不數件數）；
+       祐廷可以寫一格（咖哩那句要有 FAMILY_DINNER）；到隔天 9:00 還沒回＝Kevin「那我寫：考完請吃飯！」她「……好。」 */
     { const d=S.dayOfKey('2027-01-20'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=(t,o)=>Object.assign({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t},o||{});
         if((G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!PHONE.sent(G,'sis_m2')){ const opts=[];
-          if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')) opts.push({t:'三，考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
-          opts.push({t:'三，考前一天不要熬夜。',say:[W('你在用我的句型管我。'),W('……好。收到。')],set:{SIS_M2:'sleep'}});
-          opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:''}]});
-          PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
-        if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
+          if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')) opts.push({t:'考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
+          opts.push({t:'考前一天不要熬夜。',say:[W('……你在管我。'),W('……好。收到。')],set:{SIS_M2:'sleep'}});
+          opts.push({t:'不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:''}]});
+          PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('這次的題目是我自己選的。法律扶助制度。'),W('Kevin 幫我看第一段，學弟看第二段。'),W('計畫本最後一格還空著。你們想寫什麼，就寫。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
+        if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'那我寫：考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
     /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週四那晚 21:30，公法讀書會群組她的最後一則（題目整理交給柏翰）（BB_191 §8-7：原本週三法服讀書會群組）。
        翰 3 祐廷接的版本（AA_40）：第 2 週週四 21:00 柏翰在全班群組貼一張全班小考的分數分布圖，自己那一格用紅框圈起來，沒有字（AA_118）*/
     /* 交接筆記（BB_205 第 2 節：12/17 22:00；原本在 needed_msgs 的 ps_notes）*/
@@ -2386,7 +2386,7 @@ const STORY = (function(){
         PHONE.at(G,sun,21,[{th:'g:law_class',from:'classmate_peishan',text:'📄 刑總二重點。'+(F.PS_CANCEL==='ok'?'欠的，還了。':'期末加油。'),ask:{opts:[{t:'（貼一個貼圖）',post:'（貼圖）'},{t:'謝謝！'}]}}],'ps_owed'); }
     /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二上（學期中；BB_205 第 4 節：大二下不發）。
        AA_284 1-5：私訊（不在讀書會群組發），只給演過 ev_grad_debate 的；上一篇沒回就不發下一篇（舊存檔沒有編號的當作回過）。三篇輪流；第一次的開頭依 W3_STANCE 換一句（BB_96 2-3 回聲）；
-       玩家的三個反例都打第二點，她的回應依反例、長回覆折起來（fold：手機上點開看全文）；記 ARGUED_GOOD（累計）。三篇都輪過以後：「這篇你讀過了。」玩家選哪一點有問題（第二點＝「對。」，其他＝「再讀一次。」，不扣分）。
+       玩家的三個反例都打畫線那一句（AA_398 第 16 列），她的回應依反例、長回覆折起來（fold：手機上點開看全文）；記 ARGUED_GOOD（累計）。三篇都輪過以後：「這篇你讀過了。」玩家選哪一點有問題（第二點＝「對。」，其他＝「再讀一次。」，不扣分）。
        摘要日／精華日還沒做，時間先定 20:30（「晚上 21:00 前」）*/
     { const dd=G.events&&G.events.last?G.events.last.ev_grad_debate:null;
       if(dd!=null&&G.day>dd){ const k=Math.floor((G.day-dd)/14)-1, d=dd+14*(k+1), tg='w3b_'+k, tm=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null;
@@ -2394,11 +2394,11 @@ const STORY = (function(){
         if(k>=0&&tm&&['Y1S2','Y2S1'].includes(tm.id)&&G.day<=d+1&&!(G.day===d&&h(G)<20.5)&&!PHONE.sent(G,tg)&&!(prev&&prev.ans==null)){
           silentContact('heroine_05');
           const n=n0, A=W3B_ART[n%3], th='p:heroine_05', W=(t,o)=>Object.assign({th,from:'heroine_05',text:t},o||{}), ME=t=>({th,from:'player',text:t}); let items;
-          if(n<3){ const open=n===0&&W3B_OPEN[F.W3_STANCE]?[W(W3B_OPEN[F.W3_STANCE])]:[W('這篇。三個論點。')];   /* BB_161 ⑧：第一次依立場的那一句「取代」開頭（沒有立場＝照舊）*/
-            items=open.concat([W('📄 校刊投書〈'+A.title+'〉'),W('一，'+A.pts[0]),W('二，'+A.pts[1]),
-              W('三，'+A.pts[2],{ask:{id:'w3b_q_'+n,opts:A.cx.map((c,i)=>({t:c[0],post:'第二點有反例。'+c[0],say:[W(W3B_RESP[i]),ME('哪裡。'),W(A.long[0],{fold:A.long}),ME('那我換一個反例。'),W('……你的論點比上週好。')],
+          if(n<3){ const open=n===0&&W3B_OPEN[F.W3_STANCE]?[W(W3B_OPEN[F.W3_STANCE])]:[W('這篇。我畫線的是這一句。')];   /* BB_161 ⑧：第一次依立場的那一句「取代」開頭（沒有立場＝照舊）；AA_398 第 16 列：不列三個論點，只傳畫線那一句 */
+            items=open.concat([W('📄 校刊投書〈'+A.title+'〉'),
+              W('『'+A.pts[1]+'』',{ask:{id:'w3b_q_'+n,opts:A.cx.map((c,i)=>({t:c[0],post:c[0],say:[W(W3B_RESP[i]),ME('哪裡。'),W(A.long[0],{fold:A.long}),ME('那我換一個反例。'),W('……你的論點比上週好。')],
                 mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'〈'+A.title+'〉'}]}))}})]); }
-          else items=[W('📄 校刊投書〈'+A.title+'〉'),W('這篇你讀過了。這次換你先說三個論點。',{ask:{id:'w3b_q_'+n,opts:['第一點','第二點','第三點'].map((t,i)=>({t:t+'有問題。',say:[W(i===1?'對。':'再讀一次。')]}))}})];
+          else items=[W('📄 校刊投書〈'+A.title+'〉'),W('這篇你讀過了。這次你先說，哪一段有問題。',{ask:{id:'w3b_q_'+n,opts:['開頭那段','中間那段','最後那段'].map((t,i)=>({t:t+'有問題。',say:[W(i===1?'對。':'再讀一次。')]}))}})];
           /* 原本第 3、6、9…篇後面讀書會成員的回話（柏翰、沛珊）：改私訊以後拿掉（AA_284 1-5）*/
           items.forEach((m,i)=>{ m.dt=i/60; }); PHONE.at(G,d,20.5,items,tg); F.W3B_N=n+1; } } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
@@ -2502,13 +2502,13 @@ const STORY = (function(){
   const W3B_ART=[
     {title:'總圖應該全面禁止占位',pts:['座位是公共的，占著不用，別人就用不到。','規定要簡單：離開超過三十分鐘就清位，沒有例外。','禁止占位，考試週更多人用得到總圖。'],
      cx:[['有人突然不舒服去保健中心，回來位子就沒了？'],['館員沒有人力每三十分鐘巡一次。'],['三十分鐘，對吃飯的人太短，對午睡的人太長。']],
-     long:['第二點的問題不在三十分鐘，在「沒有例外」。','好的規定要先問：它要保護誰。','這篇要保護的是想用位子的人。','可是離開的那個人，也是想用位子的人，只是剛好不在。','所以要分兩種離開：一下子，和不回來。','分不出來的時候，留一個說明的機會，不要讓巡的人自己猜。','你要反駁，就打「沒有例外」這四個字。']},
+     long:['畫線那一句的問題不在三十分鐘，在「沒有例外」。','好的規定要先問：它要保護誰。','這篇要保護的是想用位子的人。','可是離開的那個人，也是想用位子的人，只是剛好不在。','所以要分兩種離開：一下子，和不回來。','分不出來的時候，留一個說明的機會，不要讓巡的人自己猜。','你要反駁，就打「沒有例外」這四個字。']},
     {title:'期中考應該全部改成開書考',pts:['背得起來不等於會用。','以後工作都能查資料，開書考比較接近真的工作。','開書考不用作弊，也就沒人作弊。'],
      cx:[['急救的時候，沒有時間查。'],['開書考的題目比較難出，老師改得更久。'],['工作也有不能查的時候，像當面跟人談。']],
-     long:['第二點把「真的工作」當成只有一種。','有的時候可以查，有的時候不能查，而且常常是同一份工作。','所以問題不是開書或閉書，是這一科要練哪一種時候。','這篇跳過了一步：先說這一科要練什麼，再選考法。','你的反例，打中的是它跳過的那一步。']},
+     long:['畫線那一句把「真的工作」當成只有一種。','有的時候可以查，有的時候不能查，而且常常是同一份工作。','所以問題不是開書或閉書，是這一科要練哪一種時候。','這篇跳過了一步：先說這一科要練什麼，再選考法。','你的反例，打中的是它跳過的那一步。']},
     {title:'通識課應該取消點名',pts:['大學生是成年人，來不來自己決定。','點名不能證明有學到，所以沒有意義。','老師應該用課吸引人，不是用點名。'],
      cx:[['如果全班都不來呢？'],['分組討論的課，人不在就做不了。'],['點名證明的不是學到，是來了。']],
-     long:['第二點偷換了一個詞。','點名本來就不是在證明「學到」，是在證明「來了」。','所以要問的是：這一門課，「來了」本身有沒有意義？','有討論、有分組的課，來了就有意義；只聽講的課，比較沒有。','這篇可以改成：哪些課該點名，哪些不用。這樣第一點和第三點也站得住。']} ];
+     long:['畫線那一句偷換了一個詞。','點名本來就不是在證明「學到」，是在證明「來了」。','所以要問的是：這一門課，「來了」本身有沒有意義？','有討論、有分組的課，來了就有意義；只聽講的課，比較沒有。','這篇可以改成：哪些課該點名，哪些不用。這樣其他兩段也站得住。']} ];
   const REVISIT_MSG={
     /* AA 的人物（AA 2026-10-14 2100018）。Alison 和阿哲大二上才在一起，這時候還單身，算數 */
     heroine_01:G=>['考完了。民總我暑假想再讀一次。'],   /* AA_209 第 3 節（AA 四位）*/
@@ -2826,7 +2826,7 @@ const STORY = (function(){
   S.roomY3Items=function(G){ const F=G.flags||{}, T=S.ROOM_Y3_TEXT, has=(id,tag)=>typeof SOCIAL!=='undefined'&&SOCIAL.has(id,tag), V=(G.vac&&G.vac.reg)||{}, L=[], it=(id,t)=>L.push([id,t[0],[t[1]]]);
     it('notes_y2',T.notes_y2);
     if((F.FAFU_SHIFT_N|0)>0) it('fafu_form',T.fafu_form);   /* 大二起在法服值過班 */
-    if(['curry','sleep','tell'].includes(F.SIS_M2)) it('sis_plan',T.sis_plan);   /* 大二寒假在家族群組回了「第三件」 */
+    if(['curry','sleep','tell'].includes(F.SIS_M2)) it('sis_plan',T.sis_plan);   /* 大二寒假在家族群組，在她的計畫本寫了一格（AA_398 第 15 列）*/
     if(F.grad_read_done) it('article',T.article);
     if(has('heroine_04','PLAYTESTED')) it('zq_usb',T.zq_usb);
     if(has('zhe','LENT_NOTES_Y2')) it('zhe_notes',T.zhe_notes);

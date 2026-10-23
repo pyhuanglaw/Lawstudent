@@ -53,9 +53,9 @@ GM.money=function(n){ G.money+=n; };
     const q5=EV('ev_ziqing_show').dialogue, a=q5.find(l=>l.text==='欸不是，我手在抖。'), k=q5.findIndex(l=>/她按錯一個和弦/.test(l.text||'')), mic=q5.find(l=>l.text==='（對著麥克風）這個 bug 我下次修。');
     check('⑥ Q5：後台那句 serious；按錯和弦那一拍 embarrassed；對麥克風 laugh',a.expression==='serious'&&q5[k-1].expression==='embarrassed'&&q5[k-1].text===undefined&&mic.expression==='laugh');
     const w3=EV('ev_grad_debate').dialogue.find(l=>l.text==='（你講了十分鐘。她中間打斷你三次。）'); check('⑦ W3「（你講了十分鐘。……）」是旁白',!!w3&&w3.speaker===null); }
-  // ⑧ W3b：沒有立場＝照舊「這篇。三個論點。」
+  // ⑧ W3b：沒有立場＝照舊開頭（AA_398 第 16 列改「這篇。我畫線的是這一句。」）
   { fresh(30,20,'campus',{}); G.stage='law'; const dd=termDay('Y1S2',5,3); G.events.last.ev_grad_debate=dd; PHONE.join(G,'lawclub_study','法服讀書會'); G.day=dd+14; G.hour=20.6; STORY.phoneRules(GM); PHONE.tick(G);
-    const T=(G.msgs||[]).filter(m=>m.tag==='w3b_0').map(m=>m.text); check('⑧ 沒有 W3_STANCE＝第一則照舊「這篇。三個論點。」',T[0]==='這篇。三個論點。',JSON.stringify(T.slice(0,2))); }
+    const T=(G.msgs||[]).filter(m=>m.tag==='w3b_0').map(m=>m.text); check('⑧ 沒有 W3_STANCE＝第一則照舊開頭「這篇。我畫線的是這一句。」',T[0]==='這篇。我畫線的是這一句。',JSON.stringify(T.slice(0,2))); }
   // ⑨ 方奕廷：訊息後面接一句旁白
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('⑨ 方奕廷水耕那則：AA_209 附錄B §2 換成兩則（旁白「（實際講了二十分鐘。）」一起拿掉）',/seq\('npc_fangyt',\['黃金葛可以剪一段下來水耕','週末我拿瓶子過去 隔壁而已'\]\)/.test(src)&&!/text:'（實際講了二十分鐘。）'/.test(src)); }
   // ⑩ 家教「我先想想」：月底前三天才說的玩家，答覆後第 3 天問、名額留 7 天
