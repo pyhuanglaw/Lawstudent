@@ -57,6 +57,7 @@
 - `src/library3d.js`：
   - 備用模型跳過那扇窗、畫一扇門。
   - 互動點「走樓梯下 B1」→ `library_b1`。
+  - 樓梯旁的樓層簡介（畫的字和「看」的字）多一行 B1。
 - `tools/blender/library_interior.py`：開門洞、門、牆裙斷開（重建的 GLB 在我的分支）。
 - `index.html`：載入兩個新檔（在 `library3d.js` 後面）。
 - `src/story3d.js`：兩行，進來（`populate`）、待著（`refreshSchedule`）叫 `LB1.populate`。寫法同霖澤館 3F、4F。
@@ -87,6 +88,59 @@
 - **interact id**：`selfcheck`、`disc1`、`disc2`、`study_door`、`notice`、`copy`、`copier`、`lockers`、`wb1`、`wb2`、`return_slot`、`elevator`。
   - `note` 都是暫定的字（AA 可以改）；`dev` 是給開發組的說明，不顯示。
 - **rooms**：`study24`、`disc1`、`disc2`、`copy`、`lobby` 的範圍。
+
+## 截圖（遊戲內，Playwright＋SwiftShader；不是 iPhone 實機）
+
+### 自習室
+
+![自習室](game_study.jpg)
+
+- 背景的同學是 `LB1.populate` 坐的（路人）。
+- 23:00 和 14:00 一樣亮：地下室沒有日光，環境光固定。
+
+### 討論室、影印中心、借還書、門廳
+
+![房間](game_rooms.jpg)
+
+### 大廳一樓
+
+![大廳](game_hall.jpg)
+
+- 大廳一樓西牆 z −2.4 那扇窗換成門，門上的字「樓梯間　B1 自習室・討論室 ↓」。
+- 樓層簡介多一行「B1　自習室｜討論室｜影印（西側樓梯）」，看的字也多一句。
+
+### Blender 渲染（Cycles，不是遊戲畫面）
+
+![Blender](blender.jpg)
+
+- 前四張是第一版模型。之後只加了門廳的大 B1 牌子、指引、兩台販賣機，補了樓梯間門的縫。
+
+## 效能（同一個鏡頭的 draw call／三角形）
+
+| 鏡頭 | calls | 三角形 | 說明 |
+|---|---|---|---|
+| 討論室 1 | 54 | 2.9 萬 | 只有模型 |
+| 影印中心 | 35 | 2.8 萬 | 只有模型 |
+| 從樓梯間下來（一般鏡頭） | 233 | 40.8 萬 | 多的是自習室六位背景同學（VRM） |
+| 自習室 20:00（一般鏡頭） | 184 | 30.7 萬 | 同上 |
+
+- 模型本身 2.9 萬三角形、16 種材質，GLB 2.5 MB。
+- 人多的時候三角形主要是人物，和霖澤館 3F、4F 一樣。人數上限在 `LB1.want`：晚上八位，考試週加倍。
+
+## 測試
+
+| 測試 | 測試樹 | 結果 |
+|---|---|---|
+| `node tests/library_b1_unit.js`（新） | 開發 `700cb0b7f`＋patch；`f023a83f1`＋patch | ALL PASS |
+| `node tests/nav_buildings_unit.js` | 同上 | ALL PASS |
+| `guide_unit`、`guide_declutter_unit`、`placemap_unit`、`quick_travel_unit`、`zone_dispose_unit`、`zone_prewarm_unit` | `f023a83f1`＋patch | ALL PASS |
+| `tests/reachability_all.py --zones library_hall,library_b1` | `700cb0b7f`＋patch | ALL PASS（93 個互動點、4 個出入口到達點） |
+| `tests/flow_library_floors.py`（真實走路，不用 turbo） | `700cb0b7f`＋patch | ALL PASS（27 項） |
+| 遊戲內截圖 15 張 | 同上 | 沒有 JS 例外 |
+| Blender `navcheck` | — | 0 個問題（42 個座位） |
+
+- `library_b1_unit` 沒有 B1 的時候：第 1 項 FAIL，後面不跑。
+- patch 對 `700cb0b7f`、`f023a83f1` 都 `git apply --check` 過。
 
 ## 還沒決定、要 LAWWW-B 看的
 

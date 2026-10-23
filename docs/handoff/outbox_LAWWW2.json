@@ -2493,20 +2493,21 @@
   {
    "task": "CLOSED-SPACES-1023 第 2 項：總圖 B1（AA_399 第 2 節；LAWWW-B 10-23 選 A）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "97e40795",
+   "sha": "（本 commit）",
    "files": [
-    "tools/blender/env_second/library_b1.py＋textures/gen/library_b1_print.png",
+    "docs/art-rebuild/second_ai/patches/library_b1_1023.patch（對開發 700cb0b7f、f023a83f1 都 apply --check 過）",
     "assets/models/env/second_ai/library_b1.{glb,json,layout.json}",
     "assets/models/env/library_interior.glb（一樓西牆 z −2.4 換成往 B1 的門）",
-    "docs/art-rebuild/second_ai/patches/library_b1_1023_WIP.patch"
+    "tools/blender/env_second/library_b1.py＋textures/gen/library_b1_print.png",
+    "docs/art-rebuild/second_ai/test_shots/library_b1_1023/README.md＋截圖"
    ],
-   "state": "WORK_IN_PROGRESS（CHECKPOINT_SAVED）",
-   "remaining": "瀏覽器測試（flow_library_floors、reachability library_hall／library_b1）、遊戲內截圖、README",
-   "next": "測完交件",
-   "noDirectIntegrate": true,
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "晚上 22:00 以後怎麼進 B1（大廳關門）；電梯不停 B1（這一版）；r2y4b3d.js 國考讀書會的佔位要改到 library_b1；iPhone 沒看過",
+   "next": "LAWWW-B 套 patch、放 GLB；劇情接線照 AA_399 第 2 節（spots／seats／interact 在 LIBRARY_B1_LAYOUT）",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "—",
-   "note": "還沒交付，不要整合；門從 z −3.2 改到 z −2.4（−3.2 撞到西牆那一扇窗）"
+   "ack": "SENT",
+   "note": "門在 z −2.4（提案的 −3.2 撞到西牆的窗）；story3d.js 兩行背景同學可以拿掉"
   }
  ]
 }
