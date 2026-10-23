@@ -2129,6 +2129,37 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 20:07 第三、四組（AA_419 第 4 點美國版、AA_211 第 ② 部分九點）。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "6ccaa812f",
+   "files": [
+    "docs/story_planning/AA_429_多線交往缺字_坦白版五位_可昕E_沛珊E_子晴畢業後.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：五位坦白版（YT_CONFESSED）＋挽回時多的一句、可昕 E 的電話＋30 天後短文社群一則、沛珊 E 重新開始一場、子晴畢業以後的第二次冷靜；說溜嘴接 ev_kexin_two_circles、ev_noodle_23rd",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第五組。"
+  },
+  {
+   "task": "V3-B105",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7525db6a5",
+   "files": [
+    "docs/story_planning/AA_430_BB事件包缺字_B6b講座_B12再聽一次.md",
+    "docs/story_planning/00_文件狀態表.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：B6b 邀約、講座、散場；B12 邀約、演講（以安舉手、玩家四選一 B12_ASK）、散場 A／B／C 三版＋收尾、Alison 版",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:07 第六組；00_文件狀態表 BB_106 改成 SK01～SK14（AA_289 5-5）。"
   }
  ],
  "items": [
