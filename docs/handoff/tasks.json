@@ -5818,7 +5818,7 @@
    "title": "EX_<id>（沒有分手事件）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：照 EVPKG-AA346-APART（AA_346 ev_choice_apart_<id> 七位，企劃線已交）做 5/21 選一個人之後的分開談話，接在 src/r2y4b3d.js:331 ROM.end 前；一般的裂縫→談話→分開（BB_119 第 2 節，2-2 學姊已過時）請 AA 確認是否仍是現行版再做 ｜ EX_<id>＋romance[id].status=ex（v2 已有）；分手事件跟各人路線做",
    "priority": "P2",
    "first": {
@@ -5840,14 +5840,15 @@
      "evidence": "EX_<id>＋romance[id].status='ex' 在 src/romance3d.js:103 ROM.end；實際分開只有兩條路：story3d.js:3162 two_hearts、r2y4b3d.js:331 大四下 5/21 多段感情的選擇（註解：「談話事件 AA_123／BB_119 第 2 節開發分支還沒有：只記分開」）",
      "note": "前任狀態有了，分開的談話事件還沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——EX_<id>_REASON（talk／drift／caught，不覆蓋 cracktalk 的值）；「好好分開的芷若、子晴、沛珊不復合」（BB_119 第 0 節）和 AA_123 1-10「不永久鎖住任何一條戀愛線」、BB_194 衝突，沒做、已請 AA 裁定"
   },
   {
    "id": "V6-S4",
    "title": "收拾的時刻＋一週自動補",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 11:0x UTC】P1 修了一半（c2035d7f）：一週後自動補旁白「（你把那件事放好了。）」＋CLEANUP_DONE（tests/cleanup_unit.js 12 項，舊程式 FAIL）＝分開以後不會再永遠不能交往。還沒做：一週內的三選一（紙箱→主線 10 拆箱看得到、阿哲宿舍頂樓「要吃什麼？我請。……不想講也可以。」三選一、手機筆記三句、BB 五位各自的物件 BB_119 2-1～2-5），等 AA346 子代理合併後和 V6-S5 裂縫談話一起派 ｜ 【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_123 2-3＋BB_119 2-1～2-5 做收拾的時刻（選一個就 ROM.cleanup）；cleanupDue 到了補一句旁白「你把那件事放好了。」並設 CLEANUP_DONE=true（掛 STORY.TICKS）；讀檔時 cleanupDue 已過的直接補；加單元測試 ｜ V6-S1b 之後（每一段關係各自計算）",
    "priority": "P1",
    "first": {
@@ -5870,7 +5871,8 @@
      "note": "現在 1A-02 兩段同時交往攤牌（src/story3d.js:3162 ROM.end）或 2-Y4-54 之後，玩家永遠不能再和任何人交往"
     }
    ],
-   "sha": "c2035d7f"
+   "sha": "c2035d7f",
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——收拾的時刻：分手後第一次空下來「（這一週，你可以把這件事放好。）」；七天內書桌旁「收拾」（還東西、和阿哲說一次話〔頂樓／電話〕、手機筆記、她的物件、算了）；寒暑假在家選單一天問一次；自動補照 AA_182 第 7 天 22:00。沒做：週末在家選單（home3d 沒掛勾）、從手機寫筆記、主線10 紙箱讀 CLEANUP_BOX"
   },
   {
    "id": "V6-S5",
@@ -6023,7 +6025,7 @@
    "title": "AA_123 v6 第 2 節 A3（以安、語彤）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：照 AA_123 4-3、4-3b 補前任分支；新 21 改成友情版 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6045,7 +6047,8 @@
      "evidence": "已有：杜鵑花分開過＝小語拍 src/r2y4b3d.js:67、src/data/events.js:1654；尾聲前任經過一句 src/data/postgrad_lines.js:200；分開後學期末婉拒 src/data/termend_lines.js:282（ENDED）。沒有：AA_123 4-3／4-3b 讀書會「規則沒有改」、麵店團前兩週坐另一頭、新 20 前任版、新 15／16 前任版、「理由我懂。不用解釋。」；新 21 前任現在直接不演（src/postgrad3d.js:226），AA 要的是友情版",
      "note": "尾聲、杜鵑花、學期末有前任版，學期中的事件沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——以安前任版：分手後第一次讀書會「規則沒有改。……你也不用換位子。」、新交往她知道＝「理由我懂。不用解釋。」、新16 機場「……理由欄，我自己寫。」、新20 麵店長桌版；沒做：新8（events.js）、新9（syllabus.js）、新15（story3d.js）、新21、長桌坐遠兩週"
   },
   {
    "id": "V6-A4",
@@ -6114,7 +6117,7 @@
    "title": "AA_123 v6 第 2 節 A6（以安、語彤）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：照 AA_123 5-3、5-3b 補分支 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6136,14 +6139,15 @@
      "evidence": "已有：尾聲前任一句 src/data/postgrad_lines.js:200（「麵店還在。你們有空來吃。」）、學期末婉拒 termend_lines.js:282。沒有：EX_heroine_03 全專案 0 處引用，AA_123 5-3／5-3b（事件 9、10、12、13、14、15 的前任版、16b 群組版、17 友情版）都沒接；src/postgrad3d.js:228 前任直接跳過事件 17",
      "note": "只有尾聲和學期末有前任版"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——語彤：祐廷之後和以安交往、她知道＝「嗯。……她會讓你說理由的。」；沒做 5-3b 的 9/10/12～15、16b、事件17 朋友版"
   },
   {
    "id": "V6-A7",
    "title": "AA_123 v6 第 2 節 A7（以安、語彤）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_123 第 6 節做開始交往／分開／同圈換人的反應（只在確實知道時，knowsRel） ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6165,7 +6169,8 @@
      "evidence": "全專案找不到 AA_123 第 6 節的台詞（「請客。」「我早就知道了。」「不要在讀書會放閃。」「要吃什麼？我請。……不想講也可以。」「這兩堂的筆記。」「大家都是大人了。」）",
      "note": "AA 台詞已寫好，只差實作"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——麵店團：開始交往＝下一次麵店長桌（知道的人說）、同一個圈子阿哲那句、分手＝柏翰下一個上課日 12:10 傳筆記；沒做：Alison 貼圖（沒指定）、芯慈留位子（沒台詞）"
   },
   {
    "id": "V6-A8",
@@ -6348,7 +6353,7 @@
    "title": "BB_119 v6 第 3 節 B6",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：照 BB_119 第 4 節在 BB 人物事件補前任分支 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6370,7 +6375,8 @@
      "evidence": "已有：尾聲前任經過一句七位都有 src/data/postgrad_lines.js:199-202；學期末分開後婉拒 src/data/termend_lines.js:282；偶遇前任台詞 src/encounter3d.js:49、87；學姊 2028 生日前任版 src/y34b3d.js:150；不重新自我介紹靠 FIRST_MET。沒有：BB 人物各事件的前任分支（EX_heroine_02／04／05／classmate_peishan 全專案 0 處）",
      "note": "尾聲有，學期中沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——分手後第一次說話：子晴、芷若（Café）、學姊（法學院一帶；JOB_RA 版遊戲沒有這個旗標）；沒做：沛珊（台南，hometown3d）、可昕「假設今天…」和 AA_295 衝突、訊息與邀約變少、芷若明信片改寄 Café、學姊辭研究助理"
   },
   {
    "id": "V6-B7",
