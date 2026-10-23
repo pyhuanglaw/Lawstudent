@@ -227,12 +227,13 @@ async def go_home(pg, cdp, run):
 BEDLIKE = ('睡', '快轉', '再撐', '在家休息')
 async def bed_menu(pg, cdp, run, pref=None):
     """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z,it.radius||1.8]:null; })()")
     for _ in range(2):   # 這一區沒有床＝先回去（最多兩段：校園 → 社區 → 公寓）
         if bed: break
         if not await go_home(pg, cdp, run): break
         bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
-    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
+    near = min(0.8, (bed[2] if bed and len(bed) > 2 else 1.8) * 0.7) if bed else 0.8   # BB-B 18:2x：日本宿舍的床半徑 0.6 m，停在 0.8 m 互動鈕不會出來
+    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], near, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
     # BB-B 10-23 16:4x：畫面上已經有別的選項或對話（「出發：七夕」剛跳出來、床邊的包裹「拆／先不拆」）＝先演完再按床——原本照樣按互動鈕的位置，
     #   劇情中互動鈕不收觸控，手指落到疊在那裡的選項（QX27_LAST 按到「晚一點」、錯過七夕）；QX26_GO 按完床是一段對話、床的選單是空的就中斷
     taps = 0
@@ -247,7 +248,14 @@ async def bed_menu(pg, cdp, run, pref=None):
         await close_phone(pg); await pg.wait_for_timeout(600)
         s = await L.state(pg)
         if s['choices'] or s['dlg']: continue
+        for _ in range(25):   # BB-B 18:1x：互動鈕要等下一格才出來（負載 25 時 3 秒以上；B7_MSGS 日本宿舍按了四次都是空的）
+            if (await L.state(pg))['interact']: break
+            await pg.wait_for_timeout(800)
         await L.tap(pg, cdp, '#interact'); taps += 1; await pg.wait_for_timeout(1500)
+        for _ in range(40):   # BB-B 18:2x：日本宿舍的「睡覺」先切到據點（jp_hub），選單要再過幾格才出來（每秒不到 1 格時 15 秒都還沒有）＝按了以後等到選單或對話出現（最多約 60 秒）再看
+            s_ = await L.state(pg)
+            if s_['choices'] or s_['dlg']: break
+            await pg.wait_for_timeout(1500)
     cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
     sn = await pg.evaluate(SNAP); say('   床的選單 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(x[:22] for x in cs))); return cs
 async def tap_start(pg, cdp, start):
