@@ -27063,7 +27063,8 @@
    "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
    "authorized": "使用者選擇題（UA-AA-1020-33 confirmed）",
    "next": "照 AA_334 第 1 節；和 AA245-PSBH（沛珊×柏翰沒在一起的版本）一起看；不在三個優先項目裡，照佇列排",
-   "notes": "2026-10-23 21:1x LAWWW-B：子代理盤點：AA_409（6df37bd63，PS-DATE-EARLY-1023）已經做完 PS_BH 擋晚餐與第 4 週兩場、ps_split_group 只給沒交往的、partner 的 unlessFlag；aa245_psbh PASS。沒有要再寫的"
+   "notes": "2026-10-23 21:1x LAWWW-B：子代理盤點：AA_409（6df37bd63，PS-DATE-EARLY-1023）已經做完 PS_BH 擋晚餐與第 4 週兩場、ps_split_group 只給沒交往的、partner 的 unlessFlag；aa245_psbh PASS。沒有要再寫的",
+   "evidence": "子代理盤點 2026-10-23 21:1x：AA_409（6df37bd63，PS-DATE-EARLY-1023）已有 PS_BH 擋晚餐與第 4 週兩場、ps_split_group 只給沒交往的、partner 的 unlessFlag；tests/aa245_psbh_unit.js PASS（乾淨 worktree 78f64ffac 前）"
   },
   {
    "id": "AA334-S4-ZR-1021",
@@ -27085,7 +27086,10 @@
    "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
    "authorized": "使用者選擇題（UA-AA-1020-35 confirmed）",
    "next": "照 AA_334 第 4 節；第 3 節 Z13 拒絕後照現在、不改；不在三個優先項目裡，照佇列排",
-   "notes": "2026-10-23 21:1x LAWWW-B：被 AA_387（BB119-Y4-1017，zr_last3d.js、zrzq3d.js）取代：F3 拒絕 ZR_F3_NO、「我先收著」＝ZR_LAST keep、2029-09-01 ev_zhiruo_ticket_again；AA_334 杯子那句對應的 2-Y4-47「延後的回答」沒有做、由車票那場取代（已請 AA 確認要不要另外做杯子那場）"
+   "notes": "2026-10-23 21:1x LAWWW-B：被 AA_387（BB119-Y4-1017，zr_last3d.js、zrzq3d.js）取代：F3 拒絕 ZR_F3_NO、「我先收著」＝ZR_LAST keep、2029-09-01 ev_zhiruo_ticket_again；AA_334 杯子那句對應的 2-Y4-47「延後的回答」沒有做、由車票那場取代（已請 AA 確認要不要另外做杯子那場）",
+   "reason": "被 AA_387（BB119-Y4-1017，zr_last3d.js、zrzq3d.js）取代：F3 拒絕、「我先收著」、2029-09-01 車票那場都已做；AA_334 杯子那句對應的 2-Y4-47 沒做過、由車票那場取代",
+   "replacedBy": "BB119-Y4-1017",
+   "authorizedBy": "LAWWW-B（D111 遊戲總監；已請 AA 確認要不要另做杯子那場，要就重開）"
   },
   {
    "id": "AA366-KX-POSTGRAD-1021",
@@ -30839,7 +30843,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": "2026-10-23 20:4x LAWWW-B：BB-B 第四版 patch（BB 分支 89ed11a99）整合進 tests/flow_main_day12.py、TESTING.md 第〇節加「沙盒太慢時劇情照設計接手」、第七節加一列。結果 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手）；發布照第〇節寫「未驗（劇情接手）」。附帶觀察（12:30 以後空下來 1.5 秒就帶走、可能比 13:20 早）：維持現行設計（AA_294 ①「時間到了直接帶去」；BB 沒實際抓到提早，發布前不動第二天開場）。"
+   "notes": "2026-10-23 20:4x LAWWW-B：BB-B 第四版 patch（BB 分支 89ed11a99）整合進 tests/flow_main_day12.py、TESTING.md 第〇節加「沙盒太慢時劇情照設計接手」、第七節加一列。結果 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手）；發布照第〇節寫「未驗（劇情接手）」。附帶觀察（12:30 以後空下來 1.5 秒就帶走、可能比 13:20 早）：維持現行設計（AA_294 ①「時間到了直接帶去」；BB 沒實際抓到提早，發布前不動第二天開場）。",
+   "evidence": "BB-B 第四版（BB 分支 89ed11a99；lw18 bac2e55df 非 turbo 負載 29，20:10 跑完）：flow_main_day12 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手 13:16）；整合 7480c24b2"
   },
   {
    "first": {
