@@ -589,6 +589,9 @@ const R2Y4A_EVENTS=(function(){
       IF(PV('lover'),nar('（很久，她才放開。）')),
       {scene:'車上',bg:'car_night'},
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
+      {unless:{custom:G=>!!G.flags.SIS_MAPLE&&G.flags.SIS_MAPLE_MSG==='got'},goto:'mp_e'},   /* AA_395 2-2：有書籤、傳過「書籤收到了。」的才有下面這一段 */
+      sis('書籤，你有用嗎。'),{choice:[{text:'「有。」',goto:'mp_e'},{text:'「捨不得用。」',goto:'mp_b'}]},
+      {label:'mp_b'},sis('……用啊。不然寄它幹嘛。'),{label:'mp_e'},
       IF(G=>has(S5,'DROVE_HER'),sis('這次我一直講。你可以轉頭。')),UN(G=>has(S5,'DROVE_HER'),sis('我一直講。你可以轉頭。')),
       sis('……不行，看前面。'),
       sis('美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。'),

@@ -572,6 +572,7 @@ const Y34B=(function(){
   /* 1B-18 */
   const fam2=G=>G.flags.SIS_RIDE==='two', famV=G=>G.flags.SIS_RIDE!=='two';
   const AIRPORT=[ {scene:'車上',bg:'car_morning'},   /* AA_323 1B-18 素材表：2D car_morning */
+    {if:C(G=>dating(G,'heroine_05')&&!!G.flags.SIS_Y3S2_RAIN),speaker:'heroine_05',text:'傘帶了。'},   /* AA_395 1-1：撐過傘的交往中，接在當面那一場的第一句前 */
     {speaker:null,text:'（她有一點發燒，吃了藥，不嚴重，戴著口罩。上車以後幾乎不說話，只看前面的路。）'},
     {if:C(famV),speaker:null,text:'（Kevin 一路講話，學妹睡著。）'},{if:C(famV),speaker:'heroine_05',text:'Kevin，看前面的是司機，不是你。'},
     {if:C(fam2),speaker:null,text:'（她一路看著前面的路。）'},
@@ -607,6 +608,7 @@ const Y34B=(function(){
   /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
   const AIRPORT_WAIT=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {speaker:null,text:'（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）'},
+    {if:C(G=>dating(G,'heroine_05')&&!!G.flags.SIS_Y3S2_RAIN),speaker:'heroine_05',text:'傘帶了。'},   /* AA_395 1-1（她的第一句前）*/
     {if:C(G=>G.flags.HOOK_SIS_SENDOFF!=null),speaker:'heroine_05',text:'……你說你會來。'},
     {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
     {speaker:'heroine_05',text:'回程喝。'},
