@@ -392,6 +392,27 @@ img_quad('SET_CEREMONY_banner', M['banner'], [(-8.0, 7.7, z0 + 0.01), (8.0, 7.7,
 for m_ in (cw, cy_, cg): m_.finish(cer, uv=False, smooth=True)
 cwood.finish(cer, uv=True); Mesh_cloth.finish(cer, uv=False); cpot.finish(cer, uv=False, smooth=True)
 n_cer = chairs(cer, S['ceremony']['chairs'], 'SET_CEREMONY')
+# 學院分區的牌子（SET-CEREMONY-1023，AA_399 第 4 節；LAWWW2-B 10-23）：每一區最後一排後面一支、雙面（南面給從入口進來找位子的人看，北面給前一區回頭看）。
+#   名字照 gym_layout.js 的 sets.ceremony.sections；字畫成 arena_sections.png（文泉驛正黑點陣圖，GLB 裡沒有字型）
+SECS = S['ceremony'].get('sections', [])
+if SECS:
+    from PIL import Image as _Im, ImageDraw as _Dr, ImageFont as _Ft
+    _F = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'; NCOL, CWp, CHp = 4, 256, 128; NROW = (len(SECS) + NCOL - 1) // NCOL
+    im = _Im.new('RGB', (NCOL * CWp, 4 * CHp), (36, 48, 58)); dr = _Dr.Draw(im)
+    for i, sec in enumerate(SECS):
+        x0, y0 = (i % NCOL) * CWp, (i // NCOL) * CHp; t = sec['name']; fs = min(62, int(224 / max(1, len(t))))
+        dr.rectangle([x0 + 5, y0 + 5, x0 + CWp - 6, y0 + CHp - 6], outline=(200, 170, 90) if sec.get('law') else (150, 160, 170), width=3)
+        f = _Ft.truetype(_F, fs); w = dr.textlength(t, font=f); dr.text((x0 + (CWp - w) / 2, y0 + (CHp - fs) / 2 - 4), t, font=f, fill=(246, 244, 236))
+    im.save(os.path.join(GEN, 'arena_sections.png'))
+    msec = img_mat(P + 'sections', 'arena_sections.png', rough=0.6)
+    post = Mesh('SET_CEREMONY_signposts', M['steel_dk']); quads = []
+    for i, sec in enumerate(SECS):
+        cx, zs = (sec['x0'] + sec['x1']) / 2, sec['z1'] + 0.5; u0, u1 = (i % NCOL) * CWp / im.width, (i % NCOL + 1) * CWp / im.width; v1 = 1 - (i // NCOL) * CHp / im.height; v0 = v1 - CHp / im.height
+        post.cyl((cx, 0.0, zs), (cx, 1.86, zs), 0.022, seg=8); post.cyl((cx, 0.0, zs), (cx, 0.02, zs), 0.16, seg=12)
+        post.box(cx - 0.52, cx + 0.52, 1.84, 2.38, zs - 0.012, zs + 0.012)                     # 牌子的框（兩面的字貼在框外 1 mm）
+        quads.append(([(cx - 0.5, 1.86, zs + 0.013), (cx + 0.5, 1.86, zs + 0.013), (cx + 0.5, 2.36, zs + 0.013), (cx - 0.5, 2.36, zs + 0.013)], (u0, v0, u1, v1)))   # 朝南（+z）
+        quads.append(([(cx + 0.5, 1.86, zs - 0.013), (cx - 0.5, 1.86, zs - 0.013), (cx - 0.5, 2.36, zs - 0.013), (cx + 0.5, 2.36, zs - 0.013)], (u0, v0, u1, v1)))   # 朝北（−z）
+    post.finish(cer, uv=False); uv_strip('SET_CEREMONY_signs', msec, quads, cer)
 for ob in list(cer.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 
