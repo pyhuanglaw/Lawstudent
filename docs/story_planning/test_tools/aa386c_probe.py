@@ -352,7 +352,7 @@ def her_names(log, name):
 ADV = {
     'ADV_GRAD': dict(days=['2026-04-06', '2026-04-07', '2026-04-08'], lv='FAMILIAR', dating=False, flags={}, picks=['那學姊後悔嗎'],
                      exp=['學姊是什麼時候開始準備研究所的？', '大三。', '……現在想起來，太早了。大三那一年，我的計畫本上沒有一格是空的。', '重點是，先把大學念完。研究所會等你。', '不後悔。', '……可是如果重來，我會留幾格空的。'],
-                     absent=['以前這一格，我會寫三件事。'], mem='SIS_ADV_GRAD', desc='大一下第 7 週 4/6（一）起、熟悉'),
+                     absent=['以前這一格，我會寫三件事。', '以前這一格，我會排滿。'], mem='SIS_ADV_GRAD', desc='大一下第 7 週 4/6（一）起、熟悉'),
     'ADV_EXCH_A': dict(days=['2026-12-01', '2026-12-02', '2026-12-03'], lv='FAMILIAR', dating=False, flags={}, picks=['好像也不會怎樣'],
                        exp=['（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）', '學姊大學有去交換嗎？', '沒有。我算過，會晚半年。', '晚半年畢業，晚半年考研究所。後面每一件事，都晚半年。', '……現在想想，晚半年會怎樣？', '（她問完，自己也沒有回答。）', '嗯。', '……我那時候覺得，會怎樣。', '傳單收好。大三上就要填志願了。'],
                        flag=('SIS_ADV_EXCH', 'same'), mem='SIS_ADV_EXCH', desc='大二上第 13 週 12/1（二）起、熟悉、選「好像也不會怎樣。」'),
@@ -360,19 +360,19 @@ ADV = {
                        exp=['（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）', '學姊大學有去交換嗎？', '沒有。我算過，會晚半年。', '晚半年畢業，晚半年考研究所。後面每一件事，都晚半年。', '……現在想想，晚半年會怎樣？', '（她問完，自己也沒有回答。）', '研究生也可以申請。……我查過。', '只是查過。', '傳單收好。大三上就要填志願了。'],
                        flag=('SIS_ADV_EXCH', 'go'), mem='SIS_ADV_EXCH', desc='同上、選「學姊現在還可以去啊。」'),
     'ADV_PICK': dict(days=['2027-11-15', '2027-11-16', '2027-11-17'], lv='FAMILIAR', dating=False, flags={}, picks=['學姊自己呢'],
-                     exp=['志願表，寫了嗎？', '還沒。禮拜四中午截止。', '三件事。', '一，選你想學的。', '二，選你以後會想念的。', '三，選了就不要回頭看。', '第一件做到了。第二件……要去了才知道。', '第三件，我還在練。'],
-                     mem='SIS_ADV_PICK', desc='大三上 11/15（一）起、熟悉（路線 11/18 才定）'),
+                     exp=['志願表，寫了嗎？', '還沒。禮拜四中午截止。', '選你想學的地方。', '……選了，就不要一直回頭看。', '前面那句做到了。', '後面那句，我還在練。'],
+                     absent=['三件事。', '一，選你想學的。', '第三件，我還在練。'], mem='SIS_ADV_PICK', desc='大三上 11/15（一）起、熟悉（路線 11/18 才定）'),
     'ADV_PICK_DATE': dict(days=['2027-11-15', '2027-11-16', '2027-11-17'], lv='FRIEND', dating=True, flags={}, picks=['本來要畫幾架'],
                           exp=['志願表，寫了嗎？', '（你把手機上的志願表給她看。第一志願，是她要去的那間學校。）', '……嗯。', '那計畫本上，飛機畫一架就好。', '兩架。你的，我的。', '……我畫飛機很醜。一架就夠了。'],
-                          absent=['三，選了就不要回頭看。', '還沒。禮拜四中午截止。'], mem='SIS_ADV_PICK', names=True, desc='同上、交往中'),
+                          absent=['……選了，就不要一直回頭看。', '還沒。禮拜四中午截止。', '三件事呢？'], mem='SIS_ADV_PICK', names=True, desc='同上、交往中'),
     'ADV_Y4_TW': dict(days=['2028-05-02', '2028-05-03', '2028-05-04'], lv='FAMILIAR', dating=False, flags={'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}, picks=['還在想'],
-                      exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '一，排之前先睡飽。', '二，排好的東西，一個禮拜看一次就好，不要每天看。', '……三，不要讓別人替你寫。', '（她說第三件的時候，看的是自己的計畫本。）'],
+                      exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '排之前先睡飽。排好的，一個禮拜看一次就好。', '……不要讓別人替你寫。', '（她說這句的時候，看的是自己的計畫本。）'],
                       absent=['到了那邊，拿給我看。', '八月以後，拍照傳給我。我在那邊也看得到。'], mem='SIS_ADV_Y4', jp=True, desc='大三下第 11 週 5/2（二）起、熟悉、臺灣路線'),
     'ADV_Y4_US_DATE': dict(days=['2028-05-02', '2028-05-03', '2028-05-04'], lv='FRIEND', dating=True, flags={'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1}, picks=['大概知道'],
-                           exp=['你大四要做什麼，想了嗎？', '嗯。不用跟我說。先跟自己說。', '你的大四，你自己排。我只幫你看。', '一，排之前先睡飽。', '二，排好的東西，一個禮拜看一次就好，不要每天看。', '……三，不要讓別人替你寫。', '（她說第三件的時候，看的是自己的計畫本。）', '到了那邊，拿給我看。'],
+                           exp=['你大四要做什麼，想了嗎？', '嗯。不用跟我說。先跟自己說。', '你的大四，你自己排。我只幫你看。', '排之前先睡飽。排好的，一個禮拜看一次就好。', '……不要讓別人替你寫。', '（她說這句的時候，看的是自己的計畫本。）', '到了那邊，拿給我看。'],
                            absent=['八月以後，拍照傳給我。我在那邊也看得到。'], mem='SIS_ADV_Y4', names=True, desc='同上、交往中、美國路線'),
     'ADV_Y4_TW_DATE': dict(days=['2028-05-02', '2028-05-03', '2028-05-04'], lv='FRIEND', dating=True, flags={'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}, picks=['還在想'],
-                           exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '……三，不要讓別人替你寫。', '（她說第三件的時候，看的是自己的計畫本。）', '八月以後，拍照傳給我。我在那邊也看得到。'],
+                           exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '……不要讓別人替你寫。', '（她說這句的時候，看的是自己的計畫本。）', '八月以後，拍照傳給我。我在那邊也看得到。'],
                            absent=['到了那邊，拿給我看。'], mem='SIS_ADV_Y4', names=True, desc='同上、交往中、臺灣路線'),
 }
 FOUR_FIRST = ['學姊是什麼時候開始準備研究所的？', '（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）', '志願表，寫了嗎？', '你大四要做什麼，想了嗎？']
@@ -612,8 +612,8 @@ async def s_v4(p, run, base, sid, out):
 
 
 # ---------------------------------------------------------------- 第 4 節 4-1：分開以後的三件事
-REB_GEN = ['三件事。', '一，有事先跟我說。不要讓我自己猜。', '二，我要時間。不是一週，是我說好的那天。', '三，……三我還沒想好。想好了告訴你。', '……不要說得那麼好聽。等就是了。']
-REB_CAUGHT = ['三件事。', '一，我不要再從別人那裡聽到你的事。', '二，我要時間。不是一週，是我說好的那天。', '三，……三我還沒想好。想好了告訴你。', '嗯。']
+REB_GEN = ['有事先跟我說。不要讓我自己猜。', '還有，我要時間。不是一週，是我說好的那天。', '……其他的，我還沒想好。想好了告訴你。', '……不要說得那麼好聽。等就是了。']   # BB-B 10-23：AA_398 第 45、46 列（學姊不數件數）
+REB_CAUGHT = ['我不要再從別人那裡聽到你的事。', '還有，我要時間。不是一週，是我說好的那天。', '……其他的，我還沒想好。想好了告訴你。', '嗯。']
 EXREC = """(([st,startKey,endKey])=>{ const G=GAME.G, F=G.flags; F.romance=F.romance||{}; F.romance.heroine_05={status:st, history:[{ev:'start',day:STORY.dayOfKey(startKey)},{ev:'end',day:STORY.dayOfKey(endKey)}]}; F.dating_heroine_05=false;
   return {rec:F.romance.heroine_05, brokeUp:SISB4.brokeUp(G), breakDay:SISB4.breakDay(G), due:SISB4.rebuildDue(G), partners:ROM.partners?ROM.partners(G):null}; })"""
 HINT = "(()=>{ try{ return {hint:DATE.hint(GAME.G,'heroine_05'), rebuild:SISB4.rebuild(GAME.G)}; }catch(e){ return {err:String(e)}; } })()"
@@ -629,18 +629,19 @@ async def s_reb(p, run, base, sid, out):
         pre = await pg.evaluate(EXREC + "(%s)" % json.dumps([C[0], '2027-03-01', C[1]])); res['pre'] = pre
         run.setup('[前置] %s：讀檔後設學姊的交往紀錄 %s → %s' % (sid, C[0], json.dumps(pre, ensure_ascii=False)))
         await drive(pg, cdp, run, max_s=30, label=sid)
-        picks = ['第三件，我等妳'] if C[2] == 'OK' else ['好。']
+        picks = ['我等妳'] if C[2] == 'OK' else ['好。']
         log, wt, z = await find_her(pg, cdp, run, sid, picks); fl = await pg.evaluate(SB4F); T = texts(log or [], name); res.update({'at': at, 'where': wt, 'log': log, 'flags': fl})
         run.check('%s：在她讀書的地方找到她、說話（%s）' % (sid, wt), log is not None, '')
         if C[2] == 'EARLY':
-            run.check('%s：分開才 4 週：找她說話不演「三件事」' % sid, log is not None and '三件事。' not in T and fl.get('SIS_REBUILD') is None, json.dumps(T[:12], ensure_ascii=False)[:400])
+            run.check('%s：分開才 4 週：找她說話不演 4-1（她要的時間）' % sid, log is not None and '還有，我要時間。不是一週，是我說好的那天。' not in T and '三件事。' not in T and fl.get('SIS_REBUILD') is None, json.dumps(T[:12], ensure_ascii=False)[:400])
         else:
-            lines_check(run, sid, log or [], name, REB_GEN if C[2] == 'OK' else REB_CAUGHT, absent=(['一，有事先跟我說。不要讓我自己猜。'] if C[2] == 'CAUGHT' else ['一，我不要再從別人那裡聽到你的事。']))
-            run.check('%s：記 SIS_REBUILD（那天）、人物頁記憶「她的三件事」' % sid, fl.get('SIS_REBUILD') is not None and 'SIS_REBUILD' in fl.get('mem', []), json.dumps(fl, ensure_ascii=False)[:300])
+            lines_check(run, sid, log or [], name, REB_GEN if C[2] == 'OK' else REB_CAUGHT, absent=(['有事先跟我說。不要讓我自己猜。'] if C[2] == 'CAUGHT' else ['我不要再從別人那裡聽到你的事。']) + ['三件事。', '第三件，我等妳。'])
+            run.check('%s：記 SIS_REBUILD（那天）、人物頁記憶 SIS_REBUILD' % sid, fl.get('SIS_REBUILD') is not None and 'SIS_REBUILD' in fl.get('mem', []), json.dumps(fl, ensure_ascii=False)[:300])
+            lab = await pg.evaluate("SOCIAL.MEMORY_LABEL.SIS_REBUILD"); run.check('%s：記憶名稱＝「她說：等她說好的那天」（AA_398 第 48 列）' % sid, lab == '她說：等她說好的那天', json.dumps(lab, ensure_ascii=False))
             hn = await pg.evaluate(HINT); res['hint'] = hn
             run.check('%s【讀資料】人物頁的進度提示＝「她在等她說好的那一天」' % sid, hn.get('hint') == '她在等她說好的那一天', json.dumps(hn, ensure_ascii=False))
             log2, wt2, z2 = await find_her(pg, cdp, run, sid + '_again', [], tries=()); T2 = texts(log2 or [], name)
-            run.check('%s：再找她說話不再演（這一次分開只演一次）' % sid, log2 is not None and '三件事。' not in T2, json.dumps(T2[:8], ensure_ascii=False)[:300])
+            run.check('%s：再找她說話不再演（這一次分開只演一次）' % sid, log2 is not None and '還有，我要時間。不是一週，是我說好的那天。' not in T2 and '三件事。' not in T2, json.dumps(T2[:8], ensure_ascii=False)[:300])
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
     await close(b)
@@ -793,7 +794,7 @@ async def s_c33(p, run, base, sid, out):
 
 
 # ---------------------------------------------------------------- 4-2：演過三件事以後兩次正式校外約會、第二次結尾告白＝答應（答應的兩句換成 BB_122 9-2）
-REB_YES = ['三件事。一，你做到了。', '二，我也想好了。三，……這次，我選你。']
+REB_YES = ['你做到了。', '……我也想好了。', '這次，我選你。']   # BB-B 10-23：AA_398 第 47 列
 YES_FIRST = '其實我也是。考試那時候就有一點了，只是那時候不想想這個。'
 S6SET = """(([endKey])=>{ const G=GAME.G, F=G.flags, R=SOCIAL.rel('heroine_05'); Object.assign(R,{fam:60,trust:45,comf:40,npcRom:55,rom:30});
   F.romance=F.romance||{}; F.romance.heroine_05={status:'ex', history:[{ev:'start',day:STORY.dayOfKey('2027-03-01')},{ev:'end',day:STORY.dayOfKey(endKey)}]}; F.dating_heroine_05=false;
@@ -907,7 +908,7 @@ async def s_reb_dates(p, run, base, sid, out):
         await drive(pg, cdp, run, max_s=30, label=sid)
         if not no41:
             log, wt, z = await find_her(pg, cdp, run, sid, ['好。']); T = texts(log or [], name); res['talk'] = log
-            run.check('%s：找她說話＝4-1「三件事。」（%s）' % (sid, wt), '三件事。' in T, json.dumps(T[:8], ensure_ascii=False)[:300])
+            run.check('%s：找她說話＝4-1「還有，我要時間。」（%s）' % (sid, wt), '還有，我要時間。不是一週，是我說好的那天。' in T and '三件事。' not in T, json.dumps(T[:8], ensure_ascii=False)[:300])
             rb0 = await pg.evaluate(RBJ); res['rb0'] = rb0
             run.check('%s：演過 4-1＝還不能告白（rebuild done、dates 0）' % sid, (rb0.get('rebuild') or {}).get('done') and not (rb0.get('can') or {}).get('ok'), json.dumps(rb0, ensure_ascii=False)[:300])
             if (await pg.evaluate("GAME.G.zone")) != 'dorm': await quick_go(pg, cdp, 'dorm')

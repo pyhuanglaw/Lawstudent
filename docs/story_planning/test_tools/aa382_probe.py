@@ -543,7 +543,7 @@ async def s_epi_zr(p, run, sid, out):
     try:
         res['pre'] = r; rec = {}
         zz0 = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {fy:(F.ZZ||{}).fy||null, ZR_FY:F.ZR_FY===undefined?null:F.ZR_FY}; })()")
-        stop = [FY_ZR[0], FY_2030, '山上沒有訊號。所以我每次下山，都會一次收到很多訊息。']
+        stop = [FY_ZR[1], FY_2030, '山上沒有訊號。所以我每次下山，都會一次收到很多訊息。']   # BB-B 10-23：原本停在 FY_ZR[0]＝第二句還沒說就停了（9f9e13cc 第一次跑 FAIL 的原因）
         ok = await drive(pg, cdp, run, sid, "!!GAME.G.flags.EPILOGUE_DONE||(window.__LOG||[]).some(x=>%s.includes(x.t))" % json.dumps(stop), 900, {'picks': [], 'stuck': 420}, rec)
         await pg.wait_for_timeout(2000)
         log = await pg.evaluate("window.__LOG||[]"); T = lines(log); res.update({'rec': rec, 'log': log[-40:], 'end': await pg.evaluate(STATE)})

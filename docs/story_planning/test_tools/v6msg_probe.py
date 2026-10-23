@@ -44,11 +44,13 @@ NPC = """(ids=>{ const n=(GAME.E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id
 LAB = "(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()"
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}
-JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': {'$day': '2028-02-20'}, 'JP_DEPARTED': {'$day': '2028-03-25'}, 'JP_RETURNED': {'$day': '2028-08-05'}, 'AN_SENDOFF': 'together'}
+# BB-B 10-23（LAWWW-B 09:10 查出）：原本預先設了 JP_RETURNED／US_RETURNED＝遊戲當成「已經回臺灣」，時差換算整段沒跑。
+#   遊戲只在真的回國那一刻才記（jp3d.js:373、exchange3d.js returnHome）；人在國外＝出發了、還沒有 JP_RETURNED／US_RETURNED（jp3d.js:56、us_life3d.js:48）
+JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': {'$day': '2028-02-20'}, 'JP_DEPARTED': {'$day': '2028-03-25'}, 'JP_RETURNED': None, 'AN_SENDOFF': 'together'}
 # 2026-10-22 08:3x（候選 364dabe0 第一輪 17 個 FAIL 全是前置不足）：使用者存檔停在 9/3（主線第一天），沒有 afternoonDone——以安（LEGACY_IDS）要 afternoonDone 才照作息出現；
 # 也沒有 Y4_PATH——日本路線讀檔後先演「大四要怎麼過？」（8/5 返台那晚，在家），腳本在它演到一半時開手機，走不進 Café。大四的情境一律補上「早就過了的主線」：
 BASEF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'Y4_PATH': 'bar'}
-USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': {'$day': '2028-08-02'}, 'US_RETURNED': {'$day': '2028-12-23'}}
+USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': {'$day': '2028-08-02'}, 'US_RETURNED': None}
 
 
 async def opts(pg):
@@ -346,6 +348,16 @@ def her(got):
     return [m['t'] for m in got]
 
 
+def reply_of(R):
+    """BB-B 10-23：她「回這一則」的那幾句＝傳的時候排進 MSG 佇列的回覆（send.q，tag 空的第一筆），而且真的收到了。
+    原本把傳出去以後她傳的每一則都當回覆：MX_TW2340 先收到交往週年的預告（「下禮拜二。第四年。……」），被當成回覆。"""
+    got = R['got']; T = her(got)
+    q = [x for x in (R['send'].get('q') or []) if not x.get('tag') and x.get('texts')]
+    if q and all(w in T for w in q[0]['texts']):
+        m = next(m for m in got if m['t'] == q[0]['texts'][0]); return q[0]['texts'], m.get('d'), m.get('h')
+    return T, (got[0]['d'] if got else None), (got[0]['h'] if got else None)
+
+
 async def one_send(pg, cdp, run, res, sid, pid, max_s=240):
     s = await send_chat(pg, cdp, run, pid, sid)
     ok, got, how = await wait_reply(pg, cdp, run, pid, s['n0'], max_s, sid) if s['ok'] else (False, [], '沒傳成')
@@ -379,7 +391,7 @@ async def s_mx(p, run, base, sid, out):
         res['pool'] = pool; say('   %s 回覆池（深夜／祐廷在國外）：%s' % (sid, J(pool, 600)))
         for pid in who:
             R = await one_send(pg, cdp, run, res, sid, pid)
-            t = her(R['got']); hh = R['got'][0]['h'] if R['got'] else None; dd = R['got'][0]['d'] if R['got'] else None
+            t, dd, hh = reply_of(R)
             run.check('%s：手機傳得出「在幹嘛」給 %s' % (sid, pid), R['send']['ok'], J(R['send'], 300))
             if not R['send']['ok']: continue
             if sid == 'MX_US1136':
@@ -426,6 +438,17 @@ async def s_fy_f3(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+DIAG_PC2 = """(()=>{ const G=GAME.G, E=GAME.E, S=STORY; const P=R2Y4A.pc2Pending(G);
+  const out={zone:G.zone, day:G.day, h:G.hour, pend:P.map(c=>[c.key,c.zone]), its:(E.interactables||[]).length, desk:!!(E.interactables||[]).find(i=>i.deskStudy),
+    home:typeof HOME!=='undefined'&&HOME.at?HOME.at(G):null, trip:typeof TRIP!=='undefined'&&TRIP.at?TRIP.at(G):null, busy:!!(GAME.busy||GAME.G.busy), nT:(S.TICKS||[]).length};
+  window.__PC2D={hits:{}, y4:0, exch:0, calls:0};
+  if(!S.__pc2wrap){ S.__pc2wrap=true; S.TICKS.forEach((f,i)=>{ S.TICKS[i]=function(GM,dt){ const r=f(GM,dt); window.__PC2D.calls++; if(r) window.__PC2D.hits[i]=(window.__PC2D.hits[i]||0)+1; return r; }; });
+    const y0=S.y4Tick; S.y4Tick=function(){ const r=y0.apply(this,arguments); if(r) window.__PC2D.y4++; return r; };
+    if(typeof EXCH!=='undefined'&&EXCH.tick){ const e0=EXCH.tick; EXCH.tick=function(){ const r=e0.apply(this,arguments); if(r) window.__PC2D.exch++; return r; }; } }
+  try{ R2Y4A.pc2Place(GAME); out.manual=!!(E.interactables||[]).find(i=>i.zrPostcard2); }catch(e){ out.manualErr=String(e); }
+  return out; })()"""
+
+
 async def pc_apr(p, run, base, sid, res, from_fy):
     pf = dict(TWF, **BASEF)   # 大四下：Y4_PATH 早就選過了（不然讀檔先演「大四要怎麼過？」）
     if not from_fy: pf.update({'FANG_F3': None, 'FANG_F3_DAY': None, 'ZR_FY': None, 'ZZ': None})
@@ -441,7 +464,9 @@ async def pc_apr(p, run, base, sid, res, from_fy):
         await pg.wait_for_timeout(3000)
         it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
         res['it'] = it
-        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J(it))
+        if not it:   # BB-B 10-23：沒放出來＝記下是哪個條件（哪一個 STORY.TICKS 先回 true、y4Tick、在家／旅行中、書桌）
+            res['diag'] = await pg.evaluate(DIAG_PC2); await pg.wait_for_timeout(4000); res['diag2'] = await pg.evaluate("window.__PC2D||null")
+        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J({'it': it, 'diag': res.get('diag'), 'diag2': res.get('diag2')}, 900))
         if not it: return
         await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=120)
         n0 = await log_len(pg); lab = await pg.evaluate(LAB); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)

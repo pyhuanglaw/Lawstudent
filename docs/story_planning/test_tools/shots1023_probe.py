@@ -1,6 +1,7 @@
 """BB-B 2026-10-23：LAWWW-B 08:09 派的兩件美術（開發分支 b32ee2c4 起）——遊戲內截圖，BB 看圖判定。
   FLOOR_3F    ART-NO-DARK-WOOD-1023：總圖 3F 閱覽區（library）的地板是淺色（使用者 D112：整個遊戲不要深色木地板）；家具桌面不變；入口、座位照常
   FLOOR_2F    同上：總圖大廳二樓自習區（library_hall 第 1 層）
+  FLOOR2_*    第二批（29e074e0c）九個室內（wz_teishoku、us_apartment、us_shared、wz_teahouse、jp_room、l118_cafe2、bookstore、wancai_sema、wz_brunch）＋掃描多標出的 gym_arena、linze_202
   LIN_MENU    ART-WZ-LIN-MENU-1022：林家乾麵（wz_lin）左牆六張紅紙菜單有「貢丸湯 30」
 [前置] 最小存檔直接站在那一區（2027-10-05 週二 14:00；不走過去），鏡頭轉四個方向各拍一張＋拉近一張；看得到的互動點（座位、出口）列出來。
 判定照截圖（BB 看）：這支只負責拍、列互動點，沒有自動 PASS／FAIL。
@@ -18,7 +19,10 @@ SC = [
   dict(id='LIN_MENU', zone='wz_lin', pos={'x': 1.0, 'z': 3.05, 'yaw': math.pi, 'lv': 0}),
   # 第二次（08:3x）：第一次從門口拍，紅紙太小看不出字 → 站在「看菜單」那一點（-1.3, -0.3）面向左牆（菜單 x -3.17、高 2.07），鏡頭壓低拉近；再按「看菜單」
   dict(id='LIN_MENU2', zone='wz_lin', pos={'x': -1.3, 'z': -0.3, 'yaw': -math.pi / 2, 'lv': 0}, cams=[(0, 0.10, 2.4), (0.35, 0.10, 2.2), (-0.35, 0.10, 2.2), (0, 0.05, 1.6)], tap='看菜單'),
-]
+  # 第三次（09:4x）：ART-NO-DARK-WOOD-1023 第二批（開發分支 29e074e0c；LAWWW2-B 6fbe2830）九個室內＋BB-B 掃描多標出的兩處（新體 3F 球場地板 lum 141、霖澤館 202 前段 lum 98）
+  #   站在區域預設的出生點（pos 空＝遊戲自己放），鏡頭壓低看地板：四個方向＋俯看一張
+] + [dict(id='FLOOR2_' + z, zone=z, pos=None, cams=[(0, 0.55, 5.0), (math.pi / 2, 0.55, 5.0), (math.pi, 0.55, 5.0), (-math.pi / 2, 0.55, 5.0), (0, 1.05, 4.0)])
+     for z in ['wz_teishoku', 'us_apartment', 'us_shared', 'wz_teahouse', 'jp_room', 'l118_cafe2', 'bookstore', 'wancai_sema', 'wz_brunch', 'gym_arena', 'linze_202']]
 async def main():
     run = L.Run('shots1023', OUT); sha = os.environ.get('SHA', '?')
     async with async_playwright() as p:
