@@ -30399,6 +30399,27 @@
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "id": "SIS-XMAS-GIFT-L-1023",
+   "title": "AA_406 家族聖誕交換禮物（大二 2026-12-28 公館火鍋店；直屬互送；12/14 家族群組約、五選一；她送刻名字的鉛筆＝房間物品；ev_sis_xmas_y3 多一句）：實作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23 09:1x】AA_406（企劃線 7910f785）；新 2D gongguan_hotpot 歸 BB 要；排在 SIS-B10-L-1023 之後；AA_391 學姊清單全部交完",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
   }
  ]
 }
