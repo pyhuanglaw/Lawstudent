@@ -1714,6 +1714,45 @@ SQ39B = [
 ]
 for _sc in SQ39B: _sc['js'] = SAYH + _sc['js']
 SCENS = SCENS + SQ39B
+# ===== R9：第 72 項 七位女主角的邀約回覆（AA_415；開發分支 791685e10 起；LAWWW-B 清單）=====
+# 手機「朋友」→「約」（真的點手機）→ 地點 → 時間 → 她的回覆（GAME.say，說話的人「○○（手機）」）。回覆要在 AA_415 的表上（INVITE_REPLIES，逐字）、同一個人連續兩次不同。
+# 日子【捷徑】撥過去（addday／jsrun）；約好的出遊不去（不影響回覆的挑法：AA_415 0-3 看階段、地點、時段、條件、來過）。舊存檔＝使用者 9/25 存檔本身（10-23 以前、沒有 G.invReply）
+def PINV(who, place, when, tag): return ('phoneinv', who, [place, when], tag)
+CAFE, LIB, ZH19, ZH12 = '去兩點半 Café 坐坐', '去總圖一起念書', '明天 19:00', '明天 12:10'
+INVJ = lambda who, f, t, c, extra='': " LV('%s',%d,%d,%d); G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'%s');%s" % (who, f, t, c, who, extra)
+# 找日子：明天 h 點她的作息（STORY.schedEnt，和 invites3d.js 的 entAt 同一個呼叫）符合 want 的第一天，撥到那天 12:00（【捷徑】）
+FINDDAY = """(([id,h,want,wk])=>{ const G=GAME.G, wd=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; }, E=(d,hh)=>STORY.schedEnt(CHARACTERS[id],{day:d,hour:hh,weekday:wd(d),flags:G.flags||{},noInvite:true});
+  for(let d=G.day; d<G.day+60; d++){ const e=E(d+1,h), a=e&&e.act||'', t=CALENDAR.termOf?CALENDAR.termOf(d+1):null;
+    const ok = want==='barista'? a==='barista' : want==='class'? (!!a && a!=='barista' && /class|lecture|seminar|course/.test(a)) : want==='exam'? !!(t&&t.exam) : false;
+    if(ok){ G.day=d; G.hour=12; if(GAME.E) GAME.E.hour=12; G.weekday=wd(d); if(GAME.updateHUD) GAME.updateHUD(); return CALENDAR.dateOf(d).key+' 明天 '+h+' '+a; } }
+  return false; })"""
+def FIND(who, h, want, note): return ('jsrun', FINDDAY + "(%s)" % json.dumps([who, h, want, 0]), note)
+AN3 = INVJ('heroine_01', 45, 30, 10)
+R9 = [
+  dict(id='INV72_AN_CAFE3', key='TERMDAY:Y1S1:6:2', h=12.0, zone='dorm', flags=dict(TW3), js=AN3,
+       steps=[PINV('heroine_01', CAFE, ZH19, 'c1'), ('addday', 2), PINV('heroine_01', CAFE, ZH19, 'c2'), ('addday', 2), PINV('heroine_01', CAFE, ZH19, 'c3'),
+              ('invchk', 'heroine_01', ['c1', 'c2', 'c3'], {'distinct': True})]),
+  dict(id='INV72_AN_PLACE', key='TERMDAY:Y1S1:6:2', h=12.0, zone='dorm', flags=dict(TW3), js=AN3,
+       steps=[PINV('heroine_01', LIB, ZH19, 'l1'), ('addday', 2), PINV('heroine_01', CAFE, ZH19, 'c1'), ('invchk', 'heroine_01', ['l1', 'c1'], {'distinct': True})]),
+  dict(id='INV72_ZR_SHIFT', key='TERMDAY:Y1S1:6:1', h=12.0, zone='dorm', flags=dict(TW3), js=INVJ('heroine_02', 45, 30, 10),
+       steps=[FIND('heroine_02', 19.0, 'barista', '撥到「明天 19:00 芷若在 Café 上班」的前一天 12:00'), PINV('heroine_02', LIB, ZH19, 's1'),
+              ('invchk', 'heroine_02', ['s1'], {'sub': '我在上班'})]),
+  dict(id='INV72_ZR_CLASS', key='TERMDAY:Y1S1:6:1', h=12.0, zone='dorm', flags=dict(TW3), js=INVJ('heroine_02', 45, 30, 10),
+       steps=[FIND('heroine_02', 12 + 10 / 60, 'class', '撥到「明天 12:10 芷若在上課」的前一天 12:00'), PINV('heroine_02', LIB, ZH12, 'k1'),
+              ('invchk', 'heroine_02', ['k1'], {'nosub': '我在上班', 'narr': True})]),
+  dict(id='INV72_EXAM_YT', key='TERMDAY:Y1S1:14:1', h=12.0, zone='dorm', flags=dict(TW3), js=INVJ('heroine_03', 65, 50, 45),
+       steps=[FIND('heroine_03', 19.0, 'exam', '撥到「明天是考試週」的前一天 12:00'), PINV('heroine_03', CAFE, ZH19, 'e1'), ('invchk', 'heroine_03', ['e1'], {'tag': '考試週'})]),
+  dict(id='INV72_EXAM_ZQ', key='TERMDAY:Y2S1:14:1', h=12.0, zone='dorm', flags=dict(TW3), js=INVJ('heroine_04', 65, 50, 45),
+       steps=[FIND('heroine_04', 19.0, 'exam', '撥到「明天是考試週」的前一天 12:00'), PINV('heroine_04', CAFE, ZH19, 'e1'), ('invchk', 'heroine_04', ['e1'], {'tag': '考試週'})]),
+  dict(id='INV72_DATING_AN', key='TERMDAY:Y1S2:6:2', h=12.0, zone='dorm', flags=dict(TW3),
+       js=INVJ('heroine_01', 65, 50, 45, " SOCIAL.rel('heroine_01').npcRom=60; SOCIAL.rel('heroine_01').rom=40; try{ ROM.start(G,'heroine_01'); }catch(e){} G.flags.dating_heroine_01=true;"),
+       steps=[PINV('heroine_01', CAFE, ZH19, 'd1'), ('invchk', 'heroine_01', ['d1'], {})],
+       jsok=[('交往中（dating_heroine_01）', "GAME.G.flags.dating_heroine_01===true", True)]),
+  dict(id='INV72_OLDSAVE', key='2025-10-08', h=12.0, zone='dorm', flags=dict(TW3), js=" delete G.invReply;" + INVJ('heroine_01', 25, 10, 5),
+       steps=[PINV('heroine_01', CAFE, ZH19, 'o1'), ('invchk', 'heroine_01', ['o1'], {})],
+       jsok=[('舊存檔：讀檔前沒有 G.invReply，約過以後有了', "!!GAME.G.invReply", True)]),
+]
+SCENS = SCENS + R9
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
@@ -1866,6 +1905,46 @@ async def main():
                             sc['_person'] = await pg.evaluate("(()=>{ const b=document.getElementById('phoneBody'); return b?b.innerText:''; })()")
                             say('   人物頁：%s' % sc['_person'].replace('\n', '｜')[:500]); await run.shot(pg, 'person_%s' % sc['id'])
                         if await B['phone_open'](pg): await B['close_phone'](pg)
+                    elif st[0] == 'phoneinv':   # R9（第 72 項）：手機「朋友」→ st[1] 那個人的「約」（INV.flow，手機那條）→ 選項照 st[2] → 她的回覆記在 sc['_inv'][st[3]]
+                        n0 = len(await pg.evaluate("window.__LOG||[]"))
+                        await pg.evaluate("(()=>{ const p=document.getElementById('phone'); if(!(p&&!p.classList.contains('hide'))){ const b=document.getElementById('btnPhone'); if(b) b.click(); } })()"); await pg.wait_for_timeout(1500)
+                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"friends\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
+                        c = await pg.evaluate("(id=>{ const e=document.querySelector('#phoneBody [data-inv=\"'+id+'\"]'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })(%s)" % json.dumps(st[1]))
+                        if not c:
+                            bad.append('%s：手機「朋友」沒有 %s 的「約」' % (sc['id'], st[1])); await run.shot(pg, 'noinv_%s' % sc['id'])
+                            if await B['phone_open'](pg): await B['close_phone'](pg)
+                        else:
+                            await L.touch_tap(cdp, c[0], c[1])
+                            for k in range(40):
+                                s_ = await L.state(pg)
+                                if s_['choices'] or s_['dlg']: break
+                                await pg.wait_for_timeout(1500)
+                            await B['drain'](pg, cdp, pref=list(st[2]) + ['算了'], secs=240)
+                            if await B['phone_open'](pg): await B['close_phone'](pg)
+                            lg = (await pg.evaluate("window.__LOG||[]"))[n0:]
+                            sc.setdefault('_inv', {})[st[3]] = [x['t'] for x in lg if str(x.get('n', '')).endswith('（手機）')]
+                            sc.setdefault('_invn', {})[st[3]] = [x['t'] for x in lg if not x.get('n') and not str(x.get('t', '')).startswith(('CHOICE:', 'TOAST', 'BG:', 'CARD'))]
+                            say('   手機約 %s（%s）→ 回覆 %s；旁白 %s' % (st[1], st[3], json.dumps(sc['_inv'][st[3]], ensure_ascii=False)[:200], json.dumps(sc['_invn'][st[3]], ensure_ascii=False)[:160]))
+                    elif st[0] == 'invchk':   # R9（第 72 項）：('invchk', 人, [標記…], {distinct, tag, sub, nosub, narr})＝回覆在 AA_415 的表上、照條件
+                        rows = await pg.evaluate("(id=>(typeof INVITE_REPLIES!=='undefined'&&INVITE_REPLIES.people[id]||[]).map(r=>({id:r.id,k:r.k,tags:r.tags||[],cond:r.cond,lines:(r.lines||[]).filter(x=>typeof x==='string')})))(%s)" % json.dumps(st[1]))
+                        nrm = lambda t: ''.join(ch for ch in str(t) if ch not in '「」 \u3000\n')
+                        tbl = {}
+                        for r_ in rows:
+                            for l_ in r_['lines']: tbl.setdefault(nrm(l_), []).append(r_)
+                        opt = st[3] if len(st) > 3 else {}; got = [(t, (sc.get('_inv') or {}).get(t)) for t in st[2]]; probs = []
+                        for t, rep in got:
+                            if not rep: probs.append('%s 沒有回覆' % t); continue
+                            hit = [tbl[nrm(l_)] for l_ in rep if nrm(l_) in tbl]
+                            if not hit: probs.append('%s 的回覆不在 AA_415 表上：%s' % (t, json.dumps(rep, ensure_ascii=False)[:120]))
+                            if opt.get('tag') and not any(opt['tag'] in r_['tags'] for h_ in hit for r_ in h_): probs.append('%s 不是「%s」那一列：%s' % (t, opt['tag'], json.dumps(rep, ensure_ascii=False)[:120]))
+                            if opt.get('sub') and not any(opt['sub'] in l_ for l_ in rep): probs.append('%s 沒有「%s」：%s' % (t, opt['sub'], json.dumps(rep, ensure_ascii=False)[:120]))
+                            if opt.get('nosub') and any(opt['nosub'] in l_ for l_ in rep): probs.append('%s 不該有「%s」：%s' % (t, opt['nosub'], json.dumps(rep, ensure_ascii=False)[:120]))
+                            if opt.get('narr') and not (sc.get('_invn') or {}).get(t): probs.append('%s 沒有系統旁白' % t)
+                        if opt.get('distinct'):
+                            for (a, ra), (b_, rb) in zip(got, got[1:]):
+                                if ra and rb and [nrm(x) for x in ra] == [nrm(x) for x in rb]: probs.append('%s、%s 連續兩次同一句：%s' % (a, b_, json.dumps(ra, ensure_ascii=False)[:80]))
+                        say('   【讀資料】%s 回覆 %s → %s' % (st[1], json.dumps([g[1] for g in got], ensure_ascii=False)[:400], 'OK' if not probs else 'NG ' + '；'.join(probs)))
+                        for q in probs: bad.append('%s：%s' % (sc['id'], q))
                     elif st[0] == 'phonego':   # 手機「今天」→「今天約好的」那一筆「前往」
                         await pg.evaluate("(()=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); })()"); await pg.wait_for_timeout(1200)
                         await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(1000)
