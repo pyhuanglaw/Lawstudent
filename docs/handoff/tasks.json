@@ -30278,7 +30278,7 @@
    "id": "SIS-NO-THREE-1023",
    "title": "學姊永遠不再說「三件事」（使用者 10-23 09:3x 直接對 AA：「學姊為什麼永遠都在三件事」「第一次念書也寫紙條三件是超怪的」「永遠給我刪除什麼三件事」）：AA_398 替換表 51 處＋重新匯入 date lines 12 地點、wish_bb、solo_before_bb_v1、bb_walk_v1、ladder_bb_y2s1＋加檢查（heroine_05 台詞不能出現「[一兩二三四]件事／第三件／第三格／第三點」、「一，」開頭）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "area": null,
    "first": {
@@ -30293,7 +30293,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
+   "next": "【LAWWW-B 10-23 09:1x】AA_398 第 1 節 51 列照改（93557e6f、40418413、f36d615d、9ef62053、edb81e9b）；第 2 節 date lines 重新匯入（白名單 BB_128＋12 個地點換 ffd7eef8）——wish_bb、solo_before、bb_walk 的那幾句遊戲裡本來就沒有（遊戲用的是別的版本），ladder_bb_y2s1 第 20 列待下一批；畢業那天版本的便條旁白（postgrad_lines.js）一起改；新檢查 tests/sis_no_three_unit.js（修改前 FAIL）；表上沒有的 4 句（3/19 家族群組、語彤說你病了、兩張 CG 標題）已問 AA；BB 照 AA_398 第 5 節測 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
   },
   {
    "id": "SIDEQ-AA397-1023",

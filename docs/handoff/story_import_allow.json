@@ -355,9 +355,9 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "3229ad05",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）",
+   "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-S6",
    "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子",
    "history": [
@@ -1190,9 +1190,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D01.json",
-   "sha": "bde0df0a",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L01",
    "history": [
     {
@@ -1203,16 +1203,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D02.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L02"
   },
   {
    "path": "docs/story_planning/date_system/lines/D03.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L03"
   },
   {
@@ -1230,16 +1230,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D07.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L07"
   },
   {
    "path": "docs/story_planning/date_system/lines/D15.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L15"
   },
   {
@@ -1279,9 +1279,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D09.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L09"
   },
   {
@@ -1293,16 +1293,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D11.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L11"
   },
   {
    "path": "docs/story_planning/date_system/lines/D14.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L14"
   },
   {
@@ -1335,16 +1335,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D24.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L24"
   },
   {
    "path": "docs/story_planning/date_system/lines/D25.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L25"
   },
   {
@@ -1363,9 +1363,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D28.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L28"
   },
   {
@@ -1377,9 +1377,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D30.json",
-   "sha": "57de1709",
+   "sha": "ffd7eef8",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L30"
   },
   {
