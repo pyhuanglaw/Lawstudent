@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **14:4x 更新**：
+    - 已交：
+      - GG-WALKERS-1023（`bf7b77ff`）：已合併。
+      - 118 巷窗景第二批（`79777475`）：九間店門外換成遊戲裡拍的兩層窗景。
+    - 正在做 SEE-THROUGH-FAIL-1023（P3）：
+      - 「室內不開透視」是測試過時：宿舍區域本來就設了 `seeThru`（上舖床板）。
+      - 「演出鏡頭時不開透視」：診斷腳本 `$SP/rs/tests/_st_diag.py` 在跑，看遊戲迴圈有沒有在跑。
+      - 改 `engine3d.js` 之前先問 LAWWW-B。
+    - 之後：CLOSED-SPACES-1023（AA_399 順序，霖澤 5F 先），沛珊第三十一版。
   - **13:5x 更新**：
     - 已交、已合併：SQ-TRACES＋SQ16 店門口（`ed65a78e`）、公館街景 ART-GG-STREETLIFE-1023（`5fed31e9`）。
     - LAWWW-B 13:50 定的順序：
