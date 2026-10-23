@@ -6,7 +6,8 @@
    - 阿哲週一 12:00 揪人（AA_280 第 4 節）：第一次 Y1S1 第 2 週；之後每學期第 2～15 週每週一，店照 noodle2 → dian → korea → home 輪；
      「走。」＝12:15 在那間店門口（出遊 goto，阿哲、Alison 在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
    - AA_311（118 巷每間店的故事）：H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）。其餘 H2～H9、熟客三段招呼還沒做。
-   - 順手的事（AA_397，src/sideq3d.js）：點完餐最後叫 SIDEQ.atShop（慢讀咖啡、六張犁麵舖、好家自助餐、蛋包飯研究所）；六張犁麵舖公休那兩週（SQ05）isOpen＝false、點餐＝門上那張紙。
+   - 順手的事（AA_397，src/sideq3d.js）：點完餐最後叫 SIDEQ.atShop（慢讀咖啡、六張犁麵舖、好家自助餐、蛋包飯研究所；第二、三批 AA_404／405：滇香小館、巷口家常菜、Pasta 118、韓食小廚、一一八茶飲）；
+     六張犁麵舖公休那兩週（SQ05）isOpen＝false、點餐＝門上那張紙；Pasta 118 做完 SQ12 的下學期起，一個人來的招呼換 SIDEQ.greet、她補一句 SIDEQ.greetMore。
    測試：node tests/lane118_unit.js、node tests/aa397_sideq_unit.js */
 'use strict';
 const L118=(function(){
@@ -73,7 +74,9 @@ const L118=(function(){
     try{ const sqClosed=typeof SIDEQ!=='undefined'&&SIDEQ.closedNote?SIDEQ.closedNote(G,shopId):null; if(sqClosed){ await GM.say(null,sqClosed); return true; }   /* 公休的紙（玩家寫的那一張，AA_397 SQ05）*/
       if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }
       const comp=S.companions(GM,shopId), clerk={name:s.greet.who||'店員'}, h0=G.hour;
-      await GM.say(clerk,comp.length?Dd.groupGreet:s.greet.text);
+      const sqG=!comp.length&&typeof SIDEQ!=='undefined'&&SIDEQ.greet?SIDEQ.greet(G,s.name):null;   /* 順手的事 SQ12（AA_404）：Pasta 118 下學期起一個人來的招呼換一句、她補一句 */
+      await GM.say(clerk,comp.length?Dd.groupGreet:(sqG||s.greet.text));
+      if(sqG&&SIDEQ.greetMore) for(const [w,t] of (SIDEQ.greetMore(G,s.name)||[])) await GM.say({name:w},t);
       const opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
       const k=typeof EAT!=='undefined'?await EAT.choose(GM,s.name,opts,s.menu.map(m=>m[0]),s.menu.map(m=>m[1])):await GM.choose(opts);   /* 第 5 次起店員認得你、「老樣子」（src/eat3d.js，AA_329 第 3 節）*/
       if(k>=s.menu.length) return true; const [item,price]=s.menu[k];

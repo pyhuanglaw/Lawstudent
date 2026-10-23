@@ -41,6 +41,8 @@ const OUT=(function(){
   S.BG.us_farmers_market={label:'美國・週六市集',image:'assets/bg/us_chapel_steps.webp'};   /* 學姊七夕 1-3 美國路線（AA_388 第 3 節第 3 點，SIS-QIXI-L-1023）：美國篇的校園附近街景（F08 那一批）還沒有＝先用校園底圖（小教堂前的台階）；BB 跟使用者要圖，到了改成 assets/bg/us_farmers_market.webp */
   S.BG.d32_base_afternoon={label:'南投清境農場・下午',image:'assets/bg/d32_base_afternoon.webp'};   /* DL-06C 少的那一張（使用者 10-17 核准的 33 張之一，abad2fa0 照原檔複製）：兩天一夜 D31＋D32 的第二天在清境（DATE-OVERNIGHT-1021，AA_359 第 1 節）*/
   S.BG.car_morning={label:'車上（早上）',image:'assets/bg/car_morning.webp'}; S.BG.car_night={label:'車上（晚上）',image:'assets/bg/car_night.webp'}; S.BG.car_rain={label:'車上（雨天）',image:'assets/bg/car_rain.webp'}; S.BG.car_day={label:'車上',image:'assets/bg/car.webp'};   /* BB-C 第 92 組 car（fdd8383c，使用者生成）：家用小客車白天；只給 bg 'car'（可昕開車那幾場，政大校門口→車上）用，寫死 car_morning 的照舊 */   /* BG-08（LAWWW2-B 702a2838）*/
+  /* 店員的支線第二批（AA_404 第 2 節「新地點」，src/sideq3d.js）：中和・華新街（一條掛滿招牌的窄街，沒有品牌）、羅斯福路的動物醫院——還沒有圖＝深色底（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/
+  Object.assign(S.BG,{hwaxin_street:{label:'中和・華新街',image:null},vet_clinic:{label:'羅斯福路・動物醫院',image:null}});
   /* 車上：照當時的天氣、時間挑一張（下雨＝雨天、18:00～05:59＝晚上、其他＝早上）；事件要固定哪一張就直接寫 car_morning／car_night／car_rain */
   const carVariant=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null; if(!G) return 'car_day'; if(G.weather==='rain') return 'car_rain'; const h=G.hour%24; return (h>=18||h<6)?'car_night':'car_day'; };
   S.bg=id=>{ if(id==='car') id=carVariant(); const b=S.BG[id]; return b&&b.image?(b.night?{image:b.image,night:true}:{image:b.image}):'dark'; };   /* night：白天的圖調暗當晚上（adv3d.js #adv.night）*/

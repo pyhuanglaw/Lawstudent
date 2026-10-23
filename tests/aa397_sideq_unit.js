@@ -1,5 +1,5 @@
 // AA_397 店員的支線「順手的事」＋公園的貓被子晴收養（企劃線 8f1701b23；任務 SIDEQ-AA397-1023）——不需要瀏覽器。
-//   0  新檔載得到、index.html 接在 kx_khh3d.js 後面；每一句台詞、旁白、選項都在稿裡（一字不差；ZQ_CAT_SAID 那句在 AA_400 ce4f34378）
+//   0  新檔載得到、index.html 接在 kx_khh3d.js 後面；每一句台詞、旁白、選項都在稿裡（一字不差；ZQ_CAT_SAID 那句在 AA_400 ce4f34378；第二、三批加進 SIDEQ.LINES 以後，稿也包含 AA_404、AA_405）
 //   1  系統：店員認得你（第 5 次）才出；「要我幫忙嗎？」掛進手機「今天」的「順手的事」；「……加油。」不掛、這學期不再出（下學期會）；一天一則；
 //      一家店同時一則；同時最多兩則；過期＝lapsed、不扣數值；舊存檔沒有 G.side 不壞
 //   2  SQ01～SQ08 各則：照步驟做完、做完的痕跡（店員多一句、店裡的變化、相簿）；接線（林家 order364、118 巷 L118.order、便利商店 counter、公布欄、象棋、蘇姨、冰菓室的價目板）
@@ -31,7 +31,8 @@ const zqMsgs=()=>(H.G.msgs||[]).filter(m=>m.th==='p:'+ZQ).map(m=>m.text);
 const inPark=()=>{ const L=WZ_PARK_LAYOUT.area.back; E.player.obj.position.x=(L.x0+L.x1)/2; E.player.obj.position.z=(L.z0+L.z1)/2+1; return PARK.inPark(E.player.obj.position.x,E.player.obj.position.z); };
 
 (async()=>{
-let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'}); doc=cp.execSync('git show 8f1701b23:"docs/story_planning/AA_397_店員的支線_順手的事.md"',{cwd:H.ROOT,encoding:'utf8'})+doc408; doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'}); doc=cp.execSync('git show 8f1701b23:"docs/story_planning/AA_397_店員的支線_順手的事.md"',{cwd:H.ROOT,encoding:'utf8'})+doc408
+  +cp.execSync('git show 30bf21de8:"docs/story_planning/AA_404_店員的支線_第二批.md"',{cwd:H.ROOT,encoding:'utf8'})+cp.execSync('git show 1fa2b494a:"docs/story_planning/AA_405_店員的支線_第三批.md"',{cwd:H.ROOT,encoding:'utf8'});   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js */ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 kx_khh3d.js 後面',ok&&!!X()&&/kx_khh3d\.js\?v=[^"]+"><\/script>\n<script src="src\/sideq3d\.js\?v=[^"]+"><\/script>/.test(html),err);
