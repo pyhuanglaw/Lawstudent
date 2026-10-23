@@ -2453,8 +2453,41 @@
    "next": "LAWWW 驗收（D100）；過了才換進開發分支（現在開發是第二十八版）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 10-23 16:50：驗收不通過，退回 → 第三十二版）",
    "note": "LAWWW 13:5x 沒過的兩項：尖刺大致對、倒 V 接近（參考圖也是中分的窄 V）、髮尾到眉毛對、臉旁長碎髮正面看得到對"
+  },
+  {
+   "task": "ART-ZR-PS-3D-1022 沛珊第三十二版",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "1056a5c7",
+   "files": [
+    "assets/models/char/second_ai/bl_classmate_peishan.vrm（9b2e6efb，md5 c12ecc26）",
+    "tools/blender/char_second/peishan_hair.py（V32）",
+    "docs/art-rebuild/second_ai/char_review/peishan_v32/README.md＋遊戲內並排圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）",
+   "remaining": "兩側、後腦量感還是一片一片的帶子；髮片鋸齒；iPhone 沒看過",
+   "next": "LAWWW-B 驗收（D100）；過了才換進開發分支",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "LAWWW-B 16:50 四項：中分＋額頭露出對、窗簾瀏海到顴骨以下對、頭頂接近、兩側接近、三分之四側對"
+  },
+  {
+   "task": "法學院廣場的大樟樹（LAWWW-B 選 A）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "d756789b",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/linze_tree_1023_WIP.patch",
+    "assets/models/env/views/linze_*（south、201、3F～5F、3F～5F 近景）"
+   ],
+   "state": "WORK_IN_PROGRESS（CHECKPOINT_SAVED）",
+   "remaining": "校園導航測試、遊戲內 3F～5F 窗景截圖、README",
+   "next": "沛珊第三十二版之後接著做",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "—",
+   "note": "還沒交付，不要整合"
   }
  ]
 }
