@@ -1166,6 +1166,375 @@ R6 = [
 ]
 for _sc in R6: _sc['js'] = SAYH + _sc.get('js', ''); _sc.setdefault('once', [w for w in _sc.get('want', []) if len(w) > 6])   # 「嗯。」「……喔。」這種短句別的場合也會說，不算重複演
 SCENS = SCENS + R6
+# ===================== R7（BB-B 10-23）：LAWWW-B 清單 BB_SIS_B6_1023.md 第 50、51、45＋52、53、54 項（開發分支 c0443d650）=====================
+# 50 公園的 3D 貓（WZ-CAT-LIFE-1023，LAWWW2 32e9ddf3）：讀場景裡的 wz_cat（在不在、visible、石桌下、姿勢）＋截圖
+# 51 她們各自喜歡吃的（FOOD-FAV-1023，AA_410）：一起吃時也幫她點；點對＝專屬句＋筆記本＋熟悉 +2（每人一次）；點錯＝照舊；沒一起吃的照舊
+# 45＋52 店員支線第二三批 SQ10～SQ20（沒有 SQ16）＋AA_408 第 6 節補字；過期以後下一次來店員說一句（AA_408 第 1 節）；SQ14、SQ18 做完公園告示、名牌多一行
+# 53 做完的痕跡 3D 道具（SQ-TRACES-1023，LAWWW2 ed65a78e）：做完當天沒有、隔天再進店有；讀 TRACE_SQxx 節點＋截圖
+# 54 SQ16 輪轉單車（AA_405＋第 3 節 f923751c）：「找車行老闆」第 5 次起開口 → 普通 201 門口週四晚上「問登山社的人」→ 回車行 → 紙條（3D）→ 每學期換名字；過期
+# 新步驟（main 的 elif，只有 R7 用；原本的步驟不動）：
+#   ('shot', 名稱, 目標, 等待條件 js, 秒)＝等條件成立（正式模型載入）→【捷徑】主角放到目標旁邊、鏡頭轉過去 → 藏 HUD 和主角截圖 → 還原
+#   ('chk', 說明, js, 期望值或 lambda)＝中途【讀資料】；('wait', js, 秒, 說明)＝等到成立（等不到記一個問題）
+#   ('pref', [...])＝之後的選單換一組偏好（同一個情境前後點不一樣的東西）；('mark', js)＝記下現在的台詞位置、熟悉、錢（不改遊戲）
+SQL = {   # SIDEQ.LINES（src/sideq3d.js，開發分支 c0443d650；AA_404、AA_405、AA_408 第 1、6 節）照抄
+  'SQ10': {'open': ['乳扇沒有了。我們家鄉的那種，臺北只有中和那條街買得到。', '……我這個月走不開。你週末有空嗎？'], 'noteN': '（她多給一張摺好的紙條。）', 'note': '拿給老闆娘。', 'read': '（雜貨店的老闆娘看了紙條，愣了一下。）', 'who': '阿梅？……她在臺北開店？', 'past': '（她們是小時候在緬甸同一個村子長大的，三十年沒聯絡。）', 'giveN': '（雜貨店的老闆娘多塞了一包東西和一張寫了電話的紙。）', 'give': '乳扇是她的，這包是我的。叫她打給我。', 'handN': '（你把那包乳扇和紙條交給老闆娘。她先看紙條，看了很久。）', 'hand': '……她還記得我叫阿梅。', 'menu': '（滇香的菜單多一行手寫「炸乳扇（限量）」。）', 'greet': '下禮拜我要去中和。……她說要教我做她媽媽的那道。', 'lapse': '乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。'},
+  'SQ11': {'open': [[None, '（老闆娘從櫃台下面拿出一個鞋盒。）'], ['老闆娘', '客人不要的發票，我都留著。'], ['老闆娘', '……字太小了，我看不到。同學，你幫我對。']], 'winN': '（對到一張中了兩百塊。老闆娘看了很久。）', 'win': '……二十年了，第一次中。', 'cat': ['兩百塊，拿去買罐頭。給公園那隻。', '我每天收攤經過，牠都在那張椅子上。'], 'noCat': '兩百塊。今天你的排骨我請。', 'box': '（櫃台多一個紙盒，上面手寫「發票請投這裡」。）', 'boxCat': '（下面多一行小字「中了買貓罐頭」。）', 'adopt': '（那行小字劃掉，改成「中了捐給動物之家」。）', 'lapse': '發票我叫我女兒對了。……都沒中。'},
+  'SQ12': {'open': ['下禮拜一公休。……我想請你來當客人。', '我要跟我女朋友求婚。店裡只有她一個人，她會發現。'], 'inN': '（女朋友進門，看了一下店裡唯一一桌客人，走過來小聲說。）', 'in': '你是他找來的吧。', 'inPair': '你們是他找來的吧。', 'pair': {'heroine_01': '……我們很明顯嗎？', 'heroine_03': '……對不起。我們演得不好。', 'heroine_04': '我們很認真在演耶。', 'heroine_05': '……我就說點兩份太刻意。', 'kexin': '我就說不要坐窗邊。'}, 'knew': '（她早就知道了。她看到他訂了一個戒指盒，盒子放在廚房的抽屜裡兩個禮拜。）', 'yesN': '（她坐回吧檯，等甜點上來，打開，說「好」，然後轉頭問你。）', 'photo': '可以幫我們拍一張嗎？', 'free': '（老闆那一晚沒收錢。）', 'wall': '（吧檯後面的牆多一張照片（兩個人，後面是窗邊那一桌）。）', 'greet': '一位嗎？吧檯老位子。', 'her': '窗邊也有位子喔。', 'lapse': '那天我一個人顧店。……她說好。'},
+  'SQ13': {'open': ['我太太回韓國照顧她媽媽，要三個月。泡菜都是她醃的。', '我照她的方法醃了一罐。……你幫我吃吃看。'], 'ask': '這罐怎樣？', 'opts': ['比上次好。', '比上次差。', '一樣。'], 'reveal': '這罐是她從韓國寄來的。', 'better': ['……你分得出來。', '我分不出來。我吃了三個月自己的，已經忘記她的是什麼味道了。'], 'other': [['老闆', '……我也分不出來。'], [None, '（他笑了。）'], ['老闆', '那就好。我醃得還可以。']], 'back': ['（老闆娘回來了。）', '（櫃台旁邊多一個人在切菜。）'], 'jar': '（小菜櫃多一個玻璃罐，貼著手寫的標籤「她的」。）', 'greet': '小菜可以續喔。……那罐不行。', 'lapse': '泡菜我自己吃完了。……還是分不出來。'},
+  'SQ14': {'open': ['牠的腳好了。獸醫說要回診，順便打預防針。', '……我走不開。外出籠在後面。'], 'cage': '（牠沒有掙扎，只是一直看著你。）', 'chip': ['（獸醫掃晶片，螢幕上跳出登記資料：十二年前登記的，飼主是一位陳先生，地址就是茶屋那一號。）', '（名字欄寫「豆花」。）'], 'backN': '（回到茶屋，蘇姨看了單子很久。）', 'back': ['……是我先生。他走了五年了。', '他說要帶牠去打晶片。我以為他沒去。', '他走了以後，牠不肯待在屋子裡，每天跑去公園。我就讓牠去。'], 'tea': '（蘇姨把那張單子收進櫃台的抽屜，請你喝一壺茶，不收錢。）', 'photo': '（茶屋櫃台多一張貓的照片，照片很舊，背景是茶屋的院子。）', 'greet': '豆花今天有去公園嗎？', 'zq': ['牠有晶片。醫生說飼主是茶屋的人。', '我去問了。阿姨簽了一張單子給我。……她說牠叫豆花。'], 'notice': '（豆花）', 'lapse': '回診我請隔壁幫忙帶了。'},
+  'SQ15': {'open': ['有人拿來一箱法律系的書。我分不出哪些版本太舊、不能賣了。', '……你是法律系的吧。幫我看一下。'], 'look': '（六法全書兩本、刑法總則一本、一本很舊的民法總則。）', 'find': ['（民法總則的封面內頁，寫著「溫書瑀」。）', '（每一頁的邊邊都寫滿了字。很多問號，有些問號後來被劃掉了。）'], 'dinner': '（翻到善意第三人那一頁，她用紅筆圈起來，旁邊寫：「善意＝不知道。不是心地善良。」）', 'who': '一個女生拿來的，很瘦，講話很快。她說這箱不用算錢。', 'opts': ['這本我買。', '幫我留著，我問問她。', '這幾本修法了，不能賣。'], 'reply': ['八十。……你認識她？', '好。留一個禮拜。', '那這本我拿去回收。'], 'sis': {'put': '（你把那本民法總則放在她桌上。）', 'how': '……這本怎麼會在你這裡。', 'bought': '我賣掉的時候，以為不會再看到。', 'asked': '書店老闆打電話問我？……不是。是你在那裡整理。', 'ugly': '裡面的字很醜。問號很多。', 'keep': '……你留著吧。裡面錯的地方，你現在用得到。'}, 'buy': '她說給你的？好。', 'item': '學姊大一的民法總則', 'shelf': '（學姊大一的民法總則。封面內頁寫著『溫書瑀』，字比現在圓一點。）', 'eve': '（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）', 'lapse': '那箱書，我拿去回收了。'},
+  'SQ16': {'open': ['這台送來修，兩年了，沒人來牽。', '……電話打不通。你是台大的吧，幫我看看那張貼紙。'], 'look': '（一張很舊的校內停車證，只看得到一半的號碼，旁邊貼著一張社團的貼紙「登山社」。）', 'ask': '請問一下，這張貼紙是你們社團的嗎？', 'club': ['……這是我們以前社長的車。他畢業了，在新竹上班。', '我問他。'], 'msg': ['（她傳了訊息。過了一下，她的手機震了，她把畫面轉給你看。）', '（「那台車我以為被偷了。……修好就好。送給學弟妹吧，新生沒車很麻煩。」）'], 'back': '送給新生？……好。那我把它修好。', 'note': '（車頭掛了一張紙：『免費借給新生，一學期』。）', 'greet': ['打氣筒在門口，自己來。', '今天沒什麼車要修。……坐一下可以。'], 'names': ['陳品叡', '黃郁婷', '張宇翔', '劉思妤', '鄭凱文'], 'rename': '（車籃那張紙上，借車的名字換成了：{名字}。）', 'lent': '那台車這學期也借出去了。……第{N}個。', 'lapse': '那台車我拆了，零件給別台用。'},
+  'SQ17': {'open': ['我在申請交換。下禮拜英文面試。', '你可以問我問題嗎？我一邊做飲料一邊答。'], 'qs': ['為什麼想去？', '去了想學什麼？', '如果沒上呢？'], 'ans': [['我想去一個沒有人認識我的地方。……先在那邊點一次飲料，看他們會不會記得我。', 'I want to see if I can start over somewhere no one knows me.'], ['日文。還有……怎麼一個人吃飯。', 'Japanese. And how to eat alone.'], ['如果沒上，我明年再申請。……這題我本來不想準備，因為我怕。', "If I don't get in, I'll apply again next year."]], 'en': '（她說英文的時候，手上的封膜機停了。）', 'give': ['上了跟我說。', '加油。'], 'call': '……那你給我電話。', 'contact': '一一八茶飲的店員', 'result': '上了。京都。', 'trace': '（窗口換了一個新的店員。牆上貼一張京都的照片，旁邊寫「她說：甜度冰塊記得問清楚」。）', 'an': ['今天在學校的交流會遇到一個臺灣人。她說她以前在一一八茶飲打工。', '她說你幫她練過面試。……你的人緣比我以為的好。'], 'lapse': '面試完了。結果四月才知道。'},
+  'SQ18': {'open': ['週日早上有一張二十杯的訂單，要送到溫州街的小公園。', '我店裡走不開。你幫我送，運費算你一杯。'], 'clean': '（公園裡十幾個人在掃落葉、清水溝，是里民的清掃日。）', 'chief': '（訂飲料的是在涼亭下象棋的那位阿伯。他從口袋拿出一疊零錢付給你，戴上一頂寫著「里長」的帽子。）', 'who': '怎麼，你以為里長是誰？', 'sheet': '餵貓那張表，是你貼的吧。……星期日那一格，是我。', 'papers': '公布欄那些紙，都是我貼的。', 'stay': '（你留下來掃了半小時落葉。阿伯讓你一子，下了一盤。）', 'cup': '這杯是你的。茶行說，運費算你一杯。', 'knows': '（你認得這個字。）', 'tag': '（阿伯的字。）', 'lapse': '那二十杯，我自己送了。'},
+  'SQ19': {'open': ['昨天有個女生把筆記本忘在這裡。封面寫法律系。', '……你認識嗎？'], 'look': '（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）', 'last': ['（筆記本最後一頁不是筆記。是一張兩欄的表，左邊寫「以安」，右邊寫「我」。一格一格是考試、報告、發言的次數。）', '（表的最下面另外寫了一行，字比較小：「下次換我先約她。」）'], 'ret': '（她接過筆記本，第一件事是翻到最後一頁。）', 'ask': '……你看了嗎？', 'opts': ['看了最後一行。', '沒有。'], 'seen': [['xc', '……喔。'], [None, '（她把那一頁摺起來。）'], ['xc', '那一行，我會自己去做。']], 'no': [['xc', '……謝謝。'], [None, '（她看了你一下，好像不太相信。）']], 'group': [['xc', '週四晚上我借了一間討論室，讀這週的進度。要來的跟我說。'], ['xc', '@以安 妳要來嗎？'], ['an', '好。']], 'basket': '（定食店的櫃台多一個小籃子，寫著「失物」。）', 'greet': '今天沒有人忘東西。', 'lapse': '筆記本那個女生，自己回來拿了。'},
+  'SQ20': {'open': ['小蕙下個月要考證照，烘焙的。', '她每次練習都超時。我在煎蛋，沒辦法幫她計時。你可以嗎？'], 'bohanOpt': '我找一個更會計時的人。', 'bohan': '每個步驟我分開計。你們看這張表。', 'self1': [[None, '（你用手機的碼錶。小蕙每做完一步，就看你一眼。）'], ['小蕙', '……超過了嗎？'], ['小米姐', '（從煎台那邊）她每次都超過在烤箱那一步。']], 'self2': '（這次她在烤箱那一步沒有看你。）', 'apronN': '（第二個週末練完，小米姐把圍裙脫下來。）', 'apron': ['……我也報了。', '我考過兩次，都沒過。那時候在上班，沒時間練。', '這次跟她一起考。不要告訴她，她會緊張。'], 'pass': '（一個月以後，兩個人都過了。小蕙先知道小米姐也有考，是在考場遇到的。）', 'certs': '（櫃台後面的牆上多兩張證書，並排掛著，一張寫小米姐的名字，一張寫小蕙的。）', 'greet': '今天的蛋，三分四十秒。……這是我考試的時候練出來的。', 'lapse': '小蕙自己計時。她說手機的碼錶很吵。'},
+}
+FAVL = {   # FOOD_FAV_LINES（src/data/food_fav_lines.js；AA_410）照抄
+  'note': {'heroine_01': '以安：咖哩蛋包飯。她只吃得下半份，多要一個盤子。', 'heroine_02': '芷若：熱可可，加一份濃縮。', 'heroine_03': '語彤：滇香的酸辣河粉，多加辣。看不出來。', 'heroine_04': '子晴：美式，冰的。十二月也是。', 'heroine_05': '學姊：無糖綠茶，去冰。從來沒換過。', 'classmate_peishan': '沛珊：番茄醬蛋包飯。她每次都點一樣的。', 'kexin': '可昕：青茶，無糖。她只喝無糖的。'},
+  'heroine_01': {'right': [['heroine_01', '……你記得。'], ['heroine_01', '那這一半給你。不准說吃不下。']], 'rightDating': [[None, '（她把一半撥到空盤子上，推過來的時候，順手把湯匙也放好。）']], 'itemOnly': [['heroine_01', '（看了一下盤子）……我吃不完。你要幫我吃。']], 'wrong': {'番茄醬蛋包飯': [['heroine_01', '番茄醬的。……好，我吃吃看。']]}},
+  'classmate_peishan': {'right': [['classmate_peishan', '你幫我點好了？'], ['classmate_peishan', '……番茄醬的。嗯。不要笑。']], 'wrong': {'咖哩蛋包飯': [['classmate_peishan', '咖哩的？……好，今天換一次。'], ['classmate_peishan', '（吃了兩口）……下次還是番茄醬。']]}},
+  'heroine_03': {'know': [['老闆娘', '那個社會系的妹妹，每次都叫我多放辣。'], ['老闆娘', '看不出來吧。']], 'right': [['heroine_03', '……嗯。'], ['heroine_03', '我們家的不敢做這麼辣。阿姨說客人會跑掉。']], 'itemOnly': [['heroine_03', '……嗯，謝謝。'], [None, '（她跟老闆娘要了一小碟辣椒。）']], 'wrong': {'*': [['heroine_03', '謝謝。……我吃這個也可以。']]}},
+  'heroine_05': {'right': [['heroine_05', '……誰跟你說的。'], ['heroine_05', '她記性比我好。……謝謝。']], 'rightAgain': [['heroine_05', '又是她說的。'], ['heroine_05', '……好。下次換我。']], 'rightGuess': [['heroine_05', '……你怎麼知道。'], ['heroine_05', '我沒跟你說過吧。'], [None, '（她喝了一口，沒有再問。）']], 'itemOnly': [['heroine_05', '謝謝。……冰塊我等一下倒掉。']], 'wrong': {'*': [['heroine_05', '謝謝。我喝。']]}},
+  'heroine_04': {'know': [[None, '（外面很冷。她的美式裡還是一大堆冰塊。）']], 'right': [['heroine_04', '你知道喔。'], ['heroine_04', '……十二月也是冰的。不要問。']], 'itemOnly': [['heroine_04', '熱的？……好啦。我等它涼。']], 'wrong': {'拿鐵': [['heroine_04', '拿鐵？……好啦，我也喝。']], '熱可可': [['heroine_04', '熱可可是芷若在喝的。……好啦，我也喝。']], '紅茶': [['heroine_04', '紅茶。……可以。']], '手沖': [['heroine_04', '手沖？你很捨得欸。……謝謝。']]}},
+  'kexin': {'know': [['kexin', '……有糖。'], ['kexin', '我只喝無糖的。你下次記得。']], 'right': [['kexin', '無糖。……你記得。'], ['kexin', '我以為你只記得考試的東西。']], 'itemOnly': [['kexin', '半糖？……你上次明明知道。']], 'wrong': {'珍珠奶茶': [['kexin', '珍奶。……你是故意的吧。'], [None, '（她還是插了吸管。）']], '紅茶': [['kexin', '紅茶。……也可以。']], '冬瓜檸檬': [['kexin', '冬瓜檸檬？這個甜死了。'], [None, '（她還是喝了半杯。）']]}},
+}
+SQT = {'SQ10': '滇香小館：華新街的乳扇', 'SQ11': '巷口家常菜：對發票', 'SQ12': 'Pasta 118：週一公休的那一晚', 'SQ13': '韓食小廚：第三罐泡菜', 'SQ14': '一盞茶屋：回診', 'SQ15': '舊路書房：一箱法律系的舊書', 'SQ16': '輪轉單車：兩年沒人來牽的車', 'SQ17': '一一八茶飲：英文面試', 'SQ18': '清葉茶行：二十杯的訂單', 'SQ19': '巷子裡定食：忘在桌上的筆記本', 'SQ20': '半熟早午餐：計時'}   # 手機「今天」、提示的標題（SIDEQ.Q[id].title）
+def R7T(a): return [x[1] if isinstance(x, (list, tuple)) else x for x in a]   # [誰, 台詞] → 台詞（旁白、說話框都只比對字）
+def TOASTS(i): return ['TOAST:📝 順手的事：' + SQT[i], 'TOAST:📝 順手的事：' + SQT[i] + '（做完了）']
+def SQB(key): return NOKX + SQROLL + EATN(key, 4)   # [前置] 這間店點過 4 次（這一次＝第 5 次，店員認得你）；【捷徑】「偶爾」固定抽中
+def ORDER(n): return ('usep', '^點餐（%s）$' % n)   # 118 巷店裡的點餐（src/l118_shops3d.js）
+TEAH = ('usep', '^喝茶$'); WZORD = ('usep', '^點餐$')   # 一盞茶屋；巷子裡定食、半熟早午餐（zones3d.js CUST 的「點餐」）
+GGTEA = ('usep', '^買一杯飲料$')   # 公館的清葉茶行（溫州街巷口茶飲的窗口同名，在溫州街照舊用 TEA）
+BOOKB = ('usep', '^看看法律書與文具$'); BIKE = ('usep', '^找車行老闆$'); ROOMI = ('usep', '^看看房間裡的東西$'); CAFEC = ('usep', '^到吧檯點餐$')
+def NEXT(n, h): return ('jump', 'GAME.G.day+%d' % n, h, '%d 天後（人在原地）' % n)
+def OUTD(ev): return "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev===%s&&x.state==='planned'); return q?q.day:null; })()" % json.dumps(ev)   # 排好的出遊那一天
+def WAITNPC(i): return ('wait', "(n=>!!n&&!n.leaving)(GAME.npc&&GAME.npc[%s])" % json.dumps(i), 25, '%s 在這裡' % i)
+def VISIT(n, pre, h, i): return [NEXT(n, pre), ('jump', 'GAME.G.day', h, '同一天 %.2f' % h), WAITNPC(i)]   # 【捷徑】隔幾天再來同一間店（先撥到她不在的時間、再撥到她的時段，等她坐下）
+def MK(i): return ('mark', "window.__LN=(window.__LOG||[]).length; window.__FA=SOCIAL.rel(%s).fam; window.__MA=GAME.G.money|0;" % json.dumps(i))
+def FAMD(i): return "(id=>{ const G=GAME.G, r=SOCIAL.rel(id), D=G.social&&G.social.daily, a=(D&&D.day===G.day&&D.p&&D.p[id])?(D.p[id].fam||0):0; return r.fam-(window.__FA|0)-a; })(%s)" % json.dumps(i)   # 這一次點完熟悉多了多少（扣掉「一起吃飯」本身那一筆 SOCIAL.activity）
+def LNQ(t): return "(t=>(window.__LOG||[]).slice(window.__LN|0).filter(x=>String(x.t).includes(t)).length)(%s)" % json.dumps(t, ensure_ascii=False)   # mark 之後含這幾個字的台詞／選單幾次
+def LOGN(t): return "(t=>(window.__LOG||[]).filter(x=>String(x.t)===t).length)(%s)" % json.dumps(t, ensure_ascii=False)
+MONEYD = "(GAME.G.money|0)-(window.__MA|0)"
+def FAVR(i): return "!!FAV.right(GAME.G,%s)" % json.dumps(i)
+def NOTEQ(i): return "(GAME.G.notes||[]).some(n=>n.id==='fav_'+%s)" % json.dumps(i)
+def MEMQ(i, tag): return "!!SOCIAL.has(%s,%s)" % (json.dumps(i), json.dumps(tag))
+def NOTE_T(i): return 'TOAST:📓 筆記：' + FAVL['note'][i]
+GE1 = lambda n: isinstance(n, int) and n >= 1
+R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"
+def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
+# ---- 3D：痕跡道具（TRACE_SQxx，zones3d.js traceVis）、貓（wz_cat，zones3d.js buildWzPark）----
+R7_TRQ = """(id=>{ const out=[], R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(!R.test(o.name||'')) return; let w=true; for(let p=o;p;p=p.parent) if(p.visible===false){ w=false; break; }
+  let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); const v=new THREE.Vector3(); o.getWorldPosition(v);
+  out.push({n:o.name,vis:o.visible,wvis:w,op:+op.toFixed(2),x:+v.x.toFixed(2),y:+v.y.toFixed(2),z:+v.z.toFixed(2)}); }); return out; })(%s)"""   # wvis＝自己和上面每一層都 visible（真的畫出來）
+def TRACEQ(i): return R7_TRQ % json.dumps(i)
+def TRACEN(i): return "(id=>{ let n=0; const R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(R.test(o.name||'')) n++; }); return n>0; })(%s)" % json.dumps(i)
+def TRWAIT(i): return ('wait', TRACEN(i), 60, '場景裡有 TRACE_%s 節點（正式模型載入）' % i)
+ANYVIS = lambda x: isinstance(x, list) and len(x) > 0 and any(n.get('wvis') for n in x)
+NOVIS = lambda x: isinstance(x, list) and len(x) > 0 and not any(n.get('wvis') for n in x)
+def TRCHK(i, on, why): return ('chk', why, TRACEQ(i), ANYVIS if on else NOVIS)
+def TT(i, **k): d = {'re': '^TRACE_' + i, 'dist': 1.6, 'pitch': 0.15}; d.update(k); return d   # 截圖的目標：那個痕跡節點
+R7_CAT = """(()=>{ const E=GAME.E, G=GAME.G, P=typeof PARK!=='undefined'?PARK:null; let c=null; E.scene.traverse(o=>{ if(!c&&o.name==='wz_cat') c=o; });
+  const btn=(E.interactables||[]).find(i=>i.park==='cat'); const st={adopted:!!(P&&P.catAdopted(G)),cold:!!(P&&P.catCold(G)),under:!!(P&&P.catUnder(G)),btn:btn?{label:btn.label,hidden:!!btn.hidden}:null};
+  if(!c) return Object.assign({found:false},st); let w=true; for(let p=c;p;p=p.parent) if(p.visible===false){ w=false; break; }
+  const poses={}; let model=null; c.traverse(o=>{ const m=/^CAT_(sit|lie|walk|curl)$/.exec(o.name||''); if(m){ poses[m[1]]=o.visible; if(o.visible&&!model) model=o; } });
+  const v=new THREE.Vector3(); (model||c.children[0]||c).getWorldPosition(v); const L=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT.items:[], pav=L.find(i=>i.kind==='pavilion'), ring=L.find(i=>i.kind==='ring_bench');
+  return Object.assign({found:true,visible:c.visible,shown:w,groupUnder:!!c.userData.under,glb:Object.keys(poses).length>0,pose:Object.keys(poses).filter(k=>poses[k]).join(',')||null,
+    x:+v.x.toFixed(2),y:+v.y.toFixed(2),z:+v.z.toFixed(2),dTable:pav?+Math.hypot(v.x-pav.x-0.3,v.z-pav.z-0.05).toFixed(2):null,dBench:ring?+Math.hypot(v.x-ring.x,v.z-ring.z-(ring.r||1.45)).toFixed(2):null},st); })()"""
+CATGLB = "(()=>{ let c=null; GAME.E.scene.traverse(o=>{ if(!c&&o.name==='wz_cat') c=o; }); let g=false; if(c) c.traverse(o=>{ if(/^CAT_(sit|lie|walk|curl)$/.test(o.name||'')) g=true; }); return g; })()"   # 正式模型（bldg.wz_cat，lazy）載入了
+CATT = {'name': 'wz_cat', 'child': '^CAT_(lie|curl|sit|walk)$', 'visOnly': True, 'first': True, 'd': 2.0, 'dist': 1.4, 'pitch': 0.35}
+def CATSHOT(tag): return ('shot', tag, CATT, CATGLB, 45)
+def CATOK(under, pose): return lambda c: bool(c) and c.get('found') and c.get('visible') and c.get('shown') and c.get('groupUnder') == under and c.get('pose') == pose and (c.get('dTable') if under else c.get('dBench')) is not None and (c.get('dTable') if under else c.get('dBench')) < 0.35
+CATGONE = lambda c: bool(c) and c.get('found') and not c.get('visible') and not c.get('shown') and c.get('adopted')
+CAT_JS = Y4 + NOKX + CATN
+INPARK = "(p=>!!PARK.inPark(p.x,p.z))(GAME.E.player.obj.position)"
+R7_HIDE = """(on=>{ const cv=GAME.E.renderer.domElement; for(const e of document.body.children){ if(e===cv||e.contains(cv)) continue; e.style.visibility=on?'hidden':''; }
+  if(cv.parentElement&&cv.parentElement!==document.body) for(const e of cv.parentElement.children){ if(e!==cv) e.style.visibility=on?'hidden':''; }
+  GAME.E.player.obj.visible=!on; })"""   # 同 window47_probe.py 的 HIDEUI
+# 主角站到目標 d 公尺外走得到的格子；鏡頭在主角後面（目標在畫面中間偏遠）——face：鏡頭改在目標那一側（看牆淡出）
+R7_SHOTAT = """(t=>{ const E=GAME.E, P=E.player; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} let o=null; if(t.name||t.re){ const R=t.re?new RegExp(t.re):null; E.scene.traverse(x=>{ if(!o&&(x.name===t.name||(R&&R.test(x.name||'')))) o=x; }); }
+  let O=null; if(o){ let q=null; if(t.child){ const R2=new RegExp(t.child); o.traverse(x=>{ if(!q&&x!==o&&R2.test(x.name||'')&&(x.visible||!t.visOnly)) q=x; }); } if(!q&&t.first&&o.children.length) q=o.children[0]; O=new THREE.Vector3(); (q||o).getWorldPosition(O); }
+  else if(t.x!=null) O=new THREE.Vector3(t.x,0,t.z); if(!O) return null;
+  const free=(x,z)=>!E.nav||!E.nav.free||E.nav.free(x,z); let best=null; const ds=(t.d?[t.d]:[]).concat([2.2,1.8,2.6,3.0,1.4,3.6]);
+  for(const d of ds){ for(let k=0;k<24&&!best;k++){ const a=(t.a0||0)+k*Math.PI/12, x=O.x+Math.sin(a)*d, z=O.z+Math.cos(a)*d; if(free(x,z)) best={x,z,d}; } if(best) break; }
+  if(!best) return {O:[O.x,O.z],placed:false}; if(E.placeAt) E.placeAt(P,best.x,best.z); else P.obj.position.set(best.x,0,best.z);
+  const c=E.cam, yaw=t.face?Math.atan2(O.x-best.x,O.z-best.z):Math.atan2(best.x-O.x,best.z-O.z); c.yaw=yaw; c.distTarget=t.dist||1.6; c.dist=c.distTarget; c.pitch=t.pitch!=null?t.pitch:0.3; c.manualT=60;
+  return {O:[+O.x.toFixed(2),+O.y.toFixed(2),+O.z.toFixed(2)],P:[+best.x.toFixed(2),+best.z.toFixed(2)],yaw:+yaw.toFixed(2),face:!!t.face}; })(%s)"""
+# ---- 51 用 ----
+KXPLAN = " OUT.plan(G,{id:'te_kx_Y2S1',ev:'ev_termend_dinner',day:G.day,h:18,late:0.25,place:'政大正門',title:'和可昕的學期末約會（政大正門）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:'Y2S1',who:'kexin',kind:'kexin'}});"   # [前置] 學期末約會已經約好（TERMEND 排的那一筆，同 tests/aa410_food_fav_unit.js 第 6 節）
+KXKNOW = " FAV.rec(G).know.kexin=G.day-30; SOCIAL.remember('kexin','KNOW_FAV_KX','');"   # [前置] 上一次已經帶過有糖的（知道她只喝無糖）
+KXQ = "(k=>k?k.item+'/'+k.oi:null)(FAV.rec(GAME.G).kx)"
+AN_D = NOKX + " LV('heroine_01',70,60,60); try{ ROM.start(G,'heroine_01'); }catch(e){} G.flags.dating_heroine_01=true;"   # [前置] 和以安交往中
+def WRONG(i, item): return R7T(FAVL[i]['wrong'][item])
+AN_REG = '這間的咖哩，我只吃得下半份。'; PS_REG = '我每次都點一樣的。……你們不要笑。'; YT_REG = '下午我回社會系館。……這間比我們家的辣。'; SIS_REG = '我等一下還要回去讀，先走了。'   # 常客吃完的那一句（lane118_shops.js）
+H1L = ['剛剛那個學姊，你認識喔？', '她每天這個時間來。無糖綠茶，去冰。從來沒換過。']; H1_FIX = '對啊。我都在她走到窗口以前就做好了。'   # AA_311 H1（lane118.js）
+ZR_TREAT = ['拿鐵。……我已經在做了。', '她把杯子放下，很久以後說：', '……你記得。']   # 芷若點餐事件 ev_cafe_barista_zhiruo（第 5 次起、點對那一支）
+# ---- 45、52、53、54 用 ----
+LAPSE5 = " { const R=SIDEQ.rec(G), t=SIDEQ.termKey(G); for(const [id,step] of %s) R[id]={state:'open',step,day:G.day-10,term:t,by:G.day-1}; }"   # [前置] 掛著、要玩家去做的那一步昨天到期
+def DONEJS(i): return " SIDEQ.rec(G).%s={state:'done',step:'done',day:G.day-20,term:SIDEQ.termKey(G),doneDay:G.day};" % i   # [前置] 今天做完
+LAPSEDJS = " { const R=SIDEQ.rec(G), t=SIDEQ.termKey(G); for(const id of ['SQ12','SQ13','SQ19','SQ20']) R[id]={state:'lapsed',step:'x',day:G.day-20,term:t,lapseDay:G.day-3,told:G.day-1}; }"   # [前置] 過期、店員昨天交代過
+SQ14DONE = " SIDEQ.rec(G).SQ14={state:'done',step:'done',day:D('2028-03-08'),term:'Y3S2',doneDay:D('2028-03-08')};"   # [前置] 大三下演過 SQ14 回診
+LAPSEQ = "(ids=>ids.map(id=>{ const r=SIDEQ.get(GAME.G,id); return id+':'+(r?r.state+(r.told!=null?'/told':''):'-'); }))(%s)"
+HIKEQ = "(GAME.E.interactables||[]).some(i=>i.room==='201'&&i.label==='問登山社的人')"
+SQ16_BTN = "(GAME.E.interactables||[]).some(i=>i.label==='找車行老闆'&&!i.hidden)"
+SQ16_RENAME = SQL['SQ16']['rename'].replace('{名字}', SQL['SQ16']['names'][0]); SQ16_LENT = SQL['SQ16']['lent'].replace('{N}', '一')
+def TRSCN(i, key, h, zone, via, nxt, extra=None):   # 53：做完當天進店（沒有）→ 出去 → 隔天再進店（有）
+    return dict(id='SQ53_' + i, key=key, h=h, zone=zone, flags=dict(TW3), js=NOKX + DONEJS(i),
+                steps=[TRWAIT(i), ('shot', 'day0', TT(i), None), TRCHK(i, False, '做完當天：沒有'), ENT(nxt, h, via), ENT(nxt, h, zone),
+                       TRWAIT(i), ('shot', 'day1', TT(i), None), TRCHK(i, True, '隔天再進店：有')] + (extra or []), pref=[], want=[], jsok=[('traceOn（隔天）', "!!SIDEQ.traceOn(GAME.G,%s)" % json.dumps(i), True)])
+SA = SQL['SQ15']['sis']
+R7 = [
+  # ======== 50. 溫州街小公園的 3D 貓 ========
+  dict(id='CAT50_NORMAL', key='2028-11-20', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
+       jsok=[('平常：在圓椅上趴著（正式模型 CAT_lie、visible、不在石桌下）', R7_CAT, CATOK(False, 'lie'))]),
+  dict(id='CAT50_EVE', key='2028-12-10', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
+       jsok=[('寒流前一天（12/10）：照舊趴在圓椅上', R7_CAT, CATOK(False, 'lie'))]),
+  dict(id='CAT50_COLD', key='2028-12-12', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat'), ('usep', '^麻糬$')], pref=[], want=[CAT_COLD],
+       jsok=[('寒流（12/11～12/14）：縮成一團（CAT_curl）在涼亭石桌底下', R7_CAT, CATOK(True, 'curl')), ('高度在涼亭地台上（y < 0.35）', "(c=>c&&c.y)(%s)" % R7_CAT, lambda y: isinstance(y, (int, float)) and y < 0.35)]),
+  dict(id='CAT50_STAY', key='2028-12-14', h=22.25, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, pref=[], want=[],
+       steps=[TREE, CATSHOT('2245'), ('chk', '23:00 以前：還縮在石桌下', R7_CAT, CATOK(True, 'curl')), ('chk', '人在公園裡', INPARK, True), ('until', 23.1),
+              ('chk', '待在公園裡過 23:00：還在公園裡', INPARK, True), ('shot', '2306', CATT, None)],
+       jsok=[('23:00 以後：公園沒有貓（不顯示）', R7_CAT, CATGONE), ('12/15～16 以前沒有「看圓椅」按鈕', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
+  dict(id='CAT50_ZQ', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE, pref=['「我幫妳抱。」'],
+       steps=[TREE, ('until', 22.75), ('shot', 'after', CATT, None)], want=CAT_EV0 + CAT_EVB, cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True},
+       jsok=[('子晴帶走那一場演完（23:00 以前）：公園沒有貓', R7_CAT, CATGONE), ('現在還不到 23:00', "GAME.G.hour<23", True)]),
+  dict(id='CAT50_AFTER', key='2028-12-14', h=23.5, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
+       jsok=[('12/14 23:30 進公園：沒有貓', R7_CAT, CATGONE), ('沒有「看圓椅」按鈕（12/17 起才有）', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
+  dict(id='CAT50_NEXT', key='2028-12-15', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
+       jsok=[('12/15 14:00：沒有貓', R7_CAT, CATGONE), ('沒有按鈕', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
+  dict(id='CAT50_FUR', key='2028-12-17', h=16.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS,
+       steps=[CATSHOT('cat'), ('chk', '12/17：按鈕「看圓椅」', "(c=>c&&c.btn&&!c.btn.hidden?c.btn.label:null)(%s)" % R7_CAT, '看圓椅'), ('usep', '^看圓椅$')], pref=[], want=[CAT_FUR],
+       jsok=[('還是沒有貓', R7_CAT, CATGONE), ('「看圓椅」看過一次就藏起來', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
+  # ======== 51. 她們各自喜歡吃的東西（一起吃時也幫她點）========
+  dict(id='FOOD51_AN', key='TERMDAY:Y1S1:6:5', h=12.3, zone='l118_omu', flags=dict(TW3), js=NOKX + " LV('heroine_01',45,30,20);", pref=['番茄醬蛋包飯', '也幫以安點一份'],
+       steps=[WAITNPC('heroine_01'), MK('heroine_01'), ORDER('蛋包飯研究所'),
+              ('chk', '點錯（番茄醬）：她那一句', LNQ(WRONG('heroine_01', '番茄醬蛋包飯')[0]), GE1), ('chk', '點錯：熟悉沒有 +2', FAMD('heroine_01'), 0), ('chk', '點錯：還沒算點對', FAVR('heroine_01'), False),
+              ('chk', '常客那一句照舊（＝知道她的點法：筆記本多一行）', LNQ(AN_REG), GE1), ('chk', '筆記本有以安那一行', NOTEQ('heroine_01'), True),
+              ('pref', ['咖哩蛋包飯', '也幫以安點一份', '不用'])] + VISIT(7, 10.0, 12.3, 'heroine_01') + [MK('heroine_01'), ORDER('蛋包飯研究所'),
+              ('chk', '只點品項（不多要盤子）：她那一句', LNQ(R7T(FAVL['heroine_01']['itemOnly'])[0]), GE1), ('chk', '只點品項：熟悉沒有 +2', FAMD('heroine_01'), 0), ('chk', '只點品項：還沒算點對', FAVR('heroine_01'), False),
+              ('pref', ['咖哩蛋包飯', '也幫以安點一份', '多要一個盤子'])] + VISIT(7, 10.0, 12.3, 'heroine_01') + [MK('heroine_01'), ORDER('蛋包飯研究所'),
+              ('chk', '點對：熟悉 +2', FAMD('heroine_01'), 2), ('chk', '點對：FAV.right', FAVR('heroine_01'), True), ('chk', '記憶 REMEMBERED_HER_FOOD', MEMQ('heroine_01', 'REMEMBERED_HER_FOOD'), True),
+              ('chk', '點對的那一次常客那一句不說（她剛才那兩句代替）', LNQ(AN_REG), 0)] + VISIT(7, 10.0, 12.3, 'heroine_01') + [MK('heroine_01'), ORDER('蛋包飯研究所'),
+              ('chk', '第二次：不再問「也幫以安點一份」', LNQ('也幫以安點一份'), 0), ('chk', '第二次：熟悉不再加', FAMD('heroine_01'), 0), ('chk', '常客那一句回來', LNQ(AN_REG), GE1)],
+       want=WRONG('heroine_01', '番茄醬蛋包飯') + R7T(FAVL['heroine_01']['itemOnly']) + R7T(FAVL['heroine_01']['right']) + [AN_REG, NOTE_T('heroine_01'), 'CHOICE:也幫以安點一份｜（就這樣）', 'CHOICE:多要一個盤子｜不用'],
+       none=R7T(FAVL['heroine_01']['rightDating']), rep=[AN_REG], dmoney=-820),   # 110×2＋120×2＋120×2＋120
+  dict(id='FOOD51_AN_DATING', key='TERMDAY:Y1S1:6:5', h=12.3, zone='l118_omu', flags=dict(TW3), js=AN_D, pref=['咖哩蛋包飯', '也幫以安點一份', '多要一個盤子'],
+       steps=[WAITNPC('heroine_01'), MK('heroine_01'), ORDER('蛋包飯研究所')], want=R7T(FAVL['heroine_01']['right']) + R7T(FAVL['heroine_01']['rightDating']), none=[AN_REG], dmoney=-240,
+       jsok=[('點對：熟悉 +2', FAMD('heroine_01'), 2), ('FAV.right', FAVR('heroine_01'), True)]),
+  dict(id='FOOD51_PS', key='TERMDAY:Y1S1:6:3', h=12.3, zone='l118_omu', flags=dict(TW3), js=NOKX + " LV('classmate_peishan',45,30,20);", pref=['咖哩蛋包飯', '也幫沛珊點一份'],
+       steps=[WAITNPC('classmate_peishan'), MK('classmate_peishan'), ORDER('蛋包飯研究所'), ('chk', '點錯（咖哩）：熟悉沒有 +2', FAMD('classmate_peishan'), 0), ('chk', '常客那一句照舊', LNQ(PS_REG), GE1),
+              ('pref', ['番茄醬蛋包飯', '也幫沛珊點一份'])] + VISIT(7, 10.0, 12.3, 'classmate_peishan') + [MK('classmate_peishan'), ORDER('蛋包飯研究所'),
+              ('chk', '點對：熟悉 +2', FAMD('classmate_peishan'), 2), ('chk', '點對：FAV.right', FAVR('classmate_peishan'), True), ('chk', '記憶 REMEMBERED_HER_FOOD', MEMQ('classmate_peishan', 'REMEMBERED_HER_FOOD'), True),
+              ('chk', '點對的那一次常客那一句不說', LNQ(PS_REG), 0)],
+       want=WRONG('classmate_peishan', '咖哩蛋包飯') + R7T(FAVL['classmate_peishan']['right']) + [PS_REG, NOTE_T('classmate_peishan'), 'CHOICE:也幫沛珊點一份｜（就這樣）'], none=['CHOICE:多要一個盤子'], dmoney=-460),   # 沛珊沒有小選項
+  dict(id='FOOD51_PS_LATE', key='TERMDAY:Y2S2:3:3', h=12.3, zone='l118_omu', flags=dict(TW3), js=NOKX + " LV('classmate_peishan',45,30,20);", pref=['番茄醬蛋包飯', '也幫沛珊點一份'],
+       steps=[ORDER('蛋包飯研究所')], none=['CHOICE:也幫沛珊點一份', PS_REG], dmoney=-110, jsok=[('2026-12-16 以後：沛珊不在蛋包飯研究所', "!(GAME.npc&&GAME.npc.classmate_peishan)", True)]),
+  dict(id='FOOD51_YT', key='TERMDAY:Y2S1:3:1', h=12.3, zone='l118_dian', flags=dict(TW3), js=NOKX + " LV('heroine_03',45,30,20);", pref=['椒麻雞飯', '也幫語彤點一份', '不加'],
+       steps=[WAITNPC('heroine_03'), MK('heroine_03'), ORDER('滇香小館'), ('chk', '點錯（椒麻雞飯）：熟悉沒有 +2', FAMD('heroine_03'), 0), ('chk', '還不知道', NOTEQ('heroine_03'), False),
+              NEXT(1, 12.3), ORDER('滇香小館'), ('chk', '一起吃過以後，隔天自己來：老闆娘兩句＝知道（記憶 KNOW_FAV_YT）', MEMQ('heroine_03', 'KNOW_FAV_YT'), True), ('chk', '筆記本有語彤那一行', NOTEQ('heroine_03'), True),
+              ('pref', ['酸辣河粉', '也幫語彤點一份', '不加'])] + VISIT(6, 10.0, 12.3, 'heroine_03') + [MK('heroine_03'), ORDER('滇香小館'), ('chk', '只點品項：熟悉沒有 +2', FAMD('heroine_03'), 0),
+              ('pref', ['酸辣河粉', '也幫語彤點一份', '多加辣'])] + VISIT(7, 10.0, 12.3, 'heroine_03') + [MK('heroine_03'), ORDER('滇香小館'),
+              ('chk', '點對：熟悉 +2', FAMD('heroine_03'), 2), ('chk', '點對：FAV.right', FAVR('heroine_03'), True), ('chk', '記憶 REMEMBERED_HER_FOOD', MEMQ('heroine_03', 'REMEMBERED_HER_FOOD'), True), ('chk', '點對的那一次常客那一句不說', LNQ(YT_REG), 0)],
+       want=WRONG('heroine_03', '*') + R7T(FAVL['heroine_03']['know']) + R7T(FAVL['heroine_03']['itemOnly']) + R7T(FAVL['heroine_03']['right']) + [YT_REG, NOTE_T('heroine_03')], rep=[YT_REG], dmoney=-730),   # 110×2＋110＋100×2＋100×2
+  dict(id='FOOD51_YT_Y1', key='TERMDAY:Y1S2:3:1', h=12.3, zone='l118_dian', flags=dict(TW3), js=NOKX + " LV('heroine_03',45,30,20);", pref=['椒麻雞飯', '也幫語彤點一份'],
+       steps=[ORDER('滇香小館')], none=['CHOICE:也幫語彤點一份'] + R7T(FAVL['heroine_03']['know']), dmoney=-110, jsok=[('大一：語彤不在滇香', "!(GAME.npc&&GAME.npc.heroine_03)", True)]),
+  dict(id='FOOD51_SIS', key='TERMDAY:Y1S1:5:2', h=12.52, zone='l118_tea', flags=dict(TW3), js=SISF, pref=['紅茶拿鐵', '也幫學姊點一杯', '去冰', '「她很固定。」'],
+       steps=[WAITNPC('heroine_05'), MK('heroine_05'), ORDER('一一八茶飲'), ('chk', '點錯：熟悉沒有 +2', FAMD('heroine_05'), 0), ('chk', '店員 H1 那兩句＝知道（SIS_TEA_ORDER）', "!!GAME.G.flags.SIS_TEA_ORDER", True), ('chk', '筆記本有學姊那一行', NOTEQ('heroine_05'), True),
+              ('pref', ['無糖綠茶', '也幫學姊點一杯', '正常冰'])] + VISIT(1, 10.0, 12.52, 'heroine_05') + [MK('heroine_05'), ORDER('一一八茶飲'), ('chk', '只點品項（正常冰）：熟悉沒有 +2', FAMD('heroine_05'), 0),
+              ('pref', ['無糖綠茶', '也幫學姊點一杯', '去冰'])] + VISIT(1, 10.0, 12.52, 'heroine_05') + [MK('heroine_05'), ORDER('一一八茶飲'),
+              ('chk', '點對：熟悉 +2', FAMD('heroine_05'), 2), ('chk', '點對：FAV.right', FAVR('heroine_05'), True), ('chk', '記憶 REMEMBERED_HER', MEMQ('heroine_05', 'REMEMBERED_HER'), True)],
+       want=WRONG('heroine_05', '*') + H1L + [H1_FIX] + R7T(FAVL['heroine_05']['itemOnly']) + R7T(FAVL['heroine_05']['right']) + [SIS_REG, NOTE_T('heroine_05')], none=R7T(FAVL['heroine_05']['rightGuess'])[:1], rep=[SIS_REG], dmoney=-220),
+  dict(id='FOOD51_SIS_GUESS', key='TERMDAY:Y1S1:5:2', h=12.52, zone='l118_tea', flags=dict(TW3), js=SISF, pref=['無糖綠茶', '也幫學姊點一杯', '去冰', '「她很固定。」'],
+       steps=[WAITNPC('heroine_05'), MK('heroine_05'), ORDER('一一八茶飲')], want=R7T(FAVL['heroine_05']['rightGuess']), none=R7T(FAVL['heroine_05']['right'])[:1], dmoney=-60,
+       jsok=[('沒聽過 H1 就猜對：熟悉 +2', FAMD('heroine_05'), 2), ('FAV.right', FAVR('heroine_05'), True)]),   # 猜對以後 H1 照程式還是會演（只記錄，不判）
+  dict(id='FOOD51_ZQ', key='2028-12-05', h=20.4, zone='cafe', flags=dict(TWF), js=Y4 + ZQF, pref=['熱可可', '也幫子晴點一杯', '冰的', '拿鐵'],
+       steps=[WAITNPC('heroine_04'), MK('heroine_04'), CAFEC, ('chk', '12 月第一次：看到她的杯子＝知道（KNOW_FAV_ZQ）', MEMQ('heroine_04', 'KNOW_FAV_ZQ'), True), ('chk', '點錯（熱可可）：熟悉沒有 +2', FAMD('heroine_04'), 0),
+              ('pref', ['紅茶', '也幫子晴點一杯', '冰的', '拿鐵'])] + VISIT(1, 19.0, 20.4, 'heroine_04') + [MK('heroine_04'), CAFEC,
+              ('pref', ['手沖', '也幫子晴點一杯', '冰的'])] + VISIT(1, 19.0, 20.4, 'heroine_04') + [MK('heroine_04'), CAFEC, ('chk', '手沖：錢照價錢扣（自己的手沖咖啡 150＋她的手沖 150）', MONEYD, -300),
+              ('pref', ['美式', '也幫子晴點一杯', '熱的', '拿鐵'])] + VISIT(1, 19.0, 20.4, 'heroine_04') + [MK('heroine_04'), CAFEC, ('chk', '只點品項（熱的）：熟悉沒有 +2', FAMD('heroine_04'), 0),
+              ('pref', ['美式', '也幫子晴點一杯', '冰的', '拿鐵'])] + VISIT(3, 19.0, 20.4, 'heroine_04') + [MK('heroine_04'), CAFEC,
+              ('chk', '點對：熟悉 +2', FAMD('heroine_04'), 2), ('chk', '點對：FAV.right', FAVR('heroine_04'), True), ('chk', '記憶 REMEMBERED_HER', MEMQ('heroine_04', 'REMEMBERED_HER'), True)]
+              + VISIT(1, 19.0, 20.4, 'heroine_04') + [MK('heroine_04'), CAFEC, ('chk', '之後不再問', LNQ('也幫子晴點一杯'), 0)],
+       want=R7T(FAVL['heroine_04']['know']) + WRONG('heroine_04', '熱可可') + WRONG('heroine_04', '紅茶') + WRONG('heroine_04', '手沖') + R7T(FAVL['heroine_04']['itemOnly']) + R7T(FAVL['heroine_04']['right']) + [NOTE_T('heroine_04')],
+       dmoney=-1380),   # 240＋240＋300＋240＋240＋120
+  dict(id='FOOD51_ZQ_ABSENT', key='2028-12-09', h=20.4, zone='cafe', flags=dict(TWF), js=Y4 + ZQF, pref=['拿鐵'], steps=[CAFEC],
+       none=['CHOICE:也幫子晴點一杯'] + R7T(FAVL['heroine_04']['know']), dmoney=-120, jsok=[('週六晚上：子晴不在店裡', "!(GAME.npc&&GAME.npc.heroine_04)", True)]),
+  dict(id='FOOD51_KX_RIGHT', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['青茶', '帶一杯給可昕', '無糖'],
+       steps=[MK('kexin'), TEA, ('chk', '帶給她的那一杯：錢照價錢扣（30＋30）', MONEYD, -60), ('chk', '記下帶了哪一杯', KXQ, '青茶/0'), ('until', 19.0)],
+       want=R7T(FAVL['kexin']['right']) + ['CHOICE:帶一杯給可昕｜（就這樣）'], none=R7T(FAVL['kexin']['know']),
+       jsok=[('FAV.right', FAVR('kexin'), True), ('記憶 REMEMBERED_HER', MEMQ('kexin', 'REMEMBERED_HER'), True), ('筆記本有可昕那一行', NOTEQ('kexin'), True), ('約會演完：那一杯用掉了', KXQ, None)]),
+  dict(id='FOOD51_KX_KNOW', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['青茶', '帶一杯給可昕', '半糖'],
+       steps=[MK('kexin'), TEA, ('chk', '記下帶了哪一杯', KXQ, '青茶/1'), ('until', 19.0)], want=R7T(FAVL['kexin']['know']), none=R7T(FAVL['kexin']['right'])[:1] + R7T(FAVL['kexin']['itemOnly']),
+       jsok=[('第一次帶有糖的＝知道（KNOW_FAV_KX）', MEMQ('kexin', 'KNOW_FAV_KX'), True), ('筆記本有可昕那一行', NOTEQ('kexin'), True), ('還沒算點對', FAVR('kexin'), False)]),
+  dict(id='FOOD51_KX_HALF', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN + KXKNOW, pref=['青茶', '帶一杯給可昕', '半糖'],
+       steps=[TEA, ('until', 19.0)], want=R7T(FAVL['kexin']['itemOnly']), none=R7T(FAVL['kexin']['know']), jsok=[('還沒算點對', FAVR('kexin'), False)]),
+  dict(id='FOOD51_KX_RED', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['紅茶', '帶一杯給可昕', '無糖'],
+       steps=[TEA, ('chk', '記下帶了哪一杯', KXQ, '紅茶/0'), ('until', 19.0)], want=WRONG('kexin', '紅茶'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
+  dict(id='FOOD51_KX_MELON', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['冬瓜檸檬', '帶一杯給可昕', '無糖'],
+       steps=[MK('kexin'), TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)], want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
+  dict(id='FOOD51_KX_NOTRIP', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ, pref=['青茶', '帶一杯給可昕'], steps=[TEA],
+       none=['CHOICE:帶一杯給可昕'], dmoney=-30),   # 沒有排學期末約會：沒有「帶一杯給可昕」
+  dict(id='FOOD51_ZR_SAME', key='TERMDAY:Y1S2:5:2', h=19.5, zone='cafe', flags=dict(TW3),
+       js=NOKX + " LV('heroine_02',45,30,20); SOCIAL.remember('heroine_02','ASKED_HER_DRINK',''); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵';", pref=['也幫芷若點一杯', '熱可可', '加一份濃縮'],
+       steps=[('talk', 'heroine_02')], want=ZR_TREAT + ['CHOICE:也幫芷若點一杯｜（就這樣）'], jsok=[('芷若點對照舊：REMEMBERED_HER', MEMQ('heroine_02', 'REMEMBERED_HER'), True)]),   # [前置] 問過她喝什麼（Z3）、點過 6 次
+  # ======== 45＋52. 店員支線第二、三批（SQ10～SQ20，沒有 SQ16）＋AA_408 第 6 節補字 ========
+  dict(id='SQ45_SQ10', key='2027-03-09', h=12.3, zone='l118_dian', flags=dict(TW3), js=SQB('滇香小館'), pref=['椒麻雞飯', '「要我幫忙嗎？」', '出發：中和'],
+       steps=[ORDER('滇香小館'), ('jump', OUTD('ev_sq10_hwaxin'), 13.0, '華新街那天（週六）13:00'), ('until', 16.2), ('chk', '華新街回來：還沒做完（AA_408 6：下一次來滇香先交乳扇）', SQST('SQ10'), 'open/give'),
+              NEXT(2, 12.3), ORDER('滇香小館'), ('chk', '交乳扇兩行以後才算做完', SQST('SQ10'), 'done/done'), NEXT(1, 12.3), ORDER('滇香小館'), NEXT(1, 12.3), ORDER('滇香小館')],
+       want=SQL['SQ10']['open'] + [SQL['SQ10'][k] for k in ('noteN', 'note', 'read', 'who', 'past', 'giveN', 'give', 'handN', 'hand', 'menu', 'greet')] + TOASTS('SQ10'), dmoney=-500),   # 110×4＋來回 60
+  dict(id='SQ45_SQ10_EARLY', key='2026-10-06', h=12.3, zone='l118_dian', flags=dict(TW3), js=SQB('滇香小館'), pref=['椒麻雞飯', '「要我幫忙嗎？」'], steps=[ORDER('滇香小館')],
+       none=SQL['SQ10']['open'][:1], jsok=[('大二上：還沒有 SQ10（大二下起）', SQST('SQ10'), None)]),
+  dict(id='SQ45_SQ11', key='2026-11-25', h=12.3, zone='l118_home', flags=dict(TW3), js=SQB('巷口家常菜'), pref=['排骨飯', '「要我幫忙嗎？」'],
+       steps=[ORDER('巷口家常菜'), NEXT(1, 12.3), ORDER('巷口家常菜'), NEXT(1, 12.3), ORDER('巷口家常菜')],
+       want=R7T(SQL['SQ11']['open']) + [SQL['SQ11'][k] for k in ('winN', 'win', 'noCat', 'box')] + TOASTS('SQ11'), none=SQL['SQ11']['cat'] + [SQL['SQ11']['boxCat']], dmoney=-190,
+       jsok=[('SQ11 做完、這一餐請客（退 95）', "(r=>r?r.state+'/'+r.free:null)(SIDEQ.get(GAME.G,'SQ11'))", 'done/95')]),   # 95＋0＋95
+  dict(id='SQ45_SQ11_CAT', key='2026-11-25', h=12.3, zone='l118_home', flags=dict(TW3), js=SQB('巷口家常菜') + CATN + SQ08DONE, pref=['排骨飯', '「要我幫忙嗎？」'],
+       steps=[ORDER('巷口家常菜'), NEXT(1, 12.3), ORDER('巷口家常菜'), NEXT(1, 12.3), ORDER('巷口家常菜')],
+       want=[SQL['SQ11']['win']] + SQL['SQ11']['cat'] + [SQL['SQ11']['box'], SQL['SQ11']['boxCat']], none=[SQL['SQ11']['noCat']], dmoney=-285),   # [前置] SQ08 餵貓表貼了＝餵過公園的貓
+  dict(id='SQ45_SQ11_EVEN', key='2026-10-27', h=12.3, zone='l118_home', flags=dict(TW3), js=SQB('巷口家常菜'), pref=['排骨飯', '「要我幫忙嗎？」'], steps=[ORDER('巷口家常菜')],
+       none=R7T(SQL['SQ11']['open'])[:1], jsok=[('雙數月：不開口（單數月 25 日以後才有）', SQST('SQ11'), None)]),
+  dict(id='SQ45_SQ12', key='2027-10-05', h=12.3, zone='l118_pasta', flags=dict(TW3), js=SQB('Pasta 118'), pref=['白醬雞肉麵', '「要我幫忙嗎？」', '出發：Pasta'],
+       steps=[ORDER('Pasta 118'), ('jump', OUTD('ev_sq12_pasta'), 18.5, '下禮拜一 18:30'), ('until', 21.0), ('chk', '週一那一晚演完＝做完', SQST('SQ12'), 'done/done'),
+              TRWAIT('SQ12'), TRCHK('SQ12', False, '做完當天：吧檯後面還沒有照片（3D）'), NEXT(1, 12.3), ORDER('Pasta 118'), TRCHK('SQ12', True, '隔天：吧檯後面兩人照（3D）'), ('shot', 'photo', TT('SQ12'), None),
+              ('jump', "STORY.dayOfKey('2028-03-07')", 12.3, '下學期（大三下）'), ORDER('Pasta 118')],
+       want=R7T(SQL['SQ12']['open']) + [SQL['SQ12'][k] for k in ('inN', 'in', 'knew', 'yesN', 'photo', 'free', 'wall', 'greet', 'her')] + TOASTS('SQ12'), none=[SQL['SQ12']['inPair']], dmoney=-390),   # 130×3（那一晚沒收錢）
+  dict(id='SQ52_SQ12_PAIR', key='2027-10-05', h=12.3, zone='l118_pasta', flags=dict(TW3), js=SQB('Pasta 118') + AN_D, pref=['白醬雞肉麵', '「要我幫忙嗎？」', '以安一起去）', '出發：Pasta'],
+       steps=[ORDER('Pasta 118'), ('jump', OUTD('ev_sq12_pasta'), 18.5, '下禮拜一 18:30'), ('until', 21.0)],
+       want=['CHOICE:（一個人去）｜（約', '以安一起去）', SQL['SQ12']['inPair'], SQL['SQ12']['pair']['heroine_01']], none=[SQL['SQ12']['in'], '沛珊一起去）', '芷若一起去）'],
+       jsok=[('一起去的是以安', "(r=>r?r.partner:null)(SIDEQ.get(GAME.G,'SQ12'))", 'heroine_01'), ('【讀資料】可選名單（芷若、沛珊大三上不在臺北：不在選項）', "Object.keys(SIDEQ.LINES.SQ12.pair).sort()", ['heroine_01', 'heroine_03', 'heroine_04', 'heroine_05', 'kexin'])]),
+  dict(id='SQ45_SQ12_Y3S2', key='2028-03-07', h=12.3, zone='l118_pasta', flags=dict(TW3), js=SQB('Pasta 118'), pref=['白醬雞肉麵', '「要我幫忙嗎？」'], steps=[ORDER('Pasta 118')],
+       none=R7T(SQL['SQ12']['open'])[:1], jsok=[('大三下：不開口（只有大三上）', SQST('SQ12'), None)]),
+  dict(id='SQ45_SQ13', key='2026-10-13', h=12.3, zone='l118_korea', flags=dict(TW3), js=SQB('韓食小廚'), pref=['海苔飯捲', '「要我幫忙嗎？」', '「比上次好。」'],
+       steps=[ORDER('韓食小廚'), NEXT(1, 12.3), ORDER('韓食小廚'), NEXT(1, 12.3), ORDER('韓食小廚'), ('chk', '第三次＝她從韓國寄來的那一罐；等老闆娘回來', SQST('SQ13'), 'open/wait'),
+              ('chk', '「這罐怎樣？」問了三次', LOGN(SQL['SQ13']['ask']), lambda n: isinstance(n, int) and n >= 3),
+              NEXT(88, 12.3), ORDER('韓食小廚'), ('chk', '三個月後老闆娘回來＝做完', SQST('SQ13'), 'done/done'), TRWAIT('SQ13'), TRCHK('SQ13', False, '做完當天：小菜櫃頂上還沒有罐子（3D）'),
+              NEXT(1, 12.3), ORDER('韓食小廚'), TRCHK('SQ13', True, '隔天：小菜櫃頂上「她的」罐子（3D）'), ('shot', 'jar', TT('SQ13'), None), NEXT(1, 12.3), ORDER('韓食小廚')],
+       want=SQL['SQ13']['open'] + [SQL['SQ13']['ask'], SQL['SQ13']['reveal']] + SQL['SQ13']['better'] + SQL['SQ13']['back'] + [SQL['SQ13']['jar'], SQL['SQ13']['greet']] + TOASTS('SQ13'),
+       none=R7T(SQL['SQ13']['other']), rep=[SQL['SQ13']['ask']], dmoney=-420),   # 70×6
+  dict(id='SQ45_SQ13_SAME', key='2026-10-13', h=12.3, zone='l118_korea', flags=dict(TW3), js=SQB('韓食小廚'), pref=['海苔飯捲', '「要我幫忙嗎？」', '「一樣。」'],
+       steps=[ORDER('韓食小廚'), NEXT(1, 12.3), ORDER('韓食小廚'), NEXT(1, 12.3), ORDER('韓食小廚')], want=[SQL['SQ13']['reveal']] + R7T(SQL['SQ13']['other']), none=SQL['SQ13']['better'][:1], rep=[SQL['SQ13']['ask']]),
+  dict(id='SQ45_SQ13_EARLY', key='TERMDAY:Y1S2:5:2', h=12.3, zone='l118_korea', flags=dict(TW3), js=SQB('韓食小廚'), pref=['海苔飯捲', '「要我幫忙嗎？」'], steps=[ORDER('韓食小廚')],
+       none=SQL['SQ13']['open'][:1], jsok=[('大一：不開口（大二上起）', SQST('SQ13'), None)]),
+  dict(id='SQ45_SQ14', key='2028-03-08', h=14.0, zone='wz_teahouse', flags=dict(TW3), js=SQB('溫州街・一盞') + CATN, pref=['凍頂烏龍', '「要我幫忙嗎？」', '出發：回診'],
+       steps=[TEAH, ('chk', '掛著：兩週內把貓放進外出籠', SQST('SQ14'), 'open/cage'), ENT('2028-03-08', 15.0, 'wenzhou'), ('usep', '^看麻糬$'), ('until', 17.2), ('chk', '動物醫院回來＝做完', SQST('SQ14'), 'done/done'),
+              ENT('2028-03-09', 14.0, 'wz_teahouse'), TEAH, TRWAIT('SQ14'), TRCHK('SQ14', True, '隔天：水屋上的舊貓照片（3D）'), ('shot', 'photo', TT('SQ14'), None), ENT('2028-03-10', 14.0, 'wz_teahouse'), TEAH],
+       want=SQL['SQ14']['open'] + [SQL['SQ14']['cage']] + SQL['SQ14']['chip'] + [SQL['SQ14']['backN']] + SQL['SQ14']['back'] + [SQL['SQ14'][k] for k in ('tea', 'photo', 'greet')] + TOASTS('SQ14'), dmoney=-840),   # 280×3
+  dict(id='SQ52_SQ14_NOTICE', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE + SQ14DONE, pref=['「我幫妳抱。」', '領養'],
+       steps=[TREE, ('until', 22.75), ('jump', "STORY.dayOfKey('2028-12-15')", 11.8, '隔天中午前'), ('until', 12.3), ('jump', "STORY.dayOfKey('2028-12-17')", 16.0, '12/17 下午'), NOTICE],
+       wantMsg=CAT_VET + SQL['SQ14']['zq'], want=[ADOPT, SQL['SQ14']['notice']], once=CAT_EV0),   # 做完 SQ14：12/15 子晴的照片多兩句、12/17 領養告示多「（豆花）」
+  dict(id='SQ52_SQ14_NO', key='2028-12-17', h=16.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + NOKX + CATN + SQ08DONE + " G.flags.ZQ_CAT_NIGHT=true;", pref=['領養'],
+       steps=[NOTICE], want=[ADOPT], none=[SQL['SQ14']['notice']], once=[]),   # [前置] 那一場演過、沒有 SQ14
+  dict(id='SQ45_SQ15', key='2026-10-06', h=15.0, zone='bookstore', flags=dict(TW3), js=SQB('舊路書房') + SISF, pref=['只是看看', '「要我幫忙嗎？」', '「這本我買。」', '學姊大一的民法總則'],
+       steps=[BOOKB, ('chk', '掛著：一週內去整理', SQST('SQ15'), 'open/sort'), ENT('2026-10-07', 15.0, 'bookstore'), BOOKB, ('chk', '買下來＝做完', SQST('SQ15'), 'done/done'),
+              ('meet', 'heroine_05', '+1', '+6'), ('talk', 'heroine_05'), ENT('2026-10-20', 14.0, 'dorm'), ROOMI],
+       want=SQL['SQ15']['open'] + [SQL['SQ15']['look']] + SQL['SQ15']['find'] + [SQL['SQ15']['who'], SQL['SQ15']['reply'][0], SA['put'], SA['how'], SA['bought'], SA['ugly'], SA['keep'], SQL['SQ15']['shelf']] + TOASTS('SQ15'),
+       none=[SA['asked'], SQL['SQ15']['eve']], dmoney=-80, jsok=[('房間多一件「學姊大一的民法總則」', ROOMX % json.dumps('學姊大一的民法總則'), lambda x: isinstance(x, list) and len(x) == 1)]),
+  dict(id='SQ52_SQ15_ASK', key='2026-10-06', h=15.0, zone='bookstore', flags=dict(TW3), js=SQB('舊路書房') + SISF, pref=['只是看看', '「要我幫忙嗎？」', '「幫我留著，我問問她。」'],
+       steps=[BOOKB, ENT('2026-10-07', 15.0, 'bookstore'), BOOKB, ('chk', '幫我留著：一週內找學姊', SQST('SQ15'), 'open/sis'), ('meet', 'heroine_05', '+1', '+6'), ('talk', 'heroine_05'),
+              ('chk', '問過她：下一次去買', SQST('SQ15'), 'open/buy'), ENT('2026-10-14', 15.0, 'bookstore'), BOOKB],
+       want=[SQL['SQ15']['reply'][1], SA['put'], SA['asked'], SA['keep'], SQL['SQ15']['buy']] + TOASTS('SQ15'), none=[SA['bought']], dmoney=-80, jsok=[('做完', SQST('SQ15'), 'done/done')]),
+  dict(id='SQ52_SQ15_RECYCLE', key='2026-10-06', h=15.0, zone='bookstore', flags=dict(TW3), js=SQB('舊路書房') + SISF, pref=['只是看看', '「要我幫忙嗎？」', '「這幾本修法了，不能賣。」'],
+       steps=[BOOKB, ENT('2026-10-07', 15.0, 'bookstore'), BOOKB], want=[SQL['SQ15']['reply'][2]], none=[SA['put']], dmoney=0,
+       jsok=[('做完、書拿去回收', "[%s, GAME.G.flags.SQ15_BOOK]" % SQST('SQ15'), ['done/done', 'recycled']), ('房間沒有那本書', ROOMX % json.dumps('學姊大一的民法總則'), [])]),
+  dict(id='SQ45_SQ15_NOSIS', key='2026-10-06', h=15.0, zone='bookstore', flags=dict(TW3), js=SQB('舊路書房'), pref=['只是看看', '「要我幫忙嗎？」'], steps=[BOOKB],
+       none=SQL['SQ15']['open'][:1], jsok=[('不認識學姊：不開口', SQST('SQ15'), None)]),
+  dict(id='SQ45_SQ17', key='2027-03-09', h=15.0, zone='l118_tea', flags=dict(TW3), js=SQB('一一八茶飲') + " LV('heroine_01',45,30,20); G.contacts=G.contacts||{}; G.contacts.heroine_01=D('2025-09-10');",
+       pref=['紅茶拿鐵', '「要我幫忙嗎？」', '「為什麼想去？」', '「去了想學什麼？」', '「如果沒上呢？」', '「上了跟我說。」'],
+       steps=[ORDER('一一八茶飲'), NEXT(1, 15.0), ORDER('一一八茶飲'), ('chk', '前兩題沒有封膜機那一句', LOGN(SQL['SQ17']['en']), 0), NEXT(1, 15.0), ORDER('一一八茶飲'),
+              ('chk', '給了號碼：聯絡人多「一一八茶飲的店員」', "!!(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(GAME.G,'tea118_staff'))", True),
+              ('jump', "STORY.dayOfKey('2027-04-25')", 20.8, '4/25 晚上'), ('until', 21.3), ('chk', '私訊「上了。京都。」到了＝做完', SQST('SQ17'), 'done/done'),
+              ('jump', "STORY.dayOfKey('2028-03-07')", 15.0, '大三下'), ORDER('一一八茶飲'), ('jump', "STORY.dayOfKey('2028-04-20')", 20.8, '2028-04-20 晚上'), ('until', 21.3)],
+       want=R7T(SQL['SQ17']['open']) + [t for a in SQL['SQ17']['ans'] for t in a] + [SQL['SQ17']['en'], SQL['SQ17']['call'], SQL['SQ17']['trace'],
+             'CHOICE:「為什麼想去？」｜「去了想學什麼？」', 'CHOICE:「去了想學什麼？」', 'CHOICE:「如果沒上呢？」', 'CHOICE:「上了跟我說。」｜「加油。」'] + TOASTS('SQ17'),
+       wantMsg=[SQL['SQ17']['result']] + SQL['SQ17']['an'], msgAt={SQL['SQ17']['result']: ('2027-04-25', 21.0, 0.1)}, dmoney=-200),   # 50×4
+  dict(id='SQ52_SQ17_CHEER', key='2027-03-09', h=15.0, zone='l118_tea', flags=dict(TW3), js=SQB('一一八茶飲'), pref=['紅茶拿鐵', '「要我幫忙嗎？」', '「為什麼想去？」', '「去了想學什麼？」', '「如果沒上呢？」', '「加油。」'],
+       steps=[ORDER('一一八茶飲'), NEXT(1, 15.0), ORDER('一一八茶飲'), NEXT(1, 15.0), ORDER('一一八茶飲'), ('jump', "STORY.dayOfKey('2027-04-26')", 15.0, '4/26（四月底以後）'), ORDER('一一八茶飲')],
+       want=[SQL['SQ17']['en'], SQL['SQ17']['result']], none=[SQL['SQ17']['call']], noneMsg=[SQL['SQ17']['result']], dmoney=-200,
+       jsok=[('沒給號碼：沒有聯絡人', "!!(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(GAME.G,'tea118_staff'))", False), ('四月底以後當面說＝做完', SQST('SQ17'), 'done/done')]),
+  dict(id='SQ45_SQ17_MAY', key='2027-05-11', h=15.0, zone='l118_tea', flags=dict(TW3), js=SQB('一一八茶飲'), pref=['紅茶拿鐵', '「要我幫忙嗎？」'], steps=[ORDER('一一八茶飲')],
+       none=SQL['SQ17']['open'][:1], jsok=[('五月：不開口（大二下 3～4 月）', SQST('SQ17'), None)]),
+  dict(id='SQ45_SQ18', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=SQB('清葉茶行') + CATN + SQ08DONE, pref=['青茶 微糖', '「要我幫忙嗎？」', '出發：週日早上', '餵貓表', '摸摸麻糬'],
+       steps=[GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8), ('chk', '清掃日演完＝做完', SQST('SQ18'), 'done/done'), ENT('2027-10-12', 16.0, 'wenzhou'), NOTICE, ('usep', '^摸摸麻糬$')],
+       want=SQL['SQ18']['open'] + [SQL['SQ18'][k] for k in ('clean', 'chief', 'who', 'sheet', 'stay', 'cup', 'knows', 'tag')] + TOASTS('SQ18'), none=[SQL['SQ18']['papers']], rep=[SQL['SQ18']['knows']], dmoney=-40),   # 運費＝一杯，錢沒變
+  dict(id='SQ45_SQ18_NO08', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=SQB('清葉茶行'), pref=['青茶 微糖', '「要我幫忙嗎？」', '出發：週日早上'],
+       steps=[GGTEA, ('jump', OUTD('ev_sq18_park'), 8.0, '週日早上'), ('until', 9.8)], want=[SQL['SQ18']['papers'], SQL['SQ18']['cup']], none=[SQL['SQ18']['sheet']], dmoney=-40),   # 沒貼過餵貓表
+  dict(id='SQ45_SQ19', key='2026-10-07', h=12.3, zone='wz_teishoku', flags=dict(TW3), js=SQB('巷子裡定食'), pref=['炸雞定食', '「要我幫忙嗎？」', '「看了最後一行。」'],
+       steps=[WZORD, ('chk', '掛著：一週內還她', SQST('SQ19'), 'open/ret'), ENT('2026-10-08', 12.1, 'l118_home'), WAITNPC('classmate_xinci'), ('talk', 'classmate_xinci'), ('chk', '還了＝做完', SQST('SQ19'), 'done/done'),
+              ENT('2026-10-09', 12.3, 'wz_teishoku'), WZORD, TRWAIT('SQ19'), TRCHK('SQ19', True, '隔天：結帳台的失物竹籃（3D）'), ('shot', 'basket', TT('SQ19'), None), NEXT(1, 12.3), WZORD,
+              ENT('2026-10-22', 8.8, 'dorm'), ('until', 9.3)],
+       want=SQL['SQ19']['open'] + [SQL['SQ19']['look']] + SQL['SQ19']['last'] + [SQL['SQ19']['ret'], SQL['SQ19']['ask']] + R7T(SQL['SQ19']['seen']) + [SQL['SQ19']['basket'], SQL['SQ19']['greet']] + TOASTS('SQ19'),
+       dmoney=-510, jsok=[('兩週以後班上群組：芯慈兩則＋以安「好。」', NYEG % json.dumps('sq19_group'), ['classmate_xinci：' + SQL['SQ19']['group'][0][1], 'classmate_xinci：' + SQL['SQ19']['group'][1][1], 'heroine_01：' + SQL['SQ19']['group'][2][1]])]),
+  dict(id='SQ52_SQ19_NO', key='2026-10-07', h=12.3, zone='wz_teishoku', flags=dict(TW3), js=SQB('巷子裡定食'), pref=['炸雞定食', '「要我幫忙嗎？」', '「沒有。」'],
+       steps=[WZORD, ENT('2026-10-08', 12.1, 'l118_home'), WAITNPC('classmate_xinci'), ('talk', 'classmate_xinci'), ENT('2026-10-22', 8.8, 'dorm'), ('until', 9.3)],
+       want=R7T(SQL['SQ19']['no']), none=R7T(SQL['SQ19']['seen'])[1:], jsok=[('做完', SQST('SQ19'), 'done/done'), ('選「沒有。」：兩週以後沒有群組那三則', NYEG % json.dumps('sq19_group'), [])]),
+  dict(id='SQ45_SQ20', key='2027-10-06', h=10.0, zone='wz_brunch', flags=dict(TW3), js=SQB('溫州街・半熟') + BHFORGET, pref=['半熟蛋吐司套餐', '「要我幫忙嗎？」', '出發：半熟'],
+       steps=[WZORD, ('jump', OUTD('ev_sq20_s1'), 7.5, '週六早上（第 1 次）'), ('until', 9.9), ('chk', '第 1 次練完：排第 2 次', SQST('SQ20'), 'open/s2'),
+              ('jump', OUTD('ev_sq20_s2'), 7.5, '下週六早上（第 2 次）'), ('until', 9.9), ('chk', '第 2 次練完：等考試', SQST('SQ20'), 'open/wait'),
+              ('jump', "(r=>r&&r.wait!=null?r.wait+1:null)(SIDEQ.get(GAME.G,'SQ20'))", 10.0, '一個月以後（週一公休，隔天）'), WZORD, ('chk', '一個月以後兩個人都過了＝做完', SQST('SQ20'), 'done/done'),
+              NEXT(1, 10.0), WZORD, TRWAIT('SQ20'), TRCHK('SQ20', True, '隔天：東牆兩張證書（3D）'), ('shot', 'certs', TT('SQ20'), None), NEXT(1, 10.0), WZORD],
+       want=SQL['SQ20']['open'] + R7T(SQL['SQ20']['self1']) + [SQL['SQ20']['self2'], SQL['SQ20']['apronN']] + SQL['SQ20']['apron'] + [SQL['SQ20'][k] for k in ('pass', 'certs', 'greet')] + TOASTS('SQ20'),
+       none=[SQL['SQ20']['bohan']], dmoney=-760),   # [前置] 不認識柏翰（沒有「找柏翰」的選項）；190×4
+  dict(id='SQ52_SQ20_BOHAN', key='2027-10-06', h=10.0, zone='wz_brunch', flags=dict(TW3), js=SQB('溫州街・半熟') + BHK, pref=['半熟蛋吐司套餐', '「要我幫忙嗎？」', '「我找一個更會計時的人。」', '出發：半熟'],
+       steps=[WZORD, ('jump', OUTD('ev_sq20_s1'), 7.5, '週六早上（第 1 次）'), ('until', 9.9), ('jump', OUTD('ev_sq20_s2'), 7.5, '下週六早上（第 2 次）'), ('until', 9.9)],
+       want=['CHOICE:（自己幫她計時）｜「我找一個更會計時的人。」', SQL['SQ20']['bohan'], SQL['SQ20']['apronN']] + SQL['SQ20']['apron'], none=R7T(SQL['SQ20']['self1'])[:1] + [SQL['SQ20']['self2']],
+       jsok=[('找了柏翰', "!!(SIDEQ.get(GAME.G,'SQ20')||{}).bohan", True)]),
+  # 過期以後下一次來，店員交代一句（AA_408 第 1 節；一次、不扣分）：三區各一個情境
+  dict(id='SQ45_LAPSE_L118', key='2027-10-05', h=12.3, zone='l118_dian', flags=dict(TW3), js=NOKX + SQROLL + LAPSE5 % json.dumps([['SQ10', 'go'], ['SQ11', 'check'], ['SQ12', 'go'], ['SQ13', 'taste'], ['SQ17', 'ask']]),
+       pref=['椒麻雞飯', '排骨飯', '白醬雞肉麵', '海苔飯捲', '紅茶拿鐵'],
+       steps=[ORDER('滇香小館'), ENT('2027-10-05', 12.3, 'l118_home'), ORDER('巷口家常菜'), ENT('2027-10-05', 12.3, 'l118_pasta'), ORDER('Pasta 118'), ENT('2027-10-05', 12.3, 'l118_korea'), ORDER('韓食小廚'),
+              ENT('2027-10-05', 15.0, 'l118_tea'), ORDER('一一八茶飲'), ENT('2027-10-07', 12.3, 'l118_korea'), ORDER('韓食小廚'), TRWAIT('SQ13'), TRCHK('SQ13', True, 'SQ13 過期：「她的」罐子照樣有（3D）'),
+              ENT('2027-10-07', 12.3, 'l118_dian'), ORDER('滇香小館')],
+       want=[SQL[i]['lapse'] for i in ('SQ10', 'SQ11', 'SQ12', 'SQ13', 'SQ17')] + [SQL['SQ13']['jar']], none=[SQL['SQ10']['menu'], SQL['SQ13']['greet']], dmoney=-635,
+       jsok=[('五則都過期、店員都交代過', LAPSEQ % json.dumps(['SQ10', 'SQ11', 'SQ12', 'SQ13', 'SQ17']), ['SQ10:lapsed/told', 'SQ11:lapsed/told', 'SQ12:lapsed/told', 'SQ13:lapsed/told', 'SQ17:lapsed/told'])]),
+  dict(id='SQ45_LAPSE_WZ', key='2027-10-06', h=13.0, zone='wz_teahouse', flags=dict(TW3), js=NOKX + SQROLL + CATN + LAPSE5 % json.dumps([['SQ14', 'cage'], ['SQ19', 'ret'], ['SQ20', 's1']]),
+       pref=['凍頂烏龍', '炸雞定食', '半熟蛋吐司套餐'],
+       steps=[TEAH, ENT('2027-10-06', 13.0, 'wz_teishoku'), WZORD, ENT('2027-10-06', 13.0, 'wz_brunch'), WZORD, ENT('2027-10-07', 13.0, 'wz_brunch'), WZORD, TRWAIT('SQ20'), TRCHK('SQ20', True, 'SQ20 過期：兩張證書照樣有（3D）'),
+              ENT('2027-10-07', 13.0, 'wz_teishoku'), WZORD, TRWAIT('SQ19'), TRCHK('SQ19', False, 'SQ19 過期：沒有失物籃（3D）')],
+       want=[SQL[i]['lapse'] for i in ('SQ14', 'SQ19', 'SQ20')] + [SQL['SQ20']['certs']], none=[SQL['SQ19']['basket'], SQL['SQ20']['greet']], dmoney=-1000,
+       jsok=[('三則都過期、店員都交代過', LAPSEQ % json.dumps(['SQ14', 'SQ19', 'SQ20']), ['SQ14:lapsed/told', 'SQ19:lapsed/told', 'SQ20:lapsed/told'])]),
+  dict(id='SQ45_LAPSE_GG', key='2027-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + LAPSE5 % json.dumps([['SQ15', 'sort'], ['SQ18', 'go']]), pref=['青茶 微糖', '只是看看'],
+       steps=[GGTEA, ENT('2027-10-05', 15.0, 'bookstore'), BOOKB], want=[SQL['SQ18']['lapse'], SQL['SQ15']['lapse']], dmoney=-40,
+       jsok=[('兩則都過期、店員都交代過', LAPSEQ % json.dumps(['SQ15', 'SQ18']), ['SQ15:lapsed/told', 'SQ18:lapsed/told']), ('SQ15 過期＝書拿去回收', "GAME.G.flags.SQ15_BOOK", 'recycled')]),
+  # ======== 53. 做完的痕跡 3D 道具（五家店）========
+  TRSCN('SQ12', '2027-10-11', 12.3, 'l118_pasta', 'lane118', '2027-10-12'),
+  TRSCN('SQ13', '2026-10-13', 12.3, 'l118_korea', 'lane118', '2026-10-14'),
+  TRSCN('SQ14', '2028-03-08', 14.0, 'wz_teahouse', 'wenzhou', '2028-03-09'),
+  TRSCN('SQ19', '2026-10-08', 12.3, 'wz_teishoku', 'wenzhou', '2026-10-09'),
+  TRSCN('SQ20', '2027-11-16', 10.0, 'wz_brunch', 'wenzhou', '2027-11-17',
+        extra=[('shot', 'fade', TT('SQ20', face=True, d=1.0, dist=3.2, pitch=0.1), None), ('chk', '鏡頭在東牆那一側（牆淡出）：證書的狀態（只記錄，看截圖）', TRACEQ('SQ20'), lambda x: True)]),
+  dict(id='SQ53_LAPSE', key='2026-10-14', h=12.3, zone='l118_korea', flags=dict(TW3), js=NOKX + LAPSEDJS, pref=[], want=[],
+       steps=[TRWAIT('SQ13'), ('shot', 'korea', TT('SQ13'), None), TRCHK('SQ13', True, 'SQ13 過期：罐子照樣有'), ENT('2026-10-14', 10.0, 'wz_brunch'), TRWAIT('SQ20'), ('shot', 'brunch', TT('SQ20'), None), TRCHK('SQ20', True, 'SQ20 過期：證書照樣有'),
+              ENT('2026-10-15', 12.3, 'wz_teishoku'), TRWAIT('SQ19'), ('shot', 'teishoku', TT('SQ19'), None), TRCHK('SQ19', False, 'SQ19 過期：沒有失物籃'),
+              ENT('2026-10-19', 12.3, 'l118_pasta'), TRWAIT('SQ12'), ('shot', 'pasta', TT('SQ12'), None), TRCHK('SQ12', False, 'SQ12 過期：沒有照片')]),
+  dict(id='SQ53_NONE', key='2026-10-14', h=12.3, zone='l118_korea', flags=dict(TW3), js=NOKX, pref=[], want=[],
+       steps=[TRWAIT('SQ13'), ('shot', 'korea', TT('SQ13'), None), TRCHK('SQ13', False, '沒做：韓食沒有罐子'), ENT('2026-10-15', 10.0, 'wz_brunch'), TRWAIT('SQ20'), ('shot', 'brunch', TT('SQ20'), None), TRCHK('SQ20', False, '沒做：半熟沒有證書'),
+              ENT('2026-10-15', 12.3, 'wz_teishoku'), TRWAIT('SQ19'), ('shot', 'teishoku', TT('SQ19'), None), TRCHK('SQ19', False, '沒做：定食沒有失物籃'),
+              ENT('2026-10-15', 14.0, 'wz_teahouse'), TRWAIT('SQ14'), ('shot', 'teahouse', TT('SQ14'), None), TRCHK('SQ14', False, '沒做：一盞沒有貓照片'),
+              ENT('2026-10-19', 12.3, 'l118_pasta'), TRWAIT('SQ12'), ('shot', 'pasta', TT('SQ12'), None), TRCHK('SQ12', False, '沒做：Pasta 沒有照片')]),
+  # ======== 54. SQ16 輪轉單車 ========
+  dict(id='SQ54_BIKE', key='2026-09-28', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL, pref=['「要我幫忙嗎？」', '「請問一下，這張貼紙是你們社團的嗎？」'],
+       steps=[('chk', '公館多「找車行老闆」（SIDEQ.bikeShop 有了才顯示）', SQ16_BTN, True), BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE, NEXT(1, 15.0), BIKE,
+              ('chk', '前四次（一天一次）：沒有開口', SQST('SQ16'), None), ('chk', '算了 4 次', "SIDEQ.bikeN(GAME.G)", 4), NEXT(1, 15.0), BIKE, ('chk', '第 5 次開口 →「要我幫忙嗎？」＝掛進去（兩週內）', SQST('SQ16'), 'open/ask'),
+              ('chk', '手機「今天」：輪轉單車那一則＋「問登山社的人」', TODAYQ, lambda s: isinstance(s, str) and SQT['SQ16'] in s and '問登山社的人' in s),
+              ENT('2026-10-08', 19.6, 'putong'), ('chk', '週四 19:36：201 門口的字變「問登山社的人」', HIKEQ, True), ('usep', '^問登山社的人$'), ('chk', '問到了：下一步回車行', SQST('SQ16'), 'open/back'),
+              ENT('2026-10-09', 15.0, 'gongguan'), BIKE, ('chk', '回車行＝做完', SQST('SQ16'), 'done/done'), ('shot', 'day0', TT('SQ16'), None), TRCHK('SQ16', False, '做完當天：還沒有紙條（3D）'),
+              NEXT(1, 15.0), BIKE, ('shot', 'day1', TT('SQ16'), None), TRCHK('SQ16', True, '隔天：騎樓淑女車籃子上的紙條（3D）'), NEXT(10, 15.0), BIKE,
+              ('jump', "STORY.dayOfKey('2027-02-23')", 15.0, '下學期開學（大二下第 1 週）'), BIKE, NEXT(6, 15.0), BIKE],
+       want=SQL['SQ16']['greet'] + SQL['SQ16']['open'] + [SQL['SQ16']['look'], 'CHOICE:「' + SQL['SQ16']['ask'] + '」｜（先不要）'] + SQL['SQ16']['club'] + SQL['SQ16']['msg'] + [SQL['SQ16']['back'], SQL['SQ16']['note'], SQ16_RENAME, SQ16_LENT] + TOASTS('SQ16'),
+       none=[SQL['SQ16']['lapse']], rep=SQL['SQ16']['greet'], dmoney=0, jsok=[('下學期第二次來：不再換名字', LOGN(SQ16_RENAME), lambda n: isinstance(n, int) and n >= 1 and n <= 2)]),
+  dict(id='SQ54_LAPSE', key='2026-10-05', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + " G.flags.BIKE_SHOP={n:4,day:G.day-1,g:0};", pref=['「要我幫忙嗎？」'],
+       steps=[BIKE, ('chk', '開口、掛進去', SQST('SQ16'), 'open/ask'), ENT('2026-10-26', 15.0, 'gongguan'), BIKE, ('chk', '兩週內沒去問＝過期', SQST('SQ16'), lambda x: isinstance(x, str) and x.startswith('lapsed')),
+              NEXT(1, 15.0), BIKE, ('shot', 'lapsed', TT('SQ16'), None), TRCHK('SQ16', False, '過期：沒有紙條（3D）')],
+       want=[SQL['SQ16']['lapse']], none=[SQL['SQ16']['note'], SQL['SQ16']['back']], rep=SQL['SQ16']['greet'], dmoney=0),   # [前置] 前四次已經來過（第 5 次＝今天）
+  dict(id='SQ54_HIKE_TIME', key='2026-10-07', h=19.75, zone='putong', flags=dict(TW3), js=NOKX + " SIDEQ.rec(G).SQ16={state:'open',step:'ask',day:D('2026-10-02'),term:'Y2S1',by:D('2026-10-16')};", pref=[], want=[],
+       steps=[('chk', '週三 19:45：201 門口不是「問登山社的人」', HIKEQ, False), ENT('2026-10-08', 18.0, 'putong'), ('chk', '週四 18:00：也不是', HIKEQ, False),
+              ('jump', 'GAME.G.day', 19.75, '同一天 19:45'), ('chk', '週四 19:45：是', HIKEQ, True), ('jump', 'GAME.G.day', 21.1, '同一天 21:06'), ('chk', '21:00 以後：又不是', HIKEQ, False)]),   # [前置] SQ16 掛著（問登山社那一步）
+  dict(id='SQ54_Y1', key='2026-04-06', h=15.0, zone='gongguan', flags=dict(TW3), js=NOKX + SQROLL + " G.flags.BIKE_SHOP={n:9,day:G.day-1,g:0};", pref=['「要我幫忙嗎？」'], steps=[BIKE],
+       none=SQL['SQ16']['open'][:1], dmoney=0, jsok=[('大一：不開口（大二起）', SQST('SQ16'), None), ('平常的招呼', "(window.__LOG||[]).some(x=>%s.includes(x.t))" % json.dumps(SQL['SQ16']['greet'], ensure_ascii=False), True)]),
+]
+for _sc in R7:
+    _sc['js'] = SAYH + _sc.get('js', '')
+    _sc.setdefault('once', [w for w in _sc.get('want', []) if len(w) > 6 and not w.startswith('CHOICE:') and w not in _sc.get('rep', [])])   # 同 R6；選單、說好會重複的（rep）不算
+SCENS = SCENS + R7
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
@@ -1302,6 +1671,32 @@ async def main():
                         else:
                             say('   手機「今天約好的」：%s →「%s」' % (c[3].replace('\n', '｜')[:80], c[2])); await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(4000)
                             await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120)
+                    elif st[0] == 'shot':   # R7：('shot', 名稱, 目標, 等待條件 js, 秒)＝等條件 →【捷徑】主角放到目標旁邊、鏡頭轉過去 → 藏 HUD 和主角截圖 → 還原
+                        if len(st) > 3 and st[3]:
+                            for _ in range(int(st[4] if len(st) > 4 else 30)):
+                                if await pg.evaluate(st[3]): break
+                                await pg.wait_for_timeout(1000)
+                            else: say('   ⚠ 截圖前等不到條件：%s' % st[3][:100])
+                        if st[2]:
+                            run.setup('[捷徑] %s：截圖「%s」——主角放到目標旁邊、鏡頭轉過去（藏 HUD 和主角）' % (sc['id'], st[1]))
+                            say('   鏡頭：%s' % json.dumps(await pg.evaluate(R7_SHOTAT % json.dumps(st[2], ensure_ascii=False)), ensure_ascii=False))
+                        await pg.evaluate(R7_HIDE + '(true)'); await pg.wait_for_timeout(3000)
+                        say('   截圖：%s' % await run.shot(pg, '%s_%s' % (sc['id'], st[1]))); await pg.evaluate(R7_HIDE + '(false)'); await pg.wait_for_timeout(500)
+                    elif st[0] == 'chk':   # R7：('chk', 說明, js, 期望值或 lambda)＝中途【讀資料】
+                        got = await pg.evaluate(st[2]); ok = st[3](got) if callable(st[3]) else got == st[3]
+                        say('   【讀資料・中途】%s：%s → %s' % (st[1], json.dumps(got, ensure_ascii=False)[:400], 'OK' if ok else 'NG'))
+                        if not ok: bad.append('%s：%s（實際 %s）' % (sc['id'], st[1], json.dumps(got, ensure_ascii=False)[:300]))
+                    elif st[0] == 'wait':   # R7：('wait', js, 秒, 說明)＝等到成立；等不到記一個問題
+                        ok = False
+                        for _ in range(int(st[2])):
+                            if await pg.evaluate(st[1]): ok = True; break
+                            await pg.wait_for_timeout(1000)
+                        say('   等：%s → %s' % (st[3], 'OK' if ok else '等不到'))
+                        if not ok: bad.append('%s：等不到「%s」' % (sc['id'], st[3]))
+                    elif st[0] == 'pref':   # R7：之後的選單換一組偏好
+                        sc['pref'] = list(st[1]); say('   選項偏好改成：%s' % ' / '.join(st[1]))
+                    elif st[0] == 'mark':   # R7：記下現在的台詞位置、熟悉、錢（不改遊戲）
+                        await pg.evaluate("(()=>{ %s })()" % st[1])
                     sn = await pg.evaluate(SNAP); say('   %s → 現在 %s %.2f %s' % (st, sn['key'], sn['h'], sn['zone']))
                 await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120)
                 if sc.get('wantZone'):
