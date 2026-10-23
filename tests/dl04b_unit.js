@@ -35,7 +35,7 @@ let caps=[]; GM.caption=(w,t)=>caps.push(t);
     G.day=W5; G.weekday=wdOf(W5); check('1. 第 5 週（分組的週次還沒過）：不出',!EVENTS.check(e)); G.day=W6; G.weekday=wdOf(W6);
     G.events.done.ev_an_report_split=1; check('1. 分組演過（不管答應或拒絕）：不出',!EVENTS.check(e)); delete G.events.done.ev_an_report_split;
     said=[]; await EVENTS.run(e); const L=lines();
-    check('1. 台詞照 AA-B：「民總的報告，老師分組那天你沒來。」「我把你寫在我這組了。……不用謝。理由：剩下的人裡，你最不會遲交。」',L.some(t=>t.endsWith('民總的報告，老師分組那天你沒來。'))&&L.some(t=>t.endsWith('我把你寫在我這組了。……不用謝。理由：剩下的人裡，你最不會遲交。')),L.join(' / '));
+    check('1. 台詞照 AA-B：「民總的報告，老師分組那天你沒來。」「我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。」（AA_313 4-3：說出口的「理由：」拿掉）',L.some(t=>t.endsWith('民總的報告，老師分組那天你沒來。'))&&L.some(t=>t.endsWith('我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'))&&!L.some(t=>/理由：/.test(t)),L.join(' / '));
     check('1. 記 REPORT_PARTNER（同一個記憶，後面的事件照常接）＋REPORT_PARTNER_LATE',SOCIAL.has('heroine_01','REPORT_PARTNER')&&G.flags.REPORT_PARTNER_LATE==='assigned_absent');
     check('1. 演過以後不再出',!EVENTS.check(e)); }
   /* 2. 聖誕交換禮物 */

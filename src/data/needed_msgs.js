@@ -15,8 +15,8 @@ const NEEDED_MSGS=(function(){
       miss:['上週問你在不在總圖。……沒關係，那本我自己讀完了。'],missDating:['上週問你在不在總圖，你沒回。我多借的那本，還在我桌上。']},
     {id:'an_rules',who:'heroine_01',term:'Y2S1',w:[4,6],tie:true,cond:G=>att(G,'public_law_group'),msg:['讀書會的規則，我寫了一頁。','📷（〈公法讀書會規則〉一頁十二條，第五條「發言超過十分鐘，要先舉手」）','幫我看哪一條可以刪。'],reply:'第五條。',resp:['……我也覺得是第五條。'],
       miss:['讀書會的規則，你上週沒回。……沒關係，先照十二條。'],missDating:['讀書會的規則你沒回。週四以前跟我說，我想聽你的。']},
-    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>F(G).AN10_PICK!=='reason',msg:['我家教學生家的補助被駁回了，公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
-      miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了 */
+    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>done(G,'ev_an_tutor_family_1')&&F(G).AN10_PICK!=='reason',msg:['公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
+      miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了。AA_313 4-3：只在 12/1 麵店（ev_an_tutor_family_1）演過以後送，第一則只說「公文我拿到了。」（駁回的事當面講過）*/
     {id:'an_topics',who:'heroine_01',term:'Y2S2',w:[3,6],cond:G=>att(G,'public_law_group'),msg:['這週讀書會的題目，我排了一版。','📷（一張表，八題）'],reply:'題目好難。',resp:['第三題是 Alison 挑的，我也還沒寫出來。'],   /* 原 an_moot（模擬法庭刪除，AA_252 第 4 節）*/
       miss:['讀書會的題目你沒回。沒關係，我先照那一版。'],missDating:['題目你沒回。……那這週第三題你來講。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。'],
