@@ -7,7 +7,7 @@
 - `duty register`：已登記。
 
 > **【進度 2026-10-23 06:5x UTC，AA-B】**
-> - **通訊**：LAWWW-B（ACK 06:46）、LAWWW2-B（ACK 06:45）雙向 OK；BB-B 已送達、還沒回。
+> - **通訊**：LAWWW-B（ACK 06:46）、LAWWW2-B（ACK 06:45）、BB-B（ACK 06:47，分支 `claude/elegant-brown-fcos7n` @ 28fef8fd）三位都雙向 OK。
 > - **上一任交 LAWWW 的四點**（grep 開發分支 `719cca3b`）：
 >   - ①②④ 已做；
 >   - **③ `AA_387` 第 10 節（A1 票根、ZR_LAST2）沒做** → LAWWW-B 06:46 ACK，排進總表。
@@ -16,7 +16,7 @@
 >   - X95：AA 的部分做完（STORY-AUDIT-1017 已整合待測試），等 BB 驗收 BB-TEST-AA360-1021；
 >   - C25：學姊。
 > - **佇列（D96）**：
->   1. C25／SIS-LEAD-1021 學姊第五批：七夕、白色情人節學姊版，`BB_122` 9-1 對質一起看。
+>   1. ~~C25／SIS-LEAD-1021 學姊第五批~~：**`AA_388` 七夕三年已交 LAWWW（`3a509150`，outbox `d95d8c5b`）**；白色情人節不做學姊版。`BB_122` 9-1 對質留到下一批。
 >   2. 向 LAWWW-B 要 `AA_313` 問題清單，對 `tasks.json` 未結的 `AA-Q-*`。
 >   3. X92 大五（10-24 到期）、D35（10-24 到期）的 AA 部分核對。
 
