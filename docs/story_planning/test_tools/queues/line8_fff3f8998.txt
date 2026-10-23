@@ -2,3 +2,4 @@
 ff46b semff_probe.py FF46_WEEK,FF46_NEXT,FF46_MSG,FF46_MEET,FF46_NOW,FF46_WINTER
 sl49 semff_probe.py SL49_NOTES,SL49_JUMP,SL49_CLASS,SL49_OUT,SL49_EXAM,SL49_EAT,SL49_MEET
 sl49b semff_probe.py SL49_JUMP,SL49_CLASS,SL49_EAT
+sl49c semff_probe.py SL49_MEET   # 13:5x 加：到 Café 沒自己開始見面——記到達時間、小安在不在；要說話才開始＝遊戲問題

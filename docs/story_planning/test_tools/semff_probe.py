@@ -431,20 +431,32 @@ async def sl49(p, run, base, sid):
             run.check('%s：在麵店點了東西（%s）' % (sid, it and it[2]), ok and (s1['h'] > s0['h'] + 0.1 or any('吃' in x or '麵' in x for x in res['said'])), J({'s1': s1, 'said': res['said']}))
             run.check('%s：吃飯不算：下午的格子不變（used.pm＝%s）' % (sid, s1['used'].get('pm')), s1['used'].get('pm', 0) == s0['used'].get('pm', 0), J([s0, s1]))
         elif sid == 'SL49_MEET':
-            t0 = time.time(); went = False; met = False
+            t0 = time.time(); went = False; met = False; talks = 0
             while time.time() - t0 < 600:
                 st = await L.state(pg)
                 if await phone_open(pg): await close_phone(pg, cdp); continue
                 if st['choices']:
                     cs = await choices(pg); w = next((c for c in cs if c.startswith('直接過去')), None)
-                    if w: await pick(pg, cdp, w); went = True; continue
+                    if w: await pick(pg, cdp, w); went = True; res['goAt'] = await pg.evaluate('GAME.G.hour'); continue
                     await pick(pg, cdp, cs[0]); continue
                 if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
                 iv = await pg.evaluate("(()=>{ const iv=(GAME.G.invites||[]).find(x=>x.id==='iv_bb49'); return iv?iv.state:null; })()")
-                if iv == 'done': met = True; break
+                if iv == 'done': met = True; res['metBy'] = 'talk' if talks else 'auto'; break
+                if st.get('zone') == 'cafe' and 'arrive' not in res:
+                    res['arrive'] = await pg.evaluate("(()=>{ const n=(GAME.E.npcs||[]).find(x=>x&&x.charId==='heroine_01'); return {h:+GAME.G.hour.toFixed(3), iv:((GAME.G.invites||[]).find(x=>x.id==='iv_bb49')||{}).state||null, an:!!n, anVis:!!(n&&n.obj&&n.obj.visible!==false&&!n.hidden), busy:!!(GAME.E.player&&GAME.E.player.busy)}; })()")
+                    say('   到 Café：%s' % J(res['arrive'])); await pg.wait_for_timeout(8000); continue   # 先等 8 秒看會不會自己開始（INV.autoStart，使用者 10-21 23:2x：兩個都在場就直接開始）
+                # 自己沒開始＝走過去和她說話（之後判定：要說話才開始＝不照 10-21 的設計；BB-B 13:5x：原本只等，到 15:30 她就走了）
+                if went and st.get('zone') == 'cafe' and talks < 3:
+                    pos = await pg.evaluate("(()=>{ const n=(GAME.E.npcs||[]).find(x=>x&&x.charId==='heroine_01'&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })()")
+                    res.setdefault('anPos', []).append([round(await pg.evaluate('GAME.G.hour'), 3), pos])
+                    if pos:
+                        await L.go_to(pg, cdp, run, pos[0], pos[1], 1.1, '小安', max_s=90); lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+                        say('   互動鈕：「%s」' % lab); res.setdefault('labels', []).append(lab); talks += 1
+                        if '小安' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
                 await pg.wait_for_timeout(1500)
             await pg.wait_for_timeout(3000); s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; await run.shot(pg, '%s_after' % sid)
-            run.check('%s：直接過去、見面演完（invite done）' % sid, went and met, J(s1))
+            run.check('%s：直接過去、見面演完（invite done）' % sid, went and met, J({'s1': s1, 'goAt': res.get('goAt'), 'arrive': res.get('arrive'), 'anPos': res.get('anPos'), 'labels': res.get('labels')}))
+            run.check('%s：到了就自己開始（不用找她說話；使用者 10-21 23:2x）' % sid, res.get('metBy') == 'auto', J({'metBy': res.get('metBy'), 'arrive': res.get('arrive')}))
             run.check('%s：約好的見面不算：下午的格子不變（used.pm＝%s）' % (sid, s1['used'].get('pm')), s1['used'].get('pm', 0) == s0['used'].get('pm', 0), J([s0, s1]))
         run.check('%s：沒有 JS 例外' % sid, not errs, J(errs[:3]))
     except Exception as e:
