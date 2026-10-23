@@ -1,0 +1,165 @@
+diff --git a/src/linze_upper3d.js b/src/linze_upper3d.js
+index 07239a2cf..20b3b07c7 100644
+--- a/src/linze_upper3d.js
++++ b/src/linze_upper3d.js
+@@ -22,6 +22,9 @@
+     if(i<0) return; const q=floors[i], up=FLOOR_NO(q)>+f.slice(0,1); const sp=q.zone==='linze'?{x:4.6,z:-4.9,lv:q.lv|0,yaw:Math.PI}:Object.assign({},LINZE_UPPER_LAYOUTS[q.zone.slice(6)].spawn);
+     if(GM.caption) GM.caption('','電梯往'+(up?'上':'下')+'……',1800); await GM.enter(q.zone,sp); }
+   S_.ride=ride;
++  /* 3F、4F、5F 的窗景兩層（法學院廣場的大樟樹在窗前 7～8 m，CLOSED-SPACES-1023 第 1 項的「窗戶對著一棵樹」，LAWWW2-B 10-23）：近景＝12 m 以內的樹冠，遠景＝法學院前的路、椰林。
++     景深照 tools/shots/shop_views_layers.json（白天、晚上一樣）；W3.setWindowView 照 VIEW_LAYERS 疊近景（room() 的窗） */
++  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{linze_3f:{far:26.91,near:2.67},linze_4f:{far:38.67,near:2.14},linze_5f:{far:18.97,near:3.69}});
+   /* 5F：會議室門上的「口試中」（WALL_P3_EXAM_SIGN）平常藏起來；研究室的燈：LAB_tubes（三盞日光燈）、LAB_SIS_LAMP（學姊桌上的檯燈）。
+      事件用 LZUP.examSign(true／false)、LZUP.labLights('all'｜'sis'｜'off')（'sis'＝只開她那一盞檯燈）；進 5F 以前、以後叫都可以（正式模型載好時照這裡的狀態），離開事件要叫回來（examSign(false)、labLights('all')）；
+      燈光：'sis'／'off' 時整層的環境光、天花板燈調暗（區域的 applyTime：室內的時候引擎設完環境光以後叫它），檯燈那裡多一盞暖色的點光（'sis'）*/
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 13d505875..b917e6b4e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -238,6 +238,13 @@ const Z3 = (function(){
+     for(const x of [22,38,54,70,86]){ const b=TREE(1.15+((x/16)%2)*0.1); place(g,b,x,-80,x*0.4); nav.blockCircle(x,-80,0.9); }
+     for(const x of [30,46,62,88]){ const pl=W3.planter(); place(g,pl,x,-83.5,0); nav.blockRect(x,-83.5,1.2,0.5,0); }   /* 第十九批：x=78 的花圃會擋在往萬才館的新小路上，移到 88 */
+     for(const x of [12,100]){ const t=TREE(1.3); place(g,t,x,-96,0); nav.blockCircle(x,-96,0.9); const t2=TREE(1.0); place(g,t2,x+(x<50?-6:6),-108,1); nav.blockCircle(x+(x<50?-6:6),-108,0.8); }
++    /* 霖澤館西段正面的大樟樹（CLOSED-SPACES-1023，LAWWW2-B 10-23；AA_399 1-1「她的位子在走廊最後一間、靠窗，窗戶對著一棵樹」：5F 碩士班研究室那扇窗前。
++       LAWWW-B 10-23 16:02 選 A：種一棵真的樹，從廣場看也在）。樹高 19 m：樟樹的樹冠在 0.24H～0.96H、半徑約 0.38H，五樓的窗（17～18.5 m）看出去是樹冠上半部；
++       離霖澤館正面（z −103）8.5 m，樹冠不碰牆；離霖澤館入口（x 34）、公告欄（16.6, −100.6）都遠。樹穴 2.4 m 見方＋矮緣石；導航只擋樹幹 */
++    { const BX=24.5, BZ=-94.5; const t=TK.tree(19,4242,{sp:'camphor'}); t.name='linze_big_camphor'; place(g,t,BX,BZ,0.6); nav.blockCircle(BX,BZ,1.0);
++      const pit=new THREE.Group(); pit.name='linze_big_camphor_pit'; const soil=new THREE.Mesh(new THREE.PlaneGeometry(2.2,2.2),new THREE.MeshStandardMaterial({color:0x3b332b,roughness:1})); soil.rotation.x=-Math.PI/2; soil.position.set(BX,0.014,BZ); soil.receiveShadow=true; pit.add(soil);
++      const curbM=new THREE.MeshStandardMaterial({color:0xa8a49c,roughness:0.85}); for(const [dx,dz,w,d] of [[0,-1.15,2.4,0.12],[0,1.15,2.4,0.12],[-1.15,0,0.12,2.2],[1.15,0,0.12,2.2]]){ const c=new THREE.Mesh(new THREE.BoxGeometry(w,0.12,d),curbM); c.position.set(BX+dx,0.06,BZ+dz); c.castShadow=c.receiveShadow=true; pit.add(c); }
++      g.add(pit); }
+     /* 第十九批拿掉兩段矮籬 (48,-106.5)、(74,-106.5)：大半埋在霖澤館、萬才館的牆裡 */
+     // 霖澤館、萬才館（v9.3 第十九批，照使用者提供的照片重做，CK.lawhall）：灰色花崗石下三層＋紅磚方格上層＋寬花崗石轉角＋薄屋頂板。
+     // 霖澤館：穿過整棟的三層樓高門廊（穿堂）、整排寬台階。佔地中心和舊版相同
+diff --git a/tools/shots/shop_views_layers.json b/tools/shots/shop_views_layers.json
+index b0b74f20f..e63623169 100644
+--- a/tools/shots/shop_views_layers.json
++++ b/tools/shots/shop_views_layers.json
+@@ -448,5 +448,95 @@
+   ],
+   "fov": 53.13,
+   "cover": 0.014
++ },
++ "linze_3f_day": {
++  "D": 12,
++  "near": 2.67,
++  "far": 26.91,
++  "nNear": 323,
++  "nFar": 142,
++  "sky": 0.092,
++  "cam": [
++   30,
++   10.5,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.422
++ },
++ "linze_3f_night": {
++  "D": 12,
++  "near": 2.67,
++  "far": 26.91,
++  "nNear": 323,
++  "nFar": 142,
++  "sky": 0.092,
++  "cam": [
++   30,
++   10.5,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.418
++ },
++ "linze_4f_day": {
++  "D": 12,
++  "near": 2.14,
++  "far": 38.67,
++  "nNear": 312,
++  "nFar": 128,
++  "sky": 0.141,
++  "cam": [
++   30,
++   14.1,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.455
++ },
++ "linze_4f_night": {
++  "D": 12,
++  "near": 2.14,
++  "far": 38.67,
++  "nNear": 312,
++  "nFar": 128,
++  "sky": 0.141,
++  "cam": [
++   30,
++   14.1,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.463
++ },
++ "linze_5f_day": {
++  "D": 12,
++  "near": 3.69,
++  "far": 18.97,
++  "nNear": 398,
++  "nFar": 45,
++  "sky": 0.135,
++  "cam": [
++   24.4,
++   17.7,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.461
++ },
++ "linze_5f_night": {
++  "D": 12,
++  "near": 3.69,
++  "far": 18.97,
++  "nNear": 398,
++  "nFar": 45,
++  "sky": 0.135,
++  "cam": [
++   24.4,
++   17.7,
++   -101.6
++  ],
++  "fov": 53.13,
++  "cover": 0.468
+  }
+ }
+\ No newline at end of file
+diff --git a/tools/shots/shop_views_layers.py b/tools/shots/shop_views_layers.py
+index 27169cc10..0f6687173 100644
+--- a/tools/shots/shop_views_layers.py
++++ b/tools/shots/shop_views_layers.py
+@@ -45,6 +45,11 @@ VIEWS = {
+     'l118_korea': ('lane118', [0, 15.5], [2.8, 1.6, 15.5], [-40, 1.6, 15.5], 5.5, 3.4),
+     'l118_omu': ('lane118', [0, 1.5], [2.8, 1.6, 1.5], [-40, 1.6, 1.5], 5.5, 3.4),
+     'l118_noodle2': ('lane118', [0, -10.5], [2.8, 1.6, -10.5], [-40, 1.6, -10.5], 5.5, 3.4),
++    # 霖澤館 3F、4F、5F（room() 的窗、W3.windowMat）：窗前 7～8 m 有法學院廣場的大樟樹（樹高 19 m，CLOSED-SPACES-1023，LAWWW2-B 10-23），
++    #   近景＝12 m 以內的樹冠（TOP 放到 40 m：不切高度），遠景＝法學院前的路、椰林、社科院。鏡頭位置和原本 window_views.py 的一樣（3F、4F 在 x 30；5F 在研究室那扇窗 x 24.4）
++    'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60], 12.0, 40.0),
++    'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60], 12.0, 40.0),
++    'linze_5f': ('campus', [24, -98], [24.4, 17.7, -101.6], [24.4, 9.0, -60], 12.0, 40.0),
+ }
+ TIMES = {'day': 11.0, 'night': 20.5}
+ WAIT_ASSETS = "for(let i=0;i<240;i++){ const st=ASSETS.status||{}; const pend=Object.keys(st).filter(k=>!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))); if(!pend.length) break; await new Promise(r=>setTimeout(r,250)); }"
+diff --git a/tools/shots/window_views.py b/tools/shots/window_views.py
+index fe6f81b19..f141de2f1 100644
+--- a/tools/shots/window_views.py
++++ b/tools/shots/window_views.py
+@@ -24,10 +24,7 @@ VIEWS = {
+     'wancai_east': ('campus', [106, -108], [104.0, 2.2, -112.0], [140, 2.6, -112.0]),
+     # 霖澤館 201（二樓）：從正面二樓的高度往南看
+     'linze_201': ('campus', [30, -98], [30.0, 6.6, -101.6], [30, 4.6, -60]),
+-    'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60]),     # 霖澤館 3F（地板 8.4 m，窗中心 2.1 m）：往南看法學院前的路、樹（LAWWW2-C 2026-10-20）
+-    'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60]),    # 霖澤館 4F（地板 12.0 m）
+-    'linze_5f': ('campus', [24, -98], [24.4, 17.7, -101.6], [24.4, 9.0, -60]),   # 霖澤館 5F 研究室（地板 15.6 m；CLOSED-SPACES-1023，LAWWW2-B 2026-10-23）：鏡頭放在西端碩士班研究室那扇窗（室內 x −5.6＝校園 x 24.4）、往下看一點——
+-                                                                                 #   學姊的位子「窗戶對著一棵樹」（AA_399 1-1）：窗正前方往下是一棵樹的樹冠，右邊是隔壁社科院（X75）
++    # 霖澤館 3F、4F、5F：窗前有法學院廣場的大樟樹（10-23），改成兩層（遠景＋近景的樹冠）——在 tools/shots/shop_views_layers.py 拍，不要在這裡拍（會蓋掉遠景那一張）
+     'wancai_sema': ('campus', [80, -96], [85.0, 6.3, -126.0], [85, 5.4, -170]),   # 萬才館 2F 研討室 A（北面的窗：地板 4.2 m＋窗中心 2.1 m）：往北看法學院後面的樹、圍牆、馬路（鏡頭在外牆外 4 m：貼著牆拍，樹葉擋在鏡頭前面；LAWWW2-C 2026-10-20）
+     'wancai_multi': ('campus', [80, -96], [90.0, 2.2, -126.0], [90, 2.0, -170]),   # 萬才館 1F 多功能教室（北面的窗；LAWWW2-C 2026-10-20）
+     # 總圖 3F 閱覽區：總圖正面（x≈83–87 有門廊）前面、三樓高度、偏北一點避開門廊和塔，往西看椰林大道
