@@ -99,7 +99,11 @@
    "J-S16": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
    "J-S17": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
    "J-S18": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
-   "J-S19": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）"
+   "J-S19": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "AA398-PS-WISH-SYNC": "AA 企劃線工具 build_wish.py 的修正（已解），不是開發任務；沛珊「台中很遠」已在 814bf8c5",
+   "AA-TIMESTAMP-FIX-1023": "AA 文件表頭時間更正（AA_391～AA_399），不是開發任務",
+   "AA397-FIX-YUTONG-1023": "AA_397 稿內更正（SQ02 不寫語彤、以安家教出處），已併進 SIDEQ-AA397-1023 的實作",
+   "CHECK-X92-D35-1024": "AA 的到期核對紀錄，不是任務：X92 對 Y5-DELAY-1021、D35 對 AA_350 的實作任務"
   },
   "offList": [
    {
@@ -30050,7 +30054,8 @@
     "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB-B 第一批 b32ee2c4 08:15～08:3x 遊戲內截圖（BB_218「LAWWW-B 08:09 第 1、5 項：PASS」）；第二批 bc1c8cd0b 遊戲內截圖＋BB 分支 c39e15542 新體 3F 球場拼圖；整合 8ee895d4、eccf33f4／6fbe2830"
   },
   {
    "id": "ART-L118-FACADE-3D-1023",
@@ -30201,7 +30206,10 @@
     "acceptance": "空間走得進去、劇情用途 AA 定稿、LAWWW 接事件、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "aliases": [
+    "LAWWW2-CLOSED-SPACES-1023"
+   ]
   },
   {
    "id": "SIS-B7-L-1023",
@@ -30311,7 +30319,10 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 09:2x】AA_398 1-7 節四句（企劃線 f1883309）照改：M3「計畫本最後那一格，我寫好了。聚餐那天說。」、湯「湯喝完。然後睡覺。」、兩張 CG 標題；第 20 列 ladder_bb_y2s1 換 ffd7eef8 重新匯入；SIS5_NOT_BUSY 名稱放 social3d.js（階梯文件還是舊名，避免匯入蓋回）；sis_no_three_unit PENDING 清空 ALL PASS；全部 55 列做完 ｜ 【LAWWW-B 10-23 09:1x】AA_398 第 1 節 51 列照改（93557e6f、40418413、f36d615d、9ef62053、edb81e9b）；第 2 節 date lines 重新匯入（白名單 BB_128＋12 個地點換 ffd7eef8）——wish_bb、solo_before、bb_walk 的那幾句遊戲裡本來就沒有（遊戲用的是別的版本），ladder_bb_y2s1 第 20 列待下一批；畢業那天版本的便條旁白（postgrad_lines.js）一起改；新檢查 tests/sis_no_three_unit.js（修改前 FAIL）；表上沒有的 4 句（3/19 家族群組、語彤說你病了、兩張 CG 標題）已問 AA；BB 照 AA_398 第 5 節測 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
+   "next": "【LAWWW-B 10-23 09:2x】AA_398 1-7 節四句（企劃線 f1883309）照改：M3「計畫本最後那一格，我寫好了。聚餐那天說。」、湯「湯喝完。然後睡覺。」、兩張 CG 標題；第 20 列 ladder_bb_y2s1 換 ffd7eef8 重新匯入；SIS5_NOT_BUSY 名稱放 social3d.js（階梯文件還是舊名，避免匯入蓋回）；sis_no_three_unit PENDING 清空 ALL PASS；全部 55 列做完 ｜ 【LAWWW-B 10-23 09:1x】AA_398 第 1 節 51 列照改（93557e6f、40418413、f36d615d、9ef62053、edb81e9b）；第 2 節 date lines 重新匯入（白名單 BB_128＋12 個地點換 ffd7eef8）——wish_bb、solo_before、bb_walk 的那幾句遊戲裡本來就沒有（遊戲用的是別的版本），ladder_bb_y2s1 第 20 列待下一批；畢業那天版本的便條旁白（postgrad_lines.js）一起改；新檢查 tests/sis_no_three_unit.js（修改前 FAIL）；表上沒有的 4 句（3/19 家族群組、語彤說你病了、兩張 CG 標題）已問 AA；BB 照 AA_398 第 5 節測 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版",
+   "aliases": [
+    "AA398-SIS-NO-THREE-1023"
+   ]
   },
   {
    "id": "SIDEQ-AA397-1023",
@@ -30334,7 +30345,11 @@
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 09:2x】AA_405 第三批 SQ16～SQ20（企劃線 1fa2b494，不需新 2D；三批共二十則）；AA_397 更正 8f1701b2：子晴住臺北的家（12/14「……我家有電暖器。」、12/17 公布欄「牠現在在一個有電暖器的家。——里長」、交往中「去她家看貓」）｜ 【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後",
    "note": "2026-10-23 12:0x LAWWW-B 合併子代理（a78ffe10）：src/sideq3d.js（SIDEQ）系統＋SQ01～SQ08、手機「今天」多一格「順手的事」（classes3d.js）、118 巷／溫州街／便利商店接線；tests/aa397_sideq_unit.js＋相關 24 支 ALL PASS。子代理暫定的時間（SQ05 隔天起休 14 天、SQ06 3 天後回報、SQ07 21＋7 天、出現機率 35%、一天一次、SQ08 夜班第 3 罐）＋缺字清單已轉 AA；有句子的步驟照稿，缺字的那一步先不演。BB 測（清單第 38～40 項）。AA_404、AA_405 下一批。 10-23 12:4x：AA_408（29e41dd8）缺字全部補上、暫定值 AA 全部同意；過期一句第一批八則接上（SQ10～SQ20 的等 AA_404／405）。",
-   "sha": "e1ff41132、728c7b7c0、53b44c2f5（合併 400657c77）"
+   "sha": "e1ff41132、728c7b7c0、53b44c2f5（合併 400657c77）",
+   "aliases": [
+    "AA397-SIDEQUEST-1023",
+    "SIDEQ-AA397-FILL-1023"
+   ]
   },
   {
    "id": "SIS-B9-L-1023",
@@ -30379,7 +30394,10 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:4x】AA_399（53ca91b2）3-2 節；和 CLOSED-SPACES-1023 的總圖研究小間、B1 一起",
-   "note": "2026-10-23 12:2x LAWWW-B：src/loans3d.js（AA_399 3-2＋AA_407 e81aa74c），tests/aa407_loans_unit.js ALL PASS；R1 植物圖鑑等 5F（CLOSED-SPACES）；總圖門口還書箱、B1 自助借還機、讀書旁白多一句這一版沒做。BB 測（清單第 41 項）。"
+   "note": "2026-10-23 12:2x LAWWW-B：src/loans3d.js（AA_399 3-2＋AA_407 e81aa74c），tests/aa407_loans_unit.js ALL PASS；R1 植物圖鑑等 5F（CLOSED-SPACES）；總圖門口還書箱、B1 自助借還機、讀書旁白多一句這一版沒做。BB 測（清單第 41 項）。",
+   "aliases": [
+    "LIB-LOAN-BOOKS-1023"
+   ]
   },
   {
    "id": "SIS-B10-L-1023",
@@ -30448,7 +30466,10 @@
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）",
    "sha": "9dcbb19d6",
-   "note": "2026-10-23 LAWWW-B 實作 9dcbb19d6（tests/aa406_family_xmas_unit.js）；禮物先用手機一格買（逐店清單還沒有）；旗標改名 SIS_FAMXMAS_Y2（SIS_XMAS_Y2 被 AA_386 用了）。待 BB 測（清單第 26 項）。；10-23 AA 改到大一 2025-12-22（895496a7），已照改。"
+   "note": "2026-10-23 LAWWW-B 實作 9dcbb19d6（tests/aa406_family_xmas_unit.js）；禮物先用手機一格買（逐店清單還沒有）；旗標改名 SIS_FAMXMAS_Y2（SIS_XMAS_Y2 被 AA_386 用了）。待 BB 測（清單第 26 項）。；10-23 AA 改到大一 2025-12-22（895496a7），已照改。",
+   "aliases": [
+    "SIS-AFTER-XMAS-1023"
+   ]
   },
   {
    "first": {
@@ -30518,7 +30539,11 @@
     "confirmed": true
    },
    "source": "AA_404（30bf21de8）、AA_405（1fa2b494a）、AA_408（29e41dd8）",
-   "authorized": "D109、D111（使用者 10-23 08:1x 對 AA：店員要有支線）"
+   "authorized": "D109、D111（使用者 10-23 08:1x 對 AA：店員要有支線）",
+   "aliases": [
+    "AA404-SIDEQUEST2-1023",
+    "AA405-SIDEQUEST3-1023"
+   ]
   }
  ]
 }

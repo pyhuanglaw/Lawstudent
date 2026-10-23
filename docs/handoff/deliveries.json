@@ -13579,8 +13579,8 @@
    "what": "深色木地板第一批：圖書館 3F 閱覽區、總圖大廳二樓自習區人字拼改淺色（#a07a55→#cdb594）；library_3f.py／.glb／.json、library_interior.py／.glb、floors/scan_floors.py",
    "task": "ART-NO-DARK-WOOD-1023",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 08:1x 收五個檔＋掃描腳本；遊戲程式不用改；前後截圖 LAWWW2 分支 docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/README.md；畫面驗收派 BB"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 08:1x 收五個檔＋掃描腳本；遊戲程式不用改；前後截圖 LAWWW2 分支 docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/README.md；畫面驗收派 BB；10-23 11:2x BB 兩批都 PASS"
   },
   {
    "id": "DL-AA398",
@@ -13709,8 +13709,8 @@
    "what": "深色木地板第二批：九個室內 GLB（定食、美國公寓兩戶、茶屋、日本房間、118 巷咖啡、書店、萬才研討室、半熟）地板改淺色＋七支 Blender 腳本＋程式備用地板 patch（rooms_glb3d／us3d／jp_dorm3d／zones3d／wz_shops_layout）",
    "task": "ART-NO-DARK-WOOD-1023",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 09:1x：GLB、腳本取 6fbe2830；patch 對開發分支 apply 乾淨；相關單元測試 ALL PASS；美國公寓門外走廊深色木板牆記著（不是地板）；畫面驗收派 BB"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 09:1x：GLB、腳本取 6fbe2830；patch 對開發分支 apply 乾淨；相關單元測試 ALL PASS；美國公寓門外走廊深色木板牆記著（不是地板）；畫面驗收派 BB；10-23 11:2x BB 兩批都 PASS"
   },
   {
    "id": "DL-AA404",
@@ -17419,6 +17419,75 @@
    "branch": "origin/claude/second-ai-env-art",
    "kind": "handoff_record",
    "reason": "LAWWW2（帳號 A）15:09 交班：HANDOFF「全部待辦」109 項、outbox 林家菜單改掛 ART-WZ-LIN-MENU-1022、duty_LAWWW2 handed-off、快照 2026-10-22T1509Z_A_LAWWW2.json；LAWWW（帳號 A）15:1x UTC 分類"
+  },
+  {
+   "sha": "2b7fb652",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "店內窗景兩層 WIP（景深量測第一版）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "8de5f135",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "店內窗景兩層 WIP（第一版照片、拍照工具改）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "74f76c81",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "店內窗景兩層拍照工具 tools/shots/shop_views_layers.py WIP；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "69ada9a5",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-FACADE3D",
+   "reason": "公館、118 巷店面交件版 v8，82725bf8 交件（整合 6b2827942）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "e72824a7",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-FACADE3D",
+   "reason": "公館、118 巷店面兩個測試 patch，82725bf8 交件一起整合；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "fa7c0215",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-FACADE3D",
+   "reason": "公館、118 巷店面立體 GLB 第一版交件，82725bf8 最終版；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "c562118b",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NODARK-2",
+   "reason": "ART-NO-DARK-WOOD-1023 美國公寓兩戶前後截圖補進 README（第二批已整合 29e074e0、BB PASS）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "0a88e814",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "CLOSED-SPACES-1023",
+   "reason": "CLOSED_SPACES_1023 文件：AA_399 的回答、十二項開工順序（提案文件，不是交件）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "b0367117",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "CLOSED-SPACES-1023",
+   "reason": "關著的空間清點＋開發提案、user_asks（提案文件，不是交件）；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "28fef8fd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "kind": "handoff_record",
+   "reason": "BB-B 接班登記（帳號 B 10-23）：快轉企劃線、duty_BB on、工具同步；LAWWW-B 10-23 12:5x 分類"
   }
  ]
 }
