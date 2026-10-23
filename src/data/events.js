@@ -4565,3 +4565,32 @@ const Y4_EVENTS=(function(){
       prereq:{custom:G=>envDue(G)}, dialogue:ENVELOPE } ];   /* 22:00 以後沒回到房間就睡著（例：凌晨 2:30 走回宿舍）：睡著時演 */
 })();
 Array.prototype.push.apply(STORY_EVENTS,Y4_EVENTS);
+/* AA_402（企劃線 235cf61ac；AA_389 第 8 點）：柏翰、芯慈大二起每學期兩句閒聊（取代 AA_313 5-1 第 15 點的閒聊階梯）；每句 once，條件照稿的「條件」欄（柏翰大二是法服社長＝固定設定，那一句不另加條件） */
+{ const after=k=>({custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey(k)}), notJP={custom:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='JP')};
+  SMALLTALK.classmate_bohan.push(
+    {t:'「法服的值班表，我排到十二月了。」',term:['Y2S1'],once:true},
+    {t:'「這學期我週三晚上空出來了。要讀書的話，可以找我。」',term:['Y2S1'],week:[7,99],once:true},
+    {t:'「法服這學期的個案，比上學期多一倍。」',term:['Y2S2'],once:true},
+    {t:'「你下學期修幾學分。我在看要不要多修一門。」',term:['Y2S2'],week:[12,99],once:true},
+    {t:'「社長交出去了。週六早上我還是會去。習慣了。」',term:['Y3S1'],once:true},
+    {t:'「四樓樓梯間，下午兩點以後就沒有人了。」',term:['Y3S1'],if:{events:['ev_bohan_third_floor']},once:true},
+    {t:'「推甄的書面資料，我寫到第四版了。」',term:['Y3S2'],once:true},
+    {t:'「暑假我不回新竹。總圖暑假也開。」',term:['Y3S2'],week:[13,99],once:true},
+    {t:'「面試的問題，我準備了四十題。」',term:['Y4S1'],week:[5,8],once:true},
+    {t:'「推甄上了。……我媽在電話裡哭了，我沒有。」',term:['Y4S1'],week:[12,99],once:true},
+    {t:'「國考讀書會的考古題，我排到七月了。」',term:['Y4S2'],if:after('2029-03-01'),once:true},
+    {t:'「研究所九月開學。國考在那之前。時間剛好。」',term:['Y4S2'],once:true});
+  SMALLTALK.classmate_xinci.push(
+    {t:'「經濟系的課跟法律系的撞了一堂，我改修晚上那一班。」',term:['Y2S1'],if:{events:['ev_xinci_double']},once:true},
+    {t:'「我每天早上七點的公車。永和過來要四十分鐘。」',term:['Y2S1'],if:{notEvents:['ev_xinci_double']},once:true},
+    {t:'「上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。」',term:['Y2S1'],once:true},
+    {t:'「週四晚上我借了一間討論室。你要來的話，我多印一份。」',term:['Y2S2'],once:true},
+    {t:'「期末考完那天晚上，有空嗎？我先問，你不用現在回答。」',term:['Y2S2'],week:[13,99],once:true},
+    {t:'「我爸說寒假可以去事務所幫忙。……我還沒決定。」',term:['Y3S1'],once:true},
+    {t:'「以安的交換，你知道她選哪裡嗎？……我只是問。」',term:['Y3S1'],week:[8,12],once:true},
+    {t:'「以安不在，第一排的位子我坐了。……沒有比較好。」',term:['Y3S2'],if:{custom:G=>after('2028-03-25').custom(G)&&notJP.custom(G)},once:true},   /* 以安去日本以後；日本路線的祐廷這時也不在 */
+    {t:'「暑假我在我爸的事務所。九點到六點，跟上班一樣。」',term:['Y3S2'],week:[13,99],once:true},
+    {t:'「國考跟研究所，我兩個都報了。」',term:['Y4S1'],once:true},
+    {t:'「我最近在追一部日劇。你不要問我名字，我會講兩個小時。」',term:['Y4S1'],time:[22,24],once:true},   /* 她晚上話比較多 */
+    {t:'「畢業典禮那天，我媽要請假。她說要坐第一排。」',term:['Y4S2'],week:[10,99],once:true},
+    {t:'「國考那天，我叫我媽不要來。……她說她會在外面等。」',term:['Y4S2'],if:after('2029-06-01'),once:true}); }
