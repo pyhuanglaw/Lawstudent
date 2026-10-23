@@ -10,7 +10,7 @@
    溫書瑀沒有 partner（使用者 2026-10-17 P0「她一開始就沒有男朋友，只是考研究所之前不想交往」「要改就直接改」，AA_218 第 16 節、BB_122 ★ 節）：筆試 2026-02-02 以前告白會被婉拒、不鎖線（src/date3d.js 的 DATE.canConfess）。
    partner：有伴侶的期間——兩個人單獨的邀約（吃飯、散步）不約（src/invites3d.js partnerBlock、STORY.partnerOn）。AA 2026-10-14：照劇情事件結束、不照整學期，事件沒發生照日期保底：
      〔學姊的伴侶已作廢：使用者 2026-10-17 P0〕沛珊到「她和柏翰分開了」（BB_97；保底：大二上第 6 週結束）、
-     Alison 從「語 3 在一起」（AA_40，大二上十二月；保底：大二上第 13 週＝12/1 那週）起和阿哲交往到尾聲。endEvent／startEvent 等那些事件做好時填事件 id。
+     Alison 從「語 3 在一起」（AA_40，大二上十二月；保底：大二上第 15 週＝12/14 那週）起和阿哲交往到尾聲。endEvent／startEvent 等那些事件做好時填事件 id。
      unlessFlag：那個旗標成立的時候沒有這一段（沛珊×柏翰只在玩家沒有和沛珊交往時，AA_374 第 11 項；STORY.partnerOn）。*/
 'use strict';
 const CHARACTERS = {

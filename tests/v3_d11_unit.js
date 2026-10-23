@@ -40,11 +40,11 @@ GM.money=function(n){ G.money+=n; };
   fresh(d18,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const o=OUT.get(G,'y2_ball');
   check('1. 12/18 21:00 麵店團群組阿哲「明天下午兩點，系籃，新體育館。來喊。」＋出發選單 12/19 14:00',txt('g:noodle_team').includes('zhe:明天下午兩點，系籃，新體育館。來喊。')&&!!o&&o.day===d19&&o.h===14&&o.ev==='ev_zhe_game_y2',JSON.stringify([txt('g:noodle_team'),o]));
   const Gm=ev('ev_zhe_game_y2'); fresh(d19,14,'campus'); meet('heroine_01'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); said=[]; picks=[1]; await EVENTS.run(Gm); STORY.knows=k0; let L=L0();
-  check('2. 系籃大二版（AA-B c2f1c5aa）：以安、Alison 在觀眾席、加油板「17 號，不要犯規。」；記分＝「今年一次都沒翻錯。」以安「翻分的規則在第十二頁。我標起來了。」；WATCHED_GAME_Y2',L.includes('（以安在觀眾席看規則手冊。）')&&L.includes('（Alison 的加油板上寫著：『17 號，不要犯規。』）')&&L.includes('你坐到記分台，今年一次都沒翻錯。')&&L.some(t=>/翻分的規則在第十二頁。我標起來了。/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME_Y2'),JSON.stringify(L));
+  check('2. 系籃大二版（AA-B c2f1c5aa）：以安、Alison 在觀眾席、加油板「17 號，不要犯規。」；記分＝「今年一次都沒翻錯。」以安「（在觀眾席喊）十七號四犯了！」（AB65-3（AA_211 附錄 A） 以安一列：旁白「（以安坐在觀眾席第一排。）」，規則手冊拿掉）；WATCHED_GAME_Y2',L.includes('（以安坐在觀眾席第一排。）')&&L.includes('（Alison 的加油板上寫著：『17 號，不要犯規。』）')&&L.includes('你坐到記分台，今年一次都沒翻錯。')&&L.some(t=>/（在觀眾席喊）十七號四犯了！$/.test(t))&&!L.some(t=>/規則手冊|第十二頁/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME_Y2'),JSON.stringify(L));
   const Y=ev('ev_yu_together'); { fresh(d19,19,'noodle'); G.flags.met_yu=true; const a=EVENTS.check(Y); fresh(d19,17,'noodle'); G.flags.met_yu=true; const b=EVENTS.check(Y); fresh(d19+7,19,'noodle'); G.flags.met_yu=true; const c=EVENTS.check(Y);
     check('3. 語 3：12/19 19:00 麵店、認識 Alison＝會演；17:00、下週六不演',a&&!b&&!c); }
   fresh(d19,19,'noodle'); G.flags.met_yu=true; meet('yu'); said=[]; await EVENTS.run(Y); L=L0();
-  check('3. Alison 四句照 AA_40；之後她和阿哲的伴侶期間開始（startEvent）',L.length===4&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：……可是我覺得很好。以後週二週四，我都有人一起回家了。'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
+  check('3. Alison 四句照 AA_40（第四句照 AB65-3（AA_211 附錄 A） 小語一列：「反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。」＋旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」）；之後她和阿哲的伴侶期間開始（startEvent）',L.length===5&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。'&&L[4]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
   fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu'), yc=OUT.get(G,'y2_yu_call');
   check('4. 都沒去、認識 Alison：22:00 她打電話來（接起來／先不接；AA_313 5-1 第 4 點，原本私訊三則）',!dm.length&&!!yc&&yc.ev==='ev_yu_together_call'&&yc.day===d19&&yc.h===22&&yc.verb==='接起來'&&yc.no==='先不接',JSON.stringify([dm,yc]));
   { said=[]; picks=[0]; await EVENTS.run(ev('ev_yu_together_call')); const Lc=L0();

@@ -7,7 +7,7 @@
    - 不發心意邀約時的手機一句：AA_254 第 9 節。
    行的寫法：字串＝說話的人自己說；{narr:'（…）'}＝旁白；陣列裡可以放函式 G=>字串|物件（照情況換句子）。 */
 const TERMEND_LINES=(function(){
-  const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);
+  const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)||!!(G&&G.day!=null&&typeof STORY!=='undefined'&&STORY.dayOfKey&&(d=>d!=null&&G.day>=d)(STORY.dayOfKey('2027-10-06')));   /* AA_260 (b-1) 第 12 項（C20）：2027-10-06（Q8b，她自己把遊戲丟到網路上）以後一律算知道 */
   const TM=G=>{ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; return w?w.id:null; };   /* 現在是哪一學期的期末時段 */
   const US4=G=>TM(G)==='Y4S1'&&typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';   /* 美國路線的大四上：12/23 才回來（AA_254 第 0 節 BB-C 16:45 規則：「你考完了沒」換成「你回來了」那一類）*/   /* 子晴做遊戲是秘密，大一下 Q6 才揭露（BB_166 1-1；AA-C 375b91dd）*/
   /* AA_386 3-3（企劃線 d0468be4，AA 14:2x 定案 A）：學姊交往版大四上那一頓固定 2028-12-24 18:30（termend3d.js S.dinnerDay）；3-2 研究室那晚有來（SIS_XMAS_Y3 there）＝多兩句，美國路線「……我們做到了。」
@@ -65,7 +65,8 @@ const TERMEND_LINES=(function(){
       think:'好。我也是想了很久才說的。你慢慢想。',
       invite2:'期末考完了吧？同一家。……我請。',
       she2:['你不講，那我講。','上學期那件事，我到現在還是一樣。……你呢？'],
-      yes2:['……這次是你先說。','好。'] },
+      yes2:['……這次是你先說。','好。'],
+      over:[{terms:['Y3S2'],decline:'好。那出發前再約。'}] },   /* AA_260 (b-1) 第 13 項：她 8/2 出發去美國 */
     heroine_02:{ src:'AA_254 第 4 節', place:'cafe', placeName:'兩點半 Café 打烊以後', wd:5, h:21, walkBg:null, walkPlace:'溫州街・她住的巷口',
       invite:'這禮拜五我九點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。', decline:'好啊。那來店裡，我請你一杯。',
       table:'（她把吸管套折成很小一塊）……這學期，有幾次下班想傳訊息給你。打好了，沒送出去。',
@@ -87,7 +88,8 @@ const TERMEND_LINES=(function(){
       invite2:['考完了吧 宵夜','上次那個 你想好沒'],
       she2:['……你不講，那我講喔。','我上次講的，沒有收回。……換你。'],
       yes2:['欸……你先講了喔','好啦。'],
-      over:[{terms:['Y4S1'],   /* 她 2028-06 畢業、在工作室上班（AA_254 第 5 節大四上，8c76052b）*/
+      over:[{terms:['Y3S2'],invite2:['你考完了吧 宵夜','上次那個 你想好沒']},   /* AA_260 (b-1) 第 8 項：大三下她已經畢業（第一次那句 AA_377 第 10 項已經換）*/
+        {terms:['Y4S1'],   /* 她 2028-06 畢業、在工作室上班（AA_254 第 5 節大四上，8c76052b）*/
         invite:G=>[US4(G)?'欸 你回來了齁 宵夜':'欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱'],
         table:G=>Q6(G)?'最近做了一個關卡，還沒給任何人玩。……你先玩。不准放水。':'最近寫了很多東西。……還沒給任何人看。' }] },
     classmate_peishan:{ src:'AA_254 第 6 節', place:'eatery', placeName:'系館附近的簡餐', h:18.5, walkBg:null, walkPlace:'新生南路・往捷運站',

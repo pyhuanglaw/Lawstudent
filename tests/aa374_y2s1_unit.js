@@ -87,8 +87,8 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 6、7 項：社團博覽會 =====
   { const expo=async(club,flags,pk)=>{ fresh(D('2026-09-16'),13,'campus',Object.assign({['CLUB_'+club]:true},flags||{})); R('classmate_bohan','FAM'); R('heroine_05','FAM'); R('zhe','FAM'); const f0=[+SOCIAL.rel('classmate_bohan').fam,+SOCIAL.rel('heroine_05').fam];
       said=[]; picks=pk||[0]; await EVENTS.run(ev('ev_y2_club_expo')); return {L:lines(),S:said.slice(),f:[+SOCIAL.rel('classmate_bohan').fam-f0[0],+SOCIAL.rel('heroine_05').fam-f0[1]]}; };
-    const r=await expo('lawclub_study',{},[0,'先問事實']), bh=NM('classmate_bohan');
-    check('6. 法服攤位選「先問事實，再找條文。」：旁白「攤位後面，柏翰抬頭看了你一眼。」、柏翰「……順序對了。」（BB 測試：法服攤位是柏翰）',r.L.includes('攤位後面，柏翰抬頭看了你一眼。')&&r.S.some(s=>s.who===bh&&s.t==='……順序對了。'),J(r.L));
+    const r=await expo('lawclub_study',{},[0,'先聽他']), bh=NM('classmate_bohan');   /* AB65-3（AA_211 附錄 A 祐廷的選項）：「先問事實，再找條文。」→「有人來問問題，我們先聽他把事情講完，再找條文。」 */
+    check('6. 法服攤位選「有人來問問題，我們先聽他把事情講完，再找條文。」：旁白「攤位後面，柏翰抬頭看了你一眼。」、柏翰「……順序對了。」（BB 測試：法服攤位是柏翰）',r.L.includes('攤位後面，柏翰抬頭看了你一眼。')&&r.S.some(s=>s.who===bh&&s.t==='……順序對了。'),J(r.L));
     check('6. 沒有學姊（學姊大二起是碩一、不回法服）：沒有「學姊抬起頭」「她低下頭，繼續整理報名表。」，學姊不說話',!r.L.some(t=>/學姊抬起頭|繼續整理報名表/.test(t))&&!r.S.some(s=>s.who===NM('heroine_05')),J(r.L));
     check('6. after()：熟悉 +1 給柏翰、學姊不加',r.f[0]===1&&r.f[1]===0,J(r.f));
     const b0=await expo('dept_basketball',{},[0]), b1=await expo('dept_basketball',{ZHE_CALLS_GE:true},[0]);

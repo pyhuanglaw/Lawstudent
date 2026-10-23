@@ -1,5 +1,5 @@
 // 大二的手機小事（BB_97 第 5 節＋9-16；任務 V3-B22）——不需要瀏覽器。
-// 檢查：大二才有（大一、經濟系沒有）；學姊值班表、Kevin「學姊卸任了！」接在 W6 交接之後；子晴 LAB_LETTER 五則；芷若 Z7 之後、Z9 之前（單身 22:07、交往中 15:10）；可昕（交往中）照學期、下雨那則只在下雨；邵鈞那則兩種；第三隻手三個條件都成立才有、可以回。用法：node tests/v3_phone_small_unit.js
+// 檢查：大二才有（大一、經濟系沒有）；學姊值班表、Kevin「學姊卸任了！」接在 W6 交接之後；子晴 LAB_LETTER 五則；芷若 Z7 之後、Z9 之前兩則（單身 22:07、交往中 15:10）；可昕（交往中）照學期、下雨那則只在下雨；邵鈞那則兩種；第三隻手三個條件都成立才有、可以回。用法：node tests/v3_phone_small_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   check('3. 子晴（Q7 實驗室的信之後）五則：實驗室那封信 我回了（AA_328）｜說不要｜教授說好｜就這樣｜好簡單喔',T(m)==='heroine_04:實驗室那封信 我回了｜heroine_04:說不要｜heroine_04:教授說好｜heroine_04:就這樣｜heroine_04:好簡單喔',T(m));
   const zr=(flags)=>only('y2_zr_order',W5,flags,()=>{ done(['ev_zhiruo_applied']); INV.rec(G); G.contacts.heroine_02=1; });
   const a=zr({dating_kexin:false}), b=zr({dating_kexin:true});
-  check('4. 芷若（Z7 之後、Z9 之前）「今天第三個客人點錯。我記得他上週點什麼。我沒說。」：單身 22:07、交往中 15:10',a.length===1&&Math.abs(a[0].h-(22+7/60))<0.06&&b.length===1&&Math.abs(b[0].h-(15+10/60))<0.06&&a[0].text==='今天第三個客人點錯。我記得他上週點什麼。我沒說。',JSON.stringify([a.map(x=>x.h),b.map(x=>x.h)]));
+  check('4. 芷若（Z7 之後、Z9 之前）兩則「今天有個常客點了熱美式。」「他上禮拜都點拿鐵。我差點問他怎麼了。」（AB65-3：AA_211 附錄 B P8；原本「今天第三個客人點錯。…」一則）：單身 22:07、交往中 15:10',a.length===2&&Math.abs(a[0].h-(22+7/60))<0.06&&b.length===2&&Math.abs(b[0].h-(15+10/60))<0.06&&a.map(x=>x.text).join('｜')==='今天有個常客點了熱美式。｜他上禮拜都點拿鐵。我差點問他怎麼了。',JSON.stringify([a.map(x=>x.h),b.map(x=>x.h)]));
   const c=only('y2_zr_order',W5,{},()=>{ done(['ev_zhiruo_applied','ev_zhiruo_last_shift']); INV.rec(G); G.contacts.heroine_02=1; }); check('4. Z9 之後沒有',c.length===0);
   m=only('y2_kx_usual',W5,{dating_kexin:true}); const m2=only('y2_kx_usual',W5,{dating_kexin:false}), m3=only('y2_kx_usual',Y1,{dating_kexin:true}), m4=only('y2_kx_usual',B5,{dating_kexin:true});
   check('5. 可昕「午餐老樣子，山下那攤的酸辣湯餃。」（BB_97 9-16）：大二上、交往中才有（沒交往、大一、大二下都沒有）',T(m)==='kexin:午餐老樣子，山下那攤的酸辣湯餃。'&&!m2.length&&!m3.length&&!m4.length&&Math.abs(m[0].h-(21+10/60))<0.06);
@@ -63,7 +63,7 @@ GM.money=function(n){ G.money+=n; };
   m=H({}); const h2=H({PLAYED_Y0:false}), h3=H({E12_ANSWER:'eye'}), h4=H({dating_kexin:false}), h5=only('y2_kx_hand',W5,{dating_kexin:true,PLAYED_Y0:true,E12_ANSWER:'hand'});
   check('7. 第三隻手：玩過經濟系、E12 選「第三隻手」、還在交往，第 6 週以後才有；少一個條件就沒有',m.length===1&&m[0].text==='我還在等你的第三隻手。'&&!h2.length&&!h3.length&&!h4.length&&!h5.length);
   m=H({}); G.hour=23; const ans=PHONE.answer(G,'dp_y2_kx_hand',0);
-  check('7. 回「……長頸鹿的尾巴？」→「你記得。很好。尾巴還在等。」',!!ans&&txt('p:kexin').slice(-2).join('｜')==='player:……長頸鹿的尾巴？｜kexin:你記得。很好。尾巴還在等。',JSON.stringify(txt('p:kexin')));
+  check('7. 回「……長頸鹿的尾巴？」→「你記得喔。尾巴我還留著。」（AB65-3：AA_211 附錄 B P7；原本「你記得。很好。尾巴還在等。」）',!!ans&&txt('p:kexin').slice(-2).join('｜')==='player:……長頸鹿的尾巴？｜kexin:你記得喔。尾巴我還留著。',JSON.stringify(txt('p:kexin')));
   const econ=STORY.DAILY_PHONE.filter(d=>/^y2_/.test(d.id)).every(d=>!d.ok({flags:{dating_kexin:true},stage:'econ',events:{done:{}}},1));
   check('8. 經濟系那一年都沒有',econ);
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

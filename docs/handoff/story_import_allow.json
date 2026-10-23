@@ -530,17 +530,17 @@
   },
   {
    "path": "docs/story_planning/AA_255_大二下口語改稿_AA與BB人物.md",
-   "sha": "f218a3e0",
+   "sha": "52900eb23",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）"
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）；2026-10-23 20:1x 改到 52900eb23（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
   },
   {
    "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
-   "sha": "cf864bff",
+   "sha": "dd9b704aa",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單"
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單；2026-10-23 20:1x 改到 dd9b704aa（AB65-3-Y2S1-L、AA312-INTEGRATE-1020 子代理照這一版）"
   },
   {
    "path": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
@@ -2109,6 +2109,60 @@
    "task": "US-AA424-1023",
    "kind": "text",
    "note": "src/us_blank3d.js、src/data/us_blank_lines.js（tests/aa424_us_blank_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md",
+   "sha": "671434d3c",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AB65-3-Y2S1-L",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_211_附錄_審稿原文.md",
+   "sha": "968473469",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AA312-INTEGRATE-1020",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/BB_181_AA211口氣審_大二上BB人物.md",
+   "sha": "968473469",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AB65-3-Y2S1-L",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_312_附錄B定稿後續_裁定與給LAWWW總表.md",
+   "sha": "53885f148",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AB65-3-Y2S1-L",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_260_大三下口語改稿_AA與BB人物.md",
+   "sha": "8f3d4217e",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AA312-INTEGRATE-1020",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_262_大四上口語改稿_AA與BB人物.md",
+   "sha": "f70dfac35",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（AB65 第 3 批大二上口語改稿、AA_312 附錄 B 定稿後續；D109）",
+   "task": "AA312-INTEGRATE-1020",
+   "kind": "text",
+   "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
   }
  ]
 }

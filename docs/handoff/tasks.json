@@ -17383,7 +17383,7 @@
    "title": "實作大二上口語改稿（AA_211＋BB_181 裁定）：匯入 ladder_aa_y2s1／ladder_bb_y2s1＠0ba8d336＋事件、手機、群戲（AA_211 第 2、2-1、3、4 節）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23 19:2x】第②部分交給子代理（同 AB65-2 的做法：原句還在才換、後來改過的照現行版） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 先請 AA 標出 AA_211 第 2～4 節哪些已被 AA_325／AA_338 取代，再照剩下的改 events.js 三場群戲與手機；做完 AA 核對 ｜ ①階梯匯入＋程式四點已做（3800eb7d，ladder_y1s2_y2s1_unit）②AA_211 第 2、2-1、3、4 節事件、手機、群戲（BB_181 九項的事件部分：E2、E3、明軒 zhe_game、S3-L6 等）③AA 核對",
    "first": {
@@ -17407,7 +17407,8 @@
      "evidence": "①階梯 ladder_aa_y2s1／ladder_bb_y2s1＠0ba8d336 已匯入（3800eb7d，tests/ladder_y1s2_y2s1_unit.js）；②AA_211 第 3 節群戲沒照改：src/data/events.js:3561 ev_y2_first_meal 還有小語「學長的樣子是大碗嗎？」（AA_211 3-1 要刪）、以安句子和選項是舊版；ev_midterm_walkout_y2（events.js:3120）也不是 3-3 的版本；但 ev_y2_midautumn 以安「我贊成。這樣公平。」後來被 AA_325 定稿保留",
      "note": "階梯做了，事件、群戲的口語改稿大多沒進，且和後來的 AA 稿有交疊"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:1x LAWWW-B：子代理做完 AA_211 第 ② 部分 79 列（基準 3d4d1969）＋AA_207 第 7 節補充；被後來的改稿取代的照現行（表在子代理報告，已轉 AA 確認 9 點）。tests/ab65_3_y2s1_unit.js 65 PASS、ab65_2 37 PASS，舊台詞斷言的 22 個測試已照 AA_211 改、全 PASS。"
   },
   {
    "id": "US-RESCHED-1017",
@@ -24482,7 +24483,7 @@
    "title": "AB65-3 附錄 B（BB 人物大二下～大四上）：階梯全部重匯、測試寫死 7 處、AA_312 第 3 節 C 的程式",
    "area": "v3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
@@ -24504,7 +24505,8 @@
      "evidence": "A 階梯全部重匯已做（1c98fbbf，白名單 49ed7e6a）；B 測試寫死 7 處只做了 #3 子晴「阿凱說你念過經濟？」（invites.js），#1 學姊「重點是我要先把這段寫完」、#2「我第一次為了散步而散步」、#4「週末早上我還在存檔」、#6 阿凱「這是成長。」仍是舊句（invites.js、events.js）；C 程式（AA_255／259／260／262 的 (b)）沒有逐條核對紀錄",
      "note": "階梯重匯了，寫死的台詞與條件程式大多沒改"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:1x LAWWW-B：做了 B-7／AA_259 (b) 5 K13 第三年卡片、AA_259 (b) 5 沛珊旁聽閒聊限 Y1S1～Y2S1、AA_260 (b-1) #8 #12 #13；其餘已經被後來的改稿做掉。沒做：invites.js 的 B-1 B-2 B-4 B-5、AA_255 #20、AA_259 (b) 3、AA_262 (b) 1；termend3d.js 的每學期 NOPE（AA_260 #5 #6 #11、AA_262 #4）、AA_260 #14、AA_262 (b) 8、自動婉拒沒用 over（termend3d.js:208）——下一批 LAWWW-B 接。tests/aa312_unit.js 15 PASS。"
   },
   {
    "id": "Y2Y4-STORY-1020",

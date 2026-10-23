@@ -11,18 +11,18 @@ const NEEDED_MSGS=(function(){
   const NOT_YET=()=>false;   /* 那一件還沒做（語彤事件 11）；模擬法庭（an_moot＝在賣家組群組、bh_moot＝模 3 在場、xc_moot＝模 5）、Z7（zr_beans）2026-10-16 接上 */
   const L=[
     // 以安（AA_179 第 2 節；516ba348）。miss＝沒回的那一句（第 4 節，每一則各一句）；missDating＝交往中的版本（第 4-1 節）
-    {id:'an_lib',who:'heroine_01',term:'Y2S1',w:[1,6],msg:['今天在總圖嗎？'],reply:'在。三樓。',resp:['好。我帶兩本。一本給你。'],
+    {id:'an_lib',who:'heroine_01',term:'Y2S1',w:[1,6],msg:['今天在總圖嗎？'],reply:'在。三樓。',resp:['好，我四點過去，幫我留個位子。'],
       miss:['上週問你在不在總圖。……沒關係，那本我自己讀完了。'],missDating:['上週問你在不在總圖，你沒回。我多借的那本，還在我桌上。']},
     {id:'an_rules',who:'heroine_01',term:'Y2S1',w:[4,6],tie:true,cond:G=>att(G,'public_law_group'),msg:['讀書會的規則，我寫了一頁。','📷（〈公法讀書會規則〉一頁十二條，第五條「發言超過十分鐘，要先舉手」）','幫我看哪一條可以刪。'],reply:'第五條。',resp:['……我也覺得是第五條。'],
       miss:['讀書會的規則，你上週沒回。……沒關係，先照十二條。'],missDating:['讀書會的規則你沒回。週四以前跟我說，我想聽你的。']},
-    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>done(G,'ev_an_tutor_family_1')&&F(G).AN10_PICK!=='reason',msg:['公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
+    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>done(G,'ev_an_tutor_family_1')&&F(G).AN10_PICK!=='reason',msg:['公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['好，我先看這兩段。'],
       miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了。AA_313 4-3：只在 12/1 麵店（ev_an_tutor_family_1）演過以後送，第一則只說「公文我拿到了。」（駁回的事當面講過）*/
     {id:'an_topics',who:'heroine_01',term:'Y2S2',w:[3,6],cond:G=>att(G,'public_law_group'),msg:['這週讀書會的題目，我排了一版。','📷（一張表，八題）'],reply:'題目好難。',resp:['第三題是 Alison 挑的，我也還沒寫出來。'],   /* 原 an_moot（模擬法庭刪除，AA_252 第 4 節）*/
       miss:['讀書會的題目你沒回。沒關係，我先照那一版。'],missDating:['題目你沒回。……那這週第三題你來講。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。'],
       miss:['讀書會換人帶那則，你沒回。……這週我繼續帶。沒關係。'],missDating:['讀書會換人帶那則，你沒回。這週我繼續帶。下週換你，不准躲。']},
     // 語彤（AA_179）
-    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,16],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['嗯。她會多切一顆滷蛋。'],
+    {id:'yt_auntie',who:'heroine_03',term:'Y2S1',w:[1,16],every:4,cond:noodle,msg:['阿姨問你週四來不來。'],reply:'來。',resp:['好，我跟她說。'],
       miss:['阿姨上週問了你三次。……我說你很忙。'],missDating:['阿姨上週問了你三次。我說你很忙。她說那更要來吃。']},
     {id:'yt_fafu',who:'heroine_03',term:'Y2S1',w:[2,2],msg:['法律系的課，我上禮拜第一次去上。','教室好大。'],   /* AA_374 第 23 項：9/20（週日）發，第一次去上是上禮拜 */reply:'坐我旁邊。',resp:['……我習慣坐最後一排。你坐過來。'],   /* AA_255：語彤不加入法服，改成雙主修第一週（id 照舊，舊存檔收過法服那則的不再收這則）*/
       miss:['上課那則你沒回。……我找到位子了。'],missDating:['上課那則你沒回。……我找到位子了。你忙的時候，回一個『忙』就好。']},
@@ -57,24 +57,24 @@ const NEEDED_MSGS=(function(){
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。'],reply:'好。',resp:['謝啦。不然我一定會去算差幾分。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
     {id:'xc_notes',who:'classmate_xinci',term:'Y2S2',w:[11,13],msg:['期末的筆記我想換個方式整理。你都怎麼記判決？'],reply:'我只抄爭點跟結論，其他的回去看全文。',resp:['好，我試試看。'],miss:['筆記那則你沒回。……我自己試了。']},   /* 原 xc_moot（模擬法庭刪除）*/
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）
-    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。'],miss:null},   /* Café 常客；Z7 之後 */
+    {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[14,15],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['店裡進了新的豆子','比較酸一點 你想喝喝看嗎'],reply:'想。',resp:['好 週四我上班','來的時候跟我說 我幫你留一杯'],miss:null},   /* Café 常客；Z7 之後 */
     // 子晴（BB_97 11-1；BB_205 第 5 節）
-    {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],vars:[{cond:G=>!playtested(G),msg:['幫我看一個東西。現在。','……這不是問句。']}],   /* AA_313 6-4：沒看過 Q6 的玩家，不說破她在做遊戲 */reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
-    {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[12,12]/* AA_375 第 3 項：5/16 發，「下週」＝第 13 週（爸爸第 13～14 週才來；原本 [11,12] 5/9 就先發）*/,tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。'],
+    {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['你現在有空嗎','幫我測一下遊戲 這不是問句'],vars:[{cond:G=>!playtested(G),msg:['幫我看一個東西。現在。','……這不是問句。']}],   /* AA_313 6-4：沒看過 Q6 的玩家，不說破她在做遊戲 */reply:'好。連結呢？',resp:['傳了','第三關不要跳 我就是要看那邊'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
+    {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[12,12]/* AA_375 第 3 項：5/16 發，「下週」＝第 13 週（爸爸第 13～14 週才來；原本 [11,12] 5/9 就先發）*/,tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他','好啦 謝啦'],
       miss:['我爸要來那則，你沒回。','……算了，沒差。'],missUnless:G=>done(G,'ev_ziqing_dad_visit')},   /* 沒看過 Q6（PLAYTESTED）的不提遊戲；沒回的那一句 Q8 之前才說 */
-    {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['……好爛。我要用。'],miss:['遊戲名字我自己取了。先不說。']},   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
-    {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['……可以。這個可以。'],miss:['第四句歌詞，我自己寫完了。']},
+    {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['哈哈哈好爛','先當暫定的'],miss:['遊戲名字我自己取了。先不說。']},   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
+    {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['可以欸','先用這個'],miss:['第四句歌詞，我自己寫完了。']},
     // 學姊（BB_97 11-1；BB_205 第 4 節：祐廷大二整年她是碩一，只有法圖那本書）
     /* 'sis_duty'、'sis_typo'：刪（BB_207 第 2 節：學姊大二上是碩一，不回法服、推甄整段取消）；'sis_report'：刪（BB_205 第 4 節：學姊沒接阿姨的案子）*/
     {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['法圖那本行政救濟的書被借走了。你們班上有人有嗎？'],reply:'我問問看。',resp:['好。不急。'],miss:['那本書我借到了。']},   /* id 照舊（原本「家族的學弟妹名單」）*/
     // 沛珊（BB_97 11-1）
-    {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝。……不要難到大家想退出。'],miss:['讀書會的題目，你上週沒回。我自己出了一題。']},
-    {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','……你覺得我瘋了嗎？'],reply:'沒有。',resp:['好。那我就照這個走。'],miss:['重考計畫那則你沒回。……沒關係，我先照那個排。']},
+    {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝！不要太難喔 上次大家寫超久'],miss:['讀書會的題目，你上週沒回。我自己出了一題。']},
+    {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','你會覺得我瘋了嗎'],reply:'沒有。',resp:['好。那我就照這個走。'],miss:['重考計畫那則你沒回。……沒關係，我先照那個排。']},
     /* 'ps_notes'：搬到 story3d.js 12/17 22:00（BB_205 第 2 節）*/
     /* 'ps_kids'：刪（BB_205 第 3 節：沛珊消失期）*/
     // 明軒（BB_97 11-1）
     {id:'mx_tutor',who:'classmate_mingxuan',term:'Y2S1',w:[3,5],tie:true,cond:()=>false,   /* AA_374 第 22 項：大二上拿掉（大二沒有家教的排程，AA_211 第 6 節第 6 點）；id 留著，舊存檔收過的照舊認得 */msg:['家教那家的媽媽問你下學期還來不來 😂'],reply:'會。',resp:['好 我跟她說 👍 你教得比我好 不要傳出去'],miss:['家教媽媽那邊，我先跟她說你在考慮喔。']},
-    {id:'mx_toefl',who:'classmate_mingxuan',term:'Y2S1',w:[9,11],msg:['托福作文題目：規則應該為了多數人嗎 🤔 你會怎麼開頭'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['我朋友在準備托福 叫我問你 🤔','題目是規則應該為了多數人嗎 怎麼開頭']}],   /* AA_374 第 12 項（AA_211 附錄 B P4）*/reply:'先問：哪一個少數。',resp:['這個開頭會被扣分 哈哈 可是我要用'],miss:['托福那題，我自己寫了開頭啦。']},
+    {id:'mx_toefl',who:'classmate_mingxuan',term:'Y2S1',w:[9,11],msg:['托福作文題目：規則應該為了多數人嗎 🤔 你會怎麼開頭'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['我朋友在準備托福 叫我問你 🤔','題目是規則應該為了多數人嗎 怎麼開頭']}],   /* AA_374 第 12 項（AA_211 附錄 B P4）*/reply:'先問：哪一個少數。',resp:['哈哈 好 我試試看'],miss:['托福那題，我自己寫了開頭啦。']},
     {id:'mx_seat',who:'classmate_mingxuan',term:'Y2S2',w:[4,4],at:{day:'2027-03-15',h:21}/* AA_375 第 10 項：3/15（一）21:00 發（學校信 3/15 09:00 才公告、以安 09:20 才說坐第一排），不進 3/14 那一組（STORY.neededAt）*/,tie:true,msg:['交換說明會週四中午 幫我佔第一排 我下課跑過去 🏃'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['交換說明會週四中午 你要去嗎','我只是去聽聽 順便吃便當 😂'],resp:['好 那我們第一排見 👍']}],reply:'好。',resp:['以安說她也要坐第一排 那第一排不夠了 😂'],miss:['說明會的位子我自己去佔了，第二排。']},   /* 沒有 SAW_HIM_STUDY：他不讓人看到在念書 */
     {id:'mx_form',who:'classmate_mingxuan',term:'Y2S2',w:[14,16],tie:true,msg:['交換的志願表 我第一志願改了三次 😂 你下學期會填嗎'],reply:'還不知道。',resp:['好 你要填的時候跟我說 我的借你參考 😂'],miss:['志願表我又改了一次。']},
     // 阿凱（BB_97 11-1）
@@ -82,12 +82,12 @@ const NEEDED_MSGS=(function(){
     {id:'kai_bot',who:'kai',term:'Y2S1',w:[8,10],tie:true,msg:['所以我寫了一個會回答法律問題的聊天機器人 你幫我測'],reply:'它不能給法律結論。',resp:['所以我加一句 請去問法服 這樣可以嗎'],miss:['所以機器人我自己測了。怪怪的。']},
     {id:'kai_kb',who:'kai',term:'Y2S2',w:[5,7],tie:true,msg:['所以大一那把少一顆鍵的鍵盤 又壞一顆 是Enter'],vars:[{cond:G=>!mem(G,'kai','KAI_KEYBOARD'),msg:['所以我網拍買的鍵盤 Enter 壞了 賣家是一個阿伯'],resp:['不要 阿伯人很好 都會回我']}],reply:'換一個賣家吧。',resp:['不要 我跟那個阿伯有感情了'],miss:['Enter 我自己修好了，要按很大力。']},   /* KAI_KEYBOARD＝大一下 S-3 幫他查過（BB_154）*/
     // 方奕廷（BB_97 11-1）
-    {id:'fy_plant',who:'npc_fangyt',term:'Y2S1',w:[3,5],tie:true,cond:G=>!!F(G).POTHOS,msg:['📷 Epipremnum aureum，黃金葛。','你那盆還活著嗎？'],reply:'活著。',resp:['好。它不會長不好。……我只是想確認。'],miss:['黃金葛那則你沒回。它應該還活著吧。']},
-    {id:'fy_quiet',who:'npc_fangyt',term:'Y2S1',w:[12,14],msg:['期末想找一個安靜的地方讀書。你知道哪裡沒有人嗎？'],reply:'總圖五樓最裡面。',resp:['……那裡有你。算了，也可以。'],miss:['讀書的地方，我自己找到一個了。']},
-    {id:'fy_sign',who:'npc_fangyt',term:'Y2S2',w:[9,11],tie:true,msg:['📷（一塊牌子「私人土地，禁止進入」）','這條山路，是真的不能走嗎？'],reply:'我不能幫你判斷。繞路最保險。',resp:['……好。繞路比較遠，可是會看到別的樹。'],miss:['那條山路，我後來繞路了。']},
+    {id:'fy_plant',who:'npc_fangyt',term:'Y2S1',w:[3,5],tie:true,cond:G=>!!F(G).POTHOS,msg:['📷 Epipremnum aureum，黃金葛。','你那盆還活著嗎？'],reply:'活著。',resp:['那就好','黃金葛很難養死 葉子黃了再跟我說'],miss:['黃金葛那則你沒回。它應該還活著吧。']},
+    {id:'fy_quiet',who:'npc_fangyt',term:'Y2S1',w:[12,14],msg:['期末想找一個安靜的地方讀書。你知道哪裡沒有人嗎？'],reply:'總圖五樓最裡面。',resp:['你也在那喔','好啊 那我去'],miss:['讀書的地方，我自己找到一個了。']},
+    {id:'fy_sign',who:'npc_fangyt',term:'Y2S2',w:[9,11],tie:true,msg:['📷（一塊牌子「私人土地，禁止進入」）','這條山路，是真的不能走嗎？'],reply:'我不能幫你判斷。繞路最保險。',resp:['好 那我走另一條','多一個小時而已'],miss:['那條山路，我後來繞路了。']},
     // 可昕（BB_97 11-1；只有交往中、只放「請他幫忙」的）
-    {id:'kx_example',who:'kexin',term:'Y2S1',w:[4,6],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['物權報告要一個『好笑但是對的』例子。借我一個。'],reply:'鄰居的樹長過來，掉下來的果子算誰的？',resp:['……這個好。答案我自己查。'],miss:['物權報告的例子，我自己想了一個。']},
-    {id:'kx_yule',who:'kexin',term:'Y2S2',w:[2,4],anyone:true,cond:G=>!!F(G).dating_kexin,msg:['予樂的生日要辦驚喜。我負責騙她出門，你負責想一個理由。'],reply:'說要陪妳去配眼鏡。',resp:['……太合理了。她一定會來。'],miss:['予樂那個驚喜，理由我自己編了。']},
+    {id:'kx_example',who:'kexin',term:'Y2S1',w:[4,6],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['物權報告要一個『好笑但是對的』例子。借我一個。'],reply:'鄰居的樹長過來，掉下來的果子算誰的？',resp:['這個好','答案我自己查'],miss:['物權報告的例子，我自己想了一個。']},
+    {id:'kx_yule',who:'kexin',term:'Y2S2',w:[2,4],anyone:true,cond:G=>!!F(G).dating_kexin,msg:['予樂的生日要辦驚喜。我負責騙她出門，你負責想一個理由。'],reply:'說要陪妳去配眼鏡。',resp:['好 就這個'],miss:['予樂那個驚喜，理由我自己編了。']},
     {id:'kx_cv',who:'kexin',term:'Y2S2',w:[6,8],tie:true,anyone:true,cond:G=>!!F(G).dating_kexin,msg:['期中報告的摘要，幫我挑錯字。其他的不要有意見。'],reply:'第一行，『學系』打成『學習』。',resp:['……我已經交出去了。'],miss:['摘要我自己挑了。交出去才看到一個錯字。']} ];   /* id 照舊（原本「暑假實習的履歷」，BB_97 11-1 改成期中報告的摘要）*/
   /* 沒回的那一句：每一則各一句（AA_179 第 4 節、BB_97 11-2），寫在每一則的 miss；null＝那一則沒回也不提（芷若的豆子、語彤洗碗、柏翰考古題）。
      下面這張是舊的「一個人一句」，只給沒寫 miss 的訊息（目前沒有）當備用 */

@@ -219,7 +219,7 @@ const Y34B=(function(){
   S.sisRideKind=G=>(datingAny(G)||!fri('heroine_05')||exOf(G,'heroine_05'))?'family':'two';   /* 家族共乘＝祐廷交往中、或和她不到 FRIEND（前任也是）；兩個人＝雙方都單身、FRIEND 以上 */
   S.sisPhone=function(G){ const F=G.flags, a=D('sisAsk'), go=D('sisGo'), u0=D('us0'), end=D('m6End'); if(a==null||G.day<a||G.day>end+1||!law(G)||!inGrp(G,'family_law')) return;
     if(!US(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(go,8)){ const L=[GSIS('八月二號早上的飛機。'),GSIS('我搭客運去機場。大家不用送。')];   /* 新寫（AA_323 1B-18）；美國路線同一班飛機，不發 */
-      if(TW(G)&&fam('heroine_05')&&F.HOOK_SIS_SENDOFF==null){ const kev=F.SAID_HAS_CAR?(mem('heroine_05','FAMILY_DINNER')?'直屬學弟的車！家聚那台！':'學弟有車！'):'你有車？？';
+      if(TW(G)&&fam('heroine_05')&&F.HOOK_SIS_SENDOFF==null){ const kev=F.SAID_HAS_CAR?(mem('heroine_05','FAMILY_DINNER')?'學弟的車！家聚那台！':'學弟有車！'):'你有車？？';
         L[1].ask={id:'y4_sis_ride',until:T(go,0),opts:[{t:'我送妳。我有車。',set:{SIS_RIDE_ASK:'yes'},say:[{from:'kevin',name:'Kevin',text:kev}]}]}; }   /* 日本路線：照發，沒有按鈕 */
       at(G,a,G.day===a?Math.max(tzH(G,a,21),G.hour):G.hour,L,'y4_sis_ride'); }
     /* AA_392 第 2-2 節：期末聚餐說了「那天我去送學姊。」（HOOK_SIS_SENDOFF）的臺灣路線玩家——7/26 21:05 她私訊（群組那則的 Kevin 按鈕不出）；
