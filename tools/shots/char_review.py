@@ -66,6 +66,7 @@ async def run(variant):
                                      ('q45', (SX + 2.7, H * 0.55, SZ + 2.7), (SX, H * 0.5, SZ), 'idle'),
                                      ('face', (SX, H * 0.9, SZ + 0.95), (SX, H * 0.88, SZ), 'idle'),
                                      ('neck', (SX + 0.12, H * 0.82, SZ + 0.6), (SX, H * 0.8, SZ), 'idle'),
+                                     ('faceq', (SX + 0.68, H * 0.9, SZ + 0.68), (SX, H * 0.88, SZ), 'idle'),   # 頭肩特寫、斜前 45°（三分之四側；LAWWW 驗收沛珊要正面＋三分之四側並排，LAWWW2-B 10-23）
                                      ('walk', (SX + 3.8, H * 0.55, SZ), (SX, H * 0.5, SZ), 'walk')):
                 await pg.evaluate("((p)=>{ const n=window.__n; n.pose=p; n.idlePose=p; n.speed=(p==='walk'?1.3:0); })(%s)" % json.dumps(pose))
                 await cam(pg, c, l, 10.5); await wait_frames(pg, 10 if pose == 'walk' else 6)
