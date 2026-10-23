@@ -1513,6 +1513,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "回 AA313_REMAINING_1022 (b) 九點"
+  },
+  {
+   "task": "AA389-ZR-SENDOFF-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5f4b9c7b",
+   "files": [
+    "docs/story_planning/AA_390_芷若2027年9月2日出發那天.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_390 第 6 節（9/1 訊息、ev_zr_sendoff_2027、沒來的訊息、期末選項打開、1B-06 三則分流）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_389 第 2 點的補場"
   }
  ],
  "items": [
