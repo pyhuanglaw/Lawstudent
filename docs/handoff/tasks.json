@@ -30309,7 +30309,7 @@
    "id": "SIDEQ-AA397-1023",
    "title": "店員的支線「順手的事」（使用者 10-23 08:1x 直接對 AA：店員要有支線、可接公園的貓、參考人中之龍不抄襲）：AA_397 第 1 節系統（認得你以後偶爾開口、手機「待辦」多一格、最多兩則、有期限過期不扣分、G.side）＋第 2 節第一批九則",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": null,
    "first": {
@@ -30324,7 +30324,8 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 09:2x】AA_405 第三批 SQ16～SQ20（企劃線 1fa2b494，不需新 2D；三批共二十則）；AA_397 更正 8f1701b2：子晴住臺北的家（12/14「……我家有電暖器。」、12/17 公布欄「牠現在在一個有電暖器的家。——里長」、交往中「去她家看貓」）｜ 【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
+   "next": "【LAWWW-B 10-23 09:2x】AA_405 第三批 SQ16～SQ20（企劃線 1fa2b494，不需新 2D；三批共二十則）；AA_397 更正 8f1701b2：子晴住臺北的家（12/14「……我家有電暖器。」、12/17 公布欄「牠現在在一個有電暖器的家。——里長」、交往中「去她家看貓」）｜ 【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後",
+   "note": "2026-10-23 10:5x LAWWW-B 派背景子代理（worktree，從 c822b4efc）：AA_397 第 1 節系統＋SQ01～08＋第 3 節貓線（子晴收養）；新測試 tests/aa397_sideq_unit.js；回來以後 LAWWW-B 合併、全套測試、缺字轉 AA、貓模型顯示條件轉 LAWWW2。AA_404、AA_405 下一批。"
   },
   {
    "id": "SIS-B9-L-1023",
