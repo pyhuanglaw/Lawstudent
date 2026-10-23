@@ -1817,6 +1817,14 @@
    "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/loans3d.js",
    "task": "LIB-LOAN-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md",
+   "sha": "29e41dd8",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）",
+   "task": "SIDEQ-AA397-1023",
+   "kind": "text"
   }
  ]
 }

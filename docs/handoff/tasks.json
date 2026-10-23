@@ -30333,7 +30333,7 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 09:2x】AA_405 第三批 SQ16～SQ20（企劃線 1fa2b494，不需新 2D；三批共二十則）；AA_397 更正 8f1701b2：子晴住臺北的家（12/14「……我家有電暖器。」、12/17 公布欄「牠現在在一個有電暖器的家。——里長」、交往中「去她家看貓」）｜ 【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後",
-   "note": "2026-10-23 12:0x LAWWW-B 合併子代理（a78ffe10）：src/sideq3d.js（SIDEQ）系統＋SQ01～SQ08、手機「今天」多一格「順手的事」（classes3d.js）、118 巷／溫州街／便利商店接線；tests/aa397_sideq_unit.js＋相關 24 支 ALL PASS。子代理暫定的時間（SQ05 隔天起休 14 天、SQ06 3 天後回報、SQ07 21＋7 天、出現機率 35%、一天一次、SQ08 夜班第 3 罐）＋缺字清單已轉 AA；有句子的步驟照稿，缺字的那一步先不演。BB 測（清單第 38～40 項）。AA_404、AA_405 下一批。",
+   "note": "2026-10-23 12:0x LAWWW-B 合併子代理（a78ffe10）：src/sideq3d.js（SIDEQ）系統＋SQ01～SQ08、手機「今天」多一格「順手的事」（classes3d.js）、118 巷／溫州街／便利商店接線；tests/aa397_sideq_unit.js＋相關 24 支 ALL PASS。子代理暫定的時間（SQ05 隔天起休 14 天、SQ06 3 天後回報、SQ07 21＋7 天、出現機率 35%、一天一次、SQ08 夜班第 3 罐）＋缺字清單已轉 AA；有句子的步驟照稿，缺字的那一步先不演。BB 測（清單第 38～40 項）。AA_404、AA_405 下一批。 10-23 12:4x：AA_408（29e41dd8）缺字全部補上、暫定值 AA 全部同意；過期一句第一批八則接上（SQ10～SQ20 的等 AA_404／405）。",
    "sha": "e1ff41132、728c7b7c0、53b44c2f5（合併 400657c77）"
   },
   {
