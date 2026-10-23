@@ -168,6 +168,10 @@ const SIDEQ=(function(){
   /* ---------- 存檔 ---------- */
   S.rec=function(G){ if(!G.side||typeof G.side!=='object'||Array.isArray(G.side)) G.side={}; return G.side; };
   S.get=(G,id)=>{ const r=S.rec(G)[id]; return r&&typeof r==='object'?r:null; };
+  /* 店裡看得到的痕跡（3D 模型的 TRACE_SQxx_* 節點，zones3d.js traceVis 每一格問；LAWWW2 10-23 SQ-TRACES-1023）：和各則 trace 的旁白同一個時間——
+     做完的隔天起（SQ12 吧檯照片、SQ14 貓照片、SQ19 失物籃）；SQ13「她的」罐子、SQ20 兩張證書過期（店員交代過）也照樣有（AA_408 第 1 節）。SQ16 紙條：過期＝沒有那張紙（AA_408 第 1 節）*/
+  S.TRACE_LAPSE={SQ13:1,SQ20:1};
+  S.traceOn=function(G,id){ if(!law(G)) return false; const r=S.get(G,id); if(!r) return false; const base=r.state==='done'?r.doneDay:(S.TRACE_LAPSE[id]&&r.state==='lapsed'&&r.told?r.told:null); return base!=null&&G.day>base; };
   S.isOpen=(G,id)=>{ const r=S.get(G,id); return !!r&&r.state==='open'; };
   S.openIds=G=>Object.keys(S.rec(G)).filter(id=>Q[id]&&S.isOpen(G,id));
   S.MAX=2; S.ROLL=0.35; S.roll=()=>Math.random();   /* 「偶爾」：點完餐 35%（測試換掉 S.roll）*/

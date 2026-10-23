@@ -30001,7 +30001,8 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23】FF-SEMESTER-1023 之後；第一版用遊戲大地圖（guide3d.js）加可點的地點；美術地圖之後 BB 照 D97 要",
-   "note": "2026-10-23 11:3x LAWWW-B 第一版：手機「地點」最上面一張示意地圖（src/placemap3d.js，SVG），點圖釘＝下面列出那裡的地點＋前往；清單照舊在下面。tests/placemap_unit.js ALL PASS；截圖確認字不疊。正式美術地圖之後 BB 照 D97 要（不擋）。待 BB 在手機尺寸實測（清單第 36 項）。 10-23 12:3x BB-B 第 36 項重測（0024f456b）PASS：四區紅圈對、字不疊、117 次點擊 0 錯、前往到得了、美國沒有地圖；兩個小問題（單一地點圖釘灰色、圖例還沒去過）已修 f7402a045；公館捷運站你在這裡 cce997abd。 10-23 12:3x BB-B：第 36 項 cce997abd＋f7402a045 ALL PASS，結案（公館兩個落點、你在這裡圖釘、沒去過的寫「還沒去過」、沒有例外）。"
+   "note": "2026-10-23 11:3x LAWWW-B 第一版：手機「地點」最上面一張示意地圖（src/placemap3d.js，SVG），點圖釘＝下面列出那裡的地點＋前往；清單照舊在下面。tests/placemap_unit.js ALL PASS；截圖確認字不疊。正式美術地圖之後 BB 照 D97 要（不擋）。待 BB 在手機尺寸實測（清單第 36 項）。 10-23 12:3x BB-B 第 36 項重測（0024f456b）PASS：四區紅圈對、字不疊、117 次點擊 0 錯、前往到得了、美國沒有地圖；兩個小問題（單一地點圖釘灰色、圖例還沒去過）已修 f7402a045；公館捷運站你在這裡 cce997abd。 10-23 12:3x BB-B：第 36 項 cce997abd＋f7402a045 ALL PASS，結案（公館兩個落點、你在這裡圖釘、沒去過的寫「還沒去過」、沒有例外）。",
+   "evidence": "BB-B 10-23 12:3x 第 36 項（Playwright＋SwiftShader 手機尺寸，非真機）cce997abd＋f7402a045 ALL PASS：四區紅圈、字不疊、117 次點擊 0 錯、前往到得了；tests/placemap_unit.js ALL PASS"
   },
   {
    "id": "EAT-MATTER-1023",
@@ -30274,7 +30275,8 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:4x】校園約人做好：invites3d.js S.goPrompt（約好前 30 分鐘～後 15 分鐘、不在那一區、空下來問一次「直接過去」／「自己走過去」；OUT 該出發先問）、S.goNow（快速前往 force）；手機「今天約好的」每筆「前往」；tests/inv_go_unit.js（HEAD 版例外 FAIL）、相關 257 支 ALL PASS。還沒做：校外約會 1 小時前提早出發（出發時間到照舊有一鍵「出發」）｜BB 補測 ｜ 【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測",
-   "note": " 2026-10-23 11:1x LAWWW-B：校外約會出發前 60 分鐘提醒的時候就可以「現在出發」（date3d.js S.early、outings3d.js OUT.tick 等選單；抵達＝約好的時間，中間時間直接過去）／「到時間再說」照舊；tests/date_book_unit.js 第 6 節。待 BB 測（清單第 35 項）。 10-23 12:0x BB-B 第 35 項 ALL PASS（8282335af，ux1023b：EARLY_GO 15:55 抵達、約會演完、相簿、done；EARLY_LATER 不再問、14:46 照舊；BB_218 bf200d680）。校園約人「前往」那一半 BB 還沒單獨測。 10-23 12:3x BB-B：校園約人那一半 PASS（0024f456b：14:33 問直接過去／自己走過去；直接過去＝到 Café、約會照常演、done；自己走＝不再問；手機「今天約好的」前往＝到 Café）。兩半都通過。"
+   "note": " 2026-10-23 11:1x LAWWW-B：校外約會出發前 60 分鐘提醒的時候就可以「現在出發」（date3d.js S.early、outings3d.js OUT.tick 等選單；抵達＝約好的時間，中間時間直接過去）／「到時間再說」照舊；tests/date_book_unit.js 第 6 節。待 BB 測（清單第 35 項）。 10-23 12:0x BB-B 第 35 項 ALL PASS（8282335af，ux1023b：EARLY_GO 15:55 抵達、約會演完、相簿、done；EARLY_LATER 不再問、14:46 照舊；BB_218 bf200d680）。校園約人「前往」那一半 BB 還沒單獨測。 10-23 12:3x BB-B：校園約人那一半 PASS（0024f456b：14:33 問直接過去／自己走過去；直接過去＝到 Café、約會照常演、done；自己走＝不再問；手機「今天約好的」前往＝到 Café）。兩半都通過。",
+   "evidence": "BB-B 10-23 12:0x 第 35 項 ALL PASS（8282335af，校外約會提早出發）＋12:3x 校園約人（0024f456b：直接過去／自己走過去／手機前往）PASS；tests/date_book_unit.js 第 6 節、invites 單元測試"
   },
   {
    "id": "BUG-BOOK-OVERDUE-1023",
@@ -30640,6 +30642,62 @@
    "next": "【LAWWW-B 10-23 14:0x】合併子代理 75f61865：SQ17 三題中英＋給號碼（聯絡人「一一八茶飲的店員」、4/25 21:00「上了。京都。」）、SQ20 自己計時兩次、SQ19 班上群組三則（取代旁白事件）、SQ10 下一次來滇香交乳扇才做完、SQ12 交往對象五句、SQ15 房間物品、SQ18 阿伯運費一杯；aa404 109 項、aa397、sis_no_three、alison ALL PASS；BB 清單第 52 項 ｜ 【LAWWW-B 10-23 13:1x】派背景子代理（worktree，從 fdc39c9fc）實作；回來以後合併、相關測試、BB 測 ｜ 【LAWWW-B 10-23 13:0x】接在 FF-SEMESTER 之後；改 src/sideq3d.js＋tests/aa404_sideq_unit.js（稿加 AA_408 b0b80a54）",
    "aliases": [],
    "sha": "75f61865（合併 59340e371）"
+  },
+  {
+   "id": "SQ-TRACES-1023",
+   "title": "店員支線做完的痕跡 3D 道具（SQ12 照片、SQ13 罐子、SQ14 貓照片、SQ19 失物籃、SQ20 證書、SQ16 紙條）＋公館輪轉單車店門口互動點",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "做完店員支線的隔天",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_404／405 痕跡；LAWWW-B 10-23 派",
+   "authorized": "D108、D111",
+   "sha": "ed65a78e",
+   "next": "【LAWWW-B 10-23 14:1x】合併：五個 GLB、zones3d traceVis／店門口互動點；SIDEQ.traceOn 接；tests/sq_traces_unit.js；BB 清單第 53 項",
+   "xai": {
+    "spec": "AA_404／405 痕跡",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "TRACE_SQxx 節點＋遊戲內顯示／不顯示截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIDEQ-SQ16-1023",
+   "title": "SQ16 輪轉單車：兩年沒人來牽的車（AA_405；店門口互動點已有）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "大二起到公館輪轉單車",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_405（1fa2b494a）SQ16；AA_408 第 1 節過期一句",
+   "authorized": "D109、D111",
+   "pausedBy": "LAWWW-B",
+   "pausedReason": "車行沒有點餐，觸發條件、老闆平常的招呼、登山社大二以後的社課、問社團那一步的字、回車行的結果句、期限、痕跡的名字稿裡沒有",
+   "owner2": "AA",
+   "resumeWhen": "AA 回 AA_405 補充節",
+   "recheckOn": "2026-10-25",
+   "next": "【LAWWW-B 10-23 14:1x】問 AA 七項（觸發、招呼、登山社社課、問社團的字與說話框、結果句、期限、痕跡名字）；SIDEQ.bikeShop 先不定義（按鈕不出現）"
   }
  ]
 }

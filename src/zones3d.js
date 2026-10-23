@@ -615,9 +615,15 @@ const Z3 = (function(){
       if(s.type==='cvs') E.interactables.push({x:ix,z:FZ+2,radius:2.2,label:'進入便利商店',exit:{to:'cvs',spawn:{x:0,z:3.4,yaw:Math.PI}}});
       x=X1; });
     /* 輪轉單車（G06，正對校門；LAWWW2-B 2026-10-16，原本是「眼鏡・手機維修」）：店名虛構（D77）。街景——載妹墊開局就有（使用者 10-16，D78），不用在這裡裝、沒有互動點。
-       騎樓靠櫥窗停三台（和店面平行，騎樓還有 1.6 m 寬可以走；店門口 x −2.1～1.7 不放車）、櫥窗裡兩台、騎樓外一塊立牌。店門口互動點（−0.3, FZ+2）之後有需要再加 */
+       騎樓靠櫥窗停三台（和店面平行，騎樓還有 1.6 m 寬可以走；店門口 x −2.1～1.7 不放車）、櫥窗裡兩台、騎樓外一塊立牌。
+       店門口互動點「找車行老闆」（−0.3, FZ+2，r 2.2，和麵店、茶行、書店、便利商店同一排同一個距離；LAWWW2-B 10-23，順手的事 SQ16（AA_405）要用）：
+       shop:'bike'——story3d.js 的互動照 SIDEQ.bikeShop(GM) 演（車行老闆的招呼、SQ16）；SIDEQ 沒有 bikeShop 的版本不顯示（不出一個按了沒反應的按鈕）*/
     { const sx=0.3; for(const [dx,c,k] of [[-3.3,'#2f5d50','bike_road'],[2.3,'#e0b95b','bike_city'],[4.2,'#8c3b47','bike_mtb']]){ const b=W3.bikeAny(c,0,k);   /* 腳踏車行（輪轉單車）：騎樓擺公路車、淑女車、登山車 */ b.position.set(sx+dx,0,FZ+2.55); b.rotation.y=Math.PI/2; g.add(b); nav.blockRect(sx+dx,FZ+2.55,k==='bike_mtb'?1.85:1.75,0.6,0); }
       for(const [dx,c,k] of [[-2.2,'#3a6fb0','bike_fold'],[1.6,'#d9d3c6','bike_road']]){ const b=W3.bikeAny(c,0,k);   /* 櫥窗：小折、公路車 */ b.position.set(sx+dx,0.155,FZ+3.75); b.rotation.y=-Math.PI/2; g.add(b); }
+      E.interactables.push({x:sx-0.6,z:FZ+2,radius:2.2,label:'找車行老闆',shop:'bike',get hidden(){ return !(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop); }});
+      /* SQ16 做完的痕跡（AA_405）：騎樓那台淑女車的籃子掛一張紙「免費借給新生，一學期」（朝騎樓走道）；SIDEQ.traceOn(G,'SQ16') 才顯示 */
+      { const note=new THREE.Mesh(new THREE.PlaneGeometry(0.2,0.05),new THREE.MeshStandardMaterial({map:TK.signTex('免費借給新生・一學期',{bg:'#f6f1e4',color:'#3a332c',size:46,border:'#c9b89a'}),roughness:0.85,side:THREE.DoubleSide}));
+        note.position.set(sx+2.3+0.55,0.84,FZ+2.55-0.2); note.rotation.set(-0.12,Math.PI,0.05); note.name='TRACE_SQ16_note'; note.userData.dyn=true; traceVis(note,'SQ16'); g.add(note); }   /* dyn：不參加整區合併（每一格看要不要顯示）*/
       const ab=TK.aBoard(['打氣免費','修車・換胎','後座墊加裝']); ab.position.set(2.6,0,FZ-0.6); ab.rotation.y=Math.PI; g.add(ab); nav.blockCircle(2.6,FZ-0.6,0.35); }
     // 往溫州街的巷口（店面街西端）：麵店西邊留 6 m 寬的巷子（x −74～−68）往南，巷口對面是轉角公寓（一般店面、沒有騎樓）；巷口有路名牌和反光鏡。
     /* 原本「往溫州街」只是區域邊上地面的互動點，旁邊什麼都沒有 */
@@ -1314,7 +1320,11 @@ const Z3 = (function(){
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.classroom_201']) ASSETS.loadOne('bldg.classroom_201').then(c=>{ if(!c||!c.scene||E.zone!==z) return; attachRoomGLB(z,g0,g,c.scene.clone(true)); }).catch(e=>console.warn('201 教室正式模型載入失敗，用程序化備用模型',e));
     return z; } };
   // 正式模型（Blender GLB）接到室內區域：名字含 WALL_ 的是會淡出的牆（自訂屬性 dir＝往室內的法線）；其他照原樣；程序化備用模型藏起來
+  /* 店員支線「順手的事」做完以後店裡多的東西（痕跡，AA_404／405；LAWWW2-B 10-23）：SIDEQ.traceOn(G,'SQ12') 是 true 才顯示。每一格看：在店裡剛做完也會馬上出現。
+     正式模型裡的節點叫 TRACE_SQ12_photo 這種（tools/blender/env_second/aa_support/sq_traces.py），attachRoomGLB 照名字接；公館腳踏車行的紙條（SQ16）在上面公館的街景 */
+  function traceVis(o,id){ let shown=true; Object.defineProperty(o,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!!(G&&typeof SIDEQ!=='undefined'&&SIDEQ.traceOn&&SIDEQ.traceOn(G,id)); },set(v){ shown=!!v; }}); }
   function attachRoomGLB(z,g0,fb,root){ root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)) TK.bounce(o.material,0.5,0.5); } });   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
+    root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
     const glassy=[];   /* 本來就半透明的牆面材質（玻璃、紗窗）：不放進淡出清單（淡出邏輯每格會把不透明度設回 1，玻璃會變成不透明的灰板），改成窗的零件：固定透明、牆淡出時一起藏（和 Café 室內一樣）*/
     root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ const see=o.material.transparent&&o.material.opacity<0.9; o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld);
       if(Array.isArray(o.userData.at)) o.userData.center=new THREE.Vector3().fromArray(o.userData.at).applyMatrix4(root.matrixWorld);   /* 淡出判斷點（GLB 的 at，正式模型的座標）：外框中心不在牆線上的零件用（118 巷店門外兩側的鄰居店面卡：外框中心在牆線外 2.3 m，鏡頭在牆線外 2.3 m 以內不會淡出、會擋住人；LAWWW2 10-22）*/

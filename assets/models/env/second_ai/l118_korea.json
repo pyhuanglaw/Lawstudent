@@ -1,13 +1,13 @@
 {
- "objects": 31,
- "unique_meshes": 31,
- "tris": 15594,
- "tris_drawn": 15594,
- "materials": 18,
- "out": "assets/models/env/second_ai/l118_korea.glb",
- "bytes": 1459672,
+ "objects": 32,
+ "unique_meshes": 32,
+ "tris": 15758,
+ "tris_drawn": 15758,
+ "materials": 22,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/trnew/l118_korea.glb",
+ "bytes": 1475252,
  "texres": 512,
- "tris_total": 15594,
+ "tris_total": 15758,
  "layout": "l118_korea.layout.json",
  "seats": 20
 }

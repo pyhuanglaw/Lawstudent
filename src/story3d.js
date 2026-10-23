@@ -1067,6 +1067,7 @@ const STORY = (function(){
     if(it.shop==='cvs'){ await counter(GM,'便利商店',[['飯糰',35,12],['美式咖啡',45,8],['運動飲料',30,6],['微波義大利麵',75,22]].concat(S.tut830Items(G)).concat(typeof PARK!=='undefined'&&PARK.catName(G)?[['小罐貓罐頭',35,0,G=>{ G.daily=G.daily||{}; G.daily.catCans=(G.daily.catCans|0)+1; }]]:[])); return true; }   /* 貓罐頭（AA_164 5-4、AA_171 第 7 節）：取了名字以後才會想到要買；買過幾罐（G.daily.catCansN）由 SIDEQ.atShop 記（AA_397 SQ08）*/
     if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
+    if(it.shop==='bike'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.bikeShop) await SIDEQ.bikeShop(GM); return true; }   /* 公館輪轉單車「找車行老闆」（LAWWW2 10-23；SQ16 AA_405）：SIDEQ.bikeShop 有了才顯示（zones3d.js 的 hidden）*/
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
     if(it.shop118&&typeof L118!=='undefined'){ await L118.order(GM,it.shop118); return true; }   /* 118 巷店門口點餐（src/lane118.js，AA_280）*/
     if(it.notice==='lawclub'){ GM.sceneBegin(); await GM.say(null,'【法律服務社 招募新社員】隔週週六上午，萬才館一樓，民眾法律諮詢（學長姊帶著做）。新社員先跟著旁聽、做紀錄。報名請到社團博覽會的攤位。'); if(!F.lawclub&&!S.isEcon(G)){ F.lawclub=true; GM.memo('看了法律服務社的招募公告'); GM.addNote('club_law','法律服務社','隔週週六上午 萬才館一樓（民眾法律諮詢）。新社員先旁聽、做紀錄。');   /* AA-C 2026-10-18 01:2x（比對工具）：週三讀書會、模擬法庭、聯絡人溫學姊都是作廢的設定（法服沒有讀書會 BB_191 §7、學姊不在法服）*/   /* 地點、週次照 AA_110 6-8（原本寫萬才館 201：遊戲裡沒有這間）；BUG-10：照 AA_132 F7 的新字（麵店那一版 F7 原文多「阿哲說一年級去會被操」，看公告的玩家沒聽阿哲說過，不放）*/ } GM.sceneEnd(); return true; }
