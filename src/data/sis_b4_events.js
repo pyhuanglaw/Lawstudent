@@ -45,7 +45,7 @@ const SISB4_EVENTS=(function(){
     {choice:[{text:'「那學姊後悔嗎？」',unless:dt,goto:'gr_a'},{text:'「妳後悔嗎？」',if:dt,goto:'gr_a'},{text:'「我還沒想那麼遠。」',goto:'gr_b'}]},
     {label:'gr_a'},SIS('不後悔。'),SIS('……可是如果重來，我會留幾格空的。'),{goto:'gr_c'},
     {label:'gr_b'},SIS('嗯。這樣很好。'),SIS('想好了再來問我。'),
-    {label:'gr_c'},{if:dt,speaker:null,text:'（她翻開計畫本給你看。這個禮拜六那一格，只寫了你的名字。）'},{if:dt,speaker:ID,text:'以前這一格，我會寫三件事。'},
+    {label:'gr_c'},{if:dt,speaker:null,text:'（她翻開計畫本給你看。這個禮拜六那一格，只寫了你的名字。）'},{if:dt,speaker:ID,text:'以前這一格，我會排滿。'},
     mem('SIS_ADV_GRAD',{fam:2,trust:1}) ];
   /* ---------- 1-2 「晚半年會怎樣？」（大二上第 12～15 週；她碩一）---------- */
   const EXCH=[ N('（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）'),
@@ -59,24 +59,22 @@ const SISB4_EVENTS=(function(){
     {label:'ex_b'},SIS('研究生也可以申請。……我查過。'),SIS('只是查過。'),
     {label:'ex_c'},SIS('傳單收好。大三上就要填志願了。'),
     mem('SIS_ADV_EXCH',{fam:2,trust:1}) ];
-  /* ---------- 1-3 志願表的三件事（2027-11-13～11-17；交往中＝11/18 那一刻會走美國，這場只是把那張志願表演出來）---------- */
+  /* ---------- 1-3 志願表（AA_398 第 23～25 列：不數件數）（2027-11-13～11-17；交往中＝11/18 那一刻會走美國，這場只是把那張志願表演出來）---------- */
   const PICK=[ {if:dt,goto:'pk_d'},
     SIS('志願表，寫了嗎？'),
     ME('還沒。禮拜四中午截止。'),
-    SIS('三件事。'),
-    SIS('一，選你想學的。'),
-    SIS('二，選你以後會想念的。'),
-    SIS('三，選了就不要回頭看。'),
-    {choice:[{text:'「學姊自己呢？三件事都做到了？」',goto:'pk_a'},{text:'「如果我選了留在臺灣呢？」',goto:'pk_b'}]},
-    {label:'pk_a'},SIS('第一件做到了。第二件……要去了才知道。'),SIS('第三件，我還在練。'),{goto:'pk_end'},
-    {label:'pk_b'},SIS('那也是選。'),SIS('……三件事一樣。'),{goto:'pk_end'},
+    SIS('選你想學的地方。'),
+    SIS('……選了，就不要一直回頭看。'),
+    {choice:[{text:'「學姊自己呢？做到了嗎？」',goto:'pk_a'},{text:'「如果我選了留在臺灣呢？」',goto:'pk_b'}]},
+    {label:'pk_a'},SIS('前面那句做到了。'),SIS('後面那句，我還在練。'),{goto:'pk_end'},
+    {label:'pk_b'},SIS('那也是選。'),SIS('……一樣，不要回頭看。'),{goto:'pk_end'},
     {label:'pk_d'},SIS('志願表，寫了嗎？'),
     N('（你把手機上的志願表給她看。第一志願，是她要去的那間學校。）'),
     SIS('……嗯。'),
     SIS('那計畫本上，飛機畫一架就好。'),
-    {choice:[{text:'「本來要畫幾架？」',goto:'pk_c'},{text:'「三件事呢？」',goto:'pk_e'}]},
+    {choice:[{text:'「本來要畫幾架？」',goto:'pk_c'},{text:'「妳沒有要交代我什麼？」',goto:'pk_e'}]},
     {label:'pk_c'},SIS('兩架。你的，我的。'),SIS('……我畫飛機很醜。一架就夠了。'),{goto:'pk_end'},
-    {label:'pk_e'},SIS('一，選你想學的。二，選你以後會想念的。'),SIS('三……你已經選了。不用說。'),
+    {label:'pk_e'},SIS('本來有。……選你想學的，選了不要回頭看。'),SIS('可是你已經選了。不用說。'),
     {label:'pk_end'},mem('SIS_ADV_PICK',{fam:2,trust:2}) ];
   /* ---------- 1-4 「你的大四，你自己排」（大三下第 10～14 週；她碩二）：選項只是聊，不記路線 ---------- */
   const Y4=[ SIS('你大四要做什麼，想了嗎？'),
@@ -84,21 +82,20 @@ const SISB4_EVENTS=(function(){
     {label:'y4_a'},SIS('還在想，也是一種排法。'),{goto:'y4_c'},
     {label:'y4_b'},SIS('嗯。不用跟我說。先跟自己說。'),
     {label:'y4_c'},SIS('你的大四，你自己排。我只幫你看。'),
-    SIS('一，排之前先睡飽。'),
-    SIS('二，排好的東西，一個禮拜看一次就好，不要每天看。'),
-    SIS('……三，不要讓別人替你寫。'),
-    N('（她說第三件的時候，看的是自己的計畫本。）'),
+    SIS('排之前先睡飽。排好的，一個禮拜看一次就好。'),
+    SIS('……不要讓別人替你寫。'),
+    N('（她說這句的時候，看的是自己的計畫本。）'),   /* AA_398 第 26 列 */
     {if:{custom:G=>dating(G)&&route(G)==='US'},speaker:ID,text:'到了那邊，拿給我看。'},
     {if:{custom:G=>dating(G)&&route(G)!=='US'},speaker:ID,text:'八月以後，拍照傳給我。我在那邊也看得到。'},   /* 臺灣路線（日本路線這時在日本，不演）*/
     mem('SIS_ADV_Y4',{fam:2,trust:1}) ];
-  /* ---------- 4-1 她的三件事（BB_122 9-2）：記 SIS_REBUILD（那天）；不改關係數值 ---------- */
+  /* ---------- 4-1 她要的時間（AA_398 第 45、46 列；原「她的三件事」，事件 id 不改）（BB_122 9-2）：記 SIS_REBUILD（那天）；不改關係數值 ---------- */
   const caught=G=>{ const R=romR(G); return !!R&&R.status==='friend_after_catch'; };
-  const THREE=[ SIS('三件事。'),
-    {if:{custom:G=>caught(G)},speaker:ID,text:'一，我不要再從別人那裡聽到你的事。'},   /* 被發現退回朋友的 */
-    {unless:{custom:G=>caught(G)},speaker:ID,text:'一，有事先跟我說。不要讓我自己猜。'},   /* 其他分開的 */
-    SIS('二，我要時間。不是一週，是我說好的那天。'),
-    SIS('三，……三我還沒想好。想好了告訴你。'),
-    {choice:[{text:'「好。」',goto:'tc_a'},{text:'「第三件，我等妳。」',goto:'tc_b'}]},
+  const THREE=[
+    {if:{custom:G=>caught(G)},speaker:ID,text:'我不要再從別人那裡聽到你的事。'},   /* 被發現退回朋友的 */
+    {unless:{custom:G=>caught(G)},speaker:ID,text:'有事先跟我說。不要讓我自己猜。'},   /* 其他分開的 */
+    SIS('還有，我要時間。不是一週，是我說好的那天。'),
+    SIS('……其他的，我還沒想好。想好了告訴你。'),
+    {choice:[{text:'「好。」',goto:'tc_a'},{text:'「我等妳。」',goto:'tc_b'}]},
     {label:'tc_a'},SIS('嗯。'),{goto:'tc_end'},
     {label:'tc_b'},SIS('……不要說得那麼好聽。等就是了。'),
     {label:'tc_end'},Object.assign({stamp:['SIS_REBUILD']},mem('SIS_REBUILD')) ];
@@ -184,8 +181,8 @@ const SISB4_EVENTS=(function(){
     /* ---------- 說話前接演的五段（src/sis_b4_3d.js 的 preTalk 用 EVENTS.runLines 演；這幾筆只放台詞，不會自己觸發）---------- */
     { id:'ev_sis_adv_grad', title:'研究所會等你', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:GRAD },
     { id:'ev_sis_adv_exch', title:'晚半年會怎樣？', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:EXCH },
-    { id:'ev_sis_adv_pick', title:'志願表的三件事', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:PICK },
+    { id:'ev_sis_adv_pick', title:'志願表', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:PICK },
     { id:'ev_sis_adv_y4', title:'你的大四，你自己排', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:Y4 },
-    { id:'ev_sis_three_conditions', title:'她的三件事', participants:[ID], location:'any', trigger:'manual', dialogue:THREE } ];   /* 這一次分開演一次（再分開一次＝再演一次，sis_b4_3d.js rebuildDue；BB_122 9-5 她永遠保留攻略可能）*/
+    { id:'ev_sis_three_conditions', title:'她要的時間', participants:[ID], location:'any', trigger:'manual', dialogue:THREE } ];   /* 這一次分開演一次（再分開一次＝再演一次，sis_b4_3d.js rebuildDue；BB_122 9-5 她永遠保留攻略可能）*/
 })();
 for(const e of SISB4_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }
