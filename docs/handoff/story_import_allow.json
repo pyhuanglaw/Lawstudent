@@ -1992,6 +1992,60 @@
    "task": "DL-10",
    "kind": "text",
    "note": "DL-10、DL-11 施工中（子代理）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md",
+   "sha": "f7b96efb8",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "V1-INV-WORDING",
+   "kind": "text",
+   "note": "第 4 節 src/data/invites.js（ed265f872，tests/v1_inv_wording_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/BB_172_AB65_大一上第2批_邀約同行_BB人物.md",
+   "sha": "968473469",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109；BB_172 第 10 節 AA-B 審稿）",
+   "task": "V1-INV-WORDING",
+   "kind": "text",
+   "note": "第 1～6、8、10 節 src/data/invites.js（AA-B 第 10 節審稿版；AA_415 有的格子照 AA_415；tests/v1_inv_wording_unit.js、v1_inv_wording2_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_421_回LAWWW兩題_大四下被當延畢_AA227與228還沒做的.md",
+   "sha": "42c87f4fa",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "D14-T5B",
+   "kind": "text",
+   "note": "第 1 節 src/faildelay3d.js 等（3bdc11b77，tests/faildelay_unit.js）；第 2 節＝EVPKG-AA227-228-KNOW 的範圍"
+  },
+  {
+   "path": "docs/story_planning/AA_422_多線交往第一批定稿_問句曖昧知情邀約發現.md",
+   "sha": "5156f1435",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "施工中（子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_423_多線交往第二批定稿_挽回與結果.md",
+   "sha": "26357a440",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "施工中（子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_207_AB65第2批_大一上BB人物事件改稿.md",
+   "sha": "271d7a1c7",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "AB65-2-L",
+   "kind": "text",
+   "note": "第 1～6 節（第 6 節 10-23 更正）；施工中（子代理）"
   }
  ]
 }
