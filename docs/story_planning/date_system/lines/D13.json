@@ -360,7 +360,30 @@
          "who": "narr",
          "text": "她說完，看著河很久。"
         }
-       ]
+       ],
+       "unless": {
+        "flags": [
+         "ZR_UK_BACK"
+        ]
+       }
+      },
+      {
+       "tier": "high",
+       "lines": [
+        {
+         "who": "heroine_02",
+         "text": "英國的河比較窄。"
+        },
+        {
+         "who": "narr",
+         "text": "她拿手機拍了一張河。"
+        }
+       ],
+       "if": {
+        "flags": [
+         "ZR_UK_BACK"
+        ]
+       }
       }
      ],
      "remember": [
