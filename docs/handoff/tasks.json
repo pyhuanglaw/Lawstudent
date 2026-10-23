@@ -29898,9 +29898,9 @@
    "title": "學姊第九批：大三下臺灣學期中＋大四上朋友的遠距",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "next": "【LAWWW-B 10-23 08:3x】AA 已交 AA_395 學姊第九批（企劃線 eaeafe34，提前）；2-3 大峽谷條件等 BB 跑一個正常臺灣路線玩家、AA 選放寬方式；實作 SIS-B9-L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -30149,7 +30149,7 @@
    },
    "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
+   "next": "【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
    "xai": {
     "spec": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
     "owner": "LAWWW2",
@@ -30271,6 +30271,69 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:3x】ev_forgot_book retired（ev_book_return 留給舊存檔欠著的）；tests/r2y3a_events_unit.js 改（HEAD 版 FAIL）；問 AA 要不要做真的借書（總圖服務台），做了再接這一則；BB 補測：進 3F 閱覽區不再跳逾期"
+  },
+  {
+   "id": "SIS-NO-THREE-1023",
+   "title": "學姊永遠不再說「三件事」（使用者 10-23 09:3x 直接對 AA：「學姊為什麼永遠都在三件事」「第一次念書也寫紙條三件是超怪的」「永遠給我刪除什麼三件事」）：AA_398 替換表 51 處＋重新匯入 date lines 12 地點、wish_bb、solo_before_bb_v1、bb_walk_v1、ladder_bb_y2s1＋加檢查（heroine_05 台詞不能出現「[一兩二三四]件事／第三件／第三格／第三點」、「一，」開頭）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
+  },
+  {
+   "id": "SIDEQ-AA397-1023",
+   "title": "店員的支線「順手的事」（使用者 10-23 08:1x 直接對 AA：店員要有支線、可接公園的貓、參考人中之龍不抄襲）：AA_397 第 1 節系統（認得你以後偶爾開口、手機「待辦」多一格、最多兩則、有期限過期不扣分、G.side）＋第 2 節第一批九則",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
+  },
+  {
+   "id": "SIS-B9-L-1023",
+   "title": "AA_395 學姊第九批・大三下學期中與大四上的遠距：實作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23】AA_395（企劃線 eaeafe34）；排在 SIS-B8-L-1023 之後；sisInviteDue 等 AA 定大峽谷放寬方式再動",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
   }
  ]
 }
