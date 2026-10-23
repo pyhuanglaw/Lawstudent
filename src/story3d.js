@@ -351,7 +351,8 @@ const STORY = (function(){
       if(typeof US_TRAFFIC!=='undefined'&&US_TRAFFIC.start) US_TRAFFIC.start(GM); }   /* 馬路上的車（src/us_traffic3d.js）：紅綠燈、讓人、跟車 */
     if(zoneId==='noodle') noodleRegulars(GM,true);   /* 週二、週四傍晚的固定客人（AA_110 6-3）：進店時已經坐著 */
     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,true); }catch(e){ console.warn('LZUP.populate',e); } }   /* 霖澤館 3F、4F：在討論、吃東西、自習的同學（src/linze_upper3d.js）*/
-    if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,true); }catch(e){ console.warn('LB1.populate',e); } }   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
+    if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,true); }catch(e){ console.warn('LB1.populate',e); } }
+    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,true); }catch(e){ console.warn('LUP.populate',e); } }   /* 總圖 5F 書庫：窗下閱覽桌的讀者（src/library_upper3d.js）*/   /* 總圖 B1：24 小時自習室在讀書的同學（src/library_b1_3d.js）*/
     if(zoneId==='noodle'){ if(F.afternoonDone&&hr>=17.5&&hr<20.5&&!F.zheNoodleDone){ GM.spawnNPC('zhe',C.zhe,0,0,{seat:{x:0,z:-0.3,yaw:0},talk:n=>talkZhe(GM,n)}); F.zheAtNoodle=true; } }
     if(zoneId==='dorm'&&S.isEcon(G)){ if((hr>=18||hr<8||(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)))&&F.E01_DONE){ const st=dormSeat('R2'); GM.spawnCharacter(XUN,st.x,st.z,{seat:st,pose:'sit'}); } }   /* 經濟系那一年的室友是阿勳（AA_168 第 5 節；阿凱這一年不出現）；E01 還沒演完時由 E01 自己帶他進門 */
     else if(zoneId==='dorm'){ if((hr>=18||hr<8)&&S.kaiRoommate(G)&&!S.awayOnDate('kai',G)){ GM.spawnNPC('kai',C.kai,0,0,{seat:dormSeat('R2'),talk:n=>talkKai(GM,n)}); }   /* 阿凱回宜蘭過年（absentDates，BB_171）的晚上不在房間（HOLIDAY-PRESENCE-1021）；AA_374 第 1 項：只有大一同房（9/6 搬進 312 以後他住別棟）*/
@@ -887,7 +888,8 @@ const STORY = (function(){
     if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：待在巷子裡時段到了的常客也會來（進來的時候還沒到 12:10 的話，原本整段都不會出現）*/
     if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 待在店裡時段到了的常客也會來 */
     if(/^linze_[34]f$/.test(zoneId)&&typeof LZUP!=='undefined'){ try{ LZUP.populate(GM,false); }catch(e){ console.warn('LZUP.populate',e); } }   /* 待在霖澤館樓上：時段到了有人從樓梯間走進來、有人離開 */
-    if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,false); }catch(e){ console.warn('LB1.populate',e); } }   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
+    if(zoneId==='library_b1'&&typeof LB1!=='undefined'){ try{ LB1.populate(GM,false); }catch(e){ console.warn('LB1.populate',e); } }
+    if(zoneId==='library_stacks'&&typeof LUP!=='undefined'){ try{ LUP.populate(GM,false); }catch(e){ console.warn('LUP.populate',e); } }   /* 待在書庫：時段到了有人從電梯走過來坐下、有人離開 */   /* 待在總圖 B1：時段到了有人從樓梯間走進來坐下、有人離開 */
     if(zoneId==='cafe'){ try{ cafeRefresh(GM); }catch(e){ console.warn('cafeRefresh',e); } }   /* 待在 Café：客人照時段進出 */
     lingerMove(GM,zoneId); roomMove(GM,zoneId);
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;

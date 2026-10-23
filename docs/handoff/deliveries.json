@@ -13984,6 +13984,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-B 10-23 20:4x：git apply 在開發分支；TESTING.md 第〇節、第七節照草稿；結果 28 PASS、0 FAIL、2 項 [未驗]"
+  },
+  {
+   "id": "DL-LW2-LUP",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "36f12c2ee",
+   "what": "AA_399 第 3 節：總圖研究小間（2F 東側十間，學姊 03／玩家 08）＋5F 書庫（library_carrels、library_stacks GLB、窗景、src/library_upper3d.js LUP；電梯 1F～6F，5F 開）",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 21:0x：patch library_upper_1023 git apply；乾淨 worktree library_upper、library_b1、nav_buildings、guide、lab5f、aa407_loans、b1story、placemap 全 PASS；不進 v9.10.7（候選 d7f40ce91）；劇情（學姊便利貼、方奕廷）待接，LUP.booked／sisPeriod／sisHere／note 是暫定"
   }
  ],
  "ignored": [
