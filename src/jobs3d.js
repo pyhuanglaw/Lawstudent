@@ -16,9 +16,10 @@
    - 延畢（第 15 條）：交換路線（日本、美國）大五上（CALENDAR.termOfDelayed）照常做，最後一班＝離開的時候；臺灣路線照舊在大四下最後一班。
    - 第 9 條：期末考的時段不排班（考試那一格撞到＝那天自動請假）；颱風假不能打工（AA_160 3-4 D）。
    存檔：G.jobs＝{ brunch|copy|tea:{since, from, day:[週幾 1～7], shifts, skill, missedRun, quit, gone, missPend, missN, worked:[天], chk, wk:{}, brk:{假期:'go'|'stop'}, away, back, ask3, pendLeave, b5, b5next, ot:{} },
-     _meta:{ n:{brunch,copy,tea,teaSat}, asked:{…} } }（AA_164 第 7 節；舊存檔沒有＝{}）。家教照舊是 JOB_TUTOR（story3d.js），JOBS.at(G,'tutor') 讀它。
+     _meta:{ n:{brunch,copy,tea,teaSat}, asked:{…} } }（AA_164 第 7 節；舊存檔沒有＝{}）。家教照舊是 JOB_TUTOR（story3d.js），JOBS.at(G,'tutor') 讀它；
+     AA_289 3-3 家教補的那一件（第 6 堂以後「考卷的背面」）接在 ev_tutor_lesson 最後（S.patchTutor，旗標 TUTOR_DRAW、TUTOR_DRAW_ANS）。
    給別的檔案讀：JOBS.at(G,k)（k：brunch／copy／tea，或 wzshops3d.js 的 print／teahouse）→{lv, today, board, shiftNow, shifts, day} 或 null；JOBS.any(G)＝現在有在做的那一家；JOBS.summerPay＝暑假照班發薪（r3_3d.js）。
-   測試：node tests/aa420_jobs_unit.js */
+   測試：node tests/aa420_jobs_unit.js、node tests/aa289_jobs_ev_unit.js */
 'use strict';
 const JOBS=(function(){
   const S={};
@@ -282,6 +283,14 @@ const JOBS=(function(){
   // ---------- 房間物件（AA_420 第 9 節；STORY.ROOM_EXTRA）----------
   S.room=function(G,L){ const F=G.flags||{}, R=D().room; if(F.WZ_ITEM_TIMER) L.push(R.timer.slice()); if(F.WZ_ITEM_NOTEBOOK) L.push(R.notebook.slice()); if(F.WZ_ITEM_TEA&&!F.WZ_TEA_GIVEN) L.push(R.tea.slice());
     if(F.WZ_CARD) L.push(R.card.slice()); if(F.WZ_YE_DONE) L.push(R.board.slice()); if(F.WZ_POSTER_ITEM) L.push(R.poster.slice()); };
+
+  // ---------- 家教補一件（AA_289 3-3：「考卷的背面」）----------
+  /* 家教還是 story3d.js／data/events.js 的最小版（JOB_TUTOR、ev_tutor_lesson、TUTOR_N＝上過幾堂）；這裡只在那一堂的最後多接一段：
+     第 6 堂以後（TUTOR_N≥5）第一次＝考卷背面的貓法官（選項記 TUTOR_DRAW_ANS），接著那天晚上滷味攤明軒一句。只演一次（TUTOR_DRAW＝那一天）。不改 data/events.js */
+  S.tutorDrawDue=G=>{ const F=(G&&G.flags)||{}, T=D()&&D().tutor; return !!T&&!!F.JOB_TUTOR&&F.TUTOR_DRAW==null&&(F.TUTOR_N|0)>=T.drawAfter; };
+  S.patchTutor=function(){ if(typeof STORY_EVENTS==='undefined') return false; const ev=STORY_EVENTS.find(e=>e.id==='ev_tutor_lesson'); if(!ev||!Array.isArray(ev.dialogue)||ev._aa289) return false; ev._aa289=true;
+    ev.dialogue.push({call:async(G,GM,e)=>{ if(!S.tutorDrawDue(G)||typeof EVENTS==='undefined'||!EVENTS.runLines) return; G.flags.TUTOR_DRAW=G.day; await EVENTS.runLines(D().tutor.draw,e||ev); }}); return true; };
+  S.patchTutor();
 
   // ---------- 接線 ----------
   if(typeof PORTRAIT_ONLY!=='undefined'){ for(const k of S.KEYS){ const s=D()&&shop(k); if(s&&!PORTRAIT_ONLY[s.bossId]) PORTRAIT_ONLY[s.bossId]={id:s.bossId,name:s.boss,alias:[],gender:k==='copy'?'m':'f'}; } }   /* 手機聯絡人的名字（只登錄名字，同 sideq3d.js）*/

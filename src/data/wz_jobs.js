@@ -117,6 +117,15 @@ const WZ_JOBS_DATA=(function(){
     /* ---------- WZ-B5 國定假日的班（AA_420 2-3；法律審查 BB_148 8-1）---------- */
     b5:{ ask:['小蕙','今天國定假日，我們有加倍嗎？'], y12:'好像有……我去查。', y3:'有。國定假日是勞基法的休假日，老闆請我們來，工資要加倍。', boss:['小米姐（在廚房）','有。薪水單上會寫。'],
          next:'（收尾的時候，小蕙拿出她的打工合約，問你要看哪裡。你們從第一行開始看。）' },
+    /* ---------- 家教補一件（AA_289 3-3，企劃線 3a26e94a：「考卷的背面」，第 6 堂以後一次；JOBS.patchTutor 接在 ev_tutor_lesson 最後）----------
+       學生＝現有家教事件的「國中生」；那天晚上滷味攤明軒那一句（OUT.BG gongguan_luwei 的字幕「公館・滷味攤」）*/
+    tutor:{ drawAfter:5, draw:[
+      {speaker:null,text:'（學生的考卷背面畫了一個法庭，法官是一隻貓。）'},
+      {speaker:'國中生',text:'法官都長這樣吧？'},
+      {choice:[{text:'「差不多。」',set:{TUTOR_DRAW_ANS:'same'},goto:'a'},{text:'「法官不是貓。」',set:{TUTOR_DRAW_ANS:'person'},goto:'b'}]},
+      {label:'a'},{speaker:'國中生',text:'我就知道。'},{goto:'e'},
+      {label:'b'},{speaker:'國中生',text:'那是什麼？'},{speaker:'player',text:'……人。'},{speaker:'國中生',text:'好無聊。'},
+      {label:'e'},{scene:'公館・滷味攤',bg:'gongguan_luwei'},{speaker:'classmate_mingxuan',text:'我的學生畫的是外星人。'} ] },
     /* ---------- 房間物件（AA_420 第 9 節；［名稱, 一句］，story3d.js ROOM_ITEMS 的格式）---------- */
     room:{ timer:['蛋的計時器','小米姐的計時器。三分四十秒那一格，有一道舊刮痕。'], notebook:['膠裝的空白筆記本','書背很直。你一直沒有寫第一頁。'], tea:['一小罐茶','蘇姨給的。你泡得最好的那一種。'],
            card:['手寫的卡片','林太太的字很工整。最後一行寫著：下週見。'], board:['讀書會白板的照片','白板上的時間線。以安的字在中間，Alison 的字在旁邊吵架。'], poster:['子晴成發的藍色海報','子晴多印的那一張。藍色很亮。'] }
