@@ -388,8 +388,18 @@ const R2Y4A=(function(){
     return L; };
   S.pc2Place=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables) return; const P=S.pc2Pending(G).filter(c=>c.zone===G.zone), k=E.interactables.findIndex(it=>it.zrPostcard2);
     if(!P.length){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
-    const d=E.interactables.find(it=>it.deskStudy); let x=0.7, z=-2.3; if(d){ x=d.x-0.35; z=d.z+0.35; }
-    E.interactables.push({x,z,radius:0.7,label:'明信片',zrPostcard2:true,onInteract:()=>{ S.pc2Scene(GM).catch(e=>console.warn('R2Y4A 明信片',e)); }}); };
+    const d=E.interactables.find(it=>it.deskStudy); let x=0.7, z=-2.3;
+    const it={x,z,radius:0.7,label:'明信片',zrPostcard2:true,onInteract:()=>{ S.pc2Scene(GM).catch(e=>console.warn('R2Y4A 明信片',e)); }};
+    if(d){ const C=[[0.35,0.35],[-0.35,0.35],[0.35,-0.35],[-0.35,-0.35]]; it.x=d.x+0.35; it.z=d.z+0.35;   /* 和第一輪（y2b3d.js pcPlace）一樣放書桌靠房間那一側；大四 409 的書桌靠西牆，舊版 d.x-0.35 推進書桌和牆中間、玩家拿不到（BB-B 10-23 FY_PC）*/
+      const ap=d.seat&&d.seat.ap; for(const c of C){ it.x=d.x+c[0]; it.z=d.z+c[1]; if(S.pc2Reach(E,it,ap)) break; } if(!S.pc2Reach(E,it,ap)){ it.x=d.x+0.35; it.z=d.z+0.35; } }
+    E.interactables.push(it); };
+  /* 玩家站得到一個點：離明信片在範圍內、明信片是最近的互動點（不會被「坐在書桌前」蓋掉）、而且從書桌的走近點 ap 走得到
+     （美國公寓的書桌椅和床中間有一塊站得住、走不進去的小角落：+0.35 放在那裡；ap 是 nav 測試保證走得到的點，從那裡模擬走一小段） */
+  S.pc2Reach=function(E,it,ap){ if(!E||!E.canStand) return true; const others=E.interactables.filter(o=>o!==it&&!o.hidden); let n=0;
+    for(let r=0;r<0.7;r+=0.1) for(let a=0;a<(r?16:1);a++){ const x=it.x+Math.cos(a*Math.PI/8)*r, z=it.z+Math.sin(a*Math.PI/8)*r; if(!E.canStand(x,z,0.3)) continue;
+      const dd=Math.hypot(x-it.x,z-it.z); if(!others.every(o=>{ const e=Math.hypot(o.x-x,o.z-z); return e>=(o.radius||1.8)||e-(o.prio||0)>dd; })) continue;
+      if(!ap||!E.simWalk) return true; if(n++>=6) return false; const w=E.simWalk(ap[0],ap[1],x,z,{dt:1/30}); if(w&&w.ok) return true; }
+    return false; };
   S.pc2Scene=async function(GM){ const G=GM.G, F=G.flags, R=S.pc2Rec(G), P=PC2(); const L0=S.pc2Pending(G).filter(c=>c.zone===G.zone); const c=L0.find(q=>!R.read[q.key])||L0[L0.length-1]; if(!c) return false;
     const card={name:'明信片'}, seen1=has('heroine_02','POSTCARDS')||has('heroine_02','POSTCARDS_GROUP')||!!(F.ZR_PC&&F.ZR_PC.read&&Object.keys(F.ZR_PC.read).length);   /* 大三收過第一輪（1B-10）*/
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
