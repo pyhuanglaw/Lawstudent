@@ -8,6 +8,7 @@
          「現有」的答應句照 INVITE_DATA.people 原本的分檔（A＝認識、有點熟→[1,2]；R＝朋友以上→[3,4]；不分檔→[表上的階段,4]；first→[表上的階段,7]）；
          婉拒的「（4 以下）」「（1～2）」→ 範圍。
   tags   標籤（地點、第一次、來過、外出、開車、晚上、考試週、節日、大一、大二起）
+  apart  可昕「3（分開以後）」「4（分開以後）」：分開以後才用（G.flags.EX_kexin、不在交往中）
   cond   「條件：」後面的字（程式照字面接：src/invites3d.js 的 S.REPLY_COND）；接不上的在 OFF_COND 寫原因、整列標 off
   lines  她說的話：「…」＝她說、（…）＝旁白、祐廷：「…」＝{me}
   ex     「現有」：acc／first／here／plan／rule／partnerSay（here、rule、partnerSay 照原本的程式，表上這幾列只是對照，標 off）
@@ -231,7 +232,7 @@ for who, sec, cells in sections(MD):
     src = src.replace('`', '')
     n = counts[who] = counts.get(who, 0) + 1
     tags, cond, lim = parse_tags(tagcell)
-    via = None
+    via, apart = None, False
     m = re.match(r'現有(?:（(\w+)）)?$', src)
     if m:
         via = m.group(1) or 'acc'
@@ -246,10 +247,7 @@ for who, sec, cells in sections(MD):
             s0 = STAGE_NUM[stage]; st = [s0, s0]
         elif m:
             s0 = int(m.group(1)); st = [s0, 6 if m.group(2) else s0]
-            if '分開以後' in stage:
-                if cond:
-                    die(f'{who}：分開以後又有條件：{cells}')
-                cond = '分開以後'
+            apart = '分開以後' in stage
         else:
             die(f'{who}：看不懂的階段：{stage}')
     alts = split_top(say, '／')
@@ -266,6 +264,8 @@ for who, sec, cells in sections(MD):
             row['st'] = [7, 7]
         if sec:
             row['sec'] = sec
+        if apart:
+            row['apart'] = True
         if via:
             ex, band = find_existing(who, row['tags'], lines, via, say)
             row['ex'] = ex
@@ -294,7 +294,7 @@ js = ['/* 自動產生：python3 tools/invite/build_replies.py（不要手改；
       f'   來源：{SPEC} @ {SHA}（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。',
       '   每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、',
       '   lines（「…」她說、（…）旁白、{me}祐廷）、say（表上原文）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、',
-      '   when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/',
+      '   when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/',
       'const INVITE_REPLIES={' + f'"src":{json.dumps(SPEC, ensure_ascii=False)},"sha":"{SHA}","task":"D14-T9",' + '"people":{']
 ppl = list(rows_out)
 for i, who in enumerate(ppl):

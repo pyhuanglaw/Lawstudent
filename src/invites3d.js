@@ -150,8 +150,7 @@ const INV=(function(){
     '筆試以後':(G,id,c)=>!!c.postExam,
     '口試前、出國前一週':(G,id,c)=>['2029-05-29','2028-08-02'].some(k=>{ const d=DK(k); return d!=null&&c.day>=d-7&&c.day<d; }),   /* 學姊：口試 2029-05-29（y34b3d.js M9）、出國 2028-08-02（characters.js absentDates 美國）的前一週 */
     '杜鵑花節（3 月）':(G,id,c)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(c.day).m===3,
-    '上一次約會祐廷遲到':G=>{ const R=G.flags&&G.flags.KX_DRIFT; return !!R&&R.seen!=null&&Array.isArray(R.log)&&R.log.some(e=>e&&e.why==='late'&&e.d===R.seen); },   /* 可昕：kxdrift3d.js 記的最後一次見面那天遲到超過 15 分鐘 */
-    '分開以後':(G,id)=>!!(G.flags&&G.flags['EX_'+id])&&G.flags['dating_'+id]!==true };
+    '上一次約會祐廷遲到':G=>{ const R=G.flags&&G.flags.KX_DRIFT; return !!R&&R.seen!=null&&Array.isArray(R.log)&&R.log.some(e=>e&&e.why==='late'&&e.d===R.seen); } };   /* 可昕：kxdrift3d.js 記的最後一次見面那天遲到超過 15 分鐘 */
   const RPL=['cafe','library','noodle','wenzhou','brunch','teahouse'];
   S.replyTier=row=>{ const T=row.tags||[]; if(T.includes('節日')) return 1; if(T.includes('第一次')) return 2; if(T.some(t=>RPL.includes(t)||t==='來過'||t==='外出'||t==='開車')) return 3; return T.length||row.cond?4:5; };
   S.replyPick=function(G,id,c,tb){ const R=RP(), all=R&&R[id]; if(!all||!all.length) return null; const r=c.r||{};
@@ -171,7 +170,8 @@ const INV=(function(){
       else if(A.wd!=null){ let d=c.day+1; while(wdOf(G,d)!==A.wd&&d<c.day+8) d++; a=fa(d,c.h)||S.nextFree(G,id,c.P,d,10); if(a&&a.day!==d) a=null; }
       return a; };
     const COND=S.REPLY_COND||{}, alts={};
-    const ok=row=>row.k===kind&&!row.off&&(!row.sec||row.sec===sec)&&(row.tags||[]).every(tagOk)&&(!row.cond||(!!COND[row.cond]&&!!COND[row.cond](G,id,c)))&&whenOk(row.when)
+    const apart=!!(G.flags&&G.flags['EX_'+id])&&!(G.flags&&G.flags['dating_'+id]===true);   /* 可昕「（分開以後）」的列 */
+    const ok=row=>row.k===kind&&!row.off&&(!row.sec||row.sec===sec)&&(!row.apart||apart)&&(row.tags||[]).every(tagOk)&&(!row.cond||(!!COND[row.cond]&&!!COND[row.cond](G,id,c)))&&whenOk(row.when)
       &&(kind!=='resched'||!row.at||(alts[row.id]=altFor(row))!=null);
     const inSt=(row,k)=>k>=row.st[0]&&k<=row.st[1];
     const P0=all.filter(row=>inSt(row,n)&&ok(row)); if(!P0.length) return {governs:true};   /* 這一階沒有合的句子：答應照原本的 acc／first（或旁白），改天、婉拒用旁白 */
@@ -181,10 +181,12 @@ const INV=(function(){
     const row=best(P0,h.slice(0,2))||best(P0,h.slice(0,1))||best(P1,h.slice(0,2))||best(P1,h.slice(0,1))||best(P0,[]); if(!row) return {governs:true};
     const L=row.ex==='plan'?(tb&&tb('plan')):null;   /* 現有（plan）：照原本的函式（以安：讀書會開始以前「一起寫憲法作業」）*/
     return {row,lines:(L||row.lines).slice(),alt:row.at?alts[row.id]:undefined}; };
+  /* 表上台詞一樣的那一列（沒有＝null）*/
+  S.replyRow=function(id,lines){ const R=RP(); if(!R||!R[id]||!lines) return null; const k0=JSON.stringify(lines); return R[id].find(row=>JSON.stringify(row.lines)===k0)||null; };
   /* 記下說了哪一句：表上的句子記 id；rule、here、原本 acc 的句子對得到表上同一句的也記那個 id（不會下一次又挑到同一句）*/
   S.replyMark=function(G,id,rid,lines){ const R=RP(); if(!R||!R[id]||!lines||!lines.length) return; const M=S.replyRec(G), m=M[id]||(M[id]={h:[],u:{},n:0});
     if(!Array.isArray(m.h)) m.h=[]; if(!m.u||typeof m.u!=='object') m.u={};
-    if(!rid){ const k0=JSON.stringify(lines); const hit=R[id].find(row=>JSON.stringify(row.lines)===k0); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
+    if(!rid){ const hit=S.replyRow(id,lines); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
     m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; };
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
@@ -200,7 +202,8 @@ const INV=(function(){
       if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return done(out); } }
     const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
     if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
-    if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L) out.lines=L.slice(); }   /* 表上這一階沒有句子（例：可昕經濟系那一年交往中）＝照原本的 acc、first */
+    if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
+       那一句在表上（「現有」）就照表的條件，不從這裡繞回來（學姊第 3 階第一次約半熟不說「這次我點鬆餅」——表上要「來過」；可昕經濟系那一年不說「我從政大過來」）*/
     else if(r.res==='resched'&&(r.why==='busy'||r.why==='booked')&&!(pk&&pk.governs)){ const L=tb('plan'); if(L) out.lines=L.slice(); }   /* 有表的人改天只照表（表上的「現有（plan）」帶著條件，例：芷若「我在上班。……」只在上班的時候）*/
     return done(out); };
   /* 台詞裡的時間：{zh}＝改天的時間（「九點十分」；不是今天的加「明天」或日期）、{明天？}＝改天是明天才說 */

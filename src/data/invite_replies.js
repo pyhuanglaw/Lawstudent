@@ -2,7 +2,7 @@
    來源：docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md @ b113e39d（docs/handoff/story_import_allow.json，D14-T9／USER_WANTS D37）。句子一字不改。
    每一筆：id、n（表上第幾列）、k（acc 答應／resched 改天／decline 婉拒）、stage（表上寫的）、st（可以用的階段 [低,高]，7＝交往中）、tags、cond（條件，src/invites3d.js S.REPLY_COND）、
    lines（「…」她說、（…）旁白、{me}祐廷）、say（表上原文）、src（來源）、ex（現有：acc／first／here／plan／rule／partnerSay）、band（現有答應句的 A／R）、
-   when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/
+   when（句子說到的時間星期）、at（改天的時間）、sec（可昕 y0／law）、apart（可昕分開以後）、off（不出現的原因）。選句：src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）。*/
 const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md","sha":"b113e39d","task":"D14-T9","people":{
  "heroine_01":[
   {"id":"an1","n":1,"k":"acc","stage":"1","st":[1,2],"tags":["cafe"],"cond":null,"lines":["「可以。條件：我會帶東西來寫。」"],"say":"「可以。條件：我會帶東西來寫。」","src":"現有","ex":"acc","band":"A"},
@@ -257,11 +257,11 @@ const INVITE_REPLIES={"src":"docs/story_planning/AA_415_邀約回覆照階段變
   {"id":"kx28","n":28,"k":"acc","stage":"交往中","st":[7,7],"tags":["開車"],"cond":null,"lines":["「好。我管音樂，你管方向。」"],"say":"「好。我管音樂，你管方向。」","src":"改（BB_123）","sec":"law"},
   {"id":"kx29","n":29,"k":"acc","stage":"交往中","st":[7,7],"tags":["節日"],"cond":null,"lines":["「那天你敢排別的試試看。……好。」"],"say":"「那天你敢排別的試試看。……好。」","src":"新","sec":"law"},
   {"id":"kx30","n":30,"k":"acc","stage":"交往中","st":[7,7],"tags":[],"cond":"上一次約會祐廷遲到","lines":["「好。這次不要再遲到。我會算。」"],"say":"「好。這次不要再遲到。我會算。」","src":"新","sec":"law"},
-  {"id":"kx31","n":31,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":[],"cond":"分開以後","lines":["「好。……這次不是約會。我先說清楚。」"],"say":"「好。……這次不是約會。我先說清楚。」","src":"BB_123","sec":"law"},
-  {"id":"kx32","n":32,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":["cafe"],"cond":"分開以後","lines":["「好。予樂問我為什麼答應。我說，因為是 Café。」"],"say":"「好。予樂問我為什麼答應。我說，因為是 Café。」","src":"BB_123","sec":"law"},
-  {"id":"kx33","n":33,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":["noodle"],"cond":"分開以後","lines":["「好。阿鳳麵店。我自己付。」"],"say":"「好。阿鳳麵店。我自己付。」","src":"BB_123","sec":"law"},
-  {"id":"kx34","n":34,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":[],"cond":"分開以後","lines":["「好。予樂說我不應該答應。我答應了。」"],"say":"「好。予樂說我不應該答應。我答應了。」","src":"BB_123","sec":"law"},
-  {"id":"kx35","n":35,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":["晚上"],"cond":"分開以後","lines":["「好。九點我要回山上。……九點半。」"],"say":"「好。九點我要回山上。……九點半。」","src":"BB_123","sec":"law"},
+  {"id":"kx31","n":31,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":[],"cond":null,"lines":["「好。……這次不是約會。我先說清楚。」"],"say":"「好。……這次不是約會。我先說清楚。」","src":"BB_123","sec":"law","apart":true},
+  {"id":"kx32","n":32,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":["cafe"],"cond":null,"lines":["「好。予樂問我為什麼答應。我說，因為是 Café。」"],"say":"「好。予樂問我為什麼答應。我說，因為是 Café。」","src":"BB_123","sec":"law","apart":true},
+  {"id":"kx33","n":33,"k":"acc","stage":"3（分開以後）","st":[3,3],"tags":["noodle"],"cond":null,"lines":["「好。阿鳳麵店。我自己付。」"],"say":"「好。阿鳳麵店。我自己付。」","src":"BB_123","sec":"law","apart":true},
+  {"id":"kx34","n":34,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":[],"cond":null,"lines":["「好。予樂說我不應該答應。我答應了。」"],"say":"「好。予樂說我不應該答應。我答應了。」","src":"BB_123","sec":"law","apart":true},
+  {"id":"kx35","n":35,"k":"acc","stage":"4（分開以後）","st":[4,4],"tags":["晚上"],"cond":null,"lines":["「好。九點我要回山上。……九點半。」"],"say":"「好。九點我要回山上。……九點半。」","src":"BB_123","sec":"law","apart":true},
   {"id":"kx36","n":36,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["「我在政大上課。四點二十下課。」"],"say":"「我在政大上課。四點二十下課。」","src":"BB_123","sec":"law","at":{"day":"same","from":16.333333333333332,"before":16.333333333333332}},
   {"id":"kx37","n":37,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["「讀書會。九點以後。」"],"say":"「讀書會。九點以後。」","src":"BB_123","sec":"law","at":{"day":"same","from":21}},
   {"id":"kx38","n":38,"k":"resched","stage":"改天","st":[1,7],"tags":[],"cond":null,"lines":["「今天陪予樂。明天？」"],"say":"「今天陪予樂。明天？」","src":"BB_123","sec":"law","at":{"today":true,"day":"tomorrow"}}
