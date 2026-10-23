@@ -161,7 +161,7 @@ def make_tex_stacks():
 class Up(K.Shop):
     """一層的建造狀態（沿用 Shop 的累積網格、配置；不跑 Shop.__init__）"""
     def __init__(self, sid, name, sub, bounds, h, floor, reg, print_png):
-        self.sid = sid; self.T = {'name': name, 'sub': sub}; LU.CUR['reg'] = reg; LU.H = h; K.H = h
+        self.sid = sid; self.h = h; self.T = {'name': name, 'sub': sub}; LU.CUR['reg'] = reg; LU.H = h; K.H = h
         self.S = dict(trim='#5a5f63', wainH=0.12); self.FD = {}
         self.X0, self.X1, self.Z0, self.Z1 = bounds; self.W, self.D = self.X1 - self.X0, self.Z1 - self.Z0
         self.rng = random.Random(sum(map(ord, sid)) * 31); self.extra = {}
@@ -189,6 +189,11 @@ class Up(K.Shop):
         self.tube = Mesh(f'{sid}_tubes', M['tube']); self.warm = Mesh(f'{sid}_warm', M['warm']); self.fridgel = Mesh(f'{sid}_fridgelight', M['fridge'])
         self.prt = Mesh(f'{sid}_prints', M['print']); self.scr = Mesh(f'{sid}_screens', M['screen'])
         self.WG = {k: {} for k in 'NWES'}; self.WGP = {}; self.PDIR = {}; self.lay_extra = {}; self.nodes = {}
+        self.WG['C'] = {}; self.PDIR['C'] = [0, -1, 0]   # 天花板的燈具（燈框、燈管）：WALL_C_*、dir 朝下——鏡頭比天花板高時淡出（和 3F 閱覽區的 WALL_ceil_tbar 一樣；天花板本身單面朝下、從上面看不到）
+
+    def lamp(self, x0, x1, z0, z1, inset=0.04, depth=0.02, col='#f4f4f1'):
+        """嵌在天花板的燈具：燈框（WALL_C_lamp）＋燈管面（WALL_C_tube，自己發光）"""
+        h = self.h; self.wg('C', 'lamp', self.M['vc'], cm=True).cbox(x0, x1, h - depth, h, z0, z1, col); self.wg('C', 'tube', self.M['tube']).box(x0 + inset, x1 - inset, h - depth - 0.006, h - depth, z0 + inset, z1 - inset)
 
     def node(self, name, mat, cm=False):
         """要單獨開關的網格（遊戲用名字找）：不和別的東西合併"""
@@ -269,7 +274,9 @@ def carrel(c, k, row):
     for xx in (xa + 0.4, xb - 0.4): c.vm.cbox(xx - 0.01, xx + 0.01, 1.3, 1.42, *sorted((zb - s * 0.05, zb - s * 0.3)), '#9aa0a4')
     cx_ = xa + 1.4; cz_ = zb - s * 1.15; yaw = PI if row == 'N' else 0.0
     LU.task_chair(c, cx_, cz_, yaw, '#3a4a5a' if not sis else '#4a3a3a')
-    c.vm.cbox(xa + 0.05, xa + 0.08, 1.6, 1.64, *sorted((zf - s * 0.2, zf - s * 0.5)), '#5a5f63')     # 掛勾（西側分間牆）
+    hz0, hz1 = sorted((zf + s * 0.25, zf + s * 0.55))                                              # 掛勾（西側分間牆、門後面；研究小間那一側）
+    c.vm.cbox(xa + 0.05, xa + 0.07, 1.55, 1.62, hz0, hz1, '#8a8f93')
+    for hz in (hz0 + 0.06, hz1 - 0.06): c.vm.cbox(xa + 0.07, xa + 0.13, 1.56, 1.58, hz - 0.01, hz + 0.01, '#5a5f63')
     corkk = c.wg(key, 'side_print', M['print'])
     za_, zb_ = sorted((zb - s * 0.55, zb - s * 1.25)); xw_ = xb - 0.051
     uvquad(corkk, [(xw_, 0.95, za_), (xw_, 0.95, zb_), (xw_, 1.35, zb_), (xw_, 1.35, za_)], LU.uv('CORK'))   # 朝 −x：從研究小間裡面看，z 小的在左邊
@@ -406,7 +413,9 @@ def build_carrels(c):
         for sx in (-1, 1): rbox(c.vc, T, sx * 0.38 - 0.08, sx * 0.38 + 0.08, 0.0, 0.62, -0.42, 0.38, col, r=0.04, seg=2)
         c.block(7.48, 8.32, zz - 0.45, zz + 0.45, 'armchair')   # 靠窗那一側（走道留 x 6.2～7.4 三格：6.0 是分間牆那一排）
         c.seat(7.9, zz, PI / 2, (8.5, zz), 'sit', ap=(6.95, zz), label='坐單人沙發')
-    c.wood.rbox(7.35, 7.85, 0.0, 0.45, -1.0, -0.4, r=0.01, seg=2); c.block(7.33, 7.87, -1.02, -0.38, 'side_table')
+    ccyl(c.vc, (7.6, 0.5, -0.7), (7.6, 0.53, -0.7), 0.3, '#c4a074', seg=20)                                         # 小圓茶几（淺木桌面、鐵灰腳、圓底座）
+    ccyl(c.vm, (7.6, 0.02, -0.7), (7.6, 0.5, -0.7), 0.025, '#3a3f45', seg=8); ccyl(c.vm, (7.6, 0.0, -0.7), (7.6, 0.02, -0.7), 0.2, '#3a3f45', seg=16)
+    c.block(7.3, 7.9, -1.0, -0.4, 'side_table')
     c.vc.crbox(6.35, 6.95, 0.0, 0.9, 2.95, 3.45, '#a9aeb2', r=0.01, seg=1)                                          # 還書車
     for yy in (0.25, 0.55, 0.85): c.vc.cbox(6.37, 6.93, yy, yy + 0.02, 2.97, 3.43, '#8a8f93')
     for i in range(9): c.vc.cbox(6.4 + i * 0.055, 6.45 + i * 0.055, 0.57, 0.57 + c.rng.uniform(0.18, 0.25), 3.0, 3.2, c.rng.choice(['#7a2a2a', '#2a4a6a', '#e8dcc0', '#3a5a3a', '#c9a24a']))
@@ -414,8 +423,7 @@ def build_carrels(c):
     plant(c, 8.25, -3.2, 1.3); plant(c, 8.25, 3.2, 1.1)
     # 燈：走廊一排、每間一盞
     LT = [(x, 0.0) for x in (-7.3, -4.8, -2.4, 0.0, 2.4, 4.8, 7.3)] + [((CXS[k] + CXS[k + 1]) / 2, s_ * 2.5) for k in range(5) for s_ in (-1, 1)]
-    for (x, z) in LT:
-        c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
+    for (x, z) in LT: c.lamp(x - 0.62, x + 0.62, z - 0.32, z + 0.32)
     # 學姊那一間：門外的位置、她的座位、便利貼
     win, zf, xa, xb, st = c.sis_win; s = -1
     stk = c.node('STICKY_SIS', M['print']); nx = (win[0] + win[1]) / 2 - 0.04; ny = 1.6; nz = zf - s * 0.0 - 0.024   # 小窗裡面（研究小間那一側）2.4 cm、字朝走廊（+z）
@@ -621,10 +629,9 @@ def build_stacks(c):
     aisles = [-11.0] + [x + 0.8 for x in RANGES]
     for ax in aisles:
         for (z0, z1) in BANKS:
-            for zz in (z0 + 1.0, (z0 + z1) / 2, z1 - 1.0):
-                c.vc.cbox(ax - 0.12, ax + 0.12, Hs - 0.06, Hs, zz - 0.62, zz + 0.62, '#f0f0ec'); c.tube.box(ax - 0.07, ax + 0.07, Hs - 0.066, Hs - 0.06, zz - 0.58, zz + 0.58)
+            for zz in (z0 + 1.0, (z0 + z1) / 2, z1 - 1.0): c.lamp(ax - 0.12, ax + 0.12, zz - 0.62, zz + 0.62, inset=0.05, depth=0.06, col='#f0f0ec')
     for (x, z) in [(x, 7.6) for x in (-9.0, -5.4, -1.8, 1.8, 5.4, 9.0)] + [(x, -0.8) for x in (-9.0, -4.0, 1.0, 6.0)] + [(8.4, -5.0), (10.6, -7.4), (9.2, 3.2), (9.2, 6.0), (-8.0, -8.1), (-2.0, -8.1), (4.0, -8.1)]:
-        c.vc.cbox(x - 0.62, x + 0.62, Hs - 0.02, Hs, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, Hs - 0.026, Hs - 0.02, z - 0.28, z + 0.28)
+        c.lamp(x - 0.62, x + 0.62, z - 0.32, z + 0.32)
     # 牆上：請保持安靜、出口、燈光定時按鈕、滅火器
     LU.pq(c, 'N', -6.0, -5.0, 2.15, 2.4, 'QUIET', inset=0.014); LU.pq(c, 'N', 0.0, 1.0, 2.15, 2.4, 'QUIET', inset=0.014)
     LU.pq(c, 'W', 6.6, 7.4, 1.25, 1.45, 'STICK', inset=0.014); c.wg('W', 'trim', M['vc'], cm=True).cbox(X0, X0 + 0.03, 1.3, 1.4, 6.3, 6.45, '#3a3f45')
