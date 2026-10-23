@@ -47,12 +47,7 @@ const OK={
   '（看著進出總圖的人）我從來沒有不去過任何一件事。':'退場 ev_sis_skip_interview','第一次沒做完一件事。像少穿了一隻鞋。':'退場 ev_sis_skip_interview',
 };
 /* ---- 學姊的、AA_398 沒列到，已問 AA（2026-10-23）---- */
-const PENDING_AA={
-  '這次的第三件，我想好了。聚餐那天說。':'story3d.js 2027-03-19 家族群組',
-  '兩件事。一，喝湯。二，睡覺。':'story3d.js 語彤說你病了，學姊的私訊',
-  '一件事。只有一件。':'adv3d.js CG 標題 cg_airport_send_heroine05',
-  '三件事。……不，一件。':'adv3d.js CG 標題 cg_last_dinner_heroine05',
-};
+const PENDING_AA={};   /* 2026-10-23 AA_398 1-7 節（企劃線 f1883309）四句都給字、改好了 */
 const bad=[], pend=[];
 for(const [s,f] of found){ if(OK[s]) continue; if(PENDING_AA[s]){ pend.push(s); continue; } bad.push(f+'：'+s); }
 check('1. 沒有新的「數件數」句子（學姊不數件數、不編號；AA_398）——找到的每一句都看過（'+found.size+' 句）',!bad.length,bad.slice(0,12).join('｜'));

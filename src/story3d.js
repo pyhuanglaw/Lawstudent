@@ -2280,7 +2280,7 @@ const STORY = (function(){
           L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'zr_z7b',opts}}); PHONE.at(G,nb,21,L,'zr_z7b'); F.ZR_NOMINATED=true; } } }
     /* 學姊 M3 放榜（BB_97 2-7；大二下第 4 週週五 3/19 20:00，AA-B 定第 4 週）：所有玩家看到的都是家族群組（她先告訴家人和伴侶，畫面外）。
        ASKED_TELL_ME（M2 選了「不管考得怎樣都要說」）＝她 @祐廷 多一則；玩家可以回三個（咖哩那個要有 FAMILY_DINNER 記憶）；回了或到 22:00 沒回，她最後對全家族一句 */
-    { const d=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='這次的第三件，我想好了。聚餐那天說。';
+    { const d=S.dayOfKey('2027-03-19'); if(S.SIS_Y2_EXAM&&d!=null&&PHONE.inGroup(G,'family_law')){ const W=t=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t}), K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), LAST='計畫本最後那一格，我寫好了。聚餐那天說。';
         if((G.day>d||(G.day===d&&G.hour>=20))&&G.day<=d+3&&!PHONE.sent(G,'sis_m3')){ const tell=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME'), curry=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
           const opts=[{t:'恭喜學姊！',say:[W('謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'congrats'}},{t:'我就知道。',say:[W('你不知道。你只是希望。……謝謝。'),W(LAST)],set:{SIS_M3_REPLY:'knew'}}];
           if(curry) opts.push({t:'（貼一張咖哩的照片）',post:'📷（咖哩）',say:[W('……好。考完說好的那家。'),W(LAST)],set:{SIS_M3_REPLY:'curry'}});
@@ -3511,7 +3511,7 @@ const STORY = (function(){
       else { await GM.say(null,'（手機響了。你披了一件外套，下樓到交誼廳。）'); if(typeof ADV!=='undefined') ADV.end(); await GM.fade(true); if(GM.enter) await GM.enter('dorm_hall',Object.assign({},CW_LOUNGE)); await GM.fade(false);
         const V=C.visitors; F.COLD_WEEK_PRESENT=V.slice(); if(typeof ADV!=='undefined'){ ADV.preload(V); ADV.begin({background:'blur',right:{charId:V[0],expression:'neutral'}}); }
         for(const id of V){ for(const [sp,t] of S.coldWeekLines(G,id,C)) await GM.say(sp?cwWho(sp):null,t);
-          if(id==='heroine_03'&&C.soup){ await GM.say(cwWho('heroine_03'),'學姊叫我拿來的。她說她不上來。'); await phoneScene(GM,'p:heroine_05',[{from:'heroine_05',text:'語彤說你病了。'},{from:'heroine_05',text:'兩件事。一，喝湯。二，睡覺。'}]); }   /* 2b：同時，學姊的手機 */
+          if(id==='heroine_03'&&C.soup){ await GM.say(cwWho('heroine_03'),'學姊叫我拿來的。她說她不上來。'); await phoneScene(GM,'p:heroine_05',[{from:'heroine_05',text:'語彤說你病了。'},{from:'heroine_05',text:'湯喝完。然後睡覺。'}]); }   /* 2b：同時，學姊的手機 */
           if(typeof SOCIAL!=='undefined') SOCIAL.remember(id,'HELPED','感冒那晚'); }
         if(C.cg&&typeof ADV!=='undefined'&&ADV.cg) ADV.cg('cg_cold_week_friends');   /* 3-3：三位都說完、「那一句」之前 */
         if(C.asker) await cwAsk(GM,C.asker,'night');

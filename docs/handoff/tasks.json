@@ -30293,7 +30293,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 09:1x】AA_398 第 1 節 51 列照改（93557e6f、40418413、f36d615d、9ef62053、edb81e9b）；第 2 節 date lines 重新匯入（白名單 BB_128＋12 個地點換 ffd7eef8）——wish_bb、solo_before、bb_walk 的那幾句遊戲裡本來就沒有（遊戲用的是別的版本），ladder_bb_y2s1 第 20 列待下一批；畢業那天版本的便條旁白（postgrad_lines.js）一起改；新檢查 tests/sis_no_three_unit.js（修改前 FAIL）；表上沒有的 4 句（3/19 家族群組、語彤說你病了、兩張 CG 標題）已問 AA；BB 照 AA_398 第 5 節測 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
+   "next": "【LAWWW-B 10-23 09:2x】AA_398 1-7 節四句（企劃線 f1883309）照改：M3「計畫本最後那一格，我寫好了。聚餐那天說。」、湯「湯喝完。然後睡覺。」、兩張 CG 標題；第 20 列 ladder_bb_y2s1 換 ffd7eef8 重新匯入；SIS5_NOT_BUSY 名稱放 social3d.js（階梯文件還是舊名，避免匯入蓋回）；sis_no_three_unit PENDING 清空 ALL PASS；全部 55 列做完 ｜ 【LAWWW-B 10-23 09:1x】AA_398 第 1 節 51 列照改（93557e6f、40418413、f36d615d、9ef62053、edb81e9b）；第 2 節 date lines 重新匯入（白名單 BB_128＋12 個地點換 ffd7eef8）——wish_bb、solo_before、bb_walk 的那幾句遊戲裡本來就沒有（遊戲用的是別的版本），ladder_bb_y2s1 第 20 列待下一批；畢業那天版本的便條旁白（postgrad_lines.js）一起改；新檢查 tests/sis_no_three_unit.js（修改前 FAIL）；表上沒有的 4 句（3/19 家族群組、語彤說你病了、兩張 CG 標題）已問 AA；BB 照 AA_398 第 5 節測 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_398（企劃線 ffd7eef8，outbox 0b429429）；最先改 rel_lines.js:65 Café 便條（使用者點名）；只改看得到的字，旗標、記憶 tag、事件 id、CG 檔名不改；AA_392 2-3、AA_393 第 1 節、AA_394 第 2 節照新版"
   },
   {
    "id": "SIDEQ-AA397-1023",
@@ -30314,7 +30314,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
+   "next": "【LAWWW-B 10-23 09:2x】AA_405 第三批 SQ16～SQ20（企劃線 1fa2b494，不需新 2D；三批共二十則）；AA_397 更正 8f1701b2：子晴住臺北的家（12/14「……我家有電暖器。」、12/17 公布欄「牠現在在一個有電暖器的家。——里長」、交往中「去她家看貓」）｜ 【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
   },
   {
    "id": "SIS-B9-L-1023",

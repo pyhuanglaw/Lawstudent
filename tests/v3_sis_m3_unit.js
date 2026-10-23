@@ -35,7 +35,7 @@ GM.money=function(n){ G.money+=n; };
 
 (async()=>{
   check('0. 預設大二不播（BB_205 第 4 節：M2／M3／上榜聚餐是祐廷大一下的事，STORY.SIS_Y2_EXAM=false）；下面打開開關測程式本身，留給搬到大一下的版本',STORY.SIS_Y2_EXAM===false); STORY.SIS_Y2_EXAM=true;
-  const FAM='g:family_law', LAST='heroine_05:這次的第三件，我想好了。聚餐那天說。';
+  const FAM='g:family_law', LAST='heroine_05:計畫本最後那一格，我寫好了。聚餐那天說。';
   const d=D('2027-03-19'), dn=D('2027-03-26');
   check('0. 3/19 週五在大二下第 4 週、3/26 週五在第 5 週',termDay('Y2S2',4,5)===d&&termDay('Y2S2',5,5)===dn);
   const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'dorm',o.flags); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); if(o.tell) SOCIAL.remember('heroine_05','ASKED_TELL_ME',''); if(o.curry) SOCIAL.remember('heroine_05','FAMILY_DINNER',''); };
