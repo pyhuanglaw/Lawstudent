@@ -7,7 +7,7 @@
    公園的貓被子晴收養（AA_397 第 3 節，企劃線 8f1701b23；劇情在 src/sideq3d.js）：寒流那一週（2028-12-11～12-14 23:00）貓縮在涼亭的石桌下面（S.catCold；catUnder 照它放）、
      「看」＝一句旁白、沒有摸／餵；12/14 23:00 以後（或那一場演完）貓不在了（S.catGone／S.catAdopted：3D 的貓 LAWWW2 照它不顯示）——摸、餵的選單拿掉，「看圓椅」那一句一次（S.catHidden 之後藏起來）；
      12/17 起公布欄換成領養告示（S.adoptNotice）；不在場的玩家：象棋阿伯一句（一次）。提到貓在圓椅上的句子，貓不在以後不播（和大三上第 9 週貓不見一樣）。
-   順手的事第二、三批（src/sideq3d.js）：SQ14 回診（AA_404）＝「看」貓先問 SIDEQ.cage14、演過的告示多「（豆花）」（SIDEQ.adoptExtra）。
+   順手的事第二、三批（src/sideq3d.js）：SQ14 回診（AA_404）＝「看」貓先問 SIDEQ.cage14、演過的告示多「（豆花）」（SIDEQ.adoptExtra）；SQ18 里長（AA_405）做完＝「——里長」的字條、名牌多一行（SIDEQ.knowsChief）。
    測試：node tests/wz_park_talk_unit.js、node tests/wz_park_people_unit.js、node tests/aa397_sideq_unit.js */
 'use strict';
 const PARK=(function(){
@@ -69,6 +69,7 @@ const PARK=(function(){
     if(T&&/^Y[34]/.test(T.id)) out.push(['課輔班招生','「國小課後輔導班招生，週二、週四下午。大學生志工也歡迎。」']);
     if(F.JOB_TUTOR) out.push(['家教廣告','「這張廣告的電話號碼，全被撕掉了。」','其中一條，在你的手機裡。']);
     else out.push(['家教廣告','「徵國中家教（數學、英文），週二或週四晚上，溫州街。意者請洽。」下面撕過兩條電話。',null,true]);
+    if(typeof SIDEQ!=='undefined'&&SIDEQ.knowsChief&&SIDEQ.knowsChief(G)) for(const q of out) if(!q[2]&&/——里長/.test([].concat(q[1]).join(''))) q[2]=SIDEQ.LINES.SQ18.knows;   /* AA_405 SQ18 做完：「——里長」的字條多一行（你認得這個字。）*/
     return out; };
   const sitHere=async(GM,it)=>{ const P=GM.E.player; const ap=GM.seatApproach?GM.seatApproach(it.seat):[it.seat.x,it.seat.z]; await GM.walkTo(P,ap[0],ap[1]); GM.sitAt(P,it.seat); await GM.sleep(300); };
   const stand=GM=>{ try{ GM.standUp(GM.E.player); }catch(e){} };
@@ -98,7 +99,7 @@ const PARK=(function(){
         if(!P.catName){ for(const t of CAT_NAME_INTRO) await GM.say(null,t); const i=await GM.choose(CAT_NAMES.map(q=>({t:'「'+q[0]+'。」'}))); const q=CAT_NAMES[i]||CAT_NAMES[0]; P.catName=q[0]; await GM.say(null,q[1]); GM.advance(1/12); P.petDay=G.day; return 'named'; }
         const cans=(G.daily.catCans|0), per=CAT[S.period(G)]; const opts=[{t:cat(G,'摸摸{cat}'),dim:P.petDay===G.day,hint:P.petDay===G.day?'今天摸過了':'5 分鐘',k:'pet'}]; if(cans>0) opts.push({t:cat(G,'餵{cat}（小罐罐頭）'),dim:P.feedDay===G.day,hint:P.feedDay===G.day?'今天餵過了':'還有 '+cans+' 罐',k:'feed'}); opts.push({t:'算了',k:'no'});
         const o=opts[await GM.choose(opts)]||{k:'no'}; if(o.k==='no') return 'no'; if(o.dim){ GM.toast(o.hint,2400); return 'dim'; }
-        if(o.k==='pet'){ P.petDay=G.day; GM.advance(1/12); await GM.say(null,cat(G,per[0])); return 'pet'; }
+        if(o.k==='pet'){ P.petDay=G.day; GM.advance(1/12); await GM.say(null,cat(G,per[0])); if(/——里長/.test(per[0])&&typeof SIDEQ!=='undefined'&&SIDEQ.knowsChief&&SIDEQ.knowsChief(G)) await GM.say(null,SIDEQ.LINES.SQ18.tag); return 'pet'; }   /* 大三起的名牌：AA_405 SQ18 做完多一行（阿伯的字。）*/
         P.feedDay=G.day; G.daily.catCans=cans-1; GM.advance(1/12); await GM.say(null,cat(G,per[1])); return 'feed'; }
     } finally { GM.sceneEnd(); }
     return null; };
