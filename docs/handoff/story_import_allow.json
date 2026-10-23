@@ -2314,6 +2314,33 @@
    "task": "V1-BB171",
    "kind": "text",
    "note": "跨年 Kevin 照片（不點名大樓）；其他人跨年訊息 BB 沒寫台詞"
+  },
+  {
+   "path": "docs/story_planning/AA_429_多線交往缺字_坦白版五位_可昕E_沛珊E_子晴畢業後.md",
+   "sha": "6ccaa812f",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "多線交往缺字：五位坦白版、可昕 E、沛珊 E 重新開始、子晴畢業後第二次冷靜、說溜嘴兩場"
+  },
+  {
+   "path": "docs/story_planning/AA_430_BB事件包缺字_B6b講座_B12再聽一次.md",
+   "sha": "7525db6a5",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
+   "task": "V3-B105-B2",
+   "kind": "text",
+   "note": "BB 事件包 B6b、B12 的台詞"
+  },
+  {
+   "path": "docs/story_planning/AA_431_裂縫來源的時刻_打工應徵與班表.md",
+   "sha": "f00b9e9f1",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:3x～20:4x 定稿（D109）",
+   "task": "V6-S5、SYS-13-EV",
+   "kind": "text",
+   "note": "裂縫來源十項（1-1～1-6）、GAPS（1-7）、打工 Café 外場與舊路書房（第 2 節）"
   }
  ]
 }
