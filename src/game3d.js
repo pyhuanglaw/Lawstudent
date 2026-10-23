@@ -462,6 +462,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
+    body.querySelectorAll('[data-pmap]').forEach(b=>b.onclick=()=>{ phonePin=phonePin===b.dataset.pmap?null:b.dataset.pmap; renderPhone(); });   /* 地點地圖的圖釘（src/placemap3d.js）*/
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     if(inTh&&phoneTab==='msg'&&phoneThread) body.scrollTop=atEnd?body.scrollHeight:st0;   /* 對話裡重畫（回覆、新訊息）：本來在最下面就留在最下面，往上看舊訊息就不動（PHONE-LINE-UI-1018）*/
@@ -497,6 +498,7 @@ const GAME = (function(){
     return h; }
   function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item"><button class="btn pri" data-bigmap="1">打開整張地圖（也可以點右上角的小地圖）</button></div><div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';   /* 選單「地圖」併進來（2026-10-16）*/
     if(typeof HOME!=='undefined'&&HOME.canGo&&HOME.canGo(G)&&!(HOME.at&&HOME.at(G))) h+='<div class="item phrow"><div>回臺北的家<div class="muted">'+(HOME.baseMode&&HOME.baseMode(G)?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘')+'</div></div><button class="btn pri" data-gohome="1">回家</button></div>';
+    if(typeof PLACEMAP!=='undefined'){ const hrs=z=>typeof PLACES!=='undefined'&&PLACES.hours[z]?(PLACES.hours[z].rules?PLACES.todayText(z,G.day):(PLACES.hours[z].open!=null?PLACES.hours[z].text:'')):''; const p=E.player&&E.player.obj&&E.player.obj.position; const mh=PLACEMAP.html(PLACE_LIST(),placeState,phonePin,{zone:G.zone,x:p?p.x:null,z:p?p.z:null},hrs); if(mh) h+=mh+'<div class="item muted">全部地點</div>'; }   /* 地圖（UX-PHONE-MAP-1023，src/placemap3d.js）：點圖釘＝下面列出那裡的地點 */
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
@@ -515,7 +517,7 @@ const GAME = (function(){
     if(ent&&ent.at) xy=[ent.at[0],ent.at[1]]; else if(ent&&ent.seat==='bell') xy=[-30,20.94]; if(!xy) return C[0];
     let best=C[0], bd=1e9; for(const q of C){ const sp=q[2]; if(!sp) continue; const d=Math.hypot(sp.x-xy[0],sp.z-xy[1]); if(d<bd){ bd=d; best=q; } } return best; }
   /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
-  let phonePerson=null;
+  let phonePerson=null, phonePin=null;   /* phonePin：手機「地點」地圖選中的圖釘（UX-PHONE-MAP-1023）*/
   /* 人物頁的進度條（D36；DATE.progress）：不顯示數字，條下面一句寫還差哪一種；交往中只寫「交往中」*/
   function progHTML(id){ if(typeof DATE==='undefined'||!DATE.progress) return ''; const p=DATE.progress(G,id); if(!p) return ''; if(p.dating) return '<div style="color:#ffd88a">交往中</div>';
     const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
