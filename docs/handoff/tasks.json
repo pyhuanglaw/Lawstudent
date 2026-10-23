@@ -30723,6 +30723,27 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-SIS-DATING-NAME-1023",
+   "title": "交往中學姊同一次對話兩個名字：事件「書瑀」、閒聊說話人和「和溫學姊說話」按鈕用一般名字（BB-B 10-23 第 9 項 s9_adv 五個情境）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "和學姊交往以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-23 13:56（BB_218 1e0776c63）；規則 AA_386 第 13 行、使用者 10-17「交往那天起叫『書瑀』」",
+   "authorized": "D111",
+   "next": "【LAWWW-B 10-23 14:0x】SOCIAL.npcName（交往中＝datingName，否則 displayName）：game3d spawnCharacter 的名字與按鈕、story3d 說完話重設（6 處）、法服的學姊、offerInvite、events3d 事件說話人；tests/sis_dating_name_unit.js；請 BB 重跑 ADV_PICK_DATE、ADV_PICK_DATE_E、ADV_Y4_US_DATE、ADV_Y4_TW_DATE、ADV_Y4_REDATE"
   }
  ]
 }

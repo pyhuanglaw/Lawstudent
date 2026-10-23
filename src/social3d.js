@@ -141,6 +141,8 @@ const SOCIAL = (function(){
   /* 學姊：使用者 10-17 甲「交往那天起叫書瑀」，開始交往以後所有交往中的事件、選項、訊息都叫「書瑀」（AA_243 第 5 節第 6 題、AA_262 第 5 節第 3 件、AA_327）——
      CALLED_SHUYU 在開始交往那天記（romance3d.js ROM.start），這裡讀它：交往中而且記過＝「書瑀」。分手以後怎麼叫照 BB 定（還沒定：先照原本的名字）*/
   S.CALLED={heroine_05:'CALLED_SHUYU'};
+  /* 3D 人物頭上、「和○○說話」、閒聊說話人的名字：交往中照交往的叫法（學姊＝書瑀，AA_386 第 13 行、使用者 10-17「交往那天起叫『書瑀』」；BUG-SIS-DATING-NAME-1023）*/
+  S.npcName=function(id){ return S.datingName(id)||S.displayName(id); };
   S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]])?C.DATING:null; };
   S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||(typeof C.base==='function'?C.base(G):C.base)||null; };   /* base 可以是函式（照日期換：學姊 9/4 21:00 以後才加「（直屬）」，AA_372 第 12 項）*/
