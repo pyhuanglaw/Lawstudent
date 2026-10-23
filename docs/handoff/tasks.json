@@ -30102,6 +30102,35 @@
    }
   },
   {
+   "id": "ART-SHOP-VIEWS-1023",
+   "title": "店裡往外看的景（窗景、門外）很假：每間店從實際窗、門口位置重拍白天／黃昏／夜景、距離照實際；118 巷改視差窗、門口近景放真的 3D（人行道、機車、電線桿）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上第一次進 118 巷、公館的店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「店面外看出去的景也都很假」（UA-LAWWW2-1023-09）",
+   "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
+   "next": "【LAWWW-B 10-23 08:1x ACK】LAWWW2 做（D108；會改 l118_shops3d.js、可能動 world3d.js W3.windowMat 多一個黃昏版，不改 engine3d／game3d／story3d）；接在 118 巷、公館店面翻修之後（拍的是翻修後的街）",
+   "xai": {
+    "spec": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「公館店面外觀也一樣醜」（UA-LAWWW2-1023-05）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
    "id": "WZ-CAT-LIFE-1023",
    "title": "溫州街的貓要能動、能互動（3D 骨架走路、照時段天氣換位置姿勢、「摸摸貓」）；收養劇情（其中一位女主角收養）AA 寫",
    "owner": "LAWWW2",
