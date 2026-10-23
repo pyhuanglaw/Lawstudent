@@ -29603,7 +29603,7 @@
    "title": "學姊第六批實作（AA_392）：她在美國時女朋友的每週視訊、送機答應了就有（含機場等她）、口試沒到那通電話、研究室便條、第二次訪談、荷花池、出發前總圖、她爸爸的下次、日本路線生日邊界",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23】AA_392 第 10 節程式點；等 SIS-QIXI-L-1023 合併後做（同一批學姊檔，不並行）；第 4 點研究室便條看 3D 定甲／乙；背景 community_room、botanical_lotus 先用現有的、BB 跟使用者要；單元測試修改前 FAIL；BB 補測",
    "first": {
@@ -29617,7 +29617,9 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
-   "authorized": "D100、D109（AA 劇情自主決定）"
+   "authorized": "D100、D109（AA 劇情自主決定）",
+   "note": "2026-10-23 LAWWW-B 第 1～9 節實作：2c2dc6c11、ec3dfe112、a22b9e6d3、07c9b9eeb、93f9c335b、0397d34e3、4cf513b52；tests/aa392_sis_b6_unit.js＋graduation_unit 第 4 項。第 4 節照乙（研究室樓層 3D 走不到）；第 3 節「自己打」用訊息按鈕；機場等她版 Kevin 旁白問 AA。待 BB 測。",
+   "sha": "4cf513b52"
   },
   {
    "id": "AA389-ZR-SENDOFF-1023",
@@ -29811,7 +29813,7 @@
    "title": "學姊第六批：說了沒發生的 9 件＋她在美國時女朋友的每週視訊（程式位置 AA_391 第 3 節：r2y4b3d.js:525／506、送機 termend_lines.js:280＋y34b3d.js:223／561–575、口試 y34b3d.js:340、characters.js 學姊作息）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23 07:4x】AA 已交 AA_392（企劃線 946ff2f1，比預定 10:30 早）；實作開 SIS-B6-L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
@@ -30420,6 +30422,33 @@
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "first": {
+    "term": "Y3S2",
+    "week": 16,
+    "earliest": "大三下期末聚餐的送機鉤子、2028-07-26 私訊（最早：2027-07-01 荷花池）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "BB-TEST-SIS-B6-1023",
+   "title": "瀏覽器驗收學姊第六批（AA_392）：她在美國時女朋友的每週視訊、送機答應了就有、口試沒到的電話、便條、第二次訪談、荷花池、總圖最後一天、她爸爸的下次；缺背景 community_room、botanical_lotus",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "xai": {
+    "spec": "docs/handoff/bb_checklists/BB_SIS_B6_1023.md 十項",
+    "branch": "claude/modest-rubin-2lyp7g 4cf513b52",
+    "acceptance": "BB_300 格式回報，跳日期用存檔／playlib 並標【前置／捷徑】",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "source": "LAWWW-B 10-23 SIS-B6-L-1023 實作（4cf513b52）",
+   "area": "v4",
+   "next": "BB 照 docs/handoff/bb_checklists/BB_SIS_B6_1023.md 十項測，排在 RELEASE-9106-TEST 之後"
   }
  ]
 }
