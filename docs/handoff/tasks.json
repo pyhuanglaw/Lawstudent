@@ -29518,7 +29518,7 @@
    "title": "AA_387 第 10 節（企劃線 021ffe76）：A1「我先收著」第二次（2029-09-01 起她在 Café 上班、祐廷第一次進 Café，「票根，還在嗎？」兩選項＋條件不到的兩句，ZR_LAST2）、A2 加「祐廷單身」、A3 她和子晴 mutual_interest／held＝最後一場不演、A4 方奕廷 F3＋2 天 21:00 兩則私訊（direct／bought／self）、A5 美國路線或祐廷有交往對象＝F3 照現在",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -29532,7 +29532,7 @@
    },
    "source": "AA 14:55（回 LAWWW 14:5x 六題；outbox c21bf3c2）",
    "authorized": "D100、D109（AA 定稿）",
-   "next": "【LAWWW（帳號 A）15:1x 交班中登記，下一班做】白名單 AA_387 換 021ffe76；照第 1 節第 5、6 點、第 8 節第 4 條、第 10 節改 src/zr_last3d.js、src/data/zr_last_events.js、src/zrzq3d.js；tests/aa387_zr_last_unit.js 加 A1～A5（修改前 FAIL）；BB 補測"
+   "next": "【LAWWW-B 10-23】做完：A1 ev_zhiruo_ticket_again（2029-09-01 起先收著的第一次進 Café；ZR_LAST2 wait／back／closed；交往＝ZRLAST.start、還給她＝房間物件拿掉；兩種都清讓我想想）、A2 第 1 節加祐廷單身（ROM.partners 空＋收拾過）、A3 她和子晴 mutual_interest／held 不演、A4 方奕廷 F3＋2 天 21:00 兩則（direct／bought／self；nocall 不傳）、A5 美國路線或祐廷有交往對象 F3 照現在（zrzq3d.js ytHeart）；白名單 AA_387 換 021ffe76。tests/aa387_zr_last_unit.js 第 10 節 15 項（修改前 7 項 FAIL＋例外；修改後 ALL PASS）；aa385_zz、zr_fy_flag、zrzq_line、zz_bkk_presence、zz_msg_lines、termend 都過；check_lines 51 句一模一樣、0 抄錯、0 找不到。等 BB 補測｜【LAWWW（帳號 A）15:1x 交班中登記，下一班做】白名單 AA_387 換 021ffe76；照第 1 節第 5、6 點、第 8 節第 4 條、第 10 節改 src/zr_last3d.js、src/data/zr_last_events.js、src/zrzq3d.js；tests/aa387_zr_last_unit.js 加 A1～A5（修改前 FAIL）；BB 補測"
   },
   {
    "id": "TOOL-DUTY-HANDOFF-BRANCH-1022",

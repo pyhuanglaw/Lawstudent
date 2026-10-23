@@ -17,11 +17,17 @@ const ZRLAST_LINES={
   /* 第 7 節：回「好」但 19:45 還沒到 */
   late:'要開演了。……我先進去。', after:'散場了。票根我先收著。',
   /* 第 6 節：房間物件［名稱, 說明］（宿舍書桌「看看房間裡的東西」）*/
-  room:['她的票根','（二輪戲院的票根。《候鳥》，最後一場。背面是她的鉛筆字：「熱可可＋濃縮。」「先寄放在你這裡。」）'] };
+  room:['她的票根','（二輪戲院的票根。《候鳥》，最後一場。背面是她的鉛筆字：「熱可可＋濃縮。」「先寄放在你這裡。」）'],
+  /* 第 10 節 A1：先收著的（ZR_LAST keep），她回國以後（2029-09-01 起）在 Café 上班，祐廷第一次走進 Café；條件不到的＝hiNo、no 兩句 */
+  again:{n0:'（她在吧檯後面。看到你，停了一下。）',hi:'……好久不見。',ask:'票根，還在嗎？',me:'還在。',take:'寄放的，要拿回來了。……還是，你要一直收著？',keepT:'「我一直收著。」',giveT:'「還給妳。」',
+    keepN:'（她做了一杯熱可可，加了一份濃縮，推到你面前。）',keep:'……那這杯，也是你的。',giveN:'（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）',give:'……謝謝你幫我收了一年。',hiNo:'好久不見。',no:'……票根，你留著就好。'},
+  /* 第 10 節 A4：她因為祐廷拒絕方奕廷（ZR_F3_NO），F3＋2 天 21:00 方奕廷給祐廷兩則（接到他電話的才傳）*/
+  fang:['她說不行。','我一個人去看了。……片子很好。'] };
 const ZRLAST_EVENTS=(function(){
   const ZR='heroine_02', N=t=>({speaker:null,text:t}), Z=t=>({speaker:ZR,text:t});
   const X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;
   const ASKED={memory:[{npc:ZR,tag:'ASKED_HER_DRINK'}]};   /* 問過她喝什麼（Z3）*/
+  const Y=t=>({speaker:'player',text:t}), A=ZRLAST_LINES.again, OK={custom:G=>{ const x=X(); return !!x&&x.againOk(G); }};   /* 第 10 節 A1：第 1 節第 3、5、6 點照當時算 */
   return [
     /* ---------- 第 3、4 節：8/26（六）19:30 公館二輪戲院（2D 底圖 gongguan_cinema；散場的騎樓同一張底圖）---------- */
     { id:'ev_zhiruo_last_screening', title:'出國前的最後一場', participants:[ZR], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -50,6 +56,17 @@ const ZRLAST_EVENTS=(function(){
         {label:'end'},N('（她往捷運站走。走到路口，回頭揮了一下手。）'),
         {mem:[{npc:ZR,tag:'ZR_LAST_SCREENING',note:''}]} ],
       after:G=>{ const x=X(); if(x) x.result(G); },
-      outingMissed:G=>{ const x=X(); if(x) x.missed(G); } } ];   /* 第 7 節：說好了沒到（不去了、過了 19:45）*/
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G); } },   /* 第 7 節：說好了沒到（不去了、過了 19:45）*/
+    /* ---------- 第 10 節 A1：「我先收著」的第二次（2029-09-01 起，她在 Café 上班，祐廷第一次走進 Café；同 ev_zhiruo_back_ex 的做法）---------- */
+    { id:'ev_zhiruo_ticket_again', title:'票根', participants:[ZR], location:'cafe', trigger:'enter', once:true, background:'blur',
+      prereq:{custom:G=>{ const x=X(); return !!x&&x.againDue(G); }},
+      dialogue:[ {goto:'no',unless:OK},
+        N(A.n0),Z(A.hi),Z(A.ask),Y(A.me),Z(A.take),
+        {choice:[{text:A.keepT,set:{ZR_LAST2:'back'},goto:'k'},{text:A.giveT,set:{ZR_LAST2:'closed'},goto:'g'}]},
+        {label:'k'},N(A.keepN),Z(A.keep),{goto:'end'},   /* 交往（ROM.start）：ZRLAST.againResult */
+        {label:'g'},N(A.giveN),Z(A.give),{goto:'end'},   /* 朋友，之後照一般規則；房間物件拿掉 */
+        {label:'no'},Z(A.hiNo),Z(A.no),{set:{ZR_LAST2:'wait'}},   /* 條件不到（祐廷有交往對象等）：沒有選項，票根留在房間 */
+        {label:'end'} ],
+      after:G=>{ const x=X(); if(x) x.againResult(G); } } ];
 })();
 for(const e of ZRLAST_EVENTS){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

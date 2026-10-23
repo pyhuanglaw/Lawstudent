@@ -27,9 +27,13 @@ const ZRLAST=(function(){
   const dm=t=>({th:'p:'+ZR,from:ZR,text:t});
   const romR=G=>((G&&G.flags&&G.flags.romance)||{})[ZR]||null;   /* 只讀 */
   const dating=G=>{ const F=(G&&G.flags)||{}, R=romR(G); return F['dating_'+ZR]===true||!!(R&&R.status==='dating'); };
-  S.DAYS={ask:'2028-08-24',until:'2028-08-25',day:'2028-08-26',fly:'2028-09-01'};
+  S.DAYS={ask:'2028-08-24',until:'2028-08-25',day:'2028-08-26',fly:'2028-09-01',back:'2029-09-01'};
   S.ASK='zr_last_ask'; S.OUT_ID='zr_last_screening'; S.H=19.5; S.LATE=0.25;   /* 19:30 開演；19:45 以後不能出發＝沒到 */
-  S.TAGS={no:'zr_last_noreply',late:'zr_last_late',after:'zr_last_after',night:'zr_last_night',fly:'zr_last_fly'};
+  S.TAGS={no:'zr_last_noreply',late:'zr_last_late',after:'zr_last_after',night:'zr_last_night',fly:'zr_last_fly',fang:'zr_f3_fang'};
+  /* 祐廷單身（第 1 節第 5 點，第 10 節 A2）：沒有交往中的人；剛分開的要收拾過（ROM.canStart 的那一條，不另外建她的戀愛紀錄）*/
+  const single=G=>{ if(typeof ROM==='undefined') return true; if(ROM.partners&&ROM.partners(G).length) return false; return G.flags.CLEANUP_DONE!==false||!!(ROM.cleanupLate&&ROM.cleanupLate(G)); };
+  const zzBusy=G=>{ const Z=(G&&G.flags||{}).ZZ; return !!Z&&(Z.state==='dating'||Z.state==='mutual_interest'||Z.state==='held'); };   /* 她和子晴在一起、曖昧（第 1 節第 6 點，第 10 節 A3）*/
+  const lt=(G,d,h)=>typeof R2Y3B!=='undefined'&&R2Y3B.lt?R2Y3B.lt(G,d,h):h;   /* 臺灣時間 → 玩家手機的時間（人在日本 +1）*/
 
   /* ---------- 第 1 節：條件（why＝回傳 {ok, why}，測試、除錯用）---------- */
   S.cond=function(G,why){ const out=r=>why?{ok:r===true,why:r===true?'':r}:r===true; if(!law(G)) return out('不是法律系'); const F=G.flags;
@@ -38,6 +42,8 @@ const ZRLAST=(function(){
     const d=D(S.DAYS.day); if(d==null||abroadOn(G,d)) return out('8/26 祐廷不在臺灣');
     if(F.ZZ_DATING===true||(typeof ZRZQ!=='undefined'&&ZRZQ.dating&&ZRZQ.dating(G))) return out('她和子晴在一起');
     if(F.ZR_FY===true) return out('她和方奕廷在一起');
+    if(zzBusy(G)) return out('她和子晴曖昧或在一起（ZZ '+G.flags.ZZ.state+'）');
+    if(!single(G)) return out('祐廷有交往對象（或剛分開還沒收拾）');
     if(F.ZR_CUP!=null) return out('杯子那一場演過了（'+F.ZR_CUP+'）');
     if(typeof ZRZQ==='undefined'||!ZRZQ.heartOk||!ZRZQ.heartOk(G)) return out('她的心意條件沒到（TERMEND.cond／C8）');
     return out(true); };
@@ -63,6 +69,16 @@ const ZRLAST=(function(){
   /* 出遊沒到（「不去了」、過了 19:45；OUT 的 outingMissed）：記 missed，那兩則照上面的時間傳 */
   S.missed=function(G){ if(G&&G.flags&&G.flags.ZR_LAST==null) G.flags.ZR_LAST='missed'; };
 
+  /* ---------- 第 10 節 A4：方奕廷兩則（她因為祐廷拒絕＝ZR_F3_NO；F3＋2 天 21:00；接到他電話的 FANG_F3 direct／bought／self，nocall 不傳；4-2b、「她跟我說了」照舊不傳）---------- */
+  S.fangPhone=function(G){ const F=(G&&G.flags)||{}; if(!law(G)||typeof PHONE==='undefined'||!L||!L.fang||F.ZR_F3_NO==null||!['direct','bought','self'].includes(F.FANG_F3)||sent(G,S.TAGS.fang)) return;
+    const d=F.ZR_F3_NO+2; PHONE.at(G,d,lt(G,d,21),L.fang.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),S.TAGS.fang); };
+
+  /* ---------- 第 10 節 A1：「我先收著」的第二次（ev_zhiruo_ticket_again；旗標 ZR_LAST2 wait／back／closed，只演一次）---------- */
+  S.againDue=G=>{ const F=(G&&G.flags)||{}, d=D(S.DAYS.back); return law(G)&&F.ZR_LAST==='keep'&&F.ZR_LAST2==null&&d!=null&&G.day>=d&&G.zone==='cafe'&&!dating(G); };
+  S.againOk=G=>{ const F=(G&&G.flags)||{}; return F.ZZ_DATING!==true&&F.ZR_FY!==true&&!zzBusy(G)&&single(G); };   /* 第 1 節第 3、5、6 點照當時算 */
+  S.againResult=function(G){ const F=G&&G.flags, k=F&&F.ZR_LAST2; if(k!=='back'&&k!=='closed') return null; const Rt=typeof TERMEND!=='undefined'&&TERMEND.rec?TERMEND.rec(G):null;
+    if(k==='back'&&!S.start(G)) return 'blocked'; if(Rt) delete Rt.think[ZR]; return k; };   /* 交往＝ROM.start；還給她＝朋友、照一般規則（讓我想想清掉）*/
+
   /* ---------- 第 4 節：結果（事件演完，after）---------- */
   S.TERM='Y3S2';   /* 8/26 是大三暑假（寒暑假算前一個學期）*/
   /* 交往：照 termend3d.js walkHome 的 start（答應那一欄）——她知道祐廷和別人交往還約了＝她同意（OPEN_OK）；記 confessed */
@@ -74,11 +90,11 @@ const ZRLAST=(function(){
     if(Rt) Rt.think[ZR]=(typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(G.day))||S.TERM; return 'keep'; };
 
   /* ---------- 第 6 節：房間物件「她的票根」（宿舍書桌「看看房間裡的東西」）---------- */
-  S.roomExtra=function(G,Lst){ const F=(G&&G.flags)||{}; if((F.ZR_LAST==='wait'||F.ZR_LAST==='keep')&&L&&Array.isArray(L.room)&&!Lst.some(r=>r&&r[0]===L.room[0])) Lst.push(L.room.slice()); };
+  S.roomExtra=function(G,Lst){ const F=(G&&G.flags)||{}; if((F.ZR_LAST==='wait'||F.ZR_LAST==='keep')&&F.ZR_LAST2!=='closed'&&L&&Array.isArray(L.room)&&!Lst.some(r=>r&&r[0]===L.room[0])) Lst.push(L.room.slice()); };
 
   /* ---------- 掛上去 ---------- */
   if(typeof STORY!=='undefined'&&!STORY._zrLast){
-    if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
+    if(Array.isArray(STORY.PHONE_RULES)){ STORY.PHONE_RULES.push(G=>S.phone(G)); STORY.PHONE_RULES.push(G=>S.fangPhone(G)); }
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.roomExtra(G,Lst));
     STORY._zrLast=true; }
   return S;

@@ -1700,10 +1700,10 @@
   },
   {
    "path": "docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md",
-   "sha": "608b9adc",
+   "sha": "021ffe76",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 14:0x 定稿（回 LAWWW 六點；outbox e1cc814e；台詞照稿 D100、細節 D109）；第 8 節 F3 拒絕版一起改",
-   "task": "BB119-Y4-1017",
+   "approvedBy": "AA（帳號 A）2026-10-22 14:0x 定稿（回 LAWWW 六點；outbox e1cc814e；台詞照稿 D100、細節 D109）；第 8 節 F3 拒絕版一起改｜第 10 節（回 LAWWW 14:5x 六題，AA 2026-10-22 定，021ffe76）：AA387-S10-1022 實作時換成 021ffe76（LAWWW-B 10-23）",
+   "task": "BB119-Y4-1017、AA387-S10-1022",
    "kind": "text"
   }
  ]

@@ -18,7 +18,7 @@ const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/zrzq_events.js','src/zrzq3d.js']) load(f);
 const okNew=load('src/data/zr_last_events.js')&&load('src/zr_last3d.js');
-let doc=''; for(const r of ['608b9adc','origin/claude/story-planning']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
+let doc=''; for(const r of ['021ffe76','608b9adc','origin/claude/story-planning']){ try{ doc=cp.execSync('git show '+r+':"docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"',{cwd:H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); if(doc) break; }catch(e){ doc=''; } }
 const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ZR='heroine_02', X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;
 const T=(d,h)=>d*24+h, D=k=>STORY.dayOfKey(k);
@@ -69,8 +69,8 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
     check('0. 人物頁記憶 ZR_LAST_SCREENING「出國前的最後一場，二輪戲院」（social3d.js MEMORY_LABEL；稿第 4 節）',(SOCIAL.MEMORY_LABEL||{}).ZR_LAST_SCREENING==='出國前的最後一場，二輪戲院'&&inDoc('記憶 `ZR_LAST_SCREENING`「出國前的最後一場，二輪戲院」'));
     const bad=[]; const T_=t=>{ if(typeof t==='string'&&!inDoc(t)) bad.push(t); };
     if(typeof ZRLAST_LINES==='undefined'||!ev('ev_zhiruo_last_screening')) bad.push('沒有 ZRLAST_LINES／ev_zhiruo_last_screening');
-    else { for(const k in ZRLAST_LINES){ const v=ZRLAST_LINES[k]; if(Array.isArray(v)) v.forEach(T_); else T_(v); }
-      for(const l of ev('ev_zhiruo_last_screening').dialogue){ if(l.text!==undefined) T_(l.text); for(const c of (l.choice||[])) T_(c.text); } }
+    else { for(const k in ZRLAST_LINES){ const v=ZRLAST_LINES[k]; if(Array.isArray(v)) v.forEach(T_); else if(v&&typeof v==='object') Object.values(v).forEach(T_); else T_(v); }
+      for(const id of ['ev_zhiruo_last_screening','ev_zhiruo_ticket_again']) for(const l of ((ev(id)||{}).dialogue||[])){ if(l.text!==undefined) T_(l.text); for(const c of (l.choice||[])) T_(c.text); } }
     const f3=ev('ev_zhiruo_f3_cafe').dialogue, i=f3.findIndex(l=>l.label==='no'); if(i<0) bad.push('ev_zhiruo_f3_cafe 沒有拒絕版');
     for(const l of f3.slice(i<0?f3.length:i)){ if(l.text!==undefined) T_(l.text); for(const c of (l.choice||[])) T_(c.text); }
     check('0. 每一句台詞、選項、手機、房間物件的說明都在稿裡（一字不差；含 F3 拒絕版）',!bad.length,J(bad));
@@ -196,6 +196,46 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
       check('8. 照現在：心意條件沒到＝5/29 F3，她答應（seeing、ZR_FY）；不記 ZR_F3_NO',F.FANG_F3_DAY===D('2028-05-29')&&Z.fy==='seeing'&&F.ZR_FY===true&&F.ZR_F3_NO==null,J({fy:Z.fy,no:F.ZR_F3_NO})); }
     { setup('2028-06-25',12,'dorm',{FANG_F3:'direct',FANG_F3_DAY:D('2028-06-19')}); const Z=ZRZQ.rec(H.G); rules(); const F=H.G.flags;   /* [前置] 這一版以前的存檔：F3 已經過了（ZZ 建起來 fy seeing、f3Day＝那天），心意條件現在 ok */
       check('8. 舊存檔 F3 已經過了：不回頭改（fy seeing、ZR_FY、不記 ZR_F3_NO）',Z.fy==='seeing'&&Z.f3Day===D('2028-06-19')&&F.ZR_FY===true&&F.ZR_F3_NO==null,J({fy:Z.fy,f3Day:Z.f3Day,no:F.ZR_F3_NO})); }
+  });
+
+  /* ======================= 10 第 10 節（AA 2026-10-22 回六題，企劃線 021ffe76）======================= */
+  // 修改前（開發分支 36ff04ed8）：沒有 ev_zhiruo_ticket_again、ZR_LAST2、方奕廷兩則、A2／A3 條件（這一節大部分 FAIL）
+  const A2={n0:'（她在吧檯後面。看到你，停了一下。）',hi:'……好久不見。',ask:'票根，還在嗎？',me:'還在。',take:'寄放的，要拿回來了。……還是，你要一直收著？',keepT:'「我一直收著。」',giveT:'「還給妳。」',
+    keepN:'（她做了一杯熱可可，加了一份濃縮，推到你面前。）',keep:'……那這杯，也是你的。',giveN:'（你把票根放在吧檯上。她把它夾進牆上班表的夾板裡。）',give:'……謝謝你幫我收了一年。',hiNo:'好久不見。',no:'……票根，你留著就好。'};
+  const FANG2=['她說不行。','我一個人去看了。……片子很好。'];
+  await sec('10',async()=>{
+    check('10. 讀稿第 10 節（021ffe76）：A1 台詞、A4 兩則都在稿裡',inDoc('## 10. 回 LAWWW 14:5x 六題')&&Object.values(A2).every(t=>inDoc(t.replace(/^「|」$/g,'')))&&FANG2.every(inDoc));
+    /* A2：祐廷單身 */
+    { const r=invite({dating_heroine_03:true}); check('10. A2 祐廷和別人交往中（dating_heroine_03）＝8/24 沒有邀約（8/26 是七夕，只給單身）',!r.m&&!(X()&&X().cond(H.G)),J(X()?X().cond(H.G,true):null)); }
+    /* A3：她和子晴 mutual_interest、held(uk) */
+    for(const [st,held] of [['mutual_interest',null],['held','uk']]){ const r=invite({},{pre:G=>{ const Z=ZRZQ.rec(G); Object.assign(Z,{state:st,held,since:0,lastDay:D('2028-03-09')}); }});
+      check('10. A3 她和子晴 '+st+(held?'('+held+')':'')+'＝最後一場不演（8/24 沒有邀約）',!r.m,J(X()?X().cond(H.G,true):null)); }
+    /* A1：先收著的，2029-09-01 起第一次進 Café */
+    const again=()=>ev('ev_zhiruo_ticket_again');
+    const cafeAt=(key,h)=>{ at(key,h); H.G.zone='cafe'; };
+    { await play(1); const k=H.G.flags.ZR_LAST; cafeAt('2029-08-31',15); const b4=!!again()&&EVENTS.check(again()); cafeAt('2029-09-01',15); const on=!!again()&&EVENTS.check(again());
+      H.said=[]; H.opts=[]; H.picks=[0]; if(again()) await EVENTS.run(again()); const L=said(), R=(H.G.flags.romance||{})[ZR]||{};
+      check('10. A1 先收著（ZR_LAST keep）：8/31 沒有、2029-09-01 第一次進 Café 才有（ev_zhiruo_ticket_again，只演一次）',k==='keep'&&!b4&&on&&!!again()&&again().once===true,J({k,b4,on}));
+      check('10. A1 逐句：旁白「（她在吧檯後面。……）」「……好久不見。」「票根，還在嗎？」祐廷「還在。」「寄放的，要拿回來了。……」；選項「我一直收著。」「還給妳。」',seq(L,[A2.n0,A2.hi,A2.ask,A2.me,A2.take])&&J(H.opts[0])===J([A2.keepT,A2.giveT]),J({L,o:H.opts}));
+      check('10. A1「我一直收著。」＝交往（ROM、dating_heroine_02）；熱可可那兩句；ZR_LAST2 back；清掉讓我想想',seq(L,[A2.keepN,A2.keep])&&H.G.flags.ZR_LAST2==='back'&&H.G.flags.dating_heroine_02===true&&R.status==='dating'&&TERMEND.rec(H.G).think[ZR]==null,J({L,f:H.G.flags.ZR_LAST2,R}));
+      check('10. A1 演過一次就不再出現',!!again()&&!EVENTS.check(again())); }
+    { await play(1); cafeAt('2029-09-02',10); H.said=[]; H.opts=[]; H.picks=[1]; if(again()) await EVENTS.run(again()); const L=said();
+      check('10. A1「還給妳。」＝朋友：票根夾進班表那兩句、ZR_LAST2 closed、不交往、房間物件「她的票根」拿掉、清掉讓我想想',seq(L,[A2.giveN,A2.give])&&H.G.flags.ZR_LAST2==='closed'&&!H.G.flags.dating_heroine_02&&!roomList().length&&TERMEND.rec(H.G).think[ZR]==null,J({L,f:H.G.flags.ZR_LAST2,room:roomList().length})); }
+    { await play(1); H.G.flags.dating_heroine_03=true; cafeAt('2029-09-01',15); const on=!!again()&&EVENTS.check(again()); H.said=[]; H.opts=[]; if(again()) await EVENTS.run(again()); const L=said();   /* [前置] 那時祐廷和別人交往中 */
+      check('10. A1 條件不到（祐廷有交往對象）：「好久不見。」「……票根，你留著就好。」、沒有選項、ZR_LAST2 wait、票根留在房間',on&&J(L)===J([A2.hiNo,A2.no])&&!H.opts.length&&H.G.flags.ZR_LAST2==='wait'&&roomList().length===1,J({on,L,o:H.opts,f:H.G.flags.ZR_LAST2})); }
+    { await play(0); cafeAt('2029-09-01',15); check('10. A1 交往的（ZR_LAST wait）沒有這一場',!(again()&&EVENTS.check(again()))); }
+    /* A4：方奕廷兩則（F3＋2 天 21:00；接到電話的才傳）*/
+    const f3=(flags,o)=>{ setup('2028-05-29',21.1,'dorm',flags,o); H.FAMILIAR('npc_fangyt'); if(o&&o.pre) o.pre(H.G); rules(); at('2028-06-19',21.05); rules(); };
+    const fangT=()=>(H.G.msgs||[]).filter(m=>m.th==='p:npc_fangyt'&&m.from==='npc_fangyt').map(m=>m.text);
+    { f3(); H.picks=['剛好有兩張']; await EVENTS.run(ev('ev_fangyt_tickets')); const fang=H.G.flags.FANG_F3; rules(); at('2028-06-21',20.9); rules(); const early=FANG2.some(t=>fangT().includes(t)); at('2028-06-21',21.05); rules();
+      check('10. A4 她因為祐廷拒絕（ZR_F3_NO）、接到他電話的（'+fang+'）：F3＋2 天 21:00 方奕廷兩則「她說不行。」「我一個人去看了。……片子很好。」（21:00 以前沒有）',['direct','bought','self'].includes(fang)&&!early&&seq(fangT(),FANG2),J({fang,early,m:fangT()})); }
+    { setup('2028-05-29',22.1,'jp_dorm',{EXCHANGE_ROUTE:'JP'}); rules(); at('2028-06-19',22.1); rules(); at('2028-06-23',12); rules();
+      check('10. A4 沒有接到電話的（nocall，日本路線和他不熟）不傳',H.G.flags.FANG_F3==='nocall'&&H.G.flags.ZR_F3_NO!=null&&!FANG2.some(t=>fangT().includes(t)),J({f:H.G.flags.FANG_F3,m:fangT()})); }
+    /* A5：美國路線 */
+    { f3({EXCHANGE_ROUTE:'US'}); const F=H.G.flags, Z=F.ZZ||{};
+      check('10. A5 美國路線：F3 照現在（她答應方奕廷：seeing、ZR_FY；不記 ZR_F3_NO）',Z.fy==='seeing'&&F.ZR_FY===true&&F.ZR_F3_NO==null,J({fy:Z.fy,FY:F.ZR_FY,no:F.ZR_F3_NO})); }
+    { f3({dating_heroine_03:true}); const F=H.G.flags, Z=F.ZZ||{};
+      check('10. 第 8 節第 4 條：祐廷有交往對象＝F3 照現在（不記 ZR_F3_NO）',F.ZR_F3_NO==null,J({fy:Z.fy,no:F.ZR_F3_NO})); }
   });
   H.done();
 })();

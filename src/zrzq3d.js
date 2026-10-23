@@ -154,7 +154,7 @@ const ZRZQ=(function(){
   S.heartOk=function(G){ if(!G||!G.flags||typeof TERMEND==='undefined'||!TERMEND.cond) return false; const c=TERMEND.cond(G,ZR); if(!c||!c.ok) return false;
     return !(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,ZR)); };
   /* 第 8 節的三條：杯子那一場沒有演過（ZR_CUP 沒有值）、沒和祐廷交往、上面的心意條件 ok */
-  S.ytHeart=G=>!!G&&!!G.flags&&G.flags.ZR_CUP==null&&!datingYT(G,ZR)&&S.heartOk(G);
+  S.ytHeart=G=>!!G&&!!G.flags&&G.flags.ZR_CUP==null&&!datingYT(G,ZR)&&route(G)!=='US'&&!(typeof ROM!=='undefined'&&ROM.partners&&ROM.partners(G).length)&&S.heartOk(G);   /* AA_387 第 8 節第 4 條（第 10 節 A5）：美國路線、祐廷有交往對象＝F3 照現在 */
   S.f3Sync=function(G){ const F=G.flags, R=S.rec(G); if(F.FANG_F3_DAY==null||R.f3Day===F.FANG_F3_DAY) return; R.f3Day=F.FANG_F3_DAY;
     if(F.FANG_F3==='congrats'){ R.f3='none'; return; }   /* 和祐廷交往中：F3 不發生 */
     const st=R.state, t=termAt(F.FANG_F3_DAY), clear=!BOTH.some(id=>datingYT(G,id))&&!BOTH.some(id=>S.frozenTerm(G,id,t));
