@@ -5,6 +5,7 @@
 - scroll_cha.png：一盞床之間的掛軸（一個「茶」字＋裱框）
 - clock_face.png：半熟牆上的大時鐘
 - egg_print.png：半熟牆上的蛋線條畫（和招牌同一個意思）
+- fruit_price.png：阿忠水果攤子上的紙板價錢牌（AA_413：「紙板上用麥克筆寫著價錢，每一張的字都不一樣大」；八張，4×2）
 用法：python3 tools/blender/env_second/shops_tex.py"""
 import math, os, random
 import numpy as np
@@ -219,9 +220,38 @@ def teishoku_noren():
     im.save(os.path.join(GEN, 'teishoku_noren.png'))
 
 
+
+def fruit_price():
+    """阿忠水果的紙板價錢牌：瓦楞紙板的底（邊緣撕得不整齊）、麥克筆字（每個字大小、角度都不一樣；價錢紅色）。
+    只寫一年四季都有的（芭樂、香蕉、木瓜牛奶）和不寫品名的牌子：季節水果（芒果、草莓、柳丁）放在箱子裡、不立價錢牌，和遊戲的季節菜單不衝突"""
+    CW, CH = 128, 128; im = Image.new('RGBA', (CW * 4, CH * 2), (0, 0, 0, 0)); r = random.Random(413)
+    cards = [(['芭樂', '3顆60'], 1), (['香蕉', '一串50'], 1), (['木瓜', '牛奶55'], 1), (['今日', '特價'], 0), (['甜！'], 0), (['自己挑'], 0), (['現打', '果汁'], 0), (['不甜', '包換'], 0)]
+    for i, (lines, priced) in enumerate(cards):
+        cx, cy = (i % 4) * CW, (i // 4) * CH
+        card = Image.new('RGBA', (CW, CH), (0, 0, 0, 0)); d = ImageDraw.Draw(card)
+        pts = [(4 + r.randint(0, 5), 4 + r.randint(0, 5)), (CW - 5 - r.randint(0, 5), 3 + r.randint(0, 5)), (CW - 4 - r.randint(0, 6), CH - 5 - r.randint(0, 4)), (3 + r.randint(0, 6), CH - 4 - r.randint(0, 6))]
+        d.polygon(pts, fill=(192 + r.randint(-8, 8), 156 + r.randint(-8, 8), 104 + r.randint(-8, 8), 255))
+        for k in range(10):                                    # 瓦楞紙的橫紋
+            yy = 10 + k * 11 + r.randint(-1, 1); d.line([8, yy, CW - 8, yy], fill=(176, 140, 92, 120), width=1)
+        y = 12 if len(lines) == 2 else 38
+        for j, ln in enumerate(lines):
+            red = priced and j == 1; x = 10 + r.randint(0, 8)
+            for ch in ln:
+                sz = r.randint(26, 40) if len(ln) <= 3 else r.randint(20, 28)
+                if ch.isdigit(): sz = int(sz * (1.15 if red else 1.0))
+                g = Image.new('RGBA', (sz + 10, sz + 10), (0, 0, 0, 0)); dg = ImageDraw.Draw(g)
+                dg.text((5, 3), ch, font=f(sz), fill=(196, 30, 30, 255) if red else (24, 22, 20, 255), stroke_width=1, stroke_fill=(196, 30, 30, 255) if red else (24, 22, 20, 255))
+                g = g.rotate(r.uniform(-12, 12), resample=Image.BICUBIC, expand=False)
+                card.alpha_composite(g, (min(x, CW - sz - 6), y + r.randint(-3, 3))); x += int(sz * (0.62 if ch.isdigit() else 0.92))
+            y += 52
+        im.alpha_composite(card, (cx, cy))
+    im.save(os.path.join(GEN, 'fruit_price.png'))
+
 if __name__ == '__main__':
     import sys
-    if 'aa364' in sys.argv[1:]:   # 只畫林家乾麵、巷子裡定食的（不重畫已經在用的那幾張）
+    if 'aa413' in sys.argv[1:]:   # 只畫阿忠水果的價錢牌（AA_413）
+        fruit_price(); print('saved AA_413 fruit price cards')
+    elif 'aa364' in sys.argv[1:]:   # 只畫林家乾麵、巷子裡定食的（不重畫已經在用的那幾張）
         lin_menu(); lin_curtain(); lin_hours(); calendar_oct(); teishoku_fuda(); teishoku_hours(); teishoku_noren(); print('saved AA_364 shop textures')
     else:
         tatami(); brunch_board(); print_price(); scroll(); clock_face(); egg_print(); cafe_roster(); print('saved shops textures')

@@ -206,6 +206,61 @@ def p_crates():
     return combine(parts, 'sk_crates')
 
 
+
+def p_fruitstall():
+    """阿忠水果的攤子（AA_413 第 4 節，企劃 9f6a848c；LAWWW2-B 10-23）：「騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。」
+    兩層檯（前層 0.72 m、後層 0.96 m；鐵架＋夾板）、十箱水果（淺木箱、紅色塑膠籃）、五張紙板價錢牌（textures/gen/fruit_price.png，shops_tex.py aa413）、
+    右邊一張不鏽鋼小桌（果汁機、杯子：現打木瓜牛奶）、左邊一捲粉紅塑膠袋、前層一台小磅秤。
+    原點＝底部中央；正面（客人那一邊）朝 +z；寬 2.5 m（加右邊小桌到 +1.75）、深 0.8 m。老闆站在後面（z −0.75）"""
+    m = _cm('fruitstall'); fr = []; rr = random.Random(413)
+    for x in (-1.2, 0.0, 1.2):                                                                              # 鐵架（三組，前低後高）
+        for z in (0.32, -0.32): m.cbox(x - 0.025, x + 0.025, 0.0, 0.7 if z > 0 else 0.94, z - 0.025, z + 0.025, '#4a4c4e')
+    m.cbox(-1.25, 1.25, 0.68, 0.72, 0.0, 0.4, '#b89a72', 0.95); m.cbox(-1.25, 1.25, 0.92, 0.96, -0.4, 0.0, '#b89a72', 0.95)   # 夾板檯面兩層
+    m.cbox(-1.25, 1.25, 0.72, 0.92, -0.02, 0.0, '#9a7c56', 0.9)                                              # 兩層中間的立板
+    KINDS = [('#9cc35a', 0.055, 1), ('#f2d040', 0.0, 2), ('#e8952e', 0.075, 3), ('#c8322a', 0.05, 4), ('#e6dc9a', 0.055, 5), ('#d2386c', 0.06, 6), ('#9cc35a', 0.055, 1), ('#f0a030', 0.07, 3), ('#7bb04a', 0.05, 4), ('#e8952e', 0.075, 6)]
+    for i, (col, r, style) in enumerate(KINDS):
+        tier = i // 5; x = -1.0 + (i % 5) * 0.5; y = 0.72 if tier == 0 else 0.96; z = 0.2 if tier == 0 else -0.2
+        crate = '#c8322a' if (i % 3 == 1) else '#c9a46a'                                                     # 紅色塑膠籃或淺木箱
+        m.cbox(x - 0.22, x + 0.22, y, y + 0.03, z - 0.17, z + 0.17, crate, 0.9)
+        for sx in (-1, 1): m.cbox(x + sx * 0.22 - 0.012, x + sx * 0.22 + 0.012, y, y + 0.12, z - 0.17, z + 0.17, crate)
+        for sz in (-1, 1): m.cbox(x - 0.22, x + 0.22, y, y + 0.12, z + sz * 0.17 - 0.012, z + sz * 0.17 + 0.012, crate)
+        if r == 0.0:                                                                                     # 香蕉：一串一串（黃色長條，兩層）
+            for k in range(3): m.cbox(x - 0.18 + k * 0.12, x - 0.1 + k * 0.12, y + 0.05, y + 0.12 + (k % 2) * 0.03, z - 0.13, z + 0.13, '#f2d040'); m.cbox(x - 0.16 + k * 0.12, x - 0.12 + k * 0.12, y + 0.12, y + 0.16, z + 0.1, z + 0.14, '#6a5a2a')
+            continue
+        for a in range(3):
+            for b in range(2):
+                fr.append((x - 0.13 + a * 0.13 + rr.uniform(-0.01, 0.01), y + 0.03 + r + (0.02 if (a + b) % 2 else 0.0), z - 0.07 + b * 0.14, col, r))
+        if style == 5:                                                                                   # 套白色網套的梨子：上面再一顆
+            fr.append((x, y + 0.03 + r * 2.4, z, '#f4f0e4', r * 0.9))
+    sx0 = 1.32; m.cbox(sx0, sx0 + 0.5, 0.0, 0.03, -0.25, 0.25, '#9aa0a4')                               # 右邊的不鏽鋼小桌＋果汁機
+    for (a, b) in ((sx0 + 0.02, -0.23), (sx0 + 0.48, -0.23), (sx0 + 0.02, 0.23), (sx0 + 0.48, 0.23)): m.cbox(a - 0.015, a + 0.015, 0.0, 0.8, b - 0.015, b + 0.015, '#9aa0a4')
+    m.cbox(sx0, sx0 + 0.5, 0.8, 0.83, -0.25, 0.25, '#c9ced2', 0.95)
+    m.cbox(sx0 + 0.08, sx0 + 0.24, 0.83, 0.93, -0.08, 0.08, '#2b2b2b'); m.cbox(sx0 + 0.1, sx0 + 0.22, 0.93, 1.15, -0.06, 0.06, '#e8eef0', 0.9); m.cbox(sx0 + 0.11, sx0 + 0.21, 0.93, 1.02, -0.05, 0.05, '#f0a060')   # 果汁機（杯子裡半杯木瓜牛奶）
+    for k in range(4): m.cbox(sx0 + 0.3, sx0 + 0.4, 0.83 + k * 0.02, 0.84 + k * 0.02, -0.16, -0.06, '#f4f4f1')   # 疊起來的塑膠杯
+    m.cbox(-1.45, -1.3, 0.85, 1.25, -0.08, 0.08, '#e88aa8')                                              # 左邊掛著的一捲粉紅塑膠袋（掛在鐵架上）
+    m.cbox(-1.32, -1.28, 0.7, 1.32, -0.02, 0.02, '#4a4c4e')
+    m.cbox(-1.05, -0.75, 0.72, 0.8, 0.28, 0.4, '#c0392b'); m.cbox(-1.02, -0.78, 0.8, 0.81, 0.29, 0.39, '#d9dcde')   # 前層左邊的小磅秤（紅色、秤盤）
+    parts = [m.finish(None, uv=False)]
+    by = {}
+    for (x, y, z, c, r) in fr: by.setdefault((c, r), []).append((x, y, z))
+    for (c, r), lst in by.items():
+        f = Mesh('fruit', flat('wz_sf_fruit_' + c[1:], c, rough=0.45))
+        for (x, y, z) in lst: f.sphere((x, y, z), r, seg=7, rings=4)
+        parts.append(f.finish(None, smooth=True))
+    cm_ = Mesh('fruitprice', _img_mat('wz_fruitprice', 'fruit_price.png', rough=0.85, clip=True)); bm = cm_.bm; uvl = bm.loops.layers.uv.verify()
+    # (卡片, 左下、右下、右上、左上)：插在箱子前緣的往後仰一點；小桌上的立在果汁機旁邊、貼在桌子前緣
+    def card(x, y0, z, w, tilt=0.06): return [(x - w / 2, y0, z), (x + w / 2, y0, z), (x + w / 2, y0 + w, z - tilt), (x - w / 2, y0 + w, z - tilt)]
+    CARDS = [(0, card(-1.0, 0.84, 0.37, 0.17)), (1, card(-0.5, 0.84, 0.37, 0.17)), (4, card(0.0, 1.08, -0.03, 0.17)), (5, card(0.5, 0.84, 0.37, 0.17)), (7, card(-0.5, 1.08, -0.03, 0.17)),   # 芭樂（前層芭樂）、香蕉（前層香蕉）、甜！（後層木瓜）、自己挑（前層蘋果）、不甜包換（後層芭樂）
+             (2, card(sx0 + 0.38, 0.83, 0.12, 0.16, 0.02)), (6, card(sx0 + 0.25, 0.6, 0.26, 0.16, 0.0))]                                                                             # 木瓜牛奶（桌上）、現打果汁（桌子前緣）
+    for (ci, pts) in CARDS:
+        col, row = ci % 4, ci // 4; u0, u1 = col / 4, (col + 1) / 4; v1 = 1 - row / 2; v0 = v1 - 0.5
+        f_ = bm.faces.new([bm.verts.new(g2b(*q)) for q in pts])
+        for lp, uv in zip(f_.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = uv
+        f2 = bm.faces.new([bm.verts.new(g2b(*q)) for q in (pts[1], pts[0], pts[3], pts[2])])                 # 背面（從店裡看）
+        for lp, uv in zip(f2.loops, ((u1, v0), (u0, v0), (u0, v1), (u1, v1))): lp[uvl].uv = uv
+    parts.append(cm_.finish(None, uv=False, merge=False))
+    return combine(parts, 'sk_fruitstall')
+
 def p_noodle():
     """麵攤（台灣麵店在店門口煮麵）：倒角的不鏽鋼工作台（正面紅色烤漆板）、兩口有提耳的湯鍋（一鍋蓋著）、竹撈、湯杓、
     玻璃櫥窗（碗疊、麵團、滷味盤）。v6c：原本是直角方塊＋圓柱，像灰色積木"""
@@ -254,13 +309,28 @@ def p_meter():
 
 P_STOOL_R, P_STOOL_B = p_stool('#c8392e'), p_stool('#2f6fb0')
 PROTO = {'stool_r': P_STOOL_R, 'stool_b': P_STOOL_B, 'bins': p_bins(), 'boxes': p_boxes(), 'umb': p_umbrella(), 'vend': p_vend(),
-         'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter()}
+         'fridge': p_fridge(), 'bench': p_bench(), 'crates': p_crates(), 'fruitstall': p_fruitstall(), 'noodle': p_noodle(), 'bookcart': p_bookcart(), 'meter': p_meter()}
 
 NOTE_Q = []   # (四點世界座標, 圖集格名稱)：最後合成一個網格（一次 draw call）
 
 
 def note(xf, cellname, x, y, w, h, z):
     NOTE_Q.append(([xf.p(x - w / 2, y, z), xf.p(x + w / 2, y, z), xf.p(x + w / 2, y + h, z), xf.p(x - w / 2, y + h, z)], cellname))
+
+
+
+def cork_board(xf, x, y0, w, h, z, cells=('tutor', 'rent', 'lostcat', 'hours2', 'blank')):
+    """門邊的布告欄（AA_413 第 3 節：自助洗衣「看布告欄」，布告欄的字照月份換——遊戲的字；這裡只畫一塊軟木板、鋁框、幾張用圖釘釘著的紙）：
+    鋁框＋軟木板貼在玻璃外面 z（玻璃＋3 cm）；紙條用玻璃紙條同一張圖集（NOTES），每張歪一點"""
+    xf.box(acc(SK['alu2']), x - w / 2 - 0.03, x + w / 2 + 0.03, y0 - 0.03, y0 + h + 0.03, z, z + 0.02)
+    xf.box(acc(flat('wz_cork', '#b98a58', rough=0.9)), x - w / 2, x + w / 2, y0, y0 + h, z + 0.02, z + 0.03)
+    rr = random.Random(int(abs(x) * 100)); n = len(cells)
+    for i, cn in enumerate(cells):
+        cw = rr.uniform(0.18, 0.24); ch = cw * rr.uniform(1.1, 1.35); cx = x - w / 2 + 0.06 + cw / 2 + i * (w - 0.12 - cw) / max(1, n - 1); cy = y0 + 0.06 + (h - ch - 0.12) * (0.25 + 0.5 * ((i * 37) % 3) / 2)
+        a = rr.uniform(-0.12, 0.12); ca, sa = math.cos(a), math.sin(a); zz = z + 0.032 + i * 0.002
+        pts = [xf.p(cx + (dx * ca - dy * sa), cy + (dx * sa + dy * ca), zz) for (dx, dy) in ((-cw / 2, -ch / 2), (cw / 2, -ch / 2), (cw / 2, ch / 2), (-cw / 2, ch / 2))]
+        note_tilt(pts, cn)
+        xf.box(acc(flat('wz_pin_' + ('red' if i % 2 else 'blue'), '#c0392b' if i % 2 else '#2f5fa8', rough=0.4)), cx - 0.008, cx + 0.008, cy + ch / 2 - 0.03, cy + ch / 2 - 0.014, zz, zz + 0.01)
 
 
 def note_tilt(pts_world, cellname): NOTE_Q.append((pts_world, cellname))
@@ -399,6 +469,7 @@ def shopfront_v2(spec, xf, W, gt, wall):
         xf.box(m, -aw / 2, aw / 2, ay1 - 0.2, ay1, ad - 0.01, ad + 0.01)
     # 玻璃上的紙條、門邊的牌子
     for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, gz + 0.03)
+    if sf.get('board'): cork_board(xf, *sf['board'], gz + 0.03)
     # 門廊雜物（都在 z∈(gz, 0)：建築的導航阻擋範圍內）
     for it in sf.get('clutter', []):
         k, x, z = it[0], it[1], it[2]; zz = gz + z
@@ -1212,7 +1283,7 @@ SF = {
                notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)],
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),
     'B2': dict(inner=True, door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
-               notes=[('hours2', -0.6, 1.2, 0.4, 0.4), ('lostcat', 1.4, 1.1, 0.4, 0.42)],
+               notes=[('hours2', -0.6, 1.2, 0.4, 0.4)], board=(1.35, 1.0, 0.9, 0.7),   # AA_413（10-23）：門右邊的布告欄（尋貓的紙條搬到布告欄上；「看布告欄」在世界 x −16.4）
                clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
     'B3': dict(inner=True, door='lattice', sign='wood', awning='stripe_navy', floor='f_floral', step=0.12, noren=True, light='warm', door_x=-2.0, door_w=1.8, ac=4.8,
                notes=[('menu', 2.2, 1.0, 0.58, 0.62), ('hours', 3.0, 1.2, 0.34, 0.34)],
@@ -1226,7 +1297,7 @@ SF = {
                clutter=[('aboard', 2.2, 0.5, 'chalk'), ('pot', -3.4, 0.35, 'broad'), ('pot', 3.3, 0.35, 'broad'), ('bench', 0.9, 0.45)]),
     'B6': dict(inner=True, door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', ac=-3.7,
                notes=[('pay', 3.5, 1.6, 0.32, 0.32)],
-               clutter=[('crates', -1.2, 0.55), ('boxes', 3.4, 0.35), ('stool_b', 2.4, 0.45)]),
+               clutter=[('fruitstall', -0.1, 0.5), ('boxes', 3.4, 0.35), ('stool_b', 2.4, 0.45)]),   # AA_413（10-23）：門廊前緣的攤子（原本是 x −1.2 的三層木架 crates）；老闆站在攤子後面＝世界 (34.9, −6.15)
 }
 # 住家、空店面
 # 118 巷九間店（ART-L118-FACADE-3D-1023，使用者 10-23：「118店面裡面做了 但外觀還是很2D」）：原本是舊的 shopfront（玻璃後面一張平面景深卡）→ 店面組件＋立體淺店內。
