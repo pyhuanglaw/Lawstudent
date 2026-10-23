@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **19:2x 更新**：
+    - 已交：5F 研究室更正（`fc21db525`，`test_shots/linze_5f_lab8_1023/README.md`）。
+    - 已交：AA_413（本 commit，`test_shots/aa413_wz_1023/README.md`、`patches/aa413_wz_1023.patch`，對開發 `dfc49707c` apply --check 過）。
+      - 阿忠水果的攤子（`p_fruitstall`＋紙板價錢牌）、B6 前機車留 3.4 m（`scRow` 的 `gap`）、老闆站位 `WZS.AA413.fruit.owner`。
+      - 自助洗衣門右邊的布告欄（`cork_board`）。
+      - 日日便利從溫州街進去的窗景 `cvs_wz`（`F.CVS_FROM==='wenzhou'`）。
+      - 溫州街 GLB 重建，順便帶進 09:33 起的店內商品（+1.1 萬三角形）；遊戲內效能反而比改之前好。
+      - `touch_flow_wenzhou` 沒跑，請 LAWWW-B 發布前跑。
+    - 下一項：AA_399 第 3 節（總圖研究小間＋5F 書庫），再來體育館 3F SET_CEREMONY。
   - **18:4x 更新**：
     - 已交：總圖 B1（`cdb1b1f4`）。LAWWW-B 18:4x：20cc4c4e3 合併、01ade8098 劇情接好（`src/b1story3d.js`；晚上從校園側門下 B1；補了 `CALENDAR.examSoon`）。
     - LAWWW-B 18:4x 的佇列：

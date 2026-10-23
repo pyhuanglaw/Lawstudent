@@ -2512,7 +2512,7 @@
   {
    "task": "CLOSED-SPACES-1023 5F 研究室更正（AA_399 1-1 改，企劃 8a21184d：八張桌子、她的在門邊）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "fc21db525",
    "files": [
     "assets/models/env/second_ai/linze_5f.{glb,json,layout.json}",
     "docs/art-rebuild/second_ai/patches/linze_5f_lab8_1023.patch（對開發 65213fe2d apply --check 過）",
@@ -2526,6 +2526,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "spots 新增 me_desk、sis_lamp；sis_desk、beside、desk_c、desk_d 搬家"
+  },
+  {
+   "task": "AA_413 溫州街剩下三家（企劃 9f6a848c 第 5 節第 1 點）：阿忠水果的攤子＋老闆站位、自助洗衣門邊的布告欄、日日便利從溫州街進去的窗景",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.{glb,json,props.json}（重建；也帶進 09:33 起的店內商品 sk_goods）",
+    "assets/models/env/views/cvs_wz_{day,night}.webp（新）",
+    "docs/art-rebuild/second_ai/patches/aa413_wz_1023.patch（zones3d.js、wzshops3d.js、shop_views_layers.py/.json；對開發 dfc49707c apply --check 過）",
+    "tools/blender/env_second/wz_shopkit.py、shops_tex.py、textures/gen/fruit_price.png",
+    "docs/art-rebuild/second_ai/test_shots/aa413_wz_1023/README.md＋截圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；測試樹 INTEGRATED：wz_street_integration（277／233／279 calls、≤41.6 萬三角形）、reachability wenzhou,cvs、aa413_wz_unit、wz_shops*_unit ALL PASS（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "老闆 NPC 要 LAWWW-B 放（WZS.AA413.fruit.owner）；touch_flow_wenzhou 沒跑（發布前必跑）；iPhone 沒看過",
+   "next": "LAWWW-B 套 patch、放 GLB 與 cvs_wz 窗景",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "B6 前的機車留 3.4 m（scRow 加 gap，其他機車不變）；互動點：買水果 (35.3,−3.9)、看 (33.6,−3.9)、布告欄 (−16.65,−3.8)；cvs 在 F.CVS_FROM==='wenzhou' 時用 cvs_wz（景深 10.6）；店員位置照舊"
   }
  ]
 }

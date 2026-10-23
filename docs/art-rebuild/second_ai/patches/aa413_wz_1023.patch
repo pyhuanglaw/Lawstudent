@@ -1,0 +1,102 @@
+diff --git a/src/wzshops3d.js b/src/wzshops3d.js
+index a349e1cc0..3acff188e 100644
+--- a/src/wzshops3d.js
++++ b/src/wzshops3d.js
+@@ -143,7 +143,7 @@ const WZS=(()=>{
+       known:G=>{ const m=month(G); return m>=6&&m<=8?'今天的芒果很甜，要不要？':'學生仔，今天的芭樂很脆。'; },
+       look:'（騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。）',
+       menu:[['芭樂（一袋三顆）',60],['香蕉（一串）',50],['切盤（西瓜）',50,m=>m>=5&&m<=9],['切盤（鳳梨）',50,m=>m>=4&&m<=7],['芒果（一盒）',150,m=>m>=6&&m<=8],['柳丁（一袋）',80,m=>m>=11||m<=2],['草莓（一盒）',180,m=>m===12||m<=3],['現打木瓜牛奶',55]],
+-      open:[9,22],at:{x:35,z:-3.8},lookAt:{x:32.8,z:-3.8}},
++      open:[9,22],at:{x:35.3,z:-3.9},lookAt:{x:33.6,z:-3.9},owner:{x:34.9,z:-6.15,yaw:0}},   /* LAWWW2-B 10-23：攤子在 B6 門廊前緣（x 33.6–36.2；wz_shopkit p_fruitstall），前面的機車留空 x 32.8–36.2（zones3d.js scRow 的 gap）；老闆站在攤子後面、面向街（owner）*/
+     laundry:{look:'（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）',
+       board:{9:'（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）',10:'（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）',
+         11:'（社區通知：週六上午清洗水塔，停水四小時。）',12:'（社區通知：週六上午清洗水塔，停水四小時。）',
+@@ -151,7 +151,7 @@ const WZS=(()=>{
+         3:'（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）',4:'（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）',
+         5:'（失物招領：一件灰色的運動外套，掛在布告欄旁邊的掛勾上。）',6:'（失物招領：一件灰色的運動外套，掛在布告欄旁邊的掛勾上。）',
+         7:'（社區通知：颱風天請收好陽台的衣服。）',8:'（社區通知：颱風天請收好陽台的衣服。）'},
+-      at:{x:-18.6,z:-3.8},boardAt:{x:-16.4,z:-3.8}} };
++      at:{x:-18.6,z:-3.8},boardAt:{x:-16.65,z:-3.8}} };   /* 布告欄：B2 門右邊的玻璃上（wz_shopkit cork_board，世界 x −17.1～−16.2）*/
+   S.fruitMenu=G=>{ const m=month(G); return S.AA413.fruit.menu.filter(x=>!x[2]||x[2](m)); };
+   S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24, o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
+   S.boardLine=G=>S.AA413.laundry.board[month(G)]||'';
+diff --git a/src/zones3d.js b/src/zones3d.js
+index b917e6b4e..bb501bc37 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -867,8 +867,9 @@ const Z3 = (function(){
+     const scGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.wz_scooter']; const scG=new THREE.Group(); scG.userData.dyn=true; scG.name='wz_kit_scooters'; const scList=[]; if(scGLB) g.add(scG);
+     const scAdd=(o,c)=>{ if(scGLB){ scG.add(o); scList.push({o,color:c}); } else g.add(o); };
+     const scColors=['#e8e8e8','#2b2b2b','#8c3b47','#4a6c8c','#c9b48a','#f2f0ea','#3e5a48'];
+-    const scRow=(x0,n,z,ry)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; scAdd(s,c); } nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); };
+-    if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）*/ scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI); scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
++    const scRow=(x0,n,z,ry,gap)=>{ for(let k=0;k<n;k++){ if(TK.rnd()<0.15) continue; const c=scColors[(k*3+Math.round(x0))%scColors.length], s=TK.scooter(c); const x=x0+k*0.85; s.position.set(x,0,z+(TK.rnd()-0.5)*0.15); s.rotation.y=ry+(TK.rnd()-0.5)*0.12; if(gap&&x>gap[0]&&x<gap[1]) continue; scAdd(s,c); }   /* gap：這一段不停車（亂數照樣抽，其他機車的位置、顏色不變）*/
++      if(!gap) nav.blockRect(x0+(n-1)*0.85/2,z,n*0.85,1.7,0,0.05); else { const a=x0-0.425, b=x0+(n-1)*0.85+0.425; for(const [u,v] of [[a,gap[0]],[gap[1],b]]) if(v-u>0.4) nav.blockRect((u+v)/2,z,v-u,1.7,0,0.05); } };
++    if(typeof WZ_SHOPS_LAYOUT!=='undefined'){ scRow(-11.5,2,3.95,0); scRow(-6.8,3,3.95,0); } else scRow(-11.5,7,3.95,0);   /* 阿德影印輸出的店門（x −8）前面留空（DL-09）*/ scRow(5.0,12,-3.95,Math.PI); scRow(31.5,8,-3.95,Math.PI,[32.8,36.2]);   /* AA_413（10-23）：阿忠水果（B6）攤子前面不停車，留 3.4 m 給買水果的人（x 32.8–36.2）*/ scRow(-28.5,6,-3.95,Math.PI); scRow(typeof WZ_PARK_LAYOUT!=='undefined'?16.4:24.4,4,3.95,0);   /* 擴大版小公園：入口 A（x 22.6–29.4）前面不停機車，這一排挪到 A3 巷口書房前面 */
+     for(const [bx,bz,ry,c] of [[9.4,4.1,0.1,'#3a6fb0'],[10.3,4.1,-0.08,'#8c3b47'],[18.6,4.1,0.05,'#e0b95b']]){ const bk=W3.bikeAny(c,Math.round(bx*10)); bk.position.set(bx,0,bz); bk.rotation.y=ry; g.add(bk); nav.blockRect(bx,bz,0.6,1.8,ry,0.05); }
+     // 盆栽（住家門口）、郵筒、立牌
+     for(const [px,pz,ry,n] of [[-2.6,4.55,Math.PI,6],[9.6,-4.55,0,5],[41.5,-4.55,0,7],[3.6,9.5,-Math.PI/2,5],[-13.5,-9,Math.PI/2,4],[-14.4,4.6,Math.PI,4]].filter(q=>!(q[0]===41.5&&typeof WZ_SHOPS_LAYOUT!=='undefined'))){   /* B7 改成半熟（溫州街 v5）：店門口有自己的黑板、長椅、大盆栽（模型），套件那一排盆栽會擋住店門 */ const pt=TK.pots(n,Math.round(px)); pt.position.set(px,0,pz); pt.rotation.y=ry; g.add(pt); const L=pt.userData.len; const c=Math.cos(ry), sn=Math.sin(ry); nav.blockRect(px+c*L/2,pz-sn*L/2,Math.abs(c)*L+0.6,Math.abs(sn)*L+0.6,0,0); }
+@@ -1454,7 +1455,8 @@ const Z3 = (function(){
+       if(!night){ x.fillStyle=dusk?'rgba(255,170,90,0.10)':'rgba(255,255,255,0.08)'; x.fillRect(0,0,W,H); } });
+     t.flipY=true; t.needsUpdate=true; cafeStreetCache[mode]=t; return t; }
+   // ---------- 便利商店 ----------
+-  const cvs={ id:'cvs', name:'日日便利', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'cvs',viewDepth:24,w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3.6,3.6]});   /* 窗在店面（後牆是貨架）*/ const g0=z.group, nav=z.nav;
++  const cvs={ id:'cvs', name:'日日便利', indoor:true, camDist:4.0, build(E){ const fromWZ=typeof GAME!=='undefined'&&GAME.G&&GAME.G.flags&&GAME.G.flags.CVS_FROM==='wenzhou';   /* AA_413：從溫州街進去（日日便利 A5）窗外是溫州街（對面阿忠水果、半熟；tools/shots/shop_views_layers.py 的 cvs_wz，景深 10.6 m、一層），不是公館 */
++    const z=room(E,{view:fromWZ?'cvs_wz':'cvs',viewDepth:fromWZ?10.6:24,w:12,d:9,h:3.2,wallColor:'#f4f1ea',floorTex:W3.stoneTex('#e8e4da'),spawn:{x:0,z:3.5,yaw:Math.PI},winWall:'front',winXs:[-3.6,3.6]});   /* 窗在店面（後牆是貨架）*/ const g0=z.group, nav=z.nav;
+     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.cvs_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
+     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+     goodsWall(g,nav,-4.5,-4.2,0,6); goodsWall(g,nav,4.5,-4.2,0,3); for(let i=0;i<2;i++){ goodsWall(g,nav,-2+i*4,0,Math.PI/2,5); }   /* v9.3 第十五批：原本是書架（shelfWall）*/ const counter=new THREE.Mesh(new THREE.BoxGeometry(3,1.0,0.8),M('#d9d3c6',{rough:0.5})); counter.position.set(4,0.5,-1.5); g.add(counter); nav.blockRect(4,-1.5,3,0.8,0,0.15); const fridge=new THREE.Mesh(new THREE.BoxGeometry(0.8,2.2,4),new THREE.MeshStandardMaterial({color:0xbcd6df,roughness:0.2,metalness:0.1})); fridge.position.set(5.6,1.1,2); g.add(fridge); nav.blockRect(5.6,2,0.8,4,0,0.1); const glow=new THREE.Mesh(new THREE.PlaneGeometry(3.8,1.8),new THREE.MeshBasicMaterial({color:0xe6f5ff})); glow.position.set(5.19,1.2,2); glow.rotation.y=-Math.PI/2; g.add(glow);
+diff --git a/tools/shots/shop_views_layers.json b/tools/shots/shop_views_layers.json
+index e63623169..387833b89 100644
+--- a/tools/shots/shop_views_layers.json
++++ b/tools/shots/shop_views_layers.json
+@@ -538,5 +538,35 @@
+   ],
+   "fov": 53.13,
+   "cover": 0.468
++ },
++ "cvs_wz_day": {
++  "D": 6,
++  "near": null,
++  "far": 10.6,
++  "nNear": 0,
++  "nFar": 416,
++  "sky": 0,
++  "cam": [
++   44,
++   1.9,
++   5.6
++  ],
++  "fov": 53.13,
++  "cover": 0.0
++ },
++ "cvs_wz_night": {
++  "D": 6,
++  "near": null,
++  "far": 10.6,
++  "nNear": 0,
++  "nFar": 416,
++  "sky": 0,
++  "cam": [
++   44,
++   1.9,
++   5.6
++  ],
++  "fov": 53.13,
++  "cover": 0.0
+  }
+ }
+\ No newline at end of file
+diff --git a/tools/shots/shop_views_layers.py b/tools/shots/shop_views_layers.py
+index 577054952..df88613b1 100644
+--- a/tools/shots/shop_views_layers.py
++++ b/tools/shots/shop_views_layers.py
+@@ -31,6 +31,8 @@ VIEWS = {
+     'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0, 3.4),
+     'cvs': ('gongguan', [-29.4, 14], [-29.4, 2.1, 21.7], [-29.4, 2.1, -40], 9.0, 3.4),
+     'cafe': ('wenzhou', [50, 0], [55.1, 1.9, 0.0], [0, 1.9, 0.0], 7.0),
++    # 日日便利（溫州街 A5）：從溫州街進去的便利商店（cvs 區域、F.CVS_FROM='wenzhou'，AA_413）窗外原本是公館的景；這一張從 A5 的店面玻璃外往溫州街拍（對面是阿忠水果的攤子、半熟）（LAWWW2-B 10-23）
++    'cvs_wz': ('wenzhou', [44, 2.5], [44.0, 1.9, 5.6], [44.0, 1.9, -40], 6.0, 3.4),
+     'wz_lin': ('wenzhou', [36.4, 3.0], [36.45, 1.3, 4.6], [36.45, 1.3, -40], 6.0),
+     'wz_teishoku': ('wenzhou', [-2.8, -3.0], [-2.8, 1.25, -4.6], [-2.8, 1.25, 40], 6.0),
+     # 118 巷九間店（第二批，LAWWW2-B 10-23）：原本店裡的門外是模型裡一張 Cycles 算圖（WALL_S_view），改成遊戲裡拍的兩層窗景。
