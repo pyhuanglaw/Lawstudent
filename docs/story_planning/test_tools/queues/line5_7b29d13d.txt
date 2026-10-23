@@ -1,0 +1,6 @@
+# 線 5：開發分支 7b29d13dd（學姊第六批 AA_392，程式到 4cf513b52；lw9:8780）。BB-TEST-SIS-B6-1023（LAWWW-B 09:42），排在 RELEASE-9106-TEST（線 2b）之後
+b6a zrlast_probe.py B6_V,B6_VMISS,B6_VCANYON
+b6b zrlast_probe.py B6_SEND_CAR,B6_SEND_AIR,B6_SEND_AIR_D,B6_SEND_NO
+b6c zrlast_probe.py B6_DEF_WAIT,B6_DEF_CALL,B6_NOTE,B6_NOTE_F
+b6d zrlast_probe.py B6_IV1,B6_IV2_YES,B6_IV2_NO,B6_LOTUS_W,B6_LOTUS_M
+b6e zrlast_probe.py B6_LIB_HINT,B6_LIB_GO,B6_LIB_GO_D,B6_DAD,B6_DAD_MET
