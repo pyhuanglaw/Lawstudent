@@ -23,7 +23,7 @@ const YU2_Q=arcade=>[ {speaker:'yu',expression:'neutral',text:'欸，阿哲是�
   {choice:[{text:'「對每個人都好。」',set:{YU2_PICK:'everyone'},goto:'a'},{text:'「對妳比較好。」',set:{YU2_PICK:'you'},goto:'b'},{text:'「妳自己問他。」',set:{YU2_PICK:'ask'},goto:'c'}]},
   {label:'a'},{speaker:'yu',expression:'neutral',text:'……喔。'},{speaker:null,text:arcade?'她低頭滑手機。':'她低頭調弦。'},{speaker:'yu',expression:'neutral',text:'也是啦。'},{goto:'end'},
   {label:'b'},{speaker:null,text:arcade?'她停住，然後很大聲地哼了一段成發要彈的旋律。':'她停住，然後很大聲地彈了一個和弦。'},{speaker:'yu',expression:'embarrassed',text:'欸你很煩！'},{goto:'end'},
-  {label:'c'},{speaker:'yu',expression:'neutral',text:'我才不要。'},{speaker:null,text:'她想了一下。'},{speaker:'yu',expression:'smile',text:'……好啦，我會問。'},
+  {label:'c'},{speaker:'yu',expression:'neutral',text:'我才不要。'},{speaker:null,text:'她想了一下。'},{speaker:'yu',expression:'smile',text:'……再看看啦。'},   /* AA_313 5-4（AA_389 第 6 點：照逐場表）：不用「……好啦」反轉 */
   {label:'end'},{mem:[{npc:'yu',tag:'ASKED_ABOUT_ZHE',note:'她問：阿哲是不是對每個人都這麼好？'}]} ];
 const YU2_QUESTION=YU2_Q(false);   /* 騎樓版她沒有背吉他（AA 50da3a9）：「調弦」換成「滑手機」、「彈了一個和弦」換成「哼了一段成發要彈的旋律」，台詞不變 */
 /* 重訪日 1 的選項（交接包 v2 C20 第 3 節的表）：只從玩家真的經歷過的事裡出，最多三個（照表的順序），再加一個一定有的「每天都差不多。可是我很喜歡。」
@@ -63,6 +63,8 @@ const W5_REST=[ {speaker:null,text:'會後你回萬才館拿忘記的東西，�
 const NYE_AT=(G,id,min)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.has||!SOCIAL.has(id,'FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(min); };
 const NYE_AN=G=>!!(G.flags&&G.flags.dating_heroine_01)||NYE_AT(G,'heroine_01','FRIEND');   /* 以安 FRIEND 以上（交往中一定是）才上頂樓 */
 const NYE_XC=G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('classmate_xinci','FIRST_MET');   /* 芯慈在場（認識才寫她）*/
+/* 大一跨年走「一起去信義區」那條（ev_nye_dinner 選「一起去」→ 搭捷運回頂樓，NYE_Y1＝roof）、而且以安也在（NYE_Y1_AN，在 ev_nye_dinner 記）：大二頂樓她說「去年這時候還在捷運上。」（AA_313 4-3）*/
+const NYE_Y1_MRT=G=>!!(G.events&&G.events.done&&G.events.done.ev_nye_dinner)&&!!G.flags&&G.flags.NYE_Y1==='roof'&&!!G.flags.NYE_Y1_AN;
 const NYE_ROOF_Y1=[
   {speaker:null,text:'（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'},
   {speaker:'classmate_bohan',text:'還有十八分鐘。'},
@@ -186,14 +188,15 @@ const STORY_EVENTS=[
       {speaker:'heroine_03',expression:'smile',text:'……那我們兩個都很慘。'},
       {speaker:null,text:'她笑了一下，很短。你們並肩看了十分鐘的雨，聊了圖書館三樓哪一排的燈最亮。'},
       {speaker:'heroine_03',expression:'neutral',text:'我叫陳語彤。社會系的。你呢？'},
-      {label:'end'},
-      {speaker:null,text:'（她會記得今天。）'},
+      {label:'end'},   /* AA_313 4-4：最後一行旁白「（她會記得今天。）」刪掉（旁白不替她下結論）*/
       {unless:{flagIs:{rain_umbrella:'cvs'}},consequences:{memo:'雨天在總圖門口遇到陳語彤'}},
       {if:{flagIs:{rain_umbrella:'cvs'}},consequences:{memo:{t:'雨天在總圖門口遇到一個借傘的女生',named:'雨天在總圖門口遇到陳語彤',who:'heroine_03'}}} ],   /* AA_372 第 4 項：「便利商店應該有賣。」那一版她沒報名字＝「遇到一個借傘的女生」；之後拿到她的聯絡方式（報了名字）日誌才換成「陳語彤」（STORY.memoText）*/
     consequences:{goal:'自由行動'}, despawn:20, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='route'; n.waypoints=[[70,-2.5],[40,-2.5],[30,-6]]; n.pauseAt=false; n.talk=null; } } },
   // 沒下雨的另一種初遇
-  { id:'ev_library_door_phone', title:'總圖門口', participants:['heroine_03'], location:'campus', near:{x:81,z:0,r:6}, trigger:'auto', time:[17,22], not_weather:'rain', day_min:3, once:true, random_weight:20, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, spawn:{npc:'heroine_03',at:{x:79.5,z:3.2},pose:'idle'}, background:'blur',
-    dialogue:[ {speaker:null,text:'總圖門口有個女生一直在看手機，看一眼、收起來、再看一眼。'},{speaker:'heroine_03',expression:'neutral',text:'……不好意思，現在幾點？'},{speaker:'player',text:'{name}看了一下手機，告訴她時間。'},{speaker:'heroine_03',expression:'tired',text:'她又遲到了。高中同學，每次都這樣。'},{choice:[{text:'「要不要先進去等？裡面有冷氣。」',consequences:{rel:{heroine_03:{fam:4,comf:3}}}},{text:'「妳是社會系的？我好像在三樓看過妳。」',consequences:{rel:{heroine_03:{fam:5}},mem:[{npc:'heroine_03',tag:'PLAYER_ASKED_QUESTION'}]}},{text:'（點個頭就走）',consequences:{rel:{heroine_03:{fam:1}}}}]},{speaker:'heroine_03',expression:'smile',text:'陳語彤。……你是法律系的吧。你們系的人走路都很快。'} ], despawn:30, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='idle'; n.talk=null; } } },
+  /* AA_313 4-4：那行是旁白（原本 speaker:'player'，對話框會變成「祐廷：祐廷看了一下手機……」）；選「點個頭就走」直接結束、不記 FIRST_MET（noMeet：開場不替她記認識，
+     另外兩個選項才 meet、接她的自我介紹）——之後還能在雨天的總圖門口、麵店第一次認識她 */
+  { id:'ev_library_door_phone', title:'總圖門口', participants:['heroine_03'], noMeet:['heroine_03'], location:'campus', near:{x:81,z:0,r:6}, trigger:'auto', time:[17,22], not_weather:'rain', day_min:3, once:true, random_weight:20, prereq:{notMemory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, spawn:{npc:'heroine_03',at:{x:79.5,z:3.2},pose:'idle'}, background:'blur',
+    dialogue:[ {speaker:null,text:'總圖門口有個女生一直在看手機，看一眼、收起來、再看一眼。'},{speaker:'heroine_03',expression:'neutral',text:'……不好意思，現在幾點？'},{speaker:null,text:'你看了一下手機，告訴她時間。'},{speaker:'heroine_03',expression:'tired',text:'她又遲到了。高中同學，每次都這樣。'},{choice:[{text:'「要不要先進去等？裡面有冷氣。」',consequences:{meet:'heroine_03',rel:{heroine_03:{fam:4,comf:3}}}},{text:'「妳是社會系的？我好像在三樓看過妳。」',consequences:{meet:'heroine_03',rel:{heroine_03:{fam:5}},mem:[{npc:'heroine_03',tag:'PLAYER_ASKED_QUESTION'}]}},{text:'（點個頭就走）',consequences:{rel:{heroine_03:{fam:1}}},end:true}]},{speaker:'heroine_03',expression:'smile',text:'陳語彤。……你是法律系的吧。你們系的人走路都很快。'} ], despawn:30, after:(G,GM,npcs)=>{ const n=npcs[0]; if(n){ n.beh='idle'; n.talk=null; } } },
   // 麵店：語彤在幫忙（她阿姨的店）
   /* 語彤的聯絡方式（AA_70 第 2 節、AA_124 1-7，第②級，2026-10-14）：雨天的總圖門口之後，在麵店遇到她（AA_11 事件 2）——她把手機推過來：「傘的事。……你的聯絡方式。」
      雨天把傘給她（HELPED）：「我還你傘的時候要找你。」（她三年都沒還）；其他：「下次下雨的時候找你。」。沒有雨天、已經有聯絡方式的不說（錯過的到「有點熟」可以當面交換）。
@@ -470,7 +473,7 @@ const STORY_EVENTS=[
   /* 沛珊 P2：為什麼念法律（BB_95 第 2-8 節完整版；使用者 2026-10-14 解除大一上交接包暫緩、AA 轉達）：只發生一次（once）；第一個選項換成 BB 寫好的（祐廷念法律是自己選的）；結尾不再用模板句、三個分支各說一次；週三晚上在萬才館（讀書會那天）才提讀書會。三個選項的數值、選項三的記憶照舊（記憶的備註照 BB_95 改成「她在想別的路」）*/
   { id:'ev_peishan_doubt', title:'為什麼念法律', participants:['classmate_peishan'], location:['library','wancai','campus'], trigger:'interact', priority:4, once:true, cooldown_days:3, background:'blur', minWeek:{term:'Y1S1',week:6},   /* BB_170 第 10 列：第 6 週起（BB_95 一覽表）；沒去宿營的玩家這裡是認識她的備用入口 */
     dialogue:[ {unless:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},speaker:'classmate_peishan',expression:'neutral',text:'郭沛珊。'},{speaker:'classmate_peishan',expression:'thinking',text:'欸，你為什麼會來念法律？我是說，除了考上以外。'},{choice:[{text:'「我想知道事情『應該』怎麼處理。」',consequences:{rel:{classmate_peishan:{fam:3,comf:3}}},goto:'should'},{text:'「想幫人。」',consequences:{rel:{classmate_peishan:{fam:3,resp:2}}},goto:'help'},{text:'「妳呢？」',consequences:{rel:{classmate_peishan:{fam:4,trust:3}},mem:[{npc:'classmate_peishan',tag:'IMPORTANT_CONVERSATION',note:'她在想別的路'}]},goto:'her'}]},{label:'should'},{speaker:'classmate_peishan',expression:'thinking',text:'應該。'},{text:'她重複一次。'},{speaker:'classmate_peishan',expression:'smile',text:'我喜歡這個詞。……可是我常常想，是誰說的應該。'},{goto:'end'},{label:'help'},{speaker:'classmate_peishan',expression:'thinking',text:'我以前也這樣說。後來發現想幫人的方法很多，不一定要背條文。'},{goto:'end'},{label:'her'},{unless:{custom:G=>PS_DOUBT_Y1S2(G)||PS_DOUBT_Y2(G)},speaker:'classmate_peishan',expression:'thinking',text:'我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。'},{if:{custom:PS_DOUBT_Y1S2},speaker:'classmate_peishan',expression:'thinking',text:'我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這半年都自在。'},{if:{custom:PS_DOUBT_Y2},speaker:'classmate_peishan',expression:'thinking',text:'我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一年多都自在。'},{speaker:'classmate_peishan',expression:'neutral',text:'……我還沒跟家裡說。'},{text:'她停了一下。'},{speaker:'classmate_peishan',expression:'thinking',text:'好奇怪。講出來以後，聲音比我想的還大。'},{label:'end'},{text:'她把書包背起來。'},{unless:{custom:G=>G.hour%24>=18||G.hour>=24},speaker:'classmate_peishan',expression:'neutral',text:'我要去上課了。'},{if:{custom:G=>G.hour%24>=18||G.hour>=24},speaker:'classmate_peishan',expression:'neutral',text:'我先回去了。'},{speaker:'classmate_peishan',expression:'smile',text:'剛剛那個問題，你想到再跟我說。'} ] },
-  { id:'ev_zhe_dinner', title:'公館吃什麼', participants:['zhe'], location:['campus','gongguan'], trigger:'interact', priority:2, time:[17,20], cooldown_days:1, random_weight:0.7, background:'blur',
+  { id:'ev_zhe_dinner', title:'公館吃什麼', participants:['zhe'], location:['campus','gongguan'], trigger:'interact', priority:2, time:[17,20], cooldown_days:1, random_weight:0.7, background:'blur', term:['Y1S1'], once:true,   /* AA_313 5-3（AA_389 第 6 點：照逐場表）：原本沒有 once、term，四年天天同一句 */
     dialogue:[ {speaker:'zhe',expression:'smile',text:'晚餐吃什麼？我在麵店、滷味、便利商店之間掙扎二十分鐘了。'},{choice:[{text:'「麵店。」',consequences:{rel:{zhe:{fam:2}},mem:[{npc:'zhe',tag:'SHARED_MEAL',note:'一起去麵店'}],goal:'公館 阿鳳麵店'}},{text:'「我還有東西要讀，下次。」',consequences:{rel:{zhe:{fam:0}},mem:[{npc:'zhe',tag:'DECLINED_INVITE'}]}},{text:'「便利商店，快。」',consequences:{rel:{zhe:{fam:1}}}}]},{speaker:'zhe',expression:'laugh',text:'好啦。走。'} ] },
   { id:'ev_mingxuan_ball', title:'系籃', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:3, once:true, term:['Y1S1'], cooldown_days:2, background:'blur', minWeek:{term:'Y1S1',week:2}, prereq:{flags:['classDone']},   /* BB_170 第 17 列：9/4 民總以後（「他說你上課很敢講」）、第 2 週起。AA_372 第 3 項：只演一次、限大一上（原本每 2 天「欸，宿營兩人三腳那個…」）*/
     dialogue:[ {if:{flags:['MX_CAMP_PAIR']},speaker:'classmate_mingxuan',expression:'smile',text:'欸，宿營兩人三腳那個。你也來打球喔？'},{if:{custom:G=>!!G.flags.CAMP_Y1&&!G.flags.MX_CAMP_PAIR},speaker:'classmate_mingxuan',expression:'smile',text:'欸，你也來打球喔？'},   /* AA_205 6-14⑧：新局宿營同隊三天、兩人三腳沒和他一組 */
@@ -613,7 +616,7 @@ const STORY_EVENTS=[
   { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',   /* A14（AA_195 4-7）：第 2～5 週（舊局的第 2 週在第 1 天以前，等於照舊）*/
     prereq:{flags:['met_yu'],custom:G=>G.flags.metYuDay==null||G.flags.metYuDay<G.day},
     dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……太安靜了。我不喜歡安靜。'},
-      {speaker:'yu',expression:'smile',text:'對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'},
+      {speaker:'yu',expression:'smile',text:'對了，你都這麼早經過喔？我是板橋的車太早到。'},   /* AA_313 5-4：第一次見面剛推過三個社團，這裡不再推一次（選項「三個社團不會累嗎？」照留）*/
       {choice:[{text:'（坐下來一起吃）',consequences:{mem:[{npc:'yu',tag:'BREAKFAST_YU',note:''}],flags:{YU_CLUB_INVITE:true},advance:0.25},goto:'sit'},{text:'「我上課要遲到了。」',goto:'rush'},{text:'「三個社團不會累嗎？」',goto:'tired'}]},
       {label:'sit'},{speaker:null,text:'她講了十五分鐘，關於三個社團。'},{unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'yu')},speaker:'yu',expression:'smile',text:'欸你有沒有群組？沒有？我拉你。',consequences:{contact:'yu'}},{speaker:'yu',expression:'smile',text:'明天你也會經過嗎？'},{goto:'end'},   /* 聯絡方式的劇情時刻（AA_124 1-7、AA_70 2-4）*/
       {label:'rush'},{speaker:'yu',expression:'smile',text:'喔，好！'},{speaker:null,text:'她揮手。等你走遠，她把耳機戴上。'},{goto:'end'},
@@ -645,7 +648,7 @@ const STORY_EVENTS=[
      她說把你寫進她那組了；記同一個 REPORT_PARTNER（備註 assigned_absent）＋REPORT_PARTNER_LATE，後面讀 REPORT_PARTNER 的事件照常接。分組是事實、不是玩家經歷的場面（R4）*/
   { id:'ev_an_report_split_late', title:'民總的報告（分組那天你沒來）', participants:['heroine_01'], location:['classroom','library','library_hall'], trigger:'auto', near:{npc:'heroine_01',r:5}, term:['Y1S1'], weeks:[6,7,8,9,10,11,12,13,14,15], once:true, keep:'must', background:'blur',
     prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_split'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。……不用謝。理由：剩下的人裡，你最不會遲交。'} ],
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。……不用謝。剩下的人裡，你最不會遲交。'} ],
     consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'分組那天沒來，以安把你寫進她那組'}],flags:{REPORT_PARTNER_LATE:'assigned_absent'}} },
   { id:'ev_welcome_y1s1', title:'迎新', participants:['classmate_peishan'], location:'campus', trigger:'activity', once:true, background:'blur',   /* 不寫 term：8/31 在大一上開學前（AA_310），日期由 activities.js welcome_y1s1 管 */
     dialogue:[ {speaker:null,text:'星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'},   /* AA_310 第 1 節：8/31（日）上午 */
@@ -653,15 +656,16 @@ const STORY_EVENTS=[
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)&&STORY.knows('classmate_bohan',G)},speaker:'classmate_bohan',expression:'neutral',text:'（小聲）她剛剛講了四個。'},
       {speaker:null,text:'輪到你。'},
       {choice:[{text:'「我叫{name}，臺北人。」',goto:'game'},{text:'「我比大家大一歲。」',goto:'older'},{text:'「我二十歲。念過經濟系，一個多月。」',goto:'econ'}]},
-      {label:'older'},{speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{goto:'game'},
-      {label:'econ'},{set:{ECON_PAST_SHARED:'full'}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過經濟系'}]},
-      {speaker:null,text:'全場「喔——」。'},{speaker:'zhe',expression:'laugh',text:'哥！'},
+      /* AA_313 5-3、5-4：說了「哥」就記 ZHE_CALLS_GE（之後阿哲照這個叫）；還不認識阿哲、Alison 的（8/31 迎新在宿營、開學以前）說話的人寫「旁邊一個男生」「前面一個女生」*/
+      {label:'older'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'laugh',text:'那我們叫你哥？'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{set:{ZHE_CALLS_GE:true}},{goto:'game'},
+      {label:'econ'},{set:{ECON_PAST_SHARED:'full',ZHE_CALLS_GE:true}},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','FIRST_MET')},mem:[{npc:'heroine_01',tag:'KNOWS_ECON_YEAR',note:'迎新的自我介紹：你說念過經濟系'}]},
+      {speaker:null,text:'全場「喔——」。'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'laugh',text:'哥！'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'哥！'},
       /* 「為什麼重考？」（AA_224 2-c；AA-C 2026-10-17 Q3）：宿營夜談沒問過的（WHY_RETAKE_ASKED），Alison 補問一次；選「大一歲」不問 */
       {if:{flags:['WHY_RETAKE_ASKED']},goto:'game'},
-      {speaker:'yu',expression:'neutral',text:'欸，為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
+      {if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'欸，為什麼重考？'},{unless:EV_KNOWS('yu'),speaker:'前面一個女生',text:'欸，為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
       {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
-      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'yu',expression:'neutral',text:'好，懂了。'},{goto:'game'},
-      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',expression:'neutral',text:'差四分喔……那真的很煩。'},
+      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{if:EV_KNOWS('yu'),speaker:'yu',expression:'neutral',text:'好，懂了。'},{unless:EV_KNOWS('yu'),speaker:'前面一個女生',text:'好，懂了。'},{goto:'game'},
+      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{if:EV_KNOWS('zhe'),speaker:'zhe',expression:'neutral',text:'差四分喔……那真的很煩。'},{unless:EV_KNOWS('zhe'),speaker:'旁邊一個男生',text:'差四分喔……那真的很煩。'},
       {label:'game'},{speaker:null,text:'大地遊戲，你和沛珊同一組。最後一關：用一句話說為什麼念法律。'},
       {speaker:'classmate_peishan',expression:'neutral',text:'我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？'},
       {choice:[{text:'（替她答）「她想知道法律外面還有什麼。」',goto:'answer'},{text:'「我也還在找。」',goto:'search'}]},
@@ -1307,7 +1311,7 @@ const STORY_EVENTS=[
       {pick:{flag:'XMAS_TO',from:G=>XMAS_HERE(G)}},
       {if:{flagIs:{XMAS_TO:'heroine_01'}},speaker:null,text:'抽到你禮物的是以安。'},
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'notebook'}},speaker:'heroine_01',expression:'smile',text:'剛好。我的快用完了。'},
-      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我不太喝咖啡。……開學以後會用到。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我在 Café 都點茶。……開學以後會用到。謝謝。'},   /* AA_313 4-3：她每天下午在 Café 讀書，不說「不太喝咖啡」*/
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字很工整。我收著。'},
       {if:{flagIs:{XMAS_TO:'heroine_03'}},speaker:null,text:'抽到你禮物的是語彤。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},speaker:'heroine_03',expression:'neutral',text:'嗯。……我還不知道要寫什麼。先收著。'},
@@ -1418,12 +1422,13 @@ const STORY_EVENTS=[
       {choice:[{text:'「一起去。」',goto:'go'},{text:'「我先回去了。」',goto:'home'}]},
       {label:'home'},{speaker:'zhe',text:'好，新年快樂！'},{set:{NYE_Y1:'dinner',NYE_DONE:'dinner'}},{goto:'end'},
       {label:'go'},
-      {if:{custom:G=>!NYE_AN(G)},speaker:'heroine_01',text:'我先回宿舍了。新年快樂。'},   /* 以安 FRIEND 以上才一起去（1-5）*/
+      {if:{custom:G=>!NYE_AN(G)},speaker:'heroine_01',text:'我先回宿舍了。新年快樂。'},
+      {if:{custom:G=>NYE_AN(G)},set:{NYE_Y1_AN:true}},   /* 她跟大家一起去信義區（大二頂樓那句看這個，AA_313 4-3）*/   /* 以安 FRIEND 以上才一起去（1-5）*/
       {advance:1.1},{scene:'信義區',bg:'newyear_crowd'},
       {speaker:null,text:'（市府站一出來，人多到走不動。前面拉了管制線，穿背心的工作人員一直在喊：「這邊不能再過去了！」）'},
       {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:null,text:'（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）'},
       {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:'classmate_mingxuan',text:'欸！你們也來喔！'},
-      {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:'classmate_mingxuan',text:'這邊真的過不去了啦 哈哈。……我十二點半下班，你們先走。'},
+      {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:'classmate_mingxuan',text:'這邊真的過不去了啦。……我十二點半下班，你們先走。'},   /* AA_313 5-7：「哈哈」只在訊息 */
       {unless:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:null,text:'（前面的人說，再過去要排一個小時。）'},
       {speaker:'zhe',text:'……回去好了。頂樓也看得到。'},
       {speaker:'yu',text:'看得到嗎？'},
@@ -1449,7 +1454,7 @@ const STORY_EVENTS=[
       {speaker:'yu',text:'好冷！！'},
       {speaker:'zhe',text:'來都來了。'},
       {speaker:null,text:'（沙灘上幾乎沒有人。阿哲把鞋子脫了，踩到水，叫了一聲又跑回來。）'},
-      {speaker:'classmate_bohan',text:'冬天的海大概十八度。'},
+      {speaker:null,text:'（柏翰站在離浪最遠的地方，鞋子拿在手上。）'},   /* AA_313 5-5：同一週柏翰的精確數字太多 */
       {if:{custom:G=>!!G.flags.VA03_AN},speaker:'heroine_01',text:'你的鞋子。被浪捲走一隻了。'},
       {unless:{custom:G=>!!G.flags.VA03_AN},speaker:'yu',text:'欸你的鞋子！！'},
       {speaker:null,text:'（一隻鞋子在浪裡一上一下。）'},
@@ -3315,7 +3320,7 @@ const STORY_EVENTS=[
        那週去過麵店、阿姨說過扭到手（yutong_hospital，大一下事件 4）的玩家第一句換一句；「我那週有注意到妳的位子空著。」只有大一下期中那兩週真的去過總圖才有（Y1_MID_LIB，story3d.js onEnter 記；舊存檔看習慣記錄）*/
   { id:'ev_midterm_walkout_y2', title:'考完試走出教室', participants:[], location:'any', trigger:'class', afterClass:'crim_spec', afterExam:'mid', term:['Y2S1'], once:true, background:'blur',
     dialogue:[ {speaker:'zhe',expression:'neutral',text:'第三題，我寫了一整面。……寫的是第二題的答案。'},
-      {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'大家都考幾分？……我是說，大家覺得考得怎樣。'},
+      {if:EV_KNOWS('classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'大家都考幾分？……不對，大家覺得考得怎樣？'}   /* AA_313 5-5：「……我是說」是全體共用的招 */,
       {if:EV_KNOWS('classmate_xinci'),speaker:'classmate_xinci',expression:'neutral',text:'還沒考完的人在旁邊，小聲一點。'},
       {if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'考完的題目，不要對答案。改不了。'},
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（她自己在手帳上偷偷對了一題）'} ] },
@@ -3380,7 +3385,7 @@ const STORY_EVENTS=[
      第 15 週以後沒遇到＝不演（AA_243 #20：16 週制改第 12～15 週）。記 XINCI_SECOND（慈 4 的背景；主線 4 xc_drama「那部劇大結局了」在這之後）*/
   { id:'ev_xinci_second', title:'第二名', participants:['classmate_xinci'], location:'cvs', trigger:'auto', term:['Y2S1'], weeks:[12,13,14,15], weekday:[1,2,3,4], time:[0.25,0.75], once:true, near:{npc:'classmate_xinci',r:4}, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_xinci',G)},
-    dialogue:[ {speaker:null,text:'（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）'},
+    dialogue:[ {speaker:null,text:'（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）'},{speaker:null,text:'（她背包還背著，手機上是叫車的畫面。）'},   /* AA_313 5-6：她住永和、通勤，半夜在溫州街要交代 */
       {speaker:'classmate_xinci',expression:'neutral',text:'（把手機轉靜音，很鎮定）……這是一部很重要的劇。'},{speaker:'classmate_xinci',expression:'neutral',text:'這是我一天裡唯一不用跟別人比的時間。'},
       {speaker:'classmate_xinci',expression:'thinking',text:'（停了一下）你知道我高中跟沈以安補同一家補習班嗎。她在台中，我在永和。'},
       {speaker:'classmate_xinci',expression:'neutral',text:'聯合模考的排名貼在牆上。她第一，我第二。三年。'},
@@ -3425,11 +3430,11 @@ const STORY_EVENTS=[
      「我接。」只給大一去過法服讀書會 5 次以上的玩家＝STUDYGROUP_LEADER；不說話＝柏翰接（不設）。沒去的：那晚 21:30 讀書會群組她的最後一則（story3d.js）*/
   { id:'ev_peishan_handover', title:'期末前的讀書會', participants:['classmate_peishan'], location:'wancai', trigger:'club', term:['Y2S1'], weeks:[15], weekday:[4], once:true, background:'blur',   /* BB_191 §8-7：公法讀書會（週四）；「我接。」＝大一去公法讀書會 5 次以上。BB_205 第 2 節（64aaaa82）：搬到 2026-12-17（大二上第 15 週週四）*/
     prereq:{memory:[{npc:'classmate_peishan',tag:'FIRST_MET'}]},
-    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下學期的題目，我想換人整理。我一個人出的都太簡單。'},   /* AA_281 第 4 節（使用者 10-18：她什麼都不說，大家放假後才知道她休學）*/{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看祐廷）誰要接？'},
+    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'下學期的題目，我想換人整理。我一個人出的都太簡單。'},   /* AA_281 第 4 節（使用者 10-18：她什麼都不說，大家放假後才知道她休學）*/{speaker:'classmate_peishan',expression:'neutral',text:'每週的題目整理……（看柏翰，又看你）誰要接？'},
       {speaker:'classmate_peishan',expression:'serious',text:'只有一個條件：不要變成比分數的地方。'},
       {choice:[{text:'「我接。」',if:{custom:G=>typeof STORY!=='undefined'&&STORY.plgY1Count&&STORY.plgY1Count(G)>=5},set:{STUDYGROUP_LEADER:true}},{text:'（不說話）'}]} ] },
   /* 柏翰 翰 3 分數表（AA_40、AA_177 第 5 節；柏翰接題目整理的版本）：第二次聚會＝大二下第 2 週週三 3/3 的讀書會，白板上多了一張分數表；可以去找他談，或什麼都不做（都不改變翰 4）。
-     沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：來對題目的人從十二個變五個。祐廷接的版本：3/3 21:00 柏翰在全班群組貼分布圖（story3d.js）*/
+     沒去讀書會＝沒有。一個月後（第 6 週起第一次去讀書會）：來對題目的人從八個變四個。祐廷接的版本：3/3 21:00 柏翰在全班群組貼分布圖（story3d.js）*/
   { id:'ev_bohan_scores', title:'分數表', participants:['classmate_bohan'], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[2], weekday:[4], once:true, background:'blur',   /* 公法讀書會（週四，BB_191 §8-7）*/
     prereq:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}],custom:G=>!G.flags.STUDYGROUP_LEADER},
     dialogue:[ {speaker:null,text:'（白板上多了一張表：每個人上週讀了幾頁。）'}/* AA_375 第 23 項：第 1 週沒有小考 */,{speaker:'classmate_bohan',expression:'neutral',text:'這樣比較有效率。'},{speaker:null,text:'（以安看了白板一眼，沒說話，繼續發講義。）'},   /* AA_222：以安不出聲 */
@@ -3437,7 +3442,7 @@ const STORY_EVENTS=[
       {label:'talk'},{speaker:'classmate_bohan',expression:'neutral',text:'她不來了。這樣大家比較知道自己差多少。'},{label:'end'} ] },   /* AA_255／AA_281 */
   { id:'ev_bohan_scores_month', title:'讀書會', participants:[], location:'wancai', trigger:'club', term:['Y2S2'], weeks:[6,7,8,9,10,11,12,13,14,15], weekday:[4], once:true, background:'blur',
     prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
-    dialogue:[ {speaker:null,text:'（來對題目的人從十二個變五個。）'} ] },
+    dialogue:[ {speaker:null,text:'（來對題目的人從八個變四個。）'} ] },
   /* 沛珊 P4b 在 Café 的那一次（BB_97 4-4、AA_177 第 8 節②）：第 8 週週六 4/17，12:30 她傳「總圖滿了。兩點半，靠窗。」（story3d.js）→ 13:00～15:00 走進 Café 就演；可以錯過。
      只有兩個人的版本（祐廷在和別人交往、她也知道＝小組版，照舊在總圖，沒有這一次）。CG BCG-35 放在她把便條推過來的那一拍 */
   { id:'ev_peishan_cafe_42', title:'今天念了 42 頁', participants:['classmate_peishan'], location:'cafe', trigger:'auto', once:true, term:['Y2S2'], time:[13,15], background:'blur',
@@ -3518,31 +3523,41 @@ const STORY_EVENTS=[
       {label:'score'},{speaker:null,text:'你坐到記分台，今年一次都沒翻錯。'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'（在觀眾席舉起規則手冊）翻分的規則在第十二頁。我標起來了。'},{goto:'end'},
       {label:'water'},{speaker:null,text:'中場你把一箱水搬到場邊。阿哲拿了兩瓶，一瓶丟給明軒：'},{speaker:'zhe',expression:'smile',text:'謝啦。'},   /* AA_374 第 16 項（AA_211 第 151 行、BB_181 #3）：「後勤部長」的前情已經改掉 */
         {speaker:'classmate_mingxuan',expression:'laugh',text:'（接住水）謝啦。'},{speaker:'classmate_mingxuan',expression:'smile',text:'這瓶 CP 值最高。……免費的。'},   /* 明軒（BB_97 4-7，BB-B a3b9d427，AB-59）*/
-      {label:'end'},{speaker:'classmate_mingxuan',expression:'smile',text:'（擦汗）我上場六分鐘，摸到球三次。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'以 CP 值來說，我今天賺很大。'},{set:{Y2_BALL_SEEN:true}} ] },
+      {label:'end'},{speaker:'classmate_mingxuan',expression:'laugh',text:'（擦汗）我上場六分鐘，摸到球三次。……賺很大。'}   /* AA_313 5-1 第 14 點、5-7：一場只用一次「CP 值」*/,{set:{Y2_BALL_SEEN:true}} ] },
   { id:'ev_yu_together', title:'在一起', participants:['yu'], location:'noodle', trigger:'auto', term:['Y2S1'], weekday:[6], time:[18.5,21], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-12-19')&&!!STORY.knows&&STORY.knows('yu',G)}, spawn:{npc:'yu',at:{x:-0.8,z:0.6},pose:'idle'},
     dialogue:[ {speaker:'yu',expression:'embarrassed',text:'（坐到你對面，壓低聲音）欸，跟你說一件事。你不要叫。'},{speaker:'yu',expression:'embarrassed',text:'我跟阿哲在一起了。'},
       {speaker:'yu',expression:'laugh',text:'（看了一眼正在跟阿姨點菜的阿哲）他說「沒事啦，就在一起啊」。哪有人這樣告白的。'},{speaker:'yu',expression:'smile',text:'……可是我覺得很好。以後週二週四，我都有人一起回家了。'},
       {mem:[{npc:'yu',tag:'IMPORTANT_CONVERSATION',note:'系籃賽後的麵店：她和阿哲在一起了'}]},{set:{YU_ZHE_TOLD:'here'}} ] },
-  /* D12（交接包 v3 第 16～18 週；AA_143 1-6～1-8、AA_177 第 6 節的日子）：聖誕交換禮物 12/24（四）12:20 霖澤館一樓（12/25 放假；AA_177 改成中午，晚上是可昕排的行程，不衝突）、
+  /* 語 3 沒去系籃、麵店的人（AA_313 5-1 第 4 點）：12/19 22:00 Alison 打電話來（接起來）；沒接＝麵店團群組阿哲的照片 */
+  { id:'ev_yu_together_call', title:'Alison 的電話', participants:['yu'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
+    outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')){ G.flags.YU_ZHE_TOLD=G.flags.YU_ZHE_TOLD||'photo'; PHONE.at(G,q.day,22.25,[{th:'g:noodle_team',from:'zhe',text:'📷（麵店的長桌。Alison 比了一個 YA。）'}],'y2_yu_told'); } },
+    dialogue:[ {scene:'電話'}, {speaker:null,text:'（電話。她那邊很吵，有人在唱歌。）'},
+      {speaker:'yu',text:'欸欸欸你今天怎麼沒來！'},{speaker:'yu',text:'……跟你說一件事。我跟阿哲在一起了。'},{speaker:'yu',text:'你不要笑。我聽得到。'},
+      {choice:[{text:'「恭喜。」',goto:'a'},{text:'「我早就知道了。」',goto:'b'}]},
+      {label:'a'},{speaker:'yu',text:'謝謝！！……阿哲在旁邊，他叫你明天來麵店。'},{goto:'end'},
+      {label:'b'},{speaker:'yu',text:'騙人。……你真的知道？'},
+      {label:'end'},{mem:[{npc:'yu',tag:'IMPORTANT_CONVERSATION',note:'她打電話來：她和阿哲在一起了'}]},{set:{YU_ZHE_TOLD:'call'}} ] },
+  /* D12（交接包 v3 第 16～18 週；AA_143 1-6～1-8、AA_177 第 6 節的日子）：聖誕交換禮物 12/17（四）12:20 霖澤館一樓（AA_313 第 4-1 節第 8 點：原本 12/24＝第 16 週期末考週，提早一週；AA_177 改成中午，晚上是可昕排的行程，不衝突）、
      跨年 12/31（四）23:50 宿舍頂樓十分鐘、期末最後一頓（最後一科考完那天 19:00 麵店）。邀約、出發選單、沒去的照片在 story3d.js（v3 群戲那張表）。
      聖誕：阿哲和 Alison 第一次一起出現、買了一樣的保溫杯；祐廷抽到的禮物看抽到誰（在場、認識的人隨機一位）*/
   { id:'ev_y2_xmas', title:'聖誕交換禮物（大二）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'霖澤館一樓'},
-      {if:EV_KNOWS('yu'),speaker:null,text:'（阿哲和 Alison 一起來。）'},
+      {if:EV_KNOWS('yu'),speaker:null,text:'（阿哲先到。五分鐘後 Alison 也到了。）'},   /* AA_313 5-3（AA_389 第 6 點：照逐場表）：改 12/17 以後他們 12/19 才在一起——還沒在一起、剛好買一樣 */
       {speaker:'拆到的人',text:'……為什麼有兩個一樣的保溫杯？'},{if:EV_KNOWS('yu'),speaker:'阿哲、Alison',text:'不是我們。'},{unless:EV_KNOWS('yu'),speaker:'zhe',expression:'laugh',text:'不是我們。'},
       {pick:{flag:'Y2_XMAS_FROM',from:G=>{ const k=id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G); return ['heroine_01','heroine_03','classmate_xinci','classmate_bohan','zhe'].filter(k); }}},
-      {if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的：一本空白手帳。'},{if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'smile',text:'理由欄是空的。給你自己寫。'},
+      {if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的：一本空白手帳。'},{if:{flagIs:{Y2_XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'smile',text:'跟我用的同一款。你不用寫得很整齊。'},   /* AA_313 4-3（理由欄不當收尾小句）*/
       {if:{flagIs:{Y2_XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的：一包阿姨的滷包。'},
       {if:{flagIs:{Y2_XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的：一組螢光筆。'},
       {if:{flagIs:{Y2_XMAS_FROM:'classmate_bohan'}},speaker:null,text:'你抽到柏翰的：考古題索引卡。'},
-      {if:{flagIs:{Y2_XMAS_FROM:'zhe'}},speaker:null,text:'你抽到阿哲的：一個保溫杯。'} ] },   /* AA_374 第 15 項（AA_211 4-4）：不認識 Alison 的也聽得懂 */
+      {if:{custom:G=>G.flags.Y2_XMAS_FROM==='zhe'&&!(typeof STORY!=='undefined'&&STORY.knows&&STORY.knows('yu',G))},speaker:null,text:'你抽到阿哲的：一個保溫杯。'},
+      {if:{custom:G=>G.flags.Y2_XMAS_FROM==='zhe'&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('yu',G)},speaker:null,text:'你抽到阿哲的：一個保溫杯。Alison 送的那個，一模一樣。'} ] },   /* AA_374 第 15 項（AA_211 4-4）：不認識 Alison 的也聽得懂 */
   /* 跨年大二（AA_210 第 1 節＋第 5 節，AA-C 881ed505；16 週制 12/31 在寒假第 4 天）：23:30 頂樓，人少了兩個（阿哲和 Alison 去信義區）；以安 FRIEND 以上（交往中一定）在場；
      「新年快樂。」／（拍一張傳到群組）＝NYE_Y2_PHOTO；00:10 散；和以安交往中：下樓那段（1-6）。記 NYE_Y2＝'roof'，在場的人熟悉 +1 */
   { id:'ev_y2_newyear', title:'跨年（大二）', participants:[], location:'any', trigger:'outing', once:true, background:'dorm_roof', hours:40/60,
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},{speaker:null,text:'（十一點半。頂樓只有幾個人。）'},
       {speaker:'classmate_bohan',text:'樓梯間的燈壞了，下去的時候小心。'},
-      {if:{custom:G=>NYE_AN(G)},speaker:'heroine_01',text:'去年這時候還在捷運上。'},{if:{custom:G=>NYE_AN(G)},speaker:'classmate_bohan',text:'今年不用擠。'},
+      {if:{custom:G=>NYE_AN(G)&&NYE_Y1_MRT(G)},speaker:'heroine_01',text:'去年這時候還在捷運上。'},{if:{custom:G=>NYE_AN(G)&&!NYE_Y1_MRT(G)},speaker:'heroine_01',text:'今年風比較小。'},{if:{custom:G=>NYE_AN(G)},speaker:'classmate_bohan',text:'今年不用擠。'},   /* AA_313 4-3：「還在捷運上」只給大一走「一起去信義區」那條、而且她也在的人（NYE_Y1_MRT）；直接上頂樓、去年她不在的換「今年風比較小。」*/
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[2]==='video'},speaker:null,text:'（十一點五十九分，手機響了。可昕打視訊來。）'},   /* 可昕交往中、選了頂樓（AA_210 5-2 視訊〔在頂樓〕）*/
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[2]==='video'},speaker:'kexin',expression:'smile',text:'讓我看一下頂樓。'},
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[2]==='video'},speaker:null,text:'（她那邊的煙火聲，比畫面慢了一秒。）'},   /* AA_313 第 2 節第 37 列：頂樓版不要連著兩次「零點」的旁白（群戲那句照留）*/
@@ -3555,7 +3570,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'classmate_bohan',text:'我回去了。'},{if:{custom:G=>NYE_AN(G)},speaker:'heroine_01',text:'我也回去了。'},
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:null,text:'（樓梯間的燈還是壞的。柏翰走在前面，已經轉過彎了。）'},
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'……手給我。'},
-      {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'看不到台階。這是安全上的考量。'},
+      {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:'heroine_01',text:'看不到台階。……你走慢一點。'},   /* AA_313 4-3 */
       {if:{custom:G=>!!G.flags.dating_heroine_01},speaker:null,text:'（一直走到你住的那一層，她才放開。）'},
       {set:{NYE_Y2:'roof'}},{rel:{classmate_bohan:{fam:1}}},{if:{custom:G=>NYE_AN(G)},rel:{heroine_01:{fam:1}}} ],
     consequences:{memo:'跨年：宿舍頂樓（大二）'} },
@@ -3644,14 +3659,15 @@ const STORY_EVENTS=[
       {label:'end'} ] },
   { id:'ev_y3_newyear', title:'跨年（大三）', participants:[], location:'any', trigger:'outing', once:true, background:'dorm_roof', hours:40/60,
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},{speaker:null,text:'（十一點半。阿哲和 Alison 已經在了，地上放著一袋鹹酥雞。）'},
-      {speaker:'yu',text:'以安，妳行李收了嗎？'},{speaker:'heroine_01',text:'還沒。三月才走。'},{speaker:'yu',text:'那也快了耶。'},{speaker:'heroine_01',text:'嗯。我列了一張清單，還沒開始收。'},
+      /* AA_313 5-6：以安、芯慈的句子要認識才有（大一跨年的 NYE_AN、NYE_XC 那樣；芯慈照結尾 rel 的 NYE_XC）*/
+      {if:EV_KNOWS('heroine_01'),speaker:'yu',text:'以安，妳行李收了嗎？'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',text:'還沒。三月才走。'},{if:EV_KNOWS('heroine_01'),speaker:'yu',text:'那也快了耶。'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',text:'嗯。我列了一張清單，還沒開始收。'},
       {if:{custom:G=>G.flags.EXCHANGE_ROUTE==='JP'},speaker:'zhe',text:'你跟以安同一班喔？'},{if:{custom:G=>G.flags.EXCHANGE_ROUTE==='JP'},speaker:'player',text:'對。'},
-      {speaker:null,text:'（十一點五十，芯慈從樓梯間上來，還有點喘。）'},{speaker:'classmate_xinci',text:'捷運好多人。'},
+      {if:{custom:G=>NYE_XC(G)},speaker:null,text:'（十一點五十，芯慈從樓梯間上來，還有點喘。）'},{if:{custom:G=>NYE_XC(G)},speaker:'classmate_xinci',text:'捷運好多人。'},
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:'kexin',expression:'teasing',text:'我數到零就掛。你們繼續。'},
       {speaker:null,text:'（倒數是 Alison 起的頭，數到三，大家才跟上。）'},{speaker:null,text:'（零點。煙火照樣只看得到上半截。鹹酥雞的袋子被風吹得沙沙響。）'},   /* 5-6（d5cf5589）*/
       /* AA_313 第 2 節第 43 列：她的倒數、「新年快樂。」排在群戲零點之後（23:59 打來、「我數到零就掛。你們繼續。」照舊在前）*/
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:null,text:'（她那邊的倒數，晚了一秒。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:'kexin',expression:'smile',text:'新年快樂。'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},set:{KX_NYE_VIDEO_Y3:true}},
-      {speaker:'classmate_xinci',text:'我要趕捷運。'},{unless:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'我也回去了。'},{speaker:'zhe',text:'下禮拜吃飯喔。'},
+      {if:{custom:G=>NYE_XC(G)},speaker:'classmate_xinci',text:'我要趕捷運。'},{if:{custom:G=>!G.flags.dating_heroine_01&&typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('heroine_01',G)},speaker:'heroine_01',text:'我也回去了。'},{speaker:'zhe',text:'下禮拜吃飯喔。'},
       {unless:{flags:['dating_heroine_01']},goto:'y3_end'},
       {speaker:null,text:'（大家下樓以後，她還站在欄杆邊。）'},{speaker:'heroine_01',text:'三月以前，我週末都空著。'},{speaker:'heroine_01',text:'你排一下。'},
       {speaker:null,text:'（她把圍巾拉高，跟你一起下樓。）'},
@@ -3706,6 +3722,10 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'heroine_02',text:'新年快樂。……你那邊八個小時以前就說過了吧。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_02',text:'冷。可是外面好多人，沒那麼冷。'},
       {label:'end'},{speaker:'heroine_02',text:'我要去睡了。你去吃早餐。'},{speaker:null,text:'（畫面停在她揮手的那一格，才斷掉。）'},{set:{ZR_NYE_VIDEO_Y4:true}} ] },
+  /* 和語彤交往中，大三跨年（AA_313 第 4-1 節第 13 點，照大二、大四的格式）：00:01 她打電話來（店裡提早收）*/
+  { id:'ev_yt_nye_call_y3', title:'語彤的電話（大三跨年）', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
+    dialogue:[ {scene:'電話'}, {speaker:null,text:'（電話。她那邊很安靜。）'},{speaker:'heroine_03',text:'……新年快樂。'},{speaker:'heroine_03',text:'店裡今天提早收。阿姨說跨年沒有人吃麵。'},{speaker:'heroine_03',text:'你那邊好吵。……好，你去看。我掛了。'},
+      {set:{YT_NYE_CALL_Y3:true}} ] },
   /* 和語彤交往中（AA_210 1-6）：00:01 她打電話來（收完店回家陪媽媽；在頂樓也可以接）*/
   { id:'ev_yt_nye_call_y2', title:'語彤的電話（大二跨年）', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
     dialogue:[ {scene:'電話'}, {speaker:null,text:'（零點過一分，手機響了。是語彤。）'},{speaker:'heroine_03',text:'新年快樂。'},{speaker:'heroine_03',text:'我媽十點就睡了。我一個人看倒數。'},
@@ -3744,7 +3764,7 @@ const STORY_EVENTS=[
         {label:'L2'},{if:{custom:knows('classmate_bohan')},speaker:null,text:'攤位後面，柏翰抬頭看了你一眼。'},{if:{custom:knows('classmate_bohan')},speaker:'classmate_bohan',text:'……順序對了。'},   /* AA_374 第 6 項：學姊大二起是碩一、不回法服（S.fafuSisHere=false、口氣表 0-3）——拿掉，換大二的法服社長柏翰 */
         {if:{custom:knows('classmate_bohan')},speaker:'classmate_bohan',text:'……這句，是學姊的。'},{goto:'end'},   /* AA_358 2-5（AA-C 2026-10-21 659d9d81）：語彤不進法服（AA_255），換柏翰（法服社員、同一學期接社長）；AA_374 沒提這一句，照留（給 AA 的問題）*/
         /* 吉他社 */
-        {label:'GT'},{if:{custom:knows('yu')},speaker:'yu',text:'欸祐廷你負責發傳單！對了你會彈哪首？……好啦我知道，三個和弦。'},
+        {label:'GT'},{if:{custom:knows('yu')},speaker:'yu',text:'欸{name}你負責發傳單！對了你會彈哪首？……三個和弦也行啦。'}   /* AA_313 5-4（AA_389 第 6 點：照逐場表）：不寫死玩家名字、不用「……好啦我知道」反轉 */,
         {speaker:'新生',text:'學長，完全沒碰過可以嗎？'},{speaker:'player',text:'可以。我去年也是。'},
         {if:{custom:knows('heroine_04')},speaker:'heroine_04',text:'欸不是，新手最好。我到現在，還在新手村。'},{goto:'end'},
         /* 辯論社 */
@@ -3765,7 +3785,7 @@ const STORY_EVENTS=[
      19:15 還沒出發＝沒去，21:30 群組一張照片（story3d.js phoneRules 'y2_first_meal'）。只有認識的人說話 */
   { id:'ev_y2_first_meal', title:'開學第一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:'zhe',text:'大二了，要有學長的樣子。'},{speaker:'zhe',text:'（三秒後）老闆娘，大碗。'},
+      {speaker:'zhe',text:'大二了，要有學長的樣子。'},{speaker:'zhe',text:'（三秒後）阿姨，大碗。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'學長的樣子是大碗嗎？'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:'heroine_01',text:'（翻開手帳）這學期的課表，我做了一張大家的。……不是要管你們。是要知道週幾可以一起吃。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:'heroine_03',text:'（端麵過來）……今天的滷蛋，阿姨說多一顆。開學。'},
@@ -3820,7 +3840,7 @@ const STORY_EVENTS=[
         {text:'「還在找怎麼說。但這是我自己選的。」',unless:{custom:G=>WHY_KEY(G)==='own'},set:{MENTOR_WHY:'own'},goto:'why'}]},
       {label:'why'},{speaker:'新生',text:'……學長，那我還有四年可以想。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('zhe',G)},scene:'椰林大道・傅鐘下',bg:'ntu_avenue'},
-      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('zhe',G)},speaker:'zhe',text:'我們這隊的口號是：大碗！'},
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('zhe',G)},speaker:'zhe',text:'我們這隊的口號是：吃飽！'},   /* AA_313 5-3：「大碗」只留大二開學第一頓那一次 */
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('zhe',G)},speaker:'新生',text:'……學長，我們的口號是什麼？'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('zhe',G)},choice:[{text:'「沒有口號。」',set:{MENTOR_SLOGAN:'none'}},{text:'「……也是大碗。」',set:{MENTOR_SLOGAN:'bowl'}}]} ],
     after:(G,GM)=>{ const F=G.flags; F.MENTOR_STYLE={q1:F.MENTOR_STYLE_Q1||null,q2:F.MENTOR_STYLE_Q2||null}; delete F.MENTOR_STYLE_Q1; delete F.MENTOR_STYLE_Q2;
@@ -3959,7 +3979,8 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'prof_xu',expression:'serious',text:'颱風那天來討論的同學，今天坐前面。'} ] },
   { id:'ev_y2_typhoon_kai', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', term:['Y2S1'], time:[21,24], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&!!G.flags.ROOM_Y2},
-    dialogue:[ {phone:'kai',text:'我要過去。'},{phoneMe:'kai',text:'外面在下雨。'},{phone:'kai',text:'宵夜不分颱風。這是我們的週日宵夜。'},{phoneMe:'kai',text:'今天是週一。'},{phone:'kai',text:'颱風天沒有星期幾。'},
+    dialogue:[ {speaker:null,text:'（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）'},   /* AA_313 5-3：大二阿哲、柏翰是 312 的室友，颱風天也在房間 */
+      {phone:'kai',text:'我要過去。'},{phoneMe:'kai',text:'外面在下雨。'},{phone:'kai',text:'宵夜不分颱風。這是我們的週日宵夜。'},{phoneMe:'kai',text:'今天是週一。'},{phone:'kai',text:'颱風天沒有星期幾。'},
       {advance:1/3},{speaker:null,text:'（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）'},
       {choice:[{text:'（遞毛巾）',goto:'a'},{text:'「你可以傳訊息就好。」',goto:'b'},{text:'（拍照傳給方奕廷）',if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},goto:'c'}]},
       {label:'a'},{speaker:'kai',text:'先不要擦我，先擦泡麵。'},{goto:'end'},
@@ -4034,7 +4055,7 @@ const SMALLTALK={
   npc_ta_chen:['「論文寫到第三章。……別問我第四章。」',{t:'「林老師的考題，看判決就對了。」',term:['Y2S2','Y3S1']}],
   prof_zhou:['「有問題可以來研究室。週三下午我都在。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'],   /* AA_120 7-1 第 4 項：那是書不是電影；上過她的課以後 */prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的新聞，每天都有。有興趣可以來研究室聊。」'],
   kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */
-  zhe:[{t:'「系籃週五練球，來坐也可以。」',if:{notFlags:['ball_invite','GRADUATED']}},{t:'「總圖 B1 的冷氣，比去年冷。」',if:{flags:['GRADUATED']}},'「公館那家滷味晚上十點後半價。」'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
+  zhe:[{t:'「系籃週五練球，來坐也可以。」',term:['Y1S1','Y1S2','Y2S1','Y2S2'],if:{notFlags:['ball_invite','GRADUATED']}},{t:'「這季我是隊長。週五你來記分。」',term:['Y3S1','Y3S2','Y4S1','Y4S2'],if:{notFlags:['GRADUATED']}},   /* AA_313 5-3：系籃那句到大二下，大三起他是隊長 */{t:'「總圖 B1 的冷氣，比去年冷。」',if:{flags:['GRADUATED']}},'「公館那家滷味晚上十點後半價。」'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
   yu:[{t:'「辯論社下週辯『網拍標錯價要不要出貨』。」',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'「溫州街的貓你有看到嗎？」'],
   /* AA_120 7-2（使用者 2026-10-13 批准）：20 位不熟同學各三句，整個存檔各只說一次；第 3 句要對方說過心事（SHARED_SECRET）以後。說完以後只點頭或短招呼（story3d.js 的 smallTalk）。台詞【虛構】 */
   pool_1:[{t:'「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」',once:true},{t:'「總圖那一區的推理小說，我大概看完一半了。剩下那一半都被借走。」',once:true},{t:'「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」',once:true,if:{memory:[{npc:'pool_1',tag:'SHARED_SECRET'}]}}],
@@ -4082,7 +4103,7 @@ const STORY_EVENTS_V11=[
       {speaker:'zhe',expression:'smile',text:'欸，不好意思，你知道這附近中午都吃什麼嗎？'},
       {if:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2025-09-01')},speaker:'zhe',expression:'neutral',text:'我高雄上來的，昨天在公館繞了半小時，最後吃便利商店。'},
       {unless:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2025-09-01')},speaker:'zhe',expression:'neutral',text:'我高雄上來的，這幾天中午都在便利商店解決。'},
-      {label:'ask'},{choice:[{text:'「溫州街有一間麵店，便宜，份量也夠。」',consequences:{flags:{ZHE_W1_NOODLE:true}},goto:'noodle'},{text:'「往捷運站那邊走，店比較多。」',goto:'mrt'},{text:'「我也還在找。」',goto:'still'}]},
+      {label:'ask'},{choice:[{text:'「校門對面那排有一間麵店，便宜，份量也夠。」',consequences:{flags:{ZHE_W1_NOODLE:true}},goto:'noodle'},{text:'「往捷運站那邊走，店比較多。」',goto:'mrt'},{text:'「我也還在找。」',goto:'still'}]},
       {label:'noodle'},{speaker:'zhe',expression:'smile',text:'麵店喔，好。在哪？'},{speaker:null,text:'（你跟他講了大概的位置，他打進手機裡。）'},{goto:'name'},
       {label:'mrt'},{speaker:'zhe',expression:'neutral',text:'昨天就是在那邊繞的……好，我再去一次。'},{goto:'name'},
       {label:'still'},{speaker:'zhe',expression:'neutral',text:'好喔，那我中午再問問看別人。'},
@@ -4096,7 +4117,7 @@ const STORY_EVENTS_V11=[
     dialogue:[ {speaker:null,text:'（早上，柏翰的床已經整理好了，人不在。）'},
       {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'哥，你第一堂什麼？'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'欸，你第一堂什麼？'},
       {speaker:'player',text:'憲法。'},{speaker:'zhe',expression:'smile',text:'我也是。一起走。'},{speaker:'zhe',expression:'neutral',text:'中午吃什麼？我這三天都吃便利商店。'},
-      {choice:[{text:'「溫州街有一間麵店，便宜，份量也夠。」',consequences:{flags:{ZHE_W1_NOODLE:true}},goto:'noodle'},{text:'「往捷運站那邊走，店比較多。」',goto:'mrt'},{text:'「我也還在找。」',goto:'still'}]},
+      {choice:[{text:'「校門對面那排有一間麵店，便宜，份量也夠。」',consequences:{flags:{ZHE_W1_NOODLE:true}},goto:'noodle'},{text:'「往捷運站那邊走，店比較多。」',goto:'mrt'},{text:'「我也還在找。」',goto:'still'}]},
       {label:'noodle'},{speaker:'zhe',expression:'smile',text:'麵店喔，好。在哪？'},{speaker:null,text:'（你跟他講了大概的位置，他打進手機裡。）'},{goto:'end'},
       {label:'mrt'},{speaker:'zhe',expression:'neutral',text:'昨天就是在那邊繞的……好，我再去一次。'},{goto:'end'},
       {label:'still'},{speaker:'zhe',expression:'neutral',text:'好喔，那我中午再問問看別人。'},
@@ -4253,10 +4274,10 @@ const STORY_EVENTS_V11=[
     dialogue:[ {speaker:'鄰座的常客',text:'你又在這裡。'} ] },
   { id:'ev_yutong_absent', title:'她今天沒來', term:['Y1S2'], weeks:[8,9], participants:['heroine_03'],   /* 交接包 v2（AA_11 事件 4）：大一下期中這兩週的週二、週四晚上；原因改輕＝阿姨扭到手腕（旗標名 yutong_hospital 不改，相容）；AA_178 ①：阿姨兩句的說話人＝阿姨、只在大一下 */ location:'noodle', trigger:'enter', weekday:[2,4], time:[17.5,20.5], once:true, day_min:8, prereq:{memory:[{npc:'heroine_03',tag:'TALKED_FAMILY'}]}, background:'freeze',
     dialogue:[ {speaker:null,text:'櫃台後面沒有語彤。阿姨右手包著護腕，用左手撈麵。'},{speaker:'阿姨',text:'手扭到了，這禮拜都是她在顧，顧到打烊。今天我叫她先回去睡。'},{unless:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你是她同學喔？她喔，累了也不會講。'},/* AA_209 附錄A §2 */
-      {if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'（看了你一下）你是語彤那個喔。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'她沒跟你講齁。她說講了你一定會跑來幫忙。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你吃你的。不要跟她說是我講的。'},{if:{flags:['dating_heroine_03']},set:{YT_AUNT_KNOWS:true}},   /* 阿姨知道（1B-03 事件 9 讀，AA_316）*/   /* 交往中的版本（AA_11 事件 4，AA-C 2026-10-17 e2bdcece；AA_215／AA_216 大一下 #3：大一就可能交往）*/
+      {if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'（看了你一下）你是語彤那個喔。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'她沒跟你講齁。她說講了你一定會跑來幫忙。'},{if:{flags:['dating_heroine_03']},speaker:'阿姨',text:'你吃你的。她問的話，就說你自己看到的。'},   /* AA_313 4-4（「不要跟別人說」模板的變形）*/{if:{flags:['dating_heroine_03']},set:{YT_AUNT_KNOWS:true}},   /* 阿姨知道（1B-03 事件 9 讀，AA_316）*/   /* 交往中的版本（AA_11 事件 4，AA-C 2026-10-17 e2bdcece；AA_215／AA_216 大一下 #3：大一就可能交往）*/
       {set:{yutong_hospital:true}},{unless:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊'}]},{if:{flags:['dating_heroine_03']},mem:[{npc:'heroine_03',tag:'IMPORTANT_CONVERSATION',note:'阿姨扭到手腕，那週她顧店到打烊；阿姨說她怕你來幫忙'}]} ] },
   { id:'ev_yutong_thanks', title:'圖書館三樓', term:['Y1S2'], participants:['heroine_03'],   /* 交接包 v1：大一下以後才觸發（AA_11 事件 5 延後）；AA_259 第 4 節第 4 點：收到大二上，不要大三才觸發；AA_374 第 9 項：只在大一下（大二上用現在式講不對）、和 ev_yutong_midterm_week 互斥 */ location:'library', trigger:'interact', priority:9, once:true, time:[21,22], prereq:{flags:['yutong_hospital'],notEvents:['ev_yutong_midterm_week']}, background:'blur',   /* AA_178 ②＋AA_177：麵店 21:00 打烊以後、總圖閉館以前（「店收了才來的」）*/
-    dialogue:[ {speaker:'heroine_03',expression:'tired',text:'……阿姨跟你講了吧。'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'neutral',text:'我叫她不要講的。'},{speaker:'heroine_03',expression:'neutral',text:'她每次都這樣。沒事，手腕扭到而已。'},{choice:[{text:'（什麼都不問，把自己的筆記推過去）',consequences:{rel:{heroine_03:{comf:8,trust:5,aff:3}},mem:[{npc:'heroine_03',tag:'HELPED',note:'什麼都沒問，把筆記給她'}]},goto:'notes'},{text:'「妳可以講。我不會跟別人說。」',consequences:{rel:{heroine_03:{trust:6,comf:3}},mem:[{npc:'heroine_03',tag:'TALKED_FAMILY',note:'你說她可以講'}]},goto:'talk'},{text:'「妳看起來很累，回去睡吧。」',consequences:{rel:{heroine_03:{comf:2}}},goto:'sleep'}]},{label:'notes'},{speaker:'heroine_03',expression:'surprised',text:'……'},{speaker:null,text:'（她看了一下，把筆記拉到自己面前。）'},{speaker:'heroine_03',expression:'smile',text:'這頁我抄一下就還你。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'talk'},{speaker:'heroine_03',expression:'sad',text:'講了也沒用啦，她的手又不會比較快好。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'sleep'},{speaker:'heroine_03',expression:'neutral',text:'店收了才來的。這裡比較安靜。'},{label:'end'},
+    dialogue:[ {speaker:'heroine_03',expression:'tired',text:'……阿姨跟你講了吧。'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'neutral',text:'我叫她不要講的。'},{speaker:'heroine_03',expression:'neutral',text:'她每次都這樣。沒事，手腕扭到而已。'},{choice:[{text:'（什麼都不問，把自己的筆記推過去）',consequences:{rel:{heroine_03:{comf:8,trust:5,aff:3}},mem:[{npc:'heroine_03',tag:'HELPED',note:'什麼都沒問，把筆記給她'}]},goto:'notes'},{text:'「妳可以講。講完就算了。」',consequences:{rel:{heroine_03:{trust:6,comf:3}},mem:[{npc:'heroine_03',tag:'TALKED_FAMILY',note:'你說她可以講'}]},goto:'talk'},{text:'「妳看起來很累，回去睡吧。」',consequences:{rel:{heroine_03:{comf:2}}},goto:'sleep'}]},{label:'notes'},{speaker:'heroine_03',expression:'surprised',text:'……'},{speaker:null,text:'（她看了一下，把筆記拉到自己面前。）'},{speaker:'heroine_03',expression:'smile',text:'這頁我抄一下就還你。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'talk'},{speaker:'heroine_03',expression:'sad',text:'講了也沒用啦，她的手又不會比較快好。'},/* AA_209 附錄A §2 */{goto:'end'},{label:'sleep'},{speaker:'heroine_03',expression:'neutral',text:'店收了才來的。這裡比較安靜。'},{label:'end'},
       {if:{flags:['dating_heroine_03']},speaker:null,text:'（她把書推到一邊，趴在桌上。）'},{if:{flags:['dating_heroine_03']},speaker:'heroine_03',expression:'tired',text:'閉館的時候叫我。'} ] },   /* 交往中的版本（AA_11 事件 5，AA-C e2bdcece；AA_216 大一下 #4）*/
   // ── 子晴 arc ──
   { id:'ev_ziqing_gongguan_night', title:'公館的晚上', participants:['heroine_04'], location:'gongguan', trigger:'interact', priority:6, once:true, time:[21,25], term:['Y1S1','Y1S2'], prereq:{memory:[{npc:'heroine_04',tag:'FIRST_MET'}]}, background:'blur',   /* Q3（BB_95 2-7；BB-B 75c1b2b1）：整個事件只一次，之後宵夜不再有拍照 */
@@ -4351,7 +4372,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_prof_lin_after', term:['Y3S1'], title:'下課後', participants:['prof_lin'], location:'classroom', trigger:'interact', priority:6, cooldown_days:6, weekday:[2], time:[11.8,12.6], background:'blur',
     dialogue:[ {speaker:'prof_lin',expression:'smile',text:'「你剛剛那題——」'},{if:{knowledge:[{qid:'Q001',min:'confused'}]},speaker:'prof_lin',expression:'neutral',text:'「很多人第一年都以為刑訴只是抓壞人。等你看過一個無罪判決，就會懂。」'},{legal:{context:'classmate',by:'prof_lin',pick:{prefer:'confused'},quiet:false}},{speaker:'prof_lin',expression:'neutral',text:'「來研究室也可以。週二下午。」'} ], consequences:{prof:{prof_lin:{kind:'office',delta:2,note:'下課後問問題'}}} },
   // ── 同學 ──
-  { id:'ev_zhe_ball', title:'系籃練球', participants:['zhe'], location:'campus', trigger:'interact', priority:5, weekday:[5], time:[16.5,18.5], cooldown_days:6, prereq:{flags:['ball_invite']}, background:'blur',
+  { id:'ev_zhe_ball', title:'系籃練球', participants:['zhe'], location:'campus', trigger:'interact', priority:5, weekday:[5], time:[16.5,18.5], cooldown_days:6, term:['Y1S1','Y1S2'], prereq:{flags:['ball_invite'],custom:G=>{ const l=G.events&&G.events.last&&G.events.last.ev_zhe_ball; if(l==null||typeof CALENDAR==='undefined') return true; const a=CALENDAR.termOf(l), b=CALENDAR.termOf(G.day); return !a||!b||a.id!==b.id; }}, background:'blur',   /* AA_313 5-1 第 3 點＋5-3：只在大一、每學期一次（原本冷卻 6 天、四年每週重演）*/
     dialogue:[ {speaker:'zhe',expression:'smile',text:'來了？明軒在場上等。你當經理，記分。'},{choice:[{text:'「記分可以。」',consequences:{mem:[{npc:'zhe',tag:'STUDIED_TOGETHER',note:'系籃練球（記分）'},{npc:'classmate_mingxuan',tag:'SHARED_CLASS',note:'系籃練球'}],rel:{zhe:{fam:5,comf:4},classmate_mingxuan:{fam:5}},energy:-10,advance:1.5,memo:'去系籃當了一次記分員'}},{text:'「我上場。」',consequences:{mem:[{npc:'zhe',tag:'STUDIED_TOGETHER',note:'系籃練球（上場被電）'}],rel:{zhe:{fam:6,comf:5},classmate_mingxuan:{fam:6,resp:2}},energy:-22,advance:1.5,memo:'系籃練球被電了一小時'}},{text:'「今天不行。」',consequences:{mem:[{npc:'zhe',tag:'DECLINED_INVITE'}]},end:true}]},{speaker:'zhe',expression:'laugh',text:'結束一起吃麵。'} ] },
   { id:'ev_youchen_dj', title:'週五晚上', participants:['classmate_youchen'], location:'gongguan', trigger:'interact', priority:6, weekday:[5], time:[21,26], cooldown_days:6, background:'blur',
     dialogue:[ {unless:{memory:[{npc:'classmate_youchen',tag:'FIRST_MET'}]},speaker:'classmate_youchen',expression:'smile',text:'你……民總同班的？賴宥辰。你大概沒看過我，我通常在睡覺。'},{speaker:'classmate_youchen',expression:'smile',text:'我十一點在巷子裡那間放歌。來嗎？不用錢，法律系的算朋友價。'},{choice:[{text:'「去。」',consequences:{rel:{classmate_youchen:{fam:6,comf:4}},mem:[{npc:'classmate_youchen',tag:'SHARED_MEAL',note:'去聽他放歌'}],energy:-8,advance:2,memo:'去聽宥辰放歌到凌晨'}},{text:'「明天要早起。」',consequences:{rel:{classmate_youchen:{fam:2}}}}]},{speaker:'classmate_youchen',expression:'laugh',text:'考前我就會消失，別找我。'} ] },
@@ -4383,8 +4404,10 @@ const STORY_EVENTS_V11=[
   { id:'ev_forgot_book', title:'忘記還書', retired:true,   /* BUG-BOOK-OVERDUE-1023（使用者 10-23 08:3x「為什麼莫名其妙一直圖書館借書逾期」）：遊戲沒有借書，這一則每 7 天在 3F 閱覽區隨機跳＝沒借過也一直逾期。先關掉；有借書系統再接（問 AA）。ev_book_return 留著，舊存檔欠著的還得掉 */
     participants:[], location:'library', trigger:'enter', day_min:6, cooldown_days:7, random_weight:0.4, background:'freeze', prereq:{custom:G=>!(G.flags&&G.flags.book_overdue)},
     dialogue:[ {speaker:null,text:'櫃台叫住你：「同學，你有一本《民法總則》逾期三天。」'},{choice:[{text:'繳罰款（30 元）',consequences:{money:-30}},{text:'「我明天拿來。」',consequences:{flags:{book_overdue:true},stamp:'book_overdue_day'}}]} ] },
-  { id:'ev_midnight_snack', title:'考前宵夜', participants:['zhe'], location:'dorm', trigger:'enter', weeks:[7,8],   /* AA_195 4-7 A5：期中前（第 7～8 週）；期末前那次等 16 週制（E 類）*/ time:[22,24.5], cooldown_days:5, random_weight:0.5, background:'freeze',
-    dialogue:[ {speaker:null,text:'手機震了一下。阿哲：「宵夜 滷味攤 現在 明軒也在」'},{choice:[{text:'「來了。」',consequences:{mem:[{npc:'zhe',tag:'SHARED_MEAL',note:'考前宵夜'}],rel:{zhe:{fam:3,comf:3}},energy:-6,money:-90,advance:1,memo:'考前跟阿哲他們去吃宵夜'}},{text:'「我明天要上台報告，下次。」',consequences:{rel:{zhe:{fam:0}},mem:[{npc:'zhe',tag:'DECLINED_INVITE',note:'考前宵夜'}]}},{text:'「我晚點去找你們。」',consequences:{rel:{zhe:{fam:1}},advance:0.5}}]} ] },
+  { id:'ev_midnight_snack', title:'考前宵夜', participants:['zhe'], location:'dorm', trigger:'enter', weeks:[7,8], term:['Y1S1','Y1S2'],   /* AA_313 5-1 第 3 點：只在大一（四年都會重演）*/   /* AA_195 4-7 A5：期中前（第 7～8 週）；期末前那次等 16 週制（E 類）*/ time:[22,24.5], cooldown_days:5, random_weight:0.5, background:'freeze',
+    dialogue:[ {speaker:null,text:'手機震了一下。阿哲：「宵夜 滷味攤 現在 明軒也在」'},{choice:[{text:'「來了。」',consequences:{mem:[{npc:'zhe',tag:'SHARED_MEAL',note:'考前宵夜'}],rel:{zhe:{fam:3,comf:3}},energy:-6,money:-90,advance:1,memo:'考前跟阿哲他們去吃宵夜'},goto:'came'},{text:'「我明天要上台報告，下次。」',consequences:{rel:{zhe:{fam:0}},mem:[{npc:'zhe',tag:'DECLINED_INVITE',note:'考前宵夜'}]},goto:'end'},{text:'「我晚點去找你們。」',consequences:{rel:{zhe:{fam:1}},advance:0.5},goto:'end'}]},
+      {label:'came'},{speaker:null,text:'（你們在夜市口站著吃完鹹酥雞，十二點才回宿舍。）'},   /* AA_313 5-1 第 3 點：選「來了。」以後原本什麼都沒有 */
+      {label:'end'} ] },
   { id:'ev_bike_flat', title:'腳踏車沒氣', participants:[], location:'campus', trigger:'enter', day_min:4, cooldown_days:6, random_weight:0.3, time:[7,20], background:'freeze',
     dialogue:[ {speaker:null,text:'腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。'},{choice:[{text:'「校門口有打氣筒。」',consequences:{energy:-1}},{text:'（假裝沒看到）',consequences:{}}]} ] },
   // ── 考試：刑訴小考（第三週起的週二）──

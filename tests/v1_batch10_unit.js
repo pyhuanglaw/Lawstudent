@@ -54,7 +54,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
   { const e=ev('ev_xmas_exchange'); const ok=(grp)=>{ fresh(WED,18.5,'noodle',{}); if(grp) PHONE.join(G,'noodle_team','麵店團'); return EVENTS.check(e); };
     check('A20：事件是出遊（trigger outing），12/24 那天有群組＝可以開始；沒有群組不會',e.trigger==='outing'&&ok(true)&&!ok(false)&&CALENDAR.dateOf(WED).key.endsWith('12-24')); }
   /* ---------- 七個人、三種禮物的反應（AA 原文） ---------- */
-  { const WANT={heroine_01:['剛好。我的快用完了。','我不太喝咖啡。……開學以後會用到。謝謝。','字很工整。我收著。'],heroine_03:['嗯。……我還不知道要寫什麼。先收著。','放店裡好了。阿姨會想喝喝看。','嗯。回去再看。'],   /* AA_204 1-3 改的句子 */
+  { const WANT={heroine_01:['剛好。我的快用完了。','我在 Café 都點茶。……開學以後會用到。謝謝。','字很工整。我收著。'],heroine_03:['嗯。……我還不知道要寫什麼。先收著。','放店裡好了。阿姨會想喝喝看。','嗯。回去再看。'],   /* AA_204 1-3 改的句子 */
       zhe:['好，我拿來寫菜單。','可以配滷味嗎？','你寫這麼多字，我會哭耶。……沒事啦。'],classmate_bohan:['我拿來整理考古題。','下學期很需要。謝謝。','……謝謝。我回去看。'],
       classmate_xinci:['格線的嗎？……空白的也好。謝謝。','追劇的時候剛好。謝謝。','謝謝。你寫好多。'],yu:['我要拿來寫三個社團的行事曆！','我拿去社辦泡給大家喝！','卡片！我要貼在牆上！'],
       classmate_mingxuan:['……我不念書的。','家教的時候喝。謝啦。','卡片喔。……我帶回家。']};

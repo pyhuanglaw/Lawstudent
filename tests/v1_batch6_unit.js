@@ -62,7 +62,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/
     const wds=ps.map(m=>CALENDAR.dateOf(m.day).wd), days=ps.map(m=>m.day);
     const firstNdl=(()=>{ for(let d=W4THU+1;;d++) if(STORY.noodleDay(d)) return d; })();
-    check('A9 之後兩週都沒去：第一個麵店日不揪（上一次是哲 1，有來）；之後每個週二、週四 17:30 阿哲在群組揪，四句輪流（AA 2026-10-14）（週一三五六日沒有、一天一次）',ps.length>=3&&!days.includes(firstNdl)&&ps.every((m,i)=>m.text===['麵店。我揪了。','麵店。我先到。','今天阿姨有滷蛋。','麵店。不用回。'][i%4]&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h,m.text])));
+    check('A9 之後兩週都沒去：第一個麵店日不揪（上一次是哲 1，有來）；之後每個週二、週四 17:30 阿哲在群組揪，四句輪流（AA 2026-10-14）（週一三五六日沒有、一天一次）',ps.length>=3&&!days.includes(firstNdl)&&ps.every((m,i)=>m.text===['麵店 我揪了','麵店 我先到','今天阿姨有滷蛋','麵店 不用回'][i%4]&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h,m.text])));
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
     check('A9 放假的週二、週四不揪'+(holTT.length?'（'+holTT.map(d=>CALENDAR.dateOf(d).key).join('、')+'）':'（這兩週沒有放假的週二四：只檢查上課日）'),holTT.every(d=>!days.includes(d))&&ps.every(m=>CALENDAR.kind(m.day)==='term'));
     /* 每天的手機小事不被例行訊息擋住 */
@@ -76,7 +76,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const at=(day,hour,flags,zone)=>{ fresh(day,hour,zone||'campus',Object.assign({met_yu:true,metYuDay:W4TUE},flags||{})); return EVENTS.check(e); };
     const r={next:at(W4TUE+1,8.6),w3:at(3,8.6,{metYuDay:2}),w5:at(W5THU,9),w6:at(W6MON,8.6),pm:at(W4TUE+1,9.3),notmet:at(W4TUE+1,8.6,{met_yu:false}),oldsave:at(W4TUE+1,8.6,{metYuDay:undefined}),lib:at(W4TUE+1,8.6,{},'library')};   /* AA_156 第 4 節：平日上課前 08:20～09:05（原本 9:30～12:00）*/
     check('A10 第 3～5 週上課前（08:20～09:05）在校園：有（隔天、第 3 週、第 5 週 09:00；舊存檔沒有 metYuDay 也算）；第 6 週、09:18（去上課了）、沒認識、在總圖：沒有',r.next&&r.w3&&r.w5&&r.oldsave&&!r.w6&&!r.pm&&!r.notmet&&!r.lib,JSON.stringify(r));
-    const intro=['欸，你要不要坐？','我一個人吃很怪。……太安靜了。我不喜歡安靜。','對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'];
+    const intro=['欸，你要不要坐？','我一個人吃很怪。……太安靜了。我不喜歡安靜。','對了，你都這麼早經過喔？我是板橋的車太早到。'];   /* AA_313 5-4：第三句不再推社團 */
     for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','欸你有沒有群組？沒有？我拉你。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
       fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); const h0=G.hour; picks=[pick]; await EVENTS.run(e); const L=lines();
       check('A10 選「'+pick+'」：開場三句＋'+JSON.stringify(after)+(mem?'、記憶 BREAKFAST_YU、過了 15 分鐘':'、沒有 BREAKFAST_YU'),JSON.stringify(L)===JSON.stringify(intro.concat(after))&&SOCIAL.has('yu','BREAKFAST_YU')===mem&&(mem?Math.abs(G.hour-h0-0.25)<0.01:G.hour===h0),JSON.stringify({L,h:G.hour})); }

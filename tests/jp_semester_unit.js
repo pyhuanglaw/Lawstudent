@@ -150,7 +150,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-02-22',10,'campus','JP'); phone(); check('J-S11 舊存檔：2/20 退宿那一場沒演到、2/21 以後才讀檔＝直接記退宿（不演），之後住家裡', G.flags.X1_JP===D('2028-02-22')&&G.flags.X1_JP_LATE===true&&S.homeOn(G)); }
   /* ===================== J-S14 該關的 ===================== */
   { const G=inJapan('2028-04-20',18); G.flags.noodleTableDay=D('2027-09-07'); G.flags.ndlTrack0=D('2027-09-07'); G.flags.ndlDays=[]; phone();
-    check('J-S14 人在日本：F.abroad（麵店團阿哲的「麵店。我揪了。」不發）', G.flags.abroad===true&&!th('g:noodle_team').some(t=>/麵店。/.test(t))); }
+    check('J-S14 人在日本：F.abroad（麵店團阿哲的「麵店。我揪了。」不發）', G.flags.abroad===true&&!(G.msgs||[]).some(m=>m.th==='g:noodle_team'&&/^rt_zhe_ndl_/.test(m.tag||''))&&!th('g:noodle_team').some(t=>/^麵店[。 ]/.test(t))); }
   { const G=inJapan('2028-06-11',12.5); phone(); const tw=fresh('2028-06-11',12.5,'dorm','TW'); phone();
     check('J-S14 6/11 暑住的問題：日本路線不問、台灣路線照問', !(G.msgs||[]).some(m=>/暑假住宿/.test(m.text))&&(tw.msgs||[]).some(m=>/暑假住宿/.test(m.text))); }
   { const G=inJapan('2028-07-05',21.5); PHONE.join(G,'law_class','法律系'); phone(); const tw=fresh('2028-07-05',21.5,'dorm','TW'); PHONE.join(tw,'law_class','法律系'); phone();
