@@ -1993,12 +1993,12 @@
   },
   {
    "path": "docs/story_planning/AA_419_芷若在英國_約好的視訊與按鈕句.md",
-   "sha": "81c14898a",
+   "sha": "1b33efe8e",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "VAC-ZR-UK-1017",
    "kind": "text",
-   "note": "src/zr_uk3d.js（65213fe2d，tests/aa419_zr_uk_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+   "note": "src/zr_uk3d.js（65213fe2d，tests/aa419_zr_uk_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）；2026-10-23 20:5x 改到 1b33efe8e（第 4 點表後三列：美國那學期「好。……去吧。」、她先說了再見、修補版吃午餐）"
   },
   {
    "path": "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md",
@@ -2269,6 +2269,24 @@
    "task": "DATE-C4、DATE-C5",
    "kind": "text",
    "note": "第 5 節兩句手動換：jp_events.js G0 行李箱、events.js 大二群戲"
+  },
+  {
+   "path": "docs/story_planning/AA_428_回LAWWW_AA419美國版_AA211九點.md",
+   "sha": "1b33efe8e",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:4x 定稿（D109）",
+   "task": "VAC-ZR-UK-1017、AB65-3-Y2S1-L",
+   "kind": "text",
+   "note": "第 1 節 AA_419 美國版（zr_uk3d.js）；第 2 節 AA_211 九點裁定"
+  },
+  {
+   "path": "docs/story_planning/AA_427_溫州街補字_茶席BB四位_颱風後的早上_早午餐群組.md",
+   "sha": "4d66231ab",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:4x 定稿（D109）",
+   "task": "DL-11",
+   "kind": "text",
+   "note": "茶席 BB 四位＋可昕備用、WZ-P3、麵店團早午餐群組（src/wzlines3d.js 等）"
   }
  ]
 }

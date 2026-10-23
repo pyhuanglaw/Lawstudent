@@ -84,8 +84,8 @@ const ZRUK=(function(){
   S.ASK={q:'明天晚上十點？',yes:'好。',no:'這次不行。',noR:'好。下個月。'};
   /* 祐廷人在美國（2028-09～12，印第安納；AA_419 第 5 節第 4 點）：視訊照她那邊英國週日 15:00（他那邊早上），修補以後的版本也是；六句換 */
   S.usP=(G,d)=>tz(G,d)<=-11;   /* 美國（照 STORY.tzOffset：比臺灣慢 12～13 小時）*/
-  S.US={ask:'明天你那邊早上十點？',mOpen2:'你那邊才早上吧。我這邊剛吃完午餐。',mClose2:'你那邊快中午了。去吃飯。',wOpen2:'你那邊才早上吧。我這邊下午了。',wCloseQ:'你那邊才早上吧。……要去上課了？',sleepT:'要去了。'};
-  S.callH=(G,d,base)=>S.usP(G,d)?15+off(G,d):base;   /* 臺灣時間幾點打：美國那學期＝英國 15:00 */
+  S.US={ask:'明天你那邊早上十點？',mOpen2:'你那邊才早上吧。我這邊剛吃完午餐。',mClose2:'你那邊快中午了。去吃飯。',wOpen2:'你那邊才早上吧。我這邊下午了。',wCloseQ:'你那邊才早上吧。……要去上課了？',sleepT:'要去了。',sleepR:['好。……去吧。',N('（視訊結束。）')],moreN:'（十分鐘以後，她先說了再見。）',fixClose:'你要去吃午餐了吧。……去吧。'};   /* AA_419 第 4 點的表後三列（AA_428 第 1 節，企劃線 1b33efe8e）：他那邊是早上 */
+  S.callH=(G,d,base)=>S.usP(G,d)?(base===17?17:15)+off(G,d):base;   /* 臺灣時間幾點打：美國那學期＝英國 15:00（印第安納 10:00）；修補以後的版本＝英國 17:00（印第安納 12:00，AA_428 第 1 節）*/
   S.MISS={m:'沒接。……下個月見。',w:'沒接。……你在忙吧。',w2:'又沒接。……沒關係。'};
   S.T2={bday:{friend:'謝謝。……你怎麼知道。',close:'謝謝！今天我給自己放假，一個人去看電影。',dating:'謝謝。……晚上視訊的時候再說一次。'},
         newyear:{friend:'新年快樂。你們先跨了。',close:'你們先跨了。……我這邊還有八個小時。新年快樂。',dating:'我這邊還沒。……等一下視訊再說。'}};
@@ -139,10 +139,11 @@ const ZRUK=(function(){
     const sp=S.W[nx.id], say=nx.id==='W12'?(win?sp.winter:sp.summer):sp.say;   /* 冬令又看過 M6 的不會挑到 W12（availW）*/
     R.miss=0; log(R.log,{day:d,ans:'yes',topic:nx.id,fix:!!fix});
     let tail;
-    if(fix&&!us) tail=[Z(S.W_CLOSE.fix)];   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫 */
-    else { const C=S.W_CLOSE; tail=[Z(us?S.US.wCloseQ:S.W_CLOSE_Q),{choice:[{text:'「'+(us?S.US.sleepT:C.sleep.t)+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
-      {label:'zruk_ws'}].concat(C.sleep.r.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true)},{goto:'zruk_we'},{label:'zruk_wt'}],
-      C.more.r.map((t,i)=>typeof t==='string'?Z(t):Object.assign({},t,i===C.more.r.length-1?{advance:1/6}:{})),[{call:g=>S.sleepPick(g,false)},{label:'zruk_we'}]); }
+    if(fix) tail=[Z(us?S.US.fixClose:S.W_CLOSE.fix)];   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫；美國那學期＝英國 17:00、「你要去吃午餐了吧。……去吧。」（AA_428 第 1 節）*/
+    else { const C=S.W_CLOSE, sR=us?S.US.sleepR:C.sleep.r, mR=us?C.more.r.slice(0,-1).concat([N(S.US.moreN)]):C.more.r;   /* 美國那學期：「好。……去吧。」、「她先說了再見」（AA_428 第 1 節）*/
+      tail=[Z(us?S.US.wCloseQ:S.W_CLOSE_Q),{choice:[{text:'「'+(us?S.US.sleepT:C.sleep.t)+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
+      {label:'zruk_ws'}].concat(sR.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true)},{goto:'zruk_we'},{label:'zruk_wt'}],
+      mR.map((t,i)=>typeof t==='string'?Z(t):Object.assign({},t,i===mR.length-1?{advance:1/6}:{})),[{call:g=>S.sleepPick(g,false)},{label:'zruk_we'}]); }
     return [Z(op)].concat(topicLines(say,sp.opts),tail); };
   /* 收尾的選項（BB_119 2-3 裂縫①）：「早點睡。」連兩次＝ZR_CRACK +1、重新算；「再講十分鐘。」重新算 */
   S.sleepPick=function(G,early){ const R=S.rec(G).w; if(!early){ R.sleep=0; return 0; } R.sleep++; if(R.sleep<2) return 0; R.sleep=0;

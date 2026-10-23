@@ -211,6 +211,11 @@ await sec(12,async()=>{ zr('2028-11-05',6,'dating',{EXCHANGE_ROUTE:'US'}); const
   ZRUK.rec(H.G).w.o=0; ZRUK.rec(H.G).w.used=[]; const L1=ZRUK.weekLines(H.G,d,false), L2=ZRUK.weekLines(H.G,d,false), T2=L2.map(x=>x.text||'').join('|'), C2=JSON.stringify(L2);
   check('12. 每週開頭 2：「你那邊才早上吧。我這邊下午了。」',L2[0].text==='你那邊才早上吧。我這邊下午了。',L2[0].text);
   check('12. 收尾「你那邊才早上吧。……要去上課了？」、選項「要去了。」',T2.includes('你那邊才早上吧。……要去上課了？')&&C2.includes('「要去了。」')&&!C2.includes('「早點睡。」'));
+  /* AA_428 第 1 節（企劃線 1b33efe8e，寫回 AA_419 第 4 點的表）：美國那學期的三列 */
+  check('12b. 「要去了。」→「好。……去吧。」（視訊結束。）；「再講十分鐘。」→「（十分鐘以後，她先說了再見。）」；沒有「晚安」',T2.includes('好。……去吧。')&&T2.includes('（十分鐘以後，她先說了再見。）')&&!T2.includes('好。……晚安。')&&!T2.includes('她先說了晚安'),T2);
+  { const LF=ZRUK.weekLines(H.G,d,true), TF=LF.map(x=>x.text||'').join('|'); check('12b. 修補以後的版本（美國）：收尾「你要去吃午餐了吧。……去吧。」、不問、不出選項',LF[LF.length-1].text==='你要去吃午餐了吧。……去吧。'&&!JSON.stringify(LF).includes('choice')&&!TF.includes('要去上課了'),TF);
+    H.G.flags.ZR_WEEKLY_FIX=true; ZRUK.rec(H.G).w.o=0; const pq0=OUT.get(H.G,'zruk_w_2028-11-12'); H.G.day=D('2028-11-12'); H.G.hour=5; rules(); const qf=q0('zruk_w_2028-11-12'); delete H.G.flags.ZR_WEEKLY_FIX;
+    check('12b. 修補以後的時間（美國）：英國 17:00＝印第安納 12:00',!pq0&&!!qf&&qf.h===12&&qf.zr.fix===true,J(qf)); }
   zr('2028-11-04',6,'close',{EXCHANGE_ROUTE:'US'}); rules(); const m=(PHONE.rec(H.G).q.find(x=>x.tag==='zruk_m_ask_2028-11')||{items:[]}).items[0];
   check('12. 每月前一天的私訊：「明天你那邊早上十點？」',!!m&&m.text==='明天你那邊早上十點？',JSON.stringify(m));
   ZRUK.rec(H.G).m.o=1; ZRUK.rec(H.G).m.c=1; const ML=ZRUK.monthLines(H.G,D('2028-11-05')); check('12. 每月開頭 2、收尾 2 換成美國那學期的',ML[0].text==='你那邊才早上吧。我這邊剛吃完午餐。'&&ML[ML.length-1].text==='你那邊快中午了。去吃飯。',JSON.stringify([ML[0],ML[ML.length-1]]));
