@@ -13932,6 +13932,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 16:0x 整合；README：docs/art-rebuild/second_ai/test_shots/linze_5f_1023/README.md；玩家要等 LAWWW 接上進出條件才上得去"
+  },
+  {
+   "id": "DL-LW2-PS31",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "781d692f",
+   "what": "沛珊第三十一版 VRM（只換頭髮）＋遊戲內對照圖",
+   "task": "ART-ZR-PS-3D-1022",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-B 10-23 16:5x 驗收不通過（瀏海仍是平剪蓋額頭；要中分、窗簾瀏海）；不換進開發分支；第三十二版"
   }
  ],
  "ignored": [
