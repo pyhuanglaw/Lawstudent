@@ -339,7 +339,7 @@ async def find_her(pg, cdp, run, sid, picks, zones=READ4, tries=('等到下午',
     for k in range(len(tries) + 1):
         wt = await pg.evaluate(WHERE); z = zone_of(wt); st = await pg.evaluate(STATE)
         say('   %s %s %.2f 她在：「%s」→ %s' % (sid, st['key'], st['h'], wt, z))
-        if z in zones and await quick_go(pg, cdp, z):
+        if z in zones and (st.get('zone') == z or await quick_go(pg, cdp, z)):   # 已經在那一區＝直接走過去（手機「地點」不能前往同一區；BB-B 13:5x：_again 全部沒找到她）
             log = await talk_her(pg, cdp, run, picks, sid)
             if log is not None: return log, wt, z
         if k < len(tries): await skip(pg, cdp, tries[k], sid)
