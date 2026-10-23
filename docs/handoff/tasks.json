@@ -21148,7 +21148,7 @@
    "title": "時段次數規則重新設計（使用者 10-18 06:1x：走來走去不算、做一件事才算；給方案、先不決定，USER_WANTS X19）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -21171,7 +21171,8 @@
      "note": "真正只有使用者能決定的設計"
     }
    ],
-   "note": " 10-23 14:5x BB-B 第 49 項（fff3f8998）NOTES、JUMP、CLASS、OUT、EXAM、EAT PASS；MEET 是存檔前置（補上以後見面照常開始），重跑中。"
+   "note": " 10-23 14:5x BB-B 第 49 項（fff3f8998）NOTES、JUMP、CLASS、OUT、EXAM、EAT PASS；MEET 是存檔前置（補上以後見面照常開始），重跑中。",
+   "evidence": "BB-B 10-23 第 49 項（fff3f8998，Playwright 手機模擬）NOTES、JUMP、CLASS、OUT、EXAM、EAT、MEET 七個情境 PASS（BB_218 14bf450f3）；tests/dl03_slots_unit.js、dl06_trip_unit.js ALL PASS"
   },
   {
    "id": "BUG-E37-TOLAW-1018",
