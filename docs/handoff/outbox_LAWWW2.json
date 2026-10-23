@@ -2564,6 +2564,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "入口我決定：大廳二樓東牆「研究小間」門打開；書庫搭電梯（三部電梯 1F～6F，4F、6F 關）。站位：carrels.spots sis_knock／sis_seat／sis_note／my_door／my_seat；stacks.spots fang／fang_look／ref_plant；interact row_300…row_380、row_j、row_ref"
+  },
+  {
+   "task": "SET-CEREMONY-1023：體育館 3F 主球場的典禮布置（開學典禮 2025-08-31、畢業典禮 2029-06-02；AA_399 第 4 節、A16）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/gym_arena.{glb,json}（重建：只多 SET_CEREMONY_signs、signposts）",
+    "docs/art-rebuild/second_ai/patches/gym_ceremony_1023.patch（gym_layout.js、gym3d.js、tests/gym_ceremony_unit.js；對開發 6f0db4672 apply --check 過）",
+    "tools/blender/env_second/gym_arena.py、textures/gen/arena_sections.png",
+    "docs/art-rebuild/second_ai/test_shots/gym_ceremony_1023/README.md＋截圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；gym_ceremony_unit（新，14 項）、gym_arena_unit、gym_unit ALL PASS（6f0db4672＋patch）；reachability gym,gym_arena ALL PASS（平常的日子；Playwright 手機模擬，不是 iPhone）",
+   "remaining": "兩場典禮 2D 換 3D、放人（LAWWW-B）；典禮那天的瀏覽器 reachability 沒跑（單元測試的引擎模擬走過）；手機效能沒實測",
+   "next": "LAWWW-B 套 patch、換 GLB；劇情照 GYM_LAYOUT.arena.sets.ceremony.spots 放人",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "GY3.ceremonyDay(G)→'open'|'grad'|null；那一整天打開 SET_STAGE＋SET_CEREMONY、z.ceremonyOn、導航擋舞台和椅子區（三條走道留著）、法律學院走道邊 8 個座位可坐；spots me／an／zhe／alison／family×3／entry／aisle"
   }
  ]
 }

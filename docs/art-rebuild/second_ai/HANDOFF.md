@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **21:0x 更新**：
+    - 已交：④ 體育館 3F 典禮布置（本 commit，`test_shots/gym_ceremony_1023/README.md`、`patches/gym_ceremony_1023.patch`，對開發 `6f0db4672` apply --check 過）。
+      - 我的分支的 `src/data/gym_layout.js` 先同步開發分支（我的是舊的），重建 `gym_arena.glb` 前先確認沒改的腳本重建出來一模一樣。
+    - 下一項：⑤ ART-WZ6（AA_420 第 9 節，tasks.json DL-11）→ 二手市集攤位。
   - **20:4x 更新**：
     - 已交：③ 總圖研究小間＋5F 書庫（本 commit，`test_shots/library_upper_1023/README.md`、`patches/library_upper_1023.patch`，對開發 `984ee75f3` apply --check 過）。
       - 遊戲內兩輪截圖修了：掛勾穿到走廊、茶几方塊、天花板燈具從上面看是灰板（改放 WALL_C）、書庫東牆牌子左右相反；08 的門擋路寫進配置（單元測試抓到）。
