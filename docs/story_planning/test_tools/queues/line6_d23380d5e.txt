@@ -3,6 +3,8 @@ sq38 zrlast_probe.py SQ38_KNOW4,SQ38_HELP,SQ38_NO,SQ38_DAYONCE,SQ38_MAX2,SQ38_LA
 sq39a zrlast_probe.py SQ39_SQ01,SQ39_SQ01_CURT,SQ39_SQ01_NONE,SQ39_SQ03
 sq39ar zrlast_probe.py SQ39_SQ03   # BB-B 17:0x：先放到冰菓室窗口旁【捷徑】（負載高走 7 m 逾時）
 sq39br zrlast_probe.py SQ39_SQ08   # BB-B 17:5x：公布欄、象棋、喝茶先放到旁邊【捷徑】
+sq39ar2 zrlast_probe.py SQ39_SQ03   # BB-B 17:5x：zrlast 的 usep 也等互動鈕 20 秒（sq39ar／sq39br 還是舊的 3.2 秒）
+sq39br2 zrlast_probe.py SQ39_SQ08
 sq39b zrlast_probe.py SQ39_SQ02,SQ39_SQ08
 cat40 zrlast_probe.py CAT40_COLD,CAT40_NIGHT_B,CAT40_NIGHT_A,CAT40_STRANGER,CAT40_PHOTO_D,CAT40_PHOTO_F
 loan41a zrlast_probe.py LOAN41_NONE,LOAN41_L1,LOAN41_MAX2,LOAN41_DUE,LOAN41_LATE_LEAVE,LOAN41_LATE_RET

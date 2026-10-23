@@ -1235,6 +1235,10 @@ NWZICE = NEAR('夏日冰菓室的窗口', label='買一碗冰'); NBED = NEAR('�
 for _sc in R5 + B78:   # BB-B 17:0x：負載 25 時走 7 m 也逾時（SQ39_SQ03 515 秒 98 格：走不到冰菓室窗口、後面全沒跑；B7_MSGS 日本房間走不到床、快轉沒開始）→ 先放到旁邊【捷徑】
     if _sc['id'] == 'SQ39_SQ03' and NWZICE not in _sc['steps']: _sc['steps'].insert(_sc['steps'].index(('usep', '^買一碗冰$')), NWZICE)
     if _sc['id'] == 'B7_MSGS' and NBED not in _sc['steps']: _sc['steps'].insert(0, NBED)
+    # BB-B 17:5x：b7b 七個都沒跑到——日本房間走不到床（B7_EVE_*）、等不到時間（REPLY_D 00:52、JPV 22:29，負載 25）
+    if _sc['id'].startswith('B7_') and _sc.get('zone') == 'jp_room' and any(x[0] == 'ffloop' for x in _sc['steps']) and NBED not in _sc['steps']: _sc['steps'].insert(0, NBED)
+    if _sc['id'] in ('B7_REPLY', 'B7_REPLY_D', 'B7_JPV'): _sc['steps'] = [((x[0], x[1], 1500) if x[0] == 'until' and len(x) == 2 else x) for x in _sc['steps']]
+    if _sc['id'] == 'B7_REPLY' and 'LV(\'heroine_05\',65,50,45)' not in _sc['js']: _sc['js'] += " LV('heroine_05',65,50,45);"   # [前置] 晚安要 CLOSE_FRIEND 以上（msg3d.js：stageNum≥4 或交往中）；原本 50/40/35 只到 FRIEND，話題裡本來就沒有晚安
     if _sc['id'] == 'SQ39_SQ08' and NNOTICE not in _sc['steps']:   # BB-B 17:5x：負載 25 走不到公布欄（從溫州街入口 14 m）、涼亭的象棋（20 m）→ 每一次都先放到旁邊【捷徑】
         _st = []
         for _x in _sc['steps']:
@@ -1679,7 +1683,7 @@ async def talkp(pg, cdp, run, who, pref):
     if not p: say('   ⚠ 這裡沒有 %s' % who); bad.append('找不到 %s（不在這個區域）' % who); return False
     if not await L.go_to(pg, cdp, run, p[0], p[1], 1.4, who, max_s=120): say('   ⚠ 走不到 %s' % who); bad.append('走不到 %s' % who); return False
     lab = ''
-    for k in range(4):
+    for k in range(25):   # 同 usep：互動鈕要等下一格（負載 25 時 3 秒以上）
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if '說話' in lab: break
         await pg.wait_for_timeout(800)
@@ -1691,7 +1695,7 @@ async def usep(pg, cdp, run, pat, pref):
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
     if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
     lab = ''
-    for k in range(4):
+    for k in range(25):   # BB-B 10-23 17:5x：負載 25 時一格要 3 秒以上，互動鈕下一格才出來；原本 3.2 秒就按（FOOD51_KX_*、SQ39_SQ03「按鈕「」」什麼都沒買）＝等到 20 秒（us_life_probe 的 use 同一個改法）
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if lab: break
         await pg.wait_for_timeout(800)
