@@ -557,7 +557,7 @@ def apply(m):
                    (20, 47, -0.040, 0.024), (26, 58, -0.050, 0.022), (32, 70, -0.060, 0.020)]   # 最外面兩片的髮尾到 58°、70°：蓋住太陽穴（試做 v31a 左邊太陽穴露出一條皮膚）；越過髮際線的地方不往外移（試做 v31b 移到 28°、35°：正面看頭頂兩側翹出髮片的邊）
         CUR = _json_env('HAIR_CUR', CUR)
         CUR_SYM = float(os.environ.get('HAIR_CUR_SYM', '1.0' if V30 and not V31 else '0'))
-        CUR_AHS = float(os.environ.get('HAIR_CUR_AHS', '1.0'))
+        CUR_AHS = float(os.environ.get('HAIR_CUR_AHS', '2.0'))   # 第三十一版：試做 s（2.0）分線那一側的太陽穴、額角被頭髮蓋住、頭頂兩側沒有多翹出髮片的邊（LAWWW2-B 10-23 遊戲渲染器比過）；試做 r＝1.0
         for sgn_c in (1.0, -1.0):
             for k, (dh_, dt_a, zt, w0) in enumerate(CUR):
                 ah = PART + sgn_c * dh_; at = sgn_c * dt_a if V31 else PART + sgn_c * dt_a
