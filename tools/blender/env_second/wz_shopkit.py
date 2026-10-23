@@ -590,11 +590,12 @@ def _unlit_vc(name):
     for n in list(nt.nodes):
         if n.type != 'OUTPUT_MATERIAL': nt.nodes.remove(n)
     vc = nt.nodes.new('ShaderNodeVertexColor'); vc.layer_name = 'Col'; nt.links.new(vc.outputs['Color'], nt.nodes['Material Output'].inputs['Surface'])
-    m.use_backface_culling = True; return m
+    m.use_backface_culling = False; return m   # 雙面：Mesh.cyl／lathe 的蓋子有的朝內（第一版單面：腳踏車行輪胎的黑色胎面不見了）
 
 
 # 店內（玻璃後面）用的材質：不受場景光。2026-10-23 公館騎樓下第一次試（受光的頂點色＋照深度變暗）：騎樓底下只有環境光，店裡比騎樓還暗、像打烊（10-18 試做立體店內「書店一片黑」也是這個原因）。
 # 真的從騎樓、街上看進開著燈的店，店裡是被店自己的燈照亮的，白天晚上都一樣亮 → 店內的牆、天花板、地板、櫃台、貨架、小道具都畫進 unlit 的頂點色網格，明暗由 _shade_interior 決定
+WARM_T = tuple(c ** 2.2 for c in (1.0, 0.95, 0.86)); COOL_T = tuple(c ** 2.2 for c in (0.98, 0.99, 1.0))   # 燈光的顏色：暖黃（麵店、咖啡、書店…）、白光（便利商店、藥局、洗衣…）
 IN_VC = _unlit_vc('wz_in_shop')   # 名稱 wz_in_ 開頭：遊戲不畫影子（zones3d.js WZ_NO_SHADOW；店在室內，太陽照不到）
 FLOOR_VC = {'f_white': ('#d6d4cd', 0.6, 'tile'), 'f_wood': ('#cdb594', 0.18, 'plank'), 'f_mosaic': ('#a3aba7', 0.3, 'tile'), 'f_granite': ('#a29f9a', 0.6, 'tile'),
             'f_terrazzo': ('#b3a99b', 0.6, 'tile'), 'f_concrete': ('#9c9891', 1.2, 'tile'), 'f_quarry': ('#a8634b', 0.3, 'tile'), 'f_floral': ('#b8ac96', 0.3, 'tile')}
@@ -627,7 +628,7 @@ def _floor_vc(cm, xf, iw, zb, zf, y0, flo, rr):
             if fs[0].normal.z < 0: bmesh.ops.reverse_faces(cm.bm, faces=fs)
 
 
-def _shade_interior(cm, xf, iw, gz, yt, bright=1.0):
+def _shade_interior(cm, xf, iw, gz, yt, bright=1.0, warm=False):
     """店裡的光（2026-10-23）：越裡面越暗、天花板和牆角暗一點、地上的東西底部暗一點。
     原本店裡的牆、櫃台都是接近白色，在遊戲的環境光下和騎樓一樣亮——從街上看像一張貼在玻璃後面的白紙，看不出是室內。
     真的從亮的街上看進店裡，店內比外面暗、越裡面越暗，亮的是燈和冰箱。只改頂點色（店裡的牆、櫃台、貨架），燈、冰箱背板、商品不變"""
@@ -636,16 +637,17 @@ def _shade_interior(cm, xf, iw, gz, yt, bright=1.0):
         for lp in f.loops:
             co = lp.vert.co; gx, gy, gw = co.x, co.z, -co.y
             dx, dz = gx - bx.px, gw - bx.pz; lx = dx * c - dz * s - ox; lz = dx * s + dz * c
-            d = min(1.0, max(0.0, (gz - lz) / DI)); k = 0.95 - 0.2 * d ** 0.85                 # 玻璃後面 0.95 → 後牆 0.75（unlit：這就是畫面上的亮度）
+            d = min(1.0, max(0.0, (gz - lz) / DI)); k = 0.95 - 0.27 * d ** 0.85                # 玻璃後面 0.95 → 後牆 0.68（unlit：頂點色就是畫面上的顏色，再乘遊戲的曝光 1.3）
             if gy > yt - 0.02: k *= 0.86                                                    # 天花板
             k *= 0.9 + 0.1 * min(1.0, max(0.0, (iw / 2 - abs(lx)) / 0.6))                   # 兩側的牆角
             k *= 0.88 + 0.12 * min(1.0, max(0.0, gy - 0.15) / 0.35)                          # 貼地的部分
-            k = (k * bright) ** 2.2; col = lp[cm.col]; lp[cm.col] = (col[0] * k, col[1] * k, col[2] * k, col[3])
+            k = (k * bright) ** 2.2; col = lp[cm.col]; t = WARM_T if warm else COOL_T
+            lp[cm.col] = (col[0] * k * t[0], col[1] * k * t[1], col[2] * k * t[2], col[3])
 
 
-def shallow_interior(spec, xf, iw, gz, ih, bright=0.76):
+def shallow_interior(spec, xf, iw, gz, ih, bright=0.62):
     """玻璃後面的店（深 DI）：地板、牆、天花板、燈，加上每一種店自己的東西。
-    bright：店內（unlit）的整體亮度。曬得到太陽的街（溫州街、118 巷）0.76——1.0 時從大太陽的巷子看進去，白牆比外面還亮、像在發光；公館騎樓底下 1.0"""
+    bright：店內（unlit）的整體亮度（遊戲的曝光 ×1.3 也會乘上去）。曬得到太陽的街（溫州街、118 巷）0.62——第一次 1.0、第二次 0.76，從大太陽的巷子看進去白牆都比外面亮、像在發光；公館騎樓底下 0.85"""
     kind = spec['shop']['type']; pid = spec['id']; y0 = 0.15; yt = ih + 0.15; zb = gz - DI; cm = L.CMesh(f'sk_in_{pid}', IN_VC)   # 2026-10-23：店內不受場景光（unlit），亮度＝頂點色
     cp = lambda col: _CP(cm, col)
     rr = random.Random(sum(ord(c) for c in pid) * 31)
@@ -653,7 +655,7 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.76):
     flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'f_wood', 'books': 'f_wood', 'fruit': 'f_concrete', 'brunch': 'f_wood', 'buffet': 'f_white', 'tea': 'f_white', 'luwei': 'f_concrete', 'pharm': 'f_white', 'records': 'f_terrazzo', 'stationery': 'f_wood'}.get(kind, 'f_white')
     gzf = gz - 0.012                                                                                        # 店內的前緣在玻璃後面 1.2 cm（BUG-WZFLICKER-2：地板、側牆、天花板的前面原本和玻璃同一個平面）
     _floor_vc(cm, xf, iw, zb, gzf, y0, flo, rr)
-    wallc = {'noodle': '#f1e7d6', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e8dcc4', 'books': '#e6dcc8', 'fruit': '#efe8d8', 'brunch': '#f3ede2', 'buffet': '#f2efe8', 'tea': '#f4f2ec', 'luwei': '#efe6d6', 'pharm': '#f4f6f2', 'records': '#e2d6c2', 'stationery': '#efe8da'}.get(kind, '#eeeeea')
+    wallc = {'noodle': '#ecdcc4', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e2d2b4', 'books': '#e0d2b8', 'fruit': '#efe8d8', 'brunch': '#e9dcc4', 'buffet': '#efe6d6', 'tea': '#f4f2ec', 'luwei': '#eadcc6', 'pharm': '#f4f6f2', 'records': '#dccbb0', 'stationery': '#ece2d0'}.get(kind, '#eeeeea')
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
     for sx in (-1, 1): vb(sx * iw / 2 - 0.047, sx * iw / 2 + 0.047, y0, yt, zb, gzf, wallc, r=0)   # 側牆厚 9.4 cm（BUG-WZFLICKER-2：內面原本和店面鋁框的側面同一個平面）
@@ -882,7 +884,7 @@ def shallow_interior(spec, xf, iw, gz, ih, bright=0.76):
         for j in range(int((iw - 1.6) / 0.5)): vb(-iw / 2 + 0.75 + j * 0.5, -iw / 2 + 1.05 + j * 0.5, y0 + 1.85, y0 + 2.25, zb + 0.02, zb + 0.025, '#c0392b', r=0)
     elif kind == 'tea':                                                                                     # 手搖飲（118 巷一一八茶飲）：臨街的點餐櫃台＋後面的工作檯（和公館騎樓的同一套）
         _tea(xf, iw, gzf, zb, cm, pid)
-    _shade_interior(cm, xf, iw, gz, yt, bright)
+    _shade_interior(cm, xf, iw, gz, yt, bright, warm)
     cm.finish(root, uv=False)
 
 
@@ -1131,7 +1133,7 @@ def arcade_front_v2(spec, xf, W, wall):
         a = acc(M['alu']); xf.box(a, -iw / 2 + 0.05, iw / 2 - 0.05, 2.72, 3.0, gz, gz + 0.26)
         for sx in (-1, 1): xf.box(a, sx * (iw / 2 - 0.05) - 0.035, sx * (iw / 2 - 0.05) + 0.035, 0.0, 2.72, gz, gz + 0.08)
     else:
-        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih, bright=1.0)   # 騎樓底下（只有環境光）：店裡要比騎樓亮
+        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih, bright=0.85)   # 騎樓底下（只有環境光）：店裡要比騎樓亮
         else:                                                                                         # 店內景深卡（遊戲畫 TK.interiorTex(店種)，亮的）：立體的淺店內在 3 m 深的騎樓後面白天太暗（試做：書店一片黑）
             face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
             xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
