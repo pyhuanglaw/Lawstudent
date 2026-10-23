@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **19:5x 更新**：
+    - LAWWW-B 19:3x：5F 研究室、AA_413 已整合進開發 `2a672d9a8`（outbox 改 ACTIONED）；佇列 ④ 後面加 ⑤ ART-WZ6（AA_420 第 9 節，tasks.json DL-11：房間六件物件、阿德影印兩種外觀、一盞簷廊貓碗、三家店上班站位）。
+    - ③ AA_399 第 3 節（WIP `68e29bbed`）：`library_upper.py` 兩個區域 library_carrels（研究小間十間，學姊 03／玩家 08）、library_stacks（5F 書庫十排＋參考書）。
+      - 入口我決定：大廳二樓東牆原本關著的「研究小間」門打開；書庫搭電梯（三部電梯都 1F～6F：4F、6F 關、5F 開）。
+      - 測試樹 `$SP/dv3`＝開發 `03b327ded`＋這些修改（`$SP/withserver_dv3.sh`，port 8873）。單元測試 library_upper_unit（新）、library_b1、nav_buildings（兩項電梯樓層的檢查改成 6 層）、guide、placemap、quick_travel、zone_dispose、zone_prewarm ALL PASS。
+      - 窗景已拍（library_carrels、library_stacks，只有遠景一層）。遊戲內截圖拍攝中，之後 reachability、flow_library_floors。
   - **19:2x 更新**：
     - 已交：5F 研究室更正（`fc21db525`，`test_shots/linze_5f_lab8_1023/README.md`）。
     - 已交：AA_413（本 commit，`test_shots/aa413_wz_1023/README.md`、`patches/aa413_wz_1023.patch`，對開發 `dfc49707c` apply --check 過）。
