@@ -43,7 +43,7 @@ const seq=a=>a.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(a[i-1])));
 let doc=''; try{ doc=cp.execSync('git show 38b3c9dd:"docs/story_planning/AA_410_女主角各自喜歡吃的東西.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* 38b3c9dd＝86016b84＋第 4 節補充（缺字、記憶名稱）*/
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-  check('0. 新檔載得到；index.html：loans3d.js → data/food_fav_lines.js → foodfav3d.js → GAME.boot()',ok&&!!X()&&!!FL()&&/loans3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/food_fav_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/foodfav3d\.js\?v=[^"]+"><\/script>\n<script>GAME\.boot\(\);/.test(html),err);
+  check('0. 新檔載得到；index.html：loans3d.js → data/food_fav_lines.js → foodfav3d.js → GAME.boot()',ok&&!!X()&&!!FL()&&/loans3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/food_fav_lines\.js\?v=[^"]+"><\/script>\n<script src="src\/foodfav3d\.js\?v=[^"]+"><\/script>\n(?:<script src="[^"]+"><\/script>\n)*<script>GAME\.boot\(\);/.test(html),err);
   const S4=(doc.split('## 4.')[1]||''), secOf=n=>S4.split('\n- **').filter(x=>x.startsWith(n==='書瑀'?'學姊':n)).join('\n');   /* 第 4 節 4-1：「- **子晴點錯**」那一條底下的字 */
   const WHO={heroine_01:'以安',heroine_03:'語彤',heroine_04:'子晴',heroine_05:'書瑀',classmate_peishan:'沛珊',kexin:'可昕','老闆娘':'老闆娘'};
   const bad=[], all=[]; for(const id of ['heroine_01','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin']){ const o=L(id); for(const k in o){ const v=o[k]; const arrs=k==='wrong'?Object.values(v):[v]; for(const a of arrs){ if(!a) continue; for(const [w,t] of a){ all.push(t); const want=w==null?t:WHO[w]+'：'+t; if(doc.indexOf(want)<0&&!(w!=null&&secOf(WHO[w]).indexOf('「'+t+'」')>=0)) bad.push(want); } } } }   /* 第 4 節的缺字寫成「……」，列在那個人的條目下（secOf）*/

@@ -12379,7 +12379,7 @@
    "title": "BB_105 只有表格一列的 15 件（日文班 G2～G4c、博雅 B6～B13、女舍 D4c～D8）：AA_153 規格骨架已交，台詞等 BB-B",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_153＋BB_137 做進 events.js（共同教學館走廊、博雅、女舍門口）；沛珊 D4c、D5、D6、B13 先照 AA_289 5-4 改依附以安的公法讀書會／還筆記 ｜ AB-05 完成（88337c3d）：AA_153＋BB_137 規格與台詞齊了；大二實作｜【10-18 AA_289 5-4】沛珊的週三讀書會撤了：D4c、D5、D6、B13 改依附以安的公法讀書會／還筆記，動工前照 AA_289 5-4",
    "priority": "P3",
    "first": {
@@ -12401,7 +12401,8 @@
      "evidence": "15 件一列事件只有 B9 交換說明會在（events.js:3203）；日文班 G2～G4c（采蓁、立衡）、博雅 B6～B13、女舍 D4c～D8 在 src 都找不到（grep 采蓁 0 件事件）；規格台詞已齊（AA_153＋BB_137，AB-05 88337c3d）",
      "note": "日文班、博雅、女舍的小事件都還沒做"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 14 件（G2 G3 G4 G4b G4c B6 B8 B10 B10b B13 D4c D5 D6 D8；src/data/bbpack_events.js、src/bbpack3d.js；tests/bbpack_unit.js 123 PASS）；B9 已有（ev_exchange_expo_y2），BB_137 2-3 明軒／采蓁那兩句還沒加進 events.js（LAWWW-B 下一批）。"
   },
   {
    "id": "ART-CH-WEILUN",
@@ -20291,7 +20292,7 @@
    "title": "SK08（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20317,14 +20318,15 @@
      "evidence": "src/ 找不到 SK08（學長用經濟學名詞自我介紹，SOC_GUEST_SENIOR 0 處；只有 E02_WORD 註解說 SK08 會讀，data/events.js:1917）；BB_106 已審（71b3e6c3）",
      "note": "同 V2-SK06"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（bbpack_events.js；Y2S1 第 1 週週三 12:00 私訊、13:00～17:00）。"
   },
   {
    "id": "V3-SK09",
    "title": "SK09（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20350,14 +20352,15 @@
      "evidence": "src/ 找不到 SK09（兩個系的同一題）；BB_106 已審（71b3e6c3）",
      "note": "同 V2-SK06"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（B6 結束接著演；錯過的人收到麵店團群組訊息）。"
   },
   {
    "id": "V3-SK10",
    "title": "SK10（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20383,14 +20386,15 @@
      "evidence": "src/ 找不到 SK10（一題民法換一題微積分）；BB_106 已審（71b3e6c3）",
      "note": "同 V2-SK06"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（第 6、15 週週三 19:00～21:00；記 STUDY_EXCHANGE_RATE，B10 讀）。"
   },
   {
    "id": "V5-SK14",
    "title": "SK14（BB_106，AA_140 排 v5）：從 V0-SK 拆出",
    "area": "V5",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20416,7 +20420,8 @@
      "evidence": "src/ 找不到 SK14（新生的自我介紹，大四上第 1 週）；BB_106 已審（71b3e6c3）；SK11、SK12、SK13 反而已由事件包做掉（y2r2_3d.js:259、r3_events.js:55、r2y3b3d.js:114）",
      "note": "同 V2-SK06"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（美國路線跳過）。"
   },
   {
    "id": "V1-B106-D1D2",
@@ -20491,7 +20496,7 @@
    "title": "BB_105 P5 普通教學館前的舊同學（程式 id 用 ev_putong_oldmate，避開沛珊的 P5）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20517,14 +20522,15 @@
      "evidence": "src/ 找不到 ev_putong_oldmate；BB_105 P5 AA-C 10-18 審過、標可以實作（企劃線 68a8479e 檔頭）；白名單沒有 BB_105",
      "note": "AA 審完、沒人加白名單"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（ev_putong_oldmate：Y2～Y3 每學期一次、平日 12:00～17:30 普通門口 30%、韋綸／品妤／阿勳／唐睿輪流）。"
   },
   {
    "id": "V3-B105-G2",
    "title": "BB_105 日文班 G1、G5、G6、G7、G8、G10（G10 只有日本路線；搜程式排除 AA_13 群戲的 G1／G4～G6）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20550,14 +20556,15 @@
      "evidence": "G10 已由事件包做掉：src/data/r2y3b_events.js:174-176 ev_liheng_japan（2-Y3-35，日本路線）；G1、G5、G6、G7、G8 找不到；日文班三人（采蓁、立衡、宇恆）沒有人物資料與立繪；BB_105 已審（68a8479e）",
      "note": "只做了日本路線那一件"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 G1（日文上第一堂 IN_CLASS，取代第 1 週自我介紹）、G5、G6（日文下第 10 週）、G7（Y2S2 第 10～16 週共同門口 35%，記 LIHENG_TOLD）；G8 只有背景；G10 已有。三位日文班同學沒有進 CHARACTERS（只用名字說話）。"
   },
   {
    "id": "V3-B105-B2",
    "title": "BB_105 博雅 B6b、B6c、B7、B11、B12（搜程式排除 BB_119 的 V6-B*）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20583,7 +20590,8 @@
      "evidence": "B6c 已透過可昕 K11 講座做掉（src/data/r2y3a_events.js:205-217 ev_kexin_lecture_ntu，attended B6c）；B6b、B7、B11、B12 找不到（只有 data/events.js:1053 註解提到 B12 會讀 B5_THOUGHT）；BB_105 已審（68a8479e）",
      "note": "做了一件"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 B7（Y2S2 第 6 週週三 19:00）、B12 一部分（邀約、演講、會後小桌三種版本）；B6c 已有、B11 只有背景；缺：B12 演講裡的三個問題與聽完整場 B4 的版本、B6b 全空（AA 沒台詞，已問 AA）。"
   },
   {
    "id": "V1-B105-D2",
@@ -20624,7 +20632,7 @@
    "title": "BB_110 L4 文學院門口的長椅",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
@@ -20650,7 +20658,8 @@
      "evidence": "src/ 找不到 L4 文學院門口的長椅；BB_110 AA-C 10-18 審過（企劃線 3a26e94a 檔頭：T3、T4、L4 可以實作）；白名單沒有 BB_110",
      "note": "AA 審完、沒人加白名單"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 L4a、L4b、L4c（L4a 三個譯本選項標「第一個／第二個／第三個」，譯本內容沒寫）。"
   },
   {
    "id": "SYS-13-EV",
@@ -26226,7 +26235,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-B 10-23 19:1x】AA_421 第 2 節：不能結案；AA_422（5156f143）、AA_423（26357a44）兩批定稿到了，子代理施工中 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt"
+   "next": "【LAWWW-B 10-23 19:1x】AA_421 第 2 節：不能結案；AA_422（5156f143）、AA_423（26357a44）兩批定稿到了，子代理施工中 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt",
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（src/multirel3d.js MREL、src/data/multirel_lines.js；AA_422@5156f143／AA_423@26357a44／AA_425@310d6cc67，AA_425 優先）：七位的第一次 L3 問句、知情版心意邀約（可昕照 AA_425 拿掉）、發現（含遠距視訊、冠宏版、說溜嘴、坦白以安和沛珊、還有誰）、傳開、同一頁、AA_423 七位的挽回與結果 A～D、第二次冷靜、後續。tests/aa422_multirel_unit.js 174、aa423_multirel_unit.js 129 PASS。還沒有：AA_228 3-4《換我講一件事》與宥辰三場（要插進別人的群戲／hometown3d，PS_CONFESSED 還不會成立）、沛珊台南坦白、五位坦白版（AA 沒台詞）、L2 拒絕（invites）、可昕 E、沛珊 E 重來句、子晴 2028-06 以後第二次冷掉（只有描述）、K12／二十三週年說溜嘴的事件 ID；場景 2D 圖 9 張缺（暗底＋字卡）。已請 AA 補台詞。"
   },
   {
    "id": "BG-3DSHOT-1021",
@@ -28824,7 +28834,7 @@
    "id": "BB106-L389-1022",
    "title": "BB_106 L389（可昕和品妤在社科院門口）還沒做（events.js 1090 行附近）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28846,7 +28856,8 @@
     "spec": "AA_383 第 7 節（企劃線 bc8a1f5d）＋BB_106@71b3e6c3 第 389 行",
     "acceptance": "「我們的日子」選來台大那幾天（K2、K11 不算；到 2028-06；分開的沒有），約好見面前 60～15 分鐘社科院門口走到旁邊才演、整個遊戲一次；沒有 MET_PINYU 插品妤自我介紹並記 MET_PINYU；品妤那天不在學校就不去、留到下一個來台大的日子；兩句不算見面",
     "ack": "ACTIONED"
-   }
+   },
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（ev_kx_pinyu_soc：kx_od_* 在台大的出遊前 60～15 分鐘社科院門口、一輪一次、到 2028-06）。"
   },
   {
    "id": "BUG-SIS-ORAL-SCHED-1022",

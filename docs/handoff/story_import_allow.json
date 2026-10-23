@@ -1150,19 +1150,19 @@
   },
   {
    "path": "docs/story_planning/BB_106_社會科學院與附近教學館_跨學年日常事件.md",
-   "sha": "71b3e6c3",
+   "sha": "3954f9b62",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V2-SK06、V2-SK07、V3-SK08、V3-SK09、V3-SK10、V5-SK14、V1-B106-D1D2、V1-B106-42",
-   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；SK05～SK14、日常 D1／D2、4-2由子代理照這個版本手抄進遊戲"
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；SK05～SK14、日常 D1／D2、4-2由子代理照這個版本手抄進遊戲；2026-10-23 20:3x 改到 3954f9b62（含 AA_383 1～3 節的更正；src/data/bbpack_events.js）"
   },
   {
    "path": "docs/story_planning/BB_105_四個地點的跨學年故事.md",
-   "sha": "68a8479e",
+   "sha": "3954f9b62",
    "status": "approved",
    "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
    "task": "V3-B105-P5、V1-B105-D2、V3-B105-G2、V3-B105-B2",
-   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；P5／G／B／D 法律系時期由子代理照這個版本手抄進遊戲"
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；P5／G／B／D 法律系時期由子代理照這個版本手抄進遊戲；2026-10-23 20:3x 改到 3954f9b62（含 AA_383 1～3 節的更正；src/data/bbpack_events.js）"
   },
   {
    "path": "docs/story_planning/BB_137_AB05台詞_日文班博雅女舍十五件.md",
@@ -1538,7 +1538,7 @@
   },
   {
    "path": "docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md",
-   "sha": "67b7b2ca",
+   "sha": "bc8a1f5d4",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 6 節（學姊升到朋友那三句：約出去、地點不是她讀書的地方換一版）手動放進 rel_lines.js（invites3d.js 的見面傳地點）；第 2、4 節照 98516b51 那一次（見 history）；tests/aa383_s6_unit.js 逐句對稿",
    "task": "AA383-S6-SIS-FRIEND-1022",
@@ -1549,7 +1549,8 @@
      "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 2 節（以安第 8 週不給約 D26、偶遇拿掉 10/25）照稿寫進 date3d.js、encounters.js、characters.js；第 4-1 節三句旁白（events.js ev_b106_42_game）、第 4-2 節三則私訊（story3d.js）手動放進遊戲；tests/aa383_unit.js 逐句對稿",
      "task": "AA383-BB0400-1022"
     }
-   ]
+   ],
+   "note": "2026-10-23 20:3x 改到 bc8a1f5d4（第 7 節：BB 事件包 V3-B105 用，src/bbpack3d.js）"
   },
   {
    "path": "docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md",
@@ -2181,6 +2182,33 @@
    "task": "DATE-C5",
    "kind": "text",
    "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）"
+  },
+  {
+   "path": "docs/story_planning/AA_153_BB105一列事件_規格骨架.md",
+   "sha": "c7f4ada86",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109）；09ecee83a 是 AA 還沒審的 WIP（18 週換 16 週），不用",
+   "task": "V3-B105-P5、V3-B105-G2、V3-B105-B2",
+   "kind": "text",
+   "note": "src/data/bbpack_events.js、src/bbpack3d.js（tests/bbpack_unit.js）：B10、D6 柏翰的句子、日期骨架"
+  },
+  {
+   "path": "docs/story_planning/AA_227_私下約會知情告白劈腿挽回_核對與台詞.md",
+   "sha": "26357a440",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23：實作以 AA_422／423／425 為準，這份只當沒被取代的台詞來源",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "src/multirel3d.js、src/data/multirel_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_228_語彤沛珊_私下約會知情告白劈腿挽回_核對與台詞.md",
+   "sha": "26357a440",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23：實作以 AA_422／423／425 為準，這份只當沒被取代的台詞來源",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "src/multirel3d.js、src/data/multirel_lines.js"
   }
  ]
 }

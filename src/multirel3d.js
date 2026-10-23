@@ -113,6 +113,7 @@ const MREL=(function(){
     if(o.fx){ try{ o.fx(G,c); }catch(e){ console.warn('MREL pick fx',e); } } };
 
   /* ---------- 共用的條件（字裡的 if:'…'）---------- */
+  S.FOOD_LOCS=['D09','D12','D18','D21','D23'];   /* 茶館、老街、漁港：到了就在吃東西的地點（語彤的問句「低頭吃東西」；其他「低頭看自己的手」，AA_425 2-1）*/
   S.lastMeet=function(G,x){ let d=-1e9; const Lg=typeof DATE!=='undefined'&&DATE.log?DATE.log(G,x):null; if(Lg&&Lg.last&&typeof Lg.last.day==='number') d=Math.max(d,Lg.last.day);
     for(const q of (G.outings||[])){ if(!q||q.state!=='done') continue; const ev=evOf(q.ev); const w=(q.te&&q.te.who)||(q.mrel&&q.mrel.x)||(ev&&(ev.participants||[])[0]); if(w===x&&typeof q.day==='number') d=Math.max(d,q.day); }
     return d; };
@@ -125,7 +126,8 @@ const MREL=(function(){
     C.recent=()=>{ const d=S.lastMeet(G,x); return !!y&&d>=G.day-7&&d>=S.sinceDay(G,y); };   /* {最近一次}（BB_194 13-1）*/
     C.lastWeek=()=>{ const d=S.lastMeet(G,x), wd=(wdOf(G.day)+6)%7; return !!y&&d>=G.day-wd&&d>=S.sinceDay(G,y); };   /* 這禮拜（週一起）*/
     C.cry=()=>x===KX&&S.durDays(G,KX)>=365&&(evDone(G,'ev_kexin_anniversary_y1')||evDone(G,'ev_kexin_anniversary_yn'));   /* 交往一年以上＋週年演過（AA_227 5-2）*/
-    C.auntIn=()=>wdOf(G.day)===4;   /* 阿姨在店裡：週四（週二去買東西）*/
+    C.auntIn=()=>(+G.hour||0)>=19;   /* 阿姨在店裡：19:00 以後來（買東西回來了）；之前＝去買東西（AA_425 第 1 節：不綁星期幾）*/
+    C.said=()=>!!c.said; C.prevTold=()=>!!c.prevTold; C.eating=()=>S.FOOD_LOCS.includes(c.loc);
     C.slip=()=>!!c.slip; C.slipYu=()=>c.slip==='yu'; C.second=()=>!!c.second;
     C.overlap=()=>!!y&&c.prevDay!=null&&S.sinceDay(G,y)<=c.prevDay;
     return c; };
@@ -149,7 +151,7 @@ const MREL=(function(){
     return true; };
   S.zrQ2Due=function(G,x){ if(x!==ZR||!law(G)) return false; const Z=S.rec(G).zr; return !!Z.q1&&!Z.q2&&!dating(G,ZR)&&S.knownOthers(G,ZR).length>0; };
   S.dateOpen=async function(GM,t){ const G=GM.G, x=t&&t.who; if(!x) return false;
-    if(S.askDue(G,x)){ const y=S.newest(G,x,S.knownOthers(G,x)), c=S.ctx(G,x,y); G.flags[S.ASK_FLAG[x]]=G.day; await S.run(GM,x,L().ASK[x],c); return true; }
+    if(S.askDue(G,x)){ const y=S.newest(G,x,S.knownOthers(G,x)), c=S.ctx(G,x,y,{loc:(t.locs||[])[0]||null}); G.flags[S.ASK_FLAG[x]]=G.day; await S.run(GM,x,L().ASK[x],c); return true; }
     if(S.zrQ2Due(G,x)){ const y=S.newest(G,x,S.knownOthers(G,x)), c=S.ctx(G,x,y); const Z=S.rec(G).zr; await S.run(GM,x,L().ZR_Q2,c); Z.q2={day:G.day,y,ok:!c.lied}; return true; }
     return false; };
 
@@ -164,7 +166,8 @@ const MREL=(function(){
   S.blocked=function(G,x){ const B=S.rec(G).block[x]; return !!B&&(B.ys||[]).some(y=>dating(G,y)); };   /* 「之後這一段還在的學期，她不發心意邀約」*/
   S.block=(G,x,ys)=>{ S.rec(G).block[x]={ys:ys.slice(),day:G.day}; };
   S.knowWalkDue=function(G,who,term){ if(!L()||!L().KNOW[who]||typeof TERMEND==='undefined') return false; if(who===KX&&!TERMEND.heart(KX,term)) return false;
-    const again=TERMEND.rec(G).think[who]!=null; if(again&&S.prom(G,who)&&S.promiseBroken(G,who)&&who!==ZR) return true;
+    const again=TERMEND.rec(G).think[who]!=null, p=S.prom(G,who);
+    if(again&&p){ if(S.promiseBroken(G,who)) return true; if(who!==ZR&&p.term&&p.term!==term) return false; }   /* 下學期：沒做到＝第二次；做到了＝照原本的第二次（AA_254；她答應＝OPEN_OK，termend3d.js 的 start）*/
     return S.knownOthers(G,who).length>0; };
   const resolveL=(x,G)=>{ x=typeof x==='function'?x(G):x; return x==null?[]:(Array.isArray(x)?x:[x]); };
   S.knowWalk=async function(GM,who,term){ const G=GM.G, Lx=typeof TERMEND_LINES!=='undefined'?TERMEND_LINES:null, h=TERMEND.heart(who,term), R=TERMEND.rec(G,term), Rt=TERMEND.rec(G), K=L().KNOW[who];
@@ -174,10 +177,11 @@ const MREL=(function(){
     await S.run(GM,who,resolveL(h.walk,G),c);
     const p=S.prom(G,who);
     if(again&&p&&S.promiseBroken(G,who)){ S.defaults(G).YT_BROKE_PROMISE[who]=G.flags.YT_PROMISED[who];
-      if(who!==ZR){ if(L().BROKE[who]) await S.run(GM,who,L().BROKE[who],c); S.block(G,who,(p.ys||[]).filter(q=>dating(G,q))); R.result='broken'; return 'broken'; } }
+      const B=L().BROKE[who], bl=Array.isArray(B)?B:(B?B[p.v==='exclusive'?'exclusive':'handle']:null);
+      if(bl) await S.run(GM,who,bl,c); S.block(G,who,(p.ys||[]).filter(q=>dating(G,q))); R.result='broken'; return 'broken'; }
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolveL(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
-    const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t}))), said=k<3;
+    const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t}))), said=k<3; c.said=said;
     if(!said) await S.run(GM,who,resolveL(again?(h.she2||h.she):h.she,G),c);
     const start=()=>{ const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&ys.length){ const M=sub(S.defaults(G).OPEN_OK,who); for(const q of ys) M[q]=true; } if(ok){ (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; } return ok; };
     const think=()=>{ Rt.think[who]=term; R.result='think'; return 'think'; };
@@ -189,26 +193,25 @@ const MREL=(function(){
         if(ok&&start()){ await S.run(GM,who,o.yes,c); return 'yes'; } await S.run(GM,who,o.no,c); S.block(G,ZR,ys); think(); return 'no'; }
       await S.run(GM,who,o.then,c); return think(); }
     const qL=said?(K.say||K.q):(K.she||K.q); await S.run(GM,who,qL,c);
-    const cc=await S.knowOpts(GM,who,K.opts,c,term,ys,{start,yes:h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,0):D.yes):[])});
+    const cc=await S.knowOpts(GM,who,K.opts,c,term,ys,{start});
     return cc.res||think(); };
   S.knowOpts=async function(GM,who,opts,c,term,ys,o2){ const G=GM.G, Rt=TERMEND.rec(G), R=TERMEND.rec(G,term); o2=o2||{};
     const O=opts.filter(o=>o.if===undefined||condOk(o.if,G,c)), k=await GM.choose(O.map(o=>({t:S.subst(o.t,G,c)}))), o=O[k]||O[0]; S.applyPick(G,c,o);
     await S.run(GM,who,o.then,c);
-    let pr=o.promise||null;
-    if(o.sub){ const s=await GM.choose(o.sub.map(q=>({t:q.t}))), q=o.sub[s]||o.sub[0]; S.applyPick(G,c,q); await S.run(GM,who,q.then,c); pr=q.promise||pr; }
+    let pr=o.promise||null, acc=o.accept;
+    if(o.sub){ const s=await GM.choose(o.sub.map(q=>({t:q.t}))), q=o.sub[s]||o.sub[0]; S.applyPick(G,c,q); await S.run(GM,who,q.then,c); pr=q.promise||pr; if('accept' in q) acc=q.accept; }
     if(pr&&ys.length) S.promise(G,who,pr,ys,term);
-    if(o.accept){ const ok=!!(typeof ROM!=='undefined'&&ROM.PARAMS&&ROM.PARAMS.acceptsOpen&&ROM.PARAMS.acceptsOpen[who]);
-      if(ok&&o2.start&&o2.start()){ await S.run(GM,who,o.accept.yes,c); c.res='yes'; return c; }
-      await S.run(GM,who,o.accept.no,c); }
-    if(o.yes&&o2.start&&o2.start()){ await S.run(GM,who,resolveL(o2.yes,G),c); c.res='yes'; return c; }   /* 可昕「分了。」（說謊）＝照答應 */
+    if(acc){ const ok=!!(typeof ROM!=='undefined'&&ROM.PARAMS&&ROM.PARAMS.acceptsOpen&&ROM.PARAMS.acceptsOpen[who]);
+      if(ok&&o2.start&&o2.start()){ await S.run(GM,who,acc.yes,c); c.res='yes'; return c; }
+      await S.run(GM,who,acc.no,c); }
     return c; };
 
   /* =================== 三、發現（AA_422 0-3）=================== */
-  S.WINDOW_PS=['2026-10-01','2026-12-16'];   /* 沛珊「她後來才發現」只會在這段期間（AA_422 第 7 節）*/
+  S.WINDOW_PS_END='2026-12-16';   /* 沛珊「她後來才發現」只會在這一天以前（AA_425 第 1 節：讀書會以安傳開、在場；大一下交往中的玩家也可能）*/
   S.excluded=function(G,x,y){ const r=S.relAt(G,x,y)||{};
     if((x===A1&&y===SIS)||(x===SIS&&y===A1)) if(r.source==='lawlib_meet'||(G.flags&&G.flags.TWO_HEARTS_MET!=null)) return true;   /* 1A-02 法圖相遇→兩點半 Café 攤牌 */
     if((x===ZQ&&y===ZR)||(x===ZR&&y===ZQ)) return true;   /* 兩人一起（《星期五下午》）*/
-    if(x===PS){ const a=DK(S.WINDOW_PS[0]), b=DK(S.WINDOW_PS[1]); if(a!=null&&b!=null&&(r.day<a||r.day>b)) return true; }
+    if(x===PS){ const b=DK(S.WINDOW_PS_END); if(b!=null&&r.day>b) return true; }
     return false; };
   S.learnedDuring=(G,x,y)=>{ const r=S.relAt(G,x,y); if(!r) return x==='kai'; return r.day>=S.sinceDay(G,x); };
   S.scan=function(G){ if(!law(G)) return; const R=S.rec(G);
@@ -236,15 +239,16 @@ const MREL=(function(){
   S.zrShiftEnd=function(G){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[ZR]; if(!c||typeof STORY==='undefined'||!STORY.schedEnt) return null; const e=STORY.schedEnt(c,G); return e&&e.zone==='cafe'&&e.act==='barista'?(+e.to||22):null; };
   S.playDisc=async function(GM,x,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.pend[x]; if(!p) return false; const y=p.y, D=L().DISC[x]; if(!D){ delete R.pend[x]; return false; }
     delete R.pend[x]; const prev=S.prevKnown(G,x,y), broke=S.brokeFor(G,x,y);
-    const c=S.ctx(G,x,y,{remote:o.remote||null,slip:p.slip||null,place:p.gh?p.gh.place:'',prevDay:prev?prev.day:null,first:prev?S.nameFor(G,x,prev.y):''});
+    const c=S.ctx(G,x,y,{remote:o.remote||null,slip:p.slip||null,place:p.gh?p.gh.place:'',prevDay:prev?prev.day:null,first:prev?S.nameFor(G,x,prev.y):'',prevTold:!!(prev&&S.confessed(G,x,prev.y))});
     let lines, ver;
     if(broke&&D.broke){ lines=D.broke; ver='broke'; S.defaults(G).YT_BROKE_PROMISE[x]=G.flags.YT_PROMISED[x]; }
     else if(prev&&D.more){ lines=D.more; ver='more'; }
     else if(x===SIS&&p.gh&&D.ghUnknown){ ver='gh'; lines=p.gh.known?D.ghKnown.concat(D.base):D.ghUnknown; }
+    else if(x===ZR&&o.remote&&D.uk){ lines=D.uk; ver='uk'; }
     else { lines=D.base; ver='base'; }
     if(x===KX&&!o.remote&&D.call&&ver!=='more') lines=D.call.concat([{bg:'dark',cap:S.inDorm(G)?'宿舍樓下':''}],lines);
     if(x===ZQ&&D.call&&ver!=='more') lines=D.call.concat([{bg:'dark',cap:S.inDorm(G)?'男宿樓下':'家那站出口'}],lines);
-    if(o.remote==='video') lines=lines.concat([{n:'（視訊斷了。）'}]);
+    if(o.remote==='video'&&ver!=='uk') lines=lines.concat([{n:'（視訊斷了。）'}]);
     sub(R.disc,x)[y]={day:G.day,ver,remote:o.remote||null}; G.flags[S.HURT[x]]=G.day;
     S.startStrain(G,x,y,{ver});
     await S.run(GM,x,lines,c);
@@ -318,8 +322,8 @@ const MREL=(function(){
     if(x===PS){ st.talkAt=G.day+3; } };
 
   /* ---------- 見面時演的（talk：和她說話；date：和她的正式約會；out：其他和她的出遊開頭）：回傳 async(GM,who)=>{}，abort＝之後不再照常 ---------- */
-  S.meetAction=function(G,x,kind){ if(!law(G)) return null; const R=S.rec(G);
-    if(S.discDue(G,x,kind)) return {abort:true,run:async GM=>S.playDisc(GM,x,{remote:null})};
+  S.meetAction=function(G,x,kind){ if(!law(G)) return null; const R=S.rec(G); S.scan(G);
+    if(S.discDue(G,x,kind)) return {abort:true,disc:true,run:async GM=>S.playDisc(GM,x,{remote:null})};
     const st=R.st[x]; const F=S.FLOW[x]; if(st&&F&&F.meet){ const a=F.meet(G,st,kind); if(a) return a; }
     return null; };
   S.meet=async function(GM,x,kind){ const a=S.meetAction(GM.G,x,kind); if(!a) return false; await a.run(GM); return a.abort?'abort':true; };
@@ -353,7 +357,7 @@ const MREL=(function(){
         st.meets=(st.meets|0)+1; return null; } },
     kexin:{
       tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done') return null;
-        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',cap:'政大',cut:true,run:async GM=>S.kxSelf(GM,st)};
+        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'nccu_gate',cap:'政大',cut:true,run:async GM=>S.kxSelf(GM,st)};
         if(seen(st,'n4')&&!seen(st,'hug')&&st.hugAt!=null&&t>=st.hugAt&&rom(KX)>=80&&!S.liedSince(G,KX,st)) return {k:'hug',x:KX,bg:'phone_street_night',run:async GM=>S.kxHug(GM,st)};
         return null; },
       meet(G,st,kind){ if(!seen(st,'back')||st.phase==='ended'||st.phase==='done') return null; const y=st.y;
@@ -365,7 +369,8 @@ const MREL=(function(){
         return null; } },
     heroine_04:{
       tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done') return null;
-        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt&&L().SELF.heroine_04[1]) return {k:'self',cap:'吉他社辦',cut:true,run:async GM=>{ mark(st,'self',G); await S.run(GM,ZQ,L().SELF.heroine_04[1],{}); }};
+        if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt){ const grad=DK('2028-06-03'); if(grad!=null&&G.day>=grad){ mark(st,'self',G); return null; }   /* 2028-06 畢業以後的版本 AA 只寫了方向（她住的地方、自己的吉他），還沒有字：不演 */
+          const uk=S.herAway(G,ZR)==='video'; return {k:'self',cap:'吉他社辦',cut:true,run:async GM=>{ mark(st,'self',G); await S.run(GM,ZQ,L().SELF.heroine_04[uk?2:1],{}); }}; }
         if(st.msgAt!=null&&!seen(st,'msg')&&t>=st.msgAt&&S.inTaiwanBoth(G,ZQ)) return {k:'msg',noScene:true,run:async GM=>S.zqMsg(GM,st)};
         return null; },
       meet(G,st,kind){ if(st.phase!=='talked') return null; const y=st.y;
@@ -423,11 +428,13 @@ const MREL=(function(){
     if(r==='B'&&st.saidB){ st.talkAt=S.anTalkDay(G,G.day+1); return; }
     await S.result(GM,A1,st,r); if(r==='B'){ st.saidB=G.day; st.phase='cool'; st.next='result'; st.talkAt=S.anTalkDay(G,G.day+1); } };
   /* 書瑀：前半（她自己的場景）＋她傳的四句 → 隔天公館的小店（她在美國＝隔天視訊）*/
-  S.sisSelf=async function(GM,st){ const G=GM.G, Sx=L().SELF.heroine_05; mark(st,'self',G); const T0=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, term=T0?T0.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):'Y2S1');
-    const v=(st.n|0)>=2?'second':(/S2$/.test(term||'')?'aid':'report'); const us=S.herAway(G,SIS)==='video'&&!S.heAbroad(G);
-    await S.run(GM,SIS,Sx[v],{}); await S.run(GM,SIS,us?RL(SIS).msgUs:RL(SIS).msg,{});
+  /* 前半照當時：放榜以後、碩一以前＝法四（AA_425）；之後上學期＝碩班報告、下學期＝法律扶助（AA_423 2-1；法服版拿掉）；第二次冷靜＝AA_227 8-3（美國版換那一句）*/
+  S.sisVersion=function(G,st,us){ if((st.n|0)>=2) return us?'secondUs':'second'; const m1=DK('2026-09-01'); if(m1!=null&&G.day<m1) return 'law4';
+    const term=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):''; return /S2$/.test(term||'')?'aid':'report'; };
+  S.sisSelf=async function(GM,st){ const G=GM.G, Sx=L().SELF.heroine_05; mark(st,'self',G); const us=S.herAway(G,SIS)==='video'&&!S.heAbroad(G), v=S.sisVersion(G,st,us);
+    await S.run(GM,SIS,Sx[v],{}); await S.run(GM,SIS,us?RL(SIS).msgUs:RL(SIS).msg,{}); st.us=us;
     st.version=v; S.planOut(G,SIS,'dinner',G.day+1,us?21:19,us?{place:'視訊',title:'和'+nm(SIS)+'視訊',verb:'接起來',call:true,travel:'',travelH:0}:{place:'公館的小店',title:'公館的小店',travel:'走過去約 15 分鐘',travelH:0.25}); };
-  S.sisDinner=async function(GM,st){ const G=GM.G, c=S.ctx(G,SIS,st.y,{second:(st.n|0)>=2}); await S.run(GM,SIS,RL(SIS).dinner,c);
+  S.sisDinner=async function(GM,st){ const G=GM.G, c=S.ctx(G,SIS,st.y,{second:(st.n|0)>=2,remote:st.us?'video':null}); await S.run(GM,SIS,RL(SIS).dinner,c);
     st.intent=c.intent||'unsure'; if(c.promise&&st.y) S.promise(G,SIS,c.promise,[st.y]); st.phase='talked'; st.meets=0; st.talkDay=G.day; };
   /* 可昕：前半（政大）＋照片 →（回了）10 分鐘後／（沒回）隔天「明天晚上，公館。你出來。」→ 隔天 19:00 公館（後半）*/
   S.kxSelf=async function(GM,st){ const G=GM.G, Rp=RL(KX), two=(st.n|0)>=2; mark(st,'self',G); await S.run(GM,KX,L().SELF.kexin[two?1:0],{});
@@ -440,7 +447,7 @@ const MREL=(function(){
     if(st.exposeAt!=null&&!seen(st,'exposed')&&G.day>=st.exposeAt){ mark(st,'exposed',G); await S.run(GM,KX,L().DISC.kexin.exposed,c); }
     await S.run(GM,KX,RL(KX).back,c); mark(st,'back',G); st.phase='talking'; };
   S.kxMemory=function(G,c){ const M=RL(KX).memory, F=G.flags||{}, econ=Object.keys((G.events&&G.events.done)||{}).some(k=>/^ev_y0_/.test(k));
-    const K7={ticket:'摩天輪票根的影本',planner:'行事曆'}, ok={e37:()=>evDone(G,'ev_y0_e37'),sea:()=>F.E35_PLAN==='sea'&&!!F.E35_SUM,anniv:()=>econ&&evDone(G,'ev_kexin_anniversary_y1'),k7:()=>!econ&&!!K7[F.K7_GIFT]&&!!(F.KX_ANNIV&&F.KX_ANNIV[1]&&F.KX_ANNIV[1]!=='missed'),econ:()=>econ};
+    const K7={ticket:'摩天輪票根的影本',planner:'行事曆'}, ok={e37:()=>evDone(G,'ev_y0_e37'),sea:()=>F.E35_PLAN==='sea',anniv:()=>econ&&evDone(G,'ev_kexin_anniversary_y1'),k7:()=>!econ&&!!K7[F.K7_GIFT]&&!!(F.KX_ANNIV&&F.KX_ANNIV[1]&&F.KX_ANNIV[1]!=='missed'),econ:()=>econ};
     for(const r of M) if(ok[r.if]&&ok[r.if]()){ c.k7=K7[F.K7_GIFT]||''; return r.line; } return null; };
   S.kxFour=async function(GM,st){ const G=GM.G, c=S.ctx(G,KX,st.y); await S.run(GM,KX,RL(KX).notEnough,c); mark(st,'n4',G); st.hugAt=T(G.day+1,22); };
   S.kxHug=async function(GM,st){ const G=GM.G, c=S.ctx(G,KX,st.y), Rp=RL(KX); mark(st,'hug',G); await S.run(GM,KX,Rp.call,c); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg('dark'); if(GM.caption) GM.caption('',S.inDorm(G)?'宿舍樓下':'家巷口',2400);
@@ -465,8 +472,8 @@ const MREL=(function(){
   S.psResultA=async function(GM,st){ const G=GM.G, c=S.ctx(G,PS,st.y); await S.run(GM,PS,RL(PS).result.A,c); const s=c.sets||{};
     if(s.psYes){ S.promise(G,PS,'exclusive',[st.y]); st.phase='done'; st.result='A'; } else { st.phase='psThink'; st.talkAt=G.day+3; } };
   /* 結果（AA_423 各節的表）*/
-  S.result=async function(GM,x,st,r){ const G=GM.G, Rp=RL(x), c=S.ctx(G,x,st.y); const key=r==='Bno_D'||r==='Bno_C'?'Bno':r;
-    const lines=Rp.result[key]; if(lines) await S.run(GM,x,lines,c); st.result=r;
+  S.result=async function(GM,x,st,r,o){ const G=GM.G, Rp=RL(x), c=S.ctx(G,x,st.y); const key=r==='Bno_D'||r==='Bno_C'?'Bno':r;
+    const lines=((o&&o.uk&&Rp.resultUk)||Rp.result)[key]; if(lines) await S.run(GM,x,lines,c); st.result=r;
     if(r==='A'){ st.phase='done'; if(typeof ROM!=='undefined'&&ROM.mend) ROM.mend(G,x); }
     else if(r==='Byes'||(x===YT&&r==='B')||(x===A1&&r==='C')) S.agree(G,x,st.y);
     else if(r==='B'){ st.phase='cool'; }
@@ -519,11 +526,23 @@ const MREL=(function(){
   S.zqDadDue=function(G){ const F=G.flags||{}; if(!F.ZQ_DAD_HEARD||F.ZQ_DAD_SAID||typeof PHONE==='undefined'||!PHONE.byAsk) return false; const m=PHONE.byAsk(G,'y2_zq_dad_msg'); return !!(m&&m.ans===0&&G.day>m.day); };
   S.zqDadSay=async function(GM,who){ const G=GM.G; G.flags.ZQ_DAD_SAID=G.day; for(const t of L().ZQ_DAD) await S.say(GM,who||S.who(G,ZQ),t,{}); return true; };
 
+  /* =================== 芷若在英國：每週的視訊（src/zr_uk3d.js，AA_419 第 2 節；AA_425 第 1 節、2-4、2-6）=================== */
+  S.zrWeekly=G=>{ if(typeof ZRUK==='undefined'||!ZRUK.playW||S.herAway(G,ZR)!=='video') return false; const w0=DK(ZRUK.W_FROM||'2028-09-01'); return w0!=null&&G.day>=w0; };
+  S.ukCallAction=function(G){ if(!law(G)||S.herAway(G,ZR)!=='video') return null; const R=S.rec(G); S.scan(G);
+    if(R.pend[ZR]) return async GM=>S.playDisc(GM,ZR,{remote:'video'});
+    const st=R.st[ZR]; if(!st) return null; const y=st.y;
+    if(st.phase==='cool'&&G.day>st.day) return async GM=>{ const c=S.ctx(G,ZR,y,{remote:'video'}); await S.run(GM,ZR,RL(ZR).talkUk,c); st.intent=c.intent||'unsure'; if(c.promise) S.promise(G,ZR,c.promise,[y]); st.phase='talked'; st.talkDay=G.day; st.uk=true; if(st.intent==='unsure'){ st.phase='distant'; st.result='C'; } };
+    if(st.phase!=='talked') return null; let r=null;
+    if(S.liedSince(G,ZR,st)) r='D'; else if(!dating(G,y)) r='A'; else if(G.day>=(st.talkDay|0)+7) r=st.intent==='both'?(rom(ZR)>=80?'Byes':'Bno'):null;
+    return r?async GM=>S.result(GM,ZR,st,r,{uk:true}):null; };
+
   /* =================== 每一格（STORY.TICKS）=================== */
   let busy=false;
-  S.dueAuto=function(G){ if(!law(G)) return null; const R=S.rec(G), t=now(G), h=+G.hour||0;
+  S.dueAuto=function(G){ if(!law(G)) return null; const R=S.rec(G), t=now(G), h=+G.hour||0; S.scan(G);
     /* 發現：國外／電話；子晴那晚；芷若打烊；語彤顧店；可昕當晚；以安、沛珊讀書會散會 */
-    for(const x of S.IDS){ const p=R.pend[x]; if(!p) continue; if(G.day===p.day&&h<p.h) continue; const rm=S.REMOTE_OK[x]?S.remote(G,x):null;
+    for(const x of S.IDS){ const p=R.pend[x]; if(!p) continue; if(G.day===p.day&&h<p.h) continue; let rm=S.REMOTE_OK[x]?S.remote(G,x):null;
+      if(x===KX&&!rm&&pres(G,KX).kind==='home'&&!pres(G,KX).here) rm='video';   /* 可昕寒暑假在高雄：當晚演出來的視訊（不是「我現在過去」）*/
+      if(rm&&x===ZR&&S.zrWeekly(G)) continue;   /* 芷若在英國、交往中：每週的視訊裡演（AA_425 第 1 節；ZRUK.playW 那一層）*/
       if(rm&&h>=21&&h<23.5&&(G.day>p.day||p.h<21)) return {k:'disc_remote',x,bg:remoteBg(rm),run:async GM=>S.playDisc(GM,x,{remote:rm})};
       if(rm) continue;
       if(x===ZQ&&h>=22&&S.inTaiwanBoth(G,ZQ)) return {k:'disc',x,bg:'phone_street_night',run:async GM=>S.playDisc(GM,x,{})};
@@ -543,9 +562,9 @@ const MREL=(function(){
 
   /* =================== 接線 =================== */
   /* 出遊（自己排的：書瑀的小店、可昕的公館、子晴的宵夜、語彤的走廊）*/
-  const OUTEV={ id:S.OUT_EV, title:'', participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:1,
+  const OUTEV={ id:S.OUT_EV, get title(){ const q=S._q||S._lastQ; return q&&q.place&&q.place!=='視訊'?q.place:''; }, participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:1,
     beforeOuting:(G,GM,q)=>{ S._q=q; },
-    dialogue:[ {call:async(G,GM)=>{ const q=S._q; S._q=null; if(!q||!q.mrel) return; const {x,kind}=q.mrel, st=S.st(G,x); if(!st) return; if(typeof ADV!=='undefined'&&ADV.speaker) try{ ADV.speaker(x,'neutral'); }catch(e){}
+    dialogue:[ {call:async(G,GM)=>{ const q=S._q; S._q=null; S._lastQ=q; if(!q||!q.mrel) return; const {x,kind}=q.mrel, st=S.st(G,x); if(!st) return; if(typeof ADV!=='undefined'&&ADV.speaker) try{ ADV.speaker(x,'neutral'); }catch(e){}
       if(x===SIS&&kind==='dinner'){ if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(q.call?(OUT.bg?OUT.bg('video'):'video'):(OUT.bg?OUT.bg('y0_lane_shop'):'dark')); return S.sisDinner(GM,st); }
       if(x===KX&&kind==='back'){ if(typeof ADV!=='undefined'&&ADV.setBg&&OUT.bg) ADV.setBg(OUT.bg('gongguan')); return S.kxBack(GM,st); }
       if(x===ZQ&&kind==='talk'){ if(typeof ADV!=='undefined'&&ADV.setBg&&OUT.bg) ADV.setBg(OUT.bg('gongguan')); return S.zqTalk(GM,st); }
@@ -565,13 +584,14 @@ const MREL=(function(){
     const a0=DATE.arriveLine; DATE.arriveLine=async function(GM,t,visits,o){ const r=await a0.apply(this,arguments); try{ if(!(o&&o.combo)&&GM&&law(GM.G)) await S.dateOpen(GM,t); }catch(e){ console.warn('MREL dateOpen',e); } return r; };
     const q0=DATE.quickPick; if(q0) DATE.quickPick=function(G,id){ if(G&&(S.askDue(G,id)||S.zrQ2Due(G,id))) return null; return q0.apply(this,arguments); };
     const sc0=DATE.scene; DATE.scene=async function(GM,q){ const G=GM&&GM.G, t=G&&q?DATE.trip(G,q.dateTrip):null;
-      if(t&&law(G)){ const a=S.meetAction(G,t.who,'date'); if(a&&a.abort){ await a.run(GM); t.status='cancelled'; return {counted:false}; } if(a) await a.run(GM); }
+      if(t&&law(G)){ const a=S.meetAction(G,t.who,'date'), was=dating(G,t.who); if(a){ await a.run(GM); if(a.disc||(was&&!dating(G,t.who))){ t.status='cancelled'; return {counted:false}; } } }   /* 發現、分手＝這一趟不去了；結果、談話＝講完照常約會 */
       return sc0.apply(this,arguments); };
     const c0=DATE.complete; DATE.complete=function(G,t){ const r=c0.apply(this,arguments); try{ if(r&&r.counted) S.onTripDone(G,Object.assign({},t,{counted:true})); }catch(e){ console.warn('MREL trip',e); } return r; };
     const m0=DATE.menu; DATE.menu=async function(GM,id,n){ const G=GM&&GM.G; if(G&&S.zzRefusing(G,id)){ await S.run(GM,id,L().ZZ_AFTER.refuseL3[id],{}); return null; }
       if(G&&G.flags&&G.flags.RESTART_WITH&&(id===ZQ||id===ZR)&&G.flags.RESTART_WITH!==id){ await S.run(GM,id,L().ZZ_AFTER.refuseL3[id],{}); return null; }   /* 另一位不接受 L3 */
       return m0.apply(this,arguments); };
     DATE._mrel=true; }
+  if(typeof ZRUK!=='undefined'&&ZRUK.playW&&!ZRUK._mrel){ const pw=ZRUK.playW; ZRUK.playW=async function(G,GM){ try{ const a=G&&S.ukCallAction(G); if(a) return await a(GM); }catch(e){ console.warn('MREL zr uk',e); } return pw.apply(this,arguments); }; ZRUK._mrel=true; }   /* 每週的視訊那一通：發現、挽回、結果在這裡演（演了就不演那週的話題）*/
   if(typeof EVENTS!=='undefined'&&!EVENTS._mrel){ const e0=EVENTS.run; EVENTS.run=async function(ev){ const r=await e0.apply(this,arguments); try{ const GM=S._gm; if(GM&&ev) await S.afterEvent(GM,ev); }catch(e){ console.warn('MREL afterEvent',e); } return r; }; EVENTS._mrel=true; }
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(S.tick);
