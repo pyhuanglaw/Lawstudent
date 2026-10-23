@@ -25,3 +25,4 @@ usmarket usmarket_probe.py -
 wzshop wzshop_probe.py -
 aa386 aa386_probe.py -
 aa386c aa386c_probe.py -
+s3lake3b zrlast_probe.py S3_LAKE3
