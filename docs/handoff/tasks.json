@@ -5876,7 +5876,7 @@
    "title": "裂縫計數 → 談話事件",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_123 4-2、5-2（裂縫來源與談話台詞都已寫）、BB_119 第 2 節，在各事件加 ROM.crack，同一學期滿 3 觸發談話；和 V6-A2、A5、B4 一起做 ｜ V6-S1b 之後（每一段關係各自計算）",
    "priority": "P2",
    "first": {
@@ -5898,7 +5898,8 @@
      "evidence": "ROM.crack 有定義（src/romance3d.js:101）但全專案沒有呼叫；沒有 ev_an_talk、ev_yt_talk 等談話事件（src/r2y4b3d.js:331 註：AA_123／BB_119 第 2 節開發分支還沒有）",
      "note": "裂縫和談話是 v6 分手的主要路線，現在只有攤牌和畢業選一個人會分手"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。"
   },
   {
    "id": "V6-S6",
@@ -5991,7 +5992,7 @@
    "title": "AA_123 v6 第 2 節 A2（以安、語彤）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_123 4-2 做 ev_an_talk（台詞已寫：「你最近都說『都可以』。」三選一：修補／好好分開／不回答）＋兩種裂縫來源 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6013,7 +6014,8 @@
      "evidence": "全專案沒有 ev_an_talk；AN_CRACK 從不增加（只在 src/romance3d.js 出現）",
      "note": "AA 台詞已寫好，只差實作"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。"
   },
   {
    "id": "V6-A3",
@@ -6081,7 +6083,7 @@
    "title": "AA_123 v6 第 2 節 A5（以安、語彤）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_123 5-2 做（裂縫：週四留位子他沒來、要她讓出麵店的時間；談話台詞已寫） ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6103,7 +6105,8 @@
      "evidence": "全專案沒有 ev_yt_talk；YT_CRACK 從不增加",
      "note": "AA 台詞已寫好，只差實作"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。"
   },
   {
    "id": "V6-A6",
@@ -6285,7 +6288,7 @@
    "title": "BB_119 v6 第 3 節 B4",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 BB_119 第 2 節（2-1、2-3、2-4、2-5）做談話事件，和 V6-S5 一起 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6307,7 +6310,8 @@
      "evidence": "沛珊、芷若、子晴的分開路線（裂縫→談話）都沒有：ROM.crack 沒人呼叫；學姊 2-2 已作廢（00_文件狀態表 BB_119 那一列）；可昕走向 B 只有偶遇台詞 src/encounter3d.js:34",
      "note": "跟 V6-S5 同一套系統"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。"
   },
   {
    "id": "V6-B5",

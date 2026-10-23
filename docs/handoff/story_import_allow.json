@@ -2209,6 +2209,33 @@
    "task": "EVPKG-AA227-228-KNOW",
    "kind": "text",
    "note": "src/multirel3d.js、src/data/multirel_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_123_多段感情_架構與以安語彤.md",
+   "sha": "d805bceee",
+   "status": "approved",
+   "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
+   "task": "V6-S5、V6-A2、V6-A5、V6-B4",
+   "kind": "text",
+   "note": "src/cracktalk3d.js、src/data/cracktalk_lines.js（tests/v6_crack_unit.js）：裂縫到 3 的談話；只用到談話與裂縫來源那幾節"
+  },
+  {
+   "path": "docs/story_planning/AA_182_v6多段感情AA事件_到場檢查.md",
+   "sha": "d805bceee",
+   "status": "approved",
+   "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
+   "task": "V6-S5、V6-A2、V6-A5、V6-B4",
+   "kind": "text",
+   "note": "src/cracktalk3d.js、src/data/cracktalk_lines.js（tests/v6_crack_unit.js）：裂縫到 3 的談話；只用到談話與裂縫來源那幾節"
+  },
+  {
+   "path": "docs/story_planning/BB_119_多段感情_交接包v6_BB人物.md",
+   "sha": "d805bceee",
+   "status": "approved",
+   "approvedBy": "交接包 v6（使用者批准的多段感情）；AA 定稿（D100、D109；BB 人物台詞由 AA 定稿）",
+   "task": "V6-S5、V6-A2、V6-A5、V6-B4",
+   "kind": "text",
+   "note": "src/cracktalk3d.js、src/data/cracktalk_lines.js（tests/v6_crack_unit.js）：裂縫到 3 的談話；只用到談話與裂縫來源那幾節"
   }
  ]
 }
