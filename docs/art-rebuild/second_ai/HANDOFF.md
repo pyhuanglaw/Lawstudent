@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **18:4x 更新**：
+    - 已交：總圖 B1（`cdb1b1f4`）。LAWWW-B 18:4x：20cc4c4e3 合併、01ade8098 劇情接好（`src/b1story3d.js`；晚上從校園側門下 B1；補了 `CALENDAR.examSoon`）。
+    - LAWWW-B 18:4x 的佇列：
+      1. 5F 研究室更正（八張桌子、她在門邊）：模型、配置、patch 都好了（WIP `c38b07e2`），node 測試過，遊戲內截圖＋reachability 在 `$SP/dv2` 跑。
+      2. AA_413：水果攤（騎樓前的攤子＋老闆站位）、自助洗衣門邊布告欄、日日便利從溫州街進去的窗景（cvs 區域照 `CVS_FROM` 換景）。
+      3. AA_399 第 3 節：總圖研究小間（玻璃門小窗、門外 spot、學姊座位）、總圖 5F 書庫（只開 5F；最裡面一排方奕廷的 spot、「看那一排」；入口我決定寫進 layout）。
+      4. 體育館 3F SET_CEREMONY（開學、畢業典禮；A16）。
+    - 測試樹：`$SP/dv2`＝開發 `f023a83f1`＋B1 patch＋5F patch（`$SP/withserver_dv2.sh`，port 8872）。
+    - 教訓：等背景工作用 `until ! pgrep -f "<字串>"` 會比對到自己那一行 bash，永遠等不完（18:2x 的 5F 截圖因此沒開始）。改成直接接在前一個工作後面跑。
   - **18:0x 更新**：
     - 已交：法學院廣場的大樟樹（`cb1d9ecb`，`test_shots/linze_tree_1023/README.md`）。LAWWW-B 20:0x：樹、沛珊 v32 都已整合進開發 `27b5e58bf`。
     - 總圖 B1（LAWWW-B 選 A）：WIP 檢查點 `97e40795`。

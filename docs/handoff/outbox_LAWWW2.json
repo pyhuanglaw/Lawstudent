@@ -2493,7 +2493,7 @@
   {
    "task": "CLOSED-SPACES-1023 第 2 項：總圖 B1（AA_399 第 2 節；LAWWW-B 10-23 選 A）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "cdb1b1f4",
    "files": [
     "docs/art-rebuild/second_ai/patches/library_b1_1023.patch（對開發 700cb0b7f、f023a83f1 都 apply --check 過）",
     "assets/models/env/second_ai/library_b1.{glb,json,layout.json}",
@@ -2506,7 +2506,7 @@
    "next": "LAWWW-B 套 patch、放 GLB；劇情接線照 AA_399 第 2 節（spots／seats／interact 在 LIBRARY_B1_LAYOUT）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 10-23 18:4x：20cc4c4e3 合併、01ade8098 劇情接好；晚上從校園側門下 B1）",
    "note": "門在 z −2.4（提案的 −3.2 撞到西牆的窗）；story3d.js 兩行背景同學可以拿掉"
   }
  ]
