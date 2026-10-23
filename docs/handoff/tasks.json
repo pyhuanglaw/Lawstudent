@@ -30136,7 +30136,7 @@
    },
    "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「店面外看出去的景也都很假」（UA-LAWWW2-1023-09）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-B 10-23 13:0x】第一批（ecfe5a6a：公館便利商店、書店、麵店、溫州街 Café 兩層窗景）合併進開發分支；BB 驗收畫面（清單第 47 項）；READY_FOR_ART_REVIEW。第二批 118 巷九間店排在 ART-GG-STREETLIFE-1023 之後 ｜ 【LAWWW-B 10-23 08:1x ACK】LAWWW2 做（D108；會改 l118_shops3d.js、可能動 world3d.js W3.windowMat 多一個黃昏版，不改 engine3d／game3d／story3d）；接在 118 巷、公館店面翻修之後（拍的是翻修後的街）",
+   "next": "【LAWWW-B 10-23 14:4x】第二批（79777475：118 巷九間店兩層窗景、36 張 webp、l118_shops3d.js 自己登記 VIEW_LAYERS）合併；l118_shops、l118_arcade、l118_bar_lift、lane118 ALL PASS；BB 清單第 56 項 ｜ 【LAWWW-B 10-23 13:0x】第一批（ecfe5a6a：公館便利商店、書店、麵店、溫州街 Café 兩層窗景）合併進開發分支；BB 驗收畫面（清單第 47 項）；READY_FOR_ART_REVIEW。第二批 118 巷九間店排在 ART-GG-STREETLIFE-1023 之後 ｜ 【LAWWW-B 10-23 08:1x ACK】LAWWW2 做（D108；會改 l118_shops3d.js、可能動 world3d.js W3.windowMat 多一個黃昏版，不改 engine3d／game3d／story3d）；接在 118 巷、公館店面翻修之後（拍的是翻修後的街）",
    "xai": {
     "spec": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「公館店面外觀也一樣醜」（UA-LAWWW2-1023-05）",
     "owner": "LAWWW2",
