@@ -29970,7 +29970,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
+   "next": "【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
   },
   {
    "id": "UX-PHONE-MAP-1023",
@@ -30229,6 +30229,27 @@
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "id": "UX-INV-GO-1023",
+   "title": "約會快到的提醒可以直接到約會地點（使用者 10-23 08:2x，D58）：校園約人 INV 提醒時跳「直接過去／自己走過去」、手機今天的約可以「前往」；校外約會 1 小時前提醒時可以提早出發",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測"
   }
  ]
 }
