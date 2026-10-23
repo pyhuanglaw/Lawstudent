@@ -1650,8 +1650,9 @@ R8 += [APART5('LAB59_APART_CAMPUS', 'campus'), APART5('LAB59_APART_DORM_D', 'dor
 # 60：交往中叫「書瑀」
 NTEA = NEAR('一一八茶飲 點餐', label='點餐（一一八茶飲）')
 def SY_TEA(i, js, name, other):
-    return dict(id=i, key='TERMDAY:Y2S1:5:2', h=12.3, zone='l118_tea', flags=dict(TW3), js=R8H + js, pref=['紅茶拿鐵', '也幫' + name + '點一杯', '無糖綠茶', '去冰'],
-                steps=[('jump', 'GAME.G.day', 12.52, '她的時段'), WAITNPC('heroine_05'), NTEA, ORDER('一一八茶飲')],
+    # BB-B 19:3x：她在一一八茶飲的常客時段只有大一上第 2 週～大一下（lane118_shops.js regulars：平日 12:30～12:40）；原本寫大二上＝她根本不會來（腳本）
+    return dict(id=i, key='TERMDAY:Y1S2:5:2', h=12.3, zone='l118_tea', flags=dict(TW3), js=R8H + js, pref=['紅茶拿鐵', '也幫' + name + '點一杯', '無糖綠茶', '去冰'],
+                steps=[('jump', 'GAME.G.day', 12.52, '她的時段'), ('wait', "(n=>!!n&&!n.leaving)(GAME.npc&&GAME.npc.heroine_05)", 300, 'heroine_05 在這裡'), NTEA, ORDER('一一八茶飲')],
                 jsok=[('選項「也幫%s點一杯」' % name, CHN('也幫' + name + '點一杯'), lambda n: isinstance(n, int) and n >= 1), ('沒有「也幫%s點一杯」' % other, CHN('也幫' + other + '點一杯'), 0)])
 EXJS0 = SIS_D + " G.flags.dating_heroine_05=false; try{ const R=G.flags.romance&&G.flags.romance.heroine_05; if(R) R.status='ended'; }catch(e){}"   # [前置] 交往過、分手了
 HOOKRUN = ('jsrun', "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.hook(GAME,'Y3S2','heroine_05'); }catch(e){ console.warn('HOOKRUN',e); } finally{ GAME.sceneEnd(); } })(); return true; })()", '直接叫大三下期末女朋友版約會的鉤子（TERMEND.hook Y3S2 學姊）')   # 【捷徑】
