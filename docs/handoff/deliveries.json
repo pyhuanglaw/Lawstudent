@@ -13503,6 +13503,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "AA-B 06:55；outbox 12b8798a"
+  },
+  {
+   "id": "DL-AA390",
+   "date": "2026-10-23",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5f4b9c7b",
+   "what": "AA_390 芷若 2027-09-02 出發那天（送機）",
+   "task": "ZR-SENDOFF-L-1023",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-B 06:58；outbox 1d45d2f9"
   }
  ],
  "ignored": [
