@@ -1729,6 +1729,14 @@
    "approvedBy": "AA-B 2026-10-23 07:3x 定稿（AA_398 已改 2-3；D109 劇情自主）；LAWWW-B 10-23 實作 r2y4b3d.js／y34b3d.js／sis_y2y3／sis_b4／postgrad3d.js",
    "task": "SIS-B6-L-1023、SIS-B6-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_393_學姊第七批_日本路線.md",
+   "sha": "e81a1afe1",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 07:4x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_jp3d.js、src/data/sis_jp_events.js、msg_pool（build_pool.py）",
+   "task": "SIS-B7-L-1023、SIS-B7-1023",
+   "kind": "text"
   }
  ]
 }
