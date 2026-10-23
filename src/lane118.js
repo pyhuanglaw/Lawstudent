@@ -6,7 +6,8 @@
    - 阿哲週一 12:00 揪人（AA_280 第 4 節）：第一次 Y1S1 第 2 週；之後每學期第 2～15 週每週一，店照 noodle2 → dian → korea → home 輪；
      「走。」＝12:15 在那間店門口（出遊 goto，阿哲、Alison 在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
    - AA_311（118 巷每間店的故事）：H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）。其餘 H2～H9、熟客三段招呼還沒做。
-   測試：node tests/lane118_unit.js */
+   - 順手的事（AA_397，src/sideq3d.js）：點完餐最後叫 SIDEQ.atShop（慢讀咖啡、六張犁麵舖、好家自助餐、蛋包飯研究所）；六張犁麵舖公休那兩週（SQ05）isOpen＝false、點餐＝門上那張紙。
+   測試：node tests/lane118_unit.js、node tests/aa397_sideq_unit.js */
 'use strict';
 const L118=(function(){
   const S={};
@@ -19,7 +20,7 @@ const L118=(function(){
   /* 店門口（人行道上，和 zones3d.js 的互動點同一個位置）；side W 的店門朝東（+x） */
   S.door=function(id){ const L=LAY(), s=L&&L.shops.find(q=>q.id===id); if(!s) return null; return {x:s.side==='W'?L.facade.west+0.9:L.facade.east-0.9, z:(s.z0+s.z1)/2, side:s.side, yaw:s.side==='W'?Math.PI/2:-Math.PI/2}; };
   const wdOf=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd%7:G.weekday%7;
-  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
+  S.isOpen=function(id,G){ const s=S.shop(id); if(!s) return false; if(typeof SIDEQ!=='undefined'&&SIDEQ.closedNote&&SIDEQ.closedNote(G,id)) return false;   /* 六張犁麵舖老闆開刀公休（AA_397 SQ05）*/ const h=G.hour%24; if(s.hours.closed.includes(wdOf(G))) return false; return s.hours.open.some(([a,b])=>h>=a&&h<b); };
   /* 這學期第幾週（寒暑假＝null）*/
   const termNow=G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T&&T.week>=1?T:null; };
   S.regActive=function(r,G){ if(!G||(G.stage||'law')!=='law') return false; const T=termNow(G); if(!T||T.week>15) return false;
@@ -69,7 +70,8 @@ const L118=(function(){
     G.flags.SIS_TEA_ORDER=true; };
   /* 店門口點餐 */
   S.order=async function(GM,shopId){ const G=GM.G, s=S.shop(shopId), Dd=D(); if(!s||!Dd) return false; GM.sceneBegin();
-    try{ if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }
+    try{ const sqClosed=typeof SIDEQ!=='undefined'&&SIDEQ.closedNote?SIDEQ.closedNote(G,shopId):null; if(sqClosed){ await GM.say(null,sqClosed); return true; }   /* 公休的紙（玩家寫的那一張，AA_397 SQ05）*/
+      if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }
       const comp=S.companions(GM,shopId), clerk={name:s.greet.who||'店員'}, h0=G.hour;
       await GM.say(clerk,comp.length?Dd.groupGreet:s.greet.text);
       const opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
@@ -83,6 +85,7 @@ const L118=(function(){
       if(h1) await S.playH1(GM,clerk);
       if(!comp.length&&!(typeof EAT!=='undefined'&&await EAT.together(GM,s.name))) await GM.say(null,s.done);   /* 店裡有認識的人在吃：坐過去一起吃（AA_329 第 1 節）*/
       const L=S.lunchNow(G); if(L&&L.shop===shopId) L.done=true;
+      if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop){ try{ await SIDEQ.atShop(GM,s.name,{item,price}); }catch(e){ console.warn('SIDEQ',e); } }   /* 順手的事：店員偶爾多一句（AA_397）*/
       if(GM.autosave) GM.autosave(); return true;
     } finally { GM.sceneEnd(); } };
   /* 阿哲週一 12:00 揪午餐（PHONE 規則，每個 tick 叫一次）*/

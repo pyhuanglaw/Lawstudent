@@ -7,7 +7,7 @@
    - 玩測試版：拿到以後第一次在自己房間「看看房間裡的東西」多一格「玩子晴的測試版」（60 分；story3d.js roomItems 的第三欄＝動作）；
      玩完可以傳她一則（照她的回覆時間回）。房間物件「子晴的測試版（貓貼紙的隨身碟）」。
    - 接到後面：發表會（ev_ziqing_q12）ZQ_TB_FB roof 多一句（y34b3d.js）；期末選項打開（termend_lines.js 拿掉 noOpt）；
-     12/14 收養那句（AA_397 3-2）還沒做——ZQ_CAT_SAID 先記著。
+     12/14 收養那晚（AA_397 3-2）讀 ZQ_CAT_SAID：她那句換成「我做的那隻貓，你說過是牠。……你是對的。」（src/sideq3d.js 的 SIDEQ.CAT_EV）。
    測試：node tests/aa400_zq_testbuild_unit.js */
 'use strict';
 const ZQTB=(function(){
