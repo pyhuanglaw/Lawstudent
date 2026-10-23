@@ -51,7 +51,7 @@ const MSG2_POOL={
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝！！"], "tags": [], "src": "AA_202 7-3 Alison"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["欸欸欸你記得", "謝謝！！", "我今天在板橋 親戚好多"], "tags": [], "src": "AA_202 7-3 Alison"},
    {"topic": "ok", "cond": "camp_end", "tier": "A", "msgs": ["還好！"], "tags": [], "src": "AA_202 7-3 Alison"},
-   {"topic": "ok", "cond": "camp_end", "tier": "R", "msgs": ["還好啦", "……其實沒有很好", "可是會好的"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "ok", "cond": "camp_end", "tier": "R", "msgs": ["還好啦", "……其實沒有很好", "明天見面再說"], "tags": [], "src": "AA_202 7-3 Alison"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！"], "tags": [], "src": "AA_202 7-3 Alison"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！！", "（照片：客廳坐滿人）"], "tags": [], "src": "AA_202 7-3 Alison"}
   ]}),

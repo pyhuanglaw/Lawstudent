@@ -192,7 +192,10 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
     const a=kx('2026-04-24'), b=kx('2027-04-24'), c=kx('2028-04-24',{EXCHANGE_ROUTE:'TW'}), j=kx('2028-04-24',{EXCHANGE_ROUTE:'JP'}), z=kx('2029-04-24',{EXCHANGE_ROUTE:'TW'});
     check('H16. 可昕生日 2026、2027、2028 臺灣路線：L 照問「你晚上要上山來，還是我下山」',[a,b,c].every(e=>e&&!!e.ask&&/上山來/.test(e.ask.q)),[a,b,c].map(e=>e&&e.msgs.join('/')).join(' ｜ '));
     check('H16. 2028 日本路線（人在日本）：不問上山下山，用 y2028_japan',!!j&&!j.ask&&j.cond==='y2028_japan',j&&j.msgs.join('/'));
-    check('H16. 2029：沒有生日事件，不問；回「今天在圖書館過 國考的書比蛋糕還厚」',!!z&&!z.ask&&z.msgs.join('/')==='謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚',z&&z.msgs.join('/')); } }
+    check('H16. 2029：沒有生日事件，不問；回「今天在圖書館過 國考的書比蛋糕還厚」',!!z&&!z.ask&&z.msgs.join('/')==='謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚',z&&z.msgs.join('/')); }
+  /* AA_202@65239add 第 257 行（AA_313 第 5 節）：Alison 營隊結束那天的「還好嗎」R 層收在「明天見面再說」（不好的事當面講）；產生器 build_msg2.py 原本寫死「可是會好的」 */
+  { const t=fs.readFileSync(path.join(ROOT,'src/data/msg2_pool.js'),'utf8'), m=t.match(/"cond": "camp_end", "tier": "R", "msgs": \[([^\]]*)\]/);
+    check('H17. Alison 營隊結束那天「還好嗎」R：「還好啦」「……其實沒有很好」「明天見面再說」',!!m&&/明天見面再說/.test(m[1])&&!/可是會好的/.test(m[1]),m&&m[1]); } }
 else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
 // 方奕廷暑假上山（BB_171 第 1 節）：沒訊號，下山那天 15:00 才回；回台中過年的期間照平常
 { fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-20');

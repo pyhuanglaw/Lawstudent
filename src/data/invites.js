@@ -114,13 +114,13 @@ const INVITE_DATA={
       firstAt:{teahouse:['「地板是榻榻米。我要脫鞋？……我的襪子是貓的。不准看。」']}, acc:{teahouse:{R:['「一盞？那裡不能大聲對吧。……好，這是挑戰模式。」']},cafe:{A:['「Café？……好啊，我要點最甜的。」']},library:{R:['（她答應了，條件是「二樓靠窗，有插座的那一排」。）']}},
       first:{wenzhou:['「散步？散步是什麼？」','（你解釋了一下。）','「……好啦。但要有目的地。」']},
       rule:(G,c,I)=>{ const r=c.r;
-        /* 大四（畢業，在臺北的工作室上班；BB_163 第 2 節）：平日 20:00 以前在工作室、總圖要辦校友證；其他照下面原本的規則 */
+        /* 大四（畢業，在臺北的工作室上班；BB_163 第 2 節；三句照 AA_312 B-5 拿掉「欸不是」）：平日 20:00 以前在工作室、總圖要辦校友證；其他照下面原本的規則 */
         if(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence('heroine_04',{day:c.day}).kind==='taipei'&&(r.res==='accept'||r.why==='busy')){ const wk=c.wd>=1&&c.wd<=5, late=20+10/60;
-          if(c.pid==='library') return {res:'decline',why:'grad',lines:['「欸不是，我畢業了。總圖要辦校友證，我還沒辦。……兩點半？」'],alt:null};
-          if(c.pid==='teahouse'&&wk) return {res:'resched',why:'work',act:'work',lines:['「欸不是，平日下午我在工作室。……週六下午？這是問句。」'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* BB_163 第 2 節（BB-B 55509fe2）：平日（週三～週五下午）的一盞改到最近的週六下午 */
+          if(c.pid==='library') return {res:'decline',why:'grad',lines:['「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」'],alt:null};
+          if(c.pid==='teahouse'&&wk) return {res:'resched',why:'work',act:'work',lines:['「平日下午我在工作室。……週六下午可以嗎？」'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* BB_163 第 2 節（BB-B 55509fe2）：平日（週三～週五下午）的一盞改到最近的週六下午 */
           const firstY4=c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='heroine_04'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&STORY.presence('heroine_04',{day:iv.day}).kind==='taipei');
           if(wk&&c.h<20&&['cafe','noodle','wenzhou'].includes(c.pid)){ const alt=I.freeAt(G,'heroine_04',c.P,c.day,late)?{day:c.day,h:late}:I.nextFree(G,'heroine_04',c.P,c.day,late);
-            return {res:'resched',why:'work',act:'work',lines:c.pid==='cafe'?['「欸不是，我八點才下班。……八點十分，兩點半。」']:(firstY4?['「好。……阿鳳阿姨還記得我嗎？」']:null),alt}; }
+            return {res:'resched',why:'work',act:'work',lines:c.pid==='cafe'?['「我八點才下班。……八點十分，兩點半。」']:(firstY4?['「好。……阿鳳阿姨還記得我嗎？」']:null),alt}; }
           if(firstY4&&r.res==='accept') return {lines:['「好。……阿鳳阿姨還記得我嗎？」']}; }
         if(c.pid==='brunch'&&(r.res==='accept'||r.res==='resched')){ const Q=I.place('cafe'); let a=null; for(let d=c.day;d<=c.day+3&&!a;d++) for(let hh=14;hh<=17;hh+=0.5) if(Q&&I.freeAt(G,'heroine_04',Q,d,hh)){ a={day:d,h:hh,place:'cafe'}; break; }   /* BB_158 第 2 節：週末 14:00 才起床（AA_137 8-5），半熟一律婉拒；改天指向 Café（下午）*/
           return {res:a?'resched':'decline',why:'sleep',lines:['「週末早上我在睡覺。……下午的話，Café。」'],alt:a}; }

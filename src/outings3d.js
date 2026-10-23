@@ -112,7 +112,8 @@ const OUT=(function(){
     if(kxHere&&typeof STORY!=='undefined'&&STORY.kxExchTalkDue&&STORY.kxExchTalkDue(G)) await STORY.kxExchTalk(GM,'face');   /* 1A-05 第 2-6 節：交換志願表要讓她知道（11/15～11/17 的下一次見面，在最後）*/
     if(kxHere&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if(kxHere&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
-      let go=!!st; if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
+      let go=!!st; if(go&&st.id==='K-L6'&&q.ev==='ev_kexin_video_study') go=false;   /* AA_313 第 2 節第 54 列：K4 一起讀書的視訊那晚不接 K-L6（同一個「讀書時的聲音」，留到下一次見面）*/
+      if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
         if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); } }
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
