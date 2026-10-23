@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **13:5x 更新**：
+    - 已交、已合併：SQ-TRACES＋SQ16 店門口（`ed65a78e`）、公館街景 ART-GG-STREETLIFE-1023（`5fed31e9`）。
+    - LAWWW-B 13:50 定的順序：
+      1. GG-WALKERS-1023：公館路人路線 patch（`patches/gg_walkers_1023.patch`，`story3d.js`）。等瀏覽器空出來跑三個公館測試。
+      2. 118 巷九間窗景（第二批）：照片拍攝中，`l118_shops3d.js` 改法在 `$SP/split/h1`。
+      3. SEE-THROUGH-FAIL-1023（P3）。
+      4. 關著的空間、沛珊。
+    - LAWWW-B 會短暫把開發分支換成發布樹開 PR；通知期間不要從開發分支拉新的樹。
+    - `withserver.sh` 改成在測試樹 `$SP/rs` 裡跑命令。之前在我的 repo 跑，用到舊的測試腳本：公館 layout 的 4 項校門 FAIL 是舊腳本造成的。
   - **之後的順序**（LAWWW-B 12:33 定）：
     1. ART-GG-STREETLIFE-1023：公館騎樓前的機車、單車架、路人。動 GG_PROP_BLOCKS；交件前跑 `gongguan_layout_nav.py`、`street_props_nav_unit.js`、`reachability_all.py` 公館段。
     2. 118 巷九間店窗景（第二批）。
