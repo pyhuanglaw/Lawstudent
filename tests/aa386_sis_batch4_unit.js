@@ -15,9 +15,10 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 const ok0=load('src/data/sis_y2y3_events.js')&&load('src/sis_y2y3_3d.js'), ok1=load('src/data/sis_b4_events.js'), ok2=load('src/sis_b4_3d.js');
 let doc=''; try{ doc=cp.execSync('git show d0468be4:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc398=''; try{ doc398=cp.execSync('git show e81a1afe:"docs/story_planning/AA_398_學姊不再說三件事_全遊戲替換表.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc398=''; }   /* AA_398（使用者 10-23：學姊不數件數）的替換句也算稿 */
-let doc406=''; try{ doc406=cp.execSync('git show 2408bcf09:"docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc406=''; }   /* AA_406 第 4 節：大三聖誕夜多一句 */
+let doc406=''; try{ doc406=cp.execSync('git show 895496a7:"docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc406=''; }   /* AA_406 第 4 節：大二聖誕夜她先拿紙袋那一句 */
 let doc392=''; try{ doc392=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc392=''; }   /* AA_392 第 6 節荷花池也接在這兩個檔 */
-const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0||doc392.indexOf(t)>=0||doc406.indexOf(t)>=0;
+const SPLIT=['（她拿出一個紙袋。）','（她把螢光筆收進大衣口袋，沒有放進包包。）'];   /* AA_406 第 4 節「LAWWW 照這句調順序」：原本一行旁白拆成兩半 */
+const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0||doc392.indexOf(t)>=0||doc406.indexOf(t)>=0||SPLIT.includes(t);
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISB4!=='undefined'?SISB4:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const setup=(key,h,zone,lv,flags)=>{ const G=H.fresh(key,h,zone||'dorm',Object.assign({met_sis:true,SIS_W1:true},flags||{})); if(lv) H[lv](ID); G.contacts=G.contacts||{}; G.contacts[ID]=G.day-30; G.outings=[]; if(STORY._bindGM) STORY._bindGM(GM); return G; };
