@@ -24673,7 +24673,7 @@
    },
    "source": "AA-C 10-20 14:23（企劃分支 81d6fe17：AA_313、AA_263 檔尾 92feec6b、7feecfdd）",
    "authorized": "AA 定稿（D100）",
-   "next": "【LAWWW-B 10-23 07:4x】交背景子代理在獨立工作樹照 audit_1022/AA313_REMAINING_1022.md §2～§5 沒做／部分的列逐條改（AA_389 第 6 點：逐場表為準、小語→Alison；AA 沒給字的跳過列出），改寫死的測試、跑完整 Node 測試；LAWWW-B 審查後合併 ｜ 【LAWWW（帳號 A）15:1x 盤點】唯讀子代理逐點對照（開發分支 efebfa12、企劃線 6409f9ba）：§2 沒做 36（含 2-3 A／B 兩通電話）、AA_263 (b) 部分 2（talkSis 備用句、子晴大四三句）；逐點清單、證據、寫死的測試、要問 AA 的 (b) 九點都在 docs/handoff/audit_1022/AA313_REMAINING_1022.md；date_lines 回退的 16 處 10-22 已修（BUG-DATE-LINES-REVERT-1022） ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_313 第 2、3 節逐場表改 story3d.js／events.js（兩校互考→互相出題、兩段電話）、改寫死的測試、重產 msg2_pool、KX8_NO_ASSUME 改名＋舊存檔對應；AA_263 檔尾 11 條；學姊階梯「學姊」→「妳」跟 AA312 一起 ｜ X64～X81 這批之後，和 AA_314 1A 一起排（擋玩家流程的先做）；學姊階梯跟 AA_312 重匯一起；第 63 列 BB 手測",
+   "next": "【LAWWW-B 10-23 08:4x】子代理被工作階段重開中斷：§2 半成品 a921883e3 只在本機工作樹，patch 備份在 wip_backup/AA313_FIXES_s2_WIP_1023.patch（2603d1b7e）；未跑完整測試、未合併；LAWWW-B 接手照 patch 續做 ｜ 【LAWWW-B 10-23 07:4x】交背景子代理在獨立工作樹照 audit_1022/AA313_REMAINING_1022.md §2～§5 沒做／部分的列逐條改（AA_389 第 6 點：逐場表為準、小語→Alison；AA 沒給字的跳過列出），改寫死的測試、跑完整 Node 測試；LAWWW-B 審查後合併 ｜ 【LAWWW（帳號 A）15:1x 盤點】唯讀子代理逐點對照（開發分支 efebfa12、企劃線 6409f9ba）：§2 沒做 36（含 2-3 A／B 兩通電話）、AA_263 (b) 部分 2（talkSis 備用句、子晴大四三句）；逐點清單、證據、寫死的測試、要問 AA 的 (b) 九點都在 docs/handoff/audit_1022/AA313_REMAINING_1022.md；date_lines 回退的 16 處 10-22 已修（BUG-DATE-LINES-REVERT-1022） ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 AA_313 第 2、3 節逐場表改 story3d.js／events.js（兩校互考→互相出題、兩段電話）、改寫死的測試、重產 msg2_pool、KX8_NO_ASSUME 改名＋舊存檔對應；AA_263 檔尾 11 條；學姊階梯「學姊」→「妳」跟 AA312 一起 ｜ X64～X81 這批之後，和 AA_314 1A 一起排（擋玩家流程的先做）；學姊階梯跟 AA_312 重匯一起；第 63 列 BB 手測",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -29582,9 +29582,9 @@
    "title": "學姊第五批・七夕（AA_388）實作：交往中、她約的三年七夕（2026-08-19 溫州街定食店、2027-08-08 霖澤館研究室門口便當、2028-08-26 她在美國：美國路線週六市集當面／其他路線 21:00 視訊）；ev_sis_qixi、SIS_QIXI",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-B 10-23 07:1x】交給背景子代理在獨立工作樹實作（新檔 sis_qixi3d.js／data/sis_qixi_events.js、測試 aa388_sis_qixi_unit.js、白名單），LAWWW-B 審查後合併｜照 AA_388 第 3 節（企劃線 3a509150）：ev_sis_qixi 同一個 id、OUT 出遊、不算正式約會；SIS_QIXI:{年:'met'|'video'|'declined'|'missed'}；關係照 AA_386 第 3 節；美國市集 2D 底圖沒有先用校園底圖（BB 跟使用者要，F08）；單元測試修改前 FAIL；BB 照第 3 節第 4 點測",
+   "next": "【LAWWW-B 10-23 08:4x】子代理 f51ad5638 審查後合併 64ac48557（src/sis_qixi3d.js、data/sis_qixi_events.js、tests/aa388_sis_qixi_unit.js ALL PASS；白名單 AA_388 3a509150）；「妳會過七夕喔？」照答應排出遊、1-2 去年沒過換私訊第一則（子代理的解讀，告訴 AA）；BB 照 AA_388 第 3 節第 4 點測 ｜ 【LAWWW-B 10-23 07:1x】交給背景子代理在獨立工作樹實作（新檔 sis_qixi3d.js／data/sis_qixi_events.js、測試 aa388_sis_qixi_unit.js、白名單），LAWWW-B 審查後合併｜照 AA_388 第 3 節（企劃線 3a509150）：ev_sis_qixi 同一個 id、OUT 出遊、不算正式約會；SIS_QIXI:{年:'met'|'video'|'declined'|'missed'}；關係照 AA_386 第 3 節；美國市集 2D 底圖沒有先用校園底圖（BB 跟使用者要，F08）；單元測試修改前 FAIL；BB 照第 3 節第 4 點測",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -29955,7 +29955,7 @@
    "id": "FF-SEMESTER-1023",
    "title": "學期中快轉：跳過一週（自動上課）／到下一個事件；劇情、要回的訊息、約好的出遊、考試照樣停下來播（使用者 10-23 08:0x，USER_WANTS D57）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "暫停",
    "priority": "P0",
    "area": null,
    "first": {
@@ -29970,7 +29970,9 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
+   "next": "【LAWWW-B 10-23 08:4x】暫停：誰決定＝使用者停掉子代理；為什麼＝不確定（已問使用者）；負責人 LAWWW；恢復條件＝使用者回覆；下次檢查 10-24 ｜ 【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測",
+   "pausedReason": "背景子代理被使用者停掉（10-23 08:3x，工具回報 stopped by the user）；沒有 commit；不能自己重開子代理",
+   "resumeWhen": "使用者說要繼續（主線自己做或重開背景）"
   },
   {
    "id": "UX-PHONE-MAP-1023",

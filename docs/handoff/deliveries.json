@@ -13488,8 +13488,8 @@
    "what": "AA_388 學姊第五批・七夕（三年；白色情人節不做學姊版）",
    "task": "SIS-QIXI-L-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA-B 06:50 send_message；outbox_AA.json 已登記"
+   "integration": "已整合待測試",
+   "note": "AA-B 06:50 send_message；outbox_AA.json 已登記｜LAWWW-B 10-23 08:4x 合併 64ac48557"
   },
   {
    "id": "DL-AA389",
