@@ -420,8 +420,8 @@ async def sl49(p, run, base, sid):
             tr = await pg.evaluate("(()=>{ const G=GAME.G; const u=Object.assign({},CLS.slotRec(G).used); const G2=Object.assign({},G,{slots:{day:G.day,used:{am:0,pm:1,ev:0}}}); return {trip:CLS.slotPlan(G2,1,'trip').ok, study:CLS.slotPlan(G2,1,'study').ok}; })()")
             res['onlyStudy'] = tr
             run.check('%s：【讀資料】考試週下午用了 1 件：自由出行不行、自習還可以（金色那格只給自習）' % sid, tr['trip'] is False and tr['study'] is True, J(tr))
-        elif sid == 'SL49_EAT':
-            it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/點/.test(i.label||'')); return it?[it.x,it.z,it.label]:null; })()"); res['counter'] = it
+        elif sid == 'SL49_EAT':   # 阿鳳麵店的互動是「坐下吃麵」（原本只找「點」，找不到；BB-B 13:4x）
+            it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/點|吃麵/.test(i.label||'')); return it?[it.x,it.z,it.label]:null; })()"); res['counter'] = it
             ok = bool(it) and await L.go_to(pg, cdp, run, it[0], it[1], 1.0, it[2] if it else '櫃台', max_s=240)
             if ok:
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
