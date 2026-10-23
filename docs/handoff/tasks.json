@@ -29335,7 +29335,7 @@
    "id": "RELEASE-9106",
    "title": "發布 v9.10.6：v9.10.5 以後的（AA296 只用手機演的改當面、可昕慢慢分手、芷若×子晴、學姊第四批 AA_386、溫州街四家店 AA_364、遠距離路人低面數、日本 3D 房間電話、手機列表捲動、進場事件先劇情、舊存檔烤肉期限；AA_387、公園路人、沛珊第三十一版趕得上才放）——BB 判定＋發布前清單（TESTING 第五節 1～9 全跑）＋PR 合併 main＋Pages 驗證",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "area": null,
    "first": {
@@ -29350,7 +29350,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 09:1x】BB RELEASE-9106-TEST 第 4 項兩個 FAIL（MX_JP0036、MX_US0200）查證是 probe 前置條件：JPF／USF 預先設了 JP_RETURNED／US_RETURNED（遊戲只在回國那刻記）→ 時差換算沒跑；同情境 tests/msg_kx_abroad_unit.js 1、2、5 PASS；請 BB 拿掉重跑；第 6 項 PASS ｜ 【LAWWW-B 10-23】完整 Node 單元測試 496 支 ALL PASS（e8712e8c1，程式＝719cca3bc）——A 交班 B 第 6 項完成｜【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
+   "next": "【LAWWW-B 10-23 13:2x】BB 13:18 判定 GO（9f9e13cc，第 1～12 項）。LAWWW 決定照 9f9e13cc 發布（BB 的兩個已知問題①日本房間電話②2029 明信片 main 原本就有、很後面的劇情，修正在開發分支，下一版放）。發布樹 279485541（遊戲檔案＝9f9e13ccf＋touch_flow_wenzhou.py bf3510d69＋版本字樣 v9.10.6、?v=9.10.6 146 個）。乾淨 worktree 跑 TESTING 第五節 1～8（14 支瀏覽器＋3 支 Node，背景一次一支）；HV-15：題目漏收 0（399 題）、check_lines 一模一樣 23,438／可能抄錯 178、check_orphans 素材 49（40 個路人 LOD 是程式組檔名、工具看不到）、停住 26（都有恢復條件）、白名單待接 24。全過以後：開發分支換成發布樹 → PR 合併 main → Pages → 換回 ｜ 【LAWWW-B 10-23 09:1x】BB RELEASE-9106-TEST 第 4 項兩個 FAIL（MX_JP0036、MX_US0200）查證是 probe 前置條件：JPF／USF 預先設了 JP_RETURNED／US_RETURNED（遊戲只在回國那刻記）→ 時差換算沒跑；同情境 tests/msg_kx_abroad_unit.js 1、2、5 PASS；請 BB 拿掉重跑；第 6 項 PASS ｜ 【LAWWW-B 10-23】完整 Node 單元測試 496 支 ALL PASS（e8712e8c1，程式＝719cca3bc）——A 交班 B 第 6 項完成｜【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
   },
   {
    "id": "ART-WZ-LIN-MENU-1022",
