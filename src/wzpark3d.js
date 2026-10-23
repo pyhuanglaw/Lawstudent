@@ -55,7 +55,7 @@ const PARK=(function(){
   S.adoptNotice=G=>{ const d=DK_(S.ADOPT.notice); return !!G&&d!=null&&G.day>=d; };
   /* 貓的互動點（zones3d.js buildWzPark）：名字、藏起來（收養以後「看圓椅」說過一次就藏）*/
   S.catLabel=G=>{ const nm=G?S.catName(G):null; if(G&&S.catGone(G)) return '看圓椅'; if(G&&S.catCold(G)) return nm||'那隻貓'; return nm?'摸摸'+nm:'那隻貓'; };
-  S.catHidden=G=>!!G&&S.catGone(G)&&S.rec(G).furSeen!=null;
+  S.catHidden=G=>{ if(!G||!S.catGone(G)) return false; const f17=DK_('2028-12-17'); return S.rec(G).furSeen!=null||(f17!=null&&G.day<f17); };   /* 12/15～12/16 空的圓椅沒有按鈕；12/17 起「看圓椅」一次（AA_408 第 4 節）*/
   /* 公布欄現在貼著的紙：[標題, 一句(, 旁白)] */
   S.firstSat=function(G){ if(typeof CALENDAR==='undefined') return null; const d0=CALENDAR.dateOf(G.day); let d=G.day-(d0.d-1); for(let k=0;k<7;k++,d++){ const q=CALENDAR.dateOf(d); if(q.wd===6) return q; } return null; };
   S.notices=function(G){ const F=G.flags||{}, m=month(G), T=T_(G), out=[];
@@ -91,7 +91,7 @@ const PARK=(function(){
       if(k==='shrine'){ if(P.shrineDay===G.day){ await GM.say(null,SHRINE.done); return 'done'; } P.shrineDay=G.day; GM.advance(1/12); const T=T_(G); const t=T&&T.id==='Y4S2'?SHRINE.last:(S.examWeek(G)?SHRINE.exam:SHRINE.normal); await GM.say(null,t); return 'shrine'; }
       if(k==='fountain'){ if(P.fountainDay===G.day) return 'again'; P.fountainDay=G.day; const h=hr(G), m=month(G); await GM.say(null,h>=22||h<5?FOUNTAIN.night:(m>=6&&m<=8?FOUNTAIN.summer:FOUNTAIN.normal)); return 'fountain'; }
       if(k==='cat'){ if(S.catLost(G)) return 'lost';
-        if(S.catGone(G)){ if(P.furSeen!=null) return 'gone'; P.furSeen=G.day; await GM.say(null,CAT_FUR); return 'fur'; }   /* 收養以後：沒有摸、餵；「看」圓椅一次 */
+        if(S.catGone(G)){ const f17=DK_('2028-12-17'); if(P.furSeen!=null||(f17!=null&&G.day<f17)) return 'gone'; P.furSeen=G.day; await GM.say(null,CAT_FUR); return 'fur'; }   /* 收養以後：沒有摸、餵；「看」圓椅那一句 12/17 起一次（AA_408 第 4 節、AA_397 3-3 改）*/
         if(S.catCold(G)){ await GM.say(null,CAT_COLD); return 'cold'; }   /* 寒流那一週：縮在石桌下面，罐頭只聞了一下 */
         if(!P.catName){ for(const t of CAT_NAME_INTRO) await GM.say(null,t); const i=await GM.choose(CAT_NAMES.map(q=>({t:'「'+q[0]+'。」'}))); const q=CAT_NAMES[i]||CAT_NAMES[0]; P.catName=q[0]; await GM.say(null,q[1]); GM.advance(1/12); P.petDay=G.day; return 'named'; }
         const cans=(G.daily.catCans|0), per=CAT[S.period(G)]; const opts=[{t:cat(G,'摸摸{cat}'),dim:P.petDay===G.day,hint:P.petDay===G.day?'今天摸過了':'5 分鐘',k:'pet'}]; if(cans>0) opts.push({t:cat(G,'餵{cat}（小罐罐頭）'),dim:P.feedDay===G.day,hint:P.feedDay===G.day?'今天餵過了':'還有 '+cans+' 罐',k:'feed'}); opts.push({t:'算了',k:'no'});
