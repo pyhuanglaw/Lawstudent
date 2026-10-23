@@ -1663,7 +1663,10 @@ R8 += [
   SY_STUDY('SY60_STUDY_D', SIS_D, '書瑀'), SY_STUDY('SY60_STUDY_F', SISF, '學姊'),
   SY_BTN('SY60_BTN_D', SIS_D, '書瑀'), SY_BTN('SY60_BTN_F', SISF, '學姊'), SY_BTN('SY60_BTN_EX', EXJS0, '學姊'),
   dict(id='SY60_LADDER', key='2029-03-06', h=15.0, zone='dorm', flags=dict(TWF), js=R8H + Y4 + SIS_D, steps=[],
-       jsok=[('交往中：「妳變成學姊了。」不換（shuyuT 只換標題）', "SOCIAL.shuyuT?SOCIAL.shuyuT('妳變成學姊了。'):'(沒有 shuyuT)'", '妳變成學姊了。'),
+       # BB-B 18:3x：原本直接拿 shuyuT 算台詞＝檢查寫錯（shuyuT 是標題、字卡、手機系統提醒用的，social3d.js:148；台詞不經過它）。
+       # 改成：階梯的台詞資料照原文、遊戲裡只有標題／字卡／系統提醒三處呼叫 shuyuT（events3d.js titleCard、game3d.js sysT、outings3d.js S.tt）
+       jsok=[('交往中：階梯台詞「妳變成學姊了。」照原文（台詞不經過 shuyuT）', "JSON.stringify(LADDER).includes('妳變成學姊了。')", True),
+             ('交往中：標題才換（shuyuT「學姊的研究室」→「書瑀的研究室」）', "SOCIAL.shuyuT?SOCIAL.shuyuT('學姊的研究室'):'(沒有 shuyuT)'", '書瑀的研究室'),
              ('交往中：「直屬學姊」不換', "SOCIAL.shuyuT?SOCIAL.shuyuT('直屬學姊'):'(沒有 shuyuT)'", '直屬學姊')]),
 ]
 SCENS = SCENS + R8
@@ -1698,6 +1701,11 @@ SQ39B = [
 ]
 for _sc in SQ39B: _sc['js'] = SAYH + _sc['js']
 SCENS = SCENS + SQ39B
+# BB-B 10-23 18:3x：可昕的「帶一杯」（FOOD51_KX_*）買完飲料 16:40，學期末約會 18:00 出發。負載 25 時遊戲時間 420 秒只走 0.2 小時（f51dr2：「等不到 19.00」，
+# 約會根本沒開始，她的反應句當然沒有）→ 買完以後【捷徑】撥到 17:55（出發前 5 分鐘，那一杯已經記在 FAV.rec），再照走到 19:00、最多等 1500 秒
+for _s in SCENS:
+    if _s['id'].startswith('FOOD51_KX_') and _s['id'] != 'FOOD51_KX_NOTRIP':
+        _s['steps'] = [x for st in _s['steps'] for x in ([('jump', 'GAME.G.day', 17.92, '約會出發前（飲料已經買好；機器負載高，16:40→18:00 照真實時間要一小時以上）'), ('until', 19.0, 1500)] if st == ('until', 19.0) else [st])]
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
@@ -1732,7 +1740,13 @@ async def usep(pg, cdp, run, pat, pref):
         if lab: break
         await pg.wait_for_timeout(800)
     say('   互動：%s（按鈕「%s」）' % (it[2], lab)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-    cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); say('   選單：%s' % ' / '.join(c[:24] for c in cs))
+    cs = []
+    for k in range(25):   # BB-B 10-23 18:3x：按下去以後選單也要等下一格（f51dr2 FOOD51_KX_RIGHT：2.5 秒還沒出來，drain 1 秒沒東西就回來，什麼都沒買）
+        cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+        s_ = await L.state(pg)
+        if cs or s_['dlg']: break
+        await pg.wait_for_timeout(1500)
+    say('   選單：%s' % ' / '.join(c[:24] for c in cs))
     await B['drain'](pg, cdp, pref=list(pref or []), secs=240); return True
 
 def in_order(T, exp):
