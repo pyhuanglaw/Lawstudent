@@ -16,6 +16,8 @@ SC = [
   dict(id='FLOOR_3F', zone='library', pos={'x': 0, 'z': 7, 'yaw': math.pi, 'lv': 0}),
   dict(id='FLOOR_2F', zone='library_hall', pos={'x': 10.8, 'z': -6.0, 'yaw': -math.pi / 2, 'lv': 1}),
   dict(id='LIN_MENU', zone='wz_lin', pos={'x': 1.0, 'z': 3.05, 'yaw': math.pi, 'lv': 0}),
+  # 第二次（08:3x）：第一次從門口拍，紅紙太小看不出字 → 站在「看菜單」那一點（-1.3, -0.3）面向左牆（菜單 x -3.17、高 2.07），鏡頭壓低拉近；再按「看菜單」
+  dict(id='LIN_MENU2', zone='wz_lin', pos={'x': -1.3, 'z': -0.3, 'yaw': -math.pi / 2, 'lv': 0}, cams=[(0, 0.10, 2.4), (0.35, 0.10, 2.2), (-0.35, 0.10, 2.2), (0, 0.05, 1.6)], tap='看菜單'),
 ]
 async def main():
     run = L.Run('shots1023', OUT); sha = os.environ.get('SHA', '?')
@@ -35,6 +37,17 @@ async def main():
                 info = await pg.evaluate("(()=>({zone:GAME.G.zone, lv:(GAME.E.player&&GAME.E.player.lv)||0, its:(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>i.label||'').filter(Boolean).slice(0,40)}))()")
                 say('   在 %s 第 %s 層；互動點：%s' % (info['zone'], info['lv'], ' / '.join(dict.fromkeys(info['its']))))
                 y0 = await pg.evaluate("GAME.E.cam.yaw")
+                if sc.get('cams'):
+                    for k, (dy, pt, ds) in enumerate(sc['cams']):
+                        await pg.evaluate("(([y,p,d])=>{ const c=GAME.E.cam; c.yaw=y; c.pitch=p; c.distTarget=d; c.manualT=60; })(%s)" % json.dumps([y0 + dy, pt, ds])); await pg.wait_for_timeout(3000)
+                        await run.shot(pg, '%s_cam%d' % (sc['id'], k))
+                    if sc.get('tap'):
+                        ok = await pg.evaluate("(w=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })(%s)" % json.dumps(sc['tap']))
+                        say('   互動鈕：%s' % ok)
+                        if sc['tap'] in ok:
+                            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500); await run.shot(pg, '%s_tap' % sc['id'])
+                            st2 = await L.state(pg); say('   按下去以後：%s' % json.dumps({k: st2.get(k) for k in ('dlg', 'dtext', 'choices')}, ensure_ascii=False)[:400])
+                    continue
                 for k in range(4):
                     await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; GAME.E.cam.manualT=60; })(%f)" % (y0 + k * math.pi / 2)); await pg.wait_for_timeout(2500)
                     await run.shot(pg, '%s_yaw%d' % (sc['id'], k * 90))
