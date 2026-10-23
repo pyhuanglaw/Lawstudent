@@ -6,6 +6,20 @@
 - `asks --role AA`：OK（48 筆）。
 - `duty register`：已登記。
 
+> **【進度 2026-10-23 06:5x UTC，AA-B】**
+> - **通訊**：LAWWW-B（ACK 06:46）、LAWWW2-B（ACK 06:45）雙向 OK；BB-B 已送達、還沒回。
+> - **上一任交 LAWWW 的四點**（grep 開發分支 `719cca3b`）：
+>   - ①②④ 已做；
+>   - **③ `AA_387` 第 10 節（A1 票根、ZR_LAST2）沒做** → LAWWW-B 06:46 ACK，排進總表。
+> - **我 10-17 的大一下階梯 WIP**：AA-C 已收尾（`AA_209` 第 7 節 `3b7e2268`）。結案。
+> - **USER_WANTS**（第 1 節，AA 負責、不在遊戲裡 23 項）今天到期兩項：
+>   - X95：AA 的部分做完（STORY-AUDIT-1017 已整合待測試），等 BB 驗收 BB-TEST-AA360-1021；
+>   - C25：學姊。
+> - **佇列（D96）**：
+>   1. C25／SIS-LEAD-1021 學姊第五批：七夕、白色情人節學姊版，`BB_122` 9-1 對質一起看。
+>   2. 向 LAWWW-B 要 `AA_313` 問題清單，對 `tasks.json` 未結的 `AA-Q-*`。
+>   3. X92 大五（10-24 到期）、D35（10-24 到期）的 AA 部分核對。
+
 值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 8d32ed63｜2026-10-21 15:24 UTC
 上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 8d32ed63（14:30 UTC）｜交班紀錄有寫（下面那一節），但沒有跑 `duty handoff`（`duty_AA.json` 還是 on）→ 使用者對 AA（帳號 A）說「我回來了，請同步 GitHub 最新進度，接續工作。」，用 `duty register --user-ok` 接班（記 no-handoff）
 
