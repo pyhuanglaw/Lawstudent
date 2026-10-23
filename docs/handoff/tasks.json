@@ -29634,7 +29634,7 @@
    "title": "芷若 2027-09-02 出發那天（AA_390；HOOK_ZR_SENDOFF 補場，寫好以前選項不出）",
    "area": "STORY",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "next": "AA_390 交付（企劃線 5f4b9c7b、outbox 1d45d2f9）；LAWWW 實作任務 ZR-SENDOFF-L-1023",
    "first": {
@@ -29800,7 +29800,7 @@
    "title": "芷若 2027-09-02 出發那天（AA_390）實作：答應「出發那天我去送妳」（HOOK_ZR_SENDOFF）才有；9/1 21:00 兩則訊息、9/2 08:30 桃園機場出境大廳（3D，以安送機同一處）、地址＋票根；沒來 09:40 一則",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "照 AA_390 第 6 節：ZR_SENDOFF_2027:'met'|'declined'|'missed'、記憶 ZR_SAW_OFF；做好後打開大二下期末那個選項；1B-06 的 9/2 三則有演這場就不傳、票根改在機場給；芷若媽媽沒有模型不放立繪；單元測試修改前 FAIL；BB 補測",
    "first": {
@@ -29814,7 +29814,9 @@
     "confirmed": true
    },
    "source": "AA-B 10-23 06:58 交付（DL-AA390）",
-   "authorized": "D109、D111"
+   "authorized": "D109、D111",
+   "sha": "6a6b7599e",
+   "note": " 10-23 13:2x LAWWW-B 盤點：6a6b7599e 已實作（src/zr_sendoff3d.js、tests/aa390_zr_sendoff_unit.js ALL PASS），總表狀態漏改；待 BB 測。"
   },
   {
    "id": "SIS-B6-1023",
