@@ -214,9 +214,12 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   at('2028-08-03',4.5); E.player.busy=false; await tick();
   check('G1／US-A. 8/3 04:30 公寓醒來：「（你醒來的時候，窗外還是黑的。手機上是四點半。台灣是下午四點半。）」（只演一次）', has('（你醒來的時候，窗外還是黑的。手機上是四點半。台灣是下午四點半。）')&&!has('（C 棟有一扇窗的燈也亮著。你不知道是不是她那一戶。）')&&G.flags.USL_JETLAG&&(said=[],await tick(),!said.length));
   runRules('2028-08-03',4.5,5.5); { const m=PHONE.byAsk(G,'usl_sis_0803');
-    check('G1. 交往中 05:10 學姊私訊兩則；回「醒了。」→「再睡一下。九點去辦手續。」', JSON.stringify(txt('p:heroine_05').slice(0,2))===JSON.stringify(['heroine_05:你也醒了吧。','heroine_05:睡不著。外面還是黑的。……我的身體以為現在是下午。'])&&!!m&&(PHONE.answer(G,'usl_sis_0803',0),txt('p:heroine_05').slice(-1)[0]==='heroine_05:再睡一下。九點去辦手續。'), JSON.stringify(txt('p:heroine_05'))); }
+    check('G1. 交往中 05:10 學姊私訊兩則；回「醒了。」→「再睡一下。手續是明天十點。」（US-JETLAG-BED-0803-1022）', JSON.stringify(txt('p:heroine_05').slice(0,2))===JSON.stringify(['heroine_05:你也醒了吧。','heroine_05:睡不著。外面還是黑的。……我的身體以為現在是下午。'])&&!!m&&(PHONE.answer(G,'usl_sis_0803',0),txt('p:heroine_05').slice(-1)[0]==='heroine_05:再睡一下。手續是明天十點。'), JSON.stringify(txt('p:heroine_05'))); }
   fresh('2028-08-03',4.5,'us_apartment',US({US1:'alone'})); E.player.busy=false; await tick(); runRules('2028-08-03',4.5,6);
   check('G1／US-B. 挽回中 8/3：只有旁白（多「C 棟有一扇窗的燈也亮著」），沒有訊息', has('（C 棟有一扇窗的燈也亮著。你不知道是不是她那一戶。）')&&!txt('p:heroine_05').length);
+  { fresh('2028-08-03',4.75,'us_apartment',US()); G.flags.USL_JETLAG=true; const O=STORY.bedOptions(G)||[];   /* US-JETLAG-BED-0803-1022（AA-B 10-23 07:50）*/
+    check('G1. 8/3 時差醒來以後的床：第一項「再睡到早上（09:00）」（同一天的小睡），原本睡到明天早上的那項還在', !!O[0]&&O[0].kind==='nap'&&O[0].to===9&&O[0].t==='再睡到早上（09:00）'&&O.some(o=>o.kind==='sleep'), JSON.stringify(O.map(o=>[o.kind,o.t])));
+    at('2028-08-03',5.5); const O2=STORY.bedOptions(G)||[]; check('G1. 05:00 以後（白天的小睡）：第一項照樣是「再睡到早上（09:00）」，小睡那幾項還在', !!O2[0]&&O2[0].to===9&&O2.filter(o=>o.kind==='nap').length>1, JSON.stringify(O2.map(o=>[o.kind,o.t]))); }
   fresh('2028-08-03',9,'us_apartment',US()); date('heroine_05'); rules(); { const q=OUT.get(G,'usl_office'); check('G1. 8/4 10:00 國際學生辦公室：出遊（一鍵「出發」，鬧鐘）', !!q&&q.day===D('2028-08-04')&&q.h===10&&q.alarm===true); at('2028-08-04',9.8); await go('usl_office'); }
   check('G1. 國際學生辦公室：旁白＋交往中「（學姊比你早到。她的表已經交了……）」', has('（國際學生辦公室。你排在一個巴西來的學生後面，填了三張表。最後一張問你的緊急聯絡人，你寫了媽媽的名字，又在旁邊寫了台灣的國碼。）')&&has('（學姊比你早到。她的表已經交了，坐在門口的椅子上等你，手上是那瓶熱水。）'));
   fresh('2028-08-04',9.8,'us_apartment',US()); rules(); await go('usl_office'); check('G1／US-B. 挽回中：「（學姊比你早到。你們在走廊點了一下頭。）」', has('（學姊比你早到。你們在走廊點了一下頭。）'));

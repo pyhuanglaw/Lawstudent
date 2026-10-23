@@ -266,6 +266,8 @@ const USL=(function(){
   /* ======================= 床：8/2 晚上時差（04:30 醒來）、隔天有課照美國的第一堂 ======================= */
   { const b0=STORY.bedOptions; STORY.bedOptions=function(G){ const out=b0.apply(this,arguments); if(!S.here(G)||!out) return out; const h=hh(G), night=G.hour>=24||h>=17.5||h<5;
       if(night&&G.day===S.dep()&&!G.flags.USL_JETLAG) return [{kind:'sleep',wake:4.5,t:'睡覺',hint:'04:30'}].concat(out.filter(o=>o.kind==='stay'));   /* G1 8/3 04:30 時差 */
+      /* US-JETLAG-BED-0803-1022（AA-B 10-23 07:50）：8/3 凌晨時差醒來以後，第一項多「再睡到早上（09:00）」（同一天，不跳過 8/3）；原本睡到明天早上的那項留著 */
+      if(G.day===S.dep()+1&&G.flags.USL_JETLAG&&h<9) return [{kind:'nap',to:9,t:'再睡到早上（09:00）',hint:'09:00（8/3 是安頓的一天）'}].concat(out);   /* 同一天：照白天小睡（CLS.skipTo，跳過時間的停點照停）*/
       const its=night?S.items(G,G.day+1):[]; if(!its.length) return out; const w=Math.max(6.5,its[0].t0-1), k=out.findIndex(o=>o.kind==='sleep'&&/明天沒有課/.test(o.hint||''));
       if(k<0) return out; const why='第一堂 '+hm(its[0].t0)+' '+its[0].c.name+'前一小時';
       const a=(STORY.wakeAlarms?STORY.wakeAlarms(G,G.day+1):[]).find(q=>q.h<w), w1=a?Math.max(6.5,a.h):w;   /* BUG-US-BED-ALARM-1022：換了起床時間要再看一次鬧鐘（story3d.js 的 bedOptions 每一項都看），不然 07:30～第一堂前一小時之間的約會睡過去（可昕週年視訊 10/17 09:00）*/
