@@ -140,7 +140,7 @@ const ENCOUNTERS={
     /* 第二批（aa_walk_v1／bb_walk_v1 followUp @aca122d2）*/
     ENC_D18_YT:{who:'heroine_03',lines:['九份那天，你在旁邊站好久。阿嬤後來問我你是誰。']},
     ENC_D25_ZHE:{who:'zhe',lines:['哥，上次外澳那個浪，我回去背痛三天。下次還要去。']},
-    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天的事……阿哲問的話，你照實說。推甄完了，我不怕他笑。'],linesIfNot:{memory:'ENC_D06_BH',lines:['貓空那天的事，阿哲問的話，就說我在總圖。……你知道我是什麼意思。']}},   /* 美術館那句（ENC_D06_BH）說過才用第一句 */
+    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。']},   /* AA_389 第 3 點（企劃線 345234b3）：兩句合成一句、拿掉祕密感（AA_193 第 3 組），不分 ENC_D06_BH */
     ENC_D18_XC:{who:'classmate_xinci',lines:['我們後來找到那個角度了。光差一點，不過還是拍了。']},
     ENC_D09_KX:{who:'kexin',phone:['貓空那天，兩分四十秒是對的。邵鈞到現在還在講。']},
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},

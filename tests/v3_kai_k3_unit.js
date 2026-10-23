@@ -43,7 +43,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 第二週
   G.day=s1+7; G.weekday=wdOf(G.day); G.hour=22.9; run(22.9,23.1); T=K(); check('4. 第二週只有「宵夜？」',T[T.length-1]==='kai:宵夜？'&&!!ask(s1+7));
   PHONE.answer(G,'kai_sup_'+(s1+7),0); run(23.1,23.2); said=[]; await EVENTS.run(ev('ev_kai_sunday_supper')); L=lines();
-  check('4. 第二次以後：旁白＋輪流一句（第一句「今天我多夾了一顆貢丸。這是成長。」）',L[0]==='（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'&&/今天我多夾了一顆貢丸。這是成長。$/.test(L[1])&&L.length===2,JSON.stringify(L));
+  check('4. 第二次以後：旁白＋輪流一句（第一句「今天我多夾了一顆貢丸。」）',L[0]==='（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'&&/今天我多夾了一顆貢丸。$/.test(L[1])&&L.length===2,JSON.stringify(L));
   // 第三週：這週不行
   G.day=s1+14; G.weekday=wdOf(G.day); G.hour=22.9; run(22.9,23.1); PHONE.answer(G,'kai_sup_'+(s1+14),1); run(23.1,23.2); T=K();
   check('5. 「這週不行。」→「好。下週日。」、沒有出發選單',T[T.length-1]==='kai:好。下週日。'&&!OUT.get(G,'kai_sup_'+(s1+14)),JSON.stringify(T.slice(-3)));
