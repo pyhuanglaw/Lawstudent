@@ -33,6 +33,12 @@ HIDEUI = """(on=>{ const cv=GAME.E.renderer.domElement; for(const e of document.
 PLACE = """(([x,z,yaw,dist,pitch])=>{ const E=GAME.E, P=E.player; const ok=!E.nav||E.nav.free(x,z); if(E.placeAt) E.placeAt(P,x,z); else P.obj.position.set(x,0,z);
   const c=E.cam; c.yaw=yaw; c.distTarget=dist; c.dist=dist; c.pitch=pitch; c.manualT=60; return ok; })"""
 
+# 那一扇窗在畫面上的範圍（四個角投影到螢幕）→ 裁出來並排看視差
+WINRECT = """(i=>{ const E=GAME.E, w=E.zone.wins[i], cam=E.camera||E.cam3||null; const C=cam||(E.renderer&&E.scene&&E.scene.userData.cam); if(!w||!C) return null;
+  w.geometry.computeBoundingBox(); const b=w.geometry.boundingBox, cv=E.renderer.domElement, r=cv.getBoundingClientRect(); let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const [x,y] of [[b.min.x,b.min.y],[b.max.x,b.min.y],[b.min.x,b.max.y],[b.max.x,b.max.y]]){ const v=new THREE.Vector3(x,y,0).applyMatrix4(w.matrixWorld).project(C); const px=r.left+(v.x+1)/2*r.width, py=r.top+(1-v.y)/2*r.height; x0=Math.min(x0,px); y0=Math.min(y0,py); x1=Math.max(x1,px); y1=Math.max(y1,py); }
+  return [Math.round(x0),Math.round(y0),Math.round(x1),Math.round(y1)]; })"""
+
 def dark_frac(path, box=(0.15, 0.1, 0.85, 0.8)):
     im = Image.open(path).convert('L'); w, h = im.size
     c = im.crop((int(w * box[0]), int(h * box[1]), int(w * box[2]), int(h * box[3])))
@@ -71,11 +77,24 @@ async def main():
                     # 法線要朝室內（往房間中心）：房間中心大約是原點
                     if (0 - w0['x']) * nx + (0 - w0['z']) * nz < 0: nx, nz = -nx, -nz
                     yaw = math.atan2(nx, nz); tx, tz = nz, -nx
-                    shots = []
-                    for k, off in (('L', -1.2), ('C', 0.0), ('R', 1.2)):
-                        x = w0['x'] + nx * 2.2 + tx * off; z = w0['z'] + nz * 2.2 + tz * off
-                        ok = await pg.evaluate(PLACE + "(%s)" % json.dumps([x, z, yaw, 2.6, 0.04])); await pg.evaluate(HIDEUI + "(true)"); await pg.wait_for_timeout(3000)
-                        sp = await run.shot(pg, '%s_%s' % (tag, k)); df, lu = dark_frac(sp); shots.append({'k': k, 'x': round(x, 2), 'z': round(z, 2), 'free': ok, 'dark': df, 'lum': lu})
+                    shots = []; wi = q['wins'].index(w0)
+                    for k, off in (('L', -1.0), ('C', 0.0), ('R', 1.0)):
+                        x = w0['x'] + nx * 1.1 + tx * off; z = w0['z'] + nz * 1.1 + tz * off   # 窗前 1.1 m、鏡頭再往後 1.8 m（離窗約 2.9 m），平視
+                        ok = await pg.evaluate(PLACE + "(%s)" % json.dumps([x, z, yaw, 1.8, 0.0])); await pg.evaluate(HIDEUI + "(true)"); await pg.wait_for_timeout(3000)
+                        sp = await run.shot(pg, '%s_%s' % (tag, k)); df, lu = dark_frac(sp)
+                        rect = await pg.evaluate("(%s)(%d)" % (WINRECT, wi))
+                        shots.append({'k': k, 'x': round(x, 2), 'z': round(z, 2), 'free': ok, 'dark': df, 'lum': lu, 'rect': rect, 'path': sp})
+                    try:   # 三張的窗那一塊並排（同一個範圍：三張的聯集）
+                        R_ = [s_['rect'] for s_ in shots if s_.get('rect')]
+                        if R_:
+                            im0 = Image.open(shots[0]['path']); W_, H_ = im0.size; sc = W_ / 844.0
+                            bx = (max(0, int(min(r_[0] for r_ in R_) * sc)), max(0, int(min(r_[1] for r_ in R_) * sc)), min(W_, int(max(r_[2] for r_ in R_) * sc)), min(H_, int(max(r_[3] for r_ in R_) * sc)))
+                            if bx[2] - bx[0] > 20 and bx[3] - bx[1] > 20:
+                                cr = [Image.open(s_['path']).convert('RGB').crop(bx) for s_ in shots]; cw, ch = cr[0].size
+                                sh = Image.new('RGB', (cw * 3 + 8, ch), 'black')
+                                for i_, c_ in enumerate(cr): sh.paste(c_, (i_ * (cw + 4), 0))
+                                sh.save(os.path.join(OUT, 'crop_%s.png' % tag)); r['crop'] = bx
+                    except Exception as e: say('   裁窗失敗：%r' % e)
                     await pg.evaluate(HIDEUI + "(false)")
                     r['shots'] = shots; say('   窗前三張：%s' % J(shots))
                     run.check('%s：窗前三張沒有大片純黑（純黑像素 ≤ 3%%）' % tag, all(s['dark'] <= 0.03 for s in shots), J(shots))
