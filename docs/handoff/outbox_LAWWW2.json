@@ -1340,7 +1340,7 @@
   {
    "task": "ART-BALCONY-POTS",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.glb",
     "assets/models/env/second_ai/wenzhou_street.json",
@@ -1354,13 +1354,13 @@
    "next": "LAWWW 換 wenzhou_street.glb＋json、gongguan_shops.glb＋json（只換 GLB，不用改程式；導航、碰撞、互動點不變）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "陽台盆栽放到鐵花架上、葉子調亮，從街上看得到（溫州街 A3／C2／W0、公館 G04／G07／G10 遊戲內前後對照）；物件、材質數不變，三角形 +288（溫州街）、+480（公館）｜開發分支 e8b82e4a 已整合（LAWWW）；BB 17:20 PASS（balcony_probe 67 張，沒有浮空、穿牆、閃面）"
   },
   {
    "task": "BB218-Y1-TAPE-BOX",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "assets/models/env/second_ai/dorm_y1_items.glb",
     "assets/models/env/second_ai/dorm_y1_items.json",
@@ -1373,13 +1373,13 @@
    "next": "LAWWW 換 dorm_y1_items.glb＋json（不用改程式）；BB 用 y1_check.py 重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）｜開發分支 0e8f585b 已整合（LAWWW）；BB 17:10 FIXED（「國界」／「法律系免簽」兩種旗標都 PASS、壓平紙箱看得到）；BB 另報壓平紙箱的字像鏡像 → ART-Y1-BOX-MIRROR-1021"
   },
   {
    "task": "BB218-GYM-HAZE",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "assets/models/env/second_ai/gym_interior.glb",
     "tools/blender/env_second/gym_interior.py",
@@ -1390,7 +1390,7 @@
    "next": "LAWWW 換 gym_interior.glb（只差 gym_court_floor 粗糙度，14 bytes）；BB 用 artrev 同角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7｜開發分支 1cd80a95 已整合（LAWWW 17:17 ACK＋ACTIONED）；BB 17:27 FIXED（20:30 +43.8→+9.0、13:00 +27.7→+3.9）；引擎補光另開 ENGINE-FILL-SPEC-1021（LAWWW）"
   },
   {
@@ -1411,7 +1411,7 @@
   {
    "task": "GRADE-GOLDEN-DEFAULT",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "docs/art-rebuild/second_ai/patches/grade_golden_default.diff",
     "docs/art-rebuild/second_ai/test_shots/grade_golden_1021/"
@@ -1421,13 +1421,13 @@
    "next": "LAWWW git apply grade_golden_default.diff（對 15f3c677 乾淨；engine3d.js 兩行＋golden_compare.sh 四行）；BB 可以用 golden_compare.sh 同角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS｜開發分支 6d49e79c（post9103 → 40a8ddc3 合併進開發分支）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "BUG-CAM-203-R2-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "docs/art-rebuild/second_ai/patches/dorm_cam_203.diff",
     "docs/art-rebuild/second_ai/test_shots/dorm203_cam_1021/"
@@ -1437,13 +1437,13 @@
    "next": "LAWWW git apply dorm_cam_203.diff（對 15f3c677 乾淨；只改 zones3d.js＋新 tests/dorm_cam_unit.js，不需要 engine3d.js）；BB 用 artrev3 01／04 重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人｜開發分支 6313c019（post9103 → 40a8ddc3）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "PERF-CAMPUS-SHADOW-1020",
    "branch": "claude/second-ai-env-art",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "docs/art-rebuild/second_ai/patches/campus_parked_bikes.diff",
     "docs/art-rebuild/second_ai/test_shots/perf_campus_1021/"
@@ -1453,7 +1453,7 @@
    "next": "LAWWW git apply campus_parked_bikes.diff（對 15f3c677 乾淨；zones3d.js＋tests/campus_bikes_unit.js）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACTIONED",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670｜開發分支 51740da7（post9103 → 40a8ddc3）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
@@ -2470,13 +2470,13 @@
    "next": "LAWWW-B 合併進開發分支，換掉第二十八版；ART-ZR-PS-3D-1022 沛珊那一半由 LAWWW-B 標驗收；沛珊不再開新版（D99 第 4 點）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED（LAWWW-B 10-23 17:4x 收到；17:5x 驗收通過）",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：VRM 9b2e6efb 已整合進開發分支 27b5e58bf）",
    "note": "LAWWW-B 16:50 四項：中分＋額頭露出對、窗簾瀏海到顴骨以下對、頭頂接近、兩側接近、三分之四側對"
   },
   {
    "task": "法學院廣場的大樟樹（LAWWW-B 選 A）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "cb1d9ecb",
    "files": [
     "docs/art-rebuild/second_ai/patches/linze_tree_1023.patch（src/zones3d.js、src/linze_upper3d.js、tools/shots/*；對開發 700cb0b7f apply --check 過）",
     "assets/models/env/views/linze_*（south、201 重拍；3F～5F 遠景＋近景）",
@@ -2487,8 +2487,26 @@
    "next": "LAWWW-B 套 patch＋放照片、跑 campus_layout_nav／reachability campus",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 10-23 20:0x：已整合進開發分支 27b5e58bf）",
    "note": "checkpoint d756789b 之後：3F、4F 樹冠上緣的水平切線改成淡出（FADE）"
+  },
+  {
+   "task": "CLOSED-SPACES-1023 第 2 項：總圖 B1（AA_399 第 2 節；LAWWW-B 10-23 選 A）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "97e40795",
+   "files": [
+    "tools/blender/env_second/library_b1.py＋textures/gen/library_b1_print.png",
+    "assets/models/env/second_ai/library_b1.{glb,json,layout.json}",
+    "assets/models/env/library_interior.glb（一樓西牆 z −2.4 換成往 B1 的門）",
+    "docs/art-rebuild/second_ai/patches/library_b1_1023_WIP.patch"
+   ],
+   "state": "WORK_IN_PROGRESS（CHECKPOINT_SAVED）",
+   "remaining": "瀏覽器測試（flow_library_floors、reachability library_hall／library_b1）、遊戲內截圖、README",
+   "next": "測完交件",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "—",
+   "note": "還沒交付，不要整合；門從 z −3.2 改到 z −2.4（−3.2 撞到西牆那一扇窗）"
   }
  ]
 }

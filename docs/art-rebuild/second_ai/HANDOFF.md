@@ -90,6 +90,14 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **18:0x 更新**：
+    - 已交：法學院廣場的大樟樹（`cb1d9ecb`，`test_shots/linze_tree_1023/README.md`）。LAWWW-B 20:0x：樹、沛珊 v32 都已整合進開發 `27b5e58bf`。
+    - 總圖 B1（LAWWW-B 選 A）：WIP 檢查點 `97e40795`。
+      - 模型 `library_b1.glb`（2.9 萬三角形、42 個座位、navcheck 0 問題）、大廳一樓西牆的門（`library_interior.glb` 重建）、區域 patch（對開發 `700cb0b7f`）。
+      - 門在 z −2.4（−3.2 撞到西牆的窗），交件時告訴 LAWWW-B。
+      - `library_b1_unit`、`nav_buildings_unit` ALL PASS。瀏覽器（截圖、`reachability_all` 大廳＋B1、`flow_library_floors`）在 `$SP/dv` 跑。
+      - 測試樹 `$SP/dv`＝開發 `700cb0b7f`＋B1 的修改（`$SP/withserver_dv.sh`，port 8871）。
+    - 收到（P2）：AA-B 18:4x AA_413（溫州街日日便利、阿忠水果、自助洗衣）；LAWWW-B 20:0x：程式在開發，美術排在 B1 之後，座標改 `WZS.AA413` 帶在 patch。
   - **17:4x 更新**：
     - LAWWW-B 17:5x：沛珊第三十二版（`1056a5c7`）**驗收通過**（D100）。outbox 改成「已交付、可整合」，由 LAWWW-B 合併換掉第二十八版。
       - 記下、這一版不改：兩側一綹一綹的帶子、瀏海落在鏡框上緣、髮片一階一階＋背面兩小撮、鞋子是平底鞋（參考圖帆布鞋）。
