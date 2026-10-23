@@ -53,13 +53,13 @@ const PLACEMAP=(function(){
     for(const a of S.AREAS) svg+='<rect x="'+a.x+'" y="'+a.y+'" width="'+a.w+'" height="'+a.h+'" rx="10" fill="'+a.c+'"/>'+(a.name?'<text x="'+a.lx+'" y="'+a.ly+'" font-size="12" fill="#9aa39a">'+esc(a.name)+'</text>':'');
     svg+='<path d="M150 172 H322" stroke="#58664f" stroke-width="6" stroke-linecap="round" opacity=".7"/>';   /* 椰林大道 */
     svg+='<text x="18" y="24" font-size="12" fill="#9aa39a">北 ↑</text>';
-    for(const {p,L} of P){ const st=L.map(state), known=st.some(s=>s.known), open=st.some(s=>s.known&&s.open&&!s.here), on=sel===p.id;
+    for(const {p,L} of P){ const st=L.map(state), known=st.some(s=>s.known), open=st.some(s=>s.known&&s.open&&(!s.here||st.length===1)), on=sel===p.id;   /* 人就在這裡、圖釘只有這一個地點：照「可以前往」的顏色（紅圈表示你在這裡），不是灰色（BB-B 10-23）*/
       const fill=on?'#7fc4c9':(open?'#e9b96a':(known?'#8a8577':'#4b4a46'));
       if(p.id===hid) svg+='<circle cx="'+p.x+'" cy="'+p.y+'" r="11" fill="none" stroke="#e07a6a" stroke-width="2.5"/>';
       svg+='<g data-pmap="'+esc(p.id)+'"><circle cx="'+p.x+'" cy="'+p.y+'" r="'+(on?8:6.5)+'" fill="'+fill+'" stroke="#161a22" stroke-width="2"/>'+label(p,known)+'</g>'; }
     svg+='</svg>';
     const dot=(c,ring)=>'<span style="display:inline-block;width:10px;height:10px;border-radius:50%;'+(ring?'border:2px solid '+c+';box-sizing:border-box':'background:'+c)+';margin:0 4px 0 10px;vertical-align:-1px"></span>';
-    let out='<div class="item">'+svg+'<div class="muted" style="margin-top:6px;font-size:12px">'+(hid?dot('#e07a6a',true).replace('margin:0 4px 0 10px','margin:0 4px 0 0')+'你在這裡':'')+dot('#e9b96a')+'可以前往'+dot('#8a8577')+'現在不能去'+dot('#4b4a46')+'還沒去過</div><div class="muted" style="margin-top:4px">點地圖上的地方，下面會出現可以前往的地點。</div></div>';
+    let out='<div class="item">'+svg+'<div class="muted" style="margin-top:6px;font-size:12px">'+(hid?dot('#e07a6a',true).replace('margin:0 4px 0 10px','margin:0 4px 0 0')+'你在這裡':'')+dot('#e9b96a')+'可以前往'+dot('#8a8577')+'現在不能去</div><div class="muted" style="margin-top:4px">點地圖上的地方，下面會出現可以前往的地點。</div></div>';
     const S0=P.find(o=>o.p.id===sel); if(S0){ out+='<div class="item"><b>'+esc(S0.p.name)+'</b>';
       for(const pl of S0.L){ const st=state(pl), ht=hours?hours(pl[0]):'';
         out+='<div class="phrow" style="margin-top:6px"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(key(pl))+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }

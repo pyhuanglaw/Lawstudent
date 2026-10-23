@@ -40,6 +40,7 @@ if(ok){
   const h2=PLACEMAP.html(Q,st,'wancai',null,()=>''); check('3. 已閉館的地點按鈕寫「已閉館」（按了說幾點開，和清單一樣）',/data-place="lawlib\|法律學院圖書館">已閉館</.test(h2));
   const h3=PLACEMAP.html(Q,st,'wenzhou',null,()=>''); check('3. 溫州街圖釘含兩點半；沒去過的地點：寫「還沒去過」、沒有按鈕',h3.includes('還沒去過')&&!/data-place="cafe/.test(h3)&&/data-place="wenzhou\|溫州街"/.test(h3));
   const h4=PLACEMAP.html(Q,st,'dorm',null,()=>''); check('3. 你在這裡的地點：沒有按鈕',h4.includes('你在這裡')&&!/data-place="dorm/.test(h4));
+  { const hd=PLACEMAP.html(Q,st,null,{zone:'dorm'},()=>''); check('3. 人在宿舍：宿舍圖釘紅圈、圓點是「可以前往」的橘色（不是灰色）；圖例沒有「還沒去過」（每個圖釘都有一開始就知道的地方）',/<circle cx="318" cy="228" r="11" fill="none" stroke="#e07a6a"/.test(hd)&&/<g data-pmap="dorm"><circle cx="318" cy="228" r="6.5" fill="#e9b96a"/.test(hd)&&!/還沒去過<\/div>/.test(hd)); }
   check('3. 你在哪個圖釘：校園照座標找最近的、室內照那一棟、公館的店算公館、美國不在圖上',PLACEMAP.hereId('campus',-110,2)==='gate'&&PLACEMAP.hereId('campus',85,1)==='library'&&PLACEMAP.hereId('classroom')==='linze'&&PLACEMAP.hereId('noodle')==='gongguan'&&PLACEMAP.hereId('us_apartment')===null);
   check('4. 美國的地點清單：不畫地圖（回傳空字串）',PLACEMAP.html([['us_apartment','公寓',null],['us_outside','社區',null]],st,null,null,()=>'')==='');
   const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), ix=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
