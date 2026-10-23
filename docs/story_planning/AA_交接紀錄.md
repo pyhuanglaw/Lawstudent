@@ -366,8 +366,8 @@
 |---|---|---|
 | SIS-LEAD-1021 | 學姊第五批 `AA_388` 七夕三年 | 已交 LAWWW（`3a509150`）；等實作、BB 測 |
 | AA313-FIXES-1020 | `AA_389` 回 AA_313 剩下九點（D13 淡水 ZR_UK_BACK、AA_127 放鴿子兩句已改原檔） | 已交 LAWWW（`345234b3`）；等實作、重新匯入 |
-| AA389-ZR-SENDOFF-1023 | 芷若 2027-09-02 出發那天（`HOOK_ZR_SENDOFF` 的補場），`AA_390` | AA 寫（下一件） |
-| AA389-ZQ-GAME-1023 | 子晴把遊戲測試版給你（`HOOK_ZQ_GAME`＋九份「下次給你玩」） | AA 寫 |
+| AA389-ZR-SENDOFF-1023 | 芷若 2027-09-02 出發那天（`HOOK_ZR_SENDOFF` 的補場），`AA_390` | **已交 LAWWW（`5f4b9c7b`，outbox `1d45d2f9`）**；等實作、BB 測 |
+| AA389-ZQ-GAME-1023 | 子晴把遊戲測試版給你（`HOOK_ZQ_GAME`＋九份「下次給你玩」） | AA 寫（下一件） |
 | AA389-KX-TERMDATE-1023 | 可昕大二起期末約會每場加二選一，接「寒假來高雄」 | AA 寫 |
 | AA389-BH-XC-SMALLTALK-1023 | 柏翰、芯慈大二起每學期各兩句 SMALLTALK（取代 AA_313 5-1#15 的完整階梯） | AA 寫 |
 | AA389-GRAD-DEBATE-1023 | `ev_grad_debate`「這一段你來講」的兌現（W3b 群組玩家講一段） | AA 寫 |
