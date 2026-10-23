@@ -21148,7 +21148,7 @@
    "title": "時段次數規則重新設計（使用者 10-18 06:1x：走來走去不算、做一件事才算；給方案、先不決定，USER_WANTS X19）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "待開工",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -21162,11 +21162,9 @@
    },
    "source": "使用者 2026-10-18 06:1x",
    "authorized": "等使用者選方案",
-   "pausedReason": "等使用者：真正只有使用者能決定的設計｜原本：使用者「先不要決定，給我幾個方案」；06:1x 給了三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）",
-   "resumeWhen": "列進給使用者的「必須由你決定」：三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）選一個；recheckOn 改到使用者回來後",
    "pausedBy": "使用者 10-18 06:1x",
    "recheckOn": "2026-10-21",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）選一個；recheckOn 改到使用者回來後 ｜ 使用者選了以後改 classes3d.js 時段次數制（DL-03）、吃飯／約會／點餐的扣次數、晚上上限",
+   "next": "【LAWWW-B 10-23 12:2x】使用者選 ③ 每個時段一件主要的事、小事不限 ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）選一個；recheckOn 改到使用者回來後 ｜ 使用者選了以後改 classes3d.js 時段次數制（DL-03）、吃飯／約會／點餐的扣次數、晚上上限",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -29967,7 +29965,7 @@
    "id": "FF-SEMESTER-1023",
    "title": "學期中快轉：跳過一週（自動上課）／到下一個事件；劇情、要回的訊息、約好的出遊、考試照樣停下來播（使用者 10-23 08:0x，USER_WANTS D57）",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "進行中",
    "priority": "P0",
    "area": null,
    "first": {
@@ -29982,9 +29980,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:4x】暫停：誰決定＝使用者停掉子代理；為什麼＝不確定（已問使用者）；負責人 LAWWW；恢復條件＝使用者回覆；下次檢查 10-24 ｜ 【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測",
-   "pausedReason": "背景子代理被使用者停掉（10-23 08:3x，工具回報 stopped by the user）；沒有 commit；不能自己重開子代理",
-   "resumeWhen": "使用者說要繼續（主線自己做或重開背景）"
+   "next": "【LAWWW-B 10-23 12:2x】使用者選擇題：我自己直接做（主程式、不開背景）｜ 【LAWWW-B 10-23 08:4x】暫停：誰決定＝使用者停掉子代理；為什麼＝不確定（已問使用者）；負責人 LAWWW；恢復條件＝使用者回覆；下次檢查 10-24 ｜ 【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
   },
   {
    "id": "UX-PHONE-MAP-1023",
@@ -30012,7 +30008,7 @@
    "id": "EAT-MATTER-1023",
    "title": "吃東西、喝飲料要有差別（使用者 10-23 08:0x 要建議，D56）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": null,
    "first": {
@@ -30027,7 +30023,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
+   "next": "【LAWWW-B 10-23 12:2x】使用者選 C（她們各自喜歡的東西）；A 不做（不加體力照舊）；請 AA 給每位喜歡的東西＋點對了的專屬句 ｜ 【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
   },
   {
    "id": "ART-NO-DARK-WOOD-1023",
@@ -30546,6 +30542,27 @@
     "AA404-SIDEQUEST2-1023",
     "AA405-SIDEQUEST3-1023"
    ]
+  },
+  {
+   "id": "PS-DATE-EARLY-1023",
+   "title": "沛珊最早可以交往＝大一上期末（AA_313 6-3 A、AA_334 第 1 節）：交往中的玩家大一下沒有柏翰三場（ev_midterm_supper_y1s2、ev_peishan_bohan_w4、ps_split_group 加 unless dating）、partner 看「沒有和玩家交往」",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【LAWWW-B 10-23 12:2x】使用者選擇題 A；AA 改 AA_228 第 5 列（大一上期末，或回來以後）；LAWWW 照 AA_313 6-3 A 實作",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上期末心意邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_313 6-3、AA_334 第 1 節",
+   "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-15）"
   }
  ]
 }
