@@ -492,17 +492,6 @@ p.add('night', 'L', ['晚安。', '手機我放遠一點了。'], variant=XL, ve
 p.add('night', 'L', ['晚安。我把燈關了。'], variant=XL, version=XL)
 p.add('night', 'R', ['中午了，我在吃三明治。', '你睡吧。'], ['在美國，不是美國路線（台灣的晚上是她那邊的早上，她 12:10 才回）'],
       variant='在美國', version=XL, tierMin=True, tierCell='—', src='BB_178 3 晚安')
-# AA_393 第 4 節（企劃線 SIS-B7-1023，AA-B 2026-10-23）：祐廷在日本（日本路線 3/25～8/5）——這個標籤優先（AA_202 3-1 第 2 點）；每一格只出一次（msg3d.js 記 once），之後回到一般句。
-# 朋友以上＝沒交往（R 起，tierMin：好朋友也用）；交往中＝L。分享（照片）：朋友那句講吃的，只放 share_food；交往中那句三種分享都用（同一句只出一次）。
-JP = '祐廷在日本'
-for t in ['總圖。你那邊比我晚一個小時睡，記得。', '研究室。今天寫了三頁，刪了一頁。']:
-    p.sit('chat', [t], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 在幹嘛 祐廷在日本')
-p.sit('chat', ['研究室。……你那邊吃晚餐了嗎。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 在幹嘛 祐廷在日本（交往中）')
-p.sit('share_food', ['日本的便利商店比較好吃嗎。不用回答，我會想去。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 分享 祐廷在日本')
-for tp in ['share_cat', 'share_food', 'share_notes']:
-    p.sit(tp, ['拍得不錯。下次拍你自己。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 分享 祐廷在日本（交往中）')
-p.sit('night', ['晚安。你那邊已經過十二點了，快睡。'], JP, ['沒交往'], tier='R', version=XL, src='AA_393 4 晚安 祐廷在日本')
-p.sit('night', ['晚安。你那邊比較早天亮，窗簾記得拉。'], JP, ['交往中'], tier='L', version=XL, src='AA_393 4 晚安 祐廷在日本（交往中）')
 people.append(p)
 
 # ───────────────────────── BB_178 4 沛珊 ─────────────────────────
@@ -785,7 +774,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

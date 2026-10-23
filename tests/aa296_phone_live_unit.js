@@ -119,7 +119,7 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     const exeAt=async(q0,pk)=>{ atD(q0.day+1,12.1); rules(); H.said=[]; H.opts=[]; H.cards=[]; H.picks=pk; caps.length=0; await X.exeScene(GM); };
     const zth=()=>th('p:heroine_04'), zmine=()=>from('p:heroine_04','player');
     // a. 場面裡選貼紙
-    zqSetup(); let q0=await zqDinner(['妳下一個遊戲']); await exeAt(q0,[0]);
+    zqSetup(); let q0=await zqDinner(['我去','妳下一個遊戲']); await exeAt(q0,[0]);
     const s=said(), i0=s.findIndex(x=>x.t===P2a.intro[0].t);
     check('② 回答.exe 最後那一行字（「第一個玩家：祐廷」）疊完，場面裡兩個選項「'+EXE_OPTS.join('」「')+'」（不用開手機）',H.cards.some(c=>c[0]==='第一個玩家：祐廷')&&J(H.opts[H.opts.length-1])===J(EXE_OPTS),J({cards:H.cards,opts:H.opts}));
     check('② 選貼紙：接著演她打來（地點字幕「電話」），台詞照稿一字不差',i0>0&&same(s.slice(i0),want(P2a))&&caps.includes('電話'),J(s));
@@ -127,31 +127,31 @@ const memNote=(id,tag)=>{ const L=(H.G.social&&H.G.social.mem&&H.G.social.mem[id
     check('② 選貼紙＝照手機那顆按鈕：ZQ_EXE_REPLY、手機那段對話補上「（貼圖：插座貓）」（按鈕回過了）、交往、這學期 yes；不另外排電話',H.G.flags.ZQ_EXE_REPLY===true&&zmine().includes('（貼圖：插座貓）')&&!!m&&m.ans===0&&H.G.flags.dating_heroine_04===true&&TERMEND.rec(H.G,'Y3S2').result==='yes'&&!OUT.get(H.G,C.sticker)&&H.G.flags.ZQ_Q15.call==='scene',J({mine:zmine(),ans:m&&m.ans,q:H.G.flags.ZQ_Q15}));
     atD(q0.day+2,21.1); rules(); check('② 選了貼紙：隔天 21:00 沒有不回的那一通、沒有那一則私訊',!OUT.get(H.G,C.none)&&!PHONE.sent(H.G,'y3_zq_noreply'));
     // b. 還沒想好 → 之後手機回貼紙＝她馬上打來
-    zqSetup(); q0=await zqDinner(['喜歡很久了']); await exeAt(q0,[1]);
+    zqSetup(); q0=await zqDinner(['我去','喜歡很久了']); await exeAt(q0,[1]);
     const m1=PHONE.byAsk(H.G,'y3_zq_exe');
     check('② 選「還沒想好怎麼回」：沒有電話、還沒交往、手機的按鈕還在（留到隔天 21:00）',J(H.opts[H.opts.length-1])===J(EXE_OPTS)&&!said().some(x=>x.t===P2a.intro[1].t)&&!H.G.flags.ZQ_EXE_REPLY&&!H.G.flags.dating_heroine_04&&PHONE.askOpen(H.G,m1)&&m1.ask.until===T(q0.day+2,21)&&!OUT.get(H.G,C.sticker),J({said:said().map(x=>x.t),until:m1&&m1.ask.until}));
     atD(q0.day+1,18); PHONE.answer(H.G,'y3_zq_exe',0); rules(); const qs=OUT.get(H.G,C.sticker);
     check('② 之後在手機回了貼紙＝交往、她馬上打來（排「子晴打電話來」、現在就問「接起來」、只有接起來）',H.G.flags.dating_heroine_04===true&&!!qs&&qs.day===q0.day+1&&Math.abs(qs.h-18)<1e-6&&qs.must===true&&(OUT.due(H.G)||{}).id===C.sticker,J(qs));
     await goOut(C.sticker); check('② 手機回的那一通：台詞照稿一字不差',same(said(),want(P2a)),J(said()));
     // c. 到期限還是沒回＝21:00 她打來
-    zqSetup(); q0=await zqDinner(['妳下一個遊戲']); await exeAt(q0,[1]);
+    zqSetup(); q0=await zqDinner(['我去','妳下一個遊戲']); await exeAt(q0,[1]);
     atD(q0.day+2,18.9); rules(); const noYet=!OUT.get(H.G,C.none);
     atD(q0.day+2,19); rules(); const qn=OUT.get(H.G,C.none);
     check('② 不回：收到檔案的隔天 19:00 才排 21:00「子晴打電話來」（前 2 小時、不跳「排進行程」、只有接起來）；那時還沒有私訊、還沒定案',noYet&&!!qn&&qn.day===q0.day+2&&qn.h===21&&qn.must===true&&qn.silent===true&&!PHONE.sent(H.G,'y3_zq_noreply')&&H.G.flags.ZQ_Q15.res==null,J(qn));
     atD(q0.day+2,20.76); const dn=OUT.due(H.G); await goOut(C.none);
     check('② 20:45 起問「接起來」；21:00 她打來，台詞照稿一字不差（選「第一個玩的」那一支，有「這次是直述句。」）',!!dn&&dn.id===C.none&&same(said(),want(P2b)),J(said()));
     rules(); check('② 接了：這學期不交往（讓我想想）、沒有那一則私訊',H.G.flags.ZQ_Q15.res==='none'&&TERMEND.rec(H.G).think.heroine_04==='Y3S2'&&!H.G.flags.dating_heroine_04&&!PHONE.sent(H.G,'y3_zq_noreply'));
-    zqSetup(); q0=await zqDinner(['這不是問句']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+2,20.8); await goOut(C.none);
+    zqSetup(); q0=await zqDinner(['我去','這不是問句']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+2,20.8); await goOut(C.none);
     const nq=want(P2b).filter(x=>x.t!=='這次是直述句。');
     check('② 選「這不是問句」的那一支：電話一樣拿掉最後一句「這次是直述句。」',P2b.intro.some(x=>x.t==='這次是直述句。')&&same(said(),nq),J(said()));
     // d. 沒接＝原本那一則私訊
-    zqSetup(); q0=await zqDinner(['妳下一個遊戲']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+3,7.5); OUT.tick(GM); PHONE.tick(H.G);
+    zqSetup(); q0=await zqDinner(['我去','妳下一個遊戲']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+3,7.5); OUT.tick(GM); PHONE.tick(H.G);
     const X15=R2Y3B_EVENTS.Q15;
     check('② 不回、電話也沒接（睡過了）＝原本那一則私訊（時間 21:00）；台詞是電話那三句連起來（照原句）；這學期不交往',J(from('p:heroine_04','heroine_04').slice(-1))===J([X15.noReply])&&X15.noReply===P2b.intro.slice(2,5).map(x=>x.t).join('')&&(H.G.msgs||[]).some(x=>x.tag==='y3_zq_noreply'&&x.day===q0.day+2&&Math.abs(x.h-21)<0.05)&&H.G.flags.ZQ_Q15.res==='none'&&TERMEND.rec(H.G).think.heroine_04==='Y3S2',J(zth().slice(-2)));
-    zqSetup(); q0=await zqDinner(['這不是問句']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+2,21.6); rules(); PHONE.tick(H.G);
+    zqSetup(); q0=await zqDinner(['我去','這不是問句']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); atD(q0.day+2,21.6); rules(); PHONE.tick(H.G);
     check('② 不回、在忙（過了 30 分鐘、OUT.tick 沒跑）＝規則自己記沒接，「這不是問句」那一支照原本「'+X15.noReplyNQ+'」',J(from('p:heroine_04','heroine_04').slice(-1))===J([X15.noReplyNQ])&&X15.noReplyNQ===P2b.intro.slice(2,4).map(x=>x.t).join('')&&OUT.get(H.G,C.none).state==='missed',J(zth().slice(-2)));
     // e. 電話排好以後在手機回了貼紙＝不回的那一通取消、她馬上打來
-    zqSetup(); q0=await zqDinner(['妳下一個遊戲']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); PHONE.answer(H.G,'y3_zq_exe',0); rules();
+    zqSetup(); q0=await zqDinner(['我去','妳下一個遊戲']); await exeAt(q0,[1]); atD(q0.day+2,19.5); rules(); PHONE.answer(H.G,'y3_zq_exe',0); rules();
     check('② 19:30 在手機回了貼紙：不回的那一通取消、交往、改排她馬上打來',OUT.get(H.G,C.none).state==='cancelled'&&H.G.flags.dating_heroine_04===true&&!!OUT.get(H.G,C.sticker)&&(OUT.due(H.G)||{}).id===C.sticker);
   });
 

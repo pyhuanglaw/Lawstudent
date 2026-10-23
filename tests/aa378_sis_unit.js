@@ -86,10 +86,10 @@ await sec(7,async()=>{ const note=(ask2)=>{ fresh('2028-10-25',20,'TW'); H.FRIEN
   check('7. 10/25 推甄前的便條：6 月就選了路的有、10/16 才選的（Y4_PATH_ASK2）沒有',a===true&&b===false,JSON.stringify({a,b}));
   const door=async(got)=>{ fresh('2029-02-03',8,'TW'); H.FRIEND('heroine_05'); H.G.flags.Y4_PATH='grad'; if(got) PHONE.at(H.G,D('2028-10-25'),21,[{th:'p:heroine_05',from:'heroine_05',text:'📷（一張手寫的便條）'}],'y4_push_note'); PHONE.tick(H.G); H.said=[]; H.at('2029-02-03',8.2); await R3.noteRun(GM); return H.said.map(x=>x.t); };
   const d1=await door(true), d0=await door(false);
-  check('7. 收過 10/25 那一張：2/3 考場門口「（便條只有兩個字：「同上。」）」→「……同上。」→「對。」；沒收過照舊',d1.includes('（便條只有兩個字：「同上。」）')&&d1.includes('……同上。')&&d1.includes('對。')&&!d1.includes('（便條：「你可以。」）')&&d0.includes('（便條：「你可以。」）')&&d0.includes('只有一句。')&&d0.includes('一句就夠了。')&&!d0.includes('……同上。'),JSON.stringify({d1,d0}));
+  check('7. 收過 10/25 那一張：2/3 考場門口「（便條只有兩個字：「同上。」）」→「……同上。」→「對。」；沒收過照舊',d1.includes('（便條只有兩個字：「同上。」）')&&d1.includes('……同上。')&&d1.includes('對。')&&!d1.includes('（便條：「一，你可以。二，你可以。三，你可以。」）')&&d0.includes('（便條：「一，你可以。二，你可以。三，你可以。」）')&&d0.includes('三件都一樣。')&&!d0.includes('……同上。'),JSON.stringify({d1,d0}));
   const photo=(got)=>{ fresh('2029-02-02',20,'TW'); H.FRIEND('heroine_05'); H.G.flags.Y4_PATH='grad'; H.G.flags.dating_heroine_02=true; if(got) PHONE.at(H.G,D('2028-10-25'),21,[{th:'p:heroine_05',from:'heroine_05',text:'📷（一張手寫的便條）'}],'y4_push_note'); PHONE.tick(H.G); H.at('2029-02-02',21); R3.phone(H.G,GM); PHONE.tick(H.G); const m=PHONE.byAsk(H.G,'r3_sis_note_photo'); return m?{t:m.text,o:m.ask.opts.map(x=>x.t)}:null; };
   const p1=photo(true), p0=photo(false);
-  check('7. 照片版（和別人交往中）：收過的「📷（一張手寫的便條：同上。）」選項「同上。」「謝謝。」；沒收過照舊',!!p1&&p1.t==='📷（一張手寫的便條：同上。）'&&JSON.stringify(p1.o)==='["同上。","謝謝。"]'&&!!p0&&p0.t==='📷（一張手寫的便條：你可以。）'&&JSON.stringify(p0.o)==='["只有一句。","謝謝。"]',JSON.stringify({p1,p0})); });
+  check('7. 照片版（和別人交往中）：收過的「📷（一張手寫的便條：同上。）」選項「同上。」「謝謝。」；沒收過照舊',!!p1&&p1.t==='📷（一張手寫的便條：同上。）'&&JSON.stringify(p1.o)==='["同上。","謝謝。"]'&&!!p0&&p0.t==='📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'&&JSON.stringify(p0.o)==='["三件都一樣。","謝謝。"]',JSON.stringify({p1,p0})); });
 
 /* 8 S4 期末飯讓接機 */
 await sec(8,()=>{ fresh('2028-12-21',12,'TW'); const w=TERMEND.windowOf('Y4S1'), spec={h:18.5};

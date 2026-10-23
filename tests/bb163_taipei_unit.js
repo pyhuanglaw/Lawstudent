@@ -63,10 +63,10 @@ GM.money=function(n){ G.money+=n; };
   check('5. 大三起週日 10:00：沒有美術館（D06）的作息',!e||e.enc!=='D06',JSON.stringify(e));
   // 6. 子晴大四
   setup(Y4TUE,9); at(Y4TUE,18); e=ent(ZQ); const z1=ask(ZQ,'cafe',Y4TUE,18), z2=ask(ZQ,'library',Y4TUE,14); at(Y4TUE,21); const e2b=ent(ZQ);
-  check('6. 子晴大四平日 18:00：在工作室；約 Café 改到 20:10「我八點才下班。……八點十分，兩點半。」；21:00 在 Café',e&&e.away==='在工作室上班'&&z1.res==='resched'&&Math.abs(z1.alt.h-(20+10/60))<1e-6&&L(z1)==='「我八點才下班。……八點十分，兩點半。」'&&e2b&&e2b.zone==='cafe',JSON.stringify([e,z1,e2b&&e2b.zone]));
-  check('6. 約總圖：婉拒「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',z2.res==='decline'&&L(z2)==='「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',JSON.stringify(z2));
+  check('6. 子晴大四平日 18:00：在工作室；約 Café 改到 20:10「欸不是，我八點才下班。……八點十分，兩點半。」；21:00 在 Café',e&&e.away==='在工作室上班'&&z1.res==='resched'&&Math.abs(z1.alt.h-(20+10/60))<1e-6&&L(z1)==='「欸不是，我八點才下班。……八點十分，兩點半。」'&&e2b&&e2b.zone==='cafe',JSON.stringify([e,z1,e2b&&e2b.zone]));
+  check('6. 約總圖：婉拒「欸不是，我畢業了。總圖要辦校友證，我還沒辦。……兩點半？」',z2.res==='decline'&&L(z2)==='「欸不是，我畢業了。總圖要辦校友證，我還沒辦。……兩點半？」',JSON.stringify(z2));
   { const wed=termDay('Y4S1',5,3); setup(wed,9); at(wed,10); const t1=ask(ZQ,'teahouse',wed,14);
-    check('6. 平日（週三）下午約一盞：改到最近的週六下午「平日下午我在工作室。……週六下午可以嗎？」（BB-B 55509fe2）',t1.res==='resched'&&t1.alt&&wdOf(t1.alt.day)===6&&t1.alt.h>=14&&L(t1)==='「平日下午我在工作室。……週六下午可以嗎？」',JSON.stringify(t1)); }
+    check('6. 平日（週三）下午約一盞：改到最近的週六下午「欸不是，平日下午我在工作室。……週六下午？這是問句。」（BB-B 55509fe2）',t1.res==='resched'&&t1.alt&&wdOf(t1.alt.day)===6&&t1.alt.h>=14&&L(t1)==='「欸不是，平日下午我在工作室。……週六下午？這是問句。」',JSON.stringify(t1)); }
   setup(Y4SAT,14); at(Y4SAT,14); const z3=ask(ZQ,'cafe',Y4SAT,16);
   check('6. 週末下午約 Café：接受',z3.res==='accept'||z3.res==='here',JSON.stringify(z3));
   // 7. 芷若大三上、學姊大三下照舊約不到

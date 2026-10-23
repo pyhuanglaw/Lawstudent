@@ -31,7 +31,7 @@ const ADV2=global.ADV; ADV2.active=false;
   const day=termDay('Y1S2',5,6);
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const go=async(who,picks0,o)=>{ o=o||{}; const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),L:lines()}; };
-  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完；D13 2026-10-23 換 345234b3：AA_389 第 1 點交換回來版）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@(57de1709|345234b3)/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
+  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@57de1709/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
   check('0. 她喜不喜歡讀地點檔（子晴：飲料攤喜歡、長椅不太喜歡）',DATE.likeOf('heroine_04','D13.drink')==='like'&&DATE.likeOf('heroine_04','D13.bench')==='dislike');
   // 芷若第一次去淡水
   fresh(day,9,'dorm',{}); G.money=5000;
@@ -88,16 +88,5 @@ const ADV2=global.ADV; ADV2.active=false;
     let L=[]; if(pid&&t){ DATE.mem(G,who,loc).picks=[pid]; said=[]; await DATE.spotLine(GM,t,pid,1); L=lines(); }
     const want=pid?(HS[pid].remember.lines||[]).map(x=>x.text||x.narr||x).filter(x=>typeof x==='string'):[];
     check('9. D24 第二次去同一個互動點：播「記得上次」（57de1709 的新句子，不看上次選哪個）',!!pid&&!!t&&want.length>0&&want.every(x=>L.some(l=>l.endsWith(x))),JSON.stringify({pid,want,L})); }
-  // 10. 台詞組的 if／unless（AA_389 第 1 點：D13 芷若交換回來版 ZR_UK_BACK；D01 語彤 closing 的 YT_TEN_MINUTES 記憶）——修改前 setUsable 不看條件，兩版都會抽到
-  { const findPool=(o,txt)=>{ if(Array.isArray(o)){ if(o.some(g=>g&&Array.isArray(g.lines)&&JSON.stringify(g).includes(txt))) return o; for(const x of o){ const r=findPool(x,txt); if(r) return r; } } else if(o&&typeof o==='object'){ for(const k in o){ const r=findPool(o[k],txt); if(r) return r; } } return null; };
-    const pool=findPool(DATE_LINES.loc.D13.lines.heroine_02,'英國的河比較窄。'), t0={locs:['D13'],day};
-    const hi=id=>{ const r=SOCIAL.rel(id); Object.assign(r,{fam:80,trust:70,comf:70,npcRom:60,rom:40}); };
-    const draw=(flags)=>{ fresh(day,9,'dorm',flags); hi('heroine_02'); const out=new Set(); for(let i=0;i<12;i++){ const s=pool&&DATE.pickSet(G,'heroine_02',pool,t0,'d13.rail'); if(s) out.add(JSON.stringify(s.lines)); } return [...out].join('｜'); };
-    const a=draw({}), b=draw({ZR_UK_BACK:true});
-    check('10. D13 欄杆：還沒交換回來＝不會抽到「英國的河比較窄。」；交換回來（ZR_UK_BACK）＝不會抽到「以後出國，應該會想到這條河吧。」',!!pool&&a.includes('以後出國，應該會想到這條河吧。')&&!a.includes('英國的河比較窄。')&&b.includes('英國的河比較窄。')&&!b.includes('以後出國，應該會想到這條河吧。'),JSON.stringify({tier:DATE.tierOf(G,'heroine_02'),a,b}));
-    const yp=findPool(DATE_LINES.loc.D01.lines.heroine_03,'今天的十分鐘，比較長。'), t1={locs:['D01'],day};
-    const ydraw=(mem)=>{ fresh(day,9,'dorm',{}); hi('heroine_03'); if(mem) SOCIAL.remember('heroine_03','YT_TEN_MINUTES',''); const out=new Set(); for(let i=0;i<12;i++){ const s=yp&&DATE.pickSet(G,'heroine_03',yp,t1,'d01.close'); if(s) out.add(JSON.stringify(s.lines)); } return [...out]; };
-    const ya=ydraw(false), yb=ydraw(true), memLine=JSON.stringify((yp||[]).find(g=>g.if)&&(yp||[]).find(g=>g.if).lines);
-    check('10. D01 語彤 closing：沒有「十分鐘」記憶＝不抽 if 那一組；有＝不抽 unless 那一組',!!yp&&!ya.includes(memLine)&&yb.includes(memLine)&&yb.length===1,JSON.stringify({ya,yb})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

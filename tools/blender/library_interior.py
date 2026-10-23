@@ -88,7 +88,7 @@ def srgb(h):
 
 MAT = {
     'floor':   pbr('lb_terrazzo', 'terrazzo_tiles', tile=1.6, sat=0.5, target='#d6cdbd', base_dir=TEX2),          # 一樓大廳、連廊：米色磨石子
-    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#cdb594', base_dir=TEX2, rough_min=0.7),     # 二樓兩翼（自習區）：淺色人字拼木地板（使用者 10-23：不要深色木地板；同宿舍四人房 #cdb594；原本 #a07a55）
+    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#a07a55', base_dir=TEX2, rough_min=0.7),     # 二樓兩翼（自習區）：人字拼木地板
     'granite': pbr('lb_granite', 'granite_tile_03', tile=1.8, sat=0.4, target='#b9b2a6'),                        # 柱子、樓板邊收邊、閘門台座
     'step':    pbr('lb_step', 'granite_tile_03', tile=0.9, sat=0.35, target='#aaa49b'),                          # 樓梯踏面、平台
     'plaster': pbr('lb_plaster', 'painted_plaster_wall', tile=2.5, target='#ece4d6'),

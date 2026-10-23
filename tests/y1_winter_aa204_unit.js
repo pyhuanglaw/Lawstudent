@@ -37,7 +37,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(d26,20.9,'dorm',{}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('classmate_xinci'); meet('heroine_01'); R('heroine_01',25,0,0); PHONE.join(G,'noodle_team','麵店團');
   run(20.9,21.8);
   const T=txt('g:noodle_team');
-  check('1. 12/26 21:00 阿哲「跨年有人要一起嗎」「先吃飯，再去看煙火」＋選項 我去／我直接到頂樓／再看看',T.includes('zhe:跨年有人要一起嗎')&&T.includes('zhe:宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。')&&T.includes('zhe:先吃飯，再去看煙火')&&JSON.stringify(((G.msgs||[]).find(m=>m.ask&&m.ask.id==='nye_y1_ask')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===JSON.stringify(['我去','我直接到頂樓','再看看']),JSON.stringify(T));
+  check('1. 12/26 21:00 阿哲「跨年有人要一起嗎」「先吃飯，再去看煙火」＋選項 我去／我直接到頂樓／再看看',T.includes('zhe:跨年有人要一起嗎')&&T.includes('zhe:先吃飯，再去看煙火')&&JSON.stringify(((G.msgs||[]).find(m=>m.ask&&m.ask.id==='nye_y1_ask')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===JSON.stringify(['我去','我直接到頂樓','再看看']),JSON.stringify(T));
   check('1. 21:05 起海邊六則（以安 FAMILIAR 以上回「我可以。幾點集合？」）',['zhe:29 號去海邊？我 2 號就回高雄了','yu:冬天去海邊？？','yu:好啊','classmate_bohan:火車九點十分有一班。','classmate_xinci:我怕冷，我不去了。你們拍照。','heroine_01:我可以。幾點集合？'].every(x=>T.includes(x)),JSON.stringify(T));
   PHONE.answer(G,'nye_y1_ask',0); PHONE.answer(G,'va03_ask',0); STORY.phoneRules(GM);
   check('1. 海邊選「我去」＝12/29 08:50 臺北車站（出遊）',!!OUT.get(G,'va03')&&OUT.get(G,'va03').day===d29&&Math.abs(OUT.get(G,'va03').h-(8+50/60))<1e-6);
@@ -57,7 +57,7 @@ GM.money=function(n){ G.money+=n; };
   // 4. 認識明軒＋和以安交往中：管制線兩句、頂樓跑步那句
   fresh(nye,19,'campus',{dating_heroine_01:true}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_mingxuan'); R('classmate_mingxuan',10,0,0);
   said=[]; picks=[0,0,0]; await EVENTS.run(ev('ev_nye_dinner')); L=lines();
-  check('4. 認識明軒：「（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）」「欸！你們也來喔！」「這邊真的過不去了啦。……我十二點半下班，你們先走。」（AA_313 5-7：當面不說「哈哈」）',L.includes('（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）')&&L.some(t=>t.includes('欸！你們也來喔！'))&&L.some(t=>t.endsWith('這邊真的過不去了啦。……我十二點半下班，你們先走。'))&&!L.some(t=>/哈哈/.test(t))&&!L.includes('（前面的人說，再過去要排一個小時。）'),JSON.stringify(L.filter(t=>/明軒|管制/.test(t))));
+  check('4. 認識明軒：「（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）」「欸！你們也來喔！」「這邊真的過不去了啦 哈哈。……我十二點半下班，你們先走。」',L.includes('（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）')&&L.some(t=>t.includes('欸！你們也來喔！'))&&L.some(t=>t.includes('我十二點半下班，你們先走。'))&&!L.includes('（前面的人說，再過去要排一個小時。）'),JSON.stringify(L.filter(t=>/明軒|管制/.test(t))));
   check('4. 和以安交往中：她上頂樓、00:10「明天早上我要去跑步。你要不要一起？」→「六點？」→「七點。元旦，晚一點。」',L.some(t=>t.includes('明天早上我要去跑步。你要不要一起？'))&&L.some(t=>t.includes('七點。元旦，晚一點。'))&&!L.some(t=>t.includes('我也回去了。'))&&G.flags.AN_RUN_NY_Y1===true,JSON.stringify(L.slice(-6)));
   // 5. 和語彤交往中、只吃飯就回去：00:01 她打電話（出遊系統）；在頂樓的在事件裡
   fresh(nye,21,'campus',{dating_heroine_03:true,NYE_Y1:'dinner'}); G.stage='law'; meet('heroine_03'); R('heroine_03',30,0,0); G.hour=23.6; STORY.phoneRules(GM);

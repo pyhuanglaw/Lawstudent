@@ -21,7 +21,7 @@ const VAC_DATA=(function(){
   const AN_YR=(G,yks)=>{ const y=typeof CALENDAR!=='undefined'&&G?CALENDAR.dateOf(G.day).y:0; return yks.includes('Y'+(y-2025)); };
   /* VAC-C03 日語課的三場（AA_241 第 2 節）：日子照每年的週二、四（AA_369 M4）——第一堂、中間那一堂（第 ⌊n/2⌋＋1 堂）、最後一堂：2026＝7/7、7/16、7/23；2027＝7/8、7/15、7/22；2028＝7/11、7/18、7/20。
      以安只有大一、大二在（AN_C03）；其他年份拿掉她的句子，教室旁白換成「（教室裡都是不認識的人。）」，小考、最後一堂沒有句子＝不開畫面（vac3d.js S.hasLines）*/
-  const AN_C03=G=>AN_YR(G,['Y1','Y2'])&&(typeof STORY!=='undefined'&&STORY.knows?STORY.knows('heroine_01',G):!!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_01','FIRST_MET')));   /* AA_313 第 4-1 節第 6 點：還不認識她（公告欄報名）的不聽到「你也來了。」，照其他年份的旁白 */
+  const AN_C03=G=>AN_YR(G,['Y1','Y2']);
   const C03_KEYS=([d1,d2,d3])=>[
     {day:d1,h:19,title:'第一堂',bg:'classroom_small',lines:[G=>AN_C03(G)?[{narr:'（教室很小，十二個位子。以安坐在第一排正中間，筆記本已經畫好格子。）'},{who:'heroine_01',text:'你也來了。'},{who:'heroine_01',text:'老師說第一堂要自我介紹，用日文。'}]:{narr:'（教室裡都是不認識的人。）'}],
       choiceIf:AN_C03, choice:[{t:'「我只會說名字。」',say:[{who:'heroine_01',text:'我上學期在學校上過，自我介紹會。……後面就不行了。'}]},{t:'「妳準備好了？」',say:[{who:'heroine_01',text:'寫在筆記本上了。……不要看。'}]}]},
@@ -392,7 +392,7 @@ const VAC_DATA=(function(){
   const ZR_NOSHIFT=['2027-06-04','2027-09-03'];   /* 芷若不上班：2027-06-04～09-02（含頭尾；6/3 是她最後一個班、9/2 出發去英國）——AA_369 第 8 節第 8 題。tp.noShift、reunion 的 noShift 都用這一段 */
   const TRIP_MSG={
     gf:{
-      heroine_01:{freq:{h:21.5},dep:['到了傳一張照片。一張就好。'],mid:['你那邊現在幾點？……吃飯了沒？'],back:['明天有空的話，一起吃飯。'],   /* AA_369 L3：不分目的地；第 7 節第 6 題：整句換（原本只換了引號裡的那段）*/
+      heroine_01:{freq:{h:21.5},dep:['到了傳一張照片。一張就好。'],mid:['你那邊現在幾點？……吃飯了沒？'],back:['明天見。……我是說，明天有空的話。'],   /* AA_369 L3：不分目的地；第 7 節第 6 題：整句換（原本只換了引號裡的那段）*/
         pool:[['今天讀了四十頁。你那邊天氣好嗎？'],['手帳今天只寫了一行：等你回來那天。……不要笑。'],['我媽問你吃得習不習慣。她沒問我。'],['Alison 說你不在，宵夜沒人跟她搶。'],['📷（總圖三樓靠窗的位子）','這裡沒人坐。'],['今天背單字背到「おかえり」。……先存著。'],['你吃過了嗎？'],['睡前跟你說一聲。晚安。']],rep:['好。','我也想妳。'],   /* AA_369 M3：寒暑假沒有讀書會（Alison 那句換掉）；第 7 節第 6 題：「…應該在吃早餐。」整句換；第 8 節第 6 題：「你吃過了嗎？」開頭不要刪節號 */
         tp:{pool:[4],backNext:true},   /* AA_369 M3：總圖的照片只在她人在臺北的日子用（vac3d.js S.tripMsgs）；第 7 節第 7 題：回來那天的「明天見。……」限臺北＝隔天她在臺北才傳（隔天她在台中＝改第 2 題那句，reunionHome）*/
         dark:['今天沒有回。……你那邊還好嗎？'],darkAns:'好。……下次停電，也先跟我說。',miss:['手帳翻到你回來那天了。……我先夾一張便利貼。']},
@@ -518,7 +518,7 @@ const VAC_DATA=(function(){
     yes:'我也去。', no:{t:'我那幾天不行。',r:[['zhe','靠 好啦 下次']]},
     nudge:{day:'2027-08-01',h:20,ms:['香港 你到底要不要'],until:'2027-08-03'},
     steps:[{d:0,h:15,lines:[{narr:'（地鐵的門關得很快。你差一點被夾到。）'},{who:'yu',text:'（在門外）欸——！'},{narr:'（門關了。Alison 在月台上揮手，越來越遠。）'},{who:'classmate_bohan',text:'……下一站等她。我第一天的行程有寫「走散的話在下一站等」。'}]},
-           {d:1,h:14,lines:[{narr:'（茶餐廳的阿姐收菜單收得很快，你還沒講完她就走了。……東西來得也很快。）'},{who:'zhe',text:'這個奶茶比我們的濃。'},{who:'classmate_bohan',text:'甜度沒有比較高。是茶比較濃。'},{who:'zhe',text:'你喝個奶茶也要分析喔。'}]},
+           {d:1,h:14,lines:[{narr:'（茶餐廳的阿姐收菜單收得很快，你還沒講完她就走了。……東西來得也很快。）'},{who:'zhe',text:'這個奶茶比我們的濃。'},{who:'classmate_bohan',text:'甜度沒有比較高。是茶比較濃。'},{who:'zhe',text:'你喝個奶茶也要分析喔'}]},
            {d:2,h:20,lines:[{narr:'（海邊的步道，對岸的大樓一棟一棟亮起來。）'},{who:'yu',text:'蛋塔買了沒？芯慈的。'},{who:'zhe',text:'買了。我買了兩盒，一盒在路上吃掉了。'},{who:'classmate_bohan',text:'（看著對岸）……第二天以後都沒排，結果也走完了。'}]}],
     back:{h:21,ms:[['zhe','（照片：兩盒蛋塔，一盒是空的）'],['classmate_xinci','空的那盒是我的嗎？'],['zhe','……明天補給妳'],['heroine_03','（照片：麵店的長桌，空著）……你們不在，今天的蛋用得比較少。']]},
     missPhoto:{d:0,h:16,ms:[['zhe','（照片：隔著地鐵的車門玻璃，Alison 站在月台上，手舉得很高）'],['zhe','第一天就丟一個'],['yu','是門自己關的！！']]},   /* 沒去的玩家看到的第一天照片（AA_256@247198e8 AA 定稿）*/
@@ -537,11 +537,11 @@ const VAC_DATA=(function(){
     /* VA-11 交往中的反應（以安、語彤；她也講自己在做什麼，不吃醋）*/
     {tag:'va11_camp_an',day:'2026-07-03',h:22.5,th:'p:heroine_01',dating:'heroine_01',vac:'C02',ms:[{from:'heroine_01',text:'營隊第三天了。你有睡覺嗎？'},{from:'heroine_01',text:'……我是問真的。'}]},
     {tag:'va11_camp_yt',day:'2026-07-03',h:22.5,th:'p:heroine_03',dating:'heroine_03',vac:'C02',ms:[{from:'heroine_03',text:'營隊結束來店裡'},{from:'heroine_03',text:'阿姨問你去哪了'}]},
-    /* C05 日本五天的 va11_jp_an、va11_jp_yt、va11_jpb_yt 拿掉（AA_313 4-3、4-4「拿掉 va11_jp_*」）：出國輪播（TRIP_MSG）照樣跑，8/24「到了傳一張照片。一張就好。」、8/28「回來了嗎」原本同一天收到兩次；
-       輪播保留（AA_369 第 7 節第 7 題：日本五天回來那天以安「明天有空的話，一起吃飯。」照傳）*/
+    {tag:'va11_jp_an',day:'2026-08-24',h:8,th:'p:heroine_01',dating:'heroine_01',vac:'C05',ms:[{from:'heroine_01',text:'到了傳一張照片。一張就好。'}]},
+    {tag:'va11_jp_yt',day:'2026-08-24',h:8,th:'p:heroine_03',dating:'heroine_03',vac:'C05',ms:[{from:'heroine_03',text:'不用買伴手禮'},{from:'heroine_03',text:'……好啦 買一個小的'}]},
+    {tag:'va11_jpb_yt',day:'2026-08-28',h:21,th:'p:heroine_03',dating:'heroine_03',vac:'C05',ms:[{from:'heroine_03',text:'回來了嗎'},{from:'heroine_03',text:'明天店裡有開'}]},
     {tag:'va11_video_an',day:'2026-07-30',h:21.5,th:'p:heroine_01',dating:'heroine_01',ms:[{from:'heroine_01',text:'我媽在後面。……她說嗨。'},{from:'heroine_01',text:'她問你吃飽了沒。我說你一定吃了。'}]},
-    {tag:'va11_exam_yt',day:'2026-06-18',h:18,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
-    /* va11_exam_yt：雙主修筆試 6/18 考完那天傍晚（AA_313 4-4，原本 6/19 中午）；收過這則的人，期末飯她只說「成績單七月三號才寄。」（termend_lines.js POOL.Y1S2）*/
+    {tag:'va11_exam_yt',day:'2026-06-19',h:12,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
   return {A,MSGS,TRIP_MSG,TRAVEL,C01,VA09,VA10,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12；ede67b34 第 9～11 節：C16～C18；56a36a4d 第 12 節：C16～C18 的裁定與補字）'};

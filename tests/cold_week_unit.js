@@ -101,7 +101,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 5. C5
   fresh(d24,21.5,'dorm',{COLD_WEEK:'night',COLD_WEEK_TOLD:'none'}); R('heroine_03','CLO'); R('heroine_05','FRI'); picks=[2]; await night(); const L5=lines();
-  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字）', L5.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：湯喝完。然後睡覺。$/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
+  check('5. C5 語彤帶粥＋學姊的湯：「學姊叫我拿來的。她說她不上來。」＋學姊手機兩則（逐字）', L5.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L5.includes('陳語彤：學姊叫我拿來的。她說她不上來。')&&L5.some(x=>/^[^：]*（手機）：語彤說你病了。$/.test(x))&&L5.some(x=>/^[^：]*（手機）：兩件事。一，喝湯。二，睡覺。$/.test(x))&&L5.includes('陳語彤：嗯。……那你要先好起來。'), JSON.stringify(L5));
   check('5. C5 學姊沒有來（不在 COLD_WEEK_PRESENT）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)==='["heroine_03"]');
 
   // 6. C6

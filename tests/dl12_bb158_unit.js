@@ -35,8 +35,8 @@ const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_
   for(const id of ['kai','classmate_mingxuan','npc_fangyt']){ STAGE[id]='FRIEND'; let x=tryAt(id,'teahouse',WED,TH); if(x.h==null) x=tryAt(id,'teahouse',SAT,TH); if(!(x.h!=null&&JSON.stringify(x.r.lines)===JSON.stringify(PD[id].acc.teahouse))){ ok=false; info.push(id+':'+JSON.stringify(x.r).slice(0,90)); } }
   check('3. 一盞（朋友以上）：八個人都說自己的話',ok,info.join(' | ')); }
 { STAGE.heroine_04='FRIEND'; let ok=true, info=[]; for(const h of [8,10,12.25]){ for(const d of [SAT,SUN]){ const G=mkG(d); const r=INV.personal(G,'heroine_04',INV.place('brunch'),d,h,INV.decide(G,'heroine_04','brunch',d,h)); info.push(r.res+(r.alt?'→'+r.alt.place+'@'+r.alt.h:''));
-    if(r.res==='accept'||(r.res==='resched'&&!(r.alt&&r.alt.place==='cafe'&&r.alt.h>=14))||JSON.stringify(r.lines)!=='["「週末早上我在睡覺。……下午的話，Café。」"]') ok=false; } }
-  check('4. 子晴的半熟一律婉拒（週末 14:00 才起床）：「週末早上我在睡覺。……下午的話，Café。」，改天指向 Café 下午',ok,info.join(' ')); }
+    if(r.res==='accept'||(r.res==='resched'&&!(r.alt&&r.alt.place==='cafe'&&r.alt.h>=14))||JSON.stringify(r.lines)!=='["「欸不是，週末早上我還在存檔。……下午的話，Café。」"]') ok=false; } }
+  check('4. 子晴的半熟一律婉拒（週末 14:00 才起床）：「欸不是，週末早上我還在存檔。……下午的話，Café。」，改天指向 Café 下午',ok,info.join(' ')); }
 { STAGE.kai='FRIEND'; const G=mkG(SAT); const r=INV.personal(G,'kai',INV.place('brunch'),SAT,10,INV.decide(G,'kai','brunch',SAT,10));
   const x=tryAt('kai','brunch',SAT,[12+10/60]);
   check('5. 阿凱：半熟早上「早上 不行 我在睡」、改天 12:10；12:10 答應「十二點 好 那是我的早餐」',r.res==='resched'&&r.alt&&Math.abs(r.alt.h-(12+10/60))<1e-6&&r.lines[0]==='「早上 不行 我在睡」'&&x.h!=null&&x.r.lines[0]==='「十二點 好 那是我的早餐」',JSON.stringify([r,x.r]).slice(0,240)); }

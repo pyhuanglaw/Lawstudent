@@ -15,8 +15,8 @@ const NEEDED_MSGS=(function(){
       miss:['上週問你在不在總圖。……沒關係，那本我自己讀完了。'],missDating:['上週問你在不在總圖，你沒回。我多借的那本，還在我桌上。']},
     {id:'an_rules',who:'heroine_01',term:'Y2S1',w:[4,6],tie:true,cond:G=>att(G,'public_law_group'),msg:['讀書會的規則，我寫了一頁。','📷（〈公法讀書會規則〉一頁十二條，第五條「發言超過十分鐘，要先舉手」）','幫我看哪一條可以刪。'],reply:'第五條。',resp:['……我也覺得是第五條。'],
       miss:['讀書會的規則，你上週沒回。……沒關係，先照十二條。'],missDating:['讀書會的規則你沒回。週四以前跟我說，我想聽你的。']},
-    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>done(G,'ev_an_tutor_family_1')&&F(G).AN10_PICK!=='reason',msg:['公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
-      miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了。AA_313 4-3：只在 12/1 麵店（ev_an_tutor_family_1）演過以後送，第一則只說「公文我拿到了。」（駁回的事當面講過）*/
+    {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>F(G).AN10_PICK!=='reason',msg:['我家教學生家的補助被駁回了，公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
+      miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了 */
     {id:'an_topics',who:'heroine_01',term:'Y2S2',w:[3,6],cond:G=>att(G,'public_law_group'),msg:['這週讀書會的題目，我排了一版。','📷（一張表，八題）'],reply:'題目好難。',resp:['第三題是 Alison 挑的，我也還沒寫出來。'],   /* 原 an_moot（模擬法庭刪除，AA_252 第 4 節）*/
       miss:['讀書會的題目你沒回。沒關係，我先照那一版。'],missDating:['題目你沒回。……那這週第三題你來講。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。'],
@@ -34,7 +34,7 @@ const NEEDED_MSGS=(function(){
      msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
     // 阿哲（AA_179；沒回的那一句都用「你上週很忙齁。」開頭）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總課本借我 我的還在學長那'],reply:'拿去。',resp:['讚。我請你一碗大的。'],miss:['你上週很忙齁。債總我跟學長拿到了。']},
-    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,9],tie:true,   /* AA_313 5-3：只在第 9 週（第 10 週週日是哲 2 之後，可能已經借過筆記）*/msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},
+    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},
     {id:'zhe_score',who:'zhe',term:'Y2S1',w:[14,14],tie:true,   /* AA_374 第 4 項（AA_211）：12/6 發會指 12/12，系籃是 12/19 */msg:['週六系籃缺一個記分的。你會加減吧？'],reply:'會。',resp:['那就是你了。不准跑。'],miss:['你上週很忙齁。記分的我抓到別人了。你欠我一次。']},
     {id:'zhe_deposit',who:'zhe',term:'Y2S2',w:[4,4],tie:true,msg:['我學長退租，房東說押金要扣一半。','他叫我問你 押金扣一半可以嗎'],reply:'叫他找搬進去那時候拍的照片。',resp:['照片？……我問他有沒有拍。'],miss:['你上週很忙齁。我學長押金那件，他自己去問了。']},   /* AA_255：押金是學長的、只在第 4 週 */
     {id:'zhe_final',who:'zhe',term:'Y2S2',w:[14,15]/* AA_375 第 22 項（AA_255 第 2 節第 5 點）：6/13（第 16 週）已經考完 */,msg:['期末一起讀？我負責滷味，你負責不要讓我睡著。'],reply:'好。',resp:['成交。'],miss:['你上週很忙齁。滷味我自己吃完了。']},
@@ -52,7 +52,7 @@ const NEEDED_MSGS=(function(){
     {id:'bh_final',who:'classmate_bohan',term:'Y2S2',w:[14,15],msg:['期末的考古題整理好了，放在讀書會的雲端。'],reply:'謝謝。',resp:['民法那份少一年，我還在找。'],miss:null},
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
-    {id:'xc_contract',who:'classmate_xinci',term:'Y2S2',w:[8,10],   /* AA_313 5-6：和 Alison 的 yu_overtime（大二上第 6～8 週）幾乎同一則，兩則不要同一學期——搬到大二下第 8～10 週（xc_grade 第 5～7 週、xc_notes 第 11～13 週中間）*/msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
+    {id:'xc_contract',who:'classmate_xinci',term:'Y2S1',w:[10,12],msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
     {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。'],miss:['大結局那則你沒回。……很好，代表你沒爆雷。']},
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。'],reply:'好。',resp:['謝啦。不然我一定會去算差幾分。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
     {id:'xc_notes',who:'classmate_xinci',term:'Y2S2',w:[11,13],msg:['期末的筆記我想換個方式整理。你都怎麼記判決？'],reply:'我只抄爭點跟結論，其他的回去看全文。',resp:['好，我試試看。'],miss:['筆記那則你沒回。……我自己試了。']},   /* 原 xc_moot（模擬法庭刪除）*/

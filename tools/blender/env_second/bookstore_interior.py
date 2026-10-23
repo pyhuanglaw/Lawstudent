@@ -30,7 +30,7 @@ random.seed(1984)
 B.reset(texres=512)
 root = B.group('bookstore_interior', props={'kind': 'bookstore_interior', 'w': W, 'd': D, 'h': H})
 M = {
-    'floor': L.pbr('bk_floor', 'laminate_floor_02', tile=1.3, target='#cbb390', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.6),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
+    'floor': L.pbr('bk_floor', 'dark_wood', tile=1.3, target='#8e6a48', normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'wall': L.pbr('bk_wall', 'white_plaster_02', tile=1.4, target='#e6dcc8', maps=('diff',), res=256, rough_value=0.9),
     'ceil': L.flat('bk_ceiling', '#efe7d8', rough=0.9, cull=True), 'beam': L.flat('bk_beam', '#5a4130', rough=0.7, cull=True),
     'shelf': L.pbr('bk_shelf', 'black_walnut_veneer_01', tile=1.0, target='#4e3624', maps=('diff',), res=256, rough_value=0.7),

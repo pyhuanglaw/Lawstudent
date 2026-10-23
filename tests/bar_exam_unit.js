@@ -23,7 +23,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     check('2. 20 題、不重複、都在題庫裡（EXAM_BANK＋QBANK）',qs.length===20&&ids.size===20&&qs.every(q=>pool.get(q.id)===q));
     check('2. 題目、答案照題庫（和 EXAM_BANK／QBANK 原物件同一個）',qs.every(q=>{ const o=(EXAM_BANK.questions.find(x=>x.id===q.id)||QBANK.find(x=>x.id===q.id)); return o===q; }));
     check('2. 呈現照期末考：「1／20　題目」、選項（A）…；交卷不報分數',H.said.some(x=>x.t.startsWith('1／20　'))&&H.opts.some(o=>o[0]&&/^（A）|^對$/.test(o[0]))&&H.has('交卷。')&&!H.said.some(x=>/答對/.test(x.t)));
-    check('2. 和可昕交往中＝考場門口沒有學姊當面給便條（改 8/3 21:00 照片，見第 9 組）',!H.has('你可以。'));
+    check('2. 和可昕交往中＝考場門口沒有學姊當面給便條（改 8/3 21:00 照片，見第 9 組）',!H.has('一，你可以。'));
     check('2. BAR_SCORE_2029＝14、BAR_SIT_2029',G.flags.BAR_SCORE_2029===14&&G.flags.BAR_SIT_2029===true);
     check('2. X1：走出考場 柏翰「第十四題你選哪個？」阿哲「不要對。對了會睡不著。」',H.has('第十四題你選哪個？')&&H.has('不要對。對了會睡不著。'));
     H.at('2029-08-04',17.6); PHONE.tick(G); check('2. 和可昕交往：她傳「考完了。手還在抖。」「……你的也是吧。」',H.msgs('p:kexin').join('|')==='考完了。手還在抖。|……你的也是吧。',JSON.stringify(H.msgs('p:kexin')));
@@ -52,9 +52,9 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     check('6. 1/25 電話「司法官上了。」→「美國那份呢？」→「三月。」；麵店團沒有那一則',c2&&c2.id==='an2'&&H.has('司法官上了。')&&H.has('三月。')&&!H.msgs('g:noodle_team').includes('司法官上了。')); }
   // ---- 雙方都單身、學姊 FRIEND＝考場門口當面給便條 ----
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); H.FRIEND('heroine_05'); H.picks=new Array(20).fill(0); await H.run('exam_2029');
-    check('2b. 便條當面給（單身、學姊 FRIEND）：「你可以。」「……只有一句？」「一句就夠了。」（AA_398 第 39 列）；不是戀人＝沒有「我在對面的便利商店等」',H.has('你可以。')&&H.has('……只有一句？')&&H.has('一句就夠了。')&&!H.has('我在對面的便利商店等。考完先傳訊息。')); }
+    check('2b. 便條當面給（單身、學姊 FRIEND）：「一，你可以。」…「三件都一樣。」「對。」；不是戀人＝沒有「我在對面的便利商店等」',H.has('一，你可以。')&&H.has('三件都一樣。')&&H.has('對。')&&!H.has('我在對面的便利商店等。考完先傳訊息。')); }
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); H.FAMILIAR('heroine_05'); H.picks=new Array(20).fill(0); await H.run('exam_2029');
-    check('2b. 學姊不到 FRIEND＝沒有便條',!H.has('你可以。')); }
+    check('2b. 學姊不到 FRIEND＝沒有便條',!H.has('一，你可以。')); }
   // ---- 以安：不到 FRIEND＝麵店團一則；交往中的第二句 ----
   { const G=H.fresh('2030-01-25',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FAMILIAR('heroine_01'); PG.rules(GM); H.at('2030-01-25',21.1); H.tick();
     check('7. 和以安不到 FRIEND：沒有電話，麵店團「司法官上了。」',!PG.due(G)&&H.msgs('g:noodle_team').includes('司法官上了。')); }
@@ -66,10 +66,10 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     H.at('2029-12-14',15.1); H.said=[]; await H.run('r2_2029'); check('8. Z3：多「司法官二試：未錄取。」＋旁白',H.has('司法官二試：未錄取。')&&H.has('（你看了一下司法官那一欄，沒有你的號碼。）')); }
   // ---- 學姊的便條：和別人交往中＝8/3 21:00 照片；戀人＝當面＋多一句 ----
   { const G=H.fresh('2029-08-03',20.6,'dorm',{BAR_REG:true}); graduated(G); H.FRIEND('heroine_05'); H.FRIEND('heroine_03'); H.date('heroine_03'); PG.rules(GM); H.at('2029-08-03',21.1); H.tick();
-    check('9. 祐廷和別人交往中：8/3 21:00 收到便條的照片',H.msgs('p:heroine_05').join('|').includes('你可以。|……只有一句？|一句就夠了。'),JSON.stringify(H.msgs('p:heroine_05')));
-    H.at('2029-08-04',8); H.picks=new Array(20).fill(0); await H.run('exam_2029'); check('9. 當面就沒有',!H.has('你可以。')); }
+    check('9. 祐廷和別人交往中：8/3 21:00 收到便條的照片',H.msgs('p:heroine_05').join('|').includes('一，你可以。|二，你可以。|三，你可以。|三件都一樣。|對。'),JSON.stringify(H.msgs('p:heroine_05')));
+    H.at('2029-08-04',8); H.picks=new Array(20).fill(0); await H.run('exam_2029'); check('9. 當面就沒有',!H.has('一，你可以。')); }
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); H.FRIEND('heroine_05'); H.date('heroine_05'); H.picks=new Array(20).fill(0); await H.run('exam_2029');
-    check('9. 戀人版當面給，最後多「我在對面的便利商店等。考完先傳訊息。」',H.has('你可以。')&&H.has('我在對面的便利商店等。考完先傳訊息。')); }
+    check('9. 戀人版當面給，最後多「我在對面的便利商店等。考完先傳訊息。」',H.has('一，你可以。')&&H.has('我在對面的便利商店等。考完先傳訊息。')); }
   // ---- X2：沒報名 ----
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:false}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('kexin'); H.date('kexin');
     check('10. X2：沒報名＝沒有一試',!PG.due(G)); H.at('2029-08-04',17.1); PG.rules(GM); H.at('2029-08-04',17.6); H.tick();

@@ -127,7 +127,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     PHONE.answer(G,'va10_ask',0); G.hour=21.4; STORY.phoneRules(GM); const q=OUT.get(G,'vac_va10');
     check('9. 回「我也去。」→ 行事曆 8/25 出發（香港）',G.flags.VA10==='yes'&&!!q&&q.day===DK('2027-08-25'),J(q));
     said=[]; G.day=DK('2027-08-25'); G.hour=8; await VAC.outing(GM,q); const S0=said.map(x=>x.t), W0=said.map(x=>x.who+'：'+x.t);
-    check('9. 三場：地鐵門外的 Alison、茶餐廳的奶茶、海邊步道；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔。')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
+    check('9. 三場：地鐵門外的 Alison、茶餐廳的奶茶、海邊步道；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
     check('9. AA_369 H1：8/25、8/27 那兩句是柏翰說；以安不在香港（三場沒有她）、交往版「……下次只有我們兩個的時候，我再排。」拿掉',W0.includes('許柏翰：……下一站等她。我第一天的行程有寫「走散的話在下一站等」。')&&W0.includes('許柏翰：（看著對岸）……第二天以後都沒排，結果也走完了。')&&!said.some(x=>x.who==='沈以安')&&!S0.includes('……下次只有我們兩個的時候，我再排。'),J(W0));
     const AN=TH('p:heroine_01').find(m=>m.tag==='va10_dm_heroine_01');
     check('9. AA_369 H1：和以安交往中，8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」',!!AN&&AN.day===DK('2027-08-27')&&AN.h===21&&J(TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01').map(m=>m.text))===J(['📷（京都車站的月台）','明天回去。……香港好玩嗎？']),J(TH('p:heroine_01').map(m=>[m.day,m.h,m.text,m.tag])));

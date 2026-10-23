@@ -62,8 +62,7 @@ const HV=(function(){
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg((v==='keep'?C.keep.pick:C.pick).bg):'dark'});
     if(v==='keep'){ await play(GM,id,C.keep.pick.lines); await place(GM,C.keep.place); await play(GM,id,C.keep.place.lines); toEvening(GM); await beforeSend(GM,q); await play(GM,id,C.keep.send); G.flags.HV_KEEP_LAST=G.day; return true; }
     const n0=(G.flags.HV_N||{})[key]|0, mu=S.museumDue(G,id,key,q);   /* mu：這一趟是心願事件「台南・美術館」（AA_349 K3）*/
-    await play(GM,id,(n0>0&&C.pickAgain?C.pickAgain:C.pick).lines);
-    if(id==='kexin'&&typeof KXKHH!=='undefined'&&KXKHH.pickLine){ const t=KXKHH.pickLine(G); if(t) await play(GM,id,[t]); }   /* AA_401 第 3 節：學期末約會答應過的那一次寒暑假，第一次去，接人之後多一句 */   /* 第二次以後的接人換句（第 7 節第 1 點）；看去過幾次、不看演哪一版（1/14 去過的下一次演 first，接人照樣是 pickAgain，AA_343 A4）*/
+    await play(GM,id,(n0>0&&C.pickAgain?C.pickAgain:C.pick).lines);   /* 第二次以後的接人換句（第 7 節第 1 點）；看去過幾次、不看演哪一版（1/14 去過的下一次演 first，接人照樣是 pickAgain，AA_343 A4）*/
     if(mu) await S.museum(GM,id,C.museum);
     else {
       if(v!=='first'&&C.museum&&S.knownDue(G,id)) await S.museumKnown(GM,id,C.museum);   /* 聊天提到（AA_349 K3：大三起在去台南那天「再去」接人以後）*/

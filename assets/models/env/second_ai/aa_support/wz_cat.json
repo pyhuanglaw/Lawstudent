@@ -1,11 +1,11 @@
 {
- "objects": 13,
- "unique_meshes": 13,
- "tris": 11925,
- "tris_drawn": 11925,
+ "objects": 10,
+ "unique_meshes": 10,
+ "tris": 8953,
+ "tris_drawn": 8953,
  "materials": 2,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/cat/wz_cat.glb",
- "bytes": 705660,
+ "out": "assets/models/env/second_ai/aa_support/wz_cat.glb",
+ "bytes": 549116,
  "texres": 512,
  "tris_per_node": {
   "CAT_sit": 2684,
@@ -16,14 +16,11 @@
   "CAT_lie_bandage": 120,
   "CAT_walk": 2684,
   "CAT_walk_tag": 180,
-  "CAT_walk_bandage": 120,
-  "CAT_curl": 2672,
-  "CAT_curl_tag": 180,
-  "CAT_curl_bandage": 120
+  "CAT_walk_bandage": 120
  },
  "textures": [
   "tools/blender/env_second/textures/gen/wz_cat_fur.png",
   "tools/blender/env_second/textures/gen/wz_cat_fur_old.png"
  ],
- "note": "四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
+ "note": "三個姿勢 CAT_sit／CAT_lie／CAT_walk（原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
 }

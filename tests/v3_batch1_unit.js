@@ -40,7 +40,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   at(-13.5,13.6); picks=['吉他社']; tick(); await wait(); let L=lines();
   check('1. 開場兩句',L[0]==='去年，你站在這一排攤位前面填表。'&&L[1]==='今年，你站在攤位後面。',JSON.stringify(L.slice(0,2)));
   check('1. 選單只列加入過的兩攤',JSON.stringify(opts[0])===JSON.stringify(['（在法服的攤位站一個小時）','（在吉他社的攤位站一個小時）']),JSON.stringify(opts));
-  const gt=['yu：欸祐廷你負責發傳單！對了你會彈哪首？……三個和弦也行啦。',   /* AA_313 5-4：{name}＋不用「……好啦我知道」（玩家叫祐廷）*/'新生：學長，完全沒碰過可以嗎？','祐廷：可以。我去年也是。','heroine_04：欸不是，新手最好。我到現在，還在新手村。','一個小時，有人叫了你四次「學長」。','第一次，你回頭找是誰在叫別人。'];
+  const gt=['yu：欸祐廷你負責發傳單！對了你會彈哪首？……好啦我知道，三個和弦。','新生：學長，完全沒碰過可以嗎？','祐廷：可以。我去年也是。','heroine_04：欸不是，新手最好。我到現在，還在新手村。','一個小時，有人叫了你四次「學長」。','第一次，你回頭找是誰在叫別人。'];
   const norm=a=>a.map(t=>t.replace(/^Alison：/,'yu：').replace(/^高子晴：|^子晴：/,'heroine_04：'));
   check('1. 吉他社的台詞（逐字；Alison、子晴認識才說）',JSON.stringify(norm(L.slice(2)))===JSON.stringify(gt),JSON.stringify(L.slice(2)));
   check('1. 站一個小時、Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、Alison 和子晴熟悉 +1',Math.abs(G.hour-13)<1e-6&&G.flags.Y2_EXPO_BOOTH==='club_guitar'&&G.flags.Y2_EXPO_SENIOR===true&&SOCIAL.rel('yu').fam===f0+1&&SOCIAL.rel('heroine_04').fam===f4+1,JSON.stringify([G.hour,SOCIAL.rel('yu').fam,f0]));
@@ -72,7 +72,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));
   run(17,17.1); check('6. 17:00 阿哲在麵店團群組「開學第一頓。七點，長桌。」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓。七點，長桌。')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
   picks=['這學期要一起修']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
-  check('6. 台詞（逐字）：阿哲兩句（「老闆娘」改「阿姨」，AA_313 5-3）、Alison、以安、語彤；選「這學期要一起修行政法嗎？」→ 以安「已經寫在表上了。」',/大二了，要有學長的樣子。$/.test(L[0])&&/（三秒後）阿姨，大碗。$/.test(L[1])&&/學長的樣子是大碗嗎？$/.test(L[2])&&/（翻開手帳）這學期的課表/.test(L[3])&&/（端麵過來）……今天的滷蛋，阿姨說多一顆。開學。$/.test(L[4])&&/已經寫在表上了。$/.test(L[5])&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
+  check('6. 台詞（逐字）：阿哲兩句、Alison、以安、語彤；選「這學期要一起修行政法嗎？」→ 以安「已經寫在表上了。」',/大二了，要有學長的樣子。$/.test(L[0])&&/（三秒後）老闆娘，大碗。$/.test(L[1])&&/學長的樣子是大碗嗎？$/.test(L[2])&&/（翻開手帳）這學期的課表/.test(L[3])&&/（端麵過來）……今天的滷蛋，阿姨說多一顆。開學。$/.test(L[4])&&/已經寫在表上了。$/.test(L[5])&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
   fresh(d17,16,'campus',{}); G.stage='law'; picks=['先吃']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
   check('6. 只認識阿哲：阿哲兩句、選項只有「先吃。」→「這才是學長的樣子。」',L.length===3&&/這才是學長的樣子。$/.test(L[2])&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「先吃。」']),JSON.stringify([L,opts]));
   // 沒去 → 21:30 照片；不在群組＝阿哲私訊

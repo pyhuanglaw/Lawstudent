@@ -311,11 +311,7 @@ def _write(root, path, obj):
 
 def register(args):
     src = Src(args.root)
-    ref, err = _role_ref(args)
-    if err:
-        print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
-        return 2
-    d, err = load(src, ref)
+    d, err = load(src, getattr(args, 'ref', None))
     if err:
         print(f'[致命] {err}——沒有值班狀態不能登記；回報使用者')
         return 2
@@ -382,26 +378,9 @@ def register(args):
     return 0
 
 
-def _role_ref(args):
-    """LAWWW 以外的職位在自己的分支（企劃線、美術分支）上沒有 duty.json：沒給 --ref 就自己找 RULE_SOURCE 讀（同 check_handoff.py snapshot；TOOL-DUTY-HANDOFF-BRANCH-1022，BB 10-22 15:08 交班跑不起來）。
-    回傳 (ref, 錯誤)；LAWWW、或本機有 duty.json＝照舊讀本機。"""
-    ref = getattr(args, 'ref', None)
-    if ref or args.role == 'LAWWW' or os.path.exists(os.path.join(args.root, DUTY)):
-        return ref, None
-    code, b = find(args, quiet=True)
-    if code or not b:
-        return None, f'這條分支沒有 {DUTY}，也找不到 RULE_SOURCE（先 git fetch --all；或加 --ref origin/<規則來源分支>）'
-    print(f'值班狀態從 origin/{b} 讀（這條分支沒有 {DUTY}）')
-    return 'origin/' + b, None
-
-
 def handoff(args):
     src = Src(args.root)
-    ref, err = _role_ref(args)
-    if err:
-        print(f'[致命] {err}')
-        return 2
-    d, err = load(src, ref)
+    d, err = load(src, getattr(args, 'ref', None))
     if err:
         print(f'[致命] {err}')
         return 2

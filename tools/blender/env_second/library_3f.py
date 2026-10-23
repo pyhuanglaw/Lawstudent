@@ -49,7 +49,7 @@ def img_mat(name, png, rough=0.7, emit=False):
     m['tile'] = 1.0; return m
 
 M = {
-    'floor': L.pbr('l3_parquet', 'herringbone_parquet', tile=1.8, target='#cdb594', sat=0.8, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.55),   # 淺色人字拼（使用者 10-23：不要深色木地板，整個遊戲都不要；顏色同宿舍四人房 #cdb594；原本 #a07a55）
+    'floor': L.pbr('l3_parquet', 'herringbone_parquet', tile=1.8, target='#a07a55', sat=0.8, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.55),
     'plaster': img_mat('l3_plaster', 'l3_plaster.png', rough=0.9),   # Poly Haven white_plaster_02 的變化只留 22%（lib3f_atlas.py 旁邊產生）：原圖在大片牆上像水漬
     'walnut': L.pbr('l3_walnut', 'walnut_veneer', tile=1.2, target='#6b4a33', maps=('diff',), res=512, rough_value=0.5),
     'top': L.pbr('l3_tabletop', 'walnut_veneer', tile=1.4, target='#7d5a3e', maps=('diff',), res=512, rough_value=0.38),

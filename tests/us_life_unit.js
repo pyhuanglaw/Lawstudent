@@ -169,11 +169,6 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   // ======================= S8 時差（US-D）=======================
   fresh('2028-10-09',8,'us_apartment',US()); date('kexin'); for(let d=D('2028-10-09');d<=D('2028-10-11');d++){ G.day=d; G.weekday=wdOf(d); for(const h of [8,21]){ G.hour=h; rules(); } }
   { const q=OUT.get(G,'kx_anniv4v'); check('S8／US-D. 10/17 可昕週年視訊：當地早上 09:00（台灣 21:00），不是晚上 21:00', !!q&&q.day===D('2028-10-17')&&q.h===9, JSON.stringify(q)); }
-  { const q=OUT.get(G,'kx_anniv4v'), w=STORY.wakeAlarms(G,D('2028-10-17'));   /* BB 14:45（f5c7e17b）：沒有 alarm＝10/16 晚上照常睡到 12:00，週年視訊就錯過（KX_ANNIV 4 missed）*/
-    check('S8. 可昕週年視訊會叫醒：alarm、10/17 的鬧鐘 08:30（視訊 09:00 前 30 分鐘）', !!q&&q.alarm===true&&w.some(a=>Math.abs(a.h-8.5)<0.01&&/可昕的視訊：週年/.test(a.why)), JSON.stringify({q,w}));
-    if(q){ q.alarm=false; rules(); } check('S8. 舊存檔已經排好、沒有 alarm 的：補上', !!q&&q.alarm===true, JSON.stringify(q)); }
-  { G.day=D('2028-10-16'); G.weekday=wdOf(G.day); G.hour=22; const o=STORY.bedOptions(G), sl=o.filter(x=>x.kind==='sleep');   /* BUG-US-BED-ALARM-1022（BB 10-22 15:02）：美國上課日床的選單把「明天沒有課」那項換成第一堂前一小時，沒有重看鬧鐘，週年視訊 09:00 照樣睡到 12:00 */
-    check('S8. 10/16 晚上上床：每個睡覺選項都被 08:30 的鬧鐘叫醒（不會睡過週年視訊）；選項名字不重複', sl.length>0&&sl.every(x=>x.wake<=8.51)&&sl.some(x=>/可昕的視訊：週年/.test(x.alarm||''))&&new Set(sl.map(x=>x.t)).size===sl.length, JSON.stringify(sl)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('S8. story3d.js「視訊版目前不會發生」的舊註解拿掉了', !/視訊版目前不會發生/.test(src)); }
   fresh('2028-12-11',7,'us_apartment',US()); PHONE.join(G,'public_law','公法讀書會'); R('heroine_01','FAM'); runRules('2028-12-11',7,9);
   check('S8. 12/11 讀書會群組：當地 08:00（台灣 21:00）', txt('g:public_law').includes('heroine_01:學弟說這週四停一次')&&G.msgs.find(m=>m.th==='g:public_law').h===8, JSON.stringify(txt('g:public_law')));
@@ -214,12 +209,9 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   at('2028-08-03',4.5); E.player.busy=false; await tick();
   check('G1／US-A. 8/3 04:30 公寓醒來：「（你醒來的時候，窗外還是黑的。手機上是四點半。台灣是下午四點半。）」（只演一次）', has('（你醒來的時候，窗外還是黑的。手機上是四點半。台灣是下午四點半。）')&&!has('（C 棟有一扇窗的燈也亮著。你不知道是不是她那一戶。）')&&G.flags.USL_JETLAG&&(said=[],await tick(),!said.length));
   runRules('2028-08-03',4.5,5.5); { const m=PHONE.byAsk(G,'usl_sis_0803');
-    check('G1. 交往中 05:10 學姊私訊兩則；回「醒了。」→「再睡一下。手續是明天十點。」（US-JETLAG-BED-0803-1022）', JSON.stringify(txt('p:heroine_05').slice(0,2))===JSON.stringify(['heroine_05:你也醒了吧。','heroine_05:睡不著。外面還是黑的。……我的身體以為現在是下午。'])&&!!m&&(PHONE.answer(G,'usl_sis_0803',0),txt('p:heroine_05').slice(-1)[0]==='heroine_05:再睡一下。手續是明天十點。'), JSON.stringify(txt('p:heroine_05'))); }
+    check('G1. 交往中 05:10 學姊私訊兩則；回「醒了。」→「再睡一下。九點去辦手續。」', JSON.stringify(txt('p:heroine_05').slice(0,2))===JSON.stringify(['heroine_05:你也醒了吧。','heroine_05:睡不著。外面還是黑的。……我的身體以為現在是下午。'])&&!!m&&(PHONE.answer(G,'usl_sis_0803',0),txt('p:heroine_05').slice(-1)[0]==='heroine_05:再睡一下。九點去辦手續。'), JSON.stringify(txt('p:heroine_05'))); }
   fresh('2028-08-03',4.5,'us_apartment',US({US1:'alone'})); E.player.busy=false; await tick(); runRules('2028-08-03',4.5,6);
   check('G1／US-B. 挽回中 8/3：只有旁白（多「C 棟有一扇窗的燈也亮著」），沒有訊息', has('（C 棟有一扇窗的燈也亮著。你不知道是不是她那一戶。）')&&!txt('p:heroine_05').length);
-  { fresh('2028-08-03',4.75,'us_apartment',US()); G.flags.USL_JETLAG=true; const O=STORY.bedOptions(G)||[];   /* US-JETLAG-BED-0803-1022（AA-B 10-23 07:50）*/
-    check('G1. 8/3 時差醒來以後的床：第一項「再睡到早上（09:00）」（同一天的小睡），原本睡到明天早上的那項還在', !!O[0]&&O[0].kind==='nap'&&O[0].to===9&&O[0].t==='再睡到早上（09:00）'&&O.some(o=>o.kind==='sleep'), JSON.stringify(O.map(o=>[o.kind,o.t])));
-    at('2028-08-03',5.5); const O2=STORY.bedOptions(G)||[]; check('G1. 05:00 以後（白天的小睡）：第一項照樣是「再睡到早上（09:00）」，小睡那幾項還在', !!O2[0]&&O2[0].to===9&&O2.filter(o=>o.kind==='nap').length>1, JSON.stringify(O2.map(o=>[o.kind,o.t]))); }
   fresh('2028-08-03',9,'us_apartment',US()); date('heroine_05'); rules(); { const q=OUT.get(G,'usl_office'); check('G1. 8/4 10:00 國際學生辦公室：出遊（一鍵「出發」，鬧鐘）', !!q&&q.day===D('2028-08-04')&&q.h===10&&q.alarm===true); at('2028-08-04',9.8); await go('usl_office'); }
   check('G1. 國際學生辦公室：旁白＋交往中「（學姊比你早到。她的表已經交了……）」', has('（國際學生辦公室。你排在一個巴西來的學生後面，填了三張表。最後一張問你的緊急聯絡人，你寫了媽媽的名字，又在旁邊寫了台灣的國碼。）')&&has('（學姊比你早到。她的表已經交了，坐在門口的椅子上等你，手上是那瓶熱水。）'));
   fresh('2028-08-04',9.8,'us_apartment',US()); rules(); await go('usl_office'); check('G1／US-B. 挽回中：「（學姊比你早到。你們在走廊點了一下頭。）」', has('（學姊比你早到。你們在走廊點了一下頭。）'));

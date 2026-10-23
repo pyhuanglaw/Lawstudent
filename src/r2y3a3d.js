@@ -359,6 +359,6 @@ const R2Y3A=(function(){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM));
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt));
     if(Array.isArray(STORY.WAKE_AT)) STORY.WAKE_AT.push(G=>S.wakeAt(G)); }
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.crClass(GM,it,prof,ct); f.due=(G,it,ct)=>{ const F=G.flags||{}; if(!it||!it.c||it.c.id!=='crimpro'||it.exam||!law(G)||it.term!=='Y3S1') return false; return (it.week===7&&F.CRIMPRO_W7==null&&!(ct&&ct.second))||(it.week===12&&F.CRIMPRO_W12==null)||(it.week===13&&F.CRIMPRO_W13==null&&F.CRIMPRO_HW==='done'); }; CLS.IN_CLASS.push(f); }   /* due：學期中的快轉（src/semff3d.js）停在這一堂前面 */
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)) CLS.IN_CLASS.push((GM,it,prof,ct)=>S.crClass(GM,it,prof,ct));
   return S;
 })();

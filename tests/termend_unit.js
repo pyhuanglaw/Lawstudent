@@ -203,12 +203,6 @@ GM.money=function(n){ G.money+=n; };
       const q5=OUT.get(G,'c15_yu_camp'); check('11. Alison「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 12:00 營地；她傳「{日期}中午來！！」）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===12,JSON.stringify(q5));
       said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追 Alison、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
       TERMEND.dayMissed(GM,q5); G.day=q5.day; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：那天晚上 21:00 Alison 私訊照片「我還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='我還活著！'));
-      { const d2=D('2027-06-11'); fresh(d2,19,'campus',{}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y2S2'}});
-        const q6=OUT.get(G,'c15_yu_camp2'); check('11. Alison 大二下「暑假營隊我當小隊長。」→「我去探班。」＝C15 探班 7/17 12:00 營地，不報名系學會的高中營 C02（AA_408 第 5 節）',lines().some(t=>t.includes('暑假營隊我當小隊長。'))&&!!q6&&q6.day===D('2027-07-17')&&q6.h===12&&!VAC.enrolled(G,'C02','Y2'),JSON.stringify(q6));
-        said=[]; await TERMEND.dayOuting(GM,q6); const L6=lines(); check('11. 大二探班：哨子、「我是小隊長了！……他們都不聽我的。」、雞塊藏在碗底；沒去過大一探班＝「他們最會偷雞塊。要先藏好。」',L6.some(t=>t.includes('她脖子上掛著一個哨子'))&&L6.some(t=>t.includes('我是小隊長了！……他們都不聽我的。'))&&L6.some(t=>t.includes('他們最會偷雞塊。要先藏好。'))&&!L6.some(t=>t.includes('去年被偷過')),JSON.stringify(L6));
-        fresh(d2,19,'campus',{C15_DONE:{yu_camp:D('2026-07-11')}}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y2S2'}}); const q7=OUT.get(G,'c15_yu_camp2'); said=[]; await TERMEND.dayOuting(GM,q7);
-        check('11. 大一去過探班：最後一句「去年被偷過，今年學乖了。」',lines().some(t=>t.includes('去年被偷過，今年學乖了。')));
-        TERMEND.dayMissed(GM,q7); G.day=q7.day; G.hour=21.1; PHONE.tick(G); check('11. 大二探班沒去：21:00 Alison「小隊長還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='小隊長還活著！')); }
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('heroine_04');
       check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04')));
       check('11. 每一個 C15 都有傳日子的訊息；Alison 多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
@@ -296,18 +290,5 @@ GM.money=function(n){ G.money+=n; };
     check('16. AA_361 九位 × 大二上～大四上的句子照原文（42 句；在國外的學期不寫；學姊大四上那句照 AA_363 S1「我昨天回來的」，見 9f）',!bad.length&&!(F.heroine_02.genByTerm||{}).Y3S1&&!(F.heroine_01.genByTerm||{}).Y3S2&&!F.classmate_xinci.genByTerm&&JSON.stringify(F.npc_fangyt.genByTerm)===JSON.stringify({Y1S2:'考完了嗎？吃個飯。七月我就要上山了。'})/* 方奕廷只有 AA_373 #12 的大一下那句 */&&!F.classmate_peishan.genByTerm,bad.join('、'));
     const src=fs.readFileSync(path.join(ROOT,'src/termend3d.js'),'utf8');
     check('16. 送朋友邀約先讀 genByTerm[學期]，再讀 genBySem（上／下學期末，AA_369 L1），沒有才用 gen；大一上照 y1s1；婉拒先讀 noBySem',/send\(id,'friend',w\.id==='Y1S1'\?f\.y1s1:\(\(f\.genByTerm&&f\.genByTerm\[w\.id\]\)\|\|\(f\.genBySem&&f\.genBySem\[sem\]\)\|\|f\.gen\),\(f\.noBySem&&f\.noBySem\[sem\]\)\|\|f\.no\)/.test(src)); }
-  // 12. AA_389 第 2 點（企劃線 345234b3）：HOOK_ZQ_GAME 補場做好以前不出選項；HOOK_T03 不出選項——她照樣說自己的計畫，玩家沒有「我去」那個選項、不記旗標
-  //     HOOK_ZR_SENDOFF：AA_390 的 9/2 送機（src/zr_sendoff3d.js）做好了，選項打開：選「出發那天我去送妳」記旗標（＝那天）
-  { fresh(D('2027-06-10'),19,'campus',{}); G.stage='law'; meet('heroine_02'); said=[]; opts=[]; picks=[0];
-    const r=await TERMEND.hook(GM,'Y2S2','heroine_02'); const L=lines();
-    check('12. Y2S2 芷若「九月二號出發。」：有「出發那天我去送妳」，選了記 HOOK_ZR_SENDOFF',r===true&&L.some(t=>t.endsWith('九月二號出發。'))&&opts.length===1&&opts[0].some(t=>/出發那天我去送妳/.test(t))&&G.flags.HOOK_ZR_SENDOFF===G.day,JSON.stringify({r,L,opts,f:G.flags.HOOK_ZR_SENDOFF})); }
-  /* AA_400：子晴的測試版（src/zq_testbuild3d.js）做好了，「做出來給我玩。」打開 */
-  { fresh(D('2028-01-10'),19,'campus',{}); G.stage='law'; meet('heroine_04'); G.events.done.ev_ziqing_secret_game=1; said=[]; opts=[]; picks=[0];
-    const r=await TERMEND.hook(GM,'Y3S1','heroine_04'); const L=lines();
-    check('12. Y3S1 子晴「發表會那個遊戲，我想做到可以上架。」：有「做出來給我玩。」，選了記 HOOK_ZQ_GAME（AA_400 做好了）',r===true&&L.some(t=>t.endsWith('發表會那個遊戲，我想做到可以上架。'))&&opts.length===1&&opts[0].some(t=>/做出來給我玩/.test(t))&&G.flags.HOOK_ZQ_GAME!=null,JSON.stringify({r,L,opts,f:G.flags.HOOK_ZQ_GAME})); }
-  for(const [term,who,say,flag,day] of [['Y3S2','heroine_04','七月三號到七號 曼谷','HOOK_T03','2028-06-10']]){
-    fresh(D(day),19,'campus',{}); G.stage='law'; meet(who); G.events.done.ev_ziqing_secret_game=1; said=[]; opts=[]; picks=[0];
-    const r=await TERMEND.hook(GM,term,who); const L=lines();
-    check('12. '+term+' '+who+'：照樣說「'+say+'」、不出選項、不記 '+flag,L.some(t=>t.endsWith(say))&&!opts.length&&G.flags[flag]==null,JSON.stringify({r,L,opts,f:G.flags[flag]})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

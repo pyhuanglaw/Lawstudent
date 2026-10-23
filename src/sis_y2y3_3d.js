@@ -42,10 +42,6 @@ const SISY23=(function(){
     {k:'iv',ask:'2027-10-15',h:21,min:'FRIEND',lines:L.ivAsk,yes:L.ivYes,noT:L.ivNoT,no:L.ivNo,flag:'SIS_INTERVIEW',go:'SIS_IV_GO',
       out:{id:'sisy23_iv',ev:'ev_sis_interview',day:'2027-10-16',h:9,late:0.25,place:'法扶・臺北的辦公室',title:'陪學姊去訪談（法扶）',travel:'捷運 約 25 分鐘',travelH:25/60},
       miss:{day:'2027-10-16',h:12.5,lines:[L.ivMissed]}},
-    /* AA_392 第 5 節：第二次訪談——第一次訪談選了「下次還要記嗎？」（SIS_IV_AGAIN）；11/24（三）21:00 私訊（志願表 11/18 截止以後）→ 11/27（六）10:00；沒到 13:00「記完了。」*/
-    {k:'iv2',ask:'2027-11-24',h:21,min:'FRIEND',cond:G=>!!G.flags.SIS_IV_AGAIN,lines:L.iv2Ask,yes:L.iv2Yes,yesSay:L.iv2YesSay,noT:L.iv2NoT,no:L.iv2No,flag:'SIS_INTERVIEW2',go:'SIS_IV2_GO',
-      out:{id:'sisy23_iv2',ev:'ev_sis_interview2',day:'2027-11-27',h:10,late:0.25,place:'社區活動中心・小房間',title:'陪學姊去第二次訪談（社區活動中心）',travel:'捷運 約 25 分鐘',travelH:25/60},
-      miss:{day:'2027-11-27',h:13,lines:[L.iv2Missed]}},
     /* AA_379 3-2（企劃線 d037c668）：出國前最後一個週六——臺灣路線、熟悉以上（日本路線那時在日本、美國路線和她同一班飛機，都不演）*/
     {k:'pre',ask:'2028-07-28',h:21,min:'FAMILIAR',cond:G=>!(typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)),lines:L.preAsk,yes:L.preYes,noT:L.preNoT,no:L.preNo,flag:'SIS_PREDEPART',go:'SIS_PRE_GO',
       out:{id:'sisy23_pre',ev:'ev_sis_predepart',day:'2028-07-29',h:15,late:0.25,place:'公館',title:'公館（陪學姊買行李箱的鎖）',travel:'走路 約 15 分鐘',travelH:0.25},
@@ -53,7 +49,7 @@ const SISY23=(function(){
   S.asks=function(G){ const F=G.flags;
     for(const a of S.ASKS){ const d=D(a.ask), od=D(a.out.day), md=D(a.miss.day); if(d==null||od==null||md==null) continue; const tag='sisy23_'+a.k+'_ask';
       if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,a.out.h)&&S.ok(G,a.min)&&(!a.cond||a.cond(G))&&contact(G,d)){   /* 那一天一開始就排好（21:00 才送到；快轉會停在要回的訊息）*/
-        const M=a.lines.map(dm); M[M.length-1].ask={id:tag,until:T(od,a.out.h),opts:[Object.assign({t:a.yes,set:{[a.go]:true}},a.yesSay?{say:[{from:ID,text:a.yesSay}]}:{}),{t:a.noT,set:{[a.go]:false},say:[{from:ID,text:a.no}]}]};
+        const M=a.lines.map(dm); M[M.length-1].ask={id:tag,until:T(od,a.out.h),opts:[{t:a.yes,set:{[a.go]:true}},{t:a.noT,set:{[a.go]:false},say:[{from:ID,text:a.no}]}]};
         PHONE.at(G,d,a.h,M,tag); }
       if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,a.out.h+a.out.late)) plan(G,Object.assign({},a.out,{day:od}));
       /* 沒來（回了不行、沒回、說好了沒到）：那天她再傳一則，記 missed */

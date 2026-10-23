@@ -33,7 +33,7 @@ SPEC = {
     'self': dict(W=6.6, D=9.0, floor=('floor_tiles_06', '#d3cdbf', 1.0), wall='#f4efe4', wain=('long_white_tiles', '#eceeea', 1.0), wainH=1.35, wood=('walnut_veneer', '#8a6a4a'), door_x=-2.2, trim='#c9463d'),
     'tea': dict(W=2.6, D=4.6, floor=('concrete_floor_painted', '#bdb8ae', 1.5), wall='#f6f1e6', wain=('long_white_tiles', '#d9ebe0', 1.0), wainH=1.0, wood=('walnut_veneer', '#b08a5e'), door_x=-0.5, trim='#2f7d5b', cam=3.6),
     'home': dict(W=7.6, D=8.5, floor=('granite_tile', '#b9b2a6', 1.0), wall='#f1ebdd', wain=('long_white_tiles', '#e6e2d6', 1.0), wainH=1.3, wood=('walnut_veneer', '#7a5a3a'), door_x=-2.6, trim='#8c3b2a'),
-    'cafe2': dict(W=6.6, D=9.0, floor=('herringbone_parquet', '#cdb594', 1.4), wall='#eee6d8', wain=('dark_wood', '#5c4231', 1.0), wainH=0.95, wood=('black_walnut_veneer_01', '#6a4a33'), door_x=2.2, trim='#3b2a1e', ceil='#e9e2d4'),
+    'cafe2': dict(W=6.6, D=9.0, floor=('herringbone_parquet', '#8d6c4c', 1.4), wall='#eee6d8', wain=('dark_wood', '#5c4231', 1.0), wainH=0.95, wood=('black_walnut_veneer_01', '#6a4a33'), door_x=2.2, trim='#3b2a1e', ceil='#e9e2d4'),
     'pasta': dict(W=7.6, D=8.5, floor=('terrazzo_tiles', '#d9d3c7', 1.2), wall='#f4efe6', wain=('rounded_square_tiled_wall', '#3d6b5c', 0.8), wainH=1.0, wood=('walnut_veneer', '#8a6440'), door_x=-2.6, trim='#2f5d50'),
     'korea': dict(W=6.6, D=8.5, floor=('concrete_floor_painted', '#aaa69d', 1.5), wall='#f3f0ea', wain=('walnut_veneer', '#a07850', 0.9), wainH=1.0, wood=('walnut_veneer', '#9a7048'), door_x=2.2, trim='#1f4e8c', kpass=True),
     'omu': dict(W=6.6, D=8.0, floor=('laminate_floor_02', '#c9a77c', 1.2), wall='#fbf3df', wain=('long_white_tiles', '#f0cf6a', 1.0), wainH=1.0, wood=('walnut_veneer', '#b08a5e'), door_x=-2.2, trim='#e0a030'),

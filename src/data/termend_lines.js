@@ -10,10 +10,6 @@ const TERMEND_LINES=(function(){
   const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);
   const TM=G=>{ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; return w?w.id:null; };   /* 現在是哪一學期的期末時段 */
   const US4=G=>TM(G)==='Y4S1'&&typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';   /* 美國路線的大四上：12/23 才回來（AA_254 第 0 節 BB-C 16:45 規則：「你考完了沒」換成「你回來了」那一類）*/   /* 子晴做遊戲是秘密，大一下 Q6 才揭露（BB_166 1-1；AA-C 375b91dd）*/
-  /* AA_386 3-3（企劃線 d0468be4，AA 14:2x 定案 A）：學姊交往版大四上那一頓固定 2028-12-24 18:30（termend3d.js S.dinnerDay）；3-2 研究室那晚有來（SIS_XMAS_Y3 there）＝多兩句，美國路線「……我們做到了。」
-     12/24 晚上已經有別的約、往後讓的（不在 12/24 吃）不加，改成當晚 21:00 她私訊（sis_b4_3d.js S.xm3Fallback）*/
-  const XM3=G=>!!G&&!!G.flags&&G.flags.SIS_XMAS_Y3==='there'&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day===STORY.dayOfKey('2028-12-24');
-  const XM3US=G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   /* 沛珊大三起在台南（AA_282 第 5 節第 5 點）：期末飯的地點、交通（高鐵去、搭最後一班高鐵回臺北；票錢照 hometown_lines.js 台南那一組 2700）——系統字，不是台詞 */
   const PS_TN={place:'eatery_tn',placeName:'台南・她學校附近的簡餐',travel:'高鐵（去台南）約兩小時',travelH:2,back:'搭最後一班高鐵回到臺北。',fare:2700};
   /* 地點：AA_250 10-1 一對一的開場、收尾（AA-C c524b61e）；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
@@ -33,7 +29,7 @@ const TERMEND_LINES=(function(){
       table:'我這學期很少出來吃飯。……今天是特地訂的。',
       walk:[{narr:'（研討室，她開燈。）'},'我的手帳放在這裡。……白板還沒擦。'],
       optsFrom:'confess',   /* 說出來＝confess_lines 的三選一（AA_187 9-1；AA-C 11:58 確認：「十七次」不放，只換第一句）*/
-      she:[{narr:'（她拿起白板筆，在「理由」那一欄最下面多寫了一行。）'},{narr:'（白板：「沈以安喜歡{name}。理由：還在寫。」）'},{narr:'（她坐回你對面，翻開手帳，舉到下巴前面。只露出眼睛。）'},{cg:'cg_reason_column_heroine01'},'你不說的話，我寫了。',G=>TM(G)==='Y4S1'?'剩下的我回去寫完。……你先回答。':'理由我會補完。……你先回答。'],   /* CG-11 在她寫完白板那一行、坐回來的時候（AA_121；圖還沒有＝不顯示）；大四上第二句換（新 18、新 19 用掉了「理由」）*/
+      she:[{narr:'（她拿起白板筆，在「理由」那一欄最下面多寫了一行。）'},{narr:'（白板：「沈以安喜歡祐廷。理由：還在寫。」）'},{narr:'（她坐回你對面，翻開手帳，舉到下巴前面。只露出眼睛。）'},{cg:'cg_reason_column_heroine01'},'你不說的話，我寫了。',G=>TM(G)==='Y4S1'?'剩下的我回去寫完。……你先回答。':'理由我會補完。……你先回答。'],   /* CG-11 在她寫完白板那一行、坐回來的時候（AA_121；圖還沒有＝不顯示）；大四上第二句換（新 18、新 19 用掉了「理由」）*/
       yesCg:'cg_reason_column_heroine01',   /* 玩家自己先說的那條路：CG-11 放在她答應的那一句（AA-C 16:5x 更正）；第二次不放 */
       think:G=>TM(G)==='Y4S1'?'好。……學弟妹看到也不會擦。':'好。……這一行我不擦。',
       invite2:'考完了。七點，同一家。……白板我還沒擦。',
@@ -59,9 +55,9 @@ const TERMEND_LINES=(function(){
       invite:G=>US4(G)?'睡了一整天。……我請你吃飯，只有我們。':'考完了嗎？我請你吃飯。……這次不是家族的，只有我們。', decline:'好。那開學法圖見。',   /* 美國路線大四上：兩個人 12/23 同一班回來，12/24 傳（8c76052b）*/
       table:'我這學期的計畫本，最後一格還沒寫。',
       walk:['時間差不多了。……你剛剛好像一直想講什麼。'],
-      yes:[{narr:'（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）'},'……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。',{cg:'cg_three_things_heroine05'},'好。',{narr:'（她把便條摺好，收進口袋。上面寫的字，她一句都沒有念。）'}],   /* AA_223 §1；「你上次說的，我有記得。」作廢（AA_254 第 3 節）。
+      yes:[{narr:'（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）'},'……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。',{cg:'cg_three_things_heroine05'},'好。',{narr:'（她把便條摺好，收進口袋。上面的三行，她沒有念。）'}],   /* AA_223 §1；「你上次說的，我有記得。」作廢（AA_254 第 3 節）。
         便條那一拍（AA_343 E1）：回家路上第一句之後、她的第一句之前、「好。」之後各一句旁白；BCG-44「三件事，都是我也是」在「好。」。第二次（yes2）、她說的第二次（she2）沒有：一個玩家只看到一次 */
-      she:['你不講，那我講。',{narr:'（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）'},'這件事我想了一個禮拜。',{cg:'cg_three_things_heroine05'},'……我喜歡你。','……我原本想講得比較好。',{narr:'（便條上寫滿了字。她一句都沒有照著念。）'}],   /* AA_254 a9daffbb 改字；便條那一拍、BCG-44 在「……我喜歡你。」（AA_343 E1）*/
+      she:['你不講，那我講。',{narr:'（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）'},'這件事我想了一個禮拜。',{cg:'cg_three_things_heroine05'},'……我喜歡你。','……我原本想講得比較好。',{narr:'（便條上寫了三行。她一行都沒有照著念。）'}],   /* AA_254 a9daffbb 改字；便條那一拍、BCG-44 在「……我喜歡你。」（AA_343 E1）*/
       think:'好。我也是想了很久才說的。你慢慢想。',
       invite2:'期末考完了吧？同一家。……我請。',
       she2:['你不講，那我講。','上學期那件事，我到現在還是一樣。……你呢？'],
@@ -137,7 +133,7 @@ const TERMEND_LINES=(function(){
     heroine_03:{invite:'打烊以後。我煮。',place:'noodle_closed',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; },
       tableByTerm:{Y2S2:[{narr:'（她把兩碗麵推過來。她那碗多了一把蔥。）'},'……今天想吃蔥。'],Y3S1:['阿姨續約那天，買了一瓶汽水，倒了三杯。','……一杯是你的。我幫你喝了。'],Y3S2:['暑假田野要出去兩個禮拜。','……那兩個禮拜，阿姨會一直問你我在哪。'],Y4S1:['你國考前那幾個月，晚上來店裡讀。','……長桌最裡面那個位子，我幫你留。'],Y5S1:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。']}},
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。',
-      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。','……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。',G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null],Y5S1:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。']},
+      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。','……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'],Y5S1:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。']},
       over:[{terms:['Y5S1'],invite:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。'}]},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。',
       tableByTerm:{Y2S1:['寒假我排了很多班。','……週五下班以後的時間，我沒排。'],Y2S2:['英國那邊，我一個人都不認識。','……你不准趁我不在，去別家喝咖啡。'],Y3S2:['九月又要走，這次一年。','……六月的週五，你先全部給我。']/* AA_377 第 11 項：她 7/1～8/1 在台中 */,Y5S1:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。']},
@@ -175,7 +171,7 @@ const TERMEND_LINES=(function(){
       heroine_02:['寒假店裡缺人，我會多排幾班。','1/25 以前在臺北，之後回台中。'],
       classmate_peishan:['寒假我回台中，課輔班要放假了。','寒假你會回家嗎？還是留在臺北？'] },   /* 沛珊②「這學期沒用過才用」：她的階梯沒有同一句，照用 */
     Y1S2:{ heroine_01:['暑假我要上日語課。七月前段，公館那間。','7/25 回台中兩週。','民總我想暑假再讀一次。'],
-      heroine_03:[G=>typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,'va11_exam_yt')?null:'考完了。……憲法最後一題寫不完。','成績單七月三號才寄。'],   /* 6/18 雙主修筆試以前她不來（AA_250 第 2 節），所以只有筆試後那兩句；交往中 6/18 收過「考完了」那幾則（va11_exam_yt）的只說成績單那句（AA_313 4-4）*/
+      heroine_03:['考完了。……憲法最後一題寫不完。','成績單七月三號才寄。'],   /* 6/18 雙主修筆試以前她不來（AA_250 第 2 節），所以只有筆試後那兩句 */
       zhe:['我七月一號就回高雄了。','你暑假在臺北嗎？麵店團不能斷喔。','我八月二十一號回來。'],
       yu:['我七月要去營隊當隊輔，兩個禮拜。','你要不要來探班？'],
       classmate_bohan:['成績二十九號才出來。','我暑假回新竹，週四上來總圖。'],
@@ -247,17 +243,6 @@ const TERMEND_LINES=(function(){
     river:{name:'景美溪河堤',h:17.5,bg:'riverside',open:'（河堤的步道，她走在靠水的那一邊。）',close:'（她站在你的車門邊。『到家傳訊息。』）',miss:['我在河堤等了一下','你還好嗎']},
     nccu:{name:'政大正門',h:18,bg:'nccu_food',open:'（山下那家店，她點了兩人份，沒有問你。）',close:'（她送你到停車場，站著等你倒車出去。）',miss:['我在正門等了一下','你還好嗎']} };
   const C10=G=>typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C10');   /* 大二暑假加州暑期課（VAC 做好以後接）*/
-  /* AA_401 第 1 節（企劃線 18251b0e1；AA_313 2-5 第 3 點）：大二起每場學期末約會，table 兩句後面加一個二選一；khh＝KX_KHH[學期＋W／S]，y5＝KX_Y5_CALL */
-  const US3=G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US';
-  const KX_ASK={
-    Y2S1:[{t:'「好。哪幾天？」',r:['你自己挑。我那幾天都在。'],khh:['Y2W','yes']},{t:'「寒假我可能沒空。」',r:['……好。那夜市我自己去，拍給你看。'],khh:['Y2W','no']}],
-    Y2S2:G=>C10(G)?[{t:'「出發前一定去。」',r:['好。我把那天空下來。'],khh:['Y2S','yes']},{t:'「回來再去？」',r:['回來你會時差。……那就回來再去。'],khh:['Y2S','after']}]
-      :[{t:'「這次待到晚上。」',r:['好。末班高鐵前我才放你走。'],khh:['Y2S','yes']},{t:'「我盡量。」',r:['你每次都說盡量。'],khh:['Y2S','maybe']}],
-    Y3S1:[{t:'「題目哪裡奇怪？」',r:['老師說大家都寫大問題，只有我寫一個房間。','……我覺得房間就是大問題。'],khh:['Y3W','yes']},{t:'「寒假要去哪裡？」',r:['不告訴你。來了就知道。'],khh:['Y3W','yes']}],   /* 她已經說要排，兩個都算答應 */
-    Y3S2:G=>US3(G)?[{t:'「十二月就回來。」',r:['我知道。……我還是會算。'],khh:['Y3S','count']},{t:'「出發前去高雄一次。」',r:['好。七月。你不要排別的事。'],khh:['Y3S','yes']}]
-      :[{t:'「暑假我去高雄找妳。」',r:['一次就好。不要為了我把暑假排滿。'],khh:['Y3S','yes']},{t:'「視訊也很好。」',r:['你說的喔。每天十點，不准遲到。'],khh:['Y3S','video']}],
-    Y4S1:[{t:'「我去陪妳念。」',r:['好。圖書館九點開，我八點半就在門口。'],khh:['Y4W','yes']},{t:'「妳念妳的，我不吵妳。」',r:['你不來，我才會一直傳訊息吵你。'],khh:['Y4W','no']}],
-    Y5S1:[{t:'「週末一定打。」',r:['週六晚上十點。超過十點我就睡了。'],y5:'sat'},{t:'「受訓加油。」',r:['嗯。……你也是，不要只會說加油。'],y5:'cheer'}] };
   const KX={
     Y1S2:{place:'river',wd:5,first:true,invite:['期末考完了吧','禮拜五 河堤 五點半','我帶你去吃那家']},
     Y2S1:{place:'nccu',invite:['考完了！','這次換山上 政大正門六點','我請'],table:['我們期末考完，你寒假來高雄。','我家附近那個夜市，你還沒去過。']},
@@ -282,14 +267,14 @@ const TERMEND_LINES=(function(){
           heroine_04:{say:'你要不要看？',ok:'「好。」',if:PT,act:{c15:'zq_demo'}},   /* 看過 Q6 才約看 demo（AA_313 6-5 第 1 點）*/
           
           classmate_mingxuan:{say:'系籃寒假要集訓三天。',ok:'「最後一天我去看。」',act:{c15:'mx_game'}}},
-    Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我去探班。」',act:{c15:'yu_camp2'}},   /* AA_408 第 5 節（47dd827c）：她在山上兒童營當小隊長（VA-05），去探班；不報名系學會的高中營 C02 */
-          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2；AA_389 第 2 點→AA_390：9/2 送機那一場（src/zr_sendoff3d.js）做好了，選項打開 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
+    Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我也想去。」',act:{vac:'C02@Y2'}},
+          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
           npc_fangyt:{say:'八月一號到四號，我要去日本爬山。',ok:'「我可以去嗎？」',act:{flag:'HOOK_T02'}}},
     Y3S1:{heroine_01:{say:'三月二十五號出發。',ok:G=>G.flags&&G.flags.EXCHANGE_ROUTE==='JP'?'「那天我們同一班。」':'「出發那天我去送妳。」',act:{flag:'HOOK_AN_SENDOFF'}},
-          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'}},   /* AA_389 第 2 點→AA_400：測試版那一場做好了（src/zq_testbuild3d.js），選項打開 */
+          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'}},
           classmate_peishan:{say:'去國小看課那幾次，我是真的很喜歡。',ok:'「哪天去看你們上課？」',act:{c15:'ps_class'}}},
-    Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&['US','JP'].includes(G.flags.EXCHANGE_ROUTE)),act:{flag:'HOOK_SIS_SENDOFF'}},   /* AA_392 第 2-2 節：日本路線（8/5 才回臺灣）也不出 */
-          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'},noOpt:true},   /* AA_389 第 2 點：不出選項——她照樣說暑假計畫，玩家沒有「我去」*/classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
+    Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='US'),act:{flag:'HOOK_SIS_SENDOFF'}},
+          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'}},classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
     /* 大四上（AA_262 第 2 節第 8 點，AA-C 10-20 更正：以安不延畢，2029-02-03 和祐廷同一場）：只給臺灣路線、選②、推甄沒上；接了＝寒假一起讀（AA_327 2-Y4-27：r2y4a3d.js 的寒假總圖那一句）*/
     Y4S1:{heroine_01:{say:'你也二月三號考？……那寒假一起讀。總圖，早上八點。',ok:'「好。八點。」',if:G=>{ const F=(G&&G.flags)||{}, r=F.EXCHANGE_ROUTE; return r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH==='fail'; },act:{flag:'HOOK_AN_WINTER_STUDY'}}} };
   const HOOK_NO='（笑了一下，沒有接話。）';   /* 不接（AA_270 第 1 節）：對方不回，直接接收尾，不扣不記 */
@@ -306,8 +291,6 @@ const TERMEND_LINES=(function(){
     zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
     zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
     yu_camp:{who:'yu',day:'2026-07-11',h:12,place:'營地',bg:'camp_school',lines:[{narr:'（操場上一群小朋友在追 Alison。）'},{who:'yu',text:'你來了！……等一下，我先救我自己。'},{narr:'（午餐的時候，她的盤子被一個小朋友偷了一塊雞塊。）'}],msg:['{日期}中午來！！','帶水，這裡什麼都沒有！'],photo:['📷（操場上一群小朋友比著勝利手勢，Alison 在最後面，頭髮亂掉）','我還活著！']},
-    yu_camp2:{who:'yu',day:'2027-07-17',h:12,place:'營地',bg:'camp_school',lines:G=>[{narr:'（操場上，一隊小朋友排成一排，跟在 Alison 後面。她脖子上掛著一個哨子。）'},{who:'yu',text:'我是小隊長了！……他們都不聽我的。'},{narr:'（午餐的時候，一個小朋友伸手要拿她的雞塊。她早就把雞塊藏在碗底。）'},
-      {who:'yu',text:G&&G.flags&&G.flags.C15_DONE&&G.flags.C15_DONE.yu_camp!=null?'去年被偷過，今年學乖了。':'他們最會偷雞塊。要先藏好。'}],msg:['{日期}中午來！！','我是小隊長喔！！帶水'],photo:['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）','小隊長還活著！']},   /* AA_408 第 5 節：大二暑假的探班（大一去過 yu_camp 的最後一句不一樣）*/
     mx_game:{who:'classmate_mingxuan',day:'2027-01-23',h:16,place:'體育館',lines:[{narr:'（最後一分鐘，明軒投進一顆三分。他回頭看了一眼觀眾席。）'},{who:'classmate_mingxuan',text:'……你真的來了。等我，我九點還有家教。'}],msg:['{日期}下午四點，體育館。最後一天有練習賽。'],photo:['📷（體育館的記分板）','贏了！！🏀','下次你要來看喔 😆']},
     zr_film:{who:'heroine_02',day:'2027-01-16',h:20,place:'兩點半 Café',lines:[{narr:'（店裡的燈關了一半。牆上投著一部黑白片，字幕是她手打的。）'},{who:'heroine_02',text:'字幕有一句我翻錯了。你看得出來是哪一句嗎？'}],
       opts:[{t:'「第三十分鐘那句？」',say:[{who:'heroine_02',text:'……你真的有在看。'}]},{t:'「看不出來。」',say:[{who:'heroine_02',text:'那就好。'}]}],msg:['{日期}晚上八點，放映。','字幕我還在打。'],photo:['📷（Café 的牆上投著一部黑白片，前面坐了四個人）','今天來了四個。']},
@@ -324,5 +307,5 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {KX_ASK,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

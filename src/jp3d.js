@@ -195,7 +195,7 @@ const JP=(function(){
   S.anAt=G=>{ const w=S.anWhere(G); return w==='宿舍（你那邊）'?'kitchen':(w==='河邊'?'river':null); };
   S.G9=['學校。剛下課。','房間。日文作業，第三頁。','河邊。今天風很大，書一直被翻過去。','投幣洗衣機前面。還有十二分鐘。'];   /* 問「在哪？」的回覆（輪流；挽回中只回前兩句）*/
   /* ---------------- 手機（STORY.PHONE_RULES）：以安的私訊（G0、G3、G4、G6、G8）、旗標 ---------------- */
-  /* F.abroad（J-S14：麵店團阿哲的「麵店 我揪了」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
+  /* F.abroad（J-S14：麵店團阿哲的「麵店。我揪了。」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
   S.flagSync=function(G){ const F=G.flags; if(!F) return; const ab=!!(STORY.abroad&&STORY.abroad(G)); if(!!F.abroad!==ab) F.abroad=ab;
     const dep=D('dep'); if(dep!=null&&G.day>=dep&&F.AN_JP_DEPARTED==null) F.AN_JP_DEPARTED=F.JP_DEPARTED!=null?F.JP_DEPARTED:dep; };
   /* 2/20 那天沒有回宿舍、退宿那一場沒演到的（舊存檔）：2/21 以後直接記（不演），之後照住家裡 */
@@ -341,17 +341,11 @@ const JP=(function(){
     if(go==='room'){ const A=A_(); if(A&&A.end) A.end(); if(GM.enter) await GM.enter('jp_room',Object.assign({},JP_DORM_LAYOUTS.jp_room.spawn)); } };
   S.leaveHome=G=>{ if(typeof HOME==='undefined'||!HOME.rec) return; const H=HOME.rec(G); H.at=false; H.wakeAsk=null; H.lbreak=null; H.bskip=null; H.stayMon=null; };
   S.toHub=async function(GM){ S.leaveHome(GM.G); if(GM.enter) await GM.enter('jp_hub',Object.assign({},S.SPAWN)); };
-  /* 人在 3D 房間的時候，據點的迴圈（S.loop）不跑：必接的電話／視訊／出遊（OUT.due 的 must）、日本的停點、事件、回程、凌晨 2:30 到了＝先回據點，由據點照常問「接起來」、演出、睡覺
-     （BB 10-22 12:5x：2028-05-29 日本 21:30 在房間待到 01:36，22:00 奕廷的電話一直沒響、FANG_F3 一直是 null）。正在對話、坐著做事的時候先不打斷 */
-  S.roomDue=function(GM){ const G=GM.G, E=GM.E; if((E&&E.player&&E.player.busy)||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)) return false;
-    if(S.returnDue(G)||G.hour>=24+2.5) return true;
-    if(typeof OUT!=='undefined'&&OUT.due){ const q=OUT.due(G); if(q&&q.must) return true; }
-    return !!(S.dueStop(G,'jp')||S.jpEvent(G)); };
   /* story3d.js S.tick（事件包 TICKS 之後、在家判斷之前）：人在日本＝據點；回傳 true＝這一輪不再往下判斷 */
   S.tick=function(GM){ const G=GM.G; if(!S.inJapan(G)) return false;
     { const r=D('ret'); if(r!=null&&G.day>r+3){ G.flags.JP_RETURNED=G.day; G.flags.JP_RETURN_LATE=true; return false; } }   /* 舊存檔：早就過了回程（不補演）*/
     if(busy) return true;
-    if(G.zone!=='jp_hub'){ if(S.room3d(G)){ if(!(GM.isEntering&&GM.isEntering())&&S.roomDue(GM)){ busy=true; S.toHub(GM).catch(e=>console.warn('JP.toHub',e)).finally(()=>{ busy=false; }); } return true; }   /* 3D 的「你的房間」（jp_dorm3d.js，使用者 10-21 13:0x「已經做的 3D 保留」）：自由走動，走出房門回據點；該接的電話、出遊、停點、事件到了也先回據點（S.roomDue）*/
+    if(G.zone!=='jp_hub'){ if(S.room3d(G)) return true;   /* 3D 的「你的房間」（jp_dorm3d.js，使用者 10-21 13:0x「已經做的 3D 保留」）：自由走動，走出房門回據點 */
       if(!(GM.isEntering&&GM.isEntering())){ busy=true; S.toHub(GM).catch(e=>console.warn('JP.toHub',e)).finally(()=>{ busy=false; }); } return true; }   /* 開發分支舊版出發以後還在臺灣的區域：先進據點 */
     S.loop(GM).catch(e=>{ console.warn('JP.loop',e); busy=false; }); return true; };
   /* ---------------- 出發以後（y34b3d.js S.departJP 演完）---------------- */

@@ -65,7 +65,7 @@ const ENCOUNTERS={
       lines:{acq:['欸！{name}？你也來看展？','我在蓋章。這個展有六個章，我只找到五個。'],friend:['欸你來得剛好，你有看到第六個章在哪嗎？','我繞兩圈了。……可能根本沒有第六個。']},src:'AA_271 1、1-1'},
     // ---- D02 松菸（芯慈：第 4、12 週週日；芷若是週六）----
     {who:'classmate_xinci',spot:'D02',why:'她在一間特展的出口，手上拎著一個紙袋，正在對收據。',days:[0],from:13,to:17,terms:null,weeks:[4,12],stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D02_XC',away:'在松菸看展',
-      lines:{acq:['{name}？你也來松菸。','我來看一個劇的特展。周邊買太多了，在對收據。'],friend:['你來得剛好，幫我看一下這張收據是不是算錯。',{narr:'（你看了一下。沒算錯。）'},'……是我買太多。']}   /* AA_313 5-6：原本旁白和祐廷那句都在她的台詞裡（會顯示成芯慈說）；{narr} 是旁白（encounter3d.js）*/,src:'AA_271 1、1-1'},
+      lines:{acq:['{name}？你也來松菸。','我來看一個劇的特展。周邊買太多了，在對收據。'],friend:['你來得剛好，幫我看一下這張收據是不是算錯。','（你看了一下）「……沒算錯。是我買太多。」']},src:'AA_271 1、1-1'},
     // ---- D29 高雄駁二（阿哲回高雄的日子：寒假 1/2～2/19、暑假 7/1～8/20，除夕到初三在家不排；大一寒假到大四寒假。除夕照 calendar.js 的 LUNAR）----
     //      AA_350 S7（2026-10-21）：大二～大四寒假改成「回高雄的隔天～回臺北的前一天」：2027-01-06～02-19、2028-01-05～02-19、2029-01-04～02-16（除夕～初三照舊不排）；characters.js 阿哲作息的 D29 那一筆同一組日子
     {who:'zhe',spot:'D29',why:'他和兩個高中同學坐在港邊的台階上，三個人在分一包鹹酥雞。',days:[6],from:14,to:17.5,terms:null,dates:[['2026-01-02','2026-02-15'],['2026-07-01','2026-08-20'],['2027-01-06','2027-02-04'],['2027-02-09','2027-02-19'],['2027-07-01','2027-08-20'],['2028-01-05','2028-01-24'],['2028-01-29','2028-02-19'],['2028-07-01','2028-08-20'],['2029-01-04','2029-02-11'],['2029-02-16','2029-02-16']],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D29_ZHE',away:'在高雄',
@@ -89,7 +89,7 @@ const ENCOUNTERS={
     /* ---- 第二批景點（spots_v2：D09 貓空、D18 九份、D20 烏來、D24 礁溪、D25 外澳）：AA_162 第 8 節（AA 六位）＋BB_150 第 1～5 節（BB 五位），
        企劃線 aca122d2（AA-C 照 AA_188 口語審、BB-C 口氣審 b13052e5；週次：以安 D09 第 10 週、阿哲 D25 第 14、15 週——第 16 週是期末考週）。
        第二批的地方遠，每一列都是「某一學期的某一個週末」一次。 ---- */
-    {who:'heroine_01',spot:'D09',why:'她和公法讀書會的人坐在茶館最裡面那一桌，桌上攤著一張時間表。',days:[6],from:15,to:19,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'],weeks:[10],stageMin:'FAMILIAR',busy:'short',join:false,memo:null,away:'和讀書會在貓空',
+    {who:'heroine_01',spot:'D09',why:'她和公法讀書會的人坐在茶館最裡面那一桌，桌上攤著一張時間表。',days:[6],from:15,to:19,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[10],stageMin:'FAMILIAR',busy:'short',join:false,memo:null,away:'和讀書會在貓空',
       lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','下次讀書會你要不要來旁聽？時間我再傳給你。'],friend:['{name}？Alison 剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','七點我下山。你等我，我們一起搭纜車。']},src:'AA_162 8、8-1、8-5'},
     {who:'heroine_03',spot:'D18',why:'她跟在一位老師後面，在訪問一位擦香爐的阿嬤。',days:[6],from:10,to:17,terms:['Y3S1','Y3S2'],weeks:[12],stageMin:'ACQUAINTANCE',busy:'yes',busyLine:'（她看到你，點了一下頭，繼續聽阿嬤說話。）',join:false,memo:'ENC_D18_YT',away:'在九份做田野',lines:{},src:'AA_162 8、8-1（她在工作，只點頭；之後在學校說一句）'},
     {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],termWeeks:{Y2S2:[15]}/* AA_375 第 4 項：大二下 5/29（六）14:00 系籃在新體育館比賽，外澳只在第 15 週 6/5；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
@@ -122,7 +122,7 @@ const ENCOUNTERS={
     ENC_D12_YT:{who:'heroine_03',phone:['📷（迪化街的騎樓下，一雙正在包貨的手）','上次那張。']},
     ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次麵店團一起去。']},
     ENC_D04_YU:{who:'yu',lines:['欸，上次那件外套，社團學姊最後買了另一件。……對，第三件。']},
-    ENC_D06_BH:{who:'classmate_bohan',lines:['美術館那張長椅，我下個月還會去坐。']},   /* AA_313 5-5 的暫代句（AA-C 10-18 改稿找不到；AA_389 第 3 點：拿掉「阿哲問的話，就說我在總圖」的祕密感）*/
+    ENC_D06_BH:{who:'classmate_bohan',lines:['上次在美術館的事，阿哲問的話，就說我在總圖。']},
     ENC_D04_XC:{who:'classmate_xinci',lines:['上次那張小卡我有排到。']},   /* AA_209 附錄A §2 */
     /* 第三批（AA_271 1-3 的 followUp；aa_walk_v1.json 0b478a53）*/
     ENC_D26_AN:{who:'heroine_01',lines:['上次在臺中，我媽那張清單最後還是漏買一樣。我又跑了一趟。']},
@@ -140,7 +140,7 @@ const ENCOUNTERS={
     /* 第二批（aa_walk_v1／bb_walk_v1 followUp @aca122d2）*/
     ENC_D18_YT:{who:'heroine_03',lines:['九份那天，你在旁邊站好久。阿嬤後來問我你是誰。']},
     ENC_D25_ZHE:{who:'zhe',lines:['哥，上次外澳那個浪，我回去背痛三天。下次還要去。']},
-    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天回來，我腿痠了兩天。……下次找不用爬的地方。']},   /* AA_389 第 3 點（企劃線 345234b3）：兩句合成一句、拿掉祕密感（AA_193 第 3 組），不分 ENC_D06_BH */
+    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天的事……阿哲問的話，你照實說。推甄完了，我不怕他笑。'],linesIfNot:{memory:'ENC_D06_BH',lines:['貓空那天的事，阿哲問的話，就說我在總圖。……你知道我是什麼意思。']}},   /* 美術館那句（ENC_D06_BH）說過才用第一句 */
     ENC_D18_XC:{who:'classmate_xinci',lines:['我們後來找到那個角度了。光差一點，不過還是拍了。']},
     ENC_D09_KX:{who:'kexin',phone:['貓空那天，兩分四十秒是對的。邵鈞到現在還在講。']},
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},

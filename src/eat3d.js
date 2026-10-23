@@ -11,7 +11,7 @@
       Café 芷若在班＝照她自己的點法（ASKED_HER_DRINK、CAFE_VISITS），這一套不用；沒見過芷若＝老闆那句（「芷若交代過」）不說。阿鳳麵店語彤在顧店＝第 5 次那一句換她說。
       便利商店：祐廷在那一間打工的（JOBS.at(G,'cvs')，打工系統還沒有）不演。宵夜滷味攤沒有點餐選單：只有 ② 第一次去的旁白（考完的宵夜，outings3d.js）。
    存檔：G.eat＝{n:{店:次數}, last:{店:品項}, l5:{店:第幾天}, first:{店:第幾天}, ate:[{shop,item,day}], tog:{人:第幾天}}；舊存檔沒有就從空的開始。
-   接線（各一兩行）：lane118.js 點餐、story3d.js counter（Café、便利商店）、麵店、wzshops3d.js（AA_172 三家；AA_364 四家用 EAT.addShop 登記）、outings3d.js（滷味攤）、game3d.js 筆記本。測試：node tests/eat_unit.js、node tests/wz_aa364_shops_unit.js */
+   接線（各一兩行）：lane118.js 點餐、story3d.js counter（Café、便利商店）、麵店、wzshops3d.js、outings3d.js（滷味攤）、game3d.js 筆記本。測試：node tests/eat_unit.js */
 'use strict';
 const EAT=(function(){
   const S={};
@@ -20,22 +20,16 @@ const EAT=(function(){
   S.FIRST_KEY={'滇香小館':'118 巷・滇香小館','好家自助餐':'118 巷・好家自助餐','一一八茶飲':'118 巷・一一八茶飲','巷口家常菜':'118 巷・巷口家常菜','慢讀咖啡':'118 巷・慢讀咖啡',
     'Pasta 118':'118 巷・Pasta 118','韓食小廚':'118 巷・韓食小廚','蛋包飯研究所':'118 巷・蛋包飯研究所','六張犁麵舖':'118 巷・六張犁麵舖',
     '兩點半 Café':'兩點半 Café','阿鳳麵店':'阿鳳麵店','溫州街・半熟':'溫州街・半熟','溫州街・一盞':'溫州街・一盞','公館的便利商店':'公館的便利商店','宵夜（滷味攤）':'宵夜（公館滷味攤）','阿德影印輸出':null};
-  /* 別的檔登記的店（AA_364 的四家：src/wzshops3d.js 的 WZS.eatReg 照 WZS.AA364 登記）：台詞在登記的那個檔，這裡只有程式。
-     EAT.addShop(店, {shop:吃過的店名, staff:{who, line5（null＝不說）, same（選老樣子的回答）, alt}, first:第一次的旁白, door:沒有回收台}) */
-  S.SHOPS_X={};
-  S.addShop=function(key,o){ S.SHOPS_X[key]=o; return o; };
-  const xShop=key=>Object.prototype.hasOwnProperty.call(S.SHOPS_X,key)?S.SHOPS_X[key]:null;
-  S.shopOf=key=>S.FIRST_KEY[key]||(xShop(key)&&xShop(key).shop)||null;   /* 吃過的店名（null＝不是吃的）*/
   S.NOODLE_TYPE={'六張犁麵舖':true,'阿鳳麵店':true};   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算（AA_336 A2 確認）*/
-  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||!!(xShop(key)&&xShop(key).door)||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
-  S.isFood=key=>!!S.shopOf(key);
+  S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
+  S.isFood=key=>!!S.FIRST_KEY[key];
   S.rec=function(G){ const R=G.eat&&typeof G.eat==='object'?G.eat:(G.eat={}); for(const k of ['n','last','l5','first','tog']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.ate)) R.ate=[]; return R; };
   const flags=G=>G.flags||{};
   /* 芷若在吧檯（作息 barista，story3d.js 生成時 staff:'cafe'）*/
   S.zrOnShift=GM=>{ const n=GM.npc&&GM.npc.heroine_02; return !!(n&&n.staff==='cafe'&&!n.leaving); };
   const has=(id,tag)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,tag);
-  /* 這間店現在有沒有「店員認得你」：沒有台詞、芷若在班、沒見過芷若、在那間打工 → null。登記的店（SHOPS_X）用它自己的 staff */
-  S.staffOn=function(GM,key){ const T=(L()&&L().staff&&L().staff[key])||(xShop(key)&&xShop(key).staff); if(!T) return null; const G=GM.G;
+  /* 這間店現在有沒有「店員認得你」：沒有台詞、芷若在班、沒見過芷若、在那間打工 → null */
+  S.staffOn=function(GM,key){ const T=L()&&L().staff&&L().staff[key]; if(!T) return null; const G=GM.G;
     if(key==='兩點半 Café'&&(S.zrOnShift(GM)||!has('heroine_02','FIRST_MET'))) return null;
     if(key==='公館的便利商店'){ try{ if(typeof JOBS!=='undefined'&&JOBS.at&&JOBS.at(G,'cvs')) return null; }catch(e){} }
     return T; };
@@ -54,16 +48,16 @@ const EAT=(function(){
      第 5 次起先說那一句（只說一次）、多一個「老樣子」（放在品項後面）；回傳原本 opts 的序號（老樣子＝上一次那一樣的序號） */
   S.choose=async function(GM,key,opts,names,prices){ const G=GM.G, R=S.rec(G), T=S.staffOn(GM,key), n=S.count(G,key); S._at={key,day:G.day,hour:G.hour};   /* 點餐那一刻（吃完時間往前走了，她的時段可能剛好結束：一起吃照點餐那一刻判斷）*/
     if(T&&n>=4&&R.l5[key]==null){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); }
-      else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T,G,key),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else if(T.line5) await GM.say(who(T,G,key),T.line5); } }   /* line5 是 null（AA_364 的四家：熟客的招呼 wzshops3d.js 自己演，AA_364 第 5 節第 3 點）＝不說 */
+      else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T,G,key),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else await GM.say(who(T,G,key),T.line5); } }
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
-    if(k===names.length){ const t=S.sameLine(T,last); if(t) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說 */
+    if(k===names.length){ await GM.say(who(T,G,key),S.sameLine(T,last)); return same; }
     return k>names.length?k-1:k; };
   /* 點好了（扣完錢）：次數、上一次點的、吃過的；那間店第一次＝旁白 */
   S.ordered=async function(GM,key,item){ const G=GM.G, R=S.rec(G); R.n[key]=(R.n[key]|0)+1; R.last[key]=item; if(!S.isFood(key)) return false;
-    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&L().first[S.shopOf(key)])||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/
-  S.note=function(GM,key,item){ const G=GM.G, R=S.rec(G), shop=S.shopOf(key)||key; if(!shop||R.ate.some(a=>a.shop===shop&&a.item===item)) return false; R.ate.push({shop,item,day:G.day}); if(GM.toast) GM.toast('📓 吃過的：'+shop+'　'+item,2600); return true; };
+    S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=L()&&L().first&&L().first[S.FIRST_KEY[key]]; if(t){ await GM.say(null,t); return true; } return false; };
+  S.note=function(GM,key,item){ const G=GM.G, R=S.rec(G), shop=S.FIRST_KEY[key]||key; if(!shop||R.ate.some(a=>a.shop===shop&&a.item===item)) return false; R.ate.push({shop,item,day:G.day}); if(GM.toast) GM.toast('📓 吃過的：'+shop+'　'+item,2600); return true; };
   /* 筆記本「吃過的」那一格（game3d.js renderNotes）*/
   S.notesHTML=function(G,dayLab){ const A=G&&G.eat&&Array.isArray(G.eat.ate)?G.eat.ate:[]; if(!A.length) return ''; const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
     return '<b>吃過的</b>'+A.map(a=>'<div>· '+esc(a.shop)+'　'+esc(a.item)+(dayLab?'<span class="muted">　'+esc(dayLab(a.day))+'</span>':'')+'</div>').join(''); };

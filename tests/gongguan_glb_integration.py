@@ -23,9 +23,7 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'gongguan_glb_integration')
 IDS = ['G%02d' % i for i in range(16)]
-INT_IDS = ['G15']   # 店內景深卡：只剩 G15 巷口轉角（一般店面、沒有騎樓）。G01 清葉茶行 10-18 起是臨騎樓的立體櫃台；其他 14 間 10-23 起是立體淺店內（ART-GG-FACADE-3D-1023，LAWWW2-B）
-INNER_IDS = [i for i in IDS if i not in ('G01', 'G15')]
-GLOWS = 114   # 店面的光暈（GLOW_*）：86 個＋14 間立體店內自己的燈 28 個（ART-GG-FACADE-3D-1023）
+INT_IDS = [i for i in IDS if i != 'G01']   # 店內景深卡：G01 清葉茶行 10-18 起是臨騎樓的立體櫃台（開口看得到裡面，ART-GG-SHOPS-1018），沒有景深卡
 DESIGNED = list(IDS)   # ART-GG-SIGNS-2（LAWWW2-B）：16 家的橫招牌全部是使用者生成、BB-B 通過的設計稿（gg_signs_atlas）；之前 G00／G02／G03／G04／G06／G10／G11 七家   # G00／G02／G04／G06／G10／G11：使用者生成、BB-B 通過的設計稿（gg_signs_atlas，LAWWW2-B ART-GG-SIGNS）    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
 IDS_CANVAS = [i for i in IDS if i not in DESIGNED]
 VERT = []                                                              # 店的直立招牌：六塊都換成設計稿了（VDESIGNED）
@@ -104,17 +102,13 @@ async def check(pg, run, formal):
         ia = await pg.evaluate("""(()=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'), at=r&&r.getObjectByName('wz_interior_atlas'); if(!at) return null; const m=at.material.map, img=m&&m.image, A=at.userData.atlas;
             const left=[]; r.traverse(o=>{ if(o.isMesh&&/^INTERIOR_FACE_/.test(o.name)) left.push(o.name); });
             return {names:A.items.map(i=>i.name).sort(), cells:A.cells, w:A.w, h:A.h, canvas:!!(img&&img.getContext), visible:at.visible, tris:at.geometry.index.count/3, left, night:+at.material.emissiveIntensity.toFixed(2), wrap:!!(m&&m.wrapS===THREE.ClampToEdgeWrapping)}; })()""" % GLB)
-        run.check('店內景深卡只剩 G15 巷口轉角（G01 茶行是立體櫃台、其他 14 間是立體淺店內）：合成一張 atlas、一個網格，原本的板面拿掉；重複兩次切成兩塊（三角形 4）',
-                  ia is not None and [n[14:] for n in ia['names']] == INT_IDS and ia['canvas'] and ia['visible'] and not ia['left'] and ia['cells'] == 1 and ia['tris'] == 4 and ia['w'] <= 2048 and ia['h'] <= 2048, json.dumps(ia))
-        # 立體淺店內（ART-GG-FACADE-3D-1023）：店內的牆、地板、櫃台、貨架是一個頂點色網格（wz_in_shop），商品一個貼圖網格（wz_in_goods）；都不受場景光（unlit＝MeshBasicMaterial）、不投影
-        inn = await pg.evaluate("""(()=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); const out={}; r.traverse(o=>{ if(!o.isMesh) return; const n=o.material&&o.material.name; if(n!=='wz_in_shop'&&n!=='wz_in_goods') return; let v=true; for(let p=o;p&&v;p=p.parent) v=p.visible;
-            const g=o.geometry, e=out[n]||(out[n]={meshes:0,tris:0,basic:true,vc:true,shadow:false,visible:true}); e.meshes++; e.tris+=(g.index?g.index.count:g.attributes.position.count)/3; e.basic=e.basic&&!!o.material.isMeshBasicMaterial; e.vc=e.vc&&(n!=='wz_in_shop'||(!!g.attributes.color&&o.material.vertexColors)); e.shadow=e.shadow||o.castShadow; e.visible=e.visible&&v; }); return out; })()""" % GLB)
-        run.check('14 間立體淺店內：wz_in_shop（頂點色）、wz_in_goods（商品）各一個網格，unlit、看得到、不投影', bool(inn) and all(k in inn and inn[k]['meshes'] == 1 and inn[k]['basic'] and inn[k]['vc'] and inn[k]['visible'] and not inn[k]['shadow'] and inn[k]['tris'] > 5000 for k in ('wz_in_shop', 'wz_in_goods')), json.dumps(inn))
+        run.check('15 棟的店內景深卡（G01 茶行是立體櫃台）合成一張 atlas、一個網格，原本的板面拿掉；同一種店共用一格；重複兩次的 4 面切成兩塊（三角形 2×(15+4)）',
+                  ia is not None and [n[14:] for n in ia['names']] == INT_IDS and ia['canvas'] and ia['visible'] and not ia['left'] and ia['cells'] < len(INT_IDS) and ia['tris'] == 2 * (len(INT_IDS) + 4) and ia['w'] <= 2048 and ia['h'] <= 2048, json.dumps(ia))
         # 光暈（LAWWW2-C 2026-10-21 效能）：GLOW_* 86 個原本各自一個 Sprite、天快黑就 86 次 draw call → 一個網格；白天整個不畫、晚上畫
         gl = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, b=z.group.children.find(o=>o.name==='%s_glows'); if(!b) return null; const sp=z.group.children.filter(o=>o.isSprite&&o.userData.formalGlow&&o.visible).length;
             z.applyTimeOutdoor(11,E); const day=b.visible; z.applyTimeOutdoor(20.5,E); const night=b.visible, k=+b.material.emissiveIntensity.toFixed(2); z.applyTimeOutdoor(17.5,E);
             return {n:b.userData.glowBatch.items.length, day, night, k, sprites:sp, shadow:b.castShadow, additive:b.material.blending===THREE.AdditiveBlending&&!b.material.depthWrite}; })()""" % GLB)
-        run.check('店面的光暈（%d 個）合成一個網格（沒有個別的光暈 Sprite）：11:00 不畫、20:30 畫；加法混合、不寫深度、不投影' % GLOWS, gl is not None and gl['n'] == GLOWS and not gl['day'] and gl['night'] and gl['k'] > 0.9 and gl['sprites'] == 0 and not gl['shadow'] and gl['additive'], json.dumps(gl))
+        run.check('店面的光暈（86 個）合成一個網格（沒有個別的光暈 Sprite）：11:00 不畫、20:30 畫；加法混合、不寫深度、不投影', gl is not None and gl['n'] == 86 and not gl['day'] and gl['night'] and gl['k'] > 0.9 and gl['sprites'] == 0 and not gl['shadow'] and gl['additive'], json.dumps(gl))
         night = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, root=z.group.children.find(o=>o.name==='%s'); const mats={};
             root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; }); 
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});   /* ART-GG-SIGNS-2：canvas 招牌 atlas 不在了，量燈箱招牌的設計稿材質 */

@@ -27,10 +27,7 @@ const SISY23_LINES={
   usAsk:'明天中午，總圖門口的台階。',
   /* 3-2 出國前最後一個週六（2028-07-29；AA_379 3-2，企劃線 d037c668）：7/28（五）21:00 私訊 */
   preAsk:['明天下午有空嗎。','我要去買行李箱的鎖。……順便走一走。'], preYes:'好。', preNoT:'明天下午不行。', preNo:'好。我自己去。',
-  preMissed:['📷（一個普通的行李箱鎖）','買好了。'],
-  /* AA_392 第 5 節（企劃線 e81a1afe1）：第二次訪談——第一次選了「下次還要記嗎？」的（SIS_IV_AGAIN）*/
-  iv2Ask:['週六早上十點，有第二次訪談。這次是當事人。','你說要記的。'], iv2Yes:'好。', iv2YesSay:'十點，社區活動中心。我傳地址給你。', iv2NoT:'那天不行。', iv2No:'好。我自己記。',
-  iv2Missed:'記完了。' };
+  preMissed:['📷（一個普通的行李箱鎖）','買好了。'] };
 const SISY23_EVENTS=(function(){
   const L=SISY23_LINES, ID='heroine_05';
   const dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+ID]===true||!!(R[ID]&&R[ID].status==='dating'); };
@@ -49,17 +46,10 @@ const SISY23_EVENTS=(function(){
     {label:'tp_b'},SIS('……我不知道。那天以後，就沒再見過她。'),
     {label:'tp_end'},{if:dt,speaker:ID,text:'我爸媽還不知道。……他們會問，寫這個以後要做什麼。'},
     {mem:[{npc:ID,tag:'SIS_TOPIC',note:''}]},{set:{SIS_TOPIC_Y2:true}} ];
-  /* AA_386 第 2 節（企劃線 e848154a；AA_379 2-6 已加註）：聽過她提美國的——大二下閒聊階梯學姊的進度已經過了 S4-Lx（「碩三上，我想去美國交換一學期。」）、
-     或有記憶 SIS5_EXCHANGE_APP（大三上 S5-L1「我在寫交換的申請。」）、或 AA_386 1-2 選了「學姊現在還可以去啊。」（SIS_ADV_EXCH go）——一般版那一句換成兩句；都沒聽過的照原句 */
-  const heardUS=G=>{ const F=(G&&G.flags)||{}; if(F.SIS_ADV_EXCH==='go') return true; if(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(ID,'SIS5_EXCHANGE_APP')) return true;
-    const St=typeof LADDER!=='undefined'&&LADDER.byTerm&&LADDER.byTerm.Y2S2&&LADDER.byTerm.Y2S2[ID]&&LADDER.byTerm.Y2S2[ID].steps, i=Array.isArray(St)?St.findIndex(s=>s&&s.id==='S4-Lx'):-1, P=G&&G.social&&G.social.ladder;
-    return i>=0&&!!P&&(P[ID+'@Y2S2']|0)>i; };   /* 階梯的進度＝G.social.ladder['heroine_05@Y2S2']（下一層的位置；story3d.js ladData 的 key）*/
   /* 2-6 的台詞（說話前接演、台階那一版共用）*/
   const US=[ SIS('明年夏天，我想去美國待一個學期。研究交換。'),
     SIS('八月走，十二月回來。論文的第三章，要在那邊寫。'),
-    {unless:{custom:G=>dating(G)||heardUS(G)},speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
-    {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'之前跟你提過。'},
-    {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'……申請送出去了。今天才覺得是真的。'},
+    {unless:dt,speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
     {unless:dt,choice:[{text:'「去啊。」',goto:'us_a'},{text:'「那妳會回來吧？」',goto:'us_b'}]},
     {if:dt,speaker:ID,text:'你們系的交換名單，美國那間我查過了。跟我同一個學期。'},
     {if:dt,speaker:ID,text:'你如果去，我們同一班飛機。'},
@@ -90,7 +80,7 @@ const SISY23_EVENTS=(function(){
         {choice:[{text:'「照顏色排？」',goto:'a'},{text:'（幫她把最重的那一排推進去）',goto:'b'}]},
         {label:'a'},SIS('照顏色好找。照作者，我會一直想要不要調整。'),{goto:'end'},
         {label:'b'},SIS('……謝謝。你比電梯可靠。'),
-        {label:'end'},{if:dt,speaker:null,text:'（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，總圖三樓。研究室我只放書。」）'},   /* AA_392 第 4 節乙：研究室樓層（5F～8F）3D 還走不到、她的作息平日白天在總圖三樓——便條寫她真的在的地方 */{if:dt,speaker:ID,text:'……你的。'},
+        {label:'end'},{if:dt,speaker:null,text:'（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）'},{if:dt,speaker:ID,text:'……你的。'},
         {set:{SIS_LAB_DESK:'went'}} ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lab'); } },
     /* ---------- 2-2 11/18（三）19:00 法圖・討論室（她週三晚上本來就在法圖）---------- */
@@ -132,24 +122,10 @@ const SISY23_EVENTS=(function(){
         SIS('……這句我要。錄音裡聽不到這個。'),
         {choice:[{text:'「他停下來的時候，在想什麼？」',goto:'a'},{text:'「下次還要記嗎？」',goto:'b'}]},
         {label:'a'},SIS('在想一個當事人。他沒說是誰。'),SIS('……我也沒問。'),{goto:'end'},
-        {label:'b'},SIS('要。'),SIS('……你有空的話。'),{set:{SIS_IV_AGAIN:true}},   /* AA_392 第 5 節：記下來，11/24 約第二次訪談 */
+        {label:'b'},SIS('要。'),SIS('……你有空的話。'),
         {label:'end'},{if:dt,speaker:null,text:'（她把你的筆記存進雲端，資料夾的名字是「{name}記的」。）'},
         {mem:[{npc:ID,tag:'SIS_INTERVIEW',note:''}]},{set:{SIS_INTERVIEW:'went'}} ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'iv'); } },
-    /* ---------- AA_392 第 5 節：2027-11-27（六）10:00 社區活動中心・小房間（第二次訪談，當事人）；不寫訪談內容的法律細節（AA_188）---------- */
-    { id:'ev_sis_interview2', title:'第二次訪談', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-      dialogue:[ {scene:'社區活動中心・小房間',bg:'community_room'},
-        N('（一個五十幾歲的男人，手上一直轉著一支原子筆。）'),
-        SIS('他同意錄音。你一樣要記。'),
-        N('（他講了一個多小時。講到他太太的時候，原子筆停了。）'),
-        {scene:'社區活動中心門口',bg:'dark'},
-        SIS('你記到哪裡？'),
-        {choice:[{text:'「他太太那段。」',goto:'a'},{text:'「他的原子筆。」',goto:'b'}]},
-        {label:'a'},SIS('……那段我不會寫進論文。'),SIS('可是我要記得。'),{goto:'end'},
-        {label:'b'},N('（她看了一下你的筆記。）'),SIS('我也看到了。'),
-        {label:'end'},N('（她去便利商店買了兩杯咖啡，一杯給你。）'),SIS('今天的工資。'),
-        {set:{SIS_INTERVIEW2:'went'}} ],
-      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'iv2'); } },
     /* ---------- 2-6 11/12（五）12:20 總圖門口的台階（第一次見面的那個台階；11/1～11/9 都沒遇到的）---------- */
     { id:'ev_sis_us_told_steps', title:'明年夏天', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
       dialogue:[ {scene:'總圖門口的台階'} ].concat(US,[{set:{SIS_US_TOLD:'steps'}}]) },

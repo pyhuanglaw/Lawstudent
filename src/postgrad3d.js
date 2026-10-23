@@ -210,13 +210,9 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過卻沒吃到（婉拒、取消、沒到、沒回）——她那一段之前，她爸爸那一小段；當面說過畢業快樂，後面就不再轉述「我爸叫我跟你說：恭喜。」*/
-  S.fatherGradDue=G=>{ const F=G.flags; return S.dating(G,'heroine_05')&&F.SIS_FATHER_ASKED!=null&&!F.MET_SIS_FATHER; };
-  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
-    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); G.flags.MET_SIS_FATHER='grad'; };
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater); else if(S.helpedCoffee(G)) await GM.say(sis,W.helped);
-    if(F.MET_SIS_FATHER&&F.MET_SIS_FATHER!=='grad') await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
+    if(F.MET_SIS_FATHER) await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
     F.SIS_THERMOS=true; };
   S.helpedCoffee=G=>{ const M=G.social&&G.social.mem&&G.social.mem.heroine_05; return !!(M&&M.some(m=>m.tag==='HELPED'&&/黑咖啡/.test(m.note||''))); };   /* 只有 HELPED（空的保溫瓶那次選黑咖啡）*/
   S.mother=async function(GM,partner){ const G=GM.G, M=L().MOTHER, A=adv(); await S.play(GM,M.lines);

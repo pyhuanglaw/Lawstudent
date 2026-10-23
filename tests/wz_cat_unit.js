@@ -15,10 +15,10 @@ process.on('unhandledRejection',()=>{}); vm.runInThisContext(fs.readFileSync(pat
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const glb=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/aa_support/wz_cat.glb')); const J=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString());
 const NN=J.nodes.map(n=>n.name), MN=J.materials.map(m=>m.name);
-const need=['CAT_sit','CAT_lie','CAT_walk','CAT_curl','CAT_sit_tag','CAT_lie_tag','CAT_walk_tag','CAT_curl_tag','CAT_sit_bandage','CAT_lie_bandage','CAT_walk_bandage','CAT_curl_bandage','CAT_fur_old_holder'];   /* CAT_curl：寒流縮成一團（WZ-CAT-LIFE-1023，LAWWW2-B 32e9ddf3）*/
-check('1. GLB：四個姿勢（含 CAT_curl）、各自的名牌與繃帶、老貓材質的掛點都在；材質 cat_fur、cat_fur_old',need.every(k=>NN.includes(k))&&MN.includes('cat_fur')&&MN.includes('cat_fur_old'),need.filter(k=>!NN.includes(k)).join(','));
+const need=['CAT_sit','CAT_lie','CAT_walk','CAT_sit_tag','CAT_lie_tag','CAT_walk_tag','CAT_sit_bandage','CAT_lie_bandage','CAT_walk_bandage','CAT_fur_old_holder'];
+check('1. GLB：三個姿勢、各自的名牌與繃帶、老貓材質的掛點都在；材質 cat_fur、cat_fur_old',need.every(k=>NN.includes(k))&&MN.includes('cat_fur')&&MN.includes('cat_fur_old'),need.filter(k=>!NN.includes(k)).join(','));
 { const cm=J.nodes.filter(n=>/^CAT_/.test(n.name)&&n.name!=='CAT_fur_old_holder'&&n.mesh!=null).map(n=>J.meshes[n.mesh]);
-  check('1. 貓的每個網格（不含掛老貓材質的小節點）都有 morph target「fat」',cm.length===12&&cm.every(m=>(m.extras&&m.extras.targetNames||[]).includes('fat')),cm.length+' 個'); }
+  check('1. 貓的每個網格（不含掛老貓材質的小節點）都有 morph target「fat」',cm.length===9&&cm.every(m=>(m.extras&&m.extras.targetNames||[]).includes('fat')),cm.length+' 個'); }
 check('1. manifest：bldg.wz_cat（lazy，?nobldg 不載入、用套件的貓）',!!ASSETS.manifest['bldg.wz_cat']&&ASSETS.manifest['bldg.wz_cat'].lazy===true&&/aa_support\/wz_cat\.glb$/.test(ASSETS.manifest['bldg.wz_cat'].url));
 /* 模擬 GLB 載入後的場景：同樣的名字、網格有 fat 的 morph、材質名稱一樣 */
 const fur=new THREE.MeshStandardMaterial({name:'cat_fur'}), old=new THREE.MeshStandardMaterial({name:'cat_fur_old'});

@@ -36,6 +36,4 @@ for(const zid in byZone){ let z; try{ z=loadZone(zid); }catch(e){ check(zid+' �
 { const G={day:3,hour:10,zone:'dorm'}; const m=(a,b,pos,to)=>CLS.travelMinutes(G,a,b,pos,to);
   const ms=list.map(p=>({l:p[1],m:m('dorm',p[0],null,p[0]==='campus'?p[2]:null)})); const bad=ms.filter(q=>q.l!=='宿舍'&&(q.m<5||q.m>30));
   check('從宿舍快速前往的時間都在 5～30 分鐘（照真實步行；宿舍本身 0）',!bad.length&&ms.find(q=>q.l==='宿舍').m===0,ms.map(q=>q.l+' '+q.m).join('、')); }
-{ const G={day:3,hour:10,zone:'gongguan'}; const a=CLS.travelMinutes(G,'gongguan','gongguan',{x:0,z:-30},{x:-35.6,z:13.2}), b=CLS.travelMinutes(G,'gongguan','gongguan',{x:-34,z:12},{x:-35.6,z:13.2}), c=CLS.travelMinutes(G,'noodle','noodle',null,null);
-  check('公館兩個落點（商圈、捷運站）照距離算：從商圈到捷運站要走幾分鐘、站在捷運站旁邊＝0（你在這裡）；其他室內同一區＝0（BB-B 10-23）',a>=5&&b===0&&c===0,JSON.stringify([a,b,c])); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

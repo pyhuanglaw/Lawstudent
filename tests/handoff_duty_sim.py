@@ -3,7 +3,7 @@
 每個情境都照正式程序走：交班（snapshot → duty handoff → LAWWW duty sync → LAWWW snapshot＋duty handoff）→ 接班（duty find 找 RULE_SOURCE → 合併 → duty plan →
 check → duty register（四職位）→ LAWWW duty sync → duty verify），再檢查上一班的成果（任務、各職位的工作）都在、值班狀態對。
 情境：A→B、A→C、B→A、B→C、C→A、C→B、A→B→C→A、A→C→B→A、長期休班才回來、上一班沒有正式交班、某職位交班資料缺漏、未整合的 WIP、
-交付送達沒 ACK、規則來源不一致／登記鏈分岔、值班登記和 commit 時間衝突、同職位兩個帳號同時寫入、交班快照不存在或壞掉、職位分支沒有 duty.json 時交班不給 --ref。
+交付送達沒 ACK、規則來源不一致／登記鏈分岔、值班登記和 commit 時間衝突、同職位兩個帳號同時寫入、交班快照不存在或壞掉。
 用法：python3 tests/handoff_duty_sim.py   （每項 PASS／FAIL；全部通過結束碼 0）"""
 import json, os, shutil, subprocess, sys, tempfile
 
@@ -355,20 +355,6 @@ def anomalies():
         w.done()
 
 
-def role_branch_no_ref():
-    # TOOL-DUTY-HANDOFF-BRANCH-1022：職位分支（企劃線、美術分支）沒有 duty.json，duty handoff／register 沒給 --ref＝自己找 RULE_SOURCE 讀（BB 10-22 15:08 交班跑不起來）
-    w = World('A')
-    try:
-        d = w.clone('BB', 'A')
-        has = os.path.exists(os.path.join(d, 'docs/handoff/duty.json'))
-        rc, out = w.tool(d, 'duty', 'handoff', '--account', 'A', '--role', 'BB')
-        reg = w.rjson(d, 'docs/handoff/duty_BB.json') if rc == 0 else {}
-        check('職位分支沒有 duty.json、duty handoff 沒給 --ref：自己找 RULE_SOURCE 讀，照常交班',
-              not has and rc == 0 and '值班狀態從 origin/' in out and reg.get('state') == 'handed-off', out[-300:])
-    finally:
-        w.done()
-
-
 def main():
     for a, b in (('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')):
         direction(a, b)
@@ -377,7 +363,6 @@ def main():
     chain(['A', 'B', 'C', 'B', 'C', 'A'], '帳號 A 連續休班多次（A→B→C→B→C）才回來')
     chain(['B', 'C', 'C'], '同一個帳號正式交班以後又回來（B → C，C 交班，中間沒人值班，C 回來）')
     anomalies()
-    role_branch_no_ref()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
     return 1 if bad else 0

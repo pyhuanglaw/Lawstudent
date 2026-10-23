@@ -115,7 +115,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     check('7. 日期：約定 6/12（五，期末最後一天）、成績公布 6/29（一）',CALENDAR.dateOf(last).key==='2026-06-12'&&CALENDAR.dateOf(sum1).key==='2026-06-29',CALENDAR.dateOf(last).key+' '+CALENDAR.dateOf(sum1).key);
     const s99=(flags)=>{ fresh(last,20,'dorm',Object.assign({dating_kexin:true},flags)); STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); return KM(); };
     const a=s99({}), a2=G.flags.KX_GRADES_Y1S2, b=s99({KX_GRADES_PACT:'peeked'}), b2=G.flags.KX_GRADES_Y1S2, c=s99({KX_GRADES_PACT:'kept'});
-    check('7. 9-9：舊存檔／kept＝「這次也一起打開。成績出來那天。」（AA_313 第 2 節第 29 列：句號）together；peeked＝「這次換個方式：…」best_one',a.slice(-1)[0]==='這次也一起打開。成績出來那天。'&&a2==='together'&&b.slice(-1)[0]==='這次換個方式：各自先看，然後各說一科最滿意的。'&&b2==='best_one'&&c.slice(-1)[0]==='這次也一起打開。成績出來那天。',JSON.stringify([a,b]));
+    check('7. 9-9：舊存檔／kept＝「這次也一起打開？成績出來那天。」together；peeked＝「這次換個方式：…」best_one',a.slice(-1)[0]==='這次也一起打開？成績出來那天。'&&a2==='together'&&b.slice(-1)[0]==='這次換個方式：各自先看，然後各說一科最滿意的。'&&b2==='best_one'&&c.slice(-1)[0]==='這次也一起打開？成績出來那天。',JSON.stringify([a,b]));
     const p4e=(att,flags,pick)=>{ fresh(sum1,9.9,'dorm',flags); CLS.rec(G).attend.econ_principles_2=att; STORY.phoneRules(GM); G.hour=10.05; PHONE.tick(G); const sys=SM(); const q=sys.find(m=>m.ask); if(q&&pick!=null) PHONE.answer(G,q.ask.id,pick); return {sys:SM().map(m=>m.text),xc:G.msgs.filter(m=>m.th==='p:classmate_xinci').map(m=>(m.from==='player'?'我：':'')+m.text),k:KM(),q}; };
     const r1=p4e(8,{}), r2=p4e(3,{});
     check('7. P4e 6/29 10:00：去了 6 堂以上＝「一年前沒拿到的，這次拿到了。」；單身＝「你把成績單收進抽屜。」',JSON.stringify(r1.sys)==='["經濟學原理（下）的成績公布了。","一年前沒拿到的，這次拿到了。","你把成績單收進抽屜。"]'&&!r1.q,JSON.stringify(r1.sys));
@@ -126,7 +126,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const m1=bo({}); const q=m1.find(m=>m.ask), ko=q?q.ask.opts.map(o=>o.t):[];
     check('7. best_one 6/29 21:00：「說好的，各說一科。我先：憲法。…」「換你。」、選這學期的一科（短名）',m1.length===2&&m1[0].text==='說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'&&ko.includes('經濟學原理')&&ko.includes('刑法總則')&&!ko.some(t=>t.includes('（')),JSON.stringify(ko));
     PHONE.answer(G,q.ask.id,ko.indexOf('經濟學原理')); const e1=KM().slice(-1)[0]; bo({}); const q2=G.msgs.find(m=>m.ask&&m.th==='p:kexin'&&m.text==='換你。'); PHONE.answer(G,q2.ask.id,ko.indexOf('刑法總則')); const e2=KM().slice(-1)[0];
-    check('7. 選經原＝「經原？……那一科，我們以前坐在同一間教室。……恭喜。」（AA_313 第 2 節第 31 列）；其他＝「「刑法總則」。好，我記下來了。……明年再各說一科。」（AA_373 第 6-1 節：不比）',e1==='經原？……那一科，我們以前坐在同一間教室。……恭喜。'&&e2==='「刑法總則」。好，我記下來了。……明年再各說一科。',JSON.stringify([e1,e2]));
+    check('7. 選經原＝「經原？……那一科，我們以前坐在同一間教室。它也替你高興。」；其他＝「「刑法總則」。好，我記下來了。……明年再各說一科。」（AA_373 第 6-1 節：不比）',e1==='經原？……那一科，我們以前坐在同一間教室。它也替你高興。'&&e2==='「刑法總則」。好，我記下來了。……明年再各說一科。',JSON.stringify([e1,e2]));
     check('7. P4e 已經傳給她的 best_one：6/29 不問',bo({KX_P4E:'sent'}).length===0);
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'together'}); picks=['等到晚上']; let held=await STORY.holdGrades(GM,'Y1S2'); const plan=(G.outings||[]).find(o=>o.id==='kx_grades2');
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); const held2=await STORY.holdGrades(GM,'Y1S2');

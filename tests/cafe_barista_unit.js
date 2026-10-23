@@ -48,5 +48,5 @@ const tc=st.slice(st.indexOf('S.talkCharacter=async function'),st.indexOf('let G
 const iEv=tc.indexOf('EVENTS.onInteract(id)'), iInv=tc.indexOf('INV.meetable(G,id)'), iStaff=tc.indexOf("n.staff==='cafe'");
 check('5. 和店員說話：先跑她的事件、再看約好的見面、都沒有才點餐',iEv>0&&iInv>iEv&&iStaff>iInv,[iEv,iInv,iStaff].join(','));
 check('5. 點餐用同一份菜單（吧檯點餐點和店員都是 CAFE_MENU）',/n\.staff==='cafe'\)\{ await counter\(GM_ref,'兩點半 Café',CAFE_MENU\)/.test(tc)&&/it\.counter==='cafe'\)\{ await counter\(GM,'兩點半 Café',CAFE_MENU\)/.test(st));
-check('5. 和她說話跑了事件：演完（劇情結束）才更新按鈕上的名字（見過以後是「和林芷若說話」）',/if\(EVENTS\.onInteract\(id\)\)\{ const lab=\(\)=>\{ n\.name=SOCIAL\.npcName\(id\); n\.talkLabel=\(n\.staff&&!SOCIAL\.has\(id,'FIRST_MET'\)\)\?'和店員說話':'和'\+n\.name\+'說話'; \}; lab\(\); const w=setInterval\(\(\)=>\{ if\(!\(GM_ref\.D&&GM_ref\.D\.busyDepth>0\)\)\{ clearInterval\(w\); lab\(\); \} \},400\); return; \}/.test(tc));
+check('5. 和她說話跑了事件：演完（劇情結束）才更新按鈕上的名字（見過以後是「和林芷若說話」）',/if\(EVENTS\.onInteract\(id\)\)\{ const lab=\(\)=>\{ n\.name=SOCIAL\.displayName\(id\); n\.talkLabel=\(n\.staff&&!SOCIAL\.has\(id,'FIRST_MET'\)\)\?'和店員說話':'和'\+n\.name\+'說話'; \}; lab\(\); const w=setInterval\(\(\)=>\{ if\(!\(GM_ref\.D&&GM_ref\.D\.busyDepth>0\)\)\{ clearInterval\(w\); lab\(\); \} \},400\); return; \}/.test(tc));
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -35,7 +35,7 @@ GM.money=function(n){ G.money+=n; };
 
 (async()=>{
   check('0. 預設大二不播（BB_205 第 4 節：M2／M3／上榜聚餐是祐廷大一下的事，STORY.SIS_Y2_EXAM=false）；下面打開開關測程式本身，留給搬到大一下的版本',STORY.SIS_Y2_EXAM===false); STORY.SIS_Y2_EXAM=true;
-  const FAM='g:family_law', LAST='heroine_05:計畫本最後那一格，我寫好了。聚餐那天說。';
+  const FAM='g:family_law', LAST='heroine_05:這次的第三件，我想好了。聚餐那天說。';
   const d=D('2027-03-19'), dn=D('2027-03-26');
   check('0. 3/19 週五在大二下第 4 週、3/26 週五在第 5 週',termDay('Y2S2',4,5)===d&&termDay('Y2S2',5,5)===dn);
   const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'dorm',o.flags); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); if(o.tell) SOCIAL.remember('heroine_05','ASKED_TELL_ME',''); if(o.curry) SOCIAL.remember('heroine_05','FAMILY_DINNER',''); };
@@ -73,7 +73,7 @@ GM.money=function(n){ G.money+=n; };
   const EV=ev('ev_sis_results_dinner'); const NM={'溫書瑀':'學姊','溫學姊':'學姊'}; const L0=()=>lines().map(x=>x.replace(/^([^：]+)：/,(mm,nn)=>(NM[nn]||nn)+'：'));
   const play=async o=>{ setup(dn,19,o); said=[]; await EVENTS.run(EV); return L0(); };
   let L=await play({});
-  check('8. 聚餐：「謝謝大家。……這次的題目，是我自己選的。」＋沒有 ASKED_TELL_ME＝「還有，今天我請。不要跟我搶。」（AA_398 第 19 列）',L.join('｜')==='學姊：謝謝大家。……這次的題目，是我自己選的。｜學姊：還有，今天我請。不要跟我搶。',JSON.stringify(L));
+  check('8. 聚餐：「一，謝謝大家。二，這次的題目，是我自己選的。三……」＋沒有 ASKED_TELL_ME＝「三，今天我請。不要跟我搶。」',L.join('｜')==='學姊：一，謝謝大家。二，這次的題目，是我自己選的。三……｜學姊：三，今天我請。不要跟我搶。',JSON.stringify(L));
   L=await play({tell:true});
   check('8. 有 ASKED_TELL_ME：「有人叫我考得怎樣都要說。我說了。下次換他。」',L[1]==='學姊：有人叫我考得怎樣都要說。我說了。下次換他。');
   setup(dn,21,{}); run(21,21.6);

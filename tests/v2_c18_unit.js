@@ -74,7 +74,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     { const playClub=async k=>{ setup(); picks=[k]; await EVENTS.run(eC1); return lines(); };
       let C=await playClub(0); check('③ 社課後的版本照舊（背著吉他）：「她低頭調弦。」',JSON.stringify(C.slice(1))===JSON.stringify(['Alison：……喔。','她低頭調弦。','Alison：也是啦。']),JSON.stringify(C));
       C=await playClub(1); check('③ 社課後：「她停住，然後很大聲地彈了一個和弦。」',JSON.stringify(C.slice(1))===JSON.stringify(['她停住，然後很大聲地彈了一個和弦。','Alison：欸你很煩！']),JSON.stringify(C)); }
-    L=await play(2); check('③ 選「妳自己問他。」：Alison「我才不要。」（她想了一下。）「……再看看啦。」（AA_313 5-4：不用「……好啦」反轉）',JSON.stringify(L.slice(1))===JSON.stringify(['Alison：我才不要。','她想了一下。','Alison：……再看看啦。'])&&G.flags.YU2_PICK==='ask',JSON.stringify(L));
+    L=await play(2); check('③ 選「妳自己問他。」：Alison「我才不要。」（她想了一下。）「……好啦，我會問。」',JSON.stringify(L.slice(1))===JSON.stringify(['Alison：我才不要。','她想了一下。','Alison：……好啦，我會問。'])&&G.flags.YU2_PICK==='ask',JSON.stringify(L));
     check('三個選項都不改變結果：只記 YU2_PICK 和一筆記憶（沒有好感數字、沒有別的旗標）',[eC1,eC2].every(e=>!e.consequences)&&!JSON.stringify(YU2_QUESTION).includes('rel'));
     /* 整個存檔只問一次：騎樓問過以後，吉他社那一個也不演 */
     G.flags.CLUB_club_guitar=true; G.zone='wancai'; G.day=termDay('Y1S2',15,1); G.hour=21; check('整個存檔只問一次：騎樓問過以後，社課後那一個也不演',CLS.afterActEvent(G,GT)===null); }

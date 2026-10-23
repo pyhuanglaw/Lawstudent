@@ -1,5 +1,5 @@
 // 交接包 v3 D11：大二系籃（AA_143 1-5、AA_177 4-4）＋語 3「在一起」（AA_40）——不需要瀏覽器。
-// 檢查：12/18 21:00 阿哲揪＋出發選單 12/19 14:00；系籃三選一、WATCHED_GAME；賽後麵店語 3 的四句、Alison 和阿哲的伴侶期間從語 3 開始；都沒去＝22:00 Alison 打電話來（AA_313 5-1 第 4 點，原本私訊三則）／不認識 Alison＝阿哲的照片；主線 4 Alison「聖誕禮物」在語 3 以後。用法：node tests/v3_d11_unit.js
+// 檢查：12/18 21:00 阿哲揪＋出發選單 12/19 14:00；系籃三選一、WATCHED_GAME；賽後麵店語 3 的四句、Alison 和阿哲的伴侶期間從語 3 開始；都沒去＝22:00 Alison 私訊三則／不認識 Alison＝阿哲的照片；主線 4 Alison「聖誕禮物」在語 3 以後。用法：node tests/v3_d11_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -45,14 +45,11 @@ GM.money=function(n){ G.money+=n; };
     check('3. 語 3：12/19 19:00 麵店、認識 Alison＝會演；17:00、下週六不演',a&&!b&&!c); }
   fresh(d19,19,'noodle'); G.flags.met_yu=true; meet('yu'); said=[]; await EVENTS.run(Y); L=L0();
   check('3. Alison 四句照 AA_40；之後她和阿哲的伴侶期間開始（startEvent）',L.length===4&&L[1]==='Alison：我跟阿哲在一起了。'&&L[3]==='Alison：……可是我覺得很好。以後週二週四，我都有人一起回家了。'&&CHARACTERS.yu.partner.startEvent==='ev_yu_together'&&STORY.partnerOn(G,CHARACTERS.yu.partner),JSON.stringify(L));
-  fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu'), yc=OUT.get(G,'y2_yu_call');
-  check('4. 都沒去、認識 Alison：22:00 她打電話來（接起來／先不接；AA_313 5-1 第 4 點，原本私訊三則）',!dm.length&&!!yc&&yc.ev==='ev_yu_together_call'&&yc.day===d19&&yc.h===22&&yc.verb==='接起來'&&yc.no==='先不接',JSON.stringify([dm,yc]));
-  { said=[]; picks=[0]; await EVENTS.run(ev('ev_yu_together_call')); const Lc=L0();
-    check('4. 電話照稿（AA_313 5-1 第 4 點）：「（電話。她那邊很吵，有人在唱歌。）」「欸欸欸你今天怎麼沒來！」「……跟你說一件事。我跟阿哲在一起了。」「你不要笑。我聽得到。」→「恭喜。」→「謝謝！！……阿哲在旁邊，他叫你明天來麵店。」；YU_ZHE_TOLD＝call',JSON.stringify(Lc)===JSON.stringify(['（電話。她那邊很吵，有人在唱歌。）','Alison：欸欸欸你今天怎麼沒來！','Alison：……跟你說一件事。我跟阿哲在一起了。','Alison：你不要笑。我聽得到。','Alison：謝謝！！……阿哲在旁邊，他叫你明天來麵店。'])&&G.flags.YU_ZHE_TOLD==='call',JSON.stringify(Lc));
-    said=[]; picks=[1]; G.events.done.ev_yu_together_call=0; await EVENTS.run(ev('ev_yu_together_call')); check('4. 選「我早就知道了。」→「騙人。……你真的知道？」',L0()[L0().length-1]==='Alison：騙人。……你真的知道？',JSON.stringify(L0())); }
+  fresh(d19,21,'dorm'); G.flags.met_yu=true; run(21,22.2); const dm=txt('p:yu');
+  check('4. 都沒去、認識 Alison：22:00 Alison 私訊三則',JSON.stringify(dm)===JSON.stringify(['yu:欸，跟你說一件事。你不要叫。','yu:我跟阿哲在一起了。','yu:他說『沒事啦，就在一起啊』。哪有人這樣告白的。'])&&G.flags.YU_ZHE_TOLD==='msg',JSON.stringify(dm));
   fresh(d19,21,'dorm'); PHONE.join(G,'noodle_team','麵店團'); const k1=STORY.knows; STORY.knows=id=>id==='zhe'; run(21,22.2); STORY.knows=k1;
   check('4. 都沒去、不認識 Alison、在麵店團：22:00 阿哲的照片',txt('g:noodle_team').includes('zhe:📷（麵店的長桌。Alison 比了一個 YA。）'),JSON.stringify(txt('g:noodle_team')));
-  fresh(d19,21,'dorm'); G.flags.met_yu=true; G.events.done.ev_yu_together=1; run(21,22.2); check('4. 去了麵店：沒有私訊、不打電話',!txt('p:yu').length&&!OUT.get(G,'y2_yu_call'));
+  fresh(d19,21,'dorm'); G.flags.met_yu=true; G.events.done.ev_yu_together=1; run(21,22.2); check('4. 去了麵店：沒有私訊',!txt('p:yu').length);
   const g=NEEDED_MSGS.list.find(x=>x.id==='yu_gift'); check('5. 主線 4 Alison「聖誕禮物」在語 3 以後（演過或收到訊息）',!g.cond({flags:{},events:{done:{}}})&&g.cond({flags:{},events:{done:{ev_yu_together:1}}})&&g.cond({flags:{YU_ZHE_TOLD:'msg'},events:{done:{}}}));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

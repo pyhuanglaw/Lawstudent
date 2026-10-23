@@ -98,13 +98,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const q={id:'t_k1',ev:'ev_kexin_tour_nccu',day:D0,h:14,place:'政大',title:'導遊',travel:'',travelH:0.5,state:'planned'};
   await OUT.go(GM,q); const tk=lines().join('｜');
   check('12. 和可昕出遊（見面）演完：接著聊 K-L1',tk.includes(LK.steps[0].lines[0])&&G.social.ladder[KX]===1,tk.slice(-120));
-  // AA_313 第 2 節第 54 列：K4 一起讀書的視訊（ev_kexin_video_study）那晚不接 K-L6（同一個讀書時的聲音）；別的視訊照接
-  { const i6=LK.steps.findIndex(s=>s.id==='K-L6'); if(i6>=0){ const w6=(LK.steps[i6].week||[7])[0], d6=termDay('Y1S1',w6,3);
-    const run=async ev=>{ fresh(d6,21,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); G.social.ladder=G.social.ladder||{}; G.social.ladder[KX]=i6; picks=[0,0,0,0,0,0]; said=[];
-      await OUT.go(GM,{id:'t_k6'+ev,ev,day:d6,h:21,place:'視訊',verb:'接起來',title:'視訊',travel:'',travelH:0,state:'planned'}); return {t:lines().join('｜'),n:G.social.ladder[KX]}; };
-    const a=await run('ev_kexin_video_study');
-    check('12c. K4 視訊讀書那晚：不接 K-L6（階梯停在原地）',!a.t.includes(LK.steps[i6].lines[0])&&a.n===i6,a.t.slice(-80)); }
-    else check('12c. 有 K-L6',false); }
   // AA_304 第 10 列：休學在家那一年（經濟系、退宿以後），出遊演完不直接接階梯（講的是家裡的事）：白天不接；傍晚以後先「（晚上，回到家。）」
   { const LB=LADDER.byTerm.Y0S2&&LADDER.byTerm.Y0S2[KX]; if(LB){ const w0=(LB.steps[0].week||[6])[0], dd=termDay('Y0S2',w0,4), f0={introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,Y0_MOVED_OUT:true};
     fresh(dd,13,'home',f0); G.stage='econ'; picks=[0,0,0,0,0,0]; const k0=((G.social.ladder||{})[KX+'@Y0S2']|0);
@@ -169,7 +162,5 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const W=LADDER.byTerm.Y1S2.heroine_05.greet.when;   // 2026-10-17 BB-C 408398d7：學姊不在法服值班（YT_FAFU／法服方案改），「今天值班」那句拿掉；第 15 週換成畢業典禮那句
     check('22. 學姊大一下的招呼沒有「今天值班」（weekParity 那一句）',!W.some(w=>w.weekParity)&&!W.some(w=>/值班/.test(w.t)),JSON.stringify(W.map(w=>w.t)));
     const J=JSON.stringify; check('22. 第 15 週「這週六畢業典禮。不要下雨就好。」、第 16 週「期末了，記得睡覺。」',W.some(w=>J(w.week)==='[15,15]'&&/畢業典禮/.test(w.t))&&W.some(w=>J(w.week)==='[16,16]'&&/記得睡覺/.test(w.t))); }
-  { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/story3d.js'),'utf8'), m=src.match(/const l=\['判決要看事實，不要只背結論。'[^\n]*?\]\.filter\(\(t,i\)=>i>0\|\|!\(typeof SOCIAL!=='undefined'&&SOCIAL\.playerYear&&SOCIAL\.playerYear\(\)>=2\)\)/);
-    check('23. 學姊沒有階梯時的備用句：「判決要看事實，不要只背結論。」只在大一（AA_263 (b) 第 4 點）',!!m); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -29,7 +29,7 @@ const sp=id=>TRIP.spot(id);
   check('2. 週六 22:30 去西門町（23:00 關）：「現在去，待不到一小時就關了」',TRIP.check(mkG(SAT,22.5),sp('D04')).why==='現在去，待不到一小時就關了');
   check('2. 週一去北美館：「今天休館」',TRIP.check(mkG(MON,10),sp('D06')).why==='今天休館');
   check('2. 錢不夠來回車資（淡水 100 元，身上 80）：「錢不夠」',TRIP.check(mkG(SAT,15,{money:80}),sp('D13')).why==='錢不夠');
-  const G=mkG(SAT,13); CLS.slotUse(G,['pm']); check('2. 下午的次數用完：「這個下午已經排滿了」',TRIP.check(G,sp('D12')).why==='這個下午已經排滿了');
+  const G=mkG(SAT,13); CLS.slotUse(G,['pm']); CLS.slotUse(G,['pm']); check('2. 下午的次數用完：「這個下午已經排滿了」',TRIP.check(G,sp('D12')).why==='這個下午已經排滿了');
   let ty=null; for(let d=-400;d<400&&ty==null;d++) if(CALENDAR.typhoon(d)) ty=d;
   check('2. 颱風假：「颱風假，捷運停駛」',ty!=null&&TRIP.check(mkG(ty,14),sp('D12')).why==='颱風假，捷運停駛',String(ty));
   let ex=null; for(let d=SAT;d<SAT+140&&!ex;d++){ const G2=mkG(d,8); const it=CLS.dayItems(G2).find(i=>i.exam==='final'&&i.t0>=10&&i.t0<=16); if(it&&CALENDAR.dateOf(d).wd%7!==1) ex={d,it}; }   /* 北美館週一休：找不是週一的 */
@@ -62,11 +62,10 @@ const sp=id=>TRIP.spot(id);
     check('3. 時間：13:00 出發＋30 分＋散步 30＋看展 60＋回程 30＝15:30',Math.abs(G.hour-15.5)<1e-6,String(G.hour));
     check('3. 結束時有存檔（途中也存）',gm.L.saves>=3,String(gm.L.saves));
     // 第二次來換台詞；直接回宿舍多 10 分鐘
-    G.hour=13; { const k=TRIP.check(G,sp('D06')); check('4. 同一個下午再出門一趟：被擋（DEC-SLOTS-1018 ③ 每個時段一件主要的事）',!!k&&!k.ok&&/排滿/.test(k.why||''),JSON.stringify(k)); }
-    G.slots=null;   /* 隔一天（時段歸零）再去第二次 */ const gm2=mkGM(G,[1,'回去','直接回宿舍']); await TRIP.menu(gm2);
+    G.hour=13; const gm2=mkGM(G,[1,'回去','直接回宿舍']); await TRIP.menu(gm2);
     check('4. 第二次來北美館：arrive[1]',gm2.L.says[1]===sp('D06').arrive[1],gm2.L.says[1]);
     check('4. 直接回宿舍：進宿舍、多 10 分鐘（13:00＋30＋30＋10＝14:10）',gm2.L.enters[0].startsWith('dorm@')&&Math.abs(G.hour-(14+10/60))<1e-6,gm2.L.enters[0]+' '+G.hour);
-    check('4. 第二趟（隔天）：下午用掉 1 次（1／1）',CLS.slotRec(G).used.pm===1);
+    check('4. 第二趟：下午用掉第 2 次（2／2）',CLS.slotRec(G).used.pm===2);
     G.hour=14.5; const gm3=mkGM(G,[1]); await TRIP.menu(gm3);
     check('4. 第三次想去：灰掉「這個下午已經排滿了」，不出發',gm3.L.menus[0][1]==='臺北市立美術館〔灰：這個下午已經排滿了　（捷運 30 分鐘・來回 60 元・09:30–17:30（週一休））〕'&&gm3.L.toasts[0]==='這個下午已經排滿了'&&!G.trip,JSON.stringify(gm3.L.menus[0][1])); }
   // 5. 夕陽、下雨、跨時段、沒有次數＝只剩回去

@@ -42,14 +42,6 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     const a=sayIdx('每天帶出門。'), b=sayIdx('大一那年冬天，你幫我裝的是熱水。我記到現在。'), c=sayIdx('我爸叫我跟你說：恭喜。');
     check('4. HOT_WATER 多一句；MET_SIS_FATHER 她最後多「我爸叫我跟你說：恭喜。」',a>=0&&a<b&&b<c,JSON.stringify([a,b,c])); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); await H.run('grad'); check('4. 沒有 MET_SIS_FATHER：沒有那一句',!H.has('我爸叫我跟你說：恭喜。')); }
-  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過沒吃到——她那一段之前，她爸爸那一小段；記 MET_SIS_FATHER 'grad'，不再轉述「我爸叫我跟你說：恭喜。」*/
-  for(const [k,want] of [[0,['好。','（他對書瑀點了一下頭）']],[1,['下次。','……他記住了。']]]){ const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false}); H.FRIEND('heroine_05'); H.date('heroine_05'); H.picks=[k];
-    await H.run('grad'); const F=['（典禮結束，她身邊站著一個頭髮有一點白的男人。）','我爸。','祐廷？','……上次的飯沒吃到。畢業快樂。','（他跟你握了一下手，很用力。）'].concat(want), ix=F.map(t=>sayIdx(t)), w=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）');
-    check('4. AA_392 第 8 節 交往中、她爸爸的晚餐沒到：保溫瓶那一段之前她爸爸「……上次的飯沒吃到。畢業快樂。」，選項 '+(k?'「上次對不起。」':'「伯父好。」')+'；記 MET_SIS_FATHER grad；沒有「我爸叫我跟你說：恭喜。」',ix.every((v,i)=>v>=0&&(i===0||v>ix[i-1]))&&w>ix[ix.length-1]&&G.flags.MET_SIS_FATHER==='grad'&&!H.has('我爸叫我跟你說：恭喜。'),JSON.stringify(ix.concat([w]))); }
-  { const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',MET_SIS_FATHER:true}); H.FRIEND('heroine_05'); H.date('heroine_05'); await H.run('grad');
-    check('4. AA_392 第 8 節 晚餐有去（MET_SIS_FATHER）：沒有那一小段',!H.has('……上次的飯沒吃到。畢業快樂。')&&H.has('我爸叫我跟你說：恭喜。')); }
-  { const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false}); H.FRIEND('heroine_05'); await H.run('grad');
-    check('4. AA_392 第 8 節 沒交往：沒有那一小段',!H.has('……上次的飯沒吃到。畢業快樂。')); }
   // ---- D2：和可昕交往 ----
   { const G=H.fresh('2029-06-02',12,'campus',{GIRAFFE_KEYCHAIN:true}); H.FRIEND('kexin'); H.date('kexin'); H.FRIEND('heroine_01'); await H.run('grad');
     const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在傅鐘旁邊。）'), g=sayIdx('那是妳的帽子。');
@@ -78,7 +70,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     H.at('2029-06-02',17.5); H.said=[]; H.picks=['（先不說）','「好。」'];
     await TERMEND.dinner(GM,OUT.get(G,'te_Y4S2'));
     check('9. 飯桌一句「拍照拍到臉僵了。……你也是。」；她說畢業傍晚限定版「我以前把喜歡的東西都排在計畫後面。」「這次計畫做完了。……後面排你。」；交往',H.has('拍照拍到臉僵了。……你也是。')&&H.has('我以前把喜歡的東西都排在計畫後面。')&&H.has('這次計畫做完了。……後面排你。')&&G.flags.dating_heroine_05===true,JSON.stringify(H.lines()));
-    { const i=t=>H.said.findIndex(s=>s.t===t), n1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', n2='（便條上寫滿了字。她一句都沒有照著念。）';
+    { const i=t=>H.said.findIndex(s=>s.t===t), n1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', n2='（便條上寫了三行。她一行都沒有照著念。）';
       check('9. AA_350 M7：畢業那天她說的那一版也有便條那一拍：「（她手上拿著一張摺過的小便條……）」在「我以前把喜歡的東西……」前面（旁白）、「（便條上寫了三行……）」在「……後面排你。」後面；BCG-44 有放',i(n1)>=0&&H.said[i(n1)].who==null&&i(n1)<i('我以前把喜歡的東西都排在計畫後面。')&&i(n2)>i('這次計畫做完了。……後面排你。')&&H.cgs.includes('cg_three_things_heroine05'),JSON.stringify(H.lines())+' cgs='+JSON.stringify(H.cgs)); }
     H.at('2029-06-02',19.5); PG.rules(GM); check('9. GRAD_EVENING＝date:heroine_05',G.flags.GRAD_EVENING==='date:heroine_05');
     const s=PG.due(G); check('9. 飯後直接走回研究室（不用選）',s&&s.id==='bday_walk'); H.said=[]; H.picks=[2]; await PG.runStep(GM,s);

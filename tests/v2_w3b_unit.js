@@ -35,10 +35,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const setup=(day,hour,stance)=>{ fresh(day,hour,'dorm',stance?{W3_STANCE:stance}:{}); G.events.last.ev_grad_debate=D0; G.events.done.ev_grad_debate=1; PHONE.join(G,'lawclub_study','法服讀書會'); };
   setup(D0+14,20,'no'); run(20,20.4); check('1. 第 14 天 20:30 以前沒有',!G.msgs.some(m=>m.tag==='w3b_0'));
   run(20.4,21,0.05); const T=txt('p:heroine_05');
-  check('1. 20:30：開頭依 W3_STANCE（no）的那一句「取代」「這篇。我畫線的是這一句。」（BB_161 ⑧）→ 校刊投書〈總圖應該全面禁止占位〉→ 只傳畫線那一句（AA_398 第 16 列：不列一二三）',T.slice(0,3).join('|')==='heroine_05:這篇作者沒跳步。你找找看他哪裡偷懶。|heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:『規定要簡單：離開超過三十分鐘就清位，沒有例外。』'&&!T.some(t=>/^heroine_05:[一二三]，/.test(t)),JSON.stringify(T));
+  check('1. 20:30：開頭依 W3_STANCE（no）的那一句「取代」「這篇。三個論點。」（BB_161 ⑧）→ 校刊投書〈總圖應該全面禁止占位〉→ 一二三',T.slice(0,5).join('|')==='heroine_05:這篇作者沒跳步。你找找看他哪裡偷懶。|heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:一，座位是公共的，占著不用，別人就用不到。|heroine_05:二，規定要簡單：離開超過三十分鐘就清位，沒有例外。|heroine_05:三，禁止占位，考試週更多人用得到總圖。',JSON.stringify(T));
   const q=TH('p:heroine_05').find(m=>m.ask); check('2. 三個反例可以回',!!q&&q.ask.opts.length===3&&q.ask.opts[2].t==='三十分鐘，對吃飯的人太短，對午睡的人太長。');
-  PHONE.answer(G,q.ask.id,2); const T2=txt('p:heroine_05').slice(3);
-  check('2. 換角度 → 她「……這個角度我沒想過。但你漏了一步。」→「哪裡。」→ 長回覆 →「那我換一個反例。」→「……你的論點比上週好。」',T2.join('|')==='player:三十分鐘，對吃飯的人太短，對午睡的人太長。|heroine_05:……這個角度我沒想過。但你漏了一步。|player:哪裡。|heroine_05:畫線那一句的問題不在三十分鐘，在「沒有例外」。|player:那我換一個反例。|heroine_05:……你的論點比上週好。',JSON.stringify(T2));
+  PHONE.answer(G,q.ask.id,2); const T2=txt('p:heroine_05').slice(5);
+  check('2. 換角度 → 她「……這個角度我沒想過。但你漏了一步。」→「哪裡。」→ 長回覆 →「那我換一個反例。」→「……你的論點比上週好。」',T2.join('|')==='player:第二點有反例。三十分鐘，對吃飯的人太短，對午睡的人太長。|heroine_05:……這個角度我沒想過。但你漏了一步。|player:哪裡。|heroine_05:第二點的問題不在三十分鐘，在「沒有例外」。|player:那我換一個反例。|heroine_05:……你的論點比上週好。',JSON.stringify(T2));
   const lg=TH('p:heroine_05').find(m=>m.fold); check('2. 長回覆折起來（7 行，最後一行「你要反駁，就打「沒有例外」這四個字。」）',!!lg&&lg.fold.length===7&&lg.fold[6]==='你要反駁，就打「沒有例外」這四個字。');
   check('2. 記 ARGUED_GOOD',SOCIAL.has('heroine_05','ARGUED_GOOD'));
   // 第二、三、四次（AA_284 1-5：上一篇沒回就不發下一篇）
@@ -46,8 +46,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.day=D0+28; run(20,21); const t2=txt('p:heroine_05').filter(t=>t.includes('校刊投書')); check('3. 第 28 天：第二篇〈期中考應該全部改成開書考〉，沒有第一次的開頭',t2[1]==='heroine_05:📄 校刊投書〈期中考應該全部改成開書考〉'&&txt('p:heroine_05').filter(t=>t.includes('偷懶')).length===1,JSON.stringify(t2));
   G.day=D0+42; run(20,21); check('3. 第二篇沒回：第 42 天第三篇不發（AA_284 1-5）',!txt('p:heroine_05').some(t=>t.includes('〈通識課應該取消點名〉'))&&(G.flags.W3B_N|0)===2);
   ansLast(); G.day=D0+56; run(20,21); ansLast(); G.day=D0+70; run(20,21); const t4=txt('p:heroine_05');
-  check('3. 回了以後下一次照發：第三篇〈通識課應該取消點名〉、第四次回到第一篇＋「這篇你讀過了。這次你先說，哪一段有問題。」',t4.some(t=>t.includes('〈通識課應該取消點名〉'))&&t4.slice(-2).join('|')==='heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:這篇你讀過了。這次你先說，哪一段有問題。',JSON.stringify(t4.slice(-3)));
-  const q4=TH('p:heroine_05').filter(m=>m.ask).pop(); PHONE.answer(G,q4.ask.id,1); check('3. 選「中間那段有問題。」→「對。」',txt('p:heroine_05').slice(-1)[0]==='heroine_05:對。');
+  check('3. 回了以後下一次照發：第三篇〈通識課應該取消點名〉、第四次回到第一篇＋「這篇你讀過了。這次換你先說三個論點。」',t4.some(t=>t.includes('〈通識課應該取消點名〉'))&&t4.slice(-2).join('|')==='heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:這篇你讀過了。這次換你先說三個論點。',JSON.stringify(t4.slice(-3)));
+  const q4=TH('p:heroine_05').filter(m=>m.ask).pop(); PHONE.answer(G,q4.ask.id,1); check('3. 選「第二點有問題。」→「對。」',txt('p:heroine_05').slice(-1)[0]==='heroine_05:對。');
   check('3b. 私訊、不在讀書會群組發；沒有柏翰、沛珊的回話（AA_284 1-5）',!TH('g:lawclub_study').length&&!(G.msgs||[]).some(m=>/^w3b_/.test(m.tag||'')&&(m.from==='classmate_bohan'||m.from==='classmate_peishan')));
   // 沒演過不平／大三
   fresh(D0+14,20,'dorm',{}); run(20,21); check('4. 沒演過 ev_grad_debate：沒有',!G.msgs.some(m=>/^w3b_/.test(m.tag||'')));

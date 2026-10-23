@@ -59,7 +59,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     m=setup(); G.hour=12; PHONE.answer(G,m.ask.id,1); run(12,23.9); G.flags.zhiruoShopContactDay=FRI+3; G.flags.zhiruoFirstOrder='手沖'; keepOn(FRI+3,10); run(10,23.9);
     check('群組先回：之後 Café 第五次不會再傳 Café 版',dm().length===3&&dm()[0][2]==='我是通識小組的芷若。',JSON.stringify(dm())); }
   /* ---------- 麵店團：沒來才揪 ---------- */
-  { const W4THU=termDay(4,4), PINGS=['麵店 我揪了','麵店 我先到','今天阿姨有滷蛋','麵店 不用回'];   /* AA_313 5-3：阿哲的訊息不加句號 */
+  { const W4THU=termDay(4,4), PINGS=['麵店。我揪了。','麵店。我先到。','今天阿姨有滷蛋。','麵店。不用回。'];
     const sim=(d0,d1,came)=>{ for(let d=d0;d<=d1;d++){ keepOn(d,7.5,'campus'); run(7.5,17.9,0.1); if(came(d)){ G.zone='noodle'; run(18,19,0.1); G.zone='campus'; } run(19.1,23.5,0.1); } };
     const pings=()=>G.msgs.filter(m=>m.tag&&m.tag.startsWith('rt_zhe_ndl_')).map(m=>[m.day,m.text]);
     const start=()=>{ fresh(W4THU,18,'noodle',{noodleTableDay:W4THU}); run(18,19,0.1); };
@@ -67,7 +67,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('一直有來（每個週二、週四晚上都在麵店）：兩週群組都安靜',pings().length===0,JSON.stringify(pings()));
     const tue5=termDay(5,2), thu5=termDay(5,4), tue6=termDay(6,2), thu6=termDay(6,4);
     start(); sim(W4THU+1,thu6,d=>d===tue5||d===thu6);
-    check('第 5 週週二有來、週四沒來：只有第 6 週週二揪一次（「麵店 我揪了」）；第 6 週週四（週二沒來）再揪（「麵店 我先到」）',JSON.stringify(pings())===JSON.stringify([[tue6,PINGS[0]],[thu6,PINGS[1]]]),JSON.stringify(pings()));
+    check('第 5 週週二有來、週四沒來：只有第 6 週週二揪一次（「麵店。我揪了。」）；第 6 週週四（週二沒來）再揪（「麵店。我先到。」）',JSON.stringify(pings())===JSON.stringify([[tue6,PINGS[0]],[thu6,PINGS[1]]]),JSON.stringify(pings()));
     const exam=[]; for(let d=termDay(8,1);d<=termDay(9,7);d++){ const w=CALENDAR.dateOf(d).wd; if(w===2||w===4) exam.push(d); }
     start(); sim(W4THU+1,termDay(10,4),()=>false); const pd=pings().map(x=>x[0]);
     check('考試週（第 8、9 週）不是麵店日、不揪；第 10 週週二照樣揪（上一個麵店日是第 7 週週四，沒來）',exam.length===4&&exam.every(d=>!STORY.noodleDay(d)&&!pd.includes(d))&&pd.includes(termDay(10,2)),JSON.stringify({exam,pd}));

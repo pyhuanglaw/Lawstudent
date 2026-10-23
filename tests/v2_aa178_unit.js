@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const e4=ev('ev_yutong_absent'), e5=ev('ev_yutong_thanks'), d=wk('Y1S2',8,2), T=()=>said.map(x=>x.t);
     fresh(d,18,'noodle'); await EVENTS.run(e4); const L0=T(), m0=(G.social.mem.heroine_03||[]).map(m=>m.note).join('|');
     fresh(d,18,'noodle'); G.flags.dating_heroine_03=true; await EVENTS.run(e4); const L1=T(), m1=(G.social.mem.heroine_03||[]).map(m=>m.note).join('|');
-    check('③ 事件 4 交往中：阿姨第二句換成「你是語彤那個喔。」「她沒跟你講齁……」「你吃你的……」；記憶多「阿姨說她怕你來幫忙」；沒交往照舊',L1.includes('（看了你一下）你是語彤那個喔。')&&L1.includes('你吃你的。她問的話，就說你自己看到的。')&&!L1.includes('你是她同學喔？她喔，累了也不會講。')&&L0.includes('你是她同學喔？她喔，累了也不會講。')&&!L0.some(t=>/語彤那個/.test(t))&&/怕你來幫忙/.test(m1)&&!/怕你來幫忙/.test(m0),JSON.stringify([L1,m1]));
+    check('③ 事件 4 交往中：阿姨第二句換成「你是語彤那個喔。」「她沒跟你講齁……」「你吃你的……」；記憶多「阿姨說她怕你來幫忙」；沒交往照舊',L1.includes('（看了你一下）你是語彤那個喔。')&&L1.includes('你吃你的。不要跟她說是我講的。')&&!L1.includes('你是她同學喔？她喔，累了也不會講。')&&L0.includes('你是她同學喔？她喔，累了也不會講。')&&!L0.some(t=>/語彤那個/.test(t))&&/怕你來幫忙/.test(m1)&&!/怕你來幫忙/.test(m0),JSON.stringify([L1,m1]));
     fresh(d,21.2,'library'); G.flags.yutong_hospital=true; G.flags.dating_heroine_03=true; picks=['回去睡']; await EVENTS.run(e5); const L2=T();
     fresh(d,21.2,'library'); G.flags.yutong_hospital=true; picks=['回去睡']; await EVENTS.run(e5); const L3=T();
     check('③ 事件 5 交往中：第一句後「我叫她不要講的。」、結尾「（她把書推到一邊，趴在桌上。）」「閉館的時候叫我。」；沒交往沒有',L2[1]==='我叫她不要講的。'&&L2.slice(-2).join('|')==='（她把書推到一邊，趴在桌上。）|閉館的時候叫我。'&&!L3.includes('我叫她不要講的。')&&!L3.includes('閉館的時候叫我。'),JSON.stringify([L2,L3])); }

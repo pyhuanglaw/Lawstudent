@@ -1,13 +1,13 @@
 {
- "objects": 31,
- "unique_meshes": 31,
- "tris": 17424,
- "tris_drawn": 17424,
- "materials": 19,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/trnew/l118_pasta.glb",
- "bytes": 1518072,
+ "objects": 30,
+ "unique_meshes": 30,
+ "tris": 17412,
+ "tris_drawn": 17412,
+ "materials": 18,
+ "out": "assets/models/env/second_ai/l118_pasta.glb",
+ "bytes": 1507212,
  "texres": 512,
- "tris_total": 17424,
+ "tris_total": 17412,
  "layout": "l118_pasta.layout.json",
  "seats": 16
 }

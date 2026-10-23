@@ -219,7 +219,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     let dT=D('2029-10-01'); while(![2,4,6].includes(wdOf(dT))) dT++; fresh(dT,19.5,'campus',{}); R('classmate_mingxuan','FAM'); INV.addContact(G,'classmate_mingxuan'); const s2=MSG.send(G,'classmate_mingxuan','chat'), q2=PHONE.rec(G).q.slice(-1)[0];
     check('第 7 節第 5 題. 明軒在德國、家教的時段（二四六 19:00～21:00）傳：不接「剛家教完 你說什麼」，只回「在德國。」「……時差。我等一下回。」',!!s2&&s2.ok&&!!q2&&J(q2.items.map(x=>x.text))===J(['在德國。','……時差。我等一下回。']),J(q2&&q2.items)); }
   // ===== 第 7 節第 7 題：以安回來那天「明天見。……」限臺北；語彤店休不說「今天也有開」=====
-  { const back=(id,yk,k0)=>{ fresh(D(k0),7,'dorm',{dating_heroine_01:true}); R('heroine_01','CLO'); VAC.tripMsgs(G,VAC.inst(id,yk)); return allTxt('p:heroine_01').includes('明天有空的話，一起吃飯。'); };
+  { const back=(id,yk,k0)=>{ fresh(D(k0),7,'dorm',{dating_heroine_01:true}); R('heroine_01','CLO'); VAC.tripMsgs(G,VAC.inst(id,yk)); return allTxt('p:heroine_01').includes('明天見。……我是說，明天有空的話。'); };
     const c05=back('C05','Y1','2026-08-24'), c08=back('C08','Y1','2026-07-13'), c09=back('C09','Y1','2026-07-27'), c18=back('C18','Y1','2026-07-20');
     check('第 7 節第 7 題. 以安回來那天「明天見。……」限臺北：日本五天（8/28 回來、隔天她在臺北）照傳；首爾（7/24 回來、她 7/25 回台中＝改第 2 題那句）、柬埔寨（8/5，她在台中）、新加坡（7/28，她在台中）不傳',
       c05&&!c08&&!c09&&!c18,J({C05:c05,C08:c08,C09:c09,C18:c18}));
