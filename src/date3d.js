@@ -374,7 +374,10 @@ const DATE=(function(){
     const N=Math.floor((Date.UTC(dt.y,dt.m-1,dt.d)-Date.UTC(dt.y,0,0))/864e5), g=2*Math.PI/365*(N-1), eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)),
       de=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g), la=25.17*Math.PI/180,
       ha=Math.acos(Math.cos(90.833*Math.PI/180)/(Math.cos(la)*Math.cos(de))-Math.tan(la)*Math.tan(de))*180/Math.PI, min=720-4*(121.44-ha)-eq+480; return hm(min/60); };
-  const setUsable=(G,id,set,t)=>{ if(!set||!Array.isArray(set.lines)) return false; const tx=JSON.stringify(set.lines); if(/\{lastDrink\}/.test(tx)){ const tw=S.TASTE_WORD[S.mem(G,id,t.locs[0]).taste]; if(!tw) return false; } return true; };
+  /* 台詞組的 if／unless（Dxx.json 原樣匯入的條件：flags＝旗標都要有、memory＝記憶都要有；AA_389 第 1 點 D13 交換回來版 ZR_UK_BACK、D01 語彤 YT_TEN_MINUTES）*/
+  const setCond=(G,c)=>{ if(!c) return true; const F=(G&&G.flags)||{}; if(Array.isArray(c.flags)&&c.flags.some(f=>!F[f])) return false;
+    if(Array.isArray(c.memory)&&c.memory.some(m=>!(m&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(m.npc,m.tag)))) return false; return true; };
+  const setUsable=(G,id,set,t)=>{ if(!set||!Array.isArray(set.lines)) return false; if(set.if&&!setCond(G,set.if)) return false; if(set.unless&&setCond(G,set.unless)) return false; const tx=JSON.stringify(set.lines); if(/\{lastDrink\}/.test(tx)){ const tw=S.TASTE_WORD[S.mem(G,id,t.locs[0]).taste]; if(!tw) return false; } return true; };
   S.pickSet=function(G,id,pool,t,key){ const m=S.mem(G,id,t.locs[0]), tier=S.tierOf(G,id); const all=(pool||[]).map((x,i)=>({x,k:key+'#'+i})).filter(o=>setUsable(G,id,o.x,t));
     let ok=all.filter(o=>!o.x.tier||o.x.tier==='any'||o.x.tier===tier); if(!ok.length) ok=all; if(!ok.length) return null; const fresh=ok.filter(o=>!m.recent.includes(o.k)); const c=fresh.length?fresh[0]:ok.slice().sort((a,b)=>m.recent.indexOf(a.k)-m.recent.indexOf(b.k))[0];   /* 都用過了：挑最久以前用的 */
     m.recent=m.recent.filter(k=>k!==c.k); m.recent.push(c.k); while(m.recent.length>3) m.recent.shift(); return c.x; };

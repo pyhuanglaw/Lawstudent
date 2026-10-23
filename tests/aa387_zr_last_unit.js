@@ -236,6 +236,9 @@ const roomList=()=>STORY.roomItemList(H.G).filter(r=>r&&r[0]===ROOM[0]);
       check('10. A5 美國路線：F3 照現在（她答應方奕廷：seeing、ZR_FY；不記 ZR_F3_NO）',Z.fy==='seeing'&&F.ZR_FY===true&&F.ZR_F3_NO==null,J({fy:Z.fy,FY:F.ZR_FY,no:F.ZR_F3_NO})); }
     { f3({dating_heroine_03:true}); const F=H.G.flags, Z=F.ZZ||{};
       check('10. 第 8 節第 4 條：祐廷有交往對象＝F3 照現在（不記 ZR_F3_NO）',F.ZR_F3_NO==null,J({fy:Z.fy,no:F.ZR_F3_NO})); }
+    /* AA_389 第 1 點：ZR_UK_BACK（2028-02-19 回臺北那天記；淡水 D13 交換回來版）*/
+    { setup('2028-02-18',22,'dorm'); rules(); const b4=H.G.flags.ZR_UK_BACK; at('2028-02-19',9); rules();
+      check('10. AA_389 第 1 點：2/18 還沒有 ZR_UK_BACK，2/19 記那天（不用 ZR_BACK）',b4==null&&H.G.flags.ZR_UK_BACK===D('2028-02-19')&&H.G.flags.ZR_BACK==null,J({b4,f:H.G.flags.ZR_UK_BACK})); }
   });
   H.done();
 })();

@@ -373,9 +373,9 @@
   },
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
-   "sha": "10816dd5",
+   "sha": "345234b3",
    "status": "approved",
-   "approvedBy": "AA（帳號 A／AA-C）企劃原檔同步（AA_313 第 2、4、5 節，10-20 15:18）；LAWWW（帳號 A）10-22 15:1x 換版（理由同 BB_128：741e94f1／5e910dd2 舊版把 AA_313 改過的句子蓋回）",
+   "approvedBy": "AA（帳號 A／AA-C）企劃原檔同步（AA_313 第 2、4、5 節，10-20 15:18）；LAWWW（帳號 A）10-22 15:1x 換版（理由同 BB_128：741e94f1／5e910dd2 舊版把 AA_313 改過的句子蓋回）｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6",
    "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子",
    "history": [
@@ -422,9 +422,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
-   "sha": "57de1709",
+   "sha": "345234b3",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
+   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6"
   },
   {

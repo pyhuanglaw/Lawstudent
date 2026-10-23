@@ -69,6 +69,10 @@ const ZRLAST=(function(){
   /* 出遊沒到（「不去了」、過了 19:45；OUT 的 outingMissed）：記 missed，那兩則照上面的時間傳 */
   S.missed=function(G){ if(G&&G.flags&&G.flags.ZR_LAST==null) G.flags.ZR_LAST='missed'; };
 
+  /* ---------- AA_389 第 1 點：芷若第一次交換回來（2028-02-19 回臺北）記 ZR_UK_BACK＝那天（淡水 D13 交換回來版用；ZR_BACK 是 2029-08-25 第二次回國）---------- */
+  S.UK_BACK='2028-02-19';
+  S.ukBack=function(G){ const F=(G&&G.flags)||{}, d=D(S.UK_BACK); if(!law(G)||F.ZR_UK_BACK!=null||d==null||G.day<d) return; F.ZR_UK_BACK=G.day; };
+
   /* ---------- 第 10 節 A4：方奕廷兩則（她因為祐廷拒絕＝ZR_F3_NO；F3＋2 天 21:00；接到他電話的 FANG_F3 direct／bought／self，nocall 不傳；4-2b、「她跟我說了」照舊不傳）---------- */
   S.fangPhone=function(G){ const F=(G&&G.flags)||{}; if(!law(G)||typeof PHONE==='undefined'||!L||!L.fang||F.ZR_F3_NO==null||!['direct','bought','self'].includes(F.FANG_F3)||sent(G,S.TAGS.fang)) return;
     const d=F.ZR_F3_NO+2; PHONE.at(G,d,lt(G,d,21),L.fang.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),S.TAGS.fang); };
@@ -94,7 +98,7 @@ const ZRLAST=(function(){
 
   /* ---------- 掛上去 ---------- */
   if(typeof STORY!=='undefined'&&!STORY._zrLast){
-    if(Array.isArray(STORY.PHONE_RULES)){ STORY.PHONE_RULES.push(G=>S.phone(G)); STORY.PHONE_RULES.push(G=>S.fangPhone(G)); }
+    if(Array.isArray(STORY.PHONE_RULES)){ STORY.PHONE_RULES.push(G=>S.phone(G)); STORY.PHONE_RULES.push(G=>S.fangPhone(G)); STORY.PHONE_RULES.push(G=>S.ukBack(G)); }
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.roomExtra(G,Lst));
     STORY._zrLast=true; }
   return S;
