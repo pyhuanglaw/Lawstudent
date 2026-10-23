@@ -37,7 +37,7 @@ await sec(2,async()=>{ H.fresh('2026-03-10',19,'dorm',{JOB_TUTOR:true,TUTOR_WD:2
   await lesson(4); check('2. 第 5 堂（TUTOR_N 4）以前：沒有',!said(DRAW)&&H.G.flags.TUTOR_DRAW==null,J(L()));
   await lesson(0); check('2. 第 1 堂照舊（國中生的問題）、沒有貓法官',said('老師，課本寫的跟我家發生的事不一樣，那要聽誰的？')&&!said(DRAW));
   await lesson(2); check('2. 第 3 堂照舊（「你不吃，我媽會以為你不喜歡她。」）',said('你不吃，我媽會以為你不喜歡她。')&&!said(DRAW));
-  check('2. 只接一次（再叫 patchTutor 不重複）',JOBS.patchTutor()===false&&ev('ev_tutor_lesson').dialogue.filter(l=>typeof l.call==='function').length===1);
+  check('2. 只接一次（再叫 patchTutor 不重複；開頭、結尾各一段）',JOBS.patchTutor()===false&&ev('ev_tutor_lesson').dialogue.filter(l=>typeof l.call==='function').length===2);
   H.fresh('2026-04-14',19,'dorm',{}); H.G.flags.TUTOR_N=8; check('2. 沒有家教（JOB_TUTOR）＝不演',!JOBS.tutorDrawDue(H.G)); });
 
 H.done();

@@ -1946,7 +1946,8 @@
     "confirmed": true
    },
    "source": "BB_96 3-2；AA-B 10-16 01:47（AA_140 §4，企劃線 fd7c2744） B7",
-   "authorized": "D79"
+   "authorized": "D79",
+   "notes": "2026-10-23 21:0x LAWWW-B：AA_163 第 2 節（d64110e1f）家教完整規則接好（jobs3d.js；tests/aa163_tutor_unit.js 47 PASS）：週二／四 19:00、大一下～大二下、寒暑假不上、開學第一天明軒問「家長問你這學期還來嗎」、期末考週停（前一週媽媽那句）、漏週三句輪流、連三次漏＝明軒問、第 4 堂 TUTOR_WHY、每堂 1,200、會考前最後一堂、5/16 21:00 學生訊息＝TUTOR_DONE；週次照 16 週換算（期末＝第 16 週）。ev_tutor_lesson 兩個 after 合成一個（slotFill 現在會跑）。沒做：玩家從手機主動說「家教我想先停」（手機沒有玩家選話題的地方）；home3d.js、r2y3b3d.js 直接讀 JOB_TUTOR（家教結束後還是 true），應改讀 JOBS.at(G,'tutor')。"
   },
   {
    "id": "V2-B37",

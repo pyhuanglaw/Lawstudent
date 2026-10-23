@@ -2130,8 +2130,9 @@ const STORY = (function(){
       const yes=wd=>({t:wd===2?'週二。':'週四。',set:{TUTOR_WD:wd},say:[M('很好。第一堂我陪你去認門。')]});
       if(!PHONE.sent(G,'mx_tutor_ask2')) PHONE.at(G,ask,21,[Object.assign(M('家教的事，想好了嗎？'),{ask:{until:(mEnd+1)*24,opts:[{t:'好。',set:{JOB_TUTOR:true,tutorFromDay:ask},say:[Object.assign(M('你哪天方便？'),{ask:{opts:[yes(2),yes(4)]}})]}]}})],'mx_tutor_ask2');
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
-    /* AA_373 #1（企劃線 a48fe1b7）：家教同樣只排到學期的最後一週（第 16 週），超過學期的日子不排（暑假家教另外排）；舊存檔已經排在學期以後的那一次拿掉 */
-    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ for(const q of OUT.rec(G)) if(/^tutor_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2') q.state='skipped'; }
+    /* AA_373 #1（企劃線 a48fe1b7）：家教同樣只排到學期的最後一週（第 16 週），超過學期的日子不排（暑假家教另外排）；舊存檔已經排在學期以後的那一次拿掉。
+       有 JOBS（src/jobs3d.js，AA_163 第 2 節：大一下～大二下、考試週停、會考結束）就照那邊排，這裡不排 */
+    if(F.JOB_TUTOR&&typeof OUT!=='undefined'&&!(typeof JOBS!=='undefined'&&JOBS.TUTOR_PLAN)){ for(const q of OUT.rec(G)) if(/^tutor_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2') q.state='skipped'; }
       const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week,LW=S.termWeeks('Y1S2');w<=LW;w++){ const d=S.termDayIn('Y1S2',w,F.TUTOR_WD===4?4:2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
     /* 颱風假 T2（2026-10-19）：前一晚 20:30 新聞（照大一 T1b 的做法：真的停課是前一晚市政府宣布，沒有群組的玩家也收得到）*/
