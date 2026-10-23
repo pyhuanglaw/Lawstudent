@@ -2402,6 +2402,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "118 巷九間店門外那張 10-20 Cycles 平面圖（對面的店都是鐵捲門）換成遊戲裡拍的兩層窗景（對面的店、機車、招牌；白天晚上各一張）；每間店 +1 draw call；l118_shops／arcade／bar_lift／lane118 單元測試 ALL PASS"
+  },
+  {
+   "task": "SEE-THROUGH-FAIL-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "b1cb4030",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/see_through_test_1023.patch（tests/see_through.py）",
+    "docs/art-rebuild/second_ai/test_shots/see_through_1023/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "真機沒看過",
+   "next": "LAWWW：測試 patch 進開發分支；engine3d 不用改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "兩項 FAIL 是測試過時：讀檔後手機自動打開（D103）遊戲暫停、uSeeR 停在舊值；宿舍本來就 seeThru。修改後 ALL PASS（演出鏡頭 0、麵店 0），故意弄壞引擎時 FAIL 117.70"
   }
  ]
 }
