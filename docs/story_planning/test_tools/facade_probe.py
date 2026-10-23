@@ -29,6 +29,13 @@ ANCH = """(zone=>{ const E=GAME.E, out=[];
 PLACE = "(([x,z,yaw])=>{ const E=GAME.E, P=E.player; if(E.placeAt) E.placeAt(P,x,z); else P.obj.position.set(x,0,z); P.obj.rotation.y=yaw+Math.PI; const c=E.cam; c.yaw=yaw; c.manualT=60; if(c.distTarget<4) c.distTarget=4.5; })"   # E.placeAt 第 4 個參數是樓層（不是朝向）
 FPS = """(ms=>new Promise(r=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<ms) requestAnimationFrame(f); else { const R=GAME.E.renderer; r({fps:+(n*1000/(performance.now()-t0)).toFixed(2), calls:R.info.render.calls, tris:R.info.render.triangles}); } }; requestAnimationFrame(f); }))"""
 
+ART = os.environ.get('ART')   # 美術模式：藏 HUD 和主角、鏡頭拉遠壓低，整個店面入鏡；改前／改後同角度對照用（不量 FPS、不走路）
+ART_IDS = {'gongguan': ['G02', 'G03', 'G04', 'G05', 'G06', 'G08', 'G12', 'G13']}   # 公館挑 LAWWW2 README 列的新店種（書房、便利商店、藥局、滷味、腳踏車行、麵店、唱片、文具）；118 巷全部
+HIDEUI = """(on=>{ const cv=GAME.E.renderer.domElement; for(const e of document.body.children){ if(e===cv||e.contains(cv)) continue; e.style.visibility=on?'hidden':''; }
+  if(cv.parentElement&&cv.parentElement!==document.body) for(const e of cv.parentElement.children){ if(e!==cv) e.style.visibility=on?'hidden':''; }
+  GAME.E.player.obj.visible=!on; })"""
+ACAM = "(([yaw,dist,pitch])=>{ const c=GAME.E.cam; c.yaw=yaw; c.distTarget=dist; c.dist=dist; c.pitch=pitch; c.manualT=60; })"
+
 def lum_box(path, box=(0.2, 0.12, 0.8, 0.75)):
     im = Image.open(path).convert('L'); w, h = im.size
     c = im.crop((int(w * box[0]), int(h * box[1]), int(w * box[2]), int(h * box[3])))
@@ -59,6 +66,18 @@ async def main():
                     r['info'] = info; say('   %s' % J(info))
                     run.check('%s：在 %s、立體店內的網格（材質 wz_in_*）有載進來' % (tag, zone), info['zone'] == zone and info['loaded'] > 0, J(info))
                     A = await pg.evaluate(ANCH + "(%s)" % json.dumps(zone)); r['anchors'] = A; say('   店 %d 間：%s' % (len(A), J([a['id'] for a in A], 300)))
+                    if ART:
+                        sel = [a for a in A if a['id'] in ART_IDS[zone]] if zone in ART_IDS else A
+                        for a in sel:
+                            await pg.evaluate(PLACE + "(%s)" % json.dumps([a['sx'], a['sz'], a['yaw']]))
+                            await pg.evaluate(ACAM + "(%s)" % json.dumps([a['yaw'], 7.0, 0.1])); await pg.evaluate(HIDEUI + "(true)"); await pg.wait_for_timeout(3500)
+                            await run.shot(pg, 'art_%s_%s' % (tag, a['id']))
+                            await pg.evaluate(ACAM + "(%s)" % json.dumps([a['yaw'] + 0.55, 5.0, 0.05])); await pg.wait_for_timeout(2500)
+                            await run.shot(pg, 'art_%s_%s_side' % (tag, a['id']))
+                            await pg.evaluate(HIDEUI + "(false)")
+                        r['art'] = [a['id'] for a in sel]; say('   美術模式拍了：%s' % r['art'])
+                        run.check('%s：沒有 JS 例外' % tag, not errs, J(errs[:3]))
+                        continue
                     if A:
                         await pg.evaluate(PLACE + "(%s)" % json.dumps([A[len(A) // 2]['sx'], A[len(A) // 2]['sz'], A[len(A) // 2]['yaw']])); await pg.wait_for_timeout(3000)
                         f = await pg.evaluate(FPS + "(8000)"); r['fps'] = f; say('   FPS（中間那間店前面 8 秒）：%s' % J(f))
