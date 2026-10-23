@@ -195,18 +195,19 @@ const INV=(function(){
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
       first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')), postExam:S.sisPostExam(day,h),
       w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})),
-      dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),r};   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
+      dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),face:!!r.face,r};   /* face：當面約（INV.flow 有 n）；手機約＝false（BB_172 10-1 第 17 點：阿凱、明軒的手機版照訊息體）*/   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
     const done=(o,rid)=>{ if(o.lines&&S.replyHas(id)) S.replyMark(G,id,rid||null,o.lines); return o; };   /* AA_415：七位女主角記下說了哪一句（不連續兩次同一句；rule、here 的句子也記）*/
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
     if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return done(out); }   /* rule 給了句子＝照 rule（AA_415 0-3 最後一點）*/
-    const tb=k=>{ let v=p[k]&&p[k][P.id]; if(typeof v==='function') v=v(G,c); return v==null?null:(Array.isArray(v)?v:(v[c.band]||null)); };   /* 函式＝照時間換句（以安：讀書會開始以前，AA_238 5-7）*/
+    const fp=v=>v&&!Array.isArray(v)&&(v.face||v.phone)?(c.face?v.face||v.phone:v.phone||v.face):v;   /* {phone, face}：手機／當面兩版 */
+    const tb=k=>{ let v=p[k]&&p[k][P.id]; if(typeof v==='function') v=v(G,c); v=fp(v); return v==null?null:(Array.isArray(v)?v:(fp(v[c.band])||null)); };   /* 函式＝照時間換句（以安：讀書會開始以前，AA_238 5-7）*/
     const H=tb('here'); if(H&&(r.res==='accept'||r.res==='resched')){ const e=entAt(G,id,day,h);   /* 照作息，她那時候本來就在那裡（芷若上班的 Café、以安在總圖）*/
       if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return done(out); } }
     if(P.sport&&r.res==='accept'){ let v=p.acc&&p.acc[P.id]; if(typeof v==='function') v=v(G,c);   /* A＝有點熟、R＝朋友以上（交往中、曖昧也算朋友以上：照 SOCIAL.stage，和地點的門檻同一把尺）*/
       const sb=typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.STAGES?(SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FRIEND')?'R':'A'):c.band, L=v==null?null:(Array.isArray(v)?v:(v[sb]||null)); if(L){ out.lines=L.slice(); return done(out); } if((D().sportPlain||[]).includes(id)){ out.lines=['（他答應了。）']; return done(out); } }   /* 一起運動（AA_417 第 3 節）：答應照 §3 的 acc（優先於 AA_415 的一般句；第一次去也用這一句，子晴、可昕第一次的那句在見面時說＝firstAt）；男生朋友沒有這一句＝旁白「（他答應了。）」*/
     const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
     if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
-    if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
+    if(r.res==='accept'){ const L=(c.first&&tb('first'))||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
        那一句在表上（「現有」）就照表的條件，不從這裡繞回來（學姊第 3 階第一次約半熟不說「這次我點鬆餅」——表上要「來過」；可昕經濟系那一年不說「我從政大過來」）*/
     else if(r.res==='resched'&&(r.why==='busy'||r.why==='booked')&&!(pk&&pk.governs)){ const L=tb('plan'); if(L) out.lines=L.slice(); }   /* 有表的人改天只照表（表上的「現有（plan）」帶著條件，例：芷若「我在上班。……」只在上班的時候）*/
     return done(out); };
@@ -441,7 +442,7 @@ const INV=(function(){
     const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
     k=await GM.choose(to); if(k>=T.length) return null; const W=Object.assign({},T[k]);
     const NC=typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.inviteAdjust?NOODLE_CLOSED.inviteAdjust(G,id,W):null; if(NC) W.h=NC.h;   /* 麵店過年店休那一週約語彤（AA_333 C）：排到 18:00 以後、答應的那一句換掉 */
-    const r=S.personal(G,id,P,W.day,W.h,S.decide(G,id,P.id,W.day,W.h)), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
+    const r=S.personal(G,id,P,W.day,W.h,Object.assign(S.decide(G,id,P.id,W.day,W.h),n?{face:true}:{})), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
     const te=typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null;   /* 期末時段裡約吃飯＝期末的飯（BB_203 第 1 節第 13 點、AA_268）*/
     if(te&&te.refuse){ act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700); await GM.say(who,'「'+te.refuse+'」'); return null; }   /* 關係結束、還不能重新開始（C8、C9）*/
     act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700);

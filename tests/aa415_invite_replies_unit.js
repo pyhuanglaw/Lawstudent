@@ -153,7 +153,7 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   fresh('2026-03-10','heroine_02',3); const c1=ask('heroine_02','cafe',19);
   check('7. 芷若週二晚上上班：here「我就在 Café 啊。你來，我做給你。」',c1.res==='here'&&txt(c1.lines)==='「我就在 Café 啊。你來，我做給你。」',c1.res+' '+txt(c1.lines));
   fresh('2026-03-10','zhe',3); const z1=ask('zhe','noodle',12+10/60), z2=ask('zhe','noodle',17.5);
-  check('7. 阿哲（沒有 AA_415 的表）：照舊「好啊！我餓了。」、不記 G.invReply',txt(z1.lines)==='「好啊！我餓了。」'&&txt(z2.lines)==='「好啊！我餓了。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
+  check('7. 阿哲（沒有 AA_415 的表）：照舊同一句「好啊！那家的乾麵我可以吃兩碗。」（AA_194 第 4 節）、不記 G.invReply',txt(z1.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&txt(z2.lines)==='「好啊！那家的乾麵我可以吃兩碗。」'&&!(H.G.invReply&&H.G.invReply.zhe),txt(z1.lines)+' '+txt(z2.lines));
   const keep=globalThis.INVITE_REPLIES; globalThis.INVITE_REPLIES=undefined;
   try{ fresh('2026-03-11','heroine_01',2); const o1=ask('heroine_01','cafe',15.5), o2=ask('heroine_01','cafe',17.5);
     check('7. 沒有資料檔：照原本 INVITE_DATA（以安有點熟約 Café 兩次都是「可以。條件：……」）',txt(o1.lines)==='「可以。條件：我會帶東西來寫。」'&&txt(o2.lines)==='「可以。條件：我會帶東西來寫。」'); }

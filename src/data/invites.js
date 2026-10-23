@@ -53,17 +53,17 @@ const INVITE_DATA={
   soloPlaces:['teahouse'],   /* 一盞：kind 還是 reason（時段、熟度不變），但和散步、吃飯一樣「兩個人單獨」（AA_172 3b，回 BB_158 第 0 節）*/
   /* 保底的「交換聯絡方式」（AA_124 1-7）：對方的回應，每人一句（AA 的五位；BB 的人物 BB 寫，還沒有的用旁白，不替人物編台詞）*/
   exchange:{
-    heroine_01:[{say:'「好。……我傳給你的第一則會是筆記。不要回貼圖。」'}],
-    heroine_03:[{say:'「嗯。」'},{narr:'（她把手機推過來，畫面已經停在加好友那一頁。）'}],
+    heroine_01:[{say:'「好。」'},{narr:'（她把手機遞過來，自己先掃了你的。）'},{say:'「加了。」'}],   /* AA_194 第 4 節（使用說明 → 她做的事）*/
+    heroine_03:[{say:'「好。」'},{narr:'（她把手機推過來，畫面已經停在加好友那一頁。）'}],   /* AA_194 第 4 節（不用「嗯。」開頭）*/
     yu:[{say:'「欸你還不在我的群組裡？我拉你。三個。」'}],
-    classmate_bohan:[{say:'「好。我只傳考古題。……還有時間表。」'}],
-    classmate_xinci:[{say:'「好。我會傳讀書計畫表，你不用每一張都回。」'}],
+    classmate_bohan:[{say:'「好。」'},{say:'「你有在看考古題嗎？有的話我傳給你。」'}],   /* AA_194 第 4 節 */
+    classmate_xinci:[{say:'「我加你了。」'},{say:'「有缺講義的話跟我說，我都有拍。」'}],   /* AA_194 第 4 節 */
     /* BB 的人物（BB_120 1-7b，第②級）：每一句都是她／他在手機上的習慣 */
     heroine_02:[{say:'「好。……上班時間我不回。下班一次回完。」'}],
     heroine_04:[{say:'「你還沒有我的？好。我傳東西不解釋。」'}],
     classmate_peishan:[{say:'「好。我睡前常常想到問題。……你可以不回。」'}],
-    classmate_mingxuan:[{say:'「好啊。二四六晚上我在家教，九點以後回。哈哈」'}],
-    npc_fangyt:[{say:'「好。上山的時候沒有訊號，下山會一次回。」'}],
+    classmate_mingxuan:[{say:'「好。二四六晚上我在家教，九點以後才會回。」'}],   /* BB_172 M1（10-2 第 15 點）*/
+    npc_fangyt:[{say:'「好。」'},{narr:'（他的大頭貼是一棵樹。）'}],   /* BB_172 F1（10-2 第 15 點）*/
     classmate_youchen:[{say:'「好啊。週五我會丟一首歌，聽不聽隨你。」'}],
     npc_huangxh:[{say:'「好。我找受試者的時候，可以先問你嗎？」'}],
     npc_ta_chen:[{say:'「好。……有問題先問自己一次，再問我。」'}]
@@ -83,15 +83,16 @@ const INVITE_DATA={
      表上只寫描述、沒有台詞的格子（例：「答應；她點最便宜的那杯」）照舊用系統的旁白；看電影、唱歌、法服值班、系籃這幾列等系統有那個地點再接。*/
   people:{
     /* ---------- AA 的六位（AA_70 第 2 節） ---------- */
-    heroine_01:{ walk:{cafe:['「周老師今天那題，你是先想要件還是先想結論？……我都先想結論。我在改。」'],noodle:['「我手帳裡有一頁叫『想去但沒時間去的店』。公館有七家。」'],wenzhou:[{if:(G,c)=>c.year>=2,l:['「這條巷子我走過一百次。第一次看到那隻貓。」']}],any:['「宿舍門禁是十二點。我查過為什麼是十二點，沒有人說得出來。」']},   /* 以安：先講結論、要理由（2-1；BB_121 2-1）*/
+    heroine_01:{ walk:{cafe:['「你寫題目都先想要件，還是先想結論？我都先想結論，最近在改。」'],noodle:['「我手帳裡有一頁叫『想去但沒時間去的店』。公館有七家。」'],wenzhou:[{if:(G,c)=>c.year>=2,l:['「這條巷子我走過一百次。第一次看到那隻貓。」']}],any:['「宿舍門禁是十二點。我查過為什麼是十二點，沒有人說得出來。」']},   /* 以安：先講結論、要理由（2-1；BB_121 2-1）*/
       acc:{cafe:{A:['「可以。條件：我會帶東西來寫。」']},noodle:{A:['「……好。但我只吃一碗。」'],R:['「好。我要乾麵。」']},
         gym_badminton:['「羽球？好。我國中是校隊。……替補。」'],run_avenue:['「六點半？……好。我本來就六點起床。」']},   /* AA_417 3-3（第一次去也用這一句）*/   /* 認識約 Café、朋友約吃飯：AA 2026-10-14 改成她自己說的話（AA_70 2a0218d）*/
       here:{library:['「我本來就在總圖。二樓靠窗。」']},
       plan:{cafe:['「今天排滿了。……這個時間可以嗎？」'],noodle:(G,c)=>c.term&&c.term.id==='Y1S1'&&c.term.week<10?['「我跟 Alison 約了一起寫憲法作業。{明天？}」']:['「我跟 Alison 約了讀書會的事。{明天？}」']},   /* AA_238 5-7：公法讀書會大一上第 10 週才開始，以前是一起寫憲法作業 */
       rule:(G,c,I)=>{ if(c.pid!=='wenzhou'||c.r.res!=='accept') return null;   /* 大一：散步要有目的——她在手帳排一個「沒有目的」的時段（改天，但她真的排了）；大二以後「今天想」也是理由 */
+        if(c.year<=1&&!c.first) return {lines:['「好。」']};   /* AA_194 第 4 節（改規則）：大一只有第一次約散步（c.first）問「散步的目的是？」、改到隔天；之後照一般答應「好。」*/
         if(c.year<=1) return {res:'resched',why:'plan',lines:['「散步的目的是？」',{me:'「沒有目的。」'},'「……好。我在手帳排一個『沒有目的』的時段。」'],alt:I.nextFree(G,'heroine_01',c.P,c.day+1,10)};
         return {lines:['「好啊，剛好想走走。」']}; } },   /* AA_255 第 4 節第 7 點、AA_259 第 4 節第 7 點 */
-    heroine_03:{ walk:{noodle:['「這條路我從國中走到現在。那家修鞋店的老闆，三十年沒換過招牌。」'],wenzhou:['「這間老屋以前是一個教授住的。阿姨說他每天來吃一碗乾麵，二十年。」'],any:[{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','SHARED_MEAL'),l:['「阿姨說你吃東西很像在考試。很認真，又很怕吃錯。」']}],rain:['（她撐傘，傘偏向你那一邊，自己的肩膀濕了一半。）','「……沒事。我習慣了。」']},   /* 語彤：週二、週四晚上在阿鳳麵店幫忙（作息 help），其他時間在總圖三樓（2-2；BB_121 2-2：系統沒有反邀、改地點，先當婉拒）*/
+    heroine_03:{ walk:{noodle:['「這條路我從國中走到現在。那家修鞋店的老闆，三十年沒換過招牌。」'],wenzhou:['「這間老屋以前是一個教授住的。阿姨說他每天來吃一碗乾麵，二十年。」'],any:[{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','SHARED_MEAL'),l:['「阿姨說你吃東西很像在考試。很認真，又很怕吃錯。」']}],rain:['（她撐傘，傘偏向你那一邊，自己的肩膀濕了一半。）','「沒事啦。」']},   /* walk.rain 第二句：AA_194 第 4 節 */   /* 語彤：週二、週四晚上在阿鳳麵店幫忙（作息 help），其他時間在總圖三樓（2-2；BB_121 2-2：系統沒有反邀、改地點，先當婉拒）*/
       acc:{noodle:{A:['「……我阿姨的店？」','「好。阿姨會多給你一顆滷蛋。」']},gym_badminton:['「……我不太會。」','「好。你不要笑。」'],run_avenue:['「早上我要幫阿姨備料。……七點半以前可以。」']},   /* 羽球、晨跑：AA_417 3-3 */
       rule:(G,c,I)=>{ const r=c.r;
         if(r.res==='resched'&&r.why==='busy'&&r.act==='help') return c.pid==='noodle'?{res:'here',lines:['「我就在店裡。你來。」'],alt:null}:{res:'decline',why:'shop',lines:['「麵店。」','「你來店裡就好。」'],alt:null};
@@ -99,14 +100,14 @@ const INVITE_DATA={
         if(c.pid==='cafe'&&c.band==='A') return {res:'decline',why:'pricey',lines:['「……那裡很貴。」','「總圖可以。」']};
         if(c.pid==='wenzhou'&&c.first){ if(c.wd===6) return {lines:['「週六。我本來就在。」']}; return {res:'resched',why:'sat',lines:['「週六。我本來就在。」'],alt:I.nextSat(G,'heroine_03',c.P,c.day,15)}; }
         return null; } },
-    zhe:{ walk:{any:[['「這家以前是賣雞排的。」'],['「那家的老闆會記得你點什麼，只要你去三次。」'],['「你知道公館哪家滷味十點後半價嗎？……我知道三家。」']]}, acc:{noodle:['「好啊！我餓了。」']} },   /* 阿哲（2-3；BB_121 2-3：揪人的那句等群體邀約）*/
+    zhe:{ walk:{any:[['「這家以前是賣雞排的。」'],['「那家的老闆會記得你點什麼，只要你去三次。」'],['「你知道公館哪家滷味十點後半價嗎？……我知道三家。」']]}, acc:{noodle:['「好啊！那家的乾麵我可以吃兩碗。」']} },   /* AA_194 第 4 節（和阿凱「好 我餓了」撞）*/   /* 阿哲（2-3；BB_121 2-3：揪人的那句等群體邀約）*/
     yu:{ acc:{library:['「總圖喔……好啊，可是我會一直想跟你講話。」']} },   /* Alison（2-4；大三以後「今天是我的晚上」等她那個晚上的作息）*/
     classmate_bohan:{   /* 柏翰：總圖秒答應；其他地方「我要念書」，改到念完的時間（2-5；BB_121 2-5）*/
       rule:(G,c,I)=>{ if(c.pid==='library'||c.r.res!=='accept'||c.h>=21+10/60) return null; const a=I.freeAt(G,'classmate_bohan',c.P,c.day,21+10/60)?{day:c.day,h:21+10/60}:I.nextFree(G,'classmate_bohan',c.P,c.day,21+10/60);
-        return {res:'resched',why:'study',lines:[a?'「我要念書。……{zh}可以。」':'「我要念書。」'],alt:a}; } },
+        return {res:'resched',why:'study',lines:[a?'「我要念書，{zh}可以。」':'「我要念書。」'],alt:a}; } },   /* AA_194 第 4 節：拿掉中間的「……」*/
     classmate_xinci:{   /* 芯慈：吃飯要提前一天約（2-6；BB_121 2-6，她個人的規則）*/
-      rule:(G,c,I)=>{ if(c.pid!=='noodle'||c.r.res!=='accept') return null; if(c.day>G.day) return {lines:['「我要先算時間。……好，可以。」']};
-        return {res:'resched',why:'early',lines:['「我要先算時間。……好，可以。」'],alt:I.nextFree(G,'classmate_xinci',c.P,c.day+1,12+10/60)}; } },
+      rule:(G,c,I)=>{ if(c.pid!=='noodle'||c.r.res!=='accept') return null; if(c.day>G.day) return {lines:['「好，我記一下。」']};   /* AA_194 第 4 節（改規則，只改字；判斷不變）：約之後的日子／約今天 */
+        return {res:'resched',why:'early',lines:['「今天的我都排好了，{zh}可以嗎？」'],alt:I.nextFree(G,'classmate_xinci',c.P,c.day+1,12+10/60)}; } },
     /* ---------- BB 的人物（BB_70 第 1～7 節） ---------- */
     heroine_02:{ walk:{noodle:[['「我每次經過那家影印店都會看一眼。我家也是影印店。台中的。」','「……我媽一張一塊，這家一張一塊半。」'],['（她看到騎樓下的電影海報。）','「這部不要看。……好啦你可以看，但不要跟我說你喜歡。」']],library:['「你們法律系的書好厚。我們的書很薄，但要讀三遍。」'],
         wenzhou:[{once:'ZR_FILM_ASK',l:['「我覺得這條巷子很適合拍電影。你覺得要拍什麼？……猜錯三次我就說我的答案。」'],ch:[{t:'愛情片。',r:['「太簡單了。」']},{t:'恐怖片。',r:['「晚上確實有一點。不是。」']},{t:'什麼都沒發生的片。',r:['「……你偷看我的筆記本？」']}],after:['「一個人每天走這條巷子去上班。什麼都沒發生。只是每天的光不一樣。」']}],   /* BB_70 Café → 溫州街（選項，見面前選）*/
@@ -158,19 +159,22 @@ const INVITE_DATA={
         if(c.pid==='library') return {res:'here',lines:['「我就在總圖。三樓。不要講話，傳訊息。」'],alt:null};
         if(c.pid==='cafe'||c.pid==='wenzhou') return {res:'resched',why:'busy',lines:[c.pid==='cafe'?'「五點以後好不好？我要先把這段寫完。」':'「五點以後。……散步，我試試看。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};
         return null; } },
-    kai:{ walk:{any:[{if:(G,c)=>c.year<=1,l:['「宿舍網路又斷了 你們有教這個嗎」']}],
-        noodle:[{if:(G,c)=>c.year<=1,once:'KAI_SCOOTER_ASK',l:['「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」'],ch:[{t:'不一定是告，可以請警察來看',r:['「所以告跟叫警察不一樣 好 我學到一件事」']},{t:'你想告誰',r:['「沒有 我只是想知道我有沒有這個能力」']},{t:'先讓我吃完',r:['「好 你吃 ……吃完了嗎」']}]}]},   /* BB_70 4-5（大一上；「先讓我吃完」＝去吃飯的路上）*/   /* 阿凱（4-4）：他的句子沒有標點 */
-      acc:{brunch:['「十二點 好 那是我的早餐」'],teahouse:['「茶屋要脫鞋嗎 好 我襪子有洞」'],cafe:{A:['「那裡沒有插座給我嗎」']},noodle:['「好 我餓了」']},
-      first:{wenzhou:['「散步要幹嘛」','（你說那裡有貓。）','「好」']},
-      rule:(G,c,I)=>{ if(c.pid==='brunch'&&c.r.res==='accept'&&c.h<12){ const h2=12+10/60; return {res:'resched',why:'sleep',lines:['「早上 不行 我在睡」'],alt:I.freeAt(G,'kai',c.P,c.day,h2)?{day:c.day,h:h2}:null}; }   /* BB_158 第 6 節：半熟早上改 12:10 */
+    kai:{ walk:{any:[{if:(G,c)=>c.year<=1,l:['「我們那層的洗衣機又壞了，我衣服已經堆三天了。」']}],   /* BB_172 K1（當面說的加標點；不和宿舍隨機句撞）*/
+        noodle:[{if:(G,c)=>c.year<=1,once:'KAI_SCOOTER_ASK',l:['「欸，你們法律系的，路邊機車停在騎樓擋路，可以告嗎？」'],ch:[{t:'不一定是告，可以請警察來看',r:['「喔，所以告跟叫警察不一樣。好，我學到了。」']},{t:'你想告誰',r:['「沒有啦，我只是想知道我能不能。」']},{t:'先讓我吃完',r:['「好，你吃。」','（過了十秒）','「……吃完了嗎？」']}]}]},   /* BB_172 K2 */   /* BB_70 4-5（大一上；「先讓我吃完」＝去吃飯的路上）*/   /* 阿凱（4-4）：他的句子沒有標點 */
+      /* 手機／當面兩版（BB_172 第 10 節 10-1 第 17 點：手機照他的訊息體、沒有標點；當面加標點）：{phone, face}，INV.personal 照有沒有當面（c.face）選 */
+      acc:{brunch:{phone:['「十二點 好 那是我的早餐」'],face:['「十二點？好，那是我的早餐。」']},teahouse:{phone:['「茶屋要脫鞋嗎 好 我襪子有洞」'],face:['「茶屋要脫鞋嗎？……好，我襪子有洞。」']},
+        cafe:{A:{phone:['「那裡有插座嗎 我要帶電腦」'],face:['「那裡有插座嗎？我要帶電腦。」']}},noodle:{phone:['「走 我剛好還沒吃」'],face:['「走，我剛好還沒吃。」']}},   /* K3、K4（10-2 第 10 點）、K5、K6（10-1 第 15 點）*/
+      first:{wenzhou:{phone:['「散步要幹嘛」','（你說那裡有貓。）','「好」'],face:['「散步要幹嘛？」','（你說那裡有貓。）','「好。」']}},   /* K7 */
+      rule:(G,c,I)=>{ if(c.pid==='brunch'&&c.r.res==='accept'&&c.h<12){ const h2=12+10/60; return {res:'resched',why:'sleep',lines:c.face?['「早上不行，我在睡覺。」']:['「早上 不行 我在睡」'],alt:I.freeAt(G,'kai',c.P,c.day,h2)?{day:c.day,h:h2}:null}; }   /* BB_158 第 6 節：半熟早上改 12:10 */
         if(c.pid!=='library'||c.r.res!=='accept') return null; const ex=!!(c.term&&[7,8,9,15,16].includes(c.term.week));   /* BB_172 K9（AA_209 第 4 節）*/   /* 朋友以上：考前一週、考試週答應 */
-        if(c.band==='R'&&ex) return null; return {res:'decline',why:'sleepy',lines:['「總圖我會睡著」','「考前一週我會去 真的」']}; } },
-    classmate_mingxuan:{ walk:{any:[['「我家教的學生問我，念法律是不是要背很多東西。」','「我說，要背，但更要會吵架。他說那他適合。」'],['「我爸昨天傳訊息問我『籃球的三分線是畫在哪裡』。」','「他在看我們比賽的直播。……他還是看不懂。」'],['「這條路我每週走三次。家教、宿舍、家教。……好啦，還有籃球場。」']]},   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
-      acc:{brunch:['「早午餐？哈哈 CP 值不高喔……好啦 週末可以」'],teahouse:['「一盞？哈哈 我很少喝茶 我爸喝 好啊」'],cafe:{A:['「好。但我只能待一小時。」']},noodle:['「阿鳳是公館 CP 值第一名。我研究過。」'],wenzhou:['「散步不用錢，好。」']},
+        if(c.band==='R'&&ex) return null; return {res:'decline',why:'sleepy',lines:c.face?['「總圖我會睡著。」','「考前一週我會去，真的。」']:['「總圖我會睡著」','「考前一週我會去 真的」']}; } },   /* K8、K9 當面版（BB_172 10-1 第 17、8 點；週次 [7,8,9,15,16] 已經照改）*/
+    classmate_mingxuan:{ walk:{any:[['「我家教那個學生問我，念法律是不是要背很多東西。」','「我跟他說，要背，背完還要會用。」'],['「我爸之前傳訊息問我『籃球的三分線是畫在哪裡』。」','「他在看我們比賽的直播。……到現在還是看不懂。」'],['「這條路我每個禮拜都走好幾次，去家教都走這邊。」']]},   /* BB_172 M2（10-1 第 16 點）、M3（10-1 第 7 點）、M4 */   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
+      acc:{brunch:{phone:['「早午餐？哈哈 CP 值不高喔……好啦 週末可以」'],face:['「早午餐？CP 值不高喔……好啦，週末可以。」']},teahouse:{phone:['「一盞？哈哈 我很少喝茶 我爸喝 好啊」'],face:['「一盞？我很少喝茶，我爸才喝。……好啊。」']},
+        cafe:{A:['「好。但我只能待一小時。」']},noodle:['「走啊，阿鳳便宜又大碗。」'],wenzhou:['「可以啊。走一走也好，我最近都坐著。」']},   /* BB_172 M5、M6（手機／當面，10-1 第 17 點）、M8、M9（10-2 第 1 點）*/
       rule:(G,c,I)=>{ const tut=[2,4,6].includes(c.wd)&&c.h+c.P.stay>19&&c.h<21; if(c.r.res!=='accept'||!tut) return null;
-        if(c.pid==='cafe') return {res:'resched',why:'tutor',lines:['「九點以後」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day,21)};
-        if(c.pid==='library') return {res:'resched',why:'tutor',lines:['「七點家教，六點半前可以」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day+1,10)};
-        if(c.pid==='noodle'){ const a=I.nextFree(G,'classmate_mingxuan',c.P,c.day,21.5); return {res:'resched',why:'tutor',lines:[a&&a.day===c.day?'「家教完，{zh}，便宜的那家」':'「九點以後」'],alt:a}; }
+        if(c.pid==='cafe') return {res:'resched',why:'tutor',lines:[c.face?'「那時候我在家教，九點以後可以。」':'「那時候我在家教 九點以後可以」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day,21)};   /* BB_172 M10（10-2 第 3 點）*/
+        if(c.pid==='library') return {res:'resched',why:'tutor',lines:[c.face?'「我七點要家教，{zh}可以嗎？」':'「我七點要家教 {zh}可以嗎」'],alt:I.nextFree(G,'classmate_mingxuan',c.P,c.day+1,10)};   /* M11（10-1 第 1 點：alt 只往後找，用 {zh}）*/
+        if(c.pid==='noodle'){ const a=I.nextFree(G,'classmate_mingxuan',c.P,c.day,21.5); return {res:'resched',why:'tutor',lines:[a&&a.day===c.day?(c.face?'「家教完，{zh}，吃便宜的那家。」':'「家教完 {zh} 吃便宜的那家」'):(c.face?'「那天我要家教，{zh}可以嗎？」':'「那天我要家教 {zh}可以嗎」')],alt:a}; }   /* M12（10-1 第 2 點）*/
         return null; } },
     classmate_peishan:{ afterMeet:(G,iv,pid)=>pid==='library'&&typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(iv.day)==='Y2S2'&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_p4b')?[G.flags.PS_P4B_GROUP?'（她遞過來一張便條：「今天念了 42 頁。你們呢？」）':'（她遞過來一張便條：「今天念了 42 頁。你呢？」）']:null,   /* P4b（BB_97 4-4）：大二下週末陪她在總圖念，每次一張便條（小組版寫「你們呢？」）*/
       walk:{any:[{once:'PS_LAW_ASK',l:['「如果一條法律大家都不遵守，它還是法律嗎？」'],
@@ -205,6 +209,6 @@ const INVITE_DATA={
         run_avenue:{during:[['「跑到傅鐘不要停。跑回來才算。」'],['「我不喘。……我在講話，所以我不喘。」'],['「早上的台大好安靜。山上的鳥比較吵。」']],end:['「早餐我知道一家。走。」']}},   /* AA_417 3-2：一起的時候三句輪流、結束 */   /* BB_158 第 5 節（她在政大：時間照她的作息；2026-10-17 BB-C 改稿：不再每句「假設」）*/
       firstAt:{gym_badminton:G=>(G.stage||'law')==='law'?['「我高中打過一學期。這是告知，不是警告。」']:null,run_avenue:G=>(G.stage||'law')==='law'?['「六點二十五分。我先到了。」']:null,   /* AA_417 3-2 的 first */
         brunch:['「蛋可以選熟度欸。……我要半熟。」'],teahouse:['「我們學校後山也有茶園欸。」','「不過這邊的院子比較安靜。」']} },
-    npc_fangyt:{ walk:{any:[['「椰林大道的大王椰子，一年會掉好幾次葉子。很重。所以不要站在樹下講太久的話。」'],['「這棵是樟樹。這棵是菩提。那棵……我不知道。我會去查。」'],{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_02','FIRST_MET'),l:['「芷若高中的時候……算了。你自己問她。」']}]}, acc:{brunch:['「好。早上我本來就起得早。」'],teahouse:['「好。安靜的地方，我比較會說話。」'],cafe:['「Café 的窗台有一盆植物快死了。我一直想去救它。好。」'],library:['「總圖前面的樟樹是我最喜歡的。我在樹下等你。」'],wenzhou:['「溫州街有一棵很老的榕樹。我帶你去。」']} }   /* 方奕廷（7-4）*/
+    npc_fangyt:{ walk:{any:[['「椰林大道的大王椰子，葉子一片好幾公斤，掉下來會砸傷人。」','「走那邊我都走中間。」'],['「這棵是樟樹。這棵是菩提。那棵……我不知道欸，我回去查。」'],{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('npc_fangyt','FANG_HINT'),l:['「芷若高中就這樣，下課都是她在講。」']}]},   /* BB_172 F2（10-1 第 12 點）、F3、F4（10-1 第 9 點：改條件，看過 Z6「隔壁房的人記得的事」＝FANG_HINT 才放）*/ acc:{brunch:['「好。早上我本來就起得早。」'],teahouse:['「好。聽說那邊院子有一棵很老的樟樹，我想去看看。」'],cafe:['「好。順便看一下 Café 窗台那盆植物。」'],library:['「好。我在總圖門口等你。」'],wenzhou:['「溫州街有一棵很老的榕樹。我帶你去。」']} }   /* 方奕廷（7-4）；Café、總圖、一盞：BB_172 F6～F8（10-2 第 1 點）*/
   }
 };
