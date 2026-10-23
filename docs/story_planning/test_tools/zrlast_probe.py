@@ -1100,7 +1100,7 @@ R5 = [
   dict(id='AL42_MISS', key='2027-06-11', h=19.0, zone='campus', flags=dict(TW3, met_yu=True), js=NOKX, steps=[('jsrun', YUD, 'TERMEND.dinner（Alison 大二下期末吃飯）'), CAMP_JUMP, ('until', 21.3)], pref=['「我去探班。」', '不去了'],
        wantMsg=['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）', '小隊長還活著！'], none=CAMP2[:1], jsok=[('不報名系學會的高中營 C02', C02Q, False)]),
 ]
-SAYH = " if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; }"   # 3D 對話框（不是 ADV）的台詞也記下來：店員、館員、公園（ADV 裡的照舊由 ADV.log 記，不重記）
+SAYH = " if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; } if(!window.__TOBS){ const te=document.getElementById('toast'); if(te&&window.MutationObserver){ window.__TOBS=1; let lt=''; new MutationObserver(()=>{ const s=(te.textContent||'').trim(); if(s&&s!==lt){ lt=s; try{ window.__LOG.push({n:'TOASTD',t:'TOASTD:'+s,h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} } }).observe(te,{childList:true,characterData:true,subtree:true}); } }"   # BB-B 15:4x：畫面上的提示框也記（TOASTD）：game3d.js 的 addNote 叫內部的 toast()，不經過 GAME.toast，📓 筆記那一則原本記不到｜3D 對話框（不是 ADV）的台詞也記下來：店員、館員、公園（ADV 裡的照舊由 ADV.log 記，不重記）
 for _sc in R5: _sc['js'] = SAYH + _sc.get('js', '')
 SCENS = SCENS + R5
 # ---------------------------------------------------------------- 清單第 43、44、48 項（LAWWW-B BB_SIS_B6_1023.md；開發分支 375e90903；BB-B 10-23）
@@ -1219,7 +1219,7 @@ MONEYD = "(GAME.G.money|0)-(window.__MA|0)"
 def FAVR(i): return "!!FAV.right(GAME.G,%s)" % json.dumps(i)
 def NOTEQ(i): return "(GAME.G.notes||[]).some(n=>n.id==='fav_'+%s)" % json.dumps(i)
 def MEMQ(i, tag): return "!!SOCIAL.has(%s,%s)" % (json.dumps(i), json.dumps(tag))
-def NOTE_T(i): return 'TOAST:📓 筆記：' + FAVL['note'][i]
+def NOTE_T(i): return '📓 筆記：' + FAVL['note'][i]   # TOAST（GAME.toast）或 TOASTD（畫面上的提示框）都算
 GE1 = lambda n: isinstance(n, int) and n >= 1
 R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"
 def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
