@@ -161,7 +161,7 @@ await sec('W1',async()=>{ let G=w208('2028-09-16',14.5);
   const r=await play([0]);
   check('W1. 進 208 先演 3-1「備忘錄」：台詞逐字、選項兩個、選「那要搬到前面嗎？」',r===true&&J(H.said.map(s=>s.t))===J(W['3-1'].concat(W['3-1a']))&&J(H.opts[0])===J(OPTS['3-1']),J(L()));
   check('W1. 她說話框的名字是「書瑀」（交往中，AA_411）',J(who())===J(['書瑀']),J(who()));
-  check('W1. 背景：208（us_shared_kitchen）；地點字幕「C 棟 208」；開頭不出標題字卡',H.bgs.some(b=>J(b)===J(OUT.bg('us_shared_kitchen')))&&capt.includes('C 棟 208')&&!capt.includes(MEM['3-1'][1]),J([H.bgs,capt]));
+  check('W1. 背景：照 US2（模糊的 3D 208，blur；不換成黑底的圖）；不出標題字卡、地點字幕',J(H.bgs)===J(['blur'])&&!capt.includes(MEM['3-1'][1])&&!capt.length,J([H.bgs,capt]));
   check('W1. 記憶 US208_MEMO（不另外加數值）；記這個週末',SOCIAL.has(S5,'US208_MEMO')&&G.flags.US208_WK===D('2028-09-16')&&!!G.events.done.ev_us208_memo);
   H.said=[]; const r2=await play(); check('W1. 同一天再進 208：不再演',r2===false&&!H.said.length);
   at('2028-09-17',15); check('W1. 同一個週末的週日（9/17）：不演（一個週末最多一場）',US208.due(G)===null&&(await play())===false);
