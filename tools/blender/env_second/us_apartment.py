@@ -94,7 +94,7 @@ tex_curtain(os.path.join(GEN, 'us_curtain.png')); tex_view(os.path.join(GEN, 'us
 
 P = 'usa_'
 M = {
-    'wood': L.pbr(P + 'wood_floor', 'laminate_floor_02', tile=1.6, target='#7a4a32', normal=0.4, maps=('diff', 'nor', 'rough'), rough_value=0.45),
+    'wood': L.pbr(P + 'wood_floor', 'laminate_floor_02', tile=1.6, target='#cfb796', normal=0.4, maps=('diff', 'nor', 'rough'), rough_value=0.45),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
     'carpet': L.pbr(P + 'carpet', 'dirty_carpet', tile=1.2, target='#b3aba0', sat=0.1, normal=0.5, maps=('diff', 'nor')),   # sat 0.1：原貼圖的黃色斜紋（毛髮、污漬）在米灰地毯上太明顯
     'tile': L.pbr(P + 'bath_tile', 'rounded_square_tiled_wall', tile=0.6, target='#e8e6e0', normal=0.4, maps=('diff', 'nor'), rough_value=0.3),
     'wall': L.pbr(P + 'wall', 'painted_plaster_wall', tile=2.5, target='#e3d3b4', normal=0.15, maps=('diff', 'nor')),

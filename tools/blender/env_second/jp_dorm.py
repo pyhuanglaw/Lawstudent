@@ -78,7 +78,7 @@ class Room(K.Shop):
         self.root = B.group(rid, props={'kind': rid, 'layout': f'{rid}.layout.json'})
         self.blocks, self.seats, self.inter = [], [], []; self.clerk = self.order = self.counter = None
         self.M = M = {
-            'floor': L.pbr(f'{rid}_floor', 'laminate_floor_02', tile=1.6, target='#8f6442', contrast=1.0, normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.38),
+            'floor': L.pbr(f'{rid}_floor', 'laminate_floor_02', tile=1.6, target='#d3bf9c', contrast=1.0, normal=0.3, maps=('diff', 'nor'), res=512, rough_value=0.38),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
             'wall': L.pbr(f'{rid}_wall', 'white_plaster_02', tile=1.6, target='#e6e0d4', contrast=0.3, normal=0.1, maps=('diff', 'nor'), res=256, rough_value=0.88),
             'wood': L.pbr(f'{rid}_wood', 'wood_table_001', tile=0.5, target='#b8916a', contrast=0.55, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.45),
             'tile': L.pbr(f'{rid}_genkan', 'floor_tiles_06', tile=0.6, target='#9a968e', contrast=0.8, normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.5),

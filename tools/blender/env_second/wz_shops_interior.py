@@ -186,7 +186,7 @@ def pendant(x, z, y=2.3, shade='black', bulb_r=0.06, glow=True, kind='cone'):
 
 # ======================================================================
 def build_brunch():
-    M.update({'floor': L.pbr(P + 'oak_floor', 'laminate_floor_02', tile=1.6, target='#b89670', normal=0.5, maps=('diff', 'nor'), rough_value=0.55),
+    M.update({'floor': L.pbr(P + 'oak_floor', 'laminate_floor_02', tile=1.6, target='#d0b791', normal=0.5, maps=('diff', 'nor'), rough_value=0.55),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
               'tile': L.pbr(P + 'subway', 'long_white_tiles', tile=0.8, target='#eeece6', normal=0.6, maps=('diff', 'nor'), rough_value=0.3),
               'paint': L.flat(P + 'paint_cream', '#f3ede2', rough=0.85), 'ceil': L.flat(P + 'ceiling', '#f4efe6', rough=0.9, cull=True),
               'board': img_mat(P + 'board', 'brunch_board.png', rough=0.85), 'clock': img_mat(P + 'clock', 'clock_face.png', rough=0.5),
@@ -385,7 +385,7 @@ def note_uv(cell):
 
 # ======================================================================
 def build_teahouse():
-    M.update({'planks': L.pbr(P + 'planks', 'dark_planks', tile=1.6, target='#6e4e34', normal=0.5, maps=('diff', 'nor'), rough_value=0.5),
+    M.update({'planks': L.pbr(P + 'planks', 'dark_planks', tile=1.6, target='#c9b08c', contrast=0.7, normal=0.5, maps=('diff', 'nor'), rough_value=0.5),   # 地板改淺色（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）
               'tatami': img_mat(P + 'tatami', 'tatami_weave.png', rough=0.85), 'heri': L.flat(P + 'heri', '#24302a', rough=0.8),
               'plaster': L.pbr(P + 'jurakukabe', 'white_plaster_02', tile=1.0, target='#d9c9a6', contrast=0.4, normal=0.5, maps=('diff', 'nor'), res=256, rough_value=0.95),   # contrast 0.4：照片的大塊污漬在遊戲裡像髒牆，聚樂壁是細砂的乾淨土牆
               'post': L.pbr(P + 'post', 'dark_wood', tile=0.8, target='#4a3222', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),

@@ -1,0 +1,83 @@
+diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
+index 5bfbaee53..b436d68db 100644
+--- a/src/data/wz_shops_layout.js
++++ b/src/data/wz_shops_layout.js
+@@ -90,7 +90,7 @@ const WZ_SHOPS_LAYOUT = {
+   },
+   teahouse: {
+     id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/wz_teahouse_interior.glb',
+-    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_dark', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
++    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_light', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
+     note: '主屋約 8×10 m＋緣側（AA_164 2-3）。左前是玄關；前面一條緣側對著前院（樟樹、石板、竹掃把）；中間木地板的茶席（長桌、六個位子）；右邊是水屋（茶罐、電熱水壺、沙漏）；後面兩間榻榻米和室（各一張矮桌、四個坐墊），中間紙拉門關著。',
+     front: {door: {x: -3.0, w: 1.0, note: '玄關（從前院的石板路進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的紙拉門：拉開收在兩端'}},
+     spawn: {x: -3.0, z: 4.2, yaw: Math.PI},
+@@ -179,7 +179,7 @@ const WZ_SHOPS_LAYOUT = {
+   },
+   teishoku: {
+     id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
+-    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_dark',
++    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_light',   // 淺色木地板（使用者 10-23：不要深色木地板）
+     note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
+     front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
+     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
+diff --git a/src/jp_dorm3d.js b/src/jp_dorm3d.js
+index cb0478751..a0775e5c3 100644
+--- a/src/jp_dorm3d.js
++++ b/src/jp_dorm3d.js
+@@ -17,7 +17,7 @@
+   function exitTo(X){ return (typeof Z3.ZONES[X.to]!=='undefined')?{to:X.to,spawn:X.spawn||null}:{to:'jp_hub',spawn:null}; }   /* 下一階段的區域還沒有：回 2D 的據點 */
+   function zoneFor(id){ const L=JP_DORM_LAYOUTS[id], WIN=L.windows;
+     return { id, name:L.name, indoor:true, camDist:L.cam_dist||3.2, build(E){ const Bd=L.bounds, H=L.h||2.5, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+-      const z=Z3.room(E,{w:W,d:D,h:H,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#e6e0d4',floorTex:W3.stoneTex('#8f6442'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
++      const z=Z3.room(E,{w:W,d:D,h:H,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#e6e0d4',floorTex:W3.stoneTex('#d3bf9c'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+       for(const w of z.walls) w.visible=false; z.walls.length=0;
+       /* 導航格往西偏 0.2 m（多一欄）：書桌（離牆 0.61）和床（寬 1.0）中間的走道 1.19 m，格子照房間邊界排的話，走道正中間沒有一欄格子，
+diff --git a/src/rooms_glb3d.js b/src/rooms_glb3d.js
+index 264b2641a..cba3be309 100644
+--- a/src/rooms_glb3d.js
++++ b/src/rooms_glb3d.js
+@@ -24,7 +24,7 @@
+   if(typeof Z3!=='undefined') Z3.roomGlbLook=lookText;   /* 測試、除錯用 */
+   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
+     return { id, name:L.name, indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+-      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#9c7a58'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
++      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+       for(const w of z.walls) w.visible=false; z.walls.length=0;
+       const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
+diff --git a/src/us3d.js b/src/us3d.js
+index 6b8e6df61..307c20a14 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -138,7 +138,7 @@ const US3=(function(){
+      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
+   function aptZone(o){ return { id:o.id, name:o.name, indoor:true, camDist:3.6, seeThru:true, build(E){ const L=o.layout(), H=L.ceilY||2.6;
+     const openRoom=id=>{ const r=L.rooms.find(q=>q.id===id); return !r||(r.walk!==false&&!APT_CLOSED.has(r.id)); };
+-    const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#b48a64'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
++    const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#cfb796'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
+     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+     for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
+     z.nav=aptNav(L); aptFallback(L,fb);
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 94a387335..a0b1ac5a8 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1465,7 +1465,7 @@ const Z3 = (function(){
+     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
+     return root; }
+   // ---------- 書店 ----------
+-  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor2',256,256,(x,w,h)=>{ x.fillStyle='#b98a5f'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(60,30,10,0.3)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
++  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
+     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
+     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+     shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:4.05,radius:1.1,label:'看看法律書與文具',shop:'book'});   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
+@@ -1613,7 +1613,7 @@ const Z3 = (function(){
+      做法照麵店：room() 的空房間＋家具色塊是備用（D38 ③），正式模型 bldg.wz_*_interior 載入後整組藏起來（attachRoomGLB：WALL_ 淡出牆）。
+      一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
+      這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
+-  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#7d5c40',mosaic:'#a7aeaa'};
++  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#c9b08c',mosaic:'#a7aeaa'};   /* 淺色木地板（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）*/   /* wood_dark 原本 #7d5c40；溫州街店家的配置已改成 wood_light，這個鍵留著相容 */
+   function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
+       const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
+       const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/
