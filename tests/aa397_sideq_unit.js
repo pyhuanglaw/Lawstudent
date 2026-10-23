@@ -32,7 +32,7 @@ const inPark=()=>{ const L=WZ_PARK_LAYOUT.area.back; E.player.obj.position.x=(L.
 
 (async()=>{
 let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'}); doc=cp.execSync('git show 8f1701b23:"docs/story_planning/AA_397_店員的支線_順手的事.md"',{cwd:H.ROOT,encoding:'utf8'})+doc408
-  +cp.execSync('git show 30bf21de8:"docs/story_planning/AA_404_店員的支線_第二批.md"',{cwd:H.ROOT,encoding:'utf8'})+cp.execSync('git show 1fa2b494a:"docs/story_planning/AA_405_店員的支線_第三批.md"',{cwd:H.ROOT,encoding:'utf8'})
+  +cp.execSync('git show 30bf21de8:"docs/story_planning/AA_404_店員的支線_第二批.md"',{cwd:H.ROOT,encoding:'utf8'})+cp.execSync('git show f923751c:"docs/story_planning/AA_405_店員的支線_第三批.md"',{cwd:H.ROOT,encoding:'utf8'})
     +cp.execSync('git show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'});   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');

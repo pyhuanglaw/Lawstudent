@@ -1844,9 +1844,9 @@
   },
   {
    "path": "docs/story_planning/AA_405_店員的支線_第三批.md",
-   "sha": "1fa2b494a",
+   "sha": "f923751c",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 子代理實作 src/sideq3d.js（合併 9aaf64787）",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 子代理實作 src/sideq3d.js（合併 9aaf64787）；f923751c 第 3 節 SQ16 補充",
    "task": "SIDEQ-AA404-1023",
    "kind": "text"
   },

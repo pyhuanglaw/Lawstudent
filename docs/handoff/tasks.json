@@ -30678,7 +30678,7 @@
    "title": "SQ16 輪轉單車：兩年沒人來牽的車（AA_405；店門口互動點已有）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -30690,14 +30690,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "AA_405（1fa2b494a）SQ16；AA_408 第 1 節過期一句",
+   "source": "AA_405（1fa2b494a）SQ16；AA_408 第 1 節過期一句；AA_405 第 3 節（f923751c）",
    "authorized": "D109、D111",
-   "pausedBy": "LAWWW-B",
-   "pausedReason": "車行沒有點餐，觸發條件、老闆平常的招呼、登山社大二以後的社課、問社團那一步的字、回車行的結果句、期限、痕跡的名字稿裡沒有",
-   "owner2": "AA",
-   "resumeWhen": "AA 回 AA_405 補充節",
-   "recheckOn": "2026-10-25",
-   "next": "【LAWWW-B 10-23 14:1x】問 AA 七項（觸發、招呼、登山社社課、問社團的字與說話框、結果句、期限、痕跡名字）；SIDEQ.bikeShop 先不定義（按鈕不出現）"
+   "next": "【LAWWW-B 10-23 14:3x】做完：公館「找車行老闆」一天一次、第 5 次起開口；招呼兩句輪流；普通 201 門口週四 19:30～21:00「問登山社的人」（第 5～15 週，SQ16 進行中）；回車行做完；隔天紙條；每學期換名字（五個）；過期「那台車我拆了」；tests/sq_traces_unit.js 第 4 節；BB 清單第 54 項 ｜ 【LAWWW-B 10-23 14:1x】問 AA 七項（觸發、招呼、登山社社課、問社團的字與說話框、結果句、期限、痕跡名字）；SIDEQ.bikeShop 先不定義（按鈕不出現）"
   }
  ]
 }

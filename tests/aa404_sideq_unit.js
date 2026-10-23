@@ -40,7 +40,7 @@ let d404='', d405='', d408='', d408b=''; const sh=(c,f)=>cp.execSync('git show '
 try{ d404=sh('30bf21de8','AA_404_店員的支線_第二批.md'); d405=sh('1fa2b494a','AA_405_店員的支線_第三批.md'); d408=sh('29e41dd8','AA_408_店員支線補字_回LAWWW實作問題.md'); d408b=sh('b0b80a54','AA_408_店員支線補字_回LAWWW實作問題.md'); }catch(e){}
 const doc=d404+d405+d408+d408b, IDS=['SQ10','SQ11','SQ12','SQ13','SQ14','SQ15','SQ17','SQ18','SQ19','SQ20'];
 /* ---- 0 稿 ---- */
-await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在（SQ16 不做）',ok&&!!X()&&IDS.every(id=>X().Q[id]&&X().LINES[id])&&!X().Q.SQ16,err||J(Object.keys((X()||{Q:{}}).Q)));
+await sec(0,()=>{ check('0. sideq3d.js 載得到；第二、三批十則都在（SQ16 輪轉單車 2026-10-23 AA_405 第 3 節以後也有：tests/sq_traces_unit.js 第 4 節）',ok&&!!X()&&IDS.every(id=>X().Q[id]&&X().LINES[id])&&!!X().Q.SQ16,err||J(Object.keys((X()||{Q:{}}).Q)));
   const out=[]; const walk=v=>{ if(v==null) return; if(typeof v==='string'){ if(!/^[a-z_0-9]+$/.test(v)) out.push(v); } else if(Array.isArray(v)) v.forEach(walk); else if(typeof v==='object') for(const k in v) walk(v[k]); };
   for(const id of IDS) walk(X().LINES[id]);
   const win=PARK.LINES.CHESS.win.map(a=>a[0]);   /* SQ18 下的那一盤：WZ-P3 的象棋（AA_171），不在這兩份稿 */
