@@ -551,7 +551,7 @@ def goods():
         from PIL import Image
         full = CG.make_atlas(os.path.join(tempfile.gettempdir(), 'wz_goods_atlas_full.png')); out = os.path.join(GEN, 'wz_goods_atlas.jpg')
         Image.open(full).convert('RGB').resize((1024, 1024), Image.LANCZOS).save(out, quality=88)   # 隔著玻璃 3～8 m：一格 64 px 就夠
-        m = bpy.data.materials.new('wz_goods_atlas'); m.use_nodes = True; nt = m.node_tree   # 不受場景光（和店內一樣，見 IN_VC）
+        m = bpy.data.materials.new('wz_in_goods'); m.use_nodes = True; nt = m.node_tree   # 不受場景光（和店內一樣，見 IN_VC）
         for n in list(nt.nodes):
             if n.type != 'OUTPUT_MATERIAL': nt.nodes.remove(n)
         tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(out); tx.image.pack(); nt.links.new(tx.outputs['Color'], nt.nodes['Material Output'].inputs['Surface'])
@@ -595,7 +595,7 @@ def _unlit_vc(name):
 
 # 店內（玻璃後面）用的材質：不受場景光。2026-10-23 公館騎樓下第一次試（受光的頂點色＋照深度變暗）：騎樓底下只有環境光，店裡比騎樓還暗、像打烊（10-18 試做立體店內「書店一片黑」也是這個原因）。
 # 真的從騎樓、街上看進開著燈的店，店裡是被店自己的燈照亮的，白天晚上都一樣亮 → 店內的牆、天花板、地板、櫃台、貨架、小道具都畫進 unlit 的頂點色網格，明暗由 _shade_interior 決定
-IN_VC = _unlit_vc('wz_shop_in')
+IN_VC = _unlit_vc('wz_in_shop')   # 名稱 wz_in_ 開頭：遊戲不畫影子（zones3d.js WZ_NO_SHADOW；店在室內，太陽照不到）
 FLOOR_VC = {'f_white': ('#d6d4cd', 0.6, 'tile'), 'f_wood': ('#cdb594', 0.18, 'plank'), 'f_mosaic': ('#a3aba7', 0.3, 'tile'), 'f_granite': ('#a29f9a', 0.6, 'tile'),
             'f_terrazzo': ('#b3a99b', 0.6, 'tile'), 'f_concrete': ('#9c9891', 1.2, 'tile'), 'f_quarry': ('#a8634b', 0.3, 'tile'), 'f_floral': ('#b8ac96', 0.3, 'tile')}
 
