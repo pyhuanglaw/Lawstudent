@@ -152,7 +152,7 @@ const SOCIAL = (function(){
   S.partnered=function(id){ const F=G.flags||{}; if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&k!=='dating_'+id&&F[k])) return true;
     const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };   /* partnerOn：BUG-INTERMS-PARTNER-1021 */
   /* 播一串台詞：（開頭＝旁白、其他＝那個人說（who）；{n,solo}；{name}＝玩家的名字 */
-  S.playSteps=async function(GM,who,id,steps){ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
+  S.playSteps=async function(GM,who,id,steps){ if(who&&who.charId===id&&S.npcName) who.name=S.npcName(id);   /* 同一次對話裡剛開始交往（事件裡）：接著的閒聊說話人也換交往的叫法（BUG-SIS-DATING-NAME-1023，BB 10-23 15:46）*/ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
       const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };
   /* 門檻台詞＋小選擇（不加數值）；說了回傳 true（先記下來，演到一半出錯也不會每次都說） */
   S.playUp=async function(GM,who,id,ctx){ const U=S.upLine(id,ctx); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l); if(U.set&&G.flags) Object.assign(G.flags,U.set);
