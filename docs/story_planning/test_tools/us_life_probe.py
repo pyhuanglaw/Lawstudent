@@ -273,6 +273,14 @@ async def ff_once(pg, cdp, run, sc):
         await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
         if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
         return sn
+    if cs and not any(c.startswith('快轉') for c in cs):   # BB-B 15:5x：隔天一早有課（「會錯過」）或在家裡的床（睡覺／在家休息／回宿舍）沒有快轉＝照玩家：睡到明天早上／睡覺（B6_IV1、B6_IV2_*）
+        alt = next((c for c in cs if c.startswith('睡到明天早上')), None) or next((c for c in cs if c.startswith('睡覺')), None)
+        if alt:
+            await tap_start(pg, cdp, alt[:6]); say('   ▶ 床：%s（沒有快轉）' % alt[:24]); await pg.wait_for_timeout(2500)
+            sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s（睡到早上）' % (sn['key'], sn['h'], sn['zone']))
+            await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+            if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+            return sn
     if not await tap_start(pg, cdp, '快轉'): bad.append('%s：床的選單沒有「快轉」（%s）' % (sc['id'], cs)); return None
     t = await tap_start(pg, cdp, '到下一個有事的日子')
     if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None
