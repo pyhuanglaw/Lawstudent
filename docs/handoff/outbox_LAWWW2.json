@@ -2524,13 +2524,13 @@
    "next": "LAWWW-B 套 patch（含 lab5f3d.js DESK_ME、lab5f_unit.js 兩處 LAWWW 的檔）、放 GLB",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 10-23 19:3x：patch、GLB、窗景都進開發 2a672d9a8；lab5f3d.js 讀 me_desk 同意；水果攤老闆在 closed3d.js，09:00～22:00 站 owner；linze_5f、lab5f、linze_upper、nav_buildings、aa413_wz、wz_shops ALL PASS；touch_flow_wenzhou 發布前 LAWWW-B 跑）",
    "note": "spots 新增 me_desk、sis_lamp；sis_desk、beside、desk_c、desk_d 搬家"
   },
   {
    "task": "AA_413 溫州街剩下三家（企劃 9f6a848c 第 5 節第 1 點）：阿忠水果的攤子＋老闆站位、自助洗衣門邊的布告欄、日日便利從溫州街進去的窗景",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "5437ec936",
    "files": [
     "assets/models/env/second_ai/wenzhou_street.{glb,json,props.json}（重建；也帶進 09:33 起的店內商品 sk_goods）",
     "assets/models/env/views/cvs_wz_{day,night}.webp（新）",
@@ -2543,7 +2543,7 @@
    "next": "LAWWW-B 套 patch、放 GLB 與 cvs_wz 窗景",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 10-23 19:3x：patch、GLB、窗景都進開發 2a672d9a8；lab5f3d.js 讀 me_desk 同意；水果攤老闆在 closed3d.js，09:00～22:00 站 owner；linze_5f、lab5f、linze_upper、nav_buildings、aa413_wz、wz_shops ALL PASS；touch_flow_wenzhou 發布前 LAWWW-B 跑）",
    "note": "B6 前的機車留 3.4 m（scRow 加 gap，其他機車不變）；互動點：買水果 (35.3,−3.9)、看 (33.6,−3.9)、布告欄 (−16.65,−3.8)；cvs 在 F.CVS_FROM==='wenzhou' 時用 cvs_wz（景深 10.6）；店員位置照舊"
   }
  ]
