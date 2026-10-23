@@ -40,6 +40,18 @@ const CLOSED=(function(){
     if(G.zone==='dorm_hall'&&it.label==='洗衣間') return S.laundry(GM,it);
     return false; };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closedInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closedInteract=true; }
+  /* AA_413 日日便利（溫州街 A5，wzshops3d.js 的 S.AA413；那個檔比 story3d.js 早載入，掛勾裝在這裡）：從溫州街進去的，便利商店的出口回溫州街；
+     結帳以前店員一句（兩段時間、第 5 次起認得你）、結帳以後考試週 21:00 以後一句（一天一次）；從公館的門進去、去別的地方＝清掉 CVS_FROM */
+  S.cvsInteract=async function(it,GM){ const G=GM&&GM.G, W=typeof WZS!=='undefined'?WZS:null; if(!G||!W||!W.AA413||!it) return null;
+    if(it.exit&&it.exit.to==='cvs'){ G.flags.CVS_FROM='gongguan'; return null; }
+    if(G.zone==='cvs'&&it.exit&&it.exit.to==='gongguan'&&G.flags.CVS_FROM==='wenzhou'){ G.flags.CVS_FROM=null; await GM.enter('wenzhou',Object.assign({},W.AA413.cvs.out)); return true; }
+    if(it.shop==='cvs'&&W.cvsHere(G)){ GM.sceneBegin(); try{ await GM.say({name:'店員'},W.cvsGreet(G)); } finally { GM.sceneEnd(); } return 'after'; }
+    return null; };
+  S.cvsAfter=async function(GM){ const G=GM.G, W=WZS; G.flags.WZ_CVS_N=(G.flags.WZ_CVS_N|0)+1;
+    if(W.cvsExamLine(G)){ G.flags.WZ_CVS_EXAM=G.day; GM.sceneBegin(); try{ await GM.say({name:'店員'},W.AA413.cvs.exam); } finally { GM.sceneEnd(); } } };
+  if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._wz413){ const o1=STORY.interact; STORY.interact=async function(it,GM){ const r=await S.cvsInteract(it,GM); if(r===true) return true;
+      const out=await o1.apply(this,arguments); if(r==='after') await S.cvsAfter(GM); return out; }; STORY._wz413=true; }
+  if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._wz413Pop){ const p1=STORY.populate; STORY.populate=function(zoneId,GM){ if(zoneId!=='cvs'&&GM&&GM.G&&GM.G.flags&&GM.G.flags.CVS_FROM) GM.G.flags.CVS_FROM=null; return p1.apply(this,arguments); }; STORY._wz413Pop=true; }
   if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._closed){ const p0=SISY23.preTalk;
     SISY23.preTalk=Object.assign(async function(GM){ const r=await p0.apply(this,arguments); return r||await S.taPre(GM); },p0,{_closed:true}); }
   return S;

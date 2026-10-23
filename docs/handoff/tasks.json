@@ -30824,6 +30824,24 @@
     "confirmed": true
    },
    "notes": "【LAWWW-B 10-23 19:4x 開】D14-T5 的剩下一段；要接 y5s1_3d.js（交換延畢的大五上）、postgrad3d.js 的畢業流程。成績單現在寫「（不及格）」。"
+  },
+  {
+   "id": "WZ-AA413-1023",
+   "title": "溫州街剩下三家（AA_413，企劃線 9f6a848c；USER_WANTS B09 收尾）：日日便利能進去、阿忠水果外帶、自助洗衣看布告欄",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上（博雅討論室、總圖）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "notes": "【LAWWW-B 10-23 20:0x】程式做好：wzshops3d.js S.AA413（三家的資料、水果攤點餐、布告欄、按鈕位置照 aptA／aptB 騎樓）、closed3d.js（日日便利從溫州街進出、店員兩段招呼與第 5 次認得你、考試週 21:00 以後一句）；tests/aa413_wz_unit.js ALL PASS；BB 第 67 項。美術（LAWWW2，AA 已直接告訴它）：日日便利招牌與店員位置、水果攤攤子與老闆、布告欄模型；按鈕位置照 WZS.AA413 的座標，LAWWW2 做好以後可以對。"
   }
  ]
 }

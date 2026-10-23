@@ -107,7 +107,7 @@ const WZS=(()=>{
     return [{x:W.tea.x,z:W.tea.z,radius:1.4,label:'買一杯飲料',wzShop:'tea',kind:'window'},
       {x:W.ice.x,z:W.ice.z,radius:1.4,label:'買一碗冰',wzShop:'ice',kind:'window',get hidden(){ return !ice(); }},
       {x:W.ice.shutter.x,z:W.ice.shutter.z,radius:1.4,label:'看夏日冰菓室',look:S.AA364.ice.shutter,get hidden(){ return ice(); }},
-      {x:W.ice.x+1.0,z:W.ice.z,radius:1.0,label:'看價目板',wzShop:'ice',kind:'board',get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !(G&&typeof SIDEQ!=='undefined'&&SIDEQ.boardOpen&&SIDEQ.boardOpen(G)); }}]; };   /* 順手的事 SQ03（AA_397）：掛著那一則的時候才有 */
+      {x:W.ice.x+1.0,z:W.ice.z,radius:1.0,label:'看價目板',wzShop:'ice',kind:'board',get hidden(){ const G=typeof GAME!=='undefined'&&GAME.G; return !(G&&typeof SIDEQ!=='undefined'&&SIDEQ.boardOpen&&SIDEQ.boardOpen(G)); }}].concat(S.items413?S.items413():[]); };   /* AA_413 的三家 */   /* 順手的事 SQ03（AA_397）：掛著那一則的時候才有 */
   /* 店員要不要站在窗口（story3d.js 進溫州街時放）：開門的時候才在（冰菓室 10～4 月鐵捲門拉著） */
   S.windowClerk=(k,G)=>S.inSeason(k,G)&&S.isOpen364(k,G);
   /* 點餐：關門＝和其他店一樣寫開放時間、下次開門（toast）→ 店員招呼 → 選單（老樣子）→ 扣錢 →「（你點了{品名}。）」→ 時間 → 吃過的＋第一次的旁白
@@ -130,6 +130,52 @@ const WZS=(()=>{
     if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop){ try{ await SIDEQ.atShop(GM,D.key,{item:nm,price:p}); }catch(e){ console.warn('SIDEQ',e); } }   /* 順手的事：店員偶爾多一句（AA_397）*/
     if(GM.autosave) GM.autosave(); return true; };
 
+
+  // ---------- AA_413（企劃線 9f6a848c；B09 收尾）：日日便利（A5）能進去、阿忠水果（B6）外帶、自助洗衣（B2）看布告欄 ----------
+  /* 日日便利：沿用便利商店的室內（cvs 區域；從溫州街進去的記 F.CVS_FROM='wenzhou'，出來回溫州街），24 小時；店員的招呼兩段時間（「店員認得你」＝在這裡結帳第 5 次起，AA_329）；
+     期中、期末考週 21:00 以後結帳多一句（一天一次）。餵貓那一條照舊是公館便利商店的夜班店員（AA_397 SQ08），這裡不搬。
+     阿忠水果：09:00～22:00；菜單照月份；老闆的招呼（第一次那一欄＋不影響結果的二選一；第 5 次起「認得你」，芒果季換一句）。
+     自助洗衣：門口「看自助洗衣」「看布告欄」（照月份一句）。按鈕的位置照 aptA／aptB 的騎樓（A5 x 40～48、B6 x 30～40、B2 x −21～−15），LAWWW2 換招牌、攤子以後可以再對 */
+  S.AA413={
+    cvs:{day:{first:'歡迎光臨。要袋子嗎？',known:'歡迎光臨。'},night:{first:'要袋子嗎？',known:'又這麼晚。'},exam:'考試週喔。咖啡第二杯半價。',enter:{x:45.8,z:3.8},out:{x:44,z:2.4,yaw:0}},
+    fruit:{key:'阿忠水果',who:'水果攤老闆',first:'要吃還是要送人？',
+      opts:[{t:'「自己吃。」',say:[['水果攤老闆','那挑熟一點的。今天就吃。']]},{t:'「送人。」',say:[['水果攤老闆','那我幫你挑漂亮的。'],[null,'（他把袋子裡的一顆換掉了。）']]}],
+      known:G=>{ const m=month(G); return m>=6&&m<=8?'今天的芒果很甜，要不要？':'學生仔，今天的芭樂很脆。'; },
+      look:'（騎樓下排著一箱一箱的水果。紙板上用麥克筆寫著價錢，每一張的字都不一樣大。）',
+      menu:[['芭樂（一袋三顆）',60],['香蕉（一串）',50],['切盤（西瓜）',50,m=>m>=5&&m<=9],['切盤（鳳梨）',50,m=>m>=4&&m<=7],['芒果（一盒）',150,m=>m>=6&&m<=8],['柳丁（一袋）',80,m=>m>=11||m<=2],['草莓（一盒）',180,m=>m===12||m<=3],['現打木瓜牛奶',55]],
+      open:[9,22],at:{x:35,z:-3.8},lookAt:{x:32.8,z:-3.8}},
+    laundry:{look:'（投幣式洗衣機轉著，裡面沒有人。長椅上放著一本沒有封面的雜誌。）',
+      board:{9:'（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）',10:'（家教徵求：國二數學，週三晚上。下面的電話紙條撕走了一半。）',
+        11:'（社區通知：週六上午清洗水塔，停水四小時。）',12:'（社區通知：週六上午清洗水塔，停水四小時。）',
+        1:'（手寫的紙：過年期間照常營業。投幣機只收十元。）',2:'（手寫的紙：過年期間照常營業。投幣機只收十元。）',
+        3:'（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）',4:'（租屋：溫州街五樓，雅房，限女性。旁邊有人用鉛筆補了一行：有貓嗎？）',
+        5:'（失物招領：一件灰色的運動外套，掛在布告欄旁邊的掛勾上。）',6:'（失物招領：一件灰色的運動外套，掛在布告欄旁邊的掛勾上。）',
+        7:'（社區通知：颱風天請收好陽台的衣服。）',8:'（社區通知：颱風天請收好陽台的衣服。）'},
+      at:{x:-18.6,z:-3.8},boardAt:{x:-16.4,z:-3.8}} };
+  S.fruitMenu=G=>{ const m=month(G); return S.AA413.fruit.menu.filter(x=>!x[2]||x[2](m)); };
+  S.fruitOpen=G=>{ const h=((hr(G)%24)+24)%24, o=S.AA413.fruit.open; return h>=o[0]&&h<o[1]; };
+  S.boardLine=G=>S.AA413.laundry.board[month(G)]||'';
+  S.items413=function(){ const A=S.AA413; return [
+    {x:A.cvs.enter.x,z:A.cvs.enter.z,radius:1.2,label:'進入日日便利',wzShop:'cvs413',kind:'enter'},
+    {x:A.fruit.at.x,z:A.fruit.at.z,radius:1.4,label:'買水果',wzShop:'fruit',kind:'window'},
+    {x:A.fruit.lookAt.x,z:A.fruit.lookAt.z,radius:1.0,label:'看阿忠水果',look:A.fruit.look},
+    {x:A.laundry.at.x,z:A.laundry.at.z,radius:1.2,label:'看自助洗衣',look:A.laundry.look},
+    {x:A.laundry.boardAt.x,z:A.laundry.boardAt.z,radius:1.0,label:'看布告欄',wzShop:'laundry',kind:'board'} ]; };
+  /* 日日便利的店員：從溫州街進來的時候，結帳以前一句（兩段時間）、結帳以後考試週那一句 */
+  S.cvsHere=G=>!!G&&G.zone==='cvs'&&G.flags.CVS_FROM==='wenzhou';
+  S.cvsGreet=G=>{ const C=S.AA413.cvs, h=((hr(G)%24)+24)%24, P=h>=6&&h<22?C.day:C.night; return (G.flags.WZ_CVS_N|0)>=4?P.known:P.first; };
+  S.cvsExamLine=G=>{ const t=T_(G), h=((hr(G)%24)+24)%24; return !!t&&!!t.exam&&h>=21&&G.flags.WZ_CVS_EXAM!==G.day; };
+  S.fruit=async function(GM){ const G=GM.G, A=S.AA413.fruit; if(!S.fruitOpen(G)){ GM.toast('阿忠水果：09:00～22:00',4000); return false; }
+    if(typeof EAT!=='undefined'&&EAT.addShop&&!(EAT.SHOPS_X&&EAT.SHOPS_X[A.key])) EAT.addShop(A.key,{shop:'溫州街・'+A.key,staff:{who:A.who,line5:null,same:null,alt:null},first:null,door:false});
+    const who={name:A.who}, kn=typeof EAT!=='undefined'&&EAT.count?EAT.count(G,A.key)>=4:false;
+    if(kn) await GM.say(who,A.known(G));
+    else { await GM.say(who,A.first); const k=await GM.choose(A.opts.map(o=>({t:o.t}))); for(const [w,t] of (A.opts[k]||A.opts[0]).say) await GM.say(w?{name:w}:null,t); }
+    const items=S.fruitMenu(G), opts=items.map(m=>({t:m[0]+'　'+m[1]+' 元',dim:(G.money|0)<m[1]})); opts.push({t:'不用了'});
+    const i=typeof EAT!=='undefined'&&EAT.choose?await EAT.choose(GM,A.key,opts,items.map(m=>m[0]),items.map(m=>m[1])):await GM.choose(opts);
+    if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
+    GM.money(-p); GM.advance(5/60); if(typeof EAT!=='undefined'&&EAT.ordered) await EAT.ordered(GM,A.key,nm);
+    if(GM.autosave) GM.autosave(); return true; };
+
   // ---------- 共用：品項＋價錢的選單 ----------
   /* 點完坐下來吃（2026-10-18 使用者：「溫州街店面點餐是站著吃完？」）：找最近的空位（GM.freeSeat），黑幕裡坐好，吃完站起來；已經坐著就不換位子；沒有空位照舊 */
   async function seated(GM,fn){ const E=GM.E, P=E&&E.player; if(!P||P.seat||!GM.sitAt){ await fn(); return; } const pp=P.obj.position; let best=null, bd=1e9;
@@ -144,7 +190,9 @@ const WZS=(()=>{
 
   /* 順手的事（src/sideq3d.js，AA_404 SQ14、AA_405 SQ20）：一盞茶屋、半熟早午餐點完（真的買了）叫 SIDEQ.atShop */
   async function sideq(GM,key,it){ if(!it||typeof SIDEQ==='undefined'||!SIDEQ.atShop) return; try{ await SIDEQ.atShop(GM,key,{item:it[0],price:it[1]}); }catch(e){ console.warn('SIDEQ',e); } }
-  S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind; GM.sceneBegin();
+  S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind;
+    if(k==='cvs413'){ G.flags.CVS_FROM='wenzhou'; await GM.enter('cvs',{x:0,z:3.4,yaw:Math.PI}); return; }   /* AA_413：日日便利，24 小時 */
+    GM.sceneBegin();
     try{
       if(k==='brunch'&&kind==='cashier'){ const it=await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); await sideq(GM,'溫州街・半熟',it); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
@@ -157,6 +205,8 @@ const WZS=(()=>{
       else if(k==='print'&&kind==='stationery'){ await buy(GM,S.STATIONERY,0,async x=>{ await GM.say(null,x[2]); }); }
       else if(S.AA364[k]&&kind==='menu'&&S.AA364[k].wall){ await GM.say(null,S.AA364[k].wall); const sw=typeof SIDEQ!=='undefined'&&SIDEQ.wallExtra?SIDEQ.wallExtra(G,S.AA364[k].key):null; if(sw) await GM.say(null,sw); }   /* SQ01 做完：牆上多一行手寫（AA_397）*/
       else if(k==='ice'&&kind==='board'){ if(typeof SIDEQ!=='undefined'&&SIDEQ.iceBoard) await SIDEQ.iceBoard(GM); }   /* SQ03：看價目板、選誰來寫 */   /* AA_364：看菜單（林家牆上的紅紙、定食店吧台上方的木札），0 分鐘 */
+      else if(k==='fruit'){ await S.fruit(GM); }   /* AA_413 阿忠水果 */
+      else if(k==='laundry'&&kind==='board'){ await GM.say(null,S.boardLine(G)); }   /* AA_413 自助洗衣的布告欄（照月份）*/
       else if(S.AA364[k]){ await S.order364(GM,k); }   /* AA_364：點餐（林家攤車旁、定食店結帳台、騎樓的窗口）；冰菓室 10～4 月的「看」＝鐵捲門那一句 */
     } finally { GM.sceneEnd(); } };
   return S;
