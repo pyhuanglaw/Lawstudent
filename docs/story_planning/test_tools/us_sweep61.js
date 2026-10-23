@@ -7,6 +7,7 @@
 // 用法：LW=<開發分支工作樹> [MODE=strict|accept] [GRP=group|dm|none|last3] node us_sweep61.js [輸出.json]
 //   （四種存檔：交往中、交往中＋去了大峽谷、挽回中＋見過何俊朗、挽回中沒見過何俊朗）
 // 第二版（BB-B 2026-10-23 20:2x，LAWWW-B 清單第 81 項；參考 LAWWW-B 2d4b08549 的改法，自己重寫、多查 REPAIR）：
+//   （20:3x：AA_424 第 7 節 9/9 改成 10:30 私訊「你在家嗎？」＝usb_laundry_ask，accept 也答應）
 //   ①多載 AA_424 兩個檔（src/data/us_blank_lines.js、src/us_blank3d.js）；②日期卡照 if 過濾（23:30 看）；③MODE=accept＝答應 usb_sat_*（「好。」）、算 US_BLANK.scenesOn；
 //   ④GRP＝挽回中週六群組那一則怎麼回：group（在群組回）／dm（私訊她）／none（不回）／last3（只回 12/2 以前最後三則）；記每天的 REPAIR、REPAIR_LOG，查一週最多 +1、12/2 有沒有 ≥ 3。
 'use strict';
@@ -39,7 +40,7 @@ let grpAns = [];
 const LAST3 = () => { if (typeof US_BLANK === 'undefined' || !US_BLANK.GRP) return []; return US_BLANK.GRP.filter(r => r.d < '2028-12-02' && !r.chicago).slice(-3).map(r => US_BLANK.grpTag(r)); };
 function answer(G, row) {
   for (const m of PHONE.pending(G)) { const id = m.ask && m.ask.id; if (!id) continue;
-    if (MODE === 'accept' && /^usb_sat_/.test(id)) { PHONE.answer(G, id, 0); row.ans = (row.ans || []).concat(id + '→好。'); }
+    if (MODE === 'accept' && /^usb_(sat_|laundry)/.test(id)) { PHONE.answer(G, id, 0); row.ans = (row.ans || []).concat(id + '→好。'); }
     if (/^usb_grp_/.test(id)) { const k = GRP === 'group' ? 0 : GRP === 'dm' ? 1 : GRP === 'last3' ? (LAST3().includes(id) ? 0 : 2) : null;
       if (k != null) { PHONE.answer(G, id, k); grpAns.push(row.key + ' ' + fmtH(G.hour) + ' ' + id + '→' + ['群組', '私訊', '不回'][k]); row.ans = (row.ans || []).concat(id + '→' + ['群組', '私訊', '不回'][k]); } } }
   STORY.phoneRules(GM); }

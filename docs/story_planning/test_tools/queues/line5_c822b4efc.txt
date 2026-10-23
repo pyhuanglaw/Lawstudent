@@ -12,6 +12,7 @@ b7br2 zrlast_probe.py B7_EVE_YES,B7_EVE_D,B7_EVE_TEXT,B7_EVE_MISS,B7_REPLY,B7_RE
 b7ar3 zrlast_probe.py B7_MSGS   # BB-B 18:2x：床半徑 0.6 m（NEAR 半徑以內、走到 0.42 m）＋按「睡覺」以後等據點選單
 b7br3 zrlast_probe.py B7_EVE_YES,B7_EVE_D,B7_EVE_TEXT,B7_EVE_MISS,B7_REPLY,B7_REPLY_D,B7_JPV
 b7br4 zrlast_probe.py B7_EVE_MISS   # BB-B 19:4x：bed_menu 走不到床時【捷徑】放到床邊再試
+b7br5 zrlast_probe.py B7_EVE_YES,B7_EVE_D,B7_REPLY,B7_REPLY_D,B7_JPV   # BB-B 21:0x：b7br3（18:38 開始）比 bed_menu 修正早，這五個也都是「走不到床」，一起重跑
 b7b zrlast_probe.py B7_EVE_YES,B7_EVE_D,B7_EVE_TEXT,B7_EVE_MISS,B7_REPLY,B7_REPLY_D,B7_JPV
 b8a zrlast_probe.py B8_COURSE,B8_COURSE_NO,B8_LUNCH,B8_LUNCH_NO,B8_CH1,B8_CH1_NO
 b8b zrlast_probe.py B8_LAW_1014,B8_LAW_1209,B8_LAW_0407,B8_LAW_0526,B8_GRAPH_ECON,B8_GRAPH_LAW,B8_LATTE
