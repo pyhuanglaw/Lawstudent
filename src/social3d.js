@@ -182,6 +182,7 @@ const SOCIAL = (function(){
   MEMORY_LABEL.ZR_WITH_ZQ='她和子晴在交往'; MEMORY_LABEL.ZQ_WITH_ZR='她和芷若在交往';   /* 芷若×子晴：祐廷知道她們在一起以後的人物頁（AA_232 4-7「他之後在人物頁看到兩人的關係」；src/zrzq3d.js 的 coupleMem）*/
   Object.assign(MEMORY_LABEL,{ZQ_ZR_FILM_DAY:'她說室友跟系上的人去看了電影',ZZ_TOLD_YT:'她自己告訴你，她們在一起了'});   /* 名稱 AA_385 第 10 節（企劃線 946b1b72）定；AA_385 第 3 項（大一下子晴 Q2-L3 的 4-1 第 5 句）、第 4 項（其中一人自己告訴祐廷）的記憶：AA 沒寫人物頁的名稱，照台詞寫的暫定名稱（同 BB_130 ZQ_ZR_SETUP_* 的寫法），待 AA 定 */
   MEMORY_LABEL.ZR_LAST_SCREENING='出國前的最後一場，二輪戲院';   /* 芷若：出國前的最後一場（AA_387 第 4 節，企劃線 608b9adc；src/zr_last3d.js）*/
+  MEMORY_LABEL.ZR_SAW_OFF='她出發那天，你去了機場';   /* 芷若 2027-09-02 送機（AA_390 第 3 節，企劃線 5f4b9c7b；src/zr_sendoff3d.js）*/
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;

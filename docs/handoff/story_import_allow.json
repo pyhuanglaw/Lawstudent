@@ -1705,6 +1705,14 @@
    "approvedBy": "AA（帳號 A）2026-10-22 14:0x 定稿（回 LAWWW 六點；outbox e1cc814e；台詞照稿 D100、細節 D109）；第 8 節 F3 拒絕版一起改｜第 10 節（回 LAWWW 14:5x 六題，AA 2026-10-22 定，021ffe76）：AA387-S10-1022 實作時換成 021ffe76（LAWWW-B 10-23）",
    "task": "BB119-Y4-1017、AA387-S10-1022",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_390_芷若2027年9月2日出發那天.md",
+   "sha": "5f4b9c7b",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 07:4x 定稿（AA_389 第 2 點的補場；台詞照稿 D100、細節 D109）；LAWWW-B 10-23 實作 src/zr_sendoff3d.js",
+   "task": "ZR-SENDOFF-L-1023、AA389-ZR-SENDOFF-1023",
+   "kind": "text"
   }
  ]
 }

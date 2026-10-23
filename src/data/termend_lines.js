@@ -272,7 +272,7 @@ const TERMEND_LINES=(function(){
           
           classmate_mingxuan:{say:'系籃寒假要集訓三天。',ok:'「最後一天我去看。」',act:{c15:'mx_game'}}},
     Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我也想去。」',act:{vac:'C02@Y2'}},
-          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'},noOpt:true},   /* AA_369 M2；AA_389 第 2 點：9/2 送機那一場（AA_390，ZR-SENDOFF-L-1023）做好以前選項先不出——做好時拿掉 noOpt */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
+          heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2；AA_389 第 2 點→AA_390：9/2 送機那一場（src/zr_sendoff3d.js）做好了，選項打開 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
           npc_fangyt:{say:'八月一號到四號，我要去日本爬山。',ok:'「我可以去嗎？」',act:{flag:'HOOK_T02'}}},
     Y3S1:{heroine_01:{say:'三月二十五號出發。',ok:G=>G.flags&&G.flags.EXCHANGE_ROUTE==='JP'?'「那天我們同一班。」':'「出發那天我去送妳。」',act:{flag:'HOOK_AN_SENDOFF'}},
           yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'},noOpt:true},   /* AA_389 第 2 點：測試版那一場（AA389-ZQ-GAME-1023）做好以前選項先不出 */
