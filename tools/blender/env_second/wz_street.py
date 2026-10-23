@@ -854,6 +854,8 @@ if SET == 'wenzhou' and os.path.exists(WZ7):
     for _o in _new:
         if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
 
+if "goods_finish" in globals(): goods_finish()   # 店裡的商品（wz_shopkit.goods；2026-10-23）：整條街一個網格、一張貼圖
+
 # 第三輪減量（效能，2026-10-16；LAWWW-B 量到主巷三個鏡頭 355～448 次 draw call、51～55 萬三角形，目標 310／42 萬）：
 # 其他所有純色材質（v6 店面組件的碗盤、水果、木頭、不鏽鋼、盆栽的葉子和土…）也照粗糙度、金屬度分到三個頂點色材質；
 # 遊戲用材質名做事的（晚上發光 WZ_NIGHT、樹幹透視、字牌 *_FACE_ 的材質）不動。
@@ -897,7 +899,7 @@ print('{"cull_bottoms_tris": %d}' % _cull)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
-WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
+WZ_TEXT = {'wz_goods_atlas', 'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
 # 有字的小牌子（菜單、價目、告示、門簾）不合貼圖集：效能第三輪試過另一張 512 格的貼圖集，寬的菜單被壓扁、字橫向糊掉（遊戲截圖看得出來），退回各自的材質
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
