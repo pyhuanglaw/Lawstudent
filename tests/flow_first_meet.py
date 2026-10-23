@@ -3,7 +3,7 @@
 A. 傅鐘（芷若還沒見過）：9/23 週二 11:20 在傅鐘附近找到她、按「和不認識的女生說話」→ 只有一句旁白；名字還是「不認識的女生」、熟悉度 0、沒有 FIRST_MET、
    「傅鐘旁邊」（認識以後的日常）沒有播。修改前：搭話一次名字就出現、熟悉度 5、直接演「剛下外文系的課」並記下 FIRST_MET。
 B1. 經原分組（P1-3）：9/26 週五 12:06（大一上第 4 週）在普通的門廳。她在 101 上經原；12:10 下課後起身、走到 101 門口的走廊（一步一步走過去，不瞬移）；玩家離她超過 5 m，不會開始。
-B2. 同一天 12:15 在 101 裡面的東門旁（她在門口的走廊，離玩家 3.7 m、隔著牆）：不會開始；走出 101 到走廊 → 自動開始：「欸！法律系！你也修「經濟學原理」？」「林芷若，外文二。」→ 選第一個 → 記下 FIRST_MET。
+B2. 同一天 12:15 在 101 裡面的東門旁（她在門口的走廊，離玩家 3.7 m、隔著牆）：不會開始；走出 101 到走廊 → 自動開始：「不好意思，你是法律系的嗎？剛剛點名有聽到。」（AA_207 §2；原本「欸！法律系！你也修「經濟學原理」？」）「林芷若，外文二。」→ 選第一個 → 記下 FIRST_MET。
    修改前：她 12:10 就去吃飯（作息 zone:null），經原分組幾乎碰不到。
 C. 兩點半 Café（芷若還沒見過）：9/26 週五 13:30 走到櫃台 →「和店員說話」→「歡迎光臨——喔，法律系的。」、選項有「檸檬塔。然後——妳是外文系的？」→ 記下 FIRST_MET、名字變成林芷若；
    同一天再和她說話（她的事件一天一次）＝點餐。修改前（v9.7 候選 4 以前）：吧檯的點餐點永遠比較近，「和店員說話」不會出現（tests/cafe_barista_unit.js）。
@@ -156,7 +156,7 @@ async def main():
         started = await walk_until_dialog(pg, cdp, run, -6.4, 0.3, '走出 101 到走廊')
         lines, menus = await play_dialog(pg, cdp) if started else ([], [])
         await run.shot(pg, 'B2_after_group')
-        run.check('B2 走出 101 到走廊：自動開始經原分組（「欸！法律系！」→「林芷若，外文二。」→ 分組）', started and any('你也修「經濟學原理」' in t for t in lines) and '林芷若，外文二。' in lines and bool(menus), ' / '.join(t[:24] for t in lines[:5]))
+        run.check('B2 走出 101 到走廊：自動開始經原分組（「不好意思，你是法律系的嗎？……」→「林芷若，外文二。」→ 分組；AA_207 §2）', started and any('剛剛點名有聽到' in t for t in lines) and '林芷若，外文二。' in lines and bool(menus), ' / '.join(t[:24] for t in lines[:5]))
         w = await who(pg, 'heroine_02')
         run.check('B2 之後：記下 FIRST_MET、名字是林芷若', w['met'] and w['name'] == '林芷若' and 'ev_zhiruo_ge_group' in w['done'], json.dumps(w, ensure_ascii=False))
         # ---------- C：兩點半 Café ----------

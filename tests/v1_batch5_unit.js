@@ -37,7 +37,7 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
   check('日曆：大一上第 4 週週一＝第 '+W4MON+' 天、第 5 週週一＝第 '+W5MON+' 天',W4MON===6&&W5MON===13,JSON.stringify({W4MON,W5MON}));
   /* ---------- F1：死掉的話傳照片給我 ---------- */
   { const e=STORY_EVENTS.find(x=>x.id==='ev_fangyt_pothos'); fresh(W4MON,12.5,'campus'); picks=['謝謝學長']; await EVENTS.run(e); const L=said.map(s=>s.t);
-    check('F1 最後一句「死掉的話傳照片給我。」（BB_95 4-4）',L[L.length-1]==='死掉的話傳照片給我。'&&L[L.length-2]==='不用謝。它比較需要謝謝你。',JSON.stringify(L.slice(-3)));
+    check('F1 最後一句「死掉的話傳照片給我。」（BB_95 4-4）',L[L.length-1]==='死掉的話傳照片給我。'&&L[L.length-2]==='不用啦。我種太多了，房間放不下。'   /* AA_207 §5（BB_167 SC4 第 39 列；原本「不用謝。它比較需要謝謝你。」）*/,JSON.stringify(L.slice(-3)));
     check('F1 拿到方奕廷的聯絡方式（第 '+W4MON+' 天）',INV.hasContact(G,'npc_fangyt')&&G.contacts.npc_fangyt===W4MON); }
   /* ---------- 大一上第 2 週以前沒有（BB_170 第 26 列：開學改 9/1 以後第 1 週事情已經很多；原本第 4 週起）---------- */
   { const W1={LAW_START_DAY:-18,MAIN_D1:-13}; fresh(termDay(1,5),7.5,'dorm',W1); PHONE.join(G,'family_law','法律系直屬家族'); run(7.5,26); const a=dp().length;

@@ -90,10 +90,10 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     const bbq=async(knowBohan)=>{ fresh(termDay(5,6),15,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); if(knowBohan) meet('classmate_bohan'); picks=[]; await EVENTS.runLines(ev('ev_mid_autumn_bbq').dialogue,ev('ev_mid_autumn_bbq')); return {L:lines(),F:G.flags}; };
     let b1=await bbq(true), b0=await bbq(false); check('A13：認識柏翰＝「柏翰帶了考古題，被沒收了。」＋記 BBQ_BOHAN_SEIZED；不認識＝兩個都沒有',b1.L.includes('柏翰帶了考古題，被沒收了。')&&b1.F.BBQ_BOHAN_SEIZED===true&&!b0.L.includes('柏翰帶了考古題，被沒收了。')&&!b0.F.BBQ_BOHAN_SEIZED,JSON.stringify({b1:b1.F.BBQ_BOHAN_SEIZED,b0:b0.F.BBQ_BOHAN_SEIZED}));
     /* 明軒的聖誕禮物（BB_95 3-6b，BB 2026-10-14）：一組三色螢光筆；祐廷抽到時三種台詞；別人抽到＝阿哲一句、明軒一句；明軒不在＝抽不到 */
-    const MXL='多買的。……我用不到啦。', MX_SAW='……你什麼都沒看到。', MX_GREEN='上次那支綠的還在嗎？……這樣你有四種了。';
+    const MXL='多買的。……我用不到啦。', MX_SAW='……收好啦。'   /* AA_207 §5（BB_167 SC4 第 29 列；原本「……你什麼都沒看到。」）*/, MX_GREEN='上次那支綠的還在嗎？……這樣你有四種了。';
     const mxGift=async(setup,flags)=>runX(['zhe','classmate_mingxuan'],'一包咖啡豆',0,0,flags,setup);
     r=await mxGift(null,null); check('A20 明軒的禮物：祐廷抽到（沒看過他念書）＝「你抽到明軒的禮物：一組三色螢光筆，黃、粉紅、藍。」「多買的。……我用不到啦。」、沒有另外兩句；記 XMAS_HL3（道具）',r.F.XMAS_FROM==='classmate_mingxuan'&&r.L.includes('你抽到明軒的禮物：一組三色螢光筆，黃、粉紅、藍。')&&r.L.includes(MXL)&&!r.L.includes(MX_SAW)&&!r.L.includes(MX_GREEN)&&r.F.XMAS_HL3===true,JSON.stringify(r.L.slice(-4)));
-    r=await mxGift(()=>SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),null); check('A20 明軒的禮物：有 SAW_HIM_STUDY（M1）＝多一句「……你什麼都沒看到。」',r.L.includes(MXL)&&r.L.indexOf(MX_SAW)===r.L.indexOf(MXL)+1&&!r.L.includes(MX_GREEN),JSON.stringify(r.L.slice(-4)));
+    r=await mxGift(()=>SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),null); check('A20 明軒的禮物：有 SAW_HIM_STUDY（M1）＝多一句「……收好啦。」',r.L.includes(MXL)&&r.L.indexOf(MX_SAW)===r.L.indexOf(MXL)+1&&!r.L.includes(MX_GREEN),JSON.stringify(r.L.slice(-4)));
     r=await mxGift(()=>SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''),{GREEN_HIGHLIGHTER:true}); check('A20 明軒的禮物：有綠色螢光筆（M1 坐到他旁邊）＝那一句換成「上次那支綠的還在嗎？……這樣你有四種了。」',r.L.includes(MXL)&&r.L.indexOf(MX_GREEN)===r.L.indexOf(MXL)+1&&!r.L.includes(MX_SAW),JSON.stringify(r.L.slice(-4)));
     check('A20 明軒的禮物：祐廷抽到的時候沒有「你送螢光筆？你？」（那是別人抽到時）',!r.L.includes('你送螢光筆？你？'));
     r=await runX(['zhe','classmate_mingxuan'],'一包咖啡豆',1,0); check('A20 明軒的禮物：別人抽到（祐廷抽到阿哲的）＝阿哲「你送螢光筆？你？」明軒「多買的啦。」、沒有祐廷抽到時的句子、不記道具',r.F.XMAS_TO==='classmate_mingxuan'&&r.F.XMAS_FROM==='zhe'&&r.L.indexOf('多買的啦。')===r.L.indexOf('你送螢光筆？你？')+1&&r.L.includes('你送螢光筆？你？')&&!r.L.includes(MXL)&&!r.F.XMAS_HL3,JSON.stringify(r.L.slice(-4)));
@@ -106,7 +106,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('K2：第 6 週週五 20:00「這次換我去台大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列）；週六 16:00 社科院門口（不和第 4 週六迎新、第 5 週六中秋同一天）',!!m&&m.day===FRI&&Math.abs(m.h-20)<0.06&&m.text==='這次換我去台大。我先去找品妤，你四點來社科院門口。'&&!!q&&q.day===SAT&&q.h===16&&SAT!==termDay(4,6)&&SAT!==termDay(5,6),JSON.stringify(q));
     const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「今天沒有遲到。」');
-    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。」；可昕「這是我的舊系館。你的新系館在對面，我知道。」',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')&&r.L.includes('曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。')&&!r.L.includes('你來了。')&&r.L.includes('這是我的舊系館。你的新系館在對面，我知道。'),JSON.stringify(r.L.slice(0,4)));
+    check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。」（AA_313 第 2 節第 8 列）；品妤第一次出現＝「好久不見。你現在每天都在對面那棟喔？」（AA_207 §4-6：不報全名）；可昕「我們的舊系館。……你現在每天經過，都不會進去了吧？」（AA_207 附錄 §2）',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰林大道走出校門，在附近吃晚餐。')&&!r.L.includes('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')&&r.L.includes('好久不見。你現在每天都在對面那棟喔？')&&!r.L.includes('你來了。')&&r.L.includes('我們的舊系館。……你現在每天經過，都不會進去了吧？'),JSON.stringify(r.L.slice(0,4)));
     check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('霖澤館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
     check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
     r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
@@ -172,7 +172,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     let r=await go({},[],'「猜的。」');
     check('去政大＝旁白「政大的晚上，山上的風比台大冷一點。」→「……你怎麼知道我幾點下課？」；沒見過予樂＝沒有「問予樂的。」；整段沒有「生日」',r.L[0]==='政大的晚上，山上的風比台大冷一點。'&&r.L.includes('……你怎麼知道我幾點下課？')&&JSON.stringify(r.O)===JSON.stringify(['「妳的課表在我手機裡。」','「猜的。」'])&&!r.L.some(t=>/生日/.test(t)),JSON.stringify(r.L.slice(0,4)));
     check('「猜的。」→「猜錯的話，你要在這裡等多久？」「等到猜對。」「……好，算你過。」；予樂沒見過＝「予樂看了你一眼，對可昕說：」「好，我先走。」',['猜錯的話，你要在這裡等多久？','等到猜對。','……好，算你過。','予樂看了你一眼，對可昕說：','好，我先走。'].every(t=>r.L.includes(t)));
-    check('小吃街「今天本來是一個普通的週三。」「……你開車上山，就不普通了。」「今天你點餐。」；沒有「老闆記得你的點法。」',['今天本來是一個普通的週三。','……你開車上山，就不普通了。','今天你點餐。'].every(t=>r.L.includes(t))&&!r.L.includes('老闆記得你的點法。'));
+    check('小吃街「今天本來是一個普通的週三。」「……你從台北開上來喔？山路晚上很暗欸。」（AA_207 §5／BB_167 SC4 第 33 列）「今天你點餐。」；沒有「老闆記得你的點法。」',['今天本來是一個普通的週三。','……你從台北開上來喔？山路晚上很暗欸。','今天你點餐。'].every(t=>r.L.includes(t))&&!r.L.includes('老闆記得你的點法。'));
     keepOn(BD+1,7.5); run(7.5,8.2); check('去了＝KX_DEC3 {1:"visit"}',G.flags.KX_DEC3[1]==='visit');
     r=await go({K1_ORDER:'let_her'},['ev_kexin_tour_nccu','ev_kexin_yule_pass'],'「問予樂的。」');
     check('見過予樂＝有「問予樂的。」→ 予樂「我什麼都沒說。」可昕「她說了。她每次說謊都先撥頭髮。」、予樂「好，我先走。司機，載好她。」',r.O.includes('「問予樂的。」')&&r.L.includes('我什麼都沒說。')&&r.L.includes('她說了。她每次說謊都先撥頭髮。')&&r.L.includes('好，我先走。司機，載好她。')&&!r.L.includes('予樂看了你一眼，對可昕說：'));

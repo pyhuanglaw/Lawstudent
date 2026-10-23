@@ -1423,12 +1423,12 @@ const STORY = (function(){
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
        美式「水我少加了一點」、茶「我多泡了十秒」、點心「挑」；交往中隔天 15:10 才傳：飲料都是「你昨天的那杯，是我做的。好喝的話，跟老闆說。」*/
-    const ZR_DESSERT={'檸檬塔':['你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。','你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。']};
+    const ZR_DESSERT={'檸檬塔':['你今天的檸檬塔，我挑了邊邊最脆的那一塊。','你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。']};
     const zrThird=(order,dating)=>{ const d=ZR_DESSERT[order]; if(d) return d[dating?1:0]; if(dating) return '你昨天的那杯，是我做的。好喝的話，跟老闆說。';
-      if(order==='手沖') return '你今天的手沖，悶蒸我多等了十秒。你沒發現。'; if(order==='美式') return '你今天的美式，水我少加了一點。你沒發現。'; if(/茶/.test(order)) return '你今天的茶，我多泡了十秒。你沒發現。';
-      return '你今天的'+order+'，奶泡我多打了三秒。你沒發現。'; };
+      if(order==='手沖') return '你今天的手沖，悶蒸我多等了十秒。不知道你喝不喝得出來。'; if(order==='美式') return '你今天的美式，水我少加了一點。不知道你喝不喝得出來。'; if(/茶/.test(order)) return '你今天的茶，我多泡了十秒。不知道你喝不喝得出來。';
+      return '今天那杯'+order+'，奶泡我多打了一點，不知道你喝不喝得出來。'; };   /* BB_167 SC3 第 27 列（AA_207 §5）：「你沒發現。」換成「不知道你喝不喝得出來」、點心的直接刪掉；交往中隔天那一版照留 */
     if(F.zhiruoShopContactDay!=null&&!PHONE.sent(G,'zr_dm1')){ const d=F.zhiruoShopContactDay, dating=zrKnows(G), Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
-      PHONE.at(G,dating?d+1:d,dating?15+10/60:22+7/60,[Z('我是 Café 的芷若。'),Z('……你應該知道。'),Z(zrThird(F.zhiruoFirstOrder||'拿鐵',dating))],'zr_dm1'); }
+      PHONE.at(G,dating?d+1:d,dating?15+10/60:22+7/60,[Z('我是兩點半的芷若。店裡的帳號是我在回。'),Z('要外帶可以先傳，我先做。'),Z(zrThird(F.zhiruoFirstOrder||'拿鐵',dating))],'zr_dm1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='zr_dm1')) silentContact('heroine_02');   /* 收到了＝有她的聯絡方式（之後她改用自己的帳號）*/
     /* 語彤事件 3（AA_11 事件 3、BB_95 4-3）：選「我知道誰會知道」→ 祐廷第一次私訊學姊；學姊當晚 22:30 回；祐廷把截圖傳給語彤：「……法服是什麼？」
        （沒有語彤的聯絡方式：下次在麵店當面給她看，ev_yutong_fwd）*/
@@ -1442,7 +1442,7 @@ const STORY = (function(){
        和 Café 第五次的版本共用 tag zr_dm1：哪一個先到就傳哪一個，只傳一次 */
     if(F.ZR_GRP_REPLY&&!PHONE.sent(G,'zr_dm1')){ const r=(G.msgs||[]).find(m=>m.th==='g:ge_econ'&&m.from==='player'), d=r?r.day:G.day, h=r?r.h:G.hour, dating=zrKnows(G), Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
       const late=!dating&&h>=22+7/60-0.02, yday=dating||late;
-      PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是通識小組的芷若。'),Z('……也是 Café 的那個。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
+      PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是經原那組的芷若。'),Z((+F.CAFE_VISITS||0)>0?'也是兩點半那個店員。':'我在溫州街的兩點半打工，要喝什麼可以先傳。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
     /* 學姊 A5-1 新版（BB_188 @05571a45，使用者 10:3x 對 LAWWW-C「通過」；實作照 AA_218 17-13）：
        B 9/1 21:00 系上社群（law_board）的自我介紹（前後幾則不具名同學的自介）→ 9/2 12:30 她的留言 → 第一次關手機時旁白（按讚、加好友，afterPhoneClose）→ 9/3 08:00 她接受（聯絡人）→ 9/3 21:00 祐廷先私訊（強制）；
        9/4 21:00 家族群組 Kevin 點到她、她兩句；C1 在 events.js（ev_sis_c1_festival）；C2 她家搬家（ev_sis_c2_room＋這裡的私訊）。只在 9/1 以前開始法律系的新局 */
@@ -1833,7 +1833,7 @@ const STORY = (function(){
     if(F.NCCU_VISITED&&!PHONE.sent(G,'kx_yule_ask')&&typeof CALENDAR!=='undefined'){ const tm=CALENDAR.termOf(G.day), wd=CALENDAR.dateOf(G.day).wd;
       if(tm&&tm.id==='Y1S1'&&tm.week>=6&&tm.week<=8&&wd>=1&&wd<=5&&!CALENDAR.holiday(G.day)&&G.hour<15.5){ const K=t=>({from:'kexin',text:t});
         PHONE.at(G,G.day,15.5,[{th:'p:kexin',from:'kexin',text:'明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。',ask:{opts:[
-          {t:'好，我開車過去。',set:{KX_YULE:'yes'}},{t:'我七點跟麵店團吃飯，晚一點可以嗎？',set:{KX_YULE:'late'},say:[K('那九點？你來吃第二輪。')]},{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好，那下週換你請。')]}]}}],'kx_yule_ask'); F.kxYuleAskDay=G.day; } }
+          {t:'好，我開車過去。',set:{KX_YULE:'yes'}},{t:PHONE.inGroup(G,'noodle_team')&&S.noodleDay(G.day+1)?'我七點跟麵店團吃飯，晚一點可以嗎？':'我明天七點有事，晚一點可以嗎？',set:{KX_YULE:'late'},say:[K('那九點？你來吃第二輪。')]},{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好，那下週換你請。')]}]}}],'kx_yule_ask'); F.kxYuleAskDay=G.day; } }
     if((F.KX_YULE==='yes'||F.KX_YULE==='late')&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_yule')&&F.kxYuleAskDay!=null)
       OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:Math.max(F.kxYuleAskDay+1,G.day),h:F.KX_YULE==='late'?21:19.5,place:'政大',title:'去政大見予樂',travel:'開車約 30 分鐘',travelH:0.5});
     if(F.yulePassDay!=null) PHONE.at(G,F.yulePassDay+1,12.5,[{th:'p:kexin',from:'kexin',text:'📷（予樂寫的紙條：「及格。」）'}],'kx_yule_pass');
@@ -2034,7 +2034,7 @@ const STORY = (function(){
        先看的玩家那天晚上她先傳「你偷看了吧。……」，視訊照樣一起打開。記 KX_GRADES_PACT:'kept'|'peeked'。遊戲不顯示分數（成績單是文字）*/
     { const last=termDay('Y1S1',16,5);   /* 16 週制：期末最後一天 12/19（五）21:00 約、成績公布 1/5 一起看（AA_198 第 2 節第 3 點）；台詞照 AA-C 11:23 改（「一月五號那天一起打開」「等五號一起看」「這次才是真的放假」）*/
       if(last&&F.dating_kexin&&!PHONE.sent(G,'kx_grades_ask')&&G.day<=last+2&&G.day>=last-1) PHONE.at(G,last,21,[{th:'p:kexin',from:'kexin',text:'成績出來先不要給對方看。一月五號那天一起打開。',ask:{opts:[{t:'好。',set:{KX_GRADES_PACT_SET:true}},{t:'我會忍不住。',set:{KX_GRADES_PACT_SET:true},say:[{from:'kexin',text:'那你偷看的時候，表情不要寫在訊息裡。'}]}]}}],'kx_grades_ask');
-      if(F.KX_GRADES_PACT==='peeked'&&F.kxGradesDay!=null) PHONE.at(G,F.kxGradesDay,21,[{th:'p:kexin',from:'kexin',text:'你偷看了吧。你的表情寫在訊息的標點符號上。'}],'kx_grades_peek'); }
+      if(F.KX_GRADES_PACT==='peeked'&&F.kxGradesDay!=null) PHONE.at(G,F.kxGradesDay,21,[{th:'p:kexin',from:'kexin',text:'你偷看了吧。你今天訊息都只回一個字。'}],'kx_grades_peek'); }
     /* 9-9 期末：成績的約定（大一下版；BB_96 9-9、AA_157 第 2 節、BB_139 第 2 節）＋P4e（BB_105／BB_135 第 3 節）。順序（AA-B 2026-10-16）：
        ① 6/12（五，期末最後一天）21:00 可昕傳約定：大一上 'kept' 或舊存檔沒有旗標＝「這次也一起打開。成績出來那天。」（together；AA_313 第 2 節第 29 列：問句沒有回覆選項，改句號）；'peeked'＝「這次換個方式：各自先看，然後各說一科最滿意的。」（best_one）。記 KX_GRADES_Y1S2。
        ② 6/29（一）10:00 經原（下）成績先公布（P4e；AA-B 02:28：和一起看同一天）：看得到的 11 堂去了 6 堂以上＝旁白「一年前沒拿到的，這次拿到了。」；5 堂以下＝芯慈三句＋「……靠一本借來的筆記拿到了。」。
@@ -2336,7 +2336,7 @@ const STORY = (function(){
     /* 明軒 F-M1 最便宜的地圖（BB_70 5-6，BB-B 2026-10-16 補，BB_134 第 3 節）：M1 公車站的筆記（SAW_HIM_STUDY）那晚 23:00，他私訊傳「公館一百元以內」的手機筆記；
        訊息到了就進筆記本（S.MX_FM1）。地圖上七家店的「100」小標先不做（BB_70：做不到就只放在手機筆記）。舊存檔已經有 SAW_HIM_STUDY 的：今晚 23:00 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY')){
-      if(!PHONE.sent(G,'mx_fm1')){ const d=F.MX_M1_DAY!=null?F.MX_M1_DAY:G.day, M=t=>({th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:t}); PHONE.at(G,d,d===G.day?Math.min(23.9,Math.max(23,h(G)+0.05)):23,[M('給你。不要外流。外流的話阿哲會把第一名吃到漲價。'),M('📝 '+S.MX_FM1.head)],'mx_fm1'); }
+      if(!PHONE.sent(G,'mx_fm1')){ const d=F.MX_M1_DAY!=null?F.MX_M1_DAY:G.day, M=t=>({th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:t}); PHONE.at(G,d,d===G.day?Math.min(23.9,Math.max(23,h(G)+0.05)):23,[M('給你 公館一百塊以內的'),M('不要外流 哈哈'),M('📝 '+S.MX_FM1.head)],'mx_fm1'); }
       else if(GM.addNote&&GM.hasNote&&!GM.hasNote('mx_fm1')&&(G.msgs||[]).some(m=>m.tag==='mx_fm1')) GM.addNote('mx_fm1',S.MX_FM1.title,S.MX_FM1.body); }
     /* SK02 你的系外套還在這裡（BB_106 SK02；AA_154 A52 ②）：SK01 之後，阿勳第 4 週週一 15:00 的私訊（SK01 比那天晚：SK01 隔天以後第一個平日；第 7 週以後就不發）；
        ②送給阿勳、他不在旁邊＝當晚 21:00 兩則私訊（BB-B d5224961）。SK01 傳過訊息就把阿勳加進聯絡人（不跳通知）*/

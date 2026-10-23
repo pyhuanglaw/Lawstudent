@@ -86,12 +86,12 @@ let spent=0; GM.money=d=>{ spent-=d; };   /* 付錢（consequences.money）走 G
   check('4. Z3 還沒發生、22:10 以後：客人照常（只有 21:40～22:00 不生成）；學姊作息到 22:00，不在',!GM.npc.sis&&E.npcs.some(n=>n.isExtra&&!n.clerk),JSON.stringify(customers()));
   /* 台詞 */
   at(W3,21.75); await EVENTS.run(z3); const L=lines();
-  const WANT=['（她在擦吧檯。機器已經關了。）','林芷若：最後一杯了喔。老樣子？','祐廷：……妳自己都喝什麼？','（她擦吧檯的手停住了。）','林芷若：……（很久）我在這裡兩年。','林芷若：你是——','（她停住，搖頭，笑了一下。）','林芷若：熱可可。加一份濃縮。','林芷若：很幼稚吧。小孩子的飲料加大人的東西。','林芷若：……不要笑。'];
+  const WANT=['（她在擦吧檯。機器已經關了。）','林芷若：最後一杯了喔。老樣子？','祐廷：……妳自己都喝什麼？','（她擦吧檯的手停住了。）','林芷若：……（很久）我在這裡兩年。','林芷若：你是——','（她停住，搖頭，笑了一下。）','林芷若：熱可可。加一份濃縮。','林芷若：很怪吧。','林芷若：加一點苦的，比較不會那麼甜。','林芷若：……不要笑。'];   /* AA_207 §5（BB_167 SC3 第 34 列）：原本「很幼稚吧。小孩子的飲料加大人的東西。」 */
   const norm=s=>s.replace(/^[^：]*芷若：/,'林芷若：').replace(/^(我|祐廷|player)：/,'祐廷：');
   check('5. 台詞逐字、順序照 BB_96 3-1',JSON.stringify(L.map(norm))===JSON.stringify(WANT),JSON.stringify(L));
   check('5. 沒有選項（問出那一句就是選擇）',opts.length===0,JSON.stringify(opts));
   const k=z3.dialogue.findIndex(l=>l.text==='你是——'); check('5. 「你是——」不說完：那一句就停、下一句是她搖頭（沒有「第一個問我的人」）',k>0&&z3.dialogue[k+1].speaker===null&&!/第一個/.test(JSON.stringify(z3)),String(k));
-  const ex=z3.dialogue.filter(l=>l.speaker==='heroine_02').map(l=>l.expression); check('5. 表情：問了以後 surprised → neutral → embarrassed → smile',JSON.stringify(ex.slice(1))==='["surprised","neutral","neutral","embarrassed","smile"]',JSON.stringify(ex));
+  const ex=z3.dialogue.filter(l=>l.speaker==='heroine_02').map(l=>l.expression); check('5. 表情：問了以後 surprised → neutral → embarrassed → smile',JSON.stringify(ex.slice(1))==='["surprised","neutral","neutral","embarrassed","smile","smile"]',JSON.stringify(ex));
   check('6. 記憶 ASKED_HER_DRINK',SOCIAL.has('heroine_02','ASKED_HER_DRINK'));
   check('6. 只一次：發生過就不再開始',!EVENTS.check(z3));
   /* 遊戲任何地方都不提示她喝什麼 */
@@ -119,9 +119,9 @@ let spent=0; GM.money=d=>{ spent-=d; };   /* 付錢（consequences.money）走 G
   const relBase=await (async()=>{ at(W3+1,15); setAsked(); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵'; picks=['（就這樣）']; await EVENTS.run(bar); return JSON.stringify(SOCIAL.rel('heroine_02')); })();   /* 只點自己的那一杯（好感照平常）*/
   for(const [pk,label] of [[['也幫芷若點一杯','熱可可','不加'],'熱可可、不加'],[['也幫芷若點一杯','拿鐵','加一份濃縮'],'拿鐵加濃縮'],[['也幫芷若點一杯','紅茶','不加'],'紅茶']]){
     at(W3+1,15); setAsked(); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵'; picks=pk.slice(); spent=0; await EVENTS.run(bar); const L3=lines();
-    check('10. 點錯（'+label+'）：她笑出來「這是別人會點的。……不過今天，我喝這杯。」、不扣分、沒有 REMEMBERED_HER',L3.join('|').includes('她笑出來：|林芷若：這是別人會點的。……不過今天，我喝這杯。')&&!SOCIAL.has('heroine_02','REMEMBERED_HER')&&JSON.stringify(SOCIAL.rel('heroine_02'))===relBase&&spent===240,JSON.stringify({L3,spent,rel:SOCIAL.rel('heroine_02'),relBase})); }
+    check('10. 點錯（'+label+'）：她笑出來「我不喝這個啦。」「……算了，謝謝。我喝。」（AA_207 §5／BB_167 SC3 第 34 列）、不扣分、沒有 REMEMBERED_HER',L3.join('|').includes('她笑出來：|林芷若：我不喝這個啦。|林芷若：……算了，謝謝。我喝。')&&!SOCIAL.has('heroine_02','REMEMBERED_HER')&&JSON.stringify(SOCIAL.rel('heroine_02'))===relBase&&spent===240,JSON.stringify({L3,spent,rel:SOCIAL.rel('heroine_02'),relBase})); }
   { at(W3+1,15); setAsked(); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵'; picks=['（就這樣）']; spent=0; await EVENTS.run(bar); const L4=lines();
-    check('10. 「（就這樣）」：只付自己的、沒有她那杯的台詞，照常「杯子放著就好，慢慢來。」',spent===120&&!L4.some(l=>/你記得|別人會點/.test(l))&&L4[L4.length-1].includes('杯子放著就好，慢慢來。'),JSON.stringify({spent,L4})); }
+    check('10. 「（就這樣）」：只付自己的、沒有她那杯的台詞，照常「杯子放著就好，慢慢來。」',spent===120&&!L4.some(l=>/你記得|我不喝這個啦/.test(l))&&L4[L4.length-1].includes('杯子放著就好，慢慢來。'),JSON.stringify({spent,L4})); }
   { at(W3+1,15); setAsked(); G.flags.CAFE_VISITS=0; picks=['手沖','也幫芷若點一杯','熱可可','加一份濃縮']; await EVENTS.run(bar);
     check('10. 前幾次（自己選飲料）也一樣：點完自己的才問',opts.length>=2&&opts[1][0]==='也幫芷若點一杯'&&SOCIAL.has('heroine_02','REMEMBERED_HER'),JSON.stringify(opts)); }
   { at(W3+1,15); setAsked(); G.flags.CAFE_VISITS=0; picks=['只是看看']; await EVENTS.run(bar); check('10. 「只是看看」（沒點東西）：不問',!opts.some(o=>o.includes('也幫芷若點一杯')),JSON.stringify(opts)); }

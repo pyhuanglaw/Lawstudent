@@ -22,7 +22,7 @@ const card=(a,b)=>PG.cardLine(H.G,D(a),D(b));
 
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-  check('0. src/faildelay3d.js 載得到、index.html 接在 psresults3d.js 後面',ok&&!!X()&&/psresults3d\.js\?v=[^"]+"><\/script>\n<script src="src\/faildelay3d\.js/.test(html),err);
+  check('0. src/faildelay3d.js 載得到、index.html 在 postgrad3d、y5s1_3d、r2y4b3d 後面',ok&&!!X()&&['src/postgrad3d.js','src/y5s1_3d.js','src/r2y4b3d.js','src/classes3d.js'].every(f=>html.indexOf(f)>0&&html.indexOf('src/faildelay3d.js')>html.indexOf(f)),err);
   check('0. CLS.showGrades 包了一層、PG 停在 6/18 發成績單',!!CLS._fdWrap&&PG.STEPS.some(s=>s.id==='fd_grades_y4s2'&&s.at(H.G||{})===D('2029-06-18')*24+9));
   check('0. PG.exchDelayed 有了；termend3d.js 的「今天恭喜」只看交換',typeof PG.exchDelayed==='function'&&/PG\.exchDelayed\|\|PG\.delayed/.test(fs.readFileSync(path.join(H.ROOT,'src/termend3d.js'),'utf8'))); });
 if(!X()){ H.done(); return; }

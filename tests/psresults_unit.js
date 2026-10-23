@@ -19,7 +19,7 @@ const ev=()=>STORY_EVENTS.find(e=>e.id==='ev_peishan_results');
 
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-  check('0. src/psresults3d.js 載得到、index.html 接在 b1story3d.js 後面',ok&&!!X()&&/b1story3d\.js\?v=[^"]+"><\/script>\n<script src="src\/psresults3d\.js/.test(html),err);
+  check('0. src/psresults3d.js 載得到、index.html 在 b1story3d.js 後面（中間可以有別的包）',ok&&!!X()&&html.indexOf('src/b1story3d.js')>0&&html.indexOf('src/psresults3d.js')>html.indexOf('src/b1story3d.js'),err);
   check('0. 事件 ev_peishan_results（出遊、一次）、手機規則、tick、在家的停點都接上',!!ev()&&ev().trigger==='outing'&&ev().once&&STORY.PHONE_RULES.includes(X().phone)&&STORY.TICKS.includes(X().tick)&&!!STORY._psrHome&&HOME.STOPS.length>0); });
 if(!X()){ H.done(); return; }
 

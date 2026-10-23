@@ -47,17 +47,18 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     G.hour=12; PHONE.answer(G,m.ask.id,2); const mine=G.msgs.filter(x=>x.th==='g:ge_econ'&&x.from==='player').map(x=>x.text), hers=G.msgs.filter(x=>x.th==='g:ge_econ'&&x.from==='heroine_02').length;
     check('群組：貼圖貼出去是「（貼圖：OK）」；她不在群組回',JSON.stringify(mine)===JSON.stringify(['（貼圖：OK）'])&&hers===1&&G.flags.ZR_GRP_REPLY===3,JSON.stringify({mine,hers}));
     run(12,22.05); const before=dm().length; run(22.05,22.3);
-    check('回過：當晚 22:07 才收到替代版私訊（三句，BB_95 4-2 原文「剛剛」）',before===0&&JSON.stringify(dm().map(x=>x[2]))===JSON.stringify(['我是通識小組的芷若。','……也是 Café 的那個。','你剛剛在群組回得很快。我以為法律系的人都很慢。'])&&dm().every(x=>x[0]===FRI&&x[1]>=22+7/60-0.001&&x[1]<22+7/60+0.06),JSON.stringify(dm()));
+    check('回過：當晚 22:07 才收到替代版私訊（三句；AA_207 附錄 §2：「我是經原那組的芷若。」、沒去過 Café＝「我在溫州街的兩點半打工，要喝什麼可以先傳。」；第三句「剛剛」）',before===0&&JSON.stringify(dm().map(x=>x[2]))===JSON.stringify(['我是經原那組的芷若。','我在溫州街的兩點半打工，要喝什麼可以先傳。','你剛剛在群組回得很快。我以為法律系的人都很慢。'])&&dm().every(x=>x[0]===FRI&&x[1]>=22+7/60-0.001&&x[1]<22+7/60+0.06),JSON.stringify(dm()));
     check('回過：收到以後有她的聯絡方式',INV.hasContact(G,'heroine_02'));
+    { const m2=setup({CAFE_VISITS:2}); G.hour=12; PHONE.answer(G,m2.ask.id,0); run(12,22.3); check('回過、去過 Café（點過餐）：第二句「也是兩點半那個店員。」（AA_207 附錄 §2）',JSON.stringify(dm().map(x=>x[2]).slice(0,2))===JSON.stringify(['我是經原那組的芷若。','也是兩點半那個店員。']),JSON.stringify(dm())); }
     m=setup({dating_kexin:true}); G.hour=12; PHONE.answer(G,m.ask.id,0); run(12,23.9); const d0=dm().length; keepOn(FRI+1,0); run(0,15.3);
     check('交往中：當晚沒有，隔天 15:10 收到、第三句「你昨天在群組回得很快。」',d0===0&&dm().length===3&&dm().every(x=>x[0]===FRI+1&&x[1]>=15+10/60-0.001&&x[1]<15+10/60+0.06)&&dm()[2][2]==='你昨天在群組回得很快。我以為法律系的人都很慢。',JSON.stringify(dm()));
     m=setup(); G.hour=22.5; PHONE.answer(G,m.ask.id,1); run(22.5,23.9); const late0=dm().length; keepOn(FRI+1,0); run(0,22.3);
     check('22:07 以後才回：隔天 22:07、第三句「昨天」（不會補在回覆之前的時間）',late0===0&&dm().length===3&&dm().every(x=>x[0]===FRI+1&&x[1]>=22+7/60-0.001&&x[1]<22+7/60+0.06)&&dm()[2][2]==='你昨天在群組回得很快。我以為法律系的人都很慢。',JSON.stringify(dm()));
     setup(); run(11.5,23.9); keepOn(FRI+1,0); run(0,23.9); check('不回：沒有私訊（等 Café 第五次）',dm().length===0);
     m=setup({zhiruoShopContactDay:FRI-1,zhiruoFirstOrder:'拿鐵'}); G.hour=12; PHONE.answer(G,m.ask.id,0); run(12,23.9);
-    check('Café 第五次的私訊先到：群組回過也不會再傳一次（只有 Café 版三句）',dm().length===3&&dm()[0][2]==='我是 Café 的芷若。',JSON.stringify(dm()));
+    check('Café 第五次的私訊先到：群組回過也不會再傳一次（只有 Café 版三句）',dm().length===3&&dm()[0][2]==='我是兩點半的芷若。店裡的帳號是我在回。'   /* AA_207 §5（BB_167 SC3 第 27 列）*/,JSON.stringify(dm()));
     m=setup(); G.hour=12; PHONE.answer(G,m.ask.id,1); run(12,23.9); G.flags.zhiruoShopContactDay=FRI+3; G.flags.zhiruoFirstOrder='手沖'; keepOn(FRI+3,10); run(10,23.9);
-    check('群組先回：之後 Café 第五次不會再傳 Café 版',dm().length===3&&dm()[0][2]==='我是通識小組的芷若。',JSON.stringify(dm())); }
+    check('群組先回：之後 Café 第五次不會再傳 Café 版',dm().length===3&&dm()[0][2]==='我是經原那組的芷若。',JSON.stringify(dm())); }
   /* ---------- 麵店團：沒來才揪 ---------- */
   { const W4THU=termDay(4,4), PINGS=['麵店 我揪了','麵店 我先到','今天阿姨有滷蛋','麵店 不用回'];   /* AA_313 5-3：阿哲的訊息不加句號 */
     const sim=(d0,d1,came)=>{ for(let d=d0;d<=d1;d++){ keepOn(d,7.5,'campus'); run(7.5,17.9,0.1); if(came(d)){ G.zone='noodle'; run(18,19,0.1); G.zone='campus'; } run(19.1,23.5,0.1); } };

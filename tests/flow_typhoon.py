@@ -4,7 +4,7 @@ A. 等到 21:33（遊戲時間）：手機「訊息」→「通知」：「新�
    「麵店團」：阿哲、Alison、柏翰、阿哲四則，最後一則有三個回覆按鈕 → 點「（貼一張颱風的貼圖）」→ Alison「這張貼圖比講義有用。」
 B. 走到床邊睡覺 → 第 27 天（10/13 週一）早上：下雨；手機「今天」寫「今天放假（颱風假），沒有課」。
 C. [前置／捷徑] 讀檔：第 27 天 17:57 宿舍房間（同樣的群組、見過方奕廷）→ 等到 18:00：泡麵之夜自己開始；方奕廷進來那一句起是 CG（正式檔、1920×1080）；
-   選「看情況。」→ 阿凱「你們法律系每次都這樣。」；結束後可以走動、記了 SAID_DEPENDS。
+   選「看情況。」→ 阿凱「又來了。……好啦，拿去。」（AA_207 附錄 §2）；結束後可以走動、記了 SAID_DEPENDS。
 截圖：A 的通知、群組；B 早上；C 的 CG（直向）。Playwright＋SwiftShader 手機模擬，不是 iPhone 實機。
 用法：python3 tests/flow_typhoon.py URL [輸出資料夾]"""
 import asyncio, json, os, sys, time
@@ -124,7 +124,7 @@ async def main():
         while time.time() - t0 < 420 and not (s['dlg'] or s['choices']):
             if await L.phone_away(pg, cdp): print('  [玩家操作] 手機自己跳出來（沒回的訊息）→ 收起來')   # D103：手機開著＝遊戲暫停，等不到 18:00
             await pg.wait_for_timeout(2000); s = await L.state(pg)
-        run.check('18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）', '二十包' in (s.get('dtext') or ''), json.dumps(s, ensure_ascii=False))
+        run.check('18:00 泡麵之夜自己開始（阿凱「我上禮拜就囤了二十包。你看，有用吧。」，AA_207 附錄 §2）', '二十包' in (s.get('dtext') or ''), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(2500)
         cg = await pg.evaluate(CG_JS)
         s = await L.state(pg)
@@ -137,7 +137,7 @@ async def main():
         run.check('選項出現時還是同一張 CG', cg2.get('bg', '').endswith('event_typhoon_noodles.webp'), json.dumps(cg2, ensure_ascii=False))
         await L.advance_dialogs(pg, cdp, run, lambda q: '每次都這樣' in (q.get('dtext') or ''), max_steps=6, pick=2)
         s = await L.state(pg)
-        run.check('選「看情況。」→ 阿凱「你們法律系每次都這樣。」', '你們法律系每次都這樣。' in (s.get('dtext') or ''), json.dumps(s, ensure_ascii=False))
+        run.check('選「看情況。」→ 阿凱「又來了。……好啦，拿去。」（AA_207 附錄 §2）', '又來了。……好啦，拿去。' in (s.get('dtext') or ''), json.dumps(s, ensure_ascii=False))
         s = await L.advance_dialogs(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=20)
         mem = await pg.evaluate("SOCIAL.has('kai','SAID_DEPENDS')")
         run.check('結束後可以走動、記了 SAID_DEPENDS（阿凱）', not s['busy'] and not s['dlg'] and mem, json.dumps(s, ensure_ascii=False))

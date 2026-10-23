@@ -47,7 +47,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     fresh(W7TUE,13,'campus'); meet('classmate_peishan'); PHONE.join(G,'noodle_team','麵店團'); G.phone.groups.noodle_team.day=W7TUE+3; const f=EVENTS.check(e);
     check('A14：沛珊當面說——第 7 週起、要認識她；早就在群組裡的不會；第 7 週之後才加入群組的會',a&&!b&&!c&&!d&&f,JSON.stringify({a,b,c,d,f}));
     fresh(W7TUE,13,'campus'); meet('classmate_peishan'); npc('classmate_peishan',1,1); await EVENTS.run(e);
-    check('A14：沛珊說同樣的內容（兩句）、AN_DORM_RULES=peishan、只一次',JSON.stringify(lines())===JSON.stringify(['聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'])&&G.flags.AN_DORM_RULES==='peishan'&&!EVENTS.check(e),JSON.stringify(lines()));
+    check('A14：沛珊先問自己的問題、再說聽說的（AA_207 附錄 §2）、以安那句照原文、AN_DORM_RULES=peishan、只一次',JSON.stringify(lines())===JSON.stringify(['欸，你們宿舍規則有人全部讀完嗎？','我聽說以安讀完了，還寫了三頁意見。','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'])&&G.flags.AN_DORM_RULES==='peishan'&&!EVENTS.check(e),JSON.stringify(lines()));
     fresh(W7TUE,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); G.phone.groups.noodle_team.day=W7TUE+3; run(8,23);
     check('A14：第 7 週週二之後才加入群組：看不到加入以前的群組訊息',!G.msgs||!G.msgs.some(m=>m.tag==='an_rules_grp')); }
   /* ---------- A15 G1 考完試走出教室 ---------- */
@@ -106,8 +106,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('跨年：「我想在臺北跟麵店團跨年。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
     toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:40 宿舍頂樓（AA_204 2-3）',!!o&&o.ev==='ev_nye_roof'&&Math.abs(o.h-(23+40/60))<1e-6,JSON.stringify(o));
     G.hour=23.6; picks=['出發']; await OUT.tick(GM); let L2=lines();
-    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……我們的新年差一秒。明年再對時。」；沒見過她的阿哲喊「政大的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……我們的新年差一秒。明年再對時。')&&L2.includes('政大的那位，新年快樂！'),JSON.stringify(L2));
-    check('跨年（頂樓）：她的視訊（零點前一分鐘）排在群戲「倒數是 Alison 起的頭」之前、零點的旁白之後沒有她（AA_313 第 2 節第 16 列）',L2.indexOf('……我們的新年差一秒。明年再對時。')>=0&&L2.indexOf('……我們的新年差一秒。明年再對時。')<L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')&&L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')<L2.indexOf('（零點。很遠的地方，煙火亮了。只看得到上半截。）'),JSON.stringify(L2));
+    check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……你那邊卡了一秒啦。新年快樂。」（AA_207 §5／BB_167 SC4 第 33 列）；沒見過她的阿哲喊「政大的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……你那邊卡了一秒啦。新年快樂。')&&L2.includes('政大的那位，新年快樂！'),JSON.stringify(L2));
+    check('跨年（頂樓）：她的視訊（零點前一分鐘）排在群戲「倒數是 Alison 起的頭」之前、零點的旁白之後沒有她（AA_313 第 2 節第 16 列）',L2.indexOf('……你那邊卡了一秒啦。新年快樂。')>=0&&L2.indexOf('……你那邊卡了一秒啦。新年快樂。')<L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')&&L2.indexOf('（倒數是 Alison 起的頭，數到三，大家才跟上。）')<L2.indexOf('（零點。很遠的地方，煙火亮了。只看得到上半截。）'),JSON.stringify(L2));
     ask(1); G.flags.KX_MET_NOODLE_TEAM=true; toNye(20); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
     check('跨年（頂樓）：中秋烤肉見過她的阿哲喊「可昕新年快樂！」',L2.includes('可昕新年快樂！'));
     ask(null); PHONE.join(G,'noodle_team','麵店團'); toNye(20); o=OUT.get(G,'nye'); G.hour=23.6; picks=['出發']; await OUT.tick(GM); L2=lines();
@@ -144,7 +144,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await morning({KX_GRADES_PACT_SET:true},['先看']);
     check('期末成績（先看）：早上照常發成績單、KX_GRADES_PACT=peeked、晚上照樣一起打開（不吵）',L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1&&G.flags.KX_GRADES_PACT==='peeked'&&!!OUT.get(G,'kx_grades'));
     run(7.6,21.1); const pk=G.msgs.filter(x=>x.tag==='kx_grades_peek').map(x=>x.text);
-    check('期末成績（先看）：那天 21:00 她傳「你偷看了吧。你的表情寫在訊息的標點符號上。」',JSON.stringify(pk)==='["你偷看了吧。你的表情寫在訊息的標點符號上。"]',JSON.stringify(pk));
+    check('期末成績（先看）：那天 21:00 她傳「你偷看了吧。你今天訊息都只回一個字。」（AA_207 §5／BB_167 SC4 第 34 列）',JSON.stringify(pk)==='["你偷看了吧。你今天訊息都只回一個字。"]',JSON.stringify(pk));
     await morning({KX_GRADES_PACT_SET:true},['等五號']); G.hour=22; await OUT.tick(GM); const missed=OUT.get(G,'kx_grades').state; const F0=Object.assign({},G.flags), C0=G.courses, O0=G.outings; fresh(BRK+1,7.5,'dorm',F0); G.courses=C0; G.outings=O0; picks=[]; await CLS.morning(GM); L=lines();
     check('期末成績（等，但那晚沒接）：隔天早上照常發成績單',missed==='missed'&&L.includes('大一上的成績出來了。')&&!!CLS.rec(G).grades.Y1S1,JSON.stringify({missed,L})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

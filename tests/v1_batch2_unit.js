@@ -101,9 +101,10 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const at=dating?{day:21,h:15+10/60}:{day:20,h:22+7/60}, before=at.day*24+at.h-0.1; G.day=Math.floor(before/24); G.hour=before-G.day*24; PHONE.tick(G);
     const none=!G.msgs.some(m=>m.tag==='zr_dm1'); G.day=at.day; G.hour=at.h+0.02; PHONE.tick(G); STORY.phoneRules(GM); const T=KX('p:heroine_02').map(m=>m.text);
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西；交往中隔天才傳＝「昨天」，飲料都是同一句 */
-    const DRINK={'手沖':'你今天的手沖，悶蒸我多等了十秒。你沒發現。','拿鐵':'你今天的拿鐵，奶泡我多打了三秒。你沒發現。','卡布奇諾':'你今天的卡布奇諾，奶泡我多打了三秒。你沒發現。','熱可可':'你今天的熱可可，奶泡我多打了三秒。你沒發現。','美式':'你今天的美式，水我少加了一點。你沒發現。','茶':'你今天的茶，我多泡了十秒。你沒發現。'};
-    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':DRINK[order]);
-    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是 Café 的芷若。','……你應該知道。',third]),JSON.stringify(T));
+    /* AA_207 §5（BB_167 SC3 第 27 列）：前兩則換成店員帳號的正事；「你沒發現。」換成「不知道你喝不喝得出來」、點心的刪掉；交往中隔天那一版照留 */
+    const DRINK={'手沖':'你今天的手沖，悶蒸我多等了十秒。不知道你喝不喝得出來。','拿鐵':'今天那杯拿鐵，奶泡我多打了一點，不知道你喝不喝得出來。','卡布奇諾':'今天那杯卡布奇諾，奶泡我多打了一點，不知道你喝不喝得出來。','熱可可':'今天那杯熱可可，奶泡我多打了一點，不知道你喝不喝得出來。','美式':'你今天的美式，水我少加了一點。不知道你喝不喝得出來。','茶':'你今天的茶，我多泡了十秒。不知道你喝不喝得出來。'};
+    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':DRINK[order]);
+    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是兩點半的芷若。店裡的帳號是我在回。','要外帶可以先傳，我先做。',third]),JSON.stringify(T));
     check('F 收到以後有她的聯絡方式',INV.hasContact(G,'heroine_02')); }
   /* ---------- G 語彤事件 3 ---------- */
   { const e=ev('ev_yutong_customer'); const setup=()=>{ fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); };
