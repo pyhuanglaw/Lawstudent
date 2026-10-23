@@ -1293,13 +1293,13 @@ R7 = [
        jsok=[('平常：在圓椅上趴著（正式模型 CAT_lie、visible、不在石桌下）', R7_CAT, CATOK(False, 'lie'))]),
   dict(id='CAT50_EVE', key='2028-12-10', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
        jsok=[('寒流前一天（12/10）：照舊趴在圓椅上', R7_CAT, CATOK(False, 'lie'))]),
-  dict(id='CAT50_COLD', key='2028-12-12', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat'), ('usep', '^麻糬$')], pref=[], want=[CAT_COLD],
+  dict(id='CAT50_COLD', key='2028-12-12', h=14.0, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat'), NCAT, ('usep', '^麻糬$')],   # BB-B 15:2x：負載高走不到石桌下（路是通的：半徑 1.4 m 內 69 格可站、找得到路）→ NCAT【捷徑】 pref=[], want=[CAT_COLD],
        jsok=[('寒流（12/11～12/14）：縮成一團（CAT_curl）在涼亭石桌底下', R7_CAT, CATOK(True, 'curl')), ('高度在涼亭地台上（y < 0.35）', "(c=>c&&c.y)(%s)" % R7_CAT, lambda y: isinstance(y, (int, float)) and y < 0.35)]),
-  dict(id='CAT50_STAY', key='2028-12-14', h=22.25, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, pref=[], want=[],
+  dict(id='CAT50_STAY', key='2028-12-14', h=22.25, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS + "G.flags.ANNIV23='there';", pref=[], want=[],   # BB-B 15:2x：12/14 是阿鳳麵店二十三週年（一定會發生：19:30 還沒到就打電話帶去，y34b3d.js a23CallDue）；22:15 在公園的玩家已經去過了＝前置 ANNIV23＝there
        steps=[NTREE, TREE, CATSHOT('2245'), ('chk', '23:00 以前：還縮在石桌下', R7_CAT, CATOK(True, 'curl')), ('chk', '人在公園裡', INPARK, True), ('until', 23.1),
               ('chk', '待在公園裡過 23:00：還在公園裡', INPARK, True), ('shot', '2306', CATT, None)],
        jsok=[('23:00 以後：公園沒有貓（不顯示）', R7_CAT, CATGONE), ('12/15～16 以前沒有「看圓椅」按鈕', "(c=>c&&c.btn&&c.btn.hidden)(%s)" % R7_CAT, True)]),
-  dict(id='CAT50_ZQ', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE, pref=['「我幫妳抱。」'],
+  dict(id='CAT50_ZQ', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=Y4 + ZQF + CATN + SQ08DONE + "G.flags.ANNIV23='there';", pref=['「我幫妳抱。」'],   # 同上：麵店週年前置
        steps=[NTREE, TREE, ('until', 22.75), ('shot', 'after', CATT, None)], want=CAT_EV0 + CAT_EVB, cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True},
        jsok=[('子晴帶走那一場演完（23:00 以前）：公園沒有貓', R7_CAT, CATGONE), ('現在還不到 23:00', "GAME.G.hour<23", True)]),
   dict(id='CAT50_AFTER', key='2028-12-14', h=23.5, zone='wenzhou', flags=dict(TWF), gset={'weather': 'clear'}, js=CAT_JS, steps=[CATSHOT('cat')], pref=[], want=[],
