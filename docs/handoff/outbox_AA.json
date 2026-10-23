@@ -1906,6 +1906,22 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "LAWWW-B 10-23 19:0x 第 6 項（USER_WANTS D37）；取代 BB_123、AA_127 1-7／2-7 的提案"
+  },
+  {
+   "task": "D14-T11",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "4f4da5ad1",
+   "files": [
+    "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md",
+    "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（以安、語彤的七夕、聖誕併在 AA_416 第 3、5 節，不另出第二批）",
+   "next": "LAWWW：AA_416 第 10 節；BB-B：兩張 CG 條件／地點調整；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW, BB",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 19:0x 第 7 項（USER_WANTS D38）"
   }
  ],
  "items": [
