@@ -1988,6 +1988,215 @@ R11 += [
 for _s in R11:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R11
+# ===== R12：第 77、80 項（AA_207 大一上改稿、AA_420 溫州街打工；開發分支 cecd9eb98；事實照子代理 20:4x 讀 ab65_2_unit／aa420_jobs_unit／aa420_wz_unit 與原始碼）=====
+#   和清單字面不一樣、照程式寫的：77-③ 明軒「家裡的事」ev_mingxuan_money 標了 off（交接包 v1 關閉），遊戲不會自己觸發＝只用 runev 看台詞，另外記 off；
+#   77-④ 沒見過學姊就不演的是校慶的法律問答攤 ev_sis_festival_booth（prereq met_sis），不是社博（社博 ev_sis_club_expo 沒見過的照樣演）。
+UNMEET = lambda i: " { const M=G.social&&G.social.mem; if(M&&M[%s]) M[%s]=M[%s].filter(m=>m.tag!=='FIRST_MET'); delete G.flags['met_'+%s]; }" % ((json.dumps(i),) * 4)
+EVDONE = lambda i, k=None: " G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done[%s]=%s;" % (json.dumps(i), "D(%s)" % json.dumps(k) if k else 'G.day-1')
+EVUNDO = lambda i: " if(G.events&&G.events.done) delete G.events.done[%s];" % json.dumps(i)
+ORD2 = lambda a, b: "(()=>{ const L=(window.__LOG||[]).map(x=>String(x.t)); const i=L.findIndex(t=>t.includes(%s)), j=L.findIndex(t=>t.includes(%s)); return i>=0&&j>i; })()" % (json.dumps(a, ensure_ascii=False), json.dumps(b, ensure_ascii=False))
+RND = lambda v: " Math.random=()=>%s;" % v   # 【捷徑】固定亂數（ZR_CUP_NOTE_P=0.1 的那一下）
+ZRBELL = ['圖我看得懂啦，是老師講太快。', '上週那張圖我只抄到一半，下次借我看。']
+GEL = ['標錯價喔？我看過那種新聞。原來你們上課會講這個。', '好，那我把你拉進群組，報告的事群組講。']
+CUP = '（紙杯上多了一行字，寫的是一部電影裡的一個場景。）'
+BOOTH = ['你。過來。', '幫我顧十分鐘。不會的不要亂答，叫我就好。']
+R12 = [
+  # 77-① 芷若傅鐘：經原分組演過＝選項①「週五的經原……」有自己的回答，不接「對啊。下一堂三點，懶得走。」
+  dict(id='AB77_BELL_GE', key='2025-09-30', h=15.0, zone='campus', flags=dict(TW3), js=" LV('heroine_02',30,10,5);" + EVDONE('ev_zhiruo_ge_group', '2025-09-26'),
+       steps=[('runev', 'ev_zhiruo_bell')], pref=['週五的經原，妳聽得懂供給曲線嗎？'], want=ZRBELL, none=['對啊。下一堂三點，懶得走。'],
+       jsok=[('選項①出現', CHN('週五的經原，妳聽得懂供給曲線嗎？'), GE1(1))]),
+  dict(id='AB77_BELL_NOGE', key='2025-09-30', h=15.0, zone='campus', flags=dict(TW3), js=" LV('heroine_02',30,10,5);" + EVUNDO('ev_zhiruo_ge_group'),
+       steps=[('runev', 'ev_zhiruo_bell')], pref=['妳上完課都在這裡發呆？'], want=['對啊。下一堂三點，懶得走。'],
+       jsok=[('經原沒演過：沒有選項①', CHN('週五的經原，妳聽得懂供給曲線嗎？'), 0)]),
+  # 77-① 經原分組：在 Café 見過（FIRST_MET）＝「欸，是你。你也修經原喔？」、不自我介紹；沒見過＝「不好意思，你是法律系的嗎？……」＋「林芷若，外文二。」
+  dict(id='AB77_GE_MET', key='2025-09-26', h=12.3, zone='dorm', flags=dict(TW3), js=" LV('heroine_02',20,5,5); SOCIAL.remember('heroine_02','FIRST_MET','cafe');" + EVUNDO('ev_zhiruo_ge_group'),
+       steps=[('runev', 'ev_zhiruo_ge_group')], pref=['好。網拍標錯價算不算？'], want=['欸，是你。你也修經原喔？'] + GEL,
+       none=['林芷若，外文二。', '不好意思，你是法律系的嗎？', '一千元的相機那種', '組員裡有一個法律系的']),
+  dict(id='AB77_GE_NEW', key='2025-09-26', h=12.3, zone='dorm', flags=dict(TW3), js=UNMEET('heroine_02') + EVUNDO('ev_zhiruo_ge_group'),
+       steps=[('runev', 'ev_zhiruo_ge_group')], pref=['好。網拍標錯價算不算？'], want=['不好意思，你是法律系的嗎？剛剛點名有聽到。', '林芷若，外文二。'] + GEL,
+       none=['欸，是你。你也修經原喔？', '一千元的相機那種', '組員裡有一個法律系的']),
+  # 77-② 子晴公館的晚上：第一句「你怎麼這麼晚還在公館？」，沒有「欸不是」
+  dict(id='AB77_ZQ_NIGHT', key='2025-10-15', h=21.5, zone='gongguan', flags=dict(TW3), js=" LV('heroine_04',25,10,5);" + EVUNDO('ev_ziqing_gongguan_night'),
+       steps=[('runev', 'ev_ziqing_gongguan_night')], pref=[], want=['你怎麼這麼晚還在公館？', '我剛從網咖出來，打了三小時。你室友還活著嗎？他三天沒回訊息。'], none=['欸不是'],
+       jsok=[('「你怎麼這麼晚還在公館？」在網咖那一句前面', ORD2('你怎麼這麼晚還在公館？', '我剛從網咖出來'), True)]),
+  # 77-③ 明軒家裡的事：最後一句「嗯，謝了。」，沒有「不要跟阿哲講」（事件 off＝遊戲不會自己演，記下來）
+  dict(id='AB77_MX_MONEY', key='2025-11-20', h=19.0, zone='dorm', flags=dict(TW3), js=" LV('classmate_mingxuan',45,30,10);",
+       steps=[('runev', 'ev_mingxuan_money')], pref=[], want=['我下學期家教可能要再多接。家裡……嗯。', '只是球可能要少打一點。', '嗯，謝了。'], none=['不要跟阿哲講', '他會請我吃一個月的麵'],
+       jsok=[('ev_mingxuan_money 標了 off（遊戲裡不會自己觸發；回報 LAWWW-B）', "(ev=>ev?!!ev.off:null)(STORY_EVENTS.find(e=>e.id==='ev_mingxuan_money'))", True)]),
+  # 77-④ 沒見過學姊（met_sis 沒有）：校慶法律問答攤不演；對照組 met_sis＝演
+  dict(id='AB77_BOOTH_NO', key='2025-11-15', h=10.2, zone='campus', flags=dict(TW3), js=" SOCIAL.meet('heroine_05','test'); delete G.flags.met_sis;" + EVUNDO('ev_sis_festival_booth'),
+       steps=[PLACEAT(-17.8, 13.0, '【捷徑】放到法律問答攤前（-17.8,13.0）'), ('until', 10.9, 900)], pref=[], none=BOOTH,
+       jsok=[('prereq（met_sis）不成立', "EVENTS.cond((STORY_EVENTS.find(e=>e.id==='ev_sis_festival_booth')||{}).prereq)", False)]),
+  dict(id='AB77_BOOTH_YES', key='2025-11-15', h=10.2, zone='campus', flags=dict(TW3, met_sis=True), js=" LV('heroine_05',25,10,5); G.flags.met_sis=true;" + EVUNDO('ev_sis_festival_booth'),
+       steps=[PLACEAT(-17.8, 13.0, '【捷徑】放到法律問答攤前（-17.8,13.0）'), ('until', 11.5, 1500)], pref=[], want=BOOTH[:1],
+       jsok=[('對照組：見過學姊＝攤位演了', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_sis_festival_booth)", True)]),
+  # 77-⑤ 可昕：跨年邀約的選項「我想在臺北跟麵店團跨年。」→「好。那你幫我跟阿哲說新年快樂。」；成績公布「……都過了。好，這次才是真的放假。」
+  dict(id='AB77_KX_NYE', key='2025-12-24', h=20.8, zone='dorm', flags=dict(TW3, dating_kexin=True), js=" LV('kexin',65,50,45); G.flags.dating_kexin=true;",
+       steps=[('until', 21.3, 900),
+              ('chk', '12/24 21:00 可昕私訊、兩個選項', "(m=>m&&m.ask?m.ask.opts.map(o=>o.t):null)((GAME.G.msgs||[]).find(x=>x.text==='跨年要不要來高雄？這邊河邊人比較少。'))", ['好。', '我想在臺北跟麵店團跨年。']),
+              ('jsrun', "(()=>{ const m=(GAME.G.msgs||[]).find(x=>x.text==='跨年要不要來高雄？這邊河邊人比較少。'); if(!m||!m.ask) return false; return PHONE.answer(GAME.G,m.ask.id,1)!=null; })()", '【捷徑】手機回第二個選項（PHONE.answer）'),
+              ('wait', GE('好。那你幫我跟阿哲說新年快樂。'), 60, '她回')],
+       jsok=[('回「好。那你幫我跟阿哲說新年快樂。」', GE('好。那你幫我跟阿哲說新年快樂。'), True), ('KX_NYE_PICK＝roof', "GAME.G.flags.KX_NYE_PICK", 'roof'), ('沒有「我答應麵店團要去頂樓了。」', GE('我答應麵店團要去頂樓了。'), False)]),
+  dict(id='AB77_KX_GRADES', key='2026-01-23', h=21.0, zone='dorm', flags=dict(TW3, dating_kexin=True), js=" LV('kexin',65,50,45); G.flags.dating_kexin=true;",
+       steps=[('runev', 'ev_kexin_grades_open')], pref=[], want=['三、二、一——', '……都過了。好，這次才是真的放假。'], none=['寒假開始']),
+  # 77-⑥ 芷若紙杯上的電影：第一次一定有（亂數 0.99 也有）；之後 10%（0.5＝沒有、0.05＝有）
+  dict(id='AB77_CUP_FIRST', key='2025-10-20', h=15.0, zone='cafe', flags=dict(TW3, CAFE_VISITS=2), js=" LV('heroine_02',70,50,45); G.flags.CAFE_VISITS=2; delete G.flags.zhiruoCupNote;" + RND(0.99),
+       steps=[('runev', 'ev_cafe_barista_zhiruo')], pref=['拿鐵'], want=[CUP], jsok=[('演完記 zhiruoCupNote', "!!GAME.G.flags.zhiruoCupNote", True)]),
+  dict(id='AB77_CUP_AGAIN_NO', key='2025-10-20', h=15.0, zone='cafe', flags=dict(TW3, CAFE_VISITS=2, zhiruoCupNote=True), js=" LV('heroine_02',70,50,45); G.flags.CAFE_VISITS=2; G.flags.zhiruoCupNote=true;" + RND(0.5),
+       steps=[('runev', 'ev_cafe_barista_zhiruo')], pref=['拿鐵'], none=[CUP]),
+  dict(id='AB77_CUP_AGAIN_YES', key='2025-10-20', h=15.0, zone='cafe', flags=dict(TW3, CAFE_VISITS=2, zhiruoCupNote=True), js=" LV('heroine_02',70,50,45); G.flags.CAFE_VISITS=2; G.flags.zhiruoCupNote=true;" + RND(0.05),
+       steps=[('runev', 'ev_cafe_barista_zhiruo')], pref=['拿鐵'], want=[CUP]),
+]
+# ---- 80：溫州街三家店的打工（jobs3d.js、wzlines3d.js、wzpark3d.js、data/wz_events.js）----
+def HIRE(k, days, **o):   # 照 tests/aa420_jobs_unit.js 的 hire（G.jobs[k]）；【前置】已經應徵好
+    extra = ''.join(" J0[%s][%s]=%s;" % (json.dumps(k), json.dumps(a), json.dumps(v)) for a, v in o.items())
+    return " { const J0=JOBS.rec(G); J0[%s]={since:G.day-1,from:(G.day-1)*24,day:%s,shifts:0,skill:0,missedRun:0,quit:null,gone:null,missPend:false,missN:0,worked:[],chk:G.day-1,wk:{},brk:{},ot:{}};%s }" % (json.dumps(k), json.dumps(days), extra)
+MONEY0 = ('mark', "window.__MA=GAME.G.money|0; window.__LN=(window.__LOG||[]).length;")
+NOLOSS = ('錢沒有被扣（另一個不扣分）', "(GAME.G.money|0)>=(window.__MA|0)", True)
+def JUMPK(k, h, z, note=''): return ('jsrun', "(async([k,h,z])=>{ const G=GAME.G; G.day=STORY.dayOfKey(k); G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)" % json.dumps([k, h, z]), '【捷徑】日子撥到 %s %s、直接進 %s%s' % (k, h, z, note))
+SHIFT = lambda k: ('jsrun', "(()=>{ void JOBS.runShift(GAME,%s); return true; })()" % json.dumps(k), '【捷徑】直接開班（JOBS.runShift；走進店裡在時段內也會自動開）')
+ANS = lambda th, k, note: ('jsrun', "(()=>{ const m=(GAME.G.msgs||[]).find(x=>x.th===%s&&x.ask); if(!m) return false; return PHONE.answer(GAME.G,m.ask.id,%d)!=null; })()" % (json.dumps(th), k), '【捷徑】手機回 %s（PHONE.answer）' % note)
+LEASE1 = '爸，你可以問他啊。他是法律系的。'
+YTL = '（你想起阿德那封信。學長第一個問的，是租約寫了幾年。）'
+R12 += [
+  # 80-① 週六早午餐＋法服值班：出門提醒兩個都列，選法服＝早午餐這週請假（missed）、到萬才館、不扣錢
+  dict(id='JOB80_SAT', key='TERMDAY:Y2S1:3:6', h=6.9, zone='dorm', flags=dict(TW3, lawclub=True), js=" G.flags.lawclub=true;" + HIRE('brunch', [6], shifts=2),
+       steps=[MONEY0, ('until', 7.4, 900)], pref=['出發：法服值班'], wantZone='wancai',
+       jsok=[('列了「出發：半熟的班（07:30～11:30）」', CHN('出發：半熟的班（07:30～11:30）'), GE1(1)), ('列了「出發：法服值班（萬才館一樓 9:00）」', CHN('出發：法服值班（萬才館一樓 9:00）'), GE1(1)),
+             ('早午餐這週＝missed', "(q=>q?q.state:null)(OUT.get(GAME.G,'job_brunch_'+GAME.G.day))", 'missed'), NOLOSS]),
+  # 80-① 週四影印＋公法讀書會：兩個都列，選讀書會＝影印這週請假、提示「今晚去公法讀書會……」
+  dict(id='JOB80_THU', key='TERMDAY:Y2S1:3:4', h=17.3, zone='dorm', flags=dict(TW3, CLUB_public_law_group=True), js=" G.flags.CLUB_public_law_group=true;" + HIRE('copy', [4], shifts=2),
+       steps=[MONEY0, ('until', 17.9, 900)], pref=['去公法讀書會'],
+       jsok=[('列了「出發：阿德影印的班（18:00～22:00）」', CHN('出發：阿德影印的班（18:00～22:00）'), GE1(1)), ('列了「去公法讀書會」', CHN('去公法讀書會'), GE1(1)),
+             ('提示「今晚去公法讀書會（20:00，萬才館研討室 A）」', LNQ('今晚去公法讀書會（20:00，萬才館研討室 A）'), GE1(1)), ('影印這週＝missed', "(q=>q?q.state:null)(OUT.get(GAME.G,'job_copy_'+GAME.G.day))", 'missed'), NOLOSS]),
+  # 80-② 暑假第一天 12:00 三家各問一次；早午餐「放假先停。」＝暑假不排、開學第一週恢復；茶屋「來。」＝照排
+  dict(id='JOB80_VAC', key='2026-06-15', h=11.8, zone='dorm', flags=dict(TW3), js=HIRE('brunch', [6], shifts=1) + HIRE('tea', [7], shifts=1) + HIRE('copy', [3], shifts=1),
+       steps=[('until', 12.3, 900), ANS('p:wz_mi', 1, '小米姐「放假先停。」'), ANS('p:wz_su', 0, '蘇姨「來。」'), ANS('p:wz_ade', 0, '阿德「來。」'), ('wait', GE('好。開學見。'), 60, '小米姐回')],
+       jsok=[('小米姐「放假了。週末早上還來嗎？」', GE('放假了。週末早上還來嗎？'), True), ('阿德「放假了，晚上比較閒。還要來嗎？」', GE('放假了，晚上比較閒。還要來嗎？'), True), ('蘇姨「放假了。院子還是要掃。」', GE('放假了。院子還是要掃。'), True),
+             ('小米姐回「好。開學見。」', GE('好。開學見。'), True),
+             ('「放假先停」：暑假的週六不排、早午餐 paused', "(()=>{ const G=GAME.G; let s=G.day; while(CALENDAR.dateOf(s).wd!==6) s++; return [JOBS.due(G,'brunch',s), JOBS.paused(G,'brunch')]; })()", [False, True]),
+             ('「來。」：暑假的週日茶屋照排', "(()=>{ const G=GAME.G; let s=G.day; while(CALENDAR.dateOf(s).wd!==7) s++; return JOBS.due(G,'tea',s); })()", True),
+             ('開學第一週恢復', "(()=>{ const G=GAME.G; let s=CALENDAR.termDays('Y2S1').from; while(CALENDAR.dateOf(s).wd!==6) s++; return JOBS.due(G,'brunch',s); })()", True)]),
+  # 80-③ 日本路線大三下暫停；回國第一次進店，阿德一句；選「先不了」
+  dict(id='JOB80_JP_BACK', key='2028-03-01', h=12.0, zone='dorm', flags=dict(EXCHANGE_ROUTE='JP', EXCH_RULE=1), js=HIRE('copy', [3], shifts=3),
+       steps=[('jsrun', "(()=>{ JOBS.phone(GAME.G); return true; })()", '人在國外的期間跑一次 JOBS.phone（記 away）'),
+              ('chk', '日本路線大三下：暫停', "(()=>{ const G=GAME.G; let s=G.day+3; while(CALENDAR.dateOf(s).wd!==3) s++; return !JOBS.due(G,'copy',s)&&!!JOBS.away(G,s); })()", True),
+              JUMPK('2028-08-10', 12.0, 'dorm', '（回國以後）'), ('jsrun', "(()=>{ GAME.G.flags.JP_RETURNED=STORY.dayOfKey('2028-08-05'); JOBS.phone(GAME.G); return true; })()", '回國以後再跑一次 JOBS.phone（記 back）'),
+              JUMPK('2028-08-10', 15.0, 'wz_print', '（第一次走進阿德影印）'), ('wait', LNQ('回來了喔。阿芃一直問你去哪了。還要來嗎？') + '>0', 300, '老闆那一句')],
+       pref=['「先不了。」'], want=['回來了喔。阿芃一直問你去哪了。還要來嗎？', '好。有東西要印就來。', '書背對齊了。']),
+  # 80-④ 延畢：美國路線大五上最後一個週日的茶屋＝「離開的時候」
+  dict(id='JOB80_GRAD', key='2029-12-23', h=12.9, zone='wz_teahouse', flags=dict(EXCHANGE_ROUTE='US', EXCH_RULE=1), js=Y4 + HIRE('tea', [7], shifts=20),
+       steps=[('chk', '這天是週日、在大五上的最後一週', "(()=>{ const G=GAME.G, r=CALENDAR.termDays('Y5S1'); return [CALENDAR.dateOf(G.day).wd, !!r&&G.day<=r.to&&G.day>r.to-7]; })()", [7, True]), SHIFT('tea'),
+              ('wait', LNQ('你泡得最好的那一種。') + '>0', 1500, '最後一班')],
+       pref=[], want=['你泡得最好的那一種。'], jsok=[('gone＝grad', "(j=>j?j.gone:null)(JOBS.job(GAME.G,'tea'))", 'grad')]),
+  # 80-⑤ 線一 1-2：影印班、大二上第 6～10 週才有（第 8 週有；第 5、11 週沒有）
+  dict(id='WZ80_LEASE1_W8', key='TERMDAY:Y2S1:8:2', h=17.95, zone='wz_print', flags=dict(TW3), js=HIRE('copy', [2], shifts=2),
+       steps=[SHIFT('copy'), ('wait', LNQ(LEASE1) + '>0', 1500, '1-2')], pref=['我可以陪你去'], want=[LEASE1], jsok=[('選陪他去＝WZ_COPY_LEASE 1', "GAME.G.flags.WZ_COPY_LEASE", 1)]),
+  dict(id='WZ80_LEASE1_W5', key='TERMDAY:Y2S1:5:2', h=17.95, zone='wz_print', flags=dict(TW3), js=HIRE('copy', [2], shifts=2),
+       steps=[SHIFT('copy'), ('until', 22.1, 1500)], pref=[], none=[LEASE1]),
+  dict(id='WZ80_LEASE1_W11', key='TERMDAY:Y2S1:11:2', h=17.95, zone='wz_print', flags=dict(TW3), js=HIRE('copy', [2], shifts=2),
+       steps=[SHIFT('copy'), ('until', 22.1, 1500)], pref=[], none=[LEASE1]),
+  # 80-⑤ 語彤租約的訊息：WZ_COPY_LEASE≥2 才多一句
+  dict(id='WZ80_YT_LEASE2', key='TERMDAY:Y2S2:5:3', h=21.0, zone='dorm', flags=dict(TW3, WZ_COPY_LEASE=2), js=" LV('heroine_03',45,30,10); G.flags.WZ_COPY_LEASE=2;",
+       steps=[('runev', 'ev_yt_lease_text')], pref=[], want=[YTL], jsok=[('那一句在「……房東想把整棟賣掉。還沒確定。」之後', ORD2('房東想把整棟賣掉。還沒確定。', YTL), True)]),
+  dict(id='WZ80_YT_LEASE0', key='TERMDAY:Y2S2:5:3', h=21.0, zone='dorm', flags=dict(TW3), js=" LV('heroine_03',45,30,10); delete G.flags.WZ_COPY_LEASE;",
+       steps=[('runev', 'ev_yt_lease_text')], pref=[], none=[YTL]),
+  # 80-⑥ 線二 2-4：萬才館研討室 A
+  dict(id='WZ80_T_STUDY', key='2027-09-16', h=20.0, zone='wancai', flags=dict(TW3, WZ_YE=2), js=" G.flags.WZ_YE=2; G.flags.CLUB_public_law_group=true;",
+       steps=[('runev', 'ev_wz_t_study')], pref=[], want=['可是這樣不公平吧！'],
+       jsok=[('研討室 A 那一句', LNQ('週四晚上，萬才館研討室 A。'), GE1(1)), ('九點半管理員敲門', LNQ('九點半，管理員來敲門。'), GE1(1)), ('背景 wancai_seminar', "JSON.stringify(window.__BG||[]).includes('wancai_seminar')", True)]),
+  # 80-⑦ 線四：走失單只在大三上第 10 週
+  dict(id='WZ80_CAT_W10', key='TERMDAY:Y3S1:10:2', h=15.0, zone='wenzhou', flags=dict(TW3), js='',
+       steps=[NNOTICE, ('usep', '^看公布欄$')], pref=['走失的貓'], want=['「走失：所長／麻糬／常客（都是牠）。橘白色，很胖。見到請告訴里長。」'], jsok=[('公布欄有「走失的貓」', CHN('走失的貓'), GE1(1))]),
+  dict(id='WZ80_CAT_W9', key='TERMDAY:Y3S1:9:2', h=15.0, zone='wenzhou', flags=dict(TW3), js='',
+       steps=[NNOTICE, ('usep', '^看公布欄$')], pref=['算了', '不看了'], jsok=[('第 9 週沒有「走失的貓」', CHN('走失的貓'), 0)]),
+  # 80-⑧ 學姊在早午餐店：朋友以上叫名字（不是「學弟？」）；沒那麼熟＝「學弟？你在這裡打工喔。」
+  dict(id='WZ80_SIS_NAME_F', key='TERMDAY:Y3S1:5:6', h=9.0, zone='wz_brunch', flags=dict(TW3), js=" LV('heroine_05',45,30,10); G.flags.met_sis=true;" + HIRE('brunch', [6], shifts=4),
+       steps=[('runev', 'ev_wz_b4')], pref=[], jsok=[('朋友以上：「○○？你在這裡打工喔。」', LNQ('？你在這裡打工喔。'), GE1(1)), ('不是「學弟？」', LNQ('學弟？你在這裡打工喔。'), 0), ('{name} 有換成名字', LNQ('{name}'), 0)]),
+  dict(id='WZ80_SIS_NAME_f', key='TERMDAY:Y3S1:5:6', h=9.0, zone='wz_brunch', flags=dict(TW3), js=" LV('heroine_05',25,10,5); G.flags.met_sis=true;" + HIRE('brunch', [6], shifts=4),
+       steps=[('runev', 'ev_wz_b4')], pref=[], want=['學弟？你在這裡打工喔。']),
+]
+for _s in R12:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R12
+# ===== R13：第 76、78 項（AA_416 節日、AA_194／BB_172 邀約台詞；fest3d.js、invites3d.js；開發分支 cecd9eb98；事實照子代理 20:5x）=====
+#   和清單不一樣、照程式寫的（回報 LAWWW-B）：76-①「她約」只給交往中（第 6 階不約）；76-④ 學姊在美國 FEST 沒做；76-⑦ 學姊考試前手機仍列「約她過節：聖誕節」、選了才婉拒；
+#   78-⑤ 節日選項只有手機約有（當面約 together＝不列）。76-⑤ 可昕交往中 2026 七夕兩通 21:00 視訊＝遊戲（Node 重現）。76-⑥ 子晴跨年接在頂樓之後：這一批沒寫（OUT.AFTER，要整場頂樓）。
+S6J = lambda i: " Object.assign(SOCIAL.rel(%s),{fam:65,trust:50,comf:45,npcRom:60,rom:35}); SOCIAL.remember(%s,'FIRST_MET',''); G.contacts=G.contacts||{}; G.contacts[%s]=G.day-60;" % ((json.dumps(i),) * 3)
+DATEJ = lambda i: " G.flags['dating_'+%s]=true; try{ ROM.get(G,%s).status='dating'; }catch(e){}" % (json.dumps(i), json.dumps(i))
+FACE = lambda i: ('jsrun', "(id=>{ let n=GAME.E.npcs.find(x=>x&&x.charId===id); if(!n&&GAME.spawnCharacter){ const P=GAME.E.player.obj.position; n=GAME.spawnCharacter(id,P.x+1,P.z,{}); } void STORY.offerInvite(GAME,id,n); return !!n; })(%s)" % json.dumps(i), '【捷徑】當面：直接叫 %s 的「說話以後的選單」（STORY.offerInvite；負載高走不過去）' % i)
+SAIDBY = lambda who, t: "(window.__LOG||[]).filter(x=>String(x.n).includes(%s)&&String(x.t)===%s).length" % (json.dumps(who, ensure_ascii=False), json.dumps(t, ensure_ascii=False))
+BLOCKED = "(window.__LOG||[]).filter(x=>/那天已經|中午場已經|晚上場已經|那段時間已經有別的約了/.test(String(x.t))).length"
+ZQW = '白色情人節要回禮。我回你一首歌。……很短。'
+R13 = [
+  # 76-①＋78-⑤ 子晴第 6 階：手機「約她過節：白色情人節」→ 中午場 → Café；再按一次是灰的「已經約好了。」；3/14 見面先演節日那一段
+  dict(id='FEST76_ZQ_WHITE', key='2026-03-13', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_04'),
+       steps=[('phoneinv', 'heroine_04', ['約她過節：白色情人節', '中午場', '兩點半 Café'], 'w1'), ('chk', '她答應（AA_415 節日句）', LNQ('那天是什麼日子我知道。你不用解釋。'), GE1(1)),
+              ('phoneinv', 'heroine_04', ['約她過節：白色情人節'], 'w2'), ('chk', '再按一次：「已經約好了。」', LNQ('已經約好了'), GE1(1)),
+              ('jump', "STORY.dayOfKey('2026-03-14')", 11.75, '3/14 11:45'), ('phonego',), ('wait', LNQ(ZQW) + '>0', 1500, '見面先演節日那一段')],
+       pref=[], jsok=[('見面先演「白色情人節要回禮。我回你一首歌。……很短。」', LNQ(ZQW), GE1(1)), ('fest.done＝meet', "((GAME.G.fest||{}).done||{})['heroine_04:white:2026']", 'meet'), ('記憶 HOL_WHITE_2026', MEMQ('heroine_04', 'HOL_WHITE_2026'), True)]),
+  # 76-① 照程式：第 6 階的子晴不會在情人節前一天傳邀約；交往中才會（前一天 21:00）
+  dict(id='FEST76_ZQ_S6_NOASK', key='2026-02-13', h=20.8, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_04'),
+       steps=[('until', 21.4, 900)], pref=[], jsok=[('第 6 階：沒有「明天下午一點」（照程式；清單寫第 6 階會約）', GE('明天下午一點'), False)]),
+  dict(id='FEST76_ZQ_DATE_ASK', key='2026-02-13', h=20.8, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_04') + DATEJ('heroine_04'),
+       steps=[('until', 21.4, 900)], pref=[], jsok=[('交往中：前一天 21:00「明天下午一點」', GE('明天下午一點'), True), ('「溫州街的公園 我起得來」', GE('溫州街的公園 我起得來'), True)]),
+  # 76-① 芷若第 6 階生日（2025-09-28）：見面送禮——四樣＋「（沒有準備）」，選海報 400 元
+  dict(id='FEST76_ZR_BDAY_GIFT', key='2025-09-27', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_02') + " G.money=Math.max(G.money|0,3000);",
+       steps=[('phoneinv', 'heroine_02', ['約她過節：生日', '中午場', '兩點半 Café'], 'b1'), ('jump', "STORY.dayOfKey('2025-09-28')", 11.75, '9/28 11:45'),
+              ('mark', "window.__MA=GAME.G.money|0;"), ('phonego',), ('wait', CHN('（沒有準備）') + '>0', 1500, '送禮的選單')],
+       pref=['一張老電影的海報'],
+       jsok=[('禮物四樣都列', "[%s,%s,%s,%s]" % (CHN('一本絕版的電影書'), CHN('一張老電影的海報'), CHN('一個新的馬克杯'), CHN('一包咖啡豆')), lambda a: isinstance(a, list) and all(x >= 1 for x in a)),
+             ('有「（沒有準備）」', CHN('（沒有準備）'), GE1(1)), ('錢至少少了 400 元', "(window.__MA|0)-(GAME.G.money|0)", lambda n: isinstance(n, (int, float)) and n >= 400),
+             ('送過的記在 G.fest.gifts', "JSON.stringify(((GAME.G.fest||{}).gifts||{}).heroine_02||null)", lambda x: isinstance(x, str) and x not in ('null', '[]', '{}'))]),
+  # 76-② 一天兩場：子晴中午、以安晚上可以；語彤第三個約不到
+  dict(id='FEST76_TWO', key='2026-03-13', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_04') + S6J('heroine_01') + S6J('heroine_03'),
+       steps=[('phoneinv', 'heroine_04', ['約她過節：白色情人節', '中午場', '兩點半 Café'], 't1'), ('phoneinv', 'heroine_01', ['約她過節：白色情人節', '晚上場', '阿鳳麵店'], 't2'),
+              ('phoneinv', 'heroine_03', ['約她過節：白色情人節', '中午場', '晚上場'], 't3')],
+       pref=[], jsok=[('中午、晚上各約到一位', "(()=>{ const d=STORY.dayOfKey('2026-03-14'); return ['heroine_04','heroine_01'].map(id=>(GAME.G.invites||[]).some(v=>v.who===id&&v.day===d&&v.state==='accepted')); })()", [True, True]),
+                      ('語彤沒約到', "(GAME.G.invites||[]).filter(v=>v.who==='heroine_03'&&v.day===STORY.dayOfKey('2026-03-14')&&v.state==='accepted').length", 0), ('有擋下的那一句', BLOCKED, GE1(1))]),
+  # 76-③ 沛珊情人節回台中：開車去（油錢 900、車程），背景台中
+  dict(id='FEST76_PS_DRIVE', key='2026-02-13', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + S6J('classmate_peishan') + " G.money=Math.max(G.money|0,3000);",
+       steps=[('phoneinv', 'classmate_peishan', ['約她過節：情人節', '開車去台中找她'], 'p1'),
+              ('chk', '排了「情人節（開車去台中找郭沛珊）」', "(OUT.rec(GAME.G)||[]).filter(q=>/開車去台中找郭沛珊/.test(q.title||'')).map(q=>[q.h,q.travelH])", lambda a: isinstance(a, list) and len(a) == 1),
+              ('jump', "STORY.dayOfKey('2026-02-14')", 8.6, '2/14 早上'), ('mark', "window.__MA=GAME.G.money|0;"), ('wait', CHN('出發：情人節（開車去台中找郭沛珊）') + '>0', 1500, '出發鈕'),
+              ('wait', "JSON.stringify(window.__BG||[]).includes('tc_')", 900, '到台中')],
+       pref=['出發：情人節（開車去台中找郭沛珊）'], jsok=[('油錢扣 900 元', "(window.__MA|0)-(GAME.G.money|0)", lambda n: isinstance(n, (int, float)) and n >= 900), ('背景是台中（tc_eatery）', "JSON.stringify(window.__BG||[]).includes('tc_eatery')", True)]),
+  # 76-④ 芷若在倫敦、交往中：2029-02-14 21:00 她打視訊來
+  dict(id='FEST76_ZR_UK_VDAY', key='2029-02-14', h=20.75, zone='dorm', flags=dict(TW3), js=NOKX + Y4 + S6J('heroine_02') + DATEJ('heroine_02'),
+       steps=[('until', 21.5, 1500)], pref=['接起來：林芷若打視訊來'], want=['這裡下午一點。外面在下雨。', '……倫敦的情人節也在下雨。'],
+       jsok=[('出發鈕「接起來：林芷若打視訊來」', CHN('接起來：林芷若打視訊來'), GE1(1))]),
+  # 76-⑤ 可昕交往中 2026 七夕：應該只有一通 21:00 視訊（Node：kx_qixi_2026＋fest_kexin_qixi_2026_video 兩通＝遊戲）
+  dict(id='FEST76_KX_QIXI_ONE', key='2026-08-19', h=20.5, zone='dorm', flags=dict(TW3, dating_kexin=True), js=" LV('kexin',70,55,50); G.flags.dating_kexin=true;",
+       steps=[('until', 21.6, 1500)], pref=['接起來', '出發'],
+       jsok=[('那天 21:00 的視訊只排一通', "(OUT.rec(GAME.G)||[]).filter(q=>q.day===STORY.dayOfKey('2026-08-19')&&Math.abs(q.h-21)<0.01).map(q=>q.id)", lambda a: isinstance(a, list) and len(a) == 1)]),
+  # 76-⑦ 學姊 2026-02-02 以前：節日約不到（照程式：選單仍列、選了婉拒）
+  dict(id='FEST76_SIS_PRE', key='2025-12-23', h=10.0, zone='dorm', flags=dict(TW3, met_sis=True), js=NOKX + S6J('heroine_05') + " G.flags.met_sis=true;",
+       steps=[('phoneinv', 'heroine_05', ['約她過節：聖誕節', '中午場', '晚上場', '兩點半 Café'], 's1')],
+       pref=[], jsok=[('婉拒「溫書瑀客氣地說下次吧。」', LNQ('溫書瑀客氣地說下次吧。'), GE1(1)), ('12/24 沒有約到學姊', "(GAME.G.invites||[]).filter(v=>v.who==='heroine_05'&&v.day===STORY.dayOfKey('2025-12-24')&&v.state==='accepted').length", 0),
+                      ('（照程式）選單仍列「約她過節：聖誕節」', CHN('約她過節：聖誕節'), lambda n: isinstance(n, int))]),
+  # 78-① 阿凱：手機約（沒有標點）／當面約（有標點）
+  dict(id='INV78_KAI_PHONE', key='2025-10-06', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('kai',30,10,5); G.contacts=G.contacts||{}; G.contacts.kai=G.day-30;",
+       steps=[PINV('kai', '去公館吃飯', '今天 12:10', 'k1')], pref=[], jsok=[('手機版「走 我剛好還沒吃」', LNQ('走 我剛好還沒吃'), GE1(1)), ('沒有標點版', LNQ('走，我剛好還沒吃。'), 0)]),
+  dict(id='INV78_KAI_FACE', key='2025-10-06', h=10.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('kai',30,10,5);",
+       steps=[FACE('kai')], pref=['約他去', '去公館吃飯', '今天 12:10', '就這樣'], jsok=[('當面版「走，我剛好還沒吃。」', LNQ('走，我剛好還沒吃。'), GE1(1)), ('當面第一句「你等一下有空嗎？」', LNQ('你等一下有空嗎？'), GE1(1))]),
+  # 78-② 芷若：交換聯絡方式；上班時約 Café；78-③ 沛珊交換聯絡方式
+  dict(id='INV78_ZR_EX', key='2025-10-07', h=15.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('heroine_02',25,10,5); if(G.contacts) delete G.contacts.heroine_02;",
+       steps=[FACE('heroine_02')], pref=['交換聯絡方式'], want=['好啊，你掃我。', '我上班的時候不太看手機，下班才會回，不要以為我不理你。'],
+       jsok=[('加了聯絡方式', "INV.hasContact(GAME.G,'heroine_02')", True)]),
+  dict(id='INV78_ZR_SHIFT', key='2025-10-07', h=15.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('heroine_02',45,30,10); G.contacts=G.contacts||{}; G.contacts.heroine_02=G.day-30;",
+       steps=[PINV('heroine_02', '去兩點半 Café', '今天 19:00', 'zs')], pref=[],
+       jsok=[('上班時段：「我會在 Café 啊，你直接過來，我幫你做一杯。」', LNQ('我會在 Café 啊，你直接過來，我幫你做一杯。'), GE1(1)), ('不排邀約', "(GAME.G.invites||[]).filter(v=>v.who==='heroine_02'&&v.day===GAME.G.day&&v.state==='accepted').length", 0)]),
+  dict(id='INV78_PS_EX', key='2025-10-07', h=15.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('classmate_peishan',25,10,5); if(G.contacts) delete G.contacts.classmate_peishan;",
+       steps=[FACE('classmate_peishan')], pref=['交換聯絡方式'], want=['好。上課有問題可以問你嗎？']),
+  # 78-④ 以安大一：第一次約散步才問「散步的目的是？」，之後只說「好。」
+  dict(id='INV78_AN_WALK', key='2025-10-08', h=14.0, zone='dorm', flags=dict(TW3), js=NOKX + " LV('heroine_01',45,30,10); G.contacts=G.contacts||{}; G.contacts.heroine_01=G.day-30;",
+       steps=[PINV('heroine_01', '去溫州街散步', '今天 15:30', 'a1'), ('chk', '第一次：「散步的目的是？」', LNQ('散步的目的是？'), 1),
+              PINV('heroine_01', '去溫州街散步', '明天 19:00', 'a2')],
+       pref=['好，就', '沒有目的'], jsok=[('「散步的目的是？」只有一次', LNQ('散步的目的是？'), 1), ('第二次她只說「好。」', SAIDBY('以安', '好。'), GE1(1))]),
+]
+for _s in R13:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R13
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
@@ -1999,9 +2208,15 @@ for _s in SCENS:
             if st == ('until', 21.3): _st.append(('until', 21.3, 1500))
             elif st == ('until', 21.4): _st.append(('until', 21.4, 1500))
             elif st == ('until', 10.6, 1200): _st.append(('until', 10.6, 2400))
-            elif st == ('until', 9.8, 1200): _st += [('jump', 'GAME.G.day', 9.55, '起床以後撥到 09:33（機器負載高，07:30→09:40 照真實時間要一小時以上）'), ('until', 9.8, 1500)]
+            elif st == ('until', 9.8, 1200): _st += [('jump', "STORY.dayOfKey('2027-09-02')", 9.55, '9/2 起床以後撥到 09:33（機器負載高，07:30→09:40 照真實時間要一小時以上）'), ('until', 9.8, 1500)]
+            elif st == ('bedpick', '睡到明天早上'): _st.append(('jump', "STORY.dayOfKey('2027-09-02')", 7.0, '睡過一晚＝直接撥到 9/2 07:00（這個情境測送機，不測睡覺）'))
             else: _st.append(st)
         _s['steps'] = _st
+        # BB-B 21:0x：zr43r 第二次：SEEN 走到床邊點到「看房間裡的東西」、LATE 床的選單是空的、DECL 那天其實住臺北的家（9/5 才入住大三宿舍，床是家裡的選單），
+        #   bedpick 沒睡成、LATE／DECL 的 jump 又用 GAME.G.day＝撥回 9/1 早上。改成 9/2 直接指定日子、睡覺用【捷徑】撥過去。
+        #   GF：整段演完了但 ZR_SENDOFF_2027 是 null（after 才設 met）——加查事件有沒有中途出錯（EVENTS.failed）、done 次數，分清楚是遊戲還是檢查
+        _s.setdefault('jsok', []).extend([('送機事件沒有中途出錯（EVENTS.failed）', "!!(EVENTS.failed&&EVENTS.failed['ev_zr_sendoff_2027'])", False),
+                                          ('送機事件 done 次數', "((GAME.G.events||{}).done||{})['ev_zr_sendoff_2027']|0", (lambda n: n >= 1) if _s['id'] in ('ZR43_SEEN', 'ZR43_GF') else 0)])
 # BB-B 10-23 18:3x：可昕的「帶一杯」（FOOD51_KX_*）買完飲料 16:40，學期末約會 18:00 出發。負載 25 時遊戲時間 420 秒只走 0.2 小時（f51dr2：「等不到 19.00」，
 # 約會根本沒開始，她的反應句當然沒有）→ 買完以後【捷徑】撥到 17:55（出發前 5 分鐘，那一杯已經記在 FAV.rec），再照走到 19:00、最多等 1500 秒
 for _s in SCENS:
