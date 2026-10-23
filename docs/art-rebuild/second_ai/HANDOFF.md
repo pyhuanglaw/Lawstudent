@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **17:4x 更新**：
+    - LAWWW-B 17:5x：沛珊第三十二版（`1056a5c7`）**驗收通過**（D100）。outbox 改成「已交付、可整合」，由 LAWWW-B 合併換掉第二十八版。
+      - 記下、這一版不改：兩側一綹一綹的帶子、瀏海落在鏡框上緣、髮片一階一階＋背面兩小撮、鞋子是平底鞋（參考圖帆布鞋）。
+      - **沛珊不再開新版**（D99 第 4 點）。芷若那一半照佇列。
+    - LAWWW-B 17:4x：總圖 B1 選 **A**（1F 大廳西牆 z −3.2 開樓梯間的門）。`library_interior.py`、`library_layout.js`、`library3d.js` 換區域都我寫（D108）；電梯停 B1 這一版不做。
+      - 劇情接線 LAWWW-B 做；配置要給：討論室 1、2 桌邊站位＋坐位（study）、自習室座位、借還機 interact `selfcheck`、樓梯間門口。
+    - 法學院廣場的大樹：`campus_layout_nav`、`reachability_all --zones campus` ALL PASS。
+      - 3F、4F 窗景樹冠上緣一條水平切線（樹冠高過近景照片上緣）。`shop_views_layers.py` 加近景上緣、左右淡出（`FADE`），只重新去背（`VIEWS_REMATTE`），重拍窗景中。
+    - 總圖 B1 的 Blender 腳本 `tools/blender/env_second/library_b1.py` 草稿（還沒跑過）。
   - **16:5x 更新**：
     - LAWWW-B 16:02 ACK：霖澤館 5F 已合併；「窗外的樹」選 A（法學院廣場種一棵 17～19 m 的大樹、重拍霖澤館窗景），排在沛珊之後。
     - LAWWW-B 16:14：v9.10.6 已合併 main（PR #12）。開發分支換回 `7cd89fbac`，現在最新是 `6326916cc`。

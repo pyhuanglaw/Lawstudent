@@ -2465,12 +2465,12 @@
     "tools/blender/char_second/peishan_hair.py（V32）",
     "docs/art-rebuild/second_ai/char_review/peishan_v32/README.md＋遊戲內並排圖"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW）",
-   "remaining": "兩側、後腦量感還是一片一片的帶子；髮片鋸齒；iPhone 沒看過",
-   "next": "LAWWW-B 驗收（D100）；過了才換進開發分支",
-   "noDirectIntegrate": true,
+   "state": "已交付、可整合（LAWWW-B 10-23 17:5x 驗收通過，D100）",
+   "remaining": "LAWWW-B 記下、這一版不改的四項：兩側一綹一綹的帶子（參考圖是蓬鬆一團）；正面瀏海落在鏡框上緣（參考圖往外斜、看得到一點眉毛）；髮片邊緣一階一階、背面耳朵高度兩小撮往旁邊翹；鞋子是黑色平底鞋（參考圖黑色帆布鞋）。iPhone 沒看過",
+   "next": "LAWWW-B 合併進開發分支，換掉第二十八版；ART-ZR-PS-3D-1022 沛珊那一半由 LAWWW-B 標驗收；沛珊不再開新版（D99 第 4 點）",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 10-23 17:4x 收到；17:5x 驗收通過）",
    "note": "LAWWW-B 16:50 四項：中分＋額頭露出對、窗簾瀏海到顴骨以下對、頭頂接近、兩側接近、三分之四側對"
   },
   {
