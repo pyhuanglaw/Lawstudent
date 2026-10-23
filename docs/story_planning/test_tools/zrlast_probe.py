@@ -1235,6 +1235,14 @@ NWZICE = NEAR('夏日冰菓室的窗口', label='買一碗冰'); NBED = NEAR('�
 for _sc in R5 + B78:   # BB-B 17:0x：負載 25 時走 7 m 也逾時（SQ39_SQ03 515 秒 98 格：走不到冰菓室窗口、後面全沒跑；B7_MSGS 日本房間走不到床、快轉沒開始）→ 先放到旁邊【捷徑】
     if _sc['id'] == 'SQ39_SQ03' and NWZICE not in _sc['steps']: _sc['steps'].insert(_sc['steps'].index(('usep', '^買一碗冰$')), NWZICE)
     if _sc['id'] == 'B7_MSGS' and NBED not in _sc['steps']: _sc['steps'].insert(0, NBED)
+    if _sc['id'] == 'SQ39_SQ08' and NNOTICE not in _sc['steps']:   # BB-B 17:5x：負載 25 走不到公布欄（從溫州街入口 14 m）、涼亭的象棋（20 m）→ 每一次都先放到旁邊【捷徑】
+        _st = []
+        for _x in _sc['steps']:
+            if _x == NOTICE: _st.append(NNOTICE)
+            elif _x == ('usep', '象棋'): _st.append(NEAR('涼亭的象棋', label='涼亭的象棋（08:00～11:00）'))
+            elif _x == ('usep', '^喝茶$'): _st.append(NEAR('茶館的「喝茶」', label='喝茶'))
+            _st.append(_x)
+        _sc['steps'] = _st
 # ---- 3D：痕跡道具（TRACE_SQxx，zones3d.js traceVis）、貓（wz_cat，zones3d.js buildWzPark）----
 R7_TRQ = """(id=>{ const out=[], R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(!R.test(o.name||'')) return; let w=true; for(let p=o;p;p=p.parent) if(p.visible===false){ w=false; break; }
   let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); o.updateWorldMatrix(true,true); const bx=new THREE.Box3().setFromObject(o), v=new THREE.Vector3(); if(!bx.isEmpty()) bx.getCenter(v); else o.getWorldPosition(v);
