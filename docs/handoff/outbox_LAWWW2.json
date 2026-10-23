@@ -2241,6 +2241,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 10-23 07:3x「不要深色木地板 整個遊戲都不要」（D112）。第一批：圖書館 3F l3_parquet、總圖大廳二樓 lb_parquet，#a07a55 → #cdb594（同宿舍四人房），平均 161,123,86 → 206,182,149；GLB 結構不變；遊戲內前後（開發 719cca3b＋GLB）"
+  },
+  {
+   "task": "ART-NO-DARK-WOOD-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6fbe2830",
+   "files": [
+    "assets/models/env/second_ai/{wz_teishoku_interior,us_apartment,us_shared,wz_teahouse_interior,jp_room,l118_cafe2,bookstore_interior,wancai_sema,wz_brunch_interior}.glb",
+    "tools/blender/env_second/{bookstore_interior,jp_dorm,wancai_seminar,wz_shops_interior,us_apartment,lane118_shops,wz_aa364_shops}.py",
+    "docs/art-rebuild/second_ai/patches/no_dark_wood_src.patch（對開發 719cca3b：rooms_glb3d、us3d、jp_dorm3d、zones3d、wz_shops_layout）",
+    "docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/（第二批前後七組）"
+   ],
+   "state": "交付",
+   "remaining": "美國公寓兩戶室內截圖補拍中；淺店內 wood_dk／wood_lt 隨 118 巷、公館店面重建（wz_shopkit f_wood）；3F 主球場、2D 背景兩張；美國公寓走廊深色木板牆（非地板）；真機沒看過",
+   "next": "LAWWW：九個 GLB＋七支腳本＋src patch 進開發分支（patch 不改 engine3d／game3d／story3d）；跑相關單元測試；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第二批：九個室內地板改淺（平均亮度 84～156 → 182～193），GLB 結構不變、只換地板貼圖；程式備用地板 5 支檔 7 行"
   }
  ]
 }
