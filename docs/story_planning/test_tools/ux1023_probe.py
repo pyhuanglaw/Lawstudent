@@ -130,7 +130,7 @@ MAPQ = """(()=>{ const body=document.getElementById('phoneBody'); const svg=body
   const areaText=[...svg.querySelectorAll(':scope > text')].map(t=>({t:t.textContent, r:R(t)}));
   const red=[...svg.querySelectorAll('circle')].some(c=>c.getAttribute('fill')==='#e07a6a');
   const sr=R(svg);
-  return {svg:true, svgRect:sr, pins, areaText, red, list:[...body.querySelectorAll('.item')].slice(1,3).map(x=>x.innerText.slice(0,300)), buttons:[...body.querySelectorAll('[data-place]')].length}; })()"""
+  return {svg:true, svgRect:sr, pins, areaText, red, list:(()=>{ const I=[...body.querySelectorAll('.item')], k=I.findIndex(x=>x.querySelector('svg')); return k<0?[]:I.slice(k+1,k+2).map(x=>x.innerText.slice(0,300)); })(), buttons:[...body.querySelectorAll('[data-place]')].length}; })()"""
 
 def overlaps(rects):
     out = []
