@@ -232,7 +232,9 @@ HOOK49 = """(()=>{ if(window.__SLH) return; window.__SLH=1; window.__LOG=window.
   const ot=GAME.toast; GAME.toast=function(x){ push('TOAST',x); return ot.apply(this,arguments); };
   if(GAME.caption){ const oc=GAME.caption; GAME.caption=function(a,b){ push('CAPTION',(a||'')+'｜'+(b||'')); return oc.apply(this,arguments); }; }
   if(GAME.titleCard){ const tc=GAME.titleCard; GAME.titleCard=function(a,b){ push('CARD',a+'｜'+(b||'')); return tc.apply(this,arguments); }; }
-  const ol=ADV.log; ADV.log=function(n,x){ push(n||'',x); return ol.apply(this,arguments); }; })()"""
+  const ol=ADV.log; ADV.log=function(n,x){ push(n||'',x); return ol.apply(this,arguments); };
+  /* 畫面上的字幕框（#caption）也記：classes3d.js 的 skipTo 叫的是遊戲內部的 GM.caption，不一定經過 GAME.caption（BB-B 14:0x：SL49_JUMP 跳到 18:00 卻沒記到「下午的時間用完了」）*/
+  const ce=document.getElementById('caption'); if(ce&&window.MutationObserver){ let last=''; new MutationObserver(()=>{ const s=(ce.innerText||'').trim(); if(s&&s!==last){ last=s; push('CAPTION','DOM｜'+s); } }).observe(ce,{childList:true,subtree:true,characterData:true}); } })()"""
 SLOTQ = "(()=>{ const G=GAME.G, R=CLS.slotRec(G); return {used:Object.assign({},R.used), exam:CLS.examWeek(G), key:CALENDAR.dateOf(G.day).key, h:+G.hour.toFixed(3), zone:G.zone}; })()"
 CHQ = "[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(), dim:b.classList.contains('dim')}))"
 
