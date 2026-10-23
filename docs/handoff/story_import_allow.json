@@ -1809,6 +1809,14 @@
    "approvedBy": "AA-B 2026-10-23 08:2x 定稿、09:09 更正子晴住處（D109）；LAWWW-B 10-23 子代理實作 src/sideq3d.js、wzpark3d.js（合併 400657c77）",
    "task": "SIDEQ-AA397-1023、WZ-CAT-LIFE-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_407_總圖借書_第一批書單.md",
+   "sha": "e81aa74c",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/loans3d.js",
+   "task": "LIB-LOAN-1023",
+   "kind": "text"
   }
  ]
 }

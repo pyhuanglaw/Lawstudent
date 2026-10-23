@@ -30363,7 +30363,7 @@
    "id": "LIB-LOAN-1023",
    "title": "總圖借書（輕版，AA_399 3-2）：只借劇情給的書；到期前三天提醒；逾期館員說一句、不扣分不罰款；G.loans（預設空陣列）；做好以前 ev_forgot_book 保持關著",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": null,
    "first": {
@@ -30378,7 +30378,8 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:4x】AA_399（53ca91b2）3-2 節；和 CLOSED-SPACES-1023 的總圖研究小間、B1 一起"
+   "next": "【LAWWW-B 10-23 08:4x】AA_399（53ca91b2）3-2 節；和 CLOSED-SPACES-1023 的總圖研究小間、B1 一起",
+   "note": "2026-10-23 12:2x LAWWW-B：src/loans3d.js（AA_399 3-2＋AA_407 e81aa74c），tests/aa407_loans_unit.js ALL PASS；R1 植物圖鑑等 5F（CLOSED-SPACES）；總圖門口還書箱、B1 自助借還機、讀書旁白多一句這一版沒做。BB 測（清單第 41 項）。"
   },
   {
    "id": "SIS-B10-L-1023",
