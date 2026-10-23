@@ -42,6 +42,14 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     const a=sayIdx('每天帶出門。'), b=sayIdx('大一那年冬天，你幫我裝的是熱水。我記到現在。'), c=sayIdx('我爸叫我跟你說：恭喜。');
     check('4. HOT_WATER 多一句；MET_SIS_FATHER 她最後多「我爸叫我跟你說：恭喜。」',a>=0&&a<b&&b<c,JSON.stringify([a,b,c])); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); await H.run('grad'); check('4. 沒有 MET_SIS_FATHER：沒有那一句',!H.has('我爸叫我跟你說：恭喜。')); }
+  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過沒吃到——她那一段之前，她爸爸那一小段；記 MET_SIS_FATHER 'grad'，不再轉述「我爸叫我跟你說：恭喜。」*/
+  for(const [k,want] of [[0,['好。','（他對書瑀點了一下頭）']],[1,['下次。','……他記住了。']]]){ const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false}); H.FRIEND('heroine_05'); H.date('heroine_05'); H.picks=[k];
+    await H.run('grad'); const F=['（典禮結束，她身邊站著一個頭髮有一點白的男人。）','我爸。','祐廷？','……上次的飯沒吃到。畢業快樂。','（他跟你握了一下手，很用力。）'].concat(want), ix=F.map(t=>sayIdx(t)), w=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）');
+    check('4. AA_392 第 8 節 交往中、她爸爸的晚餐沒到：保溫瓶那一段之前她爸爸「……上次的飯沒吃到。畢業快樂。」，選項 '+(k?'「上次對不起。」':'「伯父好。」')+'；記 MET_SIS_FATHER grad；沒有「我爸叫我跟你說：恭喜。」',ix.every((v,i)=>v>=0&&(i===0||v>ix[i-1]))&&w>ix[ix.length-1]&&G.flags.MET_SIS_FATHER==='grad'&&!H.has('我爸叫我跟你說：恭喜。'),JSON.stringify(ix.concat([w]))); }
+  { const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',MET_SIS_FATHER:true}); H.FRIEND('heroine_05'); H.date('heroine_05'); await H.run('grad');
+    check('4. AA_392 第 8 節 晚餐有去（MET_SIS_FATHER）：沒有那一小段',!H.has('……上次的飯沒吃到。畢業快樂。')&&H.has('我爸叫我跟你說：恭喜。')); }
+  { const G=H.fresh('2029-06-02',12,'campus',{SIS_FATHER_ASKED:'msg',SIS_FATHER_GO:false}); H.FRIEND('heroine_05'); await H.run('grad');
+    check('4. AA_392 第 8 節 沒交往：沒有那一小段',!H.has('……上次的飯沒吃到。畢業快樂。')); }
   // ---- D2：和可昕交往 ----
   { const G=H.fresh('2029-06-02',12,'campus',{GIRAFFE_KEYCHAIN:true}); H.FRIEND('kexin'); H.date('kexin'); H.FRIEND('heroine_01'); await H.run('grad');
     const k=sayIdx('（她看到你鑰匙上的長頸鹿。）'), m=sayIdx('（以安的媽媽站在傅鐘旁邊。）'), g=sayIdx('那是妳的帽子。');

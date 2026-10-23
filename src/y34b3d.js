@@ -163,7 +163,7 @@ const Y34B=(function(){
      - 17:05 以後才傳（22:30 才回，六點已經過了；AA_337 第 7 節）＝「謝謝。今天研究室比較晚。」「蛋糕留了一半。……明天下午，Café？」＋「好。」／「明天不行。」（SIS_BDAY_Y3 late_ask）：
        「好。」→「三點。」→ 隔天 6/3（六）15:00 Café（next_cafe，SIS_BDAY_Y3_NEXT＝那一天），照「去了」那一場演、記 cafe；「明天不行。」→「好。那蛋糕歸我。」記 missed；
      - 日本路線、人在日本（AA_337 第 7 節）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（日本當地 19:00）視訊（video_set → 演完 video；不排 Café）。
-     AA 稿沒寫、暫定（問 AA）：日本路線 17:05 以後才傳（她回的時候視訊的時間已經過了）＝只回第一句、記 missed；22:30 那則一直沒回、答應了 15:00 卻沒到、視訊那天沒演到＝不另外傳，記 missed；
+     AA_392 第 9 節確認（原本 AA 稿沒寫的暫定）：日本路線 17:05 以後才傳（她回的時候視訊的時間已經過了）＝只回第一句、記 missed；22:30 那則一直沒回、答應了 15:00 卻沒到、視訊那天沒演到＝不另外傳，記 missed；
      22:30 以後才傳（隔天 12:10 才回；AA_337 第 7 節 AA-C 20:57 改字）＝「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）
        ＋「好。」→ 當天（6/3）15:00 Café、照「去了」那一場、記 cafe；「今天不行。」→「好。那蛋糕歸我。」記 missed */
   S.bdayVer=function(G){ const d=D('bday'); if(d==null||G.day!==d||!law(G)||!met('heroine_05')) return null; if(dating(G,'heroine_05')) return 'dating'; if(exOf(G,'heroine_05')) return 'ex'; return fri('heroine_05')?'friend':false; };
@@ -171,7 +171,7 @@ const Y34B=(function(){
     late:['謝謝。今天研究室比較晚。','蛋糕留了一半。……明天下午，Café？'],   /* AA_337 第 7 節：17:05 以後才傳（22:30 回）*/
     nextDay:['謝謝。昨天十點半就睡了，剛看到。','蛋糕還在冰箱。……今天下午三點，Café？'],   /* AA_337 第 7 節（AA-C 20:57）：22:30 以後才傳（隔天 12:10 回）*/
     jp:['蛋糕我買了。……一個人吃很奇怪。','你那邊七點吧。視訊，十分鐘。'],   /* AA_337 第 7 節：日本路線、人在日本 */
-    jpLate:['蛋糕我買了。……一個人吃很奇怪。'],   /* 暫定（AA 稿沒寫）：日本路線、她回的時候視訊的時間已經過了 */
+    jpLate:['蛋糕我買了。……一個人吃很奇怪。'],   /* AA_392 第 9 節確認：日本路線、她回的時候視訊的時間已經過了 */
     missed:['蛋糕我吃了一半。另一半在冰箱，明天還算生日。'] };   /* 約了六點、沒去（21:00，S.bdayPhone）*/
   S.BDAY_REPLY=BDAY_REPLY;
   const LATE_ASK=BDAY_REPLY.late[1];
@@ -199,9 +199,9 @@ const Y34B=(function(){
         else F.SIS_BDAY_Y3='missed'; }   /* jpLate */
       return r; }; }
   S.bdayPhone=function(G){ const F=G.flags, d=D('bday'); if(d==null) return; const nd=F.SIS_BDAY_Y3_NEXT;
-    if(F.SIS_BDAY_Y3==='late_ask'&&nd!=null&&NOW(G)>T(nd,15)) F.SIS_BDAY_Y3='missed';   /* 22:30 那則一直沒回（暫定：不另外傳）*/
-    if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&NOW(G)>=T(nd,15.5)) F.SIS_BDAY_Y3='missed';   /* 答應了 15:00 卻沒到（暫定：不另外傳）*/
-    if(F.SIS_BDAY_Y3==='video_set'&&G.day>d) F.SIS_BDAY_Y3='missed';   /* 視訊那天沒演到（暫定）*/
+    if(F.SIS_BDAY_Y3==='late_ask'&&nd!=null&&NOW(G)>T(nd,15)) F.SIS_BDAY_Y3='missed';   /* 22:30 那則一直沒回（AA_392 第 9 節確認：不另外傳）*/
+    if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&NOW(G)>=T(nd,15.5)) F.SIS_BDAY_Y3='missed';   /* 答應了 15:00 卻沒到（AA_392 第 9 節確認：不另外傳）*/
+    if(F.SIS_BDAY_Y3==='video_set'&&G.day>d) F.SIS_BDAY_Y3='missed';   /* 視訊那天沒演到（AA_392 第 9 節確認）*/
     if(G.day<d||G.day>d+2||!law(G)||!met('heroine_05')) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
     const ok=dating(G,'heroine_05')||exOf(G,'heroine_05')||fri('heroine_05'); if(!ok) return;
     { const h12=tzH(G,d,12); if(inGrp(G,'family_law')&&NOW(G)>=T(d,h12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(h12,G.hour):h12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday'); }   /* 人在日本＝當地 13:00（台灣 12:00；AA_341 J-S13）*/

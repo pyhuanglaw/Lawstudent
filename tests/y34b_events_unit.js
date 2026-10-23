@@ -207,7 +207,7 @@ const date=id=>H.date(id);
     await run('ev_sis_birthday_video_y3'); at('2028-06-02',21.5); phone();
     check('AA_337 第 7 節 日本路線 視訊：旁白「（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）」＋「……你看到了。這樣算一起吃過。」；記 video；21:00 沒有「蛋糕我吃了一半。……」', has('（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）')&&has('……你看到了。這樣算一起吃過。')&&H.G.flags.SIS_BDAY_Y3==='video'&&!S.bdayVideoDue(H.G)&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。'), JSON.stringify(H.said.map(s=>s.t))); }
   { fresh('2028-06-02',17.5,'dorm',{},'JP'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',19); const d1=S.bdayVideoDue(H.G); at('2028-06-02',22.5); phone();
-    check('1B-17 日本路線、17:05 以後才傳（她回的時候視訊的時間已經過了；AA 稿沒寫，暫定）：只回「蛋糕我買了。……一個人吃很奇怪。」、沒有視訊、記 missed', !d1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。'&&H.G.flags.SIS_BDAY_Y3==='missed', JSON.stringify(th('p:heroine_05'))); }
+    check('1B-17 日本路線、17:05 以後才傳（她回的時候視訊的時間已經過了；AA_392 第 9 節確認）：只回「蛋糕我買了。……一個人吃很奇怪。」、沒有視訊、記 missed', !d1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。'&&H.G.flags.SIS_BDAY_Y3==='missed', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); ROM.end(H.G,'heroine_05','test'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone();
     check('1B-17 前任：只回「謝謝。」', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['生日快樂','謝謝。'])&&H.G.flags.SIS_BDAY_Y3==='msg', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FAMILIAR('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const a=bdayTp(); at('2028-06-03',12); const b=bdayTp();
