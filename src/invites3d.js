@@ -96,6 +96,7 @@ const INV=(function(){
   /* 答不答應（使用者第 4 點）。回傳 {res:'accept'|'resched'|'decline', why, alt:{day,h,place?}, act} */
   S.decide=function(G,id,pid,day,h){ S.rec(G); let P=S.place(pid); if(!P) return {res:'decline',why:'place'};
     if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,{day}):STORY.present(id,{day}))) return {res:'decline',why:'away'};   /* 在臺北、不在台大（BB_163）不擋：照她的作息和個人規則 */
+    if(typeof MREL!=='undefined'&&MREL.zzRefusing&&MREL.zzRefusing(G,id)&&(D().mrelL2||{})[id]) return {res:'decline',why:'mrel'};   /* 子晴、芷若一起分手以後拒絕 L2（AA_227 6-6；台詞在 S.personal）*/
     if(S.partnerBlock(G,id,P)) return {res:'decline',why:'partner'};
     if(P.show&&!P.show(G,id)) return {res:'decline',why:'place'};   /* 還沒開放的地點（茶席：WZ-T3 以後）*/
     if(!placeOk(id,P,G)) return {res:'decline',why:'rel'};
@@ -195,6 +196,7 @@ const INV=(function(){
     if(!rid){ const hit=S.replyRow(id,lines); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
     m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; };
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
+    if(r.why==='mrel'){ const M=(D().mrelL2||{})[id]; if(M&&M.length){ const F=G.flags||(G.flags={}), N=F.MREL_L2_N||(F.MREL_L2_N={}), k=N[id]|0; N[id]=k+1; return Object.assign({},r,{lines:M[k%M.length].slice()}); } return r; }   /* 不說理由、兩句輪流（AA_227 6-6）*/
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
       first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')), postExam:S.sisPostExam(day,h),
@@ -297,7 +299,18 @@ const INV=(function(){
   /* 每次 STORY.tick：過了約好的時間 45 分鐘還沒見到＝沒赴約（不扣分，留一筆「放過鴿子」）；一起走過去超過 2 小時沒到＝作罷；對方約你、過了時間沒回＝作罷 */
   /* 約好要真的同行（AA_137 第 7 節，使用者 2026-10-15）：約定前 30 分鐘提醒；過了 15 分鐘還沒到，她傳「你在哪？」（有聯絡方式的話）；過了 30 分鐘她自己走掉＝沒赴約（原本 45 分鐘）*/
   S.WAIT_H=0.5;
-  S.tick=function(GM){ const G=GM.G; if(!G||!Array.isArray(G.invites)) return; const h=G.hour%24, past=iv=>iv.day<G.day||(iv.day===G.day&&h>=iv.h+S.WAIT_H);
+  /* 以安主動約（AA_227 3-1「她主動約」，台詞照 AA_425 第 0 節改過的版本）：週二 21:00 她私訊、約這週四讀書會（20:00～21:30）散了以後去阿鳳（21:30）。
+     條件、時間、地點是 LAWWW 排的（企劃只有台詞）：法律系、這週四有公法讀書會、玩家去過讀書會、她在臺北、第 3 階以上、那個時間玩家沒有別的約；一學期一次；回覆照 S.answer（好／改天／不了）*/
+  S.AN_ASK={text:'禮拜四讀書會完要不要去吃飯？我想吃巷子那家。',place:'noodle',h:21.5};
+  S.anAsk=function(G){ if(!G||(G.stage||'law')!=='law'||wdOf(G,G.day)!==2||(G.hour%24)<21||typeof ACTIVITIES==='undefined'||!ACTIVITIES.on) return false;
+    const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(!t) return false; const F=G.flags||(G.flags={}), A=F.AN_ASK_TERM||(F.AN_ASK_TERM={}); if(A[t.id]!=null) return false;
+    const thu=G.day+2, a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); if(!a||!ACTIVITIES.on(a,thu,G)||!(ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group'))) return false;
+    const id='heroine_01', Q=S.AN_ASK, P=S.place(Q.place); if(!P) return false;
+    if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,{day:thu}):STORY.present(id,{day:thu}))) return false;
+    if(!(typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(id)>=3)) return false;
+    S.rec(G); if(clash(G,null,thu,Q.h,P.stay)||tripAt(G,thu,Q.h,P.stay)||(G.invites||[]).some(iv=>iv.who===id&&live(iv))) return false;
+    A[t.id]=G.day; return !!S.offer(G,id,Q.place,thu,Q.h,Q.text); };
+  S.tick=function(GM){ const G=GM.G; if(G) S.anAsk(G); if(!G||!Array.isArray(G.invites)) return; const h=G.hour%24, past=iv=>iv.day<G.day||(iv.day===G.day&&h>=iv.h+S.WAIT_H);
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day) continue; const P=S.place(iv.place)||{};
       if(P.noRain&&G.weather==='rain'&&h<iv.h+S.WAIT_H){ iv.state='cancelled'; const t=fmtWhy((D().why||{}).rainOff||'下雨了，和{who}的晨跑取消。',{who:nameOf(iv.who)}); S.msg(G,iv.who,t,iv); if(GM.toast) GM.toast(t,4200); continue; }   /* 晨跑那天早上下雨＝取消（AA_126 6-6「下雨不能約」；沒有天氣預報，約的時候只看得到現在的天氣）*/
       if(!iv.rem&&h>=iv.h-0.5&&h<iv.h){ iv.rem=1; if(GM.toast) GM.toast('提醒：'+hh(iv.h)+' 和'+nameOf(iv.who)+'約在'+(P.name||'')+'。',4200); }

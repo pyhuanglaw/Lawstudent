@@ -42,7 +42,7 @@ const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_
   check('5. 阿凱：半熟早上「早上 不行 我在睡」、改天 12:10；12:10 答應「十二點 好 那是我的早餐」',r.res==='resched'&&r.alt&&Math.abs(r.alt.h-(12+10/60))<1e-6&&r.lines[0]==='「早上 不行 我在睡」'&&x.h!=null&&x.r.lines[0]==='「十二點 好 那是我的早餐」',JSON.stringify([r,x.r]).slice(0,240)); }
 { STAGE.classmate_peishan='FRIEND'; const d=termDay('Y2S2',5,6); const G=mkG(d); const r=INV.personal(G,'classmate_peishan',INV.place('brunch'),d,10,INV.decide(G,'classmate_peishan','brunch',d,10));
   const d2=termDay('Y2S2',5,3); const G2=mkG(d2); const r2=INV.personal(G2,'classmate_peishan',INV.place('teahouse'),d2,14,INV.decide(G2,'classmate_peishan','teahouse',d2,14));
-  check('6. 沛珊大二下（重考那學期）：半熟、一盞都婉拒「我在念書。……考完再去。你先幫我記住菜單。」',r.res==='decline'&&r2.res==='decline'&&r.lines[0]==='「我在念書。……考完再去。你先幫我記住菜單。」'&&r2.lines[0]===r.lines[0],JSON.stringify([r,r2]).slice(0,240)); }
+  check('6. 沛珊大二下（消失期）：半熟、一盞都是「沒有回覆」——沒有她的句子（AA_255 (b-1) 第 20 條；原本「我在念書。……考完再去。你先幫我記住菜單。」）',r.res==='decline'&&r2.res==='decline'&&r.why==='away'&&r2.why==='away'&&!r.lines&&!r2.lines,JSON.stringify([r,r2]).slice(0,240)); }
 { STAGE.heroine_05='FRIEND'; STAGE.zhe='FRIEND'; const G=mkG(WED); const T=INV.place('teahouse'), B=INV.place('brunch'), C=INV.place('cafe');
   check('7. 學姊沒有伴侶（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）：一盞、半熟、Café 都不被「兩個人單獨」擋；男生（阿哲）的一盞照常',
     !INV.partnerBlock(G,'heroine_05',T)&&!INV.partnerBlock(G,'heroine_05',B)&&!INV.partnerBlock(G,'heroine_05',C)&&!INV.partnerBlock(G,'zhe',T));

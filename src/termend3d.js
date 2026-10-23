@@ -110,12 +110,15 @@ const TERMEND=(function(){
   S.gf=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.GF[id],term); };   /* 女朋友的學期末約會也照學期換（沛珊大三起的地點）*/
   S.friend=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.FRIEND[id],term); };   /* 朋友的一對一邀約也照學期換（芷若大二下：她 6/3 以後不上班，不在 Café 打烊以後，AA_375 第 1 項）*/
   const lines=(x,G)=>{ x=resolve(x,G); return x==null?[]:(Array.isArray(x)?x:[x]); };
+  /* 不發心意邀約的那一句、朋友邀約的婉拒照學期換（AA_260 (b-1) 第 5、6、11、14 項，AA_262 (b) 第 4 條）：NOPE[種類][她] 可以是字串（照舊）或 {gen, byTerm:{學期:句子}}；FRIEND[她].noByTerm 優先於 noBySem、no */
+  S.nopeText=function(Lx,kind,id,term){ const v=(Lx&&Lx.NOPE&&Lx.NOPE[kind]||{})[id]; if(v&&typeof v==='object'&&!Array.isArray(v)) return (v.byTerm&&v.byTerm[term])||v.gen||null; return v; };
+  S.friendNo=function(f,term){ if(!f) return null; const sem=String(term).slice(2); return (f.noByTerm&&f.noByTerm[term])||(f.noBySem&&f.noBySem[sem])||f.no; };
   /* ---- 手機（story3d.js 的 S.phoneRules 每次呼叫）---- */
   S.phone=function(GM){ const G=GM.G; if(!S.ON||typeof PHONE==='undefined'||!L()) return; const w=S.window(G); if(!w) { S.pickCheck(GM); return; } const now=T(G.day,G.hour);
     if(now<T(w.from,0)) return; const P=S.plan(G,w), R=S.rec(G,w.id), Lx=L(); R.asks=R.asks||{};
     const until=T(w.to,18);
     const d1=P.back||w.from;   /* 玩家回來那天（不在國外＝時段第一天）*/
-    for(const id in P.nope){ const t=(Lx.NOPE[P.nope[id]]||{})[id], tag='te_nope_'+w.id+'_'+id, mine=x=>!!(x&&x.who===id);   /* 時段的最後一天 20:00（BB_203 5-4）；這學期玩家已經約她吃過期末飯＝不傳；一學期一人一句 */
+    for(const id in P.nope){ const t=S.nopeText(Lx,P.nope[id],id,w.id), tag='te_nope_'+w.id+'_'+id, mine=x=>!!(x&&x.who===id);   /* 時段的最後一天 20:00（BB_203 5-4）；這學期玩家已經約她吃過期末飯＝不傳；一學期一人一句 */
       if(t&&now>=T(w.to,20)&&!PHONE.sent(G,tag)&&!mine(R.picked)&&!mine(R.done)) PHONE.at(G,w.to,20,[{th:'p:'+id,from:id,text:t}],tag); }
     let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, d0=Math.max(S.fromDay(w,id),P.back||w.from); if(now<T(d0,h)||PHONE.sent(G,tag)||R.picked) return;   /* 已經接了一場（收到的或自己約的）就不再發 */ const T2=lines(txt,G);
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
@@ -132,7 +135,7 @@ const TERMEND=(function(){
         PHONE.at(G,dd,12,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ if(id==='zhe'&&w.id==='Y2S1'&&G.events&&G.events.done&&G.events.done.ev_term_last_meal_y2s1) continue;   /* AA_374 第 24 項：最後一科考完那天 17:00 阿哲約的「期末最後一頓」（麵店）演過了，20:30 他不再約期末飯（同一晚約兩次）*/
-      const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),(f.noBySem&&f.noBySem[sem])||f.no); }   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
+      const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),S.friendNo(f,w.id)); }   /* noByTerm：學姊大三下「好。我出發前再找你。」（AA_260 (b-1) 第 14 項）*/   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
     S.pickCheck(GM); };
   /* 接了一個：排出遊、其他的自動婉拒；女朋友的學期末約會另外排 */
   S.eveningBusy=(G,d)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&(q.state==='planned'||q.state==='done')&&!/^te_/.test(q.id||'')&&q.h>=17);   /* AA_378 S4：那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）*/
@@ -205,7 +208,7 @@ const TERMEND=(function(){
     const grad=t.term==='Y4S2', me=grad?Lx.AUTO_ME_GRAD:Lx.AUTO_ME, heart=(R.plan&&R.plan.heart)||[];
     for(const id in (R.asks||{})){ if(id===iv.who) continue; const tag=R.asks[id], m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(!m||!PHONE.askOpen(G,m)) continue;
       const dly=grad&&typeof PG!=='undefined'&&(PG.exchDelayed||PG.delayed)&&(PG.exchDelayed||PG.delayed)(G)&&Lx.AUTO_NO_GRAD_DELAYED;   /* 交換延畢：「好。今天恭喜。」（AA_381 第 1 節）*/
-      const reply=heart.includes(id)?(Lx.HEART[id]&&Lx.HEART[id].decline):((grad&&((dly&&dly[id])||Lx.AUTO_NO_GRAD[id]))||Lx.AUTO_NO[id]);
+      const reply=heart.includes(id)?((S.heart(id,t.term)||{}).decline):((grad&&((dly&&dly[id])||Lx.AUTO_NO_GRAD[id]))||Lx.AUTO_NO[id]);
       m.ask.opts.push({t:me,say:reply?[{from:id,text:resolve(reply,G)}]:[],set:{TE_NO:t.term+'|'+id}}); PHONE.answer(G,tag,m.ask.opts.length-1); } };
   /* ---- 邀約鉤子（AA_250 各學期 x-2、10-1）：飯裡她提一件假期的事，玩家接了就進行事曆；C14 事務所參觀、C15 朋友約的單日小事（AA_251）---- */
   const Dk=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;

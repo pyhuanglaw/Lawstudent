@@ -24541,7 +24541,7 @@
      "note": "階梯重匯了，寫死的台詞與條件程式大多沒改"
     }
    ],
-   "notes": "2026-10-23 20:1x LAWWW-B：做了 B-7／AA_259 (b) 5 K13 第三年卡片、AA_259 (b) 5 沛珊旁聽閒聊限 Y1S1～Y2S1、AA_260 (b-1) #8 #12 #13；其餘已經被後來的改稿做掉。沒做：invites.js 的 B-1 B-2 B-4 B-5、AA_255 #20、AA_259 (b) 3、AA_262 (b) 1；termend3d.js 的每學期 NOPE（AA_260 #5 #6 #11、AA_262 #4）、AA_260 #14、AA_262 (b) 8、自動婉拒沒用 over（termend3d.js:208）——下一批 LAWWW-B 接。tests/aa312_unit.js 15 PASS。"
+   "notes": "2026-10-23 20:1x LAWWW-B：做了 B-7／AA_259 (b) 5 K13 第三年卡片、AA_259 (b) 5 沛珊旁聽閒聊限 Y1S1～Y2S1、AA_260 (b-1) #8 #12 #13；其餘已經被後來的改稿做掉。沒做：invites.js 的 B-1 B-2 B-4 B-5、AA_255 #20、AA_259 (b) 3、AA_262 (b) 1；termend3d.js 的每學期 NOPE（AA_260 #5 #6 #11、AA_262 #4）、AA_260 #14、AA_262 (b) 8、自動婉拒沒用 over（termend3d.js:208）——下一批 LAWWW-B 接。tests/aa312_unit.js 15 PASS。 ｜2026-10-23 21:5x LAWWW-B 第 2 輪：termend 每學期 NOPE（S.nopeText：AA_260 #5 #6 #11、AA_262 #4）、朋友版 no 照學期（S.friendNo：AA_260 #14）、自動婉拒走 S.heart（學姊 Y3S2「好。那出發前再約。」）；AA_262 (b) 8 S.backDay 已處理；invites：AA_259 (b) 3 學姊大三起 walk.library／rule library、AA_255 #20 沛珊消失期＝「沒有回覆。」；B-2 B-4 B-5、AA_262 (b) 1 (b) 7、BB_172 S3 已做；B-1、BB_172 S14 S18 被後來的稿取代。多線交往 L2 拒絕（AA_227 6-6）、以安邀約（AA_425 第 0 節）進 invites。tests/aa312_rest_unit.js 27 PASS。沒做：以安「好。可是我九點要回去寫報告。」和讀書會時間衝突（問 AA）；學姊大三起平日作息（characters.js）"
   },
   {
    "id": "Y2Y4-STORY-1020",

@@ -144,8 +144,8 @@ await sec(7,()=>{ fresh('2026-03-10','heroine_03',3); const y1=ask('heroine_03',
   check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。……」',s1.res==='decline'&&txt(s1.lines)==='「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」',txt(s1.lines));
   fresh('2028-10-11','heroine_04',3); const q1=ask('heroine_04','library',15.5,null,{res:'accept'});
   check('7. 子晴大四約總圖：「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',q1.res==='decline'&&txt(q1.lines)==='「我畢業了啦。總圖要辦校友證，我還沒辦。……兩點半？」',q1.res+' '+txt(q1.lines));
-  fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','brunch',10,null,{res:'accept'});
-  check('7. 沛珊大二下約半熟：「我在念書。……考完再去。你先幫我記住菜單。」',p1.res==='decline'&&txt(p1.lines)==='「我在念書。……考完再去。你先幫我記住菜單。」',txt(p1.lines));
+  fresh('2027-03-10','classmate_peishan',3); const p1=ask('classmate_peishan','brunch',10);   /* AA_255 (b-1) 第 20 條：消失期約她一律沒有回覆、不顯示她的句子（原本「我在念書。……考完再去。你先幫我記住菜單。」）*/
+  check('7. 沛珊大二下（消失期）約半熟：沒有她的句子，系統「沒有回覆。」（AA_255 (b-1) 第 20 條）',p1.res==='decline'&&p1.why==='away'&&!p1.lines&&/沒有回覆。$/.test(INV.reply(H.G,'classmate_peishan','brunch',p1)),JSON.stringify(p1));
   fresh('2025-10-14','heroine_01',3); const a1=ask('heroine_01','wenzhou',15.5,null,{res:'accept'});
   check('7. 以安大一約散步：rule 的「散步的目的是？」祐廷「沒有目的。」……（改天）',a1.res==='resched'&&txt(a1.lines)==='「散步的目的是？」「沒有目的。」「……好。我在手帳排一個『沒有目的』的時段。」',a1.res+' '+txt(a1.lines));
   fresh('2026-03-10','heroine_01',3); const h1=ask('heroine_01','library',9), h2=ask('heroine_01','library',9);
