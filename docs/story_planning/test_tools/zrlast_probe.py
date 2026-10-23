@@ -1594,7 +1594,7 @@ def LABX(i, key, h, flags, js, why):   # 只有門上那一句
 R8 = [
   # 57＋58：有點熟（2026-09-22 週二 12:27，碩一）→ 開門一句（有點熟）→ 5F → 說話 →【捷徑】撥到 13:55 → 14:00「我要去總圖了。」回 4F
   LABS('LAB57_LOW', '2026-09-22', 12.45, SISB + LOWLV, 'low',
-       more=[('jump', 'GAME.G.day', 13.92, '同一天 13:55（在研究室等到 14:00）'), ('wait', "GAME.G.zone==='linze_4f'", 900, '14:00 她去總圖、祐廷回到 4F'), ('until', 14.15, 600)],
+       more=[('jump', 'GAME.G.day', 13.92, '同一天 13:55（在研究室等到 14:00）'), ('wait', "GAME.G.zone==='linze_4f'", 1800, '14:00 她去總圖、祐廷回到 4F'), ('until', 14.15, 600)],
        extra=[('「我要去總圖了。」只說一次', LOGN('我要去總圖了。'), 1), ('回到 4F、恢復控制', FREEQ, True), ('14:00 以後她的作息不在 5F', SCHEDZ, lambda z: z != 'linze_5f'), ('LAB5_IN 清掉', "GAME.G.flags.LAB5_IN==null", True)]),
   # 57：朋友 → 開門一句（朋友）；同一天再下樓、再按一次＝只有門上那一句
   LABS('LAB57_FRIEND', '2026-09-22', 12.45, SISF, 'friend',
