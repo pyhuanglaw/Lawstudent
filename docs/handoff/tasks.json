@@ -30917,6 +30917,34 @@
    },
    "next": "【LAWWW-B 10-23 19:5x】子代理做完：src/us_blank3d.js、src/data/us_blank_lines.js（包住 USL.sumDue／tick／jump／club／nextStop、STORY.interact、OUT.STAGE；ev_us208_lurou 插一句）；tests/aa424_us_blank_unit.js 80 項；us_sweep61（改過的，scratchpad us_sweep61_aa424.js）答應邀約時三種存檔空白日 0。沒做：瀏覽器實測；社區洗衣間 2D 背景（暫用模糊公寓 3D）；AA 要定：每戶洗衣機 vs 社區洗衣間（AA_370 L5、AA_287 vs AA_424）、六個記憶的面板名稱。BB 第 81 項",
    "notes": "2026-10-23 20:0x LAWWW-B：AA_424 第 7 節（a4ee6c74a）接好——9/9 改成 10:30 她私訊「你在家嗎？」→「在。」＝11:00 她來 214 借洗衣機（「不在。」＝「好。我等她們。」）；8/26 旁白改「一樓中庭的長桌」；9/23 群組改烘衣機濾網；US_SYLLABUS、US_LAUNDRY 名稱定稿。tests/aa424_us_blank_unit.js 全 PASS。"
+  },
+  {
+   "id": "ART-WZ-MARKET-1023",
+   "title": "溫州街小公園二手市集的攤位 3D（WZ-P2，AA_420 第 12-2 節；每月第一個週六 09:00～13:00，入口步道 (26.0,12.6)、雨天老樹下 (26.0,18.3)）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2：2～3 個小攤（折疊桌、舊書紙箱、帆布或陽傘、攤主椅），只在市集時段出現，雨天版在老樹下；接線照 D108 歸 LAWWW2（src/wzlines3d.js 的 WZL.market 有開放判斷）",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第一個月的第一個週六",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 2026-10-23 20:4x（7447bd8b4 二手市集只有互動點）",
+   "authorized": "D110／D111 LAWWW 派工；D108",
+   "xai": {
+    "spec": "AA_420 第 12-2 節（企劃線 d805bceee）；src/wzlines3d.js WZL.market",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "市集時段看得到攤子、雨天在老樹下；nav／碰撞不擋互動點；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
