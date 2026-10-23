@@ -1876,6 +1876,21 @@
    "receiver": "LAWWW, LAWWW2",
    "ack": "DELIVERED",
    "note": "LAWWW-B 10-23 17:2x 派工第 4 項（USER_WANTS B09）；AA_364 以外的三家"
+  },
+  {
+   "task": "AN-YT-HOLIDAYS-1-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f2a897701",
+   "files": [
+    "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批（七夕、聖誕夜）",
+   "next": "LAWWW：AA_414 第 4 節；BB-B：cg_moon_pomelo_heroine03；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW, BB",
+   "ack": "DELIVERED",
+   "note": "BACKLOG-SWEEP-AA-1021 B 表 D14-T11（以安、語彤交往中的節日一場都沒有）"
   }
  ],
  "items": [
