@@ -30523,7 +30523,7 @@
    "title": "店員支線第二、三批：AA_404 SQ10～SQ15、AA_405 SQ16～SQ20（＋AA_408 第 1 節過期一句）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "next": "【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c10ed6d9f）；回來以後合併、全套測試、缺字轉 AA、BB 測",
    "first": {
@@ -30541,7 +30541,9 @@
    "aliases": [
     "AA404-SIDEQUEST2-1023",
     "AA405-SIDEQUEST3-1023"
-   ]
+   ],
+   "sha": "f26bc29b4、9eda57dd8、96a6fe6ee（合併 9aaf64787）",
+   "note": "2026-10-23 12:4x LAWWW-B 合併子代理 a63db32c：SQ10～SQ15、SQ17～SQ20（tests/aa404_sideq_unit.js 91 項；子代理跑過 384 支相關測試）；SQ16 輪轉單車沒做（公館那間店沒有互動點，請 LAWWW2 加）；缺字、暫定值已轉 AA；BB 測（清單第 45 項）。"
   },
   {
    "id": "PS-DATE-EARLY-1023",
