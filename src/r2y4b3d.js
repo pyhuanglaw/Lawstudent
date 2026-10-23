@@ -732,7 +732,7 @@ const R2Y4B=(function(){
   /* ===================== 掛上去 ===================== */
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); }
   if(typeof ACTIVITIES!=='undefined'&&Array.isArray(ACTIVITIES.list)&&!ACTIVITIES.list.some(a=>a.id==='act_bar_study')) ACTIVITIES.list.push(S.ACT);
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)) CLS.IN_CLASS.push((GM,it)=>S.journal(GM,it));
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it)=>S.journal(GM,it); f.due=(G,it)=>!!it&&!!it.c&&it.c.id==='legal_research'&&!it.exam&&law(G)&&it.term==='Y4S2'&&it.week===15&&!G.flags.LR_JOURNAL_Y4; CLS.IN_CLASS.push(f); }   /* due：學期中的快轉（src/semff3d.js）停在這一堂前面 */
   if(typeof PG!=='undefined'){ if(Array.isArray(PG.MSGS)) for(const m of S.MSGS) if(!PG.MSGS.some(x=>x.tag===m.tag)) PG.MSGS.push(m); if(Array.isArray(PG.STEPS)) for(const s of S.STEPS) if(!PG.STEPS.some(x=>x.id===s.id)) PG.STEPS.push(s); if(Array.isArray(PG.stops)) PG.stops.push(G=>S.stop(G)); S.patchEpilogue(); }
   if(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.door&&!NOODLE_CLOSED._r2y4b){ const orig=NOODLE_CLOSED.door; NOODLE_CLOSED._r2y4b=true;
     NOODLE_CLOSED.door=async function(GM){ const G=GM.G; if(S.aunTrip(G)&&!(NOODLE_CLOSED.storyDue&&NOODLE_CLOSED.storyDue(G))){ GM.sceneBegin(); try{ await GM.say(null,S.AUNT_DOOR); } finally { GM.sceneEnd(); } return true; } return orig.apply(this,arguments); }; }   /* 2029-04-19～25 阿姨跟團出國（語彤 16b）*/

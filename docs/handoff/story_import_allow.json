@@ -1820,17 +1820,17 @@
   },
   {
    "path": "docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md",
-   "sha": "47dd827c",
+   "sha": "b0b80a54",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）；47dd827c 第 5 節 Alison 營隊鉤子（termend_lines.js yu_camp2）",
-   "task": "SIDEQ-AA397-1023、AA313-S4S5-REST-1023",
+   "approvedBy": "AA-B 2026-10-23 11:2x 定稿（D109）；LAWWW-B 10-23 實作 src/sideq3d.js、wzpark3d.js（第 1 節 SQ10～SQ20 的過期句等 AA_404／405 實作時用）；47dd827c 第 5 節 Alison 營隊鉤子（termend_lines.js yu_camp2）；b0b80a54 第 6 節第二三批缺字（SIDEQ-AA408-6-1023）",
+   "task": "SIDEQ-AA397-1023、AA313-S4S5-REST-1023、SIDEQ-AA408-6-1023",
    "kind": "text"
   },
   {
    "path": "docs/story_planning/AA_409_沛珊大一上期末可以交往_交往中的大一下.md",
-   "sha": "86016b84",
+   "sha": "c42a0dd3",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 12:1x 定稿（使用者 10-23 選擇題 A）；LAWWW-B 實作 src/data/events.js ev_midterm_supper_y1s2、ev_peishan_bohan_w4、SMALLTALK 柏翰",
+   "approvedBy": "AA-B 2026-10-23 12:1x 定稿（使用者 10-23 選擇題 A）；LAWWW-B 實作 src/data/events.js ev_midterm_supper_y1s2、ev_peishan_bohan_w4、SMALLTALK 柏翰；c42a0dd3 第 1 節更正（交往中版本接 AA_245 柏翰算麵錢三句，並存）",
    "task": "PS-DATE-EARLY-1023",
    "kind": "text"
   },

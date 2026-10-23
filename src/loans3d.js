@@ -88,7 +88,7 @@ const LOANS=(function(){
   /* 掛勾 */
   if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   S.patchL3();
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)) CLS.IN_CLASS.push((GM,it,prof,ct)=>S.inClass(GM,it,prof,ct));
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it,prof,ct)=>S.inClass(GM,it,prof,ct); f.due=(G,it)=>law(G)&&!!it&&!!it.c&&it.c.id==='civ_general'&&!it.exam&&it.term==='Y1S1'&&it.week===4&&!S.known(G,'L1'); CLS.IN_CLASS.push(f); }   /* due：學期中的快轉（src/semff3d.js）停在這一堂前面，不自動上 */
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,L)=>S.room(G,L));

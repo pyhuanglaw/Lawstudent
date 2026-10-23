@@ -29965,7 +29965,7 @@
    "id": "FF-SEMESTER-1023",
    "title": "學期中快轉：跳過一週（自動上課）／到下一個事件；劇情、要回的訊息、約好的出遊、考試照樣停下來播（使用者 10-23 08:0x，USER_WANTS D57）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "area": null,
    "first": {
@@ -29980,7 +29980,8 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 12:2x】使用者選擇題：我自己直接做（主程式、不開背景）｜ 【LAWWW-B 10-23 08:4x】暫停：誰決定＝使用者停掉子代理；為什麼＝不確定（已問使用者）；負責人 LAWWW；恢復條件＝使用者回覆；下次檢查 10-24 ｜ 【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
+   "next": "【LAWWW-B 10-23 13:0x】做完（src/semff3d.js、tests/semff_unit.js ALL PASS）；BB 在瀏覽器實測（清單第 46 項） ｜ 【LAWWW-B 10-23 12:2x】使用者選擇題：我自己直接做（主程式、不開背景）｜ 【LAWWW-B 10-23 08:4x】暫停：誰決定＝使用者停掉子代理；為什麼＝不確定（已問使用者）；負責人 LAWWW；恢復條件＝使用者回覆；下次檢查 10-24 ｜ 【LAWWW-B 10-23 08:2x】交背景子代理在獨立工作樹實作（新模組 src/semff3d.js 包 STORY.bedOptions；CLS 上課的紀錄抽成共用、快轉自動上課；停點：考試日、劇情課、課前課後事件、OUT、INV、要回的訊息（停、開手機、接著跳）、must 事件、有地點的一次性事件（停、設目標）、社團活動事件、期末聚餐、放假第一天；tests/semff_unit.js 修改前 FAIL）；LAWWW-B 審查後合併 ｜ 【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測",
+   "note": "2026-10-23 13:0x LAWWW-B 實作：宿舍的床在學期中（法律系）多「快轉」→到下一個有事的時候（最多 21 天、不超過學期最後一天 20:00）／過一週（7 天後 07:30）／不用了。每 15 分鐘一步；沒有劇情的課自動上（done／attend／prep 照真的上完記，不演課堂）；停點：有劇情的課（考試、特殊課堂、課前課後事件、CLS.IN_CLASS 的 due、回想句）課前 20 分鐘、床的鬧鐘（考前 1 小時、當面約前 30 分鐘、校外約會、出遊、ALARMS）、睡著也會醒的時間、CLS.STOP_FNS 的電話、OUT.due、新成立的一定要演的事件；要回的訊息停下開手機、關掉接著跳；睡覺事件跳過那一晚照睡覺演完接著跳。四個 IN_CLASS 掛勾加 due（loans3d、r2y3a3d、r2y4b3d、y2b3d）。"
   },
   {
    "id": "UX-PHONE-MAP-1023",
@@ -30121,7 +30122,7 @@
    "id": "ART-SHOP-VIEWS-1023",
    "title": "店裡往外看的景（窗景、門外）很假：每間店從實際窗、門口位置重拍白天／黃昏／夜景、距離照實際；118 巷改視差窗、門口近景放真的 3D（人行道、機車、電線桿）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -30136,7 +30137,7 @@
    },
    "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「店面外看出去的景也都很假」（UA-LAWWW2-1023-09）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-B 10-23 08:1x ACK】LAWWW2 做（D108；會改 l118_shops3d.js、可能動 world3d.js W3.windowMat 多一個黃昏版，不改 engine3d／game3d／story3d）；接在 118 巷、公館店面翻修之後（拍的是翻修後的街）",
+   "next": "【LAWWW-B 10-23 13:0x】第一批（ecfe5a6a：公館便利商店、書店、麵店、溫州街 Café 兩層窗景）合併進開發分支；BB 驗收畫面（清單第 47 項）；READY_FOR_ART_REVIEW。第二批 118 巷九間店排在 ART-GG-STREETLIFE-1023 之後 ｜ 【LAWWW-B 10-23 08:1x ACK】LAWWW2 做（D108；會改 l118_shops3d.js、可能動 world3d.js W3.windowMat 多一個黃昏版，不改 engine3d／game3d／story3d）；接在 118 巷、公館店面翻修之後（拍的是翻修後的街）",
    "xai": {
     "spec": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「公館店面外觀也一樣醜」（UA-LAWWW2-1023-05）",
     "owner": "LAWWW2",
@@ -30587,6 +30588,57 @@
    },
    "source": "AA_410（86016b84）",
    "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-13）",
+   "aliases": []
+  },
+  {
+   "id": "ART-GG-STREETLIFE-1023",
+   "title": "公館騎樓前的機車、單車架、路人（店裡往窗外看太空；LAWWW2 提案、LAWWW 同意）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "第一次到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-23 12:15 提案（ART-SHOP-VIEWS-1023 第一批交件）；使用者 10-23「店面外看出去的景也都很假」",
+   "authorized": "D108、D111（LAWWW-B 10-23 13:0x 同意）",
+   "next": "排在 WZ-CAT-LIFE-1023、SQ16 輪轉單車互動點之後；會動 GG_PROP_BLOCKS／導航：交件前跑 gongguan_layout_nav.py、street_props_nav_unit.js、reachability_all.py 公館段、附截圖",
+   "xai": {
+    "spec": "LAWWW2-B 10-23 12:15 提案",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "公館街景加停好的機車、單車架、路人；導航測試通過＋遊戲內截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIDEQ-AA408-6-1023",
+   "title": "店員支線第二三批缺字（AA_408 第 6 節：SQ17 三題中英＋給號碼、SQ20 自己計時兩次、SQ19 群組三則、SQ10 交乳扇、SQ12 交往對象五句、SQ15 房間物品、SQ18 運費一杯）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "店員認得你以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_408 第 6 節（企劃線 b0b80a54）",
+   "authorized": "D109、D111",
+   "next": "【LAWWW-B 10-23 13:1x】派背景子代理（worktree，從 fdc39c9fc）實作；回來以後合併、相關測試、BB 測 ｜ 【LAWWW-B 10-23 13:0x】接在 FF-SEMESTER 之後；改 src/sideq3d.js＋tests/aa404_sideq_unit.js（稿加 AA_408 b0b80a54）",
    "aliases": []
   }
  ]
