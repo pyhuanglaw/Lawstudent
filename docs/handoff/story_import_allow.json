@@ -1761,6 +1761,14 @@
    "approvedBy": "AA-B 2026-10-23 08:5x 定稿（D109）；LAWWW-B 10-23 實作 src/sis_b10_3d.js、src/data/sis_b10_events.js、story3d.js nyeY2～Y4",
    "task": "SIS-B10-L-1023、SIS-B10-1024",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md",
+   "sha": "2408bcf09",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 09:1x 定稿、09:34 改旁白（D109）；LAWWW-B 10-23 實作 src/family_xmas3d.js",
+   "task": "SIS-XMAS-GIFT-L-1023、DL-AA406",
+   "kind": "text"
   }
  ]
 }
