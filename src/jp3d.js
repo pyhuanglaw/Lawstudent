@@ -195,7 +195,7 @@ const JP=(function(){
   S.anAt=G=>{ const w=S.anWhere(G); return w==='宿舍（你那邊）'?'kitchen':(w==='河邊'?'river':null); };
   S.G9=['學校。剛下課。','房間。日文作業，第三頁。','河邊。今天風很大，書一直被翻過去。','投幣洗衣機前面。還有十二分鐘。'];   /* 問「在哪？」的回覆（輪流；挽回中只回前兩句）*/
   /* ---------------- 手機（STORY.PHONE_RULES）：以安的私訊（G0、G3、G4、G6、G8）、旗標 ---------------- */
-  /* F.abroad（J-S14：麵店團阿哲的「麵店。我揪了。」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
+  /* F.abroad（J-S14：麵店團阿哲的「麵店 我揪了」看這個，原本從來沒有設）＝STORY.abroad；AN_JP_DEPARTED（J-S17：階梯的 skipIf 讀這個）＝以安 3/25 出發了（所有路線）*/
   S.flagSync=function(G){ const F=G.flags; if(!F) return; const ab=!!(STORY.abroad&&STORY.abroad(G)); if(!!F.abroad!==ab) F.abroad=ab;
     const dep=D('dep'); if(dep!=null&&G.day>=dep&&F.AN_JP_DEPARTED==null) F.AN_JP_DEPARTED=F.JP_DEPARTED!=null?F.JP_DEPARTED:dep; };
   /* 2/20 那天沒有回宿舍、退宿那一場沒演到的（舊存檔）：2/21 以後直接記（不演），之後照住家裡 */

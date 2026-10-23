@@ -631,7 +631,9 @@ const STORY = (function(){
     ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','雅筑學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
   S.FAFU_STAY=['（後來又來了一位，學長自己接了。）','（你把上週的紀錄重新抄了一次。）'];
   S.FAFU_YT=['……阿伯又來了。他每次都帶橘子。','紀錄我幫你對過了。少寫一個日期。','今天沒有麵店的人來。還好。'];
-  S.FAFU_BH=['班表排好了。你下次是單週。','我以為社長只要排班。……還要買垃圾袋。'];
+  S.FAFU_BH=['班表排好了。你下次是單週。','我以為社長只要排班。……還要買垃圾袋。'];   /* 只在大二（他當社長那一年，AA_313 5-1 第 13 點）*/
+  S.FAFU_BH_Y3=['我交接了。現在只排我自己的班。','學弟排錯一格。我沒說。'];   /* 大三起他是前社長（AA_313 5-1 第 13 點、5-5）*/
+  S.FAFU_BH_HELLO='這學期起我排班。有事找我。';   /* 大二第一次值班（他當社長以後）的開場一句（AA_313 5-5：接社長原本只在手機）*/
   /* 學姊的句子（BB_160 第 1 節）：front＝排在最前面（開場之後）；back＝民眾之後；sign＝結尾旁白改成學姊簽名；noon＝結尾之後「（她坐到十二點。）」。每一句只說一次 */
   S.fafuSisLines=function(G,phase,o){ const F=G.flags, R=F.FAFU_SIS||(F.FAFU_SIS={}), t=CALENDAR.termOf(G.day), out={lines:[],sign:false,noon:false}; if(!t||!S.fafuSisHere(G)) return out;
     const once=(k,L)=>{ if(R[k]) return false; R[k]=G.day; out.lines.push(...L); return true; };
@@ -653,7 +655,9 @@ const STORY = (function(){
     const R=F.FAFU_ROT||(F.FAFU_ROT={open:0,cs:0,stay:0,yt:0,bh:0}), nm=n=>({name:n}), sisWho={name:typeof SOCIAL!=='undefined'?SOCIAL.displayName('heroine_05'):'溫學姊',charId:'heroine_05'};
     const sayL=async(who,L)=>{ for(const l of L){ if(l&&l.n) await GM.say(null,l.n); else await GM.say(who,l); } };
     GM.sceneBegin(); let retell=false, sis;
+    let bhHello=false;
     try{ const op=S.FAFU_OPEN[R.open%S.FAFU_OPEN.length]; R.open++; await GM.say(nm(op[0]),op[1]);
+      { const t=CALENDAR.termOf(G.day); if(t&&/^Y2/.test(t.id)&&!(t.id==='Y2S1'&&t.week<6)&&!F.FAFU_BH_HELLO&&S.knows('classmate_bohan',G)){ F.FAFU_BH_HELLO=G.day; bhHello=true; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},S.FAFU_BH_HELLO); } }
       sis=S.fafuSisLines(G,'front'); if(sis.lines.length) await sayL(sisWho,sis.lines);
       const c=S.FAFU_CASES[R.cs%S.FAFU_CASES.length]; R.cs++; await GM.say(null,'（'+c[0]+'。）');
       await GM.say(null,'你先問什麼？'); const k=await GM.choose([{t:'「先請他從頭講一次。」'},{t:'「先問什麼時候發生的。」'},{t:'「先問手上有什麼資料。」'}]);
@@ -661,7 +665,7 @@ const STORY = (function(){
       else if(k===1) await GM.say(nm('研究所學長'),'時間寫在最上面。對。'); else await GM.say(nm('研究所學長'),'有的話，下次帶來，會快很多。');
       await GM.say(nm('民眾'),c[1]); await GM.say(nm(c[2]),c[3]);
       if(F.YT_LEGALAID_Y2&&S.ytFafu(G)&&S.knows('heroine_03',G)){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt%3]); R.yt++; }
-      { const t=CALENDAR.termOf(G.day); if(t&&!(t.id==='Y2S1'&&t.week<6)&&S.knows('classmate_bohan',G)){ await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},S.FAFU_BH[R.bh%2]); R.bh++; } }
+      { const t=CALENDAR.termOf(G.day); if(t&&!bhHello&&!(t.id==='Y2S1'&&t.week<6)&&S.knows('classmate_bohan',G)){ const L=/^Y2/.test(t.id)?S.FAFU_BH:S.FAFU_BH_Y3; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},L[R.bh%2]); R.bh++; } }
       { const more=S.fafuSisLines(G,'back',{retell}); if(more.lines.length) await sayL(sisWho,more.lines); }
       { const t=CALENDAR.termOf(G.day); if(F.FAFU_SHIFT_N===1&&t&&/^Y2S[12]$/.test(t.id)){ F.FAFU_FIRST_SHIFT_Y2=G.day; await GM.say(null,'（隔壁桌，一個阿伯講了十分鐘，一直在講他兒子。大家都在翻六法。）'); } }   /* AA_325 2-Y2-01：大二第一次值班的前提畫面（語彤事件 7 新版的麵店閒聊讀 FAFU_FIRST_SHIFT_Y2，src/y2r2_3d.js）*/
       await GM.say(null,sis.sign?'（初談紀錄，一頁。學姊在最下面簽名。）':'（初談紀錄，一頁。學長在最下面簽名。）');
@@ -810,7 +814,7 @@ const STORY = (function(){
       G.flags.met_an=true; G.flags.AN_NAME_TOLD=true; SOCIAL.meet('heroine_01',G.zone); SOCIAL.talkedTo('heroine_01'); n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); return; }
     if(unmetH){ const busy=n.seat||n.pose==='read'||n.pose==='sit'||n.idlePose==='read'; await GM.say(null,S.sisPreW1(G,id)?S.SIS_PRE_W1:busy?'（她低頭在忙自己的事，沒有注意到你。）':'（她看了你一眼，對你點了一下頭，又轉回去忙自己的事。）'); n.name=SOCIAL.displayName(id); n.talkLabel='和'+n.name+'說話'; GM.sceneEnd(); return; }
     if(first){ SOCIAL.meet(id,G.zone); if(c.social_layer==='B'){ const py=SOCIAL.playerYear?SOCIAL.playerYear():1, cy=SOCIAL.yearOf?SOCIAL.yearOf(id):(c.year||1); await GM.say(who,cy>py?'「你是大'+['','一','二','三','四'][py]+'的吧？」':(py===1?(F0=>{ const L=['「……嗯？喔，你是我們班的吧。」','「你好。……我們是不是修同一堂民總？」']; if(F0.afternoonDone) L.push('「欸，你是周老師點過的那個。」'); return L[(Math.random()*L.length)|0]; })(G.flags||{}):'「……嗯？喔，你是我們班的吧。」'));   /* 年級跟著遊戲走（AA_120 7-3）*/   /* 學長姊不會說「同一堂民總」（AA_120 3-4）*/ await GM.say(who,'「我是'+c.name+'。」'); if(c.facts&&c.facts[0]) await GM.say(who,'「'+c.facts[0]+'。……你呢？」'); } else { await GM.say(who,'「你好，我是'+c.name+'。'+(c.department||'')+'的。」',{expr:'smile'}); if(c.personality) await GM.say(null,c.personality.split('；')[0]+'。'); } SOCIAL.adjust(id,{fam:3}); }
-    else { await S.contestHeard(GM,who,id);   /* 子晴 Q4 錯過的玩家：開頭多她一句（AA_360 第 4 節）*/ await S.neededMiss(GM,who,id);   /* 主線 4：上週的訊息沒回，這次見面帶過一句（AA_179 第 4 節）*/ if(typeof VAC!=='undefined'&&VAC.backGreet) await VAC.backGreet(GM,who,id); if(typeof TERMEND!=='undefined'&&TERMEND.meetLine) await TERMEND.meetLine(GM,who,id);   /* 沒去芯慈的事務所參觀：下次見面一句（AA_251 第 1 節）*/   /* 出國回來第一次遇到：閒聊前多一句（AA_242 8-7）*/ const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
+    else { await S.contestHeard(GM,who,id);   /* 子晴 Q4 錯過的玩家：開頭多她一句（AA_360 第 4 節）*/ await S.neededMiss(GM,who,id);   /* 主線 4：上週的訊息沒回，這次見面帶過一句（AA_179 第 4 節）*/ await S.bhSplitHeard(GM,who,id); if(typeof VAC!=='undefined'&&VAC.backGreet) await VAC.backGreet(GM,who,id); if(typeof TERMEND!=='undefined'&&TERMEND.meetLine) await TERMEND.meetLine(GM,who,id);   /* 沒去芯慈的事務所參觀：下次見面一句（AA_251 第 1 節）*/   /* 出國回來第一次遇到：閒聊前多一句（AA_242 8-7）*/ const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
       else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
@@ -944,7 +948,7 @@ const STORY = (function(){
   const NDL_SEATS=[[-3,-0.3,0],[3,-0.3,0],[-3,1.3,Math.PI],[3,1.3,Math.PI]];
   /* 麵店日：上課週（不是考試週、不是國定假日）的週二、週四 */
   S.noodleDay=function(day){ if(typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(day).wd, t=CALENDAR.termOf(day); return (wd===2||wd===4)&&CALENDAR.kind(day)==='term'&&!!t&&!t.exam; };
-  const NDL_PINGS=['麵店。我揪了。','麵店。我先到。','今天阿姨有滷蛋。','麵店。不用回。'];
+  const NDL_PINGS=['麵店 我揪了','麵店 我先到','今天阿姨有滷蛋','麵店 不用回'];   /* AA_313 5-3：阿哲的訊息不加句號（口氣表 2-1）*/
   S.noodleOn=function(G){ if(typeof CALENDAR==='undefined') return false; const h=G.hour%24, wd=CALENDAR.dateOf(G.day).wd; return (wd===2||wd===4)&&CALENDAR.kind(G.day)==='term'&&h>=17.5&&h<19; };
   S.noodleCount=G=>{ let sd=(G.day*7919+13)%2147483646+1; sd=(sd*16807)%2147483647; return 2+Math.floor(((sd-1)/2147483646)*3); };
   let ndlLastH=null;
@@ -1394,6 +1398,10 @@ const STORY = (function(){
       const close=b.closedAt!=null?b.closedAt:needAbs(b.d+7,21); if(now<close||now>=close+14*24) continue;
       const lines=S.neededMissFor(G,NEEDED_MSGS.list.find(x=>x.id===it[0]),id); if(!lines) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
     return null; };
+  /* 沛珊和柏翰分開，玩家只在群組看到（ps_split_group、沒演 ev_peishan_split／ev_peishan_bohan_split）：同一學期下一次和柏翰說話，他先說兩句（AA_313 5-5；AA_389 第 6 點照逐場表）*/
+  S.bhSplitHeard=async function(GM,who,id){ const G=GM.G, F=G.flags, D0=(G.events&&G.events.done)||{}; if(id!=='classmate_bohan'||F.BH_SPLIT_TALKED||typeof PHONE==='undefined'||!PHONE.sent(G,'ps_split_group')||D0.ev_peishan_split||D0.ev_peishan_bohan_split) return false;
+    const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; F.BH_SPLIT_TALKED=G.day; if(!t||t.id!=='Y2S1') return false;
+    await GM.say(who,'「沛珊在群組說了。」'); await GM.say(who,'「……嗯。這週我想多念一點。」'); return true; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; for(const f of S.PHONE_RULES){ try{ f(G,GM); }catch(e){ console.warn('STORY.PHONE_RULES',e); } }   /* 事件包各自的手機規則（STORY.PHONE_RULES.push(fn)）*/ if(typeof L118!=='undefined'){ try{ L118.phone(G); L118.tick(G); }catch(e){ console.warn('L118.phone',e); } }   /* 阿哲週一揪 118 巷午餐（AA_280 第 4 節）*/ if(typeof MSG!=='undefined'&&MSG.ukDaily){ try{ MSG.ukDaily(G); }catch(e){ console.warn('MSG.ukDaily',e); } }   /* 芷若在英國、交往中：每天一則（BB_178 1-E；src/msg3d.js）*/ if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     /* AA_383 第 4-2 節（企劃線 98516b51）：沛珊還筆記（D4，ev_b105_d4_notes）怎麼約的——大一上第 4 週週一 12:00 她私訊兩句（有她的聯絡方式才傳）；之後走到女舍門口照現在演（第一句「我下樓了！」就是回你傳的訊息）。
@@ -1825,7 +1833,7 @@ const STORY = (function(){
       if(sat&&!F._bbqUntilFix){ F._bbqUntilFix=1; const fix=it=>{ if(it&&it.ask&&it.ask.until==null) it.ask.until=sat*24+15; };   /* 舊存檔：5c471a79（10-21）以前排進去的 bbq_ask、kx_bbq_ask 沒有 until，到隔年還是「待回覆」、每個假期一開始手機自己打開（BB-C 10-21 P3；10-22 子代理用 9/25 底檔查到）→ 補上和新局同一個期限（一次）*/
         for(const m of (G.msgs||[])) if(m.tag==='bbq_ask'||m.tag==='kx_bbq_ask') fix(m);
         for(const q of (PHONE.rec(G).q||[])) if(q.tag==='bbq_ask'||q.tag==='kx_bbq_ask') (q.items||[]).forEach(fix); }
-      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe'; PHONE.at(G,wed,21,[{th,from:'zhe',text:'週六中秋烤肉。河濱，下午三點。',ask:{until:sat*24+15,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
+      if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe'; PHONE.at(G,wed,21,[{th,from:'zhe',text:'週六中秋烤肉 河濱 下午三點',ask:{until:sat*24+15,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
       if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25});
       /* 可昕 K3（BB_95 9-4）：前一天（週五）20:00 她問；回「來我們這邊」她就來；「妳去妳們系的」她傳烤玉米的照片（週六 20:30）*/
       if(sat&&F.dating_kexin&&(F.BBQ_YES||!F.BBQ_NO)&&!PHONE.sent(G,'kx_bbq_ask')&&G.day>=sat-1&&G.day<=sat){ const K=t=>({from:'kexin',text:t});
@@ -2172,13 +2180,14 @@ const STORY = (function(){
        校慶（法服問答攤）：法服成員 11/13（五）21:00 語彤在法服讀書會群組「明天九點半，攤位集合。」（攤位的事件 ev_fair_booth_y2）。
        哲 2：第 10 週週四 11/12，和阿哲「朋友」以上：20:15 祐廷的訊息自動送出「今天週四，你沒去麵店？」，20:30 他回「沒事啦，在練球」（AA-B 682d911f）；回「我去找你。」＝出發選單「籃球場 21:00」→ 2D ev_zhe_court_y2。
          不回、不去：下週二起第一次在麵店遇到他，只說「上次沒事啦。」（ev_zhe_court_skip），沒有三種幫法、LENT_NOTES_Y2 沒有值 */
-    /* D11 系籃（AA_177 4-4）：12/18（五）21:00 麵店團群組（不在群組＝阿哲私訊）揪 → 出發選單「新體育館 12/19 14:00」；系籃和賽後麵店（語 3）都沒去：12/19 22:00 認識 Alison＝她私訊三則、不認識＝麵店團群組阿哲的照片 */
+    /* D11 系籃（AA_177 4-4）：12/18（五）21:00 麵店團群組（不在群組＝阿哲私訊）揪 → 出發選單「新體育館 12/19 14:00」；系籃和賽後麵店（語 3）都沒去：12/19 22:00 認識 Alison＝她打電話來（ev_yu_together_call，AA_313 5-1 第 4 點；沒接＝麵店團群組阿哲的照片）、不認識＝麵店團群組阿哲的照片 */
     if(typeof OUT!=='undefined'){ const d18=S.dayOfKey('2026-12-18'), d19=S.dayOfKey('2026-12-19');
       if(d18!=null&&d19!=null&&(G.day>d18||(G.day===d18&&h(G)>=21))&&G.day<=d19&&!PHONE.sent(G,'y2_ball_inv')){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe'; PHONE.at(G,d18,21,[{th,from:'zhe',text:'明天下午兩點，系籃，新體育館。來喊。'}],'y2_ball_inv');
         if(!OUT.get(G,'y2_ball')) OUT.plan(G,{id:'y2_ball',ev:'ev_zhe_game_y2',day:d19,h:14,late:0.25,place:'新體育館',title:'系籃比賽（大二）',travel:'走過去約 10 分鐘',travelH:1/6}); }
-      if(d19!=null&&G.day===d19&&h(G)>=22&&!G.events.done.ev_zhe_game_y2&&!G.events.done.ev_yu_together&&!PHONE.sent(G,'y2_yu_told')){
-        if(S.knows('yu',G)){ F.YU_ZHE_TOLD='msg'; PHONE.at(G,d19,22,[{th:'p:yu',from:'yu',text:'欸，跟你說一件事。你不要叫。'},{th:'p:yu',from:'yu',text:'我跟阿哲在一起了。'},{th:'p:yu',from:'yu',text:'他說『沒事啦，就在一起啊』。哪有人這樣告白的。'}],'y2_yu_told'); }
-        else if(PHONE.inGroup(G,'noodle_team')){ F.YU_ZHE_TOLD='photo'; PHONE.at(G,d19,22,[{th:'g:noodle_team',from:'zhe',text:'📷（麵店的長桌。Alison 比了一個 YA。）'}],'y2_yu_told'); } } }
+      if(d19!=null&&G.day===d19&&h(G)>=21.5&&!G.events.done.ev_zhe_game_y2&&!G.events.done.ev_yu_together&&!PHONE.sent(G,'y2_yu_told')&&!OUT.get(G,'y2_yu_call')&&(S.knows('yu',G)||h(G)>=22)){
+        if(S.knows('yu',G)){ if(!OUT.get(G,'y2_yu_call')) OUT.plan(G,{id:'y2_yu_call',ev:'ev_yu_together_call',day:d19,h:22,place:'電話',title:'Alison 打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'}); }   /* AA_313 5-1 第 4 點：認識 Alison＝22:00 她打電話來（原本三則私訊；關係變化只在手機）*/
+        else if(PHONE.inGroup(G,'noodle_team')){ F.YU_ZHE_TOLD='photo'; PHONE.at(G,d19,22,[{th:'g:noodle_team',from:'zhe',text:'📷（麵店的長桌。Alison 比了一個 YA。）'}],'y2_yu_told'); } }
+      { const q=d19!=null?OUT.get(G,'y2_yu_call'):null; if(q&&q.state==='planned'&&(G.events.done.ev_zhe_game_y2||G.events.done.ev_yu_together)) q.state='cancelled'; } }   /* 排了電話以後又去了麵店、聽她當面講了：不打來 */
     /* 大二下第 5 週 3/23（二）21:00 起，麵店團群組排春假（AA_185 3-3；P5 的鋪陳：沒有人 @ 沛珊，她有讀、沒有回）*/
     { const d=S.dayOfKey('2027-03-23'); if(d!=null&&G.day===d&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'y2_spring_plan')){ const g=(from,text)=>({th:'g:noodle_team',from,text});
         PHONE.at(G,d,21,[g('zhe','春假四天！要不要去哪裡？'),g('yu','我要去海邊！'),g('classmate_bohan','要先訂車。誰會開車？'),g('zhe','@'+(G.name||'祐廷')),g('classmate_xinci','住哪裡要先決定。'),g('yu','@語彤 妳可以嗎？'),g('heroine_03','……阿姨說可以。'),g('zhe','那下週再排。')],'y2_spring_plan'); } }
@@ -2259,8 +2268,8 @@ const STORY = (function(){
         PHONE.at(G,ny,11,[M('zhe','📷（高雄老家的廚房，媽媽在包水餃）'),M('zhe','我媽說今年要包一百個。'),M('zhe','我包到第四十個就被趕出廚房。……你們在幹嘛？'),
           M('heroine_01','📷（台中阿嬤家門口的春聯，字有一點歪）'),M('heroine_01','新年快樂。今年的春聯是我寫的。'),M('heroine_01','阿嬤說我的字最工整。……歪是照片的角度。'),
           M('yu','📷（和阿哲視訊的截圖，兩個人各舉著一顆水餃）'),M('yu','我們隔著三百公里吃年夜飯。'),M('zhe','她包的比較醜。'),
-          M('yu','你閉嘴。',{ask:{id:'cny_noodle_y2_reply',opts:[{t:'（傳家裡的年夜飯照片）',post:'📷（家裡的年夜飯，滿桌的菜）',say:[{from:'zhe',text:'哥，你家也太多菜！'},{from:'heroine_01',text:'左下角那盤是什麼？'}]},
-            {t:'新年快樂。Alison，醜的水餃比較好吃。',say:[{from:'yu',text:'連你也！'},{from:'zhe',text:'哥懂我。'}]},
+          M('yu','你閉嘴。',{ask:{id:'cny_noodle_y2_reply',opts:[{t:'（傳家裡的年夜飯照片）',post:'📷（家裡的年夜飯，滿桌的菜）',say:[{from:'zhe',text:F.ZHE_CALLS_GE?'哥，你家也太多菜！':'你家也太多菜！'},{from:'heroine_01',text:'左下角那盤是什麼？'}]},
+            {t:'新年快樂。Alison，醜的水餃比較好吃。',say:[{from:'yu',text:'連你也！'},{from:'zhe',text:F.ZHE_CALLS_GE?'哥懂我。':'懂我。'}]},   /* 阿哲叫「哥」照 ZHE_CALLS_GE（AA_313 5-1 第 2 點、5-3）*/
             {t:'（傳一張貼圖）',post:'（貼圖：新年快樂）',say:[{from:'zhe',text:'（貼圖：新年快樂）'}]}]}})],'cny_noodle_y2'); } }
     /* 芷若 Z7（BB_97 3-4 最終版、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊三則——要演過 Z4、有她的聯絡方式；祐廷有伴侶而且她知道＝沒有（AA_112 8-1，Café 才說）。
        Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則。大二上結束都沒去 Café（收到深夜訊息的）＝寒假第一天 21:00 一則。
@@ -2779,7 +2788,7 @@ const STORY = (function(){
   S.roomY2Due=G=>{ if(!G||(G.stage||'law')!=='law'||(G.flags&&G.flags.ROOM_Y2)) return false; const d=S.dayOfKey('2026-09-06'); return d!=null&&G.day>=d; };
   S.ROOM_Y2_TEXT={film:['一張《進城的那一週》的電影票根','票根上的日期，是星期六早上十點。'],pick:['一片吉他彈片','C 和弦。手指上的繭已經沒了。'],civ:['一本只讀了三分之一的民總課本','這本還有三分之二，跟去年九月一樣新。'],
     report:['一張周老師寫評語的報告影本',null],noodle:['阿凱留下的一包泡麵','紙箱裡夾著一張便條：「宵夜基金。過期前吃完。——凱」'],duty:['法服的值班表','單週週六，早上九點。'],
-    pothos:['一盆黃金葛',null],green:['一支綠色螢光筆','你的螢光筆本來只有一種顏色。'],sticky:['一張便利貼：「第 12 頁，要件少一個。」','她改了你的筆記。……她改得對。']};
+    pothos:['一盆黃金葛',null],green:['一支綠色螢光筆','你的螢光筆本來只有一種顏色。'],sticky:['一張便利貼：「第 12 頁，要件少一個。」','她改了你的筆記。']};
   S.roomY2Items=function(G){ const F=G.flags||{}, T=S.ROOM_Y2_TEXT, has=(id,tag)=>typeof SOCIAL!=='undefined'&&SOCIAL.has(id,tag), att=id=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,id), L=[];
     if((has('heroine_02','WATCHED_FILM')||has('heroine_02','WATCHED_FILM_GROUP'))&&!F.ZR_MATINEE_SEEN) L.push(['film',T.film[0],[T.film[1]]]);   /* 和芷若看過早場（兩個人或和方奕廷三個人都算，AA_177 第 10 節）；午場《父親的午後》的沒有 */
     if(att('club_guitar')) L.push(['pick',T.pick[0],[T.pick[1]]]);   /* 去過吉他社 */
@@ -3211,6 +3220,7 @@ const STORY = (function(){
     await GM.say(null,'（她推過來一張便條。'+(D.note[lv]||D.note.ACQUAINTANCE)+'）');
     if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; }
   S.sisCafe=sisCafe;   /* 測試用（tests/sis_cafe_unit.js） */
+  S._talkOld={zhe:(GM,n)=>talkZhe(GM,n),yu:(GM,n)=>talkYu(GM,n)};   /* 測試用（tests/aa313_s4s5_unit.js：阿哲、Alison 舊的閒聊三句照學期換）*/
   async function talkAn(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_01')) return; GM.sceneBegin({adv:'heroine_01'}); if(await S.twoHeartsEcho(GM,'heroine_01',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */ SOCIAL.talkedTo('heroine_01'); if(!n.seat) if(!n.seat) if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); const isCompanion=F.companion==='an'; if(!isCompanion&&F.met_an&&await relUp(GM,'heroine_01',n)){ GM.sceneEnd(); return; } if(isCompanion){ const l=[['走吧，還沒到。'],['你走路真的很快。'],['在想今天那題，還有沒有別的講法。']]; await GM.say(n,l[(Math.random()*l.length)|0][0]); }
     else if(!F.afternoonDone&&F.classDone){ await GM.say(n,'嗯？我等一下要去總圖。'); }
     else if(F.anMissed&&!F.met_an){ await GM.say(n,'你好，我是沈以安。大家都叫我小安。',{expr:'normal'}); F.AN_NAME_TOLD=true; anTag(G,n); await GM.say(n,'……同班的，你不記得？',{expr:'normal'});   /* AN_NAME_TOLD：她報了名字（AA_372 第 4 項）*/   /* AA_313 第 4 節第 10 點：第一次自我介紹用全名 */ F.met_an=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.meet&&SOCIAL.has&&!SOCIAL.has('heroine_01','FIRST_MET')) SOCIAL.meet('heroine_01',G.zone); }   /* 第二天那段錯過了（S.tick 的 anMissed）：第一次說話她自我介紹（同下面沒認識的那句）*/
@@ -3218,7 +3228,7 @@ const STORY = (function(){
       else { await GM.say(n,w1?'民總的筆記我整理好了。你要借再跟我說。':'報告我先寫了一半。民總那題你有想法再跟我說。'); }   /* AA_358 2-2（AA-C 2026-10-21 659d9d81）：「不能賠十倍」只給 cafeView A；沒有 cafeView（拒絕咖啡廳）的沒說過那句 */ /* 舊版「家裡希望我念」的追問拿掉（D60：舊的四個回答連同反應整組拿掉；舊存檔的 family 照 AA_120 7-5 當 own 讀，沒有追問）*/GM.rel('an',1); } else if(!(await S.ladderTalk(GM,n,'heroine_01'))){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, l=T&&T.id==='Y1S1'?['明天要不要一起去總圖？早上人少。','周老師說錯誤和撤銷要到這學期後面才講，你先看八十八條。','那間咖啡廳的檸檬塔你還沒吃過吧。']:T?['明天要不要一起去總圖？早上人少。','那間咖啡廳的檸檬塔你還沒吃過吧。']:['明天要不要一起去總圖？早上人少。','放假總圖人少。我都坐二樓靠窗。']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } }   /* AA_313 4-3：「周老師說錯誤和撤銷…」只在大一上；寒暑假（沒有學期＝階梯一律沒有資料）換「放假總圖人少。我都坐二樓靠窗。」*/   /* 閒聊階梯（AA_135）優先；沒有階梯資料（之後的學期）才用舊的三句 */
     else { await GM.say(n,'你好，我是沈以安。大家都叫我小安。',{expr:'normal'}); F.AN_NAME_TOLD=true; anTag(G,n); await GM.say(n,'……同班的，你不記得？',{expr:'normal'});   /* 9/4 上課前在教室找她說話＝她先報了名字：之後的字幕、按鈕叫「小安」（AA_372 第 4 項）*/   /* AA_313 第 4 節第 10 點：第一次自我介紹用全名 */ G.flags.met_an=true; }
     if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_01',n); GM.sceneEnd(); }
-  async function talkZhe(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('zhe')) return; GM.sceneBegin({adv:'zhe'}); SOCIAL.talkedTo('zhe'); if(!n.seat) if(!n.seat) if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); if(!(F.zheInvite&&!F.zheNoodleDone)&&await relUp(GM,'zhe',n)){ GM.sceneEnd(); return; } if(n.seat&&G.zone==='noodle'){ await GM.say(n,'坐啊，麵要涼了。',{expr:'smile'}); } else if(!F.classDone&&isThu(G)){ await GM.say(n,'快進去啦，周老師要來了。'); } else if(F.zheInvite&&!F.zheNoodleDone){ await GM.say(n,'六點半，阿鳳麵店，公館那條街上。別忘了。',{expr:'smile'}); } else { const l=['系籃週五練球，要來就來，不會打也可以來坐。','公館那家滷味晚上十點後半價。','我球鞋又開口笑了，這禮拜要去買新的。'];/* AA_209 附錄A §2 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'laugh'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'zhe',n); GM.sceneEnd(); }
+  async function talkZhe(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('zhe')) return; GM.sceneBegin({adv:'zhe'}); SOCIAL.talkedTo('zhe'); if(!n.seat) if(!n.seat) if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); if(!(F.zheInvite&&!F.zheNoodleDone)&&await relUp(GM,'zhe',n)){ GM.sceneEnd(); return; } if(n.seat&&G.zone==='noodle'){ await GM.say(n,'坐啊，麵要涼了。',{expr:'smile'}); } else if(!F.classDone&&isThu(G)){ await GM.say(n,'快進去啦，周老師要來了。'); } else if(F.zheInvite&&!F.zheNoodleDone){ await GM.say(n,'六點半，阿鳳麵店，公館那條街上。別忘了。',{expr:'smile'}); } else { const l=[(d=>d!=null&&G.day>=d)(termDay('Y3S1',1,1))?'這季我是隊長。週五你來記分。':'系籃週五練球，要來就來，不會打也可以來坐。','公館那家滷味晚上十點後半價。','我球鞋又開口笑了，這禮拜要去買新的。'];   /* AA_313 5-3：系籃那句到大二下為止，大三起他是隊長 *//* AA_209 附錄A §2 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'laugh'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'zhe',n); GM.sceneEnd(); }
   /* 還沒有 W1（events.js ev_sis_w1：總圖門口的台階、Café，AA_218 17-3；BB-C 798e9b14）：9/4 分直屬以前她是陌生人——一行旁白、不加數值、不記認識；
      9/4 以後 W1 在台階、Café、閱覽室、大廳自習區都演（AA_379：使用者 10-21 23:2x「就直接可以說話就好」）；其他地方照陌生人那一行。FIRST_MET／met_sis 只有 W1 會記 */
   /* 9/4 分直屬以前找學姊說話（AA-C 2026-10-18 01:4x，SIS-W1 第 ① 點）：只有一句旁白，不算對話、不記關係；9/4 以後才開 W1（總圖台階、Café）*/
@@ -3279,7 +3289,7 @@ const STORY = (function(){
       run(async()=>{ const n=kaiWho(GM); if(d3.narr) await GM.say(null,d3.narr); const r=await kdChoice(GM,n,d3); if(r.ch.goto==='K-D4'||(+F.KAI_FRICTION||0)>=3) await kdFight(GM,n); }); } };
   async function talkKai(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('kai')) return; GM.sceneBegin({adv:'kai'}); SOCIAL.talkedTo('kai'); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'kai',n)){ GM.sceneEnd(); return; } if(await S.kaiDormTalk(GM,n)){ GM.sceneEnd(); return; } if(S.mainDay(G)===1){ await GM.say(n,'案例讀了沒？我戴耳機了，你讀你的。',{expr:'smile'}); } else if(F.afternoonDone&&!F.kaiAsked){ F.kaiAsked=true; await GM.say(n,'下午去哪了？'); const w1=S.week1Start(G), i=await GM.choose([{t:w1?'同學。去咖啡廳念書。':'同學。寫報告。'},{t:'沒有啊。'}]); await GM.say(n,i===0?(w1?'（笑）念書喔。好喔。':'「寫報告」。好，你們法律系的都很會用這個詞。'):'喔。',{expr:'laugh'});   /* 開學改 9/1 的局沒有報告（AA_195 4-11）*/ } else { const l=['我明天早八，你走的時候小聲一點。','宿舍網路又斷了，我要去投訴。你們有教這個嗎？']; if(F.introDone) l.unshift('所以那個賣家可以告嗎？……不能？那法律系在幹嘛。');   /* BB_170 第 4 列：相機案例 9/3 晚上才有 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'kai',n); GM.sceneEnd(); }
   async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('talk',E.player.obj,n.obj); if(F.met_yu&&await relUp(GM,'yu',n)){ GM.sceneEnd(); return; } if(!F.met_yu){ F.met_yu=true; F.metYuDay=G.day; if(Array.isArray(F.CAMP_SEEN)&&F.CAMP_SEEN.includes('yu')) await GM.say(null,'（宿營時隔壁隊帶隊呼的那個女生。）');   /* 宿營見過（CAMP_SEEN，AA_205 第 4 節）：第一次正式見面多一句旁白，初遇照舊 */ await GM.say(n,'你是周老師點的那個！我是 Alison，坐你前面右邊。',{expr:'smile'}); await GM.say(n,'我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。');   /* AA_156 1-3：AA_40 的設定（法服是學姊的讀書會，Alison 不在裡面）*/ GM.rel('yu',2); } else { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=((G.hour%24)+24)%24; if(hh>=8+20/60&&hh<9+5/60&&SOCIAL.has('yu','BREAKFAST_YU')&&F.yuBellDay!==G.day&&T&&(T.id==='Y1S1'||T.id==='Y1S2')){ F.yuBellDay=G.day; await GM.say(n,'欸，今天也經過！',{expr:'smile'}); }   /* AA_156 第 2、4 節：BREAKFAST_YU、大一、早上 08:20～09:05（原 9:30～12:00、當天第一次（AA_118 2-2）*/
-      const l=[G.zone==='campus'&&hh<12?'傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。':'我今天早上吃了兩份早餐，好撐。','我這禮拜三個社團都要開會，快死了。','溫州街的貓你有看到嗎？咖啡廳門口那隻。'];   /* AA_209 附錄A §2：傅鐘那句只在校園早上（12 點以前）說，其他時候換早餐那句；「辯論社下週」那句換掉 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'yu',n); GM.sceneEnd(); }
+      const l=[G.zone==='campus'&&hh<12?'傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。':'我今天早上吃了兩份早餐，好撐。',(d=>d!=null&&G.day>=d)(termDay('Y2S2',1,1))?'我這禮拜兩個社團都要開會，快死了。':'我這禮拜三個社團都要開會，快死了。','溫州街的貓你有看到嗎？咖啡廳門口那隻。'];   /* AA_209 附錄A §2：傅鐘那句只在校園早上（12 點以前）說，其他時候換早餐那句；「辯論社下週」那句換掉。AA_313 5-4：大二下她退了辯論社（yu_clubs）以後是「兩個社團」 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'yu',n); GM.sceneEnd(); }
   async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('talk',E.player.obj,n.obj); if(F.classAnswer==='good') await GM.say(n,G.name+(S.week1Start(G)?'。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。':'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。')); else if(F.classAnswer==='none') await GM.say(n,G.name+'。案例要讀。下週我還會點人。'); else await GM.say(n,'有問題可以來研究室。週三下午我都在。');   /* AA_195 4-11：新局的民總第一堂之後下週從第一條開始；另外兩句去掉「不是 X，是 Y」和格言收尾（新舊局都改）*/ GM.sceneEnd(); }
   // ---------- 認識的人現在大概在哪（2026-10-11 使用者：「自由那天根本不知道其他 NPC 在哪，至少給我線索吧」）----------
   // 用角色資料的 daily_schedule——和 populateSchedule 生人物用的是同一份，地圖上寫的和走過去看到的一致。
