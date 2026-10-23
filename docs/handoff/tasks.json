@@ -29775,9 +29775,9 @@
    "title": "AA_389 回 AA_313 九點的程式部分：D13 重新匯入＋新旗標 ZR_UK_BACK（2028-02-19 記）、回來版旁白；HOOK_T03 不出選項、ZR_SENDOFF／ZQ_GAME 選項先不出；ENC_D09_BH 兩句合一、拿掉 linesIfNot；第 20、21 列；可昕生日按鈕 2028、2029（build_msg2.py）；AA_127 重新匯入（以安放鴿子兩句）；第 9 節三句舊句＋AA_312 B 表第 2、4、6 列",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-B 10-23 07:4x】第 1、2、3、4、7、9 點已接（f2c18dda5、7e5a10e3b、19b8fed42、129bd42b0）；第 5 點 a62375fab（2029 不問；2028 有 ev_kexin_birthday_y3 所以照問、日本路線照舊 y2028_japan，已告訴 AA）；第 6 點跟 AA313-FIXES 一起交背景子代理（獨立工作樹，LAWWW-B 審查後合併）｜照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
+   "next": "【LAWWW-B 10-23 12:0x】九點都接了：1、2、3、4、7、9（f2c18dda5、7e5a10e3b、19b8fed42、129bd42b0）、5（a62375fab）、6（子代理 af98f159，合併 d04270aa6）、8（AA_403 a47de7d4e）；待 BB 測 ｜ 【LAWWW-B 10-23 07:4x】第 1、2、3、4、7、9 點已接（f2c18dda5、7e5a10e3b、19b8fed42、129bd42b0）；第 5 點 a62375fab（2029 不問；2028 有 ev_kexin_birthday_y3 所以照問、日本路線照舊 y2028_japan，已告訴 AA）；第 6 點跟 AA313-FIXES 一起交背景子代理（獨立工作樹，LAWWW-B 審查後合併）｜照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
    "first": {
     "term": "Y1S1",
     "week": null,
