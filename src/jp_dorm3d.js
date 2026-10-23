@@ -17,7 +17,7 @@
   function exitTo(X){ return (typeof Z3.ZONES[X.to]!=='undefined')?{to:X.to,spawn:X.spawn||null}:{to:'jp_hub',spawn:null}; }   /* 下一階段的區域還沒有：回 2D 的據點 */
   function zoneFor(id){ const L=JP_DORM_LAYOUTS[id], WIN=L.windows;
     return { id, name:L.name, indoor:true, camDist:L.cam_dist||3.2, build(E){ const Bd=L.bounds, H=L.h||2.5, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
-      const z=Z3.room(E,{w:W,d:D,h:H,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#e6e0d4',floorTex:W3.stoneTex('#8f6442'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+      const z=Z3.room(E,{w:W,d:D,h:H,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#e6e0d4',floorTex:W3.stoneTex('#d3bf9c'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
       for(const w of z.walls) w.visible=false; z.walls.length=0;
       /* 導航格往西偏 0.2 m（多一欄）：書桌（離牆 0.61）和床（寬 1.0）中間的走道 1.19 m，格子照房間邊界排的話，走道正中間沒有一欄格子，

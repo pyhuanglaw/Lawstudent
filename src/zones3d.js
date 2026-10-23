@@ -1465,7 +1465,7 @@ const Z3 = (function(){
     if(z.wins&&z.wins[0]){ const v=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.7),z.wins[0].material); v.position.set(0,1.25,4.5+0.35); v.rotation.y=Math.PI; g0.add(v); (z.winParts=z.winParts||[]).push({obj:v,at:new THREE.Vector3(0,1.25,4.5),dir:new THREE.Vector3(0,0,-1)}); }
     return root; }
   // ---------- 書店 ----------
-  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor2',256,256,(x,w,h)=>{ x.fillStyle='#b98a5f'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(60,30,10,0.3)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
+  const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:4.05,radius:1.1,label:'看看法律書與文具',shop:'book'});   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
@@ -1613,7 +1613,7 @@ const Z3 = (function(){
      做法照麵店：room() 的空房間＋家具色塊是備用（D38 ③），正式模型 bldg.wz_*_interior 載入後整組藏起來（attachRoomGLB：WALL_ 淡出牆）。
      一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
      這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
-  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#7d5c40',mosaic:'#a7aeaa'};
+  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#c9b08c',mosaic:'#a7aeaa'};   /* 淺色木地板（使用者 10-23：不要深色木地板，整個遊戲都不要；ART-NO-DARK-WOOD-1023）*/   /* wood_dark 原本 #7d5c40；溫州街店家的配置已改成 wood_light，這個鍵留著相容 */
   function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
       const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
       const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/

@@ -90,7 +90,7 @@ const WZ_SHOPS_LAYOUT = {
   },
   teahouse: {
     id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/wz_teahouse_interior.glb',
-    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_dark', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
+    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_light', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
     note: '主屋約 8×10 m＋緣側（AA_164 2-3）。左前是玄關；前面一條緣側對著前院（樟樹、石板、竹掃把）；中間木地板的茶席（長桌、六個位子）；右邊是水屋（茶罐、電熱水壺、沙漏）；後面兩間榻榻米和室（各一張矮桌、四個坐墊），中間紙拉門關著。',
     front: {door: {x: -3.0, w: 1.0, note: '玄關（從前院的石板路進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的紙拉門：拉開收在兩端'}},
     spawn: {x: -3.0, z: 4.2, yaw: Math.PI},
@@ -179,7 +179,7 @@ const WZ_SHOPS_LAYOUT = {
   },
   teishoku: {
     id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
-    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_dark',
+    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_light',   // 淺色木地板（使用者 10-23：不要深色木地板）
     note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
     front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},

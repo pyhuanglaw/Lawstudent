@@ -46,7 +46,7 @@ def img_mat(name, fn, rough=0.6, emit=0.0, clip=False, cull=False):
 SPEC = {
     'lin': dict(floor=('rounded_square_tiled_wall', '#a9b1ac', 0.6, 0.35), wall='#d5e6db', wain=('long_white_tiles', '#eef0ec', 0.9), wainH=1.45,
                 wood=('walnut_veneer', '#b08a5e'), trim='#6f9a86', ceil='#eef0ec'),
-    'teishoku': dict(floor=('dark_planks', '#6a4c34', 1.6, 0.5), wall='#efe6d4', wain=('walnut_veneer', '#6e4f35', 1.0), wainH=0.95,
+    'teishoku': dict(floor=('dark_planks', '#c9b08c', 1.6, 0.5), wall='#efe6d4', wain=('walnut_veneer', '#6e4f35', 1.0), wainH=0.95,
                      wood=('walnut_veneer', '#d2b083'), trim='#3d2a1c', ceil='#d8c6a2'),
 }
 
