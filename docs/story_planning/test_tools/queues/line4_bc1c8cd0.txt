@@ -7,6 +7,7 @@ floor3 shots1023_probe.py FLOOR3_gym_court
 s3lake zrlast_probe.py S3_LAKE2,S3_LAKE,S3_SF1,S3_PICK_FAM,S3_PICK_LOVER
 s3lake3 zrlast_probe.py S3_LAKE3
 s3pick zrlast_probe.py S3_PICK_FAM,S3_PICK_LOVER
+s3pick2 zrlast_probe.py S3_PICK_FAM
 # s9_adv2（移到線 10 的 s9_name：新樹 5eab98d39 一起驗稱呼修正）
 s9_adv aa386_probe.py ADV_GRAD,ADV_PICK,ADV_PICK_DATE,ADV_PICK_B,ADV_PICK_DATE_E,ADV_Y4_TW,ADV_Y4_US_DATE,ADV_Y4_TW_DATE,ADV_Y4_REDATE,REB_EARLY,REB_OK,REB_CAUGHT
 s9_note aa378_probe.py NOTE23_SAME,NOTE23_NEW

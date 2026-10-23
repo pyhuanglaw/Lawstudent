@@ -355,10 +355,11 @@ S3 = [
        none=['以前出門，我會先寫三件事。', '這可以算一件事嗎', '一，睡到自然醒'], nothree=True),
   # 5. 接機＋隔天（第 35、36 列）：臺灣路線 2028-12-23（六）19:36 宿舍；家族共乘版／交往中版；選「先回家睡覺。」→ 12/24 11:00 那一則
 ] + [dict(id='S3_PICK_' + k, key='2028-12-23', h=19.6, zone='dorm', flags=dict(TWF, SIS_PICKUP_V=v), js=Y4 + (SIS_D if k == 'LOVER' else SISF),
-          steps=[('until', 23.0), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 11.3, 900)], pref=['出發：接機', '「先回家睡覺。」'],   # 7:30 起床後照走到 11:00 要四十分鐘以上（負載高時 420 秒只走 0.6 小時）→ 床上小睡兩次
+          steps=[('until', 23.0), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 11.3, 900), ('until', 11.8, 600)], pref=['出發：接機', '「先回家睡覺。」'],   # 11:32 醒來再站一下（BB-B 14:1x：11:32 一醒就讀，那一則還沒出來＝還在佇列？）   # 7:30 起床後照走到 11:00 要四十分鐘以上（負載高時 420 秒只走 0.6 小時）→ 床上小睡兩次
           want=['美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。', '我想吃滷肉飯。現在。', '……好。明天。明天一定。'] + w,
           none=['三件事。一，美國的雞蛋', '學姊妳終於講超過三句了！', '……四，我想你。'] + nw, wantMsg=['滷肉飯。今天。不要再說明天。'], noneMsg=['滷肉飯。今天。這不是三件事。'],
-          nothree=True, cflags=['SIS_PICKUP', 'SIS_PICKUP_TMR'], eqflags={'SIS_PICKUP_TMR': True})
+          nothree=True, cflags=['SIS_PICKUP', 'SIS_PICKUP_TMR'], eqflags={'SIS_PICKUP_TMR': True},
+          jsok=[('【讀資料】隔天那一則：PHONE 佇列／已傳／家族群組／phoneY4c 條件', "(()=>{ const G=GAME.G, P=PHONE.rec(G); return {sent:PHONE.sent(G,'y4_pickup_tmr'), q:(P.q||[]).filter(x=>x.tag).map(x=>x.tag+'@'+CALENDAR.dateOf(x.day).key+' '+x.h), inGroup:PHONE.inGroup(G,'family_law'), day:CALENDAR.dateOf(G.day).key, h:+G.hour.toFixed(2)}; })()", lambda x: bool(x) and x['sent'])])
      for k, v, w, nw in [('FAM', 'family', ['學姊妳今天話好多！'], ['……還有，我想你。']), ('LOVER', 'lover', ['……還有，我想你。'], ['學姊妳今天話好多！'])]] + [
   # 6. 三張「你可以」：10/25 推甄前的便條照片（第 34 列）、2/3 考場門口（第 37 列）、國考前一天的照片（第 39 列；畢業以後，最小存檔、和可昕交往中＝照片版）
   dict(id='S3_PUSH', key='2028-10-25', h=20.8, zone='dorm', flags=dict(TWF, Y4_PATH='grad'), js=Y4 + SISF, asks={'y4_push_note': '只有一句'}, steps=[('until', 21.5)], pref=[],
