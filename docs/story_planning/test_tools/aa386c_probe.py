@@ -866,7 +866,7 @@ async def sleep_until_key(pg, cdp, run, sid, key, max_nights=8):
 END_OPTS = ('今天先到這裡', '差不多了，回去吧')
 
 
-async def go_trip(pg, cdp, run, sid, secs=1500):
+async def go_trip(pg, cdp, run, sid, secs=2400):
     """約會那天：等「出發」→ 出發 → 互動點（先選還沒去的，最後「今天先到這裡」）→ 結尾。告白的選項（「（告訴她）」）記下來、選第一個。回傳 (走完, 看到的選項)"""
     t0 = time.time(); seen = []
     while time.time() - t0 < secs:
@@ -886,6 +886,7 @@ async def go_trip(pg, cdp, run, sid, secs=1500):
             await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1300); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         await pg.wait_for_timeout(1200)
+    st = await pg.evaluate(STATE); say('   %s 等了 %d 秒還沒走完（現在 %s %.2f）' % (sid, secs, st['key'], st['h']))
     return False, seen
 
 
@@ -908,8 +909,10 @@ async def s_reb_dates(p, run, base, sid, out):
     res = out.setdefault(sid, {}); no41 = sid == 'REB_NO41'
     days = ['2027-10-20', '2027-10-21', '2027-10-22']
     if no41:
-        b, pg, cdp, errs, r, name = await launch(p, run, base, '2027-10-22', 20.0, 'dorm', 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-22（五）20:00 宿舍；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點；沒有找她說話＝沒演 4-1）')
-        at = ('2027-10-22', 20.0)
+        # BB-B 20:4x：原本 10/22 晚上開始＝約到 10/23（六），撞到感冒週（story3d.js coldWeekSneeze：10/23 起床打噴嚏），1500 秒內沒等到 09:00 出發（s9_rebdates2）。
+        #   這個情境只驗「沒演 4-1＝結尾沒有告白」，改成 10/19（二）晚上開始、約 10/20，避開感冒週；約在感冒週那天的約會另外測。
+        b, pg, cdp, errs, r, name = await launch(p, run, base, '2027-10-19', 20.0, 'dorm', 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-19（二）20:00 宿舍；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點；沒有找她說話＝沒演 4-1）')
+        at = ('2027-10-19', 20.0)
     else:
         b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, days, HOURS, QUICK3, 'FRIEND', flags={'Y4_PATH': 'other'}, label=sid + '（2027-10-20（三）起；【前置】和她交往過、2027-08-30 分開、第 6 階、分開前四次約會含心願地點）')
     try:

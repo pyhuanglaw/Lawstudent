@@ -1660,14 +1660,15 @@ EXJS0 = SIS_D + " G.flags.dating_heroine_05=false; try{ const R=G.flags.romance&
 HOOKRUN = ('jsrun', "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.hook(GAME,'Y3S2','heroine_05'); }catch(e){ console.warn('HOOKRUN',e); } finally{ GAME.sceneEnd(); } })(); return true; })()", '直接叫大三下期末女朋友版約會的鉤子（TERMEND.hook Y3S2 學姊）')   # 【捷徑】
 N4STUDY = NEAR('4F 窗邊自習座位', label='坐窗邊（自習）'); STUDY = ('usep', '^坐窗邊（自習）$')
 def SY_STUDY(i, js, name):
-    return dict(id=i, key='2029-03-06', h=15.0, zone='linze_4f', flags=dict(TWF, grad_reading=True), js=R8H + Y4 + js, pref=['讀書', '一小時', '讀' + name + '給的那篇文章'],
+    return dict(id=i, key='2029-03-06', h=15.0, zone='linze_4f', flags=dict(TWF, grad_reading=True), js=R8H + Y4 + js, pref=['讀書', '讀 1 小時', '讀' + name + '給的那篇文章'],   # BB-B 20:5x：讀多久的選項是「讀 1 小時」（原本寫「一小時」＝沒對到、退到「算了」，sy60b）
                 steps=[N4STUDY, STUDY, ('until', 15.4, 400)],
                 jsok=[('讀書選單「讀%s給的那篇文章」' % name, CHN('讀' + name + '給的那篇文章'), lambda n: isinstance(n, int) and n >= 1)] + ([('沒有「讀學姊給的那篇文章」', CHN('讀學姊給的那篇文章'), 0)] if name != '學姊' else []))
 def SY_BTN(i, js, name):   # 出遊按鈕：三筆 OUT.plan（標題照遊戲的寫法），選「晚一點」
     o = [{'id': 'sy_t1', 'ev': 'ev_none_sy1', 'day': 0, 'h': 0, 'late': 0.5, 'place': '學姊家的巷口', 'title': '跨年：學姊家的巷口', 'travel': '捷運 約 30 分鐘', 'travelH': 0.5},
          {'id': 'sy_t2', 'ev': 'ev_none_sy2', 'day': 0, 'h': 0, 'late': 0.5, 'place': '桃園機場', 'title': '接機（學姊）', 'travel': '開車 約 1 小時', 'travelH': 1}]
-    fix = " { for(const id of ['sy_t1','sy_t2']){ const q=OUT.get(G,id); if(q) q.h=G.hour+0.3; } }"
-    return dict(id=i, key='2027-12-31', h=19.0, zone='dorm', flags=dict(TWF), js=R8H + js + ''.join(PLAN(x) for x in o) + fix, pref=['晚一點'], steps=[('until', 19.5, 900)],
+    # BB-B 20:5x：原本先排在 day 0／0 點（過去）再改時間＝OUT.planToast 照設計不跳「排進行程」（排的時間 ≤ 現在就不說），sy60b 那一項驗不到。改成一開始就排在 30 分鐘後
+    plan = ''.join(" OUT.plan(G,Object.assign(%s,{day:G.day,h:+G.hour+0.3}));" % json.dumps(x, ensure_ascii=False) for x in o)
+    return dict(id=i, key='2027-12-31', h=19.0, zone='dorm', flags=dict(TWF), js=R8H + js + plan, pref=['晚一點'], steps=[('until', 19.5, 900)],
                 jsok=[('「出發：跨年：%s家的巷口」' % name, CHN('出發：跨年：' + name + '家的巷口'), lambda n: isinstance(n, int) and n >= 1), ('「出發：接機（%s）」' % name, CHN('出發：接機（' + name + '）'), lambda n: isinstance(n, int) and n >= 1),
                       ('排進行程的系統提醒用「%s」' % name, "(window.__LOG||[]).filter(x=>/排進行程/.test(String(x.t))&&String(x.t).includes(%s)).length" % json.dumps('跨年：' + name, ensure_ascii=False), lambda n: isinstance(n, int) and n >= 1)])
 R8 += [
