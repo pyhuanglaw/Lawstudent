@@ -30180,7 +30180,7 @@
    },
    "source": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「遊戲裡任何現在關起來的空間都可以開始開發 例如進不去的討論室之類的 相關功能如何與劇情連接 請跟AA討論」（UA-LAWWW2-1023-06）",
    "authorized": "使用者直接交代；D108、D109、D111",
-   "next": "【LAWWW-B 10-23 08:0x】清單與提案：LAWWW2 分支 docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md 第 2 節（博雅討論室 → 總圖研究小間＋B1 → 法學院辦公室 → 萬才館研討室 B／霖澤館研究室 → 體育館 3F → 美國學姊房間）；AA 定劇情用途、LAWWW2 做空間（D108）、LAWWW 接事件；照 LAWWW2 的順序，排在店面之後",
+   "next": "【LAWWW-B 10-23 08:4x】AA_399（企劃線 53ca91b2，最新 3f0eaf3d）交了：第 13 節給 LAWWW——作息（學姊研究室碩一～碩三週一～四 12:20～14:00＝AA_392 第 4 節甲案、研究小間 2028-02 起平日 14～17，美國期間不算；柏翰、芯慈、阿哲、方奕廷、阿凱照各節）、刷卡門「傳訊息給學姊」、空間沒做好照舊 2D；借書 3-2 節另開 LIB-LOAN-1023 ｜ 【LAWWW-B 10-23 08:0x】清單與提案：LAWWW2 分支 docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md 第 2 節（博雅討論室 → 總圖研究小間＋B1 → 法學院辦公室 → 萬才館研討室 B／霖澤館研究室 → 體育館 3F → 美國學姊房間）；AA 定劇情用途、LAWWW2 做空間（D108）、LAWWW 接事件；照 LAWWW2 的順序，排在店面之後",
    "xai": {
     "spec": "CLOSED_SPACES_1023.md（LAWWW2 分支）",
     "owner": "LAWWW2",
@@ -30314,7 +30314,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
+   "next": "【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
   },
   {
    "id": "SIS-B9-L-1023",
@@ -30336,6 +30336,27 @@
    },
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "id": "LIB-LOAN-1023",
+   "title": "總圖借書（輕版，AA_399 3-2）：只借劇情給的書；到期前三天提醒；逾期館員說一句、不扣分不罰款；G.loans（預設空陣列）；做好以前 ev_forgot_book 保持關著",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:4x】AA_399（53ca91b2）3-2 節；和 CLOSED-SPACES-1023 的總圖研究小間、B1 一起"
   }
  ]
 }
