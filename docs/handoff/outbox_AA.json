@@ -1573,6 +1573,53 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "D111 學姊第八批（AA_391）"
+  },
+  {
+   "task": "AA398-SIS-NO-THREE-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ffd7eef8",
+   "files": [
+    "docs/story_planning/AA_398_學姊不再說三件事_全遊戲替換表.md",
+    "docs/story_planning/00_人物口氣表.md",
+    "docs/story_planning/date_system/lines/D01.json",
+    "docs/story_planning/date_system/lines/D02.json",
+    "docs/story_planning/date_system/lines/D03.json",
+    "docs/story_planning/date_system/lines/D07.json",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/lines/D11.json",
+    "docs/story_planning/date_system/lines/D14.json",
+    "docs/story_planning/date_system/lines/D15.json",
+    "docs/story_planning/date_system/lines/D24.json",
+    "docs/story_planning/date_system/lines/D25.json",
+    "docs/story_planning/date_system/lines/D28.json",
+    "docs/story_planning/date_system/lines/D30.json",
+    "docs/story_planning/date_system/wish/wish_bb.json",
+    "docs/story_planning/free_trip/solo_before_bb_v1.json",
+    "docs/story_planning/free_trip/bb_walk_v1.json",
+    "docs/story_planning/ladder/ladder_bb_y2s1.json"
+   ],
+   "state": "已交付",
+   "remaining": "沛珊心願 wish_bb.py 與 BB_128 3-4 不一致（AA398-PS-WISH-SYNC，和本件無關）",
+   "next": "LAWWW：AA_398 第 1 節 51 處改 src、第 2 節重新匯入、建議加檢查；BB：第 5 節測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 直接：學姊永久不再說三件事"
+  },
+  {
+   "task": "AA397-SIDEQUEST-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ffd7eef8",
+   "files": [
+    "docs/story_planning/AA_397_店員的支線_順手的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批支線之後寫",
+   "next": "LAWWW：第 1 節系統、第 2 節九則、第 3 節貓線事件；LAWWW2：貓的位置／姿勢（CAT_curl）、大四下不顯示；BB 測第 4 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者 10-23 直接：店員支線（參考人中之龍、不抄襲）；貓由子晴收養（回 LAWWW2-B WZ-CAT-LIFE-1023）"
   }
  ],
  "items": [
