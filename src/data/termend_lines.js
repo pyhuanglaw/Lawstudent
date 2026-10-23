@@ -282,7 +282,7 @@ const TERMEND_LINES=(function(){
           heroine_04:{say:'你要不要看？',ok:'「好。」',if:PT,act:{c15:'zq_demo'}},   /* 看過 Q6 才約看 demo（AA_313 6-5 第 1 點）*/
           
           classmate_mingxuan:{say:'系籃寒假要集訓三天。',ok:'「最後一天我去看。」',act:{c15:'mx_game'}}},
-    Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我也想去。」',act:{vac:'C02@Y2'}},
+    Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我去探班。」',act:{c15:'yu_camp2'}},   /* AA_408 第 5 節（47dd827c）：她在山上兒童營當小隊長（VA-05），去探班；不報名系學會的高中營 C02 */
           heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2；AA_389 第 2 點→AA_390：9/2 送機那一場（src/zr_sendoff3d.js）做好了，選項打開 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
           npc_fangyt:{say:'八月一號到四號，我要去日本爬山。',ok:'「我可以去嗎？」',act:{flag:'HOOK_T02'}}},
     Y3S1:{heroine_01:{say:'三月二十五號出發。',ok:G=>G.flags&&G.flags.EXCHANGE_ROUTE==='JP'?'「那天我們同一班。」':'「出發那天我去送妳。」',act:{flag:'HOOK_AN_SENDOFF'}},
@@ -306,6 +306,8 @@ const TERMEND_LINES=(function(){
     zq_play2:{who:'heroine_04',day:'2027-07-10',h:14,place:'公館的騎樓咖啡店',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
     zq_demo:{who:'heroine_04',day:'2027-01-09',h:14,place:'資工系館',lines:G=>C15.zq_play.lines,msg:['{日期} 下午 有空嗎','我弄好一關了 要你玩'],photo:['📷（筆電螢幕上，一隻像素貓卡在牆裡）','它卡住了','你沒來 沒人幫我找 bug']},
     yu_camp:{who:'yu',day:'2026-07-11',h:12,place:'營地',bg:'camp_school',lines:[{narr:'（操場上一群小朋友在追 Alison。）'},{who:'yu',text:'你來了！……等一下，我先救我自己。'},{narr:'（午餐的時候，她的盤子被一個小朋友偷了一塊雞塊。）'}],msg:['{日期}中午來！！','帶水，這裡什麼都沒有！'],photo:['📷（操場上一群小朋友比著勝利手勢，Alison 在最後面，頭髮亂掉）','我還活著！']},
+    yu_camp2:{who:'yu',day:'2027-07-17',h:12,place:'營地',bg:'camp_school',lines:G=>[{narr:'（操場上，一隊小朋友排成一排，跟在 Alison 後面。她脖子上掛著一個哨子。）'},{who:'yu',text:'我是小隊長了！……他們都不聽我的。'},{narr:'（午餐的時候，一個小朋友伸手要拿她的雞塊。她早就把雞塊藏在碗底。）'},
+      {who:'yu',text:G&&G.flags&&G.flags.C15_DONE&&G.flags.C15_DONE.yu_camp!=null?'去年被偷過，今年學乖了。':'他們最會偷雞塊。要先藏好。'}],msg:['{日期}中午來！！','我是小隊長喔！！帶水'],photo:['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）','小隊長還活著！']},   /* AA_408 第 5 節：大二暑假的探班（大一去過 yu_camp 的最後一句不一樣）*/
     mx_game:{who:'classmate_mingxuan',day:'2027-01-23',h:16,place:'體育館',lines:[{narr:'（最後一分鐘，明軒投進一顆三分。他回頭看了一眼觀眾席。）'},{who:'classmate_mingxuan',text:'……你真的來了。等我，我九點還有家教。'}],msg:['{日期}下午四點，體育館。最後一天有練習賽。'],photo:['📷（體育館的記分板）','贏了！！🏀','下次你要來看喔 😆']},
     zr_film:{who:'heroine_02',day:'2027-01-16',h:20,place:'兩點半 Café',lines:[{narr:'（店裡的燈關了一半。牆上投著一部黑白片，字幕是她手打的。）'},{who:'heroine_02',text:'字幕有一句我翻錯了。你看得出來是哪一句嗎？'}],
       opts:[{t:'「第三十分鐘那句？」',say:[{who:'heroine_02',text:'……你真的有在看。'}]},{t:'「看不出來。」',say:[{who:'heroine_02',text:'那就好。'}]}],msg:['{日期}晚上八點，放映。','字幕我還在打。'],photo:['📷（Café 的牆上投著一部黑白片，前面坐了四個人）','今天來了四個。']},

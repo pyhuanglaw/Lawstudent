@@ -203,6 +203,12 @@ GM.money=function(n){ G.money+=n; };
       const q5=OUT.get(G,'c15_yu_camp'); check('11. Alison「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 12:00 營地；她傳「{日期}中午來！！」）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===12,JSON.stringify(q5));
       said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追 Alison、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
       TERMEND.dayMissed(GM,q5); G.day=q5.day; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：那天晚上 21:00 Alison 私訊照片「我還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='我還活著！'));
+      { const d2=D('2027-06-11'); fresh(d2,19,'campus',{}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y2S2'}});
+        const q6=OUT.get(G,'c15_yu_camp2'); check('11. Alison 大二下「暑假營隊我當小隊長。」→「我去探班。」＝C15 探班 7/17 12:00 營地，不報名系學會的高中營 C02（AA_408 第 5 節）',lines().some(t=>t.includes('暑假營隊我當小隊長。'))&&!!q6&&q6.day===D('2027-07-17')&&q6.h===12&&!VAC.enrolled(G,'C02','Y2'),JSON.stringify(q6));
+        said=[]; await TERMEND.dayOuting(GM,q6); const L6=lines(); check('11. 大二探班：哨子、「我是小隊長了！……他們都不聽我的。」、雞塊藏在碗底；沒去過大一探班＝「他們最會偷雞塊。要先藏好。」',L6.some(t=>t.includes('她脖子上掛著一個哨子'))&&L6.some(t=>t.includes('我是小隊長了！……他們都不聽我的。'))&&L6.some(t=>t.includes('他們最會偷雞塊。要先藏好。'))&&!L6.some(t=>t.includes('去年被偷過')),JSON.stringify(L6));
+        fresh(d2,19,'campus',{C15_DONE:{yu_camp:D('2026-07-11')}}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y2S2'}}); const q7=OUT.get(G,'c15_yu_camp2'); said=[]; await TERMEND.dayOuting(GM,q7);
+        check('11. 大一去過探班：最後一句「去年被偷過，今年學乖了。」',lines().some(t=>t.includes('去年被偷過，今年學乖了。')));
+        TERMEND.dayMissed(GM,q7); G.day=q7.day; G.hour=21.1; PHONE.tick(G); check('11. 大二探班沒去：21:00 Alison「小隊長還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='小隊長還活著！')); }
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('heroine_04');
       check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04')));
       check('11. 每一個 C15 都有傳日子的訊息；Alison 多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
