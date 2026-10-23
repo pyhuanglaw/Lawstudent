@@ -1102,6 +1102,70 @@ R5 = [
 SAYH = " if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; }"   # 3D 對話框（不是 ADV）的台詞也記下來：店員、館員、公園（ADV 裡的照舊由 ADV.log 記，不重記）
 for _sc in R5: _sc['js'] = SAYH + _sc.get('js', '')
 SCENS = SCENS + R5
+# ---------------------------------------------------------------- 清單第 43、44、48 項（LAWWW-B BB_SIS_B6_1023.md；開發分支 375e90903；BB-B 10-23）
+#   48 期中晚餐柏翰算麵錢三句（AA_409 第 1 節 c42a0dd3 更正）、44 沛珊大一上期末交往＝交往中的大一下（AA_409 第 1～3 節）、43 芷若 9/2 桃園機場送機（AA_390）
+PSD = " G.flags.dating_classmate_peishan=true;"   # [前置] 和沛珊交往中（大一上期末告白交往的存檔：使用者存檔沒有，這裡直接設旗標）
+PSBASE = " LV('classmate_peishan',55,45,40); LV('yu',45,30,20); LV('zhe',45,30,20);"   # [前置] 認識沛珊（朋友）、Alison、阿哲
+BHK = " LV('classmate_bohan',45,30,20);"   # [前置] 認識柏翰
+BHFORGET = " { const M=G.social&&G.social.mem&&G.social.mem.classmate_bohan; if(M) G.social.mem.classmate_bohan=M.filter(m=>m.tag!=='FIRST_MET'); const r=SOCIAL.rel('classmate_bohan'); r.fam=0; r.trust=0; r.comf=0; }"   # [前置] 不認識柏翰
+PSTOLD = " ROM.learn(G,'zhe','classmate_peishan','present'); ROM.learn(G,'yu','classmate_peishan','present');"   # [前置] 麵店團之前就知道了（別的事件公開過）
+PS_EGG = ['（沛珊坐在你旁邊。她把碗裡的滷蛋夾了一半，放到你碗裡。）', '……喔。', '全桌安靜三秒。', '對。你們吃你們的。', '（Alison 在桌子底下踢了阿哲一腳。）']
+PS_BHCOST = ['（柏翰把每個人的麵錢算好，寫在餐巾紙上。）', '一個人一百一十五。阿哲你多一顆蛋，一百二十五。', '……你連這個都算。']
+PS_PUB = ['柏翰幫沛珊把滷蛋切成兩半。', '對，我們在一起了。你們吃你們的。', '上禮拜的事。', '（他把另一半滷蛋推回她碗裡。）']
+PS_TOLDL = '（沛珊把碗裡的滷蛋夾了一半，放到你碗裡。沒有人說話。）'
+PS_W4D = ['（讀書會結束。你收白板的時候，沛珊站在門口等。）', '下週那一題，你報。……我想聽你講。', '（你們一起走出萬才館。柏翰走在前面，一個人。）']
+PS_W4F = ['（讀書會結束。沛珊和柏翰一起走出萬才館，一路在爭下週誰報告哪一題。）', '（你在後面收白板。）']
+WED_UNLESS = "(()=>{ const e=SMALLTALK.classmate_bohan.find(x=>typeof x==='object'&&/週三晚上空出來/.test(x.t)); return e?!!EVENTS.cond(e.unless):'沒有那一句'; })()"   # true＝不說
+SPLIT_OK = "(()=>{ const e=STORY_EVENTS.find(x=>x.id==='ev_peishan_split'); return e?!!EVENTS.check(e):'沒有 ev_peishan_split'; })()"
+ZR43 = " G.flags.HOOK_ZR_SENDOFF=D('2027-06-11'); G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_02'); LV('heroine_02',55,45,40);"   # [前置] 大二下期末聚餐答應了「出發那天我去送妳。」（HOOK_ZR_SENDOFF；選項本身 tests/termend_unit.js 第 12 項）、有她的聯絡方式、朋友
+ZR_STUBSEEN = " SOCIAL.remember('heroine_02','TICKET_STUB','最後一個班，她給的電影票根'); G.flags.ZR_LAST_SHIFT='seen'; G.events=G.events||{}; G.events.done=G.events.done||{}; G.events.done.ev_zhiruo_last_shift=1;"   # [前置] 6/3 最後一班去了、拿到票根
+ZR_AWAY = " G.trips=(G.trips||[]).concat([{status:'booked',day:D('2027-09-01'),depart:9,back:20,kind:'overnight',nights:1,who:'heroine_01',locs:[]}]);"   # [前置] 9/1～9/2 兩天一夜的校外約會（人在外地）
+ZR_ASK = ['明天八點半，第二航廈。', '你說要來的。']
+ZR_HEAD = ['（八點半。她推著一個很大的行李箱，旁邊站著一個比她矮一點的阿姨。）', '我媽。', '你好。她說有同學要來，我還不信。', '……媽。', '（她從外套口袋拿出一張摺好的紙。）', '那邊的地址。']
+ZR_ADDR = '電影看完，寫的那一句寄這裡。'; ZR_ADDR_GF = '二月回來。……第一張明信片寄給你。'
+ZR_STUB = ['（她又拿出一張電影票根。）', '這個本來放在櫃台。你沒來拿。']
+ZR_GO = ['（廣播叫了她那班飛機。她把行李箱推給櫃台以後，只剩一個背包。）']; ZR_WAVE = '（她走到出境的門口，回頭揮了一下手，進去了。）'; ZR_HAND = '（她在門口停了一下，抓了一下你的手，才進去。）'
+ZR_MOM = '我搭十點的客運回台中。你呢？'
+ZRSTEPS = [('until', 21.3), ('bedpick', '睡到明天早上'), ('until', 10.6, 1200)]
+R6 = [
+  # 48＋44 期中晚餐（大一下第 8 週週三 4/15 19:00 阿鳳麵店長桌；[捷徑] 直接開演 ev_midterm_supper_y1s2——排程是「刑總二期中考完、麵店團群組」那一套，另外測過）
+  dict(id='PS48_DT_BH', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK, steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
+       want=PS_EGG + PS_BHCOST, order=PS_EGG + PS_BHCOST, none=PS_PUB + [PS_TOLDL]),
+  dict(id='PS48_DT_NOBH', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHFORGET, steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
+       want=PS_EGG, none=PS_BHCOST + PS_PUB),
+  dict(id='PS48_DT_TOLD', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK + PSTOLD, steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
+       want=[PS_TOLDL] + PS_BHCOST, order=[PS_TOLDL] + PS_BHCOST, none=[PS_EGG[0], PS_EGG[3], PS_EGG[4]] + PS_PUB),
+  dict(id='PS48_NODATE', key='TERMDAY:Y1S2:8:3', h=19.0, zone='noodle', flags=dict(TW3), js=NOKX + PSBASE + BHK + " G.flags.dating_classmate_peishan=false;", steps=[('runev', 'ev_midterm_supper_y1s2')], pref=['（繼續吃麵）'],
+       want=PS_PUB, none=PS_BHCOST + [PS_EGG[0], PS_EGG[4], PS_TOLDL]),
+  # 44 大一下第 4 週週四公法讀書會散場（[捷徑] 直接開演 ev_peishan_bohan_w4：afterActivity，讀書會本身另外測過）
+  dict(id='PS44_W4_DT', key='TERMDAY:Y1S2:4:4', h=18.0, zone='wancai', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK, steps=[('runev', 'ev_peishan_bohan_w4')], want=PS_W4D, order=PS_W4D, none=PS_W4F),
+  dict(id='PS44_W4_NODATE', key='TERMDAY:Y1S2:4:4', h=18.0, zone='wancai', flags=dict(TW3), js=NOKX + PSBASE + BHK + " G.flags.dating_classmate_peishan=false;", steps=[('runev', 'ev_peishan_bohan_w4')], want=PS_W4F, none=PS_W4D),
+  # 44 大二上：柏翰不說「這學期我週三晚上空出來了。」、沒有柏翰×沛珊分手那一段（【讀資料】閒聊句、事件條件；閒聊是隨機抽，瀏覽器裡抽不到也不代表沒有）
+  dict(id='PS44_Y2_DT', key='TERMDAY:Y2S1:8:2', h=12.0, zone='linze', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK, steps=[],
+       jsok=[('【讀資料】交往中：柏翰「週三晚上空出來了」不說（unless 成立）', WED_UNLESS, True)]),
+  dict(id='PS44_Y2_NODATE', key='TERMDAY:Y2S1:8:2', h=12.0, zone='linze', flags=dict(TW3), js=NOKX + PSBASE + BHK + " G.flags.dating_classmate_peishan=false;", steps=[],
+       jsok=[('【讀資料】沒交往：柏翰那一句照舊可以說（unless 不成立）', WED_UNLESS, False)]),
+  dict(id='PS44_SPLIT_DT', key='TERMDAY:Y2S1:6:1', h=12.3, zone='linze', flags=dict(TW3), js=NOKX + PSD + PSBASE + BHK, steps=[],
+       jsok=[('【讀資料】交往中：柏翰×沛珊分手那一段（ev_peishan_split）不成立', SPLIT_OK, False)]),
+  # 43 芷若 9/2 桃園機場（2027-09-01 20:30 宿舍起；21:00 她私訊、回覆；9/2 08:30 第二航廈＝機場捷運約 1 小時）
+  dict(id='ZR43_GO', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43, asks={'zr_sendoff_ask_2027': '會到。'}, steps=ZRSTEPS,
+       pref=['出發', '「到了傳訊息給我。」', '「我回學校。」'], want=ZR_ASK + ['嗯。'] + ZR_HEAD + [ZR_ADDR] + ZR_STUB + ['那邊我只寄明信片。……傳訊息的話，我會一直看手機。'] + ZR_GO + [ZR_WAVE, ZR_MOM, '好。路上小心。'],
+       order=ZR_HEAD + [ZR_ADDR] + ZR_STUB, none=[ZR_HAND, ZR_ADDR_GF], noneMsg=['我要進去了。', '我出發了。', '今天出發去英國了。'],
+       cflags=['ZR_SENDOFF_2027', 'ZR_LAST_SHIFT'], eqflags={'ZR_SENDOFF_2027': 'met', 'ZR_LAST_SHIFT': 'airport'}, cmem=[('heroine_02', 'ZR_SAW_OFF'), ('heroine_02', 'TICKET_STUB')]),
+  dict(id='ZR43_SEEN', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43 + ZR_STUBSEEN, asks={'zr_sendoff_ask_2027': '妳東西收好了嗎？'}, steps=ZRSTEPS,
+       pref=['出發', '「電影我還沒看。」', '「我送您到客運站。」'], want=['收了三次。每次都多一件。'] + ZR_HEAD + [ZR_ADDR, '九月才開始。慢慢看。', ZR_WAVE, ZR_MOM, '（你們走到客運站。她上車以前，跟你點了一下頭。）'],
+       none=ZR_STUB + [ZR_HAND], eqflags={'ZR_SENDOFF_2027': 'met'}, cmem=[('heroine_02', 'ZR_SAW_OFF')]),
+  dict(id='ZR43_GF', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43 + " ROM.start(G,'heroine_02');", asks={'zr_sendoff_ask_2027': '會到。'}, steps=ZRSTEPS,
+       pref=['出發', '「到了傳訊息給我。」', '「我回學校。」'], want=ZR_HEAD + [ZR_ADDR_GF, ZR_HAND, ZR_MOM], none=[ZR_ADDR, ZR_WAVE], eqflags={'ZR_SENDOFF_2027': 'met'}),
+  dict(id='ZR43_LATE', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43, asks={'zr_sendoff_ask_2027': '會到。'}, steps=[('until', 21.3), ('bedpick', '睡到明天早上'), ('until', 9.8, 1200)],
+       pref=['晚一點'], wantMsg=['我要進去了。'], noneMsg=['我出發了。'], none=[ZR_HEAD[0]], eqflags={'ZR_SENDOFF_2027': 'missed'}),
+  dict(id='ZR43_DECL', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43, asks={'zr_sendoff_ask_2027': '明天臨時有事，沒辦法去。'}, steps=[('until', 21.3), ('bedpick', '睡到明天早上'), ('until', 9.8, 1200)],
+       pref=[], wantMsg=['好。', '我出發了。'], noneMsg=['我要進去了。'], none=[ZR_HEAD[0]], eqflags={'ZR_SENDOFF_2027': 'declined'}),
+  dict(id='ZR43_AWAY', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43 + ZR_AWAY, steps=[('until', 21.4)], noneMsg=ZR_ASK),
+  dict(id='ZR43_NOHOOK', key='2027-09-01', h=20.5, zone='dorm', flags=dict(TW3), js=NOKX + ZR43 + " delete G.flags.HOOK_ZR_SENDOFF;", steps=[('until', 21.4)], noneMsg=ZR_ASK),
+]
+for _sc in R6: _sc['js'] = SAYH + _sc.get('js', ''); _sc.setdefault('once', [w for w in _sc.get('want', []) if len(w) > 6])   # 「嗯。」「……喔。」這種短句別的場合也會說，不算重複演
+SCENS = SCENS + R6
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
