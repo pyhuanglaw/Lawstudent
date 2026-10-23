@@ -1868,6 +1868,15 @@
    "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）"
   },
   {
+   "path": "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md",
+   "sha": "99710a908",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:2x 定稿（D109）",
+   "task": "D14-T10",
+   "kind": "text",
+   "note": "第 1、2 節 src/fit3d.js（873ea4b9f）；第 3 節一起運動（羽球 gym_badminton、晨跑 run_avenue）src/data/invites.js、src/invites3d.js（tests/aa417_sport_invite_unit.js）"
+  },
+  {
    "path": "docs/story_planning/date_system/art/d15_base_night.webp",
    "sha": "abad2fa0",
    "status": "approved",
@@ -1902,6 +1911,87 @@
    "task": "DATE-L-BG4-1023",
    "kind": "art",
    "note": "DL-06C 當時沒複製的四張之一（稽核 D 10-21 USER_WANTS D33：「5 張圖其實早就核准了」，d32 已在 669b4fa3c）；照原檔複製到 assets/bg，登錄 OUT.BG：D23 桃園竹圍漁港 的約會有底圖才列"
+  },
+  {
+   "path": "docs/story_planning/AA_399_關著的空間_劇情用途與開放規則.md",
+   "sha": "5d09bb725",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "CLOSED-SPACES-1023",
+   "kind": "text",
+   "note": "第 1 節 src/lab5f3d.js、第 2 節 src/b1story3d.js、第 6、11 節 src/closed3d.js、第 3-2 節 src/loans3d.js；其他節等空間；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_411_交往中叫書瑀_祐廷的句子與標題.md",
+   "sha": "5d09bb725",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "SIS-SHUYU-1017",
+   "kind": "text",
+   "note": "src/social3d.js S.shuyuT（tests/aa411_shuyu_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md",
+   "sha": "5d09bb725",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "US-AA412-1023",
+   "kind": "text",
+   "note": "src/us208_3d.js 等（1fe50a751，tests/aa412_us_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_413_溫州街店面_剩下三家_B09收尾.md",
+   "sha": "5d09bb725",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "WZ-AA413-1023",
+   "kind": "text",
+   "note": "src/wzshops3d.js、src/closed3d.js（f30686b38，tests/aa413_wz_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md",
+   "sha": "5d09bb725",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "D14-T11",
+   "kind": "text",
+   "note": "src/an_yt_hol3d.js、src/data/an_yt_hol_events.js（f48046198，tests/aa414_hol_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md",
+   "sha": "ed80edb71",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "D14-T11",
+   "kind": "text",
+   "note": "施工中（子代理）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_418_看出席的課_第一堂老師說的規定.md",
+   "sha": "81c14898a",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "D43-ATTEND-1023",
+   "kind": "text",
+   "note": "src/classes3d.js ATT_RULE、src/honor3d.js 第 12 週提醒；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_419_芷若在英國_約好的視訊與按鈕句.md",
+   "sha": "81c14898a",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "VAC-ZR-UK-1017",
+   "kind": "text",
+   "note": "src/zr_uk3d.js（65213fe2d，tests/aa419_zr_uk_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+  },
+  {
+   "path": "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "DL-10",
+   "kind": "text",
+   "note": "DL-10、DL-11 施工中（子代理）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
   }
  ]
 }
