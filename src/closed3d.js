@@ -1,0 +1,47 @@
+/* 關著的空間：不用新空間就做得到的幾節（CLOSED-SPACES-1023；AA_399，AA-B 2026-10-23；霖澤館 5F 在 src/lab5f3d.js）
+   第 6 節　霖澤館 101＝學姊的助教課：大二上（Y2S1）週二 18:30～20:20，第 3～15 週（第 8、9 週期中除外）。門上的小窗可以「看」，一週一次（三句照次數）；
+            20:20 下課她最後一個出來，在門口等一下（作息：characters.js），找她說話照一般的說話，第一次多一句。其他時候 101 照舊關著。
+   第 11 節　宿舍洗衣間：門口多一個「洗衣服」（40 分鐘，不加數值）；大一週日 21～22 阿凱在裡面，第一次遇到他說一句。 */
+const CLOSED=(function(){
+  const S={}; const SIS='heroine_05';
+  S.LINES={
+    ta:{ look:['（小窗裡：她站在黑板前面。一年級的學弟妹低著頭在寫。她寫字很快，寫完會停下來等。）','（她在黑板上畫了一張圖，有人舉手，她點了一下頭。）','（她在上課。）'],
+      first:'……你在外面看了多久。', firstLover:'我在上課的時候，不要從窗戶看我。……我會分心。' },   /* AA_399 第 6 節 */
+    kai:'這台烘衣機要投兩次。第一次是騙你的。' };   /* AA_399 第 11 節 */
+  S.TA_WEEKS=[3,4,5,6,7,10,11,12,13,14,15];
+  const T=G=>typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
+  const hol=G=>typeof CALENDAR!=='undefined'&&!!CALENDAR.holiday(G.day);
+  const hr=G=>G.hour%24;
+  /* 那一週有沒有助教課（Y2S1 的週二、第 3～15 週扣期中、不是放假）*/
+  S.taWeek=G=>{ const t=T(G); return !!t&&t.id==='Y2S1'&&G.weekday===2&&S.TA_WEEKS.includes(t.week)&&!hol(G); };
+  S.taNow=G=>S.taWeek(G)&&hr(G)>=18.5&&hr(G)<20+20/60;
+  S.taOut=G=>S.taWeek(G)&&hr(G)>=20+20/60&&hr(G)<20+40/60;   /* 下課、她在門口 */
+  const say=async(GM,t,who)=>{ await GM.say(who||null,t); };
+  S.window=async function(GM){ const G=GM.G, F=G.flags, t=T(G), wk=t?t.id+':'+t.week:String(G.day), n=F.TA101_N|0, again=F.TA101_WK===wk;
+    if(!again){ F.TA101_WK=wk; F.TA101_N=n+1; }   /* 一週算一次；同一週再看＝「（她在上課。）」*/
+    GM.sceneBegin(); try{ await say(GM,S.LINES.ta.look[again?2:Math.min(n,2)]); } finally { GM.sceneEnd(); } return true; };
+  /* 下課第一次找她說話：多一句（說話前的掛勾 SISY23.preTalk 包一層：前面那幾層沒演、她在 101 門口才說）*/
+  S.taPre=async function(GM){ const G=GM&&GM.G; if(!G||G.flags.TA101_TALK||G.zone!=='linze'||!S.taOut(G)) return false; G.flags.TA101_TALK=G.day;
+    const dt=!!G.flags['dating_'+SIS], nm=typeof SOCIAL!=='undefined'?(SOCIAL.npcName?SOCIAL.npcName(SIS):SOCIAL.displayName(SIS)):'學姊';
+    await say(GM,dt?S.LINES.ta.firstLover:S.LINES.ta.first,{name:nm,charId:SIS}); return false; };   /* 回 false：接著照平常說話 */
+  /* 洗衣間 */
+  S.y1=G=>{ if((G.stage||'law')!=='law'||typeof CALENDAR==='undefined') return false; const k=CALENDAR.dateOf(G.day).key; return k>='2025-09-01'&&k<='2026-06-30'; };   /* 大一（含寒假、學期）*/
+  S.kaiHere=G=>S.y1(G)&&G.weekday===0&&hr(G)>=21&&hr(G)<22;
+  S.laundry=async function(GM,it){ const G=GM.G, F=G.flags; let k=1;
+    GM.sceneBegin(); try{ k=await GM.choose([{t:'洗衣服',hint:'40 分鐘'},{t:'算了'}]); } finally { GM.sceneEnd(); }
+    if(k!==0) return true;
+    const kai=S.kaiHere(G)&&!F.KAI_LAUNDRY;
+    if(GM.fade) await GM.fade(true); GM.advance(40/60); if(GM.fade) await GM.fade(false);
+    if(kai){ F.KAI_LAUNDRY=G.day; GM.sceneBegin(); try{ await say(GM,S.LINES.kai,{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName('kai'):'阿凱',charId:'kai'}); } finally { GM.sceneEnd(); } }
+    else if(GM.toast) GM.toast('衣服洗好了。',2400);
+    return true; };
+  S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
+    if(G.zone==='linze'&&it.label==='101 教室'&&S.taNow(G)) return S.window(GM);
+    if(G.zone==='dorm_hall'&&it.label==='洗衣間') return S.laundry(GM,it);
+    return false; };
+  if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closedInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closedInteract=true; }
+  if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._closed){ const p0=SISY23.preTalk;
+    SISY23.preTalk=Object.assign(async function(GM){ const r=await p0.apply(this,arguments); return r||await S.taPre(GM); },p0,{_closed:true}); }
+  return S;
+})();
+if(typeof window!=='undefined') window.CLOSED=CLOSED;
