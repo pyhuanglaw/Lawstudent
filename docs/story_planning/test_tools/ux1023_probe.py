@@ -157,7 +157,9 @@ async def tap_pin(pg, cdp, pid):
     if not c: return False
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); return True
 
-MAPZ = {'gray': ('2025-10-08', 14.0, 'campus', "if(G.visited){ delete G.visited.lane118; delete G.visited.soclib; } return {visited:Object.keys(G.visited||{})};"),   # 【前置】118 巷、社科圖改成沒去過（使用者存檔每個地方都去過，灰色圖釘測不到）
+MAPZ = {'gray': ('2025-10-08', 14.0, 'campus', "if(G.visited){ delete G.visited.lane118; delete G.visited.soclib; } return {visited:Object.keys(G.visited||{})};"),
+        # 118 巷、社科圖在 PLACES.known0（一開始就知道，X65），刪了也不會灰 → gray2 改刪不在 known0 的：阿鳳麵店、舊路書房、兩點半 Café（圖釘因為同一顆裡有 known0 的地方，照樣不灰；灰的是清單那一行）
+        'gray2': ('2025-10-08', 14.0, 'campus', "if(G.visited){ delete G.visited.noodle; delete G.visited.bookstore; delete G.visited.cafe; } return {visited:Object.keys(G.visited||{}), known0:Object.keys(PLACES.known0||{})};"),   # 【前置】118 巷、社科圖改成沒去過（使用者存檔每個地方都去過，灰色圖釘測不到）
         'campus': ('2025-10-08', 14.0, 'campus', None), 'gongguan': ('2025-10-08', 14.0, 'gongguan', None), 'wenzhou': ('2025-10-08', 14.0, 'wenzhou', None), 'dorm': ('2025-10-08', 14.0, 'dorm', None)}
 
 async def map_zone(p, run, base, sid, zone):
@@ -405,6 +407,18 @@ async def map2_zone(p, run, base, sid, zone):
         say('   灰色圖釘：%s' % J(res['gray']))
         if zone == 'gray':
             run.check('%s：沒去過的 118 巷、社科圖是灰色圖釘' % sid, {'lane118', 'soclib'} <= {q['id'] for q in gray}, J(res['gray']))
+        if zone == 'gray2':
+            res['grayPins'] = [q['id'] for q in gray]
+            say('   （記錄）灰色圖釘：%s——每一顆圖釘都有一開始就知道的地方，圖釘不會灰' % J(res['grayPins']))
+            for pid, wants in (('gongguan', ['阿鳳麵店', '舊路書房']), ('wenzhou', ['兩點半'])):
+                await select_pin(pg, cdp, pid); await run.shot(pg, '%s_pin_%s' % (sid, pid))
+                rows = await pg.evaluate("[...document.querySelectorAll('#phoneBody .phrow')].map(r=>({t:r.innerText.replace(/\\n/g,' '), btn:(r.querySelector('[data-place]')||{}).textContent||null}))")
+                for w in wants:
+                    r_ = next((r for r in rows if w in r['t']), None)
+                    run.check('%s：點「%s」＝沒去過的「%s」那一行寫「還沒去過」、沒有前往按鈕' % (sid, pid, w), bool(r_) and '還沒去過' in r_['t'] and not r_['btn'], J(r_))
+                others = [r for r in rows if not any(w in r['t'] for w in wants) and r['btn']]
+                run.check('%s：同一顆圖釘裡去過的地方照舊可以前往（%d 個）' % (sid, len(others)), len(others) >= 1, J(rows, 400))
+            gray = []
         for q in gray:
             if m['sel']: x0, y0, _ = await pin_xy(pg, m['sel']); await tap_xy(pg, cdp, x0, y0)
             btn0 = (await pg.evaluate(MAPQ2))['buttons']
@@ -441,7 +455,7 @@ async def map2_zone(p, run, base, sid, zone):
         except Exception: pass
 
 ORDER = ['EARLY_GO', 'EARLY_LATER', 'MAP_campus', 'MAP_gongguan', 'MAP_wenzhou', 'MAP_dorm', 'MAP_US', 'MAP_gray',
-         'MAP2_campus', 'MAP2_gongguan', 'MAP2_wenzhou', 'MAP2_dorm', 'MAP2_gray', 'MAP2_US']
+         'MAP2_campus', 'MAP2_gongguan', 'MAP2_wenzhou', 'MAP2_dorm', 'MAP2_gray', 'MAP2_gray2', 'MAP2_US']
 async def main():
     run = L.Run('ux1023', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
