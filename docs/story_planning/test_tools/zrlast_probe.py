@@ -1226,7 +1226,9 @@ GE1 = lambda n: isinstance(n, int) and n >= 1
 R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"
 def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
 # BB-B 18:2x：先試互動半徑以內的距離（4F「往 5F 以上」半徑 0.6 m、日本宿舍的床 0.6 m：原本第一個試 0.8 m＝站在半徑外面，互動鈕不出來）
-R7_NEAR = "(p=>{ const E=GAME.E, P=E.player, it=(E.interactables||[]).find(i=>!i.hidden&&(p.label==null||i.label===p.label)&&(p.room==null||i.room===p.room)&&(p.park==null||i.park===p.park)&&(p.sleep==null||!!(i.sleep||i.label==='睡覺')===p.sleep)); if(!it) return false; const lv=it.lv|0; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} const R=it.radius||1.4, DS=[R*0.5,R*0.7,R*0.85].concat([0.8,1.1,1.5,0.5,2.0].filter(d=>d<R)).concat([0.8,1.1,1.5,2.0]); for(const d of DS) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(!E.nav||!E.nav.free||E.nav.free(x,z)) return [+x.toFixed(2),+z.toFixed(2),lv]; } return false; })(%s)"
+R7_NEAR = "(p=>{ const E=GAME.E, P=E.player, it=(E.interactables||[]).find(i=>!i.hidden&&(p.label==null||i.label===p.label)&&(p.room==null||i.room===p.room)&&(p.park==null||i.park===p.park)&&(p.sleep==null||!!(i.sleep||i.label==='睡覺')===p.sleep)); if(!it) return false; const lv=it.lv|0; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} const R=it.radius||1.4, DS=[R*0.5,R*0.7,R*0.85].concat([0.8,1.1,1.5,0.5,2.0].filter(d=>d<R)).concat([0.8,1.1,1.5,2.0]); const fr=(x,z)=>!E.nav||!E.nav.free||E.nav.free(x,z); for(const d of [0.2,0.35].concat(DS)) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(fr(x,z)&&(!E.nearestInteractable||E.nearestInteractable()===it)) return [+x.toFixed(2),+z.toFixed(2),lv]; } for(const d of DS) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(fr(x,z)) return [+x.toFixed(2),+z.toFixed(2),lv,'按鈕不是它']; } return false; })(%s)"
+# BB-B 20:1x：先找「站在那裡按鈕就是它」的位置（E.nearestInteractable()===it）。原本只看站不站得住：118 巷慢讀咖啡、蛋包飯研究所的點餐點離椅子 0.8 m，
+#   放到 0.4 m 處按鈕是「坐下」（椅子 prio 0.3），sq39c 的 SQ04、SQ07 因此沒點到餐（腳本問題；點餐會贏的可站範圍兩家都有一半左右，玩家按得到）。找不到才照舊、回傳多一個「按鈕不是它」。
 def NEAR(desc, **p): return ('jsrun', R7_NEAR % json.dumps(p, ensure_ascii=False), '主角直接放到「%s」旁邊（不從區域入口走過去：機器負載高，從入口走幾十公尺會逾時）' % desc)   # 【捷徑】
 NBIKE = NEAR('找車行老闆', label='找車行老闆'); NGGTEA = NEAR('清葉茶行 買一杯飲料', label='買一杯飲料'); N201 = NEAR('普通 201 門口', room='201')
 NWZTEA = NEAR('溫州街巷口茶飲的窗口', label='買一杯飲料'); NTREE = NEAR('老樹下的圓椅', label='坐在老樹下的圓椅'); NNOTICE = NEAR('公園公布欄', label='看公布欄'); NCAT = NEAR('公園的貓', park='cat')
@@ -1703,7 +1705,7 @@ SQ39B = [
   # SQ06 好家自助餐（大二上起）：幫忙找家教 → 三天後 → 再去點＝孫子想學吉他 →「不用了」（不帶去社課）→ 做完
   dict(id='SQ39_SQ06', key='TERMDAY:Y2S1:5:2', h=12.3, zone='l118_self', flags=dict(TW3), js=SQB('好家自助餐'),
        pref=['自助餐（三菜一肉）', '「要我幫忙嗎？」', '不用了'],
-       steps=[NORD('好家自助餐'), ORDER('好家自助餐'), ('addday', 4), ('until', 12.6, 400), NORD('好家自助餐'), ORDER('好家自助餐')],
+       steps=[NORD('好家自助餐'), ORDER('好家自助餐'), ('addday', 4), ('until', 13.3, 900), NORD('好家自助餐'), ORDER('好家自助餐')],   # BB-B 20:1x：跳日子以後要讓手機規則跑兩次（家教回報 21:00 → step 改 twist），原本 until 12.6 時已經 12.98＝沒等
        want=['我孫子國二，數學不及格。', '你們有沒有同學在當家教？', '（孫子想學的是吉他，不是數學。他在網路上看了吉他社成發的影片。）'],
        jsok=[('SQ06 做完', SQST('SQ06'), 'done/done'), ('家教是誰（明軒／以安／自己）', "(r=>r?r.tutor:null)(SIDEQ.get(GAME.G,'SQ06'))", lambda x: x in ('classmate_mingxuan', 'heroine_01', 'me') or bool(x))]),
   # SQ07 蛋包飯研究所（大三下）：讀書計畫「第二段太長。」→ 三週後考上 → 一週後最後一天的蛋包飯 → 做完
