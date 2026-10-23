@@ -30498,6 +30498,27 @@
    "source": "d04270aa6 合併訊息（子代理 af98f159 的回報）",
    "authorized": "D109、D111",
    "note": "2026-10-23 LAWWW-B：男宿頂樓訪客規定照 AA_210 第 0 節（d82f1374）做完——四年跨年阿哲揪人多「宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。」（story3d.js；tests/v3_d12_unit.js、y1_winter_aa204_unit.js）。其餘五項 AA 說 AA_313 表裡大多有改法，字不確定再問。"
+  },
+  {
+   "id": "SIDEQ-AA404-1023",
+   "title": "店員支線第二、三批：AA_404 SQ10～SQ15、AA_405 SQ16～SQ20（＋AA_408 第 1 節過期一句）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c10ed6d9f）；回來以後合併、全套測試、缺字轉 AA、BB 測",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "店員認得你以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_404（30bf21de8）、AA_405（1fa2b494a）、AA_408（29e41dd8）",
+   "authorized": "D109、D111（使用者 10-23 08:1x 對 AA：店員要有支線）"
   }
  ]
 }
