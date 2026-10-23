@@ -1,0 +1,13 @@
+{
+ "objects": 51,
+ "unique_meshes": 51,
+ "tris": 30904,
+ "tris_drawn": 30904,
+ "materials": 14,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/lz5/linze_5f.glb",
+ "bytes": 2614168,
+ "texres": 512,
+ "tris_total": 30904,
+ "layout": "linze_5f.layout.json",
+ "seats": 12
+}

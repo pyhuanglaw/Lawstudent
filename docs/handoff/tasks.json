@@ -30199,7 +30199,7 @@
    },
    "source": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「遊戲裡任何現在關起來的空間都可以開始開發 例如進不去的討論室之類的 相關功能如何與劇情連接 請跟AA討論」（UA-LAWWW2-1023-06）",
    "authorized": "使用者直接交代；D108、D109、D111",
-   "next": "【LAWWW-B 10-23 08:4x】AA_399（企劃線 53ca91b2，最新 3f0eaf3d）交了：第 13 節給 LAWWW——作息（學姊研究室碩一～碩三週一～四 12:20～14:00＝AA_392 第 4 節甲案、研究小間 2028-02 起平日 14～17，美國期間不算；柏翰、芯慈、阿哲、方奕廷、阿凱照各節）、刷卡門「傳訊息給學姊」、空間沒做好照舊 2D；借書 3-2 節另開 LIB-LOAN-1023 ｜ 【LAWWW-B 10-23 08:0x】清單與提案：LAWWW2 分支 docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md 第 2 節（博雅討論室 → 總圖研究小間＋B1 → 法學院辦公室 → 萬才館研討室 B／霖澤館研究室 → 體育館 3F → 美國學姊房間）；AA 定劇情用途、LAWWW2 做空間（D108）、LAWWW 接事件；照 LAWWW2 的順序，排在店面之後",
+   "next": "【LAWWW-B 10-23 16:0x】第一項霖澤館 5F（LAWWW2 ce472581：zone linze_5f、研究室門口 spots.lab_door、會議室 meeting_door、口試中 WALL_P3_EXAM_SIGN／LZUP.examSign、LZUP.labLights、學姊位子 spots.sis_desk、旁邊空位 seat；電梯 5F→1F～4F）合併；linze_5f、linze_upper、nav_buildings、guide ALL PASS。玩家還上不去（4F 樓梯間照舊關著）：LAWWW 接「傳訊息給學姊開門」與 AA_399 八場事件換 3D（發布 v9.10.6 之後做）。窗外的樹：選 A（法學院廣場研究室窗前種一棵 17～19 m 的大樹、重拍霖澤館窗景），LAWWW2 排在沛珊第三十一版之後 ｜ 【LAWWW-B 10-23 08:4x】AA_399（企劃線 53ca91b2，最新 3f0eaf3d）交了：第 13 節給 LAWWW——作息（學姊研究室碩一～碩三週一～四 12:20～14:00＝AA_392 第 4 節甲案、研究小間 2028-02 起平日 14～17，美國期間不算；柏翰、芯慈、阿哲、方奕廷、阿凱照各節）、刷卡門「傳訊息給學姊」、空間沒做好照舊 2D；借書 3-2 節另開 LIB-LOAN-1023 ｜ 【LAWWW-B 10-23 08:0x】清單與提案：LAWWW2 分支 docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md 第 2 節（博雅討論室 → 總圖研究小間＋B1 → 法學院辦公室 → 萬才館研討室 B／霖澤館研究室 → 體育館 3F → 美國學姊房間）；AA 定劇情用途、LAWWW2 做空間（D108）、LAWWW 接事件；照 LAWWW2 的順序，排在店面之後",
    "xai": {
     "spec": "CLOSED_SPACES_1023.md（LAWWW2 分支）",
     "owner": "LAWWW2",
