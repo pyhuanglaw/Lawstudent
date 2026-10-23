@@ -177,7 +177,7 @@ async def talk(pg, cdp, run, who):
     await drain(pg, cdp, pref=['聊', '說'], secs=150); return True
 async def ff_bed(pg, cdp, run, want_key, want_h):
     """床 →「快轉」→「到下一個有事的日子」（真的操作），停下來的日期時間要是 want_key want_h（±0.75 小時）"""
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('快轉：走不到床'); return False
     for k in range(4):
         await close_phone(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
@@ -227,11 +227,11 @@ async def go_home(pg, cdp, run):
 BEDLIKE = ('睡', '快轉', '再撐', '在家休息')
 async def bed_menu(pg, cdp, run, pref=None):
     """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     for _ in range(2):   # 這一區沒有床＝先回去（最多兩段：校園 → 社區 → 公寓）
         if bed: break
         if not await go_home(pg, cdp, run): break
-        bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+        bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
     # BB-B 10-23 16:4x：畫面上已經有別的選項或對話（「出發：七夕」剛跳出來、床邊的包裹「拆／先不拆」）＝先演完再按床——原本照樣按互動鈕的位置，
     #   劇情中互動鈕不收觸控，手指落到疊在那裡的選項（QX27_LAST 按到「晚一點」、錯過七夕）；QX26_GO 按完床是一段對話、床的選單是空的就中斷
@@ -443,7 +443,7 @@ async def bedhas(pg, cdp, run, sub, sc):
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
     if sn['h'] < 21: await set_h(pg, run, 22.0, '晚上才能睡整晚')
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); return False
     for k in range(4):
         await close_phone(pg); await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
