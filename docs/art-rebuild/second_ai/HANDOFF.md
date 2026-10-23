@@ -69,6 +69,36 @@
     - 第一次建 14 MB／16.8 萬三角形，太重。
     - 主要是唱片行 CD 架三千多個方塊（3.4 萬），改成書背貼圖；商品改低面數、不疊。
     - 重建後在背景拍前後截圖並量效能（`$SP/gg/run_ab.sh`）。118 巷第三版（含明暗）也一起拍（`pd_*`）。
+- **進度（12:5x）**：
+  - **已交付**：
+    - 118 巷、公館店面立體化：`82725bf8`，LAWWW-B 已整合（`6b2827942`）。
+    - 店內窗景第一批：`ecfe5a6a`，公館三家＋Café。LAWWW-B 12:33 ACK，這一兩回合合併。
+    - **公園的貓 WZ-CAT-LIFE-1023**：`32e9ddf3`，outbox `d5089789`。內容：
+      - 寒流那一週石桌底下 `CAT_curl`；
+      - 收養以後不顯示；
+      - 價目板、子晴站位的導航檢查 ALL PASS。
+  - **使用者規則 X99**（經 LAWWW-B 12:06 轉述）：要使用者決定的事（場景 ART_APPROVED、選哪個版本）一律用選擇題問，給 A／B／C 選項＋我的推薦。
+  - **正在做**：SQ16 輪轉單車店門口互動點＋店員支線痕跡道具（SQ12／13／14／16／19／20）。
+    - 程式：`patches/sideq_shops_1023.patch`，對開發 `c42228351`。內容：
+      - `traceVis`：`TRACE_SQxx` 節點照 `SIDEQ.traceOn` 開關；
+      - 「找車行老闆」`shop:'bike'`；
+      - SQ16 紙條 `TRACE_SQ16_note`。
+    - Blender：`aa_support/sq_traces.py`、`aa_support/sq_trace_photos.py`（照片在店的模型裡拍）；五個店腳本加 `TRACE_` keep。
+    - 重建的 GLB 在 `$SP/trnew/`，還沒放進 repo。測試樹 `$SP/rs` 已套 patch＋新 GLB。
+    - 第一輪算圖發現三個問題，已修、重建中：
+      - 韓食的罐子浮在玻璃箱裡 → 改放在箱頂 1.50 m；
+      - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
+      - 失物籃像紙箱 → 橢圓竹籃＋提把。
+    - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **之後的順序**（LAWWW-B 12:33 定）：
+    1. ART-GG-STREETLIFE-1023：公館騎樓前的機車、單車架、路人。動 GG_PROP_BLOCKS；交件前跑 `gongguan_layout_nav.py`、`street_props_nav_unit.js`、`reachability_all.py` 公館段。
+    2. 118 巷九間店窗景（第二批）。
+    3. CLOSED-SPACES-1023（AA_399 順序，第一個是霖澤 5F）。
+    4. 沛珊第三十一版。
+  - **教訓**：
+    - 長跑的 http server 會在 2 小時被收掉，每個瀏覽器工作用 `$SP/withserver.sh` 自己開 server。
+    - 瀏覽器工作跑的時候不要動測試樹（不要 `git stash`）。
+    - 一律 run_in_background，不要用 `&`。
 - **接著做**（照上一任交班的「下一班第一步」，加上 D99 三個優先項目）：
   1. 沛珊第三十一版（P0，UA-LAWWW2-1022-02）：看試做 s → 正式重做 → 遊戲內重拍、檢查眨眼 → 交件給 LAWWW。
   2. 林家菜單：拍遊戲內前後截圖 → 交件。

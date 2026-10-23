@@ -518,6 +518,7 @@ def build_teishoku(c):
     rg = item('register'); rx0, rx1, rz0, rz1 = rg['x'] - rg['w'] / 2, rg['x'] + rg['w'] / 2, rg['z'] - rg['d'] / 2, rg['z'] + rg['d'] / 2
     counter(c, rx0, rx1, rz0, rz1, h=rg['h'], top='wood', front='#4a3324', why='register')
     LS.register(c, rg['x'], rg['h'], rz0 + 0.3, face='+z')
+    sys.path.insert(0, os.path.join(HERE, 'aa_support')); import sq_traces as TR; TR.sq19_teishoku(c.root, dict(x=rg['x'], z=rg['z'], top=rg['h']))   # SQ19 做完：結帳台多一個「失物」籃子（AA_405）
     maneki(c, rg['x'] - 0.12, rg['h'], rz1 - 0.12, yaw=PI / 2)
     c.vc.crbox(rg['x'] + 0.08, rg['x'] + 0.2, rg['h'], rg['h'] + 0.05, rz1 - 0.2, rz1 - 0.12, '#d9cfbf', r=0.004, seg=1)                     # 名片盒
     clathe(c.vc, [(0.0, 0.0), (0.045, 0.0), (0.06, 0.04), (0.055, 0.045), (0.0, 0.005)], rg['x'] + 0.14, rg['h'], rz1 - 0.34, '#e8e0d0', seg=12)
@@ -581,7 +582,7 @@ def finish(c):
     c.wood.finish(c.root)
     c.scr.finish(c.root, uv=False, merge=False)
     for k, m in c.extra.items(): m.finish(c.root, uv=False, merge=k not in ('fuda', 'fudab'))
-    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
+    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith(('WALL_', 'TRACE_')), key=lambda ob: '')   # TRACE_：店員支線做完才出現的東西（aa_support/sq_traces.py）
     st = L.export(OUT, gpu_instances=False)
     tris = 0
     for ob in bpy.data.objects:

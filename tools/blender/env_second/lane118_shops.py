@@ -484,7 +484,7 @@ def finish(c):
     c.wood.finish(c.root)
     for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)
     for m in c.extra.values(): m.finish(c.root, uv=False)
-    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
+    L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith(('WALL_', 'TRACE_')), key=lambda ob: '')   # TRACE_：店員支線做完才出現的東西（aa_support/sq_traces.py），遊戲照名字開關
     out = os.path.join(OUTDIR, f'l118_{c.sid}.glb'); st = L.export(out, gpu_instances=False)
     tris = 0
     for ob in bpy.data.objects:
@@ -982,6 +982,7 @@ def build_pasta(c):
     dd = c.door; printed(c, 'S', dd['x'] + 0.55, dd['x'] + 1.0, 1.3, 1.5, 'HOURS', inset=0.03)
     printed(c, 'W', -2.0, -1.5, 1.45, 1.67, 'P2')
     plant(c, X1 - 0.45, Z1 - 0.45, 1.2, pot='#e8e4dc'); ac_unit(c, X0, 2.55, 1.6, '+x')
+    sys.path.insert(0, os.path.join(HERE, 'aa_support')); import sq_traces as TR; TR.sq12_pasta(c.root, X1, Z0)   # SQ12 做完：後牆多一張照片（AA_404）
 
 
 def build_korea(c):
@@ -1008,6 +1009,7 @@ def build_korea(c):
     dd = c.door; printed(c, 'S', dd['x'] - 0.95, dd['x'] - 0.5, 1.3, 1.5, 'HOURS', inset=0.03)
     printed(c, 'N', 1.25, 1.75, 2.1, 2.32, 'P2')
     ac_unit(c, X0, 2.55, 2.0, '+x'); plant(c, X0 + 0.45, Z1 - 0.45, 1.1)
+    sys.path.insert(0, os.path.join(HERE, 'aa_support')); import sq_traces as TR; TR.sq13_korea(c.root, X1)   # SQ13 做完：小菜櫃上多一罐「她的」（AA_404）
 
 
 def build_omu(c):

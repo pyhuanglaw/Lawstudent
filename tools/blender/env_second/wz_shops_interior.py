@@ -528,6 +528,12 @@ def build_teahouse():
 
 # ======================================================================
 {'brunch': build_brunch, 'print': build_print, 'teahouse': build_teahouse}[SHOP]()
+# 店員支線做完才出現的東西（aa_support/sq_traces.py；遊戲照 TRACE_ 的名字開關）：SQ14 一盞的貓照片（水屋上）、SQ20 半熟的兩張證書（結帳櫃台後面的東牆）
+if SHOP in ('teahouse', 'brunch'):
+    sys.path.insert(0, os.path.join(HERE, 'aa_support')); import sq_traces as TR
+    _it = {i['kind']: i for i in LAY['items']}
+    if SHOP == 'teahouse': TR.sq14_teahouse(root, dict(x=_it['mizuya']['x'], z=_it['mizuya']['z'], top=0.86))
+    else: TR.sq20_brunch(root, _it['cashier'], X1)
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=True)
 for side, ms in walls.items():
     for m in ms:
@@ -542,7 +548,7 @@ if NOTE_Q:
     me = bpy.data.meshes.new(P + 'notes'); bm.to_mesh(me); bm.free(); me.materials.append(M['notes']); ob = bpy.data.objects.new(P + 'notes', me); B.scene().collection.objects.link(ob); ob.parent = root
 for ob in list(root.children):   # 模型葉子平滑著色
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('wzs_camphor'), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith(('wzs_camphor', 'TRACE_')), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 info.update({'shop': SHOP, 'layout': ALL['version']})
 L.write_json(OUT[:-4] + '.json', info)
