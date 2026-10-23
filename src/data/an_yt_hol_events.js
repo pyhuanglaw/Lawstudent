@@ -6,7 +6,9 @@
    語彤：2-1 ev_yt_vday_y1（2026-02-14 17:00／幫忙掃 16:00 麵店門口 → 河濱）　2-2 ev_yt_vday_y2（2027-02-14 12:00 阿鳳麵店）
          2-3 ev_yt_vday_y3（2028-02-14 14:00 麵店門口 → 寶藏巖，沒有底圖）　2-4 ev_yt_vday_y4（2029-02-14 19:00 河濱）
          2-5 ev_yt_moon（中秋 2026-09-25、2027-09-15、2028-10-03 15:00～17:30 麵店門口；三年同一個事件，年份的句子用 if；
-             CG cg_moon_pomelo_heroine03「月亮。」還沒有圖——CG_REGISTRY 登錄了才放，只放第一次去的那一年）
+             CG cg_moon_pomelo_heroine03「月亮。」——CG_REGISTRY 登錄了才放（已經登錄的是同一張 cg_pomelo_moon_heroine03，也認），只放第一次去的那一年）
+   AA_416（企劃線 ed80edb71）第 3、5 節：2/14 這幾場第 6 階（還沒交往）也演——第 6 階 +4／+5／+6、不動裂縫；1-4 電話「外婆家好玩嗎？」換第 6 階的兩句；
+     1-1 台中那一場放 CG cg_valentine_taichung_heroine01；2029 電話多一個選項「我明天開車下去。」（還沒拿到 CG、沒去過 2026 台中的）→ 2/15 14:00 ev_an_vday_tc 照 1-1 演。
    關係（AA_414 檔頭，照學姊）：情人節 {fam:3,comf:6,npcRom:5}＋這學期的裂縫 -1（AA_126 情人節約會（交往中）那一列，同 SISB4.crackDown）、電話 {fam:2,comf:3,npcRom:3}、中秋 {fam:4,comf:4,npcRom:4}。
    測試：node tests/aa414_hol_unit.js */
 'use strict';
@@ -47,19 +49,23 @@ const ANYTHOL_EVENTS=(function(){
   const BG=k=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg(k):'dark';   /* 開場的底圖（稿沒有地點字幕的那幾場）：事件的 background 讀 OUT.BG（getter：圖後來才登錄也拿得到）*/
   const yr=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).y:null;
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
-  const VDAY={fam:3,comf:6,npcRom:5}, CALL={fam:2,comf:3,npcRom:3}, MOON={fam:4,comf:4,npcRom:4};
+  const VDAY={fam:3,comf:6,npcRom:5}, VDAY6={fam:4,comf:5,npcRom:6}, CALL={fam:2,comf:3,npcRom:3}, MOON={fam:4,comf:4,npcRom:4};   /* VDAY6：第 6 階、還沒交往的情人節（AA_416 1-7）*/
+  const dating=(G,id)=>{ const F=(G&&G.flags)||{}, R=(F.romance||{})[id]; return F['dating_'+id]===true||!!(R&&R.status==='dating'); };
   const end=(id,flag,v,tag,rel)=>({set:{[flag]:v},mem:tag?[{npc:id,tag,note:''}]:undefined,rel:{[id]:rel}});
-  const crack=id=>G=>{ const x=X(); if(x&&x.crackDown) x.crackDown(G,id); };   /* 情人節（交往中）：這學期的裂縫 -1（已經是 0 不動）*/
+  /* 情人節那幾場（AA_416 第 3、5 節：第 6 階也演）：交往中 +3／+6／+5，第 6 階 +4／+5／+6 */
+  const endV=(id,flag,v,tag)=>[{set:{[flag]:v},mem:tag?[{npc:id,tag,note:''}]:undefined},{if:{custom:G=>dating(G,id)},rel:{[id]:VDAY}},{unless:{custom:G=>dating(G,id)},rel:{[id]:VDAY6}}];
+  const crack=id=>G=>{ const x=X(); if(x&&x.crackDown&&dating(G,id)) x.crackDown(G,id); };   /* 情人節（交往中）：這學期的裂縫 -1（已經是 0 不動）*/
   const missed=(G,GM,q)=>{ const x=X(); if(x) x.missed(G,q); };   /* 答應了沒到、電話沒接（OUT 的 outingMissed）*/
   const help=G=>!!(G&&G.flags&&G.flags.YT_VDAY_Y1_HELP);
   /* 中秋：第一次去的那一年才放 CG（之前任何一年 YT_MOON_<年> 是 went＝不是第一次）*/
+  const moonCG=()=>hasCG('cg_moon_pomelo_heroine03')?'cg_moon_pomelo_heroine03':(hasCG('cg_pomelo_moon_heroine03')?'cg_pomelo_moon_heroine03':null);   /* 稿的代號；CG_REGISTRY 已經登錄的是 cg_pomelo_moon_heroine03（BB 通過的 CG-25 語彤中秋，同一張）*/
   const moonFirst=G=>{ const F=(G&&G.flags)||{}; return !Object.keys(F).some(k=>/^YT_MOON_\d{4}$/.test(k)&&F[k]==='went'); };
-  return [
-    /* ---------- 1-1 2026-02-14（六）14:00 台中・她家附近的公園門口（開車去：先回家取車，src/an_yt_hol3d.js S.drive）；背景 car_morning → tc_park → car_night ---------- */
-    { id:'ev_an_vday_y1', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('car_morning'); }, hours:6,   /* 14:00 到、傍晚上車、開回臺北再把車開回家（兩個半小時＋30 分）*/
-      dialogue:[ {scene:'台中・公園門口',bg:'tc_park'},
+  /* 1-1 台中那一場（2026-02-14；AA_416 第 3 節 2029 補救那一場照演）：CG cg_valentine_taichung_heroine01（AA_416 1-9：第一次符合條件、她在台中的那一年；CG_REGISTRY 有登錄才放，放了記 AN_VDAY_CG）*/
+  const TC_CG='cg_valentine_taichung_heroine01';
+  const TC=tail=>[ {scene:'台中・公園門口',bg:'tc_park'},
         N('（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）'),
         A('你出門的時候傳了訊息。我算你兩點到。'),
+        {if:{custom:G=>hasCG(TC_CG)&&!(G.flags&&G.flags.AN_VDAY_CG)},cg:TC_CG},{if:{custom:G=>hasCG(TC_CG)},set:{AN_VDAY_CG:true}},   /* 「開了兩個多小時，就為了這個？」那一拍 */
         A('開了兩個多小時，就為了這個？……你可以不用來的。'),
         {choice:[{text:'「我想來。」',goto:'a'},{text:'「路上不塞。」',goto:'b'}]},
         {label:'a'},A('……嗯。'),N('（她把圍巾拉下來一點。）'),{goto:'c'},
@@ -71,9 +77,19 @@ const ANYTHOL_EVENTS=(function(){
         N('（傍晚，她送你到車子旁邊。你要上車的時候，她把一個紙袋塞給你。）'),
         A('回去再打開。開車不要看手機。'),
         {scene:'國道・休息站',bg:'car_night'},
-        N('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）'),
-        end(AN,'AN_VDAY_Y1','went','AN_VDAY_TC',VDAY) ],
+        N('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）')].concat(tail);
+  /* 2029 那通電話的 CG 補救（AA_416 第 3 節）：還沒拿到台中那張 CG（AN_VDAY_CG）、也沒去過 2026 台中那一場的玩家才有這個選項 */
+  const rescueOk=G=>{ const F=(G&&G.flags)||{}; return !F.AN_VDAY_CG&&F.AN_VDAY_Y1!=='went'; };
+  return [
+    /* ---------- 1-1 2026-02-14（六）14:00 台中・她家附近的公園門口（開車去：先回家取車，src/an_yt_hol3d.js S.drive）；背景 car_morning → tc_park → car_night ---------- */
+    { id:'ev_an_vday_y1', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('car_morning'); }, hours:6,   /* 14:00 到、傍晚上車、開回臺北再把車開回家（兩個半小時＋30 分）*/
+      dialogue:TC([...endV(AN,'AN_VDAY_Y1','went','AN_VDAY_TC')]),
       beforeOuting:(G,GM,q)=>{ const x=X(); if(x) x.payDrive(G,GM,q); },   /* 油錢＋過路費（date3d.js 地點表 D26 開車的來回），出發的時候付 */
+      after:crack(AN), outingMissed:missed },
+    /* ---------- AA_416 第 3 節：2/14 的 CG 補救（2029-02-15（四，初三）14:00，2029 那通電話選「我明天開車下去。」）：照 1-1 台中那一場，放 CG ---------- */
+    { id:'ev_an_vday_tc', title:'台中', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('car_morning'); }, hours:5,   /* 她只能出來兩個小時＋開回臺北再把車開回家 */
+      dialogue:TC([...endV(AN,'AN_VDAY_Y4B','went','AN_VDAY_TC')]),
+      beforeOuting:(G,GM,q)=>{ const x=X(); if(x) x.payDrive(G,GM,q); },
       after:crack(AN), outingMissed:missed },
     /* ---------- 1-2 2027-02-14（日）14:00 大安森林公園（她從台中上來一天）---------- */
     { id:'ev_an_vday_y2', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('daan_park'); }, hours:2.5,   /* 走到四點半她去搭車 */
@@ -87,7 +103,7 @@ const ANYTHOL_EVENTS=(function(){
         N('（你們在公園裡走了兩個多小時。她看了兩次手錶，第三次沒有看。）'),
         A('四點半了。我要去搭車。'),
         A('……下次換你來。'),
-        end(AN,'AN_VDAY_Y2','went','AN_VDAY_OMAMORI',VDAY) ],
+        ...endV(AN,'AN_VDAY_Y2','went','AN_VDAY_OMAMORI') ],
       after:crack(AN), outingMissed:missed },
     /* ---------- 1-3 2028-02-14（一）14:00 總圖門口 → 椰林大道（去日本以前；記 AN_VDAY_GIFT：3/14 ev_an_white_day 演「一個月前你送的」那一版）---------- */
     { id:'ev_an_vday_y3', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, get background(){ return BG('ntu_avenue'); }, hours:1.5,
@@ -99,7 +115,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'a'},A('……你知道我的筆快沒水了。'),A('去日本帶這支。'),{goto:'c'},
         {label:'b'},A('……好。'),N('（她當場拆開，吃了一顆。）'),A('我以為我會留到日本再吃。'),
         {label:'c'},A('三月十四號那天，你不要排別的。'),
-        end(AN,'AN_VDAY_Y3','went',null,VDAY) ],
+        ...endV(AN,'AN_VDAY_Y3','went',null) ],
       after:crack(AN), outingMissed:missed },
     /* ---------- 1-4 2029-02-14（三，初二）21:00 她打電話來（台中外婆家；AA_296 演出來的電話＝{scene:'電話'}）---------- */
     { id:'ev_an_vday_y4', title:'情人節', participants:[AN], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
@@ -108,9 +124,11 @@ const ANYTHOL_EVENTS=(function(){
         A('今天初二。我在外婆家。'),
         A('十幾個人在客廳打牌。我躲到陽台。'),
         A('……今天是情人節。我記得。'),
-        {choice:[{text:'「十八號回來？」',goto:'a'},{text:'「外婆家好玩嗎？」',goto:'b'}]},
+        {choice:[{text:'「十八號回來？」',goto:'a'},{text:'「外婆家好玩嗎？」',goto:'b'},{text:'「我明天開車下去。」',if:{custom:rescueOk},set:{AN_VDAY_RESCUE:true},goto:'r'}]},   /* AA_416 第 3 節：CG 補救的選項 */
         {label:'a'},A('十八號。高鐵三點到臺北。'),A('……我只是跟你說一聲。'),{goto:'c'},
-        {label:'b'},A('表妹問我男朋友是誰。我說你不認識。'),A('……她說那就是有。'),
+        {label:'b'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我男朋友是誰。我說你不認識。'},{if:{custom:G=>dating(G,AN)},speaker:AN,text:'……她說那就是有。'},
+        {unless:{custom:G=>dating(G,AN)},speaker:AN,text:'表妹問我有沒有男朋友。我說沒有。'},{unless:{custom:G=>dating(G,AN)},speaker:AN,text:'……她說那就是快有了。'},{goto:'c'},   /* AA_416 第 3 節：第 6 階的換字 */
+        {label:'r'},A('……初三。下午兩點，公園門口。'),A('我只能出來兩個小時。'),
         {label:'c'},N('（那頭有人叫她的名字。）'),
         A('我要進去了。……晚安。'),
         end(AN,'AN_VDAY_Y4','called','AN_VDAY_CALL',CALL) ],
@@ -130,7 +148,7 @@ const ANYTHOL_EVENTS=(function(){
         {choice:[{text:'「冷嗎？」',goto:'a'},{text:'「下次店休也出來。」',goto:'b'}]},
         {label:'a'},Y('……有一點。'),N('（她把手縮進袖子。你們又走了一段。）'),{goto:'c'},
         {label:'b'},Y('下次店休是明年。'),Y('……那明年也出來。'),
-        {label:'c'},end(YT,'YT_VDAY_Y1','went','YT_VDAY_RIVER',VDAY) ],
+        {label:'c'},...endV(YT,'YT_VDAY_Y1','went','YT_VDAY_RIVER') ],
       afterOuting:(G,GM,q)=>{ if(q&&q.help&&GM&&GM.advance) GM.advance(1); },
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-2 2027-02-14（日）12:00 阿鳳麵店（最裡面靠窗那一桌：noodle_table_window；在麵店，不是校外約會）---------- */
@@ -146,7 +164,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'b'},N('（你們吃得很慢。語彤一直沒有看手機。）'),
         {label:'c'},Y('今天我沒班。'),
         Y('……是我自己想在這裡吃的。'),
-        end(YT,'YT_VDAY_Y2','went','YT_VDAY_SHOP',VDAY) ],
+        ...endV(YT,'YT_VDAY_Y2','went','YT_VDAY_SHOP') ],
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-3 2028-02-14（一）14:00 麵店門口 → 寶藏巖（沒有底圖：深色底＋地點字幕）---------- */
     { id:'ev_yt_vday_y3', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
@@ -160,7 +178,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'a'},Y('他年輕的時候怎麼搬來的。'),Y('我寫了很多頁。報告只能用三頁。'),{goto:'c'},
         {label:'b'},Y('……我想讓你看一次。'),Y('我在做的事。'),
         {label:'c'},N('（下坡的時候，她走在前面。走到巷口，才回頭看你有沒有跟上。）'),
-        end(YT,'YT_VDAY_Y3','went','YT_VDAY_FIELD',VDAY) ],
+        ...endV(YT,'YT_VDAY_Y3','went','YT_VDAY_FIELD') ],
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-4 2029-02-14（三，初二）19:00 河濱（店休；背景 riverside 晚上）---------- */
     { id:'ev_yt_vday_y4', title:'情人節', participants:[YT], location:'any', trigger:'outing', once:true, get background(){ return BG('riverside'); }, hours:1,
@@ -173,7 +191,7 @@ const ANYTHOL_EVENTS=(function(){
         {label:'a'},Y('你自己謝。初四開門，你來。'),{goto:'c'},
         {label:'b'},Y('……我吃很多。只是你沒看到。'),
         {label:'c'},N('（她把裝年糕的袋子交給你，手沒有馬上收回去。）'),
-        end(YT,'YT_VDAY_Y4','went','YT_VDAY_NIANGAO',VDAY) ],
+        ...endV(YT,'YT_VDAY_Y4','went','YT_VDAY_NIANGAO') ],
       after:crack(YT), outingMissed:missed },
     /* ---------- 2-5 中秋 15:00～17:30 阿鳳麵店門口（2026、2027、2028 同一個事件；17:30 結束，接 18:00 麵店團的烤肉）---------- */
     { id:'ev_yt_moon', title:'中秋', participants:[YT], location:'any', trigger:'outing', get background(){ return BG('noodle_table'); }, hours:2.5,   /* 每年都演（不設 once）*/
@@ -189,7 +207,7 @@ const ANYTHOL_EVENTS=(function(){
         {if:{custom:G=>yr(G)===2028},speaker:'阿姨',name:'阿姨（從店裡）',text:'明年你們還來不來剝？'},   /* 2028 年多兩句 */
         {if:{custom:G=>yr(G)===2028},speaker:YT,text:'……來啊。'},
         N('（快五點半的時候，語彤忽然抬頭。）'),
-        {if:{custom:G=>hasCG('cg_moon_pomelo_heroine03')&&moonFirst(G)},cg:'cg_moon_pomelo_heroine03'},   /* 「月亮。」那一句放 CG（標題「月亮。」，BB-B 畫；登錄進 adv3d.js 的 CG_REGISTRY 才放）*/
+        {if:{custom:G=>moonFirst(G)&&!!moonCG()},get cg(){ return moonCG(); }},   /* 「月亮。」那一句放 CG（標題「月亮。」，BB-B 畫；登錄進 adv3d.js 的 CG_REGISTRY 才放）*/
         Y('……欸。月亮。'),
         N('（東邊的樓頂上，月亮剛出來，還是淡淡的白色。）'),
         Y('阿哲在群組叫了。……走吧。'),

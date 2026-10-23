@@ -49,7 +49,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   check('0. 新檔載得到：SISQX、SISQX_LINES、SISQX_EVENTS（ev_sis_qixi＋美國路線 8/25 當面約 ev_sis_qixi_us_ask）',ok1&&ok2&&!!X()&&typeof SISQX_LINES!=='undefined'&&Array.isArray(typeof SISQX_EVENTS!=='undefined'?SISQX_EVENTS:null)&&!!ev('ev_sis_qixi')&&!!ev('ev_sis_qixi_us_ask'),J({ok1,ok2}));
   await sec('0',async()=>{
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-    check('0. index.html：sis_qixi_events.js、sis_qixi3d.js 接在 sis_b4_3d.js 後面（?v= 照舊；中間可以是 AA_414 的 an_yt_hol 兩個檔）',/src\/sis_b4_3d\.js\?v=([^"]+)"><\/script>\n(?:<script src="src\/(?:data\/an_yt_hol_events|an_yt_hol3d)\.js\?v=\1"><\/script>\n)*<script src="src\/data\/sis_qixi_events\.js\?v=\1"><\/script>\n<script src="src\/sis_qixi3d\.js\?v=\1"><\/script>/.test(html)); }
+    check('0. index.html：sis_qixi_events.js、sis_qixi3d.js 接在 sis_b4_3d.js 後面（?v= 照舊；中間可以是 AA_414 的 an_yt_hol、AA_416 的 fest 兩組檔）',/src\/sis_b4_3d\.js\?v=([^"]+)"><\/script>\n(?:<script src="src\/(?:data\/an_yt_hol_events|an_yt_hol3d|data\/fest_events|fest3d)\.js\?v=\1"><\/script>\n)*<script src="src\/data\/sis_qixi_events\.js\?v=\1"><\/script>\n<script src="src\/sis_qixi3d\.js\?v=\1"><\/script>/.test(html)); }
   { const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), f=(A.files||[]).find(x=>x.path===PATH);
     check('0. 劇情匯入白名單：AA_388 @3a509150 approved（AA-B 2026-10-23 07:0x 交付 DL-AA388-QIXI）、task SIS-QIXI-L-1023、kind text',!!f&&f.sha==='3a509150'&&f.status==='approved'&&/AA-B 2026-10-23 07:0x/.test(f.approvedBy||'')&&/DL-AA388-QIXI/.test(f.approvedBy||'')&&f.task==='SIS-QIXI-L-1023'&&f.kind==='text',J(f)); }
   { const e=ev('ev_sis_qixi');

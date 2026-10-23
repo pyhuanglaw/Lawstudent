@@ -192,6 +192,7 @@ const SOCIAL = (function(){
   Object.assign(MEMORY_LABEL,{SIS5_NOT_BUSY:'學姊說碩士生不閒',SAW_HER_OFF:'她出發那天，你在機場等她',SIS_OLD_NOTES:'她把大二債各的筆記給你',SIS_XMAS_PENCIL:'她送了你一支刻了名字的鉛筆',W3_TAUGHT:'她要你把那一段講給她聽',ZQ_TESTBUILD:'她給了你遊戲的測試版'});   /* AA_398 第 50 列（使用者 10-23：學姊不數件數）：原本 ladder 匯入的「學姊的第三件事「還在想」」，這裡有就不從階梯文件拿 */
   MEMORY_LABEL.ZR_SAW_OFF='她出發那天，你去了機場';   /* 芷若 2027-09-02 送機（AA_390 第 3 節，企劃線 5f4b9c7b；src/zr_sendoff3d.js）*/
   /* 面板名稱：以安、語彤交往中的節日・第一批（AA_414，企劃線 b1fc4bf30；src/an_yt_hol3d.js）*/ Object.assign(MEMORY_LABEL,{AN_VDAY_TC:'情人節去台中找她',AN_VDAY_OMAMORI:'她從東京帶回來一個學業御守',AN_VDAY_PEN:'送她一支鋼筆',AN_VDAY_CHOCO:'送她一盒巧克力',AN_VDAY_CALL:'初二那天，她躲到陽台打給你',YT_VDAY_RIVER:'店休那天，阿姨叫你們去別的地方',YT_VDAY_SHOP:'阿姨在門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'阿姨叫她拿年糕給你',YT_MOON:'中秋在麵店門口剝柚子'});
+  /* 面板名稱：節日（AA_416 1-7，企劃線 ed80edb71；src/fest3d.js）：HOL_<節日>_<年>＝「<年> 的情人節，和她一起過」，照節日換字 */ for(const [k,t] of [['VDAY','情人節'],['WHITE','白色情人節'],['QIXI','七夕'],['BDAY','生日'],['XMAS','聖誕節'],['NYE','跨年']]) for(let y=2025;y<=2029;y++) MEMORY_LABEL['HOL_'+k+'_'+y]=y+' 的'+t+'，和她一起過';
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;

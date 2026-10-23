@@ -18,7 +18,8 @@ try{ okWD=load('src/data/r2y3b_events.js'); }catch(e){ console.log('（載入 r2
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/an_yt_hol_events.js'); ok2=load('src/an_yt_hol3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof ANYTHOL!=='undefined'?ANYTHOL:null;
 let doc=''; try{ doc=cp.execSync('git show b1fc4bf30:"docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-const inDoc=t=>doc.indexOf(t)>=0;
+let doc416=''; try{ doc416=cp.execSync('git show ed80edb71:"docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc416=''; }   /* AA_416 第 3 節：第 6 階的換字、2029 的 CG 補救 */
+const inDoc=t=>doc.indexOf(t)>=0||doc416.indexOf(t)>=0;
 const J=JSON.stringify, AN='heroine_01', YT='heroine_03';
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const VDAY=J({fam:3,comf:6,npcRom:5}), CALL=J({fam:2,comf:3,npcRom:3}), MOON=J({fam:4,comf:4,npcRom:4});
@@ -42,8 +43,8 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
   check('0. 讀稿（企劃線 b1fc4bf30 AA_414：2026 開車去台中、白色情人節照舊）',doc.length>5000&&inDoc('照 `date3d.js` 開車去台中的算法')&&inDoc('2028-03-14 以安那一場（`ev_an_white_day`）照舊'));
-  const IDS=['ev_an_vday_y1','ev_an_vday_y2','ev_an_vday_y3','ev_an_vday_y4','ev_yt_vday_y1','ev_yt_vday_y2','ev_yt_vday_y3','ev_yt_vday_y4','ev_yt_moon'];
-  check('0. 新檔載得到：ANYTHOL、ANYTHOL_LINES、ANYTHOL_EVENTS（九個事件：以安四場、語彤四場、中秋一個事件演三年）',ok1&&ok2&&!!X()&&Array.isArray(ANYTHOL_EVENTS)&&ANYTHOL_EVENTS.length===9&&IDS.every(id=>!!ev(id)&&ev(id).trigger==='outing'),err||J({ok1,ok2}));
+  const IDS=['ev_an_vday_y1','ev_an_vday_y2','ev_an_vday_y3','ev_an_vday_y4','ev_yt_vday_y1','ev_yt_vday_y2','ev_yt_vday_y3','ev_yt_vday_y4','ev_yt_moon','ev_an_vday_tc'];
+  check('0. 新檔載得到：ANYTHOL、ANYTHOL_LINES、ANYTHOL_EVENTS（十個事件：以安四場＋AA_416 的 CG 補救、語彤四場、中秋一個事件演三年）',ok1&&ok2&&!!X()&&Array.isArray(ANYTHOL_EVENTS)&&ANYTHOL_EVENTS.length===10&&IDS.every(id=>!!ev(id)&&ev(id).trigger==='outing'),err||J({ok1,ok2}));
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');

@@ -3,7 +3,7 @@
    - STORY.PHONE_RULES：前一天 21:00 她私訊約（PHONE.at＋ask）→ 回答應＝排出遊（OUT.plan，鬧鐘停在出發前；不算正式校外約會、不進 dateLog）→ 那一場（trigger 'outing'）。
      回不行＝那一年的旗標記 'no'（她回的那一句；1-1 另外 2/14 20:00 傳照片）；沒回＝'noreply'（沒有出遊、沒有後續）；
      答應了沒到（「不去了」或過了時間，OUT 的 outingMissed）＝'missed'，那天照稿的時間她再傳（晚兩天以上才讀到的不補，同 SISB4）。回不行、沒到都不扣關係。
-   - 條件（每一場一樣，AA_414 檔頭）：法律系、和她交往中、她在臺北或那一場寫的地方（STORY.presence：以安 1-1、1-2、1-4 寒假在台中老家也算）、
+   - 條件（每一場一樣，AA_414 檔頭）：法律系、和她交往中（AA_416 第 3、5 節：2/14 那幾場第 6 階也演，中秋照舊只有交往中）、她在臺北或那一場寫的地方（STORY.presence：以安 1-1、1-2、1-4 寒假在台中老家也算）、
      祐廷不在國外（STORY.abroad：約的那天和出遊那天都看；2028-10-03 中秋美國路線在美國＝不演）、手機有她的聯絡方式（前一天以前就有，同 SISB4）。
    - 語彤 2026、2029 的情人節是麵店店休那幾天、2027、2028 照常（noodle_closed3d.js 的 NOODLE_CLOSED.closed，初一前 7 天到初三）：表上寫 shop，和店休表對不上就不演。
      出遊地點寫「麵店」的那一天，店休的鐵門照 noodle_closed3d.js 的 storyDue 照常開。
@@ -36,7 +36,9 @@ const ANYTHOL=(function(){
   S.herOk=function(G,id,day,where){ const p=pres(G,id,day)||{here:true}; if(p.here||p.kind==='taipei') return true; return !!where&&((!!p.home&&where.includes(p.home))||(!!p.city&&where.includes(p.city))); };
   /* 麵店店休（noodle_closed3d.js）：shop 'closed'＝那天要是店休、'open'＝那天要照常；沒有 NOODLE_CLOSED（測試沒載）＝不看 */
   S.shopOk=(G,a,day)=>!a.shop||typeof NOODLE_CLOSED==='undefined'||!NOODLE_CLOSED.closed||NOODLE_CLOSED.closed(G,day)===(a.shop==='closed');
-  S.ok=(G,a,askDay,day)=>law(G)&&dating(G,a.who)&&S.herOk(G,a.who,day,a.where)&&!abroad(G,askDay)&&!abroad(G,day)&&contact(G,a.who,askDay)&&S.shopOk(G,a,day);
+  /* AA_416 第 3、5 節：2/14 那幾場第 6 階（DATE.stageNum，還沒交往）也演；中秋照 AA_414 只有交往中 */
+  const stage6=id=>typeof DATE!=='undefined'&&!!DATE.stageNum&&DATE.stageNum(id)>=6;
+  S.ok=(G,a,askDay,day)=>law(G)&&(dating(G,a.who)||(!a.moon&&stage6(a.who)))&&S.herOk(G,a.who,day,a.where)&&!abroad(G,askDay)&&!abroad(G,day)&&contact(G,a.who,askDay)&&S.shopOk(G,a,day);
 
   /* 1-1 開車去台中：date3d.js 地點表 D26（臺中）開車＝單程 150 分、來回 900 元（油錢加過路費）；從宿舍要先回家取車，多 30 分（DATE.plan 的 pick）*/
   S.DRIVE={loc:'D26',pick:0.5};
@@ -87,7 +89,9 @@ const ANYTHOL=(function(){
   S.CALL={k:'an_y4',who:AN,flag:'AN_VDAY_Y4',ok:'called',where:['台中'],
     out:{id:'anyt_an_vday_y4',ev:'ev_an_vday_y4',day:'2029-02-14',h:21,late:0.25},
     miss:{day:'2029-02-14',at:[[21.5,L.an4Miss1],[21+31/60,L.an4Miss2]]}};
-  S.byOut=id=>S.HOL.find(a=>a.out.id===id)||(S.CALL.out.id===id?S.CALL:null);
+  /* AA_416 第 3 節：2/14 的 CG 補救——2029 那通電話選了「我明天開車下去。」（AN_VDAY_RESCUE）＝2/15（四，初三）14:00 照 1-1 台中那一場（開車、油錢同 1-1）*/
+  S.RESCUE={id:'anyt_an_vday_tc',ev:'ev_an_vday_tc',day:'2029-02-15',h:14,late:0.5,place:'台中・她家附近的公園門口',title:'初三（開車去台中找以安）',flag:'AN_VDAY_Y4B',back:'回到臺北。'};
+  S.byOut=id=>S.HOL.find(a=>a.out.id===id)||(S.CALL.out.id===id?S.CALL:null)||(S.RESCUE.id===id?S.RESCUE:null);
 
   /* 照稿的時間傳（那個時間到了才排；那一天晚兩天以上才讀到的不補）*/
   const sendAt=function(G,m,base,who){ const md=D(m.day); if(md==null||G.day>md+1||!Array.isArray(m.at)) return; m.at.forEach(([h,lines],i)=>{ const tg=base+i; if(Array.isArray(lines)&&now(G)>=T(md,h)&&!sent(G,tg)) PHONE.at(G,md,h,lines.map(dm(who)),tg); }); };
@@ -110,6 +114,8 @@ const ANYTHOL=(function(){
   S.call=function(G){ const F=G.flags, C=S.CALL, d=D(C.out.day); if(d==null) return;
     if(F[C.flag]==null&&G.day===d&&now(G)<T(d,C.out.h+C.out.late)&&S.ok(G,C,d,d))
       plan(G,{id:C.out.id,ev:C.out.ev,day:d,h:C.out.h,late:C.out.late,place:'電話',verb:'接起來',no:'先不接',title:nm(AN)+'打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'});
+    { const R=S.RESCUE, r=D(R.day); if(r!=null&&F.AN_VDAY_RESCUE===true&&F[R.flag]==null){ if(now(G)<T(r,R.h+R.late)) plan(G,Object.assign({id:R.id,ev:R.ev,day:r,h:R.h,late:R.late,place:R.place,title:R.title,back:R.back},S.drive()));
+        const qr=outGet(G,R.id); if(gone(G,qr)||G.day>r+1) F[R.flag]='missed'; } }   /* 補救那一場沒到：沒有後續的私訊（稿沒寫）*/
     const q=outGet(G,C.out.id); if(!q) return;
     if(F[C.flag]==null&&(gone(G,q)||G.day>d+1)) F[C.flag]='missed';
     if(F[C.flag]==='missed') sendAt(G,C.miss,'anyt_an_y4_miss',AN); };
