@@ -15,6 +15,7 @@ qx1023b zrlast_probe.py QX26_GO,QX26_NO,QX27_LAST,QX27_MET,QX28_US,QX28_TW,QX28_
 qx1023c zrlast_probe.py QX26_GO,QX27_LAST,QX28_US,QX28_TW
 qx1023d zrlast_probe.py QX26_GO,QX27_LAST   # BB-B 16:4x：床邊先有選項／對話時先演完再按床（QX27 按到「晚一點」、QX26 床的選單空的）
 qx1023e zrlast_probe.py QX28_US   # BB-B 16:5x：一開始站在床邊（原本門口、走到床逾時）
+qx1023f zrlast_probe.py QX28_US   # BB-B 17:3x：快轉停下以後等 STORY.tick 跑過一次（訊息還沒發就再快轉）
 s9_rebdates aa386c_probe.py REB_DATES,REB_NO41
 us_kexin us_life_probe.py USD_kexin
 us_kexin_alarm us_life_probe.py USD_kexin_alarm

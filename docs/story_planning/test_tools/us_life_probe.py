@@ -315,8 +315,15 @@ async def go_class(pg, cdp, run, sc):
     ok = await use(pg, cdp, run, '^去上課'); return ok
 async def ffloop(pg, cdp, run, sc, until_key, until_h, n=30):
     """一直快轉到 until；中間有「去上課」就去上課（玩家會去）"""
+    await pg.evaluate("(()=>{ if(typeof STORY!=='undefined'&&STORY.tick&&!STORY.__bbTick){ const t0=STORY.tick; STORY.tick=function(){ window.__ST=(window.__ST|0)+1; return t0.apply(this,arguments); }; STORY.__bbTick=1; } })()")   # 數 STORY.tick 跑了幾次（不改行為）
     for i in range(n):
-        await pg.wait_for_timeout(3000); await drain(pg, cdp, pref=sc.get('pref', []), secs=90)   # 醒來、停下來以後先站幾秒（玩家會看一下）：讓遊戲有機會開始那一刻的事件（r_us_life 第一次：04:30 一醒來就按床快轉，時差那一段沒機會演）
+        # BB-B 10-23 17:3x：停下來以後等遊戲的劇情檢查（STORY.tick，每 30 格一次）至少跑過一次再看——手機訊息、出遊提醒都在那裡發。
+        #   負載 25 時 30 格要 100 秒以上，原本只等 3 秒就再快轉：QX28_US 8/25 17:00 停下來是為了她的訊息，訊息還沒發就又快轉到 9/4（真機 30 格不到 1 秒）
+        st0 = await pg.evaluate("window.__ST|0")
+        for _ in range(50):
+            await pg.wait_for_timeout(3000)
+            if (await pg.evaluate("window.__ST|0")) > st0: break
+        await pg.wait_for_timeout(1500); await drain(pg, cdp, pref=sc.get('pref', []), secs=90)   # 醒來、停下來以後先站幾秒（玩家會看一下）：讓遊戲有機會開始那一刻的事件（r_us_life 第一次：04:30 一醒來就按床快轉，時差那一段沒機會演）
         sn = await pg.evaluate(SNAP)
         if (sn['key'], sn['h']) >= (until_key, until_h): return True
         cls = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.uslClass&&!i.hidden); return it?it.label:null; })()")
