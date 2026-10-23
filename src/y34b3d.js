@@ -555,6 +555,7 @@ const Y34B=(function(){
     {if:C(kaiK4),speaker:'kai',text:'我以為我會在最後面。'},
     {if:C(G=>kaiK4(G)&&mem('kai','KAI_WANTS_CREDIT')),speaker:'kai',text:'我後來有跟她說。她說『你早講啊，白痴』。'},
     {if:C(G=>kaiK4(G)&&!!G.flags.TOLD_KAI_TELL_HER),speaker:'kai',text:'你那時候叫我跟她說。我沒說。……她自己寫的。'},
+    {if:C(G=>G.flags.ZQ_TB_FB==='roof'),speaker:'heroine_04',text:'第四關的屋頂，我加了一條路。'},   /* AA_400 第 5 節：測試版回她「屋頂卡了二十分鐘」的 */
     {set:{ATTENDED_SHOW:true,ZQ_Q12_SEEN:'came'}},{rel:{heroine_04:{fam:2}}} ];
   const Q12_CALL=[ {scene:'電話'},{if:C(nine),speaker:'子晴（電話）',text:'他打了五次。第五次過了。……我在後面笑到不行。'},{unless:C(nine),speaker:'子晴（電話）',text:'下一個做完，你來測。'},{set:{WATCHED_SHOW_ONLINE:true,ZQ_Q12_SEEN:'online'}} ];   /* 《找插座的貓》那一版：和 1B-15 貓那一版現場同一句（AA_349 L6：「下一個做完，你來測。」——「測試員」是她給他的位置 TESTER，沒有 TESTER 的玩家也接得上）*/
   /* 1B-16 */

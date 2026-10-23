@@ -295,7 +295,11 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2027-06-10'),19,'campus',{}); G.stage='law'; meet('heroine_02'); said=[]; opts=[]; picks=[0];
     const r=await TERMEND.hook(GM,'Y2S2','heroine_02'); const L=lines();
     check('12. Y2S2 芷若「九月二號出發。」：有「出發那天我去送妳」，選了記 HOOK_ZR_SENDOFF',r===true&&L.some(t=>t.endsWith('九月二號出發。'))&&opts.length===1&&opts[0].some(t=>/出發那天我去送妳/.test(t))&&G.flags.HOOK_ZR_SENDOFF===G.day,JSON.stringify({r,L,opts,f:G.flags.HOOK_ZR_SENDOFF})); }
-  for(const [term,who,say,flag,day] of [['Y3S1','heroine_04','發表會那個遊戲，我想做到可以上架。','HOOK_ZQ_GAME','2028-01-10'],['Y3S2','heroine_04','七月三號到七號 曼谷','HOOK_T03','2028-06-10']]){
+  /* AA_400：子晴的測試版（src/zq_testbuild3d.js）做好了，「做出來給我玩。」打開 */
+  { fresh(D('2028-01-10'),19,'campus',{}); G.stage='law'; meet('heroine_04'); G.events.done.ev_ziqing_secret_game=1; said=[]; opts=[]; picks=[0];
+    const r=await TERMEND.hook(GM,'Y3S1','heroine_04'); const L=lines();
+    check('12. Y3S1 子晴「發表會那個遊戲，我想做到可以上架。」：有「做出來給我玩。」，選了記 HOOK_ZQ_GAME（AA_400 做好了）',r===true&&L.some(t=>t.endsWith('發表會那個遊戲，我想做到可以上架。'))&&opts.length===1&&opts[0].some(t=>/做出來給我玩/.test(t))&&G.flags.HOOK_ZQ_GAME!=null,JSON.stringify({r,L,opts,f:G.flags.HOOK_ZQ_GAME})); }
+  for(const [term,who,say,flag,day] of [['Y3S2','heroine_04','七月三號到七號 曼谷','HOOK_T03','2028-06-10']]){
     fresh(D(day),19,'campus',{}); G.stage='law'; meet(who); G.events.done.ev_ziqing_secret_game=1; said=[]; opts=[]; picks=[0];
     const r=await TERMEND.hook(GM,term,who); const L=lines();
     check('12. '+term+' '+who+'：照樣說「'+say+'」、不出選項、不記 '+flag,L.some(t=>t.endsWith(say))&&!opts.length&&G.flags[flag]==null,JSON.stringify({r,L,opts,f:G.flags[flag]})); }

@@ -2866,7 +2866,7 @@ const STORY = (function(){
       GM.memo('搬進第三個房間'); if(GM.autosave) GM.autosave(); }
     finally{ delete F.ROOM_Y3_MOVING; GM.sceneEnd(); }
     return true; };
-  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }
+  async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; if(typeof L[i][2]==='function'){ await L[i][2](GM); break; } for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }   /* 第三欄＝動作（例：玩子晴的測試版，src/zq_testbuild3d.js）：做完就離開選單 */
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
      進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛 prop_pothos.glb（ART-04，LAWWW2-C 639f0188）由 zones3d.js 的 z.setPothos 放、照澆水次數換大小 */
   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);

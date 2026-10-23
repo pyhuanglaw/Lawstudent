@@ -275,7 +275,7 @@ const TERMEND_LINES=(function(){
           heroine_02:{say:'九月二號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},   /* AA_369 M2；AA_389 第 2 點→AA_390：9/2 送機那一場（src/zr_sendoff3d.js）做好了，選項打開 */heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
           npc_fangyt:{say:'八月一號到四號，我要去日本爬山。',ok:'「我可以去嗎？」',act:{flag:'HOOK_T02'}}},
     Y3S1:{heroine_01:{say:'三月二十五號出發。',ok:G=>G.flags&&G.flags.EXCHANGE_ROUTE==='JP'?'「那天我們同一班。」':'「出發那天我去送妳。」',act:{flag:'HOOK_AN_SENDOFF'}},
-          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'},noOpt:true},   /* AA_389 第 2 點：測試版那一場（AA389-ZQ-GAME-1023）做好以前選項先不出 */
+          yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'}},   /* AA_389 第 2 點→AA_400：測試版那一場做好了（src/zq_testbuild3d.js），選項打開 */
           classmate_peishan:{say:'去國小看課那幾次，我是真的很喜歡。',ok:'「哪天去看你們上課？」',act:{c15:'ps_class'}}},
     Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&['US','JP'].includes(G.flags.EXCHANGE_ROUTE)),act:{flag:'HOOK_SIS_SENDOFF'}},   /* AA_392 第 2-2 節：日本路線（8/5 才回臺灣）也不出 */
           heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'},noOpt:true},   /* AA_389 第 2 點：不出選項——她照樣說暑假計畫，玩家沒有「我去」*/classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
