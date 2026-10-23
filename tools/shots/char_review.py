@@ -21,6 +21,7 @@ async def wait_frames(pg, n=6):
 async def load(pg, zone, hour):
     await pg.evaluate("(async(z,h)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,{zone:z,hour:h,day:8,weekday:2,weather:'sunny'}); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s,%s)" % (json.dumps(zone), hour))
     await pg.evaluate("document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want')")
+    await pg.evaluate(CLOSE_PHONE)   # 手機自動打開會暫停遊戲，下面等畫格會一直等不到
     await wait_frames(pg, 10)
     await pg.evaluate("GAME.E.npcs.slice().forEach(n=>GAME.E.removeNPC(n)); (GAME.E.extras||[]).forEach(x=>{ if(x.obj&&x.obj.parent) x.obj.parent.remove(x.obj); }); GAME.E.player.obj.visible=false; for(const k in GAME.npc) delete GAME.npc[k];")
 
@@ -37,7 +38,11 @@ async def spawn(pg, cid, x, z, opts):
     await wait_frames(pg, 8)
 
 
+CLOSE_PHONE = "(()=>{ try{ if(typeof STORY!=='undefined'&&STORY.phoneAuto) STORY.phoneAuto=()=>{}; if(GAME.closePhone) GAME.closePhone(); if(GAME.closeMenu) GAME.closeMenu(); }catch(e){} })()"   # 讀檔後要回的訊息會讓手機自動打開、遊戲暫停（story3d.js S.phoneAuto，D103）：10-23 第一輪整組拍到手機畫面
+
+
 async def cam(pg, p, l, hour):
+    await pg.evaluate(CLOSE_PHONE)
     await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (json.dumps(p), json.dumps(l)))
     await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); })(%s)" % hour)
 
