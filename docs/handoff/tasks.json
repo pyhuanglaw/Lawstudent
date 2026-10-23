@@ -29985,7 +29985,7 @@
    "id": "UX-PHONE-MAP-1023",
    "title": "手機「地點」改成地圖：地圖上點地點→看路程、開放時間→前往（使用者 10-23 08:0x，H08）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": null,
    "first": {
@@ -30001,7 +30001,7 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23】FF-SEMESTER-1023 之後；第一版用遊戲大地圖（guide3d.js）加可點的地點；美術地圖之後 BB 照 D97 要",
-   "note": "2026-10-23 11:3x LAWWW-B 第一版：手機「地點」最上面一張示意地圖（src/placemap3d.js，SVG），點圖釘＝下面列出那裡的地點＋前往；清單照舊在下面。tests/placemap_unit.js ALL PASS；截圖確認字不疊。正式美術地圖之後 BB 照 D97 要（不擋）。待 BB 在手機尺寸實測（清單第 36 項）。 10-23 12:3x BB-B 第 36 項重測（0024f456b）PASS：四區紅圈對、字不疊、117 次點擊 0 錯、前往到得了、美國沒有地圖；兩個小問題（單一地點圖釘灰色、圖例還沒去過）已修 f7402a045；公館捷運站你在這裡 cce997abd。"
+   "note": "2026-10-23 11:3x LAWWW-B 第一版：手機「地點」最上面一張示意地圖（src/placemap3d.js，SVG），點圖釘＝下面列出那裡的地點＋前往；清單照舊在下面。tests/placemap_unit.js ALL PASS；截圖確認字不疊。正式美術地圖之後 BB 照 D97 要（不擋）。待 BB 在手機尺寸實測（清單第 36 項）。 10-23 12:3x BB-B 第 36 項重測（0024f456b）PASS：四區紅圈對、字不疊、117 次點擊 0 錯、前往到得了、美國沒有地圖；兩個小問題（單一地點圖釘灰色、圖例還沒去過）已修 f7402a045；公館捷運站你在這裡 cce997abd。 10-23 12:3x BB-B：第 36 項 cce997abd＋f7402a045 ALL PASS，結案（公館兩個落點、你在這裡圖釘、沒去過的寫「還沒去過」、沒有例外）。"
   },
   {
    "id": "EAT-MATTER-1023",
@@ -30174,7 +30174,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "note": "2026-10-23 12:0x LAWWW-B：劇情部分合併（728c7b7c0，wzpark3d.js catCold／catGone／catAdopted、公布欄告示、12/14 那一場、每月照片、去看貓）；貓 12/14 23:00 起不在公園。LAWWW2：3D 貓用 PARK.catAdopted(G) 不顯示、PARK.catCold(G) 用 CAT_curl（已轉）。"
+   "note": "2026-10-23 12:0x LAWWW-B：劇情部分合併（728c7b7c0，wzpark3d.js catCold／catGone／catAdopted、公布欄告示、12/14 那一場、每月照片、去看貓）；貓 12/14 23:00 起不在公園。LAWWW2：3D 貓用 PARK.catAdopted(G) 不顯示、PARK.catCold(G) 用 CAT_curl（已轉）。 10-23 13:4x LAWWW-B 整合 LAWWW2 32e9ddf3（zones3d.js patch：收養以後公園的 3D 貓每一格看 PARK.catAdopted 不顯示；寒流 CAT_curl 縮在石桌下；wz_cat.glb 加 CAT_curl）；tests/wz_cat_unit.js 改成四個姿勢（12 個網格都有 fat）＋公園相關 24 支 ALL PASS；BB 清單第 50 項。還沒做：貓平常走動（CAT_walk 要遊戲端路線，排在後面）。"
   },
   {
    "id": "CLOSED-SPACES-1023",
@@ -30258,7 +30258,7 @@
    "id": "UX-INV-GO-1023",
    "title": "約會快到的提醒可以直接到約會地點（使用者 10-23 08:2x，D58）：校園約人 INV 提醒時跳「直接過去／自己走過去」、手機今天的約可以「前往」；校外約會 1 小時前提醒時可以提早出發",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": null,
    "first": {
@@ -30274,7 +30274,7 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:4x】校園約人做好：invites3d.js S.goPrompt（約好前 30 分鐘～後 15 分鐘、不在那一區、空下來問一次「直接過去」／「自己走過去」；OUT 該出發先問）、S.goNow（快速前往 force）；手機「今天約好的」每筆「前往」；tests/inv_go_unit.js（HEAD 版例外 FAIL）、相關 257 支 ALL PASS。還沒做：校外約會 1 小時前提早出發（出發時間到照舊有一鍵「出發」）｜BB 補測 ｜ 【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測",
-   "note": " 2026-10-23 11:1x LAWWW-B：校外約會出發前 60 分鐘提醒的時候就可以「現在出發」（date3d.js S.early、outings3d.js OUT.tick 等選單；抵達＝約好的時間，中間時間直接過去）／「到時間再說」照舊；tests/date_book_unit.js 第 6 節。待 BB 測（清單第 35 項）。 10-23 12:0x BB-B 第 35 項 ALL PASS（8282335af，ux1023b：EARLY_GO 15:55 抵達、約會演完、相簿、done；EARLY_LATER 不再問、14:46 照舊；BB_218 bf200d680）。校園約人「前往」那一半 BB 還沒單獨測。"
+   "note": " 2026-10-23 11:1x LAWWW-B：校外約會出發前 60 分鐘提醒的時候就可以「現在出發」（date3d.js S.early、outings3d.js OUT.tick 等選單；抵達＝約好的時間，中間時間直接過去）／「到時間再說」照舊；tests/date_book_unit.js 第 6 節。待 BB 測（清單第 35 項）。 10-23 12:0x BB-B 第 35 項 ALL PASS（8282335af，ux1023b：EARLY_GO 15:55 抵達、約會演完、相簿、done；EARLY_LATER 不再問、14:46 照舊；BB_218 bf200d680）。校園約人「前往」那一半 BB 還沒單獨測。 10-23 12:3x BB-B：校園約人那一半 PASS（0024f456b：14:33 問直接過去／自己走過去；直接過去＝到 Café、約會照常演、done；自己走＝不再問；手機「今天約好的」前往＝到 Café）。兩半都通過。"
   },
   {
    "id": "BUG-BOOK-OVERDUE-1023",

@@ -1,0 +1,27 @@
+--- a/src/zones3d.js	2026-10-23 12:30:08.502417962 +0000
++++ d/src/zones3d.js	2026-10-23 12:30:08.562306227 +0000
+@@ -1020,8 +1020,9 @@
+   function wzCatModel(root,G,pose){ const T=G&&typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, id=T?T.id:'', yr=+id.charAt(1)||1;
+     const fat=id==='Y2S1'?1:(id==='Y2S2'?0.5:0), tag=yr>=3, band=id==='Y3S1'&&T.week===10, old=yr>=4;
+     let oldMat=null; root.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name==='cat_fur_old') oldMat=o.material; });
++    if(pose==='curl'&&!root.getObjectByName('CAT_curl')) pose='lie';   /* CAT_curl（寒流縮成一團，LAWWW2-B 10-23）：舊的模型沒有，退回趴姿 */
+     const keep=root.getObjectByName('CAT_'+pose); if(!keep) return null;
+-    for(const n of ['sit','lie','walk']){ const o=root.getObjectByName('CAT_'+n); if(o) o.visible=n===pose; }
++    for(const n of ['sit','lie','walk','curl']){ const o=root.getObjectByName('CAT_'+n); if(o) o.visible=n===pose; }
+     const holder=root.getObjectByName('CAT_fur_old_holder'); if(holder) holder.visible=false;
+     keep.position.set(0,0,0);
+     keep.traverse(o=>{ if(/_tag$/.test(o.name)) o.visible=tag; if(/_bandage$/.test(o.name)) o.visible=band;
+@@ -1061,9 +1062,11 @@
+         for(const ex of [-0.04,0.04]) cat.add(fur,new THREE.ConeGeometry(0.028,0.06,4),0.15+ex,cy+0.15,-0.06,0);
+         cat.add(dk,new THREE.TorusGeometry(0.16,0.026,6,14,Math.PI*1.1),-0.02,cy+0.035,-0.02,0.4,{rx:-Math.PI/2});
+         const cg=new THREE.Group(); cat.build(cg); cg.traverse(o=>{ if(o.isMesh) o.castShadow=false; }); cg.position.set(bf.x+0.05,0,bf.z-0.45); cg.rotation.y=bf.yaw+Math.PI/2;
+-        const catG=new THREE.Group(); catG.name='wz_cat'; catG.userData.dyn=true; catG.add(cg); g.add(catG);   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
++        const catG=new THREE.Group(); catG.name='wz_cat'; catG.userData.dyn=true; catG.add(cg); g.add(catG);
++        /* 被子晴收養以後（PARK.catAdopted：12/14 23:00 起，或那一場演完）公園不顯示貓（WZ-CAT-LIFE-1023，AA_397 第 3 節）：每一格看，玩家待在公園裡過了 23:00 也會不見；「看圓椅」的互動點照 PARK.catHidden */
++        { let shown=true; Object.defineProperty(catG,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!(G&&typeof PARK!=='undefined'&&PARK.catAdopted&&PARK.catAdopted(G)); },set(v){ shown=!!v; }}); }   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
+         if(under){ catG.position.y=catAt.y-0.45; catG.userData.under=true; }   /* 套件的貓、正式模型（0.47）都是照圓椅的座面（0.45 m）放的：石桌底下整組放低到涼亭的地台上 */
+-        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return; const m=wzCatModel(c.scene.clone(true),G0,'lie'); if(!m) return;
++        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return; const m=wzCatModel(c.scene.clone(true),G0,(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0))?'curl':'lie');   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
+           m.position.set(bf.x+0.05,0.47,bf.z-0.45); m.rotation.y=bf.yaw+Math.PI; cg.visible=false; catG.add(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
+     // 備用外觀（模型載入後藏起來）
+     const fb=o=>{ pkTag(o); o.userData.wzParkFb=true; return o; };
