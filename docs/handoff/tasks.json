@@ -28577,7 +28577,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "evidence": "LAWWW（帳號 A）10-22 04:4x 驗收（D100 第 6 點）：沛珊第二十七版通過、芷若的臉通過（頭髮另開 ART-ZR-HAIR-1022，05:1x 通過）；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/（zr_ps_front_1100、ps_face_1100、dusk_tone_*，開發分支 6cfc73fd，Playwright SwiftShader 手機模擬，不是 iPhone）：兩個 VRM 載入正常、白天黃昏沒有看得出來的問題；Café 當班圍裙 3D／2D 都還沒開（等使用者給高解析度圍裙立繪，ART-ZR-CAFE-PORTRAIT-1022）"
+   "evidence": "LAWWW（帳號 A）10-22 04:4x 驗收（D100 第 6 點）：沛珊第二十七版通過、芷若的臉通過（頭髮另開 ART-ZR-HAIR-1022，05:1x 通過）；遊戲內截圖 docs/art-rebuild/checks/lawww_1022/（zr_ps_front_1100、ps_face_1100、dusk_tone_*，開發分支 6cfc73fd，Playwright SwiftShader 手機模擬，不是 iPhone）：兩個 VRM 載入正常、白天黃昏沒有看得出來的問題；Café 當班圍裙 3D／2D 都還沒開（等使用者給高解析度圍裙立繪，ART-ZR-CAFE-PORTRAIT-1022）",
+   "notes": "【LAWWW-B 10-23 17:5x 角色美術驗收（D100）】沛珊第三十二版（LAWWW2 1056a5c7，只換頭髮）通過＝ART_APPROVED（沛珊）：中分倒 V、頭頂平順、低馬尾、眼鏡、服裝全身距離和參考圖一致。已知差異凍結不改（D99 第 4 點）：兩側一綹一綹不夠蓬、瀏海落在鏡框上緣、髮片邊緣階梯、背面兩小撮翹、鞋子（參考圖帆布鞋／遊戲平底鞋）。等 LAWWW2 交件整合（換掉第二十八版）。芷若那一半照 LAWWW2 佇列。"
   },
   {
    "id": "ART-ZR-HAIR-1022",
