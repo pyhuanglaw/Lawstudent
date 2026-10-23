@@ -305,6 +305,12 @@ async def map2_zone(p, run, base, sid, zone):
             exp = min((q for q in m['PINS'] if q.get('cx') is not None), key=lambda q: math.hypot(q['cx'] - hx, q['cz'] - hz))['id'] if hx is not None else None
         res['ring'] = {'ringPin': m['ringPin'], 'expect': exp, 'here': m['here']}
         run.check('%s：你在這裡＝紅圈在「%s」（人在 %s）' % (sid, exp, J(m['here'])), m['ringPin'] == [exp], J(res['ring']))
+        if os.environ.get('F74'):   # LAWWW-B f7402a045：人所在的單一地點圖釘＝可以前往的橘色（不再是「現在不能去」的灰）；圖例拿掉「還沒去過」
+            rp = next((q for q in m['pins'] if q['id'] == exp), {})
+            run.check('%s：紅圈那一顆（%s）是橘色 #e9b96a，不是「現在不能去」的灰' % (sid, exp), rp.get('fill') == '#e9b96a', J({'fill': rp.get('fill')}))
+            leg = await pg.evaluate("(()=>{ const s=document.querySelector('#phoneBody svg[aria-label=\"地點地圖\"]'); const it=s&&s.closest('.item'); const m=it&&it.querySelector('.muted'); return m?m.innerText:''; })()")
+            res['legend'] = leg
+            run.check('%s：圖例沒有「還沒去過」' % sid, bool(leg) and '還沒去過' not in leg, J(leg))
         # 字：不疊、不蓋到別的圖釘、不超出地圖；字的大小
         T = [(q['name'], q['text']) for q in m['pins'] if q['text']] + [(a['t'], a['r']) for a in m['areaText'] if a['t']]
         ov = overlaps(T); res['textOverlap'] = ov
