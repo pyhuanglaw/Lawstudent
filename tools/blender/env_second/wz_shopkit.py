@@ -627,7 +627,7 @@ def _floor_vc(cm, xf, iw, zb, zf, y0, flo, rr):
             if fs[0].normal.z < 0: bmesh.ops.reverse_faces(cm.bm, faces=fs)
 
 
-def _shade_interior(cm, xf, iw, gz, yt):
+def _shade_interior(cm, xf, iw, gz, yt, bright=1.0):
     """店裡的光（2026-10-23）：越裡面越暗、天花板和牆角暗一點、地上的東西底部暗一點。
     原本店裡的牆、櫃台都是接近白色，在遊戲的環境光下和騎樓一樣亮——從街上看像一張貼在玻璃後面的白紙，看不出是室內。
     真的從亮的街上看進店裡，店內比外面暗、越裡面越暗，亮的是燈和冰箱。只改頂點色（店裡的牆、櫃台、貨架），燈、冰箱背板、商品不變"""
@@ -640,24 +640,25 @@ def _shade_interior(cm, xf, iw, gz, yt):
             if gy > yt - 0.02: k *= 0.86                                                    # 天花板
             k *= 0.9 + 0.1 * min(1.0, max(0.0, (iw / 2 - abs(lx)) / 0.6))                   # 兩側的牆角
             k *= 0.88 + 0.12 * min(1.0, max(0.0, gy - 0.15) / 0.35)                          # 貼地的部分
-            k = k ** 2.2; col = lp[cm.col]; lp[cm.col] = (col[0] * k, col[1] * k, col[2] * k, col[3])
+            k = (k * bright) ** 2.2; col = lp[cm.col]; lp[cm.col] = (col[0] * k, col[1] * k, col[2] * k, col[3])
 
 
-def shallow_interior(spec, xf, iw, gz, ih):
-    """玻璃後面的店（深 DI）：地板、牆、天花板、燈，加上每一種店自己的東西"""
+def shallow_interior(spec, xf, iw, gz, ih, bright=0.76):
+    """玻璃後面的店（深 DI）：地板、牆、天花板、燈，加上每一種店自己的東西。
+    bright：店內（unlit）的整體亮度。曬得到太陽的街（溫州街、118 巷）0.76——1.0 時從大太陽的巷子看進去，白牆比外面還亮、像在發光；公館騎樓底下 1.0"""
     kind = spec['shop']['type']; pid = spec['id']; y0 = 0.15; yt = ih + 0.15; zb = gz - DI; cm = L.CMesh(f'sk_in_{pid}', IN_VC)   # 2026-10-23：店內不受場景光（unlit），亮度＝頂點色
     cp = lambda col: _CP(cm, col)
     rr = random.Random(sum(ord(c) for c in pid) * 31)
     # 地板：木頭類一律淺色 f_wood（使用者 10-23：不要深色木地板；原本定食 wood_dk、書店／早午餐 wood_lt #a07850）
-    flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'f_wood', 'books': 'f_wood', 'fruit': 'f_concrete', 'brunch': 'f_wood', 'buffet': 'f_white', 'tea': 'f_white', 'pharm': 'f_white', 'records': 'f_terrazzo', 'stationery': 'f_wood'}.get(kind, 'f_white')
+    flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'f_wood', 'books': 'f_wood', 'fruit': 'f_concrete', 'brunch': 'f_wood', 'buffet': 'f_white', 'tea': 'f_white', 'luwei': 'f_concrete', 'pharm': 'f_white', 'records': 'f_terrazzo', 'stationery': 'f_wood'}.get(kind, 'f_white')
     gzf = gz - 0.012                                                                                        # 店內的前緣在玻璃後面 1.2 cm（BUG-WZFLICKER-2：地板、側牆、天花板的前面原本和玻璃同一個平面）
     _floor_vc(cm, xf, iw, zb, gzf, y0, flo, rr)
-    wallc = {'noodle': '#f1e7d6', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e8dcc4', 'books': '#e6dcc8', 'fruit': '#efe8d8', 'brunch': '#f3ede2', 'buffet': '#f2efe8', 'tea': '#f4f2ec', 'pharm': '#f4f6f2', 'records': '#e2d6c2', 'stationery': '#efe8da'}.get(kind, '#eeeeea')
+    wallc = {'noodle': '#f1e7d6', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e8dcc4', 'books': '#e6dcc8', 'fruit': '#efe8d8', 'brunch': '#f3ede2', 'buffet': '#f2efe8', 'tea': '#f4f2ec', 'luwei': '#efe6d6', 'pharm': '#f4f6f2', 'records': '#e2d6c2', 'stationery': '#efe8da'}.get(kind, '#eeeeea')
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
     for sx in (-1, 1): vb(sx * iw / 2 - 0.047, sx * iw / 2 + 0.047, y0, yt, zb, gzf, wallc, r=0)   # 側牆厚 9.4 cm（BUG-WZFLICKER-2：內面原本和店面鋁框的側面同一個平面）
     vb(-iw / 2, iw / 2, yt, yt + 0.05, zb, gzf, '#d8d2c6', r=0)                                          # 天花板（2026-10-23 改頂點色：和牆一起照深度變暗）
-    warm = kind in ('teishoku', 'books', 'brunch', 'fruit', 'noodle', 'buffet', 'records', 'stationery')
+    warm = kind in ('teishoku', 'books', 'brunch', 'fruit', 'noodle', 'buffet', 'records', 'stationery', 'luwei')
     for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
         xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
         CL.glow(root, 'shopin', *xf.p(lx, yt - 0.3, zb + DI * 0.5), color='rgba(255,226,180,1)' if warm else 'rgba(244,250,255,1)', size=1.7, day=0.1, night=0.85)
@@ -668,6 +669,25 @@ def shallow_interior(spec, xf, iw, gz, ih):
         for (tx, tz) in ((-0.8, gz - 1.2), (1.6, gz - 1.0)):
             vb(tx - 0.4, tx + 0.4, y0 + 0.7, y0 + 0.74, tz - 0.3, tz + 0.3, '#f1efe9', r=0.008); xf_cyl(cp('#9aa0a6'), xf, (tx, y0, tz), (tx, y0 + 0.7, tz), 0.03)
             for sx in (-0.55, 0.55): inst(P_STOOL_R, f'sk_instool_{pid}', xf, tx + sx, y0, tz)
+    elif kind == 'luwei':                                                                                   # 滷味・鹹酥雞（G05，整面拉開）：臨街的三層不鏽鋼展示架（一盤盤滷味料）、紅色小籃子、後面的滷鍋和油炸台、紅紙菜單
+        rl = random.Random(sum(ord(c) for c in pid) * 7); FOOD = ['#e8d9a8', '#5a9a3a', '#b84a3a', '#2f3a2a', '#e8c860', '#f2efe8', '#c9822e', '#8a4a2a', '#d4a03a']
+        r0, r1 = -iw / 2 + 0.5, 1.2
+        for t in range(3):                                                                                  # 三層，一層比一層高、往裡面退
+            yy = y0 + 0.78 + t * 0.2; zf_ = gz - 0.35 - t * 0.28; zb_ = zf_ - 0.3
+            vb(r0, r1, yy - 0.03, yy, zb_, zf_, '#c4c8cc', r=0)
+            x_ = r0 + 0.04
+            while x_ < r1 - 0.26:
+                vb(x_, x_ + 0.24, yy, yy + 0.025, zb_ + 0.03, zf_ - 0.03, '#dfe2e4', r=0)                    # 不鏽鋼淺盤
+                c_ = rl.choice(FOOD)
+                for q in range(3): vb(x_ + 0.02 + q * 0.07, x_ + 0.08 + q * 0.07, yy + 0.025, yy + 0.025 + rl.uniform(0.03, 0.06), zb_ + 0.06 + (q % 2) * 0.08, zb_ + 0.14 + (q % 2) * 0.08, c_, r=0)
+                x_ += 0.27
+        for x_ in (r0, r1): vb(x_ - 0.02, x_ + 0.02, y0, y0 + 1.2, gz - 1.25, gz - 0.33, '#b9bcbf', r=0)
+        vb(r0, r1, y0, y0 + 0.75, gz - 0.65, gz - 0.35, '#c4c8cc', r=0)                                     # 下面的櫃子
+        for k_ in range(6): vb(r1 + 0.1, r1 + 0.42, y0 + 0.75 + k_ * 0.06, y0 + 0.8 + k_ * 0.06, gz - 0.6, gz - 0.38, '#c0392b', r=0.01)   # 一疊紅色小籃子
+        vb(-iw / 2 + 0.3, iw / 2 - 0.3, y0, y0 + 0.88, zb, zb + 0.6, '#b9bdc0', r=0.01)                      # 後面：滷鍋台＋油炸台
+        for x in (-iw / 2 + 0.8, -iw / 2 + 1.5): _lathe(cp('#b9bcbf'), xf, [(0.0, 0.0), (0.26, 0.0), (0.27, 0.38), (0.25, 0.39)], x, y0 + 0.88, zb + 0.3)
+        vb(iw / 2 - 1.6, iw / 2 - 0.5, y0 + 0.88, y0 + 1.1, zb + 0.05, zb + 0.55, '#9aa0a6', r=0.01); vb(iw / 2 - 1.5, iw / 2 - 0.6, y0 + 1.1, y0 + 1.11, zb + 0.1, zb + 0.5, '#3a2a18', r=0)   # 油鍋
+        for j in range(8): x = -iw / 2 + 0.6 + j * 0.42; vb(x - 0.15, x + 0.15, 1.55, 2.25, zb + 0.005, zb + 0.015, '#b8322a', r=0)
     elif kind == 'cvs':                                                                                     # 便利商店：後牆的飲料冰箱（真的瓶罐）、中間一排貨架（泡麵、零食、日用品）、櫃台
         n = int((iw - 0.6) / 0.62)
         for j in range(n):
@@ -745,9 +765,13 @@ def shallow_interior(spec, xf, iw, gz, ih):
         rb = random.Random(sum(ord(c) for c in pid))
         for j in range(int((iw - 1.2) / 0.5)):
             x_ = -iw / 2 + 0.75 + j * 0.5; yc = y0 + 1.95 - (j % 2) * 0.12
-            xf_cyl(cp('#2a2a2c'), xf, (x_, yc, zb + 0.04), (x_, yc, zb + 0.08), 0.31 if j % 3 else 0.34, seg=16)
-            xf_cyl(cp('#b9bcbf'), xf, (x_, yc, zb + 0.08), (x_, yc, zb + 0.085), 0.25 if j % 3 else 0.28, seg=16)
-            xf_cyl(cp('#2a2a2c'), xf, (x_, yc, zb + 0.085), (x_, yc, zb + 0.09), 0.04, seg=6)
+            ro = 0.31 if j % 3 else 0.34                                                                       # 輪胎（黑）→ 鋼圈（銀，窄）→ 中間透出後面的洞洞板＋輻條（第一版是實心銀盤，看起來像黑膠唱片）
+            xf_cyl(cp('#2a2a2c'), xf, (x_, yc, zb + 0.04), (x_, yc, zb + 0.08), ro, seg=16)
+            xf_cyl(cp('#b9bcbf'), xf, (x_, yc, zb + 0.08), (x_, yc, zb + 0.083), ro - 0.045, seg=16)
+            xf_cyl(cp('#cfc8b8'), xf, (x_, yc, zb + 0.083), (x_, yc, zb + 0.086), ro - 0.07, seg=16)
+            for q in range(8):
+                a_ = q * math.pi / 8; xf_cyl(cp('#c9ccce'), xf, (x_ - (ro - 0.07) * math.cos(a_), yc - (ro - 0.07) * math.sin(a_), zb + 0.088), (x_ + (ro - 0.07) * math.cos(a_), yc + (ro - 0.07) * math.sin(a_), zb + 0.088), 0.004, seg=3)
+            xf_cyl(cp('#2a2a2c'), xf, (x_, yc, zb + 0.083), (x_, yc, zb + 0.095), 0.035, seg=6)
         for j in range(14):
             x_ = -iw / 2 + 0.5 + j * (iw - 1.0) / 14; vb(x_, x_ + rb.uniform(0.04, 0.12), y0 + 1.05 + rb.uniform(0, 0.12), y0 + 1.25 + rb.uniform(0, 0.12), zb + 0.03, zb + 0.06, rb.choice(['#c0392b', '#2c2c2e', '#3a5a8a', '#e0a030', '#6a6e72']), r=0)   # 工具
         for t in range(3):
@@ -858,7 +882,7 @@ def shallow_interior(spec, xf, iw, gz, ih):
         for j in range(int((iw - 1.6) / 0.5)): vb(-iw / 2 + 0.75 + j * 0.5, -iw / 2 + 1.05 + j * 0.5, y0 + 1.85, y0 + 2.25, zb + 0.02, zb + 0.025, '#c0392b', r=0)
     elif kind == 'tea':                                                                                     # 手搖飲（118 巷一一八茶飲）：臨街的點餐櫃台＋後面的工作檯（和公館騎樓的同一套）
         _tea(xf, iw, gzf, zb, cm, pid)
-    _shade_interior(cm, xf, iw, gz, yt)
+    _shade_interior(cm, xf, iw, gz, yt, bright)
     cm.finish(root, uv=False)
 
 
@@ -1107,7 +1131,7 @@ def arcade_front_v2(spec, xf, W, wall):
         a = acc(M['alu']); xf.box(a, -iw / 2 + 0.05, iw / 2 - 0.05, 2.72, 3.0, gz, gz + 0.26)
         for sx in (-1, 1): xf.box(a, sx * (iw / 2 - 0.05) - 0.035, sx * (iw / 2 - 0.05) + 0.035, 0.0, 2.72, gz, gz + 0.08)
     else:
-        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih)
+        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih, bright=1.0)   # 騎樓底下（只有環境光）：店裡要比騎樓亮
         else:                                                                                         # 店內景深卡（遊戲畫 TK.interiorTex(店種)，亮的）：立體的淺店內在 3 m 深的騎樓後面白天太暗（試做：書店一片黑）
             face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
             xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
@@ -1159,7 +1183,7 @@ SF_GG = {
     'G02': dict(inner=True, kind='books', door='wood', floor='f_quarry', light='warm', door_x=2.6, notes=[('hours', 1.4, 1.2, 0.36, 0.36), ('poster', -3.8, 1.0, 0.5, 0.6)], clutter=[('bookcart', -3.6, 0.35), ('pot', -5.6, 0.3, 'broad'), ('aboard', 5.0, 0.35, 'menu')]),   # 舊路書房
     'G03': dict(inner=True, door='auto', floor='f_white', light='cool', door_x=-1.6, rollbox=False, notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)], clutter=[('bins', 2.4, 0.32), ('umb', -3.2, 0.3), ('vend', 4.5, 0.42)]),   # 日日便利
     'G04': dict(inner=True, kind='pharm', door='alu', floor='f_granite', light='cool', door_x=1.4, door_w=1.2, notes=[('hours2', -1.2, 1.2, 0.4, 0.4)], clutter=[('aboard', -1.6, 0.35, 'menu'), ('boxes', -3.4, 0.3), ('pot', 3.5, 0.3)]),   # 公館藥局
-    'G05': dict(inner=True, kind='noodle', door='open', floor='f_concrete', light='warm', notes=[('menu', -2.4, 1.2, 0.6, 0.66)], clutter=[('stool_r', -3.5, 0.35), ('stool_r', -2.9, 0.4), ('bins', 2.6, 0.35)]),                       # 滷味・鹹酥雞
+    'G05': dict(inner=True, kind='luwei', door='open', floor='f_concrete', light='warm', notes=[('menu', -2.4, 1.2, 0.6, 0.66)], clutter=[('stool_r', -3.5, 0.35), ('stool_r', -2.9, 0.4), ('bins', 2.6, 0.35)]),                       # 滷味・鹹酥雞
     'G06': dict(inner=True, kind='bike', door='alu', door_x=0.2, door_w=2.4, floor='f_terrazzo', light='cool', notes=[('hours', 3.0, 1.3, 0.34, 0.34)]),                         # 輪轉單車（騎樓、櫥窗的車是遊戲擺的）
     'G07': dict(inner=True, kind='brunch', door='wood', floor='f_floral', light='warm', door_x=-2.4, door_w=1.0, notes=[('hours', -1.4, 1.25, 0.34, 0.34), ('pay', -0.95, 1.3, 0.26, 0.26)], clutter=[('aboard', -0.8, 0.4, 'chalk'), ('pot', 1.9, 0.3, 'broad'), ('bench', 3.2, 0.35), ('pot', 4.5, 0.3, 'broad')]),   # 咖啡・輕食
     'G08': dict(inner=True, kind='fruit', door='open', floor='f_concrete', light='warm', notes=[], clutter=[('crates', -1.8, 0.55), ('boxes', 2.6, 0.3)]),                                                      # 水果行
