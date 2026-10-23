@@ -460,6 +460,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-msgt]').forEach(b=>b.onclick=()=>{ const [pid,tp,sub]=b.dataset.msgt.split('|'); if(tp==='cancel'){ phoneMsgPick=null; phoneMsgShare=false; renderPhone(); return; } if(tp==='share'&&!sub){ phoneMsgShare=true; renderPhone(); return; }
       const r=MSG.send(G,pid,tp,sub); phoneMsgPick=null; phoneMsgShare=false; if(!r.ok) toast(r.why||'現在不能傳'); renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
+    body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
@@ -477,7 +478,7 @@ const GAME = (function(){
   function placeState(pl){ const [z,,sp]=pl; const known=!!(PLACES.known0[z]||(G.visited&&G.visited[z])); const open=typeof PLACES==='undefined'||PLACES.isOpen(z,G.hour,G.day); const mins=typeof CLS!=='undefined'?CLS.travelMinutes(G,G.zone,z,E.player.obj.position,sp):15; const here=G.zone===z&&(z!=='campus'||mins===0);
     const bike=!!E.player.riding, m=bike&&mins>0?Math.max(5,Math.round(mins/3.5/5)*5):mins;   /* 騎著腳踏車：大約是走路的 3.5 倍快（2026-10-15 調快；原本 2.5）（最少 5 分鐘）；進室內的地方車停在那棟的門外（bike3d.js）*/
     return {known,open,here,mins:m,bike}; }
-  async function quickGo(pl){ const [z,label,sp]=pl; const st=placeState(pl); if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } if(!st.known){ toast('還沒去過'+label+'。自己走去一次之後，就可以直接前往。',4000); return; } if(!st.open){ toast(typeof PLACES!=='undefined'?PLACES.closedText(z,G.hour,G.day):'已閉館',4500); return; } if(st.here){ toast(z==='campus'?'你就在這附近':'你已經在'+label+'了'); return; }
+  async function quickGo(pl,o){ const [z,label,sp]=pl; const st=placeState(pl); if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } if(!st.known&&!(o&&o.force)){   /* o.force：約好的地方（INV.goNow，UX-INV-GO-1023）沒去過也可以直接過去 */ toast('還沒去過'+label+'。自己走去一次之後，就可以直接前往。',4000); return; } if(!st.open){ toast(typeof PLACES!=='undefined'?PLACES.closedText(z,G.hour,G.day):'已閉館',4500); return; } if(st.here){ toast(z==='campus'?'你就在這附近':'你已經在'+label+'了'); return; }
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
     advance(st.mins/60); await enter(z,sp||undefined); toast((st.bike?'騎了 ':'走了 ')+st.mins+' 分鐘到'+label,2600); }
   GM.quickGo=quickGo;
@@ -573,7 +574,9 @@ const GAME = (function(){
         return '<button class="chatRow" data-th="'+escH(t.th)+'">'+(pf?'<span class="chatAv pic" style="background-color:hsl('+chatHue(t.th)+',30%,34%);background-image:url(\''+escH(pf)+'\')"></span>':'<span class="chatAv" style="background:hsl('+chatHue(t.th)+',36%,40%)">'+escH(a)+'</span>')+'<span class="chatMid"><b>'+escH(t.title)+'</b><span class="chatLast">'+escH(chatLast(t))+'</span></span><span class="chatRt"><span class="muted">'+chatWhen(t.last)+'</span>'+(t.unread?'<span class="chatBadge">'+t.unread+'</span>':'')+(ask?'<span class="chatAsk">待回覆</span>':'')+'</span></button>'; }).join('')+'</div>'; }
     h+='<div class="item muted" style="margin-top:8px">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>';
     return h; }
-  function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
+  function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+    const go=INV.canGo?(G.invites||[]).filter(iv=>(iv.state==='accepted'||iv.state==='going')&&iv.day===G.day).sort((a,b)=>a.h-b.h).map(iv=>INV.canGo(G,iv)?iv.id:null):[];   /* 和 todayLines 同一個順序；「前往」＝直接到約好的地方（UX-INV-GO-1023）*/
+    return '<div class="item"><b>今天約好的</b>'+L.map((t,i)=>go[i]!=null?'<div class="phrow"><div>'+esc(t)+'</div><button class="btn pri" data-invgo="'+esc(go[i])+'">前往</button></div>':'<div>'+esc(t)+'</div>').join('')+'</div>'; }
   function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); { const pb=$('phoneBody'); if(pb) pb.scrollTop=th?pb.scrollHeight:0; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）；打開列表：回到最上面（待回覆、最新的在最上面——BB 10-22 13:4x：列表留著上一次看對話捲到最下面的位置，大三暑假、大四寒假自動打開時看不到最上面那則待回覆）*/
   let phoneWaiters=[];
   /* 對話、選項出來的時候，手機、筆記本開著就先收起來（BB-C BB_218：起床約 4 秒後才出「早安。今天的課：」，玩家先打開手機，對話就壓在手機下面；
