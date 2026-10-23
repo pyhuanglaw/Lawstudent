@@ -219,15 +219,22 @@ const Y34B=(function(){
   S.sisRideKind=G=>(datingAny(G)||!fri('heroine_05')||exOf(G,'heroine_05'))?'family':'two';   /* 家族共乘＝祐廷交往中、或和她不到 FRIEND（前任也是）；兩個人＝雙方都單身、FRIEND 以上 */
   S.sisPhone=function(G){ const F=G.flags, a=D('sisAsk'), go=D('sisGo'), u0=D('us0'), end=D('m6End'); if(a==null||G.day<a||G.day>end+1||!law(G)||!inGrp(G,'family_law')) return;
     if(!US(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(go,8)){ const L=[GSIS('八月二號早上的飛機。'),GSIS('我搭客運去機場。大家不用送。')];   /* 新寫（AA_323 1B-18）；美國路線同一班飛機，不發 */
-      if(TW(G)&&fam('heroine_05')){ const kev=F.SAID_HAS_CAR?(mem('heroine_05','FAMILY_DINNER')?'直屬學弟的車！家聚那台！':'學弟有車！'):'你有車？？';
+      if(TW(G)&&fam('heroine_05')&&F.HOOK_SIS_SENDOFF==null){ const kev=F.SAID_HAS_CAR?(mem('heroine_05','FAMILY_DINNER')?'直屬學弟的車！家聚那台！':'學弟有車！'):'你有車？？';
         L[1].ask={id:'y4_sis_ride',until:T(go,0),opts:[{t:'我送妳。我有車。',set:{SIS_RIDE_ASK:'yes'},say:[{from:'kevin',name:'Kevin',text:kev}]}]}; }   /* 日本路線：照發，沒有按鈕 */
       at(G,a,G.day===a?Math.max(tzH(G,a,21),G.hour):G.hour,L,'y4_sis_ride'); }
+    /* AA_392 第 2-2 節：期末聚餐說了「那天我去送學姊。」（HOOK_SIS_SENDOFF）的臺灣路線玩家——7/26 21:05 她私訊（群組那則的 Kevin 按鈕不出）；
+       開車去載＝照原本（sisRideKind）；到機場等她＝8/2 08:30 機場出遊（ev_sis_airport_wait）；去不了＝客運版，09:00 那則前面多一句 */
+    if(TW(G)&&F.HOOK_SIS_SENDOFF!=null&&F.SIS_RIDE_ASK==null&&NOW(G)>=T(a,21+5/60)&&NOW(G)<T(go,0)){
+      const O=[]; if(F.SAID_HAS_CAR) O.push({t:'我開車去載妳。',set:{SIS_RIDE_ASK:'yes'}}); O.push({t:'我到機場等妳。',set:{SIS_RIDE_ASK:'airport'}},{t:'那天我去不了了。',set:{SIS_RIDE_ASK:'no'},say:[{from:'heroine_05',text:'好。'}]});
+      at(G,a,G.day===a?Math.max(tzH(G,a,21+5/60),G.hour):G.hour,[DM('heroine_05','八月二號早上八點，我家樓下。'),DM('heroine_05','你說要送我。',{ask:{id:'y4_sis_hook_dm',until:T(go,0),opts:O}})],'y4_sis_hook_dm'); }
+    if(F.SIS_RIDE_ASK==='airport'&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport_wait')&&NOW(G)<T(go,8.5))
+      OUT.plan(G,{id:'y4_sis_airport_wait',ev:'ev_sis_airport_wait',day:go,h:8.5,late:0.5,place:'桃園機場第二航廈・出境大廳',title:'到機場送學姊',travel:'機場捷運約 1 小時',travelH:1,hours:2,alarm:true,back:'回到台北。'});
     if(F.SIS_RIDE_ASK==='yes'&&F.SIS_RIDE==null&&NOW(G)<T(go,8)){ const k=S.sisRideKind(G); F.SIS_RIDE=k;
       if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'學妹',text:'我也要！'}],'y4_sis_ride_family');
       else at(G,G.day,G.hour+0.1,[DM('heroine_05','……你確定？到機場要一個多小時，還要上高速公路。'),ME('heroine_05','確定。'),DM('heroine_05','……好。')],'y4_sis_ride_two'); }
     if(F.SIS_RIDE&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:go,h:8,late:0.5,place:'學姊家樓下',title:'載學姊去機場',travel:'',travelH:0,hours:3,alarm:true,back:'回到台北。'});   /* 08:00 出發，開車去機場 */
-    if(TW(G)&&F.SIS_SENDOFF==null&&!F.SIS_RIDE&&NOW(G)>=T(go,9)){ F.SIS_SENDOFF='bus'; at(G,go,9,[GSIS('（照片：客運的窗外）'),GSIS('出發了。')],'y4_sis_bus'); }   /* 沒說要送：她搭客運 */
+    if(TW(G)&&F.SIS_SENDOFF==null&&!F.SIS_RIDE&&NOW(G)>=T(go,9)){ F.SIS_SENDOFF='bus'; at(G,go,9,(F.SIS_RIDE_ASK==='no'?[GSIS('說好的那個，沒關係。')]:[]).concat([GSIS('（照片：客運的窗外）'),GSIS('出發了。')]),'y4_sis_bus'); }   /* 沒說要送：她搭客運；私訊回「那天我去不了了。」的多一句（AA_392 第 2-2 節）*/
     /* US0（台灣、日本路線；8/3 09:00 台灣＝美東 8/2 21:00）*/
     if(!US(G)&&NOW(G)>=T(u0,9)&&!sent(G,'y4_us0')&&G.day<=u0+2){ F.US0_AT=T(u0,9);
       if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。'),DM('heroine_05','這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
@@ -568,10 +575,20 @@ const Y34B=(function(){
     {if:C(G=>G.flags.HOOK_SIS_SENDOFF!=null),speaker:'heroine_05',text:'……你說你會來。'},
     {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
     {speaker:'heroine_05',text:'回程路上喝。冰的。'},
+    {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（Kevin 去還推車的時候，她把口罩拉下來一下。）'},{if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* AA_392 第 2-4 節：交往中（家族共乘）*/
     {if:C(famV),speaker:'heroine_05',text:'……回到家，在群組說一聲。'},
     {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
+  /* AA_392 第 2-3 節：到機場等她（她搭客運來）；和車上那一版共用最後兩句的位置，開頭換成這兩行；記 SAW_HER_OFF（車上版照舊 DROVE_HER）*/
+  const AIRPORT_WAIT=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
+    {speaker:null,text:'（八點半。她從客運站那邊走過來，戴著口罩，一個行李箱。）'},
+    {if:C(G=>G.flags.HOOK_SIS_SENDOFF!=null),speaker:'heroine_05',text:'……你說你會來。'},
+    {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
+    {speaker:'heroine_05',text:'回程喝。'},
+    {if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* 第 2-4 節（交往中）；Kevin 還推車那行旁白是家族共乘的，這一版 Kevin 不在（問 AA）*/
+    {speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
+    {mem:[{npc:'heroine_05',tag:'SAW_HER_OFF',note:''}]},{set:{SIS_SENDOFF:'airport'}} ];
   const dSis=G=>dating(G,'heroine_05'), xSis=G=>exOf(G,'heroine_05'), kxUn=G=>kxIn(G)&&!kxKnows(G,'heroine_05');
   const DEPART_US=[ {if:C(dSis),speaker:'heroine_05',text:'護照、簽證、學校的文件。……你的拿出來，我看一次。'},   /* AA_370 L8：交換生多半是 J-1，文件不是 I-20，不寫死（原「護照、入學許可、I-20。」）*/
     {if:C(G=>dSis(G)&&!kxUn(G)),speaker:null,text:'（你媽媽塞了一袋鳳梨酥給學姊。）'},
@@ -733,6 +750,7 @@ const Y34B=(function(){
     { id:'ev_sis_birthday_video_y3', title:'學姊的生日（視訊）', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'dark', dialogue:BDAY_VIDEO },
     { id:'ev_sis_airport', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:3, dialogue:AIRPORT,
       outingMissed:G=>{ if(G.flags.SIS_SENDOFF==null) G.flags.SIS_RIDE=null; } },   /* 答應了沒去＝照「沒說要送」：她搭客運 */
+    { id:'ev_sis_airport_wait', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:AIRPORT_WAIT },   /* 沒到：她 09:00 照客運版傳（SIS_RIDE 沒有）*/
     { id:'ev_sis_depart_us', title:'一起出發', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:DEPART_US },
     { id:'ev_sis_gate_us', title:'登機口', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:GATE_US },
     { id:'ev_sis_note_bus', title:'便條', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, npcPresent:'heroine_03', background:'blur',

@@ -225,8 +225,9 @@ const date=id=>H.date(id);
   at('2028-08-03',9); phone();
   check('W1 8/3 私訊 US0「是因為那是高速公路。」', th('p:heroine_05').includes('是因為那是高速公路。')&&!th('g:family_law').includes('這裡的天空很大，大家保重。'));
   PHONE.post(H.G,{th:'p:heroine_05',from:'player',who:null,text:'謝謝'}); phone(); check('1B-18 回了 US0＝REPLIED_US0', H.G.flags.REPLIED_US0===true&&SOCIAL.has('heroine_05','REPLIED_US0'));
-  { fresh('2028-07-26',21,'dorm',{HOOK_SIS_SENDOFF:1}); H.FRIEND('heroine_05'); date('kexin'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
-    check('W2 交往中（別人）：Kevin「你有車？？」→「我也要去！我坐後面！」學妹「我也要！」', th('g:family_law').includes('你有車？？')&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！')&&!th('p:heroine_05').length);
+  { fresh('2028-07-26',21,'dorm',{HOOK_SIS_SENDOFF:1,SAID_HAS_CAR:true}); H.FRIEND('heroine_05'); date('kexin'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const gb=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_ride'); at('2028-07-26',21.1); phone(); answer('y4_sis_hook_dm',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
+    /* AA_392 第 2-2 節：說過要送的（HOOK_SIS_SENDOFF）群組那則沒有 Kevin 的按鈕，21:05 她私訊「八月二號早上八點，我家樓下。」「你說要送我。」→「我開車去載妳。」＝照原本的共乘 */
+    check('W2 交往中（別人）、說過要送：群組沒有按鈕；私訊回「我開車去載妳。」→「我也要去！我坐後面！」學妹「我也要！」', !(gb&&gb.ask)&&th('p:heroine_05').slice(0,2).join('|')==='八月二號早上八點，我家樓下。|你說要送我。'&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！'), JSON.stringify(th('p:heroine_05')));
     at('2028-08-02',7.9); await goOut('y4_sis_airport');
     check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
     at('2028-08-03',9); phone(); check('1B-18 家族共乘：US0 在家族群組「這裡的天空很大，大家保重。」', th('g:family_law').includes('這裡的天空很大，大家保重。')); }
