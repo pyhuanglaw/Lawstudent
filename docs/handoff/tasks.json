@@ -430,8 +430,8 @@
    "title": "evtest 載入時有一個資源 404",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：evtest.py 加 pg.on(\"response\") 印出 404 的網址確認；index.html 加 <link rel=\"icon\" href=\"data:,\"> ｜ 找出哪個檔案",
+   "status": "已整合待測試",
+   "next": "【LAWWW-B 10-23 19:2x】index.html 加 <link rel=\"icon\" href=\"data:,\">（瀏覽器不再去要 favicon.ico）；BB 下次跑 evtest 看還有沒有 404 ｜ 【LAWWW-C 2026-10-21 稽核 B1】沒做：evtest.py 加 pg.on(\"response\") 印出 404 的網址確認；index.html 加 <link rel=\"icon\" href=\"data:,\"> ｜ 找出哪個檔案",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -29563,7 +29563,7 @@
    "title": "check_handoff.py duty handoff 在職位分支（企劃線）跑不起來：「docs/handoff/duty.json 不存在」（BB 10-22 15:08 交班照 AA 的格式手寫 duty_BB.json）",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "META",
@@ -29577,7 +29577,7 @@
    },
    "source": "BB（帳號 A）15:09 交班回報",
    "authorized": "D82（交接工具）",
-   "next": "duty handoff 和 snapshot 一樣：本機沒有 duty.json 就從 GitHub 上的 RULE_SOURCE 讀（git show origin/<RULE_SOURCE>:docs/handoff/duty.json）；加單元測試"
+   "next": "【LAWWW-B 10-23 19:2x 對帳】已經修好：tools/handoff/duty_state.py 的 _role_ref（職位分支沒有 duty.json＝自己找 RULE_SOURCE 讀），tests/handoff_duty_sim.py 有這一項；等下一次職位交班實際用到 ｜ duty handoff 和 snapshot 一樣：本機沒有 duty.json 就從 GitHub 上的 RULE_SOURCE 讀（git show origin/<RULE_SOURCE>:docs/handoff/duty.json）；加單元測試"
   },
   {
    "id": "HANDOFF-B-1023",
