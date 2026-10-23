@@ -2313,6 +2313,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "店內窗景兩層（遠景＋去背近景、各自視差）：公館便利商店、書店、麵店、溫州街 Café；draw call／三角形和修改前相同"
+  },
+  {
+   "task": "WZ-CAT-LIFE-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "32e9ddf3",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/wz_cat_curl_adopt_1023.patch（zones3d.js，對開發 c42228351）",
+    "assets/models/env/second_ai/aa_support/wz_cat.glb＋.json（新增 CAT_curl）",
+    "tools/blender/env_second/aa_support/wz_cat.py、textures/gen/wz_cat_fur*.png",
+    "docs/art-rebuild/second_ai/test_shots/wz_cat_life_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "貓平常還不會走動（CAT_walk 有模型，要遊戲端的路線）；子晴那一場沒有蹲下抱貓的動畫；真機沒看過",
+   "next": "LAWWW：patch＋GLB 進開發分支；寒流那一週、收養以後各進一次溫州街看；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "寒流那一週（catCold）貓在涼亭石桌底下縮成一團（CAT_curl）；catAdopted 為 true 公園不顯示貓（每一格看）；看價目板 (25.4,−7.4)、子晴站位 (15.7,25.8) 導航檢查 ALL PASS"
   }
  ]
 }
