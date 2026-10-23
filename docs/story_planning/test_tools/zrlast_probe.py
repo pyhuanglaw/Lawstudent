@@ -925,6 +925,180 @@ R4 = [
        want=['中午吃什麼？我這三天都吃便利商店。', '校門對面那排有一間麵店，便宜，份量也夠。', '麵店喔，好。在哪？'], none=['阿鳳麵店'], cflags=['ZHE_W1_NOODLE'], eqflags={'ZHE_W1_NOODLE': True}),
 ]
 SCENS = SCENS + R4
+# ---------------------------------------------------------------- 清單第 38～42 項（LAWWW-B BB_SIS_B6_1023.md；開發分支 d23380d5e；BB-B 10-23）
+#   38 順手的事（系統）、39 八則（瀏覽器走得完的：SQ01、SQ02、SQ03、SQ08）、40 公園的貓被子晴收養、41 總圖借書、42 跨年認識判斷＋Alison 大二探班
+NGRP = " PHONE.join(G,'noodle_team','麵店團');"   # [前置] 在麵店團群組
+SQROLL = " SIDEQ.roll=()=>0;"   # 【捷徑】「偶爾」（35%）固定抽中：每一則都要在一次裡出得來（機率本身 tests/aa397_sideq_unit.js 測）
+def EATN(key, n): return " EAT.rec(G).n[%s]=%d;" % (json.dumps(key, ensure_ascii=False), n)   # [前置] 這間店點過 n 次（這一次點完＝第 n+1 次；5 次起店員認得你）
+CATN = " PARK.rec(G).catName='麻糬';"   # [前置] 公園的貓取過名字（麻糬）
+SQ08DONE = " SIDEQ.rec(G).SQ08={state:'done',step:'done',day:D('2026-10-05'),posted:D('2026-10-09'),doneDay:D('2026-10-09')};"   # [前置] SQ08 餵貓表早就貼了
+TODAYQ = "(()=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); const body=document.getElementById('phoneBody'); const s=body?body.innerText:''; const c=document.getElementById('btnPhoneClose'); if(c) c.click(); return s; })()"   # 手機「今天」那一頁的字
+def SQST(i): return "(r=>r?r.state+'/'+r.step:null)(SIDEQ.get(GAME.G,%s))" % json.dumps(i)
+ENTER = "(async([k,h,z])=>{ const G=GAME.G; G.day=STORY.dayOfKey(k); G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"   # 【捷徑】日子撥到 k h、直接進 z（中間幾天不走）
+def ENT(k, h, z): return ('jsrun', ENTER % json.dumps([k, h, z]), '日子撥到 %s %.2f、直接進 %s' % (k, h, z))
+SQ01_OPEN = ['有人給我一顆星。說湯是冷的。', '……我們乾麵沒有湯。']; SQ01_REV = '★☆☆☆☆　湯是冷的。等了十分鐘。不推。'
+SQ_YN = '「要我幫忙嗎？」｜「……加油。」'; SQ01_R = '「謝謝指教，乾麵本來就沒有湯，下次可以點餛飩湯。」｜「您點的是乾麵。」｜不回。'
+SQ01_DONE = ['★★★★☆　原來乾麵沒有湯，是我點錯了。老闆回得好有禮貌。', '（他的上一則評價寫的是：『大一，第一次自己來公館吃飯。』）']
+SQ02_OPEN = ['（她把一張紙壓在收銀機下面。）', '老闆說上禮拜打破的杯子，要從我薪水扣。三個，四百五。']
+SQ08_OPEN = ['你也是買給公園那隻的？', '今天你是第四個。']
+LIN = ('usep', '^點餐（林家乾麵）$'); TEA = ('usep', '^買一杯飲料$'); CVS = ('usep', '^結帳'); NOTICE = ('usep', '^看公布欄$')
+SQ2 = " { const R=SIDEQ.rec(G), t=SIDEQ.termKey(G); R.SQ02={state:'open',step:'wait',day:G.day-3,term:t,wait:G.day+30}; R.SQ04={state:'open',step:'ask',day:G.day-3,term:t}; }"   # [前置] 已經掛著兩則（別家店）
+FAFUD = "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev==='ev_sq02_fafu'); return q?q.day:null; })()"
+FAFUD1 = "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev==='ev_sq02_fafu'); return q?q.day+1:null; })()"
+CAT_EV0 = ['（鞦韆旁邊，子晴蹲在石桌前面，手機的手電筒照著桌子底下。）', '牠三天沒吃了。我每天都有看那張表。', '……我家有電暖器。']
+CAT_EVB = ['（牠很輕。比你記得的輕很多。）', '（她把外套脫下來，把牠包起來。牠沒有掙扎。）', '我做的那隻貓，是照牠畫的。你知道嗎。', '（她沒有等你回答。）']
+CAT_COLD = '（牠縮在石桌下面，沒有出來。罐頭放在牠面前，牠只聞了一下。）'; CAT_FUR = '（圓椅上有一點橘白色的毛，被風吹掉了一半。）'
+CAT_VET = ['（照片：獸醫院的診療台，牠縮在毛巾裡）', '感冒，老了。醫生說冬天不要待在外面。']
+ADOPT = '「麻糬已經被領養了。謝謝大家這幾年的照顧。牠現在在一個有電暖器的家。——里長」'; ADOPT_CHESS = '被一個常來盪鞦韆的女生帶走了。'
+TREE = ('usep', '^坐在老樹下的圓椅$')   # 走進公園、在老樹下坐一下（20 分鐘）再站起來＝人在公園裡
+L1_LINE = '這週的案例不用買書。總圖有一本《民法案例演習：總則篇》，看第二章就好。'; DESK = ('usep', '^服務台$')
+DESK_LOOK = '服務台：借書、還書、預約、館際合作都在這裡辦。館員抬頭看了你一眼，又低頭繼續處理一疊還回來的書。'
+LATE1 = '這本逾期了喔。還了就好。'
+def LKNOW(*ids): return ''.join(" G.flags.LOAN_KNOW_%s=G.day-10;" % i for i in ids)
+def LOANS_(*bd): return " G.loans=[%s];" % ','.join("{book:'%s',day:G.day-%d}" % (b, d) for b, d in bd)   # [前置] 借了的書（d＝幾天前借的）
+L1IN = "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await LOANS.inClass(GAME,{c:{id:'civ_general'},week:4},{name:'周教授'},{}); }catch(e){ console.warn('L1',e); } finally{ GAME.sceneEnd(); } })(); return true; })()"
+LOANQ = "(()=>(GAME.G.loans||[]).map(l=>l.book+'@'+(GAME.G.day-l.day)+(l.late!=null?'/late'+(GAME.G.day-l.late):'')))()"
+FORGET2 = " for(const id of ['heroine_01','classmate_xinci']){ const M=G.social.mem[id]; if(M) G.social.mem[id]=M.filter(m=>m.tag!=='FIRST_MET'); } G.flags.dating_heroine_01=false;"   # [前置] 不認識以安、芯慈
+KNOW2 = " LV('heroine_01',45,30,20); SOCIAL.remember('classmate_xinci','FIRST_MET','');"   # [前置] 認識以安、芯慈（芯慈：使用者存檔本來就認識）
+NYEG = "(t=>(GAME.G.msgs||[]).filter(m=>m.tag===t).map(m=>(m.from||'')+'：'+m.text))(%s)"
+NY3_ASKK = ['十一點半，頂樓。以安說她要來。', '我會到。', '我家吃完飯就過去，可能晚一點。']
+NY3_XC = ['（十一點五十，芯慈從樓梯間上來，還有點喘。）', '捷運好多人。', '我要趕捷運。']; NY3_AN = ['以安，妳行李收了嗎？', '還沒。三月才走。', '我也回去了。']
+NY3_ALL = ['（十一點半。阿哲和 Alison 已經在了，地上放著一袋鹹酥雞。）', '（倒數是 Alison 起的頭，數到三，大家才跟上。）', '下禮拜吃飯喔。']
+NY3_PH = ['📷（頂樓的合照，五個人，芯慈站在最旁邊）', '今年人到得最齊']
+NY4_XC = ['（十一點半。芯慈比你們都早到，已經把野餐墊鋪好了。）', '去年我就覺得這裡很冷。', '每年都冷。', '（倒數是芯慈起的頭，比電視早了一秒。）']
+NY4_ALL = ['今年看得到嗎？', '看得到一點。', '回去睡覺。']; NY4_PH = ['📷（野餐墊上的五個人，芯慈坐在正中間）', '今年我最早到。']
+NY4_ASK = ['十一點半，頂樓。', '宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。', '最後一年了耶', '所以要來']
+YUD = "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.dinner(GAME,{te:{who:'yu',kind:'friend',term:'Y2S2'}}); }catch(e){ console.warn('YUD',e); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GAME.sceneEnd(); } })(); return true; })()"
+YUQ = "(q=>q?CALENDAR.dateOf(q.day).key+' '+q.h+' '+q.state:null)(OUT.get(GAME.G,'c15_yu_camp2'))"
+C02Q = "(typeof VAC!=='undefined'&&VAC.enrolled)?!!VAC.enrolled(GAME.G,'C02','Y2'):'沒有 VAC'"
+CAMP2 = ['（操場上，一隊小朋友排成一排，跟在 Alison 後面。她脖子上掛著一個哨子。）', '我是小隊長了！……他們都不聽我的。', '（午餐的時候，一個小朋友伸手要拿她的雞塊。她早就把雞塊藏在碗底。）']
+CAMP_JUMP = ('jump', "STORY.dayOfKey('2027-07-17')", 11.0, '探班那天早上')
+R5 = [
+  # 38. 順手的事（系統）：店員認得你（第 5 次）才出；「要我幫忙嗎？」＝手機「今天」多一格；「……加油。」＝這學期不再出；一天一則；最多兩則；過期不扣數值
+  dict(id='SQ38_KNOW4', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 3) + SQROLL, steps=[LIN], pref=['乾麵（小）', '「要我幫忙嗎？」'],
+       none=SQ01_OPEN + [SQ_YN], jsok=[('SQ01 沒有掛（第 4 次，店員還不認得你）', SQST('SQ01'), None)]),
+  dict(id='SQ38_HELP', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL, steps=[LIN], pref=['乾麵（小）', '「要我幫忙嗎？」', '「謝謝指教'],
+       want=SQ01_OPEN + [SQ_YN, SQ01_REV, SQ01_R, 'TOAST:📝 順手的事：林家乾麵：一星評價'],
+       jsok=[('SQ01 掛著、等下次去', SQST('SQ01'), 'open/wait'),
+             ('手機「今天」多一格「順手的事」：標題、下一步', TODAYQ, lambda s: isinstance(s, str) and '順手的事' in s and '林家乾麵：一星評價' in s and '下次去林家乾麵' in s)]),
+  dict(id='SQ38_NO', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL, steps=[LIN, ('addday', 1), LIN], pref=['乾麵（小）', '「……加油。」'],
+       want=SQ01_OPEN + [SQ_YN], none=['TOAST:📝 順手的事', SQ01_REV],
+       jsok=[('「……加油。」＝不掛（declined）、隔天同一學期不再出', SQST('SQ01'), lambda x: isinstance(x, str) and x.startswith('declined')),
+             ('手機「今天」沒有「順手的事」', TODAYQ, lambda s: isinstance(s, str) and '順手的事' not in s)]),
+  dict(id='SQ38_DAYONCE', key='2026-10-06', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + EATN('巷口茶飲', 4) + SQROLL,
+       steps=[LIN, ('usep', '^離開林家乾麵$'), TEA], pref=['乾麵（小）', '「要我幫忙嗎？」', '「謝謝指教', '紅茶'],
+       want=SQ01_OPEN, none=SQ02_OPEN, jsok=[('同一天別家店（巷口茶飲）不再問', SQST('SQ02'), None)]),
+  dict(id='SQ38_MAX2', key='2026-10-06', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL + SQ2, steps=[LIN], pref=['乾麵（小）', '「要我幫忙嗎？」'],
+       none=SQ01_OPEN, jsok=[('已經兩則：林家不出第三則', SQST('SQ01'), None), ('手機「今天」兩則都在', TODAYQ, lambda s: isinstance(s, str) and s.count('☐') == 2)]),
+  dict(id='SQ38_LAPSE', key='2026-10-25', h=21.0, zone='cvs', flags=dict(TW3), js=EATN('公館的便利商店', 5) + SQROLL + CATN + " SIDEQ.rec(G).SQ08={state:'open',step:'board',day:D('2026-10-05'),term:'Y2S1',by:D('2026-10-19')};",
+       steps=[CVS, CVS], pref=['飯糰'], want=['餵貓那張表，我自己貼了。'], dmoney=-70,
+       jsok=[('過了期限＝lapsed（店員交代一次）', SQST('SQ08'), lambda x: isinstance(x, str) and x.startswith('lapsed'))]),   # 兩個飯糰 70 元，沒有別的扣錢
+  # 39. 八則：SQ01（林家）、SQ02（巷口茶飲＋法服）、SQ03（冰菓室價目板）、SQ08（便利商店＋公布欄＋象棋阿伯＋蘇姨）；SQ04～SQ07（118 巷四家）這一版沒寫
+  dict(id='SQ39_SQ01', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL,
+       steps=[LIN, ('addday', 1), LIN, ('addday', 1), LIN, ('usep', '^看菜單$')], pref=['乾麵（小）', '「要我幫忙嗎？」', '「謝謝指教'],
+       want=SQ01_OPEN + [SQ01_REV] + SQ01_DONE + ['小的，不加辣。……字是我寫的，醜。', '「乾麵沒有湯」', 'TOAST:📝 順手的事：林家乾麵：一星評價（做完了）'],
+       jsok=[('SQ01 做完', SQST('SQ01'), 'done/done')]),
+  dict(id='SQ39_SQ01_CURT', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL, steps=[LIN, ('addday', 1), LIN], pref=['乾麵（小）', '「要我幫忙嗎？」', '「您點的是乾麵。」'],
+       want=['★★☆☆☆　好吧。'], none=SQ01_DONE),
+  dict(id='SQ39_SQ01_NONE', key='2026-03-03', h=12.0, zone='wz_lin', flags=dict(TW3), js=EATN('林家乾麵', 4) + SQROLL, steps=[LIN, ('addday', 1), LIN], pref=['乾麵（小）', '「要我幫忙嗎？」', '不回。'],
+       want=['（隔天，評價下面多了一則老闆的回覆，三個字：『沒有湯。』）'], none=SQ01_DONE),
+  dict(id='SQ39_SQ02', key='2026-10-05', h=15.0, zone='wenzhou', flags=dict(TW3), js=EATN('巷口茶飲', 4) + SQROLL,
+       steps=[TEA, ('jump', FAFUD, 9.0, '法服初談那天早上'), ('until', 10.4), ('jump', FAFUD1, 15.0, '法服隔天下午'), TEA], pref=['紅茶', '「要我幫忙嗎？」', '「要不要帶去法服問？」', '出發：法服'],
+       want=SQ02_OPEN + ['可以先跟老闆好好談；需要的話，勞工局有免費的諮詢。', '（她回去跟老闆說了。老闆說：「我只是嚇嚇妳，誰叫妳一直講手機。」最後沒扣。）', '半糖少冰，對吧。……今天不算錢。'],
+       dmoney=-30, jsok=[('SQ02 做完', SQST('SQ02'), 'done/done')]),   # 第一杯 30 元，法服之後那一杯不算錢
+  dict(id='SQ39_SQ03', key='2027-07-10', h=14.0, zone='wenzhou', flags=dict(TW3), js=EATN('夏日冰菓室', 4) + SQROLL, steps=[('usep', '^買一碗冰$'), ('usep', '^看價目板$')], pref=['紅豆牛奶冰', '「要我幫忙嗎？」'],
+       want=['價目板曬到看不到了。你們讀書人字好看，幫我寫一下。', '（你寫到芒果冰那一行，老闆娘從冰櫃後面探出頭。）', '今年芒果貴。……可是寫上去不好看，你寫原來的價錢。', '（價目板是新的，芒果冰的價錢是舊的。）',
+             'TOAST:📝 順手的事：夏日冰菓室：褪色的價目板（做完了）'],
+       jsok=[('SQ03 做完、自己寫（以安不在）', "(r=>r?r.state+'/'+r.writer:null)(SIDEQ.get(GAME.G,'SQ03'))", 'done/me')]),
+  dict(id='SQ39_SQ08', key='2026-10-05', h=21.0, zone='cvs', flags=dict(TW3), js=EATN('公館的便利商店', 5) + SQROLL + CATN + " G.daily.catCansN=2;",
+       steps=[CVS, ENT('2026-10-06', 16.0, 'wenzhou'), NOTICE, ENT('2026-10-07', 9.0, 'wenzhou'), ('usep', '象棋'), ENT('2026-10-07', 14.0, 'wz_teahouse'), ('usep', '^喝茶$'),
+              ENT('2026-10-08', 21.0, 'cvs'), CVS, ENT('2026-10-09', 16.0, 'wenzhou'), NOTICE, ENT('2026-10-10', 16.0, 'wenzhou'), NOTICE],
+       pref=['小罐貓罐頭', '「要我幫忙嗎？」', '餵貓表', '不看了'],
+       want=SQ08_OPEN + ['（沒有任何餵貓的說明。）', '貓？我每天帶一點魚乾。牠比我準時。', '我中午會放一碗水。……牠不吃我的飯，只喝水。', '（大家都在餵。）', '我做一張表，你拿去貼。', '（你把表貼在公布欄的角落，用了四個圖釘。）',
+             'TOAST:📝 順手的事：便利商店：誰在餵公園的貓（做完了）', '（一格一天，誰餵誰簽名。）', '（有人在表的最下面加了一行：「星期日我來。——里長」）'],
+       once=SQ08_OPEN + ['（沒有任何餵貓的說明。）', '（大家都在餵。）', '我做一張表，你拿去貼。', '（你把表貼在公布欄的角落，用了四個圖釘。）'],
+       jsok=[('SQ08 做完', SQST('SQ08'), 'done/done')]),
+  # 40. 公園的貓被子晴收養（2028-12-11～17）
+  dict(id='CAT40_COLD', key='2028-12-12', h=16.0, zone='wenzhou', flags=dict(TWF), js=Y4 + NOKX + CATN + SQ08DONE, steps=[('usep', '^麻糬$'), NOTICE], pref=['餵貓表'],
+       want=[CAT_COLD, '（那一週的格子都寫著「沒吃」。）'], once=[CAT_COLD],
+       jsok=[('寒流：catCold、catUnder（3D 縮在石桌下）', "[PARK.catCold(GAME.G),PARK.catUnder(GAME.G)]", [True, True])]),
+  dict(id='CAT40_NIGHT_B', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), js=Y4 + ZQF + CATN + SQ08DONE,
+       steps=[TREE, ('until', 22.75), ('jump', "STORY.dayOfKey('2028-12-15')", 11.8, '隔天中午前'), ('until', 12.3), ('jump', "STORY.dayOfKey('2028-12-17')", 16.0, '12/17 下午'), NOTICE, ('usep', '^看圓椅$')],
+       pref=['「我幫妳抱。」', '領養'], want=CAT_EV0 + CAT_EVB + [ADOPT, CAT_FUR], wantMsg=CAT_VET, none=['先帶去看醫生。……之後再說。'], once=CAT_EV0 + CAT_EVB + [CAT_FUR],
+       cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True},
+       jsok=[('收養以後：catGone、按鈕「看圓椅」、看過一次就藏起來', "[PARK.catGone(GAME.G),PARK.catLabel(GAME.G),PARK.catHidden(GAME.G)]", [True, '看圓椅', True])]),
+  dict(id='CAT40_NIGHT_A', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), js=Y4 + ZQF + CATN + SQ08DONE, steps=[TREE, ('until', 22.75)], pref=['「妳要帶牠回去？」'],
+       want=CAT_EV0 + ['先帶去看醫生。……之後再說。'] + CAT_EVB[1:], none=CAT_EVB[:1], cflags=['ZQ_CAT_NIGHT'], eqflags={'ZQ_CAT_NIGHT': True}),
+  dict(id='CAT40_STRANGER', key='2028-12-14', h=21.75, zone='wenzhou', flags=dict(TWF), js=Y4 + NOKX + CATN + SQ08DONE,
+       steps=[TREE, ('until', 22.75), ('jump', "STORY.dayOfKey('2028-12-17')", 9.0, '12/17 早上'), ('usep', '象棋'), NOTICE], pref=['領養'],
+       want=[ADOPT_CHESS, ADOPT], none=CAT_EV0[:1], noneMsg=CAT_VET, once=[ADOPT_CHESS],
+       jsok=[('不認識子晴：12/14 23:00 以後貓也不在了（按鈕「看圓椅」）', "[PARK.catGone(GAME.G),PARK.catLabel(GAME.G)]", [True, '看圓椅'])]),
+  dict(id='CAT40_PHOTO_D', key='2029-02-03', h=11.8, zone='dorm', flags=dict(TWF), js=Y4 + ZQD + CATN + " G.flags.ZQ_CAT_NIGHT=true;", asks={'sqcat_visit': '（去看貓）'}, steps=[('until', 12.3), ('until', 12.7)], pref=[],
+       wantMsg=['牠睡在電暖器前面一整天。我也是。'],
+       jsok=[('交往中：回「（去看貓）」＝隔天 14:00「去看貓」（她家）', "(q=>q?CALENDAR.dateOf(q.day).key+' '+q.h+' '+q.place:null)(OUT.get(GAME.G,'sq_cat_visit2'))", '2029-02-04 14 子晴的家')]),
+  dict(id='CAT40_PHOTO_F', key='2029-02-03', h=11.8, zone='dorm', flags=dict(TWF), js=Y4 + ZQF + CATN + " G.flags.ZQ_CAT_NIGHT=true;", steps=[('until', 12.3)], pref=[],
+       wantMsg=['牠睡在電暖器前面一整天。我也是。'], jsok=[('沒交往：照片不能回「（去看貓）」', ASKOPT % json.dumps('sqcat_visit1'), None)]),
+  # 41. 總圖借書（總圖大廳的服務台）
+  dict(id='LOAN41_NONE', key='2025-10-08', h=14.0, zone='library_hall', flags=dict(TW3), js='', steps=[DESK], pref=[], want=[DESK_LOOK], none=['借《', 'TOAST:借了'],
+       jsok=[('舊存檔（沒有 G.loans）＝沒借過', LOANQ, [])]),
+  dict(id='LOAN41_L1', key='TERMDAY:Y1S1:4:4', h=13.0, zone='library_hall', flags=dict(TW3), js='', steps=[('jsrun', L1IN, 'LOANS.inClass（大一上民總第 4 週課堂那一句）'), DESK], pref=['借《民法案例演習'],
+       want=[L1_LINE, 'TOAST:借了《民法案例演習：總則篇》'],
+       jsok=[('借了 L1（今天）', LOANQ, ['L1@0']), ('房間書桌多一本', ROOMX % json.dumps('借來的《民法案例演習：總則篇》'), lambda x: isinstance(x, list) and len(x) == 1)]),
+  dict(id='LOAN41_MAX2', key='2026-10-15', h=14.0, zone='library_hall', flags=dict(TW3), js=LKNOW('L1', 'L2', 'L3') + LOANS_(('L1', 5), ('L2', 5)), steps=[DESK], pref=['借《判決怎麼讀》'],
+       want=['還《民法案例演習：總則篇》', '還《憲法解釋的故事》', 'TOAST:一次最多借兩本。'], jsok=[('還是兩本', LOANQ, ['L1@5', 'L2@5'])]),
+  dict(id='LOAN41_DUE', key='2026-10-15', h=8.7, zone='dorm', flags=dict(TW3), js=LKNOW('L2') + LOANS_(('L2', 25)), steps=[('until', 9.3)], pref=[],
+       wantMsg=['總圖：《憲法解釋的故事》三天後到期。'], countMsg={'總圖：《憲法解釋的故事》三天後到期。': 1}),
+  dict(id='LOAN41_LATE_LEAVE', key='2026-10-15', h=14.0, zone='library_hall', flags=dict(TW3), js=LKNOW('L1') + LOANS_(('L1', 30)), steps=[DESK, DESK], pref=['（離開）'],
+       want=[LATE1], dmoney=0, jsok=[('逾期記一次、書還在', LOANQ, ['L1@30/late0'])]),
+  dict(id='LOAN41_LATE_RET', key='2026-10-15', h=14.0, zone='library_hall', flags=dict(TW3), js=LKNOW('L1') + LOANS_(('L1', 30)), steps=[DESK], pref=['還《民法案例演習'],
+       want=[LATE1, '這本這學期很多人借。下一個已經在等了。', 'TOAST:還了《民法案例演習：總則篇》'], dmoney=0,
+       jsok=[('還了（LOAN_RET.L1＝今天）', "(r=>r&&r.L1!=null?GAME.G.day-r.L1:null)(GAME.G.flags.LOAN_RET)", 0), ('手上沒有書', LOANQ, [])]),
+  dict(id='LOAN41_L2_KNOW', key='2025-11-12', h=21.5, zone='wancai', flags=dict(TW3), js=" LV('heroine_01',45,30,20);", steps=[('runev', 'ev_loan_l2_know')], pref=[],
+       want=['總圖有一本《憲法解釋的故事》。我高中就讀過。很好讀。'], jsok=[('知道 L2', "!!LOANS.known(GAME.G,'L2')", True)]),
+  dict(id='LOAN41_L2_BACK', key='2025-11-19', h=21.5, zone='wancai', flags=dict(TW3), js=" LV('heroine_01',45,30,20);" + LKNOW('L2') + " G.flags.LOAN_RET={L2:G.day-2};", steps=[('runev', 'ev_loan_l2_back')], pref=[],
+       want=['讀完了？……第六章那個案子，我想下次講。'],
+       jsok=[('【讀資料】條件：還書以後（今天 > 還書那天）', "!!STORY_EVENTS.find(e=>e.id==='ev_loan_l2_back').prereq.custom(GAME.G)", True)]),
+  dict(id='LOAN41_L3_KNOW', key='2026-10-14', h=15.0, zone='lawlib', flags=dict(TW3), js=SISF, steps=[('runev', 'ev_sis_db_taught')], pref=[],
+       want=['總圖有一本《判決怎麼讀》。借舊版，新版把第三章刪了。'], jsok=[('知道 L3', "!!LOANS.known(GAME.G,'L3')", True)]),
+  dict(id='LOAN41_L3_BACK_A', key='2027-03-08', h=19.6, zone='cafe', flags=dict(TW3), js=SISF + SIS_GD + LKNOW('L3') + " G.flags.LOAN_RET={L3:G.day-7};", steps=[('talk', 'heroine_05'), ('talk', 'heroine_05')], pref=['「讀了。」'],
+       want=['第三章讀了嗎。', '嗯。那章是我大一讀的。'], none=['那你借太早了。'], jsok=[('只問一次（LOAN_L3_ASKED）', "GAME.G.flags.LOAN_L3_ASKED===GAME.G.day", True)]),
+  dict(id='LOAN41_L3_BACK_B', key='2027-03-08', h=19.6, zone='cafe', flags=dict(TW3), js=SISF + SIS_GD + LKNOW('L3') + " G.flags.LOAN_RET={L3:G.day-7};", steps=[('talk', 'heroine_05')], pref=['「還沒。」'],
+       want=['第三章讀了嗎。', '那你借太早了。'], none=['嗯。那章是我大一讀的。']),
+  dict(id='LOAN41_L4_KNOW', key='2026-10-20', h=20.6, zone='dorm', flags=dict(TW3), js=" LV('heroine_02',45,30,20); G.contacts=G.contacts||{}; G.contacts.heroine_02=D('2026-09-20'); SOCIAL.remember('heroine_02','ZR3_SUBTITLE','');",
+       steps=[('until', 21.3)], pref=[], wantMsg=['總圖有一本講字幕的書。《一行十四個字》。', '……我大一借了三次。'], jsok=[('知道 L4', "!!LOANS.known(GAME.G,'L4')", True)]),
+  dict(id='LOAN41_L4_BACK', key='2026-11-10', h=19.5, zone='library_hall', flags=dict(TW3), js=" LV('heroine_02',45,30,20); G.contacts=G.contacts||{}; G.contacts.heroine_02=D('2026-09-20');" + LKNOW('L4') + LOANS_(('L4', 9)),
+       steps=[DESK, ('until', 21.3)], pref=['還《一行十四個字》'], want=['TOAST:還了《一行十四個字》'], wantMsg=['你真的借了。……第八章是我最喜歡的。']),
+  dict(id='LOAN41_L4_UK', key='2027-10-12', h=19.5, zone='library_hall', flags=dict(TW3), js=" LV('heroine_02',45,30,20); G.contacts=G.contacts||{}; G.contacts.heroine_02=D('2026-09-20');" + LKNOW('L4') + LOANS_(('L4', 9)),
+       steps=[DESK, ('until', 21.3)], pref=['還《一行十四個字》'], want=['TOAST:還了《一行十四個字》'], noneMsg=['你真的借了。……第八章是我最喜歡的。']),   # 她在英國（2027-09-02～2028-02-18）不傳
+  # 42. 跨年認識判斷（大三、大四）：不認識以安、芯慈＝群組只有阿哲兩則、頂樓沒有她們的句子、沒有寫著芯慈的照片；認識＝照舊
+  dict(id='NY42_Y3_KNOW_GO', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 24.3)], pref=['出發：跨年'],
+       wantMsg=NY3_ASKK, want=NY3_ALL + NY3_AN + NY3_XC),
+  dict(id='NY42_Y3_STRANGER_GO', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + FORGET2, steps=[('until', 24.3)], pref=['出發：跨年'],
+       want=NY3_ALL, none=NY3_AN + NY3_XC, noneMsg=NY3_ASKK,
+       jsok=[('群組只有阿哲兩則', NYEG % json.dumps('nye_y3_ask'), ['zhe：十一點半，頂樓。', 'zhe：宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'])]),
+  dict(id='NY42_Y3_KNOW_MISS', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 24.3)], pref=['不去了'],
+       wantMsg=NY3_ASKK + NY3_PH, none=NY3_ALL[:1]),
+  dict(id='NY42_Y3_STRANGER_MISS', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + FORGET2, steps=[('until', 24.3)], pref=['不去了'],
+       noneMsg=NY3_ASKK + NY3_PH, jsok=[('沒有寫著芯慈的照片', NYEG % json.dumps('nye_y3_photo'), [])]),
+  dict(id='NY42_Y4_KNOW_GO', key='2028-12-31', h=20.9, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + NGRP + KNOW2, steps=[('until', 24.3)], pref=['出發：跨年'],
+       wantMsg=NY4_ASK, want=NY4_XC + NY4_ALL),
+  dict(id='NY42_Y4_STRANGER_GO', key='2028-12-31', h=20.9, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + NGRP + FORGET2, steps=[('until', 24.3)], pref=['出發：跨年'],
+       wantMsg=NY4_ASK, want=NY4_ALL, none=NY4_XC),
+  dict(id='NY42_Y4_KNOW_MISS', key='2028-12-31', h=20.9, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + NGRP + KNOW2, steps=[('until', 24.2), ('bedpick', '睡到')], pref=['不去了'],
+       wantMsg=NY4_PH, none=NY4_XC[:1]),
+  dict(id='NY42_Y4_STRANGER_MISS', key='2028-12-31', h=20.9, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + NGRP + FORGET2, steps=[('until', 24.2), ('bedpick', '睡到')], pref=['不去了'],
+       noneMsg=NY4_PH, jsok=[('沒有寫著芯慈的照片', NYEG % json.dumps('nye_y4_photo'), [])]),
+  # 42. Alison 大二下期末吃飯「暑假營隊我當小隊長。」→「我去探班。」→ 2027-07-17 12:00 營地；沒去＝21:00「小隊長還活著！」；不會被報名系學會的高中營 C02
+  dict(id='AL42_GO', key='2027-06-11', h=19.0, zone='campus', flags=dict(TW3, met_yu=True), js=NOKX, steps=[('jsrun', YUD, 'TERMEND.dinner（Alison 大二下期末吃飯）'), CAMP_JUMP, ('until', 12.9)], pref=['「我去探班。」'],
+       want=['暑假營隊我當小隊長。'] + CAMP2 + ['他們最會偷雞塊。要先藏好。'], none=['去年被偷過，今年學乖了。'],
+       jsok=[('C15 探班 7/17 12:00（演完）', YUQ, lambda x: isinstance(x, str) and x.startswith('2027-07-17 12 ')), ('不報名系學會的高中營 C02', C02Q, False)]),
+  dict(id='AL42_GO_Y1', key='2027-06-11', h=19.0, zone='campus', flags=dict(TW3, met_yu=True), js=NOKX + " G.flags.C15_DONE=Object.assign(G.flags.C15_DONE||{},{yu_camp:D('2026-07-11')});",
+       steps=[('jsrun', YUD, 'TERMEND.dinner（Alison 大二下期末吃飯）'), CAMP_JUMP, ('until', 12.9)], pref=['「我去探班。」'],
+       want=CAMP2 + ['去年被偷過，今年學乖了。'], none=['他們最會偷雞塊。要先藏好。']),   # [前置] 大一去過 yu_camp
+  dict(id='AL42_MISS', key='2027-06-11', h=19.0, zone='campus', flags=dict(TW3, met_yu=True), js=NOKX, steps=[('jsrun', YUD, 'TERMEND.dinner（Alison 大二下期末吃飯）'), CAMP_JUMP, ('until', 21.3)], pref=['「我去探班。」', '不去了'],
+       wantMsg=['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）', '小隊長還活著！'], none=CAMP2[:1], jsok=[('不報名系學會的高中營 C02', C02Q, False)]),
+]
+SCENS = SCENS + R5
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
