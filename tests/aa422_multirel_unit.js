@@ -47,9 +47,9 @@ await sec(1,async()=>{
   check('1. 以安的三個選項',J(H.opts[0])===J(['「……對。」','「我也不知道。」','「沒有啦，就出來走走。」']),J(H.opts));
   check('1. 一位一次：問過就不再問',!X().askDue(H.G,A1));
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); H.picks=['沒有啦']; await X().dateOpen(GM,{who:A1});
-  check('1. 以安「沒有啦，就出來走走。」→「好。」（她走在前面，一直沒有回頭。）＝YT_DODGED',seq(['好。','（她走在前面，一直沒有回頭。）'])&&H.G.flags.YT_DODGED[A1]===true&&!(H.G.flags.YT_HONEST||{})[A1]);
+  check('1. 以安「沒有啦，就出來走走。」→「好。」（她走在前面，一直沒有回頭。）＝YT_DODGED；前面劇本的「對。」照實＝YT_HONEST（BB_194 §24）',seq(['好。','（她走在前面，一直沒有回頭。）'])&&H.G.flags.YT_DODGED[A1]===true&&(H.G.flags.YT_HONEST||{})[A1]===true);
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); H.picks=['我也不知道']; await X().dateOpen(GM,{who:A1});
-  check('1. 以安「我也不知道。」→「那你想清楚再跟我講。我不喜歡猜。」（不記）',H.has('那你想清楚再跟我講。我不喜歡猜。')&&!(H.G.flags.YT_HONEST||{})[A1]&&!(H.G.flags.YT_DODGED||{})[A1]);
+  check('1. 以安「我也不知道。」→「那你想清楚再跟我講。我不喜歡猜。」（選項不記；劇本的「對。」＝YT_HONEST）',H.has('那你想清楚再跟我講。我不喜歡猜。')&&(H.G.flags.YT_HONEST||{})[A1]===true&&!(H.G.flags.YT_DODGED||{})[A1]);
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,SIS); H.G.flags.dating_heroine_05=true;
   check('1. 以安叫學姊「書瑀學姊」（AA_422 0-4）',X().ctx(H.G,A1,SIS).her==='書瑀學姊'&&X().nameFor(H.G,A1,ZQ)==='資工那個高子晴'&&X().nameFor(H.G,A1,ZR)==='Café 那個店員');
   fresh('2026-10-20',15,'campus',{dating_kexin:true,dating_heroine_01:true}); H.CLOSE(A1); learn(A1,SIS);
@@ -415,7 +415,7 @@ await sec(5,async()=>{
   const G0={v:3,day:400,hour:12,flags:{dating_kexin:true},events:{done:{}},name:'祐廷',social:null,rel:{}}; ROM.rec(G0);
   check('5. 舊存檔：ROM.rec 讀檔時補 YT_CONFESSED／YT_PROMISED／YT_BROKE_PROMISE／YT_LIED／OPEN_OK／YT_HONEST／YT_DODGED＝{}',['YT_CONFESSED','YT_PROMISED','YT_BROKE_PROMISE','YT_LIED','OPEN_OK','YT_HONEST','YT_DODGED'].every(k=>J(G0.flags[k])==='{}'));
   const G1={v:3,day:400,hour:12,flags:{dating_kexin:true,YT_HONEST:{heroine_01:true},OPEN_OK:{heroine_01:{kexin:true}}},events:{done:{}},name:'祐廷',social:null,rel:{}}; ROM.rec(G1); X().rec(G1);
-  check('5. 已經有的紀錄不改；MREL 第一次讀就建空的',G1.flags.YT_HONEST.heroine_01===true&&G1.flags.OPEN_OK.heroine_01.kexin===true&&J(Object.keys(G1.flags.MREL).sort())===J(['block','disc','gh','once','pend','prom','scan','st','v','zr','zz'].sort()));
+  check('5. 已經有的紀錄不改；MREL 第一次讀就建空的',G1.flags.YT_HONEST.heroine_01===true&&G1.flags.OPEN_OK.heroine_01.kexin===true&&J(Object.keys(G1.flags.MREL).sort())===J(['block','disc','gh','like','liked','once','pend','prom','scan','st','v','zr','zz'].sort()));
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.G.stage='econ'; H.CLOSE(A1); learn(A1,KX);
   check('5. 經濟系那一年：都不演',!X().askDue(H.G,A1)&&(X().scan(H.G),!Object.keys(X().rec(H.G).pend).length));
 });

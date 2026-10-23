@@ -6,7 +6,8 @@
      presence 已改台南（AA_282 第 5 節第 1、3 點，任務 PS-TAINAN-AA282）：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn，回程高鐵約一小時四十分鐘）、寒暑假「我去台中找妳？」。
      沒交往、放榜後還沒重新聯絡上的玩家（presence 的 lost，AA_282 第 2 節：她不先找人）不出現。沒有視訊的選項（沒交往的不開視訊，AA_282 第 3 節）。
    - 閒聊階梯（AA_282 第 3 節）：沛珊大三上～大四下的階梯是 context:'date'，只在私下約推進——去台南那一天演完地方那一段、送上車以前接著聊一層（S.LADDER；一次推進一層，寒暑假沒有學期＝不推進）。
-   測試：node tests/r3_events_unit.js 第 16 節、node tests/peishan_tainan_unit.js */
+   - 多線交往（src/multirel3d.js MREL.hvMeet）：沛珊那一天（地方那一段演完、閒聊階梯以前）、消失期那個下午、交往中的視訊，演宥辰的第三次、《換我講一件事》、祐廷先坦白、挽回（AA_422 7-3、AA_423 6-1）。
+   測試：node tests/r3_events_unit.js 第 16 節、node tests/peishan_tainan_unit.js、node tests/mrel_ps_turn_unit.js */
 'use strict';
 const HV=(function(){
   const S={};
@@ -50,6 +51,8 @@ const HV=(function(){
   const place=async(GM,P)=>{ if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark'); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',P.scene); if(GM.caption) GM.caption('',P.scene,2400); if(GM.sleep) await GM.sleep(700); };
   const toEvening=GM=>{ const G=GM.G; if(G.hour<17) GM.advance(17-G.hour); };   /* 傍晚送上車：17:00；回程的車程是事件的 hours */
   const beforeSend=async(GM,q)=>{ if(typeof OUT!=='undefined'&&OUT.runAfter) await OUT.runAfter(GM,q,null); };   /* 出遊的結尾、分開以前（OUT.AFTER；例：AA_338 第 3 題打賭的宵夜那句）＝送上車以前 */
+  /* 多線交往（src/multirel3d.js，AA_422 7-3、AA_423 6-1）：沛珊在台南（消失期在台中）的那幾年，「去找她的那一次」演宥辰的第三次、《換我講一件事》、祐廷先坦白、挽回；視訊也接（宥辰、坦白、挽回）*/
+  const mrel=async(GM,id,q,v)=>{ if(typeof MREL==='undefined'||!MREL.hvMeet) return false; try{ return await MREL.hvMeet(GM,id,q,v); }catch(e){ console.warn('HV mrel',e); return false; } };
   S.pickVariant=function(G,id,keep,key){ const k=key||id, C=L(k); if(keep) return 'keep'; const N=G.flags.HV_N||(G.flags.HV_N={}), n=N[k]|0;   /* key：別的城市那一組（台南）各自算第幾次 */
     const seq=q=>q===0?'first':C.again[(q-1)%C.again.length].key;
     /* HV_PRE[k]＝{v,at}：算進 HV_N、但不是在這裡演的那一趟，演的是 again 的哪一版（v）、那時候已經去過幾次（at）。
@@ -60,7 +63,7 @@ const HV=(function(){
   S.play=async function(GM,q){ const G=GM.G, hv=q&&q.hv, id=hv&&hv.id, key=(hv&&hv.key)||id, C=L(key); if(!C) return false; const dt=dating(G,id), v=S.pickVariant(G,id,hv.keep&&!!C.keep,key);
     if(C.fare&&GM.money) GM.money(-C.fare,'交通');   /* 高鐵來回（出發的時候付）*/
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg((v==='keep'?C.keep.pick:C.pick).bg):'dark'});
-    if(v==='keep'){ await play(GM,id,C.keep.pick.lines); await place(GM,C.keep.place); await play(GM,id,C.keep.place.lines); toEvening(GM); await beforeSend(GM,q); await play(GM,id,C.keep.send); G.flags.HV_KEEP_LAST=G.day; return true; }
+    if(v==='keep'){ await play(GM,id,C.keep.pick.lines); await place(GM,C.keep.place); await play(GM,id,C.keep.place.lines); await mrel(GM,id,q,'keep'); toEvening(GM); await beforeSend(GM,q); await play(GM,id,C.keep.send); G.flags.HV_KEEP_LAST=G.day; return true; }
     const n0=(G.flags.HV_N||{})[key]|0, mu=S.museumDue(G,id,key,q);   /* mu：這一趟是心願事件「台南・美術館」（AA_349 K3）*/
     await play(GM,id,(n0>0&&C.pickAgain?C.pickAgain:C.pick).lines);
     if(id==='kexin'&&typeof KXKHH!=='undefined'&&KXKHH.pickLine){ const t=KXKHH.pickLine(G); if(t) await play(GM,id,[t]); }   /* AA_401 第 3 節：學期末約會答應過的那一次寒暑假，第一次去，接人之後多一句 */   /* 第二次以後的接人換句（第 7 節第 1 點）；看去過幾次、不看演哪一版（1/14 去過的下一次演 first，接人照樣是 pickAgain，AA_343 A4）*/
@@ -70,6 +73,7 @@ const HV=(function(){
       const P=v==='first'?C.first:C.again.find(a=>a.key===v); await place(GM,P); await play(GM,id,P.lines); if(dt&&P.dating) await play(GM,id,P.dating);
       const O=(P.opts||[]).filter(o=>!o.dating||dt); if(O.length){ const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'}))); await GM.say({name:G.name||'祐廷'},O[k].t); await play(GM,id,O[k].say); }
       if(typeof C.extra==='function') await play(GM,id,C.extra(G)||[]); }   /* 那一組自己多的一段（台南：沒交往的玩家當面看孩子的作業，AA_328 3-19 裁定 25）*/
+    await mrel(GM,id,q,v);
     await S.ladder(GM,id);   /* 私下約接著聊一層閒聊階梯（AA_282 第 3 節；AA_349 K4：去台中那一天也算）*/
     toEvening(GM); await beforeSend(GM,q); if(C.send.narr) await GM.say(null,C.send.narr); await play(GM,id,(x=>typeof x==='function'?x(G):x)(dt?C.send.dating:C.send.other));   /* 送行句可以照日子換（沛珊：考上台南以前／以後）*/
     const N=G.flags.HV_N||(G.flags.HV_N={}); N[key]=n0+1; (G.flags.HV_LAST||(G.flags.HV_LAST={}))[key]=G.day;
@@ -132,7 +136,7 @@ const HV=(function(){
     msg(G,id,'player',V.ask); await GM.say({name:(G.name||'祐廷')+'（手機）'},V.ask);
     const F=G.flags, R=F.PS_VIDEO&&typeof F.PS_VIDEO==='object'?F.PS_VIDEO:(F.PS_VIDEO={}), wk=monOf(G.day); if(R.wk!==wk){ R.wk=wk; R.n=0; } R.n=(R.n|0)+1; const i=(R.rot|0)%V.open.length; R.rot=i+1; R.day=G.day;
     const A=typeof ADV!=='undefined'?ADV:null; if(A&&A.begin) A.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg('video'):'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('','視訊',2000);
-    try{ await play(GM,id,V.open[i]); await S.ladder(GM,id,'video'); await play(GM,id,V.close); if(GM.advance) GM.advance(0.5); } finally { if(A&&A.active&&A.end) A.end(); }
+    try{ await play(GM,id,V.open[i]); await mrel(GM,id,null,'video'); await S.ladder(GM,id,'video'); await play(GM,id,V.close); if(GM.advance) GM.advance(0.5); } finally { if(A&&A.active&&A.end) A.end(); }
     if(GM.autosave) GM.autosave(); return true; };
   /* 閒聊階梯只在私下約推進的人（AA_282 第 3 節：沛珊大三上～大四下的階梯 context:'date'，和可昕一樣；outings3d.js 可昕那段是演完見面接一層）。
      那一學期她的階梯不是 date（大一、大二）＝不在這裡推進（照 3D 搭話）；今天推進過、條件不到＝不聊（不用短招呼）。

@@ -36,6 +36,8 @@ const msgs=th=>(H.G.msgs||[]).filter(m=>!th||m.th===th).map(m=>m.text);
 (async()=>{
 check('0. 兩個檔都載得到；每週的視訊 ZRUK.playW 包上',ok&&!!X()&&!!ZRUK._mrel,err);
 if(!X()){ H.done(); return; }
+/* 結果「接受同時交往」那一格照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；遊戲裡現在七位都是 false）：這個檔測「接受」那幾句，所以這裡打開；false 的情形在 tests/mrel_ps_turn_unit.js */
+for(const k in ROM.PARAMS.acceptsOpen) ROM.PARAMS.acceptsOpen[k]=true;
 
 /* ---------------- 1. 以安 ---------------- */
 await sec(1,async()=>{

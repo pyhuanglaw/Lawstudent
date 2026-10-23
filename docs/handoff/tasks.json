@@ -18960,7 +18960,7 @@
    "title": "YT_HONEST／YT_DODGED／YT_LIED 照 BB_194 §24（1769c7ce）在各場設：選項標 yt:'honest'|'dodge'|'claimEnded'|'claimNone'，claim 比 REL_STATE（和事實相反＝YT_LIED[X][Y]，真的＝YT_HONEST）；劇本固定照實的台詞直接記 YT_HONEST；以安 3-2、學姊 4-3、子晴 6-2/6-3、芷若 6-2、沛珊語彤 AA_228、發現當場的誤會",
    "area": "ROM",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "next": "【LAWWW-C 2026-10-21 12:5x UTC】機制做了（1b85137e：ROM.ytAnswer，選項標 yt／ytHer／ytAbout）；AA_227、AA_228 那幾場遊戲裡還沒有＝實際遊玩門檻還過不了；要 AA 排那幾場（已問） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 BB_194 §24（1769c7ce）在被問到的各場選項加 yt 標記（以安 3-2、學姊 4-3、子晴 6-2／6-3、芷若 6-2、沛珊語彤 AA_228、發現當場），claim 比 REL_STATE 設 YT_LIED[X][Y]／YT_HONEST ｜ 期末飯知情門檻（551587ed）讀這三個旗標；設的那幾場在交往被發現的流程裡，照 D81 跟著那幾場做",
    "first": {
@@ -18989,7 +18989,8 @@
      "evidence": "YT_HONEST／YT_DODGED／YT_LIED 只在 src/termend3d.js:34-46（KNOWS_OK 期末飯知情門檻）被讀，全 src 沒有任何地方設（grep 沒有 yt:'honest' 等選項標記）；r2y4a3d.js:48 也註明「遊戲裡沒有說謊的機制」",
      "note": "誠實／說謊旗標只有讀、沒有設"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:3x LAWWW-B：子代理照 BB_194 §24（1769c7ce）標 YT_HONEST（以安「對。」、子晴「有啊。」、芷若「嗯。」、語彤「嗯。」、學姊「說我也喜歡妳。」、以安「還有誰？」照實說）、可昕「沒有，那是誤會。」＝claimEnded→YT_LIED；學姊「說我們分手。」是承諾不標、子晴「我不知道」不標 dodge。"
   },
   {
    "id": "AA262-Y4S1",
@@ -26253,7 +26254,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-B 10-23 19:1x】AA_421 第 2 節：不能結案；AA_422（5156f143）、AA_423（26357a44）兩批定稿到了，子代理施工中 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt",
-   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（src/multirel3d.js MREL、src/data/multirel_lines.js；AA_422@5156f143／AA_423@26357a44／AA_425@310d6cc67，AA_425 優先）：七位的第一次 L3 問句、知情版心意邀約（可昕照 AA_425 拿掉）、發現（含遠距視訊、冠宏版、說溜嘴、坦白以安和沛珊、還有誰）、傳開、同一頁、AA_423 七位的挽回與結果 A～D、第二次冷靜、後續。tests/aa422_multirel_unit.js 174、aa423_multirel_unit.js 129 PASS。還沒有：AA_228 3-4《換我講一件事》與宥辰三場（要插進別人的群戲／hometown3d，PS_CONFESSED 還不會成立）、沛珊台南坦白、五位坦白版（AA 沒台詞）、L2 拒絕（invites）、可昕 E、沛珊 E 重來句、子晴 2028-06 以後第二次冷掉（只有描述）、K12／二十三週年說溜嘴的事件 ID；場景 2D 圖 9 張缺（暗底＋字卡）。已請 AA 補台詞。"
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（src/multirel3d.js MREL、src/data/multirel_lines.js；AA_422@5156f143／AA_423@26357a44／AA_425@310d6cc67，AA_425 優先）：七位的第一次 L3 問句、知情版心意邀約（可昕照 AA_425 拿掉）、發現（含遠距視訊、冠宏版、說溜嘴、坦白以安和沛珊、還有誰）、傳開、同一頁、AA_423 七位的挽回與結果 A～D、第二次冷靜、後續。tests/aa422_multirel_unit.js 174、aa423_multirel_unit.js 129 PASS。還沒有：AA_228 3-4《換我講一件事》與宥辰三場（要插進別人的群戲／hometown3d，PS_CONFESSED 還不會成立）、沛珊台南坦白、五位坦白版（AA 沒台詞）、L2 拒絕（invites）、可昕 E、沛珊 E 重來句、子晴 2028-06 以後第二次冷掉（只有描述）、K12／二十三週年說溜嘴的事件 ID；場景 2D 圖 9 張缺（暗底＋字卡）。已請 AA 補台詞。 ｜2026-10-23 21:3x LAWWW-B 第 3 輪：沛珊和宥辰三次互動（PS_YC n1 期中晚餐、n2 Y2S1 第 8 週週三 23:10 群組、n3 台南／視訊）＋《換我講一件事》（PS_CONFESSED）＋3-3 台南年代；說溜嘴接 ev_kexin_two_circles、ev_noodle_23rd、中秋兩場（跨年頂樓沒接）；BB_194 §24 YT_HONEST／YT_LIED 標記；YT_INTENT、AN_TALKED 等計數。tests/mrel_ps_turn_unit.js 63、aa422 174、aa423 129 PASS。注意：「接受同時交往」的結果照 AA_423 第 0 節接 ROM.PARAMS.acceptsOpen（現在七位都是 false＝接受那一格都到不了），已請 AA 定七位的值。"
   },
   {
    "id": "BG-3DSHOT-1021",
