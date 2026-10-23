@@ -19481,7 +19481,8 @@
     }
    ],
    "evidence": "1b85137e：ROM.start 和學姊交往記 CALLED_SHUYU（舊存檔補記）；交往中名字框、按鈕、人物頁叫「書瑀」，分手回原名",
-   "sha": "1b85137e"
+   "sha": "1b85137e",
+   "notes": "【LAWWW-B 10-23 18:1x】AA_411（38352ab3）接好：第 1 節三句（一一八茶飲、Y3S2 鉤子、讀書選單；M3 停用中不做）、第 2 節畫面標題自動換（SOCIAL.shuyuT／OUT.tt：出遊按鈕、標題卡、家裡選單、事件標題、titleCard、手機系統提醒）；tests/aa411_shuyu_unit.js ALL PASS；BB 第 60 項。"
   },
   {
    "id": "V0-HOME-FF",
@@ -30211,7 +30212,8 @@
    },
    "aliases": [
     "LAWWW2-CLOSED-SPACES-1023"
-   ]
+   ],
+   "notes": "【LAWWW-B 10-23 18:0x】AA_399 第 1 節（霖澤館 5F）接好：src/lab5f3d.js（4F 刷卡門傳訊息給學姊、14:00 回 4F、七場出遊換到 5F 演＝OUT.STAGE＋OUT.bg 研究室走廊換 blur）、characters.js 學姊研究室作息（spot sis_desk）、story3d.js 作息的 spot、便條改甲案；tests/lab5f_unit.js ALL PASS；BB 第 57～59 項。還沒做：第 2～12 節（總圖 B1／研究小間／借書 G.loans、典禮、研討室 B、101 小窗、系辦、美國臥室與書庫、共同 3F、博雅、洗衣間、多媒體）——等 LAWWW2 的空間，空間好了照表接；第 1-3 節研究小間的作息等總圖 B1／研究小間。"
   },
   {
    "id": "SIS-B7-L-1023",

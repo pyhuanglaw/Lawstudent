@@ -429,7 +429,9 @@ const STORY = (function(){
     // 朋友坐一起：若圖上的朋友已在這區坐著，挑離他最近的空位
     const friendSeat=(id)=>{ for(const e of SOCIAL_GRAPH){ if(e.a!==id&&e.b!==id) continue; const other=EVENTS.npcOf(e.a===id?e.b:e.a); if(other&&other.seat) return other.seat; } return null; };
     const seatNear=(fs)=>{ let best=null, bd=1e9; for(const st of (E.zone.seats||[])){ const k=st.x.toFixed(1)+','+st.z.toFixed(1); if(used.has(k)) continue; const d=Math.hypot(st.x-fs.x,st.z-fs.z); if(d<bd){ bd=d; best=st; } } return bd<3.5?best:null; };
-    const spawnAt=(id,ent)=>{ const act=ent.act; let n=null; if(act==='read'||act==='class'||act==='eat'||(act==='sit'&&E.zone.seats&&!ent.seat)){ const fs=!ent.seat&&friendSeat(id); const st=(fs&&!ent.room&&seatNear(fs))||seatFree(ent.seat,ent.room); if(!st) return; used.add(st.x.toFixed(1)+','+st.z.toFixed(1)); const pz=act==='class'?'sit':'read', door=refresh&&(E.indoor||E.zone.indoor)&&E.zone.spawn;
+    const spawnAt=(id,ent)=>{ const act=ent.act; let n=null;
+      if(ent.spot){ const sp=(E.zone.spots||{})[ent.spot]; if(sp){ const pz=act==='class'?'sit':'read'; n=GM.spawnCharacter(id,sp.x,sp.z,{seat:{x:sp.x,z:sp.z,yaw:sp.yaw||0,lv:sp.lv|0},pose:pz}); if(n) n.idlePose=pz; return n; } }   /* spot：區域配置裡寫好的固定位子（學姊在霖澤館 5F 研究室靠窗的桌子，AA_399 1-3；不在 seats 裡＝玩家不能坐）*/
+      if(act==='read'||act==='class'||act==='eat'||(act==='sit'&&E.zone.seats&&!ent.seat)){ const fs=!ent.seat&&friendSeat(id); const st=(fs&&!ent.room&&seatNear(fs))||seatFree(ent.seat,ent.room); if(!st) return; used.add(st.x.toFixed(1)+','+st.z.toFixed(1)); const pz=act==='class'?'sit':'read', door=refresh&&(E.indoor||E.zone.indoor)&&E.zone.spawn;
         if(door&&E.moveTo&&GM.sitAt){   /* 待在區域裡補人（室內）：從門口走進來、走到位子才坐下——不在座位上憑空出現（v9.6 回歸 flow_class_real：劇情課結束後同學在座位上冒出來）*/
           n=GM.spawnCharacter(id,door.x,door.z,{lv:door.lv|0,pose:'idle'});
           if(n){ n.seatTarget=st; n.idlePose='idle'; const sit=()=>{ n.seatTarget=null; const P=E.player; if(P&&P.seat&&Math.hypot(P.seat.x-st.x,P.seat.z-st.z)<0.35){ n.pose=n.idlePose='idle'; return; } GM.sitAt(n,st); n.pose=n.idlePose=pz; };   /* 位子被玩家坐走了：站在旁邊 */

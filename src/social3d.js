@@ -143,6 +143,9 @@ const SOCIAL = (function(){
   S.CALLED={heroine_05:'CALLED_SHUYU'};
   /* 3D 人物頭上、「和○○說話」、閒聊說話人的名字：交往中照交往的叫法（學姊＝書瑀，AA_386 第 13 行、使用者 10-17「交往那天起叫『書瑀』」；BUG-SIS-DATING-NAME-1023）*/
   S.npcName=function(id){ return S.datingName(id)||S.displayName(id); };
+  /* 畫面上的標題（出遊按鈕、標題卡、事件標題、手機系統提醒）：和學姊交往中（CALLED_SHUYU）顯示的時候「溫學姊」「學姊」換成「書瑀」（AA_411 第 2 節）；
+     存起來的字不改，分手以後自動變回學姊。例外：「直屬學姊」、指別人的「○○的學姊」（登山社的學姊）不換 */
+  S.shuyuT=function(t){ if(t==null) return t; const nm=S.datingName('heroine_05'); if(!nm) return t; return String(t).replace(/溫學姊/g,nm).replace(/(直屬|的)?學姊/g,(m,p)=>p?m:nm); };
   S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]])?C.DATING:null; };
   S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||(typeof C.base==='function'?C.base(G):C.base)||null; };   /* base 可以是函式（照日期換：學姊 9/4 21:00 以後才加「（直屬）」，AA_372 第 12 項）*/

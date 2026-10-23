@@ -57,7 +57,7 @@ const FAV=(function(){
   S.play=async function(GM,arr,me){ if(!Array.isArray(arr)||!arr.length) return false; for(const [w,t] of arr) await GM.say(sp(GM,w,me),t); return true; };
   /* 「也幫她點」→ 品項 → 小選項 → 扣錢；回傳 {item,oi}，沒點＝null */
   S.pick=async function(GM,id){ const G=GM.G, C=S.CFG[id]; if(!C) return null;
-    const k=await GM.choose([{t:C.label||('也幫'+C.short+'點一'+C.unit)},{t:'（就這樣）'}]); if(k!==0) return null;
+    const k=await GM.choose([{t:C.label||('也幫'+((id==='heroine_05'&&typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(id))||C.short)+'點一'+C.unit)},{t:'（就這樣）'}]);   /* 交往中「也幫書瑀點一杯」（AA_411 第 1 節第 1 列）*/ if(k!==0) return null;
     const items=S.items(id); if(!items.length) return null;
     const io=await GM.choose(items.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p}))); const it=items[io]||items[0];
     if((G.money|0)<it[1]){ if(GM.toast) GM.toast('錢不夠'); return null; }

@@ -90,7 +90,7 @@ const SISY23_EVENTS=(function(){
         {choice:[{text:'「照顏色排？」',goto:'a'},{text:'（幫她把最重的那一排推進去）',goto:'b'}]},
         {label:'a'},SIS('照顏色好找。照作者，我會一直想要不要調整。'),{goto:'end'},
         {label:'b'},SIS('……謝謝。你比電梯可靠。'),
-        {label:'end'},{if:dt,speaker:null,text:'（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，總圖三樓。研究室我只放書。」）'},   /* AA_392 第 4 節乙：研究室樓層（5F～8F）3D 還走不到、她的作息平日白天在總圖三樓——便條寫她真的在的地方 */{if:dt,speaker:ID,text:'……你的。'},
+        {label:'end'},{if:dt,speaker:null,text:'（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）'},   /* AA_392 第 4 節乙：研究室樓層（5F～8F）3D 還走不到、她的作息平日白天在總圖三樓——便條寫她真的在的地方 */{if:dt,speaker:ID,text:'……你的。'},
         {set:{SIS_LAB_DESK:'went'}} ],
       outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lab'); } },
     /* ---------- 2-2 11/18（三）19:00 法圖・討論室（她週三晚上本來就在法圖）---------- */
