@@ -79,14 +79,23 @@ async def close_phone(pg, cdp):
     await pg.wait_for_timeout(900)
 
 async def bed_menu(pg, cdp, run):
-    """走到床邊、按互動鍵，回傳床的選單"""
-    bed = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z,it.label||'']:null; })()")
+    """走到床邊、按互動鍵，回傳床的選單。
+    BB-B 10-23 19:0x：照 us_life_probe 的 bed_menu 改——床的互動半徑可能只有 0.6 m（停在半徑的 0.7 倍）、互動鈕下一格才出來（負載 25 時一格 3 秒以上，等到 20 秒）、
+    按下去以後選單也要等（最多 60 秒）；原本 4 次 × 1.5 秒（FF46_WINTER 負載高時沒等到選單就讀了＝腳本 FAIL）"""
+    bed = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z,it.label||'',it.radius||1.4]:null; })()")
     if not bed: say('   ⚠ 這一區沒有床'); return []
-    if not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床', max_s=300): say('   ⚠ 走不到床'); return []
+    if not await L.go_to(pg, cdp, run, bed[0], bed[1], min(0.8, bed[3] * 0.7), '床', max_s=300): say('   ⚠ 走不到床'); return []
     for _ in range(4):
         if await phone_open(pg): await close_phone(pg, cdp)
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        if (await L.state(pg))['choices']: break
+        for k in range(25):
+            if (await L.state(pg)).get('interact'): break
+            await pg.wait_for_timeout(800)
+        await L.tap(pg, cdp, '#interact')
+        got = False
+        for k in range(40):
+            await pg.wait_for_timeout(1500)
+            if (await L.state(pg))['choices']: got = True; break
+        if got: break
     cs = await choices(pg); sn = await pg.evaluate(SNAP)
     say('   床的選單 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(x[:24] for x in cs))); return cs
 
@@ -150,7 +159,11 @@ async def scenario(p, run, base, sid):
         run.check('%s：床的選單有「快轉」' % sid, bool(ff), J(cs))
         if not ff: return
         await pick(pg, cdp, '快轉'); await pg.wait_for_timeout(800)
-        cs2 = await choices(pg); res['ffMenu'] = cs2; await run.shot(pg, '%s_ffmenu' % sid)
+        cs2 = await choices(pg)
+        for k in range(40):   # 快轉的子選單也要等下一格（負載高時 800 ms 讀到的還是床的選單或空的）
+            if cs2 and cs2 != cs: break
+            await pg.wait_for_timeout(1500); cs2 = await choices(pg)
+        res['ffMenu'] = cs2; await run.shot(pg, '%s_ffmenu' % sid)
         if sid == 'FF46_WINTER':
             run.check('%s：寒假床上的快轉＝原本的寒暑假快轉（有「過三天」，沒有學期中的「到下一個有事的時候」）' % sid,
                       any(c.startswith('過三天') for c in cs2) and not any(c.startswith('到下一個有事的時候') for c in cs2), J(cs2))
