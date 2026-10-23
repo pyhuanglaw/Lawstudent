@@ -1558,6 +1558,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "D111 學姊第七批（AA_391）"
+  },
+  {
+   "task": "SIS-B8-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "744a8726",
+   "files": [
+    "docs/story_planning/AA_394_學姊第八批_大二整年與兩個暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_394 第 6 節（法圖週三五場接演、三場 OUT、助教新設定、自助餐底圖、債各筆記物品）；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "D111 學姊第八批（AA_391）"
   }
  ],
  "items": [
