@@ -1666,6 +1666,37 @@ R8 += [
              ('交往中：「直屬學姊」不換', "SOCIAL.shuyuT?SOCIAL.shuyuT('直屬學姊'):'(沒有 shuyuT)'", '直屬學姊')]),
 ]
 SCENS = SCENS + R8
+# ---- 第 39 項 SQ04～SQ07（118 巷四家；BB-B 18:1x 補，原本這一版沒寫）：照 src/sideq3d.js（d23380d5e）的步驟走一次「接下來→做完」----
+#   店員認得你（第 5 次點）＋「偶爾」固定抽中（SQB）；店門口先放到點餐處【捷徑】；隔幾天用 addday【捷徑】
+def NORD(n): return NEAR('118 巷%s 點餐' % n, label='點餐（%s）' % n)
+SQ39B = [
+  # SQ04 慢讀咖啡（大二下起）：交給派出所 → 出遊「送筆電去派出所」→ 兩週後國考生來道謝 → 做完
+  dict(id='SQ39_SQ04', key='TERMDAY:Y2S2:3:2', h=15.0, zone='l118_cafe2', flags=dict(TW3), js=SQB('慢讀咖啡'),
+       pref=['美式咖啡', '「要我幫忙嗎？」', '交給派出所。', '出發：送筆電去派出所'],
+       steps=[NORD('慢讀咖啡'), ORDER('慢讀咖啡'), ('until', 15.9, 900), ('addday', 15), NORD('慢讀咖啡'), ORDER('慢讀咖啡')],
+       want=['（店長把一台筆電放在吧檯上。）', '這台放在插座那一桌三個禮拜了。', '……要怎麼辦。', '（警察登記，說會找失主。）', '（兩個禮拜後，一個很瘦的男生來店裡道謝。他是國考生，那天胃出血被送急診，住院兩週。筆電裡是他三年的筆記。）', '（他每天來同一個插座位子讀書，店長幫他留。）'],
+       jsok=[('SQ04 做完', SQST('SQ04'), 'done/done')]),
+  # SQ05 六張犁麵舖（大三上）：公休的紙選第一張 → 兩週後重新開店「大碗加蛋。……今天不收錢。」、退錢 → 做完
+  dict(id='SQ39_SQ05', key='TERMDAY:Y3S1:3:2', h=12.3, zone='l118_noodle2', flags=dict(TW3), js=SQB('六張犁麵舖'),
+       pref=['牛肉麵', '「要我幫忙嗎？」', '「老闆去修膝蓋，兩週後見。」', '老闆去修膝蓋'],
+       steps=[NORD('六張犁麵舖'), ORDER('六張犁麵舖'), ('addday', 15), NORD('六張犁麵舖'), ORDER('六張犁麵舖')],
+       want=['膝蓋要開刀。要休兩個禮拜。', '……公休的紙，你幫我寫，寫得好看一點。', '大碗加蛋。……今天不收錢。'],
+       jsok=[('SQ05 做完、紙是第一張', "(r=>r?r.state+'/'+r.note:null)(SIDEQ.get(GAME.G,'SQ05'))", lambda x: isinstance(x, str) and x.startswith('done/老闆去修膝蓋'))]),
+  # SQ06 好家自助餐（大二上起）：幫忙找家教 → 三天後 → 再去點＝孫子想學吉他 →「不用了」（不帶去社課）→ 做完
+  dict(id='SQ39_SQ06', key='TERMDAY:Y2S1:5:2', h=12.3, zone='l118_self', flags=dict(TW3), js=SQB('好家自助餐'),
+       pref=['自助餐（三菜一肉）', '「要我幫忙嗎？」', '不用了'],
+       steps=[NORD('好家自助餐'), ORDER('好家自助餐'), ('addday', 4), ('until', 12.6, 400), NORD('好家自助餐'), ORDER('好家自助餐')],
+       want=['我孫子國二，數學不及格。', '你們有沒有同學在當家教？', '（孫子想學的是吉他，不是數學。他在網路上看了吉他社成發的影片。）'],
+       jsok=[('SQ06 做完', SQST('SQ06'), 'done/done'), ('家教是誰（明軒／以安／自己）', "(r=>r?r.tutor:null)(SIDEQ.get(GAME.G,'SQ06'))", lambda x: x in ('classmate_mingxuan', 'heroine_01', 'me') or bool(x))]),
+  # SQ07 蛋包飯研究所（大三下）：讀書計畫「第二段太長。」→ 三週後考上 → 一週後最後一天的蛋包飯 → 做完
+  dict(id='SQ39_SQ07', key='TERMDAY:Y3S2:3:2', h=12.3, zone='l118_omu', flags=dict(TW3), js=SQB('蛋包飯研究所'),
+       pref=['咖哩蛋包飯', '「要我幫忙嗎？」', '「第二段太長。」', '第二段太長'],
+       steps=[NORD('蛋包飯研究所'), ORDER('蛋包飯研究所'), ('addday', 21), NORD('蛋包飯研究所'), ORDER('蛋包飯研究所'), ('addday', 7), NORD('蛋包飯研究所'), ORDER('蛋包飯研究所')],
+       want=['跟你說，我要考研究所。真的那種。', '（第一句寫著：『我想知道，為什麼同一顆蛋，煎三分鐘和三分半，吃起來是兩種東西。』）', '第二段是我最想寫的。……好，砍一半。', '（她考上了，可是要搬去台中。）', '本所所長要畢業了。'],
+       jsok=[('SQ07 做完', SQST('SQ07'), 'done/done')]),
+]
+for _sc in SQ39B: _sc['js'] = SAYH + _sc['js']
+SCENS = SCENS + SQ39B
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
     try{ const p=STORY.presence?STORY.presence(id,g):null; if(p&&p.here===false) continue; e=STORY.schedEnt(c,g); }catch(x){ e=null; }
