@@ -1905,7 +1905,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 19:0x 第 6 項（USER_WANTS D37）；取代 BB_123、AA_127 1-7／2-7 的提案"
+   "note": "LAWWW-B 10-23 17:4x 第 6 項（USER_WANTS D37）；取代 BB_123、AA_127 1-7／2-7 的提案"
   },
   {
    "task": "D14-T11",
@@ -1921,7 +1921,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW, BB",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 19:0x 第 7 項（USER_WANTS D38）"
+   "note": "LAWWW-B 10-23 17:4x 第 7 項（USER_WANTS D38）"
   }
  ],
  "items": [
