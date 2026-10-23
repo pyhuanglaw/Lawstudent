@@ -1770,6 +1770,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "AA_391 第 1 節「之後」那一列；D111；10:2x 改大一 2025-12-22（和 AA_386 3-1 大二聖誕夜重複），LAWWW 要改已實作的 9dcbb19d"
+  },
+  {
+   "task": "LIB-LOAN-BOOKS-1023",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "e81aa74c2",
+   "files": [
+    "docs/story_planning/AA_407_總圖借書_第一批書單.md"
+   ],
+   "state": "已交付",
+   "remaining": "R1 等 5F",
+   "next": "LAWWW：AA_407 第 4 節；BB 測",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B LIB-LOAN-1023 要書單"
   }
  ],
  "items": [
