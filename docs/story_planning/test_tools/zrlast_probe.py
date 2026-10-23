@@ -1872,6 +1872,119 @@ R10 += [
 for _s in R10:   # 台詞、字卡、底圖、區域都要記（CAP2、ZHK、BGHOOK）
     if 'R8H' not in str(_s.get('_h', '')) and R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R10
+# ===== R11：第 73、74、75、79 項（AA_417、psresults3d.js、faildelay3d.js、zr_uk3d.js；開發分支 b68e97874；事實照子代理 19:5x 讀程式）=====
+GE = lambda v: "(GAME.G.msgs||[]).some(m=>String(m.text||'').includes(%s))" % json.dumps(v, ensure_ascii=False)   # 手機裡有沒有這一句
+ENTER = lambda z, x=None, zz=None, note='': ('jsrun', "(()=>{ void GAME.enter(%s%s); return true; })()" % (json.dumps(z), ('' if x is None else ",{x:%s,z:%s,yaw:0}" % (x, zz))), '直接進 %s%s（【捷徑】：負載高走不過去）' % (z, note))
+GE1 = lambda t: lambda n: isinstance(n, int) and n >= 1
+BAD, RUN = '去新體育館打羽球', '去椰林大道晨跑'
+FAM = lambda who: INVJ(who, 25, 10, 5)
+FRI = lambda who: INVJ(who, 45, 30, 10)
+R11 = [
+  # 73-①：子晴有點熟約羽球 → 第一次借拍子、一起的時候一句、最後一句；再約一次沒有第一次那段、一起的時候換一句
+  dict(id='SP73_ZQ_BAD', key='TERMDAY:Y2S1:5:2', h=10.5, zone='dorm', flags=dict(TW3), js=FAM('heroine_04'), pref=['就這樣'],
+       steps=[PINV('heroine_04', BAD, '今天 12:10', 'b1'), ('chk', '有點熟答應：「羽球？……我很爛喔。先說好。」', LNQ('羽球？……我很爛喔。先說好。'), GE1(1)),
+              ('jump', 'GAME.G.day', 12.0, '約好的 12:10 以前'), ENTER('gym'), ('wait', LNQ('下次我會進步。不是因為你。是因為我不想輸給一顆球。') + '>0', 1500, '打完最後一句'),
+              PINV('heroine_04', BAD, '明天 12:10', 'b2'), ('addday', 1), ('jump', 'GAME.G.day', 12.0, '隔天 12:00'), ENTER('gym'),
+              ('wait', LNQ('下次我會進步。不是因為你。是因為我不想輸給一顆球。') + '>1', 1500, '第二次打完')],
+       jsok=[('第一次才有借拍子那一段（兩次只出現一次）', LNQ('（她借了一支拍子，握的方向是反的。）'), 1), ('第一次一起的時候：「那球出界了。……」', LNQ('那球出界了。……好啦，是我沒接到。'), GE1(1)),
+             ('第二次換一句：「剛剛那一球，你有看到吧。我接到了。」', LNQ('剛剛那一球，你有看到吧。我接到了。'), GE1(1))]),
+  # 73-②：有點熟約晨跑約不到；朋友以後約隔天 06:30 → 傅鐘前「我起來了。……這件事你要記得。」
+  dict(id='SP73_ZQ_RUN_NO', key='TERMDAY:Y2S1:5:2', h=20.0, zone='dorm', flags=dict(TW3), js=FAM('heroine_04'),
+       steps=[PINV('heroine_04', '1:' + RUN, '明天 06:30', 'r0')], jsok=[('有點熟：「晨跑要等你們變成朋友。」', LNQ('晨跑要等你們變成朋友。'), GE1(1))]),
+  dict(id='SP73_ZQ_RUN', key='TERMDAY:Y2S1:5:2', h=20.0, zone='dorm', flags=dict(TW3), js=FRI('heroine_04'),
+       steps=[PINV('heroine_04', '1:' + RUN, '明天 06:30', 'r1'), ('chk', '朋友答應：「早上我在睡。……好啦，一次。」', LNQ('早上我在睡。……好啦，一次。'), GE1(1)),
+              ('addday', 1), ('jump', 'GAME.G.day', 6.3, '隔天 06:18'), ENTER('campus', -37.6, 6.6, '・傅鐘前'),
+              ('wait', LNQ('我起來了。……這件事你要記得。') + '>0', 1500, '晨跑開始')],
+       jsok=[('最後一句「早餐我請。……因為我活下來了。」', LNQ('早餐我請。……因為我活下來了。'), GE1(1))]),
+  # 73-③：下雨天約當天晨跑：約不到；約隔天、隔天早上下雨：手機說晨跑取消
+  dict(id='SP73_RAIN_TODAY', key='TERMDAY:Y2S1:5:3', h=5.8, zone='dorm', flags=dict(TW3), js=FRI('heroine_04') + " G.weather='rain';",
+       steps=[PINV('heroine_04', '1:' + RUN, '今天 06:30', 'rt')], jsok=[('「下雨了，不能晨跑。」', LNQ('下雨了，不能晨跑。'), GE1(1))]),
+  dict(id='SP73_RAIN_NEXT', key='TERMDAY:Y2S1:5:2', h=20.0, zone='dorm', flags=dict(TW3), js=FRI('heroine_04'),
+       steps=[PINV('heroine_04', '1:' + RUN, '明天 06:30', 'rn'), ('addday', 1), ('jump', 'GAME.G.day', 5.7, '隔天 05:42'),
+              ('jsrun', "(()=>{ GAME.G.weather='rain'; try{ if(GAME.E&&GAME.E.setWeather) GAME.E.setWeather('rain'); }catch(e){} return true; })()", '隔天早上下雨'), ('until', 6.4, 1500)],
+       jsok=[('手機：「下雨了，和○○的晨跑取消。」', GE('的晨跑取消。'), True)]),
+  # 73-④：可昕（法律系那幾年）約羽球：她的句子，沒有「假設」
+  dict(id='SP73_KX', key='TERMDAY:Y2S1:5:2', h=10.5, zone='dorm', flags=dict(TW3), js=NOKX + FRI('kexin'),
+       steps=[PINV('kexin', BAD, '今天 12:10', 'k1')], jsok=[('可昕朋友答應：「好。我從山上下來。拍子你負責借。」', LNQ('好。我從山上下來。拍子你負責借。'), GE1(1))], none=['假設']),
+  # 73-⑤：以安、語彤、芷若、學姊、沛珊各約一次羽球：答應那一句
+  dict(id='SP73_FIVE', key='TERMDAY:Y2S1:5:1', h=10.0, zone='dorm', flags=dict(TW3),
+       js=FRI('heroine_01') + FRI('heroine_03') + FRI('heroine_02') + FRI('heroine_05') + FRI('classmate_peishan') + " G.flags.met_sis=true;",
+       steps=[PINV('heroine_01', BAD, '明天 19:00', 'a'), ('addday', 1), PINV('heroine_03', BAD, '明天 19:00', 'y'), ('addday', 1), PINV('heroine_02', BAD, '明天 12:10', 'z'), ('addday', 1),
+              PINV('heroine_05', BAD, '明天 19:00', 's'), ('addday', 1), PINV('classmate_peishan', BAD, '明天 19:00', 'p')],
+       jsok=[('以安「羽球？好。我國中是校隊。……替補。」', LNQ('羽球？好。我國中是校隊。……替補。'), GE1(1)), ('語彤「……我不太會。」', LNQ('……我不太會。'), GE1(1)),
+             ('芷若「羽球！好啊，我手腕很好。拉花練的。」', LNQ('羽球！好啊，我手腕很好。拉花練的。'), GE1(1)), ('學姊「羽球。好。……我只會發球。」', LNQ('羽球。好。……我只會發球。'), GE1(1)),
+             ('沛珊「好啊！！我要問你，你為什麼會打。」', LNQ('好啊！！我要問你，你為什麼會打。'), GE1(1))]),
+  # 73-⑥：學姊筆試（2026-02-02）以前：照上限規則婉拒（大一上第 14 週起一律婉拒）
+  dict(id='SP73_SIS_CAP', key='2025-12-10', h=10.0, zone='dorm', flags=dict(TW3), js=FRI('heroine_05') + " G.flags.met_sis=true;",
+       steps=[PINV('heroine_05', BAD, '明天 19:00', 'c')], none=['羽球。好。……我只會發球。']),
+]
+# 74：沛珊放榜那天（交往中、消失期每晚有收到訊息＝PS_KEPT；暑假在家）
+PSJ = " LV('classmate_peishan',65,50,45); G.flags.dating_classmate_peishan=true; G.flags.PS_KEPT=true; G.flags.PS_KEEP_N=60; G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'classmate_peishan');"
+HOMEQ = ('jsrun', "(()=>{ void HOME.arriveQuiet(GAME); return true; })()", '直接到臺北的家（暑假，家裡的選單）')
+R11 += [
+  dict(id='PS74_GO', key='2027-08-06', h=11.3, zone='dorm', flags=dict(TW3), js=PSJ, asks={'ps_results_where': '在家。'}, pref=['出發：總圖外面的台階', '先講妳為什麼想當老師。'],
+       steps=[HOMEQ, ('until', 12.6, 2400)],
+       jsok=[('10:00「你現在在哪？」', GE('你現在在哪？'), True), ('「我現在去搭客運。」', GE('我現在去搭客運。'), True), ('「到總圖外面的台階。我中午到。」', GE('到總圖外面的台階。我中午到。'), True),
+             ('演了 ev_peishan_results', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_peishan_results)", True), ('「上了。我要去當老師了。」', LNQ('上了。我要去當老師了。'), GE1(1)),
+             ('PS_KEPT 那一句', LNQ('那半年，每天晚上十一點，我都傳一則給你。'), GE1(1)), ('「……你幫我想想，第一堂課要講什麼。」', LNQ('……你幫我想想，第一堂課要講什麼。'), GE1(1)),
+             ('PS_RESULTS＝met', "GAME.G.flags.PS_RESULTS", 'met')]),
+  dict(id='PS74_LATE', key='2027-08-06', h=12.1, zone='dorm', flags=dict(TW3), js=PSJ, pref=['1:快轉', '1:到下一個有事的日子', '1:快轉', '1:到下一個有事的日子', '先講妳為什麼想當老師。'],
+       steps=[HOMEQ, ('until', 13.3, 2400)],
+       jsok=[('12:15「我到了。台階這邊，樹蔭下面。」', GE('我到了。台階這邊，樹蔭下面。'), True), ('13:00 被帶到場，第一句旁白', LNQ('（八月的午後。她坐在台階上，看到你，才站起來。）'), GE1(1)),
+             ('PS_RESULTS＝brought', "GAME.G.flags.PS_RESULTS", 'brought'),
+             ('在家的快轉停點有 10:00、12:15、13:00', "(()=>{ const hs=[]; for(const f of (HOME.STOPS||[])){ try{ for(const t of ([].concat(f(GAME.G)||[]))) hs.push(+((((+t)%24)+24)%24).toFixed(2)); }catch(e){} } return [10,12.25,13].map(h=>hs.some(x=>Math.abs(x-h)<0.02)); })()", [True, True, True])]),
+  dict(id='PS74_NONE', key='2027-08-06', h=9.5, zone='dorm', flags=dict(TW3), js=" LV('classmate_peishan',45,30,10); G.flags.dating_classmate_peishan=false;",
+       steps=[HOMEQ, ('jump', 'GAME.G.day', 13.5, '同一天 13:30')],
+       jsok=[('沒交往：沒有「你現在在哪？」', GE('你現在在哪？'), False), ('沒有排總圖外面的台階', "!!(typeof OUT!=='undefined'&&OUT.get&&OUT.get(GAME.G,'ps_results'))", False)]),
+]
+# 75：大四下被當延畢
+FDSET = (" const R=CLS.rec(G); R.exam=R.exam||{}; R.attend=R.attend||{}; if(R.grades) delete R.grades.Y4S2; let f=null;"
+         " for(const c of CLS.termCourses(G,'Y4S2')){ if(c.kind==='service') continue; if(CLS.isExamCourse(c)){ R.exam['Y4S2:'+c.id+':final']={status:'done',correct:f?4:0}; if(!f) f=c.id; } else if(CLS.attCourse(c)) R.attend[c.id]=3; }"
+         " window.__FDC=f; G.flags.GRADUATED=true; G.flags.PG=Object.assign({done:{},lines:{}},G.flags.PG||{}); G.flags.PG.done=Object.assign(G.flags.PG.done||{},{grad:G.day-16}); LV('zhe',45,30,10);")
+SHOWG = ('jsrun', "(()=>{ void CLS.showGrades(GAME,'Y4S2'); return true; })()", '直接發大四下成績單（6/18 那一刻）')
+R11 += [
+  dict(id='FD75_GRADES', key='2029-06-18', h=9.0, zone='dorm', flags=dict(TW3, BAR_REG=True), js=Y4 + FDSET,
+       steps=[SHOWG, ('chk', '「（{課名}，不及格。）」', "(window.__LOG||[]).filter(x=>/^（.+，不及格。）$/.test(String(x.t))).length", GE1(1)),
+              ('chk', '「（證書要等下學期。九月，你要回學校重修。）」', LNQ('（證書要等下學期。九月，你要回學校重修。）'), 1),
+              ('chk', '報名國考：「（今年的國考，考不成了。明年再報。）」', LNQ('（今年的國考，考不成了。明年再報。）'), 1), ('until', 22.2, 2400)],
+       jsok=[('FAIL_DELAY', "GAME.G.flags.FAIL_DELAY===true", True), ('FAIL_DELAY_COURSES 一門', "(GAME.G.flags.FAIL_DELAY_COURSES||[]).length", 1), ('BAR_REG 改 false', "GAME.G.flags.BAR_REG===true", False),
+             ('22:00 阿哲「聽說了。」「九月我還在總圖 B1。你來，我幫你占位子。」', "[%s,%s]" % (GE('聽說了。'), GE('九月我還在總圖 B1。你來，我幫你占位子。')), [True, True])]),
+  dict(id='FD75_Y5', key='2029-06-18', h=9.0, zone='dorm', flags=dict(TW3), js=Y4 + FDSET,
+       steps=[SHOWG, ('jump', "STORY.dayOfKey('2029-09-10')", 9.0, '大五上第一週')],
+       jsok=[('大五上的課有「重修：{課名}」', "(()=>{ const G=GAME.G, out=[]; for(let d=G.day; d<G.day+7; d++){ try{ for(const it of (Y5.classItems(G,d)||[])) out.push(String(it.label||it.name||it.t||'')); }catch(e){ out.push('ERR '+e); } } return out.some(t=>t.includes('重修：')); })()", True)]),
+  dict(id='FD75_EXCH', key='2029-06-18', h=9.0, zone='dorm', flags=dict(JPF), js=Y4 + FDSET,
+       steps=[SHOWG], jsok=[('交換路線：不記 FAIL_DELAY', "GAME.G.flags.FAIL_DELAY===true", False), ('交換路線：課照記（FAIL_DELAY_COURSES）', "(GAME.G.flags.FAIL_DELAY_COURSES||[]).length>=1", True)],
+       none=['（證書要等下學期。九月，你要回學校重修。）']),
+]
+# 79：芷若英國視訊（「好朋友」＝第 5 階：熟 60、信任 45、自在 40、她的戀愛 30 以上，沒有人在交往）
+ZRC = (" for(const k of Object.keys(G.flags)) if(/^dating_/.test(k)) G.flags[k]=false; LV('heroine_02',65,50,45); SOCIAL.rel('heroine_02').npcRom=35;"
+       " G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_02');")
+ZRD = ZRC + " SOCIAL.rel('heroine_02').npcRom=60; SOCIAL.rel('heroine_02').rom=40; try{ ROM.start(G,'heroine_02'); }catch(e){} G.flags.dating_heroine_02=true;"
+ZR_CLOSERS = ['好。我要去上課了。……下個月見。', '你那邊快十一點了。去睡覺。', '下個月同一個時間。我會記得。']
+R11 += [
+  dict(id='ZR79_MONTH', key='2027-10-02', h=20.8, zone='dorm', flags=dict(TW3), js=ZRC, asks={'zruk_m_ask_2027-10': '好。'}, pref=['接起來'],
+       steps=[('until', 21.3, 1500), ('jump', "STORY.dayOfKey('2027-10-03')", 21.85, '隔天 21:51'), ('until', 22.6, 1500)],
+       jsok=[('10/2 21:00「明天晚上十點？」', GE('明天晚上十點？'), True), ('10/3 22:00 視訊演了（三段的收尾有一句）', "(A=>(window.__LOG||[]).some(x=>A.includes(String(x.t))))(%s)" % json.dumps(ZR_CLOSERS, ensure_ascii=False), True)]),
+  dict(id='ZR79_MONTH_NO', key='2027-10-02', h=20.8, zone='dorm', flags=dict(TW3), js=ZRC, asks={'zruk_m_ask_2027-10': '這次不行。'}, pref=['接起來'],
+       steps=[('until', 21.3, 1500), ('jump', "STORY.dayOfKey('2027-10-03')", 21.85, '隔天 21:51'), ('until', 22.6, 1500)],
+       jsok=[('「好。下個月。」', GE('好。下個月。'), True), ('那個月不打（沒有收尾那幾句）', "(A=>(window.__LOG||[]).some(x=>A.includes(String(x.t))))(%s)" % json.dumps(ZR_CLOSERS, ensure_ascii=False), False)]),
+  dict(id='ZR79_WEEK', key='2028-09-10', h=21.85, zone='dorm', flags=dict(TWF), js=Y4 + ZRD, pref=['接起來', '早點睡。'],
+       steps=[('until', 22.6, 1500), ('jump', "STORY.dayOfKey('2028-09-17')", 21.85, '下一個週日 21:51'), ('until', 22.6, 1500)],
+       jsok=[('兩次都選「早點睡。」：「好。……晚安。」兩次', LNQ('好。……晚安。'), lambda n: isinstance(n, int) and n >= 2), ('連兩次「早點睡。」：裂縫 +1（ZR_CRACK）', "GAME.G.flags.ZR_CRACK|0", GE1(1))]),
+  dict(id='ZR79_BDAY_CLOSE', key='2027-09-28', h=12.0, zone='dorm', flags=dict(TW3), js=ZRC,
+       steps=[('sendchat', 'heroine_02', 'bday'), ('wait', GE('謝謝！今天我給自己放假，一個人去看電影。'), 1500, '她回生日快樂')], none=['我剛起床。']),
+  dict(id='ZR79_BDAY_DATING', key='2028-09-28', h=20.85, zone='dorm', flags=dict(TWF), js=Y4 + ZRD, pref=['接起來', '生日快樂。', '我等妳。'],
+       steps=[('until', 21.6, 1500)],
+       jsok=[('「……明年的生日，我要回去過。」', LNQ('……明年的生日，我要回去過。'), GE1(1)), ('「我等妳。」→「嗯。你說的喔。」', LNQ('嗯。你說的喔。'), GE1(1)), ('記憶 HOL_BDAY_2028', MEMQ('heroine_02', 'HOL_BDAY_2028'), True)]),
+  dict(id='ZR79_NEWYEAR', key='2028-01-01', h=10.0, zone='dorm', flags=dict(TW3), js=ZRC,
+       steps=[('sendchat', 'heroine_02', 'newyear'), ('jump', 'GAME.G.day', 16.3, '同一天 16:18（她英國時間早上）'), ('until', 17.5, 1500)],
+       jsok=[('「新年快樂！這邊也過了。」「昨天跨年，街上好多人。」', "[%s,%s]" % (GE('新年快樂！這邊也過了。'), GE('昨天跨年，街上好多人。')), [True, True])]),
+  dict(id='ZR79_US', key='2028-10-08', h=9.85, zone='us_apartment', flags=dict(USF), js=Y4 + ZRD, pref=['接起來', '要去了。'],
+       steps=[('until', 10.6, 1500)], jsok=[('美國路線：收尾「你那邊才早上吧。……要去上課了？」', LNQ('你那邊才早上吧。……要去上課了？'), GE1(1)), ('有「要去了。」', LNQ('要去了。'), GE1(1))]),
+]
+for _s in R11:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R11
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
