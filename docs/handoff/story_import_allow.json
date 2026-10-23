@@ -2022,30 +2022,30 @@
   },
   {
    "path": "docs/story_planning/AA_422_多線交往第一批定稿_問句曖昧知情邀約發現.md",
-   "sha": "5156f1435",
+   "sha": "310d6cc67",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "EVPKG-AA227-228-KNOW",
    "kind": "text",
-   "note": "施工中（子代理）"
+   "note": "台詞以 AA_425 為準；施工中（子代理）"
   },
   {
    "path": "docs/story_planning/AA_423_多線交往第二批定稿_挽回與結果.md",
-   "sha": "26357a440",
+   "sha": "310d6cc67",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "EVPKG-AA227-228-KNOW",
    "kind": "text",
-   "note": "施工中（子代理）"
+   "note": "台詞以 AA_425 為準；施工中（子代理）"
   },
   {
    "path": "docs/story_planning/AA_207_AB65第2批_大一上BB人物事件改稿.md",
-   "sha": "271d7a1c7",
+   "sha": "310d6cc67",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AB65-2-L",
    "kind": "text",
-   "note": "第 1～6 節（第 6 節 10-23 更正）；施工中（子代理）"
+   "note": "第 1～7 節（第 7 節 10-23 19:3x 六處，子代理施工中）"
   },
   {
    "path": "docs/story_planning/AA_164_溫州街規劃_三家新店_打工_事件_小公園_Café配置.md",
@@ -2091,6 +2091,15 @@
    "task": "DL-11",
    "kind": "text",
    "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_425_AA422與423審稿更正.md",
+   "sha": "310d6cc67",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 定稿（D109）",
+   "task": "EVPKG-AA227-228-KNOW",
+   "kind": "text",
+   "note": "AA_422、AA_423 的台詞照這份換（施工中，子代理）"
   }
  ]
 }
