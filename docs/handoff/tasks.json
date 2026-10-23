@@ -29346,7 +29346,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23】完整 Node 單元測試 496 支 ALL PASS（e8712e8c1，程式＝719cca3bc）——A 交班 B 第 6 項完成｜【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
+   "next": "【LAWWW-B 10-23 09:1x】BB RELEASE-9106-TEST 第 4 項兩個 FAIL（MX_JP0036、MX_US0200）查證是 probe 前置條件：JPF／USF 預先設了 JP_RETURNED／US_RETURNED（遊戲只在回國那刻記）→ 時差換算沒跑；同情境 tests/msg_kx_abroad_unit.js 1、2、5 PASS；請 BB 拿掉重跑；第 6 項 PASS ｜ 【LAWWW-B 10-23】完整 Node 單元測試 496 支 ALL PASS（e8712e8c1，程式＝719cca3bc）——A 交班 B 第 6 項完成｜【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
   },
   {
    "id": "ART-WZ-LIN-MENU-1022",
@@ -30314,7 +30314,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
+   "next": "【LAWWW-B 10-23 09:1x】AA_404 第二批（企劃線 30bf21de）：SQ10 滇香、SQ11 巷口家常菜、SQ12 Pasta 118、SQ13 韓食小廚、SQ14 一盞茶屋（貓線，接子晴收養 12/15、12/17）、SQ15 舊路書房（學姊大一的民法總則，preTalk）；新 2D hwaxin_street、vet_clinic 歸 BB 要｜AA 背景對照：video_call→video、airport_dep→airport_departure、ntu_library_night→library_gate_night；zuiyue_night、ntu_library_2f、law_library、cafe_night 用 3D；ntu_library_rain＝3D 總圖門口加雨；新畫五張（hwaxin_street、vet_clinic、alley_conv_night、community_room、botanical_lotus）BB 要，沒來前黑底加字幕 ｜ 【AA-B 08:4x 更正】AA_397 SQ02「語彤在法服初談組」作廢→值班的學長姊、地點萬才研討室 B，照新版 ｜ 【LAWWW-B 10-23 08:3x】AA-B 交 AA_397（ffd7eef8）；SQ02、SQ04 的法律內容送 BB_115 審；排在學姊批次與快轉之後"
   },
   {
    "id": "SIS-B9-L-1023",
