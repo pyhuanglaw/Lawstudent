@@ -161,9 +161,9 @@ const SISG=(function(){
         {speaker:null,text:'（媽媽笑了。）'},
         {speaker:'學姊的爸爸',text:'來，拍一張。'},
         {speaker:null,text:'（她看到你，笑了一下。）'},
-        {speaker:ID,expression:'smile',text:'你來了。三件事。'},
-        {speaker:ID,expression:'smile',text:'……不，今天沒有三件事。'},
-        {speaker:ID,expression:'smile',text:'今天只有一件：謝謝你來。'} ],
+        {speaker:ID,expression:'smile',text:'你來了。'},
+        {speaker:ID,expression:'smile',text:'……我本來想了很多要說的。'},
+        {speaker:ID,expression:'smile',text:'今天只說一句：謝謝你來。'} ],   /* AA_398 第 42 列 */
       consequences:{memo:'學姊的畢業典禮'} } ];
 
   /* ---------- 手機（STORY.PHONE_RULES；跳過時間、寒假快轉每小時跑一次）----------*/
@@ -246,7 +246,7 @@ const SISG=(function(){
   S.onStudy=function(GM,hrs){ const G=GM.G, F=(G&&G.flags)||{}; if(G) S.lowMark(G);   /* 在總圖讀書讀到 20:00 以後（2-5，AA_360 2-1）*/ if(!law(G)||!F.SIS_STUDY||G.zone!=='lawlib'||!S.preExam(G.day,G.hour)) return;
     if(!S.herAt(GM,G.hour-(+hrs||1))) return; F.SISG_SAT_DAY=G.day;   /* 和她在法圖坐過（週日那則邀約看這個，AA_339 第 5 題）*/
     if(F.SISG_SEG_DAY===G.day) return; const k=S.nextSeg(G); if(!k) return; F.SISG_SEG=k; F.SISG_SEG_DAY=G.day;
-    if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。三件事。一，飯糰。二，飯糰。三，飯糰。')],'sisg_seg3_'+G.day); return; }
+    if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。飯糰。……早餐、午餐、晚餐都是。')],'sisg_seg3_'+G.day); return; }
     S._seg={k,day:G.day}; };
   S.SEG={1:[[null,'（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）']],   /* ①不放同學名字（AA_339 第 7 題）*/
     2:[[null,'（她把字卡遞給你。）'],[ID,'念給我聽。'],[null,'（你念錯一個字，她直接說出正確答案和條號。）'],[ID,'……你念錯了。不過我答對了。']],

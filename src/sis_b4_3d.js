@@ -58,7 +58,7 @@ const SISB4=(function(){
     else n=(G.trips||[]).filter(t=>t&&t.who===ID&&t.counted&&t.day>r).length;   /* 沒有次數紀錄（測試、舊存檔）：照行程 */
     return {done:true,dates:n,ready:n>=2}; };
   S.rebuildReady=G=>{ const r=S.rebuild(G); return !!(r&&r.ready); };
-  /* 答應的台詞（confess_lines.js；ROM.start 以後才問）：這一段交往是分開以後重新開始的、而且是演過三件事以後 */
+  /* 答應的台詞（confess_lines.js；ROM.start 以後才問）：這一段交往是分開以後重新開始的、而且是演過 ev_sis_three_conditions以後 */
   S.restartYes=function(G){ const F=(G&&G.flags)||{}; if(F.SIS_REBUILD==null||!dating(G)) return false; const H=((romR(G)||{}).history)||[];
     let i=H.length-1; while(i>=0&&!(H[i]&&H[i].ev==='start')) i--; if(i<0) return false;
     for(let j=i-1;j>=0;j--){ if(H[j]&&H[j].ev==='end'){ const d=hDay(H[j]); return d==null||F.SIS_REBUILD>=d; } }

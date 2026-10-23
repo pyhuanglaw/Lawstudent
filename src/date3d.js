@@ -98,18 +98,18 @@ const DATE=(function(){
   S.SIS_RESULT_DAY='2026-03-23';   /* 學姊研究所放榜（告白的分界，AA_223 第 1 節 @8dac7e49）*/
   S.sisPrerank=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.SIS_RESULT_DAY):null; return d!=null&&G.day<d&&!S.sisPreexam(G); };   /* 筆試考完、還沒放榜 */
   S.sisPreexam=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.SIS_EXAM_END):null; return d!=null&&(G.day<d||(G.day===d&&(G.hour%24)<17)); };   /* 2/2 考完（當天 17:00）以前都算筆試前 */
-  /* 學姊分開以後重新開始（AA_386 第 4 節，src/sis_b4_3d.js）：分開過＝{done（這一次分開演過三件事）, dates（那以後的正式校外約會次數）, ready}；沒分開過、別人＝null（照一般條件）*/
+  /* 學姊分開以後重新開始（AA_386 第 4 節，src/sis_b4_3d.js）：分開過＝{done（這一次分開演過 ev_sis_three_conditions）, dates（那以後的正式校外約會次數）, ready}；沒分開過、別人＝null（照一般條件）*/
   S.rebuildOf=(G,id)=>id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.rebuild?SISB4.rebuild(G):null;
   S.rebuildConfess=(G,id)=>{ const r=S.rebuildOf(G,id); return !!(r&&r.ready); };
   S.canConfess=function(G,id){ if(S.HOLD[id]) return {ok:false,why:'hold',note:S.HOLD[id]};
     const L=S.log(G,id), st=S.stageNum(id), rb=S.rebuildOf(G,id);
     if(st<6) return {ok:false,why:'stage',stage:st};
-    if(rb){ if(!rb.done) return {ok:false,why:'rebuild'}; if(rb.dates<2) return {ok:false,why:'count',count:rb.dates}; }   /* AA_386 第 4 節：分開過的學姊——演過三件事（SIS_REBUILD）才會再出現告白；之後兩次正式校外約會（不要求四次，AA_128 3-3、BB_122 9-2）*/
+    if(rb){ if(!rb.done) return {ok:false,why:'rebuild'}; if(rb.dates<2) return {ok:false,why:'count',count:rb.dates}; }   /* AA_386 第 4 節：分開過的學姊——演過 ev_sis_three_conditions（SIS_REBUILD）才會再出現告白；之後兩次正式校外約會（不要求四次，AA_128 3-3、BB_122 9-2）*/
     else if(L.count<4) return {ok:false,why:'count',count:L.count};
     if(!L.wish) return {ok:false,why:'wish'};
     const w=S.willing(G,id); if(!w.ok) return {ok:false,why:w.why}; if(id==='heroine_05'&&S.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&S.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
   /* 人物頁的進度提示（AA_128 3-2；不寫數字） */
-  S.hint=function(G,id){ const L=S.log(G,id); { const rb=S.rebuildOf(G,id); if(rb&&rb.done) return '她在等她說好的那一天'; }   /* AA_386 第 6 節：演過三件事、還沒重新交往的期間 */ if(S.stageNum(id)<5) return null;
+  S.hint=function(G,id){ const L=S.log(G,id); { const rb=S.rebuildOf(G,id); if(rb&&rb.done) return '她在等她說好的那一天'; }   /* AA_386 第 6 節：演過 ev_sis_three_conditions、還沒重新交往的期間 */ if(S.stageNum(id)<5) return null;
     if(L.count<4) return '再多一些兩個人出去的時間';
     if(!L.wish){ if(!L.wishKnown) return '她好像有一個很想去的地方'; const nm=S.wishName(G,id); return nm?`她提過想去${nm}`:null; }
     return null; };
@@ -519,7 +519,7 @@ const DATE=(function(){
     if(c.decline&&!D[c.decline]) return {ok:false,why:'lines'}; if(typeof D.hideIf==='function'&&D.hideIf(G,t)) return {ok:false,why:'hidden'};   /* hideIf：這段期間不走一般告白（例：沛珊重考期，改用特別場面；AA_223 第 4 節 @52702c92）*/ if(typeof D.only==='function'&&!D.only(G,t)) return {ok:false,why:'place'};   /* only：只在某些場合（例：語彤只在淡水收尾）*/
     const L=S.log(G,id), ny=L.notYet; if(ny&&(G.day-ny.day<14||(L.count|0)<=(ny.count|0))) return {ok:false,why:'notYet'}; return c; };
   S.confessOffer=async function(GM,t){ const G=GM.G, id=t.who; if(typeof TERMEND!=='undefined'&&TERMEND.ON&&!S.rebuildConfess(G,id)) return false;   /* 告白只在學期末（BB_203；使用者 2026-10-17 11:40）：約會收尾不再有告白，改成期末飯後的回家路上（termend3d.js）；
-      例外：分開過的學姊重新開始（AA_386 4-2）——演過三件事以後第二次正式校外約會的結尾告白（「她說好的那天」）*/ const c=S.confessReady(G,id,t); if(!c.ok) return false;
+      例外：分開過的學姊重新開始（AA_386 4-2）——演過 ev_sis_three_conditions以後第二次正式校外約會的結尾告白（「她說好的那天」）*/ const c=S.confessReady(G,id,t); if(!c.ok) return false;
     const k=await GM.choose([{t:'（告訴她）'},{t:'（今天先不說）'}]); if(k!==0) return false; return S.confess(GM,id,c,t); };
   S.confess=async function(GM,id,c,t){ const G=GM.G, D=CL(id), L=S.log(G,id), me={name:nameOf(id),charId:id};
     const run=async lines=>{ for(const ln of (lines||[])){ if(ln==null) continue; const x=typeof ln==='string'?{who:id,text:ln}:ln, o=x.expr?{expr:x.expr}:undefined;

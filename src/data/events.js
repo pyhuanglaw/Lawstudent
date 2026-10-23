@@ -3399,7 +3399,7 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'好。'} ],   /* AA_255 第 4 節第 7 點（附錄 A：原本「我查過了。你夠。」「……我是問妳。」是收尾梗、以安替人打分；AA_375 第 4 節提醒）*/
     consequences:{memo:'博雅 101：交換學生甄選說明會'} },
   /* 學姊上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00；家族群組 Kevin 揪、「去。」才排出遊，story3d.js）：有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。
-     她的三件事：第三件看 ASKED_TELL_ME（BB_108 第 1 節）*/
+     她的話（AA_398：不數件數）：最後那句看 ASKED_TELL_ME（BB_108 第 1 節）*/
   { id:'ev_sis_results_dinner', title:'學姊上榜聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'永康街・咖哩店',bg:'yongkang_curry'},{unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'},
       {speaker:'heroine_05',expression:'smile',text:'謝謝大家。……這次的題目，是我自己選的。'},

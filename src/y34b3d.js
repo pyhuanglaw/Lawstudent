@@ -230,8 +230,8 @@ const Y34B=(function(){
     if(TW(G)&&F.SIS_SENDOFF==null&&!F.SIS_RIDE&&NOW(G)>=T(go,9)){ F.SIS_SENDOFF='bus'; at(G,go,9,[GSIS('（照片：客運的窗外）'),GSIS('出發了。')],'y4_sis_bus'); }   /* 沒說要送：她搭客運 */
     /* US0（台灣、日本路線；8/3 09:00 台灣＝美東 8/2 21:00）*/
     if(!US(G)&&NOW(G)>=T(u0,9)&&!sent(G,'y4_us0')&&G.day<=u0+2){ F.US0_AT=T(u0,9);
-      if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。三件事。'),DM('heroine_05','……算了，一件：這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
-      else at(G,u0,tzH(G,u0,9),[GSIS('到了。三件事。……算了，一件：這裡的天空很大。'),GKEV('學姊妳可以多講兩個字'),GSIS('這裡的天空很大，大家保重。')],'y4_us0'); }
+      if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。'),DM('heroine_05','這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
+      else at(G,u0,tzH(G,u0,9),[GSIS('到了。天空很大。'),GKEV('學姊妳可以多講兩個字'),GSIS('這裡的天空很大，大家保重。')],'y4_us0'); }
     if(sent(G,'y4_us0')&&!F.REPLIED_US0&&F.US0_AT!=null&&NOW(G)<F.US0_AT+72){ const mine=(G.msgs||[]).some(m=>m.from==='player'&&(m.th==='p:heroine_05'||m.th==='g:family_law')&&T(m.day,m.h)>=F.US0_AT);
       if(mine){ F.REPLIED_US0=true; remember('heroine_05','REPLIED_US0','到了'); } }   /* 回了（回覆不另寫字：在那個對話串傳任何一句都算；AA_355 第 2 節照用）*/
     /* M6：8/3 起每天一張照片（只在家族群組；美國路線沒有）；週日六題爭論，之後「今天不吵」 */
@@ -316,7 +316,7 @@ const Y34B=(function(){
     const o=[us?{t:'我回去陪妳找律師。先把看不懂的地方標起來傳給妳。',set:{ZQ_CONTRACT:'lawyer'},say:[R('好。你標，我畫重點。……我睡醒再看')]}:{t:'我陪妳去找律師。我先幫妳把看不懂的地方標起來。',set:{ZQ_CONTRACT:'lawyer'},say:[R(dt?'好。你標，我畫重點。':'好。你標，我畫重點。……我們好像在念書')]}];
     if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服 */
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
-    if(three) o.push({t:'先看三件事：遊戲的權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('三件事。……你講話越來越像你們那個學姊。')]});   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
+    if(three) o.push({t:'先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('……你講話越來越像律師了。好，找律師。')]});   /* AA_398 第 33 列 */   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
     open[open.length-1].ask={id:'y4_q14',until,opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
   /* ================= 1B-24 以安新 20 ================= */
   S.an20Mode=G=>datingOther(G,'heroine_01')?'noodle':'cafe';
@@ -568,8 +568,8 @@ const Y34B=(function(){
     {if:C(G=>G.flags.HOOK_SIS_SENDOFF!=null),speaker:'heroine_05',text:'……你說你會來。'},
     {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
     {speaker:'heroine_05',text:'回程路上喝。冰的。'},
-    {if:C(famV),speaker:'heroine_05',text:'……一件事。只有一件。回到家在群組說一聲。'},
-    {if:C(fam2),speaker:'heroine_05',text:'……一件事。只有一件。回到家傳訊息給我。'},
+    {if:C(famV),speaker:'heroine_05',text:'……回到家，在群組說一聲。'},
+    {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
   const dSis=G=>dating(G,'heroine_05'), xSis=G=>exOf(G,'heroine_05'), kxUn=G=>kxIn(G)&&!kxKnows(G,'heroine_05');

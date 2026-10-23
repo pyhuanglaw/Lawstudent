@@ -120,12 +120,12 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {scene:'湖邊',bg:'us_lake'},
       {unless:{custom:G=>dating(G,S5)},goto:'r'},
       {if:{memory:[{npc:S5,tag:'CHICAGO_TRIP'}]},speaker:S5,text:'上次在芝加哥，我把行程表摺起來了。這次乾脆不寫。'},
-      sis('放假要做的事，我列了。'),
-      nar('（她把手機給你看。上面寫著：一，睡到自然醒。二，不看信。三，）'),
-      sis('第三件想不到。空白。'),
-      me('兩件事。一，穿暖。二，不要帶筆電。'),
-      sis('（愣住，然後笑出來）……那是我的句型。'),
-      sis('好。第三件就寫：看雪。'),
+      sis('放假要做的事，我寫在備忘錄了。'),
+      nar('（她把手機給你看。備忘錄上只有一行：「睡到自然醒」。）'),
+      sis('其他的想不到。'),
+      me('穿暖。不要帶筆電。'),
+      sis('（愣住，然後笑出來）……你在管我。'),
+      sis('好。那再加一行：看雪。'),   /* AA_398 第 31 列 */
       CG('cg_frozen_lake_heroine05'),   /* BCG-23（要改圖：湖水沒結冰、岸邊有薄雪，BB_183 1-7）*/
       sis('（打字，停了一下，又加兩個字）跟你。'),
       {set:{US3:'two'}},{end:true},
@@ -205,11 +205,11 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_sf1', title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
     dialogue:[ {scene:'舊金山',bg:'trip_hotel_twin'},
       nar('（她坐在靠窗的那張床上，打開計畫本。新的一頁，最上面寫「舊金山」，下面是空的。）'),
-      sis('以前出門，我會先寫三件事。'),
+      sis('以前出門，我會先把每一天都排好。'),
       sis('……這一頁我不寫。'),
       sis('這一週，你排。'),
       {choice:[{text:'「第一天：睡到自然醒。」',goto:'a'},{text:'「我們一天排一件就好。」',goto:'b'},{text:'「妳也排一件。」',goto:'c'}]},
-      {label:'a'},sis('……這可以算一件事嗎。'),sis('好。算。'),nar('（她在那一頁寫下：「一，睡到自然醒。」然後把筆蓋起來。）'),{goto:'e'},
+      {label:'a'},sis('……這也算行程嗎。'),sis('好。算。'),nar('（她在那一頁寫下：「第一天：睡到自然醒。」然後把筆蓋起來。）'),   /* AA_398 第 32 列 */{goto:'e'},
       {label:'b'},sis('一天一件。'),nar('（她想了一下）'),sis('……那五天，五件。剛好。'),{goto:'e'},
       {label:'c'},sis('我？'),nar('（她看著空白頁很久）'),sis('……一件。最後一天，寄一張明信片回台灣。給家族。'),
       {label:'e'} ] });
@@ -591,13 +591,13 @@ const R2Y4A_EVENTS=(function(){
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
       IF(G=>has(S5,'DROVE_HER'),sis('這次我一直講。你可以轉頭。')),UN(G=>has(S5,'DROVE_HER'),sis('我一直講。你可以轉頭。')),
       sis('……不行，看前面。'),
-      sis('三件事。一，美國的雞蛋。二，圖書館的咖啡機。'),
-      sis('三，我想吃滷肉飯。現在。'),
-      IF(PV('family'),{speaker:'Kevin',text:'學姊妳終於講超過三句了！'}),   /* Kevin 在後座 */
-      IF(PV('lover'),sis('……四，我想你。我多講了一件。')),
+      sis('美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。'),
+      sis('我想吃滷肉飯。現在。'),
+      IF(PV('family'),{speaker:'Kevin',text:'學姊妳今天話好多！'}),   /* Kevin 在後座 */
+      IF(PV('lover'),sis('……還有，我想你。')),   /* AA_398 第 35 列 */
       {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',goto:'c'}]},
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
-      {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。這不是三件事。」（r2y4a3d.js）*/
+      {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。不要再說明天。」（r2y4a3d.js；AA_398 第 36 列）*/
       {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),
       {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });

@@ -227,8 +227,8 @@ const R2Y4A=(function(){
     if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
     /* ---- 2-Y4-06 推甄 ---- */
     { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
-        const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「一，你可以。二，你可以。三，你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
-        L[L.length-1].ask={id:'y4_push_note',opts:[{t:'三件都一樣。',say:[{from:S5,text:'對。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
+        const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
+        L[L.length-1].ask={id:'y4_push_note',opts:[{t:'只有一句。',say:[{from:S5,text:'一句就夠了。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
         PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }
     { const d=D('2028-11-23'); if(d!=null&&G.day>=d&&G.day<=d+2){ const B=t=>({th:'p:'+BH,from:BH,text:t});
         if(S.pushOn(G)&&past(G,d,15)&&!F.Y4_PUSH){ const ok=S.pushPass(G); F.Y4_PUSH=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='push';   /* 11/23 15:00 放榜（學校信箱）*/
@@ -332,7 +332,7 @@ const R2Y4A=(function(){
         if(!F.SIS_PICKUP_V&&F.SIS_PICKUP_GO) F.SIS_PICKUP_V=F.SIS_PICKUP_GO;
         if(F.SIS_PICKUP_V&&!F.SIS_PICKUP) plan(G,{id:'y4_sis_pickup',ev:'ev_sis_pickup',day:d,h:20.5,late:0.25,place:'桃園機場入境大廳',title:'接機（學姊）',travel:'開車 約 50 分鐘',travelH:5/6,alarm:true});   /* alarm：跳過時間、睡覺停在出發前（BUG-KAI-PICKUP-1022；同 X81 8/30）*/
         if(!F.SIS_PICKUP_V&&!F.SIS_PICKUP&&PHONE.sent(G,'y4_pickup_ask')&&past(G,d,21.5)){ F.SIS_PICKUP='mrt'; PHONE.at(G,d,21.5,[GS('到了。捷運很快。')],'y4_pickup_mrt'); }
-        if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。這不是三件事。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
+        if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。不要再說明天。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
     /* ---- 2-Y4-24 聖誕：12/24 21:00 私訊（去／不去）→ 12/25（一）19:00 政大山下 ---- */
     { const a=D('2028-12-24'), d=a!=null?a+1:null; if(a!=null&&kxOn(G)&&!abroad(G)&&G.day>=a-1&&G.day<=d+1){
         if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx_xmas_ask')){ const L=[K('明天白天各自讀。'),K('晚上來政大山下，那家咖啡店開到十點。我們讀到打烊。')]; L[1].ask={id:'y4_kx_xmas',until:T(d,19),opts:[{t:'去。',set:{KX_XMAS_Y4:'go'}},{t:'不去。',set:{KX_XMAS_Y4:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx_xmas_ask'); }
