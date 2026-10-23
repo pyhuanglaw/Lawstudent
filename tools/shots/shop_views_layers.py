@@ -26,9 +26,10 @@ FOV = 53.13
 OUTDIR = os.path.join(ROOT, 'assets', 'models', 'env', 'views')
 # 名稱: (區域, 玩家站的位置（不入鏡）, 鏡頭位置, 看的點, D＝近景和遠景的分界（公尺）)。位置和 tools/shots/shop_views.py 相同（窗中心高、店面玻璃外側一點點）
 VIEWS = {
-    'noodle': ('gongguan', [-63, 14], [-63.0, 2.1, 21.7], [-63, 2.1, -40], 9.0),
-    'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0),
-    'cvs': ('gongguan', [-29.4, 14], [-29.4, 2.1, 21.7], [-29.4, 2.1, -40], 9.0),
+    # 公館：近景只收 3.4 m 以下（TOP）——騎樓前緣的梁（2.7 m 外、3.85 m 高）照片只拍到下緣，貼到近景的景深以後變成窗上方一條飄在空中的線
+    'noodle': ('gongguan', [-63, 14], [-63.0, 2.1, 21.7], [-63, 2.1, -40], 9.0, 3.4),
+    'bookstore': ('gongguan', [-41.6, 14], [-41.6, 2.1, 21.7], [-41.6, 2.1, -40], 9.0, 3.4),
+    'cvs': ('gongguan', [-29.4, 14], [-29.4, 2.1, 21.7], [-29.4, 2.1, -40], 9.0, 3.4),
     'cafe': ('wenzhou', [50, 0], [55.1, 1.9, 0.0], [0, 1.9, 0.0], 7.0),
     'wz_lin': ('wenzhou', [36.4, 3.0], [36.45, 1.3, 4.6], [36.45, 1.3, -40], 6.0),
     'wz_teishoku': ('wenzhou', [-2.8, -3.0], [-2.8, 1.25, -4.6], [-2.8, 1.25, 40], 6.0),
@@ -36,13 +37,13 @@ VIEWS = {
 TIMES = {'day': 11.0, 'night': 20.5}
 WAIT_ASSETS = "for(let i=0;i<240;i++){ const st=ASSETS.status||{}; const pend=Object.keys(st).filter(k=>!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))); if(!pend.length) break; await new Promise(r=>setTimeout(r,250)); }"
 # 拍完一般截圖以後（fast_shots 的 post）：景深兩組中位數＋三張畫面（遠景、近景黑底、近景白底）的 PNG data URL
-LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, GY=0.22;
+LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, TOP=%s, GY=0.22;
   const ray=new THREE.Raycaster(); ray.camera=C; ray.far=600; const fwd=new THREE.Vector3(); C.getWorldDirection(fwd);
   const vis=o=>{ if(o.isSprite||o.isLine||o.isPoints) return false; for(let p=o;p;p=p.parent) if(!p.visible) return false; const m=o.material; return Array.isArray(m)?m.some(x=>x&&x.visible!==false):!(m&&m.visible===false); };
   const isBack=o=>{ const m=o.material; return !!m&&!Array.isArray(m)&&m.side===THREE.BackSide; };
   const dn=[], df=[]; let sky=0;
   for(let j=0;j<16;j++) for(let i=0;i<32;i++){ ray.setFromCamera(new THREE.Vector2((i+0.5)/32*2-1,(j+0.5)/16*2-1),C);
-    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); if(d<D){ if(h.point.y>GY&&d>0.8) dn.push(d); } else df.push(d); }   /* 近景的景深只算地面以上的東西（地面在遠景） */
+    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); if(d<D){ if(h.point.y>GY&&h.point.y<TOP&&d>0.8) dn.push(d); } else df.push(d); }   /* 近景的景深只算地面以上的東西（地面在遠景） */
   const med=a=>{ a.sort((x,y)=>x-y); return a.length?+a[Math.floor(a.length/2)].toFixed(2):null; };
   const skip0=E.renderSkip; E.renderSkip=()=>true; const n0=C.near, f0=C.far, bg0=S.background, ac=R.autoClear, cp0=R.clippingPlanes;
   const back=[]; S.traverse(o=>{ if(o.visible&&isBack(o)) back.push(o); });
@@ -51,7 +52,7 @@ LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, GY
   R.autoClear=false; R.clearDepth(); C.near=n0; C.far=D; C.updateProjectionMatrix(); back.forEach(o=>{ o.visible=false; }); R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,-1,0),GY)];
   R.render(S,C); const far=R.domElement.toDataURL('image/png'); R.autoClear=ac;
   /* 近景：D 以內、地面以上（柱子、機車、立牌、樹） */
-  R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,1,0),-GY)]; C.near=0.8; C.updateProjectionMatrix();   /* 店自己的門框、鐵捲門箱（鏡頭在店面玻璃外 0.3 m）不進近景：第一版窗上方多一條飄在空中的線 */
+  R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,1,0),-GY),new THREE.Plane(new THREE.Vector3(0,-1,0),TOP)]; C.near=0.8; C.updateProjectionMatrix();   /* 店自己的門框、鐵捲門箱（鏡頭在店面玻璃外 0.3 m）不進近景：第一版窗上方多一條飄在空中的線 */
   S.background=new THREE.Color(0,0,0); R.render(S,C); const nb=R.domElement.toDataURL('image/png');
   S.background=new THREE.Color(1,1,1); R.render(S,C); const nw=R.domElement.toDataURL('image/png');
   R.clippingPlanes=cp0; back.forEach(o=>{ o.visible=true; }); S.background=bg0; C.near=n0; C.far=f0; C.updateProjectionMatrix(); E.renderSkip=skip0;
@@ -85,12 +86,12 @@ def matte(b, w):
 
 tmp = tempfile.mkdtemp(prefix='shopviews2_'); RAW = os.environ.get('VIEWS_RAW', tmp)
 shots = []
-for k, (zone, ppos, pos, look, D) in VIEWS.items():
+for k, (zone, ppos, pos, look, D, *top) in VIEWS.items():
     if ONLY and k not in ONLY: continue
     for t, h in TIMES.items():
         shots.append({'out': os.path.join(tmp, f'{k}_{t}.png'), 'w': 1024, 'h': 512, 'hideNPCs': True, 'hidePlayer': True,
                       'state': {'zone': zone, 'hour': h, 'pos': {'x': ppos[0], 'z': ppos[1], 'yaw': 0}}, 'cam': {'pos': pos, 'look': look},
-                      'js': "(async()=>{ %s GAME.E.camera.fov=%s; GAME.E.camera.updateProjectionMatrix(); })()" % (WAIT_ASSETS, FOV), 'wait': 5000, 'post': LAYERS % D})
+                      'js': "(async()=>{ %s GAME.E.camera.fov=%s; GAME.E.camera.updateProjectionMatrix(); })()" % (WAIT_ASSETS, FOV), 'wait': 5000, 'post': LAYERS % (D, top[0] if top else 99)})
 spec = os.path.join(tmp, 'shots.json'); json.dump(shots, open(spec, 'w'), indent=1)
 r = subprocess.run([sys.executable, os.path.join(ROOT, 'tools/blender/env_second/shots/fast_shots.py'), URL, spec], capture_output=True, text=True)
 jpath = os.path.join(ROOT, 'tools', 'shots', 'shop_views_layers.json')
