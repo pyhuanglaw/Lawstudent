@@ -292,12 +292,12 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(d3,8.1,'dorm',{Y4_PATH:'grad'}); R('heroine_05','FRI');
     check('11. S3 2/3 08:00～08:40、要考筆試、雙方都單身：考場門口（noteDue）', R3.noteDue(G)&&(G.hour=8.7,!R3.noteDue(G))&&(G.hour=8.1,true));
     said=[]; R3.tick(GM,0.6); for(let k=0;k<8;k++) await new Promise(r=>setImmediate(r));
-    check('11. D 當面：08:30「（教學館門口。……）」「（便條：「一，你可以。二，你可以。三，你可以。」）」「三件都一樣。」「對。」（不是交往中＝沒有便利商店那句）；SIS_NOTE_GRAD door', has('（教學館門口。她把一張摺好的便條放進你手裡。）')&&has('（便條：「一，你可以。二，你可以。三，你可以。」）')&&has('三件都一樣。')&&has('對。')&&!has('我在對面的便利商店等。考完先傳訊息。')&&G.flags.SIS_NOTE_GRAD==='door'&&G.hour>=8.5-1e-6&&!R3.noteDue(G), JSON.stringify(lines()));
+    check('11. D 當面：08:30「（教學館門口。……）」「（便條：「你可以。」）」「只有一句。」「一句就夠了。」（AA_398 第 37 列；不是交往中＝沒有便利商店那句）；SIS_NOTE_GRAD door', has('（教學館門口。她把一張摺好的便條放進你手裡。）')&&has('（便條：「你可以。」）')&&has('只有一句。')&&has('一句就夠了。')&&!has('我在對面的便利商店等。考完先傳訊息。')&&G.flags.SIS_NOTE_GRAD==='door'&&G.hour>=8.5-1e-6&&!R3.noteDue(G), JSON.stringify(lines()));
     fresh(d3,8.1,'home',{Y4_PATH:'grad',ROOM_Y4:d3-150}); date('heroine_05'); G.home={at:true};
     check('11. 在家（寒假）：home3d.js 的選單問 STORY.y4HomeDue＝stay', STORY.y4HomeDue(G)==='stay');
     said=[]; await STORY.y4HomeScene(GM); check('11. 交往中：多「我在對面的便利商店等。考完先傳訊息。」', has('我在對面的便利商店等。考完先傳訊息。')&&G.flags.SIS_NOTE_GRAD==='door');
     fresh(d3-1,20.5,'dorm',{Y4_PATH:'grad'}); R('heroine_05','FRI'); C('heroine_05'); date('kexin'); run(d3-1,20.5,21.25);
-    check('11. D 祐廷和別人交往中：2/2 21:00 照片＋「三件都一樣。」／「謝謝。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'&&JSON.stringify(askOpts('r3_sis_note_photo'))===JSON.stringify(['三件都一樣。','謝謝。'])&&G.flags.SIS_NOTE_GRAD==='photo');
+    check('11. D 祐廷和別人交往中：2/2 21:00 照片＋「只有一句。」／「謝謝。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:📷（一張手寫的便條：你可以。）'&&JSON.stringify(askOpts('r3_sis_note_photo'))===JSON.stringify(['只有一句。','謝謝。'])&&G.flags.SIS_NOTE_GRAD==='photo');
     ans('r3_sis_note_photo',1); check('11. 「謝謝。」→「考完傳訊息。」；2/3 早上不當面', txt('p:heroine_05').slice(-1)[0]==='heroine_05:考完傳訊息。'&&(G.day=d3,G.hour=8.2,!R3.noteDue(G)));
     fresh(d3,8.1,'dorm',{Y4_PATH:'bar'}); R('heroine_05','FRI'); check('11. 不考研究所：沒有便條', !R3.noteDue(G));
     fresh(d3,8.1,'dorm',{Y4_PATH:'grad',Y4_PUSH:'pass'}); R('heroine_05','FRI'); check('11. 推甄上了：沒有便條', !R3.noteDue(G)); }

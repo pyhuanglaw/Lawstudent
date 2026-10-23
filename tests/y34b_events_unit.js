@@ -220,7 +220,7 @@ const date=id=>H.date(id);
   answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
   check('W1 單身、FRIEND 以上：Kevin「直屬學弟的車！家聚那台！」→ 兩個人：她私訊「……你確定？……」；排 8/2 08:00（鬧鐘）', th('g:family_law').includes('直屬學弟的車！家聚那台！')&&th('p:heroine_05').join('|')==='……你確定？到機場要一個多小時，還要上高速公路。|確定。|……好。'&&OUT.get(H.G,'y4_sis_airport')&&OUT.get(H.G,'y4_sis_airport').alarm===true);
   at('2028-08-02',7.9); await goOut('y4_sis_airport');
-  check('W1 兩個人的車、機場「回程路上喝。冰的。」「……回到家傳訊息給我。」；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('……一件事。只有一件。回到家傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
+  check('W1 兩個人的車、機場「回程路上喝。冰的。」「……回到家傳訊息給我。」；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('……回到家，傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
   check('AA_337 第 3 題 機場的旁白改早上：下車處第一句「（八月的早上，機場外面已經很熱了。）」（沒有午後雷陣雨）', idx('（八月的早上，機場外面已經很熱了。）')>idx('（她一路看著前面的路。）')&&idx('（八月的早上，機場外面已經很熱了。）')<idx('回程路上喝。冰的。')&&!H.said.some(s=>/雷陣雨/.test(s.t)));
   at('2028-08-03',9); phone();
   check('W1 8/3 私訊 US0「是因為那是高速公路。」', th('p:heroine_05').includes('是因為那是高速公路。')&&!th('g:family_law').includes('這裡的天空很大，大家保重。'));
@@ -228,12 +228,12 @@ const date=id=>H.date(id);
   { fresh('2028-07-26',21,'dorm',{HOOK_SIS_SENDOFF:1}); H.FRIEND('heroine_05'); date('kexin'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
     check('W2 交往中（別人）：Kevin「你有車？？」→「我也要去！我坐後面！」學妹「我也要！」', th('g:family_law').includes('你有車？？')&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！')&&!th('p:heroine_05').length);
     at('2028-08-02',7.9); await goOut('y4_sis_airport');
-    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……一件事。只有一件。回到家在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
+    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
     at('2028-08-03',9); phone(); check('1B-18 家族共乘：US0 在家族群組「這裡的天空很大，大家保重。」', th('g:family_law').includes('這裡的天空很大，大家保重。')); }
   { fresh('2028-07-26',21,'dorm',{},'JP'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const early=(H.G.msgs||[]).some(x=>x.text==='我搭客運去機場。大家不用送。');
     at('2028-07-26',22); phone(); const m=(H.G.msgs||[]).find(x=>x.text==='我搭客運去機場。大家不用送。');
-    at('2028-08-03',9.9); phone(); const early2=th('g:family_law').includes('到了。三件事。……算了，一件：這裡的天空很大。'); at('2028-08-03',10); phone();
-    check('W4 日本路線（人在日本：台灣時間＋1）：7/26 群組照發（當地 22:00）、沒有按鈕；8/3 群組「這裡的天空很大」（當地 10:00）', !early&&!!m&&!m.ask&&!early2&&th('g:family_law').includes('到了。三件事。……算了，一件：這裡的天空很大。')); }
+    at('2028-08-03',9.9); phone(); const early2=th('g:family_law').includes('到了。天空很大。'); at('2028-08-03',10); phone();
+    check('W4 日本路線（人在日本：台灣時間＋1）：7/26 群組照發（當地 22:00）、沒有按鈕；8/3 群組「這裡的天空很大」（當地 10:00）', !early&&!!m&&!m.ask&&!early2&&th('g:family_law').includes('到了。天空很大。')); }
   { fresh('2028-07-26',22,'dorm'); H.FRIEND('heroine_05'); H.FAMILIAR('heroine_03'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); at('2028-08-02',9); phone();
     check('1B-18 沒說要送：8/2 09:00 客運的照片「出發了。」；SIS_SENDOFF bus', th('g:family_law').includes('（照片：客運的窗外）')&&H.G.flags.SIS_SENDOFF==='bus');
     at('2028-08-10',19); H.G.zone='noodle'; const nb=ev('ev_sis_note_bus'); const before=EVENTS.check(nb); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; E.npcs=[GM.npc.heroine_03]; const after=EVENTS.check(nb);
@@ -346,8 +346,8 @@ const date=id=>H.date(id);
     if(it){ H.G.day=it.day; H.G.hour=it.t0; H.picks=[0,0,0,0,0,0]; try{ await CLS.attend(GM,it,{door:true}); ok=true; }catch(e){ err=String(e&&e.stack||e).slice(0,300); } }
     const ob=SYLLABUS.courses.ip_law.find(q=>q.w===4).obs;
     check('第 6 題 大四上智財法第 4 週（9/27 週三）是討論課（understand U_COPYRIGHT）：去了就記 U_COPYRIGHT', !!it&&it.week===4&&it.c.kind==='elective'&&!it.c.choice&&ob.kind==='discuss'&&ob.understand.includes('U_COPYRIGHT')&&ok&&H.G.flags.U_COPYRIGHT===true, err||(it?'':'找不到 9/27 的智財法')); }
-  { fresh('2028-10-11',21,'dorm',{U_COPYRIGHT:true,U_CONTRACT:true}); H.FRIEND('heroine_04'); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); const k=m?m.ask.opts.findIndex(o=>/^先看三件事/.test(o.t)):-1; if(k>=0) answer('y4_q14',k);
-    check('第 6 題 U_COPYRIGHT＋U_CONTRACT：多「先看三件事：遊戲的權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。」→「三件事。……你講話越來越像你們那個學姊。」', k>=0&&th('p:heroine_04').includes('三件事。……你講話越來越像你們那個學姊。')&&H.G.flags.ZQ_CONTRACT==='lawyer'); }
+  { fresh('2028-10-11',21,'dorm',{U_COPYRIGHT:true,U_CONTRACT:true}); H.FRIEND('heroine_04'); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); const k=m?m.ask.opts.findIndex(o=>/^先看權利歸誰/.test(o.t)):-1; if(k>=0) answer('y4_q14',k);
+    check('第 6 題 U_COPYRIGHT＋U_CONTRACT：多「先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。」→「……你講話越來越像律師了。好，找律師。」', k>=0&&th('p:heroine_04').includes('……你講話越來越像律師了。好，找律師。')&&H.G.flags.ZQ_CONTRACT==='lawyer'); }
   /* ===== 1B-24 ===== */
   fresh('2029-05-02',20,'dorm',{whyLaw:'econ'}); H.FRIEND('heroine_01'); at('2029-05-02',21); phone();
   check('1B-24 5/2 21:00 以安「明天下午四點有空嗎」「兩點半窗邊 想找人聊天」', th('p:heroine_01').join('|')==='明天下午四點有空嗎|兩點半窗邊 想找人聊天');

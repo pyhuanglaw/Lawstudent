@@ -250,8 +250,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.said=[]; await date(H.G); const O1=H.opts.flat(), c1=DATE.canConfess(H.G,ID);
     H.G.day+=3; H.said=[]; H.picks=[0,0]; await date(H.G); const O2=H.opts.flat(), L=said();
     check('4-2. 三件事以後：第一次正式校外約會的結尾沒有告白（不要求四次：次數從三件事那天起算）',c0.ok===false&&c0.why==='count'&&c0.count===0&&!O1.includes('（告訴她）')&&c1.why==='count'&&c1.count===1,J({c0,c1,O1}));
-    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應：「三件事。一，你做到了。」「二，我也想好了。三，……這次，我選你。」（不是第一次的「考試那時候就有一點了」）；交往中',
-      O2.includes('（告訴她）')&&L.includes('三件事。一，你做到了。')&&L[L.indexOf('三件事。一，你做到了。')+1]==='二，我也想好了。三，……這次，我選你。'&&!L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
+    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應：「你做到了。」「……我也想好了。」「這次，我選你。」（AA_398 第 47 列）（不是第一次的「考試那時候就有一點了」）；交往中',
+      O2.includes('（告訴她）')&&L.includes('你做到了。')&&L[L.indexOf('你做到了。')+1]==='……我也想好了。'&&L[L.indexOf('你做到了。')+2]==='這次，我選你。'&&!L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
   { brk('ex'); at('2028-04-12',10); await pre([0]); stage6(); H.G.zone='dorm'; await date(H.G); H.G.day+=3; H.picks=[0,0]; await date(H.G); const back=H.G.flags.dating_heroine_05===true, dB=H.G.day;   /* 重新開始了 */
     ROM.end(H.G,ID,'apart_talk'); H.G.zone='library'; at(CALENDAR.dateOf(dB+41).key,10); const a=ev1(), rb=X()&&X().rebuild(H.G), c=DATE.canConfess(H.G,ID); at(CALENDAR.dateOf(dB+42).key,10); const b=ev1();
     check('4-1. 重新開始以後又分開：上一次的三件事不算這一次——沒有告白（why rebuild），滿 6 週再演一次三件事（BB_122 9-5：她永遠保留攻略可能）',back&&a===null&&!!rb&&rb.done===false&&c.why==='rebuild'&&b==='ev_sis_three_conditions',J({back,a,rb,c,b})); }
@@ -266,7 +266,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('6. 人物頁提示：演過三件事、還沒重新交往＝「她在等她說好的那一天」；演之前、重新交往以後不是這一句',h1==='她在等她說好的那一天'&&h0!=='她在等她說好的那一天'&&back&&h2!=='她在等她說好的那一天'&&inDoc('她在等她說好的那一天'),J({h0,h1,h2,back}));
     H.G.zone='library'; at('2028-05-02',10); const e=ev1();
     check('6. 分開以後又重新交往（現在交往中）：第 1 節的窗口還在＝照常演（大三下第 11 週 1-4）',back&&e==='ev_sis_adv_y4',J({back,e})); }
-  check('4-2. 答應的兩句在稿裡（AA_386 4-2）',inDoc('學姊「三件事。一，你做到了。」')&&inDoc('學姊「二，我也想好了。三，……這次，我選你。」'));
+  check('4-2. 答應的三句在稿裡（AA_386 4-2；AA_398 第 47 列改字）',doc398.includes('「你做到了。」「……我也想好了。」「這次，我選你。」'));
   });
 
   /* ======================= 5 閒聊階梯（白名單 ladder_bb_y3s1／y3s2 @5ef4e291）======================= */

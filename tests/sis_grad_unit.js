@@ -138,7 +138,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     /* 一起念書的日常：讀完一段輪到一段；③是那天晚上的家族群組；⑤要 SIS_TEA_ORDER */
     { fresh(td('Y1S1',8,3),19,'lawlib',{SIS_W1:true,SIS_STUDY:true}); FRI(); joinFam(); herHere(); const seen=[];
       for(let w=8;w<=13;w++){ const d=td('Y1S1',w,3); setT(d,21); said=[]; STORY.onStudy(GM,2); const r=SISG.tick(GM); if(r) await SISG._p; const s=said.slice(); span(Tm(d,21.05),Tm(d,22.1)); G.zone='lawlib'; const g=fam().filter(x=>x.tag==='sisg_seg3_'+d); seen.push(s.length?s.map(q=>q.t).join('/'):(g.length?'G:'+g.map(x=>x.text).join('/'):'—')); }
-      check('2-3／G2. 第 8～13 週的星期三在法圖讀完：①（AA_339 第 7 題：不放同學名字「她和兩個也要考研究所的同學」）②③④輪流、⑤沒有 SIS_TEA_ORDER 不排、接著回到①',/^（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）$/.test(seen[0])&&seen[1]==='（她把字卡遞給你。）/念給我聽。/（你念錯一個字，她直接說出正確答案和條號。）/……你念錯了。不過我答對了。'&&seen[2]==='G:學姊今天有吃飯嗎/有。三件事。一，飯糰。二，飯糰。三，飯糰。'&&seen[3]==='（你卡在一題民總，她看了一眼。）/先看題目問誰。你在幫錯的人想。/（說完就回去讀自己的。）'&&seen[4]===seen[0],JSON.stringify(seen));
+      check('2-3／G2. 第 8～13 週的星期三在法圖讀完：①（AA_339 第 7 題：不放同學名字「她和兩個也要考研究所的同學」）②③④輪流、⑤沒有 SIS_TEA_ORDER 不排、接著回到①',/^（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）$/.test(seen[0])&&seen[1]==='（她把字卡遞給你。）/念給我聽。/（你念錯一個字，她直接說出正確答案和條號。）/……你念錯了。不過我答對了。'&&seen[2]==='G:學姊今天有吃飯嗎/有。飯糰。……早餐、午餐、晚餐都是。'&&seen[3]==='（你卡在一題民總，她看了一眼。）/先看題目問誰。你在幫錯的人想。/（說完就回去讀自己的。）'&&seen[4]===seen[0],JSON.stringify(seen));
       const g3=fam().filter(x=>/^sisg_seg3_/.test(x.tag)); check('2-3. ③家族群組：Kevin 先問、她才回（那天晚上 22:00）',g3.length===2&&g3[0].from==='kevin'&&g3[1].from===ID&&Math.abs(g3[0].h-22)<0.06,JSON.stringify(g3.map(x=>[x.from,x.h])));
       G.flags.SIS_TEA_ORDER=true; G.flags.SISG_SEG=4; const d=td('Y1S1',13,3)+7; setT(td('Y1S1',14,3),21); said=[]; STORY.onStudy(GM,2); if(SISG.tick(GM)) await SISG._p; picks=[];
       check('2-3. ⑤有 SIS_TEA_ORDER 才排（④之後）：無糖綠茶去冰「……誰跟你說的。」',txts()[0]==='（你把一杯無糖綠茶去冰放在她的書旁邊。她看了杯子一眼。）'&&txts()[1]==='……誰跟你說的。'&&opts.slice(-1)[0].join('|')==='「一一八的店員。」|（不說）'&&txts()[2]==='……她記性比我好。謝謝。',JSON.stringify(txts())); }
@@ -262,7 +262,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     check('2-12. 6/6（六）早上私訊「今天十一點，霖澤館。不用帶花」→ 11:00 出遊（有點熟以上）',her().length===1&&her()[0].text==='今天十一點，霖澤館。不用帶花'&&!!q&&q.h===11&&q.ev==='ev_sis_graduation',JSON.stringify(q));
     { fresh(d,7.5,'dorm',{}); R(10); span(Tm(d,7.9),Tm(d,9)); check('2-12. 只認識：沒有私訊、沒有出遊',!her().length&&!OUT.get(G,'sisg_grad')); }
     fresh(d,11,'dorm',{}); FAM(); await EVENTS.run(ev('ev_sis_graduation'));
-    check('2-12. 台詞：爸爸「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 → 拍一張 →「你來了。三件事。」「……不，今天沒有三件事。」「今天只有一件：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的爸爸：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','學姊的爸爸：來，拍一張。','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。三件事。',SOCIAL.displayName(ID)+'：……不，今天沒有三件事。',SOCIAL.displayName(ID)+'：今天只有一件：謝謝你來。']),JSON.stringify(lines()));
+    check('2-12. 台詞：爸爸「九月開學？」→「九月。……開學前，我想先睡一個禮拜。」→ 媽媽笑 → 拍一張 →「你來了。」「……我本來想了很多要說的。」「今天只說一句：謝謝你來。」',JSON.stringify(lines())===JSON.stringify(['學姊的爸爸：九月開學？',SOCIAL.displayName(ID)+'：九月。……開學前，我想先睡一個禮拜。','（媽媽笑了。）','學姊的爸爸：來，拍一張。','（她看到你，笑了一下。）',SOCIAL.displayName(ID)+'：你來了。',SOCIAL.displayName(ID)+'：……我本來想了很多要說的。',SOCIAL.displayName(ID)+'：今天只說一句：謝謝你來。']),JSON.stringify(lines()));
     { const sc=ev('ev_sis_graduation').dialogue.find(l=>l.scene!==undefined); check('2-12. 背景 2D linze_auditorium（霖澤館一樓大廳）',sc&&sc.bg==='linze_auditorium'); }
   });
   /* ---------- G1 只有點熟、沒解鎖 ---------- */
