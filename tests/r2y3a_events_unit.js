@@ -193,7 +193,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { // AA_356 第 2 節：「我明天拿來。」＝隔天以後第一次進總圖還書、−40、清掉；欠著的時候不再跳逾期；當天不還
     fresh('2026-03-10',14,'library',{}); const fb=ev('ev_forgot_book'), br=ev('ev_book_return'); const c0=EVENTS.check(fb); await play('ev_forgot_book',[1]); const set=G.flags.book_overdue===true&&G.flags.book_overdue_day===G.day;
     const same=!EVENTS.check(br)&&!EVENTS.check(fb); to('2026-03-11',10); G.zone='library_hall'; const next=EVENTS.check(br); const m0=G.money; await play('ev_book_return');
-    check('AA_356 2：選「我明天拿來。」記 book_overdue＋那一天；當天不還、也不再跳逾期；隔天進總圖（大廳）旁白一句、錢 −40、清掉',c0&&set&&same&&next&&has('（你把那本《民法總則》還了。多拖一天，罰款變成四十元。）')&&G.money===m0-40&&!G.flags.book_overdue&&!EVENTS.check(br),JSON.stringify({c0,set,same,next,m:G.money-m0,f:G.flags.book_overdue})); }
+    check('AA_356 2：ev_forgot_book 關掉（BUG-BOOK-OVERDUE-1023：沒有借書就不會逾期）；舊存檔選過「我明天拿來。」的照舊：記 book_overdue＋那一天；當天不還；隔天進總圖（大廳）旁白一句、錢 −40、清掉',!c0&&set&&same&&next&&has('（你把那本《民法總則》還了。多拖一天，罰款變成四十元。）')&&G.money===m0-40&&!G.flags.book_overdue&&!EVENTS.check(br),JSON.stringify({c0,set,same,next,m:G.money-m0,f:G.flags.book_overdue})); }
   fresh('2027-09-10',17.6,'campus',{ZHE2:'none'}); R('zhe','FAM'); await play('ev_zhe_captain',[0]); check('5. ZHE2 none：沒有回聲',!any(/記分板|叫我自己來/));
 
   // ===== 6. 2-Y3-06 可昕 K15「三十分鐘的晚餐」 =====

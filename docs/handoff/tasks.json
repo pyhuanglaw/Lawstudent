@@ -30250,6 +30250,27 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:3x】開工：invites3d.js S.tick 的提醒改成可以選直接過去（照快速前往：花路程時間、到約好的地方）；DATE 提醒可以提早出發（OUT.go 抵達不早於約好的時間）；單元測試修改前 FAIL；BB 補測"
+  },
+  {
+   "id": "BUG-BOOK-OVERDUE-1023",
+   "title": "圖書館借書逾期莫名其妙一直跳（使用者 10-23 08:3x，D59）：ev_forgot_book 是 3F 閱覽區的隨機事件、遊戲沒有借書",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "法律系大一上第 6 天以後進總圖 3F 閱覽區",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:3x】ev_forgot_book retired（ev_book_return 留給舊存檔欠著的）；tests/r2y3a_events_unit.js 改（HEAD 版 FAIL）；問 AA 要不要做真的借書（總圖服務台），做了再接這一則；BB 補測：進 3F 閱覽區不再跳逾期"
   }
  ]
 }

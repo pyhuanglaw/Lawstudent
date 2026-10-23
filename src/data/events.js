@@ -4363,7 +4363,8 @@ const STORY_EVENTS_V11=[
   /* AA_356 第 2 節：選「我明天拿來。」＝隔天以後第一次進總圖還書、罰款變四十元（原本欠著不用付，當場繳的反而吃虧）；欠著的時候不再跳逾期 */
   { id:'ev_book_return', title:'還書', participants:[], location:['library_hall','library'], trigger:'enter', background:'freeze', prereq:{custom:G=>!!(G.flags&&G.flags.book_overdue)&&G.day>(G.flags.book_overdue_day|0)},
     dialogue:[ {speaker:null,text:'（你把那本《民法總則》還了。多拖一天，罰款變成四十元。）',consequences:{money:-40},set:{book_overdue:false}} ] },
-  { id:'ev_forgot_book', title:'忘記還書', participants:[], location:'library', trigger:'enter', day_min:6, cooldown_days:7, random_weight:0.4, background:'freeze', prereq:{custom:G=>!(G.flags&&G.flags.book_overdue)},
+  { id:'ev_forgot_book', title:'忘記還書', retired:true,   /* BUG-BOOK-OVERDUE-1023（使用者 10-23 08:3x「為什麼莫名其妙一直圖書館借書逾期」）：遊戲沒有借書，這一則每 7 天在 3F 閱覽區隨機跳＝沒借過也一直逾期。先關掉；有借書系統再接（問 AA）。ev_book_return 留著，舊存檔欠著的還得掉 */
+    participants:[], location:'library', trigger:'enter', day_min:6, cooldown_days:7, random_weight:0.4, background:'freeze', prereq:{custom:G=>!(G.flags&&G.flags.book_overdue)},
     dialogue:[ {speaker:null,text:'櫃台叫住你：「同學，你有一本《民法總則》逾期三天。」'},{choice:[{text:'繳罰款（30 元）',consequences:{money:-30}},{text:'「我明天拿來。」',consequences:{flags:{book_overdue:true},stamp:'book_overdue_day'}}]} ] },
   { id:'ev_midnight_snack', title:'考前宵夜', participants:['zhe'], location:'dorm', trigger:'enter', weeks:[7,8],   /* AA_195 4-7 A5：期中前（第 7～8 週）；期末前那次等 16 週制（E 類）*/ time:[22,24.5], cooldown_days:5, random_weight:0.5, background:'freeze',
     dialogue:[ {speaker:null,text:'手機震了一下。阿哲：「宵夜 滷味攤 現在 明軒也在」'},{choice:[{text:'「來了。」',consequences:{mem:[{npc:'zhe',tag:'SHARED_MEAL',note:'考前宵夜'}],rel:{zhe:{fam:3,comf:3}},energy:-6,money:-90,advance:1,memo:'考前跟阿哲他們去吃宵夜'}},{text:'「我明天要上台報告，下次。」',consequences:{rel:{zhe:{fam:0}},mem:[{npc:'zhe',tag:'DECLINED_INVITE',note:'考前宵夜'}]}},{text:'「我晚點去找你們。」',consequences:{rel:{zhe:{fam:1}},advance:0.5}}]} ] },
