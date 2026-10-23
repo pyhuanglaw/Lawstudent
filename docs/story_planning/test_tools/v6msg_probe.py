@@ -520,8 +520,45 @@ async def s_fy_pc_no(p, run, base, sid, out):
     await pc_apr(p, run, base, sid, out.setdefault(sid, {}), False)
 
 
-ORDER = ['MX_US1136', 'MX_JP0036', 'MX_US0200', 'MX_JP2340', 'MX_TW2340', 'FY_F3', 'FY_PC', 'FY_PC_NO']
-FN = dict({k: s_mx for k in MXS}, FY_F3=s_fy_f3, FY_PC=s_fy_pc, FY_PC_NO=s_fy_pc_no)
+# BB-B 10-23 11:0x：LAWWW-B a89f1815b 修了明信片的位置（宿舍 d.x+0.35；美國公寓改放 (2.85,-1.8)），請加測美國公寓那幾張（2028-09～12，美國路線、她在美國）
+async def pc_us(p, run, base, sid, res, key):
+    pf = dict(USF, **BASEF); pf['Y4_PATH'] = 'other'
+    b, pg, cdp, errs, r = await launch(p, run, base, key, 12.6, 'us_apartment', preflags=pf, rels={ZR: 'FRIEND'}, label=sid + '（美國路線、人在美國；%s 12:36 公寓）' % key)
+    try:
+        await pg.evaluate(HOOK2)
+        pre = await pg.evaluate("""(k=>{ const G=GAME.G, R=R2Y4A.pc2Rec(G); const L=[]; for(const c of R2Y4A.pc2Cards(G)){ if(c.key<k){ R.read[c.key]=STORY.dayOfKey(c.key); G.flags.ZR_POSTCARD2=G.flags.ZR_POSTCARD2||[]; if(!G.flags.ZR_POSTCARD2.includes(c.m)) G.flags.ZR_POSTCARD2.push(c.m); L.push(c.key); } }
+          R.first=R.first||STORY.dayOfKey('2028-09-22'); return {read:L, pending:R2Y4A.pc2Pending(G).map(c=>c.key+'@'+c.zone), abroad:!!STORY.abroad(G), route:STORY.route(G)}; })(%s)""" % json.dumps(key))
+        run.setup('[前置] %s：%s 以前的當成讀過：%s → 剩下 %s（abroad %s、路線 %s）' % (sid, key, pre.get('read'), pre.get('pending'), pre.get('abroad'), pre.get('route')))
+        it = None
+        for k in range(12):
+            await pg.wait_for_timeout(2000)
+            it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
+            if it: break
+        res['it'] = it; run.check('%s：公寓裡有「明信片」' % sid, bool(it), J({'it': it, 'pre': pre}, 600))
+        if not it: return
+        await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=150); await pg.wait_for_timeout(800)
+        lab = await pg.evaluate(LAB); pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
+        res['reach'] = [pp, lab]; await run.shot(pg, '%s_at' % sid)
+        run.check('%s：走得到、互動鈕是「明信片」' % sid, '明信片' in (lab or ''), J({'pos': pp, 'lab': lab, 'it': it}, 400))
+        if '明信片' not in (lab or ''): return
+        card = await pg.evaluate("(k=>{ const c=R2Y4A.pc2Cards(GAME.G).find(c=>c.key===k); if(!c) return []; const o=[]; const w=v=>{ if(typeof v==='string'){ if(v.length>=6) o.push(v); } else if(Array.isArray(v)) v.forEach(w); else if(v&&typeof v==='object') Object.values(v).forEach(w); }; w(c); return o; })(%s)" % json.dumps(key))
+        n0 = await log_len(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        ch = await drive(pg, cdp, run, picks=['（先不回）'], max_s=150, label=sid)
+        T = texts(await log_since(pg, n0)); res['said'] = [lab, T, ch]; await run.shot(pg, '%s_after' % sid)
+        hit = [c for c in card if any(c in t or t in c for t in T if len(t) >= 6)]
+        rd = await pg.evaluate("(k=>{ const R=R2Y4A.pc2Rec(GAME.G); return !!(R.read&&R.read[k]!=null); })(%s)" % json.dumps(key))
+        run.check('%s：按下去讀得到那一張（卡上的字出現、記成讀過）' % sid, bool(hit) and rd, J({'hit': hit[:3], 'read': rd, 'said': T[:8], 'card': card[:4]}, 700))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+@guard
+async def s_pc_us9(p, run, base, sid, out): await pc_us(p, run, base, sid, out.setdefault(sid, {}), '2028-09-22')
+@guard
+async def s_pc_us12(p, run, base, sid, out): await pc_us(p, run, base, sid, out.setdefault(sid, {}), '2028-12-15')
+
+
+ORDER = ['MX_US1136', 'MX_JP0036', 'MX_US0200', 'MX_JP2340', 'MX_TW2340', 'FY_F3', 'FY_PC', 'FY_PC_NO', 'PC_US9', 'PC_US12']
+FN = dict({k: s_mx for k in MXS}, FY_F3=s_fy_f3, FY_PC=s_fy_pc, FY_PC_NO=s_fy_pc_no, PC_US9=s_pc_us9, PC_US12=s_pc_us12)
 
 
 async def main():
