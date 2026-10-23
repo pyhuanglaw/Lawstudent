@@ -209,9 +209,9 @@ async def s_gg(p, run, out):
 
 # ---------------------------------------------------------------- 第 12 項 遠距離路人
 LOD_SPOTS = {'avenue_mid': (-40, 0, 1.5708), 'avenue_gate': (-104, 0, 1.5708)}
-SAMPLE = """(()=>{ const E=GAME.E, cam=E.camera, C=CHAR; const out=[];
-  for(const n of E.npcs){ if(!n.isExtra||!n.obj) continue; const o=n.obj, u=o.userData||{}; const d=Math.hypot(cam.position.x-o.position.x,cam.position.z-o.position.z); out.push([n.id, +d.toFixed(1), !!u.isFar, !!u.farLOD, o.visible!==false]); }
-  for(const x of E.extras){ const rd=x.rider; if(!rd||!x.obj) continue; const u=rd.userData||{}; const d=Math.hypot(cam.position.x-x.obj.position.x,cam.position.z-x.obj.position.z); out.push(['ride:'+(x.id||''), +d.toFixed(1), !!u.isFar, !!u.farLOD, x.obj.visible!==false]); }
+SAMPLE = """(()=>{ const E=GAME.E, cam=E.camera, C=CHAR; const out=[];   /* BB-B 10-23：路人沒有 n.id（全部是 null＝不同的人被當成同一個，「閃」算錯）→ 用 obj.uuid */
+  for(const n of E.npcs){ if(!n.isExtra||!n.obj) continue; const o=n.obj, u=o.userData||{}; const d=Math.hypot(cam.position.x-o.position.x,cam.position.z-o.position.z); out.push([n.id||n.charId||o.uuid, +d.toFixed(1), !!u.isFar, !!u.farLOD, o.visible!==false]); }
+  for(const x of E.extras){ const rd=x.rider; if(!rd||!x.obj) continue; const u=rd.userData||{}; const d=Math.hypot(cam.position.x-x.obj.position.x,cam.position.z-x.obj.position.z); out.push(['ride:'+(x.id||x.obj.uuid), +d.toFixed(1), !!u.isFar, !!u.farLOD, x.obj.visible!==false]); }
   return {t:performance.now(), rows:out, has:!!C.setFar, off:!!C.farOff}; })()"""
 
 

@@ -9,3 +9,4 @@ v6_mx3 v6msg_probe.py MX_TW2340,MX_JP2340
 v6_pcdiag v6msg_probe.py FY_PC,FY_PC_NO
 v6_art2 v6art_probe.py SHELTER,NM3,GG,LOD,SKIRT
 v6_ceil2 v6art_probe.py CEIL
+v6_lod2 v6art_probe.py LOD
