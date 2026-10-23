@@ -30023,7 +30023,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW-B 10-23 12:2x】使用者選 C（她們各自喜歡的東西）；A 不做（不加體力照舊）；請 AA 給每位喜歡的東西＋點對了的專屬句 ｜ 【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
+   "next": "【LAWWW-B 10-23 12:3x】AA_410 交了，實作在 FOOD-FAV-1023 ｜ 【LAWWW-B 10-23 12:2x】使用者選 C（她們各自喜歡的東西）；A 不做（不加體力照舊）；請 AA 給每位喜歡的東西＋點對了的專屬句 ｜ 【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
   },
   {
    "id": "ART-NO-DARK-WOOD-1023",
@@ -30548,7 +30548,7 @@
    "title": "沛珊最早可以交往＝大一上期末（AA_313 6-3 A、AA_334 第 1 節）：交往中的玩家大一下沒有柏翰三場（ev_midterm_supper_y1s2、ev_peishan_bohan_w4、ps_split_group 加 unless dating）、partner 看「沒有和玩家交往」",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "next": "【LAWWW-B 10-23 12:2x】使用者選擇題 A；AA 改 AA_228 第 5 列（大一上期末，或回來以後）；LAWWW 照 AA_313 6-3 A 實作",
    "first": {
@@ -30562,7 +30562,30 @@
     "confirmed": true
    },
    "source": "AA_313 6-3、AA_334 第 1 節",
-   "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-15）"
+   "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-15）",
+   "note": "2026-10-23 12:3x LAWWW-B 實作（AA_409 86016b84）：期中晚餐、第 4 週讀書會交往中版本、柏翰閒聊條件；tests/aa245_psbh_unit.js ALL PASS；BB 測（清單第 44 項）。"
+  },
+  {
+   "id": "FOOD-FAV-1023",
+   "title": "她們各自喜歡吃的東西（AA_410；使用者 10-23 選擇題 C）：一起吃時幫她點／請客，點對了專屬一句、熟悉 +2、戀愛 +1、REMEMBERED_HER，每人一次；可昕＝學期末約會前在巷口茶飲帶一杯",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23 12:3x】AA_410（企劃線 86016b84）交了；等店員支線第二三批子代理（改同一批店家點餐檔）交件合併以後做",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "和女主角一起吃飯",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_410（86016b84）",
+   "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-13）",
+   "aliases": []
   }
  ]
 }
