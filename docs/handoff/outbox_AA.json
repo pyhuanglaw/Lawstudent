@@ -1997,6 +1997,21 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "LAWWW-B 10-23 第 5 項的兩題：(a) 大四下被當延畢沿用大五上、6/2 照一般畢業生、6/18 成績公布才變延畢，交換才有的十二處換掉、新句子九句、重修期末改報告；(b) AA_227 328 句找到 10、AA_228 146 句找到 3，場景沒進遊戲，分兩批定稿。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW-B1",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "5156f1435",
+   "files": [
+    "docs/story_planning/AA_422_多線交往第一批定稿_問句曖昧知情邀約發現.md"
+   ],
+   "state": "已交付",
+   "remaining": "第二批（挽回、結果、第二次冷靜期）AA_423",
+   "next": "LAWWW-B 照 AA_422＋AA_227／AA_228 原文做第一批；BB 測第 8 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "USER_WANTS D35★ 第一批：七位的第一次約會問句（ASKED_GF）、知情版心意邀約（照 BB_203 C10／5-3，承諾沒做到的第二次）、發現（含子晴、芷若一個人的版本，國外改視訊）；原文一字不改。"
   }
  ],
  "items": [
