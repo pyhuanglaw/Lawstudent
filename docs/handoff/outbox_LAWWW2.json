@@ -2295,6 +2295,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "公館 14 間：玻璃後面從平面店內圖換成立體淺店內（unlit 頂點色＋真的商品）；遊戲程式不用改；gongguan_glb_integration ALL PASS（draw call 1.09～1.13×、≤34.1 萬三角形，附 patch）"
+  },
+  {
+   "task": "ART-SHOP-VIEWS-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（下一個 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/shop_views_two_layers_1023.patch（world3d.js，對開發 26d9efdb）",
+    "assets/models/env/views/{cvs,noodle,bookstore,cafe}_{day,night}.webp＋_near_{day,night}.webp",
+    "tools/shots/shop_views_layers.py、shop_views_layers.json",
+    "docs/art-rebuild/second_ai/test_shots/shop_views_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "118 巷九間店的窗景（下一批）；公館街上本身很空（另外提案）；真機沒看過",
+   "next": "LAWWW：patch＋照片進開發分支；跑 room_ceiling_unit；see_through 的 2 項 FAIL 是開發分支本來就有；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "店內窗景兩層（遠景＋去背近景、各自視差）：公館便利商店、書店、麵店、溫州街 Café；draw call／三角形和修改前相同"
   }
  ]
 }
