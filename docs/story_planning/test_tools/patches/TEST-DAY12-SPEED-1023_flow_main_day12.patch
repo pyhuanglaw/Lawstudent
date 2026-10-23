@@ -1,5 +1,5 @@
 --- a/tests/flow_main_day12.py	2026-10-23 17:04:47.272668890 +0000
-+++ b/tests/flow_main_day12.py	2026-10-23 17:56:26.627669423 +0000
++++ b/tests/flow_main_day12.py	2026-10-23 18:53:31.707104965 +0000
 @@ -22,15 +22,55 @@
      await L.tap(pg, cdp, '#interact'); return True
  
@@ -99,7 +99,7 @@
 -        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口')
 -        run.check('走到霖澤館門口（點地面／搖桿）', ok)
 +        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口', max_s=S_(420), stop=TAKEN)
-+        took = ok and await taken_over(pg, run, '走到霖澤館門口')
++        took = await taken_over(pg, run, '走到霖澤館門口')   # 找門以前就被帶走也算（門不在場景裡、door＝None；BB-B 10-23 v3 負載 25 時就是這樣）
 +        if took:
 +            for n in ('走到霖澤館門口（點地面／搖桿）', '門口出現「進入霖澤館」', '進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
 +        else: run.check('走到霖澤館門口（點地面／搖桿）', ok)
@@ -136,7 +136,7 @@
 +                    run.check('進到霖澤館大廳、目標是上二樓到 201 教室', s['zone'] == 'linze' and '201' in g, f'goal={g}')
 +                    c201 = await L.find_it(pg, '進入 201')
 +                    ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1, max_s=S_(420), stop=TAKEN)
-+                    took = ok and await taken_over(pg, run, '走樓梯上二樓到 201')
++                    took = await taken_over(pg, run, '走樓梯上二樓到 201')
 +                    if took:
 +                        for n in ('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
 +                    else: run.check('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', ok)
