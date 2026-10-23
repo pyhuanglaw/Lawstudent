@@ -4189,7 +4189,7 @@
    "title": "美國路線（校外公寓社區、美東時差 −13／3/12 起 −12、香港朋友何俊朗）",
    "area": "V4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：暫停條件（v9.10 發布後）早已成立，看板改進行中：BB 照 docs/handoff/bb_checklists/BB_US_LIFE_1021.md、BB_R2Y4_1021.md 實際流程驗收；AA 回 AA_QUESTIONS_1021 第 I 節美國 8 題；美國的 2D 背景見 SCN-US-2D ｜ SYS-10 之後依劇情順序",
    "priority": "P1",
    "first": {
@@ -4217,7 +4217,8 @@
      "note": "暫停五欄齊，恢復條件「v9.10 發布後」10-18 已成立、recheckOn（v9.10 發布前）已過；標題的大三下 1/19、−13 已過時（現行大四上 8/2～12/23）；程式已做好，缺 BB 驗收與背景圖"
     }
    ],
-   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）"
+   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
+   "notes": "【LAWWW-B 10-23 18:3x 對帳】狀態過時：校外公寓社區（src/exchange3d.js、src/us3d.js）、時差（us_life3d.js S8、STORY.tzOffset）、何俊朗（characters.js、us_life3d.js）都在開發分支。待 BB 走美國路線（清單第 61 項）；AA 第 2 項清查美國篇缺口（10-23 17:2x 派工）。"
   },
   {
    "id": "V5-F01",
@@ -8838,7 +8839,8 @@
      "note": "暫停五欄齊，恢復條件已成立、recheckOn 已過；美國交換已在施工，2D 背景全缺，一鍵上課等都是黑底"
     }
    ],
-   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立，改等圖）"
+   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立，改等圖）",
+   "notes": "【LAWWW-B 10-23 18:3x 對帳】bg_approved 的美國底圖全部已在 assets/bg 並登錄 OUT.BG（us_classroom、us_restaurant、us_bus_station(_winter)、chicago_*、us_airport、sf_*、us_lake、us_club_*、us_chapel_steps）；只差 us_shared_kitchen 沒有圖——BB 照 D97 向使用者要。"
   },
   {
    "id": "SCN-US-CG",
@@ -22928,7 +22930,7 @@
    "title": "美國交換 20 週照 AA_291：美國路線和日本一樣延畢一學期（大五上補修強制執行法、法律倫理，證書 2030-01）；秋假 10/7～10/14 兩人去大峽谷",
    "area": "v4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -22950,7 +22952,8 @@
      "evidence": "已做：美國那一學期 src/us_life3d.js（AA_340 第 5 節 S1～S12：8/21 開學到 12/16 離開、一鍵上課、學姊作息、時差、12/23 回台 exchange3d.js:38）、秋假大峽谷 r2y4b3d.js:366-378（AA_291 2-1）、2030 國考 postgrad3d.js:40；沒做：美國路線大五上補修強制執行法、法律倫理（courses.js 只有 Y4S1 的 enforcement、legal_ethics，沒有 route US 的 Y5S1 版）、calendar 沒有 Y5S1",
      "note": "美國學期能玩，延畢那學期的補修沒有"
     }
-   ]
+   ],
+   "notes": "【LAWWW-B 10-23 18:3x 對帳】狀態過時：大五上補修（強制執行法、法律倫理，src/y5s1_3d.js，AA_357 d07eb988）、秋假大峽谷（ev_us_canyon，src/r2y4b3d.js 2-Y4-56，AA_291 2-1）都在開發分支；美國 20 週行事曆在 src/us_life3d.js S.CAL。待 BB 走美國路線（清單第 61 項）。"
   },
   {
    "id": "ZR-RING3-CUP",
