@@ -5,6 +5,7 @@
   CAT_sit   坐著，尾巴繞到前腳前面
   CAT_lie   趴著睡，縮成一團（麻糬）
   CAT_walk  走路中的一步（左前腳、右後腳往前）
+  CAT_curl  寒流那一週縮成一團（身體捲成圓、頭低低靠在前腳上、尾巴繞過身體蓋到鼻子前面、眼睛閉著）——LAWWW2-B 2026-10-23 加（WZ-CAT-LIFE-1023，AA_397 第 3 節）
 每個姿勢都有 morph target `fat`（大二上胖了；大二下瘦一點＝0.5）。
 造型：身體、胸、臀、頭、臉頰、口鼻、四腳、腳掌、尾巴一串的橢球（實際尺寸）→ 體素重建網格（關節自然融合）→ 平滑 → 減面；耳朵、眼睛、鼻子另外建（耳朵是有厚度的三角錐，眼睛是半埋的橢球）。不用方塊。
 花色：程序產生（橘色底、背上和腳、尾巴的虎斑、白色的肚子、胸、口鼻、腳掌），烘進貼圖（cat_fur＝年輕、cat_fur_old＝毛色淡、口鼻偏白）。
@@ -90,8 +91,20 @@ POSES = {
         ('ELLIPSOID', (0.05, 0.016, -0.225), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
         ('ELLIPSOID', (-0.05, 0.016, -0.10), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
     ] + tail_chain(TAIL_PTS_WALK, 0.030, 0.017),   # 這串球只給花色、fat 判斷部位用；網格是 tail_tube（TAIL_TUBE）
+    # 寒流（LAWWW2-B 10-23）：一顆扁圓的身體（轉 20°，屁股在右後、胸在左前）、頭低低的在正前方、兩隻前腳收在下巴底下、尾巴從屁股繞過右邊到下巴前面
+    'curl': [
+        ('ELLIPSOID', (-0.02, 0.08, -0.04), 0.16, (1.05, 0.52, 0.95), (0, 20, 0), 'torso'),
+        ('ELLIPSOID', (0.07, 0.075, -0.12), 0.11, (1.0, 0.65, 0.85), (0, 0, 0), 'hip'),
+        ('ELLIPSOID', (-0.08, 0.072, 0.06), 0.09, (0.9, 0.7, 0.85), (0, 0, 0), 'chest'),
+        ('BALL', (0.0, 0.10, 0.135), 0.064, (1, 1, 1), (0, 0, 0), 'head'),
+        ('ELLIPSOID', (0, 0.085, 0.155), 0.05, (1.25, 0.8, 0.8), (0, 0, 0), 'cheek'),
+        ('ELLIPSOID', (0, 0.08, 0.188), 0.026, (1.2, 0.8, 0.9), (0, 0, 0), 'muzzle'),
+        ('ELLIPSOID', (-0.035, 0.022, 0.172), 0.021, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (0.03, 0.022, 0.176), 0.021, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
+    ] + tail_chain([(0.12, 0.03, -0.17), (0.18, 0.026, -0.08), (0.18, 0.024, 0.04), (0.13, 0.022, 0.15), (0.06, 0.022, 0.215), (-0.02, 0.022, 0.225)], 0.026, 0.019),
 }
-HEAD = {'sit': ((0, 0.305, 0.075), 0.068), 'lie': ((0, 0.135, 0.165), 0.066), 'walk': ((0, 0.29, 0.235), 0.066)}
+HEAD = {'sit': ((0, 0.305, 0.075), 0.068), 'lie': ((0, 0.135, 0.165), 0.066), 'walk': ((0, 0.29, 0.235), 0.066), 'curl': ((0.0, 0.10, 0.135), 0.064)}
+CLOSED = {'curl'}   # 閉著眼睛的姿勢：眼睛壓成一條細縫、沒有反光點
 
 
 # ---------------- 建模 ----------------
@@ -213,7 +226,7 @@ def build_pose(pose):
     mark(2); rng['ear'] = (a, len(bm.verts)); a = len(bm.verts)
     for side in (1, -1):   # 眼睛：半埋在臉上的扁橢球
         r = bmesh.ops.create_uvsphere(bm, u_segments=8, v_segments=5, radius=1.0)
-        for v in r['verts']: v.co = Vector((v.co.x * 0.011, v.co.y * 0.006, v.co.z * 0.009))
+        for v in r['verts']: v.co = Vector((v.co.x * 0.011, v.co.y * 0.006, v.co.z * (0.0016 if pose in CLOSED else 0.009)))   # 閉眼：上下壓扁成一條縫
         bmesh.ops.translate(bm, verts=r['verts'], vec=g2b(hx + side * hr * 0.42, hy + hr * 0.12, hz + hr * 0.86))
     mark(3); rng['eye'] = (a, len(bm.verts)); a = len(bm.verts)
     r = bmesh.ops.create_uvsphere(bm, u_segments=6, v_segments=4, radius=1.0)   # 鼻子
@@ -221,7 +234,7 @@ def build_pose(pose):
     bmesh.ops.translate(bm, verts=r['verts'], vec=g2b(hx, hy - hr * 0.18, hz + hr * 1.32))
     mark(4); rng['nose'] = (a, len(bm.verts)); a = len(bm.verts)
     ER = np.array([0.011, 0.009, 0.006])   # 眼睛橢球的三軸半徑（遊戲座標 x, y, z；上面 Vector 的 x, z, y）
-    for side in (1, -1):   # v2（LAWWW2-B 驗收）：反光點＝眼睛表面上一個 1.6 mm 的小六角形，UV 指到白色（不加第二個材質）
+    for side in (() if pose in CLOSED else (1, -1)):   # v2（LAWWW2-B 驗收）：反光點＝眼睛表面上一個 1.6 mm 的小六角形，UV 指到白色（不加第二個材質）；閉眼沒有
         c = np.array([hx + side * hr * 0.42, hy + hr * 0.12, hz + hr * 0.86]); t = 1.0 / math.sqrt(float(np.sum((HL_DIR / ER) ** 2)))
         p = c + HL_DIR * t; n = (p - c) / ER ** 2; n /= np.linalg.norm(n); _, u, w = frame_from(n)
         ctr = bm.verts.new(g2b(*(p + n * 0.0003)))
@@ -307,7 +320,7 @@ def set_attr(me, name, vals):
     for i, v in enumerate(vals): ca.data[i].color = (float(v[0]), float(v[1]), float(v[2]), 1.0)
 
 
-def uv_tile(ob, tile):
+def uv_tile(ob, tile, h=0.48):
     """智慧展開 UV，再縮到貼圖集的那一格（tile＝(u0, v0)，一格 0.5×0.5）"""
     bpy.context.view_layer.objects.active = ob
     for o in bpy.context.view_layer.objects: o.select_set(o == ob)
@@ -315,7 +328,7 @@ def uv_tile(ob, tile):
     bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.035, area_weight=0.0)   # v2：0.012→0.035（v1 走路姿勢眼睛的深色滲到身體那一塊）
     bpy.ops.object.mode_set(mode='OBJECT')
     uv = ob.data.uv_layers.active.data; u0, v0 = tile
-    for d in uv: d.uv = (u0 + 0.01 + d.uv[0] * 0.48, v0 + 0.01 + d.uv[1] * 0.48)
+    for d in uv: d.uv = (u0 + 0.01 + d.uv[0] * 0.48, v0 + 0.01 + d.uv[1] * h)
 
 
 # ---------------- 配件：項圈＋名牌、繃帶（每個姿勢一份）----------------
@@ -323,13 +336,15 @@ NECK = {   # (中心, 朝頭的方向, 半徑)
     'sit': ((0, 0.255, 0.07), (0, 0.85, 0.5), 0.047),
     'lie': ((0, 0.10, 0.135), (0, 0.35, 0.94), 0.050),
     'walk': ((0, 0.245, 0.19), (0, 0.5, 0.87), 0.048),
+    'curl': ((0, 0.075, 0.105), (0, 0.3, 0.95), 0.050),
 }
 LEG = {    # 左前腳：(中心, 腳的方向, 半徑)
     'sit': ((0.035, 0.065, 0.086), (0, 1, 0), 0.0215),
     'lie': ((0.03, 0.024, 0.172), (0, 0, 1), 0.0255),   # v2 前臂接到腳掌
     'walk': ((0.037, 0.085, 0.172), (0, 0.98, 0.2), 0.0275),   # v2 腿粗了（0.019→0.025）
+    'curl': ((0.03, 0.022, 0.17), (0, 0, 1), 0.0235),   # 繃帶纏在收著的左前腳上
 }
-ACC_UV = {'collar': (0.52, 0.02, 0.96, 0.10), 'tag': (0.52, 0.12, 0.74, 0.28), 'tag_back': (0.76, 0.12, 0.96, 0.28), 'bandage': (0.52, 0.30, 0.96, 0.46)}
+ACC_UV = {'collar': (0.52, 0.02, 0.96, 0.06), 'tag': (0.52, 0.07, 0.74, 0.15), 'tag_back': (0.76, 0.07, 0.96, 0.15), 'bandage': (0.52, 0.16, 0.96, 0.24)}   # 10-23：配件縮到右下格的下半（上半給 CAT_curl）
 
 
 def frame_from(axis):
@@ -470,7 +485,7 @@ def paint_accessories(path):
 
 
 HL_DIR = np.array([0.35, 0.6, 0.72]) / np.linalg.norm([0.35, 0.6, 0.72])   # 眼睛反光的方向（左上前方，兩隻眼睛同一個方向＝同一個光源）
-GLINT_UV = (0.5245, 0.308)   # 反光點的 UV：配件那一格的繃帶白色區域（paint_accessories 會整塊塗白；避開每 4 px 一條的紗布線；一個 UV 小三角形）
+GLINT_UV = (0.5245, 0.2354)   # 反光點的 UV：配件那一格的繃帶白色區域（paint_accessories 會整塊塗白；避開每 4 px 一條的紗布線；一個 UV 小三角形）
 
 
 def set_glint_uv(ob, rng):
@@ -488,8 +503,9 @@ def fur_material(name, path):
     return m
 
 
-TILES = {'sit': (0.0, 0.5), 'lie': (0.5, 0.5), 'walk': (0.0, 0.0)}
-SPREAD = {'sit': -0.6, 'lie': 0.0, 'walk': 0.6}
+TILES = {'sit': (0.0, 0.5), 'lie': (0.5, 0.5), 'walk': (0.0, 0.0), 'curl': (0.5, 0.25)}
+TILE_H = {'curl': 0.23}   # CAT_curl 只有半格高（右下格的上半；牠本來就扁）
+SPREAD = {'sit': -0.6, 'lie': 0.0, 'walk': 0.6, 'curl': 1.2}
 
 
 def build():
@@ -502,7 +518,7 @@ def build():
         ob = bpy.data.objects.new('CAT_' + pose, me); sc.collection.objects.link(ob); ob.parent = root
         L.smooth_mesh(ob, angle=3.1)   # 全部平滑（減面後的細長三角形，角度小一點就會一格一格）
         M, Sp = masks(pose, me, rng); set_attr(me, 'Mask', M); set_attr(me, 'Spec', Sp)
-        uv_tile(ob, TILES[pose]); set_glint_uv(ob, rng)
+        uv_tile(ob, TILES[pose], TILE_H.get(pose, 0.48)); set_glint_uv(ob, rng)
         OFF[pose] = fat_offsets(pose, me, rng)   # 存在 Python 裡（自訂屬性存巢狀陣列會壞掉，lib2 merge_by_material 的註解）
         bodies[pose] = ob
     os.makedirs(GEN, exist_ok=True)
@@ -542,7 +558,7 @@ def build():
     st['materials'] = len({m.name for o in bpy.data.objects if o.type == 'MESH' for m in o.data.materials if m})   # L.export 數的是 bpy.data 全部（含烘焙用的暫時材質）；GLB 裡只有掛在網格上的 2 個
     st['tris_per_node'] = tris
     st['textures'] = [os.path.relpath(p, L.ROOT) for p in (FUR, FUR_OLD)]
-    st['note'] = ('三個姿勢 CAT_sit／CAT_lie／CAT_walk（原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；'
+    st['note'] = ('四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；'
                   '每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；'
                   '所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）')
     L.write_json(out[:-4] + '.json', st)
