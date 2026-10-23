@@ -243,7 +243,13 @@ async def bed_menu(pg, cdp, run, pref=None):
         if not await go_home(pg, cdp, run): break
         bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     near = min(0.8, (bed[2] if bed and len(bed) > 2 else 1.8) * 0.7) if bed else 0.8   # BB-B 18:2x：日本宿舍的床半徑 0.6 m，停在 0.8 m 互動鈕不會出來
-    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], near, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
+    if not bed: say('   ⚠ 這一區沒有床'); bad.append('走不到床'); return []
+    if not await L.go_to(pg, cdp, run, bed[0], bed[1], near, '床'):
+        # BB-B 10-23 19:4x：負載高時日本宿舍（jp_room）的小房間走不到床（B7_EVE_MISS）→【捷徑】直接放到床邊（半徑以內、站得住的格子），再試一次；還是不行才算問題
+        ok = await pg.evaluate("(([x,z,r])=>{ const E=GAME.E, P=E.player; for(const d of [r*0.5,r*0.7,0.4]) for(let a=0;a<8;a++){ const px=x+Math.cos(a*Math.PI/4)*d, pz=z+Math.sin(a*Math.PI/4)*d; if(!E.nav||E.nav.free(px,pz)){ if(E.placeAt) E.placeAt(P,px,pz,0); else P.obj.position.set(px,0,pz); return [px,pz]; } } return null; })(%s)" % json.dumps([bed[0], bed[1], bed[2] if len(bed) > 2 else 1.0]))
+        if run: run.setup('[捷徑] 走不到床：直接放到床邊 %s' % json.dumps(ok))
+        if not ok: say('   ⚠ 走不到床'); bad.append('走不到床'); return []
+        await pg.wait_for_timeout(2500)
     # BB-B 10-23 16:4x：畫面上已經有別的選項或對話（「出發：七夕」剛跳出來、床邊的包裹「拆／先不拆」）＝先演完再按床——原本照樣按互動鈕的位置，
     #   劇情中互動鈕不收觸控，手指落到疊在那裡的選項（QX27_LAST 按到「晚一點」、錯過七夕）；QX26_GO 按完床是一段對話、床的選單是空的就中斷
     taps = 0
