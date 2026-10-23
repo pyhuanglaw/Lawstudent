@@ -2,7 +2,7 @@
    台詞照抄 AA_410（企劃線 86016b84，src/data/food_fav_lines.js）；這裡只有程式。吃東西不加體力照舊（DL-02），不做短效加成。
    格式照芷若的「熱可可加濃縮」（src/data/events.js 的 ev_cafe_barista_zhiruo：treat）：點完自己的，多一個「也幫她點」→ 品項 →（有的話）小選項。
    - 選對（品項對、小選項選對的那個；沛珊沒有小選項）：她的兩句（以安交往中多一行旁白；學姊演過 AA_284 2-3 第 5 段＝換「又是她說的。」那兩句）、
-     熟悉 +2、她的戀愛 +1、記憶 REMEMBERED_HER（每人一次），之後不再問。
+     熟悉 +2、她的戀愛 +1、記憶 REMEMBERED_HER（喝的）／REMEMBERED_HER_FOOD（吃的：以安、沛珊、語彤；AA_410 第 4 節）（每人一次），之後不再問；學姊沒聽過 H1 就猜對＝第 4 節那三行。
    - 只點品項（小選項選另一個）：那一句；點錯品項：那一句。不扣分、不加分，下次還可以再點。錢照那一樣的價錢扣（Café 照拿鐵 120，和芷若那一杯一樣）。
    - 小選項對的那個放在第一個（照芷若：「加一份濃縮」「不加」），品項選了哪一樣、小選項的畫面都一樣。
    - 第一次知道（知道以前照樣可以點，只是要靠猜）：以安、沛珊＝在蛋包飯研究所一起吃、她說了現有那句（AA_280 第 3 節，L118.order 的常客那一句）；
@@ -23,7 +23,7 @@ const FAV=(function(){
   const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   const has=(id,tag)=>{ try{ return typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,tag); }catch(e){ return false; } };
   /* 每個人：店（118 巷的店 id／cafe／wz_tea）、對的品項、小選項（第一個是對的；null＝沒有）、選項上的稱呼、一份／一杯。品項＝那間店的菜單（Café 照芷若那一杯的四樣）*/
-  S.CAFE_ITEMS=[['拿鐵',120],['美式',120],['熱可可',120],['紅茶',120]];
+  S.CAFE_ITEMS=[['拿鐵',120],['美式',120],['熱可可',120],['紅茶',120],['手沖',150]];   /* 手沖：AA_410 第 4 節有子晴那一句（Café 菜單的手沖咖啡 150）*/
   S.CFG={
     heroine_01:{shop:'omu',right:'咖哩蛋包飯',opt:['多要一個盤子','不用'],short:'以安',unit:'份'},
     classmate_peishan:{shop:'omu',right:'番茄醬蛋包飯',opt:null,short:'沛珊',unit:'份'},
@@ -40,7 +40,9 @@ const FAV=(function(){
     if(id==='heroine_02') return has(id,'ASKED_HER_DRINK'); if(id==='heroine_05') return !!F.SIS_TEA_ORDER;
     const T=S.KNOW_TAG[id]; return !!(T&&has(id,T)); };
   /* 選對過沒（記憶一個人最多留 80 筆，G.fav.right 另外記一份）*/
-  S.right=(G,id)=>S.rec(G).right[id]!=null||has(id,'REMEMBERED_HER');
+  S.FOOD={heroine_01:1,classmate_peishan:1,heroine_03:1};   /* 吃的（以安、沛珊、語彤）記 REMEMBERED_HER_FOOD「記得她點什麼」；喝的照舊 REMEMBERED_HER（AA_410 第 4 節）*/
+  S.memTag=id=>S.FOOD[id]?'REMEMBERED_HER_FOOD':'REMEMBERED_HER';
+  S.right=(G,id)=>S.rec(G).right[id]!=null||has(id,S.memTag(id));
   /* 筆記本那一行（同一個 id 只記一次：GM.addNote 自己會擋）*/
   S.note=function(GM,id){ const t=L()&&L().note&&L().note[id]; if(!t||!GM||!GM.addNote) return false; if(GM.hasNote&&GM.hasNote('fav_'+id)) return false; return GM.addNote('fav_'+id,t,''); };
   S.learn=function(GM,id){ const G=GM.G, R=S.rec(G); if(R.know[id]==null) R.know[id]=G.day; const T=S.KNOW_TAG[id]; if(T&&typeof SOCIAL!=='undefined'&&!has(id,T)) SOCIAL.remember(id,T,''); S.note(GM,id); };
@@ -63,11 +65,11 @@ const FAV=(function(){
     if(GM.money) GM.money(-it[1],'餐費');
     return {item:it[0],oi}; };
   S.gotRight=function(GM,id,item,oi){ const G=GM.G, R=S.rec(G), C=S.CFG[id]; if(S.right(G,id)) return false; R.right[id]=G.day;   /* 每人一次 */
-    if(typeof SOCIAL!=='undefined'){ SOCIAL.adjust(id,{fam:2,npcRom:1}); if(!has(id,'REMEMBERED_HER')) SOCIAL.remember(id,'REMEMBERED_HER',item+(C&&C.opt&&oi===0?'，'+C.opt[0]:'')); }
+    if(typeof SOCIAL!=='undefined'){ SOCIAL.adjust(id,{fam:2,npcRom:1}); if(!has(id,S.memTag(id))) SOCIAL.remember(id,S.memTag(id),item+(C&&C.opt&&oi===0?'，'+C.opt[0]:'')); }
     S.note(GM,id); return true; };
   /* 她的反應：選對／只點品項（可昕還不知道＝第一次知道那兩句）／點錯；稿裡沒有的組合（null）不說話 */
   S.react=async function(GM,id,res,item,oi,me){ const G=GM.G, F=G.flags||{}, D=S.lines(id)||{}; let arr=null;
-    if(res==='right'){ arr=(id==='heroine_05'&&F.SISG_SEG5!=null&&D.rightAgain)?D.rightAgain:D.right; if(id==='heroine_01'&&F.dating_heroine_01&&D.rightDating) arr=(arr||[]).concat(D.rightDating); }
+    if(res==='right'){ arr=(id==='heroine_05'&&!F.SIS_TEA_ORDER&&D.rightGuess)?D.rightGuess:((id==='heroine_05'&&F.SISG_SEG5!=null&&D.rightAgain)?D.rightAgain:D.right);   /* 學姊：沒聽過 H1 就猜對＝「……你怎麼知道。」（第 4 節）*/ if(id==='heroine_01'&&F.dating_heroine_01&&D.rightDating) arr=(arr||[]).concat(D.rightDating); }
     else if(res==='itemOnly'){ if(id==='kexin'&&D.know&&!S.know(G,id)){ arr=D.know; S.learn(GM,id); } else arr=D.itemOnly||null; }
     else { const W=D.wrong||{}; arr=Object.prototype.hasOwnProperty.call(W,item)?W[item]:(W['*']||null); }
     await S.play(GM,arr,me);
