@@ -5,7 +5,8 @@
 走動時一起移動，看起來像貼在窗上的一張圖。
 現在拍兩層：
   遠景＝鏡頭的 near 推到 D 公尺（比 D 近的都切掉），照片當成 far 公尺遠的一面景；
-  近景＝鏡頭的 far 設成 D 公尺、天空和遠景剪影藏起來，黑底、白底各畫一次，從兩張的差算出透明度（alpha＝1－(白底－黑底)），
+  地面（y ≤ 0.22 m：路面、人行道、騎樓地坪）不管遠近都畫在遠景（第一版 D 以內的地面切掉，遠景底下一條白）；
+  近景＝鏡頭的 far 設成 D 公尺、只畫地面以上、天空和遠景剪影藏起來，黑底、白底各畫一次，從兩張的差算出透明度（alpha＝1－(白底－黑底)），
        照片當成 near 公尺遠的一面景，疊在遠景前面。
   遊戲裡（world3d.js 的 W3.windowMat）兩層各自照景深做視差：近的柱子、機車移動得比遠的街快。
 三張都在同一個 JS 工作裡手動畫（遊戲迴圈先停畫：E.renderSkip），同一格畫面、沒有動畫的差別，去背才乾淨。
@@ -35,21 +36,25 @@ VIEWS = {
 TIMES = {'day': 11.0, 'night': 20.5}
 WAIT_ASSETS = "for(let i=0;i<240;i++){ const st=ASSETS.status||{}; const pend=Object.keys(st).filter(k=>!ASSETS.cache[k]&&!(ASSETS.errors||[]).some(e=>e.startsWith(k+':'))); if(!pend.length) break; await new Promise(r=>setTimeout(r,250)); }"
 # 拍完一般截圖以後（fast_shots 的 post）：景深兩組中位數＋三張畫面（遠景、近景黑底、近景白底）的 PNG data URL
-LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s;
+LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, GY=0.22;
   const ray=new THREE.Raycaster(); ray.camera=C; ray.far=600; const fwd=new THREE.Vector3(); C.getWorldDirection(fwd);
   const vis=o=>{ if(o.isSprite||o.isLine||o.isPoints) return false; for(let p=o;p;p=p.parent) if(!p.visible) return false; const m=o.material; return Array.isArray(m)?m.some(x=>x&&x.visible!==false):!(m&&m.visible===false); };
   const isBack=o=>{ const m=o.material; return !!m&&!Array.isArray(m)&&m.side===THREE.BackSide; };
   const dn=[], df=[]; let sky=0;
   for(let j=0;j<16;j++) for(let i=0;i<32;i++){ ray.setFromCamera(new THREE.Vector2((i+0.5)/32*2-1,(j+0.5)/16*2-1),C);
-    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); (d<D?dn:df).push(d); }
+    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); if(d<D){ if(h.point.y>GY) dn.push(d); } else df.push(d); }   /* 近景的景深只算地面以上的東西（地面在遠景） */
   const med=a=>{ a.sort((x,y)=>x-y); return a.length?+a[Math.floor(a.length/2)].toFixed(2):null; };
-  const skip0=E.renderSkip; E.renderSkip=()=>true; const n0=C.near, f0=C.far, bg0=S.background;
+  const skip0=E.renderSkip; E.renderSkip=()=>true; const n0=C.near, f0=C.far, bg0=S.background, ac=R.autoClear, cp0=R.clippingPlanes;
   const back=[]; S.traverse(o=>{ if(o.visible&&isBack(o)) back.push(o); });
-  C.near=D; C.updateProjectionMatrix(); R.render(S,C); const far=R.domElement.toDataURL('image/png');
-  C.near=n0; C.far=D; C.updateProjectionMatrix(); back.forEach(o=>{ o.visible=false; });
+  /* 地面（y ≤ GY：路面、人行道、騎樓地坪、路緣）一律畫在遠景：第一版只用鏡頭 near 切，D 以內的地面被切掉、遠景底下一條白，走動時近景一偏就露出來 */
+  C.near=D; C.updateProjectionMatrix(); R.render(S,C);
+  R.autoClear=false; R.clearDepth(); C.near=n0; C.far=D; C.updateProjectionMatrix(); back.forEach(o=>{ o.visible=false; }); R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,-1,0),GY)];
+  R.render(S,C); const far=R.domElement.toDataURL('image/png'); R.autoClear=ac;
+  /* 近景：D 以內、地面以上（柱子、機車、立牌、樹） */
+  R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,1,0),-GY)];
   S.background=new THREE.Color(0,0,0); R.render(S,C); const nb=R.domElement.toDataURL('image/png');
   S.background=new THREE.Color(1,1,1); R.render(S,C); const nw=R.domElement.toDataURL('image/png');
-  back.forEach(o=>{ o.visible=true; }); S.background=bg0; C.far=f0; C.updateProjectionMatrix(); E.renderSkip=skip0;
+  R.clippingPlanes=cp0; back.forEach(o=>{ o.visible=true; }); S.background=bg0; C.far=f0; C.updateProjectionMatrix(); E.renderSkip=skip0;
   return {D, near:med(dn), far:med(df), nNear:dn.length, nFar:df.length, sky:+(sky/512).toFixed(3), cam:[C.position.x,C.position.y,C.position.z].map(v=>+v.toFixed(2)), fov:C.fov, imgs:{far,nb,nw}}; })()"""
 
 
