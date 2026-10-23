@@ -1099,6 +1099,8 @@ R5 = [
   dict(id='AL42_MISS', key='2027-06-11', h=19.0, zone='campus', flags=dict(TW3, met_yu=True), js=NOKX, steps=[('jsrun', YUD, 'TERMEND.dinner（Alison 大二下期末吃飯）'), CAMP_JUMP, ('until', 21.3)], pref=['「我去探班。」', '不去了'],
        wantMsg=['📷（一排小朋友比著勝利手勢，Alison 站在最前面拿著哨子）', '小隊長還活著！'], none=CAMP2[:1], jsok=[('不報名系學會的高中營 C02', C02Q, False)]),
 ]
+SAYH = " if(!GAME.say.__bbs){ const s0=GAME.say; const f=function(w,t){ try{ if(!(typeof ADV!=='undefined'&&ADV.active)) window.__LOG.push({n:(w&&(w.name||w.charId))||'',t:String(t),h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return s0.apply(this,arguments); }; f.__bbs=1; GAME.say=f; }"   # 3D 對話框（不是 ADV）的台詞也記下來：店員、館員、公園（ADV 裡的照舊由 ADV.log 記，不重記）
+for _sc in R5: _sc['js'] = SAYH + _sc.get('js', '')
 SCENS = SCENS + R5
 MEET = """(([id,a,b])=>{ const G=GAME.G, c=(typeof CHARACTERS!=='undefined'?CHARACTERS:{})[id]; if(!c||!STORY.schedEnt) return null; const K=k=>typeof k==='string'&&k[0]==='+'?G.day+(+k.slice(1)):STORY.dayOfKey(k); const A=K(a), Bd=K(b);
   for(let d=A; d<=Bd; d++){ const w=CALENDAR.dateOf(d).wd%7; for(let h=9; h<=21; h+=0.5){ const g=Object.assign({},G,{day:d,hour:h,weekday:w}); let e=null;
