@@ -29927,9 +29927,9 @@
    "title": "學姊第十批：交往中跨年、除夕、前任、畢業後朋友",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "next": "【LAWWW-B 10-23 08:5x】AA 已交 AA_396 學姊第十批（企劃線 53af5dfc，提前）：交往中三年跨年、三年除夕 21:30 電話、前任四場、畢業以後每季 Café；新背景 alley_conv_night；實作 SIS-B10-L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -30357,6 +30357,27 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:4x】AA_399（53ca91b2）3-2 節；和 CLOSED-SPACES-1023 的總圖研究小間、B1 一起"
+  },
+  {
+   "id": "SIS-B10-L-1023",
+   "title": "AA_396 學姊第十批（跨年、除夕電話、前任四場、畢業後每季 Café）：實作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23】AA_396（企劃線 53af5dfc）；排在 SIS-B9-L-1023 之後；跨年排在 AA_210 頂樓之前；alley_conv_night 背景 BB 跟使用者要",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
   }
  ]
 }
