@@ -1,9 +1,9 @@
 {
  "noodle_day": {
   "D": 9,
-  "near": 6.05,
+  "near": 3.33,
   "far": 22.4,
-  "nNear": 128,
+  "nNear": 4,
   "nFar": 146,
   "sky": 0.465,
   "cam": [
@@ -12,13 +12,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.3
+  "cover": 0.037
  },
  "noodle_night": {
   "D": 9,
-  "near": 6.05,
+  "near": 3.33,
   "far": 22.4,
-  "nNear": 128,
+  "nNear": 4,
   "nFar": 146,
   "sky": 0.465,
   "cam": [
@@ -27,13 +27,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.3
+  "cover": 0.037
  },
  "bookstore_day": {
   "D": 9,
-  "near": 6.05,
+  "near": 8.96,
   "far": 13.31,
-  "nNear": 166,
+  "nNear": 27,
   "nFar": 121,
   "sky": 0.439,
   "cam": [
@@ -42,13 +42,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.356
+  "cover": 0.079
  },
  "bookstore_night": {
   "D": 9,
-  "near": 6.05,
+  "near": 8.96,
   "far": 13.31,
-  "nNear": 166,
+  "nNear": 27,
   "nFar": 121,
   "sky": 0.439,
   "cam": [
@@ -57,13 +57,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.356
+  "cover": 0.079
  },
  "cvs_day": {
   "D": 9,
-  "near": 6.05,
+  "near": 6.54,
   "far": 22.4,
-  "nNear": 184,
+  "nNear": 72,
   "nFar": 108,
   "sky": 0.43,
   "cam": [
@@ -72,13 +72,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.38
+  "cover": 0.151
  },
  "cvs_night": {
   "D": 9,
-  "near": 6.05,
+  "near": 6.54,
   "far": 22.4,
-  "nNear": 184,
+  "nNear": 72,
   "nFar": 108,
   "sky": 0.43,
   "cam": [
@@ -87,13 +87,13 @@
    21.7
   ],
   "fov": 53.13,
-  "cover": 0.384
+  "cover": 0.155
  },
  "cafe_day": {
   "D": 7,
   "near": 5.25,
   "far": 12.06,
-  "nNear": 249,
+  "nNear": 121,
   "nFar": 240,
   "sky": 0.045,
   "cam": [
@@ -102,13 +102,13 @@
    0
   ],
   "fov": 53.13,
-  "cover": 0.4
+  "cover": 0.17
  },
  "cafe_night": {
   "D": 7,
   "near": 5.25,
   "far": 12.06,
-  "nNear": 249,
+  "nNear": 121,
   "nFar": 240,
   "sky": 0.045,
   "cam": [
@@ -117,13 +117,13 @@
    0
   ],
   "fov": 53.13,
-  "cover": 0.4
+  "cover": 0.169
  },
  "wz_lin_day": {
   "D": 6,
-  "near": 3.69,
+  "near": null,
   "far": 9.6,
-  "nNear": 160,
+  "nNear": 0,
   "nFar": 352,
   "sky": 0,
   "cam": [
@@ -132,13 +132,13 @@
    4.6
   ],
   "fov": 53.13,
-  "cover": 0.286
+  "cover": 0.0
  },
  "wz_lin_night": {
   "D": 6,
-  "near": 3.69,
+  "near": null,
   "far": 9.6,
-  "nNear": 160,
+  "nNear": 0,
   "nFar": 352,
   "sky": 0,
   "cam": [
@@ -147,13 +147,13 @@
    4.6
   ],
   "fov": 53.13,
-  "cover": 0.286
+  "cover": 0.0
  },
  "wz_teishoku_day": {
   "D": 6,
-  "near": 3.59,
+  "near": null,
   "far": 9.73,
-  "nNear": 160,
+  "nNear": 0,
   "nFar": 351,
   "sky": 0.002,
   "cam": [
@@ -162,13 +162,13 @@
    -4.6
   ],
   "fov": 53.13,
-  "cover": 0.294
+  "cover": 0.0
  },
  "wz_teishoku_night": {
   "D": 6,
-  "near": 3.59,
+  "near": null,
   "far": 9.73,
-  "nNear": 160,
+  "nNear": 0,
   "nFar": 351,
   "sky": 0.002,
   "cam": [
@@ -177,6 +177,6 @@
    -4.6
   ],
   "fov": 53.13,
-  "cover": 0.294
+  "cover": 0.0
  }
 }
