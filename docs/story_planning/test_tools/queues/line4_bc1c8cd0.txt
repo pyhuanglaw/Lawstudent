@@ -17,6 +17,7 @@ qx1023d zrlast_probe.py QX26_GO,QX27_LAST   # BB-B 16:4x：床邊先有選項／
 qx1023e zrlast_probe.py QX28_US   # BB-B 16:5x：一開始站在床邊（原本門口、走到床逾時）
 qx1023f zrlast_probe.py QX28_US   # BB-B 17:3x：快轉停下以後等 STORY.tick 跑過一次（訊息還沒發就再快轉）
 s9_rebdates aa386c_probe.py REB_DATES,REB_NO41
+s9_rebdates2 aa386c_probe.py REB_DATES,REB_NO41   # BB-B 18:28：sleep_night 白天先「睡到傍晚」（半天約會 11:00 結束後一直小睡）
 us_kexin us_life_probe.py USD_kexin
 us_kexin_alarm us_life_probe.py USD_kexin_alarm
 zs1023 zrlast_probe.py ZS_GO,ZS_NO,ZS_LATE,ZS_NOHOOK,ZS_STUB

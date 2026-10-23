@@ -203,6 +203,16 @@ async def bed(pg, cdp, run, prefix, label=''):
 
 async def sleep_night(pg, cdp, run, label=''):
     st0 = await pg.evaluate(STATE); ops = await bed(pg, cdp, run, '睡到明天', label)
+    if ops and not any(o.startswith('睡到明天') for o in ops):
+        # 白天（17:30 以前）床的選單只有小睡、「睡到傍晚」（story3d.js 的 bedOptions）：先睡到傍晚，下一輪再睡到明天。
+        # 原本 bed() 沒按、wait_for 預設選第一個＝小睡 30 分鐘，半天的約會 11:00 結束以後一直小睡（BB-B 10-23 REB_DATES 線 4 繞了 50 分鐘）
+        k = next((i for i, o in enumerate(ops) if o.startswith('睡到傍晚')), None)
+        if k is not None:
+            await tap_idx(pg, cdp, k); await pg.wait_for_timeout(2000)   # 會錯過課：CLS.skipTo 先問一次，第一個＝「照樣跳過」
+            ok, ch = await wait_for(pg, cdp, run, "GAME.G.hour>=17.9&&!GAME.E.player.busy", max_s=240, label=label)
+            await pg.wait_for_timeout(3000)
+            for _ in range(2): await drive(pg, cdp, run, max_s=40, label=label); await pg.wait_for_timeout(2000)
+            return ops, False
     ok, ch = await wait_for(pg, cdp, run, "GAME.G.day>%d&&!GAME.E.player.busy" % st0['day'], max_s=240, label=label)
     await pg.wait_for_timeout(4000)
     for _ in range(3): await drive(pg, cdp, run, max_s=40, label=label); await pg.wait_for_timeout(2500)   # 起床選單（先起床再說）可能晚一點才出來
