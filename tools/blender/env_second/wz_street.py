@@ -537,7 +537,11 @@ def apartment(spec):
     wall_hi = Mesh(f'NOSHADOW_wall_{spec["id"]}', wall_mat(kind)) if HI else wall
     gt = spec['ground']; rec = 1.3 if gt == 'shop' else (4.3 if gt == 'arcade' else 0.2)
     if SET == 'gongguan' and 'sf' not in spec and spec['id'] in SF_GG and gt == 'arcade': spec = dict(spec, sf=SF_GG[spec['id']])   # ART-GG-SHOPS-1018：公館騎樓店面（wz_shopkit.arcade_front_v2）
-    if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館、118 巷照舊
+    if SET == 'lane118' and 'sf' not in spec and gt == 'shop' and spec.get('lane118') in SF_L118:   # ART-L118-FACADE-3D-1023（使用者 10-23「118店面…外觀還是很2D」）：118 巷九間店改用店面組件＋立體淺店內
+        _sf = SF_L118[spec['lane118']]; spec = dict(spec, sf=_sf, shop=dict(spec['shop'], type=_sf.get('kind', spec['shop']['type'])))
+    elif SET == 'lane118' and 'sf' not in spec and gt == 'shop' and spec.get('shop', {}).get('type') in SF_L118_FILL:   # 填空的小店（早餐、影印、洗衣、水果、二手書、文具）照店型
+        spec = dict(spec, sf=SF_L118_FILL[spec['shop']['type']])
+    if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館照舊（騎樓另外一套 SF_GG）
         sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
         if sfx: spec = dict(spec, sf=sfx)
     if gt == 'shop' and spec.get('sf'): rec = spec['sf'].get('recess', 0.9) + (2.7 if spec['sf'].get('inner') else 1.3)   # 店門退縮成門廊；有立體淺店內的，一樓牆體從玻璃後 2.7 m 開始
@@ -811,7 +815,7 @@ def housedoor(spec, xf, W, rng, rec):
 
 
 SF, SF_HOUSE, SF_SHUTTER = {}, {}, {}
-if SET in ('wenzhou', 'gongguan'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
+if SET in ('wenzhou', 'gongguan', 'lane118'): exec(open(os.path.join(HERE, 'wz_shopkit.py'), encoding='utf-8').read())   # ART-WZ0 店面組件（同一個命名空間）；公館只用招牌設計稿（日日便利和溫州街同一家連鎖，招牌要一樣），店面照舊
 for sp in SPECS: apartment(sp)
 if SET in ('wenzhou', 'gongguan'): build_notes()   # 玻璃上的紙條（公館騎樓店面也有，ART-GG-SHOPS-1018）
 if SET == 'wenzhou':
@@ -850,6 +854,8 @@ if SET == 'wenzhou' and os.path.exists(WZ7):
     for _o in _new:
         if _o.name in bpy.data.objects: bpy.data.objects.remove(_o)
 
+if "goods_finish" in globals(): goods_finish()   # 店裡的商品（wz_shopkit.goods；2026-10-23）：整條街一個網格、一張貼圖
+
 # 第三輪減量（效能，2026-10-16；LAWWW-B 量到主巷三個鏡頭 355～448 次 draw call、51～55 萬三角形，目標 310／42 萬）：
 # 其他所有純色材質（v6 店面組件的碗盤、水果、木頭、不鏽鋼、盆栽的葉子和土…）也照粗糙度、金屬度分到三個頂點色材質；
 # 遊戲用材質名做事的（晚上發光 WZ_NIGHT、樹幹透視、字牌 *_FACE_ 的材質）不動。
@@ -857,7 +863,7 @@ if SET == 'wenzhou' and os.path.exists(WZ7):
 # （第一次量：合進會投影的 wz_vc_* 以後，陰影那一輪多了 2 萬個三角形）。門、窗框、雨遮、冷氣、鐵窗這些照舊在 wz_vc_*（投影）。
 VC_GLOSS = L.vc_material('cafe_vc_wz_gloss', rough=0.35)
 VC_SMATTE = L.vc_material('cafe_vc_wz_matte', rough=0.85); VC_SMETAL = L.vc_metal('cafe_vc_wz_metal', rough=0.45, metal=0.35)
-WZ_KEEP = {'wz_signs_lit', 'ext_glass_lit', 'wz_room_lit', 'wz_win_glass_lit', 'cafe_bulb', 'wz_tube', 'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_pillar_tile', 'wz_pole_concrete'}
+WZ_KEEP = {'wz_in_shop', 'wz_signs_lit', 'ext_glass_lit', 'wz_room_lit', 'wz_win_glass_lit', 'cafe_bulb', 'wz_tube', 'jp_lamp', 'jp_shoji', 'wz_lamp_lens', 'wz_pillar_tile', 'wz_pole_concrete'}
 _face_mats = {ms.material.name for ob in root.children_recursive if ob.type == 'MESH' and 'FACE' in ob.name for ms in ob.material_slots if ms.material}
 for _m in bpy.data.materials:
     if _m.users == 0 or _m.name in WZ_VC or _m.name.startswith(('wz_vc_', 'cafe_vc_wz')) or _m.name in WZ_KEEP or _m.name in _face_mats: continue
@@ -893,7 +899,7 @@ print('{"cull_bottoms_tris": %d}' % _cull)
 L.vc_consolidate(root, WZ_VC)
 L.split_by_material(root, keep=_keep)
 # 小貼圖材質（店內地板、條紋雨遮、菜單、書背…）合成一張貼圖集（效能第二輪，2026-10-16）
-WZ_TEXT = {'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
+WZ_TEXT = {'wz_in_goods', 'wz_in_books_u', 'wz_in_price_u', 'wz_in_board_u', 'wz_signs', 'wz_in_board', 'wz_in_price', 'wz_menu_ice', 'wz_menu_tea', 'wz_menu_tea_wz', 'wz_noren', 'wz_shop_notes'}   # 有字的（招牌設計稿、菜單、價目、告示）不進貼圖集：縮小以後字糊掉（第一次試：招牌整片灰）
 if L.atlas_small(root, os.path.join(HERE, 'textures', 'gen', f'wz_small_atlas_{SET}.png'), f'wz_small_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, keep=_keep): pass
 # 有字的小牌子（菜單、價目、告示、門簾）不合貼圖集：效能第三輪試過另一張 512 格的貼圖集，寬的菜單被壓扁、字橫向糊掉（遊戲截圖看得出來），退回各自的材質
 L.atlas_rows(root, os.path.join(HERE, 'textures', 'gen', f'wz_rows_atlas_{SET}.jpg'), f'wz_rows_atlas_{SET}', protect=WZ_KEEP | WZ_TEXT, max_vloss=0.06, keep=_keep, skip=lambda m: m.name.startswith('wz_small_atlas'))   # 沿 u 重複很多次的（條紋雨遮、店內地板、木頭）
