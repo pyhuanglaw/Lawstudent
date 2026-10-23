@@ -8077,7 +8077,7 @@
    "title": "健身與體態",
    "area": "D14",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：engine3d.js／bike3d.js 照體能階段加速（AA_126 第 6 節）；LAWWW2 評估 3D 體態（先做「有在運動」一級）；子晴、可昕升階加戀愛＋BB_124 第 7 節句子 ｜ —",
    "priority": "P3",
    "first": {
@@ -8099,7 +8099,8 @@
      "evidence": "src/gym3d.js:37、55、95-120：體能值 G.daily.gym.fit（羽球、B1 健身房重訓）、器材旁白照體能階段；找不到走路／騎車變快、3D 體態、子晴可昕升階加戀愛（gym3d.js 以外沒有讀 fit）",
      "note": "健身房與體能值有了，效果沒接"
     }
-   ]
+   ],
+   "notes": "【LAWWW-B 10-23 20:4x】健身房、羽球、會員卡、器材旁白早就在 gym3d.js；這次補 src/fit3d.js：體育課 +1、騎車每 2 公里 +1（每週 +3）、系籃登山 +2；走路／騎車加成（engine3d.js E.fitWalk／fitBike，跑步不變）；升階後阿哲一句；辦卡 8 週沒運動起床一句。tests/fit_unit.js ALL PASS；BB 第 68 項。還沒做：3D 體態（LAWWW2 評估）、子晴可昕升階的專屬句與戀愛 +4、一起運動的約會（羽球、晨跑；台詞 BB_124 第 7 節要 AA 定稿）、其他朋友的句子。"
   },
   {
    "id": "D14-T11",

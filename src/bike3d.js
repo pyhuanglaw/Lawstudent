@@ -104,7 +104,7 @@ const BIKE=(function(){
     ride.lastFlat.x=o.position.x; ride.lastFlat.z=o.position.z; ride.lastFlat.yaw=o.rotation.y;
     // 輪子、曲柄、把手、車身傾斜
     const dist=Math.hypot(o.position.x-(ride.px===undefined?o.position.x:ride.px),o.position.z-(ride.pz===undefined?o.position.z:ride.pz)); ride.px=o.position.x; ride.pz=o.position.z;
-    const d=dist<2.5?dist:0;   /* 換區域、瞬移不算（?turbo 一幀最多 0.3 秒 × 6.2 m/s＝1.9 m）*/
+    const d=dist<2.5?dist:0;   /* 換區域、瞬移不算（?turbo 一幀最多 0.3 秒 × 6.2 m/s＝1.9 m）*/ if(d>0&&typeof FIT!=='undefined'&&FIT.bike&&GM.G) FIT.bike(GM.G,d);   /* 騎車每 2 公里體能 +1（每週最多 +3，src/fit3d.js）*/
     ride.wheel+=d/(WHEEL_R*ride.k); ride.crank+=d/(WHEEL_R*ride.k)*GEAR;
     let dy=o.rotation.y-ride.yaw; dy=Math.atan2(Math.sin(dy),Math.cos(dy)); ride.yaw=o.rotation.y; const v=dt>0?d/dt:0, w=dt>0?dy/dt:0;
     const steerT=v>0.3?Math.max(-STEER_MAX,Math.min(STEER_MAX,Math.atan(WHEELBASE*ride.k*w/Math.max(v,1)))):0, leanT=v>0.3?Math.max(-0.2,Math.min(0.2,-Math.atan(v*w/9.8))):0, k=Math.min(1,dt*6);
