@@ -1967,6 +1967,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "LAWWW-B 10-23 18:0x 第 10 項（USER_WANTS E07）"
+  },
+  {
+   "task": "B05-B06-WZ-CURRENT",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "7a6469099",
+   "files": [
+    "docs/story_planning/AA_420_溫州街故事線與打工_現行版.md"
+   ],
+   "state": "已交付",
+   "remaining": "無（AA 的部分）；DL-10 打工、DL-11 事件由 LAWWW 實作",
+   "next": "LAWWW-B 照 AA_420＋AA_167／AA_165／BB_148／AA_164 實作；wzpark3d.js 走失週改第 10 週；ev_yt_lease_text 多一句；白名單加 AA_420",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "LAWWW-B 10-23 18:0x 第 11 項。照現行設定重整 B05／B06：打工補四條規則、四條線的時程與人物對齊（學姊不在法服、美國／日本路線、沛珊消失期、16 週制）、BB_148 台詞由 AA 定稿。"
   }
  ],
  "items": [
