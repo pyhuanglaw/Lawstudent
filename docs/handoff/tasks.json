@@ -6707,7 +6707,7 @@
    "title": "交接包_校外約會 C4",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_127 第 1、2 節＋企劃線 date_system/wish/wish_aa.json 做以安 D07、語彤 D13 的心願事件與兩種得知方式（先加白名單） ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
@@ -6729,14 +6729,15 @@
      "evidence": "src/date3d.js:218「心願事件（wishEvent）是另外的整場…還沒做：先照普通的抵達句」；WISH_DONE_<id> 只被讀（src/data/encounters.js:49、src/data/r2y3b_events.js:87），沒有地方設；聊天得知（DATE.knowWish）沒人呼叫",
      "note": "去心願地點會算數，但心願那一整場沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。"
   },
   {
    "id": "DATE-C5",
    "title": "交接包_校外約會 C5",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 wish_bb.json 做芷若 D05、子晴 D03、學姊 D15、沛珊 D06、可昕 D25 的心願事件（先加白名單） ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
@@ -6758,7 +6759,8 @@
      "evidence": "同 DATE-C4：BB 五位心願事件（BB_128 第 3 節；企劃線 date_system/wish/wish_bb.json）開發分支沒有接（src/date3d.js:218）",
      "note": "去心願地點會算數，但心願那一整場沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。"
   },
   {
    "id": "DATE-C6",

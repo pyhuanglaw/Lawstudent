@@ -359,7 +359,7 @@
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-S6",
-   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子",
+   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子；DATE-C4/C5（2026-10-23）另用第 3 節心願事件逐字核對 date_wish.js（tools/date/import_wish.py）",
    "history": [
     {
      "sha": "741e94f1",
@@ -377,7 +377,7 @@
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔同步（AA_313 第 2、4、5 節，10-20 15:18）；LAWWW（帳號 A）10-22 15:1x 換版（理由同 BB_128：741e94f1／5e910dd2 舊版把 AA_313 改過的句子蓋回）｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6",
-   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子",
+   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子；DATE-C4/C5（2026-10-23）另用第 1、2 節心願事件逐字核對、1-5 大一版收尾直接從這裡取（tools/date/import_wish.py）",
    "history": [
     {
      "sha": "5e910dd2",
@@ -2163,6 +2163,24 @@
    "task": "AA312-INTEGRATE-1020",
    "kind": "text",
    "note": "src/data/events.js、src/story3d.js、src/data/needed_msgs.js、src/data/termend_lines.js（tests/ab65_3_y2s1_unit.js、tests/aa312_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/date_system/wish/wish_aa.json",
+   "sha": "0b478a53",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）",
+   "task": "DATE-C4",
+   "kind": "text",
+   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）"
+  },
+  {
+   "path": "docs/story_planning/date_system/wish/wish_bb.json",
+   "sha": "814bf8c5",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）",
+   "task": "DATE-C5",
+   "kind": "text",
+   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）"
   }
  ]
 }

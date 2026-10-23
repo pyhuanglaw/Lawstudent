@@ -313,7 +313,8 @@ const DATE=(function(){
       await GM.say(null,sum+(w.check.warns.length?'（'+w.check.warns.join('；')+'）':'')); const k=await GM.choose([{t:'就這樣約'},{t:'重新選'},{t:'算了'}]); if(k===2) return null; if(k===1) continue;
       if(n&&GM.caption) GM.caption('','（'+(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].gender==='m'?'他':'她')+'看了一下手機的行事曆，點點頭。）',2000);   /* 和 INV.flow 當面約一樣的動作字幕（AA_134 第 4 節）；她答應的那一句 BB 交了再接 */
       const t=S.book(G,Object.assign(o,{day:w.day,depart:w.depart,kind:w.kind,by:'player'})); if(!t.ok){ await GM.say(null,t.why||'約不成。'); return null; }
-      const ty=S.t7aYes(G,id,only,w.day); if(ty) await S.sayLines(GM,id,[ty],n); else await S.speak(GM,id,G.flags&&G.flags['dating_'+id]?'acceptDating':'accept',t,n); if(prefOff) await S.speak(GM,id,'transport',t,n);   /* 答應（交往中那一句只給和她交往中的玩家；她在台中、約她來臺中＝T7a 那一句）；改掉她的交通偏好她說一句 */
+      const ty=S.t7aYes(G,id,only,w.day), wl=!ty&&w.kind!=='overnight'&&typeof WISH!=='undefined'&&WISH.playerLines?WISH.playerLines(G,id,loc):null;   /* 約的是她的心願地點（還沒去過）：她回心願那幾句（知道／還不知道；DATE-C4、C5）*/
+      if(ty) await S.sayLines(GM,id,[ty],n); else if(wl) await WISH.sayInvite(GM,id,wl,n); else await S.speak(GM,id,G.flags&&G.flags['dating_'+id]?'acceptDating':'accept',t,n); if(prefOff) await S.speak(GM,id,'transport',t,n);   /* 答應（交往中那一句只給和她交往中的玩家；她在台中、約她來臺中＝T7a 那一句）；改掉她的交通偏好她說一句 */
       await GM.say(null,'約好了：'+S.dayLabel(G,w.day).trim()+' '+hm(P.depart)+'，'+names+(ov?'（兩天一夜）':'')+'。'); return t; } };
   /* 每 0.5 秒（OUT.tick 呼叫）：一天一次的 daily；出發前 60 分鐘手機提醒（AA_128 4-1）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G) return; S.rec(G); if(G.dateLog._daily!==G.day){ G.dateLog._daily=G.day; S.daily(G); }
@@ -372,7 +373,7 @@ const DATE=(function(){
      選句順序（2-9）：心願事件 → 第一次 → 記得上次（第二次，或上次點過同一個互動點）→ 交往中 → 普通（照階段：低＝剛到第 5 階、中＝第 5 階後段（和她正式出去過兩次以上）、高＝第 6 階；排除最近用過的 3 套）。
      可昕：normal 就是交往中的版本（她開場是女友），分開以後用 afterBreakup。who:'note'＝給開發的註記（不顯示；「記 TASTE＝…」照記）、who:'narr'＝旁白。
      {sunset}＝那天淡水的日落時間（算出來的）；{lastDrink}＝上次點的飲料：TASTE 的說法 AA 還沒給（S.TASTE_WORD），有這個欄位的那一套先跳過。
-     心願事件（wishEvent）是另外的整場（AA_127、BB_128 第 3 節），還沒做：先照普通的抵達句。 */
+     心願事件（wishEvent）是另外的整場（AA_127、BB_128 第 3 節）：src/wish3d.js（S.scene 開頭轉過去）；hold 的人（台詞和現行設定衝突，DATE_WISH.hold）照舊走這裡的普通抵達句。 */
   S.TASTE_WORD={};
   S.mem=function(G,id,loc){ S.rec(G); const M=G.dateMemory[id]||(G.dateMemory[id]={}); const m=M[loc]||(M[loc]={picks:[],last:[],taste:null,photos:0,recent:[]}); if(!Array.isArray(m.picks)) m.picks=[]; if(!Array.isArray(m.last)) m.last=[]; if(!Array.isArray(m.recent)) m.recent=[]; return m; };   /* picks＝和她在這裡點過的互動點、last＝上一次點的 */
   S.tierOf=function(G,id){ const st=S.stageNum(id); return st>=6?'high':((S.log(G,id).count|0)>=2?'mid':'low'); };
@@ -417,7 +418,9 @@ const DATE=(function(){
   S.closeLine=async function(GM,t,visits){ const G=GM.G, id=t.who, C=(LL(id,t.locs[0])||{}).closing; if(!C) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
     let set=null; if(!visits&&C.first&&!C.first.wishEvent) set=C.first; if(!set&&dating&&id!=='kexin'&&(C.dating||[]).length) set=S.pickSet(G,id,C.dating,t,'close.dating'); if(!set&&brokeUp(G,id)&&(C.afterBreakup||[]).length) set=S.pickSet(G,id,C.afterBreakup,t,'close.after'); if(!set) set=S.pickSet(G,id,C.normal,t,'close.normal');
     return S.playSet(GM,id,set,t); };
-  S.scene=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t) return false; if(t.kind==='overnight') return S.sceneOvernight(GM,q,t); const who={name:nameOf(t.who),charId:t.who}; const loc=t.locs[0], L=S.loc(loc);
+  S.scene=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t) return false; if(t.kind==='overnight') return S.sceneOvernight(GM,q,t);
+    if(typeof WISH!=='undefined'&&WISH.due&&WISH.due(G,t)) return WISH.scene(GM,q,t);   /* 心願本人第一次去她的心願地點＝整趟是心願事件（DATE-C4、C5；src/wish3d.js）*/
+    const who={name:nameOf(t.who),charId:t.who}; const loc=t.locs[0], L=S.loc(loc);
     const visits=(S.log(G,t.who).byLoc[loc]|0); const endH=t.day*24+t.back-S.travel(loc,t.transport).minutes/60; const spots=[], m0=G.money|0;
     const pts=S.points(loc), qk=visits>=2?S.quickPick(G,t.who,pts,endH):null;   /* 快速約會（AA_128 5-4：同一個地點第三次以後）*/
     await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
