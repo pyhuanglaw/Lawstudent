@@ -90,6 +90,21 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **16:2x 更新**：
+    - LAWWW-B 14:36、14:41 ACK：118 巷窗景第二批（`79777475`）、SEE-THROUGH-FAIL-1023（`b1cb4030`）都已合併。
+    - 已交：CLOSED-SPACES-1023 第一項，霖澤館 5F 研究室樓層（`ce472581`，`test_shots/linze_5f_1023/README.md`）。
+      - zone `linze_5f`：
+        - 碩士班研究室：學姊靠窗的位子 `spots.sis_desk`、旁邊的空位。
+        - 會議室：「口試中」`LZUP.examSign`。
+        - 「只開她那一盞燈」：`LZUP.labLights('sis')`。
+      - 測試：`linze_5f_unit`、`linze_upper_unit`、`nav_buildings_unit`、`reachability_all`（3F～5F）ALL PASS。
+      - 劇情接線（4F 刷卡門「傳訊息給學姊」、八場事件換 3D）是 LAWWW-B 的。
+      - 「窗戶對著一棵樹」：A／B／C 等 LAWWW-B 決定。建議 A：在法學院廣場種一棵真的大樹，要重拍霖澤館各層的窗景。
+    - 教訓：
+      - 室內區域引擎不叫 `applyTimeOutdoor`，只叫 `zone.applyTime`。
+      - `WALL_` 牆面的 `o.visible` 每一格被引擎 `hideFaded` 改掉，要開關得用材質的 `visible`。
+      - 兩個都是遊戲內截圖才抓到；單元測試要走和引擎同一條路。
+    - 接下來：沛珊第三十一版（P0），之後 CLOSED-SPACES 第二項總圖 B1（AA_399 第 2 節）。
   - **14:4x 更新**：
     - 已交：
       - GG-WALKERS-1023（`bf7b77ff`）：已合併。
