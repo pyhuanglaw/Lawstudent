@@ -163,6 +163,8 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-6. 大二拆箱的便利貼：刪「……她改得對。」（旁白不替玩家下結論）',S.includes("'她改了你的筆記。'")&&!S.includes('她改得對'));
     check('5-6. 慈 3（溫州街便利商店）開頭旁白加「（她背包還背著，手機上是叫車的畫面。）」',xs[1]&&xs[1].text==='（她背包還背著，手機上是叫車的畫面。）'&&xs[1].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
+    { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
+      check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間麵店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間麵店，便宜，份量也夠。」'])),J(ops)); }
     fresh(D('2025-09-01'),9,'dorm',{}); STORY.phoneRules(GM); const q=PHONE.rec(G).q.find(x=>x.tag==='bbq_ask');
     check('5-3. 中秋烤肉的群組訊息不加句號「週六中秋烤肉 河濱 下午三點」',!!q&&q.items[0].text==='週六中秋烤肉 河濱 下午三點',q&&q.items[0].text); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
