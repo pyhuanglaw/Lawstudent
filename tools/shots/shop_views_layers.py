@@ -42,7 +42,7 @@ LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, GY
   const isBack=o=>{ const m=o.material; return !!m&&!Array.isArray(m)&&m.side===THREE.BackSide; };
   const dn=[], df=[]; let sky=0;
   for(let j=0;j<16;j++) for(let i=0;i<32;i++){ ray.setFromCamera(new THREE.Vector2((i+0.5)/32*2-1,(j+0.5)/16*2-1),C);
-    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); if(d<D){ if(h.point.y>GY) dn.push(d); } else df.push(d); }   /* 近景的景深只算地面以上的東西（地面在遠景） */
+    const h=ray.intersectObject(S,true).find(x=>vis(x.object)&&!isBack(x.object)); if(!h){ sky++; continue; } const d=h.point.clone().sub(C.position).dot(fwd); if(d<D){ if(h.point.y>GY&&d>0.8) dn.push(d); } else df.push(d); }   /* 近景的景深只算地面以上的東西（地面在遠景） */
   const med=a=>{ a.sort((x,y)=>x-y); return a.length?+a[Math.floor(a.length/2)].toFixed(2):null; };
   const skip0=E.renderSkip; E.renderSkip=()=>true; const n0=C.near, f0=C.far, bg0=S.background, ac=R.autoClear, cp0=R.clippingPlanes;
   const back=[]; S.traverse(o=>{ if(o.visible&&isBack(o)) back.push(o); });
@@ -51,10 +51,10 @@ LAYERS = """(()=>{ const E=GAME.E, R=E.renderer, S=E.scene, C=E.camera, D=%s, GY
   R.autoClear=false; R.clearDepth(); C.near=n0; C.far=D; C.updateProjectionMatrix(); back.forEach(o=>{ o.visible=false; }); R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,-1,0),GY)];
   R.render(S,C); const far=R.domElement.toDataURL('image/png'); R.autoClear=ac;
   /* 近景：D 以內、地面以上（柱子、機車、立牌、樹） */
-  R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,1,0),-GY)];
+  R.clippingPlanes=[new THREE.Plane(new THREE.Vector3(0,1,0),-GY)]; C.near=0.8; C.updateProjectionMatrix();   /* 店自己的門框、鐵捲門箱（鏡頭在店面玻璃外 0.3 m）不進近景：第一版窗上方多一條飄在空中的線 */
   S.background=new THREE.Color(0,0,0); R.render(S,C); const nb=R.domElement.toDataURL('image/png');
   S.background=new THREE.Color(1,1,1); R.render(S,C); const nw=R.domElement.toDataURL('image/png');
-  R.clippingPlanes=cp0; back.forEach(o=>{ o.visible=true; }); S.background=bg0; C.far=f0; C.updateProjectionMatrix(); E.renderSkip=skip0;
+  R.clippingPlanes=cp0; back.forEach(o=>{ o.visible=true; }); S.background=bg0; C.near=n0; C.far=f0; C.updateProjectionMatrix(); E.renderSkip=skip0;
   return {D, near:med(dn), far:med(df), nNear:dn.length, nFar:df.length, sky:+(sky/512).toFixed(3), cam:[C.position.x,C.position.y,C.position.z].map(v=>+v.toFixed(2)), fov:C.fov, imgs:{far,nb,nw}}; })()"""
 
 
