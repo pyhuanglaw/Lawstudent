@@ -2331,6 +2331,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "寒流那一週（catCold）貓在涼亭石桌底下縮成一團（CAT_curl）；catAdopted 為 true 公園不顯示貓（每一格看）；看價目板 (25.4,−7.4)、子晴站位 (15.7,25.8) 導航檢查 ALL PASS"
+  },
+  {
+   "task": "SQ-TRACES-1023＋SQ16 店門口",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ed65a78e",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/sideq_shops_1023.patch（zones3d.js，對開發 c42228351；traceVis＋attachRoomGLB 接 TRACE_SQxx、找車行老闆、SQ16 紙條）",
+    "assets/models/env/second_ai/{l118_pasta,l118_korea,wz_teahouse_interior,wz_brunch_interior,wz_teishoku_interior}.glb＋.json",
+    "tools/blender/env_second/aa_support/sq_traces.py、sq_trace_photos.py；lane118_shops.py、wz_shops_interior.py、wz_aa364_shops.py（TRACE_ 不合併）",
+    "docs/art-rebuild/second_ai/test_shots/sq_traces_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "SQ10／11／15／17／18 的痕跡沒做（這次沒列）；SQ16 紙條沒有新生名字；店門口按鈕實際顯示的截圖沒有（截圖工具凍結時鐘會藏按鈕，nearestInteractable 確認是它）；真機沒看過",
+   "next": "LAWWW：patch＋5 個 GLB 進開發分支；SIDEQ.traceOn(G,'SQxx')、SIDEQ.bikeShop(GM)、story3d 的 it.shop==='bike' 分派；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "六樣痕跡在遊戲裡 traceOn true 顯示、false 不顯示（每一格看）；牆上的兩樣跟著牆淡出；GLB 只多痕跡節點（+12～236 三角形）"
   }
  ]
 }
