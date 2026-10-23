@@ -22,11 +22,15 @@
      SQ12 Pasta 118（OUT 下週一 19:00；交往中可以約她；下學期起熟客招呼換一句＋她補一句：lane118.js 讀 S.greet／S.greetMore）、
      SQ13 韓食小廚（三次試泡菜：開口那次＋之後兩天各一次）、SQ14 一盞茶屋（公園「看」貓放進外出籠 → OUT 動物醫院 → 回茶屋；AA_397 3-2 的 12/15 訊息、12/17 告示多「（豆花）」）、
      SQ15 舊路書房（下次去整理；三選一；之後找學姊說話先演（SISY23.preTalk 包一層）；房間物品「學姊大一的民法總則」）、
-     SQ17 一一八茶飲（三次問一題；四月底以後下一次點飲料「上了。京都。」；2028-04-20 21:00 以安的訊息）、SQ18 清葉茶行（OUT 下個週日 08:30 小公園；之後公布欄「——里長」的紙、名牌多一行）、
-     SQ19 巷子裡定食（還芯慈＝找她說話的 interact 事件；兩週以後讀書會那兩句旁白）、SQ20 半熟早午餐（兩個週六 08:00 的 OUT；柏翰熟悉以上可以找他）。
+     SQ17 一一八茶飲（三次問一題；給了電話＝四月底她私訊「上了。京都。」，沒給＝四月底以後下一次點飲料當面說；2028-04-20 21:00 以安的訊息）、SQ18 清葉茶行（OUT 下個週日 08:30 小公園；之後公布欄「——里長」的紙、名牌多一行）、
+     SQ19 巷子裡定食（還芯慈＝找她說話的 interact 事件；兩週以後芯慈在班上群組約讀書會那三則）、SQ20 半熟早午餐（兩個週六 08:00 的 OUT；柏翰熟悉以上可以找他）。
      SQ16 輪轉單車：店面街景沒有互動點（zones3d.js：「沒有互動點」），店員認得你做不到——先不做。
-     步驟的字稿裡沒有的（SQ17 前兩題的回答、SQ20 第一次計時）先不演；接線：lane118.js（Pasta 招呼）、wzshops3d.js（一盞、半熟點完叫 atShop）、story3d.js（清葉茶行、舊路書房點完叫 atShop、記次數）、
+     接線：lane118.js（Pasta 招呼）、wzshops3d.js（一盞、半熟點完叫 atShop）、story3d.js（清葉茶行、舊路書房點完叫 atShop、記次數）、
      wzpark3d.js（SQ14 外出籠、告示、名牌）、outings3d.js（2D 背景 hwaxin_street、vet_clinic：還沒有圖＝深色底）。
+   第二、三批的缺字 AA_408 第 6 節（企劃線 b0b80a54；任務 SIDEQ-AA408-6-1023）：SQ17 三題的回答（前兩次在前兩題裡選、第三次只有「如果沒上呢？」）＋第三題之後給不給電話
+     （聯絡人「一一八茶飲的店員」只登錄名字：PORTRAIT_ONLY，同 us_life_events.js 的何俊朗）、SQ20 自己計時的兩次、SQ19 班上群組三則（取代兩句旁白）、
+     SQ10 出遊回來以後下一次來滇香先交乳扇（那時才算做完）、SQ12 帶交往對象去的那一句＋她接的一句（芷若、沛珊大三上不在臺北：不在可選名單）、
+     SQ15 房間物品平常「看」那一句、SQ18 掃完落葉以後阿伯那一杯（不給錢）。
    測試：node tests/aa397_sideq_unit.js、node tests/aa404_sideq_unit.js */
 'use strict';
 const SIDEQ=(function(){
@@ -69,7 +73,7 @@ const SIDEQ=(function(){
   const pres=(G,id)=>!(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence(id,G).here===false);
   const metSis=G=>met(SIS)||!!(G&&G.flags&&G.flags.met_sis);
 
-  /* ---------- 稿（AA_397 第 2 節＋AA_408 補字，企劃線 29e41dd8）：照抄；null＝稿裡沒有，先不演 ---------- */
+  /* ---------- 稿（AA_397 第 2 節＋AA_408 補字，企劃線 29e41dd8；第 6 節第二、三批的缺字 b0b80a54）：照抄；null＝稿裡沒有，先不演 ---------- */
   const SHOP_NAME={'林家乾麵':'林家乾麵','巷口茶飲':'巷口茶飲','夏日冰菓室':'夏日冰菓室','慢讀咖啡':'慢讀咖啡（118 巷）','六張犁麵舖':'六張犁麵舖（118 巷）','好家自助餐':'好家自助餐（118 巷）','蛋包飯研究所':'蛋包飯研究所（118 巷）','公館的便利商店':'公館的便利商店',
     '滇香小館':'滇香小館（118 巷）','巷口家常菜':'巷口家常菜（118 巷）','Pasta 118':'Pasta 118（118 巷）','韓食小廚':'韓食小廚（118 巷）','溫州街・一盞':'一盞茶屋（溫州街）','舊路書房':'舊路書房（公館）',
     '一一八茶飲':'一一八茶飲（118 巷）','清葉茶行':'清葉茶行（公館）','巷子裡定食':'巷子裡定食（溫州街）','溫州街・半熟':'半熟早午餐（溫州街）'};
@@ -110,12 +114,14 @@ const SIDEQ=(function(){
     SQ10:{open:['乳扇沒有了。我們家鄉的那種，臺北只有中和那條街買得到。','……我這個月走不開。你週末有空嗎？'],noteN:'（她多給一張摺好的紙條。）',note:'拿給老闆娘。',
       read:'（雜貨店的老闆娘看了紙條，愣了一下。）',who:'阿梅？……她在臺北開店？',past:'（她們是小時候在緬甸同一個村子長大的，三十年沒聯絡。）',
       giveN:'（雜貨店的老闆娘多塞了一包東西和一張寫了電話的紙。）',give:'乳扇是她的，這包是我的。叫她打給我。',
+      handN:'（你把那包乳扇和紙條交給老闆娘。她先看紙條，看了很久。）',hand:'……她還記得我叫阿梅。',   /* AA_408 6：出遊回來以後，下一次來滇香 */
       menu:'（滇香的菜單多一行手寫「炸乳扇（限量）」。）',greet:'下禮拜我要去中和。……她說要教我做她媽媽的那道。',lapse:'乳扇我託客人去中和買了。……那間店的老闆娘，我沒見到。'},
     SQ11:{open:[[null,'（老闆娘從櫃台下面拿出一個鞋盒。）'],['老闆娘','客人不要的發票，我都留著。'],['老闆娘','……字太小了，我看不到。同學，你幫我對。']],
       winN:'（對到一張中了兩百塊。老闆娘看了很久。）',win:'……二十年了，第一次中。',cat:['兩百塊，拿去買罐頭。給公園那隻。','我每天收攤經過，牠都在那張椅子上。'],noCat:'兩百塊。今天你的排骨我請。',
       box:'（櫃台多一個紙盒，上面手寫「發票請投這裡」。）',boxCat:'（下面多一行小字「中了買貓罐頭」。）',adopt:'（那行小字劃掉，改成「中了捐給動物之家」。）',lapse:'發票我叫我女兒對了。……都沒中。'},
     SQ12:{open:['下禮拜一公休。……我想請你來當客人。','我要跟我女朋友求婚。店裡只有她一個人，她會發現。'],
-      inN:'（女朋友進門，看了一下店裡唯一一桌客人，走過來小聲說。）',in:'你是他找來的吧。',knew:'（她早就知道了。她看到他訂了一個戒指盒，盒子放在廚房的抽屜裡兩個禮拜。）',
+      inN:'（女朋友進門，看了一下店裡唯一一桌客人，走過來小聲說。）',in:'你是他找來的吧。',inPair:'你們是他找來的吧。',   /* AA_408 6：帶交往對象一起去＝對兩個人說，她接一句 */
+      pair:{[AN]:'……我們很明顯嗎？',heroine_03:'……對不起。我們演得不好。',[ZQ]:'我們很認真在演耶。',[SIS]:'……我就說點兩份太刻意。',kexin:'我就說不要坐窗邊。'},knew:'（她早就知道了。她看到他訂了一個戒指盒，盒子放在廚房的抽屜裡兩個禮拜。）',
       yesN:'（她坐回吧檯，等甜點上來，打開，說「好」，然後轉頭問你。）',photo:'可以幫我們拍一張嗎？',free:'（老闆那一晚沒收錢。）',
       wall:'（吧檯後面的牆多一張照片（兩個人，後面是窗邊那一桌）。）',greet:'一位嗎？吧檯老位子。',her:'窗邊也有位子喔。',lapse:'那天我一個人顧店。……她說好。'},
     SQ13:{open:['我太太回韓國照顧她媽媽，要三個月。泡菜都是她醃的。','我照她的方法醃了一罐。……你幫我吃吃看。'],ask:'這罐怎樣？',opts:['比上次好。','比上次差。','一樣。'],reveal:'這罐是她從韓國寄來的。',
@@ -130,25 +136,32 @@ const SIDEQ=(function(){
       find:['（民法總則的封面內頁，寫著「溫書瑀」。）','（每一頁的邊邊都寫滿了字。很多問號，有些問號後來被劃掉了。）'],dinner:'（翻到善意第三人那一頁，她用紅筆圈起來，旁邊寫：「善意＝不知道。不是心地善良。」）',
       who:'一個女生拿來的，很瘦，講話很快。她說這箱不用算錢。',opts:['這本我買。','幫我留著，我問問她。','這幾本修法了，不能賣。'],reply:['八十。……你認識她？','好。留一個禮拜。','那這本我拿去回收。'],
       sis:{put:'（你把那本民法總則放在她桌上。）',how:'……這本怎麼會在你這裡。',bought:'我賣掉的時候，以為不會再看到。',asked:'書店老闆打電話問我？……不是。是你在那裡整理。',ugly:'裡面的字很醜。問號很多。',keep:'……你留著吧。裡面錯的地方，你現在用得到。'},
-      buy:'她說給你的？好。',item:'學姊大一的民法總則',eve:'（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）',lapse:'那箱書，我拿去回收了。'},
+      buy:'她說給你的？好。',item:'學姊大一的民法總則',shelf:'（學姊大一的民法總則。封面內頁寫著『溫書瑀』，字比現在圓一點。）',   /* AA_408 6：房間物品平常「看」*/ eve:'（最後一頁，她寫了一行小字：『考完了。下次不要熬夜。』）',lapse:'那箱書，我拿去回收了。'},
     /* 第三批（AA_405，1fa2b494a）。SQ16 輪轉單車沒有互動點，先不做（稿不抄進來）*/
-    SQ17:{open:['我在申請交換。下禮拜英文面試。','你可以問我問題嗎？我一邊做飲料一邊答。'],qs:['為什麼想去？','去了想學什麼？','如果沒上呢？'],en:'（她用英文說的時候，手上的封膜機停了。）',
-      fail:'如果沒上，我明年再申請。……這題我本來不想準備，因為我怕。',result:'上了。京都。',trace:'（窗口換了一個新的店員。牆上貼一張京都的照片，旁邊寫「她說：甜度冰塊記得問清楚」。）',
+    SQ17:{open:['我在申請交換。下禮拜英文面試。','你可以問我問題嗎？我一邊做飲料一邊答。'],qs:['為什麼想去？','去了想學什麼？','如果沒上呢？'],
+      ans:[['我想去一個沒有人認識我的地方。……先在那邊點一次飲料，看他們會不會記得我。','I want to see if I can start over somewhere no one knows me.'],['日文。還有……怎麼一個人吃飯。','Japanese. And how to eat alone.'],
+        ['如果沒上，我明年再申請。……這題我本來不想準備，因為我怕。','If I don\'t get in, I\'ll apply again next year.']],en:'（她說英文的時候，手上的封膜機停了。）',   /* AA_408 6：每一題中文、英文各一句；封膜機那一句只在第三題 */
+      give:['上了跟我說。','加油。'],call:'……那你給我電話。',contact:'一一八茶飲的店員',   /* AA_408 6：第三題之後給不給號碼 */
+      result:'上了。京都。',trace:'（窗口換了一個新的店員。牆上貼一張京都的照片，旁邊寫「她說：甜度冰塊記得問清楚」。）',
       an:['今天在學校的交流會遇到一個臺灣人。她說她以前在一一八茶飲打工。','她說你幫她練過面試。……你的人緣比我以為的好。'],lapse:'面試完了。結果四月才知道。'},
     SQ18:{open:['週日早上有一張二十杯的訂單，要送到溫州街的小公園。','我店裡走不開。你幫我送，運費算你一杯。'],clean:'（公園裡十幾個人在掃落葉、清水溝，是里民的清掃日。）',
       chief:'（訂飲料的是在涼亭下象棋的那位阿伯。他從口袋拿出一疊零錢付給你，戴上一頂寫著「里長」的帽子。）',who:'怎麼，你以為里長是誰？',sheet:'餵貓那張表，是你貼的吧。……星期日那一格，是我。',papers:'公布欄那些紙，都是我貼的。',
-      stay:'（你留下來掃了半小時落葉。阿伯讓你一子，下了一盤。）',knows:'（你認得這個字。）',tag:'（阿伯的字。）',lapse:'那二十杯，我自己送了。'},
+      stay:'（你留下來掃了半小時落葉。阿伯讓你一子，下了一盤。）',cup:'這杯是你的。茶行說，運費算你一杯。',   /* AA_408 6：掃完落葉以後（不給錢）*/ knows:'（你認得這個字。）',tag:'（阿伯的字。）',lapse:'那二十杯，我自己送了。'},
     SQ19:{open:['昨天有個女生把筆記本忘在這裡。封面寫法律系。','……你認識嗎？'],look:'（封面寫著「吳芯慈」，裡面每一頁都是三種顏色的筆，像印刷的。）',
       last:['（筆記本最後一頁不是筆記。是一張兩欄的表，左邊寫「以安」，右邊寫「我」。一格一格是考試、報告、發言的次數。）','（表的最下面另外寫了一行，字比較小：「下次換我先約她。」）'],
       ret:'（她接過筆記本，第一件事是翻到最後一頁。）',ask:'……你看了嗎？',opts:['看了最後一行。','沒有。'],seen:[['xc','……喔。'],[null,'（她把那一頁摺起來。）'],['xc','那一行，我會自己去做。']],no:[['xc','……謝謝。'],[null,'（她看了你一下，好像不太相信。）']],
-      group:['（芯慈在班上群組約讀書會，第一個 tag 的是以安。）','（以安回了一個字：『好。』）'],basket:'（定食店的櫃台多一個小籃子，寫著「失物」。）',greet:'今天沒有人忘東西。',lapse:'筆記本那個女生，自己回來拿了。'},
+      group:[['xc','週四晚上我借了一間討論室，讀這週的進度。要來的跟我說。'],['xc','@以安 妳要來嗎？'],['an','好。']],basket:'（定食店的櫃台多一個小籃子，寫著「失物」。）',greet:'今天沒有人忘東西。',lapse:'筆記本那個女生，自己回來拿了。'},
     SQ20:{open:['小蕙下個月要考證照，烘焙的。','她每次練習都超時。我在煎蛋，沒辦法幫她計時。你可以嗎？'],bohanOpt:'我找一個更會計時的人。',bohan:'每個步驟我分開計。你們看這張表。',
+      self1:[[null,'（你用手機的碼錶。小蕙每做完一步，就看你一眼。）'],['小蕙','……超過了嗎？'],['小米姐','（從煎台那邊）她每次都超過在烤箱那一步。']],self2:'（這次她在烤箱那一步沒有看你。）',   /* AA_408 6：自己計時（沒找柏翰）的第一次、第二次 */
       apronN:'（第二個週末練完，小米姐把圍裙脫下來。）',apron:['……我也報了。','我考過兩次，都沒過。那時候在上班，沒時間練。','這次跟她一起考。不要告訴她，她會緊張。'],
       pass:'（一個月以後，兩個人都過了。小蕙先知道小米姐也有考，是在考場遇到的。）',certs:'（櫃台後面的牆上多兩張證書，並排掛著，一張寫小米姐的名字，一張寫小蕙的。）',greet:'今天的蛋，三分四十秒。……這是我考試的時候練出來的。',lapse:'小蕙自己計時。她說手機的碼錶很吵。'},
     CAT:{vet:['（照片：獸醫院的診療台，牠縮在毛巾裡）','感冒，老了。醫生說冬天不要待在外面。'],
       photos:[['牠霸佔了我的鍵盤。'],['牠睡在電暖器前面一整天。我也是。'],['醫生說牠胖回來了一點。'],['我遊戲裡的貓，換了一個新的動作：睡覺。'],['牠學會開衣櫃了。我不知道是誰教的。'],['（照片：貓和畢業證書）','牠比我早一步拿到證書。……是我放上去的。']]}
   };
   S.LINES=L;
+  /* SQ17 給了電話的聯絡人：不在 CHARACTERS（沒有 3D、作息、關係）；只登錄名字（手機的對話串、「加了…的聯絡方式」）＝PORTRAIT_ONLY，同 us_life_events.js 的何俊朗 */
+  const TEA='tea118_staff'; S.TEA=TEA;
+  if(typeof PORTRAIT_ONLY!=='undefined'&&!PORTRAIT_ONLY[TEA]) PORTRAIT_ONLY[TEA]={id:TEA,name:L.SQ17.contact,alias:[],gender:'f'};
   /* UI 的字（不是台詞）：選項的動作描述、說話框的名字 */
   S.UI={alone:'（一個人去）',invite:n=>'（約'+n+'一起去）',self20:'（自己幫她計時）',gf:'老闆的女朋友',grocer:'雜貨店的老闆娘'};
 
@@ -215,6 +228,7 @@ const SIDEQ=(function(){
     /* ---------- 第二批（AA_404）---------- */
     SQ10:{shop:'滇香小館',title:'滇香小館：華新街的乳扇',avail:G=>ti(G)>=3,   /* 大二下起 */
       accept:async(GM,r)=>{ const G=GM.G; await say(GM,null,L.SQ10.noteN); await say(GM,'老闆娘',L.SQ10.note); setAct(r,'go',termEnd(G)); S.plan10(G,r); },   /* 期限：這學期內；週六 14:00 去（沒去＝下一個週六，到期限為止）*/
+      visit:async(GM,r)=>{ if(r.step!=='give') return false; await say(GM,null,L.SQ10.handN); await say(GM,'老闆娘',L.SQ10.hand); S.finish(GM,'SQ10',r); return true; },   /* 從華新街回來以後下一次來：交乳扇和紙條，這時才算做完（AA_408 6）*/
       trace:async(GM,r)=>{ const G=GM.G; if(r.state!=='done'||G.day<=r.doneDay) return false; if(!r.t1){ r.t1=G.day; await say(GM,null,L.SQ10.menu); return true; }
         if(!r.t2&&G.day>r.t1){ r.t2=G.day; await say(GM,'老闆娘',L.SQ10.greet); return true; } return false; }},   /* 菜單多一行；之後老闆娘多一句（一次）。過期＝沒有「炸乳扇（限量）」 */
     SQ11:{shop:'巷口家常菜',title:'巷口家常菜：對發票',avail:G=>{ const q=dateOf(G.day); return ti(G)>=2&&q.m%2===1&&q.d>=25; },   /* 大二上起、單數月 25 日以後（開獎）*/
@@ -226,8 +240,8 @@ const SIDEQ=(function(){
       trace:async(GM,r)=>{ const G=GM.G; if(r.state!=='done'||G.day<=r.doneDay) return false; if(!r.t1){ r.t1=G.day; await say(GM,null,L.SQ11.box); if(r.cat) await say(GM,null,L.SQ11.boxCat); return true; }
         if(r.cat&&!r.t2&&G.day>r.t1&&typeof PARK!=='undefined'&&PARK.adoptNotice&&PARK.adoptNotice(G)){ r.t2=G.day; await say(GM,null,L.SQ11.adopt); return true; } return false; }},   /* 2028-12-17 貓被領養以後：那行小字換掉 */
     SQ12:{shop:'Pasta 118',title:'Pasta 118：週一公休的那一晚',avail:G=>inTerm(G,'Y3S1'),   /* 大三上 */
-      accept:async(GM,r)=>{ const G=GM.G, C=PARTNERS.filter(id=>S.dating(G,id)&&pres(G,id));
-        if(C.length){ const k=await GM.choose([{t:S.UI.alone}].concat(C.map(id=>({t:S.UI.invite(nm(id))})))); r.partner=k>0?C[k-1]:null; }   /* 交往中可以約對方一起來（AA_311 H9：兩個人坐窗邊）*/
+      accept:async(GM,r)=>{ const G=GM.G, C=PASTA_PARTNERS().filter(id=>S.dating(G,id)&&pres(G,id));
+        if(C.length){ const k=await GM.choose([{t:S.UI.alone}].concat(C.map(id=>({t:S.UI.invite(nm(id))})))); r.partner=k>0?C[k-1]:null; }   /* 交往中可以約對方一起來（AA_311 H9：兩個人坐窗邊）；可選＝AA_408 6 有接話的五人（芷若大三上在英國、沛珊在台南）*/
         const d=nextWd(G,1); setAct(r,'go',d); r.outDay=d; if(d!=null&&typeof OUT!=='undefined') OUT.plan(G,{id:'sq12_pasta_'+d,ev:'ev_sq12_pasta',day:d,h:19,late:0.5,place:'118 巷・Pasta 118',title:'Pasta 118：週一公休的那一晚',travel:'走路 約 5 分鐘',travelH:1/12}); },
       trace:async(GM,r)=>{ if(r.state!=='done'||r.t1||GM.G.day<=r.doneDay) return false; r.t1=GM.G.day; await say(GM,null,L.SQ12.wall); return true; }},   /* 吧檯後面的照片（一次）；下學期起的招呼：S.greet／S.greetMore */
     SQ13:{shop:'韓食小廚',title:'韓食小廚：第三罐泡菜',avail:G=>ti(G)>=2,   /* 大二上起 */
@@ -249,7 +263,7 @@ const SIDEQ=(function(){
     SQ17:{shop:'一一八茶飲',title:'一一八茶飲：英文面試',avail:G=>{ const m=month(G); return inTerm(G,'Y2S2')&&(m===3||m===4); },   /* 大二下 2027-03～04 */
       accept:async(GM,r)=>{ setAct(r,'ask',monthEnd(GM.G.day)); r.asked=[]; await S.ask17(GM,r); },   /* 期限：那個月；第一題：開口那天（一邊做飲料一邊答）*/
       visit:async(GM,r)=>{ const G=GM.G; if(r.step==='ask'){ if(r.lastAsk===G.day) return false; await S.ask17(GM,r); return true; }
-        if(r.step==='result'&&G.day>=r.wait){ await say(GM,'店員',L.SQ17.result); S.finish(GM,'SQ17',r); return true; } return false; },   /* 四月底以後下一次點飲料：當面說（沒有給她手機號碼的那一版）*/
+        if(r.step==='result'&&!r.phone&&G.day>=r.wait){ await say(GM,'店員',L.SQ17.result); S.finish(GM,'SQ17',r); return true; } return false; },   /* 四月底以後下一次點飲料：當面說（選「加油。」、沒有給她電話的那一版；給了電話＝S.phone 的私訊）*/
       trace:async(GM,r)=>{ const G=GM.G, d=DK('2028-03-01'); if(r.state!=='done'||r.t1||d==null||G.day<d) return false; r.t1=G.day; await say(GM,null,L.SQ17.trace); return true; }},   /* 大三下（2028-03 起）一次 */
     SQ18:{shop:'清葉茶行',title:'清葉茶行：二十杯的訂單',avail:G=>ti(G)>=3,   /* 大二下起（沒有 SQ08 的玩家照樣有）*/
       accept:async(GM,r)=>{ const G=GM.G, d=nextWd(G,0); setAct(r,'go',d); r.outDay=d; if(d!=null&&typeof OUT!=='undefined') OUT.plan(G,{id:'sq18_park_'+d,ev:'ev_sq18_park',day:d,h:8.5,late:0.5,place:'溫州街・小公園',title:'週日早上：二十杯飲料送到小公園',travel:'走路 約 10 分鐘',travelH:1/6}); }},   /* 期限：那個週日 */
@@ -265,17 +279,17 @@ const SIDEQ=(function(){
         if(!r.t1){ r.t1=G.day; await say(GM,null,L.SQ20.certs); return true; } if(r.state==='done'&&!r.t2&&G.day>r.t1){ r.t2=G.day; await say(GM,'小米姐',L.SQ20.greet); return true; } return false; }}   /* 過期：兩張證書照樣有（AA_408 1）*/
   };
   S.Q=Q;
-  const PARTNERS=HEROINES.concat(['kexin']);
+  const PASTA_PARTNERS=()=>Object.keys(L.SQ12.pair);   /* SQ12 一起去的交往對象：以安、語彤、子晴、學姊、可昕（AA_408 6）*/
   const HINT={SQ01:{wait:'下次去林家乾麵'},SQ02:{fafu:r=>'帶去法服問（'+(r.fafuDay!=null?md(r.fafuDay)+' 週六上午，':'')+'萬才館）',wait:'下次去巷口茶飲'},SQ03:{board:'在夏日冰菓室的窗口「看價目板」'},
     SQ04:{ask:'下次去慢讀咖啡（118 巷）',again:r=>md(r.again)+' 以後再去慢讀咖啡（118 巷）',police:'送筆電去派出所',wait:'下次去慢讀咖啡（118 巷）'},SQ05:{closed:r=>'六張犁麵舖公休到 '+md(r.closeTo)+'；之後再去'},
     SQ06:{lesson:'等家教第一次上課',twist:'下次去好家自助餐（118 巷）',club:r=>'帶孫子去吉他社社課（'+md(r.by)+'）'},SQ07:{sis:'找學姊看讀書計畫（兩點半 Café）',wait:'下次去蛋包飯研究所（118 巷）',last:'下次去蛋包飯研究所（118 巷）'},
     SQ08:{board:'去溫州街的公園看公布欄',ask:r=>'問象棋阿伯（早上）'+(r.abo?'✓':'')+'、一盞茶屋的蘇姨（下午）'+(r.su?'✓':''),back:'回公館的便利商店說',post:'把餵貓表貼到公園的公布欄'},
-    SQ10:{go:r=>'週末去中和的華新街'+(r.outDay!=null?'（'+md(r.outDay)+' 週六 14:00，捷運南勢角站）':'')},SQ11:{check:'下次去巷口家常菜（118 巷）幫老闆娘對發票'},
+    SQ10:{go:r=>'週末去中和的華新街'+(r.outDay!=null?'（'+md(r.outDay)+' 週六 14:00，捷運南勢角站）':''),give:'下次去滇香小館（118 巷），把乳扇和紙條交給老闆娘'},SQ11:{check:'下次去巷口家常菜（118 巷）幫老闆娘對發票'},
     SQ12:{go:r=>(r.outDay!=null?md(r.outDay)+'（一）':'下禮拜一')+' 19:00 去 Pasta 118（118 巷）當客人'},
     SQ13:{taste:r=>'再去韓食小廚（118 巷）吃吃看泡菜（'+((r.tastes||[]).length)+'／3）',wait:'等老闆娘回來'},
     SQ14:{cage:'去溫州街的公園，把貓放進外出籠',vet:'帶牠去羅斯福路上的動物醫院'},
     SQ15:{sort:'去舊路書房（公館）後面整理那一箱書',sis:'找學姊說那本民法總則',buy:'去舊路書房把那本民法總則買下來（80 元）'},
-    SQ17:{ask:r=>'再去一一八茶飲（118 巷）問她一題（'+((r.asked||[]).length)+'／3）',result:'四月底以後再去一一八茶飲（118 巷）'},
+    SQ17:{ask:r=>'再去一一八茶飲（118 巷）問她一題（'+((r.asked||[]).length)+'／3）',result:r=>r.phone?'等她傳訊息（四月底）':'四月底以後再去一一八茶飲（118 巷）'},
     SQ18:{go:r=>(r.outDay!=null?md(r.outDay)+'（日）':'週日')+' 08:30 把飲料送到溫州街的小公園'},SQ19:{ret:'把筆記本還給芯慈（在學校，或週二、四中午的巷口家常菜）'},
     SQ20:{s1:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去半熟早午餐幫小蕙計時（第 1 次）',s2:r=>(r.outDay!=null?md(r.outDay)+'（六）':'週六')+' 08:00 去半熟早午餐幫小蕙計時（第 2 次）',wait:'等小蕙的證照考試'}};
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
@@ -422,15 +436,19 @@ const SIDEQ=(function(){
   S.plan10=(G,r)=>S.planWeekend(G,r,{id:'sq10_hwaxin',ev:'ev_sq10_hwaxin',h:14,late:1,place:'中和・華新街',title:'中和・華新街：滇香小館的乳扇',travel:'捷運 約 40 分鐘（南勢角站）',travelH:2/3});
   S.HWAXIN_EV={ id:'ev_sq10_hwaxin', title:'華新街', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
     dialogue:[{scene:'中和・華新街',bg:'hwaxin_street'},{speaker:null,text:L.SQ10.read},{speaker:S.UI.grocer,text:L.SQ10.who},{speaker:null,text:L.SQ10.past},{speaker:null,text:L.SQ10.giveN},{speaker:S.UI.grocer,text:L.SQ10.give},{consequences:{money:-60}}],   /* 來回 60 元 */
-    after:(G,GM)=>{ const r=S.get(G,'SQ10'); if(r&&r.state==='open'&&r.step==='go') S.finish(GM||{G},'SQ10',r,{away:true}); },
+    after:(G)=>{ const r=S.get(G,'SQ10'); if(r&&r.state==='open'&&r.step==='go') setWait(r,'give',G.day); },   /* 還沒做完：下一次來滇香把乳扇交給老闆娘（AA_408 6；沒有期限）*/
     outingMissed:missedAt('SQ10','go',(G,r)=>S.plan10(G,r)) };
 
   /* SQ11：有沒有餵過公園的貓（SQ08 貼了餵貓表，或在公園選過「餵」）；貓被領養以後不算（那一支講的是「公園那隻」）*/
   S.fedCat=function(G){ if(typeof PARK==='undefined') return false; if(PARK.catGone&&PARK.catGone(G)) return false; const r8=S.get(G,'SQ08'); return !!(r8&&r8.state==='done')||(PARK.rec&&PARK.rec(G).feedDay!=null); };
 
   /* SQ12：下禮拜一 19:00 Pasta 118（2D；店裡還沒有夜晚的 2D 圖＝深色底）；帶她去的熟悉 +1（陪你去的女主角，AA_397 第 1 節） */
+  /* 帶交往對象去的（AA_408 6）：女朋友那句換成對兩個人說、交往對象接一句（她的那一句）；一個人去＝原本那句 */
+  S.pastaPartner=G=>{ const r=G&&S.get(G,'SQ12'); return r&&r.partner&&L.SQ12.pair[r.partner]?r.partner:null; };
   S.PASTA_EV={ id:'ev_sq12_pasta', title:'週一公休的那一晚', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'118 巷・Pasta 118'},{speaker:null,text:L.SQ12.inN},{speaker:S.UI.gf,text:L.SQ12.in},{speaker:null,text:L.SQ12.knew},{speaker:null,text:L.SQ12.yesN},{speaker:S.UI.gf,text:L.SQ12.photo},{speaker:null,text:L.SQ12.free}],
+    dialogue:[{scene:'118 巷・Pasta 118'},{speaker:null,text:L.SQ12.inN},{unless:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.in},{if:{custom:G=>!!S.pastaPartner(G)},speaker:S.UI.gf,text:L.SQ12.inPair}]
+      .concat(Object.keys(L.SQ12.pair).map(id=>({if:{custom:G=>S.pastaPartner(G)===id},speaker:id,text:L.SQ12.pair[id]})),
+        [{speaker:null,text:L.SQ12.knew},{speaker:null,text:L.SQ12.yesN},{speaker:S.UI.gf,text:L.SQ12.photo},{speaker:null,text:L.SQ12.free}]),
     after:(G,GM)=>{ const r=S.get(G,'SQ12'); if(!r||r.state!=='open'||r.step!=='go') return; if(r.partner){ fam(r.partner,1); r.helped=true; } S.finish(GM||{G},'SQ12',r,{away:true}); },
     outingMissed:missedAt('SQ12','go') };
 
@@ -467,16 +485,23 @@ const SIDEQ=(function(){
   S.sisPre=async function(GM){ const G=GM&&GM.G; if(!law(G)||typeof EVENTS==='undefined'||!EVENTS.runLines) return false; S.lapse(G); const r=S.sisPreDue(G); if(!r) return false; r.sisSaid=G.day; const A=L.SQ15.sis;
     await EVENTS.runLines([{speaker:null,text:A.put},{speaker:SIS,text:A.how},{speaker:SIS,text:r.book==='bought'?A.bought:A.asked},{speaker:SIS,text:A.ugly},{speaker:SIS,text:A.keep},{consequences:{rel:{[SIS]:{fam:2,comf:2}}}}],{id:'sq15_sis',participants:[SIS]});
     if(r.book==='asked') setWait(r,'buy',G.day); return true; };
-  /* 房間物品「學姊大一的民法總則」：期中、期末考前一晚（明天有考試、18:00 以後）「看」＝最後一頁那一行（一次）；平常是內頁那一句 */
+  /* 房間物品「學姊大一的民法總則」：期中、期末考前一晚（明天有考試、18:00 以後）「看」＝最後一頁那一行（一次）；平常＝AA_408 6 那一句（封面內頁、字比現在圓一點）*/
   S.examEve=function(G){ if(typeof CLS==='undefined'||!CLS.examList||typeof CALENDAR==='undefined'||hr(G)<18) return false; const t=CALENDAR.termOf(G.day+1); return !!t&&!!t.exam&&CLS.examList(G,t.id).some(e=>e.day===G.day+1); };
-  S.bookLine=function(G){ const r=S.get(G,'SQ15'); if(r&&!r.eve&&S.examEve(G)){ r.eve=G.day; return L.SQ15.eve; } return L.SQ15.find[1]; };
+  S.bookLine=function(G){ const r=S.get(G,'SQ15'); if(r&&!r.eve&&S.examEve(G)){ r.eve=G.day; return L.SQ15.eve; } return L.SQ15.shelf; };
   S.room15=function(G,Lst){ const r=G&&S.get(G,'SQ15'); if(!r||r.owned==null) return; Lst.push([L.SQ15.item,[],async GM=>{ await GM.say(null,S.bookLine(GM.G)); }]); };
 
-  /* SQ17：一次問一題（問過的不再出現）；「如果沒上呢？」＝她那一句；每一題都有封膜機那一句（她用英文再說一次）。前兩題的回答稿裡沒有＝先不演 */
-  S.ask17=async function(GM,r){ const G=GM.G, A=r.asked=r.asked||[], left=[0,1,2].filter(i=>!A.includes(i)); if(!left.length) return false;
-    const k=left[await GM.choose(left.map(i=>({t:q2(L.SQ17.qs[i])})))]; A.push(k==null?left[0]:k); r.lastAsk=G.day;
-    if(A[A.length-1]===2) await say(GM,'店員',L.SQ17.fail); await say(GM,null,L.SQ17.en);
-    if(A.length>=3){ const w=DK(dateOf(G.day).y+'-04-25'); setWait(r,'result',Math.max(G.day+1,w!=null?w:G.day+1)); } return true; };   /* 四月底（4/25 起）以後的下一次 */
+  /* SQ17（AA_408 6）：一次問一題（問過的不再出現）；前兩次在「為什麼想去？」「去了想學什麼？」裡選，第三次只有「如果沒上呢？」（意外那一句固定在第三題）。
+     每一題她先說中文、再說英文（店員兩句）；第三題後面多封膜機那一句旁白。第三題之後：「上了跟我說。」＝她要電話（記聯絡人、四月底私訊）；「加油。」＝下一次點飲料當面說 */
+  S.ask17=async function(GM,r){ const G=GM.G, A=r.asked=r.asked||[], rem=[0,1,2].filter(i=>!A.includes(i)); if(!rem.length) return false;
+    const left=rem.length>1?rem.filter(i=>i!==2):rem;   /* 舊存檔先問過第三題的：照剩下的問完 */
+    const k=left[await GM.choose(left.map(i=>({t:q2(L.SQ17.qs[i])})))]; const q=k==null?left[0]:k; A.push(q); r.lastAsk=G.day;
+    await sayAll(GM,'店員',L.SQ17.ans[q]); if(q===2) await say(GM,null,L.SQ17.en);
+    if(A.length<3) return true;
+    const w0=DK(dateOf(G.day).y+'-04-25'), w=Math.max(G.day+1,w0!=null?w0:G.day+1);   /* 四月底（4/25 起）*/
+    const g=await GM.choose(L.SQ17.give.map(t=>({t:q2(t)}))); setWait(r,'result',w);
+    if(g===0){ await say(GM,'店員',L.SQ17.call); if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,TEA);
+      if(typeof PHONE!=='undefined'){ r.phone=true; PHONE.at(G,w,21,[dm(TEA,L.SQ17.result)],'sq17_result'); } }   /* 4/25 21:00 她傳「上了。京都。」（取代下一次點飲料當面說；收到＝做完，S.phone）*/
+    return true; };
 
   /* SQ18：下個週日 08:30 小公園（2D，溫州街的圖暫代；之後可以改成 3D 公園）*/
   S.sq08Done=G=>{ const r=G&&S.get(G,'SQ08'); return !!r&&r.state==='done'; };
@@ -485,7 +510,8 @@ const SIDEQ=(function(){
   S.PARK18_EV={ id:'ev_sq18_park', title:'清掃日', participants:[], location:'any', trigger:'outing', background:'dark', hours:1,
     dialogue:[{scene:'溫州街・小公園',bg:'wenzhou'},{speaker:null,text:L.SQ18.clean},{speaker:null,text:L.SQ18.chief},{speaker:'阿伯',text:L.SQ18.who},
       {if:{custom:G=>S.sq08Done(G)},speaker:'阿伯',text:L.SQ18.sheet},{unless:{custom:G=>S.sq08Done(G)},speaker:'阿伯',text:L.SQ18.papers},{speaker:null,text:L.SQ18.stay}]
-      .concat(chessWin()?[{unless:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[0][0]},{if:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[1][0]}]:[]),
+      .concat(chessWin()?[{unless:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[0][0]},{if:{custom:G=>typeof PARK!=='undefined'&&PARK.year&&PARK.year(G)>=4},speaker:'阿伯',text:chessWin()[1][0]}]:[],
+        [{speaker:'阿伯',text:L.SQ18.cup}]),   /* 掃完落葉以後，阿伯從袋子裡拿出最後一杯（AA_408 6）：運費＝一杯，不給錢 */
     after:(G,GM)=>{ const r=S.get(G,'SQ18'); if(r&&r.state==='open'&&r.step==='go') S.finish(GM||{G},'SQ18',r,{away:true}); },
     outingMissed:missedAt('SQ18','go') };
 
@@ -496,21 +522,22 @@ const SIDEQ=(function(){
     dialogue:[{speaker:null,text:L.SQ19.ret},{speaker:XC,text:L.SQ19.ask},{choice:[{text:q2(L.SQ19.opts[0]),set:{SQ19_SAW:true},goto:'a'},{text:q2(L.SQ19.opts[1]),goto:'b'}]},
       {label:'a'}].concat(xcL(L.SQ19.seen),[{goto:'c'},{label:'b'}],xcL(L.SQ19.no),[{label:'c'}]),
     after:(G,GM)=>{ const r=S.get(G,'SQ19'); const saw=!!G.flags.SQ19_SAW; delete G.flags.SQ19_SAW; if(!r||r.state!=='open') return; r.saw=saw; S.finish(GM||{G},'SQ19',r); } };
-  /* 兩週以後：她在班上群組約讀書會（選「看了最後一行。」的；過期的照樣有，她自己會約，AA_408 1）——群組那則訊息稿裡沒有，演兩句旁白 */
-  S.XC_GROUP_EV={ id:'ev_sq19_group', title:'讀書會', participants:[], location:'any', trigger:'manual', background:'blur', dialogue:L.SQ19.group.map(t=>({speaker:null,text:t})),
-    after:G=>{ const r=S.get(G,'SQ19'); if(r) r.groupSaid=G.day; } };
+  /* 兩週以後：芯慈在班上群組約讀書會（選「看了最後一行。」的；過期的照樣有，她自己會約，AA_408 1）——AA_408 6 的三則（芯慈兩則、以安「好。」），取代原本兩句旁白。
+     時間＝原本旁白最早出現的時候（那一天 09:00）；S.phone 排。舊存檔已經演過兩句旁白的（groupSaid）不再傳 */
   S.xcGroupDay=function(G){ const r=G&&S.get(G,'SQ19'); if(!r||r.groupSaid) return null; if(r.state==='done'&&r.saw) return r.doneDay+14; if(r.state==='lapsed') return (r.lapseDay!=null?r.lapseDay:r.day)+14; return null; };
-  S.xcGroupDue=function(GM){ const G=GM&&GM.G, d=S.xcGroupDay(G); if(d==null||G.day<d) return false; const h=hr(G); return h>=9&&h<23&&!(GM.E&&GM.E.player&&GM.E.player.busy); };
+  S.XC_GROUP_H=9;
+  S.xcGroup=function(G){ const d=S.xcGroupDay(G); if(d==null||typeof PHONE==='undefined'||!PHONE.inGroup(G,'law_class')||sent(G,'sq19_group')) return false;
+    return PHONE.at(G,d,S.XC_GROUP_H,L.SQ19.group.map(([w,t])=>({th:'g:law_class',from:w==='xc'?XC:AN,text:t})),'sq19_group'); };
 
   /* SQ20：兩個週六 08:00～09:30（2D，店裡後面）；第二次練完＝小米姐那三句；一個月以後兩個人都過了 */
   S.plan20=(G,r)=>S.planWeekend(G,r,{id:'sq20_'+r.step,ev:'ev_sq20_'+r.step,h:8,late:0.5,place:'溫州街・半熟早午餐',title:'半熟早午餐：幫小蕙計時（第 '+(r.step==='s2'?2:1)+' 次）',travel:'走路 約 10 分鐘',travelH:1/6});
   const bohanOn=G=>!!(S.get(G,'SQ20')||{}).bohan;
   S.BRUNCH1_EV={ id:'ev_sq20_s1', title:'計時', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'半熟早午餐・店裡後面'},{if:{custom:bohanOn},speaker:BH,text:L.SQ20.bohan}],   /* 柏翰來了（他這學期的「精確數字」算這一次）；自己計時的那一次稿裡沒有句子 */
+    dialogue:[{scene:'半熟早午餐・店裡後面'},{if:{custom:bohanOn},speaker:BH,text:L.SQ20.bohan}].concat(L.SQ20.self1.map(([w,t])=>({unless:{custom:bohanOn},speaker:w,text:t}))),   /* 柏翰來了（他這學期的「精確數字」算這一次）；自己計時＝AA_408 6 的三行（旁白、小蕙、小米姐）*/
     after:G=>{ const r=S.get(G,'SQ20'); if(!r||r.state!=='open'||r.step!=='s1') return; r.step='s2'; if(!S.plan20(G,r)) lapseNow(G,r); },
     outingMissed:missedAt('SQ20','s1',(G,r)=>S.plan20(G,r)) };
   S.BRUNCH2_EV={ id:'ev_sq20_s2', title:'計時', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5,
-    dialogue:[{scene:'半熟早午餐・店裡後面'},{speaker:null,text:L.SQ20.apronN}].concat(L.SQ20.apron.map(t=>({speaker:'小米姐',text:t}))),
+    dialogue:[{scene:'半熟早午餐・店裡後面'},{unless:{custom:bohanOn},speaker:null,text:L.SQ20.self2},{speaker:null,text:L.SQ20.apronN}].concat(L.SQ20.apron.map(t=>({speaker:'小米姐',text:t}))),   /* 自己計時的第二次：一行旁白（AA_408 6），之後練完 */
     after:G=>{ const r=S.get(G,'SQ20'); if(r&&r.state==='open'&&r.step==='s2') setWait(r,'wait',G.day+30); },
     outingMissed:missedAt('SQ20','s2',(G,r)=>S.plan20(G,r)) };
 
@@ -522,7 +549,9 @@ const SIDEQ=(function(){
         if(r6.tutor!=='me'&&!sent(G,'sq06_report')){ if(G.day>r6.wait||hr(G)>=21) PHONE.at(G,r6.wait,21,[dm(r6.tutor,L.SQ06.report)],'sq06_report'); }
         if(r6.tutor==='me'||sent(G,'sq06_report')&&now(G)>=r6.wait*24+21){ if(r6.tutor===AN){ fam(AN,1); r6.helped=true; } r6.step='twist'; } }   /* 以安當家教：幫忙的女主角熟悉 +1（做完時不再加旁邊的人）*/
       const r17=S.get(G,'SQ17'), d17=DK('2028-04-20');   /* SQ17（AA_405）：演過、認識以安（有她的聯絡方式）＝2028-04-20（四）21:00 她從京都傳（不分路線）*/
-      if(r17&&r17.state==='done'&&d17!=null&&G.day>=d17&&G.day<=d17+1&&met(AN)&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,AN))&&!sent(G,'sq17_an')) PHONE.at(G,d17,21,L.SQ17.an.map(t=>dm(AN,t)),'sq17_an'); }
+      if(r17&&r17.state==='open'&&r17.step==='result'&&r17.phone&&(G.msgs||[]).some(m=>m&&m.tag==='sq17_result')) S.finish({G},'SQ17',r17,{away:true});   /* 給了電話：四月底她的私訊「上了。京都。」到了＝做完（AA_408 6）*/
+      if(r17&&r17.state==='done'&&d17!=null&&G.day>=d17&&G.day<=d17+1&&met(AN)&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,AN))&&!sent(G,'sq17_an')) PHONE.at(G,d17,21,L.SQ17.an.map(t=>dm(AN,t)),'sq17_an');
+      S.xcGroup(G); }   /* SQ19：兩週以後芯慈在班上群組約讀書會（AA_408 6）*/
     S.catPhone(G); };
   /* SQ05：答應的隔天 12:00～18:00 在霖澤館裡＝阿哲把卡片塞給你（群組回不回都一樣，AA_408 2）*/
   S.SIGN_EV={ id:'ev_sq05_sign', title:'卡片', participants:[], location:'linze', trigger:'manual', background:'blur', dialogue:[{speaker:null,text:L.SQ05.sign}],
@@ -532,9 +561,8 @@ const SIDEQ=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false;
     let ev=null; if(S.signDue(GM)) ev=S.SIGN_EV; else if(S.catNightDue(GM)){ ev=S.CAT_EV; const L0=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null, pav=L0&&L0.items&&L0.items.find(i=>i.kind==='pavilion'); if(pav) ev.spawn.at={x:pav.x+1.1,z:pav.z+0.6}; }   /* 她蹲在涼亭的石桌前面 */
     else if(S.sisDue(GM)) ev=S.SIS_EV;
-    else if(S.xcGroupDue(GM)) ev=S.XC_GROUP_EV;   /* SQ19 兩週以後的讀書會 */
     if(!ev) return false; busy=true; Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('SIDEQ',e)).finally(()=>{ busy=false; }); return true; };
-  if(typeof STORY_EVENTS!=='undefined') for(const e of [S.FAFU_EV,S.POLICE_EV,S.CLUB_EV,S.SIS_EV,S.CAT_EV,S.VISIT_EV,S.SIGN_EV,S.HWAXIN_EV,S.PASTA_EV,S.VET_EV,S.PARK18_EV,S.XC_EV,S.XC_GROUP_EV,S.BRUNCH1_EV,S.BRUNCH2_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
+  if(typeof STORY_EVENTS!=='undefined') for(const e of [S.FAFU_EV,S.POLICE_EV,S.CLUB_EV,S.SIS_EV,S.CAT_EV,S.VISIT_EV,S.SIGN_EV,S.HWAXIN_EV,S.PASTA_EV,S.VET_EV,S.PARK18_EV,S.XC_EV,S.BRUNCH1_EV,S.BRUNCH2_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.room15(G,Lst)); }   /* SQ15：學姊大一的民法總則 */
   /* SQ15：找學姊說話先演（talkSis、talkCharacter 本來就問 SISY23.preTalk——包一層，前面那幾層沒演才問這裡；照 loans3d.js 的做法，舊的旗標一起帶過去）*/
