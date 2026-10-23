@@ -2259,6 +2259,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "第二批：九個室內地板改淺（平均亮度 84～156 → 182～193），GLB 結構不變、只換地板貼圖；程式備用地板 5 支檔 7 行"
+  },
+  {
+   "task": "ART-L118-FACADE-3D-1023＋ART-GG-FACADE-3D-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb（＋.json、.props.json 位元組不變）",
+    "assets/models/env/second_ai/lane118_street.glb（＋.json、新的 .props.json）",
+    "tools/blender/env_second/{wz_shopkit,cvs_goods,wz_street}.py、textures/gen/wz_goods_atlas.jpg 和地磚貼圖集",
+    "docs/art-rebuild/second_ai/patches/gg_integration_test_1023.patch、street_props_test_1023.patch（對開發 719cca3b）",
+    "docs/art-rebuild/second_ai/test_shots/shop_facade_1023/（README＋前後 20 組）"
+   ],
+   "state": "交付",
+   "remaining": "溫州街用同一套 wz_shopkit、這次沒重建（下次重建店內會變 unlit）；118 巷瀏覽器流程測試、整套回歸沒跑；店內燈不隨時段；商品低面數；真機沒看過",
+   "next": "LAWWW：兩個 GLB＋腳本進開發分支，套兩個測試 patch；跑 gongguan_glb_integration、street_props_nav_unit、118 巷流程測試；畫面驗收派 BB（場景 ART_APPROVED 由使用者）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "公館 14 間、118 巷 9 間＋填空小店：玻璃後面從平面店內圖換成立體淺店內（unlit 頂點色＋真的商品）；遊戲程式不用改；公館整合測試 ALL PASS（draw call 1.09～1.13×、≤34.1 萬三角形）"
   }
  ]
 }
