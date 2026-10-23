@@ -29576,6 +29576,27 @@
    },
    "source": "使用者 2026-10-23 06:4x",
    "authorized": "使用者直接指示"
+  },
+  {
+   "id": "SIS-QIXI-L-1023",
+   "title": "學姊第五批・七夕（AA_388）實作：交往中、她約的三年七夕（2026-08-19 溫州街定食店、2027-08-08 霖澤館研究室門口便當、2028-08-26 她在美國：美國路線週六市集當面／其他路線 21:00 視訊）；ev_sis_qixi、SIS_QIXI",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "照 AA_388 第 3 節（企劃線 3a509150）：ev_sis_qixi 同一個 id、OUT 出遊、不算正式約會；SIS_QIXI:{年:'met'|'video'|'declined'|'missed'}；關係照 AA_386 第 3 節；美國市集 2D 底圖沒有先用校園底圖（BB 跟使用者要，F08）；單元測試修改前 FAIL；BB 照第 3 節第 4 點測",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
   }
  ]
 }
