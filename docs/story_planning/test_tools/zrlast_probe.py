@@ -1714,6 +1714,20 @@ SQ39B = [
 ]
 for _sc in SQ39B: _sc['js'] = SAYH + _sc['js']
 SCENS = SCENS + SQ39B
+# BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
+# 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
+# LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
+for _s in SCENS:
+    if _s['id'].startswith('ZR43_'):
+        _s['h'] = 20.9
+        _st = []
+        for st in _s['steps']:
+            if st == ('until', 21.3): _st.append(('until', 21.3, 1500))
+            elif st == ('until', 21.4): _st.append(('until', 21.4, 1500))
+            elif st == ('until', 10.6, 1200): _st.append(('until', 10.6, 2400))
+            elif st == ('until', 9.8, 1200): _st += [('jump', 'GAME.G.day', 9.55, '起床以後撥到 09:33（機器負載高，07:30→09:40 照真實時間要一小時以上）'), ('until', 9.8, 1500)]
+            else: _st.append(st)
+        _s['steps'] = _st
 # BB-B 10-23 18:3x：可昕的「帶一杯」（FOOD51_KX_*）買完飲料 16:40，學期末約會 18:00 出發。負載 25 時遊戲時間 420 秒只走 0.2 小時（f51dr2：「等不到 19.00」，
 # 約會根本沒開始，她的反應句當然沒有）→ 買完以後【捷徑】撥到 17:55（出發前 5 分鐘，那一杯已經記在 FAV.rec），再照走到 19:00、最多等 1500 秒
 for _s in SCENS:
