@@ -466,9 +466,18 @@ async def pc_apr(p, run, base, sid, res, from_fy):
         await pg.wait_for_timeout(3000)
         it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
         res['it'] = it
-        if not it:   # BB-B 10-23：沒放出來＝記下是哪個條件（哪一個 STORY.TICKS 先回 true、y4Tick、在家／旅行中、書桌）
-            res['diag'] = await pg.evaluate(DIAG_PC2); await pg.wait_for_timeout(4000); res['diag2'] = await pg.evaluate("window.__PC2D||null")
-        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J({'it': it, 'diag': res.get('diag'), 'diag2': res.get('diag2')}, 900))
+        if not it:   # BB-B 10-23 第二次診斷：再等 20 秒（每 2 秒看一次）、看畫面狀態，再直接叫 R2Y4A.tick 一次
+            seen = None
+            for k in range(10):
+                await pg.wait_for_timeout(2000)
+                seen = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
+                if seen: break
+            res['diag0'] = {'after_wait': seen, 'waited_s': 3 + 2 * (k + 1), 'state': await L.state(pg)}
+            if not seen:
+                res['diag'] = await pg.evaluate(DIAG_PC2.replace("try{ R2Y4A.pc2Place(GAME);", "try{ out.tickRet=R2Y4A.tick(GAME,0.5); out.afterTick=!!(E.interactables||[]).find(i=>i.zrPostcard2); R2Y4A.pc2Place(GAME);"))
+                await pg.wait_for_timeout(4000); res['diag2'] = await pg.evaluate("window.__PC2D||null")
+            it = seen or it
+        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J({'it': it, 'diag0': res.get('diag0'), 'diag': res.get('diag'), 'diag2': res.get('diag2')}, 1400))
         if not it: return
         await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=120)
         n0 = await log_len(pg); lab = await pg.evaluate(LAB); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
