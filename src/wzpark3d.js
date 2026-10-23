@@ -7,6 +7,7 @@
    公園的貓被子晴收養（AA_397 第 3 節，企劃線 8f1701b23；劇情在 src/sideq3d.js）：寒流那一週（2028-12-11～12-14 23:00）貓縮在涼亭的石桌下面（S.catCold；catUnder 照它放）、
      「看」＝一句旁白、沒有摸／餵；12/14 23:00 以後（或那一場演完）貓不在了（S.catGone／S.catAdopted：3D 的貓 LAWWW2 照它不顯示）——摸、餵的選單拿掉，「看圓椅」那一句一次（S.catHidden 之後藏起來）；
      12/17 起公布欄換成領養告示（S.adoptNotice）；不在場的玩家：象棋阿伯一句（一次）。提到貓在圓椅上的句子，貓不在以後不播（和大三上第 9 週貓不見一樣）。
+   順手的事第二、三批（src/sideq3d.js）：SQ14 回診（AA_404）＝「看」貓先問 SIDEQ.cage14、演過的告示多「（豆花）」（SIDEQ.adoptExtra）。
    測試：node tests/wz_park_talk_unit.js、node tests/wz_park_people_unit.js、node tests/aa397_sideq_unit.js */
 'use strict';
 const PARK=(function(){
@@ -54,7 +55,7 @@ const PARK=(function(){
   S.coldWeek=G=>{ const a=DK_(S.ADOPT.cold), b=DK_(S.ADOPT.week); return !!G&&a!=null&&b!=null&&G.day>=a&&G.day<=b; };   /* 餵貓表那一週的格子「沒吃」*/
   S.adoptNotice=G=>{ const d=DK_(S.ADOPT.notice); return !!G&&d!=null&&G.day>=d; };
   /* 貓的互動點（zones3d.js buildWzPark）：名字、藏起來（收養以後「看圓椅」說過一次就藏）*/
-  S.catLabel=G=>{ const nm=G?S.catName(G):null; if(G&&S.catGone(G)) return '看圓椅'; if(G&&S.catCold(G)) return nm||'那隻貓'; return nm?'摸摸'+nm:'那隻貓'; };
+  S.catLabel=G=>{ const nm=G?S.catName(G):null; if(G&&S.catGone(G)) return '看圓椅'; if(G&&S.catCold(G)) return nm||'那隻貓'; if(G&&typeof SIDEQ!=='undefined'&&SIDEQ.cageOpen&&SIDEQ.cageOpen(G)) return '看'+(nm||'那隻貓');   /* SQ14 外出籠那一步（AA_404「看」）*/ return nm?'摸摸'+nm:'那隻貓'; };
   S.catHidden=G=>{ if(!G||!S.catGone(G)) return false; const f17=DK_('2028-12-17'); return S.rec(G).furSeen!=null||(f17!=null&&G.day<f17); };   /* 12/15～12/16 空的圓椅沒有按鈕；12/17 起「看圓椅」一次（AA_408 第 4 節）*/
   /* 公布欄現在貼著的紙：[標題, 一句(, 旁白)] */
   S.firstSat=function(G){ if(typeof CALENDAR==='undefined') return null; const d0=CALENDAR.dateOf(G.day); let d=G.day-(d0.d-1); for(let k=0;k<7;k++,d++){ const q=CALENDAR.dateOf(d); if(q.wd===6) return q; } return null; };
@@ -64,7 +65,7 @@ const PARK=(function(){
     if(S.catLost(G)) out.push(['走失的貓','「走失：所長／麻糬／常客（都是牠）。橘白色，很胖。見到請告訴里長。」']);
     if(S.catFound(G)) out.push(['已找到','「已找到，謝謝大家。——里長」']);
     if(typeof SIDEQ!=='undefined'&&SIDEQ.parkNotices) for(const q of SIDEQ.parkNotices(G)) out.push(q);   /* 餵貓表（AA_397 SQ08）*/
-    if(S.adoptNotice(G)) out.push(['領養',ADOPT_NOTICE.replace('{cat}',S.catName(G)||'所長／麻糬／常客')]);
+    if(S.adoptNotice(G)){ const t=ADOPT_NOTICE.replace('{cat}',S.catName(G)||'所長／麻糬／常客'), ex=typeof SIDEQ!=='undefined'&&SIDEQ.adoptExtra?SIDEQ.adoptExtra(G):null; out.push(['領養',ex?[t].concat(ex):t]); }   /* 演過 SQ14（AA_404）：後面多一行「（豆花）」*/
     if(T&&/^Y[34]/.test(T.id)) out.push(['課輔班招生','「國小課後輔導班招生，週二、週四下午。大學生志工也歡迎。」']);
     if(F.JOB_TUTOR) out.push(['家教廣告','「這張廣告的電話號碼，全被撕掉了。」','其中一條，在你的手機裡。']);
     else out.push(['家教廣告','「徵國中家教（數學、英文），週二或週四晚上，溫州街。意者請洽。」下面撕過兩條電話。',null,true]);
@@ -93,6 +94,7 @@ const PARK=(function(){
       if(k==='cat'){ if(S.catLost(G)) return 'lost';
         if(S.catGone(G)){ const f17=DK_('2028-12-17'); if(P.furSeen!=null||(f17!=null&&G.day<f17)) return 'gone'; P.furSeen=G.day; await GM.say(null,CAT_FUR); return 'fur'; }   /* 收養以後：沒有摸、餵；「看」圓椅那一句 12/17 起一次（AA_408 第 4 節、AA_397 3-3 改）*/
         if(S.catCold(G)){ await GM.say(null,CAT_COLD); return 'cold'; }   /* 寒流那一週：縮在石桌下面，罐頭只聞了一下 */
+        if(typeof SIDEQ!=='undefined'&&SIDEQ.cage14&&await SIDEQ.cage14(GM)) return 'cage';   /* 順手的事 SQ14（AA_404）：把牠放進外出籠，帶去回診 */
         if(!P.catName){ for(const t of CAT_NAME_INTRO) await GM.say(null,t); const i=await GM.choose(CAT_NAMES.map(q=>({t:'「'+q[0]+'。」'}))); const q=CAT_NAMES[i]||CAT_NAMES[0]; P.catName=q[0]; await GM.say(null,q[1]); GM.advance(1/12); P.petDay=G.day; return 'named'; }
         const cans=(G.daily.catCans|0), per=CAT[S.period(G)]; const opts=[{t:cat(G,'摸摸{cat}'),dim:P.petDay===G.day,hint:P.petDay===G.day?'今天摸過了':'5 分鐘',k:'pet'}]; if(cans>0) opts.push({t:cat(G,'餵{cat}（小罐罐頭）'),dim:P.feedDay===G.day,hint:P.feedDay===G.day?'今天餵過了':'還有 '+cans+' 罐',k:'feed'}); opts.push({t:'算了',k:'no'});
         const o=opts[await GM.choose(opts)]||{k:'no'}; if(o.k==='no') return 'no'; if(o.dim){ GM.toast(o.hint,2400); return 'dim'; }
