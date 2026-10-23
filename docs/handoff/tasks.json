@@ -29467,7 +29467,8 @@
    },
    "source": "使用者 2026-10-22 15:0x（UA-LAWWW-1022-04、05）",
    "authorized": "P0 換班口令、AI_SESSION_HANDOFF.md 第 5 節",
-   "next": "【LAWWW（帳號 A）15:1x】三位都交班後最後檢查：check OK、incr OK（水位線前進）、roles OK、asks OK、duty sync；LAWWW 快照＋duty handoff；HANDOFF_GAP_MATRIX 第 1 節六類 ｜ 【LAWWW（帳號 A）15:1x】已通知 LAWWW2、AA、BB 交班（15:0x），等三位回報 SHA 與快照；LAWWW 先寫六類紀錄（HANDOFF_GAP_MATRIX 第 1 節）"
+   "next": "【LAWWW（帳號 A）15:1x】三位都交班後最後檢查：check OK、incr OK（水位線前進）、roles OK、asks OK、duty sync；LAWWW 快照＋duty handoff；HANDOFF_GAP_MATRIX 第 1 節六類 ｜ 【LAWWW（帳號 A）15:1x】已通知 LAWWW2、AA、BB 交班（15:0x），等三位回報 SHA 與快照；LAWWW 先寫六類紀錄（HANDOFF_GAP_MATRIX 第 1 節）",
+   "evidence": "帳號 A 交班紀錄：HANDOFF_GAP_MATRIX 第 1 節 F（check OK 十一項、incr 83 commit 已分類、roles OK、asks OK 177 筆、duty sync）；快照 docs/handoff/snapshots/2026-10-22T1511Z_A_LAWWW.json 等；交班 commit 719cca3bc。LAWWW-B 2026-10-23 接班時 duty verify OK（四職位 handed-off）——補填（接班第 9 步，check 第 4 項）"
   },
   {
    "id": "BUG-US-BED-ALARM-1022",
