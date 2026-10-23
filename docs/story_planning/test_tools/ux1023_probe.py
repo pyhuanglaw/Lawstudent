@@ -51,7 +51,7 @@ CHHOOK = """(()=>{ if(window.__CHH) return; window.__CHH=1; window.__CH=[]; wind
   const ot=GAME.toast; GAME.toast=function(x){ try{ window.__SAY.push(Object.assign({n:'TOAST',t:'TOAST:'+x},t())); }catch(e){} return ot.apply(this,arguments); }; })()"""
 
 # ---------------------------------------------------------------- 第 35 項
-BOOK = """const P=(typeof DATE!=='undefined'&&DATE.LOCS)?null:null; G.contacts=G.contacts||{}; if(G.contacts.heroine_01==null) G.contacts.heroine_01=D('2025-09-03');
+BOOK = """G.flags.metAn=true; G.flags.met_an=true; SOCIAL.remember('heroine_01','FIRST_MET',''); G.contacts=G.contacts||{}; if(G.contacts.heroine_01==null) G.contacts.heroine_01=D('2025-09-03');   /* 第一次跑：存檔還不認識小安，提醒寫「不認識的女生」＝前置沒設好 */
   { const r=SOCIAL.rel('heroine_01'); r.fam=Math.max(r.fam|0,45); r.trust=Math.max(r.trust|0,30); r.comf=Math.max(r.comf|0,25); }
   const t=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+t.trip);
   return {trip:t.trip, depart:t.depart, status:t.status, q:q?{id:q.id,day:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state,place:q.place,travel:q.travel}:null, loc:(DATE.loc&&DATE.loc('D13')||{}).name||null};"""
@@ -79,7 +79,7 @@ async def early(p, run, base, sid, later):
         msg = [x for x in said if '提醒：15:00' in x['t']]
         res['prompt'] = {'choices': seen, 'at': sn, 'msg': msg[:2]}; say('   提醒：%s' % J(res['prompt']))
         await run.shot(pg, '%s_prompt' % sid)
-        run.check('%s：14:00 以後跳出「提醒：15:00，你約了…」＋「現在出發」／「到時間再說」' % sid, bool(seen) and seen[:2] == ['現在出發', '到時間再說'] and bool(msg), J(res['prompt']))
+        run.check('%s：14:00 以後跳出「提醒：15:00，你約了…」＋「現在出發」／「到時間再說」' % sid, bool(seen) and len(seen) == 2 and seen[0].startswith('現在出發') and seen[1].startswith('到時間再說') and bool(msg) and not any('不認識' in m['t'] for m in msg), J(res['prompt']))
         if not seen: return
         if not later:
             await pick(pg, cdp, '現在出發')
