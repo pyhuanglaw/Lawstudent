@@ -99,7 +99,7 @@ await sec(2,async()=>{ const hk=TERMEND_LINES.HOOK.Y3S2.heroine_05, fl=r=>({flag
   H.at('2028-08-02',7.9); await goOut('y4_sis_airport'); const a=idx('回程路上喝。冰的。');
   check('2. 交往中的送機（家族共乘）：「回程路上喝。冰的。」後面「（Kevin 去還推車的時候，她把口罩拉下來一下。）」「到了先在群組說，再打給你。」',H.G.flags.SIS_RIDE==='family'&&a>=0&&idx('（Kevin 去還推車的時候，她把口罩拉下來一下。）')===a+1&&idx('到了先在群組說，再打給你。')===a+2,J(H.said.map(x=>x.t)));
   s0({HOOK_SIS_SENDOFF:1}); H.date('heroine_05'); H.at('2028-07-26',21.1); yphone(); PHONE.answer(H.G,'y4_sis_hook_dm',0); yphone(); H.at('2028-08-02',7.4); await goOut('y4_sis_airport_wait');
-  check('2. 交往中、機場等她：「回程喝。」後面「到了先在群組說，再打給你。」',idx('到了先在群組說，再打給你。')===idx('回程喝。')+1,J(H.said.map(x=>x.t)));
+  check('2. 交往中、機場等她：「回程喝。」後面「（排進出境的隊伍以前，她把口罩拉下來一下，又拉回去。）」「到了先在群組說，再打給你。」（AA 74fba9b7）',idx('（排進出境的隊伍以前，她把口罩拉下來一下，又拉回去。）')===idx('回程喝。')+1&&idx('到了先在群組說，再打給你。')===idx('回程喝。')+2&&!has('（Kevin 去還推車的時候，她把口罩拉下來一下。）'),J(H.said.map(x=>x.t)));
   fresh('2028-08-02',7.9,'TW'); H.FRIEND('heroine_05'); H.G.flags.SIS_RIDE='two'; OUT.plan(H.G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:D('2028-08-02'),h:8,place:'學姊家樓下',title:'載學姊',travel:'',travelH:0}); await goOut('y4_sis_airport');
   check('2. 沒交往：車上那一版沒有那兩行',has('回程路上喝。冰的。')&&!has('到了先在群組說，再打給你。')); });
 /* ---- 3 ---- */
