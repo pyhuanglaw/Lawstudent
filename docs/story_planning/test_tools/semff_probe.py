@@ -9,6 +9,14 @@
     FF46_NOW     10/9（四）08:55（09:10 大一英文前 20 分鐘以內，有課前事件）：不跳，提示「大一英文快開始了，先去上課。」，時間沒動
     FF46_WINTER  寒假 2026-01-20 22:00：床的「快轉」是原本的寒暑假快轉（到下一個有事的日子／過三天／過一週），沒有學期中的三個選項
   每個情境都看：不卡住（快轉在時限內跑完）、不跳回標題、沒有 JS 例外。
+  第 49 項（開發分支 fff3f8998，DEC-SLOTS-1018「每個時段一件主要的事」；tests/dl03_slots_unit.js 5b）SL49_*：只在 SCEN 指名時跑——
+    SL49_NOTES   週六 14:00 書桌整理筆記（下午 1 件）→ 再試「讀書」變灰「這個下午已經排滿了（1／1）」、按下去只提示；手機「今天」最上面「今天的時間」下午 ●
+    SL49_JUMP    週六 14:00 書桌讀 1 小時 → 下午用完跳到 18:00（「下午的時間用完了」）；晚上讀 1 小時 → 不跳、再試變灰「這個晚上已經排滿了（1／1）」
+    SL49_CLASS   平日上午一堂沒有劇情的課（【捷徑】CLS.goClass＝「直接去下一堂」）上完：上午 ●；下課選單「在附近讀書」照時段
+    SL49_OUT     週六 17:00 出門的校外約會（【前置】DATE.book 小安淡水）回來：晚上 ●
+    SL49_EXAM    考試週週六：三格各多一個金色、說明寫只能自習；整理筆記兩次（2／2）後讀書變灰；【讀資料】自由出行只有 1 次
+    SL49_EAT     週六 12:30 阿鳳麵店點餐：格子不變
+    SL49_MEET    【前置】約好 15:00 和小安在兩點半見面、14:33「直接過去」：見面以後格子不變
 【前置／捷徑】讀使用者 9/25 存檔（quiet_events）改日期、時間、地點（宿舍）；FF46_MSG、FF46_MEET 用 console 製造訊息、約（存檔裡那幾天沒有）。
 不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向 844×390、?turbo；觸控用 CDP。
 用法：LW_TESTS=<開發分支>/tests SHA=<sha> [SCEN=FF46_WEEK,...] python3 semff_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
@@ -170,7 +178,7 @@ async def scenario(p, run, base, sid):
         res['newly'] = [x['key'] for x in newly]
         if sid == 'FF46_NOW':
             run.check('%s：課前 20 分鐘以內、那堂有劇情＝不跳（why now）' % sid, bool(jl) and jl['why'] == 'now' and '大一英文' in J(jl.get('stop')), J(jl))
-            run.check('%s：提示「大一英文快開始了，先去上課。」' % sid, any('大一英文快開始了，先去上課。' in t for t in toasts), J(toasts))
+            run.check('%s：提示「大一英文（上）快開始了，先去上課。」' % sid, any('大一英文' in t and '快開始了，先去上課。' in t for t in toasts), J(toasts))
             run.check('%s：時間沒有被跳過（還在 10/9、09:10 以前）' % sid, sn['key'] == '2025-10-09' and sn['h'] < 9 + 10 / 60, J(sn))
             return
         if auto:
@@ -216,13 +224,242 @@ async def scenario(p, run, base, sid):
         try: await asyncio.wait_for(b.close(), 30)
         except Exception: pass
 
+
+# ---------------------------------------------------------------- 第 49 項（fff3f8998）：每個時段一件主要的事（DEC-SLOTS-1018；tests/dl03_slots_unit.js 5b）
+HOOK49 = """(()=>{ if(window.__SLH) return; window.__SLH=1; window.__LOG=window.__LOG||[];
+  const t=()=>({key:CALENDAR.dateOf(GAME.G.day).key, h:+(+GAME.G.hour).toFixed(3)});
+  const push=(n,x)=>{ try{ window.__LOG.push(Object.assign({n:n,t:String(x)},t())); }catch(e){} };
+  const ot=GAME.toast; GAME.toast=function(x){ push('TOAST',x); return ot.apply(this,arguments); };
+  if(GAME.caption){ const oc=GAME.caption; GAME.caption=function(a,b){ push('CAPTION',(a||'')+'｜'+(b||'')); return oc.apply(this,arguments); }; }
+  if(GAME.titleCard){ const tc=GAME.titleCard; GAME.titleCard=function(a,b){ push('CARD',a+'｜'+(b||'')); return tc.apply(this,arguments); }; }
+  const ol=ADV.log; ADV.log=function(n,x){ push(n||'',x); return ol.apply(this,arguments); }; })()"""
+SLOTQ = "(()=>{ const G=GAME.G, R=CLS.slotRec(G); return {used:Object.assign({},R.used), exam:CLS.examWeek(G), key:CALENDAR.dateOf(G.day).key, h:+G.hour.toFixed(3), zone:G.zone}; })()"
+CHQ = "[...document.querySelectorAll('#choices button')].map(b=>({t:b.textContent.trim(), dim:b.classList.contains('dim')}))"
+
+async def today_slots(pg, cdp):
+    """手機「今天」最上面「今天的時間」那一格（字＋HTML，看金色）"""
+    if not await phone_open(pg): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+    await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(1200)
+    r = await pg.evaluate("(()=>{ const b=document.getElementById('phoneBody'); const it=b?[...b.querySelectorAll('.item')].find(x=>/今天的時間/.test(x.innerText)):null; const all=b?[...b.querySelectorAll('.item')]:[]; return it?{text:it.innerText, html:it.innerHTML, first:all.length>1&&(all[1]===it), idx:all.indexOf(it)}:null; })()")
+    return r
+
+async def wait_idle(pg, cdp, secs=240, pref=None):
+    """對話點掉、手機關掉；遇到選項：pref 有的照 pref 選，沒有就停下來回傳選項"""
+    t0 = time.time(); calm = 0
+    while time.time() - t0 < secs:
+        s = await L.state(pg)
+        if await phone_open(pg): await close_phone(pg, cdp); calm = 0; continue
+        if s['choices']:
+            cs = await choices(pg); w = next((x for x in (pref or []) for c in cs if c.startswith(x)), None)
+            if w is None: return cs
+            await pick(pg, cdp, w); calm = 0; continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); calm = 0; continue
+        if s['busy']: await pg.wait_for_timeout(800); calm = 0; continue
+        calm += 1
+        if calm >= 3: return []
+        await pg.wait_for_timeout(1000)
+    return None
+
+async def desk_menu(pg, cdp, run):
+    d = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.deskStudy&&!i.hidden); return it?[it.x,it.z,it.label||'']:null; })()")
+    if not d: say('   ⚠ 這一區沒有書桌'); return []
+    if not await L.go_to(pg, cdp, run, d[0], d[1], 0.8, '書桌', max_s=300): say('   ⚠ 走不到書桌'); return []
+    for _ in range(4):
+        if await phone_open(pg): await close_phone(pg, cdp)
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        if (await L.state(pg))['choices']: break
+    cs = await pg.evaluate(CHQ); sn = await pg.evaluate(SLOTQ)
+    say('   書桌 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(('［灰］' if c['dim'] else '') + c['t'][:30] for c in cs))); return cs
+
+def toasts_of(log): return [x['t'] for x in log if x['n'] in ('TOAST', 'CAPTION')]
+
+BOOK49 = """G.flags.metAn=true; G.flags.met_an=true; SOCIAL.remember('heroine_01','FIRST_MET',''); G.contacts=G.contacts||{}; if(G.contacts.heroine_01==null) G.contacts.heroine_01=D('2025-09-03');
+  { const r=SOCIAL.rel('heroine_01'); r.fam=Math.max(r.fam|0,45); r.trust=Math.max(r.trust|0,30); r.comf=Math.max(r.comf|0,25); }
+  const t=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:G.day,depart:17}); const q=OUT.get(G,'date_'+t.trip); return {trip:t.trip, status:t.status, q:q?{id:q.id,h:q.h,state:q.state,place:q.place}:null};"""
+IV49 = """LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=Math.max(r.fam|0,f); r.trust=Math.max(r.trust|0,t); r.comf=Math.max(r.comf|0,c); }; LV('heroine_01',45,30,20); G.flags.metAn=true; G.flags.met_an=true; G.contacts=G.contacts||{}; if(G.contacts.heroine_01==null) G.contacts.heroine_01=D('2025-09-03');
+  G.invites=G.invites||[]; const P=INV.place('cafe')||{}; G.invites.push({id:'iv_bb49',who:'heroine_01',place:'cafe',zone:P.zone,day:G.day,h:15,state:'accepted',accepted:true,by:'player',label:'和小安約在'+(P.name||'')}); return CLS.slotRec(G).used;"""
+EXAMDAY = """(()=>{ const G=GAME.G, d0=G.day; for(let d=STORY.dayOfKey('2025-10-18'); d<=STORY.dayOfKey('2025-11-02'); d++){ G.day=d; const w=CALENDAR.dateOf(d).wd; if(CLS.examWeek(G)&&(w===6)){ G.day=d0; return CALENDAR.dateOf(d).key; } } G.day=d0; return null; })()"""
+CLASSDAY = """(()=>{ const G=GAME.G, d0=G.day, h0=G.hour; const out=[]; for(let d=STORY.dayOfKey('2025-10-13'); d<=STORY.dayOfKey('2025-10-17'); d++){ G.day=d; for(const it of CLS.dayItems(G,d)){ G.hour=it.t0-0.5; const sc=CLS.storyClass&&CLS.storyClass(G,it); const ev=typeof SEMFF!=='undefined'?SEMFF.classEventful(G,it):null; if(it.t0<10&&it.t1<=12&&!it.exam&&!sc&&!ev) out.push({key:CALENDAR.dateOf(d).key, ik:it.key, c:it.c.name, t0:it.t0, t1:it.t1}); } } G.day=d0; G.hour=h0; return out; })()"""
+
+SL = {
+    'SL49_NOTES': dict(key='2025-10-11', h=14.0, zone='dorm', label='週六 14:00：書桌整理筆記（下午 1 件）後再試讀書＝變灰「這個下午已經排滿了（1／1）」'),
+    'SL49_JUMP': dict(key='2025-10-11', h=14.0, zone='dorm', label='週六 14:00：書桌讀 1 小時（下午用完）→ 跳到 18:00；晚上讀 1 小時後再試＝變灰、不跳'),
+    'SL49_CLASS': dict(key=None, h=None, zone='dorm', label='平日上午一堂課（沒有劇情）上完：上午 ●；下課選單「在附近讀書」照時段'),
+    'SL49_OUT': dict(key='2025-10-11', h=16.6, zone='dorm', js=BOOK49, label='週六 17:00 出門的校外約會（小安、淡水金色水岸）回來：下午、晚上 ●'),
+    'SL49_EXAM': dict(key=None, h=14.0, zone='dorm', label='考試週週六 14:00：手機「今天」三格各多一個金色；整理筆記兩次（2／2）後讀書變灰'),
+    'SL49_EAT': dict(key='2025-10-11', h=12.5, zone='noodle', label='週六 12:30 阿鳳麵店點餐吃飯：下午的格子不變'),
+    'SL49_MEET': dict(key='2025-10-08', h=14.55, zone='dorm', js=IV49, label='平日 14:33 約好 15:00 和小安在兩點半 Café 見面（直接過去）：見面後下午的格子不變'),
+}
+SL_ORDER = ['SL49_NOTES', 'SL49_JUMP', 'SL49_CLASS', 'SL49_OUT', 'SL49_EXAM', 'SL49_EAT', 'SL49_MEET']
+
+async def sl49(p, run, base, sid):
+    sc = SL[sid]; b, pg, cdp, errs = await page(p)
+    res = {}
+    try:
+        key = sc['key']; h = sc['h']
+        if sid in ('SL49_CLASS', 'SL49_EXAM'):   # 先讀一次存檔找日子（使用者的課表）
+            await load_at(pg, base, '2025-10-12', 12.0, 'dorm', flags=dict(TWF))
+            if sid == 'SL49_EXAM':
+                key = await pg.evaluate(EXAMDAY); res['examDay'] = key
+            else:
+                cand = await pg.evaluate(CLASSDAY); res['classCand'] = cand
+                if cand: key = cand[0]['key']; h = cand[0]['t0'] - 0.45; res['cls'] = cand[0]
+            if not key: run.check('%s：找到要測的日子' % sid, False, J(res)); return
+        await load_at(pg, base, key, h, sc['zone'], flags=dict(TWF), js=sc.get('js'), run=run, label='%s（%s）' % (sid, sc['label']))
+        await pg.evaluate(HOOK49)
+        s0 = await pg.evaluate(SLOTQ); res['s0'] = s0
+        ts = await today_slots(pg, cdp); res['today0'] = ts; await run.shot(pg, '%s_today0' % sid)
+        if sid in ('SL49_NOTES', 'SL49_EXAM'):
+            run.check('%s：手機「今天」有「今天的時間」一格、排在日期下面第一格' % sid, bool(ts) and ts['idx'] == 1, J(ts, 300))
+            run.check('%s：說明寫「每個時段一件主要的事」' % sid, bool(ts) and '每個時段一件主要的事' in ts['text'], J(ts and ts['text'][:200]))
+        if await phone_open(pg): await close_phone(pg, cdp)
+        if sid == 'SL49_NOTES':
+            run.check('%s：一開始上午／下午／晚上各一格、都是 ○' % sid, bool(ts) and all(w in ts['text'] for w in ['上午 ○', '下午 ○', '晚上 ○']), J(ts and ts['text'][:120]))
+            cs = await desk_menu(pg, cdp, run); res['desk1'] = cs
+            run.check('%s：書桌：讀書、整理筆記都可以選（沒有變灰）' % sid, len(cs) >= 2 and not cs[0]['dim'] and not cs[1]['dim'], J(cs))
+            await pick(pg, cdp, '整理今天的筆記'); await wait_idle(pg, cdp)
+            s1 = await pg.evaluate(SLOTQ); res['s1'] = s1
+            run.check('%s：整理筆記以後下午 1 件（used.pm＝1）、沒有被跳到 18:00（%.2f）' % (sid, s1['h']), s1['used'].get('pm') == 1 and s1['h'] < 16, J(s1))
+            cs2 = await desk_menu(pg, cdp, run); res['desk2'] = cs2; await run.shot(pg, '%s_desk_gray' % sid)
+            r0 = next((c for c in cs2 if c['t'].startswith('讀書')), None)
+            run.check('%s：再試一次＝「讀書」變灰、寫「這個下午已經排滿了（1／1）」' % sid, bool(r0) and r0['dim'] and '這個下午已經排滿了（1／1）' in r0['t'], J(cs2))
+            await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1500)
+            lg = await pg.evaluate("window.__LOG"); res['toasts'] = toasts_of(lg)
+            run.check('%s：按變灰的「讀書」＝提示「這個下午已經排滿了（1／1）」、不開始讀' % sid, any('這個下午已經排滿了（1／1）' in t for t in toasts_of(lg)), J(toasts_of(lg)))
+            await wait_idle(pg, cdp, secs=30, pref=['起身'])
+            ts2 = await today_slots(pg, cdp); res['today1'] = ts2; await run.shot(pg, '%s_today1' % sid)
+            run.check('%s：手機「今天」下午變 ●' % sid, bool(ts2) and '下午 ●' in ts2['text'], J(ts2 and ts2['text'][:120]))
+        elif sid == 'SL49_JUMP':
+            cs = await desk_menu(pg, cdp, run); await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1200)
+            ls = await pg.evaluate(CHQ); res['lengths'] = ls
+            run.check('%s：讀多久的選單（讀 1 小時沒有變灰）' % sid, any(c['t'].startswith('讀 1 小時') and not c['dim'] for c in ls), J(ls))
+            await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300)
+            t0 = time.time(); s1 = None
+            while time.time() - t0 < 180:
+                s1 = await pg.evaluate(SLOTQ)
+                if s1['h'] >= 17.9: break
+                st = await L.state(pg)
+                if st['dlg']: await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(2000)
+            res['afterStudy'] = s1; lg = await pg.evaluate("window.__LOG"); res['toasts'] = toasts_of(lg)
+            run.check('%s：下午讀完（下午用完）跳到 18:00（現在 %.2f）' % (sid, s1['h']), 17.95 <= s1['h'] <= 18.4 and s1['used'].get('pm') == 1, J(s1))
+            run.check('%s：跳的時候寫「下午的時間用完了」' % sid, any('下午的時間用完了' in t for t in toasts_of(lg)), J(toasts_of(lg)[-8:]))
+            await run.shot(pg, '%s_at18' % sid)
+            cs = await desk_menu(pg, cdp, run); r0 = next((c for c in cs if c['t'].startswith('讀書')), None)
+            run.check('%s：18:00 晚上還能讀（讀書沒有變灰）' % sid, bool(r0) and not r0['dim'], J(cs))
+            await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1200); await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300)
+            await pg.wait_for_timeout(8000); s2 = await pg.evaluate(SLOTQ); res['afterEve'] = s2
+            run.check('%s：晚上讀完 1 件（used.ev＝1），晚上用完不跳（%.2f）' % (sid, s2['h']), s2['used'].get('ev') == 1 and s2['h'] < 20.5, J(s2))
+            cs2 = await desk_menu(pg, cdp, run); r1 = next((c for c in cs2 if c['t'].startswith('讀書')), None); await run.shot(pg, '%s_eve_gray' % sid)
+            run.check('%s：晚上再試＝「讀書」變灰、寫「這個晚上已經排滿了（1／1）」' % sid, bool(r1) and r1['dim'] and '這個晚上已經排滿了（1／1）' in r1['t'], J(cs2))
+            await pick(pg, cdp, '起身'); await wait_idle(pg, cdp, secs=30)
+            ts2 = await today_slots(pg, cdp); res['today1'] = ts2
+            run.check('%s：手機「今天」下午 ●、晚上 ●' % sid, bool(ts2) and '下午 ●' in ts2['text'] and '晚上 ●' in ts2['text'], J(ts2 and ts2['text'][:120]))
+        elif sid == 'SL49_CLASS':
+            it = res['cls']; run.setup('[捷徑] %s：%s %s（%.2f～%.2f）用 CLS.goClass（＝下課選單「直接去下一堂」那一條，自動走到教室坐下）' % (sid, it['key'], it['c'], it['t0'], it['t1']))
+            await pg.evaluate("(k=>{ const G=GAME.G; const it=CLS.dayItems(G,G.day).find(q=>q.key===k); if(it) void CLS.goClass(GAME,it,{}); })(%s)" % json.dumps(it['ik']))
+            t0 = time.time(); done = False; after = None
+            while time.time() - t0 < 900:
+                done = await pg.evaluate("(k=>!!CLS.rec(GAME.G).done[k])(%s)" % json.dumps(it['ik']))
+                s = await L.state(pg)
+                if await phone_open(pg): await close_phone(pg, cdp); continue
+                if s['choices']:
+                    cs = await pg.evaluate(CHQ)
+                    if done and any(c['t'].startswith('先自由活動') for c in cs): after = cs; break
+                    await pick(pg, cdp, cs[0]['t']); continue
+                if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                if done and time.time() - t0 > 30:
+                    await pg.wait_for_timeout(4000); s = await L.state(pg)
+                    if not s['choices'] and not s['dlg']: break
+                await pg.wait_for_timeout(1200)
+            s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; res['afterMenu'] = after; await run.shot(pg, '%s_after' % sid)
+            run.check('%s：那堂課上完了（done）' % sid, done, J(s1))
+            run.check('%s：上完一堂上午的課＝上午 ●（used.am＝1）' % sid, s1['used'].get('am') == 1, J(s1))
+            if after:
+                st = next((c for c in after if c['t'].startswith('在附近讀書')), None); res['studyOpt'] = st
+                if st and s1['h'] < 12: run.check('%s：下課（%.2f、還在上午）「在附近讀書」變灰、寫上午已經排滿了' % (sid, s1['h']), st['dim'] and '上午已經排滿了' in st['t'], J(after))
+                elif st: run.check('%s：下課已經是下午（%.2f）「在附近讀書」照下午算（沒有變灰）' % (sid, s1['h']), not st['dim'], J(after))
+                else: say('   下課選單沒有「在附近讀書」（下一堂間隔不到 60 分鐘）：%s' % J(after))
+                await pick(pg, cdp, '先自由活動'); await wait_idle(pg, cdp, secs=60)
+            ts2 = await today_slots(pg, cdp); res['today1'] = ts2
+            run.check('%s：手機「今天」上午 ●' % sid, bool(ts2) and '上午 ●' in ts2['text'], J(ts2 and ts2['text'][:120]))
+        elif sid == 'SL49_OUT':
+            t0 = time.time(); went = False
+            while time.time() - t0 < 900:
+                st = await L.state(pg)
+                if await phone_open(pg): await close_phone(pg, cdp); continue
+                if st['choices']:
+                    cs = await choices(pg)
+                    w = next((c for c in cs if c.startswith('現在出發') or c.startswith('出發')), None)
+                    if w: await pick(pg, cdp, w); went = True; continue
+                    if went: await pick(pg, cdp, cs[0]); continue
+                    await pick(pg, cdp, cs[0]); continue
+                if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                tr = await pg.evaluate("(()=>{ const t=(GAME.G.flags.DATE_TRIPS||[]).slice(-1)[0]||(typeof DATE!=='undefined'&&DATE.trips?DATE.trips(GAME.G).slice(-1)[0]:null); const q=OUT.get(GAME.G,'date_T0002')||null; return {q:q?q.state:null, zone:GAME.G.zone, h:+GAME.G.hour.toFixed(2)}; })()")
+                if went and tr['zone'] == 'dorm' and tr['h'] > 18.5: break
+                await pg.wait_for_timeout(1500)
+            await pg.wait_for_timeout(3000); s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; await run.shot(pg, '%s_back' % sid)
+            run.check('%s：出發了、回到宿舍（%s %.2f）' % (sid, s1['zone'], s1['h']), went and s1['h'] > 18.5, J(s1))
+            run.check('%s：17:00 出門的校外約會回來＝晚上 ●（used.ev＝1）' % sid, s1['used'].get('ev') == 1, J(s1))
+            ts2 = await today_slots(pg, cdp); res['today1'] = ts2
+            run.check('%s：手機「今天」晚上 ●' % sid, bool(ts2) and '晚上 ●' in ts2['text'], J(ts2 and ts2['text'][:120]))
+        elif sid == 'SL49_EXAM':
+            run.check('%s：考試週（%s）' % (sid, key), s0['exam'], J(s0))
+            gold = (ts or {}).get('html', '').count('color:#e9b96a')
+            run.check('%s：三個時段各多一格金色（%d 個金色）、說明寫考試週只能自習' % (sid, gold), gold == 3 and '考試週：每個時段多一次（金色），只能拿來自習。' in (ts or {}).get('text', ''), J(ts and ts['text'][:200]))
+            for k in range(2):
+                await desk_menu(pg, cdp, run); await pick(pg, cdp, '整理今天的筆記'); await wait_idle(pg, cdp)
+            s1 = await pg.evaluate(SLOTQ); res['s1'] = s1
+            run.check('%s：整理筆記兩次＝下午 2 件（2／2）' % sid, s1['used'].get('pm') == 2, J(s1))
+            cs = await desk_menu(pg, cdp, run); r0 = next((c for c in cs if c['t'].startswith('讀書')), None); await run.shot(pg, '%s_gray' % sid)
+            run.check('%s：第三次＝「讀書」變灰「這個下午已經排滿了（2／2）」' % sid, bool(r0) and r0['dim'] and '這個下午已經排滿了（2／2）' in r0['t'], J(cs))
+            await pick(pg, cdp, '起身'); await wait_idle(pg, cdp, secs=30)
+            tr = await pg.evaluate("(()=>{ const G=GAME.G; const u=Object.assign({},CLS.slotRec(G).used); const G2=Object.assign({},G,{slots:{day:G.day,used:{am:0,pm:1,ev:0}}}); return {trip:CLS.slotPlan(G2,1,'trip').ok, study:CLS.slotPlan(G2,1,'study').ok}; })()")
+            res['onlyStudy'] = tr
+            run.check('%s：【讀資料】考試週下午用了 1 件：自由出行不行、自習還可以（金色那格只給自習）' % sid, tr['trip'] is False and tr['study'] is True, J(tr))
+        elif sid == 'SL49_EAT':
+            it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/點/.test(i.label||'')); return it?[it.x,it.z,it.label]:null; })()"); res['counter'] = it
+            ok = bool(it) and await L.go_to(pg, cdp, run, it[0], it[1], 1.0, it[2] if it else '櫃台', max_s=240)
+            if ok:
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                cs = await wait_idle(pg, cdp, secs=60)
+                if cs: await pick(pg, cdp, cs[0]); await wait_idle(pg, cdp, secs=120, pref=['好', '謝謝'])
+            s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; lg = await pg.evaluate("window.__LOG"); res['said'] = [x['t'] for x in lg][-10:]
+            run.check('%s：在麵店點了東西（%s）' % (sid, it and it[2]), ok and (s1['h'] > s0['h'] + 0.1 or any('吃' in x or '麵' in x for x in res['said'])), J({'s1': s1, 'said': res['said']}))
+            run.check('%s：吃飯不算：下午的格子不變（used.pm＝%s）' % (sid, s1['used'].get('pm')), s1['used'].get('pm', 0) == s0['used'].get('pm', 0), J([s0, s1]))
+        elif sid == 'SL49_MEET':
+            t0 = time.time(); went = False; met = False
+            while time.time() - t0 < 600:
+                st = await L.state(pg)
+                if await phone_open(pg): await close_phone(pg, cdp); continue
+                if st['choices']:
+                    cs = await choices(pg); w = next((c for c in cs if c.startswith('直接過去')), None)
+                    if w: await pick(pg, cdp, w); went = True; continue
+                    await pick(pg, cdp, cs[0]); continue
+                if st['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+                iv = await pg.evaluate("(()=>{ const iv=(GAME.G.invites||[]).find(x=>x.id==='iv_bb49'); return iv?iv.state:null; })()")
+                if iv == 'done': met = True; break
+                await pg.wait_for_timeout(1500)
+            await pg.wait_for_timeout(3000); s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; await run.shot(pg, '%s_after' % sid)
+            run.check('%s：直接過去、見面演完（invite done）' % sid, went and met, J(s1))
+            run.check('%s：約好的見面不算：下午的格子不變（used.pm＝%s）' % (sid, s1['used'].get('pm')), s1['used'].get('pm', 0) == s0['used'].get('pm', 0), J([s0, s1]))
+        run.check('%s：沒有 JS 例外' % sid, not errs, J(errs[:3]))
+    except Exception as e:
+        say('   例外：%r' % e); run.check('%s：跑完' % sid, False, repr(e)[:300])
+    finally:
+        json.dump(res, open(os.path.join(OUT, '%s.json' % sid), 'w'), ensure_ascii=False, indent=1, default=str)
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
 async def main():
     run = L.Run('semff', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
-        for sid in ORDER:
+        for sid in ORDER + SL_ORDER:
             if SCEN and sid not in SCEN: continue
+            if not SCEN and sid in SL: continue   # 第 49 項只在指名（SCEN）時跑：fff3f8998 以後才有
             say('== %s（%s）' % (sid, os.environ.get('SHA', '?'))); t0 = time.time()
-            await scenario(p, run, base, sid)
+            if sid in SL: await sl49(p, run, base, sid)
+            else: await scenario(p, run, base, sid)
             say('   （%s 用了 %.0f 秒）' % (sid, time.time() - t0))
     run.finish()
 asyncio.run(main())
