@@ -254,6 +254,16 @@
    "task": "ART-DIRECTOR-LAWWW2",
    "src": "使用者對 LAWWW-B 說，LAWWW-B 06:57 轉達（紀錄 aa0b4ff4c，PROJECT_DECISIONS D111）",
    "note": "LAWWW2＝美術總監：3D 美術與場景程式（D100、D108）自己決定、不等使用者；LAWWW 排優先、派工、整合、發布；建築與場景 ART_APPROVED 照舊留給使用者。同一則轉達：使用者再次強調學姊是真正的女主角（學校＋交換學生都要充實），學姊相關場景、模型優先度提高，等 LAWWW 照 AA 的批次派具體項目"
+  },
+  {
+   "id": "UA-LAWWW2-1023-03",
+   "at": "2026-10-23T07:3x",
+   "quote": "圖書館三樓那種深色木地板 很醜 不要出現這種深色木底板 整個遊戲都不要 只能接受淺色木地板或其他材質",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-NO-DARK-WOOD-1023",
+   "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說",
+   "note": "P0，永久的美術規則：整個遊戲不要深色木地板，只能淺色木地板或其他材質（磨石子、水泥、地磚、地毯…）。掃描（scan_floors.py，開發分支 719cca3b 的 GLB）：圖書館 3F l3_parquet、總圖大廳二樓 lb_parquet、定食、美國公寓兩棟、茶行、日本房間、118 巷咖啡、書店、萬才館研討室 A、3F 主球場；程式產生的地板 rooms_glb3d／us3d／jp_dorm3d／zones3d woodfloor2 的備用顏色。家具、桌面不算地板（使用者講的是地板）。任務 ART-NO-DARK-WOOD-1023 請 LAWWW-B 開"
   }
  ]
 }
