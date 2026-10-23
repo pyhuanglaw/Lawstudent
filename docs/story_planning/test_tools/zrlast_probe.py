@@ -1634,6 +1634,19 @@ R8 += [
   OUT5('LAB59_BDAY_DORM_D', '2029-06-02', 20.0, 'dorm', SIS_D, O_BDAY, ['出發：書瑀的生日', '出發：學姊的生日'], 'ev_pg_sis_bday',
        extra=[('出遊按鈕寫「書瑀的生日」（交往中）', CHN('出發：書瑀的生日'), lambda n: isinstance(n, int) and n >= 1), ('出遊按鈕沒有「學姊的生日」', CHN('出發：學姊的生日'), 0), ('標題卡寫「書瑀的生日」', LNQ('CARD:書瑀的生日'), lambda n: isinstance(n, int) and n >= 1)]),
 ]
+# 59 的分開談話（2029-05-30 17:00，ev_choice_apart_heroine_05；BB-B 18:4x 補）：【前置】和學姊交往中、5/29「選一個人」選了可昕——用遊戲自己的
+# R2Y4B.apartSchedule 排（日子先撥回 5/29 排、再撥回 5/30：學姊固定 5/30，fix29 只排在「今天以後」）。祐廷二選一選「我喜歡上別人了。」
+APART = (" const d0=G.day; G.day=d0-1; try{ R2Y4B.apartSchedule(G,2029,'kexin',['heroine_05']); }finally{ G.day=d0; }"
+         " window.__AP=(()=>{ try{ const R=R2Y4B.apartRound(G,2029); return R&&R.at.heroine_05?JSON.stringify(R.at.heroine_05):null; }catch(e){ return 'ERR '+e; } })();")
+O_APART = {'h': 17}
+def APART5(i, zone):
+    d = OUT5(i, '2029-05-30', 16.4, zone, SIS_D, O_APART, ['出發', '「我喜歡上別人了。」'], 'ev_choice_apart_heroine_05',
+             extra=[('【前置】排好了 5/30（apartSchedule）', "window.__AP", lambda s: isinstance(s, str) and '"st":"plan"' in s),   # 讀檔時記下的（演完會變 done）
+                    ('談完：不再交往（dating_heroine_05 不是 true）', "GAME.G.flags.dating_heroine_05===true", False)],
+             want=['（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）', '謝謝你。……畢業快樂，先說了。'])
+    d['js'] = R8H + Y4 + SIS_D + APART   # 不用 PLAN：出遊由 apartSchedule 自己排
+    return d
+R8 += [APART5('LAB59_APART_CAMPUS', 'campus'), APART5('LAB59_APART_DORM_D', 'dorm')]
 # 60：交往中叫「書瑀」
 NTEA = NEAR('一一八茶飲 點餐', label='點餐（一一八茶飲）')
 def SY_TEA(i, js, name, other):
