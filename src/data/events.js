@@ -3680,12 +3680,13 @@ const STORY_EVENTS=[
   /* 跨年大四（AA_210 第 3 節＋第 5 節；2028-12-31 寒假第 7 天）：芯慈最早到、野餐墊；〔選了考研究所、推甄沒上〕單字卡（Y4_PATH／Y4_PUSH 由大四的升學路線設定，AA_181 2-4）；
      倒數芯慈起頭；00:10 散；和以安交往中「明天中午一起吃飯？」；可昕交往中選視訊＝23:59 視訊接在這一場（5-2 大四）。NYE_Y4＝'roof' */
   { id:'ev_y4_newyear', title:'跨年（大四）', participants:[], location:'any', trigger:'outing', once:true, background:'dorm_roof', hours:40/60,
-    dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},{speaker:null,text:'（十一點半。芯慈比你們都早到，已經把野餐墊鋪好了。）'},
-      {speaker:'classmate_xinci',text:'去年我就覺得這裡很冷。'},{speaker:'zhe',text:'每年都冷。'},{speaker:'yu',text:'今年看得到嗎？'},{speaker:'zhe',text:'看得到一點。'},
+    dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},   /* AA_313 第 674 行：芯慈的句子要認識才有（同大三 NYE_XC）；不認識＝沒有她開頭那三行和倒數那一行 */
+      {if:{custom:G=>NYE_XC(G)},speaker:null,text:'（十一點半。芯慈比你們都早到，已經把野餐墊鋪好了。）'},
+      {if:{custom:G=>NYE_XC(G)},speaker:'classmate_xinci',text:'去年我就覺得這裡很冷。'},{if:{custom:G=>NYE_XC(G)},speaker:'zhe',text:'每年都冷。'},{speaker:'yu',text:'今年看得到嗎？'},{speaker:'zhe',text:'看得到一點。'},
       {if:{custom:G=>G.flags.Y4_PATH==='grad'&&G.flags.Y4_PUSH!=='pass'},speaker:null,text:'（你口袋裡有一疊單字卡。二月三號考試。）'},{if:{custom:G=>G.flags.Y4_PATH==='grad'&&G.flags.Y4_PUSH!=='pass'},speaker:'classmate_bohan',text:'帶了？'},
       {if:{custom:G=>G.flags.Y4_PATH==='grad'&&G.flags.Y4_PUSH!=='pass'},speaker:'player',text:'帶了。'},{if:{custom:G=>G.flags.Y4_PATH==='grad'&&G.flags.Y4_PUSH!=='pass'},speaker:'classmate_bohan',text:'今天先不要看。'},
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[4]==='video'},speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[4]==='video'},speaker:'kexin',expression:'smile',text:'你們那邊好冷的樣子。……外套拉起來。'},
-      {speaker:null,text:'（倒數是芯慈起的頭，比電視早了一秒。）'},
+      {if:{custom:G=>NYE_XC(G)},speaker:null,text:'（倒數是芯慈起的頭，比電視早了一秒。）'},
       /* AA_313 第 2 節第 47 列：同大三，她的零點、「新年快樂。」排在群戲倒數之後 */
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[4]==='video'},speaker:null,text:'（零點。兩邊的煙火，一大一小。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[4]==='video'},speaker:'kexin',expression:'smile',text:'新年快樂。'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[4]==='video'},set:{KX_NYE_VIDEO_Y4:true}},
       {speaker:'zhe',text:'回去睡覺。'},{speaker:'yu',text:'我要趕捷運！'},

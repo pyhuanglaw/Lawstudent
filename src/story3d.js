@@ -3911,21 +3911,22 @@ const STORY = (function(){
   /* 沛珊的重考消失期（BB_205 第 3 節、BB_194 §19）：2026-12-18（P4 交接隔天）～2027-08-06 放榜，聯絡不到（presence absentDates 的 unreachable）*/
   /* 跨年大三（AA_210 第 2 節＋5-1、5-5）：12/31 21:00 群組三句（不在群組、和阿哲 FAMILIAR 以上＝阿哲私訊一句）→ 23:30 頂樓；沒去＝00:05 Alison 的合照「今年人到得最齊」；
      語彤 FAMILIAR 以上 00:0x「新年快樂。」。可昕交往中選了高雄（KX_NYE[3]＝'river'）就不排頂樓 */
+  const xcMet=()=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('classmate_xinci','FIRST_MET');   /* 認識芯慈（events.js NYE_XC 同一個條件）*/
   S.nyeY3=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2027-12-31'); if(nye==null||G.day<nye||G.day>nye+1||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
     const T='g:noodle_team', inG=PHONE.inGroup(G,'noodle_team'), hh=G.hour, after=G.day>nye||hh>=24, M=(w,t)=>({th:T,from:w,text:t}), kxR=(F.KX_NYE&&F.KX_NYE[3]==='river')||!!(S.sisNyeDate&&S.sisNyeDate(G,3));
     const fam=(id,st)=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st||'FAMILIAR');
     if(G.day===nye&&hh>=21&&hh<23.5&&!PHONE.sent(G,'nye_y3_ask')){
-      if(inG) PHONE.at(G,nye,Math.max(21,hh),[M('zhe','十一點半，頂樓。以安說她要來。'),M('zhe','宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'),M('heroine_01','我會到。'),M('classmate_xinci','我家吃完飯就過去，可能晚一點。')],'nye_y3_ask');
+      if(inG){ const kA=S.knows('heroine_01',G), kX=xcMet(); PHONE.at(G,nye,Math.max(21,hh),[M('zhe',kA?'十一點半，頂樓。以安說她要來。':'十一點半，頂樓。'),M('zhe','宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。')].concat(kA?[M('heroine_01','我會到。')]:[],kX?[M('classmate_xinci','我家吃完飯就過去，可能晚一點。')]:[]),'nye_y3_ask'); }   /* AA_313 5-6 第 672 行：群組裡以安、芯慈那幾則也要認識才有（和私訊、頂樓那一場同一個條件）*/
       else if(fam('zhe')) PHONE.at(G,nye,Math.max(21,hh),[{th:'p:zhe',from:'zhe',text:S.knows('heroine_01',G)?'十一點半，頂樓。以安說她要來。':'十一點半，頂樓。'},{th:'p:zhe',from:'zhe',text:'宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'}],'nye_y3_ask'); }
     if(PHONE.sent(G,'nye_y3_ask')&&!kxR&&!OUT.get(G,'nye_y3')&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'nye_y3',ev:'ev_y3_newyear',day:nye,h:23.5,late:0.25,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'走上去約 2 分鐘',travelH:1/30,back:'回到房間。'});
     if(F.dating_heroine_03&&!OUT.get(G,'yt_nye_call_y3')&&G.day===nye&&hh>=23) OUT.plan(G,{id:'yt_nye_call_y3',ev:'ev_yt_nye_call_y3',day:nye+1,h:1/60,place:'電話',title:'語彤打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});   /* 交往中 00:01 她打來（AA_313 第 4-1 節第 13 點：原本大一、大二、大四都有，只有大三什麼都沒有）*/
     if(!after) return;
     if(!F.NYE_Y3) F.NYE_Y3='none';
-    if(inG&&F.NYE_Y3!=='roof'&&PHONE.sent(G,'nye_y3_ask')) PHONE.at(G,nye,24+5/60,[M('yu','📷（頂樓的合照，五個人，芯慈站在最旁邊）'),M('yu','今年人到得最齊')],'nye_y3_photo');   /* 2-6＋5-6（d5cf5589）*/
+    if(inG&&F.NYE_Y3!=='roof'&&PHONE.sent(G,'nye_y3_ask')&&xcMet()) PHONE.at(G,nye,24+5/60,[M('yu','📷（頂樓的合照，五個人，芯慈站在最旁邊）'),M('yu','今年人到得最齊')],'nye_y3_photo');   /* 2-6＋5-6（d5cf5589）；照片的字寫芯慈＝認識她才有（AA_313 第 672 行）*/
     if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'}],'nye_y3_yt'); };
   /* 跨年大四（AA_210 第 3 節＋5-5）：12/31 21:00 群組三句（不在群組＝阿哲私訊「十一點半，頂樓。」）→ 23:30 頂樓；和語彤交往中 00:01 電話。可昕交往中選了高雄就不排頂樓 */
   S.nyeY4=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2028-12-31'); if(nye==null||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
-    if(G.day===nye+1&&G.day<=nye+1){ if(!F.NYE_Y4) F.NYE_Y4='none'; if(F.NYE_Y4!=='roof'&&PHONE.inGroup(G,'noodle_team')&&PHONE.sent(G,'nye_y4_ask')) PHONE.at(G,nye,24+5/60,[{th:'g:noodle_team',from:'yu',text:'📷（野餐墊上的五個人，芯慈坐在正中間）'},{th:'g:noodle_team',from:'classmate_xinci',text:'今年我最早到。'}],'nye_y4_photo');   /* 沒去（5-7 第 1 點）*/ const fam1=id=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+    if(G.day===nye+1&&G.day<=nye+1){ if(!F.NYE_Y4) F.NYE_Y4='none'; if(F.NYE_Y4!=='roof'&&PHONE.inGroup(G,'noodle_team')&&PHONE.sent(G,'nye_y4_ask')&&xcMet()) PHONE.at(G,nye,24+5/60,[{th:'g:noodle_team',from:'yu',text:'📷（野餐墊上的五個人，芯慈坐在正中間）'},{th:'g:noodle_team',from:'classmate_xinci',text:'今年我最早到。'}],'nye_y4_photo');   /* 沒去（5-7 第 1 點）*/ const fam1=id=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR');
       if(!F.dating_heroine_03&&fam1('heroine_03')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'}],'nye_y4_yt'); return; }   /* 語彤三年的 00:0x 私訊（第 4 節第 6 點）*/
     if(G.day!==nye) return;
     const T='g:noodle_team', inG=PHONE.inGroup(G,'noodle_team'), hh=G.hour, M=(w,t)=>({th:T,from:w,text:t}), kxR=(F.KX_NYE&&F.KX_NYE[4]==='river')||!!(S.sisNyeDate&&S.sisNyeDate(G,4));
