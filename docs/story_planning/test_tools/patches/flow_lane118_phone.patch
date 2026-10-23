@@ -1,0 +1,49 @@
+diff --git a/tests/flow_lane118.py b/tests/flow_lane118.py
+index 2c3b46cba..72404c253 100644
+--- a/tests/flow_lane118.py
++++ b/tests/flow_lane118.py
+@@ -51,17 +51,20 @@ async def main():
+             run.check('走到後門、互動鍵「從後門出去（118 巷）」', ok and s['interact'].startswith('從後門出去'), s['interact'])
+             await L.tap(pg, cdp, '#interact')
+             for _ in range(60):
++                if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+                 if await pg.evaluate("GAME.G.zone==='lane118'&&!GAME.E.player.busy"): break
+                 await pg.wait_for_timeout(1000)
+         st = await pg.evaluate("({zone:GAME.G.zone, x:+GAME.E.player.obj.position.x.toFixed(1), z:+GAME.E.player.obj.position.z.toFixed(1)})")
+         run.check('進到 118 巷（區域 lane118，在後門那一端）', st['zone'] == 'lane118' and st['z'] > 40, json.dumps(st))
+         for _ in range(40):
++            if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+             glb = await pg.evaluate("(()=>{ let n=0; GAME.E.scene.traverse(o=>{ if(/lane118_street/.test(o.name||'')) n++; }); return n; })()")
+             if glb: break
+             await pg.wait_for_timeout(1000)
+         await run.shot(pg, 'lane_entry')
+         run.check('118 巷的正式街景模型載入了（lane118_street.glb）', glb > 0, str(glb))
+         for _ in range(90):   # 12:10 起才站到店門口（進巷子的時候可能還沒到）：待在巷子裡，時段到了就來（遊戲時間一秒約 24 秒，SwiftShader 掉幀會更慢）
++            if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+             zhe = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc.zhe; return n?{x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}:null; })()")
+             if zhe: break
+             await pg.wait_for_timeout(1000)
+@@ -84,6 +87,7 @@ async def main():
+         # 118 巷的店走得進去（LANE118-SHOPS-1020，X66）：店門口「進六張犁麵舖」→ 店裡（l118_noodle2），阿哲（在門口等的常客）跟著坐在店裡 → 走到櫃台前「點餐（六張犁麵舖）」
+         await L.tap(pg, cdp, '#interact')
+         for _ in range(40):
++            if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+             if await pg.evaluate("GAME.G.zone==='l118_noodle2'&&!GAME.E.player.busy"): break
+             await pg.wait_for_timeout(1000)
+         inside = await pg.evaluate("({zone:GAME.G.zone, zhe:!!GAME.npc.zhe, order:L118_SHOP_LAYOUTS.noodle2.order})")
+@@ -101,6 +105,7 @@ async def main():
+         await pg.wait_for_timeout(800); s = await L.state(pg)
+         if ok and s['interact'].startswith('離開'): await L.tap(pg, cdp, '#interact')
+         for _ in range(40):
++            if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+             if await pg.evaluate("GAME.G.zone==='lane118'&&!GAME.E.player.busy"): break
+             await pg.wait_for_timeout(1000)
+         run.check('「離開六張犁麵舖」→ 回到 118 巷', await pg.evaluate("GAME.G.zone==='lane118'"))
+@@ -109,6 +114,7 @@ async def main():
+         await pg.wait_for_timeout(800); s = await L.state(pg)
+         if ok and s['interact'].startswith('回到台大'): await L.tap(pg, cdp, '#interact')
+         for _ in range(60):
++            if 'phone' in await pg.evaluate(L.OVERLAYS_JS): await L.close_panels(pg, cdp)   # D103：有要回的訊息會自動打開手機、遊戲暫停；等待中時間要照走，先關掉（BB-B 10-23）
+             if await pg.evaluate("GAME.G.zone==='campus'&&!GAME.E.player.busy"): break
+             await pg.wait_for_timeout(1000)
+         st = await pg.evaluate("({zone:GAME.G.zone, x:+GAME.E.player.obj.position.x.toFixed(1), z:+GAME.E.player.obj.position.z.toFixed(1), fb:GAME.walkFallbacks||0})")
