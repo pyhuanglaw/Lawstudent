@@ -1713,6 +1713,14 @@
    "approvedBy": "AA-B 2026-10-23 07:4x 定稿（AA_389 第 2 點的補場；台詞照稿 D100、細節 D109）；LAWWW-B 10-23 實作 src/zr_sendoff3d.js",
    "task": "ZR-SENDOFF-L-1023、AA389-ZR-SENDOFF-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_388_學姊第五批_七夕.md",
+   "sha": "3a509150",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 07:0x 交付（DL-AA388-QIXI）",
+   "task": "SIS-QIXI-L-1023",
+   "kind": "text"
   }
  ]
 }
