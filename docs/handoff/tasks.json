@@ -12407,7 +12407,7 @@
      "note": "日文班、博雅、女舍的小事件都還沒做"
     }
    ],
-   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 14 件（G2 G3 G4 G4b G4c B6 B8 B10 B10b B13 D4c D5 D6 D8；src/data/bbpack_events.js、src/bbpack3d.js；tests/bbpack_unit.js 123 PASS）；B9 已有（ev_exchange_expo_y2），BB_137 2-3 明軒／采蓁那兩句還沒加進 events.js（LAWWW-B 下一批）。"
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完 14 件（G2 G3 G4 G4b G4c B6 B8 B10 B10b B13 D4c D5 D6 D8；src/data/bbpack_events.js、src/bbpack3d.js；tests/bbpack_unit.js 123 PASS）；B9 已有（ev_exchange_expo_y2），BB_137 2-3 明軒／采蓁那兩句還沒加進 events.js（LAWWW-B 下一批）。 ｜2026-10-23 21:1x LAWWW-B：第 2 輪：B9（ev_exchange_expo_y2）明軒門口兩句、選日本＝采蓁兩句（修日文＋JP_MET）、美國／台灣＝明軒一句；三位日文班同學進 CHARACTERS（jp_caizhen、jp_liheng、jp_yuheng，Y2 週一 13:05～15:10 共同 102），syllabus 采蓁那句照 AA-C 拿掉、import_syllabus.py 加 DROP_REACT（重匯也不會回來）"
   },
   {
    "id": "ART-CH-WEILUN",
@@ -14847,7 +14847,7 @@
    "title": "BB_171 跨年：ev_nye_river 可昕兩句、Kevin 跨年照片不點名大樓；T2～T5 等 16 週",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P2",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：照 BB_171 第 3 節（AA-B 互審通過；D100 後請 AA 確認）在 story3d.js 大一跨年那段加芷若、子晴、明軒、方奕廷、Kevin 的訊息（Kevin 照片不點名大樓） ｜ T1、照片字先做；T2～T5 併 16 週共用系統",
    "first": {
@@ -14869,7 +14869,12 @@
      "evidence": "T1（河堤可昕兩句）已作廢：大一跨年改去高雄（AA_276 第 3 節，events.js:1230、story3d.js:1826）；T2 跨年照日期已改；但 BB_171 第 3 節 BB 人物的跨年訊息（芷若、子晴、明軒、方奕廷、Kevin 家族群組煙火照片）在 story3d.js:1837-1848 都沒有，只有 AA 人物",
      "note": "跨年 BB 人物的訊息還沒接"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:1x LAWWW-B：做了 2026-01-01 00:00 Kevin 家族群組「📷（信義區的煙火）」「新年快樂」（不點名大樓）；學姊貼圖 AA_218 刪了；T1 可昕那句被 AA_369 M5 取代（跨年在高雄）；芷若、子晴、明軒、方奕廷、沛珊的跨年訊息 BB_171 第 3 節只有描述，等 AA 寫",
+   "pausedBy": "LAWWW-B",
+   "pausedReason": "BB_171 第 3 節五位的跨年訊息只有描述、沒有台詞",
+   "resumeWhen": "AA 寫芷若、子晴、明軒、方奕廷、沛珊的跨年訊息",
+   "recheckOn": "2026-10-25"
   },
   {
    "id": "V1-BB168",
@@ -19060,7 +19065,7 @@
    "title": "BB_154 大一下 S-3 阿凱的鍵盤（記憶 KAI_KEYBOARD；第 7 週週四 24:00 以前在房間；大二 kai_kb 的回聲讀它）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 BB_154 第 2 節 S-3 做阿凱鍵盤事件：大一下第 7 週週四 24:00 以前在房間觸發、記 KAI_KEYBOARD（台詞請 AA 確認定稿，D100） ｜ 照 BB_154 第 2 節施工；大二 kai_kb 已經讀 KAI_KEYBOARD（沒有的玩家走替代版）",
    "first": {
@@ -19089,7 +19094,8 @@
      "evidence": "記憶 KAI_KEYBOARD 只在 src/data/needed_msgs.js:83（大二 kai_kb 的分支）被讀，全 src 沒有設它的事件（大一下第 7 週週四宿舍那場不存在）",
      "note": "阿凱鍵盤事件沒做，大二回聲永遠走替代版"
     }
-   ]
+   ],
+   "notes": "2026-10-23 21:1x LAWWW-B：子代理做完（bbpack_events.js ev_kai_keyboard、ev_kai_keyboard_fafu；Y1S2 第 6～7 週週一～四 22:00～24:00 房間；去過法服＝週六法服（社長帶，BB_154 2-3 原本寫學姊、大一週六法服照 AA_238 是社長，已請 AA 確認），沒去過＝問學長＝Kevin 家族群組三句；三種結尾都記 KAI_KEYBOARD）。tests/bbpack_r2_unit.js"
   },
   {
    "id": "BB210-Y4S2",
@@ -27038,7 +27044,7 @@
    "title": "AA_334 第 1 節：沛珊大一上期末就能交往——大一下柏翰三場（ev_midterm_supper_y1s2、ev_peishan_bohan_w4、ps_split_group）加 unless dating_classmate_peishan；partner「沒和玩家交往」才是柏翰",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -27052,14 +27058,15 @@
    },
    "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
    "authorized": "使用者選擇題（UA-AA-1020-33 confirmed）",
-   "next": "照 AA_334 第 1 節；和 AA245-PSBH（沛珊×柏翰沒在一起的版本）一起看；不在三個優先項目裡，照佇列排"
+   "next": "照 AA_334 第 1 節；和 AA245-PSBH（沛珊×柏翰沒在一起的版本）一起看；不在三個優先項目裡，照佇列排",
+   "notes": "2026-10-23 21:1x LAWWW-B：子代理盤點：AA_409（6df37bd63，PS-DATE-EARLY-1023）已經做完 PS_BH 擋晚餐與第 4 週兩場、ps_split_group 只給沒交往的、partner 的 unlessFlag；aa245_psbh PASS。沒有要再寫的"
   },
   {
    "id": "AA334-S4-ZR-1021",
    "title": "AA_334 第 4 節：芷若晚一點的窗口——6/19 F3 多一個不發生的情況、8/26「我先收著」記 ZR_STUB_KEPT、2029-09-01 延後的回答改看 ZR_STUB_KEPT＋單身、杯子小字「寄放的那張，還在嗎？」",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
@@ -27073,7 +27080,8 @@
    },
    "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
    "authorized": "使用者選擇題（UA-AA-1020-35 confirmed）",
-   "next": "照 AA_334 第 4 節；第 3 節 Z13 拒絕後照現在、不改；不在三個優先項目裡，照佇列排"
+   "next": "照 AA_334 第 4 節；第 3 節 Z13 拒絕後照現在、不改；不在三個優先項目裡，照佇列排",
+   "notes": "2026-10-23 21:1x LAWWW-B：被 AA_387（BB119-Y4-1017，zr_last3d.js、zrzq3d.js）取代：F3 拒絕 ZR_F3_NO、「我先收著」＝ZR_LAST keep、2029-09-01 ev_zhiruo_ticket_again；AA_334 杯子那句對應的 2-Y4-47「延後的回答」沒有做、由車票那場取代（已請 AA 確認要不要另外做杯子那場）"
   },
   {
    "id": "AA366-KX-POSTGRAD-1021",

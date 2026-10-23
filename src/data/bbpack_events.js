@@ -4,7 +4,7 @@
      BB_105 @3954f9b62（白名單 68a8479e；兩版只差 AA_383 第 1～3 點的「念過一個多月」和阿勳、品妤的重新介紹，這裡用遊戲已經在用的那兩句）；
      BB_137 @a047e5feb（白名單同一版）；AA_153 @c7f4ada86（AB-05 完成後最後一次審過的版本；之後的 09ecee83a 是沒審的 WIP，只把 18 週制的週次改成 16 週制，這裡照 16 週制排）；
      BB_106 @3954f9b62（白名單 71b3e6c3，SK08～SK10、SK14、第 389 行兩版相同）；BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
-   時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）沒有人物資料，和日本路線的 ev_liheng_japan 一樣用名字說話。
+   時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）；台詞用稱呼說話（和日本路線的 ev_liheng_japan 一樣）。
    測試：node tests/bbpack_unit.js */
 'use strict';
 const BBPACK_EVENTS=(function(){
@@ -20,7 +20,7 @@ const BBPACK_EVENTS=(function(){
   const EV=[];
 
   /* ================= 共同教學館：日文班（BB_105 3-3、BB_137 第 1 節；AA_153 第 1 節的時間）=================
-     日文上＝大二上、日文下＝大二下，週一 13:20～15:10 共同教學館 102（courses.js japanese_1／japanese_2）。認識三個人＝JP_MET（G1）。熟悉度記在 JP_FAM_CAIZHEN／LIHENG／YUHENG（沒有人物資料，不進關係面板）*/
+     日文上＝大二上、日文下＝大二下，週一 13:20～15:10 共同教學館 102（courses.js japanese_1／japanese_2）。認識三個人＝JP_MET（G1，同時 SOCIAL.meet）。熟悉度：關係的 fam +1，另外記 JP_FAM_CAIZHEN／LIHENG／YUHENG */
   /* G1 日文上的第一堂：第一次去上日文的那一堂（CLS.IN_CLASS，老師那一句之後）。第 1 週那一堂的點名換成這一段（課表 syllabus 第 1 週的自我介紹選項不再問一次）；
      不是第 1 週（第一次去就晚了）才有老師開頭那一句 */
   EV.push({ id:'ev_jp_g1', title:'はじめまして', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
@@ -32,7 +32,7 @@ const BBPACK_EVENTS=(function(){
       {label:'f'},nar('（采蓁笑出來。）'),{goto:'end'},
       {label:'s'},say('日文老師','……很省。'),
       {label:'end'},{set:{JP_MET:true}} ],
-    consequences:{memo:'日文上的第一堂：認識了采蓁、立衡、宇恆'} });
+    consequences:{meet:[{id:'jp_caizhen',where:'gongtong'},{id:'jp_liheng',where:'gongtong'},{id:'jp_yuheng',where:'gongtong'}],memo:'日文上的第一堂：認識了采蓁、立衡、宇恆'} });   /* 三個人在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）：這一堂才算認識 */
   /* G2 發音的小遊戲：日文上第 2～7 週的下課（15:10），四成（照日子擲）；四題照順序、用完從頭；第一次記 JP_PARTNER */
   const G2Q=n=>FI('JP_G2_Q',n);
   EV.push({ id:'ev_jp_g2', title:'', participants:[], location:'any', trigger:'class', afterClass:'japanese_1', term:['Y2S1'], weeks:[2,3,4,5,6,7], background:'blur',
@@ -58,7 +58,7 @@ const BBPACK_EVENTS=(function(){
       {label:'q4b'},say('采蓁','不是！……你拒絕我。'),
       {label:'end'},
       UN({flags:['JP_PARTNER']},say('采蓁','以後練習就找你了，搭檔。')),{set:{JP_PARTNER:true}},
-      {inc:{JP_G2_N:1,JP_FAM_CAIZHEN:1,JP_FAM_LIHENG:1}} ],
+      {inc:{JP_G2_N:1,JP_FAM_CAIZHEN:1,JP_FAM_LIHENG:1},rel:{jp_caizhen:{fam:1},jp_liheng:{fam:1}}} ],
     after:G=>{ delete G.flags.JP_G2_Q; } });
   /* G3 采蓁的日劇台詞：日文上第 2～7、10～15 週，週一上課前（12:50 起可以坐下；13:20 上課），五成；五題不重複，猜對記 JP_DRAMA_<n>；選錯不扣分，熟悉度一樣 +1 */
   const G3Q=n=>FI('JP_G3_Q',n);
@@ -87,7 +87,7 @@ const BBPACK_EVENTS=(function(){
       {label:'q5_1'},say('采蓁','對！日劇發現真相的時候，一定有人說這句。'),{goto:'end'},
       {label:'q5_2'},say('采蓁','有一點像。可是「まさか」是不想相信。'),{goto:'end'},
       {label:'q5_3'},say('采蓁','那是「すぐ」。……你真的很想下課。'),
-      {label:'end'},{inc:{JP_FAM_CAIZHEN:1}} ],
+      {label:'end'},{inc:{JP_FAM_CAIZHEN:1},rel:{jp_caizhen:{fam:1}}} ],
     after:G=>{ const n=G.flags.JP_G3_Q; delete G.flags.JP_G3_Q; if(n){ const L=Array.isArray(G.flags.JP_G3_USED)?G.flags.JP_G3_USED:(G.flags.JP_G3_USED=[]); if(!L.includes(n)) L.push(n); } } });
   /* G4 考前一起讀單字：第 7 週（小考那天，期中前）、第 16 週（口試考完）的下課；日文上、日文下都有（BB_137 1-3 日文下第 16 週多一句）。同一堂下課先演這一件（classFirst）*/
   const g4=(id,course,term,week,fin)=>({ id, title:'', participants:[], location:'any', trigger:'class', afterClass:course, afterExam:fin?'final':undefined, classFirst:true, once:true, term:[term], weeks:[week], background:'blur',
@@ -96,7 +96,7 @@ const BBPACK_EVENTS=(function(){
       ...(fin&&term==='Y2S2'?[say('采蓁','一年了耶。我們從はじめまして，讀到這裡。')]:[]),
       {choice:[{text:'「一起讀。」',goto:'y'},{text:'「我先走了。」',goto:'n'}]},
       {label:'y'},nar('（一個小時。立衡翻卡片，采蓁念，你答。）'),say('立衡','錯的放左邊。……左邊比較高。'),say('采蓁','高的那疊是我的。'),
-      {set:{['JP_VOCAB_'+(fin?'期末':'期中')+(term==='Y2S2'?'_下':'')]:true}},{inc:{JP_FAM_CAIZHEN:1,JP_FAM_LIHENG:1}},{advance:1},{goto:'end'},
+      {set:{['JP_VOCAB_'+(fin?'期末':'期中')+(term==='Y2S2'?'_下':'')]:true}},{inc:{JP_FAM_CAIZHEN:1,JP_FAM_LIHENG:1},rel:{jp_caizhen:{fam:1},jp_liheng:{fam:1}}},{advance:1},{goto:'end'},
       {label:'n'},say('采蓁','好！じゃあね！考試加油！'),
       {label:'end'} ] });
   EV.push(g4('ev_jp_g4_mid1','japanese_1','Y2S1',7,false),g4('ev_jp_g4_fin1','japanese_1','Y2S1',16,true),g4('ev_jp_g4_mid2','japanese_2','Y2S2',7,false),g4('ev_jp_g4_fin2','japanese_2','Y2S2',16,true));
@@ -107,7 +107,7 @@ const BBPACK_EVENTS=(function(){
       {choice:[{text:'「一起去。」',goto:'y'},{text:'「今天不行。」',goto:'n'}]},
       {label:'y'},{scene:'活大・自助餐',bg:'xiaofu'},
       ...(term==='Y2S1'?[say('宇恆','我寫了「きのう、ねました」。昨天睡了。'),say('采蓁','那是事實吧。')]:[say('宇恆','這次我有準備。……錯一題，授受動詞。'),say('采蓁','誰給誰？'),say('宇恆','我給了老師一個錯。')]),
-      {inc:{JP_FAM_YUHENG:1}},{advance:40/60},{goto:'end'},
+      {inc:{JP_FAM_YUHENG:1},rel:{jp_yuheng:{fam:1}}},{advance:40/60},{goto:'end'},
       {label:'n'},{call:G=>{ const b=B(); if(b) b.jpPost(G,'宇恆','活大的雞腿飯，我替你吃了。'); }},
       {label:'end'} ] });
   EV.push(g4b('ev_jp_g4b1','japanese_1','Y2S1'),g4b('ev_jp_g4b2','japanese_2','Y2S2'));
@@ -155,7 +155,7 @@ const BBPACK_EVENTS=(function(){
       {choice:[{text:'「恭喜。去了要寄照片。」',set:{LIHENG_TOLD:'wish'},goto:'w'},{text:'「你怎麼準備的？」',set:{LIHENG_TOLD:'ask'},goto:'a'}]},
       {label:'w'},nar('（他在方格筆記本上寫了一行。）'),say('立衡','好。'),{goto:'end'},
       {label:'a'},nar('（他講了十分鐘的研究計畫。你聽懂一半。）'),
-      {label:'end'},{inc:{JP_FAM_LIHENG:1}} ] });
+      {label:'end'},{inc:{JP_FAM_LIHENG:1},rel:{jp_liheng:{fam:1}}} ] });
 
   /* ================= 博雅教學館（BB_105 4-2、4-4；BB_137 第 2 節；AA_153 第 2 節）=================
      講座用 3D 現有的大教室（博雅 101，坐下選「聽演講」＝坐到下一段，AA_115 第 3 節；和 B4、交換說明會同一間）——活動清單（ACTIVITIES）在檔尾。
@@ -443,6 +443,44 @@ const BBPACK_EVENTS=(function(){
       say(ZR,'……這張椅子還是會晃。'),
       IF({flags:['L4A_SAT']},say(ZR,'你那時候選的那個版本，我後來交出去了。老師說很像人講的話。')) ] });
 
+  /* ================= BB_154 S-3 阿凱網拍鍵盤（任務 BB154-KAI-KB；企劃線 BB_154 @968473469，2-1～2-3；BB_70 8b 最後一點 Kevin 家族群組三句 @7fca0df50 的同一版）=================
+     大一下第 6～7 週，週一到週四 22:00～24:00 在宿舍房間（阿凱是室友），一次；第 7 週週四 24:00 以前都沒在房間＝不發生（不記 KAI_KEYBOARD，大二 needed_msgs.js kai_kb 走替代版）。
+     手機筆記（AA_117）：前三行自動填好，玩家選「請求什麼」；有 U_SALE（民總那一堂的理解）多一個選項。阿凱自在 +2。
+     「那問誰」：去過法服（LAWCLUB_SAT_VISITS ≥1）＝「週六法服。」→ 第 7 週週六 9:00～12:00 走進萬才館（ev_kai_keyboard_fafu）；沒去＝12:30 阿凱私訊兩句（BBPACK.phone）。
+     沒去過法服＝「我問學長。」→ 當晚 23:00 家族群組 Kevin 三句（BB_70 8b）、23:05 阿凱私訊「你們法律系的人原來要查這麼久」（BBPACK.phone）。三種結尾都記 KAI_KEYBOARD（記憶，BBPACK.kaiKb）。
+     BB_154 檔頭（2026-10-18）：2-3「學姊是法服社長，這天她值班」作廢——大一的週六法服是現任社長帶（AA_238 2-1、2-2；story3d.js S.fafuLead），學姊那幾句換成社長說（字不改）。
+     「我問直屬學長。」：直屬只有學姊一個（企劃線 e627d7475），BB_70 8b 寫「問學長：家族的大二學長 Kevin」——這裡用「我問學長。」*/
+  const KBA=v=>FI('KAI_KB_ASK',v);
+  EV.push({ id:'ev_kai_keyboard', title:'', participants:['kai'], location:'dorm', trigger:'auto', once:true, term:['Y1S2'], weeks:[6,7], weekday:[1,2,3,4], time:[22,24], background:'blur',
+    prereq:{custom:G=>{ const b=B(); return !!b&&b.here('kai',G); }},
+    dialogue:[ nar('阿凱的鍵盤聲停了。他把椅子轉過來。'),
+      say('kai','欸。法律系的。'),
+      say('kai','所以 網拍買的鍵盤少一顆鍵 賣家說不退 可以告嗎'),
+      nar('他把鍵盤舉起來。右下角少了一顆。'),
+      say('手機筆記','誰：阿凱'),say('手機筆記','向誰：賣家'),say('手機筆記','依據什麼：（還不知道。民總的課本？）'),say('手機筆記','請求什麼：'),
+      {choice:[{text:'「我也還不會。我們一起查。」',set:{KAI_KB_ANS:'honest'},goto:'h'},{text:'「東西跟說的不一樣，可以要求退錢，或少付一點。」',if:{flags:['U_SALE']},set:{KAI_KB_ANS:'sale'},goto:'u'}]},
+      {label:'h'},say('kai','好 一起翻'),nar('你們翻民總課本，翻到網拍相機那一章。看了二十分鐘。'),me('……好像有關，但我說不出來。'),{goto:'who'},
+      {label:'u'},say('kai','少付一點也可以喔 那我要少付一顆鍵的錢'),me('……可是要怎麼跟賣家講，我說不清楚。'),
+      {label:'who'},say('kai','那問誰'),
+      IF({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},me('週六法服。')),IF({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},{set:{KAI_KB_ASK:'fafu'}}),
+      UN({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},me('我問學長。')),UN({flagNum:{LAWCLUB_SAT_VISITS:{min:1}}},{set:{KAI_KB_ASK:'kevin'}}),
+      {rel:{kai:{comf:2}}} ],
+    after:G=>{ G.flags.KAI_KB_DAY=G.day; } });
+  EV.push({ id:'ev_kai_keyboard_fafu', title:'', participants:['kai'], location:'wancai', trigger:'auto', once:true, term:['Y1S2'], weeks:[7], weekday:[6], time:[9,12], background:'blur', portraitLater:true,
+    prereq:{flagIs:{KAI_KB_ASK:'fafu'}},
+    dialogue:[ nar('阿凱抱著鍵盤坐下。社長看了一眼少掉的那一顆。'),
+      say('社長','三件事。'),
+      say('社長','一，賣場的頁面、你們的對話，先截圖存起來。'),
+      say('社長','二，賣家如果是店家，網購收到七天內，可以直接退。'),
+      say('社長','三，超過七天，或賣家是個人：東西跟說好的不一樣，可以要求退錢，或少付一點。'),
+      say('社長','少一顆鍵，退整台可能太多。少付一點，比較合理。'),
+      say('社長','你們已經跟賣家說了。很好。發現了要馬上說。'),
+      say('社長','我們是學生，只能講方向。要確定的話，帶著截圖找律師。'),
+      say('kai','你們法律系的人原來要查這麼久'),
+      say('社長','……三分鐘。'),
+      nar('回宿舍的路上，你在手機筆記寫了一行。'),
+      me('下次我要自己講得出來。'),
+      {call:G=>{ const b=B(); if(b) b.kaiKb(G); }} ] });
   return EV;
 })();
 for(const e of BBPACK_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

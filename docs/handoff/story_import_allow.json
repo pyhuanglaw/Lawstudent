@@ -2287,6 +2287,33 @@
    "task": "DL-11",
    "kind": "text",
    "note": "茶席 BB 四位＋可昕備用、WZ-P3、麵店團早午餐群組（src/wzlines3d.js 等）"
+  },
+  {
+   "path": "docs/story_planning/BB_154_AB27_大一下缺口_學姊傳書_阿凱鍵盤.md",
+   "sha": "968473469",
+   "status": "approved",
+   "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
+   "task": "BB154-KAI-KB",
+   "kind": "text",
+   "note": "阿凱的鍵盤（src/data/bbpack_events.js ev_kai_keyboard*）；法服那段大一是社長帶（AA_238），台詞照稿"
+  },
+  {
+   "path": "docs/story_planning/BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md",
+   "sha": "7fca0df50",
+   "status": "approved",
+   "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
+   "task": "BB154-KAI-KB",
+   "kind": "text",
+   "note": "8b Kevin 的家族群組三句"
+  },
+  {
+   "path": "docs/story_planning/BB_171_BB人物假期所在地與跨年.md",
+   "sha": "7fca0df50",
+   "status": "approved",
+   "approvedBy": "BB 交付、AA 定稿（D100：台詞由 AA 定稿；BB_154 的法服段落改給社長說，待 AA 確認）",
+   "task": "V1-BB171",
+   "kind": "text",
+   "note": "跨年 Kevin 照片（不點名大樓）；其他人跨年訊息 BB 沒寫台詞"
   }
  ]
 }

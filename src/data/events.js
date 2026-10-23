@@ -3421,10 +3421,16 @@ const STORY_EVENTS=[
     consequences:{flags:{PEISHAN_BOHAN_SPLIT:true},memo:'沛珊說她和柏翰分開了'} },
   /* 交換說明會（主線 8，大二下第 4 週 3/18 12:20；AA_177 4-2、AA_143 2-3、AA_30 大二下、BB_105 B9）：坐在博雅 101 選「聽說明會」才演（activities.js EXPO_Y2）。
      以安坐第一排（AA_30：「日本。我國中就決定了。」）；你坐哪一區＝EXPO_COUNTRY（日本／美國／台灣；大三上填志願表那天的旁白讀它，AA_30 場景 0）；
-     散場柏翰和以安那三句（大二版，AA_143 2-3）只給兩個人都認識的玩家。明軒、采蓁的句子 BB 沒寫，先不放 */
+     散場柏翰和以安那三句（大二版，AA_143 2-3）只給兩個人都認識的玩家。明軒、采蓁（BB_137 2-3，企劃線 a047e5feb）：明軒在門口兩句（認識明軒）；選區以後——日本＝采蓁兩句（修過日文、日文班認識，
+     BBPACK.tookJp＋JP_MET）、美國／台灣＝明軒一句（認識明軒）。沒修日文的「日本那一區，以安已經坐在第一排。」不放（開頭已經有以安坐第一排那一句）；選項的字照遊戲原本的（坐到…那一區）*/
   { id:'ev_exchange_expo_y2', title:'交換學生甄選說明會', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
-    dialogue:[ {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安坐在第一排。）'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'日本。我國中就決定了。'},
+    dialogue:[ {if:EV_KNOWS('classmate_mingxuan'),speaker:'classmate_mingxuan',text:'我想去。……交換要先存錢，我算過了。'},{if:EV_KNOWS('classmate_mingxuan'),speaker:'classmate_mingxuan',text:'要再多教兩個家教學生。'},
+      {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安坐在第一排。）'},{if:EV_KNOWS('heroine_01'),speaker:'heroine_01',expression:'neutral',text:'日本。我國中就決定了。'},
       {choice:[{text:'（坐到日本那一區）',set:{EXPO_COUNTRY:'日本'}},{text:'（坐到美國那一區）',set:{EXPO_COUNTRY:'美國'}},{text:'（坐到台灣那一區）',set:{EXPO_COUNTRY:'台灣'}}]},
+      {if:{flagIs:{EXPO_COUNTRY:'日本'},custom:G=>!!(G.flags&&G.flags.JP_MET)&&typeof BBPACK!=='undefined'&&BBPACK.tookJp(G)},speaker:'采蓁',text:'欸，日文課的！你也想去日本？'},
+      {if:{flagIs:{EXPO_COUNTRY:'日本'},custom:G=>!!(G.flags&&G.flags.JP_MET)&&typeof BBPACK!=='undefined'&&BBPACK.tookJp(G)},speaker:'采蓁',text:'獸醫系走不開。……可是看看也好。'},
+      {if:{flagIs:{EXPO_COUNTRY:'美國'},custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_mingxuan',G)},speaker:'classmate_mingxuan',text:'美國區。……我坐這裡，不代表付得起。'},
+      {if:{flagIs:{EXPO_COUNTRY:'台灣'},custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows('classmate_mingxuan',G)},speaker:'classmate_mingxuan',text:'你只是來聽聽？……我也是。聽聽不用錢。'},
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'交換要成績多少？'},
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'heroine_01',expression:'neutral',text:'簡章第三頁有寫，我等一下傳給你。'},
       {if:EV_KNOWS('heroine_01','classmate_bohan'),speaker:'classmate_bohan',expression:'neutral',text:'好。'} ],   /* AA_255 第 4 節第 7 點（附錄 A：原本「我查過了。你夠。」「……我是問妳。」是收尾梗、以安替人打分；AA_375 第 4 節提醒）*/
@@ -3486,7 +3492,7 @@ const STORY_EVENTS=[
         {text:'「第一段照考試的格式。第二段，放機車行老闆說的話。」',if:{flags:['MOOT_BIKE_SHOP']},goto:'third'},{text:'「第一段照考試的格式。第二段，講當事人那天的事。」',unless:{flags:['MOOT_BIKE_SHOP']},goto:'third'}]},
       {label:'an'},{speaker:'heroine_01',expression:'smile',text:'……謝謝。'},{speaker:'classmate_bohan',expression:'neutral',text:'（沉默三秒）好。那考試的寫法，放附錄。'},{goto:'end'},
       {label:'han'},{speaker:'classmate_bohan',expression:'neutral',text:'對吧。'},{speaker:'heroine_01',expression:'neutral',text:'（把手帳闔起來）好。……我去買飲料。'},{speaker:null,text:'（她回來的時候，買了三杯。）'},{goto:'end'},
-      {label:'third'},{speaker:'以安、柏翰',text:'……可以。'},{speaker:'heroine_01',expression:'smile',text:'理由：兩個人都不用讓。'},{speaker:'classmate_bohan',expression:'neutral',text:'……我還是覺得附錄比較安全。'},{set:{MOOT_THIRD:true}},
+      {label:'third'},{speaker:'以安、柏翰',text:'……可以。'},{speaker:'heroine_01',expression:'smile',text:'這樣兩個人都不用讓。'},   /* AA_426 第 5 節（企劃線 967b4273a）：原本「理由：兩個人都不用讓。」，AA_143 第 229 行已改 */{speaker:'classmate_bohan',expression:'neutral',text:'……我還是覺得附錄比較安全。'},{set:{MOOT_THIRD:true}},
       {label:'end'} ] },
   { id:'ev_moot_4', retired:'使用者 2026-10-17 刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252：改成大四專題討論的法院旁聽）：停用，舊存檔的旗標留著、不再讀', title:'最長的十秒', participants:[], location:'wancai', trigger:'activity', once:true, background:'blur',
     dialogue:[ {speaker:'heroine_05',expression:'smile',text:'一件事。我前陣子放榜了，心情很好。所以今天會問得比較兇。'},

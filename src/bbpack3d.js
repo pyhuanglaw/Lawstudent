@@ -82,6 +82,11 @@ const BBPACK=(function(){
   S.l389Q=G=>typeof OUT==='undefined'?null:OUT.rec(G).find(q=>/^kx_od_/.test(q.id)&&q.state==='planned'&&q.odPlace==='ntu'&&q.day===G.day&&q.h-(+G.hour||0)>=0.25-1e-6&&q.h-(+G.hour||0)<=1+1e-6)||null;
   S.l389Due=G=>law(G)&&G.flags.dating_kexin===true&&!done(G,'ev_kx_pinyu_soc')&&S.beforeKey(G,'2028-07-01')&&!!S.l389Q(G)&&S.here('econ_pinyu',G)&&!S.away('econ_pinyu',G);
 
+  /* ---------------- BB_154 S-3 阿凱的鍵盤：三種結尾都記 KAI_KEYBOARD（阿凱的記憶；大二 needed_msgs.js 的 kai_kb 讀它）----------------
+     記憶的中文名稱：social3d.js 的 MEMORY_LABEL 還沒有這一條，這裡補上（之後搬進 social3d.js 就可以拿掉）*/
+  const KB_TAG='KAI_KEYBOARD';
+  S.kaiKb=G=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.remember||SOCIAL.has('kai',KB_TAG)) return; SOCIAL.remember('kai',KB_TAG,'大一下幫他查網拍鍵盤少一顆鍵的事'); };
+  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL&&!SOCIAL.MEMORY_LABEL[KB_TAG]) SOCIAL.MEMORY_LABEL[KB_TAG]='幫他查過網拍鍵盤的事';
   /* ---------------- 手機 ---------------- */
   const P=()=>typeof PHONE!=='undefined'?PHONE:null;
   const win=(G,d,h0,d1,h1)=>d!=null&&now(G)>=d*24+h0&&now(G)<(d1!=null?d1:d)*24+h1;
@@ -107,6 +112,12 @@ const BBPACK=(function(){
     if(F.JP_MET) for(const [t,ev,topic] of [['Y2S1','ev_jp_g4c1','點餐'],['Y2S2','ev_jp_g4c2','問路']]){ const sun=TD(t,15,7), mon=TD(t,16,1); if(sun==null) continue;
       if(win(G,sun,20,sun,21.5)){ S.jpJoin(G); ph.at(G,sun,20,[{th:'g:jp_class',name:'采蓁',text:'明天口試，今晚要不要一起練？博雅小桌，九點。'}],'jp_g4c_'+t); }
       if(mon!=null&&win(G,mon,12,mon+2,0)&&ph.sent(G,'jp_g4c_'+t)&&!done(G,ev)) ph.at(G,mon,12,[{th:'g:jp_class',name:'采蓁',text:'我們昨天練了'+topic+'那題。'}],'jp_g4c_no_'+t); }
+    /* BB_154 S-3：問學長＝當晚 23:00 家族群組 Kevin 三句（BB_70 8b）＋23:05 阿凱私訊；週六法服沒去＝那天 12:30 阿凱私訊兩句（稿「學姊講了三分鐘」：大一的週六法服是社長帶，換成「社長」）。都記 KAI_KEYBOARD */
+    if(F.KAI_KB_ASK==='kevin'&&F.KAI_KB_DAY!=null&&!ph.sent(G,'bb_kai_kb_kevin')){ const d=F.KAI_KB_DAY, kv=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t});
+      ph.at(G,d,Math.max(23,d===G.day?(+G.hour||0):0),(ph.inGroup(G,'family_law')?[kv('先截圖賣場頁面和你們的對話。'),kv('少一顆鍵算不算『跟說好的不一樣』，要看當初怎麼說。'),kv('還不確定就週六早上去法服問。')]:[]).concat([{th:'p:kai',from:'kai',text:'你們法律系的人原來要查這麼久'}]),'bb_kai_kb_kevin'); S.kaiKb(G); }
+    { const sat=TD('Y1S2',7,6); if(F.KAI_KB_ASK==='fafu'&&win(G,sat,12.5,sat+7,0)&&!done(G,'ev_kai_keyboard_fafu')&&!ph.sent(G,'bb_kai_kb_miss')){ ph.at(G,sat,12.5,[{th:'p:kai',from:'kai',text:'你沒來 我自己去了 社長講了三分鐘'},{th:'p:kai',from:'kai',text:'你們法律系的人原來要查這麼久'}],'bb_kai_kb_miss'); S.kaiKb(G); } }
+    /* BB_171 第 3 節：大一跨年（2026-01-01 00:00），家族群組 Kevin 傳信義區的煙火照片＋新年快樂（不點名大樓，D77）。學姊接在後面的第一張貼圖：AA_218 第 589 行刪了（她不在群組主動發言）*/
+    { const ny=D('2026-01-01'); if(win(G,ny,0,ny+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,ny,0,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（信義區的煙火）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'新年快樂'}],'bb_nye_kevin_y1'); }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
     { const t=term(G), wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:0;
       if(t&&!t.exam&&wd===3&&(+G.hour||0)>=20&&(+G.hour||0)<22&&['Y1S1','Y1S2','Y2S1'].includes(t.id)&&(t.id!=='Y1S1'||t.week>=10)&&S.beforeKey(G,'2026-12-17')&&ph.inGroup(G,'public_law')&&knows(PS)&&S.here(PS,G)
