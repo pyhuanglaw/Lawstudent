@@ -14,8 +14,10 @@
 const Y5=(function(){
   const S={};
   const law=G=>!!G&&(G.stage||'law')==='law';
-  S.delayed=G=>law(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G);
-  S.us=G=>S.delayed(G)&&STORY.routeAbroadRoute(G)==='US';
+  S.exch=G=>law(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G);
+  S.delayed=G=>S.exch(G)||(law(G)&&!!(G.flags&&G.flags.FAIL_DELAY));   /* ＋大四下被當的延畢（D14-T5B，AA_421；src/faildelay3d.js）*/
+  S.us=G=>S.exch(G)&&STORY.routeAbroadRoute(G)==='US';
+  S.internOn=G=>S.exch(G)||(S.delayed(G)&&typeof FD!=='undefined'&&FD.lp(G));   /* 週二實習：交換那一版（被當的是法律實習也照這一版）*/
   /* 延畢的玩家這一天在大五上：{id:'Y5S1',week,…}；不是＝null */
   S.term=(G,day)=>{ if(!S.delayed(G)||typeof CALENDAR==='undefined'||!CALENDAR.termOfDelayed) return null; return CALENDAR.termOfDelayed(day==null?G.day:day); };
   S.on=G=>!!S.term(G);
@@ -31,14 +33,16 @@ const Y5=(function(){
   const course=id=>typeof COURSES!=='undefined'&&COURSES.list?COURSES.list.find(c=>c.id===id)||null:null;
   const am=()=>(typeof COURSES!=='undefined'&&COURSES.blocks&&COURSES.blocks.am)||{t0:9+10/60,t1:12+10/60};
   /* 補修的那一堂：{key, c（大四上那一門）, label, t0, t1, day, week, slot, bg} */
-  S.classItems=function(G,day){ const d=day==null?G.day:day, t=S.term(G,d); if(!t||!S.us(G)||typeof CALENDAR==='undefined'||CALENDAR.holiday(d)) return []; const wd=wdOf(d), B=am(), out=[];
-    for(const m of S.MAKEUP){ if(m.wd!==wd) continue; const c=course(m.id); if(!c) continue; out.push({key:d+':'+m.id,c,label:m.label,t0:B.t0,t1:B.t1,day:d,week:t.week,term:'Y5S1',slot:{wd,block:'am'},bg:m.bg}); } return out; };
+  S.classItems=function(G,day){ const d=day==null?G.day:day, t=S.term(G,d); if(!t||typeof CALENDAR==='undefined'||CALENDAR.holiday(d)) return []; const wd=wdOf(d), B=am(), out=[];
+    if(S.us(G)) for(const m of S.MAKEUP){ if(m.wd!==wd) continue; const c=course(m.id); if(!c) continue; out.push({key:d+':'+m.id,c,label:m.label,t0:B.t0,t1:B.t1,day:d,week:t.week,term:'Y5S1',slot:{wd,block:'am'},bg:m.bg}); }
+    if(typeof FD!=='undefined'&&FD.items) for(const it of FD.items(G,d)) if(!out.some(x=>x.slot.wd===it.slot.wd&&x.slot.block===it.slot.block)) out.push(it);   /* 被當的那一門重修（AA_421 1-5；交換路線又被當的也加，和補修衝堂的不排）*/
+    return out.sort((a,b)=>a.t0-b.t0); };
   /* done 上過了／open 現在去來得及（開始前 1 小時起、下課前 15 分鐘以前）／upcoming／missed（同 us_life3d.js）*/
   S.status=(G,it)=>{ const R=S.rec(G); if(R.cls[it.key]) return 'done'; if(it.day<G.day||(it.day===G.day&&G.hour>=24)) return 'missed'; if(it.day>G.day) return 'upcoming'; const h=hh(G); if(h>=it.t1-0.25) return 'missed'; return h>=it.t0-1?'open':'upcoming'; };
   /* 今日頁那一行：放假 → 補修 → 週二實習 → 9/3 的選擇（週一～週五）*/
   S.dayLine=function(G,day){ const d=day==null?G.day:day; if(!S.term(G,d)) return null; const hol=CALENDAR.holiday(d); if(hol) return '今天放假（'+hol+'），沒有課';
     const its=S.classItems(G,d); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.label).join('、');
-    const wd=wdOf(d); if(wd===2) return '今天：'+S.INTERN_TEXT;
+    const wd=wdOf(d); if(wd===2&&S.internOn(G)) return '今天：'+S.INTERN_TEXT;
     const dt=S.DAYS_TEXT[G.flags&&G.flags.Y5_DAYS]; if(wd<=5&&dt) return '今天：'+dt;
     return '今天沒有課'; };
   /* ---------- 包住課表系統（只在延畢的大五上改結果）---------- */
@@ -52,7 +56,8 @@ const Y5=(function(){
       for(const it of its){ const s=S.status(G,it); add+='<div class="item phrow"><div><b>'+hm(it.t0)+'–'+hm(it.t1)+'</b> '+esc(it.label)+'<div class="muted">'+esc((it.c&&typeof CLS.roomName==='function'?CLS.roomName(it.c):'')||'')+(it.c?'・'+esc(CLS.profName(it.c)):'')+'・'+ST[s]+'</div></div>'+((s==='open'||s==='upcoming')&&!home?'<button class="btn" data-y5go="'+esc(it.key)+'">直接去上課</button>':'')+'</div>'; }
       const line='<div class="item">'+esc(CLS.todayLine(G))+'</div>', i=h.indexOf(line); return i>=0?h.slice(0,i)+add+h.slice(i+line.length):h+add; };   /* 「今天的課」那一行換成補修的那一堂＋「直接去上課」*/
     if(week0) CLS.weekHTML=function(G){ const t=G?S.term(G):null; if(!t) return week0.apply(this,arguments);
-      let h='<div class="item"><b>'+esc(CLS.termName(t.id))+'</b>・第 '+t.week+' 週</div><div class="item"><b>'+esc(S.INTERN_TEXT)+'</b><div class="muted">'+esc(CLS.WD[2])+'</div></div>';
+      let h='<div class="item"><b>'+esc(CLS.termName(t.id))+'</b>・第 '+t.week+' 週</div>'+(S.internOn(G)?'<div class="item"><b>'+esc(S.INTERN_TEXT)+'</b><div class="muted">'+esc(CLS.WD[2])+'</div></div>':'');
+      if(typeof FD!=='undefined'&&FD.slots) for(const x of FD.slots(G)){ const b=(COURSES.blocks||{})[x.slot.block]||am(); h+='<div class="item"><b>'+esc('重修：'+FD.cname(x.c.id))+'</b><div class="muted">'+esc(CLS.WD[x.slot.wd])+' '+hm(b.t0)+'–'+hm(b.t1)+(typeof CLS.roomName==='function'?'・'+esc(CLS.roomName(x.c)):'')+'</div></div>'; }
       if(S.us(G)) for(const m of S.MAKEUP){ const c=course(m.id); if(!c) continue; const B=am(); h+='<div class="item"><b>'+esc(m.label)+'</b><div class="muted">'+esc(CLS.WD[m.wd])+' '+hm(B.t0)+'–'+hm(B.t1)+(typeof CLS.roomName==='function'?'・'+esc(CLS.roomName(c)):'')+'</div></div>'; }
       return h; }; }
   /* ---------- 一鍵上課（美國路線的補修）---------- */
@@ -64,6 +69,7 @@ const Y5=(function(){
       const arrive=Math.max(now(G)+(home?0.5:0.25),T(it.day,it.t0)); if(arrive>now(G)) GM.advance(arrive-now(G));   /* 從家裡：捷運＋公車約 30 分鐘；早到就等到上課 */
       R.cls[it.key]=1;
       if(A&&A.begin) A.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(it.bg):'dark'}); await GM.fade(false);
+      { const fl=typeof FD!=='undefined'&&FD.firstLine?FD.firstLine(G,it):null; if(fl) await GM.say({name:'老師'},fl); }   /* 重修第一次上課：課名字卡後面老師一句（AA_421 1-5）*/
       let ct=null; try{ ct=CLS.content({c:it.c,week:it.week,day:it.day,slot:it.slot,key:it.key,t0:it.t0,t1:it.t1}); }catch(e){ console.warn('Y5 content',e); }
       if(ct&&ct.line) await GM.say(null,(ct.prof||CLS.profName(it.c))+'：'+ct.line);   /* 課堂內容重播大四上那一門那一週（CLS.content：審查過的週照 BB 的課堂、其他週照一般句子）*/
       if(ct&&ct.react) await GM.say(null,ct.react);
@@ -131,7 +137,7 @@ const Y5=(function(){
   S.MSGS=[{tag:'pg_moon29',at:['2029-09-20',21],cond:G=>graduatedPG(G)&&inNoodle(G),items:G=>S.moonMsg(G)}];
   S.EVS=[{id:'ev_pg_moon29',title:'中秋',participants:[],location:'any',trigger:'outing',background:'dark',hours:1.5,dialogue:[],
     beforeOuting:async(G,GM,q)=>{ await S.moonScene(GM); }, outingMissed:(G,GM,q)=>{ if(G.flags.MIDAUTUMN_2029==null) G.flags.MIDAUTUMN_2029='no'; S.moonRules(G); }}];
-  S.STEPS=[{id:'y5_intern4',at:G=>T(DKy('2029-12-18'),10),until:G=>T(DKy('2029-12-20'),24),cond:G=>S.delayed(G),run:GM=>S.intern4(GM)}];
+  S.STEPS=[{id:'y5_intern4',at:G=>T(DKy('2029-12-18'),10),until:G=>T(DKy('2029-12-20'),24),cond:G=>S.internOn(G),run:GM=>S.intern4(GM)}];
 
   /* ======================= 掛上去 ======================= */
   if(typeof PG!=='undefined'){ if(Array.isArray(PG.MSGS)) for(const m of S.MSGS) if(!PG.MSGS.some(x=>x.tag===m.tag)) PG.MSGS.push(m); if(Array.isArray(PG.STEPS)) for(const s of S.STEPS) if(!PG.STEPS.some(x=>x.id===s.id)) PG.STEPS.push(s); }
