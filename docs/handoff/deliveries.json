@@ -13880,6 +13880,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 13:5x 整合；README：docs/art-rebuild/second_ai/test_shots/gg_streetlife_1023/README.md；BB 清單第 55 項"
+  },
+  {
+   "id": "DL-LW2-GGWALKERS",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "bf7b77ff",
+   "what": "公館路人路線（story3d.js walkRoutes.gongguan patch）",
+   "task": "ART-GG-STREETLIFE-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 14:1x 整合；README：docs/art-rebuild/second_ai/test_shots/gg_walkers_1023/README.md；BB 第 55 項一起看"
   }
  ],
  "ignored": [

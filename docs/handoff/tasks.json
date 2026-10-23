@@ -30610,7 +30610,7 @@
    },
    "source": "LAWWW2-B 10-23 12:15 提案（ART-SHOP-VIEWS-1023 第一批交件）；使用者 10-23「店面外看出去的景也都很假」",
    "authorized": "D108、D111（LAWWW-B 10-23 13:0x 同意）",
-   "next": "【LAWWW-B 10-23 13:5x】合併 5fed31e9：騎樓柱子外 69 台機車（14 段、LOD 40 m）、兩個腳踏車停車架、行道樹五棵；麵店、書店窗景景深＋三家窗景重拍；gongguan_layout_nav 51 PASS、reachability gongguan、street_props_nav、nav_buildings ALL PASS；效能最重鏡頭 27.2→33.3 萬三角形、147→167 draw call；路人路線（兩條）同意加，LAWWW2 下一個小 patch；BB 清單第 55 項 ｜ 排在 WZ-CAT-LIFE-1023、SQ16 輪轉單車互動點之後；會動 GG_PROP_BLOCKS／導航：交件前跑 gongguan_layout_nav.py、street_props_nav_unit.js、reachability_all.py 公館段、附截圖",
+   "next": "【LAWWW-B 10-23 14:1x】路人路線 bf7b77ff 合併（story3d walkRoutes.gongguan：廣場繞圓環北側一條、z 16.5→16、x −30→−22；騎樓裡那條沒加＝騎樓只有 2.4 m、放不下 ±1 m 偏移；人數不變）；lane118_walkers、socsci_place、street_props_nav ALL PASS ｜ 【LAWWW-B 10-23 13:5x】合併 5fed31e9：騎樓柱子外 69 台機車（14 段、LOD 40 m）、兩個腳踏車停車架、行道樹五棵；麵店、書店窗景景深＋三家窗景重拍；gongguan_layout_nav 51 PASS、reachability gongguan、street_props_nav、nav_buildings ALL PASS；效能最重鏡頭 27.2→33.3 萬三角形、147→167 draw call；路人路線（兩條）同意加，LAWWW2 下一個小 patch；BB 清單第 55 項 ｜ 排在 WZ-CAT-LIFE-1023、SQ16 輪轉單車互動點之後；會動 GG_PROP_BLOCKS／導航：交件前跑 gongguan_layout_nav.py、street_props_nav_unit.js、reachability_all.py 公館段、附截圖",
    "xai": {
     "spec": "LAWWW2-B 10-23 12:15 提案",
     "owner": "LAWWW2",
