@@ -8,7 +8,8 @@
    - AA_311（118 巷每間店的故事）：H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）。其餘 H2～H9、熟客三段招呼還沒做。
    - 順手的事（AA_397，src/sideq3d.js）：點完餐最後叫 SIDEQ.atShop（慢讀咖啡、六張犁麵舖、好家自助餐、蛋包飯研究所；第二、三批 AA_404／405：滇香小館、巷口家常菜、Pasta 118、韓食小廚、一一八茶飲）；
      六張犁麵舖公休那兩週（SQ05）isOpen＝false、點餐＝門上那張紙；Pasta 118 做完 SQ12 的下學期起，一個人來的招呼換 SIDEQ.greet、她補一句 SIDEQ.greetMore。
-   測試：node tests/lane118_unit.js、node tests/aa397_sideq_unit.js */
+   - 她們各自喜歡吃的（AA_410，src/foodfav3d.js）：點完自己的那一句之後 FAV.l118（一起來的常客＝也幫她點；一個人來滇香＝老闆娘那兩句）；選對的那一次常客吃完那一句不說。
+   測試：node tests/lane118_unit.js、node tests/aa397_sideq_unit.js、node tests/aa410_food_fav_unit.js */
 'use strict';
 const L118=(function(){
   const S={};
@@ -82,10 +83,11 @@ const L118=(function(){
       if(k>=s.menu.length) return true; const [item,price]=s.menu[k];
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item));
+      const fav=typeof FAV!=='undefined'&&FAV.l118?await FAV.l118(GM,shopId,comp):null;   /* 她們各自喜歡吃的（src/foodfav3d.js，AA_410）：一起來的常客＝也幫她點；一個人來滇香＝老闆娘說語彤的點法。fav＝這一次選對的人 */
       GM.advance(s.type==='手搖飲'?5/60:40/60); if(typeof EAT!=='undefined') await EAT.ordered(GM,s.name,item);   /* 吃過的、第一次的旁白（AA_329 第 2 節）*/
       const h1=S.h1Due(G,shopId,h0);   /* AA_311 H1：飲料做好、拿到手的時候（一起來的人那一句之後、走回巷口以前）*/
-      if(comp.length){ for(const id of comp){ const t=lineOf(id,shopId); if(t) await GM.say(GM.npc&&GM.npc[id]||{name:nm(id),charId:id},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'meal'); } }
-      if(h1) await S.playH1(GM,clerk);
+      if(comp.length){ for(const id of comp){ const t=lineOf(id,shopId); if(t&&!(fav&&fav.has(id))){ await GM.say(GM.npc&&GM.npc[id]||{name:nm(id),charId:id},t); if(typeof FAV!=='undefined'&&FAV.heard) FAV.heard(GM,id,shopId); } if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'meal'); } }   /* 選對的那一次她剛才那兩句代替吃完的那一句；以安、沛珊在蛋包飯研究所的那一句＝知道（AA_410）*/
+      if(h1){ await S.playH1(GM,clerk); if(typeof FAV!=='undefined'&&FAV.sync) FAV.sync(GM); }   /* H1 店員那兩句＝知道學姊的點法：筆記本那一行（AA_410）*/
       if(!comp.length&&!(typeof EAT!=='undefined'&&await EAT.together(GM,s.name))) await GM.say(null,s.done);   /* 店裡有認識的人在吃：坐過去一起吃（AA_329 第 1 節）*/
       const L=S.lunchNow(G); if(L&&L.shop===shopId) L.done=true;
       if(typeof SIDEQ!=='undefined'&&SIDEQ.atShop){ try{ await SIDEQ.atShop(GM,s.name,{item,price}); }catch(e){ console.warn('SIDEQ',e); } }   /* 順手的事：店員偶爾多一句（AA_397）*/

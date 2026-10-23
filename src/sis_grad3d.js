@@ -256,7 +256,7 @@ const SISG=(function(){
   S.playSeg=async function(GM){ const G=GM.G, q=S._seg; S._seg=null; if(!q) return false; const her=S.who();
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload([ID]); ADV.begin({background:'blur',right:{charId:ID,expression:'neutral'}}); }
       for(const [sp,t] of S.SEG[q.k]) await GM.say(sp?her:null,t);
-      if(q.k===5){ const k=await GM.choose([{t:'「一一八的店員。」'},{t:'（不說）'}]); if(k===0) await GM.say(her,'……她記性比我好。謝謝。'); else await GM.say(null,'（她喝了一口，在便利貼上寫：「謝謝。下次換我。」推過來。）'); }
+      if(q.k===5){ G.flags.SISG_SEG5=G.day;   /* 演過第 5 段（她說過「誰跟你說的」）：之後在一一八茶飲幫她點對，換「又是她說的。」那兩句（AA_410，src/foodfav3d.js）*/ const k=await GM.choose([{t:'「一一八的店員。」'},{t:'（不說）'}]); if(k===0) await GM.say(her,'……她記性比我好。謝謝。'); else await GM.say(null,'（她喝了一口，在便利貼上寫：「謝謝。下次換我。」推過來。）'); }
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
 

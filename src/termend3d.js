@@ -254,6 +254,7 @@ const TERMEND=(function(){
   S.kexinDinner=async function(GM,te){ const G=GM.G, Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!K||!PL) return false;
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(PL.bg):'dark',right:{charId:'kexin',expression:'smile'}});
     await GM.say(null,PL.open);
+    if(typeof FAV!=='undefined'&&FAV.kexinDate) await FAV.kexinDate(GM,te,{name:nm('kexin'),charId:'kexin'});   /* 帶給她的那一杯（巷口茶飲，src/foodfav3d.js，AA_410）：開頭、她的第一句之前 */
     if(K.first){ const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_revisit_y1_kexin'):null; if(ev&&typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(ev.dialogue,ev); if(ev&&typeof ev.after==='function') ev.after(G); }   /* BB_167 4-3：八段回憶挑一段（REVISIT_Y1 照記，大四主線 10 讀）*/
     else { await run(GM,'kexin',lines(K.table,G)); const A0=Lx.KX_ASK&&Lx.KX_ASK[te.term], A=typeof A0==='function'?A0(G):A0;   /* AA_401：table 兩句後面的二選一 */
       if(Array.isArray(A)&&A.length&&GM.choose){ const k=await GM.choose(A.map(o=>({t:o.t}))), o=A[k]||A[0]; await run(GM,'kexin',o.r);

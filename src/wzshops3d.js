@@ -123,7 +123,7 @@ const WZS=(()=>{
     if(i==null||i>=items.length) return false; const [nm,p]=items[i]; if((G.money|0)<p){ GM.toast('錢不夠'); return false; }
     if(p) GM.money(-p);
     const ol=typeof LANE118_SHOPS!=='undefined'&&LANE118_SHOPS.orderLine;
-    const run=async()=>{ if(ol) await GM.say(null,ol.replace('{品名}',nm)); GM.advance(D.h); let tg=false;
+    const run=async()=>{ if(ol) await GM.say(null,ol.replace('{品名}',nm)); if(k==='tea'&&typeof FAV!=='undefined'&&FAV.wzTea) await FAV.wzTea(GM);   /* 和可昕的學期末約會出發前一小時內：「帶一杯給可昕」（src/foodfav3d.js，AA_410）*/ GM.advance(D.h); let tg=false;
       if(E_){ if(D.dine) tg=await E_.after(GM,D.key,nm); else await E_.ordered(GM,D.key,nm); }   /* 內用：吃過的＋一起吃（AA_329）；外帶：只記吃過的 */
       if(!tg&&D.done) await GM.say(null,D.done); };   /* 吃完（一個人）的旁白（第 5 節第 4 點）；一起吃了＝結尾換成一起吃的那一句 */
     if(D.dine) await seated(GM,run); else await run();
