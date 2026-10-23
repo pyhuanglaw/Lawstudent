@@ -1,0 +1,12 @@
+diff --git a/index.html b/index.html
+index dcbfdfb64..339fb4ada 100644
+--- a/index.html
++++ b/index.html
+@@ -384,5 +384,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/loans3d.js?v=9.10.4"></script>
+ <script src="src/data/food_fav_lines.js?v=9.10.4"></script>
+ <script src="src/foodfav3d.js?v=9.10.4"></script>
++<script src="src/data/multirel_lines.js?v=9.10.4"></script>
++<script src="src/multirel3d.js?v=9.10.4"></script>
+ <script>GAME.boot();</script>
+ </body></html>
