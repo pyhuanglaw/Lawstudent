@@ -19082,7 +19082,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：在設 GRADUATED 的三處一起設 G.flags.GRAD_DONE（或讓 skipIf 讀 GRADUATED）；再對 BB_210 清單的 invites／encounters 口頭禪、story3d 備用句逐項核對 ｜ 階梯 ladder_bb_y4s2 已匯入（白名單 54ae1a94）；其餘照 D81 在大四下排（和 AA263-Y4S2 一起）",
+   "next": "【LAWWW-B 10-23 19:1x】GRAD_DONE 已經有人補了（story3d.js 撥穗那一行、postgrad3d.js:195、270）；剩 BB_210 清單的 invites／encounters 口頭禪、story3d 備用句逐項核對 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：在設 GRADUATED 的三處一起設 G.flags.GRAD_DONE（或讓 skipIf 讀 GRADUATED）；再對 BB_210 清單的 invites／encounters 口頭禪、story3d 備用句逐項核對 ｜ 階梯 ladder_bb_y4s2 已匯入（白名單 54ae1a94）；其餘照 D81 在大四下排（和 AA263-Y4S2 一起）",
    "first": {
     "term": "Y4S2",
     "week": 1,
@@ -19813,7 +19813,7 @@
    "id": "PS-RESULTS-1018",
    "title": "沛珊放榜回來（2027-08-06）：ev_peishan_results 戀愛版（BB_119 1b-3＋BB_97 4-4），PS_KEPT 版第一句後接兩句（AA_276 6-2）——遊戲裡還沒有這個事件",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "prio": "P2",
    "first": {
     "term": "Y2S2",
@@ -19826,7 +19826,7 @@
     "confirmed": true
    },
    "src": "AA_276 第 6-2 節（AA-C 4fbabbee／9e875a10）；BB_119 1b-3；BB_97 4-4",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 BB_119 1b-3＋AA_276 6-2＋AA_282 第 1 節做 ev_peishan_results（2027-08-06 10:00 私訊、12:00 總圖外面的台階，CG BCG-22；PS_KEPT 版第一句後接兩句）；演完設 PS_RECONNECT ｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜【02:4x LAWWW-C】放榜後重新聯絡上（AA_282 第 2 節，她回「我現在在台南」）的時候要設 G.flags.PS_RECONNECT=true：資料頁大三、大四的「教育系」讀這個旗標（SOCIAL.yearTag）。｜讀 BB_119 1b-3、BB_97 4-4 全文，照日子（10:00 私訊、12:00 總圖外面的台階）實作；STORY.PS_KEEP_BACK 已在資料裡",
+   "next": "【LAWWW-B 10-23 19:1x】交往中的版本做完：src/psresults3d.js（ev_peishan_results；10:00、10:02 訊息、12:00 總圖外面的台階 must、12:15 等、13:00 帶到場、在家快轉停點；BCG-22；PS_KEPT 那一句；三個回答；PS_RECONNECT）。tests/psresults_unit.js 全過；BB 第 74 項。背景暫用 ntu_avenue（總圖白天外景沒圖）。沒做：交往中（和別人）的「我考上了。」、班群「沛珊考上了！」——和 AA_282「她不先找人」衝突，已問 AA ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 BB_119 1b-3＋AA_276 6-2＋AA_282 第 1 節做 ev_peishan_results（2027-08-06 10:00 私訊、12:00 總圖外面的台階，CG BCG-22；PS_KEPT 版第一句後接兩句）；演完設 PS_RECONNECT ｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜【02:4x LAWWW-C】放榜後重新聯絡上（AA_282 第 2 節，她回「我現在在台南」）的時候要設 G.flags.PS_RECONNECT=true：資料頁大三、大四的「教育系」讀這個旗標（SOCIAL.yearTag）。｜讀 BB_119 1b-3、BB_97 4-4 全文，照日子（10:00 私訊、12:00 總圖外面的台階）實作；STORY.PS_KEEP_BACK 已在資料裡",
    "priority": "P2",
    "audit": [
     {
