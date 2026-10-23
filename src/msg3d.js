@@ -103,7 +103,7 @@ const MSG=(function(){
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
-    if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out; }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；生日、新年等第二批話題的英國句子還沒有，先不開 */
+    if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out.concat(S.ukTopics2?S.ukTopics2(G,id,o):[]); }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；第二批只開生日（9/28）、新年（1/1）兩個，句子和回覆在 src/zr_uk3d.js（AA_419 第 3 節，MSG.ukTopics2）；謝謝、還好嗎照舊不開。每月／每週的視訊也在那裡 */
     for(const q of TOPICS){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
         if(id==='heroine_03') continue; }   /* 語彤社會系：問課不出現（AA_202 6-3） */
