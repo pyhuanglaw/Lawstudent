@@ -1769,7 +1769,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "AA_391 第 1 節「之後」那一列；D111"
+   "note": "AA_391 第 1 節「之後」那一列；D111；10:2x 改大一 2025-12-22（和 AA_386 3-1 大二聖誕夜重複），LAWWW 要改已實作的 9dcbb19d"
   }
  ],
  "items": [
