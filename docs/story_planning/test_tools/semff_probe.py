@@ -260,6 +260,8 @@ async def wait_idle(pg, cdp, secs=240, pref=None):
         await pg.wait_for_timeout(1000)
     return None
 
+SUBJ49 = ['憲法', '刑法總則', '民法總則', '經濟學原理', '整理這週的筆記']   # 讀書：選多久以後的「讀哪一科」
+
 async def desk_menu(pg, cdp, run):
     d = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.deskStudy&&!i.hidden); return it?[it.x,it.z,it.label||'']:null; })()")
     if not d: say('   ⚠ 這一區沒有書桌'); return []
@@ -333,7 +335,7 @@ async def sl49(p, run, base, sid):
             cs = await desk_menu(pg, cdp, run); await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1200)
             ls = await pg.evaluate(CHQ); res['lengths'] = ls
             run.check('%s：讀多久的選單（讀 1 小時沒有變灰）' % sid, any(c['t'].startswith('讀 1 小時') and not c['dim'] for c in ls), J(ls))
-            await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300)
+            await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300, pref=SUBJ49)   # 選完多久以後還要選一科（BB-B 13:3x：第一次跑沒選科目＝沒開始讀）
             t0 = time.time(); s1 = None
             while time.time() - t0 < 180:
                 s1 = await pg.evaluate(SLOTQ)
@@ -347,7 +349,7 @@ async def sl49(p, run, base, sid):
             await run.shot(pg, '%s_at18' % sid)
             cs = await desk_menu(pg, cdp, run); r0 = next((c for c in cs if c['t'].startswith('讀書')), None)
             run.check('%s：18:00 晚上還能讀（讀書沒有變灰）' % sid, bool(r0) and not r0['dim'], J(cs))
-            await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1200); await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300)
+            await pick(pg, cdp, '讀書'); await pg.wait_for_timeout(1200); await pick(pg, cdp, '讀 1 小時'); await wait_idle(pg, cdp, secs=300, pref=SUBJ49)   # 選完多久以後還要選一科（BB-B 13:3x：第一次跑沒選科目＝沒開始讀）
             await pg.wait_for_timeout(8000); s2 = await pg.evaluate(SLOTQ); res['afterEve'] = s2
             run.check('%s：晚上讀完 1 件（used.ev＝1），晚上用完不跳（%.2f）' % (sid, s2['h']), s2['used'].get('ev') == 1 and s2['h'] < 20.5, J(s2))
             cs2 = await desk_menu(pg, cdp, run); r1 = next((c for c in cs2 if c['t'].startswith('讀書')), None); await run.shot(pg, '%s_eve_gray' % sid)
