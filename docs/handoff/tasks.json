@@ -8053,7 +8053,7 @@
    "title": "邀約回覆依階段變化（BB_123）",
    "area": "D14",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：AA 先修 BB_123 §3 學姊（有男友期間作廢）與沛珊消失期的句子（00_文件狀態表 BB_123 列）；LAWWW 照 DATE.stageNum 分六階＋交往中把 BB_123／AA_127 句子接進 INVITE_DATA.people、記上一句編號不連續重複 ｜ —",
    "priority": "P2",
    "first": {
@@ -8075,7 +8075,8 @@
      "evidence": "src/invites3d.js:103 只有兩檔 band（A 認識／R 朋友），src/data/invites.js people 只有 BB_70 現有句；BB_123 每階三到四句、不連續重複的句子沒匯入（grep「我負責記得我們去過哪裡」等 0 筆）；約會預約句子另外有輪流（date_lines.js、tests/date_book_unit.js 第 9 段）",
      "note": "邀約回覆只分兩檔，BB_123 的階段句沒接"
     }
-   ]
+   ],
+   "notes": "【LAWWW-B 10-23 18:1x】AA_415（企劃線 b113e39d）定稿交了：七位 × 階段＋改天＋婉拒，一句一列；LAWWW-B 子代理實作中（src/data/invite_replies.js＋invites3d.js S.personal）。"
   },
   {
    "id": "D14-T10",
@@ -8112,7 +8113,7 @@
    "title": "節日（三個情人節、一天最多兩場、視訊版、禮物）",
    "area": "D14",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：做七位女主角共用的三個情人節邀約（AA_126 第 7 節＋BB_124 第 0～5 節、AA_127 第 4 節）、國外視訊版、禮物系統（生日、聖誕送禮）；一天最多兩場照 date3d.js 的規則 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：以安 2/14、BB_124 情人節、子晴生日當面都沒有；稿都交了；下一步派子代理照 BB_124、AA_311／AA_337 實作 ｜ —",
    "priority": "P2",
    "first": {
@@ -8134,7 +8135,8 @@
      "evidence": "各人節日事件已有：可昕每年情人節視訊（story3d.js:1770、y2r2_3d.js:152、r2y3a3d.js:313、r2y4a3d.js:367）、以安白色情人節（r2y3b3d.js:279）、聖誕、跨年、七夕；約會一天最多兩場 date3d.js:99。缺通用節日系統：r2y3b3d.js:279 註「2/14 的系統還沒有」、r2y4b3d.js:6「沒有準備禮物的系統」",
      "note": "個別節日事件很多，共用情人節與禮物系統沒有"
     }
-   ]
+   ],
+   "notes": "【LAWWW-B 10-23 18:1x】AA_414（以安、語彤交往中的 2/14 四年、語彤中秋；f2a89770／b1fc4bf3）實作中（子代理）；AA_416 節日總規格（4f4da5ad：三個情人節、生日、聖誕 × 七位、第 6 階／交往中／視訊、一天兩場、禮物）接著做。"
   },
   {
    "id": "D14-T12",
