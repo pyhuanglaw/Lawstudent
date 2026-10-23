@@ -284,6 +284,36 @@
    "task": "ART-GG-FACADE-3D-1023",
    "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說（接在 UA-LAWWW2-1023-04「118店面…外觀還是很2D」後面）",
    "note": "公館店面外觀和 118 巷一樣要做成立體、好看的店面。10-18 ART-GG-SHOPS-1018 做過騎樓店面組件 SF_GG，使用者還是覺得醜；先遊戲內拍、找原因（哪幾家還是舊做法、哪裡看起來平），和 118 巷同一支 wz_street.py 一起做。任務 ART-GG-FACADE-3D-1023 請 LAWWW-B 開"
+  },
+  {
+   "id": "UA-LAWWW2-1023-06",
+   "at": "2026-10-23T08:0x",
+   "quote": "遊戲裡任何現在關起來的空間都可以開始開發 例如進不去的討論室之類的 相關功能如何與劇情連接 請跟AA討論",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "CLOSED-SPACES-1023",
+   "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說",
+   "note": "清單＋提案：docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md（博雅討論室、總圖研究小間與 B1、法學院辦公室、萬才館研討室 B、霖澤館研究室、體育館 3F、美國學姊的房間…）；劇情用途交 AA-B 定；任務 CLOSED-SPACES-1023 請 LAWWW-B 開"
+  },
+  {
+   "id": "UA-LAWWW2-1023-07",
+   "at": "2026-10-23T08:1x",
+   "quote": "公園的貓咪都只在一個位置?",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "WZ-CAT-LIFE-1023",
+   "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說（問句）",
+   "note": "已回答：是，只有一隻、固定趴在小公園老樹圓椅（下雨在涼亭石桌下），姿勢固定 lie；模型有 sit／lie／walk，只用了 lie；只照學期換胖瘦、名牌、繃帶、老毛色（zones3d.js wzCatModel）"
+  },
+  {
+   "id": "UA-LAWWW2-1023-08",
+   "at": "2026-10-23T08:1x",
+   "quote": "貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "WZ-CAT-LIFE-1023",
+   "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說",
+   "note": "LAWWW2：貓照時段、天氣換地方和姿勢、在小公園走動（Blender 骨架＋走路動作）、「摸摸貓」互動；AA-B：哪位女主角收養、時間點、理由、收養後住哪、互動台詞；任務 WZ-CAT-LIFE-1023 請 LAWWW-B 開"
   }
  ]
 }
