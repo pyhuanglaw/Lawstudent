@@ -13997,6 +13997,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 21:0x：patch library_upper_1023 git apply；乾淨 worktree library_upper、library_b1、nav_buildings、guide、lab5f、aa407_loans、b1story、placemap 全 PASS；不進 v9.10.7（候選 d7f40ce91）；劇情（學姊便利貼、方奕廷）待接，LUP.booked／sisPeriod／sisHere／note 是暫定"
+  },
+  {
+   "id": "DL-LW2-GYMCER",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2baf12cb7",
+   "what": "體育館 3F 典禮布置（SET-CEREMONY-1023；AA_399 第 4 節）：gym_arena GLB 多十二學院牌子、gym_layout.js 典禮日（2025-08-31 開學、2029-06-02 畢業）、法律學院 8 座位、spots；GY3.ceremonyDay、ceremonyNav",
+   "task": "SET-CEREMONY-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 21:1x：patch gym_ceremony_1023 git apply；gym_ceremony、gym_arena、gym、nav_buildings PASS；不進 v9.10.7；兩場典禮 2D 換 3D 放人待 LAWWW 接；典禮那天 48 萬三角形手機效能沒測"
   }
  ],
  "ignored": [
