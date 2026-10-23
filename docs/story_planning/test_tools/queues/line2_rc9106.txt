@@ -1,0 +1,5 @@
+# 第二條線：v9.10.6 固定副本 lw6＝9f9e13cc（port 8774）
+pickup aa378_probe.py PICKUP
+v6_msg v6msg_probe.py -
+v6_epizr aa382_probe.py EPI_ZRFY,EPI_ZR
+v6_art v6art_probe.py -
