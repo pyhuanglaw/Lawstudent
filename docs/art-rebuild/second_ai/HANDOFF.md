@@ -1,5 +1,39 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ✅ 接班：2026-10-23 06:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
+- **使用者原話**（06:4x）：「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」（UA-LAWWW2-1023-01）。
+- **值班狀態**：
+  - `duty find` 的結果：RULE_SOURCE＝`origin/claude/confident-ritchie-8rwh7t`（HV-18，登記鏈 seq 23）。
+  - 上一任＝帳號 A 的 LAWWW2，分支 `claude/second-ai-env-art` @ `ff339df1`，10-22 15:09Z 正常交班。
+  - 中間 10-17～10-21 是帳號 C，B 的成果都已經在 A 的分支裡。
+- **合併**：我的分支 `2d88db5f` 是 A 分支的祖先，快轉到 `ff339df1`（560 個 commit；沒有 rebase，也沒有 force push）。
+- **對帳**（都在 RULE_SOURCE 的工作樹跑，`--ref origin/claude/confident-ritchie-8rwh7t`）：
+
+  | 工具 | 結果 |
+  |---|---|
+  | `check` | 1 項異常：HANDOFF-A-1022「已驗收」沒有證據。這是 LAWWW 的任務，已轉告 LAWWW-B |
+  | `incr` | OK |
+  | `duty verify` | OK |
+  | `roles` | OK |
+  | `asks` | OK（177 筆、USER_WANTS 279 列） |
+
+- **HV-15**：`check_orphans` 是全專案的數字：沒用到的素材 49、停住的看板項目 26（沒寫恢復條件的 0）、白名單待接 24。
+  - LAWWW2 暫停中的有兩項：
+    - CHAR-TEMPLATE（下次檢查 10-25，還沒到）；
+    - I16 環境細節（三個優先項目穩定後）。
+- **通訊**（同帳號，值班中）：
+  - claude-code-remote 一開始連線逾時，06:45Z 恢復。
+  - 對 LAWWW-B、AA-B、BB-B 各傳一則測試，都 DELIVERED。
+  - AA-B（06:44）、LAWWW-B（06:45）也主動傳來測試，我都回了 ACK。
+  - BB-B 的 ACK：等它回，收到後補在這裡。
+- **值班登記**：`docs/handoff/duty_LAWWW2.json` state on @ `ff339df1`，等 LAWWW-B 跑 `duty sync`。
+- **D90 ACK**：讀過 D90、D95、D96，以及上次值班之後新增的 D99～D110、HV-12～HV-18，照這些規則工作。
+- **接著做**（照上一任交班的「下一班第一步」，加上 D99 三個優先項目）：
+  1. 沛珊第三十一版（P0，UA-LAWWW2-1022-02）：看試做 s → 正式重做 → 遊戲內重拍、檢查眨眼 → 交件給 LAWWW。
+  2. 林家菜單：拍遊戲內前後截圖 → 交件。
+  3. 照 `check_handoff.py queue --owner LAWWW2` 排下去。
+
+
 ## 🔁 交班（最新）：2026-10-22 15:06 UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`（使用者 15:0x 直接說「現在交班」）
 - **最後的工作 commit**：`d724b106`（已 push，`ls-remote` 核對過）。這一節所在的交班紀錄 commit 在它後面，SHA 寫在交班回報裡。`docs/handoff/duty_LAWWW2.json` 已改成 `handed-off`。
 - **LAWWW 15:05（同帳號、值班中）傳來換班指示**：沛珊存 WIP、林家菜單和入口 B 導航留給下一班、寫「全部待辦」、存快照、`duty handoff`——都照做了（全部待辦在下面一節；快照、登記寫在交班回報）。
