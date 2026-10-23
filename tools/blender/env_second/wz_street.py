@@ -539,6 +539,8 @@ def apartment(spec):
     if SET == 'gongguan' and 'sf' not in spec and spec['id'] in SF_GG and gt == 'arcade': spec = dict(spec, sf=SF_GG[spec['id']])   # ART-GG-SHOPS-1018：公館騎樓店面（wz_shopkit.arcade_front_v2）
     if SET == 'lane118' and 'sf' not in spec and gt == 'shop' and spec.get('lane118') in SF_L118:   # ART-L118-FACADE-3D-1023（使用者 10-23「118店面…外觀還是很2D」）：118 巷九間店改用店面組件＋立體淺店內
         _sf = SF_L118[spec['lane118']]; spec = dict(spec, sf=_sf, shop=dict(spec['shop'], type=_sf.get('kind', spec['shop']['type'])))
+    elif SET == 'lane118' and 'sf' not in spec and gt == 'shop' and spec.get('shop', {}).get('type') in SF_L118_FILL:   # 填空的小店（早餐、影印、洗衣、水果、二手書、文具）照店型
+        spec = dict(spec, sf=SF_L118_FILL[spec['shop']['type']])
     if SET == 'wenzhou' and 'sf' not in spec:   # ART-WZ0（2026-10-16）：溫州街的店面組件（wz_shopkit.py）；公館照舊（騎樓另外一套 SF_GG）
         sfx = SF.get(spec['id']) or SF_HOUSE.get(spec['id']) or SF_SHUTTER.get(spec['id'])
         if sfx: spec = dict(spec, sf=sfx)

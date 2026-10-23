@@ -1025,6 +1025,14 @@ SF_L118 = {
     'noodle2': dict(kind='noodle', inner=True, door='open', sign='wood', awning='stripe_red', floor='f_mosaic', light='warm', ac=-2.8,
                     notes=[('menu', 2.2, 1.2, 0.6, 0.66)], clutter=[('noodle', -1.9, 0.42), ('stool_r', 1.2, 0.5), ('stool_b', 1.7, 0.4), ('bins', 3.0, 0.35)]),
 }
+# 118 巷填空的小店（早餐店、影印、洗衣、水果行、二手書、文具；wz_street.py 的 _FILL）：照店型套店面組件，不讓同一排一新一舊
+SF_L118_FILL = {
+    'teishoku': dict(inner=True, door='open', sign='lightbox', awning='#e0a030', floor='f_white', light='warm', clutter=[('stool_r', -1.2, 0.5), ('bins', 1.4, 0.35)]),
+    'print': dict(inner=True, door='auto', sign='lightbox', awning=None, floor='f_granite', light='cool', rollbox=False, notes=[('copyprice', -1.2, 0.9, 0.62, 0.62)]),
+    'laundry': dict(inner=True, door='alu', sign='panel', awning='#4a90c2', floor='f_terrazzo', light='cool', door_w=1.0, notes=[('hours2', 0.9, 1.2, 0.4, 0.4)], clutter=[('bench', -1.0, 0.4)]),
+    'fruit': dict(inner=True, door='open', sign='panel', awning='stripe_orange', floor='f_concrete', light='warm', clutter=[('crates', -1.0, 0.55), ('boxes', 1.4, 0.3)]),
+    'books': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_quarry', light='warm', door_w=1.0, clutter=[('bookcart', -1.2, 0.35)]),
+}
 SF_HOUSE = {
     'A2': dict(number='31號', door_x=-1.2, notes=[('poster', 1.0, 1.25, 0.36, 0.42)], clutter=[('pot', 1.4, 0.18), ('pot', 2.4, 0.2, 'broad'), ('pot', 3.0, 0.18)], meter=-3.0),
     'B4': dict(number='22號', door_x=-2.6, door_w=1.4, decal='xiaoshubao_decal', banner=('xiaoshubao_v', -3.9), notes=[('tutor', -0.9, 1.2, 0.42, 0.46)], clutter=[('pot', -5.0, 0.18, 'broad'), ('umb', -1.0, 0.25), ('bins', 2.6, 0.25)], meter=-4.6),   # B4：二樓是小書包兒童課輔（樓梯口，ART-BG13）
