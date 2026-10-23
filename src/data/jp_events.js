@@ -17,7 +17,7 @@ const JP_EVENTS=(function(){
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
   const SUITCASE=[ {scene:'公館',bg:'gongguan'},
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
-    {speaker:'heroine_01',text:'這個比較安靜。理由：公寓的走廊晚上會有回音。'},   /* AA_377 第 4 項：以安在大學城隔壁的小鎮租公寓（AA_341 裁定 1）*/
+    {speaker:'heroine_01',text:'這個比較安靜。公寓的走廊晚上會有回音。'},   /* AA_377 第 4 項：以安在大學城隔壁的小鎮租公寓（AA_341 裁定 1）；AA_426 第 5 節（967b4273a）拿掉「理由：」*/
     {choice:[{text:'「那我也買這個。」',goto:'g0_a'},{text:'「妳連這個都查了？」',goto:'g0_b'}]},
     {label:'g0_a'},{speaker:'heroine_01',text:'好。……兩個一樣的，在機場不要拿錯。'},{goto:'g0_end'},
     {label:'g0_b'},{speaker:'heroine_01',text:'交換生的論壇有寫。'},

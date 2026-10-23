@@ -177,7 +177,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-03-10',20,'jp_x','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); date('heroine_01'); at('2028-03-10',21); phone(); const q=OUT.get(G,'jp_g0_bag');
     check('G0 3/10 21:00 以安私訊「行李箱，明天一起去買？……我的輪子壞了一個。」→ 出遊 3/11 14:00 公館', th('p:heroine_01').includes('行李箱，明天一起去買？……我的輪子壞了一個。')&&!!q&&q.day===D('2028-03-11')&&q.h===14&&q.place==='公館');
     at('2028-03-11',13.5); H.picks=[0]; H.said=[]; H.opts=[]; await OUT.go(GM,q,{fromHome:true});
-    check('G0 3/11 行李箱：「這個比較安靜。理由：公寓的走廊晚上會有回音。」（AA_377 第 4 項：她租公寓）；「那我也買這個。」→「好。……兩個一樣的，在機場不要拿錯。」', has('（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）')&&has('這個比較安靜。理由：公寓的走廊晚上會有回音。')&&has('好。……兩個一樣的，在機場不要拿錯。')&&H.opts[0].join('|')==='「那我也買這個。」|「妳連這個都查了？」'); }
+    check('G0 3/11 行李箱：「這個比較安靜。公寓的走廊晚上會有回音。」（AA_377 第 4 項：她租公寓）；「那我也買這個。」→「好。……兩個一樣的，在機場不要拿錯。」', has('（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）')&&has('這個比較安靜。公寓的走廊晚上會有回音。')&&has('好。……兩個一樣的，在機場不要拿錯。')&&H.opts[0].join('|')==='「那我也買這個。」|「妳連這個都查了？」'); }
   { const G=fresh('2028-03-10',21,'jp_x','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); repairMode(); phone(); check('G0 挽回中：沒有行李箱', !th('p:heroine_01').length&&!OUT.get(G,'jp_g0_bag')); }
   { const G=fresh('2028-02-26',20,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; const ff=S.ffOpts(G,'home'); await S.jump(GM,ff[0].to,'home'); const st=S.dueStop(G,'home'); H.said=[]; if(st) await S.playStop(GM,st,'home');
     check('G0 摘要日（住家裡快轉）：2/27 18:30「（不用上課的第一週。你每天早上還是七點醒。）」', G.day===D('2028-02-27')&&has('（不用上課的第一週。你每天早上還是七點醒。）'), G.day+' '+G.hour);
