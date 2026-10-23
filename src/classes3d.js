@@ -141,7 +141,7 @@ const CLS=(function(){
     if(S.pgPlain(G,d.key)) return hol?s+'・'+hol:s;   /* AA_363 T7-1：只寫日期和星期；國定假日名照留（AA_363 第 4 節第 3 題：拿掉的只是學期、寒暑假這種學生的字）*/
     if(hol) s+='・'+hol; else if(mk) s+='・'+mk;   /* mark：日曆只標字、照常上課（大二起的全校運動會，AA_355 第 5 節第 6 題）*/ if(G&&G.flags&&G.flags.Y0_LEFT&&(G.stage||'law')==='econ') return s+'・休學中';   /* 經濟系那一年休學以後（E30）不寫經濟系的學期週次（AA-C 10-18）*/
     if(t) s+='・'+S.termName(t.id)+' 第 '+t.week+' 週'+(t.exam==='mid'?'（期中考週）':t.exam==='final'?'（期末考週）':''); else s+='・'+(d.m>=6&&d.m<=9?'暑假':'寒假'); return s; };   /* 9 月開學前還是暑假（2026-10-13 審查：原本寫成寒假）*/
-  S.todayLine=function(G){ const its=S.dayItems(G).filter(it=>!S.storyClass(G,it)); if(!its.length){ const hol=CALENDAR.holiday(G.day), t=CALENDAR.termOf(G.day); return hol?'今天放假（'+hol+'），沒有課':(t?'今天沒有課':'放假中，沒有課'); }
+  S.todayLine=function(G){ const its=S.dayItems(G); if(!its.length){   /* 第二天的民總（劇情課）也列出來：原本濾掉＝HUD 寫「今天沒有課」、劇情目標卻是「進入霖澤館上課（13:20）」（BB-B 10-23 DAY12）；一鍵上課照舊不給它（storyClass 在 S.next／按鈕那邊擋）*/ const hol=CALENDAR.holiday(G.day), t=CALENDAR.termOf(G.day); return hol?'今天放假（'+hol+'），沒有課':(t?'今天沒有課':'放假中，沒有課'); }
     const ex=its[0].exam; return '今天'+(ex?'考試':'的課')+'：'+its.map(it=>hhmm(it.t0)+' '+it.c.name).join('、'); };
   // ---------- 目標（起床時、下課後）：今天的課＋往下一堂的教室導航；不蓋掉劇情的目標 ----------
   S.goalFor=function(G){ const nx=S.next(G); const txt=S.todayLine(G)+(nx?'。上課、讀書或自由活動都可以':'。自由活動：去圖書館、公館，或找人聊天');
