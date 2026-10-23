@@ -253,7 +253,26 @@ async def bedpick(pg, cdp, run, start, sc, want_only=None):
     return True
 async def ff_once(pg, cdp, run, sc):
     """床 →「快轉」→「到下一個有事的日子」；回傳停下來的 SNAP"""
+    try:   # BB-B 10-23 15:5x：有出遊「該出發了」（OUT.due）＝先等「出發」跳出來，不開床（QX28_US 9:00 市集：一停下來就又開床快轉，錯過）；同一個最多等三次
+        due = await pg.evaluate("(()=>{ const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(GAME.G):null; return q?q.id:null; })()")
+    except Exception: due = None
+    if due:
+        k = sc.setdefault('_duewait', {}); k[due] = k.get(due, 0) + 1
+        if k[due] <= 3:
+            say('   ⏩ %s 該出發了：先等「出發」跳出來（第 %d 次），不開床' % (due, k[due])); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+            return await pg.evaluate(SNAP)
     cs = await bed_menu(pg, cdp, run)
+    # BB-B 10-23 15:5x：床邊已經寫「約好的時間」＝約就在眼前，玩家會睡到被叫醒或撐著等，不會再快轉（原本再按快轉就跳過約：QX26/27/28、B6_SEND_AIR_D）
+    if cs and any('約好的時間' in c for c in cs) and any(c.startswith('快轉') for c in cs):
+        nap = next((c for c in cs if c.startswith('睡一下') and '約好的時間' in c), None)
+        safe = [c for c in cs if c.startswith('小睡') and '約好的時間' not in c]   # 睡了不會超過約好的時間的小睡（最長的那個）
+        if nap: t = await tap_start(pg, cdp, '睡一下'); say('   ▶ 床：%s（約好的時間到了會叫醒）' % nap[:30])
+        elif safe: t = await tap_start(pg, cdp, safe[-1][:6]); say('   ▶ 床：%s（不超過約好的時間）' % safe[-1][:24])
+        else: t = await tap_start(pg, cdp, '再撐一下'); say('   ▶ 床：再撐一下（約好的時間就快到了，不快轉）'); await pg.wait_for_timeout(6000)
+        await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s（等約好的時間）' % (sn['key'], sn['h'], sn['zone']))
+        await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+        if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+        return sn
     if not await tap_start(pg, cdp, '快轉'): bad.append('%s：床的選單沒有「快轉」（%s）' % (sc['id'], cs)); return None
     t = await tap_start(pg, cdp, '到下一個有事的日子')
     if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None

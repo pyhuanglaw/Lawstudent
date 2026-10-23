@@ -12,6 +12,7 @@ s3pick2 zrlast_probe.py S3_PICK_FAM
 s9_adv aa386_probe.py ADV_GRAD,ADV_PICK,ADV_PICK_DATE,ADV_PICK_B,ADV_PICK_DATE_E,ADV_Y4_TW,ADV_Y4_US_DATE,ADV_Y4_TW_DATE,ADV_Y4_REDATE,REB_EARLY,REB_OK,REB_CAUGHT
 s9_note aa378_probe.py NOTE23_SAME,NOTE23_NEW
 qx1023b zrlast_probe.py QX26_GO,QX26_NO,QX27_LAST,QX27_MET,QX28_US,QX28_TW,QX28_TWMISS,QX_NODATE,QX_KX
+qx1023c zrlast_probe.py QX26_GO,QX27_LAST,QX28_US,QX28_TW
 s9_rebdates aa386c_probe.py REB_DATES,REB_NO41
 us_kexin us_life_probe.py USD_kexin
 us_kexin_alarm us_life_probe.py USD_kexin_alarm
