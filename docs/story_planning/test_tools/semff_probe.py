@@ -454,8 +454,8 @@ async def sl49(p, run, base, sid):
                     res.setdefault('anPos', []).append([round(await pg.evaluate('GAME.G.hour'), 3), pos])
                     if pos:
                         await L.go_to(pg, cdp, run, pos[0], pos[1], 1.1, '小安', max_s=90); lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
-                        say('   互動鈕：「%s」' % lab); res.setdefault('labels', []).append(lab); talks += 1
-                        if '小安' in lab: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue
+                        say('   互動鈕：「%s」' % lab); res.setdefault('labels', []).append(lab)
+                        if '小安' in lab: talks += 1; await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); continue   # talks 只算真的按了說話（BB-B 14:5x：sl49e 走過去、沒有按鈕、沒按，見面自己開始，卻記成 talk）
                 await pg.wait_for_timeout(1500)
             await pg.wait_for_timeout(3000); s1 = await pg.evaluate(SLOTQ); res['s1'] = s1; await run.shot(pg, '%s_after' % sid)
             run.check('%s：直接過去、見面演完（invite done）' % sid, went and met, J({'s1': s1, 'goAt': res.get('goAt'), 'arrive': res.get('arrive'), 'anPos': res.get('anPos'), 'labels': res.get('labels')}))
