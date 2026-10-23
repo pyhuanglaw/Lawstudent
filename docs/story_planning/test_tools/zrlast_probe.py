@@ -350,7 +350,7 @@ S3 = [
        none=['以前出門，我會先寫三件事。', '這可以算一件事嗎', '一，睡到自然醒'], nothree=True),
   # 5. 接機＋隔天（第 35、36 列）：臺灣路線 2028-12-23（六）19:36 宿舍；家族共乘版／交往中版；選「先回家睡覺。」→ 12/24 11:00 那一則
 ] + [dict(id='S3_PICK_' + k, key='2028-12-23', h=19.6, zone='dorm', flags=dict(TWF, SIS_PICKUP_V=v), js=Y4 + (SIS_D if k == 'LOVER' else SISF),
-          steps=[('ffloop', '2028-12-24', 11.3)], pref=['出發：接機', '「先回家睡覺。」'],
+          steps=[('until', 23.0), ('bedpick', '睡到明天早上'), ('until', 11.3)], pref=['出發：接機', '「先回家睡覺。」'],
           want=['美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。', '我想吃滷肉飯。現在。', '……好。明天。明天一定。'] + w,
           none=['三件事。一，美國的雞蛋', '學姊妳終於講超過三句了！', '……四，我想你。'] + nw, wantMsg=['滷肉飯。今天。不要再說明天。'], noneMsg=['滷肉飯。今天。這不是三件事。'],
           nothree=True, cflags=['SIS_PICKUP', 'SIS_PICKUP_TMR'], eqflags={'SIS_PICKUP_TMR': True})
@@ -814,7 +814,8 @@ async def main():
                     elif st[0] == 'talk': await B['talk'](pg, cdp, run, st[1])   # 走到那個人旁邊、按「和○○說話」
                     elif st[0] == 'runev':   # [捷徑] 直接開演 st[1]（manual 事件；前置照情境）
                         run.setup('[捷徑] %s：直接開演 %s（EVENTS.run）' % (sc['id'], st[1]))
-                        await pg.evaluate("void EVENTS.run(%s)" % json.dumps(st[1])); await pg.wait_for_timeout(2000)
+                        ok = await pg.evaluate("(id=>{ const ev=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).find(e=>e.id===id); if(!ev) return false; void EVENTS.run(ev); return true; })(%s)" % json.dumps(st[1])); await pg.wait_for_timeout(2000)
+                        if not ok: bad.append('%s：STORY_EVENTS 沒有 %s' % (sc['id'], st[1]))
                         await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=300)
                     elif st[0] == 'person':   # 手機 →「朋友」→ 那個人的頁面：記下畫面上的字（人物頁的記憶名稱）
                         await pg.evaluate("(()=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); })()"); await pg.wait_for_timeout(1200)
