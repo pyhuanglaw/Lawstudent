@@ -1800,18 +1800,22 @@ async def usep(pg, cdp, run, pat, pref):
     it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
     if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
-    lab = ''
-    for k in range(25):   # BB-B 10-23 17:5x：負載 25 時一格要 3 秒以上，互動鈕下一格才出來；原本 3.2 秒就按（FOOD51_KX_*、SQ39_SQ03「按鈕「」」什麼都沒買）＝等到 20 秒（us_life_probe 的 use 同一個改法）
-        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
-        if lab: break
-        await pg.wait_for_timeout(800)
-    say('   互動：%s（按鈕「%s」）' % (it[2], lab)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
-    cs = []
-    for k in range(25):   # BB-B 10-23 18:3x：按下去以後選單也要等下一格（f51dr2 FOOD51_KX_RIGHT：2.5 秒還沒出來，drain 1 秒沒東西就回來，什麼都沒買）
-        cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
-        s_ = await L.state(pg)
-        if cs or s_['dlg']: break
-        await pg.wait_for_timeout(1500)
+    lab = ''; cs = []
+    for att in range(3):   # BB-B 10-23 19:1x：機器很慢的時候（f51dr3 後段每秒 0.1 格）按鈕 20 秒還沒出來、按了選單 37 秒沒出來（KX_MELON、KX_NOTRIP）＝最多試三次
+        for k in range(40):   # 互動鈕下一格才出來（負載 25 時一格 3～10 秒）
+            lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+            if lab: break
+            await pg.wait_for_timeout(800)
+        say('   互動：%s（按鈕「%s」%s）' % (it[2], lab, '' if att == 0 else '，第 %d 次' % (att + 1)))
+        if not lab: continue
+        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+        got = False
+        for k in range(30):   # 按下去以後選單也要等
+            cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+            s_ = await L.state(pg)
+            if cs or s_['dlg']: got = True; break
+            await pg.wait_for_timeout(1500)
+        if got: break
     say('   選單：%s' % ' / '.join(c[:24] for c in cs))
     await B['drain'](pg, cdp, pref=list(pref or []), secs=240); return True
 
