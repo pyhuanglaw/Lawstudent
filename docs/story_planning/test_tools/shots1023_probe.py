@@ -22,7 +22,9 @@ SC = [
   # 第三次（09:4x）：ART-NO-DARK-WOOD-1023 第二批（開發分支 29e074e0c；LAWWW2-B 6fbe2830）九個室內＋BB-B 掃描多標出的兩處（新體 3F 球場地板 lum 141、霖澤館 202 前段 lum 98）
   #   站在區域預設的出生點（pos 空＝遊戲自己放），鏡頭壓低看地板：四個方向＋俯看一張
 ] + [dict(id='FLOOR2_' + z, zone=z, pos=None, cams=[(0, 0.55, 5.0), (math.pi / 2, 0.55, 5.0), (math.pi, 0.55, 5.0), (-math.pi / 2, 0.55, 5.0), (0, 1.05, 4.0)])
-     for z in ['wz_teishoku', 'us_apartment', 'us_shared', 'wz_teahouse', 'jp_room', 'l118_cafe2', 'bookstore', 'wancai_sema', 'wz_brunch', 'gym_arena', 'linze_202']]
+     for z in ['wz_teishoku', 'us_apartment', 'us_shared', 'wz_teahouse', 'jp_room', 'l118_cafe2', 'bookstore', 'wancai_sema', 'wz_brunch', 'gym_arena', 'linze_202']] + [
+  # 第四次（10:2x）：gym_arena 出生點在入口通道（地毯），球場地板沒入鏡——站到球場中間（gym_layout.js court (0,-2)）
+  dict(id='FLOOR3_gym_court', zone='gym_arena', pos={'x': 0, 'z': -2, 'yaw': math.pi, 'lv': 0}, cams=[(0, 0.45, 6.0), (math.pi / 2, 0.45, 6.0), (math.pi, 0.45, 6.0), (0, 1.1, 5.0)])]
 async def main():
     run = L.Run('shots1023', OUT); sha = os.environ.get('SHA', '?')
     async with async_playwright() as p:

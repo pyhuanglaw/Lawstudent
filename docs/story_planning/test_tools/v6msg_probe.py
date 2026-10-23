@@ -480,7 +480,18 @@ async def pc_apr(p, run, base, sid, res, from_fy):
         run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J({'it': it, 'diag0': res.get('diag0'), 'diag': res.get('diag'), 'diag2': res.get('diag2')}, 1400))
         if not it: return
         await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=120)
-        n0 = await log_len(pg); lab = await pg.evaluate(LAB); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        lab = await pg.evaluate(LAB); tried = [['go_to 0.6', lab]]
+        if '明信片' not in (lab or ''):   # BB-B 10-23：互動鈕是「坐在書桌前」＝明信片被書桌蓋住？在明信片四周找一個會出「明信片」的位置（找得到＝腳本走的位置不對；八個方向都找不到＝玩家讀不到）
+            import math as _m
+            for k in range(9):
+                tx, tz = (it[0], it[1]) if k == 0 else (it[0] + 0.45 * _m.cos(k * _m.pi / 4), it[1] + 0.45 * _m.sin(k * _m.pi / 4))
+                await L.go_to(pg, cdp, run, tx, tz, 0.15, '明信片旁 %d' % k, max_s=60); await pg.wait_for_timeout(800)
+                lab = await pg.evaluate(LAB); pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
+                tried.append([k, pp, lab])
+                if '明信片' in (lab or ''): break
+        res['reach'] = tried; say('   %s 走到明信片：%s' % (sid, J(tried, 600)))
+        run.check('%s：站得到一個互動鈕是「明信片」的位置（書桌旁；不然玩家讀不到）' % sid, '明信片' in (lab or ''), J(tried, 700))
+        n0 = await log_len(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         ch = await drive(pg, cdp, run, picks=['（先不回）'], max_s=150, label=sid)
         T = texts(await log_since(pg, n0)); res['said'] = [lab, T, ch]
         await run.shot(pg, '%s_after' % sid)
