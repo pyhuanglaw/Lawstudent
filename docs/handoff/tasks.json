@@ -29511,7 +29511,7 @@
    },
    "source": "BB 15:02 P2 觀察（規格沒寫）",
    "authorized": "要 AA 定（辦手續那天、凌晨醒來的床選項）",
-   "next": "【LAWWW（帳號 A）15:1x 交班中登記】下一班：問 AA（下一班接班後）——8/3 凌晨醒來要不要「睡到今天早上」那一項、辦手續是 8/3 還是 8/4；程式照 AA 的答案改"
+   "next": "【LAWWW-B 10-23 08:0x】AA-B 07:50 回：(a) 8/3 凌晨醒來床多「再睡到早上（09:00）」放第一個，原本「睡到明天早上（07:30）」留著；(b) 手續照現在 8/4 10:00，學姊那句改「再睡一下。手續是明天十點。」（AA_340 勘誤，記在 AA_392 末尾）｜【LAWWW（帳號 A）15:1x 交班中登記】下一班：問 AA（下一班接班後）——8/3 凌晨醒來要不要「睡到今天早上」那一項、辦手續是 8/3 還是 8/4；程式照 AA 的答案改"
   },
   {
    "id": "AA387-S10-1022",
@@ -29840,9 +29840,9 @@
    "title": "學姊第七批：日本路線（出發前告別、在日本四個多月的聯絡、8/1 她出發前一天視訊）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "next": "【LAWWW-B 10-23 08:0x】AA 已交 AA_393 學姊第七批・日本路線（企劃線 659c748f，比預定 13:00 早）；實作 SIS-B7L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -29869,9 +29869,9 @@
    "title": "學姊第八批：大二整年＋兩個暑假（學校裡）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "next": "【LAWWW-B 10-23 08:0x】AA 已交 AA_394 學姊第八批・大二整年與兩個暑假（企劃線 744a8726，比預定 16:00 早）；實作 SIS-B8L-1023 ｜ AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -30013,6 +30013,193 @@
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
+  },
+  {
+   "id": "ART-NO-DARK-WOOD-1023",
+   "title": "全遊戲不要深色木地板（只能淺色木地板或其他材質）：圖書館 3F、大廳二樓、定食店、美國公寓、茶館、日本宿舍、118 巷咖啡、書店、萬才館研討室、體育館，和程式產生的備用地板色",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上第一次進總圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 07:3x 直接對 LAWWW2：「圖書館三樓那種深色木地板 很醜 不要出現這種深色木底板 整個遊戲都不要 只能接受淺色木地板或其他材質」（UA-LAWWW2-1023-03）",
+   "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
+   "next": "【LAWWW-B 10-23 08:0x ACK】永久美術規則（PROJECT_DECISIONS D112）；LAWWW2 第一批 15551b2f（圖書館 3F＋大廳二樓）、第二批 6fbe2830（GLB＋src patch），遊戲內前後截圖拍完正式交件；家具桌面不動",
+   "xai": {
+    "spec": "使用者 2026-10-23 07:3x 直接對 LAWWW2：「圖書館三樓那種深色木地板 很醜 不要出現這種深色木底板 整個遊戲都不要 只能接受淺色木地板或其他材質」（UA-LAWWW2-1023-03）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-L118-FACADE-3D-1023",
+   "title": "118 巷九間店面外觀做成立體（門窗內退、有厚度的招牌雨遮、玻璃後看得到店內、店門口深度與陰影）；導航、店門互動點照 lane118_layout.js 不動",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上第一次走 118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 07:5x 直接對 LAWWW2：「118店面裡面做了 但外觀還是很2D」（UA-LAWWW2-1023-04）",
+   "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
+   "next": "【LAWWW-B 10-23 08:0x ACK】排在深色木地板之後；先遊戲內拍外觀找原因",
+   "xai": {
+    "spec": "使用者 2026-10-23 07:5x 直接對 LAWWW2：「118店面裡面做了 但外觀還是很2D」（UA-LAWWW2-1023-04）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-GG-FACADE-3D-1023",
+   "title": "公館店面外觀（G00～G14 已套騎樓組件 SF_GG，使用者還是覺得醜）：遊戲內拍、找具體原因再改",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系那一年第一次到公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「公館店面外觀也一樣醜」（UA-LAWWW2-1023-05）",
+   "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
+   "next": "【LAWWW-B 10-23 08:0x ACK】排在 118 巷店面之後（同一支 wz_street.py）",
+   "xai": {
+    "spec": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「公館店面外觀也一樣醜」（UA-LAWWW2-1023-05）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "WZ-CAT-LIFE-1023",
+   "title": "溫州街的貓要能動、能互動（3D 骨架走路、照時段天氣換位置姿勢、「摸摸貓」）；收養劇情（其中一位女主角收養）AA 寫",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "第一次走溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
+   "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
+   "next": "【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
+   "xai": {
+    "spec": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB／場景程式交件＋遊戲內同鏡頭前後截圖；LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "CLOSED-SPACES-1023",
+   "title": "遊戲裡現在關起來的空間開始開發（博雅討論室、總圖研究小間＋B1、法學院辦公室、萬才館研討室 B／霖澤館研究室、體育館 3F、美國學姊房間…），功能怎麼接劇情跟 AA 討論",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "SYS",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "法律系大一上（博雅討論室、總圖）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-23 08:0x 直接對 LAWWW2：「遊戲裡任何現在關起來的空間都可以開始開發 例如進不去的討論室之類的 相關功能如何與劇情連接 請跟AA討論」（UA-LAWWW2-1023-06）",
+   "authorized": "使用者直接交代；D108、D109、D111",
+   "next": "【LAWWW-B 10-23 08:0x】清單與提案：LAWWW2 分支 docs/art-rebuild/second_ai/CLOSED_SPACES_1023.md 第 2 節（博雅討論室 → 總圖研究小間＋B1 → 法學院辦公室 → 萬才館研討室 B／霖澤館研究室 → 體育館 3F → 美國學姊房間）；AA 定劇情用途、LAWWW2 做空間（D108）、LAWWW 接事件；照 LAWWW2 的順序，排在店面之後",
+   "xai": {
+    "spec": "CLOSED_SPACES_1023.md（LAWWW2 分支）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "空間走得進去、劇情用途 AA 定稿、LAWWW 接事件、BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-B7-L-1023",
+   "title": "AA_393 學姊第七批・日本路線：實作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23】AA_393 學姊第七批・日本路線（企劃線 659c748f）程式點；接在 SIS-B6-L-1023 之後（同一批學姊檔，不並行）；單元測試修改前 FAIL；BB 補測",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
+  },
+  {
+   "id": "SIS-B8-L-1023",
+   "title": "AA_394 學姊第八批・大二整年與兩個暑假：實作",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW-B 10-23】AA_394 學姊第八批・大二整年與兩個暑假（企劃線 744a8726）程式點；接在 SIS-B6-L-1023 之後（同一批學姊檔，不並行）；單元測試修改前 FAIL；BB 補測",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一暑假 8/19（交往中）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
+   "authorized": "D100、D109（AA 劇情自主決定）"
   }
  ]
 }
