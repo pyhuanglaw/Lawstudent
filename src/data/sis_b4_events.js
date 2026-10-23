@@ -122,6 +122,7 @@ const SISB4_EVENTS=(function(){
       dialogue:[ {scene:'霖澤館・研究室',bg:'linze_prof_hall'},
         N('（研究室只剩她一個人。門口她那張桌上，放著一棵手掌大的聖誕樹，燈一閃一閃。）'),
         SIS('隔壁的學妹放的。她回家了，叫我幫她顧。'),
+        {if:{custom:G=>!!G.flags.SIS_FAMXMAS_Y2&&!['none','missed'].includes(G.flags.SIS_FAMXMAS_Y2)},speaker:ID,text:'去年的禮物，我還在用。'},   /* AA_406 第 4 節：大二家族聖誕送過禮物的（旗標 SIS_FAMXMAS_Y2：AA 寫的 SIS_XMAS_Y2 已經是 2026 聖誕夜 Café 那一場在用）*/
         SIS('……樹要怎麼顧。'),
         {choice:[{text:'（把大燈關掉，只留樹的燈）',goto:'t_a'},{text:'（坐在她旁邊，看她寫論文）',goto:'t_b'}]},
         {label:'t_a'},SIS('這樣看不到字。'),SIS('……好。五分鐘。'),{goto:'t_c'},
