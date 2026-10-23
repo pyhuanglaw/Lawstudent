@@ -37,7 +37,7 @@ const SISG=(function(){
      普通邀約（Café、阿鳳麵店、半熟、一盞、溫州街）：大一上第 1～9 週每週最多答應一次；第 10～13 週每兩週最多一次（10–11、12–13）；第 14 週～2/2 都婉拒。
      平日 12:00～13:00 約吃飯一律答應、不算次數（她本來就要吃飯；2/1～2/2 她在家、不在學校的不算）。總圖＝一起念書，不在這裡。
      婉拒不扣分；婉拒句四句輪流（G.flags.SISG_DECL）。散步的婉拒照 invites.js 原本那一句（AA_284 1-3），在這之前就回了 */
-  S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou'];
+  S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou','gym_badminton','run_avenue'];   /* 羽球、晨跑（AA_417 3-3：筆試以前照現有的 rule，和其他不讀書的邀約一起算上限）*/
   S.DECLINE=['「這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。」','「等我考完，你再約一次。」','「今天不行。刑訴在等我。」','「這週的時間用完了。下週再問我。」'];
   S.capBucket=function(G,day,h){ if(!law(G)||!S.preExam(day,h)) return null; const t=term(day);
     if(t&&t.id==='Y1S1') return t.week<=9?'w'+t.week:(t.week<=13?'p'+(t.week<=11?10:12):'off');

@@ -30814,7 +30814,8 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "notes": "【LAWWW-B 10-23 18:5x】abad2fa0 原檔複製（blob 85fdd0ac、611aa4ba、ea4c0825、f435b58d）進 assets/bg、登錄 OUT.BG、匯入白名單；32 處裡 32 處有底圖＋台詞（DATE.listable）。四處都要開車（needsCar）。tests/date_book_unit.js 第 5、9 項跟著改；BB 第 63 項。"
+   "notes": "【LAWWW-B 10-23 18:5x】abad2fa0 原檔複製（blob 85fdd0ac、611aa4ba、ea4c0825、f435b58d）進 assets/bg、登錄 OUT.BG、匯入白名單；32 處裡 32 處有底圖＋台詞（DATE.listable）。四處都要開車（needsCar）。tests/date_book_unit.js 第 5、9 項跟著改；BB 第 63 項。",
+   "next": "【LAWWW-B 10-23】四張約會底圖（d15_base_night、d16_base_afternoon、d22_base_afternoon、d23_base_sunset）已接進 OUT.BG、白名單已登記；等 BB 看遊戲內畫面"
   },
   {
    "id": "D14-T5B",
@@ -30832,7 +30833,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "notes": "【LAWWW-B 10-23 19:4x 開】D14-T5 的剩下一段；要接 y5s1_3d.js（交換延畢的大五上）、postgrad3d.js 的畢業流程。成績單現在寫「（不及格）」。"
+   "notes": "【LAWWW-B 10-23 19:4x 開】D14-T5 的剩下一段；要接 y5s1_3d.js（交換延畢的大五上）、postgrad3d.js 的畢業流程。成績單現在寫「（不及格）」。",
+   "next": "等 AA 回答延畢一學期的細節（D14-T5B 問題已在 AA 佇列）；AA-B 18:3x 進度寫正在查 y5s1_3d.js 延畢路線"
   },
   {
    "id": "WZ-AA413-1023",
@@ -30850,7 +30852,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "notes": "【LAWWW-B 10-23 20:0x】程式做好：wzshops3d.js S.AA413（三家的資料、水果攤點餐、布告欄、按鈕位置照 aptA／aptB 騎樓）、closed3d.js（日日便利從溫州街進出、店員兩段招呼與第 5 次認得你、考試週 21:00 以後一句）；tests/aa413_wz_unit.js ALL PASS；BB 第 67 項。美術（LAWWW2，AA 已直接告訴它）：日日便利招牌與店員位置、水果攤攤子與老闆、布告欄模型；按鈕位置照 WZS.AA413 的座標，LAWWW2 做好以後可以對。"
+   "notes": "【LAWWW-B 10-23 20:0x】程式做好：wzshops3d.js S.AA413（三家的資料、水果攤點餐、布告欄、按鈕位置照 aptA／aptB 騎樓）、closed3d.js（日日便利從溫州街進出、店員兩段招呼與第 5 次認得你、考試週 21:00 以後一句）；tests/aa413_wz_unit.js ALL PASS；BB 第 67 項。美術（LAWWW2，AA 已直接告訴它）：日日便利招牌與店員位置、水果攤攤子與老闆、布告欄模型；按鈕位置照 WZS.AA413 的座標，LAWWW2 做好以後可以對。",
+   "next": "【LAWWW-B 10-23】AA_413 已實作（f30686b38，tests/aa413_wz_unit.js）；等 LAWWW2 的 3D 道具（水果攤、公告欄、日日便利招牌）和 BB 測"
   },
   {
    "id": "US-AA412-1023",
@@ -30868,7 +30871,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "notes": "【LAWWW-B 10-23 18:2x】子代理實作、LAWWW-B 驗：ev_far_call_us（r2y3b_events.js／r2y3b3d.js farPhoneUS，加了 07:00 鬧鐘、「明天不行。」取消）、src/us208_3d.js（US208，STORY.TICKS；US208_WK 一週一場）、us_life_events.js classLines 各 8 句、us3d.js 看的定稿（季節、交往中服務台一句）、social3d.js 七個記憶名稱。tests/aa412_us_unit.js 98 項 ALL PASS；相關 44 個測試 ALL PASS。已知：ev_usl_thanks 用 bg us_shared_kitchen（沒有圖＝深色底），等 BB 第 99 組的圖。BB 第 69 項。"
+   "notes": "【LAWWW-B 10-23 18:2x】子代理實作、LAWWW-B 驗：ev_far_call_us（r2y3b_events.js／r2y3b3d.js farPhoneUS，加了 07:00 鬧鐘、「明天不行。」取消）、src/us208_3d.js（US208，STORY.TICKS；US208_WK 一週一場）、us_life_events.js classLines 各 8 句、us3d.js 看的定稿（季節、交往中服務台一句）、social3d.js 七個記憶名稱。tests/aa412_us_unit.js 98 項 ALL PASS；相關 44 個測試 ALL PASS。已知：ev_usl_thanks 用 bg us_shared_kitchen（沒有圖＝深色底），等 BB 第 99 組的圖。BB 第 69 項。",
+   "next": "【LAWWW-B 10-23】AA_412 已實作（1fe50a751，tests/aa412_us_unit.js 98 項）；等 BB 測；us_shared_kitchen、us_club_lawn 兩張底圖 BB 跟使用者要"
   }
  ]
 }

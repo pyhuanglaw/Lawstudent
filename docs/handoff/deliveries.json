@@ -17684,6 +17684,19 @@
    "kind": "wip",
    "task": "SQ-TRACES-1023",
    "reason": "痕跡道具＋SQ16 店門口 WIP（交件是 ed65a78e）；LAWWW-B 10-23 14:1x 分類"
+  },
+  {
+   "sha": "b23240d6",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "118 巷九間店的兩層窗景照片＋l118_shops3d.js patch，遊戲內驗收中（WIP）；LAWWW-B 10-23 19:0x 分類"
+  },
+  {
+   "sha": "5f63431c",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "not_delivery",
+   "reason": "tools/char_review.py 加 faceq 角度（LAWWW2 自己的驗收工具，沛珊第三十一版用）；LAWWW-B 10-23 19:0x 分類"
   }
  ]
 }

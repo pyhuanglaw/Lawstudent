@@ -32,7 +32,7 @@ const SOCIAL = (function(){
     S.feel={}; S.feelStage={}; S.capNotes=[]; out.sort((a,b)=>b.sum-a.sum); return out.slice(0,max||2).map(o=>o.text); };
   /* 日常活動加多少（AA_124 第 1-2、1-3 節，AA 決定）：同一個人、同一種活動一天只算一次；同一個人一天最多熟悉 +6、信任 +4、自在 +5；事件照事件自己的數值，不走這裡、不受上限；
      日常不加戀愛。kind：chat 聊天（今天第一次）、chatNew 聽到新的一句、classmate 上課坐旁邊、cafe、library、meal、walk、help、acceptInvite（答應對方約的而且赴約）*/
-  const ACT={chat:{fam:2},chatNew:{comf:1},classmate:{fam:1},cafe:{fam:3,trust:1,comf:2},library:{fam:3,trust:2,comf:1},meal:{fam:3,trust:1,comf:3},walk:{fam:4,trust:2,comf:3},help:{fam:1,trust:3},acceptInvite:{trust:1},msg:{fam:1}};   /* msg：手機傳訊息、對方回了（AA_202 第 4 節：同一個人一天最多 +1；一週三次以上不加由 msg3d.js 管）*/
+  const ACT={chat:{fam:2},chatNew:{comf:1},classmate:{fam:1},cafe:{fam:3,trust:1,comf:2},library:{fam:3,trust:2,comf:1},meal:{fam:3,trust:1,comf:3},walk:{fam:4,trust:2,comf:3},help:{fam:1,trust:3},acceptInvite:{trust:1},msg:{fam:1},sport:{fam:4,trust:2,comf:3}};   /* sport：一起運動（羽球、晨跑；AA_126 6-6「其他人照 AA_124 一般的一起運動」——AA_124 1-2 的表沒有這一列，先照最接近的「溫州街散步」，同一種活動一天一次的上限分開算）*/   /* msg：手機傳訊息、對方回了（AA_202 第 4 節：同一個人一天最多 +1；一週三次以上不加由 msg3d.js 管）*/
   const CAP={fam:6,trust:4,comf:5};
   S.ACT=ACT; S.CAP=CAP;
   S.activity=function(id,kind){ const A=ACT[kind]; if(!A||!G||!G.social) return null; const day=G.day|0; const D=G.social.daily&&G.social.daily.day===day?G.social.daily:(G.social.daily={day,p:{}});
