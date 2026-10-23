@@ -1849,6 +1849,14 @@
    "approvedBy": "AA-B 2026-10-23 定稿（D109）；LAWWW-B 子代理實作 src/sideq3d.js（合併 9aaf64787）",
    "task": "SIDEQ-AA404-1023",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_410_女主角各自喜歡吃的東西.md",
+   "sha": "86016b84",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 12:3x 定稿（D109；使用者 10-23 選擇題 C）；LAWWW-B 子代理實作 src/data/food_fav_lines.js",
+   "task": "FOOD-FAV-1023",
+   "kind": "text"
   }
  ]
 }

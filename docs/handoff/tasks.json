@@ -30571,9 +30571,9 @@
    "title": "她們各自喜歡吃的東西（AA_410；使用者 10-23 選擇題 C）：一起吃時幫她點／請客，點對了專屬一句、熟悉 +2、戀愛 +1、REMEMBERED_HER，每人一次；可昕＝學期末約會前在巷口茶飲帶一杯",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c42228351）實作 AA_410；回來以後合併、全套測試、BB 測 ｜ 【LAWWW-B 10-23 12:3x】AA_410（企劃線 86016b84）交了；等店員支線第二三批子代理（改同一批店家點餐檔）交件合併以後做",
+   "next": "【LAWWW-B 10-23 13:5x】合併子代理 a5526488（e2f906d05）：src/foodfav3d.js＋data/food_fav_lines.js；七位（以安、沛珊、語彤、學姊、子晴、可昕、芷若照舊）；tests/aa410_food_fav_unit.js ALL PASS；缺字與四個自定的轉 AA；BB 清單第 51 項 ｜ 【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c42228351）實作 AA_410；回來以後合併、全套測試、BB 測 ｜ 【LAWWW-B 10-23 12:3x】AA_410（企劃線 86016b84）交了；等店員支線第二三批子代理（改同一批店家點餐檔）交件合併以後做",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -30586,7 +30586,8 @@
    },
    "source": "AA_410（86016b84）",
    "authorized": "使用者 10-23 選擇題（UA-LAWWW-1023-13）",
-   "aliases": []
+   "aliases": [],
+   "sha": "a5526488（合併 e2f906d05）"
   },
   {
    "id": "ART-GG-STREETLIFE-1023",
