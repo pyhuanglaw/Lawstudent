@@ -154,7 +154,8 @@ async def tap_pin(pg, cdp, pid):
     if not c: return False
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500); return True
 
-MAPZ = {'campus': ('2025-10-08', 14.0, 'campus', None), 'gongguan': ('2025-10-08', 14.0, 'gongguan', None), 'wenzhou': ('2025-10-08', 14.0, 'wenzhou', None), 'dorm': ('2025-10-08', 14.0, 'dorm', None)}
+MAPZ = {'gray': ('2025-10-08', 14.0, 'campus', "if(G.visited){ delete G.visited.lane118; delete G.visited.soclib; } return {visited:Object.keys(G.visited||{})};"),   # 【前置】118 巷、社科圖改成沒去過（使用者存檔每個地方都去過，灰色圖釘測不到）
+        'campus': ('2025-10-08', 14.0, 'campus', None), 'gongguan': ('2025-10-08', 14.0, 'gongguan', None), 'wenzhou': ('2025-10-08', 14.0, 'wenzhou', None), 'dorm': ('2025-10-08', 14.0, 'dorm', None)}
 
 async def map_zone(p, run, base, sid, zone):
     b, pg, cdp, errs = await page(p, landscape=False)
@@ -236,7 +237,7 @@ async def map_us(p, run, base, sid):
         try: await asyncio.wait_for(b.close(), 30)
         except Exception: pass
 
-ORDER = ['EARLY_GO', 'EARLY_LATER', 'MAP_campus', 'MAP_gongguan', 'MAP_wenzhou', 'MAP_dorm', 'MAP_US']
+ORDER = ['EARLY_GO', 'EARLY_LATER', 'MAP_campus', 'MAP_gongguan', 'MAP_wenzhou', 'MAP_dorm', 'MAP_US', 'MAP_gray']
 async def main():
     run = L.Run('ux1023', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
