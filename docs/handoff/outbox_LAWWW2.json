@@ -2211,15 +2211,16 @@
     "assets/models/env/second_ai/wz_lin_interior.glb（＋.json，同檔名重匯）",
     "tools/blender/env_second/shops_tex.py（lin_menu 五張 → 六張；開發分支 d3df1cf3 的這支檔沒有 aa364 那幾個函式——d37cf28c 拿回的是舊版——整合時要用這一版）",
     "tools/blender/env_second/textures/gen/lin_menu.png",
-    "src/data/wz_shops_layout.js（開發分支 d3df1cf3 的版本，只改 lin menu_strips 的註解）"
+    "src/data/wz_shops_layout.js（開發分支 d3df1cf3 的版本，只改 lin menu_strips 的註解）",
+    "docs/art-rebuild/second_ai/test_shots/wz_lin_menu_1022/（README＋遊戲內前後四張）"
    ],
-   "state": "WIP",
-   "remaining": "使用者 15:0x「現在交班」中斷：遊戲內新版截圖沒拍完（舊版 3 張拍了，在暫存資料夾），沒驗收、沒交件",
-   "next": "下一班：遊戲內 wz_lin 15:00／20:00 近拍牆上菜單＋一般鏡頭前後（腳本在暫存資料夾的 j67，下一班要重寫：開發分支最新、自訂鏡頭 pos (-0.9,1.75,-0.3) look (-3.17,2.0,-0.3)）→ 交件給 LAWWW（13:59 派工，P2）",
-   "noDirectIntegrate": true,
+   "state": "交付",
+   "remaining": "真機沒看過；晚上一般鏡頭右邊店門口外的深藍色是原本就有的，沒處理",
+   "next": "LAWWW：從 claude/funny-albattani-iawshm 拿上面四個檔（shops_tex.py 整支換）；瀏覽器畫面驗收派 BB；場景美術等使用者驗收",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "LAWWW 13:59 派工（AA_364 第 5 節，企劃線 d56da150）：林家乾麵牆上紅紙菜單加「貢丸湯 30」，順序 乾麵（小）40／乾麵（大）55／餛飩湯 40／貢丸湯 30／燙青菜 35／滷蛋 15（和開發分支 7047436e 的 wzshops3d.js wall 那一行一樣）。我 14:38 ACK。貼圖六張紙（紙寬 180 → 156、字 66 → 60 px）；亂數照第一版五張的用量往下走，布簾、定食木札、暖簾等其他 6 張貼圖位元組不變（md5 驗過）。GLB 重匯：三角形 18,206、材質 18 都不變；和舊檔比只有菜單貼圖換了，另外桌上小物 32 個三角形的切法不同（同一個範圍、同一個形狀，Blender 重匯就會這樣）。"
+   "ack": "SENT",
+   "note": "LAWWW 13:59 派工（AA_364 第 5 節，企劃線 d56da150）：林家乾麵牆上紅紙菜單加「貢丸湯 30」，順序 乾麵（小）40／乾麵（大）55／餛飩湯 40／貢丸湯 30／燙青菜 35／滷蛋 15（和開發分支 7047436e 的 wzshops3d.js wall 那一行一樣）。我 14:38 ACK。貼圖六張紙（紙寬 180 → 156、字 66 → 60 px）；亂數照第一版五張的用量往下走，布簾、定食木札、暖簾等其他 6 張貼圖位元組不變（md5 驗過）。GLB 重匯：三角形 18,206、材質 18 都不變；和舊檔比只有菜單貼圖換了，另外桌上小物 32 個三角形的切法不同（同一個範圍、同一個形狀，Blender 重匯就會這樣）。｜LAWWW2-B 10-23 07:1x：用腳本在這個容器重拍遊戲內前後（開發分支 719cca3b＋這個 GLB；菜單近拍 15:00／20:00、一般鏡頭 15:00／20:00），六張紅紙順序和 wzshops3d.js wall 一樣；README test_shots/wz_lin_menu_1022"
   }
  ]
 }

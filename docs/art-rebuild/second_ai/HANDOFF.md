@@ -25,9 +25,12 @@
   - claude-code-remote 一開始連線逾時，06:45Z 恢復。
   - 對 LAWWW-B、AA-B、BB-B 各傳一則測試，都 DELIVERED。
   - AA-B（06:44）、LAWWW-B（06:45）也主動傳來測試，我都回了 ACK。
-  - BB-B 的 ACK：等它回，收到後補在這裡。
+  - BB-B 06:47 回 ACK（分支 claude/elegant-brown-fcos7n @ 28fef8fd）。LAWWW-B 06:51 已 `duty sync`、`duty verify` OK，HANDOFF-A-1022 的證據補上了。
 - **值班登記**：`docs/handoff/duty_LAWWW2.json` state on @ `ff339df1`，等 LAWWW-B 跑 `duty sync`。
 - **D90 ACK**：讀過 D90、D95、D96，以及上次值班之後新增的 D99～D110、HV-12～HV-18，照這些規則工作。
+- **進度（07:1x）**：
+  - ART-WZ-LIN-MENU-1022：遊戲內前後截圖拍完、交件（`test_shots/wz_lin_menu_1022/README.md`）。
+  - 沛珊第三十一版：r（`d8ff855e`）、試做 s（`105e8353`）在這個容器重建，和 A 那一班的檔位元組相同；接著用遊戲渲染器比較太陽穴。
 - **接著做**（照上一任交班的「下一班第一步」，加上 D99 三個優先項目）：
   1. 沛珊第三十一版（P0，UA-LAWWW2-1022-02）：看試做 s → 正式重做 → 遊戲內重拍、檢查眨眼 → 交件給 LAWWW。
   2. 林家菜單：拍遊戲內前後截圖 → 交件。
