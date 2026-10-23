@@ -1,6 +1,7 @@
 # 線 6：開發分支 d23380d5e（lw14:8794）。LAWWW-B 清單 BB_SIS_B6_1023.md 第 38～42 項：順手的事（系統＋SQ01/02/03/08）、公園的貓被子晴收養、總圖借書、跨年認識判斷、Alison 大二探班
 sq38 zrlast_probe.py SQ38_KNOW4,SQ38_HELP,SQ38_NO,SQ38_DAYONCE,SQ38_MAX2,SQ38_LAPSE
 sq39a zrlast_probe.py SQ39_SQ01,SQ39_SQ01_CURT,SQ39_SQ01_NONE,SQ39_SQ03
+sq39ar zrlast_probe.py SQ39_SQ03   # BB-B 17:0x：先放到冰菓室窗口旁【捷徑】（負載高走 7 m 逾時）
 sq39b zrlast_probe.py SQ39_SQ02,SQ39_SQ08
 cat40 zrlast_probe.py CAT40_COLD,CAT40_NIGHT_B,CAT40_NIGHT_A,CAT40_STRANGER,CAT40_PHOTO_D,CAT40_PHOTO_F
 loan41a zrlast_probe.py LOAN41_NONE,LOAN41_L1,LOAN41_MAX2,LOAN41_DUE,LOAN41_LATE_LEAVE,LOAN41_LATE_RET

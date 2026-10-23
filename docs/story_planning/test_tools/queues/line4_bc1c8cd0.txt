@@ -13,6 +13,8 @@ s9_adv aa386_probe.py ADV_GRAD,ADV_PICK,ADV_PICK_DATE,ADV_PICK_B,ADV_PICK_DATE_E
 s9_note aa378_probe.py NOTE23_SAME,NOTE23_NEW
 qx1023b zrlast_probe.py QX26_GO,QX26_NO,QX27_LAST,QX27_MET,QX28_US,QX28_TW,QX28_TWMISS,QX_NODATE,QX_KX
 qx1023c zrlast_probe.py QX26_GO,QX27_LAST,QX28_US,QX28_TW
+qx1023d zrlast_probe.py QX26_GO,QX27_LAST   # BB-B 16:4x：床邊先有選項／對話時先演完再按床（QX27 按到「晚一點」、QX26 床的選單空的）
+qx1023e zrlast_probe.py QX28_US   # BB-B 16:5x：一開始站在床邊（原本門口、走到床逾時）
 s9_rebdates aa386c_probe.py REB_DATES,REB_NO41
 us_kexin us_life_probe.py USD_kexin
 us_kexin_alarm us_life_probe.py USD_kexin_alarm

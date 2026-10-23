@@ -279,7 +279,8 @@ EXTRA = [
        cflags=['SIS_QIXI'], eqflags={'SIS_QIXI': {'2027': 'met'}}, jsok=[('她的戀愛 +5', QXD, lambda x: x['npcRom'] == 5)]),
   dict(id='QX27_MET', key='2027-08-06', h=20.75, flags=dict(TW2, SIS_QIXI={'2026': 'met'}), js=SIS_D + R0,
        steps=[('until', 21.3)], pref=[], wantMsg=['週日七夕。', '我那天在研究室寫到八點。', '你可以八點來接我。', '晚餐你帶。'], noneMsg=['七夕。去年你在幹嘛？']),
-  dict(id='QX28_US', key='2028-08-25', h=16.8, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=B['USJS'] + Y4 + B['DATE'] + SIS_D + R0 + B['PLAT'],
+  # BB-B 16:5x：[前置] 一開始就站在床邊（B['BED']；原本 PLAT＝門口，負載 25 時 421 秒只跑 97 格，走到床就逾時、整段沒跑）
+  dict(id='QX28_US', key='2028-08-25', h=16.8, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=B['USJS'] + Y4 + B['DATE'] + SIS_D + R0 + B['BED'],
        steps=[('until', 17.6), ('ffloop', '2028-08-26', 10.0)], pref=['出發：七夕', '「那我們過這邊的。」'],
        want=Q28US, order=Q28US, cflags=['SIS_QIXI'], eqflags={'SIS_QIXI': {'2028': 'met'}}, jsok=[('她的戀愛 +5', QXD, lambda x: x['npcRom'] == 5)]),
   dict(id='QX28_TW', key='2028-08-25', h=20.75, flags=dict(TWF), js=Y4 + SIS_D + R0,
@@ -1224,12 +1225,16 @@ def NOTE_T(i): return '📓 筆記：' + FAVL['note'][i]   # TOAST（GAME.toast�
 GE1 = lambda n: isinstance(n, int) and n >= 1
 R7_ENTD = "(async([h,z])=>{ const G=GAME.G, d=(%s); if(d==null) return false; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"
 def ENTD(dx, h, z, desc): return ('jsrun', R7_ENTD % (dx, json.dumps([h, z])), '日子撥到 %s %.2f、直接進 %s' % (desc, h, z))   # 【捷徑】同 ENT，日子是頁面裡算的
-R7_NEAR = "(p=>{ const E=GAME.E, P=E.player, it=(E.interactables||[]).find(i=>!i.hidden&&(p.label==null||i.label===p.label)&&(p.room==null||i.room===p.room)&&(p.park==null||i.park===p.park)); if(!it) return false; const lv=it.lv|0; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} for(const d of [0.8,1.1,1.5,0.5,2.0]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(!E.nav||!E.nav.free||E.nav.free(x,z)) return [+x.toFixed(2),+z.toFixed(2),lv]; } return false; })(%s)"
+R7_NEAR = "(p=>{ const E=GAME.E, P=E.player, it=(E.interactables||[]).find(i=>!i.hidden&&(p.label==null||i.label===p.label)&&(p.room==null||i.room===p.room)&&(p.park==null||i.park===p.park)&&(p.sleep==null||!!i.sleep===p.sleep)); if(!it) return false; const lv=it.lv|0; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} for(const d of [0.8,1.1,1.5,0.5,2.0]) for(let k=0;k<16;k++){ const a=k*Math.PI/8, x=it.x+Math.sin(a)*d, z=it.z+Math.cos(a)*d; if(E.placeAt) E.placeAt(P,x,z,lv); if(!E.nav||!E.nav.free||E.nav.free(x,z)) return [+x.toFixed(2),+z.toFixed(2),lv]; } return false; })(%s)"
 def NEAR(desc, **p): return ('jsrun', R7_NEAR % json.dumps(p, ensure_ascii=False), '主角直接放到「%s」旁邊（不從區域入口走過去：機器負載高，從入口走幾十公尺會逾時）' % desc)   # 【捷徑】
 NBIKE = NEAR('找車行老闆', label='找車行老闆'); NGGTEA = NEAR('清葉茶行 買一杯飲料', label='買一杯飲料'); N201 = NEAR('普通 201 門口', room='201')
 NWZTEA = NEAR('溫州街巷口茶飲的窗口', label='買一杯飲料'); NTREE = NEAR('老樹下的圓椅', label='坐在老樹下的圓椅'); NNOTICE = NEAR('公園公布欄', label='看公布欄'); NCAT = NEAR('公園的貓', park='cat')
 for _sc in R5:   # BB-B 16:2x：SQ38_DAYONCE 負載高從林家乾麵走到巷口茶飲（21 m）走不到＝第二家店根本沒點，「同一天別家不再問」等於沒驗 → 先放到窗口旁【捷徑】
     if _sc['id'] == 'SQ38_DAYONCE' and NWZTEA not in _sc['steps']: _sc['steps'].insert(_sc['steps'].index(TEA), NWZTEA)
+NWZICE = NEAR('夏日冰菓室的窗口', label='買一碗冰'); NBED = NEAR('床', sleep=True)
+for _sc in R5 + B78:   # BB-B 17:0x：負載 25 時走 7 m 也逾時（SQ39_SQ03 515 秒 98 格：走不到冰菓室窗口、後面全沒跑；B7_MSGS 日本房間走不到床、快轉沒開始）→ 先放到旁邊【捷徑】
+    if _sc['id'] == 'SQ39_SQ03' and NWZICE not in _sc['steps']: _sc['steps'].insert(_sc['steps'].index(('usep', '^買一碗冰$')), NWZICE)
+    if _sc['id'] == 'B7_MSGS' and NBED not in _sc['steps']: _sc['steps'].insert(0, NBED)
 # ---- 3D：痕跡道具（TRACE_SQxx，zones3d.js traceVis）、貓（wz_cat，zones3d.js buildWzPark）----
 R7_TRQ = """(id=>{ const out=[], R=new RegExp('^TRACE_'+id); GAME.E.scene.traverse(o=>{ if(!R.test(o.name||'')) return; let w=true; for(let p=o;p;p=p.parent) if(p.visible===false){ w=false; break; }
   let op=1; o.traverse(m=>{ if(m.isMesh) for(const mt of [].concat(m.material)) if(mt&&mt.opacity!=null) op=Math.min(op,mt.opacity); }); o.updateWorldMatrix(true,true); const bx=new THREE.Box3().setFromObject(o), v=new THREE.Vector3(); if(!bx.isEmpty()) bx.getCenter(v); else o.getWorldPosition(v);

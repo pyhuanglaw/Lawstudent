@@ -203,7 +203,7 @@ async def use(pg, cdp, run, pat):
     it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
     if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
-    for k in range(4):
+    for k in range(25):   # BB-B 10-23 16:5x：負載 25 時一格要 3 秒以上（0.3 fps），互動鈕下一格才出來；原本只等 3.2 秒就按（FOOD51_KX_*「按鈕「」」、什麼都沒買）＝等到 20 秒
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if lab: break
         await pg.wait_for_timeout(800)
@@ -224,7 +224,8 @@ async def go_home(pg, cdp, run):
     if not it: return False
     if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): return False
     say('   回去：%s' % it[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(3000); await drain(pg, cdp, secs=120); return True
-async def bed_menu(pg, cdp, run):
+BEDLIKE = ('睡', '快轉', '再撐', '在家休息')
+async def bed_menu(pg, cdp, run, pref=None):
     """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
     bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
     for _ in range(2):   # 這一區沒有床＝先回去（最多兩段：校園 → 社區 → 公寓）
@@ -232,9 +233,21 @@ async def bed_menu(pg, cdp, run):
         if not await go_home(pg, cdp, run): break
         bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
-    for k in range(4):
-        await close_phone(pg); await pg.wait_for_timeout(600); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        if (await L.state(pg))['choices']: break
+    # BB-B 10-23 16:4x：畫面上已經有別的選項或對話（「出發：七夕」剛跳出來、床邊的包裹「拆／先不拆」）＝先演完再按床——原本照樣按互動鈕的位置，
+    #   劇情中互動鈕不收觸控，手指落到疊在那裡的選項（QX27_LAST 按到「晚一點」、錯過七夕）；QX26_GO 按完床是一段對話、床的選單是空的就中斷
+    taps = 0
+    for k in range(40):
+        s = await L.state(pg)
+        if s['choices']:
+            cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+            if any(w in c for c in cs for w in BEDLIKE): break
+            say('   床邊先有別的選項：先選（%s）' % ' / '.join(x[:16] for x in cs)); await drain(pg, cdp, pref=pref or [], secs=150); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue   # 對話一句一句翻（床邊的那一段可能先說一句才出選單：只翻、不替它選）
+        if taps >= 4: break
+        await close_phone(pg); await pg.wait_for_timeout(600)
+        s = await L.state(pg)
+        if s['choices'] or s['dlg']: continue
+        await L.tap(pg, cdp, '#interact'); taps += 1; await pg.wait_for_timeout(1500)
     cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
     sn = await pg.evaluate(SNAP); say('   床的選單 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(x[:22] for x in cs))); return cs
 async def tap_start(pg, cdp, start):
@@ -242,7 +255,7 @@ async def tap_start(pg, cdp, start):
     if not c: return None
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); return c[2]
 async def bedpick(pg, cdp, run, start, sc, want_only=None):
-    cs = await bed_menu(pg, cdp, run)
+    cs = await bed_menu(pg, cdp, run, sc.get('pref'))
     if want_only is not None:
         got = [x for x in cs]
         if any(not any(x.startswith(w) for w in want_only) for x in got): bad.append('%s：床的選單應該只有 %s，實際 %s' % (sc['id'], want_only, got))
@@ -259,9 +272,14 @@ async def ff_once(pg, cdp, run, sc):
     if due:
         k = sc.setdefault('_duewait', {}); k[due] = k.get(due, 0) + 1
         if k[due] <= 3:
-            say('   ⏩ %s 該出發了：先等「出發」跳出來（第 %d 次），不開床' % (due, k[due])); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+            say('   ⏩ %s 該出發了：先等「出發」跳出來（第 %d 次），不開床' % (due, k[due]))
+            for _ in range(12):   # BB-B 16:4x：提醒是遊戲每 0.5 秒檢查一次才跳，drain 看到畫面空著就回來了（QX27_LAST 三次都沒等到）＝先等選項或對話出來（最多約 18 秒）
+                s_ = await L.state(pg)
+                if s_['choices'] or s_['dlg']: break
+                await pg.wait_for_timeout(1500)
+            await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
             return await pg.evaluate(SNAP)
-    cs = await bed_menu(pg, cdp, run)
+    cs = await bed_menu(pg, cdp, run, sc.get('pref'))
     # BB-B 10-23 15:5x：床邊已經寫「約好的時間」＝約就在眼前，玩家會睡到被叫醒或撐著等，不會再快轉（原本再按快轉就跳過約：QX26/27/28、B6_SEND_AIR_D）
     if cs and any('約好的時間' in c for c in cs) and any(c.startswith('快轉') for c in cs):
         nap = next((c for c in cs if c.startswith('睡一下') and '約好的時間' in c), None)
