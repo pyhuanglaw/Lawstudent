@@ -258,6 +258,10 @@ async def ff_once(pg, cdp, run, sc):
     t = await tap_start(pg, cdp, '到下一個有事的日子')
     if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None
     await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
+    try:   # BB-B 10-23 S3_LAKE：快轉停在出遊開始的那一刻，「出發」沒有跳出來、再快轉就錯過——停下來的時候記下該出發的出遊和畫面上的選項
+        dg = await pg.evaluate("(()=>{ const G=GAME.G, q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null, pl=(typeof OUT!=='undefined'?OUT.rec(G):[]).filter(x=>x.state==='planned').map(x=>x.id+'@'+CALENDAR.dateOf(x.day).key+' '+x.h); return {due:q?q.id:null, planned:pl.slice(0,6), choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,14)), h:+G.hour.toFixed(3)}; })()")
+        if dg.get('due') or dg.get('choices'): say('   ⏩ 停下來：%s' % json.dumps(dg, ensure_ascii=False)[:400])
+    except Exception as e: say('   ⏩ 停下來（記錄失敗 %r）' % e)
     await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
     if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
     return sn
