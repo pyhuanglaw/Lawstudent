@@ -2160,6 +2160,21 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 20:07 第六組；00_文件狀態表 BB_106 改成 SK01～SK14（AA_289 5-5）。"
+  },
+  {
+   "task": "V6-S5",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "f00b9e9f1",
+   "files": [
+    "docs/story_planning/AA_431_裂縫來源的時刻_打工應徵與班表.md"
+   ],
+   "state": "已交付",
+   "remaining": "打工：便利商店夜班、補習班助教、事務所工讀的應徵與班表下一批；研究助理等 M8",
+   "next": "LAWWW-B：CRACKTALK.SOURCES_MISSING 十項照第 1-1～1-6 節接；GAPS 照 1-7；SYS-13-EV Café 外場、舊路書房照第 2 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 20:21 七、八。沛珊③改成「連兩個月沒去台南」；沛珊修補改「每個月我去台南找妳一次」；子晴修補的三次邀約寫好。"
   }
  ],
  "items": [
