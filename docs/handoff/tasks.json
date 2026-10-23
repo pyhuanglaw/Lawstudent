@@ -30033,7 +30033,7 @@
    },
    "source": "使用者 2026-10-23 07:3x 直接對 LAWWW2：「圖書館三樓那種深色木地板 很醜 不要出現這種深色木底板 整個遊戲都不要 只能接受淺色木地板或其他材質」（UA-LAWWW2-1023-03）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-B 10-23 08:0x ACK】永久美術規則（PROJECT_DECISIONS D112）；LAWWW2 第一批 15551b2f（圖書館 3F＋大廳二樓）、第二批 6fbe2830（GLB＋src patch），遊戲內前後截圖拍完正式交件；家具桌面不動",
+   "next": "【LAWWW-B 10-23 08:1x】第一批（圖書館 3F＋大廳二樓，8ee895d4）已合併（DL-LW2-NODARK-1）；BB 畫面驗收；第二批（9 個室內＋src patch，6fbe2830）等交件 ｜ 【LAWWW-B 10-23 08:0x ACK】永久美術規則（PROJECT_DECISIONS D112）；LAWWW2 第一批 15551b2f（圖書館 3F＋大廳二樓）、第二批 6fbe2830（GLB＋src patch），遊戲內前後截圖拍完正式交件；家具桌面不動",
    "xai": {
     "spec": "使用者 2026-10-23 07:3x 直接對 LAWWW2：「圖書館三樓那種深色木地板 很醜 不要出現這種深色木底板 整個遊戲都不要 只能接受淺色木地板或其他材質」（UA-LAWWW2-1023-03）",
     "owner": "LAWWW2",
