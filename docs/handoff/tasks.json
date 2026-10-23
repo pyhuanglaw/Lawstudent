@@ -30573,7 +30573,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-B 10-23 13:5x】合併子代理 a5526488（e2f906d05）：src/foodfav3d.js＋data/food_fav_lines.js；七位（以安、沛珊、語彤、學姊、子晴、可昕、芷若照舊）；tests/aa410_food_fav_unit.js ALL PASS；缺字與四個自定的轉 AA；BB 清單第 51 項 ｜ 【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c42228351）實作 AA_410；回來以後合併、全套測試、BB 測 ｜ 【LAWWW-B 10-23 12:3x】AA_410（企劃線 86016b84）交了；等店員支線第二三批子代理（改同一批店家點餐檔）交件合併以後做",
+   "next": "【LAWWW-B 10-23 14:0x】AA_410 第 4 節（38b3c9dd）補完：缺字七句、學姊猜對、REMEMBERED_HER_FOOD（d94a08ef1） ｜ 【LAWWW-B 10-23 13:5x】合併子代理 a5526488（e2f906d05）：src/foodfav3d.js＋data/food_fav_lines.js；七位（以安、沛珊、語彤、學姊、子晴、可昕、芷若照舊）；tests/aa410_food_fav_unit.js ALL PASS；缺字與四個自定的轉 AA；BB 清單第 51 項 ｜ 【LAWWW-B 10-23 12:5x】派背景子代理（worktree，從 c42228351）實作 AA_410；回來以後合併、全套測試、BB 測 ｜ 【LAWWW-B 10-23 12:3x】AA_410（企劃線 86016b84）交了；等店員支線第二三批子代理（改同一批店家點餐檔）交件合併以後做",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -30623,7 +30623,7 @@
    "title": "店員支線第二三批缺字（AA_408 第 6 節：SQ17 三題中英＋給號碼、SQ20 自己計時兩次、SQ19 群組三則、SQ10 交乳扇、SQ12 交往對象五句、SQ15 房間物品、SQ18 運費一杯）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -30637,8 +30637,9 @@
    },
    "source": "AA_408 第 6 節（企劃線 b0b80a54）",
    "authorized": "D109、D111",
-   "next": "【LAWWW-B 10-23 13:1x】派背景子代理（worktree，從 fdc39c9fc）實作；回來以後合併、相關測試、BB 測 ｜ 【LAWWW-B 10-23 13:0x】接在 FF-SEMESTER 之後；改 src/sideq3d.js＋tests/aa404_sideq_unit.js（稿加 AA_408 b0b80a54）",
-   "aliases": []
+   "next": "【LAWWW-B 10-23 14:0x】合併子代理 75f61865：SQ17 三題中英＋給號碼（聯絡人「一一八茶飲的店員」、4/25 21:00「上了。京都。」）、SQ20 自己計時兩次、SQ19 班上群組三則（取代旁白事件）、SQ10 下一次來滇香交乳扇才做完、SQ12 交往對象五句、SQ15 房間物品、SQ18 阿伯運費一杯；aa404 109 項、aa397、sis_no_three、alison ALL PASS；BB 清單第 52 項 ｜ 【LAWWW-B 10-23 13:1x】派背景子代理（worktree，從 fdc39c9fc）實作；回來以後合併、相關測試、BB 測 ｜ 【LAWWW-B 10-23 13:0x】接在 FF-SEMESTER 之後；改 src/sideq3d.js＋tests/aa404_sideq_unit.js（稿加 AA_408 b0b80a54）",
+   "aliases": [],
+   "sha": "75f61865（合併 59340e371）"
   }
  ]
 }

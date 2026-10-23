@@ -1852,9 +1852,9 @@
   },
   {
    "path": "docs/story_planning/AA_410_女主角各自喜歡吃的東西.md",
-   "sha": "86016b84",
+   "sha": "38b3c9dd",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 12:3x 定稿（D109；使用者 10-23 選擇題 C）；LAWWW-B 子代理實作 src/data/food_fav_lines.js",
+   "approvedBy": "AA-B 2026-10-23 12:3x 定稿（D109；使用者 10-23 選擇題 C）；LAWWW-B 子代理實作 src/data/food_fav_lines.js；38b3c9dd 第 4 節補充（缺字、記憶名稱）",
    "task": "FOOD-FAV-1023",
    "kind": "text"
   }

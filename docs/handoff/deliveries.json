@@ -13800,8 +13800,8 @@
    "what": "AA_408 第 6 節：店員支線第二三批缺字＋暫定值確認",
    "task": "SIDEQ-AA408-6-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 13:0x 收；接在 FF-SEMESTER 之後"
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 13:0x 收；接在 FF-SEMESTER 之後；10-23 14:0x 合併子代理 75f61865（59340e371）"
   },
   {
    "id": "DL-LW2-CATLIFE",
@@ -13828,6 +13828,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 13:5x 合併子代理 a5526488（e2f906d05）；BB 清單第 51 項"
+  },
+  {
+   "id": "DL-AA410-4",
+   "date": "2026-10-23",
+   "from": "AA-B",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "38b3c9dd",
+   "what": "AA_410 第 4 節：缺字（子晴、可昕點錯、半糖、學姊猜對）＋記憶名稱＋選項字確認",
+   "task": "FOOD-FAV-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 14:0x 實作 d94a08ef1"
   }
  ],
  "ignored": [
