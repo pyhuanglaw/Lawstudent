@@ -932,7 +932,7 @@ SQROLL = " SIDEQ.roll=()=>0;"   # 【捷徑】「偶爾」（35%）固定抽中�
 def EATN(key, n): return " EAT.rec(G).n[%s]=%d;" % (json.dumps(key, ensure_ascii=False), n)   # [前置] 這間店點過 n 次（這一次點完＝第 n+1 次；5 次起店員認得你）
 CATN = " PARK.rec(G).catName='麻糬';"   # [前置] 公園的貓取過名字（麻糬）
 SQ08DONE = " SIDEQ.rec(G).SQ08={state:'done',step:'done',day:D('2026-10-05'),posted:D('2026-10-09'),doneDay:D('2026-10-09')};"   # [前置] SQ08 餵貓表早就貼了
-TODAYQ = "(()=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); const body=document.getElementById('phoneBody'); const s=body?body.innerText:''; const c=document.getElementById('btnPhoneClose'); if(c) c.click(); return s; })()"   # 手機「今天」那一頁的字
+TODAYQ = "(async()=>{ const W=ms=>new Promise(r=>setTimeout(r,ms)); const p=document.getElementById('phone'); if(!p||p.classList.contains('hide')||getComputedStyle(p).display==='none'){ const b=document.getElementById('btnPhone'); if(b) b.click(); await W(1200); } const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); await W(1200); const body=document.getElementById('phoneBody'); const s=body?body.innerText:''; const c=document.getElementById('btnPhoneClose'); if(c) c.click(); await W(500); return s; })()"   # 手機「今天」那一頁的字（打開手機、點「今天」、讀完關掉）
 def SQST(i): return "(r=>r?r.state+'/'+r.step:null)(SIDEQ.get(GAME.G,%s))" % json.dumps(i)
 ENTER = "(async([k,h,z])=>{ const G=GAME.G; G.day=STORY.dayOfKey(k); G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); try{ if(G.zone!==z) await GAME.enter(z); }catch(e){ return 'ERR '+e; } return true; })(%s)"   # 【捷徑】日子撥到 k h、直接進 z（中間幾天不走）
 def ENT(k, h, z): return ('jsrun', ENTER % json.dumps([k, h, z]), '日子撥到 %s %.2f、直接進 %s' % (k, h, z))
@@ -941,7 +941,8 @@ SQ_YN = '「要我幫忙嗎？」｜「……加油。」'; SQ01_R = '「謝謝�
 SQ01_DONE = ['★★★★☆　原來乾麵沒有湯，是我點錯了。老闆回得好有禮貌。', '（他的上一則評價寫的是：『大一，第一次自己來公館吃飯。』）']
 SQ02_OPEN = ['（她把一張紙壓在收銀機下面。）', '老闆說上禮拜打破的杯子，要從我薪水扣。三個，四百五。']
 SQ08_OPEN = ['你也是買給公園那隻的？', '今天你是第四個。']
-LIN = ('usep', '^點餐（林家乾麵）$'); TEA = ('usep', '^買一杯飲料$'); CVS = ('usep', '^結帳'); NOTICE = ('usep', '^看公布欄$')
+LIN = ('usep', '^點餐$')   # wz_lin 裡的按鈕（zones3d.js CUST.lin）
+TEA = ('usep', '^買一杯飲料$'); CVS = ('usep', '^結帳'); NOTICE = ('usep', '^看公布欄$')
 SQ2 = " { const R=SIDEQ.rec(G), t=SIDEQ.termKey(G); R.SQ02={state:'open',step:'wait',day:G.day-3,term:t,wait:G.day+30}; R.SQ04={state:'open',step:'ask',day:G.day-3,term:t}; }"   # [前置] 已經掛著兩則（別家店）
 FAFUD = "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev==='ev_sq02_fafu'); return q?q.day:null; })()"
 FAFUD1 = "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev==='ev_sq02_fafu'); return q?q.day+1:null; })()"
