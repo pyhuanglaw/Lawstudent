@@ -29582,9 +29582,9 @@
    "title": "學姊第五批・七夕（AA_388）實作：交往中、她約的三年七夕（2026-08-19 溫州街定食店、2027-08-08 霖澤館研究室門口便當、2028-08-26 她在美國：美國路線週六市集當面／其他路線 21:00 視訊）；ev_sis_qixi、SIS_QIXI",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "照 AA_388 第 3 節（企劃線 3a509150）：ev_sis_qixi 同一個 id、OUT 出遊、不算正式約會；SIS_QIXI:{年:'met'|'video'|'declined'|'missed'}；關係照 AA_386 第 3 節；美國市集 2D 底圖沒有先用校園底圖（BB 跟使用者要，F08）；單元測試修改前 FAIL；BB 照第 3 節第 4 點測",
+   "next": "【LAWWW-B 10-23 07:1x】交給背景子代理在獨立工作樹實作（新檔 sis_qixi3d.js／data/sis_qixi_events.js、測試 aa388_sis_qixi_unit.js、白名單），LAWWW-B 審查後合併｜照 AA_388 第 3 節（企劃線 3a509150）：ev_sis_qixi 同一個 id、OUT 出遊、不算正式約會；SIS_QIXI:{年:'met'|'video'|'declined'|'missed'}；關係照 AA_386 第 3 節；美國市集 2D 底圖沒有先用校園底圖（BB 跟使用者要，F08）；單元測試修改前 FAIL；BB 照第 3 節第 4 點測",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -29748,7 +29748,7 @@
    "title": "AA_389 回 AA_313 九點的程式部分：D13 重新匯入＋新旗標 ZR_UK_BACK（2028-02-19 記）、回來版旁白；HOOK_T03 不出選項、ZR_SENDOFF／ZQ_GAME 選項先不出；ENC_D09_BH 兩句合一、拿掉 linesIfNot；第 20、21 列；可昕生日按鈕 2028、2029（build_msg2.py）；AA_127 重新匯入（以安放鴿子兩句）；第 9 節三句舊句＋AA_312 B 表第 2、4、6 列",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "next": "照 AA_389（企劃線 345234b3）逐點改；兩版不一樣以逐場表為準、「小語」一律 Alison；不在匯入工具疊字，重新匯入原檔；相關單元測試修改前 FAIL；做完 AA313-FIXES 對應項目標掉；BB 補測",
    "first": {
