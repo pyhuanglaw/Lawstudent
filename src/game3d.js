@@ -462,7 +462,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
-    body.querySelectorAll('[data-pmap]').forEach(b=>b.onclick=()=>{ phonePin=phonePin===b.dataset.pmap?null:b.dataset.pmap; renderPhone(); });   /* 地點地圖的圖釘（src/placemap3d.js）*/
+    body.querySelectorAll('[data-pmapsvg]').forEach(sv=>sv.onclick=e=>{ if(typeof PLACEMAP==='undefined') return; const r=sv.getBoundingClientRect(), V=PLACEMAP.VB; if(!r.width) return; const id=PLACEMAP.pick(V[0]+(e.clientX-r.left)/r.width*V[2],V[1]+(e.clientY-r.top)/r.height*V[3],sv.dataset.pmapsvg.split(',')); if(!id) return; phonePin=phonePin===id?null:id; renderPhone(); });   /* 地點地圖（src/placemap3d.js）：整張圖都可以點，選最近的圖釘（BB-B 10-23：圖釘太小、相鄰的會點錯）*/
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     if(inTh&&phoneTab==='msg'&&phoneThread) body.scrollTop=atEnd?body.scrollHeight:st0;   /* 對話裡重畫（回覆、新訊息）：本來在最下面就留在最下面，往上看舊訊息就不動（PHONE-LINE-UI-1018）*/
