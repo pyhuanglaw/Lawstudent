@@ -30431,7 +30431,7 @@
    "source": "AA-B 2026-10-23 06:50 交付（SIS-LEAD-1021，USER_WANTS C25）",
    "authorized": "D100、D109（AA 劇情自主決定）",
    "sha": "9dcbb19d6",
-   "note": "2026-10-23 LAWWW-B 實作 9dcbb19d6（tests/aa406_family_xmas_unit.js）；禮物先用手機一格買（逐店清單還沒有）；旗標改名 SIS_FAMXMAS_Y2（SIS_XMAS_Y2 被 AA_386 用了）。待 BB 測（清單第 26 項）。"
+   "note": "2026-10-23 LAWWW-B 實作 9dcbb19d6（tests/aa406_family_xmas_unit.js）；禮物先用手機一格買（逐店清單還沒有）；旗標改名 SIS_FAMXMAS_Y2（SIS_XMAS_Y2 被 AA_386 用了）。待 BB 測（清單第 26 項）。；10-23 AA 改到大一 2025-12-22（895496a7），已照改。"
   },
   {
    "first": {

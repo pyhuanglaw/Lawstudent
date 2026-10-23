@@ -1764,9 +1764,9 @@
   },
   {
    "path": "docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md",
-   "sha": "2408bcf09",
+   "sha": "895496a7",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 09:1x 定稿、09:34 改旁白（D109）；LAWWW-B 10-23 實作 src/family_xmas3d.js",
+   "approvedBy": "AA-B 2026-10-23 09:1x 定稿、09:34 改旁白（D109）；LAWWW-B 10-23 實作 src/family_xmas3d.js；10:2x 改大一（895496a7）",
    "task": "SIS-XMAS-GIFT-L-1023、DL-AA406",
    "kind": "text"
   }
