@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **16:5x 更新**：
+    - LAWWW-B 16:02 ACK：霖澤館 5F 已合併；「窗外的樹」選 A（法學院廣場種一棵 17～19 m 的大樹、重拍霖澤館窗景），排在沛珊之後。
+    - LAWWW-B 16:14：v9.10.6 已合併 main（PR #12）。開發分支換回 `7cd89fbac`，現在最新是 `6326916cc`。
+      - 測試樹 `$SP/rs` 已經換到 `6326916cc`。
+      - 原本的本地修改都已合併進開發，存成 stash@{0}。
+    - 已交：沛珊第三十一版（`781d692f`，`char_review/peishan_v31/README.md`），給 LAWWW 驗收。
+      - 第一輪截圖整組拍到手機畫面：讀檔後 `S.phoneAuto` 自動打開手機，遊戲暫停。
+      - `tools/shots/char_review.py` 已改成讀檔後收起手機（`9146c72b`）。
+    - 接下來：法學院廣場的大樹（A）→ 總圖 B1。
   - **16:2x 更新**：
     - LAWWW-B 14:36、14:41 ACK：118 巷窗景第二批（`79777475`）、SEE-THROUGH-FAIL-1023（`b1cb4030`）都已合併。
     - 已交：CLOSED-SPACES-1023 第一項，霖澤館 5F 研究室樓層（`ce472581`，`test_shots/linze_5f_1023/README.md`）。
