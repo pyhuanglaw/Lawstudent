@@ -304,6 +304,7 @@ const CLS=(function(){
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
+        if(S.attCourse(c)){ const rk=it.term+':'+c.id; R.attRule=R.attRule&&typeof R.attRule==='object'?R.attRule:{}; if(!R.attRule[rk]){ R.attRule[rk]=G.day; for(const [w,t] of S.attRuleLines(G,c)) await GM.say(w?{name:w}:null,t); } }   /* AA_418 第 1 節：這一學期第一次出席（遲到記缺席的那一堂不算）*/
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
@@ -498,6 +499,17 @@ const CLS=(function(){
   /* 看出席的課（D43／AA_126 1-4：國文、英文、通識、體育、日文、經濟學原理）：每學期出席三堂才及格，不到三堂不及格；成績單寫及格／不及格。服務學習照舊只記次數 */
   S.ATT_PASS=3;
   S.attCourse=c=>!!c&&!S.isExamCourse(c)&&(c.kind==='general'||c.kind==='elective'||/^econ_principles_\d$/.test(c.id));
+  /* 第一堂課老師說的規定（AA_418 第 1 節，企劃線 2e90719c／f4aab3d2）：那一學期第一次出席的那一堂、課堂開頭，一學期一次；重修的學期多一句；
+     法律系的經濟學原理：演過經濟系那一年的玩家多一句旁白 */
+  S.ATT_RULE=[[/^chinese_/,['這門課看出席。一學期來三次就及格。','……可是我希望你們不是只來三次。']],
+    [/^english_/,['這門課看出席，一學期至少三次。三次就 pass。','點名我用英文點。聽到自己的名字要回答。']],
+    [/^ge_/,['通識看出席。三次就及格，沒有考試。','……來了就聽一下。不聽也不要睡太大聲。']],
+    [/^pe_/,['體育看出席。來三次就及格。','鞋子穿對，不要受傷。受傷的不算請假，算我的麻煩。']],
+    [/^japanese_/,['この授業は出席を見ます。三回来れば、合格です。','……聽不懂的話：來三次就及格。']],
+    [/^econ_principles_\d$/,['法律系的經濟學原理看出席。三次就及格。','……我知道你們是被規定來的。我盡量講得有趣。']]];
+  S.attRuleLines=function(G,c){ const row=S.ATT_RULE.find(r=>r[0].test(c.id)); if(!row) return []; const out=row[1].map(t=>['老師',t]);
+    if(/^econ_principles_\d$/.test(c.id)&&G.flags&&(G.flags.Y0_LEFT||G.flags.Y0_MOVED_OUT)) out.push([null,'（你在經濟系聽過一次經濟學原理的開場。那時候是要考試的。）']);
+    if(c.rt) out.push(['老師','重修的同學，這學期重新算三次。']); return out; };
   S.noExam=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='none';
   const examDayMemo={};
   /* 這門課這個考試的日子：考試週裡那門課第一堂不是假日的課；都放假（例：大一上民法總則 12/25、1/1）＝放假那一堂之後，第二週第一個同一時段空著的平日（1/2 週五下午一）*/

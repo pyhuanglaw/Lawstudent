@@ -4,7 +4,7 @@
      以安 熟悉 +4、信任 +6、她的戀愛 +6；學姊 +2、+4、+3；其他認識的女主角和朋友 熟悉 +2、信任 +1。
      公告以後第一次找以安、柏翰說話先一句（AA_124 2-5：以安「名單上有你。理由？」；柏翰把名單拍下來「……好。」）。
      成績單多一行「書卷獎」（classes3d.js showGrades 問 HONOR.won）。
-   - 看出席的課：第 12 週週一 09:00 還有課不到三堂＝手機提醒一次（每學期一次）。 */
+   - 看出席的課：第 12 週週一 08:00 還有課不到三堂＝一門一則系統通知（AA_418 第 2 節的字；每學期一次）。 */
 const HONOR=(function(){
   const S={};
   const LAW_TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
@@ -31,10 +31,10 @@ const HONOR=(function(){
   S.phone=function(G){ if(!law(G)) return; const t=T(G.day); if(!t) return; const wd=G.weekday;
     /* 書卷獎：下學期第 2 週週一 09:00 以後 */
     if(t.week>=2&&!(t.week===2&&(wd===0||(wd===1&&G.hour<9)))){ const pv=S.prev(t.id); if(pv&&G.flags['HONOR_'+pv]==null) S.announce(G,pv); }
-    /* 看出席的課：第 12 週週一 09:00 起，這學期還有不到三堂的課 */
-    if(t.week===12&&!(wd===1&&G.hour<9)&&wd!==0&&typeof CLS!=='undefined'&&CLS.attCourse){ const tag='att_warn_'+t.id; if(sent(G,tag)) return;
-      const R=CLS.rec(G), low=CLS.termCourses(G,t.id).filter(c=>CLS.attCourse(c)&&(R.attend[c.id]||0)<CLS.ATT_PASS);
-      if(low.length&&typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(9,G.hour),[{th:'sys',text:'第 12 週提醒：'+low.map(c=>c.name+' 出席 '+(R.attend[c.id]||0)+' 堂').join('、')+'。看出席的課要三堂才及格。'}],tag); } };
+    /* 看出席的課（AA_418 第 2 節）：第 12 週週一 08:00，還不到三堂的課一門一則系統通知（同一個時間）；一學期一次；人在國外的學期不傳 */
+    if(t.week===12&&!(wd===1&&G.hour<8)&&wd!==0&&typeof CLS!=='undefined'&&CLS.attCourse&&!(CLS.termAway&&CLS.termAway(G,t.id))){ const tag='att_warn_'+t.id; if(sent(G,tag)) return;
+      const R=CLS.rec(G), low=CLS.termCourses(G,t.id).filter(c=>CLS.attCourse(c)&&(R.attend[c.id]||0)<CLS.ATT_PASS), tot=(CALENDAR.TERMS.find(x=>x.id===t.id)||{}).weeks||16, left=tot-t.week+1;
+      if(low.length&&typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(8,G.hour),low.map(c=>({th:'sys',text:'【出席】'+c.name+'：這學期出席 '+(R.attend[c.id]||0)+'／3 堂。三堂及格，還有 '+left+' 週。'})),tag); } };
   /* 公告以後第一次見面（AA_124 2-5）*/
   S.preTalk=async function(GM,who,id){ const G=GM.G, F=G.flags, tm=F.HONOR_LAST; if(!tm||!F['HONOR_'+tm]) return;
     if(id==='heroine_01'&&F['HONOR_AN_'+tm]==null){ F['HONOR_AN_'+tm]=G.day; await GM.say(who,'名單上有你。理由？'); }

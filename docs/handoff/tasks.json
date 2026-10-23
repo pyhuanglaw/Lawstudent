@@ -7923,7 +7923,7 @@
      "note": "三堂及格規則、第 12 週提醒都還沒做"
     }
    ],
-   "notes": "【LAWWW-B 10-23 19:2x】做好：國文、英文、通識、體育、日文、經濟學原理照出席三堂及格（成績單及格／不及格；已發的成績單不重算）；課表「出席 n／3 堂（三堂及格）」「已達及格」；第 12 週週一 09:00 手機提醒一次（src/honor3d.js、classes3d.js S.attCourse）。tests/honor_unit.js 第 4、5 節；classes_unit、multiweek_sim_unit 跟著改。還沒做：第一堂課老師說一次規定（台詞要 AA）。不及格以後怎麼重修＝D14-T5。BB 第 64 項。"
+   "notes": "【LAWWW-B 10-23 19:2x】做好：國文、英文、通識、體育、日文、經濟學原理照出席三堂及格（成績單及格／不及格；已發的成績單不重算）；課表「出席 n／3 堂（三堂及格）」「已達及格」；第 12 週週一 09:00 手機提醒一次（src/honor3d.js、classes3d.js S.attCourse）。tests/honor_unit.js 第 4、5 節；classes_unit、multiweek_sim_unit 跟著改。還沒做：第一堂課老師說一次規定（台詞要 AA）。不及格以後怎麼重修＝D14-T5。BB 第 64 項。【LAWWW-B 10-23 18:3x】AA_418（2e90719c／f4aab3d2）接好：第一堂課老師說的規定（六種課、經原多一句旁白給演過經濟系的、重修多一句；R.attRule 一學期一次）；第 12 週提醒改成週一 08:00、一門一則、AA 的字。honor_unit 第 5、5b 節。"
   },
   {
    "id": "D14-T5",
