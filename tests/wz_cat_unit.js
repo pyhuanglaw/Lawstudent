@@ -30,9 +30,9 @@ const st=(id,wk)=>{ const r=Z3.wzCatModel(mkRoot(),{day:termDay(id,wk||5)},'lie'
   return {pose:['sit','lie','walk'].filter(p=>vis('CAT_'+p)),tag:vis('CAT_lie_tag'),band:vis('CAT_lie_bandage'),fat:k.morphTargetInfluences[0],old:k.material.name==='cat_fur_old',x:k.position.x,holder:vis('CAT_fur_old_holder')}; };
 { const a=st('Y1S1'); check('2. 大一：只留趴著的姿勢（位置歸零）、沒有名牌和繃帶、不胖、年輕的毛色',a.pose.join()==='lie'&&!a.tag&&!a.band&&a.fat===0&&!a.old&&a.x===0,JSON.stringify(a)); }
 { const a=st('Y2S1'), b=st('Y2S2'); check('3. 大二上 fat 1.0、大二下 0.5',a.fat===1&&b.fat===0.5,JSON.stringify([a.fat,b.fat])); }
-{ const a=st('Y3S1',5), b=st('Y3S1',10), c=st('Y3S1',11), d=st('Y3S2'); check('4. 大三起有名牌；繃帶只有大三上第 10 週（找到以後那一週）',a.tag&&!a.band&&b.tag&&b.band&&!c.band&&d.tag&&!d.band,JSON.stringify([a,b,c].map(x=>[x.tag,x.band]))); }
+{ const a=st('Y3S1',5), b=st('Y3S1',11), c=st('Y3S1',12), d=st('Y3S2'); check('4. 大三起有名牌；繃帶只有大三上第 11 週（第 10 週貓不見之後那一週，AA_420 6-1）',a.tag&&!a.band&&b.tag&&b.band&&!c.band&&d.tag&&!d.band,JSON.stringify([a,b,c].map(x=>[x.tag,x.band]))); }
 { const a=st('Y4S1'), b=st('Y3S2'); check('5. 大四換老貓的毛色（cat_fur_old）；掛材質的小節點不顯示',a.old&&!b.old&&!a.holder,JSON.stringify([a.old,b.old,a.holder])); }
 { global.GAME={G:{day:termDay('Y1S1',5),hour:16,flags:{},daily:{}}}; E3.interactables=[]; E3.colliders=[]; E3.lampGlows=[]; E3.seats=[]; E3.npcs=[]; const z=Z3.ZONES.wenzhou.build(E3);
   const cg=z.group.getObjectByName('wz_cat'); check('6. 小公園的貓在 dyn 群組 wz_cat 裡（套件的貓是備用，模型載入後藏起來）',!!cg&&cg.userData.dyn===true&&cg.children.length>=1);
-  global.GAME.G.day=termDay('Y3S1',9); E3.interactables=[]; const z2=Z3.ZONES.wenzhou.build(E3); check('6. 大三上第 9 週（走失）沒有貓',!z2.group.getObjectByName('wz_cat')); delete global.GAME; }
+  global.GAME.G.day=termDay('Y3S1',10); E3.interactables=[]; const z2=Z3.ZONES.wenzhou.build(E3); check('6. 大三上第 10 週（走失；AA_420 6-1）沒有貓',!z2.group.getObjectByName('wz_cat')); delete global.GAME; }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -1046,9 +1046,9 @@ const Z3 = (function(){
      外觀是正式模型 bldg.wz_park；載入前、載入失敗時的備用（D38 ③）：草地、樹、長椅、路燈用套件，涼亭、遊戲場這些用低矮的色塊標出位置（不是隱形牆），模型載入後藏起來（userData.wzParkFb）。
      互動點（公布欄、象棋、土地公、直飲台）和貓的事件照 AA_171（src/wzpark3d.js；AA_164 5-4、5-6，DL-09／DL-13）；公園的路人照 AA_283（crowd3d.js 的 CROWD.parkSpots；下雨貓在涼亭的石桌底下、象棋的互動點藏起來）。改這裡要跑 node tests/wz_park_unit.js、node tests/wz_park_people_unit.js、tests/reachability_all.py、tests/touch_flow_wenzhou.py */
   /* 溫州街的貓（ART-WZ5，bldg.wz_cat）：三個姿勢留一個（原點＝四腳中間的地面、頭朝 +z）；照學期換樣子（AA_171 第 7 節、LAWWW2-B 的說明）：
-     大二上胖（fat 1.0）、大二下瘦一點（0.5）；大三起有項圈名牌；大三上第 10 週（找到以後那一週）左前腳有繃帶；大四毛色淡（cat_fur_old）*/
+     大二上胖（fat 1.0）、大二下瘦一點（0.5）；大三起有項圈名牌；大三上第 11 週（貓不見的第 10 週之後那一週，AA_420 6-1）左前腳有繃帶；大四毛色淡（cat_fur_old）*/
   function wzCatModel(root,G,pose){ const T=G&&typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, id=T?T.id:'', yr=+id.charAt(1)||1;
-    const fat=id==='Y2S1'?1:(id==='Y2S2'?0.5:0), tag=yr>=3, band=id==='Y3S1'&&T.week===10, old=yr>=4;
+    const fat=id==='Y2S1'?1:(id==='Y2S2'?0.5:0), tag=yr>=3, band=id==='Y3S1'&&T.week===11, old=yr>=4;
     let oldMat=null; root.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name==='cat_fur_old') oldMat=o.material; });
     if(pose==='curl'&&!root.getObjectByName('CAT_curl')) pose='lie';   /* CAT_curl（寒流縮成一團，LAWWW2-B 10-23）：舊的模型沒有，退回趴姿 */
     const keep=root.getObjectByName('CAT_'+pose); if(!keep) return null;
@@ -1079,7 +1079,7 @@ const Z3 = (function(){
     for(const q of (L.interact||[])){ const it={x:q.x,z:q.z,radius:1.4,label:q.label,park:q.kind};
       if(q.kind==='chess') Object.defineProperty(it,'hidden',{enumerable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return !!(G&&typeof PARK!=='undefined'&&PARK.rainy&&PARK.rainy(G)); }});   /* 下雨公園一個人都沒有＝沒有人下象棋（AA_283 第 1 節）*/
       E.interactables.push(it); }
-    const G0=typeof GAME!=='undefined'&&GAME.G, catHere=!(typeof PARK!=='undefined'&&G0&&PARK.catLost(G0));   /* 大三上第 9 週貓不見了（AA_166 線四）*/
+    const G0=typeof GAME!=='undefined'&&GAME.G, catHere=!(typeof PARK!=='undefined'&&G0&&PARK.catLost(G0));   /* 大三上第 10 週貓不見了（AA_166 線四；AA_420 6-1）*/
     const ring=L.items.find(i=>i.kind==='ring_bench'), under=!!(catHere&&pav&&typeof PARK!=='undefined'&&G0&&PARK.catUnder&&PARK.catUnder(G0));   /* 下雨：貓躲在涼亭的石桌底下（AA_164 5-2、AA_283 第 1 節；石桌在涼亭中間，地台 0.14 m）*/
     const catAt=under?{x:pav.x+0.3,z:pav.z+0.05,yaw:Math.PI/2,y:0.14}:(ring?{x:ring.x,z:ring.z+(ring.r||1.45),yaw:Math.PI}:null);
     if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null, Gn=()=>typeof GAME!=='undefined'&&GAME.G;   /* 名字、藏起來照 PARK（AA_397 第 3 節：寒流那一週只能「看」、收養以後「看圓椅」一次就藏起來；src/wzpark3d.js catLabel／catHidden）*/

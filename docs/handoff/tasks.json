@@ -13193,8 +13193,8 @@
    "title": "打工系統（三家店＋家教共用 G.jobs，在 3D 店裡進行）",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW-B 10-23 18:5x】AA_420（企劃線 7a646909，B05／B06 現行版）到了：子代理施工中（JOBS／G.jobs 三家店＋AA_420 第 2 節），做完 LAWWW 驗、commit ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：新增 src/jobs3d.js（G.jobs）照 AA_164／AA_165：三家店＋家教共用、在 3D 店裡上班、約好的打工不被時段擋；事件照 AA_289 第 1～3 節（AA 給白名單 commit 後） ｜ AA_164＋AA_165；家教（V2-B32）併進來；時段次數：約好的打工不被擋（AA_163）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-B 10-23 19:3x】AA_420 第 2 節＋AA_164／AA_165 做完（子代理）：src/jobs3d.js、src/data/wz_jobs.js——G.jobs 三家店、應徵、一週兩班（家教也算）、出門提醒、在 3D 店裡上班、熟練、薪水、沒去、辭職、寒暑假、出國暫停、延畢、撞時段一起列；tests/aa420_jobs_unit.js 58 項。BB 第 80 項 ｜ 【LAWWW-B 10-23 18:5x】AA_420（企劃線 7a646909，B05／B06 現行版）到了：子代理施工中（JOBS／G.jobs 三家店＋AA_420 第 2 節），做完 LAWWW 驗、commit ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：新增 src/jobs3d.js（G.jobs）照 AA_164／AA_165：三家店＋家教共用、在 3D 店裡上班、約好的打工不被時段擋；事件照 AA_289 第 1～3 節（AA 給白名單 commit 後） ｜ AA_164＋AA_165；家教（V2-B32）併進來；時段次數：約好的打工不被擋（AA_163）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -13222,8 +13222,8 @@
    "title": "溫州街四條故事線＋單一事件（AA_166、AA_167；BB 人物 BB_148）",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW-B 10-23 18:5x】AA_420 第 3～8 節＋AA_167／BB_148：和 DL-10 同一個子代理接著做 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_167（43ac6a69 新版）轉成 events.js 事件、第 7 節旗標、法服兩件新案、四門課回想；觸發照 BB_148 第 8b 節 ｜ 【HV-15 02:1x LAWWW-C】（HV-15）v9.10 發布當天看一次：排進 v9.10 之後的佇列｜AA_167（81bae366）的腳本照 STORY_EVENT_SCHEMA 轉；第 7 節新旗標（G.flags）、法服兩件新案件、既有事件 linesIf 一句、四門課的回想與準備 +1；LEGAL_REVIEW 交 BB-B 審；BB_148 第 8b 節（36f1115a）六個事件的觸發已交；LEGAL_REVIEW＝BB_115 L460～L464（第 21 批）全部通過；AA_167 新版 43ac6a69（L461 改句）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-B 10-23 19:3x】AA_420 第 3～10 節＋AA_167／BB_148 做完大部分（子代理）：src/data/wz_events.js（37 件）、src/wzlines3d.js；貓走失改第 10 週；tests/aa420_wz_unit.js 94 項。還沒：茶席、學姊茶屋邀約門檻、麵店團早午餐邀約（要接 invites3d）；二手市集 WZ-P2（AA 沒寫買的旁白和價錢）；WZ-P1、P3、P6、芷若公園（BB_148 第 7 節）；「A1 的鐵捲門」問 AA；ART-WZ6 六件房間物件、影印店兩種外觀、茶屋貓碗交 LAWWW2。BB 第 80 項 ｜ 【LAWWW-B 10-23 18:5x】AA_420 第 3～8 節＋AA_167／BB_148：和 DL-10 同一個子代理接著做 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_167（43ac6a69 新版）轉成 events.js 事件、第 7 節旗標、法服兩件新案、四門課回想；觸發照 BB_148 第 8b 節 ｜ 【HV-15 02:1x LAWWW-C】（HV-15）v9.10 發布當天看一次：排進 v9.10 之後的佇列｜AA_167（81bae366）的腳本照 STORY_EVENT_SCHEMA 轉；第 7 節新旗標（G.flags）、法服兩件新案件、既有事件 linesIf 一句、四門課的回想與準備 +1；LEGAL_REVIEW 交 BB-B 審；BB_148 第 8b 節（36f1115a）六個事件的觸發已交；LEGAL_REVIEW＝BB_115 L460～L464（第 21 批）全部通過；AA_167 新版 43ac6a69（L461 改句）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",

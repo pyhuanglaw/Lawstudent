@@ -1,7 +1,7 @@
 // 溫州街小公園：誰幾點在、走進公園的一句、點路人的一句（AA_283，企劃線 8b312c12，AA-C 定稿；DL-13／AA283-PARK-1021）——不需要瀏覽器。
 // 照 AA_283 第 4 節：
 //   1. 平日、週末、寒暑假、下雨各看一次：表上的人在、時段外的人不在（PARK.groups 的表＋在 Node 裡建出真正的溫州街，CROWD 照時段放的 3D 路人：人數、位置站得住、坐的位子、玩家的位子空著）；
-//      國定假日照週末、校定停課日（運動會）照平日；下雨一個人都沒有、貓在涼亭的石桌底下（象棋的互動點藏起來）；大三上第 9 週路人照常、只有貓不在。
+//      國定假日照週末、校定停課日（運動會）照平日；下雨一個人都沒有、貓在涼亭的石桌底下（象棋的互動點藏起來）；大三上第 10 週路人照常、只有貓不在。
 //   2. 走進公園的旁白：一天第一次走進去才播、照當時的時段（重疊照表上面那一列）；同一天第二次走進去不播；和 AA_171 7b 那一句不同一天播兩句（兩個方向都擋）。
 //   3. 點路人：一個人一天一次（說完就不能再點、出去再進來也一樣、隔天又可以）；同一種人輪流說、不連續重複（12～2 月阿嬤多一句）；玩家取名麻糬時孩子那句換句；
 //      學生、情侶只有旁白；下象棋的阿伯＝AA_171 的下一盤；不記關係。
@@ -27,7 +27,7 @@ const termDay=(id,wk,wd)=>{ for(let d=-400;d<1500;d++){ const t=CALENDAR.termOf(
 const mk=(day,hour,o)=>Object.assign({day,hour,weekday:CALENDAR.dateOf(day).wd%7,flags:{},daily:{},zone:'wenzhou',weather:'clear'},o||{});
 const ids=(G,h)=>PARK.groupsAt(G,h).map(g=>g.id).join(',');
 const TUE=dayOf('2025-10-07'), WED=dayOf('2025-10-08'), SAT=dayOf('2025-10-11'), NATDAY=dayOf('2025-10-10'), SPORTS=dayOf('2025-11-21'), WINTER=dayOf('2026-01-20'), SUMMER=dayOf('2026-07-14'), DEC=dayOf('2025-12-16');
-const Y3W9=termDay('Y3S1',9,2), Y3TUE=termDay('Y3S1',5,2), Y3THU=termDay('Y3S1',5,4);
+const Y3W9=termDay('Y3S1',10,2)   /* AA_420 6-1：貓不見改大三上第 10 週（變數名照舊）*/, Y3TUE=termDay('Y3S1',5,2), Y3THU=termDay('Y3S1',5,4);
 (async()=>{
 // ===================== 1. 誰幾點在（第 1 節的表）=====================
 { const G=mk(TUE,0); const want=[[6.5,'am'],[7.5,'am,dog'],[8.5,'dog,chess'],[9.5,'chess'],[11.5,''],[12.5,'office'],[14,''],[16,'kids'],[17.1,'kids,tutor'],[17.6,''],[18.5,'walk'],[21,'night'],[23,''],[5,'']];
@@ -41,7 +41,7 @@ check('1. 校定停課日（11/21 運動會，週五）國小、上班的人照�
 for(const [nm,d] of [['寒假（1/20 週二）',WINTER],['暑假（7/14 週二）',SUMMER]]){ const G=mk(d,0); const got=[[9.5,'chess,kids'],[11.5,''],[12.5,'office'],[15.2,'kids'],[16.5,'kids'],[17.1,''],[18.5,'walk']].map(([h,w])=>[h,w,ids(G,h)]);
   check('1. '+nm+'：孩子 09:00～11:00、15:00～17:00；週二也沒有課輔班；上班族照常',PARK.onBreak(G)&&got.every(q=>q[1]===q[2]),got.map(q=>q[0]+'→'+(q[2]||'無')).join(' ')); }
 { const G=mk(TUE,0,{weather:'rain'}); const any=[6.5,7.5,8.5,12.5,16,17.1,18.5,21].some(h=>PARK.groupsAt(G,h).length); check('1. 下雨：一個人都沒有（每個時段）',!any&&PARK.catUnder(G)); }
-{ const G=mk(Y3W9,0); check('1. 大三上第 9 週（週二）：貓不見，路人照常（和平常的週二一樣，有課輔班）',PARK.catLost(G)&&[6.5,7.5,8.5,12.5,16,17.1,18.5,21].map(h=>ids(G,h)).join('|')===[6.5,7.5,8.5,12.5,16,17.1,18.5,21].map(h=>ids(mk(TUE,0),h)).join('|')&&!PARK.catUnder(mk(Y3W9,0,{weather:'rain'}))); }
+{ const G=mk(Y3W9,0); check('1. 大三上第 10 週（週二）：貓不見，路人照常（和平常的週二一樣，有課輔班）',PARK.catLost(G)&&[6.5,7.5,8.5,12.5,16,17.1,18.5,21].map(h=>ids(G,h)).join('|')===[6.5,7.5,8.5,12.5,16,17.1,18.5,21].map(h=>ids(mk(TUE,0),h)).join('|')&&!PARK.catUnder(mk(Y3W9,0,{weather:'rain'}))); }
 // ===================== 3D：真正的溫州街＋CROWD =====================
 global.CHAR={build:spec=>{ const g=new THREE.Group(); g.userData.spec=spec; return g; },release(){}};
 global.STORY={extraSpec:i=>({id:'x'+i,name:'',sex:i%2===0?'f':'m',height:i%2===0?1.6:1.72})};
@@ -97,7 +97,7 @@ const near=(a,b,r)=>Math.hypot(a[0]-b[0],a[1]-b[1])<(r||0.4);
   check('1. 下雨：石桌底下的貓摸得到（旁邊站得住、從主巷走得到）',!!cr&&reach(cr,[26,0]));
   const Gc=mk(TUE,9); build(Gc); const cc=E.interactables.find(i=>i.park==='cat'), chc=E.interactables.find(i=>i.park==='chess'); global.GAME={G:Gc}; const hidC=chc&&chc.hidden; delete global.GAME;
   check('1. 晴天：貓照舊在圓椅北邊、象棋照舊',!!cc&&Math.abs(cc.x-ring.x)<1e-6&&cc.z>ring.z+1&&hidC===false);
-  const Gl=mk(Y3W9,9,{weather:'rain'}); build(Gl); check('1. 大三上第 9 週下雨：貓不見（石桌底下也沒有）',!E.interactables.some(i=>i.park==='cat'));
+  const Gl=mk(Y3W9,9,{weather:'rain'}); build(Gl); check('1. 大三上第 10 週下雨：貓不見（石桌底下也沒有）',!E.interactables.some(i=>i.park==='cat'));
   E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; const z2=Z3.ZONES.wenzhou.build(E); E.zone=z2; E.nav=z2.nav; }
 // ===================== 2. 走進公園的一句 =====================
 const OUT=[26,0], IN=[26,8], IN_B=[10,19];
@@ -112,7 +112,7 @@ const L0=()=>({cap:[],say:[],toast:[]});
     ['下雨',mk(TUE,10,{weather:'rain'}),PARK.ENTRY.rain],['寒假 09:30（象棋在孩子上面）',mk(WINTER,9.5),PARK.ENTRY.chess],['寒假 15:15',mk(WINTER,15.25),PARK.ENTRY.kids]];
   const bad=rows.filter(([nm,G,w])=>one(G)!==w); check('2. 照當時的時段播那一句（'+rows.length+' 種情況）',!bad.length,bad.map(([nm,G,w])=>nm+'：'+one(G)).join(' | '));
   const lost=[['08:30',mk(Y3W9,8.5),PARK.ENTRY.chess],['23:00',mk(Y3W9,23),'（無）'],['下雨',mk(Y3W9,10,{weather:'rain'}),'（無）'],['16:00',mk(Y3W9,16),PARK.ENTRY.kids]];
-  const bl=lost.filter(([nm,G,w])=>one(G)!==w); check('2. 大三上第 9 週（貓不見）：提到貓的不播（08:30 改成象棋那句、23:00 和下雨不播）、其他照常',!bl.length,bl.map(([nm,G,w])=>nm+'：'+one(G)).join(' | ')); }
+  const bl=lost.filter(([nm,G,w])=>one(G)!==w); check('2. 大三上第 10 週（貓不見）：提到貓的不播（08:30 改成象棋那句、23:00 和下雨不播）、其他照常',!bl.length,bl.map(([nm,G,w])=>nm+'：'+one(G)).join(' | ')); }
 { PARK._wasIn=null; const G=mk(TUE,14); const a=walkIn(G,L0()); G.hour=16; const b=walkIn(G,L0()); const c=walkIn(G,L0());
   check('2. 平日 14:00 走進去（那個時段沒有人）不播、也不算掉；16:00 再走進去播孩子那句；之後不播',!a.length&&b.join()===PARK.ENTRY.kids&&!c.length,[a,b,c].map(x=>x.join('')||'（無）').join(' / ')); }
 { PARK._wasIn=null; const G=mk(TUE,6.5); const a=walkIn(G,L0(),[[5.8,16],IN_B]); check('2. 從入口 B（北巷）走進來也算',a.join()===PARK.ENTRY.am,a.join('')); }
@@ -171,7 +171,7 @@ const tapSay=async(G,role,key,n)=>{ const lg=L0(); await PARK.tap(mkGM(G,lg),n||
   G.hour=17.09; CROWD.tick(gm,2); const t2=by('tutor'); const vis=t2.filter(n=>!n.hidden); const dists=vis.map(n=>{ const p=pos(n); let best=1e9; for(let i=0;i<R.pts.length-1;i++){ const a=R.pts[i], b=R.pts[i+1]; const L2=(b[0]-a[0])**2+(b[1]-a[1])**2||1; const u=Math.max(0,Math.min(1,((p[0]-a[0])*(b[0]-a[0])+(p[1]-a[1])*(b[1]-a[1]))/L2)); best=Math.min(best,Math.hypot(p[0]-a[0]-u*(b[0]-a[0]),p[1]-a[1]-u*(b[1]-a[1]))); } return best; });
   check('4. 3D 跳過時間到 17:05 進來：照已經過了多久，放在路線走到一半的地方（排成一排、老師在後面）',vis.length>=5&&dists.every(d=>d<0.05)&&vis.every(n=>n.path&&n.path.length),vis.length+' 人、離路線最遠 '+Math.max(...dists).toFixed(2)+' m');
   G.hour=17.6; CROWD.tick(gm,2); check('4. 3D 17:36：課輔班已經走過去了（沒有人、沒有等著的）',!by('tutor').length&&!CROWD.pend.length); }
-{ enter(mk(Y3W9,17.05)); check('4. 3D 大三上第 9 週（貓不見）週二：課輔班照常',by('tutor').length>=6); enter(mk(TUE,17.05,{weather:'rain'})); check('4. 3D 下雨的週二：沒有課輔班',!by('tutor').length); }
+{ enter(mk(Y3W9,17.05)); check('4. 3D 大三上第 10 週（貓不見）週二：課輔班照常',by('tutor').length>=6); enter(mk(TUE,17.05,{weather:'rain'})); check('4. 3D 下雨的週二：沒有課輔班',!by('tutor').length); }
 console.warn=_warn;
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

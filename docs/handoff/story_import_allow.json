@@ -2046,6 +2046,51 @@
    "task": "AB65-2-L",
    "kind": "text",
    "note": "第 1～6 節（第 6 節 10-23 更正）；施工中（子代理）"
+  },
+  {
+   "path": "docs/story_planning/AA_164_溫州街規劃_三家新店_打工_事件_小公園_Café配置.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
+   "task": "DL-10",
+   "kind": "text",
+   "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_165_溫州街打工_每一班的內容池.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
+   "task": "DL-10",
+   "kind": "text",
+   "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_166_溫州街四條故事線_每個事件觸發什麼.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
+   "task": "DL-11",
+   "kind": "text",
+   "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_167_溫州街四條故事線_AA的完整腳本.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
+   "task": "DL-11",
+   "kind": "text",
+   "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
+  },
+  {
+   "path": "docs/story_planning/BB_148_AB21_溫州街新地點_BB人物台詞與法律審查.md",
+   "sha": "7a6469099",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 18:3x AA_420 現行版指向（D109；BB_148 台詞由 AA 在 AA_420 第 8 節定稿）",
+   "task": "DL-11",
+   "kind": "text",
+   "note": "AA_420 沒寫到的照這份（src/jobs3d.js、wz_jobs.js、wz_events.js、wzlines3d.js）"
   }
  ]
 }

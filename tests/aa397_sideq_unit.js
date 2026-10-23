@@ -3,7 +3,7 @@
 //   1  系統：店員認得你（第 5 次）才出；「要我幫忙嗎？」掛進手機「今天」的「順手的事」；「……加油。」不掛、這學期不再出（下學期會）；一天一則；
 //      一家店同時一則；同時最多兩則；過期＝lapsed、不扣數值；舊存檔沒有 G.side 不壞
 //   2  SQ01～SQ08 各則：照步驟做完、做完的痕跡（店員多一句、店裡的變化、相簿）；接線（林家 order364、118 巷 L118.order、便利商店 counter、公布欄、象棋、蘇姨、冰菓室的價目板）
-//   3  公園的貓：SQ08 餵貓表 → 大三上第 9 週貓不見（照舊）→ 寒流（12/11～12/14：石桌下、只能看、表上「沒吃」）→ 12/14 22:10 那一場（認識子晴、熟悉以上、在公園）
+//   3  公園的貓：SQ08 餵貓表 → 大三上第 10 週貓不見（照舊；AA_420 6-1）→ 寒流（12/11～12/14：石桌下、只能看、表上「沒吃」）→ 12/14 22:10 那一場（認識子晴、熟悉以上、在公園）
 //      → 12/15 照片 → 12/17 領養告示；不在場＝告示＋象棋阿伯一句；收養以後摸／餵拿掉、「看圓椅」一次；2029 每月第一個週六六則照片；交往中「去看貓」
 // 修改前（開發分支 c822b4efc）：沒有 src/sideq3d.js、PARK 沒有 catCold／catGone、商店沒有接線——全部 FAIL。用法：node tests/aa397_sideq_unit.js
 require('./alison.js');
@@ -185,8 +185,8 @@ await sec('2 SQ08',async()=>{ fresh('2026-10-05',21,'gongguan'); PARK.rec(H.G).c
   check('2. SQ08 看餵貓表：兩行都唸',seq(['（一格一天，誰餵誰簽名。）','（有人在表的最下面加了一行：「星期日我來。——里長」）'])); });
 /* ---- 3 公園的貓 ---- */
 await sec(3,async()=>{ const cat=()=>({it:{park:'cat'}});
-  fresh('2027-11-02',16,'wenzhou'); PARK.rec(H.G).catName='麻糬';   /* 大三上第 9 週（AA_166 線四）照舊 */
-  check('3. 大三上第 9 週貓不見照舊；寒流、收養都還沒有',PARK.catLost(H.G)&&!PARK.catCold(H.G)&&!PARK.catGone(H.G),keyOf(H.G.day)+' '+J(CALENDAR.termOf(H.G.day)));
+  fresh('2027-11-09',16,'wenzhou'); PARK.rec(H.G).catName='麻糬';   /* 大三上第 10 週（AA_166 線四；AA_420 6-1 從第 9 週改第 10 週）照舊 */
+  check('3. 大三上第 10 週貓不見照舊；寒流、收養都還沒有',PARK.catLost(H.G)&&!PARK.catCold(H.G)&&!PARK.catGone(H.G),keyOf(H.G.day)+' '+J(CALENDAR.termOf(H.G.day)));
   fresh('2028-12-12',16,'wenzhou'); PARK.rec(H.G).catName='麻糬'; H.G.daily.catCans=2; X().rec(H.G).SQ08={state:'done',step:'done',day:1,posted:D('2026-10-09')};
   H.said=[]; H.opts=[]; const r=await PARK.interact(GM,{park:'cat'});
   check('3. 寒流（12/12）：貓縮在石桌下（catCold、catUnder）；「看」＝（牠縮在石桌下面…只聞了一下。）、沒有摸／餵選單；按鈕名字是牠的名字',PARK.catCold(H.G)&&PARK.catUnder(H.G)&&r==='cold'&&has('（牠縮在石桌下面，沒有出來。罐頭放在牠面前，牠只聞了一下。）')&&!H.opts.length&&PARK.catLabel(H.G)==='麻糬'&&H.G.daily.catCans===2);

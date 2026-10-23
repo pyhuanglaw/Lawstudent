@@ -51,6 +51,7 @@ const Y2B_EVENTS=(function(){
       {phone:'heroine_03',text:'兩年'},
       {if:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phone:'heroine_03',text:'你也在想剛剛那一條？'},
       {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phone:'heroine_03',text:'……房東想把整棟賣掉。還沒確定。'},
+      {if:{custom:G=>(+G.flags.WZ_COPY_LEASE||0)>=2},speaker:null,text:'（你想起阿德那封信。學長第一個問的，是租約寫了幾年。）'},   /* AA_420 3-4：陪阿德去過法服（線一 1-3，src/wzlines3d.js）*/
       {speaker:null,text:'（你傳了一張課本那一頁的照片。）'},
       {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},mem:[{npc:'heroine_03',tag:'RENT_RUMOR',note:'她說房東想把整棟賣掉'}]},   /* 沒有的這時候補上（她說了）*/
       {set:{YT_LEASE_HELP:true},stamp:['YT_LEASE_TEXT_DAY'],mem:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE',note:'債各第 6 週'}]} ] };   /* YT_LEASE_TEXT_DAY：當天 21:30 那兩則（y2b3d.js）*/

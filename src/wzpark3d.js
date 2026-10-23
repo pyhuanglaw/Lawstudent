@@ -1,12 +1,12 @@
 /* ===== 溫州街小公園的互動（DL-09／DL-13；文字＝AA-B 的 AA_171 定稿，企劃線 3d5feef2；規則 AA_164 5-4、5-5）=====
    都不扣時段次數，只花時間：坐在樹下 20 分、看公布欄 0 分、下象棋 30 分（08:00～11:00）、盪鞦韆 10 分（20:00 以後）、拜土地公 5 分（一天一次）、直飲台 0 分、摸貓 5 分、餵貓 5 分（各一天一次）。
-   存檔（一般狀態，不是劇情旗標）：G.daily.park＝{treeDay, treeUsed:[], chessN, chessOpen, swingN, shrineDay, fountainDay, catName, petDay, feedDay, sawTutorAd}；
+   存檔（一般狀態，不是劇情旗標）：G.daily.park＝{treeDay, treeUsed:[], chessN, chessOpen, swingN, shrineDay, fountainDay, catName, petDay, feedDay, feedN, sawTutorAd}；
    G.daily.catCans：小罐貓罐頭的數量（便利商店 35 元，AA_164 5-4）。舊存檔沒有＝從頭開始。
    位置（zones3d.js buildWzPark 加的互動點，park 欄位）：老樹下的圓椅（tree）、鞦韆（swing）、公布欄（notice）、涼亭的象棋（chess）、土地公（shrine）、直飲台（fountain）、貓（cat，圓椅北邊；下雨在涼亭的石桌底下）。
    公園裡照時段出現的路人、走進公園的一句、點路人的一句：AA_283（企劃線 8b312c12），在這個檔案最後一段；3D 的人由 crowd3d.js 的 CROWD.parkSpots 照 S.groups 放。
    公園的貓被子晴收養（AA_397 第 3 節，企劃線 8f1701b23；劇情在 src/sideq3d.js）：寒流那一週（2028-12-11～12-14 23:00）貓縮在涼亭的石桌下面（S.catCold；catUnder 照它放）、
      「看」＝一句旁白、沒有摸／餵；12/14 23:00 以後（或那一場演完）貓不在了（S.catGone／S.catAdopted：3D 的貓 LAWWW2 照它不顯示）——摸、餵的選單拿掉，「看圓椅」那一句一次（S.catHidden 之後藏起來）；
-     12/17 起公布欄換成領養告示（S.adoptNotice）；不在場的玩家：象棋阿伯一句（一次）。提到貓在圓椅上的句子，貓不在以後不播（和大三上第 9 週貓不見一樣）。
+     12/17 起公布欄換成領養告示（S.adoptNotice）；不在場的玩家：象棋阿伯一句（一次）。提到貓在圓椅上的句子，貓不在以後不播（和大三上第 10 週貓不見一樣）。
    順手的事第二、三批（src/sideq3d.js）：SQ14 回診（AA_404）＝「看」貓先問 SIDEQ.cage14、演過的告示多「（豆花）」（SIDEQ.adoptExtra）；SQ18 里長（AA_405）做完＝「——里長」的字條、名牌多一行（SIDEQ.knowsChief）。
    測試：node tests/wz_park_talk_unit.js、node tests/wz_park_people_unit.js、node tests/aa397_sideq_unit.js */
 'use strict';
@@ -43,9 +43,9 @@ const PARK=(function(){
     if(/^Y1/.test(id)||/^Y0/.test(id)) return 'y1'; if(id==='Y2S1') return 'y2a'; if(id==='Y2S2') return 'y2b'; if(/^Y3/.test(id)) return 'y3'; return 'y4'; };
   S.year=G=>{ const p=S.period(G); return p==='y1'?1:(p==='y2a'||p==='y2b'?2:(p==='y3'?3:4)); };
   S.examWeek=G=>{ const T=T_(G); return !!(T&&T.exam); };   /* 期中第 8～9 週、期末第 16 週（16 週制）*/
-  /* 大三上第 9 週（AA_166 線四）：貓不見了 */
-  S.catLost=G=>{ const T=T_(G); return !!(T&&T.id==='Y3S1'&&T.week===9); };
-  S.catFound=G=>{ const T=T_(G); return !!(T&&T.id==='Y3S1'&&T.week===10); };
+  /* 大三上第 10 週（AA_166 線四；AA_420 6-1：第 9 週是期中考週，改第 10 週）：貓不見了；找到的隔天（或第 11 週）公布欄換成「已找到」（src/wzlines3d.js 記 WZ_CAT_FOUND）*/
+  S.catLost=G=>{ const T=T_(G); return !!(T&&T.id==='Y3S1'&&T.week===10); };
+  S.catFound=G=>{ const T=T_(G); if(!(T&&T.id==='Y3S1')) return false; if(T.week===11) return true; const f=G.flags&&G.flags.WZ_CAT_FOUND; return T.week===10&&f!=null&&G.day>f; };
   /* 大四上第 15 週寒流（AA_397 3-2）：12/11～12/14 貓縮在涼亭的石桌下面；12/14 22:10～23:00 子晴帶走（src/sideq3d.js 那一場），23:00 以後所有玩家的公園都沒有貓 */
   const DK_=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   S.ADOPT={cold:'2028-12-11',night:'2028-12-14',week:'2028-12-17',notice:'2028-12-17'};
@@ -62,7 +62,7 @@ const PARK=(function(){
   S.notices=function(G){ const F=G.flags||{}, m=month(G), T=T_(G), out=[];
     out.push(['里民活動','「'+(NEIGHBOR[m]||NEIGHBOR_ELSE)+'」']);
     { const fs=S.firstSat(G); out.push(['二手市集','「溫州街二手市集：每月第一個週六 09:00～13:00。」下面手寫：「這個月是 '+(fs?fs.m+'/'+fs.d:'第一個週六')+'。」']); }
-    if(S.catLost(G)) out.push(['走失的貓','「走失：所長／麻糬／常客（都是牠）。橘白色，很胖。見到請告訴里長。」']);
+    if(S.catLost(G)&&!S.catFound(G)) out.push(['走失的貓','「走失：所長／麻糬／常客（都是牠）。橘白色，很胖。見到請告訴里長。」']);
     if(S.catFound(G)) out.push(['已找到','「已找到，謝謝大家。——里長」']);
     if(typeof SIDEQ!=='undefined'&&SIDEQ.parkNotices) for(const q of SIDEQ.parkNotices(G)) out.push(q);   /* 餵貓表（AA_397 SQ08）*/
     if(S.adoptNotice(G)){ const t=ADOPT_NOTICE.replace('{cat}',S.catName(G)||'所長／麻糬／常客'), ex=typeof SIDEQ!=='undefined'&&SIDEQ.adoptExtra?SIDEQ.adoptExtra(G):null; out.push(['領養',ex?[t].concat(ex):t]); }   /* 演過 SQ14（AA_404）：後面多一行「（豆花）」*/
@@ -100,7 +100,7 @@ const PARK=(function(){
         const cans=(G.daily.catCans|0), per=CAT[S.period(G)]; const opts=[{t:cat(G,'摸摸{cat}'),dim:P.petDay===G.day,hint:P.petDay===G.day?'今天摸過了':'5 分鐘',k:'pet'}]; if(cans>0) opts.push({t:cat(G,'餵{cat}（小罐罐頭）'),dim:P.feedDay===G.day,hint:P.feedDay===G.day?'今天餵過了':'還有 '+cans+' 罐',k:'feed'}); opts.push({t:'算了',k:'no'});
         const o=opts[await GM.choose(opts)]||{k:'no'}; if(o.k==='no') return 'no'; if(o.dim){ GM.toast(o.hint,2400); return 'dim'; }
         if(o.k==='pet'){ P.petDay=G.day; GM.advance(1/12); await GM.say(null,cat(G,per[0])); if(/——里長/.test(per[0])&&typeof SIDEQ!=='undefined'&&SIDEQ.knowsChief&&SIDEQ.knowsChief(G)) await GM.say(null,SIDEQ.LINES.SQ18.tag); return 'pet'; }   /* 大三起的名牌：AA_405 SQ18 做完多一行（阿伯的字。）*/
-        P.feedDay=G.day; G.daily.catCans=cans-1; GM.advance(1/12); await GM.say(null,cat(G,per[1])); return 'feed'; }
+        P.feedDay=G.day; P.feedN=(P.feedN|0)+1; G.daily.catCans=cans-1;   /* feedN：餵過幾次（線四 4-1 要三次以上，src/wzlines3d.js）*/ GM.advance(1/12); await GM.say(null,cat(G,per[1])); return 'feed'; }
     } finally { GM.sceneEnd(); }
     return null; };
   /* 明軒介紹家教時（AA_163）：看過公布欄那張廣告的，多一句旁白（AA_171 第 2 節；明軒的事件不讀它，只有這句旁白讀）*/
@@ -108,11 +108,11 @@ const PARK=(function(){
   S.TUTOR_AD_ECHO='你想起公園公布欄的那張紙。';
   /* ===== 公園裡的人（AA_283，企劃線 8b312c12，AA-C 2026-10-18 定稿；DL-13／AA283-PARK-1021）=====
      第 1 節 誰幾點在：S.groups(G)＝今天的表（平日；週末換成中午一家人野餐、孩子提早到 10:00；寒暑假孩子 09:00～11:00、15:00～17:00、沒有課輔班；
-       下雨一個人都沒有、貓在涼亭的石桌底下；大三上第 9 週路人照常、只有貓不在）。國定假日（平日放的假）照週末；校定的停課日（運動會）國小和上班的人照常＝平日。
+       下雨一個人都沒有、貓在涼亭的石桌底下；大三上第 10 週路人照常、只有貓不在）。國定假日（平日放的假）照週末；校定的停課日（運動會）國小和上班的人照常＝平日。
        課輔班的老師不取名（不是沛珊：她大三起在台南，AA_282）。3D 的人：crowd3d.js 的 CROWD.parkSpots。
      第 2 節 走進公園的一句：S.entryTick（story3d.js 的 S.tick 每一格叫）——一天第一次走進公園、照當時的時段；時段重疊照表上面那一列（課輔班那二十分鐘照課輔班）；
        那個時段沒有人（例：平日 13:00～15:30）這次不播、下次走進來再看；和 AA_171 7b 那句（story3d.js AMBIENT 的 park）不同一天播兩句。
-       提到貓的三句（遛狗、22:00 以後、下雨）大三上第 9 週不播（貓不見了；08:00～09:00 改成下一列象棋那句）。
+       提到貓的三句（遛狗、22:00 以後、下雨）大三上第 10 週不播（貓不見了；08:00～09:00 改成下一列象棋那句）。
      第 3 節 點路人：S.bindTap／S.tap——一個人一天一次、同一種人輪流說、不連續重複；學生、情侶只有旁白；下象棋的阿伯＝AA_171 第 3 節的下一盤（這裡不另寫）。
        路人都不取名、不記關係（不碰 SOCIAL）。
      存檔（一般狀態，G.daily.park）：entryDay（今天播過那一句）、pplDay＋pplDone（今天點過的人）、pplLast（每一種人上一次說第幾句）；舊存檔沒有＝今天還沒播、還沒點過 */

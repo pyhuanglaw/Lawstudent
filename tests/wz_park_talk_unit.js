@@ -1,7 +1,7 @@
 // 溫州街小公園的互動（AA_171 定稿；src/wzpark3d.js 的 PARK）——不需要瀏覽器。
-// 檢查：坐在樹下四季×四時段 16 句、同一天第二次不重複、花 20 分鐘；公布欄（里民活動每月、二手市集日期照日曆、走失的貓只在大三上第 9 週、課輔班大三起、家教廣告兩種＋SAW_TUTOR_AD）；
+// 檢查：坐在樹下四季×四時段 16 句、同一天第二次不重複、花 20 分鐘；公布欄（里民活動每月、二手市集日期照日曆、走失的貓只在大三上第 10 週、課輔班大三起、家教廣告兩種＋SAW_TUTOR_AD）；
 //       象棋 08:00～11:00、前四盤「輸輸和贏」、大四起叫「律師」；鞦韆 20:00 以後、三句輪流；土地公一天一次（平常、考試週、大四下）；直飲台三種情境、一天第二次不說話；
-//       貓：第一次取名三選一、之後旁白用那個名字、摸一天一次、沒有罐頭就沒有「餵」、便利商店買得到小罐罐頭、四年的句子、大三上第 9 週沒有貓；明軒家教事件的那句旁白；都不扣時段次數。
+//       貓：第一次取名三選一、之後旁白用那個名字、摸一天一次、沒有罐頭就沒有「餵」、便利商店買得到小罐罐頭、四年的句子、大三上第 10 週沒有貓；明軒家教事件的那句旁白；都不扣時段次數。
 // 修改前：沒有 PARK（第 1 項就失敗）。用法：node tests/wz_park_talk_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -28,8 +28,8 @@ const TREE={park:'tree',seat:{x:26,z:19.65,yaw:Math.PI}};
   { const G=mk(dayOf('2025-10-04'),10); const n=PARK.notices(G).map(q=>q[0]+'：'+q[1]);
     check('3. 10 月：里民活動是「社區清掃日」；二手市集「這個月是 10/4」；家教廣告（還沒開始家教）；沒有走失的貓、沒有課輔班',/社區清掃日/.test(n[0])&&/這個月是 10\/4/.test(n[1])&&n.some(t=>/徵國中家教/.test(t))&&!n.some(t=>/走失|課輔班/.test(t)),n.join(' | '));
     const G9=mk(dayOf('2025-09-20'),10); check('3. 9 月：中秋聯歡晚會',/中秋聯歡晚會/.test(PARK.notices(G9)[0][1]));
-    const L9=termDay('Y3S1',9,3), L10=termDay('Y3S1',10,3); const n9=PARK.notices(mk(L9,10)).map(q=>q[0]), n10=PARK.notices(mk(L10,10)).map(q=>q[0]);
-    check('3. 大三上第 9 週：走失的貓；第 10 週：已找到；大三起有課輔班招生',n9.includes('走失的貓')&&!n9.includes('已找到')&&n10.includes('已找到')&&n9.includes('課輔班招生'),n9.join(',')+' | '+n10.join(','));
+    const L9=termDay('Y3S1',10,3), L10=termDay('Y3S1',11,3);   /* AA_420 6-1：走失改第 10 週、已找到第 11 週（變數名照舊）*/ const n9=PARK.notices(mk(L9,10)).map(q=>q[0]), n10=PARK.notices(mk(L10,10)).map(q=>q[0]);
+    check('3. 大三上第 10 週：走失的貓；第 11 週：已找到；大三起有課輔班招生',n9.includes('走失的貓')&&!n9.includes('已找到')&&n10.includes('已找到')&&n9.includes('課輔班招生'),n9.join(',')+' | '+n10.join(','));
     const gm=mkGM(G,['家教廣告']); await PARK.interact(gm,{park:'notice'}); check('3. 看了家教廣告：記 SAW_TUTOR_AD（G.daily.park.sawTutorAd，不是劇情旗標）；明軒那句旁白讀得到',G.daily.park.sawTutorAd===true&&PARK.tutorAdEcho(G)&&!G.flags.SAW_TUTOR_AD);
     const G2=mk(dayOf('2026-03-10'),10,{flags:{JOB_TUTOR:true}}); const gm2=mkGM(G2,['家教廣告']); await PARK.interact(gm2,{park:'notice'});
     check('3. 開始家教以後：「電話號碼全被撕掉了」＋「其中一條，在你的手機裡。」',gm2.L.says.join('|')==='「這張廣告的電話號碼，全被撕掉了。」|其中一條，在你的手機裡。',gm2.L.says.join('|'));
@@ -62,10 +62,10 @@ const TREE={park:'tree',seat:{x:26,z:19.65,yaw:Math.PI}};
     const per=[['Y2S1','{cat}胖了。你摸摸看，都是肉。'],['Y2S2','{cat}瘦了一點。……一點點。'],['Y3S2','脖子上的名牌寫著：請不要再餵我，我很胖。——里長'],['Y4S1','{cat}在你的背包上睡著了。你等牠醒。']]; let ok=true;
     for(const [id,line] of per){ const Gx=mk(termDay(id,5,6),15); Gx.daily.park={catName:'所長'}; const gx=mkGM(Gx,['摸摸']); await PARK.interact(gx,{park:'cat'}); if(gx.L.says[0]!==line.replace('{cat}','所長')) ok=false; }
     check('6. 四年的樣子：大二上胖、大二下瘦一點、大三名牌、大四睡在背包上',ok);
-    const Gl=mk(termDay('Y3S1',9,3),15); check('6. 大三上第 9 週沒有貓',PARK.catLost(Gl)&&await PARK.interact(mkGM(Gl),{park:'cat'})==='lost'); }
+    const Gl=mk(termDay('Y3S1',10,3),15); check('6. 大三上第 10 週沒有貓',PARK.catLost(Gl)&&await PARK.interact(mkGM(Gl),{park:'cat'})==='lost'); }
   { const src=fs.readFileSync(path.join(ROOT,'src/wzpark3d.js'),'utf8'); check('7. 都不扣時段次數（PARK 不呼叫 slotUse／slotPlan）',!/slotUse|slotPlan/.test(src)); }
   { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const m=st.match(/key:'park',from:16,to:21,lines:(G=>\{.*?\})\}\];/); let f=null; try{ f=m&&eval('(PARK=>'+m[1]+')')(PARK); }catch(e){}
-    const Gn=mk(dayOf('2025-10-08'),17), Gc=mk(dayOf('2025-10-08'),17); Gc.daily.park={catName:'常客'}; const Gl=mk(termDay('Y3S1',9,3),17);
-    check('8. 公園的路過旁白（AA 定稿）：「老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。」；取名後用名字；大三上第 9 週不出現',!!f&&f(Gn)[0]==='老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。'&&f(Gc)[0]==='老樹下的圓椅上常客在睡覺。有人蹲在旁邊拍照。'&&f(Gl)===null,m?'':'找不到'); }
+    const Gn=mk(dayOf('2025-10-08'),17), Gc=mk(dayOf('2025-10-08'),17); Gc.daily.park={catName:'常客'}; const Gl=mk(termDay('Y3S1',10,3),17);
+    check('8. 公園的路過旁白（AA 定稿）：「老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。」；取名後用名字；大三上第 10 週不出現',!!f&&f(Gn)[0]==='老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。'&&f(Gc)[0]==='老樹下的圓椅上常客在睡覺。有人蹲在旁邊拍照。'&&f(Gl)===null,m?'':'找不到'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
