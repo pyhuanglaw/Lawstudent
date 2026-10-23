@@ -29950,6 +29950,69 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "FF-SEMESTER-1023",
+   "title": "學期中快轉：跳過一週（自動上課）／到下一個事件；劇情、要回的訊息、約好的出遊、考試照樣停下來播（使用者 10-23 08:0x，USER_WANTS D57）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:1x】開工：照寒暑假的快轉（home3d.js ffOpts／ffMenu）做學期版；停點＝劇情事件、要回的手機訊息、OUT 出遊、考試、課堂有劇情的那一堂；自動上課記出席與課堂內容；單元測試修改前 FAIL；BB 補測"
+  },
+  {
+   "id": "UX-PHONE-MAP-1023",
+   "title": "手機「地點」改成地圖：地圖上點地點→看路程、開放時間→前往（使用者 10-23 08:0x，H08）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23】FF-SEMESTER-1023 之後；第一版用遊戲大地圖（guide3d.js）加可點的地點；美術地圖之後 BB 照 D97 要"
+  },
+  {
+   "id": "EAT-MATTER-1023",
+   "title": "吃東西、喝飲料要有差別（使用者 10-23 08:0x 要建議，D56）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": null,
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
+   "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
+   "next": "【LAWWW-B 10-23 08:1x】已回使用者建議（短效狀態＋HUD 圖示、不吃有小代價、她們喜歡的東西＋請客、集點），等使用者選；DL-02「不加體力」要改的話照使用者的話"
   }
  ]
 }
