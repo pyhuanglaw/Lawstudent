@@ -61,7 +61,7 @@ const Y34B=(function(){
   const grpCount=G=>{ const A=(G&&G.acts&&G.acts.att)||{}; let n=0; for(const k in A) if(/^public_law_group@-?\d+$/.test(k)) n++; return n; };   /* 讀書會出席（AA_323 1B-19 第 6 節：public_law_group@ 數 3 次）*/
   const K={ thu1:'2028-02-24', yt:'2028-02-23', farewellAsk:'2028-03-23', farewell:'2028-03-24', sendoff:'2028-03-25', ff:'2028-03-23', ff2:'2028-03-30', y3s2:'2028-02-21', y3s2w15:'2028-06-01',
     zr0:'2028-02-21', zrEnd:'2028-08-26', kx19ask:'2028-05-01', kx19:'2028-05-03', zqKai:'2028-05-18', zqAsk:'2028-05-19', zq:'2028-05-20', bday:'2028-06-02',
-    sisAsk:'2028-07-26', sisGo:'2028-08-02', us0:'2028-08-03', m6End:'2028-12-23', dst:'2028-11-05', q14:'2028-10-11', kx23ask:'2028-10-18', kx23:'2028-10-20', kx23b:'2028-10-21',
+    sisAsk:'2028-07-26', libHint:'2028-07-30', libLast:'2028-07-31', sisGo:'2028-08-02', us0:'2028-08-03', m6End:'2028-12-23', dst:'2028-11-05', q14:'2028-10-11', kx23ask:'2028-10-18', kx23:'2028-10-20', kx23b:'2028-10-21',
     an18:'2028-10-19', a23msg:'2028-12-11', a23tue:'2028-12-12', a23wed:'2028-12-13', a23:'2028-12-14', zrCard:'2028-12-17', usRet:'2028-12-23', an20ask:'2029-05-02', an20:'2029-05-03', m9ask:'2029-05-28', m9:'2029-05-29' };
   const D=k=>DK(K[k]);
   S.K=K; S.D=D;
@@ -227,6 +227,7 @@ const Y34B=(function(){
     if(TW(G)&&F.HOOK_SIS_SENDOFF!=null&&F.SIS_RIDE_ASK==null&&NOW(G)>=T(a,21+5/60)&&NOW(G)<T(go,0)){
       const O=[]; if(F.SAID_HAS_CAR) O.push({t:'我開車去載妳。',set:{SIS_RIDE_ASK:'yes'}}); O.push({t:'我到機場等妳。',set:{SIS_RIDE_ASK:'airport'}},{t:'那天我去不了了。',set:{SIS_RIDE_ASK:'no'},say:[{from:'heroine_05',text:'好。'}]});
       at(G,a,G.day===a?Math.max(tzH(G,a,21+5/60),G.hour):G.hour,[DM('heroine_05','八月二號早上八點，我家樓下。'),DM('heroine_05','你說要送我。',{ask:{id:'y4_sis_hook_dm',until:T(go,0),opts:O}})],'y4_sis_hook_dm'); }
+    { const h=D('libHint'); if(TW(G)&&h!=null&&NOW(G)>=T(h,21)&&G.day<=h+1&&!sent(G,'y4_sis_lib_hint')) at(G,h,21,[GSIS('明天我在總圖三樓。最後一天。')],'y4_sis_lib_hint'); }   /* AA_392 第 7 節的提示 */
     if(F.SIS_RIDE_ASK==='airport'&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport_wait')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport_wait',ev:'ev_sis_airport_wait',day:go,h:8.5,late:0.5,place:'桃園機場第二航廈・出境大廳',title:'到機場送學姊',travel:'機場捷運約 1 小時',travelH:1,hours:2,alarm:true,back:'回到台北。'});
     if(F.SIS_RIDE_ASK==='yes'&&F.SIS_RIDE==null&&NOW(G)<T(go,8)){ const k=S.sisRideKind(G); F.SIS_RIDE=k;
@@ -584,6 +585,15 @@ const Y34B=(function(){
     {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
+  /* AA_392 第 7 節：出發前去總圖坐一下（階梯 S6-L7 的兌現）——2028-07-31 10:00～16:00 她在總圖三樓靠窗（characters.js 那一天的作息）；
+     朋友以上、不是前任、臺灣路線，玩家自己走到閱覽室才有（不排邀約）；7/30 21:00 家族群組她一則提示 */
+  const LIB_LAST=[ {speaker:null,text:'（她坐在三樓靠窗那個位子。桌上沒有書，只有一個保溫瓶。）'},
+    {speaker:'heroine_05',text:'最後一天了。……坐。'},
+    {speaker:null,text:'（你們坐了二十分鐘，誰都沒有講話。窗外的椰子樹被風吹得一直晃。）'},
+    {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（她在桌子底下碰了一下你的手，又縮回去。這裡是閱覽室。）'},
+    {speaker:'heroine_05',text:'好。可以走了。'},
+    {set:{SIS_LIB_LAST:true}} ];
+  S.libLastOk=G=>{ const d=D('libLast'); return law(G)&&d!=null&&G.day===d&&G.hour>=10&&G.hour<16&&TW(G)&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dating(G,'heroine_05'))&&!G.flags.SIS_LIB_LAST; };
   /* AA_392 第 3 節：口試那天沒到（交往版）的電話；「明天中午研究室」＝5/30 12:20～13:00 出遊（可以不去，沒來不補）*/
   const M9_CALL=[ {scene:'電話',bg:'dark'},
     {speaker:null,text:'（電話那頭有人在笑。研究室的人在幫她慶祝。）'},
@@ -764,6 +774,8 @@ const Y34B=(function(){
     { id:'ev_sis_birthday_video_y3', title:'學姊的生日（視訊）', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'dark', dialogue:BDAY_VIDEO },
     { id:'ev_sis_airport', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:3, dialogue:AIRPORT,
       outingMissed:G=>{ if(G.flags.SIS_SENDOFF==null) G.flags.SIS_RIDE=null; } },   /* 答應了沒去＝照「沒說要送」：她搭客運 */
+    { id:'ev_sis_lib_last', title:'最後一天', participants:['heroine_05'], location:'library', trigger:'auto', once:true, npcPresent:'heroine_05', background:'blur',
+      prereq:{custom:G=>S.libLastOk(G)}, dialogue:LIB_LAST },
     { id:'ev_sis_defense_call', title:'口試那天的電話', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, dialogue:M9_CALL,
       afterOuting:G=>{ const d=D('m9'); if(typeof OUT!=='undefined'&&d!=null&&!OUT.get(G,'y4_m9_cake')) OUT.plan(G,{id:'y4_m9_cake',ev:'ev_sis_defense_cake',day:d+1,h:12+20/60,late:2/3,place:'霖澤館・研究室',title:'研究室的蛋糕',travel:'',travelH:1/6,hours:0.5,back:'回到教室那一層。'}); } },
     { id:'ev_sis_defense_cake', title:'研究室的蛋糕', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5, dialogue:M9_CAKE },

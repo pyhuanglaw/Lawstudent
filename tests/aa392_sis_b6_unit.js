@@ -6,6 +6,7 @@
 //   4  第 4 節：研究室走不到——便條改乙（總圖三樓）
 //   5  第 5 節：第一次訪談選「下次還要記嗎？」→ 11/24 私訊、11/27 第二次訪談；不行／沒到 13:00「記完了。」
 //   6  第 6 節：荷花池——交往中、大二情人節植物園約過的；7/1 私訊、7/3 09:00；2 月有來／沒來兩種選項；不行＝7/3 10:00 照片
+//   7  第 7 節：7/31 出發前去總圖坐一下——7/30 群組提示、作息、自己走到閱覽室才有；交往中多一行
 //   2  第 2 節：期末「那天我去送學姊。」只給臺灣路線；7/26 21:05 私訊三選一（開車＝原本、到機場等她＝新的一場、去不了＝客運版多一句）；群組按鈕不再出；交往中的送機多兩行
 // 修改前（開發分支 8f9b305c1）：第 1 項 FAIL（交往中整個秋天沒有每週一格）。用法：node tests/aa392_sis_b6_unit.js
 require('./alison.js');
@@ -146,5 +147,20 @@ await sec(6,async()=>{ const ID='heroine_05', X=SISB4;
   s6('no'); PHONE.answer(H.G,'sisb4_lotus_ask',1); X.phone(H.G); PHONE.tick(H.G); H.at('2027-07-03',10); X.phone(H.G); PHONE.tick(H.G);
   check('6. 「那天不行。」→「好。我拍給你看。」；7/3 10:00「📷（荷花池，開了幾朵）」',thx('p:heroine_05').includes('好。我拍給你看。')&&thx('p:heroine_05').includes('📷（荷花池，開了幾朵）')&&!OUT.get(H.G,'sisb4_lotus'),J(thx('p:heroine_05')));
   s6(null); check('6. 情人節植物園沒約過：沒有這則',!thx('p:heroine_05').length); });
+/* ---- 7 ---- */
+await sec(7,async()=>{ const E=H.E, ev=STORY_EVENTS.find(x=>x.id==='ev_sis_lib_last');
+  const here=()=>{ H.G.zone='library'; GM.npc.heroine_05={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; E.npcs=[GM.npc.heroine_05]; };
+  fresh('2028-07-30',20,'TW'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); H.at('2028-07-30',21); Y.sisPhone(H.G); PHONE.tick(H.G);
+  check('7. 7/30 21:00 家族群組她一則「明天我在總圖三樓。最後一天。」',thx('g:family_law').includes('明天我在總圖三樓。最後一天。'),J(thx('g:family_law')));
+  const sch=CHARACTERS.heroine_05.daily_schedule.find(r=>r.dates&&J(r.dates)===J([['2028-07-31','2028-07-31']]));
+  check('7. 7/31 的作息：10:00～16:00 總圖三樓（library）',!!sch&&sch.zone==='library'&&sch.from===10&&sch.to===16);
+  H.at('2028-07-31',9.5); here(); const c0=EVENTS.check(ev); H.at('2028-07-31',11); here(); const c1=EVENTS.check(ev); H.G.zone='campus'; const c2=EVENTS.check(ev); here();
+  check('7. 7/31 10:00～16:00 走到閱覽室、她在：開始（9:30 不開始、不在閱覽室不開始）',!c0&&c1&&!c2,J([c0,c1,c2]));
+  H.said=[]; await EVENTS.run(ev); const L=['（她坐在三樓靠窗那個位子。桌上沒有書，只有一個保溫瓶。）','最後一天了。……坐。','（你們坐了二十分鐘，誰都沒有講話。窗外的椰子樹被風吹得一直晃。）','好。可以走了。'];
+  check('7. 照稿四行（朋友版沒有桌子底下那一行）；記 SIS_LIB_LAST',L.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(L[i-1])))&&!has('（她在桌子底下碰了一下你的手，又縮回去。這裡是閱覽室。）')&&H.G.flags.SIS_LIB_LAST===true,J(H.said.map(x=>x.t)));
+  fresh('2028-07-31',11,'TW'); H.FRIEND('heroine_05'); H.date('heroine_05'); here(); H.said=[]; await EVENTS.run(ev);
+  check('7. 交往中：「坐了二十分鐘」後面多「（她在桌子底下碰了一下你的手，又縮回去。這裡是閱覽室。）」',idx('（她在桌子底下碰了一下你的手，又縮回去。這裡是閱覽室。）')===idx('（你們坐了二十分鐘，誰都沒有講話。窗外的椰子樹被風吹得一直晃。）')+1);
+  fresh('2028-07-31',11,'JP'); H.FRIEND('heroine_05'); here(); const j=EVENTS.check(ev); fresh('2028-07-31',11,'TW'); H.FAMILIAR('heroine_05'); here(); const f=EVENTS.check(ev); fresh('2028-07-31',11,'TW'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; here(); const x=EVENTS.check(ev);
+  check('7. 日本路線、不到朋友、前任：沒有',!j&&!f&&!x,J([j,f,x])); E.npcs=[]; GM.npc={}; });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
