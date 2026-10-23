@@ -81,8 +81,8 @@ const R2Y4B=(function(){
   S.barStudyOn=G=>{ const F=(G&&G.flags)||{}; return law(G)&&(F.Y4_PATH==='bar'||F.BAR_REG===true)&&!delayed(G); };   /* 5/10 才報名的：從那一週起 */
   S.barDates=function(){ const out=[]; const a=DK('2029-03-01'), b=DK('2029-07-05'); if(a==null||b==null||typeof CALENDAR==='undefined') return out;
     for(let d=a;d<=b;d+=7){ if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue; const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S2'&&(t.week<2||t.exam==='final')) continue; out.push(CALENDAR.dateOf(d).key); } return out; };   /* 國定假日不開；期末考週不開（AA_327 寫的「第 16 週」；AA_342 C4 以後大四下 15 週，期末考在第 15 週 5/28～6/1，6/4 起是畢業後篇＝暑假照開）*/
-  S.ACT={id:'act_bar_study',title:'國考讀書會',clubName:'國考讀書會',kind:'club',zone:'library_hall',roomName:'總圖 B1',spot:{x:-3.0,z:2.8,lv:0,label:'國考讀書會（B1）'},verb:'參加',dates:S.barDates(),t0:20,t1:22,
-    skip:G=>!S.barStudyOn(G),desc:'每週四 20:00～22:00，總圖 B1。',story:true};   /* 總圖 B1 沒有 3D：集合點在總圖一樓大廳，參加＝2D（ntu_lib_b1）*/
+  S.ACT={id:'act_bar_study',title:'國考讀書會',clubName:'國考讀書會',kind:'club',zone:'library_b1',roomName:'總圖 B1 討論室 2',spot:{x:2.0,z:2.7,lv:0,label:'國考讀書會（討論室 2）'},verb:'參加',dates:S.barDates(),t0:20,t1:22,
+    skip:G=>!S.barStudyOn(G),desc:'每週四 20:00～22:00，總圖 B1 討論室 2。',story:true};   /* AA_399 第 2 節：集合點在 B1 討論室 2（LAWWW2-B 的 library_b1；原本一樓大廳 (-3.0,2.8)＋2D）。阿哲、柏翰、Alison 坐在裡面、參加時的底圖換成模糊的 3D：src/b1story3d.js */
   S.BAR_SPK=['zhe','yu','classmate_bohan','zhe','yu'];   /* 每週一句的說話的人（r2y4b_events.js 的 ev_bar_study_week 照這個順序）*/
   S.barLine=G=>{ const n=Math.max(0,((G.flags&&G.flags.BAR_STUDY_N)|0)-1); for(let k=0;k<5;k++){ const i=(n+k)%5; if(knows(S.BAR_SPK[i],G)) return i; } return -1; };   /* 輪流；不認識的人的那一句跳過 */
   S.barStop=function(G){ if(!S.barStudyOn(G)||typeof ACTIVITIES==='undefined') return null; const n=now(G), d0=DK('2029-06-03');
