@@ -407,7 +407,7 @@ B6 = [
        pref=['接起來：和書瑀視訊', '「給我看。」', '「那是好問題的意思嗎？」', '「我也是。」'], want=V1 + [V2, V4], none=[V3], nothree=True, jsok=[('視訊排程', GFQ, lambda x: isinstance(x, list))]),
   # 4. 第 2 節：送機（期末聚餐說了「那天我去送學姊。」＝HOOK_SIS_SENDOFF）：7/26 21:05 私訊＋選項；群組那則沒有 Kevin 的「我送妳。我有車。」
 ] + [dict(id='B6_SEND_' + k, key='2028-07-26', h=20.9, zone='dorm', flags=dict(TWF, HOOK_SIS_SENDOFF=True, **({'SAID_HAS_CAR': True} if car else {})), js=Y4 + (SIS_D if k == 'AIR_D' else SISF),
-          asks={'y4_sis_hook_dm': t}, steps=[('until', 21.4)] + ([('ffloop', '2028-08-02', 11.5)] if k != 'CAR' else []), pref=['出發：到機場送學姊', '出發：載學姊去機場'],
+          asks={'y4_sis_hook_dm': t}, steps=[('until', 21.4)] + ([('ffloop', '2028-08-02', 7.0), ('until', 9.5, 900)] if k != 'CAR' else []),   # BB-B 15:0x：ffloop 到 8/2 07:16 床邊有「約好的時間：到機場送學姊」，原本再按快轉就跳過了（AIR_D 停到 8/6）→ 到 07:00 就停、照走等出發 pref=['出發：到機場送學姊', '出發：載學姊去機場'],
           wantMsg=['八月二號早上八點，我家樓下。', '你說要送我。'] + wm, want=w, none=nw, nothree=True,
           jsok=[('私訊的選項', HOOKDM, opts), ('群組沒有 Kevin 的「我送妳。我有車。」按鈕', KEVBTN, False)] + jk, cflags=['SIS_RIDE_ASK', 'SIS_SENDOFF'], eqflags=ef)
      for k, car, t, opts, wm, w, nw, jk, ef in [
@@ -416,16 +416,16 @@ B6 = [
        ('AIR_D', False, '我到機場等妳', ['我到機場等妳。', '那天我去不了了。'], [], AIRW + ['到了先在群組說，再打給你。'], [], [], {'SIS_RIDE_ASK': 'airport', 'SIS_SENDOFF': 'airport'}),
        ('NO', False, '那天我去不了了', ['我到機場等妳。', '那天我去不了了。'], ['說好的那個，沒關係。', '出發了。'], [], AIRW, [], {'SIS_RIDE_ASK': 'no', 'SIS_SENDOFF': 'bus'})]] + [
   # 5. 第 3 節：交往中、口試（2029-05-29 16:00）沒到——18:30 私訊；不按＝21:00「書瑀打電話來」；按「（打給她）」＝馬上打過去；接了 → 5/30 12:20 研究室的蛋糕
-  dict(id='B6_DEF_WAIT', key='2029-05-29', h=15.0, zone='dorm', flags=dict(TWF), js=Y4 + SIS_D, steps=[('until', 21.6), ('bedpick', '睡到明天早上'), ('until', 13.2)],
+  dict(id='B6_DEF_WAIT', key='2029-05-29', h=15.0, zone='dorm', flags=dict(TWF), js=Y4 + SIS_D, steps=[('bedpick', '睡到傍晚'), ('bedpick', '小睡 2 小時'), ('until', 21.6, 1500), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 13.2, 1200)],   # BB-B 15:0x：負載高時 ('until', 21.6) 從 15:00 只走到 15:37 就逾時 → 床上睡到傍晚、小睡縮短照走的時間
        pref=['接起來：書瑀打電話來', '「恭喜。」', '出發：研究室的蛋糕'], wantMsg=['過了。', '……你今天在忙？好。晚上打給我。'], want=M9C + [M9K], nothree=True,
        cflags=['SIS_DEFENSE', 'SIS_DEFENSE_CALL', 'SIS_DEFENSE_CAKE'], eqflags={'SIS_DEFENSE': 'missed', 'SIS_DEFENSE_CALL': True, 'SIS_DEFENSE_CAKE': 'went'}),
-  dict(id='B6_DEF_CALL', key='2029-05-29', h=15.0, zone='dorm', flags=dict(TWF), js=Y4 + SIS_D, asks={'y4_m9_callme': '（打給她）'}, steps=[('until', 19.6), ('bedpick', '睡到明天早上'), ('until', 13.2)],
+  dict(id='B6_DEF_CALL', key='2029-05-29', h=15.0, zone='dorm', flags=dict(TWF), js=Y4 + SIS_D, asks={'y4_m9_callme': '（打給她）'}, steps=[('bedpick', '睡到傍晚'), ('until', 19.6, 1500), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 13.2, 1200)],
        pref=['打過去：打給書瑀', '「恭喜。」', '出發：研究室的蛋糕'], want=M9C + [M9K], nothree=True, cflags=['SIS_DEF_CALL_ME', 'SIS_DEFENSE_CALL', 'SIS_DEFENSE_CAKE'],
        eqflags={'SIS_DEF_CALL_ME': True, 'SIS_DEFENSE_CALL': True, 'SIS_DEFENSE_CAKE': 'went'}),
   # 6. 第 4 節：便條（交往中，大二上 9/21 21:00 私訊 → 9/22 12:20 研究室搬書）；對照：朋友版沒有這一行
-  dict(id='B6_NOTE', key='2026-09-21', h=20.9, zone='dorm', js=SIS_D, asks={'sisy23_lab': '好'}, steps=[('until', 21.4), ('ffloop', '2026-09-22', 14.0)], pref=['出發：', '「照顏色排？」'],
+  dict(id='B6_NOTE', key='2026-09-21', h=20.9, zone='dorm', js=SIS_D, asks={'sisy23_lab': '好'}, steps=[('until', 21.4), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 14.0, 1500)], pref=['出發：', '「照顏色排？」'],   # BB-B 15:0x：隔天中午有約，床邊沒有快轉（只有睡到明天早上／中午／再撐一下），ffloop 按了「再撐一下」就停
        want=[NOTE6, '……你的。'], nothree=True, cflags=['SIS_LAB_DESK'], eqflags={'SIS_LAB_DESK': 'went'}),
-  dict(id='B6_NOTE_F', key='2026-09-21', h=20.9, zone='dorm', js=SISF, asks={'sisy23_lab': '好'}, steps=[('until', 21.4), ('ffloop', '2026-09-22', 14.0)], pref=['出發：', '「照顏色排？」'],
+  dict(id='B6_NOTE_F', key='2026-09-21', h=20.9, zone='dorm', js=SISF, asks={'sisy23_lab': '好'}, steps=[('until', 21.4), ('bedpick', '睡到明天早上'), ('bedpick', '小睡 2 小時'), ('bedpick', '小睡 2 小時'), ('until', 14.0, 1500)], pref=['出發：', '「照顏色排？」'],   # BB-B 15:0x：隔天中午有約，床邊沒有快轉（只有睡到明天早上／中午／再撐一下），ffloop 按了「再撐一下」就停
        want=['靠門的位子。每個人進來都會撞到我。'], none=[NOTE6], nothree=True, cflags=['SIS_LAB_DESK'], eqflags={'SIS_LAB_DESK': 'went'}),
   # 7. 第 5 節：第一次訪談選「下次還要記嗎？」（10/15 21:00 → 10/16）＝SIS_IV_AGAIN；第二次：11/24 21:00 私訊 → 11/27 10:00 社區活動中心／不行＝13:00「記完了。」
   dict(id='B6_IV1', key='2027-10-15', h=20.9, zone='dorm', js=SISF, asks={'sisy23_iv_ask': '好'}, steps=[('until', 21.4), ('ffloop', '2027-10-16', 13.0)], pref=['出發：', '「下次還要記嗎？」'],
