@@ -218,9 +218,19 @@ ALONE = "G.flags.US1='alone'; LV('heroine_05',50,40,35);"
 BED = "(()=>{ const s=US3.SPAWN.us_apartment_bed; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
 PLAT = "(()=>{ const s=US_APARTMENT_LAYOUT.spawns.fromOutside; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
 STOPS = []
+async def go_home(pg, cdp, run):
+    """BB-B 10-23：這一區沒有床（例：上完課停在美國校園）＝走到回公寓／回宿舍的出口按下去（照玩家）"""
+    it = await pg.evaluate("(()=>{ const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&((i.exit&&/us_apartment|us_outside|dorm/.test(String(i.exit.to||'')))||/公寓|回宿舍|回家/.test(i.label||''))); const i=its[0]; return i?[i.x,i.z,i.label||'']:null; })()")
+    if not it: return False
+    if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): return False
+    say('   回去：%s' % it[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(3000); await drain(pg, cdp, secs=120); return True
 async def bed_menu(pg, cdp, run):
     """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
     bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    for _ in range(2):   # 這一區沒有床＝先回去（最多兩段：校園 → 社區 → 公寓）
+        if bed: break
+        if not await go_home(pg, cdp, run): break
+        bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
     for k in range(4):
         await close_phone(pg); await pg.wait_for_timeout(600); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
