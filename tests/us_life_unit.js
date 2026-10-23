@@ -172,6 +172,8 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   { const q=OUT.get(G,'kx_anniv4v'), w=STORY.wakeAlarms(G,D('2028-10-17'));   /* BB 14:45（f5c7e17b）：沒有 alarm＝10/16 晚上照常睡到 12:00，週年視訊就錯過（KX_ANNIV 4 missed）*/
     check('S8. 可昕週年視訊會叫醒：alarm、10/17 的鬧鐘 08:30（視訊 09:00 前 30 分鐘）', !!q&&q.alarm===true&&w.some(a=>Math.abs(a.h-8.5)<0.01&&/可昕的視訊：週年/.test(a.why)), JSON.stringify({q,w}));
     if(q){ q.alarm=false; rules(); } check('S8. 舊存檔已經排好、沒有 alarm 的：補上', !!q&&q.alarm===true, JSON.stringify(q)); }
+  { G.day=D('2028-10-16'); G.weekday=wdOf(G.day); G.hour=22; const o=STORY.bedOptions(G), sl=o.filter(x=>x.kind==='sleep');   /* BUG-US-BED-ALARM-1022（BB 10-22 15:02）：美國上課日床的選單把「明天沒有課」那項換成第一堂前一小時，沒有重看鬧鐘，週年視訊 09:00 照樣睡到 12:00 */
+    check('S8. 10/16 晚上上床：每個睡覺選項都被 08:30 的鬧鐘叫醒（不會睡過週年視訊）；選項名字不重複', sl.length>0&&sl.every(x=>x.wake<=8.51)&&sl.some(x=>/可昕的視訊：週年/.test(x.alarm||''))&&new Set(sl.map(x=>x.t)).size===sl.length, JSON.stringify(sl)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('S8. story3d.js「視訊版目前不會發生」的舊註解拿掉了', !/視訊版目前不會發生/.test(src)); }
   fresh('2028-12-11',7,'us_apartment',US()); PHONE.join(G,'public_law','公法讀書會'); R('heroine_01','FAM'); runRules('2028-12-11',7,9);
   check('S8. 12/11 讀書會群組：當地 08:00（台灣 21:00）', txt('g:public_law').includes('heroine_01:學弟說這週四停一次')&&G.msgs.find(m=>m.th==='g:public_law').h===8, JSON.stringify(txt('g:public_law')));

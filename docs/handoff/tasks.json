@@ -29346,7 +29346,7 @@
    },
    "source": "D85；v9.10.5（10-22 12:35）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
+   "next": "【LAWWW-B 10-23】完整 Node 單元測試 496 支 ALL PASS（e8712e8c1，程式＝719cca3bc）——A 交班 B 第 6 項完成｜【LAWWW（帳號 A）14:2x】等 BB RELEASE-9106-TEST 第 1～14 項判定（GO）；候選凍結以後對乾淨 worktree 跑 TESTING 第五節 1～9（含 v9.10.5 沒跑的 reachability_all、flow_class_real、minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors；REL-9102-POSTCHECK-1019 併進這裡）；HV-15 三支；RELEASES.md 寫「這版有的／沒有的」"
   },
   {
    "id": "ART-WZ-LIN-MENU-1022",
@@ -29475,7 +29475,7 @@
    "title": "美國路線上課日：床的選單把「明天沒有課」那一項的起床時間換成美國第一堂前一小時（us_life3d.js 床的包裝約 267–271 行），沒有重看 STORY.wakeAlarms——07:30 到第一堂前一小時之間的鬧鐘全掉（例：可昕週年視訊 10/17 09:00 照常睡到 12:00 錯過）；兩項都叫「睡到明天中午」",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -29490,7 +29490,7 @@
    "source": "BB 15:02（USD_kexin 重跑，開發分支 51f91161，含 d3df1cf3）",
    "authorized": "D85（bug 修正）",
    "cause": "us_life3d.js 包裝改了 w（起床時間）以後沒套 wakeAlarms；story3d.js 原本的 bedOptions 每一項會 A.find(q=>q.h<w)，原本 07:30 那項在鬧鐘 08:30 之前所以沒掛鬧鐘，改成 12:00 以後鬧鐘就掉了",
-   "next": "【LAWWW（帳號 A）15:1x 交班中登記，下一班做】照 BB 建議：包裝算出 w 以後也套鬧鐘——a＝STORY.wakeAlarms(G,G.day+1).find(q=>q.h<w)，有就 wake＝max(6.5,a.h)、alarm＝a.why、說明「12:00——但…，鬧鐘 08:30 會叫醒你」，原本的 filter 去掉重複那項；單元測試（us_life_unit 或新的）修改前 FAIL；BB 的 USD_kexin（選第一項）當回歸，USD_kexin_alarm（選鬧鐘那項）驗 d3df1cf3 本身"
+   "next": "【LAWWW-B 10-23】us_life3d.js 床的包裝：換了起床時間以後再看 STORY.wakeAlarms（找第一個早於起床時間的鬧鐘，wake＝max(6.5,鬧鐘)、記 alarm、說明「12:00（第一堂…前一小時）——但…，鬧鐘 08:30 會叫醒你」），去重用新的起床時間；標籤照實際起床時間。tests/us_life_unit.js 加 S8「10/16 晚上上床」（修改前 FAIL：第一項 12:00 沒鬧鐘、兩項都叫睡到明天中午；修改後 ALL PASS）；相關 19 支單元測試全過。等 BB 重跑 USD_kexin／USD_kexin_alarm｜【LAWWW（帳號 A）15:1x 交班中登記，下一班做】照 BB 建議：包裝算出 w 以後也套鬧鐘——a＝STORY.wakeAlarms(G,G.day+1).find(q=>q.h<w)，有就 wake＝max(6.5,a.h)、alarm＝a.why、說明「12:00——但…，鬧鐘 08:30 會叫醒你」，原本的 filter 去掉重複那項；單元測試（us_life_unit 或新的）修改前 FAIL；BB 的 USD_kexin（選第一項）當回歸，USD_kexin_alarm（選鬧鐘那項）驗 d3df1cf3 本身"
   },
   {
    "id": "US-JETLAG-BED-0803-1022",

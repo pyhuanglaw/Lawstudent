@@ -267,9 +267,11 @@ const USL=(function(){
   { const b0=STORY.bedOptions; STORY.bedOptions=function(G){ const out=b0.apply(this,arguments); if(!S.here(G)||!out) return out; const h=hh(G), night=G.hour>=24||h>=17.5||h<5;
       if(night&&G.day===S.dep()&&!G.flags.USL_JETLAG) return [{kind:'sleep',wake:4.5,t:'睡覺',hint:'04:30'}].concat(out.filter(o=>o.kind==='stay'));   /* G1 8/3 04:30 時差 */
       const its=night?S.items(G,G.day+1):[]; if(!its.length) return out; const w=Math.max(6.5,its[0].t0-1), k=out.findIndex(o=>o.kind==='sleep'&&/明天沒有課/.test(o.hint||''));
-      if(k<0) return out; const lab=w>=17?'睡到明天晚上':w>=13?'睡到明天下午':w>=11?'睡到明天中午':'睡到明天早上';
-      out[k]=Object.assign({},out[k],{wake:w,t:lab+'（'+hm(w)+'）',hint:hm(w)+'（第一堂 '+hm(its[0].t0)+' '+its[0].c.name+'前一小時）'});
-      return out.filter((o,i)=>i===k||o.kind!=='sleep'||Math.abs(o.wake-w)>0.02); }; }
+      if(k<0) return out; const why='第一堂 '+hm(its[0].t0)+' '+its[0].c.name+'前一小時';
+      const a=(STORY.wakeAlarms?STORY.wakeAlarms(G,G.day+1):[]).find(q=>q.h<w), w1=a?Math.max(6.5,a.h):w;   /* BUG-US-BED-ALARM-1022：換了起床時間要再看一次鬧鐘（story3d.js 的 bedOptions 每一項都看），不然 07:30～第一堂前一小時之間的約會睡過去（可昕週年視訊 10/17 09:00）*/
+      const lab=w1>=17?'睡到明天晚上':w1>=13?'睡到明天下午':w1>=11?'睡到明天中午':'睡到明天早上';
+      out[k]=Object.assign({},out[k],{wake:w1,alarm:a?a.why:null,t:lab+'（'+hm(w1)+'）',hint:a?hm(w)+'（'+why+'）——但'+a.why+'，鬧鐘 '+hm(w1)+' 會叫醒你':hm(w)+'（'+why+'）'});
+      return out.filter((o,i)=>i===k||o.kind!=='sleep'||Math.abs(o.wake-w1)>0.02); }; }
 
   /* ======================= S3 快轉、摘要日 ======================= */
   S.ffEnd=()=>T(D(S.CAL.leave),7);   /* 12/16 07:00 離開（之後是 r2y4a3d.js 的那一週）*/
