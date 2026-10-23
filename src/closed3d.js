@@ -51,7 +51,16 @@ const CLOSED=(function(){
     if(W.cvsExamLine(G)){ G.flags.WZ_CVS_EXAM=G.day; GM.sceneBegin(); try{ await GM.say({name:'店員'},W.AA413.cvs.exam); } finally { GM.sceneEnd(); } } };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._wz413){ const o1=STORY.interact; STORY.interact=async function(it,GM){ const r=await S.cvsInteract(it,GM); if(r===true) return true;
       const out=await o1.apply(this,arguments); if(r==='after') await S.cvsAfter(GM); return out; }; STORY._wz413=true; }
-  if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._wz413Pop){ const p1=STORY.populate; STORY.populate=function(zoneId,GM){ if(zoneId!=='cvs'&&GM&&GM.G&&GM.G.flags&&GM.G.flags.CVS_FROM) GM.G.flags.CVS_FROM=null; return p1.apply(this,arguments); }; STORY._wz413Pop=true; }
+  /* 阿忠水果的老闆（LAWWW2-B 10-23 5437ec936：攤子在 B6 門廊前緣，WZS.AA413.fruit.owner＝老闆站位，在門廊裡、玩家走不到）：營業時間（09:00～22:00）站在攤子後面；不說話（買水果在攤子前面的互動點）*/
+  S.fruitOwnerWant=G=>!!G&&G.zone==='wenzhou'&&typeof WZS!=='undefined'&&!!WZS.fruitOpen&&WZS.fruitOpen(G);
+  S.fruitOwner=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.npcs||typeof CHAR==='undefined'||typeof STORY==='undefined'||!STORY.extraSpec||!E.addNPC) return 0;
+    const cur=E.npcs.find(n=>n&&n.fruitOwner&&!n.leaving), want=S.fruitOwnerWant(G);
+    if(cur&&!want){ cur.until=G.hour%24; cur.leaving=true; if(GM.removeNPC&&cur.charId) GM.removeNPC(cur.charId); else if(E.removeNPC) E.removeNPC(cur); return -1; }
+    if(!cur&&want){ const o=(WZS.AA413.fruit||{}).owner; if(!o) return 0; const obj=CHAR.build(STORY.extraSpec(821)); obj.position.set(o.x,0,o.z); obj.rotation.y=o.yaw||0;
+      E.addNPC({obj,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fruitOwner:true}); return 1; }
+    return 0; };
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ const G=GM&&GM.G; if(G&&G.zone==='wenzhou') S.fruitOwner(GM); }catch(e){ console.warn('CLOSED.fruitOwner',e); } return false; });
+  if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._wz413Pop){ const p1=STORY.populate; STORY.populate=function(zoneId,GM){ if(zoneId!=='cvs'&&GM&&GM.G&&GM.G.flags&&GM.G.flags.CVS_FROM) GM.G.flags.CVS_FROM=null; const r=p1.apply(this,arguments); if(zoneId==='wenzhou'){ try{ S.fruitOwner(GM); }catch(e){ console.warn('CLOSED.fruitOwner',e); } } return r; }; STORY._wz413Pop=true; }
   if(typeof SISY23!=='undefined'&&typeof SISY23.preTalk==='function'&&!SISY23.preTalk._closed){ const p0=SISY23.preTalk;
     SISY23.preTalk=Object.assign(async function(GM){ const r=await p0.apply(this,arguments); return r||await S.taPre(GM); },p0,{_closed:true}); }
   return S;

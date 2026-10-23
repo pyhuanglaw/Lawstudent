@@ -3,7 +3,7 @@
 //   2. 樓梯：5F 往下到 4F（4F 樓梯間門口）、往上 6F 關著；4F 往上照舊關著（刷卡門：怎麼進 5F 由劇情決定）；
 //   3. 電梯：5F 可以到 1F–4F、6F 以上按不亮；3F、4F 的電梯照舊不停 5F（教職員證）；
 //   4. 教授研究室四扇門有在室狀態（note）、遊戲的「看」用 note；
-//   5. 研究室：學姊的位子是 spots（不在 seats，玩家不能坐）；她旁邊的空位玩家坐得到；會議室進不去（門擋住）；
+//   5. 研究室：八張桌子（AA_399 1-1 更正，企劃 8a21184d）；學姊的位子在門邊、是 spots（不在 seats，玩家不能坐）；她旁邊的空位玩家坐得到；檯燈的點光、主角站的位置跟著她的桌子；會議室進不去（門擋住）；
 //   6. 「口試中」、研究室的燈：LZUP.examSign／labLights 照狀態開關（正式模型載好前叫也記得）；
 //   7. 導航：照遊戲的格子（0.4 m、牆內縮 0.25、blockRect 最小 0.4）從電梯、樓梯間走得到每個座位的走近點、每個「看」、研究室的門口、會議室門口；會議室裡面走不到；
 //   8. 窗景照片 linze_5f_day／night 在；guide3d.js 有 5F 的區域、電梯連結（只往下，不指路上 5F）。
@@ -42,7 +42,12 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.linze_5f.build(E); con
   check('4. 北牆四間教授研究室（501–504），每扇門有在室狀態的 note；「看」用 note（不再是「這個時段有課」）', doors.length===4&&doors.every(d=>/教授研究室/.test(d.note||'')&&/「(在研究室|上課中|外出|開會中)」/.test(d.note))&&looks.length===4&&looks.every(q=>/教授研究室/.test(q.look)&&!/這個時段有課/.test(q.look)), looks.map(q=>q.look).join('／'));
   const l3=IT.length; }
 { const sp=L5.spots||{}, S=L5.seats, near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z)<0.3;
-  check('5. 學姊的位子是 spots.sis_desk（靠窗、面向窗），不在 seats（玩家不能坐）', !!sp.sis_desk&&sp.sis_desk.z>5&&Math.abs(sp.sis_desk.yaw)<0.01&&!S.some(s=>near(s,sp.sis_desk)));
+  const lab0=(L5.rooms||[]).find(r=>r.id==='lab'), desks=L5.blocks.filter(b=>b.why==='desk'&&lab0&&b.x0>=lab0.x0-0.05&&b.x1<=lab0.x1+0.05&&b.z0>=lab0.z0&&b.z1<=lab0.z1);
+  check('5. 研究室八張桌子（AA_399 1-1 更正：「研究室有八張桌子」）', desks.length===8, desks.length+' 張');
+  check('5. 學姊的位子是 spots.sis_desk：門邊（離研究室的門 1.6 m 以內：「門一開就撞到椅背」）、面向窗；不在 seats（玩家不能坐）', !!sp.sis_desk&&!!lab0&&Math.hypot(sp.sis_desk.x-lab0.door.x,sp.sis_desk.z-lab0.door.z)<1.6&&Math.abs(sp.sis_desk.yaw)<0.01&&!S.some(s=>near(s,sp.sis_desk)), sp.sis_desk&&JSON.stringify([sp.sis_desk.x,sp.sis_desk.z]));
+  check('5. 跟著她的桌子：檯燈的點光（spots.sis_lamp，桌上、離她 1.2 m 以內）、主角站的位置（spots.me_desk，離她 1 m 以內）；linze_upper3d.js 讀 sis_lamp、lab5f3d.js 讀 me_desk',
+    !!sp.sis_lamp&&!!sp.me_desk&&Math.hypot(sp.sis_lamp.x-sp.sis_desk.x,sp.sis_lamp.z-sp.sis_desk.z)<1.2&&sp.sis_lamp.z>sp.sis_desk.z&&Math.hypot(sp.me_desk.x-sp.sis_desk.x,sp.me_desk.z-sp.sis_desk.z)<1.0
+    &&/L\.spots\.sis_lamp/.test(fs.readFileSync(path.join(ROOT,'src/linze_upper3d.js'),'utf8'))&&/DESK_ME='me_desk'/.test(fs.readFileSync(path.join(ROOT,'src/lab5f3d.js'),'utf8')));
   const bs=S.find(s=>/旁邊的空位/.test(s.label||''));
   check('5. 她旁邊的空位玩家坐得到（seats「坐在旁邊的空位」、study）、和她的位子並排', !!bs&&bs.kind==='study'&&Math.abs(bs.z-sp.sis_desk.z)<0.01&&Math.abs(bs.x-sp.sis_desk.x)<1.6);
   const R=(L5.rooms||[]).find(r=>r.id==='meeting'), lab=(L5.rooms||[]).find(r=>r.id==='lab');
@@ -67,7 +72,7 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.linze_5f.build(E); con
       const cand=[...(s.ap?[s.ap]:[]),...[[fx*0.5,fz*0.5],[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]].map(([dx,dz])=>[s.x+dx,s.z+dz])];
       if(!cand.some(([x,zz])=>reach(seen,x,zz))) bad.push(nm+'→座位 '+(s.label||'')+' '+[s.x,s.z]); }
     for(const q of IT){ if(q.seat) continue; if(!near(seen,q.x,q.z,q.radius||0.8)) bad.push(nm+'→'+q.label); }
-    for(const k of ['lab_door','meeting_door','sis_desk','desk_c','desk_d','corridor']){ const p=L5.spots[k], a=p.ap||[p.x,p.z]; if(!near(seen,a[0],a[1],0.4)) bad.push(nm+'→spots.'+k); }
+    for(const k of ['lab_door','meeting_door','sis_desk','me_desk','desk_c','desk_d','corridor']){ const p=L5.spots[k], a=p.ap||[p.x,p.z]; if(!near(seen,a[0],a[1],0.4)) bad.push(nm+'→spots.'+k); }
     const M=L5.rooms.find(r=>r.id==='meeting'); let inM=0; for(const k of seen){ const [c,r]=k.split(',').map(Number), [x,zz]=nav.w2(c,r); if(x>M.x0+0.3&&zz>M.z0+0.3) inM++; } if(inM) bad.push(nm+'：會議室裡面有 '+inM+' 格走得到'); }
   check('7. 從電梯、樓梯間走得到每個座位的走近點、每個互動點、研究室門口、會議室門口、學姊和背景碩士生的位子；會議室裡面走不到', bad.length===0, bad.slice(0,6).join('；')); }
 { const g=fs.readFileSync(path.join(ROOT,'src/guide3d.js'),'utf8');

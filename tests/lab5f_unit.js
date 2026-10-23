@@ -79,7 +79,7 @@ await sec(4,async()=>{
   await go('ev_sis_lab_desk','2026-09-22',12+20/60);
   check('4. ev_sis_lab_desk：先到 5F 演、演完回到原本的地方（campus）',J(H.entered)===J(['linze_5f','campus']),J(H.entered));
   check('4. 畫面：ADV 模糊的 3D；研究室走廊的底圖換成 3D（blur）',H.bgs[0]==='blur'&&!H.bgs.some(b=>b&&b.image&&/linze_prof_hall/.test(b.image)),J(H.bgs));
-  check('4. 她坐在自己的位子（sis_desk）',spawned.some(s=>s.id===SIS&&s.seat&&Math.abs(s.x+5.65)<1e-6&&Math.abs(s.z-5.45)<1e-6),J(spawned));
+  check('4. 她坐在自己的位子（sis_desk）',spawned.some(s=>s.id===SIS&&s.seat&&Math.abs(s.x-LINZE_UPPER_LAYOUTS['5f'].spots.sis_desk.x)<1e-6&&Math.abs(s.z-LINZE_UPPER_LAYOUTS['5f'].spots.sis_desk.z)<1e-6),J(spawned));
   check('4. 燈：全開；演完還原',lz[0]==='exam:false'&&lz[1]==='lights:all'&&lz.slice(-1)[0]==='lights:all',J(lz));
   check('4. 演完了（台詞照舊）',!!H.G.events.done.ev_sis_lab_desk&&H.has('靠門的位子。每個人進來都會撞到我。'));
   await go('ev_sis_xmas_y3','2027-12-24',21);

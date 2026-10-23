@@ -72,7 +72,7 @@
       plane(fb,W,D,M('#c9c4ba'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/vending|elevator|column/.test(b.why)?1.9:0.75; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
       const lamps=[]; for(const [x,zz] of [[-4,-5],[4,-5],[-4,2.5],[2,2.5],[-4,5.5],[4,5.5]]){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
       let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); const k=f==='5f'?k5():1; for(const l of lamps) l.intensity=(on?l.userData.on:l.userData.off)*k; if(k<1&&z.ceilLight) z.ceilLight.intensity*=k; };
-      if(f==='5f'){ const sl=new THREE.PointLight(0xffc27a,st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0),3.2,2); sl.position.set(-5.85,1.15,6.15); g0.add(sl); light5={z,sl};   /* 學姊桌上的檯燈（spots.sis_desk 前面那張桌子）*/
+      if(f==='5f'){ const sl=new THREE.PointLight(0xffc27a,st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0),3.2,2); const lp=(L.spots&&L.spots.sis_lamp)||{x:-5.85,y:1.15,z:6.15}; sl.position.set(lp.x,lp.y||1.15,lp.z); g0.add(sl); light5={z,sl};   /* 學姊桌上的檯燈（配置的 spots.sis_lamp；10-23 AA_399 1-1 更正以後她的桌子在門邊）*/
       }
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); if(f==='5f'){ const k=k5(); if(k<1&&E.hemi){ E.hemi.intensity*=k*2.2; if(E.sun) E.sun.intensity*=k; } } };
       const IT=E.interactables; z.seats=[];

@@ -65,5 +65,17 @@ await sec(5,async()=>{ const it={label:'洗衣間',look:'洗衣間。投幣式�
   fresh('2026-10-04',21.2,'dorm_hall'); H.picks=['洗衣服']; await STORY.interact(it,GM); check('5. 大二的週日沒有阿凱',!H.has('這台烘衣機要投兩次。第一次是騙你的。'));
   fresh('2025-10-05',21.2,'dorm_hall'); H.picks=['算了']; const h1=H.G.hour; await STORY.interact(it,GM); check('5. 「算了」：時間沒動',H.G.hour===h1); });
 
+await sec(6,()=>{ const E=H.E; /* 阿忠水果的老闆（LAWWW2-B 5437ec936 的 owner 站位）：營業時間站在攤子後面，22:00 以後離開 */
+  global.WZS={AA413:{fruit:{open:[9,22],owner:{x:34.9,z:-6.15,yaw:0}}},fruitOpen:G=>{ const h=G.hour%24; return h>=9&&h<22; }};
+  const built=[]; global.CHAR=global.CHAR||{}; const cb0=CHAR.build; CHAR.build=()=>({position:{set(x,y,z){ this.x=x; this.z=z; }},rotation:{y:0}});
+  const es0=STORY.extraSpec; STORY.extraSpec=STORY.extraSpec||(()=>({})); const a0=E.addNPC, r0=E.removeNPC; E.addNPC=n=>{ E.npcs.push(n); built.push(n); return n; }; E.removeNPC=n=>{ E.npcs=E.npcs.filter(m=>m!==n); };
+  fresh('2026-03-10',15,'wenzhou'); E.npcs=[];
+  const k=CLOSED.fruitOwner(GM); const o=E.npcs.find(n=>n.fruitOwner);
+  check('6. 15:00 在溫州街：老闆站在 (34.9,−6.15)',k===1&&!!o&&o.obj.position.x===34.9&&o.obj.position.z===-6.15&&o.frozen);
+  check('6. 再叫一次不重複放',CLOSED.fruitOwner(GM)===0&&E.npcs.filter(n=>n.fruitOwner).length===1);
+  H.G.hour=22.2; check('6. 22:00 以後離開',CLOSED.fruitOwner(GM)===-1&&!E.npcs.some(n=>n.fruitOwner&&!n.leaving));
+  H.G.zone='campus'; H.G.hour=15; E.npcs=[]; check('6. 不在溫州街：不放',CLOSED.fruitOwner(GM)===0&&!E.npcs.length);
+  CHAR.build=cb0; STORY.extraSpec=es0; E.addNPC=a0; E.removeNPC=r0; delete global.WZS; });
+
 H.done();
 })();

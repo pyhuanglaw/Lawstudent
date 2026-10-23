@@ -538,5 +538,35 @@
   ],
   "fov": 53.13,
   "cover": 0.468
+ },
+ "cvs_wz_day": {
+  "D": 6,
+  "near": null,
+  "far": 10.6,
+  "nNear": 0,
+  "nFar": 416,
+  "sky": 0,
+  "cam": [
+   44,
+   1.9,
+   5.6
+  ],
+  "fov": 53.13,
+  "cover": 0.0
+ },
+ "cvs_wz_night": {
+  "D": 6,
+  "near": null,
+  "far": 10.6,
+  "nNear": 0,
+  "nFar": 416,
+  "sky": 0,
+  "cam": [
+   44,
+   1.9,
+   5.6
+  ],
+  "fov": 53.13,
+  "cover": 0.0
  }
 }

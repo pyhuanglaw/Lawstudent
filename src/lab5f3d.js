@@ -1,5 +1,5 @@
 /* 霖澤館 5F 研究室的劇情接線（CLOSED-SPACES-1023；AA_399 第 1 節，AA-B 2026-10-23；空間是 LAWWW2-B 的 linze_5f，src/linze_upper3d.js）
-   1. 學姊的作息（characters.js）：碩一～碩三週一～週四 12:20～14:00 在研究室靠窗的位子（spot sis_desk）；美國期間不在。
+   1. 學姊的作息（characters.js）：碩一～碩三週一～週四 12:20～14:00 在研究室門邊的位子（spot sis_desk；AA_399 1-1 更正，企劃 8a21184d）；美國期間不在。
    2. 4F 樓梯間往上的刷卡門：她在的時段多一個「傳訊息給學姊」，兩分鐘後她出來開門（照關係一句），一天一次；進去以後找她說話照一般的說話（talkSis）。
       其他時候照舊只有門上的那一句。14:00 她收東西：「我要去總圖了。」祐廷跟著出去（回到 4F 樓梯間）。
    3. 原本 2D 研究室走廊的出遊（AA_399 1-2 的表）：演之前換到 5F（OUT.STAGE），畫面用模糊的 3D，台詞不變；演完回到原本的地方。
@@ -36,7 +36,7 @@ const LAB5=(function(){
     leaving=true; (async()=>{ try{ G.flags.LAB5_IN=null; if(GM.npc&&GM.npc[SIS]){ GM.sceneBegin(); try{ await say(GM,S.LINES.leave); } finally { GM.sceneEnd(); } }
       const L=L4(); if(L) await GM.enter('linze_4f',Object.assign({},L.stairs.spawn)); } catch(e){ console.warn('LAB5.leave',e); } finally { leaving=false; } })(); return true; };
   /* 出遊換到 5F 演（AA_399 1-2 的表）：me＝祐廷站的位置 [x,z,yaw]；sis＝她在哪個 spot（sit＝坐著）；lights、exam 照 LZUP */
-  const DESK_ME=[-4.75,4.55,-0.55];
+  const DESK_ME='me_desk';   /* 主角站著和她說話的位置：配置的 spots.me_desk（10-23 AA_399 1-1 更正：她的桌子在門邊；原本寫死在靠窗那張旁邊 [-4.75,4.55,-0.55]）*/
   S.STAGES={
     ev_sis_lab_desk:{ me:DESK_ME, sis:'sis_desk', sit:true, lights:'all' },
     ev_sis_xmas_y3:{ me:DESK_ME, sis:'sis_desk', sit:true, lights:'sis' },   /* 只開她那一盞燈 */
