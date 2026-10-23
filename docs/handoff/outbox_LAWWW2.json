@@ -2384,6 +2384,24 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "廣場多一條繞過圓環北側的路線；原本 z 16.5 那條改 z 16、x −30 改 −22（路點偏移擦過機車、進花台）；路人數量沒改；gongguan_layout_nav 51 PASS、reachability 公館 ALL PASS、street_props_nav ALL PASS"
+  },
+  {
+   "task": "ART-SHOP-VIEWS-1023 第二批（118 巷九間）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "79777475",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/l118_views_1023.patch（l118_shops3d.js，對開發 fb75d67ea）",
+    "assets/models/env/views/l118_<id>_{day,night}.webp＋_near_{day,night}.webp（36 張）",
+    "tools/shots/shop_views_layers.py、shop_views_layers.json",
+    "docs/art-rebuild/second_ai/test_shots/shop_views_118_1023/"
+   ],
+   "state": "已交付",
+   "remaining": "近景大多是空的（巷子中間沒東西）；晚上沒有在店裡截圖看過；flow_l118_shops／flow_lane118 沒跑；真機沒看過",
+   "next": "LAWWW：patch＋36 張 webp 進開發分支；畫面驗收派 BB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "118 巷九間店門外那張 10-20 Cycles 平面圖（對面的店都是鐵捲門）換成遊戲裡拍的兩層窗景（對面的店、機車、招牌；白天晚上各一張）；每間店 +1 draw call；l118_shops／arcade／bar_lift／lane118 單元測試 ALL PASS"
   }
  ]
 }
