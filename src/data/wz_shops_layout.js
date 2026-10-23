@@ -155,7 +155,7 @@ const WZ_SHOPS_LAYOUT = {
       {kind: 'condiments', x: 2.97, z: -1.9, w: 0.4, d: 0.8, h: 0.85, note: '自取：筷子、湯匙、餐巾紙、辣椒醬、醋'},
       {kind: 'table_sq', x: -2.2, z: 1.6}, {kind: 'table_sq', x: -2.2, z: -0.1}, {kind: 'table_sq', x: -2.2, z: -1.8},
       {kind: 'table_sq', x: 1.9, z: 1.0}, {kind: 'table_sq', x: 1.9, z: -0.7},
-      {kind: 'menu_strips', x: -3.17, y: 2.07, z: -0.3, ry: Math.PI / 2, w: 1.6, h: 0.9, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／燙青菜 35／滷蛋 15（AA_364）'},
+      {kind: 'menu_strips', x: -3.17, y: 2.07, z: -0.3, ry: Math.PI / 2, w: 1.6, h: 0.9, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／貢丸湯 30／燙青菜 35／滷蛋 15（AA_364 第 2 節；貢丸湯是第 5 節第 2 點加的，和 wzshops3d.js 的 wall 那一行一樣）'},
       {kind: 'tv', x: 3.12, y: 2.35, z: 1.9, ry: -Math.PI / 2},
       {kind: 'wall_fan', x: 3.12, y: 2.45, z: -0.9, ry: -Math.PI / 2},
       {kind: 'calendar', x: -3.17, y: 1.55, z: 2.15, ry: Math.PI / 2}

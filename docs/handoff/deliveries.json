@@ -13516,6 +13516,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "AA-B 06:58；outbox 1d45d2f9"
+  },
+  {
+   "id": "DL-LW2-LIN-MENU",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f4f8cb40",
+   "what": "林家乾麵牆上菜單加「貢丸湯 30」（六張紅紙）；shops_tex.py 整支換",
+   "task": "ART-WZ-LIN-MENU-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 收四個檔；遊戲程式不用改；前後截圖 docs/art-rebuild/second_ai/test_shots/wz_lin_menu_1022/README.md（LAWWW2 分支）"
   }
  ],
  "ignored": [

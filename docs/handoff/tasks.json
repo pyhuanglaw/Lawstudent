@@ -29353,9 +29353,9 @@
    "title": "林家乾麵牆上菜單貼圖加「貢丸湯 30」（AA_364 第 5 節，企劃線 d56da150；點餐選單已有，貼圖還沒有）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【LAWWW（帳號 A）15:1x】LAWWW2 15:09 交班：WIP d724b106（貼圖六張、wz_lin_interior.glb 重匯、layout 註解），遊戲內新版截圖沒拍完。注意：開發分支的 tools/blender/shops_tex.py 少了林家、定食那幾個函式（d37cf28c 拿回的是舊版）——整合時用 LAWWW2 這一版 ｜ 【LAWWW（帳號 A）14:3x】LAWWW2 14:38 ACK：排在沛珊第三十一版之後——shops_tex.py aa364 補上、重匯 wz_lin_interior.glb、wz_shops_layout.js menu_strips 註解；交件照舊格式（outbox＋SHA），LAWWW 整合、BB 看畫面",
+   "next": "【LAWWW-B 10-23】收 LAWWW2-B f4f8cb40 四個檔（wz_lin_interior.glb＋json、lin_menu.png、shops_tex.py 整支、wz_shops_layout.js 註解）；wz_shops 三支單元測試過；畫面驗收派 BB（菜單近拍）｜【LAWWW（帳號 A）15:1x】LAWWW2 15:09 交班：WIP d724b106（貼圖六張、wz_lin_interior.glb 重匯、layout 註解），遊戲內新版截圖沒拍完。注意：開發分支的 tools/blender/shops_tex.py 少了林家、定食那幾個函式（d37cf28c 拿回的是舊版）——整合時用 LAWWW2 這一版 ｜ 【LAWWW（帳號 A）14:3x】LAWWW2 14:38 ACK：排在沛珊第三十一版之後——shops_tex.py aa364 補上、重匯 wz_lin_interior.glb、wz_shops_layout.js menu_strips 註解；交件照舊格式（outbox＋SHA），LAWWW 整合、BB 看畫面",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -29784,6 +29784,151 @@
    },
    "source": "AA-B 10-23 06:58 交付（DL-AA390）",
    "authorized": "D109、D111"
+  },
+  {
+   "id": "SIS-B6-1023",
+   "title": "學姊第六批：說了沒發生的 9 件＋她在美國時女朋友的每週視訊（程式位置 AA_391 第 3 節：r2y4b3d.js:525／506、送機 termend_lines.js:280＋y34b3d.js:223／561–575、口試 y34b3d.js:340、characters.js 學姊作息）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "學姊交往中／一般玩家（依批次）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 07:20 AA_391 學姊加戲批次清單（SIS-LEAD-1021、C25、D111）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_391",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記（交付 10-23 10:30 UTC）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-B7-1023",
+   "title": "學姊第七批：日本路線（出發前告別、在日本四個多月的聯絡、8/1 她出發前一天視訊）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "學姊交往中／一般玩家（依批次）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 07:20 AA_391 學姊加戲批次清單（SIS-LEAD-1021、C25、D111）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_391",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記（交付 10-23 13:00 UTC）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-B8-1023",
+   "title": "學姊第八批：大二整年＋兩個暑假（學校裡）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "學姊交往中／一般玩家（依批次）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 07:20 AA_391 學姊加戲批次清單（SIS-LEAD-1021、C25、D111）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_391",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記（交付 10-23 16:00 UTC）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-B9-1024",
+   "title": "學姊第九批：大三下臺灣學期中＋大四上朋友的遠距",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "學姊交往中／一般玩家（依批次）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 07:20 AA_391 學姊加戲批次清單（SIS-LEAD-1021、C25、D111）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_391",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記（交付 10-24 03:00 UTC）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-B10-1024",
+   "title": "學姊第十批：交往中跨年、除夕、前任、畢業後朋友",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_391（AA 分支）批次清單；AA 寫好交 LAWWW 實作。原則：只加學姊，不刪不縮其他人（D111／C25）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "學姊交往中／一般玩家（依批次）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 10-23 07:20 AA_391 學姊加戲批次清單（SIS-LEAD-1021、C25、D111）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA_391",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "定稿＋outbox 登記（交付 10-24 08:00 UTC）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
