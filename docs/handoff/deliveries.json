@@ -17488,6 +17488,13 @@
    "branch": "origin/claude/elegant-brown-fcos7n",
    "kind": "handoff_record",
    "reason": "BB-B 接班登記（帳號 B 10-23）：快轉企劃線、duty_BB on、工具同步；LAWWW-B 10-23 12:5x 分類"
+  },
+  {
+   "sha": "072562c7",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "店內窗景兩層重拍 WIP（林家、定食維持一層）；LAWWW-B 10-23 12:5x 分類"
   }
  ]
 }
