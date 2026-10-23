@@ -2194,6 +2194,36 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 20:38、20:41。"
+  },
+  {
+   "task": "SYS-13-EV",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "78641fff5",
+   "files": [
+    "docs/story_planning/AA_433_打工第二批_便利商店補習班事務所的應徵與班表.md"
+   ],
+   "state": "已交付",
+   "remaining": "研究助理等 M8",
+   "next": "LAWWW-B：便利商店夜班（公館）、補習班助教、事務所工讀照 AA_433；補習班、事務所用 2D",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "接 AA_431 第 2 節。"
+  },
+  {
+   "task": "SYS-13-EV",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a06d3f545",
+   "files": [
+    "docs/story_planning/AA_163_法服週六值班與家教.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_163 白名單可以換到 a06d3f545（AA 已審：只改一處，家教的期末考週「第 17～18 週」→「第 16 週」，16 週制）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "AA-B 2026-10-23 審過 a06d3f545 的 diff：和 d64110e1f 只差那一處，正確。"
   }
  ],
  "items": [
