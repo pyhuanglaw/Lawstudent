@@ -2214,7 +2214,7 @@
     "src/data/wz_shops_layout.js（開發分支 d3df1cf3 的版本，只改 lin menu_strips 的註解）",
     "docs/art-rebuild/second_ai/test_shots/wz_lin_menu_1022/（README＋遊戲內前後四張）"
    ],
-   "state": "交付",
+   "state": "已交付",
    "remaining": "真機沒看過；晚上一般鏡頭右邊店門口外的深藍色是原本就有的，沒處理",
    "next": "LAWWW：從 claude/funny-albattani-iawshm 拿上面四個檔（shops_tex.py 整支換）；瀏覽器畫面驗收派 BB；場景美術等使用者驗收",
    "noDirectIntegrate": false,
@@ -2234,7 +2234,7 @@
     "tools/blender/env_second/floors/scan_floors.py",
     "docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/（README＋前後兩張）"
    ],
-   "state": "交付",
+   "state": "已交付",
    "remaining": "第二批（6fbe2830：九個室內＋src patch）遊戲內截圖拍完再交；淺店內 wood_dk／wood_lt 隨 118 巷、公館店面一起改；3F 主球場、2D 背景兩張；真機沒看過",
    "next": "LAWWW：拿第一批四個檔進開發分支（遊戲程式不用改）；畫面驗收派 BB",
    "noDirectIntegrate": false,
@@ -2252,7 +2252,7 @@
     "docs/art-rebuild/second_ai/patches/no_dark_wood_src.patch（對開發 719cca3b：rooms_glb3d、us3d、jp_dorm3d、zones3d、wz_shops_layout）",
     "docs/art-rebuild/second_ai/test_shots/no_dark_wood_1023/（第二批前後七組）"
    ],
-   "state": "交付",
+   "state": "已交付",
    "remaining": "美國公寓兩戶室內截圖補拍中；淺店內 wood_dk／wood_lt 隨 118 巷、公館店面重建（wz_shopkit f_wood）；3F 主球場、2D 背景兩張；美國公寓走廊深色木板牆（非地板）；真機沒看過",
    "next": "LAWWW：九個 GLB＋七支腳本＋src patch 進開發分支（patch 不改 engine3d／game3d／story3d）；跑相關單元測試；畫面驗收派 BB",
    "noDirectIntegrate": false,
@@ -2261,23 +2261,40 @@
    "note": "第二批：九個室內地板改淺（平均亮度 84～156 → 182～193），GLB 結構不變、只換地板貼圖；程式備用地板 5 支檔 7 行"
   },
   {
-   "task": "ART-L118-FACADE-3D-1023＋ART-GG-FACADE-3D-1023",
+   "task": "ART-L118-FACADE-3D-1023",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "82725bf8",
    "files": [
-    "assets/models/env/second_ai/gongguan_shops.glb（＋.json、.props.json 位元組不變）",
     "assets/models/env/second_ai/lane118_street.glb（＋.json、新的 .props.json）",
     "tools/blender/env_second/{wz_shopkit,cvs_goods,wz_street}.py、textures/gen/wz_goods_atlas.jpg 和地磚貼圖集",
     "docs/art-rebuild/second_ai/patches/gg_integration_test_1023.patch、street_props_test_1023.patch（對開發 719cca3b）",
     "docs/art-rebuild/second_ai/test_shots/shop_facade_1023/（README＋前後 20 組）"
    ],
-   "state": "交付",
+   "state": "已交付",
    "remaining": "溫州街用同一套 wz_shopkit、這次沒重建（下次重建店內會變 unlit）；118 巷瀏覽器流程測試、整套回歸沒跑；店內燈不隨時段；商品低面數；真機沒看過",
    "next": "LAWWW：兩個 GLB＋腳本進開發分支，套兩個測試 patch；跑 gongguan_glb_integration、street_props_nav_unit、118 巷流程測試；畫面驗收派 BB（場景 ART_APPROVED 由使用者）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "公館 14 間、118 巷 9 間＋填空小店：玻璃後面從平面店內圖換成立體淺店內（unlit 頂點色＋真的商品）；遊戲程式不用改；公館整合測試 ALL PASS（draw call 1.09～1.13×、≤34.1 萬三角形）"
+   "note": "118 巷 9 間＋填空小店：玻璃後面從平面店內圖換成立體淺店內（unlit 頂點色）；遊戲程式不用改；street_props_nav_unit ALL PASS（附 patch）"
+  },
+  {
+   "task": "ART-GG-FACADE-3D-1023",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "82725bf8",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb（＋.json、.props.json 位元組不變）",
+    "tools/blender/env_second/{wz_shopkit,cvs_goods,wz_street}.py、textures/gen/wz_goods_atlas.jpg 和地磚貼圖集",
+    "docs/art-rebuild/second_ai/patches/gg_integration_test_1023.patch、street_props_test_1023.patch（對開發 719cca3b）",
+    "docs/art-rebuild/second_ai/test_shots/shop_facade_1023/（README＋前後 20 組）"
+   ],
+   "state": "已交付",
+   "remaining": "溫州街用同一套 wz_shopkit、這次沒重建（下次重建店內會變 unlit）；118 巷瀏覽器流程測試、整套回歸沒跑；店內燈不隨時段；商品低面數；真機沒看過",
+   "next": "LAWWW：兩個 GLB＋腳本進開發分支，套兩個測試 patch；跑 gongguan_glb_integration、street_props_nav_unit、118 巷流程測試；畫面驗收派 BB（場景 ART_APPROVED 由使用者）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "公館 14 間：玻璃後面從平面店內圖換成立體淺店內（unlit 頂點色＋真的商品）；遊戲程式不用改；gongguan_glb_integration ALL PASS（draw call 1.09～1.13×、≤34.1 萬三角形，附 patch）"
   }
  ]
 }
