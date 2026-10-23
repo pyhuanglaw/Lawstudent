@@ -41,11 +41,11 @@
    "account": "B",
    "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "03c54237",
-   "since": null,
-   "state": "handed-off",
+   "sha": "9d53752f",
+   "since": "2026-10-23T06:47Z",
+   "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": null,
+   "sinceSha": "ff339df1",
    "handedOffAt": "2026-10-17T02:49Z",
    "handoffSnapshot": "2026-10-17T0248Z_B_LAWWW2.json"
   },
@@ -75,19 +75,25 @@
   }
  },
  "lastHandoff": {
-  "from": "B",
-  "at": "2026-10-23T06:47Z",
+  "from": "A",
+  "at": "2026-10-22T15:11Z",
   "kind": "handoff",
   "snapshots": {
    "LAWWW2": {
-    "file": "2026-10-17T0248Z_B_LAWWW2.json",
-    "ref": "origin/claude/funny-albattani-iawshm"
+    "file": "2026-10-22T1509Z_A_LAWWW2.json",
+    "ref": "origin/claude/second-ai-env-art"
    },
    "AA": {
-    "file": "2026-10-17T0238Z_B_AA.json",
-    "ref": "origin/claude/cool-heisenberg-o8kuqx"
-   }
-  }
+    "file": "2026-10-22T1507Z_A_AA.json",
+    "ref": "origin/claude/story-planning"
+   },
+   "BB": {
+    "file": "2026-10-22T1508Z_A_BB.json",
+    "ref": "origin/claude/story-planning"
+   },
+   "LAWWW": "2026-10-22T1511Z_A_LAWWW.json"
+  },
+  "closed": true
  },
  "history": [
   {
@@ -299,14 +305,6 @@
    "until": "2026-10-23T06:47Z"
   }
  ],
- "pending": {
-  "from": "B",
-  "rolesHandedOff": [
-   "AA",
-   "BB",
-   "LAWWW2"
-  ]
- },
  "anomalies": [
   {
    "kind": "post-handoff-writes",
@@ -410,9 +408,74 @@
     "e089132e..a71fe506"
    ],
    "note": "duty verify 第 6 項：duty.json 記的 e089132e 是 BB-C 10-20 13:0x 接班時的 SHA（它交班時沒有用 duty handoff 更新），之後的 57 個 commit 是它值班期間的正常工作，最後一個 a71fe506 就是它自己的交班 commit（10-21 14:30，HANDOFF_GAP_MATRIX 第 1 節）。帳號 A 的 BB 已從這個分支接班（duty sync 15:3x）。LAWWW（帳號 A）查核"
+  },
+  {
+   "kind": "stale-sync",
+   "role": "LAWWW",
+   "account": "B",
+   "at": "2026-10-23T06:5xZ",
+   "resolved": true,
+   "note": "LAWWW-B 接班時第一次 duty sync（seq 25，06:47）用的是還沒更新的本機遠端分支，讀到 B 三個職位 10-17 的舊交班狀態，把 lastHandoff 覆蓋成「B 交班」、多寫一筆 pending（duty verify 第 8 項）。重新 fetch 後 sync（seq 26、27）三位都是 on；lastHandoff 從 RULE_SOURCE 719cca3bc 還原成帳號 A 10-22 15:11 的交班紀錄，pending 移除。教訓：duty sync 前先 fetch 三條職位分支",
+   "evidence": [
+    "719cca3bc:docs/handoff/duty.json",
+    "seq 25～27"
+   ],
+   "wrongValues": {
+    "lastHandoff": {
+     "from": "B",
+     "at": "2026-10-23T06:47Z",
+     "kind": "handoff",
+     "snapshots": {
+      "LAWWW2": {
+       "file": "2026-10-17T0248Z_B_LAWWW2.json",
+       "ref": "origin/claude/funny-albattani-iawshm"
+      },
+      "AA": {
+       "file": "2026-10-17T0238Z_B_AA.json",
+       "ref": "origin/claude/cool-heisenberg-o8kuqx"
+      }
+     }
+    },
+    "pending": {
+     "from": "B",
+     "rolesHandedOff": [
+      "AA",
+      "BB",
+      "LAWWW2"
+     ]
+    }
+   }
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "AA",
+   "branch": "claude/story-planning",
+   "from": "A",
+   "to": "B",
+   "at": "2026-10-23T06:5xZ",
+   "reviewedThrough": "4a25046b",
+   "resolved": true,
+   "evidence": [
+    "dea49ab3..4a25046b"
+   ],
+   "note": "帳號 A AA 交班（dea49ab3）以後的 commit 是 AA 自己的交班登記 bbbf3e26（duty_AA.json＋快照）和 BB 的交班 commit、合併 4a25046b（10-22 15:06～15:08），交班後沒有工作 commit；已全部併進 AA-B 分支 claude/cool-heisenberg-o8kuqx。LAWWW-B（帳號 B）接班時查核"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "BB",
+   "branch": "claude/story-planning",
+   "from": "A",
+   "to": "B",
+   "at": "2026-10-23T06:5xZ",
+   "reviewedThrough": "4a25046b",
+   "resolved": true,
+   "evidence": [
+    "7e03e3b9..4a25046b"
+   ],
+   "note": "帳號 A BB 交班（7e03e3b9）以後的 commit 是 BB 自己的交班登記 d3c7951d（duty_BB.json 手寫，TOOL-DUTY-HANDOFF-BRANCH-1022）和合併 4a25046b，交班後沒有工作 commit；已併進 BB-B 分支。LAWWW-B（帳號 B）接班時查核"
   }
  ],
- "seq": 26,
+ "seq": 27,
  "chain": [
   {
    "seq": 1,
@@ -594,6 +657,13 @@
    "at": "2026-10-23T06:47Z",
    "account": "B",
    "role": "AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 27,
+   "at": "2026-10-23T06:49Z",
+   "account": "B",
+   "role": "LAWWW2",
    "event": "sync"
   }
  ]
