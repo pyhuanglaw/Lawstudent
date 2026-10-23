@@ -109,20 +109,100 @@ const INV=(function(){
   S.nextSat=function(G,id,P,day,h0){ let d=day+1; while(wdOf(G,d)!==6&&d<day+8) d++; return S.nextFree(G,id,P,d,h0); };
   /* 學姊的研究所筆試（2026-02-02）考完以後（17:00 起）：散步婉拒、溫州街散步那句讀這個（AA_284 1-3；原本綁作廢的 W8）*/
   S.sisPostExam=(day,h)=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-02-02'):null; return d==null||day*24+(h||0)>=d*24+17; };
+  /* ---------- 邀約回覆照階段變（D14-T9／USER_WANTS D37；AA_415 七位定稿，資料 src/data/invite_replies.js＝tools/invite/build_replies.py 產生）----------
+     以安、芷若、語彤、子晴、學姊、沛珊、可昕：答應（accept）、改天（resched：她那時候有事 busy、和別人約了 booked）、婉拒（decline：階段還不到 rel）時照表選一句。
+     階段＝DATE.stageNum 的六階（AA_126 4-1；D14-T9 的 next「照 DATE.stageNum 分六階＋交往中」），交往中＝7；可昕分開以後最多第 4 階（AA_351）。
+     選句（AA_415 0-3）：節日 → 第一次 → 地點（含來過、外出、開車）→ 時間、心情、條件（晚上、考試週、條件）→ 一般。同一層好幾句輪流（最久沒說的先）；
+       同一個人不連續兩次同一句：先找最近兩句以外的（從最高的一層往下找；這樣同一個地點連約三次三句都不一樣，AA_415 第 8 節第 2 點），找不到再只避開上一句；
+       這一階的句子都只剩上一句＝往下借一階（第 4 階借第 3 階…，交往中借第 6 階）；還是沒有才重複。
+     「現有」的列照原本的 acc／first／plan 句子與分檔；here、rule、partnerSay 照原本的程式（rule 給了句子就照 rule，AA_415 0-3 最後一點）。
+     節日、外出、開車：AA_415 第 8 節「等 D38 節日系統、date3d.js 外出的邀約接上才會用到；沒接上以前不出現」→ S.REPLY_ON 先關（接上的人改成 true）。
+     存檔：G.invReply＝{人物: {h:[最近一句, 上一句], u:{句子 id: 第幾次說}, n}}（舊存檔沒有＝從空的開始）。測試：node tests/aa415_invite_replies_unit.js */
+  const RP=()=>typeof INVITE_REPLIES!=='undefined'&&INVITE_REPLIES&&INVITE_REPLIES.people?INVITE_REPLIES.people:null;
+  S.REPLY_ON={'節日':false,'外出':false,'開車':false};
+  S.replyHas=id=>{ const R=RP(); return !!(R&&Array.isArray(R[id])&&R[id].length); };
+  S.replyRec=G=>{ if(!G.invReply||typeof G.invReply!=='object') G.invReply={}; return G.invReply; };
+  S.replyStage=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 7;
+    let n=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):(typeof SOCIAL!=='undefined'&&SOCIAL.stage?Math.max(0,Math.min(6,SOCIAL.STAGES.indexOf(SOCIAL.stage(id)))):1);
+    if(F['EX_'+id]&&id==='kexin') n=Math.min(n,4);   /* 分開以後只能當朋友（AA_351；AA_415 7-2 表下：沒有第 5、6 階）*/
+    return n; };
+  /* 節日：2/14、3/14、七夕、她的生日（msg2_pool.js 的 birthday）、12/24～25（AA_415 0-2）。七夕照農曆（2026～2028 和 r2y3a3d.js 的 QIXI 一樣）*/
+  const QIXI=['2024-08-10','2025-08-29','2026-08-19','2027-08-08','2028-08-26','2029-08-16','2030-08-05'];
+  S.replyFestival=function(G,id,day){ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const d=CALENDAR.dateOf(day), md=String(d.m).padStart(2,'0')+'-'+String(d.d).padStart(2,'0');
+    if(['02-14','03-14','12-24','12-25'].includes(md)||QIXI.includes(d.key)) return true;
+    const B=typeof MSG2_POOL!=='undefined'&&MSG2_POOL.people&&MSG2_POOL.people[id]?MSG2_POOL.people[id].birthday:null; return !!B&&B===md; };
+  const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
+  const actOn=(G,id,day,act,hs)=>hs.some(t=>{ const e=entAt(G,id,day,t); return !!e&&e.act===act; });
+  const ytThuFree=(G,day)=>{ const d=DK('2027-12-16'); return !!(G.flags&&G.flags.YT_EV13)||(d!=null&&day>=d); };   /* 語彤事件 13「空出來的週四」（STORY.ytThuFree，照約的那一天）*/
+  /* 「條件：」照字面接（AA_415 0-2）。c＝S.personal 的 ctx（pid、P、day、h、wd、year、term、postExam、r＝decide 的結果）。
+     接不上的（以安「家教的時間」、外出的「看電影」「第二次外出」）在 build_replies.py 的 OFF_COND 標 off；here、rule、partnerSay 的列照原本的程式 */
+  S.REPLY_COND={
+    '剛下班':(G,id,c)=>actOn(G,id,c.day,'barista',[c.h-0.25,c.h-0.5,c.h-0.75,c.h-1])&&!actOn(G,id,c.day,'barista',[c.h]),   /* 芷若：一小時內才下班（作息 barista）*/
+    '週末':(G,id,c)=>c.wd===6||c.wd===0,
+    '上班':(G,id,c)=>!!c.r&&c.r.why==='busy'&&c.r.act==='barista',   /* 芷若的改天：那時候在 Café 上班 */
+    '下雨':G=>G.weather==='rain',
+    '週四、續約以後（AA_126 4-2 事件 13）':(G,id,c)=>c.wd===4&&ytThuFree(G,c.day),
+    '週二週四、續約以前':(G,id,c)=>(c.wd===2||c.wd===4)&&!ytThuFree(G,c.day),
+    '麵店的班':(G,id,c)=>actOn(G,id,c.day,'help',[17.5,18,19,20]),   /* 語彤那天晚上在阿鳳麵店（作息 help）*/
+    '週六上午':(G,id,c)=>c.wd===6&&c.h<12,
+    '昨天才約過':(G,id)=>(G.invites||[]).some(iv=>iv.who===id&&iv.day===G.day-1&&['done','accepted','going','missed'].includes(iv.state)),
+    '早上':(G,id,c)=>c.h<12,
+    '筆試以後':(G,id,c)=>!!c.postExam,
+    '口試前、出國前一週':(G,id,c)=>['2029-05-29','2028-08-02'].some(k=>{ const d=DK(k); return d!=null&&c.day>=d-7&&c.day<d; }),   /* 學姊：口試 2029-05-29（y34b3d.js M9）、出國 2028-08-02（characters.js absentDates 美國）的前一週 */
+    '杜鵑花節（3 月）':(G,id,c)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(c.day).m===3,
+    '上一次約會祐廷遲到':G=>{ const R=G.flags&&G.flags.KX_DRIFT; return !!R&&R.seen!=null&&Array.isArray(R.log)&&R.log.some(e=>e&&e.why==='late'&&e.d===R.seen); },   /* 可昕：kxdrift3d.js 記的最後一次見面那天遲到超過 15 分鐘 */
+    '分開以後':(G,id)=>!!(G.flags&&G.flags['EX_'+id])&&G.flags['dating_'+id]!==true };
+  const RPL=['cafe','library','noodle','wenzhou','brunch','teahouse'];
+  S.replyTier=row=>{ const T=row.tags||[]; if(T.includes('節日')) return 1; if(T.includes('第一次')) return 2; if(T.some(t=>RPL.includes(t)||t==='來過'||t==='外出'||t==='開車')) return 3; return T.length||row.cond?4:5; };
+  S.replyPick=function(G,id,c,tb){ const R=RP(), all=R&&R[id]; if(!all||!all.length) return null; const r=c.r||{};
+    const kind=r.res==='accept'?'acc':(r.res==='resched'&&(r.why==='busy'||r.why==='booked')?'resched':(r.res==='decline'&&r.why==='rel'?'decline':null)); if(!kind) return null;
+    const n=S.replyStage(G,id), sec=(G.stage||'law')==='econ'?'y0':'law', ON=S.REPLY_ON||{};
+    const been=(G.invites||[]).some(iv=>iv.who===id&&iv.place===c.pid&&iv.state==='done');   /* 來過＝和她一起去過（見到了）*/
+    const tagOk=t=>RPL.includes(t)?t===c.pid:t==='第一次'?!!c.first:t==='來過'?been:t==='晚上'?c.h>=19:t==='考試週'?!!(c.term&&c.term.exam):t==='大一'?c.year<=1:t==='大二起'?c.year>=2:
+      t==='節日'?!!ON['節日']&&S.replyFestival(G,id,c.day):(t==='外出'||t==='開車')?!!ON[t]&&!!(c.outing&&(t==='外出'||c.drive)):false;
+    const whenOk=W=>!W||(!(W.today&&c.day!==G.day)&&!(W.before!=null&&!(c.h<W.before))&&!(W.from!=null&&c.h<W.from-1e-6)&&!(W.endBy!=null&&c.h+(c.P.stay||1)>W.endBy+1e-6)
+      &&!(W.wd&&!W.wd.includes(c.wd))&&!(W.notPlace&&c.pid===W.notPlace)&&!(W.zrShift&&!actOn(G,id,c.day,'barista',[18,19,20,21])));
+    const fa=(d,h)=>S.freeAt(G,id,c.P,d,h)?{day:d,h}:null;
+    /* 改天的時間（這一句說了「明天」「五點以後」…）：算不到＝不用這一句；沒寫的照 decide 的 alt */
+    const altFor=row=>{ const A=row.at; if(!A) return undefined; if(A.today&&c.day!==G.day) return null; if(A.before!=null&&!(c.h<A.before)) return null; let a=null;
+      if(A.day==='same'){ if(c.h>=A.from) return null; a=A.exact?fa(c.day,A.from):S.nextFree(G,id,c.P,c.day,A.from); if(a&&a.day!==c.day) a=null; }
+      else if(A.day==='tomorrow'){ const d=G.day+1; a=fa(d,c.h)||S.nextFree(G,id,c.P,d,10); if(a&&a.day!==d) a=null; }
+      else if(A.day==='nextweek'){ const d=c.day+((8-c.wd)%7||7); a=S.nextFree(G,id,c.P,d,10); }
+      else if(A.wd!=null){ let d=c.day+1; while(wdOf(G,d)!==A.wd&&d<c.day+8) d++; a=fa(d,c.h)||S.nextFree(G,id,c.P,d,10); if(a&&a.day!==d) a=null; }
+      return a; };
+    const COND=S.REPLY_COND||{}, alts={};
+    const ok=row=>row.k===kind&&!row.off&&(!row.sec||row.sec===sec)&&(row.tags||[]).every(tagOk)&&(!row.cond||(!!COND[row.cond]&&!!COND[row.cond](G,id,c)))&&whenOk(row.when)
+      &&(kind!=='resched'||!row.at||(alts[row.id]=altFor(row))!=null);
+    const inSt=(row,k)=>k>=row.st[0]&&k<=row.st[1];
+    const P0=all.filter(row=>inSt(row,n)&&ok(row)); if(!P0.length) return {governs:true};   /* 這一階沒有合的句子：答應照原本的 acc／first（或旁白），改天、婉拒用旁白 */
+    const P1=kind==='acc'&&n>=2?all.filter(row=>!inSt(row,n)&&inSt(row,n-1)&&ok(row)):[];   /* 只用來避免重複（這一階只剩上一句的時候）*/
+    const st=(S.replyRec(G)[id])||{}, h=Array.isArray(st.h)?st.h:[], u=(st.u&&typeof st.u==='object')?st.u:{};
+    const best=(pool,avoid)=>{ for(let t=1;t<=5;t++){ const L=pool.filter(row=>S.replyTier(row)===t&&!avoid.includes(row.id)); if(L.length) return L.slice().sort((a,b)=>(u[a.id]!=null?u[a.id]:-1)-(u[b.id]!=null?u[b.id]:-1))[0]; } return null; };
+    const row=best(P0,h.slice(0,2))||best(P0,h.slice(0,1))||best(P1,h.slice(0,2))||best(P1,h.slice(0,1))||best(P0,[]); if(!row) return {governs:true};
+    const L=row.ex==='plan'?(tb&&tb('plan')):null;   /* 現有（plan）：照原本的函式（以安：讀書會開始以前「一起寫憲法作業」）*/
+    return {row,lines:(L||row.lines).slice(),alt:row.at?alts[row.id]:undefined}; };
+  /* 記下說了哪一句：表上的句子記 id；rule、here、原本 acc 的句子對得到表上同一句的也記那個 id（不會下一次又挑到同一句）*/
+  S.replyMark=function(G,id,rid,lines){ const R=RP(); if(!R||!R[id]||!lines||!lines.length) return; const M=S.replyRec(G), m=M[id]||(M[id]={h:[],u:{},n:0});
+    if(!Array.isArray(m.h)) m.h=[]; if(!m.u||typeof m.u!=='object') m.u={};
+    if(!rid){ const k0=JSON.stringify(lines); const hit=R[id].find(row=>JSON.stringify(row.lines)===k0); rid=hit?hit.id:'~'+String(typeof lines[0]==='string'?lines[0]:(lines[0].me||'')).slice(0,24); }
+    m.n=(m.n|0)+1; m.h.unshift(rid); m.h.length=Math.min(m.h.length,2); m.u[rid]=m.n; };
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
       first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')), postExam:S.sisPostExam(day,h),
       w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})),
       dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),r};   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
+    const done=(o,rid)=>{ if(o.lines&&S.replyHas(id)) S.replyMark(G,id,rid||null,o.lines); return o; };   /* AA_415：七位女主角記下說了哪一句（不連續兩次同一句；rule、here 的句子也記）*/
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
-    if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return out; }
+    if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return done(out); }   /* rule 給了句子＝照 rule（AA_415 0-3 最後一點）*/
     const tb=k=>{ let v=p[k]&&p[k][P.id]; if(typeof v==='function') v=v(G,c); return v==null?null:(Array.isArray(v)?v:(v[c.band]||null)); };   /* 函式＝照時間換句（以安：讀書會開始以前，AA_238 5-7）*/
     const H=tb('here'); if(H&&(r.res==='accept'||r.res==='resched')){ const e=entAt(G,id,day,h);   /* 照作息，她那時候本來就在那裡（芷若上班的 Café、以安在總圖）*/
-      if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return out; } }
-    if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L) out.lines=L.slice(); }
-    else if(r.res==='resched'&&(r.why==='busy'||r.why==='booked')){ const L=tb('plan'); if(L) out.lines=L.slice(); }
-    return out; };
+      if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return done(out); } }
+    const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
+    if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
+    if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L) out.lines=L.slice(); }   /* 表上這一階沒有句子（例：可昕經濟系那一年交往中）＝照原本的 acc、first */
+    else if(r.res==='resched'&&(r.why==='busy'||r.why==='booked')&&!(pk&&pk.governs)){ const L=tb('plan'); if(L) out.lines=L.slice(); }   /* 有表的人改天只照表（表上的「現有（plan）」帶著條件，例：芷若「我在上班。……」只在上班的時候）*/
+    return done(out); };
   /* 台詞裡的時間：{zh}＝改天的時間（「九點十分」；不是今天的加「明天」或日期）、{明天？}＝改天是明天才說 */
   const ZH=['零','一','二','三','四','五','六','七','八','九','十'];
   const zhN=n=>n<=10?ZH[n]:(n<20?'十'+ZH[n-10]:ZH[Math.floor(n/10)]+'十'+(n%10?ZH[n%10]:''));

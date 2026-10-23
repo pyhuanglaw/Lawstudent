@@ -1859,6 +1859,15 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md",
+   "sha": "b113e39d",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-23 20:2x 定稿（D109）",
+   "task": "D14-T9",
+   "kind": "text",
+   "note": "tools/invite/build_replies.py → src/data/invite_replies.js（INVITE_REPLIES）；選句 src/invites3d.js 的 S.replyPick（AA_415 第 0-3 節）"
+  },
+  {
    "path": "docs/story_planning/date_system/art/d15_base_night.webp",
    "sha": "abad2fa0",
    "status": "approved",
