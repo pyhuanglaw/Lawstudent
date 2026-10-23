@@ -30803,7 +30803,7 @@
    "title": "tests/flow_main_day12.py 在沙盒 SwiftShader（約 1 fps）走不到：13:20 第二天民總劇情課照設計接手時還在走（v9.10.6 發布前、v9.10.5 同機也失敗）",
    "area": "TEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -30825,7 +30825,8 @@
     "acceptance": "flow_main_day12 在沙盒照真實流程 ALL PASS，或寫清楚環境限制",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "notes": "2026-10-23 20:4x LAWWW-B：BB-B 第四版 patch（BB 分支 89ed11a99）整合進 tests/flow_main_day12.py、TESTING.md 第〇節加「沙盒太慢時劇情照設計接手」、第七節加一列。結果 28 PASS、0 FAIL、2 項 [未驗]（第二天走樓梯到 201：劇情接手）；發布照第〇節寫「未驗（劇情接手）」。附帶觀察（12:30 以後空下來 1.5 秒就帶走、可能比 13:20 早）：維持現行設計（AA_294 ①「時間到了直接帶去」；BB 沒實際抓到提早，發布前不動第二天開場）。"
   },
   {
    "first": {
