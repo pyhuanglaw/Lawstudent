@@ -1,6 +1,6 @@
 --- a/tests/flow_main_day12.py	2026-10-23 17:04:47.272668890 +0000
-+++ b/tests/flow_main_day12.py	2026-10-23 17:05:29.231729595 +0000
-@@ -22,6 +22,27 @@
++++ b/tests/flow_main_day12.py	2026-10-23 17:40:48.410993189 +0000
+@@ -22,6 +22,30 @@
      await L.tap(pg, cdp, '#interact'); return True
  
  
@@ -9,6 +9,9 @@
 +# 接手以後：走路、上樓梯、按「進入 201」那幾項標「未驗」（不算通過，也不算失敗），照舊檢查上課有沒有照常開始；檢查標準不變。
 +TAKEN = lambda q: q['zone'] == 'classroom'
 +UNVERIFIED = []
++# 這兩段走路的時間上限（真實秒數）：沙盒每秒不到 1 格時，走上二樓要 400 秒以上（2026-10-23 負載 25：468 秒 199 格、還在樓梯上）。
++# 拉長只是讓「走到」或「劇情接手」其中一個有機會發生；走到的標準不變，劇情一接手 go_to 就提早回來（stop=TAKEN）
++WALK_S = 1800
 +
 +
 +async def taken_over(pg, run, where):
@@ -28,7 +31,7 @@
  async def wait_control(pg, cdp, run, pick=0, max_steps=120, extra=None):
      return await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'] and (extra is None or extra(q)), max_steps=max_steps, pick=pick)
  
-@@ -77,29 +98,41 @@
+@@ -77,29 +101,41 @@
              run.check('床邊出現「睡覺」', await use_interact(pg, cdp, run, '睡覺'))
              s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'&&!!GAME.G.flags.campusIntro")   # 第二天霖澤館前（campusMorning：阿哲）演完
          # ---- 第二天：霖澤館前 ----
@@ -40,7 +43,7 @@
          door = await L.find_it(pg, '進入霖澤館')
 -        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口')
 -        run.check('走到霖澤館門口（點地面／搖桿）', ok)
-+        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口', stop=TAKEN)
++        ok = bool(door) and await L.go_to(pg, cdp, run, door['x'], door['z'], door['r'] * 0.8, '霖澤館門口', max_s=WALK_S, stop=TAKEN)
 +        took = ok and await taken_over(pg, run, '走到霖澤館門口')
 +        if took:
 +            for n in ('走到霖澤館門口（點地面／搖桿）', '門口出現「進入霖澤館」', '進到霖澤館大廳、目標是上二樓到 201 教室', '走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
@@ -77,7 +80,7 @@
 +                else:
 +                    run.check('進到霖澤館大廳、目標是上二樓到 201 教室', s['zone'] == 'linze' and '201' in g, f'goal={g}')
 +                    c201 = await L.find_it(pg, '進入 201')
-+                    ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1, stop=TAKEN)
++                    ok = bool(c201) and await L.go_to(pg, cdp, run, c201['x'], c201['z'] + 0.3, 0.9, '201 教室門口（二樓）', lv=1, max_s=WALK_S, stop=TAKEN)
 +                    took = ok and await taken_over(pg, run, '走樓梯上二樓到 201')
 +                    if took:
 +                        for n in ('走樓梯上二樓、走到 201 教室門口（點地面／搖桿）', '門口出現「進入 201 階梯教室」'): unverified(n)
@@ -88,7 +91,7 @@
              t0 = time.time(); reached = False
              while time.time() - t0 < 300:
                  s = await L.state(pg)
-@@ -150,6 +183,7 @@
+@@ -150,6 +186,7 @@
          run.check('讀檔後搖桿走得動', moved > 0.5, json.dumps(s2, ensure_ascii=False) + f' 推了 {pushes} 次、走了 {moved:.2f} m')
          await run.shot(pg, 'after_load')
          run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
