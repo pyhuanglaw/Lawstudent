@@ -371,6 +371,31 @@ async def map2_zone(p, run, base, sid, zone):
             run.check('%s：點「公館」＝列出五個地點（%s）' % (sid, '、'.join(five)), all(w in lst for w in five), J(m5.get('list')))
             if zone == 'gongguan':
                 run.check('%s：人在公館商圈＝那一行寫「你在這裡」、沒有前往按鈕' % sid, '你在這裡' in lst, J(m5.get('list')))
+                if os.environ.get('GG2'):   # LAWWW-B cce997abd：公館兩個落點照距離算——人在商圈時捷運站「約 N 分鐘」可以前往；站在捷運站旁邊才算「你在這裡」
+                    rows = await pg.evaluate("[...document.querySelectorAll('#phoneBody .phrow')].map(r=>({t:r.innerText.replace(/\\n/g,' '), btn:(r.querySelector('[data-place]')||{}).textContent||null}))")
+                    mrt = next((r for r in rows if '捷運公館站' in r['t']), None); shop = next((r for r in rows if '公館商圈' in r['t']), None); res['gg2'] = {'mrt': mrt, 'shop': shop}
+                    run.check('%s：人在公館商圈＝捷運公館站寫「約 N 分鐘」、有「前往」' % sid, bool(mrt) and '你在這裡' not in mrt['t'] and '約' in mrt['t'] and (mrt['btn'] or '').strip() == '前往', J(res['gg2']))
+                    p0 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(1),+o.z.toFixed(1)]; })()")
+                    c = await pg.evaluate("(()=>{ const r=[...document.querySelectorAll('#phoneBody .phrow')].find(x=>x.innerText.includes('捷運公館站')); const b=r&&r.querySelector('[data-place]'); if(!b) return null; b.scrollIntoView({block:'center'}); const q=b.getBoundingClientRect(); return [q.left+q.width/2,q.top+q.height/2]; })()")
+                    if c:
+                        await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
+                        t0 = time.time()
+                        while time.time() - t0 < 60:
+                            cs = await choices(pg)
+                            if cs: say('   選項：%s' % cs); await pick(pg, cdp, cs[0])
+                            s_ = await L.state(pg)
+                            if not s_['dlg'] and not cs and not s_.get('busy'): break
+                            await pg.wait_for_timeout(1500)
+                        await pg.wait_for_timeout(3000)
+                        p1 = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [GAME.G.zone,+o.x.toFixed(1),+o.z.toFixed(1)]; })()"); await run.shot(pg, '%s_go_mrt' % sid)
+                        moved = math.hypot(p1[1] - p0[0], p1[2] - p0[1])
+                        run.check('%s：按捷運公館站「前往」＝人移到捷運站那一頭（從 %s 到 %s，%.0f m）' % (sid, p0, p1, moved), p1[0] == 'gongguan' and moved > 15, J({'p0': p0, 'p1': p1}))
+                        await open_places(pg, cdp); await pg.evaluate("(()=>{ const b=document.getElementById('phoneBody'); if(b) b.scrollTop=0; })()"); await pg.wait_for_timeout(600)
+                        await select_pin(pg, cdp, 'gongguan'); await run.shot(pg, '%s_pin_gongguan_at_mrt' % sid)
+                        rows = await pg.evaluate("[...document.querySelectorAll('#phoneBody .phrow')].map(r=>({t:r.innerText.replace(/\\n/g,' '), btn:(r.querySelector('[data-place]')||{}).textContent||null}))")
+                        mrt = next((r for r in rows if '捷運公館站' in r['t']), None); shop = next((r for r in rows if '公館商圈' in r['t']), None); res['gg2b'] = {'mrt': mrt, 'shop': shop}
+                        run.check('%s：站在捷運站旁邊＝捷運公館站「你在這裡」、公館商圈可以前往' % sid, bool(mrt) and '你在這裡' in mrt['t'] and bool(shop) and (shop['btn'] or '').strip() == '前往', J(res['gg2b']))
+                    else: run.check('%s：捷運公館站有「前往」按鈕' % sid, False, J(rows))
         if zone == 'wenzhou' and 'wenzhou' in ids:
             await select_pin(pg, cdp, 'wenzhou'); m6 = await pg.evaluate(MAPQ2); lst = ' '.join(m6.get('list') or []); await run.shot(pg, '%s_pin_wenzhou' % sid)
             run.check('%s：點「溫州街」＝列出溫州街、兩點半 Café' % sid, all(w in lst for w in ['溫州街', '兩點半']), J(m6.get('list')))
