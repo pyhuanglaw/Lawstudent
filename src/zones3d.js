@@ -1051,7 +1051,8 @@ const Z3 = (function(){
     const G0=typeof GAME!=='undefined'&&GAME.G, catHere=!(typeof PARK!=='undefined'&&G0&&PARK.catLost(G0));   /* 大三上第 9 週貓不見了（AA_166 線四）*/
     const ring=L.items.find(i=>i.kind==='ring_bench'), under=!!(catHere&&pav&&typeof PARK!=='undefined'&&G0&&PARK.catUnder&&PARK.catUnder(G0));   /* 下雨：貓躲在涼亭的石桌底下（AA_164 5-2、AA_283 第 1 節；石桌在涼亭中間，地台 0.14 m）*/
     const catAt=under?{x:pav.x+0.3,z:pav.z+0.05,yaw:Math.PI/2,y:0.14}:(ring?{x:ring.x,z:ring.z+(ring.r||1.45),yaw:Math.PI}:null);
-    if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null; E.interactables.push({x:catAt.x,z:catAt.z+(under?0:0.2),radius:1.4,label:nm?'摸摸'+nm:'那隻貓',park:'cat'}); }
+    if(catAt&&catHere){ const nm=typeof PARK!=='undefined'&&G0?PARK.catName(G0):null, Gn=()=>typeof GAME!=='undefined'&&GAME.G;   /* 名字、藏起來照 PARK（AA_397 第 3 節：寒流那一週只能「看」、收養以後「看圓椅」一次就藏起來；src/wzpark3d.js catLabel／catHidden）*/
+      E.interactables.push({x:catAt.x,z:catAt.z+(under?0:0.2),radius:1.4,get label(){ const G=Gn(); return G&&typeof PARK!=='undefined'&&PARK.catLabel?PARK.catLabel(G):(nm?'摸摸'+nm:'那隻貓'); },get hidden(){ const G=Gn(); return !!(G&&typeof PARK!=='undefined'&&PARK.catHidden&&PARK.catHidden(G)); },park:'cat'}); }
     for(const it of L.items) if(it.kind==='park_lamp'){ const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(it.x,0.03,it.z); g.add(pool); pools.push(pool); }
     // 睡在老樹圓椅上的橘白色胖貓（AA_164 5-1、AA_171 第 7 節；3D 正式模型是 ART-WZ5，到之前用套件的貓）
     { const bf=catAt&&catHere?{x:catAt.x-0.05,z:catAt.z+0.45,yaw:catAt.yaw-Math.PI/2}:null; if(bf){ const cat=new TK.Bin(); const fur=TK.paint('#d98a3c'), furL=TK.paint('#f0c08a'), dk=TK.paint('#5a3a22'); const cy=0.5;
