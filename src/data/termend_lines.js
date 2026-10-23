@@ -247,6 +247,17 @@ const TERMEND_LINES=(function(){
     river:{name:'景美溪河堤',h:17.5,bg:'riverside',open:'（河堤的步道，她走在靠水的那一邊。）',close:'（她站在你的車門邊。『到家傳訊息。』）',miss:['我在河堤等了一下','你還好嗎']},
     nccu:{name:'政大正門',h:18,bg:'nccu_food',open:'（山下那家店，她點了兩人份，沒有問你。）',close:'（她送你到停車場，站著等你倒車出去。）',miss:['我在正門等了一下','你還好嗎']} };
   const C10=G=>typeof VAC!=='undefined'&&!!VAC.enrolled&&VAC.enrolled(G,'C10');   /* 大二暑假加州暑期課（VAC 做好以後接）*/
+  /* AA_401 第 1 節（企劃線 18251b0e1；AA_313 2-5 第 3 點）：大二起每場學期末約會，table 兩句後面加一個二選一；khh＝KX_KHH[學期＋W／S]，y5＝KX_Y5_CALL */
+  const US3=G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US';
+  const KX_ASK={
+    Y2S1:[{t:'「好。哪幾天？」',r:['你自己挑。我那幾天都在。'],khh:['Y2W','yes']},{t:'「寒假我可能沒空。」',r:['……好。那夜市我自己去，拍給你看。'],khh:['Y2W','no']}],
+    Y2S2:G=>C10(G)?[{t:'「出發前一定去。」',r:['好。我把那天空下來。'],khh:['Y2S','yes']},{t:'「回來再去？」',r:['回來你會時差。……那就回來再去。'],khh:['Y2S','after']}]
+      :[{t:'「這次待到晚上。」',r:['好。末班高鐵前我才放你走。'],khh:['Y2S','yes']},{t:'「我盡量。」',r:['你每次都說盡量。'],khh:['Y2S','maybe']}],
+    Y3S1:[{t:'「題目哪裡奇怪？」',r:['老師說大家都寫大問題，只有我寫一個房間。','……我覺得房間就是大問題。'],khh:['Y3W','yes']},{t:'「寒假要去哪裡？」',r:['不告訴你。來了就知道。'],khh:['Y3W','yes']}],   /* 她已經說要排，兩個都算答應 */
+    Y3S2:G=>US3(G)?[{t:'「十二月就回來。」',r:['我知道。……我還是會算。'],khh:['Y3S','count']},{t:'「出發前去高雄一次。」',r:['好。七月。你不要排別的事。'],khh:['Y3S','yes']}]
+      :[{t:'「暑假我去高雄找妳。」',r:['一次就好。不要為了我把暑假排滿。'],khh:['Y3S','yes']},{t:'「視訊也很好。」',r:['你說的喔。每天十點，不准遲到。'],khh:['Y3S','video']}],
+    Y4S1:[{t:'「我去陪妳念。」',r:['好。圖書館九點開，我八點半就在門口。'],khh:['Y4W','yes']},{t:'「妳念妳的，我不吵妳。」',r:['你不來，我才會一直傳訊息吵你。'],khh:['Y4W','no']}],
+    Y5S1:[{t:'「週末一定打。」',r:['週六晚上十點。超過十點我就睡了。'],y5:'sat'},{t:'「受訓加油。」',r:['嗯。……你也是，不要只會說加油。'],y5:'cheer'}] };
   const KX={
     Y1S2:{place:'river',wd:5,first:true,invite:['期末考完了吧','禮拜五 河堤 五點半','我帶你去吃那家']},
     Y2S1:{place:'nccu',invite:['考完了！','這次換山上 政大正門六點','我請'],table:['我們期末考完，你寒假來高雄。','我家附近那個夜市，你還沒去過。']},
@@ -311,5 +322,5 @@ const TERMEND_LINES=(function(){
   const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {KX_ASK,PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();
