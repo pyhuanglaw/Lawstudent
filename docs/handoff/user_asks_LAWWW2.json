@@ -264,6 +264,16 @@
    "task": "ART-NO-DARK-WOOD-1023",
    "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說",
    "note": "P0，永久的美術規則：整個遊戲不要深色木地板，只能淺色木地板或其他材質（磨石子、水泥、地磚、地毯…）。掃描（scan_floors.py，開發分支 719cca3b 的 GLB）：圖書館 3F l3_parquet、總圖大廳二樓 lb_parquet、定食、美國公寓兩棟、茶行、日本房間、118 巷咖啡、書店、萬才館研討室 A、3F 主球場；程式產生的地板 rooms_glb3d／us3d／jp_dorm3d／zones3d woodfloor2 的備用顏色。家具、桌面不算地板（使用者講的是地板）。任務 ART-NO-DARK-WOOD-1023 請 LAWWW-B 開"
+  },
+  {
+   "id": "UA-LAWWW2-1023-04",
+   "at": "2026-10-23T07:5x",
+   "quote": "118店面裡面做了 但外觀還是很2D",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-L118-FACADE-3D-1023",
+   "src": "使用者直接對帳號 B 的 LAWWW2 工作階段說",
+   "note": "118 巷九間店的室內（LANE118-SHOPS-1020）已經做了，但從巷子看的店面外觀還是平的。做法：先遊戲內拍外觀找原因，再把店面做成立體（門窗內退、有厚度的招牌雨遮、玻璃後看得到店內、店門口有深度和陰影）。排在 ART-NO-DARK-WOOD-1023 交件後。任務 ART-L118-FACADE-3D-1023 請 LAWWW-B 開"
   }
  ]
 }
