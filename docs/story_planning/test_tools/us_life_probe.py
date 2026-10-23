@@ -64,10 +64,17 @@ async def set_h(pg, run, h, why):
     await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % h); run.setup('[捷徑] 時鐘撥到 %.2f（%s）' % (h, why)); await pg.wait_for_timeout(1500)
 async def play_until(pg, cdp, run, h, sc, secs=420):
     """遊戲時間照走到 h；中間有對話照選項偏好、有要回的訊息照 rules、出遊「出發」"""
-    t0 = time.time(); last = None
-    while time.time() - t0 < secs:
+    t0 = time.time(); last = None; sn0 = None; lim = secs
+    # BB-B 10-23 19:1x：負載 25 時遊戲時間每 420 秒只走 0.2～0.35 小時（FOOD51、ZR43、REB 都是「等不到」＝腳本 FAIL）。
+    # 看了 90 秒以後照實際速度估還要多久，上限往後延（最多 2400 秒）；遊戲時間沒在走（卡住）就不延，照原本的上限判失敗
+    while time.time() - t0 < lim:
         sn = await pg.evaluate(SNAP)
         if sn['h'] >= h: return True
+        if sn0 is None: sn0 = (time.time(), sn['h'], sn.get('key'))
+        el = time.time() - sn0[0]
+        if el > 90 and sn.get('key') == sn0[2] and sn['h'] > sn0[1] + 0.01:
+            need = (h - sn['h']) / ((sn['h'] - sn0[1]) / el)
+            lim = max(lim, min(2400, (time.time() - t0) + need + 60))
         s = await L.state(pg)
         if sc.get('asks') and not s['dlg'] and not s['choices'] and await answer(pg, cdp, sc['asks']): continue   # BB-B 10-23：要回的訊息先回（手機自己打開＝busy，原本先 drain 就不回）
         if s['dlg'] or s['choices'] or s['busy']: await drain(pg, cdp, pref=sc.get('pref', []) + ['出發', '接起來'], secs=180); continue
