@@ -1209,7 +1209,7 @@ GGTEA = ('usep', '^買一杯飲料$')   # 公館的清葉茶行（溫州街巷�
 BOOKB = ('usep', '^看看法律書與文具$'); BIKE = ('usep', '^找車行老闆$'); ROOMI = ('usep', '^看看房間裡的東西$'); CAFEC = ('usep', '^到吧檯點餐$')
 def NEXT(n, h): return ('jump', 'GAME.G.day+%d' % n, h, '%d 天後（人在原地）' % n)
 def OUTD(ev): return "(()=>{ const q=(OUT.rec(GAME.G)||[]).find(x=>x.ev===%s&&x.state==='planned'); return q?q.day:null; })()" % json.dumps(ev)   # 排好的出遊那一天
-def WAITNPC(i): return ('wait', "(n=>!!n&&!n.leaving)(GAME.npc&&GAME.npc[%s])" % json.dumps(i), 25, '%s 在這裡' % i)
+def WAITNPC(i): return ('wait', "(n=>!!n&&!n.leaving)(GAME.npc&&GAME.npc[%s])" % json.dumps(i), 60, '%s 在這裡' % i)   # BB-B 16:1x：負載高時 25 秒不夠（FOOD51_ZQ 第一次等不到，之後她其實在）
 def VISIT(n, pre, h, i): return [NEXT(n, pre), ('jump', 'GAME.G.day', h, '同一天 %.2f' % h), WAITNPC(i)]   # 【捷徑】隔幾天再來同一間店（先撥到她不在的時間、再撥到她的時段，等她坐下）
 def MK(i): return ('mark', "window.__LN=(window.__LOG||[]).length; window.__FA=SOCIAL.rel(%s).fam; window.__MA=GAME.G.money|0;" % json.dumps(i))
 def FAMD(i): return "(id=>{ const G=GAME.G, r=SOCIAL.rel(id), D=G.social&&G.social.daily, a=(D&&D.day===G.day&&D.p&&D.p[id])?(D.p[id].fam||0):0; return r.fam-(window.__FA|0)-a; })(%s)" % json.dumps(i)   # 這一次點完熟悉多了多少（扣掉「一起吃飯」本身那一筆 SOCIAL.activity）
@@ -1378,9 +1378,10 @@ R7 = [
        steps=[NWZTEA, MK('kexin'), TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)], want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
   dict(id='FOOD51_KX_NOTRIP', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ, pref=['青茶', '帶一杯給可昕'], steps=[NWZTEA, TEA],
        none=['CHOICE:帶一杯給可昕'], dmoney=-30),   # 沒有排學期末約會：沒有「帶一杯給可昕」
+  # BB-B 16:1x：芷若在吧檯後面，負載高時從門口走 131 秒走不到 → steps 先放到吧檯前【捷徑】
   dict(id='FOOD51_ZR_SAME', key='TERMDAY:Y1S2:5:2', h=19.5, zone='cafe', flags=dict(TW3),
        js=NOKX + " LV('heroine_02',45,30,20); SOCIAL.remember('heroine_02','ASKED_HER_DRINK',''); G.flags.CAFE_VISITS=6; G.flags.zhiruoFirstOrder='拿鐵';", pref=['也幫芷若點一杯', '熱可可', '加一份濃縮'],
-       steps=[('talk', 'heroine_02')], want=ZR_TREAT + ['CHOICE:也幫芷若點一杯｜（就這樣）'], jsok=[('芷若點對照舊：REMEMBERED_HER', MEMQ('heroine_02', 'REMEMBERED_HER'), True)]),   # [前置] 問過她喝什麼（Z3）、點過 6 次
+       steps=[NEAR('兩點半 Café 的吧檯', label='到吧檯點餐'), ('talk', 'heroine_02')], want=ZR_TREAT + ['CHOICE:也幫芷若點一杯｜（就這樣）'], jsok=[('芷若點對照舊：REMEMBERED_HER', MEMQ('heroine_02', 'REMEMBERED_HER'), True)]),   # [前置] 問過她喝什麼（Z3）、點過 6 次
   # ======== 45＋52. 店員支線第二、三批（SQ10～SQ20，沒有 SQ16）＋AA_408 第 6 節補字 ========
   dict(id='SQ45_SQ10', key='2027-03-09', h=12.3, zone='l118_dian', flags=dict(TW3), js=SQB('滇香小館'), pref=['椒麻雞飯', '「要我幫忙嗎？」', '出發：中和'],
        steps=[ORDER('滇香小館'), ('jump', OUTD('ev_sq10_hwaxin'), 13.0, '華新街那天（週六）13:00'), ('until', 16.2), ('chk', '華新街回來：還沒做完（AA_408 6：下一次來滇香先交乳扇）', SQST('SQ10'), 'open/give'),
