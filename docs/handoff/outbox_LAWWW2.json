@@ -2299,7 +2299,7 @@
   {
    "task": "ART-SHOP-VIEWS-1023",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（下一個 commit）",
+   "sha": "ecfe5a6a",
    "files": [
     "docs/art-rebuild/second_ai/patches/shop_views_two_layers_1023.patch（world3d.js，對開發 26d9efdb）",
     "assets/models/env/views/{cvs,noodle,bookstore,cafe}_{day,night}.webp＋_near_{day,night}.webp",
