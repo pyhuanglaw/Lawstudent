@@ -2257,6 +2257,24 @@
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
    "note": "回 BB-B 10-23 21:0x BB_302（日本路線空白日）。美國篇不答應邀約的空白是玩家選擇，不補。"
+  },
+  {
+   "task": "EVPKG-AA227-228-KNOW",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "efe575813",
+   "files": [
+    "docs/story_planning/AA_436_回LAWWW_重新開始的開關_學姊數東西_坦白視訊版.md",
+    "docs/story_planning/AA_185_全學年缺口補完_v0到v6.md",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/lines/"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：REBUILD_GATE 保持開；multirel_lines.js:379「道歉收到。理由呢？」換；白名單換 D04、D13、D15、D20、BB_128 到 efe575813；芷若英國、子晴語彤可昕出國時的坦白視訊版照第 3 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 03:27。"
   }
  ],
  "items": [
