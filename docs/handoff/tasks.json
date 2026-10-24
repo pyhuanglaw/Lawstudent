@@ -16618,7 +16618,7 @@
    "title": "AA：大一上 BB 人物事件逐句改稿（AB-65 第 2 項）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "next": "【LAWWW-B 10-23 19:2x】AB65-2-L 已整合待測試（03b327ded） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 做 AB65-2-L：先用 tools/story/check_lines.py --files src/data/events.js,src/story3d.js 對 AA_207 與附錄，扣掉後來 AA_303／AA_313 已改過的句子，再照第 2～4 節換句、加 term 與條件；做完請 AA 核對 ｜ AA_207 已交（e2f2f9df）；LAWWW-B 照 AB65-2-L 實作，AA-B 做完核對",
    "first": {
@@ -16652,7 +16652,8 @@
      "evidence": "AA_207（企劃線 e2f2f9df）抽查 8 句：只有「學弟有車」、ev_mingxuan_ball 宿營開頭（「宿營兩人三腳那個」）在程式；「上週那張圖我只抄到一半，下次借我看」「原來你們上課會講這個」「沒有，我也剛到」「好啦，你沒有」「你現在每天都在對面那棟喔」都沒有；可昕成績那句已被更新版（AA-C 11:23，data/events.js:1776）取代；實作任務 AB65-2-L 仍待開工",
      "note": "AA 早就交了，大一上 BB 人物的改稿大多沒進程式（含 AA_207 第 4 節的新開局矛盾）"
     }
-   ]
+   ],
+   "notes": "10-24 LAWWW-B：子項 AB65-2-L 已整合（03b327ded），母項跟著改已整合待測試"
   },
   {
    "id": "AB65-3",
