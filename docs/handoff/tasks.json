@@ -31434,8 +31434,8 @@
    "title": "傍晚天色照季節：E.applyTime 照日期把時鐘換成「光線用的時刻」（15:00→15:00、當天日落→18.95、21:00→21:00），同一個值給 zone.applyTime（窗景、路燈）；時鐘、作息、存檔不動；美國區域另一組日落表",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "v9.10.9 發布以後套 A（engine_season_dusk_1024.patch）＋B（engine_after_midnight_1024.patch）、跑 season_dusk／after_midnight＋燈光 17 支＋levels_no_sky、see_through；看 README 列的 12 處 z.applyTime(G.hour)",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：12/10、11/6 17:45 校園／溫州街天色、10/16 19:00 總圖窗景換夜景、7/20 18:30 幾乎不變、00:30 不跳亮、美國 11/23 17:00；手機幀率不變",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31456,7 +31456,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。"
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（A＋B，git apply 乾淨；燈光／夜晚 Node 20 支 ALL PASS）。"
   },
   {
    "id": "ART-PLAYER-SEASON-OUTFIT-1024",
@@ -31496,7 +31496,7 @@
    "title": "醉月湖北邊遠景店面像布景（路線巡查③ P3）：北側第一排只有部分有店面、遠景招牌改低彩度（townkit3d bgGroundTex city；校園東南兩排、公館遠景備用一起變）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "next": "v9.10.9 發布以後套 patches/bg_city_awnings_1024.patch（疊在 ENGINE-SEASON-DUSK 上也乾淨）、跑 bg_city_awnings_unit＋校園／公館 Node 測試；BB 截醉月湖 15:00、20:00",
    "priority": "P3",
    "first": {
@@ -31518,7 +31518,29 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。"
+   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（疊在 ENGINE-SEASON-DUSK 上 apply 乾淨；bg_city_awnings ALL PASS）。"
+  },
+  {
+   "id": "BUG-FOLLOW-DOOR-1024",
+   "title": "同行的人（beh follow）站得比門近時，門口按鈕變「和她說話」，要退一步才進得去",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：和以安一起走到總圖門口（flow_library_scene 那一段）、約會同行到店門口，按鈕是門",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一週和以安去總圖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-24 21:20 RELEASE-9109-TEST 附註 2（flow_library_scene 一次 FAIL）",
+   "authorized": "D111",
+   "notes": "LAWWW-B 10-24 21:3x：engine3d.js nearestInteractable——beh==='follow' 的人和 leaving 一樣不擋 exit／enter；旁邊沒有門照舊可以說話；tests/interact_priority_unit.js 加兩項（修改前 FAIL 1）。"
   }
  ]
 }

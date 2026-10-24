@@ -14281,8 +14281,8 @@
    "what": "ENGINE-SEASON-DUSK-1024：傍晚天色照季節（A）＋半夜不跳亮（B）兩份 patch",
    "task": "ENGINE-SEASON-DUSK-1024",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-24 16:3x：兩份都收，等 v9.10.9 發布以後合；8e62a65ed 是 README＋截圖"
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 16:3x：兩份都收，等 v9.10.9 發布以後合；8e62a65ed 是 README＋截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）"
   },
   {
    "id": "DL-LW2-BG-AWNINGS",
@@ -14294,8 +14294,8 @@
    "what": "醉月湖北邊遠景店面：北側第一排部分店面、遠景招牌低彩度（patch）",
    "task": "ART-BG-AWNINGS-1024",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-24 16:4x：v9.10.9 發布後合；b67f76383 是 README／截圖"
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 16:4x：v9.10.9 發布後合；b67f76383 是 README／截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）"
   }
  ],
  "ignored": [
