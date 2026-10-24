@@ -14,7 +14,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.rep
 global.Z3={ZONES:{}};
 const loadErr=[]; for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/exchange3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/y34b3d.js','src/data/v6ex_lines.js','src/v6ex3d.js']){ try{ load(f); }catch(e){ loadErr.push(f+'：'+e.message); } }
 /* ---------- 稿 ---------- */
-const SPEC_SHA='0c97c3c05', P437='docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md', P315='docs/story_planning/AA_315_事件包_第一批_1A01到1A05.md';
+const SPEC_SHA='de83f9af2', P437='docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md', P315='docs/story_planning/AA_315_事件包_第一批_1A01到1A05.md';
 const gitShow=p=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SPEC_SHA+':"'+p+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const S437=gitShow(P437), S315=gitShow(P315);
 const part=(s,a,b)=>{ const i=s.indexOf(a); if(i<0) return ''; const j=b?s.indexOf(b,i+a.length):-1; return s.slice(i,j<0?s.length:j); };
@@ -95,7 +95,7 @@ await sec('4c',async()=>{
   exPlayer({LAW_START_DAY:0,MAIN_D1:5,met_yu:true}); runPhone(d16,20.9,21.1); await noodle();
   check('4c. 只認識 Alison（阿哲還沒初遇）：沒有阿哲那句，Alison 和「可以。……先等我上。」照說',J(got())===J(ins(yuOnly,FORM.TW)),J(got()));
   exPlayer(); runPhone(d16,20.9,21.1); await noodle();
-  const ZR10='申請不用想太久。後天中午截止。', zheOnly10=zheOnly.map(x=>x.text===TABLE[7].text?{sp:'以安',text:ZR10}:x);
+  const ZR10='申請不用想太久。明天中午截止。', zheOnly10=zheOnly.map(x=>x.text===TABLE[7].text?{sp:'以安',text:ZR10}:x);
   check('4c. 只認識阿哲：沒有 Alison 那句；以安回阿哲「'+ZR10+'」（AA_437 第 10 節第 2 點，稿裡有這一句）',S437.indexOf('以安：'+ZR10)>=0&&J(got())===J(ins(zheOnly10,FORM.TW)),J(got()));
   exPlayer({LAW_START_DAY:0,MAIN_D1:5}); runPhone(d16,20.9,21.1); await noodle();
   check('4c. 兩個都不認識：從「阿哲：」到「以安：可以。……先等我上。」整段拿掉',TABLE[7].sp==='以安'&&TABLE[5].sp==='阿哲'&&J(got())===J(ins(none,FORM.TW))&&!said().includes(TABLE[7].text),J(got()));
