@@ -441,8 +441,60 @@ async def s_pinv(p, run, base, sid, out):
     await close(b)
 
 
-ORDER = ['ASK_' + k for k in ASK] + list(NOASK) + list(PINV)
-FN = dict([('ASK_' + k, s_ask) for k in ASK] + [(k, s_noask) for k in NOASK] + [(k, s_pinv) for k in PINV])
+# ================================================================ 第 83 項①：多線交往——第一次正式校外約會的問句（multirel3d.js S.dateOpen／AA_422 0-1）
+#   她知道祐廷正在和 y 交往（ROM.learn）、她還沒和祐廷交往：第一次正式校外約會的抵達句之後、第一個互動點之前問一次；記 <X>_ASKED_GF；選項 yt 交給 ROM.ytAnswer（YT_HONEST／YT_DODGED）
+MR = {'MR83_ASK_YT': ('heroine_03', 'heroine_01', 'D10'), 'MR83_ASK_AN': ('heroine_01', 'heroine_03', 'D10')}
+MRINFO = """(([x,y])=>{ const G=GAME.G, F=G.flags||{}; let ko=null; try{ ko=MREL.knownOthers(G,x); }catch(e){ ko='ERR '+e.message; }
+  const L=typeof MULTIREL_LINES!=='undefined'?MULTIREL_LINES:null, A=L&&L.ASK&&L.ASK[x]; const head=[]; if(Array.isArray(A)) for(const it of A){ if(typeof it==='string') head.push(it); else if(it&&it.choice) break; else if(it&&it.c) break; }
+  return {askFlag:MREL.ASK_FLAG[x], asked:F[MREL.ASK_FLAG[x]]!=null?F[MREL.ASK_FLAG[x]]:null, knownOthers:ko, due:MREL.askDue(G,x), honest:(F.YT_HONEST||null), dodged:(F.YT_DODGED||null), head:head, dating:!!F['dating_'+y]}; })"""
+
+
+async def s_mrask(p, run, base, sid, out):
+    x, y, loc = MR[sid]; res = out.setdefault(sid, {})
+    S6 = {'fam': 60, 'trust': 45, 'comf': 40, 'npcRom': 55, 'rom': 30}
+    b, pg, cdp, errs, r = await launch(p, run, base, '2026-09-30', 20.0, 'dorm', {x: S5, y: S6}, label=sid + '（和 %s 交往中【前置：ROM.start】、%s 知道【前置：ROM.learn】）' % (y, x))
+    try:
+        rr = await pg.evaluate("(([x,y])=>{ const G=GAME.G; const ok=ROM.start(G,y); ROM.learn(G,x,y,'test'); return {start:ok, knows:ROM.knows(G,x)}; })(%s)" % json.dumps([x, y]))
+        run.setup('[前置] %s：ROM.start(%s)＝%s、ROM.learn(%s 知道 %s)→ %s' % (sid, y, rr.get('start'), x, y, json.dumps(rr.get('knows'), ensure_ascii=False)))
+        i0 = await pg.evaluate(MRINFO + "(%s)" % json.dumps([x, y])); res['i0'] = i0; say('   %s 開始：%s' % (sid, json.dumps(i0, ensure_ascii=False)[:400]))
+        run.check('%s：開始時 askDue（她知道、還沒問過、沒在和祐廷交往）' % sid, i0['due'] is True, json.dumps(i0, ensure_ascii=False)[:300])
+        NAMES[loc] = await pg.evaluate("DATE.loc(%s).name" % json.dumps(loc))
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        rr = await date_to_when(pg, cdp, x, loc, label=sid); res['menu'] = rr
+        if not rr.get('ok'): run.check('%s：手機約她去 %s' % (sid, NAMES[loc]), False, json.dumps(rr, ensure_ascii=False)[:400]); raise RuntimeError('沒約到')
+        o = await wait_choices(pg, cdp); k = next((i for i, q in enumerate(o) if not q['dim'] and '週六' in q['t']), next((i for i, q in enumerate(o) if not q['dim']), 0))
+        await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1200)
+        o = await wait_choices(pg, cdp); k = next((i for i, q in enumerate(o) if not q['dim']), 0); await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1500)
+        sm = await wait_dlg(pg, '預計花費', 20)
+        if sm: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900)
+        await pick(pg, cdp, '就這樣約', sid); await close_flow(pg, cdp, sid)
+        T = await pg.evaluate(TRIPS); trip = next((t for t in T if t['locs'] == [loc] and t['status'] == 'booked'), None); res['trip'] = trip
+        run.check('%s：約好 %s（%s）' % (sid, NAMES[loc], trip and trip['d']), bool(trip), json.dumps(T, ensure_ascii=False)[:300])
+        if not trip: raise RuntimeError('沒有行程')
+        for _ in range(8):
+            st = await pg.evaluate(STATE)
+            if st['key'] >= trip['d']: break
+            o2, slept = await sleep_night(pg, cdp, run, sid)
+            if not slept: break
+        st = await pg.evaluate(STATE)
+        if st['h'] < trip['depart'] - 1.5: await skip(pg, cdp, '等到傍晚' if trip['depart'] >= 15 else '等到下午', sid)
+        n0 = len(await pg.evaluate("window.__LOG||[]"))
+        done_js = "(()=>{ const t=(GAME.G.trips||[]).find(q=>q.trip===%s); return !!t&&['done','cancelled','missed'].includes(t.status)&&!GAME.E.player.busy&&!(GAME.D&&GAME.D.active)&&document.getElementById('choices').classList.contains('hide'); })()" % json.dumps(trip['trip'])
+        spots = await pg.evaluate("DATE.points?Object.keys(DATE.points(%s)||{}).map(k=>(DATE.points(%s)[k]||{}).name).filter(Boolean):[]" % (json.dumps(loc), json.dumps(loc)))
+        ok3, ch3, used = await wish_drive(pg, cdp, done_js, spots, max_s=1200, label=sid); res['ch3'] = ch3
+        log = (await pg.evaluate("window.__LOG||[]"))[n0:]; res['log'] = log; i1 = await pg.evaluate(MRINFO + "(%s)" % json.dumps([x, y])); res['i1'] = i1
+        run.check('%s：問過（%s 記那一天）、行程走完' % (sid, i1['askFlag']), ok3 and i1['asked'] is not None, json.dumps({'i1': i1, 'used': used}, ensure_ascii=False)[:400])
+        head_ok = all(any((h.split('{')[0] or h.split('}')[-1]) in q['t'] for q in log) for h in i1['head'][:2]) if i1['head'] else False
+        run.check('%s：問句的開頭照 MREL_LINES.ASK（前兩句）' % sid, head_ok, json.dumps({'head': i1['head'][:3], 'log': [q['t'] for q in log][:12]}, ensure_ascii=False)[:600])
+        ask_menu = next((c for c in ch3 if not any(sx in c['opts'] for sx in spots) and not c['pick'].startswith('出發')), None); res['ask_menu'] = ask_menu
+        run.check('%s：問句的選項（記下來對清單「只列誠實的」；程式的資料有 dodge 選項）' % sid, bool(ask_menu), json.dumps(ask_menu, ensure_ascii=False)[:300])
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
+ORDER = ['ASK_' + k for k in ASK] + list(NOASK) + list(PINV) + list(MR)
+FN = dict([('ASK_' + k, s_ask) for k in ASK] + [(k, s_noask) for k in NOASK] + [(k, s_pinv) for k in PINV] + [(k, s_mrask) for k in MR])
 
 
 async def main():
