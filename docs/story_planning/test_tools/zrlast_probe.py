@@ -2368,6 +2368,9 @@ R17 = [
 ]
 for _s in R17:
     if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
+# BB-B 13:5x：bedc2 的 BEDC_OCT21 敲門也先演了 208 的週末事件（可昕爸爸寄的信）＝和 BEDC_NIGHT 同一個原因；【前置】每一支都把那個週末的 208 事件算演過（US208_WK＝那個週六）
+for _s in R17:
+    if 'US208_WK' not in _s.get('js', ''): _s['js'] = (" G.flags.US208_WK=(d=>CALENDAR.dateOf(d).wd===7?d-1:d)(STORY.dayOfKey('%s'));" % _s['key']) + _s.get('js', '')
 SCENS = SCENS + R17
 
 # ---------- R18（BB-B 10-24 08:5x）：美國交換那一學期的逐日劇本（LAWWW-B 08:32，QA-TRANSCRIPT-1018 延伸）——不是驗收測試 ----------
@@ -2530,6 +2533,9 @@ async def usep(pg, cdp, run, pat, pref):
             cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
             s_ = await L.state(pg)
             if cs or s_['dlg']: got = True; break
+            if k >= 2:   # BB-B 13:5x：出口、進門這種沒有選單也沒有對話的互動：區域換了、或互動鈕已經不是這一個＝按到了，不要再按（bedc2「離開房間」出去以後又按到「敲門」進回去）
+                lab2 = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+                if not re.search(pat, lab2 or ''): got = True; break
             await pg.wait_for_timeout(1500)
         if got: break
     say('   選單：%s' % ' / '.join(c[:24] for c in cs))
