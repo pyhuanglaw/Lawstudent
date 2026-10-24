@@ -39,7 +39,7 @@ const SPEC='docs/story_planning/AA_415_邀約回覆照階段變_七位定稿.md'
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. src/data/invite_replies.js 載得到（INVITE_REPLIES 七位）',ok&&IDS.every(id=>ROWS(id).length>0),err||J(Object.keys(R())));
-  check('0. index.html：invites.js 的下一行就是 invite_replies.js',/src="src\/data\/invites\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/invite_replies\.js\?v=9\.10\.4"><\/script>/.test(html));
+  check('0. index.html：invites.js 的下一行就是 invite_replies.js',/src="src\/data\/invites\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/invite_replies\.js\?v=[^"]+"><\/script>/.test(html));
   check('0. INV.replyPick、INV.replyMark、INV.REPLY_ON、INV.REPLY_COND',typeof INV.replyPick==='function'&&typeof INV.replyMark==='function'&&!!INV.REPLY_ON&&!!INV.REPLY_COND);
   check('0. 節日、外出、開車先關（AA_415 第 8 節：D38 節日系統、外出的邀約接上才用）',INV.REPLY_ON['節日']===false&&INV.REPLY_ON['外出']===false&&INV.REPLY_ON['開車']===false);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
