@@ -3,7 +3,7 @@
 不用 ?turbo、不瞬移；手機模擬（iPhone 橫向、is_mobile、CDP 觸控）。玩家的操作只用：搖桿、點地面（遊戲的自動找路）、點互動按鈕、點對話與選項、選單。
   [前置／捷徑] 只有一個：讀檔到星期六 10:00、萬才館大樓梯頂端的平台（校園第 1 層、3.63 m，二樓入口前面）。之後全部是玩家操作：
   1. 走到二樓入口 →「進入萬才館（二樓）」→ 萬才館二樓的門廳（第 1 層、4.2 m）；不會一進來就跳出「走出去」
-  2. 沿著西側迴廊走到北側走廊、研討室 A 的門 → 按下去是看得懂的說明（v9.7 起照 AA 2026-10-13 P2：社課的時間＋「今天沒有社課」、研討室的說明＋「今天沒有你在這裡的課」；以前是「門鎖著」）
+  2. 沿著西側迴廊走到北側走廊、研討室 A 的門 →（6ac74b063 起）門可以進去，不按；以前是按下去是看得懂的說明（v9.7 起照 AA 2026-10-13 P2：社課的時間＋「今天沒有社課」、研討室的說明＋「今天沒有你在這裡的課」；以前是「門鎖著」）
   3. 搭電梯：二樓電梯門口「搭電梯」→ 選「3F–9F 研究室」按不亮（要刷識別證）→ 選「1F 大廳」→ 看得到車廂往下 → 到一樓（第 0 層、地面）
   4. 一樓大廳（v9.3 的大廳）：路人走樓梯上下樓（高度變化 ≥ 2 m）；坐在沙發上（「坐一下，看看四周」）→ 自己站起來
   5. 走樓梯上二樓（點地面／搖桿：經過樓梯中段 1–3 m）→ 二樓門廳
@@ -68,9 +68,9 @@ async def main():
         ok = await L.go_to(pg, cdp, run, da['x'], da['z'] + 0.3, 0.8, '研討室 A 的門', lv=1)
         s = await L.state(pg); await run.shot(pg, 'corridor_2f')
         run.check('沿著西側迴廊走到北側走廊、研討室 A 的門（還在二樓）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and '研討室 A' in (s['interact'] or ''), json.dumps(s, ensure_ascii=False))
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); cap = await caption(pg)
-        run.check('按下去是看得懂的說明（社課時間＋今天沒有社課／沒有你的課，或門鎖著）', '研討室 A' in cap and ('鎖' in cap or ('今天沒有' in cap and '每週' in cap)), f'「{cap}」')
-        await pg.wait_for_timeout(5000)
+        # 6ac74b063 起研討室 A 走得進去：門口是「進入 研討室 A」（按了就進房間，不再有門鎖的說明）。這裡只檢查門可以進去、不按——按了人就在房間裡，第 3 步找不到二樓的電梯（BB-B 10-24）
+        door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.label||'').startsWith('進入 研討室 A')); return it?{label:it.label,to:it.exit&&it.exit.to||null}:null; })()")
+        run.check('研討室 A 的門可以進去（「進入 研討室 A」，有通往房間的出口）', bool(door) and bool(door.get('to')), json.dumps(door, ensure_ascii=False))
         # 3. 電梯：二樓 → 一樓（先按一次不開放的樓層）
         call = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.elevator&&i.lv===GAME.E.player.lv); return it?{x:it.x,z:it.z}:null; })()")
         ok = await L.go_to(pg, cdp, run, call['x'], call['z'], 0.6, '電梯按鈕（二樓）', lv=1)
