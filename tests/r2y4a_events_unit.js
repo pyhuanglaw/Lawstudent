@@ -47,6 +47,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 (async()=>{
   const IDS=['ev_us1_arrive','ev_us1_market','ev_us1_asian','ev_us1_door','ev_us1_mom','ev_us2_kitchen','ev_us2_repair','ev_us_chicago','ev_us_chicago2','ev_us3_lake','ev_us_first_snow','ev_us_snow_repair','ev_us_club_dinner','ev_us_leave','ev_sf1','ev_sf2','ev_sf3','ev_sf_photo17','ev_sf_photo19','ev_sf_photo21','ev_us_bloom16','ev_us_bloom18','ev_us_bloom20','ev_us_bus21','ev_us_return','ev_us_home'];
   check('0. 美國路線的事件都在、R2Y4A 掛上去了（PHONE_RULES、TICKS、WAKE_AT、ALARMS、STORY.interact、EXCH.onArrive／onLand）', typeof R2Y4A!=='undefined'&&IDS.every(id=>!!ev(id))&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0&&STORY.WAKE_AT.length>0&&STORY.ALARMS.length>0&&!!STORY._r2y4aInteract&&typeof EXCH.onArrive==='function'&&typeof EXCH.onLand==='function', JSON.stringify(IDS.filter(id=>!ev(id))));
+  check('AA_448 第 2 節：12/2 初雪兩場開頭不用白天秋景 us_chapel_steps（下雪的晚上那張圖來以前用 dark）', ['ev_us_first_snow','ev_us_snow_repair'].every(id=>{ const d=ev(id).dialogue[0]; return d.scene==='小教堂前的台階'&&d.bg==='dark'; }));
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), a=h.indexOf('src/group3d.js'), b=h.indexOf('src/data/r2y4a_events.js'), c=h.indexOf('src/r2y4a3d.js'), z=h.indexOf('GAME.boot()'), x=h.indexOf('src/exchange3d.js'), u=h.indexOf('src/us3d.js');
     check('0. index.html：exchange3d.js、us3d.js 之後，group3d.js → data/r2y4a_events.js → r2y4a3d.js → GAME.boot()', x>0&&u>x&&a>u&&b>a&&c>b&&z>c); }

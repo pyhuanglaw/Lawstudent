@@ -2204,12 +2204,19 @@
   },
   {
    "path": "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md",
-   "sha": "5d09bb725",
+   "sha": "b7c25dd14",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "US-AA412-1023",
    "kind": "text",
-   "note": "src/us208_3d.js 等（1fe50a751，tests/aa412_us_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+   "note": "src/us208_3d.js 等（1fe50a751，tests/aa412_us_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）；b7c25dd14：AA_448 1-1 同步（gateSeason 換季日子照 usSeasonKey：10/9、11/1、12/2）",
+   "history": [
+    {
+     "sha": "5d09bb725",
+     "until": "2026-10-24 15:1x",
+     "why": "AA_448 1-1 同步改 5-1 換季日子以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_413_溫州街店面_剩下三家_B09收尾.md",
@@ -2840,6 +2847,15 @@
      "why": "第 4 節法圖 2F 書庫兩個看（往三樓的樓梯、木梯各兩句：us_life_events.js looks.lib2f、us_life3d.js S.interact）"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_448_美國交換程式文字盤點_季節與背景圖.md",
+   "sha": "b7c25dd14",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "QA-TRANSCRIPT-US-1024",
+   "kind": "text",
+   "note": "1-1 us3d.js LOOK_CAMPUS.gateSeason 換季日子；1-2 何俊朗「冷氣好冷」只到 10/8（us_life_events.js longGreet summer、us_life3d.js）；第 2 節 12/2 初雪兩場開頭 bg 先用 dark（r2y4a_events.js）；背景圖四張 BB 照 D97 向使用者要"
   },
   {
    "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",

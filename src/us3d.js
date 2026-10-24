@@ -278,7 +278,7 @@ const US3=(function(){
   /* AA_412 5-1：「進教室」（現在沒有課的時候；有課＝交換系統直接上課）、「往活動中心」關著＝說玩家看得懂的理由（AA_399；原本暫用字最後那一句括號拿掉）；
      活動中心路口多一句、照日期換（同 us_life3d.js 的換季：10/16 起多一句、11/18 起換成落葉、12/2 初雪起換成雪）*/
   const LOOK_CAMPUS={class:'法學院的台階。上去的走廊兩邊都是教室，門上貼著課號和上課時間。現在沒有你的課。',gate:'往學生活動中心的路，兩旁是一排老橡樹。活動中心在整修，路口圍了一圈欄杆。',
-    gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-18','葉子掉得差不多了，地上都是橡實。'],['2028-10-16','橡樹的葉子開始轉紅了。']]};
+    gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-01','葉子掉得差不多了，地上都是橡實。'],['2028-10-09','橡樹的葉子開始轉紅了。']]};   /* AA_448 1-1：日子照 usSeasonKey（秋 10/9、初冬 11/1、雪 12/2），和校園模型同一天換 */
   const campusLook=(id,G)=>{ if(id!=='gate') return LOOK_CAMPUS[id]||null; const k=dkey(G), s=k?LOOK_CAMPUS.gateSeason.find(q=>k>=q[0]):null; return LOOK_CAMPUS.gate+(s?s[1]:''); };
   const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
     interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
