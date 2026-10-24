@@ -2281,6 +2281,12 @@ R16 = [
        want=['今天週四。我在三樓。', '……我想問你一件事。', '我分給你的時間，你好像不太需要。……沒關係，我只是想問清楚。'],
        jsok=[('談過（CRACKTALK.r.heroine_03.talked 有 Y3S1）', "JSON.stringify(((GAME.G.flags.CRACKTALK||{}).r||{}).heroine_03||null)", lambda x: isinstance(x, str) and 'Y3S1' in x), ('還在交往', "!!GAME.G.flags.dating_heroine_03", True)]),
 ]
+# BB-B 10-24 11:3x：CRACK85_YT_TALK 的 pref「斜對面」對不到選項，drain 選了最後一個（不回答）＝drift（她不再留位子）——這一條對，可是「修補＝歸零」沒走到。
+#   補一支：同樣 12/22 20:00 起，談話選「我需要。週四我都來。」，看 YT_CRACK 歸零、沒有 drift
+_fx = dict(R16[1]); _fx['id'] = 'CRACK85_YT_FIX'; _fx['pref'] = ['「我需要。週四我都來。」']
+_fx['jsok'] = list(R16[1]['jsok']) + [('選了修補：YT_CRACK 歸零', "GAME.G.flags.YT_CRACK|0", 0),
+                                      ('沒有 drift（她照樣留位子）', "JSON.stringify((((GAME.G.flags.CRACKTALK||{}).r||{}).heroine_03||{}).drift||null)", 'null')]
+R16.append(_fx)
 for _s in R16:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R16
