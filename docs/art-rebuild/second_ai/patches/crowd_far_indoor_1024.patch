@@ -1,0 +1,76 @@
+diff --git a/src/character3d.js b/src/character3d.js
+index 9cce9571a..7f06277b4 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -99,7 +99,7 @@ const CHAR = (function(){
+      明暗照 MToon 算：MToon 的直射光是 mix(陰影色, 受光色, linearstep(-1+toony, 1-toony, dotNL+shift))，陰影色＝受光色×r 時，就是 MeshToonMaterial 的漸層 r+(1-r)·linearstep(…)
+      （環境光兩邊都是 irradiance×受光色）。r、toony、shift 從這個人自己的 MToon 材質讀（已經套過 C.LOOK）：身體用衣服的平均、頭髮用頭髮的。
+      頂點顏色是貼圖原本的顏色：衣服和 MToon 的衣服一樣乘 CLOTH_K，皮膚乘 C.LOOK 的膚色（從皮膚材質讀）*/
+-  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_K=1.0; C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
++  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_OUT_IN=7; C.FAR_IN_IN=6.5; C.FAR_K=1.0;   /* 室內（教室、圖書館）7 m 外就換、6.5 m 內換回來（LAWWW2-B 2026-10-24：博雅一樓階梯教室一整班路人 361 calls、76 萬三角形 → 271、50 萬；engine3d.js 的 farWant）*/ C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
+   function farRamp(sh){ const N=32, a=new Uint8Array(N), lo=-1+sh.toony, w=Math.max(1e-3,2-2*sh.toony); for(let i=0;i<N;i++){ const s=Math.min(1,Math.max(0,((i+0.5)/N*2-1+sh.shift-lo)/w)); a[i]=Math.round(255*(sh.r+(1-sh.r)*s)); }
+     const t=new THREE.DataTexture(a,N,1,THREE.RedFormat); t.minFilter=t.magFilter=THREE.LinearFilter; t.generateMipmaps=false; t.needsUpdate=true; return t; }
+   function farShade(model,re){ let n=0,r=0,toony=0,shift=0, col=null; const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;
+diff --git a/src/engine3d.js b/src/engine3d.js
+index abb737597..8f07f5640 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -358,8 +358,11 @@ const E3 = (function(){
+     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
+     if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
+     // 距離 LOD：遠處路人不畫、動畫降頻
+-    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,o.userData.isFar?cd>CHAR.FAR_IN:cd>CHAR.FAR_OUT);   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
++    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
+     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
++  /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 30 m 外換、28 m 內換回來；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
++     博雅一樓階梯教室一整班坐著的路人，後排換了幾乎看不出來；有名字的角色不換）。中間差一段才換回來：在邊界上不會一直切換。測試：node tests/crowd_far_indoor_unit.js */
++  function farWant(isFar,cd,indoor){ const out=indoor&&CHAR.FAR_OUT_IN?CHAR.FAR_OUT_IN:CHAR.FAR_OUT, back=indoor&&CHAR.FAR_IN_IN?CHAR.FAR_IN_IN:CHAR.FAR_IN; return isFar?cd>back:cd>out; }
+   // ---------- 樹幹透視 ----------
+   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
+   // 只作用在 userData.seeThrough 的材質（大王椰子、行道樹樹幹、電線桿）。用 shader 判斷，所以區域合併過的靜態網格也適用。
+diff --git a/tests/npc_far_unit.js b/tests/npc_far_unit.js
+index cd77fa25d..b5a9b5e7a 100644
+--- a/tests/npc_far_unit.js
++++ b/tests/npc_far_unit.js
+@@ -71,7 +71,7 @@ function nearestStats(A,B){ // A 的每個點到 B 最近的點（格子加速
+   }
+   // ⑥ engine3d.js 的接法（原始碼）：路人 isExtra、騎車的路人都照距離切換，兩個門檻
+   const e=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
+-  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（遠 30 m、回到 28 m 才換回來）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,o\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
++  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（室外遠 30 m、回到 28 m 才換回來；室內 7／6.5 m 見 crowd_far_indoor_unit.js）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,farWant\(!!o\.userData\.isFar,cd,!!E\.indoor\)\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
+   check('engine3d.js：騎腳踏車的路人（E.extras）同一套',/const rd=x\.rider; if\(rd&&rd\.userData&&rd\.userData\.farLOD&&x\.obj\)\{[^}]*CHAR\.setFar\(rd,rd\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e));
+   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+ })().catch(e=>{ console.error(e); process.exit(1); });
+diff --git a/tests/crowd_far_indoor_unit.js b/tests/crowd_far_indoor_unit.js
+new file mode 100644
+index 000000000..4721088af
+--- /dev/null
++++ b/tests/crowd_far_indoor_unit.js
+@@ -0,0 +1,27 @@
++// 室內的無名路人 7 m 外換遠距離版本（LAWWW2-B 2026-10-24，LAWWW-B 同意）——不需要瀏覽器。
++//   博雅一樓階梯教室下午一整班坐著的路人：361 calls、76 萬三角形；6 m 外換低面數 271、50 萬，後排幾乎看不出來（test_shots/crowd_lod_indoor_1024/）。
++//   1. character3d.js：室外照舊 30／28 m；室內 7／6.5 m；
++//   2. engine3d.js 的 farWant：室內 7 m 外換、6.9 m 不換；換了以後 6.6 m 照舊（不會在邊界一直切換）、6.4 m 換回來；
++//   3. 室外：7.1 m、29 m 都不換；30.5 m 換；換了以後 28.5 m 照舊、27.5 m 換回來；
++//   4. NPC 迴圈只換無名路人（isExtra），有名字的角色不換；用 farWant、室內看 E.indoor；
++//   5. 室內 7 m 內：剛換回來的距離（6.5 m）以內一定是原本的模型（來回走幾趟）。
++// 修改前 1、2、4 FAIL。用法：node tests/crowd_far_indoor_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const cs=fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8'), es=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
++const num=re=>{ const m=cs.match(re); return m?parseFloat(m[1]):NaN; };
++const CHAR={FAR_OUT:num(/C\.FAR_OUT=([\d.]+);/), FAR_IN:num(/C\.FAR_IN=([\d.]+);/), FAR_OUT_IN:num(/C\.FAR_OUT_IN=([\d.]+);/), FAR_IN_IN:num(/C\.FAR_IN_IN=([\d.]+);/)};
++check('1. character3d.js：室外 30／28 m、室內 7／6.5 m', CHAR.FAR_OUT===30&&CHAR.FAR_IN===28&&CHAR.FAR_OUT_IN===7&&CHAR.FAR_IN_IN===6.5, JSON.stringify(CHAR));
++const m=es.match(/function farWant\(isFar,cd,indoor\)\{[^\n]*\}/);
++check('2. engine3d.js 有 farWant', !!m);
++if(m){ const ctx={CHAR}; vm.createContext(ctx); vm.runInContext(m[0]+'\nthis.farWant=farWant;',ctx); const fw=ctx.farWant;
++  check('2. 室內：7.1 m 換、6.9 m 不換', fw(false,7.1,true)===true&&fw(false,6.9,true)===false);
++  check('2. 室內：換了以後 6.6 m 照舊、6.4 m 換回來', fw(true,6.6,true)===true&&fw(true,6.4,true)===false);
++  check('3. 室外：7.1 m、29 m 不換，30.5 m 換', fw(false,7.1,false)===false&&fw(false,29,false)===false&&fw(false,30.5,false)===true);
++  check('3. 室外：換了以後 28.5 m 照舊、27.5 m 換回來', fw(true,28.5,false)===true&&fw(true,27.5,false)===false);
++  { let far=false, bad=0, flips=0; const path=[]; for(let k=0;k<3;k++){ for(let d=3;d<=10;d+=0.05) path.push(d); for(let d=10;d>=3;d-=0.05) path.push(d); }
++    for(const d of path){ const nf=fw(far,d,true); if(nf!==far) flips++; far=nf; if(far&&d<=6.5) bad++; }
++    check('5. 室內來回走三趟：6.5 m 以內一定是原本的模型、每趟只換兩次', bad===0&&flips===6, JSON.stringify({bad,flips})); } }
++check('4. NPC 迴圈只換無名路人、用 farWant、室內看 E.indoor', /if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,farWant\(!!o\.userData\.isFar,cd,!!E\.indoor\)\);/.test(es));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
