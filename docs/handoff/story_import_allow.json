@@ -2764,6 +2764,15 @@
    "task": "ROOMS-AB3-PEOPLE-1024",
    "kind": "text",
    "note": "第 1 節多媒體中心的看與芷若（src/closed2_3d.js；tests/rooms_ab3_people_unit.js 第 15 節）；第 2 節摘要池加寫 22 句、第 3 節週四家人群組範圍已進遊戲（vacfill、jpprep）"
+  },
+  {
+   "path": "docs/story_planning/AA_444_美國臥室C_學姊的房間_看的字.md",
+   "sha": "350c10201",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "CLOSED-SPACES-1023",
+   "kind": "text",
+   "note": "第 1 節第一次進她的房間（US_ROOM_C_SEEN）、第 2 節書桌／書架／窗外照日期＋去過 5F 研究室多一句：src/data/us_life_events.js looks.roomC、src/us_life3d.js S.roomCLook；tests/us_life_unit.js AA_444 五項"
   }
  ]
 }

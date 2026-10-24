@@ -351,6 +351,17 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     const D=US_SHARED_LAYOUT.doors.find(d=>d.id==='bedC'); fresh('2028-09-23',15,'us_shared',US());
     check('AA_399-8. 不是交往中，臥室 C 的門「看」＝「（門上貼著一張手寫的課表。）」', USL.lookFor(G,{label:D.label})==='（門上貼著一張手寫的課表。）', USL.lookFor(G,{label:D.label}));
     date('heroine_05'); at('2028-09-21',19); check('AA_399-8. 交往中、門關著的時候照舊「臥室 C。門關著。」（AA_287）', USL.lookFor(G,{label:D.label})==='臥室 C。門關著。', USL.lookFor(G,{label:D.label}));
+    // AA_444：房間裡的「看」、第一次進去那一句
+    fresh('2028-09-23',15,'us_bed_c',US({US2:'together'})); date('heroine_05');
+    const say=async label=>{ said=[]; const ok=await STORY.interact({label,x:0,z:0},GM); return ok?said.map(q=>q.t):null; };
+    { const t=await say('她的書桌'); check('AA_444. 書桌兩句（第二句「週六、週日下午那兩格是空白的」）', !!t&&t.length===2&&t[0].startsWith('（書桌上疊著三本很厚的判例教科書')&&t[1].includes('週六、週日下午那兩格是空白的。'), JSON.stringify(t)); }
+    { const t=await say('書架'); check('AA_444. 書架兩句', !!t&&t.length===2&&t[0].startsWith('（書架下面兩層是判例彙編')&&t[1].includes('書角翻軟了的小說'), JSON.stringify(t)); }
+    const win=async key=>{ at(key,15); return say('窗外'); };
+    { const a=await win('2028-09-30'), b=await win('2028-10-01'), c=await win('2028-11-01'), d=await win('2028-12-01'), e=await win('2028-12-02');
+      check('AA_444. 窗外照日期：9/30 綠、10/1 黃、11/1～12/1 剩幾片葉子、12/2 雪', a&&a[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&b[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）'&&c[0].startsWith('（窗外的樹只剩幾片葉子')&&d[0]===c[0]&&e[0]==='（窗外的樹枝上留著一點雪。窗台上也有。）'&&[a,b,c,d,e].every(x=>x.length===1), JSON.stringify([a,e])); }
+    G.visited.linze_5f=true; { const t=await win('2028-10-15'); check('AA_444. 去過她臺灣 5F 研究室：多一句', !!t&&t.length===2&&t[1]==='（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', JSON.stringify(t)); }
+    { caps=[]; E.player.busy=false; await USL.tick(GM,0.5); const c1=caps.slice(); caps=[]; await USL.tick(GM,0.5);
+      check('AA_444. 第一次進她的房間：一句旁白、記 US_ROOM_C_SEEN；之後不出', c1.includes('（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）')&&G.flags.US_ROOM_C_SEEN!=null&&!caps.includes(c1[0]), JSON.stringify(c1)); }
     global.Z3=Z0; }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

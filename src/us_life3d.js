@@ -239,12 +239,16 @@ const USL=(function(){
     if(!dating(G)||G.day<d13||!(G.flags.US2||G.day>d13)) return false; if(S.sisAway(G)) return false; const w=G.weekday; return (w===6||w===0)&&h>=14&&h<21&&G.day<D(S.CAL.leave); };   /* AA_291 第 3 節：交往中、US2 以後，週六、日 14:00～21:00；她在芝加哥、小教堂台階的時候門關著（AA_370 M9）*/
   /* AA_345 I7：交往中、平日晚上＝「平日晚上她在寫論文」那一句；挽回中（和其他關著的時候）＝「（208 的門關著。）」*/
   S.c208Closed=G=>dating(G)&&G.weekday>=1&&G.weekday<=5&&G.hour>=18?X.looks.c208Eve:X.looks.c208;
+  /* AA_444：臥室 C（學姊的房間）的「看」；窗外照日期（12/2 初雪起、11/1、10/1、8/2），去過她臺灣 5F 研究室（G.visited.linze_5f：研究室在 5F，只有她開門才上得去；5F 演的出遊也算）多一句 */
+  S.roomCLook=function(G,label){ const R=X.looks.roomC; if(!R) return null; if(label==='她的書桌') return R.desk.slice(); if(label==='書架') return R.shelf.slice();
+    if(label==='窗外'){ const w=R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
     if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }
     if(it.usBus==='campus'){ const c=S.openItem(G); if(c){ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'直接去上課：'+c.c.name,hint:hm(c.t0)+'–'+hm(c.t1)},{t:it.label||'搭公車（去學校）'}]); } finally { GM.sceneEnd(); } if(k===0){ await S.attend(GM,c); return true; } } return false; }
     if(it.usClass==='law'){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
+    if(G.zone==='us_bed_c'){ const L=S.roomCLook(G,it.label); if(L){ GM.sceneBegin(); try{ for(const t of L) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; } }   /* AA_444 第 2 節：書桌、書架、窗外 */
     if(it.usShared==='door'&&!S.c208Open(G)){ GM.caption('',S.c208Closed(G),4600); return true; }   /* 其他時間門關著（AA_291 第 3 節）；字是旁白（AA_345 I7）*/
     if(it.usClub==='door'){ const d4=D(S.CAL.labor), h=hh(G);
       if(G.day===d4&&h>=17&&h<19&&!done(G,'ev_usl_bbq')){ await run('ev_usl_bbq'); GM.advance(1); return true; }   /* G3 勞動節的烤肉 */
@@ -397,6 +401,7 @@ const USL=(function(){
     /* G6 挽回中、沒有 MET_LONG：感恩節晚上在公寓 */
     if(G.day===D('2028-11-23')&&z==='us_apartment'&&h>=18&&!dating(G)&&!F.MET_LONG&&!done(G,'ev_usl_thanks_alone')) return go(()=>run('ev_usl_thanks_alone',{noTitle:true}));
     /* 「看」：G7 12/3 走出公寓（樓梯扶手的雪）、G5 11/13～11/23 走進草原超市（南瓜和火雞）*/
+    if(z==='us_bed_c'&&F.US_ROOM_C_SEEN==null&&X.looks.roomC){ F.US_ROOM_C_SEEN=G.day; GM.caption('',X.looks.roomC.first,4600); return false; }   /* AA_444 第 1 節：第一次進她的房間（只出一次；舊存檔沒有旗標＝下次進去出一次）*/
     if(prev==='us_apartment'&&z==='us_outside'&&G.day===D('2028-12-03')&&!F.USL_RAIL){ F.USL_RAIL=true; GM.caption('',X.looks.railSnow,4600); return false; }
     if(prev&&prev!=='us_market'&&z==='us_market'&&G.day>=D('2028-11-13')&&G.day<=D('2028-11-23')&&F.USL_FALL!==G.day){ F.USL_FALL=G.day; GM.caption('',X.looks.marketFall,4600); return false; }
     /* 摘要日：沒有跳過的那天，到時間出一次 */
