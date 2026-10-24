@@ -2379,6 +2379,15 @@
    "task": "V4-R-JP",
    "kind": "text",
    "note": "日本篇空白日：第 0 節以安三句已改（jp_events.js）；第 1～5 節開學前、週末、期末週、最後一週、挽回中兩件待施工"
+  },
+  {
+   "path": "docs/story_planning/AA_185_全學年缺口補完_v0到v6.md",
+   "sha": "0e1fe7c1e",
+   "status": "approved",
+   "approvedBy": "AA 定稿（D109）；第 4 節 d85c1309～0e1fe7c1e 沒改",
+   "task": "AA185-V6",
+   "kind": "text",
+   "note": "第 4 節：以安、語彤分開後重新開始（4-1）、戀愛 CG 照她知道的事（4-2）；src/multirel3d.js"
   }
  ]
 }

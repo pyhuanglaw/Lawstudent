@@ -14464,7 +14464,7 @@
    "title": "AA_185 第 4 節多段感情（以安、語彤分開後重新開始；有別的伴侶時戀愛 CG 照她知道的事情）",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_185 第 4 節做以安、語彤分開後重新開始的場面（先確認和 BB_203 學期末心意邀約怎麼接）；ADV 放戀愛 CG 前看 ROM.knows／friend_after_catch ｜ v6 照各學年施工",
    "priority": "P2",
    "first": {
@@ -14486,7 +14486,8 @@
      "evidence": "AA_185 4-1 以安「我想再寫一次理由欄。」、語彤三個週四留位子的重新開始場面在 src 找不到；4-2 有別的伴侶時戀愛 CG 照她知道的事放不放也沒有判斷；只有通用的 ROM.canStart（romance3d.js:88-92）",
      "note": "多段感情的重新開始場面沒做"
     }
-   ]
+   ],
+   "notes": "2026-10-24 03:4x LAWWW-B：子代理做完（multirel3d.js；tests/mrel_aa429_aa185_unit.js 79 PASS）：4-1 以安（16 週、第 5 階、讀書會後萬才館「我想再寫一次理由欄。」→一週後回第 6 階）、語彤（4 週、連三個週四總圖三樓 18:30）；不回答的版本多一步；4-2 戀愛 CG 照她知道的事擋（ADV.cg 包一層）。和 BB_203 C8「其他人 ended 以後照一般條件」衝突：重新開始那一場以前她們不發心意邀約（MREL.REBUILD_GATE，可關）——照 AA_185「都要祐廷先開口」，已問 AA"
   },
   {
    "id": "ART-PT-SIS-FORMAL",
@@ -25071,7 +25072,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "sha": "0d5d3130"
+   "sha": "0d5d3130",
+   "notes": "2026-10-24 03:4x LAWWW-B：BCG-31 那一拍接好（y34b3d.js S.BCG31＝cg_airport_send_summer_heroine05），冬天版不頂替（AA_323「重畫以前不放」）；夏天版的圖登記進 CG_REGISTRY 就會出現——要 BB 向使用者要圖"
   },
   {
    "area": "v4",
@@ -26264,7 +26266,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-B 10-23 19:1x】AA_421 第 2 節：不能結案；AA_422（5156f143）、AA_423（26357a44）兩批定稿到了，子代理施工中 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt",
-   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（src/multirel3d.js MREL、src/data/multirel_lines.js；AA_422@5156f143／AA_423@26357a44／AA_425@310d6cc67，AA_425 優先）：七位的第一次 L3 問句、知情版心意邀約（可昕照 AA_425 拿掉）、發現（含遠距視訊、冠宏版、說溜嘴、坦白以安和沛珊、還有誰）、傳開、同一頁、AA_423 七位的挽回與結果 A～D、第二次冷靜、後續。tests/aa422_multirel_unit.js 174、aa423_multirel_unit.js 129 PASS。還沒有：AA_228 3-4《換我講一件事》與宥辰三場（要插進別人的群戲／hometown3d，PS_CONFESSED 還不會成立）、沛珊台南坦白、五位坦白版（AA 沒台詞）、L2 拒絕（invites）、可昕 E、沛珊 E 重來句、子晴 2028-06 以後第二次冷掉（只有描述）、K12／二十三週年說溜嘴的事件 ID；場景 2D 圖 9 張缺（暗底＋字卡）。已請 AA 補台詞。 ｜2026-10-23 21:3x LAWWW-B 第 3 輪：沛珊和宥辰三次互動（PS_YC n1 期中晚餐、n2 Y2S1 第 8 週週三 23:10 群組、n3 台南／視訊）＋《換我講一件事》（PS_CONFESSED）＋3-3 台南年代；說溜嘴接 ev_kexin_two_circles、ev_noodle_23rd、中秋兩場（跨年頂樓沒接）；BB_194 §24 YT_HONEST／YT_LIED 標記；YT_INTENT、AN_TALKED 等計數。tests/mrel_ps_turn_unit.js 63、aa422 174、aa423 129 PASS。注意：「接受同時交往」的結果照 AA_423 第 0 節接 ROM.PARAMS.acceptsOpen（現在七位都是 false＝接受那一格都到不了），已請 AA 定七位的值。"
+   "notes": "2026-10-23 20:3x LAWWW-B：子代理做完（src/multirel3d.js MREL、src/data/multirel_lines.js；AA_422@5156f143／AA_423@26357a44／AA_425@310d6cc67，AA_425 優先）：七位的第一次 L3 問句、知情版心意邀約（可昕照 AA_425 拿掉）、發現（含遠距視訊、冠宏版、說溜嘴、坦白以安和沛珊、還有誰）、傳開、同一頁、AA_423 七位的挽回與結果 A～D、第二次冷靜、後續。tests/aa422_multirel_unit.js 174、aa423_multirel_unit.js 129 PASS。還沒有：AA_228 3-4《換我講一件事》與宥辰三場（要插進別人的群戲／hometown3d，PS_CONFESSED 還不會成立）、沛珊台南坦白、五位坦白版（AA 沒台詞）、L2 拒絕（invites）、可昕 E、沛珊 E 重來句、子晴 2028-06 以後第二次冷掉（只有描述）、K12／二十三週年說溜嘴的事件 ID；場景 2D 圖 9 張缺（暗底＋字卡）。已請 AA 補台詞。 ｜2026-10-23 21:3x LAWWW-B 第 3 輪：沛珊和宥辰三次互動（PS_YC n1 期中晚餐、n2 Y2S1 第 8 週週三 23:10 群組、n3 台南／視訊）＋《換我講一件事》（PS_CONFESSED）＋3-3 台南年代；說溜嘴接 ev_kexin_two_circles、ev_noodle_23rd、中秋兩場（跨年頂樓沒接）；BB_194 §24 YT_HONEST／YT_LIED 標記；YT_INTENT、AN_TALKED 等計數。tests/mrel_ps_turn_unit.js 63、aa422 174、aa423 129 PASS。注意：「接受同時交往」的結果照 AA_423 第 0 節接 ROM.PARAMS.acceptsOpen（現在七位都是 false＝接受那一格都到不了），已請 AA 定七位的值。 ｜2026-10-24 03:4x LAWWW-B 第 4 輪：AA_429 五位坦白版（她的地點、說過謊那句、國外視訊）、挽回時多一句、可昕 E（第 28 天 21:30 電話）、沛珊 E 重新開始、子晴畢業後第二次冷靜；說溜嘴一個存檔一次、二十三週年美國遠端版不演；祐廷自己說的句子用他的叫法（{Y}，修以安坦白那句的錯）；AA_432 n2 要 ev_peishan_decision 演過"
   },
   {
    "id": "BG-3DSHOT-1021",
