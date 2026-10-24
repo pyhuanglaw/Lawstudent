@@ -2198,6 +2198,38 @@ R13 = [
 for _s in R13:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R13
+# ===== R14：第 84 項 BB 事件包（日文班 G1／G6、普通教學館門口的舊同學、文學院長椅、SK08 迎新；bbpack3d.js、data/bbpack_events.js；開發分支 23bba7c8d 起）=====
+# 上課：手機「今天」的「直接去上課」【捷徑：DOM click，同 aa373 S7 的點法】→ 教室裡照選單坐下、上課；校園的偶遇：主角放到觸發點旁邊【捷徑】、時間照走。
+PHONECLASS = lambda cid: ('jsrun', "(c=>{ void (async()=>{ const W=ms=>new Promise(r=>setTimeout(r,ms)); const b=document.getElementById('btnPhone'); if(b) b.click(); await W(1200); const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); await W(1200); const g=[...document.querySelectorAll('#phoneBody [data-go]')].find(x=>String(x.dataset.go).indexOf(c)>=0); if(g) g.click(); })(); return true; })(%s)" % json.dumps(cid), '手機「今天」→「直接去上課」（%s）' % cid)
+JPPREF = ['直接去上課', '還是去', '坐', 'はじめまして。我只會說', '「大丈夫」']
+INGRP = lambda g: "(typeof PHONE!=='undefined'&&PHONE.inGroup)?PHONE.inGroup(GAME.G,%s):'沒有 PHONE'" % json.dumps(g)
+R14 = [
+  # G1：第一次去上日文（日文上第 1 週＝課表的自我介紹那一句已經說了，老師開頭那句不重複）
+  dict(id='JP84_G1_W1', key='TERMDAY:Y2S1:1:1', h=12.9, zone='dorm', flags=dict(TW3), js='', pref=JPPREF, steps=[PHONECLASS('japanese_1'), ('until', 15.3, 1500)],
+       want=['はじめまして！獸醫系三年級！我想看懂日劇不用字幕！'], none=['一人ずつ、自己紹介をお願いします。……用中文補充也可以。'],
+       jsok=[('JP_MET', "!!GAME.G.flags.JP_MET", True), ('加入日文班群組', INGRP('jp_class'), True), ('ev_jp_g1 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_jp_g1)", True)]),
+  # G1：第一次去就不是第 1 週（第 3 週）＝老師開頭那一句
+  dict(id='JP84_G1_W3', key='TERMDAY:Y2S1:3:1', h=12.9, zone='dorm', flags=dict(TW3), js='', pref=JPPREF, steps=[PHONECLASS('japanese_1'), ('until', 15.3, 1500)],
+       want=['一人ずつ、自己紹介をお願いします。……用中文補充也可以。'], jsok=[('JP_MET', "!!GAME.G.flags.JP_MET", True)]),
+  # G6：日文下第 10 週（見過日文班的人；G5 先設成演過，只看 G6）
+  dict(id='JP84_G6', key='TERMDAY:Y2S2:10:1', h=12.9, zone='dorm', flags=dict(TW3, JP_MET=True), js=EVDONE('ev_jp_g1') + EVDONE('ev_jp_g5'), pref=JPPREF, steps=[PHONECLASS('japanese_2'), ('until', 15.3, 1500)],
+       want=['老師點到你。', '同一句「大丈夫です」，可以是「沒關係」，也可以是「不用了」。'], jsok=[('ev_jp_g6 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_jp_g6)", True)]),
+  # P5：普通教學館門口的舊同學（9/14 那天照日子擲的數＝0.104、輪到唐睿；BBPACK.roll／p5Pick 在 Node 先算好）
+  dict(id='P5_84_TR', key='2026-09-14', h=12.4, zone='campus', flags=dict(TW3), js='', pref=[], steps=[PLACEAT(-38, -47.2, '主角放到普通教學館門口（PUTONG 觸發點 (-38,-48.4) 半徑 4 m）'), ('until', 13.0, 900)],
+       want=[], jsok=[('ev_putong_oldmate 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_putong_oldmate)", True), ('P5_USED 有唐睿、P5_TERMS 有 Y2S1', "JSON.stringify([GAME.G.flags.P5_USED,GAME.G.flags.P5_TERMS])", lambda x: isinstance(x, str) and '"tr"' in x and 'Y2S1' in x)]),
+  # L4a：文學院門口的長椅（大一、第 6 週起、週二四 9～12，芷若認識）
+  dict(id='L4A_84', key='2025-10-07', h=9.4, zone='campus', flags=dict(TW3), js=" LV('heroine_02',25,15,10);", pref=[], steps=[PLACEAT(-38, -20.3, '主角放到文學院門口（ARTS (-38,-21.5)）'), ('until', 10.0, 900)],
+       want=['文學院門口的長椅上，芷若在讀一本很舊的英文劇本，用鉛筆在空白處寫中文。'], jsok=[('ev_l4a_pencil 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_l4a_pencil)", True)]),
+  # L4b：交換說明會的海報（大二上、平日 10～16、12/10 以前）→「要去聽嗎？」
+  dict(id='L4B_84', key='2026-09-15', h=10.4, zone='campus', flags=dict(TW3), js=" LV('heroine_02',25,15,10);", pref=['「要去聽嗎？」'], steps=[PLACEAT(-38, -20.3, '主角放到文學院門口'), ('until', 11.0, 900)],
+       want=['布告欄貼著交換說明會的海報，芷若站在前面看了很久。', '……我只是在看海報的字體。'], jsok=[('ev_l4b_poster 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_l4b_poster)", True)]),
+  # SK08：大二上第 1 週週三：12:00 阿勳私訊（認識他：MET_XUN）→ 13:00 以後到社科院 → 迎新，選第一個介紹
+  dict(id='SK08_84', key='2026-09-09', h=11.9, zone='campus', flags=dict(TW3, MET_XUN=True), js='', pref=['「我是『沉沒成本』'], steps=[('until', 13.05, 900), PLACEAT(16, -83.6, '主角放到社科院門口（SOC (16,-85)）'), ('until', 13.8, 900)],
+       want=['我們那年有一個人這樣介紹自己，我一直記得。今年改成每個人都要。'], jsok=[('12:00 阿勳私訊（bb_sk08_dm）', "(typeof PHONE!=='undefined'&&PHONE.sent)?PHONE.sent(GAME.G,'bb_sk08_dm'):'沒有 PHONE'", True), ('SK08_WORD＝sunk', "GAME.G.flags.SK08_WORD||null", 'sunk')]),
+]
+for _s in R14:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R14
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
