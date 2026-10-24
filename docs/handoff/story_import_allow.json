@@ -1134,7 +1134,7 @@
    "path": "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md",
    "sha": "f2de8d1c",
    "status": "approved",
-   "approvedBy": "AA-C／AA（帳號 A）2026-10-21 定稿（D100、D109；全部第①級補稿；第一版 c56d4241；b7c437a1 改 3-2 的兩處：端午 5/28 是第 14 週、阿凱「那我們暑假又在同一棟了」，AA_377 第 20 項；f2de8d1c 改第 4 節大四上兩處：11/3 摘要日「六週」、柏翰 11/2 那兩則，AA_378 第 5 節）。已進遊戲：第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱；src/y2r2_3d.js，tests/aa375_y2s2_unit.js）、第 3-1 節大三上的補稿（src/data/y3fill_events.js、src/y3fill3d.js，tests/aa376_y3s1_unit.js）；第 3-1 節在 b7c437a1 和 f2de8d1c 一字不差。其他學期的補稿還沒做",
+   "approvedBy": "AA-C／AA（帳號 A）2026-10-21 定稿（D100、D109；全部第①級補稿；第一版 c56d4241；b7c437a1 改 3-2 的兩處：端午 5/28 是第 14 週、阿凱「那我們暑假又在同一棟了」，AA_377 第 20 項；f2de8d1c 改第 4 節大四上兩處：11/3 摘要日「六週」、柏翰 11/2 那兩則，AA_378 第 5 節）。已進遊戲：第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱；src/y2r2_3d.js，tests/aa375_y2s2_unit.js）、第 3-1 節大三上的補稿（src/data/y3fill_events.js、src/y3fill3d.js，tests/aa376_y3s1_unit.js）；第 3-1 節在 b7c437a1 和 f2de8d1c 一字不差。第 2-1 節大二上、第 3-2 節大三下、第 4 節大四（src/data/twfill_events.js、src/twfill3d.js，tests/aa342_twfill_unit.js；10-24）；只差 3/13 法律實習那一句（大四下法律實習沒有上課地點）",
    "task": "AA342-COVERAGE-1021",
    "kind": "text",
    "history": [
@@ -2426,6 +2426,15 @@
    "task": "AA369-HOL-FIX-1021",
    "kind": "text",
    "note": "寒暑假人在哪與時間矛盾的修正（盤點用）"
+  },
+  {
+   "path": "docs/story_planning/BB_165_AB61_BB五位戀愛線補拍與矛盾.md",
+   "sha": "a54ec2b4a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-18 審；BB-C 10-21 照 AA_360 標註（D109 AA 劇情自主）",
+   "task": "PLAN-1016-ROM",
+   "kind": "text",
+   "note": "第 3-1、5-1、5-2、9 節：芷若 ev_zhiruo_his_order、沛珊 ev_peishan_waited／ev_peishan_red_pen、可昕 K7 卡片後幾頁（src/data/rom1016_events.js、src/rom1016_3d.js，tests/rom1016_unit.js；LAWWW-B 10-24）"
   }
  ]
 }
