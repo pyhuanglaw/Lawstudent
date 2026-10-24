@@ -2200,7 +2200,7 @@ for _s in R13:
 SCENS = SCENS + R13
 # ===== R14：第 84 項 BB 事件包（日文班 G1／G6、普通教學館門口的舊同學、文學院長椅、SK08 迎新；bbpack3d.js、data/bbpack_events.js；開發分支 23bba7c8d 起）=====
 # 上課：手機「今天」的「直接去上課」【捷徑：DOM click，同 aa373 S7 的點法】→ 教室裡照選單坐下、上課；校園的偶遇：主角放到觸發點旁邊【捷徑】、時間照走。
-PHONECLASS = lambda cid: ('jsrun', "(c=>{ void (async()=>{ const W=ms=>new Promise(r=>setTimeout(r,ms)); const b=document.getElementById('btnPhone'); if(b) b.click(); await W(1200); const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); await W(1200); const g=[...document.querySelectorAll('#phoneBody [data-go]')].find(x=>String(x.dataset.go).indexOf(c)>=0); if(g) g.click(); })(); return true; })(%s)" % json.dumps(cid), '手機「今天」→「直接去上課」（%s）' % cid)
+PHONECLASS = lambda cid: ('jsrun', "(c=>{ void (async()=>{ const W=ms=>new Promise(r=>setTimeout(r,ms)); const open=()=>!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()); const b=document.getElementById('btnPhone'); if(!open()&&b) b.click(); await W(1200); if(!open()&&b){ b.click(); await W(1200); } const t=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(t) t.click(); await W(1200); const g=[...document.querySelectorAll('#phoneBody [data-go]')].find(x=>String(x.dataset.go).indexOf(c)>=0); if(g) g.click(); })(); return true; })(%s)" % json.dumps(cid), '手機「今天」→「直接去上課」（%s；手機已經自己打開＝不再按手機鍵，10-24 JP84_G6 按了反而關掉）' % cid)
 JPPREF = ['直接去上課', '還是去', '坐', 'はじめまして。我只會說', '「大丈夫」']
 INGRP = lambda g: "(typeof PHONE!=='undefined'&&PHONE.inGroup)?PHONE.inGroup(GAME.G,%s):'沒有 PHONE'" % json.dumps(g)
 R14 = [
