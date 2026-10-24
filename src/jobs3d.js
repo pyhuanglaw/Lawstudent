@@ -254,14 +254,14 @@ const JOBS=(function(){
       try{ const k=S.EAT_KEY[key]; if(k&&GM&&GM.G&&law(GM.G)) await S.visitX(GM,k,key); }catch(e){ console.warn('JOBS.visitX',e); } return r; }; EAT._jobs=true; }
 
   // ---------- 補習班、事務所（AA_433 第 2、3 節）：霖澤館一樓公布欄的徵才單 → 打電話／寄履歷 → 面試 → 選班表；上班是 2D 的出遊 ----------
-  /* 公布欄（霖澤館 1F，lv 0，樓層簡介那一面；按鈕的字「看系上的公布欄」是系統字）：補習班大二上第 1 週起、事務所大三上第 1 週起貼；已經在做、面試排好的不列。
+  /* 公布欄（霖澤館 1F，lv 0，入口玻璃門內側的東牆邊（7.2, 1.2）：樓層簡介的「看」在 (−0.6, −5.85)，不要疊在一起；按鈕的字「看系上的公布欄」是系統字）：補習班大二上第 1 週起、事務所大三上第 1 週起貼；已經在做、面試排好的不列。
      補習班：「打電話問。」→ 班主任（電話）→ 下週一 18:00 面試（出遊，2D）→「改一張考卷給我看。……好，下週開始。」→ 選班表（從下週一起）。
      事務所：「寄履歷。」→ 一週後 14:00 助理私訊 →「可以。」＝下週二、「那天有課，週四可以嗎？」＝下週四 14:00 面談（2D）→ 律師三選一都錄取 →「好。下週開始。」→ 選班表。
      面試沒去（出遊 missed）＝可以重新從公布欄來。存檔：G.jobs._meta.ap2＝{cram|office:{st:'call'|'cv'|'iv', day, iv}}；事務所私訊的回覆 G.flags.JOB_OFFICE_DM（'tue'|'thu'）*/
   S.AP2=['cram','office'];
   S.board2=G=>{ if(!G||!law(G)) return []; const A=S.rec(G)._meta.ap2||{}; return S.AP2.filter(k=>S.eligible(G,k)&&!S.active(G,k)&&!A[k]); };
   S.addBoard=function(GM){ const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)) return null; const Gf=()=>GM.G;
-    const it={x:-0.6,z:-6.1,lv:0,radius:1.0,label:'看系上的公布欄',jobBoard:true,get hidden(){ return !S.board2(Gf()).length; }}; E.interactables.push(it); return it; };
+    const it={x:7.2,z:1.2,lv:0,radius:1.0,label:'看系上的公布欄',jobBoard:true,get hidden(){ return !S.board2(Gf()).length; }}; E.interactables.push(it); return it; };
   const monNext=d=>d-(wdOf(d)-1)+7;   /* 下週一 */
   S.board=async function(GM){ const G=GM.G, L=S.board2(G); if(!L.length) return false; const M=S.rec(G)._meta, A=M.ap2||(M.ap2={}); GM.sceneBegin();
     try{ const i=await GM.choose(L.map(k=>({t:D().notice[k]})).concat([{t:'不看了'}])); const k=L[i]; if(!k) return false; const P=D().apply2[k];
