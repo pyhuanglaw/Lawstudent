@@ -3000,7 +3000,7 @@
    "next": "LAWWW-B 套 patch、跑 window_night_sync_unit、season_dusk_unit",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 23:20：已整合 7495137b9，DL-LW2-WINDOW-NIGHT-SYNC 掛在 ENGINE-SEASON-DUSK-1024；window_night_sync＋燈光／窗景／寫 19.4 的 Node 26 支全過；瀏覽器排進 BB 天色那一組）",
    "note": "只改門檻、不改顏色；早上那一頭（5.5）不動"
   }
  ]
