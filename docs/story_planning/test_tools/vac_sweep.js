@@ -4,7 +4,7 @@
 //     single＝沒交往、在麵店團（dating_kexin 明寫 false：GAME.defaults 預設交往中的可昕）；an＝和以安交往中；zq＝和子晴交往中（BB 女主角）。
 //     home＝這個假期回家住（G.home.stay[假期]='home'、放假模式 lbreak）；dorm＝留臺北、住宿舍。
 //   一天一天列：會停下來的時間（HOME.breakNext：表上的日子、成績公布日、出遊出發、當面約、交換出發、事件包登記的 HOME.STOPS）、
-//     「一定要演」的事件（HOME.mustEvs，10:00／15:00／20:00 各看一次）、手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、當天的出遊（OUT.rec）、
+//     「一定要演」的事件（HOME.mustEvs，10:00／15:00／20:00／21:00／21:30 各看一次；21:00、21:30 是 AA-B 10-24 14:15 加的）、手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、當天的出遊（OUT.rec）、
 //     誰在哪（STORY.presence：七位女主角、阿哲、阿凱、明軒、沛珊；12:00）。
 //   沒有停點、沒有一定要演的事件、沒有新訊息、沒有出遊＝「空白日」（給 AA 看要不要補）。
 //   經濟系那年的暑假（v2，10-24 06:0x）：那時候已經休學、搬回臺北的家（G.flags.Y0_MOVED_OUT、H.base＝HOME.baseMode），停點用 HOME.breakNext＋HOME.y0FixedNext（快轉真的會停的地方），
@@ -81,7 +81,8 @@ function sweep(pk, live, B) {
     if (B.econ && typeof ECONFF !== 'undefined') { G.hour = 9; try { const c = ECONFF.cramCard && ECONFF.cramCard(G); if (c) row.cram = String(typeof c === 'object' ? (c.t || c.text || c.title || JSON.stringify(c)) : c).slice(0, 40); } catch (e) {} if ((ECONFF.PLAY_DAYS || []).includes(x.key)) row.play = true; }
     const m0 = G.msgs.length;
     for (let h = 7; h < 24; h += 0.25) { G.hour = h; try { STORY.phoneRules(GM); PHONE.tick(G); answer(G, row); } catch (e) { if (errs.length < 40) errs.push(x.key + ' ' + fmtH(h) + ' 手機：' + String(e.message).slice(0, 80)); }
-      if (h === 10 || h === 15 || h === 20) { try { for (const id of HOME.mustEvs(G)) if (!row.evs.includes(id)) row.evs.push(id); } catch (e) { if (errs.length < 40) errs.push(x.key + ' mustEvs：' + e.message); } } }
+      if (h === 10 || h === 15 || h === 20 || h === 21 || h === 21.5) {   // AA-B 10-24 14:15（AA_445）：21:00 以後的事件（經濟系暑假 7/22、8/10 可昕視訊）原本掃不到，加 21:00、21:30
+        try { for (const id of HOME.mustEvs(G)) if (!row.evs.includes(id)) row.evs.push(id); } catch (e) { if (errs.length < 40) errs.push(x.key + ' mustEvs：' + e.message); } } }
     row.msgs = G.msgs.slice(m0).map(m => (m.ask ? '【要回】' : '') + (m.th || '') + '｜' + (NM[m.from] || m.from || m.name || '') + '：' + String(m.text || '').slice(0, 26));
     row.outs = (OUT.rec ? OUT.rec(G) : []).filter(q => q.day === d).map(q => fmtH(q.h) + ' ' + (q.title || q.id) + '（' + q.state + '）');
     G.hour = 12; for (const id of WHO) { try { const p = STORY.presence(id, G); if (p && p.here === false) row.away[NM[id]] = String(p.where || p.place || p.kind || p.why || '不在').slice(0, 14); } catch (e) {} }
