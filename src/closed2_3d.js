@@ -47,7 +47,8 @@ const CLOSED2=(function(){
   S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
     if(((G.zone==='linze'&&it.label==='法律學院辦公室'&&!S.roomOk('linze_office'))||(G.zone==='linze_office'&&it.label==='服務台'))&&S.formDue(G)) return S.officeForm(GM);   /* 系辦有 3D 房間以後（rooms_glb3d.js linze_office，辦公時間門才開）：在裡面的服務台交；門口交只在沒有房間的版本 */
     if(G.zone==='library_hall'&&it.label==='多媒體中心'&&S.mediaOk(G)) return S.media(GM);
-    if(G.zone==='library_media'&&it.label==='多媒體服務台'&&S.mediaOk(G)) return S.media(GM);   /* 多媒體中心有 3D 房間以後（rooms_glb3d.js 的 library_media：總圖 2F 的門變成「進入 多媒體中心」）：在裡面的服務台借耳機；門口那一條留著（沒有房間的版本）*/
+    if(G.zone==='library_media'&&it.label==='多媒體服務台') return S.mediaDesk(GM);   /* AA_443 第 1 節：服務台、座位耳機各一句，再接看一部片 */
+    if(G.zone==='library_media'&&it.zrDesk){ GM.sceneBegin(); try{ await GM.say(null,S.zrDeskLook(G)); } finally { GM.sceneEnd(); } return true; }   /* 多媒體中心有 3D 房間以後（rooms_glb3d.js 的 library_media：總圖 2F 的門變成「進入 多媒體中心」）：在裡面的服務台借耳機；門口那一條留著（沒有房間的版本）*/
     return false; };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closed2Interact){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closed2Interact=true; }
   /* 第 7 節：在系辦門口交過的，11/18 截止旁白不再說「你把表交到系辦」*/
@@ -234,6 +235,31 @@ const CLOSED2=(function(){
     if(hr(G)>=9&&typeof Y2B!=='undefined'&&Y2B.auntDue&&Y2B.auntDue(G)&&S.auntOk(GM)){ busy=true; S.pending=Promise.resolve().then(()=>Y2B.auntConsult(GM)).catch(e=>console.warn('CLOSED2.aunt',e)).finally(()=>{ busy=false; }); return true; }
     return false; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)&&!STORY._rab3Tick){ STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); STORY._rab3Tick=true; }
+  /* ===== 總圖 2F 多媒體中心（AA_443 第 1 節，企劃線 f93fa3eda；LAWWW2 a8c448288）=====
+     服務台「看」：服務台一句 → 座位／耳機一句 → 看一部片（60 分，AA_399 第 12 節，S.media）。西牆中間那一格（spots.zhiruo）她不在的時候：三版。
+     她在那裡、和她說話：每學期第一次在這裡講話前面多一段（有 ZR3_SUBTITLE＝兩個選項；沒有＝一句）。不記旗標、不加數值。 */
+  S.MEDIA={ desk:'（多媒體服務台。登記簿最上面寫著：「耳機請於閉館前歸還」。值班的工讀生在看一部沒有開聲音的片子。）',
+    seats:'（一格一格的座位，每一格一台螢幕、一副耳機。耳機線都纏得很整齊。）',
+    zrKnow:'（西牆中間那一格。桌上留著一張印出來的字幕稿，每一行後面用鉛筆寫著一個數字。最大的是十四。）',
+    zr:'（西牆中間那一格。桌上留著一張印出來的字幕稿，每一行後面用鉛筆寫著一個數字。）',
+    zrUK:'（西牆中間那一格空著。螢幕上貼著一張便條：「座位請勿保留」。）',
+    talkSub:'這一行十七個字。……要刪三個。你覺得刪哪三個？', optLast:'「最後三個。」', optKeep:'「不要刪。」',
+    rLast:'最後三個是他的名字。……不行。', rKeep:'不刪的話，觀眾來不及看。……我再想。',
+    talkNo:'字幕翻譯的作業。……要看的話坐旁邊那格，耳機去服務台借。' };
+  const ZR='heroine_02', ymdOf=G=>{ const q=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day|0):null; return q?q.y*10000+q.m*100+q.d:0; };
+  const zrSub=()=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(ZR,'ZR3_SUBTITLE');
+  S.zrUK=G=>{ const k=ymdOf(G); return k>=20270901&&k<=20280228; };
+  S.zrDeskLook=G=>S.zrUK(G)?S.MEDIA.zrUK:(zrSub()?S.MEDIA.zrKnow:S.MEDIA.zr);
+  S.mediaDesk=async function(GM){ const G=GM.G; GM.sceneBegin(); try{ await GM.say(null,S.MEDIA.desk); if(S.mediaOk(G)) await GM.say(null,S.MEDIA.seats); } finally { GM.sceneEnd(); } if(S.mediaOk(G)) return S.media(GM); return true; };
+  S.zrDeskPopulate=function(zoneId,GM){ if(zoneId!=='library_media') return; const E=GM&&GM.E, L=typeof ROOM_GLB_LAYOUTS!=='undefined'&&ROOM_GLB_LAYOUTS.library_media; const p=L&&L.spots&&L.spots.zhiruo; if(!E||!Array.isArray(E.interactables)||!p) return;
+    E.interactables.push({x:p.x+0.6,z:p.z,radius:0.8,lv:0,prio:-0.2,label:'看西牆中間那一格',zrDesk:true,get hidden(){ return !!(GM.npc&&GM.npc[ZR]); }}); };   /* 她在＝看不到這個（直接跟她說話）*/
+  if(typeof STORY!=='undefined'&&STORY.populate&&!STORY._mediaPop){ const p1=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p1.apply(this,arguments); try{ S.zrDeskPopulate(zoneId,GM); }catch(e){ console.warn('CLOSED2.zrDesk',e); } return r; }; STORY._mediaPop=true; }
+  S.zrMediaTalk=async function(GM,id){ const G=GM.G; if(id!==ZR||G.zone!=='library_media') return false; const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, key=T?T.id:'?';
+    const F=G.flags||(G.flags={}); if(F.ZR_MEDIA_TALK===key) return false; F.ZR_MEDIA_TALK=key;   /* 每學期第一次（記在哪個學期講過，只是避免重複，不是劇情旗標）*/
+    const me={name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(ZR):'芷若',charId:ZR}, X=S.MEDIA;
+    if(zrSub()){ await GM.say(me,X.talkSub); const k=await GM.choose([{t:X.optLast},{t:X.optKeep}]); await GM.say(me,k===0?X.rLast:X.rKeep); } else await GM.say(me,X.talkNo);
+    return true; };
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PRE_TALK)&&!STORY._mediaTalk){ STORY.PRE_TALK.push(async(GM,who,id)=>{ try{ await S.zrMediaTalk(GM,id); }catch(e){ console.warn('CLOSED2.zrMediaTalk',e); } }); STORY._mediaTalk=true; }
   return S;
 })();
 if(typeof window!=='undefined') window.CLOSED2=CLOSED2;

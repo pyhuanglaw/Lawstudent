@@ -318,5 +318,16 @@ console.log(JSON.stringify({set:z.roomSet,r,stand:E.canStand(r.x,r.z,0.3,0),walk
   const a=at('2026-10-13',15), b=at('2026-10-15',15), u=at('2027-10-12',15), w=at('2026-10-14',15);
   check('14. 芷若：週二、四 15:00 在多媒體中心 spots.zhiruo；英國那半年不在；週三不在',!!a&&a.zone==='library_media'&&a.spot==='zhiruo'&&!!b&&b.zone==='library_media'&&!(u&&u.zone==='library_media')&&!(w&&w.zone==='library_media'),JSON.stringify([a,b,u,w])); }
 
+/* 15 總圖多媒體中心的「看」與芷若（AA_443 第 1 節，企劃線 f93fa3eda）*/
+await (async()=>{ let DOC=''; try{ DOC=require('child_process').execSync("git -c core.quotepath=false show 'f93fa3eda:docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md'",{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+  const X=CLOSED2.MEDIA; check('15. 多媒體中心每一句都在 AA_443（一字不差）',DOC.length>500&&Object.values(X).every(t=>DOC.includes(t.replace(/^「|」$/g,''))),JSON.stringify(Object.values(X).filter(t=>!DOC.includes(t.replace(/^「|」$/g,'')))));
+  const G=H.fresh('2026-10-13',15,'library_media'); G.stage='law';
+  check('15. 西牆那一格三版：英國那半年、知道 ZR3_SUBTITLE、不知道',CLOSED2.zrDeskLook(Object.assign({},G,{day:STORY.dayOfKey('2027-10-12')}))===X.zrUK&&CLOSED2.zrDeskLook(G)===X.zr&&(SOCIAL.remember('heroine_02','ZR3_SUBTITLE',''),CLOSED2.zrDeskLook(G)===X.zrKnow));
+  H.said=[]; H.picks=[1]; await CLOSED2.zrMediaTalk(GM,'heroine_02'); const L1=H.lines(); H.said=[]; await CLOSED2.zrMediaTalk(GM,'heroine_02'); const L2=H.lines();
+  check('15. 和她說話（有 ZR3_SUBTITLE）：每學期第一次多一段「這一行十七個字……」→「不要刪。」的回答；同一學期第二次沒有',L1.some(t=>t.includes(X.talkSub))&&L1.some(t=>t.includes(X.rKeep))&&L2.length===0,JSON.stringify([L1,L2]));
+  const G2=H.fresh('2026-10-15',15,'library_media'); G2.stage='law'; H.said=[]; await CLOSED2.zrMediaTalk(GM,'heroine_02');
+  check('15. 沒有 ZR3_SUBTITLE：一句「字幕翻譯的作業……」',H.lines().length===1&&H.lines()[0].includes(X.talkNo),JSON.stringify(H.lines()));
+  const G3=H.fresh('2026-10-15',15,'cafe'); G3.stage='law'; H.said=[]; check('15. 不在多媒體中心不演',(await CLOSED2.zrMediaTalk(GM,'heroine_02'))===false&&H.lines().length===0); })();
+
 H.done();
 })();
