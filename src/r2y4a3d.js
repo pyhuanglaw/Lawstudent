@@ -84,7 +84,7 @@ const R2Y4A=(function(){
      AA_450 1-8：挽回中的群組版改何俊朗傳（沒見過他＝國際學生會）*/
   S.chicagoMissed=function(G,late){ if(typeof PHONE==='undefined') return; const d11=D('2028-11-11'), d12=D('2028-11-12'); if(d11==null) return; const dt=dating(G,S5), M=dt?P5:t=>XL(G,t); G.flags.US_CHICAGO='missed';
     if(late) PHONE.at(G,d11,7+20/60,[M('巴士要開了。……我們先走。')],'us_chi_late');
-    PHONE.at(G,d12,21,[M(dt?'📷（密西根湖，浪很大）':'📷（湖邊的風）'),M('📷（博物館的恐龍）'),M('📷（深盤披薩）')],'us_chi_photos'); };
+    PHONE.at(G,d12,21,[M('📷（密西根湖，浪很大）'),M('📷（博物館的恐龍）'),M('📷（深盤披薩）')],'us_chi_photos'); };   /* AA-B 10-24 23:19：挽回中群組版的第一張也換（風拍不到）*/
 
   /* ===================== 2-Y4-19 US3 ===================== */
   /* AA_450 1-9：交往中 11/23 岸邊不能有雪（11/25 才「下了一點雪，落地就化了」、12/2 才是第一場會積的雪；AA_448 第 2 節）——原「我自己去了。……下雪了。拍給你。」「📷（一張照片）」；

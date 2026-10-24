@@ -2868,12 +2868,19 @@
   },
   {
    "path": "docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md",
-   "sha": "fb1d8ae45",
+   "sha": "57c81bdac",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；1-8 依使用者原話「她根本就不是主動在群組會說話的人」）",
    "task": "US-READ-DATING-1024",
    "kind": "text",
-   "note": "r2y4a_events.js ev_us1_asian；us_life_events.js ev_usl_lake1、mom 二十則（d）、ev_usl_long3、ev_usl_party；us_blank_lines.js ev_usb_orient＋us_blank3d.js orientBeforeJump；r2y4a3d.js chicagoMissed、us_chi_ask、lakeMissed、群組發話者 XL（何俊朗／國際學生會）；termend_lines.js 學姊 Y4S1 三句；us_life3d.js usl_long3 10/3 起才排；tests/aa450_us_unit.js 76 項"
+   "note": "r2y4a_events.js ev_us1_asian；us_life_events.js ev_usl_lake1、mom 二十則（d）、ev_usl_long3、ev_usl_party；us_blank_lines.js ev_usb_orient＋us_blank3d.js orientBeforeJump；r2y4a3d.js chicagoMissed、us_chi_ask、lakeMissed、群組發話者 XL（何俊朗／國際學生會）；termend_lines.js 學姊 Y4S1 三句；us_life3d.js usl_long3 10/3 起才排；tests/aa450_us_unit.js 76 項；57c81bdac：1-8 補註（挽回中芝加哥照片一起換；AA_424 週六群組、12/2 何俊朗那則照舊）",
+   "history": [
+    {
+     "sha": "fb1d8ae45",
+     "until": "2026-10-24 23:2x",
+     "why": "1-8 補註以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",

@@ -13,7 +13,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
 const loadErr=[];
 for(const f of ['src/exchange3d.js','src/data/us_layouts.js','src/us3d.js','src/y34b3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/us_life_events.js','src/us_life3d.js','src/us208_3d.js','src/data/us_blank_lines.js','src/us_blank3d.js']){
   if(!fs.existsSync(path.join(ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ load(f); }catch(e){ loadErr.push(f+'：'+e.message); } }
-let doc=''; try{ doc=cp.execSync('git show fb1d8ae45:"docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 57c81bdac:"docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const inDoc=t=>doc.indexOf(t)>=0;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;
@@ -38,7 +38,7 @@ const LG='npc_long|何俊朗|', ISA='us_isa|國際學生會|';
 (async()=>{
 await sec(0,()=>{
   check('0. 美國篇的檔案都載得到',!loadErr.length,loadErr.join('；'));
-  check('0. 讀稿（企劃線 fb1d8ae45 AA_450）',doc.length>3000&&inDoc('## 1. 要改的')&&inDoc('### 1-11.')); });
+  check('0. 讀稿（企劃線 57c81bdac AA_450；fb1d8ae45＋1-8 補註）',doc.length>3000&&inDoc('## 1. 要改的')&&inDoc('### 1-11.')); });
 
 /* ======================= 1-1 亞洲超市 ======================= */
 await sec('1-1',async()=>{ const A='……我在研究室常吃這一種。'; fresh('2028-08-02',20.25,'us_asian_market'); dateSis(); const L=await play('ev_us1_asian');
@@ -128,7 +128,7 @@ await sec('1-8',async()=>{
     fresh('2028-11-03',21.1,'us_apartment',long?{MET_LONG:true}:{}); rules();
     check('1-8. 挽回中 11/3 芝加哥的邀約（'+lab+'）：「下週末有人要去芝加哥嗎。巴士早上七點。」由'+(long?'何俊朗':'國際學生會')+'傳；回了照舊算 REPAIR',J(byTag('us_chi_ask').map(fm))===J([who+'下週末有人要去芝加哥嗎。巴士早上七點。'])&&noSis()&&(PHONE.answer(H.G,'us_chi',1),rules(),(H.G.flags.REPAIR||{})[S5]===1));
     at('2028-11-11',7.4); R2Y4A.chicagoMissed(H.G,true); at('2028-11-12',21.1); rules();
-    check('1-8. 挽回中沒去芝加哥（'+lab+'）：「巴士要開了。……我們先走。」、三張照片由'+(long?'何俊朗':'國際學生會')+'傳；沒有「下次一起。」',J(byTag('us_chi_late').map(fm))===J([who+'巴士要開了。……我們先走。'])&&J(byTag('us_chi_photos').map(fm))===J([who+'📷（湖邊的風）',who+'📷（博物館的恐龍）',who+'📷（深盤披薩）'])&&noSis()&&!(H.G.msgs||[]).some(m=>m.text==='下次一起。'),J(byTag('us_chi_photos').map(fm)));
+    check('1-8. 挽回中沒去芝加哥（'+lab+'）：「巴士要開了。……我們先走。」、三張照片由'+(long?'何俊朗':'國際學生會')+'傳、第一張也是「密西根湖，浪很大」（AA-B 10-24 23:19）；沒有「下次一起。」',J(byTag('us_chi_late').map(fm))===J([who+'巴士要開了。……我們先走。'])&&J(byTag('us_chi_photos').map(fm))===J([who+'📷（密西根湖，浪很大）',who+'📷（博物館的恐龍）',who+'📷（深盤披薩）'])&&noSis()&&!(H.G.msgs||[]).some(m=>m.text==='下次一起。'),J(byTag('us_chi_photos').map(fm)));
     fresh('2028-11-22',21.1,'us_apartment',long?{MET_LONG:true}:{}); rules();
     check('1-8. 挽回中 11/22 21:00（'+lab+'）：「感恩節第一天，大家要去湖邊。九點，會所門口集合。」由'+(long?'何俊朗':'國際學生會')+'傳',J(byTag('us3_ask').map(fm))===J([who+'感恩節第一天，大家要去湖邊。九點，會所門口集合。'])&&noSis()&&!!OUT.get(H.G,'us3_lake'));
     R2Y4A.lakeMissed(H.G); at('2028-11-23',21.6); rules();
