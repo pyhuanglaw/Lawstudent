@@ -6,7 +6,7 @@ LAWWW2-B，2026-10-24 06:0x～06:2x UTC。
 - **原因**：
   - 10-22 第九版頭髮（`p02_hair.py`，[zhiruo_hair_1022](../zhiruo_hair_1022/README.md)）重做以後，彈簧骨那一步沒有再跑。
   - 那一步是另一支工具 `tools/blender/char/hair_springs.py`，不在 `heroine_02.py` 的建置流程裡，所以漏了。
-- **狀態**：`READY_FOR_ART_REVIEW`。外觀和第九版一樣，只差頭髮會不會動。角色美術由 BB 驗收（D59）。
+- **狀態**：外觀和第九版一樣，只差頭髮會不會動，所以維持第九版原本的驗收狀態（10-22 LAWWW 驗收通過）。角色美術由 LAWWW 驗收（D100a；LAWWW-B 10-24 06:25 更正了我原本寫的「BB 驗收」）。
 
 ## 改了什麼
 
@@ -52,4 +52,4 @@ LAWWW2-B，2026-10-24 06:0x～06:2x UTC。
 ## 還沒做／已知
 
 - 實機上的擺動幅度沒看過（SwiftShader 1–4 fps，看不準）。
-- 開發分支接進來以後，LAWWW-B 會重跑 `sim_hair`。
+- LAWWW-B 已整合進開發分支（`cb6cef3e3`），重跑 `sim_hair.js`、`hair_sway.js` 都 PASS（10-24 06:25）。

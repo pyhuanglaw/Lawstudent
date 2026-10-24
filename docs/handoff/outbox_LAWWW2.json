@@ -2642,19 +2642,19 @@
   {
    "task": "芷若頭髮補回彈簧骨（LAWWW-B 10-24 05:53 P2：bl_heroine_02.vrm 第九版頭髮沒有彈簧骨）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "46fb10472",
    "files": [
     "assets/models/char/bl_heroine_02.vrm（3.10 MB；頭髮 6 條彈簧骨鏈 J_Sec_Hair_Chain0～5）",
     "tools/blender/char/hair_springs.py（拆出 apply_springs）、tools/blender/char/heroine_02.py（新的 springs 階段）",
     "tools/shots/char_review.py（截圖時關手機的看門狗）",
     "docs/art-rebuild/second_ai/char_review/zhiruo_springs_1024/（README＋前後對照）"
    ],
-   "state": "已交付（READY_FOR_ART_REVIEW；外觀和第九版相同，到頭髮為止每個 byte 一樣）；sim_hair.js PASS（站著／瞬移／走路髮尾 −0.082～−0.083 m，dt 0.033／0.300）；hair_sway.js PASS（最大偏移 6.0 cm、停下 1.5 秒 0.0 cm）；遊戲內截圖（Playwright，不是 iPhone）",
+   "state": "已交付（外觀沒變，維持第九版原本的驗收狀態（角色美術由 LAWWW 驗收，D100a）；外觀和第九版相同，到頭髮為止每個 byte 一樣）；sim_hair.js PASS（站著／瞬移／走路髮尾 −0.082～−0.083 m，dt 0.033／0.300）；hair_sway.js PASS（最大偏移 6.0 cm、停下 1.5 秒 0.0 cm）；遊戲內截圖（Playwright，不是 iPhone）",
    "remaining": "實機上的擺動沒看過",
    "next": "LAWWW-B 放進開發分支、重跑 node tools/dev_scratch/spring_sim/sim_hair.js char.heroine_02",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 10-24 06:25：已整合 cb6cef3e3，sim_hair／hair_sway 重跑 PASS）",
    "note": "原因：10-22 第九版用 p02_hair.py 重做頭髮後沒有再跑 hair_springs.py；以後 heroine_02.py 跑 --stages stage0,face,clothes,hair,springs 就不會漏"
   }
  ]
