@@ -479,7 +479,7 @@ async def s_mrask(p, run, base, sid, out):
         await drive(pg, cdp, run, max_s=30, label=sid)
         rr = await date_to_when(pg, cdp, x, loc, label=sid); res['menu'] = rr
         if not rr.get('ok'): run.check('%s：手機約她去 %s' % (sid, NAMES[loc]), False, json.dumps(rr, ensure_ascii=False)[:400]); raise RuntimeError('沒約到')
-        o = await wait_choices(pg, cdp); k = next((i for i, q in enumerate(o) if not q['dim'] and '週六' in q['t']), next((i for i, q in enumerate(o) if not q['dim']), 0))
+        o = await wait_choices(pg, cdp); k = next((i for i, q in enumerate(o) if not q['dim'] and ('週六' in q['t'] or '（六）' in q['t'])), next((i for i, q in enumerate(o) if not q['dim']), 0))   # BB-B 14:3x：日期選單寫「10/3（六）」，不是「週六」
         await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1200)
         o = await wait_choices(pg, cdp); k = next((i for i, q in enumerate(o) if not q['dim']), 0); await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1500)
         sm = await wait_dlg(pg, '預計花費', 20)
