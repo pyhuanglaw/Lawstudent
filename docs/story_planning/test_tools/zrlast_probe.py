@@ -2387,6 +2387,9 @@ def TRX(sid, js, pref, asks):
     return dict(id=sid, key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + js + B['BED'], steps=st, pref=pref, asks=asks, want=[])
 R18 = [TRX('TRX_US_DATING', B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。'}),
        TRX('TRX_US_ALONE', B['ALONE'], ['出發', '去'], {})]
+# BB-B 10-24 23:0x（AA-B 22:57 讀完交往中那一份）：①存檔預設 dating_kexin＝true，劇本變成學姊＋可昕兩條線 → NOKX 清掉 ②手機要回的邀約都沒回（8/11 竹葉、8/18 湖邊、8/25 圖書館、11/3 芝加哥）→ 其他要回的都選第一個（'*'）
+R18 += [TRX('TRX_US_DATING2', NOKX + B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。', '*': ''}),
+        TRX('TRX_US_ALONE2', NOKX + B['ALONE'], ['出發', '去'], {'*': ''})]
 SCENS = SCENS + R18
 
 # ---------- R19（BB-B 10-24 09:5x）：美國法學院圖書館 2F 書庫（b43a86cdf＋AA_444 第 4 節 f23a5b948；v9.10.8 之後那一版）----------

@@ -50,7 +50,8 @@ async def answer(pg, cdp, rules):
     pend = await pg.evaluate("(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()")
     done = False
     for m in pend:
-        want = next((v for k, v in rules.items() if m['id'].startswith(k)), None)
+        want = next((v for k, v in rules.items() if k != '*' and m['id'].startswith(k)), None)
+        if want is None and '*' in rules and m['opts']: want = m['opts'][0]   # BB-B 10-24 23:0x（AA-B：逐日劇本的邀約都沒回）：'*'＝其他要回的都選第一個
         if want is None: continue
         k = next((i for i, t in enumerate(m['opts']) if t.startswith(want)), None)
         if k is None: say('   手機：%s 沒有「%s」選項（%s）' % (m['id'], want, m['opts'])); bad.append('%s 沒有選項「%s」' % (m['id'], want)); rules.pop(next(kk for kk in rules if m['id'].startswith(kk))); continue
