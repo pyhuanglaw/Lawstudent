@@ -14638,7 +14638,7 @@
     }
    ],
    "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
-   "notes": "2026-10-24 03:3x LAWWW-B：盤點：以安 career_goal、芷若十二張紙條、Q15、zq3am、ZQ_CONFESS_LINE、WATCHED_SHOW_ONLINE、ZR_GAVE_HER_ORDER、AA_187 1-4 已做；缺：ev_zhiruo_his_order／ZR_HE_ORDERED（BB_165 3-1）、ev_peishan_waited、ev_peishan_red_pen、可昕 K7 卡片頁（KX_CARD_READ）；2026-10-24 LAWWW-B：BB_165 第 3-1、5-1、5-2、9 節進遊戲（b42bc9e7a；src/rom1016_3d.js；tests/rom1016_unit.js 29 PASS）：芷若「他點的那一杯」、沛珊台南等你、紅筆（含短版）、可昕週年卡片後幾頁。還沒做：PS_WAITED 尾聲那句（postgrad）、PS_RED_PEN 每月照片（要學期中摘要日）、紅筆短版視訊版；芷若學期中告白和「告白只在學期末」（AA_360 第 5 節）是否衝突、可昕卡片錯過的人當面給（BB_165 §9 vs AA_313 2-3 A）已問 AA；10-24 04:1x：AA_438 芷若那一杯限大三下學期末窗口、可昕週年沒去＝之後當面給卡片（11cbcce8d）",
+   "notes": "2026-10-24 03:3x LAWWW-B：盤點：以安 career_goal、芷若十二張紙條、Q15、zq3am、ZQ_CONFESS_LINE、WATCHED_SHOW_ONLINE、ZR_GAVE_HER_ORDER、AA_187 1-4 已做；缺：ev_zhiruo_his_order／ZR_HE_ORDERED（BB_165 3-1）、ev_peishan_waited、ev_peishan_red_pen、可昕 K7 卡片頁（KX_CARD_READ）；2026-10-24 LAWWW-B：BB_165 第 3-1、5-1、5-2、9 節進遊戲（b42bc9e7a；src/rom1016_3d.js；tests/rom1016_unit.js 29 PASS）：芷若「他點的那一杯」、沛珊台南等你、紅筆（含短版）、可昕週年卡片後幾頁。還沒做：PS_WAITED 尾聲那句（postgrad）、PS_RED_PEN 每月照片（要學期中摘要日）、紅筆短版視訊版；芷若學期中告白和「告白只在學期末」（AA_360 第 5 節）是否衝突、可昕卡片錯過的人當面給（BB_165 §9 vs AA_313 2-3 A）已問 AA；10-24 04:1x：AA_438 芷若那一杯限大三下學期末窗口、可昕週年沒去＝之後當面給卡片（11cbcce8d）；10-24 06:0x：PS_WAITED 尾聲那一句（postgrad3d.js epiLine 和祐廷那一版；tests/aa360_unit.js 15-1b）",
    "sha": "b42bc9e7a"
   },
   {
