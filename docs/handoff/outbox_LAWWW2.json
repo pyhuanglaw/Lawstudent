@@ -2968,7 +2968,7 @@
    "next": "LAWWW-B 換 dorm_room4.glb（＋.json）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "DELIVERED（22:5x send_message 恢復後補傳，等 LAWWW-B 回覆）",
+   "ack": "ACTIONED（LAWWW-B 22:47：已整合 ec3af2865，ART-DORM-BATH-OUTER-1024／DL-LW2-DORM-BATH-OUTER；dorm_*、ground_zfight、nav_buildings 全過；flow_dorm_hall 派 BB）",
    "note": "開發 a690484c8 的 dorm_room4.glb 和我改之前的版本完全一樣；場景美術 ART_APPROVED 只有使用者能標"
   },
   {
