@@ -2503,7 +2503,7 @@ CANYON_END = '十二月二十三號，晚上八點落地。你來接我。'
 R21 = [
   # ① 以安紐約送機：交往中＋送過日本（went）／不是交往中＋日本路線一起出發（together）＝新開頭；都沒有＝舊開頭
   dict(id='ANNY_GF_WENT', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_SENDOFF': 'went', 'AN_NY_GO': True, 'dating_heroine_01': True}, js=ANKN + PLAN(O_NY),
-       steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_JP + ['BG:airport_departure'], none=AN_OLD, jsok=[EVDONE('ev_an_ny_sendoff')]),
+       steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_JP + ['assets/bg/airport_departure.webp'], none=AN_OLD, jsok=[EVDONE('ev_an_ny_sendoff')]),
   dict(id='ANNY_TOGETHER', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_SENDOFF': 'together', 'AN_NY_GO': True}, js=ANKN + PLAN(O_NY),
        steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_JP, none=AN_OLD, jsok=[EVDONE('ev_an_ny_sendoff')]),
   dict(id='ANNY_NOJP', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_NY_GO': True}, js=ANKN + PLAN(O_NY),
@@ -2524,12 +2524,12 @@ R21 = [
   GATE('GATE_1101', '2028-11-01', 'nov'), GATE('GATE_1202', '2028-12-02', 'dec'),
   # ⑥ 初雪：交往中（ev_us_first_snow）、挽回中（ev_us_snow_repair）開頭 bg 是 dark、不是 us_chapel_steps【前置】出遊照遊戲同欄位排在 20:00
   dict(id='SNOW_GF_BG', key='2028-12-02', h=19.6, zone='us_apartment', flags=dict(USC), js=B['USJS'] + PLAN(O_SNOW), steps=[('until', 20.6, 1500)], pref=['出發：初雪'],
-       want=['BG:dark', SNOW_OPEN], none=['BG:us_chapel_steps'], jsok=[EVDONE('ev_us_first_snow'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
+       want=['BG:dark', SNOW_OPEN], none=['us_chapel_steps'], jsok=[EVDONE('ev_us_first_snow'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
   dict(id='SNOW_REPAIR_BG', key='2028-12-02', h=19.6, zone='us_apartment', flags=dict(USC_NO, US_SNOW_MODE='repair'), js=B['USJS'] + B['ALONE'] + PLAN(O_SNOWR), steps=[('until', 20.6, 1500)], pref=['出發：初雪'],
-       want=['BG:dark', SNOW_R_OPEN], none=['BG:us_chapel_steps'], jsok=[EVDONE('ev_us_snow_repair'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
+       want=['BG:dark', SNOW_R_OPEN], none=['us_chapel_steps'], jsok=[EVDONE('ev_us_snow_repair'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
   # ⑦ 大峽谷（台灣路線，9/24 答應了）：10/7 07:00 照玩家出發 → 峽谷「不說話」→ 她先說 → 鳳凰城的機場 bg us_airport＋那一句
   dict(id='CANYON_TW_AIRPORT', key='2028-10-07', h=5.5, zone='dorm', flags=dict(TWF, SIS_CANYON_ASK='go'), js=SISF + Y4 + " LV('heroine_05',70,60,55);", steps=[('until', 7.6, 1500)],
-       pref=['出發：秋假', '（看著峽谷，不說話）'], want=['BG:us_airport', CANYON_END, '那我先說。'], jsok=[EVDONE('ev_sis_canyon'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list) and 'BG:us_airport' in L)]),
+       pref=['出發：秋假', '（看著峽谷，不說話）'], want=['assets/bg/us_airport', CANYON_END, '那我先說。'], jsok=[EVDONE('ev_sis_canyon'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list) and any('us_airport' in x for x in L))]),
   # ⑧ 晚上的美國校園（路燈光圈）、法學院圖書館（彩色玻璃、天窗變暗）：截圖給人看
   dict(id='US_NIGHT_CAMPUS', key='2028-10-18', h=21.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -20.0, 'z': 19.8, 'yaw': 3.14}}, js='', pref=[],
        steps=[('shot', 'us_campus_night_bus', None, 'true', 2), ('jsrun', "(()=>{ const P=GAME.E.player.obj.position; P.set(-66,P.y,12.6); return true; })()", '【捷徑】站到校門口'), ('shot', 'us_campus_night_gate', None, 'true', 2)], want=[]),
@@ -2537,6 +2537,91 @@ R21 = [
   dict(id='US_DAY_LAWLIB', key='2028-10-18', h=14.0, zone='us_lawlib', flags=dict(USC), js='', pref=[], steps=[('shot', 'us_lawlib_day', None, 'true', 2)], want=[]),
 ]
 SCENS = SCENS + R21
+
+# ---------- R22（BB-B 10-24 15:4x）：RELEASE-9109-TEST 其餘幾項（v9.10.8 發布樹 63da1d633 之後進來的；LAWWW-B 15:07 派工）——多半是截圖給人看＋能自動讀的就讀 ----------
+# ③ 霖澤館 1F 公布欄＋入口玻璃門、兩張徵才單照公布欄時程（4229bbaf4：JOBS.posterSync 用材質 visible 開關；大二上第 1 週只有補習班那張）
+# ④ 社科院大樓窗戶捲簾／布簾（b9d19d8a6）⑤ 普通／共同教室窗外景（aef97e506）、博雅二樓長窗 photoWide（0a5835573：sxy＝0.5,1）
+# ⑥ 上面樓層不投影子（becf772d4）⑦ 室內無名路人 7 m 外換低面數、6.5 m 內換回來（a42beb018；userData.isFar）
+# ⑧ 黑底那幾段：OUT.BG 每一張圖 HTTP 抓得到（單元測試 scene_bg_keys_unit 查檔案在不在；這裡查網頁實際抓得到）
+# ⑫ 美國社區西邊出口外面（7770155b4：街道、公車站、對面平房；9／10／12 月、傍晚／晚上）＋手機模擬幀率（同一個位置，新舊兩版各量 10 秒；SwiftShader 只能比相對值）
+# 影子、路人、社區另外在 v9.10.8（main）跑同一組＝修改前對照（線 20b）。
+CAMAT = "(([x,z,yaw,pitch,dist])=>{ const E=GAME.E, P=E.player; try{ if(P.seat&&GAME.standUp) GAME.standUp(P); }catch(e){} if(E.placeAt) E.placeAt(P,x,z); else P.obj.position.set(x,P.obj.position.y,z); const c=E.cam; c.yaw=yaw; c.pitch=pitch; c.distTarget=dist; c.dist=dist; c.manualT=60; return true; })(%s)"
+def CAM(x, z, yaw, pitch=0.2, dist=3.0, note=''): return ('jsrun', CAMAT % json.dumps([x, z, yaw, pitch, dist]), '【捷徑】主角站到 (%.1f, %.1f)、鏡頭 yaw %.2f %s' % (x, z, yaw, note))
+def YAWS(name, x=None, z=None, pitch=0.2, dist=3.0, yaws=(0, 1.5708, 3.1416, 4.7124)):   # 同一個位置轉四個方向各拍一張（x 沒給＝站在原地）
+    out = []
+    for i, y in enumerate(yaws):
+        js = ("(([y,p,d,x,z])=>{ const E=GAME.E, P=E.player; if(x!=null){ if(E.placeAt) E.placeAt(P,x,z); else P.obj.position.set(x,P.obj.position.y,z); } const c=E.cam; c.yaw=y; c.pitch=p; c.distTarget=d; c.dist=d; c.manualT=60; return true; })(%s)" % json.dumps([y, pitch, dist, x, z]))
+        out += [('jsrun', js, '【捷徑】鏡頭轉到 yaw %.2f' % y), ('shot', '%s_%d' % (name, i), None, 'true', 2)]
+    return out
+POSTERS = "(()=>{ const z=GAME.E.zone, m=z&&z._jobPosters; if(!m) return null; const o={}; for(const k in m){ let v=null; for(const n of m[k]) n.traverse(x=>{ if(x.isMesh&&x.material&&!Array.isArray(x.material)) v=x.material.visible; }); o[k]=v; } o.board2=(typeof JOBS!=='undefined'&&JOBS.board2)?JOBS.board2(GAME.G):null; return o; })()"
+VIEWTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); const im=tx&&tx.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\//.test(s)){ const sx=m.uniforms&&m.uniforms.sxy&&m.uniforms.sxy.value; out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')+(sx?'@'+sx.x+','+sx.y:'')); } } }); return [...out].sort(); })()"
+FARCHK = ("(()=>{ const E=GAME.E, c=E.camera.position, L=[]; for(const n of (E.npcs||[])){ if(!n||!n.isExtra||!n.obj||n.hidden||n.obj.visible===false) continue; const o=n.obj, cd=Math.hypot(c.x-o.position.x,c.z-o.position.z); "
+          "L.push([+cd.toFixed(1),!!o.userData.isFar]); } L.sort((a,b)=>a[0]-b[0]); const bad=L.filter(([d,f])=>(d>7.6&&!f)||(d<6.2&&f)); return {indoor:!!E.indoor,n:L.length,far:L.filter(x=>x[1]).length,bad:bad.length,sample:L.slice(0,6).concat(L.slice(-4))}; })()")
+FARWAIT = ('wait', "(GAME.E.npcs||[]).filter(n=>n&&n.isExtra&&!n.hidden).length>=4", 90, '室內有 4 個以上無名路人')
+BGHTTP = ("(async()=>{ const B=OUT.BG||{}, ks=Object.keys(B).filter(k=>B[k]&&B[k].image), bad=[]; await Promise.all(ks.map(async k=>{ try{ const r=await fetch(B[k].image,{cache:'no-store'}); if(!r.ok) bad.push(k+':'+r.status); }catch(e){ bad.push(k+':ERR'); } })); "
+          "return {n:ks.length,bad,check:['ntu_library_night','alley_conv_night','cafe','cafe_closed','cafe_night','cafe_window','law_library','us_shared_kitchen','zuiyue_night','dorm_desk','law_library_gate','library_gate_day','oldroad_bookstore','us_airport'].filter(k=>!(B[k]&&B[k].image))}; })()")
+FPS10 = "new Promise(r=>{ let n=0; const t0=performance.now(); const f=()=>{ n++; if(performance.now()-t0<10000) requestAnimationFrame(f); else r(+(n*1000/(performance.now()-t0)).toFixed(2)); }; requestAnimationFrame(f); })"
+TRIS = "(()=>{ const i=GAME.E.renderer&&GAME.E.renderer.info; return i?{calls:i.render.calls,tris:i.render.triangles}:null; })()"
+R22 = [
+  # ③ 霖澤館 1F：大二上第 1 週（週二）10:00
+  dict(id='LINZE_NOTICE', key='TERMDAY:Y2S1:1:2', h=10.0, zone='linze', flags=dict(TW3), js='', pref=[],
+       steps=[('wait', "!!(GAME.E.zone&&GAME.E.zone._jobPosters)", 30, '公布欄的徵才單節點找到（JOBS.posterSync）'),
+              ('chk', '大二上第 1 週：補習班那張看得到、事務所那張看不到（照 JOBS.board2）', POSTERS, lambda o: isinstance(o, dict) and o.get('cram') is True and o.get('office') is False),
+              ('shot', 'notice', {'name': 'L0_notice_cork', 'face': True, 'dist': 1.6, 'pitch': 0.08}, 'true', 2),
+              ('shot', 'door', {'re': '^L0_autodoor_glass', 'face': True, 'dist': 3.2, 'pitch': 0.25}, 'true', 2)], want=[]),
+  # ④ 社科院：白天、晚上；大樓東面（正門）、中庭看南面
+  dict(id='SOCSCI_DAY', key='2026-10-14', h=10.5, zone='campus', flags=dict(TW3), js='', pref=[],
+       steps=[CAM(24.0, -85.0, 1.5708, 0.28, 7.0, '大樓東面'), ('shot', 'east', None, 'true', 2), CAM(2.0, -69.0, 0.0, 0.42, 6.0, '中庭往北看大樓南面'), ('shot', 'south', None, 'true', 2)], want=[]),
+  dict(id='SOCSCI_NIGHT', key='2026-10-14', h=20.0, zone='campus', flags=dict(TW3), js='', pref=[],
+       steps=[CAM(24.0, -85.0, 1.5708, 0.28, 7.0, '大樓東面'), ('shot', 'east', None, 'true', 2), CAM(2.0, -69.0, 0.0, 0.42, 6.0, '中庭往北看大樓南面'), ('shot', 'south', None, 'true', 2)], want=[]),
+  # ⑤ 窗外景：普通 101（白天、晚上）、共同教學館、共同 3F、博雅（長窗 photoWide＝sxy 0.5,1）
+  dict(id='VIEW_PUTONG_DAY', key='2026-10-14', h=10.5, zone='putong', flags=dict(TW3), js='', pref=[],
+       steps=[('wait', "(()=>{ let n=0; GAME.E.scene.traverse(o=>{ const m=o.material; const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); if(tx&&tx.image&&/views\\//.test(tx.image.currentSrc||tx.image.src||'')) n++; }); return n>0; })()", 30, '窗景貼圖載入'),
+              ('chk', '窗景貼圖（白天：*_day；記下來）', VIEWTEX, lambda L: isinstance(L, list) and any('putong' in x and '_day' in x for x in L) and not any('_night' in x for x in L))] + YAWS('putong101', -10.6, -4.5, 0.12, 2.6), want=[]),
+  dict(id='VIEW_PUTONG_NIGHT', key='2026-10-14', h=20.5, zone='putong', flags=dict(TW3), js='', pref=[],
+       steps=[('wait', "(()=>{ let n=0; GAME.E.scene.traverse(o=>{ const m=o.material; const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); if(tx&&tx.image&&/views\\//.test(tx.image.currentSrc||tx.image.src||'')) n++; }); return n>0; })()", 30, '窗景貼圖載入'),
+              ('chk', '窗景貼圖（晚上：*_night）', VIEWTEX, lambda L: isinstance(L, list) and any('putong' in x and '_night' in x for x in L))] + YAWS('putong101n', -10.6, -4.5, 0.12, 2.6, yaws=(0, 3.1416)), want=[]),
+  dict(id='VIEW_GONGTONG', key='2026-10-14', h=10.5, zone='gongtong', flags=dict(TW3), js='', pref=[],
+       steps=[PAUSE(6, '等窗景'), ('chk', '窗景貼圖（gongtong_*_day）', VIEWTEX, lambda L: isinstance(L, list) and any('gongtong' in x and '_day' in x for x in L))] + YAWS('gongtong'), want=[]),
+  dict(id='VIEW_GONGTONG3F', key='2026-10-14', h=10.5, zone='gongtong_3f', flags=dict(TW3), js='', pref=[],
+       steps=[PAUSE(6, '等窗景'), ('chk', '窗景貼圖是 gongtong_3f（原本借 boya_2f_south）', VIEWTEX, lambda L: isinstance(L, list) and any(x.startswith('gongtong_3f_day') for x in L) and not any(x.startswith('boya_2f_south') for x in L))] + YAWS('gongtong3f'), want=[]),
+  dict(id='VIEW_BOYA', key='2026-10-14', h=10.5, zone='boya', flags=dict(TW3), js='', pref=[],
+       steps=[PAUSE(8, '等窗景'), ('chk', '博雅窗景貼圖；二樓長窗（boya_2f_*_w）照片是寬的（sxy＝0.5,1）', VIEWTEX, lambda L: isinstance(L, list) and any('boya_2f' in x and '_w_' in x and x.endswith('@0.5,1') for x in L))] + YAWS('boya1f'), want=[]),
+  # ⑥ 上面樓層不投影子：普通 101、博雅一樓、霖澤館樓梯／電梯，上午有太陽（10:30）；四個方向（看牆上有沒有二樓桌椅的影子）
+  dict(id='SHADOW_PUTONG', key='2026-10-14', h=10.5, zone='putong', flags=dict(TW3), js='', pref=[], steps=YAWS('shadow_putong', -10.6, -4.5, 0.35, 3.4), want=[]),
+  dict(id='SHADOW_BOYA', key='2026-10-14', h=10.5, zone='boya', flags=dict(TW3), js='', pref=[], steps=YAWS('shadow_boya', None, None, 0.35, 3.4), want=[]),
+  dict(id='SHADOW_LINZE', key='2026-10-14', h=10.5, zone='linze', flags=dict(TW3), js='', pref=[],
+       steps=[('shot', 'stairs', {'re': '[Ss]tair', 'face': True, 'dist': 3.6, 'pitch': 0.3}, 'true', 2), ('shot', 'elev', {'re': '[Ee]lev', 'face': True, 'dist': 3.6, 'pitch': 0.3}, 'true', 2)] + YAWS('shadow_linze', None, None, 0.35, 3.4), want=[]),
+  # ⑦ 室內路人 7 m 外換低面數：博雅一樓上課中（大一國文 週二 9:10～12:10）、Café 下午、總圖 3F 閱覽區下午；讀每個無名路人的距離和 isFar
+  dict(id='LOD_BOYA', key='TERMDAY:Y1S1:3:2', h=9.6, zone='boya', flags={}, js='', pref=[],
+       steps=[FARWAIT, PAUSE(4, '等換模型'), ('chk', '7.6 m 外都換了、6.2 m 內都沒換（cd＝鏡頭距離）', FARCHK, lambda d: isinstance(d, dict) and d['indoor'] and d['n'] >= 4 and d['bad'] == 0), ('chk', '畫面 calls／三角形（記下來）', TRIS, lambda d: True)] + YAWS('lod_boya', None, None, 0.3, 3.0, yaws=(0, 3.1416)), want=[]),
+  dict(id='LOD_CAFE', key='2026-10-17', h=15.0, zone='cafe', flags={}, js='', pref=[],
+       steps=[PAUSE(10, '等客人坐下'), ('chk', 'Café：7.6 m 外都換了、6.2 m 內都沒換', FARCHK, lambda d: isinstance(d, dict) and d['bad'] == 0)] + YAWS('lod_cafe', None, None, 0.3, 3.0, yaws=(0, 3.1416)), want=[]),
+  dict(id='LOD_LIB3F', key='2026-10-15', h=15.0, zone='library', flags={}, js='', pref=[],
+       steps=[PAUSE(10, '等讀書的人坐下'), ('chk', '總圖 3F：7.6 m 外都換了、6.2 m 內都沒換', FARCHK, lambda d: isinstance(d, dict) and d['bad'] == 0), ('chk', '畫面 calls／三角形（記下來）', TRIS, lambda d: True)] + YAWS('lod_lib3f', None, None, 0.3, 3.0, yaws=(0, 3.1416)), want=[]),
+  # ⑧ OUT.BG 每一張圖網頁抓得到；這一次換掉黑底的 14 個鍵都有圖
+  dict(id='BG_HTTP', key='2026-10-14', h=12.0, zone='campus', flags={}, js='', pref=[],
+       steps=[('chk', 'OUT.BG 每一張圖 HTTP 200、這次的 14 個鍵都有圖', BGHTTP, lambda d: isinstance(d, dict) and d['n'] > 20 and not d['bad'] and not d['check'])], want=[]),
+  # ⑫ 美國社區西邊出口外面：9 月傍晚、9 月晚上、10 月傍晚、12 月傍晚；站在出口車道往西看＋量 10 秒幀率（同一位置）
+] + [dict(id='USCOMM_%s' % tag, key=k, h=h, zone='us_outside', flags=dict(USC), js='', pref=[],
+          steps=[CAM(-38.0, 0.0, 1.5708, 0.12, 4.0, '社區西邊出口、往西看'), PAUSE(4, '等模型'), ('shot', 'west', None, 'true', 2), CAM(-36.0, 6.0, 2.2, 0.18, 5.0, '往西南看出口和公車站'), ('shot', 'west2', None, 'true', 2)]
+               + ([CAM(-38.0, 0.0, 1.5708, 0.12, 4.0, '量幀率的位置'), ('chk', '手機模擬幀率（10 秒，記下來；和 v9.10.8 同一位置比）', FPS10, lambda f: isinstance(f, (int, float))), ('chk', 'calls／三角形（記下來）', TRIS, lambda d: True)] if tag == 'SEP_EVE' else []),
+          want=[]) for tag, k, h in [('SEP_EVE', '2028-09-15', 19.3), ('SEP_NIGHT', '2028-09-15', 21.5), ('OCT_EVE', '2028-10-20', 18.6), ('DEC_EVE', '2028-12-10', 16.8)]]
+SCENS = SCENS + R22
+
+# ---------- R23（BB-B 10-24 15:5x）：⑨ AA_445（76fd3ce8b）——交往中、節日前一天 21:00 的邀約照節日換整組（芷若、語彤、子晴、學姊、可昕）；大三寒假 2/4 語彤「阿姨換了新的菜單」 ----------
+# 單元測試 aa416_fest_unit 有 25 組逐字對稿；這裡在瀏覽器挑三組真的等訊息進手機。AA_446（6759ffce6，大二寒暑假訊息）＝單元測試涵蓋＋Node 掃描（BB_218 另記）
+def FESTASK(sid, who, key, want, old, extra=''):
+    return dict(id=sid, key=key, h=20.8, zone='dorm', flags=dict(TW3), js=(NOKX if who != 'kexin' else '') + S6J(who) + DATEJ(who) + extra, steps=[('until', 21.4, 900)], pref=[],
+                jsok=[('交往中：前一天 21:00「%s」' % w, GE(w), True) for w in want] + [('沒有舊句「%s」' % o, GE(o), False) for o in old])
+R23 = [
+  FESTASK('FEST445_ZQ_QIXI', 'heroine_04', '2026-08-18', ['明天七夕', '下午一點 公園 我設了三個鬧鐘'], ['溫州街的公園 我起得來']),
+  FESTASK('FEST445_KX_WHITE', 'kexin', '2027-03-13', ['明天三月十四 晚上六點半 公館', '回禮我準備好了'], ['你敢遲到試試看']),
+  FESTASK('FEST445_YT_WHITE', 'heroine_03', '2027-03-13', ['明天三月十四 有空嗎', '麵店門口 六點半 今天我不顧店'], ['明天晚上有空嗎']),
+  dict(id='VF445_YT_0204', key='2028-02-04', h=16.8, zone='dorm', flags=dict(TW3), js=NOKX + S6J('heroine_03'), steps=[('until', 17.3, 900)], pref=[],
+       jsok=[('2/4 17:00 語彤「阿姨換了新的菜單。」', GE('阿姨換了新的菜單。'), True), ('「她說字寫大一點，老客人才看得到。」', GE('她說字寫大一點，老客人才看得到。'), True)]),
+]
+SCENS = SCENS + R23
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
