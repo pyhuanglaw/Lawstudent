@@ -11,6 +11,7 @@ const JP_BLANK_LINES=(function(){
   const dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F.dating_heroine_01===true||!!(R.heroine_01&&R.heroine_01.status==='dating'); };
   const repair=G=>!dating(G);
   const metLH=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_liheng_japan);   /* 4/2 遇過立衡 */
+  const toldWish=G=>metLH(G)&&((G.flags||{}).LIHENG_TOLD==='wish');   /* 4/2 他說過「你說要寄照片。……我一直沒寄。」*/
   const done=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const tamsui=G=>{ if(typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,A1); if(L&&L.byLoc&&(L.byLoc.D13|0)>0) return true; } return (G.trips||[]).some(t=>t&&t.who===A1&&t.counted&&(t.locs||[]).includes('D13')); };   /* 和她去過淡水（D13）*/
   const C=f=>({custom:f});
@@ -168,15 +169,18 @@ const JP_BLANK_LINES=(function(){
     {label:'b'},an('茶葉。我媽塞進行李箱的。'),{goto:'e'},
     {label:'r'},nar('（以安在長桌的另一頭。她帶的是一罐茶葉。）'),
     IF(metLH,lh('研究所的人沒有送別會。……我下學期還在。')),
-    IF(metLH,{choice:[{text:'「我會寄照片。」',goto:'l'}]}),
-    {label:'l'},IF(metLH,lh('……好。')),
+    IF(toldWish,{choice:[{text:'「我會寄照片。」',goto:'l'}]}),   /* 4/2 說過「去了要寄照片」的玩家（LIHENG_TOLD:'wish'，AA_437 第 7 節第 2 點）*/
+    IF(G=>metLH(G)&&!toldWish(G),{choice:[{text:'「下學期加油。」',goto:'k'}]}),
+    {label:'k'},IF(G=>metLH(G)&&!toldWish(G),lh('……嗯。你也是。')),IF(G=>metLH(G)&&!toldWish(G),{goto:'e'}),
+    {label:'l'},IF(toldWish,lh('……好。')),
     {label:'e'} ],{hours:2});   /* 挽回成功、已經回到交往的玩家照交往版（演的那一刻看）*/
   /* 4-2 7/30（日）14:00 以安退租前打掃（交往中；7/29 22:30 她私訊，回「我去幫忙。」＝出遊）*/
   const lightDone=G=>done(G,'ev_jpb_w_light');
   out('ev_jpb_clean','她退租前的打掃',[ {scene:'她的房間'},
-    nar('（她的房間已經收得差不多了。地上只剩兩個紙箱，和那盞你換過的燈。）'),
-    an('燈管要留給下一個人。'),
-    IF(lightDone,an('……你換的那一支。')),UN(lightDone,an('……我來的時候，它就閃了。')),   /* 6/11 那一場（2-1 e）沒有演過的：第二句換這一句 */
+    IF(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱，和那盞你換過的燈。）')),
+    IF(lightDone,an('燈管要留給下一個人。')),IF(lightDone,an('……你換的那一支。')),
+    UN(lightDone,nar('（她的房間已經收得差不多了。地上只剩兩個紙箱。天花板的燈閃了一下。）')),   /* 6/11 那一場（2-1 e）沒有演過的：整段換（AA_437 第 7 節第 1 點）*/
+    UN(lightDone,an('這盞燈，我一直沒換。')),UN(lightDone,an('……留給下一個人換。')),
     {choice:[{text:'「擦窗戶。」',goto:'a'},{text:'「休息一下。」',goto:'b'}]},
     {label:'a'},nar('（你擦窗戶的時候，她在後面掃地。窗外是那排晒衣竿。）'),{goto:'e'},
     {label:'b'},an('好。'),nar('（她坐在紙箱上，看了房間一圈。）'),
@@ -224,7 +228,9 @@ const JP_BLANK_LINES=(function(){
 
   /* ---------------- 摘要一句（日期卡下面那一句；照抄）---------------- */
   const SUM={
+    d0329:'（你睡到中午。醒來的時候，宿舍的走廊很安靜。）',   /* 1-1 交往中 3/29 回「我想睡。」（AA_437 第 7 節第 3 點）*/
     r0401:'（第一個週六。你騎腳踏車繞了大學城一圈，花了四十分鐘。）',   /* 1-3 挽回中 4/1 */
+    r0407:'（選課確定了。你的課表上，週四空了一整天。）',   /* 挽回中 4/7（五）（AA_437 第 7 節第 3 點）*/
     r0404:'（選課系統開了。你一個人排了三次課表。）',   /* 1-4 挽回中 4/4 */
     r0408:'（宿舍窗外的櫻花被風吹進來一片。）',   /* 1-6 挽回中、不回群組 */
     d0727:'（明天最後一科。十一點，她傳：「早點睡。」）',   /* 第 3 節交往中 7/27 */

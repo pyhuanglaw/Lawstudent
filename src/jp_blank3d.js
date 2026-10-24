@@ -32,11 +32,13 @@ const JPB=(function(){
   const sum=t=>G=>t, F=k=>G=>G.flags&&G.flags[k];
   S.SCH=[
     {k:'jpb_1_1r',d:'2028-03-29',h:11,w:'jp',if:rep,ev:'ev_jpb_100yen_alone'},
+    {k:'jpb_1_1n',d:'2028-03-29',h:12,w:'jp',if:G=>dat(G)&&G.flags.JPB_YEN==='no',sum:X.SUM.d0329},   /* 交往中回「我想睡。」（AA_437 第 7 節第 3 點）*/
     {k:'jpb_1_2',d:'2028-03-31',h:15,w:'jp',if:dat,ev:'ev_jpb_bike'},
     {k:'jpb_1_2r',d:'2028-03-31',h:15,w:'jp',if:rep,ev:'ev_jpb_bike_repair'},
     {k:'jpb_1_3r',d:'2028-04-01',h:18.5,w:'jp',if:rep,sum:X.SUM.r0401},
     {k:'jpb_1_4',d:'2028-04-04',h:20,w:'jp',if:dat,ev:'ev_jpb_courses'},
     {k:'jpb_1_4r',d:'2028-04-04',h:18.5,w:'jp',if:rep,sum:X.SUM.r0404},
+    {k:'jpb_1_5r',d:'2028-04-07',h:18.5,w:'jp',if:rep,sum:X.SUM.r0407},   /* AA_437 第 7 節第 3 點 */
     {k:'jpb_1_5',d:'2028-04-05',h:10,w:'jp',ev:'ev_jpb_placement'},
     {k:'jpb_1_6r',d:'2028-04-08',h:18.5,w:'jp',if:G=>rep(G)&&!done(G,'ev_jpb_hanami')&&G.flags.JPB_HANAMI!=='go',sum:X.SUM.r0408},
     {k:'jpb_2_2a',d:'2028-05-13',h:14,w:'jp',if:rep,ev:'ev_jpb_r_shop'},

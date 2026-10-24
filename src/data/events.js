@@ -1448,7 +1448,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:'classmate_mingxuan',text:'欸？你們也來喔。'},
       {if:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:'classmate_mingxuan',text:'前面已經滿了，過不去。我在這站到一點。回去吧，頂樓看得比較清楚。'},   /* AA_432 4-4：BB_171 3-1 的兩句定稿照用（原本 AA_204／AA_313 5-7「欸！你們也來喔！」「這邊真的過不去了啦。……我十二點半下班，你們先走。」）*/
       {unless:{custom:G=>NYE_AT(G,'classmate_mingxuan','ACQUAINTANCE')},speaker:null,text:'（前面的人說，再過去要排一個小時。）'},
-      {speaker:'zhe',text:'……回去好了。頂樓也看得到。'},
+      {speaker:'zhe',text:'好喔。撤。'},   /* AA_437 第 9 節（明軒剛說過「頂樓看得比較清楚」）*/
       {speaker:'yu',text:'看得到嗎？'},
       {speaker:'zhe',text:'看得到一點。'},
       {speaker:null,text:'（你們又擠回捷運站。）'},

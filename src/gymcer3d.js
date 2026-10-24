@@ -1,6 +1,6 @@
 /* 開學典禮、畢業典禮換成體育館 3F 的 3D（AA_399 第 4 節，企劃線 5d09bb725；布置 LAWWW2 SET-CEREMONY-1023：gym3d.js 的 GY3.ceremonyDay、z.cerSpots）：
    - 2025-08-31 14:00 開學典禮：玩家坐法律學院那一區走道邊（spots.me）；宿營認識的人坐在附近（以安、阿哲、Alison：STORY.metAtCamp），不加台詞。
-     旁白照原本的 2D 版（story3d.js S.ceremonyY1 的三句，一字不改），對話框疊在 3D 上（ADV 'blur'）；演完起身，人在體育館裡（自己走出去）。
+     旁白照原本的 2D 版（story3d.js S.ceremonyY1 的三句；第二句的位置那一句換成 AA_437 第 1 節的 3D 版），對話框疊在 3D 上（ADV 'blur'）；演完起身，人在體育館裡（自己走出去）。
    - 2029-06-02 09:00 畢業典禮：同一個位子；家人（爸爸、媽媽）坐在南看台（spots.family），旁白照原本；11:00 法律學院那一段照舊（story3d.js gradFamily 叫 GYMCER.gradStage）。
    - 體育館的區域或布置沒有（舊版、?nobldg、載入失敗）＝照原本的 2D（ntu_gym_ceremony）。 */
 const GYMCER=(function(){
@@ -28,7 +28,7 @@ const GYMCER=(function(){
       z=await S.enterSeat(GM,'open'); if(z) S.placeFriends(GM,z);
       if(typeof ADV!=='undefined') ADV.begin({background:z?'blur':'dark'}); await GM.fade(false);
       await GM.say(null,'四千多個新生，每個人都穿著同一件新生上衣。');
-      await GM.say(null,'法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。');
+      await GM.say(null,'法律學院的位置在場地中間。椅背上貼著系名。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。');   /* AA_437 第 1 節：3D 版換掉「法律系的位置在二樓看台的右邊。」（2D 版照舊）*/
       await GM.say(null,'校長致詞講到一半，手機震了一下。你被加進一個群組。'); if(STORY.lawClassJoinY1) STORY.lawClassJoinY1(G);
       if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); if(G.hour<15.5) GM.advance(15.5-G.hour); S.standUp(GM);
     } finally { GM.sceneEnd(); }

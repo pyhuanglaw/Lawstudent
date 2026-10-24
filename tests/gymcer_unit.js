@@ -34,7 +34,7 @@ await sec(1,async()=>{ cerDay='open'; const G=setup('2025-08-31',14,['heroine_01
   await STORY.ceremonyY1(GM);
   check('1. 進體育館 3F（gym_arena），玩家坐法律學院走道邊（spots.me）',H.entered.includes('gym_arena')&&sat.length>=1&&sat[0].x===1.2&&sat[0].z===-0.95,J({entered:H.entered,sat}));
   check('1. 宿營認識的以安、Alison 坐旁邊；沒認識的阿哲不放',J(spawned.map(s=>s.id).sort())===J(['heroine_01','yu'])&&spawned.find(s=>s.id==='heroine_01').x===1.82,J(spawned));
-  check('1. 旁白三句一字不改（照原本的 2D 版）',J(H.said.map(s=>s.t))===J(['四千多個新生，每個人都穿著同一件新生上衣。','法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。','校長致詞講到一半，手機震了一下。你被加進一個群組。']),J(H.lines()));
+  check('1. 旁白三句（照原本的 2D 版；位置那一句換成 AA_437 第 1 節的 3D 版）',J(H.said.map(s=>s.t))===J(['四千多個新生，每個人都穿著同一件新生上衣。','法律學院的位置在場地中間。椅背上貼著系名。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。','校長致詞講到一半，手機震了一下。你被加進一個群組。']),J(H.lines()));
   check('1. 演完：CEREMONY_Y1、15:30、起身、沒有叫原本的 2D',G.flags.CEREMONY_Y1===true&&Math.abs(G.hour-15.5)<1e-6&&stood===1&&origCalls===0,J({h:G.hour,stood,origCalls}));
   check('1. 加進全班群組',typeof PHONE==='undefined'||!PHONE.inGroup||PHONE.inGroup(G,'law_class')); });
 

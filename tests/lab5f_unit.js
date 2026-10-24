@@ -2,7 +2,7 @@
 //   0  src/lab5f3d.js 載得到、index.html 有接；學姊的作息有研究室那一筆（spot sis_desk）；OUT.STAGE、OUT.bg 包好
 //   1  她在研究室的時段：碩一～碩三週一～週四 12:20～14:00；美國（2028-08-02～12-23）、週五、碩一以前、碩三以後不在
 //   2  4F 刷卡門：她在＋有聯絡方式＋見過她＝「傳訊息給學姊」，兩分鐘後她開門（有點熟／朋友以上／交往中三句），進 5F；一天一次；其他時候只有門上那一句
-//   3  14:00：她說「我要去總圖了。」，祐廷回到 4F 樓梯間
+//   3  14:00：她說「我要去總圖了。」（大三起「我要去法圖了。」、2028-02 起研究小間的日子「我去研究小間了。」，AA_437），祐廷回到 4F 樓梯間
 //   4  出遊換到 5F 演：研究室走廊那幾場畫面是模糊的 3D（ADV blur、底圖 linze_prof_hall 不出），燈照 AA_399（聖誕夜只開她那一盞）、口試門牌；演完回到原本的地方；
 //      從家裡出發、騎車、2030 年的分開談話照舊 2D
 //   5  研究室的便條照 AA_392 甲案原句（「中午十二點二十以後，我在這裡。」）
@@ -70,7 +70,10 @@ await sec(3,async()=>{ fresh('2026-09-22',13.9,'linze_5f',{}); H.G.flags.LAB5_IN
   check('3. 13:54 還不用走',X().tick(GM)===false);
   H.G.hour=14.05; const r=X().tick(GM); await new Promise(res=>setTimeout(res,10));
   check('3. 14:03：「我要去總圖了。」、回到 4F、LAB5_IN 清掉',r===true&&H.has('我要去總圖了。')&&H.entered.slice(-1)[0]==='linze_4f'&&H.G.flags.LAB5_IN==null,J({r,said:H.lines(),entered:H.entered}));
-  fresh('2026-09-22',14.2,'linze_5f',{}); check('3. 不是傳訊息進來的（沒有 LAB5_IN）：不趕人',X().tick(GM)===false); });
+  fresh('2026-09-22',14.2,'linze_5f',{}); check('3. 不是傳訊息進來的（沒有 LAB5_IN）：不趕人',X().tick(GM)===false);
+  const lv=(k,want)=>{ fresh(k,14.05,'linze_5f',{}); return X().leaveLine(H.G)===want; };
+  check('3. AA_437 第 2 節：大三起（2027-10-12）「我要去法圖了。」；大二（2026-09-22）照舊「我要去總圖了。」',lv('2027-10-12','我要去法圖了。')&&lv('2026-09-22','我要去總圖了。'));
+  { const L0=global.LUP; global.LUP={sisPeriod:G=>true}; const ok=lv('2028-03-14','我去研究小間了。'); global.LUP=L0; check('3. 2028-02 起去研究小間的日子：「我去研究小間了。」',ok); } });
 
 const go=async(ev,key,h,extra)=>{ fresh(key,h,'campus',{}); H.G.flags.ROUTE_DUMMY=1; Object.assign(H.G.flags,(extra&&extra.flags)||{}); const id='t_lab5_'+ev;
   OUT.plan(H.G,Object.assign({id,ev,day:D(key),h,late:0.5,place:'霖澤館・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6},(extra&&extra.q)||{})); const q=OUT.get(H.G,id);
