@@ -533,11 +533,13 @@ async def s_expo_y2(p, run, base, sid, out):
         run.check('EXPO_Y2：走進博雅教學館（%s）' % (it[3] if it else '找不到門'), ok, json.dumps(st, ensure_ascii=False))
         n0 = len(await pg.evaluate("window.__LOG||[]")); joined = False; t0 = time.time()
         while time.time() - t0 < 420 and not joined:
-            seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+            seat = await pg.evaluate(FREE101)
             if not seat:
                 labels = await pg.evaluate("(GAME.E.interactables||[]).slice(0,40).map(i=>i.label+(i.seat?'@'+(i.seat.room||''):''))"); res['labels'] = labels
                 run.check('EXPO_Y2：博雅 101 有座位可以坐', False, json.dumps(labels, ensure_ascii=False)[:600]); break
-            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); near = await pg.evaluate(NEAR_IT)
+            if not (near and near[1]): res.setdefault('skipped', []).append([seat[:2], near]); await pg.evaluate("(p=>{ window.__TRIED=(window.__TRIED||[]).concat([p]); })(%s)" % json.dumps(seat[:2])); continue   # 走到了，互動鈕不是「坐下」（剛被聽眾坐走）＝換一個位子
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
             ops = await opts(pg); res.setdefault('seat_menus', []).append(ops)
             k = next((i for i, o in enumerate(ops) if o.startswith('聽演講：交換學生甄選說明會')), None)
             if k is not None: await tap_idx(pg, cdp, k); joined = True; break
@@ -576,6 +578,15 @@ async def s_data(p, run, base, sid, out):
     await close(b)
 
 
+# BB-B 10-24 10:3x（EXPO_DBG／EXPO_DBG2）：說明會 12:20 起 30 個聽眾從門口進來入座，門口附近的位子先被坐走；
+#   GAME.E.nearestInteractable 會跳過有人坐（n.seat）的位子，所以站在那裡互動鈕是藏著的（遊戲對，腳本一直挑同一個有人的位子＝腳本錯）。
+#   改：只挑沒人坐、沒人正要去坐（seatTarget）、替身沒佔（taken）、還沒試過的位子；走到以後互動鈕要是「坐下」才按，不是就換一個
+FREE101 = ("(()=>{ const E=GAME.E, P=E.player.obj.position, T=window.__TRIED||[]; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)||E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4); "
+           "const L=(E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden&&!i.seat.taken&&!occ(i.seat)&&!T.some(t=>Math.hypot(t[0]-i.x,t[1]-i.z)<0.2)); "
+           "L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+NEAR_IT = "(()=>{ try{ const it=GAME.E.nearestInteractable(); return it?[it.label,!!it.seat]:null; }catch(e){ return null; } })()"
+
+
 # BB-B 10-24 03:5x：清單第 86 項①（BB 事件包第 2 輪，bbpack_r2；開發分支 23bba7c8d 起）：交換展坐哪一區的句子
 #   日本區＋見過日文班（JP_MET）＋上過日文（attend.japanese_1）＝采蓁兩句；美國區＝明軒一句；台灣區＝明軒一句；認識明軒＝門口兩句（每一種都有）
 EXPO86 = {
@@ -597,9 +608,11 @@ async def s_expo86(p, run, base, sid, out):
         run.check('%s：走進博雅教學館（%s）' % (sid, it[3] if it else '找不到門'), ok, json.dumps(st, ensure_ascii=False))
         n0 = len(await pg.evaluate("window.__LOG||[]")); joined = False; t0 = time.time()
         while time.time() - t0 < 420 and not joined:
-            seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+            seat = await pg.evaluate(FREE101)
             if not seat: run.check('%s：博雅 101 有座位可以坐' % sid, False, ''); break
-            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); near = await pg.evaluate(NEAR_IT)
+            if not (near and near[1]): res.setdefault('skipped', []).append([seat[:2], near]); await pg.evaluate("(p=>{ window.__TRIED=(window.__TRIED||[]).concat([p]); })(%s)" % json.dumps(seat[:2])); continue   # 走到了，互動鈕不是「坐下」（剛被聽眾坐走）＝換一個位子
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
             ops = await opts(pg); res.setdefault('seat_menus', []).append(ops)
             k = next((i for i, o in enumerate(ops) if o.startswith('聽演講：交換學生甄選說明會')), None)
             if k is not None: await tap_idx(pg, cdp, k); joined = True; break
