@@ -5,6 +5,7 @@
 //   3  作息：上課時不在場景（在 101 帶演習課）；20:20～20:40 在 101 門口；之後照舊
 //   4  下課第一次找她說話多一句（交往中另一句），只有一次
 //   5  洗衣間：「洗衣服」40 分鐘；大一週日 21～22 第一次遇到阿凱一句；之後、大二沒有
+//   7  洗衣間有 3D 房間（dorm_laundry）：裡面的「洗衣機」一樣能洗（阿凱那一句、40 分鐘）；「烘衣機」照舊只是看（LAWWW2-B 10-24）
 // 修改前（開發分支 892c9a0db）：沒有 src/closed3d.js——全部 FAIL。用法：node tests/closed_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -76,6 +77,11 @@ await sec(6,()=>{ const E=H.E; /* 阿忠水果的老闆（LAWWW2-B 5437ec936 的
   H.G.hour=22.2; check('6. 22:00 以後離開',CLOSED.fruitOwner(GM)===-1&&!E.npcs.some(n=>n.fruitOwner&&!n.leaving));
   H.G.zone='campus'; H.G.hour=15; E.npcs=[]; check('6. 不在溫州街：不放',CLOSED.fruitOwner(GM)===0&&!E.npcs.length);
   CHAR.build=cb0; STORY.extraSpec=es0; E.addNPC=a0; E.removeNPC=r0; delete global.WZS; });
+
+await sec(7,async()=>{ const it={label:'洗衣機',look:'洗衣機'};
+  fresh('2025-10-12',21.2,'dorm_laundry'); H.picks=['洗衣服']; const h0=H.G.hour; await STORY.interact(it,GM);
+  check('7. 洗衣間裡面的洗衣機：選項「洗衣服／算了」、40 分鐘、大一週日第一次阿凱那一句',J(H.opts[0])===J(['洗衣服','算了'])&&Math.abs(H.G.hour-h0-40/60)<1e-9&&H.has('這台烘衣機要投兩次。第一次是騙你的。'),J({opts:H.opts,dh:H.G.hour-h0}));
+  fresh('2025-10-12',21.2,'dorm_laundry'); H.opts.length=0; const r=await CLOSED.interact({label:'烘衣機',look:'烘衣機'},GM); check('7. 烘衣機不是洗衣服（照舊只是看）',r===false&&!H.opts.length); });
 
 H.done();
 })();

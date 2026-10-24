@@ -10,9 +10,9 @@
   function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.wrBase==null) m.userData.wrBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
   function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.wrBase*k; }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
-  const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null});
+  const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null, dorm_hall:typeof DORM_LAYOUT!=='undefined'?DORM_LAYOUT:null});   /* dorm_hall：宿舍的門（洗衣間、205；dorm3d.js 認 d.to／d.gate）*/
   function hostDoor(id){ const h=ROOM_GLB_LAYOUTS[id].host_door, HL=HOST()[h.zone]; return HL?{h,HL,d:HL.doors.find(q=>q.id===h.id)}:null; }
-  function backSpawn(id){ const r=hostDoor(id); if(!r||!r.d) return ROOM_GLB_LAYOUTS[id].back_spawn?Object.assign({},ROOM_GLB_LAYOUTS[id].back_spawn):null;   /* 不是 doors 裡的門（共同教學館 3F：2F 樓梯口）：配置的 back_spawn */
+  function backSpawn(id){ const r=hostDoor(id), BS=ROOM_GLB_LAYOUTS[id].back_spawn; if(BS) return Object.assign({},BS); if(!r||!r.d) return null;   /* 配置有 back_spawn 就用它（共同教學館 3F：2F 樓梯口；宿舍：走廊上門的互動點）*/   /* 不是 doors 裡的門（共同教學館 3F：2F 樓梯口）：配置的 back_spawn */
     return {x:r.d.x,z:-r.HL.D/2+(r.h.zone==='linze'?1.0:1.4),lv:r.d.lv,yaw:Math.PI}; }   /* 門前面（霖澤館照 201 的 spawnBack；萬才館在門的互動範圍外面一點），面向南 */
   /* 看東西的字：配置檔的 note 有字就用；dev 那一欄是 LAWWW2 給開發組的話（不會出現在遊戲裡）。
      AA_355 1-3（AA-C 2026-10-21）：白板（研討室 A、多功能教室）——當天有事件或課堂寫字的照事件的字，這一句是沒有字的時候用（現在還沒有寫白板的事件＝一律這一句）。
@@ -27,9 +27,12 @@
      進區域那一刻照當天決定（同一天不會換），GLB 的 SET_<名字> 節點只開那一套 */
   function setOf(L,G){ if(!L.sets) return null; const k=G&&L.set_days&&typeof CALENDAR!=='undefined'?L.set_days[CALENDAR.dateOf(G.day).key]:null; return k&&L.sets[k]?k:(L.sets[L.set_default]?L.set_default:null); }
   /* 有開放時段的房間（L.open；研討室 B＝AA_399 第 5 節：單週六 09:00～12:00＋事件那天；系辦＝第 7 節：平日 09:00～12:00、13:30～17:00）：門照舊是門上的字（closed），時段內才變成出入口（wancai3d.js、building3d.js 的 d.gate）。
-     open＝{wd:星期（數字或陣列；1＝週一…6＝週六）, h0, h1（或 ranges:[[h0,h1],…]）, holiday:false（國定假日不開）, termWeeks:'odd'（學期的第 1、3、5…週）, days:[整天開的日期], dayHours:[h0,h1]（days 那幾天只在這段時間開；博雅 203＝AA_399 第 10 節：SK07 那一晚 18:30～21:30）, daysOnly:true（只有 days 那幾天開）}；沒有 open＝一直開 */
+     open＝{wd:星期（數字或陣列；1＝週一…6＝週六）, h0, h1（或 ranges:[[h0,h1],…]）, holiday:false（國定假日不開）, termWeeks:'odd'（學期的第 1、3、5…週）, days:[整天開的日期], dayHours:[h0,h1]（days 那幾天只在這段時間開；博雅 203＝AA_399 第 10 節：SK07 那一晚 18:30～21:30）, daysOnly:true（只有 days 那幾天開）,
+       range:[起,迄]（只有這段日子，含頭尾）, who:人物 id（他不在的日子不開：characters.js 的 presence.absentDates；宿舍 205＝AA_399 第 11 節：方奕廷大一 21～23 在的時候）}；沒有 open＝一直開 */
   function openNow(L,G){ const O=L&&L.open; if(!O) return true; if(!G||typeof CALENDAR==='undefined') return false; const q=CALENDAR.dateOf(G.day);
     if(Array.isArray(O.days)&&O.days.includes(q.key)){ const h=G.hour%24, DH=O.dayHours; if(!DH||(h>=DH[0]&&h<DH[1])) return true; if(O.daysOnly) return false; } else if(O.daysOnly) return false; const wds=O.wd==null?[]:[].concat(O.wd); if(wds.length&&!wds.includes(q.wd)) return false;
+    if(O.range&&(q.key<O.range[0]||q.key>O.range[1])) return false;
+    if(O.who&&typeof CHARACTERS!=='undefined'){ const P=(CHARACTERS[O.who]||{}).presence; if(P&&Array.isArray(P.absentDates)&&P.absentDates.some(a=>q.key>=a[0]&&q.key<a[1])) return false; }
     if(O.holiday===false&&CALENDAR.holiday&&CALENDAR.holiday(G.day)) return false;
     const h=G.hour%24, R=O.ranges||(O.h0!=null?[[O.h0,O.h1]]:null); if(R&&!R.some(r=>h>=r[0]&&h<r[1])) return false;
     if(O.termWeeks){ const t=CALENDAR.termOf(G.day); if(!t) return false; if(O.termWeeks==='odd'&&t.week%2!==1) return false; if(O.termWeeks==='even'&&t.week%2!==0) return false; } return true; }
@@ -54,8 +57,9 @@
       for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});
       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
       z.teacherSpot=L.teacherSpot||L.clerk||null; if(L.spawn) z.spawn=Object.assign({},L.spawn); z.roomSet=sk; z.spots=(SET?SET.spots:L.spots)||null;   /* spots：人站／坐的位置（研討室 B：柏翰值班、志工、口試委員…；劇情放人用）*/   /* 直接進來（「直接去上課」GM.enter 沒給落點）：站在門口裡面 */
+      if(L.cam_box) z.camBox=L.cam_box; if(L.see_thru) z.seeThru=true;   /* 宿舍 205（和祐廷的房間同一型）：運鏡只在中間走道、上鋪擋住時網點透空（同 zones3d.js 的 dorm）*/
       z.formal=false; const key='bldg.'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
+        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); if(L.dorm_interior&&Z3.attachDormInterior) Z3.attachDormInterior(z,g0,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
         glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('萬才館房間正式模型載入失敗',id,e));
       return z; } }; }
   if(typeof ROOM_GLB_LAYOUTS!=='undefined') for(const id of Object.keys(ROOM_GLB_LAYOUTS)){ Z3.ZONES[id]=zoneFor(id);

@@ -1,0 +1,13 @@
+{
+ "objects": 22,
+ "unique_meshes": 22,
+ "tris": 5672,
+ "tris_drawn": 5672,
+ "materials": 11,
+ "out": "assets/models/env/second_ai/dorm_laundry.glb",
+ "bytes": 575260,
+ "texres": 512,
+ "tris_total": 5672,
+ "layout": "dorm_laundry.layout.json",
+ "seats": 3
+}

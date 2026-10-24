@@ -1,7 +1,8 @@
 /* 關著的空間：不用新空間就做得到的幾節（CLOSED-SPACES-1023；AA_399，AA-B 2026-10-23；霖澤館 5F 在 src/lab5f3d.js）
    第 6 節　霖澤館 101＝學姊的助教課：大二上（Y2S1）週二 18:30～20:20，第 3～15 週（第 8、9 週期中除外）。門上的小窗可以「看」，一週一次（三句照次數）；
             20:20 下課她最後一個出來，在門口等一下（作息：characters.js），找她說話照一般的說話，第一次多一句。其他時候 101 照舊關著。
-   第 11 節　宿舍洗衣間：門口多一個「洗衣服」（40 分鐘，不加數值）；大一週日 21～22 阿凱在裡面，第一次遇到他說一句。 */
+   第 11 節　宿舍洗衣間：門口多一個「洗衣服」（40 分鐘，不加數值）；大一週日 21～22 阿凱在裡面，第一次遇到他說一句。
+            有 3D 房間（dorm_laundry）以後在裡面的「洗衣機」洗（LAWWW2-B 10-24）。 */
 const CLOSED=(function(){
   const S={}; const SIS='heroine_05';
   S.LINES={
@@ -38,6 +39,7 @@ const CLOSED=(function(){
   S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
     if(G.zone==='linze'&&it.label==='101 教室'&&S.taNow(G)) return S.window(GM);
     if(G.zone==='dorm_hall'&&it.label==='洗衣間') return S.laundry(GM,it);
+    if(G.zone==='dorm_laundry'&&it.label==='洗衣機') return S.laundry(GM,it);   /* 洗衣間有 3D 房間以後（rooms_glb3d.js 的 dorm_laundry：走廊上的門變成「進入 洗衣間」）：在裡面的洗衣機洗；門口那一條留著（沒有房間的版本）*/
     return false; };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closedInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closedInteract=true; }
   /* AA_413 日日便利（溫州街 A5，wzshops3d.js 的 S.AA413；那個檔比 story3d.js 早載入，掛勾裝在這裡）：從溫州街進去的，便利商店的出口回溫州街；
