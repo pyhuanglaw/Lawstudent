@@ -637,7 +637,7 @@ const STORY = (function(){
     ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','雅筑學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
   S.FAFU_STAY=['（後來又來了一位，學長自己接了。）','（你把上週的紀錄重新抄了一次。）'];
   S.FAFU_YT=['……阿伯又來了。他每次都帶橘子。','紀錄我幫你對過了。少寫一個日期。','今天沒有麵店的人來。還好。'];
-  S.FAFU_BH=['班表排好了。你下次是單週。','垃圾袋用完了，下次值班誰順便買？'];   /* 只在大二（他當社長那一年，AA_313 5-1 第 13 點）*/
+  S.FAFU_BH=['班表排好了。你下次跟雅筑學姊同一桌。'/* AA_428 §2 第 7 點：雅筑學姊＝AA_184 第 3 節繼承案那位（S.FAFU_OPEN 有她）；不用 AA_211 那一版的碩班學姊稱呼（玩家會以為是溫學姊）*/,'垃圾袋用完了，下次值班誰順便買？'];   /* 只在大二（他當社長那一年，AA_313 5-1 第 13 點）*/
   S.FAFU_BH_Y3=['我交接了。現在只排我自己的班。','學弟排錯一格。我沒說。'];   /* 大三起他是前社長（AA_313 5-1 第 13 點、5-5）*/
   S.FAFU_BH_HELLO='這學期起我排班。有事找我。';   /* 大二第一次值班（他當社長以後）的開場一句（AA_313 5-5：接社長原本只在手機）*/
   /* 學姊的句子（BB_160 第 1 節）：front＝排在最前面（開場之後）；back＝民眾之後；sign＝結尾旁白改成學姊簽名；noon＝結尾之後「（她坐到十二點。）」。每一句只說一次 */
@@ -1403,7 +1403,8 @@ const STORY = (function(){
   S.neededVar=function(G,e){ for(const v of e.vars||[]){ try{ if(v.cond(G)) return v; }catch(err){} } return {}; };
   /* 那一則沒回的那一句（AA_179 第 4 節、BB_97 11-2：每一則各一句；交往中換 missDating；miss:null＝不提；missUnless＝那件事已經發生就不說）*/
   S.neededMissFor=function(G,e,who){ if(!e) return (NEEDED_MSGS.miss||{})[who]||null; if(e.miss===null) return null; try{ if(e.missUnless&&e.missUnless(G)) return null; }catch(err){}
-    if(e.missDating&&G.flags&&G.flags['dating_'+who]) return e.missDating; return e.miss||(NEEDED_MSGS.miss||{})[who]||null; };
+    const v=S.neededVar(G,e);   /* 依條件換的版本也可以有自己的 miss（AA_428 §2 第 6 點：zq_game 沒試玩過的那一版）*/
+    if(e.missDating&&G.flags&&G.flags['dating_'+who]) return e.missDating; return v.miss||e.miss||(NEEDED_MSGS.miss||{})[who]||null; };
   S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G); const now=needAbs(G.day,G.hour);
     if(N.missLast[id]!=null&&now-N.missLast[id]<14*24) return null;
     for(let i=N.batches.length-1;i>=0;i--){ const b=N.batches[i]; const it=b.ids.find(x=>x[1]===id); if(!it||b.ans.includes(it[0])||b.said[id]) continue;
@@ -2156,7 +2157,7 @@ const STORY = (function(){
       const sunOK=d=>{ const t=CALENDAR.termOf(d), x=CALENDAR.dateOf(d); if(!t||x.wd!==7||d<F.ROOM_Y2) return false; if(t.id==='Y2S1') return true; if(t.id==='Y2S2') return x.d<=7; return false; };   /* 大二下：每個月第一個週日 */
       if(sunOK(G.day)&&G.hour>=23&&!PHONE.sent(G,'kai_sup_'+G.day)){ const first=!F.KAI_SUP_ASKED; F.KAI_SUP_ASKED=(F.KAI_SUP_ASKED|0)+1; const d=G.day;
         const ask={id:'kai_sup_'+d,until:(d+1)*24+18,opts:[{t:'去。',set:{KAI_SUP_GO:d}},{t:'這週不行。',set:{KAI_SUP_LAST:d},say:[A('好。下週日。')]}]};
-        PHONE.at(G,d,Math.max(23,h(G)),first?[A('宵夜？'),Object.assign(A('我這棟樓下的滷味比較好吃。老闆會多給豆干。'),{ask})]:[Object.assign(A('宵夜？'),{ask})],'kai_sup_'+d); }
+        PHONE.at(G,d,Math.max(23,h(G)),first?[A('宵夜'),Object.assign(A('我這棟樓下的滷味比較好吃 老闆會多給豆干'),{ask})]:[Object.assign(A('宵夜'),{ask})],'kai_sup_'+d); }   /* AA_428 §2 第 8 點：照 BB_167 SC4 #13，阿凱的訊息不打標點（口氣表 2-5）；第一則兩句、之後每週「宵夜」 */
       if(F.KAI_SUP_GO===G.day&&typeof OUT!=='undefined'&&!OUT.get(G,'kai_sup_'+G.day)&&G.hour>=23) OUT.plan(G,{id:'kai_sup_'+G.day,ev:'ev_kai_sunday_supper',day:G.day,h:Math.max(23,h(G)),late:0.5,place:'宿舍旁的滷味攤',title:'週日宵夜（阿凱）',travel:'走過去約 5 分鐘',travelH:1/12});
       /* 連續沒回：每一次問的回覆期限（隔天 18:00）過了才算一週沒回 */
       if(!F.KAI_SUP_ALIVE){ const asks=(G.msgs||[]).filter(m=>m.th==='p:kai'&&m.ask&&/^kai_sup_/.test(m.ask.id||'')), now=G.day*24+G.hour; let run=0;

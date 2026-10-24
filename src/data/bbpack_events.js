@@ -3,6 +3,7 @@
    台詞一字照稿（企劃線 origin/claude/cool-heisenberg-o8kuqx）：
      BB_105 @3954f9b62（白名單 68a8479e；兩版只差 AA_383 第 1～3 點的「念過一個多月」和阿勳、品妤的重新介紹，這裡用遊戲已經在用的那兩句）；
      BB_137 @a047e5feb（白名單同一版）；AA_153 @c7f4ada86（AB-05 完成後最後一次審過的版本；之後的 09ecee83a 是沒審的 WIP，只把 18 週制的週次改成 16 週制，這裡照 16 週制排）；
+     AA_430 @7525db6a5（白名單 2eb3041f0：B6b、B12 的台詞，AA 補 BB 稿沒有的字）；
      BB_106 @3954f9b62（白名單 71b3e6c3，SK08～SK10、SK14、第 389 行兩版相同）；BB_110 @3a26e94af；AA_383 第 7 節 @bc8a1f5d4；AA_289 第 5-4 節 @3a26e94af（沛珊的四件改依附以安的公法讀書會／還筆記）。
    時間、條件、手機訊息在 src/bbpack3d.js（BBPACK）；這裡只放事件。日文班三個人（采蓁、立衡、宇恆）在 characters.js（jp_caizhen、jp_liheng、jp_yuheng）；台詞用稱呼說話（和日本路線的 ev_liheng_japan 一樣）。
    測試：node tests/bbpack_unit.js */
@@ -186,6 +187,31 @@ const BBPACK_EVENTS=(function(){
       say('品妤','活大的吸管太細了。'),say('芯慈、阿勳','……這倒是。'),
       {set:{TRANSLATOR:true,MET_XUN:true,MET_PINYU:true}},{advance:0.5} ],
     consequences:{memo:'博雅的走廊：芯慈和阿勳吵同一題，你替兩邊翻譯'} });
+  /* B6b 公共政策的講座「一條法律是怎麼被寫出來的」（BB_105 4-1b 第 3 場、4-2；台詞 AA_430 第 1 節 @7525db6a5）：大二上第 10 週（期中考第 8～9 週以後）週三 19:00～20:30，博雅 102（AA_430「週三晚上七點，博雅 102」）。
+     前兩天（週一）21:00 以安在麵店團群組、柏翰回（BBPACK.phone；稿：玩家的回覆不影響能不能去——稿沒有回覆的字，這裡不給回覆選項）；沒去（missed）＝那天 21:30 柏翰在群組一句。
+     講座：坐下選「聽演講」＝這一段（中途離開的玩家照 B4 的做法沒有這一段，也就沒有最後兩句）；（時間往前跳。）＝前四句之後時鐘往前 45 分鐘（晚到的不跳）。
+     散場（聽完、認識以安）：講座一結束就接著演（afterActivity，和 SK09、B12 一樣）；稿的「走到以安旁邊 npcNear」沒有做（她的作息沒有排進博雅）。
+     以安熟悉 +1；第二個選項的「公司法」＝她商事法興趣的第一個線索（AA_285，玩家不用知道），選了什麼記 B6B_PICK */
+  EV.push({ id:'ev_b6b_lecture', title:'一條法律是怎麼被寫出來的', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
+    dialogue:[ nar('講者以前在立法機關當過很多年的助理。投影片很少，大部分時間他在講故事。'),
+      say('講者','一條條文，從草案到通過，常常改了十幾次。'),
+      say('講者','有時候只改一個字。「得」改成「應」。'),
+      say('講者','一個字改了，就有一群人的生活跟著不一樣。'),
+      {if:{custom:G=>(G.hour%24)<19.5},advance:0.75},
+      say('講者','你們以後讀到的每一條，都有人在會議室裡吵過。去找那些紀錄來看。'),
+      IF(KN(AN),nar('掌聲。以安在筆記本上寫了一行字，畫了兩條線。')),UN(KN(AN),nar('掌聲。')) ],
+    consequences:{memo:'博雅 102 聽講座：「一條法律是怎麼被寫出來的」'} });
+  EV.push({ id:'ev_b6b_after', title:'', participants:[], location:'boya', trigger:'auto', activity:'B6b', activityPhase:'justEnded', afterActivity:'B6b', once:true, background:'blur',
+    prereq:{attended:['B6b'],memory:[{npc:AN,tag:'FIRST_MET'}]},
+    dialogue:[ IF(KN(BH),say(BH,'三讀的順序，跟課本一樣。我先回總圖。')),IF(KN(BH),nar('（柏翰走了。以安靠在走廊的窗邊，還在看她的筆記。）')),UN(KN(BH),nar('（以安靠在走廊的窗邊，還在看她的筆記。）')),
+      say(AN,'「得」改成「應」，就有一群人要多做一件事。'),
+      say(AN,'……我想知道那一群人是誰。'),
+      {choice:[{text:'「妳以後想寫法條？」',set:{B6B_PICK:'write'},goto:'w'},{text:'「會議紀錄很長喔。」',set:{B6B_PICK:'minutes'},goto:'m'},{text:'（聽她說）',set:{B6B_PICK:'listen'},goto:'l'}]},
+      {label:'w'},say(AN,'我想先看懂。……寫是很久以後的事。'),{goto:'end'},
+      {label:'m'},say(AN,'我知道。我已經下載了一份。'),say(AN,'公司法那次修的。我想看他們吵什麼。'),{goto:'end'},
+      {label:'l'},nar('（她講了十分鐘。中間停下來兩次，問你有沒有在聽。）'),
+      {label:'end'},say(AN,'好，我講完了。我回宿舍讀書。'),{rel:{[AN]:{fam:1}}} ],
+    consequences:{memo:'博雅的走廊：以安想知道「得」改成「應」的那一群人是誰'} });
   /* B7 土地、財產權與城市的講座（4-1b 第 4 場「老房子、租屋與城市」）：大二下第 6 週週三 19:00～20:30（語彤週二、四晚上在麵店幫忙，週三 17:40 在 118 巷吃晚餐）；
      語彤週一 21:00 在麵店團群組轉了一張海報（BBPACK.phone）。提問時間在後段：講座開頭時鐘往前跳到 20:10（同 B4 的寫法）。認識語彤才有她的那一段 */
   EV.push({ id:'ev_b7_lecture', title:'老房子、租屋與城市', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
@@ -236,18 +262,77 @@ const BBPACK_EVENTS=(function(){
       {label:'b'},say(ZR,'真好。小說不用寫。'),
       {label:'end'} ],
     consequences:{memo:'博雅 101 聽講座：「小說裡的審判」'} });
-  /* B12 同一個議題，再聽一次：大三上第 10 週週二 18:30～20:00（同一位講者）；週一 21:00 以安在麵店團群組（BBPACK.phone）。
-     稿只寫了散場的小桌子那幾句（沒去過 B4、B4 中途離開、讀 B5_THOUGHT）；演講裡玩家自己舉手的三個問題、聽完 B4 的「對照大一的筆記」沒有台詞（等 AA）。
-     散場：聽完 B12（attended）、講座一結束就接著演；和以安不到 FAMILIAR 改由 Alison 說 */
-  const B12W=FI('B12_WHO','yu');
-  const b12say=t=>[UN(B12W,say(AN,t)),IF(B12W,say('yu',t))];
+  /* B12 同一個議題，再聽一次（BB_105 4-2；台詞 AA_430 第 2 節 @7525db6a5）：大三上第 10 週週四 19:00～20:30，博雅 101（同一位講者；AA_430「週四晚上七點，博雅 101」）；
+     前三天（週一）21:00 以安在麵店團群組、Alison、阿哲回（BBPACK.phone）；這一場沒去或中途離開＝那天 21:30 Alison 在群組一句。
+     講座（ev_b12_lecture，坐下選「聽演講」）：以安先舉手；玩家可以舉手（三選一＋不舉手，記 B12_ASK）——「上次最後那一題」只給聽完 B4、或沒去但在群組看過轉述（b4_missed）的玩家；
+     B4 中途離開的玩家換成「多久算暫時」。散場（聽完 B12）：講座一結束就接著演（afterActivity）；和以安 FAMILIAR 以上＝以安的小桌（照 B4 的三種：聽完、沒去、中途離開），
+     不到 FAMILIAR、認識 Alison＝Alison 版（沒有筆記本、便利貼，不記以安熟悉）。稿的「npcNear 才開始」沒有做（以安的作息沒有排進博雅的小桌）*/
+  const B12W=FI('B12_WHO','yu'), B4S=s=>FI('B12_B4',s), B5S={custom:G=>!!G.flags.B12_B5_TEXT}, ASK=k=>FI('B12_ASK',k);
+  EV.push({ id:'ev_b12_lecture', title:'政府可以為了大家，限制一個人嗎？', participants:[], location:'boya', trigger:'activity', once:true, background:'blur',
+    dialogue:[ nar('還是那位頭髮花白的老師。他說話還是很慢。'),
+      say('講者','幾年前我在這裡問過一個問題。有些人可能聽過。'),
+      say('講者','今天我想先聽你們問。'),
+      nar('（以安第一個舉手。）'),
+      say(AN,'如果被限制的人，連要去哪裡問都不知道呢？'),
+      say('講者','……這個問題，比我上次那一題好。'),
+      nar('（教室裡有人笑。以安沒有笑，在等他講下去。）'),
+      say('講者','所以制度要讓人找得到門。找不到門，有理由也沒用。'),
+      {choice:[{text:'「『最小的手段』，要由誰說明？」',set:{B12_ASK:'who'},goto:'q1'},{text:'「被限制的人，可以先被問一次意見嗎？」',set:{B12_ASK:'ask'},goto:'q2'},
+        {text:'「您上次最後問的那一題，有答案了嗎？」',if:C((b,G)=>b.b12Last(G)),set:{B12_ASK:'last'},goto:'q3'},{text:'「如果限制是暫時的，多久算暫時？」',if:C((b,G)=>b.b4State(G)==='partial'),set:{B12_ASK:'time'},goto:'q4'},
+        {text:'（不舉手）',goto:'t'}]},
+      {label:'q1'},say('講者','做出限制的人，要說得出理由。說不出來，就不該限制。'),{goto:'t'},
+      {label:'q2'},say('講者','可以，也應該。……可是問了以後他說不要，怎麼辦？這一題留給你。'),{goto:'t'},
+      {label:'q3'},nar('（他笑了。）'),say('講者','沒有。所以我又來了。'),{goto:'t'},
+      {label:'q4'},say('講者','要看限制的是什麼。……你們以後會寫很多書狀在吵這個。'),
+      {label:'t'},{if:{custom:G=>(G.hour%24)<19.5},advance:0.75},
+      say('講者','今天的最後一題，跟上次一樣。'),
+      say('講者','被限制的那個人，最後可以去哪裡？'),
+      nar('掌聲。這次以安沒有抄。') ],
+    consequences:{memo:'博雅 101 聽講座：同一個講者，第二次「政府可以為了大家，限制一個人嗎？」'} });
   EV.push({ id:'ev_b12_after', title:'', participants:[], location:'boya', trigger:'auto', activity:'B12', activityPhase:'justEnded', afterActivity:'B12', once:true, background:'blur',
     prereq:{attended:['B12'],custom:G=>{ const b=B(); return !!b&&b.b12Due(G); }},
     dialogue:[ {call:G=>{ const b=B(); G.flags.B12_WHO=b.b12Who(G); G.flags.B12_B5_TEXT=b.b5Text(G); G.flags.B12_B4=b.b4State(G); }},
-      IF(FI('B12_B4','missed'),{goto:'m'}),IF(FI('B12_B4','partial'),{goto:'p'}),{goto:'t'},
-      {label:'m'},...b12say('大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？'),{goto:'t'},
-      {label:'p'},...b12say('大一那場你沒聽完。後半場在這裡。'),
-      {label:'t'},IF({custom:G=>!!G.flags.B12_B5_TEXT},UN(B12W,say(AN,'你大一寫的是『{flag:B12_B5_TEXT}』。現在呢？'))),IF({custom:G=>!!G.flags.B12_B5_TEXT},IF(B12W,say('yu','你大一寫的是『{flag:B12_B5_TEXT}』。現在呢？'))) ],
+      IF(B12W,{goto:'yu'}),
+      nar('（阿哲和 Alison 說要去買雞排，先走了。小桌子只剩以安。）'),
+      IF(B4S('missed'),{goto:'m'}),IF(B4S('partial'),{goto:'p'}),
+      /* A 聽完 B4：對照大一的筆記；有 B5_THOUGHT 照那一句問、沒有（散場先走）問最後一題 */
+      nar('（以安從包包拿出一本舊的筆記本，翻到中間。最後那一句抄了兩次，字比現在的小。）'),
+      say(AN,'大一那天，我只抄得下這一句。'),say(AN,'今天我知道要問什麼了。'),
+      UN(B5S,{goto:'a0'}),
+      say(AN,'你大一寫的是「{flag:B12_B5_TEXT}」。現在呢？'),
+      {choice:[{text:'「還是一樣。」',goto:'a1'},{text:'「現在會先問是誰被限制。」',goto:'a2'},{text:'「我現在比較不確定。」',goto:'a3'}]},
+      {label:'a1'},say(AN,'好。那你大一就想對方向了。'),{goto:'end'},
+      {label:'a2'},say(AN,'……嗯。這個我也是最近才會問。'),{goto:'end'},
+      {label:'a3'},say(AN,'那下次讀書會，你講這個。'),{goto:'end'},
+      {label:'a0'},say(AN,'大一那場，你記得最後一題嗎？'),
+      {choice:[{text:'「被限制的人可以去哪裡。」',goto:'a4'},{text:'「不太記得了。」',goto:'a5'}]},
+      {label:'a4'},say(AN,'對。今天他講了一半。'),{goto:'end'},
+      {label:'a5'},say(AN,'我抄了兩次。……給你看。'),nar('（她把筆記本轉過來給你。）'),{goto:'end'},
+      /* B 沒去 B4 */
+      {label:'m'},say(AN,'大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？'),nar('（她把筆記本轉過來。最後那一句抄了兩次。）'),
+      {choice:[{text:'「要讓他找得到門。」',hint:'今天聽到的',goto:'m1'},{text:'「要先問他本人。」',goto:'m2'},{text:'「答不出來。」',goto:'m3'}]},
+      {label:'m1'},say(AN,'……那是今天的。你自己的呢？'),say(AN,'好，下次再講。'),{goto:'end'},
+      {label:'m2'},say(AN,'嗯。大一的時候，我們桌上也有人這樣寫。'),{goto:'end'},
+      {label:'m3'},say(AN,'我大一也答不出來。所以抄了兩次。'),{goto:'end'},
+      /* C B4 中途離開 */
+      {label:'p'},say(AN,'大一那場你沒聽完。後半場在這裡。'),nar('（她把筆記本翻到後半，推過來。）'),say(AN,'最後一題，是今天那一題。'),
+      {choice:[{text:'「原來大一就問過了。」',goto:'p1'},{text:'「我那天先走，有點可惜。」',goto:'p2'}]},
+      {label:'p1'},say(AN,'嗯。他問了兩次。'),{goto:'end'},
+      {label:'p2'},say(AN,'今天補到了。'),
+      /* 收尾（A、B、C 一樣）：舉過手的多一句 */
+      {label:'end'},
+      IF(ASK('who'),say(AN,'你今天問的那一題，我本來也想問。')),IF(ASK('ask'),say(AN,'你問『他說不要怎麼辦』那一題，我回去想。')),
+      IF(ASK('last'),say(AN,'你問他有沒有答案。……他說沒有的時候，我鬆了一口氣。')),IF(ASK('time'),say(AN,'多久算暫時，我們下次讀書會可以吵。')),
+      nar('（她把今天的便利貼，貼在大一那一頁的旁邊。兩張的字不一樣大。）'),
+      {rel:{[AN]:{fam:1}}},{goto:'done'},
+      /* 2-4 和以安不到 FAMILIAR：Alison 版 */
+      {label:'yu'},nar('（以安和阿哲去買宵夜了。小桌子只剩 Alison。）'),
+      say('yu','欸，大一那場我也有去。那時候我只聽懂一半。'),
+      say('yu','今天聽懂比較多了！！……以安問的那一題我就沒想到。'),
+      {choice:[{text:'「我也只聽懂一半。」',goto:'y1'},{text:'「以安問得很好。」',goto:'y2'}]},
+      {label:'y1'},say('yu','對吧！那我們一樣。'),{goto:'done'},
+      {label:'y2'},say('yu','她每次都這樣。……我要去跟她說，她一定會說『還好』。'),
+      {label:'done'},{set:{B12_DONE:true}} ],
     after:G=>{ delete G.flags.B12_WHO; delete G.flags.B12_B5_TEXT; delete G.flags.B12_B4; } });
   /* B13 沛珊在小桌子：大一上、大一下（AA_289 5-4：照用、不依附讀書會；只到大二上＝她 12/17 休學以前），週三 16:00～18:00 走進博雅自習區，一天擲一次兩成；考試週不排。
      打招呼的句子輪流、不連續重複（「明天讀書會的題目」只在公法讀書會有開的學期；大二上用大一下那一句）；不打擾＝她的一個動作。沛珊熟悉 +1（一天一次）*/
@@ -496,7 +581,9 @@ if(typeof ACTIVITIES!=='undefined'&&Array.isArray(ACTIVITIES.list)){
       desc:'博雅午後講座（每月一到兩場）。這一場的主題是文學。',story:true},
     {id:'B8',title:'我們為什麼要上學？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y3S1'],weeks:[5],weekday:5,t0:15.5,t1:17,once:true,crowd:{n:30},poster:{daysBefore:7},
       desc:'博雅午後講座（每月一到兩場）。這一場的主題是教育與人生。',story:true},
-    {id:'B12',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y3S1'],weeks:[10],weekday:2,t0:18.5,t1:20,once:true,crowd:{n:30},poster:{daysBefore:7},
+    {id:'B6b',title:'一條法律是怎麼被寫出來的',kind:'lecture',zone:'boya',room:'102',roomName:'博雅 102',term:['Y2S1'],weeks:[10],weekday:3,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b6b_lecture',   /* AA_430 第 1 節：週三晚上七點，博雅 102 */
+      desc:'博雅午後講座（每月一到兩場）。這一場的主題是公共政策。',story:true},
+    {id:'B12',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y3S1'],weeks:[10],weekday:4,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b12_lecture',   /* AA_430 第 2-1 節：週四晚上七點，博雅 101（原本週二 18:30） */
       desc:'博雅午後講座（每月一到兩場）。同一位講者，第二次講這個題目。',story:true}];
   for(const a of LECT) if(!ACTIVITIES.list.some(x=>x.id===a.id)) ACTIVITIES.list.push(a);
 }

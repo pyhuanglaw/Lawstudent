@@ -4,10 +4,12 @@
      B6  大二上第 5 週週六 20:00 芯慈私訊（有她的聯絡方式）；講座 18:30 以前都會補上
      SK09 沒去：B6 那天 21:00 麵店團群組芯慈兩則（有 ECON_LAW_BRIDGE、沒看到 SK09）
      B7  大二下第 6 週週一 21:00 語彤在麵店團群組轉海報（認識她）
-     B12 大三上第 10 週週一 21:00 以安在麵店團群組
+     B6b 大二上第 10 週週一 21:00 以安在麵店團群組、柏翰回（AA_430 第 1 節）；沒去＝週三 21:30 柏翰一句
+     B12 大三上第 10 週週一 21:00 以安在麵店團群組、Alison、阿哲回（AA_430 2-1）；沒去或中途離開＝週四 21:30 Alison 一句
      SK08 大二上第 1 週週三 12:00 阿勳私訊；沒去＝21:00 大合照
      SK10 每學期第 6、15 週週一 21:00 芯慈在「一題換一題」小群組（ECON_LAW_BRIDGE 以後建立）；那一場沒去＝SK10_MISSED（下一次唐睿一句）
      G4c 日文上、日文下第 15 週週日 20:00 日文班群組；沒去＝第 16 週週一 12:00 采蓁一句
+     NYE 大一跨年（2026-01-01）：Kevin 家族群組照片；子晴、沛珊 00:00、芷若 00:04、明軒 00:06、方奕廷 15:10 私訊（AA_432 第 4 節）；沒上頂樓＝12:00 阿凱
      D5  公法讀書會的前一天（週三）20:00 公法讀書會群組，冷卻四週（大一上第 10 週～大二上，沛珊 12/17 休學以前）
    課堂（CLS.IN_CLASS）：G1 第一次去上日文那一堂、G6 日文下第 10 週那一堂。
    測試：node tests/bbpack_unit.js */
@@ -54,7 +56,8 @@ const BBPACK=(function(){
   const B5T={ask_them:'最小，要問被限制的人',trade:'最小，要看大家換到了什麼',where:'我還不知道。我想知道他最後去了哪裡'};
   S.b5Text=G=>B5T[G.flags.B5_THOUGHT]||null;
   S.b12Who=G=>(knows(AN)&&stageAt(AN,'FAMILIAR'))?'an':(knows('yu')?'yu':null);
-  S.b12Due=G=>law(G)&&!!S.b12Who(G)&&(S.b4State(G)!=='full'||!!S.b5Text(G));
+  S.b12Due=G=>law(G)&&!!S.b12Who(G);   /* AA_430 2-3：聽完 B4、沒有 B5_THOUGHT 的版本也有字了 */
+  S.b12Last=G=>{ const s=S.b4State(G); return s==='full'||(s==='missed'&&typeof PHONE!=='undefined'&&PHONE.sent(G,'b4_missed')); };   /* AA_430 2-2：「上次最後那一題」＝聽完 B4，或沒去但在群組看過轉述 */
   S.b13Due=G=>{ if(!law(G)) return false; const t=term(G); if(!t||t.exam) return false; if(t.id==='Y2S1'&&!S.beforeKey(G,'2026-12-17')) return false; return S.here(PS,G)&&S.roll(G,'b13')<0.2; };
   S.b13Line=G=>{ const t=term(G)||{}, plgA=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.find(a=>a.id==='public_law_group'), plg=!!(plgA&&ACTIVITIES.on(plgA,G.day+1,G));
     const L=['quiet'].concat(plg?['plg']:[],t.id==='Y1S1'?['phil']:['edu']).filter(k=>k!==G.flags.B13_LAST); return L[Math.floor(S.roll(G,'b13l')*L.length)%L.length]; };
@@ -99,8 +102,14 @@ const BBPACK=(function(){
         ph.at(G,tue,21,[{th:'g:noodle_team',from:XC,text:'我和統計課那個人在博雅吵了一小時，違約只要賠錢就好嗎。'},{th:'g:noodle_team',from:XC,text:'結論：活大的吸管太細。'}],'bb_sk09_miss'); }
     /* B7：語彤轉海報（稿：「語彤在麵店團群組轉了一張海報」；照片的說明是這裡寫的）*/
     { const mon=TD('Y2S2',6,1); if(win(G,mon,21,mon+2,19)&&knows(YT)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th:'g:noodle_team',from:YT,text:'📷（海報：「老房子、租屋與城市」）'}],'bb_b7_poster'); }
-    /* B12：同一個講者又來了（稿寫「群組」，沒寫誰：以安揪的，和 B4 一樣在麵店團）*/
-    { const mon=TD('Y3S1',10,1); if(win(G,mon,21,mon+1,18.5)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th:'g:noodle_team',from:AN,text:'大一那場『政府可以為了大家，限制一個人嗎』，同一個講者又來了。'}],'bb_b12_invite'); }
+    /* B6b：講座前兩天 21:00 麵店團群組（AA_430 第 1 節）；沒去（missed）＝那天 21:30 柏翰（稿沒寫時間：照 B4 沒去的轉述 21:30）*/
+    { const mon=TD('Y2S1',10,1), wed=TD('Y2S1',10,3), th='g:noodle_team';
+      if(win(G,mon,21,wed,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'週三晚上七點，博雅 102。「一條法律是怎麼被寫出來的」。'},{th,from:AN,text:'這場我一定去。'},{th,from:'classmate_bohan',text:'我去。國考會考立法程序。'}],'bb_b6b_invite');
+      if(win(G,wed,21.5,wed+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.missed(G,'B6b')) ph.at(G,wed,21.5,[{th,from:'classmate_bohan',text:'講義我多拿了一份。要的話明天給你。'}],'bb_b6b_missed'); }
+    /* B12：講座前三天 21:00 麵店團群組（AA_430 2-1）；這一場沒去或中途離開＝那天 21:30 Alison（稿沒寫時間：照 B4）*/
+    { const mon=TD('Y3S1',10,1), thu=TD('Y3S1',10,4), th='g:noodle_team';
+      if(win(G,mon,21,thu,19)&&knows(AN)&&ph.inGroup(G,'noodle_team')) ph.at(G,mon,21,[{th,from:AN,text:'大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'},{th,from:AN,text:'週四晚上七點，博雅 101。'},{th,from:'yu',text:'我要去！！這次我要聽懂'},{th,from:'zhe',text:'我也去 散場有宵夜嗎'}],'bb_b12_invite');
+      if(win(G,thu,21.5,thu+2,0)&&ph.inGroup(G,'noodle_team')&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.lastEnded(G,'B12')===thu&&!ACTIVITIES.attended(G,'B12',thu)) ph.at(G,thu,21.5,[{th,from:'yu',text:'以安今天有舉手！！問得超好'}],'bb_b12_missed'); }
     /* SK08：阿勳私訊；沒去＝當晚的大合照 */
     { const wed=TD('Y2S1',1,3); if(win(G,wed,12,wed,17)&&(S.knowXun(G)||(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'econ_zhengxun')))) ph.at(G,wed,12,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'我在帶迎新。你在對面，走過來就好。神秘嘉賓。'}],'bb_sk08_dm');
       if(win(G,wed,21,wed+3,0)&&ph.sent(G,'bb_sk08_dm')&&!done(G,'ev_sk08_guest')) ph.at(G,wed,21,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'📷（一張大合照）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'今年有一個學弟說他是『看不見的手』，然後一直揮手。'}],'bb_sk08_miss'); }
@@ -118,6 +127,20 @@ const BBPACK=(function(){
     { const sat=TD('Y1S2',7,6); if(F.KAI_KB_ASK==='fafu'&&win(G,sat,12.5,sat+7,0)&&!done(G,'ev_kai_keyboard_fafu')&&!ph.sent(G,'bb_kai_kb_miss')){ ph.at(G,sat,12.5,[{th:'p:kai',from:'kai',text:'你沒來 我自己去了 社長講了三分鐘'},{th:'p:kai',from:'kai',text:'你們法律系的人原來要查這麼久'}],'bb_kai_kb_miss'); S.kaiKb(G); } }
     /* BB_171 第 3 節：大一跨年（2026-01-01 00:00），家族群組 Kevin 傳信義區的煙火照片＋新年快樂（不點名大樓，D77）。學姊接在後面的第一張貼圖：AA_218 第 589 行刪了（她不在群組主動發言）*/
     { const ny=D('2026-01-01'); if(win(G,ny,0,ny+3,0)&&ph.inGroup(G,'family_law')) ph.at(G,ny,0,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'📷（信義區的煙火）'},{th:'g:family_law',from:'kevin',name:'Kevin',text:'新年快樂'}],'bb_nye_kevin_y1'); }
+    /* AA_432 第 4 節（BB_171 第 3 節的台詞）：大一跨年的私訊五則，熟到多少才傳照 BB_171 的表；每則兩個回覆（口氣表 0-2），不回也可以、沒有後果；沒參加的玩家照樣收到。
+       回覆期限：1/1 當天（方奕廷那則到 1/2）——稿沒寫，照「不回也可以」排一天。選項的字照稿、拿掉「」（手機的回覆按鈕不加引號）。傳了＝有你的聯絡方式（同 needed_msgs）*/
+    { const ny=D('2026-01-01');
+      const nyMsg=(id,min,day,h,texts,opts,until,tag)=>{ const t=now(G); if(t<day*24+h||t>=until) return; if(!knows(id)||!stageAt(id,min)||ph.sent(G,tag)) return;
+        if(typeof INV!=='undefined'&&INV.rec){ INV.rec(G); if(G.contacts&&G.contacts[id]==null) G.contacts[id]=G.day; }
+        const it=texts.map(t=>({th:'p:'+id,from:id,text:t})); it[it.length-1].ask={id:tag,until,opts:opts.map(([t,say])=>({t,say:say.map(x=>({from:id,text:x}))}))}; ph.at(G,day,h,it,tag); };
+      if(ny!=null){ const u1=(ny+1)*24, u2=(ny+2)*24;
+        nyMsg('heroine_04','FRIEND',ny,0,['📷（遊戲畫面：城堡上空放煙火，角落一排隊友的名字）','新年快樂','我們剛好在零點打贏'],[['新年快樂。恭喜。',['嗯','下一場要開了 先這樣']],['妳在家打一整晚？',['對啊','外面人那麼多 我又不是瘋了']]],u1,'bb_nye_zq_y1');
+        nyMsg('heroine_02','FAMILIAR',ny,4/60,['剛下班。','手好痠。今天店裡賣了快兩百杯。','新年快樂。'],[['新年快樂。辛苦了。',['謝謝。','明天店休，我要睡到中午。']],['快兩百杯？',['對，大家都在等跨年，就一直點熱可可。','……新年快樂啦。']]],u1,'bb_nye_zr_y1');
+        nyMsg(PS,'FRIEND',ny,0,['新年快樂！！','今年第一個問題','你今年最想做的一件事是什麼？'],[['把書念好。',['好認真喔','我的還沒想好','想好再跟你說']],['妳呢？',['我先問的欸','……好啦 我還沒想好','想好再跟你說']]],u1,'bb_nye_ps_y1');
+        nyMsg('classmate_mingxuan','FAMILIAR',ny,6/60,['📷（從高處拍的人潮，一整片手機的光）','時薪兩倍','可是我從十點到現在都沒去廁所'],[['辛苦了。',['再一個小時','下班我要吃一碗很大的麵']],['CP 值還是很高。',['對','廁所不算進去的話']]],u1,'bb_nye_mx_y1');
+        nyMsg('npc_fangyt','FAMILIAR',ny,15+10/60,['📷（山上的日出，下面是一整片雲）','下山了，有訊號','山上零下三度，水壺結冰','明年要不要一起來'],[['好啊。',['那我先跟社長說','名額很少']],['我怕冷。',['會借你外套','……睡袋就沒辦法了']]],u2,'bb_nye_fy_y1');
+        /* BB_171 第 3 節（AA_432 4-6「照 BB_171」）：沒上頂樓的玩家，1/1 中午阿凱一則 */
+        if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
     { const t=term(G), wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:0;
       if(t&&!t.exam&&wd===3&&(+G.hour||0)>=20&&(+G.hour||0)<22&&['Y1S1','Y1S2','Y2S1'].includes(t.id)&&(t.id!=='Y1S1'||t.week>=10)&&S.beforeKey(G,'2026-12-17')&&ph.inGroup(G,'public_law')&&knows(PS)&&S.here(PS,G)
