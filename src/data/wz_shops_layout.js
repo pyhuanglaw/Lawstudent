@@ -48,6 +48,11 @@ const WZ_SHOPS_LAYOUT = {
       {x: -0.7, z: -1.9, kind: 'chalkboard', label: '看今日推薦'},
       {x: 2.2, z: -2.1, kind: 'kitchen', label: '進廚房（打工時）'}
     ],
+    /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；jobs3d.js runShift 的三段：a＝開店、b＝尖峰、c＝收尾）。me＝祐廷（導航格站得住、從門口走得到）、boss＝小米姐、mate＝小蕙（NPC，不在家具裡）；act＝動作的提示（stand／wipe／cook／serve／wash／sit）；end＝下班時祐廷站的地方 */
+    work: {a: {me: {x: 1.0, z: 1.0, yaw: Math.PI / 2, act: 'stand', note: '四人桌旁擺十二副餐具'}, boss: {x: -2.35, z: -3.85, yaw: Math.PI, act: 'cook', note: '煎台前試今天的第一顆蛋'}, mate: {x: -1.6, z: 0.5, yaw: -Math.PI / 2, act: 'wipe', note: '小蕙擦左牆的兩人桌'}},
+           b: {me: {x: -0.7, z: -2.05, yaw: Math.PI, act: 'serve', note: '出餐檯前（客人那一側）端盤'}, boss: {x: -0.7, z: -3.45, yaw: 0, act: 'cook', note: '出餐檯後面裝盤，面向出餐檯'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand', note: '結帳櫃台北端（平常的店員位置）'}},
+           c: {me: {x: -0.3, z: -3.85, yaw: Math.PI, act: 'wash', note: '後牆料理台的水槽前洗杯子'}, boss: {x: -1.5, z: -3.6, yaw: Math.PI, act: 'stand', note: '爐子前收拾'}, mate: {x: 2.6, z: -2.05, yaw: -0.6, act: 'stand'}},
+           end: {x: 0.4, z: 3.2, yaw: 0, note: '門口，面向店門'}},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   print: {
@@ -86,11 +91,18 @@ const WZ_SHOPS_LAYOUT = {
       {x: 1.05, z: 0.9, kind: 'staff_gate', label: '進櫃台（打工時）'},
       {x: 0.95, z: -1.4, kind: 'binding', label: '膠裝（打工時）'}
     ],
+    /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；a＝接單、b＝做的時候、c＝交件；考試週加班同一套）。me＝祐廷、boss＝阿德、kid＝阿芃（晚上在小桌寫功課，坐著）。
+       注意：櫃台中間的缺口（x 0.6～1.5）在 0.4 m 的導航格上只剩一格，人（半徑 0.33）走不過去——櫃台後面現在從客人區走不到。
+       a／b／c 的 me 都在櫃台後面站得住的地方：上班時淡出換位置（runShift 的 fade）就好；下班一定要放回客人區（end），不然出不來（D36）。要讓人走進去，櫃台缺口要開到 1.2 m（模型＋blocks 一起改，LAWWW2 可以做）*/
+    work: {a: {me: {x: -0.9, z: 0.4, yaw: 0, act: 'sit', note: '櫃台後面的椅子（打工的座位），面向客人'}, boss: {x: 1.0, z: -1.4, yaw: Math.PI / 2, act: 'stand', note: '長工作檯前，面向工作檯'}, kid: {x: 1.65, z: -3.45, yaw: Math.PI, act: 'sit', note: '阿芃的位子'}},
+           b: {me: {x: 0.75, z: -1.4, yaw: Math.PI / 2, act: 'stand', note: '長工作檯前（膠裝機、裁紙刀）'}, boss: {x: -0.95, z: -2.0, yaw: -Math.PI / 2, act: 'stand', note: '大影印機前（卡紙、海報）'}, kid: {x: 1.65, z: -3.45, yaw: Math.PI, act: 'sit'}},
+           c: {me: {x: -0.2, z: 0.25, yaw: 0, act: 'stand', note: '櫃台後面，交件給客人'}, boss: {x: 0.85, z: -3.45, yaw: Math.PI / 2, act: 'stand', note: '阿芃的小桌旁（她睡著了，外套蓋在她身上）'}, kid: {x: 1.65, z: -3.45, yaw: Math.PI, act: 'sit'}},
+           end: {x: 0.0, z: 2.6, yaw: 0, note: '客人區、櫃台前面，面向店門（櫃台後面走不出來）'}},
     wallsFade: {front: [0, 0, -1], back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   teahouse: {
     id: 'wz_teahouse', name: '一盞', glb: 'assets/models/env/second_ai/wz_teahouse_interior.glb',
-    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_dark', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
+    w: 8.4, d: 14.6, h: 2.6, wallColor: '#e9dfc9', floor: 'wood_light', zCenterNote: '區域 z −5～9.6：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（看得到、走不到）',
     note: '主屋約 8×10 m＋緣側（AA_164 2-3）。左前是玄關；前面一條緣側對著前院（樟樹、石板、竹掃把）；中間木地板的茶席（長桌、六個位子）；右邊是水屋（茶罐、電熱水壺、沙漏）；後面兩間榻榻米和室（各一張矮桌、四個坐墊），中間紙拉門關著。',
     front: {door: {x: -3.0, w: 1.0, note: '玄關（從前院的石板路進來）'}, openFront: true, shoji: {z: 5.0, x0: -2.2, x1: 4.2, note: '緣側和室內之間的紙拉門：拉開收在兩端'}},
     spawn: {x: -3.0, z: 4.2, yaw: Math.PI},
@@ -132,6 +144,11 @@ const WZ_SHOPS_LAYOUT = {
       {x: 1.5, z: 5.9, kind: 'garden', label: '看院子'},
       {x: -3.0, z: -1.2, kind: 'tokonoma', label: '看床之間的掛軸'}
     ],
+    /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；a＝院子（照季節）、b＝泡茶、c＝收席）。me＝祐廷（導航格站得住、從玄關走得到）、boss＝蘇姨。前院走不到：掃院子站在緣側的邊上、面向院子 */
+    work: {a: {me: {x: 3.4, z: 5.5, yaw: 0, act: 'sweep', note: '緣側東端，面向前院（樟樹、竹掃把、貓碗）'}, boss: {x: 2.75, z: 1.5, yaw: Math.PI / 2, act: 'stand', note: '水屋前，面向流理台'}},
+           b: {me: {x: 2.75, z: 1.0, yaw: Math.PI / 2, act: 'brew', note: '水屋前泡茶'}, boss: {x: 2.75, z: 2.15, yaw: 2.6, act: 'stand', note: '水屋前、祐廷旁邊看著'}},
+           c: {me: {x: -0.5, z: 5.5, yaw: 0, act: 'stand', note: '緣側，晾茶巾、點燈籠'}, boss: {x: -1.6, z: 3.0, yaw: Math.PI, act: 'stand', note: '茶席的長桌旁收杯子'}},
+           end: {x: -3.0, z: 4.2, yaw: 0, note: '玄關（出生點），面向門口'}},
     wallsFade: {back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
   },
   /* ===== 林家乾麵、巷子裡定食（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364：能進去內用）=====
@@ -179,7 +196,7 @@ const WZ_SHOPS_LAYOUT = {
   },
   teishoku: {
     id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
-    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_dark',
+    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_light',   // 淺色木地板（使用者 10-23：不要深色木地板）
     note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
     front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},

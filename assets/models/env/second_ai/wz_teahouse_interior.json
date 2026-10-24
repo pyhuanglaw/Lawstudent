@@ -1,11 +1,11 @@
 {
- "objects": 41,
- "unique_meshes": 41,
- "tris": 14178,
- "tris_drawn": 14178,
- "materials": 91,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/trnew/wz_teahouse_interior.glb",
- "bytes": 1691244,
+ "objects": 43,
+ "unique_meshes": 43,
+ "tris": 14754,
+ "tris_drawn": 14754,
+ "materials": 93,
+ "out": "assets/models/env/second_ai/wz_teahouse_interior.glb",
+ "bytes": 1717888,
  "texres": 512,
  "shop": "teahouse",
  "layout": 1

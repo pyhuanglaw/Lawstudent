@@ -497,6 +497,18 @@ def build_teahouse():
     Mesh(P + 'garden_moss', M['moss']).box(X0, X1, -0.44, -0.4, gz0, gz1).finish(root)
     acc('post').box(-2.2, X1, -0.42, 0.0, Z1 + 1.12, Z1 + 1.22)                                                           # 緣側的邊
     Xf(1.5, Z1 + 1.55).lathe(acc('stone'), [(0.0, 0.0), (0.42, 0.0), (0.44, 0.18), (0.4, 0.22), (0.0, 0.22)], 0, -0.42, 0, seg=14)   # 沓脫石
+    # 貓碗（ART-WZ6；AA_420 第 9 節，LAWWW2-B 10-24）：找到貓以後（WZ_CAT_FOUND）蘇姨放在簷廊邊、沓脫石右邊的苔地上；收養那天以後收起來。
+    # 獨立的節點 WZ_CATBOWL（不參加合併），遊戲照名字開關：WZ_CAT_FOUND 有值、PARK.catGone 還不是 true 才顯示。舊的青瓷飯碗（缺了一小角）＋一小堆乾糧
+    cbg = B.group('WZ_CATBOWL', root, {'kind': 'cat_bowl', 'show': 'WZ_CAT_FOUND 以後、PARK.catGone 以前'}); cbx, cbz, cby = 2.36, Z1 + 1.40, -0.40
+    cb = Mesh('WZ_CATBOWL_bowl', L.flat(P + 'catbowl', '#c9d8cc', rough=0.22))
+    Xf(cbx, cbz, 0.4).lathe(cb, [(0.0, 0.0), (0.040, 0.0), (0.045, 0.004), (0.056, 0.026), (0.063, 0.044), (0.065, 0.047), (0.061, 0.048), (0.055, 0.031), (0.043, 0.012), (0.0, 0.012)], 0, cby, 0, seg=18)
+    cb.finish(cbg, uv=False, smooth=True)
+    cf = Mesh('WZ_CATBOWL_food', L.flat(P + 'catfood', '#8c5c34', rough=0.85))
+    Xf(cbx, cbz).lathe(cf, [(0.0, 0.0), (0.046, 0.0), (0.038, 0.01), (0.022, 0.017), (0.0, 0.02)], 0, cby + 0.012, 0, seg=12)   # 一小堆乾糧（碗底往上 1.2 cm）
+    rk = random.Random(14)
+    for k in range(9):
+        a = rk.uniform(0, 2 * math.pi); r = rk.uniform(0.0, 0.034); cf.ell((cbx + r * math.cos(a), cby + 0.012 + 0.02 - r * 0.4 + 0.003, cbz + r * math.sin(a)), 0.006, 0.004, 0.006, seg=6, rings=3)
+    cf.finish(cbg, uv=False)
     Mesh(P + 'gravel', M['gravel']).box(-1.0, 3.6, -0.4, -0.385, gz0 + 0.6, gz1 - 0.6).finish(root)
     for j, (sx, sz) in enumerate(((-3.0, 6.6), (-2.6, 7.3), (-2.0, 7.9), (-1.2, 8.4), (-0.3, 8.9))):
         Xf(sx, sz, j).lathe(acc('stone'), [(0.0, 0.0), (0.26 + 0.03 * (j % 2), 0.0), (0.27, 0.05), (0.24, 0.07), (0.0, 0.07)], 0, -0.4, 0, seg=9)
@@ -548,7 +560,7 @@ if NOTE_Q:
     me = bpy.data.meshes.new(P + 'notes'); bm.to_mesh(me); bm.free(); me.materials.append(M['notes']); ob = bpy.data.objects.new(P + 'notes', me); B.scene().collection.objects.link(ob); ob.parent = root
 for ob in list(root.children):   # 模型葉子平滑著色
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
-L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith(('wzs_camphor', 'TRACE_')), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith(('wzs_camphor', 'TRACE_', 'WZ_CATBOWL')), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)
 info.update({'shop': SHOP, 'layout': ALL['version']})
 L.write_json(OUT[:-4] + '.json', info)
