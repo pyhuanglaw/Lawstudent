@@ -31135,7 +31135,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BB 重掃（寒暑假＋日本出發前五週）；AA 定經濟系那一年要不要發週四家人群組",
+   "next": "BB 重掃（寒暑假＋日本出發前五週，b9d7ab982 以後）",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -31150,7 +31150,7 @@
    "source": "AA-B 2026-10-24 06:0x（企劃線 718c06a30）；D99 第二優先",
    "authorized": "D99、D109、D111",
    "sha": "cff6ef5c8",
-   "notes": "10-24 07:0x LAWWW-B：子代理做完（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js 137 PASS）；AA_442 第 1、2 節接續給同一個子代理；10-24 07:5x：AA_440 修訂 edae49ca6（放榜前不出現錄取／考上／餞行、1-9 放榜、1-10 餞行、7/19 高雄／睡覺版、3-4 改 2/19）、AA_443 第 2 節摘要池加寫 22 句、AA_442 第 1～2 節（住家裡的週四家人群組 H1～H6；日本出發前五週 src/jpprep3d.js）；tests/aa440_vacfill_unit.js 152、aa442_jpprep_unit.js 64 PASS"
+   "notes": "10-24 07:0x LAWWW-B：子代理做完（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js 137 PASS）；AA_442 第 1、2 節接續給同一個子代理；10-24 07:5x：AA_440 修訂 edae49ca6（放榜前不出現錄取／考上／餞行、1-9 放榜、1-10 餞行、7/19 高雄／睡覺版、3-4 改 2/19）、AA_443 第 2 節摘要池加寫 22 句、AA_442 第 1～2 節（住家裡的週四家人群組 H1～H6；日本出發前五週 src/jpprep3d.js）；tests/aa440_vacfill_unit.js 152、aa442_jpprep_unit.js 64 PASS；AA 10-24 08:00 選 A：經濟系休學那一年照舊不發週四家人群組（c7d9fef62）；b9d7ab982 複測（會讀 index.html 的、home／vac／jp／econ 系列）全過"
   },
   {
    "id": "BG-LANTERN-1024",
