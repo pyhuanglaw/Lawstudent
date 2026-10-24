@@ -2935,8 +2935,24 @@
    "next": "v9.10.9 發布後 LAWWW-B 套 A（B 看要不要）→ 跑 season_dusk、after_midnight 與整套回歸",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 16:29：A、B 兩份都收；v9.10.9 發布後再合；12 處 G.hour 合的時候照清單看、先不改）",
    "note": "時鐘 G.hour／E.hour、作息、事件、存檔都不動；室內照現在的做法（同一個光線時刻進室內那一段）；美國＝布魯明頓（11/5 換冬令時間）、日本 jp_*＝大阪"
+  },
+  {
+   "task": "巡查③ P3：醉月湖北邊那排遠景店面像布景（LAWWW-B 16:29 派：改得小就做）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6a620726e",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/bg_city_awnings_1024.patch（對 0d3125c88；src/zones3d.js 北側第一排 shop:H(x,21)<0.4、src/townkit3d.js bgGroundTex('city') 招牌壓低彩度、鐵捲門那家招牌半寬；新 tests/bg_city_awnings_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/bg_city_awnings_1024（README、cmp.jpg）"
+   ],
+   "state": "已交付；bg_city_awnings 修改前 FAIL 4 → ALL PASS；改前改後同鏡頭（醉月湖 15:00、20:00、往西北）；draw call 一樣、三角形 −308；對 0d3125c88 和套了 ENGINE-SEASON-DUSK 的樹都 apply 乾淨",
+   "remaining": "招牌貼圖是遠景共用的：校園東、南兩排遠景和公館遠景備用方盒也一起變淡（都是遠景）；沒跑整套回歸、沒有實機",
+   "next": "v9.10.9 發布後 LAWWW-B 套 patch、跑 bg_city_awnings_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "背景在邊界外、走不到，導航碰撞不變；場景美術 ART_APPROVED 只有使用者能標"
   }
  ]
 }

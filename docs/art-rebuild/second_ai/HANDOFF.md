@@ -90,6 +90,11 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 16:5x 更新**：
+    - LAWWW-B 16:29：ENGINE-SEASON-DUSK A、B 兩份都收，v9.10.9 後合；等的時間從巡查 P3 挑玩家每天看得到的。
+    - 已交（`6a620726e`）：醉月湖北邊那排遠景店面不像布景（`test_shots/bg_city_awnings_1024/README.md`、`patches/bg_city_awnings_1024.patch`）。北側一排四成有店面、招牌壓低彩度；測試修改前 FAIL 4 → ALL PASS。
+    - 測試樹 `$SP/dv8` 已還原成 `0d3125c88` 原樣。
+    - 下一項：問 LAWWW-B；沒有就從巡查表 P3 挑玩家每天看得到的。
   - **10-24 16:3x 更新**：
     - LAWWW-B 15:51：巡查③登記（`0d3125c88`）；208 照舊同意；第 2 項「做」→ ENGINE-SEASON-DUSK-1024，`engine3d.js` 由我改（D108）；**v9.10.9 發布後才整合**。P3：遮雨棚記錄、e24b2／c2_hiking 是退休事件、ART-PLAYER-SEASON-OUTFIT-1024 暫停。
     - 已交（`86567dc65`，報告補完在下一個 commit）：`test_shots/season_dusk_1024/README.md`。
