@@ -2423,7 +2423,7 @@ R19 = [
        jsok=[('2F 跟她說話有一句閒聊（libTalk 三句之一）', "JSON.stringify((window.__LOG||[]).map(x=>x.t))", lambda s: isinstance(s, str) and any(t in s for t in LB['talk']))]),
   # ② 交往中、週二 11:33：上 2F 跟她說話＝SU-L1（先一句收書的旁白）
   dict(id='LIB2F_SU', key='2028-09-12', h=11.5, zone='us_lawlib', flags=dict(USC), js=B['DATE'], pref=['「我那台也沒清過。」'],
-       steps=UP2 + [SIS2F, ('talk', 'heroine_05')],
+       steps=UP2 + [SIS2F, ('talk', 'heroine_05'), ('talk', 'heroine_05'), ('talk', 'heroine_05')],   # BB-B 17:2x：前置拉高熟悉度＝第一次說話先演升級那一段（rel_lines CLOSE_FRIEND）；多說兩次
        want=[LB['suOpen'], LB['su1']], none=LB['talk']),
   # ③ 挽回中（不是交往中）、週二 10:50：她照樣在 2F，說話沒有交往中的閒聊和收書那一句
   dict(id='LIB2F_ALONE', key='2028-09-12', h=10.8, zone='us_lawlib', flags=dict(USC_NO), js=B['ALONE'], pref=[],
@@ -2435,10 +2435,14 @@ R19 = [
              [('chk', '週六 2F 沒有她', SISAT, None), ('usep', '^書架')],
        want=[LB['stacks']]),
 ]
+# BB-B 17:2x：交往中 9:00～11:30 在 2F 說話＝圖書館閒聊（SMALLTALK libTalk，location us_lawlib_2f）。直接進 2F、連說三次（第一次會先演熟悉度升級那一段）
+LIB2F_TALK = dict(id='LIB2F_TALK', key='2028-09-12', h=10.7, zone='us_lawlib_2f', flags=dict(USC), js=B['DATE'], pref=[],
+                  steps=[PAUSE(6, '進 2F 等她站好'), ('talk', 'heroine_05'), ('talk', 'heroine_05'), ('talk', 'heroine_05')], want=[],
+                  jsok=[('2F 說話有一句圖書館閒聊（libTalk 三句之一）', "JSON.stringify((window.__LOG||[]).map(x=>x.t))", lambda s: isinstance(s, str) and any(t in s for t in LB['talk']))])
 SISDIAG = ("(()=>{ const G=GAME.G, E=GAME.E, n=(GAME.npc||{}).heroine_05||null, L=(E.npcs||[]).filter(x=>x&&x.charId==='heroine_05'); let a=null; try{ a=USL.sisAt(G); }catch(e){ a='ERR '+e; } "
            "return {zone:G.zone,h:+G.hour.toFixed(2),sisAt:a,spots:E.zone&&E.zone.spots?E.zone.spots.sis||null:null,gmNpc:!!n,uslSis:n?!!n.uslSis:null,inNpcs:L.length,"
            "objs:L.map(x=>({vis:x.obj&&x.obj.visible,hidden:!!x.hidden,lv:x.lv,at:x.obj?[+x.obj.position.x.toFixed(2),+x.obj.position.y.toFixed(2),+x.obj.position.z.toFixed(2)]:null})),evRun:typeof EVENTS!=='undefined'&&!!EVENTS.running}; })()")
-R19 = [dict(id='LIB2F_DIAG', key='2028-09-12', h=10.8, zone='us_lawlib_2f', flags=dict(USC), js='', pref=[],   # BB-B 15:5x：三個情境 2F 都沒有她＝直接讀遊戲的狀態
+R19 = [LIB2F_TALK, dict(id='LIB2F_DIAG', key='2028-09-12', h=10.8, zone='us_lawlib_2f', flags=dict(USC), js='', pref=[],   # BB-B 15:5x：三個情境 2F 都沒有她＝直接讀遊戲的狀態
             steps=[PAUSE(10, '進 2F 等 10 秒（sisSync 每 2 秒）'), ('chk', '學姊在 2F 的狀態（sisAt、spots、人物物件）', SISDIAG, lambda d: isinstance(d, dict) and d.get('inNpcs', 0) >= 1), ('shot', 'diag', None, 'true', 2)], want=[])] + R19
 for _s in R19:   # BB-B 15:5x：2F 的「看」：書架走 caption（rooms_glb3d LOOK）、木梯／樓梯（三樓）走 GAME.say（us_life3d S.interact）＝要 SAYH＋CAPH 才記得到
     if 'CAPH' not in _s.get('js', ''): _s['js'] = SAYH + CAPH + _s.get('js', '')
