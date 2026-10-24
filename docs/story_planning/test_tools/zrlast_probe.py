@@ -2243,6 +2243,10 @@ R15 = [
               ('chk', 'STORY.presence：采蓁、立衡、宇恆在哪', "['jp_caizhen','jp_liheng','jp_yuheng'].map(id=>{ try{ const p=STORY.presence(id,GAME.G); return id+':'+JSON.stringify(p).slice(0,80); }catch(e){ return id+':ERR'; } })", lambda L: isinstance(L, list)),
               ('chk', '3D 裡所有的人', NPCS3D, lambda L: isinstance(L, list))],
        want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
+  # BB-B 12:2x：JP86_ROOM_Y2（13:00 進門、等到 13:54）3D 一個人都沒有，presence 三個都 here。對照：上課中 13:24 才進門——有人＝「進門那時候還沒開始的人，之後不會補進來」
+  dict(id='JP86_ROOM_Y2_IN', key='TERMDAY:Y2S1:4:1', h=13.4, zone='campus', flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'),
+              ('chk', '3D 裡所有的人（13:24 進門）', NPCS3D, lambda L: isinstance(L, list)), ('until', 13.7, 600), ('chk', '3D 裡所有的人（13:42）', NPCS3D, lambda L: isinstance(L, list))],
+       want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆（上課中才進門）', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
   dict(id='JP86_ROOM_Y3', key='TERMDAY:Y3S1:4:1', h=13.6, zone='gongtong', flags=dict(TW3), js='', pref=[], steps=[('until', 13.9, 600)],
        want=[], jsok=[('大三：沒有立衡', NPCS3D, lambda L: isinstance(L, list) and 'jp_liheng' not in L)]),
   # ③ 阿凱的鍵盤（大一下第 6～7 週週一～四 22:00 以後在房間）：沒去過法服＝「我問學長」→ 23:00 家族群組 Kevin 三句＋23:05 阿凱私訊
