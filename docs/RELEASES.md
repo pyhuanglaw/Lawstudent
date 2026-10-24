@@ -99,6 +99,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
   - guide_flow：閉館的字改成對話框，測試只讀 #toast。
   - save_compat_v7、save_compat_live、flow_main_day12 PASS（day12 有 5 項 [未驗]：劇情接手，人沒有自己走到，BB 之後在低負載時補跑）。
   - 發布樹上 cvs_menu4 橫向、直向 PASS（SQ08 修好），ZR43_GF PASS（ZR_SENDOFF_2027 met）。
+- **發布後**：BB 在本機對 main 964c9cb1 跑 deploy_check ALL PASS（沙盒連不到 github.io）。回歸那 7 個 FAIL 全部結案（10-24 07:11 BB_218）：測試修好以後（48a4f727f、9afb2fa3a）sim_hair、guide_flow、flow_wancai_floors、flow_classes、flow_wancai_stairs 都 ALL PASS；aa130、aa416 是測試／BB 的 clone 的問題——**沒有遊戲回歸**。
 - **部署驗證**：Pages 部署工作成功（05:43:04～05:44:51），head＝`964c9cb1`；main 的遊戲檔案和發布樹 `9199fd7d4` 逐檔相同（git diff 為空），`index.html` 版本字樣 v9.10.7（2026-10-24）。沙盒連不到 github.io，線上頁面沒有直接打開核對，以部署工作結果為準；BB 在線上版跑 deploy_check。開發分支在 `85d8dd5d0` 換回開發中的檔案。
 - BB 本機那棵 tree `b85262ec`＝同一份遊戲程式，只差 index.html 的 `?v=` 沒換、aa415 測試沒修（LAWWW 用只換版本字樣的樹重算得到 `b85262ec`）；正式發布的是換了 `?v=9.10.7` 的版本（手機瀏覽器會重新下載）。
 

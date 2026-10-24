@@ -31157,8 +31157,8 @@
    "title": "元宵燈會的 2D 背景（AA_440 3-2 大三寒假 2/9；現在黑底＋地點字幕，OUT.BG.vf_lantern image:null）",
    "area": "ART",
    "owner": "BB",
-   "status": "待開工",
-   "next": "BB 照 D97 寫生成提示詞向使用者要（夜裡、燈、人潮）；收到交 LAWWW 接 OUT.BG.vf_lantern",
+   "status": "等待其他AI／素材",
+   "next": "等使用者生圖：BB_132 第 99 組第 4 張（25c9c1961）；照 D97 先給第 98 組；收到交 LAWWW 接 OUT.BG.vf_lantern",
    "priority": "P3",
    "first": {
     "term": "Y3S1",
@@ -31177,7 +31177,7 @@
     "branch": "claude/elegant-brown-fcos7n",
     "acceptance": "2D 背景圖，接進 OUT.BG.vf_lantern",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   }
  ]
