@@ -2768,7 +2768,7 @@
   {
    "task": "#61 ART-ECON-3D-GAP-1021／清查 B9：社科院大樓窗戶單調 → 捲簾、布簾（經濟系那一年每天經過）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "7f7296fef",
    "files": [
     "assets/models/env/second_ai/campus_socsci.glb、campus_socsci.json（三角形數）",
     "tools/blender/env_second/campus_socsci.py（band() 的 blind()；開發分支的這支腳本是舊的，現在的 GLB 是我這一份做的）",
@@ -2779,7 +2779,7 @@
    "next": "LAWWW-B 換 GLB＋json（腳本用我這一份）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 09:15：已整合 b9d19d8a6，GLB、json、campus_socsci.py 都用我的；socsci_place、nav_soclib、nav_buildings、room_ceiling、campus_* ALL PASS；登記 DL-LW2-SOCSCI-BLINDS）",
    "note": "亮燈的窗的簾子用 ck_glass_lit（晚上會亮），沒亮的用頂點色；導航、鏡頭碰撞、門沒變"
   }
  ]

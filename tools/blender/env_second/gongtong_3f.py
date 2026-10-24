@@ -132,7 +132,7 @@ def build():
     ce = Mesh(SID + '_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)
     wh = 0.9
     WX = [-4.4, -1.4, 1.6, 4.6]; wy0, wy1 = 1.3, 2.9
-    c.wins = dict(side='S', wall='front', z=Z1, xs=WX, y=2.1, w=2.2, h=1.6, note='遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x；窗景借 boya_2f_south')
+    c.wins = dict(side='S', wall='front', z=Z1, xs=WX, y=2.1, w=2.2, h=1.6, note='遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x；窗景 gongtong_3f（shots/teach_views.py：正面三樓往北）')
     wl = c.wg('S', 'wall', M['wall']); wn = c.wg('S', 'wain', M['wain']); fr = c.wg('S', 'frame', M['vcm'], cm=True); gl = c.wg('S', 'glass', M['glass']); tr = c.wg('S', 'trim', M['vc'], cm=True)
     QS = lambda xa, xb, y0, y1: [(xb, y0, Z1), (xa, y0, Z1), (xa, y1, Z1), (xb, y1, Z1)]
     xs = [X0] + [v for wx in WX for v in (wx - 1.1, wx + 1.1)] + [X1]
@@ -231,7 +231,7 @@ def build():
     for ob in bpy.data.objects:
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
     lay = dict(version=1, zone=SID, name='共同教學館 301（考場）', type='考場', src='AA_399 第 9 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82',
-               bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.6, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins, view='boya_2f_south',
+               bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.6, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins, view='gongtong_3f',
                counter=None, clerk=None, teacherSpot=spots['proctor'], order=None, seats=c.seats, interact=c.inter, blocks=c.blocks, spots=spots,
                open=dict(days=['2029-02-03', '2030-02-16'], daysOnly=True, note='AA_399 第 9 節：只有考試那天開（研究所筆試；延畢版）。其他時間 2F 樓梯口的鍊子「整修中」照舊'),
                back_spawn=dict(x=-0.575, z=-0.38, lv=1, yaw=0.0, note='共同教學館 2F 樓梯口（teach3d.js「往 3F」的位置：B 跑的頂端前面）'),
