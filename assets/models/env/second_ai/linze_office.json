@@ -1,0 +1,13 @@
+{
+ "objects": 32,
+ "unique_meshes": 32,
+ "tris": 8188,
+ "tris_drawn": 8188,
+ "materials": 12,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/office/linze_office.glb",
+ "bytes": 862368,
+ "texres": 512,
+ "tris_total": 8188,
+ "layout": "linze_office.layout.json",
+ "seats": 2
+}

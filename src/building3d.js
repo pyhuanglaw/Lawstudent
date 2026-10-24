@@ -165,7 +165,9 @@ const B3=(function(){
     // 互動點
     const IT=E.interactables, EN=L.entrance;
     IT.push({x:EN.exitX,z:EN.exitZ,radius:1.4,lv:0,label:'走出霖澤館',exit:{to:'campus',spawn:Object.assign({},CAMPUS_DOOR)}});
-    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:d.spawn?Object.assign({},d.spawn):{x:0,z:7.0,yaw:Math.PI}};   /* d.spawn：門自己帶出生點（2F 樓梯間 → 3F 的樓梯間門口）；沒有的照舊（201 教室）*/ else it.look=d.closed; IT.push(it); }
+    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:d.spawn?Object.assign({},d.spawn):{x:0,z:7.0,yaw:Math.PI}};   /* d.spawn：門自己帶出生點（2F 樓梯間 → 3F 的樓梯間門口）；沒有的照舊（201 教室）*/ else it.look=d.closed;
+      if(d.to&&d.gate&&Z3.roomGlbGate){ it.gate=d.gate; Z3.roomGlbGate(it,false); IT.push(Z3.roomGlbGate({x:it.x,z:it.z,radius:it.radius,lv:d.lv,label:d.label,look:d.closed,gate:d.gate},true)); }   /* 有開放時段的房間（rooms_glb3d.js；系辦）：時段內「進入…」、時段外照舊是門上的字 */
+      IT.push(it); }
     const bd=L.furniture.find(f=>f.type==='board'); if(bd) IT.push({x:bd.x,z:bd.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'霖澤館 樓層簡介：1F 大廳、101 教室、法律學院辦公室；2F 201 階梯教室、202 教室；3F 學生討論區、301、302 教室；4F 自習討論區、401 教室、402 研討室；5F–8F 研究室（教職員）。樓梯在大廳西側，電梯在中庭。'});
     for(const f of L.floors) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）

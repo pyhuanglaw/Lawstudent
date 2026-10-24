@@ -45,7 +45,7 @@ const CLOSED2=(function(){
   S.media=async function(GM){ const G=GM.G; let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'看一部片',hint:'60 分鐘'},{t:'算了'}]); } finally { GM.sceneEnd(); } if(k!==0) return true;
     if(GM.fade) await GM.fade(true); GM.advance(1); if(GM.fade) await GM.fade(false); GM.sceneBegin(); try{ await GM.say(null,S.LINES.media); } finally { GM.sceneEnd(); } return true; };
   S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
-    if(G.zone==='linze'&&it.label==='法律學院辦公室'&&S.formDue(G)) return S.officeForm(GM);
+    if(((G.zone==='linze'&&it.label==='法律學院辦公室')||(G.zone==='linze_office'&&it.label==='服務台'))&&S.formDue(G)) return S.officeForm(GM);   /* 系辦有 3D 房間以後（rooms_glb3d.js linze_office，辦公時間門才開）：在裡面的服務台交 */
     if(G.zone==='library_hall'&&it.label==='多媒體中心'&&S.mediaOk(G)) return S.media(GM);
     return false; };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closed2Interact){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closed2Interact=true; }
