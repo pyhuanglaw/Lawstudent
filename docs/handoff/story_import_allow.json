@@ -2720,7 +2720,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；子代理施工中（src/vacfill3d.js）"
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）"
   },
   {
    "path": "docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md",

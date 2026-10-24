@@ -31134,8 +31134,8 @@
    "title": "寒暑假沒有空白日（AA_440，回 BB_303）：經濟系那年暑假 7/12～8/12、大二暑假、大三寒假過年後、其他假期 ≥5 天空白、摘要池",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理施工（src/vacfill3d.js、src/data/vacfill_events.js）；接好請 BB 重掃",
+   "status": "已整合待測試",
+   "next": "BB 用 vac_sweep 重掃（經濟系暑假的 profile 要加入 econ_friends 群組）；AA 定三處矛盾（7/19 高雄、放榜前的日子、2/16 明天回宿舍）；BB 向使用者要元宵燈會背景（D97）",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -31148,7 +31148,37 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-24 06:0x（企劃線 718c06a30）；D99 第二優先",
-   "authorized": "D99、D109、D111"
+   "authorized": "D99、D109、D111",
+   "sha": "cff6ef5c8",
+   "notes": "10-24 07:0x LAWWW-B：子代理做完（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js 137 PASS）；AA_442 第 1、2 節接續給同一個子代理"
+  },
+  {
+   "id": "BG-LANTERN-1024",
+   "title": "元宵燈會的 2D 背景（AA_440 3-2 大三寒假 2/9；現在黑底＋地點字幕，OUT.BG.vf_lantern image:null）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "待開工",
+   "next": "BB 照 D97 寫生成提示詞向使用者要（夜裡、燈、人潮）；收到交 LAWWW 接 OUT.BG.vf_lantern",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 0,
+    "earliest": "2028-02-09 元宵燈會（麵店團）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "寒暑假子代理回報 10-24",
+   "authorized": "D97、D100",
+   "xai": {
+    "spec": "AA_440 3-2（718c06a30）",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "2D 背景圖，接進 OUT.BG.vf_lantern",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
