@@ -178,7 +178,7 @@ GRP = "PHONE.join(G,'noodle_team','麵店團');"
 ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
 async def talk(pg, cdp, run, who):
     """走到那個人旁邊、按「和○○說話」（真的操作），演完"""
-    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))
+    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))   # BB-B 10-24 16:4x：不看 obj.visible（engine3d.js 鏡頭外的人物每一格設成 false）
     if not p: say('   ⚠ 這裡沒有 %s' % who); bad.append('找不到 %s（不在這個區域）' % who); return False
     if not await L.go_to(pg, cdp, run, p[0], p[1], 1.4, who, max_s=120): say('   ⚠ 走不到 %s' % who); bad.append('走不到 %s' % who); return False
     for k in range(25):   # BB-B 17:5x：互動鈕要等下一格（負載 25 時 3 秒以上）

@@ -2312,7 +2312,7 @@ RC = {'first': '（第一次進她的房間。東西很少，床鋪得很平。�
       'winLab': '（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', 'other': '（門上貼著一張手寫的課表。）'}
 DOORC = "(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/臥室 C/.test(String(i.label||''))); return it?it.label:null; })()"
 WINTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); const im=tx&&tx.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\/us_bed_c/.test(s)) out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')); } }); return [...out].join(','); })()"
-SISAT = "(()=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.charId==='heroine_05'&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })()"
+SISAT = "(()=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.charId==='heroine_05'&&n.obj&&!n.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })()"   # BB-B 16:4x：不看 obj.visible（鏡頭外會被剔除成 false）
 CAPNOW = "(()=>{ const e=document.getElementById('caption'); if(!e||e.classList.contains('hide')||getComputedStyle(e).opacity==='0') return ''; return (e.textContent||'').trim(); })()"   # BB-B 14:4x：caption 淡出以後只加 hide、字還留著（game3d.js caption）＝要看得見才算
 INC = ('wait', "GAME.G.zone==='us_bed_c'&&!GAME.E.player.busy", 60, '進到臥室 C')
 OUTC = ('wait', "GAME.G.zone==='us_shared'&&!GAME.E.player.busy", 60, '回到 208 的走道')
@@ -2667,7 +2667,8 @@ NOTHREE = r"""((ban)=>{ const RE=/[一兩二三四]件事|第三件|第三格|�
 
 async def talkp(pg, cdp, run, who, pref):
     """同 us_life_probe 的 talk（走到那個人旁邊、按「和○○說話」），選項先照情境的 pref、再「聊／說」"""
-    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))
+    # BB-B 16:4x：不看 obj.visible——engine3d.js 每一格把鏡頭外的人物設成 visible=false（視錐剔除），人在背後就會被當成「不在這個區域」（法圖 2F 學姊）
+    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))
     if not p: say('   ⚠ 這裡沒有 %s' % who); bad.append('找不到 %s（不在這個區域）' % who); return False
     if not await L.go_to(pg, cdp, run, p[0], p[1], 1.4, who, max_s=120): say('   ⚠ 走不到 %s' % who); bad.append('走不到 %s' % who); return False
     lab = ''
