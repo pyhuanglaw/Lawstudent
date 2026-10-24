@@ -90,6 +90,11 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 10:3x 更新**：
+    - LAWWW-B 09:54：教學館窗景已整合 `aef97e506`（DL-LW2-TEACH-VIEWS）。
+    - #61 經濟系路線截圖（宿舍 → 共同旁邊 → 椰林大道 → 文學院 → 普通門口，白天＋晚上）：沒找到方盒、黑塊、穿模。普通的門廊從小巷斜看是兩片實心側牆，正面有玻璃門、燈、名牌，照設計。
+    - #85 已交：博雅窗景（本 commit；`test_shots/boya_views_wide_1024/README.md`）：二樓長窗寬照片＋photoWide；boya_south、boya_2f_south 重拍（舊照片是普通以前的米色外觀）。
+    - 下一項：問 LAWWW-B 要不要排 PERF-CROWD-LOD（原本排在 ART-ECON-3D-GAP 之後），或 #61 還有沒有他想先做的。
   - **10-24 10:0x 更新**：
     - LAWWW-B 09:15：社科院捲簾已整合 `b9d19d8a6`（outbox 標 ACTIONED）。
     - #61 已交：普通、共同教學館教室的窗外景（本 commit；`test_shots/teach_views_1024/README.md`）。
