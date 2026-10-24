@@ -86,6 +86,12 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
   - 公館、118 巷店面立體化。
 - **v9.10.6 已知問題的修正**：日本路線在 3D 房間時必接的電話會響（`8a99f2ed`）；2029-04-20 明信片出現（`a89f1815b`）。
 
+**發布樹（10-24 04:1x 組好，本機 `9199fd7d4`，正式發布時推）**＝`d7f40ce91`＋`b1f8e18a9`（SQ08：留著上一句的選單放不下時收掉那一句）＋`8cea91db4` 的 aa130 測試（認得 D42 的「不及格，下學期重修」）＋`aec9d9426` 的 aa415 測試（版本字樣不寫死）＋版本字樣 v9.10.7、script 網址 `?v=9.10.7`（202 個）。docs、LICENSES.md、CLAUDE.md 照開發分支。
+**發布前的測試**（Playwright 手機模擬，不是 iPhone 實機）：
+- LAWWW 乾淨 worktree（發布樹）：Node 單元測試 557 支**全部通過**（aa415 先 FAIL＝測試把 ?v=9.10.4 寫死，修好重跑 PASS）；deploy_check v9.10.7 **ALL PASS**（2755 個網址、沒有 JS 例外）；smoke_release **ALL PASS**。
+- HV-15 第 5 點：題目漏收 0（企劃線重新匯出 399 題，只有來源那一行不同）；check_lines 一模一樣 43,656 句、相似度 ≥0.8 的 455 筆是提醒（沒逐句看）；check_orphans：程式沒提到的素材 80（40 個 `*.lod.glb`、其他是窗景 `views/*_near_{day,night}.webp`、`dorm_view_*`、`library_view_*`，程式用組出來的檔名載入、工具看不到；deploy_check 2755 個網址都載得到）、停住的看板項目 23、白名單待接 23。
+- BB（d7f40ce91 回歸，接續中）：reachability_all、indoor_cam_occlusion、minimap、joystick、p0、touch_flow_wenzhou、flow_class_real、flow_linze_floors PASS；剩下的跑完以後在發布樹上跑 cvs_menu4（橫向、直向）、ZR43_GF。
+
 **還在做、這版不一定有**：
 - 子晴、學姊、可昕的心願事件：等 AA 改稿，現在照一般第一次約會。
 - 多線交往的五位坦白版：等 AA 台詞。
