@@ -2756,10 +2756,13 @@ SCENS = SCENS + R29
 SDIN = "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.dinner(GAME,{id:'te_gf_Y4S1_heroine_05',te:{term:'Y4S1',who:'heroine_05',kind:'gf'}}); }catch(e){ console.warn('SDIN',e); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GAME.sceneEnd(); } })(); return true; })()"
 SQ_B = ['時差還沒調好。我現在很想睡。', '……可是這頓我不想錯過。']
 SQ_N = ['美國下雪那天，我說回去再跟你說。', '……論文還要改兩章。我不知道碩三畢不畢得了業。', '還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。']
+# BB-B 23:5x：第一次只寫了 EXCHANGE_ROUTE＝US，沒有記「已經回臺灣」（US_ARRIVED、US_RETURNED），吃完飯遊戲照美國路線把主角送去美國、從 8/2 抵達重演 → 補上已經回來（exchange3d.js S.returnHome 記的 US_RETURNED＝12/23）
+SQ_BACK = " G.flags.US_ARRIVED_DAY=D('2028-08-02'); G.flags.Y4_PATH_DAY=D('2028-06-08'); G.flags.US_RETURNED=D('2028-12-23'); G.flags.US_TRIP_DONE=true;"
 def SQSC(sid, flags, has, key='2028-12-24'):
-    return dict(id=sid, key=key, h=18.45, zone='campus', flags=dict({'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'met_sis': True}, **flags), js=SIS_D, pref=[],
+    return dict(id=sid, key=key, h=18.45, zone='campus', flags=dict({'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'met_sis': True, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US1': 'together', 'US2': True, 'Y4_PATH': 'bar'}, **flags), js=SIS_D + SQ_BACK, pref=[],
                 steps=[('jsrun', SDIN, '【捷徑】直接演學姊大四上的期末飯（TERMEND.dinner Y4S1 gf）'), ('until', 21.5)],
-                want=SQ_B + (SQ_N if has else []), order=SQ_B + (SQ_N if has else []), none=([] if has else SQ_N))
+                want=SQ_B + (SQ_N if has else []), order=SQ_B + (SQ_N if has else []), none=([] if has else SQ_N) + ['（亞洲超市。'],
+                jsok=[('吃完飯人還在臺灣（不是 us_ 區域）', "!/^us_/.test(GAME.G.zone)", True)])
 R30 = [SQSC('SNOWQ_DIN', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True),
        SQSC('SNOWQ_DIN_1226', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True, key='2028-12-26'),
        SQSC('SNOWQ_ASKED2', {'US_SNOW_QUIET': True, 'SIS_ASKED_TWICE': True, 'SIS_XMAS_Y3': 'missed'}, False),
