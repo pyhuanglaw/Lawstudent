@@ -90,6 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 15:2x 更新**：
+    - 第二批背景：LAWWW-B 14:37 已整合（`7a7c4391b`）；遊戲內對話畫面四張都顯示圖（`d986ef4a4`）。
+    - 已交：D99 路線巡查②美國交換（本 commit；`test_shots/route_us_1024/README.md`）。
+      - 社區西邊出口外面沒做（P1）→ `us_community.glb` 加社區外面的街、公車站、對面平房、樹林。
+      - 法圖（美國）彩色玻璃、天窗晚上一樣亮（P2）→ `patches/us_route_night_1024.patch`（`us3d.js` 的 `skyTint`）。
+      - 美國校園晚上沒有光圈（P2）→ 同一個 patch（`us_campus` 的 `lampPools`）。
+      - 17 支單元測試 ALL PASS。
+    - 測試樹 `$SP/dv8` 有套 patch＋新 GLB（對開發 `b2430412c`），不要拿來當開發分支的原樣。
+    - 下一項：問 LAWWW-B；沒有新派工就從巡查表 P3 挑。
   - **10-24 14:3x 更新**：
     - LAWWW-B 13:50：
       - 第一批 8 張已整合（`64397615a`）；

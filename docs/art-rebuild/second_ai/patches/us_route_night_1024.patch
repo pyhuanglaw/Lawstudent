@@ -1,0 +1,123 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index 17194793d..c62b9570f 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -135,9 +135,16 @@ const US3=(function(){
+     for(const [ry,ax] of [[Math.PI,'x'],[Math.PI/2,'z'],[-Math.PI/2,'z']]) for(const d of [-18,0,18]){ const c=g.clone(true); c.rotation.y=ry; c.position[ax]+=d; c.userData.southView=true; g.parent.add(c); } } }
+   /* 窗外的景（自發光貼圖）跟著時段變色：天空的部分是透明的（遊戲照時段畫的天空透出來），對面的公寓、停車場白天原色、黃昏偏暖、晚上暗 */
+   const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.5,[0.22,0.25,0.36]]];
+-  function viewTint(mats,h){ if(!mats.length) return; h=((h%24)+24)%24; let c=VT[0][1];
+-    if(h>=VT[VT.length-1][0]||h<VT[0][0]) c=VT[0][1]; else for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); c=ca.map((v,k)=>v+(cb[k]-v)*t); break; } }
++  function vtAt(h){ h=((h%24)+24)%24; if(h>=VT[VT.length-1][0]||h<VT[0][0]) return VT[0][1];
++    for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); return ca.map((v,k)=>v+(cb[k]-v)*t); } } return VT[0][1]; }
++  function viewTint(mats,h){ if(!mats.length) return; const c=vtAt(h);
+     for(const m of mats){ m.color.setRGB(c[0],c[1],c[2]); if(m.emissive) m.emissive.setRGB(c[0],c[1],c[2]); } }
++  /* 天窗、彩色玻璃（法學院圖書館 usll_skylight、usll_stained_glass）：自發光＝外面透進來的天光，照 VT 跟著時段變暗。
++     原本整天 0.9，晚上 21:00 和下午一樣亮（LAWWW2-B 美國路線巡查 10-24）。原本的顏色、亮度只記第一次（clone 的模型共用快取的材質）。
++     顏色、自發光都乘 VT 的平方：只乘一次的話 21:00 還有下午的 58%（自發光 0.2 在螢幕上照樣看得清楚），看起來像外面還有天光 */
++  function skyTint(mats,h){ if(!mats.length) return; const c=vtAt(h).map(v=>v*v);
++    for(const m of mats){ const u=m.userData; if(!u.skC0){ u.skC0=m.color.clone(); u.skE0=m.emissive?m.emissive.clone():null; }
++      m.color.setRGB(u.skC0.r*c[0],u.skC0.g*c[1],u.skC0.b*c[2]); if(u.skE0) m.emissive.setRGB(u.skE0.r*c[0],u.skE0.g*c[1],u.skE0.b*c[2]); } }
+   /* 公寓單位（同一套格局的模板，LAWWW2-C 2026-10-17）：祐廷的單人戶 us_apartment、學姊她們的 C 棟合租戶 us_shared。
+      o：id、name、layout()、glb、exitSpawn()（「出門」到社區的哪裡）、look（冰箱、爐子的字）、tag（給交換系統的互動 id）。
+      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
+@@ -281,6 +288,10 @@ const US3=(function(){
+     gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-18','葉子掉得差不多了，地上都是橡實。'],['2028-10-16','橡樹的葉子開始轉紅了。']]};
+   const campusLook=(id,G)=>{ if(id!=='gate') return LOOK_CAMPUS[id]||null; const k=dkey(G), s=k?LOOK_CAMPUS.gateSeason.find(q=>k>=q[0]):null; return LOOK_CAMPUS.gate+(s?s[1]:''); };
+   const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
++    /* 晚上的地面光圈（LAWWW2-B 美國路線巡查 10-24：21:00 法學院前的草地、台階一片黑，路燈只有燈頭亮）：人行道的綠色高路燈（燈頭 5.7～6.2 m，正上方）、
++       校門廣場的黑鐵燈柱（3.5～4 m）、大門台階前的小廣場（門兩側的壁燈）。燈頭照 tools/blender/env_second/us_campus.py：燈頭在柱子正上方 */
++    lampPools:L=>(L.props||[]).filter(t=>t.type==='lamp_green'||t.type==='lamp').map(t=>t.type==='lamp'?{x:t.x,z:t.z,r:4.0,op:0.3}:{x:t.x,z:t.z,r:5.5,op:0.26})
++      .concat(L.forecourt?[{x:(L.forecourt.x0+L.forecourt.x1)/2,z:(L.forecourt.z0+L.forecourt.z1)/2,r:4.2,op:0.22}]:[]),
+     interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
+         if(q.id==='bus') it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)};                                         /* 回社區的入口（和登機抵達、從超市回來同一個點）*/
+         else if(q.id==='library') it.exit={to:'us_lawlib',spawn:Object.assign({},US_LAWLIB_LAYOUT.spawn)};
+@@ -308,8 +319,8 @@ const US3=(function(){
+     // 備用模型：地板、桌子、書架、服務台的方塊
+     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#5f7f93'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/stacks|column|stair/.test(b.why)?2.2:(/desk|catalog/.test(b.why)?1.0:0.75); const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
+     const lamps=[]; for(const [x,zz] of [[-8,-5],[8,-5],[-8,5],[8,5],[0,0]]){ const l=new THREE.PointLight(0xffefd6,3,14,2); l.position.set(x,H-0.5,zz); l.userData.on=6; l.userData.off=3.5; g0.add(l); lamps.push(l); }
+-    let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 檯燈、嵌燈整天都亮 */
++    let glow=[], sky=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); skyTint(sky,h); };   /* 檯燈、嵌燈整天都亮；天窗、彩色玻璃照時段 */
+     const IT=E.interactables; z.seats=[];
+     for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st);   /* ap：椅子後面是方柱的那一張，走近點另外給（配置算好的）*/ IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st},s.kind==='lounge'?{label:'坐在軟椅上'}:{label:'坐下來讀書',study:true})); }   /* study：坐下的選單有「讀書」（和總圖一樣）*/
+     const UP=typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate&&Z3.ZONES.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f.host_door?ROOM_GLB_LAYOUTS.us_lawlib_2f:null;   /* 二樓書庫（us_lawlib_2f，LAWWW2-B 10-24；AA_399 第 8 節）：樓梯口那一點開的時候變成「上 2F（書庫）」，紅絨繩藏起來 */
+@@ -320,7 +331,7 @@ const US3=(function(){
+     z.formal=false; if(has('bldg.us_lawlib')) ASSETS.loadOne('bldg.us_lawlib').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+       if(UP&&Z3.roomGlbOpen('us_lawlib_2f',G_())) root.traverse(o=>{ if((UP.glb_hide||[]).includes(o.name)) o.visible=false; });   /* 二樓開著：樓梯口的紅絨繩、小立牌拿掉 */
+       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
+-      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
++      glow=glowMats(root,/^GLOW_/); sky=glowMats(root,/^usll_(skylight|stained_glass)/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
+     return z; } };
+   // =================== 超市 us_market（草原超市 Prairie Basket；US1 抵達那天、之後的日常採買）===================
+   const AISLE_ZH={cereal:'早餐穀片',snacks:'零食',drinks:'飲料',canned:'罐頭',pasta:'義大利麵、米',baking:'烘焙材料',household:'日用品',personal:'清潔、個人用品'};
+diff --git a/tests/us_lamp_pools_unit.js b/tests/us_lamp_pools_unit.js
+index b66926382..a07ff5f29 100644
+--- a/tests/us_lamp_pools_unit.js
++++ b/tests/us_lamp_pools_unit.js
+@@ -1,7 +1,7 @@
+ // 美國戶外區域的路燈地面光圈（US-MS-NIGHT-1021，LAWWW2 2026-10-21）——不需要瀏覽器。
+ // 超市街 20:00 的遊戲內截圖：停車場燈桿、路燈只有燈頭亮，地上一片黑（溫州街、校園的路燈都有地面光圈）。
+ // 做法（src/us3d.js 的 outdoorZone）：區域定義的 lampPools(L) 給燈頭位置，鋪地面光圈，交給 E.lampGlows（和溫州街、校園同一套：入夜才開）。
+-// 檢查：在 Node 建出超市街、公寓社區，數光圈、看位置（燈頭照 Blender 腳本：停車場燈桿每支兩個燈頭、桿子前後 1.1 m；眼鏡蛇頭路燈往馬路 2.75 m；社區路燈往 +z 0.9 m）、
++// 檢查：在 Node 建出超市街、公寓社區、美國校園（10-24 加），數光圈、看位置（燈頭照 Blender 腳本：停車場燈桿每支兩個燈頭、桿子前後 1.1 m；眼鏡蛇頭路燈往馬路 2.75 m；社區路燈往 +z 0.9 m）、
+ // 白天藏著、E.setLamps(true) 才出現、引擎合併靜態網格（P3.mergeStatic）以後還在。
+ // 用法：node tests/us_lamp_pools_unit.js（要有超市街：patches/us_market_street.diff）
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+@@ -23,6 +23,8 @@ check('有超市街（US_MARKET_STREET_LAYOUT、Z3.ZONES.us_market_street）',!!
+ const CASES=[];
+ if(MSL) CASES.push(['us_market_street',[].concat(...MSL.poles.map(p=>[[p.x,p.z-1.1],[p.x,p.z+1.1]]),MSL.props.filter(t=>t.type==='street_lamp').map(t=>[t.x+Math.sin(t.yaw)*2.75,t.z+Math.cos(t.yaw)*2.75]))]);
+ CASES.push(['us_outside',US_COMMUNITY_LAYOUT.props.filter(t=>t.type==='lamp').map(t=>[t.x,t.z+0.9])]);
++// 美國校園（LAWWW2-B 美國路線巡查 10-24）：綠色高路燈、黑鐵燈柱的燈頭在柱子正上方；大門台階前的小廣場一圈（門兩側的壁燈）
++{ const CL=US_CAMPUS_LAYOUT, F=CL.forecourt; CASES.push(['us_campus',CL.props.filter(t=>t.type==='lamp_green'||t.type==='lamp').map(t=>[t.x,t.z]).concat([[(F.x0+F.x1)/2,(F.z0+F.z1)/2]])]); }
+ for(const [id,heads] of CASES){ tag='['+id+'] '; const z=loadZone(id);
+   const pools=E.lampGlows.filter(o=>o.name==='lamp_pool');
+   check(`每個燈頭一圈光圈（${heads.length} 個燈頭）`,pools.length===heads.length,`${pools.length} 圈`);
+diff --git a/tests/us_lawlib_sky_unit.js b/tests/us_lawlib_sky_unit.js
+new file mode 100644
+index 000000000..320e4cc74
+--- /dev/null
++++ b/tests/us_lawlib_sky_unit.js
+@@ -0,0 +1,41 @@
++// 美國法學院圖書館的天窗、彩色玻璃晚上要暗（LAWWW2-B 2026-10-24 美國路線巡查②）——不需要瀏覽器。
++//   us_lawlib.glb 的 usll_stained_glass（自發光 0.9）、usll_skylight（0.74～0.85）是「外面透進來的天光」，原本整天一樣亮：21:00 和 15:00 一模一樣。
++//   1. us3d.js 有 vtAt、skyTint；us_lawlib 的 applyTime 呼叫 skyTint；正式模型載入後收 usll_skylight、usll_stained_glass；
++//   2. 15:00 原樣（顏色、自發光都和模型一樣）；21:00 自發光、顏色都乘 VT 晚上那一格的平方（≤ 0.13；只乘一次：遊戲裡 21:00 還有下午的 58%）；18:2x 黃昏偏暖（紅 > 藍）；
++//   3. 來回換時段不會越乘越暗（21:00 → 15:00 → 21:00 和第一次 21:00 相同；15:00 回到原樣）；
++//   4. 窗外的景 viewTint 照舊（12:00 白、21:00 是 VT 晚上那一格）；
++//   5. us_lawlib.glb 真的有這兩個材質、而且有自發光（名字對得上 skyTint 收的那一條）。
++// 修改前 1 FAIL。用法：node tests/us_lawlib_sky_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8');
++const grab=re=>{ const m=src.match(re); return m?m[0]:null; };
++const VT=grab(/const VT=\[[^\n]*\];/), vtAt=grab(/function vtAt\(h\)\{[\s\S]*?return VT\[0\]\[1\]; \}\n/), viewTint=grab(/function viewTint\(mats,h\)\{[\s\S]*?\} \}\n/), skyTint=grab(/function skyTint\(mats,h\)\{[\s\S]*?\} \}\n/);
++check('1. us3d.js 有 vtAt、viewTint、skyTint', !!(VT&&vtAt&&viewTint&&skyTint));
++check('1. us_lawlib 的 applyTime 呼叫 skyTint(sky,h)', /setGlow\(glow,1\); skyTint\(sky,h\); \};/.test(src));
++check('1. 正式模型載入後收 usll_skylight、usll_stained_glass', /sky=glowMats\(root,\/\^usll_\(skylight\|stained_glass\)\/\);/.test(src));
++const col=(r,g,b)=>({r,g,b,setRGB(a,b2,c){ this.r=a; this.g=b2; this.b=c; return this; },clone(){ return col(this.r,this.g,this.b); }});
++const mat=(c,e)=>({color:col(...c),emissive:col(...e),userData:{}});
++const near=(a,b)=>Math.abs(a-b)<1e-6, same=(c,ref)=>near(c.r,ref[0])&&near(c.g,ref[1])&&near(c.b,ref[2]);
++if(VT&&vtAt&&viewTint&&skyTint){
++  const ctx={}; vm.createContext(ctx); vm.runInContext(VT+'\n'+vtAt+viewTint+skyTint+'this.vtAt=vtAt; this.viewTint=viewTint; this.skyTint=skyTint; this.VT=VT;',ctx);
++  const nightC=ctx.VT[0][1];
++  const glass=mat([1,1,1],[0.9,0.9,0.9]), sky=mat([0.8,0.85,0.9],[0.74,0.81,0.85]), M=[glass,sky];
++  ctx.skyTint(M,15);
++  check('2. 15:00：彩色玻璃、天窗原樣', same(glass.emissive,[0.9,0.9,0.9])&&same(glass.color,[1,1,1])&&same(sky.emissive,[0.74,0.81,0.85])&&same(sky.color,[0.8,0.85,0.9]));
++  ctx.skyTint(M,21); const g21=[glass.emissive.r,glass.emissive.g,glass.emissive.b], s21=[sky.emissive.r,sky.emissive.g,sky.emissive.b];
++  const n2=nightC.map(v=>v*v);
++  check('2. 21:00：自發光乘晚上那一格的平方（≤ 0.13 倍）', same(glass.emissive,[0.9*n2[0],0.9*n2[1],0.9*n2[2]])&&same(sky.emissive,[0.74*n2[0],0.81*n2[1],0.85*n2[2]])&&Math.max(...n2)<=0.13, JSON.stringify(g21.map(v=>+v.toFixed(3))));
++  check('2. 21:00：顏色也乘平方（屋裡的燈照到的玻璃不會還有下午的六成亮）', same(glass.color,n2), JSON.stringify([glass.color.r,glass.color.g,glass.color.b].map(v=>+v.toFixed(3))));
++  ctx.skyTint(M,18.6); check('2. 18:36 黃昏：偏暖（紅 > 藍）、比白天暗', glass.emissive.r>glass.emissive.b&&glass.emissive.b<0.9, JSON.stringify([glass.emissive.r,glass.emissive.b].map(v=>+v.toFixed(3))));
++  ctx.skyTint(M,15); const back=same(glass.emissive,[0.9,0.9,0.9])&&same(sky.emissive,[0.74,0.81,0.85]);
++  ctx.skyTint(M,21); check('3. 來回換時段不會越乘越暗（回到 15:00 原樣、再到 21:00 和第一次一樣）', back&&same(glass.emissive,g21)&&same(sky.emissive,s21));
++  const v=mat([0.5,0.5,0.5],[0.5,0.5,0.5]); ctx.viewTint([v],12); const v12=same(v.color,[1,1,1])&&same(v.emissive,[1,1,1]); ctx.viewTint([v],21);
++  check('4. 窗外的景 viewTint 照舊（12:00 白、21:00 晚上那一格）', v12&&same(v.color,nightC)&&same(v.emissive,nightC));
++}
++{ const assets=fs.readFileSync(path.join(ROOT,'src/assets3d.js'),'utf8'); const m=assets.match(/'bldg\.us_lawlib':\{url:'([^']+)'/);
++  let names=[]; if(m){ const b=fs.readFileSync(path.join(ROOT,m[1])); const n=b.readUInt32LE(12); const j=JSON.parse(b.slice(20,20+n).toString('utf8')); names=(j.materials||[]).filter(q=>q.emissiveFactor&&q.emissiveFactor.some(x=>x>0)).map(q=>q.name); }
++  const re=/^usll_(skylight|stained_glass)/; const hit=names.filter(n=>re.test(n));
++  check('5. us_lawlib.glb 有自發光的 usll_skylight、usll_stained_glass', hit.includes('usll_skylight')&&hit.includes('usll_stained_glass'), JSON.stringify(hit)); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
