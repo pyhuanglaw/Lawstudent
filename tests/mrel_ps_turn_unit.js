@@ -29,6 +29,7 @@ const TURN=['欸，我跟你講一件事喔。','什麼？','我最近跟一個�
 const OPT3=['「……謝謝妳跟我講。」','「我不太開心。」','「那妳想怎樣？」'], OPT4=OPT3.concat(['「那我也跟妳講一件事。」']);
 const ycAll=(n3)=>{ H.G.flags.PS_YC={n1:1,n2:2,n3}; };
 const datePS=()=>{ H.CLOSE(PS); ROM.start(H.G,PS); };
+const p3=d=>{ H.G.events=H.G.events||{}; H.G.events.done=H.G.events.done||{}; H.G.events.last=H.G.events.last||{}; H.G.events.done.ev_peishan_decision=1; H.G.events.last.ev_peishan_decision=d; };   /* 沛珊 P3「我要重考」演過（AA_432）*/
 
 (async()=>{
 check('0. 四個檔都載得到',ok&&!!X()&&!!X().ycSupper&&!!X().hvMeet&&!!(Lm()&&Lm().PS_TURN)&&!!HV,err);
@@ -45,7 +46,7 @@ await sec(1,async()=>{
   check('1. 不認識宥辰＝不演（只有認識的人說話）',!H.has('記得。可是我會假裝不記得。')&&!(H.G.flags.PS_YC||{}).n1);
 
   const d=STORY.termDay('Y2S1',8,3);
-  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); H.FRIEND(YC);
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); H.FRIEND(YC); p3(STORY.termDay('Y2S1',5,2));
   X().ycPhone(H.G); PHONE.tick(H.G);
   const g=msgs('g:noodle_team').filter(m=>m.text==='有沒有人知道一首聽了會想讀書的歌');
   check('1. 第二次：大二上第 8 週週三 23:10 麵店團群組沛珊「有沒有人知道一首聽了會想讀書的歌」（沒有句號）',g.length===1&&g[0].from===PS,J(msgs('g:noodle_team')));
@@ -53,11 +54,19 @@ await sec(1,async()=>{
   clr(); await play(a);
   check('1. （宥辰私下傳她一份歌單。）「六點那首是我自己混的。」（AA_425：沒有「別給阿哲聽。」）＝PS_YC.n2',J(T())===J(['（宥辰私下傳她一份歌單。）','六點那首是我自己混的。'])&&H.said[1].who==='賴宥辰（手機）'&&H.G.flags.PS_YC.n2===d&&!msgs('p:'+YC).length,J(H.lines()));
   check('1. 宥辰那一句不進祐廷的手機',!msgs().some(m=>m.text==='六點那首是我自己混的。'));
-  fresh('2026-10-01',12); setD(d,23.3); H.FRIEND(PS); H.FRIEND(YC); X().ycPhone(H.G); PHONE.tick(H.G);
+  fresh('2026-10-01',12); setD(d,23.3); H.FRIEND(PS); H.FRIEND(YC); p3(STORY.termDay('Y2S1',5,2)); X().ycPhone(H.G); PHONE.tick(H.G);
   check('1. 不在麵店團群組＝沒有這一次',!msgs().some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&!X().ycCutDue(H.G));
-  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); X().ycPhone(H.G); PHONE.tick(H.G);
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); p3(STORY.termDay('Y2S1',5,2)); X().ycPhone(H.G); PHONE.tick(H.G);
   check('1. 不認識宥辰：群組那句有，沒有切過去',msgs('g:noodle_team').some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&!X().ycCutDue(H.G));
   setD(d+1,22.5); X().ycPhone(H.G); check('1. 隔天 22:00 以後：群組那句在了，也算發生過（n2）',H.G.flags.PS_YC.n2===d);
+  /* AA_432：沛珊 P3 ev_peishan_decision 要演過 */
+  fresh('2026-10-01',12); setD(d,23.3); PHONE.join(H.G,'noodle_team','麵店團'); H.FRIEND(PS); H.FRIEND(YC); X().ycPhone(H.G); PHONE.tick(H.G);
+  check('1. P3「我要重考」沒演過＝第 8 週不傳、沒有 n2（AA_432）',!msgs().some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌')&&X().ycSongDay(H.G)==null);
+  const d10=STORY.termDay('Y2S1',10,2); p3(d10); const w10=STORY.termDay('Y2S1',10,3);
+  check('1. P3 第 10 週週二才演＝那之後的第一個週三（第 10 週週三）',X().ycSongDay(H.G)===w10);
+  setD(w10,23.3); X().ycPhone(H.G); PHONE.tick(H.G); check('1. 那一天 23:10 傳',msgs('g:noodle_team').some(m=>m.text==='有沒有人知道一首聽了會想讀書的歌'));
+  fresh('2026-10-01',12); p3(STORY.termDay('Y2S1',15,4)); check('1. P3 第 15 週週四以後才演＝超過第 15 週，沒有這一次',X().ycSongDay(H.G)==null);
+  fresh('2026-10-01',12); p3(STORY.termDay('Y2S1',15,3)); check('1. P3 第 15 週週三演＝當天（最晚第 15 週）',X().ycSongDay(H.G)===STORY.termDay('Y2S1',15,3));
 
   fresh('2027-08-20',12,'campus',{PS_RECONNECT:true}); setD(tainanDay(5),10); H.FRIEND(PS); H.FRIEND(YC);
   const q={id:'hv_t',hv:{id:PS,key:'classmate_peishan@台南',keep:false},ev:'ev_hv_ps_tn'};

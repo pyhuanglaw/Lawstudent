@@ -1,7 +1,7 @@
 /* 霖澤館 5F 研究室的劇情接線（CLOSED-SPACES-1023；AA_399 第 1 節，AA-B 2026-10-23；空間是 LAWWW2-B 的 linze_5f，src/linze_upper3d.js）
    1. 學姊的作息（characters.js）：碩一～碩三週一～週四 12:20～14:00 在研究室門邊的位子（spot sis_desk；AA_399 1-1 更正，企劃 8a21184d）；美國期間不在。
    2. 4F 樓梯間往上的刷卡門：她在的時段多一個「傳訊息給學姊」，兩分鐘後她出來開門（照關係一句），一天一次；進去以後找她說話照一般的說話（talkSis）。
-      其他時候照舊只有門上的那一句。14:00 她收東西：「我要去總圖了。」祐廷跟著出去（回到 4F 樓梯間）。
+      其他時候照舊只有門上的那一句。14:00 她收東西：「我要去總圖了。」（大三起「我要去法圖了。」、2028-02 起去研究小間的日子「我去研究小間了。」，AA_437）祐廷跟著出去（回到 4F 樓梯間）。
    3. 原本 2D 研究室走廊的出遊（AA_399 1-2 的表）：演之前換到 5F（OUT.STAGE），畫面用模糊的 3D，台詞不變；演完回到原本的地方。
       在家、在國外、騎車、有人跟著的時候照舊用 2D。研究室走廊的底圖（linze_prof_hall、ra_lab）在 5F 演的時候換成 3D（OUT.bg 包一層）。 */
 const LAB5=(function(){
@@ -10,7 +10,9 @@ const LAB5=(function(){
   const L4=()=>typeof LINZE_UPPER_LAYOUTS!=='undefined'?LINZE_UPPER_LAYOUTS['4f']:null;
   const hr=G=>G.hour%24;
   const dating=G=>!!(G.flags&&G.flags['dating_'+SIS]);
-  S.LINES={ open:{ low:'……有事嗎。進來。', friend:'你來了。進來，小聲一點。', lover:'（她開了門，沒有說話，拉你的袖子進去。）' }, leave:'我要去總圖了。' };   /* AA_399 1-2 第 1 點 */
+  S.LINES={ open:{ low:'……有事嗎。進來。', friend:'你來了。進來，小聲一點。', lover:'（她開了門，沒有說話，拉你的袖子進去。）' }, leave:'我要去總圖了。', leaveLaw:'我要去法圖了。', leaveCarrel:'我去研究小間了。' };   /* AA_399 1-2 第 1 點；AA_437 第 2 節：大三起（2027-09）她下午在法圖「我要去法圖了。」，2028-02 起去研究小間的日子「我去研究小間了。」*/
+  S.leaveLine=G=>{ if(typeof LUP!=='undefined'&&LUP.sisPeriod&&LUP.sisPeriod(G)) return S.LINES.leaveCarrel;
+    const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day|0):null; return d&&(d.y*10000+d.m*100+d.d)>=20270901?S.LINES.leaveLaw:S.LINES.leave; };
   /* 她現在照作息在研究室（不看玩家在哪裡）*/
   S.labNow=function(G){ if(!G||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const c=CHARACTERS[SIS]; if(!c) return false;
     if(STORY.presence){ const p=STORY.presence(SIS,G); if(p&&p.here===false) return false; }   /* 美國、在家（寒暑假）*/
@@ -33,7 +35,7 @@ const LAB5=(function(){
   let leaving=false;
   S.leaveDue=G=>!!G&&G.zone===Z&&G.flags.LAB5_IN===G.day&&hr(G)>=14&&!S.staged;
   S.tick=function(GM){ const G=GM&&GM.G; if(leaving||!S.leaveDue(G)) return false; if(GM.D&&GM.D.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false; if(typeof ADV!=='undefined'&&ADV.active) return false;
-    leaving=true; (async()=>{ try{ G.flags.LAB5_IN=null; if(GM.npc&&GM.npc[SIS]){ GM.sceneBegin(); try{ await say(GM,S.LINES.leave); } finally { GM.sceneEnd(); } }
+    leaving=true; (async()=>{ try{ G.flags.LAB5_IN=null; if(GM.npc&&GM.npc[SIS]){ GM.sceneBegin(); try{ await say(GM,S.leaveLine(G)); } finally { GM.sceneEnd(); } }
       const L=L4(); if(L) await GM.enter('linze_4f',Object.assign({},L.stairs.spawn)); } catch(e){ console.warn('LAB5.leave',e); } finally { leaving=false; } })(); return true; };
   /* 出遊換到 5F 演（AA_399 1-2 的表）：me＝祐廷站的位置 [x,z,yaw]；sis＝她在哪個 spot（sit＝坐著）；lights、exam 照 LZUP */
   const DESK_ME='me_desk';   /* 主角站著和她說話的位置：配置的 spots.me_desk（10-23 AA_399 1-1 更正：她的桌子在門邊；原本寫死在靠窗那張旁邊 [-4.75,4.55,-0.55]）*/

@@ -99,7 +99,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   check('S3. 9/4 以後也能快轉：床的選項有「快轉」；選項＝到下一個有事的日子／過三天／過一週／不用了', STORY.bedOptions(G).some(o=>o.kind==='ff')&&JSON.stringify(HOME.ffOpts(G).map(o=>o.t))===JSON.stringify(['到下一個有事的日子','過三天','過一週','不用了']));
   fresh('2028-08-06',8.5,'us_apartment',US()); date('heroine_05');
   await USL.jump(GM,T(D('2028-08-13'),8.5));
-  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去亞洲超市。結帳的時候，阿姨跟你說了一句台語。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
+  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去草原超市。推車大得像一張床，你只買了牛奶和麵包。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
   cards=[]; await USL.jump(GM,T(D('2028-08-20'),8.5));
   check('S3. 跳到 8/14 09:45 停（何俊朗 1 的出遊「國際學生迎新」10:00）；8/16～8/18 還沒到', G.day===D('2028-08-14')&&Math.abs(G.hour-9.75)<1e-6&&cards.length===1&&cards[0]==='8/14（一）09:45｜公寓', JSON.stringify({d:CALENDAR.dateOf(G.day),h:G.hour,cards}));
   fresh('2028-09-18',9,'us_apartment',US({US2:'there'})); date('heroine_05');
@@ -337,6 +337,32 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-09-20',19,'us_outside',US({US2:'repair'})); await interact({usShared:'door',label:'上樓（C 棟 208）',exit:{to:'us_shared'}}); check('I7. 挽回中：「（208 的門關著。）」', caps.includes('（208 的門關著。）')&&!caps.includes('（208 的門關著。平日晚上她在寫論文。）'), JSON.stringify(caps));
   fresh('2028-09-13',18.2,'us_outside',US()); date('heroine_05'); check('4-4. 9/13 傍晚 US2（交往中）照 r2y4a3d.js 開門', USL.c208Open(G));
   fresh('2028-09-23',15,'us_outside',US({US2:'repair'})); check('4-4. 挽回中：週末也不能敲門', !USL.c208Open(G));
+
+  // ======================= AA_399 第 8 節：臥室 C（學姊的房間 us_bed_c，rooms_glb3d.js）=======================
+  { const Z0=global.Z3; global.Z3=Object.assign({},Z0||{},{roomGlbOpen:(id,g)=>id==='us_bed_c'&&!!(g.flags.dating_heroine_05)&&(g.weekday===6||g.weekday===0)&&g.hour>=14&&g.hour<21});   // 開放時段本身在 tests/us_bed_c_unit.js 測
+    const room=()=>{ G.zone='us_bed_c'; E.zone={roomAt:()=>null,seats:[],spots:{sis:{x:0.86,z:-0.1,yaw:1.5708,act:'sit'}}}; GM.npc={}; E.player.obj.position={x:-0.35,y:0,z:0.55}; };
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); date('heroine_05'); room(); USL.sisSync(GM); const n=GM.npc.heroine_05;
+    check('AA_399-8. 交往中、週六 15:00 進臥室 C：她坐在書桌前（spots.sis）', !!n&&n.uslSis&&n.pose==='sit'&&!!n.seat&&Math.abs(n.seat.x-0.86)<1e-6&&Math.abs(n.seat.z+0.1)<1e-6&&Math.abs(n.seat.yaw-1.5708)<1e-6, n&&JSON.stringify(n.seat));
+    { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8. 「現在大概在」照舊寫 C 棟 208', w&&w.away==='C 棟 208', JSON.stringify(w)); }
+    at('2028-09-21',19); room(); USL.sisSync(GM); check('AA_399-8. 平日晚上（她在客廳）：臥室 C 裡沒有她', !GM.npc.heroine_05);
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); room(); USL.sisSync(GM); check('AA_399-8. 沒有交往：臥室 C 裡沒有她', !GM.npc.heroine_05);
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); date('heroine_05'); E.zone={roomAt:()=>null,seats:[{x:-3.8,z:0,ap:[-3.8,0]}],spots:{}}; USL.sisSync(GM); const m=GM.npc.heroine_05;
+    check('AA_399-8. 同一個時段在客廳：照舊坐沙發（不受影響）', !!m&&!!m.seat&&Math.abs(m.seat.x+3.8)<1e-6);
+    const D=US_SHARED_LAYOUT.doors.find(d=>d.id==='bedC'); fresh('2028-09-23',15,'us_shared',US());
+    check('AA_399-8. 不是交往中，臥室 C 的門「看」＝「（門上貼著一張手寫的課表。）」', USL.lookFor(G,{label:D.label})==='（門上貼著一張手寫的課表。）', USL.lookFor(G,{label:D.label}));
+    date('heroine_05'); at('2028-09-21',19); check('AA_399-8. 交往中、門關著的時候照舊「臥室 C。門關著。」（AA_287）', USL.lookFor(G,{label:D.label})==='臥室 C。門關著。', USL.lookFor(G,{label:D.label}));
+    // AA_444：房間裡的「看」、第一次進去那一句
+    fresh('2028-09-23',15,'us_bed_c',US({US2:'together'})); date('heroine_05');
+    const say=async label=>{ said=[]; const ok=await STORY.interact({label,x:0,z:0},GM); return ok?said.map(q=>q.t):null; };
+    { const t=await say('她的書桌'); check('AA_444. 書桌兩句（第二句「週六、週日下午那兩格是空白的」）', !!t&&t.length===2&&t[0].startsWith('（書桌上疊著三本很厚的判例教科書')&&t[1].includes('週六、週日下午那兩格是空白的。'), JSON.stringify(t)); }
+    { const t=await say('書架'); check('AA_444. 書架兩句', !!t&&t.length===2&&t[0].startsWith('（書架下面兩層是判例彙編')&&t[1].includes('書角翻軟了的小說'), JSON.stringify(t)); }
+    const win=async key=>{ at(key,15); return say('窗外'); };
+    { const a=await win('2028-09-30'), b=await win('2028-10-01'), c=await win('2028-11-01'), d=await win('2028-12-01'), e=await win('2028-12-02');
+      check('AA_444. 窗外照日期：9/30 綠、10/1 黃、11/1～12/1 剩幾片葉子、12/2 雪', a&&a[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&b[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）'&&c[0].startsWith('（窗外的樹只剩幾片葉子')&&d[0]===c[0]&&e[0]==='（窗外的樹枝上留著一點雪。窗台上也有。）'&&[a,b,c,d,e].every(x=>x.length===1), JSON.stringify([a,e])); }
+    G.visited.linze_5f=true; { const t=await win('2028-10-15'); check('AA_444. 去過她臺灣 5F 研究室：多一句', !!t&&t.length===2&&t[1]==='（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', JSON.stringify(t)); }
+    { caps=[]; E.player.busy=false; await USL.tick(GM,0.5); const c1=caps.slice(); caps=[]; await USL.tick(GM,0.5);
+      check('AA_444. 第一次進她的房間：一句旁白、記 US_ROOM_C_SEEN；之後不出', c1.includes('（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）')&&G.flags.US_ROOM_C_SEEN!=null&&!caps.includes(c1[0]), JSON.stringify(c1)); }
+    global.Z3=Z0; }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

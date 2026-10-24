@@ -1,0 +1,133 @@
+{
+ "glb": "assets/models/env/second_ai/dorm_wz_items.glb",
+ "zone": "dorm（四人房 dorm_room4，祐廷 L2；大一 203～大四 409 同一組家具，四個年級都放得下）",
+ "layout": "loft4-v2",
+ "tris": {
+  "ITEM_wz_board": 6,
+  "ITEM_wz_poster": 10,
+  "ITEM_wz_card": 8,
+  "ITEM_wz_notebook": 10,
+  "ITEM_wz_tea": 280,
+  "ITEM_wz_timer": 673
+ },
+ "tris_total": 987,
+ "bytes": 71256,
+ "meshes": 6,
+ "pos": {
+  "ITEM_wz_board": {
+   "min": [
+    -2.899,
+    1.15,
+    0.197
+   ],
+   "max": [
+    -2.898,
+    1.258,
+    0.335
+   ],
+   "center": [
+    -2.899,
+    1.204,
+    0.266
+   ]
+  },
+  "ITEM_wz_card": {
+   "min": [
+    -2.543,
+    0.763,
+    -0.644
+   ],
+   "max": [
+    -2.337,
+    0.819,
+    -0.48
+   ],
+   "center": [
+    -2.44,
+    0.791,
+    -0.562
+   ]
+  },
+  "ITEM_wz_notebook": {
+   "min": [
+    -2.858,
+    1.42,
+    -0.398
+   ],
+   "max": [
+    -2.71,
+    1.433,
+    -0.188
+   ],
+   "center": [
+    -2.784,
+    1.426,
+    -0.293
+   ]
+  },
+  "ITEM_wz_poster": {
+   "min": [
+    -2.899,
+    2.022,
+    -0.269
+   ],
+   "max": [
+    -2.898,
+    2.652,
+    0.169
+   ],
+   "center": [
+    -2.899,
+    2.337,
+    -0.05
+   ]
+  },
+  "ITEM_wz_tea": {
+   "min": [
+    -2.821,
+    1.42,
+    -0.491
+   ],
+   "max": [
+    -2.763,
+    1.5,
+    -0.433
+   ],
+   "center": [
+    -2.792,
+    1.46,
+    -0.462
+   ]
+  },
+  "ITEM_wz_timer": {
+   "min": [
+    -2.775,
+    0.76,
+    0.246
+   ],
+   "max": [
+    -2.715,
+    0.831,
+    0.306
+   ],
+   "center": [
+    -2.745,
+    0.796,
+    0.276
+   ]
+  }
+ },
+ "nodes": {
+  "ITEM_wz_timer": "room.timer 蛋的計時器（WZ_ITEM_TIMER）：書桌右後角",
+  "ITEM_wz_card": "room.card 手寫的卡片（WZ_CARD）：書桌前緣，攤開",
+  "ITEM_wz_notebook": "room.notebook 膠裝的空白筆記本（WZ_ITEM_NOTEBOOK）：層架頂，書背朝房間",
+  "ITEM_wz_tea": "room.tea 一小罐茶（WZ_ITEM_TEA，WZ_TEA_GIVEN 以後收起來）：層架頂",
+  "ITEM_wz_board": "room.board 讀書會白板的照片（WZ_YE_DONE）：層架和衣櫃中間的牆（網格 WALL_left_wz_board，dir [1,0,0]）",
+  "ITEM_wz_poster": "room.poster 子晴成發的藍色海報（WZ_POSTER_ITEM）：上舖旁邊的牆（網格 WALL_left_wz_poster，dir [1,0,0]）"
+ },
+ "show": "照 src/jobs3d.js S.room 的條件（JOBS.roomKeys）；搬家、收拾的那幾天（ROOM_Y2/Y3/Y4_MOVING、PACKED_Y4）全部收起來",
+ "texture": "tools/blender/env_second/textures/gen/dorm_wz_print.png（本作，PIL 畫的；海報的字是虛構的「成果發表會」）",
+ "materials": [
+  "wz6_print"
+ ]
+}

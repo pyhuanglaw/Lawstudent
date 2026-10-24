@@ -49,6 +49,11 @@ const PG=(function(){
   const nmD=(G,id)=>(S.dating(G,id)&&typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(id))||nm(id);   /* 交往中的叫法（學姊＝書瑀；AA_327 2-Y4-42「照程式現有的稱呼規則」）*/
   S.who=(G,w)=>{ if(w==null) return null; if(w==='me') return {name:G.name||'祐廷'}; if(typeof w==='object') return w; return {name:nmD(G,w),charId:w}; };
   S.sisOk=G=>!S.isEx(G,'heroine_05')&&S.at(G,'heroine_05','FRIEND');
+  /* 抓包以後分手、還沒重建的（AA_227 的 D；AA_437 第 5 節）：她現在是前任，而且最近一次分開是被發現的那幾種（multirel3d.js 的 CAUGHT_HOW：two_hearts、mrel、zq_zr、caught、told）；
+     那一筆沒有 how（舊存檔）照 EX_<id>_REASON 'caught'（v6ex3d.js）。重新交往過、後來好好分開的照最近那一次。以安、語彤：新 21／事件 17 照 AA_319「點頭，不說話」*/
+  S.CAUGHT_HOW=['two_hearts','mrel','zq_zr','caught','told'];
+  S.exCaught=function(G,id){ if(!S.isEx(G,id)) return false; const R=G.flags.romance&&G.flags.romance[id], H=R&&Array.isArray(R.history)?R.history:[]; let e=null; for(let i=H.length-1;i>=0;i--) if(H[i]&&H[i].ev==='end'){ e=H[i]; break; }
+    if(e&&e.how) return ((typeof MREL!=='undefined'&&Array.isArray(MREL.CAUGHT_HOW)&&MREL.CAUGHT_HOW)||S.CAUGHT_HOW).includes(e.how); return G.flags['EX_'+id+'_REASON']==='caught'; };
   const BG=id=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg(id):'dark';
   const adv=()=>typeof ADV!=='undefined'?ADV:null;
   /* ---------- 存檔 ---------- */
@@ -260,9 +265,9 @@ const PG=(function(){
       await S.play(GM,Lx.PHOTO.open); if(S.at(G,'heroine_03','FAMILIAR')) await S.play(GM,Lx.PHOTO.yt); await S.play(GM,Lx.PHOTO.hat);   /* ① 大合照 */
       F.GRAD_PHOTO=S.CLASS.filter(id=>S.at(G,id,'FAMILIAR')).concat(S.at(G,'heroine_03','FAMILIAR')?['heroine_03']:[]);
       const ps=S.PARTNER_ORDER.filter(id=>partners.includes(id)), shown=new Set(ps); if(ps[0]) await S.partnerBeat(GM,ps[0]);   /* ② 伴侶永遠是大合照之後的第一個；兩位以上（AA_327 2-Y4-54，U5）：分開演，第二位起在 ⑥ 其他人之前，不演被發現 */
-      if(!shown.has('heroine_01')&&!S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')) await S.mother(GM,false);   /* ③ 新 21 */
+      if(!shown.has('heroine_01')&&S.at(G,'heroine_01','FRIEND')){ if(S.exCaught(G,'heroine_01')) await S.play(GM,Lx.MOTHER.exCaught); else await S.mother(GM,false); }   /* ③ 新 21；前任＝友情版（她介紹朋友，沒有「媽，這是祐廷」，CG-9 照常：AA_123 4-3 V6-A3）；抓包以後分手、還沒重建＝只有那一句旁白，不介紹、沒有 CG-9（AA_437 第 5 節）*/
       if(!shown.has('heroine_05')&&S.sisOk(G)) await S.thermos(GM);   /* ④ W15 */
-      if(!shown.has('heroine_03')&&!S.isEx(G,'heroine_03')&&S.at(G,'heroine_03','FRIEND')) await S.yt17(GM);   /* ⑤ 事件 17 */
+      if(!shown.has('heroine_03')&&S.at(G,'heroine_03','FRIEND')&&!S.exCaught(G,'heroine_03')) await S.yt17(GM);   /* ⑤ 事件 17；前任＝友情版（AA_123 5-3 V6-A6：照朋友／和別人交往中那一句，沒有 CG-21）；抓包以後分手、還沒重建＝點頭、不說話（AA_437 第 5 節；AA 沒有寫她點頭的旁白＝這一段不演）*/
       for(const id of ps.slice(1)) await S.partnerBeat(GM,id);
       if(!shown.has('heroine_04')&&!S.isEx(G,'heroine_04')&&S.at(G,'heroine_04','FRIEND')) await S.play(GM,Lx.OTHERS.heroine_04);   /* ⑥ */
       if(!S.isEx(G,'classmate_mingxuan')&&S.at(G,'classmate_mingxuan','FAMILIAR')){ await S.play(GM,Lx.OTHERS.mingxuan); if(has('classmate_mingxuan','SAW_HIM_STUDY')) await S.play(GM,Lx.OTHERS.mingxuanSaw); }
@@ -387,7 +392,7 @@ const PG=(function(){
       case 'heroine_04': { const Z=E.zq; if(S.dating(G,'heroine_04')) return me(Z.me); if(S.zqLine(G)&&lw) return me(Z.line); if(F.ZQ_CONTRACT!=null&&!S.zqLine(G)) return me(Z.apart); return me(F.ZQ_Q12==='cat'?Z.cat:Z.nine); }   /* AA_360 第 1 節：她發表的一律是《九點以後》（沒看過 Q12 的也是）；舊存檔已經演完《找插座的貓》（ZQ_Q12 cat）照舊、不改尾聲 */
       case 'kai': { const K=E.kai; let t=K.base; if(lw) t=K.lawyer; if(has('kai','SUNDAY_SUPPER')) t=K.supper; if(yes(F.KAI_STAYED_UP)||has('kai','KAI_STAYED_UP')) t=K.stayed; return me(t); }
       case 'classmate_mingxuan': { const M=E.mx; let t=M.base; if(S.gradAdmit(G)) t=M.grad; if(F.BAR_YEAR===2029) t=M.bar2029; if(F.BAR_YEAR===2030) t=M.bar2030; if(has('classmate_mingxuan','SAW_HIM_STUDY')) t=M.saw; return me(t); }
-      case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=P.lover; return me(t); }
+      case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=yes(F.PS_WAITED)&&P.waited?P.lover.concat([P.waited]):P.lover; return me(t); }   /* PS_WAITED（BB_165 5-1，台南那一天等你問完）：和祐廷那一版多一句 */
       case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if(!S.delayed(G)&&F.BAR_YEAR===2030) t=Fy.y2030;   /* AA_331 1b：交換路線 2031 拿掉（交換延畢的 2030 也不再擋，沒有 2031 國考；AI解讀、待使用者確認）*/ if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };

@@ -72,12 +72,15 @@ const LOANS=(function(){
   /* 總圖大廳的服務台：知道的書可以借、借了的可以還；什麼都沒有＝照舊只是「看」 */
   S.deskOptions=function(G){ const O=[]; for(const l of S.rec(G)) O.push({t:'還'+S.name(l.book),act:'ret',id:l.book});
     for(const id of Object.keys(S.BOOKS)) if(S.known(G,id)&&!S.out(G,id)) O.push({t:'借'+S.name(id),act:'borrow',id,dim:S.rec(G).length>=S.MAX});
+    for(const f of S.DESK_EXTRA){ try{ for(const o of (f(G)||[])) O.push(Object.assign({act:'run'},o)); }catch(e){ console.warn('LOANS.DESK_EXTRA',e); } }   /* 服務台的其他事（研究小間預約，src/lupstory3d.js：fn(G)→[{t,run(GM)}]）*/
     return O; };
+  S.DESK_EXTRA=[];
   S.desk=async function(GM){ const G=GM.G; const O=S.deskOptions(G); if(!O.length) return false;
     GM.sceneBegin(); try{
       const late=S.rec(G).filter(l=>G.day>S.due(l)&&!l.late); if(late.length){ for(const l of late) l.late=G.day; await lines([{speaker:'館員',text:'這本逾期了喔。還了就好。'}]); }   /* 逾期以後第一次到服務台（不罰款、不停借；兩本一起逾期也只說一次）*/
       const k=await GM.choose(O.concat([{t:'（離開）'}])); const o=O[k]; if(!o) return true;
       if(o.act==='borrow'){ if(!S.borrow(G,o.id)){ if(GM.toast) GM.toast('一次最多借兩本。',2600); return true; } const d=CALENDAR.dateOf(S.due(S.out(G,o.id))); if(GM.toast) GM.toast('借了'+S.name(o.id)+'：'+d.m+'/'+d.d+' 以前還',2800); }
+      else if(o.act==='run'&&o.run){ await o.run(GM); }
       else if(o.act==='ret'){ S.giveBack(G,o.id); if(o.id==='L1') await lines([{speaker:'館員',text:'這本這學期很多人借。下一個已經在等了。'}]); if(GM.toast) GM.toast('還了'+S.name(o.id),2400); }
       if(GM.autosave) GM.autosave();
     } finally { GM.sceneEnd(); }

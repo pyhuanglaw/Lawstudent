@@ -129,6 +129,21 @@ for cid, wk, txt in DROP_REACT:
         if w.get('w') == wk and isinstance(w.get('react'), list) and any(r.get('text') == txt for r in w['react']):
             w['react'] = [r for r in w['react'] if r.get('text') != txt]
             drop_note = '\n   拿掉一句（匯入時，DROP_REACT）：日文（下）第 10 週采蓁「所以學語言，是在學看人。」——AA-C 2026-10-18 審 BB_105 G6 拿掉的金句（BB_105 @3954f9b62 G6；那一堂的劇情段在 src/bbpack3d.js 的 G6）。'
+# AA_123 4-3b（白名單 AA_123@d805bceee；V6-A3）：以安新 9＝大二上行政法第 12 週（admin_law w12，以安站機關那邊、「……你這樣講，我要改我的答案。」）。
+#   前任版：課堂照演，下課後多一句「剛剛那個，是課堂上的。」——匯入時在那一週加 exAfter（只給和以安分開過、現在沒有在交往的玩家；src/v6ex3d.js 的 ev_an_ex_admin 下課後演）。
+#   AA_123 裡找不到那一句、或那一週不是新 9 的課堂＝停下來
+A123 = GUARD.approved_files(ALLOW, 'docs/story_planning/AA_123_')
+if A123:
+    P123, S123 = next(iter(A123.items()))
+    ok, why = GUARD.allowed(P123, S123, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md123 = GUARD.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S123}:{P123}'], text=True))
+    EX9 = '剛剛那個，是課堂上的。'
+    if f'下課後多一句：「{EX9}」' not in md123: sys.exit(f'AA_123@{S123} 裡找不到 4-3b 新 9 的前任版：下課後多一句：「{EX9}」')
+    w12 = next((w for w in out['courses'].get('admin_law', []) if w.get('w') == 12), None)
+    if w12 is None or not any(r.get('who') == 'heroine_01' and r.get('text') == '……你這樣講，我要改我的答案。' for r in w12.get('react', [])): sys.exit('AA_123 4-3b：admin_law 第 12 週不是以安新 9 的課堂（找不到「……你這樣講，我要改我的答案。」）')
+    w12['exAfter'] = [{'who': 'heroine_01', 'text': EX9}]
+    out['source'] += f'＋{os.path.basename(P123)[:6]}@{S123}（行政法第 12 週前任版 1 句）'
 dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'

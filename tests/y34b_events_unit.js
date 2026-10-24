@@ -61,11 +61,11 @@ const date=id=>H.date(id);
     check('1B-12 日本路線 3/25：前一晚的鬧鐘 07:30', S.alarms(H.G,D('2028-03-25')).some(a=>a.h===7.5)); at('2028-03-25',8);
     check('1B-12 日本路線 3/25 08:00 以後：一起出發到期（在家也是：STORY.y4HomeDue＝stay）', S.sendoffJPDue(H.G)&&(()=>{ const old=HOME.at; HOME.at=()=>true; const r=STORY.y4HomeDue(H.G); HOME.at=old; return r==='stay'; })());
     H.said=[]; H.cgs=[]; H.cards=[]; await S.departJP(GM);
-    check('A3 日本路線、交往中：報到櫃台「二十二公斤」、媽媽「你們互相」、麵店團、「好。走吧。」、登機口 CG-22、字卡「飛往日本」「抵達」；AN_SENDOFF together', has('行李我量過了，二十二公斤。……你的呢？')&&has('她就交給你了。……不是，我是說，你們互相。')&&has('兩個人都要傳照片')&&has('好。走吧。')&&H.cgs.includes('cg_depart_together_heroine01')&&has('（她靠著窗，把手帳翻到四月那一頁。）')&&H.cards.some(c=>c[0]==='飛往日本')&&H.cards.some(c=>c[0]==='抵達')&&H.G.flags.AN_SENDOFF==='together'&&!S.sendoffJPDue(H.G)); }
+    check('A3 日本路線、交往中：報到櫃台「二十二公斤」、媽媽「你們互相」、麵店團、「好。走吧。」、登機口 CG-22、字卡「飛往日本」「抵達」；AN_SENDOFF together', has('行李我量過了，二十二公斤。……你的呢？')&&has('她就交給你了。……你們互相照顧。')&&has('兩個人都要傳照片')&&has('好。走吧。')&&H.cgs.includes('cg_depart_together_heroine01')&&has('（她靠著窗，把手帳翻到四月那一頁。）')&&H.cards.some(c=>c[0]==='飛往日本')&&H.cards.some(c=>c[0]==='抵達')&&H.G.flags.AN_SENDOFF==='together'&&!S.sendoffJPDue(H.G)); }
   { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); ROM.end(H.G,'heroine_01','test'); H.said=[]; await S.departJP(GM);
     check('1B-12 日本路線、挽回中：只有「到了再說。」「（座位分開。）」', has('到了再說。')&&has('（座位分開。）')&&!has('行李我量過了，二十二公斤。……你的呢？')&&!has('好。走吧。')); }
   { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); date('kexin'); H.said=[]; await S.departJP(GM);
-    check('1B-12 9-1b 也和可昕交往、她不知道：媽媽換中性的那句、可昕「時差一個小時，不要算錯。」', has('到了打電話回來。……你們兩個都是。')&&!has('她就交給你了。……不是，我是說，你們互相。')&&has('到了傳訊息。……時差一個小時，不要算錯。'));
+    check('1B-12 9-1b 也和可昕交往、她不知道：媽媽換中性的那句、可昕「時差一個小時，不要算錯。」', has('到了打電話回來。……你們兩個都是。')&&!has('她就交給你了。……你們互相照顧。')&&has('到了傳訊息。……時差一個小時，不要算錯。'));
     const hug='（可昕走過來，抱了你一下，很快就放開。以安在看航班表。）';
     check('AA_337 第 6 節 日本路線、可昕不知道：先抱一下的旁白，再「到了傳訊息。……」', idx(hug)>=0&&idx(hug)<idx('到了傳訊息。……時差一個小時，不要算錯。')); }
   { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); date('kexin'); ROM.relRec(H.G).kexin={heroine_01:true}; H.said=[]; await S.departJP(GM);

@@ -236,6 +236,8 @@ const HOME=(function(){
     for(const f of S.STOPS){ try{ const x=f(G,now); if(x!=null) for(const v of [].concat(x)) c(v); }catch(e){ console.warn('HOME.STOPS',e); } }   /* 事件包各自的停點（HOME.STOPS.push(fn)：fn(G,now) 回傳時間或時間的陣列；例：學姊的寒假 src/sis_grad3d.js）*/
     return best; };
   S.STOPS=[];
+  S.LIVE_GROUP=null;   /* 住家裡的週四 20:00 家人群組（AA_442 第 1 節）：fn(G)，src/jpprep3d.js 登記；沒有＝照原本 */
+  S.MENU_OPTS=[];   /* 週末在家的選單：別的模組加的選項（HOME.MENU_OPTS.push(fn)：fn(G) 回傳 {t,hint,run(GM)} 或 null；例：分開以後一週內的「收拾」，src/v6ex3d.js）*/
   S.breakStartDue=function(G){ const B=S.lawBreak(G); if(!B) return false; const H=S.rec(G); if(H.brk===B.key||H.lbreak===B.key||H.winter||H.base) return false; if(!(H.stay&&H.stay[B.key]==='home')) return false; return T(G.day,G.hour)<S.breakEnd(G,B)&&G.hour>=5; };   /* 只有暑假選了「暑假回家住」（AA_197 1-3）；寒假不強制 */
   /* 回家（第 2 節）：起床、成績那一件演完以後（story3d.js 的 sleepNow 最後；在家醒來的在 S.loop）*/
   S.BREAK_HOME_LINE={winter:'宿舍的房間留著。你帶了一袋換洗衣服回家。',summer:'暑假回家住。你把一年的東西裝進四個紙箱。'};   /* summer：AA-C 2026-10-17 11:40（可以續住，不寫「到六月底」）*/
@@ -271,7 +273,7 @@ const HOME=(function(){
     if(i<0) return null; if(i===R.last){ if(R.extra) return null; R.extra=true; R.n++; return (o.dorm?S.BREAK_SKIP_DORM_EXTRA:S.BREAK_SKIP_EXTRA)[B.kind]; }
     R.last=i; R.n++; return (o.dorm?S.BREAK_SKIP_DORM:S.BREAK_SKIP)[B.kind][i]; };
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
-  const hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));
+  const hasJob=G=>(typeof JOBS!=='undefined'&&JOBS.at?!!JOBS.at(G,'tutor'):!!(G.flags&&G.flags.JOB_TUTOR))||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));   /* 家教看 JOBS.at（停了、會考以後＝沒有，AA_163 第 2 節）；沒有 JOBS（舊的測試環境）照 JOB_TUTOR */
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };
   /* ===== 快轉途中要停下來的事（AA_340 第 6 節 6-1 H1、H2；D99 第二優先）：跳之前先記下已經在的，跳的途中「新出現的」才停 =====
      要回的訊息（手機有選項的 ask、當面約的邀請 offered）＝'msg'；事件包登記的事件到了＝'event'：只演一次、在家或在哪裡都可以演的（同 S.breakEvent），
@@ -461,6 +463,7 @@ const HOME=(function(){
         if(q) O.push({t:(q.verb||'出發')+'：'+(OUT.tt?OUT.tt(q.title):q.title),hint:outHint(q,'從家裡出發',q.travel),k:'out',q});   /* G48：出遊從家裡出發（不加取車時間）*/
         for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 40 分鐘',k:'inv',iv,P}); }
         if(typeof Y5!=='undefined'&&Y5.homeOpts){ try{ for(const x of Y5.homeOpts(G)) O.push(x); }catch(e){ console.warn('Y5.homeOpts',e); } }   /* 大五上（交換延畢）美國路線的補修：一鍵上課（AA_357 1-1，src/y5s1_3d.js）*/
+        for(const f of S.MENU_OPTS){ try{ const x=f(G); if(x&&x.t&&typeof x.run==='function') O.push({t:x.t,hint:x.hint,k:'ext',run:x.run}); }catch(e){ console.warn('HOME.MENU_OPTS',e); } }
         if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
         O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/
         O.push({t:'睡覺',hint:sun?'明天有課：先回宿舍再睡':(wk!=null?'明天 '+hm(wk)+' 在家醒來（學校有事）':'隔天早上在家醒來'),k:'sleep'});
@@ -468,6 +471,7 @@ const HOME=(function(){
         const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
         if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); continue; }
         if(o.k==='y5cls'){ if(typeof Y5!=='undefined'&&Y5.attend) await Y5.attend(GM,o.it); continue; }   /* 上完課回到家的選單 */
+        if(o.k==='ext'){ try{ await o.run(GM); }catch(e){ console.warn('HOME.MENU_OPTS',e); } if(H.at&&typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:bg()}); continue; }   /* 事件演完（EVENTS.run 會關 ADV）換回家裡的背景 */
         if(o.k==='out'&&S.pgHome(G)){ if(await S.pgOut(GM,o.q)) continue; break; }   /* 退宿以後住家裡：出遊從家裡出發、演完回家（同放假模式的 breakRound）*/
         if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await OUT.go(GM,o.q); break; }
         if(o.k==='go'){ const L=S.goList(), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) continue; await S.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]?Object.assign({},p[2]):undefined}); break; }   /* AA_357 1-5：校門口／公館／溫州街，進 3D 世界 */
@@ -506,7 +510,9 @@ const HOME=(function(){
   /* 讀檔時人在家裡：回到家的選單（story3d.js 的 S.tick）*/
   S.tick=function(GM){ const G=GM.G; if(!S.at(G)||busy) return; S.loop(GM).catch(e=>{ console.warn('HOME.loop',e); busy=false; }); };
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
-  S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;
+  S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return;
+    if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
+    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;
     PHONE.join(G,'home','家人'); const th='g:home', tag='home_ask_'+G.day;
     if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const GL=(L().group||[]).filter(x=>!(S.livesHome(G)&&S.HOME_SKIP.group.includes(x.t))), g=GL[Math.max(0,G.day/7|0)%(GL.length||1)]; const R=L().groupReply||{};   /* 住在家裡不問「這週回來吃飯嗎」（AA_298 第 4 節）；法律系新局 9/4 是第 -12 天，週數不到 0 照第 0 週（原本算出 -1 拿不到句子、整則沒發，BUG-HOME-FAMGROUP-NEGIDX-1021）*/
       if(g) PHONE.at(G,G.day,20,[{th,from:'mom',name:'媽媽',text:g.t,ask:{id:tag,until:G.day*24+20+2,opts:[{t:'會回去',say:[{from:'mom',name:'媽媽',text:(R.yes||['好'])[0]},{from:'mom',name:'媽媽',text:'（愛心貼圖）'}]},{t:'這週不回',say:[{from:'mom',name:'媽媽',text:(R.no||['好 那下週'])[0]}]}]}}],tag); }

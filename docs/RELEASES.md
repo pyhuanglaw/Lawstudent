@@ -27,6 +27,7 @@
 | v9.10.4 | `4a8d17f9`（PR [pyhuanglaw/Lawstudent#10](https://github.com/pyhuanglaw/Lawstudent/pull/10)；遊戲檔案＝發布樹 `f1c226c7`，git diff 為空） | 2026-10-22 05:59:27 UTC（run 39731006425） | `5b3f1023`（v9.10.3） |
 | v9.10.5 | `46dfe5c7`（PR [pyhuanglaw/Lawstudent#11](https://github.com/pyhuanglaw/Lawstudent/pull/11)；檔案＝發布樹 `7d20ef5d`（遊戲檔案＝候選 rc2 `9c74f08d`），git diff 為空） | 2026-10-22 12:35:07 UTC（run 39779226078） | `4a8d17f9`（v9.10.4） |
 | v9.10.6 | `11ab1bbd`（PR [pyhuanglaw/Lawstudent#12](https://github.com/pyhuanglaw/Lawstudent/pull/12)；遊戲檔案＝發布樹 `27948554`＝候選 `9f9e13cc`＋版本字樣，git diff 為空） | 2026-10-23 16:16:29 UTC（run 39985072211） | `46dfe5c7`（v9.10.5） |
+| v9.10.7 | `964c9cb1`（PR [pyhuanglaw/Lawstudent#13](https://github.com/pyhuanglaw/Lawstudent/pull/13)；遊戲檔案＝發布樹 `9199fd7d4`（開發分支 `ab774c0c4`）＝候選 `d7f40ce91`＋SQ08＋兩支測試修正＋版本字樣，git diff 為空） | 2026-10-24 05:44:51 UTC（run 40067341976） | `11ab1bbd`（v9.10.6） |
 
 ---
 
@@ -40,7 +41,43 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.7（發布前草稿；LAWWW-B 維護，2026-10-23 20:2x 起；還沒發布）
+## v9.10.8（候選，測試中）——寒暑假沒有空白日、日本出發前五週、大四下法律實習、七個關著的房間打開
+
+**候選**：開發分支 `63da1d633`＝`f472cee48`（10-24 08:2x）＋`fd9ad6574` 學姊房間的「看」＋版本字樣 v9.10.8。之後進開發分支的（法圖 2F 書庫 `b43a86cdf`、經濟系 7/31 成績單 `6de249582`）不進這一版。LAWWW 在乾淨 worktree 跑全部 Node 單元測試＋第五節發布前清單；BB 在瀏覽器測第 82 項以後（寒暑假重掃、日本出發前、房間、美國臥室 C）。
+
+**發布樹**：候選 `63da1d633`＋兩處純文字（臺北的家不寫上下樓三句 AA_443 第 4 節、美國 8/11 摘要改草原超市 AA_442 第 5 節，企劃線 540e1d3fb／03b7e6dff；測試跟上：aa440、aa442 讀新版稿、us_life_unit 8/11 那句；aa440、aa442、us_life、aa370、econ_ff、home ALL PASS）＝本機發布樹 commit `5724a7516`（tree `13994d99c`）。遊戲檔案（src、assets、tests、tools、lib、index.html）用發布樹，文件用開發分支。
+
+**BB 判定 GO**（10-24 13:50，BB_218 最後幾節）：線 16（`f472cee48`）、線 17（`fd9ad6574`）——第 84 項日文課七個、第 85 項語彤週四留位子、第 86 項日文班 3D／阿凱／交換說明會三區、第 82 項以安心願 ASK、美國臥室 C（門的四種規則、第一次那句、書桌前、三個看、四季窗景、離開回走道）都 PASS；FAIL 全部查過是腳本。遊戲的問題都不擋：BUG-ACT-ONCE-LATE-1024（v9.10.7 就有，開發分支 `89823358f` 已修，下一版）；臥室 C 窗外的字 10/1 起黃、窗景圖 10/9 才換秋天（10/1～10/8 字黃圖綠，P3，下一版）。
+
+**LAWWW 發布前檢查（10-24 08:2x～）**：
+- 全部 Node 單元測試 596 支 0 失敗（乾淨 worktree `f472cee48`）；之後的改動（AA_444、版本字樣）有碰到的測試重跑全過。
+- HV-15 第 5 點：題目漏收 0（企劃線 `9ab987674` 重新匯出 399 題，只有來源那一行不同）；check_orphans 程式沒提到的素材 88＝上一版的 80＋學姊房間 8 張窗景（`us_bed_c_<季節>_{day,night}`，程式組檔名載入，us_bed_c_unit 第 6 項確認都在）；check_lines 是提醒，沒逐句看。
+- release_suite 瀏覽器部分（乾淨 worktree `63da1d633`，save_compat_v7 對 `a81fa62a1`、save_compat_live 對線上 v9.10.7 `964c9cb1a`；10-24 08:25～12:1x，中間被背景時間上限停一次、接著跑完）：27 支，25 PASS、2 FAIL。
+  - PASS：deploy_check（v9.10.8）、model_upgrade、zone_transitions、campus_layout_nav、gongguan_layout_nav（第一次 FAIL＝我同時跑 Node 測試搶 CPU，安靜時重跑 PASS）、reachability_all、indoor_cam_occlusion、minimap_direction、joystick_direction、p0_movement、flow_class_real、flow_linze_floors、flow_wancai_stairs、flow_wancai_floors、flow_library_floors、flow_library_scene、flow_classes、flow_teaching_bldgs、guide_flow、flow_dorm_hall、flow_main_day12、save_compat_v7、save_compat_live。
+  - FAIL 兩支，**線上 v9.10.7（`964c9cb1a`）在同一台機器、同樣的方式跑也一模一樣 FAIL**＝不是這一版的回歸：touch_flow_wenzhou（Café 門口按「進入兩點半 Café」沒進去；之後手機自己打開＝D103）、levels_no_sky（電梯「搭電梯」按了沒有樓層選項，天空像素那一項 PASS）。BB 在 v9.10.7 發布前跑這兩支是 PASS：差在測試環境或時間，交 BB 查測試。
+
+**這版有的（v9.10.7 以後，開發分支，玩家玩得到的；正式發布時照測試結果刪改）**：
+- **D99 第二優先（寒暑假）**：
+  - 寒暑假沒有空白日（AA_440＋修訂 edae49ca6）：經濟系那年暑假、大二暑假、大三寒假過年後、其他五天以上的空白都補了事；經濟系那年 8/13 放榜以前不出現錄取、考上、餞行。
+  - 起床那一句摘要池：住家裡寒假 14、暑假 16 句，留宿舍寒假 12、暑假 20 句（AA_443 第 2 節），一個假期內不重複。
+  - 日本路線出發前五週（AA_442）：住家裡的週四家人群組（不問、不用回）、學姊提示改「明天晚上我在 Café。你禮拜六走，對吧。」。
+  - C10 學分採計改到 14:00（避開系辦午休；下學期那一次有課就排到下課以後）。
+- **D99 第三優先（美國交換）**：
+  - 學姊的房間（C 棟 208 臥室 C，AA_399 第 8 節）：交往中、週末 14～21 敲門進去，她坐在書桌前；四季窗景；書桌、書架、窗外的「看」（AA_444，窗外照日期四版）。
+  - 9/30 挽回中週六群組的回覆改「下禮拜六去看看。」（AA_442 第 4 節）。
+- **學期中**：大四下法律實習（法扶・臺北的辦公室，AA_441）：「直接去上課」出門、記出席，每週一句。
+- **打開的房間（使用者 10-23「關起來的空間都可以開始開發」，AA_399）**：
+  - 萬才館研討室 B（法服初談室；柏翰單週六 09～12 值班、2028-10-26 推甄面試）。
+  - 霖澤館 1F 法律學院辦公室（辦公時間；志願表在服務台交）。
+  - 共同教學館 3F 考場（研究所筆試那兩天）。
+  - 博雅 203（2026-05-27 即興劇社的期末小演出）。
+  - 宿舍洗衣間（一直開）、205 方奕廷的房間（大一 21～23）。
+  - 總圖 2F 多媒體中心（芷若週二、四 14～17；服務台、座位、她那一格三個版本，AA_443 第 1 節）。
+- **美術**：芷若的頭髮補回彈簧骨（6 條）；七個房間的模型（LAWWW2）。
+
+**這版還沒有的**：法學院圖書館 2F 書庫、經濟系 7/31 成績單（開發分支有了，下一版）；霖澤館 1F 公告欄（LAWWW2 做中）；元宵燈會的背景圖（BG-LANTERN-1024，等使用者的圖）。
+
+## v9.10.7（2026-10-24 05:43 UTC 合併 `964c9cb1`，PR #13；GitHub Pages 部署 run 40067341976 05:44:51 成功）——七位的節日、邀約回覆照階段、多線交往、美國篇沒有空白日、總圖 B1 與借書、溫州街補完
 
 **候選（10-23 20:5x 給 BB）**：開發分支 `d7f40ce91`（含可昕七夕重複視訊的修正 `730b72072`）；之後進開發分支的（總圖研究小間＋5F 書庫 `2bf7ff242` 等）不進這一版。BB 在乾淨 worktree 跑第五節＋flow_main_day12（負載 32 時估 3～5 小時）；SQ08 便利商店選單、ZR43_GF 送機旗標等 BB 重現結果，是遊戲問題就在候選上加最小修正。
 
@@ -90,7 +127,17 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 **發布前的測試**（Playwright 手機模擬，不是 iPhone 實機）：
 - LAWWW 乾淨 worktree（發布樹）：Node 單元測試 557 支**全部通過**（aa415 先 FAIL＝測試把 ?v=9.10.4 寫死，修好重跑 PASS）；deploy_check v9.10.7 **ALL PASS**（2755 個網址、沒有 JS 例外）；smoke_release **ALL PASS**。
 - HV-15 第 5 點：題目漏收 0（企劃線重新匯出 399 題，只有來源那一行不同）；check_lines 一模一樣 43,656 句、相似度 ≥0.8 的 455 筆是提醒（沒逐句看）；check_orphans：程式沒提到的素材 80（40 個 `*.lod.glb`、其他是窗景 `views/*_near_{day,night}.webp`、`dorm_view_*`、`library_view_*`，程式用組出來的檔名載入、工具看不到；deploy_check 2755 個網址都載得到）、停住的看板項目 23、白名單待接 23。
-- BB（d7f40ce91 回歸，接續中）：reachability_all、indoor_cam_occlusion、minimap、joystick、p0、touch_flow_wenzhou、flow_class_real、flow_linze_floors PASS；剩下的跑完以後在發布樹上跑 cvs_menu4（橫向、直向）、ZR43_GF。
+- **BB 判定 GO**（10-24 05:40，BB_218）：候選 `d7f40ce91` release_suite 590 項 583 PASS、7 FAIL，都查過不是這一版的遊戲回歸：
+  - sim_hair：芷若髮尾 NaN，v9.10.6 一樣，測試找不到骨頭。
+  - aa130：測試沒跟上 D42，發布樹帶了修正 ALL PASS。
+  - aa416_fest：BB 的 clone 少了企劃線 commit，fetch 以後 PASS。
+  - flow_wancai_stairs、flow_wancai_floors、flow_classes：讀檔後要回的訊息讓手機自動打開（D103），推不動；測試要改 quiet_events。flow_wancai_floors 另外還在找舊的「研討室 A」。
+  - guide_flow：閉館的字改成對話框，測試只讀 #toast。
+  - save_compat_v7、save_compat_live、flow_main_day12 PASS（day12 有 5 項 [未驗]：劇情接手，人沒有自己走到，BB 之後在低負載時補跑）。
+  - 發布樹上 cvs_menu4 橫向、直向 PASS（SQ08 修好），ZR43_GF PASS（ZR_SENDOFF_2027 met）。
+- **發布後**：BB 在本機對 main 964c9cb1 跑 deploy_check ALL PASS（沙盒連不到 github.io）。回歸那 7 個 FAIL 全部結案（10-24 07:11 BB_218）：測試修好以後（48a4f727f、9afb2fa3a）sim_hair、guide_flow、flow_wancai_floors、flow_classes、flow_wancai_stairs 都 ALL PASS；aa130、aa416 是測試／BB 的 clone 的問題——**沒有遊戲回歸**。
+- **部署驗證**：Pages 部署工作成功（05:43:04～05:44:51），head＝`964c9cb1`；main 的遊戲檔案和發布樹 `9199fd7d4` 逐檔相同（git diff 為空），`index.html` 版本字樣 v9.10.7（2026-10-24）。沙盒連不到 github.io，線上頁面沒有直接打開核對，以部署工作結果為準；BB 在線上版跑 deploy_check。開發分支在 `85d8dd5d0` 換回開發中的檔案。
+- BB 本機那棵 tree `b85262ec`＝同一份遊戲程式，只差 index.html 的 `?v=` 沒換、aa415 測試沒修（LAWWW 用只換版本字樣的樹重算得到 `b85262ec`）；正式發布的是換了 `?v=9.10.7` 的版本（手機瀏覽器會重新下載）。
 
 **還在做、這版不一定有**：
 - 子晴、學姊、可昕的心願事件：等 AA 改稿，現在照一般第一次約會。

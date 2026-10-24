@@ -1,0 +1,13 @@
+{
+ "objects": 25,
+ "unique_meshes": 25,
+ "tris": 9038,
+ "tris_drawn": 9038,
+ "materials": 12,
+ "out": "assets/models/env/second_ai/boya_203.glb",
+ "bytes": 833124,
+ "texres": 512,
+ "tris_total": 9038,
+ "layout": "boya_203.layout.json",
+ "seats": 18
+}

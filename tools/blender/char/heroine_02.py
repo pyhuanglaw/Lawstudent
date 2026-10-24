@@ -2,7 +2,9 @@
 基底：VRoid CC0 樣本 Victoria Rubin 的身體、臉（含全部表情 shape key）、骨架；原本的頭髮（含身體網格上的後髮）、上衣、鞋、次要骨頭（胸部以外）拿掉。
 臉、衣服沿用沈以安的模組（h01_face、h01_clothes），用 p00_face.run／p00_clothes.run 先對到沈以安的比例、做完再轉回來；頭髮是新的及肩微捲髮 p02_hair。
 眼鏡、銀色小耳環、圍裙仍是 src/props3d.js（C.MODEL_PROPS）。
-用法：/opt/blenv/bin/python tools/blender/char/heroine_02.py -- <輸出.vrm> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair] [--render 預覽圖前綴]"""
+用法：/opt/blenv/bin/python tools/blender/char/heroine_02.py -- <輸出.vrm 或 -> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair,springs] [--from-blend 工作檔.blend] [--render 預覽圖前綴]
+（完整的芷若要跑到 springs：頭髮的彈簧骨，tools/blender/char/hair_springs.py；10-22 第九版漏了這一步，頭髮整束綁在頭上不會動，10-24 補）
+（--from-blend：從存好的工作檔接著做，例如只重做頭髮：先 --stages stage0,face,clothes --blend w.blend，再 --from-blend w.blend --stages hair；LAWWW2 10-22 加，做法同 char_second/peishan.py）"""
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import common as C
@@ -35,7 +37,23 @@ def stage0(m):
     print('  head scaled', HEAD_SCALE, 'about', np.round(H, 3), 'landmarks', {k: round(v, 3) for k, v in C.landmarks(arm).items()})
 
 
-STAGES = {'stage0': stage0}
+def from_blend(path):
+    """存好的工作檔（--blend）：照 C.import_vrm 的規則找回骨架、臉、身體、頭髮、衣服"""
+    bpy.ops.wm.open_mainfile(filepath=os.path.abspath(path))
+    m = {'arm': None, 'face': None, 'body': None, 'hair': None}
+    for o in bpy.data.objects:
+        if o.type == 'ARMATURE': m['arm'] = o
+        elif o.type == 'MESH':
+            n = o.name.lower()
+            if n.startswith('face'): m['face'] = o
+            elif n.startswith('body'): m['body'] = o
+            elif n.startswith('hair'): m['hair'] = o
+    m['wsrc_top'] = bpy.data.objects.get('WSRC_Tops')
+    if bpy.data.objects.get('Clothes_H01') is not None: m['clothes'] = bpy.data.objects['Clothes_H01']
+    return m
+
+
+STAGES = {'stage0': stage0, 'springs': lambda m: importlib.import_module('hair_springs').apply_springs('heroine_02')}   # springs：頭髮的彈簧骨（hair_springs.py；要在 hair 之後）
 import importlib
 def stage_fn(name):
     if name not in STAGES: STAGES[name] = importlib.import_module('p02_' + name).apply
@@ -46,7 +64,7 @@ def main():
     a = C.args(); out = a[0]
     opt = {a[i]: a[i + 1] for i in range(1, len(a) - 1) if a[i].startswith('--')}
     stages = opt.get('--stages', 'stage0').split(',')
-    C.setup(); m = C.import_vrm(os.path.join(C.SRC, 'Victoria_Rubin.vrm'))
+    C.setup(); m = from_blend(opt['--from-blend']) if '--from-blend' in opt else C.import_vrm(os.path.join(C.SRC, 'Victoria_Rubin.vrm'))
     for s in stages:
         print('[stage]', s); stage_fn(s)(m)
     if '--blend' in opt:      # 只跑到臉的工作檔保留權重來源（之後從這裡重做衣服）
@@ -54,7 +72,7 @@ def main():
         bpy.ops.file.pack_all(); bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opt['--blend']), compress=True); print('saved blend', opt['--blend'])
     if m.get('wsrc_top') is not None: bpy.data.objects.remove(m['wsrc_top'], do_unlink=True); m['wsrc_top'] = None   # 權重來源不匯出
     if '--render' in opt: print('renders', C.render_views(opt['--render'], head_z=1.54, height=1.70))
-    print('exported', C.export_vrm(os.path.abspath(out)))
+    if out != '-': print('exported', C.export_vrm(os.path.abspath(out)))
 
 
 if __name__ == '__main__':

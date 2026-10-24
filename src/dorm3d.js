@@ -113,7 +113,11 @@ const DM3=(function(){
        經濟系 410～417（412 在原本 203 的位置）、大二 309～316、大三 507～514（507 在原本 201 的位置）、大四 408～415（409 在原本 202 的位置）；大一 203 照舊 */
     const base=+(H.rep?((L.doors.find(q=>q.id===H.rep)||{}).plate||'203'):'203'), hn=+H.plate, shift=String(hn)[0]!==String(base)[0]?hn-base:0;
     const ren=d=>{ if(!shift||(d.lv|0)!==(H.lv|0)||!/^\d{3}$/.test(d.plate||'')) return d; const np=String(+d.plate+shift), rp=t=>typeof t==='string'?t.split(d.plate).join(np):t; return Object.assign({},d,{plate:np,label:rp(d.label),closed:rp(d.closed)}); };
-    for(const d0 of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d0.id===H.rep) continue; const d=ren(d0); const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
+    for(const d0 of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d0.id===H.rep) continue; const d=ren(d0); const p=one(d,false), at={x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv};
+      /* 有正式房間的門（rooms_glb3d.js 照 ROOM_GLB_LAYOUTS 的 host_door 設 d.to；洗衣間、205＝AA_399 第 11 節）：出入口；有開放時段（d.gate）的，時段外照舊是門上的字（兩個不會同時出現）*/
+      if(d.to&&Z3.ZONES[d.to]){ const R=typeof ROOM_GLB_LAYOUTS!=='undefined'?ROOM_GLB_LAYOUTS[d.to]:null, en=Object.assign({},at,{label:(R&&R.host_door&&R.host_door.label)||('進入 '+d.label),exit:{to:d.to,spawn:Object.assign({},d.spawn)}});
+        if(d.gate&&Z3.roomGlbGate){ en.gate=d.gate; IT.push(Z3.roomGlbGate(en,false)); IT.push(Z3.roomGlbGate(Object.assign({},at,{label:d.label,look:d.closed,gate:d.gate}),true)); } else IT.push(en); continue; }
+      IT.push(Object.assign(at,{label:d.label,look:d.closed})); }
     one({x:H.x,lv:H.lv,side:'N',plate:H.plate},true);
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
     { const y=H.lv?Y1:0, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(H.lv?fb1:fb0); } }

@@ -568,5 +568,65 @@
   ],
   "fov": 53.13,
   "cover": 0.0
+ },
+ "library_carrels_day": {
+  "D": 12,
+  "near": null,
+  "far": 30.75,
+  "nNear": 0,
+  "nFar": 404,
+  "sky": 0.211,
+  "cam": [
+   95,
+   6.65,
+   30.6
+  ],
+  "fov": 53.13,
+  "cover": 0.0
+ },
+ "library_carrels_night": {
+  "D": 12,
+  "near": null,
+  "far": 30.75,
+  "nNear": 0,
+  "nFar": 404,
+  "sky": 0.211,
+  "cam": [
+   95,
+   6.65,
+   30.6
+  ],
+  "fov": 53.13,
+  "cover": 0.0
+ },
+ "library_stacks_day": {
+  "D": 10,
+  "near": null,
+  "far": 35.66,
+  "nNear": 0,
+  "nFar": 354,
+  "sky": 0.309,
+  "cam": [
+   86.4,
+   19.5,
+   -9
+  ],
+  "fov": 53.13,
+  "cover": 0.0
+ },
+ "library_stacks_night": {
+  "D": 10,
+  "near": null,
+  "far": 35.6,
+  "nNear": 0,
+  "nFar": 354,
+  "sky": 0.309,
+  "cam": [
+   86.4,
+   19.5,
+   -9
+  ],
+  "fov": 53.13,
+  "cover": 0.0
  }
 }

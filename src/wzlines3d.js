@@ -99,7 +99,7 @@ const WZL=(function(){
   const sat=G=>wd(G.day)===6;
   const tid=G=>{ const t=S.term(G); return t?t.id:null; };
   const worked=(G,k)=>{ const j=J()&&J().job(G,k); return j&&Array.isArray(j.worked)?j.worked:[]; };
-  S.typhoonPend=function(G){ const F=G.flags; if(typeof CALENDAR==='undefined'||!CALENDAR.typhoon) return null; for(let d=G.day-1;d>G.day-40;d--){ if(CALENDAR.typhoon(d)){ if((+F.WZ_T3_TY||-1e9)>=d) return null; const w=worked(G,'tea').filter(x=>x>d&&x<G.day); return w.length?null:d; } } return null; };   /* 颱風假之後的第一個班 */
+  S.typhoonPend=function(G){ const F=G.flags; if(typeof CALENDAR==='undefined'||!CALENDAR.typhoon) return null; for(let d=G.day-1;d>G.day-40;d--){ if(CALENDAR.typhoon(d)){ if((+F.WZ_T3_TY||-1e9)>=d||F.WZ_P3_TY===d) return null;   /* 同一個颱風只演一個（演了 WZ-P3 就沒有 WZ-T3，AA_427 第 2 節）*/ const w=worked(G,'tea').filter(x=>x>d&&x<G.day); return w.length?null:d; } } return null; };   /* 颱風假之後的第一個班 */
   S.momSat=G=>{ const x=CALENDAR.dateOf(G.day); return x.wd===6&&x.d<=7; };   /* 以安的媽媽北上的週六：每月第一個週六（AA_113 9-2「每月一次的晚餐」；遊戲沒有她的行程，照這個算）*/
   S.SHIFT={
     brunch:[
@@ -185,8 +185,21 @@ const WZL=(function(){
     if(S.p4Due(G)) return fire(GM,'ev_wz_p4');
     if(S.classDue(G)) return fire(GM,'ev_wz_p4_class');
     if(S.p5Due(G)){ const F=G.flags, t=S.term(G), R=F.WZ_P5=Object.assign({},F.WZ_P5); R[t.id]=(R[t.id]|0)+1; R.last=G.day; return fire(GM,'ev_wz_p5',()=>{ if(!F.ENC_PARK_ZQ_SEEN){ F.ENC_PARK_ZQ_SEEN=G.day; F.WZ_ZQ_P5_FU=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.remember('heroine_04','ENC_PARK_ZQ',''); SOCIAL.adjust('heroine_04',{fam:1}); } } }); }
+    if(S.p3Due(G)){ const F=G.flags; F.WZ_P3_TY=S.p3Ty(G); F.WZ_P3_Y=Object.assign({},F.WZ_P3_Y,{[S.year(G)]:G.day}); return fire(GM,'ev_wz_p3'); }
     if(S.p1Due(G)) return fire(GM,'ev_wz_p1');
     return false; };
+  /* WZ-P3 颱風後的早上（AA_427 第 2 節）：颱風假（CALENDAR.typhoon）的隔天 08:00～11:00 進公園。那天早上下雨＝延到第一個沒下雨的早上（三天內；S.p3Watch 每一格記下那個颱風第一個沒下雨的早上），三天內沒有就不演。
+     茶屋有打工的玩家：那個颱風改成 WZ-T3（不演 P3）；同一個颱風只演一個（演了 P3，S.typhoonPend 也不給 WZ-T3）。一學年最多一次；幫了忙（WZ_P3_HELPED）以後不再演，沒幫＝下一個颱風還有。
+     存檔：WZ_P3_TY（演過的那個颱風）、WZ_P3_Y（{學年: 天}）、WZ_P3_OK（{颱風: 第一個沒下雨的早上}）*/
+  S.p3Ty=G=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.typhoon) return null; for(let d=G.day-1;d>=G.day-3;d--) if(CALENDAR.typhoon(d)) return d; return null; };
+  S.p3Watch=function(G){ const ty=S.p3Ty(G); if(ty==null) return; const h=hh(G); if(h<8||h>=11||G.weather==='rain'||G.weather==='typhoon') return; const F=G.flags, R=F.WZ_P3_OK||{}; if(R[ty]==null) F.WZ_P3_OK=Object.assign({},R,{[ty]:G.day}); };
+  S.p3Due=function(G){ const F=G.flags; if(F.WZ_P3_HELPED) return false; const ty=S.p3Ty(G); if(ty==null) return false; const h=hh(G); if(h<8||h>=11) return false;
+    if(G.weather==='rain'||G.weather==='typhoon'||F.WZ_P3_TY===ty||+F.WZ_T3_TY===ty) return false;
+    if(J()&&J().active&&J().active(G,'tea')&&!(J().paused&&J().paused(G,'tea'))) return false;   /* 茶屋打工的玩家：WZ-T3 */
+    const ok=(F.WZ_P3_OK||{})[ty]; if(ok!=null&&ok!==G.day) return false;   /* 第一個沒下雨的早上已經過了 */
+    return (F.WZ_P3_Y||{})[S.year(G)]==null; };
+  S.p3Cat=async function(G,GM){ if(typeof PARK==='undefined'||(PARK.catLost&&PARK.catLost(G))||(PARK.catGone&&PARK.catGone(G))) return; const nm=PARK.catName?PARK.catName(G):null;
+    await GM.say(null,'（{cat}從溜滑梯底下走出來，在乾的那一塊地上坐下。）'.replace('{cat}',nm||'那隻貓')); };   /* 還沒取名＝「那隻貓」（AA_171 第 7 節的寫法）*/
   /* WZ-P1（AA_164 5-6）：第一次在 08:00～11:00 進公園（象棋的阿伯在的時候）；下雨公園沒有人（AA_283）、貓不在的那幾段（大三上第 10 週、收養以後）不演 */
   S.p1Due=function(G){ if(done(G,'ev_wz_p1')) return false; const h=hh(G); if(h<8||h>=11) return false;
     if(typeof PARK!=='undefined'&&((PARK.rainy&&PARK.rainy(G))||(PARK.catLost&&PARK.catLost(G))||(PARK.catGone&&PARK.catGone(G)))) return false; return true; };
@@ -208,7 +221,7 @@ const WZL=(function(){
 
   // ================= 手機、出門提醒（STORY.PHONE_RULES）=================
   S.phone=function(G){ if(!law(G)||typeof CALENDAR==='undefined'||typeof PHONE==='undefined') return; const F=G.flags;
-    S.linePlan(G);
+    S.linePlan(G); S.grpbZhe(G);
     { const r=CALENDAR.termDays('Y2S2'); if(r&&G.day>=r.from&&!F.WZ_C_L1&&!F.WZ_COPY_SHOP) F.WZ_COPY_SHOP='moved'; }   /* 沒有 1-2 的玩家：大二下第 1 週店搬走（AA_420 3-1）*/
     /* 2-5 以安媽媽的一句話（AN_MOM_TEA＋AN_YE_STUDY 的隔天 21:00）*/
     if(F.AN_MOM_TEA&&F.AN_YE_STUDY&&!PHONE.sent(G,'wz_t_hint')){ const d=Math.max(+F.WZ_YE_STUDY_DAY||0,+F.WZ_AN_MOM_DAY||0)+1, A=t=>({th:'p:heroine_01',from:'heroine_01',text:t});
@@ -330,33 +343,122 @@ const WZL=(function(){
     const i=(M.soldN|0)%3; M.soldN=(M.soldN|0)+1; M.sold[o.title]=G.day; F.books=Object.assign({},F.books,{[o.title]:false}); if(o.title==='民法總則'&&F.textbook) F.textbook=false; GM.money(S.sellPrice(o.title));
     await GM.say({name:X.sellWho[i]},X.sell[i]); return true; };
   S.roomBooks=function(G,L){ const M=G&&G.daily&&G.daily.market; if(!M||!M.bought) return; for(const b of S.MARKET.books) if(M.bought[b.k]!=null) L.push([b.name,b.look]); };
-  S.addMarket=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)) return; const p=S.MARKET.at[G&&G.weather==='rain'?'rain':'clear'];
+  /* 市集攤主（WZ-MARKET-KEEPER-1024；位置 WZ_PARK_LAYOUT.market.<clear|rain>.stalls[i].keeper，LAWWW2 f6ace8353）：市集開的時候坐在攤位後面的路人，不說話（AA_420 12-2 沒有攤主的台詞）；
+     zones3d.js 的 mktTick 開、收的時候叫（晴雨照進溫州街時的天氣，和攤位同一套）*/
+  S.KEEPER_SPEC=[951,952,953];
+  S.marketKeepers=function(on,w,GM){ GM=GM||S._gm||(typeof GAME!=='undefined'?GAME:null); if(!GM||!GM.spawnNPC||typeof STORY==='undefined'||!STORY.extraSpec) return 0;
+    const L=typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.market&&WZ_PARK_LAYOUT.market[w==='rain'?'rain':'clear'], st=(L&&L.stalls)||[]; let k=0;
+    st.forEach((x,i)=>{ const id='wz_keeper_'+i; if(!on){ if(GM.npc&&GM.npc[id]&&GM.removeNPC){ GM.removeNPC(id); k++; } return; } const p=x.keeper; if(!p||(GM.npc&&GM.npc[id])) return;
+      const sp=Object.assign({},STORY.extraSpec(S.KEEPER_SPEC[i%S.KEEPER_SPEC.length]+i),{name:'攤主'}); const e=GM.spawnNPC(id,sp,p.x,p.z,{yaw:p.yaw||0,seat:{x:p.x,z:p.z,yaw:p.yaw||0,lv:0},greet:false});
+      if(e){ e.frozen=true; if(GM.npc) GM.npc[id]=e; k++; } });
+    return k; };
+  S.addMarket=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)) return; S._gm=GM; const p=S.MARKET.at[G&&G.weather==='rain'?'rain':'clear'];
     E.interactables.push({x:p[0],z:p[1],radius:1.4,label:'逛二手市集',wzMarket:true,get hidden(){ const G=GM.G; return !(G&&S.marketOn(G)); }}); };
 
   // ================= 約人：茶席、學姊的一盞（src/invites3d.js 的掛勾）=================
   /* WZ-T3 以後的茶席（AA_166 第 5 節、AA_167「茶席」）：約人地點的一種 teahouse_ceremony，每月第三個週日下午、約一個人、最低「朋友」；照「一起去 Café 坐坐」加數值（SOCIAL.activity 'cafe'），
-     記憶「一起去過茶席」。見面：旁白＋蘇姨一句＋那個人的一句（以安、語彤 AA 寫；BB 的人物 BB 沒有寫＝只有旁白和蘇姨）。地點名稱、選項文字是系統字。*/
+     記憶「一起去過茶席」。見面：旁白＋蘇姨一句＋那個人的一句（以安、語彤 AA_167；學姊、芷若、子晴、沛珊、可昕 AA_427 第 1 節：學姊有 SIS_TEAHOUSE 換一句；沒有寫的人＝只有旁白和蘇姨）。
+     誰的選項不出現（AA_427 第 1 節，show 收到人物 id）：學姊在美國那學期、芷若在英國的學期（WZL.inTaiwan）、沛珊 2026-12-16 以後。地點名稱、選項文字是系統字。*/
   S.thirdSun=d=>{ const q=CALENDAR.dateOf(d); return q.wd===7&&q.d>=15&&q.d<=21; };
   S.CEREMONY_LINES={ open:'蘇姨在緣側鋪了一塊布，一枝花插在竹筒裡。四個杯子，兩個空位。', su:'茶席不說話也可以。說話也可以。',
-    heroine_01:['（她把手帳收進包包，拉鍊拉上。）','今天不看了。'], heroine_03:['……這樣坐著，聽得到院子。'] };
+    heroine_01:['（她把手帳收進包包，拉鍊拉上。）','今天不看了。'], heroine_03:['……這樣坐著，聽得到院子。'],
+    heroine_05:G=>G.flags&&G.flags.SIS_TEAHOUSE?['（她看著蘇姨倒水，喝了一口。）','水沒有滾。……我看得出來了。']:['（她喝了一口，停了一下。）','……好喝。我以為會苦。'],
+    heroine_02:['杯子好小喔。……蘇姨，可以再一杯嗎？','（蘇姨倒第二杯的時候，她雙手接過去。）'], heroine_04:['我先說，我坐不住。','（二十分鐘過去，她一次都沒有拿出手機。）'],
+    classmate_peishan:['蘇姨，這枝花是院子裡剪的嗎？','（蘇姨點頭。沛珊轉頭看了院子很久，在找是哪一棵。）'], kexin:['（她坐下來，又站起來，把裙子拉好再坐。）','……好。我不動了。'] };
+  S.ceremonyFor=(G,id)=>{ if(id==='heroine_05'||id==='heroine_02') return S.inTaiwan(G,id); if(id==='classmate_peishan'){ const e=DK('2026-12-16'); return e==null||G.day<=e; } return true; };
   S.CEREMONY={id:'teahouse_ceremony',zone:'wz_teahouse',name:'一盞的茶席',verb:'去一盞的茶席',kind:'reason',minStage:'FRIEND',stay:1.25,memory:'TEA_CEREMONY',sitAct:'sit',days:[0],hours:[12,18],
-    show:G=>law(G)&&!!(G.flags||{}).WZ_TEA_SEAT,
+    show:(G,id)=>law(G)&&!!(G.flags||{}).WZ_TEA_SEAT&&(id==null||S.ceremonyFor(G,id)),
     avail:(G,day)=>S.thirdSun(day),
     when:(G,together)=>{ const out=[], h=G.hour%24;   /* 約的時間：今天就是茶席＝今天還沒過的；再加下一次茶席（今天的都過了才加）*/
       if(S.thirdSun(G.day)){ if(together&&h>=12&&h<=16.75) out.push({now:true,day:G.day,h}); for(const t of [14,15.5]) if(t>h+0.4) out.push({day:G.day,h:t}); }
       if(!out.some(q=>!q.now)){ let d=G.day+1; while(!S.thirdSun(d)) d++; for(const t of [14,15.5]) out.push({day:d,h:t}); } return out; },
-    scene:async(GM,iv,who)=>{ const X=S.CEREMONY_LINES; await GM.say(null,X.open); await GM.say({name:'蘇姨'},X.su); for(const t of X[iv.who]||[]) await GM.say(/^（/.test(t)?null:who,t); } };
+    scene:async(GM,iv,who)=>{ const X=S.CEREMONY_LINES; await GM.say(null,X.open); await GM.say({name:'蘇姨'},X.su); const L=typeof X[iv.who]==='function'?X[iv.who](GM.G):(X[iv.who]||[]); for(const t of L) await GM.say(/^（/.test(t)?null:who,t); } };
   /* WZ-T4 SIS_TEAHOUSE（BB_148 8b）：一盞（teahouse）對學姊的最低階段從「朋友」降成「有點熟」；茶席也可以約她（同樣「有點熟」）。她沒有男朋友（AA-C 10-18），兩個人單獨的規則照舊（S.partnerBlock）*/
   S.inviteStage=(G,id,P)=>id==='heroine_05'&&!!(G&&G.flags&&G.flags.SIS_TEAHOUSE)&&!!P&&(P.id==='teahouse'||P.id==='teahouse_ceremony')?'FAMILIAR':null;
   if(typeof INVITE_DATA!=='undefined'&&Array.isArray(INVITE_DATA.places)&&!INVITE_DATA.places.some(p=>p.id==='teahouse_ceremony')) INVITE_DATA.places.push(S.CEREMONY);
   if(typeof INV!=='undefined'&&Array.isArray(INV.MIN_STAGE)&&!INV.MIN_STAGE.includes(S.inviteStage)) INV.MIN_STAGE.push(S.inviteStage);
 
+  // ================= 麵店團的早午餐（AA_427 第 4 節；NOODLE_SAW_APRON 以後，AA_167 WZ-B3）=================
+  /* 4-1 玩家約：週四、週五 19:00～23:00，在手機的麵店團群組按「約」（game3d.js 讀 PHONE.GROUP_ACTS）→ 選那週的週六或週日 10:00（半熟）→ 祐廷「週末要不要吃早午餐」→
+       阿哲、Alison、柏翰、芯慈照順序回（能不能來：在臺北（STORY.reachable）、那段時間沒有作息上的事（INV.busyAt）；柏翰：大二起法服值班的週六不行）。
+       至少一個人能來＝成立；四個都不能＝最後回的那個人多一則「那下週」。一週約一次。
+     4-2 阿哲揪：那學期還沒吃過、第 6 週或第 11 週的週四 21:00（一學期一次）：「週六早午餐有人嗎」（祐廷在早午餐店打工多一則）；「+1」＝其他人照表回、成立；「這週不行」＝阿哲「好喔」，不演。
+     不能來的那幾句只寫了一種說法：Alison 的兩則是「週六不行、週日可以」才說（週日也不行、或約的是週日＝不回）；柏翰那一則只在法服值班的週六（其他不能來的時候不回）。
+     那天祐廷剛好有早午餐的班：阿哲那兩則、照樣成立；上班的時候多一句旁白（JOBS.SHIFT_LINES），麵店團每人熟悉 +1。
+     4-3 那一場：出門提醒帶到半熟（OUT goto），10:00 起在半熟：開場兩句、結尾一句（中間的「麵店長桌那一套閒聊」沒有可以共用的句子，沒有做），時間到 11:30，能來的人熟悉 +1，算上午的時段。
+     「哥」：ZHE_CALLS_GE 的玩家才有，沒有的拿掉。系統字：群組的按鈕「約」、選項「週六 10:00（半熟）」「週日 10:00（半熟）」「算了」、出門提醒的標題「麵店團的早午餐」。
+     存檔（G.flags）：WZ_GRPB＝{day, who:[能來的], by:'me'|'zhe', shift, done}、WZ_GRPB_WK（約過的那一週）、WZ_GRPB_T（{學期: 天}，那學期吃過）、WZ_GRPB_ZHE（{學期: 天}，阿哲揪過）、WZ_GRPB_ZANS（4-2 的回覆）*/
+  S.GRPB={ who:['zhe','yu','classmate_bohan','classmate_xinci'], me:'週末要不要吃早午餐',
+    can:{ zhe:['好啊'], yu:['十點可以！！','九點以前的我不算人'], classmate_bohan:['週六十點。我先去占位子。'], classmate_xinci:['好。我會晚十分鐘，先幫我點。'] },
+    cannot:{ zhe:['這週回高雄','下次'], yu:['週六有事','週日可以嗎'], classmate_bohan:['這週不行。法服有值班。'], classmate_xinci:['這週家裡有事。下次我要去。'] },
+    zheShop:'哥你店裡那家？有員工價嗎', zheShift:['哥你那天不是要上班','那我們去你那家，你上菜'], nextWeek:'那下週',
+    zheAsk:'週六早午餐有人嗎', zheAskShop:'哥那家', zheOpts:['+1','這週不行'], okay:'好喔',
+    open:[[null,'（四人桌，加一張椅子。）'],['yu','欸，這裡的蛋好好吃。為什麼我們都在吃麵？']], close:[['zhe','下次換晚餐。'],[null,'（他說的晚餐，還是麵店。）']],
+    shiftNar:'（他們坐四人桌，加一張椅子。這次沒有人算過。）', title:'麵店團的早午餐', th:'g:noodle_team' };
+  const ge=(G,t)=>G.flags&&G.flags.ZHE_CALLS_GE?t:t.replace(/^哥/,'');
+  const termId=(G,d)=>{ const t=S.term(G,d); return t?t.id:null; };
+  const atAbs=(G,t,msgs,tag)=>{ const d=Math.floor(t/24); return PHONE.at(G,d,t-d*24,msgs,tag); };   /* 絕對時間（天×24＋小時）排訊息 */
+  S.grpbWorks=G=>!!J()&&J().active(G,'brunch')&&!(J().paused&&J().paused(G,'brunch'));
+  S.grpbShift=(G,d)=>!!J()&&!!J().due&&J().due(G,'brunch',d);
+  S.grpbKnows=(G,id)=>typeof STORY==='undefined'||!STORY.knows||STORY.knows(id,G);
+  /* 能不能來（那一天 10:00～11:30）：'can'｜'fafu'（柏翰：法服值班的週六）｜'no' */
+  S.grpbCan=function(G,id,d){ const Gd=Object.assign({},G,{day:d,hour:10,weekday:wd(d)%7});
+    if(id==='classmate_bohan'&&wd(d)===6&&S.year(G)>=2&&typeof STORY!=='undefined'&&STORY.fafuDuty&&STORY.fafuDuty(Gd)) return 'fafu';
+    if(typeof STORY!=='undefined'&&STORY.reachable&&!STORY.reachable(id,Gd)) return 'no';
+    if(typeof INV!=='undefined'&&INV.busyAt&&INV.busyAt(G,id,d,10,1.5)) return 'no'; return 'can'; };
+  /* 回覆：[[人, [句…]]…]；能來的人 */
+  S.grpbReplies=function(G,d,skipZhe){ const X=S.GRPB, out=[], can=[]; const shift=S.grpbShift(G,d);
+    for(const id of X.who){ if(skipZhe&&id==='zhe') continue; if(!S.grpbKnows(G,id)) continue; const c=S.grpbCan(G,id,d);
+      if(c==='can'){ can.push(id); let L=X.can[id].slice(); if(id==='zhe'){ if(shift) L=X.zheShift.map(t=>ge(G,t)); else if(S.grpbWorks(G)) L.push(ge(G,X.zheShop)); } out.push([id,L]); continue; }
+      if(id==='zhe') out.push([id,X.cannot.zhe.slice()]);
+      else if(id==='yu'){ if(wd(d)===6&&S.grpbCan(G,'yu',d+1)==='can') out.push([id,X.cannot.yu.slice()]); }
+      else if(id==='classmate_bohan'){ if(c==='fafu') out.push([id,X.cannot.classmate_bohan.slice()]); }
+      else out.push([id,X.cannot[id].slice()]); }
+    return {out,can,shift}; };
+  /* 排回覆的訊息（一個人一批，幾分鐘一批）、成立就排那一場 */
+  S.grpbPost=function(G,d,R,by,extraZhe){ const X=S.GRPB; let t=G.day*24+G.hour; const step=[3,4,5,6];
+    R.out.forEach((r,i)=>{ t+=(step[i]||5)/60; const L=r[1].slice(); if(i===R.out.length-1&&!R.can.length&&!extraZhe) L.push(X.nextWeek);
+      atAbs(G,t,L.map(x=>({th:X.th,from:r[0],text:x})),'grpb_'+d+'_'+r[0]+'_'+by); });
+    const ok=R.can.length>0||!!extraZhe; if(!ok) return false; const who=R.can.slice(); if(extraZhe&&!who.includes('zhe')) who.unshift('zhe');
+    G.flags.WZ_GRPB={day:d,who,by,shift:!!R.shift,done:false}; const T=G.flags.WZ_GRPB_T=Object.assign({},G.flags.WZ_GRPB_T); const tid=termId(G,d); if(tid) T[tid]=d;
+    if(!R.shift&&typeof OUT!=='undefined'&&J()&&J().goto){ const sh=(typeof WZ_JOBS_DATA!=='undefined'&&WZ_JOBS_DATA.shops&&WZ_JOBS_DATA.shops.brunch)||{};
+      OUT.plan(G,{id:'wz_grpb_'+d,day:d,h:10,late:0.75,place:sh.place||'半熟',title:X.title,travel:sh.travel||'',travelH:0.25,goto:J().goto('brunch')}); }
+    return true; };
+  /* 4-1：週四、週五 19:00～23:00，那週還沒約過 */
+  S.grpbWeek=G=>{ const w=wd(G.day); return G.day-(w-1); };   /* 那週的週一 */
+  S.grpbCanAsk=function(G){ const F=G.flags||{}; if(!law(G)||!F.NOODLE_SAW_APRON||typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')) return false; const w=wd(G.day), h=G.hour%24;
+    if((w!==4&&w!==5)||h<19||h>=23) return false; if(F.WZ_GRPB_WK===S.grpbWeek(G)) return false; const B=F.WZ_GRPB; return !(B&&!B.done&&B.day>=G.day); };
+  S.grpbAsk=async function(GM){ const G=GM.G, X=S.GRPB; if(!S.grpbCanAsk(G)) return false; const sat=S.grpbWeek(G)+5;
+    const k=await GM.choose([{t:'週六 10:00（半熟）'},{t:'週日 10:00（半熟）'},{t:'算了'}]); if(k!==0&&k!==1) return false; const d=sat+k;
+    G.flags.WZ_GRPB_WK=S.grpbWeek(G); PHONE.post(G,{th:X.th,from:'player',text:X.me}); S.grpbPost(G,d,S.grpbReplies(G,d,false),'me'); return true; };
+  /* 4-2：阿哲揪（第 6 週或第 11 週的週四 21:00）*/
+  S.grpbZhe=function(G){ const F=G.flags, X=S.GRPB; if(!F.NOODLE_SAW_APRON||!PHONE.inGroup(G,'noodle_team')) return; const t=S.term(G); if(!t||t.exam) return;
+    const ZA=F.WZ_GRPB_ZANS; if(typeof ZA==='string'){ F.WZ_GRPB_ZANS=null; const [a,ds]=ZA.split(':'), d=+ds;
+      if(a==='yes'){ const R=S.grpbReplies(G,d,true); if(R.shift) R.out.unshift(['zhe',X.zheShift.map(x=>ge(G,x))]); S.grpbPost(G,d,R,'zhe',true); }
+      else atAbs(G,G.day*24+G.hour+1/30,[{th:X.th,from:'zhe',text:X.okay}],'grpb_zhe_ok_'+d); }
+    if(t.week!==6&&t.week!==11) return; if(wd(G.day)!==4||G.hour<21) return; const Z=F.WZ_GRPB_ZHE||{}, T=F.WZ_GRPB_T||{}; if(Z[t.id]!=null||T[t.id]!=null) return;
+    if(!S.grpbKnows(G,'zhe')||S.grpbCan(G,'zhe',G.day+2)!=='can') return;
+    F.WZ_GRPB_ZHE=Object.assign({},Z,{[t.id]:G.day}); const d=G.day+2, L=[X.zheAsk]; if(S.grpbWorks(G)) L.push(ge(G,X.zheAskShop)); const tag='grpb_zhe_'+d;
+    PHONE.at(G,G.day,21,L.map((x,i)=>Object.assign({th:X.th,from:'zhe',text:x},i===L.length-1?{ask:{id:tag,until:(d+1)*24,opts:[{t:X.zheOpts[0],set:{WZ_GRPB_ZANS:'yes:'+d}},{t:X.zheOpts[1],set:{WZ_GRPB_ZANS:'no:'+d}}]}}:{})),tag); };
+  /* 4-3：那一場（在半熟，10:00 起）*/
+  S.grpbDue=G=>{ const B=G.flags&&G.flags.WZ_GRPB; return G.zone==='wz_brunch'&&!!B&&!B.done&&!B.shift&&B.day===G.day&&G.hour>=9.5&&G.hour<12; };
+  S.grpbScene=async function(GM){ const G=GM.G, B=G.flags.WZ_GRPB, X=S.GRPB; B.done=true; GM.sceneBegin(); try{
+      for(const [w,t] of X.open) await GM.say(who(w),t); for(const [w,t] of X.close) await GM.say(who(w),t); } finally { GM.sceneEnd(); }
+    if(GM.fade) await GM.fade(true); GM.advance(Math.max(0,11.5-G.hour)); if(GM.fade) await GM.fade(false);
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) for(const id of B.who) SOCIAL.adjust(id,{fam:1}); if(typeof CLS!=='undefined'&&CLS.slotFill) CLS.slotFill(G,'am'); return true; };
+  /* 那天祐廷在班上：上班的旁白多一句（第二段之後）＋熟悉 +1 */
+  S.grpbShiftLines=function(G,k,n,seg){ const B=G.flags&&G.flags.WZ_GRPB; if(k!=='brunch'||seg!=='mid'||!B||B.done||!B.shift||B.day!==G.day) return null; B.done=true;
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) for(const id of B.who) SOCIAL.adjust(id,{fam:1}); return [[null,S.GRPB.shiftNar]]; };
+  if(typeof PHONE!=='undefined'){ PHONE.GROUP_ACTS=PHONE.GROUP_ACTS||[]; if(!PHONE.GROUP_ACTS.some(a=>a.id==='wz_grpb')) PHONE.GROUP_ACTS.push({id:'wz_grpb',th:S.GRPB.th,label:'約',show:G=>S.grpbCanAsk(G),run:GM=>S.grpbAsk(GM)}); }
+
   // ================= 每一格 =================
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)||typeof CALENDAR==='undefined'||busy(GM)) return false;
+    S.p3Watch(G);
+    if(S.grpbDue(G)){ S.playing=true; S.grpbScene(GM).catch(e=>console.warn('WZL.grpb',e)).finally(()=>{ S.playing=false; }); return true; }
     if(G.zone==='wancai'&&S.lineAt(GM)) return true;
     if(G.zone==='wenzhou'&&S.parkTick(GM)) return true;
     return false; };
-  if(typeof JOBS!=='undefined'){ JOBS.SHIFT_EV.push(S.shiftEv); JOBS.SHIFT_LINES.push(S.shiftLines); JOBS.AFTER_VISIT.push(S.afterVisit); JOBS.EXCUSE.push(S.excuse); for(const e of S.ENTER) JOBS.ENTER.push(e); }
+  if(typeof JOBS!=='undefined'){ JOBS.SHIFT_EV.push(S.shiftEv); JOBS.SHIFT_LINES.push(S.shiftLines); JOBS.SHIFT_LINES.push((G,k,n,seg)=>S.grpbShiftLines(G,k,n,seg)); JOBS.AFTER_VISIT.push(S.afterVisit); JOBS.EXCUSE.push(S.excuse); for(const e of S.ENTER) JOBS.ENTER.push(e); }
   if(typeof STORY!=='undefined'){
     if(STORY.TICKS) STORY.TICKS.push(S.tick);
     if(STORY.PHONE_RULES) STORY.PHONE_RULES.push(S.phone);

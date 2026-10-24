@@ -65,7 +65,16 @@ const INV=(function(){
   /* 個人的最低階段（掛勾 fn(G,id,P)→階段或 null）：溫州街 WZ-T4 SIS_TEAHOUSE＝學姊的一盞、茶席降成「有點熟」（BB_148 8b；src/wzlines3d.js 登記）*/
   S.MIN_STAGE=[];
   const minOf=(G,id,P)=>{ let m=P.minStage; if(G) for(const f of S.MIN_STAGE){ let r=null; try{ r=f(G,id,P); }catch(e){ r=null; } if(r) m=r; } return m; };
-  const placeOk=(id,P,G)=>stageOk(id,minOf(G,id,P))||(!!P.memory&&typeof SOCIAL!=='undefined'&&!!SOCIAL.memories&&SOCIAL.memories(id).some(m=>m.tag===P.memory));
+  /* 分開以後一個學期（AA_434 第 4 節第 3 點；V6EX.cool，src/v6ex3d.js 算期間：分開那天起到下一個學期第 1 週）：
+     她那一方的邀約不發（S.offer）；你約她「照朋友階段的回覆和答應機率」——地點的門檻、運動的 A／R、AA_415 回覆的階段都只看友情（第 1～4 階，SOCIAL.friendLevel），不看戀愛。
+     可昕不在 V6EX.COOL_IDS（照 AA_351）。fest3d.js 的節日、termend3d.js 的心意邀約也讀 S.cool。掛勾 S.STAGE_CAP：fn(G,id)→這個人最多算到哪一階（SOCIAL.STAGES）或 null */
+  S.cool=(G,id)=>typeof V6EX!=='undefined'&&!!V6EX&&typeof V6EX.cool==='function'&&!!G&&!!G.flags&&!!V6EX.cool(G,id);
+  S.STAGE_CAP=[(G,id)=>S.cool(G,id)&&typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(id):null];
+  S.stageOf=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return null; const L=SOCIAL.STAGES||[]; let s=SOCIAL.stage(id); if(G) for(const f of S.STAGE_CAP){ let c=null; try{ c=f(G,id); }catch(e){ c=null; } if(c&&L.indexOf(c)>=0&&L.indexOf(c)<L.indexOf(s)) s=c; } return s; };
+  /* DATE.stageNum 的六階：分開以後這段期間＝友情那一段（不太認識 1、有點熟 2、朋友 3、好朋友 4；AA_126 4-1），不會到第 5、6 階 */
+  S.capStage=function(G,id,n){ if(!S.cool(G,id)||typeof SOCIAL==='undefined'||!SOCIAL.friendLevel) return n; const f={CLOSE_FRIEND:4,FRIEND:3,FAMILIAR:2}[SOCIAL.friendLevel(id)]||1; return Math.min(n,f); };
+  const stageOkG=(G,id,min)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return true; const L=SOCIAL.STAGES||[]; return L.indexOf(S.stageOf(G,id))>=L.indexOf(min); };
+  const placeOk=(id,P,G)=>stageOkG(G,id,minOf(G,id,P))||(!!P.memory&&typeof SOCIAL!=='undefined'&&!!SOCIAL.memories&&SOCIAL.memories(id).some(m=>m.tag===P.memory));
   /* 兩個人單獨的邀約（BB_70 0-2、AA_125 第 1 節）：吃飯、散步（soloKinds）。只看女生（「兩個人單獨」說的是男女兩個人，阿哲、阿凱這些照常吃飯）；約交往的對象本人照常。
      擋的只有兩種（AA_128 4-5；AA_140 0-2 X2，2026-10-16 取代「祐廷交往中一律擋」）：①她自己這學期有伴侶（CHARACTERS[id].partner＝{from,until} 學期）；
      ②祐廷有伴侶、而且她知道（ROM.knows：法律系開場可昕交往中，以安、語彤、沛珊知道）。她不知道就照常約（懷疑照 AA_126 9-2 累積）*/
@@ -132,7 +141,7 @@ const INV=(function(){
   S.replyStage=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 7;
     let n=typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):(typeof SOCIAL!=='undefined'&&SOCIAL.stage?Math.max(0,Math.min(6,SOCIAL.STAGES.indexOf(SOCIAL.stage(id)))):1);
     if(F['EX_'+id]&&id==='kexin') n=Math.min(n,4);   /* 分開以後只能當朋友（AA_351；AA_415 7-2 表下：沒有第 5、6 階）*/
-    return n; };
+    return S.capStage(G,id,n); };   /* 其他六位分開以後一個學期：照朋友階段（AA_434 4-3，S.cool）*/
   /* 節日：2/14、3/14、七夕、她的生日（msg2_pool.js 的 birthday）、12/24～25（AA_415 0-2）。七夕照農曆（2026～2028 和 r2y3a3d.js 的 QIXI 一樣）*/
   const QIXI=['2024-08-10','2025-08-29','2026-08-19','2027-08-08','2028-08-26','2029-08-16','2030-08-05'];
   S.replyFestival=function(G,id,day){ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return false; const d=CALENDAR.dateOf(day), md=String(d.m).padStart(2,'0')+'-'+String(d.d).padStart(2,'0');
@@ -210,7 +219,7 @@ const INV=(function(){
     const H=tb('here'); if(H&&(r.res==='accept'||r.res==='resched')){ const e=entAt(G,id,day,h);   /* 照作息，她那時候本來就在那裡（芷若上班的 Café、以安在總圖）*/
       if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return done(out); } }
     if(P.sport&&r.res==='accept'){ let v=p.acc&&p.acc[P.id]; if(typeof v==='function') v=v(G,c);   /* A＝有點熟、R＝朋友以上（交往中、曖昧也算朋友以上：照 SOCIAL.stage，和地點的門檻同一把尺）*/
-      const sb=typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.STAGES?(SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FRIEND')?'R':'A'):c.band, L=v==null?null:(Array.isArray(v)?v:(v[sb]||null)); if(L){ out.lines=L.slice(); return done(out); } if((D().sportPlain||[]).includes(id)){ out.lines=['（他答應了。）']; return done(out); } }   /* 一起運動（AA_417 第 3 節）：答應照 §3 的 acc（優先於 AA_415 的一般句；第一次去也用這一句，子晴、可昕第一次的那句在見面時說＝firstAt）；男生朋友沒有這一句＝旁白「（他答應了。）」*/
+      const sb=typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.STAGES?(SOCIAL.STAGES.indexOf(S.stageOf(G,id))>=SOCIAL.STAGES.indexOf('FRIEND')?'R':'A'):c.band, L=v==null?null:(Array.isArray(v)?v:(v[sb]||null)); if(L){ out.lines=L.slice(); return done(out); } if((D().sportPlain||[]).includes(id)){ out.lines=['（他答應了。）']; return done(out); } }   /* 一起運動（AA_417 第 3 節）：答應照 §3 的 acc（優先於 AA_415 的一般句；第一次去也用這一句，子晴、可昕第一次的那句在見面時說＝firstAt）；男生朋友沒有這一句＝旁白「（他答應了。）」*/
     const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
     if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
     if(r.res==='accept'){ const L=(c.first&&tb('first'))||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
@@ -416,7 +425,7 @@ const INV=(function(){
   S.seatMeet=async function(GM,seat){ const G=GM.G; if(!seat) return false; for(const iv of (G.invites||[])){ if(iv.state!=='accepted'||iv.day!==G.day||!iv.waitSeat||(iv.waitSeat.lv|0)!==(seat.lv|0)) continue;
       if(Math.hypot(iv.waitSeat.x-seat.x,iv.waitSeat.z-seat.z)>1.8) continue; const n=S.npcOf(GM,iv.who); if(!n) continue; iv.waitSeat=null; await S.meet(GM,iv,n); return true; } return false; };
   /* ---------- 對方約你、臨時改約（給事件用；內容由 AA、BB 寫，使用者批准後才放）---------- */
-  S.offer=function(G,who,pid,day,h,text){ S.rec(G); const P=S.place(pid); if(!P) return null; G.invSeq=(G.invSeq|0)+1;
+  S.offer=function(G,who,pid,day,h,text){ S.rec(G); const P=S.place(pid); if(!P) return null; if(S.cool(G,who)) return null;   /* 分開以後一個學期，她那一方的邀約不發（AA_434 4-3）*/ G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:'offered',accepted:false,by:'npc',label:nameOf(who)+'約你去'+P.name}; G.invites.push(iv);
     S.msg(G,who,text||(nameOf(who)+'約你'+when(G,day,h)+P.verb.replace(/^去/,'去')+'。'),iv); return iv; };
   /* 回覆對方的邀約：yes＝答應（時間衝突時照樣改天）、later＝改天（玩家另外選時間，走一般的 decide）、no＝不了（不扣分） */

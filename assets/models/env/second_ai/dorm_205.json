@@ -1,0 +1,10 @@
+{
+ "objects": 77,
+ "unique_meshes": 77,
+ "tris": 23936,
+ "tris_drawn": 23936,
+ "materials": 39,
+ "out": "assets/models/env/second_ai/dorm_205.glb",
+ "bytes": 1743856,
+ "texres": 512
+}

@@ -37,7 +37,7 @@ const findDay=(t,weeks,wd,salt,p,pred)=>{ for(const w of weeks){ const d=TD(t,w,
 const COMPOSED=new Set(['（站著聊兩句）','（一起去吃飯）','（約整群人）','{name}！我剛在課上講了十分鐘，教授叫我坐下。','法律系的路人。','「我是『{flag:SK08_WORD_TEXT}』。」',
   '（走廊上，阿勳和芯慈在吵：違約的人只要賠錢就好嗎？阿勳講效率，芯慈講信賴。）','（兩個人同時轉頭看你。）','（打招呼）','（不打擾）','（柏翰在女舍門口等沛珊。）',
   '（芯慈和阿勳一吵起來，兩個人就先看你。）','（經濟系的迎新。新生在玩「用一個經濟學名詞介紹自己」。）','（站著看一會兒）','（直接去還書）','「第一個。」','「第二個。」','「第三個。」',
-  '{flag:B10_RATE_TEXT}','你大一寫的是『{flag:B12_B5_TEXT}』。現在呢？','活大・自助餐','活大','社科院・系上的教室｜迎新','社科院・一樓']);
+  '{flag:B10_RATE_TEXT}','活大・自助餐','活大','社科院・系上的教室｜迎新','社科院・一樓']);
 const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=.)/,'').replace(/^[（「]/,'').replace(/[）」]$/,'').replace(/[。：]$/,'');
 
 (async()=>{
@@ -47,7 +47,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   if(!X()){ H.done(); return; }
   await sec('0',async()=>{
   { const bad=[], seen=new Set(); const T=t=>{ if(typeof t!=='string'||seen.has(t)) return; seen.add(t); if(COMPOSED.has(t)) return; if(ALLDOC.indexOf(t)>=0||ALLDOC.indexOf(norm(t))>=0) return; bad.push(t); };
-    for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
+    for(const e of BBPACK_EVENTS.filter(e=>!/^ev_kai_keyboard|^ev_b6b_|^ev_b12_/.test(e.id))) for(const l of (e.dialogue||[])){   /* BB_154 阿凱鍵盤（第二輪）照 BB_154 對字：tests/bbpack_r2_unit.js；B6b、B12 照 AA_430 對字：tests/aa430_b6b_b12_unit.js */ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); for(const c of (l.choice||[])) T(c.text); }
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/data/bbpack_events.js'), b=html.indexOf('src/bbpack3d.js'), c=html.indexOf('<script>GAME.boot();</script>');
@@ -57,7 +57,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   check('0. 接線：STORY.PHONE_RULES、CLS.IN_CLASS（G1、G6，各有 due）',STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.includes(X().inClass.g1)&&CLS.IN_CLASS.includes(X().inClass.g6)&&typeof X().inClass.g1.due==='function'&&typeof X().inClass.g6.due==='function');
   check('0. 博雅午後講座 B6、B7、B8、B10b、B12 進了活動清單（博雅 101，聽演講）',['B6','B7','B8','B10b','B12'].every(id=>{ const a=ACTIVITIES.list.find(q=>q.id===id); return a&&a.zone==='boya'&&a.room==='101'&&a.kind==='lecture'; }));
   { const on=(id,t,w,wd)=>ACTIVITIES.on(ACTIVITIES.list.find(q=>q.id===id),TD(t,w,wd),{flags:{}});
-    check('0. 講座的日子：B6 大二上第 6 週週二、B7 大二下第 6 週週三、B10b 大二下第 11 週週二、B8 大三上第 5 週週五、B12 大三上第 10 週週二',on('B6','Y2S1',6,2)&&on('B7','Y2S2',6,3)&&on('B10b','Y2S2',11,2)&&on('B8','Y3S1',5,5)&&on('B12','Y3S1',10,2)&&!on('B6','Y2S1',6,3)); }
+    check('0. 講座的日子：B6 大二上第 6 週週二、B7 大二下第 6 週週三、B10b 大二下第 11 週週二、B8 大三上第 5 週週五、B12 大三上第 10 週週四（AA_430 2-1「週四晚上七點」；原本週二）',on('B6','Y2S1',6,2)&&on('B7','Y2S2',6,3)&&on('B10b','Y2S2',11,2)&&on('B8','Y3S1',5,5)&&on('B12','Y3S1',10,4)&&!on('B6','Y2S1',6,3)); }
   });
 
   /* ======================= 1 日文班 ======================= */
@@ -165,12 +165,12 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     check('2. B10b：一百年前的小說、散場明軒、Alison（AA 寫）、芷若（FAMILIAR）兩句＋選項；到場紀錄 attended B10b',L.includes('講者從一本一百年前的小說講起：一個人被審判，到最後都不知道自己犯了什麼罪。')&&L.includes('法律系的聽這個，會坐立難安。')&&L.includes('欸！我中間一直想舉手問，那個人到底犯了什麼？')&&L.includes('我讀的是英文版。德文的我看不懂。')&&L.includes('真好。小說不用寫。')&&ACTIVITIES.attended(G,'B10b'),J(L));
     const G2=fresh('Y2S2',11,2,18.4,{zone:'boya',know:[MX]}); H.said=[]; await CLS.attendActivity(GM,a); check('2. B10b 和芷若不熟＝她不在',!said().includes('我讀的是英文版。德文的我看不懂。')); }
   { const G=fresh('Y3S1',10,1,21.1,{know:[AN]}); PHONE.join(G,'noodle_team','麵店團'); rules();
-    check('2. B12 週一 21:00 麵店團群組（BB_105 B12 的那句）',msgs('g:noodle_team').includes('大一那場『政府可以為了大家，限制一個人嗎』，同一個講者又來了。'));
-    setDay(TD('Y3S1',10,2),18.4); G.zone='boya'; SOCIAL.rel(AN).fam=30; G.flags.B5_THOUGHT='trade'; const a=ACTIVITIES.list.find(q=>q.id==='B12'); H.said=[]; await CLS.attendActivity(GM,a); const L=said();
-    check('2. B12 散場（沒去過 B4）：以安拿大一的筆記那句；有 B5_THOUGHT 的多一句（照那一句）',L.includes('大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？')&&L.includes('你大一寫的是『最小，要看大家換到了什麼』。現在呢？'),J(L));
-    const G2=fresh('Y3S1',10,2,18.4,{zone:'boya',know:[AN,'yu']}); SOCIAL.rel(AN).fam=5; const k=TD('Y1S2',11,4); ACTIVITIES.rec(G2).att['B4@'+k]={h:19,end:'left'}; H.said=[]; await CLS.attendActivity(GM,a); const L2=who();
-    check('2. B12 B4 中途離開、和以安不到 FAMILIAR：改由 Alison「後半場在這裡」',L2.some(t=>/後半場在這裡/.test(t))&&H.said.find(s=>/後半場在這裡/.test(s.t)).who!==SOCIAL.displayName(AN),J(L2));
-    const G3=fresh('Y3S1',10,2,18.4,{zone:'boya',know:[AN]}); ACTIVITIES.rec(G3).att['B4@'+k]={h:19,end:'full'}; check('2. B12 聽完 B4、沒有 B5_THOUGHT：稿沒有字，不演',!X().b12Due(G3)); }
+    check('2. B12 週一 21:00 麵店團群組（BB_105 B12 的那句；引號照 AA_430 2-1 用「」）',msgs('g:noodle_team').includes('大一那場「政府可以為了大家，限制一個人嗎」，同一個講者又來了。'));
+    setDay(TD('Y3S1',10,4),18.9); G.zone='boya'; SOCIAL.rel(AN).fam=30; G.flags.B5_THOUGHT='trade'; const a=ACTIVITIES.list.find(q=>q.id==='B12'); H.said=[]; await CLS.attendActivity(GM,a); const L=said();
+    check('2. B12 散場（沒去過 B4）：以安拿大一的筆記那句（AA_430 2-3 B：B5_THOUGHT 那句只在聽完 B4 的 A 版——B5 要聽完 B4 才有）',L.includes('大一那場你沒來。我把我的筆記給你看——你現在答得出來嗎？')&&!L.some(t=>/你大一寫的是/.test(t)),J(L));
+    const G2=fresh('Y3S1',10,4,18.9,{zone:'boya',know:[AN,'yu']}); SOCIAL.rel(AN).fam=5; const k=TD('Y1S2',11,4); ACTIVITIES.rec(G2).att['B4@'+k]={h:19,end:'left'}; H.said=[]; await CLS.attendActivity(GM,a); const L2=who();
+    check('2. B12 B4 中途離開、和以安不到 FAMILIAR：Alison 版（AA_430 2-4：「欸，大一那場我也有去。…」；原本 Alison 講以安的「後半場在這裡」）',L2.some(t=>/Alison：欸，大一那場我也有去。那時候我只聽懂一半。$/.test(t))&&!L2.some(t=>/後半場在這裡/.test(t)),J(L2));
+    const G3=fresh('Y3S1',10,4,18.9,{zone:'boya',know:[AN]}); ACTIVITIES.rec(G3).att['B4@'+k]={h:19,end:'full'}; check('2. B12 聽完 B4、沒有 B5_THOUGHT：AA_430 2-3 A 有字了，會演',X().b12Due(G3)); }
   { const W=[2,3,4,5,6,7,10,11,12,13,14,15]; let t='Y1S2', hit=findDay(t,W,3,'b13',0.2); if(!hit){ t='Y1S1'; hit=findDay(t,W,3,'b13',0.2); } const G=fresh(t,hit.w,3,16.5,{zone:'boya',room:'study',know:[PS]});
     check('2. B13 週三 16:00～18:00 博雅自習區、認識沛珊、兩成',chk('ev_b13_peishan'));
     const L=await run('ev_b13_peishan',['（打招呼）']);

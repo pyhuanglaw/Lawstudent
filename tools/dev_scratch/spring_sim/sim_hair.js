@@ -10,6 +10,7 @@ const scene=new THREE.Scene(); let worstAll=0;
     for(const dt of [1/30,0.3]){
       const h=CHAR.build({model:key}); scene.add(h); const vrm=h.userData.vrm, sbm=vrm.springBoneManager; const head=vrm.humanoid.getRawBoneNode('head');
       const tips=[...sbm.joints].filter(j=>!j.child&&!/Bust|Skirt|Sleeve/.test(j.bone.name));
+      if(!tips.length){ res.push('沒有頭髮的彈簧骨（只有 '+[...sbm.joints].map(j=>j.bone.name).filter((n,i,A)=>A.indexOf(n)===i).slice(0,4).join('、')+'），不檢查'); scene.remove(h); CHAR.release(h); break; }   /* 2026-10-24：芷若的 Blender 版 bl_heroine_02.vrm 只有胸口 4 節，舊版平均 0/0＝NaN 判 FAIL（BB-B v9.10.7 回歸）*/
       const mean=()=>{ scene.updateMatrixWorld(true); const hp=new THREE.Vector3(); head.getWorldPosition(hp); const ys=tips.map(j=>{ const p=new THREE.Vector3(); j.bone.getWorldPosition(p); return p.y-hp.y; }); return ys.reduce((a,b)=>a+b,0)/ys.length; };
       let t=0; while(t<2){ CHAR.animate(h,dt,{pose:'idle',speed:0}); t+=dt; } const idle=mean();
       h.position.set(3,0,-2); h.rotation.y=-1.57; CHAR.animate(h,dt,{pose:'idle',speed:0}); const tele=mean();

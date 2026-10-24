@@ -2355,12 +2355,18 @@
   },
   {
    "path": "docs/story_planning/AA_424_美國篇空白日_週六秋假迎新週.md",
-   "sha": "a4ee6c74a",
+   "sha": "de83f9af2",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 19:0x 定稿（D109）；第 7 節（9/9 改成她來借洗衣機、9/23 群組、記憶名稱）AA-B 19:4x",
    "task": "US-AA424-1023",
    "kind": "text",
-   "note": "src/us_blank3d.js、src/data/us_blank_lines.js（tests/aa424_us_blank_unit.js）"
+   "note": "src/us_blank3d.js、src/data/us_blank_lines.js（tests/aa424_us_blank_unit.js）；de83f9af2：AA_442 第 4 節改日子對不上的一句",
+   "history": [
+    {
+     "sha": "a4ee6c74a",
+     "note": "AA_442 第 4 節以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md",
@@ -2676,16 +2682,20 @@
   },
   {
    "path": "docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md",
-   "sha": "0c97c3c05",
+   "sha": "de83f9af2",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 10-24 03:42 九題）",
    "task": "AA437-NINE-1024",
    "kind": "text",
-   "note": "已進遊戲：第 1 節 3D 開學典禮旁白（src/gymcer3d.js）、第 2 節 lab5f3d.js 14:00 那句、第 3 節學姊研究小間時段的邀約回答（src/data/invites.js）、第 7 節日本空白日三處（src/data/jp_blank_lines.js、src/jp_blank3d.js）、第 9 節大一跨年阿哲（src/data/events.js）、第 4 節新 15 前任長桌版＋新 16 那一句（src/story3d.js、src/data/v6ex_lines.js）、第 5 節新 21 抓包版（src/postgrad3d.js、src/data/postgrad_lines.js）、第 6 節主線 10 前任紙箱（src/story3d.js）；tests/aa437_ex_unit.js；0c97c3c05 加第 10 節（只認識阿哲時以安回「申請不用想太久。後天中午截止。」、主線 11 前任紙箱兩句旁白），前九節一字不差",
+   "note": "已進遊戲：第 1 節 3D 開學典禮旁白（src/gymcer3d.js）、第 2 節 lab5f3d.js 14:00 那句、第 3 節學姊研究小間時段的邀約回答（src/data/invites.js）、第 7 節日本空白日三處（src/data/jp_blank_lines.js、src/jp_blank3d.js）、第 9 節大一跨年阿哲（src/data/events.js）、第 4 節新 15 前任長桌版＋新 16 那一句（src/story3d.js、src/data/v6ex_lines.js）、第 5 節新 21 抓包版（src/postgrad3d.js、src/data/postgrad_lines.js）、第 6 節主線 10 前任紙箱（src/story3d.js）；tests/aa437_ex_unit.js；0c97c3c05 加第 10 節（只認識阿哲時以安回「申請不用想太久。後天中午截止。」、主線 11 前任紙箱兩句旁白），前九節一字不差；de83f9af2：AA_442 第 4 節改日子對不上的一句",
    "history": [
     {
      "sha": "fc6f20bc0",
      "note": "第 1～9 節"
+    },
+    {
+     "sha": "0c97c3c05",
+     "note": "AA_442 第 4 節以前"
     }
    ]
   },
@@ -2712,6 +2722,97 @@
      "note": "AA_439 第 4 節以前"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
+   "sha": "540e1d3fb",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）；540e1d3fb：臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）",
+   "history": [
+    {
+     "sha": "718c06a30",
+     "note": "第一版"
+    },
+    {
+     "sha": "edae49ca6",
+     "until": "2026-10-24 08:4x",
+     "why": "AA 補 1-5b（7/31 成績單寄到）"
+    },
+    {
+     "sha": "ca16c073d",
+     "until": "2026-10-24 08:5x",
+     "why": "臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md",
+   "sha": "70d31d938",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 06:01）",
+   "task": "COURSE-PRACTICE-Y4-1024",
+   "kind": "text",
+   "note": "大四下法律實習 13 個週二各一句、第一次出席＝第 1 週、租屋大姊 A／B、4/24 麵店團兩句；OFF 改名法扶・臺北的辦公室（src/practice3d.js；tests/aa441_practice_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+   "sha": "03b7e6dff",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；國外學期盤點）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "第 3 節學姊提示「你禮拜六走，對吧。」已改（src/data/sis_jp_events.js）；第 1 節住家裡的家人群組 H1～H6（src/home3d.js 掛勾＋src/jpprep3d.js）、第 2 節日本出發前五週（src/jpprep3d.js、src/data/jpprep_events.js；tests/aa442_jpprep_unit.js）已進遊戲；03b7e6dff：第 5 節美國那一學期讀過一遍：8/11 摘要改草原超市（us_life_events.js S3 摘要日）",
+   "history": [
+    {
+     "sha": "d94d259ec",
+     "until": "2026-10-24 08:5x",
+     "why": "第 5 節美國那一學期讀過一遍：8/11 摘要改草原超市（us_life_events.js S3 摘要日）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md",
+   "sha": "540e1d3fb",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "ROOMS-AB3-PEOPLE-1024",
+   "kind": "text",
+   "note": "第 1 節多媒體中心的看與芷若（src/closed2_3d.js；tests/rooms_ab3_people_unit.js 第 15 節）；第 2 節摘要池加寫 22 句、第 3 節週四家人群組範圍已進遊戲（vacfill、jpprep）；540e1d3fb：第 4 節臺北的家不寫上下樓：暑假 11「隔壁的阿伯」、14「晚上出門倒垃圾」",
+   "history": [
+    {
+     "sha": "f93fa3eda",
+     "until": "2026-10-24 08:5x",
+     "why": "第 4 節臺北的家不寫上下樓：暑假 11「隔壁的阿伯」、14「晚上出門倒垃圾」"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_444_美國臥室C_學姊的房間_看的字.md",
+   "sha": "540e1d3fb",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "CLOSED-SPACES-1023",
+   "kind": "text",
+   "note": "第 1 節第一次進她的房間（US_ROOM_C_SEEN）、第 2 節書桌／書架／窗外照日期＋去過 5F 研究室多一句：src/data/us_life_events.js looks.roomC、src/us_life3d.js S.roomCLook；tests/us_life_unit.js AA_444 五項；540e1d3fb：第 4 節法圖 2F 書庫兩個看（往三樓的樓梯、木梯各兩句：us_life_events.js looks.lib2f、us_life3d.js S.interact）",
+   "history": [
+    {
+     "sha": "350c10201",
+     "until": "2026-10-24 08:5x",
+     "why": "第 4 節法圖 2F 書庫兩個看（往三樓的樓梯、木梯各兩句：us_life_events.js looks.lib2f、us_life3d.js S.interact）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",
+   "sha": "03b7e6dff",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-20 定稿 90f8faf9（D109）；AA-B 2026-10-24 第 101 行改 8/11 摘要（AA_442 第 5 節）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "kind": "text",
+   "note": "美國交換那一學期（src/us_life3d.js、src/data/us_life_events.js；tests/us_life_unit.js）照稿手動放；之前沒有白名單這一筆，10-24 補登"
   }
  ]
 }

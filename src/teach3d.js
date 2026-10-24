@@ -185,6 +185,9 @@ const TB3=(function(){
         if(Math.abs(dw-DOOR_W)<0.02){ doorBins[r.lv|0].add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13); doorItems.push({lv:r.lv|0,x:dx,z:dz,out,text:r.plate||String(r.label||'').replace(/（.*?）/g,'').trim()}); }   /* 載入門模組以後藏起來（doorsGLB）*/
         else bb.add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13);
         /* link：門後面是通到別棟的空橋（普通二樓 ⇄ 博雅二樓，方案 A）——按了就走過去（區域切換、落在對面那棟的二樓）；其他關著的房間：門口的說明 */
+        /* 有正式房間的關著的房間（ROOM_GLB_LAYOUTS 的 host_door＝{zone:這一棟, id:房號}；博雅 203＝AA_399 第 10 節 SK07 那一晚）：開放時段內門口是「進入」、時段外照舊是門上的字（兩個不會同時出現）*/
+        const RK=!r.link&&typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate?Object.keys(ROOM_GLB_LAYOUTS).find(k=>{ const h=ROOM_GLB_LAYOUTS[k].host_door; return h&&h.zone===L.id&&h.id===r.id&&Z3.ZONES[k]; }):null;
+        if(RK){ const R=ROOM_GLB_LAYOUTS[RK]; IT.push(Z3.roomGlbGate({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:R.host_door.label||('進入 '+R.name),exit:{to:RK,spawn:Object.assign({},R.spawn)},gate:RK},false)); IT.push(Z3.roomGlbGate({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look,gate:RK},true)); continue; }
         if(r.link) IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); else IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
       if(r.kind==='passage'){ if(r.link&&r.linkDoor) IT.push({x:r.linkDoor.x,z:(r.linkDoor.z>0?1:-1)*(L.D/2-0.6),radius:0.8,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); continue; }   /* 打開的通道（往空橋）：沒有門板；博雅那一端的玻璃門＝走上空橋 */
       if(r.kind==='lecture'){ buildLecture(L,r,grpOf(r.lv),bb,IT,r.lv?lv1:lv0,zone); continue; }
@@ -215,7 +218,10 @@ const TB3=(function(){
       IT.push({x:bd.x+Math.sin(bd.ry)*0.9,z:bd.z+Math.cos(bd.ry)*0.9,radius:1.0,lv:bd.lv,label:bd.label,board:true,get look(){ return bd.look+(typeof ACTIVITIES!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?'　'+ACTIVITIES.posterText(GAME.G,bd.zoneFilter?L.id:undefined):''); }}); }   /* 公告欄：照活動資料（src/data/activities.js）列出這幾天的演講與活動；zoneFilter＝只列這棟的 */   /* 公告欄：照活動資料（src/data/activities.js）列出這幾天的演講與活動 */
     for(const sg of (L.signs||[])){ const sp=new THREE.Mesh(new THREE.PlaneGeometry(sg.w,sg.w*0.16),new THREE.MeshBasicMaterial({map:TK.signTex(sg.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(sg.x,sg.y,sg.z); sp.rotation.y=sg.ry||0; (sg.lv?lv1:lv0).add(sp); }
     { const S=L.stair; const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.4,0.38),new THREE.MeshBasicMaterial({map:TK.signTex(S.sign,{bg:'#5a2a22',color:'#f3efe4'})})); sp.position.set((S.B.x0+S.B.x1)/2,Y1+2.3,S.B.z1+0.02); lv1.add(sp);
-      IT.push({x:(S.B.x0+S.B.x1)/2,z:S.B.z1+0.5,radius:0.8,lv:1,label:'往 3F',look:'往 3F 的樓梯口拉著一條鍊子：「整修中，暫停開放」。'}); }
+      const up3={x:(S.B.x0+S.B.x1)/2,z:S.B.z1+0.5,radius:0.8,lv:1,label:'往 3F',look:'往 3F 的樓梯口拉著一條鍊子：「整修中，暫停開放」。'};
+      const R3=L.id==='gongtong'&&typeof ROOM_GLB_LAYOUTS!=='undefined'&&ROOM_GLB_LAYOUTS.gongtong_3f&&Z3.ZONES.gongtong_3f&&Z3.roomGlbGate?ROOM_GLB_LAYOUTS.gongtong_3f:null;   /* 共同教學館 3F 考場（AA_399 第 9 節；rooms_glb3d.js）：只有考試那天鍊子拿掉、可以上去，其他時間照舊 */
+      if(R3){ up3.gate='gongtong_3f'; Z3.roomGlbGate(up3,true); IT.push(Z3.roomGlbGate({x:up3.x,z:up3.z,radius:0.8,lv:1,label:'上 3F（考場）',exit:{to:'gongtong_3f',spawn:Object.assign({},R3.spawn)},gate:'gongtong_3f'},false)); }
+      IT.push(up3); }
     // 座位
     const seats=zone.seats=seatsOf(L);
     for(const st of seats){ if((st.kind==='class'||st.kind==='lounge'||st.kind==='study')&&!(L.groups||[]).some(g=>g.id===st.room)) Z3.chair(grpOf(st.lv),st.x,st.z,st.yaw,st.kind==='class'?'#5a6470':'#8a6a4a');

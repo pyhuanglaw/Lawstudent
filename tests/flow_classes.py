@@ -68,7 +68,7 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         # ---------- A：正常走路進 201、上課、下課、離開 ----------
         run.setup('讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口 (-2.0,-6.0, 2F)；第一、二天主線已過')
-        await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
+        await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS}, quiet_phone=True)
         await pg.wait_for_timeout(3500)
         # HUD 的「下一堂」跟著作息更新（game3d.js 每 30 幀一次：手機 60 fps 約半秒，SwiftShader 1–4 fps 要 8–30 秒）——等它出現再看內容，最多再等 60 秒
         # （2026-10-14 v9.6 回歸：讀檔後只等 3.5 秒，還沒輪到更新，讀到空字串）
@@ -125,7 +125,7 @@ async def main():
         run.check('回到霖澤館二樓、站得住', s['zone'] == 'linze' and s['lv'] == 1 and s['stand'], json.dumps(s, ensure_ascii=False))
         # ---------- B：手機「去教室」（快速前往）----------
         run.setup('讀檔：第 6 天（9/22 週一）08:50，校門口')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_MON, 'weekday': 1, 'weather': 'sunny', 'pos': {'x': -112, 'z': 0, 'yaw': -1.57}, 'flags': BASE_FLAGS})
+        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_MON, 'weekday': 1, 'weather': 'sunny', 'pos': {'x': -112, 'z': 0, 'yaw': -1.57}, 'flags': BASE_FLAGS}, quiet_phone=True)
         await pg.wait_for_timeout(3500)
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
@@ -148,7 +148,7 @@ async def main():
         run.check('憲法下課：12:10', s['hour'] >= 12.15 and s['hour'] < 12.6, f"{h0} → {s['hour']}")
         # ---------- C：共同教學館 102 上課（館內的 3D 教室，D55 第二階段）＋翹掉的課 ----------
         run.setup('讀檔：第 9 天（9/25 週四）08:50，椰林大道上、共同教學館前 (2,10)')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': 2, 'z': 10, 'yaw': 0}, 'flags': BASE_FLAGS})
+        await L.load_state(pg, {'zone': 'campus', 'hour': 8.83, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': 2, 'z': 10, 'yaw': 0}, 'flags': BASE_FLAGS}, quiet_phone=True)
         await pg.wait_for_timeout(3500)
         d = await L.find_it(pg, '共同教學館')
         run.check('校園有「共同教學館」的門口', bool(d), json.dumps(d, ensure_ascii=False))
@@ -184,6 +184,7 @@ async def main():
         # ---------- D：存讀檔（重新整理）----------
         await pg.wait_for_timeout(1500)
         await pg.reload(); run.check('重新整理後遊戲載入', await L.wait_loaded(pg))
+        await L.no_phone_auto(pg)   # [前置] 讀進來的存檔有要回的訊息：手機自己打開會擋住搖桿（D103）
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1200)
         ok = await L.tap(pg, cdp, '#saveSlots .item:first-child .btn.pri')
         run.check('標題畫面「讀取」→ 自動存檔', ok)

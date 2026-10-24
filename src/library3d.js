@@ -170,7 +170,10 @@ const LB3=(function(){
     // 門（關著：看得懂的說明）
     for(const d of L.doors){ const y=d.lv?L.floors[1].y:0, g=d.lv?fb1:fb0, ry=d.ry||0; const dg=new THREE.Group(); dg.position.set(d.x,y,d.z); dg.rotation.y=ry; const db=new TK.Bin(); db.add(MAT.frame(),TK.boxG(1.5,2.5,0.1),0,1.25,0); db.add(MAT.wood(),TK.boxG(1.3,2.35,0.06),0,1.18,0.05); db.build(dg); g.add(dg);
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.4,0.35),new THREE.MeshBasicMaterial({map:TK.signTex(d.label,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,2.85,0.16); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
-      IT.push({x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed}); }
+      const R=d.to&&typeof ROOM_GLB_LAYOUTS!=='undefined'?ROOM_GLB_LAYOUTS[d.to]:null;   /* 正式房間（rooms_glb3d.js 照 host_door 設 d.to、d.spawn：多媒體中心，AA_399 第 12 節）：出入口，標籤用 host_door.label */
+      if(R&&typeof Z3!=='undefined'&&Z3.ZONES[d.to]){ IT.push({x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.0,lv:d.lv,label:(R.host_door&&R.host_door.label)||d.label,exit:{to:d.to,spawn:Object.assign({},d.spawn||R.spawn)}}); continue; }
+      const goes=d.to&&typeof Z3!=='undefined'&&Z3.ZONES[d.to]&&typeof LIBRARY_UPPER_LAYOUTS!=='undefined'&&LIBRARY_UPPER_LAYOUTS.carrels;   /* 研究小間（CLOSED-SPACES-1023 第 3 項，src/library_upper3d.js）：門通到那個區域、站在研究小間的門廳 */
+      IT.push(goes?{x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.0,lv:d.lv,label:d.label,exit:{to:d.to,spawn:Object.assign({},LIBRARY_UPPER_LAYOUTS.carrels.spawn)}}:{x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed}); }
     // 樓梯間的門（往 3F 閱覽區）
     { const SDR=L.stairDoor, y=L.floors[1].y; const dg=new THREE.Group(); dg.position.set(SDR.x,y,SDR.z); dg.rotation.y=-Math.PI/2; const db=new TK.Bin(); db.add(MAT.frame(),TK.boxG(1.6,2.6,0.12),0,1.3,0); db.add(M('#7a8288',{rough:0.4}),TK.boxG(1.4,2.45,0.06),0,1.22,0.06); db.build(dg); fb1.add(dg);
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.4),new THREE.MeshBasicMaterial({map:TK.signTex('樓梯間　3F 閱覽區 ↑',{bg:'#2f5d50',color:'#ffffff'})})); sg.position.set(0,2.95,0.16); dg.add(sg); lv1.attach(sg); }
@@ -179,14 +182,16 @@ const LB3=(function(){
     // 指標（中文字一直顯示：正式模型沒有字）
     for(const s of L.signs){ const y=(s.lv?L.floors[1].y:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
     // 樓層簡介（大樓梯旁邊）
-    { const tx=W3.canvasTex('lbboard',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜服務台｜期刊報紙｜新書展示',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText('4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（西側樓梯）',24,246); });
+    { const tx=W3.canvasTex('lbboard',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜服務台｜期刊報紙｜新書展示',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText(L.stacks?'4F–6F　書庫（5F 開放，搭電梯）':'4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（西側樓梯）',24,246); });
       const bd=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.9),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(-3.2,1.6,-0.48); lv0.add(bd);
-      IT.push({x:-3.2,z:0.35,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、期刊報紙、新書展示；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；4F–6F 書庫（這學期整理中）。'+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（一樓西側的樓梯間下去）。':'')+'中間的大樓梯上二樓。'}); } }
+      IT.push({x:-3.2,z:0.35,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、期刊報紙、新書展示；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；'+(L.stacks?'5F 書庫是自然科學（搭電梯；4F、6F 這學期整理中）。':'4F–6F 書庫（這學期整理中）。')+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（一樓西側的樓梯間下去）。':'')+'中間的大樓梯上二樓。'}); } }
 
   // ---- 電梯的樓層：「別的區域」的樓層（3F 閱覽區）帶出生點（車廂裡面，門關著）----
   function elevSpawn(EL,lv){ return {x:(EL.x0+EL.x1)/2,z:(EL.z0+EL.z1)/2-0.15,yaw:Math.PI,lv:lv|0,elev:true}; }
-  function hallFloors(L){ const R=L.reading.elevator; return L.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(R,0)}:{})); }
-  function readingFloors(L){ const EL=L.elevator; return L.reading.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(EL,f.lv)}:{})); }
+  /* 樓層在別的區域：出生點在那個區域的電梯車廂裡（閱覽室、大廳、5F 書庫各一部；書庫是 CLOSED-SPACES-1023 第 3 項）*/
+  function zoneElev(L,z){ return z==='library'?L.reading.elevator:(z==='library_stacks'&&L.stacks?L.stacks.elevator:L.elevator); }
+  function hallFloors(L){ return L.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.zone==='library'?0:f.lv)}:{})); }
+  function readingFloors(L){ return L.reading.elevator.floors.map((f,i)=>Object.assign({num:i+1},f,f.zone?{spawn:elevSpawn(zoneElev(L,f.zone),f.lv)}:{})); }
 
   // ---- 區域 ----
   const library_hall={ id:'library_hall', name:'總圖書館 大廳', indoor:true, camDist:4.8, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y, EL=L.elevator;
@@ -231,6 +236,6 @@ const LB3=(function(){
     E.interactables.push({x:zone.elev.cx,z:R.callZ,radius:1.0,label:'搭電梯',elevator:true});
     return zone; }
 
-  return {library_hall,readingExtras,stairSurfs,buildNav,CAMPUS,riseOf};
+  return {library_hall,readingExtras,stairSurfs,buildNav,CAMPUS,riseOf,hallFloors,readingFloors};   /* hallFloors／readingFloors：tests/library_upper_unit.js 查電梯的樓層 */
 })();
 Z3.ZONES.library_hall=LB3.library_hall;
