@@ -2707,6 +2707,15 @@ R26 = [
   dict(id='AWN_2000', key='2026-10-14', h=20.0, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_awn_2000') + [CAM(-60.0, -97.0, 0.35, 0.06, 6.0, '湖南岸西側往北偏東'), ('shot', 'lake_awn_2000_w', None, 'true', 2)], want=[]),
 ]
 SCENS = SCENS + R26
+
+# ---------- R27（BB-B 10-24 22:5x）：舟山路路燈（ART-ZHOUSHAN-LAMPS-1024，開發分支 5bcdd7e8e：南側 9 盞，x −97…70、z 52.6；LAWWW-B 22:45 加派）----------
+# 大一女舍門口、往男生宿舍的路（x 17～23）20:00：讀 z 44～64 那一帶亮著的燈光（E.lampGlows），四個方向截圖，量幀率；v9.10.9 同一組對照
+LAMPCHK = "(()=>{ const E=GAME.E, v=new THREE.Vector3(); let n=0,on=0; const xs=[]; for(const g of (E.lampGlows||[])){ g.getWorldPosition(v); if(v.z>44&&v.z<64&&v.x>-110&&v.x<80){ n++; if(g.visible){ on++; xs.push(Math.round(v.x)); } } } return {n,on,xs:xs.sort((a,b)=>a-b)}; })()"
+R27 = [dict(id='ZS_LAMPS_2000', key='2026-10-14', h=20.0, zone='campus', flags=dict(TW3), js='', pref=[],
+            steps=[CAM(-86.0, 50.0, 1.5708, 0.35, 8.0, '大一女舍門口一帶、往西看'), PAUSE(5, '等模型'), ('chk', '舟山路一帶亮著的燈光（記下來）', LAMPCHK, lambda d: True)]
+                  + YAWS('zs_girls', -86.0, 50.0, 0.35, 8.0, yaws=(1.5708, -1.5708, 0.0)) + YAWS('zs_boys', 20.0, 50.0, 0.35, 8.0, yaws=(1.5708, -1.5708, 3.1416))
+                  + [CAM(20.0, 50.0, 1.5708, 0.35, 8.0, '量幀率的位置（往男生宿舍的路）'), ('chk', '10 秒幀率（記下來）', FPS10, lambda f: isinstance(f, (int, float))), ('chk', '10 秒幀率 第二次', FPS10, lambda f: isinstance(f, (int, float)))], want=[])]
+SCENS = SCENS + R27
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
