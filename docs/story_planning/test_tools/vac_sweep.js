@@ -66,6 +66,7 @@ function sweep(pk, live, B) {
   G.contacts = G.contacts || {}; G.msgs = G.msgs || []; G.visited = G.visited || {}; G.outings = G.outings || [];
   if (typeof ROM !== 'undefined' && ROM.rec) ROM.rec(G);
   for (const [g, n] of [['noodle_team', '麵店團'], ['family_law', '法律系直屬家族'], ['law_class', '法律系（全班）'], ['public_law', '公法讀書會'], ['home', '家人']]) { try { PHONE.join(G, g, n); } catch (e) {} }
+  if (B.econ) { try { PHONE.join(G, 'econ_friends', '走啦'); } catch (e) {} }   /* 經濟系暑假：經濟系朋友的群組（AA_272 第 13 節的「走啦」；LAWWW-B 10-24 07:09：不加的話 8/3、8/4 算不到）*/
   for (const id of WHO) { try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 15; SOCIAL.remember(id, 'FIRST_MET', ''); G.contacts[id] = B.from - 60; } catch (e) {} }
   if (P.dating) { try { const r = SOCIAL.rel(P.dating); Object.assign(r, { fam: 70, trust: 60, comf: 50, npcRom: 60, rom: 40 }); ROM.start(G, P.dating); } catch (e) { G.flags['dating_' + P.dating] = true; } }
   if (!B.econ && typeof HOME !== 'undefined' && HOME.rec) { const Hm = HOME.rec(G); Hm.stay = Hm.stay || {}; Hm.stay[B.key] = live === 'home' ? 'home' : 'dorm'; if (live === 'home') { Hm.at = true; Hm.lbreak = B.key; } else Hm.at = false; }
