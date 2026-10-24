@@ -31382,8 +31382,8 @@
    "title": "瀏覽器驗收 v9.10.9 的東西（開發分支 7770155b4 以後；v9.10.8 發布樹 63da1d633 之後進來的）並做發布判定",
    "area": "QA",
    "owner": "BB",
-   "status": "待開工",
-   "next": "BB 跑完美國劇本（QA-TRANSCRIPT-US-1024）以後接；已驗過：EXPO86_LATE（once 活動）、美國臥室 C、BEDC_OCT07、touch_flow_wenzhou、levels_no_sky",
+   "status": "已驗收",
+   "next": "LAWWW 發布 v9.10.9；gongguan_layout_nav 另外兩處固定等下一版改；同行的人擋門口互動另開任務",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -31402,9 +31402,10 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "每項 PASS／FAIL＋重現步驟；最後寫 GO／NO-GO",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "notes": "要驗：①美國法圖 2F 書庫（R19 LIB2F 四個，b43a86cdf）＋兩個看（f23a5b948）②經濟系 7/31 成績單（6de249582）③霖澤館 1F 公布欄＋玻璃門、徵才單（4229bbaf4）④社科院窗簾（b9d19d8a6）⑤普通／共同教室窗外景（aef97e506）、博雅二樓長窗（0a5835573）⑥上面樓層不投影子（becf772d4：普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）⑦室內路人 7 m 外換低面數（a42beb018：博雅一樓後排、Café、總圖 3F）⑧16 段不再黑底（45f1cd9e6、64397615a、7a7c4391b、a7a7a6ed8 鳳凰城機場）⑨AA_445（76fd3ce8b 大三寒假麵店一次、節日邀約分節日）、AA_446（6759ffce6 大二寒暑假訊息）⑩AA_447（9e5054eb7 紐約送機、台南送行、機票、是A不是B）⑪AA_448（c32e36006 美國校園換季、冷氣那句、初雪黑底）⑫美國路線巡查（7770155b4：社區西邊出口外面、法圖晚上彩色玻璃、校園路燈光圈、手機幀率）；發布前清單 docs/TESTING.md 第五節。"
+   "notes": "要驗：①美國法圖 2F 書庫（R19 LIB2F 四個，b43a86cdf）＋兩個看（f23a5b948）②經濟系 7/31 成績單（6de249582）③霖澤館 1F 公布欄＋玻璃門、徵才單（4229bbaf4）④社科院窗簾（b9d19d8a6）⑤普通／共同教室窗外景（aef97e506）、博雅二樓長窗（0a5835573）⑥上面樓層不投影子（becf772d4：普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）⑦室內路人 7 m 外換低面數（a42beb018：博雅一樓後排、Café、總圖 3F）⑧16 段不再黑底（45f1cd9e6、64397615a、7a7c4391b、a7a7a6ed8 鳳凰城機場）⑨AA_445（76fd3ce8b 大三寒假麵店一次、節日邀約分節日）、AA_446（6759ffce6 大二寒暑假訊息）⑩AA_447（9e5054eb7 紐約送機、台南送行、機票、是A不是B）⑪AA_448（c32e36006 美國校園換季、冷氣那句、初雪黑底）⑫美國路線巡查（7770155b4：社區西邊出口外面、法圖晚上彩色玻璃、校園路燈光圈、手機幀率）；發布前清單 docs/TESTING.md 第五節。",
+   "evidence": "BB-B 10-24 21:20 GO（BB_218「RELEASE-9109-TEST 判定」，企劃線 5e71b4ed9；release_9109_55eed589e_SUMMARY.txt）：12 項＋AA_449 全部 PASS；release_suite 630 項 628 PASS、2 FAIL 判定測試問題（gongguan_layout_nav 已改 bae6a039a、flow_library_scene 重跑 PASS）"
   },
   {
    "id": "ECON-READ-1024",
