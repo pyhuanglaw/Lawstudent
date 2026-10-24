@@ -31263,7 +31263,7 @@
    "id": "BG-DARK-SCENES-1024",
    "title": "13 段劇情對話是黑底（scene 的 bg 鍵 OUT.BG 沒有）：Café 四張、法圖二樓、醉月湖夜、巷口便利商店夜、208 廚房從 3D 拍 2D 背景；總圖門口雨、社區活動中心、會所草地向使用者要",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -31278,7 +31278,7 @@
    },
    "source": "LAWWW2-B 10-24 12:5x 路線巡查（docs/art-rebuild/second_ai/research/dark_bg_scenes_1024.md，0f616c421）",
    "authorized": "D100（2D 背景：從 3D 拍的歸 LAWWW2、向使用者要的歸 BB）、D111",
-   "next": "【LAWWW-B 10-24 13:0x】ntu_library_night 別名 library_gate_night 已加（outings3d.js）；tests/scene_bg_keys_unit.js 擋新的黑底（PENDING 清單）。LAWWW2：寒暑假路線巡完以後，從 3D 拍 cafe、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941，同現有規格）；BB：ntu_library_rain、community_room、us_club_lawn 照 D97 向使用者要",
+   "next": "【LAWWW-B 10-24 13:5x】第一批 8 張整合（DL-LW2-BG-DARK-1）；芷若回國重逢改 cafe_night、語彤改 noodle_table。第二批派 LAWWW2：以安 15:00 總圖門口（白天）、學姊 17:05 法圖門口、沛珊 14:00 舊路書房、宿舍書桌（出國申請）；BB 向使用者要 4 張 ｜ 【LAWWW-B 10-24 13:0x】ntu_library_night 別名 library_gate_night 已加（outings3d.js）；tests/scene_bg_keys_unit.js 擋新的黑底（PENDING 清單）。LAWWW2：寒暑假路線巡完以後，從 3D 拍 cafe、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941，同現有規格）；BB：ntu_library_rain、community_room、us_club_lawn 照 D97 向使用者要",
    "xai": {
     "spec": "dark_bg_scenes_1024.md（LAWWW2 分支 0f616c421）",
     "owner": "LAWWW2",
