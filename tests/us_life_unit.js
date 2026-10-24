@@ -380,6 +380,8 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     at('2028-10-10',11.75); G.zone='us_lawlib_2f'; { const L=STORY.ladData(G,'heroine_05'); const st=L&&L.L.steps.find(x=>/^SU-L/.test(x.id||'')); check('AA_399-8 2F. SU 閒聊階梯：11:30～12:00 的地點多了 2F 書庫', !!st&&st.location.includes('us_lawlib_2f')&&!!st.locTime.us_lawlib_2f, st&&JSON.stringify(st.location)); }
     { G.zone='us_lawlib_2f'; said=[]; const ok1=await STORY.interact({label:'樓梯（三樓）',x:0,z:0},GM); const s1=said.map(q=>q.t); said=[]; const ok2=await STORY.interact({label:'木梯',x:0,z:0},GM); const s2=said.map(q=>q.t);
       check('AA_444-4. 2F 書庫：往三樓的樓梯、木梯各兩句（照稿）', ok1&&ok2&&s1.length===2&&s1[1]==='（三樓要刷法學院自己學生的卡。你的卡刷不過。）'&&s2.length===2&&s2[1]==='（最上層那一排判例彙編，書背印的年份是一九六〇年代。）', JSON.stringify([s1,s2])); }
+    { fresh('2028-10-10',10.75,'us_lawlib_2f',US()); date('heroine_05'); E.zone=Object.assign({roomAt:()=>null,seats:[]},{spots:{sis:{x:8.45,z:-0.9,yaw:1.5708}}}); delete GM.npc.heroine_05; spawned.length=0; USL.sisSync(GM); const n=GM.npc.heroine_05;
+      check('AA_399-8 2F. 10:45 在 2F：學姊站在 spots.sis（8.45, -0.9）', !!n&&n.uslSis&&Math.abs(n.obj.position.x-8.45)<1e-6&&Math.abs(n.obj.position.z+0.9)<1e-6, JSON.stringify({spawned,a:USL.sisAt(G),n:n&&n.obj.position})); }
     if(typeof EXCH!=='undefined'&&EXCH.inUS){ G.zone='us_lawlib_2f'; const i1=EXCH.inUS(G); G.zone='us_bed_c'; const i2=EXCH.inUS(G); check('AA_399-8. 2F 書庫、學姊的房間也算在美國（EXCH.inUS）', i1&&i2); }
     global.Z3=Z0; }
 
