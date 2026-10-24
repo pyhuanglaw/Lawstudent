@@ -593,13 +593,17 @@ EXPO86 = {
   'EXPO86_JP': ('（坐到日本那一區）', [('采蓁', '欸，日文課的！你也想去日本？'), ('采蓁', '獸醫系走不開。……可是看看也好。')], {'JP_MET': True}, True),
   'EXPO86_US': ('（坐到美國那一區）', [('classmate_mingxuan', '美國區。……我坐這裡，不代表付得起。')], {}, False),
   'EXPO86_TW': ('（坐到台灣那一區）', [('classmate_mingxuan', '你只是來聽聽？……我也是。聽聽不用錢。')], {}, False),
+  'EXPO86_LATE': ('（坐到台灣那一區）', [('classmate_mingxuan', '你只是來聽聽？……我也是。聽聽不用錢。')], {}, False),
 }
+# BB-B 10-24 11:5x：12:20 開始以後才坐下＝坐下那一刻 actTrack 記了 EXPO_Y2『in』→ onceDone（once:true＋stateOf 有 partial）→ canJoin false，選單沒有「聽演講」（Node 重現，chk/expo_once.js；v9.10.7 線上也有）。
+#   EXPO86_JP／US／TW 改成 11:45 讀檔、開始前（12:05～12:20）坐下＝現在走得通的路，驗台詞；EXPO86_LATE 照舊 11:57 讀檔、開始以後才坐下＝這個 bug 的證據（修好以前 FAIL）
+EXPO86_H = {'EXPO86_LATE': 11.95}
 MX_DOOR = [('classmate_mingxuan', '我想去。……交換要先存錢，我算過了。'), ('classmate_mingxuan', '要再多教兩個家教學生。')]
 
 
 async def s_expo86(p, run, base, sid, out):
     res = out.setdefault(sid, {}); pk, want, flags, jp = EXPO86[sid]
-    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', 11.95, 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), flags=flags,
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', EXPO86_H.get(sid, 11.75), 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), flags=flags,
                                     label=sid + '（認識以安、柏翰、明軒；%s）' % ('見過日文班、【前置】日文（上）出席 3 次' if jp else '沒修日文'))
     try:
         if jp: await pg.evaluate("(()=>{ const R=CLS.rec(GAME.G); R.attend=R.attend||{}; R.attend.japanese_1=3; return R.attend.japanese_1; })()")
@@ -627,7 +631,7 @@ async def s_expo86(p, run, base, sid, out):
             miss = [w for w in MX_DOOR + want if not any(t == w[1] and (n == w[0] or w[0] == '采蓁') for n, t in sp)]
             run.check('%s：選「%s」（EXPO_COUNTRY＝%s）；明軒門口兩句＋這一區的句子逐字' % (sid, pk, res['country']), ok2 and not miss, json.dumps({'miss': miss, 'tail': sp[-10:]}, ensure_ascii=False)[:600])
             if not jp: run.check('%s：沒修日文＝沒有采蓁那兩句' % sid, not any(t.startswith('欸，日文課的') for _, t in sp), '')
-        else: run.check('%s：101 坐下有「聽演講：交換學生甄選說明會」' % sid, False, json.dumps(res.get('seat_menus'), ensure_ascii=False)[:400])
+        else: run.check('%s：101 坐下有「聽演講：交換學生甄選說明會」%s' % (sid, '（12:20 開始以後才坐下）' if sid == 'EXPO86_LATE' else ''), False, json.dumps(res.get('seat_menus'), ensure_ascii=False)[:400])
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
     await close(b)
