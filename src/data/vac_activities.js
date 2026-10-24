@@ -439,8 +439,8 @@ const VAC_DATA=(function(){
     reunionHomeBack:{heroine_01:['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。']},
     reunion:{
       heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'campus',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
-      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
-      heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'兩點半 Café',bg:'cafe',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',text:'回來了？……我 26 號回臺北。'},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北那天補一場 */
+      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle_table',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
+      heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'兩點半 Café',bg:'cafe_night',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',text:'回來了？……我 26 號回臺北。'},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北那天補一場 */
         noShift:{from:ZR_NOSHIFT[0],to:ZR_NOSHIFT[1],invite:['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'],h:15,
           lines:[{narr:'（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。'}],miss:['昨天那個位子，我坐到打烊。']},
         byDate:[{to:'2027-06-04',invite:['明天我十點下班。','……你來的話，我晚一點關燈。'],h:22}]},   /* AA_373 第 6 節第 9 題（企劃線 bdab2f42）：她晚班到 22:00——見面那天在 2027-06-04 以前（她還在上班）＝「九點」改「十點」、22:00；台詞、沒去的那句照原本。之後照 AA_375（noShift）*/

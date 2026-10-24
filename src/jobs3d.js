@@ -260,6 +260,12 @@ const JOBS=(function(){
      面試沒去（出遊 missed）＝可以重新從公布欄來。存檔：G.jobs._meta.ap2＝{cram|office:{st:'call'|'cv'|'iv', day, iv}}；事務所私訊的回覆 G.flags.JOB_OFFICE_DM（'tue'|'thu'）*/
   S.AP2=['cram','office'];
   S.board2=G=>{ if(!G||!law(G)) return []; const A=S.rec(G)._meta.ap2||{}; return S.AP2.filter(k=>S.eligible(G,k)&&!S.active(G,k)&&!A[k]); };
+  /* 公布欄上的兩張徵才單（LAWWW2-B 10-24 fc86f7507：linze_interior.glb 的 L0_WALL_notice_job_cram／_office）：公布欄上有這一家（S.board2）才看得到。
+     節點名稱有 WALL_＝會跟著東面淡出（engine3d.js 的 hideFaded 每一格改 Object3D.visible），所以開關用材質的 visible（attachFormal 已經每一片各自複製材質）*/
+  S.POSTER={cram:'L0_WALL_notice_job_cram',office:'L0_WALL_notice_job_office'};
+  S.posterSync=function(GM){ const E=GM&&GM.E, G=GM&&GM.G, z=E&&E.zone; if(!G||G.zone!=='linze'||!z||!z.formal) return;
+    if(!z._jobPosters){ const m={}; const root=z.group||(E.scene); root.traverse(o=>{ for(const k in S.POSTER) if(o.name===S.POSTER[k]) (m[k]=m[k]||[]).push(o); }); z._jobPosters=m; }
+    const b=S.board2(G); for(const k in S.POSTER) for(const n of (z._jobPosters[k]||[])) n.traverse(o=>{ if(o.isMesh&&o.material&&!Array.isArray(o.material)) o.material.visible=b.includes(k); }); };
   S.addBoard=function(GM){ const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)) return null; const Gf=()=>GM.G;
     const it={x:7.2,z:1.2,lv:0,radius:1.0,label:'看系上的公布欄',jobBoard:true,get hidden(){ return !S.board2(Gf()).length; }}; E.interactables.push(it); return it; };
   const monNext=d=>d-(wdOf(d)-1)+7;   /* 下週一 */
@@ -372,7 +378,7 @@ const JOBS=(function(){
   // ---------- 每一格（STORY.TICKS）----------
   let lastZone=null, planT=-1;
   S.busy=GM=>{ const E=GM.E; return S.running||(GM.D&&GM.D.active)||(typeof ADV!=='undefined'&&ADV.active)||!!(E&&E.player&&E.player.busy)||(typeof EVENTS!=='undefined'&&!!EVENTS.running); };
-  S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)||!hasCal()) return false;
+  S.tick=function(GM){ const G=GM&&GM.G; if(G&&G.zone==='linze'){ try{ S.posterSync(GM); }catch(e){ console.warn('JOBS.poster',e); } } if(!G||!law(G)||!hasCal()) return false;
     const t=Math.floor(now(G)*4); if(t!==planT){ planT=t; try{ S.track(G); S.plan(G); }catch(e){ console.warn('JOBS.plan',e); } }
     const k=S.ZONE_KEY[G.zone]; const entered=G.zone!==lastZone; lastZone=G.zone;
     if(!k||S.busy(GM)) return false;

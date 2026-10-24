@@ -99,7 +99,7 @@ const CHAR = (function(){
      明暗照 MToon 算：MToon 的直射光是 mix(陰影色, 受光色, linearstep(-1+toony, 1-toony, dotNL+shift))，陰影色＝受光色×r 時，就是 MeshToonMaterial 的漸層 r+(1-r)·linearstep(…)
      （環境光兩邊都是 irradiance×受光色）。r、toony、shift 從這個人自己的 MToon 材質讀（已經套過 C.LOOK）：身體用衣服的平均、頭髮用頭髮的。
      頂點顏色是貼圖原本的顏色：衣服和 MToon 的衣服一樣乘 CLOTH_K，皮膚乘 C.LOOK 的膚色（從皮膚材質讀）*/
-  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_K=1.0; C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
+  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_OUT_IN=7; C.FAR_IN_IN=6.5; C.FAR_K=1.0;   /* 室內（教室、圖書館）7 m 外就換、6.5 m 內換回來（LAWWW2-B 2026-10-24：博雅一樓階梯教室一整班路人 361 calls、76 萬三角形 → 271、50 萬；engine3d.js 的 farWant）*/ C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
   function farRamp(sh){ const N=32, a=new Uint8Array(N), lo=-1+sh.toony, w=Math.max(1e-3,2-2*sh.toony); for(let i=0;i<N;i++){ const s=Math.min(1,Math.max(0,((i+0.5)/N*2-1+sh.shift-lo)/w)); a[i]=Math.round(255*(sh.r+(1-sh.r)*s)); }
     const t=new THREE.DataTexture(a,N,1,THREE.RedFormat); t.minFilter=t.magFilter=THREE.LinearFilter; t.generateMipmaps=false; t.needsUpdate=true; return t; }
   function farShade(model,re){ let n=0,r=0,toony=0,shift=0, col=null; const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;

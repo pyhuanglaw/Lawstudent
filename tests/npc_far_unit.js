@@ -71,7 +71,7 @@ function nearestStats(A,B){ // A 的每個點到 B 最近的點（格子加速�
   }
   // ⑥ engine3d.js 的接法（原始碼）：路人 isExtra、騎車的路人都照距離切換，兩個門檻
   const e=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
-  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（遠 30 m、回到 28 m 才換回來）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,o\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
+  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（室外遠 30 m、回到 28 m 才換回來；室內 7／6.5 m 見 crowd_far_indoor_unit.js）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,farWant\(!!o\.userData\.isFar,cd,!!E\.indoor\)\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
   check('engine3d.js：騎腳踏車的路人（E.extras）同一套',/const rd=x\.rider; if\(rd&&rd\.userData&&rd\.userData\.farLOD&&x\.obj\)\{[^}]*CHAR\.setFar\(rd,rd\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

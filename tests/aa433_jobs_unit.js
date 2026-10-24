@@ -50,10 +50,14 @@ await sec(1,async()=>{ fresh(key(TD('Y1S2',2,3)),15,'cvs'); H.E.interactables=[]
 
 await sec(2,async()=>{ fresh(key(TD('Y1S2',5,2)),12,'linze'); H.E.interactables=[]; const it=JOBS.addBoard(GM); check('2. 大一下：公布欄沒有徵才單（按鈕藏起來）',!!it&&it.hidden===true&&it.lv===0);
   const d0=TD('Y2S1',1,3); fresh(key(d0),12,'linze'); H.E.interactables=[]; const it2=JOBS.addBoard(GM); check('2. 大二上第 1 週：有補習班的徵才單（還沒有事務所）',it2.hidden===false&&J(JOBS.board2(H.G))===J(['cram']));
+  const POST=()=>{ const mk=n=>{ const m={isMesh:true,material:{visible:true}}; return {name:n,mesh:m,traverse(f){ f(this); f(m); }}; }; const c=mk('L0_WALL_notice_job_cram'), o=mk('L0_WALL_notice_job_office');
+    const z0=H.E.zone; H.E.zone={formal:true,group:{traverse(f){ f(c); f(o); }}}; JOBS.posterSync(GM); const r=[c.mesh.material.visible,o.mesh.material.visible]; H.E.zone=z0; return r; };
+  check('2. 公布欄模型上的徵才單（LAWWW2 fc86f7507）：大二上第 1 週只看得到補習班那張',J(POST())===J([true,false]));
   H.picks=['高中補習班徵助教','「打電話問。」']; H.said=[]; H.opts=[]; await STORY.interact(it2,GM);
   check('2. 徵才單的字、「打電話問。」→ 班主任「下週一六點來面試，帶學生證。」',J(H.opts[0])===J(['高中補習班徵助教　週一、週三 18:30～21:30　會改考卷、能回答學生問題','不看了'])&&saidBy('班主任','下週一六點來面試，帶學生證。'),J(H.opts)+J(L()));
   const mon=TD('Y2S1',2,1), q=OUT.get(H.G,'job_iv_cram_'+mon); check('2. 下週一 18:00 面試（出遊，2D）',!!q&&q.h===18&&q.ev==='ev_job2d_cram_iv'&&q.title==='補習班面試'&&!q.goto,J(q));
   check('2. 面試排好了：公布欄不再列',JOBS.board2(H.G).length===0);
+  check('2. 面試排好了：模型上的補習班徵才單也拿掉',J(POST())===J([false,false]));
   at(mon,18); H.said=[]; H.opts=[]; H.picks=['週一']; await EVENTS.run(ev('ev_job2d_cram_iv'));
   check('2. 面試：班主任「改一張考卷給我看。……好，下週開始。」；班表週一、週三 18:30～21:30（從下週一起）',saidBy('班主任','改一張考卷給我看。……好，下週開始。')&&J(H.opts[0])===J(['週一','週三','週一和週三','先不要'])&&J(JOBS.job(H.G,'cram').day)===J([1])&&JOBS.job(H.G,'cram').since===mon+7,J(H.opts)+J(JOBS.job(H.G,'cram')));
   check('2. 這週的週一不上（下週開始）',!JOBS.scheduled(H.G,'cram',mon)&&JOBS.scheduled(H.G,'cram',mon+7));

@@ -1,0 +1,27 @@
+// 劇情台詞的 scene 行 bg:'…' 都要在 OUT.BG 有圖（src/outings3d.js）；查不到＝播的時候是深色底（events3d.js 的 OUT.bg 回 'dark'）。
+//   LAWWW2-B 2026-10-24 路線巡查掃到 13 段黑底（docs/art-rebuild/second_ai/research/dark_bg_scenes_1024.md）；這支測試讓新加的 scene 鍵沒有圖時就失敗。
+//   PENDING＝已知還沒有圖、在等美術的鍵（每個寫任務）；有圖或別名以後從這裡拿掉。dark／blur 等是特別值。不需要瀏覽器。用法：node tests/scene_bg_keys_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.document={getElementById:()=>null,addEventListener(){}}; global.location={search:''};
+for(const f of ['src/data/calendar.js','src/outings3d.js']){ const s=fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|OUT)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+const SPECIAL=new Set(['dark','blur','video','freeze']);
+/* 不是 OUT.BG 的鍵（別的系統自己解讀）：jp3d 的房間；zq_testbuild3d 是測試建置 */
+const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js']);   /* vac_activities.js 也走 OUT.bg（vac3d.js 的 S.key），要查 */
+const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
+  campus:'BG-DARK-SCENES-1024 第二批（回國重逢：以安 15:00 總圖門口）', wancai:'BG-DARK-SCENES-1024 第二批（學姊 17:05 法圖門口）', bookstore:'BG-DARK-SCENES-1024 第二批（沛珊 14:00 舊路書房）',
+  dorm:'BG-DARK-SCENES-1024 第二批（出國申請寫資料：宿舍書桌，lines 空的）',
+  ntu_library_rain:'BG-DARK-SCENES-1024（BB 向使用者要）', community_room:'BG-DARK-SCENES-1024（BB 向使用者要）', us_club_lawn:'BG-DARK-SCENES-1024（BB 向使用者要）',
+  botanical_lotus:'BB 要圖（AA_379）', vf_lantern:'BG-LANTERN-1024' };
+const keys=new Set(Object.keys(OUT.BG||{})), used={};
+const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
+for(const f of walk('src').concat(walk('src/data'))){ if(OTHER_FILES.has(f)) continue; const s=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); for(const m of s.matchAll(/\bbg:'([a-z0-9_]+)'/g)) (used[m[1]]=used[m[1]]||new Set()).add(f); }
+const miss=Object.keys(used).filter(k=>!keys.has(k)&&!SPECIAL.has(k));
+const bad=miss.filter(k=>!PENDING[k]);
+check('劇情 scene 的 bg 鍵都在 OUT.BG（等美術的寫在 PENDING）', !bad.length, bad.map(k=>k+'（'+[...used[k]].join('、')+'）').join('；'));
+const done=Object.keys(PENDING).filter(k=>keys.has(k)||!used[k]);
+check('PENDING 裡已經有圖（或沒有人用）的要拿掉', !done.length, done.join('、'));
+check('ntu_library_night（sis_b10 總圖門口）＝library_gate_night 那張', !!OUT.BG.ntu_library_night&&OUT.BG.ntu_library_night.image===OUT.BG.library_gate_night.image);
+for(const k of Object.keys(OUT.BG)){ const im=OUT.BG[k].image; if(im&&!fs.existsSync(path.join(ROOT,im))){ check('OUT.BG 的圖都在：'+k, false, im); } }
+console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

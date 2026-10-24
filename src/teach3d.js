@@ -297,7 +297,7 @@ const TB3=(function(){
   // ---- 窗外的景（B3.outView；照片還沒拍的用程序化的景）----
   function windowViews(L,lv0,lv1,outs){ const W=L.W, D=L.D, T=L.wallT;
     for(const w of L.windows){ const grp=w.lv?lv1:lv0, a=(w.a0+w.a1)/2, len=w.a1-w.a0, h=w.y1-w.y0, yc=(w.y0+w.y1)/2-(w.lv?L.floors[1].y:0);
-      const z=w.wall==='S'?D/2-T/2-0.03:-D/2+T/2+0.03, ry=w.wall==='S'?Math.PI:0; const p=B3.outView(w.wall==='S'?'south':'east',w.photo,len,h,a,(w.lv?L.floors[1].y:0)+yc,z,ry,20,grp); outs.push(p); } }
+      const z=w.wall==='S'?D/2-T/2-0.03:-D/2+T/2+0.03, ry=w.wall==='S'?Math.PI:0; const p=B3.outView(w.wall==='S'?'south':'east',w.photo,len,h,a,(w.lv?L.floors[1].y:0)+yc,z,ry,20,grp); const U=p.material&&p.material.uniforms; if(w.photoWide&&U&&U.sxy) U.sxy.value.set(0.5,1); outs.push(p); } }   /* photoWide：照片水平約 127°（4:1，tools/blender/env_second/shots/teach_views.py），長窗斜著看不會跑出照片的左右邊 */
   // ---- 區域 ----
   function makeZone(id){ return { id, get name(){ return LAYOUTS[id]().name; }, indoor:true, camDist:4.6, build(E){ const L=LAYOUTS[id](), W=L.W, D=L.D, Y1=L.floors[1].y, S=L.stair;
     const g=new THREE.Group(); const lv0=new THREE.Group(), lv1=new THREE.Group(); lv0.name='L0'; lv1.name='L1'; lv0.userData.dyn=true; lv1.userData.dyn=true; g.add(lv0); g.add(lv1);
