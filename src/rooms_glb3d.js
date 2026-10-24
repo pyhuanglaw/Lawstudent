@@ -18,8 +18,7 @@
      AA_355 1-3（AA-C 2026-10-21）：白板（研討室 A、多功能教室）——當天有事件或課堂寫字的照事件的字，這一句是沒有字的時候用（現在還沒有寫白板的事件＝一律這一句）。
      AA_355 5-1（2f1aaa22）：研討室 A 的書櫃、借用登記表；202 的黑板（同白板：沒有課堂寫字的時候用這一句；現在沒有寫黑板的課堂＝一律這一句）、公告欄；多功能教室的公告欄。台詞照抄 */
   const BOARD='（白板上還留著上一堂課的字，擦了一半。）';
-  const LOOK={ us_lawlib_2f:{ stacks:'（書架很高，最上層要用梯子。整排都是很舊的判例彙編。）' },   /* AA_399 第 8 節（AA_287 第 120 行）*/
-    wancai_sema:{ board:BOARD, books:'（書櫃裡是歷屆的研究所論文，有些書背的字已經褪色了。）', signup:'（借用登記表夾在門邊。今天下午那一格，已經有人寫了名字。）' },
+  const LOOK={ wancai_sema:{ board:BOARD, books:'（書櫃裡是歷屆的研究所論文，有些書背的字已經褪色了。）', signup:'（借用登記表夾在門邊。今天下午那一格，已經有人寫了名字。）' },
     linze_202:{ board:'（黑板角落寫著「下週停課」，不知道是哪一堂的。）', notice:'（公告欄上貼著獎學金、徵才、讀書會的傳單，最上面那張一直被風吹起來。）' },
     wancai_multi:{ board:BOARD, notice:'（公告欄上只剩一張場地借用規則，四個角都用膠帶補過。）' } };
   const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
@@ -50,7 +49,7 @@
       for(const b of BL) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
       nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
       plane(fb,W,D,M('#9c7a58'),0,0,0.005); const bm=M('#8e6a4a'); for(const b of BL){ const h=/bookcase/.test(b.why)?2.0:0.75; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
-      const lamps=[]; for(const [x,zz] of (L.lamps||[[-2.8,0],[2.8,0]])){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
+      const lamps=[]; for(const [x,zz] of [[-2.8,0],[2.8,0]]){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
       let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
       const IT=E.interactables; z.seats=[];
@@ -60,10 +59,8 @@
       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
       z.teacherSpot=L.teacherSpot||L.clerk||null; if(L.spawn) z.spawn=Object.assign({},L.spawn); z.roomSet=sk; z.spots=(SET?SET.spots:L.spots)||null;   /* spots：人站／坐的位置（研討室 B：柏翰值班、志工、口試委員…；劇情放人用）*/   /* 直接進來（「直接去上課」GM.enter 沒給落點）：站在門口裡面 */
       if(L.cam_box) z.camBox=L.cam_box; if(L.see_thru) z.seeThru=true;   /* 宿舍 205（和祐廷的房間同一型）：運鏡只在中間走道、上鋪擋住時網點透空（同 zones3d.js 的 dorm）*/
-      /* glb：借另一個區域的正式模型（法圖 2F 書庫＝一樓那一個 us_lawlib.glb 往下 glb_y，glb_hide 的節點藏起來）；自己的 GLB（bldg.<id>）只放這一層才有的東西，另外加進來（LAWWW2-B 10-24）*/
-      z.formal=false; const key='bldg.'+(L.glb||id); if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(L.glb_y) root.position.y=L.glb_y;
-        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } if(L.glb_hide&&L.glb_hide.includes(o.name)) o.visible=false; });
-        if(L.glb&&has('bldg.'+id)) ASSETS.loadOne('bldg.'+id).then(c2=>{ if(!c2||!c2.scene||E.zone!==z) return; const r2=c2.scene.clone(true); r2.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(r2); glow=glow.concat(glowMats(r2,/^GLOW_/)); }).catch(e=>console.warn('房間的另一個模型載入失敗',id,e)); Z3.attachRoomGLB(z,g0,fb,root); if(L.dorm_interior&&Z3.attachDormInterior) Z3.attachDormInterior(z,g0,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
+      z.formal=false; const key='bldg.'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); if(L.dorm_interior&&Z3.attachDormInterior) Z3.attachDormInterior(z,g0,root); z.formal=true; if(L.sets) root.traverse(o=>{ if(/^SET_/.test(o.name)) o.visible=!!SET&&o.name===SET.node; });
         glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('萬才館房間正式模型載入失敗',id,e));
       return z; } }; }
   if(typeof ROOM_GLB_LAYOUTS!=='undefined') for(const id of Object.keys(ROOM_GLB_LAYOUTS)){ Z3.ZONES[id]=zoneFor(id);

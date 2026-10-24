@@ -81,8 +81,7 @@ const ACTIVITIES={
            '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']}
   ],
   /* once 的活動：任何一場聽過（或中途離開）就算去過了 */
-  onceDone(G,a){ if(!(a&&a.once)) return false; const A=(G&&G.acts&&G.acts.att)||{}, p=a.id+'@';
-    for(const k in A){ if(!k.startsWith(p)||!A[k]) continue; if(A[k].end==='in'&&k===p+G.day) continue; return true; } return false; },   /* 今天這一場「正坐在裡面」（end:'in'）不算去過：開始以後才進去坐下，actTrack 先記 in，選單還要有「聽演講」（BUG-ACT-ONCE-LATE-1024，BB-B 10-24：EXPO_Y2 12:26 坐下沒有選項）*/
+  onceDone(G,a){ return !!(a&&a.once&&ACTIVITIES.stateOf(G,a.id)); },
   /* 這個區域今天有集合點的活動 */
   spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day,G)); },
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/

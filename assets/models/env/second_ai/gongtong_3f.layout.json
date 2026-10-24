@@ -47,9 +47,9 @@
   "y": 2.1,
   "w": 2.2,
   "h": 1.6,
-  "note": "遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x；窗景 gongtong_3f（shots/teach_views.py：正面三樓往北）"
+  "note": "遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x；窗景借 boya_2f_south"
  },
- "view": "gongtong_3f",
+ "view": "boya_2f_south",
  "counter": null,
  "clerk": null,
  "teacherSpot": {

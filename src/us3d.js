@@ -312,13 +312,9 @@ const US3=(function(){
     const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 檯燈、嵌燈整天都亮 */
     const IT=E.interactables; z.seats=[];
     for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st);   /* ap：椅子後面是方柱的那一張，走近點另外給（配置算好的）*/ IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st},s.kind==='lounge'?{label:'坐在軟椅上'}:{label:'坐下來讀書',study:true})); }   /* study：坐下的選單有「讀書」（和總圖一樣）*/
-    const UP=typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate&&Z3.ZONES.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f.host_door?ROOM_GLB_LAYOUTS.us_lawlib_2f:null;   /* 二樓書庫（us_lawlib_2f，LAWWW2-B 10-24；AA_399 第 8 節）：樓梯口那一點開的時候變成「上 2F（書庫）」，紅絨繩藏起來 */
-    for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usLib:q.id}; lookGet(it,G=>libLook(q.id,G,q.label));
-      if(UP&&q.id===UP.host_door.id){ IT.push(Z3.roomGlbGate({x:q.x,z:q.z,radius:q.r,lv:0,label:UP.host_door.label,exit:{to:'us_lawlib_2f',spawn:Object.assign({},UP.spawn)},gate:'us_lawlib_2f'},false)); it.gate='us_lawlib_2f'; IT.push(Z3.roomGlbGate(it,true)); continue; }
-      IT.push(it); }
+    for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usLib:q.id}; lookGet(it,G=>libLook(q.id,G,q.label)); IT.push(it); }
     for(const X of L.exits){ const sp=Object.assign({},(X.to==='us_campus'&&US_CAMPUS_LAYOUT[X.spawn])||US_CAMPUS_LAYOUT.spawn_library_out); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
     z.formal=false; if(has('bldg.us_lawlib')) ASSETS.loadOne('bldg.us_lawlib').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-      if(UP&&Z3.roomGlbOpen('us_lawlib_2f',G_())) root.traverse(o=>{ if((UP.glb_hide||[]).includes(o.name)) o.visible=false; });   /* 二樓開著：樓梯口的紅絨繩、小立牌拿掉 */
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
       glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
     return z; } };

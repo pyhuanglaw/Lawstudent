@@ -31,8 +31,6 @@ const VACFILL_LINES={
   /* 1-5 7/27（日）10:00 在家醒來：去學校走一走（15:00 一鍵到校門口）*/
   y0_0727:{wake:'（成績出來了。分數夠不夠，要等八月十三號。）',go:'（去學校走一走）',no:'（在家）',
     gate:'（同一個校門。你念經濟系的時候，每天從這裡進來。）',linze:'（你走到霖澤館前面。以前只從外面經過這一棟。）'},
-  /* 1-5b 7/31（四）10:00 在家醒來：成績單寄到（AA_440 ca16c073d 補；BB_303 第 6 節 7/28～8/03 連 7 天沒有事）*/
-  y0_0731:{narr:['（你去拿信。最上面一封是分科測驗的成績單，和網路上看到的一樣。）','（你把它夾進桌上那本書裡。放榜還有兩個禮拜。）']},
   /* 1-6 8/4（一）21:00 經濟系群組：等放榜（不用回）*/
   y0_0804:{ms:[['econ_pinyu','十三號放榜對吧'],['econ_zhengxun','對。不要問他，他會緊張。'],['econ_pinyu','我沒有問他啊 我問你'],['econ_tangrui','（貼圖：一隻在等的貓）']]},
   /* 1-7 8/8（五）20:00 父親節（視訊；家裡）*/
@@ -181,11 +179,6 @@ const VACFILL_EVENTS=(function(){
       dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y0_0727.wake},
         {choice:[{text:X.y0_0727.go,set:{VF_Y0_0727:'go'}},{text:X.y0_0727.no,set:{VF_Y0_0727:'no'}}]} ],
       after:noMemo('ev_vf_y0_0727',G=>{ if(typeof VACFILL!=='undefined'&&VACFILL.phone) VACFILL.phone(G); }) },
-    /* 1-5b 7/31 10:00 在家醒來（人在臺北的家才出；交往中、沒交往都一樣，不用選、不加數值）*/
-    { id:'ev_vf_y0_0731', stage:'econ', title:'', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-      prereq:{custom:G=>win(G,'2025-07-31',10,'2025-07-31',14)},
-      dialogue:[ {scene:'臺北的家'}, ...X.y0_0731.narr.map(t=>({speaker:null,text:t})) ],
-      after:noMemo('ev_vf_y0_0731') },
     { id:'ev_vf_y0_0727_gate', stage:'econ', title:'', participants:[], location:'campus', trigger:'auto', once:true, background:'blur',
       prereq:{custom:G=>{ const d=D('2025-07-27'); if(d==null||G.day!==d||F(G).VF_Y0_0727!=='go') return false; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vf_y0_0727'):null; return !!q&&q.state==='done'; }},
       dialogue:[ {speaker:null,text:X.y0_0727.gate} ],

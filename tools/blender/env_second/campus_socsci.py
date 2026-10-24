@@ -37,67 +37,6 @@ RECW, RECN = 97.4, -55.6                            # 一樓大廳的玻璃線�
 DOOR_LIB = 101.0                                    # 圖書館入口（⑬ 入口 x=−9）
 
 
-GEN = os.path.join(HERE, 'textures', 'gen')
-CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
-
-
-def wash_material():
-    """ck_bell_wash（遊戲：emissiveMap＝這張、加法混合、晚上 0.75）。貼圖 256×128：
-    左半＝洗牆光：牆腳最亮、往上 4.5 m 淡到黑；左右照燈的光錐淡出（中間寬、上面更寬）。右半＝地面光圈：中心暖白、往外淡到黑。"""
-    import numpy as np
-    from PIL import Image
-    W_, H_ = 256, 128; img = np.zeros((H_, W_, 3))
-    warm = np.array([1.0, 0.86, 0.66])
-    ys = np.linspace(1, 0, H_)[:, None]                      # PIL 第 0 列在上面＝v 1
-    xs = np.linspace(-1, 1, W_ // 2)[None, :]
-    spread = 0.35 + 0.65 * ys                                # 越高越寬
-    side = np.clip(1 - (np.abs(xs) / spread) ** 2, 0, 1)
-    up = np.clip(1 - ys, 0, 1) ** 1.6 * (0.35 + 0.65 * np.clip(ys / 0.08, 0, 1))   # 最下面 8% 從燈具亮起來
-    img[:, :W_ // 2] = (side * up)[..., None] * warm * 0.85
-    yy, xx = np.mgrid[0:H_, 0:W_ // 2]; r = np.hypot((xx - (W_ // 4 - 0.5)) / (W_ // 4), (yy - (H_ / 2 - 0.5)) / (H_ / 2))
-    img[:, W_ // 2:] = (np.clip(1 - r, 0, 1) ** 1.8)[..., None] * warm * 0.7
-    fn = os.path.join(GEN, 'soc_wash.png'); Image.fromarray((np.clip(img, 0, 1) * 255).astype('uint8')).save(fn)
-    m = bpy.data.materials.new('ck_bell_wash'); m.use_nodes = True; nt = m.node_tree
-    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(fn, check_existing=True)
-    nt.links.new(tx.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color']); return m
-
-
-def poster_material():
-    """院系公告欄：軟木板上釘幾張虛構的活動海報（PIL 畫；字 WenQuanYi Zen Hei）。1024×416（3.0 × 1.2 m）。
-    日期不寫星期幾：遊戲每一年同一天的星期不同。"""
-    import random
-    from PIL import Image, ImageDraw, ImageFont
-    rnd = random.Random(1021); W_, H_ = 1024, 416
-    im = Image.new('RGB', (W_, H_), (178, 140, 98)); d = ImageDraw.Draw(im)
-    for _ in range(5000):                                   # 軟木的顆粒
-        x, y = rnd.randrange(W_), rnd.randrange(H_); c = rnd.randint(-28, 22)
-        d.point((x, y), fill=(178 + c, 140 + c, 98 + c))
-    F = lambda s: ImageFont.truetype(CJK, s)
-    posters = [   # (x, y, w, h, 底色, 字色, [(字, 大小)…])
-        (24, 30, 220, 300, (246, 241, 228), (52, 74, 120), [('經濟系系學會', 26), ('迎新茶會', 50), ('', 10), ('9/30 晚上 6:30', 24), ('社科院中庭', 24), ('', 8), ('點心、飲料、學長姊經驗分享', 15)]),
-        (266, 46, 236, 250, (40, 64, 92), (240, 232, 210), [('週三講座', 24), ('數字裡的', 40), ('日常生活', 40), ('', 8), ('每週三 19:00', 22), ('一樓演講廳', 22)]),
-        (524, 24, 200, 270, (226, 92, 70), (255, 248, 236), [('政治系', 26), ('模擬聯合國', 36), ('社員招募', 36), ('', 10), ('不用經驗', 20), ('會議英文一起練', 18)]),
-        (746, 52, 252, 176, (250, 250, 246), (40, 40, 40), [('社會系讀書會', 28), ('每週四 晚上', 22), ('這學期讀：城市與移動', 18)]),
-        (760, 246, 150, 136, (255, 236, 140), (60, 50, 30), [('失物招領', 26), ('藍色水壺', 18), ('黑色折疊傘', 18), ('請到系辦', 18)]),
-        (936, 238, 70, 150, (230, 230, 226), (90, 90, 90), [('期中', 18), ('加油', 18)]),
-    ]
-    for (x, y, w, h, bg, fg, lines) in posters:
-        a = rnd.uniform(-2.2, 2.2)
-        p = Image.new('RGBA', (w, h), bg + (255,)); pd = ImageDraw.Draw(p); yy = 14
-        for (t, sz) in lines:
-            if t:
-                f = F(sz); tw = pd.textlength(t, font=f); pd.text(((w - tw) / 2, yy), t, font=f, fill=fg)
-            yy += sz + 10
-        pd.rectangle([0, 0, w - 1, h - 1], outline=tuple(max(0, c - 40) for c in bg))
-        p = p.rotate(a, expand=True, resample=Image.BICUBIC)
-        sh = Image.new('RGBA', p.size, (0, 0, 0, 0)); sh.paste((40, 30, 20, 90), mask=p.split()[3])
-        im.paste(sh, (x + 4, y + 5), sh); im.paste(p, (x, y), p)
-        d.ellipse([x + w / 2 - 6, y + 2, x + w / 2 + 6, y + 14], fill=(200, 40, 40))   # 圖釘
-    fn = os.path.join(GEN, 'soc_posters.png'); im.save(fn)
-    m = bpy.data.materials.new('soc_posters'); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.85
-    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(fn, check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
-
-
 def load_soclib():
     src = open(os.path.join(L.ROOT, 'src/data/soclib_layout.js'), encoding='utf8').read()
     return json.loads(src[src.index('{', src.index('const SOCLIB_LAYOUT=')):src.rindex('}') + 1])
@@ -111,7 +50,6 @@ def build():
     root = B.group('campus_socsci', props={'kind': 'campus_socsci'})
     M = {
         'conc': L.pbr('soc_concrete', 'socsci_formwork', tile=1.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.82),
-        'pillar': L.pbr('wz_pillar_soc', 'socsci_formwork', tile=1.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.82),   # 一樓柱廊的柱子：和 conc 同一組貼圖，另一個材質——遊戲端 wz_pillar_* 擋住玩家時網點透空（巡場景 2026-10-21：鏡頭在柱廊裡，柱子把人整個擋住）
         'white': L.flat('soc_white', '#eeede8', rough=0.55),                 # 圖書館屋簷、雨遮、女兒牆壓頂（白色烤漆）
         'gclear': L.flat('soc_glass_clear', '#9fb5bd', rough=0.06, alpha=0.3),
         'frame': L.flat('ck_frame', '#4b5056', rough=0.42, metal=0.3),       # 大樓的深灰鋁框、門框
@@ -226,7 +164,7 @@ def build():
     zi = LZ1 - 0.2; dx0, dx1 = DOOR_LIB - 1.25, DOOR_LIB + 1.25   # 南牆內側（門的地方挖空：從門外看得到裡面）
     for (a0, a1, y0, y1) in ((LX0 + 0.05, dx0, 0.0, HIN), (dx1, LX1 - 0.2, 0.0, HIN), (dx0, dx1, 2.9, HIN)):
         kit.cface(A('misc'), [(a0, y0, zi), (a1, y0, zi), (a1, y1, zi), (a0, y1, zi)], (0, 0, -1), PLASTER)
-    # 門洞兩側不另外放白牆：南牆的清水混凝土門洞內側（kit.strip，深 0.35 m）已經蓋住同一個平面（原本兩片重疊、會閃；SOC-COURT-1021）
+    for s_ in (dx0, dx1): kit.cface(A('misc'), [(s_, 0.0, LZ1), (s_, 0.0, zi), (s_, 2.9, zi), (s_, 2.9, LZ1)], (1 if s_ == dx0 else -1, 0, 0), PLASTER)
     kit.cface(A('misc'), [(LX1 - 0.2, 0, LZ0 + 0.05), (LX1 - 0.2, 0, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ0 + 0.05)], (-1, 0, 0), PLASTER)
     for c in J['columns']:
         x, z, r, cap, cy = LCX + c['x'], LCZ + c['z'], c['r'], c['cap'], c['capY']
@@ -264,35 +202,9 @@ def build():
         sill, head = (1.0, 3.4) if k == 0 else (1.0, 3.2)
         holes = []
         for u in bays:
-            lit_ = K.lit_hash(fr.O[0], fr.O[2], u, k)
-            holes.append(kit.window(fr, u, y0 + sill, 2.3, head - sill, 0.0, lit_, rect_=True, dep=0.3, proud=0.0,
+            holes.append(kit.window(fr, u, y0 + sill, 2.3, head - sill, 0.0, K.lit_hash(fr.O[0], fr.O[2], u, k), rect_=True, dep=0.3, proud=0.0,
                                     has_sill=False, fmat='conc', mull=[0.0], transom=None))
-            blind(fr, u, y0 + sill, y0 + head, lit_, k)
         kit.wall_strip(fr, -half, half, y0, y1, holes, mk='conc')
-
-    def hash01(*k):
-        h = math.sin(sum((i + 1) * 12.9898 * v for i, v in enumerate(k)) + 41.7) * 43758.5453; return h - math.floor(h)
-
-    def blind(fr, u, vb, vs, lit_, k):
-        """窗簾（LAWWW2-B 10-24；清查 B9「大樓窗戶單調」：白天每一扇都是一樣的深色玻璃）：近五成的窗拉下捲簾（高度不一、有的拉到底、下緣一條深色壓條），
-        約一成兩側拉著布簾。亮燈的窗用 ck_glass_lit（遊戲晚上會亮：亮著的房間拉下的簾子透光），沒亮的用頂點色（白、米、淺灰、淺藍）。
-        深度：玻璃 −0.305、鋁框 −0.295、直櫺正面 −0.27（kit.window dep 0.3）→ 簾子 −0.285，左右上縮在鋁框裡面（正面看不壓到框；直櫺在簾子前面）"""
-        h = hash01(fr.O[0], fr.O[2], u, k); t, r, d = 0.05, 1.15, -0.285
-        cols = ('#ece9e2', '#e2d8c6', '#d3d6d8', '#cfd8df', '#e6e1d6')
-        col = cols[int(hash01(u, k, fr.O[2], 3) * len(cols)) % len(cols)]
-        def panel(ua, ub, va, vb_, c):
-            pts = [fr.p(ua, va, d), fr.p(ub, va, d), fr.p(ub, vb_, d), fr.p(ua, vb_, d)]
-            if lit_: kit.face(A('ceilL'), pts, fr.N)
-            else: kit.cface(A('misc'), pts, fr.N, c)
-        top = vs - t
-        if h < 0.48:                                                                   # 捲簾
-            frac = 0.97 if h < 0.07 else 0.22 + 0.62 * hash01(u, fr.O[0], k, 11)
-            bot = top - frac * (vs - vb - 2 * t)
-            panel(u - r + t, u + r - t, bot, top, col)
-            kit.cface(A('misc'), [fr.p(u - r + t, bot - 0.035, d), fr.p(u + r - t, bot - 0.035, d), fr.p(u + r - t, bot, d), fr.p(u - r + t, bot, d)], fr.N, '#7d8184')   # 下緣的壓條
-        elif h < 0.60:                                                                 # 兩側的布簾
-            w = 0.28 + 0.12 * hash01(k, u, 5)
-            for (ua, ub) in ((u - r + t, u - r + t + w), (u + r - t - w, u + r - t)): panel(ua, ub, vb + t, top, col)
 
     NS_BAYS = [-13.5 + 3 * i for i in range(10)]
     EW_BAYS = [-6.0 + 3 * i for i in range(5)]
@@ -321,7 +233,7 @@ def build():
     # 外側的柱子（0.6 × 0.6）
     cols = [(95.3, -57.7)] + [(95.3, z) for z in (-54.5, -51.5, -48.5, -45.5)] + [(x, -57.7) for x in (98.0, 101.0, 104.0, 107.0, 110.0, 113.0, 116.0, 119.0, 122.0)]
     for (x, z) in cols:
-        kit.box('pillar', x - 0.3, x + 0.3, 0.0, GF, z - 0.3, z + 0.3, skip=('bottom', 'top'))
+        kit.box('conc', x - 0.3, x + 0.3, 0.0, GF, z - 0.3, z + 0.3, skip=('bottom', 'top'))
         info_blocks['rects'].append({'what': '大樓一樓的柱子', 'x': x, 'z': z, 'w': 0.6, 'd': 0.6})
     # 懸挑的底面、轉角的實牆
     hquad(A('ceil'), BX0, BX1 - 1.0, BZ0, RECN, GF - 0.001, up=False)
@@ -397,43 +309,10 @@ def build():
         disc(A('green'), x, z, 1.05, 0.38, n=18, up=True)
         info_blocks['circles'].append({'what': '樹穴（可以在中間種樹）', 'x': x, 'z': z, 'r': 1.25})
 
-    # =====================================================================
-    # ④ 中庭的夜間光、院系公告欄（巡場景 2026-10-21：晚上中庭和柱廊一片黑；白天朝中庭的圖書館牆只有一塊招牌）
-    #    不動導航：光圈貼地、洗牆光貼牆、地燈和公告欄凸出牆面不到 0.15 m（圖書館的導航阻擋本來就多留 0.15 m）
-    # =====================================================================
-    wash = Mesh('NOSHADOW_soc_wash', wash_material())    # ck_bell_wash：遊戲改成加法混合、晚上才發光（和傅鐘的柱面暖光同一套）；黑色＝不加光
-    WL, WR = (0.0, 0.0, 0.5, 1.0), (0.5, 0.0, 1.0, 1.0)  # 貼圖左半＝洗牆光（下亮上暗、左右淡出），右半＝地面光圈（圓形）
-
-    def pool(cx, cz, r, y=0.032):
-        u0, v0, u1, v1 = WR
-        kit.face(wash, [(cx - r, y, cz - r), (cx + r, y, cz - r), (cx + r, y, cz + r), (cx - r, y, cz + r)], (0, 1, 0), uvs=[(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
-
-    for x in (99.5, 104.5, 110.0, 115.5, 120.5):          # 北面懸挑的燈（4.5 m 高）底下
-        pool(x, -57.1, 1.9)
-    for z in (-56.6, -53.0, -50.0, -47.0, -44.0):         # 西面（主入口）懸挑的燈底下
-        pool(96.7, z, 1.8)
-    for x in (DOOR_LIB - 1.2, DOOR_LIB + 1.2):            # 圖書館門口雨遮的燈（3.05 m）底下
-        pool(x, LZ1 + 1.15, 1.35)
-    # 圖書館朝中庭那面牆：牆腳一排洗牆地燈（避開門口雨遮、公告欄放在 109 和 116 中間）
-    for x in (96.6, 105.0, 109.0, 116.0, 120.0, 123.6):
-        kit.box('misc', x - 0.13, x + 0.13, 0.0, 0.085, LZ1, LZ1 + 0.13, skip=('bottom', 'back'), col='#3a3d40')
-        hquad(A('lamp'), x - 0.1, x + 0.1, LZ1 + 0.02, LZ1 + 0.11, 0.087, up=True)
-        u0, v0, u1, v1 = WL; zw = LZ1 + 0.03   # 招牌（PLATE_FACE）離牆 12 mm：洗牆光要在它前面
-        kit.face(wash, [(x - 1.25, 0.09, zw), (x + 1.25, 0.09, zw), (x + 1.25, 4.6, zw), (x - 1.25, 4.6, zw)], (0, 0, 1), uvs=[(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
-        pool(x, LZ1 + 0.55, 0.7)                          # 燈前面地上一小圈
-    # 院系公告欄（深灰鋁框＋軟木板＋虛構的活動海報；D77：沒有真實的社團、廠商名稱，不放電話）
-    BX_, BW_, BY0, BY1 = 112.5, 1.5, 0.95, 2.15
-    kit.box('frame', BX_ - BW_ - 0.04, BX_ + BW_ + 0.04, BY0 - 0.04, BY1 + 0.04, LZ1, LZ1 + 0.05, skip=('back',))
-    pm = poster_material()
-    post = Mesh('soc_posters', pm)
-    kit.face(post, [(BX_ - BW_, BY0, LZ1 + 0.056), (BX_ + BW_, BY0, LZ1 + 0.056), (BX_ + BW_, BY1, LZ1 + 0.056), (BX_ - BW_, BY1, LZ1 + 0.056)], (0, 0, 1), uvs=[(0, 0), (1, 0), (1, 1), (0, 1)])
-    kit.box('frame', BX_ - BW_ - 0.1, BX_ + BW_ + 0.1, BY1 + 0.04, BY1 + 0.08, LZ1, LZ1 + 0.16, skip=('back',))   # 上面的小雨遮
-    wash.finish(root, uv=False); post.finish(root, uv=False)
-
     # ---------------- 完成 ----------------
     K.finish(accs, root, VC)
     for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
-    L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or ob.name.startswith('NOSHADOW_'))
+    L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     lit_ramp()
     info = L.export(out, gpu_instances=False)
     info['nav'] = info_blocks

@@ -87,15 +87,13 @@ L['benches'] = [{'lv': 0, 'x': -4.05, 'z': 4.4, 'ry': 1.5708, 'label': '坐在�
 L['boards'] = [{'lv': 0, 'x': -4.25, 'z': 6.6, 'ry': 1.5708, 'w': 1.4, 'label': '看公告欄', 'look': '公告欄：教室借用時間表、課程異動、社團招生的海報。'}]
 L['signs'] = [{'lv': 0, 'text': '普通教學館　101　102　103　104', 'x': 0.0, 'y': 2.75, 'z': CZS + 0.1, 'ry': 3.1416, 'w': 3.4},
               {'lv': 1, 'text': '201 ←　→ 202', 'x': 0.0, 'y': Y1 + 2.75, 'z': CZS + 0.1, 'ry': 3.1416, 'w': 2.4}]
-# 窗外的景（#61，LAWWW2-B 2026-10-24）：tools/blender/env_second/shots/teach_views.py 在遊戲的校園拍的畫面（assets/models/env/views/putong_*）；名稱的 south／north＝這裡的 S／N 牆；
-#   photoWide＝照片水平約 127°（2048×512）：teach3d.js 把窗景的 sxy 設成 (0.5, 1)，長窗斜著看不會跑出照片的左右邊（90° 的照片會在邊緣拉出橫紋）
-L['windows'] = [{'lv': 0, 'wall': 'S', 'a0': -15.6, 'a1': -6.0, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': 'putong_south', 'photoWide': True},
-                {'lv': 0, 'wall': 'S', 'a0': 6.0, 'a1': 15.6, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': 'putong_south', 'photoWide': True},
-                {'lv': 0, 'wall': 'N', 'a0': -15.6, 'a1': -6.0, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': 'putong_north', 'photoWide': True},
-                {'lv': 0, 'wall': 'N', 'a0': 6.0, 'a1': 15.6, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': 'putong_north', 'photoWide': True},
-                {'lv': 1, 'wall': 'S', 'a0': -3.6, 'a1': 3.6, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 4, 'photo': 'putong_2f_south', 'photoWide': True},
-                {'lv': 1, 'wall': 'N', 'a0': -15.6, 'a1': -6.0, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 5, 'photo': 'putong_2f_north', 'photoWide': True},
-                {'lv': 1, 'wall': 'N', 'a0': 6.0, 'a1': 15.6, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 5, 'photo': 'putong_2f_north', 'photoWide': True}]
+L['windows'] = [{'lv': 0, 'wall': 'S', 'a0': -15.6, 'a1': -6.0, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': None},
+                {'lv': 0, 'wall': 'S', 'a0': 6.0, 'a1': 15.6, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': None},
+                {'lv': 0, 'wall': 'N', 'a0': -15.6, 'a1': -6.0, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': None},
+                {'lv': 0, 'wall': 'N', 'a0': 6.0, 'a1': 15.6, 'y0': 0.9, 'y1': 2.8, 'n': 5, 'photo': None},
+                {'lv': 1, 'wall': 'S', 'a0': -3.6, 'a1': 3.6, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 4, 'photo': None},
+                {'lv': 1, 'wall': 'N', 'a0': -15.6, 'a1': -6.0, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 5, 'photo': None},
+                {'lv': 1, 'wall': 'N', 'a0': 6.0, 'a1': 15.6, 'y0': Y1 + 0.9, 'y1': Y1 + 2.8, 'n': 5, 'photo': None}]
 L['lights'] = [[0, 3.3, 0.2, 6, 4], [-10.6, 3.3, -4.6, 6, 3], [10.6, 3.3, -4.6, 6, 3], [-10.6, 3.3, 4.8, 6, 3], [10.6, 3.3, 4.8, 6, 3], [0, 3.3, 5.0, 5, 3],
                [0, 7.4, 0.2, 6, 4], [-10.6, 7.4, -4.6, 6, 3], [10.6, 7.4, -4.6, 6, 3]]
 L['lightPanels'] = {'xs': [-14.4, -10.6, -6.8, -2.4, 2.4, 6.8, 10.6, 14.4], 'zs': [-5.6, -2.8, 0.2, 3.6, 6.4]}

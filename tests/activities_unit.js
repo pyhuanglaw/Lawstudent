@@ -43,14 +43,4 @@ check('進行中：19:00 有演講、18:00 還沒、20:40 沒有，但「剛結�
 { const DAY=86400000, dOf=q=>{ const [y,m,d]=q.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
   const wk={id:'t_weekly',title:'每週五的社課',kind:'club',term:['Y1S1'],weekday:5,t0:19,t1:21}, dt={id:'t_dated',title:'國慶日特別活動',kind:'lecture',dates:['2025-10-10'],t0:19,t1:21};
   check('每週五的活動：一般的週五有、國慶日（10/10 週五）沒有；用 dates 指定國慶日的照辦',ACTIVITIES.on(wk,dOf('2025-10-03'))&&!ACTIVITIES.on(wk,dOf('2025-10-10'))&&ACTIVITIES.on(dt,dOf('2025-10-10'))); }
-/* BUG-ACT-ONCE-LATE-1024（BB-B 10-24）：once 的活動開始以後才進去坐下，actTrack 先記 'in'，選單還要有「聽演講」；中途離開過、別天去過的照舊算去過 */
-{ const DAY=86400000, dOf=q=>{ const [y,m,d]=q.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-  const a={id:'t_once',title:'交換學生甄選說明會（測試）',kind:'lecture',zone:'boya',room:'101',dates:['2027-03-18'],t0:12+20/60,t1:13+10/60,once:true}; ACTIVITIES.list.push(a);   /* 照 EXPO_Y2 的時間與教室（這支測試的 ACTIVITIES.list 是自己的）*/
-  const d=dOf('2027-03-18'), G={day:d,hour:12.43,zone:'boya',flags:{},acts:{att:{}}};
-  const on=ACTIVITIES.on(a,d,G); const c0=ACTIVITIES.canJoin(G,a);
-  ACTIVITIES.track(G,'boya','101',true); const rin=G.acts.att['t_once@'+d]; const c1=ACTIVITIES.canJoin(G,a);
-  check('once 活動開始以後才坐下（EXPO_Y2 2027-03-18 12:26）：記了 in 以後還可以「聽演講」',on&&c0&&!!rin&&rin.end==='in'&&c1&&!ACTIVITIES.onceDone(G,a),JSON.stringify(rin));
-  ACTIVITIES.leave(G); check('同一場中途離開（left）以後：算去過、不能再選',ACTIVITIES.onceDone(G,a)&&!ACTIVITIES.canJoin(G,a));
-  const G2={day:d,hour:12.43,zone:'boya',flags:{},acts:{att:{['t_once@'+(d-7)]:{h:12.4,end:'in'}}}};
-  check('別天留下的 in（沒關掉的舊紀錄）：照舊算去過',ACTIVITIES.onceDone(G2,a)&&!ACTIVITIES.canJoin(G2,a)); ACTIVITIES.list.pop(); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
