@@ -31489,6 +31489,35 @@
    },
    "notes": "只記錄",
    "next": "暫停到 D99 三項驗收完；之後由 LAWWW2 提做法（換衣服的時機、存檔欄位）"
+  },
+  {
+   "id": "ART-BG-AWNINGS-1024",
+   "title": "醉月湖北邊遠景店面像布景（路線巡查③ P3）：北側第一排只有部分有店面、遠景招牌改低彩度（townkit3d bgGroundTex city；校園東南兩排、公館遠景備用一起變）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "v9.10.9 發布以後套 patches/bg_city_awnings_1024.patch（疊在 ENGINE-SEASON-DUSK 上也乾淨）、跑 bg_city_awnings_unit＋校園／公館 Node 測試；BB 截醉月湖 15:00、20:00",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "經濟系宿營醉月湖",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 16:42 交（6a620726e；README bg_city_awnings_1024）",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "route_econ_1024 README P3",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "bg_city_awnings_unit 修改前 FAIL 4／修改後 PASS；同鏡頭截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。"
   }
  ]
 }
