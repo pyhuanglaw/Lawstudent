@@ -2624,7 +2624,7 @@
   {
    "task": "AA_399 剩下要 3D 房間的七處（#82）前三間：萬才館研討室 B（法服初談室＋推甄面試布置）、霖澤館 1F 法律學院辦公室（系辦）、共同教學館 3F 考場",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "e477d3bf1",
    "files": [
     "assets/models/env/second_ai/wancai_semb.{glb,json,layout.json}、linze_office.{glb,json,layout.json}、gongtong_3f.{glb,json,layout.json}（新）",
     "docs/art-rebuild/second_ai/patches/rooms_ab3_1024.patch（rooms_glb3d.js、wancai3d.js、building3d.js、teach3d.js、closed2_3d.js、room_glb_layouts.js＋三個新測試；對開發 907cdc2f9、738cc7ffc apply --check 過）",
@@ -2636,8 +2636,26 @@
    "next": "LAWWW-B 套 patch、放三個 GLB；2D 換 3D 的事件（語彤阿姨、推甄面試、SQ02、學分採計、延畢證書、研究所筆試）照 spots 放人",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 10-24 06:05）",
    "note": "rooms_glb3d.js 通用：sets＋set_days（研討室 B 2028-10-26 換面試布置）、open（星期／時段／單週／國定假日／指定日子／daysOnly）、Z3.roomGlbOpen、Z3.roomGlbGate（門的兩個互動點照時段藏）、back_spawn；系辦的志願表改在裡面的「服務台」交（closed2_3d.js，門口那條留著）"
+  },
+  {
+   "task": "芷若頭髮補回彈簧骨（LAWWW-B 10-24 05:53 P2：bl_heroine_02.vrm 第九版頭髮沒有彈簧骨）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/char/bl_heroine_02.vrm（3.10 MB；頭髮 6 條彈簧骨鏈 J_Sec_Hair_Chain0～5）",
+    "tools/blender/char/hair_springs.py（拆出 apply_springs）、tools/blender/char/heroine_02.py（新的 springs 階段）",
+    "tools/shots/char_review.py（截圖時關手機的看門狗）",
+    "docs/art-rebuild/second_ai/char_review/zhiruo_springs_1024/（README＋前後對照）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW；外觀和第九版相同，到頭髮為止每個 byte 一樣）；sim_hair.js PASS（站著／瞬移／走路髮尾 −0.082～−0.083 m，dt 0.033／0.300）；hair_sway.js PASS（最大偏移 6.0 cm、停下 1.5 秒 0.0 cm）；遊戲內截圖（Playwright，不是 iPhone）",
+   "remaining": "實機上的擺動沒看過",
+   "next": "LAWWW-B 放進開發分支、重跑 node tools/dev_scratch/spring_sim/sim_hair.js char.heroine_02",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "原因：10-22 第九版用 p02_hair.py 重做頭髮後沒有再跑 hair_springs.py；以後 heroine_02.py 跑 --stages stage0,face,clothes,hair,springs 就不會漏"
   }
  ]
 }

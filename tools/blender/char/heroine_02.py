@@ -2,7 +2,8 @@
 基底：VRoid CC0 樣本 Victoria Rubin 的身體、臉（含全部表情 shape key）、骨架；原本的頭髮（含身體網格上的後髮）、上衣、鞋、次要骨頭（胸部以外）拿掉。
 臉、衣服沿用沈以安的模組（h01_face、h01_clothes），用 p00_face.run／p00_clothes.run 先對到沈以安的比例、做完再轉回來；頭髮是新的及肩微捲髮 p02_hair。
 眼鏡、銀色小耳環、圍裙仍是 src/props3d.js（C.MODEL_PROPS）。
-用法：/opt/blenv/bin/python tools/blender/char/heroine_02.py -- <輸出.vrm 或 -> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair] [--from-blend 工作檔.blend] [--render 預覽圖前綴]
+用法：/opt/blenv/bin/python tools/blender/char/heroine_02.py -- <輸出.vrm 或 -> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair,springs] [--from-blend 工作檔.blend] [--render 預覽圖前綴]
+（完整的芷若要跑到 springs：頭髮的彈簧骨，tools/blender/char/hair_springs.py；10-22 第九版漏了這一步，頭髮整束綁在頭上不會動，10-24 補）
 （--from-blend：從存好的工作檔接著做，例如只重做頭髮：先 --stages stage0,face,clothes --blend w.blend，再 --from-blend w.blend --stages hair；LAWWW2 10-22 加，做法同 char_second/peishan.py）"""
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -52,7 +53,7 @@ def from_blend(path):
     return m
 
 
-STAGES = {'stage0': stage0}
+STAGES = {'stage0': stage0, 'springs': lambda m: importlib.import_module('hair_springs').apply_springs('heroine_02')}   # springs：頭髮的彈簧骨（hair_springs.py；要在 hair 之後）
 import importlib
 def stage_fn(name):
     if name not in STAGES: STAGES[name] = importlib.import_module('p02_' + name).apply

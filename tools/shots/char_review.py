@@ -38,7 +38,10 @@ async def spawn(pg, cid, x, z, opts):
     await wait_frames(pg, 8)
 
 
-CLOSE_PHONE = "(()=>{ try{ if(typeof STORY!=='undefined'&&STORY.phoneAuto) STORY.phoneAuto=()=>{}; if(GAME.closePhone) GAME.closePhone(); if(GAME.closeMenu) GAME.closeMenu(); }catch(e){} })()"   # 讀檔後要回的訊息會讓手機自動打開、遊戲暫停（story3d.js S.phoneAuto，D103）：10-23 第一輪整組拍到手機畫面
+CLOSE_PHONE = ("(()=>{ try{ if(typeof STORY!=='undefined'&&STORY.phoneAuto) STORY.phoneAuto=()=>{}; if(GAME.closePhone) GAME.closePhone(); if(GAME.closeMenu) GAME.closeMenu(); }catch(e){} "
+               # 10-24：還是有別的路會把手機打開（側面以後四張整組拍到手機）：每 0.3 秒關一次、解除暫停，手機和提示框用 CSS 藏起來（只在截圖的頁面）
+               "if(!window._crWD){ window._crWD=setInterval(()=>{ try{ if(GAME.closePhone) GAME.closePhone(); if(GAME.E&&GAME.E.paused) GAME.E.paused=false; }catch(e){} },300); } "
+               "let el=document.getElementById('crNoPhone'); if(!el){ el=document.createElement('style'); el.id='crNoPhone'; document.head.appendChild(el); } el.textContent='#phone,#toast,.toast,#adv,#dlg{display:none!important}'; })()")   # 讀檔後要回的訊息會讓手機自動打開、遊戲暫停（story3d.js S.phoneAuto，D103）：10-23 第一輪整組拍到手機畫面
 
 
 async def cam(pg, p, l, hour):

@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 06:3x 更新**：
+    - 已交：芷若頭髮補回彈簧骨（本 commit；`char_review/zhiruo_springs_1024/README.md`）。`heroine_02.py` 多一個 `springs` 階段，以後重做頭髮不會再漏。sim_hair、hair_sway 都 PASS。
+    - LAWWW-B 06:05 ACK #82 前三間；06:11 決定博雅 103 照 A：用現成的 101，103 照舊關著、不做（房號的事 LAWWW-B 告訴 AA）。
+    - 下一項：#82 第四間博雅 203（SK07 即興劇，2026-05-27 晚上）：`tools/blender/env_second/boya_203.py` 已寫（還沒跑）→ GLB → teach3d.js 的 203 門照時段開 → 測試 → 截圖。
   - **10-24 06:1x 更新**：
     - 已交：#82 前三間（本 commit；`patches/rooms_ab3_1024.patch`＋三個 README：`test_shots/wancai_semb_1024`、`linze_office_1024`、`gongtong_3f_1024`）。
     - 下一項：芷若頭髮的彈簧骨（`hair_springs.py` 補跑；`sim_hair.js` 驗）→ #82 第四間博雅 203／103。
