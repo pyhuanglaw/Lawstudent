@@ -99,7 +99,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   check('S3. 9/4 以後也能快轉：床的選項有「快轉」；選項＝到下一個有事的日子／過三天／過一週／不用了', STORY.bedOptions(G).some(o=>o.kind==='ff')&&JSON.stringify(HOME.ffOpts(G).map(o=>o.t))===JSON.stringify(['到下一個有事的日子','過三天','過一週','不用了']));
   fresh('2028-08-06',8.5,'us_apartment',US()); date('heroine_05');
   await USL.jump(GM,T(D('2028-08-13'),8.5));
-  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去草原超市。推車大得像一張床，你只買了牛奶和麵包。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
+  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」（8/11 那句照 AA_442 第 5 節 03b7e6dff 改草原超市）', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去草原超市。推車大得像一張床，你只買了牛奶和麵包。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
   cards=[]; await USL.jump(GM,T(D('2028-08-20'),8.5));
   check('S3. 跳到 8/14 09:45 停（何俊朗 1 的出遊「國際學生迎新」10:00）；8/16～8/18 還沒到', G.day===D('2028-08-14')&&Math.abs(G.hour-9.75)<1e-6&&cards.length===1&&cards[0]==='8/14（一）09:45｜公寓', JSON.stringify({d:CALENDAR.dateOf(G.day),h:G.hour,cards}));
   fresh('2028-09-18',9,'us_apartment',US({US2:'there'})); date('heroine_05');
@@ -137,8 +137,9 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   check('S5. 會所（2D）：「看」照 AA_287 →「讀書」（自習室）→ 何俊朗的招呼（9/18 週一）→ 讀書', has('社區的會所：辦公室、交誼廳，還有一間小自習室。')&&JSON.stringify(opts[0].slice(0,2))===JSON.stringify(['讀書','離開'])&&said.some(s=>s.who==='何俊朗'&&s.t==='欸，台灣人。這裡有位。')&&studied.length===1, JSON.stringify(lines()));
   fresh('2028-09-18',23.5,'us_outside',US()); await interact({usClub:'door',look:'x'}); check('S5. 會所 08:00～23:00；關了就只有「看」', caps.includes('社區的會所：辦公室、交誼廳，還有一間小自習室。')&&!opts.length);
   { const all=(key,f)=>{ fresh(key,20,'us_outside',US(Object.assign({MET_LONG:true},f||{}))); const o=new Set(); for(let n=0;n<12;n++){ G.usLife={greet:{day:G.day,n,t:null}}; o.add(USL.longGreet(G)[0]); } return [...o]; };
-    const wed=all('2028-09-20'), thu=all('2028-09-21'), hai=all('2028-09-20',{LONG_HAIHAO:true}), nov=all('2028-11-08');
-    check('S11. 招呼一天一句輪流（AA_291 3-1）：週四才有「明天 Legal Writing 交作業。……」；沒有 LONG_HAIHAO 不說「不好喝。還好。」；11/5 以後沒有「冷氣好冷」', thu.includes('明天 Legal Writing 交作業。你寫完了沒有？')&&!wed.includes('明天 Legal Writing 交作業。你寫完了沒有？')&&!wed.includes('我剛剛買了奶茶。不好喝。還好。')&&hai.includes('我剛剛買了奶茶。不好喝。還好。')&&wed.includes('冷氣好冷。美國人是不是都不怕冷？')&&!nov.includes('冷氣好冷。美國人是不是都不怕冷？'), JSON.stringify({wed,thu,hai,nov})); }
+    const wed=all('2028-09-20'), thu=all('2028-09-21'), hai=all('2028-09-20',{LONG_HAIHAO:true}), nov=all('2028-11-08'), o4=all('2028-10-04'), o16=all('2028-10-16');
+    check('S11. 招呼一天一句輪流（AA_291 3-1）：週四才有「明天 Legal Writing 交作業。……」；沒有 LONG_HAIHAO 不說「不好喝。還好。」；11/5 以後沒有「冷氣好冷」', thu.includes('明天 Legal Writing 交作業。你寫完了沒有？')&&!wed.includes('明天 Legal Writing 交作業。你寫完了沒有？')&&!wed.includes('我剛剛買了奶茶。不好喝。還好。')&&hai.includes('我剛剛買了奶茶。不好喝。還好。')&&wed.includes('冷氣好冷。美國人是不是都不怕冷？')&&!nov.includes('冷氣好冷。美國人是不是都不怕冷？'), JSON.stringify({wed,thu,hai,nov}));
+    check('S11. AA_448 1-2：「冷氣好冷」只到 10/8（10/4 有、10/16 沒有：十月中以後是暖氣）', o4.includes('冷氣好冷。美國人是不是都不怕冷？')&&!o16.includes('冷氣好冷。美國人是不是都不怕冷？'), JSON.stringify({o4,o16})); }
   fresh('2028-09-18',20,'us_outside',US({MET_LONG:true})); { const a=USL.longGreet(G)[0]; G.hour=21; const b=USL.longGreet(G)[0]; at('2028-09-19',20); const c=USL.longGreet(G)[0]; check('S11. 同一天同一句；隔天換下一句', a===b&&a!==c, JSON.stringify([a,b,c])); }
   fresh('2028-11-15',20,'us_outside',US({MET_LONG:true,LONG_HAIHAO:true}));
   check('S11／G5. 11/13～11/21：多「感恩節你去哪？……我沒地方去。」（有 LONG_HAIHAO 再多「還好。」）；11/5 以後沒有「冷氣好冷」', USL.longGreet(G).slice(1).join('|')==='感恩節你去哪？……我沒地方去。|還好。'&&!USL.longGreet(G).some(t=>/冷氣/.test(t)), JSON.stringify(USL.longGreet(G)));
@@ -359,9 +360,29 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     const win=async key=>{ at(key,15); return say('窗外'); };
     { const a=await win('2028-09-30'), b=await win('2028-10-01'), c=await win('2028-11-01'), d=await win('2028-12-01'), e=await win('2028-12-02');
       check('AA_444. 窗外照日期：9/30 綠、10/1 黃、11/1～12/1 剩幾片葉子、12/2 雪', a&&a[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&b[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）'&&c[0].startsWith('（窗外的樹只剩幾片葉子')&&d[0]===c[0]&&e[0]==='（窗外的樹枝上留著一點雪。窗台上也有。）'&&[a,b,c,d,e].every(x=>x.length===1), JSON.stringify([a,e])); }
+    { const U0=global.US3; global.US3={usSeasonKey:()=>{ const d=CALENDAR.dateOf(G.day), md=d.m*100+d.d; return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':'summer'; }};   // 和 us3d.js 同一條規則
+      const a7=await win('2028-10-07'), a9=await win('2028-10-09'); global.US3=U0;
+      check('AA_444. 窗外那句跟窗景圖同一個季節：10/7 圖還是夏天＝綠的那句、10/9 秋天＝黃的那句（BB-B 10-24）', a7&&a7[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&a9&&a9[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）', JSON.stringify([a7,a9])); }
     G.visited.linze_5f=true; { const t=await win('2028-10-15'); check('AA_444. 去過她臺灣 5F 研究室：多一句', !!t&&t.length===2&&t[1]==='（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', JSON.stringify(t)); }
     { caps=[]; E.player.busy=false; await USL.tick(GM,0.5); const c1=caps.slice(); caps=[]; await USL.tick(GM,0.5);
       check('AA_444. 第一次進她的房間：一句旁白、記 US_ROOM_C_SEEN；之後不出', c1.includes('（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）')&&G.flags.US_ROOM_C_SEEN!=null&&!caps.includes(c1[0]), JSON.stringify(c1)); }
+    global.Z3=Z0; }
+  // ======================= AA_399 第 8 節：法學院圖書館 2F 書庫（us_lawlib_2f，LAWWW2-B 10-24）=======================
+  { const Z0=global.Z3; global.Z3=Object.assign({},Z0||{},{ZONES:Object.assign({},(Z0&&Z0.ZONES)||{},{us_lawlib_2f:{id:'us_lawlib_2f'}})});
+    fresh('2028-10-10',10,'us_lawlib',US()); date('heroine_05');
+    const a1=USL.sisAt(G); at('2028-10-10',10.5); const a2=USL.sisAt(G); at('2028-10-10',11.9); const a3=USL.sisAt(G);
+    check('AA_399-8 2F. 平日 9:00～10:30 一樓（看書，到 10:30）、10:30～12:00 二樓書庫（站著）', a1&&a1.zone==='us_lawlib'&&a1.to===10.5&&a2&&a2.zone==='us_lawlib_2f'&&a2.stand&&a2.to===12&&a3&&a3.zone==='us_lawlib_2f', JSON.stringify([a1,a2]));
+    at('2028-10-10',11); G.zone='us_campus'; { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8 2F. 「現在大概在」：不在 2F＝「法學院圖書館 2F 書庫（看書，到 12:00）」', w&&w.zone==null&&w.away==='法學院圖書館 2F 書庫'&&w.act==='看書'&&w.until==='12:00', JSON.stringify(w)); }
+    G.zone='us_lawlib_2f'; { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8 2F. 人在 2F：區域就是 2F', w&&w.zone==='us_lawlib_2f', JSON.stringify(w)); }
+    GM.npc={}; E.zone={roomAt:()=>null,seats:[],spots:{sis:{x:8.45,z:-0.9,yaw:1.5708,act:'stand'}}}; E.player.obj.position={x:8.4,y:0,z:-2.1}; USL.sisSync(GM); const n=GM.npc.heroine_05;
+    check('AA_399-8 2F. 3D：進 2F 書庫，她站在 spots.sis（不是坐著）', !!n&&n.uslSis&&!n.seat&&Math.abs(n.obj.position.x-8.45)<1e-6&&Math.abs(n.obj.position.z+0.9)<1e-6, n&&JSON.stringify({seat:n.seat,pose:n.pose}));
+    GM.npc={}; G.zone='us_lawlib'; E.zone={roomAt:()=>null,seats:[{x:1,z:1},{x:2,z:2},{x:3,z:3},{x:-4.75,z:-1.733,yaw:-1.57}],spots:{}}; USL.sisSync(GM); check('AA_399-8 2F. 11:00 一樓沒有她', !GM.npc.heroine_05);
+    at('2028-10-10',11.75); G.zone='us_lawlib_2f'; { const L=STORY.ladData(G,'heroine_05'); const st=L&&L.L.steps.find(x=>/^SU-L/.test(x.id||'')); check('AA_399-8 2F. SU 閒聊階梯：11:30～12:00 的地點多了 2F 書庫', !!st&&st.location.includes('us_lawlib_2f')&&!!st.locTime.us_lawlib_2f, st&&JSON.stringify(st.location)); }
+    { G.zone='us_lawlib_2f'; said=[]; const ok1=await STORY.interact({label:'樓梯（三樓）',x:0,z:0},GM); const s1=said.map(q=>q.t); said=[]; const ok2=await STORY.interact({label:'木梯',x:0,z:0},GM); const s2=said.map(q=>q.t);
+      check('AA_444-4. 2F 書庫：往三樓的樓梯、木梯各兩句（照稿）', ok1&&ok2&&s1.length===2&&s1[1]==='（三樓要刷法學院自己學生的卡。你的卡刷不過。）'&&s2.length===2&&s2[1]==='（最上層那一排判例彙編，書背印的年份是一九六〇年代。）', JSON.stringify([s1,s2])); }
+    { fresh('2028-10-10',10.75,'us_lawlib_2f',US()); date('heroine_05'); E.zone=Object.assign({roomAt:()=>null,seats:[]},{spots:{sis:{x:8.45,z:-0.9,yaw:1.5708}}}); delete GM.npc.heroine_05; spawned.length=0; USL.sisSync(GM); const n=GM.npc.heroine_05;
+      check('AA_399-8 2F. 10:45 在 2F：學姊站在 spots.sis（8.45, -0.9）', !!n&&n.uslSis&&Math.abs(n.obj.position.x-8.45)<1e-6&&Math.abs(n.obj.position.z+0.9)<1e-6, JSON.stringify({spawned,a:USL.sisAt(G),n:n&&n.obj.position})); }
+    if(typeof EXCH!=='undefined'&&EXCH.inUS){ G.zone='us_lawlib_2f'; const i1=EXCH.inUS(G); G.zone='us_bed_c'; const i2=EXCH.inUS(G); check('AA_399-8. 2F 書庫、學姊的房間也算在美國（EXCH.inUS）', i1&&i2); }
     global.Z3=Z0; }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

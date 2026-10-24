@@ -213,7 +213,12 @@ box('L0_transom_E', MAT['frame'], W / 2 - 0.09, W / 2 + 0.005, 2.85, 2.95, -D / 
 box('L0_beam_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, gh, YJ, -D / 2, D / 2, L0, props={'dir': [-1, 0, 0]})
 EN = L['entrance']
 for k, (a, b) in enumerate(((EN['z0'] + 0.1, (EN['z0'] + EN['z1']) / 2 - 0.02), ((EN['z0'] + EN['z1']) / 2 + 0.02, EN['z1'] - 0.1))):
-    box(f'L0_autodoor_{k}', MAT['frame'], W / 2 - 0.16, W / 2 - 0.12, 0, 2.6, a, b, L0, props=FE)
+    # 一扇玻璃自動門：細鋁框（跟著東面淡出）＋玻璃＋直的把手（LAWWW2-B 10-24：原本整扇是框的深色材質，畫面上是兩塊黑板）
+    for (za, zb, ya, yb) in ((a, a + 0.05, 0, 2.6), (b - 0.05, b, 0, 2.6), (a + 0.05, b - 0.05, 2.54, 2.6), (a + 0.05, b - 0.05, 0, 0.1)):
+        box(f'L0_autodoor_{k}_{za:.2f}_{ya:.2f}', MAT['frame'], W / 2 - 0.16, W / 2 - 0.12, ya, yb, za, zb, L0, props=FE)
+    quad(f'L0_autodoor_glass_{k}', MAT['glass'], [(W / 2 - 0.14, 0.1, a + 0.05), (W / 2 - 0.14, 0.1, b - 0.05), (W / 2 - 0.14, 2.54, b - 0.05), (W / 2 - 0.14, 2.54, a + 0.05)], L0)   # 玻璃不放進淡出的群組（半透明的材質淡出會變成不透明）
+    hz = b - 0.12 if k == 0 else a + 0.12                                                                                                              # 把手在兩扇門相接的那一邊
+    box(f'L0_autodoor_handle_{k}', MAT['steel'], W / 2 - 0.2, W / 2 - 0.17, 0.85, 1.55, hz - 0.015, hz + 0.015, L0, props=FE)
 # 南面：兩層樓高的玻璃帷幕＋直櫺（W/8）＋三道橫櫺
 gh2 = RY - 0.4
 FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}   # 南面帷幕的框：鏡頭在建築外面時跟著淡出
@@ -275,6 +280,30 @@ for i, f in enumerate(L['furniture']):
         for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
     elif f['type'] == 'board':
         box(f'{pre}_board_frame', MAT['frame'], f['x'] - f['w'] / 2 - 0.05, f['x'] + f['w'] / 2 + 0.05, y + 1.65 - f['w'] / 4 - 0.05, y + 1.65 + f['w'] / 4 + 0.05, f['z'] - 0.05, f['z'] - 0.01, P)
+
+# ---------------- 入口東牆的公布欄（LAWWW2-B 10-24；LAWWW-B 03:53：互動點搬到 (7.2, 1.2)，那裡沒有公布欄）----------------
+# 一樓東面是玻璃帷幕：立在玻璃前面的獨立公布欄（白鐵框、兩根腳，淺色軟木板），面向大廳（−x）；腳在導航格的牆邊（x 7.6）外面，不用改導航。
+# 跟著東面一起淡出（FE：鏡頭在建築外面時才不會擋住人）。兩張徵才單是另外的節點 L0_WALL_notice_job_cram／office（遊戲可以照 jobs3d.js 的 S.board2 開關：
+# 補習班大二上、事務所大三上才貼，AA_433）。貼圖 tools/blender/linze_notice_tex.py（上面 1024×512＝軟木板 2.0 × 1.0 m，下面那一條是兩張徵才單）。
+NB = dict(x=7.735, z0=0.2, z1=2.2, y0=1.0, y1=2.0)
+_nm = bpy.data.materials.new('lz_notice'); _nm.use_nodes = True; _nm['tile'] = 1.0; _nt = _nm.node_tree; _nb = _nt.nodes['Principled BSDF']; _nb.inputs['Roughness'].default_value = 0.85
+_tx = _nt.nodes.new('ShaderNodeTexImage'); _tx.image = bpy.data.images.load(os.path.join(ROOT, 'tools', 'blender', 'env_second', 'textures', 'gen', 'linze_notice.png')); _nt.links.new(_tx.outputs['Color'], _nb.inputs['Base Color'])   # 不經過 img()：不要縮成 512 × 512
+MAT['notice'] = _nm
+def uv_quad(name, mat, pts, uvs, parent, props=None):
+    bm = bmesh.new(); vs = [bm.verts.new(g2b(*p)) for p in pts]; f = bm.faces.new(vs); uvl = bm.loops.layers.uv.verify()
+    for lp, uv in zip(f.loops, uvs): lp[uvl].uv = uv
+    bm.normal_update(); return mesh_obj(name, bm, mat, parent, props)
+X_, Z0_, Z1_, Y0_, Y1_ = NB['x'], NB['z0'], NB['z1'], NB['y0'], NB['y1']; VC = 1 - 512 / 768                   # 軟木板在貼圖的上面 512 列
+uv_quad('L0_notice_cork', MAT['notice'], [(X_, Y0_, Z0_), (X_, Y0_, Z1_), (X_, Y1_, Z1_), (X_, Y1_, Z0_)], [(0, VC), (1, VC), (1, 1), (0, 1)], L0, FE)   # 朝 −x：左下在 −z
+box('L0_notice_back', MAT['steel'], X_ + 0.005, X_ + 0.045, Y0_ - 0.05, Y1_ + 0.05, Z0_ - 0.05, Z1_ + 0.05, L0, props=FE)
+for (ya, yb, za, zb) in ((Y1_, Y1_ + 0.05, Z0_ - 0.05, Z1_ + 0.05), (Y0_ - 0.05, Y0_, Z0_ - 0.05, Z1_ + 0.05), (Y0_, Y1_, Z0_ - 0.05, Z0_), (Y0_, Y1_, Z1_, Z1_ + 0.05)):
+    box(f'L0_notice_frame_{ya:.2f}_{za:.2f}', MAT['steel'], X_ - 0.025, X_ + 0.005, ya, yb, za, zb, L0, props=FE)          # 框比軟木凸出 2.5 cm
+for zl in (Z0_ + 0.18, Z1_ - 0.18):
+    box(f'L0_notice_leg_{zl:.2f}', MAT['steel'], X_ + 0.005, X_ + 0.045, 0.04, Y0_ - 0.05, zl - 0.02, zl + 0.02, L0, props=FE)
+    box(f'L0_notice_foot_{zl:.2f}', MAT['steel'], 7.63, 7.88, 0.0, 0.04, zl - 0.03, zl + 0.03, L0, props=FE)            # 腳在 x 7.63～7.88（導航格的牆邊 7.6 外面；直櫺從 7.9 起）
+for key, (mx, my, w, h), (sx, sy, sw, sh) in (('cram', (0.62, 0.06, 0.21, 0.30), (0, 520, 128, 183)), ('office', (0.88, 0.06, 0.21, 0.30), (128, 520, 128, 183))):   # 和 linze_notice_tex.py 的 JOBS／JOB_SLOT 同一組
+    za, zb, yb, ya = Z0_ + mx, Z0_ + mx + w, Y1_ - my, Y1_ - my - h; u0, u1, v0, v1 = sx / 1024, (sx + sw) / 1024, 1 - (sy + sh) / 768, 1 - sy / 768
+    uv_quad(f'L0_WALL_notice_job_{key}', MAT['notice'], [(X_ - 0.004, ya, za), (X_ - 0.004, ya, zb), (X_ - 0.004, yb, zb), (X_ - 0.004, yb, za)], [(u0, v0), (u1, v0), (u1, v1), (u0, v1)], L0, {'dir': [-1, 0, 0]})
 
 # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆不合併：要各自淡出）----------------
 def join_by_material(level_root, prefix):

@@ -17,7 +17,7 @@ let okNC=false, okWD=false; try{ okNC=load('src/noodle_closed3d.js'); }catch(e){
 try{ okWD=load('src/data/r2y3b_events.js'); }catch(e){ console.log('（載入 r2y3b_events.js 失敗：'+e.message+'）'); }   /* 3/14 ev_an_white_day */
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/an_yt_hol_events.js'); ok2=load('src/an_yt_hol3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof ANYTHOL!=='undefined'?ANYTHOL:null;
-let doc=''; try{ doc=cp.execSync('git show b1fc4bf30:"docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 5c139cc49:"docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 let doc416=''; try{ doc416=cp.execSync('git show ed80edb71:"docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc416=''; }   /* AA_416 第 3 節：第 6 階的換字、2029 的 CG 補救 */
 const inDoc=t=>doc.indexOf(t)>=0||doc416.indexOf(t)>=0;
 const J=JSON.stringify, AN='heroine_01', YT='heroine_03';
@@ -187,7 +187,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('2-2. 答應了沒到：13:00「（照片：桌上兩碗麵、兩顆滷蛋）」、13:01「阿姨說留到兩點。」',H.G.flags.YT_VDAY_Y2==='missed'&&J(dms(YT).slice(n))===J(['（照片：桌上兩碗麵、兩顆滷蛋）','阿姨說留到兩點。']),J(dms(YT))); }
   { setup('2027-02-13',21.05,YT); rules(); PHONE.answer(H.G,'anyt_yt_y2_ask',2); const r=dms(YT).slice(-1)[0]; rules(); check('2-2. 「明天不行。」→「嗯。」、YT_VDAY_Y2 no',r==='嗯。'&&H.G.flags.YT_VDAY_Y2==='no'); }
   { const G=setup('2027-02-14',20,null); PHONE.join(G,'noodle_team','麵店團'); rules(); const pre=H.msgs('g:noodle_team').length; at('2027-02-14',21.05); rules(); const M=(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text); at('2027-02-14',22); rules();
-    check('第 3 節. 2027-02-14（日）21:00 麵店團群組：阿哲「今天我跟 Alison 出去」「麵店不揪」、Alison「你不用跟大家報告！！」、阿哲「我要讓大家知道」（沒交往也看得到，一次）',pre===0&&J(M)===J(['zhe:今天我跟 Alison 出去','zhe:麵店不揪','yu:你不用跟大家報告！！','zhe:我要讓大家知道'])&&H.msgs('g:noodle_team').length===4,J(M));
+    check('第 3 節. 2027-02-14（日）21:00 麵店團群組（AA_446 第 5 節：阿哲在高雄）：阿哲「今天情人節 我在高雄」「跟 Alison 視訊了兩個小時」、Alison「你不用跟大家報告！！」、阿哲「我要讓大家知道」（沒交往也看得到，一次）',pre===0&&J(M)===J(['zhe:今天情人節 我在高雄','zhe:跟 Alison 視訊了兩個小時','yu:你不用跟大家報告！！','zhe:我要讓大家知道'])&&H.msgs('g:noodle_team').length===4,J(M));
     setup('2027-02-14',21.05,null); rules(); check('第 3 節. 不在群組：沒有',!(H.G.msgs||[]).some(m=>m.th==='g:noodle_team')); }
   });
 

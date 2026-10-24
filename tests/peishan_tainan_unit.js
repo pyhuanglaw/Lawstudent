@@ -143,8 +143,11 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('5. 去台南那一天：演完地方那一段接著聊一層（P5-L1），在送上車以前', (so.ladder[k]|0)===1&&i1>0&&iSend>i1&&has(L[0].lines[1]), JSON.stringify(said.map(s=>s.t)));
     said=[]; picks=[0]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
     check('5. 同一天再去：不再推進（一天一層）', (so.ladder[k]|0)===1&&!has(L[1].lines[0]));
+    check('AA_447 1-2 第二次去台南的送行：「（回高鐵站的公車上，她靠著窗，一路在講室友的事。）」「下次換我上去找你們！到了傳給我喔。」，不是第一次那兩句', has('（回高鐵站的公車上，她靠著窗，一路在講室友的事。）')&&has('下次換我上去找你們！到了傳給我喔。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&!has('（傍晚，她陪你坐車到高鐵站。）'), JSON.stringify(said.map(s=>s.t)));
     G.day=d+1; G.weekday=wdOf(G.day); said=[]; picks=[0]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
     check('5. 下一次（隔天）：P5-L2「我週末在學校附近的二手書店打工。……」', (so.ladder[k]|0)===2&&has(L[1].lines[0]), JSON.stringify(said.map(s=>s.t)));
+    check('AA_447 1-2 第三次以後的送行：「（她陪你走到高鐵站的閘門口。這條路她已經會帶了。）」「到臺北傳給我喔！我等你的訊息才睡。」', has('（她陪你走到高鐵站的閘門口。這條路她已經會帶了。）')&&has('到臺北傳給我喔！我等你的訊息才睡。'), JSON.stringify(said.map(s=>s.t)));
+    { const S=HOMETOWN_LINES[ID+'@台南'].send, g={flags:{}}; check('AA_447 1-2 交往中的三版：第一次「下次待久一點。末班車太早了。」、第二次「……有一班十點的。」、第五次照第三次以後', S.dating(g,0)[0]==='下次待久一點。末班車太早了。'&&S.dating(g,1)[0]==='下次你搭晚一點的那班。我查過了，有一班十點的。'&&S.dating(g,4)[0]==='……好啦，你走吧。不然我又要說下次待久一點。'&&S.narr(g,4)===S.narr(g,2)); }
     fresh(D('2028-01-10'),10.5,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID); said=[]; picks=[0]; await HV.play(GM,{hv:{id:ID}});
     check('5. K4 寒假去台中也推進一層：接剛結束那一學期（大三上）的階梯 P5-L1，週次當作最後一週', (G.social.ladder[ID+'@Y3S1']|0)===1&&has(L[0].lines[0])&&has('（台中車站。她在出口揮手，揮得很大。）')&&G.social.ladderDay[ID]===G.day, JSON.stringify([G.social.ladder,said.map(s=>s.t)]));
     said=[]; picks=[0]; await HV.play(GM,{hv:{id:ID}}); check('5. K4 同一天再去台中：不再推進', (G.social.ladder[ID+'@Y3S1']|0)===1); }

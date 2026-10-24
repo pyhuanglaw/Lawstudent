@@ -209,7 +209,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     const r0=relOf(ZQ); const g=await goOut('nye');
     check('6. 跨年交往中：頂樓的倒數以後接著演（OUT.AFTER）——筆電的煙火、CG cg_savefile_heroine04、「新年快樂。……這一關我做了一個月。」；+4／+4／+4、記憶 HOL_NYE_2025',g.L.slice(-3).join('｜')==='（她打開筆電：插座貓走到最後一關，最後一關是煙火。）｜（十二點，真的煙火和螢幕上的一起亮。）｜新年快樂。……這一關我做了一個月。'&&H.cgs.includes('cg_savefile_heroine04')&&SOCIAL.has(ZQ,'HOL_NYE_2025')&&dRel(ZQ,r0)===J({fam:4,comf:4,npcRom:4}),J({L:g.L.slice(-4),cgs:H.cgs})); delete global.CG_REGISTRY;
     setup('2025-12-31',10,{lv:{[ZQ]:6}}); const a=await ask(ZQ,[]); check('6. 跨年第 6 階：約她＝「跨年？好。我帶筆電。不要問為什麼。」',a.r==='nye'&&a.L.includes('跨年？好。我帶筆電。不要問為什麼。')&&H.G.flags.ZQ_NYE_2025==='s6',J(a.L)); }
-  { setup('2026-08-18',21.05,{lv:{[ZQ]:'dt'}}); rules(); check('6. 她約：「明天下午一點」「溫州街的公園 我起得來」',J(dms(ZQ))===J(['明天下午一點','溫州街的公園 我起得來']),J(dms(ZQ)));
+  { setup('2026-08-18',21.05,{lv:{[ZQ]:'dt'}}); rules(); check('6. 她約（七夕；AA_445 1-2 照節日換整組）：「明天七夕」「下午一點 公園 我設了三個鬧鐘」',J(dms(ZQ))===J(['明天七夕','下午一點 公園 我設了三個鬧鐘']),J(dms(ZQ)));
     PHONE.answer(H.G,'fest_ask_heroine_04_qixi_2026',1); check('6. 「那天不行。」→「好 那我睡覺」',dms(ZQ).slice(-1)[0]==='好 那我睡覺');
     setup('2026-02-09',21.05,{lv:{[ZQ]:'dt'}}); rules(); check('6. 生日不會由她約（2/9 21:00 沒有私訊）',!dms(ZQ).length); }
   });
@@ -229,7 +229,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('7. 2028 生日日本路線：視訊 22:00「研究室沒有蛋糕。……我買了一個布丁。」「你看，蠟燭插不進去。」',!!a.r&&a.r.h===22&&J(g.L)===J(['研究室沒有蛋糕。……我買了一個布丁。','你看，蠟燭插不進去。']),J({q:a.r,L:g.L})); }
   { setup('2026-12-24',10,{lv:{[SIS]:6}}); H.G.money=1000; money=[]; const m=await play({id:SIS,k:'xmas',y:2026,mode:'meet'},[4]);
     check('7. 聖誕第 6 階「聖誕節。今天家族沒有聚餐。」「……所以只有我們兩個。」；一束花 500 元＝「花喔。……我要去找一個瓶子。」（AA_416 第 11 節第 6 點）',J(m.L)===J(['聖誕節。今天家族沒有聚餐。','……所以只有我們兩個。','花喔。……我要去找一個瓶子。'])&&J(money)===J([-500]),J({L:m.L,money})); }
-  { setup('2027-03-13',21.05,{lv:{[SIS]:'dt'}}); rules(); check('7. 她約（沒有專屬的 3/14）：「明天晚上七點。法圖門口。」',J(dms(SIS))===J(['明天晚上七點。法圖門口。']),J(dms(SIS)));
+  { setup('2027-03-13',21.05,{lv:{[SIS]:'dt'}}); rules(); check('7. 她約（沒有專屬的 3/14；AA_445 1-2）：「明天是三月十四。」「晚上七點，法圖門口。」',J(dms(SIS))===J(['明天是三月十四。','晚上七點，法圖門口。']),J(dms(SIS)));
     PHONE.answer(H.G,'fest_ask_heroine_05_white_2027',1); check('7. 「那天不行。」→「好。那我寫論文。」',dms(SIS).slice(-1)[0]==='好。那我寫論文。');
     setup('2027-02-13',21.05,{lv:{[SIS]:'dt'}}); rules(); check('7. 2027 情人節（交往中有專屬 S.HOL）：通用版不約',!PHONE.byAsk(H.G,'fest_ask_heroine_05_vday_2027')); }
   });
@@ -264,7 +264,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
 
   /* ======================= 9 可昕 ======================= */
   await sec('9',async()=>{ const x=X();
-  { setup('2026-03-13',21.05,{lv:{[KX]:'dt'}}); rules(); check('9. 3/14 她約：「明天晚上六點半 公館」「你敢遲到試試看」',J(dms(KX))===J(['明天晚上六點半 公館','你敢遲到試試看']),J(dms(KX)));
+  { setup('2026-03-13',21.05,{lv:{[KX]:'dt'}}); rules(); check('9. 3/14 她約（AA_445 1-2）：「明天三月十四 晚上六點半 公館」「回禮我準備好了」',J(dms(KX))===J(['明天三月十四 晚上六點半 公館','回禮我準備好了']),J(dms(KX)));
     PHONE.answer(H.G,'fest_ask_kexin_white_2026',0); rules(); const q=OUT.get(H.G,'fest_kexin_white_2026'); at('2026-03-14',18.1); const g=await goOut(q.id);
     check('9. 公館（gongguan）「白色情人節。我記得你上個月送什麼。」「……這是回禮。拆開以前不准猜。」',img(H.bgs.find(b=>b&&b.image))==='gongguan'&&g.L.slice(0,2).join('｜')==='白色情人節。我記得你上個月送什麼。｜……這是回禮。拆開以前不准猜。',J(g.L)); }
   { setup('2026-08-18',10,{lv:{[KX]:'dt'}}); REG({cg_our_car_kexin:{file:'old',title:'我們有車'}}); const a=await ask(KX,[0]); const q=a.r;
@@ -340,6 +340,13 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   H.said=[]; H.opts=[]; H.picks=['約她過節','算了']; const ivF2=await INVH.flow(GM,ZQ,{obj:null},true); const LF2=said(), OF2=H.opts.slice();
   check('13. 當面再約一次：一樣灰掉、說「已經約好了。」、回到清單',ivF2==null&&LF2.includes('已經約好了。')&&OF2.length===2&&(H.G.invites||[]).filter(q=>q.fest).length===1,J({LF2,OF2}));
   });
+
+  /* AA_445 1-2（企劃線 fd200c2c6）：芷若、語彤、子晴、學姊、可昕的節日邀約照節日換整組，逐字對稿裡的表 */
+  { const d445=git('fd200c2c6','AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md'), NM={'芷若':ZR,'語彤':YT,'子晴':ZQ,'學姊':SIS,'可昕':KX}, KS=['vday','white','qixi','bday','xmas'];
+    const bad=[]; let n=0; for(const line of d445.split('\n')){ const m=/^\|\s*(芷若|語彤|子晴|學姊|可昕)\s*\|(.+)\|\s*$/.exec(line); if(!m) continue; const cells=m[2].split('|').map(c=>c.trim().split('<br>'));
+      KS.forEach((k,i)=>{ n++; const got=X().herLines(NM[m[1]],k,false); if(J(got)!==J(cells[i])) bad.push(m[1]+' '+k+'：'+J(got)+' ≠ '+J(cells[i])); }); }
+    check('AA_445 1-2. 五位 × 五個節日的邀約和稿一字不差（25 組）',n===25&&!bad.length,bad.slice(0,3).join('；')||n);
+    check('AA_445 1-2. 以安、沛珊照舊（第一句換節日名）',X().herLines(AN,'xmas',false)[0]==='明天是聖誕節。'&&X().herLines(PS,'vday',false)[0]==='明天是情人節！！'); }
 
   H.done();
 })();

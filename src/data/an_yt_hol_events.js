@@ -41,7 +41,8 @@ const ANYTHOL_LINES={
   moonAsk:['明天麵店三點收','……阿姨說你可以來'], moonYesT:'好。', moonYes:['嗯。三點。'], moonNoT:'明天不行。', moonNo:['嗯。晚上烤肉見。'],
   moonMiss:['（照片：剝好的柚子，放在塑膠椅上）'],
   /* 第 3 節 麵店團群組（2027-02-14（日）21:00，在群組的玩家都看得到，一次）：[說話的人, 句子] */
-  grp:[['zhe','今天我跟 Alison 出去'],['zhe','麵店不揪'],['yu','你不用跟大家報告！！'],['zhe','我要讓大家知道']] };
+  grp:[['zhe','今天情人節 我在高雄'],['zhe','跟 Alison 視訊了兩個小時'],   /* AA_446 第 5 節：阿哲寒假都在高雄 */
+    ['yu','你不用跟大家報告！！'],['zhe','我要讓大家知道']] };
 const ANYTHOL_EVENTS=(function(){
   const AN='heroine_01', YT='heroine_03';
   const A=t=>({speaker:AN,text:t}), Y=t=>({speaker:YT,text:t}), N=t=>({speaker:null,text:t}), AY=t=>({speaker:'阿姨',text:t});

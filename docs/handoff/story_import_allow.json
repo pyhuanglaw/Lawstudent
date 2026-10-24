@@ -359,7 +359,7 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "a5b936a69",
+   "sha": "a1bc53f4c",
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-S6",
@@ -376,9 +376,13 @@
     {
      "sha": "efe575813",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_447 以前"
     }
    ],
-   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描"
+   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）"
   },
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
@@ -972,11 +976,19 @@
   },
   {
    "path": "docs/story_planning/AA_210_大二到大四跨年_16週制.md",
-   "sha": "d82f1374",
+   "sha": "5c139cc49",
    "status": "approved",
    "approvedBy": "AA-C 定稿（第②級一般日常事件，照 AA_197 1-5 已批准的方向；D100：台詞歸 AA，含可昕）；第 5 節 2026-10-18 對照現行設定更正，以第 5 節為準；9c641efa 補阿凱一句（1-5）；28ac4ea3 補 5-5（回 LAWWW 三個缺口）；d5cf5589 補 5-6（大三合照、零點旁白）；b4e48e0d 補 5-7（大四沒去的照片、芷若跨年全文、子晴那行刪）；7fa3660d 1-4 阿哲回高雄改海邊隔天；d82f1374 第 0 節頂樓訪客（宿委會跨年活動，阿哲揪人多一句；AA-B 10-23，回 AA_313 第 544 行）",
    "task": "HOL-NYE-Y2, HOL-NYE-Y3, HOL-NYE-Y4, AA313-S4S5-REST-1023",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "d82f1374",
+     "until": "2026-10-24 14:5x",
+     "why": "AA_446 同步改原稿"
+    }
+   ],
+   "note": "；5c139cc49：AA_446 同步"
   },
   {
    "path": "docs/story_planning/AA_278_寒暑假可昕沛珊不在臺北_逐件改.md",
@@ -1267,7 +1279,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D02.json",
-   "sha": "a5b936a69",
+   "sha": "a1bc53f4c",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L02",
@@ -1275,9 +1287,13 @@
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_447 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D03.json",
@@ -1411,7 +1427,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D09.json",
-   "sha": "a5b936a69",
+   "sha": "a1bc53f4c",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L09",
@@ -1419,9 +1435,13 @@
     {
      "sha": "ffd7eef8",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_447 以前"
     }
    ],
-   "note": "a5b936a69：AA_439 禁用句總掃描"
+   "note": "a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D10.json",
@@ -2184,12 +2204,19 @@
   },
   {
    "path": "docs/story_planning/AA_412_美國篇清查_缺口與補稿.md",
-   "sha": "5d09bb725",
+   "sha": "b7c25dd14",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "US-AA412-1023",
    "kind": "text",
-   "note": "src/us208_3d.js 等（1fe50a751，tests/aa412_us_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+   "note": "src/us208_3d.js 等（1fe50a751，tests/aa412_us_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）；b7c25dd14：AA_448 1-1 同步（gateSeason 換季日子照 usSeasonKey：10/9、11/1、12/2）",
+   "history": [
+    {
+     "sha": "5d09bb725",
+     "until": "2026-10-24 15:1x",
+     "why": "AA_448 1-1 同步改 5-1 換季日子以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_413_溫州街店面_剩下三家_B09收尾.md",
@@ -2202,12 +2229,19 @@
   },
   {
    "path": "docs/story_planning/AA_414_以安語彤_交往中的節日_第一批_情人節與中秋.md",
-   "sha": "5d09bb725",
+   "sha": "5c139cc49",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-23 定稿（D109）",
    "task": "D14-T11",
    "kind": "text",
-   "note": "src/an_yt_hol3d.js、src/data/an_yt_hol_events.js（f48046198，tests/aa414_hol_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）"
+   "note": "src/an_yt_hol3d.js、src/data/an_yt_hol_events.js（f48046198，tests/aa414_hol_unit.js）；sha 是企劃線最新版（表頭時間改正 5d09bb72／81c14898 只改表頭）；5c139cc49：AA_446 同步",
+   "history": [
+    {
+     "sha": "5d09bb725",
+     "until": "2026-10-24 14:5x",
+     "why": "AA_446 同步改原稿"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_416_節日總規格_三個情人節生日聖誕_七位.md",
@@ -2433,16 +2467,20 @@
   },
   {
    "path": "docs/story_planning/date_system/wish/wish_bb.json",
-   "sha": "a5b936a69",
+   "sha": "a1bc53f4c",
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109；心願事件七位的資料檔，BB 那三位的台詞 D100 起由 AA 定稿）",
    "task": "DATE-C5",
    "kind": "text",
-   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描",
+   "note": "tools/date/import_wish.py → src/data/date_wish.js；子晴、學姊、可昕三位違反人物規則的句子在 DATE_WISH.hold 先不演（已轉 AA 改稿，改好重匯就解除）；2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432：學姊心願 18:30、學姊約會句、可昕出發句）；a5b936a69：AA_439 禁用句總掃描；a1bc53f4c：AA_447「是A，不是B」補掃（D02 子晴、D09 學姊、wish_bb／BB_128 芷若）",
    "history": [
     {
      "sha": "1ced2f8b3",
      "note": "AA_439 以前"
+    },
+    {
+     "sha": "a5b936a69",
+     "note": "AA_447 以前"
     }
    ]
   },
@@ -2725,12 +2763,12 @@
   },
   {
    "path": "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
-   "sha": "540e1d3fb",
+   "sha": "fd200c2c6",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）；540e1d3fb：臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）",
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）；540e1d3fb：臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）；fd200c2c6：3-1 2/4 改新菜單（AA_445 1-1）",
    "history": [
     {
      "sha": "718c06a30",
@@ -2745,6 +2783,11 @@
      "sha": "ca16c073d",
      "until": "2026-10-24 08:5x",
      "why": "臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）"
+    },
+    {
+     "sha": "540e1d3fb",
+     "until": "2026-10-24 14:3x",
+     "why": "AA_445 1-1：3-1 2/4 改麵店新菜單"
     }
    ]
   },
@@ -2806,6 +2849,24 @@
    ]
   },
   {
+   "path": "docs/story_planning/AA_448_美國交換程式文字盤點_季節與背景圖.md",
+   "sha": "b7c25dd14",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "QA-TRANSCRIPT-US-1024",
+   "kind": "text",
+   "note": "1-1 us3d.js LOOK_CAMPUS.gateSeason 換季日子；1-2 何俊朗「冷氣好冷」只到 10/8（us_life_events.js longGreet summer、us_life3d.js）；第 2 節 12/2 初雪兩場開頭 bg 先用 dark（r2y4a_events.js）；背景圖四張 BB 照 D97 向使用者要"
+  },
+  {
+   "path": "docs/story_planning/AA_449_經濟系那一年讀過一遍_情人節問補習班_搬走以後的鬧鐘.md",
+   "sha": "e3f697c0e",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；1-1 只加三句、不改原本內容，第①級）",
+   "task": "ECON-READ-1024",
+   "kind": "text",
+   "note": "1-1／1-2 events.js ev_y0_e27b（情人節三句、旁白主詞）；1-3 story3d.js y0_xu_alarm 條件 !Y0_MOVED_OUT；1-4 y0_wl_newbike 換字；1-5 y0_e24b KH_TRIP_DONE 兩句"
+  },
+  {
    "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",
    "sha": "03b7e6dff",
    "status": "approved",
@@ -2813,6 +2874,24 @@
    "task": "BACKLOG-SWEEP-AA-1021",
    "kind": "text",
    "note": "美國交換那一學期（src/us_life3d.js、src/data/us_life_events.js；tests/us_life_unit.js）照稿手動放；之前沒有白名單這一筆，10-24 補登"
+  },
+  {
+   "path": "docs/story_planning/AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md",
+   "sha": "fd200c2c6",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "1-1 大三寒假 2/4 麵店新菜單（vacfill_events.js y3_0204）；1-2 芷若、語彤、子晴、學姊、可昕節日邀約照節日換整組（fest_events.js ask.by、fest3d.js S.herLines；tests/aa416_fest_unit.js 25 組逐字）"
+  },
+  {
+   "path": "docs/story_planning/AA_446_大二寒暑假回老家訊息_和大一重複.md",
+   "sha": "5c139cc49",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "第 1、2 節 holff3d.js 大二寒暑假十則換字；第 3 節 vac3d.js C01_NONE 照年份；第 5 節 an_yt_hol_events.js grp；第 6 節 story3d.js nyeY2 選項「我去頂樓。」；第 7 節 r2y4b3d.js SA_T1 第 2 則；第 8 節 story3d.js zr_nye_y4 朋友版"
   }
  ]
 }

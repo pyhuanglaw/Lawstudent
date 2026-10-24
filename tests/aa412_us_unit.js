@@ -28,7 +28,7 @@ if(process.argv[2]==='--zones'){
   const build=id=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; return E.interactables.slice(); };
   const out={};
   const C=build('us_campus'), gate=C.find(i=>i.usGate), cls=C.find(i=>i.usClass==='law');
-  for(const k of ['2028-10-15','2028-10-16','2028-11-18','2028-12-02']){ setG(k,15,false); out['gate@'+k]=gate&&gate.look; }
+  for(const k of ['2028-10-08','2028-10-09','2028-10-31','2028-11-01','2028-12-01','2028-12-02']){ setG(k,15,false); out['gate@'+k]=gate&&gate.look; out['season@'+k]=US3.usSeasonKey(); }
   out.cls=cls&&cls.look;
   const L=build('us_lawlib'), desk=L.find(i=>i.usLib==='desk');
   setG('2028-10-02',10,true); out.deskIn=desk&&desk.look; sisIn=false; out.deskOut=desk&&desk.look; sisIn=true; setG('2028-10-02',10,false); out.deskSingle=desk&&desk.look;
@@ -230,8 +230,8 @@ const DESK_SIS='（館員看到你，往中庭的長桌點了一下頭。她在�
 const LEASE='空的店面。玻璃上貼著招租的紙，一個電話號碼。旁邊還看得到舊招牌的膠痕，以前是一家洗衣店。';
 const CLS_LOOK='法學院的台階。上去的走廊兩邊都是教室，門上貼著課號和上課時間。現在沒有你的課。';
 await sec('L',()=>{ const g=(k)=>{ fresh(k,15,'us_campus',US()); return US3.campusLook('gate',H.G); };
-  check('L1. 校園「往活動中心」：8～10/15 只有定稿那一句（拿掉「（這一版還沒開放。）」）',g('2028-08-21')===GATE&&g('2028-10-15')===GATE);
-  check('L1. 10/16 起多一句「橡樹的葉子開始轉紅了。」',g('2028-10-16')===GATE+'橡樹的葉子開始轉紅了。'&&g('2028-11-17')===GATE+'橡樹的葉子開始轉紅了。',g('2028-10-16'));
+  check('L1. 校園「往活動中心」：8～10/8 只有定稿那一句（拿掉「（這一版還沒開放。）」；AA_448 換季日子）',g('2028-08-21')===GATE&&g('2028-10-08')===GATE);
+  check('L1. 10/9 起多一句「橡樹的葉子開始轉紅了。」（到 10/31）',g('2028-10-09')===GATE+'橡樹的葉子開始轉紅了。'&&g('2028-10-31')===GATE+'橡樹的葉子開始轉紅了。',g('2028-10-09'));
   check('L1. 11/18 起換成「葉子掉得差不多了，地上都是橡實。」',g('2028-11-18')===GATE+'葉子掉得差不多了，地上都是橡實。'&&g('2028-12-01')===GATE+'葉子掉得差不多了，地上都是橡實。');
   check('L1. 12/2（初雪）起換成「欄杆上積了一層雪。」',g('2028-12-02')===GATE+'欄杆上積了一層雪。'&&g('2028-12-15')===GATE+'欄杆上積了一層雪。');
   check('L1. 「進教室」（現在沒有課的時候）定稿',US3.campusLook('class',H.G)===CLS_LOOK);
@@ -253,7 +253,7 @@ await sec('Z',()=>{ const cp=require('child_process'); let o=null, err='';
   try{ o=JSON.parse(cp.execFileSync(process.execPath,[__filename,'--zones'],{cwd:ROOT,encoding:'utf8',timeout:120000,maxBuffer:1<<24})); }catch(e){ err=String(e.message||e).slice(0,300); }
   check('Z. 建得出 us_campus、us_lawlib、us_market_street',!!o,err);
   if(!o) return;
-  check('Z. 校園的「往活動中心」：按下去照那一天的日期（10/15 原句、10/16 轉紅、11/18 橡實、12/2 雪）',o['gate@2028-10-15']===GATE&&o['gate@2028-10-16']===GATE+'橡樹的葉子開始轉紅了。'&&o['gate@2028-11-18']===GATE+'葉子掉得差不多了，地上都是橡實。'&&o['gate@2028-12-02']===GATE+'欄杆上積了一層雪。',J(o));
+  check('Z. 校園的「往活動中心」：按下去照那一天的日期，換季的日子照 usSeasonKey（AA_448 1-1：10/8 原句、10/9 轉紅、10/31 還是轉紅、11/1 橡實、12/1 還是橡實、12/2 雪）',o['gate@2028-10-08']===GATE&&o['gate@2028-10-09']===GATE+'橡樹的葉子開始轉紅了。'&&o['gate@2028-10-31']===GATE+'橡樹的葉子開始轉紅了。'&&o['gate@2028-11-01']===GATE+'葉子掉得差不多了，地上都是橡實。'&&o['gate@2028-12-01']===GATE+'葉子掉得差不多了，地上都是橡實。'&&o['gate@2028-12-02']===GATE+'欄杆上積了一層雪。'&&o['season@2028-10-09']!==o['season@2028-10-08']&&o['season@2028-11-01']!==o['season@2028-10-31']&&o['season@2028-12-02']!==o['season@2028-12-01']&&o['season@2028-10-09']===o['season@2028-10-31'],J(o));
   check('Z. 校園「進教室」的看＝定稿',o.cls===CLS_LOOK,o.cls);
   check('Z. 圖書館服務台：交往中、她在＝多一句；她不在、沒在交往＝原句',o.deskIn===LIB.desk+DESK_SIS&&o.deskOut===LIB.desk&&o.deskSingle===LIB.desk,J([o.deskIn,o.deskOut,o.deskSingle]));
   check('Z. 圖書館其他互動點＝定稿',['stair_rope','window','stacks','catalog'].every(id=>o['lib.'+id]===LIB[id]),J(Object.keys(o).filter(k=>/^lib\./.test(k)).map(k=>[k,o[k]])));

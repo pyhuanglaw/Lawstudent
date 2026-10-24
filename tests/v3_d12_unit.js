@@ -105,7 +105,7 @@ GM.money=function(n){ G.money+=n; };
     const V3=ev('ev_zr_nye_video_y3'); said=[]; await EVENTS.run(V3); const LV=lines(); check('芷若視訊（大三）：開場兩句、窗外煙火、收尾「我要去睡了。你去吃早餐。」',LV.some(t=>/我這邊剛好跨年。/.test(t))&&LV.includes('（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）')&&LV.some(t=>/我要去睡了。你去吃早餐。/.test(t)),JSON.stringify(LV));
     V3.outingMissed(G,GM,{day:d3+1}); G.day=d3+1; G.hour=9; PHONE.tick(G); check('芷若視訊沒接：08:30「沒關係。你那邊早上了，可能還在睡。新年快樂。」',txt('p:'+zr).includes('heroine_02:沒關係。你那邊早上了，可能還在睡。新年快樂。'));
     fresh(d4+1,7.5,'dorm'); meet(zr); SOCIAL.rel(zr).fam=65; SOCIAL.rel(zr).trust=50; SOCIAL.rel(zr).comf=45; run(7.5,8.2); const f4=txt('p:'+zr);
-    check('芷若好朋友（大四）：1/1 08:00「新年快樂。這邊剛剛才倒數完。」＋「臺灣的煙火我在網路上看了。比這邊大。」',f4.includes('heroine_02:新年快樂。這邊剛剛才倒數完。')&&f4.includes('heroine_02:臺灣的煙火我在網路上看了。比這邊大。'),JSON.stringify(f4));
+    check('芷若好朋友（大四，AA_446 第 8 節）：1/1 08:00「新年快樂。今年我在這邊跨第二次了。」＋「去年說臺灣的煙火比較大。……今年還是。」',f4.includes('heroine_02:新年快樂。今年我在這邊跨第二次了。')&&f4.includes('heroine_02:去年說臺灣的煙火比較大。……今年還是。'),JSON.stringify(f4));
     fresh(d4+1,7.5,'dorm'); meet(zr); run(7.5,8.2); check('芷若只是認識：什麼都不收（5-7 第 2 點）',!txt('p:'+zr).length); }
   const N=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_heroine_01:true}); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
   check('3. 頂樓：「頂樓只有幾個人」；以安在場（交往中）；大一沒走信義區那條＝「今年風比較小。」（AA_313 4-3）；沒有期末考週的句子；交往中下樓「……手給我。」「看不到台階。……你走慢一點。」',L.includes('（十一點半。頂樓只有幾個人。）')&&L.includes('沈以安：今年風比較小。')&&!L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&L.includes('沈以安：看不到台階。……你走慢一點。')&&!L.some(t=>/回去念|宵夜|安全上的考量/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));

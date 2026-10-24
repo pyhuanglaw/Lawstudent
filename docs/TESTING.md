@@ -130,6 +130,8 @@
 
 對**乾淨 checkout**（`git worktree add --detach <dir> HEAD`，只含 git 追蹤的檔案＝GitHub Pages 實際內容）開 server 後：
 
+> 跑 Node 測試以前先 `git fetch origin claude/cool-heisenberg-o8kuqx`（值班 AA 的企劃分支，帳號換了照 `duty.json` 的 AA 分支）：`aa416_fest`、`aa440_vacfill`、`aa414_hol`、`date_wish`、`aa442_jpprep` 等會 `git show <企劃線 sha>` 讀原稿，沒 fetch 會 FAIL（不是遊戲問題；BB-B 2026-10-24 RELEASE-9109-TEST 記的）。
+
 1. `tests/deploy_check.py`（資源 404、11 區域、正式 VRM、版本字樣）
 2. `tests/reachability_all.py`（全遊戲可達性）
 3. `tests/flow_class_real.py`、`tests/minimap_direction.py`、`tests/joystick_direction.py`（永久回歸：教室卡住、小地圖方向、搖桿方向）

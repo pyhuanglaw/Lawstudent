@@ -213,7 +213,7 @@ const VAC_DATA=(function(){
         msgs:[{from:'sysoffice',name:'系辦',text:'【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'}],
         yes:{t:'（交申請書）',say:[]} },
       select:{term:'S2',week:12,wd:1,h:12,name:'姊妹校暑期交流（首爾）',briefAt:{term:'S2',week:14,wd:3,h:12+20/60},need:'VAC_C08_APP'},
-      pre:[{afterSignup:1,h:20,title:'寫申請資料',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,set:{VAC_C08_APP:true}}],   /* BB-C 13:03：第 9 週截止以前要用掉一個時段寫申請資料，沒寫＝第 12 週「沒上」*/
+      pre:[{afterSignup:1,h:20,title:'寫申請資料',place:'宿舍書桌',bg:'dorm_desk',lines:[],advance:2,set:{VAC_C08_APP:true}}],   /* BB-C 13:03：第 9 週截止以前要用掉一個時段寫申請資料，沒寫＝第 12 週「沒上」*/
       depart:{zhe:'記得吃炸雞',yu:'幫我看有沒有好看的筆'}, back:{},
       trip:{ start:{day:'07-13',h:8}, end:{day:'07-24',h:18}, placeName:'首爾', home:'auto' },
       keys:[
@@ -291,7 +291,7 @@ const VAC_DATA=(function(){
       mates:{Y2:['heroine_01']},   /* 以安只有大二寒假報了東京（AA_369 H4、M4）*/
       signup:{kind:'board', term:'S1', week:5, wd:1, h:9, until:{term:'S1',week:6,wd:5}, flag:'VAC_C11', board:true, yes:{t:'（報名）',say:[]} },
       select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）',need:'VAC_C11_APP'},
-      pre:[{afterSignup:1,h:20,title:'寫申請書',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,set:{VAC_C11_APP:true}}],   /* BB-C 13:03：第 6 週截止以前寫申請書，沒寫就沒上 */
+      pre:[{afterSignup:1,h:20,title:'寫申請書',place:'宿舍書桌',bg:'dorm_desk',lines:[],advance:2,set:{VAC_C11_APP:true}}],   /* BB-C 13:03：第 6 週截止以前寫申請書，沒寫就沒上 */
       depart:{zhe:'冬天的東京欸',yu:'帶暖暖包'}, back:{},
       trip:{ start:{day:'01-17',h:7}, end:{day:'01-30',h:18}, placeName:'東京', home:'auto' },
       keys:[
@@ -326,7 +326,7 @@ const VAC_DATA=(function(){
       signup:{kind:'group', th:'g:law_class', term:'S2', week:10, wd:1, h:12, until:{term:'S2',week:12,wd:5}, flag:'VAC_C16', board:true,
         msgs:[{from:'sysoffice',name:'系辦',text:'【暑期實習】法律扶助基金會台北分會，暑假兩週（80 小時），名額有限。第 12 週週五前交申請表。'}],
         yes:{t:'（交申請表）',say:[]} },
-      pre:[{afterSignup:1,h:20,title:'寫申請表',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,setI:'APP'}],
+      pre:[{afterSignup:1,h:20,title:'寫申請表',place:'宿舍書桌',bg:'dorm_desk',lines:[],advance:2,setI:'APP'}],
       select:{term:'S2',week:14,wd:1,h:12,name:'法律扶助基金會台北分會暑期實習',needI:'APP',noFail:'S1',fam:['兩個禮拜都要穿正式一點嗎'],reject:{sys:[{name:'系辦（信）',text:'名額已滿，明年可以再報。'}],noGroup:true}},
       keys:C16_KEYS(['06-21','06-24','06-29','07-02']),
       byYear:{ Y3:{ days:['06-19','06-30'], keys:C16_KEYS(['06-19','06-22','06-27','06-30'],true) } } },   /* 大三暑假：日本路線人在日本（到 8/5）不能報；美國路線 7/25 才退宿，可以 */
@@ -438,17 +438,17 @@ const VAC_DATA=(function(){
     /* 回國「那一天」她在老家（看回國當天的 presence，不看隔天）：那天晚上兩則，不約見面、不約下次（AA_350 S5：以安交往中，C08、C09、2027 C10、T02）*/
     reunionHomeBack:{heroine_01:['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。']},
     reunion:{
-      heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'campus',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
-      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
-      heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'兩點半 Café',bg:'cafe',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',text:'回來了？……我 26 號回臺北。'},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北那天補一場 */
+      heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'library_gate_day',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
+      heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle_table',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
+      heroine_02:{invite:['明天我九點下班。','……你來的話，我晚一點關燈。'],h:21,place:'兩點半 Café',bg:'cafe_night',lines:[{narr:'（她把最後一張椅子倒扣在桌上。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……第一杯，我還是做給你。坐。'}],miss:['昨天的那杯，我自己喝了。'],away:{until:'2026-08-25',text:'回來了？……我 26 號回臺北。'},   /* 大一暑假她 7/1～8/25 在台中（BB_171 C1）：回臺北那天補一場 */
         noShift:{from:ZR_NOSHIFT[0],to:ZR_NOSHIFT[1],invite:['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'],h:15,
           lines:[{narr:'（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）'},{who:'heroine_02',text:'回來了。'},{who:'heroine_02',text:'……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。'}],miss:['昨天那個位子，我坐到打烊。']},
         byDate:[{to:'2027-06-04',invite:['明天我十點下班。','……你來的話，我晚一點關燈。'],h:22}]},   /* AA_373 第 6 節第 9 題（企劃線 bdab2f42）：她晚班到 22:00——見面那天在 2027-06-04 以前（她還在上班）＝「九點」改「十點」、22:00；台詞、沒去的那句照原本。之後照 AA_375（noShift）*/
           /* AA_369 第 8 節第 8 題：見面那天在她不上班的日子（2027-06-04～09-02）＝這一句、隔天下午（15:00，LAWWW 排的）；
              第 9 節第 2 題：那一場的台詞（不再是倒扣椅子、做第一杯）、沒去的隔天那句也換（vac3d.js S.reNS）*/
       heroine_04:{invite:['回來了喔','明天晚上 公館 宵夜','十點'],h:22,place:'公館',bg:'gongguan',lines:[{who:'heroine_04',text:'欸！'},{narr:'（她跑過來，停在你面前一步。）'},{who:'heroine_04',text:'……曬黑了。好醜。'},{who:'heroine_04',text:'……走，吃東西。'}],miss:['欸你昨天放我鳥']},
-      heroine_05:{invite:['明天五點，法圖門口。'],h:17+5/60,place:'法圖門口',bg:'wancai',lines:[{who:'heroine_05',text:'回來了？'},{who:'heroine_05',text:'……好。'},{narr:'（她把一本書遞給你。）'},{who:'heroine_05',text:'你不在的時候出的，先借你看。'}],miss:['昨天沒等到你。……沒關係。']},
-      classmate_peishan:{invite:['歡迎回來！','明天下午兩點，舊路書房好不好？'],h:14,place:'舊路書房',bg:'bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
+      heroine_05:{invite:['明天五點，法圖門口。'],h:17+5/60,place:'法圖門口',bg:'law_library_gate',lines:[{who:'heroine_05',text:'回來了？'},{who:'heroine_05',text:'……好。'},{narr:'（她把一本書遞給你。）'},{who:'heroine_05',text:'你不在的時候出的，先借你看。'}],miss:['昨天沒等到你。……沒關係。']},
+      classmate_peishan:{invite:['歡迎回來！','明天下午兩點，舊路書房好不好？'],h:14,place:'舊路書房',bg:'oldroad_bookstore',lines:[{who:'classmate_peishan',text:'你回來了！'},{who:'classmate_peishan',text:'快講，那邊的小朋友是怎樣的？'}],miss:['你昨天是不是睡著了']},
       kexin:{invite:['明天五點半 河堤','我在老地方等'],h:17.5,place:'河堤',bg:'riverside',lines:[{who:'kexin',text:'你回來了。'},{who:'kexin',text:'我算過了，你在那邊三十二天。……好，我不算了。'}],miss:['我昨天在河堤等了一下','你還好嗎']} },
     /* 朋友（FAMILIAR 以上、沒有交往）整趟一兩則：day＝出發後第幾天（'mid' 中間、'end' 回來前一天）*/
     friend:{

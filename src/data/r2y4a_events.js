@@ -143,7 +143,7 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-20 US4 初雪：小教堂的台階（AA_254 第 8 節；挽回中 AA_253 §6 第 4 步）。這不是告白（BB_203 第 3 節）---- */
   const SNOW_END=[ nar('（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）'),me('寫什麼？'),sis('不給你看。'),nar('（她把計畫本闔起來。那一格寫的是「雪」。）') ];   /* 「回宿舍」改「回公寓」（裁定第 14 點）*/
   EV.push({ id:'ev_us_first_snow', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps'},
+    dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
       {if:{flags:['US_SNOW_LATE']},speaker:null,text:'（你還是去了。雪下得很小，她坐在台階最上面一階。）'},   /* 20:30 以後、21:30 還沒到＝帶到場 */
       nar('（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'),
       sis('剛買的。……還燙。'),
@@ -165,7 +165,7 @@ const R2Y4A_EVENTS=(function(){
   /* 挽回中：REPAIR ≥ 3、分手以後沒有再說謊（BB_204 第 4 節的對照）＝「這次我先說」→ 重新交往；沒到只演前三句 */
   const REP_OK=G=>typeof R2Y4A!=='undefined'&&R2Y4A.repairOK(G);
   EV.push({ id:'ev_us_snow_repair', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'小教堂前的台階',bg:'us_chapel_steps'},
+    dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
       nar('（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'),
       sis('你看。'),
       sis('……我在臺灣，從來沒看過雪。'),

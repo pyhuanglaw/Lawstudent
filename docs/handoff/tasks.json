@@ -27531,7 +27531,7 @@
    "title": "深色底 70 段改用現成的圖（BB_220★，BB 逐張看過）：經濟系 kh_bus 早餐店→soymilk_shop（16 句）、10/15 桌遊→boardgame_gg、除夕電話加 {scene:電話}、8/13 放榜 home_room 移到最前面；美國 會所自習室→us_club_study（19 句）、鳳凰城機場→us_airport；寒暑假 左營站→kh_station、跨年視訊 5 個→video、跨年電話 3 個→{scene:電話}；日本線、萬才館二樓、台南車站等照表；颱風線上讀書會、峽谷 24 句維持深色（BB 決定）",
    "area": "BG",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -27545,7 +27545,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
-   "next": "【LAWWW（帳號 A）19:46 UTC】404e33ab：BB_220★ ① 經濟系、寒暑假、其他列都接了（black_bg_audit 70 段 351 句 → 43 段 219 句；bg_dark70_unit）；剩美國兩列（會所自習室 us_club_study 兩場、鳳凰城機場 us_airport）等 AA_370 子代理合併 r3_events.js 後接；接完派 BB 照同一張表驗 ｜ 照 BB_220★ 的表逐列改（events.js 等資料檔的 bg／scene），改完派 BB 用同一張表驗",
+   "next": "【LAWWW-B 10-24 15:0x】最後兩列也接了：美國會所自習室 us_club_study（us_life3d.js、us_blank3d.js、us_blank_lines.js 早就用了）、鳳凰城的機場 ev_sis_canyon→us_airport（r2y4b_events.js）；BB 照 BB_220★ 同一張表驗 ｜ 【LAWWW（帳號 A）19:46 UTC】404e33ab：BB_220★ ① 經濟系、寒暑假、其他列都接了（black_bg_audit 70 段 351 句 → 43 段 219 句；bg_dark70_unit）；剩美國兩列（會所自習室 us_club_study 兩場、鳳凰城機場 us_airport）等 AA_370 子代理合併 r3_events.js 後接；接完派 BB 照同一張表驗 ｜ 照 BB_220★ 的表逐列改（events.js 等資料檔的 bg／scene），改完派 BB 用同一張表驗",
    "recheckOn": "2026-10-22",
    "sha": "404e33ab"
   },
@@ -30287,7 +30287,7 @@
    "aliases": [
     "LAWWW2-CLOSED-SPACES-1023"
    ],
-   "notes": "【LAWWW-B 10-23 18:4x】AA_399 第 2 節（總圖 B1）接好：LAWWW2 的 library_b1 合併（20cc4c4e3）；src/b1story3d.js——考古題小組換到討論室 1 演（柏翰白板前、芯慈坐著，模糊 3D）、國考讀書會集合點改討論室 2（r2y4b3d.js；阿哲、柏翰、Alison 坐在裡面）、期末前的夜（期末考前兩週 22:00～02:00 柏翰坐 study_night，23:30～24:00 在自習室那一句，一學期一次）、大廳 22:00 關門以後從側門下 B1／從 B1 側門出去、自助借還書機與還書口（loans3d）；CALENDAR.examSoon 補上（LB1 期末前兩週人數加倍原本讀不到）。tests/b1story_unit.js 全過；BB 清單第 71 項。畢業後的 7/12 最後衝刺（postgrad3d.js）照舊用 ntu_lib_b1 圖。下一項：總圖研究小間＋服務台、5F 書庫（AA_399 第 3 節；LAWWW2 空間）｜ 【LAWWW-B 10-23 18:0x】AA_399 第 1 節（霖澤館 5F）接好：src/lab5f3d.js（4F 刷卡門傳訊息給學姊、14:00 回 4F、七場出遊換到 5F 演＝OUT.STAGE＋OUT.bg 研究室走廊換 blur）、characters.js 學姊研究室作息（spot sis_desk）、story3d.js 作息的 spot、便條改甲案；tests/lab5f_unit.js ALL PASS；BB 第 57～59 項。還沒做：第 2～12 節（總圖 B1／研究小間／借書 G.loans、典禮、研討室 B、101 小窗、系辦、美國臥室與書庫、共同 3F、博雅、洗衣間、多媒體）——等 LAWWW2 的空間，空間好了照表接；第 1-3 節研究小間的作息等總圖 B1／研究小間。【LAWWW-B 10-23 18:4x】第 6 節（101 助教課小窗、20:20 門口、第一次多一句；學姊作息兩筆）、第 11 節（洗衣間「洗衣服」40 分、大一週日阿凱一句）用現有的門做好：src/closed3d.js、tests/closed_unit.js ALL PASS；BB 第 62 項。第 11 節方奕廷的房間、其餘各節照舊等空間。【LAWWW-B 10-23 19:5x】LAWWW2 cb1d9ecb 法學院前庭大樟樹（zones3d.js (24.5,−94.5)、導航只擋樹幹）＋霖澤館 3F～5F 兩層窗景、linze_south／201 重拍整合；linze_5f_unit、nav_buildings_unit ALL PASS；BB 第 66 項。 ｜2026-10-23 21:0x LAWWW-B：第 3 項總圖研究小間＋5F 書庫整合（LAWWW2 36f12c2ee；DL-LW2-LUP）；AA_399 第 3 節劇情（學姊 03 的便利貼、方奕廷在 5F 書庫）待 LAWWW 接；美國期間學姊不在研究小間的判斷待接 ｜2026-10-23 21:2x LAWWW-B：AA_399 第 3 節劇情接好（src/lupstory3d.js LUPS；tests/lupstory_unit.js）：大四起 1F 服務台預約研究小間三小時（LOANS.DESK_EXTRA）、第一次進去的旁白；學姊 2028-02～2029-05 平日 14～17 在 03（她不在臺北的日子不在）、敲玻璃＝便利貼照關係一句；方奕廷大二上第 12～14 週週二 15～17 在 5F 最裡面、說話前多一句。學姊五點在總圖門口的作息交 characters.js 的子代理 ｜2026-10-24 04:2x LAWWW-B：兩場典禮換 3D（src/gymcer3d.js；tests/gymcer_unit.js）：開學典禮進體育館 3F 坐法律學院走道邊、宿營認識的以安／阿哲／Alison 坐旁邊、旁白照 2D 版、演完起身；畢業典禮 09:00 那一段坐同一位子、爸媽在南看台，11:00 法律學院照舊；沒有布置照原本 2D；2026-10-24 LAWWW-B：AA_399 第 5、7、12 節門口做得到的部分（4bb2169c1；src/closed2_3d.js；tests/aa399_closed2_unit.js 38 PASS）；要房間的七項已送 LAWWW2（研討室 B、系辦、共同 3F、博雅 103／203、宿舍 205、多媒體中心、美國篇第 8 節）；10-24 06:1x：LAWWW2 #82 前三間整合（87a4a60ca）：研討室 B、法律學院辦公室、共同 3F 考場 ｜ 【LAWWW-B 10-24 08:1x】第 8 節美國臥室 C（學姊的房間）：LAWWW2 1220ce5b4 整合（b408626b3：rooms_glb3d open.dating、窗景照美國季節、us3d 走道「敲門（臥室 C）」）、學姊交往中週末 14～21 坐書桌前 spots.sis＋不是交往中門上「（門上貼著一張手寫的課表。）」（1c8fd0990，us_life3d.js；tests/us_life_unit.js、us_bed_c_unit.js ALL PASS）；DL-LW2-US-BEDC；BB 測試已派。房間裡三個「看」請 AA 寫（08:1x 送出）。還沒做：法學院圖書館 2F 書庫（等 LAWWW2）、霖澤館 1F 公告欄（等 LAWWW2）。 ｜ 【LAWWW-B 10-24 08:4x】AA_444 學姊房間的看（fd9ad6574）；法圖 2F 書庫 LAWWW2 510265111 整合＋學姊平日 10:30～12:00 在 2F（b43a86cdf；DL-LW2-US-LAWLIB-2F）；#82 七間 LAWWW2 交齊、都接進開發分支。剩：2F「樓梯（三樓）」「木梯」的看（AA 寫中）、霖澤館 1F 公告欄（LAWWW2 下一項）。 ｜ 【LAWWW-B 10-24 08:5x】法圖 2F 兩個看（AA_444 第 4 節，f23a5b948）；霖澤館 1F 公布欄＋玻璃門（LAWWW2 fc86f7507 → 4229bbaf4，徵才單照 JOBS.board2；DL-LW2-LINZE-NOTICE）。AA_399 #82 的空間與看全部接完，剩 BB 瀏覽器驗收。"
+   "notes": "【LAWWW-B 10-23 18:4x】AA_399 第 2 節（總圖 B1）接好：LAWWW2 的 library_b1 合併（20cc4c4e3）；src/b1story3d.js——考古題小組換到討論室 1 演（柏翰白板前、芯慈坐著，模糊 3D）、國考讀書會集合點改討論室 2（r2y4b3d.js；阿哲、柏翰、Alison 坐在裡面）、期末前的夜（期末考前兩週 22:00～02:00 柏翰坐 study_night，23:30～24:00 在自習室那一句，一學期一次）、大廳 22:00 關門以後從側門下 B1／從 B1 側門出去、自助借還書機與還書口（loans3d）；CALENDAR.examSoon 補上（LB1 期末前兩週人數加倍原本讀不到）。tests/b1story_unit.js 全過；BB 清單第 71 項。畢業後的 7/12 最後衝刺（postgrad3d.js）照舊用 ntu_lib_b1 圖。下一項：總圖研究小間＋服務台、5F 書庫（AA_399 第 3 節；LAWWW2 空間）｜ 【LAWWW-B 10-23 18:0x】AA_399 第 1 節（霖澤館 5F）接好：src/lab5f3d.js（4F 刷卡門傳訊息給學姊、14:00 回 4F、七場出遊換到 5F 演＝OUT.STAGE＋OUT.bg 研究室走廊換 blur）、characters.js 學姊研究室作息（spot sis_desk）、story3d.js 作息的 spot、便條改甲案；tests/lab5f_unit.js ALL PASS；BB 第 57～59 項。還沒做：第 2～12 節（總圖 B1／研究小間／借書 G.loans、典禮、研討室 B、101 小窗、系辦、美國臥室與書庫、共同 3F、博雅、洗衣間、多媒體）——等 LAWWW2 的空間，空間好了照表接；第 1-3 節研究小間的作息等總圖 B1／研究小間。【LAWWW-B 10-23 18:4x】第 6 節（101 助教課小窗、20:20 門口、第一次多一句；學姊作息兩筆）、第 11 節（洗衣間「洗衣服」40 分、大一週日阿凱一句）用現有的門做好：src/closed3d.js、tests/closed_unit.js ALL PASS；BB 第 62 項。第 11 節方奕廷的房間、其餘各節照舊等空間。【LAWWW-B 10-23 19:5x】LAWWW2 cb1d9ecb 法學院前庭大樟樹（zones3d.js (24.5,−94.5)、導航只擋樹幹）＋霖澤館 3F～5F 兩層窗景、linze_south／201 重拍整合；linze_5f_unit、nav_buildings_unit ALL PASS；BB 第 66 項。 ｜2026-10-23 21:0x LAWWW-B：第 3 項總圖研究小間＋5F 書庫整合（LAWWW2 36f12c2ee；DL-LW2-LUP）；AA_399 第 3 節劇情（學姊 03 的便利貼、方奕廷在 5F 書庫）待 LAWWW 接；美國期間學姊不在研究小間的判斷待接 ｜2026-10-23 21:2x LAWWW-B：AA_399 第 3 節劇情接好（src/lupstory3d.js LUPS；tests/lupstory_unit.js）：大四起 1F 服務台預約研究小間三小時（LOANS.DESK_EXTRA）、第一次進去的旁白；學姊 2028-02～2029-05 平日 14～17 在 03（她不在臺北的日子不在）、敲玻璃＝便利貼照關係一句；方奕廷大二上第 12～14 週週二 15～17 在 5F 最裡面、說話前多一句。學姊五點在總圖門口的作息交 characters.js 的子代理 ｜2026-10-24 04:2x LAWWW-B：兩場典禮換 3D（src/gymcer3d.js；tests/gymcer_unit.js）：開學典禮進體育館 3F 坐法律學院走道邊、宿營認識的以安／阿哲／Alison 坐旁邊、旁白照 2D 版、演完起身；畢業典禮 09:00 那一段坐同一位子、爸媽在南看台，11:00 法律學院照舊；沒有布置照原本 2D；2026-10-24 LAWWW-B：AA_399 第 5、7、12 節門口做得到的部分（4bb2169c1；src/closed2_3d.js；tests/aa399_closed2_unit.js 38 PASS）；要房間的七項已送 LAWWW2（研討室 B、系辦、共同 3F、博雅 103／203、宿舍 205、多媒體中心、美國篇第 8 節）；10-24 06:1x：LAWWW2 #82 前三間整合（87a4a60ca）：研討室 B、法律學院辦公室、共同 3F 考場 ｜ 【LAWWW-B 10-24 08:1x】第 8 節美國臥室 C（學姊的房間）：LAWWW2 1220ce5b4 整合（b408626b3：rooms_glb3d open.dating、窗景照美國季節、us3d 走道「敲門（臥室 C）」）、學姊交往中週末 14～21 坐書桌前 spots.sis＋不是交往中門上「（門上貼著一張手寫的課表。）」（1c8fd0990，us_life3d.js；tests/us_life_unit.js、us_bed_c_unit.js ALL PASS）；DL-LW2-US-BEDC；BB 測試已派。房間裡三個「看」請 AA 寫（08:1x 送出）。還沒做：法學院圖書館 2F 書庫（等 LAWWW2）、霖澤館 1F 公告欄（等 LAWWW2）。 ｜ 【LAWWW-B 10-24 08:4x】AA_444 學姊房間的看（fd9ad6574）；法圖 2F 書庫 LAWWW2 510265111 整合＋學姊平日 10:30～12:00 在 2F（b43a86cdf；DL-LW2-US-LAWLIB-2F）；#82 七間 LAWWW2 交齊、都接進開發分支。剩：2F「樓梯（三樓）」「木梯」的看（AA 寫中）、霖澤館 1F 公告欄（LAWWW2 下一項）。 ｜ 【LAWWW-B 10-24 08:5x】法圖 2F 兩個看（AA_444 第 4 節，f23a5b948）；霖澤館 1F 公布欄＋玻璃門（LAWWW2 fc86f7507 → 4229bbaf4，徵才單照 JOBS.board2；DL-LW2-LINZE-NOTICE）。AA_399 #82 的空間與看全部接完，剩 BB 瀏覽器驗收。 ｜ 【BB-B 10-24 14:5x～15:04】美國臥室 C 全部驗完（bedc4 BEDC_FIRST ALL PASS；BEDC_OCT07 在 a7a7a6ed8 PASS：10/7 窗外是夏天那句＋us_bed_c_summer_day，字和圖同一季）。"
   },
   {
    "id": "SIS-B7-L-1023",
@@ -31207,7 +31207,8 @@
     "acceptance": "兩份劇本 md（交往中、挽回中）在 BB 分支、AA 讀過回覆",
     "receiver": "AA",
     "ack": "SENT"
-   }
+   },
+   "notes": "【LAWWW-B 10-24 15:1x】等劇本期間 AA 先讀程式文字（AA_448，企劃線 b7c25dd14）：1-1 校園換季日子、1-2 冷氣那句、12/2 初雪 bg 先 dark 已接（開發分支）；第 2 節四張背景（湖邊夏天傍晚、湖邊初冬早上、小教堂台階雪夜、夏天市集）AA 另請 BB 照 D97 要圖。劇本到了 AA 再補實際順序那一層。"
   },
   {
    "id": "BUG-SHADOW-UPPER-1024",
@@ -31242,7 +31243,7 @@
    "id": "BUG-ACT-ONCE-LATE-1024",
    "title": "once 活動開始以後才坐下，選單沒有「聽演講」（EXPO_Y2、B4、B6、B7、法圖資料查詢…）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": "SYS",
    "first": {
@@ -31257,13 +31258,15 @@
    },
    "source": "BB-B 10-24 11:5x（v9.10.8 候選瀏覽器測試；Node 重現 expo_once_check.js）",
    "authorized": "D85（bug 修正）",
-   "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）"
+   "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）",
+   "notes": "【BB-B 10-24 14:56】開發分支 a7a7a6ed8（含 89823358f）EXPO86_LATE ALL PASS；f472cee48 同一支 FAIL，修改前後差別成立，結案。",
+   "evidence": "BB-B 10-24 14:56：開發分支 a7a7a6ed8（含 89823358f）瀏覽器 EXPO86_LATE ALL PASS、f472cee48 同一支 FAIL（BB_218）；tests/activities_unit.js once-late 3 項"
   },
   {
    "id": "BG-DARK-SCENES-1024",
    "title": "13 段劇情對話是黑底（scene 的 bg 鍵 OUT.BG 沒有）：Café 四張、法圖二樓、醉月湖夜、巷口便利商店夜、208 廚房從 3D 拍 2D 背景；總圖門口雨、社區活動中心、會所草地向使用者要",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "等待其他AI／素材",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -31278,7 +31281,7 @@
    },
    "source": "LAWWW2-B 10-24 12:5x 路線巡查（docs/art-rebuild/second_ai/research/dark_bg_scenes_1024.md，0f616c421）",
    "authorized": "D100（2D 背景：從 3D 拍的歸 LAWWW2、向使用者要的歸 BB）、D111",
-   "next": "【LAWWW-B 10-24 13:5x】第一批 8 張整合（DL-LW2-BG-DARK-1）；芷若回國重逢改 cafe_night、語彤改 noodle_table。第二批派 LAWWW2：以安 15:00 總圖門口（白天）、學姊 17:05 法圖門口、沛珊 14:00 舊路書房、宿舍書桌（出國申請）；BB 向使用者要 4 張 ｜ 【LAWWW-B 10-24 13:0x】ntu_library_night 別名 library_gate_night 已加（outings3d.js）；tests/scene_bg_keys_unit.js 擋新的黑底（PENDING 清單）。LAWWW2：寒暑假路線巡完以後，從 3D 拍 cafe、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941，同現有規格）；BB：ntu_library_rain、community_room、us_club_lawn 照 D97 向使用者要",
+   "next": "【LAWWW-B 10-24 14:4x】LAWWW2 兩批 12 張都整合（DL-LW2-BG-DARK-1、-2）；剩向使用者要的 4 張（ntu_library_rain、community_room、us_club_lawn、botanical_lotus，BB_132 第 98、99 組＋附圖批）＝等使用者 ｜ 【LAWWW-B 10-24 13:5x】第一批 8 張整合（DL-LW2-BG-DARK-1）；芷若回國重逢改 cafe_night、語彤改 noodle_table。第二批派 LAWWW2：以安 15:00 總圖門口（白天）、學姊 17:05 法圖門口、沛珊 14:00 舊路書房、宿舍書桌（出國申請）；BB 向使用者要 4 張 ｜ 【LAWWW-B 10-24 13:0x】ntu_library_night 別名 library_gate_night 已加（outings3d.js）；tests/scene_bg_keys_unit.js 擋新的黑底（PENDING 清單）。LAWWW2：寒暑假路線巡完以後，從 3D 拍 cafe、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941，同現有規格）；BB：ntu_library_rain、community_room、us_club_lawn 照 D97 向使用者要",
    "xai": {
     "spec": "dark_bg_scenes_1024.md（LAWWW2 分支 0f616c421）",
     "owner": "LAWWW2",
@@ -31286,7 +31289,236 @@
     "acceptance": "8 張 webp＋OUT.BG 鍵；scene_bg_keys_unit 的 PENDING 拿掉",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "pausedBy": "LAWWW-B",
+   "pausedReason": "剩下 4 張要使用者生成圖",
+   "resumeWhen": "使用者回來、BB 照 D97 給提示詞拿到圖",
+   "recheckOn": "使用者回來的那天或下一次發布"
+  },
+  {
+   "id": "AA447-DUPLINES-1024",
+   "title": "全遊戲重複台詞掃描的四件修正（AA_447）：以安紐約送機開頭、沛珊台南送行照第幾次換、以安機票那句、「是A，不是B」四句",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 下一輪瀏覽器順手看：去台南找沛珊第二次的送行、2030-08-11 紐約送機（2028 送過機的存檔）",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上第一次去台南找沛珊（第二次的送行）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 14:39Z（企劃線 a1bc53f4c，outbox e845a3793）",
+   "authorized": "D109、D111",
+   "notes": "LAWWW-B 10-24 14:5x：r2y4b_events.js（紐約送機兩個分支看 AN_SENDOFF went／together、機票那句看 AN_JP_TRIP_ASK go、「抖的是手，不是我」拿掉、公開課送行另寫）；hometown_lines.js 沛珊台南 send 照 PS_SEND 三版、hometown3d.js 送行句的函式多傳 n0（這一趟以前去過幾次）；白名單 D02、D09、wish_bb、BB_128 換 a1bc53f4c 重匯（date_lines.js、date_wish.js 各 2 行）；以安「我寫的是地圖，不是答案」照 AA 保留。tests：r2y4b_events_unit（+4）、peishan_tainan_unit（+3）、date_wish／date_book／date_lines_regress 換版本。"
+  },
+  {
+   "id": "BG-US-SEASON-1024",
+   "title": "美國篇四張季節對的背景（AA_448 第 2 節）：us_lake_summer（8/5、8/19）、us_lake_bare（11/23，沒有雪）、us_chapel_steps_snow（12/2 初雪兩場開頭，現在 dark）、us_farmers_market（8/26，現在暫用 us_chapel_steps）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "等待其他AI／素材",
+   "next": "BB 照 D97 寫提示詞向使用者要（BB_132，企劃線 1693b33fa）；圖到了 LAWWW 加 OUT.BG、照日期換 bg（10/10 照用 us_lake）",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/5 湖邊",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B AA_448（企劃線 b7c25dd14）；BB-B 10-24 14:56 鍵名",
+   "authorized": "D97、D100、D111",
+   "pausedReason": "等使用者生成圖",
+   "resumeWhen": "BB 交圖",
+   "xai": {
+    "spec": "AA_448 第 2 節、BB_132",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "四張圖通過 BB 檢查、放進 assets/bg",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 15:2x 開；圖來以前：12/2 初雪 bg dark（c32e36006）、湖邊照用 us_lake、市集照用 us_chapel_steps。"
+  },
+  {
+   "id": "ART-US-ROUTE-1024",
+   "title": "D99 路線巡查②美國交換（LAWWW2 美術總監巡查）：社區西邊出口外面補街道與對面平房、法圖彩色玻璃與天窗晚上變暗、美國校園路燈光圈",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：美國社區傍晚／晚上從西邊出口往公車站走、法學院圖書館（美國）21:00 看彩色玻璃與天窗、美國校園晚上路燈下；手機幀率（社區 +16k 三角形、+5 物件）",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/3 第一次出門",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 15:02 交付（127c62bcf；README docs/art-rebuild/second_ai/test_shots/route_us_1024/README.md）",
+   "authorized": "D99、D108、D111",
+   "xai": {
+    "spec": "LAWWW2 巡查表",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "單元測試＋改前改後截圖；BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 15:0x 整合：patch us_route_night_1024（us3d.js vtAt／skyTint、us_campus lampPools；tests/us_lamp_pools_unit.js、新 tests/us_lawlib_sky_unit.js）、us_community.glb＋.json＋tools/blender/env_second/us_community.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS。P3 記錄沒改：208 剛進門鏡頭退到門外平台、出境大廳柱子貼鏡頭。"
+  },
+  {
+   "id": "RELEASE-9109-TEST",
+   "title": "瀏覽器驗收 v9.10.9 的東西（開發分支 7770155b4 以後；v9.10.8 發布樹 63da1d633 之後進來的）並做發布判定",
+   "area": "QA",
+   "owner": "BB",
+   "status": "已驗收",
+   "next": "LAWWW 發布 v9.10.9；gongguan_layout_nav 另外兩處固定等下一版改；同行的人擋門口互動另開任務",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-24 15:1x",
+   "authorized": "D85、D100、D111",
+   "xai": {
+    "spec": "本任務 notes 的清單",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "每項 PASS／FAIL＋重現步驟；最後寫 GO／NO-GO",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "notes": "要驗：①美國法圖 2F 書庫（R19 LIB2F 四個，b43a86cdf）＋兩個看（f23a5b948）②經濟系 7/31 成績單（6de249582）③霖澤館 1F 公布欄＋玻璃門、徵才單（4229bbaf4）④社科院窗簾（b9d19d8a6）⑤普通／共同教室窗外景（aef97e506）、博雅二樓長窗（0a5835573）⑥上面樓層不投影子（becf772d4：普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）⑦室內路人 7 m 外換低面數（a42beb018：博雅一樓後排、Café、總圖 3F）⑧16 段不再黑底（45f1cd9e6、64397615a、7a7c4391b、a7a7a6ed8 鳳凰城機場）⑨AA_445（76fd3ce8b 大三寒假麵店一次、節日邀約分節日）、AA_446（6759ffce6 大二寒暑假訊息）⑩AA_447（9e5054eb7 紐約送機、台南送行、機票、是A不是B）⑪AA_448（c32e36006 美國校園換季、冷氣那句、初雪黑底）⑫美國路線巡查（7770155b4：社區西邊出口外面、法圖晚上彩色玻璃、校園路燈光圈、手機幀率）；發布前清單 docs/TESTING.md 第五節。",
+   "evidence": "BB-B 10-24 21:20 GO（BB_218「RELEASE-9109-TEST 判定」，企劃線 5e71b4ed9；release_9109_55eed589e_SUMMARY.txt）：12 項＋AA_449 全部 PASS；release_suite 630 項 628 PASS、2 FAIL 判定測試問題（gongguan_layout_nav 已改 bae6a039a、flow_library_scene 重跑 PASS）"
+  },
+  {
+   "id": "ECON-READ-1024",
+   "title": "經濟系那一年讀者那一輪（AA_449）：2/14 情人節問補習班、旁白主詞、阿勳鬧鐘只在住宿舍、韋綸新車那則、可昕 2/2 去過高雄的版本",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 下一輪經濟系 30 分鐘版順手看 2/14 結尾三句、2/2 22:30 訊息",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 0,
+    "earliest": "經濟系 2/2、2/14",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 15:33Z（企劃線 e3f697c0e）；D99 第一優先",
+   "authorized": "D99、D109、D111",
+   "notes": "LAWWW-B 10-24 15:4x 整合 AA_449（企劃線 e3f697c0e，outbox 6dd849b1b）：1-1～1-5 全做（1-5 可選也做）；tests：lifeline_g5（E27b 結尾三句、旁白主詞）、v0_kxphone（鬧鐘條件、新車那則）、v0_winter（2/2 兩版）、day2_whylaw（LEGIT 加一句）。"
+  },
+  {
+   "id": "ENGINE-SEASON-DUSK-1024",
+   "title": "傍晚天色照季節：E.applyTime 照日期把時鐘換成「光線用的時刻」（15:00→15:00、當天日落→18.95、21:00→21:00），同一個值給 zone.applyTime（窗景、路燈）；時鐘、作息、存檔不動；美國區域另一組日落表",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "v9.10.9 發布以後套 A（engine_season_dusk_1024.patch）＋B（engine_after_midnight_1024.patch）、跑 season_dusk／after_midnight＋燈光 17 支＋levels_no_sky、see_through；看 README 列的 12 處 z.applyTime(G.hour)",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 9,
+    "earliest": "經濟系 10 月以後的傍晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 15:48 路線巡查③（86df6950b README 第 1 項：台北日落表）",
+   "authorized": "D108、D111（LAWWW-B 決定做）",
+   "xai": {
+    "spec": "route_econ_1024/README.md 第 1 項",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "patch＋單元測試修改前 FAIL／修改後 PASS；改前改後同鏡頭截圖（11 月、12 月 17:45，7 月 18:30）；時鐘與作息不變",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。"
+  },
+  {
+   "id": "ART-PLAYER-SEASON-OUTFIT-1024",
+   "title": "玩家一年四季同一套長袖（LAWWW2 路線巡查③ P3 記錄）：夏天短袖、冬天外套",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲 9/1",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 10-24 15:48 路線巡查③ P3",
+   "authorized": "D111",
+   "pausedReason": "D99 夠用的素材凍結；不影響遊玩",
+   "resumeWhen": "D99 三項驗收完、或使用者提出",
+   "decidedBy": "LAWWW-B（D111）",
+   "nextCheck": "2026-10-31",
+   "xai": {
+    "spec": "route_econ_1024/README.md 第 3 項",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "—",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "只記錄",
+   "next": "暫停到 D99 三項驗收完；之後由 LAWWW2 提做法（換衣服的時機、存檔欄位）"
+  },
+  {
+   "id": "ART-BG-AWNINGS-1024",
+   "title": "醉月湖北邊遠景店面像布景（路線巡查③ P3）：北側第一排只有部分有店面、遠景招牌改低彩度（townkit3d bgGroundTex city；校園東南兩排、公館遠景備用一起變）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "next": "v9.10.9 發布以後套 patches/bg_city_awnings_1024.patch（疊在 ENGINE-SEASON-DUSK 上也乾淨）、跑 bg_city_awnings_unit＋校園／公館 Node 測試；BB 截醉月湖 15:00、20:00",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "經濟系宿營醉月湖",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 16:42 交（6a620726e；README bg_city_awnings_1024）",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "route_econ_1024 README P3",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "bg_city_awnings_unit 修改前 FAIL 4／修改後 PASS；同鏡頭截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。"
   }
  ]
 }

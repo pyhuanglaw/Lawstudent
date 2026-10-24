@@ -155,16 +155,18 @@ const USL=(function(){
   S.SIS_AWAY=[{from:['2028-11-11',7],to:['2028-11-12',21.75],away:'芝加哥'},{from:['2028-12-02',20],to:['2028-12-02',21.5],away:'小教堂前的台階'}];
   S.sisAwayAt=t=>{ for(const a of S.SIS_AWAY){ const t0=T(D(a.from[0]),a.from[1]), t1=T(D(a.to[0]),a.to[1]); if(t>=t0&&t<t1) return {away:a.away,to:a.to[1],toDay:D(a.to[0])}; } return null; };
   S.sisAway=G=>S.sisAwayAt(now(G));
+  S.lib2f=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES.us_lawlib_2f;   /* 法圖 2F 書庫（rooms_glb3d.js us_lawlib_2f，LAWWW2-B 10-24）有沒有 */
   S.sisAt=function(G){ if(!S.here(G)||!(G.day<D(S.CAL.leave))) return null; { const a=S.sisAway(G); if(a) return a.toDay===G.day?{away:a.away,to:a.to}:{away:a.away}; } const w=G.weekday, h=hh(G), oct=G.day>=D('2028-10-01');
-    if(w>=1&&w<=5){ if(h>=9&&h<12) return {zone:'us_lawlib',act:'read',to:12}; if(h>=12&&h<13) return null;   /* 草原超市旁的三明治店：3D 進來以前不出現 */
+    if(w>=1&&w<=5){ if(h>=9&&h<12){ if(S.lib2f()) return h<10.5?{zone:'us_lawlib',act:'read',to:10.5}:{zone:'us_lawlib_2f',act:'read',stand:true,to:12}; return {zone:'us_lawlib',act:'read',to:12}; }   /* AA_399 第 8 節：2F 書庫開了以後 9:00～10:30 一樓、10:30～12:00 二樓（站在書架之間翻判例彙編）*/ if(h>=12&&h<13) return null;   /* 草原超市旁的三明治店：3D 進來以前不出現 */
       if(w===3&&h>=14&&h<16+50/60) return {away:'研討課',to:16+50/60}; if(oct&&(w===2||w===4)&&h>=19&&h<21) return {away:'會所自習室',club:true,to:21}; if(h>=18&&h<21) return {zone:'us_shared',act:'sit',to:21}; return null; }
     return h>=14&&h<21?{zone:'us_shared',act:'sit',to:21}:null; };
   S.sisClub=G=>{ const a=S.sisAt(G); return !!(a&&a.club); };
   /* 手機「人」的「現在大概在」（game3d.js whereText：PLACES.names[zone]＋（看書，到 12:00））：美國的區域用 us3d.js 的區域名字 */
-  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
+  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street','us_lawlib_2f','us_bed_c']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
   /* 「現在大概在」：法學院圖書館只在玩家人在校園或圖書館時給區域（「帶我去」指得到路：校園有往圖書館的門）；其他地方只寫地名（美國的區域沒有在 guide3d.js 的 LINKS 裡）*/
   { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null; const until=a.to!=null?hm(a.to):null;
       if(a.away) return {zone:null,act:'',away:a.away,until}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208',until};
+      if(a.zone==='us_lawlib_2f'&&G.zone!=='us_lawlib_2f') return {zone:null,act:'看書',away:'法學院圖書館 2F 書庫',until};   /* 2F 沒有在 guide 的路線裡：不在 2F 只寫地名 */
       const act=a.act==='read'?'看書':'坐著'; if(G.zone===a.zone||G.zone==='us_campus') return {zone:a.zone,room:null,act,until};
       return {zone:null,act,away:(typeof PLACES!=='undefined'&&PLACES.names&&PLACES.names[a.zone])||'法學院圖書館',until}; }; }
   /* 3D：她照作息在法學院圖書館（看書）、C 棟 208（客廳的沙發；9/13 傍晚 US2 在廚房）*/
@@ -176,29 +178,30 @@ const USL=(function(){
     if(n&&n.uslSis&&!want){ const P=E.player&&E.player.obj&&E.player.obj.position, o=n.obj&&n.obj.position, d=P&&o?Math.hypot(P.x-o.x,P.z-o.z):99; if(d>5||(n.uslUntil!=null&&now(G)>n.uslUntil)) GM.removeNPC(S5); else if(n.uslUntil==null) n.uslUntil=now(G)+1/6; return; }
     if(!want||n||!GM.spawnCharacter||(typeof EVENTS!=='undefined'&&EVENTS.running)) return;
     const us2=G.zone==='us_shared'&&G.day===D('2028-09-13')&&hh(G)>=17.9&&hh(G)<19.5;   /* US2：她在廚房煮麵（r2y4a3d.js 的 ev_us2_kitchen）*/
+    if(a.stand){ const sp=E.zone&&E.zone.spots&&E.zone.spots.sis; const m=sp?GM.spawnCharacter(S5,sp.x,sp.z,{yaw:sp.yaw||0}):null; if(m) m.uslSis=true; return; }   /* 2F 書庫：站在東邊迴廊的走道口（spots.sis）*/
     const seat=us2?null:seatOf(E,G.zone); const m=seat?GM.spawnCharacter(S5,seat.x,seat.z,{seat,pose:a.act==='read'?'read':'sit'}):GM.spawnCharacter(S5,us2?-3.2:0.4,us2?2.0:3.6,{yaw:us2?Math.PI:-Math.PI/2});
     if(m){ m.uslSis=true; if(seat&&a.act==='read') m.idlePose='read'; } };
   /* SU 閒聊階梯（AA_340 4-5）：美國路線從抵達隔天（8/3）就開始算（8/3～9/3 沒有台灣的學期也用大四上那一份）；L7、L8 的週次照大四上（11/6、11/27 以後）*/
   /* AA_345 I5：SU 那幾層的地點多法學院圖書館（us_lawlib），只在平日 11:30～12:00（ladder.js 是匯入的、不手改：這裡包一層，換成多了地點的副本）*/
   const SU_LIB={weekday:[1,2,3,4,5],time:[11.5,12]}, suCache=new WeakMap();
   const suLib=r=>{ if(!r||!r.L||!Array.isArray(r.L.steps)) return r; let L=suCache.get(r.L);
-    if(!L){ L=Object.assign({},r.L,{steps:r.L.steps.map(st=>st&&/^SU-L/.test(st.id||'')&&Array.isArray(st.location)&&!st.location.includes('us_lawlib')?Object.assign({},st,{location:st.location.concat(['us_lawlib']),locTime:Object.assign({},st.locTime||{},{us_lawlib:SU_LIB})}):st)}); suCache.set(r.L,L); }
+    if(!L){ L=Object.assign({},r.L,{steps:r.L.steps.map(st=>st&&/^SU-L/.test(st.id||'')&&Array.isArray(st.location)&&!st.location.includes('us_lawlib')?Object.assign({},st,{location:st.location.concat(['us_lawlib','us_lawlib_2f']),locTime:Object.assign({},st.locTime||{},{us_lawlib:SU_LIB,us_lawlib_2f:SU_LIB})}):st)}); suCache.set(r.L,L); }
     return Object.assign({},r,{L}); };
   { const ld0=STORY.ladData; STORY.ladData=function(G,id){ const r=ld0.apply(this,arguments); if(id!==S5||!S.here(G)) return r; if(r) return suLib(r); if(G.day<S.dep()+1) return r;
       const B=typeof LADDER!=='undefined'&&LADDER.byTerm; const L=B&&B.Y4S1&&B.Y4S1[S5]; return L?suLib({L,term:'Y4S1',key:S5+'@Y4S1'}):r; }; }
   /* 圖書館 09:00～11:30（AA_345 I5）：和她說話是圖書館的一般閒聊（SMALLTALK：原本的「……我沒事。只是沒睡。」＋三句，交往中；挽回中只有原本那一句）——
      不走階梯的招呼（原本 ladderTalk 沒有下一層就說 greet 的句子，像「我剛從圖書館回來。」，smallTalk 輪不到）*/
-  S.libChat=G=>!!G&&S.here(G)&&G.zone==='us_lawlib'&&G.weekday>=1&&G.weekday<=5&&hh(G)>=9&&hh(G)<11.5;
+  S.libChat=G=>!!G&&S.here(G)&&(G.zone==='us_lawlib'||G.zone==='us_lawlib_2f')&&G.weekday>=1&&G.weekday<=5&&hh(G)>=9&&hh(G)<11.5;
   { const lt0=STORY.ladderTalk; STORY.ladderTalk=async function(GM,who,id,mode){ const G=GM&&GM.G; if(id===S5&&S.libChat(G)) return false; return lt0.apply(this,arguments); }; }
   /* 在圖書館演 SU 那一層：先一句旁白（她把書收進包包，走到外面才開口）*/
-  { const lp0=STORY.ladPlay; STORY.ladPlay=async function(GM,who,id,st){ const G=GM&&GM.G; if(id===S5&&G&&S.here(G)&&G.zone==='us_lawlib'&&st&&/^SU-L/.test(st.id||'')) await GM.say(null,X.suLibOpen); return lp0.apply(this,arguments); }; }
+  { const lp0=STORY.ladPlay; STORY.ladPlay=async function(GM,who,id,st){ const G=GM&&GM.G; if(id===S5&&G&&S.here(G)&&(G.zone==='us_lawlib'||G.zone==='us_lawlib_2f')&&st&&/^SU-L/.test(st.id||'')) await GM.say(null,X.suLibOpen); return lp0.apply(this,arguments); }; }
 
   /* ======================= S5 會所（2D：交誼廳＋自習室）、S11 何俊朗的招呼 ======================= */
   S.clubOpen=G=>{ const h=hh(G); return h>=8&&h<23; };   /* AA_291 第 3 節：每天 08:00～23:00 */
   S.longHere=G=>{ if(!LONG(G)||!S.here(G)) return false; const h=hh(G), w=G.weekday; if(G.day===D('2028-12-09')) return h>=19&&h<22; return w>=1&&w<=5&&h>=19&&h<22&&G.day<D(S.CAL.leave)&&!inR(G.day,S.CAL.thanks)&&!inR(G.day,S.CAL.fall); };   /* 平日 19～22；12/9（六）在（G7）；秋假 10/9～10/13 他在芝加哥找朋友（AA_291 2-1、AA_370 L4）*/
   /* 何俊朗的招呼（AA_291 3-1；一天一句輪流）＋G5、G7、4-1 的變化 */
   S.longGreet=function(G){ const R=S.rec(G), F=G.flags||{}; if(G.day===D('2028-12-09')) return [X.long1209];
-    const ok=X.longGreet.filter(q=>(!q.haihao||F.LONG_HAIHAO)&&(!q.thu||G.weekday===4)&&(!q.beforeDST||G.day<D('2028-11-05')));
+    const ok=X.longGreet.filter(q=>(!q.haihao||F.LONG_HAIHAO)&&(!q.thu||G.weekday===4)&&(!q.beforeDST||G.day<D('2028-11-05'))&&(!q.summer||G.day<D('2028-10-09')));   /* summer：夏末那一季（10/8 以前；十月中以後室內開暖氣，AA_448 1-2）*/
     let g=R.greet; if(g.day!==G.day){ R.greet={day:G.day,n:((g.n|0)+(g.day!=null?1:0)),t:null}; g=R.greet; } if(!g.t) g.t=ok.length?ok[g.n%ok.length].t:X.longGreet[0].t;
     const out=[g.t]; if(G.day>=D('2028-11-13')&&G.day<=D('2028-11-21')){ out.push(X.longThanks); if(F.LONG_HAIHAO) out.push(X.longHaihao); }
     if(S.sisClub(G)&&dating(G)) out.push(X.longSisThere); return out; };
@@ -241,13 +244,15 @@ const USL=(function(){
   S.c208Closed=G=>dating(G)&&G.weekday>=1&&G.weekday<=5&&G.hour>=18?X.looks.c208Eve:X.looks.c208;
   /* AA_444：臥室 C（學姊的房間）的「看」；窗外照日期（12/2 初雪起、11/1、10/1、8/2），去過她臺灣 5F 研究室（G.visited.linze_5f：研究室在 5F，只有她開門才上得去；5F 演的出遊也算）多一句 */
   S.roomCLook=function(G,label){ const R=X.looks.roomC; if(!R) return null; if(label==='她的書桌') return R.desk.slice(); if(label==='書架') return R.shelf.slice();
-    if(label==='窗外'){ const w=R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
+    if(label==='窗外'){ const K={snow:'2028-12-02',bare:'2028-11-01',autumn:'2028-10-01',summer:'2028-08-02'}, sk=typeof US3!=='undefined'&&US3.usSeasonKey?US3.usSeasonKey():null;   /* 窗外那句跟窗景圖同一個季節（us3d.js usSeasonKey：秋天 10/9 起；BB-B 10-24：10/1～10/8 字黃圖綠）*/
+      const w=sk&&K[sk]?R.win.find(q=>q[0]===K[sk]):R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
     if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }
     if(it.usBus==='campus'){ const c=S.openItem(G); if(c){ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'直接去上課：'+c.c.name,hint:hm(c.t0)+'–'+hm(c.t1)},{t:it.label||'搭公車（去學校）'}]); } finally { GM.sceneEnd(); } if(k===0){ await S.attend(GM,c); return true; } } return false; }
     if(it.usClass==='law'){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
+    if(G.zone==='us_lawlib_2f'&&X.looks.lib2f&&X.looks.lib2f[it.label]&&!it.exit){ GM.sceneBegin(); try{ for(const t of X.looks.lib2f[it.label]) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; }   /* AA_444 第 4 節：往三樓的樓梯、木梯（各兩句）*/
     if(G.zone==='us_bed_c'){ const L=S.roomCLook(G,it.label); if(L){ GM.sceneBegin(); try{ for(const t of L) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; } }   /* AA_444 第 2 節：書桌、書架、窗外 */
     if(it.usShared==='door'&&!S.c208Open(G)){ GM.caption('',S.c208Closed(G),4600); return true; }   /* 其他時間門關著（AA_291 第 3 節）；字是旁白（AA_345 I7）*/
     if(it.usClub==='door'){ const d4=D(S.CAL.labor), h=hh(G);

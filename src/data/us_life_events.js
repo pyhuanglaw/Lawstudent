@@ -229,7 +229,7 @@ const US_LIFE_EVENTS=(function(){
       {d:'2028-12-13',h:15,t:'比較憲法的期末報告交出去了。最後一頁的參考資料，比正文還長。'},
       {d:'2028-12-15',h:12,t:'最後一份備忘錄。教授在你那份上面只寫了一個字：Clear.'} ],
     /* AA_291 3-1：會所自習室，何俊朗的招呼（有 MET_LONG 以後，平日 19:00～22:00；一天一句輪流）。when：那一句什麼時候才有 */
-    longGreet:[ {t:'欸，台灣人。這裡有位。'}, {t:'你讀什麼？……我讀到第三次還是不懂。'}, {t:'我剛剛買了奶茶。不好喝。還好。',haihao:true}, {t:'明天 Legal Writing 交作業。你寫完了沒有？',thu:true}, {t:'冷氣好冷。美國人是不是都不怕冷？',beforeDST:true} ],
+    longGreet:[ {t:'欸，台灣人。這裡有位。'}, {t:'你讀什麼？……我讀到第三次還是不懂。'}, {t:'我剛剛買了奶茶。不好喝。還好。',haihao:true}, {t:'明天 Legal Writing 交作業。你寫完了沒有？',thu:true}, {t:'冷氣好冷。美國人是不是都不怕冷？',summer:true} ],
     longThanks:'感恩節你去哪？……我沒地方去。',   /* G5：11/13～11/21 招呼多一句（有 LONG_HAIHAO 的多「還好。」）*/
     longHaihao:'還好。',
     long1209:'下禮拜考完，我就要回香港了。……你們什麼時候走？',   /* G7：12/9（六）招呼換這一句 */
@@ -266,7 +266,10 @@ const US_LIFE_EVENTS=(function(){
         desk:['（書桌上疊著三本很厚的判例教科書，公司法那一本貼滿了便利貼。筆電旁邊，螢光筆照顏色排好。）','（牆上貼著一張讀書計畫，鉛筆寫的，一天一格。週六、週日下午那兩格是空白的。）'],
         shelf:['（書架下面兩層是判例彙編，書背貼著圖書館的標籤。上面一層是筆記本，側邊都寫了科目。）','（最旁邊夾著幾本中文書：從臺灣帶來的民法、公司法，還有一本書角翻軟了的小說。）'],
         win:[['2028-12-02','（窗外的樹枝上留著一點雪。窗台上也有。）'],['2028-11-01','（窗外的樹只剩幾片葉子，看得到對面那棟樓的窗戶了。）'],['2028-10-01','（窗外那棵樹變黃了。靠窗的那一邊先變。）'],['2028-08-02','（窗外是一棵很大的樹，葉子擋住半個窗戶。）']],
-        winLab:'（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）' },   /* AA_345 I7：C 棟 208 不能敲門（交往中、平日晚上／挽回中）*/
+        winLab:'（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）' },
+      /* AA_444 第 4 節（企劃線 540e1d3fb）：法學院圖書館 2F 書庫的兩個「看」（書架那一句照 AA_399，在 rooms_glb3d.js 的 LOOK）*/
+      lib2f:{ '樓梯（三樓）':['（往三樓的樓梯口拉著一條紅色絨繩。立牌上只畫了一張卡片和一把鎖。）','（三樓要刷法學院自己學生的卡。你的卡刷不過。）'],
+        '木梯':['（東邊那一架書靠著一把木梯，踏板磨得發亮。）','（最上層那一排判例彙編，書背印的年份是一九六〇年代。）'] },   /* AA_345 I7：C 棟 208 不能敲門（交往中、平日晚上／挽回中）*/
       marketFall:'（入口堆滿了南瓜和火雞。火雞比你想的大很多。）', railSnow:'（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）', mooncake:'（月餅擺在結帳台旁邊。你買了一盒。）' },
     /* AA_287（AA-C 2026-10-18）：美國區域「看」的文字（只換字串，不動判斷）。函式＝依美國當地日期換（AA_213 2-1）*/
     aa287:{
@@ -292,4 +295,4 @@ const US_LIFE_EVENTS=(function(){
 })();
 Array.prototype.push.apply(STORY_EVENTS,US_LIFE_EVENTS.EV);
 /* 法學院圖書館的一般閒聊（AA_345 I5）：學姊的 SMALLTALK 多三句——只在美國的法學院圖書館（us_lawlib）09:00～11:30、交往中；和原本的「……我沒事。只是沒睡。」輪流 */
-if(typeof SMALLTALK!=='undefined'){ const L=SMALLTALK.heroine_05||(SMALLTALK.heroine_05=[]); for(const t of US_LIFE_EVENTS.DATA.libTalk) if(!L.some(e=>e&&e.t===t)) L.push({t,location:['us_lawlib'],time:[9,11.5],if:{custom:US_LIFE_EVENTS.dating}}); }
+if(typeof SMALLTALK!=='undefined'){ const L=SMALLTALK.heroine_05||(SMALLTALK.heroine_05=[]); for(const t of US_LIFE_EVENTS.DATA.libTalk) if(!L.some(e=>e&&e.t===t)) L.push({t,location:['us_lawlib','us_lawlib_2f'],time:[9,11.5],if:{custom:US_LIFE_EVENTS.dating}}); }

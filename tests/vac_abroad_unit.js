@@ -206,6 +206,9 @@ GM.money=function(n){ G.money+=n; };
       PHONE.answer(G,'vac_c01ask_Y4',0); STORY.phoneRules(GM); const q4=OUT.get(G,'vac_c01_Y4'); check('17. 大四集合的標題「禮拜二 08:50 臺北車站集合」',!!q4&&q4.day===d4&&q4.title==='海邊一日遊（禮拜二 08:50 臺北車站集合）',q4&&q4.title); }
     { const d4=VAC.c01Day('Y4'); fresh(VAC.c01Ask(d4),21,'dorm',{VA03_BEACH:'went'}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21,21.2);
       check('17. 大四第二次：「今年還去海邊嗎」「禮拜一元旦 改禮拜二」',txt('g:noodle_team').includes('zhe:禮拜一元旦 改禮拜二')); }
+    // 17c. AA_446 第 3 節：沒去海邊的那一則照年份換（大二 Alison 兩句＋芯慈一句）
+    { const d2=VAC.c01Day('Y2'); fresh(VAC.c01Ask(d2),21.2,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); PHONE.tick(G); G.day=d2; G.hour=18.2; STORY.phoneRules(GM); PHONE.tick(G); const N=txt('g:noodle_team');
+      check('17c. 大二沒去：「📷（大家站在防波堤上，頭髮都被吹歪）」「今年的風比去年大！！」、芯慈「我在家看照片就好。」（AA_446 第 3 節）',N.includes('yu:📷（大家站在防波堤上，頭髮都被吹歪）')&&N.includes('yu:今年的風比去年大！！')&&N.includes('classmate_xinci:我在家看照片就好。')&&!N.includes('yu:好冷但好好玩'),JSON.stringify(N.slice(-4))); }
     // 17b. 大二以後才第一次去（AA_264 第 4 節 e01ee2a8）：照 AA_204 第 3 節演整段，換三句
     fresh(da,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:25}); run(21,21.8); const Z1=txt('g:noodle_team').filter(t=>!/人擠人|人超多|我明天回高雄/.test(t));   /* 大二 1/1 也有跨年的群組訊息（AA_210）*/
     check('17b. 大一沒去過：大二揪人那天 21:05 照 AA_204 3-1 揪，阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」；以安 FAMILIAR 在臺北＝「我可以。幾點集合？」',Z1[0]==='zhe:禮拜一去海邊？過幾天我就回高雄了'&&Z1.includes('classmate_bohan:火車九點十分有一班。')&&Z1.includes('heroine_01:我可以。幾點集合？')&&!Z1.includes('zhe:今年還去海邊嗎')&&G.flags.VA03_AN===true,JSON.stringify(Z1));

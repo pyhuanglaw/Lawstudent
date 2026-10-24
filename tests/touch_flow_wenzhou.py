@@ -137,7 +137,11 @@ async def main():
         check('走到 Café 門口出現「進入兩點半 Café」', '兩點半' in st['interact'], st)
         ov = await pg.evaluate("(()=>{ const a=document.getElementById('interact').getBoundingClientRect(), j=document.getElementById('joy').getBoundingClientRect(); return !(a.right<j.left||a.left>j.right||a.bottom<j.top||a.top>j.bottom); })()")
         check('互動按鈕不會蓋住搖桿', not ov)
-        await t.tap_el('#interact'); await pg.wait_for_timeout(5000)
+        await t.tap_el('#interact')
+        # 換區域要載入 Café：機器忙的時候（SwiftShader 1～4 fps）5 秒不一定換完，等到換區域或出現對話（最多 20 秒），不是固定等 5 秒（LAWWW-B 10-24：release_suite 在忙的機器上 FAIL、BB 那台 PASS）
+        for i in range(40):
+            await pg.wait_for_timeout(500)
+            if await pg.evaluate("(GAME.G&&GAME.G.zone==='cafe')||!document.getElementById('dlg').classList.contains('hide')"): break
         await advance_dialogue(pg, t)
         st = await state(pg); check('進入 Café', st['zone'] == 'cafe', st)
         await pg.screenshot(path=SHOTS+'/flow_03_cafe_inside.png')

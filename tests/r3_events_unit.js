@@ -484,7 +484,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
       check('16. 老街「我室友說這攤一定要吃。……其實我也是第一次來。」；12/10 以後、沒交往、去過台南：當面看孩子的作業（3-19 裁定 25）', has('我室友說這攤一定要吃。……其實我也是第一次來。')&&has('（一張孩子的作業，最上面寫著：老師我長大要當法官）')&&has('我回他：那你要先學會寫字。')&&G.flags.PS_KID_SHOWN===true);
       said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}}); check('16. 孩子的作業只看一次；運河「欸，那艘船是不是一直停在那裡？」「它在等什麼啊？」', !has('我回他：那你要先學會寫字。')&&has('欸，那艘船是不是一直停在那裡？')&&has('它在等什麼啊？'));
       fresh(D('2027-12-15'),10.5,'dorm',{PS_TAINAN_VISITS:1,HV_N:{[ID+'@台南']:1}}); date(ID); said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
-      check('16. T3 交往中：送車「下次待久一點。末班車太早了。」；不演孩子的作業（交往中是 12/10 的私訊）', said[said.length-1].t==='下次待久一點。末班車太早了。'&&!has('我回他：那你要先學會寫字。'));
+      check('16. T3 交往中（第二次去）：送車「下次你搭晚一點的那班。我查過了，有一班十點的。」（AA_447 1-2 照第幾次換）；不演孩子的作業（交往中是 12/10 的私訊）', said[said.length-1].t==='下次你搭晚一點的那班。我查過了，有一班十點的。'&&!has('我回他：那你要先學會寫字。'));
       fresh(D('2027-07-10'),12,'dorm'); date(ID); tainan=false; { const o=HV.offer(G,ID); check('16. 寒暑假在台中：照台中那一組（「我去台中找妳？」）', HV.key(G,ID)===ID&&(!o||HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台中找妳？')); }
     } finally { STORY.presence=P0; } }
 

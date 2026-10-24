@@ -145,10 +145,10 @@ const date=id=>H.date(id);
     check('2-Y4-36「我去。」→ 出遊 4/14 14:00 台南（高鐵）', !!q&&q.day===D('2029-04-14')&&q.h===14&&/高鐵/.test(q.travel));
     global.CG_REGISTRY.cg_whiteboard_why_peishan={file:'x.webp',title:'t'}; at('2029-04-14',11.8); await goOut('y4_ps_open',[1]); delete global.CG_REGISTRY.cg_whiteboard_why_peishan;
     const last='……我們家的榜單還貼著。旁邊多貼了一張。';
-    check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你跑這麼遠！」；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要去當老師。我本來不懂。')&&has('可是她站在前面的樣子，跟她高中講法律的時候不一樣。')&&has(last)&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（傍晚，她陪你坐車到高鐵站。）')&&has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
+    check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你來看我上課！」（AA_447 1-2：和去台南找她的送行分開）；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要去當老師。我本來不懂。')&&has('可是她站在前面的樣子，跟她高中講法律的時候不一樣。')&&has(last)&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）')&&has('謝謝你來看我上課！到臺北傳給我喔。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
     at('2029-04-14',21.2); phone(); check('2-Y4-36 去了的：當晚沒有「媽媽來了」那一則', !th('p:classmate_peishan').some(t=>/媽媽來了/.test(t))); }
   { fresh('2029-04-14',11.8,'dorm'); PSB(); date('classmate_peishan'); OUT.plan(H.G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:D('2029-04-14'),h:14,place:'台南',title:'t',travelH:2}); await goOut('y4_ps_open',[0]);
-    check('2-Y4-36 交往中：送站那一句換「下次待久一點。末班車太早了。」；「沒有。」→「你騙人。……好，我當你沒看到。」；CG 沒登錄＝不放', has('下次待久一點。末班車太早了。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&has('你騙人。……好，我當你沒看到。')&&!H.cgs.length); }
+    check('2-Y4-36 交往中：送站那一句換「你坐最後一排，我一直看到你。……害我講錯一題。」（AA_447 1-2）；「沒有。」→「你騙人。……好，我當你沒看到。」；CG 沒登錄＝不放', has('你坐最後一排，我一直看到你。……害我講錯一題。')&&!has('下次待久一點。末班車太早了。')&&!has('謝謝你來看我上課！到臺北傳給我喔。')&&has('你騙人。……好，我當你沒看到。')&&!H.cgs.length); }
   { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone(); answer('y4_ps_open',1); at('2029-04-14',21); phone(); PHONE.tick(H.G);
     check('P2 沒去（「那天不行。」→「好～那我拍照給你看。」）：當晚「媽媽來了。她坐最後一排。……」；沒有 CG；PS_OPEN_CLASS missed', th('p:classmate_peishan').includes('好～那我拍照給你看。')&&th('p:classmate_peishan').includes('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。')&&H.G.flags.PS_OPEN_CLASS==='missed'&&!OUT.get(H.G,'y4_ps_open')); }
   { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();
@@ -315,9 +315,17 @@ const date=id=>H.date(id);
     at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
     check('C1 8/10 21:00 阿哲「明天以安的飛機」「早上十點 桃園 要去的舉手」；8/11 朋友版「你們不用全部都來的。」「回來的時候，我會在事務所。你來找我，要預約。」；AN_NY_SENDOFF went', th('g:noodle_team').includes('明天以安的飛機')&&th('g:noodle_team').includes('早上十點 桃園 要去的舉手')&&has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')&&has('……嗯。')&&!has('……你不用預約。')&&H.G.flags.AN_NY_SENDOFF==='went'); }
   { fresh('2030-03-28',18.4,'dorm',GD); ANF(); date('heroine_01'); OUT.plan(H.G,{id:'y6_an_col',ev:'ev_an_columbia',day:D('2030-03-28'),h:19,place:'阿鳳麵店',title:'t',travelH:0.5}); await goOut('y6_an_col',[1,1]);
-    check('C2 交往中：「八月走。一年。」（她看著你，等你說話。）→「我去紐約找妳。」→「好。機票你自己訂，行程我排。」', has('確定。寫信的時候手有一點抖。抖的是手，不是我。')&&has('八月走。一年。')&&has('（她看著你，等你說話。）')&&has('好。機票你自己訂，行程我排。'));
+    check('C2 交往中：「八月走。一年。」（她看著你，等你說話。）→「我去紐約找妳。」→「好。機票你自己訂，行程我排。」', has('確定。寫信的時候手有一點抖。')&&!has('抖的是手，不是我。')&&has('八月走。一年。')&&has('（她看著你，等你說話。）')&&has('好。機票你自己訂，行程我排。'));
     OUT.plan(H.G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:D('2030-08-11'),h:10,place:'桃園機場',title:'t',travelH:1}); at('2030-08-11',8.9); await goOut('y6_an_ny',[1]);
     check('C2 8/11 交往版：先跟大家說完「你們不用全部都來的。」才轉過來；「紐約比臺北慢十二個小時。……」「……你不用預約。」；（抱她一下）', iOf('（看了一下手錶）你們不用全部都來的。')>=0&&iOf('紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。')>iOf('（看了一下手錶）你們不用全部都來的。')&&has('每天一句就好。')&&has('……你不用預約。')&&has('（她很快地回抱了一下，轉身走進去。走到一半回頭，揮了一下手。）')); }
+  { fresh('2030-03-28',18.4,'dorm',GD); ANF(); date('heroine_01'); H.G.flags.AN_SENDOFF='went'; H.G.flags.AN_JP_TRIP_ASK='go'; OUT.plan(H.G,{id:'y6_an_col',ev:'ev_an_columbia',day:D('2030-03-28'),h:19,place:'阿鳳麵店',title:'t',travelH:0.5}); await goOut('y6_an_col',[1,1]);
+    check('AA_447 1-3 答應過日本七夕（AN_JP_TRIP_ASK go）：「好。跟上次一樣，機票你自己訂，行程我排。」，沒有原句', has('好。跟上次一樣，機票你自己訂，行程我排。')&&!has('好。機票你自己訂，行程我排。'));
+    OUT.plan(H.G,{id:'y6_an_ny',ev:'ev_an_ny_sendoff',day:D('2030-08-11'),h:10,place:'桃園機場',title:'t',travelH:1}); at('2030-08-11',8.9); await goOut('y6_an_ny',[1]);
+    check('AA_447 1-1 送過她去日本（AN_SENDOFF went）交往版：前三句換「兩年多前送她去日本，也是這個門口」「……我上次也說過。」「上次你也知道我們會來。」，沒有照抄的三句；後面照常', has('（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）')&&has('（看了一下手錶）……我上次也說過。你們不用全部都來的。')&&has('上次你也知道我們會來。')&&!has('（桃園機場，出境的門口。麵店團站成一排。）')&&!has('（看了一下手錶）你們不用全部都來的。')&&!has('要。')&&has('紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。')); }
+  { fresh('2030-08-10',20,'dorm',GD); ANF(); H.G.flags.AN_SENDOFF='together'; at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
+    check('AA_447 1-1 日本路線一起出發（AN_SENDOFF together）朋友版：換句的三句；「回來的時候，我會在事務所。」照常', has('（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）')&&has('上次你也知道我們會來。')&&!has('（看了一下手錶）你們不用全部都來的。')&&has('（轉向你）回來的時候，我會在事務所。你來找我，要預約。')); }
+  { fresh('2030-08-10',20,'dorm',GD); ANF(); H.G.flags.AN_SENDOFF='missed'; at('2030-08-10',21); pg(); answer('y6_an_ny',0); phone(); at('2030-08-11',8.9); await goOut('y6_an_ny',[0]);
+    check('AA_447 1-1 2028 沒去送機（missed）：照原本三句', has('（桃園機場，出境的門口。麵店團站成一排。）')&&has('（看了一下手錶）你們不用全部都來的。')&&!has('上次你也知道我們會來。')); }
   { fresh('2030-03-27',20,'dorm',GD); ANF(); at('2030-03-27',21); pg(); answer('y6_an_col',1); at('2030-03-28',22); pg();
     check('G6-50 3/27 選「那天不行。」：以安回「好。……那我寫在群組。」（AA_345 G6）；3/28 22:00 群組「哥大上了。八月去紐約。」照常；沒有排麵店', (()=>{ const T=th('p:heroine_01'), i=T.indexOf('那天不行。'); return i>=0&&T[i+1]==='好。……那我寫在群組。'; })()&&th('g:noodle_team').includes('哥大上了。八月去紐約。')&&!OUT.get(H.G,'y6_an_col'), JSON.stringify(th('p:heroine_01'))); }
   { const ML=SOCIAL.MEMORY_LABEL; check('G7 人物面板名稱定稿（AA_345 第 4 節）：AN_GRAD_PASS「她研究所放榜那晚，在麵店」、AN_COLUMBIA「她說哥大上了，八月要去紐約」', ML.AN_GRAD_PASS==='她研究所放榜那晚，在麵店'&&ML.AN_COLUMBIA==='她說哥大上了，八月要去紐約', JSON.stringify([ML.AN_GRAD_PASS,ML.AN_COLUMBIA])); }
@@ -435,7 +443,7 @@ const date=id=>H.date(id);
     at('2028-08-07',9); phone();
     check('2-Y4-57 T1（第 4 階以下）：8/3 不另外傳「到了。」（AA_378 S1 更正 5cd35678：8/3 09:00 家族群組已經有 US0）；臺灣週一 09:00 第一則「我買了一罐太大的花生醬。」；SIS_ABROAD_TIER 1', JSON.stringify(arr)==='[]'&&JSON.stringify(th('p:heroine_05'))===JSON.stringify(['（照片：超市的花生醬貨架）','我買了一罐太大的花生醬。'])&&H.G.flags.SIS_ABROAD_TIER===1);
     at('2028-08-14',9); phone(); const n1=th('p:heroine_05').length; at('2028-08-21',9); phone();
-    check('2-Y4-57 T1 兩週一則、照順序（第二則「這邊的圖書館開到半夜兩點。」）', n1===2&&th('p:heroine_05').includes('這邊的圖書館開到半夜兩點。')); }
+    check('2-Y4-57 T1 兩週一則、照順序（第二則「這邊的圖書館整晚開著。……以後我十二點就走。」）', n1===2&&th('p:heroine_05').includes('這邊的圖書館整晚開著。……以後我十二點就走。')); }
   { fresh('2028-08-06',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); at('2028-08-07',9); phone(); const m=PHONE.byAsk(H.G,'y4_sa_t2_0');
     check('2-Y4-57 T2（第 4～5 階）：兩週一則（AA_378 S1），會問你的事、要有回覆按鈕（「還好，不算太滿。」／「很滿。」）；她不再回', th('p:heroine_05').includes('論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。')&&th('p:heroine_05').includes('你大四上的課排得怎樣？')&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='還好，不算太滿。|很滿。'&&(answer('y4_sa_t2_0',0),th('p:heroine_05').slice(-1)[0]==='還好，不算太滿。')); }
   { fresh('2028-08-05',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-08-06',8); phone(); const q=OUT.get(H.G,'y4_sa_v_0');
@@ -454,6 +462,7 @@ const date=id=>H.date(id);
     check('SA2「十月有一個禮拜的秋假。我想開車去大峽谷。」「……一個人開太遠。你要不要來？」→「我去。」→「好。我去機場接你。」→ 行事曆 10/7（桃園機場，機票家裡出）', has('十月有一個禮拜的秋假。我想開車去大峽谷。')&&has('……一個人開太遠。你要不要來？')&&has('好。我去機場接你。')&&H.G.flags.SIS_CANYON_ASK==='go'&&!!OUT.get(H.G,'y4_sis_canyon')&&OUT.get(H.G,'y4_sis_canyon').day===D('2028-10-07'));
     at('2028-10-07',5.9); H.G.money=100; await goOut('y4_sis_canyon',[1]);
     check('SA2 10/7 到鳳凰城「路線我排好了。你坐副駕，負責放音樂。」；SA4 10/10「她停下來等你」不牽手；日落不說話 →「那我先說。」→ 交往、CALLED_SHUYU；10/14「十二月二十三號，晚上八點落地。你來接我。」；不扣錢', has('路線我排好了。你坐副駕，負責放音樂。')&&has('（她在步道上走得比你快。走到一半，她停下來等你。）')&&!has('（她在步道上走得比你快。走到一半，她回頭把手伸給你。）')&&has('那我先說。')&&has('我喜歡你。……我想了很久，要不要在這裡說。')&&has('你要說好，還是要我再說一次。')&&H.G.flags.dating_heroine_05===true&&H.G.flags.CALLED_SHUYU===true&&H.G.flags.SIS_CANYON==='confess'&&has('十二月二十三號，晚上八點落地。你來接我。')&&!paid.length);
+    check('BG-DARK-70 鳳凰城的機場用 us_airport（不是黑底）', (()=>{ const e=R2Y4B_EVENTS.find(x=>x.id==='ev_sis_canyon'); const l=e.dialogue.find(x=>x.scene==='鳳凰城的機場'); return !!l&&l.bg==='us_airport'&&!!OUT.BG.us_airport; })());
     check('2-Y4-57 這一趟算 2 次正式約會、也算她的心願地點；回到臺北是 10/15 晚上', (DATE.log(H.G,'heroine_05').count|0)===4&&DATE.log(H.G,'heroine_05').wish===true&&H.G.day>=D('2028-10-15')); }
   { fresh('2028-10-07',6,'dorm',{SIS_CANYON_ASK:'go'},'TW'); SAok(); OUT.plan(H.G,{id:'y4_sis_canyon',ev:'ev_sis_canyon',day:D('2028-10-07'),h:7,place:'桃園機場',title:'t',travelH:1}); await goOut('y4_sis_canyon',[0]);
     check('2-Y4-57「學姊，我喜歡妳。」→「……我以為我要先說。」「好。」→ 交往', has('……我以為我要先說。')&&has('好。')&&H.G.flags.dating_heroine_05===true); }

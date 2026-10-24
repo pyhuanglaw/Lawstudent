@@ -72,16 +72,16 @@ const HOLFF=(function(){
      AA_350 S1、S2（2026-10-21）：大三寒假只回去過年（1/24 17:00、1/28 20:00 兩則）；大三暑假七月要補習（6/27 20:00、7/2 20:00 兩則）。在新竹的日子在 characters.js 的 presence */
   const NT='g:noodle_team';
   S.HOME_MSGS=[
-    {tag:'hol_y2w_bh_home',day:'2027-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。']]},
-    {tag:'hol_y2w_an_home',day:'2027-02-01',h:15,an:['回台中了。','📷（車窗外的田）']},
-    {tag:'hol_y2w_bh_back',day:'2027-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。']]},
-    {tag:'hol_y2w_zhe_back',day:'2027-02-20',h:19,th:NT,ms:[['zhe','我回來了！高雄帶了吃的，開學那天拿去給你們']]},
-    {tag:'hol_y2w_an_back',day:'2027-02-21',h:18,an:['回臺北了。']},
-    {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。']]},
-    {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','麵店團不能斷喔']]},
-    {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（高鐵窗外的田）'],['heroine_01','回台中了。8 號回去。']]},
-    {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。台中好熱。']]},
-    {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','誰要吃麵']]},
+    {tag:'hol_y2w_bh_home',day:'2027-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。債總帶回去了，2/19 回來。']]},   /* AA_446 第 1、2 節（企劃線 443360cc0）：大二寒暑假十則換字（和大一一字不差）*/
+    {tag:'hol_y2w_an_home',day:'2027-02-01',h:15,an:['回台中了。','我媽來車站接我。她說我瘦了。……沒有。']},
+    {tag:'hol_y2w_bh_back',day:'2027-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。開學前我先去總圖占位子。']]},
+    {tag:'hol_y2w_zhe_back',day:'2027-02-20',h:19,th:NT,ms:[['zhe','我回來了！這次帶了烏魚子 我阿嬤做的'],['zhe','開學那天拿去麵店']]},
+    {tag:'hol_y2w_an_back',day:'2027-02-21',h:18,an:['回臺北了。我媽在行李箱塞了一袋橘子。']},
+    {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。家裡的冷氣比宿舍的好。']]},
+    {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','麵店團週四照常 我遠端參加']]},
+    {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（台中家裡的書桌，疊著一疊書）'],['heroine_01','回台中了。這次帶了六本。8 號回去。']]},
+    {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。六本讀完四本。']]},
+    {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','遠端參加麵店團 一次都沒成功'],['zhe','誰要吃麵']]},
     {tag:'hol_y3w_zhe_home',c01:'Y3',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
     {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','這次只住五天。']},
     {tag:'hol_y3w_bh_home',day:'2028-01-24',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹過年。初三回來。']]},   /* AA_350 S2：大三寒假只回去過年（期末飯「寒假我每天都去總圖」；2028 除夕 1/25）；蓋掉 AA 170a150d 那兩句（1/9「寒假要把民訴讀完」、2/19「民訴沒讀完」）*/
