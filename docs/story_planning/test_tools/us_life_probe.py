@@ -25,9 +25,10 @@ async def drain(pg, cdp, pref=None, secs=120):
     while time.time() - t0 < secs:
         s = await L.state(pg)
         if s['choices']:
+            # BB-B 21:1x：點之前先 scrollIntoView——橫向畫面、對話框還在時 #choices 只剩 206 px、超過的選項在框外（SQ08 便利商店六個選項的「不用了」點不到，cvs_menu4.py）
             # BB-B 10-23 19:4x：偏好開頭「1:」＝這一次 drain 只選一次（SQ39_SQ08：便利商店買完會再問一次，「小罐貓罐頭」每次都對得到，連買 36 罐、選單一路開到別的區域）
             w = [t[2:] if t.startswith('1:') else t for t in (pref or [])]
-            c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null, k=-1; for(let i=0;i<w.length;i++){ e=bs.find(x=>x.textContent.trim().includes(w[i])); if(e){ k=i; break; } } e=e||bs.find(x=>/不|晚一點|之後/.test(x.textContent))||bs[bs.length-1]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20)),k]; })(%s)" % json.dumps(w))
+            c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null, k=-1; for(let i=0;i<w.length;i++){ e=bs.find(x=>x.textContent.trim().includes(w[i])); if(e){ k=i; break; } } e=e||bs.find(x=>/不|晚一點|之後/.test(x.textContent))||bs[bs.length-1]; try{ e.scrollIntoView({block:'nearest'}); }catch(_){} const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20)),k]; })(%s)" % json.dumps(w))
             if pref is not None and c[4] >= 0 and pref[c[4]].startswith('1:'): pref = [x for i, x in enumerate(pref) if i != c[4]]
             await L.touch_tap(cdp, c[0], c[1]); say('   ▶', c[2], '（選項：%s）' % ' / '.join(c[3]))
             await pg.wait_for_timeout(900); continue
