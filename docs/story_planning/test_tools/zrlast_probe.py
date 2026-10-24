@@ -2406,7 +2406,7 @@ UP2 = [('usep', '^上 2F（書庫）'), ('wait', "GAME.G.zone==='us_lawlib_2f'&&
 SIS2F = ('chk', '她在 2F 東邊走道口（spots.sis 8.45,-0.9 附近）', SISAT, lambda p: isinstance(p, list) and abs(p[0] - 8.45) < 0.8 and abs(p[1] + 0.9) < 0.8)
 R19 = [
   # ① 交往中、週二 10:15 一樓 → 10:40 她上二樓 → 玩家上樓、三個「看」、說話（閒聊）、下樓回一樓樓梯口
-  dict(id='LIB2F_WALK', key='2028-09-12', h=10.25, zone='us_lawlib', flags=dict(USC), js='', pref=[],
+  dict(id='LIB2F_WALK', key='2028-09-12', h=10.25, zone='us_lawlib', flags=dict(USC), js=B['DATE'], pref=[],   # BB-B 17:0x：【前置】交往中那一組熟悉度（us_life_probe DATE；原本沒設＝閒聊階梯沒有下一層）
        steps=[('chk', '一樓樓梯口是「上 2F（書庫）」、沒有「樓梯（樓上書庫）」', LABS, lambda L: isinstance(L, list) and '上 2F（書庫）' in L and '樓梯（樓上書庫）' not in L),
               ('chk', '紅絨繩、小立牌、黃銅柱藏起來（三個節點都是 false）', ROPE, lambda s: isinstance(s, str) and s.count(':false') == 3 and ':true' not in s),
               ('chk', '10:15 她在一樓（3D）', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' in L),
@@ -2414,15 +2414,15 @@ R19 = [
               ('chk', '10:42 一樓沒有她了', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' not in L),
               ('chk', 'STORY.presence（記下來）', SISPRES, lambda s: isinstance(s, str)),
               ] + UP2 + [SIS2F, ('shot', 'lib2f_sis', None, 'true', 2),
+              ('talk', 'heroine_05'),   # BB-B 17:0x：先說話（11:30 以前才是圖書館閒聊；原本排在三個「看」後面，走到已經 11:57、她 12:00 就走了）
               ('usep', '^書架'), ('usep', '^木梯'), ('usep', '^樓梯（三樓）'),
               ('chk', '按了「樓梯（三樓）」還在 2F', "GAME.G.zone", 'us_lawlib_2f'),
-              ('talk', 'heroine_05'),
               ('usep', '^下樓（一樓）'), ('wait', "GAME.G.zone==='us_lawlib'&&!GAME.E.player.busy", 60, '回到一樓'),
               ('chk', '回到一樓樓梯口（back_spawn 6.4,5.6 附近）', PLAYERAT, lambda p: isinstance(p, list) and abs(p[0] - 6.4) < 1.2 and abs(p[1] - 5.6) < 1.2)],
        want=[LB['stacks']] + LB['ladder'] + LB['stair3'],
        jsok=[('2F 跟她說話有一句閒聊（libTalk 三句之一）', "JSON.stringify((window.__LOG||[]).map(x=>x.t))", lambda s: isinstance(s, str) and any(t in s for t in LB['talk']))]),
   # ② 交往中、週二 11:33：上 2F 跟她說話＝SU-L1（先一句收書的旁白）
-  dict(id='LIB2F_SU', key='2028-09-12', h=11.5, zone='us_lawlib', flags=dict(USC), js='', pref=['「我那台也沒清過。」'],
+  dict(id='LIB2F_SU', key='2028-09-12', h=11.5, zone='us_lawlib', flags=dict(USC), js=B['DATE'], pref=['「我那台也沒清過。」'],
        steps=UP2 + [SIS2F, ('talk', 'heroine_05')],
        want=[LB['suOpen'], LB['su1']], none=LB['talk']),
   # ③ 挽回中（不是交往中）、週二 10:50：她照樣在 2F，說話沒有交往中的閒聊和收書那一句
