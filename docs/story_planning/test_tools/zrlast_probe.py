@@ -2350,6 +2350,18 @@ R17 = [
 for _s in R17:
     if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
 SCENS = SCENS + R17
+
+# ---------- R18（BB-B 10-24 08:5x）：美國交換那一學期的逐日劇本（LAWWW-B 08:32，QA-TRANSCRIPT-1018 延伸）——不是驗收測試 ----------
+# 8/2 21:40 公寓床尾 → 睡覺 → 一路「快轉→到下一個有事的日子」到 12/23（中間有「去上課」就去上課；選項照 pref、手機要回的照 asks）；每個月底存一次劇本（dumplog）。
+# 交往中＝us_life_probe 的 USA_dating 設定（DATE）；挽回中＝USB_alone（ALONE）。整理成 md：transcript_md.py。
+def TRX(sid, js, pref, asks):
+    st = [('bedpick', '睡覺', ['睡覺', '再撐一下'])]
+    for k in ['2028-08-31', '2028-09-30', '2028-10-31', '2028-11-30', '2028-12-23']:
+        st += [('ffloop', k, 23.9 if k != '2028-12-23' else 12.0, 120), ('dumplog', sid)]
+    return dict(id=sid, key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + js + B['BED'], steps=st, pref=pref, asks=asks, want=[])
+R18 = [TRX('TRX_US_DATING', B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。'}),
+       TRX('TRX_US_ALONE', B['ALONE'], ['出發', '去'], {})]
+SCENS = SCENS + R18
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
@@ -2447,7 +2459,10 @@ async def main():
                 say('   【讀資料】讀檔後 ZRLAST.cond：%s' % json.dumps(cond, ensure_ascii=False))
                 for st in sc['steps']:
                     if st[0] == 'until': await B['play_until'](pg, cdp, run, st[1], sc, *(st[2:3]))   # ('until', h[, 最多等幾秒])
-                    elif st[0] == 'ffloop': await B['ffloop'](pg, cdp, run, sc, st[1], st[2])
+                    elif st[0] == 'ffloop': await B['ffloop'](pg, cdp, run, sc, st[1], st[2], *(st[3:4]))   # ('ffloop', key, h[, 最多快轉幾次])
+                    elif st[0] == 'dumplog':   # R18（QA-TRANSCRIPT）：把到現在為止畫面上的每一句（__LOG）＋手機訊息（G.msgs）存成 OUT/<st[1]>.json，給 transcript_md 整理
+                        J = await pg.evaluate("JSON.stringify({log:window.__LOG||[], msgs:(GAME.G.msgs||[]).map(m=>({th:m.th||'',from:m.from||'',name:m.name||'',text:String(m.text||''),day:m.day,key:(m.day!=null?CALENDAR.dateOf(m.day).key:''),h:m.h,ask:!!m.ask})), at:{d:CALENDAR.dateOf(GAME.G.day).key,h:GAME.G.hour}})")
+                        open(os.path.join(OUT, st[1] + '.json'), 'w', encoding='utf-8').write(J); say('   存劇本：%s（%d 字）' % (st[1], len(J)))
                     elif st[0] == 'use': await B['use'](pg, cdp, run, st[1])
                     elif st[0] == 'bedpick': await B['bedpick'](pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
                     elif st[0] == 'bedfirst':   # 床的選單第一項要是 st[1]，按它
