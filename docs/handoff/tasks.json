@@ -31433,8 +31433,8 @@
    "title": "傍晚天色照季節：E.applyTime 照日期把時鐘換成「光線用的時刻」（15:00→15:00、當天日落→18.95、21:00→21:00），同一個值給 zone.applyTime（窗景、路燈）；時鐘、作息、存檔不動；美國區域另一組日落表",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2 做 patch＋單元測試（12/10 17:45、7/20 18:30、10/16 19:00、美國 11/23 17:00 幾個時刻的光線時刻、窗景換夜景時間）；LAWWW 在 v9.10.9 發布以後整合（BB 正在驗 v9.10.9，不換測試中的樹）",
+   "status": "已實作待整合",
+   "next": "v9.10.9 發布以後套 A（engine_season_dusk_1024.patch）＋B（engine_after_midnight_1024.patch）、跑 season_dusk／after_midnight＋燈光 17 支＋levels_no_sky、see_through；看 README 列的 12 處 z.applyTime(G.hour)",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31453,9 +31453,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "patch＋單元測試修改前 FAIL／修改後 PASS；改前改後同鏡頭截圖（11 月、12 月 17:45，7 月 18:30）；時鐘與作息不變",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。"
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。"
   },
   {
    "id": "ART-PLAYER-SEASON-OUTFIT-1024",
