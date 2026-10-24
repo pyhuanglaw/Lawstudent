@@ -2238,7 +2238,8 @@ R15 = [
   # ② 共同 102 週一 13:05～15:10：采蓁、立衡、宇恆在教室裡（大二）；立衡大三不在（在日本念研究所）
   # 10-24 09:2x：讀檔直接放進 gongtong 那一次 3D 一個人都沒有（連路人都沒有）——改成照玩家：站在共同教學館門口（gongtong_front）13:00，走進去（GAME.enter，和按門一樣），等到 13:54 再看；
   #   另外記 STORY.presence 說她們在哪（daily_schedule：週一 13:05～15:10 gongtong 102，Y2S1／Y2S2）
-  dict(id='JP86_ROOM_Y2', key='TERMDAY:Y2S1:4:1', h=13.0, zone='gongtong_front', flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'), ('until', 13.9, 900),
+  dict(id='JP86_ROOM_Y2', key='TERMDAY:Y2S1:4:1', h=13.0, zone='campus',   # BB-B 11:5x：gongtong_front 不是地點（applySave「未知的地點」）；共同教學館的門在校園
+       flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'), ('until', 13.9, 900),
               ('chk', 'STORY.presence：采蓁、立衡、宇恆在哪', "['jp_caizhen','jp_liheng','jp_yuheng'].map(id=>{ try{ const p=STORY.presence(id,GAME.G); return id+':'+JSON.stringify(p).slice(0,80); }catch(e){ return id+':ERR'; } })", lambda L: isinstance(L, list)),
               ('chk', '3D 裡所有的人', NPCS3D, lambda L: isinstance(L, list))],
        want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
