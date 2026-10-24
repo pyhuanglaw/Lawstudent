@@ -526,7 +526,7 @@ const ENC_WALK={
     "小孩子在草地上都用跑的。大人都忘了。"
    ],
    "dating": [
-    "你跑一下。……開玩笑的。不過我想看。"
+    "你跑一下給我看好不好！……我想看。"
    ],
    "cond": {
     "terms": [
@@ -1198,7 +1198,7 @@ const ENC_WALK={
    "who": "classmate_peishan",
    "spot": "D06",
    "friend": "我去書店了。你慢慢看。",
-   "dating": "下午見。……我是說，如果你來的話。"
+   "dating": "下午見。……如果你來的話。"
   },
   {
    "who": "kexin",

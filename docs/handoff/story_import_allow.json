@@ -177,15 +177,19 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
-   "sha": "49ed7e6a",
+   "sha": "cbdbc69bf",
    "status": "approved",
    "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
    "task": "SYS-15",
-   "note": "BB-C 13:27：九個檔用 408398d7",
+   "note": "BB-C 13:27：九個檔用 408398d7；cbdbc69bf：AA_439 第 4 節禁用句第二次掃",
    "history": [
     {
      "sha": "93f356cc",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
+    },
+    {
+     "sha": "49ed7e6a",
+     "note": "AA_439 第 4 節以前"
     }
    ]
   },
@@ -866,19 +870,33 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "b5acbaad",
+   "sha": "cbdbc69bf",
    "status": "approved",
    "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "ENC-B3-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "b5acbaad",
+     "note": "AA_439 第 4 節以前"
+    }
+   ],
+   "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃"
   },
   {
    "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
-   "sha": "aca122d2",
+   "sha": "cbdbc69bf",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 18:29／18:31 交付訊息：第 8 節（8-1、8-2、8-5 口語審）",
    "task": "ENC-B2-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "aca122d2",
+     "note": "AA_439 第 4 節以前"
+    }
+   ],
+   "note": "cbdbc69bf：AA_439 第 4 節禁用句第二次掃"
   },
   {
    "path": "docs/story_planning/BB_150_AB23_第二批景點偶遇_BB五位.md",
@@ -2682,12 +2700,18 @@
   },
   {
    "path": "docs/story_planning/AA_439_遊戲台詞禁用句總掃描_開發分支83134ddf3.md",
-   "sha": "a5b936a69",
+   "sha": "cbdbc69bf",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；口氣表禁用句總掃描）",
    "task": "AA439-LINT-1024",
    "kind": "text",
-   "note": "手動換三句：y34b3d.js 以安媽媽「她就交給你了。……你們互相照顧。」、events.js Kevin「又是你。……真的不報一下？」、系辦助理「……喔，那個轉系的。外套在這裡，等你快一年了。」；D01～D32、wish_bb、BB_128 換到 a5b936a69 重匯"
+   "note": "手動換三句：y34b3d.js 以安媽媽「她就交給你了。……你們互相照顧。」、events.js Kevin「又是你。……真的不報一下？」、系辦助理「……喔，那個轉系的。外套在這裡，等你快一年了。」；D01～D32、wish_bb、BB_128 換到 a5b936a69 重匯；cbdbc69bf：AA_439 第 4 節禁用句第二次掃",
+   "history": [
+    {
+     "sha": "a5b936a69",
+     "note": "AA_439 第 4 節以前"
+    }
+   ]
   }
  ]
 }
