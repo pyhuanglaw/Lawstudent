@@ -51,7 +51,24 @@ await sec(1,async()=>{
   fresh('2028-09-05',15); date2(SIS,KX,STORY.dayOfKey('2028-05-01')); X().confLater(H.G,SIS,KX); setD(H.G.day+1,21.5);
   a=due(); check('1. 學姊在美國、祐廷在台灣＝視訊',a&&a.k==='conf_remote'&&a.bg==='video');
   clr(); await play(a); check('1. 視訊：最後一句「我先掛了。明天再講。」＋（視訊斷了。）',seq(['我現在有點生氣。','我先掛了。明天再講。','（視訊斷了。）'])&&!H.has('明天再講。'));
-  fresh('2027-04-07',15); date2(SIS,KX); H.G.flags.STUDY_ABROAD=1; X().rec(H.G).cpend={}; const ab=X().heAbroad; X().heAbroad=()=>true; check('1. 祐廷在國外不給這個選項',!X().confLaterFor(H.G,SIS)); X().heAbroad=ab;
+  /* AA_436 第 3 節第 3 點：祐廷在國外，子晴、語彤、可昕（學姊也一樣）坦白演成視訊；她那邊晚上 21:00～23:00（日本＋1、印第安納 −12／−13）*/
+  const JPF={EXCHANGE_ROUTE:'JP',EXCH_RULE:1,JP_DEPARTED:STORY.dayOfKey('2028-03-25'),X1_JP:STORY.dayOfKey('2028-02-20')};
+  fresh('2028-05-10',21.5,'campus',JPF); date2(ZQ,KX,H.G.day-40); check('1. 祐廷在日本（STORY.abroad）',X().heAbroad(H.G));
+  check('1. 日本 21:30＝台灣 20:30，還不到她那邊的晚上',!X().confAskDue(H.G));
+  setD(H.G.day,22.2); a=due(); check('1. 日本 22:00 起（台灣 21:00）：問一次「（打視訊給她，自己跟她講可昕的事）」',a&&a.k==='conf_ask'&&a.x===ZQ);
+  clr(); H.picks=[0]; await play(a);
+  check('1. 子晴視訊版：（視訊。她那邊是晚上，背後的螢幕還開著。）…「……嗯。是應該。」「……我先掛了。」（視訊斷了。）',J(H.opts[0])===J(['（打視訊給她，自己跟她講可昕的事）','（先不說）'])
+    &&seq(['我有件事要跟妳講。','我跟可昕也在一起。一個多月了。','（視訊。她那邊是晚上，背後的螢幕還開著。）','……喔。','你幹嘛跟我講。','……嗯。是應該。','……我先掛了。','（視訊斷了。）'])&&!H.has('（鞦韆停了。）')&&!H.has('我回去了。不要送我。')&&X().st(H.G,ZQ).confessRemote===true,J(T()));
+  fresh('2028-05-10',22.2,'campus',JPF); date2(YT,KX,H.G.day-40); a=due(); clr(); H.picks=[1]; await play(a);
+  check('1. （先不說）＝這一趟不再問（語彤；可昕那一對另外問）',a&&a.k==='conf_ask'&&a.x===YT&&!X().rec(H.G).cpend[YT]&&(X().confAskDue(H.G)||{}).x!==YT);
+  fresh('2028-05-10',22.2,'campus',JPF); date2(YT,KX,H.G.day-40); clr(); H.picks=[0]; await play(due());
+  check('1. 語彤視訊版：「等妳下班，可以視訊嗎？」（視訊。她在麵店後面，聽得到阿姨在洗碗。）…「明天要早起備料。……我先掛了。」',J(T())===J(['等妳下班，可以視訊嗎？','（視訊。她在麵店後面，聽得到阿姨在洗碗。）','我跟可昕也在一起。一個多月了。','……嗯。','你自己講的。','好。我知道了。','明天要早起備料。……我先掛了。','（視訊斷了。）']),J(T()));
+  fresh('2028-05-10',22.2,'campus',Object.assign({dating_kexin:true},JPF)); H.CLOSE(A1); ROM.start(H.G,A1); clr(); H.picks=[0]; await play(due());
+  check('1. 可昕視訊版：（她把鏡頭轉開。畫面裡只剩天花板，很久。）…「……我現在不想看到你。我掛了。」',seq(['……你再講一次。','我跟以安也在一起。','操。','（她把鏡頭轉開。畫面裡只剩天花板，很久。）','你還知道要自己講。','……我現在不想看到你。我掛了。'])&&!H.has('（她轉過去，背對你站了很久。）'),J(T()));
+  fresh('2028-10-10',8.4,'campus',{EXCHANGE_ROUTE:'US',EXCH_RULE:1}); date2(ZQ,KX,H.G.day-40); check('1. 印第安納（台灣 −12）早上 08:24＝台灣 20:24，還不到',!X().confAskDue(H.G));
+  setD(H.G.day,9.1); check('1. 09:00 起（台灣 21:00）',(due()||{}).k==='conf_ask');
+  fresh('2027-04-07',15); date2(ZQ,KX); X().confLater(H.G,ZQ,KX); const ab=X().heAbroad; X().heAbroad=()=>true; const tz=STORY.tzOffset; STORY.tzOffset=()=>1; setD(H.G.day+1,22.3); a=due(); X().heAbroad=ab; STORY.tzOffset=tz;
+  check('1. 出國前在說話的選單決定、還沒演就出國了＝也演成視訊',a&&a.k==='conf_remote'&&a.bg==='video');
 
   /* 子晴 */
   fresh('2027-04-07',15); date2(ZQ,KX,H.G.day-40); await decide(ZQ); setD(H.G.day+1,22.2); a=due();
@@ -71,7 +88,12 @@ await sec(1,async()=>{
     J(T())===J(['（Café 打烊。她在擦吧檯。）','我有件事要跟妳講。','我跟可昕也在一起。一個多月了。','（她手上的抹布停住了。）','……嗯。','（她把抹布折好，放在吧檯角落。）','你先坐一下。我把剩下的收完。','（她收完，在你對面坐下來。很久沒有說話。）','我今天腦袋很亂。……你先回去好不好。']),J(T()));
   fresh('2028-10-01',15); date2(ZR,KX,H.G.day-40); X().confLater(H.G,ZR,KX); H.G.flags.YT_LIED={[ZR]:{kexin:true}};
   clr(); const r=await ZRUK.playW(H.G,GM);
-  check('1. 芷若在英國＝每週的視訊裡：「……我問過你。」（她看著鏡頭，很久沒有說話。）「我今天腦袋很亂。……我先掛了。」',r!=='orig'&&seq(['……我問過你。','（她看著鏡頭，很久沒有說話。）','我今天腦袋很亂。……我先掛了。'])&&!H.has('你先坐一下。我把剩下的收完。'),J(T()));
+  check('1. 芷若在英國＝每週的視訊裡（AA_436 第 3 節第 1 點整段）：（視訊。她那邊是下午，背後是宿舍的窗。）兩句（她低頭，很久沒有說話。）「……我問過你。」「我今天腦袋很亂。……我先掛了。」；Café 三行旁白沒有',
+    r!=='orig'&&J(T())===J(['（視訊。她那邊是下午，背後是宿舍的窗。）','我有件事要跟妳講。','我跟可昕也在一起。一個多月了。','（她低頭，很久沒有說話。）','……我問過你。','我今天腦袋很亂。……我先掛了。']),J(T()));
+  fresh('2028-10-01',15); date2(ZR,KX,H.G.day-40); clr(); H.picks=[0]; const r2=await ZRUK.playW(H.G,GM);
+  check('1. 芷若在英國、還沒決定：每週的視訊開頭問一次 →（打視訊給她…）＝坦白（「……嗯。」）',r2!=='orig'&&J(H.opts[0])===J(['（打視訊給她，自己跟她講可昕的事）','（先不說）'])&&seq(['（視訊。她那邊是下午，背後是宿舍的窗。）','……嗯。','我今天腦袋很亂。……我先掛了。']));
+  fresh('2028-10-01',15); date2(ZR,KX,H.G.day-40); clr(); H.picks=[1]; const r3=await ZRUK.playW(H.G,GM);
+  check('1. （先不說）＝照常演那一週的話題',r3==='orig'&&!H.G.flags.YT_CONFESSED[ZR]);
 
   /* 語彤 */
   fresh('2027-04-06',15); date2(YT,KX,H.G.day-40); await decide(YT);
@@ -103,7 +125,8 @@ await sec(1,async()=>{
   fresh('2027-04-07',15); date2(ZR,KX); H.G.flags.YT_CONFESSED={[ZR]:{kexin:1}}; X().startStrain(H.G,ZR,KX,{confessed:true,confessRemote:false}); clr(); H.picks=[2]; await X().run(GM,ZR,Lm().REPAIR.heroine_02.talk,ctxC(ZR,KX));
   check('1. 芷若挽回第一段多一句「那天你一直坐在那裡，等我收完。」',seq(['那天你一直坐在那裡，等我收完。','……你要講什麼？']));
   X().st(H.G,ZR).confessRemote=true; clr(); H.picks=[2]; await X().run(GM,ZR,Lm().REPAIR.heroine_02.talk,ctxC(ZR,KX));
-  check('1. 芷若：坦白是在英國的視訊＝不說那一句',!H.has('那天你一直坐在那裡，等我收完。'));
+  check('1. 芷若：坦白是在英國的視訊＝換成「那天你沒有掛，等我先掛。」（AA_436）',!H.has('那天你一直坐在那裡，等我收完。')&&seq(['那天你沒有掛，等我先掛。','……你要講什麼？']));
+  clr(); H.picks=[2]; await X().run(GM,ZR,Lm().REPAIR.heroine_02.talkUk,ctxC(ZR,KX)); check('1. 英國的挽回（每週的視訊）也是那一句',seq(['（視訊接通。她沒有先說話。）','那天你沒有掛，等我先掛。','……你要講什麼？']));
   fresh('2027-04-07',15); date2(YT,KX); H.G.flags.YT_CONFESSED={[YT]:{kexin:1}}; clr(); H.picks=[0]; await X().run(GM,YT,Lm().REPAIR.heroine_03.talk1,ctxC(YT,KX));
   check('1. 語彤挽回第一段多一句「阿姨後來問我，你那天怎麼那麼晚才走。」',seq(['（你坐下。）','阿姨後來問我，你那天怎麼那麼晚才走。','你不用一直來。']));
   fresh('2027-04-07',15,'campus',{dating_kexin:true}); H.CLOSE(A1); ROM.start(H.G,A1); H.G.flags.YT_CONFESSED={kexin:{[A1]:1}}; clr(); await X().run(GM,KX,Lm().REPAIR.kexin.back,ctxC(KX,A1));
