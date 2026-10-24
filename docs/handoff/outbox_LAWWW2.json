@@ -2852,6 +2852,24 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 11:46：已整合 a42beb018，DL-LW2-CROWD-FAR-INDOOR；9 支 ALL PASS；用 7 m 不改 8 m；瀏覽器回歸給 BB）",
    "note": "有名字的角色不換；室外 30／28 照舊；不動 story3d.js"
+  },
+  {
+   "task": "BG-DARK-SCENES-1024：劇情對話變黑底的 8 個場景，從遊戲的 3D 拍成 2D 背景（LAWWW-B 12:57 派工）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit；push 後回報的訊息寫 SHA）",
+   "files": [
+    "assets/bg/cafe.webp、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941 webp，合計 836 KB）",
+    "tools/blender/env_second/shots/bg_dark_scenes_post.py（調光）",
+    "docs/art-rebuild/second_ai/test_shots/bg_dark_scenes_1024（README：OUT.BG 八行、每張的台詞與鏡頭、調光前後、遊戲內對話畫面）",
+    "docs/art-rebuild/second_ai/research/dark_bg_scenes_1024.md（更正：回國重逢五段也是黑底）"
+   ],
+   "state": "已交付；遊戲內 ADV 8 個場景都顯示圖、沒有退回深色底（Playwright＋SwiftShader，不是實機）",
+   "remaining": "醉月湖的燈籠、倒影是在截圖上補畫的（3D 湖心亭晚上沒有燈）；cafe_closed 是晚上拍再壓暗、沒有倒扣的椅子；回國重逢 5 段黑底（芷若 cafe 21:00 登記後會變白天——建議改 cafe_closed；語彤 noodle→noodle_table；以安總圖門口白天、學姊法圖門口、沛珊舊路書房可以從 3D 拍）",
+   "next": "LAWWW-B 把 README 的八行加進 OUT.BG、拿掉 PENDING；回國重逢的鍵要不要改、三張要不要拍，等 LAWWW-B 排",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "場景美術 ART_APPROVED 只有使用者能標；不動 outings3d.js、vac_activities.js"
   }
  ]
 }

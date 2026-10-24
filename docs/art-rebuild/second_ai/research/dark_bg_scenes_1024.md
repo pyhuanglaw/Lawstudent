@@ -5,7 +5,8 @@
   - 開發 `6fd1eda5f`。在遊戲裡把 `OUT.BG` 的 223 個背景逐一 `fetch`：0 張缺檔；5 個登記了但沒有圖（`car`、`wenzhou`、`hwaxin_street`、`vet_clinic`、`vf_lantern`），會顯示深色底＋地點字幕。
   - 再掃 `src/` 所有 `bg:'…'`。
 - **程式的行為**：劇情台詞的 `scene` 行是用 `OUT.bg(l.bg)` 換背景（`events3d.js` 第 111 行），`OUT.bg` 查不到就回傳 `'dark'`。
-- **不算的**：`vac_activities.js` 回國重逢用的 `campus`、`cafe`、`noodle`、`wancai`、`bookstore` 是走進 3D 區域，不是 2D 背景；`dark` 是故意的；`zq_testbuild3d.js` 是測試用。
+- **不算的**：`dark` 是故意的；`zq_testbuild3d.js` 是測試用。
+- **更正（12:5x 以後）**：原本這裡寫 `vac_activities.js` 回國重逢的 `campus`、`cafe`、`noodle`、`wancai`、`bookstore`「是走進 3D 區域」，**寫錯了**：`vac3d.js` 的 `S.key` 用 `OUT.bg(k.bg)`，這五段也是黑底。表在 `test_shots/bg_dark_scenes_1024/README.md` 最後一節。
 
 ## 會變黑底的 13 段
 
