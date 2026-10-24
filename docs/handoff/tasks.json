@@ -30287,7 +30287,7 @@
    "aliases": [
     "LAWWW2-CLOSED-SPACES-1023"
    ],
-   "notes": "【LAWWW-B 10-23 18:4x】AA_399 第 2 節（總圖 B1）接好：LAWWW2 的 library_b1 合併（20cc4c4e3）；src/b1story3d.js——考古題小組換到討論室 1 演（柏翰白板前、芯慈坐著，模糊 3D）、國考讀書會集合點改討論室 2（r2y4b3d.js；阿哲、柏翰、Alison 坐在裡面）、期末前的夜（期末考前兩週 22:00～02:00 柏翰坐 study_night，23:30～24:00 在自習室那一句，一學期一次）、大廳 22:00 關門以後從側門下 B1／從 B1 側門出去、自助借還書機與還書口（loans3d）；CALENDAR.examSoon 補上（LB1 期末前兩週人數加倍原本讀不到）。tests/b1story_unit.js 全過；BB 清單第 71 項。畢業後的 7/12 最後衝刺（postgrad3d.js）照舊用 ntu_lib_b1 圖。下一項：總圖研究小間＋服務台、5F 書庫（AA_399 第 3 節；LAWWW2 空間）｜ 【LAWWW-B 10-23 18:0x】AA_399 第 1 節（霖澤館 5F）接好：src/lab5f3d.js（4F 刷卡門傳訊息給學姊、14:00 回 4F、七場出遊換到 5F 演＝OUT.STAGE＋OUT.bg 研究室走廊換 blur）、characters.js 學姊研究室作息（spot sis_desk）、story3d.js 作息的 spot、便條改甲案；tests/lab5f_unit.js ALL PASS；BB 第 57～59 項。還沒做：第 2～12 節（總圖 B1／研究小間／借書 G.loans、典禮、研討室 B、101 小窗、系辦、美國臥室與書庫、共同 3F、博雅、洗衣間、多媒體）——等 LAWWW2 的空間，空間好了照表接；第 1-3 節研究小間的作息等總圖 B1／研究小間。【LAWWW-B 10-23 18:4x】第 6 節（101 助教課小窗、20:20 門口、第一次多一句；學姊作息兩筆）、第 11 節（洗衣間「洗衣服」40 分、大一週日阿凱一句）用現有的門做好：src/closed3d.js、tests/closed_unit.js ALL PASS；BB 第 62 項。第 11 節方奕廷的房間、其餘各節照舊等空間。【LAWWW-B 10-23 19:5x】LAWWW2 cb1d9ecb 法學院前庭大樟樹（zones3d.js (24.5,−94.5)、導航只擋樹幹）＋霖澤館 3F～5F 兩層窗景、linze_south／201 重拍整合；linze_5f_unit、nav_buildings_unit ALL PASS；BB 第 66 項。 ｜2026-10-23 21:0x LAWWW-B：第 3 項總圖研究小間＋5F 書庫整合（LAWWW2 36f12c2ee；DL-LW2-LUP）；AA_399 第 3 節劇情（學姊 03 的便利貼、方奕廷在 5F 書庫）待 LAWWW 接；美國期間學姊不在研究小間的判斷待接 ｜2026-10-23 21:2x LAWWW-B：AA_399 第 3 節劇情接好（src/lupstory3d.js LUPS；tests/lupstory_unit.js）：大四起 1F 服務台預約研究小間三小時（LOANS.DESK_EXTRA）、第一次進去的旁白；學姊 2028-02～2029-05 平日 14～17 在 03（她不在臺北的日子不在）、敲玻璃＝便利貼照關係一句；方奕廷大二上第 12～14 週週二 15～17 在 5F 最裡面、說話前多一句。學姊五點在總圖門口的作息交 characters.js 的子代理 ｜2026-10-24 04:2x LAWWW-B：兩場典禮換 3D（src/gymcer3d.js；tests/gymcer_unit.js）：開學典禮進體育館 3F 坐法律學院走道邊、宿營認識的以安／阿哲／Alison 坐旁邊、旁白照 2D 版、演完起身；畢業典禮 09:00 那一段坐同一位子、爸媽在南看台，11:00 法律學院照舊；沒有布置照原本 2D；2026-10-24 LAWWW-B：AA_399 第 5、7、12 節門口做得到的部分（4bb2169c1；src/closed2_3d.js；tests/aa399_closed2_unit.js 38 PASS）；要房間的七項已送 LAWWW2（研討室 B、系辦、共同 3F、博雅 103／203、宿舍 205、多媒體中心、美國篇第 8 節）；10-24 06:1x：LAWWW2 #82 前三間整合（87a4a60ca）：研討室 B、法律學院辦公室、共同 3F 考場 ｜ 【LAWWW-B 10-24 08:1x】第 8 節美國臥室 C（學姊的房間）：LAWWW2 1220ce5b4 整合（b408626b3：rooms_glb3d open.dating、窗景照美國季節、us3d 走道「敲門（臥室 C）」）、學姊交往中週末 14～21 坐書桌前 spots.sis＋不是交往中門上「（門上貼著一張手寫的課表。）」（1c8fd0990，us_life3d.js；tests/us_life_unit.js、us_bed_c_unit.js ALL PASS）；DL-LW2-US-BEDC；BB 測試已派。房間裡三個「看」請 AA 寫（08:1x 送出）。還沒做：法學院圖書館 2F 書庫（等 LAWWW2）、霖澤館 1F 公告欄（等 LAWWW2）。 ｜ 【LAWWW-B 10-24 08:4x】AA_444 學姊房間的看（fd9ad6574）；法圖 2F 書庫 LAWWW2 510265111 整合＋學姊平日 10:30～12:00 在 2F（b43a86cdf；DL-LW2-US-LAWLIB-2F）；#82 七間 LAWWW2 交齊、都接進開發分支。剩：2F「樓梯（三樓）」「木梯」的看（AA 寫中）、霖澤館 1F 公告欄（LAWWW2 下一項）。 ｜ 【LAWWW-B 10-24 08:5x】法圖 2F 兩個看（AA_444 第 4 節，f23a5b948）；霖澤館 1F 公布欄＋玻璃門（LAWWW2 fc86f7507 → 4229bbaf4，徵才單照 JOBS.board2；DL-LW2-LINZE-NOTICE）。AA_399 #82 的空間與看全部接完，剩 BB 瀏覽器驗收。"
+   "notes": "【LAWWW-B 10-23 18:4x】AA_399 第 2 節（總圖 B1）接好：LAWWW2 的 library_b1 合併（20cc4c4e3）；src/b1story3d.js——考古題小組換到討論室 1 演（柏翰白板前、芯慈坐著，模糊 3D）、國考讀書會集合點改討論室 2（r2y4b3d.js；阿哲、柏翰、Alison 坐在裡面）、期末前的夜（期末考前兩週 22:00～02:00 柏翰坐 study_night，23:30～24:00 在自習室那一句，一學期一次）、大廳 22:00 關門以後從側門下 B1／從 B1 側門出去、自助借還書機與還書口（loans3d）；CALENDAR.examSoon 補上（LB1 期末前兩週人數加倍原本讀不到）。tests/b1story_unit.js 全過；BB 清單第 71 項。畢業後的 7/12 最後衝刺（postgrad3d.js）照舊用 ntu_lib_b1 圖。下一項：總圖研究小間＋服務台、5F 書庫（AA_399 第 3 節；LAWWW2 空間）｜ 【LAWWW-B 10-23 18:0x】AA_399 第 1 節（霖澤館 5F）接好：src/lab5f3d.js（4F 刷卡門傳訊息給學姊、14:00 回 4F、七場出遊換到 5F 演＝OUT.STAGE＋OUT.bg 研究室走廊換 blur）、characters.js 學姊研究室作息（spot sis_desk）、story3d.js 作息的 spot、便條改甲案；tests/lab5f_unit.js ALL PASS；BB 第 57～59 項。還沒做：第 2～12 節（總圖 B1／研究小間／借書 G.loans、典禮、研討室 B、101 小窗、系辦、美國臥室與書庫、共同 3F、博雅、洗衣間、多媒體）——等 LAWWW2 的空間，空間好了照表接；第 1-3 節研究小間的作息等總圖 B1／研究小間。【LAWWW-B 10-23 18:4x】第 6 節（101 助教課小窗、20:20 門口、第一次多一句；學姊作息兩筆）、第 11 節（洗衣間「洗衣服」40 分、大一週日阿凱一句）用現有的門做好：src/closed3d.js、tests/closed_unit.js ALL PASS；BB 第 62 項。第 11 節方奕廷的房間、其餘各節照舊等空間。【LAWWW-B 10-23 19:5x】LAWWW2 cb1d9ecb 法學院前庭大樟樹（zones3d.js (24.5,−94.5)、導航只擋樹幹）＋霖澤館 3F～5F 兩層窗景、linze_south／201 重拍整合；linze_5f_unit、nav_buildings_unit ALL PASS；BB 第 66 項。 ｜2026-10-23 21:0x LAWWW-B：第 3 項總圖研究小間＋5F 書庫整合（LAWWW2 36f12c2ee；DL-LW2-LUP）；AA_399 第 3 節劇情（學姊 03 的便利貼、方奕廷在 5F 書庫）待 LAWWW 接；美國期間學姊不在研究小間的判斷待接 ｜2026-10-23 21:2x LAWWW-B：AA_399 第 3 節劇情接好（src/lupstory3d.js LUPS；tests/lupstory_unit.js）：大四起 1F 服務台預約研究小間三小時（LOANS.DESK_EXTRA）、第一次進去的旁白；學姊 2028-02～2029-05 平日 14～17 在 03（她不在臺北的日子不在）、敲玻璃＝便利貼照關係一句；方奕廷大二上第 12～14 週週二 15～17 在 5F 最裡面、說話前多一句。學姊五點在總圖門口的作息交 characters.js 的子代理 ｜2026-10-24 04:2x LAWWW-B：兩場典禮換 3D（src/gymcer3d.js；tests/gymcer_unit.js）：開學典禮進體育館 3F 坐法律學院走道邊、宿營認識的以安／阿哲／Alison 坐旁邊、旁白照 2D 版、演完起身；畢業典禮 09:00 那一段坐同一位子、爸媽在南看台，11:00 法律學院照舊；沒有布置照原本 2D；2026-10-24 LAWWW-B：AA_399 第 5、7、12 節門口做得到的部分（4bb2169c1；src/closed2_3d.js；tests/aa399_closed2_unit.js 38 PASS）；要房間的七項已送 LAWWW2（研討室 B、系辦、共同 3F、博雅 103／203、宿舍 205、多媒體中心、美國篇第 8 節）；10-24 06:1x：LAWWW2 #82 前三間整合（87a4a60ca）：研討室 B、法律學院辦公室、共同 3F 考場 ｜ 【LAWWW-B 10-24 08:1x】第 8 節美國臥室 C（學姊的房間）：LAWWW2 1220ce5b4 整合（b408626b3：rooms_glb3d open.dating、窗景照美國季節、us3d 走道「敲門（臥室 C）」）、學姊交往中週末 14～21 坐書桌前 spots.sis＋不是交往中門上「（門上貼著一張手寫的課表。）」（1c8fd0990，us_life3d.js；tests/us_life_unit.js、us_bed_c_unit.js ALL PASS）；DL-LW2-US-BEDC；BB 測試已派。房間裡三個「看」請 AA 寫（08:1x 送出）。還沒做：法學院圖書館 2F 書庫（等 LAWWW2）、霖澤館 1F 公告欄（等 LAWWW2）。 ｜ 【LAWWW-B 10-24 08:4x】AA_444 學姊房間的看（fd9ad6574）；法圖 2F 書庫 LAWWW2 510265111 整合＋學姊平日 10:30～12:00 在 2F（b43a86cdf；DL-LW2-US-LAWLIB-2F）；#82 七間 LAWWW2 交齊、都接進開發分支。剩：2F「樓梯（三樓）」「木梯」的看（AA 寫中）、霖澤館 1F 公告欄（LAWWW2 下一項）。 ｜ 【LAWWW-B 10-24 08:5x】法圖 2F 兩個看（AA_444 第 4 節，f23a5b948）；霖澤館 1F 公布欄＋玻璃門（LAWWW2 fc86f7507 → 4229bbaf4，徵才單照 JOBS.board2；DL-LW2-LINZE-NOTICE）。AA_399 #82 的空間與看全部接完，剩 BB 瀏覽器驗收。 ｜ 【BB-B 10-24 14:5x～15:04】美國臥室 C 全部驗完（bedc4 BEDC_FIRST ALL PASS；BEDC_OCT07 在 a7a7a6ed8 PASS：10/7 窗外是夏天那句＋us_bed_c_summer_day，字和圖同一季）。"
   },
   {
    "id": "SIS-B7-L-1023",
@@ -31375,6 +31375,35 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-24 15:0x 整合：patch us_route_night_1024（us3d.js vtAt／skyTint、us_campus lampPools；tests/us_lamp_pools_unit.js、新 tests/us_lawlib_sky_unit.js）、us_community.glb＋.json＋tools/blender/env_second/us_community.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS。P3 記錄沒改：208 剛進門鏡頭退到門外平台、出境大廳柱子貼鏡頭。"
+  },
+  {
+   "id": "RELEASE-9109-TEST",
+   "title": "瀏覽器驗收 v9.10.9 的東西（開發分支 7770155b4 以後；v9.10.8 發布樹 63da1d633 之後進來的）並做發布判定",
+   "area": "QA",
+   "owner": "BB",
+   "status": "待開工",
+   "next": "BB 跑完美國劇本（QA-TRANSCRIPT-US-1024）以後接；已驗過：EXPO86_LATE（once 活動）、美國臥室 C、BEDC_OCT07、touch_flow_wenzhou、levels_no_sky",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-24 15:1x",
+   "authorized": "D85、D100、D111",
+   "xai": {
+    "spec": "本任務 notes 的清單",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "每項 PASS／FAIL＋重現步驟；最後寫 GO／NO-GO",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "要驗：①美國法圖 2F 書庫（R19 LIB2F 四個，b43a86cdf）＋兩個看（f23a5b948）②經濟系 7/31 成績單（6de249582）③霖澤館 1F 公布欄＋玻璃門、徵才單（4229bbaf4）④社科院窗簾（b9d19d8a6）⑤普通／共同教室窗外景（aef97e506）、博雅二樓長窗（0a5835573）⑥上面樓層不投影子（becf772d4：普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）⑦室內路人 7 m 外換低面數（a42beb018：博雅一樓後排、Café、總圖 3F）⑧16 段不再黑底（45f1cd9e6、64397615a、7a7c4391b、a7a7a6ed8 鳳凰城機場）⑨AA_445（76fd3ce8b 大三寒假麵店一次、節日邀約分節日）、AA_446（6759ffce6 大二寒暑假訊息）⑩AA_447（9e5054eb7 紐約送機、台南送行、機票、是A不是B）⑪AA_448（c32e36006 美國校園換季、冷氣那句、初雪黑底）⑫美國路線巡查（7770155b4：社區西邊出口外面、法圖晚上彩色玻璃、校園路燈光圈、手機幀率）；發布前清單 docs/TESTING.md 第五節。"
   }
  ]
 }
