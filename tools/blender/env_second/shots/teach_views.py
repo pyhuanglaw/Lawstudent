@@ -8,6 +8,9 @@
     S 牆＝校園 z 26（正面、拱廊，往北看椰林大道那一側）；N 牆＝校園 z 40（背面，往南）。
   共同 3F 考場（gongtong_3f.py，自己的座標）：+z 那一排窗當成正面（校園朝北）三樓的高度（地板 7.8 m＋窗中心 2.1 m）。
 鏡頭放在外牆外 0.8 m、窗中心的高度、水平往外看（稍微往下）。LAWWW2-B 2026-10-24。
+寬照片（WIDE，普通、共同的教室窗）：2048×512、垂直 53.13°、水平約 127°（tan 半角＝2）——教室的窗是 7～14 m 的長窗，斜著看時視線會跑出 90° 照片的左右邊，
+  W3.windowMat 把超出的地方夾在邊緣那一欄，變成一條條橫紋；遊戲端（teach3d.js）看配置的 photoWide 把 sxy 設成 (0.5, 1)，照片就涵蓋 ±2 倍景深。
+  3F 考場（gongtong_3f）的窗小、分開，照舊 1024×512、90°（zones3d.js room() 沒有 sxy）。
 用法：python3 tools/blender/env_second/shots/teach_views.py <URL> [名稱...]"""
 import json, os, subprocess, sys, tempfile
 from PIL import Image
@@ -31,13 +34,14 @@ VIEWS = {
     # 共同 3F 考場
     'gongtong_3f': ('campus', [2, 20.6], [6.2, 9.9, 25.2], [6.2, 6.5, -30]),
 }
+WIDE = {k for k in VIEWS if k != 'gongtong_3f'}
 TIMES = {'day': 11.0, 'night': 20.5}
 tmp = tempfile.mkdtemp(prefix='teachviews_')
 shots = []
 for k, (zone, ppos, pos, look) in VIEWS.items():
     if ONLY and k not in ONLY: continue
     for t, h in TIMES.items():
-        shots.append({'out': os.path.join(tmp, f'{k}_{t}.png'), 'w': 1024, 'h': 512, 'hideNPCs': True, 'hidePlayer': True,
+        shots.append({'out': os.path.join(tmp, f'{k}_{t}.png'), 'w': 2048 if k in WIDE else 1024, 'h': 512, 'hideNPCs': True, 'hidePlayer': True,
                       'state': {'zone': zone, 'hour': h, 'pos': {'x': ppos[0], 'z': ppos[1], 'yaw': 0}}, 'cam': {'pos': pos, 'look': look},
                       'js': "GAME.E.camera.fov=%s; GAME.E.camera.updateProjectionMatrix();" % FOV, 'wait': 5000})
 spec = os.path.join(tmp, 'shots.json'); json.dump(shots, open(spec, 'w'), indent=1)
