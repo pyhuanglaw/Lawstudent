@@ -31259,7 +31259,8 @@
    "source": "BB-B 10-24 11:5x（v9.10.8 候選瀏覽器測試；Node 重現 expo_once_check.js）",
    "authorized": "D85（bug 修正）",
    "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）",
-   "notes": "【BB-B 10-24 14:56】開發分支 a7a7a6ed8（含 89823358f）EXPO86_LATE ALL PASS；f472cee48 同一支 FAIL，修改前後差別成立，結案。"
+   "notes": "【BB-B 10-24 14:56】開發分支 a7a7a6ed8（含 89823358f）EXPO86_LATE ALL PASS；f472cee48 同一支 FAIL，修改前後差別成立，結案。",
+   "evidence": "BB-B 10-24 14:56：開發分支 a7a7a6ed8（含 89823358f）瀏覽器 EXPO86_LATE ALL PASS、f472cee48 同一支 FAIL（BB_218）；tests/activities_unit.js once-late 3 項"
   },
   {
    "id": "BG-DARK-SCENES-1024",
@@ -31426,6 +31427,68 @@
    "source": "AA-B 2026-10-24 15:33Z（企劃線 e3f697c0e）；D99 第一優先",
    "authorized": "D99、D109、D111",
    "notes": "LAWWW-B 10-24 15:4x 整合 AA_449（企劃線 e3f697c0e，outbox 6dd849b1b）：1-1～1-5 全做（1-5 可選也做）；tests：lifeline_g5（E27b 結尾三句、旁白主詞）、v0_kxphone（鬧鐘條件、新車那則）、v0_winter（2/2 兩版）、day2_whylaw（LEGIT 加一句）。"
+  },
+  {
+   "id": "ENGINE-SEASON-DUSK-1024",
+   "title": "傍晚天色照季節：E.applyTime 照日期把時鐘換成「光線用的時刻」（15:00→15:00、當天日落→18.95、21:00→21:00），同一個值給 zone.applyTime（窗景、路燈）；時鐘、作息、存檔不動；美國區域另一組日落表",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做 patch＋單元測試（12/10 17:45、7/20 18:30、10/16 19:00、美國 11/23 17:00 幾個時刻的光線時刻、窗景換夜景時間）；LAWWW 在 v9.10.9 發布以後整合（BB 正在驗 v9.10.9，不換測試中的樹）",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 9,
+    "earliest": "經濟系 10 月以後的傍晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 15:48 路線巡查③（86df6950b README 第 1 項：台北日落表）",
+   "authorized": "D108、D111（LAWWW-B 決定做）",
+   "xai": {
+    "spec": "route_econ_1024/README.md 第 1 項",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "patch＋單元測試修改前 FAIL／修改後 PASS；改前改後同鏡頭截圖（11 月、12 月 17:45，7 月 18:30）；時鐘與作息不變",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。"
+  },
+  {
+   "id": "ART-PLAYER-SEASON-OUTFIT-1024",
+   "title": "玩家一年四季同一套長袖（LAWWW2 路線巡查③ P3 記錄）：夏天短袖、冬天外套",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "暫停",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲 9/1",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 10-24 15:48 路線巡查③ P3",
+   "authorized": "D111",
+   "pausedReason": "D99 夠用的素材凍結；不影響遊玩",
+   "resumeWhen": "D99 三項驗收完、或使用者提出",
+   "decidedBy": "LAWWW-B（D111）",
+   "nextCheck": "2026-10-31",
+   "xai": {
+    "spec": "route_econ_1024/README.md 第 3 項",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "—",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "只記錄",
+   "next": "暫停到 D99 三項驗收完；之後由 LAWWW2 提做法（換衣服的時機、存檔欄位）"
   }
  ]
 }
