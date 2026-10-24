@@ -2443,7 +2443,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 LAWWW-B 10-24 03:42 九題）",
    "task": "AA437-NINE-1024",
    "kind": "text",
-   "note": "已進遊戲：第 1 節 3D 開學典禮旁白（src/gymcer3d.js）、第 2 節 lab5f3d.js 14:00 那句、第 3 節學姊研究小間時段的邀約回答（src/data/invites.js）、第 7 節日本空白日三處（src/data/jp_blank_lines.js、src/jp_blank3d.js）、第 9 節大一跨年阿哲（src/data/events.js）；第 4、5、6 節（新 15 長桌版、新 21 抓包版、主線 10 前任紙箱）施工中"
+   "note": "已進遊戲：第 1 節 3D 開學典禮旁白（src/gymcer3d.js）、第 2 節 lab5f3d.js 14:00 那句、第 3 節學姊研究小間時段的邀約回答（src/data/invites.js）、第 7 節日本空白日三處（src/data/jp_blank_lines.js、src/jp_blank3d.js）、第 9 節大一跨年阿哲（src/data/events.js）、第 4 節新 15 前任長桌版＋新 16 那一句（src/story3d.js、src/data/v6ex_lines.js）、第 5 節新 21 抓包版（src/postgrad3d.js、src/data/postgrad_lines.js）、第 6 節主線 10 前任紙箱（src/story3d.js）；tests/aa437_ex_unit.js"
   },
   {
    "path": "docs/story_planning/AA_438_回LAWWW_他點的那一杯限學期末_可昕卡片_臺灣路線.md",

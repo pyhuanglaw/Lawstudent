@@ -3613,7 +3613,7 @@ const STORY = (function(){
     { const w=S.y4WakeAt?S.y4WakeAt(G):null; if(w!=null) return w; }   /* 1A-11：6/1 20:00 收拾（AA_318）*/
     for(const f of S.WAKE_AT){ try{ const w=f(G); if(w!=null) return w; }catch(e){ console.warn('STORY.WAKE_AT',e); } }   /* 事件包各自的「睡著也會醒來」（STORY.WAKE_AT.push(fn)：fn(G) 回傳時間或 null）*/ return null; };
   /* ---------- 1A-05　大三交換志願表＝以安新 15「為什麼是日本」（AA_315；AA_30 場景 0、AA_253 第 2 節、BB_98 2-3／9-5、AA_180 2-1；台詞照 AA_315 第 2 節，不改字）----------
-     11/15 09:00 學校信箱（所有人）；11/16 21:00 以安私訊（認識、FAMILIAR 以上、沒有和她分手）；11/17 15:15 起兩點半 Café（16:00 還沒到＝「我在窗邊。」延到 17:00；18:00 沒到＝「我先交了」，沒有 AN15_SEEN）。
+     11/15 09:00 學校信箱（所有人）；11/16 21:00 以安私訊（認識、FAMILIAR 以上、沒有和她分手；分手了＝麵店團群組＋11/17 18:30 麵店長桌，AA_437 第 4 節 S.an15Noodle）；11/17 15:15 起兩點半 Café（16:00 還沒到＝「我在窗邊。」延到 17:00；18:00 沒到＝「我先交了」，沒有 AN15_SEEN）。
      這一場不決定路線：版本照 S.routeFor（routeDecide 的預覽，不寫入）；11/18 第一次起床（起床選單之前；已經過了 12:00＝下一個能播的時候）播截止旁白（2-4）。
      學姊（交往中或 FRIEND 以上）：20:00「我在法圖。九點四十五關門。」，21:00～21:45 在法圖（或門口）＝當面，沒去＝22:30 手機版（2-5）。
      可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 的出遊、約會），沒見面＝11/17 22:00 電話（2-6）。*/
@@ -3621,6 +3621,8 @@ const STORY = (function(){
   const an15D=()=>({d15:S.dayOfKey(AN15_K.d15),d16:S.dayOfKey(AN15_K.d16),d17:S.dayOfKey(AN15_K.d17),d18:S.dayOfKey(AN15_K.d18)});
   S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex'); };   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
   S.an15Due=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='cafe'&&h(G)>=15.25&&h(G)<17&&F.AN15_SEEN==null&&S.an15On(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y3_an15_invite'); };   /* 窗口 15:15～16:00，16:00 那則訊息延到 17:00 */
+  /* 2-2 祐廷寫了什麼的旁白（A／B／C 第一句）：Café 和前任的麵店長桌版（AA_437 第 4 節）共用 */
+  S.AN15_FORM={JP:'（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）',US:'（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）',TW:'（志願表你拿了一張。到現在還是空白的。）'};
   S.an15Cafe=async function(GM){ const G=GM.G, F=G.flags; if(!S.an15Due(G)) return false; F.AN15_SEEN=G.day; cwDone(G,'ev_an_why_japan'); const an=cwWho('heroine_01'), dating=cwDating(G,'heroine_01'), r=S.routeFor(G);
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload(['heroine_01']); ADV.begin({background:'blur',right:{charId:'heroine_01',expression:'neutral'}}); }
       if(F.EXPO_COUNTRY) await GM.say(null,'（說明會那天，你坐在'+F.EXPO_COUNTRY+'那一區。）');   /* 2-0：去過交換說明會才有 */
@@ -3630,14 +3632,37 @@ const STORY = (function(){
       await GM.say(an,dating?'你的呢？':'你的呢？……你還沒填。很少見。你平常都很快。');
       const P=Array.isArray(F.COLD_WEEK_PRESENT)?F.COLD_WEEK_PRESENT:[]; if(P.includes('heroine_01')) await GM.say(an,'你上個月感冒的時候說，你想用法律做什麼。'); else if(P.includes('zhe')) await GM.say(an,'阿哲說你那週講了一句很帥的話。他不告訴我是什麼。');   /* 1A-04 第 5 節的回聲 */
       if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR')) await GM.say(an,'你換過一次方向。這次也是你自己選。');
-      if(r==='JP'){ await GM.say(null,'（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）'); await GM.say(an,'寫好了？'); await GM.say(an,'我們同一所。我查過了，宿舍在同一區。'); await GM.say(an,'下禮拜要補語言成績，你的考了嗎？');
+      if(r==='JP'){ await GM.say(null,S.AN15_FORM.JP); await GM.say(an,'寫好了？'); await GM.say(an,'我們同一所。我查過了，宿舍在同一區。'); await GM.say(an,'下禮拜要補語言成績，你的考了嗎？');
         const k=await GM.choose([{t:'「考了。」'},{t:'「還沒。」'}]); F.AN15_ANSWER=k===1?'not_yet':'tested'; await GM.say(an,k===1?'……下禮拜。不准賴。':'好。那我們明天早上一起交。'); }   /* A 版：和以安交往中 */
-      else if(r==='US'){ await GM.say(null,'（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）');
+      else if(r==='US'){ await GM.say(null,S.AN15_FORM.US);
         await GM.say(an,typeof ROM!=='undefined'&&ROM.knowsOf&&ROM.knowsOf(G,'heroine_01','heroine_05')?'美國。……學姊也去那裡吧。':'美國。好遠。'); await GM.say(an,'那理由欄寫你自己的就好。'); }   /* B 版：和學姊交往中（以安知不知道分兩句；不給選項）*/
-      else { await GM.say(null,'（志願表你拿了一張。到現在還是空白的。）'); await GM.say(an,'你不填？');
+      else { await GM.say(null,S.AN15_FORM.TW); await GM.say(an,'你不填？');
         const k=await GM.choose([{t:'「嗯。大四還沒開始，我想在這裡過。」'},{t:'「還在想。」'}]);   /* AA_376 #20：他才大三 */ F.AN15_ANSWER=k===1?'thinking':'stay'; await GM.say(an,k===1?'明天中午截止喔。……想好了就好。':'好。那麵店那邊，你幫我多吃幾碗。'); }   /* C 版：留在臺灣 */
       await GM.say(null,'（窗外的溫州街開始暗了。以安把她那一張收進資料夾，對齊了兩次。）');
       if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','IMPORTANT_CONVERSATION','為什麼是日本');
+    } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
+    if(GM.advance) GM.advance(0.75); if(GM.memo) GM.memo('為什麼是日本'); if(GM.autosave) GM.autosave(); return true; };
+  /* 前任版＝麵店長桌（AA_437 第 4 節＝AA_123 4-3b 新 15；企劃線 fc6f20bc0，台詞照抄）：和以安分手了（status ex＝S.an15On 不成立的那些人）、在麵店團。
+     11/16（二）21:00 麵店團群組她兩則（不是私訊；不在麵店團＝沒有）；11/17（三）18:30 阿鳳麵店長桌（18:15～19:30 人在麵店就演；出遊「阿鳳麵店」帶過去；沒到＝不補、沒有「我先交了」）。
+     她對整桌講。阿哲、Alison 照 STORY.knows：不認識就不說；兩個都不認識＝從阿哲那句到「可以。……先等我上。」整段拿掉。
+     祐廷寫了什麼＝AA_315 2-2 的 B（美國）／C（臺灣）第一句旁白（S.AN15_FORM；以安的回答、選項不用：她最後只說「你不用為了這個說什麼。」），放在她把志願表收回去之前。前任不會是日本路線（routeFor 只看交往中）。
+     記 AN15_SEEN（11/18 的截止旁白照「有演」：不重複那一句）、AN15_MODE 'noodle'；不記 IMPORTANT_CONVERSATION（她對整桌講，不是兩個人的談話）*/
+  S.AN15_EX={
+    invite:['交換的志願表後天截止。','明天晚上六點半長桌，要一起填的帶表來。'],
+    open:[[null,'（長桌。以安把自己的志願表放在桌子中間。第一志願「日本」，字很工整。申請理由那一欄寫得很滿。）'],['heroine_01','我的。'],[null,'（申請理由第一行寫著：「行政指導：沒有命令，對方照做。是信任，還是壓力？」）'],
+      ['heroine_01','台灣也有這一條。可是條文只寫了怎麼規定，我想看的是那邊的人為什麼照做。'],['heroine_01','那個要去那裡看。']],
+    zhe:'……妳連申請理由都寫好了。我還在想要不要申請。', yu:'日本！！我可以去找妳玩嗎', reply:'可以。……先等我上。',
+    close:[[null,'（她把志願表收回去，看了你一眼。）'],['heroine_01','你不用為了這個說什麼。']] };
+  S.an15ExOn=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&!cwDating(G,'heroine_01')&&!!(R&&R.status==='ex')&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'); };
+  S.an15ExDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='noodle'&&h(G)>=18.25&&h(G)<19.5&&F.AN15_SEEN==null&&S.an15ExOn(G)&&PHONE.sent(G,'y3_an15_ex_invite'); };
+  S.an15Noodle=async function(GM){ const G=GM.G, F=G.flags; if(!S.an15ExDue(G)) return false; F.AN15_SEEN=G.day; F.AN15_MODE='noodle'; cwDone(G,'ev_an_why_japan');
+    if(typeof OUT!=='undefined'&&OUT.get){ const q=OUT.get(G,'y3_an15_ex'); if(q&&q.state==='planned') q.state='done'; }   /* 自己走進來的：排好的出遊不再問 */
+    const X=S.AN15_EX, an=cwWho('heroine_01'), who=id=>id?cwWho(id):null, r=S.routeFor(G), zhe=S.knows('zhe',G), yu=S.knows('yu',G);
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload(['heroine_01']); ADV.begin({background:'blur',right:{charId:'heroine_01',expression:'neutral'}}); }
+      for(const [id,t] of X.open) await GM.say(who(id),t);
+      if(zhe) await GM.say(cwWho('zhe'),X.zhe); if(yu) await GM.say(cwWho('yu'),X.yu); if(zhe||yu) await GM.say(an,X.reply);   /* 兩個都不認識＝整段拿掉 */
+      await GM.say(null,S.AN15_FORM[r]||S.AN15_FORM.TW);   /* 2-2 的 B／C 第一句 */
+      for(const [id,t] of X.close) await GM.say(who(id),t);
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     if(GM.advance) GM.advance(0.75); if(GM.memo) GM.memo('為什麼是日本'); if(GM.autosave) GM.autosave(); return true; };
   /* 2-4：截止那一刻的旁白（AA_253 第 2 節原文）。路線已經定了（12:00 以後）照定的，還沒（11/18 早上）照預覽 */
@@ -3679,13 +3704,17 @@ const STORY = (function(){
     const go=f=>{ efBusy=true; Promise.resolve().then(f).catch(e=>console.warn('AN15',e)).finally(()=>{ efBusy=false; }); return true; };
     if(S.routeNarrDue(G)) return go(()=>S.routeNarr(GM));
     if(S.an15Due(G)) return go(()=>S.an15Cafe(GM));
+    if(S.an15ExDue(G)) return go(()=>S.an15Noodle(GM));   /* 前任版：麵店長桌（AA_437 第 4 節）*/
     if(S.sisFormFaceDue(G,GM.E)) return go(()=>S.sisFormFace(GM));
     if(S.kxExchCallDue(G)) return go(async()=>{ if(GM.toast) GM.toast('手機響了。',2400); await S.kxExchTalk(GM,'call'); });
     return false; };
   /* 手機（S.phoneRules）*/
   S.an15Phone=function(G){ const D=an15D(), F=G.flags; if(typeof PHONE==='undefined'||D.d15==null||(G.stage||'law')!=='law'||G.day<D.d15||G.day>D.d18) return; const hh=G.hour, after=(d,x)=>G.day>d||(G.day===d&&hh>=x), dt=cwDating(G,'heroine_01');
     if(after(D.d15,9)&&!PHONE.sent(G,'y3_exch_mail')) PHONE.at(G,D.d15,9,[{th:'sys',name:'學校信箱',text:'交換學生申請：11/18（四）中午截止。'}],'y3_exch_mail');   /* 所有玩家（系統字）*/
-    if(after(D.d16,21)&&G.day<=D.d17&&S.an15On(G)&&!PHONE.sent(G,'y3_an15_invite')) PHONE.at(G,D.d16,21,[{th:'p:heroine_01',from:'heroine_01',text:dt?'明天下午三點半，兩點半 Café。我們一起填。':'明天下午三點半，兩點半 Café。交換的志願表，後天截止。'}],'y3_an15_invite');
+    if(after(D.d16,21)&&G.day<=D.d17&&S.an15On(G)&&!PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_ex_invite')) PHONE.at(G,D.d16,21,[{th:'p:heroine_01',from:'heroine_01',text:dt?'明天下午三點半，兩點半 Café。我們一起填。':'明天下午三點半，兩點半 Café。交換的志願表，後天截止。'}],'y3_an15_invite');
+    if(after(D.d16,21)&&(G.day<D.d17||hh<19.5)&&S.an15ExOn(G)&&!PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_ex_invite')) PHONE.at(G,D.d16,21,S.AN15_EX.invite.map(t=>({th:'g:noodle_team',from:'heroine_01',text:t})),'y3_an15_ex_invite');   /* 前任：麵店團群組（AA_437 第 4 節；收過私訊的不再收）*/
+    if(PHONE.sent(G,'y3_an15_ex_invite')&&F.AN15_SEEN==null&&S.an15ExOn(G)&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,'y3_an15_ex')&&G.day===D.d17&&hh<19.5&&G.zone!=='noodle')
+      OUT.plan(G,{id:'y3_an15_ex',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:D.d17,h:18.5,late:1,place:'公館',title:'阿鳳麵店',travelH:1/6});   /* 18:15～19:30 */
     if(G.day===D.d17&&hh>=16&&hh<17&&F.AN15_SEEN==null&&PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_window')) PHONE.at(G,D.d17,16,[{th:'p:heroine_01',from:'heroine_01',text:'我在窗邊。'}],'y3_an15_window');   /* 16:00 還沒到：延到 17:00 */
     if(after(D.d17,18)&&F.AN15_SEEN==null&&PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_missed')) PHONE.at(G,D.d17,18,[{th:'p:heroine_01',from:'heroine_01',text:dt?'我先交了。你的，明天中午以前。……同一所，不要寫錯。':'我先交了。你的，明天中午以前要交。'}],'y3_an15_missed');   /* 2-3 沒到：不帶到場 */
     if(G.day===D.d17&&hh>=20&&hh<21.75&&S.sisFormOn(G)&&!PHONE.sent(G,'y3_sis_lawlib')) PHONE.at(G,D.d17,20,[{th:'p:heroine_05',from:'heroine_05',text:'我在法圖。九點四十五關門。'}],'y3_sis_lawlib');
@@ -3696,7 +3725,7 @@ const STORY = (function(){
      1A-07 主線 9：2028-01-26 白天在家（寒假的選單）；白天都不在家＝睡著時；可昕交往中 22:00 一則（KX_FAMILY_LAND）
      1A-08 大四要怎麼過：台灣、美國路線＝大三下最後一科期末考考完那天 21:00 以後，人在宿舍房間（坐到書桌前）；那時人在家＝只問那一句；
        日本路線＝8/5 20:00 以後（日本返台的流程還沒有：人在哪裡都演，2D 家裡的房間）。隔天 09:00 姊姊一則（SISTER_TALK）；選④＝10/16 21:00 再問（美國＝公寓，當地時間）
-     1A-09 主線 10：台灣、日本 2028-09-03 起（在家＝旁白＋字卡 → 409；在宿舍＝直接換）；美國＝12/23 返台（exchange3d.js）直接 409；unboxY4 三步；大四下以後才讀檔＝直接記
+     1A-09 主線 10：台灣、日本 2028-09-03 起（在家＝旁白＋字卡 → 409；在宿舍＝直接換）；美國＝12/23 返台（exchange3d.js）直接 409；unboxY4 三步（收過前任的紙箱 CLEANUP_BOX＝第二、三步之間多一步，AA_437 第 6 節）；大四下以後才讀檔＝直接記
      1A-10 R1：9/6 21:00 阿哲（麵店團群組；不在群組、和阿哲 FAMILIAR 以上＝私訊）＋出遊「阿鳳麵店」；9/7 18:45～19:15 人在麵店就演；19:30 沒到＝手機版（一定要回）；美國＝當地 07:30 手機版
      1A-11 主線 11：2029-06-01 20:00（不在宿舍＝旁白 → 回宿舍；睡著＝20:00 醒來）：BOX_KEPT_Y4 先 → 一件一件或「剩下的一起裝」→ 最後「冬天的衣服」；PACKED_Y4
      1A-12 主線 12：6/2 起床（鬧鐘 08:00）→ 體育館 → 撥穗（GRADUATED）→ 11:55 霖澤館大廳（GRAD_ENVELOPE）；13:30～17:00 公館午餐；22:00 以後第一次在宿舍房間＝大伯的信封
@@ -3781,6 +3810,22 @@ const STORY = (function(){
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('四樓 409 號房','',2400); GM.advance(1.5); G.flags.ROOM_Y4_MOVING=true; if(GM.enter) await GM.enter('dorm',Object.assign({},Y4_DORM)); await GM.fade(false); }
     finally{ GM.sceneEnd(); }
     return S.unboxY4(GM); };
+  /* 前任的紙箱（AA_437 第 6 節；企劃線 fc6f20bc0，台詞照抄）：收拾的時刻選了「還東西、收紙箱」（v6ex3d.js 記 CLEANUP_BOX：[{id, day}]）＝拆箱第二步之後、第三步之前多一步（美國路線 12/23 晚上的拆箱一樣）。
+     收過的每一位各一句：照分開的先後（CLEANUP_BOX 的順序；同一位收過兩次照最後那一次），三位以上只出最近的兩位；已經重新交往的那一位不算（現在在交往）。表上七位以外的不算；一位都沒有＝沒有這一步。
+     「（打開）」＝每一位一句＋「（你把箱子蓋起來。這次沒有貼膠帶。）」，記 EXBOX_Y4 'open'；「（不打開，放到床底下）」＝「（你把它推到床底下最裡面。）」，記 BOX_KEPT_Y4='exbox'、EXBOX_Y4 'kept'。
+     子晴：D03 和她轉過扭蛋（date3d.js 的 dateMemory.heroine_04.D03.picks 有 D03.gacha，或做完的那一趟 spots 有）＝扭蛋；沒有＝測試帳號卡。
+     第三步「留一件在紙箱裡」的選單不列這個紙箱；第三步又留了一件東西＝BOX_KEPT_Y4 記那一件（那一件不拿出來、主線 11 先拿它；EXBOX_Y4 還是 'kept'）。
+     主線 11（S.packY4）：BOX_KEPT_Y4 'exbox' AA_318 第 4 節沒有寫拿起來的那一句（「你從紙箱裡拿出{東西}」對紙箱本身不通），先跳過那一步 */
+  S.EXBOX_Y4={heroine_01:'（一頁影印紙。她手帳那一頁的影本，最上面那一行被劃掉了。）',heroine_03:'（麵店的筷套，背面寫著一個週四的日期。是她的字。）',heroine_02:'（兩張票根，用迴紋針夾在一起。）',
+    heroine_04:'（一隻扭蛋，拿著搖桿的貓。）',heroine_05:'（一張便條。「回到家傳訊息給我。」她的字。）',kexin:'（摩天輪的票根、寫滿的筆記本、河堤的相簿。三樣疊在一起。）',classmate_peishan:'（她借你的漫畫，第三集。你一直沒有還。）'};
+  S.EXBOX_ZQ_NO='（一張她做的遊戲的測試帳號卡。）';   /* 子晴：沒有在 D03 轉過扭蛋 */
+  S.EXBOX_LINES={top:'（最下面那個紙箱，膠帶是你自己貼的。）',opts:['（打開）','（不打開，放到床底下）'],close:'（你把箱子蓋起來。這次沒有貼膠帶。）',kept:'（你把它推到床底下最裡面。）'};
+  S.zqGacha=G=>{ const M=G&&G.dateMemory&&G.dateMemory.heroine_04, m=M&&M.D03; if(m&&Array.isArray(m.picks)&&m.picks.includes('D03.gacha')) return true;
+    return Array.isArray(G&&G.trips)&&G.trips.some(t=>t&&t.who==='heroine_04'&&t.status==='done'&&Array.isArray(t.spots)&&t.spots.includes('D03.gacha')); };
+  S.exBoxWho=function(G){ const F=(G&&G.flags)||{}, B=Array.isArray(F.CLEANUP_BOX)?F.CLEANUP_BOX:[], out=[];
+    for(const b of B){ const id=b&&b.id; if(!id||!Object.prototype.hasOwnProperty.call(S.EXBOX_Y4,id)) continue; const i=out.indexOf(id); if(i>=0) out.splice(i,1); out.push(id); }
+    return out.filter(id=>!cwDating(G,id)).slice(-2); };
+  S.exBoxLine=(G,id)=>id==='heroine_04'&&!S.zqGacha(G)?S.EXBOX_ZQ_NO:S.EXBOX_Y4[id];
   S.unboxY4=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY4Due(G)) return false; F.ROOM_Y4=G.day; if(typeof DM3!=='undefined'&&DM3.fixRoomExit&&G.zone==='dorm') DM3.fixRoomExit(GM.E,G);
     const y2=Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS.slice():S.roomY2Items(G).map(r=>r[0]), y3=Array.isArray(F.ROOM_Y3_ITEMS)?F.ROOM_Y3_ITEMS.slice():[];
     const old=y2.concat(y3).filter(id=>id!==F.ROOM_Y3_DISCARD), L=S.roomY4Items(G), shown=[]; F.ROOM_Y4_ITEMS=shown; F.BOX_KEPT_Y4=null;
@@ -3790,10 +3835,14 @@ const STORY = (function(){
       vis({shown:has(null)}); await GM.say(null,'（這些東西，閉著眼睛也知道要放哪裡。）');   /* 第一步：前兩年的東西一次拿出來（扣掉大三丟掉的）*/
       for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:has(null)}); for(const t of r[2]) await GM.say(null,t); }   /* 第二步：大三這一年的東西，一件一件 */
       if(F.POTHOS) await GM.say(null,(F.pothosWaterN|0)>0?'黃金葛。第四個窗台。它已經垂到書桌了。':'黃金葛。第四個房間。它還是沒死。');   /* 照舊跟著搬，第二步最後一句 */
+      let exKept=false; const exW=S.exBoxWho(G);   /* 前任的紙箱（AA_437 第 6 節）：第二步之後、第三步之前 */
+      if(exW.length){ const XL=S.EXBOX_LINES; await GM.say(null,XL.top); const k=await GM.choose(XL.opts.map(t=>({t})));
+        if(k===1){ await GM.say(null,XL.kept); exKept=true; F.EXBOX_Y4='kept'; F.BOX_KEPT_Y4='exbox'; }
+        else { for(const id of exW) await GM.say(null,S.exBoxLine(G,id)); await GM.say(null,XL.close); F.EXBOX_Y4='open'; } }
       delete F.ROOM_Y4_MOVING; vis({boxes:'open'});
-      const can=old.concat(shown).filter(id=>id!=='pothos'&&S.roomItemName(G,id));   /* 第三步：選一件留在紙箱裡（黃金葛不列）*/
+      const can=old.concat(shown).filter(id=>id!=='pothos'&&id!=='exbox'&&S.roomItemName(G,id));   /* 第三步：選一件留在紙箱裡（黃金葛、前任的紙箱不列）*/
       const opts=can.map(id=>({t:'（把'+S.roomItemName(G,id)+'留在紙箱裡）',id})).concat([{t:'（全部拿出來。）',id:null}]); const k=await GM.choose(opts.map(o=>({t:o.t}))); const o=opts[k>=0&&k<opts.length?k:opts.length-1];
-      F.BOX_KEPT_Y4=o.id; if(o.id) vis({shown:has(o.id)});
+      F.BOX_KEPT_Y4=o.id||(exKept?'exbox':null); if(o.id) vis({shown:has(o.id)});   /* 「全部拿出來」：床底下的紙箱照舊 'exbox' */
       await GM.say(null,S.route(G)==='US'?'（三年。這個房間，你只會住半年。）':'（三年。這個房間，你只會住一年。）');   /* AA_370 L10：美國路線 12/23 才搬進來（大四下就畢業）＝半年 */
       GM.memo('搬進第四個房間'); if(GM.autosave) GM.autosave(); }
     finally{ delete F.ROOM_Y4_MOVING; GM.sceneEnd(); }
@@ -3809,7 +3858,7 @@ const STORY = (function(){
     if(x) L.push(x); return L; };
   S.packDue=function(G){ const F=(G&&G.flags)||{}, d=y4D('pack'); return y4Law(G)&&d!=null&&G.day===d&&G.hour>=20&&!F.PACKED_Y4; };
   S.packY4=async function(GM,o){ o=o||{}; const G=GM.G, F=G.flags; if(!S.packDue(G)) return false; F.PACKED_Y4=G.day; cwDone(G,'ev_pack_y4');
-    const kept=F.BOX_KEPT_Y4&&S.roomItemName(G,F.BOX_KEPT_Y4)?F.BOX_KEPT_Y4:null, L=S.packItems(G).filter(id=>id!==F.BOX_KEPT_Y4);
+    const kept=F.BOX_KEPT_Y4&&F.BOX_KEPT_Y4!=='exbox'&&S.roomItemName(G,F.BOX_KEPT_Y4)?F.BOX_KEPT_Y4:null, L=S.packItems(G).filter(id=>id!==F.BOX_KEPT_Y4);   /* 'exbox'（前任的紙箱，AA_437 第 6 節）：AA_318 第 4 節沒有寫它那一句，跳過第一件 */
     GM.sceneBegin(); try{
       if(o.fromHome||G.zone!=='dorm'){ await GM.say(null,'（明天畢業典禮。你回宿舍收東西。）'); await GM.fade(true);   /* 在家的時候 G.zone 還是離開前的 3D 區域（可能就是 dorm）：照 fromHome */ if(GM.titleCard) await GM.titleCard('回宿舍',o.fromHome?'捷運＋公車 約 40 分鐘':'',2000);   /* 人在別的地方（B3：不會錯過）*/
         if(o.fromHome){ GM.advance(0.7); y4LeaveHome(G); if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); } if(GM.enter) await GM.enter('dorm',Object.assign({},Y4_DORM)); await GM.fade(false); }
