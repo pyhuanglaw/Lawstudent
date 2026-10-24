@@ -288,6 +288,12 @@ await sec('S',async()=>{
   ans('ct_zq1_ivA',0); check('S16. →「……下次我先訂好，不讓它跑掉。」',dm(ZQ).slice(-1)[0]==='heroine_04:……下次我先訂好，不讓它跑掉。');
   H.G.invites.push({id:'ivB',who:ZQ,place:'cafe',day:m8+1,h:19,state:'accepted'},{id:'ivC',who:ZQ,place:'cafe',day:m8+2,h:19,state:'accepted'}); at(m8+1,17.6); rules(); at(m8+2,17.6); rules();
   check('S16. 同一個月第三次：多「……第三次了 我知道」、+1',J(dm(ZQ).slice(-2))===J(['heroine_04:又要加班 對不起','heroine_04:……第三次了 我知道'])&&cnt(ZQ)===1,J(dm(ZQ).slice(-3)));
+  zqD('2028-10-16'); H.G.invites=[{id:'ivA',who:ZQ,place:'cafe',day:m8,h:19,state:'accepted'},{id:'ivB',who:ZQ,place:'cafe',day:m8+1,h:19,state:'accepted'}]; DATE.rec(H.G);
+  H.G.trips.push({trip:'tz1',who:ZQ,locs:['D03'],day:m8+2,depart:18.5,back:22.5,kind:'evening',status:'booked'},{trip:'tz2',who:ZQ,locs:['D03'],day:m8+4,depart:10,back:16,kind:'half',status:'booked'});
+  OUT.plan(H.G,{id:'date_tz1',dateTrip:'tz1',ev:null,day:m8+2,h:19,place:'參創生活園區',title:'和子晴去參創生活園區',late:1});
+  for(let k=0;k<5;k++){ at(m8+k,17.6); rules(); }
+  check('S16b. 校外約會（DATE 的預約）晚上那一種也算：那天 17:30 取消（行事曆那一筆也取消）、和約人系統的合起來同一個月第三次＝多一則、+1',H.G.trips[0].status==='cancelled'&&OUT.get(H.G,'date_tz1').state==='skipped'&&J(dm(ZQ).filter(t=>/加班|第三次/.test(t)))===J(['heroine_04:又要加班 對不起','heroine_04:又要加班 對不起','heroine_04:又要加班 對不起','heroine_04:……第三次了 我知道'])&&cnt(ZQ)===1,J([H.G.trips.map(t=>t.status),dm(ZQ)]));
+  check('S16b. 週六白天的校外約會不動',H.G.trips[1].status==='booked');
   zqD('2028-09-25'); const w1=(()=>{ for(let d=D('2028-10-01');;d++) if(wdOf(d)===3) return d; })(); at(w1,23.55); rules();
   check('S17. 子晴②：每個月第一個週三 23:30「今天又改了三個 bug」「眼睛快掉了」',J(dm(ZQ).slice(-2))===J(['heroine_04:今天又改了三個 bug','heroine_04:眼睛快掉了']));
   ans('ct_zq2_2028-10',0); rules(); check('S17. 「妳要不要先休息？」→「你在替我決定嗎」+1',dm(ZQ).slice(-1)[0]==='heroine_04:你在替我決定嗎'&&cnt(ZQ)===1);

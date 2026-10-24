@@ -27,7 +27,7 @@
      AA_431 第 1 節（企劃線 434e6d6d7；1-1 照 AA_434 更正：讀書會週四 20:00～21:30）：
        以安①讀書會的週四 12:30 私訊（說會來或不回、20:30 還沒到＝21:40「你今天沒來。」+1）；以安②大二起第 4、10 週週二 21:00 問意見（連續兩題「妳決定就好。」＝+1）；
        語彤②每 4 週一次（顧店那天 16:30／回診前一晚週五 21:00，第三個選項＋1）；沛珊①期中考週改期（第 9 週＋1，避不掉）、②第 5 週週三 23:10、③連續兩個月沒去台南（避不掉）；
-       芷若③第 6 週週日臺灣 07:00 戲院的照片（晚點再回、72 小時沒回＝+1）；子晴①大四上第 8～12 週加班取消（一個月第三次＋1）、②每月第一個週三 23:30、③手機選「我去妳公司樓下等妳」（30 天內第三次＋1）。
+       芷若③第 6 週週日臺灣 07:00 戲院的照片（晚點再回、72 小時沒回＝+1）；子晴①大四上第 8～12 週加班取消（約人系統的約、校外約會的晚上；一個月第三次＋1）、②每月第一個週三 23:30、③手機選「我去妳公司樓下等妳」（30 天內第三次＋1）。
        修補承諾：沛珊「每個月我去台南找妳一次。」（之後三個月看 ev_hv_ps_tn，漏一個月她問、漏兩個月分開）；子晴「那妳來決定時間。」（她約三次，到兩次以上）。
        談話邀約的回覆選項：沛珊「明天可以嗎？」、芷若「後天可以嗎？」＝移到隔天。
    存檔：G.flags.CRACKTALK＝{r:{人物:{talked:{學期:1}, plan, drift, commit, lastUnavoid, unavoidUsed, jpUsed, mode}}, seat:{日:{went,done}}, pc:{from,note:{}}}；舊存檔沒有＝空的。
@@ -325,11 +325,14 @@ const CRACKTALK=(function(){
   /* ---------- 1-6 子晴（2028-06 畢業以後在工作室上班）---------- */
   S.zqWork=(G,d)=>{ const a=D('2028-06-01'); if(a==null||(d==null?G.day:d)<a) return false; const p=pres(ZQ,d==null?G:Object.assign({},G,{day:d})); return p.kind==='taipei'||!!p.here; };
   S.zq=function(G){ const R=sub(S.src(G),'zq'), d=G.day, h=hh(G);
-    /* ① 大四上第 8～12 週，約好的平日晚上：那天 17:30「又要加班 對不起」、行程取消；同一個自然月第三次多一則、+1（避不掉）*/
-    if(dating(G,ZQ)&&S.zqWork(G)){ for(const iv of (G.invites||[])){ if(iv.who!==ZQ||iv.state!=='accepted'||iv.zqOT) continue; const t=CALENDAR.termOf(iv.day), w=wdOf(iv.day);
-        if(!t||t.id!=='Y4S1'||t.week<8||t.week>12||w<1||w>5||iv.h<17) continue; if(now(G)<T(iv.day,17.5)||now(G)>=T(iv.day,iv.h)+0.5) continue;
-        iv.zqOT=true; iv.state='cancelled'; const m=monthOf(iv.day), M=sub(R,'ot'); M[m]=(M[m]|0)+1; const tg='ct_zq1_'+iv.id;
-        S.sendAsk(G,ZQ,iv.day,17.5,[X2.zq1.msg].concat(M[m]===3?[X2.zq1.third]:[]),tg,[{t:X2.zq1.opt[0],say:[DM(ZQ,X2.zq1.opt[1])]}],T(iv.day+1,23)); if(M[m]===3) S.add(G,ZQ,{unavoidable:true}); } }
+    /* ① 大四上第 8～12 週，約好的平日晚上（約人系統 INV 的約、校外約會 DATE 的預約）：那天 17:30「又要加班 對不起」、行程取消；同一個自然月第三次多一則、+1（避不掉）*/
+    if(dating(G,ZQ)&&S.zqWork(G)){ const C=[];
+      for(const iv of (G.invites||[])) if(iv&&iv.who===ZQ&&iv.state==='accepted'&&!iv.zqOT) C.push({o:iv,key:'ct_zq1_'+iv.id,day:iv.day,h:iv.h,cancel:()=>{ iv.state='cancelled'; }});
+      if(typeof DATE!=='undefined'&&DATE.rec) DATE.rec(G); for(const tr of (G.trips||[])) if(tr&&tr.who===ZQ&&tr.status==='booked'&&!tr.zqOT&&(tr.kind==='evening'||(+tr.depart||0)>=17)) C.push({o:tr,key:'ct_zq1_d'+tr.trip,day:tr.day,h:+tr.depart||19,cancel:()=>{ tr.status='cancelled'; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'date_'+tr.trip):null; if(q&&q.state==='planned') q.state='skipped'; }});   /* 校外約會：晚上那一種（evening）*/
+      for(const c of C.sort((a,b)=>T(a.day,a.h)-T(b.day,b.h))){ const t=CALENDAR.termOf(c.day), w=wdOf(c.day);
+        if(!t||t.id!=='Y4S1'||t.week<8||t.week>12||w<1||w>5||c.h<17) continue; if(now(G)<T(c.day,17.5)||now(G)>=T(c.day,c.h)+0.5) continue;
+        c.o.zqOT=true; c.cancel(); const m=monthOf(c.day), M=sub(R,'ot'); M[m]=(M[m]|0)+1;
+        S.sendAsk(G,ZQ,c.day,17.5,[X2.zq1.msg].concat(M[m]===3?[X2.zq1.third]:[]),c.key,[{t:X2.zq1.opt[0],say:[DM(ZQ,X2.zq1.opt[1])]}],T(c.day+1,23)); if(M[m]===3) S.add(G,ZQ,{unavoidable:true}); } }
     /* ② 每個月第一個週三 23:30「今天又改了三個 bug」*/
     if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ S1[m]=d; S.sendAsk(G,ZQ,d,23.5,X2.zq2.msgs,'ct_zq2_'+m,opt3(ZQ,X2.zq2.opts),T(d+1,23.5)); } }
     for(const m of Object.keys(R.sent2||{})){ const P=sub(R,'done2'); if(P[m]) continue; const a=ansOf('ct_zq2_'+m); if(a==null) continue; P[m]=true; if(X2.zq2.opts[a]&&X2.zq2.opts[a][2]) S.add(G,ZQ); } };
@@ -364,7 +367,6 @@ const CRACKTALK=(function(){
   S.SOURCES_MISSING=[
     '沛珊②不回：AA_431 寫「隔天她傳一張貼圖，不加」，沒有寫是哪一張貼圖——沒有傳',
     '以安①「20:30 還沒到、也沒再傳訊息」：玩家那天有沒有再傳訊息給她沒有判斷（只看 20:30 以前有沒有到讀書會）',
-    '子晴①：只看約人系統（INV）排好的平日晚上；校外約會（date3d.js）排的不算',
     '子晴③：手機「傳訊息」的話題（MSG.topics／MSG.send 包一層）——一天只能傳一次的限制照 MSG' ];
   S.GAPS=[
     '芷若「寒假我去英國找妳」：1c-1 那一趟（ev_zhiruo_uk_visit）還沒進遊戲，選項先不出（AA_431 1-7 第 5 點：照這樣）',

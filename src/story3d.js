@@ -1380,6 +1380,7 @@ const STORY = (function(){
     for(const e of NEEDED_MSGS.list){ if(!e.at||N.shown[e.id]!=null) continue; const d=S.dayOfKey(e.at.day); if(d==null) continue; const t0=needAbs(d,e.at.h); if(now<t0||now-t0>=6*24) continue;
       const lv=typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(e.who):'STRANGER', kn=['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv)&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(e.who,'FIRST_MET')||e.who==='zhe'||e.who==='kai');
       let ok=!!(e.anyone||kn); try{ if(ok&&e.cond&&!e.cond(G)) ok=false; }catch(err){ ok=false; } if(!ok) continue;
+      if(typeof V6EX!=='undefined'&&V6EX.cool&&V6EX.coolSkip&&V6EX.cool(Object.assign({},G,{day:d}),e.who)&&V6EX.coolSkip(G,e.who,'need',e.id+'@'+d)){ N.shown[e.id]=d; continue; }   /* 分開以後一個學期，她先傳的每兩則送一則（AA_434 4-3；和每週 neededPick 共用 need 的計數）*/
       const grp='need_'+d; N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
       if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }
       const v=S.neededVar(G,e), msg=v.msg||e.msg, resp=v.resp||e.resp||[];

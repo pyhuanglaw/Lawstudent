@@ -196,7 +196,8 @@ const DATE=(function(){
     return S.canAskCore(G,id); };
   /* INV.whyNot 以外的條件（第 5 階、她在等你說清楚、她有交往的對象）：INV.whyNot 也用它（AA_350 T7a：她在台中、約得到才打開手機的「約」；不能叫 canAsk，會繞回 whyNot）*/
   S.canAskCore=function(G,id){ const F=G.flags||{}, dating=!!F['dating_'+id];
-    if(!dating&&S.stageNum(id)<5) return {ok:false,why:'還沒熟到可以兩個人出去'};
+    const sn=typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,S.stageNum(id)):S.stageNum(id);   /* 分手後的冷淡期照朋友的階段（AA_434 4-3；INV.capStage）*/
+    if(!dating&&sn<5) return {ok:false,why:'還沒熟到可以兩個人出去'};
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'她在等你把話說清楚'}; }
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'她現在有交往的對象'};
     return {ok:true}; };

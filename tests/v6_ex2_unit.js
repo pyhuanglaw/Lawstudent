@@ -5,6 +5,7 @@
 //   N 以安新 8（ev_plg_rules_after 週六補讀，她看到你那一句）
 //   H 週末在臺北的家（home3d.js 的 HOME.MENU_OPTS）：七天內多一個「收拾」　P 手機筆記（V6EX.note、V6EX.PHONE_ACT）
 //   X AA_434（企劃線 434e6d6d7）：可昕分開後第一次見面、Alison 的貼圖、芯慈留位子、之後一個學期她先傳的少一半＋不主動約
+//   T 手機「今天」頁的按鈕（game3d.js 讀 PHONE.TODAY_ACTS）：分開以後一週內「手機筆記寫一行」（AA_182「手機裡，隨時可以」）
 // 修改前（開發分支 HEAD 9a285f768）：G1、G2、S、N、H、P 失敗。用法：node tests/v6_ex2_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -138,6 +139,29 @@ await sec('X',async()=>{
   H.fresh('2026-10-13',21.5,'dorm'); H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk');
   check('X4. 以安週二約讀書會完吃飯（INV.anAsk）：這段期間不約',INV._v6exAsk===true&&INV.anAsk(H.G)===false&&!(H.G.invites||[]).some(iv=>iv.who===AN&&iv.by==='npc'));
   check('X4. 可昕不管（照 AA_351）',!V().COOL_IDS.includes(KX));
+  /* 寒暑假活動她私訊約（vac3d.js 的 signup kind dm）：這段期間不傳；報名的公告欄照樣在 */
+  const c03=ok=>{ H.fresh('2026-06-01',10,'dorm'); H.G.stage='law'; H.FRIEND(AN); INV.addContact(H.G,AN); if(!ok){ H.CLOSE(AN); ROM.start(H.G,AN); ROM.end(H.G,AN,'apart_talk'); H.FRIEND(AN); } H.G.day=D('2026-06-20'); H.G.hour=21.1; H.G.weekday=wdOf(H.G.day); STORY.phoneRules(GM); PHONE.tick(H.G); return H.msgs('p:'+AN).includes('我暑假要上日語課，公館那間，週二四晚上'); };
+  check('X4. 寒暑假活動以安私訊約（C03 日語課 6/20 21:00）：平常傳；6/1 和她分開＝這段期間不傳（vac3d.js 讀 V6EX.cool）',c03(true)&&!c03(false));
+});
+
+/* ======================= T 手機「今天」頁的按鈕 ======================= */
+await sec('T',async()=>{
+  const src=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
+  const fm=/  function todayActsHTML\(\)\{[^\n]*\n/.exec(src), hm=/    body\.querySelectorAll\('\[data-tact\]'\)[^\n]*\n/.exec(src);
+  check('T0. game3d.js：「今天」頁接 todayActsHTML()、按鈕 data-tact 的處理',!!fm&&!!hm&&/invTodayHTML\(\)\+todayActsHTML\(\)\+CLS\.todayHTML\(G\)/.test(src));
+  if(!fm||!hm) return;
+  const escH=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+  H.fresh('2026-10-14',20,'dorm'); H.CLOSE(AN); ROM.start(H.G,AN);
+  const ctx={PHONE,G:H.G,escH}; vm.runInNewContext(fm[0]+';this.f=todayActsHTML;',ctx); const html=()=>ctx.f();
+  check('T1. 沒分開：「今天」頁沒有按鈕',html()==='');
+  ROM.end(H.G,AN,'apart_talk'); const i=PHONE.TODAY_ACTS.indexOf(V().PHONE_ACT);
+  check('T2. 分開以後一週內：「手機筆記寫一行」按鈕（data-tact）',i>=0&&html().includes('data-tact="'+i+'"')&&html().includes('>手機筆記寫一行</button>'),html());
+  /* 按下去：收手機 → sceneBegin → run → sceneEnd → 存檔 → 打開「今天」*/
+  const calls=[], btn={dataset:{tact:String(i)}}; const hctx={PHONE,G:H.G,E:{player:{busy:false}},GM,body:{querySelectorAll:()=>[btn]},closePhone:()=>calls.push('close'),sceneBegin:()=>calls.push('begin'),sceneEnd:()=>calls.push('end'),autosave:()=>calls.push('save'),openPhone:t=>calls.push('open:'+t)};
+  vm.runInNewContext(hm[0],hctx); clear([1]); await btn.onclick();
+  check('T3. 按下去：收起手機、三句選一（照原文）、記 CLEANUP_NOTE、收拾過、存檔、回到「今天」',J(calls)===J(['close','begin','end','save','open:today'])&&J(H.opts[0])===J(['「謝謝妳。」','「是我們都沒錯。」','「下次我會先說。」'])&&H.G.flags.CLEANUP_NOTE==='「是我們都沒錯。」'&&H.G.flags.CLEANUP_DONE===true,J([calls,H.opts]));
+  check('T4. 收拾過以後：按鈕不見',html()==='');
+  calls.length=0; await btn.onclick(); check('T4. 舊的按鈕再按：不做事',calls.length===0);
 });
 
 H.done();

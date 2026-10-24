@@ -106,4 +106,10 @@ sec('E',()=>{
   check('E1. 下一個學期第 1 週的前一天還在冷卻（不發、第 4 階）；第 1 週那天恢復（發、第 6 階、節日 6）',J(a)===J([true,4,false])&&J(b)===J([false,6,true,6]),J([a,b]));
 });
 
+/* ======================= F 出遊約會（date3d.js DATE.canAskCore：LAWWW-B 10-24 補）======================= */
+sec('F',()=>{ breakup('2026-10-14',20,ZQ); setRel(ZQ,{fam:45,trust:30,comf:0,rom:10,npcRom:40}); const sn=DATE.stageNum(ZQ);
+  check('F1. 前提：戀愛階段 5、友情 FRIEND（第 3 階）',sn===5&&SOCIAL.friendLevel(ZQ)==='FRIEND',J([sn,SOCIAL.friendLevel(ZQ)]));
+  check('F1. 冷卻期間 DATE.canAskCore 照朋友階段（不能兩個人出去）；沒有冷卻照原本可以',DATE.canAskCore(H.G,ZQ).ok===false&&noCool(()=>DATE.canAskCore(H.G,ZQ).ok)===true,J([DATE.canAskCore(H.G,ZQ),noCool(()=>DATE.canAskCore(H.G,ZQ))]));
+});
+
 H.done();

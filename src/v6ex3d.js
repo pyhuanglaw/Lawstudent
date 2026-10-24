@@ -77,9 +77,9 @@ const V6EX=(function(){
     return false; };
   /* 手機筆記寫一行（AA_182：手機裡，隨時可以）：選單和手機共用 */
   S.note=async function(GM){ const G=GM.G; if(!S.pending(G)) return false; let k=0; GM.sceneBegin(); try{ k=await GM.choose(C.notes.map(t=>({t}))); } finally { GM.sceneEnd(); } S.done(G,'note',{CLEANUP_NOTE:C.notes[k]||C.notes[0]}); if(GM.toast) GM.toast(C.noteDone,2400); return true; };
-  /* 手機上的入口：game3d.js 的手機還沒有給別的模組放按鈕的地方（群組的 PHONE.GROUP_ACTS 只在群組對話裡）。有 PHONE.TODAY_ACTS（{label, show(G), run(GM)}）就登記，沒有＝只有書桌、在家選單 */
+  /* 手機上的入口（AA_182「手機裡，隨時可以」）：手機「今天」頁的按鈕（game3d.js 讀 PHONE.TODAY_ACTS：{label, show(G), run(GM)}）*/
   S.PHONE_ACT={id:'v6_note',label:C.menu.note,show:G=>S.pending(G),run:GM=>S.note(GM)};
-  if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.TODAY_ACTS)&&!PHONE.TODAY_ACTS.some(a=>a&&a.id==='v6_note')) PHONE.TODAY_ACTS.push(S.PHONE_ACT);
+  if(typeof PHONE!=='undefined'){ if(!Array.isArray(PHONE.TODAY_ACTS)) PHONE.TODAY_ACTS=[]; if(!PHONE.TODAY_ACTS.some(a=>a&&a.id==='v6_note')) PHONE.TODAY_ACTS.push(S.PHONE_ACT); }
   S.zhe=async function(GM,mode){ const G=GM.G, home=mode!=='dorm';   /* 宿舍＝頂樓；在家（和宿舍以外有書桌的房間）＝打電話、同一段話 */
     if(!home&&typeof PHONE!=='undefined'){ PHONE.post(G,{th:'p:zhe',from:'player',who:null,text:C.zheAsk}); PHONE.post(G,{th:'p:zhe',from:'zhe',text:C.zheReply}); }
     GM.sceneBegin(); try{ if(!home){ if(GM.fade) await GM.fade(true); GM.advance(1/6); if(GM.fade) await GM.fade(false); }   /* 十分鐘後，宿舍頂樓 */
@@ -213,11 +213,10 @@ const V6EX=(function(){
   /* 規格寫了、這一輪沒有做的（回報 LAWWW／AA）*/
   S.NOT_DONE=[
     'S4 紙箱：記了 CLEANUP_BOX，主線 10 大四開學前一天拆箱「會看到」那一段（AA_123 2-3、AA_182 第 2 節）沒有接——拆箱在 story3d.js（STORY.unboxY4），看到什麼（東西的名字、旁白）AA 沒寫字；可昕那三件 AA_185 3-4 有寫，可是 AA_185 不在匯入白名單',
-    'S4 手機筆記：手機沒有給別的模組放按鈕的地方（game3d.js 的手機只有群組對話裡的 PHONE.GROUP_ACTS）；S.PHONE_ACT 寫好了，等 game3d.js 加 PHONE.TODAY_ACTS',
     'A3 以安：新 15 志願表（story3d.js 1A-05：AA_315 寫「沒有和她分手」才演，和 AA_123 4-3b 的前任版「對整桌講」衝突，問 AA）、麵店團前兩週坐長桌另一頭（畫面）；新 13b 照 AA_123 4-3b 前任不演',
     'A6 語彤：事件 9、10、12、13、14、15 的前任版（y2b3d.js、r2y3a_events.js、y34b3d.js 各自的場景）、16b 群組版',
     'B6：沛珊（P6 公開課、書店那一句——她在台南，書店是台南的二手書店，要走 hometown3d.js，這一輪別人的檔）、芷若的明信片改寄到 Café（r2y4a3d.js 第二輪明信片）、學姊研究助理「辭掉」的選項（JOB_RA 遊戲裡還沒有）',
-    'B6 之後一個學期（AA_434 4-3）：只接了主線 4 的週日訊息（STORY.neededPick）、手機小事（dp_）、以安週二約讀書會完吃飯（INV.anAsk）；其他她先傳的（固定日子的 needed、節日、各事件包自己排的私訊）、別的模組的邀約要各自讀 V6EX.cool(G,id)',
+    'B6 之後一個學期（AA_434 4-3）：接了主線 4 的週日訊息（STORY.neededPick）、手機小事（dp_）、以安週二約讀書會完吃飯（INV.anAsk）、寒暑假活動她私訊約（vac3d.js 的 signup dm）；固定日子的 needed（story3d.js S.neededAt）、節日（fest3d.js、an_yt_hol3d.js）、其他事件包自己排的私訊和邀約要各自讀 V6EX.cool(G,id)',
     'B7：BCG-25 英國的雨要放在 ev_zhiruo_uk_visit（BB_119 1c-1＝V6-B2，遊戲裡還沒有這一趟）；BCG-19 學姊告白點 2（ev_sis_walk_avenue，遊戲裡沒有，告白已經改到學期末）；BCG-24 沛珊星期日（1b-2 作廢）' ];
   S.GAPS=['收拾選單的「算了」、做完的提示「收好了。」「寫好了。」','阿哲那段三個選項寫成「（講一點）」「（只吃東西）」「「謝謝」」','手機筆記三句加「」'];
   return S;
