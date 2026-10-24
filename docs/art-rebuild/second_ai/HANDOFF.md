@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 05:2x 更新**：
+    - 已交：⑤ ART-WZ6＋ART-WZ-MARKET-1023（本 commit；`test_shots/wz6_1024/README.md`、`test_shots/wz_market_1023/README.md`、`patches/wz6_market_1024.patch`，對開發 `738cc7ffc` apply --check 過）。
+      - 開發分支 04:36 改了 `jobs3d.js`，原本對 `eeed54fc2` 做的 patch 那一段套不上：測試樹 `$SP/dv8` 換到 `738cc7ffc`、重套、重出 patch；單元測試 4 個新的＋28 個相關的 ALL PASS。
+      - 截圖：第一輪（runD）宿舍那天 21:00 是大四期末的劇情，對話框的模糊蓋住整個畫面 → 改 day 1129、測試 CSS 藏 `#adv,#dlg` 重拍（runE）。
+    - 收到（P2，不用回）：LAWWW-B 03:53 AA_399 剩下要 3D 房間的七處（任務 #82）＋霖澤 1F 入口東牆 (7.2, 1.2) 公布欄模型。順序我排：萬才館研討室 B → 霖澤 1F 系辦 → 共同教學館 3F 考場 → 博雅 203／103 → 宿舍 205 → 總圖多媒體中心 → 美國學姊臥室 C＋法圖 2F 書庫。
+    - 下一項：#82 第一間萬才館研討室 B。
   - **21:0x 更新**：
     - 已交：④ 體育館 3F 典禮布置（本 commit，`test_shots/gym_ceremony_1023/README.md`、`patches/gym_ceremony_1023.patch`，對開發 `6f0db4672` apply --check 過）。
       - 我的分支的 `src/data/gym_layout.js` 先同步開發分支（我的是舊的），重建 `gym_arena.glb` 前先確認沒改的腳本重建出來一模一樣。

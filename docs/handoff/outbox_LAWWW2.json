@@ -2582,6 +2582,44 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "GY3.ceremonyDay(G)→'open'|'grad'|null；那一整天打開 SET_STAGE＋SET_CEREMONY、z.ceremonyOn、導航擋舞台和椅子區（三條走道留著）、法律學院走道邊 8 個座位可坐；spots me／an／zhe／alison／family×3／entry／aisle"
+  },
+  {
+   "task": "ART-WZ6：溫州街打工線的 3D——房間六件東西、阿德影印兩種外觀（WZ_COPY_SHOP stay／moved）、一盞簷廊貓碗、三家店上班站位（AA_420 第 9 節，DL-11）",
+   "files": [
+    "assets/models/env/second_ai/dorm_wz_items.{glb,json}（新）",
+    "assets/models/env/second_ai/wenzhou_street.glb（重建：轉角凹口＋COPY_ 四個節點）",
+    "assets/models/env/second_ai/wz_teahouse_interior.glb（重建：WZ_CATBOWL）",
+    "docs/art-rebuild/second_ai/patches/wz6_market_1024.patch（和二手市集同一份；對開發 738cc7ffc apply --check 過）",
+    "tools/blender/env_second/dorm_wz_items.py、wz_shopkit.py、wz_street.py、wz_shops_interior.py、textures/gen/dorm_wz_print.png、wz_copy_notices.png",
+    "docs/art-rebuild/second_ai/test_shots/wz6_1024/README.md＋截圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；dorm_wz_items_unit（15）、wz_copy_shop_unit（16）、wz_work_spots_unit（19）新測試，和 24 個相關的 _unit 在開發 738cc7ffc＋patch ALL PASS；遊戲內截圖（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "搬走以後 A1 招牌光暈晚上照舊亮（合批）；阿德影印櫃台缺口只有一格、櫃台後面走不到（要開 1.2 m 我可以做）；貓碗開關沒有單元測試；上班動作是遊戲端；手機效能沒實測",
+   "next": "LAWWW-B 套 patch、換三個 GLB；runShift 照 WZ_SHOPS_LAYOUT.<店>.work 放人（阿德影印下班一定放回 end）",
+   "note": "JOBS.roomKeys(G)；dorm 第一次需要才載入 bldg.dorm_wz_items、搬家收拾那幾天收起來；wzCopyState／wzCopyAt：moved 時店門 (3.9,6.5)、出來 (4.0,6.5)；WZ_CATBOWL：WZ_CAT_FOUND 以後、PARK.catGone 以前",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
+  },
+  {
+   "task": "ART-WZ-MARKET-1023：溫州街小公園二手市集的攤位（晴天入口步道兩桌＋地攤布、下雨老樹下兩個雨棚；AA_420 12-2）",
+   "files": [
+    "assets/models/env/second_ai/wz_market.{glb,json}（新，462 KB）",
+    "docs/art-rebuild/second_ai/patches/wz6_market_1024.patch（同上）",
+    "tools/blender/env_second/wz_market.py、textures/gen/wz_market_print.png",
+    "docs/art-rebuild/second_ai/test_shots/wz_market_1023/README.md＋截圖"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；wz_market_unit（新，15 項）、wz_park／wz_park_people／wz_park_talk／wz_cat／street_props_nav／street_trees _unit 在開發 738cc7ffc＋patch ALL PASS；遊戲內截圖（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "攤主 NPC（位置在 WZ_PARK_LAYOUT.market.<晴雨>.stalls[i].keeper）；手機效能沒實測",
+   "next": "LAWWW-B 套 patch、放 GLB；攤主照 keeper 放（坐姿）",
+   "note": "市集那一天（WZL.marketDay）才載入 bldg.wz_market；WZL.marketOn 時顯示＋擋 blocks、收攤時只還原改到的格子；晴雨照進區域時的天氣；zone.market＝{on,grp,cells,w}",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "noDirectIntegrate": false
   }
  ]
 }
