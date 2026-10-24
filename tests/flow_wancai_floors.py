@@ -51,7 +51,7 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀檔：星期六 10:00（第 8 天）、萬才館大樓梯頂端的平台 (87,-99.6)（校園第 1 層、3.63 m，面向二樓入口）、晴天')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 87, 'z': -99.6, 'yaw': 3.1416, 'lv': 1, 'y': 3.63}, 'flags': FLAGS})
+        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 87, 'z': -99.6, 'yaw': 3.1416, 'lv': 1, 'y': 3.63}, 'flags': FLAGS}, quiet_phone=True)
         await pg.wait_for_timeout(3000)
         s = await L.state(pg); await run.shot(pg, 'platform')
         run.check('在平台上（校園第 1 層、3.63 m）', s['zone'] == 'campus' and s['lv'] == 1 and abs(s['y'] - 3.63) < 0.05, json.dumps(s, ensure_ascii=False))
@@ -64,10 +64,10 @@ async def main():
         run.check('在萬才館二樓的門廳（第 1 層、4.2 m）、站得住；不會一進來就跳出「走出去」', s['zone'] == 'wancai' and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and s['stand'] and not s['interact'].startswith('走出去'),
                   json.dumps(s, ensure_ascii=False))
         # 2. 迴廊 → 北側走廊 → 研討室 A
-        da = await L.find_it(pg, '研討室 A')
+        da = await L.find_it(pg, '進入 研討室 A') or await L.find_it(pg, '研討室 A')   # 6ac74b063 起門的字是「進入 研討室 A」
         ok = await L.go_to(pg, cdp, run, da['x'], da['z'] + 0.3, 0.8, '研討室 A 的門', lv=1)
         s = await L.state(pg); await run.shot(pg, 'corridor_2f')
-        run.check('沿著西側迴廊走到北側走廊、研討室 A 的門（還在二樓）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and s['interact'].startswith('研討室 A'), json.dumps(s, ensure_ascii=False))
+        run.check('沿著西側迴廊走到北側走廊、研討室 A 的門（還在二樓）', ok and s['lv'] == 1 and abs(s['y'] - Y1) < 0.05 and '研討室 A' in (s['interact'] or ''), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); cap = await caption(pg)
         run.check('按下去是看得懂的說明（社課時間＋今天沒有社課／沒有你的課，或門鎖著）', '研討室 A' in cap and ('鎖' in cap or ('今天沒有' in cap and '每週' in cap)), f'「{cap}」')
         await pg.wait_for_timeout(5000)
@@ -139,6 +139,7 @@ async def main():
         run.check('在萬才館二樓存檔：存檔記錄區域、樓層（lv=1）、位置與高度', bool(saved) and abs(saved['pos'].get('y', 0) - Y1) < 0.1, json.dumps(saved, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnClose') if await L.center_of(pg, '#btnClose') else None
         await pg.reload(); run.check('重新整理', await L.wait_loaded(pg))
+        await L.no_phone_auto(pg)   # [前置] 讀進來的存檔有要回的訊息：手機自己打開會擋住搖桿（D103）
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
         c = await pg.evaluate("(k=>{ const n=k.replace('fatiao3d_slot_',''); const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 '+n)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(saved['k'] if saved else 'fatiao3d_slot_3'))
         if c: await L.touch_tap(cdp, c[0], c[1])

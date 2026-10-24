@@ -42,7 +42,7 @@ async def main():
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀檔：星期六 10:00（第 8 天）、法學院廣場（萬才館大樓梯前 (87,-84)，面向樓梯）、晴天')
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': PLAZA[0], 'z': PLAZA[1], 'yaw': 3.1416},
-                                'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}})
+                                'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}}, quiet_phone=True)
         await pg.wait_for_timeout(3000)
         s = await L.state(pg); await run.shot(pg, 'plaza')
         run.check('在廣場（地面那一層、高度 0）', s['zone'] == 'campus' and s['lv'] == 0 and abs(s['y']) < 0.05, json.dumps(s, ensure_ascii=False))
@@ -86,6 +86,7 @@ async def main():
         run.check('在陽台上存檔：存檔記錄樓層（lv=1）、位置與高度', bool(saved) and abs(saved['pos'].get('y', 0) - PF) < 0.1, json.dumps(saved, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnClose') if await L.center_of(pg, '#btnClose') else None
         await pg.reload(); run.check('重新整理', await L.wait_loaded(pg))
+        await L.no_phone_auto(pg)   # [前置] 讀進來的存檔有要回的訊息：手機自己打開會擋住搖桿（D103）
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
         if saved:
             c = await pg.evaluate("(k=>{ const n=k.replace('fatiao3d_slot_',''); const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 '+n)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(saved['k']))

@@ -60,8 +60,9 @@ async def main():
         lab = await pg.evaluate("document.getElementById('interact').textContent")
         print('interact:', lab)
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(600)
-        toast = await pg.evaluate("document.getElementById('toast').textContent")
-        print('toast:', toast); run.check('閉館訊息寫開放時間與幾點開', '08:00' in toast and '開放時間' in toast, toast)
+        # 閉館的字以前是 toast，v9.10.7 起是對話框（後面可能接 B1 側門的選單）：兩個都讀（BB-B 10-24 回歸）
+        toast = await pg.evaluate("((document.getElementById('toast')||{}).textContent||'')+' '+((document.getElementById('dlgText')||{}).textContent||'')")
+        print('toast/dlg:', toast); run.check('閉館訊息寫開放時間與幾點開', '08:00' in toast and '開放時間' in toast, toast)
         await run.shot(pg, 'library_closed_toast')
         # 直向
         await ctx.close(); await b.close()
