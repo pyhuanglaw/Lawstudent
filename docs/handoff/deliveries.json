@@ -14127,6 +14127,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 08:5x：4229bbaf4；兩張徵才單照 JOBS.board2 開關（jobs3d.js S.posterSync）；indoor_camera_occlusion 瀏覽器測試給 BB"
+  },
+  {
+   "id": "DL-LW2-SOCSCI-BLINDS",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7f7296fef",
+   "what": "#61 社科院大樓窗戶加捲簾、布簾（清查 B9 窗戶單調）",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 09:1x 整合；只換 GLB／json＋腳本"
   }
  ],
  "ignored": [
