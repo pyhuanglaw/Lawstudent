@@ -83,7 +83,7 @@
 
 - **patch**：`patches/us_route_night_1024.patch`。
   - 改 `src/us3d.js`、`tests/us_lamp_pools_unit.js`，新增 `tests/us_lawlib_sky_unit.js`；
-  - 對開發 `b2430412c` 做的，在 `a7a7a6ed8` 上也套得乾淨。
+  - 對開發 `c32e36006`（LAWWW-B 改了 `us3d.js` 的 `gateSeason` 那一行以後）重新產生，`git apply --check` 乾淨；修正是在 `b2430412c` 上做、測的。
 - **GLB**：`assets/models/env/second_ai/us_community.glb`（＋`.json`），腳本 `tools/blender/env_second/us_community.py`。
 - **測試**：套上 patch＋新 GLB（最終版），以下 17 支都 ALL PASS：
   - 美國 16 支：`aa370_us`、`aa412_us`、`aa424_us_blank`、`nav_us`、`us_bed_c`、`us_cam_walls`、`us_campus_shelter`、`us_lamp_pools`、`us_lawlib_2f`、`us_lawlib_sky`、`us_life`、`us_market_cam`、`us_market_street`、`us_ms_seethru`、`us_season`、`us_traffic`；

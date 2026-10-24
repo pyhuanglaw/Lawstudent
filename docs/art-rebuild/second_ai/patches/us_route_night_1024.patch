@@ -1,5 +1,5 @@
 diff --git a/src/us3d.js b/src/us3d.js
-index 17194793d..c62b9570f 100644
+index ed7fafbb0..4c577c9c2 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
 @@ -135,9 +135,16 @@ const US3=(function(){
@@ -22,7 +22,7 @@ index 17194793d..c62b9570f 100644
       o：id、name、layout()、glb、exitSpawn()（「出門」到社區的哪裡）、look（冰箱、爐子的字）、tag（給交換系統的互動 id）。
       家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
 @@ -281,6 +288,10 @@ const US3=(function(){
-     gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-18','葉子掉得差不多了，地上都是橡實。'],['2028-10-16','橡樹的葉子開始轉紅了。']]};
+     gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-01','葉子掉得差不多了，地上都是橡實。'],['2028-10-09','橡樹的葉子開始轉紅了。']]};   /* AA_448 1-1：日子照 usSeasonKey（秋 10/9、初冬 11/1、雪 12/2），和校園模型同一天換 */
    const campusLook=(id,G)=>{ if(id!=='gate') return LOOK_CAMPUS[id]||null; const k=dkey(G), s=k?LOOK_CAMPUS.gateSeason.find(q=>k>=q[0]):null; return LOOK_CAMPUS.gate+(s?s[1]:''); };
    const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
 +    /* 晚上的地面光圈（LAWWW2-B 美國路線巡查 10-24：21:00 法學院前的草地、台階一片黑，路燈只有燈頭亮）：人行道的綠色高路燈（燈頭 5.7～6.2 m，正上方）、

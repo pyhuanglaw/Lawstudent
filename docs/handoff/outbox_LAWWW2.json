@@ -2893,7 +2893,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "（本 commit；push 後回報的訊息寫 SHA）",
    "files": [
-    "docs/art-rebuild/second_ai/patches/us_route_night_1024.patch（對開發 b2430412c，a7a7a6ed8 也套得乾淨）：src/us3d.js（vtAt、skyTint、us_campus lampPools）、tests/us_lamp_pools_unit.js（加美國校園）、新的 tests/us_lawlib_sky_unit.js",
+    "docs/art-rebuild/second_ai/patches/us_route_night_1024.patch（對開發 c32e36006 重新產生、套得乾淨；修正在 b2430412c 上做、測）：src/us3d.js（vtAt、skyTint、us_campus lampPools）、tests/us_lamp_pools_unit.js（加美國校園）、新的 tests/us_lawlib_sky_unit.js",
     "assets/models/env/second_ai/us_community.glb＋.json、tools/blender/env_second/us_community.py（社區外面的道路、公車站、對面平房、樹林）",
     "docs/art-rebuild/second_ai/test_shots/route_us_1024（README：路線、找到的、改前改後、記錄的 P3）"
    ],
