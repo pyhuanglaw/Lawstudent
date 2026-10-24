@@ -31179,6 +31179,35 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "QA-TRANSCRIPT-US-1024",
+   "title": "美國交換那一學期的劇本（8/2 抵達～12/23 回臺灣；學姊交往中、挽回中各一份），交 AA 像讀者一樣讀、抓前後對不起來",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "QA",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國路線 2028-08-02",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-24 08:4x（D99 第三優先、D111 派工；延伸 QA-TRANSCRIPT-1018 的做法）",
+   "authorized": "D99、D100（BB 測試）、D111",
+   "next": "【LAWWW-B 10-24 08:4x】派給 BB（排在 v9.10.8 測試之後）：照 tests/econ_transcript_md.py 的做法輸出 docs/qa/ 的 md，交 AA-B 讀（副本 LAWWW）；AA 讀完的修改照平常寫稿給 LAWWW",
+   "xai": {
+    "spec": "tests/econ_transcript_md.py 的做法；QA-TRANSCRIPT-1018",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "兩份劇本 md（交往中、挽回中）在 BB 分支、AA 讀過回覆",
+    "receiver": "AA",
+    "ack": "SENT"
+   }
   }
  ]
 }
