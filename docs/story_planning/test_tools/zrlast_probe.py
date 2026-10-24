@@ -1398,7 +1398,7 @@ R7 = [
   dict(id='FOOD51_KX_RED', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['紅茶', '帶一杯給可昕', '無糖'],
        steps=[NWZTEA, TEA, ('chk', '記下帶了哪一杯', KXQ, '紅茶/0'), ('until', 19.0)], want=WRONG('kexin', '紅茶'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
   dict(id='FOOD51_KX_MELON', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ + KXPLAN, pref=['冬瓜檸檬', '帶一杯給可昕', '無糖'],
-       steps=[NWZTEA, MK('kexin'), ('until', 16.8, 300), NWZTEA, TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)],   # BB-B 10-24 04:0x（f51dr4）：窗口前站了一個路人（林采潔，UNFAMILIAR_POOL），按鈕變「和林采潔說話」＝腳本放的位置剛好被擋；等 12 分鐘遊戲時間再放一次 want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),
+       steps=[NWZTEA, MK('kexin'), ('until', 16.8, 300), NWZTEA, TEA, ('chk', '錢照價錢扣（45＋45）', MONEYD, -90), ('until', 19.0)], want=WRONG('kexin', '冬瓜檸檬'), none=R7T(FAVL['kexin']['right'])[:1], jsok=[('點錯：沒算點對', FAVR('kexin'), False)]),   # BB-B 10-24 04:0x（f51dr4）：窗口前站了一個路人（林采潔，UNFAMILIAR_POOL），按鈕變「和林采潔說話」＝腳本放的位置剛好被擋；等 12 分鐘遊戲時間再放一次
   dict(id='FOOD51_KX_NOTRIP', key='TERMDAY:Y2S1:17:4', h=16.6, zone='wenzhou', flags=dict(TW3), js=KXJ, pref=['青茶', '帶一杯給可昕'], steps=[NWZTEA, TEA],
        none=['CHOICE:帶一杯給可昕'], dmoney=-30),   # 沒有排學期末約會：沒有「帶一杯給可昕」
   # BB-B 16:1x：芷若在吧檯後面，負載高時從門口走 131 秒走不到 → steps 先放到吧檯前【捷徑】
