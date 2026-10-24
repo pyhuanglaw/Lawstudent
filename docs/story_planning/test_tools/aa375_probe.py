@@ -576,12 +576,57 @@ async def s_data(p, run, base, sid, out):
     await close(b)
 
 
+# BB-B 10-24 03:5x：清單第 86 項①（BB 事件包第 2 輪，bbpack_r2；開發分支 23bba7c8d 起）：交換展坐哪一區的句子
+#   日本區＋見過日文班（JP_MET）＋上過日文（attend.japanese_1）＝采蓁兩句；美國區＝明軒一句；台灣區＝明軒一句；認識明軒＝門口兩句（每一種都有）
+EXPO86 = {
+  'EXPO86_JP': ('（坐到日本那一區）', [('采蓁', '欸，日文課的！你也想去日本？'), ('采蓁', '獸醫系走不開。……可是看看也好。')], {'JP_MET': True}, True),
+  'EXPO86_US': ('（坐到美國那一區）', [('classmate_mingxuan', '美國區。……我坐這裡，不代表付得起。')], {}, False),
+  'EXPO86_TW': ('（坐到台灣那一區）', [('classmate_mingxuan', '你只是來聽聽？……我也是。聽聽不用錢。')], {}, False),
+}
+MX_DOOR = [('classmate_mingxuan', '我想去。……交換要先存錢，我算過了。'), ('classmate_mingxuan', '要再多教兩個家教學生。')]
+
+
+async def s_expo86(p, run, base, sid, out):
+    res = out.setdefault(sid, {}); pk, want, flags, jp = EXPO86[sid]
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', 11.95, 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), flags=flags,
+                                    label=sid + '（認識以安、柏翰、明軒；%s）' % ('見過日文班、【前置】日文（上）出席 3 次' if jp else '沒修日文'))
+    try:
+        if jp: await pg.evaluate("(()=>{ const R=CLS.rec(GAME.G); R.attend=R.attend||{}; R.attend.japanese_1=3; return R.attend.japanese_1; })()")
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        await quick_go(pg, cdp, 'campus|博雅教學館'); ok, it = await enter_door(pg, cdp, run, 'boya', sid); st = await pg.evaluate(STATE); res['enter'] = [st, it]
+        run.check('%s：走進博雅教學館（%s）' % (sid, it[3] if it else '找不到門'), ok, json.dumps(st, ensure_ascii=False))
+        n0 = len(await pg.evaluate("window.__LOG||[]")); joined = False; t0 = time.time()
+        while time.time() - t0 < 420 and not joined:
+            seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+            if not seat: run.check('%s：博雅 101 有座位可以坐' % sid, False, ''); break
+            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            ops = await opts(pg); res.setdefault('seat_menus', []).append(ops)
+            k = next((i for i, o in enumerate(ops) if o.startswith('聽演講：交換學生甄選說明會')), None)
+            if k is not None: await tap_idx(pg, cdp, k); joined = True; break
+            if ops: k2 = next((i for i, o in enumerate(ops) if o.startswith(('不坐了', '算了', '站起來'))), len(ops) - 1); await tap_idx(pg, cdp, k2)
+            await pg.wait_for_timeout(15000)
+        if joined:
+            ok2, ch = await wait_for(pg, cdp, run, "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_exchange_expo_y2)&&!(typeof ADV!=='undefined'&&ADV.active)", max_s=240, picks=[pk], label=sid)
+            await drive(pg, cdp, run, max_s=30, label=sid)
+            log = (await pg.evaluate("window.__LOG||[]"))[n0:]; res['log'] = log; res['country'] = await pg.evaluate("GAME.G.flags.EXPO_COUNTRY||null")
+            nm = await pg.evaluate("({m:SOCIAL.displayName('classmate_mingxuan')})")
+            sp = [('classmate_mingxuan' if (x.get('id') or x['n']) in ('classmate_mingxuan', nm['m']) else (x.get('id') or x['n']), x['t']) for x in log if x['n'] not in ('［選項］', '［字幕］')]
+            miss = [w for w in MX_DOOR + want if not any(t == w[1] and (n == w[0] or w[0] == '采蓁') for n, t in sp)]
+            run.check('%s：選「%s」（EXPO_COUNTRY＝%s）；明軒門口兩句＋這一區的句子逐字' % (sid, pk, res['country']), ok2 and not miss, json.dumps({'miss': miss, 'tail': sp[-10:]}, ensure_ascii=False)[:600])
+            if not jp: run.check('%s：沒修日文＝沒有采蓁那兩句' % sid, not any(t.startswith('欸，日文課的') for _, t in sp), '')
+        else: run.check('%s：101 坐下有「聽演講：交換學生甄選說明會」' % sid, False, json.dumps(res.get('seat_menus'), ensure_ascii=False)[:400])
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
 ORDER = ['CAFE_0607', 'INV_GUEST', 'INV_SHIFT', 'ADMIT', 'ADMIT_DATE', 'ADMIT_AFTER', 'TERM_GF', 'TERM_GF_EARLY', 'ZQ_DAD', 'SPRING_CAR', 'DATA',
-         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2']
+         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2'] + list(EXPO86)
 FN = {'CAFE_0607': s_cafe, 'INV_GUEST': s_inv, 'INV_SHIFT': s_inv, 'ADMIT': s_admit, 'ADMIT_DATE': s_admit, 'ADMIT_AFTER': s_admit,
       'TERM_GF': s_termgf, 'TERM_GF_EARLY': s_termgf, 'ZR_TEN': s_termgf, 'ZQ_DAD': s_zqdad, 'SPRING_CAR': s_spring, 'DATA': s_data,
       'MSG_BH': s_msgs, 'MSG_GRP': s_msgs, 'MSG_KAI': s_msgs, 'ZQ_0604': s_msgs, 'SUM_0306': s_sum, 'SUM_0520': s_sum,
       'NOODLE_THU': s_noodle, 'NOODLE_SPRING': s_noodle, 'EXPO_Y2': s_expo_y2}
+FN.update({k: s_expo86 for k in EXPO86})
 
 
 async def main():
