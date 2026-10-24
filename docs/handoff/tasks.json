@@ -31055,6 +31055,29 @@
    "source": "子代理回報 2026-10-24（AA342-COVERAGE-1021）",
    "authorized": "D109、D111",
    "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後"
+  },
+  {
+   "id": "AA439-LINT-1024",
+   "title": "AA_439 口氣表禁用句總掃描（開發分支 83134ddf3）：子晴到達句「欸不是，」、芷若心願句、三句手動換；手機訊息、閒聊階梯下一次另掃",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 順手看：子晴第一次到某個約會地點沒有「欸不是，」；AA 下一次掃手機訊息、閒聊階梯",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "全學年",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 04:3x（企劃線 a5b936a69）",
+   "authorized": "D109、D111",
+   "sha": "20b55cd53",
+   "notes": "2026-10-24 LAWWW-B：白名單 35 檔換版本重匯＋三句手動（20b55cd53）"
   }
  ]
 }
