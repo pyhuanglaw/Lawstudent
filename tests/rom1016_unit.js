@@ -2,7 +2,7 @@
 //   1 芷若 3-1 你點的那一杯：大三下、Z13 條件到齊＋ZR_GAVE_HER_ORDER、她在吧檯：點餐多「（點一杯熱可可加濃縮）」→ 交往、ZR_HE_ORDERED、Z13 不再觸發；不選＝照平常點
 //   2 沛珊 5-1 被等的感覺：11/17 23:10 私訊 → 11/19 18:40 台南課輔班；沒到＝19:10 兩則、改 11/26；第二次沒到＝21:00 兩則、PS_WAITED；不行＝不演
 //   3 沛珊 5-2 她的紅筆：11/15 23:00 私訊 → 11/17 19:30；美國路線沒有；沒到＝21:00 照片、下一次當面的私下約演短版
-//   4 可昕 K7 第一年的週年卡片：房間物件翻後面幾頁、KX_CARD_READ；第 5 頁照 7/24 的選擇
+//   4 可昕 K7 第一年的週年卡片：房間物件翻後面幾頁、KX_CARD_READ；第 5 頁照 7/24 的選擇；沒去的之後第一次當面見面給卡片（AA_438 第 2 節）
 //   0 每一句都在 BB_165（企劃線 a54ec2b4a）
 // 修改前（開發分支 99a20823b）：沒有這兩個檔，第 0 項 FAIL、其他不跑。用法：node tests/rom1016_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -52,26 +52,32 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
     check('0. 每一句台詞、旁白、選項、私訊、卡片的頁都在 BB_165（企劃線 a54ec2b4a；「（下面空白。）」是頁面的說明，照片寫成「📷（…）」）',!!BB165&&n>60&&bad.length===0,n+' 句；對不到：'+J(bad)); }
 
   /* ======================= 1 芷若 3-1 ======================= */
-  fresh('2028-04-12',15,'cafe'); R13();
+  fresh('2028-06-09',15,'cafe'); R13();
   check('1. 條件到齊（大三下、Z13 七環＋心意邀約的條件、Z11 的 ZR_GAVE_HER_ORDER、她在吧檯）：選項會出現',ROM1016.hisOrderDue(G,GM)===true&&R2Y3B.z13Ready(G));
   { const c=[]; delete G.flags.ZR_GAVE_HER_ORDER; c.push(ROM1016.hisOrderDue(G,GM)); G.flags.ZR_GAVE_HER_ORDER=true; GM.npc[ZR].staff=null; c.push(ROM1016.hisOrderDue(G,GM)); GM.npc[ZR].staff='cafe';
-    at('2027-11-10',15); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-04-12',15); DATE.log(G,ZR).wish=false; c.push(ROM1016.hisOrderDue(G,GM)); DATE.log(G,ZR).wish=true;
-    G.termend={Y3S2:{plan:{special:{[ZR]:'z13'}}}}; c.push(ROM1016.hisOrderDue(G,GM)); delete G.termend; G.zone='campus'; c.push(ROM1016.hisOrderDue(G,GM)); G.zone='cafe';
-    check('1. 不出現：沒有 ZR_GAVE_HER_ORDER、她不在吧檯、不是大三下、心意邀約的條件沒到（沒去過心願地點）、學期末已經排了 Z13、不在 Café',c.every(x=>x===false),J(c)); }
+    at('2027-11-10',15); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-06-09',15); DATE.log(G,ZR).wish=false; c.push(ROM1016.hisOrderDue(G,GM)); DATE.log(G,ZR).wish=true;
+    G.zone='campus'; c.push(ROM1016.hisOrderDue(G,GM)); G.zone='cafe';
+    check('1. 不出現：沒有 ZR_GAVE_HER_ORDER、她不在吧檯、不是大三下、心意邀約的條件沒到（沒去過心願地點）、不在 Café',c.every(x=>x===false),J(c)); }
+  { const c=[]; at('2028-04-12',15); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-06-07',15); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-06-08',10); c.push(ROM1016.hisOrderDue(G,GM));
+    const q={id:'te_Y3S2',state:'planned',day:STORY.dayOfKey('2028-06-15'),h:22,te:{special:'z13'}}; OUT.rec(G).push(q);
+    at('2028-06-15',21.5); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-06-15',22); c.push(ROM1016.hisOrderDue(G,GM)); at('2028-06-10',15); q.arrived=true; c.push(ROM1016.hisOrderDue(G,GM)); G.outings=G.outings.filter(x=>x!==q); at('2028-06-09',15);
+    check('1. AA_438 第 1 節：只在學期末心意邀約窗口——學期中 4/12、6/7 不出現；6/8 起出現；Z13 排在 6/15 22:00：21:30 還出現、22:00 起不出現、她已經到了不出現',J(c)===J([false,false,true,true,false,false]),J(c)); }
   { const r=EVENTS.onInteract(ZR); await new Promise(res=>setTimeout(res,0)); const o=opts[0]||[];
     check('1. 和吧檯的她說話：先問「（點一杯熱可可加濃縮）」或「（照平常點）」（EVENTS.onInteract 接住）',r===true&&J(o)===J(['（點一杯熱可可加濃縮）','（照平常點）']),J(opts)); }
-  fresh('2028-04-12',15,'cafe'); R13(); picks=[1]; said=[]; opts=[];
+  fresh('2028-06-09',15,'cafe'); R13(); picks=[1]; said=[]; opts=[];
   { const r=await ROM1016.hisOrderOffer(GM); for(let i=0;i<20&&EVENTS.running;i++) await new Promise(res=>setTimeout(res,0));
-    check('1. 「（照平常點）」：照她平常的點餐（第 5 次起直接做「拿鐵。……我已經在做了。」），你點的那一杯沒有演、之後還會出現',r==='normal'&&lines().includes('拿鐵。……我已經在做了。')&&!G.events.done.ev_zhiruo_his_order&&!G.flags.ZR_HE_ORDERED,J(lines())); }
-  fresh('2028-04-12',15,'cafe'); R13(); const m0=G.money, v0=G.flags.CAFE_VISITS; picks=[0,1]; said=[]; opts=[];
+    check('1. 「（照平常點）」：交回她平常的吧檯（EVENTS.onInteract 原本那一個：那天該演的事件或點餐；6/9 是她的電影那一段），你點的那一杯沒有演、之後還會出現',r==='normal'&&lines().length>0&&!G.events.done.ev_zhiruo_his_order&&!G.flags.ZR_HE_ORDERED&&ROM1016.hisOrderDue(G,GM)===true,J(lines())); }
+  fresh('2028-06-09',15,'cafe'); R13(); const m0=G.money, v0=G.flags.CAFE_VISITS; picks=[0,1]; said=[]; opts=[];
   { const r=await ROM1016.hisOrderOffer(GM); const L=lines();
     const want=['（她做好，正要推到你面前。你把杯子推回她那一邊。）','……這是我的點法。','嗯。這杯是給妳的。','（她看著杯子很久。）','……你怎麼記得。','這個我只做給你喝過。','（她把杯子拿起來，雙手捧著）','……不行，這杯我的。'];
     check('1. 點她的點法：BB_165 3-1 的場面（選②「妳不喝，我就自己喝。」→（她把杯子拿起來，雙手捧著）「……不行，這杯我的。」）',r==='order'&&J(L)===J(want),J(L));
     check('1. 結果：交往（dating_heroine_02）、ZR_HE_ORDERED、演過＝Z13 不再觸發（z13Ready false）、之後不再出現；錢 -120、點餐次數 +1',G.flags.dating_heroine_02===true&&ROM.get(G,ZR).status==='dating'&&G.flags.ZR_HE_ORDERED===true&&!!G.events.done.ev_zhiruo_his_order&&R2Y3B.z13Ready(G)===false&&ROM1016.hisOrderDue(G,GM)===false&&m0-G.money===120&&G.flags.CAFE_VISITS===v0+1,J({d:G.flags.dating_heroine_02,m:m0-G.money,v:G.flags.CAFE_VISITS})); }
-  fresh('2028-04-12',15,'cafe'); R13(); picks=[0,0]; said=[];
+  { fresh('2028-06-09',15,'cafe'); R13(); const q={id:'te_Y3S2',state:'planned',day:STORY.dayOfKey('2028-06-15'),h:22,te:{special:'z13'}}; OUT.rec(G).push(q); picks=[0,0]; await ROM1016.hisOrderOffer(GM); for(let i=0;i<20&&EVENTS.running;i++) await new Promise(res=>setTimeout(res,0));
+    check('1. Z13 那頓飯已經排了又在吧檯點了：交往、那頓飯不再演（skipped、arrived）',G.flags.dating_heroine_02===true&&q.state==='skipped'&&q.arrived===true,J(q)); }
+  fresh('2028-06-09',15,'cafe'); R13(); picks=[0,0]; said=[];
   { await ROM1016.hisOrderOffer(GM); const L=lines();
     check('1. 選①「我沒有要還妳。」：（她笑出來，眼眶紅了一下。）「……那我喝了。」「很幼稚耶。」',J(L.slice(-3))===J(['（她笑出來，眼眶紅了一下。）','……那我喝了。','很幼稚耶。'])&&G.flags.ZR_HE_ORDERED===true,J(L.slice(-4))); }
-  { fresh('2028-04-12',15,'cafe'); R13(); CG_REGISTRY.cg_cup_words_heroine02={file:'x'}; picks=[0,0]; await ROM1016.hisOrderOffer(GM); delete CG_REGISTRY.cg_cup_words_heroine02;
+  { fresh('2028-06-09',15,'cafe'); R13(); CG_REGISTRY.cg_cup_words_heroine02={file:'x'}; picks=[0,0]; await ROM1016.hisOrderOffer(GM); delete CG_REGISTRY.cg_cup_words_heroine02;
     check('1. CG：BCG-08「杯子上的字」（cg_cup_words_heroine02，登錄了才放）',cgs.includes('cg_cup_words_heroine02'),J(cgs)); }
 
   /* ======================= 2 沛珊 5-1 ======================= */
@@ -122,7 +128,17 @@ const R13=()=>{ const F=G.flags; F.CAFE_VISITS=6; F.zhiruoFirstOrder='拿鐵'; F
   { const it=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); picks=[1]; said=[]; await it[2](GM);
     check('4. 「不看了」：只看第一頁，不記 KX_CARD_READ',J(lines())===J(['那天在最高的地方，你說在一起吧。我說好。'])&&!G.flags.KX_CARD_READ,J(lines())); }
   fresh('2025-10-20',22,'dorm',{KX_ANNIV:{1:'missed'}}); date(KX);
-  check('4. 週年沒去（missed）：沒有這個房間物件（卡片她自己帶回去，AA_313 2-3 A）',!STORY.roomItemList(G).some(r=>r[0]==='她的週年卡片'));
+  check('4. 週年沒去（missed）：當面給以前沒有這個房間物件（當晚她自己帶回去，AA_313 2-3 A）',!STORY.roomItemList(G).some(r=>r[0]==='她的週年卡片'));
+  { const c=[]; c.push(ROM1016.cardDue(G)===1); G.day=D('2025-10-17'); c.push(ROM1016.cardDue(G)===0); G.day=D('2025-10-20');
+    G.trips=[{trip:'t7',who:KX,day:G.day+1},{trip:'t8',who:'heroine_01',day:G.day+2}];
+    c.push(ROM1016.kxFace({id:'date_t7',dateTrip:'t7',place:'政大'},G)===true&&ROM1016.kxFace({id:'kx_drift_r3',ev:'ev_kx_drift_r3',place:'視訊'},G)===false&&ROM1016.kxFace({id:'date_t8',dateTrip:'t8'},G)===false&&ROM1016.kxFace({id:'kx_drift_r4',ev:'ev_kx_drift_r4',place:'河堤'},G)===true);
+    said=[]; c.push(await ROM1016.cardGive(GM)===true); c.push(J(lines())===J(['你那天沒來。我還在氣。','卡片還是給你。後面的，回去再看。'])&&said.every(x=>!!x.who));
+    c.push(G.flags.KX_CARD_GIVEN&&G.flags.KX_CARD_GIVEN[1]===G.day); const it=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); c.push(!!it&&typeof it[2]==='function');
+    said=[]; c.push(await ROM1016.cardGive(GM)===false&&!said.length);
+    c.push(STORY.PRE_TALK.length>0);
+    check('4. AA_438 第 2 節：沒去的之後第一次當面見面（出遊不是視訊、3D 跟她說話）她給卡片「你那天沒來。我還在氣。」「卡片還是給你。後面的，回去再看。」；週年當天不算；給了房間才有卡片、可以翻頁；第二次不再說',c.every(Boolean),J(c)); }
+  { fresh('2026-10-20',20,'dorm',{KX_ANNIV:{1:'wheel',2:'missed'}}); date(KX); said=[]; const ok=ROM1016.cardDue(G)===2&&await ROM1016.cardGive(GM)===true&&G.flags.KX_CARD_GIVEN[2]===G.day;
+    check('4. 第二年沒去：一樣當面給（房間只有第一年那張）',ok&&lines().length===2,J({due:ROM1016.cardDue(G),g:G.flags.KX_CARD_GIVEN})); }
 
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

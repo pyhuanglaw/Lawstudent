@@ -11,7 +11,7 @@
    四、可昕 K7 第一年週年卡片的後面幾頁（第 9 節）：宿舍房間物件「她的週年卡片」（story3d.js 的 roomItemList，K7 第一年去了才有）多一個「翻後面幾頁」，
        翻完記 KX_CARD_READ（只是紀錄）。第 5 頁照 7/24 的選擇（KH_GO 'bus'＝客運版，其他＝在家查的版本）。
    沒做（不在這個檔）：PS_WAITED 尾聲多一句、PS_RED_PEN 之後每月摘要日的照片（摘要日 SYS-08 還沒有）、5-2 短版的視訊那一種、可昕沒去 K7 的人下一次見面拿到卡片
-   （AA_313 2-3 A 已經改成「卡片我寫好了。我自己帶回去。」＋隔天中午的照片）。
+   （AA_313 2-3 A 已經改成「卡片我寫好了。我自己帶回去。」＋隔天中午的照片）；AA_438 第 2 節：之後第一次當面見面照 BB_165 第 9 節給卡片，給了房間才有。
    接線：EVENTS.onInteract（芷若）、STORY.PHONE_RULES（兩封邀約、改期）、OUT.AFTER（短版）、STORY.ROOM_EXTRA（卡片）。測試：node tests/rom1016_unit.js */
 'use strict';
 const ROM1016=(function(){
@@ -36,11 +36,14 @@ const ROM1016=(function(){
   S.onShift=GM=>{ const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(ZR):null; return !!(n&&n.staff==='cafe'&&!n.leaving); };
   S.hisOrderDue=function(G,GM){ if(!G||!G.flags||!law(G)||G.zone!=='cafe') return false; const F=G.flags;
     if(done(G,'ev_zhiruo_his_order')||F.ZR_HE_ORDERED||F.ZR_CUP!=null||dating(G,ZR)||!F.ZR_GAVE_HER_ORDER) return false;
-    const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(!t||t.id!=='Y3S2') return false;   /* 大三下 */
-    const x=R2(); if(!x||!x.z13Ready||!x.z13Ready(G)) return false; if(x.special&&x.special(G,ZR)==='z13') return false;   /* Z13 的七環（拿掉作廢的兩環）；學期末已經排了 Z13 那一版＝照 Z13 */
+    const x=R2(); if(!x||!x.z13Ready||!x.z13Ready(G)) return false;   /* Z13 的七環（拿掉作廢的兩環）*/
+    if(!S.hisWindow(G,x)) return false;   /* 大三下、只在她的學期末心意邀約窗口（6/8～6/18：學期最後一天以後 termOf 是 null，所以不看 termOf）（AA_438 第 1 節：告白只在學期末，他點她的點法就是告白）*/
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,ZR)) return false;
     if(typeof TERMEND==='undefined'||!TERMEND.cond) return false; const c=TERMEND.cond(G,ZR); if(!c.ok||c.decline) return false;   /* 心意邀約的條件（她的戀愛 ≥30、4 次正式校外約會含心願 D05、她當時願意）*/
     return GM?S.onShift(GM):true; };
+  /* 窗口：大三下學期末（TERMEND.window＝Y3S2，6/8 起）到 Z13 那頓飯（排好的話＝那天 22:00）以前；Z13 沒排（條件不到、她不約）就到窗口結束 */
+  S.hisWindow=function(G,x){ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; if(!w||w.id!=='Y3S2') return false;
+    const q=x&&x.z13Out?x.z13Out(G):null; if(q&&(q.arrived||q.state!=='planned'||now(G)>=T(q.day,22))) return false; return true; };
   S.HIS_OPT='（點一杯熱可可加濃縮）'; S.NORMAL_OPT='（照平常點）'; S.PRICE=120;
   S.hisOrderOffer=async function(GM){ const G=GM.G; let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:S.HIS_OPT,hint:S.PRICE+' 元',dim:(G.money|0)<S.PRICE},{t:S.NORMAL_OPT}]); } finally { GM.sceneEnd(); }
     if(k===0&&(G.money|0)<S.PRICE){ if(GM.toast) GM.toast('錢不夠'); k=1; }
@@ -48,7 +51,9 @@ const ROM1016=(function(){
     if(!(S._oi&&S._oi.call(EVENTS,ZR))&&typeof STORY!=='undefined'&&STORY.interact) await STORY.interact({counter:'cafe'},GM);   /* 照平常點：她的點餐事件（Z1），沒有就是吧檯的點餐單 */
     return 'normal'; };
   S.hisOrderStart=function(G){ const x=R2(); const ok=x&&x.romStart?x.romStart(G,ZR):(typeof ROM!=='undefined'&&ROM.start?ROM.start(G,ZR):(G.flags['dating_'+ZR]=true));   /* 照 Z13 的交往（OPEN_OK、confessed）*/
-    if(ok&&typeof TERMEND!=='undefined'&&TERMEND.rec){ const R=TERMEND.rec(G); if(R&&R.think) delete R.think[ZR]; } return ok; };
+    if(ok&&typeof TERMEND!=='undefined'&&TERMEND.rec){ const R=TERMEND.rec(G); if(R&&R.think) delete R.think[ZR]; }
+    if(ok){ const x=R2(), q=x&&x.z13Out?x.z13Out(G):null; if(q&&q.state==='planned'){ q.state='skipped'; q.arrived=true; } }   /* Z13 那頓飯已經排了：不再演（她已經知道了）*/
+    return ok; };
   if(typeof EVENTS!=='undefined'&&EVENTS.onInteract&&!EVENTS._rom1016){ const oi=EVENTS.onInteract; S._oi=oi; let busy=false;
     EVENTS.onInteract=function(charId){ try{ const GM=S.gm(); if(charId===ZR&&!busy&&GM&&GM.G&&S.hisOrderDue(GM.G,GM)){ busy=true; S.hisOrderOffer(GM).catch(e=>console.warn('ROM1016 hisOrder',e)).finally(()=>{ busy=false; }); return true; } }catch(e){ console.warn('ROM1016 onInteract',e); }
       return oi.apply(this,arguments); };
@@ -95,7 +100,22 @@ const ROM1016=(function(){
   S.readCard=async function(GM,first){ const G=GM.G; for(const t of [].concat(first||[])) await GM.say(null,t);
     const k=await GM.choose([{t:S.FLIP_OPT},{t:S.CLOSE_OPT}]); if(k!==0) return false;
     for(const t of S.pages(G)) await GM.say(null,t); G.flags.KX_CARD_READ=true; return true; };
-  if(typeof STORY!=='undefined'&&Array.isArray(STORY.ROOM_EXTRA)&&!STORY._rom1016r){ STORY.ROOM_EXTRA.push((G,L)=>{ const i=L.findIndex(r=>r&&r[0]===S.CARD); if(i<0||typeof L[i][2]==='function') return; const first=L[i][1]; L[i]=[S.CARD,first,GM=>S.readCard(GM,first)]; }); STORY._rom1016r=true; }
+  /* 週年那天沒去（KX_ANNIV[n]='missed'）：當晚 21:00 的電話、隔天的照片照舊（AA_313 2-3 A）；之後第一次當面見面她把卡片給你（BB_165 第 9 節），
+     給了以後房間才有第一年那張卡片（AA_438 第 2 節；第二年以後沒去的也一樣當面給，房間只有第一年那張）。記 KX_CARD_GIVEN {n: 那一天} */
+  S.GIVE=['你那天沒來。我還在氣。','卡片還是給你。後面的，回去再看。'];   /* BB_165 第 9 節（a54ec2b4a）*/
+  S.cardDue=function(G){ const F=G&&G.flags; if(!F||!F.dating_kexin||!F.KX_ANNIV||typeof STORY==='undefined'||!STORY.KX_ANNIV_DAYS) return 0; const Gv=F.KX_CARD_GIVEN||{};
+    for(const n of [1,2,3,4,5]){ if(F.KX_ANNIV[n]!=='missed'||Gv[n]) continue; const an=DK(STORY.KX_ANNIV_DAYS[n]); if(an!=null&&G.day>an) return n; } return 0; };
+  S.cardGive=async function(GM){ const G=GM.G, n=S.cardDue(G); if(!n) return false; const me={name:nm('kexin'),charId:'kexin'};
+    G.flags.KX_CARD_GIVEN=Object.assign({},G.flags.KX_CARD_GIVEN||{},{[n]:G.day}); for(const t of S.GIVE) await GM.say(me,t); return true; };
+  /* 當面：和她的出遊（視訊不算）、在 3D 裡跟她說話 */
+  const tripWho=(G,id)=>{ const t=id!=null&&G&&Array.isArray(G.trips)?G.trips.find(x=>x.trip===id):null; return t?t.who:null; };   /* 校外約會的 OUT 記行程 id（dateTrip），人在 G.trips */
+  S.kxFace=(q,G)=>!!q&&q.place!=='視訊'&&!!((q.dateTrip!=null&&tripWho(G,q.dateTrip)==='kexin')||/^ev_(kexin|kx)_/.test(q.ev||'')||(q.te&&q.te.who==='kexin')||(q.hv&&q.hv.id==='kexin'));
+  if(typeof OUT!=='undefined'&&Array.isArray(OUT.AFTER)&&!OUT._rom1016k){ OUT.AFTER.push(async(GM,q)=>{ try{ if(S.kxFace(q,GM.G)) await S.cardGive(GM); }catch(e){ console.warn('ROM1016 cardGive',e); } }); OUT._rom1016k=true; }
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.PRE_TALK)&&!STORY._rom1016t){ STORY.PRE_TALK.push(async(GM,who,id)=>{ if(id==='kexin') await S.cardGive(GM); }); STORY._rom1016t=true; }
+  S.CARD_FIRST='那天在最高的地方，你說在一起吧。我說好。';   /* 第一頁（story3d.js S.roomItemList 那一句，AA_303 第 2 節 9）*/
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.ROOM_EXTRA)&&!STORY._rom1016r){ STORY.ROOM_EXTRA.push((G,L)=>{ let i=L.findIndex(r=>r&&r[0]===S.CARD);
+      if(i<0){ const F=G.flags||{}; if(F.KX_ANNIV&&F.KX_ANNIV[1]==='missed'&&F.KX_CARD_GIVEN&&F.KX_CARD_GIVEN[1]){ L.push([S.CARD,S.CARD_FIRST]); i=L.length-1; } }   /* 沒去、之後當面給了 */
+      if(i<0||typeof L[i][2]==='function') return; const first=L[i][1]; L[i]=[S.CARD,first,GM=>S.readCard(GM,first)]; }); STORY._rom1016r=true; }
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY._rom1016p){ STORY.PHONE_RULES.push(G=>S.phone(G)); STORY._rom1016p=true; }
   return S;
 })();
