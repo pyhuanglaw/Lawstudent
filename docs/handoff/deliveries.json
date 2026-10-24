@@ -14023,6 +14023,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 05:2x：patch wz6_market_1024 套上 738cc7ffc（025ab4f30）；dorm_wz_items、wz_copy_shop、wz_market、wz_work_spots＋相關測試全過；攤主 NPC 由 LAWWW 接（WZ-MARKET-KEEPER-1024）"
+  },
+  {
+   "id": "DL-LW2-ROOMS-AB3",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "e477d3bf1",
+   "what": "#82 前三間：萬才館研討室 B（法服初談室／推甄面試）、霖澤館 1F 法律學院辦公室、共同教學館 3F 考場（GLB＋layout spots＋rooms_glb3d 的 sets／set_days、open、gate）",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 06:1x：patch rooms_ab3_1024 套上 907cdc2f9（87a4a60ca）；wancai_semb、linze_office、gongtong_3f＋相關測試全過；房間裡的人與事件搬進去 LAWWW 接（ROOMS-AB3-PEOPLE-1024）"
   }
  ],
  "ignored": [
