@@ -170,6 +170,8 @@ const LB3=(function(){
     // 門（關著：看得懂的說明）
     for(const d of L.doors){ const y=d.lv?L.floors[1].y:0, g=d.lv?fb1:fb0, ry=d.ry||0; const dg=new THREE.Group(); dg.position.set(d.x,y,d.z); dg.rotation.y=ry; const db=new TK.Bin(); db.add(MAT.frame(),TK.boxG(1.5,2.5,0.1),0,1.25,0); db.add(MAT.wood(),TK.boxG(1.3,2.35,0.06),0,1.18,0.05); db.build(dg); g.add(dg);
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.4,0.35),new THREE.MeshBasicMaterial({map:TK.signTex(d.label,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,2.85,0.16); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
+      const R=d.to&&typeof ROOM_GLB_LAYOUTS!=='undefined'?ROOM_GLB_LAYOUTS[d.to]:null;   /* 正式房間（rooms_glb3d.js 照 host_door 設 d.to、d.spawn：多媒體中心，AA_399 第 12 節）：出入口，標籤用 host_door.label */
+      if(R&&typeof Z3!=='undefined'&&Z3.ZONES[d.to]){ IT.push({x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.0,lv:d.lv,label:(R.host_door&&R.host_door.label)||d.label,exit:{to:d.to,spawn:Object.assign({},d.spawn||R.spawn)}}); continue; }
       const goes=d.to&&typeof Z3!=='undefined'&&Z3.ZONES[d.to]&&typeof LIBRARY_UPPER_LAYOUTS!=='undefined'&&LIBRARY_UPPER_LAYOUTS.carrels;   /* 研究小間（CLOSED-SPACES-1023 第 3 項，src/library_upper3d.js）：門通到那個區域、站在研究小間的門廳 */
       IT.push(goes?{x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.0,lv:d.lv,label:d.label,exit:{to:d.to,spawn:Object.assign({},LIBRARY_UPPER_LAYOUTS.carrels.spawn)}}:{x:d.x+Math.sin(ry)*0.75,z:d.z+Math.cos(ry)*0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed}); }
     // 樓梯間的門（往 3F 閱覽區）

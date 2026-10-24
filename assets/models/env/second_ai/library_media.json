@@ -1,0 +1,13 @@
+{
+ "objects": 21,
+ "unique_meshes": 21,
+ "tris": 23054,
+ "tris_drawn": 23054,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/library_media.glb",
+ "bytes": 2040556,
+ "texres": 512,
+ "tris_total": 23054,
+ "layout": "library_media.layout.json",
+ "seats": 13
+}

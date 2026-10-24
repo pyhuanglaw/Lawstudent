@@ -47,6 +47,7 @@ const CLOSED2=(function(){
   S.interact=async function(it,GM){ const G=GM&&GM.G; if(!it||!G) return false;
     if(((G.zone==='linze'&&it.label==='法律學院辦公室'&&!S.roomOk('linze_office'))||(G.zone==='linze_office'&&it.label==='服務台'))&&S.formDue(G)) return S.officeForm(GM);   /* 系辦有 3D 房間以後（rooms_glb3d.js linze_office，辦公時間門才開）：在裡面的服務台交；門口交只在沒有房間的版本 */
     if(G.zone==='library_hall'&&it.label==='多媒體中心'&&S.mediaOk(G)) return S.media(GM);
+    if(G.zone==='library_media'&&it.label==='多媒體服務台'&&S.mediaOk(G)) return S.media(GM);   /* 多媒體中心有 3D 房間以後（rooms_glb3d.js 的 library_media：總圖 2F 的門變成「進入 多媒體中心」）：在裡面的服務台借耳機；門口那一條留著（沒有房間的版本）*/
     return false; };
   if(typeof STORY!=='undefined'&&STORY.interact&&!STORY._closed2Interact){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(await S.interact(it,GM)) return true; return o0.apply(this,arguments); }; STORY._closed2Interact=true; }
   /* 第 7 節：在系辦門口交過的，11/18 截止旁白不再說「你把表交到系辦」*/

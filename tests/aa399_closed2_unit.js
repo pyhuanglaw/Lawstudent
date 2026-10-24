@@ -3,6 +3,7 @@
 //   2. 第 7 節　系辦門口交換志願表：US 路線、11/15～截止旁白以前、辦公時間；助理一句逐字、EXCH_FORM_DESK、一次；TW、JP、經濟系、午休、週末、截止以後、旁白播過＝沒有；以安那一段還在＝Café 以後；
 //      在門口交過＝11/18 旁白沒有「你把表交到系辦」那一句（沒交照舊）；
 //   3. 第 12 節　總圖多媒體中心「看一部片」（60 分鐘）：旁白逐字、時間 +1；「算了」不動；21:00 以後（看完會過 22:00）照舊是門上的字。
+//      3b. 有 3D 房間（library_media）以後：裡面的「多媒體服務台」一樣（LAWWW2-B 10-24）。
 // 修改前全部 FAIL（沒有 src/closed2_3d.js）。用法：node tests/aa399_closed2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -86,5 +87,10 @@ const semB=()=>WANCAI_LAYOUT.doors.find(d=>d.id==='seminarB');
   fresh(D('2026-03-10'),21,'library_hall'); r=await act(media(),'library_hall',[0]); check('3. 21:00 還可以（看完 22:00）', r===true&&G.hour===22);
   fresh(D('2026-03-10'),21.5,'library_hall'); r=await act(media(),'library_hall',[0]); check('3. 21:30：看完會過 22:00 關門，照舊是門上的字', r===false&&G.hour===21.5&&said.length===0);
   fresh(D('2026-03-10'),14,'library'); r=await act(media(),'library',[0]); check('3. 別的區域同名的東西：不接', r===false);
+  // 3b. 多媒體中心有 3D 房間（rooms_glb3d.js 的 library_media）：裡面的「多媒體服務台」一樣能看一部片（LAWWW2-B 10-24）
+  const desk=()=>({x:0.9,z:1.35,lv:0,label:'多媒體服務台',look:'多媒體服務台'});
+  fresh(D('2026-03-10'),14,'library_media'); r=await act(desk(),'library_media',[0]);
+  check('3b. 裡面的服務台：選項一樣、旁白逐字、時間 +1 小時', r===true&&JSON.stringify(opts[0])===JSON.stringify(['看一部片','算了'])&&JSON.stringify(lines())===JSON.stringify(['（你借了一副耳機。片子很長，你看到一半睡著了。）'])&&G.hour===15, JSON.stringify(lines())+' '+G.hour);
+  fresh(D('2026-03-10'),21.5,'library_media'); r=await act(desk(),'library_media',[0]); check('3b. 21:30：看完會過關門，不給（照舊只是看）', r===false&&G.hour===21.5&&said.length===0);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

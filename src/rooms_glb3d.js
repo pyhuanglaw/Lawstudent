@@ -10,7 +10,7 @@
   function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.wrBase==null) m.userData.wrBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
   function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.wrBase*k; }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
-  const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null, dorm_hall:typeof DORM_LAYOUT!=='undefined'?DORM_LAYOUT:null});   /* dorm_hall：宿舍的門（洗衣間、205；dorm3d.js 認 d.to／d.gate）*/
+  const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null, dorm_hall:typeof DORM_LAYOUT!=='undefined'?DORM_LAYOUT:null, library_hall:typeof LIBRARY_LAYOUT!=='undefined'?LIBRARY_LAYOUT:null});   /* dorm_hall：宿舍的門（洗衣間、205；dorm3d.js 認 d.to／d.gate）；library_hall：總圖 2F 多媒體中心（library3d.js）*/
   function hostDoor(id){ const h=ROOM_GLB_LAYOUTS[id].host_door, HL=HOST()[h.zone]; return HL?{h,HL,d:HL.doors.find(q=>q.id===h.id)}:null; }
   function backSpawn(id){ const r=hostDoor(id), BS=ROOM_GLB_LAYOUTS[id].back_spawn; if(BS) return Object.assign({},BS); if(!r||!r.d) return null;   /* 配置有 back_spawn 就用它（共同教學館 3F：2F 樓梯口；宿舍：走廊上門的互動點）*/   /* 不是 doors 裡的門（共同教學館 3F：2F 樓梯口）：配置的 back_spawn */
     return {x:r.d.x,z:-r.HL.D/2+(r.h.zone==='linze'?1.0:1.4),lv:r.d.lv,yaw:Math.PI}; }   /* 門前面（霖澤館照 201 的 spawnBack；萬才館在門的互動範圍外面一點），面向南 */
