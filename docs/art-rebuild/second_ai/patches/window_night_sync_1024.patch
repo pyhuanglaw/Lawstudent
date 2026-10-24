@@ -1,0 +1,105 @@
+diff --git a/src/l118_shops3d.js b/src/l118_shops3d.js
+index 04f9db3..ea3b6d1 100644
+--- a/src/l118_shops3d.js
++++ b/src/l118_shops3d.js
+@@ -26,7 +26,7 @@ const L118S=(function(){
+     Object.defineProperty(m,'visible',{configurable:true,get(){ return src.visible; },set(){}});
+     for(const x of [].concat(src.material)) if(x){ x.colorWrite=false; x.depthWrite=false; }   /* 原本那一片不畫（還留在淡出清單：鏡頭在店外時它的 visible 變 false，新的平面跟著）*/
+     g0.add(m); return {mesh:m,key,fb}; }
+-  function setPhotoView(pv,h,weather){ if(!pv) return; const night=(h<5.5||h>=19.4), rain=weather==='rain'||weather==='storm', ph=W3.viewPhoto(pv.key,night);
++  function setPhotoView(pv,h,weather){ if(!pv) return; const night=(h<5.5||h>=19.2), rain=weather==='rain'||weather==='storm', ph=W3.viewPhoto(pv.key,night);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
+     W3.setWindowView(pv.mesh.material,pv.key,night,pv.fb,ph?W3.photoTint(h,rain):new THREE.Color(1,1,1).multiplyScalar(viewK(h)).getHex()); }
+   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
+   /* 看東西的字：配置檔的 note 有字就用（例：家常菜的電視，AA_280 原句）；dev 那一欄是 LAWWW2 給開發組的話（產生的檔，不改；不會出現在遊戲裡）。
+diff --git a/src/library_upper3d.js b/src/library_upper3d.js
+index 98dc07e..0a365a4 100644
+--- a/src/library_upper3d.js
++++ b/src/library_upper3d.js
+@@ -31,7 +31,7 @@ const LUP=(function(){
+   S_.note=function(on){ noteOn=!!on; applyCarrel(); };
+   S_.refresh=applyCarrel;
+   /* 外牆高窗（霧面玻璃）：白天亮、黃昏暖、晚上暗藍 */
+-  function skyTint(h,rain){ h=h%24; if(h<5.5||h>=19.4) return [0x1a2236,0.15]; if(h<6.6) return [0x6a7898,0.45]; if(h<16.5) return [rain?0xb8c0c8:0xe8eef4,rain?0.7:1.0]; if(h<18.4) return [0xf0d2a8,0.85]; return [0x8a7a90,0.4]; }
++  function skyTint(h,rain){ h=h%24; if(h<5.5||h>=19.2) return [0x1a2236,0.15]; if(h<6.6) return [0x6a7898,0.45]; if(h<16.5) return [rain?0xb8c0c8:0xe8eef4,rain?0.7:1.0]; if(h<18.4) return [0xf0d2a8,0.85]; return [0x8a7a90,0.4]; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
+   /* ---- 共用：room()（窗、窗外的景）＋配置的導航格、座位、互動點＋正式模型 ---- */
+   function baseRoom(E,L,o){ const Bd=L.bounds, H=L.h, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0, WIN=L.windows;
+     const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,winW:WIN.w,winH:WIN.h,view:o.view,viewDepth:o.viewDepth,wallColor:'#ecebe6',floorTex:W3.stoneTex(o.floor),spawn:Object.assign({},o.spawn||L.spawn)});   /* room() 的 front 牆 x 是反的 */
+diff --git a/src/world3d.js b/src/world3d.js
+index e412821..3a8d603 100644
+--- a/src/world3d.js
++++ b/src/world3d.js
+@@ -188,6 +188,6 @@ const W3 = (function(){
+     const L=VIEW_LAYERS[kind]; if(L&&u.nmap){ const nph=viewPhoto(kind+'_near',night); if(L.far) u.depth.value=L.far; u.ndepth.value=L.near; u.nmap.value=nph; u.near.value=(ph&&nph)?1:0; }   /* 兩層窗景：近景還沒載入（或沒有遠景照片）時只畫遠景 */
+     return !!ph; }
+   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
+-  function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
++  function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.2) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
+   return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index a99e3d6..b67dca6 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1282,8 +1282,8 @@ const Z3 = (function(){
+         // 窗光落在地板上的光斑（下午暖光／清晨冷光，夜晚消失）
+         const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.2),new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending})); sp.rotation.x=-Math.PI/2; { const q=at(wx+0.4,1.6); sp.position.set(q[0],0.012,q[1]); } sp.rotation.z=ry; sp.userData.dyn=true; g.add(sp); zone.sunPatches.push(sp); } }
+     // 室內時間感：窗色、光斑、燈色依時段與天氣變化
+-    zone.applyTime=function(h,weather){ h=h%24; const rain=weather==='rain'; let winC, patchA=0, patchC=0xffd9a0; if(h<5.5||h>=19.4){ winC=0x141c2c; } else if(h<6.5){ winC=0x5a6a8a; } else if(h<8){ winC=rain?0x8a949c:0xd9e3ea; patchA=rain?0:0.10; patchC=0xdfe8ff; } else if(h<16){ winC=rain?0x9aa4ac:0xcfe3ea; patchA=rain?0.04:0.16; patchC=0xfff3d6; } else if(h<17.6){ winC=rain?0x8a8f96:0xe8d6b8; patchA=rain?0.03:0.22; patchC=0xffcf8a; } else if(h<18.4){ winC=rain?0x6a6c74:0xf0a868; patchA=rain?0:0.18; patchC=0xff9a5a; } else { winC=0x3a4260; patchA=0.03; patchC=0xff8a4a; }
+-      const nightView=(h<5.5||h>=19.4); if(zone.wins) for(const w of zone.wins){ if(w.userData.pview){ const ph=W3.viewPhoto(w.userData.pview,nightView); W3.setWindowView(w.material,w.userData.pview,nightView,viewTex(nightView),ph?W3.photoTint(h,rain):(nightView?(rain?0x9098a8:0xd8dce6):winC)); continue; } const want=w.userData.viewFixed?null:viewTex(nightView); if(want&&w.material.map!==want){ w.material.map=want; w.material.needsUpdate=true; } w.material.color.set(nightView?(rain?0x9098a8:0xd8dce6):winC); } if(zone.sunPatches) for(const p of zone.sunPatches){ p.material.opacity=patchA; p.material.color.set(patchC); }
++    zone.applyTime=function(h,weather){ h=h%24; const rain=weather==='rain'; let winC, patchA=0, patchC=0xffd9a0; if(h<5.5||h>=19.2){ winC=0x141c2c; } else if(h<6.5){ winC=0x5a6a8a; } else if(h<8){ winC=rain?0x8a949c:0xd9e3ea; patchA=rain?0:0.10; patchC=0xdfe8ff; } else if(h<16){ winC=rain?0x9aa4ac:0xcfe3ea; patchA=rain?0.04:0.16; patchC=0xfff3d6; } else if(h<17.6){ winC=rain?0x8a8f96:0xe8d6b8; patchA=rain?0.03:0.22; patchC=0xffcf8a; } else if(h<18.4){ winC=rain?0x6a6c74:0xf0a868; patchA=rain?0:0.18; patchC=0xff9a5a; } else { winC=0x3a4260; patchA=0.03; patchC=0xff8a4a; }
++      const nightView=(h<5.5||h>=19.2);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */ if(zone.wins) for(const w of zone.wins){ if(w.userData.pview){ const ph=W3.viewPhoto(w.userData.pview,nightView); W3.setWindowView(w.material,w.userData.pview,nightView,viewTex(nightView),ph?W3.photoTint(h,rain):(nightView?(rain?0x9098a8:0xd8dce6):winC)); continue; } const want=w.userData.viewFixed?null:viewTex(nightView); if(want&&w.material.map!==want){ w.material.map=want; w.material.needsUpdate=true; } w.material.color.set(nightView?(rain?0x9098a8:0xd8dce6):winC); } if(zone.sunPatches) for(const p of zone.sunPatches){ p.material.opacity=patchA; p.material.color.set(patchC); }
+       const night=(h<6.5||h>=18); if(o.warm){ ceilLight.color.set(night?0xffb870:0xfff0d8); ceilLight.intensity=night?22:14; for(const l of lights) l.material.color.set(night?0xffc890:0xfff6e0); } };
+     return zone; }
+   // 書桌／長桌（v9.3 第十七批：原本是一塊板＋四根方棒，12 m 的教室長桌也只有四根腳）：5 cm 桌板＋深色封邊、金屬圓管腳（長桌約每 2 m 一組）＋橫桿。
+diff --git a/tests/season_dusk_unit.js b/tests/season_dusk_unit.js
+index e360655..5be4c21 100644
+--- a/tests/season_dusk_unit.js
++++ b/tests/season_dusk_unit.js
+@@ -19,8 +19,8 @@ const K0=grab(src,/const KEY0=\[[\s\S]*?\n  \];/), KG=grab(src,/const KEY_GOLDEN
+ check('1. engine3d.js 有 sunsetAt、lightHour、sunsetPlace、E.sunsetNow', !!(fSS&&fLH&&fSP&&fNow));
+ check('1. applyTime：E.hour 照舊是時鐘，光線用 lightHour(hour%24,E.sunsetNow())、放 E.lightH', /E\.applyTime=function\(hour\)\{ E\.hour=hour; const KEY=[^;]*; let h=lightHour\(hour%24,E\.sunsetNow\(\)\); E\.lightH=h;/.test(src));
+ check('1. 夜間影子用 E.lightH', /E\.nightShadow=function\(now\)\{[^\n]*const hh=E\.lightH!=null\?E\.lightH:/.test(src));
+-const room=grab(zsrc,/const nightView=\(h<5\.5\|\|h>=19\.4\);/);
+-check('3. zones3d.js room() 的窗 h≥19.4 換夜景（下面拿來判斷總圖）', !!room);
++const room=grab(zsrc,/const nightView=\(h<5\.5\|\|h>=(19\.[0-9]+)\);/), roomT=room?+room.match(/>=([0-9.]+)\)/)[1]:19.4;   // 10-24 路線巡查④起是 19.2（和屋外天黑同一刻）
++check('3. zones3d.js room() 的窗有換夜景的時刻（下面拿來判斷總圖）', !!room, 'h≥'+roomT);
+ const ctx={Math,Date}; vm.createContext(ctx);
+ try{ vm.runInContext([K0,KG,KGG].join('\n')+'\nthis.KEYG=KEYG;',ctx); }catch(e){ console.log('KEY 表讀不到',e.message); }
+ const KEY=ctx.KEYG;
+@@ -38,7 +38,7 @@ if(KEY){
+   { const h=L('2024-12-10','tw',17.75); check('3. 12/10 17:45 已經天黑：太陽在地平線下、路燈亮、夜晚係數 1', elev(h)<0&&lampsOn(h)&&nk(h)===1, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
+   { const h=L('2024-11-06','tw',17.75); check('3. 11/6 17:45（醉月湖 E12）已經天黑', elev(h)<0&&lampsOn(h)&&nk(h)===1, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
+   { const h=L('2025-07-20','tw',18.5); check('3. 7/20 18:30 夏天幾乎不變（差不到 15 分鐘）、太陽還在地平線上', Math.abs(h-18.5)<0.25&&elev(h)>0, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
+-  { const h=L('2024-10-16','tw',19); check('3. 10/16 19:00 總圖的窗換夜景（room() 的 h≥19.4）', h>=19.4, 'light '+h.toFixed(2)); }
++  { const h=L('2024-10-16','tw',19); check('3. 10/16 19:00 總圖的窗換夜景（room() 的 h≥'+roomT+'）', h>=roomT, 'light '+h.toFixed(2)); }
+   { const h=L('2028-11-23','us',17); check('3. 美國 11/23 17:00 是黃昏（太陽 0～12°，不是下午的 26°）', elev(h)>0&&elev(h)<12, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
+   { const h=L('2024-12-10','tw',17); check('4. 12/10 17:00 路燈已經亮', lampsOn(h), 'light '+h.toFixed(2)); }
+   { let same=true; for(const k of ['2024-12-10','2025-06-21','2028-11-23']) for(const pl of ['tw','us','jp']) for(let h=0;h<=15;h+=0.25) if(LH(h,SP(k,pl))!==h) same=false;
+diff --git a/tests/window_night_sync_unit.js b/tests/window_night_sync_unit.js
+new file mode 100644
+index 0000000..3ab72d3
+--- /dev/null
++++ b/tests/window_night_sync_unit.js
+@@ -0,0 +1,22 @@
++// 窗景和屋外同一刻天黑（LAWWW2-B 2026-10-24，路線巡查④：傍晚光線照季節以後的每天路線）——不需要瀏覽器。
++//   引擎的夜晚係數 nk 在光線時刻 19.2 變成 1（星星出來、柏油調暗、屋外完全天黑）；但房間窗景、照片調色、118 巷店內窗景、總圖樓上的天光都寫死 19.4 才換夜景。
++//   冬天傍晚光線拉長以後，這 0.2 小時變成將近 20 分鐘：12 月 17:35～17:58 屋外全黑，宿舍、教室、Café 的窗外還是調暗的白天照片。
++//   1. 引擎的 nk：h≥T 時是 1（讀出 T）；
++//   2. 這五個地方換夜景的時刻都 = T：world3d.js photoTint、zones3d.js room() 的 winC 和 nightView、l118_shops3d.js setPhotoView、library_upper3d.js skyTint；
++//   3. 早上那一頭（< 5.5）不動。
++// 修改前 FAIL。用法：node tests/window_night_sync_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
++const eng=rd('src/engine3d.js'), m=eng.match(/const nk=h>=([0-9.]+)\|\|h<5\.6\?1:/);
++check('1. 引擎的夜晚係數 nk 有「h ≥ T 就是 1」', !!m, m?'T='+m[1]:'');
++const T=m?+m[1]:19.2;
++const sites=[['src/world3d.js','photoTint',/function photoTint\(h,rain\)\{ h=\(\(h%24\)\+24\)%24; if\(h<5\.5\|\|h>=([0-9.]+)\) return 0xffffff;/],
++  ['src/zones3d.js','room() 的 winC',/let winC, patchA=0, patchC=0xffd9a0; if\(h<5\.5\|\|h>=([0-9.]+)\)\{ winC=0x141c2c; \}/],
++  ['src/zones3d.js','room() 的 nightView',/const nightView=\(h<5\.5\|\|h>=([0-9.]+)\);/],
++  ['src/l118_shops3d.js','118 巷 setPhotoView',/function setPhotoView\(pv,h,weather\)\{ if\(!pv\) return; const night=\(h<5\.5\|\|h>=([0-9.]+)\),/],
++  ['src/library_upper3d.js','總圖樓上 skyTint',/function skyTint\(h,rain\)\{ h=h%24; if\(h<5\.5\|\|h>=([0-9.]+)\) return/]];
++for(const [f,nm,re] of sites){ const r=rd(f).match(re); check('2. '+nm+'（'+f+'）換夜景的時刻 = 屋外天黑（'+T+'）', !!r&&+r[1]===T, r?'h≥'+r[1]:'找不到'); }
++check('3. 早上那一頭都還是 h<5.5', sites.every(([f,,re])=>{ const r=rd(f).match(re); return !!r&&r[0].includes('h<5.5'); }));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
