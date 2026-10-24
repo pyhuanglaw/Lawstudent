@@ -1340,3 +1340,115 @@ SF_SHUTTER = {
     'B1': dict(notes=[('rent', -1.0, 1.0, 0.7, 0.7), ('closed', 1.6, 1.2, 0.5, 0.5)], clutter=[('boxes', 3.6, 0.3)]),   # 紙箱凸出牆面 33 cm：zones3d.js 擋住那一格（ART-WZ0 第二批）
     'C1': dict(notes=[('rent', 1.6, 1.05, 0.7, 0.7), ('poster', -2.2, 1.3, 0.5, 0.6)]),   # ART-WZ0 第二批：Café 南邊拉下鐵捲門的店也貼「招租」和海報（只貼紙，不放東西：門口是人走的地方）
 }
+
+
+# ---------------- ART-WZ6：阿德影印的兩種外觀（AA_420 第 3 節、12-1；wz_events.js 的 WZ_COPY_SHOP：'stay'＝留下來、'moved'＝搬到轉角；LAWWW2-B 2026-10-24）----------------
+# 轉角＝A2（31 號公寓）東側一樓、朝北巷的那一面（主巷和北巷的轉角；北巷 x 3.3～8.2 走得到）：一樓牆體挖一個 3.8 m 寬、2.15 m 深的凹口（世界 x 0.95～3.1、z 5.6～9.4、高 2.95）。
+# 店面比原來（A1 寬 8 m）小一半。凹口的地板、天花板、內牆一直都在；兩組獨立的節點照狀態開關（遊戲 zones3d.js 的 wzCopyShop）：
+#   COPY_CORNER_SHUT  沒搬來以前（還沒有 WZ_COPY_SHOP、或 'stay'）：拉下的鐵捲門＋「招租」（空店面）
+#   COPY_CORNER_OPEN  'moved'：鋁門玻璃店面（玻璃上的價目表貼得滿滿的）、阿德影印的招牌（同 A1 的設計稿）、裡面一台影印機、一個櫃台、紙箱架、日光燈
+#   COPY_A1_SHUT      'moved'：A1 原本的店鐵捲門拉下來，貼著「本店已遷至轉角」（箭頭指向轉角）
+#   COPY_A1_RENEW     'stay'：A1 玻璃門上、價目表旁邊多一張手寫的紙「本店續約三年。感謝大家。」
+# 告示的字是本作畫的（PIL，手寫風）；沒有真實的店名、商標（D77）。進店的互動點：搬走以後在北巷 (3.75, 6.5)（wz_shops_layout.js 的 print.moved）。
+COPYC = dict(cx=3.1, cz=7.5, w=3.8, d=2.15, top=2.95)
+
+
+def _copy_notices_tex():
+    """兩張告示（512×256，左右兩格）：①「本店已遷至轉角 ←」白紙黑色麥克筆 ②「本店續約三年。感謝大家。」有格線的紙、藍黑原子筆"""
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
+    fp = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
+    im = Image.new('RGB', (512, 256), (250, 250, 246)); d = ImageDraw.Draw(im)
+    def txt(x, y, s, sz, col, rot=0.0):
+        t = Image.new('L', (256, 256), 0); dt = ImageDraw.Draw(t); f = ImageFont.truetype(fp, sz); dt.text((x, y), s, font=f, fill=255)
+        if rot: t = t.rotate(rot, resample=Image.BICUBIC, center=(128, 128))
+        return t.filter(ImageFilter.GaussianBlur(0.6))
+    a = Image.new('L', (256, 256), 0)
+    for (x, y, s, sz, rot) in ((40, 18, '本店', 52, 1.2), (24, 84, '已遷至', 52, -0.8), (40, 150, '轉角', 52, 0.6)):
+        a = Image.fromarray(__import__('numpy').maximum(__import__('numpy').array(a), __import__('numpy').array(txt(x, y, s, sz, 0, rot))))
+    im.paste(Image.new('RGB', (256, 256), (24, 24, 28)), (0, 0), a)
+    d.line((84, 238, 214, 238), fill=(24, 24, 28), width=6); d.polygon([(84, 226), (58, 238), (84, 250)], fill=(24, 24, 28))   # ← 往轉角（從街上看，轉角在左邊）
+    d.rectangle((256, 0, 511, 255), fill=(250, 248, 238))
+    for k in range(9): d.line((268, 30 + k * 26, 500, 30 + k * 26), fill=(196, 210, 226), width=1)
+    b = Image.new('L', (256, 256), 0)
+    for (x, y, s, sz, rot) in ((20, 40, '本店續約三年。', 30, 0.5), (20, 96, '感謝大家。', 30, -0.4), (150, 180, '阿德', 24, 0.8)):
+        b = Image.fromarray(__import__('numpy').maximum(__import__('numpy').array(b), __import__('numpy').array(txt(x, y, s, sz, 0, rot))))
+    im.paste(Image.new('RGB', (256, 256), (36, 44, 96)), (256, 0), b)
+    p = os.path.join(GEN, 'wz_copy_notices.png'); im.save(p); return p
+
+
+def copy_corner_carve(xf, wall, W, D, rec):
+    """A2 一樓牆體（取代 apartment() 的整塊一樓牆）：東側挖出轉角店面的凹口；凹口的地板、天花板、內牆（一直都在）"""
+    RD = COPYC['d']; hw = COPYC['w'] / 2; t = COPYC['top']; z0, z1 = 5.0 - (COPYC['cz'] + hw), 5.0 - (COPYC['cz'] - hw)   # A2 自己的 z（世界 z＝5 − z）
+    xe = -W / 2                                                                     # A2 自己的 x：世界 x＝中心 − x → 東面（世界 3.1）＝−W/2
+    xf.box(wall, xe + RD, W / 2, 0, GH, -D, -rec)
+    xf.box(wall, xe, xe + RD, 0, GH, -D, z0); xf.box(wall, xe, xe + RD, 0, GH, z1, -rec); xf.box(wall, xe, xe + RD, t, GH, z0, z1)
+    c = Xf(COPYC['cx'], COPYC['cz'], math.pi / 2)                                  # 轉角店面自己的座標：正面朝 +x（北巷），x 往右＝世界 −z
+    c.box(acc(SK['f_granite']), -hw, hw, 0.0, 0.03, -RD, 0.0)
+    c.box(acc(M['ceilA']), -hw, hw, t - 0.03, t, -RD, 0.0)
+    c.box(acc(M['plaster']), -hw, hw, 0.03, t - 0.03, -RD, -RD + 0.02)
+    for sx in (-1, 1): c.box(acc(M['plaster']), sx * hw - (0.02 if sx > 0 else 0.0), sx * hw + (0.0 if sx > 0 else 0.02), 0.03, t - 0.03, -RD + 0.02, 0.0)
+
+
+def _copy_group(name, props, build):
+    """build() 用 acc()／note()／uvquad()／CL.glow() 做的東西，全部收進獨立的節點 name（不參加合併；遊戲照名字開關）"""
+    saved = dict(_acc); _acc.clear(); nq = list(NOTE_Q); del NOTE_Q[:]; before = set(bpy.data.objects)
+    build()
+    g = B.group(name, root, props)
+    for k, m in list(_acc.items()): m.finish(g, uv=True)
+    if NOTE_Q:
+        bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap')
+        for pts, cn in NOTE_Q:
+            u0, v0, u1, v1 = note_uv(cn); f = bm.faces.new([bm.verts.new(g2b(*p)) for p in pts])
+            for lp, uv in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[uvl].uv = uv
+        me = bpy.data.meshes.new(name + '_notes'); bm.to_mesh(me); bm.free(); me.materials.append(SK['notes'])
+        ob = bpy.data.objects.new(name + '_notes', me); B.scene().collection.objects.link(ob); ob.parent = g
+    for o in set(bpy.data.objects) - before:
+        if o.name.startswith('GLOW_'): bpy.data.objects.remove(o); continue   # 光暈：遊戲把整條街的光暈合成一批（wzGlowBatch），不能跟著節點開關——開關的店面不放光暈（燈箱、日光燈本身會亮）
+        if o is not g and o.parent is root: o.parent = g
+    _acc.clear(); _acc.update(saved); del NOTE_Q[:]; NOTE_Q.extend(nq)
+    return g
+
+
+def copy_variants():
+    """四組開關的節點（見上面的說明）。在所有建築做完、玻璃紙條合併（build_notes）以前呼叫"""
+    tex = _img_mat('wz_copy_notices', os.path.basename(_copy_notices_tex()), rough=0.8)
+    RD = COPYC['d']; hw = COPYC['w'] / 2; t = COPYC['top']; c = Xf(COPYC['cx'], COPYC['cz'], math.pi / 2)
+    def corner_shut():
+        z = -0.06; sm = acc(M['shutter'])
+        c.quad(sm, [(-hw + 0.06, 0.03, z), (hw - 0.06, 0.03, z), (hw - 0.06, t - 0.02, z), (-hw + 0.06, t - 0.02, z)])
+        c.box(acc(M['alu']), -hw + 0.02, hw - 0.02, t - 0.34, t - 0.03, -0.42, -0.08)          # 捲門箱藏在門楣裡面
+        for sx in (-1, 1): c.box(acc(M['alu']), sx * (hw - 0.05) - 0.03, sx * (hw - 0.05) + 0.03, 0.0, t - 0.02, -0.1, -0.02)
+        note(c, 'rent', -0.7, 1.05, 0.7, 0.7, z + 0.012); note(c, 'closed', 0.7, 1.3, 0.5, 0.5, z + 0.012)
+    def corner_open():
+        gz = -0.32; iw = 2 * hw - 0.12; ih = t - 0.45; top = ih + 0.4
+        sf = dict(door='alu', door_w=0.95, door_x=1.05, rollbox=True)
+        c.box(acc(SK['f_granite']), -hw + 0.02, hw - 0.02, 0.0, 0.035, gz, 0.0)              # 門口那一段的地（和店裡同一種）
+        _door_glass(dict(id='A2C'), c, sf, iw, ih, gz, frame_mat('#3b5a8c'), top)
+        for (cn, x, y, w_, h_) in (('copyprice', -1.45, 0.82, 0.56, 0.56), ('copyprice2', -0.8, 0.86, 0.56, 0.56), ('copyprice', -0.15, 0.8, 0.56, 0.56), ('nobook', -1.1, 1.48, 0.42, 0.42),
+                                    ('copyprice2', 0.32, 1.42, 0.42, 0.42), ('pay', 1.32, 1.5, 0.26, 0.26), ('copyprice', 0.8, 0.95, 0.4, 0.4), ('hours2', 1.3, 1.05, 0.3, 0.3)):
+            note(c, cn, x, y, w_, h_, gz + 0.03)
+        hsign(c, 'A2C', 'ade_print_h', 0.0, 2.6, t + 0.06)                               # 招牌：和 A1 同一張設計稿（BB-B signs_approved），掛在門楣上（往上蓋到二樓的牆）
+        # 店裡（玻璃後面 1.8 m）：左邊一台大影印機、中間櫃台（電腦螢幕朝裡）、後牆的紙箱架、天花板一支日光燈
+        cp = acc(flat('wz_c6_copier', '#dcdcd6', rough=0.4)); dk = acc(flat('wz_c6_dark', '#3a3c40', rough=0.5)); wd = acc(SK['wood_lt']); st = acc(SK['steel'])
+        c.box(cp, -1.75, -1.0, 0.0, 1.0, -RD + 0.08, -RD + 0.78); c.box(dk, -1.72, -1.03, 1.0, 1.06, -RD + 0.12, -RD + 0.74); c.box(dk, -1.6, -1.2, 0.62, 0.66, -RD + 0.78, -RD + 0.9)   # 影印機＋上蓋＋出紙盤
+        c.box(cp, -1.74, -1.01, 0.12, 0.6, -RD + 0.785, -RD + 0.79)
+        c.box(wd, -0.55, 0.45, 0.0, 0.98, -1.05, -0.62); c.box(dk, -0.35, 0.05, 0.98, 1.3, -1.0, -0.97)                                    # 櫃台＋螢幕（背面朝客人）
+        c.box(st, -0.45, 1.6, 0.0, 1.9, -RD + 0.02, -RD + 0.42)                                                                              # 後牆的鐵架
+        for k, y in enumerate((0.05, 0.62, 1.2)):
+            c.box(st, -0.45, 1.6, y + 0.48, y + 0.5, -RD + 0.02, -RD + 0.42)
+            for j in range(4): c.box(acc(flat('wz_c6_ream_' + str((j + k) % 3), ('#f4f2ea', '#e9d9a8', '#cfe0ea')[(j + k) % 3], rough=0.8)), -0.4 + j * 0.5, -0.4 + j * 0.5 + 0.42, y, y + 0.28 - 0.05 * ((j * 3 + k) % 2), -RD + 0.06, -RD + 0.36)
+        c.box(acc(M['tube']), -0.6, 0.6, t - 0.08, t - 0.05, -1.0, -0.9)
+    def a1(kind):
+        sp = next(s for s in SPECS if s['id'] == 'A1'); xa, W_, _ = place(sp); iw = W_ - 0.6; ih = GH - 0.9; gz = -0.9
+        if kind == 'shut':
+            z = gz + 0.10; sm = acc(M['shutter'])
+            xa.quad(sm, [(-iw / 2 - 0.02, 0.03, z), (iw / 2 + 0.02, 0.03, z), (iw / 2 + 0.02, ih + 0.2, z), (-iw / 2 - 0.02, ih + 0.2, z)])
+            uvquad('COPY_A1_SHUT_notice', tex, [xa.p(-0.22, 1.02, z + 0.004), xa.p(0.22, 1.02, z + 0.004), xa.p(0.22, 1.46, z + 0.004), xa.p(-0.22, 1.46, z + 0.004)], (0.0, 0.0, 0.5, 1.0))
+            for sx in (-1, 1): uvquad(f'COPY_A1_SHUT_tape{sx}', SK['notes'], [xa.p(sx * 0.2 - 0.04, 1.43, z + 0.005), xa.p(sx * 0.2 + 0.04, 1.43, z + 0.005), xa.p(sx * 0.2 + 0.04, 1.48, z + 0.005), xa.p(sx * 0.2 - 0.04, 1.48, z + 0.005)], note_uv('blank'))
+        else:
+            z = gz + 0.026
+            uvquad('COPY_A1_RENEW_notice', tex, [xa.p(-0.62, 1.12, z), xa.p(-0.38, 1.12, z), xa.p(-0.38, 1.36, z), xa.p(-0.62, 1.36, z)], (0.5, 0.0, 1.0, 1.0))
+    _copy_group('COPY_CORNER_SHUT', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP 不是 'moved'（空店面：鐵捲門＋招租）"}, corner_shut)
+    _copy_group('COPY_CORNER_OPEN', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'moved'（阿德影印搬到轉角）"}, corner_open)
+    _copy_group('COPY_A1_SHUT', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'moved'（原本的店鐵捲門拉下、遷址告示）"}, lambda: a1('shut'))
+    _copy_group('COPY_A1_RENEW', {'kind': 'copy_shop', 'show': "WZ_COPY_SHOP＝'stay'（續約三年的紙）"}, lambda: a1('renew'))

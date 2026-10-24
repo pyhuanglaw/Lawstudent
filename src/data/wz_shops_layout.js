@@ -91,6 +91,9 @@ const WZ_SHOPS_LAYOUT = {
       {x: 1.05, z: 0.9, kind: 'staff_gate', label: '進櫃台（打工時）'},
       {x: 0.95, z: -1.4, kind: 'binding', label: '膠裝（打工時）'}
     ],
+    /* 搬到轉角以後（ART-WZ6；WZ_COPY_SHOP＝'moved'，AA_420 3-1、12-1）：店面在 A2 東側一樓、朝北巷（wenzhou_street.glb 的 COPY_CORNER_OPEN；原本 A1 拉下鐵捲門＝COPY_A1_SHUT）。
+       室內照舊是同一個 wz_print（LAWWW-B 10-23：室內共用）；進店、出店的位置換成轉角那一間 */
+    moved: {enterAt: {x: 3.9, z: 6.5, label: '進去阿德影印輸出', note: '北巷的人行處（巷子 x 3.3～8.2），轉角店的玻璃門在 x 3.1、z 6.0～6.95'}, exitSpawn: {x: 4.0, z: 6.5, yaw: Math.PI / 2}},
     /* 打工的站位（ART-WZ6，LAWWW2-B 10-24；a＝接單、b＝做的時候、c＝交件；考試週加班同一套）。me＝祐廷、boss＝阿德、kid＝阿芃（晚上在小桌寫功課，坐著）。
        注意：櫃台中間的缺口（x 0.6～1.5）在 0.4 m 的導航格上只剩一格，人（半徑 0.33）走不過去——櫃台後面現在從客人區走不到。
        a／b／c 的 me 都在櫃台後面站得住的地方：上班時淡出換位置（runShift 的 fade）就好；下班一定要放回客人區（end），不然出不來（D36）。要讓人走進去，櫃台缺口要開到 1.2 m（模型＋blocks 一起改，LAWWW2 可以做）*/
