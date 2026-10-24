@@ -6,7 +6,7 @@ name = os.environ.get('SCEN', '')
 if '@' in name:   # 「<測試>@<scratchpad 裡的工作樹>:<port>」＝換一個工作樹（例如 main 的修改前對照）
     name, wp = name.split('@'); wt, port = wp.split(':')
     W = os.path.join(os.path.dirname(os.path.dirname(OUT.rstrip('/'))), wt); URL = 'http://127.0.0.1:%s/index.html' % port
-path = os.path.join(os.path.dirname(os.path.abspath(__file__)), name[3:]) if name.startswith('tt:') else os.path.join(W, 'tests', name + '.py')
+path = name if name.startswith('/') else (os.path.join(os.path.dirname(os.path.abspath(__file__)), name[3:]) if name.startswith('tt:') else os.path.join(W, 'tests', name + '.py'))   # 「/絕對路徑」＝別的 commit 的測試檔（例如 LAWWW-B 改過的新版）
 sha = subprocess.run(['git', '-C', W, 'rev-parse', '--short=9', 'HEAD'], capture_output=True, text=True).stdout.strip()
 print('工作樹 %s @ %s；跑 %s' % (W, sha, path), flush=True)
 os.makedirs(OUT, exist_ok=True)
