@@ -62,7 +62,7 @@ const FEST=(function(){
     for(const k of Object.keys(P.fest||{})){ if(!S.years(id,k).includes(y)) continue; const d=S.dayOf(id,k,y); if(d===day) out.push({id,k,y,d}); } return out; };
 
   /* ---------------- 1-3 誰約得到、第 0 節專屬場次 ---------------- */
-  S.level=(G,id)=>dating(G,id)?7:stageNum(id);
+  S.level=(G,id)=>dating(G,id)?7:(typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,stageNum(id)):stageNum(id));   /* 分開以後一個學期（AA_434 4-3，INV.cool）：照朋友階段——她不約（herAsks 只給交往中，語彤第 6 階的中午那兩則、芷若 2029 的明信片也不發），你約她照第 1～4 階（節日要第 5／6 階：婉拒）*/
   /* 關係階段以外的限制（約不到＝邀約清單不列「約她過節」，BB 10-23：學姊 2025 聖誕列出來、選了才婉拒）：''＝沒有限制。
      關係階段還不到（第 6 階／第 5 階）照 1-3 的表：清單照列、選了她回 AA_415 的「節日」婉拒句（S.ask）*/
   S.barred=function(G,id,k,y){ if(!law(G)) return 'law'; const P=X.PEOPLE[id]; if(!P) return 'who'; const F=G.flags||{};
