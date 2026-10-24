@@ -78,7 +78,7 @@ H['heroine_03']=dict(  # 語彤
 H['heroine_04']=dict(  # 子晴
  likes={'D11.museum':'normal','D11.valley':'like','D11.library':'dislike','D11.footbath':'like'},
  dislike_line={'D11.library':'圖書館……太安靜了，我會睡著。我們去外面。'},
- arrive=dict(first=('any',['欸不是，捷運還有支線？只有一站？','這條線是誰設計的？好奇怪。']),
+ arrive=dict(first=('any',['捷運還有支線？只有一站？','這條線是誰設計的？好奇怪。']),
    normal=[('any',['我睡到兩點。捷運上才醒過來。']),('any',['今天我只想泡腳。']),('high',['你連毛巾都帶了？你好會準備。'])],
    dating=[('any',['今天什麼都不想做。……泡腳可以。'])]),
  close=dict(first=('any',['泡完腳整個人好軟。','我回去一定馬上睡著。']),

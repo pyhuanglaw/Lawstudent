@@ -29,7 +29,7 @@ H['heroine_02']=dict(
 H['heroine_04']=dict(
  likes={'D18.snack':'like','D18.steps':'like','D18.teahouse':'dislike','D18.shop':'like'},
  dislike_line={'D18.teahouse':'坐著看海一小時？海又不會跑。……好啦，三十分鐘。'},
- arrive=dict(first=('any',['欸不是，這裡好像遊戲裡的城鎮！','每一條小巷我都要走。']),
+ arrive=dict(first=('any',['這裡好像遊戲裡的城鎮。','每一條小巷我都要走。']),
    normal=[('any',['今天下雨。九份就是要下雨才對。']),('any',['人好多。我跟緊你。……你走丟很麻煩。']),('high',['我今天沒帶筆電。你應該感到榮幸。'])],
    dating=[('any',['今天我要吃完整條街。不准阻止我。'])]),
  close=dict(first=('any',['燈籠全亮了。……等一下，我拍一張。','這條街我要做進遊戲。回去就畫。']),

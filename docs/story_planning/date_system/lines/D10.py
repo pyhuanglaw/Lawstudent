@@ -76,7 +76,7 @@ H['heroine_03']=dict(  # 語彤
 H['heroine_04']=dict(  # 子晴
  likes={'D10.bridge':'like','D10.boat':'like','D10.walk':'dislike','D10.snack':'like'},
  dislike_line={'D10.walk':'步道好長，太陽好大。我是晚上的生物。'},
- arrive=dict(first=('any',['欸不是，捷運坐到底就有水。','很像遊戲裡傳送到水邊的關卡。']),
+ arrive=dict(first=('any',['捷運坐到底就有水。','很像遊戲裡傳送到水邊的關卡。']),
    normal=[('any',['三點了。我剛起床一個小時。']),('any',['今天一定要坐天鵝船。']),('high',['你今天有帶水？你好會照顧人。'])],
    dating=[('any',['今天不趕。……可是我想看夕陽。'])]),
  close=dict(first=('any',['吊橋、天鵝船都有了。','散步那段，下次再說。']),

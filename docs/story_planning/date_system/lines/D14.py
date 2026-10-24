@@ -77,7 +77,7 @@ H['heroine_03']=dict(  # 語彤（D13 金色水岸是她的心願地點；這裡
 H['heroine_04']=dict(  # 子晴
  likes={'D14.bridge':'normal','D14.boardwalk':'dislike','D14.ferry':'like','D14.sunset':'like'},
  dislike_line={'D14.boardwalk':'木棧道好長，沒有樹蔭。我要躲在你的影子裡。'},
- arrive=dict(first=('any',['欸不是，捷運坐到底，還要再坐公車。','我以為淡水就是終點了。']),
+ arrive=dict(first=('any',['捷運坐到底，還要再坐公車。好遠。','我以為淡水就是終點了。']),
    normal=[('any',['我在淡水站轉車的時候差點睡著。']),('any',['今天我要坐渡輪。']),('high',['你有帶防曬嗎？借我。我忘了。'])],
    dating=[('any',['我們等夕陽。在那之前，我要吃冰。'])]),
  close=dict(first=('any',['橋、渡輪、夕陽，都有了。','回去我要先睡一覺。']),

@@ -75,7 +75,7 @@ H['heroine_03']=dict(  # 語彤：話少、「嗯」、看人、阿姨的店、�
  })
 H['heroine_04']=dict(  # 子晴：「欸不是」「這不是問句」、遊戲、晚上的生物
  likes={'D02.pond':'normal','D02.corridor':'like','D02.garden':'dislike','D02.books':'like'},
- dislike_line={'D02.garden':'欸不是，這裡沒有樹蔭。我會被曬成像素。'},
+ dislike_line={'D02.garden':'這裡沒有樹蔭。……我會曬傷。'},
  arrive=dict(first=('any',['這裡好像遊戲裡的工業風地圖。','每一扇門都想打開。……好，先開那扇。']),
    normal=[('any',['我三點才到。很準時，以我的標準。']),('any',['今天有獨立遊戲的展。我查過了。']),('high',['你今天走路比較慢。在配合我嗎？'])],
    dating=[('any',['今天的任務：沒有任務。……好，有一個，吃冰。'])]),

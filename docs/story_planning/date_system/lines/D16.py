@@ -76,7 +76,7 @@ H['heroine_03']=dict(  # 語彤
 H['heroine_04']=dict(  # 子晴
  likes={'D16.drive':'like','D16.beach':'dislike','D16.lighthouse':'like','D16.rest':'like'},
  dislike_line={'D16.beach':'沙灘……太陽好大，沙好燙。我在車上等你。好啦，五分鐘。'},
- arrive=dict(first=('any',['欸不是，你真的開車來！','我要坐副駕。充電線我帶了。']),
+ arrive=dict(first=('any',['你真的開車來。……我以為你說說而已。','我要坐副駕。充電線我帶了。']),
    normal=[('any',['我十一點起床。為了你。這是犧牲。']),('any',['今天要去最北邊對吧。我查好了。']),('high',['你今天有帶零食。你好會準備。'])],
    dating=[('any',['今天去哪都可以。……好啦，我想看燈塔。'])]),
  close=dict(first=('any',['北海岸才跑了一半吧。','剩下的，下次開。']),

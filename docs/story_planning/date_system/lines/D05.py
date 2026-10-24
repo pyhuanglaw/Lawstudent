@@ -24,7 +24,7 @@ H['heroine_02']=dict(wish_first='wish_heroine_02',  # 芷若
  })
 H['heroine_04']=dict(  # 子晴：15:00 以後才出門；「欸不是」「這不是問句」每地點各三次以內
  likes={'D05.cafe':'normal','D05.garden':'normal','D05.shop':'like','D05.board':'like'},
- arrive=dict(first=('any',['欸不是，電影院長這樣？像一棟老房子。','……像遊戲裡藏隱藏關卡的那種房子。']),
+ arrive=dict(first=('any',['電影院長這樣？像一棟老房子。','……像遊戲裡藏隱藏關卡的那種房子。']),
    normal=[('any',['我三點才出門。今天的場次剛好。']),('any',['今天是老片。我會努力不睡。']),('high',['跟你看電影，我比較不會滑手機。……大概。'])],
    dating=[('any',['今天選片我來。……好啦，選你想看的。'])]),
  close=dict(first=('any',['兩個小時沒有人爆炸。可是我沒睡著。','……我自己都嚇到。']),

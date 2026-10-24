@@ -76,7 +76,7 @@ H['heroine_03']=dict(  # 語彤
  })
 H['heroine_04']=dict(  # 子晴
  likes={'D08.panda':'like','D08.penguin':'like','D08.giraffe':'normal','D08.train':'like'},
- arrive=dict(first=('any',['欸不是，動物園要早上來？','……好，我十一點到。十一點就是我的早上。']),
+ arrive=dict(first=('any',['動物園要早上來？……我平常這時間還在睡。','……好，我十一點到。十一點就是我的早上。']),
    normal=[('any',['我帶了一罐咖啡。這是續命。']),('any',['我要先看貓熊。其他的看心情。']),('high',['你今天比我早到？我還以為我遲到了。'])],
    dating=[('any',['先去企鵝館。我想吹冷氣。'])]),
  close=dict(first=('any',['還有一半沒看到。','下次再來。你負責排路線。']),

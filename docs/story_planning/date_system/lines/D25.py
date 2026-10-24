@@ -43,7 +43,7 @@ H['heroine_02']=dict(
  })
 H['heroine_04']=dict(
  likes={'D25.shore':'like','D25.cafe':'normal','D25.surf':'like','D25.station':'normal'},
- arrive=dict(first=('any',['欸不是，海！火車窗外直接就是海！','……我要做一個火車沿著海開的關卡。']),
+ arrive=dict(first=('any',['海。火車窗外直接就是海。','……我要做一個火車沿著海開的關卡。']),
    normal=[('any',['今天浪很大。很適合。']),('any',['我在火車上睡了一個小時。電量充滿。']),('high',['放假我通常整天待在房間。今天筆電沒帶，好不習慣。'])],
    dating=[('any',['今天我要下水。不准阻止我。'])]),
  close=dict(first=('any',['回程的火車。我要睡。','……手機裡全部都是海。']),normal=[('any',['腳好痠。沙子好重。']),('any',['下次要帶泳衣。你也帶。'])],dating=[('any',['回程你負責叫我。我負責睡。'])]),

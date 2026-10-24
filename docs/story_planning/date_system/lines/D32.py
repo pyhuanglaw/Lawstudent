@@ -30,7 +30,7 @@ H['heroine_02']=dict(  # 芷若
 H['heroine_04']=dict(  # 子晴；「欸不是」三次以內、「這不是問句」兩次以內
  likes={'D32.meadow':'like','D32.trail':'dislike','D32.cloud':'like','D32.stall':'like'},
  dislike_line={'D32.trail':'這個坡也太陡了吧。我會死在這裡。'},
- arrive=dict(first=('any',['欸不是，雲在我們下面！','……我要拍。等一下，我手好冰。']),
+ arrive=dict(first=('any',['雲在我們下面。','……我要拍。等一下，我手好冰。']),
    normal=[('any',['車上我睡了兩小時。山路好彎。']),('any',['我要看羊、看雲，然後吃熱的。']),('high',['這次電腦有帶。……放在車上，不會拿出來。'])],
    dating=[('any',['兩天。我帶了三件外套，你不准笑。'])]),
  close=dict(first=('any',['下山的時候我要睡。到了叫我。','我想做一個雲海的場景。回去先畫草圖。']),
