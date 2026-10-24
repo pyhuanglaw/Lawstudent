@@ -31237,6 +31237,27 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-ACT-ONCE-LATE-1024",
+   "title": "once 活動開始以後才坐下，選單沒有「聽演講」（EXPO_Y2、B4、B6、B7、法圖資料查詢…）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "SYS",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法圖資料查詢說明（2025-09-24）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-24 11:5x（v9.10.8 候選瀏覽器測試；Node 重現 expo_once_check.js）",
+   "authorized": "D85（bug 修正）",
+   "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）"
   }
  ]
 }
