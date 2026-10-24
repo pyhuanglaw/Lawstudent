@@ -2741,6 +2741,14 @@ R28 += [dict(id='MIDNIGHT2', key='2026-10-14', h=23.7, zone='campus', flags=dict
         ('chk', '【捷徑】23:48→24:36 每 0.02 小時（設 E.hour＋applyTime）讀光線', SW2(23.8, 24.6), KEEP('sweep2_midnight')), ('shot', 'lake2_0036', None, 'true', 2),
         ('chk', '【捷徑】04:18→05:42 每 0.02 小時讀光線', SW2(4.3, 5.7), KEEP('sweep2_dawn')), ('shot', 'lake2_0542', None, 'true', 2)], want=[])]
 SCENS = SCENS + [R28[-1]]
+
+# ---------- R29（BB-B 10-24 23:2x）：室內窗景和屋外同一刻天黑（LAWWW-B 23:20，開發分支 7495137b9：窗景換夜景 19.4 → 19.2，用光線時刻）----------
+# 12/10 17:45（屋外已經天黑）：宿舍 203、霖澤館 201 教室、Café 的窗景要是夜景；7/15 19:15 和以前差不多。讀載入的窗景圖檔名＋光線，截兩個方向
+def WINSC(sid, key, h, zone): return dict(id=sid, key=key, h=h, zone=zone, flags=dict(TW3), js='', pref=[],
+    steps=[PAUSE(6, '等窗景'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True), ('chk', '窗景圖（記下來）', VIEWTEX2, lambda d: True)] + YAWS(sid.lower(), None, None, 0.2, 3.0, yaws=(0, 3.1416)), want=[])
+R29 = [WINSC('WIN_DEC_DORM', '2026-12-10', 17.75, 'dorm'), WINSC('WIN_DEC_CLASS', '2026-12-10', 17.75, 'classroom'), WINSC('WIN_DEC_CAFE', '2026-12-10', 17.75, 'cafe'),
+       WINSC('WIN_JUL_DORM', '2027-07-15', 19.25, 'dorm'), WINSC('WIN_JUL_CAFE', '2027-07-15', 19.25, 'cafe')]
+SCENS = SCENS + R29
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
