@@ -2372,6 +2372,22 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 10-24 06:01（P3，可選）。"
+  },
+  {
+   "task": "ABROAD-SWEEP-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "d94d259ec",
+   "files": [
+    "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+    "docs/story_planning/AA_393_學姊第七批_日本路線.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：第 1 節住家裡的週四家人群組（不問、六則輪流、3/23 日本路線那則）；第 2 節日本出發前五週（兩種存檔都有的 14 天、交往中九點日文電話九晚＋3/18 私訊、挽回中 3/11 和五天旁白）；第 3 節 sis_jp_events.js hint 改「你禮拜六走」。BB-B：jp_sweep.js 加載 jp_blank 兩個檔再重掃",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B、BB-B",
+   "ack": "DELIVERED",
+   "note": "10-24 04:30 答應 LAWWW-B 的國外學期盤點（D99）。美國 4 種存檔、日本當地 2 種都是 0 天空白。"
   }
  ],
  "items": [
