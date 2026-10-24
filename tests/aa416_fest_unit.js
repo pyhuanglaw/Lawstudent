@@ -7,7 +7,8 @@
 //   10 禮物（四樣各送、錢有扣、沒有準備不扣分、送過不列、錢不夠不能選、不合適只加信任）
 //   11 AA_414 的 2/14 第 6 階也演（以安、語彤）、以安 1-4 第 6 階的換字、2029 的 CG 補救
 //   12 校外約會（date3d.js）約在她的節日：到了先演節日那一段
-//   13 invites3d.js 接上的三處（實際的檔案）：INV.flow 的「約她過節」選項（約好了灰掉、說原因再選）、INV.meet 先演節日那一段
+//   1b 約不到的不列（學姊筆試前、可昕沒交往、和可昕交往中別人的七夕）；只有關係階段還不到照列、選了婉拒（1-3）
+//   13 invites3d.js 接上的三處（實際的檔案）：INV.flow 的「約她過節」選項（手機、當面都有；約好了灰掉、說原因再選）、INV.meet 先演節日那一段
 // 修改前（開發分支 f4804619）：沒有 src/fest3d.js、src/data/fest_events.js——全部 FAIL。用法：node tests/aa416_fest_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -91,7 +92,16 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     setup('2028-03-13',10,{lv:{[AN]:'dt'}}); chk.push(['以安 2028 3/14（ev_an_white_day，年份不在表上）',x.festsOn(AN,D('2028-03-14')).length===0]);
     check('1. 專屬場次優先（第 0 節）：有專屬的那一年通用版不演',chk.every(c=>c[1]),J(chk.filter(c=>!c[1]).map(c=>c[0]))); }
   { setup('2026-03-13',10,{lv:{[ZQ]:6}}); const fo=x.flowOpt(H.G,ZQ,null,false), fo2=x.flowOpt(H.G,ZQ,null,true); at('2026-03-10',10); const fo3=x.flowOpt(H.G,ZQ,null,false);
-    check('1. 邀約選單：前一天起多一項「約她過節：白色情人節」；一起走過去的時候、還沒到前一天沒有',!!fo&&fo.t==='約她過節：白色情人節'&&!fo.dim&&!fo2&&!fo3,J({fo,fo3})); }
+    check('1. 邀約選單：前一天起多一項「約她過節：白色情人節」（手機、當面都有：1-4 ①「用現有的邀約（當面或手機）」）；還沒到前一天沒有',!!fo&&fo.t==='約她過節：白色情人節'&&!fo.dim&&!!fo2&&fo2.t===fo.t&&!fo3,J({fo,fo2,fo3})); }
+  /* 1b. 約不到的不列（BB 10-23：學姊 2025-12-23 手機清單有「約她過節：聖誕節」，選了才婉拒）；只有關係階段還不到照 1-3 的表：照列、選了婉拒 */
+  { setup('2025-12-23',10,{lv:{[SIS]:6}}); const a=x.flowOpt(H.G,SIS,null,false), b=x.flowOpt(H.G,SIS,{obj:null},true), aq=x.askable(H.G,SIS).length; at('2026-02-13',10); const c=x.flowOpt(H.G,SIS,null,false);
+    check('1b. 學姊筆試以前：清單不列「約她過節：聖誕節」（手機、當面都沒有）；2026 情人節前一天照列',!a&&!b&&aq===0&&!!c&&c.t==='約她過節：情人節',J({a,b,aq,c})); }
+  { setup('2026-08-18',10,{lv:{[ZQ]:6,[KX]:6}}); date(KX); const a=x.flowOpt(H.G,ZQ,null,false), k=x.flowOpt(H.G,KX,null,false); at('2026-03-13',10); const w=x.flowOpt(H.G,ZQ,null,false);
+    check('1b. 和可昕交往中：子晴的七夕不列（只有可昕的）；子晴的白色情人節照列',!a&&!!w&&w.t==='約她過節：白色情人節',J({a,k,w})); }
+  { setup('2026-03-13',10,{lv:{[KX]:6}}); const a=x.flowOpt(H.G,KX,null,false);
+    check('1b. 可昕沒有交往：不列',!a,J(a)); }
+  { setup('2026-03-13',10,{lv:{[AN]:4}}); const a=x.flowOpt(H.G,AN,null,false);
+    check('1b. 關係階段還不到（以安第 4 階）照 1-3：照列、選了她婉拒（下一項）',!!a&&a.t==='約她過節：白色情人節'&&!a.dim,J(a)); }
   { setup('2026-03-13',10,{lv:{[AN]:4}}); const {r,L}=await ask(AN,[]); const want=okR&&accRows(AN,6).length?'「那天我排了讀書會。不是藉口，是真的排了。」':null;
     check('1. 第 4 階約節日：婉拒（AA_415 標「節日」的婉拒句，以安：「那天我排了讀書會。不是藉口，是真的排了。」）、沒有排',r===null&&!x.rec(H.G).bk.length&&(!want||L.includes(want)),J(L)); }
   });
@@ -148,7 +158,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   /* ======================= 4 芷若 ======================= */
   await sec('4',async()=>{ const x=X();
   { setup('2026-02-13',10,{lv:{[ZR]:6}}); const a=await ask(ZR,[0]); const q=a.r;
-    check('4. 2/14 她在台中：「開車去台中找她（一整天）」；開車照 date3d.js（D26 單程 150 分＋先回家取車 30 分；油錢 900）',!!q&&q.fest.day&&q.travelH===3&&q.fest.fare===900&&/回家取車/.test(q.travel)&&q.title==='情人節（開車去台中找'+SOCIAL.displayName(ZR)+'）'&&a.O[0][0]==='開車去台中找她（一整天）',J({q,O:a.O}));
+    check('4. 2/14 她在台中：「開車去台中找她（一整天）」；開車照 date3d.js（D26 單程 150 分；寒假從臺北的家出發，不加回家取車的 30 分，DATE-C7；油錢 900）',!!q&&q.fest.day&&q.travelH===2.5&&q.fest.fare===900&&q.travel==='開車到台中約 2 小時 30 分鐘'&&q.title==='情人節（開車去台中找'+SOCIAL.displayName(ZR)+'）'&&a.O[0][0]==='開車去台中找她（一整天）',J({q,O:a.O}));
     at('2026-02-14',8.8); money=[]; const m0=H.G.money, r0=relOf(ZR); const g=await goOut(q.id);
     check('4. 出發扣油錢、背景台中（tc_cafe）；「你開車來台中？……我家的店今天沒開。」「我帶你去看一部老電影。」',m0-H.G.money===900&&img(H.bgs.find(b=>b&&b.image))==='tc_cafe'&&J(g.L)===J(['你開車來台中？……我家的店今天沒開。','我帶你去看一部老電影。'])&&dRel(ZR,r0)===J({fam:4,comf:5,npcRom:6}),J({m:m0-H.G.money,L:g.L,b:H.bgs.map(img)})); }
   { setup('2029-02-14',9,{lv:{[ZR]:'dt'}}); rules(); const q=OUT.get(H.G,'fest_heroine_02_vday_2029_video');
@@ -211,7 +221,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2026-03-14',10,{lv:{[SIS]:'dt'}}); const a=await play({id:SIS,k:'white',y:2026,mode:'meet'});
     check('7. 3/14 交往中：「回禮。」旁白（一張便條，背面也有字。）「背面，回去再看。」旁白（背面寫著：「明年也要。」）；說話框是「書瑀」',J(a.L)===J(['回禮。','（一張便條，背面也有字。）','背面，回去再看。','（背面寫著：「明年也要。」）'])&&H.said[0].who===SOCIAL.displayName(SIS),J({L:a.L,who:H.said[0].who})); }
   { setup('2026-08-18',10,{lv:{[SIS]:6}}); const a=await ask(SIS,[1,0]); const q=a.r;
-    check('7. 七夕第 6 階：開車上陽明山（D15 開車 40 分＋取車 30 分、油錢 150）、晚上場（只有這個地方）',!!q&&a.O.length===1&&q.title==='七夕（開車上陽明山）'&&q.fest.bg==='d15_base_night'&&Math.abs(q.travelH-(40/60+0.5))<1e-9&&q.fest.fare===150&&q.h===19,J({q,O:a.O}));
+    check('7. 七夕第 6 階：開車上陽明山（D15 開車 40 分；暑假從臺北的家出發，不加取車的 30 分，DATE-C7；油錢 150）、晚上場（只有這個地方）',!!q&&a.O.length===1&&q.title==='七夕（開車上陽明山）'&&q.fest.bg==='d15_base_night'&&Math.abs(q.travelH-40/60)<1e-9&&q.fest.fare===150&&q.h===19,J({q,O:a.O}));
     at('2026-08-19',17.7); money=[]; const g=await goOut(q.id); check('7. 「一年見一次，很辛苦吧。」「我以前覺得，排好的話，一年一次也可以。」（油錢有扣）',J(g.L)===J(['一年見一次，很辛苦吧。','我以前覺得，排好的話，一年一次也可以。'])&&J(money)===J([-150]),J({L:g.L,money})); }
   { setup('2028-06-02',10,{lv:{[SIS]:'dt'},flags:{EXCHANGE_ROUTE:'TW'}}); H.G.money=500; money=[]; const m=await play({id:SIS,k:'bday',y:2028,mode:'meet'},[0]);
     check('7. 2028 生日（沒有專屬的那一年）交往中＝第 6 階的兩句＋「……我把計畫本那一天塗掉了。」；禮物照 BB_122 3-7（W8 以後才有「今天先不改了」券）；螢光筆「實用。……謝謝。這週就會用完。」',J(m.L)===J(['生日？期末考前。我從來沒有好好過過。','……今年讓你排。我不看時間。','……我把計畫本那一天塗掉了。','實用。……謝謝。這週就會用完。'])&&J(m.O[0])===J(['一盒綠色螢光筆','一本空白筆記本','期末考前的蜂蜜檸檬','手寫的「今天先不改了」券','一束花','（沒有準備）']),J(m));
@@ -240,7 +250,9 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     at('2026-03-14',18.7); const g=await goOut(a.r.id);
     check('8. 醉月湖那一場放 CG cg_last_page_peishan（在「最後一頁是空的」那一句）',J(g.L)===J(['（她拿出一本筆記本。）','這一年我問你的問題，我自己的答案都寫在這裡。','最後一頁是空的。……那一題，你來回答。'])&&J(H.cgs)===J(['cg_last_page_peishan'])&&H.G.flags.PS_WHITE_CG===true,J({L:g.L,cgs:H.cgs}));
     setup('2028-03-13',10,{lv:{[PS]:6},flags:{PS_RECONNECT:true}}); const b=await ask(PS,[0]); at('2028-03-14',7); const g2=await goOut(b.r.id);
-    check('8. 2028 在台南：開車去台南（D28 單程 240 分）、運河邊（tn_canal）、多「這裡沒有醉月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4.5)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有醉月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
+    check('8. 2028 在台南：開車去台南（D28 單程 240 分＋學期中從宿舍出發先回家取車 30 分）、運河邊（tn_canal）、多「這裡沒有醉月湖。……運河也可以。」、不放 CG',!!b.r&&Math.abs(b.r.travelH-4.5)<1e-9&&img(H.bgs.find(x=>x&&x.image))==='tn_canal'&&g2.L[0]==='這裡沒有醉月湖。……運河也可以。'&&!H.cgs.length,J({q:b.r,L:g2.L,cgs:H.cgs,b:H.bgs.map(img)})); delete global.CG_REGISTRY; }
+    { const dorm=x.drive('D28','台南',H.G,D('2028-03-14')), home=x.drive('D28','台南',H.G,D('2028-07-14'));
+      check('8. 開車的算法（DATE-C7）：學期中＝去回各多 30 分、寫「回家取車約 30 分鐘，再開車到台南約 4 小時」；寒暑假從臺北的家＝不加、不寫那一句',dorm.travelH===4.5&&dorm.backH===4.5&&dorm.travel==='回家取車約 30 分鐘，再開車到台南約 4 小時'&&!dorm.home&&home.travelH===4&&home.backH===4&&home.travel==='開車到台南約 4 小時'&&home.home===true,J({dorm,home})); }
   { setup('2028-02-13',21.05,{lv:{[PS]:'dt'}}); rules(); const m=PHONE.byAsk(H.G,'fest_ask_classmate_peishan_vday_2028');
     check('8. 她約、她在台中：「明天你要下來嗎？……不用勉強。」',J(dms(PS))===J(['明天你要下來嗎？……不用勉強。'])&&!!m,J(dms(PS)));
     PHONE.answer(H.G,'fest_ask_classmate_peishan_vday_2028',0); rules(); const q=OUT.get(H.G,'fest_classmate_peishan_vday_2028');
@@ -256,7 +268,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     PHONE.answer(H.G,'fest_ask_kexin_white_2026',0); rules(); const q=OUT.get(H.G,'fest_kexin_white_2026'); at('2026-03-14',18.1); const g=await goOut(q.id);
     check('9. 公館（gongguan）「白色情人節。我記得你上個月送什麼。」「……這是回禮。拆開以前不准猜。」',img(H.bgs.find(b=>b&&b.image))==='gongguan'&&g.L.slice(0,2).join('｜')==='白色情人節。我記得你上個月送什麼。｜……這是回禮。拆開以前不准猜。',J(g.L)); }
   { setup('2026-08-18',10,{lv:{[KX]:'dt'}}); REG({cg_our_car_kexin:{file:'old',title:'我們有車'}}); const a=await ask(KX,[0]); const q=a.r;
-    check('9. 七夕（她在高雄）：開車去高雄（D29 單程 270 分＋30 分）或視訊',!!q&&Math.abs(q.travelH-5)<1e-9&&q.h===19.5&&J(a.O[0])===J(['開車去高雄找她（一整天）','視訊（21:00）','算了']),J({q,O:a.O}));
+    check('9. 七夕（她在高雄）：開車去高雄（D29 單程 270 分；暑假從臺北的家出發，不加取車的 30 分，DATE-C7）或視訊',!!q&&Math.abs(q.travelH-4.5)<1e-9&&q.h===19.5&&J(a.O[0])===J(['開車去高雄找她（一整天）','視訊（21:00）','算了']),J({q,O:a.O}));
     at('2026-08-19',14.2); const g=await goOut(q.id);
     check('9. 高雄的山上（kh_sizihwan）：旁白、「牛郎織女如果有車，就不用等一年了。」「……我們有車。」；舊的政大後山 CG 不放、新的還沒登錄就不放',img(H.bgs.find(b=>b&&b.image))==='kh_sizihwan'&&J(g.L)===J(['（晚上，山上的停車處，看得到港口的燈。）','牛郎織女如果有車，就不用等一年了。','……我們有車。'])&&!H.cgs.length,J({L:g.L,cgs:H.cgs}));
     REG({cg_our_car_kh_kexin:{file:'new',title:'我們有車'}}); setup('2028-08-26',10,{lv:{[KX]:'dt'}}); const m=await play({id:KX,k:'qixi',y:2028,mode:'meet'}); check('9. 高雄那一張 CG 畫好登錄以後才放（cg_our_car_kh_kexin）',J(H.cgs)===J(['cg_our_car_kh_kexin'])); delete global.CG_REGISTRY; }
@@ -294,7 +306,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   { setup('2029-02-14',9,{lv:{[AN]:6}}); rules(); const q=OUT.get(H.G,'anyt_an_vday_y4'); H.said=[]; H.opts=[]; H.picks=[1]; await EVENTS.run(ev('ev_an_vday_y4')); const L=said();
     check('11. 2029 電話第 6 階：「外婆家好玩嗎？」→「表妹問我有沒有男朋友。我說沒有。」「……她說那就是快有了。」；沒拿過 CG 的多一個選項「我明天開車下去。」',!!q&&J(H.opts[0])===J(['「十八號回來？」','「外婆家好玩嗎？」','「我明天開車下去。」'])&&L.includes('表妹問我有沒有男朋友。我說沒有。')&&L.includes('……她說那就是快有了。')&&!L.includes('……她說那就是有。'),J({O:H.opts,L}));
     setup('2029-02-14',9,{lv:{[AN]:'dt'}}); rules(); H.said=[]; H.opts=[]; H.picks=[2]; await EVENTS.run(ev('ev_an_vday_y4')); const L2=said(); rules(); const qr=OUT.get(H.G,'anyt_an_vday_tc');
-    check('11. 選「我明天開車下去。」→「……初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('……初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===3,J({L2,qr}));
+    check('11. 選「我明天開車下去。」→「……初三。下午兩點，公園門口。」「我只能出來兩個小時。」→ 2/15 14:00 開車去台中（照 1-1）',L2.includes('……初三。下午兩點，公園門口。')&&L2.includes('我只能出來兩個小時。')&&!!qr&&qr.day===D('2029-02-15')&&qr.h===14&&qr.travelH===2.5,J({L2,qr}));   /* 2/15 在寒假：從臺北的家出發（DATE-C7）*/
     REG({cg_valentine_taichung_heroine01:{file:'x',title:'t'}}); at('2029-02-15',10.9); const g=await goOut('anyt_an_vday_tc',[0]);
     check('11. 補救那一場：台中的公園、紙袋、休息站，放 CG；記 AN_VDAY_Y4B went（3/14 算她 2/14 送過東西）',g.L.includes('（休息站，你打開紙袋。是一盒太陽餅，盒子上貼著一張便利貼，寫著你的名字。）')&&J(H.cgs)===J(['cg_valentine_taichung_heroine01'])&&H.G.flags.AN_VDAY_Y4B==='went',J({L:g.L,cgs:H.cgs})); delete global.CG_REGISTRY;
     setup('2029-02-14',9,{lv:{[AN]:'dt'},flags:{AN_VDAY_CG:true}}); rules(); H.opts=[]; H.picks=[0]; await EVENTS.run(ev('ev_an_vday_y4'));
@@ -323,6 +335,10 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
   check('13. 約好以後再約一次：那一項灰掉（「已經約好了」），選了說「已經約好了。」、回到清單再選（選「算了」結束，沒有多一筆邀約）',iv2==null&&L2.includes('已經約好了。')&&O2.length===2&&O2[0].some(o=>/約她過節/.test(o))&&(H.G.invites||[]).filter(q=>q.fest).length===1,J({L2,O2}));
   at('2026-03-14',12); H.said=[]; await INVH.meet(GM,iv,null); const L=said();
   check('13. 見面：先演節日那一段（「白色情人節要回禮。我回你一首歌。……很短。」），再照 Café 原本的內容；記一起過了',L[0]==='白色情人節要回禮。我回你一首歌。……很短。'&&L.length>1&&X().rec(H.G).done['heroine_04:white:2026']==='meet'&&iv.state==='done',J(L));
+  setup('2026-03-13',10,{lv:{[ZQ]:6}}); H.said=[]; H.opts=[]; H.picks=['約她過節',0,0]; const ivF=await INVH.flow(GM,ZQ,{obj:null},true); const OF=H.opts.slice();
+  check('13. 當面約子晴（story3d.js offerInvite 的 INV.flow(…,true)）：清單也有「約她過節：白色情人節」→ 中午場 → Café；排進邀約（iv.fest）',!!ivF&&!!ivF.fest&&ivF.place==='cafe'&&OF[0].includes('約她過節：白色情人節'),J({OF,ivF}));
+  H.said=[]; H.opts=[]; H.picks=['約她過節','算了']; const ivF2=await INVH.flow(GM,ZQ,{obj:null},true); const LF2=said(), OF2=H.opts.slice();
+  check('13. 當面再約一次：一樣灰掉、說「已經約好了。」、回到清單',ivF2==null&&LF2.includes('已經約好了。')&&OF2.length===2&&(H.G.invites||[]).filter(q=>q.fest).length===1,J({LF2,OF2}));
   });
 
   H.done();

@@ -6434,7 +6434,8 @@
      "evidence": "計數與條件 src/date3d.js S.counts／complete（tests/date_core_unit.js）；校園附近單獨約出來戀愛 +1（src/invites3d.js:170，AA_128 1-1、AA_243 第 1 節，第 3 階以上）",
      "note": "三種相處的分法都做了，只差人物頁顯示"
     }
-   ]
+   ],
+   "notes": "2026-10-24 03:3x LAWWW-B：第 3 輪：DATE.historyText（人物頁「一起去過的地方」資料；game3d.js personHTML 一行掛勾待接）"
   },
   {
    "id": "DATE-S2",
@@ -6744,7 +6745,7 @@
      "note": "去心願地點會算數，但心願那一整場沒有"
     }
    ],
-   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。 ｜2026-10-23 21:2x LAWWW-B：第 2 輪：AA_426 重匯，hold 0（子晴、學姊、可昕三位的心願事件都演）；tests/date_wish_unit.js 83 PASS。AA 待解：學姊自己的邀約週五 21:00 萬才館出發、開陽明山回來 00:50 超過 23:30 的預約規則，永遠送不出去"
+   "notes": "2026-10-23 20:2x LAWWW-B：心願事件接好（src/wish3d.js、src/data/date_wish.js 由 tools/date/import_wish.py 從 wish_aa.json@0b478a53、wish_bb.json@814bf8c5 產生）：以安 D07、語彤 D13、芷若 D05、沛珊 D06 有聊天提到、她主動邀、第一次單獨去演完整事件；子晴（17 句）、學姊（11 句）、可昕（10 句）違反人物規則先 hold（照一般第一次約會、心願照樣算完成），已請 AA 改稿，改好重匯自動解除。tests/date_wish_unit.js 63 PASS。 ｜2026-10-23 21:2x LAWWW-B：第 2 輪：AA_426 重匯，hold 0（子晴、學姊、可昕三位的心願事件都演）；tests/date_wish_unit.js 83 PASS。AA 待解：學姊自己的邀約週五 21:00 萬才館出發、開陽明山回來 00:50 超過 23:30 的預約規則，永遠送不出去 ｜2026-10-24 03:3x LAWWW-B：第 3 輪：AA_432 重匯（學姊心願 18:30 出發、答應句；學姊約會句；可昕出發句三句輪流）；date_lines_regress 2b 學姊沒有數數／「學弟」"
   },
   {
    "id": "DATE-C5",
@@ -6834,7 +6835,7 @@
      "note": "個別節日場面有，通用節日約會沒有"
     }
    ],
-   "notes": "2026-10-23 21:2x LAWWW-B：節日開車：DATE.fromHomeOn（從台北的家出發不再加 30 分鐘取車）；fest3d.js S.drive、an_yt_hol3d.js D26 還照舊加 30 分鐘（要改的地方在子代理報告，LAWWW-B 下一批）"
+   "notes": "2026-10-23 21:2x LAWWW-B：節日開車：DATE.fromHomeOn（從台北的家出發不再加 30 分鐘取車）；fest3d.js S.drive、an_yt_hol3d.js D26 還照舊加 30 分鐘（要改的地方在子代理報告，LAWWW-B 下一批） ｜2026-10-24 03:3x LAWWW-B：第 2 輪：fest3d.js、an_yt_hol3d.js 的 S.drive 從台北的家出發不加 30 分鐘、不寫取車（DATE.fromHomeOn）"
   },
   {
    "id": "DATE-L01",
@@ -8364,7 +8365,8 @@
      "evidence": "預約、衝突、交通、取消／FLAKED、鬧鐘、改時間台詞都做好（src/date3d.js:80-205；tests/date_book_unit.js、date_trip_unit.js、date_core_unit.js ALL PASS）；互動點時間花費照 point_specs；缺心願事件整場：date3d.js:218 註「心願事件（wishEvent）是另外的整場…還沒做」，企劃線 date_system/wish/*.json 沒進白名單",
      "note": "約會核心能玩，心願事件還沒做"
     }
-   ]
+   ],
+   "notes": "2026-10-24 03:3x LAWWW-B：第 3 輪：固定段落（D04、D05 電影 120 分鐘、票錢、不算互動點）、休館（週一休館、館內那一點休館）、costByMode（D09 纜車）；tests/date_sys03_unit.js 19 PASS。沒有規則的：D09 mon_maybe、雨天版、D26／D28 17:00 閉館"
   },
   {
    "id": "SYS-04",
@@ -8502,7 +8504,8 @@
      "evidence": "摘要日已做：法律系寒暑假 src/home3d.js:206-213（AA_183）、src/holff3d.js:26-53（AA_340 6-3）、日本 jp3d.js、美國 us_life3d.js S3；學期中的「週曆＋精華日」（AA_90 第 10 節：只玩有事的日子、其他日子摘要帶過）找不到實作",
      "note": "假期摘要日有了，學期中精華日沒有"
     }
-   ]
+   ],
+   "notes": "2026-10-24 03:3x LAWWW-B：盤點：寒暑假摘要日已做（SYS-LBREAK）；學期精華日只有 AA_90 第 10 節（PROPOSAL、部分過時），要批准的規格才做"
   },
   {
    "id": "SYS-09",
@@ -14627,7 +14630,8 @@
      "note": "暫停五欄齊（recheckOn 只寫「v9.10 發布當天」沒有日期），恢復條件已成立；七位戀愛線大多已透過事件包上線，剩零星項目要逐條對"
     }
    ],
-   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）"
+   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
+   "notes": "2026-10-24 03:3x LAWWW-B：盤點：以安 career_goal、芷若十二張紙條、Q15、zq3am、ZQ_CONFESS_LINE、WATCHED_SHOW_ONLINE、ZR_GAVE_HER_ORDER、AA_187 1-4 已做；缺：ev_zhiruo_his_order／ZR_HE_ORDERED（BB_165 3-1）、ev_peishan_waited、ev_peishan_red_pen、可昕 K7 卡片頁（KX_CARD_READ）"
   },
   {
    "id": "PERF-BOOT",

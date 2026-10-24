@@ -70,7 +70,7 @@ const LN=DATE_LINES;
   setup('2026-10-10',9,{lv:{[ZQ]:5}}); const m0=H.G.money; r=await goDate(ZQ,'D13',15,['飲料','「我請。」','差不多',0]);
   check('3. 說要請客（子晴飲料攤「我請。」）：另外扣她那一份 60（飲料 60＋她的 60＋車資 100）',r.O.some(o=>o.includes('「我請。」'))&&m0-H.G.money===60+60+100,String(m0-H.G.money)+' '+J(r.O.slice(0,4)));
   { setup('2026-10-10',9,{lv:{[KX]:'dt'}}); const got=[]; for(let i=0;i<6;i++) got.push(J(DATE.lineFor(H.G,KX,'depart',{day:H.G.day})));
-    check('3. 可昕的出發訊息不播「我到了。這是告知。」（AA_426：可昕不用「這是告知」；BB_128 3-6 那一句列給 AA），另外兩句輪流',!got.some(x=>x.includes('這是告知'))&&new Set(got).size===2,J(got)); }
+    check('3. 可昕的出發訊息三句輪流：BB_128 3-6 那一句 AA_432 改成「我到了。你在哪？」（企劃線 1ced2f8b3）；沒有「這是告知」',!got.some(x=>x.includes('這是告知'))&&new Set(got).size===3&&got.includes(J(['我到了。你在哪？'])),J(got)); }
   check('3. 請客的選項：我請、我買給妳、我付；「下次我請」「那我請飲料」不算',DATE.isTreat('「這杯我請。」')&&DATE.isTreat('「我買給妳。」')&&DATE.isTreat('「我付。」')&&!DATE.isTreat('「下次換我請。」')&&!DATE.isTreat('「那我請飲料。」')&&!DATE.isTreat('「那我買另一隻。」'));
   setup('2026-10-10',9,{lv:{[ZQ]:5}}); H.G.weather='rain'; toasts.length=0; r=await goDate(ZQ,'D13',15,['長椅','就這樣回去']);
   check('3. 下雨：長椅灰掉「椅子是濕的」，按了只提示、不做',H.opts.some(o=>o.includes('長椅'))&&toasts.includes('椅子是濕的')&&!(r.t.spots||[]).includes('D13.bench'),J({t:toasts,s:r.t&&r.t.spots}));
