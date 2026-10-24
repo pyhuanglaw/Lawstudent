@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 07:1x 更新**：
+    - LAWWW-B 06:46：博雅 203 已整合 `5fff78834`（放人 `cc366dbe5`）；205 的做法（`--only 205`、`zones3d.js` 一行、`cam_box`）同意。
+    - 已交：#82 第五間 洗衣間＋205（本 commit；`test_shots/dorm_laundry_205_1024/README.md`、`patches/dorm_laundry_205_1024.patch`，對開發 `cc366dbe5`）。
+    - 下一項：#82 第六間 總圖多媒體中心（`library_layout.js` 的 doors.media；`closed2_3d.js` 的「看一部片」要跟著搬進去）→ 第七間 美國臥室 C＋法圖 2F 書庫（`us3d.js`）→ 霖澤 1F 東牆公告欄。
   - **10-24 06:5x 更新**：
     - 已交：#82 第四間博雅 203（本 commit；`test_shots/boya_203_1024/README.md`、`patches/boya_203_1024.patch`，對開發 `7ce1142e2`）。103 不做（LAWWW-B 06:11 決定用 101）。
     - LAWWW-B 06:25：芷若彈簧骨已整合 `cb6cef3e3`；更正角色美術由 LAWWW 驗收（D100a，不是 BB）。

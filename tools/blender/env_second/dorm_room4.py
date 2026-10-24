@@ -631,11 +631,16 @@ def peer507(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     lbox(im, side, cu - 0.21, cu + 0.21, 0.55, 0.95, 1.1, 1.14, fn='crbox', hexcol='#4a4f57', r=0.015)                 # 外套
 
 
+
+def painted2(cm, fn, hexcol):
+    """同 painted()，但用「新加的面」的集合來塗（painted() 照面的編號：同一個網格前面做過倒角方塊 crbox 以後，編號會亂，塗到別的東西——205 第一輪：登山包的口袋變成陶盆的顏色）"""
+    f0 = set(cm.bm.faces); fn(); cm.paint([f for f in cm.bm.faces if f not in f0], hexcol)
+
 def pot(G, x, y, z, r, h, col='#b5653a'):
     """花盆（車床，遊戲座標）：上寬下窄、口緣一圈、土；回傳土面的高度"""
     prof = [(0.0, 0.0), (r * 0.72, 0.0), (r, h * 0.9), (r * 1.08, h * 0.92), (r * 1.08, h), (r * 0.92, h), (r * 0.9, h * 0.84), (0.0, h * 0.84)]
-    painted(G['it'], lambda: G['it'].add_bm(L.lathe(prof, seg=12), Matrix.Translation(g2b(x, y, z))), col)
-    painted(G['it'], lambda: G['it'].cyl((x, y + h * 0.84, z), (x, y + h * 0.86, z), r * 0.88, seg=12), '#4a3626')
+    painted2(G['it'], lambda: G['it'].add_bm(L.lathe(prof, seg=12), Matrix.Translation(g2b(x, y, z))), col)
+    painted2(G['it'], lambda: G['it'].cyl((x, y + h * 0.84, z), (x, y + h * 0.86, z), r * 0.88, seg=12), '#4a3626')
     return y + h * 0.86
 
 
@@ -645,7 +650,7 @@ def leaves(G, x, y, z, n, length, tilt, col, rng, width=0.4, thick=0.12, rise=0.
         a = a0 + k * 2 * math.pi / n + rng.uniform(-0.25, 0.25); ln = length * rng.uniform(0.8, 1.15); d = ln * 0.55
         c = (x + d * math.cos(a), y + rise + d * math.sin(-tilt) * 0.5, z + d * math.sin(a))
         m = Matrix.Rotation(-a, 4, 'Z') @ Matrix.Rotation(tilt + rng.uniform(-0.15, 0.15), 4, 'Y')
-        painted(G['it'], lambda: G['it'].ell(c, ln * 0.55, ln * 0.55 * thick, ln * 0.55 * width, seg=6, rings=4, matrix=m), col)
+        painted2(G['it'], lambda: G['it'].ell(c, ln * 0.55, ln * 0.55 * thick, ln * 0.55 * width, seg=6, rings=4, matrix=m), col)
 
 
 def rosette(G, x, y, z, r, col, rng, n=9):
@@ -664,14 +669,14 @@ def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     for i in range(6):
         for j in range(4):
             u_, v_ = k0 + 0.07 + i * 0.056, 0.08 + j * 0.06; x_, _, z_ = W(u_, 0, v_)
-            painted(im, lambda: im.cyl((x_, Y + 0.05, z_), (x_, Y + 0.05 + R.uniform(0.03, 0.06), z_), 0.003, seg=4), '#6a9a3a')
+            painted2(im, lambda: im.cyl((x_, Y + 0.05, z_), (x_, Y + 0.05 + R.uniform(0.03, 0.06), z_), 0.003, seg=4), '#6a9a3a')
             leaves(G, x_, Y + 0.075 + R.uniform(-0.01, 0.01), z_, 2, 0.022, -0.3, '#7ab84a', R, width=0.6, thick=0.2)
     # 三盆多肉（陶盆）沿著牆
     for k, (du, col, pc) in enumerate(((0.47, '#8ab08a', '#b5653a'), (0.62, '#a9c48a', '#c98a5a'), (0.76, '#7a9a8a', '#b5653a'))):
         x_, _, z_ = W(k0 + du, 0, 0.12); ys = pot(G, x_, Y, z_, 0.05, 0.07, pc); rosette(G, x_, ys, z_, 0.035, col, R)
     # 大葉子的那一盆（書桌靠衣櫃那一端）
     x_, _, z_ = W(k1 - 0.17, 0, 0.18); ys = pot(G, x_, Y, z_, 0.09, 0.15, '#f1efe8')
-    for k in range(3): painted(im, lambda: im.cyl((x_, ys, z_), (x_ + R.uniform(-0.04, 0.04), ys + 0.22 + k * 0.06, z_ + R.uniform(-0.04, 0.04)), 0.006, seg=5), '#4f7a3a')
+    for k in range(3): painted2(im, lambda: im.cyl((x_, ys, z_), (x_ + R.uniform(-0.04, 0.04), ys + 0.22 + k * 0.06, z_ + R.uniform(-0.04, 0.04)), 0.006, seg=5), '#4f7a3a')
     leaves(G, x_, ys + 0.22, z_, 6, 0.16, 0.35, '#3f7a3a', R, width=0.7, thick=0.08)
     leaves(G, x_, ys + 0.3, z_, 4, 0.13, 0.0, '#4a8a42', R, width=0.7, thick=0.08, a0=0.6)
     # 前面一排小黑盆（剛換盆的苗）
@@ -682,7 +687,7 @@ def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     lbox(im, side, k0 + 0.5, k0 + 0.69, Y + 0.008, Y + 0.012, 0.52, 0.53, fn='cbox', hexcol='#e0b030')
     x_, _, z_ = W(k0 + 0.8, 0, 0.42); G['met'].cyl((x_, Y, z_), (x_, Y + 0.012, z_), 0.03, seg=12)   # 放大鏡
     x_, _, z_ = W(k0 + 0.88, 0, 0.5)
-    painted(im, lambda: im.cyl((x_, Y, z_), (x_, Y + 0.17, z_), 0.03, seg=10), '#cfe6f0'); painted(im, lambda: im.cyl((x_, Y + 0.17, z_), (x_, Y + 0.21, z_), 0.015, seg=8), '#2a8a5a')
+    painted2(im, lambda: im.cyl((x_, Y, z_), (x_, Y + 0.17, z_), 0.03, seg=10), '#cfe6f0'); painted2(im, lambda: im.cyl((x_, Y + 0.17, z_), (x_, Y + 0.21, z_), 0.015, seg=8), '#2a8a5a')
     lbox(im, side, k0 + 0.865, k0 + 0.895, Y + 0.19, Y + 0.215, 0.5, 0.56, fn='cbox', hexcol='#2a8a5a')
     # 層架：植物圖鑑、課本（綠、咖啡的書背）、一盆黃金葛往下垂；架子下面一支植物燈
     books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.27, cols=['#3e6a3a', '#7a5a3a', '#5a7a4a', '#d6cdb8', '#8a6a3a', '#2f5a4a'], rng=R)
@@ -699,7 +704,7 @@ def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     for j in range(2): lbox(im, side, k1 - 0.42 + j * 0.13, k1 - 0.31 + j * 0.13, 0.0, 0.12, 0.25, 0.53, fn='crbox', hexcol='#5a4a3a', r=0.03)
     w0 = ust - 0.6
     lbox(im, side, w0 + 0.1, w0 + 0.46, 0.0, 0.72, 0.6, 0.86, fn='crbox', hexcol='#2f4a3a', r=0.06); lbox(im, side, w0 + 0.16, w0 + 0.4, 0.42, 0.62, 0.86, 0.9, fn='crbox', hexcol='#3a5a46', r=0.03)
-    lbox(bk, side, w0 + 0.14, w0 + 0.42, 0.7, 0.74, 0.62, 0.84)
+    lbox(im, side, w0 + 0.13, w0 + 0.43, 0.66, 0.76, 0.63, 0.83, fn='crbox', hexcol='#24382c', r=0.03)                       # 背包的頂蓋（第一輪是黑色方塊，太重）
     # 窗台三盆（後牆，和他送給祐廷的那三盆同一種）
     for k, xw in enumerate((-0.62, -0.05, 0.55)):
         ys = pot(G, xw, 0.962, IZ0 + 0.005, 0.05, 0.07, '#b5653a'); rosette(G, xw, ys, IZ0 + 0.005, 0.032, ['#8ab08a', '#a9c48a', '#7a9a8a'][k], R)
@@ -790,7 +795,7 @@ if ONLY == '205' and ROOM_LAYOUT_OUT:
     seats = [dict(x=l2['seat']['x'], z=l2['seat']['z'], yaw=l2['seat']['yaw'], kind='sit', table=l2['desk_center'], ap=[f2(l2['seat_approach'][0] + 0.1), l2['seat_approach'][1]], label='坐下（借室友的椅子）', uses=['和方奕廷說話'])]
     inter = [dict(id='fang_desk', x=r1['seat_approach'][0], z=r1['seat_approach'][1], r=0.8, label='方奕廷的書桌', note='', dev='滿桌的盆栽（育苗盤、多肉、大葉子、垂下來的黃金葛、植物燈）、田野筆記；遊戲裡顯示的字等 AA 寫'),
              dict(id='sill', x=0.0, z=f2(IZ0 + 0.75), r=0.7, label='窗台的盆栽', note='', dev='三盆多肉，和祐廷房間窗台那三盆同一種；遊戲裡顯示的字等 AA 寫'),
-             dict(id='bath', x=LAYOUT['bath']['look_point'][0], z=LAYOUT['bath']['look_point'][1], r=0.6, label=LAYOUT['bath']['label'], note='205 的洗手間。門關著。', dev='')]
+             ]   # 洗手間不放「看」：它的點離進門的位置 0.25 m，一進門就跳出「洗手間（門關著）」（第一輪截圖）
     spots = {'fang': dict(x=r1['seat']['x'], z=r1['seat']['z'], yaw=r1['seat']['yaw'], act='sit', note='方奕廷坐在自己的書桌前（R1，靠窗）'),
              'fang_stand': dict(x=0.55, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),
              'player': dict(x=1.15, z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}

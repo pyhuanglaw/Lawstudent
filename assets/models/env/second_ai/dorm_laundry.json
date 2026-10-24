@@ -4,7 +4,7 @@
  "tris": 5672,
  "tris_drawn": 5672,
  "materials": 11,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/blau/dorm_laundry.glb",
+ "out": "assets/models/env/second_ai/dorm_laundry.glb",
  "bytes": 575260,
  "texres": 512,
  "tris_total": 5672,

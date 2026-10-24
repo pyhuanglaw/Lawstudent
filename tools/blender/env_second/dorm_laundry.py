@@ -85,7 +85,7 @@ class Room(K.Shop):
             'wain': L.pbr(SID + '_wain', 'large_floor_tiles_02', tile=0.6, target='#ecebe6', contrast=0.5, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.3),   # 牆的下半段：白色磁磚
             'vc': L.vc_material(SID + '_vc', rough=0.45), 'vcm': L.vc_metal(SID + '_vcmetal', rough=0.3, metal=0.45),
             'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
-            'frost': L.flat(SID + '_frost', '#eef2f2', rough=0.6, alpha=0.82),                              # 霧面玻璃
+            'frost': L.flat(SID + '_frost', '#eef2f2', rough=0.6, alpha=0.94),                              # 霧面玻璃（第一輪 0.82：外面的樓看得一清二楚）
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')),
             'disp': L.flat('GLOW_' + SID + '_display', '#ffffff', rough=0.3, emit=B.srgb('#7fe0a0')),         # 洗衣機面板上的小螢幕
             'ceil': L.flat(SID + '_ceiling', '#efefea', rough=0.9, cull=True),
