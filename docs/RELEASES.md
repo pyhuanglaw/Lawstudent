@@ -48,7 +48,9 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 **LAWWW 發布前檢查（10-24 08:2x～）**：
 - 全部 Node 單元測試 596 支 0 失敗（乾淨 worktree `f472cee48`）；之後的改動（AA_444、版本字樣）有碰到的測試重跑全過。
 - HV-15 第 5 點：題目漏收 0（企劃線 `9ab987674` 重新匯出 399 題，只有來源那一行不同）；check_orphans 程式沒提到的素材 88＝上一版的 80＋學姊房間 8 張窗景（`us_bed_c_<季節>_{day,night}`，程式組檔名載入，us_bed_c_unit 第 6 項確認都在）；check_lines 是提醒，沒逐句看。
-- release_suite 瀏覽器部分（乾淨 worktree `63da1d633`，save_compat_v7 對 `a81fa62a1`、save_compat_live 對線上 v9.10.7 `964c9cb1a`）：跑中。
+- release_suite 瀏覽器部分（乾淨 worktree `63da1d633`，save_compat_v7 對 `a81fa62a1`、save_compat_live 對線上 v9.10.7 `964c9cb1a`；10-24 08:25～12:1x，中間被背景時間上限停一次、接著跑完）：27 支，25 PASS、2 FAIL。
+  - PASS：deploy_check（v9.10.8）、model_upgrade、zone_transitions、campus_layout_nav、gongguan_layout_nav（第一次 FAIL＝我同時跑 Node 測試搶 CPU，安靜時重跑 PASS）、reachability_all、indoor_cam_occlusion、minimap_direction、joystick_direction、p0_movement、flow_class_real、flow_linze_floors、flow_wancai_stairs、flow_wancai_floors、flow_library_floors、flow_library_scene、flow_classes、flow_teaching_bldgs、guide_flow、flow_dorm_hall、flow_main_day12、save_compat_v7、save_compat_live。
+  - FAIL 兩支，**線上 v9.10.7（`964c9cb1a`）在同一台機器、同樣的方式跑也一模一樣 FAIL**＝不是這一版的回歸：touch_flow_wenzhou（Café 門口按「進入兩點半 Café」沒進去；之後手機自己打開＝D103）、levels_no_sky（電梯「搭電梯」按了沒有樓層選項，天空像素那一項 PASS）。BB 在 v9.10.7 發布前跑這兩支是 PASS：差在測試環境或時間，交 BB 查測試。
 
 **這版有的（v9.10.7 以後，開發分支，玩家玩得到的；正式發布時照測試結果刪改）**：
 - **D99 第二優先（寒暑假）**：
