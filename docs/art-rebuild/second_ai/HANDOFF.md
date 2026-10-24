@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 12:3x 更新**：
+    - LAWWW-B 11:46：室內路人低面數已整合 `a42beb018`（用 7 m）；下一項自己排。
+    - 巡場景：第 5 區溫州街、第 6 區 118 巷、第 8 區清晨／黃昏都巡過一輪，沒有要修的（`test_shots/patrol_wenzhou_1024/`、`patrol_lane118_1024/`、`patrol_daynight_1024/`）。巡查表 0～9 區都巡過了。
+    - 下一項：問 LAWWW-B 有沒有派工；沒有的話從巡查表的 P3 挑（遠景剪影平板、樹冠擋鏡頭）。
   - **10-24 11:5x 更新**：
     - LAWWW-B 11:17：影子 patch 已整合 `becf772d4`。
     - 已交：室內無名路人 7 m 外換低面數（本 commit；`test_shots/crowd_lod_indoor_1024/README.md`；LAWWW-B 11:26 同意）。
