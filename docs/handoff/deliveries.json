@@ -17964,6 +17964,13 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-BOYA203",
    "reason": "博雅 203 的 WIP 檢查點，交件是 25563aa98"
+  },
+  {
+   "sha": "0f616c421",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "BG-DARK-SCENES-1024",
+   "reason": "清查報告（13 段黑底），已開任務 BG-DARK-SCENES-1024，第一批交付 DL-LW2-BG-DARK-1"
   }
  ]
 }
