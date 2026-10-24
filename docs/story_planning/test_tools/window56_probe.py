@@ -89,11 +89,20 @@ async def main():
                     # 法線要朝室內（往房間中心）：房間中心大約是原點
                     if (0 - w0['x']) * nx + (0 - w0['z']) * nz < 0: nx, nz = -nx, -nz
                     # 118 巷的店不一定以原點為中心：窗前 1.1 m 那一格走不到，就換另一邊（BB-B 18:5x）
-                    if not await pg.evaluate("(([x,z])=>!GAME.E.nav||GAME.E.nav.free(x,z))(%s)" % json.dumps([w0['x'] + nx * 1.1, w0['z'] + nz * 1.1])): nx, nz = -nx, -nz
+                    # BB-B 10-24 03:5x（win56 的 l118_tea／l118_cafe2 三個 FAIL）：翻過去那一邊是店外的騎樓（窗前是吧檯座位、1.1 m 那一格不能站），
+                    #   人被放到店外、鏡頭從街上往店裡拍＝量到的不是窗景。改成：兩邊各找 0.8～3.0 m 內「站得住、而且在店裡（往原點那一側）」的第一格，找不到才用舊的
+                    FREE = "(([x,z])=>!GAME.E.nav||GAME.E.nav.free(x,z))(%s)"
+                    dist = None
+                    for d in (1.1, 1.4, 1.7, 2.0, 2.4, 0.8, 2.8, 3.0):
+                        if await pg.evaluate(FREE % json.dumps([w0['x'] + nx * d, w0['z'] + nz * d])): dist = d; break
+                    if dist is None:
+                        if not await pg.evaluate(FREE % json.dumps([w0['x'] + nx * 1.1, w0['z'] + nz * 1.1])): nx, nz = -nx, -nz
+                        dist = 1.1
+                    run.setup('[前置] %s：窗前的位置離窗 %.1f m（往房間那一側）' % (tag, dist))
                     yaw = math.atan2(nx, nz); tx, tz = nz, -nx
                     shots = []; wi = q['wins'].index(w0)
                     for k, off in (('L', -1.0), ('C', 0.0), ('R', 1.0)):
-                        x = w0['x'] + nx * 1.1 + tx * off; z = w0['z'] + nz * 1.1 + tz * off   # 窗前 1.1 m、鏡頭再往後 1.8 m（離窗約 2.9 m），平視
+                        x = w0['x'] + nx * dist + tx * off; z = w0['z'] + nz * dist + tz * off   # 窗前 dist m、鏡頭再往後 1.8 m，平視
                         ok = await pg.evaluate(PLACE + "(%s)" % json.dumps([x, z, yaw, 1.8, 0.0])); await pg.evaluate(HIDEUI + "(true)"); await pg.wait_for_timeout(3000)
                         sp = await run.shot(pg, '%s_%s' % (tag, k)); df, lu = dark_frac(sp)
                         rect = await pg.evaluate("(%s)(%d)" % (WINRECT, wi))
