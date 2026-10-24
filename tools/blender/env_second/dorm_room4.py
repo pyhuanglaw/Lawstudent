@@ -28,6 +28,9 @@ def arg(name, default=None):
     return ARGS[ARGS.index(name) + 1] if name in ARGS else default
 OUT = os.path.join(L.ROOT, arg('--out', 'assets/models/env/second_ai/dorm_interior.glb'))
 LAYOUT_OUT = arg('--layout')
+ONLY = arg('--only')                               # --only 205：只做那一間的東西（方奕廷的 205，AA_399 第 11 節；遊戲端 rooms_glb3d.js 的 dorm_205），輸出另一個 GLB；不給＝玩家的房間（203／412／312／507／409），和原本一樣
+ROOM_LAYOUT_OUT = arg('--room-layout')             # --only 時：rooms_glb3d.js 格式的配置（bounds、blocks、seats、spots、open…）
+EXTRA_SETS = ('205',)                              # 只在 --only 時做的那幾間（玩家的房間不能有：zones3d.js 的 DORM_SETS 不會藏 Y205_）
 
 W, D, H = 6.0, 7.0, 3.0
 X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
@@ -43,10 +46,11 @@ DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床
 RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
 # 大二～大四（AA_208 第 7、8 節）：312＝祐廷 L2、阿哲 L1、柏翰 R1、大一學弟 R2（背景）；507＝祐廷、柏翰、大二學弟 L1、別系的同屆 R2；409＝祐廷、柏翰、大二學弟 L1、大一學弟 R2
-UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan'}),
-         ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh'}),
-         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph'}),
-         ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting'})]
+# 205（方奕廷的房間，AA_399 第 11 節；只在 --only 205）：方奕廷 R1（靠窗：盆栽要光）、其他三個是沒有名字的室友（背景）
+UNITS = [('R1', 'R', IZ0 + 0.005, -1.0, {'203': 'bohan', '412': 'tangrui', '312': 'bohan', '507': 'bohan', '409': 'bohan', '205': 'fang'}),
+         ('R2', 'R', -0.98, 1.39, {'203': 'kai', '412': 'xun', '312': 'fresh', '507': 'peer', '409': 'fresh', '205': 'fresh'}),
+         ('L1', 'L', IZ0 + 0.005, -1.0, {'203': 'zhe', '412': 'weilun', '312': 'zhe', '507': 'soph', '409': 'soph', '205': 'soph'}),
+         ('L2', 'L', -0.98, 1.39, {'203': 'yuting', '412': 'yuting', '312': 'yuting', '507': 'yuting', '409': 'yuting', '205': 'peer'})]
 DUVET = {'R1': '#e2ddd2', 'R2': '#6b6f75', 'L1': '#3f6fa0', 'L2': '#4d6f8f'}   # 每一組的被子（柏翰淺灰、阿凱深灰、阿哲藍、祐廷灰藍）
 random.seed(23)
 TEXGEN = os.path.join(HERE, 'textures', 'gen')
@@ -390,7 +394,7 @@ def loft(uid, side, ua, ub, sets):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
     sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, 2.32, 0.55), W3(side, ust - 0.035, 2.32, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
     lbox(ts, side, ua + 0.035, ust - 0.035, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)
-    neat = sets['203'] == 'bohan'
+    neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
     if not neat: lbox(tdv, side, ust - 0.5, ust - 0.08, DECK1 + 0.22, DECK1 + 0.3, 0.1, VD - 0.1, fn='soft', r=0.03, seg=2)
     if not neat:
@@ -437,7 +441,7 @@ def loft(uid, side, ua, ub, sets):
     for year, who in sets.items():
         fn = ITEMS.get((year, who))
         if fn: fn(**ctx)
-    if sets['412'] in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
+    if sets.get('412') in ('tangrui', 'weilun'):                                                       # 經濟系第一晚：床欄上的名牌
         nm = sets['412']; g = B.group(f'NAMETAG_{nm.upper()}', root, {'kind': 'nametag', 'unit': uid}); uc = (ua + ust) / 2; xg = wx(side, VD + 0.003)
         a, b = (uc - 0.11, uc + 0.11) if side == 'R' else (uc + 0.11, uc - 0.11)
         label_quad(f'NAMETAG_{nm.upper()}_card', g, [(xg, 1.78, a), (xg, 1.78, b), (xg, 1.89, b), (xg, 1.89, a)], (0.0, 0.0, 0.5, 0.5) if nm == 'tangrui' else (0.5, 0.0, 1.0, 0.5))
@@ -627,12 +631,100 @@ def peer507(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     lbox(im, side, cu - 0.21, cu + 0.21, 0.55, 0.95, 1.1, 1.14, fn='crbox', hexcol='#4a4f57', r=0.015)                 # 外套
 
 
+def pot(G, x, y, z, r, h, col='#b5653a'):
+    """花盆（車床，遊戲座標）：上寬下窄、口緣一圈、土；回傳土面的高度"""
+    prof = [(0.0, 0.0), (r * 0.72, 0.0), (r, h * 0.9), (r * 1.08, h * 0.92), (r * 1.08, h), (r * 0.92, h), (r * 0.9, h * 0.84), (0.0, h * 0.84)]
+    painted(G['it'], lambda: G['it'].add_bm(L.lathe(prof, seg=12), Matrix.Translation(g2b(x, y, z))), col)
+    painted(G['it'], lambda: G['it'].cyl((x, y + h * 0.84, z), (x, y + h * 0.86, z), r * 0.88, seg=12), '#4a3626')
+    return y + h * 0.86
+
+
+def leaves(G, x, y, z, n, length, tilt, col, rng, width=0.4, thick=0.12, rise=0.0, a0=0.0):
+    """一圈葉子（扁的橢球），從 (x, y, z) 往外長；tilt＞0 往下垂、＜0 往上翹"""
+    for k in range(n):
+        a = a0 + k * 2 * math.pi / n + rng.uniform(-0.25, 0.25); ln = length * rng.uniform(0.8, 1.15); d = ln * 0.55
+        c = (x + d * math.cos(a), y + rise + d * math.sin(-tilt) * 0.5, z + d * math.sin(a))
+        m = Matrix.Rotation(-a, 4, 'Z') @ Matrix.Rotation(tilt + rng.uniform(-0.15, 0.15), 4, 'Y')
+        painted(G['it'], lambda: G['it'].ell(c, ln * 0.55, ln * 0.55 * thick, ln * 0.55 * width, seg=6, rings=4, matrix=m), col)
+
+
+def rosette(G, x, y, z, r, col, rng, n=9):
+    """多肉：一圈一圈的肥葉子（往上翹）"""
+    for ring, (rr, ty) in enumerate(((r, -0.5), (r * 0.65, -0.9), (r * 0.3, -1.2))):
+        leaves(G, x, y + ring * r * 0.25, z, max(4, n - ring * 2), rr * 1.6, ty, col, rng, width=0.55, thick=0.35, a0=ring * 0.5)
+
+
+def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+    """方奕廷（森林系大一，R1 靠窗）：「滿桌的盆栽」（AA_399 第 11 節）——育苗盤、幾盆多肉、一盆大葉子、層架上垂下來的黃金葛、植物燈；
+    田野筆記、放大鏡、噴水瓶、植物圖鑑；書桌下登山鞋、衣櫃前一個大登山包；窗台三盆（和祐廷房間窗台那三盆是同一種，他送的）"""
+    R = random.Random('fang205'); G = ig('Y205_FANG', {'year': '205', 'who': 'fang'}); im, bk = G['it'], G['blk']
+    W = lambda u, y, v: W3(side, u, y, v)
+    # 育苗盤（黑色）：6×4 格，每格一株小苗
+    lbox(bk, side, k0 + 0.04, k0 + 0.4, Y, Y + 0.05, 0.05, 0.31)
+    for i in range(6):
+        for j in range(4):
+            u_, v_ = k0 + 0.07 + i * 0.056, 0.08 + j * 0.06; x_, _, z_ = W(u_, 0, v_)
+            painted(im, lambda: im.cyl((x_, Y + 0.05, z_), (x_, Y + 0.05 + R.uniform(0.03, 0.06), z_), 0.003, seg=4), '#6a9a3a')
+            leaves(G, x_, Y + 0.075 + R.uniform(-0.01, 0.01), z_, 2, 0.022, -0.3, '#7ab84a', R, width=0.6, thick=0.2)
+    # 三盆多肉（陶盆）沿著牆
+    for k, (du, col, pc) in enumerate(((0.47, '#8ab08a', '#b5653a'), (0.62, '#a9c48a', '#c98a5a'), (0.76, '#7a9a8a', '#b5653a'))):
+        x_, _, z_ = W(k0 + du, 0, 0.12); ys = pot(G, x_, Y, z_, 0.05, 0.07, pc); rosette(G, x_, ys, z_, 0.035, col, R)
+    # 大葉子的那一盆（書桌靠衣櫃那一端）
+    x_, _, z_ = W(k1 - 0.17, 0, 0.18); ys = pot(G, x_, Y, z_, 0.09, 0.15, '#f1efe8')
+    for k in range(3): painted(im, lambda: im.cyl((x_, ys, z_), (x_ + R.uniform(-0.04, 0.04), ys + 0.22 + k * 0.06, z_ + R.uniform(-0.04, 0.04)), 0.006, seg=5), '#4f7a3a')
+    leaves(G, x_, ys + 0.22, z_, 6, 0.16, 0.35, '#3f7a3a', R, width=0.7, thick=0.08)
+    leaves(G, x_, ys + 0.3, z_, 4, 0.13, 0.0, '#4a8a42', R, width=0.7, thick=0.08, a0=0.6)
+    # 前面一排小黑盆（剛換盆的苗）
+    for k in range(4):
+        x_, _, z_ = W(k0 + 0.95 + k * 0.075, 0, 0.47); ys = pot(G, x_, Y, z_, 0.028, 0.06, '#2a2a2a'); leaves(G, x_, ys + 0.03, z_, 3, 0.04, -0.4, '#6aaa4a', R, width=0.6, thick=0.15)
+    # 田野筆記（攤開）、鉛筆、放大鏡、噴水瓶
+    lbox(im, side, k0 + 0.47, k0 + 0.72, Y, Y + 0.008, 0.32, 0.5, fn='cbox', hexcol='#f3efe2'); lbox(im, side, k0 + 0.595, k0 + 0.6, Y + 0.008, Y + 0.01, 0.32, 0.5, fn='cbox', hexcol='#c9c3b0')
+    lbox(im, side, k0 + 0.5, k0 + 0.69, Y + 0.008, Y + 0.012, 0.52, 0.53, fn='cbox', hexcol='#e0b030')
+    x_, _, z_ = W(k0 + 0.8, 0, 0.42); G['met'].cyl((x_, Y, z_), (x_, Y + 0.012, z_), 0.03, seg=12)   # 放大鏡
+    x_, _, z_ = W(k0 + 0.88, 0, 0.5)
+    painted(im, lambda: im.cyl((x_, Y, z_), (x_, Y + 0.17, z_), 0.03, seg=10), '#cfe6f0'); painted(im, lambda: im.cyl((x_, Y + 0.17, z_), (x_, Y + 0.21, z_), 0.015, seg=8), '#2a8a5a')
+    lbox(im, side, k0 + 0.865, k0 + 0.895, Y + 0.19, Y + 0.215, 0.5, 0.56, fn='cbox', hexcol='#2a8a5a')
+    # 層架：植物圖鑑、課本（綠、咖啡的書背）、一盆黃金葛往下垂；架子下面一支植物燈
+    books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.27, cols=['#3e6a3a', '#7a5a3a', '#5a7a4a', '#d6cdb8', '#8a6a3a', '#2f5a4a'], rng=R)
+    lbox(im, side, sm + 0.03, sm + 0.11, sy0 + 0.018, sy0 + 0.3, 0.03, 0.25, fn='cbox', hexcol='#e8e0c8'); lbox(im, side, sm + 0.03, sm + 0.11, sy0 + 0.2, sy0 + 0.23, 0.25, 0.252, fn='cbox', hexcol='#3e6a3a')
+    x_, _, z_ = W(s1 - 0.1, 0, 0.14); ys = pot(G, x_, sy0 + 0.42, z_, 0.06, 0.09, '#d8cfc0')   # 層架頂板上
+    leaves(G, x_, ys + 0.02, z_, 5, 0.06, -0.2, '#4f8a3a', R, width=0.75, thick=0.1)
+    for j in range(2):                                                                                  # 垂下來的藤（沿著架子前緣）
+        ux = s1 - 0.16 + j * 0.1
+        for t in range(6):
+            x2, _, z2 = W(ux + R.uniform(-0.02, 0.02), 0, 0.28 + t * 0.004); y2 = sy0 + 0.4 - t * 0.075
+            leaves(G, x2, y2, z2, 2, 0.05, 0.5, '#4f8a3a' if t % 2 else '#6a9a3a', R, width=0.75, thick=0.1, a0=R.uniform(0, 3))
+    lbox(G['met'], side, s0 + 0.05, s1 - 0.05, sy0 - 0.03, sy0 - 0.005, 0.12, 0.16); lbox(G['led'], side, s0 + 0.06, s1 - 0.06, sy0 - 0.036, sy0 - 0.03, 0.125, 0.155)
+    # 書桌下：登山鞋；衣櫃前：大登山包（深綠）
+    for j in range(2): lbox(im, side, k1 - 0.42 + j * 0.13, k1 - 0.31 + j * 0.13, 0.0, 0.12, 0.25, 0.53, fn='crbox', hexcol='#5a4a3a', r=0.03)
+    w0 = ust - 0.6
+    lbox(im, side, w0 + 0.1, w0 + 0.46, 0.0, 0.72, 0.6, 0.86, fn='crbox', hexcol='#2f4a3a', r=0.06); lbox(im, side, w0 + 0.16, w0 + 0.4, 0.42, 0.62, 0.86, 0.9, fn='crbox', hexcol='#3a5a46', r=0.03)
+    lbox(bk, side, w0 + 0.14, w0 + 0.42, 0.7, 0.74, 0.62, 0.84)
+    # 窗台三盆（後牆，和他送給祐廷的那三盆同一種）
+    for k, xw in enumerate((-0.62, -0.05, 0.55)):
+        ys = pot(G, xw, 0.962, IZ0 + 0.005, 0.05, 0.07, '#b5653a'); rosette(G, xw, ys, IZ0 + 0.005, 0.032, ['#8ab08a', '#a9c48a', '#7a9a8a'][k], R)
+
+
+def peer_y(year):
+    """別系的室友（背景）：螢幕＋鍵盤、一疊 A4、掛在椅背的外套（和 peer507 一樣，自己的亂數）"""
+    def fn(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
+        R = random.Random('peer' + year); G = ig(f'Y{year}_PEER', {'year': year, 'who': 'peer'}); im, bk = G['it'], G['blk']
+        lbox(bk, side, k0 + 0.55, k0 + 1.05, Y + 0.1, Y + 0.4, 0.1, 0.125); lbox(G['lcd'], side, k0 + 0.562, k0 + 1.038, Y + 0.112, Y + 0.388, 0.125, 0.131)
+        lbox(bk, side, k0 + 0.78, k0 + 0.82, Y + 0.012, Y + 0.12, 0.08, 0.1); lbox(bk, side, k0 + 0.7, k0 + 0.9, Y, Y + 0.012, 0.04, 0.2)
+        lbox(bk, side, k0 + 0.58, k0 + 1.0, Y, Y + 0.02, 0.32, 0.46)
+        for j in range(4): lbox(im, side, k0 + 0.06 + j * 0.004, k0 + 0.27 + j * 0.004, Y + j * 0.006, Y + (j + 1) * 0.006, 0.1 + j * 0.01, 0.4 + j * 0.01, fn='cbox', hexcol='#f6f3ea')
+        books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.27, rng=R)
+        lbox(im, side, cu - 0.21, cu + 0.21, 0.55, 0.95, 1.1, 1.14, fn='crbox', hexcol='#6a5a4a', r=0.015)
+    return fn
+
+
 ITEMS = {('203', 'yuting'): yuting203, ('412', 'yuting'): yuting412, ('203', 'kai'): kai203, ('203', 'zhe'): zhe203, ('203', 'bohan'): bohan203,
          ('412', 'tangrui'): tangrui412, ('412', 'weilun'): weilun412,   # 阿勳（412、R2）：遊戲的 v0_dorm_props（XUN_DESK、XUN_BOWLING）
          ('312', 'yuting'): yuting_y('312'), ('312', 'zhe'): zhe312, ('312', 'bohan'): bohan_y('312'), ('312', 'fresh'): fresh_y('312'),
          ('507', 'yuting'): yuting_y('507'), ('507', 'bohan'): bohan_y('507'), ('507', 'soph'): soph_y('507'), ('507', 'peer'): peer507,
-         ('409', 'yuting'): yuting_y('409'), ('409', 'bohan'): bohan_y('409'), ('409', 'soph'): soph_y('409'), ('409', 'fresh'): fresh_y('409')}
-for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, sets)
+         ('409', 'yuting'): yuting_y('409'), ('409', 'bohan'): bohan_y('409'), ('409', 'soph'): soph_y('409'), ('409', 'fresh'): fresh_y('409'),
+         ('205', 'fang'): fang205, ('205', 'fresh'): fresh_y('205'), ('205', 'soph'): soph_y('205'), ('205', 'peer'): peer_y('205')}   # 205 只在 --only 205
+for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, {k: v for k, v in sets.items() if (k == ONLY if ONLY else k not in EXTRA_SETS)})
 r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
 LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
                       'XUN_BOWLING': {'x': r2['floor_under_bed_spot'][0], 'y': 0.0, 'z': r2['floor_under_bed_spot'][1], 'ry': 0.0, 'note': '書桌下靠衣櫃那一端的地上'},
@@ -678,7 +770,7 @@ for side, ms in walls.items():
 def keep(ob):
     p = ob
     while p is not None:
-        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
+        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'Y205_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
         p = p.parent
     return False
 
@@ -688,3 +780,29 @@ info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)
 if LAYOUT_OUT: L.write_json(os.path.abspath(LAYOUT_OUT), LAYOUT)
 print(json.dumps({'units': [(u['id'], u['sets']) for u in LAYOUT['units']], 'groups': sorted(IG), 'out': OUT}, ensure_ascii=False))
+
+# ======================================================================= --only 205：rooms_glb3d.js 格式的配置（方奕廷的 205，AA_399 第 11 節）
+if ONLY == '205' and ROOM_LAYOUT_OUT:
+    RM, U = LAYOUT['room'], {u['id']: u for u in LAYOUT['units']}; f2 = lambda v: round(v, 3)
+    blocks = [dict(x0=b['x'][0], x1=b['x'][1], z0=b['z'][0], z1=b['z'][1], why=b['id']) for b in LAYOUT['blocks']]
+    l2, r1 = U['L2'], U['R1']
+    # 走近點往走道多 10 cm：rooms_glb3d.js 的導航格是 0.4 m（祐廷房間的 dorm 區域是 0.5 m），原本的點旁邊那一格碰到床桌組的阻擋、站不住（tests/dorm_205_unit.js 第 5 項）
+    seats = [dict(x=l2['seat']['x'], z=l2['seat']['z'], yaw=l2['seat']['yaw'], kind='sit', table=l2['desk_center'], ap=[f2(l2['seat_approach'][0] + 0.1), l2['seat_approach'][1]], label='坐下（借室友的椅子）', uses=['和方奕廷說話'])]
+    inter = [dict(id='fang_desk', x=r1['seat_approach'][0], z=r1['seat_approach'][1], r=0.8, label='方奕廷的書桌', note='', dev='滿桌的盆栽（育苗盤、多肉、大葉子、垂下來的黃金葛、植物燈）、田野筆記；遊戲裡顯示的字等 AA 寫'),
+             dict(id='sill', x=0.0, z=f2(IZ0 + 0.75), r=0.7, label='窗台的盆栽', note='', dev='三盆多肉，和祐廷房間窗台那三盆同一種；遊戲裡顯示的字等 AA 寫'),
+             dict(id='bath', x=LAYOUT['bath']['look_point'][0], z=LAYOUT['bath']['look_point'][1], r=0.6, label=LAYOUT['bath']['label'], note='205 的洗手間。門關著。', dev='')]
+    spots = {'fang': dict(x=r1['seat']['x'], z=r1['seat']['z'], yaw=r1['seat']['yaw'], act='sit', note='方奕廷坐在自己的書桌前（R1，靠窗）'),
+             'fang_stand': dict(x=0.55, z=f2(IZ0 + 0.55), yaw=round(math.pi, 4), act='stand', note='方奕廷站在窗台前（拿噴水瓶）'),
+             'player': dict(x=1.15, z=f2(r1['seat']['z'] + 0.75), yaw=round(math.pi / 2 + 0.6, 4), act='stand', note='玩家（站在他的書桌旁邊）')}
+    ROOMLAY = dict(version=1, zone='dorm_205', name='205 寢室（方奕廷的房間）', type='寢室', src='AA_399 第 11 節（企劃線 5d09bb725）；LAWWW-B 10-24 03:53 任務 #82；dorm_room4.py --only 205',
+                   bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=3.6, door=dict(x=0.0, w=round(DOOR[1] - DOOR[0], 3), z=Z1, note='+z 那一面中間（和祐廷的房間同一型）'),
+                   spawn=dict(x=RM['spawn'][0], z=RM['spawn'][1], yaw=round(math.pi, 4), note='進門、面向房間裡（−z）'),
+                   exits=[dict(x=RM['exit'][0], z=RM['exit'][1], r=0.7, label='離開 205', to='dorm_hall', spawn_note='回到宿舍 2F 走廊、205 門前面（back_spawn）')],
+                   windows=dict(side='N', wall='back', z=Z0, xs=LAYOUT['window']['winXs'], y=LAYOUT['window']['view_center'][1], w=LAYOUT['window']['view_size'][0], h=LAYOUT['window']['view_size'][1], note='後牆中間一扇窗（和祐廷的房間同一型）；窗景借 dorm_room'),
+                   view='dorm_room', counter=None, clerk=None, teacherSpot=None, order=None, seats=seats, interact=inter, blocks=blocks, spots=spots,
+                   cam_box=dict(x=[-1.6, 1.6]), see_thru=True, dorm_interior=True,
+                   open=dict(range=['2025-09-01', '2026-06-30'], h0=21, h1=23, who='npc_fangyt', note='AA_399 第 11 節：大一（2025-09～2026-06）21～23 他在的時候可以敲門進去；他不在（characters.js 的 absentDates：寒假回台中）就照舊關著。大二起他搬走了，門關著'),
+                   back_spawn=dict(x=-5.55, z=0.53, lv=1, yaw=round(math.pi, 4), note='宿舍 2F 走廊、205 門前面＝dorm3d.js 門的互動點'),
+                   host_door=dict(zone='dorm_hall', id='r205', lv=1, label='敲門（205）', note='dorm3d.js 的門：時段內是「敲門（205）」、時段外照舊「205 寢室。門關著。」'))
+    L.write_json(os.path.abspath(ROOM_LAYOUT_OUT), ROOMLAY)
+    print('ROOM_LAYOUT', ROOM_LAYOUT_OUT)
