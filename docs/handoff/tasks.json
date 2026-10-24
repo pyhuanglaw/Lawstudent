@@ -31541,6 +31541,35 @@
    "source": "BB-B 10-24 21:20 RELEASE-9109-TEST 附註 2（flow_library_scene 一次 FAIL）",
    "authorized": "D111",
    "notes": "LAWWW-B 10-24 21:3x：engine3d.js nearestInteractable——beh==='follow' 的人和 leaving 一樣不擋 exit／enter；旁邊沒有門照舊可以說話；tests/interact_priority_unit.js 加兩項（修改前 FAIL 1）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。"
+  },
+  {
+   "id": "ART-ZHOUSHAN-LAMPS-1024",
+   "title": "舟山路晚上整條是黑的（巡查 P3）：南側 9 盞路燈＋路面光圈、光圈加深度偏移（舟山路和步道交疊時看不到）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：大一女舍門口 20:00、往男生宿舍的路晚上看舟山路；女舍長椅那一盞照舊；手機幀率",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一晚上回宿舍經過舟山路",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 22:37 交（21fc4fd96；README zhoushan_lamps_1024）",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "巡查表第 3 節 P3",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "zhoushan_lamps_unit；同鏡頭截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 22:4x 合進開發分支（patch zhoushan_lamps_1024，apply 乾淨）；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav_buildings／levels、ground_zfight、kit_nav_check 全過。"
   }
  ]
 }

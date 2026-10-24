@@ -14296,6 +14296,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 16:4x：v9.10.9 發布後合；b67f76383 是 README／截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）"
+  },
+  {
+   "id": "DL-LW2-ZHOUSHAN-LAMPS",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "21fc4fd96",
+   "what": "舟山路南側 9 盞路燈＋路面光圈、光圈深度偏移（patch）",
+   "task": "ART-ZHOUSHAN-LAMPS-1024",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 22:4x 整合；afae35361 是 outbox／巡查紀錄"
   }
  ],
  "ignored": [
@@ -18087,6 +18100,12 @@
    "branch": "origin/claude/funny-albattani-iawshm",
    "kind": "handoff_record",
    "reason": "outbox：路線巡查③交 LAWWW-B；LAWWW-B 10-24 15:5x 分類"
+  },
+  {
+   "sha": "252c5d4dd",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "not_delivery",
+   "reason": "巡查表 P3：312／409／507 重看過、不用改（截圖留證）；LAWWW-B 10-24 22:4x 分類"
   }
  ]
 }
