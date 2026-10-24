@@ -92,7 +92,13 @@
   - `airport_cam`、`classes`、`linze_5f`、`shadow_snap`、`shadow_levels`、`campus_lamps`、`lamppost_nav`；
   - `us_lamp_pools`、`us_lawlib_sky`、`ui_night_bg`、`night_forget`、`date_overnight`、`bed_tonight_alarm`；
   - `jp_sleep_midnight`、`ground_zfight`、`season_dusk`、`after_midnight`。
-- **瀏覽器測試**（套 A＋B 後）：<!-- BROWSER -->
+- **瀏覽器測試**（套 A＋B 後）：
+  - `tests/levels_no_sky.py`（`?turbo`）：ALL PASS，上下樓梯、搭電梯每一點的天空像素都是 0.000。
+  - `tests/see_through.py`：ALL PASS，13 項；沒有 JS 例外。
+- **沒測**：
+  - 整套回歸（release suite）；
+  - 手機實機；
+  - 所有區域的傍晚逐一截圖：這次只拍了上面 9 個鏡頭。
 
 ### 改前、改後（同一個鏡頭）
 

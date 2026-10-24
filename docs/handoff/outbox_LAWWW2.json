@@ -2918,8 +2918,25 @@
    "next": "LAWWW-B 決定要不要做日落照日期（建議：E.applyTime 照日期把時鐘換成光線時刻，15:00／當天日落→18.95／21:00 三點內插，也傳給 zone.applyTime）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 15:51：已登記 0d3125c88；208 照舊同意；日落不分季節開 ENGINE-SEASON-DUSK-1024 由 LAWWW2 做；P3：遮雨棚記錄、e24b2／c2_hiking 是退休事件、ART-PLAYER-SEASON-OUTFIT-1024 暫停）",
    "note": "報告只有文件和截圖；場景美術 ART_APPROVED 只有使用者能標；engine3d.js 我不改"
+  },
+  {
+   "task": "ENGINE-SEASON-DUSK-1024：傍晚的光線照日期（LAWWW-B 15:51 派工；engine3d.js 由 LAWWW2 改，D108）＋另外一份 AFTER-MIDNIGHT-1024（半夜不突然變亮，LAWWW-B 決定要不要收）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "86567dc65",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/engine_season_dusk_1024.patch（A，對開發 0d3125c88：src/engine3d.js 的 sunsetAt／lightHour／sunsetPlace／E.sunsetNow、applyTime 用光線時刻、nightShadow 用 E.lightH；新 tests/season_dusk_unit.js）",
+    "docs/art-rebuild/second_ai/patches/engine_after_midnight_1024.patch（B，疊在 A 上：00:00～04:30 用 24:00 那一列；新 tests/after_midnight_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/season_dusk_1024（README、cmp_dusk.jpg、cmp_midnight.jpg）"
+   ],
+   "state": "已交付（patch）；season_dusk 修改前 FAIL 14 → ALL PASS；after_midnight 只套 A 時 FAIL 6 → 套 A＋B ALL PASS；燈光／夜晚相關 Node 17 支 ALL PASS；levels_no_sky、see_through ALL PASS；改前改後同鏡頭截圖 9 組（Playwright 手機模擬）",
+   "remaining": "沒跑整套回歸、沒有實機；12 處載入正式模型時 z.applyTime(G.hour) 傳時鐘（引擎 5 格內用光線時刻重套，不是我的檔案沒動）；早上沒改",
+   "next": "v9.10.9 發布後 LAWWW-B 套 A（B 看要不要）→ 跑 season_dusk、after_midnight 與整套回歸",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "時鐘 G.hour／E.hour、作息、事件、存檔都不動；室內照現在的做法（同一個光線時刻進室內那一段）；美國＝布魯明頓（11/5 換冬令時間）、日本 jp_*＝大阪"
   }
  ]
 }

@@ -90,6 +90,14 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 16:3x 更新**：
+    - LAWWW-B 15:51：巡查③登記（`0d3125c88`）；208 照舊同意；第 2 項「做」→ ENGINE-SEASON-DUSK-1024，`engine3d.js` 由我改（D108）；**v9.10.9 發布後才整合**。P3：遮雨棚記錄、e24b2／c2_hiking 是退休事件、ART-PLAYER-SEASON-OUTFIT-1024 暫停。
+    - 已交（`86567dc65`，報告補完在下一個 commit）：`test_shots/season_dusk_1024/README.md`。
+      - A `patches/engine_season_dusk_1024.patch`：光線用的時刻（15:00／當天日落→18.95／21:00 三點內插），臺北、布魯明頓（11/5 換冬令時間）、大阪三組日落；`G.hour` 不動。
+      - B `patches/engine_after_midnight_1024.patch`（LAWWW-B 決定要不要收）：00:00～04:30 用 24:00 那一列，半夜不會突然變亮。
+      - 測試：season_dusk 修改前 FAIL 14 → ALL PASS；after_midnight 只套 A FAIL 6 → ALL PASS；Node 17 支、levels_no_sky、see_through ALL PASS。
+    - 測試樹：`$SP/dv7`＝開發 `0d3125c88`＋A＋B；`$SP/dv8`＝`0d3125c88` 原樣。
+    - 下一項：等 LAWWW-B；沒有新派工就從巡查表 P3 挑。
   - **10-24 16:0x 更新**：
     - 已交：D99 路線巡查③經濟系那一年（`test_shots/route_econ_1024/README.md`；開發 `2b3a99cdd`，31 張）。
       - 沒有要我直接修的美術：沒有 patch／GLB。ART-ECON-3D-GAP-1021 修過的地方都正常。
