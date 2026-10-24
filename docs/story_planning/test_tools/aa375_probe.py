@@ -620,13 +620,42 @@ async def s_expo86(p, run, base, sid, out):
     await close(b)
 
 
+# BB-B 10-24 09:4x：EXPO86 三種都「101 坐下選單是空的」——查是腳本還是遊戲（不是驗收項目，只記狀態＋截圖）
+async def s_expo_dbg(p, run, base, sid, out):
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', 11.95, 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), label=sid + '【除錯】')
+    PROBE = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player.obj.position; const ib=document.getElementById('interact');
+      const near=(E.interactables||[]).filter(i=>i&&!i.hidden).map(i=>({l:i.label, d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2), seat:i.seat?String(i.seat.room||'')+(i.seat.taken?'/taken':''):'', npc:i.npc||'', lv:i.lv|0})).sort((a,b)=>a.d-b.d).slice(0,6);
+      const ch=document.getElementById('choices'); const t=document.getElementById('toast');
+      return {h:+(+G.hour).toFixed(3), zone:G.zone, lv:E.player.lv|0, sit:!!E.player.seat, ib:ib?[ib.textContent.trim(), ib.classList.contains('hide')||getComputedStyle(ib).display==='none']:null, near,
+        ch:ch?[ch.classList.contains('hide'), [...ch.querySelectorAll('button')].map(b=>b.textContent.trim())]:null, toast:t?t.textContent.trim():null, adv:typeof ADV!=='undefined'&&!!ADV.active,
+        act:(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.atSeat)?(ACTIVITIES.atSeat(G,G.zone,'101')||null):'noapi'}; })()"""
+    try:
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        await quick_go(pg, cdp, 'campus|博雅教學館'); ok, it = await enter_door(pg, cdp, run, 'boya', sid)
+        run.check('%s：走進博雅教學館' % sid, ok, '')
+        seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length,i.label]:null; })()")
+        res['seat'] = seat; say('   座位', json.dumps(seat, ensure_ascii=False))
+        await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2])
+        res['before'] = await pg.evaluate(PROBE); say('   點之前', json.dumps(res['before'], ensure_ascii=False)[:900])
+        await run.shot(pg, sid + '_before') if hasattr(run, 'shot') else None
+        await L.tap(pg, cdp, '#interact'); res['after'] = []
+        for k in range(12):
+            await pg.wait_for_timeout(500); st = await pg.evaluate(PROBE); res['after'].append(st)
+            say('   +%.1fs' % ((k + 1) * 0.5), json.dumps({x: st[x] for x in ('h', 'sit', 'ib', 'ch', 'toast', 'adv')}, ensure_ascii=False)[:500])
+        await run.shot(pg, sid + '_after') if hasattr(run, 'shot') else None
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
 ORDER = ['CAFE_0607', 'INV_GUEST', 'INV_SHIFT', 'ADMIT', 'ADMIT_DATE', 'ADMIT_AFTER', 'TERM_GF', 'TERM_GF_EARLY', 'ZQ_DAD', 'SPRING_CAR', 'DATA',
-         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2'] + list(EXPO86)
+         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2'] + list(EXPO86) + ['EXPO_DBG']
 FN = {'CAFE_0607': s_cafe, 'INV_GUEST': s_inv, 'INV_SHIFT': s_inv, 'ADMIT': s_admit, 'ADMIT_DATE': s_admit, 'ADMIT_AFTER': s_admit,
       'TERM_GF': s_termgf, 'TERM_GF_EARLY': s_termgf, 'ZR_TEN': s_termgf, 'ZQ_DAD': s_zqdad, 'SPRING_CAR': s_spring, 'DATA': s_data,
       'MSG_BH': s_msgs, 'MSG_GRP': s_msgs, 'MSG_KAI': s_msgs, 'ZQ_0604': s_msgs, 'SUM_0306': s_sum, 'SUM_0520': s_sum,
       'NOODLE_THU': s_noodle, 'NOODLE_SPRING': s_noodle, 'EXPO_Y2': s_expo_y2}
-FN.update({k: s_expo86 for k in EXPO86})
+FN.update({k: s_expo86 for k in EXPO86}); FN['EXPO_DBG'] = s_expo_dbg
 
 
 async def main():
