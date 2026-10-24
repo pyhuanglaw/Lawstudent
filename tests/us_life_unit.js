@@ -338,5 +338,20 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-09-13',18.2,'us_outside',US()); date('heroine_05'); check('4-4. 9/13 傍晚 US2（交往中）照 r2y4a3d.js 開門', USL.c208Open(G));
   fresh('2028-09-23',15,'us_outside',US({US2:'repair'})); check('4-4. 挽回中：週末也不能敲門', !USL.c208Open(G));
 
+  // ======================= AA_399 第 8 節：臥室 C（學姊的房間 us_bed_c，rooms_glb3d.js）=======================
+  { const Z0=global.Z3; global.Z3=Object.assign({},Z0||{},{roomGlbOpen:(id,g)=>id==='us_bed_c'&&!!(g.flags.dating_heroine_05)&&(g.weekday===6||g.weekday===0)&&g.hour>=14&&g.hour<21});   // 開放時段本身在 tests/us_bed_c_unit.js 測
+    const room=()=>{ G.zone='us_bed_c'; E.zone={roomAt:()=>null,seats:[],spots:{sis:{x:0.86,z:-0.1,yaw:1.5708,act:'sit'}}}; GM.npc={}; E.player.obj.position={x:-0.35,y:0,z:0.55}; };
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); date('heroine_05'); room(); USL.sisSync(GM); const n=GM.npc.heroine_05;
+    check('AA_399-8. 交往中、週六 15:00 進臥室 C：她坐在書桌前（spots.sis）', !!n&&n.uslSis&&n.pose==='sit'&&!!n.seat&&Math.abs(n.seat.x-0.86)<1e-6&&Math.abs(n.seat.z+0.1)<1e-6&&Math.abs(n.seat.yaw-1.5708)<1e-6, n&&JSON.stringify(n.seat));
+    { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8. 「現在大概在」照舊寫 C 棟 208', w&&w.away==='C 棟 208', JSON.stringify(w)); }
+    at('2028-09-21',19); room(); USL.sisSync(GM); check('AA_399-8. 平日晚上（她在客廳）：臥室 C 裡沒有她', !GM.npc.heroine_05);
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); room(); USL.sisSync(GM); check('AA_399-8. 沒有交往：臥室 C 裡沒有她', !GM.npc.heroine_05);
+    fresh('2028-09-23',15,'us_shared',US({US2:'together'})); date('heroine_05'); E.zone={roomAt:()=>null,seats:[{x:-3.8,z:0,ap:[-3.8,0]}],spots:{}}; USL.sisSync(GM); const m=GM.npc.heroine_05;
+    check('AA_399-8. 同一個時段在客廳：照舊坐沙發（不受影響）', !!m&&!!m.seat&&Math.abs(m.seat.x+3.8)<1e-6);
+    const D=US_SHARED_LAYOUT.doors.find(d=>d.id==='bedC'); fresh('2028-09-23',15,'us_shared',US());
+    check('AA_399-8. 不是交往中，臥室 C 的門「看」＝「（門上貼著一張手寫的課表。）」', USL.lookFor(G,{label:D.label})==='（門上貼著一張手寫的課表。）', USL.lookFor(G,{label:D.label}));
+    date('heroine_05'); at('2028-09-21',19); check('AA_399-8. 交往中、門關著的時候照舊「臥室 C。門關著。」（AA_287）', USL.lookFor(G,{label:D.label})==='臥室 C。門關著。', USL.lookFor(G,{label:D.label}));
+    global.Z3=Z0; }
+
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
