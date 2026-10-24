@@ -30,13 +30,10 @@ def azimuth(P, c):
     return np.degrees(np.arctan2(P[:, 0] - c[0], -(P[:, 1] - c[1])))
 
 
-def main():
-    a = sys.argv[sys.argv.index('--') + 1:]
-    opt = {}
-    if '--save' in a: i = a.index('--save'); opt['save'] = a[i + 1]; a = a[:i] + a[i + 2:]
-    src, out, cid = a[:3]; cfg = CFG[cid]
-    import addon_utils; addon_utils.enable('io_scene_vrm', default_set=True)
-    bpy.ops.wm.open_mainfile(filepath=os.path.abspath(src))
+def apply_springs(cid):
+    """在現在打開的場景上加頭髮的彈簧骨（人物的建置腳本也直接叫這個：heroine_02.py 的 springs 階段，LAWWW2-B 10-24——
+    10-22 芷若第九版頭髮用 p02_hair.py 重做以後沒有再跑這一步，彈簧骨整個不見，LAWWW-B 10-24 05:53 發現）"""
+    cfg = CFG[cid]
     arm = next(o for o in bpy.data.objects if o.type == 'ARMATURE')
     hair = next(o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith('Hair'))
     sec = C.ext(arm).secondary_animation
@@ -99,6 +96,17 @@ def main():
                            hit_radius=cfg['hit'], colliders=COLLIDE)
     moved = int((s * wa.sum(1) > 0.05).sum())
     print('  hair springs: %d chains, %d of %d hair verts follow a chain' % (len(chains), moved, n))
+    return dict(chains=len(chains), moved=moved, verts=n)
+
+
+def main():
+    a = sys.argv[sys.argv.index('--') + 1:]
+    opt = {}
+    if '--save' in a: i = a.index('--save'); opt['save'] = a[i + 1]; a = a[:i] + a[i + 2:]
+    src, out, cid = a[:3]
+    import addon_utils; addon_utils.enable('io_scene_vrm', default_set=True)
+    bpy.ops.wm.open_mainfile(filepath=os.path.abspath(src))
+    apply_springs(cid)
     if 'save' in opt:
         bpy.ops.file.pack_all(); bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(opt['save']), compress=True); print('saved', opt['save'])
     print('exported', C.export_vrm(os.path.abspath(out)))
