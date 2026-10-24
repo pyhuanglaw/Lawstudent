@@ -2648,6 +2648,23 @@ R23 = [
        jsok=[('2/4 17:00 語彤「阿姨換了新的菜單。」', GE('阿姨換了新的菜單。'), True), ('「她說字寫大一點，老客人才看得到。」', GE('她說字寫大一點，老客人才看得到。'), True)]),
 ]
 SCENS = SCENS + R23
+
+# ---------- R24（BB-B 10-24 18:1x）：③④ 截圖重拍——r22_linze2 的 'face': True 是「拍主角的臉」，鏡頭站在主角和目標中間、往回拍，所以三張都背對目標 ----------
+# 霖澤館：徵才單和公布欄在東牆（x≈7.7），主角站西邊、鏡頭在主角後面往東拍；北門往北拍。社科院：X75 搬家以後大樓在 x −13～17、z −93～−77（8 層，正門在東面），
+# 從小椰林道（東邊）往西、從中庭東南往西北拍，看捲簾、布簾（LAWWW2 7f7296fef；GLB 裡跟著材質合併，沒有節點，只能看畫面）。拍照前把主角藏起來（只影響畫面）
+HIDEP = ('jsrun', "(()=>{ const o=GAME.E.player&&GAME.E.player.obj; if(o) o.children.forEach(c=>c.visible=false); return true; })()", '【捷徑】拍照時把主角模型藏起來（只影響畫面）')
+R24 = [
+  dict(id='LINZE_NOTICE3', key='TERMDAY:Y2S1:1:2', h=10.0, zone='linze', flags=dict(TW3), js='', pref=[],
+       steps=[('wait', "!!(GAME.E.zone&&GAME.E.zone._jobPosters)", 30, '公布欄的徵才單節點'), PAUSE(3, '等'), HIDEP,
+              ('shot', 'poster', {'name': 'L0_WALL_notice_job_cram', 'a0': -1.5708, 'd': 1.6, 'dist': 1.4, 'pitch': 0.12}, 'true', 2),
+              ('shot', 'board', {'name': 'L0_WALL_Efacade_lz_notice', 'a0': -1.5708, 'd': 2.4, 'dist': 2.0, 'pitch': 0.15}, 'true', 2),
+              ('shot', 'door', {'name': 'L0_WALL_Ndoor_frame', 'a0': 0, 'd': 2.6, 'dist': 2.4, 'pitch': 0.15}, 'true', 2)], want=[]),
+] + [dict(id='SOCSCI3_%s' % t, key='2026-10-14', h=h, zone='campus', flags=dict(TW3), js='', pref=[],
+          steps=[PAUSE(6, '等社科院正式模型'), HIDEP,
+                 CAM(36.0, -85.0, 1.5708, 0.08, 7.0, '小椰林道往西看社科院大樓東面（正門）'), PAUSE(4, '等'), ('shot', 'east', None, 'true', 3),
+                 CAM(26.0, -70.0, 0.785, 0.12, 7.0, '中庭東南往西北看大樓南面、東面'), PAUSE(4, '等'), ('shot', 'se', None, 'true', 3),
+                 CAM(24.0, -86.0, 1.5708, 0.30, 4.0, '近一點往上看'), PAUSE(4, '等'), ('shot', 'near', None, 'true', 3)], want=[]) for t, h in [('DAY', 10.5), ('NIGHT', 20.0)]]
+SCENS = SCENS + R24
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
