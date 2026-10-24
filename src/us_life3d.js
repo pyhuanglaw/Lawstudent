@@ -244,7 +244,8 @@ const USL=(function(){
   S.c208Closed=G=>dating(G)&&G.weekday>=1&&G.weekday<=5&&G.hour>=18?X.looks.c208Eve:X.looks.c208;
   /* AA_444：臥室 C（學姊的房間）的「看」；窗外照日期（12/2 初雪起、11/1、10/1、8/2），去過她臺灣 5F 研究室（G.visited.linze_5f：研究室在 5F，只有她開門才上得去；5F 演的出遊也算）多一句 */
   S.roomCLook=function(G,label){ const R=X.looks.roomC; if(!R) return null; if(label==='她的書桌') return R.desk.slice(); if(label==='書架') return R.shelf.slice();
-    if(label==='窗外'){ const w=R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
+    if(label==='窗外'){ const K={snow:'2028-12-02',bare:'2028-11-01',autumn:'2028-10-01',summer:'2028-08-02'}, sk=typeof US3!=='undefined'&&US3.usSeasonKey?US3.usSeasonKey():null;   /* 窗外那句跟窗景圖同一個季節（us3d.js usSeasonKey：秋天 10/9 起；BB-B 10-24：10/1～10/8 字黃圖綠）*/
+      const w=sk&&K[sk]?R.win.find(q=>q[0]===K[sk]):R.win.find(q=>G.day>=D(q[0])); if(!w) return null; return G.visited&&G.visited.linze_5f?[w[1],R.winLab]:[w[1]]; } return null; };
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
     if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }

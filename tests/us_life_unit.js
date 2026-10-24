@@ -359,6 +359,9 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     const win=async key=>{ at(key,15); return say('窗外'); };
     { const a=await win('2028-09-30'), b=await win('2028-10-01'), c=await win('2028-11-01'), d=await win('2028-12-01'), e=await win('2028-12-02');
       check('AA_444. 窗外照日期：9/30 綠、10/1 黃、11/1～12/1 剩幾片葉子、12/2 雪', a&&a[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&b[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）'&&c[0].startsWith('（窗外的樹只剩幾片葉子')&&d[0]===c[0]&&e[0]==='（窗外的樹枝上留著一點雪。窗台上也有。）'&&[a,b,c,d,e].every(x=>x.length===1), JSON.stringify([a,e])); }
+    { const U0=global.US3; global.US3={usSeasonKey:()=>{ const d=CALENDAR.dateOf(G.day), md=d.m*100+d.d; return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':'summer'; }};   // 和 us3d.js 同一條規則
+      const a7=await win('2028-10-07'), a9=await win('2028-10-09'); global.US3=U0;
+      check('AA_444. 窗外那句跟窗景圖同一個季節：10/7 圖還是夏天＝綠的那句、10/9 秋天＝黃的那句（BB-B 10-24）', a7&&a7[0]==='（窗外是一棵很大的樹，葉子擋住半個窗戶。）'&&a9&&a9[0]==='（窗外那棵樹變黃了。靠窗的那一邊先變。）', JSON.stringify([a7,a9])); }
     G.visited.linze_5f=true; { const t=await win('2028-10-15'); check('AA_444. 去過她臺灣 5F 研究室：多一句', !!t&&t.length===2&&t[1]==='（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', JSON.stringify(t)); }
     { caps=[]; E.player.busy=false; await USL.tick(GM,0.5); const c1=caps.slice(); caps=[]; await USL.tick(GM,0.5);
       check('AA_444. 第一次進她的房間：一句旁白、記 US_ROOM_C_SEEN；之後不出', c1.includes('（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）')&&G.flags.US_ROOM_C_SEEN!=null&&!caps.includes(c1[0]), JSON.stringify(c1)); }
