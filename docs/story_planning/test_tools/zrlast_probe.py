@@ -43,7 +43,7 @@ F3（6/19 方奕廷那一段）不在這支：單元測試 tests/aa387_zr_last_u
 【讀資料】的檢查（玩家看不到、只能讀狀態）：ZR_LAST／ZR_LAST_GO、出遊紀錄、ROM 交往、TERMEND think、房間物件清單（宿舍書桌「看看房間裡的東西」用的同一個 STORY.roomItemList）。
 不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
 用法：LW_TESTS=<開發分支>/tests SHA=<sha> [SCEN=ZL_WAIT,...] python3 zrlast_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
-import os, sys, json, asyncio, time
+import os, sys, json, asyncio, time, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(HERE, 'us_life_probe.py'), encoding='utf-8').read()
 src = src[:src.rindex('asyncio.run(main())')]   # 只借框架（不跑它的 main）
@@ -2238,13 +2238,14 @@ R15 = [
   # ② 共同 102 週一 13:05～15:10：采蓁、立衡、宇恆在教室裡（大二）；立衡大三不在（在日本念研究所）
   # 10-24 09:2x：讀檔直接放進 gongtong 那一次 3D 一個人都沒有（連路人都沒有）——改成照玩家：站在共同教學館門口（gongtong_front）13:00，走進去（GAME.enter，和按門一樣），等到 13:54 再看；
   #   另外記 STORY.presence 說她們在哪（daily_schedule：週一 13:05～15:10 gongtong 102，Y2S1／Y2S2）
-  dict(id='JP86_ROOM_Y2', key='TERMDAY:Y2S1:4:1', h=13.0, zone='campus',   # BB-B 11:5x：gongtong_front 不是地點（applySave「未知的地點」）；共同教學館的門在校園
+  dict(id='JP86_ROOM_Y2', key='TERMDAY:Y2S1:5:1', h=13.0, zone='campus',   # BB-B 11:5x：gongtong_front 不是地點（applySave「未知的地點」）；共同教學館的門在校園
        flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'), ('until', 13.9, 900),
               ('chk', 'STORY.presence：采蓁、立衡、宇恆在哪', "['jp_caizhen','jp_liheng','jp_yuheng'].map(id=>{ try{ const p=STORY.presence(id,GAME.G); return id+':'+JSON.stringify(p).slice(0,80); }catch(e){ return id+':ERR'; } })", lambda L: isinstance(L, list)),
               ('chk', '3D 裡所有的人', NPCS3D, lambda L: isinstance(L, list))],
        want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
+  # BB-B 12:5x：第 4 週週一＝2026-09-28 教師節（CALENDAR.holiday），日文課 noHoliday＝停課＝她們本來就不在（Node 查：9/21、10/5 都有作息、9/28 null）＝腳本日期錯；兩支都改第 5 週（10/5）
   # BB-B 12:2x：JP86_ROOM_Y2（13:00 進門、等到 13:54）3D 一個人都沒有，presence 三個都 here。對照：上課中 13:24 才進門——有人＝「進門那時候還沒開始的人，之後不會補進來」
-  dict(id='JP86_ROOM_Y2_IN', key='TERMDAY:Y2S1:4:1', h=13.4, zone='campus', flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'),
+  dict(id='JP86_ROOM_Y2_IN', key='TERMDAY:Y2S1:5:1', h=13.4, zone='campus', flags=dict(TW3), js='', pref=[], steps=[ENTER('gongtong'), ('wait', "GAME.G.zone==='gongtong'&&!GAME.E.player.busy", 60, '進到共同教學館'),
               ('chk', '3D 裡所有的人（13:24 進門）', NPCS3D, lambda L: isinstance(L, list)), ('until', 13.7, 600), ('chk', '3D 裡所有的人（13:42）', NPCS3D, lambda L: isinstance(L, list))],
        want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆（上課中才進門）', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
   dict(id='JP86_ROOM_Y3', key='TERMDAY:Y3S1:4:1', h=13.6, zone='gongtong', flags=dict(TW3), js='', pref=[], steps=[('until', 13.9, 600)],
@@ -2310,7 +2311,7 @@ RC = {'first': '（第一次進她的房間。東西很少，床鋪得很平。�
       'win_nov': '（窗外的樹只剩幾片葉子，看得到對面那棟樓的窗戶了。）', 'win_dec': '（窗外的樹枝上留著一點雪。窗台上也有。）',
       'winLab': '（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', 'other': '（門上貼著一張手寫的課表。）'}
 DOORC = "(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/臥室 C/.test(String(i.label||''))); return it?it.label:null; })()"
-WINTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const im=m&&m.map&&m.map.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\/us_bed_c/.test(s)) out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')); } }); return [...out].join(','); })()"
+WINTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); const im=tx&&tx.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\/us_bed_c/.test(s)) out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')); } }); return [...out].join(','); })()"
 SISAT = "(()=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.charId==='heroine_05'&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })()"
 CAPNOW = "((document.getElementById('caption')||{}).textContent||'').trim()"
 INC = ('wait', "GAME.G.zone==='us_bed_c'&&!GAME.E.player.busy", 60, '進到臥室 C')
@@ -2343,7 +2344,8 @@ R17 = [
   BEDC_WIN('BEDC_NOV18', '2028-11-18', RC['win_nov'], 'bare', '11/18'),
   BEDC_WIN('BEDC_DEC09', '2028-12-09', RC['win_dec'], 'snow', '12/9'),
   # ③ 晚上 20:30：窗景換夜景
-  dict(id='BEDC_NIGHT', key='2028-09-16', h=20.4, zone='us_shared', flags=dict(USC), js='', pref=[],
+  # BB-B 12:5x：20:24 敲門＝先演了 208 的週末事件（us208_3d.js，「Legal Writing 的作業寫完了嗎？」），沒進房間。【前置】這個週末的 208 事件算演過（US208_WK＝那個週六）
+  dict(id='BEDC_NIGHT', key='2028-09-16', h=20.4, zone='us_shared', flags=dict(USC), js=" G.flags.US208_WK=STORY.dayOfKey('2028-09-16');", pref=[],
        steps=[KNOCK, INC, ('chk', '窗景圖：夏天晚上（20:30）', WINTEX, lambda s: isinstance(s, str) and 'us_bed_c_summer_night' in s), ('shot', 'bedc_night', None, 'true', 2)],
        want=[]),
   # ④ 去過她臺灣 5F 研究室（G.visited.linze_5f）：窗外多一句
@@ -2503,9 +2505,17 @@ async def talkp(pg, cdp, run, who, pref):
     await B['drain'](pg, cdp, pref=list(pref or []) + ['聊', '說'], secs=150); return True
 async def usep(pg, cdp, run, pat, pref):
     """同 us_life_probe 的 use（走到最近、名字符合 pat 的互動點按下去），選項照情境的 pref"""
-    it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
+    it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label,i.radius||1.8]:null; })(%s)" % json.dumps(pat))
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
-    if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
+    # BB-B 10-24 12:5x（美國臥室 C）：書架半徑 0.6、出口 0.55，走到 0.9 m 內就按＝按到旁邊的「她的書桌」「和書瑀說話」。停的距離照互動點的半徑，走到以後互動鈕要是這一個才按
+    tol = min(0.9, max(0.2, it[3] * 0.6))
+    if not await L.go_to(pg, cdp, run, it[0], it[1], tol, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
+    lab0 = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+    if lab0 and not re.search(pat, lab0):
+        await L.go_to(pg, cdp, run, it[0], it[1], 0.15, it[2], max_s=60); await pg.wait_for_timeout(1500)
+        lab1 = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        dist = await pg.evaluate("(([x,z])=>{ const P=GAME.E.player.obj.position; return +Math.hypot(P.x-x,P.z-z).toFixed(2); })(%s)" % json.dumps(it[:2]))
+        if lab1 and not re.search(pat, lab1): say('   ⚠ 走到離「%s」%.2f m（半徑 %.2f），互動鈕還是「%s」' % (it[2], dist, it[3], lab1)); bad.append('「%s」走到 %.2f m（半徑 %.2f）互動鈕還是「%s」' % (it[2], dist, it[3], lab1)); return False
     lab = ''; cs = []
     for att in range(3):   # BB-B 10-23 19:1x：機器很慢的時候（f51dr3 後段每秒 0.1 格）按鈕 20 秒還沒出來、按了選單 37 秒沒出來（KX_MELON、KX_NOTRIP）＝最多試三次
         for k in range(40):   # 互動鈕下一格才出來（負載 25 時一格 3～10 秒）
