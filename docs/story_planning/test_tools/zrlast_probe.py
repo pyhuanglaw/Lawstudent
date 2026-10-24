@@ -2313,7 +2313,7 @@ RC = {'first': '（第一次進她的房間。東西很少，床鋪得很平。�
 DOORC = "(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/臥室 C/.test(String(i.label||''))); return it?it.label:null; })()"
 WINTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); const im=tx&&tx.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\/us_bed_c/.test(s)) out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')); } }); return [...out].join(','); })()"
 SISAT = "(()=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.charId==='heroine_05'&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })()"
-CAPNOW = "((document.getElementById('caption')||{}).textContent||'').trim()"
+CAPNOW = "(()=>{ const e=document.getElementById('caption'); if(!e||e.classList.contains('hide')||getComputedStyle(e).opacity==='0') return ''; return (e.textContent||'').trim(); })()"   # BB-B 14:4x：caption 淡出以後只加 hide、字還留著（game3d.js caption）＝要看得見才算
 INC = ('wait', "GAME.G.zone==='us_bed_c'&&!GAME.E.player.busy", 60, '進到臥室 C')
 OUTC = ('wait', "GAME.G.zone==='us_shared'&&!GAME.E.player.busy", 60, '回到 208 的走道')
 KNOCK = ('usep', '^敲門（臥室 C）')
@@ -2327,7 +2327,7 @@ R17 = [
   # ① 第一次進去：一句旁白、她坐在書桌前、書桌／書架／窗外、說話、離開；第二次進去不再出第一次那句
   dict(id='BEDC_FIRST', key='2028-09-16', h=14.6, zone='us_shared', flags=dict(USC), js=CAPH, pref=[],
        steps=[('chk', '門口是「敲門（臥室 C）」（交往中、週六 14:36）', DOORC, '敲門（臥室 C）'), KNOCK, INC,
-              ('chk', '第一次進去記 US_ROOM_C_SEEN', "GAME.G.flags.US_ROOM_C_SEEN!=null", True),
+              ('wait', "GAME.G.flags.US_ROOM_C_SEEN!=null", 15, '第一次進去記 US_ROOM_C_SEEN（進門以後 us_life3d.js 才設，最多等 15 秒）'),
               ('chk', '她在房間裡（3D）', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' in L),
               ('chk', '她在書桌前（spots.sis 0.86,-0.1 附近）', SISAT, lambda p: isinstance(p, list) and abs(p[0] - 0.86) < 0.7 and abs(p[1] + 0.1) < 0.7),
               ('chk', '窗景圖：夏天白天（9/16）', WINTEX, lambda s: isinstance(s, str) and 'us_bed_c_summer_day' in s),
