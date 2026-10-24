@@ -1,0 +1,59 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 84000fe..0c8a9d6 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -140,6 +140,10 @@ const E3 = (function(){
+   const KEYG=KEY0.filter(r=>r[0]<17||r[0]>18).concat(KEY_GOLDEN).sort((a,b)=>a[0]-b[0]);
+   E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||'golden';   /* ?grade=off（或任何不是 golden 的值）＝原本的黃昏 */
+   const c1=new THREE.Color(), c2=new THREE.Color();
++  /* 半夜 00:00～04:30 用 24:00 那一列（AFTER-MIDNIGHT-1024，LAWWW2-B 2026-10-24）：原本 h<5.5 一律用 05:30 那一列（清晨的藍天、霧、路面），一過午夜天空就突然變亮；
++     04:30～05:30 從夜晚接到清晨。這兩列的方位用 70°（東北，太陽還在地平線下），不會從西邊（280°）繞過南邊 */
++  const nightPre=K=>{ const n=K[K.length-1].slice(1); n[3]=70; return [[0].concat(n),[4.5].concat(n)].concat(K); };
++  const KEY0N=nightPre(KEY0), KEYGN=nightPre(KEYG);
+   /* 影子不閃（X79，使用者 2026-10-20「有些建築旁邊影子也一直在閃爍」；BB-C 量到：陰影相機每 5 格跟著玩家移動、沒對齊陰影貼圖格子，1024 蓋 44 m，一格約 4.3 cm）：
+      ①陰影相機的中心在光的平面上對齊到整格（texel snapping；three.js 的 DirectionalLight 用 lookAt、up＝(0,1,0)，右＝cross(up,d)、上＝cross(d,右)）——玩家走動時影子貼圖的格子固定在世界上；
+      ②太陽的方向每 3 遊戲分鐘才換一次（顏色、亮度照舊連續）——時間流動時不會每一格都轉一點點 */
+@@ -157,7 +161,7 @@ const E3 = (function(){
+   function sunsetPlace(key,pl){ const y=+key.slice(0,4), m=+key.slice(5,7), d=+key.slice(8,10); return pl==='us'?sunsetAt(y,m,d,39.17,-86.53,key<'2028-11-05'?-4:-5):(pl==='jp'?sunsetAt(y,m,d,34.69,135.5,9):sunsetAt(y,m,d,25.03,121.56,8)); }
+   E.sunsetAt=sunsetAt; E.lightHour=lightHour; E.sunsetPlace=sunsetPlace;
+   E.sunsetNow=function(){ if(E.sunsetFix!=null) return E.sunsetFix; const G=typeof GAME!=='undefined'&&GAME.G; if(!G||G.day==null||typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return null; const id=(E.zone&&E.zone.def&&E.zone.def.id)||'', pl=/^us_/.test(id)?'us':(/^jp_/.test(id)?'jp':'tw'), ck=G.day+pl; if(E._ssK!==ck){ E._ssK=ck; E._ss=sunsetPlace(CALENDAR.dateOf(G.day).key,pl); } return E._ss; };   /* E.sunsetFix：測試用，直接指定日落時刻 */
+-  E.applyTime=function(hour){ E.hour=hour; const KEY=E.grade==='golden'?KEYG:KEY0; let h=lightHour(hour%24,E.sunsetNow()); E.lightH=h; if(h<KEY[0][0]) h=KEY[0][0]; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=h) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const lerpC=(a,b)=>{ c1.set(a); c2.set(b); return c1.lerp(c2,t); }; const lerp=(a,b)=>a+(b-a)*t;
++  E.applyTime=function(hour){ E.hour=hour; const KEY=E.grade==='golden'?KEYGN:KEY0N; let h=lightHour(hour%24,E.sunsetNow()); E.lightH=h; if(h<KEY[0][0]) h=KEY[0][0]; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=h) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const lerpC=(a,b)=>{ c1.set(a); c2.set(b); return c1.lerp(c2,t); }; const lerp=(a,b)=>a+(b-a)*t;
+     E.sun.color.copy(lerpC(A[1],B[1])); E.sun.intensity=lerp(A[2],B[2]); const [el,az]=sunAng(KEY,h); const target=E.player?E.player.obj.position:new THREE.Vector3(); /* 太陽方向（v9.3 第二十一批）：azimuth 是羅盤方位（0 北、90 東、180 南）。戶外區域 x 往東、-z 往北（D25），所以 z 用 -cos；區域座標轉過方向的用 def.sunYaw（公館：+x 往南、+z 往西）。之前戶外也用 +cos：中午太陽在北邊，朝南的牆（霖澤館、萬才館正面）整天背光，台北的太陽中午一定在南邊。室內沒有方位，維持原本的方向（室內的光影是照那個方向調的）*/ let sx=Math.sin(az), sz=E.indoor?Math.cos(az):-Math.cos(az); const syw=(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.sunYaw)||0; if(syw){ const cy=Math.cos(syw), sy=Math.sin(syw), x2=sx*cy+sz*sy; sz=-sx*sy+sz*cy; sx=x2; } { const ox=Math.cos(el)*sx*60, oy=Math.max(2,Math.sin(el)*60), oz=Math.cos(el)*sz*60, ol=Math.hypot(ox,oy,oz)||1, sc=E.sun.shadow.camera, tx=(sc.right-sc.left)/((E.sun.shadow.mapSize&&E.sun.shadow.mapSize.x)||1024); const T=shadowSnap(target,{x:ox/ol,y:oy/ol,z:oz/ol},tx); E.sun.position.set(T.x+ox,T.y+oy,T.z+oz); E.sun.target.position.set(T.x,T.y,T.z); } E.sun.target.updateMatrixWorld();   /* 陰影相機對齊整格（shadowSnap）*/
+     E.hemi.color.copy(lerpC(A[5],B[5])); E.hemi.groundColor.copy(lerpC(A[6],B[6])); E.hemi.intensity=lerp(A[7],B[7]); scene.fog.color.copy(lerpC(A[8],B[8])); renderer.toneMappingExposure=lerp(parseFloat(A[9]),parseFloat(B[9]))*(E.toneK||1);
+     const sk=E.sky.material.uniforms; sk.top.value.copy(lerpC(A[10],B[10])); sk.mid.value.copy(lerpC(A[11],B[11])); sk.bot.value.copy(lerpC(A[12],B[12])); sk.sunDir.value.copy(E.sun.position).sub(target).normalize(); sk.sunCol.value.copy(E.sun.color); sk.sunAmt.value=0.15+0.45*Math.max(0,1-Math.abs(el)/0.6);
+diff --git a/tests/after_midnight_unit.js b/tests/after_midnight_unit.js
+new file mode 100644
+index 0000000..8c80cb0
+--- /dev/null
++++ b/tests/after_midnight_unit.js
+@@ -0,0 +1,29 @@
++// 半夜不會突然變亮（AFTER-MIDNIGHT-1024，LAWWW2-B 2026-10-24，路線巡查截圖發現）——不需要瀏覽器。
++//   原本 engine3d.js 的 applyTime：h<5.5 一律用 05:30 那一列（清晨的藍天、霧、路面），所以 23:50 是夜晚、00:30（G.hour 24.5）天空就突然變亮。
++//   1. engine3d.js 有 nightPre、KEY0N、KEYGN，applyTime 用 KEYGN／KEY0N；
++//   2. 00:30、02:00、04:00 和 24:00 那一列一樣（天空、環境光、曝光、路燈亮）；
++//   3. 23:59 → 00:00 接得上（不會跳）；
++//   4. 05:30 以後和原本的表完全一樣；
++//   5. 04:30～05:30 從夜晚接到清晨：太陽亮度不倒退；太陽方位在 70°～80°（東北），不會從西邊繞過南邊。
++// 修改前 FAIL。用法：node tests/after_midnight_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const src=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
++const grab=re=>{ const m=src.match(re); return m?m[0]:null; };
++const K0=grab(/const KEY0=\[[\s\S]*?\n  \];/), KG=grab(/const KEY_GOLDEN=\[[\s\S]*?\]\];/), KGG=grab(/const KEYG=[^\n]*\n/), NP=grab(/const nightPre=[^\n]*\n  const KEY0N=nightPre\(KEY0\), KEYGN=nightPre\(KEYG\);/), fA=grab(/function sunAng\(KEY,h\)\{[^\n]*\}/);
++check('1. engine3d.js 有 nightPre、KEY0N、KEYGN', !!NP);
++check('1. applyTime 用 KEYGN／KEY0N', /E\.applyTime=function\(hour\)\{[^\n]*const KEY=E\.grade==='golden'\?KEYGN:KEY0N;/.test(src));
++const ctx={Math}; vm.createContext(ctx);
++vm.runInContext([K0,KG,KGG,NP||'const KEY0N=null, KEYGN=null;',fA].join('\n')+'\nthis.KEYG=KEYG; this.KEYGN=KEYGN; this.KEY0=KEY0; this.KEY0N=KEY0N; this.sunAng=sunAng;',ctx);
++const NEW=ctx.KEYGN||ctx.KEYG, OLD=ctx.KEYG;   // 修改前：applyTime 用 KEYG、h<5.5 夾到第一列
++const at=(K,h,col)=>{ if(h<K[0][0]) h=K[0][0]; let i=0; while(i<K.length-2&&K[i+1][0]<=h) i++; const A=K[i], B=K[i+1], t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const a=A[col], b=B[col];
++  if(typeof a==='string'){ const pa=parseInt(a.slice(1),16), pb=parseInt(b.slice(1),16); return [16,8,0].map(s=>((pa>>s)&255)+(((pb>>s)&255)-((pa>>s)&255))*t); } return a+(b-a)*t; };
++const COLS={'太陽亮度':2,'環境光':7,'曝光':9,'天空上方':10,'天空中段':11,'霧':8,'路燈':13};
++const same=(K,h1,K2,h2)=>Object.values(COLS).every(c=>{ const a=at(K,h1,c), b=at(K2,h2,c); return Array.isArray(a)?a.every((v,i)=>Math.abs(v-b[i])<0.5):Math.abs(a-b)<1e-3; });
++for(const h of [0.5,2,4]) check('2. '+String(Math.floor(h)).padStart(2,'0')+':'+(h%1?'30':'00')+' 和 24:00 那一列一樣（天空、環境光、曝光、霧、路燈）', same(NEW,h,OLD,24), 'sky top '+JSON.stringify(at(NEW,h,10).map(Math.round)));
++check('3. 23:59 → 00:00 接得上', same(NEW,23.99,NEW,0));
++{ let ok=true; for(let h=5.5;h<24;h+=0.05) if(!same(NEW,h,OLD,h)) { ok=false; break; } check('4. 05:30 以後和原本的表完全一樣', ok); }
++{ let ok=true, prev=-1; for(let h=4.5;h<=5.5;h+=0.05){ const v=at(NEW,h,2); if(v<prev-1e-9) ok=false; prev=v; } check('5. 04:30～05:30 太陽亮度只增不減', ok); }
++{ let ok=true; for(let h=4.5;h<=5.5;h+=0.05){ const az=ctx.sunAng(NEW,h)[1]*180/Math.PI; if(az<69.9||az>80.1) ok=false; } check('5. 04:30～05:30 太陽方位在東北（70°～80°），不會繞過南邊', ok); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
