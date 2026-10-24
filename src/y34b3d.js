@@ -454,7 +454,7 @@ const Y34B=(function(){
   const DEPART_JP=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {if:C(dAn),speaker:'heroine_01',text:'行李我量過了，二十二公斤。……你的呢？'},
     {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:null,text:'（她媽媽站在後面，跟你點了一下頭。）'},
-    {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:'以安的媽媽',text:'她就交給你了。……不是，我是說，你們互相。'},
+    {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:'以安的媽媽',text:'她就交給你了。……你們互相照顧。'},
     {if:C(G=>dAn(G)&&kxIn(G)&&!kxKnows(G,'heroine_01')),speaker:'以安的媽媽',text:'到了打電話回來。……你們兩個都是。'},   /* 9-1b 可昕不知道：中性的 */
     {if:C(team),goto:'jp_team'},{goto:'jp_kx'},
     {label:'jp_team'} ].concat(TEAM,[

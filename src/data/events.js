@@ -355,7 +355,7 @@ const STORY_EVENTS=[
   { id:'ev_kevin_cram_door', title:'補習班門口', participants:[], location:'gongguan', trigger:'auto', weekday:[1,2,3,4,5], time:[18,18.5], priority:3, background:'blur',
     prereq:{custom:G=>typeof VAC!=='undefined'&&!!VAC.kevinDoor&&!!VAC.kevinDoor(G)},
     dialogue:[ {speaker:'Kevin',text:'學弟！路過喔？我要上班了，下次聊。',unless:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}},
-      {speaker:'Kevin',text:'又是你。……真的不報一下？我開玩笑的。',if:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}} ],   /* 第二個假期以後換這一句 */
+      {speaker:'Kevin',text:'又是你。……真的不報一下？',if:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}} ],   /* 第二個假期以後換這一句 */
     after:G=>{ const k=typeof VAC!=='undefined'&&VAC.kevinDoor?VAC.kevinDoor(G):null; if(k) (G.flags.KEVIN_DOOR||(G.flags.KEVIN_DOOR={}))[k]=G.day; } },
   /* 子晴問阿凱（AA_218 17-11 @5063fbaf 台詞；BB_191 9-7 觸發）：上課日 17:00 資工系下課問的（romance3d.js zqAskTick 記 ZQ_ASK_KAI_D、寫 knowsGF.heroine_04 told_by:kai），
      那晚玩家第一次睡覺時演給玩家看（睡覺觸發；字卡「17:00　資工系館」、暗底：走廊的圖還沒有）。祐廷不在場、不知道（ytKnows 不變）*/
@@ -1056,7 +1056,7 @@ const STORY_EVENTS=[
       {scene:'經濟系系辦',bg:'soc_office'},
       {speaker:'系辦助理',text:'學號給我。……這個學號，不在我們系的名單上了耶。'},
       {speaker:'player',text:'我現在是法律系的。'},
-      {speaker:'系辦助理',text:'那你走錯棟了。……開玩笑的。外套在這裡，等你快一年了。'},
+      {speaker:'系辦助理',text:'……喔，那個轉系的。外套在這裡，等你快一年了。'},
       {if:{custom:G=>STORY.xunNear()&&!!G.flags.PLAYED_Y0},speaker:'阿勳',text:'家豪學長說得對。真的重三倍。'},
       {if:{custom:G=>STORY.xunNear()&&!G.flags.PLAYED_Y0},speaker:'阿勳',text:'……法律系的書，真的比較重。'},
       {choice:[{text:'（穿去霖澤館上課）',set:{ECON_JACKET:'wear'},goto:'end'},{text:'（送給阿勳）',set:{ECON_JACKET:'xun'},goto:'xun'},{text:'（收進衣櫃）',set:{ECON_JACKET:'closet'},goto:'end'}]},

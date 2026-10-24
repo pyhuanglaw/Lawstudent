@@ -12,7 +12,7 @@ const ROOT=path.resolve(__dirname,'..');
 const t=fs.readFileSync(path.join(ROOT,'src/data/date_lines.js'),'utf8').split('\n')[2], DL=JSON.parse(t.slice(t.indexOf('=')+1,t.lastIndexOf(';')));
 let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
 const all=id=>JSON.stringify(DL.lines[id]||{}), J=JSON.stringify;
-check('0. 白名單版本：BB_128＠efe575813（10-24 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節重訪句、967b4273a、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠967b4273a（AA_426；之前 345234b3 AA_389 第 7 點；不是 741e94f1／5e910dd2）',/BB_128[^＋]*@efe575813/.test(DL.source)&&/AA_127[^＋]*@967b4273a/.test(DL.source),DL.source.slice(0,160));
+check('0. 白名單版本：BB_128＠a5b936a69（10-24 AA_439 禁用句；之前 efe575813 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節重訪句、967b4273a、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠967b4273a（AA_426；之前 345234b3 AA_389 第 7 點；不是 741e94f1／5e910dd2）',/BB_128[^＋]*@a5b936a69/.test(DL.source)&&/AA_127[^＋]*@967b4273a/.test(DL.source),DL.source.slice(0,160));
 check('1. 可昕的預約句子沒有「假設」（AA_295，使用者 10-18 選擇題）',!/假設/.test(all('kexin')),all('kexin').slice(0,300));
 const zq=all('heroine_04'), sis=all('heroine_05');
 check('2. 子晴沒有「欸不是」「這不是問句」「存檔」；學姊沒有「重點是」「三件事」「學弟，」（AA_313 6-1）',!/欸不是|這不是問句|存檔/.test(zq)&&!/重點是|三件事|學弟，/.test(sis),J({zq:zq.slice(0,200),sis:sis.slice(0,200)}));
