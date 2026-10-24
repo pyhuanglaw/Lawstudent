@@ -27,7 +27,7 @@
 | v9.10.4 | `4a8d17f9`（PR [pyhuanglaw/Lawstudent#10](https://github.com/pyhuanglaw/Lawstudent/pull/10)；遊戲檔案＝發布樹 `f1c226c7`，git diff 為空） | 2026-10-22 05:59:27 UTC（run 39731006425） | `5b3f1023`（v9.10.3） |
 | v9.10.5 | `46dfe5c7`（PR [pyhuanglaw/Lawstudent#11](https://github.com/pyhuanglaw/Lawstudent/pull/11)；檔案＝發布樹 `7d20ef5d`（遊戲檔案＝候選 rc2 `9c74f08d`），git diff 為空） | 2026-10-22 12:35:07 UTC（run 39779226078） | `4a8d17f9`（v9.10.4） |
 | v9.10.6 | `11ab1bbd`（PR [pyhuanglaw/Lawstudent#12](https://github.com/pyhuanglaw/Lawstudent/pull/12)；遊戲檔案＝發布樹 `27948554`＝候選 `9f9e13cc`＋版本字樣，git diff 為空） | 2026-10-23 16:16:29 UTC（run 39985072211） | `46dfe5c7`（v9.10.5） |
-| v9.10.7 | `964c9cb1`（PR [pyhuanglaw/Lawstudent#13](https://github.com/pyhuanglaw/Lawstudent/pull/13)；遊戲檔案＝發布樹 `9199fd7d4`（開發分支 `ab774c0c4`）＝候選 `d7f40ce91`＋SQ08＋兩支測試修正＋版本字樣，git diff 為空） | 部署中（run 40067341976） | `11ab1bbd`（v9.10.6） |
+| v9.10.7 | `964c9cb1`（PR [pyhuanglaw/Lawstudent#13](https://github.com/pyhuanglaw/Lawstudent/pull/13)；遊戲檔案＝發布樹 `9199fd7d4`（開發分支 `ab774c0c4`）＝候選 `d7f40ce91`＋SQ08＋兩支測試修正＋版本字樣，git diff 為空） | 2026-10-24 05:44:51 UTC（run 40067341976） | `11ab1bbd`（v9.10.6） |
 
 ---
 
@@ -41,7 +41,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.7（2026-10-24 05:43 UTC 合併 `964c9cb1`，PR #13；GitHub Pages 部署 run 40067341976）——七位的節日、邀約回覆照階段、多線交往、美國篇沒有空白日、總圖 B1 與借書、溫州街補完
+## v9.10.7（2026-10-24 05:43 UTC 合併 `964c9cb1`，PR #13；GitHub Pages 部署 run 40067341976 05:44:51 成功）——七位的節日、邀約回覆照階段、多線交往、美國篇沒有空白日、總圖 B1 與借書、溫州街補完
 
 **候選（10-23 20:5x 給 BB）**：開發分支 `d7f40ce91`（含可昕七夕重複視訊的修正 `730b72072`）；之後進開發分支的（總圖研究小間＋5F 書庫 `2bf7ff242` 等）不進這一版。BB 在乾淨 worktree 跑第五節＋flow_main_day12（負載 32 時估 3～5 小時）；SQ08 便利商店選單、ZR43_GF 送機旗標等 BB 重現結果，是遊戲問題就在候選上加最小修正。
 
@@ -99,6 +99,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
   - guide_flow：閉館的字改成對話框，測試只讀 #toast。
   - save_compat_v7、save_compat_live、flow_main_day12 PASS（day12 有 5 項 [未驗]：劇情接手，人沒有自己走到，BB 之後在低負載時補跑）。
   - 發布樹上 cvs_menu4 橫向、直向 PASS（SQ08 修好），ZR43_GF PASS（ZR_SENDOFF_2027 met）。
+- **部署驗證**：Pages 部署工作成功（05:43:04～05:44:51），head＝`964c9cb1`；main 的遊戲檔案和發布樹 `9199fd7d4` 逐檔相同（git diff 為空），`index.html` 版本字樣 v9.10.7（2026-10-24）。沙盒連不到 github.io，線上頁面沒有直接打開核對，以部署工作結果為準；BB 在線上版跑 deploy_check。開發分支在 `85d8dd5d0` 換回開發中的檔案。
 - BB 本機那棵 tree `b85262ec`＝同一份遊戲程式，只差 index.html 的 `?v=` 沒換、aa415 測試沒修（LAWWW 用只換版本字樣的樹重算得到 `b85262ec`）；正式發布的是換了 `?v=9.10.7` 的版本（手機瀏覽器會重新下載）。
 
 **還在做、這版不一定有**：
