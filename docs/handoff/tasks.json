@@ -14636,7 +14636,7 @@
     }
    ],
    "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
-   "notes": "2026-10-24 03:3x LAWWW-B：盤點：以安 career_goal、芷若十二張紙條、Q15、zq3am、ZQ_CONFESS_LINE、WATCHED_SHOW_ONLINE、ZR_GAVE_HER_ORDER、AA_187 1-4 已做；缺：ev_zhiruo_his_order／ZR_HE_ORDERED（BB_165 3-1）、ev_peishan_waited、ev_peishan_red_pen、可昕 K7 卡片頁（KX_CARD_READ）；2026-10-24 LAWWW-B：BB_165 第 3-1、5-1、5-2、9 節進遊戲（b42bc9e7a；src/rom1016_3d.js；tests/rom1016_unit.js 29 PASS）：芷若「他點的那一杯」、沛珊台南等你、紅筆（含短版）、可昕週年卡片後幾頁。還沒做：PS_WAITED 尾聲那句（postgrad）、PS_RED_PEN 每月照片（要學期中摘要日）、紅筆短版視訊版；芷若學期中告白和「告白只在學期末」（AA_360 第 5 節）是否衝突、可昕卡片錯過的人當面給（BB_165 §9 vs AA_313 2-3 A）已問 AA",
+   "notes": "2026-10-24 03:3x LAWWW-B：盤點：以安 career_goal、芷若十二張紙條、Q15、zq3am、ZQ_CONFESS_LINE、WATCHED_SHOW_ONLINE、ZR_GAVE_HER_ORDER、AA_187 1-4 已做；缺：ev_zhiruo_his_order／ZR_HE_ORDERED（BB_165 3-1）、ev_peishan_waited、ev_peishan_red_pen、可昕 K7 卡片頁（KX_CARD_READ）；2026-10-24 LAWWW-B：BB_165 第 3-1、5-1、5-2、9 節進遊戲（b42bc9e7a；src/rom1016_3d.js；tests/rom1016_unit.js 29 PASS）：芷若「他點的那一杯」、沛珊台南等你、紅筆（含短版）、可昕週年卡片後幾頁。還沒做：PS_WAITED 尾聲那句（postgrad）、PS_RED_PEN 每月照片（要學期中摘要日）、紅筆短版視訊版；芷若學期中告白和「告白只在學期末」（AA_360 第 5 節）是否衝突、可昕卡片錯過的人當面給（BB_165 §9 vs AA_313 2-3 A）已問 AA；10-24 04:1x：AA_438 芷若那一杯限大三下學期末窗口、可昕週年沒去＝之後當面給卡片（11cbcce8d）",
    "sha": "b42bc9e7a"
   },
   {
@@ -31016,8 +31016,8 @@
    "title": "AA_437 九題（AA-B 回 LAWWW-B）：典禮旁白、學姊 14:00、研究小間邀約回答、新 15 前任長桌版、新 21 抓包版、主線 10 前任紙箱、日本空白日三處、大一跨年阿哲",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "第 4、5、6 節（新 15 長桌版＋新 16 送機那句、新 21 抓包版旁白、主線 10 前任紙箱）等 v6ex3d.js 的子代理交件後開工",
+   "status": "已整合待測試",
+   "next": "BB 測：前任玩家 11/16 麵店團群組→11/17 18:30 長桌；主線 10 拆箱（有 CLEANUP_BOX）打開／不打開；抓包分手的以安畢業典禮只點頭",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -31031,8 +31031,8 @@
    },
    "source": "AA-B 2026-10-24 03:5x（企劃線 fc6f20bc0）",
    "authorized": "D109、D111",
-   "sha": "765ac593e",
-   "notes": "2026-10-24 LAWWW-B：第 1、2、3、7、9 節進遊戲（765ac593e）；第 8 節確認，不用改"
+   "sha": "5842a80c3",
+   "notes": "2026-10-24 LAWWW-B：第 1、2、3、7、9 節進遊戲（765ac593e）；第 8 節確認，不用改；10-24 04:3x LAWWW-B：第 4、5、6 節 83134ddf3（子代理；tests/aa437_ex_unit.js）、第 10 節 5842a80c3"
   },
   {
    "id": "COURSE-PRACTICE-Y4-1024",
@@ -31041,7 +31041,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "next": "查 courses.js 法律實習怎麼上（校外實習＝一天一次的 2D 出勤？）；接好以後把 TWFILL_LINES.practice0313 接上",
-   "priority": "P2",
+   "priority": "P3",
    "first": {
     "term": "Y4S2",
     "week": 3,
@@ -31053,7 +31053,8 @@
     "confirmed": true
    },
    "source": "子代理回報 2026-10-24（AA342-COVERAGE-1021）",
-   "authorized": "D109、D111"
+   "authorized": "D109、D111",
+   "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後"
   }
  ]
 }
