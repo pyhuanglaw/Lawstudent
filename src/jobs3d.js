@@ -384,8 +384,10 @@ const JOBS=(function(){
   S.otNow=G=>{ if(typeof OUT==='undefined') return false; const q=OUT.get(G,'job_copyot_'+G.day); if(!q||q.state!=='done') return false; const j=S.job(G,'copy'), wk=S.otWeek(G,G.day); return !!j&&!!wk&&j.ot[wk]!=='done'&&G.hour>=20.5&&G.hour<22; };
 
   // ---------- 房間物件（AA_420 第 9 節；STORY.ROOM_EXTRA）----------
-  S.room=function(G,L){ const F=G.flags||{}, R=D().room; if(F.WZ_ITEM_TIMER) L.push(R.timer.slice()); if(F.WZ_ITEM_NOTEBOOK) L.push(R.notebook.slice()); if(F.WZ_ITEM_TEA&&!F.WZ_TEA_GIVEN) L.push(R.tea.slice());
-    if(F.WZ_CARD) L.push(R.card.slice()); if(F.WZ_YE_DONE) L.push(R.board.slice()); if(F.WZ_POSTER_ITEM) L.push(R.poster.slice()); };
+  /* 房間裡現在有哪幾件（key 照 WZ_JOBS_DATA.room）：文字（S.room）和 3D 模型（zones3d.js 的 dorm_wz_items.glb，節點 ITEM_wz_<key>）都照這一份 */
+  S.roomKeys=function(G){ const F=(G&&G.flags)||{}, K=[]; if(F.WZ_ITEM_TIMER) K.push('timer'); if(F.WZ_ITEM_NOTEBOOK) K.push('notebook'); if(F.WZ_ITEM_TEA&&!F.WZ_TEA_GIVEN) K.push('tea');
+    if(F.WZ_CARD) K.push('card'); if(F.WZ_YE_DONE) K.push('board'); if(F.WZ_POSTER_ITEM) K.push('poster'); return K; };
+  S.room=function(G,L){ const R=D().room; for(const k of S.roomKeys(G)) L.push(R[k].slice()); };
 
   // ---------- 家教（AA_163 第 2 節，企劃線 a06d3f545；V2-B32）＋補一件（AA_289 3-3「考卷的背面」）----------
   /* 家教的事件還是 data/events.js 的 ev_tutor_lesson（第 1～3 堂的內容、TUTOR_N＝上過幾堂）；排課、規則、多的台詞在這裡（story3d.js 原本只排大一下的最小版：有 JOBS 就讓給這裡，JOBS.TUTOR_PLAN）。
