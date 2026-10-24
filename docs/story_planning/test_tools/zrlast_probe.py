@@ -2414,6 +2414,32 @@ R19 = [
        want=[LB['stacks']]),
 ]
 SCENS = SCENS + R19
+
+# ---------- R20（BB-B 10-24 10:0x）：LAWWW-B 08:16 兩件舊的 BUG（使用者 10-15）——截圖給人看，不是自動判定 ----------
+# BUG-03 博雅 101 的同學披頭散髮：大一上週二上午大一國文（博雅 101，9:10～12:10）上課中走進去，近拍坐著的人（完整人物、7 m 內的替身）的頭髮。
+# BUG-04 學姊兩個臉（大一上週三晚上、總圖外）：先記她週三 17:00～23:00 的日程，到她在校園的時候近拍；另外數她有幾個人物實體、臉的網格幾個。
+SHOTNPC = lambda who, dist=1.2, pitch=0.12: ("(()=>{ const E=GAME.E, P=E.player.obj.position; const ok=n=>n&&n.obj&&n.obj.visible!==false&&!n.hidden; "
+    "const L=(E.npcs||[]).filter(n=>ok(n)&&(%s)).sort((a,b)=>Math.hypot(a.obj.position.x-P.x,a.obj.position.z-P.z)-Math.hypot(b.obj.position.x-P.x,b.obj.position.z-P.z)); "
+    "const n=L[0]; if(!n) return null; const p=n.obj.position; return " % ("n.charId===%s" % json.dumps(who) if who != 'seated' else "!!n.seat") + (R7_SHOTAT % "{x:p.x,z:p.z,face:true,dist:%s,pitch:%s}" % (dist, pitch)) + "; })()")
+FIGNEAR = "(()=>{ const E=GAME.E, P=E.player.obj.position; let n=0, near=null; E.scene.traverse(o=>{ if(o.isInstancedMesh&&/seated|fig/i.test(o.name||(o.parent&&o.parent.name)||'')) n++; }); return {instancedFig:n}; })()"
+SIS_COUNT = "(()=>{ const L=(GAME.E.npcs||[]).filter(n=>n&&n.charId==='heroine_05'); return L.map(n=>{ let faces=0, meshes=0; n.obj.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ meshes++; if(/face/i.test(o.name||'')) faces++; } }); return {vis:n.obj.visible!==false&&!n.hidden, faces, meshes, at:[+n.obj.position.x.toFixed(1),+n.obj.position.z.toFixed(1)]}; }); })()"
+SIS_WED = """(()=>{ const G=GAME.G, c=CHARACTERS.heroine_05, out=[]; for(let h=17; h<=23; h+=0.5){ const g=Object.assign({},G,{hour:h}); let e=null; try{ e=STORY.schedEnt(c,g); }catch(x){ e={err:String(x)}; } out.push(h+':'+(e?((e.zone||'')+'/'+(e.act||'')+(e.away?'/'+e.away:'')):'-')); } return out; })()"""
+def BUG04_AT(h): return [('until', h, 900), ('chk', '%.1f 學姊人物實體＋臉網格（記下來）' % h, SIS_COUNT, lambda L: isinstance(L, list)),
+                         ('jsrun', SHOTNPC('heroine_05', 1.0, 0.1), '%.1f 主角站到學姊前面 1 m、鏡頭對她的臉' % h), ('shot', 'bug04_%02d' % int(h * 10), None, 'true', 2)]
+R20 = [
+  dict(id='BUG03_BOYA', key='TERMDAY:Y1S1:3:2', h=9.2, zone='campus', flags={}, js='', pref=[],
+       steps=[ENTER('boya', note='（大一國文上課中）'), ('wait', "GAME.G.zone==='boya'&&!GAME.E.player.busy", 60, '進到博雅'), ('until', 9.6, 600),
+              ('chk', '坐著的人（完整人物）', "(GAME.E.npcs||[]).filter(n=>n&&n.seat&&n.obj&&n.obj.visible!==false).map(n=>n.charId||n.id).slice(0,30)", lambda L: isinstance(L, list)),
+              ('chk', '替身', FIGNEAR, lambda d: isinstance(d, dict)),
+              ('shot', 'bug03_room', None, 'true', 2),
+              ('jsrun', SHOTNPC('seated', 1.1, 0.15), '主角站到最近一個坐著的人前面、鏡頭對頭髮'), ('shot', 'bug03_near', None, 'true', 2),
+              ('jsrun', SHOTNPC('seated', 0.8, 0.45), '同一個人，從上面一點拍頭頂'), ('shot', 'bug03_top', None, 'true', 2)],
+       want=[]),
+  dict(id='BUG04_SIS_WED', key='TERMDAY:Y1S1:5:3', h=17.0, zone='campus', flags={}, js='', pref=[],
+       steps=[('chk', '學姊週三 17:00～23:00 的日程（STORY.schedEnt）', SIS_WED, lambda L: isinstance(L, list))] + BUG04_AT(18.5) + BUG04_AT(20.0) + BUG04_AT(21.5),
+       want=[]),
+]
+SCENS = SCENS + R20
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
