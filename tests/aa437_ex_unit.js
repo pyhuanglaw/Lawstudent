@@ -1,4 +1,4 @@
-// AA_437（企劃線 fc6f20bc0，AA-B 2026-10-24）第 4、5、6 節——不需要瀏覽器。台詞逐字從稿讀出來比對（git show fc6f20bc0:…；B／C 的旁白讀同一個 commit 的 AA_315 2-2）。
+// AA_437（企劃線 0c97c3c05＝fc6f20bc0＋第 10 節，AA-B 2026-10-24）第 4、5、6、10 節——不需要瀏覽器。台詞逐字從稿讀出來比對（git show fc6f20bc0:…；B／C 的旁白讀同一個 commit 的 AA_315 2-2）。
 //   4 以安新 15 前任版＝麵店長桌（story3d.js S.an15Noodle）：11/16 21:00 麵店團群組兩則（不是私訊）、11/17 18:15～19:30 阿鳳麵店長桌、阿哲／Alison 照 STORY.knows
 //     （兩個都不認識＝從阿哲到「可以。……先等我上。」整段拿掉）、祐廷寫了什麼＝AA_315 2-2 的 B／C 第一句；新 16 送機前任版「……到了我傳給麵店團。」、AN_PAGE_GIVEN 不記。
 //   5 新 21／事件 17：抓包以後分手、還沒重建（AA_227 的 D）＝以安只有「（她和媽媽站在傅鐘前面。看到你，點了一下頭。）」、語彤不說話；好好分開的照舊（友情版）。
@@ -14,7 +14,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.rep
 global.Z3={ZONES:{}};
 const loadErr=[]; for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/zr_uk3d.js','src/exchange3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/y34b3d.js','src/data/v6ex_lines.js','src/v6ex3d.js']){ try{ load(f); }catch(e){ loadErr.push(f+'：'+e.message); } }
 /* ---------- 稿 ---------- */
-const SPEC_SHA='fc6f20bc0', P437='docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md', P315='docs/story_planning/AA_315_事件包_第一批_1A01到1A05.md';
+const SPEC_SHA='0c97c3c05', P437='docs/story_planning/AA_437_回LAWWW_九題_新15前任長桌版_主線10前任紙箱.md', P315='docs/story_planning/AA_315_事件包_第一批_1A01到1A05.md';
 const gitShow=p=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SPEC_SHA+':"'+p+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const S437=gitShow(P437), S315=gitShow(P315);
 const part=(s,a,b)=>{ const i=s.indexOf(a); if(i<0) return ''; const j=b?s.indexOf(b,i+a.length):-1; return s.slice(i,j<0?s.length:j); };
@@ -95,7 +95,8 @@ await sec('4c',async()=>{
   exPlayer({LAW_START_DAY:0,MAIN_D1:5,met_yu:true}); runPhone(d16,20.9,21.1); await noodle();
   check('4c. 只認識 Alison（阿哲還沒初遇）：沒有阿哲那句，Alison 和「可以。……先等我上。」照說',J(got())===J(ins(yuOnly,FORM.TW)),J(got()));
   exPlayer(); runPhone(d16,20.9,21.1); await noodle();
-  check('4c. 只認識阿哲：沒有 Alison 那句',J(got())===J(ins(zheOnly,FORM.TW)),J(got()));
+  const ZR10='申請不用想太久。後天中午截止。', zheOnly10=zheOnly.map(x=>x.text===TABLE[7].text?{sp:'以安',text:ZR10}:x);
+  check('4c. 只認識阿哲：沒有 Alison 那句；以安回阿哲「'+ZR10+'」（AA_437 第 10 節第 2 點，稿裡有這一句）',S437.indexOf('以安：'+ZR10)>=0&&J(got())===J(ins(zheOnly10,FORM.TW)),J(got()));
   exPlayer({LAW_START_DAY:0,MAIN_D1:5}); runPhone(d16,20.9,21.1); await noodle();
   check('4c. 兩個都不認識：從「阿哲：」到「以安：可以。……先等我上。」整段拿掉',TABLE[7].sp==='以安'&&TABLE[5].sp==='阿哲'&&J(got())===J(ins(none,FORM.TW))&&!said().includes(TABLE[7].text),J(got()));
 });
@@ -189,7 +190,8 @@ await sec('6c',async()=>{
   const d61=D('2029-06-01'); fresh('2029-06-01',20,'dorm',{EXCH_RULE:1,EXCHANGE_ROUTE:'TW',ROOM_Y2:D('2026-09-06'),ROOM_Y2_ITEMS:Y2.slice(),ROOM_Y3:D('2027-09-05'),ROOM_Y3_ITEMS:['notes_y2','zq_usb'],ROOM_Y3_DISCARD:'noodle',ROOM_Y4:D('2028-09-03'),ROOM_Y4_ITEMS:['form'],BOX_KEPT_Y4:'exbox',EXBOX_Y4:'kept'});
   check('6c. roomItemName(exbox) 沒有名字（AA_318 第 4 節沒有那一句）',STORY.roomItemName(H.G,'exbox')===null);
   clear(['剩下的一起裝']); let ok=true; try{ await STORY.packY4(GM); }catch(e){ ok=false; } const P=said();
-  check('6c. 主線 11：BOX_KEPT_Y4＝exbox＝跳過「你從紙箱裡拿出…」那一步，其他照舊、最後「冬天的衣服」',ok&&!P.some(t=>/從紙箱裡拿出|一年都沒有拿出來|null|undefined/.test(t))&&P[0]==='（明天畢業典禮。房間裡的東西，要一件一件裝回紙箱。）'&&P.includes('（床底下最後一個紙箱。上面是媽媽的字：「冬天的衣服」。）')&&!H.opts[0].some(t=>/exbox|null/.test(t)),J(P));
+  const PK=['（床底下最裡面那個紙箱。膠帶還貼著。）','（你沒有打開，把它放進要帶回家的那一堆。）'];
+  check('6c. 主線 11：EXBOX_Y4 kept＝第一個拿起來的是那個紙箱（AA_437 第 10 節第 3 點兩句旁白、稿裡逐字）；沒有「你從紙箱裡拿出…」那一步，其他照舊、最後「冬天的衣服」',ok&&PK.every(t=>S437.indexOf('旁白：'+t)>=0)&&J(P.slice(1,3))===J(PK)&&!P.some(t=>/從紙箱裡拿出|一年都沒有拿出來|null|undefined/.test(t))&&P[0]==='（明天畢業典禮。房間裡的東西，要一件一件裝回紙箱。）'&&P.includes('（床底下最後一個紙箱。上面是媽媽的字：「冬天的衣服」。）')&&!H.opts[0].some(t=>/exbox|null/.test(t)),J(P));
 });
 H.done();
 })();
