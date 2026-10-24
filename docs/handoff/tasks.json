@@ -31291,6 +31291,28 @@
    "pausedReason": "剩下 4 張要使用者生成圖",
    "resumeWhen": "使用者回來、BB 照 D97 給提示詞拿到圖",
    "recheckOn": "使用者回來的那天或下一次發布"
+  },
+  {
+   "id": "AA447-DUPLINES-1024",
+   "title": "全遊戲重複台詞掃描的四件修正（AA_447）：以安紐約送機開頭、沛珊台南送行照第幾次換、以安機票那句、「是A，不是B」四句",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 下一輪瀏覽器順手看：去台南找沛珊第二次的送行、2030-08-11 紐約送機（2028 送過機的存檔）",
+   "priority": "P2",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上第一次去台南找沛珊（第二次的送行）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 14:39Z（企劃線 a1bc53f4c，outbox e845a3793）",
+   "authorized": "D109、D111",
+   "notes": "LAWWW-B 10-24 14:5x：r2y4b_events.js（紐約送機兩個分支看 AN_SENDOFF went／together、機票那句看 AN_JP_TRIP_ASK go、「抖的是手，不是我」拿掉、公開課送行另寫）；hometown_lines.js 沛珊台南 send 照 PS_SEND 三版、hometown3d.js 送行句的函式多傳 n0（這一趟以前去過幾次）；白名單 D02、D09、wish_bb、BB_128 換 a1bc53f4c 重匯（date_lines.js、date_wish.js 各 2 行）；以安「我寫的是地圖，不是答案」照 AA 保留。tests：r2y4b_events_unit（+4）、peishan_tainan_unit（+3）、date_wish／date_book／date_lines_regress 換版本。"
   }
  ]
 }

@@ -19,6 +19,8 @@ const R2Y4B_EVENTS=(function(){
   const toH=h=>G=>{ const hh=((G.hour%24)+24)%24; return h>hh?h-hh+1e-6:0; };   /* advance：跳到當天的某個時間（已經過了就不動）*/
   const toDay=(k,h)=>G=>{ const r=R(); if(r) r.jumpTo(G,k,h); return 0; };   /* 跳到某一天的某個時間：日期、星期一起換（R2Y4B.jumpTo；只加小時的話 G.hour 會超過 24、日期不動）*/
   const ex=id=>({custom:G=>!!(G.flags&&G.flags['EX_'+id])});
+  const sawJP={custom:G=>{ const v=G&&G.flags&&G.flags.AN_SENDOFF; return v==='went'||v==='together'; }};   /* 2028-03-25 送過她去日本（ev_an_sendoff 演完＝went；日本路線一起出發＝together）*/
+  const jpGo={custom:G=>!!(G&&G.flags&&G.flags.AN_JP_TRIP_ASK==='go')};   /* 2028 年答應過去日本看七夕 */
   const SAW={any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY'}]}]};
   return [
   /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝Alison 拍；交往中＝兩個人入鏡（CG-18）---------- */
@@ -171,9 +173,9 @@ const R2Y4B_EVENTS=(function(){
       {label:'a'},{speaker:'classmate_peishan',text:'你騙人。……好，我當你沒看到。'},{goto:'send'},
       {label:'b'},{speaker:'classmate_peishan',text:'……我知道。我一進教室就看到了。'},
       {label:'send'},{advance:toH(17)},
-      {speaker:null,text:'（傍晚，她陪你坐車到高鐵站。）'},   /* AA_282 3-1 */
-      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'下次待久一點。末班車太早了。'},
-      {unless:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'謝謝你跑這麼遠！到臺北傳給我喔。'},
+      {speaker:null,text:'（下課以後，她把老師的外套脫掉，陪你坐車到高鐵站。）'},   /* AA_282 3-1；AA_447 1-2：和去台南找她的送行分開寫 */
+      {if:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'你坐最後一排，我一直看到你。……害我講錯一題。'},
+      {unless:{custom:dating('classmate_peishan')},speaker:'classmate_peishan',text:'謝謝你來看我上課！到臺北傳給我喔。'},
       {set:{PS_OPEN_CLASS:'went'}} ],
     consequences:{memo:'去台南看沛珊的公開課'},
     beforeOuting:(G,GM)=>{ const r=R(); if(r) r.payFare(GM,'tainan'); },   /* 高鐵票錢照扣（AA_282 第 3 節）*/
@@ -283,30 +285,36 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_01',text:'我媽聽了一個小時。最後她說：你講得比我想的清楚。'},
       {choice:[{text:'「為什麼都不要？」',goto:'a'},{text:'「妳確定？」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_01',text:'都考上，是要知道我做得到。……可是我想做的是公司、證券那些案子。法官很少遇到。'},{goto:'d'},
-      {label:'b'},{speaker:'heroine_01',text:'確定。寫信的時候手有一點抖。抖的是手，不是我。'},
+      {label:'b'},{speaker:'heroine_01',text:'確定。寫信的時候手有一點抖。'},   /* AA_447 1-4：「抖的是手，不是我」拿掉 */
       {label:'d'},{unless:{custom:dating('heroine_01')},goto:'end'},
       {speaker:'heroine_01',text:'八月走。一年。'},
       {speaker:null,text:'（她看著你，等你說話。）'},
       {choice:[{text:'「我等妳。」',goto:'w'},{text:'「我去紐約找妳。」',goto:'n'}]},
       {label:'w'},{speaker:'heroine_01',text:'……嗯。'},{goto:'end'},
-      {label:'n'},{speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},
+      {label:'n'},{if:jpGo,speaker:'heroine_01',text:'好。跟上次一樣，機票你自己訂，行程我排。'},{unless:jpGo,speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},   /* AA_447 1-3：答應過日本七夕那一次的換句 */
       {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_COLUMBIA',note:''}]} ],
     outingMissed:G=>{ const r=R(); if(r) r.anColumbiaMissed(G); } },
   { id:'ev_an_ny_sendoff', title:'紐約', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・出境',bg:'airport_departure'},
       {if:{custom:dating('heroine_01')},goto:'gf'},
-      {speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
-      {speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
-      {if:kn('zhe'),speaker:'zhe',text:'要。'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
+      {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
+      {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},   /* AA_447 1-1：看過 2028-03-25 那一場的（送過機或日本路線一起出發）*/
+      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）……我上次也說過。你們不用全部都來的。'},
+      {if:sawJP,unless:{custom:G=>!knows('zhe',G)},speaker:'zhe',text:'上次你也知道我們會來。'},
       {speaker:'heroine_01',text:'……好。'},
       {speaker:'heroine_01',text:'（轉向你）回來的時候，我會在事務所。你來找我，要預約。'},
       {choice:[{text:'「好。我預約。」',goto:'f1'},{text:'（揮手）',goto:'f2'}]},
       {label:'f1'},{speaker:'heroine_01',text:'……嗯。'},{speaker:null,text:'（她走進去。）'},{goto:'end'},
       {label:'f2'},{speaker:null,text:'（她走到一半，回頭揮了一下。）'},{goto:'end'},
       {label:'gf'},
-      {speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
-      {speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},   /* 她先跟大家說完，再轉過來；交往版的那幾句是大家看不到的時候說的（不演公開戀情）*/
-      {if:kn('zhe'),speaker:'zhe',text:'要。'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},   /* 她先跟大家說完，再轉過來；交往版的那幾句是大家看不到的時候說的（不演公開戀情）*/
+      {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
+      {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},
+      {if:sawJP,speaker:'heroine_01',text:'（看了一下手錶）……我上次也說過。你們不用全部都來的。'},
+      {if:sawJP,unless:{custom:G=>!knows('zhe',G)},speaker:'zhe',text:'上次你也知道我們會來。'},
       {speaker:'heroine_01',text:'……好。'},
       {speaker:null,text:'（她的行李有兩個。手帳在外套口袋裡。）'},
       {speaker:'heroine_01',text:'紐約比臺北慢十二個小時。……我算過了，你早上起床，我剛好要睡。'},

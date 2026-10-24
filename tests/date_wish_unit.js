@@ -1,5 +1,5 @@
 // 校外約會的心願事件（DATE-C4、DATE-C5；src/wish3d.js、src/data/date_wish.js＝tools/date/import_wish.py；企劃線 AA_127 第 1、2 節、BB_128 第 3 節、date_system/wish/）。不需要瀏覽器。
-// 檢查：0 資料（白名單版本、和企劃線的 wish_aa.json@967b4273a／wish_bb.json@a5b936a69（AA_439 芷若心願句；之前 1ced2f8b3 AA_432 學姊 18:30）逐欄相同、每一句在 AA_127@967b4273a／BB_128@1ced2f8b3、以安大一收尾照 AA_127 1-5、AA_426 改稿以後沒有 hold、七位都沒有違反人物規則的字、接線、沒有 CG）
+// 檢查：0 資料（白名單版本、和企劃線的 wish_aa.json@967b4273a／wish_bb.json@a1bc53f4c（AA_447 芷若「是A，不是B」；之前 a5b936a69 AA_439 芷若心願句；之前 1ced2f8b3 AA_432 學姊 18:30）逐欄相同、每一句在 AA_127@967b4273a／BB_128@1ced2f8b3、以安大一收尾照 AA_127 1-5、AA_426 改稿以後沒有 hold、七位都沒有違反人物規則的字、接線、沒有 CG）
 //   1 以安 D07  2 語彤 D13  3 芷若 D05  4 沛珊 D06：每一位——聊天提到（INV.meet）、她主動約（手機：訊息、答應＝訂下那一趟 by:'her'、這週不行、每學期一次、她不在不約）、
 //     玩家約她（她回 known／unknown）、那一天在心願地點（抵達、互動點、收尾、記旗標記憶相簿、算一次、心願完成）、只有第一次（第二次照一般約會）
 //   5 子晴 D03  6 學姊 D15  7 可昕 D25（AA_426 改稿，企劃線 967b4273a：原本 hold 的三位）：聊天提到、她主動約、玩家約她、那一天、學姊 closing.after 的學期、學姊沒有數東西的句子
@@ -12,8 +12,8 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/date_wish.js'); ok2=load('src/wish3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof WISH!=='undefined'?WISH:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const AA127=git('967b4273a','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('a5b936a69','BB_128_校外單獨約會_心願地點與淡水示範規格.md');
-const WAA=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('a5b936a69','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
+const AA127=git('967b4273a','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('a1bc53f4c','BB_128_校外單獨約會_心願地點與淡水示範規格.md');
+const WAA=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('a1bc53f4c','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
 const norm=t=>String(t).replace(/[\s　]/g,'').replace(/『/g,'「').replace(/』/g,'」');
 const inMd=(t,md)=>{ const n=norm(md); return [t,t.replace(/^（|）$/g,''),t.replace(/[。：]$/,''),t.replace(/^她/,''),t.replace(/^她/,'').replace(/[。：]$/,'')].some(x=>x&&n.includes(norm(x))); };
@@ -41,7 +41,7 @@ const E_=id=>X()&&X().ev(id);
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
   const DW=DATE_WISH;
-  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@1ced2f8b3（AA_432 學姊的邀約 18:30）、AA_127@967b4273a（AA_426）、BB_128@1ced2f8b3（AA_432）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@a5b936a6/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@a5b936a6/.test(DW.source),DW.source);
+  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@1ced2f8b3（AA_432 學姊的邀約 18:30）、AA_127@967b4273a（AA_426）、BB_128@1ced2f8b3（AA_432）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@a1bc53f4/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@a1bc53f4/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
   { const strip=e=>{ const x=JSON.parse(J(e)); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));

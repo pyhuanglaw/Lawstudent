@@ -1,6 +1,10 @@
 /* 寒暑假去她的縣市（AA_276 第 1-1、4、5 節，AA-C 13c583c9 定稿；使用者 23:4x「寒暑假只能去高雄找他才會見到面」、23:5x「除非玩家有跟他交往」）。
    台詞一字不改（{name}＝玩家的名字）；邏輯在 src/hometown3d.js。bg＝2D 背景的 id（BB 向使用者要圖，還沒有＝深色底，OUT.bg）。
    pick＝第一次的車站接人；pickAgain＝第二次以後的接人（AA_276 第 7 節第 1 點，9e875a10：不重複第一次那兩句）；fare＝高鐵來回票價（第 7 節第 2 點）；first＝第一次；again＝再去，三選一輪流；send＝傍晚送上車（交往中 dating、不是 other）；keep＝沛珊重考消失期、交往中（5-5，不用 first／again）。 */
+const PS_SEND=[   /* 沛珊台南的送行（AA_447 1-2）：第一次、第二次、第三次以後 */
+  {narr:'（傍晚，她陪你坐車到高鐵站。）',dating:'下次待久一點。末班車太早了。',other:'謝謝你跑這麼遠！到臺北傳給我喔。'},
+  {narr:'（回高鐵站的公車上，她靠著窗，一路在講室友的事。）',dating:'下次你搭晚一點的那班。我查過了，有一班十點的。',other:'下次換我上去找你們！到了傳給我喔。'},
+  {narr:'（她陪你走到高鐵站的閘門口。這條路她已經會帶了。）',dating:'……好啦，你走吧。不然我又要說下次待久一點。',other:'到臺北傳給我喔！我等你的訊息才睡。'} ];
 const HOMETOWN_LINES={
   kexin:{ city:'高雄', travel:'高鐵約一個半小時', travelH:1.5, fare:2980, ask:'我去高雄找妳？',
     yes:'真的？……那我去車站接你。來之前先跟我說幾點的車。', yesDating:'你要來？……好。幾點的車，我去接你。',
@@ -43,7 +47,7 @@ const HOMETOWN_LINES={
       {key:'books',scene:'台南・她打工的二手書店',bg:'tn_bookstore',lines:['這一區是我排的。你看得出來照什麼排的嗎？','……照書背的顏色。老闆說隨便我。']},
       {key:'food',scene:'台南・老街',bg:'tn_oldstreet',lines:['我室友說這攤一定要吃。……其實我也是第一次來。']},
       {key:'canal',scene:'台南・運河邊',bg:'tn_canal',lines:['欸，那艘船是不是一直停在那裡？','它在等什麼啊？']} ],
-    send:{narr:'（傍晚，她陪你坐車到高鐵站。）',dating:['下次待久一點。末班車太早了。'],other:['謝謝你跑這麼遠！到臺北傳給我喔。']},
+    send:{narr:(G,n)=>PS_SEND[Math.min(n|0,2)].narr,dating:(G,n)=>[PS_SEND[Math.min(n|0,2)].dating],other:(G,n)=>[PS_SEND[Math.min(n|0,2)].other]},   /* AA_447 1-2：照第幾次去換（n＝這一趟以前去過幾次＝PS_TAINAN_VISITS 還沒加的那個數）*/
     extra:G=>{ const F=G.flags||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-12-10'):null; if(F.PS_KID_SHOWN||F.dating_classmate_peishan===true||!((F.PS_TAINAN_VISITS|0)>=1)||d==null||G.day<d) return [];
       F.PS_KID_SHOWN=true; return [{narr:'（一張孩子的作業，最上面寫著：老師我長大要當法官）'},'我回他：那你要先學會寫字。']; },
     /* 心願事件「台南・美術館」（AA_349 K3，第②級；BB_128 3-4 照抄，只換三處：抵達旁白、她主動約的第一句、地點字幕）：大三起她不上來，D06（臺北市立美術館）的同一個心願事件改在這裡（hometown3d.js 的 S.museum）。

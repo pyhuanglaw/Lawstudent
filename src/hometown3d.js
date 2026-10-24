@@ -75,7 +75,7 @@ const HV=(function(){
       if(typeof C.extra==='function') await play(GM,id,C.extra(G)||[]); }   /* 那一組自己多的一段（台南：沒交往的玩家當面看孩子的作業，AA_328 3-19 裁定 25）*/
     await mrel(GM,id,q,v);
     await S.ladder(GM,id);   /* 私下約接著聊一層閒聊階梯（AA_282 第 3 節；AA_349 K4：去台中那一天也算）*/
-    toEvening(GM); await beforeSend(GM,q); if(C.send.narr) await GM.say(null,C.send.narr); await play(GM,id,(x=>typeof x==='function'?x(G):x)(dt?C.send.dating:C.send.other));   /* 送行句可以照日子換（沛珊：考上台南以前／以後）*/
+    toEvening(GM); await beforeSend(GM,q); { const fx=x=>typeof x==='function'?x(G,n0):x, sn=fx(C.send.narr); if(sn) await GM.say(null,sn); await play(GM,id,fx(dt?C.send.dating:C.send.other)); }   /* 送行句可以照日子換（沛珊：考上台南以前／以後）、照第幾次換（n0＝這一趟以前去過幾次；沛珊台南 AA_447 1-2）*/
     const N=G.flags.HV_N||(G.flags.HV_N={}); N[key]=n0+1; (G.flags.HV_LAST||(G.flags.HV_LAST={}))[key]=G.day;
     if(C.visitsFlag) G.flags[C.visitsFlag]=N[key];
     if(mu) (G.flags.HV_PRE||(G.flags.HV_PRE={}))[key]={v:'museum',at:n0};   /* 美術館那一趟算進去過幾次（之後的接人是 pickAgain），不佔「第一次／再去」的順位（照 HV_PRE 的算法：下一次演它本來那一版）*/
