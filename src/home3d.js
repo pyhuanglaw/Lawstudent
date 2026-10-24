@@ -271,7 +271,7 @@ const HOME=(function(){
     if(i<0) return null; if(i===R.last){ if(R.extra) return null; R.extra=true; R.n++; return (o.dorm?S.BREAK_SKIP_DORM_EXTRA:S.BREAK_SKIP_EXTRA)[B.kind]; }
     R.last=i; R.n++; return (o.dorm?S.BREAK_SKIP_DORM:S.BREAK_SKIP)[B.kind][i]; };
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
-  const hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));
+  const hasJob=G=>(typeof JOBS!=='undefined'&&JOBS.at?!!JOBS.at(G,'tutor'):!!(G.flags&&G.flags.JOB_TUTOR))||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));   /* 家教看 JOBS.at（停了、會考以後＝沒有，AA_163 第 2 節）；沒有 JOBS（舊的測試環境）照 JOB_TUTOR */
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };
   /* ===== 快轉途中要停下來的事（AA_340 第 6 節 6-1 H1、H2；D99 第二優先）：跳之前先記下已經在的，跳的途中「新出現的」才停 =====
      要回的訊息（手機有選項的 ask、當面約的邀請 offered）＝'msg'；事件包登記的事件到了＝'event'：只演一次、在家或在哪裡都可以演的（同 S.breakEvent），

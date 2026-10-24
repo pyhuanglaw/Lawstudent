@@ -4,7 +4,7 @@
    什麼時候演、演完觸發什麼（關係、旗標、筆記、房間物件、手機）在 src/wzlines3d.js（WZL）；這裡只有事件本身（trigger:'manual'／'outing'／clubEvent，由 WZL 叫）。
    事件 id：線一 ev_wz_c2、ev_wz_c_lease1～4（4m＝搬走）、ev_wz_c7a～c、ev_wz_c_apeng、ev_wz_c_camp；線二 ev_wz_t2a、ev_wz_t_map、ev_wz_t2b、ev_wz_t_study、ev_wz_t2c；
    線三 ev_wz_b2、ev_wz_b_ins、ev_wz_b_ins2、ev_wz_b_ins_self、ev_wz_b_back、ev_wz_b_home（沒幫忙的那一條）；線四 ev_wz_p_lost、ev_wz_p_found、ev_wz_p_back（4-4）；
-   單一事件 ev_wz_b3、ev_wz_b4、ev_wz_c3、ev_wz_c4、ev_wz_c5、ev_wz_c6、ev_wz_c6_show、ev_wz_t3、ev_wz_t4、ev_wz_t5、ev_wz_p1、ev_wz_p4、ev_wz_p4_class、ev_wz_p5、ev_wz_bh_group。
+   單一事件 ev_wz_b3、ev_wz_b4、ev_wz_c3、ev_wz_c4、ev_wz_c5、ev_wz_c6、ev_wz_c6_show、ev_wz_t3、ev_wz_t4、ev_wz_t5、ev_wz_p1、ev_wz_p3、ev_wz_p4、ev_wz_p4_class、ev_wz_p5、ev_wz_bh_group。
    背景：店裡、公園、萬才館一樓＝3D（'blur'）；營隊＝camp_school；萬才館研討室 A＝wancai_seminar；社科院的走廊（還沒有圖）＝先用社科院門口 ntu_soc；考古題讀書會＝soc_library。 */
 'use strict';
 const WZ_EVENTS=(function(){
@@ -325,6 +325,20 @@ const WZ_EVENTS=(function(){
     {if:C((w,G)=>w.p5First(G)&&w.dating(G,ZQ)),speaker:ZQ,text:'你來剛好。幫我看這一行。……眼睛看螢幕。'},
     {if:C((w,G)=>w.p5First(G)&&w.year(G)===3),speaker:ZQ,text:'畢業專題還有 bug。我每天晚上來這裡，跟它們一個一個談。'},
     {speaker:ZQ,text:'我回去了。這個 bug，明天早上它自己會懂。'} ] }));
+  /* WZ-P3 颱風後的早上（AA_427 第 2 節，企劃線 4d66231ab）：颱風假的隔天 08:00～11:00 進公園（WZL.p3Due）。幫忙的兩個選項＝1 小時、記 WZ_P3_HELPED（之後象棋有「讓你一隻馬」，src/wzpark3d.js）；
+     「我還有事」＝不記。最後那句貓（{cat}）：貓不在的時候不播（WZL.p3Cat）*/
+  L.push(ev('ev_wz_p3','颱風後的早上',{ once:false, dialogue:[ N('（颱風過了。公園的地上都是斷掉的樹枝，鞦韆的鐵鍊上掛著一大片葉子。涼亭的石桌倒了一張石凳。）'),
+    N('（下象棋的三個阿伯今天沒有下棋。一個拿竹掃把，一個拿鋸子，一個在講電話叫里長。）'),
+    {speaker:'阿伯',text:'年輕人，有空嗎？那根太重，我們三個抬不動。'},
+    {choice:[{text:'「好，我來。」',goto:'a'},{text:'「我去借推車。」',goto:'b'},{text:'「我還有事。」',goto:'c'}]},
+    {label:'a'},N('（你和阿伯一人一頭，把那根樹枝抬到路邊。比你想的重。）'),{speaker:'阿伯',text:'腰不要彎。用腳。'},{goto:'done'},
+    {label:'b'},N('（你去里辦公處借了一台推車，來回四趟。）'),{speaker:'阿伯',text:'你從哪裡借到的？……好，下次也找你。'},{goto:'done'},
+    {label:'c'},{speaker:'阿伯',text:'好，去忙。'},N('（他自己又試了一次，沒有抬起來。旁邊的阿伯過去幫他。）'),{goto:'end'},
+    {label:'done'},N('（十點多，地上清得差不多了。石凳扶回去，棋盤擦乾，擺回石桌上。）'),
+    {speaker:'阿伯',text:'你下棋很爛。搬樹枝很好。'},{speaker:'阿伯',text:'下次讓你一隻馬。'},
+    {call:async(G,GM)=>{ const w=W(); if(w&&w.p3Cat) await w.p3Cat(G,GM); }},
+    {stamp:['WZ_P3_HELPED']},{call:async(G,GM)=>{ if(GM&&GM.advance) GM.advance(1); }},
+    {label:'end'} ] }));
   /* WZ-P1 第一次走進公園（AA_164 5-6；第一次在 08:00～11:00 進公園，WZL.parkTick）*/
   L.push(ev('ev_wz_p1','第一次走進公園',{ dialogue:[ {speaker:'下象棋的阿伯',text:'那隻貓有三個名字。阿伯叫牠所長，小孩叫麻糬，Café 那個女孩子叫牠常客。你想叫牠什麼都可以，牠都不會理你。'} ] }));
   /* 柏翰的考古題讀書會（AA_166 第 5 節：BH_STUDY_GROUP 以後每個考試週一次，一科準備 +2，AA_124 2-3）*/
