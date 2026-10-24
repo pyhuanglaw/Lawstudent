@@ -2340,7 +2340,8 @@ R17 = [
               ('chk', '第二次進去：字幕沒有出現第一次那句（看得見的次數）', "window.__CAP2|0", 0)],
        want=['CAPD:' + RC['first']] + RC['desk'] + RC['shelf'] + [RC['win_sum']], none=[RC['winLab'], RC['other']]),
   # ② 窗外四季（字＋圖）。10/7：字已經是「變黃」、圖要 10/9 才換 autumn
-  BEDC_WIN('BEDC_OCT07', '2028-10-07', RC['win_oct'], 'autumn', '10/7 的字是「變黃了」；圖 10/9 才換，這裡會看出字和圖對不對得上'),
+  # BB-B 15:0x：LAWWW-B 4e35346fd（在 a7a7a6ed8 裡）改成窗外那句照 US3.usSeasonKey＝和窗景圖同一季；10/7 圖還是 summer＝字也是夏天那句
+  BEDC_WIN('BEDC_OCT07', '2028-10-07', RC['win_sum'], 'summer', '10/7：字跟著圖（4e35346fd 以後），圖 10/9 才換 autumn'),
   BEDC_WIN('BEDC_OCT21', '2028-10-21', RC['win_oct'], 'autumn', '10/21'),
   BEDC_WIN('BEDC_NOV18', '2028-11-18', RC['win_nov'], 'bare', '11/18'),
   BEDC_WIN('BEDC_DEC09', '2028-12-09', RC['win_dec'], 'snow', '12/9'),
@@ -2372,6 +2373,8 @@ for _s in R17:
 # BB-B 13:5x：bedc2 的 BEDC_OCT21 敲門也先演了 208 的週末事件（可昕爸爸寄的信）＝和 BEDC_NIGHT 同一個原因；【前置】每一支都把那個週末的 208 事件算演過（US208_WK＝那個週六）
 for _s in R17:
     if 'US208_WK' not in _s.get('js', ''): _s['js'] = (" G.flags.US208_WK=(d=>CALENDAR.dateOf(d).wd===7?d-1:d)(STORY.dayOfKey('%s'));" % _s['key']) + _s.get('js', '')
+for _s in R17:
+    if _s['id'] == 'BEDC_OCT07': _s['none'] = list(_s.get('none', [])) + [RC['win_oct']]   # 字跟著圖以後，10/7 不能再出「變黃了」
 SCENS = SCENS + R17
 
 # ---------- R18（BB-B 10-24 08:5x）：美國交換那一學期的逐日劇本（LAWWW-B 08:32，QA-TRANSCRIPT-1018 延伸）——不是驗收測試 ----------
