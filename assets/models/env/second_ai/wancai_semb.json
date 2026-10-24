@@ -1,0 +1,20 @@
+{
+ "objects": 37,
+ "unique_meshes": 37,
+ "tris": 14528,
+ "tris_drawn": 14528,
+ "materials": 11,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/semb/wancai_semb.glb",
+ "bytes": 1292832,
+ "texres": 512,
+ "tris_total": 14528,
+ "set_tris": {
+  "SET_CONSULT": 5408,
+  "SET_INTERVIEW": 3244
+ },
+ "layout": "wancai_semb.layout.json",
+ "seats": {
+  "consult": 11,
+  "interview": 9
+ }
+}

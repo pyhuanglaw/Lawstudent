@@ -2598,9 +2598,9 @@
    "next": "LAWWW-B 套 patch、換三個 GLB；runShift 照 WZ_SHOPS_LAYOUT.<店>.work 放人（阿德影印下班一定放回 end）",
    "note": "JOBS.roomKeys(G)；dorm 第一次需要才載入 bldg.dorm_wz_items、搬家收拾那幾天收起來；wzCopyState／wzCopyAt：moved 時店門 (3.9,6.5)、出來 (4.0,6.5)；WZ_CATBOWL：WZ_CAT_FOUND 以後、PARK.catGone 以前",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "f6ace8353",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW-B 05:22Z：patch 已套上 738cc7ffc，四支新測試 ALL PASS；櫃台照淡出、A1 光暈之後再說、攤主 NPC 由 LAWWW-B 接）",
    "noDirectIntegrate": false
   },
   {
@@ -2616,9 +2616,9 @@
    "next": "LAWWW-B 套 patch、放 GLB；攤主照 keeper 放（坐姿）",
    "note": "市集那一天（WZL.marketDay）才載入 bldg.wz_market；WZL.marketOn 時顯示＋擋 blocks、收攤時只還原改到的格子；晴雨照進區域時的天氣；zone.market＝{on,grp,cells,w}",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "f6ace8353",
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK（LAWWW-B 05:22Z：patch 已套上 738cc7ffc，四支新測試 ALL PASS；櫃台照淡出、A1 光暈之後再說、攤主 NPC 由 LAWWW-B 接）",
    "noDirectIntegrate": false
   }
  ]
