@@ -57,7 +57,7 @@ GM.money=function(n){ G.money+=n; };
   // 4. 認識明軒＋和以安交往中：管制線兩句、頂樓跑步那句
   fresh(nye,19,'campus',{dating_heroine_01:true}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_mingxuan'); R('classmate_mingxuan',10,0,0);
   said=[]; picks=[0,0,0]; await EVENTS.run(ev('ev_nye_dinner')); L=lines();
-  check('4. 認識明軒：「（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）」「欸！你們也來喔！」「這邊真的過不去了啦。……我十二點半下班，你們先走。」（AA_313 5-7：當面不說「哈哈」）',L.includes('（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）')&&L.some(t=>t.includes('欸！你們也來喔！'))&&L.some(t=>t.endsWith('這邊真的過不去了啦。……我十二點半下班，你們先走。'))&&!L.some(t=>/哈哈/.test(t))&&!L.includes('（前面的人說，再過去要排一個小時。）'),JSON.stringify(L.filter(t=>/明軒|管制/.test(t))));
+  check('4. 認識明軒：「（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）」「欸？你們也來喔。」「前面已經滿了，過不去。我在這站到一點。回去吧，頂樓看得比較清楚。」（AA_432 4-4：BB_171 3-1 定稿；原本 AA_204「欸！你們也來喔！」「這邊真的過不去了啦。……」；AA_313 5-7：當面不說「哈哈」）',L.includes('（管制線那邊，明軒穿著工作背心，手上拿著擴音器。）')&&L.some(t=>t.endsWith('欸？你們也來喔。'))&&L.some(t=>t.endsWith('前面已經滿了，過不去。我在這站到一點。回去吧，頂樓看得比較清楚。'))&&!L.some(t=>/哈哈/.test(t))&&!L.includes('（前面的人說，再過去要排一個小時。）'),JSON.stringify(L.filter(t=>/明軒|管制/.test(t))));
   check('4. 和以安交往中：她上頂樓、00:10「明天早上我要去跑步。你要不要一起？」→「六點？」→「七點。元旦，晚一點。」',L.some(t=>t.includes('明天早上我要去跑步。你要不要一起？'))&&L.some(t=>t.includes('七點。元旦，晚一點。'))&&!L.some(t=>t.includes('我也回去了。'))&&G.flags.AN_RUN_NY_Y1===true,JSON.stringify(L.slice(-6)));
   // 5. 和語彤交往中、只吃飯就回去：00:01 她打電話（出遊系統）；在頂樓的在事件裡
   fresh(nye,21,'campus',{dating_heroine_03:true,NYE_Y1:'dinner'}); G.stage='law'; meet('heroine_03'); R('heroine_03',30,0,0); G.hour=23.6; STORY.phoneRules(GM);

@@ -90,7 +90,8 @@ const INVITE_DATA={
         gym_badminton:['「羽球？好。我國中是校隊。……替補。」'],run_avenue:['「六點半？……好。我本來就六點起床。」']},   /* AA_417 3-3（第一次去也用這一句）*/   /* 認識約 Café、朋友約吃飯：AA 2026-10-14 改成她自己說的話（AA_70 2a0218d）*/
       here:{library:['「我本來就在總圖。二樓靠窗。」']},
       plan:{cafe:['「今天排滿了。……這個時間可以嗎？」'],noodle:(G,c)=>c.term&&c.term.id==='Y1S1'&&c.term.week<10?['「我跟 Alison 約了一起寫憲法作業。{明天？}」']:['「我跟 Alison 約了讀書會的事。{明天？}」']},   /* AA_238 5-7：公法讀書會大一上第 10 週才開始，以前是一起寫憲法作業 */
-      rule:(G,c,I)=>{ if(c.pid!=='wenzhou'||c.r.res!=='accept') return null;   /* 大一：散步要有目的——她在手帳排一個「沒有目的」的時段（改天，但她真的排了）；大二以後「今天想」也是理由 */
+      rule:(G,c,I)=>{ if(c.P&&c.P.kind==='meal'&&c.r.res==='accept'&&c.wd===4&&c.h>=21.5&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.on&&(a=>!!a&&ACTIVITIES.on(a,c.day,G))(ACTIVITIES.list.find(x=>x.id==='public_law_group'))) return {lines:['「好。可是吃完我就回去。報告還沒寫完。」']};   /* 週四公法讀書會（20:00～21:30）散了以後約她吃飯：AA_227 3-1 的回覆，AA_434 第 3 節改成不寫鐘點（434e6d6d7）*/
+        if(c.pid!=='wenzhou'||c.r.res!=='accept') return null;   /* 大一：散步要有目的——她在手帳排一個「沒有目的」的時段（改天，但她真的排了）；大二以後「今天想」也是理由 */
         if(c.year<=1&&!c.first) return {lines:['「好。」']};   /* AA_194 第 4 節（改規則）：大一只有第一次約散步（c.first）問「散步的目的是？」、改到隔天；之後照一般答應「好。」*/
         if(c.year<=1) return {res:'resched',why:'plan',lines:['「散步的目的是？」',{me:'「沒有目的。」'},'「……好。我在手帳排一個『沒有目的』的時段。」'],alt:I.nextFree(G,'heroine_01',c.P,c.day+1,10)};
         return {lines:['「好啊，剛好想走走。」']}; } },   /* AA_255 第 4 節第 7 點、AA_259 第 4 節第 7 點 */
@@ -161,7 +162,8 @@ const INVITE_DATA={
         if(c.pid==='wenzhou'&&!c.postExam&&(r.res==='accept'||r.res==='resched')) return {res:'decline',why:'exam',lines:['「散步的話，等我考完。」','「週三晚上我在法圖。要讀書的話，可以一起。」'],alt:null};   /* 筆試（2026-02-02 17:00）以前婉拒散步（AA_284 1-3；原本綁作廢的 W8、到 11/30 連交往都拒）*/
         { const q=typeof SISG!=='undefined'&&SISG.inviteCap?SISG.inviteCap(G,c,I):null; if(q) return q; }   /* 筆試以前的邀約上限（AA_284 2-1：一週一次 → 兩週一次 → 第 14 週起婉拒；平日午餐不算；src/sis_grad3d.js）*/
         if(r.res!=='accept'||!lib) return null;
-        if(c.pid==='library'&&c.year>=3) return {res:'resched',why:'busy',lines:['「我在法圖。五點以後過去找你。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};   /* 大三起她平日下午在法圖（AA_259 (b) 第 3 點 rule library，改 resched、17:00）*/
+        if(c.pid==='library'&&c.year>=3){ const carrel=c.h>=14&&typeof LUP!=='undefined'&&LUP.sisPeriod&&LUP.sisPeriod(Object.assign({},G,{day:c.day}));
+          return {res:'resched',why:'busy',lines:[carrel?'「我在研究小間。五點以後過去找你。」':'「我在法圖。五點以後過去找你。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)}; }   /* 大三起她平日下午在法圖（AA_259 (b) 第 3 點 rule library，改 resched、17:00）；2028-02 起 14～17 在研究小間（AA_437 第 3 節）*/
         if(c.pid==='library') return {res:'here',lines:['「我就在總圖。三樓。不要講話，傳訊息。」'],alt:null};
         if(c.pid==='cafe'||c.pid==='wenzhou') return {res:'resched',why:'busy',lines:[c.pid==='cafe'?'「五點以後好不好？我要先把這段寫完。」':'「五點以後。……散步，我試試看。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};
         return null; } },

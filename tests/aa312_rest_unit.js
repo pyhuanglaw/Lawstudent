@@ -6,7 +6,7 @@
 //   5 學姊（AA_259 (b) 第 3 點）：大三起的 walk.library、rule library 改 resched 17:00；溫州街照 AA_415（BB_172 S18 被取代）
 //   6 沛珊消失期（AA_255 (b-1) 第 20 條）：沒有回覆、沒有她的句子（大二下那一段不會播，留給 AA_415 的產生器核對）
 //   7 多線交往 L2 婉拒（AA_227 6-6／AA_423 4-1）：子晴、芷若一起分手以後，校園邀約不說理由、兩句輪流
-//   8 以安主動約（AA_227 3-1，台詞照 AA_425 第 0 節）：週二 21:00、這週四讀書會散了以後去阿鳳；一學期一次
+//   8 以安主動約（AA_227 3-1，台詞照 AA_425 第 0 節）：週二 21:00、這週四讀書會散了以後去阿鳳；一學期一次。讀書會散了以後約她吃飯的回覆（AA_434 第 3 節）
 // 修改前（開發分支 dd96391c2）：1～3、5～8 FAIL。用法：node tests/aa312_rest_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -88,7 +88,12 @@ await sec(8,()=>{
   check('8. 以安：週二 21:00 以前不約；21:00 以後約這週四 21:30 阿鳳，訊息「禮拜四讀書會完要不要去吃飯？我想吃巷子那家。」（AA_425 第 0 節）',!before&&ok&&!!iv&&iv.day===tue+2&&Math.abs(iv.h-21.5)<1e-6&&iv.place==='noodle'&&!!m&&m.text==='禮拜四讀書會完要不要去吃飯？我想吃巷子那家。',J([before,ok,iv,m]));
   G.day=tue+7; G.weekday=2; G.hour=21.1; check('8. 一學期一次',!INV.anAsk(G));
   H.fresh(keyOf(tue),21.1,'dorm'); H.FRIEND('heroine_01'); check('8. 沒去過讀書會＝不約',!INV.anAsk(H.G));
-  H.fresh(keyOf(tue),21.1,'dorm'); H.FAMILIAR('heroine_01'); H.G.acts={att:{['public_law_group@'+(tue-5)]:{end:'full'}}}; check('8. 第 3 階以前不約',!INV.anAsk(H.G)); });
+  H.fresh(keyOf(tue),21.1,'dorm'); H.FAMILIAR('heroine_01'); H.G.acts={att:{['public_law_group@'+(tue-5)]:{end:'full'}}}; check('8. 第 3 階以前不約',!INV.anAsk(H.G));
+  /* AA_227 3-1 讀書會後吃飯的回覆（AA_434 第 3 節：讀書會 21:30 才結束，不寫鐘點）*/
+  const thu=tue+2, W='「好。可是吃完我就回去。報告還沒寫完。」', rep=(d,h,pid)=>{ H.fresh(keyOf(d),h,'campus'); H.FRIEND('heroine_01'); return INV.personal(H.G,'heroine_01',INV.place(pid||'noodle'),d,h,{res:'accept'}); };
+  const r1=rep(thu,21.6), r2=rep(thu,19), r3=rep(STORY.termDay('Y1S2',8,4),21.6), r4=rep(thu,21.6,'cafe');
+  check('8. 週四讀書會散了（21:36）約以安去阿鳳：「好。可是吃完我就回去。報告還沒寫完。」（AA_434 第 3 節，沒有「九點」）',r1.res==='accept'&&JSON.stringify(r1.lines)===JSON.stringify([W]),JSON.stringify(r1));
+  check('8. 讀書會以前（19:00）、沒有讀書會的週四（大一下第 8 週）、約 Café（不是吃飯）都不是這一句',![r2,r3,r4].some(r=>JSON.stringify(r.lines||[])===JSON.stringify([W]))&&!RD('src/data/invites.js').includes('我九點要回去寫報告'),JSON.stringify([r2.lines,r3.lines,r4.lines])); });
 
 H.done();
 })();

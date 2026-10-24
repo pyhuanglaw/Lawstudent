@@ -15,8 +15,8 @@ const GUIDE=(function(){
   // 區域之間怎麼走（只有名字；第一步一定用當下區域真正的出口）。宿舍走廊（dorm_hall）還在開發分支外，存在時才會用到
   const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong','putong','boya','soclib'], gongtong:['campus'], boya:['campus'], putong:['campus'],   /* 博雅：校園上還沒有門（位置等使用者決定），只連出去 */
     gongguan:['campus','wenzhou','cvs','noodle','bookstore'], wenzhou:['gongguan','cafe'], cafe:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'],
-    linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], linze_5f:['linze_4f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library','library_b1'], library:['library_hall'], library_b1:['library_hall'], soclib:['campus'] };
-  const ELEV={ library:['library_hall'], library_hall:['library'], linze:['linze_3f','linze_4f'], linze_3f:['linze','linze_4f'], linze_4f:['linze','linze_3f'], linze_5f:['linze','linze_3f','linze_4f'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳；霖澤館 1F、2F ⇄ 3F、4F，LINZE-34F-TABLES-1020；5F 研究室只能往下，往 5F 要學姊開門，不指路）
+    linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], linze_5f:['linze_4f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library','library_b1','library_carrels'], library:['library_hall'], library_b1:['library_hall'], library_carrels:['library_hall'], soclib:['campus'] };
+  const ELEV={ library:['library_hall','library_stacks'], library_hall:['library','library_stacks'], library_stacks:['library_hall','library'], linze:['linze_3f','linze_4f'], linze_3f:['linze','linze_4f'], linze_4f:['linze','linze_3f'], linze_5f:['linze','linze_3f','linze_4f'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳；霖澤館 1F、2F ⇄ 3F、4F，LINZE-34F-TABLES-1020；5F 研究室只能往下，往 5F 要學姊開門，不指路）
   const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0, bmImgs:[] };
 
   /* ---------- 目的地推算（舊存檔、沒有明確給目的地的目標）----------
@@ -72,7 +72,7 @@ const GUIDE=(function(){
   /* ---------- 每幀 ---------- */
   function on(){ return !(GM.S&&GM.S.guide===false); }
   /* 目的地在別的區域、而且現在沒開：導航條寫開放時間，不帶路（同一棟裡的總圖大廳 ⇄ 閱覽室不算）*/
-  function closedNote(d){ const G=GM.G; if(!d||G.zone===d.zone) return ''; const lib=z=>z==='library'||z==='library_hall'; if(lib(G.zone)&&lib(d.zone)) return ''; const o=PLACES.hours[d.zone]; if(!o||(o.open==null&&!o.rules)||PLACES.isOpen(d.zone,G.hour%24,G.day)) return ''; return (PLACES.names[d.zone]||'')+' 已閉館・'+(o.rules?PLACES.todayText(d.zone,G.day):'開放 '+o.text); }   /* 法律學院圖書館（D53）：照日期（學期／寒暑假／假日、平日／週末）*/
+  function closedNote(d){ const G=GM.G; if(!d||G.zone===d.zone) return ''; const lib=z=>/^library(_hall|_carrels|_stacks)?$/.test(z); if(lib(G.zone)&&lib(d.zone)) return ''; const o=PLACES.hours[d.zone]; if(!o||(o.open==null&&!o.rules)||PLACES.isOpen(d.zone,G.hour%24,G.day)) return ''; return (PLACES.names[d.zone]||'')+' 已閉館・'+(o.rules?PLACES.todayText(d.zone,G.day):'開放 '+o.text); }   /* 法律學院圖書館（D53）：照日期（學期／寒暑假／假日、平日／週末）*/
   function tick(dt){ if(!GM||!E||!E.player||!GM.G) return; const G=GM.G; const d=G.goalDest; st.uiT-=dt; st.reT-=dt;
     const cn=(d&&on()&&!GM.titleIdle)?closedNote(d):''; const t=(d&&on()&&!GM.titleIdle&&!cn)?target(d):null; const key=t?[G.zone,t.x.toFixed(1),t.z.toFixed(1),t.lv].join('|'):'';
     if(key!==st.routeKey){ st.routeKey=key; st.route=null; if(t) computeRoute(t); markGold(t&&t.it); }

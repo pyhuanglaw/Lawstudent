@@ -1,0 +1,13 @@
+{
+ "objects": 55,
+ "unique_meshes": 55,
+ "tris": 21120,
+ "tris_drawn": 21120,
+ "materials": 17,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/dv3/assets/models/env/second_ai/library_carrels.glb",
+ "bytes": 1961528,
+ "texres": 512,
+ "tris_total": 21120,
+ "layout": "library_carrels.layout.json",
+ "seats": 5
+}

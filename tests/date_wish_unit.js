@@ -1,5 +1,5 @@
 // 校外約會的心願事件（DATE-C4、DATE-C5；src/wish3d.js、src/data/date_wish.js＝tools/date/import_wish.py；企劃線 AA_127 第 1、2 節、BB_128 第 3 節、date_system/wish/）。不需要瀏覽器。
-// 檢查：0 資料（白名單版本、和企劃線的 wish_aa.json／wish_bb.json@967b4273a 逐欄相同、每一句在 AA_127@967b4273a／BB_128@e78814663、以安大一收尾照 AA_127 1-5、AA_426 改稿以後沒有 hold、七位都沒有違反人物規則的字、接線、沒有 CG）
+// 檢查：0 資料（白名單版本、和企劃線的 wish_aa.json@967b4273a／wish_bb.json@a5b936a69（AA_439 芷若心願句；之前 1ced2f8b3 AA_432 學姊 18:30）逐欄相同、每一句在 AA_127@967b4273a／BB_128@1ced2f8b3、以安大一收尾照 AA_127 1-5、AA_426 改稿以後沒有 hold、七位都沒有違反人物規則的字、接線、沒有 CG）
 //   1 以安 D07  2 語彤 D13  3 芷若 D05  4 沛珊 D06：每一位——聊天提到（INV.meet）、她主動約（手機：訊息、答應＝訂下那一趟 by:'her'、這週不行、每學期一次、她不在不約）、
 //     玩家約她（她回 known／unknown）、那一天在心願地點（抵達、互動點、收尾、記旗標記憶相簿、算一次、心願完成）、只有第一次（第二次照一般約會）
 //   5 子晴 D03  6 學姊 D15  7 可昕 D25（AA_426 改稿，企劃線 967b4273a：原本 hold 的三位）：聊天提到、她主動約、玩家約她、那一天、學姊 closing.after 的學期、學姊沒有數東西的句子
@@ -12,8 +12,8 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/date_wish.js'); ok2=load('src/wish3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof WISH!=='undefined'?WISH:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const AA127=git('967b4273a','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('e78814663','BB_128_校外單獨約會_心願地點與淡水示範規格.md');
-const WAA=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
+const AA127=git('967b4273a','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('a5b936a69','BB_128_校外單獨約會_心願地點與淡水示範規格.md');
+const WAA=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('a5b936a69','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
 const norm=t=>String(t).replace(/[\s　]/g,'').replace(/『/g,'「').replace(/』/g,'」');
 const inMd=(t,md)=>{ const n=norm(md); return [t,t.replace(/^（|）$/g,''),t.replace(/[。：]$/,''),t.replace(/^她/,''),t.replace(/^她/,'').replace(/[。：]$/,'')].some(x=>x&&n.includes(norm(x))); };
@@ -41,7 +41,7 @@ const E_=id=>X()&&X().ev(id);
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
   const DW=DATE_WISH;
-  check('0. 來源＝白名單版本：wish_aa.json、wish_bb.json、AA_127@967b4273a（AA_426）、BB_128@e78814663（AA_426 第 6 節）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@967b4273/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@e7881466/.test(DW.source),DW.source);
+  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@1ced2f8b3（AA_432 學姊的邀約 18:30）、AA_127@967b4273a（AA_426）、BB_128@1ced2f8b3（AA_432）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@a5b936a6/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@a5b936a6/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
   { const strip=e=>{ const x=JSON.parse(J(e)); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
@@ -156,7 +156,7 @@ const E_=id=>X()&&X().ev(id);
     check('3. 那一天：抵達「這裡以前住的是外交官。現在住的是電影。」……第 6 階單身「今天我不坐走道。……」；看電影（固定，不算互動點）兩句旁白',has(r.L,sp(ZR,ev.arrive.lines).concat(sp(ZR,ev.arrive.extraIf[1].lines),allSay(ev.fixed.lines))),J(r.L.slice(0,9)));
     check('3. 院子選②大二＝「我在申請交換。……去看別人的電影院。」；書店選②買明信片（扣 30）；片單選①第 6 階＝「好。我先買我的。」',has(r.L,['我在申請交換。……去看別人的電影院。','……你挑的？','這張我會貼在店裡的吧檯後面。不告訴任何人。','好。我先買我的。'])&&!r.L.includes('想。很想。……講出來好像就要負責。'),J(r.L));
     check('3. 收尾：Z5 兩個人看過（WATCHED_FILM）＝第 2 行後面插入「翻頁時你看到《進城的那一週》那一頁……」三行（片名照 SOCIAL.filmRename）；選項；第 6 階單身結尾',(()=>{ const i=r.L.indexOf('票根。……你的，給我。'); return i>0&&r.L[i+1]==='（翻頁時你看到《進城的那一週》那一頁，只有她的那一張。）'&&r.L[i+2]==='《進城的那一週》那張，你還留著嗎？'&&r.L[i+3]==='嗯。'; })()&&has(r.L,['這次留兩張。','……今天很好。這句話我很少說。'])&&!r.L.some(t=>/東京物語/.test(t)),J(r.L.slice(-12)));
-    check('3. 記：WISH_DONE_heroine_02、ZR_STUB_BOOK；錢：交通、咖啡、明信片照扣',H.G.flags.WISH_DONE_heroine_02===true&&SOCIAL.has(ZR,'ZR_STUB_BOOK')&&m0-H.G.money===130+30+50,String(m0-H.G.money));
+    check('3. 記：WISH_DONE_heroine_02、ZR_STUB_BOOK；錢：交通、咖啡、明信片、電影票 260（地點資料的 fixed，SYS-03）照扣',H.G.flags.WISH_DONE_heroine_02===true&&SOCIAL.has(ZR,'ZR_STUB_BOOK')&&m0-H.G.money===130+30+50+260,String(m0-H.G.money));
   }
 
   /* ======================= 4 沛珊 D06 ======================= */
@@ -203,8 +203,10 @@ const E_=id=>X()&&X().ev(id);
     check('6. 筆試考完以後第一次提：最後一句換成「以前的計畫本裡，從來沒有這一格。」',r.L.includes('以前的計畫本裡，從來沒有這一格。')&&!r.L.includes('……只是想而已。走吧。'),J(r.L));
     setup('2027-03-10',15,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}});
     check('6. 玩家約她去陽明山（筆試考完）：還不知道「陽明山？晚上？」「……好。我一直想去。你怎麼知道？」；筆試以前不說',J(sp(SIS,X().playerLines(H.G,SIS,'D15')))===J(['陽明山？晚上？','……好。我一直想去。你怎麼知道？'])&&(H.G.flags.SIS_EXAM_DONE=false,X().playerLines(H.G,SIS,'D15')===null));
-    { setup('2027-03-10',21,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}}); const c=DATE.check(H.G,{who:SIS,locs:['D15'],day:H.D('2027-03-12'),depart:21,transport:'car'}); phone();
-      check('6. 她主動約的時間（週五 21:00 萬才館出發）回來超過 23:30（AA_128 4-1 的預約檢查）：目前不會傳——衝突列給 AA',!c.ok&&c.why==='回來會超過 23:30，來回趕不上'&&msgs(SIS).length===0,c.why); }
+    { const I=ev.herInvite; setup('2027-03-09',21,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}}); const c=DATE.check(H.G,{who:SIS,locs:['D15'],day:H.D('2027-03-12'),depart:18.5,transport:'car'}); phone(); const tag='wish_ask_'+SIS+'_Y2S2', A=DATE.log(H.G,SIS).wishAsk||{};
+      check('6. 她主動約（AA_432：週五 18:30 萬才館出發，回來不超過 23:30）：週二 21:00 傳「週五晚上有空嗎。」「陽明山。你有車。」「……要做什麼，我還沒想好。」',c.ok&&I.dateTime===18.5&&J(msgs(SIS))===J(sp(SIS,I.lines))&&A.date===H.D('2027-03-12')&&A.depart===18.5,J({why:c.why,m:msgs(SIS),A}));
+      PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===SIS);
+      check('6. 答應：「好。六點半，萬才館前面。……其他的，我不排了。」；訂下週五 18:30 開車上陽明山（by:her）',msgs(SIS).slice(-1)[0]==='好。六點半，萬才館前面。……其他的，我不排了。'&&!!tr&&tr.by==='her'&&tr.depart===18.5&&tr.locs[0]==='D15'&&tr.day===H.D('2027-03-12')&&tr.back<=23.5,J({m:msgs(SIS).slice(-2),tr})); }
     const go=async(key,picks)=>{ setup(key,9,{lv:{[SIS]:5},flags:{SIS_EXAM_DONE:true}}); return goDate(SIS,'D15',18,picks||['欄杆',0,'車裡',0,'便利',0,'草地',0,0]); };
     let m0; r=await go('2026-03-13');
     check('6. 那一天（大一下）：「……那一片是我們學校。」……欄杆「我本來想查這裡看得到哪幾棟。……忍住了。」；草地「……那顆很亮的，是星星嗎？」→「那是飛機。」「……真的在動。」；收尾、第 5 階結尾；大一沒有時間點那一句',has(r.L,['……那一片是我們學校。','我本來想查這裡看得到哪幾棟。……忍住了。','……那顆很亮的，是星星嗎？','……真的在動。','我第一次，讓它空著。','下次……我也不排。'])&&!r.L.some(t=>/研究計畫|去美國|論文/.test(t))&&H.G.flags.WISH_DONE_heroine_05===true&&SOCIAL.has(SIS,'SIS_THIRD_EMPTY'),J(r.L));
@@ -225,7 +227,7 @@ const E_=id=>X()&&X().ev(id);
     setup('2026-04-15',20,{lv:{[KX]:'dt'},ev:['ev_kexin_trip_spring_y1']}); r=await meet(KX,'cafe');
     check('7. 聊天提到（K8 以後）：「我想要有一天，出門不帶行程表。」「……我想去外澳。只看海。」「我已經查好火車了。——不對，這樣就不算。」→ 選①「你這什麼意思。……好啦，我也不確定。」',has(r.L,['我想要有一天，出門不帶行程表。','……我想去外澳。只看海。','我已經查好火車了。——不對，這樣就不算。','你這什麼意思。……好啦，我也不確定。'])&&!r.L.some(t=>/假設/.test(t))&&X().known(H.G,KX),J(r.L));
     setup('2026-08-20',20,{lv:{[KX]:'dt'},flags:{KX_TRIP_DEFERRED:'summer'}}); const b1=X().mentionDue(H.G,KX); at('2026-09-08',20); const b2=X().mentionDue(H.G,KX);
-    check('7. 春假延到暑假（KX_TRIP_DEFERRED）：那個暑假過了才提（KX_TRIP_DEFERRED_DONE 暫名照這樣算）',!b1&&b2,J([b1,b2]));
+    check('7. 春假延到暑假（KX_TRIP_DEFERRED）：那個暑假過了才提（KX_TRIP_DEFERRED_DONE 照這樣算：AA_432 確認）',!b1&&b2,J([b1,b2]));
     setup('2026-04-29',21.5,{lv:{[KX]:'dt'},ev:['ev_kexin_trip_spring_y1']}); phone(); const tag='wish_ask_'+KX+'_Y1S2';   /* 4/15 那一週的週六是期中考週（一日遊不能排）*/
     check('7. 她主動約（週三晚上；那個週六不是考試週）：「這個週六。」「我沒有做行程表。」「……外澳？」',J(msgs(KX))===J(['這個週六。','我沒有做行程表。','……外澳？'])&&!!PHONE.byAsk(H.G,tag),J(msgs(KX)));
     PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===KX);

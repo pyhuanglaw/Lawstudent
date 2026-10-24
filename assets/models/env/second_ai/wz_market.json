@@ -1,0 +1,52 @@
+{
+ "glb": "assets/models/env/second_ai/wz_market.glb",
+ "zone": "wenzhou（世界座標，同 wz_park.glb）",
+ "tris": {
+  "MARKET_RAIN": 2784,
+  "MARKET_CLEAR": 3270
+ },
+ "bytes": 462584,
+ "meshes": 7,
+ "nodes": {
+  "MARKET_CLEAR": "晴天：入口步道兩邊兩張摺疊桌（舊書／雜貨唱片＋陽傘）＋樟樹下的地攤布",
+  "MARKET_RAIN": "下雨：老樹下兩張桌子，各一個藍色雨棚，書蓋透明塑膠布"
+ },
+ "show": "WZL.marketOn(G)（每月第一個週六 09:00～13:00）；G.weather==='rain' 開 MARKET_RAIN，其他開 MARKET_CLEAR；導航阻擋照 WZ_PARK_LAYOUT.market.<天氣>.blocks（只在市集時段）",
+ "keepers": {
+  "clear": [
+   {
+    "x": 22.75,
+    "z": 11.3,
+    "yaw": 1.5707963267948966,
+    "stall": "books"
+   },
+   {
+    "x": 29.25,
+    "z": 11.3,
+    "yaw": -1.5707963267948966,
+    "stall": "misc"
+   },
+   {
+    "x": 22.65,
+    "z": 15,
+    "yaw": 1.5707963267948966,
+    "stall": "mat"
+   }
+  ],
+  "rain": [
+   {
+    "x": 22.94,
+    "z": 18.64,
+    "yaw": 0.87,
+    "stall": "books"
+   },
+   {
+    "x": 29.06,
+    "z": 18.64,
+    "yaw": -0.87,
+    "stall": "misc"
+   }
+  ]
+ },
+ "texture": "tools/blender/env_second/textures/gen/wz_market_print.png（本作，PIL 畫的；沒有真實的店名、書名、商標）"
+}

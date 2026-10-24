@@ -158,7 +158,7 @@ check('總圖：電梯：門關著時車廂裡站不住',!E.canStand(inside[0],i
 el.isOpen=true; el.lv=0; el.setCells(); r=both([el.cx,el.outZ,0],[inside[0],inside[1],0]); check('總圖：電梯一樓門開著：走得進車廂',r.ok,fmt(r));
 el.lv=1; el.setCells(); r=both([inside[0],inside[1],1],[el.cx,el.outZ,1]); check('總圖：電梯二樓門開著：走得出去',r.ok&&r.lv===1,fmt(r)); el.isOpen=false; el.lv=0; el.setCells();
 r=both([EN.x,EN.z,0],[el.cx,el.outZ,0]); check('總圖：一樓：入口 → 電梯門口',r.ok,fmt(r));
-check('總圖：電梯的樓層：1F、2F、3F 閱覽區（別的區域）、4F 以上關著',el.floors.length===4&&el.floors[2].zone==='library'&&!!el.floors[2].spawn&&el.floors[3].open===false,JSON.stringify(el.floors.map(f=>[f.label,f.lv,f.zone||''])));
+check('總圖：電梯的樓層：1F、2F、3F 閱覽區（別的區域）、4F 關著、5F 書庫（別的區域，CLOSED-SPACES-1023 第 3 項）、6F 關著',el.floors.length===6&&el.floors[2].zone==='library'&&!!el.floors[2].spawn&&el.floors[3].open===false&&el.floors[4].zone==='library_stacks'&&el.floors[4].open&&!!el.floors[4].spawn&&el.floors[5].open===false,JSON.stringify(el.floors.map(f=>[f.label,f.lv,f.zone||''])));
 // 搭電梯進來（從閱覽室）：車廂停在那一層、人在車廂裡站得住
 E.interactables=[]; E.spawnHint={x:10.4,z:-1.65,lv:1,elev:true}; const z2=Z3.ZONES.library_hall.build(E); E.zone=z2; E.levels=z2.levels; E.nav=z2.nav; for(const n of E.levels) n._cm=null; E.spawnHint=null;
 check('總圖：從閱覽室搭電梯到二樓：車廂在二樓、車廂裡站得住（出生點不會被移走）',z2.elev.lv===1&&E.canStand(10.4,-1.65,0.3,1),`lv=${z2.elev.lv}`);
@@ -168,7 +168,7 @@ check('總圖：閱覽室：前面的門是樓梯間（回到大廳二樓東側�
 check('總圖：閱覽室的座位照舊（36 個、劇情用的 seats[2] 等不變）',zr.seats.length===36,`${zr.seats.length}`);
 r=both([0,7,0],[ec.x,ec.z,0]); check('總圖：閱覽室：入口 → 電梯門口',r.ok,fmt(r));
 const er=zr.elev; er.isOpen=true; er.setCells(); r=both([er.cx,er.outZ,0],[er.cx,er.inZ,0]); check('總圖：閱覽室電梯門開著：走得進車廂',r.ok,fmt(r)); er.isOpen=false; er.setCells();
-check('總圖：閱覽室電梯：1F、2F（大廳區域）、3F（這裡）、4F 以上關著',er.floors.length===4&&er.floors[0].zone==='library_hall'&&er.floors[2].lv===0&&!er.floors[2].zone,JSON.stringify(er.floors.map(f=>[f.label,f.lv,f.zone||''])));
+check('總圖：閱覽室電梯：1F、2F（大廳區域）、3F（這裡）、4F 關著、5F 書庫（別的區域）、6F 關著',er.floors.length===6&&er.floors[0].zone==='library_hall'&&er.floors[2].lv===0&&!er.floors[2].zone&&er.floors[3].open===false&&er.floors[4].zone==='library_stacks'&&!!er.floors[4].spawn&&er.floors[5].open===false,JSON.stringify(er.floors.map(f=>[f.label,f.lv,f.zone||''])));
 bad=[]; for(const s of zr.seats){ const ap=[s.x-Math.sin(s.yaw)*0.6,s.z-Math.cos(s.yaw)*0.6]; if(!E.canStand(ap[0],ap[1],0.3,0)) bad.push(`(${s.x},${s.z})`); } check('總圖：閱覽室：座位後面還是站得住（加了電梯沒擋到）',!bad.length,bad.join(' ')); }
 // ---------- 男生宿舍（宿舍走廊，D44）：大門 → 門廳 → 走廊 → 雙跑樓梯 → 二樓走廊 → 自己的房門；房間的出口 → 二樓走廊 ----------
 { const z=loadZone('dorm_hall'); const L=DORM_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz), S=L.stair;

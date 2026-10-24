@@ -94,7 +94,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
   check('2. K2 SAID_DEPENDS：多「「看情況」是你大一颱風天說的。它記得。」', has('「看情況」是你大一颱風天說的。它記得。'));
   check('2. 三選一；「教它說：先吃飯。」→「先吃飯。其他的，看情況。」「……它比你還像人。」、KAI_BOT、KAI_F2 went、快轉到 00:00', JSON.stringify(opts[0])===JSON.stringify(['「問它：你喜歡法律嗎？」','「把我刪掉。」','「教它說：先吃飯。」'])&&K.includes('機器人：先吃飯。其他的，看情況。')&&K.includes(NAME('kai')+'：……它比你還像人。')&&SOCIAL.has('kai','KAI_BOT')&&G.flags.KAI_F2==='went'&&Math.abs(G.hour-24)<0.02);
   fresh(k6,23.2,'dorm',{ROOM_Y2:400}); R('kai','FRI'); K=await play('ev_kai_sunday_supper',[2,0]);
-  check('2. 那晚第一次去宵夜：先演 K3 第一次（夾好的三樣、「下週日，同一時間。」），接「（吃到一半，阿凱打開筆電。）」、F2 的開頭「我的作業。一個會吵架的聊天機器人。」', K.indexOf(NAME('kai')+'：你的我幫你夾了。豆干、海帶、王子麵。')>=0&&K.indexOf('（吃到一半，阿凱打開筆電。）')>K.indexOf(NAME('kai')+'：下週日，同一時間。不是我要找你，是滷味。')&&K.indexOf(NAME('kai')+'：我的作業。一個會吵架的聊天機器人。')>K.indexOf('（吃到一半，阿凱打開筆電。）')&&!has('「看情況」是你大一颱風天說的。它記得。')&&has('這個問題，學說上有爭議。')&&G.flags.KAI_F2==='went'&&!SOCIAL.has('kai','KAI_BOT'));
+  check('2. 那晚第一次去宵夜：先演 K3 第一次（夾好的三樣、「下週日，同一時間。」），接「（吃到一半，阿凱打開筆電。）」、F2 的開頭「我的作業。一個會吵架的聊天機器人。」', K.indexOf(NAME('kai')+'：你的我幫你夾了。豆干、海帶、王子麵。')>=0&&K.indexOf(NAME('kai')+'：下週日一樣喔。')>=0&&K.indexOf('（吃到一半，阿凱打開筆電。）')>K.indexOf(NAME('kai')+'：下週日一樣喔。')/* AA_428 §2 第 8 點：K3 第一次的收尾照 SC4 #13（原本這裡寫的舊句已經不在，比較永遠成立）*/&&K.indexOf(NAME('kai')+'：我的作業。一個會吵架的聊天機器人。')>K.indexOf('（吃到一半，阿凱打開筆電。）')&&!has('「看情況」是你大一颱風天說的。它記得。')&&has('這個問題，學說上有爭議。')&&G.flags.KAI_F2==='went'&&!SOCIAL.has('kai','KAI_BOT'));
   fresh(k6+7,23.2,'dorm',{ROOM_Y2:400,KAI_SUP_N:3}); R('kai','FRI'); K=await play('ev_kai_sunday_supper');
   check('2. 別的週日：照 K3 的輪流句（沒有 F2）', !K.some(t=>/聊天機器人|手機螢幕/.test(t))&&K.length===2&&G.flags.KAI_F2==null);
   fresh(k6,23,'dorm'); R('kai','FRI'); run(k6,23,24.5);
