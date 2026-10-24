@@ -187,8 +187,8 @@ await sec(6,async()=>{
   /* 以安不回答：多一步 */
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'apart_drift'); Object.assign(SOCIAL.rel(A1),{npcRom:35,fam:50,trust:30});
   d=plgFrom(H.G.day+113); setD(d,21.7); H.G.zone='wancai'; clr(); H.picks=[0,1,0]; await play(due());
-  check('6. 不回答以後：「上次你沒有回答。這次，要先回答那一題。」→「對不起。」→「道歉收到。理由呢？」再選→「那時候我不知道怎麼說。」→「……現在知道了？」「知道一點。」「一點就可以。」→「……給我一週。」',
-    J(T())===J(['上次你沒有回答。這次，要先回答那一題。','道歉收到。理由呢？','……現在知道了？','知道一點。','一點就可以。','……給我一週。']),J(T()));
+  check('6. 不回答以後：「上次你沒有回答。這次，要先回答那一題。」→「對不起。」→「……道歉收到。然後呢？」（AA_436）再選→「那時候我不知道怎麼說。」→「……現在知道了？」「知道一點。」「一點就可以。」→「……給我一週。」',
+    J(T())===J(['上次你沒有回答。這次，要先回答那一題。','……道歉收到。然後呢？','……現在知道了？','知道一點。','一點就可以。','……給我一週。']),J(T()));
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'mrel');
   check('6. 被發現以後分開的（mrel）不走這裡、不擋心意邀約',!X().rb(H.G,A1)&&!X().rebuildBlock(H.G,A1));
   fresh('2026-09-20',12); H.CLOSE(A1); ROM.start(H.G,A1); ROM.end(H.G,A1,'apart_talk'); H.G.flags.CLEANUP_DONE=true; ROM.start(H.G,A1);

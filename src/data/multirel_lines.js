@@ -376,7 +376,7 @@ const MULTIREL_LINES=(function(){
   const REBUILD={
     heroine_01:{ opt:'「我想再寫一次理由欄。」', week:['……給我一週。'], form:[N('（她遞來一頁空白的理由欄。）'),'你先寫。'],
       drift:['上次你沒有回答。這次，要先回答那一題。'],
-      driftOpts:[ {t:'「那時候我不知道怎麼說。」',then:['……現在知道了？',P('知道一點。'),'一點就可以。']},{t:'「對不起。」',again:true,then:['道歉收到。理由呢？']} ] },
+      driftOpts:[ {t:'「那時候我不知道怎麼說。」',then:['……現在知道了？',P('知道一點。'),'一點就可以。']},{t:'「對不起。」',again:true,then:['……道歉收到。然後呢？']} ] },
     heroine_03:{ seat:[N('（她把斜對面的位子留出來。）'),'……坐著也是坐著。'], opt:'「我想把那個問題回答完。」', answer:['……嗯。這次，不要讓我等。'] } };
 
   return { ASK, ZR_Q2, KNOW, BROKE, DISC, CONF, KX_E, PS_E, SELF, ZQ_DAD, ZZ, REPAIR, ZZ_AFTER, YC, PS_TURN, REBUILD, src:'AA_422@5156f143、AA_423@26357a44、AA_425@310d6cc67（AA_227、AA_228 原句；企劃線 claude/cool-heisenberg-o8kuqx）' };

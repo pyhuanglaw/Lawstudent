@@ -355,7 +355,7 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "1ced2f8b3",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-S6",
@@ -370,7 +370,7 @@
      "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）"
     }
    ],
-   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432）"
+   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-23 21:0x 改到 1ced2f8b3（AA_432）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
@@ -403,10 +403,11 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D04.json",
-   "sha": "57de1709",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
-   "task": "DATE-S6"
+   "task": "DATE-S6",
+   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D06.json",
@@ -425,11 +426,11 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D13.json",
-   "sha": "e78814663",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA-B 2026-10-23 AA_389 改原檔（第 1 點 D13 交換回來版 ZR_UK_BACK、第 7 點以安放鴿子兩句），LAWWW-B 重新匯入（AA389-L-1023）",
    "task": "DATE-S6",
-   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）"
+   "note": "2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/free_trip/spots_v2.json",
@@ -1243,11 +1244,11 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D15.json",
-   "sha": "e78814663",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入｜AA_398（學姊不數件數，使用者 10-23）企劃線 ffd7eef8 重產：LAWWW-B 10-23 換版重新匯入",
    "task": "DATE-L15",
-   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）"
+   "note": "2026-10-23 20:3x 改到 967b4273a（AA_426：子晴、學姊、可昕 hold 句改掉、以安「理由：」、作廢兩句、芷若影展、重訪句）；2026-10-23 20:4x 改到 e78814663（AA_426 第 6 節：17 句「……開玩笑的」改掉；含 967b4273 的 D03、D15）；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D16.json",
@@ -1319,10 +1320,11 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D20.json",
-   "sha": "57de1709",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
-   "task": "DATE-L20"
+   "task": "DATE-L20",
+   "note": "2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/date_system/lines/D21.json",
@@ -2382,12 +2384,12 @@
   },
   {
    "path": "docs/story_planning/AA_185_全學年缺口補完_v0到v6.md",
-   "sha": "0e1fe7c1e",
+   "sha": "efe575813",
    "status": "approved",
    "approvedBy": "AA 定稿（D109）；第 4 節 d85c1309～0e1fe7c1e 沒改",
    "task": "AA185-V6",
    "kind": "text",
-   "note": "第 4 節：以安、語彤分開後重新開始（4-1）、戀愛 CG 照她知道的事（4-2）；src/multirel3d.js"
+   "note": "第 4 節：以安、語彤分開後重新開始（4-1）、戀愛 CG 照她知道的事（4-2）；src/multirel3d.js；2026-10-24 04:0x 改到 efe575813（AA_436：學姊數東西四句、D13 旁白、以安「然後呢？」）"
   },
   {
    "path": "docs/story_planning/BB_167_附錄/SC4_事件台詞_沛珊可昕阿凱明軒方奕廷經濟系.md",
@@ -2397,6 +2399,15 @@
    "task": "AB65-3-Y2S1-L",
    "kind": "text",
    "note": "只用阿凱週日宵夜的收尾「下週日一樣喔。」"
+  },
+  {
+   "path": "docs/story_planning/AA_436_回LAWWW_重新開始的開關_學姊數東西_坦白視訊版.md",
+   "sha": "efe575813",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 03:3x 定稿（D109）",
+   "task": "AA185-V6、EVPKG-AA227-228-KNOW、DATE-C4",
+   "kind": "text",
+   "note": "REBUILD_GATE 開著；以安「……道歉收到。然後呢？」；學姊約會句四句；芷若英國坦白視訊版整段；子晴語彤可昕出國時的坦白視訊版"
   }
  ]
 }
