@@ -25488,7 +25488,7 @@
     }
    ],
    "sha": "70e796219",
-   "notes": "2026-10-24 LAWWW-B：第 2-1 節大二上、第 3-2 節大三下、第 4 節大四補完（70e796219；src/data/twfill_events.js、src/twfill3d.js；tests/aa342_twfill_unit.js 56 PASS）。只差 3/13 法律實習那一句（TWFILL_LINES.practice0313 存著；大四下法律實習沒有上課地點，見 COURSE-PRACTICE-Y4-1024）"
+   "notes": "2026-10-24 LAWWW-B：第 2-1 節大二上、第 3-2 節大三下、第 4 節大四補完（70e796219；src/data/twfill_events.js、src/twfill3d.js；tests/aa342_twfill_unit.js 56 PASS）。只差 3/13 法律實習那一句（TWFILL_LINES.practice0313 存著；大四下法律實習沒有上課地點，見 COURSE-PRACTICE-Y4-1024）；3/13 法律實習那一句接上（COURSE-PRACTICE-Y4-1024）"
   },
   {
    "id": "PS-TAINAN-AA282",
@@ -31043,8 +31043,8 @@
    "title": "大四下法律實習沒有上課地點（courses.js room OFF；CLS.goPlan 回 null、「直接去上課」沒反應）；AA_342 4-2 的 3/13 那一句接在這裡",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "查 courses.js 法律實習怎麼上（校外實習＝一天一次的 2D 出勤？）；接好以後把 TWFILL_LINES.practice0313 接上",
+   "status": "已整合待測試",
+   "next": "BB 順手看：大四下週二「直接去上課：法律實習或法律扶助實務」→ 2D 出門、到下課、記出席；3/13 那一句",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -31058,7 +31058,7 @@
    },
    "source": "子代理回報 2026-10-24（AA342-COVERAGE-1021）",
    "authorized": "D109、D111",
-   "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後"
+   "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後；10-24 06:1x LAWWW-B：CLS.goOffsite（教室 OFF＝2D 出門、時間到下課、記出席；手機按鈕也出現）、CLS.OFFSITE_LINES（twfill 接 3/13）；tests/course_offsite_unit.js。每週的旁白只有 3/13 那一句（AA 沒寫其他週，系統字只寫「到校外（事務所或法扶）。」「第 n 次。」）"
   },
   {
    "id": "AA439-LINT-1024",

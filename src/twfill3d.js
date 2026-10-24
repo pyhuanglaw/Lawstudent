@@ -6,7 +6,7 @@
    - 服務學習（二）10/7、11/18 那一堂的旁白（CLS.attend 外面包一層，那一堂把 serviceLines 換成這一句；同 fit3d.js 包 CLS.attend 的做法）；11/18 那句接 10/7（看過 10/7 才換）。
    - 海商法期中考 4/11 的旁白：CLS.runExam 外面包一層，考卷前先說。
    - 「臺灣路線」（AA_342 第 3-2、4-1 節）＝那時候人在臺灣（STORY.abroad 不成立）：大三下日本路線、大四上美國路線不出；美國路線大三下、日本路線大四上人在臺灣，照出。
-   - 還沒做：4-2 第 4 週 3/13 法律實習那一句（TWFILL_LINES.practice0313）——大四下的法律實習現在沒有一鍵上課的路（教室 OFF 沒有地點，CLS.goPlan 回 null）。
+   - 4-2 第 4 週 3/13 法律實習那一句（TWFILL_LINES.practice0313）：CLS.OFFSITE_LINES（classes3d.js 校外上課 S.goOffsite，COURSE-PRACTICE-Y4-1024）。
    存檔：G.flags 的 Y2_SVC_CHESS（10/7 那一堂的日子）、Y3_MOM_DAY（'go'／'no'／'went'）、Y4_GRAD_PHOTO（'go'／'went'／'missed'）、YEARBOOK_LINE（'auntie'／'thursday'／'notyet'）、TW_SUMS（{日期:出了的那一天}）；訊息照 PHONE 的 tag。
    測試：node tests/aa342_twfill_unit.js */
 'use strict';
@@ -123,5 +123,6 @@ const TWFILL=(function(){
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); }
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.OFFSITE_LINES)) CLS.OFFSITE_LINES.push((G,it)=>it&&it.c&&it.c.id==='legal_practice'&&typeof STORY!=='undefined'&&STORY.dayOfKey&&it.day===STORY.dayOfKey('2029-03-13')&&typeof TWFILL_LINES!=='undefined'?TWFILL_LINES.practice0313:null);   /* 4-2 第 4 週法律實習 */
   return S;
 })();
