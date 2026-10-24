@@ -19,10 +19,6 @@ const PARK=(function(){
   const NEIGHBOR={9:'中秋聯歡晚會，里民活動中心，請自備碗筷',12:'里民大會，有摸彩',2:'春節揮毫，寫春聯，免費',5:'端午包粽子教學，限二十名'}, NEIGHBOR_ELSE='社區清掃日，週日早上八點，請帶手套';
   const CHESS_OPEN=[['阿伯','年輕人，紅的給你。'],['阿伯','今天讓你先。'],[null,'旁邊兩個阿伯已經開始教你下哪一步了。']];
   const CHESS={ lose:[['年輕人，車不要亂走。','你在想別的事。下棋要想棋。'],['律師，車不要亂走。','律師，你在想考試。下棋要想棋。']], draw:[['和就是兩個人都有道理。你們法律系最喜歡。'],['和。律師最喜歡和解。']], win:[['……再一盤。'],['律師，再一盤。']] };
-  /* 讓你一隻馬（AA_427 第 3 節）：WZ-P3 幫了忙（WZ_P3_HELPED）以後，開局四種輪流（第四種＝讓馬）；讓馬那一盤贏的機率再加 20%（最多 70%），和照舊 15%，前四盤的順序不變；結果句換成這一組 */
-  const KNIGHT_OPEN=[[null,'（阿伯把自己的一隻馬拿起來，放回盒子裡。）'],['阿伯','說好的。讓你一隻馬。']];
-  const KNIGHT={ lose:[['讓你一隻馬還輸。……沒關係，下次讓兩隻。'],['律師，讓你一隻馬還輸。']], draw:[['讓一隻馬，和了。……其實是你贏。'],['和。律師，讓你一隻馬，你還是要和解。']], win:[['……下一盤不讓了。'],['律師，下一盤不讓了。']] };
-  S.KNIGHT_OPEN=KNIGHT_OPEN; S.KNIGHT=KNIGHT;
   const SWING=['你盪得不高。鐵鍊吱吱響，像在跟你說話。','盪到最高的時候，看得到溫州街的屋頂。','你停下來，腳拖在沙地上。今天的事情，好像也停了一下。'];
   const SHRINE={normal:'你雙手合十，不知道要說什麼。就說了一聲謝謝。',exam:'你不知道土地公管不管期末考。你還是拜了。',last:'你想不到要求什麼。你只說：這四年，謝謝。',done:'你已經拜過了。'};
   const FOUNTAIN={normal:'水很冰。你多喝了兩口。',summer:'你把水潑在臉上。好一點了。',night:'直飲台的燈還亮著，整個公園只有這裡在發光。'};
@@ -89,11 +85,9 @@ const PARK=(function(){
       if(k==='chess'){ if(S.rainy(G)) return 'closed';   /* 下雨公園一個人都沒有（AA_283 第 1 節）：象棋的互動點也藏起來（zones3d.js）*/ const h=hr(G); if(h<8||h>=11){ GM.toast('下象棋：08:00～11:00',2600); return 'closed'; }
         if(S.adoptNotice(G)&&!(G.flags&&G.flags.ZQ_CAT_NIGHT)&&P.adoptSaid==null){ P.adoptSaid=G.day; await GM.say({name:'阿伯'},ADOPT_CHESS); }   /* 不認識子晴、那天不在公園的玩家（AA_397 3-2）：一次 */
         if(typeof SIDEQ!=='undefined'&&SIDEQ.ask8) await SIDEQ.ask8(GM,'abo');   /* 順手的事 SQ08：問象棋阿伯 */
-        const kn=!!(G.flags&&G.flags.WZ_P3_HELPED)&&(P.chessOpen|0)%4===3;   /* 讓馬（AA_427 第 3 節）*/
-        if(kn){ P.chessOpen=(P.chessOpen|0)+1; for(const o of KNIGHT_OPEN) await GM.say(o[0]?{name:o[0]}:null,o[1]); }
-        else { const o=CHESS_OPEN[(P.chessOpen|0)%(G.flags&&G.flags.WZ_P3_HELPED?4:3)]; P.chessOpen=(P.chessOpen|0)+1; await GM.say(o[0]?{name:o[0]}:null,o[1]); }
-        const n=P.chessN|0; let r; if(n<4) r=['lose','lose','draw','win'][n]; else { const x=Math.random(), w=kn?Math.min(0.7,n*0.05+0.2):Math.min(0.5,n*0.05); r=x<w?'win':(x<w+0.15?'draw':'lose'); } P.chessN=n+1;
-        GM.advance(0.5); const sr=S.year(G)>=4?1:0; const pool=(kn?KNIGHT:CHESS)[r][sr]; const t=r==='lose'&&!kn?pool[(P.loseN|0)%pool.length]:pool[0]; if(r==='lose'&&!kn) P.loseN=(P.loseN|0)+1;   /* 讓馬那一盤的輸不算進一般輸的輪流 */
+        const o=CHESS_OPEN[(P.chessOpen|0)%3]; P.chessOpen=(P.chessOpen|0)+1; await GM.say(o[0]?{name:o[0]}:null,o[1]);
+        const n=P.chessN|0; let r; if(n<4) r=['lose','lose','draw','win'][n]; else { const x=Math.random(), w=Math.min(0.5,n*0.05); r=x<w?'win':(x<w+0.15?'draw':'lose'); } P.chessN=n+1;
+        GM.advance(0.5); const sr=S.year(G)>=4?1:0; const pool=CHESS[r][sr]; const t=r==='lose'?pool[(P.loseN|0)%pool.length]:pool[0]; if(r==='lose') P.loseN=(P.loseN|0)+1;
         await GM.say({name:'阿伯'},t); P.lastChess=r; return r; }
       if(k==='swing'){ const h=hr(G); if(!(h>=20||h<5)){ GM.toast('盪鞦韆：20:00 以後',2600); return 'closed'; } await sitHere(GM,it); GM.advance(1/6); await GM.say(null,SWING[(P.swingN|0)%3]); P.swingN=(P.swingN|0)+1; stand(GM); return 'swing'; }
       if(k==='shrine'){ if(P.shrineDay===G.day){ await GM.say(null,SHRINE.done); return 'done'; } P.shrineDay=G.day; GM.advance(1/12); const T=T_(G); const t=T&&T.id==='Y4S2'?SHRINE.last:(S.examWeek(G)?SHRINE.exam:SHRINE.normal); await GM.say(null,t); return 'shrine'; }

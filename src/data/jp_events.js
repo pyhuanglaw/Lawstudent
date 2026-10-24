@@ -35,7 +35,7 @@ const JP_EVENTS=(function(){
     {if:C(memWinter),speaker:'heroine_01',text:'寒假我媽教的那一道。你那時候問過。'},   /* 有 AN_L10_WINTER（知道媽媽寒假要教她一道菜）：第二句換這一句 */
     {speaker:'heroine_01',text:'……第一次一個人做。'},
     {choice:[{text:'「好吃。」',goto:'g3_a'},{text:'「跟妳媽做的比呢？」',goto:'g3_b'}]},
-    {label:'g3_a'},{speaker:'heroine_01',text:'……哪裡好吃？'},{speaker:null,text:'（你說了一個地方。她點點頭，記在手帳上。）'},   /* AA_435 第 0 節（企劃線 0bb6e2fe6）：說出口的「理由」換掉 */{goto:'g3_end'},
+    {label:'g3_a'},{speaker:'heroine_01',text:'理由？'},{speaker:null,text:'（你說了一個理由。她點點頭，記在手帳上。）'},{goto:'g3_end'},
     {label:'g3_b'},{speaker:'heroine_01',text:'我媽的比較鹹。……我的比較對。'},{speaker:null,text:'（她自己笑了一下。）'},
     {label:'g3_end'},{set:{AN_JP_KITCHEN:true}},{advance:1.5} ];
   /* G4 5/3（三）14:00 河邊（交往中；5/2 21:00 她私訊）*/
@@ -55,7 +55,7 @@ const JP_EVENTS=(function(){
     {if:C(repair),end:true},
     {choice:[{text:'「妳的答案呢？」',goto:'g5_a'},{text:'「講得很好。」',goto:'g5_b'}]},
     {label:'g5_a'},{if:C(j2),speaker:'heroine_01',text:'還沒有。……五月六號那張通知以後，我一直在想。'},{unless:C(j2),speaker:'heroine_01',text:'還沒有。'},{goto:'g5_end'},   /* 有 J2 的才說後半 */
-    {label:'g5_b'},{speaker:'heroine_01',text:'……哪一段？'},   /* AA_435 第 0 節 */
+    {label:'g5_b'},{speaker:'heroine_01',text:'理由？'},
     {label:'g5_end'} ];
   /* G7 以安約的那一頓（AA_250 6-2 的三句）。AA_355 1-1（AA-C 2026-10-21）：6/9（五）21:00 她私訊約、「好。」＝6/10（六）18:30 出遊（src/jp3d.js 的 S.dinnerPhone；交往中或 FRIEND 以上），
      地點字幕「日本・學校後面的小餐館」、深色底（原本 AA_341 G7：6/16（五）19:00 自動演、商店街 jp_street_night）。不算學期末的飯（BB_203 第 9 點）。出遊演完照 hours 往後。
@@ -104,7 +104,7 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'……現在看得懂了嗎？'},
     {choice:[{text:'「看得懂一半。」',goto:'l8_a'},{text:'「妳教我的。」',goto:'l8_b'}]},
     {label:'l8_a'},{speaker:'heroine_01',text:'一半夠了。另一半，明年再來看。'},{goto:'l8_end'},
-    {label:'l8_b'},{speaker:'heroine_01',text:'我只教你看字。標籤是你自己看懂的。'},   /* AA_435 第 0 節 */{speaker:null,text:'（她把兩個飯糰放進籃子。）'},
+    {label:'l8_b'},{speaker:'heroine_01',text:'我是說理由。你看的是標籤。'},{speaker:null,text:'（她把兩個飯糰放進籃子。）'},
     {label:'l8_end'},{set:{AN_JP_LASTNIGHT:'together'}} ];
   const LAST_ALONE=[ {scene:'便利商店'},
     {speaker:null,text:'（最後一個晚上。你一個人去了便利商店。冷藏櫃的燈，和第一個晚上一樣亮。）'},

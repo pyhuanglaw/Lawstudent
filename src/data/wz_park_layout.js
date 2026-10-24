@@ -83,19 +83,6 @@ const WZ_PARK_LAYOUT = {
     {x: 12.8, z: 27.2, kind: 'shrine', label: '拜土地公'},
     {x: 29.9, z: 5.6, kind: 'fountain', label: '直飲台'}
   ],
-  season: {sweetgum: 'SEASON_SWEETGUM_', azalea: 'SEASON_AZALEA_'},
-  /* 二手市集（AA_420 12-2，wzlines3d.js 的 WZL.market：每月第一個週六 09:00～13:00；ART-WZ-MARKET-1023，LAWWW2-B 10-24）。模型 assets/models/env/second_ai/wz_market.glb（tools/blender/env_second/wz_market.py 讀這一份）：
-     MARKET_CLEAR＝晴天：入口步道兩邊（長椅 z 9 和兩棵樟樹 z 13.5 中間）兩張摺疊桌（西：舊書、東：雜貨唱片＋陽傘）、西側樟樹下一塊地攤布（舊雜誌、玩具）；
-     MARKET_RAIN＝下雨：老樹下的環狀步道兩張桌子，各有一個藍色雨棚、書蓋著透明塑膠布（WZL.MARKET.at 的 rain 互動點在南邊 (26, 18.3)）。
-     stalls：每一攤的中心、轉向（yaw＝攤主面向客人的方向）、keeper＝攤主坐的位置（NPC，坐著；面向客人）。blocks：市集開的時候要擋住的導航格（[x 中心, z 中心, 寬, 深, 轉角(可省略)]；桌子、椅子、地攤布、雨棚的柱子）——只在市集時段（marketOn）擋 */
-  market: {
-    clear: {stalls: [{id: 'books', x: 23.55, z: 11.3, yaw: Math.PI / 2, keeper: {x: 22.75, z: 11.3, yaw: Math.PI / 2}, note: '舊書（桌上平放＋紙箱裡立著）'},
-                     {id: 'misc', x: 28.45, z: 11.3, yaw: -Math.PI / 2, keeper: {x: 29.25, z: 11.3, yaw: -Math.PI / 2}, umbrella: {x: 29.35, z: 10.55, r: 1.15, h: 2.15}, note: '雜貨、舊唱片、杯盤（陽傘）'},
-                     {id: 'mat', x: 23.6, z: 15.0, yaw: Math.PI / 2, keeper: {x: 22.65, z: 15.0, yaw: Math.PI / 2}, note: '地攤布：舊雜誌、童書、玩具'}],
-            blocks: [[23.55, 11.3, 0.7, 1.9], [22.75, 11.3, 0.6, 0.6], [28.45, 11.3, 0.7, 1.9], [29.25, 11.3, 0.6, 0.6], [23.6, 15.0, 1.5, 1.3], [22.65, 15.0, 0.6, 0.6]]},   /* 導航格 0.5 m：小東西（椅子、凳子）至少 0.6 m 才蓋得到一格的中心 */
-    rain: {stalls: [{id: 'books', x: 23.55, z: 19.15, yaw: 0.87, keeper: {x: 22.94, z: 18.64, yaw: 0.87}, canopy: {w: 2.0, d: 1.7, h: 2.05, oz: -0.3}, note: '老樹西南（環狀步道上）'},
-                    {id: 'misc', x: 28.45, z: 19.15, yaw: -0.87, keeper: {x: 29.06, z: 18.64, yaw: -0.87}, canopy: {w: 2.0, d: 1.7, h: 2.05, oz: -0.3}, note: '老樹東南'}],
-           blocks: [[23.32, 18.96, 2.3, 2.0, -0.87], [28.68, 18.96, 2.3, 2.0, 0.87]]}   /* 雨棚整個（含攤主的椅子）；第 5 個數＝轉角（NavGrid.blockRect 的 rot＝−yaw）*/
-  }
+  season: {sweetgum: 'SEASON_SWEETGUM_', azalea: 'SEASON_AZALEA_'}
 };
 if (typeof module !== 'undefined') module.exports = WZ_PARK_LAYOUT;

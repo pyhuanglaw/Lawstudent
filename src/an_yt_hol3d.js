@@ -7,7 +7,7 @@
      祐廷不在國外（STORY.abroad：約的那天和出遊那天都看；2028-10-03 中秋美國路線在美國＝不演）、手機有她的聯絡方式（前一天以前就有，同 SISB4）。
    - 語彤 2026、2029 的情人節是麵店店休那幾天、2027、2028 照常（noodle_closed3d.js 的 NOODLE_CLOSED.closed，初一前 7 天到初三）：表上寫 shop，和店休表對不上就不演。
      出遊地點寫「麵店」的那一天，店休的鐵門照 noodle_closed3d.js 的 storyDue 照常開。
-   - 1-1 開車去台中：照 date3d.js 的算法——地點表 D26（臺中）開車單程；從宿舍出發先回家取車 30 分（AA_128 4-1），寒暑假住臺北的家就不用（DATE.fromHomeOn，DATE-C7）；油錢＋過路費＝D26 開車的來回（出發的時候付，同 hometown3d.js）。
+   - 1-1 開車去台中：照 date3d.js 的算法——地點表 D26（臺中）開車單程＋先回家取車 30 分（AA_128 4-1）；油錢＋過路費＝D26 開車的來回（出發的時候付，同 hometown3d.js）。
    - 1-4 2029-02-14 21:00 她打電話來（演出來的電話，AA_296；同 SISB4 3-6：OUT 的電話，接起來／先不接；21:15 以前沒接＝21:30、21:31 兩則）。
    - 2-5 中秋（2026-09-25、2027-09-15、2028-10-03）：前一天 21:00 約，15:00～17:30 麵店門口（接 18:00 麵店團的烤肉，現有事件）；旗標 YT_MOON_<年>。
    - 第 3 節：2027-02-14 21:00 麵店團群組四則（在群組的玩家，一次；和交不交往無關）。
@@ -43,9 +43,8 @@ const ANYTHOL=(function(){
   /* 1-1 開車去台中：date3d.js 地點表 D26（臺中）開車＝單程 150 分、來回 900 元（油錢加過路費）；從宿舍要先回家取車，多 30 分（DATE.plan 的 pick）*/
   S.DRIVE={loc:'D26',pick:0.5};
   const hm=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
-  S.drive=function(G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(S.DRIVE.loc,'car'):null, min=tr&&tr.mode==='car'?tr.minutes:150, fare=tr&&tr.mode==='car'?tr.fare:900;
-    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day);   /* 寒暑假從臺北的家出發（車就在家裡）：不加回家取車的 30 分、不寫那一句（DATE-C7，DATE.fromHomeOn）；2/14、2/15 都在寒假 */
-    return {travelH:min/60+(home?0:S.DRIVE.pick),travel:(home?'':'回家取車約 30 分鐘，再')+'開車到台中約 '+hm(min),fare}; };
+  S.drive=function(){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(S.DRIVE.loc,'car'):null, min=tr&&tr.mode==='car'?tr.minutes:150, fare=tr&&tr.mode==='car'?tr.fare:900;
+    return {travelH:min/60+S.DRIVE.pick,travel:'回家取車約 30 分鐘，再開車到台中約 '+hm(min),fare}; };
   S.payDrive=function(G,GM,q){ if(!q||!q.fare||q.paid) return 0; q.paid=true; if(GM&&GM.money) GM.money(-q.fare,'交通'); return q.fare; };   /* 出發的時候付；到了以後讀檔重演不再扣 */
 
   /* ---------------- 表（AA_414 第 1、2 節）：ask 約的那天（21:00）、opts 回覆（no＝不行）、out 出遊、miss 答應了沒到她傳的（[時間, 句子]）---------------- */
@@ -105,7 +104,7 @@ const ANYTHOL=(function(){
           say:((typeof x.say==='function'?x.say(G):x.say)||[]).map(t=>({from:a.who,text:t}))}))};
         PHONE.at(G,d,a.h,M,tag); }
       const h=a.hOf?a.hOf(G):a.out.h;
-      if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,h+a.out.late)) plan(G,Object.assign({},a.out,{day:od,h},a.drive?S.drive(G,od):{},a.hOf&&h!==a.out.h?{help:true}:{}));
+      if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,h+a.out.late)) plan(G,Object.assign({},a.out,{day:od,h},a.drive?S.drive():{},a.hOf&&h!==a.out.h?{help:true}:{}));
       const q=outGet(G,a.out.id);
       if(F[a.go]===true&&F[a.flag]==null&&(gone(G,q)||G.day>od+1)) F[a.flag]='missed';
       if(F[a.flag]==='missed'&&F[a.go]===true) sendAt(G,a.miss,tag+'_miss',a.who);
@@ -115,7 +114,7 @@ const ANYTHOL=(function(){
   S.call=function(G){ const F=G.flags, C=S.CALL, d=D(C.out.day); if(d==null) return;
     if(F[C.flag]==null&&G.day===d&&now(G)<T(d,C.out.h+C.out.late)&&S.ok(G,C,d,d))
       plan(G,{id:C.out.id,ev:C.out.ev,day:d,h:C.out.h,late:C.out.late,place:'電話',verb:'接起來',no:'先不接',title:nm(AN)+'打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'});
-    { const R=S.RESCUE, r=D(R.day); if(r!=null&&F.AN_VDAY_RESCUE===true&&F[R.flag]==null){ if(now(G)<T(r,R.h+R.late)) plan(G,Object.assign({id:R.id,ev:R.ev,day:r,h:R.h,late:R.late,place:R.place,title:R.title,back:R.back},S.drive(G,r)));
+    { const R=S.RESCUE, r=D(R.day); if(r!=null&&F.AN_VDAY_RESCUE===true&&F[R.flag]==null){ if(now(G)<T(r,R.h+R.late)) plan(G,Object.assign({id:R.id,ev:R.ev,day:r,h:R.h,late:R.late,place:R.place,title:R.title,back:R.back},S.drive()));
         const qr=outGet(G,R.id); if(gone(G,qr)||G.day>r+1) F[R.flag]='missed'; } }   /* 補救那一場沒到：沒有後續的私訊（稿沒寫）*/
     const q=outGet(G,C.out.id); if(!q) return;
     if(F[C.flag]==null&&(gone(G,q)||G.day>d+1)) F[C.flag]='missed';

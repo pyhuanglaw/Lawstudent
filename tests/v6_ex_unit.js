@@ -43,7 +43,7 @@ await sec(0,()=>{
   if(!V()) return;
   const ids=['ev_v6_clean_zhe','ev_v6_clean_zhe_call','ev_v6_clean_home','ev_an_ex_plg'];
   check('0. 事件都在 STORY_EVENTS；包了 ROM.end、ROM.start、STORY.populate、STORY.cleanupTick、Y34B.an20Mode；送機那一句插進去了',ids.every(id=>!!ev(id))&&ROM._v6exEnd&&ROM._v6exStart&&STORY._v6exPopulate&&STORY._v6exCleanTick&&Y34B._v6exAn20&&ev('ev_an_sendoff').v6exPatched,ids.filter(id=>!ev(id)).join(' '));
-  check('0. 沒有改 ROM.canStart：好好分開的也可以重新開始（AA_434 第 1 節：BB_119「不復合」作廢）',!ROM._v6exCan);
+  check('0. 沒有改 ROM.canStart（「好好分開不復合」和使用者「不永久鎖住任何一條戀愛線」衝突，問 AA）',!ROM._v6exCan&&V().NOT_DONE.some(t=>/不復合/.test(t)));
 });
 if(!V()){ H.done(); return; }
 
@@ -129,10 +129,10 @@ await sec('A',async()=>{
   fresh('2026-10-14',20); date(YT); ROM.learn(H.G,AN,YT,'test'); at(H.G.day+3,20); breakup(AN,'apart_talk');
   check('A6. 語彤是分開以前就在交往的（多段同時）：不算「之後和別人交往」',!(await pre(AN)).length);
   /* 送機 */
-  const so=ev('ev_an_sendoff').dialogue, i=so.findIndex(l=>l&&l.text==='……到了我傳給麵店團。'), j=so.findIndex(l=>l&&Array.isArray(l.choice)&&l.choice[0]&&l.choice[0].text==='「好。」');
+  const so=ev('ev_an_sendoff').dialogue, i=so.findIndex(l=>l&&l.text==='……理由欄，我自己寫。'), j=so.findIndex(l=>l&&Array.isArray(l.choice)&&l.choice[0]&&l.choice[0].text==='「好。」');
   fresh('2027-03-25',10); breakup(AN,'apart_talk'); const exOK=i>=0&&EVENTS.cond(so[i].if);
   fresh('2027-03-25',10); const noEx=i>=0&&EVENTS.cond(so[i].if);
-  check('A7. 新 16 送機：「……到了我傳給麵店團。」（AA_437 第 4 節改字，原本「……理由欄，我自己寫。」）在「好。」／揮手那個選項前面、只給前任',i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx,J([i,j]));
+  check('A7. 新 16 送機：「……理由欄，我自己寫。」在「好。」／揮手那個選項前面、只給前任',i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx,J([i,j]));
   /* 新 20 */
   fresh('2029-05-03',10); H.FRIEND(AN); check('A8. 新 20：單身、沒交往過＝Café',Y34B.an20Mode(H.G)==='cafe');
   H.G.flags.EX_heroine_01=true; check('A8. 前任＝麵店長桌那一版',Y34B.an20Mode(H.G)==='noodle');
@@ -155,7 +155,7 @@ await sec('B',async()=>{
   H.G.zone='cafe'; check('B2. 芷若：在 Café 第一次「好久不見。……老樣子？」、只一次',J(await pre(ZR))===J(['好久不見。……老樣子？'])&&!(await pre(ZR)).length);
   fresh('2026-10-14',20,'gongguan'); breakup(SIS,'apart_talk'); H.G.zone='gongguan';
   check('B3. 學姊：不在法學院不說',!(await pre(SIS)).length);
-  H.G.zone='linze_4f'; check('B3. 學姊：法學院第一次「{name}。……吃飯了嗎。」（AA_434 第 5 節：朋友以上叫名字）',J(await pre(SIS))===J([(H.G.name||'祐廷')+'。……吃飯了嗎。'])&&V6EX_LINES.EX.sisLaw==='{name}。……吃飯了嗎。');
+  H.G.zone='linze_4f'; check('B3. 學姊：法學院第一次「學弟。……吃飯了嗎。」',J(await pre(SIS))===J(['學弟。……吃飯了嗎。']));
   fresh('2026-10-14',20,'gongguan'); breakup(SIS,'apart_talk'); H.G.zone='gongguan'; H.G.flags.JOB_RA=true;
   check('B4. 研究助理還在做（JOB_RA）：「工作照舊。你不用勉強。」',J(await pre(SIS))===J(['工作照舊。你不用勉強。']));
   fresh('2026-10-14',20); date(ZQ); check('B5. 交往中：不說',!(await pre(ZQ)).length);

@@ -62,15 +62,13 @@ const FEST=(function(){
     for(const k of Object.keys(P.fest||{})){ if(!S.years(id,k).includes(y)) continue; const d=S.dayOf(id,k,y); if(d===day) out.push({id,k,y,d}); } return out; };
 
   /* ---------------- 1-3 誰約得到、第 0 節專屬場次 ---------------- */
-  S.level=(G,id)=>dating(G,id)?7:(typeof INV!=='undefined'&&INV.capStage?INV.capStage(G,id,stageNum(id)):stageNum(id));   /* 分開以後一個學期（AA_434 4-3，INV.cool）：照朋友階段——她不約（herAsks 只給交往中，語彤第 6 階的中午那兩則、芷若 2029 的明信片也不發），你約她照第 1～4 階（節日要第 5／6 階：婉拒）*/
-  /* 關係階段以外的限制（約不到＝邀約清單不列「約她過節」，BB 10-23：學姊 2025 聖誕列出來、選了才婉拒）：''＝沒有限制。
-     關係階段還不到（第 6 階／第 5 階）照 1-3 的表：清單照列、選了她回 AA_415 的「節日」婉拒句（S.ask）*/
-  S.barred=function(G,id,k,y){ if(!law(G)) return 'law'; const P=X.PEOPLE[id]; if(!P) return 'who'; const F=G.flags||{};
-    if(P.datingOnly&&(!dating(G,id)||F['EX_'+id])) return 'datingOnly';   /* 可昕：只有交往中 */
-    if(id==='heroine_05'){ const e=D('2026-02-02'), d=S.dayOf(id,k,y); if(e!=null&&d!=null&&d<e) return 'preexam'; }   /* 學姊筆試以前不約節日 */
-    if(k==='qixi'&&id!=='kexin'&&dating(G,'kexin')) return 'kexinQixi';   /* 和可昕交往中，七夕只有可昕的 */
-    return ''; };
-  S.eligible=function(G,id,k,y){ if(S.barred(G,id,k,y)) return false; return S.level(G,id)>=(X.MIN[k]||6); };
+  S.level=(G,id)=>dating(G,id)?7:stageNum(id);
+  S.eligible=function(G,id,k,y){ if(!law(G)) return false; const P=X.PEOPLE[id]; if(!P) return false; const F=G.flags||{};
+    if(P.datingOnly&&(!dating(G,id)||F['EX_'+id])) return false;   /* 可昕：只有交往中 */
+    if(S.level(G,id)<(X.MIN[k]||6)) return false;
+    if(id==='heroine_05'){ const e=D('2026-02-02'), d=S.dayOf(id,k,y); if(e!=null&&d!=null&&d<e) return false; }   /* 學姊筆試以前不約節日 */
+    if(k==='qixi'&&id!=='kexin'&&dating(G,'kexin')) return false;   /* 和可昕交往中，七夕只有可昕的 */
+    return true; };
   S.dedicated=function(G,id,k,y){ const c=S.cell(id,k); if(!c||c.aa414) return true; const dd=c.dedicated||{};
     if(id==='kexin'&&k==='qixi'&&typeof R2Y3A!=='undefined'&&Array.isArray(R2Y3A.QIXI)&&R2Y3A.QIXI.some(x=>String(x.key).slice(0,4)===String(y)&&(!x.ok||x.ok(G)))) return true;   /* 可昕交往中的七夕視訊 2026、2028（還有 2027 沒去高雄的）在 r2y3a3d.js S.qixiPhone：這裡不再自動打一通（BB-B 10-23：8/19 兩通 21:00 視訊）*/
     if(dd.all&&dd.all.includes(y)) return true; if(dd.dt&&dd.dt.includes(y)&&dating(G,id)) return true; return false; };
@@ -132,10 +130,8 @@ const FEST=(function(){
 
   /* ---------------- 開車（date3d.js 的算法）---------------- */
   const hmText=m=>{ const h=Math.floor(m/60), r=m%60; return (h?h+' 小時':'')+(h&&r?' ':'')+(r?r+' 分鐘':''); };
-  /* 出發地（DATE-C7、AA_128 4-1、11-1）：寒暑假住臺北的家（車就在家裡）＝不加回家取車、還車的 30 分（DATE.fromHomeOn）；學期中從宿舍出發照舊去回各多 30 分 */
-  S.drive=function(loc,city,G,day){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(loc,'car'):null; const min=tr&&tr.mode==='car'?tr.minutes:(loc==='D15'?40:150), fare=tr&&tr.mode==='car'?tr.fare:(loc==='D15'?150:900);
-    const home=!!G&&day!=null&&typeof DATE!=='undefined'&&!!DATE.fromHomeOn&&DATE.fromHomeOn(G,day), pick=home?0:0.5;
-    return {travelH:min/60+pick,travel:(home?'':'回家取車約 30 分鐘，再')+'開車到'+city+'約 '+hmText(min),fare,backH:min/60+pick,home}; };
+  S.drive=function(loc,city){ const tr=typeof DATE!=='undefined'&&DATE.travel?DATE.travel(loc,'car'):null; const min=tr&&tr.mode==='car'?tr.minutes:(loc==='D15'?40:150), fare=tr&&tr.mode==='car'?tr.fare:(loc==='D15'?150:900);
+    return {travelH:min/60+0.5,travel:'回家取車約 30 分鐘，再開車到'+city+'約 '+hmText(min),fare,backH:min/60+0.5}; };
 
   /* ---------------- 出遊（OUT）---------------- */
   const outId=(f,mode)=>'fest_'+f.id+'_'+f.k+'_'+f.y+(mode?'_'+mode:'');
@@ -146,7 +142,7 @@ const FEST=(function(){
       fest:{id:f.id,k:f.k,y:f.y,mode:'meet',scene:o.place,bg:o.bg||'dark',after,slot}};
     if(plan(G,q)){ S.book(G,{d:f.d,who:f.id,k:f.k,y:f.y,slot,mode:'meet',ref:q.id}); return q; } return null; };
   /* 開車去她的城市（一整天）或陽明山（晚上場）*/
-  S.planDrive=function(G,f,o){ const c=S.cell(f.id,f.k)||{}, P=X.PEOPLE[f.id]||{}, city=o.city, loc=o.loc||X.CITY[city], dr=S.drive(loc,city,G,f.d), day=!o.eve;
+  S.planDrive=function(G,f,o){ const c=S.cell(f.id,f.k)||{}, P=X.PEOPLE[f.id]||{}, city=o.city, loc=o.loc||X.CITY[city], dr=S.drive(loc,city), day=!o.eve;
     const bg=o.bg||((P.fixedBg||{})[f.k]||{})[city]||(c.tripBg)||((P.homeBy||{})[city])||(P.home&&P.home.city===city?P.home.bg:null)||'dark';
     const h=o.h!=null?o.h:(c.tripH!=null?c.tripH:(day?12:19)), stay=day?(h>=18?2:3):2;
     const q={id:outId(f),day:f.d,h,late:0.5,place:city,title:S.name(f.k)+(day?'（開車去'+city+'找'+nm(f.id)+'）':'（開車上'+city+'）'),travel:dr.travel,travelH:dr.travelH,back:day?'回到臺北。':undefined,
@@ -192,10 +188,10 @@ const FEST=(function(){
   /* ---------------- 1-4 ①玩家約：邀約選單的一項 ---------------- */
   /* 今天、明天是她的節日、有通用版的（{id,k,y,d,W}）*/
   S.askable=function(G,id){ if(!law(G)||!X.PEOPLE[id]) return []; const out=[];
-    for(const day of [G.day,G.day+1]) for(const f of S.festsOn(id,day)){ if(f.k==='nye'&&dating(G,id)) continue; if(S.barred(G,id,f.k,f.y)) continue; const W=S.applies(G,id,f.k,f.y,f.d); if(!W) continue;
+    for(const day of [G.day,G.day+1]) for(const f of S.festsOn(id,day)){ if(f.k==='nye'&&dating(G,id)) continue; const W=S.applies(G,id,f.k,f.y,f.d); if(!W) continue;
       if(day===G.day&&(G.hour%24)>=21.5&&f.k!=='nye') continue; out.push(Object.assign({W},f)); }
     return out; };
-  S.flowOpt=function(G,id,n,together){ const L=S.askable(G,id);   /* 當面（together，story3d.js 的 offerInvite）、手機都有（1-4 ①「用現有的邀約（當面或手機）」）*/ if(!L.length) return null; const f=L[0];
+  S.flowOpt=function(G,id,n,together){ if(together) return null; const L=S.askable(G,id); if(!L.length) return null; const f=L[0];
     const b=S.bookedWith(G,id,f.d); return {t:'約她過節：'+L.map(x=>S.name(x.k)).join('、'),hint:b?'已經約好了':dLabel(f.d)+(f.k==='nye'?'　頂樓':'　中午場或晚上場'),dim:!!b}; };
   /* 她的回答：AA_415 的「節日」句（INV.replyPick；這裡打開 REPLY_ON 的節日）*/
   S.reply=async function(GM,id,who,f,kind,o){ const G=GM.G; let pk=null;
@@ -227,7 +223,7 @@ const FEST=(function(){
     const c=S.cell(id,f.k)||{}, W=f.W, opts=[];
     if(W.mode==='taipei'){ for(const slot of ((c.noonOnly||[]).includes(f.y)?['noon']:['noon','eve'])){ const [a,b]=S.SLOT[slot], ok=S.slotOk(G,f.d,slot,id,[a,b]), V=ok.ok?S.venues(G,f,slot):[];
         opts.push({t:(slot==='noon'?'中午場':'晚上場')+'（'+hm(a)+'～'+hm(b)+'）',hint:ok.ok?(V.length?'':'那個時段約不到地方'):ok.why,dim:!ok.ok||!V.length,slot,V}); } }
-    if(W.mode==='home'&&S.cellLines(c,S.ver(G,id,f.k))){ const dr=S.drive(X.CITY[W.city],W.city,G,f.d), ok=S.slotOk(G,f.d,'day',id,[0,24]); opts.push({t:'開車去'+W.city+'找她（一整天）',hint:ok.ok?dr.travel+'　油錢 '+dr.fare+' 元':ok.why,dim:!ok.ok||(G.money|0)<dr.fare,kind:'trip',city:W.city}); }
+    if(W.mode==='home'&&S.cellLines(c,S.ver(G,id,f.k))){ const dr=S.drive(X.CITY[W.city],W.city), ok=S.slotOk(G,f.d,'day',id,[0,24]); opts.push({t:'開車去'+W.city+'找她（一整天）',hint:ok.ok?dr.travel+'　油錢 '+dr.fare+' 元':ok.why,dim:!ok.ok||(G.money|0)<dr.fare,kind:'trip',city:W.city}); }
     if(W.mode!=='taipei'&&S.vidOk(G,id,c,f.y)){ const h=S.videoH(G,id,f.d), ok=S.slotOk(G,f.d,'eve',id,[h-0.25,h+0.5]); opts.push({t:(c.vid.call?'打電話給她（':'視訊（')+hm(h)+'）',hint:ok.ok?'':ok.why,dim:!ok.ok,kind:'video'}); }
     if(!opts.length) return null; opts.push({t:'算了'});
     let o=null; for(let g=0;g<10&&!o;g++){ const i=await GM.choose(opts.map(x=>({t:x.t,hint:x.hint,dim:x.dim}))); if(i>=opts.length-1) return null; const x=opts[i]; if(x.dim){ await GM.say(null,(x.hint||'這樣約不了')+'。'); continue; } o=x; }

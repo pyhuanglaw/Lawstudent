@@ -30,8 +30,7 @@ const POSTGRAD_LINES=(function(){
     lines:[[null,'（以安的媽媽站在傅鐘旁邊。）'],[MOM,'妳的學士帽歪了。'],['heroine_01','……媽。'],[null,'（以安先看媽媽一眼，媽媽輕輕點頭。）'],['heroine_01','這是我媽。她是法官。'],{cg:'cg_graduation_mother_heroine01'},[MOM,'（對大家，很平常）謝謝你們這四年陪她吵架。']],
     partner:[['heroine_01','媽，這是{name}。'],[MOM,'我知道。妳說過很多次。'],['heroine_01','……一次而已。']],
     opts:[{t:'「伯母好。」',say:[]},{t:'「她吵架都有理由。」',say:[[MOM,'那是我教的。']]},{t:'（不說話，鞠躬。）',say:[]}],   /* 都不改結果 */
-    mem:{tag:'IMPORTANT_CONVERSATION',note:'畢業典禮見到媽媽'},
-    exCaught:[[null,'（她和媽媽站在傅鐘前面。看到你，點了一下頭。）']] },   /* 抓包以後分手、還沒重建的（AA_227 的 D）：不介紹祐廷，只有這一句（AA_437 第 5 節，企劃線 fc6f20bc0）*/
+    mem:{tag:'IMPORTANT_CONVERSATION',note:'畢業典禮見到媽媽'} },
   /* ④ 學姊 W15「保溫瓶」（和她 FRIEND 以上；分手過的只有一則訊息）——「一件事。只有一件。」拿掉（b6757852，AA_327 裁定 #45）*/
   THERMOS:{
     lines:[[null,'（她還穿著碩士服，手上拿著一個新的保溫瓶。）'],['heroine_05','畢業快樂。'],['heroine_05','（把保溫瓶遞給他）裡面是熱水。不是咖啡。'],['heroine_05','每天帶出門。']],

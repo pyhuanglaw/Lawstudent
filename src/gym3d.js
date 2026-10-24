@@ -189,20 +189,10 @@ const GY3=(function(){
     for(const sx of [-1,1]) raw('cam_corner',sx>0?22:-EX,sx>0?EX:-22,17,SZ,0,TOPH);   /* 東南、西南角：兩面看台的端牆中間封起來的空間 */
     raw('cam_north',-EX,EX,F.z0-0.4,F.z0,0,A.h);   /* 北牆（大螢幕那一面）*/
     return out; }
-  /* 典禮的日子（SET-CEREMONY-1023，AA_399 第 4 節、A16；LAWWW2-B 10-23）：gym_layout.js 的 sets.ceremony.days，那一整天打開舞台＋典禮的布置
-     （開學典禮 2025-08-31 14:00、畢業典禮 2029-06-02 09:00）；回傳 'open'／'grad'／null。劇情什麼時候從 2D 換成 3D 由 LAWWW 接（站位在 sets.ceremony.spots）*/
-  function ceremonyDay(G){ const C=L().arena.sets.ceremony; if(!G||!C||!C.days||typeof CALENDAR==='undefined'||!CALENDAR.dateOf) return null; return C.days[CALENDAR.dateOf(G.day|0).key]||null; }
-  /* 典禮那天的導航：舞台（含兩側上台的樓梯）擋住；折疊椅照 chairs 分成幾塊（中間、兩側三條走道留著），每一塊整片擋住（學院的牌子在每一區最後一排後面，也包在裡面）*/
-  function ceremonyNav(nav,A){ const C=A.sets.ceremony, ch=C.chairs, st=A.sets.stage; nav.blockRect((st.x0+st.x1)/2,(st.z0+st.z1)/2,st.x1-st.x0+2.8,st.z1-st.z0,0,0.05);
-    const xs=[]; for(let x=ch.x[0];x<=ch.x[1]+1e-6;x+=ch.pitch[0]) if(!ch.aisles.some(([a,b])=>x>=a&&x<=b)) xs.push(x);
-    const groups=[]; for(const x of xs){ const g=groups[groups.length-1]; if(g&&x-g[1]<ch.pitch[0]*1.5) g[1]=x; else groups.push([x,x]); }
-    let zl=ch.z[0]; while(zl+ch.pitch[1]<=ch.z[1]+1e-6) zl+=ch.pitch[1]; const z0=ch.z[0]-0.3, z1=Math.max(zl+0.3,...(C.sections||[]).map(s=>s.z1+0.62));
-    for(const [a,b] of groups) nav.blockRect((a+b)/2,(z0+z1)/2,b-a+0.5,z1-z0,0,0); nav._cm=null; return groups; }
   const gym_arena={ id:'gym_arena', name:'綜合體育館 3F 主球場', indoor:true, camDist:5.2, build(E){ const A=L().arena, G=arenaGeo(A);
     const z=Z3.room(E,{w:66,d:56,h:A.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#c8a36a'),spawn:Object.assign({},A.spawn)}); const g0=z.group;
     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
     z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)];
-    const G0c=typeof GAME!=='undefined'?GAME.G:null, cer=ceremonyDay(G0c); z.ceremonyOn=cer; if(cer){ ceremonyNav(z.nav,A); z.cerSpots=A.sets.ceremony.spots; }
     { const st=M('#5c6670',{roughness:0.7}); for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];   /* 備用模型：每一排一條量體（正式模型載入前、失敗時）*/
         for(let r=0;r<G.N;r+=2) for(const [u0,u1] of segs){ const [xa,za]=s.at(u0,r*G.T), [xb,zb]=s.at(u1,(r+2)*G.T), h=G.H0+(r+1)*G.R; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.abs(xb-xa),h,Math.abs(zb-za)),st); m.position.set((xa+xb)/2,h/2,(za+zb)/2); fb.add(m); } } }
     /* 挑高 23 m、66×56 m：房間的頂燈不夠，場地上方六盞（白天弱、晚上亮）*/
@@ -212,14 +202,13 @@ const GY3=(function(){
     const IT=E.interactables; z.seats=[];
     for(const s of G.sides) for(const c of s.aisles) for(const r of [2,6]){ const d=r*G.T+0.5, [sx,sz]=s.at(c+G.AW/2+0.25,d), [ax,az]=s.at(c,r*G.T+0.62);
       const seat={x:sx,z:sz,y:G.H0+r*G.R,yaw:s.yaw,ap:[ax,az],lv:0}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:ax,z:az,radius:0.5,lv:0,label:'坐在看台',seat}); }
-    if(cer){ const LS=A.sets.ceremony.lawSeats; for(const zz of LS.z){ const seat={x:LS.x,z:zz,y:0,yaw:Math.PI,ap:[LS.ap,zz],lv:0}; z.seats.push(Object.assign({kind:'ceremony'},seat)); IT.push({x:LS.ap,z:zz,radius:0.4,lv:0,label:'坐下（法律學院）',seat}); } }   /* 典禮那天：法律學院那一區靠中間走道的座位 */
     IT.push({x:A.exit.at.x,z:A.exit.at.z,radius:0.5,lv:0,label:A.exit.label,exit:{to:'gym',spawn:Object.assign({},ARENA_DOWN)}});
     for(const q of A.interact||[]) if(ARENA_LOOK[q.kind]){ const k=q.kind; IT.push({x:q.x,z:q.z,radius:1.4,lv:0,label:q.label,onInteract:()=>{ const n=z.lookN[k]=(z.lookN[k]||0)+1, G1=typeof GAME!=='undefined'?GAME.G:null; if(typeof GAME!=='undefined'&&GAME.caption) GAME.caption('',arenaLook(k,G1,z,n-1),4600); }}); }
     z.lookN={};
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-      const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=!!z.ceremonyOn&&(o.name==='SET_STAGE'||o.name==='SET_CEREMONY');   /* 典禮那天打開舞台＋典禮（SET-CEREMONY-1023）*/   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
+      const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=false;   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
       Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
-  return {gym,gym_b1,gym_arena,ceremonyDay,ceremonyNav,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+  return {gym,gym_b1,gym_arena,arenaGeo,arenaLook,ARENA_LOOK,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
 })();
 Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;

@@ -1,7 +1,7 @@
 // AA_414（企劃線 b1fc4bf30；AA-B 2026-10-23）：以安、語彤交往中的節日・第一批——四年情人節（八場）、語彤的中秋（三年）、2027-02-14 麵店團群組。不需要瀏覽器。
 // 台詞一字照稿（D109）。做法照學姊的 S.HOL（src/sis_b4_3d.js）：前一天 21:00 她私訊約 → 回覆 → 出遊（OUT）→ 那一場 → 答應了沒到＝她再傳。
 // 檢查：0 讀稿（每一句台詞、選項、地點字幕、私訊都在稿裡）、index.html 接線、人物頁記憶 10 個、noodle_table_window 背景
-//   1 以安 1-1 2026 開車去台中（寒假從臺北的家出發不用取車、學期中從宿舍要先回家取車（DATE-C7）、油錢有扣；背景 car_morning → tc_park → car_night；回「在臺北。」20:00 照片；答應了沒到 15:00、17:00；沒回）
+//   1 以安 1-1 2026 開車去台中（先回家取車、油錢有扣；背景 car_morning → tc_park → car_night；回「在臺北。」20:00 照片；答應了沒到 15:00、17:00；沒回）
 //   2 以安 1-2 2027 大安森林公園（第二個回覆有沒有 2026 兩版）　3 以安 1-3 2028 總圖門口（AN_VDAY_GIFT → 3/14 ev_an_white_day「一個月前你送的」那一版）
 //   4 以安 1-4 2029 21:00 電話（沒有前一天的私訊；先不接＝21:30、21:31 兩則）
 //   5 語彤 2-1 2026 店休（幫忙的 16:00 版）　6 語彤 2-2 2027 麵店的紅紙＋第 3 節群組　7 語彤 2-3 2028 寶藏巖　8 語彤 2-4 2029 年糕（有沒有 2026 兩版）
@@ -74,12 +74,10 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     check('1-1. 2/12（四）21:00 以安私訊「十四號那天，你在臺北嗎？」（20:00 還沒到）；回覆「我去台中找妳。」「在臺北。」',before===0&&J(dms(AN))===J(['十四號那天，你在臺北嗎？'])&&J(optsOf('anyt_an_y1_ask'))===J(['我去台中找妳。','在臺北。']),J(dms(AN)));
     PHONE.answer(H.G,'anyt_an_y1_ask',0); rules(); const q=OUT.get(H.G,'anyt_an_vday_y1');
     check('1-1. 「我去台中找妳。」→「……好。」「十四號下午兩點。我把我家附近那個公園的地址傳給你。」「上午我陪我媽去市場，不要太早到。」、AN_VDAY_Y1_GO',J(dms(AN).slice(-4))===J(['我去台中找妳。','……好。','十四號下午兩點。我把我家附近那個公園的地址傳給你。','上午我陪我媽去市場，不要太早到。'])&&H.G.flags.AN_VDAY_Y1_GO===true,J(dms(AN)));
-    check('1-1. 出遊：2/14 14:00、late 0.5、標題「情人節（開車去台中找以安）」；開車照 date3d.js（D26 單程 150 分；2/14 在寒假、從臺北的家出發，不加回家取車的 30 分＝2.5 小時，DATE-C7；來回 900 元）',!!q&&q.day===H.D('2026-02-14')&&q.h===14&&q.late===0.5&&q.title==='情人節（開車去台中找以安）'&&q.travelH===DATE.travel('D26','car').minutes/60&&q.travelH===2.5&&q.fare===900&&q.travel==='開車到台中約 2 小時 30 分鐘',J(q));
-    { const dorm=ANYTHOL.drive(H.G,H.D('2026-03-14')), home=ANYTHOL.drive(H.G,H.D('2026-02-14'));
-      check('1-1. 開車的算法（DATE-C7）：學期中從宿舍出發＝先回家取車 30 分（3 小時、「回家取車約 30 分鐘，再開車到台中約 2 小時 30 分鐘」）；寒暑假從家裡＝2.5 小時、沒有取車那一句',dorm.travelH===3&&dorm.travel==='回家取車約 30 分鐘，再開車到台中約 2 小時 30 分鐘'&&home.travelH===2.5&&home.travel==='開車到台中約 2 小時 30 分鐘'&&dorm.fare===900,J({dorm,home})); }
-    at('2026-02-14',11.3); const due=OUT.due(H.G); const a=relOf(AN), m0=H.G.money; money=[];
+    check('1-1. 出遊：2/14 14:00、late 0.5、標題「情人節（開車去台中找以安）」；開車照 date3d.js（D26 單程 150 分＋先回家取車 30 分＝3 小時；來回 900 元）',!!q&&q.day===H.D('2026-02-14')&&q.h===14&&q.late===0.5&&q.title==='情人節（開車去台中找以安）'&&q.travelH===DATE.travel('D26','car').minutes/60+0.5&&q.travelH===3&&q.fare===900&&/回家取車/.test(q.travel),J(q));
+    at('2026-02-14',10.8); const due=OUT.due(H.G); const a=relOf(AN), m0=H.G.money; money=[];
     const {L}=await goOut('anyt_an_vday_y1',[0]);
-    check('1-1. 11:15 就問出發（14:00 減 2.5 小時再早 15 分；寒假從臺北的家出發不用取車，DATE-C7）',!!due&&due.id==='anyt_an_vday_y1');
+    check('1-1. 10:45 就問出發（14:00 減 3 小時再早 15 分）',!!due&&due.id==='anyt_an_vday_y1');
     check('1-1. 油錢有扣（出發的時候 -900 交通）',m0-H.G.money===900&&J(money)===J([[-900,'交通']]),J(money));
     check('1-1. 背景：car_morning → tc_park（公園門口、公園）→ car_night（國道・休息站）',J(H.bgs.map(img).filter((b,i,A)=>typeof b==='string'&&b!=='dark'&&A.indexOf(b)===i))===J(['car_morning','tc_park','car_night']),J(H.bgs.map(img)));
     check('1-1. 那一場照稿（「我想來。」）',J(L)===J(['（她站在公園門口，圍巾圍到下巴。看到你下車，先看了一下手錶。）','你出門的時候傳了訊息。我算你兩點到。','開了兩個多小時，就為了這個？……你可以不用來的。','……嗯。','（她把圍巾拉下來一點。）',

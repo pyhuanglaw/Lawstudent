@@ -30,7 +30,7 @@ const WISH=(function(){
   S.EV_FN={ev_an_admin_answer:G=>S.weekDone(G,'admin_law',12)};   /* 以安新 9「我要改我的答案」＝大二上行政法第 12 週的課堂（syllabus.js admin_law w12 的 react），上過那一週就算 */
   S.FLAG_FN={
     SIS_BEEN_US:G=>{ const d=dk('2028-12-23'); return d!=null&&G.day>=d; },   /* 學姊去過美國以後（暫名）：她 2028-12-23 回來（characters.js 的 absentDates，BB_204）*/
-    KX_TRIP_DEFERRED_DONE:G=>{ const F=G.flags||{}; if(G.events&&G.events.done&&G.events.done.ev_kexin_trip_summer_y2) return true; if(!F.KX_TRIP_DEFERRED) return false; const d=STORY.termDay?STORY.termDay('Y2S1',1,1):null; return d!=null&&G.day>=d; } };   /* K8 延到暑假那一趟走完：春假沒去、延期（KX_TRIP_DEFERRED）的那個暑假過了，或大二暑假的高雄兩天演過（AA_432 確認這樣算，企劃線 1ced2f8b3）*/
+    KX_TRIP_DEFERRED_DONE:G=>{ const F=G.flags||{}; if(G.events&&G.events.done&&G.events.done.ev_kexin_trip_summer_y2) return true; if(!F.KX_TRIP_DEFERRED) return false; const d=STORY.termDay?STORY.termDay('Y2S1',1,1):null; return d!=null&&G.day>=d; } };   /* K8 延到暑假那一趟走完（暫名）：春假沒去、延期（KX_TRIP_DEFERRED）的那個暑假過了，或大二暑假的高雄兩天演過 */
   const evDone=(G,e)=>{ if(S.EV_FN[e]) return !!S.EV_FN[e](G); const x=S.EV_ALIAS[e]||e; return !!(G.events&&G.events.done&&G.events.done[x]); };
   const flagOn=(G,f)=>S.FLAG_FN[f]?!!S.FLAG_FN[f](G):!!(G.flags&&G.flags[f]!=null&&G.flags[f]!==false);
   /* 那門課的第幾週已經上過（以安：憲法（上）第 6 週＝人身自由）：照日曆，那一週那堂課結束以後 */
@@ -162,10 +162,10 @@ const WISH=(function(){
     await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
     const A=ev.arrive||{}; if(A.narr) await S.say(GM,id,[{who:'narr',text:A.narr}],who); await S.say(GM,id,A.lines,who);
     for(const x of (A.extraIf||[])) if(S.cond(G,id,cOf(x))) await S.say(GM,id,x.lines,who);   /* 關係那一句（交往中、第 6 階單身互斥）、你來過一次……成立的都說 */
-    if(ev.fixed){ const lf=(D.fixedOf&&D.fixedOf(loc))||null; await S.say(GM,id,ev.fixed.lines,who); if(GM.advance) GM.advance((ev.fixed.minutes|0)/60); endH+=Math.max(0,(ev.fixed.minutes|0)-((lf&&lf.minutes)|0))/60; if(lf&&(lf.cost|0)>0&&GM.money) GM.money(-(lf.cost|0),L.name+' '+lf.label); }   /* 固定活動（芷若：看電影 120 分，不算互動點，也不吃掉互動點的時間：回程跟著晚——地點資料的 fixed 已經算進回程（DATE.plan），這裡只補多出來的；電影票照地點資料扣（稿：「票各自付（AA_128 定價）」）*/
+    if(ev.fixed){ await S.say(GM,id,ev.fixed.lines,who); if(GM.advance) GM.advance((ev.fixed.minutes|0)/60); endH+=(ev.fixed.minutes|0)/60; }   /* 固定活動（芷若：看電影 120 分，不算互動點，也不吃掉互動點的時間：回程跟著晚）*/
     const HS=Object.keys(ev.hotspots||{});
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour, left=HS.filter(p=>!spots.includes(p)); if(!left.length) break;
-      const opts=left.map(p=>{ const h=ev.hotspots[p], rw=D.spotOff?D.spotOff(G,p):(D.rainOff?D.rainOff(G,p):''); return {t:h.name,hint:(h.minutes|0)+' 分'+(h.cost?'　'+h.cost+' 元':''),dis:!!rw||now+(h.minutes|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);   /* 下雨停用的互動點（淡水長椅「椅子是濕的」，DATE.rainOff）同一般約會 */
+      const opts=left.map(p=>{ const h=ev.hotspots[p], rw=D.rainOff?D.rainOff(G,p):''; return {t:h.name,hint:(h.minutes|0)+' 分'+(h.cost?'　'+h.cost+' 元':''),dis:!!rw||now+(h.minutes|0)/60>endH,why:rw||'時間差不多了'}; }).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);   /* 下雨停用的互動點（淡水長椅「椅子是濕的」，DATE.rainOff）同一般約會 */
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast(opts[k].why); n--; continue; }
       const pid=left[k], h=ev.hotspots[pid]; spots.push(pid); await S.spot(GM,t,ev,pid,who); if(GM.advance) GM.advance((h.minutes|0)/60); if(h.cost&&GM.money) GM.money(-h.cost,h.name);
       const lk=h.like||(D.likeOf?D.likeOf(id,pid):'normal'); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&D.LIKE&&D.LIKE[lk]&&Object.keys(D.LIKE[lk]).length) SOCIAL.adjust(id,D.LIKE[lk]);

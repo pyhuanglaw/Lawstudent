@@ -148,14 +148,14 @@ await sec('P',async()=>{
   const psG=(since)=>{ fresh('2027-10-04',10,'dorm'); date(PS); if(since) ROM.get(H.G,PS).sinceDay=D(since); for(let i=0;i<3;i++) crack(PS,1); return pr(PS).plan; };
   let p=psG(); check('P1. 視訊 21:00（她在台南）；20:00「今晚九點，可以視訊嗎？」「……有一件事，我想好好說。」；沒接 30 分鐘再打、隔天兩次',p&&p.mode==='video'&&p.att.length===4&&p.att[1].h===21.5&&p.att[2].day===p.att[0].day+1&&J(p.att[0].invite.msgs)===J(['今晚九點，可以視訊嗎？','……有一件事，我想好好說。']),J(p&&p.att));
   at(p.att[0].day,20.95); rules(); let q=outOf(PS)[0]; await go(q,[2,1]);
-  check('P2. 「妳想好了嗎？」→「我想了一個月。我只是想聽你說。」→ 只剩兩個（＋不回答）；「我也有感覺。」＝生活差異；重考那年沒在交往＝最後一句「謝謝你一直接我的電話。」（AA_431 1-7 第 4 點）',J(said())===J(PS_BODY.concat(['我想了一個月。我只是想聽你說。','嗯。……那我們好好說再見。','謝謝你一直接我的電話。']))&&J(H.opts[0])===J(['「每個月我去台南找妳一次。」','「我也有感覺。」','「妳想好了嗎？」',NONE])&&J(H.opts[1])===J(['「每個月我去台南找妳一次。」','「我也有感覺。」',NONE])&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===PS&&h.how==='apart_life'),J({s:said(),o:H.opts}));
+  check('P2. 「妳想好了嗎？」→「我想了一個月。我只是想聽你說。」→ 只剩兩個（＋不回答）；「我也有感覺。」＝生活差異（重考那年沒在交往：沒有最後那一句）',J(said())===J(PS_BODY.concat(['我想了一個月。我只是想聽你說。','嗯。……那我們好好說再見。']))&&J(H.opts[0])===J(['「每個月留一天給溫州街。」','「我也有感覺。」','「妳想好了嗎？」',NONE])&&J(H.opts[1])===J(['「每個月留一天給溫州街。」','「我也有感覺。」',NONE])&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===PS&&h.how==='apart_life'),J({s:said(),o:H.opts}));
   p=psG('2026-10-01'); at(p.att[0].day,20.95); rules(); q=outOf(PS)[0]; await go(q,[1]);
   check('P3. 重考那年（2026-12-17 起）已經在交往：分開時「謝謝你在我重考那年陪我。那一年，我不會忘。」',said().slice(-1)[0]==='謝謝你在我重考那年陪我。那一年，我不會忘。');
   p=psG(); at(p.att[0].day,20.95); rules(); q=outOf(PS)[0]; await go(q,[0]);
-  check('P4. 「每個月我去台南找妳一次。」→「好啊！！……那我先把那幾個週末空下來。」＝修補，之後三個月要驗（AA_431 1-7 第 1 點）',said().slice(-1)[0]==='好啊！！……那我先把那幾個週末空下來。'&&cnt(PS)===0&&H.G.flags.dating_classmate_peishan===true&&pr(PS).commit&&pr(PS).commit.kind==='ps_month');
+  check('P4. 「每個月留一天給溫州街。」→「好。我會記得你說過。」＝修補（之後要驗的溫州街邀約對不上現行設定：先當修補）',said().slice(-1)[0]==='好。我會記得你說過。'&&cnt(PS)===0&&H.G.flags.dating_classmate_peishan===true);
   p=psG(); for(const a of p.att){ at(a.day,a.h+0.4); rules(); expire(); rules(); } const dr=pr(PS).drift;
   at(dr.day,21); rules();
-  check('P5. 四通都沒接＝不回答；兩週後兩句都送「那天視訊說的事，我想到一個奇怪的答案。」「我們先當朋友。……這樣你就不用回答了。」（AA_431 1-7 第 3 點）',J(dm(PS).slice(-2))===J(['classmate_peishan:那天視訊說的事，我想到一個奇怪的答案。','classmate_peishan:我們先當朋友。……這樣你就不用回答了。'])&&!dm(PS).some(t=>/溫州街那天/.test(t))&&H.G.flags.dating_classmate_peishan===false,J(dm(PS).slice(-3)));
+  check('P5. 四通都沒接＝不回答；兩週後只送第二句「我們先當朋友。……這樣你就不用回答了。」（視訊談的，沒有溫州街那句）',J(dm(PS).slice(-1))===J(['classmate_peishan:我們先當朋友。……這樣你就不用回答了。'])&&!dm(PS).some(t=>/溫州街那天/.test(t))&&H.G.flags.dating_classmate_peishan===false,J(dm(PS).slice(-3)));
 });
 
 /* ======================= Z 芷若 ======================= */
@@ -212,127 +212,11 @@ await sec('Q',async()=>{
   at(sat,20.1); expire(); rules(); check('Q4. 沒到：20:00「明天。一樣七點。」→ 週日 19:00',dm(ZQ).slice(-1)[0]==='heroine_04:明天。一樣七點。'&&pr(ZQ).plan.i===1&&!!outOf(ZQ).find(x=>x.day===sat+1&&x.state==='planned'));
   at(sat+1,18.5); const q2=outOf(ZQ).find(x=>x.day===sat+1); await go(q2,[1,1]);
   check('Q5. 河堤：逐字；「我等，是因為我想等。」→「我知道。……可是我不想。」→ 回到另外兩個；「我們都太忙了。」＋最後一句、生活差異',J(said())===J(ZQ_BODY.concat(['我知道。……可是我不想。','嗯。……我們先不要了。','之後還是朋友。……我說真的。']))&&J(H.opts[0])===J(['「那妳來決定時間。」','「我等，是因為我想等。」','「我們都太忙了。」',NONE])&&J(H.opts[1])===J(['「那妳來決定時間。」','「我們都太忙了。」',NONE])&&H.bgs.some(b=>b&&b.image==='assets/bg/riverside.webp')&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===ZQ&&h.how==='apart_life'),J({s:said(),o:H.opts}));
-  p=zqG(); at(sat,18.5); rules(); await go(outOf(ZQ)[0],[0]); check('Q6. 「那妳來決定時間。」→「……好。這次換我約你。」＝修補，之後一個月她約三次（AA_431 1-7 第 2 點，下面 M 節）',said().slice(-1)[0]==='……好。這次換我約你。'&&cnt(ZQ)===0&&H.G.flags.dating_heroine_04===true&&pr(ZQ).commit&&pr(ZQ).commit.kind==='zq_month');
+  p=zqG(); at(sat,18.5); rules(); await go(outOf(ZQ)[0],[0]); check('Q6. 「那妳來決定時間。」→「……好。這次換我約你。」＝修補（她發的三次邀約遊戲裡沒有：先當修補）',said().slice(-1)[0]==='……好。這次換我約你。'&&cnt(ZQ)===0&&H.G.flags.dating_heroine_04===true);
   p=zqG(); for(const a of p.att){ at(a.day,a.h+1.1); rules(); expire(); rules(); } const dr=pr(ZQ).drift; at(dr.day,21); rules();
   check('Q7. 兩次都沒到＝不回答：一週後貼圖＋「我們先當朋友」',J(dm(ZQ).slice(-2))===J(['heroine_04:（貼圖：插座貓，一隻貓自己在充電）','heroine_04:我們先當朋友'])&&H.G.flags.dating_heroine_04===false,J(dm(ZQ).slice(-3)));
   p=zqG('2029-05-07'); check('Q8. 那個週六是 5/12（吉他社成發）：改週日 5/13，前一晚 5/12 21:00 私訊',p.att[0].day===D('2029-05-13')&&p.att[0].invite.day===D('2029-05-12'),J(p.att[0]));
   fresh('2028-10-09',10,'dorm',{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_ARRIVED:true}); date(ZQ); for(let i=0;i<3;i++) crack(ZQ,1); check('Q9. 你在美國：先等',!pr(ZQ).plan&&!!pr(ZQ).wait);
-});
-
-/* ======================= S 裂縫來源（AA_431 第 1 節，企劃線 434e6d6d7；1-1 照 AA_434 更正）======================= */
-const ans=(tag,k)=>PHONE.answer(H.G,tag,k);
-const optsOf=tag=>{ const m=PHONE.byAsk(H.G,tag); return m?m.ask.opts.map(o=>o.t):null; };
-const firstWd=(tid,w,wd)=>{ for(let d=D('2025-08-01');d<D('2031-01-01');d++){ const t=CALENDAR.termOf(d); if(t&&t.id===tid&&t.week===w&&wdOf(d)===wd) return d; } return null; };
-await sec('S',async()=>{
-  /* 以安① */
-  const thu=D('2026-09-24'), K1='ct_an1_2026-09-24';
-  const an1=fl=>{ fresh('2026-09-21',10,'dorm',fl); H.G.events.done.ev_public_law_group=1; date(AN); at(thu,12.6); rules(); };
-  an1(); check('S1. 以安①：讀書會的週四 12:30「今晚讀書會 20:00，萬才館研討室 A。你來嗎？」（照 AA_434 更正的時間）、兩個回覆（沒有家教）',J(dm(AN).slice(-1))===J(['heroine_01:今晚讀書會 20:00，萬才館研討室 A。你來嗎？'])&&J(optsOf(K1))===J(['會。','今天不行，報告要交。']),J([dm(AN),optsOf(K1)]));
-  ans(K1,0); at(thu,21.7); rules();
-  check('S1. 說「會。」→「好。」；20:30 還沒到＝21:40「你今天沒來。」、+1',dm(AN).includes('heroine_01:好。')&&dm(AN).slice(-1)[0]==='heroine_01:你今天沒來。'&&cnt(AN)===1,J([dm(AN),cnt(AN)]));
-  an1(); ans(K1,1); at(thu,21.7); rules(); check('S2. 「今天不行，報告要交。」→「好。講義我留一份給你。」、沒到也不加',dm(AN).includes('heroine_01:好。講義我留一份給你。')&&!dm(AN).includes('heroine_01:你今天沒來。')&&cnt(AN)===0);
-  an1(); H.G.acts.att['public_law_group@'+thu]={h:20,end:'full'}; at(thu,21.7); rules(); check('S3. 沒回、可是 20:00 到了＝0',!dm(AN).includes('heroine_01:你今天沒來。')&&cnt(AN)===0);
-  an1(); at(thu,21.7); rules(); check('S3. 沒回、也沒到＝21:40、+1',dm(AN).slice(-1)[0]==='heroine_01:你今天沒來。'&&cnt(AN)===1);
-  an1({JOB_TUTOR:true}); check('S4. 那學期有家教：多「今天不行，有家教。」→「好。下週見。」',(optsOf(K1)||[])[2]==='今天不行，有家教。'&&(ans(K1,2),dm(AN).includes('heroine_01:好。下週見。')));
-  fresh('2026-09-21',10,'dorm'); date(AN); at(thu,12.6); rules(); check('S4. 讀書會第一次（白板）還沒演：沒有',!dm(AN).some(t=>/今晚讀書會/.test(t)));
-  /* 以安② */
-  const t4=firstWd('Y2S2',4,2), t10=firstWd('Y2S2',10,2);
-  fresh('2027-03-01',10,'dorm'); date(AN); at(t4,21.05); rules();
-  check('S5. 以安②：大二下第 4 週週二 21:00 問意見（三個回覆）',dm(AN).slice(-1)[0]==='heroine_01:交換我想申請日本。可是讀書會就要交給別人了。你覺得呢？'&&J(optsOf('ct_an2_1'))===J(['去。讀書會可以先找人代。','讀書會再帶一學期，明年再去。','妳決定就好。']),J(optsOf('ct_an2_1')));
-  ans('ct_an2_1',2); rules(); at(t10,21.05); rules();
-  check('S5. 第一題「妳決定就好。」→「……好。」、不加；第 10 週第二題',dm(AN).includes('heroine_01:……好。')&&cnt(AN)===0&&dm(AN).slice(-1)[0]==='heroine_01:下個月我媽生日。她說什麼都不要。你覺得送什麼？');
-  ans('ct_an2_2',2); rules(); check('S6. 連續兩題都選：她的回覆換成「你最近都說『都可以』。」、+1',dm(AN).slice(-1)[0]==='heroine_01:你最近都說『都可以』。'&&cnt(AN)===1,J([dm(AN).slice(-2),cnt(AN)]));
-  fresh('2027-03-01',10,'dorm'); date(AN); at(t4,21.05); rules(); ans('ct_an2_1',0); rules(); at(t10,21.05); rules(); ans('ct_an2_2',2); rules();
-  check('S6. 中間認真回答一題＝重新算：第二題選「妳決定就好。」也不加',cnt(AN)===0&&dm(AN).slice(-1)[0]==='heroine_01:……好。我再想想。');
-  /* 語彤② */
-  fresh('2026-10-05',10,'dorm'); date(YT); ROM.get(H.G,YT).sinceDay=D('2026-10-05'); at('2026-11-02',17); rules(); check('S7. 語彤②：每 4 週一次；28 天後的週一不是顧店日＝不傳',!dm(YT).some(t=>/顧店/.test(t)));
-  at('2026-11-03',16.6); rules(); check('S7. A 顧店那天（週二）16:30「今天顧店到九點。」',dm(YT).slice(-1)[0]==='heroine_03:今天顧店到九點。'&&J(optsOf('ct_yt2_0'))===J(['我去店裡吃。','那我等妳下班。','今天可以不要顧店嗎？陪我。']));
-  ans('ct_yt2_0',2); rules(); check('S7. 「今天可以不要顧店嗎？陪我。」→「……今天不行。」+1',dm(YT).slice(-1)[0]==='heroine_03:……今天不行。'&&cnt(YT)===1);
-  at('2026-12-04',21.05); rules(); check('S8. 再 4 週：B 週五 21:00「明天陪我媽回診。」',dm(YT).slice(-1)[0]==='heroine_03:明天陪我媽回診。');
-  ans('ct_yt2_1',0); rules(); check('S8. 「要我一起去嗎？」→「不用。……可是謝謝。」不加',dm(YT).slice(-1)[0]==='heroine_03:不用。……可是謝謝。'&&cnt(YT)===1);
-  /* 沛珊（大三起在台南）*/
-  const psD=k=>{ fresh(k,10,'dorm'); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); };
-  const f8=firstWd('Y4S1',8,5), f9=firstWd('Y4S1',9,5);
-  psD('2028-10-16'); at(f8,21.05); rules();
-  check('S9. 沛珊①：期中考週（第 8 週）週五 21:00「這週末要視訊嗎？還是你要考試？」→ 祐廷（固定）「這週考試，下週好不好？」→「好啊！考試加油。」、不加',J(dm(PS).slice(-3))===J(['classmate_peishan:這週末要視訊嗎？還是你要考試？','player:這週考試，下週好不好？','classmate_peishan:好啊！考試加油。'])&&cnt(PS)===0,J(dm(PS)));
-  at(f9,21.05); rules(); check('S9. 第 9 週第二次改期：「又改期了。……沒關係，我寫在下週。」「下週的格子也滿了。我們再找。」、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:又改期了。……沒關係，我寫在下週。','classmate_peishan:下週的格子也滿了。我們再找。'])&&cnt(PS)===1);
-  psD('2027-10-01'); at(firstWd('Y3S1',9,5),21.05); rules(); check('S9. 期中考只有一週的學期（大三上）：沒有',!dm(PS).some(t=>/還是你要考試/.test(t)));
-  const w5=firstWd('Y3S1',5,3); psD('2027-10-01'); at(w5,23.2); rules();
-  check('S10. 沛珊②：第 5 週週三 23:10「今天有一個孩子說，他爸爸說他是笨蛋。」',dm(PS).slice(-1)[0]==='classmate_peishan:今天有一個孩子說，他爸爸說他是笨蛋。'&&J(optsOf('ct_ps2_Y3S1'))===J(['這可能已經算言語上的……','後來呢？妳怎麼跟他說？']));
-  ans('ct_ps2_Y3S1',0); rules(); check('S10. 用法條回答：「我不是要答案。我只是想講。」+1',dm(PS).slice(-1)[0]==='classmate_peishan:我不是要答案。我只是想講。'&&cnt(PS)===1);
-  psD('2027-10-01'); at(w5,23.2); rules(); ans('ct_ps2_Y3S1',1); rules(); check('S10. 「後來呢？妳怎麼跟他說？」→ 兩句、不加',J(dm(PS).slice(-2))===J(['classmate_peishan:我跟他說，你不是。','classmate_peishan:……然後我們一起把作業寫完了。'])&&cnt(PS)===0);
-  psD('2027-10-01'); at('2027-10-31',23.1); rules(); check('S11. 沛珊③：10 月底（9 月是交往開始那個月）：還不到兩個月',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
-  at('2027-11-30',23.1); rules(); check('S11. 10、11 月都沒去台南：11/30 23:00「這個月你也沒來。」「……我不是在數。我只是剛好記得。」、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:這個月你也沒來。','classmate_peishan:……我不是在數。我只是剛好記得。'])&&cnt(PS)===1);
-  psD('2027-10-01'); H.G.events.last.ev_hv_ps_tn=D('2027-11-06'); at('2027-11-30',23.1); rules(); check('S11. 11 月去過台南：沒有',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
-  /* 沛珊修補 */
-  psD('2027-10-01'); at('2027-10-05',10); pr(PS).commit={kind:'ps_month',day:H.G.day,miss:0,asked:{},done:{}};
-  at('2027-11-30',23.5); rules(); at('2027-12-01',21.1); rules(); check('S12. 修補以後 11 月沒去：12/1 21:00「這個月你會來嗎？」、還在交往',dm(PS).slice(-1)[0]==='classmate_peishan:這個月你會來嗎？'&&H.G.flags.dating_classmate_peishan===true);
-  at('2027-12-10',12); H.G.events.last.ev_hv_ps_tn=D('2027-12-10'); rules(); at('2028-01-05',10); rules(); at('2028-02-28',10); rules(); check('S12. 12 月去了；1、2 月（寒假多）不算、往後延',H.G.flags.dating_classmate_peishan===true&&!dm(PS).slice(-1)[0].includes('謝謝你'));
-  at('2028-04-01',0.5); rules();
-  check('S12. 3 月又沒去（漏兩個月）＝分開（apart_talk）＋最後一句「謝謝你一直接我的電話。」',H.G.flags.dating_classmate_peishan===false&&dm(PS).slice(-1)[0]==='classmate_peishan:謝謝你一直接我的電話。',J(dm(PS).slice(-2)));
-  psD('2027-10-01'); at('2027-10-05',10); pr(PS).commit={kind:'ps_month',day:H.G.day,miss:0,asked:{},done:{}};
-  for(const [v,end] of [['2027-11-13','2027-12-01'],['2027-12-11','2028-01-01'],['2028-03-11','2028-04-01']]){ at(v,12); H.G.events.last.ev_hv_ps_tn=D(v); rules(); at(end,9); rules(); }
-  check('S13. 三個月（11、12、3 月）都去了＝做到，修補結束、還在交往',!pr(PS).commit&&(pr(PS).kept|0)===1&&H.G.flags.dating_classmate_peishan===true);
-  /* 芷若③ */
-  const s6=firstWd('Y3S1',6,0); fresh('2027-10-01',10,'dorm'); date(ZR); at(s6,7.05); rules();
-  check('S14. 芷若③：她在英國，第 6 週週日 07:00「📷（戲院的銀幕，從倒數第三排拍的）」「今天這部很好看」',J(dm(ZR).slice(-2))===J(['heroine_02:📷（戲院的銀幕，從倒數第三排拍的）','heroine_02:今天這部很好看'])&&J(optsOf('ct_zr3_Y3S1'))===J(['妳坐哪一排？','（晚點再回）']),J(dm(ZR)));
-  ans('ct_zr3_Y3S1',1); at(s6+1,8); rules(); const z1=cnt(ZR); at(s6+2,7.1); rules();
-  check('S14. 「（晚點再回）」：兩天後祐廷那則自動送出「好看」、她回「嗯。」，+1',z1===0&&J(dm(ZR).slice(-2))===J(['player:好看','heroine_02:嗯。'])&&cnt(ZR)===1,J([dm(ZR).slice(-3),cnt(ZR)]));
-  fresh('2027-10-01',10,'dorm'); date(ZR); at(s6,7.05); rules(); ans('ct_zr3_Y3S1',0); at(s6+3,8); rules(); check('S15. 「妳坐哪一排？」→「倒數第三排。你知道的。」不加',dm(ZR).slice(-1)[0]==='heroine_02:倒數第三排。你知道的。'&&cnt(ZR)===0);
-  fresh('2027-10-01',10,'dorm'); date(ZR); at(s6,7.05); rules(); at(s6+3,7.1); rules(); check('S15. 72 小時沒回＝+1',cnt(ZR)===1);
-  /* 子晴（畢業以後在工作室）*/
-  const zqD=k=>{ fresh(k,10,'dorm'); date(ZQ); };
-  const m8=firstWd('Y4S1',8,2);
-  zqD('2028-10-16'); H.G.invites=[{id:'ivA',who:ZQ,place:'cafe',day:m8,h:19,state:'accepted'}]; at(m8,17.6); rules();
-  check('S16. 子晴①：大四上第 8 週約好的平日晚上：17:30「又要加班 對不起」、行程取消、回覆「沒關係，下次。」',H.G.invites[0].state==='cancelled'&&dm(ZQ).slice(-1)[0]==='heroine_04:又要加班 對不起'&&J(optsOf('ct_zq1_ivA'))===J(['沒關係，下次。'])&&cnt(ZQ)===0);
-  ans('ct_zq1_ivA',0); check('S16. →「……下次我先訂好，不讓它跑掉。」',dm(ZQ).slice(-1)[0]==='heroine_04:……下次我先訂好，不讓它跑掉。');
-  H.G.invites.push({id:'ivB',who:ZQ,place:'cafe',day:m8+1,h:19,state:'accepted'},{id:'ivC',who:ZQ,place:'cafe',day:m8+2,h:19,state:'accepted'}); at(m8+1,17.6); rules(); at(m8+2,17.6); rules();
-  check('S16. 同一個月第三次：多「……第三次了 我知道」、+1',J(dm(ZQ).slice(-2))===J(['heroine_04:又要加班 對不起','heroine_04:……第三次了 我知道'])&&cnt(ZQ)===1,J(dm(ZQ).slice(-3)));
-  zqD('2028-10-16'); H.G.invites=[{id:'ivA',who:ZQ,place:'cafe',day:m8,h:19,state:'accepted'},{id:'ivB',who:ZQ,place:'cafe',day:m8+1,h:19,state:'accepted'}]; DATE.rec(H.G);
-  H.G.trips.push({trip:'tz1',who:ZQ,locs:['D03'],day:m8+2,depart:18.5,back:22.5,kind:'evening',status:'booked'},{trip:'tz2',who:ZQ,locs:['D03'],day:m8+4,depart:10,back:16,kind:'half',status:'booked'});
-  OUT.plan(H.G,{id:'date_tz1',dateTrip:'tz1',ev:null,day:m8+2,h:19,place:'參創生活園區',title:'和子晴去參創生活園區',late:1});
-  for(let k=0;k<5;k++){ at(m8+k,17.6); rules(); }
-  check('S16b. 校外約會（DATE 的預約）晚上那一種也算：那天 17:30 取消（行事曆那一筆也取消）、和約人系統的合起來同一個月第三次＝多一則、+1',H.G.trips[0].status==='cancelled'&&OUT.get(H.G,'date_tz1').state==='skipped'&&J(dm(ZQ).filter(t=>/加班|第三次/.test(t)))===J(['heroine_04:又要加班 對不起','heroine_04:又要加班 對不起','heroine_04:又要加班 對不起','heroine_04:……第三次了 我知道'])&&cnt(ZQ)===1,J([H.G.trips.map(t=>t.status),dm(ZQ)]));
-  check('S16b. 週六白天的校外約會不動',H.G.trips[1].status==='booked');
-  zqD('2028-09-25'); const w1=(()=>{ for(let d=D('2028-10-01');;d++) if(wdOf(d)===3) return d; })(); at(w1,23.55); rules();
-  check('S17. 子晴②：每個月第一個週三 23:30「今天又改了三個 bug」「眼睛快掉了」',J(dm(ZQ).slice(-2))===J(['heroine_04:今天又改了三個 bug','heroine_04:眼睛快掉了']));
-  ans('ct_zq2_2028-10',0); rules(); check('S17. 「妳要不要先休息？」→「你在替我決定嗎」+1',dm(ZQ).slice(-1)[0]==='heroine_04:你在替我決定嗎'&&cnt(ZQ)===1);
-  zqD('2028-10-16'); INV.addContact(H.G,ZQ); H.G.events.done.ev_ziqing_secret_game=1; const wd=D('2028-10-17'); at(wd,20);   /* 子晴的私訊從 ev_ziqing_secret_game 起才有（msg3d.js）*/
-  check('S18. 子晴③：平日 19:00～21:30 手機的話題多「我去妳公司樓下等妳」',MSG.topics(H.G,ZQ).some(q=>q.k==='zq_wait'&&q.t==='我去妳公司樓下等妳'));
-  const r1=MSG.send(H.G,ZQ,'zq_wait'); H.said=[]; await tick();
-  check('S18. 第一次：「（大樓門口。九點多，樓上還有一層燈亮著。）」「你怎麼來了。」「（她把外套拉鍊拉上，走在你旁邊。）」、1 小時',r1.ok&&dm(ZQ).slice(-1)[0]==='player:我去妳公司樓下等妳'&&J(said())===J(['（大樓門口。九點多，樓上還有一層燈亮著。）','你怎麼來了。','（她把外套拉鍊拉上，走在你旁邊。）'])&&Math.abs(H.G.hour-21)<1e-6,J([said(),H.G.hour]));
-  at(wd+1,20); MSG.send(H.G,ZQ,'zq_wait'); H.said=[]; await tick(); const s2=said();
-  at(wd+2,20); MSG.send(H.G,ZQ,'zq_wait'); H.said=[]; await tick(); const s3=said();
-  check('S18. 第二次「……又來了。」；30 天內第三次「你不用等。」「我下班不知道幾點，你等我，我會更急。」+1',s2.includes('……又來了。')&&s2.includes('（她沒有說不好，也沒有說好。）')&&J(s3.slice(1))===J(['你不用等。','我下班不知道幾點，你等我，我會更急。'])&&cnt(ZQ)===1,J([s2,s3]));
-  at(D('2028-10-21'),20); check('S18. 週末：沒有那個話題',!MSG.topics(H.G,ZQ).some(q=>q.k==='zq_wait'));
-});
-
-/* ======================= M 修補「那妳來決定時間。」、邀約的回覆選項 ======================= */
-await sec('M',async()=>{
-  const c0=D('2028-10-09');   /* 週一修補 → 第一個週三 10/11 */
-  const zqM=()=>{ fresh('2028-10-09',10,'dorm'); date(ZQ); pr(ZQ).commit={kind:'zq_month',day:c0,k:0,went:0,ans:{}}; };
-  const tg=i=>'ct_zqm_'+c0+'_'+i;
-  zqM(); at(D('2028-10-11'),22.55); rules();
-  check('M1. 修補後第一個週三 22:30「週五 我九點下班」「宵夜」（好。／這次不行。）',J(dm(ZQ).slice(-2))===J(['heroine_04:週五 我九點下班','heroine_04:宵夜'])&&J(optsOf(tg(0)))===J(['好。','這次不行。']));
-  ans(tg(0),0); rules(); let q=OUT.get(H.G,'ct_zqm_'+c0+'_0'); check('M1. 「好。」＝週五 21:15 公館的宵夜攤',!!q&&q.day===D('2028-10-13')&&q.h===21.25&&q.place==='公館的宵夜攤');
-  await go(q,[]); check('M1. 去了（只有場景）',(pr(ZQ).commit.went|0)===1&&H.bgs.length>=0);
-  at(D('2028-10-19'),23.05); rules(); check('M2. 第二週週四 23:00「週日下午 河堤」「我帶吉他」',J(dm(ZQ).slice(-2))===J(['heroine_04:週日下午 河堤','heroine_04:我帶吉他']));
-  ans(tg(1),1); rules(); at(D('2028-10-24'),22.7); rules(); check('M3. 第二次「這次不行。」；第三週週二 22:40「週六我請假半天」「參創」',J(dm(ZQ).slice(-2))===J(['heroine_04:週六我請假半天','heroine_04:參創'])&&!OUT.get(H.G,'ct_zqm_'+c0+'_1'));
-  ans(tg(2),0); rules(); q=OUT.get(H.G,'ct_zqm_'+c0+'_2'); await go(q,[]);
-  check('M3. 第三次去了（到兩次）：最後她一句「……這個月我都有約到你。」',said().slice(-1)[0]==='……這個月我都有約到你。'&&q.day===D('2028-10-28')&&q.h===14,J(said()));
-  at(D('2028-10-28'),18); rules(); check('M4. 到兩次以上＝做到：修補結束、還在交往',!pr(ZQ).commit&&H.G.flags.dating_heroine_04===true);
-  zqM(); for(const [k,h,i] of [['2028-10-11',22.55,0],['2028-10-19',23.05,1],['2028-10-24',22.7,2]]){ at(D(k),h); rules(); ans(tg(i),1); rules(); } at(D('2028-10-28'),18); rules();
-  check('M5. 三次都「這次不行。」＝分開（apart_talk）＋最後一句私訊「之後還是朋友。……我說真的。」',H.G.flags.dating_heroine_04===false&&dm(ZQ).slice(-1)[0]==='heroine_04:之後還是朋友。……我說真的。'&&H.G.flags.EX_heroine_04_REASON==='talk',J(dm(ZQ).slice(-2)));
-  /* 談話邀約的回覆選項 */
-  fresh('2027-10-04',10,'dorm'); date(PS); for(let i=0;i<3;i++) crack(PS,1); let p=pr(PS).plan, a0=p.att[0]; at(a0.invite.day,a0.invite.h+0.01); rules(); const tag=C().invAsk(PS,p);
-  check('M6. 沛珊「今晚九點，可以視訊嗎？」有回覆：「好。」／「明天可以嗎？」',J(optsOf(tag))===J(['好。','明天可以嗎？']));
-  ans(tag,1); rules(); check('M6. 「明天可以嗎？」→「好，那明天九點。」：今天那兩次取消、改隔天 21:00',dm(PS).slice(-1)[0]==='classmate_peishan:好，那明天九點。'&&pr(PS).plan.i===2&&outOf(PS).filter(x=>x.state==='planned').every(x=>x.day===a0.day+1)&&!!outOf(PS).find(x=>x.day===a0.day+1&&x.h===21&&x.state==='planned'),J(outOf(PS).map(x=>[x.day-a0.day,x.h,x.state])));
-  fresh('2027-10-04',10,'dorm'); date(PS); for(let i=0;i<3;i++) crack(PS,1); p=pr(PS).plan; a0=p.att[0]; at(a0.invite.day,a0.invite.h+0.01); rules(); ans(C().invAsk(PS,p),0); rules();
-  check('M6. 「好。」→「好啊！！九點見。」、照原本',dm(PS).slice(-1)[0]==='classmate_peishan:好啊！！九點見。'&&pr(PS).plan.i===0);
-  const zrG2=()=>{ fresh('2027-10-04',10,'dorm'); date(ZR); for(let i=0;i<3;i++) crack(ZR,1); return pr(ZR).plan; };
-  p=zrG2(); a0=p.att[0]; at(a0.invite.day,a0.invite.h+0.01); rules(); const zt=C().invAsk(ZR,p);
-  check('M7. 芷若「明天你那邊下午五點，可以視訊嗎？」有回覆：「好。」／「後天可以嗎？」',J(optsOf(zt))===J(['好。','後天可以嗎？']));
-  ans(zt,1); rules(); check('M7. 「後天可以嗎？」→「……好。後天五點。」：改週日',dm(ZR).slice(-1)[0]==='heroine_02:……好。後天五點。'&&pr(ZR).plan.i===2);
 });
 
 H.done();

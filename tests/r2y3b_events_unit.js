@@ -551,12 +551,9 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   const zqDinner=async pk=>/* pk：期末飯的選項（大三下子晴「七月三號到七號 曼谷」的鉤子 AA_389 第 2 點起不出選項，不用再選「我去」）*/ { answer(qt,0); rules(); const q=OUT.get(G,'te_Y3S2'); G.day=q.day; G.hour=21.8; G.weekday=wdOf(q.day); picks=pk; await goOut('te_Y3S2'); return q; };
   zqSetup(); rules();
   check('Q15-Q0. 兩個條件都到：邀約照大四上那一版「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」', txt('p:heroine_04').join('|')==='heroine_04:欸 你考完了吧 宵夜|heroine_04:只有我們兩個 不要找阿凱'&&TERMEND.rec(G,'Y3S2').plan.special.heroine_04==='q15', JSON.stringify(txt('p:heroine_04')));
-  CG_REGISTRY.cg_flustered_heroine04={file:'x'};   /* BCG-20 登錄了才放（adv3d.js 的 CG_REGISTRY 有這一張）*/
   { const q=await zqDinner(['妳下一個遊戲']);
     check('Q15-Q1. 飯桌一句「發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。」；回家的路上前三個選項換成 BB_165 4-1 的三句', q.h===22&&q.te.special==='q15'&&has('發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。')&&has('好飽。……你今天怎麼都不太講話？')&&opts.some(o=>o.join('|')==='「妳下一個遊戲，我也要當第一個玩的。」|「我喜歡妳。喜歡很久了。」|「我喜歡妳。這不是問句。」|（先不說）'), JSON.stringify(opts));
     check('Q15-Q1. 「欸不是……你認真的？」「……第一個玩的要負責找 bug 喔。很多。」「（她講話變快）我、我家到了。我先上去。」「（她跑進巷子。）」；還沒交往；ZQ_CONFESS_LINE first_player', has('欸不是……你認真的？')&&has('……第一個玩的要負責找 bug 喔。很多。')&&has('（她講話變快）我、我家到了。我先上去。')&&has('（她跑進巷子。）')&&!G.flags.dating_heroine_04&&G.flags.ZQ_CONFESS_LINE==='first_player');
-    check('Q15-Q1. BCG-20（cg_flustered_heroine04）放在「欸不是……你認真的？」那一句（cg_approved/ README；V6-B7）', cgs.includes('cg_flustered_heroine04'), JSON.stringify(cgs));
-    delete CG_REGISTRY.cg_flustered_heroine04;
     const d1=q.day+1; G.day=d1; G.hour=12.1; G.weekday=wdOf(d1); rules();
     check('Q15-Q1. 隔天 12:00：手機收到「（檔案：回答.exe）」（按鈕：回一張插座貓貼紙）；回答.exe 該演了（在家也演：HOME 的 stay）', txt('p:heroine_04').includes('heroine_04:（檔案：回答.exe）')&&PHONE.byAsk(G,'y3_zq_exe').ask.opts[0].t==='（回一張插座貓貼紙）'&&R2Y3B.exeDue(G)&&R2Y3B.homeDue(G)==='stay');
     CG_REGISTRY.cg_answer_exe_heroine04={file:'x'}; cgs=[]; cards=[]; said=[]; opts=[]; picks=[1]; await R2Y3B.exeScene(GM); delete CG_REGISTRY.cg_answer_exe_heroine04;   /* AA_296 2-3-1 ②：場面裡給兩個選項；這裡選「（還沒想好怎麼回）」＝照舊用手機回（場面裡選貼紙那一支在 tests/aa296_phone_live_unit.js）*/

@@ -34,14 +34,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const ask=d=>(G.msgs||[]).find(m=>m.ask&&m.ask.id==='kai_sup_'+d);
   fresh(s1,22,'dorm',{}); G.stage='law'; run(22,23.5); check('1. 還沒搬房間（沒有 ROOM_Y2）＝週日不問',!K().some(t=>/宵夜/.test(t)));
   fresh(s1,22,'dorm',{ROOM_Y2:d6}); G.stage='law'; run(22,22.95); check('1. 23:00 以前不問',!K().some(t=>/宵夜/.test(t)));
-  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜」＋「我這棟樓下的滷味比較好吃 老闆會多給豆干」（AA_428 §2 第 8 點：SC4 #13，阿凱的訊息不打標點；原本 AA_335 T2 有標點）＋兩個回覆',T[T.length-2]==='kai:宵夜'&&T[T.length-1]==='kai:我這棟樓下的滷味比較好吃 老闆會多給豆干'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
+  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜？」＋「我這棟樓下的滷味比較好吃。老闆會多給豆干。」（AA_335 T2）＋兩個回覆',T[T.length-2]==='kai:宵夜？'&&T[T.length-1]==='kai:我這棟樓下的滷味比較好吃。老闆會多給豆干。'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
   PHONE.answer(G,'kai_sup_'+s1,0); run(23.1,23.2); check('2. 回「去。」＝出發選單（宿舍旁的滷味攤）',G.flags.KAI_SUP_GO===s1&&!!OUT.get(G,'kai_sup_'+s1)&&OUT.get(G,'kai_sup_'+s1).place==='宿舍旁的滷味攤');
   picks=['新室友']; said=[]; await EVENTS.run(ev('ev_kai_sunday_supper')); let L=lines();
-  const want=['（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）','你的我幫你夾了。豆干、海帶、王子麵。','你大一每次都點這三樣，對吧？'/* AB65-3：AA_211 附錄 B E8（原本「…我記得。」）*/,'十點就睡。','……我還不習慣有人那麼早關燈。','下週日一樣喔。'];   /* 收尾 AA_428 §2 第 8 點：照 SC4 #13（原本 AA_335 T3「下週日，同一時間。我先去排。」）*/
+  const want=['（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）','你的我幫你夾了。豆干、海帶、王子麵。','你大一每次都點這三樣，對吧？'/* AB65-3：AA_211 附錄 B E8（原本「…我記得。」）*/,'十點就睡。','……我還不習慣有人那麼早關燈。','下週日，同一時間。我先去排。'];   /* 收尾 AA_335 T3 */
   check('3. 第一次：逐字＋「你新室友怎麼樣？」',JSON.stringify(L.map(t=>t.replace(/^[^：（]*：/,'')))===JSON.stringify(want),JSON.stringify(L));
   check('3. 快轉到 00:00（測試的 GM.advance 不換日：24 點）；去過 1 次',((G.day===s1+1&&Math.abs(G.hour)<1e-6)||(G.day===s1&&Math.abs(G.hour-24)<1e-6))&&G.flags.KAI_SUP_N===1,JSON.stringify([G.day-s1,G.hour]));
   // 第二週
-  G.day=s1+7; G.weekday=wdOf(G.day); G.hour=22.9; run(22.9,23.1); T=K(); check('4. 第二週只有「宵夜」（AA_428 §2 第 8 點：不打標點）',T[T.length-1]==='kai:宵夜'&&!!ask(s1+7),JSON.stringify(T.slice(-2)));
+  G.day=s1+7; G.weekday=wdOf(G.day); G.hour=22.9; run(22.9,23.1); T=K(); check('4. 第二週只有「宵夜？」',T[T.length-1]==='kai:宵夜？'&&!!ask(s1+7));
   PHONE.answer(G,'kai_sup_'+(s1+7),0); run(23.1,23.2); said=[]; await EVENTS.run(ev('ev_kai_sunday_supper')); L=lines();
   check('4. 第二次以後：旁白＋輪流一句（第一句「今天我多夾了一顆貢丸。」）',L[0]==='（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'&&/今天我多夾了一顆貢丸。$/.test(L[1])&&L.length===2,JSON.stringify(L));
   // 第三週：這週不行
@@ -57,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.day=s1+21; G.weekday=wdOf(G.day); run(22.9,23.1); G.day++; run(18.1,18.3); check('7. 只說一次',K().filter(t=>/還活著/.test(t)).length===1);
   // 大二下：每個月第一個週日
   const m7=dk('2027-03-07'), m14=dk('2027-03-14'); fresh(m14,22.9,'dorm',{ROOM_Y2:d6}); G.stage='law'; run(22.9,23.2); check('8. 大二下 3/14（不是第一個週日）不問',!K().some(t=>/宵夜/.test(t)));
-  G.day=m7; G.weekday=wdOf(m7); run(22.9,23.2); check('8. 大二下 3/7（三月第一個週日）問（「宵夜」，AA_428 §2 第 8 點）',K().some(t=>t==='kai:宵夜')&&CALENDAR.termOf(m7).id==='Y2S2');
+  G.day=m7; G.weekday=wdOf(m7); run(22.9,23.2); check('8. 大二下 3/7（三月第一個週日）問',K().some(t=>t==='kai:宵夜？')&&CALENDAR.termOf(m7).id==='Y2S2');
   const sp=dk('2027-07-04'); fresh(sp,22.9,'dorm',{ROOM_Y2:d6}); G.stage='law'; run(22.9,23.2); check('8. 暑假不問',!K().some(t=>/宵夜/.test(t)));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

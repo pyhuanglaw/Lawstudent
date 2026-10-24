@@ -454,7 +454,7 @@ const Y34B=(function(){
   const DEPART_JP=[ {scene:'桃園機場・出境大廳',bg:'airport_departure'},
     {if:C(dAn),speaker:'heroine_01',text:'行李我量過了，二十二公斤。……你的呢？'},
     {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:null,text:'（她媽媽站在後面，跟你點了一下頭。）'},
-    {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:'以安的媽媽',text:'她就交給你了。……你們互相照顧。'},
+    {if:C(G=>dAn(G)&&!(kxIn(G)&&!kxKnows(G,'heroine_01'))),speaker:'以安的媽媽',text:'她就交給你了。……不是，我是說，你們互相。'},
     {if:C(G=>dAn(G)&&kxIn(G)&&!kxKnows(G,'heroine_01')),speaker:'以安的媽媽',text:'到了打電話回來。……你們兩個都是。'},   /* 9-1b 可昕不知道：中性的 */
     {if:C(team),goto:'jp_team'},{goto:'jp_kx'},
     {label:'jp_team'} ].concat(TEAM,[
@@ -572,10 +572,6 @@ const Y34B=(function(){
   const BDAY_VIDEO=[ {scene:'視訊',bg:'video'},{speaker:null,text:'（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）'},{speaker:'heroine_05',text:'……你看到了。這樣算一起吃過。'},{set:{SIS_BDAY_Y3:'video'}} ];   /* 日本路線（AA_337 第 7 節）*/
   /* 1B-18 */
   const fam2=G=>G.flags.SIS_RIDE==='two', famV=G=>G.flags.SIS_RIDE!=='two';
-  /* BCG-31「一件事。只有一件。」（AA_323 1B-18：兩個人的版本，在「回程路上喝。冰的。」放）：assets/cg/heroine_05/cg_airport_send.webp（cg_airport_send_heroine05）是冬天版
-     （羽絨外套、圍巾、冒煙的熱飲），AA_323 素材表「要重畫成夏天版（BB_98 2-5、BB_183 第 3 節）→ 重畫以前不放」。這一拍先接好、叫夏天版的 id：
-     夏天版的圖進 CG_REGISTRY（用這個 id）就會出現；沒登記＝ADV.cg 不放（不會拿冬天版頂替）*/
-  S.BCG31='cg_airport_send_summer_heroine05';
   const AIRPORT=[ {scene:'車上',bg:'car_morning'},   /* AA_323 1B-18 素材表：2D car_morning */
     {if:C(G=>dating(G,'heroine_05')&&!!G.flags.SIS_Y3S2_RAIN),speaker:'heroine_05',text:'傘帶了。'},   /* AA_395 1-1：撐過傘的交往中，接在當面那一場的第一句前 */
     {speaker:null,text:'（她有一點發燒，吃了藥，不嚴重，戴著口罩。上車以後幾乎不說話，只看前面的路。）'},
@@ -586,7 +582,6 @@ const Y34B=(function(){
     {if:C(G=>G.flags.HOOK_SIS_SENDOFF!=null),speaker:'heroine_05',text:'……你說你會來。'},
     {speaker:null,text:'（她從包包拿出冰的罐裝飲料。）'},
     {speaker:'heroine_05',text:'回程路上喝。冰的。'},
-    {if:C(fam2),cg:S.BCG31},   /* BCG-31（兩個人的版本；見上面 S.BCG31）*/
     {if:C(G=>dating(G,'heroine_05')),speaker:null,text:'（Kevin 去還推車的時候，她把口罩拉下來一下。）'},{if:C(G=>dating(G,'heroine_05')),speaker:'heroine_05',text:'到了先在群組說，再打給你。'},   /* AA_392 第 2-4 節：交往中（家族共乘）*/
     {if:C(famV),speaker:'heroine_05',text:'……回到家，在群組說一聲。'},
     {if:C(fam2),speaker:'heroine_05',text:'……回到家，傳訊息給我。'},

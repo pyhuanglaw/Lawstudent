@@ -74,5 +74,5 @@ const IT=[]; const E={interactables:IT}; const z=Z3.ZONES.library_b1.build(E); c
   check('7. 背景的同學只坐自習室（晚上 8 點有人）', w.length>0&&w.every(i=>z.seats[i].room==='study24'), w.length+' 位');
   const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), g=fs.readFileSync(path.join(ROOT,'src/guide3d.js'),'utf8'), pm=fs.readFileSync(path.join(ROOT,'src/placemap3d.js'),'utf8'), pl=fs.readFileSync(path.join(ROOT,'src/data/places.js'),'utf8');
   check('7. story3d.js 進來（populate）、待著（refreshSchedule）都叫 LB1.populate', /LB1\.populate\(GM,true\)/.test(st)&&/LB1\.populate\(GM,false\)/.test(st));
-  check('7. guide3d.js 大廳 ⇄ B1、placemap 的地圖釘（總圖）、places 的名字', /library_hall:\['campus','library','library_b1'[,\]]/.test(g)&&/library_b1:\['library_hall'\]/.test(g)&&/library_b1:'library'/.test(pm)&&/library_b1:'總圖 B1/.test(pl)); }
+  check('7. guide3d.js 大廳 ⇄ B1、placemap 的地圖釘（總圖）、places 的名字', /library_hall:\['campus','library','library_b1'\]/.test(g)&&/library_b1:\['library_hall'\]/.test(g)&&/library_b1:'library'/.test(pm)&&/library_b1:'總圖 B1/.test(pl)); }
 console.log(fails?('\n'+fails+' FAIL'):'\nALL PASS'); process.exit(fails?1:0);

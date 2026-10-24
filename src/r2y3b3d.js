@@ -394,7 +394,7 @@ const R2Y3B=(function(){
   /* 回到家那天晚上，手機「這個暑假要做什麼？」三選一，都不扣分：台灣、美國路線 6/19（一）21:00。日本路線沒有三選一（AA_341 裁定 10、AA_349 L2：AA_343 D5 日本路線作廢）。
      回覆開到兩天後的 21:00（台灣、美國＝6/21 21:00，AA_343 D8）；還是沒回＝預設：有打工的 'work'、沒有的 'study'（不傳訊息，摘要日照預設那一套播）*/
   S.planY3At=G=>isJP(G)?null:{d:D('2028-06-19'),h:21};
-  S.hasJob=G=>(typeof JOBS!=='undefined'&&JOBS.at?!!JOBS.at(G,'tutor'):!!(G.flags&&G.flags.JOB_TUTOR))||(typeof JOBS!=='undefined'&&!!JOBS.any&&!!JOBS.any(G));   /* 同 home3d.js 的 hasJob：家教看 JOBS.at（停了、會考以後＝沒有）；沒有 JOBS 照 JOB_TUTOR */
+  S.hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&!!JOBS.any&&!!JOBS.any(G));   /* 同 home3d.js 的 hasJob */
   S.summerDefault=G=>S.hasJob(G)?'work':'study';
   S.summerPlanPhone=function(G){ const a=S.planY3At(G); if(!a||a.d==null||now(G)<T(a.d,a.h)||G.flags.SUMMER_Y3) return;
     if(now(G)>T(a.d+2,21)){ const m=PHONE.byAsk(G,'y3_summer_plan'); if(!m||m.ans==null) G.flags.SUMMER_Y3=S.summerDefault(G); return; }   /* 沒回（或那一則錯過了）＝預設 */
@@ -539,7 +539,7 @@ const R2Y3B=(function(){
     await runT(GM,who,h.walk);
     const O=X.Q15.opts, k=await GM.choose(O.map(o=>o.t).concat([Lx.NOT_YET_OPT]).map(t=>({t})));
     if(k>=0&&k<O.length){ const o=O[k]; F.ZQ_CONFESS_LINE=o.k; F.ZQ_Q15={day:G.day,k:o.k};
-      await runT(GM,who,[hasCG('cg_flustered_heroine04')?{cg:'cg_flustered_heroine04'}:null,X.Q15.sure,o.r].concat(X.Q15.run)); R.result='q15'; return 'q15'; }   /* 她跑進巷子：隔天 12:00 的「回答.exe」再決定。BCG-20 放在「欸不是……你認真的？」（cg_approved/ README；V6-B7）*/
+      await runT(GM,who,[X.Q15.sure,o.r].concat(X.Q15.run)); R.result='q15'; return 'q15'; }   /* 她跑進巷子：隔天 12:00 的「回答.exe」再決定 */
     const again=Rt.think[who]!=null; await runT(GM,who,again?h.she2:h.she);   /* 先不說：照一般版她說（AA_254 第 5 節）*/
     const a=await GM.choose((h.answer||Lx.ANSWER).map(t=>({t})));
     if(a===0){ if(!S.romStart(G,who)) return 'blocked'; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }

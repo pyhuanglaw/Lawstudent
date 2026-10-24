@@ -42,7 +42,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 大二上有期中考週（刑法分則週二的考試在那裡）',mid.length>=1,JSON.stringify(mid.map(d=>CALENDAR.termOf(d).week)));
   const g1=async(know)=>{ fresh(mid[0],12.3,'classroom'); const k0=STORY.knows; STORY.knows=(id)=>id==='zhe'||know.includes(id); try{ said=[]; await EVENTS.run(G1); } finally { STORY.knows=k0; } return linesN(); };
   let L=await g1(['classmate_bohan','classmate_xinci','heroine_01']);
-  check('1. 都認識（AB65-3：AA_211 第 3 節 3-3）：阿哲「第三題我寫了一整面，寫完才發現是第二題的答案。」、柏翰「第四題時間不夠，我最後一段沒寫。」（AA_428 §2 第 2 點：換成 AA_211 3-3）、芯慈那句刪掉、以安，以安後面旁白「（說完，她自己翻開課本查了一題。）」',JSON.stringify(L)===JSON.stringify(['阿哲：第三題我寫了一整面，寫完才發現是第二題的答案。','柏翰：第四題時間不夠，我最後一段沒寫。','以安：考完的題目，不要對答案。改不了。','（說完，她自己翻開課本查了一題。）']),JSON.stringify(L));
+  check('1. 都認識（AB65-3：AA_211 第 3 節 3-3）：阿哲「第三題我寫了一整面，寫完才發現是第二題的答案。」、柏翰（AA_313 5-5）、芯慈那句刪掉、以安，以安後面旁白「（說完，她自己翻開課本查了一題。）」',JSON.stringify(L)===JSON.stringify(['阿哲：第三題我寫了一整面，寫完才發現是第二題的答案。','柏翰：大家都考幾分？……不對，大家覺得考得怎樣？','以安：考完的題目，不要對答案。改不了。','（說完，她自己翻開課本查了一題。）']),JSON.stringify(L));
   L=await g1([]); check('1. 只認識阿哲：只有阿哲那一句（不認識的人不說話）',L.length===1&&/^阿哲：第三題/.test(L[0]),JSON.stringify(L));
   // 語彤 10 的時間
   const at=(term,w,wd,hh,stage)=>{ const d=termDay(term,w,wd); fresh(d,hh,'noodle'); R('heroine_03',...(stage||LV.FRI)); meet('heroine_03'); return EVENTS.check(Y10); };

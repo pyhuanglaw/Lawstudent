@@ -415,7 +415,7 @@ await sec(5,async()=>{
   const G0={v:3,day:400,hour:12,flags:{dating_kexin:true},events:{done:{}},name:'祐廷',social:null,rel:{}}; ROM.rec(G0);
   check('5. 舊存檔：ROM.rec 讀檔時補 YT_CONFESSED／YT_PROMISED／YT_BROKE_PROMISE／YT_LIED／OPEN_OK／YT_HONEST／YT_DODGED＝{}',['YT_CONFESSED','YT_PROMISED','YT_BROKE_PROMISE','YT_LIED','OPEN_OK','YT_HONEST','YT_DODGED'].every(k=>J(G0.flags[k])==='{}'));
   const G1={v:3,day:400,hour:12,flags:{dating_kexin:true,YT_HONEST:{heroine_01:true},OPEN_OK:{heroine_01:{kexin:true}}},events:{done:{}},name:'祐廷',social:null,rel:{}}; ROM.rec(G1); X().rec(G1);
-  check('5. 已經有的紀錄不改；MREL 第一次讀就建空的',G1.flags.YT_HONEST.heroine_01===true&&G1.flags.OPEN_OK.heroine_01.kexin===true&&J(Object.keys(G1.flags.MREL).sort())===J(['block','cpend','disc','gh','like','liked','once','pend','prom','rb','scan','st','v','zr','zz'].sort()));
+  check('5. 已經有的紀錄不改；MREL 第一次讀就建空的',G1.flags.YT_HONEST.heroine_01===true&&G1.flags.OPEN_OK.heroine_01.kexin===true&&J(Object.keys(G1.flags.MREL).sort())===J(['block','disc','gh','like','liked','once','pend','prom','scan','st','v','zr','zz'].sort()));
   fresh('2026-10-20',15,'campus',{dating_kexin:true}); H.G.stage='econ'; H.CLOSE(A1); learn(A1,KX);
   check('5. 經濟系那一年：都不演',!X().askDue(H.G,A1)&&(X().scan(H.G),!Object.keys(X().rec(H.G).pend).length));
 });

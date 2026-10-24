@@ -292,7 +292,6 @@ const JP=(function(){
       if(GM.caption) GM.caption('',L.label,2400); if(GM.sleep) await GM.sleep(900);
       const ev=S.jpEvent(G); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(ev); S.adv(G); }
       else if(p==='kitchen'&&rep(G)) await GM.say(null,'（流理台上有人留了一張紙條：鍋子用完請洗。是中文寫的。）');   /* G3 挽回中：共用廚房的「看」*/
-      else if(p==='river'&&typeof JPB!=='undefined'&&JPB.riverLine){ const t=JPB.riverLine(G); if(t) await GM.say(null,t); }   /* AA_435 2-3：交往中週末下午她在河邊（src/jp_blank3d.js）*/
       GM.advance(0.5); }
     finally{ R.place='room'; if(A&&A.active){ if(A.hide) A.hide('right'); if(A.setBg) A.setBg(S.bgNow(G)); } }
     return true; };
