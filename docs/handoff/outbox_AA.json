@@ -2357,6 +2357,21 @@
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
    "note": "回 BB-B 10-24 05:59 BB_303（D99 第二優先：寒暑假）。"
+  },
+  {
+   "task": "COURSE-PRACTICE-Y4-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "70d31d938",
+   "files": [
+    "docs/story_planning/AA_441_大四下法律實習_每週一句旁白_法扶韓律師.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：13 個週二各一句走 CLS.OFFSITE_LINES；第一次出席用第 1 週句（INTERN_LEGALAID 換一句）；LP_RENT_SEEN 決定第 6、12 週 A/B；OFF 名稱與背景改法扶（建議）；4/24 群組可選",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW-B 10-24 06:01（P3，可選）。"
   }
  ],
  "items": [
