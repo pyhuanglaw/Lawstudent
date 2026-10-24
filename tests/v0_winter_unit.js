@@ -60,5 +60,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(J28,21.5,'home'); G.stage='econ'; G.flags.Y0_WINTER_START=true; G.home={at:true,winter:true,eat:{day:J28}}; said=[]; script=['睡覺','我媽會問']; GM.choose=async o=>{ const t=o.map(q=>q.t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
   try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('7. 1/28 21:30 睡覺：停在 22:00、E21 照演（核心不會睡過）',G.day===J28&&said.some(x=>x.t==='說去找女朋友。……初三，不准遲到。'),G.day+' '+G.hour);
   GM.choose=choose0;
+  { const F2=K('2025-02-02'), txt=()=>TH('p:kexin').filter(m=>m.tag==='y0_e24b').map(m=>m.text);
+    fresh(F2,22,'home'); G.stage='econ'; G.flags.KH_TRIP_DONE=true; run(22,22.6); const a=txt();
+    fresh(F2,22,'home'); G.stage='econ'; run(22,22.6); const b=txt();
+    check('AA_449 1-5：2/2 22:30 去過高雄（KH_TRIP_DONE）＝「到家了沒。」「我媽說我這三天胖了。……都是夜市害的。」；沒去＝「我媽說我寒假胖了。」', JSON.stringify(a)===JSON.stringify(['到家了沒。','我媽說我這三天胖了。……都是夜市害的。'])&&JSON.stringify(b)===JSON.stringify(['我媽說我寒假胖了。']), JSON.stringify({a,b})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

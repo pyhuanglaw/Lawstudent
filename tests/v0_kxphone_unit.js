@@ -51,6 +51,9 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
     check('5. 微積分第五題＝第 6 週；阿勳「宿舍變暗了」＝第 11 週（11/11～17）＋Y0_MOVED_OUT（AA_348 B4：退宿 10/31 以後原本的第 7～8 週永遠不成立）；老師問那個人呢＝第 8 週；韋綸、品妤＝第 9 週，品妤改讀 LEAVE_WEEK',
       E('y0_xu_calc').term(T('2024-10-08'))&&!E('y0_xu_calc').term(T('2024-10-15'))&&E('y0_xu_lamp').term(T('2024-11-12'))&&!E('y0_xu_lamp').term(T('2024-10-20'))&&!E('y0_xu_lamp').term(T('2024-11-19'))&&E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-11-12'))&&!E('y0_xu_lamp').ok(g({}),STORY.dayOfKey('2024-11-12'))
       &&E('y0_xu_seat').term(T('2024-10-22'))&&E('y0_wl_wait').term(T('2024-10-29'))&&E('y0_py_notes').term(T('2024-10-29'))&&E('y0_py_notes').ok(g({LEAVE_WEEK:7}),STORY.dayOfKey('2024-10-29'))&&!E('y0_py_notes').term(T('2025-03-24'))); }
+  { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), g=f=>({stage:'econ',flags:f}), dk=STORY.dayOfKey;
+    check('AA_449 1-3：阿勳「你的鬧鐘第二次響的時候……」只在還住宿舍（Y0_MOVED_OUT 以後不發）', E('y0_xu_alarm').ok(g({}),dk('2024-10-21'))&&!E('y0_xu_alarm').ok(g({Y0_MOVED_OUT:true}),dk('2024-11-04')));
+    check('AA_449 1-4：韋綸新車那則自己讀得懂「以前那台一個禮拜掉兩次。……我有點想念它。」', (()=>{ const m=E('y0_wl_newbike').items(g({WL_BIKE:true})); return m.length===1&&m[0].text==='新車騎了三個月，鏈子一次都沒掉。以前那台一個禮拜掉兩次。……我有點想念它。'; })()); }
   { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k));
     check('5b. AA_348 B5：品妤「我高中的筆記還在……」搬到大一下；AA_368 附：第 2 週永遠不會出現（手機小事除了法律系大一上都要第 4 週起），改第 4 週（3/10～3/16）、句子不改',!!E('y0_py_notes2')&&!E('y0_py_notes2').term(T('2025-02-25'))&&E('y0_py_notes2').term(T('2025-03-10'))&&E('y0_py_notes2').term(T('2025-03-16'))&&!E('y0_py_notes2').term(T('2025-03-17'))&&E('y0_py_notes2').items({})[0].text==='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。'); }
   { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k)), g=f=>({stage:'econ',flags:f}), dk=STORY.dayOfKey;

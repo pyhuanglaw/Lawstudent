@@ -2506,7 +2506,7 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'以前的補習班',bg:'cram_counter'},
       {speaker:null,text:'（同一個櫃台。上次那個工作人員認得你。）'},{speaker:'工作人員',text:'你決定來了？'},{speaker:'player',text:'我是來問她的。'},
       {speaker:'工作人員',text:'同學之前是哪一組？'},{speaker:'kexin',expression:'neutral',text:'自然組。……現在在臺大經濟。'},
-      {speaker:'工作人員',text:'臺大經濟喔。（看了她的成績）國英數都很高耶。你們等一下，我去幫妳問。'},{speaker:null,text:'（她走進後面的辦公室。你們在櫃台前站了快十分鐘。）'},
+      {speaker:'工作人員',text:'臺大經濟喔。（看了她的成績）國英數都很高耶。你們等一下，我去幫妳問。'},{speaker:null,text:'（工作人員走進後面的辦公室。你們在櫃台前站了快十分鐘。）'},
       {speaker:'工作人員',text:'不好意思。管理那邊說，沒有社會科的分數，就沒辦法。'},{speaker:'工作人員',text:'要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。'},   /* AA-C AA_304 第 9 列（使用者 10-18「不是同一間阿」：衝刺班是另一間）：「六月有一個月的衝刺班……到時候可以再來問。」拿掉 */
       
       {speaker:'kexin',expression:'neutral',text:'……好。謝謝。'},{speaker:null,text:'（你們走出來，在樓下的飲料店買了兩杯。）'},
@@ -2516,6 +2516,7 @@ const STORY_EVENTS=[
       {label:'h2'},{speaker:'kexin',expression:'teasing',text:'約讀書。'},{speaker:'player',text:'約讀書。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'r_end'},
       {label:'h3'},{speaker:'kexin',expression:'teasing',text:'你社會考壞過耶。'},{speaker:'player',text:'所以我比較知道哪裡會壞。'},{speaker:'kexin',expression:'smile',text:'……好。'},
       {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。每天早上，比誰先坐到桌子前面。'},{speaker:'kexin',expression:'smile',text:'輸的人請早餐。……我不會輸。'},
+      {speaker:null,text:'（走回捷運站的路上，每一家花店門口都排著人。今天二月十四日。）'},{speaker:'kexin',expression:'teasing',text:'（看了一眼）……我們情人節來問補習班。'},{speaker:'kexin',expression:'smile',text:'晚餐你請。'},   /* AA_449 1-1：兩個人第一個情人節 */
       {set:{CRAM_ASKED_TOGETHER:true}} ] },
   /* E28 告訴朋友（BB_153 E28 完整稿；AA_154 A20）：3/26（三）21:00 公館的宵夜（2D 出遊，背景 gongguan_luwei），22:00 結束。讀 E19_ASK 三個版本；品妤、阿勳自在 +1（韋綸、唐睿沒有人物資料）*/
   { id:'ev_y0_e28', retired:'AA_224 5-3（LIFE-LINE，2026-10-17）：3/26 宵夜攤作廢；改成 2/13 22:30 經濟系群組（story3d.js）。定義留給已經演過的舊存檔', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
