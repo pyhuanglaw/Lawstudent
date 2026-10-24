@@ -2716,6 +2716,16 @@ R27 = [dict(id='ZS_LAMPS_2000', key='2026-10-14', h=20.0, zone='campus', flags=d
                   + YAWS('zs_girls', -86.0, 50.0, 0.35, 8.0, yaws=(1.5708, -1.5708, 0.0)) + YAWS('zs_boys', 20.0, 50.0, 0.35, 8.0, yaws=(1.5708, -1.5708, 3.1416))
                   + [CAM(20.0, 50.0, 1.5708, 0.35, 8.0, '量幀率的位置（往男生宿舍的路）'), ('chk', '10 秒幀率（記下來）', FPS10, lambda f: isinstance(f, (int, float))), ('chk', '10 秒幀率 第二次', FPS10, lambda f: isinstance(f, (int, float)))], want=[])]
 SCENS = SCENS + R27
+
+# ---------- R28（BB-B 10-24 22:5x）：宿舍四人房洗手間朝外那面（ART-DORM-BATH-OUTER-1024，開發分支 ec3af2865：dorm_room4.glb 重新匯出；LAWWW-B 22:47 加派）----------
+# 早上 7:30、鏡頭在門外（房間 z＋3.5 是前牆和門，洗手間 x 0.6～2.9、z 1.4～3.4 在門的右邊）、前牆淡出：洗手間朝外那面＝油漆牆，裡面照舊磁磚。203＝法律系大一；412＝【捷徑】z.dormSet('412')（同一個 GLB）
+DORMSHOTS = lambda tag: [CAM(0.0, 2.4, 0.0, 0.30, 4.0, '門口、鏡頭在門外往裡看'), PAUSE(5, '等模型'), ('shot', tag + '_out', None, 'true', 3),
+                         CAM(0.0, 2.4, 0.55, 0.30, 4.0, '門外偏右（洗手間那一側）'), ('shot', tag + '_outR', None, 'true', 2),
+                         CAM(-1.2, 1.0, 2.3, 0.25, 3.0, '房間裡往洗手間的門看'), ('shot', tag + '_in', None, 'true', 2)]
+R28 = [dict(id='DORM_BATH_203', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flags={}, js='', pref=[], steps=DORMSHOTS('dorm203'), want=[]),
+       dict(id='DORM_BATH_412', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flags={}, js='', pref=[],
+            steps=[('jsrun', "(()=>{ const z=GAME.E.zone; if(z&&z.dormSet){ z.dormSet('412'); return true; } return false; })()", "【捷徑】z.dormSet('412')（經濟系的四人房，同一個 GLB）")] + DORMSHOTS('dorm412'), want=[])]
+SCENS = SCENS + R28
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
