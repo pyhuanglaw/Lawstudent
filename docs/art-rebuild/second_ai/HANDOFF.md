@@ -90,6 +90,16 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 06:1x 更新**：
+    - 已交：#82 前三間（本 commit；`patches/rooms_ab3_1024.patch`＋三個 README：`test_shots/wancai_semb_1024`、`linze_office_1024`、`gongtong_3f_1024`）。
+    - 下一項：芷若頭髮的彈簧骨（`hair_springs.py` 補跑；`sim_hair.js` 驗）→ #82 第四間博雅 203／103。
+  - **10-24 06:0x 更新**：
+    - LAWWW-B 05:22 ACK ART-WZ6＋市集；已整合進開發 `025ab4f30`（outbox 改 ACTIONED）；v9.10.7 已發布。
+    - #82 前三間（研討室 B、系辦、共同教學館 3F 考場）：Blender 模型＋配置都好了，一份 patch（`patches/rooms_semb_office_1024.patch`，交件時改名、加考場）。遊戲內截圖拍攝中（`$SP/sembshots`）。
+      - 通用的新東西在 `rooms_glb3d.js`：兩套布置（`sets`、`set_days`）、開放時段（`open`：星期、時段、單週、國定假日、指定日子）、`Z3.roomGlbGate`（門的兩個互動點照時段藏起來）、`back_spawn`。
+      - 門：萬才館（`wancai3d.js`）、霖澤館（`building3d.js`）、共同教學館 2F 樓梯口（`teach3d.js`）。系辦的志願表改在裡面的服務台交（`closed2_3d.js`）。
+      - 截圖踩到的雷：遊戲 10:00 跳手機訊息會暫停畫面（`E.paused`），fast_perf 每等一次畫面就卡 2 分鐘 → 截圖的 js 加一個每 0.3 秒解除暫停的看門狗（只在截圖的頁面）。
+    - 收到（P2，不用回）：LAWWW-B 05:53 芷若現在的 VRM（`bl_heroine_02.vrm`，10-22 第九版頭髮）沒有頭髮的彈簧骨（只有胸部 4 節）。原因：第九版用 `p02_hair.py` 重做頭髮以後沒有再跑 `hair_springs.py`。我判斷要補（美術總監 D111）：排在三間房間交件之後。
   - **10-24 05:2x 更新**：
     - 已交：⑤ ART-WZ6＋ART-WZ-MARKET-1023（本 commit；`test_shots/wz6_1024/README.md`、`test_shots/wz_market_1023/README.md`、`patches/wz6_market_1024.patch`，對開發 `738cc7ffc` apply --check 過）。
       - 開發分支 04:36 改了 `jobs3d.js`，原本對 `eeed54fc2` 做的 patch 那一段套不上：測試樹 `$SP/dv8` 換到 `738cc7ffc`、重套、重出 patch；單元測試 4 個新的＋28 個相關的 ALL PASS。

@@ -210,11 +210,11 @@ def build():
     pq('N', 0.35, 0.85, 2.45, 2.95, 'CLOCK', inset=0.016)
     # 教師信箱（北牆西段）：木格子 6 × 4，名條只有號碼；幾格有信
     px0, px1, py0, py1, pd = -3.7, -1.2, 0.95, 2.05, 0.32
-    pg = c.wg('N', 'pigeon', M['wood']); pv = c.wg('N', 'pigeonvc', M['vc'], cm=True)
-    pg.box(px0, px1, py0 - 0.03, py0, Z0, Z0 + pd); pg.box(px0, px1, py1, py1 + 0.03, Z0, Z0 + pd)
-    for k in range(7): xx = px0 + k * (px1 - px0) / 6; pg.box(xx - 0.012, xx + 0.012, py0, py1, Z0, Z0 + pd)
-    for k in range(1, 4): yy = py0 + k * (py1 - py0) / 4; pg.box(px0, px1, yy - 0.01, yy + 0.01, Z0, Z0 + pd)
-    pv.cbox(px0, px1, py0, py1, Z0, Z0 + 0.01, '#5a4a3e')
+    pv = c.wg('N', 'pigeonvc', M['vc'], cm=True); PW = '#b8946a'   # 淺色木頭的單色（10-24 截圖：木紋貼圖在這麼細的板子上紋路太粗）
+    pv.cbox(px0, px1, py0 - 0.03, py0, Z0, Z0 + pd, PW); pv.cbox(px0, px1, py1, py1 + 0.03, Z0, Z0 + pd, PW)
+    for k in range(7): xx = px0 + k * (px1 - px0) / 6; pv.cbox(xx - 0.012, xx + 0.012, py0, py1, Z0, Z0 + pd, PW)
+    for k in range(1, 4): yy = py0 + k * (py1 - py0) / 4; pv.cbox(px0, px1, yy - 0.01, yy + 0.01, Z0, Z0 + pd, PW)
+    pv.cbox(px0, px1, py0, py1, Z0, Z0 + 0.01, '#8a6e50')
     for i in range(6):
         for j in range(4):
             xa = px0 + i * (px1 - px0) / 6 + 0.02; ya = py0 + j * (py1 - py0) / 4
@@ -291,7 +291,7 @@ def build():
     c.exits = [dict(x=dx, z=round(Z0 + 0.45, 3), r=0.7, label='離開辦公室', to='linze', spawn_note='回到霖澤館 1F 大廳、辦公室的門前面')]
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
-        for key, m in ms.items(): m.finish(c.root, props={'dir': D[k]}, uv=key in ('wall', 'wain', 'pigeon'), merge=key not in ('print',))
+        for key, m in ms.items(): m.finish(c.root, props={'dir': D[k]}, uv=key in ('wall', 'wain'), merge=key not in ('print',))
     for m in (c.vc, c.vm, c.tube): m.finish(c.root, uv=False)
     c.wood.finish(c.root); c.prt.finish(c.root, uv=False, merge=False); c.scr.finish(c.root, uv=False, merge=False)
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')

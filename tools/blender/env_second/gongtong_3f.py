@@ -167,19 +167,19 @@ def build():
     for k in range(5): tr.cbox(X0 + 0.04, X0 + 0.1, 0.93, 0.95, -1.8 + k * 0.08, -1.74 + k * 0.08, ('#f2f2ee', '#f2f2ee', '#f6e08a', '#f2b0b0', '#f2f2ee')[k])
     uvquad(c.wg('W', 'print', M['print']), [(X0 + 0.016, 2.5, -3.6), (X0 + 0.016, 2.5, -4.1), (X0 + 0.016, 3.0, -4.1), (X0 + 0.016, 3.0, -3.6)], uv('CLOCK'))
     # 監考桌（面向考生 +x）：考卷袋、答案卷一疊、桌鐘
-    px, pz = -5.1, 0.0
-    c.wood.rbox(px - 0.35, px + 0.35, 0.72, 0.75, pz - 0.7, pz + 0.7, r=0.01, seg=1)
-    c.vc.cbox(px + 0.33, px + 0.35, 0.1, 0.72, pz - 0.68, pz + 0.68, '#8a8f94')                                             # 前擋板
-    for zz in (pz - 0.65, pz + 0.65): c.vc.cbox(px - 0.33, px + 0.33, 0.0, 0.72, zz - 0.02, zz + 0.02, '#8a8f94')
+    px, pz = -4.95, 0.0   # 桌子 0.6 m 深：椅子（x −5.55）不在牆邊那一格導航格裡，桌子前面也留得出一條走道
+    c.wood.rbox(px - 0.3, px + 0.3, 0.72, 0.75, pz - 0.7, pz + 0.7, r=0.01, seg=1)
+    c.vc.cbox(px + 0.28, px + 0.3, 0.1, 0.72, pz - 0.68, pz + 0.68, '#8a8f94')                                              # 前擋板
+    for zz in (pz - 0.65, pz + 0.65): c.vc.cbox(px - 0.28, px + 0.28, 0.0, 0.72, zz - 0.02, zz + 0.02, '#8a8f94')
     c.vc.cbox(px - 0.2, px + 0.1, 0.75, 0.80, pz - 0.5, pz - 0.1, '#c4a06e')                                                 # 考卷袋（牛皮紙）
     flat_quad(c.prt, px - 0.2, px + 0.1, 0.801, pz - 0.5, pz - 0.1, uv('ENV'), up_minus_x=False)
     for k in range(6): c.vc.cbox(px - 0.15, px + 0.15, 0.75 + k * 0.006, 0.755 + k * 0.006, pz + 0.05, pz + 0.47, '#f6f6f2')   # 答案卷一疊
     flat_quad(c.prt, px - 0.15, px + 0.15, 0.787, pz + 0.05, pz + 0.47, uv('SHEET'), up_minus_x=False)
     T = rot(px, pz + 0.58, PI / 2); rbox(c.vc, T, -0.06, 0.06, 0.75, 0.86, -0.03, 0.03, '#2b2b2b', r=0.01)                    # 桌鐘
-    SA_chair_T = rot(px - 0.65, pz, PI / 2); rbox(c.vc, SA_chair_T, -0.2, 0.2, 0.43, 0.46, -0.19, 0.19, '#5a6470', r=0.015); rbox(c.vc, SA_chair_T, -0.19, 0.19, 0.6, 0.85, -0.22, -0.2, '#5a6470', r=0.012)
+    SA_chair_T = rot(px - 0.6, pz, PI / 2); rbox(c.vc, SA_chair_T, -0.2, 0.2, 0.43, 0.46, -0.19, 0.19, '#5a6470', r=0.015); rbox(c.vc, SA_chair_T, -0.19, 0.19, 0.6, 0.85, -0.22, -0.2, '#5a6470', r=0.012)
     for lx in (-0.17, 0.17):
         for lz in (-0.16, 0.16): (qx, qz) = SA_chair_T(lx, lz); ccyl(c.vm, (qx, 0.0, qz), (qx, 0.43, qz), 0.011, '#2b2b2b', seg=6)
-    c.block(px - 0.9, px + 0.38, pz - 0.73, pz + 0.73, 'proctor_desk')
+    c.block(px - 0.32, px + 0.32, pz - 0.73, pz + 0.73, 'proctor_desk')   # 只擋桌子：椅子在桌子和牆中間（0.3 m，玩家站不進去），監考老師坐得下
     # 東牆（後面）：放書包的地方（地上一排包包、外套）、垃圾桶、冷氣
     wl = c.wg('E', 'wall', M['wall']); wn = c.wg('E', 'wain', M['wain']); tr = c.wg('E', 'trim', M['vc'], cm=True)
     wl.quad([(X1, wh, Z0), (X1, wh, Z1), (X1, H, Z1), (X1, H, Z0)]); wn.quad([(X1, 0, Z0), (X1, 0, Z1), (X1, wh, Z1), (X1, wh, Z0)])
@@ -211,7 +211,7 @@ def build():
             c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
     rme, cme = ME; mx, mz = ROWS[rme], COLS[cme]
     spots = {'me': dict(x=mx, z=mz, yaw=round(-PI / 2, 4), act='sit', no=seat_no(rme, cme), note='玩家的位子（第 %d 排、第 %d 列，座號 %s）' % (rme + 1, cme + 1, seat_no(rme, cme))),
-             'proctor': dict(x=round(px - 0.65, 3), z=pz, yaw=round(PI / 2, 4), act='sit', note='監考老師（坐在監考桌後面，面向考生）'),
+             'proctor': dict(x=round(px - 0.6, 3), z=pz, yaw=round(PI / 2, 4), act='sit', note='監考老師（坐在監考桌後面，面向考生）'),
              'proctor_walk': [dict(x=-4.0, z=z, yaw=round(PI / 2, 4), act='stand', note='監考老師在前面走動、發考卷') for z in (-2.4, 0.0, 2.4)],
              'examinees': [dict(x=ROWS[r], z=COLS[ci], yaw=round(-PI / 2, 4), act='sit', no=seat_no(r, ci)) for (r, ci) in sorted(taken)]}
     c.look('board', round(X0 + 0.9, 3), -1.0, 0.9, '黑板', '', dev='考試的節次與時間、准考證放右上角、手機關機（粉筆字）；遊戲裡顯示的字等 AA 寫')
