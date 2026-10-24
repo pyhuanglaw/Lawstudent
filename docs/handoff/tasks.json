@@ -31570,6 +31570,35 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-24 22:4x 合進開發分支（patch zhoushan_lamps_1024，apply 乾淨）；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav_buildings／levels、ground_zfight、kit_nav_check 全過。"
+  },
+  {
+   "id": "ART-DORM-BATH-OUTER-1024",
+   "title": "宿舍四人房洗手間外牆（巡查 P3）：前牆淡出時右邊四成是一整片浴室磁磚 → 朝外那面改油漆牆",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：412／203 早上、晚上、從東側、洗手間裡面（磁磚還在）；flow_dorm_hall",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 412 第一天早上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 22:46（6a95a5e51；README dorm_bath_outer_1024）",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "巡查表第 3 節 P3",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "layout 不變；疊面 0→0；同鏡頭截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 22:5x 合進開發分支：只換 dorm_room4.glb／.json／dorm_room4.py（json 只差統計與輸出路徑）；dorm_*、ground_zfight、nav_buildings 全過。"
   }
  ]
 }
