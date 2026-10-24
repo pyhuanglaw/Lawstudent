@@ -2629,6 +2629,10 @@ R22 += [
           steps=[('shot', 'main', {'name': 'PLATE_FACE_SOC_MAIN', 'face': True, 'd': 18, 'dist': 2.0, 'pitch': 0.42}, 'true', 3),
                  ('shot', 'mainw', {'name': 'GLOW_soc_main_w', 'face': True, 'd': 16, 'dist': 2.0, 'pitch': 0.42}, 'true', 3),
                  ('shot', 'dir', {'name': 'PLATE_FACE_SOC_DIR', 'face': True, 'd': 14, 'dist': 2.0, 'pitch': 0.42}, 'true', 3)], want=[]) for t, h in [('DAY', 10.5), ('NIGHT', 20.0)]]
+# BB-B 17:4x：大一上第 3 週週二 9:36 博雅 101 沒有人（n=0）；有一整班人的是講座：EXPO_Y2 交換學生甄選說明會（大二下第 4 週週四 12:20，activities.js）
+R22 += [dict(id='LOD_BOYA2', key='TERMDAY:Y2S2:4:4', h=12.1, zone='boya', flags=dict(TW3), js='', pref=[],
+             steps=[('until', 12.3, 600), FARWAIT, PAUSE(4, '等換模型'), ('chk', '博雅 101 講座：7.6 m 外都換了、6.2 m 內都沒換（cd＝鏡頭距離）', FARCHK, lambda d: isinstance(d, dict) and d['indoor'] and d['n'] >= 4 and d['bad'] == 0),
+                    ('chk', '畫面 calls／三角形（記下來）', TRIS, lambda d: True)] + YAWS('lod_boya2', None, None, 0.3, 3.0, yaws=(0, 3.1416)), want=[])]
 SCENS = SCENS + R22
 
 # ---------- R23（BB-B 10-24 15:5x）：⑨ AA_445（76fd3ce8b）——交往中、節日前一天 21:00 的邀約照節日換整組（芷若、語彤、子晴、學姊、可昕）；大三寒假 2/4 語彤「阿姨換了新的菜單」 ----------
