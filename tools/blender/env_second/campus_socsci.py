@@ -264,9 +264,35 @@ def build():
         sill, head = (1.0, 3.4) if k == 0 else (1.0, 3.2)
         holes = []
         for u in bays:
-            holes.append(kit.window(fr, u, y0 + sill, 2.3, head - sill, 0.0, K.lit_hash(fr.O[0], fr.O[2], u, k), rect_=True, dep=0.3, proud=0.0,
+            lit_ = K.lit_hash(fr.O[0], fr.O[2], u, k)
+            holes.append(kit.window(fr, u, y0 + sill, 2.3, head - sill, 0.0, lit_, rect_=True, dep=0.3, proud=0.0,
                                     has_sill=False, fmat='conc', mull=[0.0], transom=None))
+            blind(fr, u, y0 + sill, y0 + head, lit_, k)
         kit.wall_strip(fr, -half, half, y0, y1, holes, mk='conc')
+
+    def hash01(*k):
+        h = math.sin(sum((i + 1) * 12.9898 * v for i, v in enumerate(k)) + 41.7) * 43758.5453; return h - math.floor(h)
+
+    def blind(fr, u, vb, vs, lit_, k):
+        """窗簾（LAWWW2-B 10-24；清查 B9「大樓窗戶單調」：白天每一扇都是一樣的深色玻璃）：近五成的窗拉下捲簾（高度不一、有的拉到底、下緣一條深色壓條），
+        約一成兩側拉著布簾。亮燈的窗用 ck_glass_lit（遊戲晚上會亮：亮著的房間拉下的簾子透光），沒亮的用頂點色（白、米、淺灰、淺藍）。
+        深度：玻璃 −0.305、鋁框 −0.295、直櫺正面 −0.27（kit.window dep 0.3）→ 簾子 −0.285，左右上縮在鋁框裡面（正面看不壓到框；直櫺在簾子前面）"""
+        h = hash01(fr.O[0], fr.O[2], u, k); t, r, d = 0.05, 1.15, -0.285
+        cols = ('#ece9e2', '#e2d8c6', '#d3d6d8', '#cfd8df', '#e6e1d6')
+        col = cols[int(hash01(u, k, fr.O[2], 3) * len(cols)) % len(cols)]
+        def panel(ua, ub, va, vb_, c):
+            pts = [fr.p(ua, va, d), fr.p(ub, va, d), fr.p(ub, vb_, d), fr.p(ua, vb_, d)]
+            if lit_: kit.face(A('ceilL'), pts, fr.N)
+            else: kit.cface(A('misc'), pts, fr.N, c)
+        top = vs - t
+        if h < 0.48:                                                                   # 捲簾
+            frac = 0.97 if h < 0.07 else 0.22 + 0.62 * hash01(u, fr.O[0], k, 11)
+            bot = top - frac * (vs - vb - 2 * t)
+            panel(u - r + t, u + r - t, bot, top, col)
+            kit.cface(A('misc'), [fr.p(u - r + t, bot - 0.035, d), fr.p(u + r - t, bot - 0.035, d), fr.p(u + r - t, bot, d), fr.p(u - r + t, bot, d)], fr.N, '#7d8184')   # 下緣的壓條
+        elif h < 0.60:                                                                 # 兩側的布簾
+            w = 0.28 + 0.12 * hash01(k, u, 5)
+            for (ua, ub) in ((u - r + t, u - r + t + w), (u + r - t - w, u + r - t)): panel(ua, ub, vb + t, top, col)
 
     NS_BAYS = [-13.5 + 3 * i for i in range(10)]
     EW_BAYS = [-6.0 + 3 * i for i in range(5)]
