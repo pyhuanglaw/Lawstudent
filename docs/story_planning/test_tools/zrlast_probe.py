@@ -2366,6 +2366,54 @@ def TRX(sid, js, pref, asks):
 R18 = [TRX('TRX_US_DATING', B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。'}),
        TRX('TRX_US_ALONE', B['ALONE'], ['出發', '去'], {})]
 SCENS = SCENS + R18
+
+# ---------- R19（BB-B 10-24 09:5x）：美國法學院圖書館 2F 書庫（b43a86cdf＋AA_444 第 4 節 f23a5b948；v9.10.8 之後那一版）----------
+# 一樓樓梯口（stair_rope）在 2F 開的時候變成「上 2F（書庫）」、紅絨繩三個節點藏起來；學姊平日 9:00～10:30 一樓、10:30～12:00 二樓站在東邊走道口（spots.sis 8.45,-0.9）；
+# 2F 的「看」：書架一句（rooms_glb3d.js LOOK）、木梯兩句、樓梯（三樓）兩句（us_life_events.js looks.lib2f）；交往中 9:00～11:30 的閒聊 libTalk 在 2F 也有；
+# 11:30～12:00 在 1F／2F 跟她說話＝SU-L 階梯，先一句「她把書收進包包……」（X.suLibOpen）。
+LB = {'stacks': '（書架很高，最上層要用梯子。整排都是很舊的判例彙編。）',
+      'ladder': ['（東邊那一架書靠著一把木梯，踏板磨得發亮。）', '（最上層那一排判例彙編，書背印的年份是一九六〇年代。）'],
+      'stair3': ['（往三樓的樓梯口拉著一條紅色絨繩。立牌上只畫了一張卡片和一把鎖。）', '（三樓要刷法學院自己學生的卡。你的卡刷不過。）'],
+      'talk': ['（她把螢幕轉過來給你看：第四章，第三節。）「……還差一節。」', '（她小聲）「三明治店十二點人很多。你先去占位子。」', '（她指了一下桌上的紙杯）「圖書館的咖啡機又壞了。這杯是外面買的。」'],
+      'suOpen': '（她把書收進包包，跟你走到圖書館外面才開口。）', 'su1': '今天回去清。灰會掉一整片，你會嚇到。'}
+LABS = "(GAME.E.interactables||[]).filter(i=>i&&!i.hidden).map(i=>String(i.label||''))"
+ROPE = "(()=>{ const out=[]; GAME.E.scene.traverse(o=>{ if(/^usll_(rope|rope_sign|stanchions)$/.test(o.name)) out.push(o.name+':'+o.visible); }); return out.sort().join(','); })()"
+PLAYERAT = "(()=>{ const P=GAME.E.player.obj.position; return [+P.x.toFixed(2),+P.z.toFixed(2)]; })()"
+SISPRES = "(()=>{ try{ return JSON.stringify(STORY.presence('heroine_05',GAME.G)).slice(0,160); }catch(e){ return 'ERR '+e; } })()"
+UP2 = [('usep', '^上 2F（書庫）'), ('wait', "GAME.G.zone==='us_lawlib_2f'&&!GAME.E.player.busy", 60, '上到 2F 書庫')]
+SIS2F = ('chk', '她在 2F 東邊走道口（spots.sis 8.45,-0.9 附近）', SISAT, lambda p: isinstance(p, list) and abs(p[0] - 8.45) < 0.8 and abs(p[1] + 0.9) < 0.8)
+R19 = [
+  # ① 交往中、週二 10:15 一樓 → 10:40 她上二樓 → 玩家上樓、三個「看」、說話（閒聊）、下樓回一樓樓梯口
+  dict(id='LIB2F_WALK', key='2028-09-12', h=10.25, zone='us_lawlib', flags=dict(USC), js='', pref=[],
+       steps=[('chk', '一樓樓梯口是「上 2F（書庫）」、沒有「樓梯（樓上書庫）」', LABS, lambda L: isinstance(L, list) and '上 2F（書庫）' in L and '樓梯（樓上書庫）' not in L),
+              ('chk', '紅絨繩、小立牌、黃銅柱藏起來（三個節點都是 false）', ROPE, lambda s: isinstance(s, str) and s.count(':false') == 3 and ':true' not in s),
+              ('chk', '10:15 她在一樓（3D）', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' in L),
+              ('until', 10.7, 1500),
+              ('chk', '10:42 一樓沒有她了', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' not in L),
+              ('chk', 'STORY.presence（記下來）', SISPRES, lambda s: isinstance(s, str)),
+              ] + UP2 + [SIS2F, ('shot', 'lib2f_sis', None, 'true', 2),
+              ('usep', '^書架'), ('usep', '^木梯'), ('usep', '^樓梯（三樓）'),
+              ('chk', '按了「樓梯（三樓）」還在 2F', "GAME.G.zone", 'us_lawlib_2f'),
+              ('talk', 'heroine_05'),
+              ('usep', '^下樓（一樓）'), ('wait', "GAME.G.zone==='us_lawlib'&&!GAME.E.player.busy", 60, '回到一樓'),
+              ('chk', '回到一樓樓梯口（back_spawn 6.4,5.6 附近）', PLAYERAT, lambda p: isinstance(p, list) and abs(p[0] - 6.4) < 1.2 and abs(p[1] - 5.6) < 1.2)],
+       want=[LB['stacks']] + LB['ladder'] + LB['stair3'],
+       jsok=[('2F 跟她說話有一句閒聊（libTalk 三句之一）', "JSON.stringify((window.__LOG||[]).map(x=>x.t))", lambda s: isinstance(s, str) and any(t in s for t in LB['talk']))]),
+  # ② 交往中、週二 11:33：上 2F 跟她說話＝SU-L1（先一句收書的旁白）
+  dict(id='LIB2F_SU', key='2028-09-12', h=11.5, zone='us_lawlib', flags=dict(USC), js='', pref=['「我那台也沒清過。」'],
+       steps=UP2 + [SIS2F, ('talk', 'heroine_05')],
+       want=[LB['suOpen'], LB['su1']], none=LB['talk']),
+  # ③ 挽回中（不是交往中）、週二 10:50：她照樣在 2F，說話沒有交往中的閒聊和收書那一句
+  dict(id='LIB2F_ALONE', key='2028-09-12', h=10.8, zone='us_lawlib', flags=dict(USC_NO), js=B['ALONE'], pref=[],
+       steps=UP2 + [SIS2F, ('talk', 'heroine_05')],
+       want=[], none=LB['talk'] + [LB['suOpen']]),
+  # ④ 週六 10:50：2F 照樣開（沒有開館時段），她不在書庫
+  dict(id='LIB2F_SAT', key='2028-09-16', h=10.8, zone='us_lawlib', flags=dict(USC), js='', pref=[],
+       steps=[('chk', '週六一樓樓梯口也是「上 2F（書庫）」', LABS, lambda L: isinstance(L, list) and '上 2F（書庫）' in L)] + UP2 +
+             [('chk', '週六 2F 沒有她', SISAT, None), ('usep', '^書架')],
+       want=[LB['stacks']]),
+]
+SCENS = SCENS + R19
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
