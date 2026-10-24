@@ -251,6 +251,7 @@ const USL=(function(){
     if(it.uslLake){ await S.lake(GM); return true; }
     if(it.usBus==='campus'){ const c=S.openItem(G); if(c){ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'直接去上課：'+c.c.name,hint:hm(c.t0)+'–'+hm(c.t1)},{t:it.label||'搭公車（去學校）'}]); } finally { GM.sceneEnd(); } if(k===0){ await S.attend(GM,c); return true; } } return false; }
     if(it.usClass==='law'){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
+    if(G.zone==='us_lawlib_2f'&&X.looks.lib2f&&X.looks.lib2f[it.label]&&!it.exit){ GM.sceneBegin(); try{ for(const t of X.looks.lib2f[it.label]) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; }   /* AA_444 第 4 節：往三樓的樓梯、木梯（各兩句）*/
     if(G.zone==='us_bed_c'){ const L=S.roomCLook(G,it.label); if(L){ GM.sceneBegin(); try{ for(const t of L) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; } }   /* AA_444 第 2 節：書桌、書架、窗外 */
     if(it.usShared==='door'&&!S.c208Open(G)){ GM.caption('',S.c208Closed(G),4600); return true; }   /* 其他時間門關著（AA_291 第 3 節）；字是旁白（AA_345 I7）*/
     if(it.usClub==='door'){ const d4=D(S.CAL.labor), h=hh(G);

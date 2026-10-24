@@ -18,7 +18,7 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let err='', loaded=false;
 try{ load('src/data/retake_home.js'); load('src/econff3d.js'); load('src/holff3d.js'); loaded=load('src/data/vacfill_events.js')&&load('src/vacfill3d.js'); }catch(e){ err=String(e&&e.stack||e); }
 /* ---------- 稿 ---------- */
-const SHA='ca16c073d', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
+const SHA='540e1d3fb', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
 const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
@@ -34,7 +34,7 @@ const row4=k=>(rows(S4).find(r=>r.some(c=>c.indexOf(k)>=0))||[]).join('|');
 const poolOf=(a,b)=>{ const s=part(a,b); return s.split('\n').map(l=>/^\s*\d+\.\s*(（.*）)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]); };
 /* AA_443 第 2 節（企劃線 f93fa3eda）：摘要池加寫，接在 AA_440 5-1、5-2 各池最後面 */
 const P443='docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md';
-const DOC443=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show f93fa3eda:"'+P443+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+const DOC443=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 540e1d3fb:"'+P443+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const poolOf3=(a,b)=>{ const i=DOC443.indexOf(a); if(i<0) return []; const j=DOC443.indexOf(b,i+a.length); return DOC443.slice(i,j<0?DOC443.length:j).split('\n').map(l=>/^\s*\d+\.\s*(（.*）)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]); };
 const POOL440={home:{winter:poolOf('### 5-1.','- 暑假：'),summer:poolOf('### 5-1.','### 5-2.').slice(8)},dorm:{winter:poolOf('### 5-2.','- 暑假：'),summer:poolOf('### 5-2.','## 6.').slice(6)}};
 const POOL443={home:{winter:poolOf3('### 2-1.','- 暑假（9～16）'),summer:poolOf3('- 暑假（9～16）','### 2-2.')},dorm:{winter:poolOf3('### 2-2.','- 暑假（7～20）'),summer:poolOf3('- 暑假（7～20）','- 沒有寫到過年')}};

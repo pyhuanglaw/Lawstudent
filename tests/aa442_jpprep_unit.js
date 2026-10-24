@@ -23,7 +23,7 @@ const rows=s=>s.split('\n').filter(l=>/^\|/.test(l)&&!/^\|[-| :]+\|\s*$/.test(l)
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
 const qs=s=>{ const out=[]; const re=/「([^「」]*(?:「[^「」]*」[^「」]*)*)」/g; let m; while((m=re.exec(s))) out.push(m[1]); return out; };
 const P443='docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md';
-const DOC443=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show f93fa3eda:"'+P443+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
+const DOC443=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 540e1d3fb:"'+P443+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const S1=part('## 1.','## 2.'), S21=part('### 2-1.','### 2-2.'), S22=part('### 2-2.','### 2-3.'), S23=part('### 2-3.','### 2-4.');
 const cell=(s,key)=>{ const r=rows(s).find(x=>x[0].indexOf(key)>=0); return r?r[r.length-1]:''; };
 const brs=c=>c.split('<br>').map(t=>{ t=t.trim(); const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });   /* 「誰：字」一行一行 */

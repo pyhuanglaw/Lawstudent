@@ -99,7 +99,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   check('S3. 9/4 以後也能快轉：床的選項有「快轉」；選項＝到下一個有事的日子／過三天／過一週／不用了', STORY.bedOptions(G).some(o=>o.kind==='ff')&&JSON.stringify(HOME.ffOpts(G).map(o=>o.t))===JSON.stringify(['到下一個有事的日子','過三天','過一週','不用了']));
   fresh('2028-08-06',8.5,'us_apartment',US()); date('heroine_05');
   await USL.jump(GM,T(D('2028-08-13'),8.5));
-  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去亞洲超市。結帳的時候，阿姨跟你說了一句台語。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
+  check('S3. 8/6 過一週：8/7～8/11 的摘要日出在日期卡下面，最後一張寫「公寓」（8/11 那句照 AA_442 第 5 節 03b7e6dff 改草原超市）', cards[0]==='8/7（一）08:00｜（辦了手機門號。店員問你的名字怎麼念，你念了三次。）'&&cards[4]==='8/11（五）08:00｜（你第一次一個人去草原超市。推車大得像一張床，你只買了牛奶和麵包。）'&&cards[5]==='8/13（日）08:30｜公寓'&&G.day===D('2028-08-13'), JSON.stringify(cards));
   cards=[]; await USL.jump(GM,T(D('2028-08-20'),8.5));
   check('S3. 跳到 8/14 09:45 停（何俊朗 1 的出遊「國際學生迎新」10:00）；8/16～8/18 還沒到', G.day===D('2028-08-14')&&Math.abs(G.hour-9.75)<1e-6&&cards.length===1&&cards[0]==='8/14（一）09:45｜公寓', JSON.stringify({d:CALENDAR.dateOf(G.day),h:G.hour,cards}));
   fresh('2028-09-18',9,'us_apartment',US({US2:'there'})); date('heroine_05');
@@ -374,6 +374,8 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     check('AA_399-8 2F. 3D：進 2F 書庫，她站在 spots.sis（不是坐著）', !!n&&n.uslSis&&!n.seat&&Math.abs(n.obj.position.x-8.45)<1e-6&&Math.abs(n.obj.position.z+0.9)<1e-6, n&&JSON.stringify({seat:n.seat,pose:n.pose}));
     GM.npc={}; G.zone='us_lawlib'; E.zone={roomAt:()=>null,seats:[{x:1,z:1},{x:2,z:2},{x:3,z:3},{x:-4.75,z:-1.733,yaw:-1.57}],spots:{}}; USL.sisSync(GM); check('AA_399-8 2F. 11:00 一樓沒有她', !GM.npc.heroine_05);
     at('2028-10-10',11.75); G.zone='us_lawlib_2f'; { const L=STORY.ladData(G,'heroine_05'); const st=L&&L.L.steps.find(x=>/^SU-L/.test(x.id||'')); check('AA_399-8 2F. SU 閒聊階梯：11:30～12:00 的地點多了 2F 書庫', !!st&&st.location.includes('us_lawlib_2f')&&!!st.locTime.us_lawlib_2f, st&&JSON.stringify(st.location)); }
+    { G.zone='us_lawlib_2f'; said=[]; const ok1=await STORY.interact({label:'樓梯（三樓）',x:0,z:0},GM); const s1=said.map(q=>q.t); said=[]; const ok2=await STORY.interact({label:'木梯',x:0,z:0},GM); const s2=said.map(q=>q.t);
+      check('AA_444-4. 2F 書庫：往三樓的樓梯、木梯各兩句（照稿）', ok1&&ok2&&s1.length===2&&s1[1]==='（三樓要刷法學院自己學生的卡。你的卡刷不過。）'&&s2.length===2&&s2[1]==='（最上層那一排判例彙編，書背印的年份是一九六〇年代。）', JSON.stringify([s1,s2])); }
     if(typeof EXCH!=='undefined'&&EXCH.inUS){ G.zone='us_lawlib_2f'; const i1=EXCH.inUS(G); G.zone='us_bed_c'; const i2=EXCH.inUS(G); check('AA_399-8. 2F 書庫、學姊的房間也算在美國（EXCH.inUS）', i1&&i2); }
     global.Z3=Z0; }
 
