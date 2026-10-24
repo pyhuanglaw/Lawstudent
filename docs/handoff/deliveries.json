@@ -14166,6 +14166,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 10:4x：8 張 webp、boya_views.py 先進了 bbe95680c（git checkout 會先 stage，和登記一起 commit 了）；patch（boya_layout_gen.py、boya_layout.js photoWide）在下一個 commit；boya／teach／classes 相關 Node 測試全過"
+  },
+  {
+   "id": "DL-LW2-SHADOW-LEVELS",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "7c4ca9d02",
+   "what": "BUG-SHADOW-UPPER-1024：玩家這一層以上的樓層不投影子（engine3d.js shadowLevels）",
+   "task": "BUG-SHADOW-UPPER-1024",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 11:2x 整合；瀏覽器回歸給 BB（普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）"
   }
  ],
  "ignored": [
