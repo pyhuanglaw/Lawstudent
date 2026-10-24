@@ -31434,8 +31434,8 @@
    "title": "傍晚天色照季節：E.applyTime 照日期把時鐘換成「光線用的時刻」（15:00→15:00、當天日落→18.95、21:00→21:00），同一個值給 zone.applyTime（窗景、路燈）；時鐘、作息、存檔不動；美國區域另一組日落表",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：12/10、11/6 17:45 校園／溫州街天色、10/16 19:00 總圖窗景換夜景、7/20 18:30 幾乎不變、00:30 不跳亮、美國 11/23 17:00；手機幀率不變；12/10 17:45 宿舍、教室、Café 窗外換夜景（和屋外同一刻）",
+   "status": "已驗收",
+   "next": "下一版發布",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31456,7 +31456,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（A＋B，git apply 乾淨；燈光／夜晚 Node 20 支 ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。 ｜ LAWWW2 路線巡查④（3374cdd79，README route_dusk_1024：8 區×4 時刻沒有大問題）＋窗景和屋外同一刻天黑：五個 19.4→19.2（world3d photoTint、zones3d room() winC／nightView、l118_shops3d setPhotoView、library_upper3d skyTint）；tests/window_night_sync_unit.js（修改前 FAIL 5）；LAWWW-B 10-24 23:2x 合，燈光／夜晚／窗景相關 Node 26 支全過。"
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（A＋B，git apply 乾淨；燈光／夜晚 Node 20 支 ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。 ｜ LAWWW2 路線巡查④（3374cdd79，README route_dusk_1024：8 區×4 時刻沒有大問題）＋窗景和屋外同一刻天黑：五個 19.4→19.2（world3d photoTint、zones3d room() winC／nightView、l118_shops3d setPhotoView、library_upper3d skyTint）；tests/window_night_sync_unit.js（修改前 FAIL 5）；LAWWW-B 10-24 23:2x 合，燈光／夜晚／窗景相關 Node 26 支全過。",
+   "evidence": "BB-B 10-24 23:46 NEXT-AFTER-9109 全部 PASS（BB_218，企劃線 c83705e36；5bcdd7e8e＋lw29 4b349bdb3，對照 v9.10.9 f10d27011；截圖 qa/shots_9109/）：12/10 17:47 醉月湖天黑、11/6 溫州街暗、7/20 幾乎一樣、10/16 19:01 總圖換夜景、美國 11/23 深橘；半夜 00:00 不跳亮（v9.10.9 FAIL）；12/10 17:48 宿舍／201／Café 窗外夜景"
   },
   {
    "id": "ART-PLAYER-SEASON-OUTFIT-1024",
@@ -31496,8 +31497,8 @@
    "title": "醉月湖北邊遠景店面像布景（路線巡查③ P3）：北側第一排只有部分有店面、遠景招牌改低彩度（townkit3d bgGroundTex city；校園東南兩排、公館遠景備用一起變）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "v9.10.9 發布以後套 patches/bg_city_awnings_1024.patch（疊在 ENGINE-SEASON-DUSK 上也乾淨）、跑 bg_city_awnings_unit＋校園／公館 Node 測試；BB 截醉月湖 15:00、20:00",
+   "status": "已驗收",
+   "next": "下一版發布",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -31518,15 +31519,16 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（疊在 ENGINE-SEASON-DUSK 上 apply 乾淨；bg_city_awnings ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。"
+   "notes": "沒有新模型、新貼圖檔；draw call 一樣、三角形 −308。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（疊在 ENGINE-SEASON-DUSK 上 apply 乾淨；bg_city_awnings ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。",
+   "evidence": "BB-B 10-24 23:46 NEXT-AFTER-9109 全部 PASS（BB_218，企劃線 c83705e36；5bcdd7e8e＋lw29 4b349bdb3，對照 v9.10.9 f10d27011；截圖 qa/shots_9109/）：醉月湖 15:00 招牌少、顏色淡，20:00 零星幾塊"
   },
   {
    "id": "BUG-FOLLOW-DOOR-1024",
    "title": "同行的人（beh follow）站得比門近時，門口按鈕變「和她說話」，要退一步才進得去",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：和以安一起走到總圖門口（flow_library_scene 那一段）、約會同行到店門口，按鈕是門",
+   "status": "已驗收",
+   "next": "下一版發布",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -31540,15 +31542,16 @@
    },
    "source": "BB-B 10-24 21:20 RELEASE-9109-TEST 附註 2（flow_library_scene 一次 FAIL）",
    "authorized": "D111",
-   "notes": "LAWWW-B 10-24 21:3x：engine3d.js nearestInteractable——beh==='follow' 的人和 leaving 一樣不擋 exit／enter；旁邊沒有門照舊可以說話；tests/interact_priority_unit.js 加兩項（修改前 FAIL 1）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。"
+   "notes": "LAWWW-B 10-24 21:3x：engine3d.js nearestInteractable——beh==='follow' 的人和 leaving 一樣不擋 exit／enter；旁邊沒有門照舊可以說話；tests/interact_priority_unit.js 加兩項（修改前 FAIL 1）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。",
+   "evidence": "BB-B 10-24 23:46 NEXT-AFTER-9109 全部 PASS（BB_218，企劃線 c83705e36；5bcdd7e8e＋lw29 4b349bdb3，對照 v9.10.9 f10d27011；截圖 qa/shots_9109/）：小安 0.3 m 內門口按鈕是「進入總圖書館」（v9.10.9 FAIL）、flow_library_scene 兩次 PASS"
   },
   {
    "id": "ART-ZHOUSHAN-LAMPS-1024",
    "title": "舟山路晚上整條是黑的（巡查 P3）：南側 9 盞路燈＋路面光圈、光圈加深度偏移（舟山路和步道交疊時看不到）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：大一女舍門口 20:00、往男生宿舍的路晚上看舟山路；女舍長椅那一盞照舊；手機幀率",
+   "status": "已驗收",
+   "next": "下一版發布",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -31569,15 +31572,16 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 22:4x 合進開發分支（patch zhoushan_lamps_1024，apply 乾淨）；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav_buildings／levels、ground_zfight、kit_nav_check 全過。"
+   "notes": "LAWWW-B 10-24 22:4x 合進開發分支（patch zhoushan_lamps_1024，apply 乾淨）；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav_buildings／levels、ground_zfight、kit_nav_check 全過。",
+   "evidence": "BB-B 10-24 23:46 NEXT-AFTER-9109 全部 PASS（BB_218，企劃線 c83705e36；5bcdd7e8e＋lw29 4b349bdb3，對照 v9.10.9 f10d27011；截圖 qa/shots_9109/）：亮著的燈 11→38、9 盞都有光圈，fps 沒有變慢"
   },
   {
    "id": "ART-DORM-BATH-OUTER-1024",
    "title": "宿舍四人房洗手間外牆（巡查 P3）：前牆淡出時右邊四成是一整片浴室磁磚 → 朝外那面改油漆牆",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：412／203 早上、晚上、從東側、洗手間裡面（磁磚還在）；flow_dorm_hall",
+   "status": "已驗收",
+   "next": "下一版發布",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -31598,7 +31602,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 22:5x 合進開發分支：只換 dorm_room4.glb／.json／dorm_room4.py（json 只差統計與輸出路徑）；dorm_*、ground_zfight、nav_buildings 全過。"
+   "notes": "LAWWW-B 10-24 22:5x 合進開發分支：只換 dorm_room4.glb／.json／dorm_room4.py（json 只差統計與輸出路徑）；dorm_*、ground_zfight、nav_buildings 全過。",
+   "evidence": "BB-B 10-24 23:46 NEXT-AFTER-9109 全部 PASS（BB_218，企劃線 c83705e36；5bcdd7e8e＋lw29 4b349bdb3，對照 v9.10.9 f10d27011；截圖 qa/shots_9109/）：203、412 朝外油漆牆、裡面磁磚，flow_dorm_hall 28 項 PASS"
   },
   {
    "id": "US-READ-DATING-1024",

@@ -14281,8 +14281,8 @@
    "what": "ENGINE-SEASON-DUSK-1024：傍晚天色照季節（A）＋半夜不跳亮（B）兩份 patch",
    "task": "ENGINE-SEASON-DUSK-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 16:3x：兩份都收，等 v9.10.9 發布以後合；8e62a65ed 是 README＋截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 16:3x：兩份都收，等 v9.10.9 發布以後合；8e62a65ed 是 README＋截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）；BB-B 10-24 23:46 瀏覽器 PASS"
   },
   {
    "id": "DL-LW2-BG-AWNINGS",
@@ -14294,8 +14294,8 @@
    "what": "醉月湖北邊遠景店面：北側第一排部分店面、遠景招牌低彩度（patch）",
    "task": "ART-BG-AWNINGS-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 16:4x：v9.10.9 發布後合；b67f76383 是 README／截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 16:4x：v9.10.9 發布後合；b67f76383 是 README／截圖；LAWWW-B 10-24 21:3x 合進開發分支（v9.10.9 發布後）；BB-B 10-24 23:46 瀏覽器 PASS"
   },
   {
    "id": "DL-LW2-ZHOUSHAN-LAMPS",
@@ -14307,8 +14307,8 @@
    "what": "舟山路南側 9 盞路燈＋路面光圈、光圈深度偏移（patch）",
    "task": "ART-ZHOUSHAN-LAMPS-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 22:4x 整合；afae35361 是 outbox／巡查紀錄"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 22:4x 整合；afae35361 是 outbox／巡查紀錄；BB-B 10-24 23:46 瀏覽器 PASS"
   },
   {
    "id": "DL-LW2-DORM-BATH-OUTER",
@@ -14320,8 +14320,8 @@
    "what": "宿舍四人房洗手間朝外那面改油漆牆（dorm_room4.glb 重新匯出）",
    "task": "ART-DORM-BATH-OUTER-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 22:5x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 22:5x 整合；BB-B 10-24 23:46 瀏覽器 PASS"
   },
   {
    "id": "DL-AA-450",
@@ -14346,8 +14346,8 @@
    "what": "路線巡查④冬天傍晚光線（報告）＋窗景和屋外同一刻天黑（patch：五個 19.4→19.2）",
    "task": "ENGINE-SEASON-DUSK-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 23:2x 整合；a14fb6bfc 是 outbox／README"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 23:2x 整合；a14fb6bfc 是 outbox／README；BB-B 10-24 23:46 瀏覽器 PASS"
   }
  ],
  "ignored": [
