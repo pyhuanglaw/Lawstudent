@@ -49,7 +49,7 @@ const R2Y4A_EVENTS=(function(){
       sis('對面那間也去一下。') ] });
   EV.push({ id:'ev_us1_asian', title:'竹葉亞洲超市', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ nar('（亞洲超市。她在泡麵那一排停了很久，拿了一包台灣的泡麵，貴三倍。）'),
-      sis('……這個不算浪費。這是鄉愁。') ] });
+      sis('……我在研究室常吃這一種。') ] });   /* AA_450 1-1：原「……這個不算浪費。這是鄉愁。」（口氣表 0-3 禁的「不算 X，這是 Y」）*/
   EV.push({ id:'ev_us1_door', title:'公寓 214', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',   /* 二樓的戶外樓梯平台；她不進門；BB_98 2-7 原句拿掉編號（裁定第 6 點）*/
     dialogue:[ sis('你一個人一戶？……有客廳，還有自己的廚房。'),
       sis('我住 C 棟，三個人合租。廚房是共用的，冰箱上貼了一張輪值表。'),

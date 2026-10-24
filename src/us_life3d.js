@@ -363,8 +363,9 @@ const USL=(function(){
     if(F.LONG_2A&&!S.r3Did(G,'usl_long2b')) plan(G,{id:'usl_long2b',ev:'ev_usl_long2b',day:D('2028-09-15'),h:18.5,late:0.75,place:'新開的餐廳',title:'新開的餐廳'});
     /* 9/16 學姊（交往中）：AA_340 第 1 節第 7 週；時間 AA 沒寫，排 12:10（她回訊息的時段）*/
     { const d=D('2028-09-16'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,12+10/60)&&!PHONE.sent(G,'usl_sis_0916')) PHONE.at(G,d,12+10/60,[P5(M.sis0916)],'usl_sis_0916'); }
-    /* 何俊朗 3（10/4 20:00 會所自習室；有 MET_LONG）*/
-    if(F.MET_LONG&&!S.r3Did(G,'usl_long3')) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});
+    /* 何俊朗 3（10/4 20:00 會所自習室；有 MET_LONG）。AA_450 1-11：前一天（10/3）起才排、才跳「排進行程」（原本見過他就排：8/14 迎新演完就提示七週以後的行程）；
+       快轉跨過 10/3 的，跳的每一步都跑手機規則、排好以後 nextStop 就停在出發前（S.jump）*/
+    if(F.MET_LONG&&G.day>=D('2028-10-03')&&!S.r3Did(G,'usl_long3')) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});
     /* 何俊朗 5：10/24 21:00 他約 → 10/25 19:00 中餐館；「明天不行。」＝11/1 同一時間 */
     { const d=D('2028-10-24'); if(F.MET_LONG&&G.day>=d&&G.day<=d+8&&past(G,d,21)&&!PHONE.sent(G,'usl_long_1024')&&!PHONE.sent(G,'r3_long_5')){   /* r3_long_5：舊存檔 R3 版已經約過（AA_370 M3）*/ const L=[PL(M.long1024)]; L[0].ask={id:'usl_long5',until:T(d+1,19),opts:[{t:M.long1024ask[0][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[0][1]}],set:{USL_LONG5:'go'}},{t:M.long1024ask[1][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[1][1]}],set:{USL_LONG5:'later'}}]}; PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,L,'usl_long_1024'); }
       if(F.USL_LONG5==='go'&&!S.r3Did(G,'usl_long5')) plan(G,{id:'usl_long5',ev:'ev_usl_long5',day:d+1,h:19,late:0.75,place:'中餐館',title:'中餐館'});
@@ -382,9 +383,9 @@ const USL=(function(){
         if(!dt&&F.MET_LONG&&PHONE.sent(G,'usl_long_1123r')) plan(G,{id:'usl_thanks_long',ev:'ev_usl_thanks_long',day:d,h:19,late:1,place:'會所',title:'感恩節'}); } }
     /* G7 12/6 21:00 學姊（交往中）*/
     { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map(P5),'usl_sis_1206'); }
-    /* AA_291 4-1：每個星期天 台灣 21:00（＝當地 09:00，11/5 以後 08:00），媽媽一則，輪流（8/6 起）*/
+    /* AA_291 4-1：每個星期天 台灣 21:00（＝當地 09:00，11/5 以後 08:00），媽媽一則（8/6 起）。AA_450 1-4：照日期那一則（X.mom 的 d；每一則只發一次，原本四句輪流）*/
     { const first=D('2028-08-06'); for(let d=first; d<=G.day&&d<S.ret(); d+=7){ const tag='usl_mom_'+d; if(PHONE.sent(G,tag)) continue; const h=21+(STORY.tzOffset(G,d)||0); if(!past(G,d,h)) break; if(G.day>d+1) continue;   /* 讀檔回來：太舊的不補 */
-        const ok=X.mom.filter(m=>(!m.from||d>=D(m.from))&&(!m.to||d<=D(m.to))), k=Math.round((d-first)/7)%ok.length; PHONE.at(G,d,h,[{th:'p:mom',from:'mom',name:'媽媽',text:ok[k].t}],tag); } }
+        const m=X.mom.find(x=>D(x.d)===d); if(m) PHONE.at(G,d,h,[{th:'p:mom',from:'mom',name:'媽媽',text:m.t}],tag); } }
   };
 
   /* ======================= 每 0.5 秒（STORY.TICKS）：回傳 true＝開始演了 ======================= */
