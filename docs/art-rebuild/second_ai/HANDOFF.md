@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 22:4x 更新**：
+    - 已交（`21fc4fd96`）：舟山路晚上不再整條是黑的（`test_shots/zhoushan_lamps_1024/README.md`、`patches/zhoushan_lamps_1024.patch`）。
+    - 重看過、不用改：312／409／507 三間一模一樣（窗景、室友的東西每年都不同；`252c5d4dd`）。
+    - `send_message` 還是不能用，交件都寫在 outbox。
+    - 測試樹 `$SP/dv8`＝開發 `a690484c8` 原樣。
+    - 下一項：巡查表 P3 還沒處理的（B1 健身房單調、出境大廳柱子貼鏡頭——都不是每天看得到）；先問 LAWWW-B。
   - **10-24 21:5x 更新**：
     - LAWWW-B 21:27：v9.10.9 發布（main `f10d27011`）；ENGINE-SEASON-DUSK A＋B、遠景店面已合進開發分支（`a690484c8`）；他改了 `engine3d.js` 的 `nearestInteractable` 一行（跟著玩家的人不擋門口）——下一份 engine patch 先 fetch 開發最新。
     - 已交（`6a95a5e51`）：宿舍四人房洗手間外牆不再是浴室磁磚（`test_shots/dorm_bath_outer_1024/README.md`）；只要換 `dorm_room4.glb`。
