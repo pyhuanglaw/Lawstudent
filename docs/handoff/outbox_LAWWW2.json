@@ -2836,6 +2836,22 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 11:17：已整合 becf772d4，DL-LW2-SHADOW-LEVELS；7 支 ALL PASS，拿掉 engine3d.js 的改動 shadow_levels_unit FAIL 1；瀏覽器回歸給 BB）",
    "note": "「玩家這一層」用 player.lv（displayLv 在階梯教室後排會算成二樓）"
+  },
+  {
+   "task": "PERF：室內無名路人 7 m 外換低面數（博雅一樓階梯教室 361→271 calls、76.4 萬→50.2 萬三角形；LAWWW-B 11:26 同意）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/crowd_far_indoor_1024.patch（對開發 99b6cf1b5）：src/character3d.js（FAR_OUT_IN 7、FAR_IN_IN 6.5）、src/engine3d.js（farWant）、tests/npc_far_unit.js（比對新寫法）、新的 tests/crowd_far_indoor_unit.js",
+    "docs/art-rebuild/second_ai/test_shots/crowd_lod_indoor_1024（README、量測、三種做法、改前改後、走動中換模型）"
+   ],
+   "state": "已交付；crowd_far_indoor（修改前 FAIL 4）、npc_far、teach_perf、indoor_crowd、boya_lecture、crowd、classes、shadow_levels、nav_levels ALL PASS；遊戲內改前改後（Playwright 手機模擬）",
+   "remaining": "放大 2 倍看得出毛衣紋路、頭髮變平（原本大小幾乎看不出；要保險可改 8 m）；小教室上課中沒拍到；瀏覽器整套回歸、手機實機幀率沒測",
+   "next": "LAWWW-B 套 patch、跑上面的單元測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "有名字的角色不換；室外 30／28 照舊；不動 story3d.js"
   }
  ]
 }
