@@ -26,6 +26,7 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
 
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+try{ doc+='\n'+cp.execSync('git show d94d259ec:"docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_442 第 3 節改了提示那一句（「你禮拜六走，對吧。」）*/
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
@@ -35,7 +36,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. SISY23.preTalk 包了這一層（_sisjp），sis_b4 那一層還在（_sisb4）',!!SISY23.preTalk._sisjp&&!!SISY23.preTalk._sisb4); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
-  check('1. 3/22 21:00 她私訊「明天晚上我在 Café。你後天走，對吧。」',J(th().map(m=>m.text))===J(['明天晚上我在 Café。你後天走，對吧。']));
+  check('1. 3/22 21:00 她私訊「明天晚上我在 Café。你禮拜六走，對吧。」',J(th().map(m=>m.text))===J(['明天晚上我在 Café。你禮拜六走，對吧。']));
   H.at('2028-03-23',19.4); H.G.zone='cafe'; const a=X().preTalkDue(H.G); H.at('2028-03-23',19.5); const b=X().preTalkDue(H.G); H.G.zone='lawlib'; const c=X().preTalkDue(H.G); H.G.zone='cafe';
   const sch=CHARACTERS.heroine_05.daily_schedule.find(r=>J(r.days)===J([1,2,4])&&r.zone==='cafe');
   check('1. 3/23（四）19:30～21:30 在 Café 才演（19:24 不演、不在 Café 不演）；她週四晚上本來就在 Café（作息）',!a&&b&&!c&&!!sch&&sch.from<=19.5&&sch.to>=21.5,J([a,b,c]));

@@ -2730,6 +2730,15 @@
    "task": "COURSE-PRACTICE-Y4-1024",
    "kind": "text",
    "note": "大四下法律實習 13 個週二各一句、第一次出席＝第 1 週、租屋大姊 A／B、4/24 麵店團兩句；OFF 改名法扶・臺北的辦公室（src/practice3d.js；tests/aa441_practice_unit.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md",
+   "sha": "d94d259ec",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；國外學期盤點）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "第 3 節學姊提示「你禮拜六走，對吧。」已改（src/data/sis_jp_events.js）；第 1 節住家裡的家人群組 H1～H6、第 2 節日本出發前五週施工中"
   }
  ]
 }
