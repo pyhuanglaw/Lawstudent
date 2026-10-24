@@ -10,5 +10,5 @@ path = name if name.startswith('/') else (os.path.join(os.path.dirname(os.path.a
 sha = subprocess.run(['git', '-C', W, 'rev-parse', '--short=9', 'HEAD'], capture_output=True, text=True).stdout.strip()
 print('工作樹 %s @ %s；跑 %s' % (W, sha, path), flush=True)
 os.makedirs(OUT, exist_ok=True)
-r = subprocess.run(['python3', path, URL, os.path.join(OUT, 'shot.png')], cwd=W)
+r = subprocess.run(['python3', path, URL, os.path.join(OUT, 'shot.png') if name.startswith('tt:') else OUT], cwd=W)   # 診斷腳本第二個參數＝截圖檔；正式測試＝輸出資料夾
 sys.exit(r.returncode)
