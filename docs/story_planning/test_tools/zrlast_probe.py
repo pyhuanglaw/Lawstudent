@@ -2335,8 +2335,9 @@ R17 = [
               ('usep', '^她的書桌'), ('usep', '^書架'), ('usep', '^窗外'), ('talk', 'heroine_05'),
               ('usep', '^離開房間'), OUTC,
               ('chk', '回到走道以後門還是「敲門（臥室 C）」', DOORC, '敲門（臥室 C）'),
-              KNOCK, INC, PAUSE(6, '第二次進去等 6 秒（看會不會再出第一次那句）'),
-              ('chk', '第二次進去：字幕沒有第一次那句', CAPNOW, lambda t: RC['first'] not in str(t))],
+              ('jsrun', "(()=>{ window.__CAP2=0; clearInterval(window.__CAP2T); window.__CAP2T=setInterval(()=>{ const e=document.getElementById('caption'); if(e&&!e.classList.contains('hide')&&getComputedStyle(e).opacity!=='0'&&(e.textContent||'').includes('第一次進她的房間')) window.__CAP2++; },200); return true; })()", '【讀資料】第二次敲門前開始每 0.2 秒看字幕（字幕 4.6 秒就淡出，等完再看會漏掉）'),
+              KNOCK, INC, PAUSE(8, '第二次進去等 8 秒'),
+              ('chk', '第二次進去：字幕沒有出現第一次那句（看得見的次數）', "window.__CAP2|0", 0)],
        want=['CAPD:' + RC['first']] + RC['desk'] + RC['shelf'] + [RC['win_sum']], none=[RC['winLab'], RC['other']]),
   # ② 窗外四季（字＋圖）。10/7：字已經是「變黃」、圖要 10/9 才換 autumn
   BEDC_WIN('BEDC_OCT07', '2028-10-07', RC['win_oct'], 'autumn', '10/7 的字是「變黃了」；圖 10/9 才換，這裡會看出字和圖對不對得上'),
