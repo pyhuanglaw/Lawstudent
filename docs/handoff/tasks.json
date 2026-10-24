@@ -31435,7 +31435,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "BB 瀏覽器：12/10、11/6 17:45 校園／溫州街天色、10/16 19:00 總圖窗景換夜景、7/20 18:30 幾乎不變、00:30 不跳亮、美國 11/23 17:00；手機幀率不變",
+   "next": "BB 瀏覽器：12/10、11/6 17:45 校園／溫州街天色、10/16 19:00 總圖窗景換夜景、7/20 18:30 幾乎不變、00:30 不跳亮、美國 11/23 17:00；手機幀率不變；12/10 17:45 宿舍、教室、Café 窗外換夜景（和屋外同一刻）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31456,7 +31456,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（A＋B，git apply 乾淨；燈光／夜晚 Node 20 支 ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。"
+   "notes": "LAWWW-B 10-24 15:5x：同意做（engine3d.js 由 LAWWW2 改，D108）；v9.10.9 發布後再合進開發分支。 ｜ LAWWW2 10-24 16:24 交（8e62a65ed，patch 86567dc65；README season_dusk_1024）：A 光線時刻（臺北／布魯明頓 11/5 冬令／大阪）、B 半夜 00:00～05:30 不跳亮；season_dusk 修改前 FAIL 14、after_midnight FAIL 6，燈光 Node 17 支＋levels_no_sky、see_through ALL PASS。LAWWW-B 兩份都收，v9.10.9 後合。 ｜ LAWWW-B 10-24 21:3x v9.10.9 發布後合（A＋B，git apply 乾淨；燈光／夜晚 Node 20 支 ALL PASS）。 ｜ a690484c8 全部 Node 603 支 0 失敗；10-24 21:4x 派 BB 瀏覽器（排在美國逐日劇本後）。 ｜ LAWWW2 路線巡查④（3374cdd79，README route_dusk_1024：8 區×4 時刻沒有大問題）＋窗景和屋外同一刻天黑：五個 19.4→19.2（world3d photoTint、zones3d room() winC／nightView、l118_shops3d setPhotoView、library_upper3d skyTint）；tests/window_night_sync_unit.js（修改前 FAIL 5）；LAWWW-B 10-24 23:2x 合，燈光／夜晚／窗景相關 Node 26 支全過。"
   },
   {
    "id": "ART-PLAYER-SEASON-OUTFIT-1024",

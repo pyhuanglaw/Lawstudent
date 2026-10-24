@@ -19,8 +19,8 @@ const K0=grab(src,/const KEY0=\[[\s\S]*?\n  \];/), KG=grab(src,/const KEY_GOLDEN
 check('1. engine3d.js 有 sunsetAt、lightHour、sunsetPlace、E.sunsetNow', !!(fSS&&fLH&&fSP&&fNow));
 check('1. applyTime：E.hour 照舊是時鐘，光線用 lightHour(hour%24,E.sunsetNow())、放 E.lightH', /E\.applyTime=function\(hour\)\{ E\.hour=hour; const KEY=[^;]*; let h=lightHour\(hour%24,E\.sunsetNow\(\)\); E\.lightH=h;/.test(src));
 check('1. 夜間影子用 E.lightH', /E\.nightShadow=function\(now\)\{[^\n]*const hh=E\.lightH!=null\?E\.lightH:/.test(src));
-const room=grab(zsrc,/const nightView=\(h<5\.5\|\|h>=19\.4\);/);
-check('3. zones3d.js room() 的窗 h≥19.4 換夜景（下面拿來判斷總圖）', !!room);
+const room=grab(zsrc,/const nightView=\(h<5\.5\|\|h>=(19\.[0-9]+)\);/), roomT=room?+room.match(/>=([0-9.]+)\)/)[1]:19.4;   // 10-24 路線巡查④起是 19.2（和屋外天黑同一刻）
+check('3. zones3d.js room() 的窗有換夜景的時刻（下面拿來判斷總圖）', !!room, 'h≥'+roomT);
 const ctx={Math,Date}; vm.createContext(ctx);
 try{ vm.runInContext([K0,KG,KGG].join('\n')+'\nthis.KEYG=KEYG;',ctx); }catch(e){ console.log('KEY 表讀不到',e.message); }
 const KEY=ctx.KEYG;
@@ -38,7 +38,7 @@ if(KEY){
   { const h=L('2024-12-10','tw',17.75); check('3. 12/10 17:45 已經天黑：太陽在地平線下、路燈亮、夜晚係數 1', elev(h)<0&&lampsOn(h)&&nk(h)===1, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
   { const h=L('2024-11-06','tw',17.75); check('3. 11/6 17:45（醉月湖 E12）已經天黑', elev(h)<0&&lampsOn(h)&&nk(h)===1, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
   { const h=L('2025-07-20','tw',18.5); check('3. 7/20 18:30 夏天幾乎不變（差不到 15 分鐘）、太陽還在地平線上', Math.abs(h-18.5)<0.25&&elev(h)>0, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
-  { const h=L('2024-10-16','tw',19); check('3. 10/16 19:00 總圖的窗換夜景（room() 的 h≥19.4）', h>=19.4, 'light '+h.toFixed(2)); }
+  { const h=L('2024-10-16','tw',19); check('3. 10/16 19:00 總圖的窗換夜景（room() 的 h≥'+roomT+'）', h>=roomT, 'light '+h.toFixed(2)); }
   { const h=L('2028-11-23','us',17); check('3. 美國 11/23 17:00 是黃昏（太陽 0～12°，不是下午的 26°）', elev(h)>0&&elev(h)<12, 'light '+h.toFixed(2)+' elev '+elev(h).toFixed(1)); }
   { const h=L('2024-12-10','tw',17); check('4. 12/10 17:00 路燈已經亮', lampsOn(h), 'light '+h.toFixed(2)); }
   { let same=true; for(const k of ['2024-12-10','2025-06-21','2028-11-23']) for(const pl of ['tw','us','jp']) for(let h=0;h<=15;h+=0.25) if(LH(h,SP(k,pl))!==h) same=false;

@@ -31,7 +31,7 @@ const LUP=(function(){
   S_.note=function(on){ noteOn=!!on; applyCarrel(); };
   S_.refresh=applyCarrel;
   /* 外牆高窗（霧面玻璃）：白天亮、黃昏暖、晚上暗藍 */
-  function skyTint(h,rain){ h=h%24; if(h<5.5||h>=19.4) return [0x1a2236,0.15]; if(h<6.6) return [0x6a7898,0.45]; if(h<16.5) return [rain?0xb8c0c8:0xe8eef4,rain?0.7:1.0]; if(h<18.4) return [0xf0d2a8,0.85]; return [0x8a7a90,0.4]; }
+  function skyTint(h,rain){ h=h%24; if(h<5.5||h>=19.2) return [0x1a2236,0.15]; if(h<6.6) return [0x6a7898,0.45]; if(h<16.5) return [rain?0xb8c0c8:0xe8eef4,rain?0.7:1.0]; if(h<18.4) return [0xf0d2a8,0.85]; return [0x8a7a90,0.4]; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
   /* ---- 共用：room()（窗、窗外的景）＋配置的導航格、座位、互動點＋正式模型 ---- */
   function baseRoom(E,L,o){ const Bd=L.bounds, H=L.h, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0, WIN=L.windows;
     const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,winW:WIN.w,winH:WIN.h,view:o.view,viewDepth:o.viewDepth,wallColor:'#ecebe6',floorTex:W3.stoneTex(o.floor),spawn:Object.assign({},o.spawn||L.spawn)});   /* room() 的 front 牆 x 是反的 */

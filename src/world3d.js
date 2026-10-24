@@ -188,6 +188,6 @@ const W3 = (function(){
     const L=VIEW_LAYERS[kind]; if(L&&u.nmap){ const nph=viewPhoto(kind+'_near',night); if(L.far) u.depth.value=L.far; u.ndepth.value=L.near; u.nmap.value=nph; u.near.value=(ph&&nph)?1:0; }   /* 兩層窗景：近景還沒載入（或沒有遠景照片）時只畫遠景 */
     return !!ph; }
   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
-  function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
+  function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.2) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
   return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();
