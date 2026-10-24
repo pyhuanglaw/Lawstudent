@@ -2435,6 +2435,13 @@ R19 = [
              [('chk', '週六 2F 沒有她', SISAT, None), ('usep', '^書架')],
        want=[LB['stacks']]),
 ]
+SISDIAG = ("(()=>{ const G=GAME.G, E=GAME.E, n=(GAME.npc||{}).heroine_05||null, L=(E.npcs||[]).filter(x=>x&&x.charId==='heroine_05'); let a=null; try{ a=USL.sisAt(G); }catch(e){ a='ERR '+e; } "
+           "return {zone:G.zone,h:+G.hour.toFixed(2),sisAt:a,spots:E.zone&&E.zone.spots?E.zone.spots.sis||null:null,gmNpc:!!n,uslSis:n?!!n.uslSis:null,inNpcs:L.length,"
+           "objs:L.map(x=>({vis:x.obj&&x.obj.visible,hidden:!!x.hidden,lv:x.lv,at:x.obj?[+x.obj.position.x.toFixed(2),+x.obj.position.y.toFixed(2),+x.obj.position.z.toFixed(2)]:null})),evRun:typeof EVENTS!=='undefined'&&!!EVENTS.running}; })()")
+R19 = [dict(id='LIB2F_DIAG', key='2028-09-12', h=10.8, zone='us_lawlib_2f', flags=dict(USC), js='', pref=[],   # BB-B 15:5x：三個情境 2F 都沒有她＝直接讀遊戲的狀態
+            steps=[PAUSE(10, '進 2F 等 10 秒（sisSync 每 2 秒）'), ('chk', '學姊在 2F 的狀態（sisAt、spots、人物物件）', SISDIAG, lambda d: isinstance(d, dict) and d.get('inNpcs', 0) >= 1), ('shot', 'diag', None, 'true', 2)], want=[])] + R19
+for _s in R19:   # BB-B 15:5x：2F 的「看」：書架走 caption（rooms_glb3d LOOK）、木梯／樓梯（三樓）走 GAME.say（us_life3d S.interact）＝要 SAYH＋CAPH 才記得到
+    if 'CAPH' not in _s.get('js', ''): _s['js'] = SAYH + CAPH + _s.get('js', '')
 SCENS = SCENS + R19
 
 # ---------- R20（BB-B 10-24 10:0x）：LAWWW-B 08:16 兩件舊的 BUG（使用者 10-15）——截圖給人看，不是自動判定 ----------
