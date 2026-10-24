@@ -87,7 +87,7 @@ const CLOSED2=(function(){
   S.roomSet=(id,G)=>{ const L=LAY(id); if(!L||!L.sets) return null; return typeof Z3!=='undefined'&&Z3.roomGlbSet?Z3.roomGlbSet(id,G):L.set_default; };
   S.spots=(id,G)=>{ const L=LAY(id); if(!L) return {}; const k=S.roomSet(id,G); return (k&&L.sets[k]?L.sets[k].spots:L.spots)||{}; };
   S.seats=(id,G)=>{ const L=LAY(id); if(!L) return []; const k=S.roomSet(id,G); return (k&&L.sets[k]?L.sets[k].seats:L.seats)||[]; };
-  if(typeof PLACES!=='undefined'&&PLACES.names) for(const k of ['wancai_semb','linze_office','gongtong_3f','dorm_laundry','dorm_205']) if(!PLACES.names[k]&&ZN(k)&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;   /* 人物線索「萬才館 研討室 B（幫忙，到 12:00）」（柏翰的作息）*/
+  if(typeof PLACES!=='undefined'&&PLACES.names) for(const k of ['wancai_semb','linze_office','gongtong_3f','dorm_laundry','dorm_205','library_media']) if(!PLACES.names[k]&&ZN(k)&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;   /* 人物線索「萬才館 研討室 B（幫忙，到 12:00）」（柏翰的作息）*/
   const P_=p=>p?{x:p.x,z:p.z,yaw:p.yaw||0,lv:0}:null;
   S.away=G=>!G||!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))||!!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))||!!(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G))||!!(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G));
   /* 換到房間演、演完回到原本的地方（OUT.STAGE 那種；同 lab5f3d.js 的 canStage）*/

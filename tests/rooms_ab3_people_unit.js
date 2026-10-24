@@ -313,5 +313,10 @@ console.log(JSON.stringify({set:z.roomSet,r,stand:E.canStand(r.x,r.z,0.3,0),walk
   let r=null; try{ r=JSON.parse(out.trim().split('\n').pop()); }catch(e){}
   check('11. 研討室 B（阿姨那天＝初談隔間）：祐廷做紀錄的位置站得住、從門口走得到（E.canStand、E.simWalk）',!!r&&r.set==='consult'&&r.stand===true&&r.walk===true,out.trim().slice(-300)); });
 
+/* 14 芷若在總圖多媒體中心（AA_399 第 12 節；LAWWW2 a8c448288 spots.zhiruo）：週二、四 14～17；英國那半年（2027-09～2028-02）不在 */
+{ const c=CHARACTERS.heroine_02, at=(k,h)=>{ const d=STORY.dayOfKey(k); const e=STORY.schedEnt(c,{day:d,hour:h,weekday:CALENDAR.dateOf(d).wd,flags:{},noInvite:true}); return e&&{zone:e.zone,spot:e.spot}; };
+  const a=at('2026-10-13',15), b=at('2026-10-15',15), u=at('2027-10-12',15), w=at('2026-10-14',15);
+  check('14. 芷若：週二、四 15:00 在多媒體中心 spots.zhiruo；英國那半年不在；週三不在',!!a&&a.zone==='library_media'&&a.spot==='zhiruo'&&!!b&&b.zone==='library_media'&&!(u&&u.zone==='library_media')&&!(w&&w.zone==='library_media'),JSON.stringify([a,b,u,w])); }
+
 H.done();
 })();
