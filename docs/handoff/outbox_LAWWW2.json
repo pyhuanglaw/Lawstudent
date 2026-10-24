@@ -2856,7 +2856,7 @@
   {
    "task": "BG-DARK-SCENES-1024：劇情對話變黑底的 8 個場景，從遊戲的 3D 拍成 2D 背景（LAWWW-B 12:57 派工）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit；push 後回報的訊息寫 SHA）",
+   "sha": "59e47c9bc",
    "files": [
     "assets/bg/cafe.webp、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941 webp，合計 836 KB）",
     "tools/blender/env_second/shots/bg_dark_scenes_post.py（調光）",
@@ -2868,8 +2868,25 @@
    "next": "LAWWW-B 把 README 的八行加進 OUT.BG、拿掉 PENDING；回國重逢的鍵要不要改、三張要不要拍，等 LAWWW-B 排",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACTIONED（LAWWW-B 13:50：已整合 64397615a，DL-LW2-BG-DARK-1；OUT.BG 八行照給的；芷若 21:00 改 cafe_night、語彤改 noodle_table；醉月湖 3D 燈籠只記錄；scene_bg_keys_unit 也查 vac_activities）",
    "note": "場景美術 ART_APPROVED 只有使用者能標；不動 outings3d.js、vac_activities.js"
+  },
+  {
+   "task": "BG-DARK-SCENES-1024 第二批：總圖門口（白天）、法圖門口（傍晚）、舊路書房、宿舍書桌（LAWWW-B 13:50 派工）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit；push 後回報的訊息寫 SHA）",
+   "files": [
+    "assets/bg/library_gate_day.webp、law_library_gate、oldroad_bookstore、dorm_desk（1672×941 webp）",
+    "tools/blender/env_second/shots/bg_dark_scenes2_post.py",
+    "docs/art-rebuild/second_ai/test_shots/bg_dark_scenes_1024/README.md 的「第二批」（OUT.BG 四行、鏡頭、要知道的）"
+   ],
+   "state": "已交付；遊戲內對話畫面還沒測（下一個瀏覽器工作）",
+   "remaining": "library_gate_day 是 3D 截圖、library_gate_night 是畫的插圖，風格不一樣；舊路書房的吊燈擋住招牌兩個字；法圖門口裁掉左邊黑框、放大 1.15 倍",
+   "next": "LAWWW-B 把四行加進 OUT.BG，vac_activities.js 的 campus→library_gate_day、wancai→law_library_gate、bookstore→oldroad_bookstore、dorm→dorm_desk",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "場景美術 ART_APPROVED 只有使用者能標"
   }
  ]
 }

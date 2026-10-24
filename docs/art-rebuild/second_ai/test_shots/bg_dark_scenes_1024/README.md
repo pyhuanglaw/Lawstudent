@@ -104,3 +104,32 @@ us_shared_kitchen:{label:'C 棟 208',image:'assets/bg/us_shared_kitchen.webp'},
 
 - 改 `vac_activities.js` 的鍵，是 LAWWW-B 的事。
 - 後面三張要不要拍，等 LAWWW-B 排。
+
+## 第二批（LAWWW-B 13:50 派工）：回國重逢、出國申請
+
+- **背景**：
+  - LAWWW-B 已整合第一批（`64397615a`）。
+  - 芷若 21:00 那段改用 `cafe_night`，語彤那段改用 `noodle_table`。
+  - 剩下沒有圖的三段由我拍，另外加出國申請「宿舍書桌」那一步。
+- **交付**：
+  - `assets/bg/` 四張，1672×941，webp q86；
+  - 調光：`tools/blender/env_second/shots/bg_dark_scenes2_post.py`；
+  - 開發 `45f1cd9e6`，Playwright＋SwiftShader。
+
+```js
+library_gate_day:{label:'總圖門口',image:'assets/bg/library_gate_day.webp'},
+law_library_gate:{label:'法圖門口',image:'assets/bg/law_library_gate.webp'},
+oldroad_bookstore:{label:'舊路書房',image:'assets/bg/oldroad_bookstore.webp'},
+dorm_desk:{label:'宿舍書桌',image:'assets/bg/dorm_desk.webp'},
+```
+
+| 鍵 | 誰、哪一段 | 區域、時間、鏡頭 | 要知道的 |
+|---|---|---|---|
+| `library_gate_day` | 以安 15:00 總圖門口（回國重逢，原本 `campus`） | `campus` 15:00；(56,1.6,0)→(92,9,0)：從大道看總圖的門廊，兩邊大王椰子 | 現成的 `library_gate_night` 是畫的插圖、這張是 3D 截圖，**兩張風格不一樣** |
+| `law_library_gate` | 學姊 17:05 法圖門口（原本 `wancai`） | `wancai` 一樓 17:05；(−3.6,1.5,6.2)→(−8.9,1.25,5.6)：大廳西南角、大樓梯底下凹處的玻璃門＋「法律學院圖書館」招牌 | 左邊 13% 是正面玻璃的黑框，**裁掉後放大 1.15 倍**（`law_library_gate_tries.jpg`：第一次鏡頭對著樓梯底、第二次有黑框、最後裁好的） |
+| `oldroad_bookstore` | 沛珊 14:00 舊路書房（原本 `bookstore`） | `bookstore` 14:00；(0,1.6,4.2)→(0,1.3,−4)：門口往裡看的走道 | 吊燈擋住招牌「二手書・法律・人文」中間兩個字 |
+| `dorm_desk` | 出國申請「寫申請資料／申請書／申請表」（原本 `dorm`，lines 是空的） | `dorm`（203）20:00；(−0.7,1.4,0.9)→(−2.8,0.95,−0.45)：祐廷的書桌（L2，上舖底下）、筆電、書架 | 大三、大四住別的房間（312／507／409／412），書桌是同一組家具，牆上的東西不一樣 |
+
+![第二批](final_sheet2.jpg)
+
+- **還沒測**：遊戲內對話畫面（`#adv.image`）排在下一個瀏覽器工作；測完補在這裡。
