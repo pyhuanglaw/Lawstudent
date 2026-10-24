@@ -539,7 +539,7 @@ const R2Y3B=(function(){
     await runT(GM,who,h.walk);
     const O=X.Q15.opts, k=await GM.choose(O.map(o=>o.t).concat([Lx.NOT_YET_OPT]).map(t=>({t})));
     if(k>=0&&k<O.length){ const o=O[k]; F.ZQ_CONFESS_LINE=o.k; F.ZQ_Q15={day:G.day,k:o.k};
-      await runT(GM,who,[X.Q15.sure,o.r].concat(X.Q15.run)); R.result='q15'; return 'q15'; }   /* 她跑進巷子：隔天 12:00 的「回答.exe」再決定 */
+      await runT(GM,who,[hasCG('cg_flustered_heroine04')?{cg:'cg_flustered_heroine04'}:null,X.Q15.sure,o.r].concat(X.Q15.run)); R.result='q15'; return 'q15'; }   /* 她跑進巷子：隔天 12:00 的「回答.exe」再決定。BCG-20 放在「欸不是……你認真的？」（cg_approved/ README；V6-B7）*/
     const again=Rt.think[who]!=null; await runT(GM,who,again?h.she2:h.she);   /* 先不說：照一般版她說（AA_254 第 5 節）*/
     const a=await GM.choose((h.answer||Lx.ANSWER).map(t=>({t})));
     if(a===0){ if(!S.romStart(G,who)) return 'blocked'; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }

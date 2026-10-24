@@ -43,7 +43,7 @@ await sec(0,()=>{
   if(!V()) return;
   const ids=['ev_v6_clean_zhe','ev_v6_clean_zhe_call','ev_v6_clean_home','ev_an_ex_plg'];
   check('0. 事件都在 STORY_EVENTS；包了 ROM.end、ROM.start、STORY.populate、STORY.cleanupTick、Y34B.an20Mode；送機那一句插進去了',ids.every(id=>!!ev(id))&&ROM._v6exEnd&&ROM._v6exStart&&STORY._v6exPopulate&&STORY._v6exCleanTick&&Y34B._v6exAn20&&ev('ev_an_sendoff').v6exPatched,ids.filter(id=>!ev(id)).join(' '));
-  check('0. 沒有改 ROM.canStart（「好好分開不復合」和使用者「不永久鎖住任何一條戀愛線」衝突，問 AA）',!ROM._v6exCan&&V().NOT_DONE.some(t=>/不復合/.test(t)));
+  check('0. 沒有改 ROM.canStart：好好分開的也可以重新開始（AA_434 第 1 節：BB_119「不復合」作廢）',!ROM._v6exCan);
 });
 if(!V()){ H.done(); return; }
 
@@ -155,7 +155,7 @@ await sec('B',async()=>{
   H.G.zone='cafe'; check('B2. 芷若：在 Café 第一次「好久不見。……老樣子？」、只一次',J(await pre(ZR))===J(['好久不見。……老樣子？'])&&!(await pre(ZR)).length);
   fresh('2026-10-14',20,'gongguan'); breakup(SIS,'apart_talk'); H.G.zone='gongguan';
   check('B3. 學姊：不在法學院不說',!(await pre(SIS)).length);
-  H.G.zone='linze_4f'; check('B3. 學姊：法學院第一次「學弟。……吃飯了嗎。」',J(await pre(SIS))===J(['學弟。……吃飯了嗎。']));
+  H.G.zone='linze_4f'; check('B3. 學姊：法學院第一次「{name}。……吃飯了嗎。」（AA_434 第 5 節：朋友以上叫名字）',J(await pre(SIS))===J([(H.G.name||'祐廷')+'。……吃飯了嗎。'])&&V6EX_LINES.EX.sisLaw==='{name}。……吃飯了嗎。');
   fresh('2026-10-14',20,'gongguan'); breakup(SIS,'apart_talk'); H.G.zone='gongguan'; H.G.flags.JOB_RA=true;
   check('B4. 研究助理還在做（JOB_RA）：「工作照舊。你不用勉強。」',J(await pre(SIS))===J(['工作照舊。你不用勉強。']));
   fresh('2026-10-14',20); date(ZQ); check('B5. 交往中：不說',!(await pre(ZQ)).length);

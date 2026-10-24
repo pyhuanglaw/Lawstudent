@@ -260,9 +260,9 @@ const PG=(function(){
       await S.play(GM,Lx.PHOTO.open); if(S.at(G,'heroine_03','FAMILIAR')) await S.play(GM,Lx.PHOTO.yt); await S.play(GM,Lx.PHOTO.hat);   /* ① 大合照 */
       F.GRAD_PHOTO=S.CLASS.filter(id=>S.at(G,id,'FAMILIAR')).concat(S.at(G,'heroine_03','FAMILIAR')?['heroine_03']:[]);
       const ps=S.PARTNER_ORDER.filter(id=>partners.includes(id)), shown=new Set(ps); if(ps[0]) await S.partnerBeat(GM,ps[0]);   /* ② 伴侶永遠是大合照之後的第一個；兩位以上（AA_327 2-Y4-54，U5）：分開演，第二位起在 ⑥ 其他人之前，不演被發現 */
-      if(!shown.has('heroine_01')&&!S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')) await S.mother(GM,false);   /* ③ 新 21 */
+      if(!shown.has('heroine_01')&&S.at(G,'heroine_01','FRIEND')) await S.mother(GM,false);   /* ③ 新 21；前任＝友情版（她介紹朋友，沒有「媽，這是祐廷」，CG-9 照常：AA_123 4-3 V6-A3）*/
       if(!shown.has('heroine_05')&&S.sisOk(G)) await S.thermos(GM);   /* ④ W15 */
-      if(!shown.has('heroine_03')&&!S.isEx(G,'heroine_03')&&S.at(G,'heroine_03','FRIEND')) await S.yt17(GM);   /* ⑤ 事件 17 */
+      if(!shown.has('heroine_03')&&S.at(G,'heroine_03','FRIEND')) await S.yt17(GM);   /* ⑤ 事件 17；前任＝友情版（AA_123 5-3 V6-A6：照朋友／和別人交往中那一句，沒有 CG-21）*/
       for(const id of ps.slice(1)) await S.partnerBeat(GM,id);
       if(!shown.has('heroine_04')&&!S.isEx(G,'heroine_04')&&S.at(G,'heroine_04','FRIEND')) await S.play(GM,Lx.OTHERS.heroine_04);   /* ⑥ */
       if(!S.isEx(G,'classmate_mingxuan')&&S.at(G,'classmate_mingxuan','FAMILIAR')){ await S.play(GM,Lx.OTHERS.mingxuan); if(has('classmate_mingxuan','SAW_HIM_STUDY')) await S.play(GM,Lx.OTHERS.mingxuanSaw); }

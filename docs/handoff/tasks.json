@@ -5873,7 +5873,7 @@
     }
    ],
    "sha": "c2035d7f",
-   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——收拾的時刻：分手後第一次空下來「（這一週，你可以把這件事放好。）」；七天內書桌旁「收拾」（還東西、和阿哲說一次話〔頂樓／電話〕、手機筆記、她的物件、算了）；寒暑假在家選單一天問一次；自動補照 AA_182 第 7 天 22:00。沒做：週末在家選單（home3d 沒掛勾）、從手機寫筆記、主線10 紙箱讀 CLEANUP_BOX"
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——收拾的時刻：分手後第一次空下來「（這一週，你可以把這件事放好。）」；七天內書桌旁「收拾」（還東西、和阿哲說一次話〔頂樓／電話〕、手機筆記、她的物件、算了）；寒暑假在家選單一天問一次；自動補照 AA_182 第 7 天 22:00。沒做：週末在家選單（home3d 沒掛勾）、從手機寫筆記、主線10 紙箱讀 CLEANUP_BOX ｜2026-10-24 04:5x LAWWW-B：週末在家選單也有「收拾」（HOME.MENU_OPTS）；主線10 紙箱 AA 沒寫看到什麼、手機筆記 game3d 沒有掛勾（V6EX.PHONE_ACT 備好）"
   },
   {
    "id": "V6-S5",
@@ -5903,7 +5903,7 @@
      "note": "裂縫和談話是 v6 分手的主要路線，現在只有攤牌和畢業選一個人會分手"
     }
    ],
-   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。"
+   "notes": "2026-10-23 20:4x LAWWW-B：子代理做完（src/cracktalk3d.js CRACKTALK、src/data/cracktalk_lines.js；tests/v6_crack_unit.js 78 PASS）：五位（以安、語彤、沛珊、芷若、子晴）裂縫到 3 的談話逐字、計數各自算／同一學期／換學期歸零、修補／分開／不回答三種結果、EX_<id>_REASON。實際玩得到的只有語彤（週四留位子沒到）、芷若（早點睡連兩次、明信片沒回）兩條：其他裂縫來源遊戲裡沒有時刻或訊號（CRACKTALK.SOURCES_MISSING，已請 AA 補）；和設定衝突與自補的字在 CRACKTALK.GAPS。 ｜2026-10-24 04:5x LAWWW-B：AA_431 第 1 節十項裂縫來源全接（以安①② 語彤② 沛珊①②③ 芷若③ 子晴①②③）、1-7 裁定（沛珊每月去台南、子晴三次邀約）、AA_434 讀書會 20:00；tests/v6_crack_unit.js 133 PASS"
   },
   {
    "id": "V6-S6",
@@ -6049,7 +6049,7 @@
      "note": "尾聲、杜鵑花、學期末有前任版，學期中的事件沒有"
     }
    ],
-   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——以安前任版：分手後第一次讀書會「規則沒有改。……你也不用換位子。」、新交往她知道＝「理由我懂。不用解釋。」、新16 機場「……理由欄，我自己寫。」、新20 麵店長桌版；沒做：新8（events.js）、新9（syllabus.js）、新15（story3d.js）、新21、長桌坐遠兩週"
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——以安前任版：分手後第一次讀書會「規則沒有改。……你也不用換位子。」、新交往她知道＝「理由我懂。不用解釋。」、新16 機場「……理由欄，我自己寫。」、新20 麵店長桌版；沒做：新8（events.js）、新9（syllabus.js）、新15（story3d.js）、新21、長桌坐遠兩週 ｜2026-10-24 04:5x LAWWW-B：新8（讀書會規則那一場前「……你也來了。坐原來的位子。」）、新9（行政法第 12 週下課「剛剛那個，是課堂上的。」，import_syllabus.py 匯入時加）、新21 朋友版（postgrad3d）；新15 等 AA 選 AA_123 還是 AA_315"
   },
   {
    "id": "V6-A4",
@@ -6141,7 +6141,7 @@
      "note": "只有尾聲和學期末有前任版"
     }
    ],
-   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——語彤：祐廷之後和以安交往、她知道＝「嗯。……她會讓你說理由的。」；沒做 5-3b 的 9/10/12～15、16b、事件17 朋友版"
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——語彤：祐廷之後和以安交往、她知道＝「嗯。……她會讓你說理由的。」；沒做 5-3b 的 9/10/12～15、16b、事件17 朋友版 ｜2026-10-24 04:5x LAWWW-B：事件17 朋友版（postgrad3d）"
   },
   {
    "id": "V6-A7",
@@ -6207,7 +6207,7 @@
    "title": "BB_119 v6 第 3 節 B1",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】沒做：照 AA_282 §1 例外＋BB_119 1b-3 做放榜那天（src/msg3d.js:71 psKeep 已能判斷「整段聯絡著」） ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6229,7 +6229,9 @@
      "evidence": "1b-1 考完再說的告白作廢（告白只在學期末 BB_203）、1b-2 一週一個小時作廢（消失期，BB_119 檔內標）；剩 1b-3 放榜那天：AA_282 第 1 節（2026-10-21 AA_349 K8）交往中、整段聯絡著的玩家 2027-08-06 在總圖外面的台階見一次＋BCG-22——開發分支沒有（cg_results_day_peishan 登錄了沒放）",
      "note": "只剩一個少數玩家走得到的場面"
     }
-   ]
+   ],
+   "notes": "2026-10-24 04:5x LAWWW-B：確認：1b-3 在 psresults3d.js；1b-1、1b-2 作廢",
+   "evidence": "psresults3d.js（PS-RESULTS-1018，tests/psresults_unit.js）＝BB_119 1b-3；1b-1、1b-2 作廢（AA_360 第 5 節、使用者 10-17）"
   },
   {
    "id": "V6-B2",
@@ -6377,14 +6379,14 @@
      "note": "尾聲有，學期中沒有"
     }
    ],
-   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——分手後第一次說話：子晴、芷若（Café）、學姊（法學院一帶；JOB_RA 版遊戲沒有這個旗標）；沒做：沛珊（台南，hometown3d）、可昕「假設今天…」和 AA_295 衝突、訊息與邀約變少、芷若明信片改寄 Café、學姊辭研究助理"
+   "notes": "2026-10-23 21:4x LAWWW-B：子代理做完（src/v6ex3d.js V6EX、src/data/v6ex_lines.js；tests/v6_ex_unit.js 61 PASS）——分手後第一次說話：子晴、芷若（Café）、學姊（法學院一帶；JOB_RA 版遊戲沒有這個旗標）；沒做：沛珊（台南，hometown3d）、可昕「假設今天…」和 AA_295 衝突、訊息與邀約變少、芷若明信片改寄 Café、學姊辭研究助理 ｜2026-10-24 04:5x LAWWW-B：AA_434：可昕分手後第一次「嗨。」、學姊「{name}。……吃飯了嗎。」、Alison 貼圖、芯慈拿走筆袋、分開後一學期她先傳的減半與不主動約（部分：固定日期訊息、節日訊息、其他模組的邀約還沒讀 V6EX.cool）"
   },
   {
    "id": "V6-B7",
    "title": "BB_119 v6 第 3 節 B7",
    "area": "V6",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：Q15 回家路上補 BCG-20（src/r2y3b3d.js:445 那一段）；BCG-22、25 跟 V6-B1、B2 一起 ｜ 跟著 v3～v5 事件接",
    "priority": "P2",
    "first": {
@@ -6406,7 +6408,8 @@
      "evidence": "已放：BCG-21 cg_two_tickets_heroine02（src/data/events.js）、BCG-23 cg_frozen_lake_heroine05（src/data/r2y4a_events.js）、BCG-26 cg_crooked_cap_heroine04（src/data/group_events.js）；登錄了沒放：BCG-20 cg_flustered_heroine04（Q15 系館台階）、BCG-22 cg_results_day_peishan（V6-B1）、BCG-25 cg_uk_rain_heroine02（V6-B2）；作廢：BCG-19（告白點 2）、BCG-24（1b-2）",
      "note": "三張已放、三張圖在但沒地方、兩張作廢"
     }
-   ]
+   ],
+   "notes": "2026-10-24 04:5x LAWWW-B：BCG-20 接好（Q15「欸不是……你認真的？」）；BCG-25 的場景 ev_zhiruo_uk_visit 還沒進遊戲；BCG-19、BCG-24 作廢"
   },
   {
    "id": "DATE-S1",
