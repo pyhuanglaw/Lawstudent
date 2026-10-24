@@ -2515,6 +2515,21 @@
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
    "note": "回 LAWWW-B 13:50（D99 寒暑假讀者那一輪）。"
+  },
+  {
+   "task": "VAC-READ-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "443360cc0",
+   "files": [
+    "docs/story_planning/AA_446_大二寒暑假回老家訊息_和大一重複.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二寒假、大三暑假、大四寒假的讀者那一輪接著讀",
+   "next": "LAWWW-B：holff3d.js S.HOME_MSGS 的 hol_y2w_*、hol_y2s_* 十則換字（tag 不變）；可選 vac3d.js c01First _none 照年份換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "接 AA_445；讀大一暑假時發現。"
   }
  ],
  "items": [
