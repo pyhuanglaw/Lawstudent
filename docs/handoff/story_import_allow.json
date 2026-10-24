@@ -2725,16 +2725,21 @@
   },
   {
    "path": "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
-   "sha": "edae49ca6",
+   "sha": "ca16c073d",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲",
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）",
    "history": [
     {
      "sha": "718c06a30",
      "note": "第一版"
+    },
+    {
+     "sha": "edae49ca6",
+     "until": "2026-10-24 08:4x",
+     "why": "AA 補 1-5b（7/31 成績單寄到）"
     }
    ]
   },

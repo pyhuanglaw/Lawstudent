@@ -18,7 +18,7 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let err='', loaded=false;
 try{ load('src/data/retake_home.js'); load('src/econff3d.js'); load('src/holff3d.js'); loaded=load('src/data/vacfill_events.js')&&load('src/vacfill3d.js'); }catch(e){ err=String(e&&e.stack||e); }
 /* ---------- 稿 ---------- */
-const SHA='edae49ca6', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
+const SHA='ca16c073d', P440='docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md';
 const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P440+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
@@ -27,7 +27,7 @@ const qs=s=>{ const out=[]; const re=/「([^「」]*(?:「[^「」]*」[^「」]
 const nar=s=>(String(s).match(/（[^（）]*(?:「[^」]*」[^（）]*)*）/g)||[]);
 const inDoc=L=>L.filter(t=>DOC.indexOf(t)<0);
 const SP={品妤:'econ_pinyu',唐睿:'econ_tangrui',阿勳:'econ_zhengxun',韋綸:'econ_weilun',阿哲:'zhe',Alison:'yu',柏翰:'classmate_bohan',語彤:'heroine_03',以安:'heroine_01',可昕:'kexin',子晴:'heroine_04',溫學姊:'heroine_05',媽媽:'mom',爸爸:'dad',宜蓁:'sister'};
-const S11=part('### 1-1.','### 1-2.'), S12=part('### 1-2.','### 1-3.'), S13=part('### 1-3.','- 那一晚'), S13S=part('- **`E35_PLAN` 是 sea 或 shop 的**（7/19～7/23 在高雄）：7/19 不演','### 1-4.'), S14=part('### 1-4.','### 1-5.'), S15=part('### 1-5.','### 1-6.'), S16=part('### 1-6.','### 1-7.'), S17=part('### 1-7.','### 1-8.'), S18=part('### 1-8.','### 1-9.'), S19=part('### 1-9.','### 1-10.'), S110=part('### 1-10.','## 2.');
+const S11=part('### 1-1.','### 1-2.'), S12=part('### 1-2.','### 1-3.'), S13=part('### 1-3.','- 那一晚'), S13S=part('- **`E35_PLAN` 是 sea 或 shop 的**（7/19～7/23 在高雄）：7/19 不演','### 1-4.'), S14=part('### 1-4.','### 1-5.'), S15=part('### 1-5.','### 1-5b.'), S15B=part('### 1-5b.','### 1-6.'), S16=part('### 1-6.','### 1-7.'), S17=part('### 1-7.','### 1-8.'), S18=part('### 1-8.','### 1-9.'), S19=part('### 1-9.','### 1-10.'), S110=part('### 1-10.','## 2.');
 const S21=part('### 2-1.','### 2-2.'), S22=part('### 2-2.','### 2-3.'), S23=part('### 2-3.','### 2-4.'), S24=part('### 2-4.','### 2-5.'), S25=part('### 2-5.','## 3.');
 const S31=part('### 3-1.','### 3-2.'), S32=part('### 3-2.','### 3-3.'), S33=part('### 3-3.','### 3-4.'), S34=part('### 3-4.','## 4.'), S4=part('## 4.','## 5.'), S5=part('## 5.','## 6.');
 const row4=k=>(rows(S4).find(r=>r.some(c=>c.indexOf(k)>=0))||[]).join('|');
@@ -82,7 +82,7 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
     check('0. 摘要池＝AA_440 的接 AA_443 的（住家裡寒假 14、暑假 16；留宿舍寒假 12、暑假 20），和稿一樣、照順序',J(L().POOL)===J(POOL)&&L().POOL.home.winter.length===14&&L().POOL.home.summer.length===16&&L().POOL.dorm.winter.length===12&&L().POOL.dorm.summer.length===20,J(L().POOL).slice(0,200));
     const src=fs.readFileSync(path.join(H.ROOT,'src/data/vacfill_events.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison，AA_380）',src.indexOf('小語')<0);
-    check('0. 事件進了 STORY_EVENTS（23 個 ev_vf_*）',VACFILL_EVENTS.length===23&&VACFILL_EVENTS.every(e=>STORY_EVENTS.includes(e)));
+    check('0. 事件進了 STORY_EVENTS（24 個 ev_vf_*；1-5b 7/31 加一個）',VACFILL_EVENTS.length===24&&VACFILL_EVENTS.every(e=>STORY_EVENTS.includes(e)));
     { const G={flags:{},memo:[{day:1,t:'前一筆'},{day:1,t:'ev_vf_y0_0713'}]}; ev('ev_vf_y0_0713').after(G,GM); const G2={flags:{},memo:[{day:1,t:'ev_vf_y0_0727_gate'}]}; ev('ev_vf_y0_0727_gate').after(G2,GM);
       check('0. 沒有標題的小場景：日誌不留事件 id（EVENTS.run 記的 GM.memo(ev.id) 演完拿掉）；有標題的照記',J(G.memo)===J([{day:1,t:'前一筆'}])&&!G2.memo.length&&G2.flags.VF_Y0_0727==='walk'&&VACFILL_EVENTS.every(e=>e.title||typeof e.after==='function')); }
     check('0. 掛勾：PHONE_RULES、TICKS、HOME.STOPS、HOME.CARD_LINES；CLS.morning、HOME.ffMenu、ECONFF.tick2 外面包一層',!!CLS.morning._vacfill&&!!HOME.ffMenu._vacfill&&!!ECONFF.tick2._vacfill&&HOME.STOPS.length>0&&HOME.CARD_LINES.length>0&&STORY.PHONE_RULES.length>0&&STORY.TICKS.length>0);
@@ -152,6 +152,10 @@ const wake=async(G)=>{ CLS.rec(G); const T0=CALENDAR.TERMS; for(const t of T0) C
     on2n=0; ECONFF.on2=()=>{ on2n++; return false; }; ECONFF.tick2({G,E}); ECONFF.on2=on2; E.player.obj.position={x:0,y:0,z:0};
     check('1-5. 走進霖澤館穿堂就結束（之後照原本的：ECONFF.tick2 照常）',done15&&on2n===1);
     G=econG('2025-07-27',10); await run('ev_vf_y0_0727',[1]); rules(); check('1-5. 「（在家）」＝不演',!out('vf_y0_0727')&&G.flags.VF_Y0_0727==='no');
+    /* 1-5b（ca16c073d 補）*/
+    { const qb=Q(S15B); G=econG('2025-07-31',9.9); const eb=ev('ev_vf_y0_0731'); const b0=EVENTS.check(eb); setT('2025-07-31',10); const b1=EVENTS.check(eb)&&HOME.homeEvent(G)&&HOME.homeEvent(G).id;
+      Ls=await run('ev_vf_y0_0731'); pre813.push(...Ls);
+      check('1-5b. 7/31（四）10:00 在家醒來：成績單兩句旁白（稿的引文逐字）；10:00 以前不演',!b0&&b1==='ev_vf_y0_0731'&&qb.length===2&&J(Ls)===J(qb.map(x=>x.text)),J([b1,Ls])); }
     /* 1-6 */
     G=econG('2025-08-04',21.05); rules(); const q16=Q(S16);
     check('1-6. 8/4（一）21:00「走啦」群組：等放榜（稿 1-6 引文四則），不用回',J(pairs('vf_y0_0804'))===J(qPairs(q16))&&q16.length===4&&!optsOf('vf_y0_0804').length&&!out('vf_y0_0804'),J(pairs('vf_y0_0804'))); pre813.push(...tagged('vf_y0_0804').map(m=>m.text));
