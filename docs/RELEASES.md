@@ -29,7 +29,7 @@
 | v9.10.6 | `11ab1bbd`（PR [pyhuanglaw/Lawstudent#12](https://github.com/pyhuanglaw/Lawstudent/pull/12)；遊戲檔案＝發布樹 `27948554`＝候選 `9f9e13cc`＋版本字樣，git diff 為空） | 2026-10-23 16:16:29 UTC（run 39985072211） | `46dfe5c7`（v9.10.5） |
 | v9.10.7 | `964c9cb1`（PR [pyhuanglaw/Lawstudent#13](https://github.com/pyhuanglaw/Lawstudent/pull/13)；遊戲檔案＝發布樹 `9199fd7d4`（開發分支 `ab774c0c4`）＝候選 `d7f40ce91`＋SQ08＋兩支測試修正＋版本字樣，git diff 為空） | 2026-10-24 05:44:51 UTC（run 40067341976） | `11ab1bbd`（v9.10.6） |
 | v9.10.8 | `3fca7768`（PR [pyhuanglaw/Lawstudent#14](https://github.com/pyhuanglaw/Lawstudent/pull/14)；遊戲檔案＝發布樹 `5724a7516`＝候選 `63da1d633`＋臺北的家不寫上下樓三句＋美國 8/11 摘要） | 2026-10-24 13:55:13 UTC（run 40100085375 success） | `964c9cb1`（v9.10.7） |
-| v9.10.9 | （合併後補；遊戲檔案＝候選 `55eed589e`＋`bae6a039a` 測試等待） | （合併後補） | `3fca7768`（v9.10.8） |
+| v9.10.9 | `f10d2701`（PR [pyhuanglaw/Lawstudent#15](https://github.com/pyhuanglaw/Lawstudent/pull/15)；遊戲檔案＝候選 `55eed589e`＋`bae6a039a` 測試等待） | 2026-10-24 21:26:36 UTC（run 40134076963 success） | `3fca7768`（v9.10.8） |
 
 ---
 
@@ -43,11 +43,11 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.9（2026-10-24 合併中：PR 與部署紀錄合併後補）——美國法圖 2F 書庫、經濟系 7/31 成績單、16 段不再黑底、讀者那幾輪的台詞修正、美國晚上
+## v9.10.9（2026-10-24 21:24 UTC 合併 `f10d2701`，PR #15；GitHub Pages 部署 run 40134076963 21:26:36 成功）——美國法圖 2F 書庫、經濟系 7/31 成績單、16 段不再黑底、讀者那幾輪的台詞修正、美國晚上
 
 **候選**：開發分支 `55eed589e`＝`c6fef17e1`（10-24 16:4x 凍結）＋版本字樣 v9.10.9。發布後才合的（ENGINE-SEASON-DUSK-1024 傍晚天色照季節、ART-BG-AWNINGS-1024 醉月湖北邊遠景店面）不進這一版。
 
-**發布**：開發分支（遊戲檔案＝候選 `55eed589e`＋`bae6a039a` 只改 tests/gongguan_layout_nav.py 的等待方式）直接開 PR 到 main；合併 commit、Pages 部署紀錄合併後補。線上實際畫面沙盒連不到 github.io，請使用者在手機看標題的版本字樣。
+**發布**：開發分支 `11981c1b8`（遊戲檔案＝候選 `55eed589e`＋`bae6a039a` 只改 tests/gongguan_layout_nav.py 的等待方式）→ PR [pyhuanglaw/Lawstudent#15](https://github.com/pyhuanglaw/Lawstudent/pull/15) 合併 `f10d2701`；main 的遊戲檔案和 `11981c1b8` 比對沒有差別（`git diff 11981c1b8 origin/main -- src assets tests tools lib index.html` 空）、標題字樣 v9.10.9。線上實際畫面沙盒連不到 github.io，請使用者在手機看標題的版本字樣。
 
 **BB 判定 GO**（10-24 21:20，BB_218「RELEASE-9109-TEST 判定」一節，企劃線 `5e71b4ed9`；總表 docs/story_planning/qa/release_9109_55eed589e_SUMMARY.txt）：
 - 12 項＋AA_449 全部 PASS（瀏覽器，手機模擬）：①美國法圖 2F 書庫（R19 四個＋看五句；之前「學姊不在」是測試工具把鏡頭外的人物當成不在）②經濟系 7/31 成績單＋暑假快轉（交往中、沒交往兩份，7/22、7/27、7/31、8/10 當天演，8/13 家人群組放榜後）③霖澤館 1F 公布欄＋玻璃門 ④社科院捲簾、布簾 ⑤教室窗外景、博雅二樓長窗 ⑥上面樓層不投影子（v9.10.8 對照：普通 101 牆上二樓桌椅的影子沒了）⑦室內路人 7 m 外換低面數（博雅講座 135.8 萬 → 47.3 萬三角形）⑧16 段不再黑底（231 張 HTTP 200）⑨AA_445 節日邀約、2/4 麵店 ⑩AA_447 紐約送機、台南送行 1／2／3／6 次、哥大那句 ⑪AA_448 冷氣那句、初雪黑底、校園換季 ⑫美國社區西邊出口、法圖晚上、校園路燈；AA_449 2/14 補習班、2/2 可昕兩版。
