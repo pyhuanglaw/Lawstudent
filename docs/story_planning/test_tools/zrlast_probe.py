@@ -2726,6 +2726,15 @@ R28 = [dict(id='DORM_BATH_203', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flag
        dict(id='DORM_BATH_412', key='TERMDAY:Y1S1:3:2', h=7.5, zone='dorm', flags={}, js='', pref=[],
             steps=[('jsrun', "(()=>{ const z=GAME.E.zone; if(z&&z.dormSet){ z.dormSet('412'); return true; } return false; })()", "【捷徑】z.dormSet('412')（經濟系的四人房，同一個 GLB）")] + DORMSHOTS('dorm412'), want=[])]
 SCENS = SCENS + R28
+
+# BB-B 22:5x：R26 的 MIDNIGHT 只改了 G.hour，光線沒動（engine3d 每 5 個畫格用 E.hour 叫 applyTime；G.hour 要經過 GAME 的 advance 才同步到 E.hour）→ 讀到的都是 23:43 那一格。
+# MIDNIGHT2：【捷徑】同時設 G.hour、E.hour，直接叫 E.applyTime(E.hour)，再等兩個畫格讀 LIGHT（和遊戲時間往前走時算光線的是同一個函式）
+SWEEP2 = ("(async([a,b])=>{ const out=[]; const fr=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))); for(let h=a; h<=b+1e-9; h+=0.02){ const hh=h>=24?h-24:h; GAME.G.hour=hh; GAME.E.hour=hh; GAME.E.applyTime(hh); await fr(); const L=" + "%s" + "; out.push(L); } return out; })(%s)")
+def SW2(a, b): return SWEEP2 % (LIGHT, json.dumps([a, b]))
+R28 += [dict(id='MIDNIGHT2', key='2026-10-14', h=23.7, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake2_2342') + [
+        ('chk', '【捷徑】23:48→24:36 每 0.02 小時（設 E.hour＋applyTime）讀光線', SW2(23.8, 24.6), KEEP('sweep2_midnight')), ('shot', 'lake2_0036', None, 'true', 2),
+        ('chk', '【捷徑】04:18→05:42 每 0.02 小時讀光線', SW2(4.3, 5.7), KEEP('sweep2_dawn')), ('shot', 'lake2_0542', None, 'true', 2)], want=[])]
+SCENS = SCENS + [R28[-1]]
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
