@@ -292,4 +292,4 @@ const US_LIFE_EVENTS=(function(){
 })();
 Array.prototype.push.apply(STORY_EVENTS,US_LIFE_EVENTS.EV);
 /* 法學院圖書館的一般閒聊（AA_345 I5）：學姊的 SMALLTALK 多三句——只在美國的法學院圖書館（us_lawlib）09:00～11:30、交往中；和原本的「……我沒事。只是沒睡。」輪流 */
-if(typeof SMALLTALK!=='undefined'){ const L=SMALLTALK.heroine_05||(SMALLTALK.heroine_05=[]); for(const t of US_LIFE_EVENTS.DATA.libTalk) if(!L.some(e=>e&&e.t===t)) L.push({t,location:['us_lawlib'],time:[9,11.5],if:{custom:US_LIFE_EVENTS.dating}}); }
+if(typeof SMALLTALK!=='undefined'){ const L=SMALLTALK.heroine_05||(SMALLTALK.heroine_05=[]); for(const t of US_LIFE_EVENTS.DATA.libTalk) if(!L.some(e=>e&&e.t===t)) L.push({t,location:['us_lawlib','us_lawlib_2f'],time:[9,11.5],if:{custom:US_LIFE_EVENTS.dating}}); }

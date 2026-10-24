@@ -363,6 +363,19 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     { caps=[]; E.player.busy=false; await USL.tick(GM,0.5); const c1=caps.slice(); caps=[]; await USL.tick(GM,0.5);
       check('AA_444. 第一次進她的房間：一句旁白、記 US_ROOM_C_SEEN；之後不出', c1.includes('（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）')&&G.flags.US_ROOM_C_SEEN!=null&&!caps.includes(c1[0]), JSON.stringify(c1)); }
     global.Z3=Z0; }
+  // ======================= AA_399 第 8 節：法學院圖書館 2F 書庫（us_lawlib_2f，LAWWW2-B 10-24）=======================
+  { const Z0=global.Z3; global.Z3=Object.assign({},Z0||{},{ZONES:Object.assign({},(Z0&&Z0.ZONES)||{},{us_lawlib_2f:{id:'us_lawlib_2f'}})});
+    fresh('2028-10-10',10,'us_lawlib',US()); date('heroine_05');
+    const a1=USL.sisAt(G); at('2028-10-10',10.5); const a2=USL.sisAt(G); at('2028-10-10',11.9); const a3=USL.sisAt(G);
+    check('AA_399-8 2F. 平日 9:00～10:30 一樓（看書，到 10:30）、10:30～12:00 二樓書庫（站著）', a1&&a1.zone==='us_lawlib'&&a1.to===10.5&&a2&&a2.zone==='us_lawlib_2f'&&a2.stand&&a2.to===12&&a3&&a3.zone==='us_lawlib_2f', JSON.stringify([a1,a2]));
+    at('2028-10-10',11); G.zone='us_campus'; { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8 2F. 「現在大概在」：不在 2F＝「法學院圖書館 2F 書庫（看書，到 12:00）」', w&&w.zone==null&&w.away==='法學院圖書館 2F 書庫'&&w.act==='看書'&&w.until==='12:00', JSON.stringify(w)); }
+    G.zone='us_lawlib_2f'; { const w=STORY.whereIs(GM,'heroine_05'); check('AA_399-8 2F. 人在 2F：區域就是 2F', w&&w.zone==='us_lawlib_2f', JSON.stringify(w)); }
+    GM.npc={}; E.zone={roomAt:()=>null,seats:[],spots:{sis:{x:8.45,z:-0.9,yaw:1.5708,act:'stand'}}}; E.player.obj.position={x:8.4,y:0,z:-2.1}; USL.sisSync(GM); const n=GM.npc.heroine_05;
+    check('AA_399-8 2F. 3D：進 2F 書庫，她站在 spots.sis（不是坐著）', !!n&&n.uslSis&&!n.seat&&Math.abs(n.obj.position.x-8.45)<1e-6&&Math.abs(n.obj.position.z+0.9)<1e-6, n&&JSON.stringify({seat:n.seat,pose:n.pose}));
+    GM.npc={}; G.zone='us_lawlib'; E.zone={roomAt:()=>null,seats:[{x:1,z:1},{x:2,z:2},{x:3,z:3},{x:-4.75,z:-1.733,yaw:-1.57}],spots:{}}; USL.sisSync(GM); check('AA_399-8 2F. 11:00 一樓沒有她', !GM.npc.heroine_05);
+    at('2028-10-10',11.75); G.zone='us_lawlib_2f'; { const L=STORY.ladData(G,'heroine_05'); const st=L&&L.L.steps.find(x=>/^SU-L/.test(x.id||'')); check('AA_399-8 2F. SU 閒聊階梯：11:30～12:00 的地點多了 2F 書庫', !!st&&st.location.includes('us_lawlib_2f')&&!!st.locTime.us_lawlib_2f, st&&JSON.stringify(st.location)); }
+    if(typeof EXCH!=='undefined'&&EXCH.inUS){ G.zone='us_lawlib_2f'; const i1=EXCH.inUS(G); G.zone='us_bed_c'; const i2=EXCH.inUS(G); check('AA_399-8. 2F 書庫、學姊的房間也算在美國（EXCH.inUS）', i1&&i2); }
+    global.Z3=Z0; }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
