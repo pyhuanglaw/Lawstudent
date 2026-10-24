@@ -2798,7 +2798,7 @@
    "next": "LAWWW-B 套 patch、放 18 張 webp（gongtong_3f.layout.json 也換）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED（LAWWW-B 09:52：patch 乾淨套上，18 張 webp＋gongtong_3f.layout.json＋teach_views.py 拿了；v9.10.8 發布前測試跑完再跑單元測試、commit 後告訴 SHA；博雅長窗同做法重拍排在經濟系路線截圖之後）",
+   "ack": "ACTIONED（LAWWW-B 09:54：已整合 aef97e506，交付 DL-LW2-TEACH-VIEWS；11 支＋rooms_ab3_people、campus_public ALL PASS；兩個產生器重跑和 patch 的 layout 一模一樣）",
    "note": "名稱的 south／north＝室內配置的 S／N 牆（共同轉了 180°，gongtong_south 在校園上朝北看椰林大道）"
   }
  ]
