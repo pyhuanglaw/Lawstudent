@@ -37,10 +37,20 @@ async def main():
         # 電梯：一樓叫電梯、搭到二樓，途中每 0.5 秒量一次
         run.setup('一樓電梯：走到叫車點、按互動、選 2F')
         await pg.evaluate("GAME.E.placeAt(GAME.E.player,4.6,-3.9,0); GAME.E.cam.yaw=0")
-        await pg.wait_for_timeout(1500)
-        lab = await pg.evaluate("document.getElementById('interact').textContent"); print('interact:', lab)
-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        btns = await pg.evaluate("Array.from(document.querySelectorAll('#choices button')).map(b=>b.textContent)"); print('choices:', btns)
+        # 機器忙的時候（SwiftShader 1～4 fps）互動按鈕、選單不一定 1.5 秒就出來：等到出現（各最多 10 秒），不是固定等（LAWWW-B 10-24：release_suite 在忙的機器上選單是空的、BB 那台 PASS）
+        lab = ''
+        for i in range(20):
+            await pg.wait_for_timeout(500)
+            lab = await pg.evaluate("document.getElementById('interact').textContent")
+            if '電梯' in lab: break
+        print('interact:', lab)
+        await L.tap(pg, cdp, '#interact')
+        btns = []
+        for i in range(20):
+            await pg.wait_for_timeout(500)
+            btns = await pg.evaluate("Array.from(document.querySelectorAll('#choices button')).map(b=>b.textContent)")
+            if btns: break
+        print('choices:', btns)
         idx = next((i for i, t in enumerate(btns) if '2F' in t), None)
         if idx is not None:
             await pg.evaluate("document.querySelectorAll('#choices button')[%d].click()" % idx)
