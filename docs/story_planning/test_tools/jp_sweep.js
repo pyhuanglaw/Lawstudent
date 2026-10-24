@@ -13,10 +13,10 @@ const LW = process.env.LW; if (!LW) { console.error('要 LW=<工作樹>'); proce
 const MODE = process.env.MODE || 'strict', GRP = process.env.GRP || 'none';
 const H = require(path.join(LW, 'tests', 'pg_harness.js'));
 const { GM } = H, ROOT = H.ROOT, AN = 'heroine_01';
-const EXPORT = /^(EXCH|Y34B|MSG|MSG_POOL|MSG2_POOL|GROUP|GROUP_EVENTS|R2Y3A|R2Y3A_EVENTS|R2Y3B|R2Y3B_EVENTS|HOLFF|JP|JP_EVENTS|SIS_JP|SIS_JP_EVENTS|JPB|JP_BLANK_LINES)$/;
+const EXPORT = /^(EXCH|Y34B|MSG|MSG_POOL|MSG2_POOL|GROUP|GROUP_EVENTS|R2Y3A|R2Y3A_EVENTS|R2Y3B|R2Y3B_EVENTS|HOLFF|JP|JP_EVENTS|SIS_JP|SIS_JP_EVENTS|JPB|JP_BLANK_LINES|VACFILL|VACFILL_LINES|VACFILL_UI|VACFILL_EVENTS|JPPREP|JPPREP_LINES|JPPREP_EVENTS)$/;
 const load = f => { let src = fs.readFileSync(path.join(ROOT, f), 'utf8'); src = src.replace(/^const (\w+)\s*=/mg, (m, n) => EXPORT.test(n) ? 'globalThis.' + n + '=' : m); vm.runInThisContext(src, { filename: f }); };
 const loadErr = [];
-for (const f of ['src/holff3d.js', 'src/exchange3d.js', 'src/data/msg_pool.js', 'src/data/msg2_pool.js', 'src/msg3d.js', 'src/data/group_events.js', 'src/group3d.js', 'src/y34b3d.js', 'src/data/r2y3a_events.js', 'src/r2y3a3d.js', 'src/data/r2y3b_events.js', 'src/r2y3b3d.js', 'src/data/jp_events.js', 'src/jp3d.js', 'src/data/sis_jp_events.js', 'src/sis_jp3d.js', 'src/data/jp_blank_lines.js', 'src/jp_blank3d.js']) {   /* AA_435 的空白日補稿（AA-B 10-24 06:27：不載的話還是 34／26）；舊的開發分支沒有這兩個檔＝照舊列進 loadErr */
+for (const f of ['src/holff3d.js', 'src/exchange3d.js', 'src/data/msg_pool.js', 'src/data/msg2_pool.js', 'src/msg3d.js', 'src/data/group_events.js', 'src/group3d.js', 'src/y34b3d.js', 'src/data/r2y3a_events.js', 'src/r2y3a3d.js', 'src/data/r2y3b_events.js', 'src/r2y3b3d.js', 'src/data/jp_events.js', 'src/jp3d.js', 'src/data/sis_jp_events.js', 'src/sis_jp3d.js', 'src/data/jp_blank_lines.js', 'src/jp_blank3d.js', 'src/data/vacfill_events.js', 'src/vacfill3d.js', 'src/data/jpprep_events.js', 'src/jpprep3d.js']) {   /* AA_442 日本出發前五週（jpprep，LAWWW-B 10-24 08:00；index.html 的順序：vacfill 在 jpprep 前面）*/   /* AA_435 的空白日補稿（AA-B 10-24 06:27：不載的話還是 34／26）；舊的開發分支沒有這兩個檔＝照舊列進 loadErr */
   if (!fs.existsSync(path.join(ROOT, f))) { loadErr.push(f + '：沒有這個檔'); continue; } try { load(f); } catch (e) { loadErr.push(f + '：' + e.message); } }
 const D = k => STORY.dayOfKey(k), T = (d, h) => d * 24 + h;
 const wdOf = d => { const w = CALENDAR.dateOf(d).wd; return w === 7 ? 0 : w; };
