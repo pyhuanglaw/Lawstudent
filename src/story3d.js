@@ -4010,7 +4010,7 @@ const STORY = (function(){
         if(typeof OUT!=='undefined'&&!OUT.get(G,'zr_nye_video_y'+y)&&(G.day===nye&&hh>=21||G.day===nye+1&&hh<7.9)) OUT.plan(G,{id:'zr_nye_video_y'+y,ev:'ev_zr_nye_video_y'+y,day:nye+1,h:8,late:0.25,place:'視訊',title:'芷若打視訊來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊掛了。'});
         continue; }
       const st=SOCIAL.STAGES.indexOf(SOCIAL.stage(id)); if(st<SOCIAL.STAGES.indexOf('FRIEND')) continue;   /* 認識、有點熟：不收（5-7 第 2 點）*/
-      if(G.day===nye+1&&hh>=8&&!PHONE.sent(G,'zr_nye_y'+y)) PHONE.at(G,nye+1,8,[{th,from:id,text:'新年快樂。這邊剛剛才倒數完。'}].concat(st>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND')?[{th,from:id,text:'臺灣的煙火我在網路上看了。比這邊大。'}]:[]),'zr_nye_y'+y); } };
+      if(G.day===nye+1&&hh>=8&&!PHONE.sent(G,'zr_nye_y'+y)) PHONE.at(G,nye+1,8,[{th,from:id,text:y===4?'新年快樂。今年我在這邊跨第二次了。':'新年快樂。這邊剛剛才倒數完。'}].concat(st>=SOCIAL.STAGES.indexOf('CLOSE_FRIEND')?[{th,from:id,text:y===4?'去年說臺灣的煙火比較大。……今年還是。':'臺灣的煙火我在網路上看了。比這邊大。'}]:[]),'zr_nye_y'+y); } };
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2）：12/24 21:00 她私訊問 → 高雄（高鐵來回 2980，錢不夠變灰）／頂樓・視訊；12/31 21:00 前沒回＝視訊；
      高雄＝23:30 出遊（ev_kx_nye_river_y?）；視訊＝23:59「接起來」（大二在頂樓的接在 ev_y2_newyear 裡）；答應高雄沒去＝00:05 她打來、兩句改到隔天 09:00（AA_313 2-3 B）。KX_NYE[年]＝river／video／missed */
   S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年，高雄還是頂樓？'],opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'頂樓。',k:'video',r:'好。零點我打視訊。'}]},
@@ -4033,9 +4033,9 @@ const STORY = (function(){
     const fam=(id,st)=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st||'FAMILIAR');
     const zf=!inG&&G.day===nye&&hh>=21&&fam('zhe');   /* 不在群組、和阿哲 FAMILIAR 以上：阿哲私訊兩則（AA_210 5-5 第 3 點）*/
     if(zf&&hh<23.5&&!PHONE.sent(G,'nye_y2_ask')){ const Z=t=>({th:'p:zhe',from:'zhe',text:t}), L=[Z('跨年頂樓十一點半 柏翰他們會去'),Z('宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'),Z('我跟 Alison 去信義區 你去頂樓就好')];   /* 宿委會那一句：AA_210 第 0 節（d82f1374）*/
-      L[2].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
+      L[2].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去頂樓。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
     if(inG&&G.day===nye&&hh>=21&&hh<23.5&&!PHONE.sent(G,'nye_y2_ask')){ const L=(S.knows('heroine_01',G)?[M('heroine_01','今年頂樓幾點？')]:[M('classmate_bohan','今年頂樓有人要去嗎？十一點半。')]).concat([M('classmate_bohan','十一點半。我先上去。'),M('zhe','宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'),M('zhe','我們今年不上去'),M('yu','我們去信義區！！'),M('zhe','去年沒看到，今年要看到')]);
-      L[L.length-1].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
+      L[L.length-1].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去頂樓。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
     if(PHONE.sent(G,'nye_y2_ask')&&!kxR&&!OUT.get(G,'nye_y2')&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'nye_y2',ev:'ev_y2_newyear',day:nye,h:23.5,late:0.25,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'走上去約 2 分鐘',travelH:1/30,back:'回到房間。'});
     if(F.dating_heroine_03&&!OUT.get(G,'yt_nye_call_y2')&&G.day===nye&&hh>=23) OUT.plan(G,{id:'yt_nye_call_y2',ev:'ev_yt_nye_call_y2',day:nye+1,h:1/60,place:'電話',title:'語彤打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});
     if(!after) return;

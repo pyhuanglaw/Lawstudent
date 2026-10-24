@@ -435,7 +435,7 @@ const date=id=>H.date(id);
     at('2028-08-07',9); phone();
     check('2-Y4-57 T1（第 4 階以下）：8/3 不另外傳「到了。」（AA_378 S1 更正 5cd35678：8/3 09:00 家族群組已經有 US0）；臺灣週一 09:00 第一則「我買了一罐太大的花生醬。」；SIS_ABROAD_TIER 1', JSON.stringify(arr)==='[]'&&JSON.stringify(th('p:heroine_05'))===JSON.stringify(['（照片：超市的花生醬貨架）','我買了一罐太大的花生醬。'])&&H.G.flags.SIS_ABROAD_TIER===1);
     at('2028-08-14',9); phone(); const n1=th('p:heroine_05').length; at('2028-08-21',9); phone();
-    check('2-Y4-57 T1 兩週一則、照順序（第二則「這邊的圖書館開到半夜兩點。」）', n1===2&&th('p:heroine_05').includes('這邊的圖書館開到半夜兩點。')); }
+    check('2-Y4-57 T1 兩週一則、照順序（第二則「這邊的圖書館整晚開著。……以後我十二點就走。」）', n1===2&&th('p:heroine_05').includes('這邊的圖書館整晚開著。……以後我十二點就走。')); }
   { fresh('2028-08-06',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); at('2028-08-07',9); phone(); const m=PHONE.byAsk(H.G,'y4_sa_t2_0');
     check('2-Y4-57 T2（第 4～5 階）：兩週一則（AA_378 S1），會問你的事、要有回覆按鈕（「還好，不算太滿。」／「很滿。」）；她不再回', th('p:heroine_05').includes('論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。')&&th('p:heroine_05').includes('你大四上的課排得怎樣？')&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='還好，不算太滿。|很滿。'&&(answer('y4_sa_t2_0',0),th('p:heroine_05').slice(-1)[0]==='還好，不算太滿。')); }
   { fresh('2028-08-05',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-08-06',8); phone(); const q=OUT.get(H.G,'y4_sa_v_0');

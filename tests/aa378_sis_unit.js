@@ -47,7 +47,7 @@ await sec(1,()=>{ check('1. 讀得到稿（企劃線 8f138c5b 的 AA_378）',!!d
 /* 2 T1 整學期 */
 await sec(2,()=>{ fresh('2028-08-02',20,'TW'); H.FAMILIAR('heroine_05'); walk(D('2028-08-03'),D('2028-12-20'));
   const L=seq(), first=L.map(x=>x.L[x.L.length-1]);
-  const want=['我買了一罐太大的花生醬。','這邊的圖書館開到半夜兩點。','找到臺灣的烏龍茶了。很貴。我還是買了。','九月底，葉子先紅了一棵。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
+  const want=['我買了一罐太大的花生醬。','這邊的圖書館整晚開著。……以後我十二點就走。','找到臺灣的烏龍茶了。很貴。我還是買了。','九月底，葉子先紅了一棵。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
   check('2. T1：花生醬、圖書館、X0、楓樹、X1～X5（AA_378 S1 那一列），一則都沒有重複',JSON.stringify(first)===JSON.stringify(want)&&new Set(th().filter(m=>WEEKLY.test(m.tag||'')).map(m=>m.text)).size===th().filter(m=>WEEKLY.test(m.tag||'')).length,JSON.stringify(first));
   const dk=L.map(x=>CALENDAR.dateOf(x.day).key+' '+x.h);
   check('2. T1 的日子：週一 09:00 兩週一則（9/4 那一格沒有）；11/5 起 10:00（8/3 不另外傳「到了。」）',JSON.stringify(dk)===JSON.stringify(['2028-08-07 9','2028-08-21 9','2028-09-18 9','2028-10-02 9','2028-10-16 9','2028-10-30 9','2028-11-13 10','2028-11-27 10','2028-12-11 10']),JSON.stringify(dk));
@@ -78,7 +78,7 @@ await sec(5,()=>{ fresh('2028-08-02',20,'JP'); H.G.flags.JP_DEPARTED=D('2028-03-
 /* 6 舊存檔 */
 await sec(6,()=>{ fresh('2028-08-20',20,'TW'); H.FAMILIAR('heroine_05'); H.G.flags.SIS_AB={k:1,tier:1,i1:2,i2:0,i3:0,t1k:0,log:[{k:0,kind:'t1',tag:'y4_sa_t1_0'}]}; walk(D('2028-08-21'),D('2028-08-21'));
   const L=seq();
-  check('6. 舊存檔（T1 傳過「到了」「花生醬」）：8/21 那一則是「這邊的圖書館開到半夜兩點。」；讀檔晚兩天以上不補「到了。」',L.length===1&&L[0].L.includes('這邊的圖書館開到半夜兩點。')&&!th().some(m=>m.text==='到了。'),JSON.stringify(L)); });
+  check('6. 舊存檔（T1 傳過「到了」「花生醬」）：8/21 那一則是「這邊的圖書館整晚開著。……以後我十二點就走。」；讀檔晚兩天以上不補「到了。」',L.length===1&&L[0].L.includes('這邊的圖書館整晚開著。……以後我十二點就走。')&&!th().some(m=>m.text==='到了。'),JSON.stringify(L)); });
 
 /* 7 S3 便條 */
 await sec(7,async()=>{ const note=(ask2)=>{ fresh('2028-10-25',20,'TW'); H.FRIEND('heroine_05'); H.G.flags.Y4_PATH='grad'; if(ask2) H.G.flags.Y4_PATH_ASK2=D('2028-10-16'); H.at('2028-10-25',21); R2Y4A.phone(H.G,GM); PHONE.tick(H.G); return PHONE.sent(H.G,'y4_push_note'); };

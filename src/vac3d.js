@@ -232,6 +232,7 @@ const VAC=(function(){
     { const d=S.c01Day('Y2'); if(d!=null&&!PHONE.sent(G,'nye_y2_zhe')&&now>=T(d,21)&&G.day<=d+1) PHONE.at(G,d,21,[{th:'g:noodle_team',from:'zhe',text:'我明天回高雄'}],'nye_y2_zhe'); } };
   /* 大二以後才第一次去（AA_264 第 4 節，e01ee2a8；第 5 節 7fa3660d）：揪人那天（S.c01Ask）21:05 麵店團群組照 AA_204 3-1（阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」，大四週二換「禮拜二…」）；
      以安：和她 FAMILIAR 以上、而且那一天她在臺北，才回、才去（VA03_AN）；我去＝那天 08:50 臺北車站（出遊 ev_va03_beach，第一句旁白每年都是「放寒假的第二個禮拜」）；當晚群組照 AA_204 */
+  S.C01_NONE={Y2:['📷（大家站在防波堤上，頭髮都被吹歪）','今年的風比去年大！！','我在家看照片就好。'],Y3:['📷（沙灘上用樹枝寫的「麵店團」）','浪一下就把它沖掉了','……拍到就好。'],Y4:['📷（大家在月台上，手裡拿著熱的飲料）','最後一次寒假的海！！','下次我去。']};   /* AA_446 第 3 節：沒去海邊的那一則照年份換（Alison 兩句、芯慈一句；大一照舊在 story3d.js）*/
   S.c01First=function(G,yk,d){ const V=S.rec(G), F=G.flags, now=T(G.day,G.hour), tg='vac_c01first_'+yk, TH='g:noodle_team', C=V.c01||(V.c01={});
     if(!PHONE.sent(G,tg)){ if(now<T(S.c01Ask(d),21+5/60)||G.day>=d||S.c01N(G)>=1) return;
       const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_01',Object.assign({},G,{day:d,hour:9})):{here:true}, an=atLeast('heroine_01','FAMILIAR')&&!!(pr.here||pr.kind==='taipei');
@@ -240,7 +241,7 @@ const VAC=(function(){
       L.forEach(([from,text,h],i)=>{ const m={th:TH,from,text}; if(i===L.length-1) m.ask={id:tg,until:T(d,8.5),opts:[{t:'我去',set:{C01F_PICK:yk}},{t:'我那天不行'}]}; PHONE.at(G,S.c01Ask(d),h,[m],i===L.length-1?tg:tg+'_'+i); });
       return; }
     if(F.C01F_PICK===yk){ delete F.C01F_PICK; C[yk]='first'; if(typeof OUT!=='undefined'&&!OUT.get(G,'vac_c01_'+yk)&&G.day<=d) OUT.plan(G,{id:'vac_c01_'+yk,ev:'ev_va03_beach',day:d,h:8+50/60,late:0.25,place:'臺北車站',title:c01Title(d),travel:'捷運約 20 分鐘',travelH:1/3,back:'回到臺北。'}); }
-    if(G.day===d&&G.hour>=18&&F.VA03_BEACH!=='went'&&!PHONE.sent(G,tg+'_none')) PHONE.at(G,d,18,[{th:TH,from:'yu',text:'📷（灰色的海）'},{th:TH,from:'yu',text:'好冷但好好玩'},{th:TH,from:'classmate_xinci',text:'看起來好冷。'}],tg+'_none');
+    if(G.day===d&&G.hour>=18&&F.VA03_BEACH!=='went'&&!PHONE.sent(G,tg+'_none')) PHONE.at(G,d,18,(S.C01_NONE[yk]||S.C01_NONE.Y2).map((t,i,a)=>({th:TH,from:i<a.length-1?'yu':'classmate_xinci',text:t})),tg+'_none');
     if(C[yk]==='first'&&F.VA03_BEACH==='went'&&!PHONE.sent(G,tg+'_photo')){ const at=Math.max(T(G.day,G.hour),T(d,20)); PHONE.at(G,Math.floor(at/24),at%24,[{th:TH,from:'yu',text:'📷（海邊的合照）'},{th:TH,from:'yu',text:'五張裡最好的一張'}].concat(F.VA03_SHOE?[{th:TH,from:'zhe',text:'📷（曬在宿舍欄杆上的鞋子）'},{th:TH,from:'zhe',text:'鞋子回來了'}]:[]),tg+'_photo'); } };
   /* ---- 關鍵事件（出遊事件 ev_vac_key 的 beforeOuting）---- */
   const run=async(GM,lines)=>{ const G=GM.G; for(let x of (lines||[])){ if(typeof x==='function') x=x(G); if(x==null) continue; if(Array.isArray(x)){ await run(GM,x); continue; }
