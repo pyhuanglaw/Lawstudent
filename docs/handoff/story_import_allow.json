@@ -2370,6 +2370,15 @@
    "task": "V6-S3、V6-B6、V6-A7",
    "kind": "text",
    "note": "分手後可以重新開始；可昕前任版第一句；以安邀約回覆；Alison 貼圖、芯慈、分開後一學期"
+  },
+  {
+   "path": "docs/story_planning/AA_435_日本篇的空白日_開學前_週末_期末週_最後一週.md",
+   "sha": "0bb6e2fe6",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 03:2x 定稿（D109；回 BB_302）",
+   "task": "V4-R-JP",
+   "kind": "text",
+   "note": "日本篇空白日：第 0 節以安三句已改（jp_events.js）；第 1～5 節開學前、週末、期末週、最後一週、挽回中兩件待施工"
   }
  ]
 }

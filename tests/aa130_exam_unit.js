@@ -37,7 +37,7 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     check('6. 憲法（上）（正式 '+off.length+' 題＋AI '+n.ai.length+' 題）：開考，5 題',off.length<5&&n.ai.length>0&&res.held!==false&&r.ok&&r.qs.length===5,GM.log.slice(0,2).join(' | '));
     check('6. 正式題排在前面、AI 題只補剩下的',r.qs.slice(0,off.length).every(q=>q.status==='USER_CONFIRMED')&&r.qs.slice(off.length).every(q=>q.status==='AI_CROSS_REVIEWED'),JSON.stringify(r.qs.map(q=>q.status)));
     check('6. 考卷不顯示題目來源（AI_Y1Y3、AI、出題者）',!GM.log.some(t=>/AI_Y1Y3|AI_CROSS|author|來源/.test(t)));
-    const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）有分數，不是「未開考」',/分$/.test(rep.const_1||''),JSON.stringify(rep));
+    const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）有分數，不是「未開考」',/^\d+ 分/.test(rep.const_1||''),JSON.stringify(rep));   /* D42（05a959c08）不及格後面多「（不及格，下學期重修）」：只看開頭有分數（BB-B 10-23 回報）*/
     const G0=mkG(dayOf('2026-06-15'),9); const r0=CLS.drawExam(G0,'const_2','Y1S2','final'); check('6. 憲法（下）沒有正式題目：5 題都是 AI 補題，開考',r0.ok&&r0.qs.every(q=>q.status==='AI_CROSS_REVIEWED'));
     const G1=mkG(dayOf('2025-12-22'),9); const p1=CLS.examPool('civ_general','Y1S1','final'), r1=CLS.drawExam(G1,'civ_general','Y1S1','final');
     check('6. 民法總則（正式 '+(p1.cls.length+p1.bank.length)+' 題、AI '+p1.ai.length+' 題）：正式題夠，不用 AI 題',p1.ai.length>0&&r1.ok&&r1.qs.every(q=>q.status==='USER_CONFIRMED'));
