@@ -4190,7 +4190,8 @@
      "evidence": "JP-SEM-AA341-1020：src/jp3d.js（2D 據點、日本學期、一鍵上課、快轉、8/5 回程；tests/jp_semester_unit.js ALL PASS）＋大三後半日本事件 src/r2y3b3d.js；CG-13、17、22、23 已放",
      "note": "系統做完，缺背景圖；出發改 3/25 以後「以安冬裝立繪」可能不用了，請 BB 確認"
     }
-   ]
+   ],
+   "notes": "2026-10-24 04:4x LAWWW-B：AA_435 日本篇空白日第 1～5、7 節接好（src/jp_blank3d.js、src/data/jp_blank_lines.js；tests/aa435_jp_blank_unit.js 81 PASS）：開學前 3/29～4/9 逐天、週末交往中八場／挽回中三場、河邊句池、摘要池、期末週、送別會、退租打掃、郵局、最後一次去學校、挽回中 5/5、7/17；記憶 AN_JP_LIGHT、AN_JP_FIREWORK"
   },
   {
    "id": "V4-R-US",
