@@ -462,6 +462,7 @@ const date=id=>H.date(id);
     check('SA2「十月有一個禮拜的秋假。我想開車去大峽谷。」「……一個人開太遠。你要不要來？」→「我去。」→「好。我去機場接你。」→ 行事曆 10/7（桃園機場，機票家裡出）', has('十月有一個禮拜的秋假。我想開車去大峽谷。')&&has('……一個人開太遠。你要不要來？')&&has('好。我去機場接你。')&&H.G.flags.SIS_CANYON_ASK==='go'&&!!OUT.get(H.G,'y4_sis_canyon')&&OUT.get(H.G,'y4_sis_canyon').day===D('2028-10-07'));
     at('2028-10-07',5.9); H.G.money=100; await goOut('y4_sis_canyon',[1]);
     check('SA2 10/7 到鳳凰城「路線我排好了。你坐副駕，負責放音樂。」；SA4 10/10「她停下來等你」不牽手；日落不說話 →「那我先說。」→ 交往、CALLED_SHUYU；10/14「十二月二十三號，晚上八點落地。你來接我。」；不扣錢', has('路線我排好了。你坐副駕，負責放音樂。')&&has('（她在步道上走得比你快。走到一半，她停下來等你。）')&&!has('（她在步道上走得比你快。走到一半，她回頭把手伸給你。）')&&has('那我先說。')&&has('我喜歡你。……我想了很久，要不要在這裡說。')&&has('你要說好，還是要我再說一次。')&&H.G.flags.dating_heroine_05===true&&H.G.flags.CALLED_SHUYU===true&&H.G.flags.SIS_CANYON==='confess'&&has('十二月二十三號，晚上八點落地。你來接我。')&&!paid.length);
+    check('BG-DARK-70 鳳凰城的機場用 us_airport（不是黑底）', (()=>{ const e=R2Y4B_EVENTS.find(x=>x.id==='ev_sis_canyon'); const l=e.dialogue.find(x=>x.scene==='鳳凰城的機場'); return !!l&&l.bg==='us_airport'&&!!OUT.BG.us_airport; })());
     check('2-Y4-57 這一趟算 2 次正式約會、也算她的心願地點；回到臺北是 10/15 晚上', (DATE.log(H.G,'heroine_05').count|0)===4&&DATE.log(H.G,'heroine_05').wish===true&&H.G.day>=D('2028-10-15')); }
   { fresh('2028-10-07',6,'dorm',{SIS_CANYON_ASK:'go'},'TW'); SAok(); OUT.plan(H.G,{id:'y4_sis_canyon',ev:'ev_sis_canyon',day:D('2028-10-07'),h:7,place:'桃園機場',title:'t',travelH:1}); await goOut('y4_sis_canyon',[0]);
     check('2-Y4-57「學姊，我喜歡妳。」→「……我以為我要先說。」「好。」→ 交往', has('……我以為我要先說。')&&has('好。')&&H.G.flags.dating_heroine_05===true); }

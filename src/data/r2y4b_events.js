@@ -421,7 +421,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
       {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},
       {label:'yes'},{set:{SIS_CANYON:'confess',CALLED_SHUYU:true}},
-      {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'dark'},
+      {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'us_airport'},   /* BB_220★：鳳凰城機場→us_airport（AA_370 合併以後接，BG-DARK-70-1021 最後一列）*/
       {speaker:'heroine_05',text:'十二月二十三號，晚上八點落地。你來接我。'},   /* 接 2-Y4-23 M7 戀人版 */
       {advance:toDay('2028-10-15',20)} ],
     after:G=>{ const r=R(); if(r) r.canyonAfter(G,'tw'); },
