@@ -13,38 +13,42 @@
 //   10 系辦：有房間以後門口不再收志願表（只在裡面的服務台）
 //   12 博雅 203（LAWWW2 5fff78834）SK07 唐睿的即興劇 2026-05-27 19:00（出遊）：OUT.STAGE 換到 203——唐睿站 spots.tang、品妤坐 pinyu、阿哲坐 zhe、祐廷坐 me、社員兩位、觀眾（畫質中 8 位），
 //      背景 blur（classroom_small 的圖換掉）、演完回到原本的地方；那一晚走進 203 看得到社員、觀眾；人已經在 203＝不換區域、散場大家離開；房間不在＝2D；台詞、選項一字不差（K11 照舊在博雅 101，不動）
+//   13 宿舍（LAWWW2 06790419d）：阿凱大一週日 21～22 在洗衣間長椅（characters.js 作息 spot kai＝CLOSED.kaiHere；那一小時 203 沒有他）；洗衣服先走到洗衣機前（spots.wash），
+//      阿凱那一句＝黑幕中他站到烘衣機前（kai_stand）、祐廷在旁邊（player），台詞、40 分鐘照舊、和門口版一樣；方奕廷大一 21～23 在 205 書桌前（作息 spot fang＝房間的開放時段），
+//      敲門進去他坐在書桌前；人物線索「洗衣間」「205 寢室（方奕廷的房間）」
 //   11 引擎真正的導航（另一個 node 行程，載入 three＋區域）：祐廷做紀錄站的位置站得住、從門口走得到；SQ02 東邊的兩張椅子是配置的座位
-// 修改前（320b5b399）：沒有 CLOSED2.roomOk（closed2_3d.js 沒有「房間做好以後」）、柏翰沒有研討室 B 的作息——第 0 節 FAIL，後面不跑。用法：node tests/rooms_ab3_people_unit.js
+// 修改前（320b5b399）：沒有 CLOSED2.roomOk（closed2_3d.js 沒有「房間做好以後」）、柏翰沒有研討室 B 的作息——第 0 節 FAIL，後面不跑。
+// 第 13 節修改前（85e227787）：阿凱、方奕廷沒有洗衣間、205 的作息，洗衣服沒有 WASH——第 13 節 12 項 FAIL。用法：node tests/rooms_ab3_people_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const ZSTUB=['campus','dorm','wancai','linze','gongtong','library_hall','boya'];
+const ZSTUB=['campus','dorm','wancai','linze','gongtong','library_hall','boya','dorm_hall'];
 global.Z3={ZONES:{}}; for(const k of ZSTUB) Z3.ZONES[k]={id:k,name:k};
 global.GAME=GM;
 const L3=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 for(const f of ['src/data/room_glb_layouts.js','src/rooms_glb3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/exchange3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js',
-  'src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/r3_events.js','src/r3_3d.js','src/sideq3d.js']) L3(f);   // index.html 的順序：這些都在 closed2_3d.js 前面
+  'src/data/r2y4b_events.js','src/r2y4b3d.js','src/data/r3_events.js','src/r3_3d.js','src/sideq3d.js','src/closed3d.js']) L3(f);   // index.html 的順序：這些都在 closed2_3d.js 前面
 let loadErr=''; try{ L3('src/closed2_3d.js'); }catch(e){ loadErr=String(e&&e.stack||e); }
 const X=()=>typeof CLOSED2!=='undefined'&&CLOSED2.roomOk?CLOSED2:null;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), LAY=id=>ROOM_GLB_LAYOUTS[id];
 const near=(a,b,eps)=>!!a&&!!b&&Math.hypot(a.x-b.x,a.z-b.z)<(eps||0.05);
 /* ---------- 假的 GM：換區域（房間照配置檔建 spots、seats，和 rooms_glb3d.js 的 build 一樣），人物、背景的人、坐下、起身 ---------- */
-const ROOMS=['wancai_semb','linze_office','gongtong_3f','boya_203'];
+const ROOMS=['wancai_semb','linze_office','gongtong_3f','boya_203','dorm_laundry','dorm_205'];
 let entered=[], spawned=[], extras=[], walks=[], removed=[], stands=0;
 const zoneOf=(id,G)=>{ const L=LAY(id); const k=Z3.roomGlbSet(id,G), SET=k?L.sets[k]:null; return {id,indoor:true,roomSet:k,spots:(SET?SET.spots:L.spots)||null,seats:((SET?SET.seats:L.seats)||[]).map(s=>({x:s.x,z:s.z,yaw:s.yaw,lv:0})),spawn:Object.assign({},L.spawn),roomAt:()=>null}; };
 const P=E.player;
 GM.enter=async(z,sp,o)=>{ const G=H.G; entered.push({z,x:sp&&sp.x,z_:sp&&sp.z,o}); G.zone=z; GM.npc={}; E.npcs=[]; E.interactables=[]; P.seat=null;
   E.zone=ROOMS.includes(z)&&Z3.ZONES[z]?zoneOf(z,G):{id:z,seats:[],roomAt:()=>null}; if(sp){ P.obj.position.x=sp.x; P.obj.position.z=sp.z; P.obj.rotation.y=sp.yaw||0; P.lv=sp.lv|0; }
   if(ROOMS.includes(z)&&Z3.ZONES[z]) STORY.populate(z,GM); return E.zone; };
-GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const n={id,obj:{position:{x,z}},seat:(o&&o.seat)||null,pose:o&&o.pose}; GM.npc[id]=n; E.npcs.push(n); spawned.push({id,x,z,o}); return n; };
-GM.spawnNPC=(id,spec,x,z,o)=>{ const n={id,spec,obj:{position:{x,z}},seat:null,talk:o&&o.talk}; if(o&&o.seat) GM.sitAt(n,o.seat); GM.npc[id]=n; E.npcs.push(n); extras.push({id,x,z,o,spec}); return n; };
+GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const n={id,obj:{position:{x,z},rotation:{y:(o&&o.yaw)||0}},seat:(o&&o.seat)||null,pose:o&&o.pose}; GM.npc[id]=n; E.npcs.push(n); spawned.push({id,x,z,o}); return n; };
+GM.spawnNPC=(id,spec,x,z,o)=>{ const n={id,spec,obj:{position:{x,z},rotation:{y:(o&&o.yaw)||0}},seat:null,talk:o&&o.talk}; if(o&&o.seat) GM.sitAt(n,o.seat); GM.npc[id]=n; E.npcs.push(n); extras.push({id,x,z,o,spec}); return n; };
 GM.sitAt=(ent,st)=>{ ent.seat=st; ent.pose='sit'; if(ent===P){ P.obj.position.x=st.x; P.obj.position.z=st.z; } };
 GM.standUp=ent=>{ if(ent===P) stands++; ent.seat=null; ent.pose='idle'; };
 GM.removeNPC=id=>{ const n=GM.npc[id]; if(n){ E.npcs=E.npcs.filter(q=>q!==n); delete GM.npc[id]; removed.push(id); } };
 GM.walkTo=async(ent,x,z)=>{ ent.obj.position.x=x; ent.obj.position.z=z; walks.push([+x.toFixed(2),+z.toFixed(2)]); return true; };
-GM.face=()=>{}; GM.spawnExtra=()=>null; GM.syncWeekday=()=>{}; E.canStand=()=>true; E.removeNPC=n=>{ E.npcs=E.npcs.filter(q=>q!==n); };
+GM.face=()=>{}; GM.spawnExtra=()=>null; GM.syncWeekday=()=>{}; E.canStand=()=>true; E.removeNPC=n=>{ E.npcs=E.npcs.filter(q=>q!==n); }; E.placeAt=(ent,x,z)=>{ ent.obj.position.x=x; ent.obj.position.z=z; };
 const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,flags); G.outings=[]; G.acts={att:{}}; entered=[]; spawned=[]; extras=[]; walks=[]; removed=[]; stands=0; GM.npc={}; E.npcs=[]; P.seat=null; P.lv=0; P.obj.position.x=0; P.obj.position.z=0; P.obj.rotation.y=0; P.riding=false;
   E.zone=ROOMS.includes(zone)&&Z3.ZONES[zone]?zoneOf(zone,G):{id:zone,seats:[],roomAt:()=>null}; if(X()) X().staged=null; return G; };
 const lv=(id,st)=>{ const r=SOCIAL.rel(id); const n={ACQUAINTANCE:{fam:10},FAMILIAR:{fam:25},FRIEND:{fam:45,trust:30},CLOSE_FRIEND:{fam:65,trust:50,comf:45}}[st]||{}; Object.assign(r,{fam:0,trust:0,comf:0,npcRom:0,rom:0},n); SOCIAL.remember(id,'FIRST_MET',''); };
@@ -253,6 +257,40 @@ await sec(12,async()=>{
   const c=await run('boya_203');
   check('12. 人已經在 203：不換區域、照樣坐 me；散場唐睿、品妤、阿哲、觀眾離開；台詞一樣',!c.en.length&&!!c.sat&&near(c.sat,sp.me)&&['econ_tangrui','econ_pinyu','zhe'].every(id=>c.rm.includes(id))&&!Object.keys(GM.npc).some(k=>/rab3_b203_/.test(k))&&J(c.L)===J(a.L),J({en:c.en,rm:c.rm}));
   { const G=fresh('2026-05-28',18.8,'boya'); H.said=[]; H.picks=[0]; await OUT.go(GM,Object.assign(q(),{day:G.day})); check('12. 別的日子（房間沒開）：照原本 2D',!entered.length&&H.bgs.some(isImg)); }
+});
+
+/* ======================= 13. 宿舍：洗衣間的阿凱、205 的方奕廷 ======================= */
+await sec(13,async()=>{
+  const LL=LAY('dorm_laundry'), L5=LAY('dorm_205'); check('13. 洗衣間、205 的房間登記了（rooms_glb3d.js dorm_laundry、dorm_205）',!!LL&&!!L5&&C.roomOk('dorm_laundry')&&C.roomOk('dorm_205')); if(!LL||!L5) return;
+  const sun=(()=>{ for(let d=D('2025-10-01');;d++) if(CALENDAR.dateOf(d).wd%7===0) return d; })(), kai=G=>STORY.schedEnt(CHARACTERS.kai,G), fy=G=>STORY.schedEnt(CHARACTERS.npc_fangyt,G);
+  { const G=fresh(keyOf(sun),21.5,'dorm_hall',{afternoonDone:true}); const e=kai(G); check('13. 阿凱的作息：大一週日 21:30 在洗衣間（dorm_laundry、spot kai）',!!e&&e.zone==='dorm_laundry'&&e.spot==='kai',keyOf(sun)+' '+J(e&&{zone:e.zone,spot:e.spot}));
+    const w=STORY.whereIs(GM,'kai'); check('13. 人物線索：洗衣間（坐著，到 22:00）',!!w&&w.zone==='dorm_laundry'&&PLACES.names.dorm_laundry===LL.name&&w.until==='22:00',J(w));
+    G.hour=22.2; check('13. 22:10：回到 203（原本那一筆）',kai(G)&&kai(G).zone==='dorm');
+    G.day=sun+1; G.weekday=1; G.hour=21.5; check('13. 週一 21:30：在 203',kai(G)&&kai(G).zone==='dorm');
+    const bad=[]; for(let d=D('2025-08-20');d<=D('2026-07-10');d++){ const g={day:d,hour:21.5,weekday:CALENDAR.dateOf(d).wd%7,stage:'law',flags:{afternoonDone:true}}; const k=kai(g); if((!!k&&k.zone==='dorm_laundry')!==CLOSED.kaiHere(g)) bad.push(keyOf(d)); }
+    check('13. 每一天 21:30：阿凱在洗衣間＝CLOSED.kaiHere（洗衣服那一句的條件）',!bad.length,bad.slice(0,5).join('、')); }
+  { fresh(keyOf(sun),21.3,'dorm_hall',{afternoonDone:true}); await GM.enter('dorm_laundry',Object.assign({},LL.spawn)); const k=spawned.find(s=>s.id==='kai');
+    check('13. 進洗衣間（週日 21:20）：阿凱坐在長椅（spots.kai，populateSchedule 照作息放）',!!k&&near(k,LL.spots.kai)&&!!k.o.seat,J(spawned.map(s=>[s.id,s.x,s.z]))); }
+  { const G=fresh(keyOf(sun),21.5,'dorm',{afternoonDone:true}); GM.npc.kai={id:'kai',obj:{position:{x:0,z:0}}}; E.npcs=[GM.npc.kai]; STORY.populate('dorm',GM);
+    check('13. 那一小時在 203：房間裡沒有阿凱（他在洗衣間）',!GM.npc.kai&&removed.includes('kai'),J(removed));
+    fresh(keyOf(sun+1),21.5,'dorm',{afternoonDone:true}); GM.npc.kai={id:'kai',obj:{position:{x:0,z:0}}}; STORY.populate('dorm',GM); check('13. 週一晚上：阿凱照舊在 203',!!GM.npc.kai); }
+  const it3=()=>({x:1.45,z:-0.375,radius:0.9,lv:0,label:'洗衣機',look:'洗衣機。'}), door=()=>({x:-11,z:0.53,radius:1.15,lv:0,label:'洗衣間',look:'洗衣間。'});
+  const wash=async(zone,item,day,h)=>{ const G=fresh(keyOf(day),h,zone,{afternoonDone:true}); if(zone==='dorm_laundry') STORY.populate('dorm_laundry',GM); H.said=[]; H.picks=[0]; const t0=G.hour; const toasts=[]; const t1=GM.toast; GM.toast=t=>toasts.push(t); try{ await STORY.interact(item,GM); } finally { GM.toast=t1; } return {G,L:lines(),toasts,dt:G.hour-t0}; };
+  { const a=await wash('dorm_laundry',it3(),sun,21.3), sp=LL.spots, k=GM.npc.kai;
+    check('13. 洗衣服：先走到第 2 台洗衣機前（spots.wash）',walks.some(w=>near({x:w[0],z:w[1]},sp.wash)),J(walks));
+    check('13. 阿凱那一句：他站到烘衣機前（kai_stand，站著）、祐廷在他旁邊（spots.player）',!!k&&near(k.obj.position,sp.kai_stand)&&!k.seat&&near(P.obj.position,sp.player),J({k:k&&k.obj.position,p:P.obj.position}));
+    check('13. 台詞、40 分鐘照舊（一句；KAI_LAUNDRY）',J(a.L)===J([SOCIAL.displayName('kai')+'：這台烘衣機要投兩次。第一次是騙你的。'])&&Math.abs(a.dt-40/60)<1e-6&&a.G.flags.KAI_LAUNDRY===a.G.day,J(a.L));
+    const b=await wash('dorm_hall',door(),sun,21.3); check('13. 門口版（沒有房間的版本）：台詞一樣、不走、阿凱不動',J(b.L)===J(a.L)&&!walks.length,J(b.L));
+    const c=await wash('dorm_laundry',it3(),sun+1,21.3); check('13. 週一：走到洗衣機前，「衣服洗好了。」，沒有阿凱',walks.some(w=>near({x:w[0],z:w[1]},sp.wash))&&!c.L.length&&c.toasts.includes('衣服洗好了。')&&!GM.npc.kai,J(c)); }
+  const wk=(()=>{ for(let d=D('2025-10-06');;d++) if(CALENDAR.dateOf(d).wd===2) return d; })();
+  { const G=fresh(keyOf(wk),21.5,'dorm_hall',{afternoonDone:true}); const e=fy(G); check('13. 方奕廷的作息：大一 21:30 在 205 書桌前（dorm_205、spot fang）',!!e&&e.zone==='dorm_205'&&e.spot==='fang',J(e&&{zone:e.zone,spot:e.spot}));
+    const w=STORY.whereIs(GM,'npc_fangyt'); check('13. 人物線索：205 寢室（方奕廷的房間）（在書桌前，到 23:00）',!!w&&w.zone==='dorm_205'&&w.act==='在書桌前'&&w.until==='23:00'&&PLACES.names.dorm_205===L5.name,J(w));
+    const bad=[]; for(let d=D('2025-08-20');d<=D('2026-09-30');d++){ const g={day:d,hour:21.5,weekday:CALENDAR.dateOf(d).wd%7,stage:'law',flags:{afternoonDone:true}}; const e2=fy(g), here=!!e2&&e2.zone==='dorm_205'&&STORY.reachable('npc_fangyt',g); if(here!==Z3.roomGlbOpen('dorm_205',g)) bad.push(keyOf(d)); }
+    check('13. 每一天 21:30：方奕廷在 205（作息＋presence）＝205 開著（open.range、who：寒假回台中不開、大二起不開）',!bad.length,bad.slice(0,5).join('、'));
+    await GM.enter('dorm_205',Object.assign({},L5.spawn)); const f=spawned.find(s=>s.id==='npc_fangyt');
+    check('13. 「敲門（205）」進去：方奕廷坐在書桌前（spots.fang；作息放、找他說話照平常）',!!f&&near(f,L5.spots.fang)&&!!f.o.seat,J(spawned.map(s=>[s.id,s.x,s.z])));
+    fresh('2026-02-03',21.5,'dorm_hall',{afternoonDone:true}); check('13. 寒假回台中（2026-02-03）：205 不開、作息也不在',!Z3.roomGlbOpen('dorm_205',H.G)&&STORY.whereIs(GM,'npc_fangyt')&&STORY.whereIs(GM,'npc_fangyt').zone!=='dorm_205');
+    fresh('2026-09-15',21.5,'dorm_hall',{afternoonDone:true}); check('13. 大二（搬走了）：作息沒有 205',!(fy(H.G)&&fy(H.G).zone==='dorm_205')); }
 });
 
 /* ======================= 11. 引擎真正的導航（另一個 node 行程：three＋區域）======================= */

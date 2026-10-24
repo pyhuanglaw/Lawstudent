@@ -28,11 +28,13 @@ const CLOSED=(function(){
   /* 洗衣間 */
   S.y1=G=>{ if((G.stage||'law')!=='law'||typeof CALENDAR==='undefined') return false; const k=CALENDAR.dateOf(G.day).key; return k>='2025-09-01'&&k<='2026-06-30'; };   /* 大一（含寒假、學期）*/
   S.kaiHere=G=>S.y1(G)&&G.weekday===0&&hr(G)>=21&&hr(G)<22;
+  S.WASH=[];   /* fn(GM, 'start'|'done', 阿凱那一句會不會說)：洗衣服的前後（不改台詞、時間）*/
   S.laundry=async function(GM,it){ const G=GM.G, F=G.flags; let k=1;
     GM.sceneBegin(); try{ k=await GM.choose([{t:'洗衣服',hint:'40 分鐘'},{t:'算了'}]); } finally { GM.sceneEnd(); }
     if(k!==0) return true;
     const kai=S.kaiHere(G)&&!F.KAI_LAUNDRY;
-    if(GM.fade) await GM.fade(true); GM.advance(40/60); if(GM.fade) await GM.fade(false);
+    const wash=async ph=>{ for(const f of S.WASH){ try{ await f(GM,ph,kai); }catch(e){ console.warn('CLOSED.WASH',e); } } };   /* 洗衣間有 3D 房間的時候（closed2_3d.js）：start＝走到洗衣機前；done（黑幕中）＝阿凱站到烘衣機前、祐廷在他旁邊 */
+    await wash('start'); if(GM.fade) await GM.fade(true); GM.advance(40/60); await wash('done'); if(GM.fade) await GM.fade(false);
     if(kai){ F.KAI_LAUNDRY=G.day; GM.sceneBegin(); try{ await say(GM,S.LINES.kai,{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName('kai'):'阿凱',charId:'kai'}); } finally { GM.sceneEnd(); } }
     else if(GM.toast) GM.toast('衣服洗好了。',2400);
     return true; };

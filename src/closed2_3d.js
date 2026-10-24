@@ -54,6 +54,8 @@ const CLOSED2=(function(){
 
   /* ===================== 房間做好以後（LAWWW2 #82，87a4a60ca：rooms_glb3d.js 的 wancai_semb、linze_office、gongtong_3f；任務 ROOMS-AB3-PEOPLE-1024）=====================
      房間裡的人（配置檔的 spots；背景的人用路人／老師的底模，不說話、不能搭話）：
+       - 宿舍洗衣間：阿凱大一週日 21～22 坐在長椅（spots.kai；characters.js 作息，這一個小時 203 的房間裡沒有他）；宿舍 205：方奕廷大一 21～23 坐在書桌前（spots.fang；作息，
+         他不在的日子照 presence 不在＝門也不開），「敲門（205）」進去就看到他，找他說話照他平常的說話（階梯），沒有 205 專用的台詞。
        - 博雅 203（2026-05-27 18:30～21:30）：即興劇社社員兩位（spots.member，站著）、觀眾（spots.audience，坐著；畫質低／中只放一半／四分之三）。
        - 研討室 B 平常的初談隔間：柏翰在西邊隔間值班（characters.js 他的作息：大二起、法服值班的單週六 09:00～12:00，zone wancai_semb、spot duty——STORY.schedEnt 和人物線索一致，
          populateSchedule 照作息放、時間到照作息走）；同一段時間（STORY.fafuDuty）東邊隔間一位背景的初談志工（spots.volunteer）。2028-10-26（推甄面試的布置）09:00～12:00：口試委員三位（spots.panel）。
@@ -75,6 +77,7 @@ const CLOSED2=(function(){
        - 第 10 節　SK07 唐睿的即興劇（events.js ev_sk07_improv，出遊；2026-05-27 19:00）：博雅 203（rooms_glb3d.js boya_203，LAWWW2 5fff78834；只有那一晚 18:30～21:30 開）——OUT.STAGE 換到 203：
                 唐睿站在舞台中間（spots.tang）、品妤坐第一排正中間（pinyu）、阿哲（被你拉來的，zhe）、祐廷坐品妤旁邊（me）；社員兩位（member）、觀眾（audience，照畫質減少）；
                 場景那一步的 classroom_small 換成 blur，演完回到原本的地方（人已經在 203＝不換區域，散場大家離開）。那一晚走進 203 也看得到社員、觀眾。K11 照舊在博雅 101（103 沒有做）。
+       - 第 11 節　洗衣間（closed3d.js CLOSED.laundry，選項、40 分鐘、阿凱那一句、「衣服洗好了。」照舊）：洗衣服先走到洗衣機前（spots.wash）；阿凱那一句＝黑幕中他站到烘衣機前（kai_stand）、祐廷站在他旁邊（player）。
      系統字：沒有新的台詞、選項或按鈕字；房間名稱（PLACES.names，人物線索用）照配置檔的 name。測試：node tests/rooms_ab3_people_unit.js */
   const ZN=id=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES[id];
   const LAY=id=>(typeof ROOM_GLB_LAYOUTS!=='undefined'&&ROOM_GLB_LAYOUTS[id])||null;
@@ -83,7 +86,7 @@ const CLOSED2=(function(){
   S.roomSet=(id,G)=>{ const L=LAY(id); if(!L||!L.sets) return null; return typeof Z3!=='undefined'&&Z3.roomGlbSet?Z3.roomGlbSet(id,G):L.set_default; };
   S.spots=(id,G)=>{ const L=LAY(id); if(!L) return {}; const k=S.roomSet(id,G); return (k&&L.sets[k]?L.sets[k].spots:L.spots)||{}; };
   S.seats=(id,G)=>{ const L=LAY(id); if(!L) return []; const k=S.roomSet(id,G); return (k&&L.sets[k]?L.sets[k].seats:L.seats)||[]; };
-  if(typeof PLACES!=='undefined'&&PLACES.names) for(const k of ['wancai_semb','linze_office','gongtong_3f']) if(!PLACES.names[k]&&ZN(k)&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;   /* 人物線索「萬才館 研討室 B（幫忙，到 12:00）」（柏翰的作息）*/
+  if(typeof PLACES!=='undefined'&&PLACES.names) for(const k of ['wancai_semb','linze_office','gongtong_3f','dorm_laundry','dorm_205']) if(!PLACES.names[k]&&ZN(k)&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;   /* 人物線索「萬才館 研討室 B（幫忙，到 12:00）」（柏翰的作息）*/
   const P_=p=>p?{x:p.x,z:p.z,yaw:p.yaw||0,lv:0}:null;
   S.away=G=>!G||!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))||!!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))||!!(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G))||!!(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G));
   /* 換到房間演、演完回到原本的地方（OUT.STAGE 那種；同 lab5f3d.js 的 canStage）*/
@@ -98,6 +101,8 @@ const CLOSED2=(function(){
   S.seatChar=function(GM,id,p){ if(!p||!GM||!GM.spawnCharacter) return null; let n=GM.npc&&GM.npc[id]; if(n&&n.seat&&Math.hypot(n.seat.x-p.x,n.seat.z-p.z)<0.35) return n;   /* 作息已經讓他坐在那裡 */
     if(n&&GM.removeNPC) GM.removeNPC(id); n=GM.spawnCharacter(id,p.x,p.z,{seat:P_(p),pose:'sit'}); if(n){ n.frozen=true; n.rab3=true; } return n; };
   S.standChar=function(GM,id,p){ if(!p||!GM||!GM.spawnCharacter) return null; if(GM.npc&&GM.npc[id]&&GM.removeNPC) GM.removeNPC(id); const n=GM.spawnCharacter(id,p.x,p.z,{yaw:p.yaw||0,pose:'idle'}); if(n){ n.frozen=true; n.rab3=true; } return n; };
+  S.moveChar=function(GM,id,p){ const n=GM&&GM.npc&&GM.npc[id]; if(!n) return S.standChar(GM,id,p); if(n.seat&&GM.standUp) GM.standUp(n);   /* 已經在場（作息放的）：站起來、換到那個位置（保留作息的記號，時間到照樣走）*/
+    if(GM.E&&GM.E.placeAt) GM.E.placeAt(n,p.x,p.z,0); else { n.obj.position.x=p.x; n.obj.position.z=p.z; } n.obj.rotation.y=p.yaw||0; n.frozen=true; n.pose=n.idlePose='idle'; return n; };
   S.dropChars=function(GM,ids){ for(const id of ids){ const n=GM.npc&&GM.npc[id]; if(n&&n.rab3&&GM.removeNPC) GM.removeNPC(id); } };
   const sitMe=(GM,p)=>{ const P=GM.E&&GM.E.player; if(P&&p&&GM.sitAt) GM.sitAt(P,P_(p)); };
   const standMe=GM=>{ const P=GM.E&&GM.E.player; if(P&&P.seat&&GM.standUp) GM.standUp(P); };
@@ -112,8 +117,12 @@ const CLOSED2=(function(){
     for(let i=0;i<n;i++) if(S.extra(GM,'rab3_g3f_exam'+i,XS(110+i),L[i],true)) k++; return k; };
   S.placeShow=function(GM){ const E=GM.E, sp=S.spots('boya_203',GM.G); let k=0; (sp.member||[]).forEach((p,i)=>{ if(S.extra(GM,'rab3_b203_member'+i,XS(130+i),p,false)) k++; });
     const A=sp.audience||[], q=E&&E.q&&E.q.level, n=Math.round(A.length*(q==='low'?0.5:(q==='medium'?0.75:1))); for(let i=0;i<n;i++) if(S.extra(GM,'rab3_b203_aud'+i,XS(140+i),A[i],true)) k++; return k; };
-  S.populate=function(zoneId,GM){ const G=GM&&GM.G; if(!G||!GM.E||!law(G)||!S.roomOk(zoneId)) return 0;
+  S.kaiLaundry=G=>{ if(!G||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS.kai) return false; let e=null; try{ e=STORY.schedEnt(CHARACTERS.kai,G); }catch(err){ e=null; } return !!e&&e.zone==='dorm_laundry'; };
+  S.populate=function(zoneId,GM){ const G=GM&&GM.G; if(!G||!GM.E||!law(G)) return 0;
+    if(zoneId==='dorm'){ if(S.roomOk('dorm_laundry')&&S.kaiLaundry(G)&&GM.npc&&GM.npc.kai&&GM.removeNPC){ GM.removeNPC('kai'); return -1; } return 0; }   /* 203：週日 21～22 阿凱在洗衣間（作息），房間裡沒有他（story3d.js 晚上照舊放他坐書桌）*/
+    if(!S.roomOk(zoneId)) return 0;
     if(zoneId==='boya_203') return S.roomOpen(zoneId,G)?S.placeShow(GM):0;
+    if(zoneId==='dorm_laundry'||zoneId==='dorm_205') return 0;   /* 阿凱（週日 21～22）、方奕廷（大一 21～23）：characters.js 的作息（spot kai／fang），populateSchedule 放 */
     if(zoneId==='wancai_semb') return S.placeSemb(GM);
     if(zoneId==='linze_office') return S.roomOpen(zoneId,G)?S.placeClerk(GM):0;
     if(zoneId==='gongtong_3f') return S.examPeople(G)?S.placeExam(GM):0;
@@ -211,6 +220,13 @@ const CLOSED2=(function(){
         return S.withStage(GM,async()=>{ const st=await S.stageRoom(GM,'gongtong_3f',Object.assign({},LAY('gongtong_3f').spawn)); S.placeExam(GM); return {restore:async()=>{ S.examDone(GM); await st.restore(); }}; },
           async st=>{ if(st){ await S.examSit(GM); if(typeof ADV!=='undefined'&&ADV.begin&&!ADV.active) ADV.begin({background:'dark'}); } return g0.apply(me,a); }); }; }   /* 考試本身照舊黑底旁白（R2Y4B 的 scene 收尾時關 ADV）*/
     R2Y4B._rab3=true; }
+  /* 第 11 節　洗衣間（closed3d.js CLOSED.laundry 的 WASH）：洗衣服＝先走到第 2 台洗衣機前（spots.wash）；阿凱那一句（大一週日 21～22、第一次）＝黑幕中他站到烘衣機前（kai_stand）、祐廷在他旁邊（player）*/
+  S.wash=async function(GM,ph,kai){ const G=GM&&GM.G, P=GM&&GM.E&&GM.E.player; if(!G||!P||G.zone!=='dorm_laundry'||!S.roomOk('dorm_laundry')) return false; const sp=S.spots('dorm_laundry',G);
+    if(ph==='start'&&sp.wash){ GM.sceneBegin(); try{ standMe(GM); if(GM.walkTo) await GM.walkTo(P,sp.wash.x,sp.wash.z); P.obj.rotation.y=sp.wash.yaw||0; } finally { GM.sceneEnd(); } return true; }
+    if(ph==='done'&&kai&&sp.kai_stand&&sp.player){ const n=S.moveChar(GM,'kai',sp.kai_stand); if(GM.E.placeAt) GM.E.placeAt(P,sp.player.x,sp.player.z,0); else { P.obj.position.x=sp.player.x; P.obj.position.z=sp.player.z; }
+      if(GM.face) GM.face(P,sp.kai_stand.x,sp.kai_stand.z); else P.obj.rotation.y=sp.player.yaw||0; return !!n; }
+    return false; };
+  if(typeof CLOSED!=='undefined'&&Array.isArray(CLOSED.WASH)&&!CLOSED._rab3Wash){ CLOSED.WASH.push((GM,ph,kai)=>S.wash(GM,ph,kai)); CLOSED._rab3Wash=true; }
   /* 人在研討室 B、阿姨那天的值班時間（09:00 起，和大廳圓桌的按鈕一樣；12:00 以後 auntDue 就不成立）：自動開始（在大廳圓桌按「坐到圓桌」的照舊從 STORY.fafuShift 進來）*/
   let busy=false; S.pending=null;
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!law(G)||G.zone!=='wancai_semb') return false;
