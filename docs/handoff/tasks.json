@@ -31111,8 +31111,8 @@
    "title": "三間新房間放人、事件搬進去（AA_399 第 5、7、9 節）：研討室 B 柏翰單週六值班、語彤阿姨 2027-05-22、推甄面試 2028-10-26、SQ02；系辦助理＋交志願表、C10 學分採計；共同 3F 考場 2029-02-03、2030-02-16＋學姊 08:30 便條",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "子代理施工（layout spots：duty、panel、assistant、proctor、me）",
+   "status": "已整合待測試",
+   "next": "BB 測：2027-05-22 研討室 B 語彤阿姨、2028-10-26 推甄面試、2029-02-03 共同 3F 考試、2026-05-27 博雅 203 即興劇；AA 定 C10 時間（12:20 在系辦午休）、SQ02 店員外觀",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
@@ -31125,7 +31125,9 @@
     "confirmed": true
    },
    "source": "AA_399 第 5、7、9 節（5d09bb725）；LAWWW2 e477d3bf1",
-   "authorized": "D109、D111"
+   "authorized": "D109、D111",
+   "sha": "cc366dbe5",
+   "notes": "10-24 LAWWW-B：子代理做完（src/closed2_3d.js「房間做好以後」、characters.js 柏翰作息；tests/rooms_ab3_people_unit.js）；乾淨環境相關測試全過；SK07 搬進博雅 203；K11 留在博雅 101"
   },
   {
    "id": "VAC-FILL-AA440-1024",
