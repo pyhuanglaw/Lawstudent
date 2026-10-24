@@ -115,7 +115,8 @@ CHK = """(a=>{ const G=GAME.G, F=G.flags, LOG=window.__LOG||[]; const msgs=(G.ms
   o.pl={x:+GAME.E.player.obj.position.x.toFixed(1),z:+GAME.E.player.obj.position.z.toFixed(1)}; o.zone=G.zone; o.dup={}; const seen={}; let prev=null; for(const x of LOG){ if(prev&&prev.t===x.t&&prev.n===x.n){ prev=null; continue; } seen[x.t]=(seen[x.t]||0)+1; prev=x; }   /* 同一句 events3d 和 GM.say 各記一次（相鄰），不算重演 */ for(const t of a.once) o.dup[t]=seen[t]||0;
   o.money=(GAME.G.money|0)-(window.__M0|0); o.fade=(()=>{ const f=document.getElementById('fade'); return f?getComputedStyle(f).opacity:'?'; })(); return o; })(%s)"""
 async def verify(pg, run, sc):
-    a = {'flags': sc.get('cflags', []), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
+    # BB-B 10-24 03:5x：eqflags 的旗標也要讀（zr43r2 的 ZR43_SEEN／GF／LATE 只寫 eqflags、沒寫 cflags＝讀到 {}，判 FAIL；遊戲的送機事件有演完、after 會記）
+    a = {'flags': list(dict.fromkeys(list(sc.get('cflags', [])) + list(sc.get('eqflags', {}).keys()))), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
     for _ in range(10):   # BB-B 10-23：黑幕淡出中（US370_lake 0.94，截圖已經沒有黑幕）＝等它淡完再看，最多 5 秒
         fo = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return f?+getComputedStyle(f).opacity:0; })()")
         if fo <= 0.05: break
