@@ -6,6 +6,8 @@ import json, sys, datetime
 src, dst, title = sys.argv[1], sys.argv[2], sys.argv[3]
 k0 = sys.argv[4] if len(sys.argv) > 4 else '0000'; k1 = sys.argv[5] if len(sys.argv) > 5 else '9999'
 J = json.load(open(src, encoding='utf-8'))
+if len(sys.argv) <= 4:   # 沒給起點：從劇本第一句的日期開始（BB-B 10-24 22:2x：G.msgs 裡還有讀檔存檔帶進來的 2025 年舊訊息，標題只寫月／日會被當成這一年的）
+    k0 = min((e.get('d') for e in J.get('log', []) if e.get('d')), default='0000')
 WD = '一二三四五六日'
 def hm(h):
     h = float(h or 0) % 24; return '%02d:%02d' % (int(h), int(round((h % 1) * 60)) % 60)
