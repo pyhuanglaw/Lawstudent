@@ -174,7 +174,20 @@ async def sleep_night(pg, cdp, run, label=''):
     await L.go_to(pg, cdp, run, it[0], it[1], 0.8, '床', max_s=120, lv=it[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1300)
     o = await wait_choices(pg, cdp, 15, through_dlg=False); say('   %s 床：%s' % (label, [x['t'] for x in o]))
     k = next((i for i, x in enumerate(o) if x['t'].startswith('睡到明天')), None)
-    if k is None: return o, False
+    if k is None:
+        # 早上的床沒有「睡到明天」（只有小睡／睡到傍晚／快轉）：照玩家會做的，按「快轉」→「到下一個有事的日子」（訂好的出遊出發會停；10-24 線 15 wish82a 卡在這裡）
+        kf = next((i for i, x in enumerate(o) if x['t'] == '快轉'), None)
+        if kf is None: return o, False
+        t0 = await pg.evaluate("GAME.G.day*24+GAME.G.hour")
+        await tap_idx(pg, cdp, kf); await pg.wait_for_timeout(1500)
+        o2 = await wait_choices(pg, cdp, 15, through_dlg=False); say('   %s 快轉：%s' % (label, [x['t'] for x in o2]))
+        k2 = next((i for i, x in enumerate(o2) if x['t'].startswith('到下一個有事')), None)
+        if k2 is None: return o2, False
+        await tap_idx(pg, cdp, k2); await pg.wait_for_timeout(2000)
+        ok, _ = await wait_for(pg, cdp, run, "GAME.G.day*24+GAME.G.hour>%f+0.5&&!GAME.E.player.busy" % t0, max_s=240, label=label)
+        await pg.wait_for_timeout(4000)
+        for _ in range(3): await drive(pg, cdp, run, max_s=40, label=label); await pg.wait_for_timeout(2500)
+        return o2, ok
     await tap_idx(pg, cdp, k); await pg.wait_for_timeout(2000)
     ok, _ = await wait_for(pg, cdp, run, "GAME.G.day>%d&&!GAME.E.player.busy" % st0['day'], max_s=240, label=label)
     await pg.wait_for_timeout(4000)
