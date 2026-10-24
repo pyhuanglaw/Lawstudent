@@ -90,6 +90,13 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 10:0x 更新**：
+    - LAWWW-B 09:15：社科院捲簾已整合 `b9d19d8a6`（outbox 標 ACTIONED）。
+    - #61 已交：普通、共同教學館教室的窗外景（本 commit；`test_shots/teach_views_1024/README.md`）。
+      - 原本 layout 的 photo 全是 null：窗外是程序化的綠色山丘；3F 考場借博雅的景。
+      - 在遊戲校園拍的 18 張（`tools/blender/env_second/shots/teach_views.py`），教室長窗用寬照片（2048×512、水平約 127°），配置的 `photoWide` 讓 `teach3d.js` 設 `sxy`。
+      - patch `patches/teach_views_1024.patch`（對開發 `de925edd3`）：layout 產生器＋重新產生的 layout、teach3d.js 一行、room_glb_layouts.js 的 gongtong_3f。
+    - 下一項：#61 經濟系那一年的路線截圖（宿舍 → 普通教學館，`$SP/econroute/run.json` 已寫好 10 個位置），找方盒、黑塊、穿模。
   - **10-24 09:2x 更新**：
     - LAWWW-B 08:37：2F 書庫已套上（和學姊作息一起推）；08:50：公布欄已整合 `4229bbaf4`（徵才單照 JOBS.board2 開關）；#61 盤點完直接做，不用等他回。
     - #61 盤點（清查 B8／B9）：社科院大樓每一扇窗一樣的深色玻璃（B9 剩下的那一半）→ 已交：捲簾、布簾（本 commit；`test_shots/socsci_blinds_1024/README.md`）。

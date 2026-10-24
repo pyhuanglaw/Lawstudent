@@ -67,13 +67,19 @@
 
 ![窗景](views.jpg)
 
+## 第一版的問題（已修）
+
+第一版用 90° 的照片：斜著看長窗，視線跑出照片的左右邊，邊緣那一欄被拉成一條條橫紋。改成寬照片以後是近處的樹。
+
+![橫紋](stripes_fix.jpg)
+
 ## 測試
 
 套上 patch 以後：
 
 - `gongtong_3f_unit`、`boya_203_unit`、`boya_lecture_unit`、`classes_unit`、`crowd_unit`、`indoor_crowd_unit`、`nav_teach_unit`、`teach_cam_walls_unit`、`teach_class_unit`、`teach_doors_unit`、`teach_perf_unit`：ALL PASS。
 - 導航、碰撞、門沒改。
-- 繪製呼叫和三角形數和改前一樣（同一個鏡頭）。
+- 繪製呼叫和三角形數和改前一樣（同一個鏡頭；晚上那張兩邊都是 39 calls）。
 
 ## 還沒做／已知
 

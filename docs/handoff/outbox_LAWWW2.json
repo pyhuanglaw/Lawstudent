@@ -2781,6 +2781,25 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 09:15：已整合 b9d19d8a6，GLB、json、campus_socsci.py 都用我的；socsci_place、nav_soclib、nav_buildings、room_ceiling、campus_* ALL PASS；登記 DL-LW2-SOCSCI-BLINDS）",
    "note": "亮燈的窗的簾子用 ck_glass_lit（晚上會亮），沒亮的用頂點色；導航、鏡頭碰撞、門沒變"
+  },
+  {
+   "task": "#61 ART-ECON-3D-GAP-1021：普通、共同教學館教室的窗外景（原本 photo 是 null，窗外是程序化的綠色山丘；經濟系那一年在普通上課）＋共同 3F 考場改用自己的窗景",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/views/putong_{south,north,2f_south,2f_north}_{day,night}.webp、gongtong_{south,north,2f_south,2f_north}_*（2048×512 寬照片）、gongtong_3f_*（1024×512）",
+    "docs/art-rebuild/second_ai/patches/teach_views_1024.patch（對開發 de925edd3）：tools/layout/{putong,gongtong}_layout_gen.py＋重新產生的 src/data/{putong,gongtong}_layout.js（photo、photoWide）、src/teach3d.js 一行（photoWide → sxy (0.5, 1)）、src/data/room_glb_layouts.js 的 gongtong_3f（view、windows.note）",
+    "assets/models/env/second_ai/gongtong_3f.layout.json、tools/blender/env_second/gongtong_3f.py（view＝gongtong_3f；GLB 沒換）",
+    "tools/blender/env_second/shots/teach_views.py",
+    "docs/art-rebuild/second_ai/test_shots/teach_views_1024（README、改前改後、窗景總表、橫紋修正）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；套上 patch：gongtong_3f、boya_203、boya_lecture、classes、crowd、indoor_crowd、nav_teach、teach_cam_walls、teach_class、teach_doors、teach_perf ALL PASS；沒改的產生器重跑和開發分支的 layout 一模一樣；遊戲內改前改後（Playwright 手機模擬，同鏡頭繪製呼叫一樣）",
+   "remaining": "普通的窗只看得到隔壁的牆（真實距離）；博雅照舊 90° 照片、斜看長窗一樣有橫紋（沒重拍）；手機效能沒實測（貼圖多約 1 MB）",
+   "next": "LAWWW-B 套 patch、放 18 張 webp（gongtong_3f.layout.json 也換）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "名稱的 south／north＝室內配置的 S／N 牆（共同轉了 180°，gongtong_south 在校園上朝北看椰林大道）"
   }
  ]
 }
