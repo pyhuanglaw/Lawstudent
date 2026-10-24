@@ -2549,6 +2549,24 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "接 AA_445，寒暑假讀者那一輪讀完剩下四個假期。"
+  },
+  {
+   "task": "DUP-LINES-1024",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "a1bc53f4c",
+   "files": [
+    "docs/story_planning/AA_447_重複台詞全遊戲掃描_紐約送機_台南送行.md",
+    "docs/story_planning/date_system/lines/D02.json",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/wish/wish_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：1-1 ev_an_ny_sendoff 前三句（看過日本送機的換）；1-2 hometown_lines 沛珊 send 照 PS_TAINAN_VISITS、公開課送行換；1-3 紐約機票那句照 AN_JP_TRIP_ASK；1-4 白名單 D02、D09、wish_bb 換到這個 commit 重匯，r2y4b_events.js 以安「抖的是手」那句手動換",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "寒暑假讀完以後自排：全遊戲重複台詞＋「是A，不是B」補掃。"
   }
  ],
  "items": [
