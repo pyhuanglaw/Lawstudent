@@ -2278,6 +2278,78 @@ R16 = [
 for _s in R16:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R16
+
+# ---------- R17（BB-B 10-24 08:3x）：美國臥室 C（學姊的房間，us_bed_c；LAWWW-B 08:11 測試請求＋08:20 AA_444 fd9ad6574）----------
+# 進得去的條件（room_glb_layouts.js open、us_life3d.js 239 行）：交往中（dating_heroine_05）、US2 以後（9/13 以後）、週六日 14:00～21:00、她不在外面。
+# 「看」的字（us_life_events.js looks.roomC）：第一次進去一句（US_ROOM_C_SEEN）、書桌／書架各兩句、窗外照日期四版（8/2 綠、10/1 黃、11/1 剩幾片葉子、12/2 雪）＋去過臺灣 5F 研究室多一句。
+# 窗景圖（rooms_glb3d.js view_season:'us' → us3d.js usSeasonKey）：10/9 起 autumn、11/1 起 bare、12/2 起 snow。10/1～10/8 字是「變黃了」、圖還是 summer＝BEDC_OCT07 會看出來。
+CAPH = " if(!window.__COBS){ const ce=document.getElementById('caption'); if(ce&&window.MutationObserver){ window.__COBS=1; let lc=''; new MutationObserver(()=>{ const s=(ce.textContent||'').trim(); if(s&&s!==lc){ lc=s; try{ window.__LOG.push({n:'CAPD',t:'CAPD:'+s,h:+GAME.G.hour.toFixed(2),d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} } }).observe(ce,{childList:true,characterData:true,subtree:true}); } }"   # 畫面中間的字幕（GM.caption：第一次進房間那一句）也記下來
+USC = dict(USF, US_ARRIVED_DAY='2028-08-02', US1='together', US2=True, dating_heroine_05=True)
+USC_NO = dict(USF, US_ARRIVED_DAY='2028-08-02', US1='alone', US2=True)
+RC = {'first': '（第一次進她的房間。東西很少，床鋪得很平。書桌靠著窗。）',
+      'desk': ['（書桌上疊著三本很厚的判例教科書，公司法那一本貼滿了便利貼。筆電旁邊，螢光筆照顏色排好。）', '（牆上貼著一張讀書計畫，鉛筆寫的，一天一格。週六、週日下午那兩格是空白的。）'],
+      'shelf': ['（書架下面兩層是判例彙編，書背貼著圖書館的標籤。上面一層是筆記本，側邊都寫了科目。）', '（最旁邊夾著幾本中文書：從臺灣帶來的民法、公司法，還有一本書角翻軟了的小說。）'],
+      'win_sum': '（窗外是一棵很大的樹，葉子擋住半個窗戶。）', 'win_oct': '（窗外那棵樹變黃了。靠窗的那一邊先變。）',
+      'win_nov': '（窗外的樹只剩幾片葉子，看得到對面那棟樓的窗戶了。）', 'win_dec': '（窗外的樹枝上留著一點雪。窗台上也有。）',
+      'winLab': '（她臺灣研究室的窗外，也有一棵樹，在差不多的位置。）', 'other': '（門上貼著一張手寫的課表。）'}
+DOORC = "(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&/臥室 C/.test(String(i.label||''))); return it?it.label:null; })()"
+WINTEX = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const im=m&&m.map&&m.map.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/views\\/us_bed_c/.test(s)) out.add(s.replace(/^.*views\\//,'').replace(/\\?.*$/,'')); } }); return [...out].join(','); })()"
+SISAT = "(()=>{ const n=(GAME.E.npcs||[]).find(n=>n&&n.charId==='heroine_05'&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null; })()"
+CAPNOW = "((document.getElementById('caption')||{}).textContent||'').trim()"
+INC = ('wait', "GAME.G.zone==='us_bed_c'&&!GAME.E.player.busy", 60, '進到臥室 C')
+OUTC = ('wait', "GAME.G.zone==='us_shared'&&!GAME.E.player.busy", 60, '回到 208 的走道')
+KNOCK = ('usep', '^敲門（臥室 C）')
+def PAUSE(n, note): return ('wait', "(window.__PZ=(window.__PZ||0)+1)%%%d===0" % n, n + 2, note)   # 等 n 秒（計數到 n 才成立；不算問題）
+def BEDC_WIN(sid, key, line, tex, note):
+    return dict(id=sid, key=key, h=14.6, zone='us_shared', flags=dict(USC), js='', pref=[],
+                steps=[('chk', '門口是「敲門（臥室 C）」', DOORC, '敲門（臥室 C）'), KNOCK, INC, ('usep', '^窗外'),
+                       ('chk', '窗景圖：%s（%s）' % (tex, note), WINTEX, lambda s, t=tex: isinstance(s, str) and t in s)],
+                want=[line], none=[RC['winLab']])
+R17 = [
+  # ① 第一次進去：一句旁白、她坐在書桌前、書桌／書架／窗外、說話、離開；第二次進去不再出第一次那句
+  dict(id='BEDC_FIRST', key='2028-09-16', h=14.6, zone='us_shared', flags=dict(USC), js=CAPH, pref=[],
+       steps=[('chk', '門口是「敲門（臥室 C）」（交往中、週六 14:36）', DOORC, '敲門（臥室 C）'), KNOCK, INC,
+              ('chk', '第一次進去記 US_ROOM_C_SEEN', "GAME.G.flags.US_ROOM_C_SEEN!=null", True),
+              ('chk', '她在房間裡（3D）', NPCS3D, lambda L: isinstance(L, list) and 'heroine_05' in L),
+              ('chk', '她在書桌前（spots.sis 0.86,-0.1 附近）', SISAT, lambda p: isinstance(p, list) and abs(p[0] - 0.86) < 0.7 and abs(p[1] + 0.1) < 0.7),
+              ('chk', '窗景圖：夏天白天（9/16）', WINTEX, lambda s: isinstance(s, str) and 'us_bed_c_summer_day' in s),
+              ('shot', 'bedc_first', None, 'true', 2),
+              ('usep', '^她的書桌'), ('usep', '^書架'), ('usep', '^窗外'), ('talk', 'heroine_05'),
+              ('usep', '^離開房間'), OUTC,
+              ('chk', '回到走道以後門還是「敲門（臥室 C）」', DOORC, '敲門（臥室 C）'),
+              KNOCK, INC, PAUSE(6, '第二次進去等 6 秒（看會不會再出第一次那句）'),
+              ('chk', '第二次進去：字幕沒有第一次那句', CAPNOW, lambda t: RC['first'] not in str(t))],
+       want=['CAPD:' + RC['first']] + RC['desk'] + RC['shelf'] + [RC['win_sum']], none=[RC['winLab'], RC['other']]),
+  # ② 窗外四季（字＋圖）。10/7：字已經是「變黃」、圖要 10/9 才換 autumn
+  BEDC_WIN('BEDC_OCT07', '2028-10-07', RC['win_oct'], 'autumn', '10/7 的字是「變黃了」；圖 10/9 才換，這裡會看出字和圖對不對得上'),
+  BEDC_WIN('BEDC_OCT21', '2028-10-21', RC['win_oct'], 'autumn', '10/21'),
+  BEDC_WIN('BEDC_NOV18', '2028-11-18', RC['win_nov'], 'bare', '11/18'),
+  BEDC_WIN('BEDC_DEC09', '2028-12-09', RC['win_dec'], 'snow', '12/9'),
+  # ③ 晚上 20:30：窗景換夜景
+  dict(id='BEDC_NIGHT', key='2028-09-16', h=20.4, zone='us_shared', flags=dict(USC), js='', pref=[],
+       steps=[KNOCK, INC, ('chk', '窗景圖：夏天晚上（20:30）', WINTEX, lambda s: isinstance(s, str) and 'us_bed_c_summer_night' in s), ('shot', 'bedc_night', None, 'true', 2)],
+       want=[]),
+  # ④ 去過她臺灣 5F 研究室（G.visited.linze_5f）：窗外多一句
+  dict(id='BEDC_LAB', key='2028-09-16', h=14.6, zone='us_shared', flags=dict(USC), js=" G.visited=G.visited||{}; G.visited.linze_5f=true;", pref=[],
+       steps=[KNOCK, INC, ('usep', '^窗外')], want=[RC['win_sum'], RC['winLab']]),
+  # ⑤ 不是交往中：門的「看」＝課表那一句；進不去
+  dict(id='BEDC_OTHER', key='2028-09-16', h=14.6, zone='us_shared', flags=dict(USC_NO), js='', pref=[],
+       steps=[('chk', '門口不是「敲門」', DOORC, lambda s: isinstance(s, str) and not s.startswith('敲門')), ('usep', '臥室 C'),
+              PAUSE(4, '按門以後等 4 秒'), ('chk', '還在 208 的走道', "GAME.G.zone", 'us_shared')],
+       want=[RC['other']]),
+  # ⑥ 交往中、平日晚上（週三 20:00）：門關著
+  dict(id='BEDC_WEEKDAY', key='2028-09-20', h=20.0, zone='us_shared', flags=dict(USC), js='', pref=[],
+       steps=[('chk', '門口不是「敲門」（週三晚上）', DOORC, lambda s: isinstance(s, str) and not s.startswith('敲門')), ('usep', '臥室 C'),
+              PAUSE(4, '按門以後等 4 秒'), ('chk', '還在 208 的走道', "GAME.G.zone", 'us_shared')],
+       want=[], none=[RC['first']]),
+  # ⑦ 交往中、週六 21:10（時段過了）：門關著
+  dict(id='BEDC_2110', key='2028-09-16', h=21.15, zone='us_shared', flags=dict(USC), js='', pref=[],
+       steps=[('chk', '門口不是「敲門」（週六 21:10）', DOORC, lambda s: isinstance(s, str) and not s.startswith('敲門'))],
+       want=[]),
+]
+for _s in R17:
+    if SAYH not in _s.get('js', ''): _s['js'] = SAYH + _s.get('js', '')
+SCENS = SCENS + R17
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
