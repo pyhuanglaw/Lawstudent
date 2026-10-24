@@ -31059,7 +31059,7 @@
    },
    "source": "子代理回報 2026-10-24（AA342-COVERAGE-1021）",
    "authorized": "D109、D111",
-   "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後；10-24 06:1x LAWWW-B：CLS.goOffsite（教室 OFF＝2D 出門、時間到下課、記出席；手機按鈕也出現）、CLS.OFFSITE_LINES（twfill 接 3/13）；tests/course_offsite_unit.js。每週的旁白只有 3/13 那一句（AA 沒寫其他週，系統字只寫「到校外（事務所或法扶）。」「第 n 次。」）"
+   "notes": "LAWWW-B 10-24：大四下（v5），排在 D99 三項之後；10-24 06:1x LAWWW-B：CLS.goOffsite（教室 OFF＝2D 出門、時間到下課、記出席；手機按鈕也出現）、CLS.OFFSITE_LINES（twfill 接 3/13）；tests/course_offsite_unit.js。每週的旁白只有 3/13 那一句（AA 沒寫其他週，系統字只寫「到校外（事務所或法扶）。」「第 n 次。」）；AA_441 每週一句（src/practice3d.js）、OFF 改名「法扶・臺北的辦公室」、黑底 legal_aid_office"
   },
   {
    "id": "AA439-LINT-1024",

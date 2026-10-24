@@ -25,7 +25,7 @@ const COURSES={
     LAWLIB_DESK:{name:'法律學院圖書館 櫃台',door:'lawlib_desk',zone:'lawlib'},     /* 服務學習（一）：在櫃台報到，和門口上課一樣用 2D 帶過（AA_110 6-1）*/
     CAMPUS_SVC:{name:'傅鐘旁的服務學習集合點',door:'campus_service'},                /* 服務學習（二）：椰林大道、醉月湖的校園環境（大二上；內容 AA 大二前再補）*/
     GYM:{name:'體育館',door:'gym'},                                             /* field：企劃寫操場、程式寫體育館，兩個都可以（AA_110）*/
-    OFF:{name:'校外（事務所或法扶）',offsite:true}                               /* offsite */
+    OFF:{name:'法扶・臺北的辦公室',offsite:true,bg:'legal_aid_office'}   /* AA_441 第 0 節：大四下法律實習在法扶（韓律師）；黑底 legal_aid_office 同 C16、大五上的實習 */                               /* offsite */
   },
   profs:{ prof_zhou:'周啟明', prof_zhang:'張維德', prof_wu:'吳承翰', prof_huang:'黃素芬', prof_wei:'魏宏仁', prof_xu:'許志遠', prof_tsai:'蔡佩君', prof_lin:'林昭儀', prof_chen:'陳律言',
           prof_zheng:'鄭婉如', prof_ye:'葉明哲', prof_he:'何安平', prof_jian:'簡如萍' },

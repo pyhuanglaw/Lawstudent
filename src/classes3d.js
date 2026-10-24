@@ -857,7 +857,7 @@ const CLS=(function(){
     let line=null; for(const f of S.OFFSITE_LINES){ try{ line=f(G,it)||line; }catch(e){ console.warn('CLS.OFFSITE_LINES',e); } }
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
     GM.sceneBegin(); try{ await GM.fade(true); GM.caption('','到'+(it.room.name||'校外')+'。',2400); await GM.sleep(500);
-      if(line){ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'dark'}); await GM.fade(false); await GM.say(null,line); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); }
+      if(line){ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:it.room.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(it.room.bg):'dark'}); await GM.fade(false); await GM.say(null,line); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); }
       const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); R.done[it.key]=1; R.attend[c.id]=(R.attend[c.id]||0)+1; await GM.fade(false);
       GM.caption('',c.name+'：第 '+R.attend[c.id]+' 次。',2800);
     } finally { GM.sceneEnd(); }
