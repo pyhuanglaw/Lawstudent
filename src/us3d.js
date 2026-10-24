@@ -170,7 +170,10 @@ const US3=(function(){
       else if(t==='range') IT.push(Object.assign({x:f.x+0.75,z:f.z-0.65,radius:0.75,lv:0},o.range||{label:'看爐子',look:lookText('電爐和烤箱，上面是微波爐。')})); }
     for(const d of L.doors) if(d.closed){ const ax=d.axis==='z'; const side=d.breezeway?1:-1;   /* 門口站哪一邊：衛浴、衣物間從臥室（北邊）；衣帽櫃、洗衣機、臥室 A／B 從走道、客廳（西邊）；隔壁從平台（東邊）*/
       if(d.id==='bath'||d.id==='closet'){ const ab=L.rooms.find(q=>q.id==='bedroom'||q.id==='bedB'); if(ab&&!openRoom(ab.id)) continue; }   /* 衛浴、衣物間從臥室進：臥室關著（合租戶的 B）就不做 */
-      IT.push({x:ax?d.x+side*0.45:d.x,z:ax?d.z:d.z+side*0.45,radius:0.75,lv:0,label:d.label,look:d.closed}); }
+      const px=ax?d.x+side*0.45:d.x, pz=ax?d.z:d.z+side*0.45;
+      const RK=typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate?Object.keys(ROOM_GLB_LAYOUTS).find(k=>{ const h=ROOM_GLB_LAYOUTS[k].host_door; return h&&h.zone===o.id&&h.id===d.id&&Z3.ZONES[k]; }):null;   /* 有正式房間的門（臥室 C＝學姊的房間 us_bed_c，LAWWW2-B 10-24）：開的時候「敲門（臥室 C）」進去、其他時間照舊門關著 */
+      if(RK){ const R=ROOM_GLB_LAYOUTS[RK]; IT.push(Z3.roomGlbGate({x:px,z:pz,radius:0.75,lv:0,label:R.host_door.label||('進入 '+R.name),exit:{to:RK,spawn:Object.assign({},R.spawn)},gate:RK},false)); IT.push(Z3.roomGlbGate({x:px,z:pz,radius:0.75,lv:0,label:d.label,look:d.closed,gate:RK},true)); continue; }
+      IT.push({x:px,z:pz,radius:0.75,lv:0,label:d.label,look:d.closed}); }
     { const X=L.exit; IT.push({x:X.x-0.2,z:X.z,radius:X.r,lv:0,label:'出門',exit:{to:'us_outside',spawn:Object.assign({},o.exitSpawn())}}); }   /* 平台東端的樓梯（配置寫「下樓（停車場）」）；字照 LAWWW-C 的最小流程（src/exchange3d.js：公寓「出門」、社區「回公寓」）*/
     // 正式模型
     z.us2On=false; z.us2=on=>{ z.us2On=!!on; };   /* 正式模型還沒載入時先記著，載入後照這個開關 */

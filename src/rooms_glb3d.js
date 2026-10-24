@@ -33,6 +33,7 @@
     if(Array.isArray(O.days)&&O.days.includes(q.key)){ const h=G.hour%24, DH=O.dayHours; if(!DH||(h>=DH[0]&&h<DH[1])) return true; if(O.daysOnly) return false; } else if(O.daysOnly) return false; const wds=O.wd==null?[]:[].concat(O.wd); if(wds.length&&!wds.includes(q.wd)) return false;
     if(O.range&&(q.key<O.range[0]||q.key>O.range[1])) return false;
     if(O.who&&typeof CHARACTERS!=='undefined'){ const P=(CHARACTERS[O.who]||{}).presence; if(P&&Array.isArray(P.absentDates)&&P.absentDates.some(a=>q.key>=a[0]&&q.key<a[1])) return false; }
+    if(O.dating){ const F=G.flags||{}, R=F.romance||{}; if(!(F['dating_'+O.dating]===true||(R[O.dating]&&R[O.dating].status==='dating'))) return false; }   /* dating：交往中才開（美國臥室 C＝學姊的房間；和各支線的 S.dating 同一個判斷）*/
     if(O.holiday===false&&CALENDAR.holiday&&CALENDAR.holiday(G.day)) return false;
     const h=G.hour%24, R=O.ranges||(O.h0!=null?[[O.h0,O.h1]]:null); if(R&&!R.some(r=>h>=r[0]&&h<r[1])) return false;
     if(O.termWeeks){ const t=CALENDAR.termOf(G.day); if(!t) return false; if(O.termWeeks==='odd'&&t.week%2!==1) return false; if(O.termWeeks==='even'&&t.week%2!==0) return false; } return true; }
@@ -41,7 +42,7 @@
   if(typeof Z3!=='undefined'){ Z3.roomGlbSet=(id,G)=>ROOM_GLB_LAYOUTS[id]?setOf(ROOM_GLB_LAYOUTS[id],G):null; Z3.roomGlbOpen=(id,G)=>openNow(ROOM_GLB_LAYOUTS[id],G); Z3.roomGlbGate=gateHide; }
   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
     return { id, name:L.name, indoor:true, camDist:L.cam_dist||4.2, build(E){ const sk=setOf(L,G_()), SET=sk?L.sets[sk]:null, BL=SET?SET.blocks:L.blocks, SE=SET?SET.seats:L.seats; const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
-      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:(L.view_season==='us'&&typeof US3!=='undefined'&&US3.usSeasonKey?L.view+'_'+US3.usSeasonKey():L.view)||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* view_season:'us'：窗景照美國篇的季節換（us_bed_c_summer／autumn／bare／snow，us3d.js 的 usSeasonKey）*/
       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
       for(const w of z.walls) w.visible=false; z.walls.length=0;
       const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
