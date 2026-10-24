@@ -14036,6 +14036,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 06:1x：patch rooms_ab3_1024 套上 907cdc2f9（87a4a60ca）；wancai_semb、linze_office、gongtong_3f＋相關測試全過；房間裡的人與事件搬進去 LAWWW 接（ROOMS-AB3-PEOPLE-1024）"
+  },
+  {
+   "id": "DL-LW2-BOYA203",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "25563aa98",
+   "what": "#82 第四間博雅 203（SK07 即興劇的討論室；2026-05-27 18:30～21:30 才開；rooms_glb3d dayHours、teach3d host_door）",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 06:4x：patch boya_203_1024 整合（5fff78834）；SK07 搬進 203（cc366dbe5）"
+  },
+  {
+   "id": "DL-LW2-ZR-SPRINGS",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "46fb10472",
+   "what": "芷若 bl_heroine_02.vrm 頭髮補回彈簧骨（6 條鏈），外觀不變；heroine_02.py 多 springs 階段",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 06:2x 整合（cb6cef3e3）；sim_hair、hair_sway PASS；角色美術 LAWWW 驗收（外觀沒變）"
   }
  ],
  "ignored": [
@@ -17788,6 +17814,13 @@
    "branch": "origin/claude/funny-albattani-iawshm",
    "kind": "not_delivery",
    "reason": "tools/char_review.py 加 faceq 角度（LAWWW2 自己的驗收工具，沛珊第三十一版用）；LAWWW-B 10-23 19:0x 分類"
+  },
+  {
+   "sha": "3144d20df",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-BOYA203",
+   "reason": "博雅 203 的 WIP 檢查點，交件是 25563aa98"
   }
  ]
 }
