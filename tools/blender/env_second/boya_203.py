@@ -80,13 +80,12 @@ class Room(K.Shop):
             'vc': L.vc_material(SID + '_vc', rough=0.6), 'vcm': L.vc_metal(SID + '_vcmetal', rough=0.32, metal=0.4),
             'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')),
-            'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'ceil': L.pbr(SID + '_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9, cull=True),
             'print': img_mat(SID + '_print', SID + '_print.png', rough=0.55),
         }
         self.vc = CMesh(SID + '_props', M['vc']); self.vm = CMesh(SID + '_metal', M['vcm'])
-        self.wood = Mesh(SID + '_woodparts', M['wood']); self.tube = Mesh(SID + '_tubes', M['tube']); self.warm = Mesh(SID + '_warm', M['warm'])
-        self.prt = Mesh(SID + '_prints', M['print'])
+        self.wood = Mesh(SID + '_woodparts', M['wood']); self.tube = Mesh(SID + '_tubes', M['tube'])
+        self.prt = Mesh(SID + '_prints', M['print']); self.lamp = Mesh(SID + '_lamps', L.flat('GLOW_' + SID + '_lamp', '#fff8ea', rough=0.3, emit=B.srgb('#fff2d2')))
         self.WG = {k: {} for k in 'NWES'}
 
 
@@ -110,14 +109,19 @@ def wood_chair(c, x, z, yaw):
 
 
 def tripod_lamp(c, x, z, aim):
-    """三腳架夾燈：三支腳、一根桿子、燈罩（黑色圓錐）對著舞台，前面一圈暖光"""
+    """三腳架夾燈：三支腳、一根桿子、U 形支架夾著燈罩（黑色圓錐，後面窄前面寬）對著舞台；前緣一圈黑框，裡面是暖白的燈面（從側面、後面看不到）。
+    第一版燈罩短、燈面是米色圓盤，從觀眾席看像一顆蛋（10-24 遊戲內截圖）"""
     for k in range(3):
-        a = k * 2 * PI / 3; ccyl(c.vm, (x + 0.28 * math.cos(a), 0.0, z + 0.28 * math.sin(a)), (x, 1.2, z), 0.012, '#2b2b2b', seg=5)
-    ccyl(c.vm, (x, 1.2, z), (x, 2.02, z), 0.015, '#2b2b2b', seg=6)
-    dx, dz = aim[0] - x, aim[1] - z; n = math.hypot(dx, dz); ux, uz = dx / n, dz / n
-    a, b = (x - ux * 0.06, 2.04, z - uz * 0.06), (x + ux * 0.14, 2.0, z + uz * 0.14)
-    ccyl(c.vc, a, b, 0.07, '#202020', seg=12, r2=0.11)
-    c.warm.cyl((b[0] - ux * 0.004, b[1], b[2] - uz * 0.004), (b[0] + ux * 0.002, b[1], b[2] + uz * 0.002), 0.1, seg=12)
+        a = k * 2 * PI / 3; ccyl(c.vm, (x + 0.3 * math.cos(a), 0.0, z + 0.3 * math.sin(a)), (x, 1.15, z), 0.012, '#2b2b2b', seg=5)
+    ccyl(c.vm, (x, 1.15, z), (x, 1.9, z), 0.015, '#2b2b2b', seg=6)
+    dx, dz = aim[0] - x, aim[1] - z; n = math.hypot(dx, dz); ux, uz = dx / n, dz / n; px, pz = -uz, ux
+    for s_ in (-1, 1):                                                                                        # U 形支架
+        ccyl(c.vm, (x, 1.9, z), (x + px * 0.14 * s_, 1.9, z + pz * 0.14 * s_), 0.01, '#2b2b2b', seg=5)
+        ccyl(c.vm, (x + px * 0.14 * s_, 1.9, z + pz * 0.14 * s_), (x + px * 0.14 * s_, 2.02, z + pz * 0.14 * s_), 0.01, '#2b2b2b', seg=5)
+    a, b = (x - ux * 0.12, 2.05, z - uz * 0.12), (x + ux * 0.16, 2.0, z + uz * 0.16)
+    ccyl(c.vc, a, b, 0.055, '#1c1c1e', seg=14, r2=0.12)                                                       # 燈罩
+    ccyl(c.vc, (b[0] - ux * 0.005, b[1], b[2] - uz * 0.005), (b[0] + ux * 0.025, b[1] - 0.004, b[2] + uz * 0.025), 0.128, '#2a2a2c', seg=14, caps=False)   # 前緣的框
+    c.lamp.cyl((b[0] - ux * 0.01, b[1], b[2] - uz * 0.01), (b[0] + ux * 0.004, b[1] - 0.001, b[2] + uz * 0.004), 0.112, seg=14)   # 燈面
 
 
 def build():
@@ -198,7 +202,7 @@ def build():
     ex, ez = -3.3, SZ - 1.55
     for (ax, az) in ((-0.2, -0.12), (0.2, -0.12), (0.0, 0.22)): ccyl(c.vc, (ex + az, 0.0, ez + ax), (ex, 1.55, ez), 0.015, '#8a6a4a', seg=5)
     c.vc.cbox(ex - 0.04, ex - 0.02, 0.85, 1.45, ez - 0.32, ez + 0.32, '#f4f0e4')
-    uvquad(c.prt, [(ex - 0.016, 0.88, ez - 0.29), (ex - 0.016, 0.88, ez + 0.29), (ex - 0.016, 1.42, ez + 0.29), (ex - 0.016, 1.42, ez - 0.29)], uv('EASEL'))
+    uvquad(c.prt, [(ex - 0.016, 0.88, ez + 0.29), (ex - 0.016, 0.88, ez - 0.29), (ex - 0.016, 1.42, ez - 0.29), (ex - 0.016, 1.42, ez + 0.29)], uv('EASEL'))   # 面向 +x（觀眾）：左下角在 +z（第一版左右反了，字是鏡像）
     c.block(ex - 0.3, ex + 0.25, ez - 0.35, ez + 0.35, 'easel')
     c.block(-4.7, -3.95, SZ - 1.05, SZ + 1.05, 'stage_props')
     tripod_lamp(c, -2.5, -2.6, (-4.0, SZ)); tripod_lamp(c, -2.5, 2.55, (-4.0, SZ))
@@ -231,7 +235,7 @@ def build():
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
         for key, m in ms.items(): m.finish(c.root, props={'dir': D[k]}, uv=key in ('wall', 'door'), merge=key not in ('print', 'board'))
-    for m in (c.vc, c.vm, c.tube, c.warm): m.finish(c.root, uv=False)
+    for m in (c.vc, c.vm, c.tube, c.lamp): m.finish(c.root, uv=False)
     c.wood.finish(c.root); c.prt.finish(c.root, uv=False, merge=False)
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
     out = os.path.join(OUTDIR, SID + '.glb'); st = L.export(out, gpu_instances=False)

@@ -90,6 +90,13 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 06:5x 更新**：
+    - 已交：#82 第四間博雅 203（本 commit；`test_shots/boya_203_1024/README.md`、`patches/boya_203_1024.patch`，對開發 `7ce1142e2`）。103 不做（LAWWW-B 06:11 決定用 101）。
+    - LAWWW-B 06:25：芷若彈簧骨已整合 `cb6cef3e3`；更正角色美術由 LAWWW 驗收（D100a，不是 BB）。
+    - 下一項：#82 第五間＝宿舍洗衣間＋205（AA_399 第 11 節）。
+      - 洗衣間：`tools/blender/env_second/dorm_laundry.py` 已寫、還沒跑。
+      - 遊戲端：測試樹 `$SP/dv8` 已改 `rooms_glb3d.js`（HOST 加 dorm_hall、backSpawn 先看配置的 back_spawn）、`dorm3d.js`（門有 d.to／d.gate 就是出入口）。
+      - 205：打算 `dorm_room4.py` 加 `--only 205` 出 `dorm_205.glb`（方奕廷的桌子滿是盆栽），預設輸出要和現在的 `dorm_room4.glb` 每個 byte 一樣。
   - **10-24 06:3x 更新**：
     - 已交：芷若頭髮補回彈簧骨（本 commit；`char_review/zhiruo_springs_1024/README.md`）。`heroine_02.py` 多一個 `springs` 階段，以後重做頭髮不會再漏。sim_hair、hair_sway 都 PASS。
     - LAWWW-B 06:05 ACK #82 前三間；06:11 決定博雅 103 照 A：用現成的 101，103 照舊關著、不做（房號的事 LAWWW-B 告訴 AA）。
