@@ -2270,14 +2270,16 @@ SCENS = SCENS + R15
 # ===== R16：第 85 項 裂縫到 3 的談話（cracktalk3d.js；語彤的週四；開發分支 23bba7c8d 起）=====
 #   交往中【前置：DATEJ】、她的週四是自己的（YT_EV13）。① 12:10 她傳「斜對面的位子我留了」，17:00～20:00 沒去、沒回「今天不行」＝YT_CRACK +1。
 #   ② 這學期到 3（【前置】先 2、前一天 ROM.crack +1＝cracktalk 排談話）→ 下一個週四 12:10 兩句私訊 → 17:30 人到總圖三樓【捷徑：直接進 library】＝談話；選第一個（修補）＝歸零。
+#   BB-B 10-24 10:2x：第一次用 2026-10（大二上）＋YT_EV13 旗標＝她週四 17:30 照作息不在（STORY.schedEnt null；總圖那一格看日期 2027-12-16 以後，不看旗標）→ 12:10 那則不會發＝腳本日期錯。
+#     改到 2027-12-23（四，大三上；Node 查 CRACKTALK.seatOn＝true）、談話情境 12/22 20:00 起、隔天 12/23。
 YTC = DATEJ('heroine_03') + " G.flags.YT_EV13=true;"
 R16 = [
-  dict(id='CRACK85_YT_SEAT', key='2026-10-01', h=11.9, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=0; G.flags.YT_CRACK_TERM='Y2S1';", pref=[], steps=[('until', 12.4, 900), ('until', 20.3, 3000)],
+  dict(id='CRACK85_YT_SEAT', key='2027-12-23', h=11.9, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=0; G.flags.YT_CRACK_TERM='Y3S1';", pref=[], steps=[('until', 12.4, 900), ('until', 20.3, 3000)],
        want=[], jsok=[('12:10 她傳「斜對面的位子我留了」', GRPMSG('p:heroine_03', '斜對面的位子我留了'), lambda L: isinstance(L, list) and len(L) >= 1), ('沒去、沒回＝YT_CRACK 1', "GAME.G.flags.YT_CRACK|0", 1)]),
-  dict(id='CRACK85_YT_TALK', key='2026-10-07', h=20.0, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=2; G.flags.YT_CRACK_TERM='Y2S1'; ROM.crack(G,'heroine_03',1);", pref=['斜對面'],
-       steps=[('jump', "STORY.dayOfKey('2026-10-08')", 12.0, '隔天 10/8（四）12:00'), ('until', 12.4, 900), ('until', 17.4, 2400), ENTER('library', note='總圖三樓'), ('until', 18.6, 1500)],
+  dict(id='CRACK85_YT_TALK', key='2027-12-22', h=20.0, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=2; G.flags.YT_CRACK_TERM='Y3S1'; ROM.crack(G,'heroine_03',1);", pref=['斜對面'],
+       steps=[('jump', "STORY.dayOfKey('2027-12-23')", 12.0, '隔天 12/23（四）12:00'), ('until', 12.4, 900), ('until', 17.4, 2400), ENTER('library', note='總圖三樓'), ('until', 18.6, 1500)],
        want=['今天週四。我在三樓。', '……我想問你一件事。', '我分給你的時間，你好像不太需要。……沒關係，我只是想問清楚。'],
-       jsok=[('談過（CRACKTALK.r.heroine_03.talked 有 Y2S1）', "JSON.stringify(((GAME.G.flags.CRACKTALK||{}).r||{}).heroine_03||null)", lambda x: isinstance(x, str) and 'Y2S1' in x), ('還在交往', "!!GAME.G.flags.dating_heroine_03", True)]),
+       jsok=[('談過（CRACKTALK.r.heroine_03.talked 有 Y3S1）', "JSON.stringify(((GAME.G.flags.CRACKTALK||{}).r||{}).heroine_03||null)", lambda x: isinstance(x, str) and 'Y3S1' in x), ('還在交往', "!!GAME.G.flags.dating_heroine_03", True)]),
 ]
 for _s in R16:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
