@@ -2676,6 +2676,37 @@ R25 = [dict(id='FPSCMP', key='2028-09-15', h=19.3, zone='us_outside', flags=dict
                   + sum([[('chk', '往東 第 %d 次 10 秒幀率' % i, FPS10, lambda f: isinstance(f, (int, float))), ('chk', '往東 第 %d 次 calls／三角形' % i, TRIS, lambda d: True)] for i in (1, 2)], [])
                   + [('shot', 'east', None, 'true', 2)], want=[])]
 SCENS = SCENS + R25
+
+# ---------- R26（BB-B 10-24 21:4x）：下一版四項（LAWWW-B 21:37 派工，開發分支 a690484c8；同一組在 v9.10.9 f10d27011 跑修改前對照）----------
+# ① 傍晚天色照季節（ENGINE-SEASON-DUSK-1024：E.lightH）② 半夜不跳亮（AFTER-MIDNIGHT-1024）③ 醉月湖北邊遠景店面（ART-BG-AWNINGS-1024，bgCity z=−171 那一排）
+# ④ 同行的人不擋門口（BUG-FOLLOW-DOOR-1024）另寫在 follow_door_probe.py
+LIGHT = ("(()=>{ const E=GAME.E, s=E.scene, f=s.fog; const u=E.sky&&E.sky.material&&E.sky.material.uniforms; const cols={}; if(u) for(const k in u){ const v=u[k].value; if(v&&v.isColor) cols[k]=v.getHexString(); } "
+         "return {hour:+GAME.G.hour.toFixed(2), lightH:E.lightH!=null?+E.lightH.toFixed(2):null, sunset:E.sunsetNow?+((E.sunsetNow()||0).toFixed(2)):null, sun:E.sun?[+E.sun.intensity.toFixed(3),E.sun.color.getHexString()]:null, hemi:E.hemi?+E.hemi.intensity.toFixed(3):null, "
+         "fog:f?[f.color.getHexString(),Math.round(f.near||0),Math.round(f.far||0)]:null, bg:s.background&&s.background.isColor?s.background.getHexString():null, sky:cols}; })()")
+VIEWTEX2 = "(()=>{ const out=new Set(); GAME.E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ const tx=m&&(m.map||(m.uniforms&&m.uniforms.map&&m.uniforms.map.value)); const im=tx&&tx.image; const s=im&&(im.currentSrc||im.src||''); if(s&&/(views\\/|library_view_)/.test(s)) out.add(s.replace(/^.*\\//,'').replace(/\\?.*$/,'')); } }); return [...out].sort(); })()"
+# 半夜：【捷徑】直接撥 G.hour（每 0.02 小時一格、等兩個畫格），讀 LIGHT；不換日期（只看光線）
+SWEEP = ("(async([a,b])=>{ const out=[]; const fr=()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))); for(let h=a; h<=b+1e-9; h+=0.02){ GAME.G.hour=h>=24?h-24:h; await fr(); const L=" + "%s" + "; out.push(L); } return out; })(%s)")
+def SW(a, b): return SWEEP % (LIGHT, json.dumps([a, b]))
+def KEEP(name):   # 讀到的整份資料存成 OUT/<name>.json（中途【讀資料】只印前 400 字）
+    def f(d):
+        with open(os.path.join(OUT, name + '.json'), 'w') as fh: json.dump(d, fh, ensure_ascii=False)
+        return isinstance(d, list) and len(d) > 30
+    return f
+LAKE = lambda tag: [CAM(-36.0, -97.0, 0.0, 0.08, 6.0, '醉月湖南岸往北看（湖、湖北邊遠景那一排）'), PAUSE(5, '等模型'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True), ('shot', tag, None, 'true', 3)]
+R26 = [
+  dict(id='DUSK_DEC', key='2026-12-10', h=17.75, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_1745') + [CAM(-36.0, -97.0, 3.1416, 0.12, 6.0, '轉身往南'), ('shot', 'lake_1745_s', None, 'true', 2),
+        CAM(-36.0, -97.0, 0.0, 0.08, 6.0, '量幀率的位置'), ('chk', '10 秒幀率（記下來）', FPS10, lambda f: isinstance(f, (int, float))), ('chk', '10 秒幀率 第二次', FPS10, lambda f: isinstance(f, (int, float)))], want=[]),
+  dict(id='DUSK_WZ_NOV', key='2026-11-06', h=17.75, zone='wenzhou', flags=dict(TW3), js='', pref=[], steps=[PAUSE(6, '等模型'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True)] + YAWS('wz_1745', None, None, 0.12, 5.0, yaws=(0, 3.1416)), want=[]),
+  dict(id='DUSK_JUL', key='2027-07-20', h=18.5, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_jul_1830'), want=[]),
+  dict(id='LIB3F_OCT19', key='2026-10-16', h=19.0, zone='library', flags={}, js='', pref=[], steps=[PAUSE(6, '等窗景'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True), ('chk', '窗景圖（記下來）', VIEWTEX2, lambda d: True)] + YAWS('lib3f_1900', None, None, 0.2, 3.0, yaws=(0, 1.5708, 3.1416, 4.7124)), want=[]),
+  dict(id='US_NOV1700', key='2028-11-23', h=17.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -20.0, 'z': 19.8, 'yaw': 3.14}}, js='', pref=[], steps=[PAUSE(6, '等模型'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True), ('shot', 'us_campus_1700', None, 'true', 2)], want=[]),
+  dict(id='MIDNIGHT', key='2026-10-14', h=23.7, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_2342') + [
+        ('chk', '【捷徑】23:48→24:36 每 0.02 小時讀光線（記下來）', SW(23.8, 24.6), KEEP('sweep_midnight')), ('shot', 'lake_0036', None, 'true', 2),
+        ('chk', '【捷徑】04:18→05:42 每 0.02 小時讀光線（記下來）', SW(4.3, 5.7), KEEP('sweep_dawn')), ('shot', 'lake_0542', None, 'true', 2)], want=[]),
+  dict(id='AWN_1500', key='2026-10-14', h=15.0, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_awn_1500') + [CAM(-60.0, -97.0, 0.35, 0.06, 6.0, '湖南岸西側往北偏東'), ('shot', 'lake_awn_1500_w', None, 'true', 2)], want=[]),
+  dict(id='AWN_2000', key='2026-10-14', h=20.0, zone='campus', flags=dict(TW3), js='', pref=[], steps=LAKE('lake_awn_2000') + [CAM(-60.0, -97.0, 0.35, 0.06, 6.0, '湖南岸西側往北偏東'), ('shot', 'lake_awn_2000_w', None, 'true', 2)], want=[]),
+]
+SCENS = SCENS + R26
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
