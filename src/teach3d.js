@@ -185,6 +185,9 @@ const TB3=(function(){
         if(Math.abs(dw-DOOR_W)<0.02){ doorBins[r.lv|0].add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13); doorItems.push({lv:r.lv|0,x:dx,z:dz,out,text:r.plate||String(r.label||'').replace(/（.*?）/g,'').trim()}); }   /* 載入門模組以後藏起來（doorsGLB）*/
         else bb.add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13);
         /* link：門後面是通到別棟的空橋（普通二樓 ⇄ 博雅二樓，方案 A）——按了就走過去（區域切換、落在對面那棟的二樓）；其他關著的房間：門口的說明 */
+        /* 有正式房間的關著的房間（ROOM_GLB_LAYOUTS 的 host_door＝{zone:這一棟, id:房號}；博雅 203＝AA_399 第 10 節 SK07 那一晚）：開放時段內門口是「進入」、時段外照舊是門上的字（兩個不會同時出現）*/
+        const RK=!r.link&&typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate?Object.keys(ROOM_GLB_LAYOUTS).find(k=>{ const h=ROOM_GLB_LAYOUTS[k].host_door; return h&&h.zone===L.id&&h.id===r.id&&Z3.ZONES[k]; }):null;
+        if(RK){ const R=ROOM_GLB_LAYOUTS[RK]; IT.push(Z3.roomGlbGate({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:R.host_door.label||('進入 '+R.name),exit:{to:RK,spawn:Object.assign({},R.spawn)},gate:RK},false)); IT.push(Z3.roomGlbGate({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look,gate:RK},true)); continue; }
         if(r.link) IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); else IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
       if(r.kind==='passage'){ if(r.link&&r.linkDoor) IT.push({x:r.linkDoor.x,z:(r.linkDoor.z>0?1:-1)*(L.D/2-0.6),radius:0.8,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); continue; }   /* 打開的通道（往空橋）：沒有門板；博雅那一端的玻璃門＝走上空橋 */
       if(r.kind==='lecture'){ buildLecture(L,r,grpOf(r.lv),bb,IT,r.lv?lv1:lv0,zone); continue; }

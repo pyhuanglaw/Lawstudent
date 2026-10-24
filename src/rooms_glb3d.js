@@ -27,9 +27,9 @@
      進區域那一刻照當天決定（同一天不會換），GLB 的 SET_<名字> 節點只開那一套 */
   function setOf(L,G){ if(!L.sets) return null; const k=G&&L.set_days&&typeof CALENDAR!=='undefined'?L.set_days[CALENDAR.dateOf(G.day).key]:null; return k&&L.sets[k]?k:(L.sets[L.set_default]?L.set_default:null); }
   /* 有開放時段的房間（L.open；研討室 B＝AA_399 第 5 節：單週六 09:00～12:00＋事件那天；系辦＝第 7 節：平日 09:00～12:00、13:30～17:00）：門照舊是門上的字（closed），時段內才變成出入口（wancai3d.js、building3d.js 的 d.gate）。
-     open＝{wd:星期（數字或陣列；1＝週一…6＝週六）, h0, h1（或 ranges:[[h0,h1],…]）, holiday:false（國定假日不開）, termWeeks:'odd'（學期的第 1、3、5…週）, days:[整天開的日期], daysOnly:true（只有 days 那幾天開）}；沒有 open＝一直開 */
+     open＝{wd:星期（數字或陣列；1＝週一…6＝週六）, h0, h1（或 ranges:[[h0,h1],…]）, holiday:false（國定假日不開）, termWeeks:'odd'（學期的第 1、3、5…週）, days:[整天開的日期], dayHours:[h0,h1]（days 那幾天只在這段時間開；博雅 203＝AA_399 第 10 節：SK07 那一晚 18:30～21:30）, daysOnly:true（只有 days 那幾天開）}；沒有 open＝一直開 */
   function openNow(L,G){ const O=L&&L.open; if(!O) return true; if(!G||typeof CALENDAR==='undefined') return false; const q=CALENDAR.dateOf(G.day);
-    if(Array.isArray(O.days)&&O.days.includes(q.key)) return true; if(O.daysOnly) return false; const wds=O.wd==null?[]:[].concat(O.wd); if(wds.length&&!wds.includes(q.wd)) return false;
+    if(Array.isArray(O.days)&&O.days.includes(q.key)){ const h=G.hour%24, DH=O.dayHours; if(!DH||(h>=DH[0]&&h<DH[1])) return true; if(O.daysOnly) return false; } else if(O.daysOnly) return false; const wds=O.wd==null?[]:[].concat(O.wd); if(wds.length&&!wds.includes(q.wd)) return false;
     if(O.holiday===false&&CALENDAR.holiday&&CALENDAR.holiday(G.day)) return false;
     const h=G.hour%24, R=O.ranges||(O.h0!=null?[[O.h0,O.h1]]:null); if(R&&!R.some(r=>h>=r[0]&&h<r[1])) return false;
     if(O.termWeeks){ const t=CALENDAR.termOf(G.day); if(!t) return false; if(O.termWeeks==='odd'&&t.week%2!==1) return false; if(O.termWeeks==='even'&&t.week%2!==0) return false; } return true; }
