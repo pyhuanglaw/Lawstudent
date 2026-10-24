@@ -1385,8 +1385,9 @@ def copy_corner_carve(xf, wall, W, D, rec):
     c = Xf(COPYC['cx'], COPYC['cz'], math.pi / 2)                                  # 轉角店面自己的座標：正面朝 +x（北巷），x 往右＝世界 −z
     c.box(acc(SK['f_granite']), -hw, hw, 0.0, 0.03, -RD, 0.0)
     c.box(acc(M['ceilA']), -hw, hw, t - 0.03, t, -RD, 0.0)
-    c.box(acc(M['plaster']), -hw, hw, 0.03, t - 0.03, -RD, -RD + 0.02)
-    for sx in (-1, 1): c.box(acc(M['plaster']), sx * hw - (0.02 if sx > 0 else 0.0), sx * hw + (0.0 if sx > 0 else 0.02), 0.03, t - 0.03, -RD + 0.02, 0.0)
+    lin = acc(flat('wz_c6_wall', '#e8e6df', rough=0.85))                          # 店裡的內牆：白色水泥漆（外牆的材質是橘色的磁磚色，看起來像倉庫）
+    c.box(lin, -hw, hw, 0.03, t - 0.03, -RD, -RD + 0.02)
+    for sx in (-1, 1): c.box(lin, sx * hw - (0.02 if sx > 0 else 0.0), sx * hw + (0.0 if sx > 0 else 0.02), 0.03, t - 0.03, -RD + 0.02, 0.0)
 
 
 def _copy_group(name, props, build):
@@ -1418,7 +1419,7 @@ def copy_variants():
         c.quad(sm, [(-hw + 0.06, 0.03, z), (hw - 0.06, 0.03, z), (hw - 0.06, t - 0.02, z), (-hw + 0.06, t - 0.02, z)])
         c.box(acc(M['alu']), -hw + 0.02, hw - 0.02, t - 0.34, t - 0.03, -0.42, -0.08)          # 捲門箱藏在門楣裡面
         for sx in (-1, 1): c.box(acc(M['alu']), sx * (hw - 0.05) - 0.03, sx * (hw - 0.05) + 0.03, 0.0, t - 0.02, -0.1, -0.02)
-        note(c, 'rent', -0.7, 1.05, 0.7, 0.7, z + 0.012); note(c, 'closed', 0.7, 1.3, 0.5, 0.5, z + 0.012)
+        note(c, 'rent', -0.7, 1.05, 0.7, 0.7, z + 0.012); note(c, 'poster', 0.75, 1.15, 0.42, 0.5, z + 0.012)   # 空店面：招租＋一張舊的社區海報（不貼「暫停營業」：空店面不是暫停）
     def corner_open():
         gz = -0.32; iw = 2 * hw - 0.12; ih = t - 0.45; top = ih + 0.4
         sf = dict(door='alu', door_w=0.95, door_x=1.05, rollbox=True)
@@ -1433,9 +1434,10 @@ def copy_variants():
         c.box(cp, -1.75, -1.0, 0.0, 1.0, -RD + 0.08, -RD + 0.78); c.box(dk, -1.72, -1.03, 1.0, 1.06, -RD + 0.12, -RD + 0.74); c.box(dk, -1.6, -1.2, 0.62, 0.66, -RD + 0.78, -RD + 0.9)   # 影印機＋上蓋＋出紙盤
         c.box(cp, -1.74, -1.01, 0.12, 0.6, -RD + 0.785, -RD + 0.79)
         c.box(wd, -0.55, 0.45, 0.0, 0.98, -1.05, -0.62); c.box(dk, -0.35, 0.05, 0.98, 1.3, -1.0, -0.97)                                    # 櫃台＋螢幕（背面朝客人）
-        c.box(st, -0.45, 1.6, 0.0, 1.9, -RD + 0.02, -RD + 0.42)                                                                              # 後牆的鐵架
+        for x_ in (-0.45, 0.55, 1.57):                                                                                                     # 後牆的鐵架：三根立柱、四層板（開放的，看得到紙箱）
+            for z_ in (-RD + 0.03, -RD + 0.39): c.box(st, x_, x_ + 0.03, 0.0, 1.9, z_, z_ + 0.03)
         for k, y in enumerate((0.05, 0.62, 1.2)):
-            c.box(st, -0.45, 1.6, y + 0.48, y + 0.5, -RD + 0.02, -RD + 0.42)
+            c.box(st, -0.45, 1.6, y - 0.02, y, -RD + 0.02, -RD + 0.42)
             for j in range(4): c.box(acc(flat('wz_c6_ream_' + str((j + k) % 3), ('#f4f2ea', '#e9d9a8', '#cfe0ea')[(j + k) % 3], rough=0.8)), -0.4 + j * 0.5, -0.4 + j * 0.5 + 0.42, y, y + 0.28 - 0.05 * ((j * 3 + k) % 2), -RD + 0.06, -RD + 0.36)
         c.box(acc(M['tube']), -0.6, 0.6, t - 0.08, t - 0.05, -1.0, -0.9)
     def a1(kind):

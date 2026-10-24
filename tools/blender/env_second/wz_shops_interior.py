@@ -497,9 +497,9 @@ def build_teahouse():
     Mesh(P + 'garden_moss', M['moss']).box(X0, X1, -0.44, -0.4, gz0, gz1).finish(root)
     acc('post').box(-2.2, X1, -0.42, 0.0, Z1 + 1.12, Z1 + 1.22)                                                           # 緣側的邊
     Xf(1.5, Z1 + 1.55).lathe(acc('stone'), [(0.0, 0.0), (0.42, 0.0), (0.44, 0.18), (0.4, 0.22), (0.0, 0.22)], 0, -0.42, 0, seg=14)   # 沓脫石
-    # 貓碗（ART-WZ6；AA_420 第 9 節，LAWWW2-B 10-24）：找到貓以後（WZ_CAT_FOUND）蘇姨放在簷廊邊、沓脫石右邊的苔地上；收養那天以後收起來。
-    # 獨立的節點 WZ_CATBOWL（不參加合併），遊戲照名字開關：WZ_CAT_FOUND 有值、PARK.catGone 還不是 true 才顯示。舊的青瓷飯碗（缺了一小角）＋一小堆乾糧
-    cbg = B.group('WZ_CATBOWL', root, {'kind': 'cat_bowl', 'show': 'WZ_CAT_FOUND 以後、PARK.catGone 以前'}); cbx, cbz, cby = 2.36, Z1 + 1.40, -0.40
+    # 貓碗（ART-WZ6；AA_420 第 9 節，LAWWW2-B 10-24）：找到貓以後（WZ_CAT_FOUND）蘇姨放在簷廊下——緣側東端的地板上、靠外緣（玩家走的地方是 x 3.9 以內）；收養那天以後收起來。
+    # （第一版放在前院的苔地上：從緣側往下看被緣側的邊擋住，看不到。）獨立的節點 WZ_CATBOWL（不參加合併），遊戲照名字開關：WZ_CAT_FOUND 有值、PARK.catGone 還不是 true 才顯示。舊的青瓷飯碗＋一小堆乾糧
+    cbg = B.group('WZ_CATBOWL', root, {'kind': 'cat_bowl', 'show': 'WZ_CAT_FOUND 以後、PARK.catGone 以前'}); cbx, cbz, cby = 3.95, Z1 + 1.0, 0.0
     cb = Mesh('WZ_CATBOWL_bowl', L.flat(P + 'catbowl', '#c9d8cc', rough=0.22))
     Xf(cbx, cbz, 0.4).lathe(cb, [(0.0, 0.0), (0.040, 0.0), (0.045, 0.004), (0.056, 0.026), (0.063, 0.044), (0.065, 0.047), (0.061, 0.048), (0.055, 0.031), (0.043, 0.012), (0.0, 0.012)], 0, cby, 0, seg=18)
     cb.finish(cbg, uv=False, smooth=True)

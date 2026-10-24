@@ -1,7 +1,7 @@
 // 阿德影印的兩種外觀＋一盞的貓碗（ART-WZ6；AA_420 第 3 節、第 9 節、12-1；LAWWW2-B 2026-10-24）——不需要瀏覽器。
 // WZ_COPY_SHOP（wz_events.js 1-5）：'moved'＝A1 鐵捲門拉下＋遷址告示、轉角（A2 東側一樓、朝北巷）的小店開著、店門換到北巷 (3.9, 6.5)、從店裡出來站在轉角；
 // 'stay'＝A1 玻璃門上多一張「本店續約三年」；還沒決定＝轉角是拉下鐵捲門、貼招租的空店面。wenzhou_street.glb 的 COPY_* 節點，zones3d.js 照旗標每一幀開關。
-// 一盞前院的貓碗（wz_teahouse_interior.glb 的 WZ_CATBOWL）：WZ_CAT_FOUND 以後、PARK.catGone 以前。
+// 一盞簷廊下的貓碗（wz_teahouse_interior.glb 的 WZ_CATBOWL；緣側東端的地板上）：WZ_CAT_FOUND 以後、PARK.catGone 以前。
 // 修改前：WZ_SHOPS_LAYOUT.print 沒有 moved（第 1 項就失敗）。用法：node tests/wz_copy_shop_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -51,5 +51,5 @@ const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)); const l=b.readUInt32L
 { const J=glb('assets/models/env/second_ai/wz_teahouse_interior.glb'), N=J.nodes, i=N.findIndex(o=>o.name==='WZ_CATBOWL');
   let mn=[1e9,1e9,1e9], mx=[-1e9,-1e9,-1e9]; for(const k of (i>=0?N[i].children||[]:[])){ const m=J.meshes[N[k].mesh]; for(const p of m.primitives){ const a=J.accessors[p.attributes.POSITION]; for(let c=0;c<3;c++){ mn[c]=Math.min(mn[c],a.min[c]); mx[c]=Math.max(mx[c],a.max[c]); } } }
   /* glTF 是 y 往上：遊戲座標同 (x, y, z) */
-  check('7. 一盞的貓碗（WZ_CATBOWL）在前院、沓脫石右邊的地上（x 2.2～2.5、z 6.25～6.55、底 −0.40）',i>=0&&mn[0]>2.2&&mx[0]<2.5&&mn[2]>6.25&&mx[2]<6.55&&Math.abs(mn[1]+0.40)<0.01,JSON.stringify([mn.map(v=>+v.toFixed(3)),mx.map(v=>+v.toFixed(3))])); }
+  check('7. 一盞的貓碗（WZ_CATBOWL）在簷廊下：緣側東端的地板上、靠外緣（x 3.8～4.1、z 5.85～6.15、底 0）',i>=0&&mn[0]>3.8&&mx[0]<4.1&&mn[2]>5.85&&mx[2]<6.15&&Math.abs(mn[1])<0.01,JSON.stringify([mn.map(v=>+v.toFixed(3)),mx.map(v=>+v.toFixed(3))])); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
