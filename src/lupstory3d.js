@@ -40,8 +40,11 @@ const LUPS=(function(){
     const sp=(LAY('stacks')||{spots:{}}).spots.fang; if(!sp) return false; const n=GM.spawnCharacter(FY,sp.x,sp.z,{yaw:sp.yaw,pose:'idle'}); if(n){ n.frozen=true; n.lupFang=true; } return !!n; };
   S.preTalk=async function(GM,who,id){ const G=GM.G; if(id!==FY||G.zone!=='library_stacks'||!S.fangWin(G)||G.flags.FY_STACKS_SAID) return; G.flags.FY_STACKS_SAID=G.day|0; await GM.say(who,S.LINES.fang); };
   /* ---------- 掛上去 ---------- */
+  /* 那個時間她的作息在別的地方（例：2028-07-31 總圖三樓 10:00～16:00，AA_392）＝不在 03（研究小間那三小時作息是空的，characters.js）*/
+  S.sisElsewhere=G=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[SIS]) return false; let e=null; try{ e=STORY.schedEnt(CHARACTERS[SIS],{day:G.day|0,hour:G.hour,weekday:G.weekday,flags:G.flags||{},noInvite:true}); }catch(err){ e=null; } return !!(e&&e.zone&&e.zone!=='library_carrels'); };
   if(typeof LUP!=='undefined'){
     const sp0=LUP.sisPeriod; LUP.sisPeriod=G=>!!sp0(G)&&!S.sisAway(G);   /* 美國期間除外（AA_399 3-1）*/
+    const sh0=LUP.sisHere; LUP.sisHere=G=>!!sh0(G)&&!S.sisElsewhere(G);
     LUP.booked=S.booked; }
   if(typeof LOANS!=='undefined'&&Array.isArray(LOANS.DESK_EXTRA)) LOANS.DESK_EXTRA.push(G=>S.canBook(G)?[{t:'預約研究小間（三小時）',run:async GM=>{ if(S.book(GM.G)&&GM.toast) GM.toast('研究小間 08：今天 '+Math.floor(hr(GM.G))+':00 起三小時',2800); }}]:[]);
   if(typeof STORY!=='undefined'){

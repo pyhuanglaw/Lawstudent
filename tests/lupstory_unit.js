@@ -45,7 +45,8 @@ await sec(2,async()=>{ const G=fresh('2028-03-14',15,'library_carrels'); lv(SIS,
   { fresh('2028-03-15',15); lv(SIS,'ACQUAINTANCE'); check('2. 還沒到有點熟：不能敲',!X().knockOk(H.G)); }
   { const G1=fresh('2028-03-18',15); lv(SIS,'FRIEND'); check('2. 週六：不在',!LUP.sisHere(G1)); G1.day=D('2028-03-14'); G1.hour=17.2; check('2. 17:00 以後：不在',!LUP.sisHere(G1)); }
   { const G1=fresh('2028-10-17',15); lv(SIS,'FRIEND'); check('2. 2028-10（她在美國）：不在、03 沒有她的東西',!LUP.sisPeriod(G1)&&!LUP.sisHere(G1)); }
-  { const G1=fresh('2027-10-12',15); lv(SIS,'FRIEND'); check('2. 2027（還沒開始寫論文）：不在',!LUP.sisPeriod(G1)); } });
+  { const G1=fresh('2027-10-12',15); lv(SIS,'FRIEND'); check('2. 2027（還沒開始寫論文）：不在',!LUP.sisPeriod(G1)); }
+  { const G1=fresh('2028-07-31',15); lv(SIS,'FRIEND'); const e=STORY.schedEnt(CHARACTERS[SIS],{day:G1.day,hour:15,weekday:G1.weekday,flags:G1.flags,noInvite:true}); check('2. 2028-07-31 15:00：作息在總圖三樓（AA_392）＝不在 03',!!e&&e.zone!=='library_carrels'&&!LUP.sisHere(G1),JSON.stringify(e&&{zone:e.zone})); G1.day=STORY.dayOfKey('2028-03-14'); G1.weekday=CALENDAR.dateOf(G1.day).wd; check('2. 平常的 14～17（作息是空的）：在 03',LUP.sisHere(G1)); } });
 
 await sec(3,async()=>{ const d=D('2026-11-24'); const t=CALENDAR.termOf(d); check('3. 前提：2026-11-24 是大二上第 12～14 週的週二',!!t&&t.id==='Y2S1'&&t.week>=12&&t.week<=14&&CALENDAR.dateOf(d).wd===2,J(t));
   const G=fresh('2026-11-24',15.5,'library_stacks'); H.FRIEND(FY);
