@@ -2725,12 +2725,12 @@
   },
   {
    "path": "docs/story_planning/AA_440_寒暑假的空白日_最空三段_住家裡_留宿舍.md",
-   "sha": "540e1d3fb",
+   "sha": "fd200c2c6",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）；540e1d3fb：臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）",
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲；ca16c073d 補 1-5b 7/31 10:00 在家醒來兩句（ev_vf_y0_0731）；540e1d3fb：臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）；fd200c2c6：3-1 2/4 改新菜單（AA_445 1-1）",
    "history": [
     {
      "sha": "718c06a30",
@@ -2745,6 +2745,11 @@
      "sha": "ca16c073d",
      "until": "2026-10-24 08:5x",
      "why": "臺北的家不寫上下樓：1-5b「你去拿信」、5-1 寒假 4「媽媽叫你去拿掛號信」（AA_443 第 4 節）"
+    },
+    {
+     "sha": "540e1d3fb",
+     "until": "2026-10-24 14:3x",
+     "why": "AA_445 1-1：3-1 2/4 改麵店新菜單"
     }
    ]
   },
@@ -2813,6 +2818,15 @@
    "task": "BACKLOG-SWEEP-AA-1021",
    "kind": "text",
    "note": "美國交換那一學期（src/us_life3d.js、src/data/us_life_events.js；tests/us_life_unit.js）照稿手動放；之前沒有白名單這一筆，10-24 補登"
+  },
+  {
+   "path": "docs/story_planning/AA_445_寒暑假讀過一遍_麵店開兩次_五位節日邀約分節日.md",
+   "sha": "fd200c2c6",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
+   "task": "VAC-FILL-AA440-1024",
+   "kind": "text",
+   "note": "1-1 大三寒假 2/4 麵店新菜單（vacfill_events.js y3_0204）；1-2 芷若、語彤、子晴、學姊、可昕節日邀約照節日換整組（fest_events.js ask.by、fest3d.js S.herLines；tests/aa416_fest_unit.js 25 組逐字）"
   }
  ]
 }
