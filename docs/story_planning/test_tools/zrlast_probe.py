@@ -2618,6 +2618,17 @@ R22 = [
           steps=[CAM(-38.0, 0.0, 1.5708, 0.12, 4.0, '社區西邊出口、往西看'), PAUSE(4, '等模型'), ('shot', 'west', None, 'true', 2), CAM(-36.0, 6.0, 2.2, 0.18, 5.0, '往西南看出口和公車站'), ('shot', 'west2', None, 'true', 2)]
                + ([CAM(-38.0, 0.0, 1.5708, 0.12, 4.0, '量幀率的位置'), ('chk', '手機模擬幀率（10 秒，記下來；和 v9.10.8 同一位置比）', FPS10, lambda f: isinstance(f, (int, float))), ('chk', 'calls／三角形（記下來）', TRIS, lambda d: True)] if tag == 'SEP_EVE' else []),
           want=[]) for tag, k, h in [('SEP_EVE', '2028-09-15', 19.3), ('SEP_NIGHT', '2028-09-15', 21.5), ('OCT_EVE', '2028-10-20', 18.6), ('DEC_EVE', '2028-12-10', 16.8)]]
+# BB-B 17:4x：第一次的 L0_notice_cork、^L0_autodoor_glass 在 GLB 裡被合併掉了（鏡頭 null）；社科院座標拍到圖書館和一面白牆。改用 GLB 裡真的有的節點名
+R22 += [
+  dict(id='LINZE_NOTICE2', key='TERMDAY:Y2S1:1:2', h=10.0, zone='linze', flags=dict(TW3), js='', pref=[],
+       steps=[('wait', "!!(GAME.E.zone&&GAME.E.zone._jobPosters)", 30, '公布欄的徵才單節點'), PAUSE(3, '等'),
+              ('shot', 'poster', {'name': 'L0_WALL_notice_job_cram', 'face': True, 'd': 2.4, 'dist': 1.4, 'pitch': 0.05}, 'true', 2),
+              ('shot', 'board', {'name': 'L0_WALL_Efacade_lz_notice', 'face': True, 'd': 3.2, 'dist': 1.6, 'pitch': 0.1}, 'true', 2),
+              ('shot', 'door', {'name': 'L0_WALL_Ndoor_frame', 'face': True, 'd': 3.6, 'dist': 1.8, 'pitch': 0.2}, 'true', 2)], want=[]),
+] + [dict(id='SOCSCI2_%s' % t, key='2026-10-14', h=h, zone='campus', flags=dict(TW3), js='', pref=[],
+          steps=[('shot', 'main', {'name': 'PLATE_FACE_SOC_MAIN', 'face': True, 'd': 18, 'dist': 2.0, 'pitch': 0.42}, 'true', 3),
+                 ('shot', 'mainw', {'name': 'GLOW_soc_main_w', 'face': True, 'd': 16, 'dist': 2.0, 'pitch': 0.42}, 'true', 3),
+                 ('shot', 'dir', {'name': 'PLATE_FACE_SOC_DIR', 'face': True, 'd': 14, 'dist': 2.0, 'pitch': 0.42}, 'true', 3)], want=[]) for t, h in [('DAY', 10.5), ('NIGHT', 20.0)]]
 SCENS = SCENS + R22
 
 # ---------- R23（BB-B 10-24 15:5x）：⑨ AA_445（76fd3ce8b）——交往中、節日前一天 21:00 的邀約照節日換整組（芷若、語彤、子晴、學姊、可昕）；大三寒假 2/4 語彤「阿姨換了新的菜單」 ----------
