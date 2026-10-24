@@ -2678,7 +2678,7 @@
   {
    "task": "AA_399 剩下要 3D 房間的七處（#82）第五間：宿舍 1F 洗衣間（一直開；「洗衣服」改在裡面的洗衣機）＋205 方奕廷的房間（大一 21～23、他在的時候敲門進去）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "3328fdc4a",
    "files": [
     "assets/models/env/second_ai/dorm_laundry.{glb,json,layout.json}、dorm_205.{glb,json,layout.json}（新）",
     "docs/art-rebuild/second_ai/patches/dorm_laundry_205_1024.patch（rooms_glb3d.js、dorm3d.js、zones3d.js 一行、closed3d.js、room_glb_layouts.js＋tests/dorm_laundry_unit.js、tests/dorm_205_unit.js、tests/closed_unit.js 第 7 節；對開發 cc366dbe5 做的）",
@@ -2690,8 +2690,26 @@
    "next": "LAWWW-B 套 patch、放兩個 GLB；阿凱週日 21～22、方奕廷 21～23 照 spots 放人；205「找他說話照階梯」",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 07:04 ACK；已整合進開發 758d8af30）",
    "note": "「洗衣服」原本做在走廊的門上（closed3d.js），門變成「進入 洗衣間」以後按不到——改成裡面的「洗衣機」也能洗（阿凱那句、40 分鐘照舊）；dorm_room4.py 不加 --only 時祐廷的房間照舊（配置 JSON 一樣、GLB 頂點資料 124 個網格差都在 1e-5 內）"
+  },
+  {
+   "task": "AA_399 剩下要 3D 房間的七處（#82）第六間：總圖 2F 多媒體中心（開館時都開；「看一部片」搬到裡面的服務台；芷若的字幕作業位子）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/library_media.{glb,json,layout.json}（新）",
+    "docs/art-rebuild/second_ai/patches/library_media_1024.patch（rooms_glb3d.js 的 HOST 加 library_hall、library3d.js 的門認 d.to、closed2_3d.js 裡面的服務台也能看一部片、room_glb_layouts.js＋tests/library_media_unit.js、tests/aa399_closed2_unit.js 第 3b 項；對開發 758d8af30 做的）",
+    "tools/blender/env_second/library_media.py、textures/gen/library_media_print.png",
+    "docs/art-rebuild/second_ai/test_shots/library_media_1024（README＋截圖）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；library_media_unit（13）新測試、aa399_closed2_unit 第 3b 項，相關 93 個單元測試在開發 758d8af30＋這份 patch 都 ALL PASS；遊戲內截圖（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "人（館員、芷若）沒放：位置在 spots；看東西的字等 AA；團體視聽室照舊關著；手機效能沒實測",
+   "next": "LAWWW-B 套 patch、放 GLB；芷若有空的下午照 spots.zhiruo 放（2027-09～2028-02 不放）；館員 spots.staff",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "library_upper_unit 第 2 項檢查 library3d.js 研究小間那一行的原文：那一行一字不動，多媒體中心另外加一行在前面；門口的「看一部片」留著（沒有房間的版本用）"
   }
  ]
 }

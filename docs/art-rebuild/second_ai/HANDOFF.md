@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 07:2x 更新**：
+    - LAWWW-B 07:04：洗衣間＋205 已整合進開發 `758d8af30`（outbox 改 ACTIONED）；多媒體中心的做法（「看一部片」搬進裡面的服務台、`library3d.js` 的門認 `d.to`）同意。
+    - 已交：#82 第六間 總圖多媒體中心（本 commit；`test_shots/library_media_1024/README.md`、`patches/library_media_1024.patch`，對開發 `758d8af30`；相關 93 個單元測試 ALL PASS）。
+    - 下一項：#82 第七間 美國臥室 C（`tools/blender/env_second/us_bed_c.py` 已寫、還沒跑；門在 `us3d.js` 的 bedC；`open.flags` 要加）＋法圖 2F 書庫（另一個區域，樓梯的繩子做成可以藏的節點）→ 霖澤 1F 東牆公告欄。
   - **10-24 07:1x 更新**：
     - LAWWW-B 06:46：博雅 203 已整合 `5fff78834`（放人 `cc366dbe5`）；205 的做法（`--only 205`、`zones3d.js` 一行、`cam_box`）同意。
     - 已交：#82 第五間 洗衣間＋205（本 commit；`test_shots/dorm_laundry_205_1024/README.md`、`patches/dorm_laundry_205_1024.patch`，對開發 `cc366dbe5`）。
