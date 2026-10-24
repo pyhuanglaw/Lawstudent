@@ -2733,7 +2733,7 @@
   {
    "task": "AA_399 剩下要 3D 房間的七處（#82）第七間的另一半：美國法學院圖書館 2F 書庫（一樓紅絨繩拿掉、「上 2F（書庫）」；學姊平日 10:30～12:00 的位置）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "510265111",
    "files": [
     "assets/models/env/second_ai/us_lawlib_2f.{glb,json,layout.json}（新；建築本身借 us_lawlib.glb 往下 4.6 m）",
     "docs/art-rebuild/second_ai/patches/us_lawlib_2f_1024.patch（rooms_glb3d.js 的 glb／glb_y／glb_hide／lamps、LOOK；us3d.js 一樓樓梯口；room_glb_layouts.js＋tests/us_lawlib_2f_unit.js；對開發 bcc821fe0＋us_bed_c_1024.patch 做的，要先套臥室 C）",
@@ -2747,6 +2747,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "一樓樓梯口的 usll_rope、usll_rope_sign、usll_stanchions 三個節點藏起來（usll_stanchions 只有那兩根柱子和立牌的桿子），不用重出 us_lawlib.glb；沒有 open：跟一樓一樣一直開（LAWWW-B 08:05）"
+  },
+  {
+   "task": "霖澤館 1F 入口東牆 (7.2, 1.2) 公布欄模型（LAWWW-B 10-24 03:53，不急）＋入口自動門改成玻璃門（原本是兩塊黑板）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/linze_interior.glb（重新匯出）",
+    "tools/blender/linze_interior.py（公布欄、自動門）、tools/blender/linze_notice_tex.py、tools/blender/env_second/textures/gen/linze_notice.png",
+    "docs/art-rebuild/second_ai/test_shots/linze_notice_1024（README＋截圖）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；沒有程式 patch，只換 GLB；照網格名稱比對：50 個不變、2 個變（L0_WALL_Efacade_frame 門框、L0_glass 門玻璃）、4 個新的；沒改的腳本用開發分支的 linze_layout.js 重出和開發分支的 GLB 一模一樣；room_ceiling_unit ALL PASS；遊戲內截圖（Playwright 手機模擬）",
+   "remaining": "兩張徵才單（L0_WALL_notice_job_cram／office）要不要照 jobs3d.js 的時程開關由 LAWWW-B 決定；indoor_camera_occlusion.py 沒跑；手機效能沒實測",
+   "next": "LAWWW-B 換 linze_interior.glb；要的話照節點名稱開關兩張徵才單",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "公布欄立在玻璃帷幕前面（腳在 x 7.63～7.88，導航格牆邊 7.6 外面），跟著東面淡出；我的分支的 src/data/linze_layout.js 比開發分支舊，所以 GLB 是在開發分支的測試樹匯出的"
   }
  ]
 }

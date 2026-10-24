@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 08:5x 更新**：
+    - 已交：霖澤 1F 入口東牆公布欄＋入口自動門改成玻璃門（本 commit；`test_shots/linze_notice_1024/README.md`）。只換 `linze_interior.glb`，沒有程式 patch。
+      - 注意：我的分支的 `src/data/linze_layout.js` 比開發分支舊；`linze_interior.py` 要在開發分支的測試樹（`$SP/dvbase`）跑，先確認沒改的腳本重出和開發分支的 GLB 一模一樣（`$SP/d4/glbcmp_name.py` 照網格名稱比）。
+    - 下一項：#61 D99 經濟系 3D 缺口（ART-ECON-3D-GAP-1021）。
   - **10-24 08:3x 更新**：
     - LAWWW-B 08:05：臥室 C 的 patch 已套上開發分支（測試 PASS）；dating 照我的；她的作息、門上的字他接；2F 一直開。
     - 已交：#82 第七間的另一半 法學院圖書館 2F 書庫（本 commit；`test_shots/us_lawlib_2f_1024/README.md`、`patches/us_lawlib_2f_1024.patch`，對開發 `bcc821fe0`＋臥室 C）。#82 七間都交了。
