@@ -2874,18 +2874,18 @@
   {
    "task": "BG-DARK-SCENES-1024 第二批：總圖門口（白天）、法圖門口（傍晚）、舊路書房、宿舍書桌（LAWWW-B 13:50 派工）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit；push 後回報的訊息寫 SHA）",
+   "sha": "cb061f9fd",
    "files": [
     "assets/bg/library_gate_day.webp、law_library_gate、oldroad_bookstore、dorm_desk（1672×941 webp）",
     "tools/blender/env_second/shots/bg_dark_scenes2_post.py",
     "docs/art-rebuild/second_ai/test_shots/bg_dark_scenes_1024/README.md 的「第二批」（OUT.BG 四行、鏡頭、要知道的）"
    ],
-   "state": "已交付；遊戲內對話畫面還沒測（下一個瀏覽器工作）",
+   "state": "已交付；遊戲內對話畫面四張都顯示圖（開發 279341128，Playwright＋SwiftShader）",
    "remaining": "library_gate_day 是 3D 截圖、library_gate_night 是畫的插圖，風格不一樣；舊路書房的吊燈擋住招牌兩個字；法圖門口裁掉左邊黑框、放大 1.15 倍",
    "next": "LAWWW-B 把四行加進 OUT.BG，vac_activities.js 的 campus→library_gate_day、wancai→law_library_gate、bookstore→oldroad_bookstore、dorm→dorm_desk",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACTIONED（LAWWW-B 14:37：已整合 7a7c4391b，DL-LW2-BG-DARK-2；OUT.BG 四行、vac_activities 的 campus／wancai／bookstore／dorm×3 換過去；兩張總圖門口風格不同記下、不改）",
    "note": "場景美術 ART_APPROVED 只有使用者能標"
   }
  ]

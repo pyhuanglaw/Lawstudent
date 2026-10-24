@@ -132,4 +132,9 @@ dorm_desk:{label:'宿舍書桌',image:'assets/bg/dorm_desk.webp'},
 
 ![第二批](final_sheet2.jpg)
 
-- **還沒測**：遊戲內對話畫面（`#adv.image`）排在下一個瀏覽器工作；測完補在這裡。
+- **遊戲內對話畫面**：
+  - 測試環境：開發 `279341128`（LAWWW-B 已整合 `7a7c4391b`），用遊戲裡真的 `OUT.BG` 登記，不是我臨時加的；Playwright＋SwiftShader，不是實機。
+  - 測法：`EVENTS.runLines` 跑四個場景＋第一句；四個都是 `#adv.image`，沒有退回深色底。
+  - 「不認識的女生」是測試存檔還沒認識學姊。法圖那張上面的手機提示是測試存檔的，和背景無關。
+
+![第二批：遊戲內](in_game_adv2.jpg)
