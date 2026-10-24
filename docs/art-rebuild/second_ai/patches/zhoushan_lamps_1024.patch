@@ -1,0 +1,50 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 6f90570..a99e3d6 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -137,6 +137,7 @@ const Z3 = (function(){
+     strip(g,-12,-8,-12,-97,5,W3.pathTex(),4); strip(g,-58,-46.5,-8,-46.5,4,W3.pathTex(),4); strip(g,-54,-97,-8,-97,4,W3.pathTex(),4); strip(g,-44,-70.5,-10,-70.5,3,W3.pathTex(),4);
+     // 舟山路（南側，行政大樓後面）
+     strip(g,-110,47,110,47,9,W3.asphaltTex(),6); curb(g,-110,47,110,47,9);
++    for(const x of [-97,-75,-53,-31,-9,14,26,48,70]){ const l=W3.lampPost(); place(g,l,x,52.6,Math.PI); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(x,52.6,0.5); }   /* 舟山路的路燈（LAWWW2-B 10-24 巡查 P3：整條 220 m 原本沒有一盞路燈，晚上大一女舍門口、回男生宿舍穿過的那一段都是黑的）：南側（宿舍那一側）路緣外 1.1 m、約 22 m 一盞，燈臂朝馬路、路面一圈光（roadPool，和椰林大道同一套）；−97 照女舍長椅後面那段馬路，14、26 夾著往男生宿舍的路（x 17～23）；避開大一女舍 A、B 門口和長椅那一盞 */
+     strip(g,20,0,20,58,6,W3.pathTex(),4);
+     // ---- 宿舍（舟山路南側）----
+     // 校園建築套件：導航格只擋建築本體、拱廊柱子、門廊（拱廊底下可以走）；鏡頭碰撞＝建築本體＋拱廊上方的樓層（鏡頭不會穿到樓上，拱廊裡也不會被拉到臉前面）
+@@ -426,7 +427,7 @@ const Z3 = (function(){
+       const fbg=new THREE.Group(); fb.build(fbg); g.add(fbg); }
+     // 燈光光暈
+     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool);
+-      if(l.userData.roadPool){ const rp=new THREE.Mesh(new THREE.CircleGeometry(6.5,24),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd59a,transparent:true,opacity:0.38,depthWrite:false,blending:THREE.AdditiveBlending})); rp.rotation.x=-Math.PI/2; rp.scale.set(1.3,1,1); rp.position.set(0,0.035,4.5); l.add(rp); rp.visible=false; E.lampGlows.push(rp); } }   /* 椰林大道：路面上一圈淡的燈光（離燈 4.5 m、半徑 6.5 m、沿路拉長 1.3 倍），兩側的在路中間接起來 */
++      if(l.userData.roadPool){ const rp=new THREE.Mesh(new THREE.CircleGeometry(6.5,24),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd59a,transparent:true,opacity:0.38,depthWrite:false,blending:THREE.AdditiveBlending})); rp.rotation.x=-Math.PI/2; rp.scale.set(1.3,1,1); rp.position.set(0,0.035,4.5); rp.material.polygonOffset=true; rp.material.polygonOffsetFactor=-8; rp.material.polygonOffsetUnits=-16; l.add(rp);   /* 深度偏移（LAWWW2-B 10-24）：和步道交疊的柏油路（舟山路）會被 stripLayer 往上推一層，斜看時把只高 1.5 cm 的光圈蓋掉——光圈固定比任何路面層級都前面 */ rp.visible=false; E.lampGlows.push(rp); } }   /* 椰林大道：路面上一圈淡的燈光（離燈 4.5 m、半徑 6.5 m、沿路拉長 1.3 倍），兩側的在路中間接起來 */
+     /* 大一女舍 A、B 門廊的吸頂燈（LAWWW2 6f98244 加大燈罩）：晚上燈罩下一團光暈、門口地上一圈光（和路燈同一套開關 E.lampGlows；位置＝campus_freshman.py 門廊天花板中心） */
+     if(!/[?&]noporch\b/.test(location.search||'')) for(const [px,pz] of [[-108,61],[-78,59]].concat(m1GLB?[[20,60]]:[]))   /* 男一舍（ART-EXT-M1）門廊的吸頂燈：campus_male1.py 門廊天花板中心 */{ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe2a8,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.8,1.8,1); glow.position.set(px,3.15,pz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
+       for(const [y,dz,r,op] of [[0.112,0,1.7,0.85],[0.035,-2.4,2.8,0.6]]){ const pool=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffe0a8,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(px,y,pz+dz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); } }   /* 門廊地坪（高 10 cm）上一圈、門口地上一圈 */
+diff --git a/tests/zhoushan_lamps_unit.js b/tests/zhoushan_lamps_unit.js
+new file mode 100644
+index 0000000..8b09914
+--- /dev/null
++++ b/tests/zhoushan_lamps_unit.js
+@@ -0,0 +1,23 @@
++// 舟山路晚上不是整條黑的（LAWWW2-B 2026-10-24，巡查表第 3 節 P3「大一女舍門口 20:00 馬路幾乎全黑」）——不需要瀏覽器。
++//   原本 zones3d.js 校園的舟山路（z 42.5～51.5、x −110～110）沒有一盞路燈，只有大一女舍長椅旁那一盞（燈臂朝長椅）。
++//   1. 舟山路南側有一排路燈：x −97～70 約 22 m 一盞（往男生宿舍的路兩側各一盞）、z 52.6（路緣外）、燈臂朝馬路（rotation π）、有 roadPool、導航擋 0.5 m；
++//   2. 相鄰間距 ≤ 25 m；女舍長椅後面那段馬路（x −93）、往男生宿舍的路口（x 20）都在某一盞的路面光圈裡（光圈半徑 6.5 m×1.3 沿路＝8.45 m）；
++//   3. 不擋往男生宿舍的路（x 17～23）、不擋大一女舍 A、B 門口（x −108、−78 ±2 m）、離女舍長椅那一盞（−91.2, 53.5）≥ 5 m；
++//   4. 路面光圈有深度偏移，比任何路面層級（stripLayer）都前面：舟山路和步道交疊、被往上推一層，原本斜看時光圈整個被柏油蓋掉（遊戲內量到光圈在、畫面上看不到）。
++// 修改前 FAIL。用法：node tests/zhoushan_lamps_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
++const m=zs.match(/for\(const x of \[([-0-9,]+)\]\)\{ const l=W3\.lampPost\(\); place\(g,l,x,([0-9.]+),Math\.PI\); l\.userData\.roadPool=true; lamps\.push\(l\); nav\.blockCircle\(x,\2,0\.5\); \}/);
++check('1. 舟山路南側有一排路燈（燈臂朝馬路、有路面光圈、導航擋 0.5 m）', !!m);
++if(m){ const xs=m[1].split(',').map(Number), z=+m[2]; const dx=Math.max(...xs.slice(1).map((x,i)=>x-xs[i]));
++  check('1. 在路緣外（z 52～53.5，路面 z 42.5～51.5）', z>52&&z<53.5, 'z '+z);
++  check('2. 相鄰間距 ≤ 25 m（由西往東排）', dx<=25&&xs.every((x,i)=>i===0||x>xs[i-1]), '最大 '+dx+' m');
++  check('2. 女舍長椅後面的馬路（x −93）、往男生宿舍的路口（x 17～23）都在路面光圈裡（離燈 ≤ 8 m）', xs.some(x=>Math.abs(x+93)<=8)&&[17,20,23].every(px=>xs.some(x=>Math.abs(x-px)<=8)), JSON.stringify(xs));
++  check('3. 不擋往男生宿舍的路（x 17～23，留 1 m）', xs.every(x=>x<16||x>24));
++  check('3. 不擋大一女舍 A、B 門口（±2 m）', xs.every(x=>Math.abs(x+108)>2&&Math.abs(x+78)>2));
++  check('3. 離女舍長椅那一盞 ≥ 5 m', xs.every(x=>Math.hypot(x+91.2,z-53.5)>=5)); }
++{ const rp=zs.match(/rp\.position\.set\(0,0\.035,4\.5\); rp\.material\.polygonOffset=true; rp\.material\.polygonOffsetFactor=(-\d+); rp\.material\.polygonOffsetUnits=(-\d+);/);
++  check('4. 路面光圈有深度偏移（factor ≤ −6，比路面層級前面）', !!rp&&+rp[1]<=-6&&+rp[2]<=2*+rp[1], rp?rp[1]+'／'+rp[2]:'沒有'); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
