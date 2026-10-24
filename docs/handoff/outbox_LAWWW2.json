@@ -2904,6 +2904,22 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 15:04：已整合 7770155b4，ART-US-ROUTE-1024、DL-LW2-US-ROUTE-NIGHT；patch＋us_community.glb／.json／.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS；瀏覽器、手機幀率派給 BB）",
    "note": "社區外面全部在 bounds 外、走不到，配置不用改；場景美術 ART_APPROVED 只有使用者能標"
+  },
+  {
+   "task": "D99 路線巡查③經濟系那一年（LAWWW-B 15:04 派工）＋208 門口鏡頭（P3）試做",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "86df6950b",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/route_econ_1024（README：路線上哪些是 3D、找到的、看過不用改的；01～05 五張截圖表，31 張遊戲內截圖，開發 2b3a99cdd）",
+    "docs/art-rebuild/second_ai/test_shots/route_us_1024/README.md＋c208_entry_doorway_trial.jpg（208 門口試做，b8640cf15）"
+   ],
+   "state": "已交付（報告）；沒有 patch／GLB：路線上的 3D 沒有方盒、黑塊、破掉的邊界；208 門口試做比較後決定照舊",
+   "remaining": "P2（引擎，LAWWW-B 決定，D108）：傍晚的天色不分季節（11/6、12/10 17:45 金黃色斜陽，台北 17:30 已天黑；10/16 19:00 總圖窗外白天）；P3 記錄：醉月湖北邊 TK.bgCity 遮雨棚像布景、ev_y0_e24b2／ev_y0_c2_hiking 沒寫背景（不在 S.KEEP）、玩家一年四季同一套長袖",
+   "next": "LAWWW-B 決定要不要做日落照日期（建議：E.applyTime 照日期把時鐘換成光線時刻，15:00／當天日落→18.95／21:00 三點內插，也傳給 zone.applyTime）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "報告只有文件和截圖；場景美術 ART_APPROVED 只有使用者能標；engine3d.js 我不改"
   }
  ]
 }
