@@ -2462,6 +2462,81 @@ R20 = [
        want=[]),
 ]
 SCENS = SCENS + R20
+
+# ---------- R21（BB-B 10-24 15:3x）：下一版加測（開發分支 7770155b4 起；#156）——AA_447 重複台詞、AA_448 美國校園換季、初雪黑底、大峽谷機場圖 ----------
+# AA_447（9e5054eb7）：①以安紐約送機（ev_an_ny_sendoff，2030-08-11）看過 2028-03-25 送日本的（AN_SENDOFF went／together）前三句換；交往中、不是交往中兩個分支都換
+#   ②哥大（ev_an_columbia，2030-03-28 麵店）答應過日本七夕（AN_JP_TRIP_ASK go）＝「好。跟上次一樣，……」；「抖的是手，不是我」拿掉
+#   ③沛珊台南送行照第幾次換（PS_SEND 三版；HV.play 的 n0＝這一趟以前去過幾次＝G.flags.HV_N['classmate_peishan@台南']）
+# AA_448（c32e36006）：④美國校園「往活動中心」換季日子 10/9、11/1、12/2；⑤何俊朗「冷氣好冷」只到 10/8；⑥12/2 初雪兩場（交往中、挽回中）開頭 bg dark（不是 us_chapel_steps 白天秋景）
+# a7a7a6ed8：⑦學姊大峽谷（台灣路線）最後一段「鳳凰城的機場」bg us_airport（不再黑底）。7770155b4：⑧美國校園／法學院圖書館晚上（截圖給人看）
+AN_JP = ['（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）', '（看了一下手錶）……我上次也說過。你們不用全部都來的。', '上次你也知道我們會來。']
+AN_OLD = ['（桃園機場，出境的門口。麵店團站成一排。）', '（看了一下手錶）你們不用全部都來的。']
+O_NY = {'id': 'y6_an_ny', 'ev': 'ev_an_ny_sendoff', 'day': 0, 'h': 10, 'late': 0.5, 'place': '桃園機場', 'title': '送以安（桃園機場）', 'travel': '捷運約一小時', 'travelH': 1}
+O_COL = {'id': 'y6_an_col', 'ev': 'ev_an_columbia', 'day': 0, 'h': 19, 'late': 0.5, 'place': '阿鳳麵店', 'title': '阿鳳麵店（以安）', 'travel': '捷運＋公車 約 30 分鐘', 'travelH': 0.5}
+ANKN = " LV('heroine_01',75,65,60); LV('zhe',45,30,20); LV('yu',45,30,20);"   # [前置] 認識以安（熟）、阿哲、Alison
+def EVDONE(ev): return ('演了 %s' % ev, "!!((GAME.G.events||{}).done||{})[%s]" % json.dumps(ev), True)
+PS_N = [('（傍晚，她陪你坐車到高鐵站。）', '下次待久一點。末班車太早了。', '謝謝你跑這麼遠！到臺北傳給我喔。'),
+        ('（回高鐵站的公車上，她靠著窗，一路在講室友的事。）', '下次你搭晚一點的那班。我查過了，有一班十點的。', '下次換我上去找你們！到了傳給我喔。'),
+        ('（她陪你走到高鐵站的閘門口。這條路她已經會帶了。）', '……好啦，你走吧。不然我又要說下次待久一點。', '到臺北傳給我喔！我等你的訊息才睡。')]
+PSKEY = 'classmate_peishan@台南'
+PSPLAY = "(()=>{ if(typeof HV==='undefined'||!HV.play) return false; void HV.play(GAME,{id:'bb_ps_tn',hv:{id:'classmate_peishan',key:'%s'}}); return true; })()" % PSKEY
+def PSTN(sid, n, dating):
+    narr, dl, ot = PS_N[min(n, 2)]
+    others = [x for i, t in enumerate(PS_N) if i != min(n, 2) for x in t]
+    return dict(id=sid, key='2028-01-22', h=10.0, zone='campus', flags=dict(TW3), js=" LV('classmate_peishan',60,50,45); G.flags.HV_N={'%s':%d};" % (PSKEY, n) + (" G.flags.dating_classmate_peishan=true;" if dating else ""),
+                steps=[('jsrun', PSPLAY, '【捷徑】HV.play 直接演「去台南找沛珊」（這一趟以前去過 %d 次）' % n)], pref=[],
+                want=[narr, dl if dating else ot], none=[x for x in others if x not in (narr, dl, ot)] + ([ot] if dating else [dl]))
+GATE0 = '往學生活動中心的路，兩旁是一排老橡樹。活動中心在整修，路口圍了一圈欄杆。'
+GS = {'oct': '橡樹的葉子開始轉紅了。', 'nov': '葉子掉得差不多了，地上都是橡實。', 'dec': '欄杆上積了一層雪。'}
+def GATE(sid, key, want_s):
+    return dict(id=sid, key=key, h=14.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -66.0, 'z': 12.8, 'yaw': 0}}, js='', pref=[],
+                steps=[('usep', '^往活動中心')], want=[GATE0 + (GS[want_s] if want_s else '')], none=[v for k, v in GS.items() if k != want_s])
+LONGSWEEP = ("(()=>{ const G=GAME.G, d0=G.day, w0=G.weekday, R=USL.rec(G), g0=JSON.stringify(R.greet||null), out={}; "
+             "try{ for(const k of ['2028-10-04','2028-10-05','2028-10-06','2028-10-09','2028-10-10','2028-10-16','2028-10-17','2028-11-01']){ const d=STORY.dayOfKey(k); G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; let hit=false; "
+             "for(let n=0;n<8;n++){ R.greet={day:d,n:n,t:null}; if(USL.longGreet(G).some(t=>/冷氣好冷/.test(t))) hit=true; } out[k]=hit; } } finally { G.day=d0; G.weekday=w0; R.greet=g0==='null'?R.greet:JSON.parse(g0); } return out; })()")
+SNOW_OPEN = '（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'
+SNOW_R_OPEN = '（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'
+O_SNOW = {'id': 'us_snow', 'ev': 'ev_us_first_snow', 'day': 0, 'h': 20, 'late': 0.25, 'place': '小教堂前的台階', 'title': '初雪', 'travel': '', 'travelH': 0, 'back': '回到公寓。'}
+O_SNOWR = {'id': 'us_snow_r', 'ev': 'ev_us_snow_repair', 'day': 0, 'h': 20, 'late': 0.25, 'place': '小教堂前的台階', 'title': '初雪', 'travel': '', 'travelH': 0, 'back': '回到公寓。'}
+BGSEQ = "(window.__LOG||[]).filter(x=>/^BG:/.test(String(x.t))).map(x=>x.t)"
+CANYON_END = '十二月二十三號，晚上八點落地。你來接我。'
+R21 = [
+  # ① 以安紐約送機：交往中＋送過日本（went）／不是交往中＋日本路線一起出發（together）＝新開頭；都沒有＝舊開頭
+  dict(id='ANNY_GF_WENT', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_SENDOFF': 'went', 'AN_NY_GO': True, 'dating_heroine_01': True}, js=ANKN + PLAN(O_NY),
+       steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_JP + ['BG:airport_departure'], none=AN_OLD, jsok=[EVDONE('ev_an_ny_sendoff')]),
+  dict(id='ANNY_TOGETHER', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_SENDOFF': 'together', 'AN_NY_GO': True}, js=ANKN + PLAN(O_NY),
+       steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_JP, none=AN_OLD, jsok=[EVDONE('ev_an_ny_sendoff')]),
+  dict(id='ANNY_NOJP', minimal=True, key='2030-08-11', h=8.6, zone='campus', flags={'AN_NY_GO': True}, js=ANKN + PLAN(O_NY),
+       steps=[('until', 10.6, 1500)], pref=['出發：送以安', '「好。我預約。」'], want=AN_OLD, none=AN_JP[:2], jsok=[EVDONE('ev_an_ny_sendoff')]),
+  # ② 哥大：答應過日本七夕＝「跟上次一樣」；沒有＝原句。「妳確定？」那一句拿掉後半
+  dict(id='ANCOL_JPGO', minimal=True, key='2030-03-28', h=18.2, zone='campus', flags={'dating_heroine_01': True, 'AN_JP_TRIP_ASK': 'go', 'AN_COL_GO': True}, js=ANKN + PLAN(O_COL),
+       steps=[('until', 19.6, 1500)], pref=['出發：阿鳳麵店', '「妳確定？」', '「我去紐約找妳。」'],
+       want=['確定。寫信的時候手有一點抖。', '好。跟上次一樣，機票你自己訂，行程我排。'], none=['抖的是手，不是我', '好。機票你自己訂，行程我排。'], jsok=[EVDONE('ev_an_columbia')]),
+  dict(id='ANCOL_NOJP', minimal=True, key='2030-03-28', h=18.2, zone='campus', flags={'dating_heroine_01': True, 'AN_COL_GO': True}, js=ANKN + PLAN(O_COL),
+       steps=[('until', 19.6, 1500)], pref=['出發：阿鳳麵店', '「妳確定？」', '「我去紐約找妳。」'],
+       want=['好。機票你自己訂，行程我排。'], none=['跟上次一樣，機票', '抖的是手，不是我'], jsok=[EVDONE('ev_an_columbia')]),
+  # ③ 沛珊台南送行：第一次（沒交往）、第二次（交往中）、第三次（沒交往）、第六次（交往中，照第三版）
+  PSTN('PSTN_1', 0, False), PSTN('PSTN_2_D', 1, True), PSTN('PSTN_3', 2, False), PSTN('PSTN_6_D', 5, True),
+  # ④ 美國校園「往活動中心」：10/8 沒有換季句、10/9 轉紅、11/1 落葉、12/2 雪；⑤ 10/9 那一支順便【讀資料】掃何俊朗的招呼（10/8 以前有冷氣那句、10/9 以後沒有）
+  GATE('GATE_1008', '2028-10-08', None),
+  dict(GATE('GATE_1009', '2028-10-09', 'oct'), jsok=[('【讀資料】何俊朗招呼（USL.longGreet，n=0～7）：10/4～10/6 有「冷氣好冷」、10/9 以後沒有', LONGSWEEP,
+       lambda o: isinstance(o, dict) and all(o.get(k) for k in ['2028-10-04', '2028-10-05', '2028-10-06']) and not any(o.get(k) for k in ['2028-10-09', '2028-10-10', '2028-10-16', '2028-10-17', '2028-11-01']))]),
+  GATE('GATE_1101', '2028-11-01', 'nov'), GATE('GATE_1202', '2028-12-02', 'dec'),
+  # ⑥ 初雪：交往中（ev_us_first_snow）、挽回中（ev_us_snow_repair）開頭 bg 是 dark、不是 us_chapel_steps【前置】出遊照遊戲同欄位排在 20:00
+  dict(id='SNOW_GF_BG', key='2028-12-02', h=19.6, zone='us_apartment', flags=dict(USC), js=B['USJS'] + PLAN(O_SNOW), steps=[('until', 20.6, 1500)], pref=['出發：初雪'],
+       want=['BG:dark', SNOW_OPEN], none=['BG:us_chapel_steps'], jsok=[EVDONE('ev_us_first_snow'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
+  dict(id='SNOW_REPAIR_BG', key='2028-12-02', h=19.6, zone='us_apartment', flags=dict(USC_NO, US_SNOW_MODE='repair'), js=B['USJS'] + B['ALONE'] + PLAN(O_SNOWR), steps=[('until', 20.6, 1500)], pref=['出發：初雪'],
+       want=['BG:dark', SNOW_R_OPEN], none=['BG:us_chapel_steps'], jsok=[EVDONE('ev_us_snow_repair'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list))]),
+  # ⑦ 大峽谷（台灣路線，9/24 答應了）：10/7 07:00 照玩家出發 → 峽谷「不說話」→ 她先說 → 鳳凰城的機場 bg us_airport＋那一句
+  dict(id='CANYON_TW_AIRPORT', key='2028-10-07', h=5.5, zone='dorm', flags=dict(TWF, SIS_CANYON_ASK='go'), js=SISF + Y4 + " LV('heroine_05',70,60,55);", steps=[('until', 7.6, 1500)],
+       pref=['出發：秋假', '（看著峽谷，不說話）'], want=['BG:us_airport', CANYON_END, '那我先說。'], jsok=[EVDONE('ev_sis_canyon'), ('BG 順序（記下來）', BGSEQ, lambda L: isinstance(L, list) and 'BG:us_airport' in L)]),
+  # ⑧ 晚上的美國校園（路燈光圈）、法學院圖書館（彩色玻璃、天窗變暗）：截圖給人看
+  dict(id='US_NIGHT_CAMPUS', key='2028-10-18', h=21.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -20.0, 'z': 19.8, 'yaw': 3.14}}, js='', pref=[],
+       steps=[('shot', 'us_campus_night_bus', None, 'true', 2), ('jsrun', "(()=>{ const P=GAME.E.player.obj.position; P.set(-66,P.y,12.6); return true; })()", '【捷徑】站到校門口'), ('shot', 'us_campus_night_gate', None, 'true', 2)], want=[]),
+  dict(id='US_NIGHT_LAWLIB', key='2028-10-18', h=21.0, zone='us_lawlib', flags=dict(USC), js='', pref=[], steps=[('shot', 'us_lawlib_night', None, 'true', 2)], want=[]),
+  dict(id='US_DAY_LAWLIB', key='2028-10-18', h=14.0, zone='us_lawlib', flags=dict(USC), js='', pref=[], steps=[('shot', 'us_lawlib_day', None, 'true', 2)], want=[]),
+]
+SCENS = SCENS + R21
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
