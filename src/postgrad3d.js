@@ -40,8 +40,9 @@ const PG=(function(){
   S.at=(G,id,min)=>S.dating(G,id)||FL.indexOf(S.lv(id))>=FL.indexOf(min||'FAMILIAR');   /* FAMILIAR、FRIEND「以上」（交往中一定算）*/
   const has=(id,tag)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,tag);
   S.partners=G=>typeof ROM!=='undefined'&&ROM.partners?ROM.partners(G):Object.keys(G.flags||{}).filter(k=>/^dating_/.test(k)&&G.flags[k]===true).map(k=>k.slice(7));
-  S.delayed=G=>!!(typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G));   /* 交換延畢（日本、美國路線）：2029 不能考，2030 考 */
-  const DLY=(G,k,v)=>{ const D=S.delayed(G)&&L().DELAYED; return D&&D[k]!=null?D[k]:v; };   /* 交換延畢的那一句（POSTGRAD_LINES.DELAYED，AA_381 第 1 節）；不是交換延畢、沒有寫的照原本 */
+  S.exchDelayed=G=>!!(typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G));   /* 交換延畢（日本、美國路線）：2029 不能考，2030 考 */
+  S.delayed=G=>S.exchDelayed(G)||!!(G&&G.flags&&G.flags.FAIL_DELAY&&(G.stage||'law')==='law');   /* ＋大四下被當的延畢（D14-T5B，AA_421 1-2：6/18 成績單那一刻起；src/faildelay3d.js）。只屬於交換的句子用 S.exchDelayed */
+  const DLY=(G,k,v)=>{ const D=S.exchDelayed(G)&&L().DELAYED; return D&&D[k]!=null?D[k]:v; };   /* 交換延畢的那一句（POSTGRAD_LINES.DELAYED，AA_381 第 1 節）；不是交換延畢、沒有寫的照原本 */
   S.dly=DLY;
   S.lean=G=>(typeof STORY!=='undefined'&&STORY.careerLean?STORY.careerLean(G):null)||{A:0,B:0,C:0,top:'B'};
   const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
@@ -210,9 +211,13 @@ const PG=(function(){
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
   S.PARTNER_ORDER=['kexin','heroine_05','heroine_01','heroine_03','heroine_04','heroine_02'];   /* 沛珊在台南：前一晚的訊息、18:00 視訊 */
-  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
+  /* AA_392 第 8 節：交往中、3/17 她爸爸的晚餐約過卻沒吃到（婉拒、取消、沒到、沒回）——她那一段之前，她爸爸那一小段；當面說過畢業快樂，後面就不再轉述「我爸叫我跟你說：恭喜。」*/
+  S.fatherGradDue=G=>{ const F=G.flags; return S.dating(G,'heroine_05')&&F.SIS_FATHER_ASKED!=null&&!F.MET_SIS_FATHER; };
+  S.fatherGrad=async function(GM){ const G=GM.G, W=L().THERMOS.fatherGrad; if(!W) return; await S.play(GM,W.lines.map(x=>[x[0],String(x[1]).replace('{name}',G.name||'祐廷')]));
+    const k=await GM.choose(W.opts.map(o=>({t:o.t}))); await S.play(GM,(W.opts[k]||W.opts[0]).say); G.flags.MET_SIS_FATHER='grad'; };
+  S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater); else if(S.helpedCoffee(G)) await GM.say(sis,W.helped);
-    if(F.MET_SIS_FATHER) await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
+    if(F.MET_SIS_FATHER&&F.MET_SIS_FATHER!=='grad') await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
     F.SIS_THERMOS=true; };
   S.helpedCoffee=G=>{ const M=G.social&&G.social.mem&&G.social.mem.heroine_05; return !!(M&&M.some(m=>m.tag==='HELPED'&&/黑咖啡/.test(m.note||''))); };   /* 只有 HELPED（空的保溫瓶那次選黑咖啡）*/
   S.mother=async function(GM,partner){ const G=GM.G, M=L().MOTHER, A=adv(); await S.play(GM,M.lines);
@@ -239,7 +244,7 @@ const PG=(function(){
       if(S.dating(G,id)) kind='gf'; else { let h=false; try{ h=!!w&&TERMEND.heartWhy(G,id,w)===true; }catch(e){ h=false; } if(h) kind='heart'; }
       if(!kind) continue; asked.add(id); const who=S.who(G,id);
       for(const t of [].concat(kind==='gf'?TE.GF[id].invite:(think[id]!=null?TE.HEART[id].invite2:TE.HEART[id].invite))) await GM.say(who,t);
-      const hd=id==='heroine_05'?DLY(G,'sisDecline',TE.HEART[id].decline):TE.HEART[id].decline, ng=(typeof TERMEND_LINES!=='undefined'&&((S.delayed(G)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED)||TERMEND_LINES.AUTO_NO_GRAD))||{};   /* 交換延畢：「好。……今天恭喜。」／「好。今天恭喜。」*/
+      const hd=id==='heroine_05'?DLY(G,'sisDecline',TE.HEART[id].decline):TE.HEART[id].decline, ng=(typeof TERMEND_LINES!=='undefined'&&((S.exchDelayed(G)&&TERMEND_LINES.AUTO_NO_GRAD_DELAYED)||TERMEND_LINES.AUTO_NO_GRAD))||{};   /* 交換延畢：「好。……今天恭喜。」／「好。今天恭喜。」*/
       const dec=kind==='heart'?hd:(ng[id]||hd);
       if(picked){ await GM.say(S.who(G,'me'),TE.ME_NO.replace(/[「」]/g,'')); await GM.say(who,dec); continue; }   /* 已經接了一個：同一個晚上只有一場一對一 */
       const k=await GM.choose([{t:TE.ME_OK},{t:TE.ME_NO}]); if(k===0){ S.planTe(G,id,kind); picked=id; } else await GM.say(who,dec); }
@@ -408,7 +413,7 @@ const PG=(function(){
   S.footprint=function(G){ const F=G.flags||{}, H=G.habits||{};
     const days=re=>{ const set=new Set(); let mx=0; for(const k in H){ if(!re.test(k)) continue; const h=H[k]||{}; for(const d of (h.days||[])) set.add(d); mx=Math.max(mx,h.n|0); } return Math.max(set.size,mx); };
     let grp=0; const att=(G.acts&&G.acts.att)||{}; for(const k in att) if(/^(public_law_group|lawclub_study)@/.test(k)&&att[k]&&(att[k].end||'full')==='full') grp++;
-    const c={cafe:Math.max(+F.CAFE_VISITS||0,days(/^place:cafe:/)),fafu:+F.LAWCLUB_SAT_VISITS||0,noodle:days(/^place:noodle:/),library:days(/^place:(library|library_hall|lawlib):/),yexiao:days(/^place:gongguan:night$/),guitar:0,group:grp,abroad:S.delayed(G)?60:0};   /* G.footprint 還沒有：照現有的計次回推（AA_319 1A-20 第 6 節第 3 點）；交換固定 60 天 */
+    const c={cafe:Math.max(+F.CAFE_VISITS||0,days(/^place:cafe:/)),fafu:+F.LAWCLUB_SAT_VISITS||0,noodle:days(/^place:noodle:/),library:days(/^place:(library|library_hall|lawlib):/),yexiao:days(/^place:gongguan:night$/),guitar:0,group:grp,abroad:S.exchDelayed(G)?60:0};   /* G.footprint 還沒有：照現有的計次回推（AA_319 1A-20 第 6 節第 3 點）；交換固定 60 天 */
     let best=null; for(const [k] of L().EPI.foot) if(best==null||c[k]>c[best]) best=k; return best; };   /* 平手照表的順序（「比大四一年」沒有逐年的紀錄，不做）*/
   S.epiItems=function(G){ const E=L().EPI, foot=S.footprint(G), item=(E.foot.find(x=>x[0]===foot)||E.foot[0])[1], p=S.epiPartner(G), F=G.flags;
     F.EPI_ITEMS=[item].concat(p&&E.items[p]?[E.items[p]]:[]);   /* 伴侶的東西（桌上的另一邊）*/
@@ -520,14 +525,16 @@ const PG=(function(){
      AA_353 第 3 節：2029 夏天三句（6/3～9/2）；AA_357 第 4 節：大五上（9/4～12/23；Y5_DAYS 三選一；同一段有「共通」的共通先列＝先出）、寒假到 2030-05。
      美國路線那一句（9/4～12/17）：大五上第一次跳的時候先出（first）。「報名」那兩列：2030-05-10 問過的照回答（BAR_REG_2030），還沒問的照 Y4_PATH（bar＝報名）。
      每一列：[起 YYYY-MM-DD, 迄 YYYY-MM-DD（含）, 條件 G, 句子, {first}] */
-  const dl=G=>S.delayed(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
+  const dl=G=>S.delayed(G), ex=G=>S.exchDelayed(G), fd=G=>dl(G)&&!ex(G), fdc=G=>fd(G)&&!(typeof FD!=='undefined'&&FD.certLate&&FD.certLate(G)), fdLate=G=>fd(G)&&typeof FD!=='undefined'&&!!FD.certLate&&FD.certLate(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   S.reg2030=G=>{ const F=G.flags||{}; return F.BAR_REG_2030!=null?F.BAR_REG_2030===true:F.Y4_PATH==='bar'; };
   S.CARDS_DELAY=[
-    ['2029-06-03','2029-06-27',G=>dl(G)&&!y5us(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
+    ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
+    ['2029-06-18','2029-06-27',fd,'（同屆的人都畢業了。你還差{課名}，九月再回學校。）'],   /* 被當延畢（AA_421 1-4）：6/18 成績單以後；6/3～6/17 照一般畢業生（那時候還不是延畢）*/
     ['2029-06-03','2029-06-27',y5us,'（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）'],   /* 美國路線還要補修強制執行法、法律倫理（AA_382 第 1 節，企劃線 e6d4a198）*/
     ['2029-06-29','2029-08-03',dl,'（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'],
     ['2029-08-05','2029-09-02',dl,'（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'],
     ['2029-09-04','2029-12-17',y5us,'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',{first:true}],
+    ['2029-09-04','2029-12-17',fd,'（重修{課名}。教室裡坐的，都是學弟妹。）',{first:true}],
     ['2029-09-04','2029-09-10',G=>y5d(G,'study'),'（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'],
     ['2029-09-04','2029-09-10',G=>y5d(G,'work'),'（你接了兩個家教。一個國三，一個高二。）'],
     ['2029-09-04','2029-09-10',G=>y5d(G,'bar'),'（你把國考的書在書桌上排成一排。先從民法開始。）'],
@@ -537,20 +544,25 @@ const PG=(function(){
     ['2029-09-23','2029-10-15',G=>y5d(G,'study'),'（十月。總圖的冷氣比外面冷，你在位子上放了一件外套。）'],
     ['2029-09-23','2029-10-15',G=>y5d(G,'work'),'（家教的錢第一次匯進來。你沒有馬上花。）'],
     ['2029-09-23','2029-10-15',G=>y5d(G,'bar'),'（民法讀完第一輪。第二輪比第一輪慢。）'],
-    ['2029-10-17','2029-11-19',dl,'（週二去法扶。其他的日子，一天和一天很像。）',{common:true}],   /* 共通（AA_363 T3：這一跳落在 11/19 以後＝出下面三選一那句，這句不出）*/
+    ['2029-10-17','2029-11-19',G=>ex(G)||(fd(G)&&typeof FD!=='undefined'&&FD.lp(G)),'（週二去法扶。其他的日子，一天和一天很像。）',{common:true}],
+    ['2029-10-17','2029-11-19',G=>fd(G)&&!(typeof FD!=='undefined'&&FD.lp(G)),'（一週一堂{課名}。其他的日子，一天和一天很像。）',{common:true}],   /* 共通（AA_363 T3：這一跳落在 11/19 以後＝出下面三選一那句，這句不出）*/
     ['2029-10-17','2029-11-19',G=>y5d(G,'study'),'（有一天，一個大一的跟你借延長線。他叫你學長。）'],
     ['2029-10-17','2029-11-19',G=>y5d(G,'work'),'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）'],
     ['2029-10-17','2029-11-19',G=>y5d(G,'bar'),'（刑法的書，書邊都翻黑了。）'],
     ['2029-11-21','2029-12-17',G=>y5d(G,'study'),'（十二月。總圖門口有人在發期末考的講義。……那已經不是你的期末考。）'],
     ['2029-11-21','2029-12-17',G=>y5d(G,'work'),'（家教學生要期末考了。你比他還緊張。）'],
     ['2029-11-21','2029-12-17',G=>y5d(G,'bar'),'（考古題寫到第三年。錯的題目，越來越常是同一種。）'],
-    ['2029-12-19','2029-12-23',dl,'（大五上結束了。這一次，沒有期末考。）',{common:true}],   /* 共通（這一段沒有三選一：照現在，AA_363 T3）*/
+    ['2029-12-19','2029-12-23',ex,'（大五上結束了。這一次，沒有期末考。）',{common:true}],
+    ['2029-12-19','2029-12-23',fd,'（大五上結束了。重修的報告，交出去了。）',{common:true}],   /* 共通（這一段沒有三選一：照現在，AA_363 T3）*/
     ['2029-12-24','2030-01-20',dl,'（跨年那天晚上，你在家。煙火是從電視上看的。）'],
-    ['2030-01-22','2030-02-01',dl,'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
-    ['2030-02-02','2030-02-10',dl,'（過年。親戚問你什麼時候畢業。你說上個月。）'],
-    ['2030-02-11','2030-03-14',dl,'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],
+    ['2030-01-22','2030-02-01',G=>ex(G)||fdc(G),'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
+    ['2030-02-02','2030-02-10',G=>ex(G)||fdc(G),'（過年。親戚問你什麼時候畢業。你說上個月。）'],
+    ['2030-02-11','2030-03-14',G=>ex(G)||fdc(G),'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],
+    ['2030-02-18','2030-03-15',fdLate,'（二月。又一個學期。這次你每一堂都去了。）'],   /* 重修不到三堂、證書延到 2030-06（AA_421 1-5）；上面三張（證書、上個月畢業、開學跟你沒關係）不出（LAWWW-B 解讀：和證書還沒拿到矛盾）*/
+    ['2030-06-01','2030-06-30',fdLate,'（證書放在書桌上。你媽這次把框裝上了。）',{first:true}],   /* 先出（同一段的「畢業以後的第一個禮拜」排在它後面）*/
     ['2030-03-16','2030-04-30',G=>dl(G)&&S.reg2030(G),'（四月。你每天早上九點到總圖。這次是為了國考。）'],
-    ['2030-03-16','2030-04-30',G=>dl(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'],
+    ['2030-03-16','2030-04-30',G=>ex(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'],
+    ['2030-03-16','2030-04-30',G=>fd(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到畢業那一欄，停了一下。）'],
     ['2030-05-01','2030-05-31',G=>dl(G)&&S.reg2030(G),'（五月。國考報名的表格，你檢查了兩次才送出去。）'],
     ['2030-05-01','2030-05-31',G=>dl(G)&&!S.reg2030(G),'（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'] ];
   S.cardRows=function(G){ const R=[], add=(tab,yr,y,sh)=>{ for(const [a,b,c,t] of tab) R.push([S.DK(yr+'-'+a)+sh,S.DK(yr+'-'+b)+sh,c,y,t]); };
@@ -567,7 +579,7 @@ const PG=(function(){
       if(o&&o.first){ best={t}; break; }
       if(o&&o.common&&d1>=db&&rows.some(x=>x!==row&&x[0]===da&&x[1]===db&&!(x[5]&&(x[5].common||x[5].first))&&!r.lines.includes(x[4])&&okRow(x))) continue;
       const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
-    if(!best) return null; r.lines.push(best.t); return best.t; };
+    if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?FD.fill(G,best.t):best.t; };   /* {課名}：被當延畢的那一門（FD.fill）*/
   S.busy=false;
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/
   S.advance=async function(GM,o){ const G=GM.G, E=GM.E; if(E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player);

@@ -13932,6 +13932,97 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 16:0x 整合；README：docs/art-rebuild/second_ai/test_shots/linze_5f_1023/README.md；玩家要等 LAWWW 接上進出條件才上得去"
+  },
+  {
+   "id": "DL-LW2-PS31",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "781d692f",
+   "what": "沛珊第三十一版 VRM（只換頭髮）＋遊戲內對照圖",
+   "task": "ART-ZR-PS-3D-1022",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-B 10-23 16:5x 驗收不通過（瀏海仍是平剪蓋額頭；要中分、窗簾瀏海）；不換進開發分支；第三十二版"
+  },
+  {
+   "id": "DL-LW2-LAB8",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "fc21db52",
+   "what": "霖澤館 5F 研究室更正：八張桌子面向窗、學姊的位子在門邊（AA_399 1-1）；spots me_desk、sis_lamp",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 19:2x：patch linze_5f_lab8_1023（lab5f3d.js DESK_ME 改讀 me_desk、lab5f_unit 讀 sis_desk）＋GLB／layout；linze_5f、lab5f、linze_upper、nav_buildings ALL PASS"
+  },
+  {
+   "id": "DL-LW2-AA413",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5437ec93",
+   "what": "AA_413 溫州街剩下三家：阿忠水果的攤子＋老闆站位、自助洗衣布告欄、日日便利從溫州街進去的窗景（cvs_wz）；B6 前不停機車",
+   "task": "WZ-AA413-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 19:2x：patch aa413_wz_1023＋wenzhou_street GLB、cvs_wz 窗景；老闆 NPC 放在 closed3d.js（WZS.AA413.fruit.owner，營業時間）；aa413_wz、wz_shops、closed ALL PASS；touch_flow_wenzhou 發布前要跑"
+  },
+  {
+   "id": "DL-BB-DAY12-SPEED",
+   "date": "2026-10-23",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "89ed11a99",
+   "what": "TEST-DAY12-SPEED-1023：flow_main_day12 第四版 patch（劇情接手記【未驗】、照幀率放大真實時間上限 SLOW）＋TESTING.md 草稿",
+   "task": "TEST-DAY12-SPEED-1023",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 20:4x：git apply 在開發分支；TESTING.md 第〇節、第七節照草稿；結果 28 PASS、0 FAIL、2 項 [未驗]"
+  },
+  {
+   "id": "DL-LW2-LUP",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "36f12c2ee",
+   "what": "AA_399 第 3 節：總圖研究小間（2F 東側十間，學姊 03／玩家 08）＋5F 書庫（library_carrels、library_stacks GLB、窗景、src/library_upper3d.js LUP；電梯 1F～6F，5F 開）",
+   "task": "CLOSED-SPACES-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 21:0x：patch library_upper_1023 git apply；乾淨 worktree library_upper、library_b1、nav_buildings、guide、lab5f、aa407_loans、b1story、placemap 全 PASS；不進 v9.10.7（候選 d7f40ce91）；劇情（學姊便利貼、方奕廷）待接，LUP.booked／sisPeriod／sisHere／note 是暫定"
+  },
+  {
+   "id": "DL-LW2-GYMCER",
+   "date": "2026-10-23",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2baf12cb7",
+   "what": "體育館 3F 典禮布置（SET-CEREMONY-1023；AA_399 第 4 節）：gym_arena GLB 多十二學院牌子、gym_layout.js 典禮日（2025-08-31 開學、2029-06-02 畢業）、法律學院 8 座位、spots；GY3.ceremonyDay、ceremonyNav",
+   "task": "SET-CEREMONY-1023",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-23 21:1x：patch gym_ceremony_1023 git apply；gym_ceremony、gym_arena、gym、nav_buildings PASS；不進 v9.10.7；兩場典禮 2D 換 3D 放人待 LAWWW 接；典禮那天 48 萬三角形手機效能沒測"
+  },
+  {
+   "id": "DL-LW2-WZ6-MARKET",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f6ace8353",
+   "what": "ART-WZ6（房間六件、阿德影印兩種外觀、一盞貓碗、三家店站位）＋ART-WZ-MARKET-1023（小公園二手市集攤位 wz_market.glb）；wenzhou_street、wz_teahouse_interior 重建",
+   "task": "ART-WZ6",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 05:2x：patch wz6_market_1024 套上 738cc7ffc（025ab4f30）；dorm_wz_items、wz_copy_shop、wz_market、wz_work_spots＋相關測試全過；攤主 NPC 由 LAWWW 接（WZ-MARKET-KEEPER-1024）"
   }
  ],
  "ignored": [
@@ -17671,6 +17762,19 @@
    "kind": "wip",
    "task": "SQ-TRACES-1023",
    "reason": "痕跡道具＋SQ16 店門口 WIP（交件是 ed65a78e）；LAWWW-B 10-23 14:1x 分類"
+  },
+  {
+   "sha": "b23240d6",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "wip",
+   "task": "ART-SHOP-VIEWS-1023",
+   "reason": "118 巷九間店的兩層窗景照片＋l118_shops3d.js patch，遊戲內驗收中（WIP）；LAWWW-B 10-23 19:0x 分類"
+  },
+  {
+   "sha": "5f63431c",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "kind": "not_delivery",
+   "reason": "tools/char_review.py 加 faceq 角度（LAWWW2 自己的驗收工具，沛珊第三十一版用）；LAWWW-B 10-23 19:0x 分類"
   }
  ]
 }

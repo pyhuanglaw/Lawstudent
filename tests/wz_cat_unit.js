@@ -15,10 +15,10 @@ process.on('unhandledRejection',()=>{}); vm.runInThisContext(fs.readFileSync(pat
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const glb=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/aa_support/wz_cat.glb')); const J=JSON.parse(glb.slice(20,20+glb.readUInt32LE(12)).toString());
 const NN=J.nodes.map(n=>n.name), MN=J.materials.map(m=>m.name);
-const need=['CAT_sit','CAT_lie','CAT_walk','CAT_sit_tag','CAT_lie_tag','CAT_walk_tag','CAT_sit_bandage','CAT_lie_bandage','CAT_walk_bandage','CAT_fur_old_holder'];
-check('1. GLB：三個姿勢、各自的名牌與繃帶、老貓材質的掛點都在；材質 cat_fur、cat_fur_old',need.every(k=>NN.includes(k))&&MN.includes('cat_fur')&&MN.includes('cat_fur_old'),need.filter(k=>!NN.includes(k)).join(','));
+const need=['CAT_sit','CAT_lie','CAT_walk','CAT_curl','CAT_sit_tag','CAT_lie_tag','CAT_walk_tag','CAT_curl_tag','CAT_sit_bandage','CAT_lie_bandage','CAT_walk_bandage','CAT_curl_bandage','CAT_fur_old_holder'];   /* CAT_curl：寒流縮成一團（WZ-CAT-LIFE-1023，LAWWW2-B 32e9ddf3）*/
+check('1. GLB：四個姿勢（含 CAT_curl）、各自的名牌與繃帶、老貓材質的掛點都在；材質 cat_fur、cat_fur_old',need.every(k=>NN.includes(k))&&MN.includes('cat_fur')&&MN.includes('cat_fur_old'),need.filter(k=>!NN.includes(k)).join(','));
 { const cm=J.nodes.filter(n=>/^CAT_/.test(n.name)&&n.name!=='CAT_fur_old_holder'&&n.mesh!=null).map(n=>J.meshes[n.mesh]);
-  check('1. 貓的每個網格（不含掛老貓材質的小節點）都有 morph target「fat」',cm.length===9&&cm.every(m=>(m.extras&&m.extras.targetNames||[]).includes('fat')),cm.length+' 個'); }
+  check('1. 貓的每個網格（不含掛老貓材質的小節點）都有 morph target「fat」',cm.length===12&&cm.every(m=>(m.extras&&m.extras.targetNames||[]).includes('fat')),cm.length+' 個'); }
 check('1. manifest：bldg.wz_cat（lazy，?nobldg 不載入、用套件的貓）',!!ASSETS.manifest['bldg.wz_cat']&&ASSETS.manifest['bldg.wz_cat'].lazy===true&&/aa_support\/wz_cat\.glb$/.test(ASSETS.manifest['bldg.wz_cat'].url));
 /* 模擬 GLB 載入後的場景：同樣的名字、網格有 fat 的 morph、材質名稱一樣 */
 const fur=new THREE.MeshStandardMaterial({name:'cat_fur'}), old=new THREE.MeshStandardMaterial({name:'cat_fur_old'});
@@ -30,9 +30,9 @@ const st=(id,wk)=>{ const r=Z3.wzCatModel(mkRoot(),{day:termDay(id,wk||5)},'lie'
   return {pose:['sit','lie','walk'].filter(p=>vis('CAT_'+p)),tag:vis('CAT_lie_tag'),band:vis('CAT_lie_bandage'),fat:k.morphTargetInfluences[0],old:k.material.name==='cat_fur_old',x:k.position.x,holder:vis('CAT_fur_old_holder')}; };
 { const a=st('Y1S1'); check('2. 大一：只留趴著的姿勢（位置歸零）、沒有名牌和繃帶、不胖、年輕的毛色',a.pose.join()==='lie'&&!a.tag&&!a.band&&a.fat===0&&!a.old&&a.x===0,JSON.stringify(a)); }
 { const a=st('Y2S1'), b=st('Y2S2'); check('3. 大二上 fat 1.0、大二下 0.5',a.fat===1&&b.fat===0.5,JSON.stringify([a.fat,b.fat])); }
-{ const a=st('Y3S1',5), b=st('Y3S1',10), c=st('Y3S1',11), d=st('Y3S2'); check('4. 大三起有名牌；繃帶只有大三上第 10 週（找到以後那一週）',a.tag&&!a.band&&b.tag&&b.band&&!c.band&&d.tag&&!d.band,JSON.stringify([a,b,c].map(x=>[x.tag,x.band]))); }
+{ const a=st('Y3S1',5), b=st('Y3S1',11), c=st('Y3S1',12), d=st('Y3S2'); check('4. 大三起有名牌；繃帶只有大三上第 11 週（第 10 週貓不見之後那一週，AA_420 6-1）',a.tag&&!a.band&&b.tag&&b.band&&!c.band&&d.tag&&!d.band,JSON.stringify([a,b,c].map(x=>[x.tag,x.band]))); }
 { const a=st('Y4S1'), b=st('Y3S2'); check('5. 大四換老貓的毛色（cat_fur_old）；掛材質的小節點不顯示',a.old&&!b.old&&!a.holder,JSON.stringify([a.old,b.old,a.holder])); }
 { global.GAME={G:{day:termDay('Y1S1',5),hour:16,flags:{},daily:{}}}; E3.interactables=[]; E3.colliders=[]; E3.lampGlows=[]; E3.seats=[]; E3.npcs=[]; const z=Z3.ZONES.wenzhou.build(E3);
   const cg=z.group.getObjectByName('wz_cat'); check('6. 小公園的貓在 dyn 群組 wz_cat 裡（套件的貓是備用，模型載入後藏起來）',!!cg&&cg.userData.dyn===true&&cg.children.length>=1);
-  global.GAME.G.day=termDay('Y3S1',9); E3.interactables=[]; const z2=Z3.ZONES.wenzhou.build(E3); check('6. 大三上第 9 週（走失）沒有貓',!z2.group.getObjectByName('wz_cat')); delete global.GAME; }
+  global.GAME.G.day=termDay('Y3S1',10); E3.interactables=[]; const z2=Z3.ZONES.wenzhou.build(E3); check('6. 大三上第 10 週（走失；AA_420 6-1）沒有貓',!z2.group.getObjectByName('wz_cat')); delete global.GAME; }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -74,7 +74,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     check('2-3. 條件不成立不設：沒去那一堂（下課後只有翹課的轉述）＝沒有 U_COPYRIGHT',n>=0&&!G.flags.U_COPYRIGHT&&!CLS.rec(G).done[it.key]); }
   const q14=flags=>{ const G=fresh('2028-10-11',21,'dorm',Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1},flags||{})); H.FRIEND('heroine_04'); H.at('2028-10-11',21); G.zone='dorm'; Y34B.phone(G); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); return m?m.ask.opts.map(o=>o.t):null; };
   { const both=q14({U_COPYRIGHT:true,U_CONTRACT:true}), one=q14({U_COPYRIGHT:true});
-    check('2-4. 讀的地方：兩個都有＝子晴 Q14 多「先看三件事：…」；只有一個＝沒有',!!both&&both.some(t=>/^先看三件事/.test(t))&&!!one&&!one.some(t=>/^先看三件事/.test(t)),JSON.stringify([both,one])); }
+    check('2-4. 讀的地方：兩個都有＝子晴 Q14 多「先看權利歸誰…」（AA_398 第 33 列）；只有一個＝沒有',!!both&&both.some(t=>/^先看權利歸誰/.test(t))&&!!one&&!one.some(t=>/^先看權利歸誰/.test(t)),JSON.stringify([both,one])); }
   });
 
   /* ======================= 3. AA294-SKIPCLASS-1018 ======================= */

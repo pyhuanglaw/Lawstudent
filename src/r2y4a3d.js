@@ -227,8 +227,8 @@ const R2Y4A=(function(){
     if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
     /* ---- 2-Y4-06 推甄 ---- */
     { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
-        const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「一，你可以。二，你可以。三，你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
-        L[L.length-1].ask={id:'y4_push_note',opts:[{t:'三件都一樣。',say:[{from:S5,text:'對。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
+        const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
+        L[L.length-1].ask={id:'y4_push_note',opts:[{t:'只有一句。',say:[{from:S5,text:'一句就夠了。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
         PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }
     { const d=D('2028-11-23'); if(d!=null&&G.day>=d&&G.day<=d+2){ const B=t=>({th:'p:'+BH,from:BH,text:t});
         if(S.pushOn(G)&&past(G,d,15)&&!F.Y4_PUSH){ const ok=S.pushPass(G); F.Y4_PUSH=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='push';   /* 11/23 15:00 放榜（學校信箱）*/
@@ -332,7 +332,7 @@ const R2Y4A=(function(){
         if(!F.SIS_PICKUP_V&&F.SIS_PICKUP_GO) F.SIS_PICKUP_V=F.SIS_PICKUP_GO;
         if(F.SIS_PICKUP_V&&!F.SIS_PICKUP) plan(G,{id:'y4_sis_pickup',ev:'ev_sis_pickup',day:d,h:20.5,late:0.25,place:'桃園機場入境大廳',title:'接機（學姊）',travel:'開車 約 50 分鐘',travelH:5/6,alarm:true});   /* alarm：跳過時間、睡覺停在出發前（BUG-KAI-PICKUP-1022；同 X81 8/30）*/
         if(!F.SIS_PICKUP_V&&!F.SIS_PICKUP&&PHONE.sent(G,'y4_pickup_ask')&&past(G,d,21.5)){ F.SIS_PICKUP='mrt'; PHONE.at(G,d,21.5,[GS('到了。捷運很快。')],'y4_pickup_mrt'); }
-        if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。這不是三件事。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
+        if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。不要再說明天。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
     /* ---- 2-Y4-24 聖誕：12/24 21:00 私訊（去／不去）→ 12/25（一）19:00 政大山下 ---- */
     { const a=D('2028-12-24'), d=a!=null?a+1:null; if(a!=null&&kxOn(G)&&!abroad(G)&&G.day>=a-1&&G.day<=d+1){
         if(past(G,a,21)&&now(G)<T(d,19)&&!PHONE.sent(G,'y4_kx_xmas_ask')){ const L=[K('明天白天各自讀。'),K('晚上來政大山下，那家咖啡店開到十點。我們讀到打烊。')]; L[1].ask={id:'y4_kx_xmas',until:T(d,19),opts:[{t:'去。',set:{KX_XMAS_Y4:'go'}},{t:'不去。',set:{KX_XMAS_Y4:'no'}}]}; PHONE.at(G,a,G.day===a?Math.max(21,G.hour):21,L,'y4_kx_xmas_ask'); }
@@ -388,8 +388,18 @@ const R2Y4A=(function(){
     return L; };
   S.pc2Place=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables) return; const P=S.pc2Pending(G).filter(c=>c.zone===G.zone), k=E.interactables.findIndex(it=>it.zrPostcard2);
     if(!P.length){ if(k>=0) E.interactables.splice(k,1); return; } if(k>=0) return;
-    const d=E.interactables.find(it=>it.deskStudy); let x=0.7, z=-2.3; if(d){ x=d.x-0.35; z=d.z+0.35; }
-    E.interactables.push({x,z,radius:0.7,label:'明信片',zrPostcard2:true,onInteract:()=>{ S.pc2Scene(GM).catch(e=>console.warn('R2Y4A 明信片',e)); }}); };
+    const d=E.interactables.find(it=>it.deskStudy); let x=0.7, z=-2.3;
+    const it={x,z,radius:0.7,label:'明信片',zrPostcard2:true,onInteract:()=>{ S.pc2Scene(GM).catch(e=>console.warn('R2Y4A 明信片',e)); }};
+    if(d){ const C=[[0.35,0.35],[-0.35,0.35],[0.35,-0.35],[-0.35,-0.35]]; it.x=d.x+0.35; it.z=d.z+0.35;   /* 和第一輪（y2b3d.js pcPlace）一樣放書桌靠房間那一側；大四 409 的書桌靠西牆，舊版 d.x-0.35 推進書桌和牆中間、玩家拿不到（BB-B 10-23 FY_PC）*/
+      const ap=d.seat&&d.seat.ap; for(const c of C){ it.x=d.x+c[0]; it.z=d.z+c[1]; if(S.pc2Reach(E,it,ap)) break; } if(!S.pc2Reach(E,it,ap)){ it.x=d.x+0.35; it.z=d.z+0.35; } }
+    E.interactables.push(it); };
+  /* 玩家站得到一個點：離明信片在範圍內、明信片是最近的互動點（不會被「坐在書桌前」蓋掉）、而且從書桌的走近點 ap 走得到
+     （美國公寓的書桌椅和床中間有一塊站得住、走不進去的小角落：+0.35 放在那裡；ap 是 nav 測試保證走得到的點，從那裡模擬走一小段） */
+  S.pc2Reach=function(E,it,ap){ if(!E||!E.canStand) return true; const others=E.interactables.filter(o=>o!==it&&!o.hidden); let n=0;
+    for(let r=0;r<0.7;r+=0.1) for(let a=0;a<(r?16:1);a++){ const x=it.x+Math.cos(a*Math.PI/8)*r, z=it.z+Math.sin(a*Math.PI/8)*r; if(!E.canStand(x,z,0.3)) continue;
+      const dd=Math.hypot(x-it.x,z-it.z); if(!others.every(o=>{ const e=Math.hypot(o.x-x,o.z-z); return e>=(o.radius||1.8)||e-(o.prio||0)>dd; })) continue;
+      if(!ap||!E.simWalk) return true; if(n++>=6) return false; const w=E.simWalk(ap[0],ap[1],x,z,{dt:1/30}); if(w&&w.ok) return true; }
+    return false; };
   S.pc2Scene=async function(GM){ const G=GM.G, F=G.flags, R=S.pc2Rec(G), P=PC2(); const L0=S.pc2Pending(G).filter(c=>c.zone===G.zone); const c=L0.find(q=>!R.read[q.key])||L0[L0.length-1]; if(!c) return false;
     const card={name:'明信片'}, seen1=has('heroine_02','POSTCARDS')||has('heroine_02','POSTCARDS_GROUP')||!!(F.ZR_PC&&F.ZR_PC.read&&Object.keys(F.ZR_PC.read).length);   /* 大三收過第一輪（1B-10）*/
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});

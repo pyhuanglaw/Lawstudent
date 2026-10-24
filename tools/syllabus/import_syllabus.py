@@ -121,11 +121,19 @@ for cid, weeks in out['courses'].items():
         k = f"{cid}|{w['w']}"
         if all(items.get(k, [True])): out['reviewed'].append(k)
         else: closed.append(k)
+# AA-C 2026-10-18 審 BB_105 G6（BB_105 @3954f9b62；V3-B105-G2）：日文（下）第 10 週拿掉采蓁的金句「所以學語言，是在學看人。」——企劃線的 JSON 還有，匯入時拿掉（那一堂的劇情段在 src/bbpack3d.js 的 G6）
+DROP_REACT = [('japanese_2', 10, '所以學語言，是在學看人。')]
+drop_note = ''
+for cid, wk, txt in DROP_REACT:
+    for w in out['courses'].get(cid, []):
+        if w.get('w') == wk and isinstance(w.get('react'), list) and any(r.get('text') == txt for r in w['react']):
+            w['react'] = [r for r in w['react'] if r.get('text') != txt]
+            drop_note = '\n   拿掉一句（匯入時，DROP_REACT）：日文（下）第 10 週采蓁「所以學語言，是在學看人。」——AA-C 2026-10-18 審 BB_105 G6 拿掉的金句（BB_105 @3954f9b62 G6；那一堂的劇情段在 src/bbpack3d.js 的 G6）。'
 dst = os.path.join(ROOT, 'src', 'data', 'syllabus.js')
 with open(dst, 'w', encoding='utf8') as f:
     f.write('/* 普通課堂內容（BB 撰寫；AA_104 第 1 節的 syllabus 格式）。產生器：tools/syllabus/import_syllabus.py（不要手改，改企劃分支的 JSON 再匯入）。\n'
             '   來源：' + out['source'] + '。法律系八學期＋日文＋經濟系那一年（遊戲裡還沒有那一年的課，先放著）。heroine_06 等新人物的句子在遊戲裡略過（人物設定還沒確認）。\n'
-            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。 */\n')
+            '   reviewed：法律審查（BB_115）那一週的項目全部通過、或那一週沒有項目，才顯示 BB 的內容；其他週只用寫主題的一般句子（AA_122 第 0a 節）。' + drop_note + ' */\n')
     f.write('const SYLLABUS=' + json.dumps(out, ensure_ascii=False, separators=(',', ':')) + ';\n')
 nweeks = sum(len(v) for v in out['courses'].values())
 print('wrote', dst, 'courses', len(out['courses']), 'weeks', nweeks, 'reviewed', len(out['reviewed']), 'closed', len(closed), 'pools', len(out['pools']), 'skip', len(out['skip']), 'second', len(out['second']), 'bytes', os.path.getsize(dst))

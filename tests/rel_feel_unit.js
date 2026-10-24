@@ -33,7 +33,8 @@ fresh(); SOCIAL.adjust('heroine_02',{fam:3}); check('3. 還沒正式見過的女
 fresh(); SOCIAL.adjust('heroine_05',{fam:-2}); check('3. 減少的不顯示',SOCIAL.takeFeel().length===0);
 fresh(); SOCIAL.rel('heroine_05').fam=100; SOCIAL.adjust('heroine_05',{fam:3}); check('3. 已經滿了不顯示',SOCIAL.takeFeel().length===0); SOCIAL.rel('heroine_05').fam=30;
 // 4
-const T=SOCIAL.ACT; check('4. 數值照 AA_124 1-2 的表（＋msg：AA_202 第 4 節，傳訊息對方回了熟悉 +1）',JSON.stringify(T)===JSON.stringify({chat:{fam:2},chatNew:{comf:1},classmate:{fam:1},cafe:{fam:3,trust:1,comf:2},library:{fam:3,trust:2,comf:1},meal:{fam:3,trust:1,comf:3},walk:{fam:4,trust:2,comf:3},help:{fam:1,trust:3},acceptInvite:{trust:1},msg:{fam:1}})&&JSON.stringify(SOCIAL.CAP)===JSON.stringify({fam:6,trust:4,comf:5}));
+/* sport：一起運動（羽球、晨跑，AA_417 第 3 節／AA_126 6-6；AA_124 的表沒有這一列，照溫州街散步的數值）*/
+const T=SOCIAL.ACT; check('4. 數值照 AA_124 1-2 的表（＋msg：AA_202 第 4 節，傳訊息對方回了熟悉 +1）',JSON.stringify(T)===JSON.stringify({chat:{fam:2},chatNew:{comf:1},classmate:{fam:1},cafe:{fam:3,trust:1,comf:2},library:{fam:3,trust:2,comf:1},meal:{fam:3,trust:1,comf:3},walk:{fam:4,trust:2,comf:3},help:{fam:1,trust:3},acceptInvite:{trust:1},msg:{fam:1},sport:{fam:4,trust:2,comf:3}})&&JSON.stringify(SOCIAL.CAP)===JSON.stringify({fam:6,trust:4,comf:5}));
 { G.day=30; const id='heroine_01', r=SOCIAL.rel(id); const f0=r.fam, t0=r.trust, c0=r.comf; fresh();
   const a=SOCIAL.activity(id,'chat'), b=SOCIAL.activity(id,'chat'); check('4. 聊天今天第一次熟悉 +2，同一天再聊不加',a.fam===2&&Object.keys(b).length===0&&r.fam===f0+2,JSON.stringify([a,b]));
   SOCIAL.activity(id,'walk'); SOCIAL.activity(id,'library'); SOCIAL.activity(id,'meal'); SOCIAL.activity(id,'help');
@@ -45,7 +46,7 @@ const T=SOCIAL.ACT; check('4. 數值照 AA_124 1-2 的表（＋msg：AA_202 第 
 // 5
 const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), iv=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');
 check('5. 閒聊：chat＋新的一句 chatNew',/SOCIAL\.activity\(id,'chat'\); if\(L\.fresh\) SOCIAL\.activity\(id,'chatNew'\);/.test(st));
-check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'\}\[P\.id\]\|\|'cafe'\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));
+check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOCIAL\.activity\(iv\.who,P\.sport\?'sport':\(\{cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'\}\[P\.id\]\|\|'cafe'\)\); if\(iv\.by==='npc'\) SOCIAL\.activity\(iv\.who,'acceptInvite'\);/.test(iv));   /* 一起運動的地點（P.sport）照 sport（AA_417 第 3 節）*/
 // 6
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('6. sceneBegin 第一層開始記',/function sceneBegin\(opts\)\{ if\(D\.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL\.feel\)\{ SOCIAL\.feel=\{\}; SOCIAL\.feelOn=true; \}/.test(g3));

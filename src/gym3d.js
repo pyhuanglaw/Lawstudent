@@ -67,7 +67,7 @@ const GY3=(function(){
     if(i===0){ if(!plan.ok){ GM.toast(plan.why||'今天這個時段已經排滿了',3000); return; }
       if(!r.joined){ r.joined=1; await GM.say(null,'場邊有一塊白板，你把名字寫在最下面，排在三個人後面。'); }
       GM.advance(1); if(C&&C.slotUse){ C.slotUse(G,plan.uses); if(C.queueJump) C.queueJump(G); } r.sportDay=G.day;
-      const wk=wkOf(G); if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); }   /* 體能 +1，每週最多算 2 次（和健身的 3 次分開）*/
+      const wk=wkOf(G); if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); } r.fitDay=G.day;   /* 體能 +1，每週最多算 2 次（和健身的 3 次分開）*/
       let cand=JOIN.filter(l=>!r.seen.includes(l)); if(!cand.length){ r.seen=[]; cand=JOIN.slice(); } const l=cand[Math.floor(Math.random()*cand.length)]; r.seen.push(l); await GM.say(null,l);
       if((r.fit|0)>=50){ r.strongN=((r.strongN|0)+1)%3; if(r.strongN===0) await GM.say(null,'以前追不到的球，你現在追得到了。'); } }   /* 結實以上：三次裡一次 */
     else if(i===1){ GM.advance(1/3); r.sportDay=G.day; r.serveN=((r.serveN|0)+1)%SERVE.length; await GM.say(null,SERVE[r.serveN]); } }
@@ -132,7 +132,7 @@ const GY3=(function(){
     else if(r.pass!==ym(G)){ if(r.single===ym(G)){ if(G.money<50){ GM.toast('錢不夠'); return; } GM.money(-50); }   /* 這個月選了單次：之後直接扣，不再問 */
       else { await SAY_DESK(GM,'這個月要買月票嗎？'); if(await buyPass(GM,r,false)<0) return; } }
     GM.advance(1); if(C&&C.slotUse){ C.slotUse(G,plan.uses); if(C.queueJump) C.queueJump(G); } r.sportDay=G.day;
-    const wk=wkOf(G); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; } if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; r.fit=Math.min(100,(r.fit|0)+2); }   /* 重訓一小時 +2，每週最多算 3 次（和打羽球的 2 次分開）*/
+    const wk=wkOf(G); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; } if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; r.fit=Math.min(100,(r.fit|0)+2); } r.fitDay=G.day;   /* fitDay：最後一次運動（src/fit3d.js 的 8 週提醒）*/   /* 重訓一小時 +2，每週最多算 3 次（和打羽球的 2 次分開）*/
     const st=fitStage(r.fit|0), L=FIT_LINES[st]; r.fitLast=r.fitLast||{}; const prev=r.fitLast[st]; let k=(prev==null?0:(prev+1)%L.length); r.fitLast[st]=k; await GM.say(null,L[k]); }   /* 三句輪流、不連續重複 */
   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
   const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/

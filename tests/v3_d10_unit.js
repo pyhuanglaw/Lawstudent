@@ -45,8 +45,8 @@ GM.money=function(n){ G.money+=n; };
   const play=async(pick)=>{ fresh(mon,24.5,'cvs'); meet('classmate_xinci'); SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; opts=[]; picks=[pick]; await EVENTS.run(X); return L0(); };   /* AA_374 第 10 項：借過她筆記的玩家照原句（沒借過的另外在 tests/aa374_y2s1_unit.js）*/
   let L=await play(0);
   check('3. 開場、她說三年的第二名、「你的比我想的好。」；「妳有跟她說過嗎？」→「說什麼？『妳好，我是三年的第二名』？」「她笑，很短。」「不要。」；XINCI_SECOND',L.includes('芯慈：聯合模考的排名貼在牆上。她第一，我第二。三年。')&&L.includes('芯慈：（很平靜）我借你的筆記，是想知道第一名以外的人，筆記怎麼寫。……你的比我想的好。')&&L.slice(-3).join('｜')==='芯慈：說什麼？『妳好，我是三年的第二名』？｜她笑，很短。｜芯慈：不要。'&&SOCIAL.has('classmate_xinci','XINCI_SECOND'),JSON.stringify(L));
-  L=await play(1); check('3. 「這部劇在演什麼？」→ 十分鐘的劇情、「十二點四十。我今天比了十八個小時，剩下這半小時是我的。」',L.includes('芯慈：啊。我講太多了。')&&L.includes('芯慈：十二點四十。我今天比了十八個小時，剩下這半小時是我的。'));
-  L=await play(2); check('3. 「第二名也很厲害。」→「我知道。」「她把咖啡蓋子蓋好。」「可是第二名是用來跟第一名比的。」',L.slice(-3).join('｜')==='芯慈：我知道。｜她把咖啡蓋子蓋好。｜芯慈：可是第二名是用來跟第一名比的。');
+  L=await play(1); check('3. 「這部劇在演什麼？」→ 十分鐘的劇情、「十二點四十了，我要回去了，明天早八。」（AB65-3（AA_211 附錄 A 芯慈一列）；原本「十二點四十。我今天比了十八個小時，…」）',L.includes('芯慈：啊。我講太多了。')&&L.includes('芯慈：十二點四十了，我要回去了，明天早八。')&&!L.some(t=>/十八個小時/.test(t)));
+  L=await play(2); check('3. 「第二名也很厲害。」→「我知道。」「她把咖啡蓋子蓋好。」「……好啦，我知道。」「（她拿起咖啡，揮了一下手就走了。）」（AB65-3（AA_211 附錄 A 芯慈一列）；原本「可是第二名是用來跟第一名比的。」）',L.slice(-4).join('｜')==='芯慈：我知道。｜她把咖啡蓋子蓋好。｜芯慈：……好啦，我知道。｜（她拿起咖啡，揮了一下手就走了。）');
   const xd=NEEDED_MSGS.list.find(x=>x.id==='xc_drama'); check('4. 主線 4「那部劇大結局了」：慈 3 以後才有',!xd.cond({events:{done:{}}})&&xd.cond({events:{done:{ev_xinci_second:1}}}));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

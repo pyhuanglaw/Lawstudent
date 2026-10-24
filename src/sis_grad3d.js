@@ -37,7 +37,7 @@ const SISG=(function(){
      普通邀約（Café、阿鳳麵店、半熟、一盞、溫州街）：大一上第 1～9 週每週最多答應一次；第 10～13 週每兩週最多一次（10–11、12–13）；第 14 週～2/2 都婉拒。
      平日 12:00～13:00 約吃飯一律答應、不算次數（她本來就要吃飯；2/1～2/2 她在家、不在學校的不算）。總圖＝一起念書，不在這裡。
      婉拒不扣分；婉拒句四句輪流（G.flags.SISG_DECL）。散步的婉拒照 invites.js 原本那一句（AA_284 1-3），在這之前就回了 */
-  S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou'];
+  S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou','gym_badminton','run_avenue'];   /* 羽球、晨跑（AA_417 3-3：筆試以前照現有的 rule，和其他不讀書的邀約一起算上限）*/
   S.DECLINE=['「這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。」','「等我考完，你再約一次。」','「今天不行。刑訴在等我。」','「這週的時間用完了。下週再問我。」'];
   S.capBucket=function(G,day,h){ if(!law(G)||!S.preExam(day,h)) return null; const t=term(day);
     if(t&&t.id==='Y1S1') return t.week<=9?'w'+t.week:(t.week<=13?'p'+(t.week<=11?10:12):'off');
@@ -161,9 +161,9 @@ const SISG=(function(){
         {speaker:null,text:'（媽媽笑了。）'},
         {speaker:'學姊的爸爸',text:'來，拍一張。'},
         {speaker:null,text:'（她看到你，笑了一下。）'},
-        {speaker:ID,expression:'smile',text:'你來了。三件事。'},
-        {speaker:ID,expression:'smile',text:'……不，今天沒有三件事。'},
-        {speaker:ID,expression:'smile',text:'今天只有一件：謝謝你來。'} ],
+        {speaker:ID,expression:'smile',text:'你來了。'},
+        {speaker:ID,expression:'smile',text:'……我本來想了很多要說的。'},
+        {speaker:ID,expression:'smile',text:'今天只說一句：謝謝你來。'} ],   /* AA_398 第 42 列 */
       consequences:{memo:'學姊的畢業典禮'} } ];
 
   /* ---------- 手機（STORY.PHONE_RULES；跳過時間、寒假快轉每小時跑一次）----------*/
@@ -246,7 +246,7 @@ const SISG=(function(){
   S.onStudy=function(GM,hrs){ const G=GM.G, F=(G&&G.flags)||{}; if(G) S.lowMark(G);   /* 在總圖讀書讀到 20:00 以後（2-5，AA_360 2-1）*/ if(!law(G)||!F.SIS_STUDY||G.zone!=='lawlib'||!S.preExam(G.day,G.hour)) return;
     if(!S.herAt(GM,G.hour-(+hrs||1))) return; F.SISG_SAT_DAY=G.day;   /* 和她在法圖坐過（週日那則邀約看這個，AA_339 第 5 題）*/
     if(F.SISG_SEG_DAY===G.day) return; const k=S.nextSeg(G); if(!k) return; F.SISG_SEG=k; F.SISG_SEG_DAY=G.day;
-    if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。三件事。一，飯糰。二，飯糰。三，飯糰。')],'sisg_seg3_'+G.day); return; }
+    if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。飯糰。……早餐、午餐、晚餐都是。')],'sisg_seg3_'+G.day); return; }
     S._seg={k,day:G.day}; };
   S.SEG={1:[[null,'（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）']],   /* ①不放同學名字（AA_339 第 7 題）*/
     2:[[null,'（她把字卡遞給你。）'],[ID,'念給我聽。'],[null,'（你念錯一個字，她直接說出正確答案和條號。）'],[ID,'……你念錯了。不過我答對了。']],
@@ -256,7 +256,7 @@ const SISG=(function(){
   S.playSeg=async function(GM){ const G=GM.G, q=S._seg; S._seg=null; if(!q) return false; const her=S.who();
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload([ID]); ADV.begin({background:'blur',right:{charId:ID,expression:'neutral'}}); }
       for(const [sp,t] of S.SEG[q.k]) await GM.say(sp?her:null,t);
-      if(q.k===5){ const k=await GM.choose([{t:'「一一八的店員。」'},{t:'（不說）'}]); if(k===0) await GM.say(her,'……她記性比我好。謝謝。'); else await GM.say(null,'（她喝了一口，在便利貼上寫：「謝謝。下次換我。」推過來。）'); }
+      if(q.k===5){ G.flags.SISG_SEG5=G.day;   /* 演過第 5 段（她說過「誰跟你說的」）：之後在一一八茶飲幫她點對，換「又是她說的。」那兩句（AA_410，src/foodfav3d.js）*/ const k=await GM.choose([{t:'「一一八的店員。」'},{t:'（不說）'}]); if(k===0) await GM.say(her,'……她記性比我好。謝謝。'); else await GM.say(null,'（她喝了一口，在便利貼上寫：「謝謝。下次換我。」推過來。）'); }
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     if(GM.autosave) GM.autosave(); return true; };
 

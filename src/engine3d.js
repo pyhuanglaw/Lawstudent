@@ -219,7 +219,7 @@ const E3 = (function(){
   E.stallStop=true;
   function pathStep(P,dt){ const t=P.path[0]; const dx=t[0]-P.obj.position.x, dz=t[1]-P.obj.position.z; const d=Math.hypot(dx,dz);
     if(wpReached(P,d,0.25,dt)){ P.path.shift(); if(!P.path.length){ P.path=null; if(P.onArrive){ const f=P.onArrive; P.onArrive=null; f(); } } return false; }
-    const sp=P.riding?E.bikeSp():(P.run?E.SPD.run:E.SPD.walk), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
+    const sp=P.riding?E.bikeSp()*(E.fitBike||1):(P.run?E.SPD.run:E.SPD.walk*(E.fitWalk||1)), st=stepSp(sp,d,dt), x0=P.obj.position.x, z0=P.obj.position.z; stepEntity(P,dx/d,dz/d,st,dt); P.pose=P.riding?'ride':(P.run?'run':'walk'); P.speed=sp;
     if(E.stallStop&&!P.onArrive&&!P.busy&&st*dt>1e-4){ const mv=Math.hypot(P.obj.position.x-x0,P.obj.position.z-z0); P._stall=mv<st*dt*0.15?(P._stall||0)+dt:0; if(P._stall>1.5){ P._stall=0; P.path=null; return false; } }
     return true; }
   E.playerPathStep=pathStep;   /* 測試用 */
@@ -235,7 +235,7 @@ const E3 = (function(){
     let mv=tmpV.set(0,0,0); if(!P.busy&&E.cam.mode==='follow'){ if(input.keys['w']||input.keys['arrowup']) mv.z-=1; if(input.keys['s']||input.keys['arrowdown']) mv.z+=1; if(input.keys['a']||input.keys['arrowleft']) mv.x-=1; if(input.keys['d']||input.keys['arrowright']) mv.x+=1; if(input.joy.active){ mv.x+=input.joy.x; mv.z+=input.joy.y; } }
     const spdWalk=E.SPD.walk, spdRun=E.SPD.run; let moving=false;
     E.cam.ctl=mv.lengthSq()>0.02; if(!E.cam.ctl) E.cam.swingAcc=0;   /* 推著搖桿時鏡頭自動轉開的角度（swingAcc）不算進方向：放開再推才照新的鏡頭方向 */
-    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.bikeSp():(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
+    if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.bikeSp()*(E.fitBike||1):(run?spdRun:spdWalk*(E.fitWalk||1)); P.path=null;   /* fitWalk／fitBike：體能的走路、騎車加成（AA_126 6-2，src/fit3d.js；跑步不變）*/ P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
     else if(P.path) moving=pathStep(P,dt);
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
     if(moving||E.cam.ctl) P.lastMoveT=E.time;   /* 最後一次在走（搖桿、鍵盤、點地面）的時間：要回的訊息自動打開手機等玩家停下來（story3d.js S.phoneAuto，UX-PHONE-AUTO-WALK-1021）*/

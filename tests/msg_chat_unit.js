@@ -99,6 +99,7 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
 // F 真的回覆池
 if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try{ src=cp.execSync('git show '+realPool.source.AA_202+':"docs/story_planning/AA_202_玩家主動傳訊息_規格.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']})+cp.execSync('git show '+realPool.source.BB_178+':"docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(src&&realPool.source.AA_370){ try{ src+=cp.execSync('git show '+realPool.source.AA_370+':"docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_370 第 6 節第 3 題：學姊事務版「在圖書館。有事嗎？」（祐廷也在布魯明頓）*/
+  if(src&&realPool.source.AA_393){ try{ src+=cp.execSync('git show '+realPool.source.AA_393+':"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_393 第 4 節：學姊「祐廷在日本」 */
   src=src.replace(/《東京物語》/g,'《進城的那一週》').replace(/《晚春》/g,'《父親的午後》');   /* AA_313 6-2：真實片名改虛構的（AA 定，原文之後照這張表讀）*/
   src=src.replace(/今天的課講小津。我有舉手。/g,'今天的課講一個日本的老導演。他的鏡頭幾乎都不動。');   /* AA_350 R6（企劃線 cae5cc76）：真實的導演名字不寫，1-E 第 5 則換這一句 */
   if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if(src.indexOf(t)<0) miss.push(id+':'+t);
@@ -141,10 +142,10 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   const mk=(id,stage,d,h,flags)=>{ fresh(d,h,flags); INV.addContact(G,id); STAGE[id]=stage; return G; };
   const tk=id=>MSG.topics(G,id).map(q=>q.k); const K=k=>STORY.dayOfKey(k);
   const reply=()=>{ const q=PHONE.rec(G).q; return q.length?q[q.length-1].items.map(x=>x.text):[]; };
-  { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
+  { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257'],['AA_389_回AA313剩下九點.md','AA_389']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
     const SUBST={'heroine_02:十點，店門口。':'九點，店門口。'};   /* AA 裁定的改字（原文找改字前的那句）：AA_373 第 6 節第 9 題（企劃線 bdab2f42）「九點」改「十點」——芷若生日 L 回問，只在 2025、2026 開 */
     if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; const t0=SUBST[id+':'+t]||t; if(src.indexOf(t0.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
-      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257 原文裡（逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
+      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257／AA_389 原文裡（逐字；AA 裁定的改字照 SUBST 找原句）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
   { mk('heroine_01',1,K('2025-09-14'),15); const a=tk('heroine_01').includes('bday'); G.day=K('2025-09-15'); G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('bday');
     check('H2. 以安 9/15：當天才有「生日快樂」',!a&&b); const r=MSG.send(G,'heroine_01','bday'); check('H2. 傳了：回「謝謝。」（A）',r.ok&&r.text==='生日快樂'&&reply()[0]==='謝謝。',JSON.stringify(reply())); }
   { const ny=k=>{ mk('heroine_01',3,K(k),15); return tk('heroine_01').includes('newyear'); };
@@ -185,7 +186,17 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
     for(const id of ids) for(const d of days) for(const st of [1,3,6]){ try{ fresh(d,15,id==='kexin'?{dating_kexin:true}:{}); INV.addContact(G,id); STAGE[id]=st; G.events.done.ev_ziqing_secret_game=1;
       for(const tp of ['thanks','bday','ok','newyear']){ const e=MSG.pick2(G,id,tp,true); if(e&&(!e.e.msgs.length||e.e.disabled)) errs.push(id+':'+tp); }
       for(const q of MSG.topics(G,id)) if(MSG.isT2(q.k)){ const r=MSG.send(G,id,q.k); if(!r.ok) errs.push(id+':'+q.k+':'+r.why); break; } }catch(x){ errs.push(id+':'+x.message); } }
-    check('H15. 14 人 × 9 個日子 × 3 個關係掃過第二批話題：不出錯、不挑到空的或停用的句子、開了就傳得出去',!errs.length,errs.slice(0,5).join(' ')); } }
+    check('H15. 14 人 × 9 個日子 × 3 個關係掃過第二批話題：不出錯、不挑到空的或停用的句子、開了就傳得出去',!errs.length,errs.slice(0,5).join(' ')); }
+  /* AA_389 第 5 點：可昕「生日快樂」L 層的回問「你晚上要上山來，還是我下山」後面要有生日事件——2026、2027（ev_kexin_birthday_y1s2／_y2）、2028 臺灣美國路線（ev_kexin_birthday_y3 的「其他玩家」接這個回問，r2y3b3d.js kxBdayButton）照問；
+     2028 日本路線用 y2028_japan；2029 沒有生日事件：不問，回 AA_389 那一句 */
+  { const kx=(d,f)=>{ fresh(K(d),15,Object.assign({dating_kexin:true},f||{})); INV.addContact(G,'kexin'); STAGE.kexin=6; const p=MSG.pick2(G,'kexin','bday',true); return p?p.e:null; };
+    const a=kx('2026-04-24'), b=kx('2027-04-24'), c=kx('2028-04-24',{EXCHANGE_ROUTE:'TW'}), j=kx('2028-04-24',{EXCHANGE_ROUTE:'JP'}), z=kx('2029-04-24',{EXCHANGE_ROUTE:'TW'});
+    check('H16. 可昕生日 2026、2027、2028 臺灣路線：L 照問「你晚上要上山來，還是我下山」',[a,b,c].every(e=>e&&!!e.ask&&/上山來/.test(e.ask.q)),[a,b,c].map(e=>e&&e.msgs.join('/')).join(' ｜ '));
+    check('H16. 2028 日本路線（人在日本）：不問上山下山，用 y2028_japan',!!j&&!j.ask&&j.cond==='y2028_japan',j&&j.msgs.join('/'));
+    check('H16. 2029：沒有生日事件，不問；回「今天在圖書館過 國考的書比蛋糕還厚」',!!z&&!z.ask&&z.msgs.join('/')==='謝謝！！/（長頸鹿貼圖）/今天在圖書館過 國考的書比蛋糕還厚',z&&z.msgs.join('/')); }
+  /* AA_202@65239add 第 257 行（AA_313 第 5 節）：Alison 營隊結束那天的「還好嗎」R 層收在「明天見面再說」（不好的事當面講）；產生器 build_msg2.py 原本寫死「可是會好的」 */
+  { const t=fs.readFileSync(path.join(ROOT,'src/data/msg2_pool.js'),'utf8'), m=t.match(/"cond": "camp_end", "tier": "R", "msgs": \[([^\]]*)\]/);
+    check('H17. Alison 營隊結束那天「還好嗎」R：「還好啦」「……其實沒有很好」「明天見面再說」',!!m&&/明天見面再說/.test(m[1])&&!/可是會好的/.test(m[1]),m&&m[1]); } }
 else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
 // 方奕廷暑假上山（BB_171 第 1 節）：沒訊號，下山那天 15:00 才回；回台中過年的期間照平常
 { fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-20');

@@ -80,18 +80,18 @@ const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','
   { const can=(day,hour,zone)=>{ fresh(day,hour,zone,{}); return EVENTS.check(T1A); };
     check('T1a：颱風假晚上 19:00 在宿舍房間＝會開始',can(TY,19,'dorm'));
     check('T1a：颱風假 17:00、23:30 不會；不在宿舍房間（校園、麵店）不會；別的週一晚上不會',!can(TY,17,'dorm')&&!can(TY,23.5,'dorm')&&!can(TY,19,'campus')&&!can(TY,19,'noodle')&&!can(MON6,19,'dorm'));   /* 別的週一＝第 4 週 */ }
-  const KAI={yes:'這個推論有問題，但我接受。',no:'你好無情。……拿去。',dep:'你們法律系每次都這樣。'};
-  const FANG=['（抱著一盆植物進來）它在陽台會死。','……你帶一盆植物來吃泡麵？','它不吃。它看。'];
+  const KAI={yes:'這個推論有問題，但我接受。',no:'你好無情。……拿去。',dep:'又來了。……好啦，拿去。'};   /* AA_207 附錄 §2：「你們法律系每次都這樣。」改 */
+  const FANG=['（抱著一盆植物進來）放陽台會被吹倒，先放你們這邊一晚。','……你帶一盆植物來吃泡麵？','它不用吃啦，放角落就好。'];   /* AA_207 §5（BB_167 SC4 第 39 列）*/
   const t1a=async(knowFang,pick)=>{ fresh(TY,19,'dorm',{}); cgs=[]; if(knowFang) meet('npc_fangyt'); picks=[pick]; await EVENTS.run(T1A); return {L:lines(),who:said.map(s=>s.who),F:G.flags,O:opts,cg:cgs.slice()}; };
   { let r=await t1a(true,'算');
-    check('T1a：見過方奕廷＝阿凱「我囤了二十包。……」、方奕廷三句、阿凱「法律系的，颱風天泡麵算不算「不可抗力」？」',r.L[0]==='我囤了二十包。這是我人生最正確的決定。'&&FANG.every(t=>r.L.includes(t))&&r.L.includes('法律系的，颱風天泡麵算不算「不可抗力」？'),JSON.stringify(r.L.slice(0,5)));
-    check('T1a：見過方奕廷＝生活 CG BCG-18（cg_typhoon_noodles）在他進來那一句出現（之前只有阿凱第一句）、登錄的是正式檔',r.cg.length===1&&r.cg[0].id==='cg_typhoon_noodles'&&r.cg[0].at===1&&r.L[1]==='（抱著一盆植物進來）它在陽台會死。'&&CG_REGISTRY.cg_typhoon_noodles&&CG_REGISTRY.cg_typhoon_noodles.file==='assets/cg/kai/event_typhoon_noodles.webp'&&fs.existsSync(path.join(ROOT,CG_REGISTRY.cg_typhoon_noodles.file)),JSON.stringify(r.cg));
+    check('T1a：見過方奕廷＝阿凱「我上禮拜就囤了二十包。你看，有用吧。」、方奕廷三句、阿凱「欸，颱風天泡麵，算不算你們說的那個……不可抗力？」（AA_207 附錄 §2）',r.L[0]==='我上禮拜就囤了二十包。你看，有用吧。'&&FANG.every(t=>r.L.includes(t))&&r.L.includes('欸，颱風天泡麵，算不算你們說的那個……不可抗力？'),JSON.stringify(r.L.slice(0,5)));
+    check('T1a：見過方奕廷＝生活 CG BCG-18（cg_typhoon_noodles）在他進來那一句出現（之前只有阿凱第一句）、登錄的是正式檔',r.cg.length===1&&r.cg[0].id==='cg_typhoon_noodles'&&r.cg[0].at===1&&r.L[1]==='（抱著一盆植物進來）放陽台會被吹倒，先放你們這邊一晚。'&&CG_REGISTRY.cg_typhoon_noodles&&CG_REGISTRY.cg_typhoon_noodles.file==='assets/cg/kai/event_typhoon_noodles.webp'&&fs.existsSync(path.join(ROOT,CG_REGISTRY.cg_typhoon_noodles.file)),JSON.stringify(r.cg));
     check('T1a：三個選項照 BB_110',JSON.stringify(r.O[0])===JSON.stringify(['「算。所以你要分我。」','「不算。這是你自己囤的。」','「看情況。」']),JSON.stringify(r.O[0]));
     check('T1a：「算。」→「這個推論有問題，但我接受。」、不記 SAID_DEPENDS；記 TYPHOON_Y1',r.L.includes(KAI.yes)&&!r.L.includes(KAI.no)&&!SOCIAL.has('kai','SAID_DEPENDS')&&r.F.TYPHOON_Y1===true);
     r=await t1a(true,'不算'); check('T1a：「不算。」→「你好無情。……拿去。」',r.L.includes(KAI.no)&&!r.L.includes(KAI.yes)&&!SOCIAL.has('kai','SAID_DEPENDS'));
-    r=await t1a(true,'看情況'); check('T1a：「看情況。」→「你們法律系每次都這樣。」＋記 SAID_DEPENDS（阿凱，大二 F2 用）',r.L.includes(KAI.dep)&&SOCIAL.has('kai','SAID_DEPENDS'));
+    r=await t1a(true,'看情況'); check('T1a：「看情況。」→「又來了。……好啦，拿去。」＋記 SAID_DEPENDS（阿凱，大二 F2 用）',r.L.includes(KAI.dep)&&SOCIAL.has('kai','SAID_DEPENDS'));
     r=await t1a(false,'算'); check('T1a：沒見過方奕廷＝不放 BCG-18（圖裡有他；BB 2026-10-14 同意）',!r.cg.length,JSON.stringify(r.cg));
-    check('T1a：沒見過方奕廷＝他那三句都跳過，其他照舊',!FANG.some(t=>r.L.includes(t))&&r.L[0]==='我囤了二十包。這是我人生最正確的決定。'&&r.L.includes('法律系的，颱風天泡麵算不算「不可抗力」？')&&r.L.includes(KAI.yes),JSON.stringify(r.L));
+    check('T1a：沒見過方奕廷＝他那三句都跳過，其他照舊',!FANG.some(t=>r.L.includes(t))&&r.L[0]==='我上禮拜就囤了二十包。你看，有用吧。'&&r.L.includes('欸，颱風天泡麵，算不算你們說的那個……不可抗力？')&&r.L.includes(KAI.yes),JSON.stringify(r.L));
     check('T1a：沒見過方奕廷＝演完也還是沒見過（不會因為這個事件變成認識）',!STORY.knows('npc_fangyt',G));
     fresh(TY,19,'dorm',{}); picks=['算']; await EVENTS.run(T1A); G.hour=20; check('T1a：只一次（演完再檢查不會開始）',!EVENTS.check(T1A)); }
   /* ---------- 明軒的三色螢光筆放在房間（BB_95 3-6b，BB 2026-10-14 的旁白）---------- */

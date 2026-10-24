@@ -88,7 +88,7 @@ def srgb(h):
 
 MAT = {
     'floor':   pbr('lb_terrazzo', 'terrazzo_tiles', tile=1.6, sat=0.5, target='#d6cdbd', base_dir=TEX2),          # 一樓大廳、連廊：米色磨石子
-    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#a07a55', base_dir=TEX2, rough_min=0.7),     # 二樓兩翼（自習區）：人字拼木地板
+    'parquet': pbr('lb_parquet', 'herringbone_parquet', tile=1.8, sat=0.8, target='#cdb594', base_dir=TEX2, rough_min=0.7),     # 二樓兩翼（自習區）：淺色人字拼木地板（使用者 10-23：不要深色木地板；同宿舍四人房 #cdb594；原本 #a07a55）
     'granite': pbr('lb_granite', 'granite_tile_03', tile=1.8, sat=0.4, target='#b9b2a6'),                        # 柱子、樓板邊收邊、閘門台座
     'step':    pbr('lb_step', 'granite_tile_03', tile=0.9, sat=0.35, target='#aaa49b'),                          # 樓梯踏面、平台
     'plaster': pbr('lb_plaster', 'painted_plaster_wall', tile=2.5, target='#ece4d6'),
@@ -361,8 +361,8 @@ for k, (x, z) in enumerate(((-CO['x1'], U['band']['z1']), (CO['x1'], U['band']['
     cyl(f'L1_column_{k}', MAT['plaster'], (x, Y1, z), (x, RY, z), 0.26, L1, seg=20)
 
 # ---------------- 外牆：北（平台上方的大窗、二樓多媒體中心的門）、西（窗）、東（二樓樓梯間、研究小間的門）、南面兩翼；正面中間挑高的玻璃帷幕 ----------------
-def wins_w(y0):   # 西牆的窗：每 2.4 m 一扇 1.6 × 2.4
-    return [(z - 0.8, z + 0.8, y0, y0 + 2.4) for z in (-7.2, -4.8, -2.4, 0.0, 2.4, 4.8, 7.2)]
+def wins_w(y0, skip=()):   # 西牆的窗：每 2.4 m 一扇 1.6 × 2.4（skip：一樓 z −2.4 那一扇換成往 B1 的樓梯間門）
+    return [(z - 0.8, z + 0.8, y0, y0 + 2.4) for z in (-7.2, -4.8, -2.4, 0.0, 2.4, 4.8, 7.2) if z not in skip]
 def spans(a0, a1, holes):
     """a0..a1 扣掉 holes（門洞）剩下的段"""
     out = [(a0, a1)]
@@ -378,21 +378,25 @@ def spans(a0, a1, holes):
 
 NW = (LD['x0'] + 0.3, LD['x1'] - 0.3, LD['y'] + 1.0, RY - 0.4)   # 北牆平台上方的大窗（跨兩層：一樓那段到 5.0、二樓那段從 5.0）
 DOORS = {d['id']: d for d in L['doors']}; SDR = L['stairDoor']; md, cr, sf = DOORS['media'], DOORS['carrels'], DOORS['staff']
+B1D = L.get('b1Door')   # 一樓西牆往 B1 的樓梯間門（CLOSED-SPACES-1023 第 2 項，LAWWW2-B 10-23）：換掉 z −2.4 那一扇窗
+B1SKIP = (B1D['z'],) if B1D else ()
 for pre, P, y0, y1 in (('L0', L0, 0.0, Y1), ('L1', L1, Y1, RY)):
     nh = [(NW[0], NW[1], max(y0, NW[2]), min(y1, NW[3]))] if NW[2] < y1 and NW[3] > y0 else []
     if pre == 'L1': nh.append((md['x'] - 0.75, md['x'] + 0.75, Y1, Y1 + 2.6))
     wall_cut(f'{pre}_N', P, 'x', -D / 2, -W / 2, W / 2, y0, y1, nh, [0, 0, 1], MAT['plaster'])
-    wall_cut(f'{pre}_W', P, 'z', -W / 2, -D / 2, D / 2, y0, y1, wins_w(y0 + (1.1 if pre == 'L0' else 1.0)), [1, 0, 0], MAT['plaster'])
+    wh = wins_w(y0 + 1.1, B1SKIP) + ([(B1D['z'] - B1D['w'] / 2 - 0.05, B1D['z'] + B1D['w'] / 2 + 0.05, 0.0, 2.4)] if B1D else []) if pre == 'L0' else wins_w(y0 + 1.0)
+    wall_cut(f'{pre}_W', P, 'z', -W / 2, -D / 2, D / 2, y0, y1, wh, [1, 0, 0], MAT['plaster'])
     eh = [(SDR['z'] - 0.8, SDR['z'] + 0.8, Y1, Y1 + 2.7), (cr['z'] - 0.75, cr['z'] + 0.75, Y1, Y1 + 2.6)] if pre == 'L1' else []
     wall_cut(f'{pre}_E', P, 'z', W / 2, -D / 2, D / 2, y0, y1, eh, [-1, 0, 0], MAT['plaster'])
     for sx in (-1, 1):
         a, b = sorted((sx * V['x1'], sx * W / 2))
         wall_cut(f'{pre}_S{sx}', P, 'x', D / 2, a, b, y0, y1, [], [0, 0, -1], MAT['plaster'])
-    for (z0w, z1w, wy0, wy1) in wins_w(y0 + (1.1 if pre == 'L0' else 1.0)): window(f'{pre}_W', P, 'z', -W / 2, z0w, z1w, wy0, wy1, 1, fade=('Wwin', [1, 0, 0]))
+    for (z0w, z1w, wy0, wy1) in (wins_w(y0 + 1.1, B1SKIP) if pre == 'L0' else wins_w(y0 + 1.0)): window(f'{pre}_W', P, 'z', -W / 2, z0w, z1w, wy0, wy1, 1, fade=('Wwin', [1, 0, 0]))
     if nh: window(f'{pre}_N', P, 'x', -D / 2, NW[0], NW[1], nh[0][2], nh[0][3], 1, fade=('Nwin', [0, 0, 1]))
     # 牆裙（胡桃木 1.0 m，一樓）／踢腳板（二樓）
     hb = 1.0 if pre == 'L0' else 0.12
-    box(f'{pre}_wainscot_W', MAT['walnut'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.03, y0, y0 + hb, -D / 2 + T / 2 + 0.03, D / 2 - T / 2, P)
+    for k, (a, b) in enumerate(spans(-D / 2 + T / 2 + 0.03, D / 2 - T / 2, [(B1D['z'] - B1D['w'] / 2 - 0.1, B1D['z'] + B1D['w'] / 2 + 0.1)] if (B1D and pre == 'L0') else [])):   # 牆裙在 B1 的門口斷開
+        box(f'{pre}_wainscot_W' + (f'_{k}' if k else ''), MAT['walnut'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.03, y0, y0 + hb, a, b, P)
     # 二樓的踢腳板在門口斷開（原本整條穿過多媒體中心、研究小間、樓梯間的門，門下有一條木條，還和門框疊在一起，BUG-COPLANAR-DEV）
     for k, (a, b) in enumerate(spans(-W / 2 + T / 2, W / 2 - T / 2, [(md['x'] - 0.85, md['x'] + 0.85), (NW[0] - 0.08, NW[1] + 0.08)] if pre == 'L1' else [])):
         box(f'{pre}_wainscot_N_{k}', MAT['walnut'], a, b, y0, y0 + hb, -D / 2 + T / 2, -D / 2 + T / 2 + 0.03, P)
@@ -402,6 +406,7 @@ for k, (a, b) in enumerate(spans(-D / 2 + T / 2 + 0.03, D / 2 - T / 2, [(cr['z']
 door('L1_media', L1, 'x', -D / 2, md['x'], Y1, 1, fade=('Ndoor', [0, 0, 1]))
 door('L1_carrels', L1, 'z', W / 2, cr['z'], Y1, -1, fade=('Edoor', [-1, 0, 0]))
 door('L1_stairs', L1, 'z', W / 2, SDR['z'], Y1, -1, w=1.6, h=2.6, mat=MAT['locker'], fade=('Edoor', [-1, 0, 0]))
+if B1D: door('L0_b1stairs', L0, 'z', -W / 2, B1D['z'], 0.0, 1, w=B1D['w'] + 0.1, h=2.3, mat=MAT['locker'], fade=('Wdoor', [1, 0, 0]))   # 往 B1 的樓梯間（灰色鋼門，和二樓往 3F 的一樣；門上的字是遊戲畫的 signs）
 # 正面：門廳的挑高玻璃帷幕（直櫺、橫櫺、兩扇自動門），一樓那段在 L0、二樓那段在 L1
 FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}; gx0, gx1 = V['x0'], V['x1']
 for pre, P, y0, y1 in (('L0', L0, 0.0, Y1), ('L1', L1, Y1, RY - 0.2)):

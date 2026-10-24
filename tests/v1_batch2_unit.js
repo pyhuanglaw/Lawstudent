@@ -101,9 +101,10 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const at=dating?{day:21,h:15+10/60}:{day:20,h:22+7/60}, before=at.day*24+at.h-0.1; G.day=Math.floor(before/24); G.hour=before-G.day*24; PHONE.tick(G);
     const none=!G.msgs.some(m=>m.tag==='zr_dm1'); G.day=at.day; G.hour=at.h+0.02; PHONE.tick(G); STORY.phoneRules(GM); const T=KX('p:heroine_02').map(m=>m.text);
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西；交往中隔天才傳＝「昨天」，飲料都是同一句 */
-    const DRINK={'手沖':'你今天的手沖，悶蒸我多等了十秒。你沒發現。','拿鐵':'你今天的拿鐵，奶泡我多打了三秒。你沒發現。','卡布奇諾':'你今天的卡布奇諾，奶泡我多打了三秒。你沒發現。','熱可可':'你今天的熱可可，奶泡我多打了三秒。你沒發現。','美式':'你今天的美式，水我少加了一點。你沒發現。','茶':'你今天的茶，我多泡了十秒。你沒發現。'};
-    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。你沒發現。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':DRINK[order]);
-    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是 Café 的芷若。','……你應該知道。',third]),JSON.stringify(T));
+    /* AA_207 §5（BB_167 SC3 第 27 列）：前兩則換成店員帳號的正事；「你沒發現。」換成「不知道你喝不喝得出來」、點心的刪掉；交往中隔天那一版照留 */
+    const DRINK={'手沖':'你今天的手沖，悶蒸我多等了十秒。不知道你喝不喝得出來。','拿鐵':'今天那杯拿鐵，奶泡我多打了一點，不知道你喝不喝得出來。','卡布奇諾':'今天那杯卡布奇諾，奶泡我多打了一點，不知道你喝不喝得出來。','熱可可':'今天那杯熱可可，奶泡我多打了一點，不知道你喝不喝得出來。','美式':'你今天的美式，水我少加了一點。不知道你喝不喝得出來。','茶':'你今天的茶，我多泡了十秒。不知道你喝不喝得出來。'};
+    const third=order==='檸檬塔'?(dating?'你昨天的檸檬塔，是我挑的。好吃的話，跟老闆說。':'你今天的檸檬塔，我挑了邊邊最脆的那一塊。'):(dating?'你昨天的那杯，是我做的。好喝的話，跟老闆說。':DRINK[order]);
+    check('F '+(dating?'交往中：加帳號隔天 15:10':'單身：當天 22:07')+'、第一次點'+order+'；時間到才出現；三句（第三句'+(dating?'友情版、「昨天」':'照第一次點的東西')+'）',none&&JSON.stringify(T)===JSON.stringify(['我是兩點半的芷若。店裡的帳號是我在回。','要外帶可以先傳，我先做。',third]),JSON.stringify(T));
     check('F 收到以後有她的聯絡方式',INV.hasContact(G,'heroine_02')); }
   /* ---------- G 語彤事件 3 ---------- */
   { const e=ev('ev_yutong_customer'); const setup=()=>{ fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); };
@@ -115,7 +116,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('G 選「我知道誰會知道」：祐廷傳給學姊兩則（AA 2026-10-14 的原文，不用括號說明），學姊的回覆排在當晚 22:30',JSON.stringify(q.map(m=>m.from+'：'+m.text))===JSON.stringify(['player：學姊，想請問一件事。麵店的阿姨被客人說吃壞肚子，要賠三萬。','player：客人還錄了跟阿姨吵架的聲音，說要告。這種事可以去法服問嗎？'])&&G.phone.q.some(x=>x.tag==='sis_yutong'&&x.day===80&&Math.abs(x.h-22.5)<1e-6),JSON.stringify(q.map(m=>m.text)));
     check('G 語彤第二句拆成兩句（AA：一句 40 字以內）',L.includes('上週有客人說他在我們店吃壞肚子，要我阿姨賠三萬。')&&L.includes('他還錄了跟我阿姨吵架的聲音，說要拿去告。')&&L.every(t=>[...t].length<=40),JSON.stringify(L.filter(t=>[...t].length>40)));
     G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
-    check('G 學姊 22:30 的四句（BB_95 4-3；第 80 天是第 14 週＝雙週，這週六法服沒有值班 → 雙週版「下週六」，AA_140 G47）',JSON.stringify(W)===JSON.stringify(['三件事。','一，叫阿姨下週六早上九點來萬才館，法服有值班。','二，發票、那天的進貨單、監視器的時間，全部留著。','三，叫阿姨先睡覺。這種事，準備好就不可怕。']),JSON.stringify(W));
+    check('G 學姊 22:30 的三句（BB_95 4-3；AA_398 第 6 列拿掉「三件事。」與編號；第 80 天是第 14 週＝雙週，這週六法服沒有值班 → 雙週版「下週六」，AA_140 G47；AA_207 §7 第 2 列：第三句後半的標語句拿掉）',JSON.stringify(W)===JSON.stringify(['叫阿姨下週六早上九點來萬才館，法服有值班。','發票、那天的進貨單、監視器的時間，全部留著。','然後叫阿姨先睡覺。']),JSON.stringify(W));
     check('G 沒有語彤的聯絡方式：下次在麵店當面給她看（ev_yutong_fwd）',G.flags.yutongFwdInPerson===true&&EVENTS.check(ev('ev_yutong_fwd'))===true);
     said=[]; await EVENTS.run(ev('ev_yutong_fwd')); check('G 當面：「你把學姊的回覆給語彤看。」「……法服是什麼？」',JSON.stringify(lines())===JSON.stringify(['你把學姊的回覆給語彤看。','……法服是什麼？'])); }
   { const e=ev('ev_yutong_customer'); fresh(80,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); INV.rec(G); G.contacts.heroine_03=70; picks=['我不知道']; await EVENTS.run(e);
@@ -132,7 +133,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
   { const termDay=(t,w,d)=>STORY.termDay(t,w,d), e=ev('ev_yutong_customer'), D15=termDay('Y1S1',15,3); fresh(D15,20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x'); picks=['我不知道']; await EVENTS.run(e);
     STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); STORY.phoneRules(GM); const W=KX('p:heroine_05').filter(m=>m.from==='heroine_05').map(m=>m.text);
     const fs=STORY.fafuSat(D15);
-    check('G47 第 15 週（單週）：「這週六」；值班週六就是這一週的週六',W[1]==='一，叫阿姨這週六早上九點來萬才館，法服有值班。'&&fs.thisWeek&&fs.day===termDay('Y1S1',15,6),JSON.stringify({W:W[1],fs}));
+    check('G47 第 15 週（單週）：「這週六」；值班週六就是這一週的週六',W[0]==='叫阿姨這週六早上九點來萬才館，法服有值班。'&&fs.thisWeek&&fs.day===termDay('Y1S1',15,6),JSON.stringify({W:W[0],fs}));
     const f16=STORY.fafuSat(termDay('Y1S1',16,2)), f8=STORY.fafuSat(termDay('Y1S2',8,2)), f1=STORY.fafuSat(termDay('Y1S2',1,2));
     check('G47 法服值班的週六：第 16 週 → 不是這週；考試週（大一下第 8、9 週）跳過；第 1 週 → 第 3 週',!f16.thisWeek&&CALENDAR.termOf(f8.day).week===11&&CALENDAR.termOf(f1.day).week===3,JSON.stringify([f16,f8&&CALENDAR.termOf(f8.day),f1&&CALENDAR.termOf(f1.day)]));
     fresh(termDay('Y2S1',15,3),20.5,'noodle',{dating_kexin:true}); SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','SHARED_MEAL','x');

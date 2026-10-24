@@ -120,7 +120,7 @@ const LB3=(function(){
       for(const sx of [-1,1]) wall(sx*(V.x1+W/2)/2,D/2,W/2-V.x1,h,y,0,new THREE.Vector3(0,0,-1),wallM,grp); }
     /* 窗外的景：備用模型的牆沒有洞，景貼在牆的內側；正式模型的牆有窗洞，景搬到牆外面（fpos）、放大一點（斜著看也蓋得住窗洞）*/
     const outPlane=(w,h,x,y,z,ry,grp,fpos,kind,fx)=>{ const geo=new THREE.PlaneGeometry(w,h); cropUV(geo,w/h,fx==null?0.5:fx); const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:outsideTex(false)})); m.position.set(x,y,z); m.rotation.y=ry; m.userData.libOut=true; m.userData.view=kind||'lawn'; if(fpos) m.userData.fpos=fpos; grp.add(m); outs.push(m); return m; };
-    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z),'lawn',(7.2-z)/14.4); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
+    for(const [grp,y0] of [[lv0,1.1],[lv1,Y1+1.0]]) for(let z=-7.2;z<=7.3;z+=2.4){ if(grp===lv0&&L.b1Door&&Math.abs(z-L.b1Door.z)<0.1) continue;   /* 一樓 z −2.4 那一扇換成往 B1 的樓梯間門 */ outPlane(1.6,2.4,-W/2+T/2+0.02,y0+1.2,z,Math.PI/2,grp,new THREE.Vector3(-W/2-0.5,y0+1.2,z),'lawn',(7.2-z)/14.4); (grp===lv0?b0:b1).add(MAT.frame(),TK.boxG(0.08,2.56,1.76),-W/2+T/2+0.03,y0+1.2,z); }
     { const gw=LD.x1-LD.x0-0.6, gh=RY-LD.y-1.6; outPlane(gw,gh,0,LD.y+1.0+gh/2,-D/2+T/2+0.02,0,lv0,new THREE.Vector3(0,LD.y+1.0+gh/2,-D/2-0.6)); for(let x=-gw/2;x<=gw/2+0.01;x+=gw/4) b0.add(MAT.frame(),TK.boxG(0.1,gh,0.1),x,LD.y+1.0+gh/2,-D/2+T/2+0.05); for(const y of [LD.y+1.0,LD.y+1.0+gh/2,LD.y+1.0+gh]) b0.add(MAT.frame(),TK.boxG(gw,0.1,0.1),0,y,-D/2+T/2+0.05); }
     { const gw=V.x1-V.x0, gh=RY-0.2; const gp=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),MAT.glass()); gp.position.set(0,gh/2,D/2-0.02); gp.rotation.y=Math.PI; lv0.add(gp);
       for(let x=V.x0;x<=V.x1+0.01;x+=gw/6) b0.add(MAT.frame(),TK.boxG(0.12,gh,0.14),x,gh/2,D/2-0.06); for(const y of [3.0,Y1,Y1+2.4,gh]) b0.add(MAT.frame(),TK.boxG(gw,0.12,0.14),0,y,D/2-0.06);
@@ -174,12 +174,14 @@ const LB3=(function(){
     // 樓梯間的門（往 3F 閱覽區）
     { const SDR=L.stairDoor, y=L.floors[1].y; const dg=new THREE.Group(); dg.position.set(SDR.x,y,SDR.z); dg.rotation.y=-Math.PI/2; const db=new TK.Bin(); db.add(MAT.frame(),TK.boxG(1.6,2.6,0.12),0,1.3,0); db.add(M('#7a8288',{rough:0.4}),TK.boxG(1.4,2.45,0.06),0,1.22,0.06); db.build(dg); fb1.add(dg);
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.4),new THREE.MeshBasicMaterial({map:TK.signTex('樓梯間　3F 閱覽區 ↑',{bg:'#2f5d50',color:'#ffffff'})})); sg.position.set(0,2.95,0.16); dg.add(sg); lv1.attach(sg); }
+    // 樓梯間的門（往 B1，一樓西牆；CLOSED-SPACES-1023 第 2 項，LAWWW2-B 10-23）：門上的字在 signs
+    if(L.b1Door){ const BD=L.b1Door; const dg=new THREE.Group(); dg.position.set(BD.x,0,BD.z); dg.rotation.y=Math.PI/2; const db=new TK.Bin(); db.add(MAT.frame(),TK.boxG(BD.w+0.2,2.4,0.12),0,1.2,0); db.add(M('#7a8288',{rough:0.4}),TK.boxG(BD.w,2.3,0.06),0,1.15,0.06); db.build(dg); fb0.add(dg); }
     // 指標（中文字一直顯示：正式模型沒有字）
     for(const s of L.signs){ const y=(s.lv?L.floors[1].y:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.18),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#24303a',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); }
     // 樓層簡介（大樓梯旁邊）
-    { const tx=W3.canvasTex('lbboard',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜服務台｜期刊報紙｜新書展示',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText('4F–6F　書庫（整理中）',24,214); });
+    { const tx=W3.canvasTex('lbboard',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('總圖書館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜服務台｜期刊報紙｜新書展示',24,100); x.fillText('2F　自習區｜研究小間',24,138); x.fillText('3F　閱覽區（東側樓梯間、電梯）',24,176); x.fillText('4F–6F　書庫（整理中）',24,214); if(L.b1Door) x.fillText('B1　自習室｜討論室｜影印（西側樓梯）',24,246); });
       const bd=new THREE.Mesh(new THREE.PlaneGeometry(1.8,0.9),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(-3.2,1.6,-0.48); lv0.add(bd);
-      IT.push({x:-3.2,z:0.35,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、期刊報紙、新書展示；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；4F–6F 書庫（這學期整理中）。中間的大樓梯上二樓。'}); } }
+      IT.push({x:-3.2,z:0.35,radius:1.0,lv:0,label:'看樓層簡介',look:'總圖書館 樓層簡介：1F 大廳、服務台、期刊報紙、新書展示；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；4F–6F 書庫（這學期整理中）。'+(L.b1Door?'B1 是 24 小時自習室、討論室、影印中心（一樓西側的樓梯間下去）。':'')+'中間的大樓梯上二樓。'}); } }
 
   // ---- 電梯的樓層：「別的區域」的樓層（3F 閱覽區）帶出生點（車廂裡面，門關著）----
   function elevSpawn(EL,lv){ return {x:(EL.x0+EL.x1)/2,z:(EL.z0+EL.z1)/2-0.15,yaw:Math.PI,lv:lv|0,elev:true}; }
@@ -212,6 +214,7 @@ const LB3=(function(){
     const IT=E.interactables, EN=L.entrance, SDR=L.stairDoor;
     IT.push({x:EN.x,z:EN.exitZ,radius:1.4,lv:0,label:'離開總圖',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 進來的出生點離出口 1.7 m：一進來不會就跳出「離開總圖」*/
     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
+    if(L.b1Door&&typeof LIBRARY_B1_LAYOUT!=='undefined'){ const BD=L.b1Door, sp=LIBRARY_B1_LAYOUT.stairs.spawn; IT.push({x:BD.x+0.55,z:BD.z,radius:0.8,lv:0,label:BD.label,exit:{to:'library_b1',spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}}}); }   /* 往 B1（src/library_b1_3d.js）：站到 B1 樓梯間的門前 */
     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/

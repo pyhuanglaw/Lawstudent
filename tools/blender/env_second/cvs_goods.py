@@ -50,6 +50,20 @@ for b, n, bg, fg, ac, pr in (('文青', '原子筆', '#ffffff', '#1d1d1f', '#2f7
     prod('stationery', 'box', 0.09, 0.19, 0.02, bg, fg, ac, b, n, pr, deco='window')
 for b, n, bg, fg, ac, pr in (('', '', '#f4f1ea', '#6a6a6a', '#b8b8b8', 0), ('', '', '#e8e8e8', '#2a2a2a', '#d8432f', 0), ('', '', '#d9d4c8', '#3a3a3a', '#2f7ed8', 0), ('', '', '#f4f1ea', '#2a2a2a', '#3c7d3a', 0)):
     prod('smoke', 'box', 0.056, 0.088, 0.022, bg, fg, ac, b, n, pr, deco='band')     # 香菸櫃：只有色帶、沒有字（不畫品牌）
+# 2026-10-23 LAWWW2-B（公館、118 巷店面玻璃後面的淺店內；使用者：「公館店面外觀也一樣醜」）：藥局、唱片行、文具畫材行的商品，加在最後面（便利商店的格子位置不變）
+for b, n, bg, fg, ac, pr in (('安康', '感冒熱飲', '#ffffff', '#1f6f78', '#e8a33a', 120), ('舒暢', '胃腸錠', '#2f7a3a', '#ffffff', '#c8e06a', 150), ('百泰', '止痛錠', '#d8432f', '#ffffff', '#ffffff', 99),
+                             ('晴朗', '鼻炎膠囊', '#2f7ed8', '#ffffff', '#c9e2f2', 180), ('仁心', '綜合維他命', '#f2c230', '#5a3a10', '#d8432f', 350), ('仁心', '葉黃素', '#f08a24', '#ffffff', '#3c7d3a', 450),
+                             ('清明', '眼藥水', '#c9e2f2', '#1f4fa0', '#2f7ed8', 90), ('安康', '喉片', '#3c7d3a', '#fff4d6', '#c8a03a', 80)):
+    prod('med', 'box', 0.075 if pr < 100 else 0.1, 0.12 if pr < 300 else 0.15, 0.06, bg, fg, ac, b, n, pr, deco='stripe')
+for b, n, bg, fg, ac, pr in (('百泰', '痠痛貼布', '#ffffff', '#d8432f', '#f2c230', 199), ('潤膚', '乳液', '#f4b6c8', '#7a1f4a', '#ffffff', 250), ('安康', '酒精', '#ffffff', '#2f7ed8', '#7cc4e8', 65)):
+    prod('med2', 'box', 0.15 if n == '痠痛貼布' else 0.07, 0.11 if n == '痠痛貼布' else 0.2, 0.05, bg, fg, ac, b, n, pr, deco='band')
+for b, n, bg, fg, ac in (('午後雷陣雨', '首張專輯', '#2f4a6a', '#f6e2b3', '#e8a33a'), ('溫州街', '黑膠', '#e8d5b0', '#5a3220', '#b8231c'), ('夜行', 'NIGHT BUS', '#1d1d1f', '#f2c230', '#2f7ed8'),
+                         ('藍色時刻', 'LIVE', '#5bb6c9', '#1d1d1f', '#ffffff'), ('老鄧', '經典金曲', '#b8231c', '#fff4d6', '#f2c230'), ('海邊的人', '二手', '#f4efe4', '#1f6f78', '#e85d6a'),
+                         ('爵士之夜', 'JAZZ', '#3a2418', '#e8b84a', '#c8501f'), ('白日夢', 'EP', '#c89ae8', '#ffffff', '#6a2f8a')):
+    prod('record', 'box', 0.31, 0.31, 0.006, bg, fg, ac, b, n, 0, deco='record')
+for b, n, bg, fg, ac, pr in (('彩繪', '色鉛筆 24 色', '#2f7ed8', '#ffffff', '#f2c230', 280), ('彩繪', '水彩 12 色', '#ffffff', '#d8432f', '#2f7ed8', 220), ('文青', '素描本', '#1d1d1f', '#ffffff', '#c8a03a', 120),
+                             ('文青', '筆記本 A5', '#e8d5b0', '#5a3220', '#7a4a1a', 45), ('貼貼', '紙膠帶', '#f4b6c8', '#7a1f4a', '#5bb6c9', 60), ('彩繪', '畫筆組', '#3c7d3a', '#ffffff', '#e8b84a', 150)):
+    prod('art', 'box', 0.19 if '色' in n else (0.21 if n in ('素描本', '筆記本 A5') else 0.1), 0.12 if '色' in n else (0.28 if n == '素描本' else (0.21 if n == '筆記本 A5' else 0.16)), 0.03, bg, fg, ac, b, n, pr, deco='band')
 PROMO = len(P)                          # 端架的促銷牌、價格標籤用後面幾格
 CATS = {}
 for p in P: CATS.setdefault(p['cat'], []).append(p)
@@ -136,11 +150,47 @@ def _art(d, cat, p, X0, Y0, X1, Y1):
         if p['name'] == '原子筆':
             for k in (-1, 0, 1): d.line([cx + k * w * 0.18, Y0 + h * 0.1, cx + k * w * 0.18, Y1 - h * 0.08], fill=(ac if k else '#d8432f'), width=max(2, int(w * 0.08)))
         else: d.rectangle([cx - w * 0.28, Y0 + h * 0.12, cx + w * 0.28, Y1 - h * 0.1], fill=ac)
+    elif cat in ('med', 'med2'):                               # 藥盒：綠十字或膠囊
+        if p['name'] in ('痠痛貼布', '乳液', '酒精'): d.rounded_rectangle([cx - r * 0.8, cy - r * 0.5, cx + r * 0.8, cy + r * 0.5], radius=r * 0.2, fill=ac)
+        elif '維他命' in p['name'] or p['name'] == '葉黃素':
+            for k in (-1, 1): d.ellipse([cx + k * r * 0.45 - r * 0.32, cy - r * 0.32, cx + k * r * 0.45 + r * 0.32, cy + r * 0.32], fill=ac)
+        else:
+            d.rounded_rectangle([cx - r * 0.75, cy - r * 0.3, cx + r * 0.75, cy + r * 0.3], radius=r * 0.3, fill='#ffffff', outline=ac, width=max(1, int(r * 0.08)))
+            d.rounded_rectangle([cx, cy - r * 0.3, cx + r * 0.75, cy + r * 0.3], radius=r * 0.3, fill=ac)
+    elif cat == 'art' and p['name'] in ('素描本', '筆記本 A5'):    # 本子：封面上幾條橫線
+        for k in range(4): d.line([X0 + w * 0.15, Y0 + h * (0.2 + k * 0.18), X1 - w * 0.15, Y0 + h * (0.2 + k * 0.18)], fill=ac, width=max(1, int(h * 0.04)))
+    elif cat == 'art':                                         # 色鉛筆、水彩：一排顏色
+        cols = ['#d8432f', '#f08a24', '#f2c230', '#3c8d3a', '#2f7ed8', '#6a2f8a']
+        for k, c in enumerate(cols): d.rectangle([X0 + w * k / len(cols), cy - h * 0.25, X0 + w * (k + 1) / len(cols) - 1, cy + h * 0.25], fill=c)
     else:
         d.rectangle([X0, cy - h * 0.1, X1, cy + h * 0.1], fill=ac)
 
 
+def draw_record(im, p):
+    """黑膠唱片封套：正方形的封面（抽象的圖、樂團名、專輯名），沒有價格"""
+    x0c, y0c = (p['cell'] % N) * CELL, (p['cell'] // N) * CELL; d = ImageDraw.Draw(im); rr = random.Random(p['cell'] * 7)
+    d.rectangle([x0c, y0c, x0c + CELL - 1, y0c + CELL - 1], fill=p['bg'])
+    fx0, fy0, fx1, fy1 = FRONT[p['cell']]; x0, y0, S = x0c + fx0, y0c + fy0, fx1 - fx0
+    cx, cy = x0 + S / 2 + rr.uniform(-12, 12), y0 + S / 2 + rr.uniform(-8, 12); ac = p['accent']
+    style = p['cell'] % 4
+    if style == 0:
+        for k in range(5, 0, -1): d.ellipse([cx - k * 9, cy - k * 9, cx + k * 9, cy + k * 9], outline=ac if k % 2 else p['fg'], width=3)
+    elif style == 1:
+        for k in range(6): d.rectangle([x0 + 6 + k * 16, y0 + 20 + (k % 3) * 16, x0 + 18 + k * 16, y0 + S - 8], fill=ac if k % 2 else p['fg'])
+    elif style == 2:
+        d.polygon([(x0 + 8, y0 + S - 8), (cx, y0 + 16), (x0 + S - 8, y0 + S - 8)], fill=ac); d.ellipse([cx - 12, y0 + 28, cx + 12, y0 + 52], fill=p['fg'])
+    else:
+        d.ellipse([cx - 32, cy - 32, cx + 32, cy + 32], fill=ac); d.rectangle([x0, y0 + S * 0.7, x0 + S, y0 + S * 0.7 + 8], fill=p['fg'])
+    f = _font(15)
+    while d.textlength(p['brand'], font=f) > S - 10 and f.size > 9: f = _font(f.size - 1)
+    d.text((x0 + 5, y0 + 3), p['brand'], fill=p['fg'], font=f)
+    d.text((x0 + S - 5, y0 + S - 3), p['name'], fill=p['fg'], font=_font(11), anchor='rd')
+    side = tuple(max(0, int(c * 0.7)) for c in Image.new('RGB', (1, 1), p['bg']).getpixel((0, 0)))
+    d.rectangle([x0c, y0c + 112, x0c + CELL, y0c + CELL - 1], fill=side)
+
+
 def draw_cell(im, p):
+    if p['deco'] == 'record': return draw_record(im, p)
     """一格包裝：上面 112 px 是正面（照實際長寬比畫在中間，FRONT 記住範圍）；最下面 16 px 是側面的顏色"""
     x0, y0 = (p['cell'] % N) * CELL, (p['cell'] // N) * CELL
     d = ImageDraw.Draw(im)
@@ -268,8 +318,9 @@ def solid_uv(col):
 
 
 class Goods:
-    def __init__(self, name, mat):
-        self.name, self.mat = name, mat; self.bm = bmesh.new(); self.uv = self.bm.loops.layers.uv.new('UVMap'); self.n = 0
+    def __init__(self, name, mat, lod=0):
+        """lod=1：隔著店面玻璃遠看用的低面數（瓶罐六邊、少幾圈，袋子少幾格；2026-10-23 公館、118 巷店面，一條街幾百瓶）"""
+        self.name, self.mat, self.lod = name, mat, lod; self.bm = bmesh.new(); self.uv = self.bm.loops.layers.uv.new('UVMap'); self.n = 0
 
     # ---- 基本形狀（遊戲座標）
     def _face(self, pts, uvs):
@@ -299,7 +350,7 @@ class Goods:
         back = (cx - nrm[0] * D / 2, cz - nrm[2] * D / 2)        # 背面的中心（貼著貨架）
         def P(u, y, off):                                         # u∈[0,1] 由左往右、off＝離背面往外
             return (back[0] + rgt[0] * (u - 0.5) * W + nrm[0] * off, y, back[1] + rgt[2] * (u - 0.5) * W + nrm[2] * off)
-        US, VS, seal = (0.0, 0.15, 0.5, 0.85, 1.0), (0.0, 0.07, 0.35, 0.65, 0.93, 1.0), 0.07
+        US, VS, seal = ((0.0, 0.5, 1.0), (0.0, 0.12, 0.88, 1.0), 0.07) if self.lod else ((0.0, 0.15, 0.5, 0.85, 1.0), (0.0, 0.07, 0.35, 0.65, 0.93, 1.0), 0.07)
         def off(u, v):
             sv = 0.0 if v <= seal or v >= 1 - seal else math.sin(math.pi * (v - seal) / (1 - 2 * seal)) ** 0.55
             return D * (0.3 + 0.7 * math.sin(math.pi * u) ** 0.5 * sv) if 0 < u < 1 else D * 0.3
@@ -346,12 +397,14 @@ class Goods:
         self._face(pts, [uvpt] * seg)
 
     def cup(self, cx, cz, y, p, face='+z'):
-        r1, r0, h = p['w'] / 2, p['w'] / 2 * 0.8, p['h']
-        self.ring(cx, cz, y, y + h, r0, r1, 10, p['cell'], face=face); lid = cell_uv(p['cell'], 'side')
-        self.disc(cx, cz, y + h, r1 + 0.003, 10, solid_uv('#ffffff')); self.n += 1
+        r1, r0, h = p['w'] / 2, p['w'] / 2 * 0.8, p['h']; sg = 6 if self.lod else 10
+        self.ring(cx, cz, y, y + h, r0, r1, sg, p['cell'], face=face); lid = cell_uv(p['cell'], 'side')
+        self.disc(cx, cz, y + h, r1 + 0.003, sg, solid_uv('#ffffff')); self.n += 1
 
     def can(self, cx, cz, y, p, face='+z'):
         r, h = p['w'] / 2, p['h']
+        if self.lod:
+            self.ring(cx, cz, y, y + h, r, r, 6, p['cell'], face=face); self.disc(cx, cz, y + h, r, 6, solid_uv('#c9ccd0')); self.n += 1; return
         self.ring(cx, cz, y + 0.008, y + h - 0.01, r, r, 10, p['cell'], face=face)
         self.ring(cx, cz, y, y + 0.008, r * 0.86, r, 10, p['cell'], uvpt=solid_uv('#c9ccd0'))
         self.ring(cx, cz, y + h - 0.01, y + h, r, r * 0.88, 10, p['cell'], uvpt=solid_uv('#c9ccd0'))
@@ -360,12 +413,15 @@ class Goods:
     def bottle(self, cx, cz, y, p, face='+z'):
         """寶特瓶：瓶身（液體顏色）、標籤（包裝）、瓶肩、瓶頸、瓶蓋"""
         r, h = p['w'] / 2, p['h']; liq = solid_uv(p.get('liquid', '#ffffff'))
-        prof = [(0.0, r * 0.9, liq), (0.02, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.18, r * 0.78, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
+        prof = [(0.0, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))] if self.lod else \
+               [(0.0, r * 0.9, liq), (0.02, r, liq), (BOTTLE_LABEL[0], r, None), (BOTTLE_LABEL[1], r, liq), (0.18, r * 0.78, liq), (0.2, r * 0.42, liq), (0.212, r * 0.4, solid_uv('#ffffff'))]
         prof = [(y + t * h / 0.235, rr, u) for t, rr, u in prof]
         for (ya, ra, ua), (yb, rb, ub) in zip(prof, prof[1:]):
-            if ua is None: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], face=face)
-            else: self.ring(cx, cz, ya, yb, ra, rb, 8, p['cell'], uvpt=ua, face=face)
+            sg = 6 if self.lod else 8
+            if ua is None: self.ring(cx, cz, ya, yb, ra, rb, sg, p['cell'], face=face)
+            else: self.ring(cx, cz, ya, yb, ra, rb, sg, p['cell'], uvpt=ua, face=face)
         cap = solid_uv(p['accent'] if p['accent'] in SOLIDS else ('#ffffff' if p['bg'] != '#ffffff' else '#2f7ed8'))
+        if self.lod: self.disc(cx, cz, y + h * 0.212 / 0.235, r * 0.4, 6, cap); self.n += 1; return   # 低面數：瓶蓋只畫頂面
         self.ring(cx, cz, y + h * 0.9, y + h, r * 0.42, r * 0.42, 8, p['cell'], uvpt=cap); self.disc(cx, cz, y + h, r * 0.42, 8, cap); self.n += 1
 
     def tag(self, x0, x1, y0, y1, zf, face, price):
@@ -418,7 +474,7 @@ class Goods:
             if a + p['w'] > a1 - 0.02: break
             start = a
             # 矮的商品往上疊（真的便利商店麵包、面紙、杯麵會疊兩三層；2026-10-15 後牆層板上方空一大截）：瓶子、罐子不疊
-            tiers = 1 if p['shape'] in ('bottle', 'can') else max(1, min(2, int((hmax + 0.01) // (p['h'] + 0.004))))
+            tiers = 1 if (p['shape'] in ('bottle', 'can') or self.lod) else max(1, min(2, int((hmax + 0.01) // (p['h'] + 0.004))))   # 低面數（隔著玻璃）不疊
             if tiers > 1 and rng.random() < 0.25: tiers -= 1
             for i in range(n):
                 if a + p['w'] > a1 - 0.02: break

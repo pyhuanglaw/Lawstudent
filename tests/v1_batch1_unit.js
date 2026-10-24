@@ -95,7 +95,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     fresh(Y1S1+1,15,'cafe'); picks=['只是看看']; await EVENTS.run(e); check('Z1 「只是看看」不算點餐（計數沒有加）',!(G.flags.CAFE_VISITS>0));
     /* 先在經原分組認識 */
     fresh(Y1S1+2,15,'cafe'); SOCIAL.meet('heroine_02','classroom'); G.events.done.ev_zhiruo_ge_group=1; picks=['拿鐵']; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
-    check('Z1 先在經原分組認識：第一次點餐「……經原那組的。法律系的。……」、不說名字、沒有「妳是外文系的？」',L[0]==='……經原那組的。法律系的。你們系的人點餐都像在念條文。'&&!L.some(t=>NAME.test(t))&&!o.some(t=>/外文系/.test(t)),JSON.stringify({L0:L[0],o}));
+    check('Z1 先在經原分組認識：第一次點餐「啊，經原那組的。今天喝什麼？」（AA_207 §5／BB_167 SC3 第 25 列；原本「……經原那組的。法律系的。……」）、不說名字、沒有「妳是外文系的？」',L[0]==='啊，經原那組的。今天喝什麼？'&&!L.some(t=>NAME.test(t))&&!o.some(t=>/外文系/.test(t)),JSON.stringify({L0:L[0],o}));
     /* SHARED_SECRET 的開場（第 2～4 次優先）*/
     fresh(Y1S1+2,15,'cafe'); SOCIAL.meet('heroine_02','cafe'); G.flags.CAFE_VISITS=2; SOCIAL.remember('heroine_02','SHARED_SECRET','x'); await EVENTS.run(e);
     check('Z1 有 SHARED_SECRET 的第 2～4 次：「又來了。今天要「老樣子」嗎？我記得你的。」',lines()[0]==='又來了。今天要「老樣子」嗎？我記得你的。',lines()[0]);

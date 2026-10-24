@@ -64,10 +64,10 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('Q1 第 4 週（第 6 天起）才觸發',a===false&&b===true&&CALENDAR.termOf(6).week===4,JSON.stringify({a,b,week:CALENDAR.termOf(6).week})); }
   /* ---------- Z2 ---------- */
   { const e=ev('ev_zhiruo_ge_group'); const fri=dayOfWeek(4,5); fresh(fri,12.3,'putong',{dating_kexin:true}); picks=['網拍']; await EVENTS.run(e); const L=lines();
-    check('Z2 「網拍標錯價」之後芷若的兩句（BB_95 2-4 原文），再接原本的收尾',L.includes('（眼睛一亮）一千元的相機那種？你們法律系上課講這個？')&&L.includes('……好，這個可以拍成短片。我剪片。你負責講。')&&L[L.length-1]==='太好了。組員裡有一個法律系的，老師會怕我們。',JSON.stringify(L));
+    check('Z2 「網拍標錯價」之後芷若的兩句，再接收尾（AA_207 §2、附錄：「標錯價喔？……原來你們上課會講這個。」、收尾「好，那我把你拉進群組，報告的事群組講。」；開場沒見過的版本「不好意思，你是法律系的嗎？剛剛點名有聽到。」）',L[0]==='不好意思，你是法律系的嗎？剛剛點名有聽到。'&&L.includes('標錯價喔？我看過那種新聞。原來你們上課會講這個。')&&L.includes('……好，這個可以拍成短片。我剪片。你負責講。')&&L[L.length-1]==='好，那我把你拉進群組，報告的事群組講。',JSON.stringify(L));
     STORY.phoneRules(GM); G.hour+=0.3; PHONE.tick(G); const T=PHONE.thread(G,'g:ge_econ');
     check('Z2 加入小組群組，她的第一則「我負責剪片。不要叫我上台。」',PHONE.inGroup(G,'ge_econ')&&T.length===1&&T[0].from==='heroine_02'&&T[0].text==='我負責剪片。不要叫我上台。',JSON.stringify(T.map(m=>m.text)));
-    fresh(fri,12.3,'putong'); picks=['報告很爛']; await EVENTS.run(e); check('Z2 另一個加入的選項：沒有「網拍」那兩句、照樣加入',!lines().some(t=>/一千元的相機/.test(t))&&G.flags.ge_group_zhiruo===true&&G.flags.geGroupDay===fri);
+    fresh(fri,12.3,'putong'); picks=['報告很爛']; await EVENTS.run(e); check('Z2 另一個加入的選項：沒有「網拍」那兩句、照樣加入',!lines().some(t=>/標錯價喔/.test(t))&&G.flags.ge_group_zhiruo===true&&G.flags.geGroupDay===fri);
     fresh(fri,12.3,'putong'); picks=['已經有組']; await EVENTS.run(e); STORY.phoneRules(GM); check('Z2 「我已經有組了。」：不加入群組',!G.flags.ge_group_zhiruo&&!PHONE.inGroup(G,'ge_econ'));
     const fin=ev('ev_zhiruo_ge_final'); fresh(dayOfWeek(15,3),20,'dorm',{ge_group_zhiruo:true}); const a=EVENTS.check(fin); fresh(dayOfWeek(16,3),20,'dorm',{ge_group_zhiruo:true}); const b=EVENTS.check(fin);
     await EVENTS.run(fin); check('Z2 期末（第 16 週，16 週制）旁白一行（不排「第一個」），第 15 週還沒有',a===false&&b===true&&lines()[0]==='三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'&&!/第一個/.test(lines()[0])); }
@@ -88,14 +88,14 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
   /* ---------- Q2 ---------- */
   { const e=ev('ev_ziqing_club'); const mon=dayOfWeek(5,1);
     for(const inv of [true,false]){ fresh(mon,19.2,'wancai',inv?{guitar_invite:true}:{}); await EVENTS.run(e); const L=lines();
-      const want=inv?'欸不是，你就是阿凱的室友？法律系那個？':'新人？……法律系的？坐那邊，零食自己拿。', other=inv?'新人？……法律系的？坐那邊，零食自己拿。':'欸不是，你就是阿凱的室友？法律系那個？';
-      check('Q2 '+(inv?'有':'沒有')+' guitar_invite：開場只有「'+want.slice(0,8)+'…」那一種，接自我介紹和「今天系上有程式比賽。我沒去。我來這裡彈吉他。」',L[0]===want&&!L.includes(other)&&L[1]==='我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。'&&L[2]==='今天系上有程式比賽。我沒去。我來這裡彈吉他。',JSON.stringify(L.slice(0,3))); }
+      const want=inv?'你是阿凱的室友？法律系那個？':'新人？……法律系的？坐那邊，零食自己拿。', other=inv?'新人？……法律系的？坐那邊，零食自己拿。':'你是阿凱的室友？法律系那個？';   /* AA_207 §5（BB_167 SC3 第 21 列）：第一次見面不用「欸不是」 */
+      check('Q2 '+(inv?'有':'沒有')+' guitar_invite：開場只有「'+want.slice(0,8)+'…」那一種，接自我介紹和「今天系上有程式比賽，一半的人跑去了，所以人很少。」（AA_207 附錄 §2）',L[0]===want&&!L.includes(other)&&L[1]==='我高子晴，資工系的。先講好：我們社團沒有人會彈，都是來吃東西的。'&&L[2]==='今天系上有程式比賽，一半的人跑去了，所以人很少。',JSON.stringify(L.slice(0,3))); }
     STORY.phoneRules(GM); G.hour=21.6; PHONE.tick(G); const T=PHONE.thread(G,'g:guitar');
     check('Q2 第一次去的晚上：進吉他社群組，她的第一則「新人自己報名字，不要讓我問。這不是問句。」',PHONE.inGroup(G,'guitar')&&T.length===1&&T[0].text==='新人自己報名字，不要讓我問。這不是問句。');
-    fresh(mon+7,19.2,'wancai',{}); SOCIAL.meet('heroine_04','wancai'); SOCIAL.adjust('heroine_04',{fam:40,trust:20,comf:20}); const r0=Object.assign({},SOCIAL.rel('heroine_04')); picks=['為什麼不去比賽']; await EVENTS.run(e); const r1=SOCIAL.rel('heroine_04'), L=lines();
-    check('Q2 「為什麼不去比賽？」（沒有「阿凱說妳系上第一名」）',opts[0].includes('「為什麼不去比賽？」')&&!opts[0].some(t=>/第一名/.test(t)),JSON.stringify(opts[0]));
+    fresh(mon+7,19.2,'wancai',{}); SOCIAL.meet('heroine_04','wancai'); SOCIAL.adjust('heroine_04',{fam:40,trust:20,comf:20}); const r0=Object.assign({},SOCIAL.rel('heroine_04')); picks=['程式比賽，妳怎麼沒去']; await EVENTS.run(e); const r1=SOCIAL.rel('heroine_04'), L=lines();
+    check('Q2 「上次那個程式比賽，妳怎麼沒去？」（AA_207 附錄 §2；原本「為什麼不去比賽？」；沒有「阿凱說妳系上第一名」）',opts[0].includes('「上次那個程式比賽，妳怎麼沒去？」')&&!opts[0].some(t=>/第一名/.test(t)),JSON.stringify(opts[0]));
     check('Q2 不扣 trust、fam +3',r1.trust===r0.trust&&r1.fam-r0.fam===3,JSON.stringify({trust:[r0.trust,r1.trust],fam:[r0.fam,r1.fam]}));
-    check('Q2 回答：「那是別人覺得我『應該』去的地方……」接「C 和弦再按一次。手指不要放。」，沒有「阿凱話很多」',L.includes('因為那是別人覺得我「應該」去的地方。我家已經有一個「應該」了，我不想再多一個。')&&L.includes('C 和弦再按一次。手指不要放。')&&!L.some(t=>/阿凱話很多/.test(t)),JSON.stringify(L)); }
+    check('Q2 回答：「因為大家都覺得我該去。我爸最覺得。」「我週末不想再寫程式給評審看。」（AA_207 §5／BB_167 SC3 第 11 列）接「C 和弦再按一次。手指不要放。」，沒有「阿凱話很多」',L.includes('因為大家都覺得我該去。我爸最覺得。')&&L.includes('我週末不想再寫程式給評審看。')&&L.includes('C 和弦再按一次。手指不要放。')&&!L.some(t=>/阿凱話很多/.test(t)),JSON.stringify(L)); }
   /* ---------- Q3 ---------- */
   { const e=ev('ev_ziqing_gongguan_night'); const setup=f=>{ fresh(30,21.5,'gongguan',f); SOCIAL.meet('heroine_04','wancai'); SOCIAL.adjust('heroine_04',{fam:40,trust:20,comf:20}); picks=['宵夜']; };
     const PHOTO=['滷味點完，她拿手機拍了一張照片。','拍什麼？','素材。我在做一個東西。……你不要問。','（三秒後）你可以問一點點。','……不行，還是不要問。'];
@@ -103,6 +103,6 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('Q3 交往中：「滷味。走。阿凱也在，他在排隊。」（三個人；沒有「十點後半價」）',L.includes('滷味。走。阿凱也在，他在排隊。')&&!L.some(t=>/十點後半價/.test(t)),JSON.stringify(L));
     check('Q3 交往中：拍照那段（BB_95 2-7 原文）＋阿凱「她每次都拍，從來不給看。」、設 ZIQING_MAKING_SOMETHING',PHOTO.every(t=>L.includes(t))&&L.includes('她每次都拍，從來不給看。')&&G.flags.ZIQING_MAKING_SOMETHING===true);
     G.events.done[e.id]=1; G.day+=3; G.hour=21.5; check('Q3 整個事件只一次（BB-B 75c1b2b1）：之後不再觸發、也就不再有拍照',e.once===true&&!e.cooldown_days&&!EVENTS.check(e));
-    setup({}); await EVENTS.run(e); L=lines(); check('Q3 單身：照舊「滷味。走。我知道一家十點後半價的。」、拍照那段有、沒有阿凱那句',L.includes('滷味。走。我知道一家十點後半價的。')&&PHOTO.every(t=>L.includes(t))&&!L.includes('她每次都拍，從來不給看。')); }
+    setup({}); await EVENTS.run(e); L=lines(); check('Q3 單身：「滷味。走。巷子裡那家開到兩點。」（AA_207 附錄 §2：原本「十點後半價」和阿哲撞句）、拍照那段有、沒有阿凱那句',L.includes('滷味。走。巷子裡那家開到兩點。')&&PHOTO.every(t=>L.includes(t))&&!L.includes('她每次都拍，從來不給看。')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

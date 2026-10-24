@@ -41,7 +41,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 12/1 18:00 麵店、認識以安：會演；12/3、17:00、不認識以安：不演',at(d,18,['heroine_01'])&&!at(d+2,18,['heroine_01'])&&!at(d,17,['heroine_01'])&&!at(d,18,[]));
   const play=async(know,pick)=>{ fresh(d,18,'noodle'); for(const id of know) meet(id); const k0=STORY.knows; STORY.knows=(id)=>id==='zhe'||know.includes(id); said=[]; opts=[]; picks=[pick]; try{ await EVENTS.run(A); } finally { STORY.knows=k0; } return {L:L0(),O:opts[0]||[]}; };
   let r=await play(['heroine_01','heroine_03','yu'],'理由');
-  check('2. 認識語彤：社工那一句、「以安在手帳寫下來：「好。」」；三個選項；「看理由。……」＋畫框；AN_TUTOR_FAMILY:1',r.L.includes('以安：社會系的人，申請被駁回的家庭，通常第一個找誰？')&&r.L.includes('語彤：社工。……然後才是你們。')&&r.L.includes('以安在手帳寫下來：「好。」')&&r.O.length===3&&r.L.includes('以安：看理由。……對，先看理由。還有寫期限的那一段。')&&r.L.includes('她在理由欄畫了一個框。')&&G.flags.AN_TUTOR_FAMILY===1&&!r.L.some(t=>/^Alison：/.test(t)),JSON.stringify(r));
+  check('2. 認識語彤：語彤「通常先找社工吧，我們課上是這樣講的。」、手帳那句旁白刪掉；三個選項；「看理由。……」＋「（她拿出手機記下來。）」（AB65-3（AA_211 附錄 A 語彤一列）、以安一列）；AN_TUTOR_FAMILY:1',r.L.includes('以安：社會系的人，申請被駁回的家庭，通常第一個找誰？')&&r.L.includes('語彤：通常先找社工吧，我們課上是這樣講的。')&&!r.L.some(t=>/手帳|然後才是你們/.test(t))&&r.O.length===3&&r.L.includes('以安：看理由。……對，先看理由。還有寫期限的那一段。')&&r.L.includes('（她拿出手機記下來。）')&&!r.L.some(t=>/理由欄/.test(t))&&G.flags.AN_TUTOR_FAMILY===1&&!r.L.some(t=>/^Alison：/.test(t)),JSON.stringify(r));
   r=await play(['heroine_01','yu'],'已經在幫');
   check('3. 不認識語彤：Alison「法服週六有值班啊。」以安「我知道。我想先知道我不該說什麼。」；兩個選項；「這不算。」「她停了一下。」「……好，算一點。」',r.L.includes('Alison：法服週六有值班啊。')&&r.L.includes('以安：我知道。我想先知道我不該說什麼。')&&r.O.length===2&&r.L.slice(-3).join('｜')==='以安：這不算。｜她停了一下。｜以安：……好，算一點。',JSON.stringify(r));
   check('4. 法律：不說哪一種補助、救濟程序（沒有「訴願」「行政法院」「期限是」）',!A.dialogue.some(l=>/訴願|行政法院|期限是|天內/.test(l.text||'')));

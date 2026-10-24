@@ -2,7 +2,7 @@
    這裡是用事件系統演的段落（出遊、在場景裡碰到的、電話、視訊）；手機、時間窗、出發選單、寒暑假的停留日、學期末專屬版在 src/r2y3b3d.js（R2Y3B）。
    2-Y3-26 ev_y3s2_first_meal　27 ev_y3s2_228　28 ev_an_azalea_y3　29 ev_yu_club_money　30 ev_kexin_k18（＋ev_kexin_k18_call）
    2-Y3-31 ev_xun_path　33 ev_yu_alone_breakfast（＋_call）　34 ev_an_konbini　35 ev_liheng_japan　36 ev_y3s2_roof_toast　37 ev_an_sakura_riverbank
-   2-Y3-38 ev_far_call_jp　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
+   2-Y3-38 ev_far_call_jp（美國版 ev_far_call_us：AA_412 第 2 節）　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
    2-Y3-43 ev_an_town_notice（＋ev_an_town_notice_repair）　44 ev_kexin_k20（＋_call）　45 ev_fangyt_tickets（電話）、ev_zhiruo_f3_cafe
    2-Y3-51 ev_x1_moveout_us　52 ev_an_abroad_video、ev_an_tanabata、ev_an_airport_y3、ev_an_notebook　53 ev_an_white_day、ev_an_far_video
    2-Y3-54 ev_zhiruo_twelve_slips（BB_165 3-2，AA-C 10-18 審過的台詞）、沒到的 ev_zhiruo_slips_bar（她從吧檯下面拿）／ev_zhiruo_slips_owner（老闆給；AA_343 D8）；46 Z13 杯子的台詞（ALL.Z13、Z13_TXT）、47 Q15 的台詞（ALL.Q15）在檔尾，流程在 r2y3b3d.js 接 TERMEND；
@@ -241,6 +241,27 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
       {set:{FAR_CALL:'jp'}} ],   /* 不在麵店團、和阿哲 FAMILIAR 以上：阿哲一個人在宿舍頂樓打來，只留阿哲的台詞（上面群組那幾行都不出）*/
     outingMissed:G=>{ const x=X(); if(x) x.farPhoto(G); } };
+  /* ---------- 主線 8「遠方」美國版（AA_412 第 2 節，AA-B 2026-10-23；台詞照 AA_185 1-2，標【美】的照 AA_412）：9/21（四）美國 07:30（臺灣 19:30）麵店長桌打給在美國的祐廷（9/20 美國 09:00＝臺灣 21:00 阿哲私訊）----------
+     照日本版 FAR 的條件：Alison、柏翰、芯慈（參加過讀書會）、語彤、阿姨都要在麵店團；何俊朗經過只在見過他（MET_LONG：旗標或記憶，AA_370 M3 兩邊互相認）；以安那一則美國版沒有。
+     不在麵店團、和阿哲 FAMILIAR 以上：只留阿哲的三句、看麥片的旁白和最後一句旁白（同日本版：群組那幾行、何俊朗都不出）*/
+  const longMet=G=>!!(G&&G.flags&&G.flags.MET_LONG)||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('npc_long','MET_LONG'));
+  const FAR_US={ id:'ev_far_call_us', title:'遠方', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:null,text:'（早上七點半。你端著一碗麥片，走到門外的平台上。這裡的收訊比房間好。）'},
+      {speaker:'zhe',text:'你那邊幾點？……你吃什麼？給我看。'},
+      {speaker:null,text:'（你舉起那碗麥片。）'},
+      {speaker:'zhe',text:'就這樣？'},
+      {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
+      {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'強制執行法的筆記，我留了一份。你大五補修用得到。'},
+      {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
+      {if:{custom:G=>inG.custom(G)&&stAt(G,'heroine_03','FAMILIAR')},speaker:null,text:'（語彤從廚房探出頭，舉起田野筆記，沒說話。）'},
+      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:null,text:'（樓下有人經過，是何俊朗，手上提著一袋早餐。他抬頭看到你在講視訊。）'},
+      {if:{custom:G=>inG.custom(G)&&longMet(G)},speaker:'何俊朗',text:'Hello，台灣！'},
+      {speaker:'zhe',text:'好了，麵要糊了。……你自己也要吃飯。'},
+      {speaker:null,text:'（畫面關掉。平台上很安靜，遠處有人在割草。）'},
+      {set:{FAR_CALL:'us'}} ],
+    outingMissed:G=>{ const x=X(); if(x) x.farPhotoUS(G); } };
 
   /* ---------- 2-Y3-39 語 5「一個人的電影」：4/24（一）9:30～12:00 傅鐘長椅當面；日本路線 4/24 10:00 視訊；台灣路線沒遇到＝4/27（四）19:00 麵店（她坐你旁邊說）---------- */
   const YU5_TAIL=[ {speaker:'yu',text:'旁邊坐一個也是一個人來的女生。她說一個人看電影的人，都坐倒數第三排。'},
@@ -368,12 +389,27 @@ const R2Y3B_EVENTS=(function(){
       {label:'b'},{speaker:'npc_fangyt',text:'我沒有剛好。'},{speaker:'npc_fangyt',text:'我買了。'},{goto:'end'},
       {label:'c'},{speaker:'npc_fangyt',text:'不要。這個我要自己來。'},
       {label:'end'} ] };
+  /* 拒絕版（AA_387 第 8 節，企劃線 608b9adc；台詞照稿）：F3 那天她心裡是祐廷（ZR_F3_NO，src/zrzq3d.js 的 f3Sync）——臺灣路線兩句＋兩個選項；日本路線（8/5 回國以後第一次進 Café）過去式三句、沒有選項 */
+  const ZR_NO={custom:G=>(G.flags||{}).ZR_F3_NO!=null};
   const F3_CAFE={ id:'ev_zhiruo_f3_cafe', title:'很老的那部', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.f3CafeDue(G); }},
-    dialogue:[ {unless:JP,speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+    dialogue:[ {if:ZR_NO,goto:'no'},
+      {unless:JP,speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
       {unless:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……我說好。'},
       {if:JP,speaker:'heroine_02',text:'奕廷約我去看了一部電影。很老的那部，《秋天的晚飯》。'},   /* 日本路線：8/5 回國以後第一次進 Café，句子改成過去式（AA_296 2-3-1 ⑤，企劃線 3f406dbc；原本是 22:07 的私訊）*/
-      {if:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……那時候，我說好了。'} ] };
+      {if:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……那時候，我說好了。'},
+      {goto:'end'},
+      {label:'no'},{if:JP,goto:'no_jp'},
+      {speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+      {speaker:'heroine_02',text:'……我說不行。'},
+      {choice:[{text:'「為什麼？」',goto:'no_a'},{text:'「他一定很失望。」',goto:'no_b'}]},
+      {label:'no_a'},{speaker:'heroine_02',text:'……你不要問。'},{goto:'end'},
+      {label:'no_b'},{speaker:'heroine_02',text:'他說「好」，然後跟我講了十分鐘那部電影的導演。……他人很好。'},{goto:'end'},
+      {label:'no_jp'},
+      {speaker:'heroine_02',text:'你不在的時候，奕廷約我去看一部很老的電影。'},
+      {speaker:'heroine_02',text:'……我說不行。'},
+      {speaker:'heroine_02',text:'你不要問為什麼。'},
+      {label:'end'} ] };
 
   /* ---------- 2-Y3-51 美國路線 X1 退宿：2028-07-25（二）14:00 宿舍 507（暑假續住的；回家住的接在學期結束搬家那一段，r2y3b3d.js）---------- */
   const X1US={ id:'ev_x1_moveout_us', title:'退宿', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
@@ -526,7 +562,7 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
     outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };
 
-  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
+  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,FAR_US,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
   ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
   ALL.Z13=Z13; ALL.Z13_TXT=Z13_TXT; ALL.Q15=Q15;   /* 學期末專屬版（r2y3b3d.js 包住 TERMEND）*/
   return ALL;

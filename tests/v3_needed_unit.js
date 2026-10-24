@@ -46,7 +46,7 @@ GM.money=function(n){ G.money+=n; };
   const W=asks.map(m=>m.ask.id.replace('need_'+S913+'_',''));
   check('1. 一週最多四則；綁事件的先挑（柏翰交接、阿凱網路），同一層快過期的先挑（子晴 1～3 週、阿哲 1～4 週）；以安（1～6 週）這週排不進',JSON.stringify(W)==='["bh_handover","kai_net","zq_game","zhe_book"]',JSON.stringify(W));
   check('1. 一個人一則；都是 FAMILIAR 以上、見過的人；訊息在他自己的對話串（子晴兩句、問題接在最後一句）',new Set(asks.map(m=>m.from)).size===asks.length&&TH('p:heroine_04').map(m=>m.text).join('｜')==='幫我看一個東西。現在。｜……這不是問句。'&&!TH('p:heroine_04')[0].ask&&!!TH('p:heroine_04')[1].ask);   /* 還沒看過 Q6（PLAYTESTED）：不說破她在做遊戲（AA_313 6-4）*/
-  { const e=NEEDED_MSGS.list.find(q=>q.id==='zq_game'); SOCIAL.remember('heroine_04','PLAYTESTED','test'); const v=STORY.neededVar(G,e); check('1. 看過 Q6 的玩家：子晴照原句「測試我的遊戲。現在。」', !!e&&!v.msg&&e.msg[0]==='測試我的遊戲。現在。', JSON.stringify(v)); }
+  { const e=NEEDED_MSGS.list.find(q=>q.id==='zq_game'); SOCIAL.remember('heroine_04','PLAYTESTED','test'); const v=STORY.neededVar(G,e); check('1. 看過 Q6 的玩家：子晴照主版「你現在有空嗎」「幫我測一下遊戲 這不是問句」（AB65-3：BB_167 SC5 #26；原本「測試我的遊戲。現在。」）', !!e&&!v.msg&&e.msg[0]==='你現在有空嗎'&&e.msg[1]==='幫我測一下遊戲 這不是問句', JSON.stringify(v)); }
   check('1. 他傳訊息來＝有聯絡方式（柏翰、子晴原本沒有）',G.contacts.classmate_bohan!=null&&G.contacts.heroine_04!=null);
   // 2. 回兩則：第三則關掉、信任 +1、計數
   const t0=SOCIAL.rel('zhe').trust, t1=SOCIAL.rel('kai').trust;
@@ -81,7 +81,7 @@ GM.money=function(n){ G.money+=n; };
   const d4=STORY.termDay('Y2S1',4,7); fresh(d4,21,'campus',{dating_kexin:true}); const P3=STORY.neededPick(G,d4).map(e=>e.id);
   fresh(d4,21,'campus',{dating_kexin:false}); const P3b=STORY.neededPick(G,d4).map(e=>e.id);
   check('5. 交往中的可昕：不看熟不熟（第 4 週「物權報告要一個例子」）；沒交往就沒有',P3.includes('kx_example')&&!P3b.includes('kx_example'),JSON.stringify([P3,P3b,d4]));
-  const notYet=NEEDED_MSGS.list.filter(e=>{ try{ return e.cond&&!e.cond({flags:{lawclub:true,dating_kexin:true,ECON_TOGETHER:true,JOB_TUTOR:true,POTHOS:true,INVITED_CLUB:true,RENT_CONSULTATION:true,STUDYGROUP_LEADER:true,noodleTableDay:1,RENT_RUMOR:true,BOHAN_GROUP:'ask'},events:{done:{ev_peishan_decision:1,ev_yutong_landlord:1,ev_xinci_second:1,ev_yu_together:1}},habits:{}}); }catch(e){ return false; } }).map(e=>e.id).filter(id=>!/^an_rules$|^an_lead$|^an_topics$/.test(id));
+  const notYet=NEEDED_MSGS.list.filter(e=>{ try{ return e.cond&&!e.cond({flags:{lawclub:true,dating_kexin:true,ECON_TOGETHER:true,JOB_TUTOR:true,POTHOS:true,INVITED_CLUB:true,RENT_CONSULTATION:true,STUDYGROUP_LEADER:true,noodleTableDay:1,RENT_RUMOR:true,BOHAN_GROUP:'ask'},events:{done:{ev_peishan_decision:1,ev_yutong_landlord:1,ev_xinci_second:1,ev_yu_together:1,ev_an_tutor_family_1:1}},habits:{}}); }catch(e){ return false; } }).map(e=>e.id).filter(id=>!/^an_rules$|^an_lead$|^an_topics$/.test(id));
   check('5. 還沒發生的事件（語彤事件 11、Z7、ev_bohan_scores、子晴 Q6 PLAYTESTED）那幾則先不出現、mx_tutor 大二上拿掉（AA_374 第 22 項）；模擬法庭三則換掉了；慈 3 之後的 xc_drama 讀 ev_xinci_second',JSON.stringify(notYet.sort())===JSON.stringify(['bh_scores','mx_tutor','yt_dish','zq_name','zr_beans'].sort())&&!NEEDED_MSGS.list.some(e=>/_moot$/.test(e.id)),JSON.stringify(notYet));
   // 5b. 每一則各一句、交往版、依條件換的版本（AA_179 第 4、4-1 節；BB_97 11-1、11-2；BB_205 第 4～8 節）
   { const J=JSON.stringify, E=id=>NEEDED_MSGS.list.find(e=>e.id===id), MF=(id,g)=>STORY.neededMissFor(g||G,E(id),E(id).who);

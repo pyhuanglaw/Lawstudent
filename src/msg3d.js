@@ -103,7 +103,7 @@ const MSG=(function(){
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
-    if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out; }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；生日、新年等第二批話題的英國句子還沒有，先不開 */
+    if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out.concat(S.ukTopics2?S.ukTopics2(G,id,o):[]); }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；第二批只開生日（9/28）、新年（1/1）兩個，句子和回覆在 src/zr_uk3d.js（AA_419 第 3 節，MSG.ukTopics2）；謝謝、還好嗎照舊不開。每月／每週的視訊也在那裡 */
     for(const q of TOPICS){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
         if(id==='heroine_03') continue; }   /* 語彤社會系：問課不出現（AA_202 6-3） */
@@ -135,6 +135,7 @@ const MSG=(function(){
     if(p==='平日') return wd>=1&&wd<=5; if(p==='週末') return wd===0||wd===6; if(p==='學期中') return !brk; if(/^(放假|放假中|寒暑假)$/.test(p)) return brk; if(p==='暑假') return brk&&(()=>{ const x=md(G); return !!x&&x.m>=6&&x.m<=9; })();
     if(p==='考試週') return !!(t&&t.exam); if(p==='深夜') return h>=23||h<5; if(p==='下雨天') return G.weather==='rain'; if(p==='平日課後') return wd>=1&&wd<=5&&h>=12;
     if(p==='交往中') return !!(G.flags&&G.flags['dating_'+id]===true);   /* BB_178 1-E 交往中那一組 */
+    if(p==='沒交往') return !(G.flags&&G.flags['dating_'+id]===true);   /* AA_393 第 4 節「朋友以上」那一欄（交往中用另一句）*/
     if(p==='一個月最多一次') return true;   /* 芷若每天一則的第 8 則：S.ukDaily 管 */
     if(p==='兩人是朋友') return true;   /* 子晴「芷若在英國」（BB_178 第 2 節）：遊戲還沒有子晴×芷若的狀態（ZZ），她們是朋友 */
     if(p==='每月第一個週日以後那一週'){ const x=CALENDAR.dateOf(G.day), d1=G.day-((x.d|0)-1); let s0=d1; while((CALENDAR.dateOf(s0).wd%7)!==0&&s0<d1+7) s0++; return G.day>=s0&&G.day<=s0+6; }   /* 子晴「芷若這個月打來了」（BB_178 第 2 節）：那個月第一個週日起的七天 */
@@ -185,6 +186,7 @@ const MSG=(function(){
     if(v==='大三起、課輔班那天'||v==='大三起、書店那天') return yearNow(G)>=3;
     if(v==='大二下在家重考') return yearNow(G)===2&&semNow(G)==='S2';
     if(v==='祐廷在國外'){ const at=ctx&&ctx.at; if(!S.ytAbroad(G)||!at||at.late) return false; const z=typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,at.day)||0):0, tw=(((at.h-z)%24)+24)%24; return tw>=23.5||tw<5; }   /* 她那邊（臺灣）23:30 以後回的那一則（variantNote）：照她回的那一刻換回臺灣時間；隔天早上才回的不用（同 kxdrift3d.js 朋友層的 S.frAbroad）*/
+    if(v==='祐廷在日本') return S.ytAbroad(G)==='JP'&&!(e&&S.rec(G).once[id+':ytjp:'+(e.msgs||[]).join('|')]);   /* 學姊（AA_393 第 4 節）：日本路線人在日本；每一格（同一句）只出一次 */
     if(v==='芷若在英國') return S.inUK(G,'heroine_02')&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','FIRST_MET')&&!S.rec(G).once[id+':zr_uk:'+S.zrUkKey(G)];   /* 子晴（BB_178 第 2 節）：祐廷認識芷若；一段期間只播一次 */
     return false; };
   /* 旅行、出國的日子（AA_369 第 7 節第 5 題，AA 2026-10-21 19:5x；句子照原文）：H5 讓放假那幾版退回一般版，一般版裡有「在總圖。」——旅行、出國的日子改回
@@ -213,7 +215,7 @@ const MSG=(function(){
       const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
-      const sit0=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true), ab=sit0.filter(e=>e.variant==='祐廷在國外'), sit=ab.length?ab:sit0; if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);   /* 在國外先（檔頭：在國外 → 放假 → 考試週 → 深夜）：可昕「祐廷在國外」那一則蓋過同時成立的考試週、深夜 */
+      const sit0=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true), ab=sit0.filter(e=>e.variant==='祐廷在國外'||e.variant==='祐廷在日本'), sit=ab.length?ab:sit0; if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);   /* 在國外先（檔頭：在國外 → 放假 → 考試週 → 深夜）：可昕「祐廷在國外」那一則蓋過同時成立的考試週、深夜 */
       const gen=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===null); if(gen.length) return rot(R,id,topic+tr,gen); }
     return null; };
   /* 開頭句（thenGeneral）：先說這一句，再接一般版（明軒「剛家教完 你說什麼」、子晴「早／剛看到」；BB_178）*/
@@ -362,6 +364,7 @@ const MSG=(function(){
       L.forEach((t,i)=>{ const it={th,from:id,name:nm,text:t}; if(i===L.length-1&&ask) it.ask=ask; items.push(it); }); }
     if(!items.length) items.push({th,from:id,name:nm,text:'（貼圖）'});
     if(e&&e.variant==='芷若在英國') R.once[id+':zr_uk:'+S.zrUkKey(G)]=G.day;   /* 一段期間只播一次 */
+    if(e&&e.variant==='祐廷在日本') R.once[id+':ytjp:'+(e.msgs||[]).join('|')]=G.day;   /* AA_393 第 4 節：只出一次 */
     if(at.ukFriend&&typeof PHONE!=='undefined'){ const tag='zr_uk_r_'+at.ukFriend, P=PHONE.rec(G); P.q=P.q.filter(q=>q.tag!==tag); items.unshift({th,from:id,name:nm,text:'抱歉，這週比較忙。'}); PHONE.at(G,at.day,at.h,items,tag); }   /* 芷若在英國、朋友：這一段傳的只回最新一則（前面那則排好的回覆拿掉），前面加「抱歉，這週比較忙。」（BB_178 1-E）*/
     else if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items,null);
     /* 熟悉度：同一個人一天最多 +1；一週傳超過三次那週不再加（第 4 節）*/

@@ -207,7 +207,7 @@ const date=id=>H.date(id);
     await run('ev_sis_birthday_video_y3'); at('2028-06-02',21.5); phone();
     check('AA_337 第 7 節 日本路線 視訊：旁白「（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）」＋「……你看到了。這樣算一起吃過。」；記 video；21:00 沒有「蛋糕我吃了一半。……」', has('（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）')&&has('……你看到了。這樣算一起吃過。')&&H.G.flags.SIS_BDAY_Y3==='video'&&!S.bdayVideoDue(H.G)&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。'), JSON.stringify(H.said.map(s=>s.t))); }
   { fresh('2028-06-02',17.5,'dorm',{},'JP'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',19); const d1=S.bdayVideoDue(H.G); at('2028-06-02',22.5); phone();
-    check('1B-17 日本路線、17:05 以後才傳（她回的時候視訊的時間已經過了；AA 稿沒寫，暫定）：只回「蛋糕我買了。……一個人吃很奇怪。」、沒有視訊、記 missed', !d1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。'&&H.G.flags.SIS_BDAY_Y3==='missed', JSON.stringify(th('p:heroine_05'))); }
+    check('1B-17 日本路線、17:05 以後才傳（她回的時候視訊的時間已經過了；AA_392 第 9 節確認）：只回「蛋糕我買了。……一個人吃很奇怪。」、沒有視訊、記 missed', !d1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。'&&H.G.flags.SIS_BDAY_Y3==='missed', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); ROM.end(H.G,'heroine_05','test'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone();
     check('1B-17 前任：只回「謝謝。」', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['生日快樂','謝謝。'])&&H.G.flags.SIS_BDAY_Y3==='msg', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FAMILIAR('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const a=bdayTp(); at('2028-06-03',12); const b=bdayTp();
@@ -218,22 +218,23 @@ const date=id=>H.date(id);
   const mr=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_ride');
   check('1B-18 7/26 21:00 家族群組「八月二號早上的飛機。」「我搭客運去機場。大家不用送。」＋「我送妳。我有車。」', th('g:family_law').join('|')==='八月二號早上的飛機。|我搭客運去機場。大家不用送。'&&!!mr&&mr.ask.opts[0].t==='我送妳。我有車。');
   answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
-  check('W1 單身、FRIEND 以上：Kevin「直屬學弟的車！家聚那台！」→ 兩個人：她私訊「……你確定？……」；排 8/2 08:00（鬧鐘）', th('g:family_law').includes('直屬學弟的車！家聚那台！')&&th('p:heroine_05').join('|')==='……你確定？到機場要一個多小時，還要上高速公路。|確定。|……好。'&&OUT.get(H.G,'y4_sis_airport')&&OUT.get(H.G,'y4_sis_airport').alarm===true);
+  check('W1 單身、FRIEND 以上：Kevin「學弟的車！家聚那台！」（AA_207 §7 第 5 列：Kevin 不是直屬）→ 兩個人：她私訊「……你確定？……」；排 8/2 08:00（鬧鐘）', th('g:family_law').includes('學弟的車！家聚那台！')&&!th('g:family_law').includes('直屬學弟的車！家聚那台！')&&th('p:heroine_05').join('|')==='……你確定？到機場要一個多小時，還要上高速公路。|確定。|……好。'&&OUT.get(H.G,'y4_sis_airport')&&OUT.get(H.G,'y4_sis_airport').alarm===true);
   at('2028-08-02',7.9); await goOut('y4_sis_airport');
-  check('W1 兩個人的車、機場「回程路上喝。冰的。」「……回到家傳訊息給我。」；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('……一件事。只有一件。回到家傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
+  check('W1 兩個人的車、機場「回程路上喝。冰的。」「……回到家傳訊息給我。」；DROVE_HER；SIS_SENDOFF two', has('（她一路看著前面的路。）')&&has('回程路上喝。冰的。')&&has('……回到家，傳訊息給我。')&&!has('（Kevin 一路講話，學妹睡著。）')&&SOCIAL.has('heroine_05','DROVE_HER')&&H.G.flags.SIS_SENDOFF==='two');
   check('AA_337 第 3 題 機場的旁白改早上：下車處第一句「（八月的早上，機場外面已經很熱了。）」（沒有午後雷陣雨）', idx('（八月的早上，機場外面已經很熱了。）')>idx('（她一路看著前面的路。）')&&idx('（八月的早上，機場外面已經很熱了。）')<idx('回程路上喝。冰的。')&&!H.said.some(s=>/雷陣雨/.test(s.t)));
   at('2028-08-03',9); phone();
   check('W1 8/3 私訊 US0「是因為那是高速公路。」', th('p:heroine_05').includes('是因為那是高速公路。')&&!th('g:family_law').includes('這裡的天空很大，大家保重。'));
   PHONE.post(H.G,{th:'p:heroine_05',from:'player',who:null,text:'謝謝'}); phone(); check('1B-18 回了 US0＝REPLIED_US0', H.G.flags.REPLIED_US0===true&&SOCIAL.has('heroine_05','REPLIED_US0'));
-  { fresh('2028-07-26',21,'dorm',{HOOK_SIS_SENDOFF:1}); H.FRIEND('heroine_05'); date('kexin'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); answer('y4_sis_ride',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
-    check('W2 交往中（別人）：Kevin「你有車？？」→「我也要去！我坐後面！」學妹「我也要！」', th('g:family_law').includes('你有車？？')&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！')&&!th('p:heroine_05').length);
+  { fresh('2028-07-26',21,'dorm',{HOOK_SIS_SENDOFF:1,SAID_HAS_CAR:true}); H.FRIEND('heroine_05'); date('kexin'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const gb=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_sis_ride'); at('2028-07-26',21.1); phone(); answer('y4_sis_hook_dm',0); phone(); PHONE.tick(H.G); at('2028-07-26',21.3); phone();
+    /* AA_392 第 2-2 節：說過要送的（HOOK_SIS_SENDOFF）群組那則沒有 Kevin 的按鈕，21:05 她私訊「八月二號早上八點，我家樓下。」「你說要送我。」→「我開車去載妳。」＝照原本的共乘 */
+    check('W2 交往中（別人）、說過要送：群組沒有按鈕；私訊回「我開車去載妳。」→「我也要去！我坐後面！」學妹「我也要！」', !(gb&&gb.ask)&&th('p:heroine_05').slice(0,2).join('|')==='八月二號早上八點，我家樓下。|你說要送我。'&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！'), JSON.stringify(th('p:heroine_05')));
     at('2028-08-02',7.9); await goOut('y4_sis_airport');
-    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……一件事。只有一件。回到家在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
+    check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
     at('2028-08-03',9); phone(); check('1B-18 家族共乘：US0 在家族群組「這裡的天空很大，大家保重。」', th('g:family_law').includes('這裡的天空很大，大家保重。')); }
   { fresh('2028-07-26',21,'dorm',{},'JP'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const early=(H.G.msgs||[]).some(x=>x.text==='我搭客運去機場。大家不用送。');
     at('2028-07-26',22); phone(); const m=(H.G.msgs||[]).find(x=>x.text==='我搭客運去機場。大家不用送。');
-    at('2028-08-03',9.9); phone(); const early2=th('g:family_law').includes('到了。三件事。……算了，一件：這裡的天空很大。'); at('2028-08-03',10); phone();
-    check('W4 日本路線（人在日本：台灣時間＋1）：7/26 群組照發（當地 22:00）、沒有按鈕；8/3 群組「這裡的天空很大」（當地 10:00）', !early&&!!m&&!m.ask&&!early2&&th('g:family_law').includes('到了。三件事。……算了，一件：這裡的天空很大。')); }
+    at('2028-08-03',9.9); phone(); const early2=th('g:family_law').includes('到了。天空很大。'); at('2028-08-03',10); phone();
+    check('W4 日本路線（人在日本：台灣時間＋1）：7/26 群組照發（當地 22:00）、沒有按鈕；8/3 群組「這裡的天空很大」（當地 10:00）', !early&&!!m&&!m.ask&&!early2&&th('g:family_law').includes('到了。天空很大。')); }
   { fresh('2028-07-26',22,'dorm'); H.FRIEND('heroine_05'); H.FAMILIAR('heroine_03'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); at('2028-08-02',9); phone();
     check('1B-18 沒說要送：8/2 09:00 客運的照片「出發了。」；SIS_SENDOFF bus', th('g:family_law').includes('（照片：客運的窗外）')&&H.G.flags.SIS_SENDOFF==='bus');
     at('2028-08-10',19); H.G.zone='noodle'; const nb=ev('ev_sis_note_bus'); const before=EVENTS.check(nb); GM.npc.heroine_03={obj:{position:{x:0,y:0,z:0},rotation:{y:0}}}; E.npcs=[GM.npc.heroine_03]; const after=EVENTS.check(nb);
@@ -346,8 +347,8 @@ const date=id=>H.date(id);
     if(it){ H.G.day=it.day; H.G.hour=it.t0; H.picks=[0,0,0,0,0,0]; try{ await CLS.attend(GM,it,{door:true}); ok=true; }catch(e){ err=String(e&&e.stack||e).slice(0,300); } }
     const ob=SYLLABUS.courses.ip_law.find(q=>q.w===4).obs;
     check('第 6 題 大四上智財法第 4 週（9/27 週三）是討論課（understand U_COPYRIGHT）：去了就記 U_COPYRIGHT', !!it&&it.week===4&&it.c.kind==='elective'&&!it.c.choice&&ob.kind==='discuss'&&ob.understand.includes('U_COPYRIGHT')&&ok&&H.G.flags.U_COPYRIGHT===true, err||(it?'':'找不到 9/27 的智財法')); }
-  { fresh('2028-10-11',21,'dorm',{U_COPYRIGHT:true,U_CONTRACT:true}); H.FRIEND('heroine_04'); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); const k=m?m.ask.opts.findIndex(o=>/^先看三件事/.test(o.t)):-1; if(k>=0) answer('y4_q14',k);
-    check('第 6 題 U_COPYRIGHT＋U_CONTRACT：多「先看三件事：遊戲的權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。」→「三件事。……你講話越來越像你們那個學姊。」', k>=0&&th('p:heroine_04').includes('三件事。……你講話越來越像你們那個學姊。')&&H.G.flags.ZQ_CONTRACT==='lawyer'); }
+  { fresh('2028-10-11',21,'dorm',{U_COPYRIGHT:true,U_CONTRACT:true}); H.FRIEND('heroine_04'); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); const k=m?m.ask.opts.findIndex(o=>/^先看權利歸誰/.test(o.t)):-1; if(k>=0) answer('y4_q14',k);
+    check('第 6 題 U_COPYRIGHT＋U_CONTRACT：多「先看權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。」→「……你講話越來越像律師了。好，找律師。」', k>=0&&th('p:heroine_04').includes('……你講話越來越像律師了。好，找律師。')&&H.G.flags.ZQ_CONTRACT==='lawyer'); }
   /* ===== 1B-24 ===== */
   fresh('2029-05-02',20,'dorm',{whyLaw:'econ'}); H.FRIEND('heroine_01'); at('2029-05-02',21); phone();
   check('1B-24 5/2 21:00 以安「明天下午四點有空嗎」「兩點半窗邊 想找人聊天」', th('p:heroine_01').join('|')==='明天下午四點有空嗎|兩點半窗邊 想找人聊天');

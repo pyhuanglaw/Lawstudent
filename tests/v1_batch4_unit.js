@@ -41,8 +41,8 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const mon=6;   /* 9/22 週一 */
     fresh(mon,12.5,'campus'); const a=EVENTS.check(e); fresh(mon,14,'campus'); const b=EVENTS.check(e); fresh(4,12.5,'campus'); const c=EVENTS.check(e); fresh(mon,12.5,'dorm'); const d=EVENTS.check(e);
     check('F1 平日 12–13 在校園才觸發（14 點、週六、宿舍都不會）',a===true&&b===false&&c===false&&d===false,JSON.stringify({a,b,c,d,sat:wdOf(4)}));
-    const F1=['你是隔壁房的吧。我經過的時候看到，你們房間沒有綠色的東西。','（從袋子裡拿出一盆小小的黃金葛）黃金葛。天南星科，耐陰，空氣不好也可以活。','莖節會長氣根，所以可以水耕，也可以土耕，而且——','……總之，很好養。忘記澆也不會死。','跟你室友一樣。'];
-    for(const [pick,reply] of [['謝謝學長','不用謝。它比較需要謝謝你。'],['我會養死','不會。我說過了，它很難死。'],['還有幾盆','（笑）七盆。整層樓都要有。']]){
+    const F1=['你是住我隔壁那間的吧？我方奕廷，森林系二年級。','我經過的時候看到，你們房間沒有綠色的東西。',   /* AA_207 附錄 §2：第一次見面先報名字（原本「你是隔壁房的吧。」，選項卻叫他學長）*/'（從袋子裡拿出一盆小小的黃金葛）黃金葛。天南星科，耐陰，空氣不好也可以活。','莖節會長氣根，所以可以水耕，也可以土耕，而且——','……總之，很好養。忘記澆也不會死。','跟你室友一樣。'];
+    for(const [pick,reply] of [['謝謝學長','不用啦。我種太多了，房間放不下。'],   /* AA_207 §5（BB_167 SC4 第 39 列）*/['我會養死','不會。我說過了，它很難死。'],['還有幾盆','（笑）七盆。整層樓都要有。']]){
       fresh(mon,12.5,'campus'); picks=[pick]; await EVENTS.run(e); const L=lines();
       check('F1 選「'+pick+'」：五句（BB_95 3-1 原文）＋回答「'+reply+'」、只有這一個回答＋最後「死掉的話傳照片給我。」（4-4：留聯絡方式）',JSON.stringify(L)===JSON.stringify(F1.concat([reply,'死掉的話傳照片給我。'])),JSON.stringify(L)); }
     check('F1 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「謝謝學長。」','「我會養死。」','「你袋子裡還有幾盆？」']),JSON.stringify(opts[0]));
@@ -63,7 +63,8 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const W1={LAW_START_DAY:-18,MAIN_D1:-13,introDone:true}, DK=k=>STORY.dayOfKey(k), at=(day,hour)=>{ fresh(day,hour,'dorm',W1); return EVENTS.sleepEvent(); };
     const r={mon6:at(DK('2025-09-08'),23.5),tue7:at(DK('2025-09-09'),25.5),fri3:at(DK('2025-09-12'),23),sun5:at(DK('2025-09-14'),23),mon13:at(DK('2025-09-22'),23),late:at(DK('2025-09-08'),27.5),evening:at(DK('2025-09-08'),17)};
     check('K1 第 2 週週一（9/8）23:30、週二凌晨 1:30 上床：有（隔天早上有課）',r.mon6===e&&r.tue7===e,JSON.stringify({mon6:!!r.mon6,tue7:!!r.tue7,wk:CALENDAR.termOf(DK('2025-09-08')).week}));
-    check('K1 週五（隔天週六沒課）、週日（不是平日晚上）、第 4 週（9/22）、三點以後才睡、傍晚 17:00 都沒有',!r.fri3&&!r.sun5&&!r.mon13&&!r.late&&!r.evening,JSON.stringify(Object.fromEntries(Object.entries(r).map(([k,v])=>[k,!!v]))));
+    check('K1 週日晚上（隔天週一有課）有（AA_207 附錄 §2：weekday 改 [0,1,2,3,4]，原本週日不演、週五會演）',r.sun5===e,JSON.stringify({sun5:!!r.sun5}));
+    check('K1 週五（隔天週六沒課）、第 4 週（9/22）、三點以後才睡、傍晚 17:00 都沒有',!r.fri3&&!r.mon13&&!r.late&&!r.evening,JSON.stringify(Object.fromEntries(Object.entries(r).map(([k,v])=>[k,!!v]))));
     for(const k of ['2025-09-03','2025-09-04']){ fresh(DK(k),23,'dorm',W1); check('K1 '+k+'（主線第一、二天）晚上沒有',!EVENTS.sleepEvent()); }
     { fresh(DK('2025-09-08'),23.5,'dorm',{LAW_START_DAY:-18,MAIN_D1:-13}); check('K1 還沒 introDone 沒有',!EVENTS.sleepEvent()); }
     /* sleepNow 裡演 */
@@ -88,7 +89,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
       check('K1 選「'+pick+'」：沒有阿凱的回答、kaiScreenChoice '+k,lines().length===1&&G.flags.kaiScreenChoice===k&&G.flags.kaiScreenDay===b,JSON.stringify(lines()));
       fresh(b+1,19,'dorm',F1); withKai(); const d1=enterEv(); fresh(b+6,19,'dorm',F1); withKai(); const d6=enterEv(); fresh(b+7,19,'dorm',F1); const noKai=enterEv(); withKai(); const d7=enterEv();
       check('K1 「'+pick+'」：隔天不換；一週後阿凱在房間時才說黑眼圈（第 6 天、他不在都不會）',d1!=='ev_kai_keyboard_quiet'&&d6!=='ev_kai_dark_circles'&&noKai!=='ev_kai_dark_circles'&&d7==='ev_kai_dark_circles',JSON.stringify({d1,d6,noKai,d7}));
-      await EVENTS.run(ev('ev_kai_dark_circles')); check('K1 黑眼圈：「你黑眼圈好重，是我嗎。」（BB_95 原文）、當晚還沒換',lines()[0]==='你黑眼圈好重，是我嗎。'&&enterEv()!=='ev_kai_keyboard_quiet');
+      await EVENTS.run(ev('ev_kai_dark_circles')); check('K1 黑眼圈：「你黑眼圈好重欸，是不是我昨天太吵？」（AA_207 §5／BB_167 SC4 第 40 列；原本「你黑眼圈好重，是我嗎。」）、當晚還沒換',lines()[0]==='你黑眼圈好重欸，是不是我昨天太吵？'&&enterEv()!=='ev_kai_keyboard_quiet');
       const F2=Object.assign({},G.flags), EV2=JSON.parse(JSON.stringify(G.events)); fresh(b+8,19,'dorm',F2); G.events=EV2; withKai();   /* 演過的事件（once）跟著存檔 */ check('K1 「'+pick+'」：黑眼圈的隔天晚上換鍵盤（不懲罰，只是晚一點）',enterEv()==='ev_kai_keyboard_quiet'); }
     check('K1 現有的「法無明文」（ev_dorm_late_kai）照舊在',!!ev('ev_dorm_late_kai')&&ev('ev_dorm_late_kai').dialogue.some(l=>l.text==='有。叫「法無明文」。')); }
   /* ---------- P1／P1b 搬到以安的公法讀書會（方案 A；BB_191 §8-7、AA_222）：classes3d.js 的 clubEvent 在公法讀書會那一次挑 ---------- */
@@ -110,7 +111,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('P2b 第 5、8 週、週六、15 點、在校園、沒有 P2 都沒有',!can(dOf(5,2),17,'library',true)&&!can(dOf(8,2),17,'library',true)&&!can(dOf(6,6),17,'library',true)&&!can(dOf(6,2),15,'library',true)&&!can(dOf(6,2),17,'campus',true)&&!can(dOf(6,2),17,'library',false));
     const BODY=['老師說法律的推理是三段論。大前提是法條，小前提是事實，結論是……把事實放進法條。','（在紙上畫了三個框）所以先找規則，再看這件事符不符合，最後才說結果。','……我小時候翻民法，就是少了中間那一步。','（看著那三個框）你講得很開心耶。','我聽完的感覺是，人被放進一個框裡。','……我是不是不適合念這個。'];
     for(const [dating,first] of [[true,'總圖不能講話。去外面講。'],[false,'總圖不能講話。去 Café？我請你。']]){
-      for(const [pick,reply] of [['框是用來',['嗯。','她想了很久。','我懂你的意思。可是我比較想知道框外面的人在想什麼。']],['可以不喜歡',['……可以不喜歡？','她重複一次，好像第一次聽到有這個選項。','好，我先記著。']],['再寫一題',['兩人又寫了一題。她寫得很好。','我寫得出來。可是我不想寫。好奇怪。']]]){
+      for(const [pick,reply] of [['框是用來',['嗯。','她想了很久。','我懂你的意思。可是我比較想知道框外面的人在想什麼。']],['可以不喜歡',['……可以不喜歡？','她重複一次，好像第一次聽到有這個選項。','好，我先記著。']],['再寫一題',['兩人又寫了一題。她寫得很好。','我寫得出來。可是寫的時候一點都不想寫。']]   /* AA_207 §5（BB_167 SC4 第 27 列）*/]){
         fresh(dOf(6,2),17,'library',{dating_kexin:dating}); G.events.done.ev_peishan_doubt=1; picks=[pick]; await EVENTS.run(e); const L=lines();
         check('P2b '+(dating?'交往中':'單身')+'、選「'+pick+'」：開場「'+first+'」＋BB_95 原文＋回答',JSON.stringify(L)===JSON.stringify([first].concat(BODY,reply)),JSON.stringify(L)); } }
     check('P2b 三個選項（BB_95 原文）',JSON.stringify(opts[0])===JSON.stringify(['「框是用來想清楚的，不是用來關人的。」','「妳可以不喜歡。」','「我們再寫一題。」']),JSON.stringify(opts[0]));
@@ -121,8 +122,8 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('M1 第 7 週起、週二週四 21–22 點在公館、認識明軒才有',can(dOf(7,2),21.5,true)&&can(dOf(9,4),21.2,true));
     check('M1 第 6 週、週三、20:30、還不認識都沒有',!can(dOf(6,2),21.5,true)&&!can(dOf(7,3),21.5,true)&&!can(dOf(7,2),20.5,true)&&!can(dOf(7,2),21.5,false));
     { fresh(dOf(7,2),21.5,'gongguan'); const ent=STORY.schedEnt(CHARACTERS[MX],G); check('M1 他照日程在公館騎樓的公車站（週二 21:30，linger）',!!ent&&ent.zone==='gongguan'&&ent.act==='linger',JSON.stringify(ent)); }
-    const HEAD=['明軒戴著耳機，膝蓋上攤著民總的筆記，三種顏色的螢光筆。','他看到你，把筆記蓋起來。','……你沒看到。','（笑）我是說，你什麼都沒看到喔。我是在看漫畫。'];
-    for(const [pick,tail,secret,pen] of [['什麼都沒看到',['很好。','他把筆記打開，繼續畫。','走到校門口。','明天見。你什麼都沒看到。'],false,false],['從哪裡回來',['……家教。三個。','他看馬路。','我爸的店最近比較忙不過來，我多接一點。','然後轉回來，笑了。','好，這個話題結束。你要不要看漫畫？'],true,false],['坐到他旁邊',['兩個人一路沒講話。','你的螢光筆只有一種顏色？很可憐耶。','他給你一支綠色的。'],false,true]]){
+    const HEAD=['明軒戴著耳機，膝蓋上攤著民總的筆記，三種顏色的螢光筆。','他看到你，把筆記蓋起來。','……你沒看到。','（笑）我在看漫畫啦。'];   /* AA_207 §5（BB_167 SC4 第 29 列）*/
+    for(const [pick,tail,secret,pen] of [['什麼都沒看到',['很好。','他把筆記打開，繼續畫。','走到校門口。','我先回宿舍了。'],false,false]   /* AA_207 §6 */,['從哪裡回來',['……家教。三個。','他看馬路。','我爸的店最近生意不太好，我多接一點。','然後轉回來，笑了。','好，這個話題結束。你要不要看漫畫？'],true,false],['坐到他旁邊',['兩個人一路沒講話。','你的螢光筆只有一種顏色？很可憐耶。','他給你一支綠色的。'],false,true]]){
       fresh(dOf(7,2),21.5,'gongguan'); SOCIAL.meet(MX,'campus'); picks=[pick]; await EVENTS.run(e); const L=lines();
       check('M1 選「'+pick+'」：BB_95 原文（舞台指示做成第二人稱旁白）',JSON.stringify(L)===JSON.stringify(HEAD.concat(tail)),JSON.stringify(L));
       check('M1 選「'+pick+'」：SAW_HIM_STUDY'+(secret?'＋SHARED_SECRET':'')+(pen?'＋綠色螢光筆':'')+'、有他的聯絡方式、只一次',SOCIAL.has(MX,'SAW_HIM_STUDY')&&SOCIAL.has(MX,'SHARED_SECRET')===secret&&!!G.flags.GREEN_HIGHLIGHTER===pen&&INV.hasContact(G,MX)&&EVENTS.check(e)===false); }
@@ -131,11 +132,11 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
   { const e=ev('ev_sis_festival_booth'), sat=STORY.termDay('Y1S1',11,6), sisN=()=>{ const n={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:-17.8,y:0,z:13}}}; GM.npc.sis=n; E.npcs=[n]; return n; };
     check('校慶是第 11 週週六 11/15（園遊會：法服的帳篷擺出來）',!!sat&&CALENDAR.dateOf(sat).m===11&&CALENDAR.dateOf(sat).d===15,JSON.stringify(CALENDAR.dateOf(sat)));
     { fresh(sat,10.5,'campus'); const ent=STORY.schedEnt(CHARACTERS.heroine_05,G); check('學姊那天 10–12 點在攤前（linger），其他週六照舊在校園走走',!!ent&&ent.act==='linger'&&ent.zone==='campus'&&(fresh(sat+7,10.5,'campus'),STORY.schedEnt(CHARACTERS.heroine_05,G).act==='wander'),JSON.stringify(ent)); }
-    const can=(day,h,near,sis)=>{ fresh(day,h,'campus'); if(sis) sisN(); E.player.obj.position={x:near?-17.5:0,y:0,z:near?12:0}; const ok=EVENTS.check(e); E.player.obj.position={x:0,y:0,z:0}; return ok; };
-    check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住',can(sat,10.5,true,true));
+    const can=(day,h,near,sis,met)=>{ fresh(day,h,'campus',met===false?{}:{met_sis:true}); if(sis) sisN(); E.player.obj.position={x:near?-17.5:0,y:0,z:near?12:0}; const ok=EVENTS.check(e); E.player.obj.position={x:0,y:0,z:0}; return ok; };
+    check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住（要見過學姊：AA_207 §5 加 met_sis）',can(sat,10.5,true,true,true)&&!can(sat,10.5,true,true,false));
     check('別的週六、12 點以後、學姊不在都不會',!can(sat+7,10.5,true,true)&&!can(sat,12.2,true,true)&&!can(sat,10.5,true,false));
     const HEAD=['你。過來。','幫我顧十分鐘。不會的不要亂答，叫我就好。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
-    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。','原來法律是分科的。'],{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
+    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。']   /* AA_207 附錄 §2：感悟旁白刪掉 */,{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
       fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_05','wancai'); const r0=Object.assign({},SOCIAL.rel('heroine_05'));   /* 已經認識學姊（第一次見面的熟悉度另外算）*/ picks=[pick]; await EVENTS.run(e); const L=lines(), r1=SOCIAL.rel('heroine_05'); const got={}; for(const k in r1){ const dd=(r1[k]||0)-(r0[k]||0); if(dd&&typeof dd==='number') got[k]=dd; }
       check('校慶 選「'+pick+'」：BB_95 原文、學姊 '+JSON.stringify(d)+(helped?'、HELPED':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail))&&Object.keys(d).every(k=>got[k]===d[k])&&SOCIAL.has('heroine_05','HELPED')===helped,JSON.stringify({L,got})); }
     check('校慶 阿嬤用名字顯示（路人，不是人物資料）',said.some(x=>x.who==='阿嬤'));
@@ -154,7 +155,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('家族聚餐：第 14 週週五 18:00–19:30 在公館（DL-04B 放寬，AA_160 3-4、BB_95 3-8）',!!fri&&can(fri,18.05)&&can(fri,19.4)&&!can(fri,19.6)&&!can(fri,17.9)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
     fresh(fri-7,21,'campus'); grp(); STORY.phoneRules(GM); PHONE.tick(G);
     check('前一週 Kevin 在家族群組約（BB_95 原文）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
-    const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','三件事。','一，周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','二，下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','三——','三是傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
+    const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','……還有——','還有傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
     for(const [pick,tail,sticker] of [['手心都是汗',['那一題大家都會卡。你有回答就很好了。'],false],['收到',['因為收到了。','她連過年都回收到。','……不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃麵。','學姊說吃麵耶！'],false]]){
       fresh(fri,18.55,'gongguan',{classDone:true,classAnswer:'good'}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();
       check('家族聚餐 選「'+pick+'」：BB_95 原文、散會「下學期的書，我會留給你。」、SHARED_MEAL'+(sticker?'、SIS_NO_STICKER':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail,['下學期的書，我會留給你。']))&&SOCIAL.has('heroine_05','SHARED_MEAL')&&!!G.flags.SIS_NO_STICKER===sticker,JSON.stringify(L.slice(-6))); }

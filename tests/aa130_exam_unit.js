@@ -37,13 +37,13 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     check('6. 憲法（上）（正式 '+off.length+' 題＋AI '+n.ai.length+' 題）：開考，5 題',off.length<5&&n.ai.length>0&&res.held!==false&&r.ok&&r.qs.length===5,GM.log.slice(0,2).join(' | '));
     check('6. 正式題排在前面、AI 題只補剩下的',r.qs.slice(0,off.length).every(q=>q.status==='USER_CONFIRMED')&&r.qs.slice(off.length).every(q=>q.status==='AI_CROSS_REVIEWED'),JSON.stringify(r.qs.map(q=>q.status)));
     check('6. 考卷不顯示題目來源（AI_Y1Y3、AI、出題者）',!GM.log.some(t=>/AI_Y1Y3|AI_CROSS|author|來源/.test(t)));
-    const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）有分數，不是「未開考」',/分$/.test(rep.const_1||''),JSON.stringify(rep));
+    const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）有分數，不是「未開考」',/^\d+ 分/.test(rep.const_1||''),JSON.stringify(rep));   /* D42（05a959c08）不及格後面多「（不及格，下學期重修）」：只看開頭有分數（BB-B 10-23 回報）*/
     const G0=mkG(dayOf('2026-06-15'),9); const r0=CLS.drawExam(G0,'const_2','Y1S2','final'); check('6. 憲法（下）沒有正式題目：5 題都是 AI 補題，開考',r0.ok&&r0.qs.every(q=>q.status==='AI_CROSS_REVIEWED'));
     const G1=mkG(dayOf('2025-12-22'),9); const p1=CLS.examPool('civ_general','Y1S1','final'), r1=CLS.drawExam(G1,'civ_general','Y1S1','final');
     check('6. 民法總則（正式 '+(p1.cls.length+p1.bank.length)+' 題、AI '+p1.ai.length+' 題）：正式題夠，不用 AI 題',p1.ai.length>0&&r1.ok&&r1.qs.every(q=>q.status==='USER_CONFIRMED'));
     for(const [c,t,d] of [['civpro_1','Y3S1','2027-12-28'],['civpro_2','Y3S2','2028-06-12'],['company_law','Y3S1','2027-12-28'],['insurance','Y3S2','2028-06-12'],['negotiable','Y3S2','2028-06-12'],['labor_law','Y3S2','2028-06-12']]){ const rr=CLS.drawExam(mkG(dayOf(d),9),c,t,'final'); check('6. '+c+'（'+t+'）可以開考',rr.ok&&rr.qs.length===5,JSON.stringify(rr.n)); } }
   { const G=mkG(dayOf('2026-01-20'),9); const rep=CLS.reportFor(G,'Y1S1'), bad=Object.entries(rep).filter(([k,v])=>/題庫不足/.test(v));
-    check('6. GRADE-NOBANK：期末考沒考的課＝「缺考」（題數算進 AI 補的題）；成績單沒有「題庫不足」',!bad.length&&rep.const_1==='缺考',JSON.stringify(rep)); }
+    check('6. GRADE-NOBANK：期末考沒考的課＝「缺考」（題數算進 AI 補的題）；成績單沒有「題庫不足」；缺考算被當（D42：「缺考（不及格，下學期重修）」）',!bad.length&&/^缺考（不及格，下學期重修）$/.test(rep.const_1),JSON.stringify(rep)); }
   // 6. 不足 5 題（現在沒有這種課了：暫時把憲法（下）的題庫減到 3 題，確認不開考的路照舊）
   { const keep=EXAM_BANK.questions.slice(); let k=0; EXAM_BANK.questions=EXAM_BANK.questions.filter(q=>!(q.course==='const_2'&&q.term==='Y1S2')||(k++<3));
     const G=mkG(dayOf('2026-06-15'),9); const it={c:CLS.byId('const_2'),exam:'final',term:'Y1S2',key:'x'}; const GM=mkGM(G); errs.length=0; const res=await CLS.runExam(GM,it);

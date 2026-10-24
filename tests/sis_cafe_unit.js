@@ -22,18 +22,18 @@ const n={name:'溫學姊'};
 (async()=>{
   R(8); G.hour=18.5; let gm=mk(); check('1. 晚上 7 點以前不演（照舊的閒聊）',(await STORY.sisCafe(gm,n))===false&&!gm.out.length);
   G.hour=20; const f0=SOCIAL.rel('heroine_05').fam; gm=mk([0]); const ok=await STORY.sisCafe(gm,n);
-  check('2. 第一次（認識）：打招呼 →「今天念了什麼？」（今天沒自學：沒有「說今天念的那一科」）→ 選「今天沒念。」→ 便條三件（字太醜）',ok&&gm.out.join('｜')==='S:「學弟。……你的筆記帶了嗎？」｜S:「今天念了什麼？」｜C:今天沒念。/學姊呢？｜S:「好。那明天念。」｜N:（她推過來一張便條。三件事，寫得很滿。第三件常常是「字太醜」。）',gm.out.join('｜'));
+  check('2. 第一次（認識）：打招呼 →「今天念了什麼？」（今天沒自學：沒有「說今天念的那一科」）→ 選「今天沒念。」→ 便條一句（爭點抓錯了；AA_398 第 1 列）',ok&&gm.out.join('｜')==='S:「學弟。……你的筆記帶了嗎？」｜S:「今天念了什麼？」｜C:今天沒念。/學姊呢？｜S:「好。那明天念。」｜N:（她推過來一張便條。便條只有一行：「第二題的爭點抓錯了。」字很小。）',gm.out.join('｜'));
   check('2. 聊天算一次（今天第一次聊天熟悉 +2，AA_124 1-2）',SOCIAL.rel('heroine_05').fam===f0+2,f0+' → '+SOCIAL.rel('heroine_05').fam);
   gm=mk(); await STORY.sisCafe(gm,n); check('3. 同一晚再找她：只有一句',gm.out.join('｜')==='S:「我在念。十點再說。」',gm.out.join('｜'));
   G.day=31; R(25); gm=mk([1]); await STORY.sisCafe(gm,n);
-  check('4. 隔天（有點熟）：打招呼換成「你來了喔。」（BB_169 W-8）、小交流輪到她的小事（再點一杯）、便條「下次帶筆記」',gm.out.join('｜')==='S:「你來了喔。」｜S:「我這段還沒寫完，你先點沒關係。」｜S:「我在想要不要再點一杯。你覺得呢？」｜C:點。/會睡不著。｜S:「……也是。那不點了。」｜N:（她推過來一張便條。還是三件事。第三件換成「下次帶筆記」。）',gm.out.join('｜'));
+  check('4. 隔天（有點熟）：打招呼換成「你來了喔。」（BB_169 W-8）、小交流輪到她的小事（再點一杯）、便條「下次帶筆記」',gm.out.join('｜')==='S:「你來了喔。」｜S:「我這段還沒寫完，你先點沒關係。」｜S:「我在想要不要再點一杯。你覺得呢？」｜C:點。/會睡不著。｜S:「……也是。那不點了。」｜N:（她推過來一張便條。便條上寫：「下次帶筆記來。」）',gm.out.join('｜'));
   G.day=50; CLS.rec(G).lastStudy={day:50,id:'civ_gen1',name:'民法總則'}; gm=mk([0]); await STORY.sisCafe(gm,n);
   check('5. 今天有自學：多一個「（說今天念的民法總則）」，選了她在便條上寫「可。」',gm.out[3]==='C:（說今天念的民法總則）/今天沒念。/學姊呢？'&&gm.out[4]==='S:「好，講給我聽。講重點就好。」'&&gm.out[5]==='N:（你講了。她在便條上寫：「可。」）',gm.out.join('｜'));
   G.day=51; gm=mk([0]); await STORY.sisCafe(gm,n); check('4. 她的小事三則輪流：第二次是芷若的新蛋糕',gm.out[2]==='S:「芷若的新蛋糕。我不知道是什麼。」',gm.out.join('｜'));
   G.day=52; R(65,50,45); W8=false; gm=mk([0]); await STORY.sisCafe(gm,n);
-  check('6. 關係是好朋友、W8 還沒發生：照一般階段（AA_219 A-11 拿掉 W8 上限）＝她把對面的椅子拉開、便條只有一件「回去小心」',gm.out[0]==='N:（她把對面的椅子拉開）'&&/只有一件：「回去小心。」/.test(gm.out[gm.out.length-1]),gm.out.join('｜'));
+  check('6. 關係是好朋友、W8 還沒發生：照一般階段（AA_219 A-11 拿掉 W8 上限）＝她把對面的椅子拉開、便條只有一件「回去小心」',gm.out[0]==='N:（她把對面的椅子拉開）'&&/便條上只寫：「回去小心。」/.test(gm.out[gm.out.length-1]),gm.out.join('｜'));
   G.day=53; W8=true; gm=mk([0]); await STORY.sisCafe(gm,n);
-  check('6. W8 之後（好朋友）：她把對面的椅子拉開、便條只有一件「回去小心」',gm.out[0]==='N:（她把對面的椅子拉開）'&&gm.out[1]==='S:「坐啊。」'&&/只有一件：「回去小心。」/.test(gm.out[gm.out.length-1]),gm.out.join('｜'));
+  check('6. W8 之後（好朋友）：她把對面的椅子拉開、便條只有一件「回去小心」',gm.out[0]==='N:（她把對面的椅子拉開）'&&gm.out[1]==='S:「坐啊。」'&&/便條上只寫：「回去小心。」/.test(gm.out[gm.out.length-1]),gm.out.join('｜'));
   // 她累的晚上（BB_169 W-11）：單週週六法服值班（第 32 天＝2025-10-18 週六、第 7 週）、日曆標的考試週（第 34 天＝期中考週）：FAMILIAR 以上只點頭；認識照舊
   G.day=32; R(25); gm=mk([0]); await STORY.sisCafe(gm,n); check('8. 祐廷大一那年單週週六（法服值班日）不算累（她在準備法研所、不值法服；AA_284 1-6）：照一般招呼',STORY.fafuDuty(G)&&gm.out[0]!=='N:（她抬頭看了你一下，點點頭。）',gm.out.join('｜'));
   { const d14=STORY.termDay('Y1S1',14,3); G.day=d14; G.hour=20; delete G.flags.SIS_CAFE; R(25); gm=mk([0]); await STORY.sisCafe(gm,n); check('8b. 大一第 14 週（她準備筆試）有點熟：招呼只有「（她抬頭看了你一下，點點頭。）」',gm.out[0]==='N:（她抬頭看了你一下，點點頭。）',gm.out.join('｜')); }

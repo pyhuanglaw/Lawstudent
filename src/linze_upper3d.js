@@ -2,7 +2,9 @@
    「霖澤館3-8樓為什麼永遠都在蓋」）：區域 linze_3f、linze_4f（LAWWW2-C 5566a0c5 的模型、配置、接線，照 118 巷店面的做法；LAWWW-C 正式接線）。
    樓梯：2F 樓梯間的門（linze_layout.js 的 stairs3f）→ 3F；3F ⇄ 4F；4F 往上（研究室）關著。
    電梯：霖澤館的電梯（building3d.js，B3 車廂）到 3F、4F＝換區域（linze_layout.js 的 floors：zone、num、spawn，同總圖）；
-   3F、4F 這兩層沒有車廂模型：按「搭電梯」選樓層，淡出換到那一層的電梯門口（1F、2F＝霖澤館電梯前）。5F–8F 研究室按不亮。 */
+   3F、4F 這兩層沒有車廂模型：按「搭電梯」選樓層，淡出換到那一層的電梯門口（1F、2F＝霖澤館電梯前）。5F–8F 研究室按不亮。
+   5F 研究室樓層 linze_5f（CLOSED-SPACES-1023，LAWWW2-B；AA_399 第 1 節）：模型、配置、區域接線同 3F、4F；樓下 4F 的樓梯、電梯照舊不開（刷卡門）——怎麼進來（傳訊息給學姊開門、事件帶進來）由劇情決定。
+   在 5F 裡面：走樓梯下樓到 4F、搭電梯到 1F–4F 都可以；6F 以上按不亮。 */
 (function(){
   const S_={};
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
@@ -20,6 +22,17 @@
     if(i<0) return; const q=floors[i], up=FLOOR_NO(q)>+f.slice(0,1); const sp=q.zone==='linze'?{x:4.6,z:-4.9,lv:q.lv|0,yaw:Math.PI}:Object.assign({},LINZE_UPPER_LAYOUTS[q.zone.slice(6)].spawn);
     if(GM.caption) GM.caption('','電梯往'+(up?'上':'下')+'……',1800); await GM.enter(q.zone,sp); }
   S_.ride=ride;
+  /* 3F、4F、5F 的窗景兩層（法學院廣場的大樟樹在窗前 7～8 m，CLOSED-SPACES-1023 第 1 項的「窗戶對著一棵樹」，LAWWW2-B 10-23）：近景＝12 m 以內的樹冠，遠景＝法學院前的路、椰林。
+     景深照 tools/shots/shop_views_layers.json（白天、晚上一樣）；W3.setWindowView 照 VIEW_LAYERS 疊近景（room() 的窗） */
+  if(typeof W3!=='undefined'&&W3.VIEW_LAYERS) Object.assign(W3.VIEW_LAYERS,{linze_3f:{far:26.91,near:2.67},linze_4f:{far:38.67,near:2.14},linze_5f:{far:18.97,near:3.69}});
+  /* 5F：會議室門上的「口試中」（WALL_P3_EXAM_SIGN）平常藏起來；研究室的燈：LAB_tubes（三盞日光燈）、LAB_SIS_LAMP（學姊桌上的檯燈）。
+     事件用 LZUP.examSign(true／false)、LZUP.labLights('all'｜'sis'｜'off')（'sis'＝只開她那一盞檯燈）；進 5F 以前、以後叫都可以（正式模型載好時照這裡的狀態），離開事件要叫回來（examSign(false)、labLights('all')）；
+     燈光：'sis'／'off' 時整層的環境光、天花板燈調暗（區域的 applyTime：室內的時候引擎設完環境光以後叫它），檯燈那裡多一盞暖色的點光（'sis'）*/
+  const st5={exam:false,lab:'all'}; let nodes5=null, light5=null;
+  const k5=()=>st5.lab==='all'?1:(st5.lab==='sis'?0.05:0.03);
+  function apply5(){ if(nodes5){ for(const o of nodes5.exam) for(const m of [].concat(o.material)) if(m) m.visible=st5.exam;   /* 牌子是 WALL_P3 的一部分（跟著隔間牆淡出）：引擎每一格照淡出設 o.visible（engine3d.js hideFaded），所以開關用材質的 visible（attachRoomGLB 已經每個牆面各自複製材質）*/ for(const o of nodes5.tubes) o.visible=st5.lab==='all'; for(const o of nodes5.lamp) o.visible=st5.lab!=='off'; }
+    const E=typeof GAME!=='undefined'&&GAME.E; if(light5&&E&&E.zone===light5.z){ light5.sl.intensity=st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0); if(light5.z.onLamps) light5.z.onLamps(!!E.lampsOn); if(E.applyTime) E.applyTime(E.hour); } }
+  S_.examSign=on=>{ st5.exam=!!on; apply5(); }; S_.labLights=m=>{ st5.lab=(m==='sis'||m==='off')?m:'all'; apply5(); }; S_.state5=()=>Object.assign({},st5);
   /* 看微波爐、販賣機、公告欄、白板的字：配置檔的 note 是 LAWWW2 寫給開發組的（「說明文字由 AA 寫」），那幾個字不能出現在遊戲裡；正式的字 AA 寫好再換 */
   /* 看微波爐、販賣機、垃圾桶、公告欄、白板：AA_320 5-2（AA-C e48d8e09）；期末週沿用。沒有的才用配置檔的 note（去掉給開發組的話）。
      AA_355 1-3 另給了 3F 微波爐一句「（微波爐前面排了三個人，每個人手上都是便當。）」——是照配置檔 dev 那一欄判斷的，這台已經有 AA_320 5-2 的字，不換（AA_355 第 5 節第 5 題，2f1aaa22：照現在）*/
@@ -58,18 +71,21 @@
       nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
       plane(fb,W,D,M('#c9c4ba'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/vending|elevator|column/.test(b.why)?1.9:0.75; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
       const lamps=[]; for(const [x,zz] of [[-4,-5],[4,-5],[-4,2.5],[2,2.5],[-4,5.5],[4,5.5]]){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
-      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
-      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
+      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); const k=f==='5f'?k5():1; for(const l of lamps) l.intensity=(on?l.userData.on:l.userData.off)*k; if(k<1&&z.ceilLight) z.ceilLight.intensity*=k; };
+      if(f==='5f'){ const sl=new THREE.PointLight(0xffc27a,st5.lab==='sis'?2.6:(st5.lab==='all'?0.6:0),3.2,2); const lp=(L.spots&&L.spots.sis_lamp)||{x:-5.85,y:1.15,z:6.15}; sl.position.set(lp.x,lp.y||1.15,lp.z); g0.add(sl); light5={z,sl};   /* 學姊桌上的檯燈（配置的 spots.sis_lamp；10-23 AA_399 1-1 更正以後她的桌子在門邊）*/
+      }
+      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); if(f==='5f'){ const k=k5(); if(k<1&&E.hemi){ E.hemi.intensity*=k*2.2; if(E.sun) E.sun.intensity*=k; } } };
       const IT=E.interactables; z.seats=[];
       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.kind==='study') st.study=true; z.seats.push(st); IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st,label:s.label||'坐下'},s.kind==='study'?{study:true}:{})); }
       for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(q,f)}); }
-      for(const d of L.doors){ if(d.kind==='stair') continue; IT.push({x:d.x,z:d.z+0.75,radius:1.0,lv:0,label:d.label,look:d.label+'。這個時段有課，門關著。'}); }
+      for(const d of L.doors){ if(d.kind==='stair') continue; IT.push({x:d.x,z:d.z+0.75,radius:1.0,lv:0,label:d.label,look:d.note||(d.label+'。這個時段有課，門關著。')}); }   /* 5F 教授研究室：配置的 note（在室狀態牌）*/
       const st=L.stairs, sx=st.door.x, sz=st.door.z+0.55;
       { const dn=st.down; IT.push({x:sx-0.45,z:sz,radius:0.6,lv:0,label:dn.label,exit:{to:dn.to,spawn:dn.to==='linze'?Object.assign({},L2SPAWN):Object.assign({},LINZE_UPPER_LAYOUTS[dn.to.slice(6)].stairs.spawn)}}); }
       { const up=st.up; if(up.to) IT.push({x:sx+0.45,z:sz,radius:0.6,lv:0,label:up.label,exit:{to:up.to,spawn:Object.assign({},LINZE_UPPER_LAYOUTS[up.to.slice(6)].stairs.spawn)}}); else IT.push({x:sx+0.45,z:sz,radius:0.6,lv:0,label:up.label,look:up.closed}); }
       { const el=L.elevator; IT.push({x:(el.doorX0+el.doorX1)/2,z:el.z0-0.7,radius:0.8,lv:0,label:'搭電梯',elevator:true,onInteract:()=>ride(f,el.floors)}); }
       z.formal=false; const key='bldg.linze_'+f; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
+        if(f==='5f'){ nodes5={exam:[],tubes:[],lamp:[]}; root.traverse(o=>{ if(!o.isMesh) return; if(/EXAM_SIGN/.test(o.name)) nodes5.exam.push(o); else if(/^LAB_tubes/.test(o.name)) nodes5.tubes.push(o); else if(/^LAB_SIS_LAMP/.test(o.name)) nodes5.lamp.push(o); }); apply5(); }
         glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('霖澤館樓上正式模型載入失敗',f,e));
       return z; } }; }
   if(typeof LINZE_UPPER_LAYOUTS!=='undefined') for(const f of Object.keys(LINZE_UPPER_LAYOUTS)){ Z3.ZONES['linze_'+f]=zoneFor(f);

@@ -171,15 +171,23 @@ const W3 = (function(){
   /* base：別的資料夾（總圖大廳的 library_view_*）。換區域時 releaseViews 把快取全部釋放（game3d.js 的 enter；新區域要用的再載一次，瀏覽器有快取）*/
   function viewPhoto(kind,night,base){ if(!kind) return null; const k=(base||VIEW_URL)+kind+(night?'_night':'_day'); if(!(k in viewCache)){ viewCache[k]=null; try{ new THREE.TextureLoader().load(k+'.webp',t=>{ if(!(k in viewCache)){ t.dispose(); return; }   /* 載完之前已經換區域了 */ t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; viewCache[k]=t; },undefined,()=>{ viewCache[k]=false; }); }catch(e){ viewCache[k]=false; } } return viewCache[k]||null; }
   function releaseViews(){ for(const k of Object.keys(viewCache)){ const t=viewCache[k]; if(t&&t.dispose) t.dispose(); delete viewCache[k]; } }
-  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)} },
+  /* 兩層窗景（ART-SHOP-VIEWS-1023，LAWWW2-B 2026-10-23；使用者「店面外看出去的景也都很假」）：店家的窗另外有一張近景（騎樓的柱子、人行道上的機車、Café 門口的盆栽…有透明度），
+     <名稱>_near_<day|night>.webp，當成窗外 near 公尺的一面景疊在遠景前面；兩層各自視差，走動時近的東西移動得比遠的街快（原本一張照片，柱子和遠處的大樓一起移動，像貼在窗上的圖）。
+     遠景、近景都是 tools/shots/shop_views_layers.py 在遊戲裡拍的（近景＝鏡頭 far 設在分界、黑白兩種底色去背）；景深照它量的中位數（遠景的 far 取代區域給的 viewDepth）。
+     不在這個表裡的窗（教室、圖書館、宿舍…）照舊一層，不多載任何檔案 */
+  const VIEW_LAYERS={cvs:{far:22.4,near:6.54},noodle:{far:13.31,near:4.01},bookstore:{far:12.48,near:8.96},cafe:{far:12.06,near:5.25}};   /* 公館三家 10-23 公館街景加了機車、行道樹後重拍（ART-GG-STREETLIFE-1023）：麵店、書店的遠景景深變近 */
+  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0} },
     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
-    fragmentShader:'uniform sampler2D map; uniform vec3 tint; uniform float depth; uniform float photo; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
-      'void main(){ vec2 uv=vUv; if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998)); }\n'+
-      ' vec4 c=texture2D(map,uv); gl_FragColor=vec4(c.rgb*tint,1.0);\n #include <colorspace_fragment>\n}',
+    fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
+      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
+      '  if(near>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998) nc=texture2D(nmap,un); } }\n'+
+      ' vec4 c=texture2D(map,uv); gl_FragColor=vec4(mix(c.rgb,nc.rgb,nc.a)*tint,1.0);\n #include <colorspace_fragment>\n}',
     toneMapped:false, fog:false }); }
   // 換貼圖（白天／晚上、照片或退回的程序化貼圖）＋色調
-  function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint); return !!ph; }
+  function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);
+    const L=VIEW_LAYERS[kind]; if(L&&u.nmap){ const nph=viewPhoto(kind+'_near',night); if(L.far) u.depth.value=L.far; u.ndepth.value=L.near; u.nmap.value=nph; u.near.value=(ph&&nph)?1:0; }   /* 兩層窗景：近景還沒載入（或沒有遠景照片）時只畫遠景 */
+    return !!ph; }
   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.4) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }
-  return {viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();

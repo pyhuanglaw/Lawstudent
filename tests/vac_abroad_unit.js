@@ -90,7 +90,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true,VAC_C09_INT:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
     said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y1')); PHONE.tick(G);
     const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01');
-    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則；回來那天（8/5）她在台中＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北；重逢走 AA_350 S5 那兩則）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊現在幾點？……吃飯了沒？')&&!A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));   /* AA_369 第 7 節第 6 題：中間那則整句換 */
+    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則；回來那天（8/5）她在台中＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北；重逢走 AA_350 S5 那兩則）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊現在幾點？……吃飯了沒？')&&!A1.some(m=>m.text==='明天有空的話，一起吃飯。'),JSON.stringify(A1.map(m=>m.text)));   /* AA_369 第 7 節第 6 題：中間那則整句換 */
     const pool=A1.filter(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')[0]; check('10. 柬埔寨只有晚上有訊號：她 21:30 傳的，22:00 才收到；兩個回覆「好。」「我也想妳。」',!!pool&&Math.abs(pool.h-22)<0.01&&JSON.stringify(pool.ask.opts.map(o=>o.t))===JSON.stringify(['好。','我也想妳。']),JSON.stringify(pool));
     const dk=A1.find(m=>m.text==='今天沒有回。……你那邊還好嗎？'); check('10. 停電那晚（8/2）她「今天沒有回。……」隔天 8/3 早上 8:00 才收到；回「昨天停電，整晚沒電。」→「好。……下次停電，也先跟我說。」',!!dk&&dk.day===D('2026-08-03')&&dk.h===8&&dk.ask.opts[0].t==='昨天停電，整晚沒電。'&&dk.ask.opts[0].say[0].text==='好。……下次停電，也先跟我說。',JSON.stringify(dk));
     check('10. 7/30 VA-11「我媽在後面」人在柬埔寨不傳；停電那晚其他訊息也是隔天早上才到（8/2 沒有收到任何一則）',!A1.some(m=>m.text.includes('我媽在後面'))&&!(G.msgs||[]).some(m=>m.day===D('2026-08-02')&&m.h>=21));
