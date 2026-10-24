@@ -29462,7 +29462,7 @@
    "title": "美國路線大四、和可昕交往中：10/17 週年視訊（當地 09:00）不叫醒，晚上照常睡到中午就錯過（KX_ANNIV 4 missed）",
    "area": null,
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -29477,7 +29477,7 @@
    "source": "BB 14:45（RELEASE-9106-TEST 美國交換 r_us_life USD_kexin，開發分支 f5c7e17b）",
    "authorized": "D85（bug 修正）",
    "cause": "story3d.js kx_anniv4v 的 OUT.plan 沒有 alarm（wakeAlarms 只看 alarm）；那天第一堂 13:00，床的早上選項＝12:00",
-   "next": "【LAWWW（帳號 A）15:1x】BB 15:02 重跑 USD_kexin（51f91161，含 d3df1cf3）還是 FAIL：鬧鐘本身有了（床的選單第二項寫「鬧鐘 08:30 會叫醒你」），但第一項「睡到明天中午」被美國床的包裝改到 12:00、鬧鐘掉了→ BUG-US-BED-ALARM-1022；那件修好才算 ｜ 【LAWWW（帳號 A）14:5x】kx_anniv4v 加 alarm:true（08:30 叫醒）；舊存檔已經排好、沒有 alarm 的補上。us_life_unit S8 兩項（修改前 FAIL）ALL PASS；wakeAlarms／kx_anniv／bedOptions 相關 17 支 ALL PASS。下一步：BB 重跑 USD_kexin"
+   "next": "【LAWWW-B 10-24 08:3x】狀態跟上：本項的修正（d3df1cf3 kx_anniv4v alarm:true）和後續 BUG-US-BED-ALARM-1022（美國床的包裝也套鬧鐘）都在開發分支、已整合待測試；BB 重跑 USD_kexin（選第一項）、USD_kexin_alarm（選鬧鐘那項）通過就一起結案 ｜ 【LAWWW（帳號 A）15:1x】BB 15:02 重跑 USD_kexin（51f91161，含 d3df1cf3）還是 FAIL：鬧鐘本身有了（床的選單第二項寫「鬧鐘 08:30 會叫醒你」），但第一項「睡到明天中午」被美國床的包裝改到 12:00、鬧鐘掉了→ BUG-US-BED-ALARM-1022；那件修好才算 ｜ 【LAWWW（帳號 A）14:5x】kx_anniv4v 加 alarm:true（08:30 叫醒）；舊存檔已經排好、沒有 alarm 的補上。us_life_unit S8 兩項（修改前 FAIL）ALL PASS；wakeAlarms／kx_anniv／bedOptions 相關 17 支 ALL PASS。下一步：BB 重跑 USD_kexin"
   },
   {
    "id": "BUG-DATE-LINES-REVERT-1022",
