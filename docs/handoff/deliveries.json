@@ -14179,6 +14179,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-24 11:2x 整合；瀏覽器回歸給 BB（普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）"
+  },
+  {
+   "id": "DL-LW2-CROWD-FAR-INDOOR",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "4448da9a5",
+   "what": "室內無名路人 7 m 外換低面數（博雅一樓階梯教室效能）",
+   "task": "BUG-SHADOW-UPPER-1024",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 11:5x 整合；BB 瀏覽器：博雅一樓上課坐後排、Café、總圖 3F 看路人換模型會不會跳"
   }
  ],
  "ignored": [
