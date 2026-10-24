@@ -2408,6 +2408,24 @@
    "task": "AA185-V6、EVPKG-AA227-228-KNOW、DATE-C4",
    "kind": "text",
    "note": "REBUILD_GATE 開著；以安「……道歉收到。然後呢？」；學姊約會句四句；芷若英國坦白視訊版整段；子晴語彤可昕出國時的坦白視訊版"
+  },
+  {
+   "path": "docs/story_planning/BB_206_大三上口語審_給LAWWW程式清單.md",
+   "sha": "4484e4a2d",
+   "status": "approved",
+   "approvedBy": "BB 交付（機制）／AA 定稿（D109）",
+   "task": "AA312-INTEGRATE-1020",
+   "kind": "text",
+   "note": "第 2 節學姊大三起作息（研究室、下午法圖）"
+  },
+  {
+   "path": "docs/story_planning/AA_369_寒暑假_人在哪與時間矛盾_修正稿.md",
+   "sha": "4512c2d08",
+   "status": "approved",
+   "approvedBy": "BB 交付（機制）／AA 定稿（D109）",
+   "task": "AA369-HOL-FIX-1021",
+   "kind": "text",
+   "note": "寒暑假人在哪與時間矛盾的修正（盤點用）"
   }
  ]
 }

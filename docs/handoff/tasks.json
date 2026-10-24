@@ -24534,7 +24534,7 @@
      "note": "階梯重匯了，寫死的台詞與條件程式大多沒改"
     }
    ],
-   "notes": "2026-10-23 20:1x LAWWW-B：做了 B-7／AA_259 (b) 5 K13 第三年卡片、AA_259 (b) 5 沛珊旁聽閒聊限 Y1S1～Y2S1、AA_260 (b-1) #8 #12 #13；其餘已經被後來的改稿做掉。沒做：invites.js 的 B-1 B-2 B-4 B-5、AA_255 #20、AA_259 (b) 3、AA_262 (b) 1；termend3d.js 的每學期 NOPE（AA_260 #5 #6 #11、AA_262 #4）、AA_260 #14、AA_262 (b) 8、自動婉拒沒用 over（termend3d.js:208）——下一批 LAWWW-B 接。tests/aa312_unit.js 15 PASS。 ｜2026-10-23 21:5x LAWWW-B 第 2 輪：termend 每學期 NOPE（S.nopeText：AA_260 #5 #6 #11、AA_262 #4）、朋友版 no 照學期（S.friendNo：AA_260 #14）、自動婉拒走 S.heart（學姊 Y3S2「好。那出發前再約。」）；AA_262 (b) 8 S.backDay 已處理；invites：AA_259 (b) 3 學姊大三起 walk.library／rule library、AA_255 #20 沛珊消失期＝「沒有回覆。」；B-2 B-4 B-5、AA_262 (b) 1 (b) 7、BB_172 S3 已做；B-1、BB_172 S14 S18 被後來的稿取代。多線交往 L2 拒絕（AA_227 6-6）、以安邀約（AA_425 第 0 節）進 invites。tests/aa312_rest_unit.js 27 PASS。沒做：以安「好。可是我九點要回去寫報告。」和讀書會時間衝突（問 AA）；學姊大三起平日作息（characters.js）"
+   "notes": "2026-10-23 20:1x LAWWW-B：做了 B-7／AA_259 (b) 5 K13 第三年卡片、AA_259 (b) 5 沛珊旁聽閒聊限 Y1S1～Y2S1、AA_260 (b-1) #8 #12 #13；其餘已經被後來的改稿做掉。沒做：invites.js 的 B-1 B-2 B-4 B-5、AA_255 #20、AA_259 (b) 3、AA_262 (b) 1；termend3d.js 的每學期 NOPE（AA_260 #5 #6 #11、AA_262 #4）、AA_260 #14、AA_262 (b) 8、自動婉拒沒用 over（termend3d.js:208）——下一批 LAWWW-B 接。tests/aa312_unit.js 15 PASS。 ｜2026-10-23 21:5x LAWWW-B 第 2 輪：termend 每學期 NOPE（S.nopeText：AA_260 #5 #6 #11、AA_262 #4）、朋友版 no 照學期（S.friendNo：AA_260 #14）、自動婉拒走 S.heart（學姊 Y3S2「好。那出發前再約。」）；AA_262 (b) 8 S.backDay 已處理；invites：AA_259 (b) 3 學姊大三起 walk.library／rule library、AA_255 #20 沛珊消失期＝「沒有回覆。」；B-2 B-4 B-5、AA_262 (b) 1 (b) 7、BB_172 S3 已做；B-1、BB_172 S14 S18 被後來的稿取代。多線交往 L2 拒絕（AA_227 6-6）、以安邀約（AA_425 第 0 節）進 invites。tests/aa312_rest_unit.js 27 PASS。沒做：以安「好。可是我九點要回去寫報告。」和讀書會時間衝突（問 AA）；學姊大三起平日作息（characters.js） ｜2026-10-24 04:3x LAWWW-B：學姊大三起平日作息（characters.js：一～四 9:00～12:20 研究室、法圖、2028-02～2029-05 平日 14～17 不排＝研究小間 03、17:00～17:30 總圖門口）；以安讀書會後吃飯的回覆照 AA_434；tests/sis_y3_sched_unit.js 15 PASS"
   },
   {
    "id": "Y2Y4-STORY-1020",
@@ -27623,7 +27623,7 @@
    "title": "AA_369 法律系四年寒暑假「人在哪／時間矛盾」修正（企劃線 4042e078）：兩條規則 H4 出國活動期間的訊息與回國重逢排除同行的人（不只 C13 的 I.with）、H5 S.sitOk 的「放假在…／過年回…／寒假留…」看 presence；高 H1 以安 2027-08-09～27 在京都卻去香港 VA10、H2 白色情人節 2028「我在臺中」＋理由欄、H3 阿哲說暑假不回高雄；中 M1 芷若 presence 2027-01-17 起、M3 重逢人在老家走 reunionHome、M4 C03／C11／C12 以安只在真的去的那年、M6 過年照片標籤；作廢設定 fair_y2_call、沛珊讀書會那句",
    "area": "VAC",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -27640,7 +27640,9 @@
    "next": "【LAWWW（帳號 A）21:0x】第 8 節 e1940c7c 合併進 73ce13de；AA 答第 9 節（企劃線 4512c2d0）：1「放映完隔天，我就回台中了。」移到邀約後面（選不選都講）、2 芷若不上班那段的見面換三句＋沒去隔天「昨天那個位子，我坐到打烊。」、3 店休那幾天回覆換「好好休息。」「開店我第一個去。」、朋友版 1/23「📷（拉下來的鐵門，貼著紅紙）」——改給大二子代理先做（和 AA_375 #1 芷若作息結束日一起，21:0x） ｜ 【LAWWW（帳號 A）20:3x】第 7 節（AA 回 12 題的第 1、2、5、6、7、9、10、11 題）子代理 d3e3e79d 合併進開發分支 36d0e6a1（aa369_hol 67 項，第 7 節 15 項修改前 FAIL）；第 8 節子代理在跑 ｜ 【LAWWW（帳號 A）19:3x】子代理 6e4b9739 合併進開發分支 8202e9b0：H1～H5、M1、M2、M4～M6、L1～L9、第 4 節 FIXED，M3 PARTIAL（芷若、以安在家那天的重逢沒有句子）；aa369_hol_unit 54 項（修改前 49 FAIL）；12 個問題轉 AA（最要緊：方奕廷老家嘉義／台中）；BB 瀏覽器：寒暑假（holff、vac）時一起看 ｜ 【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
    "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22",
-   "sha": "36d0e6a1"
+   "sha": "36d0e6a1",
+   "evidence": "2026-10-24 子代理盤點：tests/aa369_hol_unit.js 85/85 PASS；H1 vac_activities.js:513～517、H2 r2y3b_events.js:463、H3 termend_lines.js:228、M1、M5、L1、L5、L6、L7、L9 都在；H4 vac3d.js S.mates（I.with＋A.mates）出國訊息與回國重逢排除同行的人；H5 msg3d.js breakKind／breakOk／sitOk",
+   "notes": "2026-10-24 04:3x LAWWW-B：全部已經在程式裡，結案"
   },
   {
    "id": "AA370-US-FIX-1021",
