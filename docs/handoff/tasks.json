@@ -31346,6 +31346,35 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-24 15:2x 開；圖來以前：12/2 初雪 bg dark（c32e36006）、湖邊照用 us_lake、市集照用 us_chapel_steps。"
+  },
+  {
+   "id": "ART-US-ROUTE-1024",
+   "title": "D99 路線巡查②美國交換（LAWWW2 美術總監巡查）：社區西邊出口外面補街道與對面平房、法圖彩色玻璃與天窗晚上變暗、美國校園路燈光圈",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：美國社區傍晚／晚上從西邊出口往公車站走、法學院圖書館（美國）21:00 看彩色玻璃與天窗、美國校園晚上路燈下；手機幀率（社區 +16k 三角形、+5 物件）",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/3 第一次出門",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 15:02 交付（127c62bcf；README docs/art-rebuild/second_ai/test_shots/route_us_1024/README.md）",
+   "authorized": "D99、D108、D111",
+   "xai": {
+    "spec": "LAWWW2 巡查表",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "單元測試＋改前改後截圖；BB 瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 15:0x 整合：patch us_route_night_1024（us3d.js vtAt／skyTint、us_campus lampPools；tests/us_lamp_pools_unit.js、新 tests/us_lawlib_sky_unit.js）、us_community.glb＋.json＋tools/blender/env_second/us_community.py；美國 16 支＋ground_zfight＋aa412／aa370 ALL PASS。P3 記錄沒改：208 剛進門鏡頭退到門外平台、出境大廳柱子貼鏡頭。"
   }
  ]
 }

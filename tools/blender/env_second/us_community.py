@@ -556,6 +556,120 @@ belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z0'] - 0.5 + rng.
 belt([(BD_['x0'] + 4.6 + k * step + rng.uniform(-0.8, 0.8), BD_['z1'] + 3.5 + rng.uniform(-1, 1)) for k in range(int((BD_['x1'] - BD_['x0'] - 6) / step) + 1)], (0, -1))    # 南邊第二排（樹幹之間不會看到地平線）
 belt([(BD_['x1'] + 0.5, BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8)) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)], (-1, 0))                             # 東
 belt([(BD_['x0'] - 0.5, z) for z in [BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)] if abs(z) > 7.0], (1, 0))   # 西（出口車道留缺口）
+
+# ================= 社區西邊出口外面（走不到的背景；LAWWW2-B 美國路線巡查② 2026-10-24）=================
+# 原本：西邊樹林在出口車道留了缺口，缺口外面什麼都沒有——草地到 x0 就斷了、後面是一片天空（搭公車去學校、走去超市，每次站在公車站都看得到）。
+# 現在：出口車道接到社區外面的南北向雙向兩線道（雙黃線、白邊線、路緣、兩邊人行道）、這一側的公車站牌（超市街同一張 BUS 牌）＋長椅、
+# 對面一排平房（壁板、山牆屋頂、亮著的窗、白門、門廊燈、車道、信箱、前院的樹）、房子後面一排大樹擋住地平線。
+# 全部在 bounds 外面、走不到：社區的導航格到 x0 為止，配置不用改。
+OX = BD_['x0']; ZR = 60.0
+RX0, RX1 = OX - 13.0, OX - 5.0          # 路面（8 m）
+SN0, SN1 = OX - 5.0, OX - 3.2           # 這一側的人行道
+SF0, SF1 = OX - 14.8, OX - 13.0         # 對面的人行道
+og = Mesh('usc_grass_out', M['grass'], tile=3.0); og.box(OX - 60.0, OX, -0.06, -0.02, -ZR, ZR); og.finish(root)
+oa = Mesh('usc_asphalt_out', M['asph'], tile=3.0); oa.box(RX0, RX1, -0.02, 0.0, -ZR, ZR); oa.box(SN1, OX, -0.02, 0.0, -3.6, 3.6); oa.finish(root)
+ow = Mesh('usc_walk_out', M['conc'], tile=2.0)
+ow.box(SN0, SN1, 0.0, 0.1, -ZR, ZR); ow.box(SF0, SF1, 0.0, 0.1, -ZR, ZR)                                   # 人行道（車道口照樣連過去：美國住宅區的人行道不斷）
+for (z0_, z1_) in ((-ZR, -3.8), (3.8, ZR)): ow.rbox(RX1 - 0.15, RX1, 0.0, 0.15, z0_, z1_, r=0.02, seg=1)   # 這一側的路緣（車道口壓低）
+ow.box(RX1 - 0.15, RX1, 0.0, 0.04, -3.8, 3.8)
+ow.rbox(RX0, RX0 + 0.15, 0.0, 0.15, -ZR, ZR, r=0.02, seg=1)                                                 # 對面的路緣
+ow.finish(root)
+op = Mesh('usc_line_paint_out', M['paint']); oy = Mesh('usc_line_yellow', L.flat('usc_line_yellow', '#d9b23c', rough=0.6))
+xm = (RX0 + RX1) / 2
+for dx in (-0.12, 0.12): oy.box(xm + dx - 0.05, xm + dx + 0.05, 0.0, 0.004, -ZR, ZR)                        # 雙黃線
+for xx in (RX0 + 0.35, RX1 - 0.35): op.box(xx - 0.06, xx + 0.06, 0.0, 0.004, -ZR, ZR)                       # 白邊線
+op.finish(root, uv=False); oy.finish(root, uv=False)
+# 公車站牌（「搭公車（去學校）」在出口車道北邊）＋長椅：BUS 牌照超市街（us_ms_signs.png 的 bus 那一格）
+SGJ = json.load(open(os.path.join(GEN, 'us_ms_signs.json'), encoding='utf-8'))
+def sg_uv_(name, inset=2):
+    x0_, y0_, x1_, y1_ = SGJ['rects'][name]; S_ = SGJ['size']
+    u0_, u1_ = (x0_ + inset) / S_, (x1_ - inset) / S_; v0_, v1_ = 1 - (y1_ - inset) / S_, 1 - (y0_ + inset) / S_
+    return ((u0_, v0_), (u1_, v0_), (u1_, v1_), (u0_, v1_))
+obs = Mesh('usc_bus_sign', img_mat('usc_bus_sign', 'us_ms_signs.png', rough=0.5)); obm = Mesh('usc_bus_pole', M['bronze'])
+bx_, bz_ = SN0 + 0.45, -6.2
+obm.cyl((bx_, 0.0, bz_), (bx_, 3.0, bz_), 0.04, seg=8); obm.box(bx_ - 0.02, bx_ + 0.02, 2.13, 2.77, bz_ - 0.24, bz_ + 0.24)
+uvb = obs.bm.loops.layers.uv.verify()
+for sx_ in (1, -1):                                                                                          # 兩面（朝路、朝社區）
+    xx = bx_ + sx_ * 0.03; pts = [(xx, 2.15, bz_ - sx_ * 0.225), (xx, 2.15, bz_ + sx_ * 0.225), (xx, 2.75, bz_ + sx_ * 0.225), (xx, 2.75, bz_ - sx_ * 0.225)]
+    f_ = obs.bm.faces.new([obs.bm.verts.new(g2b(*p)) for p in pts])
+    for lp, uv in zip(f_.loops, sg_uv_('bus')): lp[uvb].uv = uv
+obs.finish(root, uv=False); obm.finish(root, uv=False)
+ovc = CMesh('usc_out_vc', M['vc'])
+for k in range(4): ovc.crbox(SN1 - 0.65 + k * 0.13, SN1 - 0.55 + k * 0.13, 0.53, 0.56, bz_ - 2.9, bz_ - 1.1, '#8a6040', r=0.01, seg=1)   # 長椅（面向路）
+for e in (-2.7, -1.3): ovc.cbox(SN1 - 0.65, SN1 - 0.15, 0.1, 0.53, bz_ + e - 0.03, bz_ + e + 0.03, '#3b3530')
+
+
+def house(hid, cx, cz, Lh, Dh, tint, mirror=False):
+    """對面的平房（走不到）：正面朝東（yaw π/2，對著路）。局部座標同 clubhouse：u 沿正面、v 往正面外。
+    壁板（社區同一套顏色）、白色轉角板、山牆屋頂（雪天積雪，和社區的屋頂同一個材質）、白門＋門廊燈、窗（白框、玻璃；正面中間、背面一扇是亮著的房間，其他拉下白色百葉）、水泥地基與門前台階"""
+    g = B.group('BLDG_' + hid, root, {'kind': 'us_house_bg', 'id': hid})
+    g.location = (cx, -cz, 0.0); g.rotation_euler = (0.0, 0.0, math.pi / 2)
+    u0, u1, vF, vB, EH = -Lh / 2, Lh / 2, Dh / 2, -Dh / 2, 3.0
+    M['siding_x'] = bpy.data.materials.get('usc_siding_' + tint[1:]) or siding_mat(tint)   # 和社區的公寓、會所同色就用同一個材質（少一個 draw call）
+    mk = {k: Mesh('bX_' + k, M[k]) for k in ('siding_x', 'roof', 'trim', 'glassw', 'blinds', 'conc', 'door', 'lamp', 'house_in')}
+    def dq(m, q): m.quad(q); m.quad(q[::-1])
+    sd = -1 if mirror else 1
+    DOOR = (sd * 1.6 - 0.48, sd * 1.6 + 0.48, 0.15, 2.25)
+    WINS_F = [(sd * -3.4 - 0.75, sd * -3.4 + 0.75, 0.9, 2.3), (sd * -0.9 - 0.65, sd * -0.9 + 0.65, 0.9, 2.3), (sd * 4.0 - 0.65, sd * 4.0 + 0.65, 0.9, 2.3)]
+    WINS_B = [(-2.5, -1.3, 1.0, 2.2), (1.3, 2.5, 1.0, 2.2)]; WINS_S = [(-0.6, 0.6, 1.0, 2.2)]
+    def wq(rects, plane):
+        m = mk['siding_x']
+        for (xa, xb, ya, yb) in rects:
+            if plane == 'F': m.quad([(u0 + xa, ya, vF), (u0 + xb, ya, vF), (u0 + xb, yb, vF), (u0 + xa, yb, vF)])
+            elif plane == 'B': m.quad([(u1 - xa, ya, vB), (u1 - xb, ya, vB), (u1 - xb, yb, vB), (u1 - xa, yb, vB)])
+            elif plane == 'L': m.quad([(u0, ya, vB + xa), (u0, ya, vB + xb), (u0, yb, vB + xb), (u0, yb, vB + xa)])
+            else: m.quad([(u1, ya, vF - xa), (u1, ya, vF - xb), (u1, yb, vF - xb), (u1, yb, vF - xa)])
+    wq(facade_rects(Lh, EH, [(a - u0, b_ - u0, y0, y1) for (a, b_, y0, y1) in [DOOR] + WINS_F]), 'F')
+    wq(facade_rects(Lh, EH, [(Lh / 2 - b_, Lh / 2 - a, y0, y1) for (a, b_, y0, y1) in WINS_B]), 'B')
+    for s_ in ('L', 'R'): wq(facade_rects(Dh, EH, [(Dh / 2 + a, Dh / 2 + b_, y0, y1) for (a, b_, y0, y1) in WINS_S]), s_)
+    mk['conc'].box(u0 - 0.03, u1 + 0.03, -0.05, 0.15, vB - 0.03, vF + 0.03)                                   # 地基
+    for uu in (u0, u1):
+        for vv in (vF, vB): mk['trim'].box(uu - 0.06, uu + 0.06, 0.15, EH, vv - 0.06, vv + 0.06)              # 白色轉角板
+    def win(a, b_, y0, y1, plane, lit=False):
+        if plane == 'F': P = lambda u, y, d: (u, y, vF - d)
+        elif plane == 'B': P = lambda u, y, d: (-u, y, vB + d)
+        else:
+            uu = u0 if plane == 'L' else u1; sg = 1 if plane == 'L' else -1
+            P = lambda u, y, d: (uu + sg * d, y, u if plane == 'R' else -u)
+        dq(mk['glassw'], [P(a, y0, 0.08), P(b_, y0, 0.08), P(b_, y1, 0.08), P(a, y1, 0.08)])
+        if lit: dq(mk['house_in'], [P(a - 0.3, y0 - 0.5, 0.9), P(b_ + 0.3, y0 - 0.5, 0.9), P(b_ + 0.3, y1 + 0.4, 0.9), P(a - 0.3, y1 + 0.4, 0.9)])   # 亮著的房間（晚上看得到有人在家）
+        else: dq(mk['blinds'], [P(a + 0.02, y0 + 0.05, 0.14), P(b_ - 0.02, y0 + 0.05, 0.14), P(b_ - 0.02, y1 - 0.03, 0.14), P(a + 0.02, y1 - 0.03, 0.14)])   # 其他拉下白色百葉（白天不會是一片片褐色的方塊）
+        for (pa, pb, ya, yb) in ((a - 0.08, a, y0, y1), (b_, b_ + 0.08, y0, y1), (a - 0.08, b_ + 0.08, y1, y1 + 0.09), (a - 0.11, b_ + 0.11, y0 - 0.07, y0), ((a + b_) / 2 - 0.025, (a + b_) / 2 + 0.025, y0, y1)):
+            c0, c1 = P(pa, ya, -0.03), P(pb, yb, 0.11)   # 框比玻璃（0.08）深 3 cm：框的背面不和玻璃同一個平面（疊面會閃）
+            mk['trim'].box(min(c0[0], c1[0]), max(c0[0], c1[0]), ya, yb, min(c0[2], c1[2]), max(c0[2], c1[2]))
+    for i_, w in enumerate(WINS_F): win(*w, 'F', lit=(i_ == 1))
+    for i_, w in enumerate(WINS_B): win(*w, 'B', lit=(i_ == 0))
+    for w in WINS_S: win(*w, 'L'); win(*w, 'R')
+    a, b_, y0, y1 = DOOR                                                                                      # 白門＋門框＋台階＋門廊燈
+    mk['door'].box(a, b_, y0, y1, vF - 0.06, vF - 0.02)
+    for (pa, pb, ya, yb) in ((a - 0.09, a, y0, y1 + 0.09), (b_, b_ + 0.09, y0, y1 + 0.09), (a - 0.09, b_ + 0.09, y1, y1 + 0.09)): mk['trim'].box(pa, pb, ya, yb, vF - 0.02, vF + 0.04)
+    mk['conc'].box(a - 0.5, b_ + 0.5, 0.0, 0.13, vF + 0.03, vF + 1.1)   # 台階比地基低 2 cm、從地基外緣開始（頂面不疊）
+    mk['lamp'].box(b_ + 0.22, b_ + 0.36, 1.85, 2.1, vF, vF + 0.12)
+    PITCH = math.radians(28); ov = 0.45; rv = Dh / 2 + ov; ry = EH + rv * math.tan(PITCH)                    # 山牆屋頂（脊沿 u）
+    for s_ in (1, -1):
+        mk['roof'].quad([(u0 - ov, EH - ov * math.tan(PITCH), s_ * rv), (u1 + ov, EH - ov * math.tan(PITCH), s_ * rv), (u1 + ov, ry - ov * math.tan(PITCH), 0.0), (u0 - ov, ry - ov * math.tan(PITCH), 0.0)][::(1 if s_ > 0 else -1)])
+        mk['trim'].box(u0 - ov, u1 + ov, EH - ov * math.tan(PITCH) - 0.18, EH - ov * math.tan(PITCH), s_ * rv - 0.04, s_ * rv + 0.04)
+    for uu in (u0, u1):
+        gf = mk['siding_x'].bm; gf.faces.new([gf.verts.new(g2b(uu, EH, s_ * Dh / 2)) for s_ in ((1, -1) if uu == u0 else (-1, 1))] + [gf.verts.new(g2b(uu, EH + Dh / 2 * math.tan(PITCH), 0.0))])
+    for nm, m in mk.items():
+        if not m.empty(): m.finish(g, uv=(nm in ('siding_x', 'roof', 'conc', 'blinds')))
+    return g
+
+
+M['house_in'] = L.flat('GLOW_usc_house_interior', '#f1d6ae', rough=0.8, emit=B.srgb('#ffd29a'))   # 窗後面的室內（亮著）：遊戲照 GLOW_.*interior 依時段調亮度
+HX = SF0 - 7.0 - 4.5                    # 前院 7 m、房子深 9 m
+TINTS = ['#8c8572', '#7f8f9f', '#b8ad95', '#8f9a8a', '#777566', '#6d6c5f']
+odr = Mesh('usc_drive_out', M['conc'], tile=2.0)
+for i, zc in enumerate((-44.0, -24.0, -4.0, 16.0, 36.0)):
+    Lh = rng.uniform(12.0, 14.0); mir = i % 2 == 1
+    house('X%d' % (i + 1), HX, zc, Lh, 9.0, TINTS[i % len(TINTS)], mirror=mir)
+    dz = zc + (Lh / 2 + 1.6) * (1 if mir else -1)                                                            # 車道（房子旁邊、接到路）
+    odr.box(HX - 3.0, SF0, 0.0, 0.03, dz - 1.6, dz + 1.6)                                                     # 人行道照樣連過去
+    ovc.cbox(SF1 - 0.35, SF1 - 0.3, 0.0, 1.05, dz - 2.1, dz - 2.05, '#3a3632')                                 # 信箱（柱子＋黑色箱子）
+    ovc.crbox(SF1 - 0.5, SF1 - 0.15, 1.05, 1.3, dz - 2.35, dz - 1.8, '#1f2224', r=0.03, seg=1)
+    tree(SF0 - 3.0, zc + (-3.5 if mir else 3.5), rng.uniform(6.5, 8.5), False)                              # 前院的樹
+odr.finish(root); ovc.finish(root, uv=False)
+belt([(HX - 9.0 + rng.uniform(-1.0, 1.0), z) for z in [-52 + k * 5.6 + rng.uniform(-0.8, 0.8) for k in range(int(104 / 5.6) + 1)]], (1, 0))   # 房子後面一排大樹（擋地平線）
 trunk.finish(root, uv=False)
 for cm in CARDS: cm.finish(root, uv=False, merge=False)
 SEA.geo(root, 'tree_core', 'summer,autumn', core, uv=False, smooth=True)   # 芯：落葉以後藏起來

@@ -135,9 +135,16 @@ const US3=(function(){
     for(const [ry,ax] of [[Math.PI,'x'],[Math.PI/2,'z'],[-Math.PI/2,'z']]) for(const d of [-18,0,18]){ const c=g.clone(true); c.rotation.y=ry; c.position[ax]+=d; c.userData.southView=true; g.parent.add(c); } } }
   /* 窗外的景（自發光貼圖）跟著時段變色：天空的部分是透明的（遊戲照時段畫的天空透出來），對面的公寓、停車場白天原色、黃昏偏暖、晚上暗 */
   const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.5,[0.22,0.25,0.36]]];
-  function viewTint(mats,h){ if(!mats.length) return; h=((h%24)+24)%24; let c=VT[0][1];
-    if(h>=VT[VT.length-1][0]||h<VT[0][0]) c=VT[0][1]; else for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); c=ca.map((v,k)=>v+(cb[k]-v)*t); break; } }
+  function vtAt(h){ h=((h%24)+24)%24; if(h>=VT[VT.length-1][0]||h<VT[0][0]) return VT[0][1];
+    for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); return ca.map((v,k)=>v+(cb[k]-v)*t); } } return VT[0][1]; }
+  function viewTint(mats,h){ if(!mats.length) return; const c=vtAt(h);
     for(const m of mats){ m.color.setRGB(c[0],c[1],c[2]); if(m.emissive) m.emissive.setRGB(c[0],c[1],c[2]); } }
+  /* 天窗、彩色玻璃（法學院圖書館 usll_skylight、usll_stained_glass）：自發光＝外面透進來的天光，照 VT 跟著時段變暗。
+     原本整天 0.9，晚上 21:00 和下午一樣亮（LAWWW2-B 美國路線巡查 10-24）。原本的顏色、亮度只記第一次（clone 的模型共用快取的材質）。
+     顏色、自發光都乘 VT 的平方：只乘一次的話 21:00 還有下午的 58%（自發光 0.2 在螢幕上照樣看得清楚），看起來像外面還有天光 */
+  function skyTint(mats,h){ if(!mats.length) return; const c=vtAt(h).map(v=>v*v);
+    for(const m of mats){ const u=m.userData; if(!u.skC0){ u.skC0=m.color.clone(); u.skE0=m.emissive?m.emissive.clone():null; }
+      m.color.setRGB(u.skC0.r*c[0],u.skC0.g*c[1],u.skC0.b*c[2]); if(u.skE0) m.emissive.setRGB(u.skE0.r*c[0],u.skE0.g*c[1],u.skE0.b*c[2]); } }
   /* 公寓單位（同一套格局的模板，LAWWW2-C 2026-10-17）：祐廷的單人戶 us_apartment、學姊她們的 C 棟合租戶 us_shared。
      o：id、name、layout()、glb、exitSpawn()（「出門」到社區的哪裡）、look（冰箱、爐子的字）、tag（給交換系統的互動 id）。
      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
@@ -281,6 +288,10 @@ const US3=(function(){
     gateSeason:[['2028-12-02','欄杆上積了一層雪。'],['2028-11-01','葉子掉得差不多了，地上都是橡實。'],['2028-10-09','橡樹的葉子開始轉紅了。']]};   /* AA_448 1-1：日子照 usSeasonKey（秋 10/9、初冬 11/1、雪 12/2），和校園模型同一天換 */
   const campusLook=(id,G)=>{ if(id!=='gate') return LOOK_CAMPUS[id]||null; const k=dkey(G), s=k?LOOK_CAMPUS.gateSeason.find(q=>k>=q[0]):null; return LOOK_CAMPUS.gate+(s?s[1]:''); };
   const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
+    /* 晚上的地面光圈（LAWWW2-B 美國路線巡查 10-24：21:00 法學院前的草地、台階一片黑，路燈只有燈頭亮）：人行道的綠色高路燈（燈頭 5.7～6.2 m，正上方）、
+       校門廣場的黑鐵燈柱（3.5～4 m）、大門台階前的小廣場（門兩側的壁燈）。燈頭照 tools/blender/env_second/us_campus.py：燈頭在柱子正上方 */
+    lampPools:L=>(L.props||[]).filter(t=>t.type==='lamp_green'||t.type==='lamp').map(t=>t.type==='lamp'?{x:t.x,z:t.z,r:4.0,op:0.3}:{x:t.x,z:t.z,r:5.5,op:0.26})
+      .concat(L.forecourt?[{x:(L.forecourt.x0+L.forecourt.x1)/2,z:(L.forecourt.z0+L.forecourt.z1)/2,r:4.2,op:0.22}]:[]),
     interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
         if(q.id==='bus') it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)};                                         /* 回社區的入口（和登機抵達、從超市回來同一個點）*/
         else if(q.id==='library') it.exit={to:'us_lawlib',spawn:Object.assign({},US_LAWLIB_LAYOUT.spawn)};
@@ -308,8 +319,8 @@ const US3=(function(){
     // 備用模型：地板、桌子、書架、服務台的方塊
     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#5f7f93'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/stacks|column|stair/.test(b.why)?2.2:(/desk|catalog/.test(b.why)?1.0:0.75); const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
     const lamps=[]; for(const [x,zz] of [[-8,-5],[8,-5],[-8,5],[8,5],[0,0]]){ const l=new THREE.PointLight(0xffefd6,3,14,2); l.position.set(x,H-0.5,zz); l.userData.on=6; l.userData.off=3.5; g0.add(l); lamps.push(l); }
-    let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 檯燈、嵌燈整天都亮 */
+    let glow=[], sky=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); skyTint(sky,h); };   /* 檯燈、嵌燈整天都亮；天窗、彩色玻璃照時段 */
     const IT=E.interactables; z.seats=[];
     for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st);   /* ap：椅子後面是方柱的那一張，走近點另外給（配置算好的）*/ IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st},s.kind==='lounge'?{label:'坐在軟椅上'}:{label:'坐下來讀書',study:true})); }   /* study：坐下的選單有「讀書」（和總圖一樣）*/
     const UP=typeof ROOM_GLB_LAYOUTS!=='undefined'&&Z3.roomGlbGate&&Z3.ZONES.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f&&ROOM_GLB_LAYOUTS.us_lawlib_2f.host_door?ROOM_GLB_LAYOUTS.us_lawlib_2f:null;   /* 二樓書庫（us_lawlib_2f，LAWWW2-B 10-24；AA_399 第 8 節）：樓梯口那一點開的時候變成「上 2F（書庫）」，紅絨繩藏起來 */
@@ -320,7 +331,7 @@ const US3=(function(){
     z.formal=false; if(has('bldg.us_lawlib')) ASSETS.loadOne('bldg.us_lawlib').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       if(UP&&Z3.roomGlbOpen('us_lawlib_2f',G_())) root.traverse(o=>{ if((UP.glb_hide||[]).includes(o.name)) o.visible=false; });   /* 二樓開著：樓梯口的紅絨繩、小立牌拿掉 */
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
-      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
+      glow=glowMats(root,/^GLOW_/); sky=glowMats(root,/^usll_(skylight|stained_glass)/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
     return z; } };
   // =================== 超市 us_market（草原超市 Prairie Basket；US1 抵達那天、之後的日常採買）===================
   const AISLE_ZH={cereal:'早餐穀片',snacks:'零食',drinks:'飲料',canned:'罐頭',pasta:'義大利麵、米',baking:'烘焙材料',household:'日用品',personal:'清潔、個人用品'};
