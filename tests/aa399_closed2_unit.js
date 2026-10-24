@@ -90,7 +90,7 @@ const semB=()=>WANCAI_LAYOUT.doors.find(d=>d.id==='seminarB');
   // 3b. 多媒體中心有 3D 房間（rooms_glb3d.js 的 library_media）：裡面的「多媒體服務台」一樣能看一部片（LAWWW2-B 10-24）
   const desk=()=>({x:0.9,z:1.35,lv:0,label:'多媒體服務台',look:'多媒體服務台'});
   fresh(D('2026-03-10'),14,'library_media'); r=await act(desk(),'library_media',[0]);
-  check('3b. 裡面的服務台：選項一樣、旁白逐字、時間 +1 小時', r===true&&JSON.stringify(opts[0])===JSON.stringify(['看一部片','算了'])&&JSON.stringify(lines())===JSON.stringify(['（你借了一副耳機。片子很長，你看到一半睡著了。）'])&&G.hour===15, JSON.stringify(lines())+' '+G.hour);
-  fresh(D('2026-03-10'),21.5,'library_media'); r=await act(desk(),'library_media',[0]); check('3b. 21:30：看完會過關門，不給（照舊只是看）', r===false&&G.hour===21.5&&said.length===0);
+  check('3b. 裡面的服務台：選項一樣、旁白逐字、時間 +1 小時', r===true&&JSON.stringify(opts[0])===JSON.stringify(['看一部片','算了'])&&JSON.stringify(lines())===JSON.stringify([CLOSED2.MEDIA.desk,CLOSED2.MEDIA.seats,'（你借了一副耳機。片子很長，你看到一半睡著了。）'])&&G.hour===15, JSON.stringify(lines())+' '+G.hour);   /* AA_443 第 1 節：服務台、座位耳機各一句再接看一部片 */
+  fresh(D('2026-03-10'),21.5,'library_media'); r=await act(desk(),'library_media',[0]); check('3b. 21:30：看完會過關門，不給看片（只有服務台那一句，AA_443）', r===true&&G.hour===21.5&&JSON.stringify(lines())===JSON.stringify([CLOSED2.MEDIA.desk]), JSON.stringify(lines()));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
