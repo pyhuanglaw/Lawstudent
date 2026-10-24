@@ -1,0 +1,13 @@
+{
+ "objects": 25,
+ "unique_meshes": 25,
+ "tris": 14010,
+ "tris_drawn": 14010,
+ "materials": 10,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/gt3/gongtong_3f.glb",
+ "bytes": 1277364,
+ "texres": 512,
+ "tris_total": 14010,
+ "layout": "gongtong_3f.layout.json",
+ "seats": 24
+}

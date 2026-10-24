@@ -2600,7 +2600,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "f6ace8353",
    "receiver": "LAWWW",
-   "ack": "ACK（LAWWW-B 05:22Z：patch 已套上 738cc7ffc，四支新測試 ALL PASS；櫃台照淡出、A1 光暈之後再說、攤主 NPC 由 LAWWW-B 接）",
+   "ack": "ACTIONED（LAWWW-B 已整合進開發 025ab4f30；交付登記 257e403a6；攤主 NPC 另開 WZ-MARKET-KEEPER-1024）",
    "noDirectIntegrate": false
   },
   {
@@ -2618,7 +2618,7 @@
    "branch": "claude/funny-albattani-iawshm",
    "sha": "f6ace8353",
    "receiver": "LAWWW",
-   "ack": "ACK（LAWWW-B 05:22Z：patch 已套上 738cc7ffc，四支新測試 ALL PASS；櫃台照淡出、A1 光暈之後再說、攤主 NPC 由 LAWWW-B 接）",
+   "ack": "ACTIONED（LAWWW-B 已整合進開發 025ab4f30；交付登記 257e403a6；攤主 NPC 另開 WZ-MARKET-KEEPER-1024）",
    "noDirectIntegrate": false
   }
  ]
