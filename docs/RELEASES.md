@@ -28,6 +28,7 @@
 | v9.10.5 | `46dfe5c7`（PR [pyhuanglaw/Lawstudent#11](https://github.com/pyhuanglaw/Lawstudent/pull/11)；檔案＝發布樹 `7d20ef5d`（遊戲檔案＝候選 rc2 `9c74f08d`），git diff 為空） | 2026-10-22 12:35:07 UTC（run 39779226078） | `4a8d17f9`（v9.10.4） |
 | v9.10.6 | `11ab1bbd`（PR [pyhuanglaw/Lawstudent#12](https://github.com/pyhuanglaw/Lawstudent/pull/12)；遊戲檔案＝發布樹 `27948554`＝候選 `9f9e13cc`＋版本字樣，git diff 為空） | 2026-10-23 16:16:29 UTC（run 39985072211） | `46dfe5c7`（v9.10.5） |
 | v9.10.7 | `964c9cb1`（PR [pyhuanglaw/Lawstudent#13](https://github.com/pyhuanglaw/Lawstudent/pull/13)；遊戲檔案＝發布樹 `9199fd7d4`（開發分支 `ab774c0c4`）＝候選 `d7f40ce91`＋SQ08＋兩支測試修正＋版本字樣，git diff 為空） | 2026-10-24 05:44:51 UTC（run 40067341976） | `11ab1bbd`（v9.10.6） |
+| v9.10.8 | `3fca7768`（PR [pyhuanglaw/Lawstudent#14](https://github.com/pyhuanglaw/Lawstudent/pull/14)；遊戲檔案＝發布樹 `5724a7516`＝候選 `63da1d633`＋臺北的家不寫上下樓三句＋美國 8/11 摘要） | 2026-10-24 13:55:13 UTC（run 40100085375 success） | `964c9cb1`（v9.10.7） |
 
 ---
 
@@ -41,9 +42,11 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.8（候選，測試中）——寒暑假沒有空白日、日本出發前五週、大四下法律實習、七個關著的房間打開
+## v9.10.8（2026-10-24 13:53 UTC 合併 `3fca7768`，PR #14；GitHub Pages 部署 run 40100085375 13:55:13 成功）——寒暑假沒有空白日、日本出發前五週、大四下法律實習、七個關著的房間打開
 
 **候選**：開發分支 `63da1d633`＝`f472cee48`（10-24 08:2x）＋`fd9ad6574` 學姊房間的「看」＋版本字樣 v9.10.8。之後進開發分支的（法圖 2F 書庫 `b43a86cdf`、經濟系 7/31 成績單 `6de249582`）不進這一版。LAWWW 在乾淨 worktree 跑全部 Node 單元測試＋第五節發布前清單；BB 在瀏覽器測第 82 項以後（寒暑假重掃、日本出發前、房間、美國臥室 C）。
+
+**發布**：開發分支 `ad7303728`（遊戲檔案＝發布樹、文件＝開發分支 `fbcf1f615`）→ PR [pyhuanglaw/Lawstudent#14](https://github.com/pyhuanglaw/Lawstudent/pull/14) 合併 `3fca7768`；main 的遊戲檔案和發布樹 `5724a7516` 比對沒有差別（`git diff 5724a7516 origin/main -- src assets tests tools lib index.html` 空）、標題字樣 v9.10.8。之後開發分支 `ad48bf45b` 換回開發中的檔案。線上實際畫面沙盒連不到 github.io，請使用者在手機看標題的版本字樣。
 
 **發布樹**：候選 `63da1d633`＋兩處純文字（臺北的家不寫上下樓三句 AA_443 第 4 節、美國 8/11 摘要改草原超市 AA_442 第 5 節，企劃線 540e1d3fb／03b7e6dff；測試跟上：aa440、aa442 讀新版稿、us_life_unit 8/11 那句；aa440、aa442、us_life、aa370、econ_ff、home ALL PASS）＝本機發布樹 commit `5724a7516`（tree `13994d99c`）。遊戲檔案（src、assets、tests、tools、lib、index.html）用發布樹，文件用開發分支。
 
@@ -75,7 +78,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
   - 總圖 2F 多媒體中心（芷若週二、四 14～17；服務台、座位、她那一格三個版本，AA_443 第 1 節）。
 - **美術**：芷若的頭髮補回彈簧骨（6 條）；七個房間的模型（LAWWW2）。
 
-**這版還沒有的**：法學院圖書館 2F 書庫、經濟系 7/31 成績單（開發分支有了，下一版）；霖澤館 1F 公告欄（LAWWW2 做中）；元宵燈會的背景圖（BG-LANTERN-1024，等使用者的圖）。
+**這版還沒有的**：法學院圖書館 2F 書庫、經濟系 7/31 成績單、霖澤館 1F 公布欄、社科院捲簾、教室窗景、一樓牆上二樓桌椅影子的修正、室內路人低面數、once 活動開始以後才坐下、12 段劇情的 2D 背景（開發分支有了，下一版）；元宵燈會的背景圖（BG-LANTERN-1024，等使用者的圖）。
 
 ## v9.10.7（2026-10-24 05:43 UTC 合併 `964c9cb1`，PR #13；GitHub Pages 部署 run 40067341976 05:44:51 成功）——七位的節日、邀約回覆照階段、多線交往、美國篇沒有空白日、總圖 B1 與借書、溫州街補完
 
