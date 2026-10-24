@@ -90,6 +90,13 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 08:0x 更新**：
+    - LAWWW-B 07:20：多媒體中心已整合 `3173e8e72`、芷若 `cbd762954`（outbox 改 ACTIONED）；第七間三件同意（美國兩間是 D99 第三優先）。
+    - 已交：#82 第七間的一半 美國臥室 C（本 commit；`test_shots/us_bed_c_1024/README.md`、`patches/us_bed_c_1024.patch`，對開發 `bcc821fe0`）。窗景四季八張（`us_bed_c_view.py`）。
+    - 下一項：第七間的另一半 法學院圖書館 2F 書庫 `us_lawlib_2f`：
+      - 用同一個 `us_lawlib.glb`（往下 4.6 m），加一個放梯子、書車、閱覽桌、三樓樓梯口紅絨繩的小 GLB；
+      - 一樓紅絨繩那一點開的時候變成「上 2F（書庫）」，`usll_rope`、`usll_rope_sign` 藏起來（不用重出 GLB）。
+      - 之後：霖澤 1F 東牆公告欄。
   - **10-24 07:2x 更新**：
     - LAWWW-B 07:04：洗衣間＋205 已整合進開發 `758d8af30`（outbox 改 ACTIONED）；多媒體中心的做法（「看一部片」搬進裡面的服務台、`library3d.js` 的門認 `d.to`）同意。
     - 已交：#82 第六間 總圖多媒體中心（本 commit；`test_shots/library_media_1024/README.md`、`patches/library_media_1024.patch`，對開發 `758d8af30`；相關 93 個單元測試 ALL PASS）。

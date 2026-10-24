@@ -2696,7 +2696,7 @@
   {
    "task": "AA_399 剩下要 3D 房間的七處（#82）第六間：總圖 2F 多媒體中心（開館時都開；「看一部片」搬到裡面的服務台；芷若的字幕作業位子）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "a8c448288",
    "files": [
     "assets/models/env/second_ai/library_media.{glb,json,layout.json}（新）",
     "docs/art-rebuild/second_ai/patches/library_media_1024.patch（rooms_glb3d.js 的 HOST 加 library_hall、library3d.js 的門認 d.to、closed2_3d.js 裡面的服務台也能看一部片、room_glb_layouts.js＋tests/library_media_unit.js、tests/aa399_closed2_unit.js 第 3b 項；對開發 758d8af30 做的）",
@@ -2708,8 +2708,27 @@
    "next": "LAWWW-B 套 patch、放 GLB；芷若有空的下午照 spots.zhiruo 放（2027-09～2028-02 不放）；館員 spots.staff",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 07:20 ACK；已整合進開發 3173e8e72，芷若 cbd762954）",
    "note": "library_upper_unit 第 2 項檢查 library3d.js 研究小間那一行的原文：那一行一字不動，多媒體中心另外加一行在前面；門口的「看一部片」留著（沒有房間的版本用）"
+  },
+  {
+   "task": "AA_399 剩下要 3D 房間的七處（#82）第七間的一半：美國 C 棟 208 臥室 C＝學姊的房間（交往中、週末 14～21 敲門進去；窗外一棵樹，四季窗景）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/us_bed_c.{glb,json,layout.json}（新）",
+    "assets/models/env/views/us_bed_c_{summer,autumn,bare,snow}_{day,night}.webp（新，八張）",
+    "docs/art-rebuild/second_ai/patches/us_bed_c_1024.patch（rooms_glb3d.js 的 open.dating、view_season；us3d.js 合租戶的門接正式房間；room_glb_layouts.js＋tests/us_bed_c_unit.js；對開發 bcc821fe0 做的）",
+    "tools/blender/env_second/us_bed_c.py、us_bed_c_view.py、textures/gen/us_bed_c_print.png",
+    "docs/art-rebuild/second_ai/test_shots/us_bed_c_1024（README＋截圖）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；us_bed_c_unit（16）新測試，相關 106 個單元測試在開發 bcc821fe0＋這份 patch：103 ALL PASS，3 個（aa393_sis_jp、aa441_practice、date_wish）沒有 patch 也一樣失敗（這份 clone 沒有它們比對的企劃線 commit）；遊戲內截圖（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "人（學姊）沒放：位置在 spots.sis，她在不在房間的作息 LAWWW-B 加；門上的字（AA_399：「（門上貼著一張手寫的課表。）」）沒改；看東西的字等 AA；手機效能沒實測；第七間的另一半（法學院圖書館 2F 書庫）下一個 commit",
+   "next": "LAWWW-B 套 patch、放 GLB 和八張窗景；週末 14～21 她在房間時照 spots.sis 放人、talkSis 照美國版",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "open 用 dating:'heroine_05'（flags.dating_heroine_05 或 romance.heroine_05.status＝dating，和各支線 S.dating 同一個判斷），不是一般的 flags；窗景是 C 棟背面（朝東，和房間的窗同方向），渲染時拿掉了配置的東邊樹帶在窗前那一段"
   }
  ]
 }
