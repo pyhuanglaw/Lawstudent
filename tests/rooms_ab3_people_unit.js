@@ -160,7 +160,7 @@ await sec(4,async()=>{
 /* ======================= 5. C10 學分採計 ======================= */
 await sec(5,async()=>{
   const sp=LAY('linze_office').spots;
-  const q=k=>({id:'vac_C10@Y2_'+k,ev:'ev_vac_key',day:H.G.day,h:12+20/60,late:0.25,place:'法律系辦',title:'海外大學暑期課（加州）：系辦（學分採計）',travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:'C10@Y2',k},state:'planned'});
+  const q=k=>({id:'vac_C10@Y2_'+k,ev:'ev_vac_key',day:H.G.day,h:14,late:0.25,place:'法律系辦',title:'海外大學暑期課（加州）：系辦（學分採計）',travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:'C10@Y2',k},state:'planned'});
   let G=fresh('2027-04-27',12.2,'linze'); H.said=[]; await OUT.go(GM,q('pre0')); const L3d=lines(), bg3=H.bgs.slice();
   check('5. pre0：換到系辦櫃台前（spots.player），演完回到霖澤館',entered.map(e=>e.z).join('>')==='linze_office>linze'&&near({x:entered[0].x,z:entered[0].z_},sp.player)&&G.zone==='linze',J(entered));
   check('5. 系辦助理站在櫃台後面（午休也在：排好的時間演）',extras.some(e=>e.id==='rab3_office_clerk'&&near(e,sp.counter)));

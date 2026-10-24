@@ -266,7 +266,7 @@ const VAC_DATA=(function(){
       rep:{ pre2:[null], keys2:['第二次飛加州。這次你在飛機上睡得著。','第一堂。教授問誰去年來過，你舉了手。','報告。這次你沒有先寫好講稿。','週末。你帶同組的人去去年那家漢堡店。','期末考。考場的冷氣一樣冷，你帶了外套。'],
         post2:'學分採計。系辦的人說這次你的表格填得很快。' },   /* 最多兩次（大二、大三暑假）；第二次沒有成績信、Priya */ slot:'night', place:{kind:'abroad',name:'加州',tz:-15}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S2', week:10, wd:1, h:9, until:{term:'S2',week:13,wd:5}, flag:'VAC_C10', board:true, yes:{t:'（報名）',say:[]} },
-      pre:[{afterSignup:1,h:12+20/60,title:'系辦（學分採計）',place:'法律系辦',bg:'classroom_small',lines:[{who:'npc_office',name:'系辦助理',text:'要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。'},{who:'npc_office',name:'系辦助理',text:'……國外的課不一定都抵得掉。先問清楚比較好。'}],set:{C10_CREDIT_FILED:true}}],
+      pre:[{afterSignup:1,h:14,title:'系辦（學分採計）',place:'法律系辦',bg:'classroom_small',lines:[{who:'npc_office',name:'系辦助理',text:'要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。'},{who:'npc_office',name:'系辦助理',text:'……國外的課不一定都抵得掉。先問清楚比較好。'}],set:{C10_CREDIT_FILED:true}}],
       select:{name:'海外大學暑期課（加州）'},
       depart:{zhe:'你要去六個禮拜喔？？',yu:'時差多少'}, back:{},
       trip:{ start:{day:'06-21',h:7}, end:{day:'07-31',h:20}, placeName:'加州', home:'auto', missWeek:3, videoWd:0, videoH:10 },
@@ -283,7 +283,7 @@ const VAC_DATA=(function(){
       follow:[
         {day:'08-10',h:22,who:'npc_priya',name:'Priya',msgs:G=>['Back in Mumbai. It\'s raining every day.','Did you get your grades?'],optsFn:G=>G.flags.C10_STUDY?[{t:'A.',say:['Show-off. I got an A-minus.']}]:[{t:'B+.',say:['B+ is fine. The final was too long anyway.']}]},
         {abs:'2027-09-14',h:21,who:'npc_priya',name:'Priya',msgs:G=>['Did your school count the credits?'],opts:[{t:'One of them.',say:['One is good. Economics says: better than zero.']},{t:'Both.',say:['Lucky. Mine only took one.']}]} ],
-      post:{ if:'C10_CREDIT_FILED', yk:yk=>'Y'+(+String(yk).slice(1)+1), term:'S1', week:2, wd:1, h:12+20/60, title:'系辦（學分採計）', place:'法律系辦', bg:'classroom_small',
+      post:{ if:'C10_CREDIT_FILED', yk:yk=>'Y'+(+String(yk).slice(1)+1), term:'S1', week:2, wd:1, h:14, afterClass:true, title:'系辦（學分採計）', place:'法律系辦', bg:'classroom_small',
         lines:[{who:'npc_office',name:'系辦助理',text:'兩門都過了。一門抵選修，一門……老師說內容和我們的課重疊，只能抵一半。'},{who:'npc_office',name:'系辦助理',text:'還是不錯啦。'}] } },
     /* VAC-C11 臺大提名的姊妹校短期課程（東京）：AA_242 第 4 節＋AA_244 第 1 節以安版。大二寒假 1/17～1/30；大二上第 5 週公告、第 6 週截止（甄審結果 LAWWW 排第 8 週週一 12:00）*/
     C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2','Y3','Y4'], days:['01-17','01-30'],

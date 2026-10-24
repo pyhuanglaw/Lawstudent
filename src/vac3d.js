@@ -97,6 +97,10 @@ const VAC=(function(){
     else if(s.yes&&s.yes.family&&typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); PHONE.at(G,G.day,G.hour,[{th:'g:home',from:'mom',name:'媽媽',text:s.yes.family}],'vac_fam_'+key); }   /* AA_199 3-7：家裡出的，家人群組一句 */
     S.plan(G,I); return true; };
   /* 學期裡的前置事件（說明會、面試、系辦、行前訓練）：{term:'S2',week,wd} 或 {day:'MM-DD'}；報名以後排出遊 */
+  /* p.afterClass：那個時間有課就排到下課以後、17:00 以前第一個空的時間（C10 學分採計 14:00，AA 10-24 9a033f397）*/
+  S.freeAfterClass=function(G,d,p){ let h=p.h; if(!p.afterClass||typeof CLS==='undefined'||!CLS.dayItems) return h;
+    try{ const L=CLS.dayItems(Object.assign({},G,{day:d})).slice().sort((a,b)=>a.t0-b.t0); for(const q of L){ if(q.t0<h+0.5&&q.t1>h) h=q.t1; } }catch(e){ return p.h; }
+    return h<=17-0.5?h:p.h; };
   S.preDay=function(I,p,G){ if(p.afterSignup!=null){ const w=G&&G.vac&&G.vac.when&&G.vac.when[I.key]; return w!=null?w+p.afterSignup:null; } return p.day?S.dayOf(I.yk,I.A.season,p.day):termDay((p.yk?p.yk(I.yk):I.yk)+p.term,p.week,p.wd); };
   /* 日期字串「6/13（六）10:00」（錄取通知的行前說明會）*/
   S.when=function(I,p){ const d=S.preDay(I,p); if(d==null||typeof CALENDAR==='undefined') return ''; const x=CALENDAR.dateOf(d), hh=Math.floor(p.h), mm=Math.round((p.h-hh)*60); return x.m+'/'+x.d+'（'+'日一二三四五六'[x.wd%7]+'）'+hh+':'+String(mm).padStart(2,'0'); };
@@ -400,7 +404,7 @@ const VAC=(function(){
       for(const k of K){ const d=S.dayOf(I.yk,A.season,k.day), i=(A.keys||[]).indexOf(k), kk=i>=0?S.repKey(G,I,i,k):k; await S.jump(GM,T(d,k.h),A.trip.placeName); if(kk) await S.key(GM,kk,I); }
       const ed=S.dayOf(I.yk,A.season,A.trip.end.day); await S.jump(GM,T(ed,A.trip.end.h),A.trip.placeName); V.reg[I.key]='done'; V.seen[id]=true; if(A.place.kind==='abroad') G.flags['BACK_FROM_'+id]=G.day;   /* 回來以後第一次在 3D 遇到的招呼（BB_200 第 4 節、AA_242 8-7）*/
       if(A.trip.endLines) await run(GM,A.trip.endLines);
-      if(A.post&&typeof OUT!=='undefined'&&(!A.post.if||G.flags[A.post.if])){ const p=A.post, d=S.preDay(I,p,G); if(d!=null) OUT.plan(G,{id:'vac_'+I.key+'_post',ev:'ev_vac_key',day:d,h:p.h,late:0.25,place:p.place,title:A.title+'：'+p.title,travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'post'}}); }
+      if(A.post&&typeof OUT!=='undefined'&&(!A.post.if||G.flags[A.post.if])){ const p=A.post, d=S.preDay(I,p,G); if(d!=null) OUT.plan(G,{id:'vac_'+I.key+'_post',ev:'ev_vac_key',day:d,h:S.freeAfterClass(G,d,p),late:0.25,place:p.place,title:A.title+'：'+p.title,travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'post'}}); }
       return true; }
     if(v.k==='post'){ const rl=S.repLine(G,I,'post'); if(A.post) await S.key(GM,typeof rl==='string'?{bg:A.post.bg,lines:[{narr:rl}]}:A.post,I); return true; }
     const k=(A.keys||[])[v.k]; if(k){ const kk=S.repKey(G,I,v.k,k); if(kk){ if(S.hasLines(G,kk)) await S.key(GM,kk,I); else if(kk.set) Object.assign(G.flags,kk.set); } (V.att||(V.att={}))[I.key]=(V.att[I.key]|0)+1;   /* hasLines：那一年沒有句子的那一場不開畫面（C03 大三：以安不在，AA_369 M4）；旗標照記 */   /* 去了幾場（C04 的分數照這個算）*/ if(v.k===(A.keys.length-1)){ V.reg[I.key]='done'; V.seen[id]=true; } } return true; };

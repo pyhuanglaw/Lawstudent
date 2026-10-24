@@ -70,7 +70,7 @@ GM.money=function(n){ G.money+=n; };
     const Z=txt('g:noodle_team').filter(t=>/伴手禮|貼圖：伸出手/.test(t)); check('5. 出國回來：第一次「伴手禮咧」、第二次「這次伴手禮咧」、第三次「（貼圖：伸出手）」',JSON.stringify(Z)===JSON.stringify(['zhe:伴手禮咧','zhe:這次伴手禮咧','zhe:（貼圖：伸出手）']),JSON.stringify(Z)); }
   // 6. C10：系辦（報名隔天）＝送了課程大綱；整段；大三上第 2 週學分採計
   { const w10=termDay('Y2S2',10,2); fresh(w10,10,'dorm',{}); G.stage='law'; VAC.signup(G,'C10@Y2','yes'); const q=OUT.get(G,'vac_C10@Y2_pre0');
-    check('6. 加州：報名隔天 12:20 系辦',!!q&&q.day===w10+1&&Math.abs(q.h-12.333)<0.01,JSON.stringify(q));
+    check('6. 加州：報名隔天 14:00 系辦（AA 10-24 9a033f397：避開系辦午休，原本 12:20）',!!q&&q.day===w10+1&&Math.abs(q.h-14)<0.01,JSON.stringify(q));
     said=[]; await VAC.outing(GM,q); check('6. 系辦「要採計的話，先把課程大綱給我…」→ C10_CREDIT_FILED',lines().includes('系辦助理：要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。')&&G.flags.C10_CREDIT_FILED);
     G.day=w10+1; G.hour=12.1; run(12.1,12.3); check('6. 報名隔天 12:00 錄取通知（沒有說明會那一句）',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='【通知】恭喜錄取海外大學暑期課（加州）。'));
     G.day=D('2027-06-21'); G.hour=7; said=[]; picks=[1,0]; await VAC.outing(GM,OUT.get(G,'vac_C10@Y2')); const L2=lines();
@@ -222,5 +222,8 @@ GM.money=function(n){ G.money+=n; };
     check('17b. 和以安不熟：她不回、VA03_AN false',!txt('g:noodle_team').some(t=>t.startsWith('heroine_01:'))&&G.flags.VA03_AN===false); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
+  { const C0=global.CLS; const mk=L=>({dayItems:()=>L}); const p={h:14,afterClass:true};
+    global.CLS=mk([]); const a=VAC.freeAfterClass(G,G.day,p); global.CLS=mk([{t0:13+20/60,t1:15+10/60}]); const b=VAC.freeAfterClass(G,G.day,p); global.CLS=mk([{t0:15.5,t1:17.2}]); const c=VAC.freeAfterClass(G,G.day,p); global.CLS=mk([{t0:13+20/60,t1:15+10/60},{t0:15+20/60,t1:17+10/60}]); const d=VAC.freeAfterClass(G,G.day,{h:14}); global.CLS=C0;
+    check('10. C10 下學期第 2 週週一 14:00：沒課照 14:00、那時有課排到下課（15:10）、14:00 以後才有的課不管；沒有 afterClass 照原本',a===14&&Math.abs(b-(15+10/60))<1e-6&&c===14&&d===14,JSON.stringify([a,b,c,d])); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
