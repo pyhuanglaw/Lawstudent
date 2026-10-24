@@ -31126,6 +31126,27 @@
    },
    "source": "AA_399 第 5、7、9 節（5d09bb725）；LAWWW2 e477d3bf1",
    "authorized": "D109、D111"
+  },
+  {
+   "id": "VAC-FILL-AA440-1024",
+   "title": "寒暑假沒有空白日（AA_440，回 BB_303）：經濟系那年暑假 7/12～8/12、大二暑假、大三寒假過年後、其他假期 ≥5 天空白、摘要池",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理施工（src/vacfill3d.js、src/data/vacfill_events.js）；接好請 BB 重掃",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 0,
+    "earliest": "經濟系那年暑假 7/12",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 06:0x（企劃線 718c06a30）；D99 第二優先",
+   "authorized": "D99、D109、D111"
   }
  ]
 }
