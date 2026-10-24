@@ -275,7 +275,7 @@ ASK = {
   'heroine_02': dict(key='2026-09-30', h=22.3, pre="", why='芷若：週三四 22:30～24:00 傳、約週六或週日 14:30（光典影展，固定活動 120 分）'),
   'heroine_04': dict(key='2026-09-30', h=20.8, pre="", why='子晴：沒寫訊息時間＝約的那天往前三天 21:00～22:30（週六→週三）、約 15:00'),
   'heroine_05': dict(key='2026-09-29', h=20.8, pre="GAME.G.flags.SIS_EXAM_DONE=true;", why='學姊：約週五 18:30＝週二 21:00～22:30 傳；條件 SIS_EXAM_DONE（【前置】設旗標）'),
-  'classmate_peishan': dict(key='2026-10-01', h=20.8, pre="", why='沛珊：約週日 14:00＝週四 21:00～22:30 傳'),
+  'classmate_peishan': dict(key='2026-11-12', h=20.8, pre="", why='沛珊：約週日 14:00＝週四 21:00～22:30 傳；11/15（日）她在臺北（單數週末回台中；10/1 那週她和柏翰交往中＝不約，Node 先驗過）'),
   'kexin': dict(key='2026-09-30', h=20.8, pre=EVDONE + "('ev_kexin_trip_spring_y1')", why='可昕：約週六 09:00（火車，外澳）＝週三 21:00～22:30 傳；條件 ev_kexin_trip_spring_y1（【前置】設成演過）'),
 }
 TRIP = {'heroine_02', 'heroine_03', 'heroine_01'}   # 這三位答應以後走完那一趟（芷若有固定活動、語彤是日落前兩小時、以安 13:30）
@@ -384,7 +384,9 @@ async def s_ask(p, run, base, sid, out):
 
 # 不該約的時候：考試週、已經完成、寒假（S.askRule）
 NOASK = {
-  'NOASK_EXAM_AN': ('heroine_01', '2026-10-28', 18.8, '', '以安：10/28（三，第 8 週）傳的話約的是 10/31（六）＝考試週，notExamWeek'),
+  'NOASK_EXAM_AN': ('heroine_01', '2026-12-23', 18.8, '', '以安：12/23（三，第 16 週）傳的話約的是 12/26（六）＝期末考週，notExamWeek（行政法第 12 週已上過＝條件成立；對照：12/16 會傳，Node 驗過）'),
+  'NOASK_PARTNER_PS': ('classmate_peishan', '2026-10-01', 20.8, '', '沛珊：10/1 她和柏翰交往中（DATE.canAskCore：她現在有交往的對象）'),
+  'NOASK_TAICHUNG_PS': ('classmate_peishan', '2026-11-19', 20.8, '', '沛珊：約的那天 11/22（日）她回台中（WISH.here 那一天）'),
   'NOASK_DONE_ZQ': ('heroine_04', '2026-09-30', 20.8, "GAME.G.flags.WISH_DONE_heroine_04=true;", '子晴：心願已經完成（WISH_DONE_heroine_04）'),
   'NOASK_VAC_ZQ': ('heroine_04', '2027-02-03', 20.8, '', '子晴：寒假（2027-02-03，沒有學期）'),
 }
@@ -408,7 +410,7 @@ async def s_noask(p, run, base, sid, out):
 PINV = {
   'PINV_UNKNOWN_AN': ('heroine_01', '2026-09-30', 20.0, ''),
   'PINV_KNOWN_ZQ': ('heroine_04', '2026-09-30', 20.0, "DATE.knowWish(GAME.G,'heroine_04');"),
-  'PINV_UNKNOWN_PS': ('classmate_peishan', '2026-10-01', 20.0, ''),
+  'PINV_UNKNOWN_PS': ('classmate_peishan', '2026-11-12', 20.0, ''),
 }
 
 
