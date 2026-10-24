@@ -3830,13 +3830,14 @@ const STORY = (function(){
     GM.sceneBegin(); try{
       at(8); await GM.say(null,'（學士服掛在門後面，已經燙過了。）');   /* 08:00 宿舍 */
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('2029 年 6 月 2 日','畢業典禮｜新體育館',2600); at(9);
-      if(typeof ADV!=='undefined') ADV.begin({background:bgOf('ntu_gym_ceremony')}); await GM.fade(false);
+      const g3=typeof GYMCER!=='undefined'&&GYMCER.gradStage?await GYMCER.gradStage(GM):false;   /* 體育館 3F 的 3D（AA_399 第 4 節，src/gymcer3d.js）：坐法律學院那一區、家人在南看台；沒有布置＝照原本 2D */
+      if(typeof ADV!=='undefined') ADV.begin({background:g3?'blur':bgOf('ntu_gym_ceremony')}); await GM.fade(false);
       await GM.say(null,'（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）');   /* 09:00～10:30 校級典禮，家人坐看台 */
       if(typeof PG!=='undefined'&&PG.beforeLawCeremony) await PG.beforeLawCeremony(GM,bgOf('ntu_gym_ceremony'));   /* 和芷若交往：典禮開始前的視訊（AA_319 1A-13，src/postgrad3d.js）*/
       await GM.fade(true); at(11); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(bgOf('linze_auditorium')); await GM.fade(false);
       await GM.say(null,'（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'); F.GRADUATED=G.day; F.GRAD_DONE=true;   /* GRAD_DONE：閒聊階梯的 skipIf（ladder.js A8-L6、A8-L7、Y8-L1、Y8-L4、S7-L8、招呼的 unless：典禮演完，6/2 晚上、6/3 不播「典禮那天……」的未來式；BB210-Y4S2，原本沒有人設）*/   /* 11:00～12:00 法律學院典禮（霖澤館一樓大禮堂）*/
       if(S.routeAbroadRoute(G)) await GM.say(null,S.routeAbroadRoute(G)==='US'?'（還差一門實習和兩門課，證書下學期才拿得到。）':'（還差一門實習，證書下學期才拿得到。）');   /* 交換延畢（AA_144 X5）；美國路線還要補修兩門課（AA_382 第 1 節）*/
-      if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); at(11+55/60); if(GM.enter) await GM.enter('linze',Object.assign({},Y4_LOBBY)); await GM.fade(false);
+      if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); at(11+55/60); if(g3&&GYMCER.gradEnd) GYMCER.gradEnd(GM); if(GM.enter) await GM.enter('linze',Object.assign({},Y4_LOBBY)); await GM.fade(false);
       if(typeof ADV!=='undefined') ADV.begin({background:'blur'});   /* 11:55 大禮堂外的大廳（3D linze）*/
       await GM.say(MOM_W,'我們家第一個台大畢業的。'); await GM.say(null,'（媽媽哭了。）'); await GM.say(null,'（爸爸沒有說話，拍照拍了五十張。）');
       await GM.say(SIS_W,'媽，不要哭了，妝。'); await GM.say(MOM_W,'（從包包裡拿出一個信封）對了，大伯叫我拿給你——'); await GM.say(SIS_W,'媽！今天！今天不要！');
