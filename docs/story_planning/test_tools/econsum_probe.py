@@ -6,7 +6,7 @@
 7/21 以前的事件記成演過（e30、a3、e26、e02、考前一晚 e35h、考場 exam1h、對答案 exam2、7/13 發票、7/19 姊姊回來）。
 兩種存檔（PROF=kx,single；預設兩種都跑）：kx＝和可昕交往中、考前一晚選「睡一整天」（E35_PLAN sleep：7/19～7/23 不在高雄）；single＝沒交往。
 之後照玩家：對話點過去；家裡的選單有「快轉」就快轉、再選「到下一個有事的日子」；7/27 的「去學校走一走／在家」選「（在家）」（不出門，留在家裡的選單）；
-其他選項選第一個；不開手機（要回的訊息不回）。跑到 2025-08-14 12:00 為止。
+其他選項選第一個；不開手機（要回的訊息不回）；手機自己打開（D103）就關掉、不回。跑到 2025-08-14 12:00 為止。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests python3 econsum_probe.py '<URL>/index.html?turbo' <輸出資料夾> [不用的第三個參數]"""
 import os, sys, json, asyncio, re
@@ -61,9 +61,15 @@ async def one(p, run, prof):
                 t = (s.get('dtext') or '').strip()
                 if t: res['lines'].append('%s %.2f｜%s' % (g['key'], g['h'], t[:80]))
                 await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); idle = 0; continue
+            if await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide'); })()"):   # D103：重要訊息手機自己打開（蓋住家裡的選單）＝照玩家看一眼、不回、關掉
+                body = await pg.evaluate("((document.getElementById('phoneBody')||{}).innerText||'').slice(0,160)")
+                res.setdefault('phone', []).append('%s %.2f｜%s' % (g['key'], g['h'], body.replace('\n', '｜')))
+                print('   📱 手機自己打開 %s %.2f：%s → 關掉（不回）' % (g['key'], g['h'], body.replace('\n', '｜')[:100]))
+                await L.close_panels(pg, cdp); await pg.wait_for_timeout(800); idle = 0; continue
             if s['choices']:
                 cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
                 if any(c.startswith('到下一個有事') for c in cs):
+                    res['stops'].append('%s %.2f' % (g['key'], g['h'])); print('   ⏩ 快轉選單 %s %.2f：%s' % (g['key'], g['h'], cs))
                     t = await pick(pg, cdp, '^到下一個有事')
                 elif any(c.startswith('快轉') for c in cs):
                     res['stops'].append('%s %.2f' % (g['key'], g['h'])); print('   ⏩ 家裡的選單 %s %.2f：%s' % (g['key'], g['h'], cs))
