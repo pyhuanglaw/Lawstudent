@@ -14010,6 +14010,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-23 21:1x：patch gym_ceremony_1023 git apply；gym_ceremony、gym_arena、gym、nav_buildings PASS；不進 v9.10.7；兩場典禮 2D 換 3D 放人待 LAWWW 接；典禮那天 48 萬三角形手機效能沒測"
+  },
+  {
+   "id": "DL-LW2-WZ6-MARKET",
+   "date": "2026-10-24",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "f6ace8353",
+   "what": "ART-WZ6（房間六件、阿德影印兩種外觀、一盞貓碗、三家店站位）＋ART-WZ-MARKET-1023（小公園二手市集攤位 wz_market.glb）；wenzhou_street、wz_teahouse_interior 重建",
+   "task": "ART-WZ6",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 05:2x：patch wz6_market_1024 套上 738cc7ffc（025ab4f30）；dorm_wz_items、wz_copy_shop、wz_market、wz_work_spots＋相關測試全過；攤主 NPC 由 LAWWW 接（WZ-MARKET-KEEPER-1024）"
   }
  ],
  "ignored": [

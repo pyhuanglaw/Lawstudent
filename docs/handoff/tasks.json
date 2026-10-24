@@ -13712,8 +13712,8 @@
    "title": "故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】故事小物件擺進對應店面（照舊等 DL-11／DL-13 溫州街故事線施工；故事線程式 LAWWW 做，擺放 LAWWW2 做） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：暫停條件的前半（v9.10 發布後）已成立：LAWWW 開工 DL-11（AA_166／AA_167、BB_148）時，把 wz6_items.glb／.json 從 focused-cray 搬進開發分支、登錄 assets3d、LICENSES 補，擺進對應店面 ｜ 等 DL-13／AA_167 溫州街故事線實作時一起放",
+   "status": "已整合待測試",
+   "next": "BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13733,7 +13733,7 @@
     "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "pausedReason": "故事小物件等 DL-13／DL-11 溫州街故事線一起放",
@@ -13746,7 +13746,9 @@
      "evidence": "wz6_items.glb 只在 LAWWW2 分支 origin/claude/focused-cray-c9uwvw（assets/models/env/second_ai/aa_support/）與 funny 分支；開發分支 assets 與 src/ 都沒有（grep wz6_items 無結果）；它要等的 DL-11 溫州街故事線仍是待開工",
      "note": "模型驗收過但一直沒進遊戲，卡在 DL-11 沒開工（USER_WANTS B07）"
     }
-   ]
+   ],
+   "sha": "025ab4f30",
+   "notes": "10-24 05:2x LAWWW-B：LAWWW2 f6ace8353 交件，patch＋GLB 整合（025ab4f30）；四支新測試＋溫州街、打工、導航相關測試全過"
   },
   {
    "id": "ART-YT1",
@@ -30958,8 +30960,8 @@
    "title": "溫州街小公園二手市集的攤位 3D（WZ-P2，AA_420 第 12-2 節；每月第一個週六 09:00～13:00，入口步道 (26.0,12.6)、雨天老樹下 (26.0,18.3)）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2：2～3 個小攤（折疊桌、舊書紙箱、帆布或陽傘、攤主椅），只在市集時段出現，雨天版在老樹下；接線照 D108 歸 LAWWW2（src/wzlines3d.js 的 WZL.market 有開放判斷）",
+   "status": "已整合待測試",
+   "next": "BB 測（截圖對照 test_shots/wz6_1024、wz_market_1023）；建築場景 ART_APPROVED 等使用者",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -30978,8 +30980,10 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "市集時段看得到攤子、雨天在老樹下；nav／碰撞不擋互動點；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "DELIVERED"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": "025ab4f30",
+   "notes": "10-24 05:2x LAWWW-B：LAWWW2 f6ace8353 交件，patch＋GLB 整合（025ab4f30）；四支新測試＋溫州街、打工、導航相關測試全過"
   },
   {
    "id": "SET-CEREMONY-1023",
@@ -31078,6 +31082,27 @@
    "authorized": "D109、D111",
    "sha": "20b55cd53",
    "notes": "2026-10-24 LAWWW-B：白名單 35 檔換版本重匯＋三句手動（20b55cd53）"
+  },
+  {
+   "id": "WZ-MARKET-KEEPER-1024",
+   "title": "二手市集攤主 NPC：WZ_PARK_LAYOUT.market.<clear|rain>.stalls[i].keeper 的位置放人（LAWWW2 交件留給 LAWWW）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "看 AA_427／市集的劇情有沒有攤主台詞；沒有就放不說話的路人攤主",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "溫州街小公園市集日",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 05:18 交件第 ③ 點",
+   "authorized": "D111"
   }
  ]
 }
