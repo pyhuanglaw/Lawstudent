@@ -2804,7 +2804,7 @@
   {
    "task": "#85（接 #61）博雅教學館窗景：二樓長窗改寬照片（斜看不會有橫紋）＋boya_south、boya_2f_south 重拍（舊照片是普通教學館以前的米色外觀）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "d123fcbc5",
    "files": [
     "assets/models/env/views/boya_2f_south_w_{day,night}.webp、boya_2f_north_w_*（新的，2048×512）",
     "assets/models/env/views/boya_south_*、boya_2f_south_*（重拍，1024×512、90°；博雅 203 也用 boya_2f_south）",
@@ -2817,7 +2817,7 @@
    "next": "LAWWW-B 套 patch、放 8 張 webp（4 張新的、4 張重拍）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 10:30：patch 乾淨套上、8 張 webp、boya_views.py 拿了；發布前瀏覽器測試跑完再跑 Node 測試、commit 後告訴 SHA；ART-ECON-3D-GAP-1021 改「已整合待測試」，BB 驗）",
    "note": "同 teach_views_1024 的做法"
   }
  ]
