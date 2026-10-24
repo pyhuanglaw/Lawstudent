@@ -2263,6 +2263,21 @@ R15 = [
 for _s in R15:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R15
+# ===== R16：第 85 項 裂縫到 3 的談話（cracktalk3d.js；語彤的週四；開發分支 23bba7c8d 起）=====
+#   交往中【前置：DATEJ】、她的週四是自己的（YT_EV13）。① 12:10 她傳「斜對面的位子我留了」，17:00～20:00 沒去、沒回「今天不行」＝YT_CRACK +1。
+#   ② 這學期到 3（【前置】先 2、前一天 ROM.crack +1＝cracktalk 排談話）→ 下一個週四 12:10 兩句私訊 → 17:30 人到總圖三樓【捷徑：直接進 library】＝談話；選第一個（修補）＝歸零。
+YTC = DATEJ('heroine_03') + " G.flags.YT_EV13=true;"
+R16 = [
+  dict(id='CRACK85_YT_SEAT', key='2026-10-01', h=11.9, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=0; G.flags.YT_CRACK_TERM='Y2S1';", pref=[], steps=[('until', 12.4, 900), ('until', 20.3, 3000)],
+       want=[], jsok=[('12:10 她傳「斜對面的位子我留了」', GRPMSG('p:heroine_03', '斜對面的位子我留了'), lambda L: isinstance(L, list) and len(L) >= 1), ('沒去、沒回＝YT_CRACK 1', "GAME.G.flags.YT_CRACK|0", 1)]),
+  dict(id='CRACK85_YT_TALK', key='2026-10-07', h=20.0, zone='dorm', flags=dict(TW3), js=YTC + " G.flags.YT_CRACK=2; G.flags.YT_CRACK_TERM='Y2S1'; ROM.crack(G,'heroine_03',1);", pref=['斜對面'],
+       steps=[('jump', "STORY.dayOfKey('2026-10-08')", 12.0, '隔天 10/8（四）12:00'), ('until', 12.4, 900), ('until', 17.4, 2400), ENTER('library', note='總圖三樓'), ('until', 18.6, 1500)],
+       want=['今天週四。我在三樓。', '……我想問你一件事。', '我分給你的時間，你好像不太需要。……沒關係，我只是想問清楚。'],
+       jsok=[('談過（CRACKTALK.r.heroine_03.talked 有 Y2S1）', "JSON.stringify(((GAME.G.flags.CRACKTALK||{}).r||{}).heroine_03||null)", lambda x: isinstance(x, str) and 'Y2S1' in x), ('還在交往', "!!GAME.G.flags.dating_heroine_03", True)]),
+]
+for _s in R16:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R16
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
