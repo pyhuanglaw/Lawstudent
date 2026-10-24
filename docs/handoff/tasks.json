@@ -31088,8 +31088,8 @@
    "title": "二手市集攤主 NPC：WZ_PARK_LAYOUT.market.<clear|rain>.stalls[i].keeper 的位置放人（LAWWW2 交件留給 LAWWW）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "看 AA_427／市集的劇情有沒有攤主台詞；沒有就放不說話的路人攤主",
+   "status": "已整合待測試",
+   "next": "BB 順手看：每月第一個週六 09:00～13:00 小公園市集，攤位後面坐著攤主（晴天三位、下雨兩位）、13:00 以後離開",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -31102,7 +31102,8 @@
     "confirmed": true
    },
    "source": "LAWWW2-B 10-24 05:18 交件第 ③ 點",
-   "authorized": "D111"
+   "authorized": "D111",
+   "notes": "10-24 LAWWW-B：WZL.marketKeepers（不說話的路人，AA_420 12-2 沒有攤主台詞）、zones3d.js mktTick 叫；tests/wz_market_keeper_unit.js"
   }
  ]
 }

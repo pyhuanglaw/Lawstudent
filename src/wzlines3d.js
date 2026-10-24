@@ -343,7 +343,16 @@ const WZL=(function(){
     const i=(M.soldN|0)%3; M.soldN=(M.soldN|0)+1; M.sold[o.title]=G.day; F.books=Object.assign({},F.books,{[o.title]:false}); if(o.title==='民法總則'&&F.textbook) F.textbook=false; GM.money(S.sellPrice(o.title));
     await GM.say({name:X.sellWho[i]},X.sell[i]); return true; };
   S.roomBooks=function(G,L){ const M=G&&G.daily&&G.daily.market; if(!M||!M.bought) return; for(const b of S.MARKET.books) if(M.bought[b.k]!=null) L.push([b.name,b.look]); };
-  S.addMarket=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)) return; const p=S.MARKET.at[G&&G.weather==='rain'?'rain':'clear'];
+  /* 市集攤主（WZ-MARKET-KEEPER-1024；位置 WZ_PARK_LAYOUT.market.<clear|rain>.stalls[i].keeper，LAWWW2 f6ace8353）：市集開的時候坐在攤位後面的路人，不說話（AA_420 12-2 沒有攤主的台詞）；
+     zones3d.js 的 mktTick 開、收的時候叫（晴雨照進溫州街時的天氣，和攤位同一套）*/
+  S.KEEPER_SPEC=[951,952,953];
+  S.marketKeepers=function(on,w,GM){ GM=GM||S._gm||(typeof GAME!=='undefined'?GAME:null); if(!GM||!GM.spawnNPC||typeof STORY==='undefined'||!STORY.extraSpec) return 0;
+    const L=typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.market&&WZ_PARK_LAYOUT.market[w==='rain'?'rain':'clear'], st=(L&&L.stalls)||[]; let k=0;
+    st.forEach((x,i)=>{ const id='wz_keeper_'+i; if(!on){ if(GM.npc&&GM.npc[id]&&GM.removeNPC){ GM.removeNPC(id); k++; } return; } const p=x.keeper; if(!p||(GM.npc&&GM.npc[id])) return;
+      const sp=Object.assign({},STORY.extraSpec(S.KEEPER_SPEC[i%S.KEEPER_SPEC.length]+i),{name:'攤主'}); const e=GM.spawnNPC(id,sp,p.x,p.z,{yaw:p.yaw||0,seat:{x:p.x,z:p.z,yaw:p.yaw||0,lv:0},greet:false});
+      if(e){ e.frozen=true; if(GM.npc) GM.npc[id]=e; k++; } });
+    return k; };
+  S.addMarket=function(GM){ const E=GM&&GM.E, G=GM&&GM.G; if(!E||!Array.isArray(E.interactables)) return; S._gm=GM; const p=S.MARKET.at[G&&G.weather==='rain'?'rain':'clear'];
     E.interactables.push({x:p[0],z:p[1],radius:1.4,label:'逛二手市集',wzMarket:true,get hidden(){ const G=GM.G; return !(G&&S.marketOn(G)); }}); };
 
   // ================= 約人：茶席、學姊的一盞（src/invites3d.js 的掛勾）=================
