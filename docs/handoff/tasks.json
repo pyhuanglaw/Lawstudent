@@ -31208,7 +31208,7 @@
     "receiver": "AA",
     "ack": "SENT"
    },
-   "notes": "【LAWWW-B 10-24 15:1x】等劇本期間 AA 先讀程式文字（AA_448，企劃線 b7c25dd14）：1-1 校園換季日子、1-2 冷氣那句、12/2 初雪 bg 先 dark 已接（開發分支）；第 2 節四張背景（湖邊夏天傍晚、湖邊初冬早上、小教堂台階雪夜、夏天市集）AA 另請 BB 照 D97 要圖。劇本到了 AA 再補實際順序那一層。"
+   "notes": "【LAWWW-B 10-24 15:1x】等劇本期間 AA 先讀程式文字（AA_448，企劃線 b7c25dd14）：1-1 校園換季日子、1-2 冷氣那句、12/2 初雪 bg 先 dark 已接（開發分支）；第 2 節四張背景（湖邊夏天傍晚、湖邊初冬早上、小教堂台階雪夜、夏天市集）AA 另請 BB 照 D97 要圖。劇本到了 AA 再補實際順序那一層。 ｜ 【10-24 22:5x】BB 交往中劇本完整 8/2～12/23（cff43616e）→ AA_450（US-READ-DATING-1024）；挽回中那份 BB 線 23。"
   },
   {
    "id": "BUG-SHADOW-UPPER-1024",
@@ -31599,6 +31599,28 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-24 22:5x 合進開發分支：只換 dorm_room4.glb／.json／dorm_room4.py（json 只差統計與輸出路徑）；dorm_*、ground_zfight、nav_buildings 全過。"
+  },
+  {
+   "id": "US-READ-DATING-1024",
+   "title": "美國交換逐日劇本（交往中）讀後修正（AA_450）：亞洲超市那句、湖邊時差句、說明會旁白與時機、媽媽每週訊息照日期二十則、芝加哥沒去版、學姊不在群組起頭（改何俊朗／國際學生會）、雪那天不問了的期末三句、湖邊沒去版、何俊朗 10/4 太早排進行程",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "子代理實作中（10-24 22:5x）；回來後 LAWWW 審、白名單加 AA_450、commit；再派 BB",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/3",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-24 22:57（企劃線 fb1d8ae45，outbox 2b831566f）；讀 BB 劇本 qa/美國交換逐日劇本_交往中.md（cff43616e）；D99 第三優先",
+   "authorized": "D99、D109、D111",
+   "notes": "1-8 依使用者原話「她根本就不是主動在群組會說話的人」。"
   }
  ]
 }
