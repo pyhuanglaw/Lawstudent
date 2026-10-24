@@ -2489,7 +2489,7 @@ def PSTN(sid, n, dating):
 GATE0 = '往學生活動中心的路，兩旁是一排老橡樹。活動中心在整修，路口圍了一圈欄杆。'
 GS = {'oct': '橡樹的葉子開始轉紅了。', 'nov': '葉子掉得差不多了，地上都是橡實。', 'dec': '欄杆上積了一層雪。'}
 def GATE(sid, key, want_s):
-    return dict(id=sid, key=key, h=14.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -66.0, 'z': 12.8, 'yaw': 0}}, js='', pref=[],
+    return dict(id=sid, key=key, h=14.0, zone='us_campus', flags=dict(USC), gset={'pos': {'x': -66.0, 'z': 12.8, 'yaw': 0}}, js=CAPH, pref=[],   # BB-B 15:3x：「看」的字走 game3d.js 的 caption（不是 GAME.say）＝要 CAPH 才記得到（第一次跑 0 句）
                 steps=[('usep', '^往活動中心')], want=[GATE0 + (GS[want_s] if want_s else '')], none=[v for k, v in GS.items() if k != want_s])
 LONGSWEEP = ("(()=>{ const G=GAME.G, d0=G.day, w0=G.weekday, R=USL.rec(G), g0=JSON.stringify(R.greet||null), out={}; "
              "try{ for(const k of ['2028-10-04','2028-10-05','2028-10-06','2028-10-09','2028-10-10','2028-10-16','2028-10-17','2028-11-01']){ const d=STORY.dayOfKey(k); G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; let hit=false; "
