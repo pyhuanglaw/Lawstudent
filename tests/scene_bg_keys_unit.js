@@ -10,8 +10,6 @@ const SPECIAL=new Set(['dark','blur','video','freeze']);
 /* 不是 OUT.BG 的鍵（別的系統自己解讀）：jp3d 的房間；zq_testbuild3d 是測試建置 */
 const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js']);   /* vac_activities.js 也走 OUT.bg（vac3d.js 的 S.key），要查 */
 const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
-  campus:'BG-DARK-SCENES-1024 第二批（回國重逢：以安 15:00 總圖門口）', wancai:'BG-DARK-SCENES-1024 第二批（學姊 17:05 法圖門口）', bookstore:'BG-DARK-SCENES-1024 第二批（沛珊 14:00 舊路書房）',
-  dorm:'BG-DARK-SCENES-1024 第二批（出國申請寫資料：宿舍書桌，lines 空的）',
   ntu_library_rain:'BG-DARK-SCENES-1024（BB 向使用者要）', community_room:'BG-DARK-SCENES-1024（BB 向使用者要）', us_club_lawn:'BG-DARK-SCENES-1024（BB 向使用者要）',
   botanical_lotus:'BB 要圖（AA_379）', vf_lantern:'BG-LANTERN-1024' };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
