@@ -2749,6 +2749,22 @@ def WINSC(sid, key, h, zone): return dict(id=sid, key=key, h=h, zone=zone, flags
 R29 = [WINSC('WIN_DEC_DORM', '2026-12-10', 17.75, 'dorm'), WINSC('WIN_DEC_CLASS', '2026-12-10', 17.75, 'classroom'), WINSC('WIN_DEC_CAFE', '2026-12-10', 17.75, 'cafe'),
        WINSC('WIN_JUL_DORM', '2027-07-15', 19.25, 'dorm'), WINSC('WIN_JUL_CAFE', '2027-07-15', 19.25, 'cafe')]
 SCENS = SCENS + R29
+
+# ---------- R30（BB-B 10-24 23:4x）：AA_450 1-7 雪那天「（不問了）」→ 12/24 期末飯她自己說出來（LAWWW-B 23:19 第 6 件；開發分支 24c94df06 起）----------
+# 三份美國逐日劇本跑到 12/23 就停，看不到 12/24 那一頓，所以另外演。【前置】交往中（SIS_D）、美國路線、12/2 選過「（不問了）」（US_SNOW_QUIET）；
+# 【捷徑】直接叫 TERMEND.dinner（學姊 Y4S1 女朋友的學期末約會，termend3d.js S.dinnerDay 固定 12/24 18:30 的那一頓），和 tests/aa450_us_unit.js 1-7 的 din() 同一個入口；選項都選第一個
+SDIN = "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.dinner(GAME,{id:'te_gf_Y4S1_heroine_05',te:{term:'Y4S1',who:'heroine_05',kind:'gf'}}); }catch(e){ console.warn('SDIN',e); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GAME.sceneEnd(); } })(); return true; })()"
+SQ_B = ['時差還沒調好。我現在很想睡。', '……可是這頓我不想錯過。']
+SQ_N = ['美國下雪那天，我說回去再跟你說。', '……論文還要改兩章。我不知道碩三畢不畢得了業。', '還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。']
+def SQSC(sid, flags, has, key='2028-12-24'):
+    return dict(id=sid, key=key, h=18.45, zone='campus', flags=dict({'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'met_sis': True}, **flags), js=SIS_D, pref=[],
+                steps=[('jsrun', SDIN, '【捷徑】直接演學姊大四上的期末飯（TERMEND.dinner Y4S1 gf）'), ('until', 21.5)],
+                want=SQ_B + (SQ_N if has else []), order=SQ_B + (SQ_N if has else []), none=([] if has else SQ_N))
+R30 = [SQSC('SNOWQ_DIN', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True),
+       SQSC('SNOWQ_DIN_1226', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True, key='2028-12-26'),
+       SQSC('SNOWQ_ASKED2', {'US_SNOW_QUIET': True, 'SIS_ASKED_TWICE': True, 'SIS_XMAS_Y3': 'missed'}, False),
+       SQSC('SNOWQ_NONE', {'SIS_XMAS_Y3': 'missed'}, False)]
+SCENS = SCENS + R30
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
