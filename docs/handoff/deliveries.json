@@ -14164,8 +14164,8 @@
    "what": "#85 博雅窗景：二樓長窗寬照片＋拍到舊普通外觀的兩張重拍",
    "task": "ART-ECON-3D-GAP-1021",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-24 10:3x：patch、8 張 webp 已套在工作目錄；發布前瀏覽器測試跑完再跑 Node 測試、commit"
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-24 10:4x：8 張 webp、boya_views.py 先進了 bbe95680c（git checkout 會先 stage，和登記一起 commit 了）；patch（boya_layout_gen.py、boya_layout.js photoWide）在下一個 commit；boya／teach／classes 相關 Node 測試全過"
   }
  ],
  "ignored": [
