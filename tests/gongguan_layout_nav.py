@@ -104,7 +104,13 @@ async def main():
         check('按下後到溫州街', zone == 'wenzhou', str(zone))
         await pg.wait_for_timeout(2500)   # 等淡入結束
         await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.label==='回公館'); const P=GAME.E.player; P.obj.position.set(it.x,0,it.z); P.path=null; P.target=null; })()")
-        await pg.wait_for_timeout(1500)
+        # 等互動鈕真的變成「回公館」再按（最多 10 秒；手機自己打開就先關，D103）：忙的機器上 1.5 秒不一定換好，按到的是空的鈕（BB-B 10-24 RELEASE-9109-TEST 55eed589e 這一項 FAIL、v9.10.7 PASS；LAWWW-B v9.10.8 發布前也第一次 FAIL、安靜時重跑 PASS）
+        lab = ''
+        for i in range(20):
+            await pg.wait_for_timeout(500)
+            lab = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); const b=document.getElementById('interact'); return b.classList.contains('hide')?'':(document.getElementById('interactLabel')||b).textContent; })()")
+            if lab == '回公館': break
+        check('溫州街「回公館」的互動鈕出現', lab == '回公館', lab)
         await pg.evaluate("document.getElementById('interact').click()")
         for i in range(60):
             zone = await pg.evaluate("GAME.G.zone")
