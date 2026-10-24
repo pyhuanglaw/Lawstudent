@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 11:2x 更新**：
+    - LAWWW-B 10:33：博雅窗景已整合（`bbe95680c`、`0a5835573`）。
+    - 巡場景第 7 區（室內教室坐下）巡過一輪：`test_shots/patrol_classrooms_1024/`。
+    - 已交：BUG-SHADOW-UPPER-1024（本 commit；`test_shots/shadow_levels_1024/README.md`）：engine3d.js 的陰影那一輪暫時藏起玩家這一層以上的樓層（LAWWW-B 10:49 同意）。
+    - 下一項：博雅一樓階梯教室那班路人（365 calls、77 萬三角形）少畫一點；改 story3d.js 的人數前先告訴 LAWWW-B。
+    - 測試樹 `$SP/dv7` 現在套著 shadow_levels v2 patch＋博雅窗景（開發都有了）；`$SP/dv8` 是開發 af405f952＋shadow_levels v2（stash 裡有博雅的舊改動，可以丟）。
   - **10-24 10:3x 更新**：
     - LAWWW-B 09:54：教學館窗景已整合 `aef97e506`（DL-LW2-TEACH-VIEWS）。
     - #61 經濟系路線截圖（宿舍 → 共同旁邊 → 椰林大道 → 文學院 → 普通門口，白天＋晚上）：沒找到方盒、黑塊、穿模。普通的門廊從小巷斜看是兩片實心側牆，正面有玻璃門、燈、名牌，照設計。

@@ -2819,6 +2819,23 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 10:33：已整合 bbe95680c（8 張 webp、boya_views.py）＋0a5835573（layout 產生器、boya_layout.js）；9 支 ALL PASS、產生器重跑一樣；DL-LW2-BOYA-VIEWS 已整合待測試，BB 驗）",
    "note": "同 teach_views_1024 的做法"
+  },
+  {
+   "task": "BUG-SHADOW-UPPER-1024：一樓教室的牆上有二樓桌椅的影子（巡場景第 7 區找到；LAWWW-B 10:49 同意改 engine3d.js 的陰影那一輪）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/shadow_levels_1024.patch（對開發 af405f952；engine3d.js 到 b4a1d6e54 沒變）：src/engine3d.js 的 shadowLevels＋E.init 一行；新的 tests/shadow_levels_unit.js",
+    "docs/art-rebuild/second_ai/test_shots/shadow_levels_1024（README、改前改後）",
+    "docs/art-rebuild/second_ai/test_shots/patrol_classrooms_1024（巡場景第 7 區）"
+   ],
+   "state": "已交付；shadow_levels_unit（修改前 FAIL 1）、nav_levels、nav_buildings、stairs_cam_slab、room_ceiling、shadow_snap、teach_perf ALL PASS；還原在 finally；電梯車廂不在 levelGroups；樓梯口、第一跑、第二跑中段前後一樣；遊戲內改前改後（Playwright 手機模擬）",
+   "remaining": "瀏覽器整套回歸沒跑；人在一樓時二樓欄杆不投影到挑空的一樓（LAWWW-B 已接受）",
+   "next": "LAWWW-B 套 patch、跑 shadow_levels_unit 和相關測試",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "「玩家這一層」用 player.lv（displayLv 在階梯教室後排會算成二樓）"
   }
  ]
 }
