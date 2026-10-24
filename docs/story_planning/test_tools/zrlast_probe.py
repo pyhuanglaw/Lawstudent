@@ -2230,6 +2230,39 @@ R14 = [
 for _s in R14:
     if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
 SCENS = SCENS + R14
+# ===== R15：第 86 項 BB 事件包第 2 輪（日文班三位在 3D 教室、阿凱的鍵盤三種結尾、Kevin 跨年；①交換展在 aa375_probe 的 EXPO86_*）=====
+NPCS3D = "(GAME.E.npcs||[]).filter(n=>n&&n.obj&&n.charId&&n.obj.visible!==false&&!n.hidden).map(n=>n.charId)"
+GRPMSG = lambda th, rx: "(GAME.G.msgs||[]).filter(m=>m.th===%s&&new RegExp(%s).test(String(m.text))).map(m=>m.text)" % (json.dumps(th), json.dumps(rx, ensure_ascii=False))
+DMSENT = lambda tag: "(typeof PHONE!=='undefined'&&PHONE.sent)?PHONE.sent(GAME.G,%s):'沒有 PHONE'" % json.dumps(tag)
+R15 = [
+  # ② 共同 102 週一 13:05～15:10：采蓁、立衡、宇恆在教室裡（大二）；立衡大三不在（在日本念研究所）
+  dict(id='JP86_ROOM_Y2', key='TERMDAY:Y2S1:4:1', h=13.6, zone='gongtong', flags=dict(TW3), js='', pref=[], steps=[('until', 13.9, 600)],
+       want=[], jsok=[('3D 教室裡有采蓁、立衡、宇恆', NPCS3D, lambda L: isinstance(L, list) and all(i in L for i in ('jp_caizhen', 'jp_liheng', 'jp_yuheng')))]),
+  dict(id='JP86_ROOM_Y3', key='TERMDAY:Y3S1:4:1', h=13.6, zone='gongtong', flags=dict(TW3), js='', pref=[], steps=[('until', 13.9, 600)],
+       want=[], jsok=[('大三：沒有立衡', NPCS3D, lambda L: isinstance(L, list) and 'jp_liheng' not in L)]),
+  # ③ 阿凱的鍵盤（大一下第 6～7 週週一～四 22:00 以後在房間）：沒去過法服＝「我問學長」→ 23:00 家族群組 Kevin 三句＋23:05 阿凱私訊
+  dict(id='KAI86_KEVIN', key='TERMDAY:Y1S2:6:1', h=21.9, zone='dorm', flags=dict(TW3), js=" if(!PHONE.inGroup(G,'family_law')) PHONE.join(G,'family_law','法律系直屬家族');", pref=['「我也還不會。我們一起查。」'], steps=[('until', 23.4, 1500)],
+       want=['阿凱的鍵盤聲停了。他把椅子轉過來。', '所以 網拍買的鍵盤少一顆鍵 賣家說不退 可以告嗎', '我問學長。'],
+       jsok=[('KAI_KB_ASK＝kevin', "GAME.G.flags.KAI_KB_ASK||null", 'kevin'), ('bb_kai_kb_kevin 送出', DMSENT('bb_kai_kb_kevin'), True),
+             ('阿凱私訊「你們法律系的人原來要查這麼久」', GRPMSG('p:kai', '原來要查這麼久'), lambda L: isinstance(L, list) and len(L) >= 1),
+             ('家族群組 Kevin 三句（在群組才有）', "(()=>{ const ing=PHONE.inGroup(GAME.G,'family_law'); const n=(GAME.G.msgs||[]).filter(m=>m.th==='g:family_law'&&/先截圖賣場頁面|少一顆鍵算不算|週六早上去法服問/.test(String(m.text))).length; return ing?(n===3?'在群組、三句':'在群組、'+n+' 句'):'不在群組'; })()", '在群組、三句'),
+             ('記憶 KAI_KEYBOARD', "SOCIAL.has('kai','KAI_KEYBOARD')", True)]),
+  # 去過法服（LAWCLUB_SAT_VISITS≥1）＝「週六法服。」
+  dict(id='KAI86_FAFU_ASK', key='TERMDAY:Y1S2:6:2', h=21.9, zone='dorm', flags=dict(TW3, LAWCLUB_SAT_VISITS=1), js='', pref=['「我也還不會。我們一起查。」'], steps=[('until', 22.6, 1200)],
+       want=['週六法服。'], jsok=[('KAI_KB_ASK＝fafu', "GAME.G.flags.KAI_KB_ASK||null", 'fafu')]),
+  # 第 7 週週六 9～12 在萬才館＝社長三件事（【前置】KAI_KB_ASK＝fafu、KAI_KB_DAY）
+  dict(id='KAI86_FAFU_SAT', key='TERMDAY:Y1S2:7:6', h=9.4, zone='wancai', flags=dict(TW3, KAI_KB_ASK='fafu'), js=" G.flags.KAI_KB_DAY=G.day-4;", pref=[], steps=[('until', 10.2, 1200)],
+       want=['阿凱抱著鍵盤坐下。社長看了一眼少掉的那一顆。', '三件事。'], jsok=[('ev_kai_keyboard_fafu 演過', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_kai_keyboard_fafu)", True)]),
+  # 那個週六沒去：12:30 阿凱私訊兩句
+  dict(id='KAI86_FAFU_MISS', key='TERMDAY:Y1S2:7:6', h=12.2, zone='dorm', flags=dict(TW3, KAI_KB_ASK='fafu'), js=" G.flags.KAI_KB_DAY=G.day-4;", pref=[], steps=[('until', 12.9, 900)],
+       want=[], jsok=[('12:30 阿凱私訊「你沒來 我自己去了 社長講了三分鐘」', GRPMSG('p:kai', '你沒來 我自己去了'), lambda L: isinstance(L, list) and len(L) >= 1), ('記憶 KAI_KEYBOARD', "SOCIAL.has('kai','KAI_KEYBOARD')", True)]),
+  # ④ 2026-01-01 00:00 家族群組 Kevin「📷（信義區的煙火）」「新年快樂」（在群組才有；1/1～1/3 讀檔也會補）
+  dict(id='NYE86_KEVIN', key='2026-01-01', h=9.0, zone='dorm', flags=dict(TW3), js=" if(!PHONE.inGroup(G,'family_law')) PHONE.join(G,'family_law','法律系直屬家族');", pref=[], steps=[('until', 9.3, 600)],
+       want=[], jsok=[('家族群組兩則（在群組才有）', "(()=>{ const ing=PHONE.inGroup(GAME.G,'family_law'); const L=(GAME.G.msgs||[]).filter(m=>m.th==='g:family_law'&&(m.text==='📷（信義區的煙火）'||m.text==='新年快樂')).map(m=>m.text); return ing?(L.length===2?'在群組、兩則':'在群組、'+JSON.stringify(L)):'不在群組'; })()", '在群組、兩則')]),
+]
+for _s in R15:
+    if R8H not in _s.get('js', ''): _s['js'] = R8H + _s.get('js', '')
+SCENS = SCENS + R15
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
