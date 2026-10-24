@@ -1,16 +1,16 @@
-/* ===== 寒暑假的空白日（AA_440，企劃線 718c06a30；回 BB_303；第①級、D109；D99 第二優先「寒暑假系統」）=====
+/* ===== 寒暑假的空白日（AA_440，企劃線 718c06a30，修訂 edae49ca6；回 BB_303；第①級、D109；D99 第二優先「寒暑假系統」）=====
    台詞在 src/data/vacfill_events.js（VACFILL_LINES、VACFILL_EVENTS，照 AA_440 不改字）。這個檔只接線，不改 home3d.js／vac3d.js／econff3d.js 的檔案，掛在它們的掛勾或外面包一層：
    - STORY.PHONE_RULES：群組、私訊、手機提醒（PHONE.at，那一天一開始就排好；晚兩天以上才讀到的不補，同 twfill3d.js）；回覆記旗標 VF_*，出遊照旗標排（OUT.plan）。
    - HOME.STOPS：第 1～4 節法律系那幾年的每一件都是快轉會停的地方（AA_440 第 6 節）：訊息的時間、在家的小場景、3-4 摘要（18:30）。經濟系那年暑假是 ECONFF 的事件接事件：
      在家的事件（trigger home）、收到訊息、該出發的出遊本來就會停，不另外登記。
-   - HOME.CARD_LINES：3-4 2/16 快轉停在 18:30 的日期卡下面那一行（住家裡／留宿舍兩版）。
+   - HOME.CARD_LINES：3-4 2/19 快轉停在 18:30 的日期卡下面那一行（住家裡／留宿舍兩版）。
    - 第 5 節摘要池：睡覺醒來（家裡的床＝HOME.sleep、宿舍的床＝story3d.js 的睡覺）都會跑 CLS.morning——外面包一層：醒來以後，這一天是放假、而且沒有任何一件事
      （快轉的停點 HOME.breakNext、今天演過的事件、一定要演的事件 HOME.mustEvs、出遊、當面約、今天的訊息）＝放一句（一個假期內照順序、用完從頭）。快轉（HOME.ffMenu）停下來的那一天不放（快轉自己有旁白）。
-     放假第一天、人在國外（交換、假期出國的活動）、日本那一學期、日本路線住家裡那幾週（jp3d.js 自己的快轉）不放。2/16 醒來＝放 3-4 那一句（取代摘要池；放過了 18:30 不再停）。
-   - 1-5 7/27 去學校看一下：一鍵到校門口（OUT goto），到了一句、走到霖澤館前面一句、走進穿堂就結束。經濟系休學在家的時候人在外面空下來 3 秒會自動回家（ECONFF.tick2）——
+     放假第一天、人在國外（交換、假期出國的活動）、日本那一學期、日本路線住家裡那幾週（jp3d.js 自己的快轉）不放。2/19 醒來＝放 3-4 那一句（取代摘要池；放過了 18:30 不再停）。
+   - 1-5 7/27 去學校走一走（10:00 在家醒來選「（去學校走一走）」）：15:00 一鍵到校門口（OUT goto），到了一句、走到霖澤館前面一句、走進穿堂就結束。經濟系休學在家的時候人在外面空下來 3 秒會自動回家（ECONFF.tick2）——
      這一段走路的期間外面包一層先不回家；走進穿堂（或過了那一天）以後照原本的。
    - 4 大四寒假 1/20 以安「我去。」：1/21～1/27 每天 9:00～17:00 她在總圖三樓（作息多一筆，照總圖的座位系統；不另外寫台詞）。
-   存檔：G.vacfill＝{pool:{'Y1W:home':用了幾句}, wake:最後一次醒來放過的那一天, sum:{y3_0216:那一天}}；旗標 VF_*（回覆）。舊存檔沒有＝空的。
+   存檔：G.vacfill＝{pool:{'Y1W:home':用了幾句}, wake:最後一次醒來放過的那一天, sum:{y3_0219:那一天}}；旗標 VF_*（回覆）。舊存檔沒有＝空的。
    測試：node tests/aa440_vacfill_unit.js */
 'use strict';
 const VACFILL=(function(){
@@ -26,6 +26,7 @@ const VACFILL=(function(){
   const met=id=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET');
   const atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!met(id)) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
   const dat=(G,id)=>Fl(G)['dating_'+id]===true;
+  const south=G=>['sea','shop'].includes(Fl(G).E35_PLAN);   /* 7/10 約好 7/19 南下高雄（7/19～7/23 在高雄，econff3d.js 的字卡）*/
   const done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
   const arrived=(G,tag)=>(G.msgs||[]).some(m=>m&&m.tag===tag)||!!(G.phone&&(G.phone.cut||[]).includes(tag));   /* 已經送到手機（排著還沒送到的不算）*/
@@ -51,13 +52,14 @@ const VACFILL=(function(){
   S.MSGS=[
     /* ---------- 第 1 節 經濟系那年暑假（2025）---------- */
     {tag:'vf_y0_0716',stage:'econ',day:'2025-07-16',h:21,th:EG,ms:X.y0_0716.ms,if:G=>inGrp(G,'econ_friends'),   /* 有加入「走啦」才收到（AA_157）*/
-      ask:d=>({until:R7(d),opts:[{t:X.y0_0716.yes,set:{VF_Y0_0719:'go'},say:X.y0_0716.yesSay},{t:X.y0_0716.no,set:{VF_Y0_0719:'no'},say:X.y0_0716.noSay}]})},
+      ask:(d,G)=>({until:R7(d),opts:[south(G)?{t:X.y0_0716.away,set:{VF_Y0_0719:'away'},say:X.y0_0716.awaySay}:{t:X.y0_0716.yes,set:{VF_Y0_0719:'go'},say:X.y0_0716.yesSay},
+        {t:X.y0_0716.no,set:{VF_Y0_0719:'no'},say:X.y0_0716.noSay}]})},   /* 7/19 南下高雄的（E35_PLAN sea／shop）：第一個選項換成「這週末不在臺北。」，不排 */
     {tag:'vf_y0_0722_sis',stage:'econ',day:'2025-07-22',h:21.5,th:'p:sister',ms:one('sister',X.y0_0722.sis),if:G=>!dat(G,KX),   /* 沒和可昕交往：姊姊（已經回台南）*/
       ask:d=>({until:R7(d),opts:[{t:X.y0_0722.sisOpt,say:[['sister',X.y0_0722.sisSay]]}]})},
-    {tag:'vf_y0_0726',stage:'econ',day:'2025-07-26',h:21,th:'sys',ms:[[null,X.y0_0727.remind]],   /* 手機的提醒，不是訊息 */
-      ask:()=>({until:[DK('2025-07-27'),13],opts:[{t:X.y0_0727.go,set:{VF_Y0_0727:'go'},post:false},{t:X.y0_0727.no,set:{VF_Y0_0727:'no'},post:false}]})},
-    {tag:'vf_y0_0803',stage:'econ',day:'2025-08-03',h:21,th:EG,ms:X.y0_0804.ms,if:G=>inGrp(G,'econ_friends'),   /* 7/19 一起吃過的照樣發（餞行）*/
-      ask:()=>({until:[DK('2025-08-04'),18],opts:[{t:X.y0_0804.yes,set:{VF_Y0_0804:'go'}},{t:X.y0_0804.no,set:{VF_Y0_0804:'no'},say:X.y0_0804.noSay}]})},
+    {tag:'vf_y0_0804',stage:'econ',day:'2025-08-04',h:21,th:EG,ms:X.y0_0804.ms,if:G=>inGrp(G,'econ_friends')},   /* 1-6 等放榜（不用回）*/
+    {tag:'vf_y0_0813',stage:'econ',day:'2025-08-13',h:20.5,th:HG,ms:X.y0_0813.ms,join:true,if:G=>!!Fl(G).E36_RESULT},   /* 1-9 放榜（ev_y0_e36r／e36rh）演完以後；不用回 */
+    {tag:'vf_y0_0817',stage:'econ',day:'2025-08-17',h:21,th:EG,ms:X.y0_0818.ms,if:G=>inGrp(G,'econ_friends'),   /* 1-10 餞行（7/19 一起吃過的照樣發）*/
+      ask:()=>({until:[DK('2025-08-18'),18],opts:[{t:X.y0_0818.yes,set:{VF_Y0_0818:'go'}},{t:X.y0_0818.no,set:{VF_Y0_0818:'no'},say:X.y0_0818.noSay}]})},
 
     /* ---------- 第 2 節 大二暑假（2027）---------- */
     {tag:'vf_y2_0618',day:'2027-06-18',h:21,th:NG,ms:X.y2_0618.ms,stop:true,if:G=>inGrp(G,'noodle_team'),
@@ -130,8 +132,8 @@ const VACFILL=(function(){
   const NOODLE={zone:'noodle',x:0,z:3.4,yaw:Math.PI};   /* 「照麵店一般的吃飯」：一鍵到麵店（同 story3d.js 的 y3_cold_noodle）*/
   S.OUTS=[
     {flag:'VF_Y0_0719',v:['go'],stage:'econ',q:{id:'vf_y0_0719',ev:'ev_vf_y0_0719',day:'2025-07-19',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'臺大校門口',title:'去學校看一下',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
-    {flag:'VF_Y0_0804',v:['go'],stage:'econ',q:{id:'vf_y0_0804',ev:'ev_vf_y0_0804',day:'2025-08-04',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
+    {flag:'VF_Y0_0727',v:['go'],stage:'econ',q:{id:'vf_y0_0727',goto:{zone:'campus',x:-112,z:0,yaw:-Math.PI/2},day:'2025-07-27',h:15,late:0.75,place:'臺大校門口',title:'去學校走一走',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
+    {flag:'VF_Y0_0818',v:['go'],stage:'econ',q:{id:'vf_y0_0818',ev:'ev_vf_y0_0818',day:'2025-08-18',h:19,late:0.5,place:'公館',title:'和經濟系那一群吃飯',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}},
     {flag:'VF_Y2_0623',v:['go'],q:{id:'vf_y2_0623',goto:NOODLE,day:'2027-06-23',h:18,late:0.75,place:'公館',title:'阿鳳麵店',travel:'走過去約 15 分鐘',travelH:0.25}},
     {flag:'VF_Y2_0729',v:['go','find'],q:{id:'vf_y2_0729',ev:'ev_vf_y2_0729',day:'2027-07-29',h:14,late:0.5,place:'法圖',title:'法圖',travel:'走過去約 10 分鐘',travelH:1/6}},
     {flag:'VF_Y2_0731',v:['go'],q:{id:'vf_y2_0801',ev:'ev_vf_y2_0801',day:'2027-08-01',h:15,late:0.5,place:'兩點半 Café',title:'兩點半 Café',travel:'走過去約 15 分鐘',travelH:0.25}},
@@ -152,16 +154,16 @@ const VACFILL=(function(){
     try{ S.follow(G); S.plans(G); }catch(e){ console.warn('VACFILL plans',e); } };
 
   /* ===================== 快轉的停點（法律系那幾年；AA_440 第 6 節：第 1～4 節每一件都會停）===================== */
-  S.Y3_0216='2028-02-16'; S.SUM_H=18.5;
-  S.sumDue=G=>{ const B=brk(G); if(!B||B.key!=='Y3W') return null; const d=DK(S.Y3_0216); if(d==null||d<B.from||d>B.to||S.rec(G).sum.y3_0216!=null||abroadOn(G,d)) return null; return d; };
+  S.Y3_0219='2028-02-19'; S.SUM_H=18.5;
+  S.sumDue=G=>{ const B=brk(G); if(!B||B.key!=='Y3W') return null; const d=DK(S.Y3_0219); if(d==null||d<B.from||d>B.to||S.rec(G).sum.y3_0219!=null||abroadOn(G,d)) return null; return d; };
   S.stops=function(G,now){ const B=brk(G); if(!B) return null; const out=[], push=t=>{ if(t>now+1e-6) out.push(t); };
     for(const m of S.MSGS){ if(!m.stop||m.stage) continue; const d=S.dayOf(m,G); if(d==null||d<B.from||d>B.to||arrived(G,m.tag)) continue; if(sent(G,m.tag)||S.gate(G,m,d)) push(T(d,m.h)); }   /* 排好了、還沒送到的照樣停（快轉途中那一天一開始就排進去了）*/
     { const d=DK('2026-01-23'); if(d!=null&&d>=B.from&&d<=B.to&&!done(G,'ev_vf_y1w_0123')&&!arrived(G,'vf_y1w_0123')&&!abroadOn(G,d)) push(T(d,15)); }   /* 住家裡＝媽媽當面說、留宿舍＝私訊：都是 15:00 */
     { const d=DK('2026-08-28'); if(d!=null&&d>=B.from&&d<=B.to&&!done(G,'ev_vf_y1s_0828')&&livesHome(G)&&!abroadOn(G,d)) push(T(d,18)); }   /* 姊姊回家住兩天：住家裡的停在那天傍晚 */
     { const d=S.sumDue(G); if(d!=null) push(T(d,S.SUM_H)); }   /* 3-4 摘要 */
     return out; };
-  /* 3-4 快轉停在 2/16 18:30：日期卡下面那一行（快轉的人在家＝住家裡那一句、宿舍的床＝留宿舍那一句）*/
-  S.cardLine=function(G,t,o){ const d=S.sumDue(G); if(d==null||Math.abs(t-T(d,S.SUM_H))>1e-6) return null; return (o&&o.dorm)||!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?X.y3_0216.dorm:X.y3_0216.home; };
+  /* 3-4 快轉停在 2/19 18:30：日期卡下面那一行（快轉的人在家＝住家裡那一句、宿舍的床＝留宿舍那一句）*/
+  S.cardLine=function(G,t,o){ const d=S.sumDue(G); if(d==null||Math.abs(t-T(d,S.SUM_H))>1e-6) return null; return (o&&o.dorm)||!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?X.y3_0219.dorm:X.y3_0219.home; };
 
   /* ===================== 第 5 節 摘要池：醒來的那一天沒有任何一件 ===================== */
   S.poolNext=function(G,key,place,kind){ const P=((X.POOL||{})[place]||{})[kind]||[]; if(!P.length) return null; const R=S.rec(G), k=key+':'+place, n=R.pool[k]|0; R.pool[k]=n+1; return P[n%P.length]; };
@@ -182,13 +184,13 @@ const VACFILL=(function(){
     const home=!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)); if(!home&&G.zone!=='dorm') return null;   /* 家裡的床、宿舍的床（美國的公寓、公館的套房不算）*/
     if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住臺北的家那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/
     const R=S.rec(G); if(R.wake===G.day) return null; R.wake=G.day; const place=home?'home':'dorm';
-    let line=null; const sd=S.sumDue(G); if(sd!=null&&sd===G.day){ line=X.y3_0216[place]; R.sum.y3_0216=G.day; }   /* 3-4 2/16 摘要 */
+    let line=null; const sd=S.sumDue(G); if(sd!=null&&sd===G.day){ line=X.y3_0219[place]; R.sum.y3_0219=G.day; }   /* 3-4 2/19 摘要 */
     else { if(G.day===B.from||S.dayBusy(GM,G.day)) return null; line=S.poolNext(G,B.key,place,B.kind); }
     if(!line) return null;
     if(GM.sceneBegin) GM.sceneBegin(); try{ await GM.say(null,line); } finally { if(GM.sceneEnd) GM.sceneEnd(); }
     return line; };
 
-  /* ===================== 1-5 7/27 去學校看一下：走路的期間不自動回家 ===================== */
+  /* ===================== 1-5 7/27 去學校走一走：走路的期間不自動回家 ===================== */
   S.walkOn=function(G){ if(!G||G.stage!=='econ') return false; const d=DK('2025-07-27'); if(d==null||G.day!==d) return false; const v=Fl(G).VF_Y0_0727;
     if(v==='walk'||v==='front') return true; if(v==='go'){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vf_y0_0727'):null; return !!q&&q.state==='done'&&G.zone==='campus'; } return false; };
   S.PORTAL={x0:27,x1:41,z0:-121,z1:-103.5};   /* 霖澤館穿堂（CK.lawhall：中心 (34,-112)、深 18、穿堂寬 14；正面 z −103）*/

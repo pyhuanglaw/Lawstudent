@@ -2730,7 +2730,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；回 BB_303 寒暑假掃描）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；子代理施工中",
+   "note": "寒暑假空白日：經濟系那年暑假、大二暑假、大三寒假過年後、其他假期 5 天以上空白、摘要池（住家裡／留宿舍）；已進遊戲（src/vacfill3d.js、src/data/vacfill_events.js；tests/aa440_vacfill_unit.js；cff6ef5c8）；edae49ca6 修訂：8/13 放榜以前不出現錄取／考上／餞行（1-4～1-8 改、新 1-9 放榜、1-10 餞行），7/19 在高雄／睡覺的版本，3-4 改 2/19；已進遊戲",
    "history": [
     {
      "sha": "718c06a30",
@@ -2754,7 +2754,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；國外學期盤點）",
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
-   "note": "第 3 節學姊提示「你禮拜六走，對吧。」已改（src/data/sis_jp_events.js）；第 1 節住家裡的家人群組 H1～H6、第 2 節日本出發前五週施工中"
+   "note": "第 3 節學姊提示「你禮拜六走，對吧。」已改（src/data/sis_jp_events.js）；第 1 節住家裡的家人群組 H1～H6（src/home3d.js 掛勾＋src/jpprep3d.js）、第 2 節日本出發前五週（src/jpprep3d.js、src/data/jpprep_events.js；tests/aa442_jpprep_unit.js）已進遊戲"
   },
   {
    "path": "docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md",
@@ -2763,7 +2763,7 @@
    "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主）",
    "task": "ROOMS-AB3-PEOPLE-1024",
    "kind": "text",
-   "note": "第 1 節多媒體中心的看與芷若（src/closed2_3d.js；tests/rooms_ab3_people_unit.js 第 15 節）；第 2 節摘要池加寫 22 句、第 3 節週四家人群組範圍：寒暑假子代理施工中"
+   "note": "第 1 節多媒體中心的看與芷若（src/closed2_3d.js；tests/rooms_ab3_people_unit.js 第 15 節）；第 2 節摘要池加寫 22 句、第 3 節週四家人群組範圍已進遊戲（vacfill、jpprep）"
   }
  ]
 }
