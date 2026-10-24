@@ -31243,7 +31243,7 @@
    "id": "BUG-ACT-ONCE-LATE-1024",
    "title": "once 活動開始以後才坐下，選單沒有「聽演講」（EXPO_Y2、B4、B6、B7、法圖資料查詢…）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": "SYS",
    "first": {
@@ -31258,7 +31258,8 @@
    },
    "source": "BB-B 10-24 11:5x（v9.10.8 候選瀏覽器測試；Node 重現 expo_once_check.js）",
    "authorized": "D85（bug 修正）",
-   "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）"
+   "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）",
+   "notes": "【BB-B 10-24 14:56】開發分支 a7a7a6ed8（含 89823358f）EXPO86_LATE ALL PASS；f472cee48 同一支 FAIL，修改前後差別成立，結案。"
   },
   {
    "id": "BG-DARK-SCENES-1024",
@@ -31314,6 +31315,37 @@
    "source": "AA-B 2026-10-24 14:39Z（企劃線 a1bc53f4c，outbox e845a3793）",
    "authorized": "D109、D111",
    "notes": "LAWWW-B 10-24 14:5x：r2y4b_events.js（紐約送機兩個分支看 AN_SENDOFF went／together、機票那句看 AN_JP_TRIP_ASK go、「抖的是手，不是我」拿掉、公開課送行另寫）；hometown_lines.js 沛珊台南 send 照 PS_SEND 三版、hometown3d.js 送行句的函式多傳 n0（這一趟以前去過幾次）；白名單 D02、D09、wish_bb、BB_128 換 a1bc53f4c 重匯（date_lines.js、date_wish.js 各 2 行）；以安「我寫的是地圖，不是答案」照 AA 保留。tests：r2y4b_events_unit（+4）、peishan_tainan_unit（+3）、date_wish／date_book／date_lines_regress 換版本。"
+  },
+  {
+   "id": "BG-US-SEASON-1024",
+   "title": "美國篇四張季節對的背景（AA_448 第 2 節）：us_lake_summer（8/5、8/19）、us_lake_bare（11/23，沒有雪）、us_chapel_steps_snow（12/2 初雪兩場開頭，現在 dark）、us_farmers_market（8/26，現在暫用 us_chapel_steps）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "等待其他AI／素材",
+   "next": "BB 照 D97 寫提示詞向使用者要（BB_132，企劃線 1693b33fa）；圖到了 LAWWW 加 OUT.BG、照日期換 bg（10/10 照用 us_lake）",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/5 湖邊",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B AA_448（企劃線 b7c25dd14）；BB-B 10-24 14:56 鍵名",
+   "authorized": "D97、D100、D111",
+   "pausedReason": "等使用者生成圖",
+   "resumeWhen": "BB 交圖",
+   "xai": {
+    "spec": "AA_448 第 2 節、BB_132",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "四張圖通過 BB 檢查、放進 assets/bg",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-24 15:2x 開；圖來以前：12/2 初雪 bg dark（c32e36006）、湖邊照用 us_lake、市集照用 us_chapel_steps。"
   }
  ]
 }
