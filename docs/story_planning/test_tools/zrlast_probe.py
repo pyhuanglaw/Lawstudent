@@ -2665,6 +2665,17 @@ R24 = [
                  CAM(26.0, -70.0, 0.785, 0.12, 7.0, '中庭東南往西北看大樓南面、東面'), PAUSE(4, '等'), ('shot', 'se', None, 'true', 3),
                  CAM(24.0, -86.0, 1.5708, 0.30, 4.0, '近一點往上看'), PAUSE(4, '等'), ('shot', 'near', None, 'true', 3)], want=[]) for t, h in [('DAY', 10.5), ('NIGHT', 20.0)]]
 SCENS = SCENS + R24
+
+# ---------- R25（BB-B 10-24 18:1x）：⑫ 幀率對照——社區西邊出口 v9.10.8 6.3 fps／375 calls、v9.10.9 3.94 fps／58 calls（三角形也少）：calls 少、幀率反而低，
+# 先排除量測時機器忙碌程度不同：同一位置往西連量三次、往東（社區裡面）量兩次，再讀畫質設定（像素比、畫布大小、影子）。新舊兩版各跑一次、前後接著跑
+RINFO = "(()=>{ const R=GAME.E.renderer, c=R&&R.domElement; return R?{pr:R.getPixelRatio(),w:c.width,h:c.height,shadow:!!(R.shadowMap&&R.shadowMap.enabled),stype:R.shadowMap&&R.shadowMap.type,q:(GAME.E.quality||GAME.E.gfx||null)}:null; })()"
+R25 = [dict(id='FPSCMP', key='2028-09-15', h=19.3, zone='us_outside', flags=dict(USC), js='', pref=[],
+            steps=[('chk', '畫質設定（記下來）', RINFO, lambda d: True), CAM(-38.0, 0.0, 1.5708, 0.12, 4.0, '社區西邊出口、往西看'), PAUSE(8, '等模型')]
+                  + sum([[('chk', '往西 第 %d 次 10 秒幀率' % i, FPS10, lambda f: isinstance(f, (int, float))), ('chk', '往西 第 %d 次 calls／三角形' % i, TRIS, lambda d: True)] for i in (1, 2, 3)], [])
+                  + [CAM(-38.0, 0.0, -1.5708, 0.12, 4.0, '同一位置往東看社區裡面'), PAUSE(4, '等')]
+                  + sum([[('chk', '往東 第 %d 次 10 秒幀率' % i, FPS10, lambda f: isinstance(f, (int, float))), ('chk', '往東 第 %d 次 calls／三角形' % i, TRIS, lambda d: True)] for i in (1, 2)], [])
+                  + [('shot', 'east', None, 'true', 2)], want=[])]
+SCENS = SCENS + R25
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
