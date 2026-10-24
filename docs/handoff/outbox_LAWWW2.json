@@ -2823,7 +2823,7 @@
   {
    "task": "BUG-SHADOW-UPPER-1024：一樓教室的牆上有二樓桌椅的影子（巡場景第 7 區找到；LAWWW-B 10:49 同意改 engine3d.js 的陰影那一輪）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "7c4ca9d02",
    "files": [
     "docs/art-rebuild/second_ai/patches/shadow_levels_1024.patch（對開發 af405f952；engine3d.js 到 b4a1d6e54 沒變）：src/engine3d.js 的 shadowLevels＋E.init 一行；新的 tests/shadow_levels_unit.js",
     "docs/art-rebuild/second_ai/test_shots/shadow_levels_1024（README、改前改後）",
@@ -2834,7 +2834,7 @@
    "next": "LAWWW-B 套 patch、跑 shadow_levels_unit 和相關測試",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED（LAWWW-B 11:17：已整合 becf772d4，DL-LW2-SHADOW-LEVELS；7 支 ALL PASS，拿掉 engine3d.js 的改動 shadow_levels_unit FAIL 1；瀏覽器回歸給 BB）",
    "note": "「玩家這一層」用 player.lv（displayLv 在階梯教室後排會算成二樓）"
   }
  ]
