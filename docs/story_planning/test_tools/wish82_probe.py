@@ -369,11 +369,13 @@ async def s_ask(p, run, base, sid, out):
         exp_d = await pg.evaluate("CALENDAR.dateOf(%d).key" % A2['date']) if A2.get('date') is not None else None
         run.check('%s：訂好那天的約會（wishAsk booked、行程 %s %s 出發、地點 %s）' % (sid, exp_d, A2.get('depart'), info0['loc']), ok2 and A2.get('state') == 'booked' and bool(trip) and trip['status'] == 'booked' and trip['locs'] == [info0['loc']] and trip['d'] == exp_d, json.dumps({'ask': A2, 'trip': trip}, ensure_ascii=False)[:500])
         if who in TRIP and trip:
-            for _ in range(8):
-                st = await pg.evaluate(STATE)
-                if st['key'] >= exp_d: break
-                o, slept = await sleep_night(pg, cdp, run, sid)
-                if not slept: break
+            # [捷徑] 中間這幾天不是這一項要測的（10-24 線 16：睡覺醒來劇情自己帶去上課、人在教室回不了床，連兩次卡在這裡）：
+            # 日子撥到約會那天、出發前 1 小時，人在宿舍（同 zrlast 的 'jump'；遊戲自己的日子換算，不改行程、不改旗標）
+            k = await pg.evaluate("(([d,h])=>{ const G=GAME.G; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(d).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); return CALENDAR.dateOf(d).key; })(%s)" % json.dumps([A2['date'], max(8.0, A2['depart'] - 1.0)]))
+            run.setup('[捷徑] %s：日子撥到 %s %.2f（約會那天、出發前 1 小時；中間的日子不在這一項）' % (sid, k, max(8.0, A2['depart'] - 1.0)))
+            await pg.wait_for_timeout(2500)
+            if (await pg.evaluate(STATE))['zone'] != 'dorm': await quick_go(pg, cdp, 'dorm')
+            for _ in range(2): await drive(pg, cdp, run, max_s=40, label=sid); await pg.wait_for_timeout(2000)
             st = await pg.evaluate(STATE); res['dayof'] = st
             run.check('%s：睡到約會那天（%s）' % (sid, exp_d), st['key'] == exp_d, json.dumps(st, ensure_ascii=False))
             if st['h'] < A2['depart'] - 1.5: await skip(pg, cdp, '等到傍晚' if A2['depart'] >= 15 else '等到下午', sid)
@@ -486,11 +488,12 @@ async def s_mrask(p, run, base, sid, out):
         T = await pg.evaluate(TRIPS); trip = next((t for t in T if t['locs'] == [loc] and t['status'] == 'booked'), None); res['trip'] = trip
         run.check('%s：約好 %s（%s）' % (sid, NAMES[loc], trip and trip['d']), bool(trip), json.dumps(T, ensure_ascii=False)[:300])
         if not trip: raise RuntimeError('沒有行程')
-        for _ in range(8):
-            st = await pg.evaluate(STATE)
-            if st['key'] >= trip['d']: break
-            o2, slept = await sleep_night(pg, cdp, run, sid)
-            if not slept: break
+        if (await pg.evaluate(STATE))['key'] < trip['d']:   # [捷徑] 同上：日子撥到約會那天、出發前 1 小時（中間的日子不在這一項）
+            tday = await pg.evaluate("STORY.dayOfKey(%s)" % json.dumps(trip['d'])); th = max(8.0, trip['depart'] - 1.0)
+            k = await pg.evaluate("(([d,h])=>{ const G=GAME.G; G.day=d; G.hour=h; if(GAME.E) GAME.E.hour=h; const w=CALENDAR.dateOf(d).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); return CALENDAR.dateOf(d).key; })(%s)" % json.dumps([tday, th]))
+            run.setup('[捷徑] %s：日子撥到 %s %.2f（約會那天、出發前 1 小時）' % (sid, k, th)); await pg.wait_for_timeout(2500)
+            if (await pg.evaluate(STATE))['zone'] != 'dorm': await quick_go(pg, cdp, 'dorm')
+            for _ in range(2): await drive(pg, cdp, run, max_s=40, label=sid); await pg.wait_for_timeout(2000)
         st = await pg.evaluate(STATE)
         if st['h'] < trip['depart'] - 1.5: await skip(pg, cdp, '等到傍晚' if trip['depart'] >= 15 else '等到下午', sid)
         n0 = len(await pg.evaluate("window.__LOG||[]"))
