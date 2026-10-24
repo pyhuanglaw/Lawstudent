@@ -31258,6 +31258,35 @@
    "source": "BB-B 10-24 11:5x（v9.10.8 候選瀏覽器測試；Node 重現 expo_once_check.js）",
    "authorized": "D85（bug 修正）",
    "next": "【LAWWW-B 10-24 12:2x】89823358f：ACTIVITIES.onceDone 不把今天這一場的 end:'in' 算成去過；tests/activities_unit.js 加 3 項（修改前 FAIL 1），碰到 ACTIVITIES 的 Node 測試全過。線上 v9.10.7 就有、不擋 v9.10.8。BB 跑 EXPO86_LATE（線 18）"
+  },
+  {
+   "id": "BG-DARK-SCENES-1024",
+   "title": "13 段劇情對話是黑底（scene 的 bg 鍵 OUT.BG 沒有）：Café 四張、法圖二樓、醉月湖夜、巷口便利商店夜、208 廚房從 3D 拍 2D 背景；總圖門口雨、社區活動中心、會所草地向使用者要",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "學姊線（sis_b8／b9／b10）、大三下 r2y3b、美國 208",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 12:5x 路線巡查（docs/art-rebuild/second_ai/research/dark_bg_scenes_1024.md，0f616c421）",
+   "authorized": "D100（2D 背景：從 3D 拍的歸 LAWWW2、向使用者要的歸 BB）、D111",
+   "next": "【LAWWW-B 10-24 13:0x】ntu_library_night 別名 library_gate_night 已加（outings3d.js）；tests/scene_bg_keys_unit.js 擋新的黑底（PENDING 清單）。LAWWW2：寒暑假路線巡完以後，從 3D 拍 cafe、cafe_night、cafe_window、cafe_closed、law_library、zuiyue_night、alley_conv_night、us_shared_kitchen（1672×941，同現有規格）；BB：ntu_library_rain、community_room、us_club_lawn 照 D97 向使用者要",
+   "xai": {
+    "spec": "dark_bg_scenes_1024.md（LAWWW2 分支 0f616c421）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "8 張 webp＋OUT.BG 鍵；scene_bg_keys_unit 的 PENDING 拿掉",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
