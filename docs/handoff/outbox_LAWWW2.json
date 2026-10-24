@@ -2986,6 +2986,22 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED（LAWWW-B 22:45：已整合 5bcdd7e8e，ART-ZHOUSHAN-LAMPS-1024／DL-LW2-ZHOUSHAN-LAMPS；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav、ground_zfight、kit_nav_check 全過；瀏覽器派 BB）",
    "note": "每個燈位先在遊戲裡量過站得住、1.2 m 內沒有阻擋；場景美術 ART_APPROVED 只有使用者能標"
+  },
+  {
+   "task": "路線巡查④：傍晚光線照季節以後的每天路線＋窗景和屋外同一刻天黑（LAWWW-B 22:45：照巡查表繼續；先做這一輪已告知）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "3374cdd79",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/window_night_sync_1024.patch（對 5bcdd7e8e；world3d.js photoTint、zones3d.js room() winC／nightView、l118_shops3d.js setPhotoView、library_upper3d.js skyTint：19.4→19.2；tests/season_dusk_unit.js 改成讀實際門檻；新 tests/window_night_sync_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/route_dusk_1024（README、32 張巡查表兩張、改前改後一張）"
+   ],
+   "state": "已交付；巡查 8 區×4 時刻 errors 0，沒有大問題；window_night_sync 修改前 FAIL 5 → ALL PASS；season_dusk、us_lawlib_sky、l118_shops 等 13 支 ALL PASS",
+   "remaining": "沒跑瀏覽器整套回歸、實機；溫州街夜晚比較亮是城市夜光照設計",
+   "next": "LAWWW-B 套 patch、跑 window_night_sync_unit、season_dusk_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "只改門檻、不改顏色；早上那一頭（5.5）不動"
   }
  ]
 }

@@ -90,6 +90,14 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 23:2x 更新**：
+    - LAWWW-B 22:45：舟山路路燈已整合（`5bcdd7e8e`）。
+    - send_message 恢復，宿舍洗手間外牆的通知已補傳。
+    - 已交（`3374cdd79`）：路線巡查④（傍晚光線照季節以後的每天路線，`test_shots/route_dusk_1024/README.md`）。
+      - 沒有大問題；
+      - 修一項：窗景和屋外同一刻天黑（`patches/window_night_sync_1024.patch`，五個 19.4 → 19.2）。
+    - 測試樹 `$SP/dv8`＝開發 `5bcdd7e8e` 原樣。
+    - 下一項：B1 健身房單調（P3），或等 LAWWW-B 派。
   - **10-24 22:4x 更新**：
     - 已交（`21fc4fd96`）：舟山路晚上不再整條是黑的（`test_shots/zhoushan_lamps_1024/README.md`、`patches/zhoushan_lamps_1024.patch`）。
     - 重看過、不用改：312／409／507 三間一模一樣（窗景、室友的東西每年都不同；`252c5d4dd`）。
