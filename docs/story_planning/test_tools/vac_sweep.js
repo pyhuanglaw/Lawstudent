@@ -7,6 +7,8 @@
 //     「一定要演」的事件（HOME.mustEvs，10:00／15:00／20:00 各看一次）、手機（STORY.phoneRules＋PHONE.tick，07:00～23:45 每 15 分鐘）、當天的出遊（OUT.rec）、
 //     誰在哪（STORY.presence：七位女主角、阿哲、阿凱、明軒、沛珊；12:00）。
 //   沒有停點、沒有一定要演的事件、沒有新訊息、沒有出遊＝「空白日」（給 AA 看要不要補）。
+//   經濟系那年的暑假（v2，10-24 06:0x）：那時候已經休學、搬回臺北的家（G.flags.Y0_MOVED_OUT、H.base＝HOME.baseMode），停點用 HOME.breakNext＋HOME.y0FixedNext（快轉真的會停的地方），
+//     另外記衝刺班日子卡（ECONFF.cramCard）、玩樂日（ECONFF.PLAY_DAYS）；存檔多一種 kexin（和可昕交往中＝GAME.defaults 的預設），只跑這個暑假。
 //   MODE=accept：要回的訊息一律選第一個（多半是「好」那一類）；strict（預設）＝都不回。
 //   限制（照實寫進報告）：事件不真的演（只看排了什麼）；「演過才解鎖」的會少算；3D 區域裡的偶遇、閒聊、地點觸發的事件不算（只算 mustEvs 那一類）；
 //     檔案照 index.html 的順序盡量載，3D 的檔載不進來就跳過（loadErr 照實列）。
@@ -39,6 +41,7 @@ const PROFILES = {
   single: { label: '沒交往、在麵店團', dating: null },
   an: { label: '和以安交往中', dating: 'heroine_01' },
   zq: { label: '和子晴交往中', dating: 'heroine_04' },
+  kexin: { label: '和可昕交往中（GAME.defaults 預設）', dating: null, kx: true, econOnly: true },
 };
 // 法律系的每一個假期（HOME.breakOf）＋經濟系那年的暑假（CALENDAR 沒有學期的日子，2025-06-01～開學前一天）
 function breaks() {
@@ -57,7 +60,8 @@ function answer(G, row) {
 }
 function sweep(pk, live, B) {
   const P = PROFILES[pk]; const key0 = CALENDAR.dateOf(B.from).key;
-  const flags = { EXCHANGE_ROUTE: 'TW', EXCH_RULE: 1, dating_kexin: false };
+  const flags = { EXCHANGE_ROUTE: 'TW', EXCH_RULE: 1, dating_kexin: !!P.kx };
+  if (B.econ) flags.Y0_MOVED_OUT = true;   /* 經濟系暑假＝休學後住臺北的家（HOME.baseMode）*/
   const G = H.fresh(key0, 9, live === 'home' ? 'home' : 'dorm', flags); if (B.econ) G.stage = 'econ';
   G.contacts = G.contacts || {}; G.msgs = G.msgs || []; G.visited = G.visited || {}; G.outings = G.outings || [];
   if (typeof ROM !== 'undefined' && ROM.rec) ROM.rec(G);
@@ -65,32 +69,36 @@ function sweep(pk, live, B) {
   for (const id of WHO) { try { const r = SOCIAL.rel(id); r.fam = 45; r.trust = 30; r.comf = 15; SOCIAL.remember(id, 'FIRST_MET', ''); G.contacts[id] = B.from - 60; } catch (e) {} }
   if (P.dating) { try { const r = SOCIAL.rel(P.dating); Object.assign(r, { fam: 70, trust: 60, comf: 50, npcRom: 60, rom: 40 }); ROM.start(G, P.dating); } catch (e) { G.flags['dating_' + P.dating] = true; } }
   if (!B.econ && typeof HOME !== 'undefined' && HOME.rec) { const Hm = HOME.rec(G); Hm.stay = Hm.stay || {}; Hm.stay[B.key] = live === 'home' ? 'home' : 'dorm'; if (live === 'home') { Hm.at = true; Hm.lbreak = B.key; } else Hm.at = false; }
+  if (B.econ && typeof HOME !== 'undefined' && HOME.rec) { const Hm = HOME.rec(G); Hm.base = true; Hm.at = true; }
+  const baseOK = B.econ ? !!(HOME.baseMode && HOME.baseMode(G)) : null;
   const days = [], errs = [];
   for (let d = B.from; d <= B.to; d++) {
     const x = CALENDAR.dateOf(d), row = { key: x.key, wd: WD[wdOf(d)], stops: [], evs: [], msgs: [], outs: [], away: {}, hol: null };
     G.day = d; G.weekday = wdOf(d); G.hour = 0;
     try { row.hol = CALENDAR.holiday && CALENDAR.holiday(d) ? String(CALENDAR.holiday(d)).slice(0, 12) : null; } catch (e) {}
-    if (!B.econ) try { let t = T(d, 0) - 1e-3; for (let k = 0; k < 12; k++) { const s = HOME.breakNext(G, t); if (s == null || s >= T(d + 1, 0)) break; row.stops.push(fmtH(s - d * 24)); t = s; } } catch (e) { errs.push(x.key + ' breakNext：' + e.message); }
+    try { let t = T(d, 0) - 1e-3; for (let k = 0; k < 12; k++) { let s = HOME.breakNext(G, t); if (B.econ && HOME.y0FixedNext) { const f = HOME.y0FixedNext(G, t); if (f != null && (s == null || f < s)) s = f; } if (s == null || s >= T(d + 1, 0)) break; row.stops.push(fmtH(s - d * 24)); t = s; } } catch (e) { errs.push(x.key + ' breakNext：' + e.message); }
+    if (B.econ && typeof ECONFF !== 'undefined') { G.hour = 9; try { const c = ECONFF.cramCard && ECONFF.cramCard(G); if (c) row.cram = String(typeof c === 'object' ? (c.t || c.text || c.title || JSON.stringify(c)) : c).slice(0, 40); } catch (e) {} if ((ECONFF.PLAY_DAYS || []).includes(x.key)) row.play = true; }
     const m0 = G.msgs.length;
     for (let h = 7; h < 24; h += 0.25) { G.hour = h; try { STORY.phoneRules(GM); PHONE.tick(G); answer(G, row); } catch (e) { if (errs.length < 40) errs.push(x.key + ' ' + fmtH(h) + ' 手機：' + String(e.message).slice(0, 80)); }
       if (h === 10 || h === 15 || h === 20) { try { for (const id of HOME.mustEvs(G)) if (!row.evs.includes(id)) row.evs.push(id); } catch (e) { if (errs.length < 40) errs.push(x.key + ' mustEvs：' + e.message); } } }
     row.msgs = G.msgs.slice(m0).map(m => (m.ask ? '【要回】' : '') + (m.th || '') + '｜' + (NM[m.from] || m.from || m.name || '') + '：' + String(m.text || '').slice(0, 26));
     row.outs = (OUT.rec ? OUT.rec(G) : []).filter(q => q.day === d).map(q => fmtH(q.h) + ' ' + (q.title || q.id) + '（' + q.state + '）');
     G.hour = 12; for (const id of WHO) { try { const p = STORY.presence(id, G); if (p && p.here === false) row.away[NM[id]] = String(p.where || p.place || p.kind || p.why || '不在').slice(0, 14); } catch (e) {} }
-    row.blank = !row.stops.length && !row.evs.length && !row.msgs.length && !row.outs.length;
+    row.blank = !row.stops.length && !row.evs.length && !row.msgs.length && !row.outs.length && !row.cram && !row.play;
     days.push(row);
   }
-  return { label: P.label + '・' + (live === 'home' ? '回家住' : '留臺北'), days, errs };
+  return { label: P.label + '・' + (B.econ ? '休學住臺北的家' : live === 'home' ? '回家住' : '留臺北'), days, errs, baseOK };
 }
 const out = { lw: LW, mode: MODE, loadedExtra: loadedExtra.length, loadErr, breaks: [], runs: {} };
 const BS = breaks(); out.breaks = BS.map(b => ({ key: b.key, from: CALENDAR.dateOf(b.from).key, to: CALENDAR.dateOf(b.to).key, days: b.to - b.from + 1 }));
 for (const pk of Object.keys(PROFILES)) for (const live of ['home', 'dorm']) { const id = pk + '_' + live; if (ONLY.length && !ONLY.includes(id)) continue;
-  out.runs[id] = BS.map(B => Object.assign({ key: B.key }, sweep(pk, live, B))); }
+  if (PROFILES[pk].econOnly && live !== 'home') continue;
+  out.runs[id] = BS.filter(B => !PROFILES[pk].econOnly || B.econ).map(B => Object.assign({ key: B.key }, sweep(pk, live, B))); }
 const dst = process.argv[2] || '/dev/stdout';
 fs.writeFileSync(dst, JSON.stringify(out, null, 1));
 console.log('假期：' + out.breaks.map(b => b.key + ' ' + b.from + '～' + b.to + '（' + b.days + ' 天）').join('｜'));
 console.log('多載的檔 ' + loadedExtra.length + ' 個；載不進來的 ' + loadErr.length + ' 個');
 for (const [id, R] of Object.entries(out.runs)) {
   console.log('== ' + id + '（' + R[0].label + '）');
-  for (const r of R) { const bl = r.days.filter(x => x.blank); console.log('   ' + r.key + '：' + r.days.length + ' 天，空白 ' + bl.length + ' 天；錯誤 ' + r.errs.length + (r.errs.length ? '（' + r.errs[0] + '）' : '')); }
+  for (const r of R) { const bl = r.days.filter(x => x.blank); console.log('   ' + r.key + '：' + r.days.length + ' 天，空白 ' + bl.length + ' 天' + (r.baseOK != null ? '（baseMode ' + r.baseOK + '）' : '') + '；錯誤 ' + r.errs.length + (r.errs.length ? '（' + r.errs[0] + '）' : '')); }
 }
