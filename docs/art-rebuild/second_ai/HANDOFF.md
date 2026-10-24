@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 21:5x 更新**：
+    - LAWWW-B 21:27：v9.10.9 發布（main `f10d27011`）；ENGINE-SEASON-DUSK A＋B、遠景店面已合進開發分支（`a690484c8`）；他改了 `engine3d.js` 的 `nearestInteractable` 一行（跟著玩家的人不擋門口）——下一份 engine patch 先 fetch 開發最新。
+    - 已交（`6a95a5e51`）：宿舍四人房洗手間外牆不再是浴室磁磚（`test_shots/dorm_bath_outer_1024/README.md`）；只要換 `dorm_room4.glb`。
+    - `send_message` 工具這一段時間在這個工作階段不能用（工具清單裡沒有），改用 outbox 通知；恢復後補傳。
+    - 測試樹 `$SP/dv8`＝開發 `a690484c8` 原樣（GLB 已還原）。
+    - 下一項：巡查表 P3 挑玩家每天看得到的（候選：312／409／507 三間一模一樣、大一女舍門口晚上馬路全黑）。
   - **10-24 16:5x 更新**：
     - LAWWW-B 16:29：ENGINE-SEASON-DUSK A、B 兩份都收，v9.10.9 後合；等的時間從巡查 P3 挑玩家每天看得到的。
     - 已交（`6a620726e`）：醉月湖北邊那排遠景店面不像布景（`test_shots/bg_city_awnings_1024/README.md`、`patches/bg_city_awnings_1024.patch`）。北側一排四成有店面、招牌壓低彩度；測試修改前 FAIL 4 → ALL PASS。
