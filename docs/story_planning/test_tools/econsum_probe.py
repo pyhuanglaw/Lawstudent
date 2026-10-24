@@ -13,7 +13,7 @@ import os, sys, json, asyncio, re
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL = sys.argv[1]; OUT = sys.argv[2]
-PROFS = [p for p in os.environ.get('PROF', 'kx,single').split(',') if p]
+PROFS = [p for p in (os.environ.get('PROF') or (os.environ.get('SCEN') if os.environ.get('SCEN') in ('kx', 'single', 'kx,single') else '') or 'kx,single').split(',') if p]   # runner 只傳 SCEN：SCEN＝single 就只跑沒交往
 DONE0 = ['ev_y0_e30', 'ev_y0_a3', 'ev_y0_e26', 'ev_y0_e02', 'ev_y0_e35h', 'ev_y0_exam1h', 'ev_y0_exam2', 'ev_vf_y0_0713', 'ev_vf_y0_0719_sis']
 WATCH = ['ev_vf_y0_0722', 'ev_y0_kh_home_h', 'ev_vf_y0_0726_sis', 'ev_vf_y0_0727', 'ev_vf_y0_0731', 'ev_vf_y0_0808', 'ev_vf_y0_0810', 'ev_vf_y0_0810_sum', 'ev_y0_e36h', 'ev_y0_e36rh', 'ev_y0_e36']
 TX = {'0722': '禮拜五出成績。', '0727': '（成績出來了。分數夠不夠，要等八月十三號。）', '0731': '（你去拿信。最上面一封是分科測驗的成績單，和網路上看到的一樣。）',
@@ -46,6 +46,8 @@ async def one(p, run, prof):
               'flags': F, 'events': {'done': {k: 1 for k in DONE0}, 'last': {}, 'count': len(DONE0)}}
         run.setup('[前置／捷徑] %s：讀檔到 2025-07-21（一）21:20 在臺北的家（經濟系、休學後住家裡）；旗標 %s；7/21 以前記成演過 %s' % (prof, json.dumps(F, ensure_ascii=False), DONE0))
         await L.load_state(pg, st); await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
+        if prof != 'kx':   # BB-B 17:1x：只設 dating_kexin=false 不夠（預設存檔的 romance.kexin 還在＝照樣演交往中）；照 zrlast NOKX 整組清掉
+            await pg.evaluate("(()=>{ const G=GAME.G; G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin'); delete G.flags.DATED_1_kexin; delete G.flags.KX_DATING_SINCE; })()")
         g = await pg.evaluate(SNAP); print('%s 開始 %s %.2f stage=%s home=%s' % (prof, g['key'], g['h'], g['stage'], g['home']))
         run.check('%s：前置——在臺北的家（HOME.at）、經濟系' % prof, g['home'] is True and g['stage'] == 'econ', json.dumps(g, ensure_ascii=False)[:300])
         await run.shot(pg, '%s_a_0721' % prof)
@@ -88,16 +90,17 @@ async def one(p, run, prof):
         print('%s 停過的地方：%s' % (prof, res['stops']))
         res['log'] = await pg.evaluate("(window.__LOG||[]).map(x=>x.d+' '+x.h+'｜'+(x.n?x.n+'：':'')+x.t)")
         E = res['evday']; LN = '\n'.join(res['log']) + '\n' + '\n'.join(res['lines'])
-        def at(ev, day): return ev in E and E[ev].startswith(day)
+        def at(ev, day): return ev in E and E[ev].startswith(day)   # （events.done 出現的時間點會落後一站，只當參考）
+        def said(txt, day): return any(x.startswith(day) and txt in x for x in res['log'])   # BB-B 17:1x：照對話紀錄的日期判定（d＝那一句演出時的遊戲日期）
         if prof == 'kx':
-            run.check('kx：7/22 21:30 以後可昕視訊（ev_vf_y0_0722）在 7/22 演了（%s）' % E.get('ev_vf_y0_0722'), at('ev_vf_y0_0722', '2025-07-22') and TX['0722'] in LN, E.get('ev_vf_y0_0722'))
-            run.check('kx：8/10 21:00 以後可昕視訊（ev_vf_y0_0810）在 8/10 演了（%s）' % E.get('ev_vf_y0_0810'), at('ev_vf_y0_0810', '2025-08-10') and TX['0810'] in LN, E.get('ev_vf_y0_0810'))
+            run.check('kx：7/22 21:30 以後可昕視訊（ev_vf_y0_0722）在 7/22 演了（%s）' % E.get('ev_vf_y0_0722'), said(TX['0722'], '2025-07-22'), E.get('ev_vf_y0_0722'))
+            run.check('kx：8/10 21:00 以後可昕視訊（ev_vf_y0_0810）在 8/10 演了（%s）' % E.get('ev_vf_y0_0810'), said(TX['0810'], '2025-08-10'), E.get('ev_vf_y0_0810'))
         else:
-            run.check('single：7/22 沒有可昕視訊（沒交往）', 'ev_vf_y0_0722' not in E and TX['0722'] not in LN, E.get('ev_vf_y0_0722'))
-            run.check('single：8/10 早上摘要池那一句（ev_vf_y0_0810_sum）在 8/10 演了（%s）' % E.get('ev_vf_y0_0810_sum'), at('ev_vf_y0_0810_sum', '2025-08-10'), E.get('ev_vf_y0_0810_sum'))
-        run.check('%s：7/27 10:00～14:00 醒來「成績出來了」（ev_vf_y0_0727）在 7/27 演了（%s）' % (prof, E.get('ev_vf_y0_0727')), at('ev_vf_y0_0727', '2025-07-27') and TX['0727'] in LN, E.get('ev_vf_y0_0727'))
-        run.check('%s：7/31 10:00～14:00 成績單（ev_vf_y0_0731）在 7/31 演了（%s）' % (prof, E.get('ev_vf_y0_0731')), at('ev_vf_y0_0731', '2025-07-31') and TX['0731'] in LN, E.get('ev_vf_y0_0731'))
-        run.check('%s：8/13 放榜（ev_y0_e36rh）在 8/13 演了（%s），E36_RESULT 記了' % (prof, E.get('ev_y0_e36rh')), at('ev_y0_e36rh', '2025-08-13') and g['res'], json.dumps({'e36rh': E.get('ev_y0_e36rh'), 'res': g['res']}))
+            run.check('single：7/22 沒有可昕視訊（沒交往）', TX['0722'] not in LN, E.get('ev_vf_y0_0722'))
+            run.check('single：8/10 早上摘要池那一句（ev_vf_y0_0810_sum）在 8/10 演了（%s）' % E.get('ev_vf_y0_0810_sum'), 'ev_vf_y0_0810_sum' in E and any(x.startswith('2025-08-10') and '杜可昕' not in x for x in res['log']) and TX['0810'] not in LN, json.dumps([x for x in res['log'] if x.startswith('2025-08-1')], ensure_ascii=False)[:400])
+        run.check('%s：7/27 10:00～14:00 醒來「成績出來了」（ev_vf_y0_0727）在 7/27 演了（%s）' % (prof, E.get('ev_vf_y0_0727')), said(TX['0727'], '2025-07-27'), E.get('ev_vf_y0_0727'))
+        run.check('%s：7/31 10:00～14:00 成績單（ev_vf_y0_0731）在 7/31 演了（%s）' % (prof, E.get('ev_vf_y0_0731')), said(TX['0731'], '2025-07-31'), E.get('ev_vf_y0_0731'))
+        run.check('%s：8/13 放榜（ev_y0_e36rh）在 8/13 演了（%s），E36_RESULT 記了' % (prof, E.get('ev_y0_e36rh')), said('（八月十三日，早上十點。榜單公布了。）', '2025-08-13') and g['res'], json.dumps({'e36rh': E.get('ev_y0_e36rh'), 'res': g['res']}))
         M = res['msgs0813']; MT = [m.get('text') for m in M]
         run.check('%s：8/13 20:30 家人群組（vf_y0_0813）在放榜以後發了，四則照稿' % prof, bool(g['sent0813']) and all(t in MT for t in TX['0813']), json.dumps(M, ensure_ascii=False)[:500])
         run.check('%s：沒有 JS 例外' % prof, not errs, json.dumps(errs[:3], ensure_ascii=False))
