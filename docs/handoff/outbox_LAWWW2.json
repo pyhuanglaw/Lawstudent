@@ -2968,7 +2968,7 @@
    "next": "LAWWW-B 換 dorm_room4.glb（＋.json）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT（send_message 工具這一段時間在這個工作階段不能用，用這份 outbox 通知）",
+   "ack": "DELIVERED（22:5x send_message 恢復後補傳，等 LAWWW-B 回覆）",
    "note": "開發 a690484c8 的 dorm_room4.glb 和我改之前的版本完全一樣；場景美術 ART_APPROVED 只有使用者能標"
   },
   {
@@ -2984,7 +2984,7 @@
    "next": "LAWWW-B 套 patch、跑 zhoushan_lamps_unit＋reachability_all",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT（send_message 工具這一段時間在這個工作階段不能用，用這份 outbox 通知）",
+   "ack": "ACTIONED（LAWWW-B 22:45：已整合 5bcdd7e8e，ART-ZHOUSHAN-LAMPS-1024／DL-LW2-ZHOUSHAN-LAMPS；zhoushan_lamps、campus_*、dorm_*、lamppost_nav、nav、ground_zfight、kit_nav_check 全過；瀏覽器派 BB）",
    "note": "每個燈位先在遊戲裡量過站得住、1.2 m 內沒有阻擋；場景美術 ART_APPROVED 只有使用者能標"
   }
  ]
