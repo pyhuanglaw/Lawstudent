@@ -2714,7 +2714,7 @@
   {
    "task": "AA_399 剩下要 3D 房間的七處（#82）第七間的一半：美國 C 棟 208 臥室 C＝學姊的房間（交往中、週末 14～21 敲門進去；窗外一棵樹，四季窗景）",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "（本 commit）",
+   "sha": "1220ce5b4",
    "files": [
     "assets/models/env/second_ai/us_bed_c.{glb,json,layout.json}（新）",
     "assets/models/env/views/us_bed_c_{summer,autumn,bare,snow}_{day,night}.webp（新，八張）",
@@ -2727,8 +2727,26 @@
    "next": "LAWWW-B 套 patch、放 GLB 和八張窗景；週末 14～21 她在房間時照 spots.sis 放人、talkSis 照美國版",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACKNOWLEDGED（LAWWW-B 08:05：patch 已套上開發分支、us_bed_c 測試 PASS；dating 照我的；作息、門上的字他接）",
    "note": "open 用 dating:'heroine_05'（flags.dating_heroine_05 或 romance.heroine_05.status＝dating，和各支線 S.dating 同一個判斷），不是一般的 flags；窗景是 C 棟背面（朝東，和房間的窗同方向），渲染時拿掉了配置的東邊樹帶在窗前那一段"
+  },
+  {
+   "task": "AA_399 剩下要 3D 房間的七處（#82）第七間的另一半：美國法學院圖書館 2F 書庫（一樓紅絨繩拿掉、「上 2F（書庫）」；學姊平日 10:30～12:00 的位置）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/us_lawlib_2f.{glb,json,layout.json}（新；建築本身借 us_lawlib.glb 往下 4.6 m）",
+    "docs/art-rebuild/second_ai/patches/us_lawlib_2f_1024.patch（rooms_glb3d.js 的 glb／glb_y／glb_hide／lamps、LOOK；us3d.js 一樓樓梯口；room_glb_layouts.js＋tests/us_lawlib_2f_unit.js；對開發 bcc821fe0＋us_bed_c_1024.patch 做的，要先套臥室 C）",
+    "tools/blender/env_second/us_lawlib_2f.py、textures/gen/us_lawlib_2f_plates.png",
+    "docs/art-rebuild/second_ai/test_shots/us_lawlib_2f_1024（README＋截圖）"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW）；us_lawlib_2f_unit（14）新測試，相關 107 個單元測試：104 ALL PASS，3 個是我這份 clone 缺企劃線 commit（LAWWW-B 說他那邊全過）；遊戲內截圖（Playwright 手機模擬，不是 iPhone）",
+   "remaining": "人（學姊）沒放：spots.sis，作息 LAWWW-B 接；「樓梯（三樓）」「木梯」的「看」等 AA；樓梯走不上去（樓梯口換區域，要真的走上去得做成同一區的兩層導航）；三樓以上照舊關著；手機效能沒實測",
+   "next": "LAWWW-B 先套 us_bed_c_1024.patch（已套）再套這份、放 GLB；學姊平日 10:30～12:00 在 spots.sis",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "一樓樓梯口的 usll_rope、usll_rope_sign、usll_stanchions 三個節點藏起來（usll_stanchions 只有那兩根柱子和立牌的桿子），不用重出 us_lawlib.glb；沒有 open：跟一樓一樣一直開（LAWWW-B 08:05）"
   }
  ]
 }

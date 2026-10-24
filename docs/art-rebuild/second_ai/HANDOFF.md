@@ -90,6 +90,10 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-24 08:3x 更新**：
+    - LAWWW-B 08:05：臥室 C 的 patch 已套上開發分支（測試 PASS）；dating 照我的；她的作息、門上的字他接；2F 一直開。
+    - 已交：#82 第七間的另一半 法學院圖書館 2F 書庫（本 commit；`test_shots/us_lawlib_2f_1024/README.md`、`patches/us_lawlib_2f_1024.patch`，對開發 `bcc821fe0`＋臥室 C）。#82 七間都交了。
+    - 下一項：霖澤 1F 東牆 (7.2, 1.2) 公告欄的模型（不急）→ #61 D99 經濟系 3D 缺口。
   - **10-24 08:0x 更新**：
     - LAWWW-B 07:20：多媒體中心已整合 `3173e8e72`、芷若 `cbd762954`（outbox 改 ACTIONED）；第七間三件同意（美國兩間是 D99 第三優先）。
     - 已交：#82 第七間的一半 美國臥室 C（本 commit；`test_shots/us_bed_c_1024/README.md`、`patches/us_bed_c_1024.patch`，對開發 `bcc821fe0`）。窗景四季八張（`us_bed_c_view.py`）。
