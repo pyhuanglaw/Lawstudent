@@ -31208,6 +31208,35 @@
     "receiver": "AA",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-SHADOW-UPPER-1024",
+   "title": "一樓教室牆上出現放大的二樓桌椅影子（坐著時鏡頭低於二樓地板、二樓整層顯示也進了陰影貼圖）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系那一年在普通 101 上課（坐下）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-24 10:4x 巡場景第 7 區（教室坐下）：普通 101、博雅一樓下午最明顯",
+   "authorized": "D108（場景程式歸 LAWWW2；改 engine3d.js 先告訴 LAWWW，LAWWW 10:5x 同意）",
+   "next": "【LAWWW-B 10-24 10:5x】同意 LAWWW2 的做法：包 renderer.shadowMap.render，陰影那一輪暫時藏玩家這一層以上的 levelGroups（finally 還原）；附單元測試＋前後截圖，跑 nav_levels、nav_buildings、stairs_cam_slab、room_ceiling。另記：博雅一樓階梯教室下午一整班路人 365 calls／77 萬三角形，做完順手看能不能少畫",
+   "xai": {
+    "spec": "LAWWW2 10:49 提案（engine3d.js E.init 後包 shadowMap.render）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "一樓牆上沒有二樓桌椅影子；二樓、電梯、樓梯中段照舊；單元測試＋截圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
