@@ -2390,6 +2390,9 @@ R18 = [TRX('TRX_US_DATING', B['DATE'], ['出發', '去', '「好。」'], {'sis0
 # BB-B 10-24 23:0x（AA-B 22:57 讀完交往中那一份）：①存檔預設 dating_kexin＝true，劇本變成學姊＋可昕兩條線 → NOKX 清掉 ②手機要回的邀約都沒回（8/11 竹葉、8/18 湖邊、8/25 圖書館、11/3 芝加哥）→ 其他要回的都選第一個（'*'）
 R18 += [TRX('TRX_US_DATING2', NOKX + B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。', '*': ''}),
         TRX('TRX_US_ALONE2', NOKX + B['ALONE'], ['出發', '去'], {'*': ''})]
+# BB-B 23:2x（LAWWW-B 23:19 AA_450 加測：「沒見過何俊朗」那一份）：【捷徑】把 8/14 國際學生迎新（usl_long1）、9/8 Legal Writing 下課（usl_long2a）兩場出遊記成沒排（state 'declined'，OUT.plan 同一個 id 不再排）＝沒見過他；其他照交往中
+NOLONG = " OUT.rec(G).push({id:'usl_long1',ev:'ev_usl_long1',state:'declined'},{id:'usl_long2a',ev:'ev_usl_long2a',state:'declined'});"
+R18 += [TRX('TRX_US_DATING_NOLONG', NOKX + NOLONG + B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。', '*': ''})]
 SCENS = SCENS + R18
 
 # ---------- R19（BB-B 10-24 09:5x）：美國法學院圖書館 2F 書庫（b43a86cdf＋AA_444 第 4 節 f23a5b948；v9.10.8 之後那一版）----------
