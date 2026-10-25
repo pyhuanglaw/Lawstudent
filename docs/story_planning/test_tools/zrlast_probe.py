@@ -3149,6 +3149,41 @@ R39 = [Y1('R39_MOM_0904', '2025-09-04', 19.8, 20.4, wantMsg=['禮拜六回來吃
        Y1('R39_FAMX', '2025-12-15', 20.8, 21.3, js=FAMJS, wantMsg=['家族聖誕交換禮物！期末考完，12/22 晚上六點半，公館那家火鍋。'], noneMsg=['期末考完那天'])]
 # [前置] R39_D5_2：公法讀書會群組、認識沛珊、D5_ASK_N=1（已經收過一次講義那一則）＝這次第 2 句；R39_SIS_1014：met_sis、SIS_W1、學姊朋友（50/40/35）
 SCENS = SCENS + R39
+
+# ---------- R40（BB-B 10-25 16:0x）：NEXT-AFTER-91010B——v9.10.10 發布後合進的（開發分支 69bb17f53，LAWWW-B 15:36 派工）各一輪 ----------
+# 句子、日子照遊戲資料（home3d.js FAM_MOON、y34b3d.js M6_WED／M6_QUIET、各 aa45x～aa469 單元測試的檢查名稱）；照真實時間等那一則
+FAMG = " PHONE.join(G,'family_law','法律系直屬家族'); G.flags.met_sis=true; G.flags.SIS_W1=true;"
+R40 = [dict(id='R40_MOON_2027', key='2027-09-15', h=17.8, zone='dorm', flags=dict(TW3), js=NOKX, steps=[('until', 21.3)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['📷（樓下鄰居在烤肉，煙飄到陽台）', '今年沒烤 聞就好', '📷（上海的月亮，旁邊多了一棟正在蓋的樓）'], noneMsg=['蛋黃的 留給你', '📷（上海的月亮，前面一棟很高的樓）'],
+            msgAt={'今年沒烤 聞就好': ('2027-09-15', 18.0, 0.2), '📷（上海的月亮，旁邊多了一棟正在蓋的樓）': ('2027-09-15', 21.0, 0.2)}),
+       dict(id='R40_MOON_2028', key='2028-10-03', h=17.8, zone='dorm', flags=dict(TWF), js=Y4 + NOKX, steps=[('until', 21.3)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['📷（月餅剩最後一個）', '這個留給你 冰起來了', '📷（上海的月亮）', '這張最清楚'], noneMsg=['蛋黃的 留給你'],
+            msgAt={'這個留給你 冰起來了': ('2028-10-03', 18.0, 0.2), '這張最清楚': ('2028-10-03', 21.0, 0.2)}),
+       # AA_459（大一下，法律系大一的最小存檔＋新開局）
+       Y1('R40_459_LJ2', '2026-04-02', 19.8, 20.4, wantMsg=['這次連假 回來住幾天'], noneMsg=['放三天 回來住兩晚']),
+       Y1('R40_459_EXAM', '2026-04-16', 19.8, 20.4, wantMsg=['這週考試吧 考完再回來']),
+       Y1('R40_459_CURRY', '2026-03-13', 20.8, 21.4, js=FAMJS, wantMsg=['下週五六點半，永康街那家咖哩。全家族。']),
+       # AA_460 第 5 節：可昕大二上學期末邀約寫哪天（使用者存檔本來就是可昕交往中）
+       dict(id='R40_460_KX', key='2026-12-24', h=20.5, zone='dorm', flags=dict(TW3), js='', steps=[('until', 21.0)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['考完了！', '這次換山上 禮拜六 政大正門六點', '我請'], noneMsg=['這次換山上 政大正門六點']),
+       # AA_461 第 2 節：Kevin 2027 學姊生日
+       dict(id='R40_461_BDAY', key='2027-06-02', h=11.9, zone='dorm', flags=dict(TW3), js=NOKX + FAMG, steps=[('until', 12.4)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['今天溫學姊生日🎂🎂 去年一個蛋糕，今年兩個。']),
+       # AA_463 第 2 節：母親節姊姊問、回「回。」→ 隔天媽媽不再問一次（【前置】'*' 回第一個選項）
+       dict(id='R40_463_MOMDAY', key='2028-05-10', h=20.8, zone='dorm', flags=dict(TW3), js=NOKX, steps=[('until', 21.4), ('ffloop', '2028-05-11', 20.4, 120), ('dumplog', 'R40_463_MOMDAY')],
+            pref=['不去了'], asks={'*': ''}, nothree=True, wantMsg=['禮拜天母親節 你回不回來吃', '你姊說你禮拜天要回來 不用買東西']),
+       # AA_464 第 1、2 節：學姊在美國（臺灣路線）家族群組週三照月份的照片、「不吵」的週日照第幾個換
+       dict(id='R40_464_WED', key='2028-11-08', h=8.8, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + FAMG, steps=[('until', 9.4)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['（照片：手錶，調慢了一個小時）']),
+       dict(id='R40_464_QUIET', key='2028-09-17', h=18.8, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + FAMG, steps=[('until', 19.4)], pref=[], asks={'*': ''}, nothree=True,
+            wantMsg=['今天不吵。今天只放空白。']),
+       # AA_465 第 1 節：畢業那一週週四（5/31）媽媽兩則、6/1 21:00 爸爸機場照片（畢業典禮前的最小存檔）
+       dict(id='R40_465_GRAD', key='2029-05-31', h=19.8, zone='dorm', minimal=True, pregrad=True, flags={}, js='', steps=[('until', 20.4), ('ffloop', '2029-06-01', 21.4, 120), ('dumplog', 'R40_465_GRAD')],
+            pref=['不去了'], asks={'*': ''}, nothree=True, wantMsg=['禮拜六典禮 你爸明天回來', '典禮完一起吃中午 你姊也來', '📷（桃園機場的入境大廳）'], noneMsg=['考完東西先搬一些回來'],
+            msgAt={'📷（桃園機場的入境大廳）': ('2029-06-01', 21.0, 0.2)}),
+       # AA_469 第 1 節：阿哲揪麵店（大一上第一個麵店日 17:30「麵店 我揪了」）
+       Y1('R40_469_NOODLE', '2025-10-02', 17.2, 17.8, js=NEWJS + NGRP + " SOCIAL.remember('zhe','FIRST_MET','');", wantMsg=['麵店 我揪了'])]
+SCENS = SCENS + R40
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
