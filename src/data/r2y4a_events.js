@@ -92,13 +92,19 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-18 芝加哥的週末（BB_98 2-9；D47：芝加哥用圖片）：11/11 07:00 出發（出遊），兩天＝兩段（第二天在 afterOuting 接 ev_us_chicago2）---- */
   EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'芝加哥',bg:'chicago_lake'},
+    dialogue:[ {if:{custom:LONG},goto:'chi0'},   /* AA_451 1-1：沒見過他的（8/14 迎新、9/8 下課都沒去），11/3 學姊說「我們一起認識他」——在巴士上認識（MET_LONG＋LONG_CHI）；之後的句子照有見過的版本 */
+      nar('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
+      {speaker:'何俊朗',text:'臺灣來的？我聽你們講話聽出來的。'},
+      {speaker:'何俊朗',text:'香港。何俊朗。叫我 Long 就好。'},
+      me('{name}。'),
+      nar('（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）'),
+      {set:{MET_LONG:true,LONG_CHI:true}},
+      {label:'chi0'},{scene:'芝加哥',bg:'chicago_lake'},
       nar('（她排了一張行程表，每一格都有時間。第一個景點就遲到二十分鐘：巴士誤點。）'),
       nar('（她看著行程表，然後把它摺起來，放進口袋。）'),
       CG('cg_chicago_heroine05'),   /* BCG-17（何俊朗只畫背影）*/
       sis('……今天不照表。'),
-      IF(LONG,nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句 */
-      UN(LONG,nar('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_370 L1：沒見過他（沒去 8/14 迎新、9/8 下課）＝「同行的人」*/
+      nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句。沒見過他的在上面巴士上認識了（AA_451 1-1；原本 AA_370 L1 的「同行的人」版不再用）*/
       sis('「還好」是好還是不好？'),
       me('看情況。'),
       sis('……法律系的回答。'),
@@ -199,7 +205,7 @@ const R2Y4A_EVENTS=(function(){
       {speaker:'何俊朗',text:'我的飛機比你早。……香港見？'},
       {choice:[{text:'「香港見。」',goto:'a'},{text:'「還好。」',goto:'b'}]},
       {label:'a'},{speaker:'何俊朗',text:'我帶你去吃。說好了。'},{goto:'e'},
-      {label:'b'},{speaker:'何俊朗',text:'……你又來了。'},nar('（他笑了一下，上了車。）'),{goto:'e'},
+      {label:'b'},UN(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……你又來了。'}),IF(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……還好？你學我。'}),nar('（他笑了一下，上了車。）'),{goto:'e'},   /* AA_451 1-1：芝加哥才認識的（LONG_CHI），說「還好」的是他自己 */
       {label:'n'},nar('（天還沒亮。社區門口停著機場巴士。）'),
       {label:'e'},{set:{US_LEFT:true}} ] });
   EV.push({ id:'ev_sf1', title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',

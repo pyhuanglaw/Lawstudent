@@ -31773,6 +31773,28 @@
     "ack": "ACK"
    },
    "notes": ""
+  },
+  {
+   "id": "US-READ-NOLONG-1025",
+   "title": "美國交換逐日劇本（交往中、沒見過何俊朗）讀後修正（AA_451）：芝加哥巴士上認識他（MET_LONG＋LONG_CHI）、12/16「還好？你學我。」、一直沒見過的「同一組的交換生」換字、媽媽 12/17 在舊金山收到",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：沒見過何俊朗的存檔 11/11 芝加哥開頭巴士五句、之後何俊朗版；12/16 選「還好。」；12/8 最後一堂、Legal Writing 第二句；舊金山那一週 12/17 收到媽媽「棉被曬過了。」（飛回臺灣以前）",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 11/11 芝加哥",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 02:2x（企劃線 14ee5d2a7，outbox 3c4a100de）；讀 BB 劇本 qa/美國交換逐日劇本_交往中_沒見過何俊朗.md（29b4e87a7）；D99 第三優先",
+   "authorized": "D99、D109、D111",
+   "notes": "LAWWW-B 10-25 02:4x 實作：tests/aa451_us_unit.js（舊程式 6 FAIL）；aa370 L1、aa412 C 兩支照 AA_451 換期待。1-3 採 AA 建議：舊金山那一週（r2y4a3d S.leave 一個劇情跑完就飛回）每天先跑手機規則，回臺灣以後不補（S.here 已經不成立）。9/10～10/6 太空：AA 判斷不補。"
   }
  ]
 }

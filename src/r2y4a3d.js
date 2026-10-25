@@ -115,6 +115,7 @@ const R2Y4A=(function(){
                   :[['ev_us_bloom16',0,12],['ev_us_bloom18',2,12],['ev_us_bloom20',4,12],['ev_us_bus21',5,13]];   /* 12/16、12/18、12/20 摘要日；12/21 13:00 社區巴士 */
     GM.sceneBegin(); try{
       for(const [id,dd,h] of steps){ if(done(G,id)) continue; if(GM.fade) await GM.fade(true); toDay(GM,d16+dd,h);
+        if(typeof STORY!=='undefined'&&STORY.phoneRules&&typeof PHONE!=='undefined'){ try{ STORY.phoneRules(GM); PHONE.tick(G); }catch(e){ console.warn('R2Y4A trip phone',e); } }   /* 這一週整段在一個劇情裡跑完、直接飛回臺灣：每一天先跑手機規則（AA_451 1-3：媽媽 12/17「棉被曬過了。」在舊金山那幾天收到，不是回家以後才補）*/
         if(GM.titleCard) await GM.titleCard(md(d16+dd),sf?'舊金山':'布魯明頓',2200); if(typeof ADV!=='undefined') ADV.begin({background:sf?'dark':'blur'}); if(GM.fade) await GM.fade(false);
         await run(GM,id,{noTitle:true}); }
       if(sf) F.SF_DONE=true; F.US_TRIP_DONE=true;

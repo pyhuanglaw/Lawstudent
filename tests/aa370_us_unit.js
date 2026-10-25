@@ -172,14 +172,14 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
 
   // ======================= L1 沒見過何俊朗：不出現「Long」「何俊朗」=======================
   fresh('2028-09-01',8.5,'us_apartment',US()); G.usLife={att:{us_writing:1}}; await interact({uslClass:true});
-  check('L1. 沒見過他（沒去 8/14 迎新）：Legal Writing 第二句「同一組的交換生交出去的作業，被圈出三個『however』。」', has('同一組的交換生交出去的作業，被圈出三個『however』。')&&!said.some(s=>/Long|何俊朗/.test(s.t)), JSON.stringify(lines()));
+  check('L1. 沒見過他（沒去 8/14 迎新）：Legal Writing 第二句「坐你前面的交換生交出去的作業，被圈出三個『however』。」（AA_451 1-2：原本「同一組的交換生」）', has('坐你前面的交換生交出去的作業，被圈出三個『however』。')&&!said.some(s=>/Long|何俊朗/.test(s.t)), JSON.stringify(lines()));
   fresh('2028-09-01',8.5,'us_apartment',US({MET_LONG:true})); G.usLife={att:{us_writing:1}}; await interact({uslClass:true});
   check('L1. 見過他：照原句「Long 交出去的作業，被圈出三個『however』。」', has('Long 交出去的作業，被圈出三個『however』。'));
   fresh('2028-12-08',8.5,'us_apartment',US()); await interact({uslClass:true});
-  check('L1. 沒見過他：12/8 最後一堂「（同一組的交換生念的那一句，沒有 however。全班拍手。）」', has('（同一組的交換生念的那一句，沒有 however。全班拍手。）')&&!has('（何俊朗念的那一句，沒有 however。全班拍手。）'), JSON.stringify(lines()));
+  check('L1. 沒見過他：12/8 最後一堂「（一個香港來的交換生念的那一句，沒有 however。全班拍手。）」（AA_451 1-2）', has('（一個香港來的交換生念的那一句，沒有 however。全班拍手。）')&&!has('（何俊朗念的那一句，沒有 however。全班拍手。）'), JSON.stringify(lines()));
   fresh('2028-12-08',8.5,'us_apartment',US({MET_LONG:true})); await interact({uslClass:true}); check('L1. 見過他：照原句「（何俊朗念的那一句……）」', has('（何俊朗念的那一句，沒有 however。全班拍手。）'));
   fresh('2028-11-11',7,'us_outside',US()); date('heroine_05'); await run('ev_us_chicago');
-  check('L1. 沒見過他：芝加哥「（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）」', has('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')&&!said.some(s=>/何俊朗/.test(s.t)), JSON.stringify(lines()));
+  check('L1. 沒見過他：芝加哥在巴士上認識他（AA_451 1-1，原本「同行的人」），之後「一路上，何俊朗說了好幾次……」', has('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）')&&has('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')&&!has('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'), JSON.stringify(lines()));
   fresh('2028-11-11',7,'us_outside',US({MET_LONG:true})); date('heroine_05'); await run('ev_us_chicago'); check('L1. 見過他：芝加哥照原句', has('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'));
 
   // ======================= L2 阿哲 8/21「我回來了」（holff3d.js）：美國路線也照時差 =======================

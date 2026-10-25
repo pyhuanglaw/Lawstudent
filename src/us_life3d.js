@@ -365,7 +365,7 @@ const USL=(function(){
     { const d=D('2028-09-16'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,12+10/60)&&!PHONE.sent(G,'usl_sis_0916')) PHONE.at(G,d,12+10/60,[P5(M.sis0916)],'usl_sis_0916'); }
     /* 何俊朗 3（10/4 20:00 會所自習室；有 MET_LONG）。AA_450 1-11：前一天（10/3）起才排、才跳「排進行程」（原本見過他就排：8/14 迎新演完就提示七週以後的行程）；
        快轉跨過 10/3 的，跳的每一步都跑手機規則、排好以後 nextStop 就停在出發前（S.jump）*/
-    if(F.MET_LONG&&G.day>=D('2028-10-03')&&!S.r3Did(G,'usl_long3')) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});
+    if(F.MET_LONG&&!F.LONG_CHI&&G.day>=D('2028-10-03')&&!S.r3Did(G,'usl_long3')) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});   /* LONG_CHI：11/11 芝加哥才認識他的（AA_451 1-1），過期的 10/4 不補排 */
     /* 何俊朗 5：10/24 21:00 他約 → 10/25 19:00 中餐館；「明天不行。」＝11/1 同一時間 */
     { const d=D('2028-10-24'); if(F.MET_LONG&&G.day>=d&&G.day<=d+8&&past(G,d,21)&&!PHONE.sent(G,'usl_long_1024')&&!PHONE.sent(G,'r3_long_5')){   /* r3_long_5：舊存檔 R3 版已經約過（AA_370 M3）*/ const L=[PL(M.long1024)]; L[0].ask={id:'usl_long5',until:T(d+1,19),opts:[{t:M.long1024ask[0][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[0][1]}],set:{USL_LONG5:'go'}},{t:M.long1024ask[1][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[1][1]}],set:{USL_LONG5:'later'}}]}; PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,L,'usl_long_1024'); }
       if(F.USL_LONG5==='go'&&!S.r3Did(G,'usl_long5')) plan(G,{id:'usl_long5',ev:'ev_usl_long5',day:d+1,h:19,late:0.75,place:'中餐館',title:'中餐館'});
