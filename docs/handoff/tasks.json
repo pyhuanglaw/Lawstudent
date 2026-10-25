@@ -32323,6 +32323,28 @@
    "source": "AA-B 2026-10-25 11:20（企劃線 d781b5255，outbox 84ead8c6d）；八種存檔 9/4～12/24",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y4S2-1025",
+   "title": "法律系大四下（留在臺灣）讀後（AA_465）：畢業典禮那一週的週四家人群組兩句＋6/1 21:00 爸爸桃園機場照片、子晴 CAT.photos[5] 2029-06-02 換成去年的畢業證書照片兩句、r2y4b3d 最後一個春假選完群組加祐廷的回答（第 3 節表，同 AA_461 第 1 節）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後；第 1 項接在 AA_459 補的 AA_458 媽媽群組規則之後（等 TERM-READ-Y1S2 合併），第 3 項和 AA_461 第 1 節同一套",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "大四下（留在臺灣）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:27（企劃線 ee0d6b70d，outbox 831cb644f）；第 6 節是 AA_458～465 總清單",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
