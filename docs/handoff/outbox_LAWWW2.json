@@ -3162,6 +3162,23 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "engine3d.js 只改註解；程式邏輯（farWant）沒動"
+  },
+  {
+   "task": "PERF-PATROL-ECON-1025 ④：公館店面單面（LAWWW-B 09:1x：1 單面、2 小零件不投影）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/perf_patrol_econ_1025/README.md（④ 三版的 fps 表、09～11 改前改後）",
+    "tools/blender/env_second/lib2.py（新 single_side）",
+    "tools/blender/env_second/shots/glb_ab_views.py（新）"
+   ],
+   "state": "量過、不交 GLB：單面試三版，只改材質會讓鐵窗直條、葉子消失；薄零件補反面以後畫面一樣但多 3.7 萬個三角形，fps 沒差（往店面 2.1→2.2、另一側 2.77→2.63）。貴的是立面三角形（只藏外牆 2.1→3.05）",
+   "remaining": "要再快只剩遠處立面簡化版（工比較大，LAWWW-B 決定）",
+   "next": "建議單面巡查先在同一頁切換量上限、10% 以上才做；室內（WALL_* transparent）先：soclib_interior、library_interior、cvs、gym，街景外觀後量",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "沒有要整合的檔案；我的分支的 gongguan_shops.glb、wz_street.py 已還原成開發的版本"
   }
  ]
 }

@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 11:0x 更新（PERF-PATROL-ECON-1025 ④／PERF-SINGLESIDE-GLB-1025）**：
+    - LAWWW-B 09:1x：④ 照我提的 1（單面）、2（小零件不投影）做，3（遠處簡化）先不要；之後全部環境 GLB 單面巡查照 D99 順序（公館 → wenzhou_street → lane118 → soclib_interior → library_interior → cvs → gym → us_campus → us_community／us_market／us_market_street → airport_dep），兩面都看得到的平面保留雙面，兩三棟一份交。
+    - ④ 結果：**不交 GLB**（我的分支的 `gongguan_shops.glb`、`wz_street.py` 已還原成開發的版本）。試了三版：只改材質 → 鐵窗直條、葉子消失（09）；薄零件補反面（`lib2.single_side`）→ 畫面一樣（10、11），但 instancing 的鐵窗、鋁框補反面多了 3.7 萬個三角形，fps 沒差（往店面 2.1 → 2.2、另一側 2.77 → 2.63）。小零件不投影只剩鐵窗一組（2,900 個三角形），量不出來。
+    - 新工具：`lib2.single_side(root, keep, nodup, skip)`（封閉的殼直接單面、開口的零件補反面）；`shots/glb_ab_views.py`（換 GLB 拍改前改後並排，正式模型載入失敗會印出來）。
+    - 教訓：①遊戲照名字接手的板面（`SIGN_FACE_`／`INTERIOR_FACE_`）不能改網格，`wzAtlasFaces` 合不起來會整排店面退回套件；②街景外觀（不透明）單面量不出差別，室內 `WALL_*`（attachFormal／attachRoomGLB 設 transparent）才有用 → 巡查改成每棟先在同一頁切換量上限、10% 以上才做，室內先。
+    - 下一步：等 LAWWW-B 回「單面巡查的順序改不改」；不回就照建議先量 soclib_interior、library_interior、cvs、gym 的上限。
   - **10-25 08:xx 更新（PERF-PATROL-ECON-1025）**：
     - 派工（LAWWW-B 05:0x）：經濟系路線效能巡查，先列最慢三處＋原因，再逐項修。06:0x 交「最慢三處」；LAWWW-B 06:1x 定順序 ①～⑥。
     - 報告：`test_shots/perf_patrol_econ_1025/README.md`（12 個地點的表、一次藏一類的找原因表、每一項改前改後同角度）。
