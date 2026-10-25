@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 01:0x 更新**：
+    - LAWWW-B 00:10：B1 健身中心已整合（`32ddad549`）；下一項照順序：①路線巡查⑤美國交換的傍晚 ②沒有窗的室內晚上不變暗（動 engine3d.js 前先說哪一段）。已回 ACK。
+    - 已交：SIGN-AUDIT-1025（`test_shots/sign_audit_1025/README.md`）：機場換匯看板、美國社區公車站牌字左右相反；3F 主球場舞台深色木板 → 紅地毯（D112 清查漏掉）；新工具 `check_signs.py`；新測試 `tests/sign_audit_1025_unit.js` 改前 FAIL 5、改後 ALL PASS。
+    - 只記錄：118 巷七家＋定食店收銀機店員那面螢幕被機身包住（`lane118_shops.py` register() 差 3 cm）。
+    - 測試樹 `$SP/dv8`：開發 `5bcdd7e8e`＋三份新 GLB（交件後還原）。
+    - 下一項：路線巡查⑤。
   - **10-25 00:1x 更新**：
     - 已交：B1 健身中心不再單調（`test_shots/gym_b1_fitness_1024/README.md`；只換 `gym_b1.glb`，`gym_b1.py` v7、`gym_tex.py b1`、新測試 `tests/gym_b1_fitness_unit.js` 改前 FAIL 11、改後 ALL PASS）。
     - 順便修：大廳開館時間牌、公告欄原本貼在框後面（看起來是黑板、空木板）、字左右相反。

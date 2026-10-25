@@ -72,8 +72,11 @@ M = {
     'light': L.flat(P + 'light', '#ffffff', rough=0.3, emit=B.srgb('#f4f8ff')),
     'screen': img_mat(P + 'screen', 'arena_screen.png', rough=0.3, emit=1.2), 'score': img_mat(P + 'score', 'gym_score.png', rough=0.3, emit=0.8),
     'door': L.flat(P + 'door', '#3b4652', rough=0.5, metal=0.2),
-    'stage': L.pbr(P + 'stage_deck', 'dark_planks', tile=1.2, target='#3a2e26', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
+    # 舞台台面（v7，2026-10-25）：原本深色木板（dark_planks #3a2e26）——使用者「不要出現這種深色木地板 整個遊戲都不要」（D112，10-23 清查漏掉：
+    # SET_STAGE 平常藏著）。改成紅地毯、裙板深紅，和開學典禮 2D 背景 v3（bg_gym_ceremony.py 的 v3_carpet #9a1f26、裙板深紅）一致
+    'stage': L.flat(P + 'stage_deck', '#9a1f26', rough=0.92),
     'skirt': L.flat(P + 'stage_skirt', '#15161a', rough=0.95), 'drape': L.flat(P + 'drape_navy', '#1b2a4d', rough=0.95),
+    'skirt_red': L.flat(P + 'stage_skirt_red', '#5d1b20', rough=0.95),
     'banner': img_mat(P + 'banner', 'arena_banner.png', rough=0.8), 'wood': L.pbr(P + 'wood', 'walnut_veneer', tile=0.9, target='#7a5232', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.45),
     'chair': L.flat(P + 'folding_chair', '#3c4046', rough=0.5, metal=0.2), 'proj': L.flat(P + 'projection', '#f4f6f8', rough=0.6, emit=B.srgb('#d8e2ee')),
     'speaker': L.flat(P + 'speaker', '#202226', rough=0.55), 'grille': L.flat(P + 'speaker_grille', '#2c2e33', rough=0.9),
@@ -318,7 +321,7 @@ for k in range(3): CL.glow(root, 'vomitory', 0.0, 2.6, V['z0'] + 1.5 + k * 2.6, 
 # ======================== 可開關的布置 ========================
 S = A['sets']; sg_ = S['stage']
 stg = B.group('SET_STAGE', root, {'set': 'stage'})
-m_deck, m_skirt, m_drape, m_steel = Mesh('SET_STAGE_deck', M['stage']), Mesh('SET_STAGE_skirt', M['skirt']), Mesh('SET_STAGE_drape', M['drape']), Mesh('SET_STAGE_steel', M['steel_dk'])
+m_deck, m_skirt, m_drape, m_steel = Mesh('SET_STAGE_deck', M['stage']), Mesh('SET_STAGE_skirt', M['skirt_red']), Mesh('SET_STAGE_drape', M['drape']), Mesh('SET_STAGE_steel', M['steel_dk'])   # 裙板深紅（v7；演唱會的帳篷頂照舊用黑的 skirt）
 x0, x1, z0, z1, h = sg_['x0'], sg_['x1'], sg_['z0'], sg_['z1'], sg_['h']
 Xf(0, 0).rbox(m_deck, x0, x1, h - 0.06, h, z0, z1, r=0.02, seg=2)
 m_skirt.box(x0, x1, 0.0, h - 0.06, z1 - 0.04, z1); m_skirt.box(x0, x0 + 0.04, 0.0, h - 0.06, z0, z1); m_skirt.box(x1 - 0.04, x1, 0.0, h - 0.06, z0, z1)

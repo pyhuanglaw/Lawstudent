@@ -227,7 +227,8 @@ def shopfront(side, z0, z1, kind, xwall, h=4.2):
     if kind == 'fx':
         tp.box(min(xf, xf - s * 0.6), max(xf, xf - s * 0.6), 1.05, 1.1, z0 + 0.5, z1 - 0.5)
         fx_ = Mesh('GLOW_ap_fx_board', M['fidsA']); uv_quad(fx_, [(xb + s * 0.02, 1.6, z1 - 0.5), (xb + s * 0.02, 1.6, z0 + 0.5), (xb + s * 0.02, 2.6, z0 + 0.5), (xb + s * 0.02, 2.6, z1 - 0.5)][::(1 if s > 0 else -1)],
-                                         [(0.6, 0.1), (0.95, 0.1), (0.95, 0.6), (0.6, 0.6)][::(1 if s > 0 else -1)]); fx_.finish(root, uv=False)
+                                         [(0.6, 0.1), (0.95, 0.1), (0.95, 0.6), (0.6, 0.6)][::(1 if s > 0 else -1)] if s > 0 else [(0.95, 0.6), (0.6, 0.6), (0.6, 0.1), (0.95, 0.1)]); fx_.finish(root, uv=False)
+        # ↑ 2026-10-25 招牌稽核：E 牆（s < 0，看板朝 −x）那一間原本字左右相反（頂點和 UV 一起反轉，配對沒變）——那一間的 UV 左右對調
 
 
 PROD = Mesh('ap_products', M['prod'])
