@@ -713,6 +713,7 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, dry=Fals
     - 其他（一片四邊形、十字薄片 xbar、葉片卡、蓋子朝內或方向不一致的圓柱、開口的殼…）：面複製一份反過來——兩面都看得到、
       影子兩面都畫，和原本的雙面材質一樣。只多頂點、不多像素（背面在光柵化以前就剔掉）。
     零件＝相連的面；頂點位置相同就算相連（box 每一面各自的頂點也算），每條邊剛好兩個面、方向相反才算封閉。
+    原本就單面的材質（use_backface_culling，作者故意的，例如室內天花板朝下＝剖面視角）不補反面、照舊單面。
     keep（正規表示式）：材質名符合的照舊雙面、不補反面（玻璃：兩面都看得到、半透明）。
     nodup（正規表示式）：材質名符合的開口零件也不補反面——背面確定看不到的（只從外面看的立面、隔著玻璃看的店內與商品、只從上面看的地板）；
     要用同角度截圖確認過（例：公館店面先全部單面不補，十個鏡頭和原本一樣，才把這些列進來）。
@@ -747,6 +748,8 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, dry=Fals
             else: bad.update(fi for fi, _ in lst)   # 邊界、三個面以上、方向不一致
         badr = {find(fi) for fi in bad}
         if nre: badr -= {find(f.index) for f in faces if nre.search(mname(f))}   # 一個零件只有一種材質（merge_by_material 以後）；混材質的零件有一面在 nodup 就整個不補
+        # 原本就單面的材質（作者故意的：室內的天花板朝下，鏡頭超過天花板高度時看得穿——剖面視角）不補；第一次試便利商店，天花板補了朝上的那一面，從高處看整片擋住
+        badr -= {find(f.index) for f in faces if f.material_index < len(mats) and mats[f.material_index] and mats[f.material_index].use_backface_culling}
         dup = [f for f in faces if find(f.index) in badr]
         for f in faces:
             s = stats.setdefault(mname(f), [0, 0]); s[1 if find(f.index) in badr else 0] += len(f.verts) - 2
