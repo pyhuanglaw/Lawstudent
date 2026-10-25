@@ -3,6 +3,7 @@
    第 1 節 住家裡的週四 20:00 家人群組（home3d.js 的 S.phoneRules 先問 HOME.LIVE_GROUP）：
      - 住家裡（HOME.livesHome：經濟系休學在家、法律系放假住家裡、日本路線住家裡、畢業以後住家裡）＝住家裡版 H1～H6，照 G.day/7 每週輪一則；不問、不用回，兩小時後爸爸也不傳「？」。
        （AA_466 第 1 節：改成十二則照順序一輪用完才從頭、「國外」「在家」照 STORY.abroad 跳過、第 4 則國外版；見 S.groupNext。測試：node tests/aa466_jp_unit.js）
+       （AA_466 第 5 節：日本路線退宿以後到搬進 409 都發——人在日本、8/5 回來以後的暑假也發，同一輪接著輪；見 S.jpOn。下面「日本路線回來以後不發」改掉了）
      - 什麼時候發（AA_443 第 3 節範圍更正）：只在原本就會發的時候換掉＝法律系、學期中（CALENDAR.termOf 有、STORY.mainDay≥2），人卻住家裡。
        實際用到：日本路線出發前 2/20～3/24（大三下學期中，JP.homeOn）、畢業以後住家裡（pgHome；學期表還在算的話——延畢）。
        寒暑假（法律系放假住家裡 breakMode、日本路線回來以後 8/5～9/3）原本就不發，維持不發。
@@ -57,11 +58,16 @@ const JPPREP=(function(){
   S.groupFor=function(G){ if(S.is0323(G)) return X.JP_0323; return S.groupLines(G,S.groupIdx(G)); };
   /* 學期中（原本 home3d.js 會發的時候：法律系、CALENDAR.termOf 有、STORY.mainDay≥2）*/
   S.termOn=function(G){ if(!law(G)) return false; const Tm=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, md=typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day; return !!Tm&&md>=2; };
-  S.liveDue=G=>S.termOn(G)&&G.weekday===4&&((G.hour%24)+24)%24>=20&&!S.dadHome(G.day);   /* 寒暑假不發（AA_443 第 3 節）*/
-  S.liveGroup=function(G){ if(typeof PHONE==='undefined'||!S.termOn(G)) return false; PHONE.join(G,'home','家人');   /* 同 home3d.js：學期中就在家人群組裡 */
-    if(!S.liveDue(G)) return false; const tag='home_live_'+G.day; if(PHONE.sent(G,tag)) return false;
-    if(S.is0323(G)) return PHONE.at(G,G.day,20,X.JP_0323.map(([w,t])=>item('g:home',w,t)),tag);
-    const nx=S.groupNext(G), ok=PHONE.at(G,G.day,20,S.groupLines(G,nx.idx).map(([w,t])=>item('g:home',w,t)),tag); if(ok) Fl(G).HOME_LIVE_N=nx.pos+1; return ok; };
+  /* AA_466 第 5 節（企劃線 8a7f797ec）：日本路線退宿以後（JP.movedOut：出發前住臺北的家 → 人在日本（6/8 學期表結束以後也發）→ 8/5 回來以後住家裡的暑假，到搬進 409）每週四都發，
+     同一輪接著輪、不重算（F.HOME_LIVE_N）；人在日本＝國外（STORY.abroad）；臺灣 20:00＝手機的當地時間 20＋時差（日本 21:00）。人在日本那一路由 jp3d.js 的 HOME.phoneRules 放行 */
+  S.jpOn=G=>isJP(G)&&typeof JP!=='undefined'&&!!JP.movedOut&&!!JP.movedOut(G);
+  S.on=G=>S.termOn(G)||S.jpOn(G);
+  S.liveH=G=>20+((typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,G.day):0)||0);
+  S.liveDue=G=>S.on(G)&&G.weekday===4&&((G.hour%24)+24)%24>=S.liveH(G)&&!S.dadHome(G.day);   /* 寒暑假不發（AA_443 第 3 節；日本路線退宿以後例外，AA_466 第 5 節）*/
+  S.liveGroup=function(G){ if(typeof PHONE==='undefined'||!S.on(G)) return false; PHONE.join(G,'home','家人');   /* 同 home3d.js：學期中就在家人群組裡 */
+    if(!S.liveDue(G)) return false; const tag='home_live_'+G.day; if(PHONE.sent(G,tag)) return false; const h=S.liveH(G);
+    if(S.is0323(G)) return PHONE.at(G,G.day,h,X.JP_0323.map(([w,t])=>item('g:home',w,t)),tag);
+    const nx=S.groupNext(G), ok=PHONE.at(G,G.day,h,S.groupLines(G,nx.idx).map(([w,t])=>item('g:home',w,t)),tag); if(ok) Fl(G).HOME_LIVE_N=nx.pos+1; return ok; };
 
   /* ===================== 第 2 節 日本路線出發前 ===================== */
   S.K0='2028-02-20'; S.K1='2028-03-24';

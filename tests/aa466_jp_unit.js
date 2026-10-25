@@ -1,14 +1,15 @@
-// AA_466 日本路線讀一遍（企劃線 30cc3235a，AA-B 2026-10-25 15:0x；第①、②級）——不需要瀏覽器。台詞逐字對稿（git show 讀稿、解析表格）。
+// AA_466 日本路線讀一遍（企劃線 30cc3235a，AA-B 2026-10-25 15:0x；第①、②級）＋第 5 節（企劃線 8a7f797ec，回 LAWWW-B）——不需要瀏覽器。台詞逐字對稿（git show 讀稿、解析表格）。
 //   0 讀稿：1-2 的十二則（誰、什麼時候、字；第 4 則在家／國外兩版）、第 2 節兩週一張的日子、第 7、8 張；JPPREP_LINES.HOME_GROUP／HOME_GROUP_WHEN／HOME_GROUP_ABROAD、Y34B.YT_JP 照稿一字不差
 //   1 住家裡版家人群組（src/jpprep3d.js）：
 //     1-a 住家裡、人在臺灣（畢業以後住家裡 pgHome，學期表還在算＝延畢那種）一個學期的週四：照順序 1→12，「國外」兩則（8、11）跳過、跳過的這一輪不補，一輪用完才從頭；第 4 則是在家版「你兒子在家 叫他去問」
-//     1-b 人在國外（STORY.abroad）的週四：「國外」兩則照順序出（同 AA 的 term_sweep：日本路線、沒有演出發）；出發前那幾週在家、3/23 那三句不佔位置
-//     1-c 從第 1 則開始、全部人在國外（3/30～學期表結束，十一個週四）：照順序一則都不跳；第 4 則國外版；同一則兩次至少隔十二週
+//     1-b 第 5 節：日本路線一路跑——出發前住家裡（2/24～3/16，3/23 那三句不佔位置）→ 人在日本 3/30～8/3 十九週都發（手機 21:00、國外：8、11 有出、第 4 則國外版）
+//         → 8/5 回來以後的暑假照同一個順序接下去（臺灣 20:00）→ 9/3 搬進 409 以後不發；同一輪不重算
+//     1-c 從第 1 則開始、全部人在日本的十九週：前十二週十二則各一次；同一則兩次至少隔十二週
 //     1-d 舊存檔（沒有 HOME_LIVE_N）：照手機裡已經收過的住家裡版則數接著算；已經發過的那一週不再發
-//     1-e 照舊：出發以後（JP_DEPARTED）人在日本，家人群組整個不發（jp3d.js J-S14 擋 HOME.phoneRules；這次沒改）
+//     1-e 第 5 節：人在日本（JP_DEPARTED）jp3d.js 的 J-S14 只放行住家裡版家人群組（當地 21:00），「這週回來吃飯嗎」、爸爸的「？」照擋
 //   2 語彤的田野照片（src/y34b3d.js S.ytJPPhone）：日本路線 3/25～8/12 每天跑：只在 3/30、4/13、4/27、5/11、5/25、6/8、6/22、7/6 各一張，照順序 1～8、各一次；
 //     沒有字、不用回；跳過時間的補那一張；舊存檔（每週一張收過三張）接第 4 張、不重發
-// 修改前（開發分支 661423a71）：1-a、1-b、1-c、1-d、2 都 FAIL。用法：node tests/aa466_jp_unit.js
+// 修改前（開發分支 661423a71）：1-a、1-b、1-c、1-d、1-e、2 都 FAIL（第 5 節以前的 896071162：1-b、1-c、1-e FAIL）。用法：node tests/aa466_jp_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -18,7 +19,7 @@ GM.caption=()=>{}; GM.toast=()=>{};
 let err='';
 try{ for(const f of ['src/holff3d.js','src/exchange3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/group_events.js','src/group3d.js','src/y34b3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/jp_events.js','src/jp3d.js','src/data/jpprep_events.js','src/jpprep3d.js']) load(f); }catch(e){ err=String(e&&e.stack||e); }
 /* ---------- 稿 ---------- */
-const SHA='30cc3235a', P466='docs/story_planning/AA_466_日本路線讀一遍_家人群組在日本_語彤的田野照片.md';
+const SHA='8a7f797ec', P466='docs/story_planning/AA_466_日本路線讀一遍_家人群組在日本_語彤的田野照片.md';
 const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P466+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const rows=s=>s.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|[-| :]+\|\s*$/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
@@ -42,10 +43,14 @@ const jpG=(k,h,o)=>{ o=o||{}; const G=H.fresh('2028-02-20',h,'dorm',Object.assig
   H.FAMILIAR(AN); H.date(AN); return G; };
 const pgG=(k,h)=>{ const G=H.fresh('2026-09-01',h,'dorm',{MOVED_OUT:true}); setT(k,h); G.outings=[]; G.acts={att:{}}; const R=HOME.rec(G); R.at=true; return G; };
 const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
-const homeGrp=day=>(H.G.msgs||[]).filter(m=>m.th==='g:home'&&m.day===day);
+const homeGrp=day=>(H.G.msgs||[]).filter(m=>m.th==='g:home'&&m.day===day&&m.tag==='home_live_'+day);   /* 住家裡版（tag home_live_<日>）；學期中住宿舍的「這週回來吃飯嗎」不算 */
 const pairs=day=>homeGrp(day).map(m=>m.from+':'+m.text);
 const P=g=>g.map(([w,t])=>w+':'+t);
 const which=day=>{ const pp=J(pairs(day)); if(pp===J(P(L().JP_0323))) return {i:'0323',v:'0323'}; for(let i=0;i<T12.length;i++){ if(J(P(T12[i].home))===pp) return {i,v:'home'}; if(T12[i].abroad&&J(P(T12[i].abroad))===pp) return {i,v:'abroad'}; } return pp==='[]'?null:{i:-1,v:pp}; };
+/* AA_466 第 5 節：日本路線一路跑（照日子設出發 3/25、回來 8/5、搬進 409 的 9/3），每個週四在當地 hh 點跑規則 */
+const DEP=D('2028-03-25'), RET=D('2028-08-05'), ROOM=D('2028-09-03');
+const jpRun=(a,b,hh)=>{ const out=[]; for(let d=D(a);d<=D(b);d++){ if(CALENDAR.dateOf(d).wd%7!==4) continue; const F=H.G.flags; if(d>=DEP&&F.JP_DEPARTED==null) F.JP_DEPARTED=DEP; if(d>=RET&&F.JP_RETURNED==null) F.JP_RETURNED=RET; if(d>=ROOM) F.ROOM_Y4=true;
+    setT(d,hh); rules(); const w=which(d), m=homeGrp(d)[0]; if(w) out.push({day:d,k:keyOf(d),i:w.i,v:w.v,abroad:!!STORY.abroad(H.G),inJP:!!JP.inJapan(H.G),h:m&&m.h}); } return out; };
 /* 每個週四 20:05 跑一次規則，回傳 [{day, i（第幾則，0 起）, v（home／abroad）, abroad（那天 STORY.abroad）}] */
 const thursdays=(a,b)=>{ const out=[]; for(let d=D(a);d<=D(b);d++){ if(CALENDAR.dateOf(d).wd%7!==4) continue; setT(d,20.05); rules(); const w=which(d); if(w) out.push({day:d,k:keyOf(d),i:w.i,v:w.v,abroad:!!STORY.abroad(H.G)}); } return out; };
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
@@ -73,27 +78,30 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     check('1-a 照舊不問、不用回（沒有選項）',(H.G.msgs||[]).filter(m=>m.th==='g:home').every(m=>!m.ask));
     const first=R.findIndex(r=>r.i===0), again=R.findIndex((r,j)=>j>first&&r.i===0);
     check('1-a 同一則兩次之間：在家（跳過國外兩則）隔十週，前十則各一次',again-first===10&&new Set(R.slice(0,10).map(r=>r.i)).size===10,J([first,again]));
-    const pos=(()=>{ let p=0; for(const r of R){ let j=p; while(j%12!==r.i) j++; p=j+1; } return p; })();
+    const pos=(()=>{ let p=0; for(const r of R){ if(!(r.i>=0&&r.i<12)) return -1; let j=p; while(j%12!==r.i) j++; p=j+1; } return p; })();
     check('1-a 存檔記走過幾個位置（F.HOME_LIVE_N，跳過的也算）',H.G.flags.HOME_LIVE_N===pos,J([H.G.flags.HOME_LIVE_N,pos]));
   });
 
-  /* ======================= 1-b 人在國外（同 AA 的 term_sweep：日本路線、沒有演出發）======================= */
+  /* ======================= 1-b 日本路線一路跑：出發前住家裡 → 日本 → 8/5 回來以後的暑假（AA_466 第 5 節）======================= */
   await sec('1-b',()=>{
-    jpG('2028-02-24',20.05); const R=thursdays('2028-02-24','2028-08-03');
-    const home=R.filter(r=>!r.abroad&&r.i!=='0323'), abr=R.filter(r=>r.abroad), d23=R.find(r=>r.k==='2028-03-23');
-    check('1-b 出發前在臺灣的週四（2/24、3/2、3/9、3/16）：第 1、2、3、4 則（第 4 則在家版）',J(home.map(r=>r.k))===J(['2028-02-24','2028-03-02','2028-03-09','2028-03-16'])&&J(home.map(r=>r.i+':'+r.v))===J(['0:home','1:home','2:home','3:home']),J(home.map(r=>r.k+'#'+(r.i+1)+r.v)));
-    check('1-b 3/23 那三句（JP_0323）照舊，不佔位置（下一個週四接第 5 則）',!!d23&&d23.i==='0323'&&J(pairs(D('2028-03-23')))===J(P(L().JP_0323))&&!!abr[0]&&abr[0].i===4);
-    check('1-b 人在國外（STORY.abroad）的週四：接著第 5 則照順序；「國外」的 8（你那邊幾點）、11（日本那邊冷不冷）有出',abr.length>=6&&J(abr.slice(0,8).map(r=>r.i))===J([4,5,6,7,8,9,10,11].slice(0,Math.min(8,abr.length))),J(abr.map(r=>r.k+'#'+(r.i+1))));
-    check('1-b 「國外」的兩則只在人在國外的時候出',R.filter(r=>r.i===7||r.i===10).every(r=>r.abroad));
-    check('1-b 整段沒有連兩週同一則；同一則兩次至少隔十週',R.every((r,j)=>{ const k=R.findIndex((x,jj)=>jj>j&&x.i===r.i); return k<0||k-j>=10; }));
+    jpG('2028-02-24',21.05); const R=jpRun('2028-02-24','2028-09-14',21.05), N=R.filter(r=>r.i!=='0323');
+    const pre=N.filter(r=>r.day<DEP), jp=N.filter(r=>r.inJP), back=N.filter(r=>r.day>=RET), d23=R.find(r=>r.k==='2028-03-23');
+    check('1-b 出發前在臺灣的週四（2/24、3/2、3/9、3/16）：第 1、2、3、4 則（第 4 則在家版）、臺灣 20:00',J(pre.map(r=>r.k))===J(['2028-02-24','2028-03-02','2028-03-09','2028-03-16'])&&J(pre.map(r=>r.i+':'+r.v))===J(['0:home','1:home','2:home','3:home'])&&pre.every(r=>r.h===20),J(pre.map(r=>r.k+'#'+(r.i+1)+r.v)));
+    check('1-b 3/23 那三句（JP_0323）照舊，不佔位置（日本第一個週四接第 5 則）',!!d23&&J(pairs(D('2028-03-23')))===J(P(L().JP_0323))&&!!jp[0]&&jp[0].i===4);
+    const jpDays=[]; for(let d=DEP;d<RET;d++) if(CALENDAR.dateOf(d).wd%7===4) jpDays.push(keyOf(d));
+    check('1-b 人在日本（出發以後）每個週四都發（3/30～8/3 共 '+jpDays.length+' 週，6/8 學期表結束以後也發）；手機顯示日本 21:00（臺灣 20:00）',jpDays.length===19&&J(jp.map(r=>r.k))===J(jpDays)&&jp.every(r=>r.abroad&&r.h>=21-1e-6&&r.h<21.25),J(jp.map(r=>r.k+'@'+r.h)));
+    check('1-b 日本那幾週照順序接下去：第 5～12 則、再從第 1 則（國外的 8、11 有出）',J(jp.map(r=>r.i))===J([4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10]),J(jp.map(r=>'#'+(r.i+1))));
+    const ab4=jp.filter(r=>r.i===3); check('1-b 人在日本輪到第 4 則：媽媽換成「換了 上個月就換了」',ab4.length===1&&ab4[0].v==='abroad'&&J(pairs(ab4[0].day))===J(P(T12[3].abroad)),J(ab4.map(r=>r.k+r.v)));
+    check('1-b 8/5 回來以後住家裡的暑假（8/10、8/17、8/24、8/31）照同一個順序接下去：日本最後是第 11 則，接第 12、1、2、3 則、臺灣 20:00',J(back.map(r=>r.k))===J(['2028-08-10','2028-08-17','2028-08-24','2028-08-31'])&&J(back.map(r=>r.i+':'+r.v))===J(['11:home','0:home','1:home','2:home'])&&back.every(r=>!r.abroad&&r.h===20),J(back.map(r=>r.k+'#'+(r.i+1)+r.v)));
+    check('1-b 9/3 搬進 409 以後：住家裡版不再發（照舊學期中住宿舍那一套）',!N.some(r=>r.day>=ROOM));
+    check('1-b 整段（出發前→日本→回來）同一輪不重算：照順序、國外的兩則只在人在日本的時候出',N.every(r=>r.i!==7&&r.i!==10||r.abroad)&&(()=>{ let p=0; for(const r of N){ if(!(r.i>=0&&r.i<12)) return false; let j=p; while(!(j%12===r.i)) j++; for(let x=p;x<j;x++) if(!(L().HOME_GROUP_WHEN[x%12]==='abroad'&&!r.abroad)) return false; p=j+1; } return true; })());
+    check('1-b 同一則兩次至少隔十週',N.every((r,j)=>{ const k=N.findIndex((x,jj)=>jj>j&&x.i===r.i); return k<0||k-j>=10; }));
   });
 
-  /* ======================= 1-c 從第 1 則開始、全部在國外 ======================= */
+  /* ======================= 1-c 從第 1 則開始、全部在日本 ======================= */
   await sec('1-c',()=>{
-    jpG('2028-03-30',20.05); H.G.flags.HOME_LIVE_N=0; const R=thursdays('2028-03-30','2028-08-03').filter(r=>r.abroad);
-    check('1-c 人在國外的連續 '+R.length+' 個週四（3/30～大三下學期表結束）：從第 1 則照順序、一則都不跳（國外的 8、11 也出）',R.length>=11&&J(R.map(r=>r.i))===J([0,1,2,3,4,5,6,7,8,9,10,11].slice(0,R.length)),J(R.map(r=>r.k+'#'+(r.i+1))));
-    const ab4=R.filter(r=>r.i===3);
-    check('1-c 人在國外輪到第 4 則：媽媽換成「換了 上個月就換了」',ab4.length===1&&ab4[0].v==='abroad'&&J(pairs(ab4[0].day))===J(P(T12[3].abroad)),J(ab4.map(r=>r.k+r.v)));
+    jpG('2028-03-30',21.05,{flags:{JP_DEPARTED:DEP}}); H.G.flags.HOME_LIVE_N=0; const R=jpRun('2028-03-30','2028-08-03',21.05);
+    check('1-c 人在日本的十九個週四、從第 1 則開始：前十二週十二則各一次（照順序一則都不跳）',R.length===19&&J(R.slice(0,12).map(r=>r.i))===J([0,1,2,3,4,5,6,7,8,9,10,11]),J(R.map(r=>r.k+'#'+(r.i+1))));
     check('1-c 同一則兩次至少隔十二週',R.every((r,j)=>{ const k=R.findIndex((x,jj)=>jj>j&&x.i===r.i); return k<0||k-j>=12; }));
   });
 
@@ -107,10 +115,14 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     const G2=pgG('2029-03-01',20.05); delete G2.flags.HOME_LIVE_N; rules(); check('1-d 新的存檔（什麼都沒收過）從第 1 則開始',J(pairs(G2.day))===J(P(T12[0].home)));
   });
 
-  /* ======================= 1-e 照舊：出發以後人在日本不發 ======================= */
+  /* ======================= 1-e 人在日本：只放行住家裡版家人群組（AA_466 第 5 節）======================= */
   await sec('1-e',()=>{
-    jpG('2028-04-20',20.05,{flags:{JP_DEPARTED:D('2028-03-25')}}); PHONE.join(H.G,'home','家人'); const R=thursdays('2028-03-30','2028-08-03');
-    check('1-e 照舊（這次沒改）：出發以後（JP_DEPARTED）人在日本，家人群組整個不發（jp3d.js J-S14）',JP.inJapan(H.G)&&R.length===0,J(R.map(r=>r.k)));
+    const G=jpG('2028-04-20',20.5,{flags:{JP_DEPARTED:DEP}}); rules(); const early=homeGrp(G.day).length;
+    setT('2028-04-20',21.05); rules(); const M=homeGrp(G.day);
+    check('1-e 人在日本的週四：當地 20:30 還沒有、21:00（臺灣 20:00）才發；不問、不用回',JP.inJapan(G)&&early===0&&M.length>0&&M.every(m=>!m.ask&&m.h>=21-1e-6&&m.h<21.25&&m.tag==='home_live_'+G.day),J(M.map(m=>m.text)));
+    setT('2028-04-20',23.5); rules(); check('1-e 其他照 J-S14 擋：沒有「這週回來吃飯嗎」那一套、兩小時後爸爸不傳「？」',!(G.msgs||[]).some(m=>m.th==='g:home'&&(m.ask||m.text==='？'||/^home_ask_/.test(m.tag||''))));
+    let blocked=true; const h0=HOME.LIVE_GROUP; HOME.LIVE_GROUP=null; try{ setT('2028-04-27',21.05); rules(); blocked=!homeGrp(G.day).length; } finally{ HOME.LIVE_GROUP=h0; }
+    check('1-e 放行的只有 HOME.LIVE_GROUP 那一路（拿掉它，人在日本的 HOME.phoneRules 什麼都不發）',blocked);
   });
 
   /* ======================= 2 語彤的田野照片 ======================= */

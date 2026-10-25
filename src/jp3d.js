@@ -458,7 +458,8 @@ const JP=(function(){
     const t=evOf('ev_jp_tanabata_repair'); if(t) t.after=G=>{ if(G.flags.AN_JP_RECONCILED) S.resume(G); };   /* 挽回第 5 步：重新交往 */
     const o=evOf('ev_jp_office'); if(o) o.after=G=>{ if(typeof PHONE!=='undefined') PHONE.join(G,'jp_exchange','交換生群組'); }; }
   /* 家人群組（每週四 20:00「這週回來吃飯嗎」）：人在日本不問（同 us_life3d.js 美國的做法；AA_341 J-S14 的原則：在國外不出現臺灣才成立的事）*/
-  if(typeof HOME!=='undefined'&&HOME.phoneRules){ const h0=HOME.phoneRules; HOME.phoneRules=function(GM){ if(GM&&GM.G&&S.inJapan(GM.G)) return; return h0.apply(this,arguments); }; }
+  /* AA_466 第 5 節（企劃線 8a7f797ec）：只放行住家裡版家人群組（HOME.LIVE_GROUP，src/jpprep3d.js；不問、不用回、家裡的日常），其他照 J-S14 擋 */
+  if(typeof HOME!=='undefined'&&HOME.phoneRules){ const h0=HOME.phoneRules; HOME.phoneRules=function(GM){ if(GM&&GM.G&&S.inJapan(GM.G)){ if(typeof HOME.LIVE_GROUP==='function'){ try{ HOME.LIVE_GROUP(GM.G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } } return; } return h0.apply(this,arguments); }; }
   /* 臺灣的朋友回訊息的時間（MSG.replyAt）：照臺灣時間算他們醒著、在忙，再換回日本時間；以安在日本，照當地（AA_341 J-S7；同 us_life3d.js 的美國版）*/
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ if(!S.inJapan(G)||id==='heroine_01') return r0.apply(this,arguments); const tz=STORY.tzOffset?(STORY.tzOffset(G)||0):0; if(!tz) return r0.apply(this,arguments);
       const t=NOW(G)-tz, tw=Object.assign({},G); tw.day=Math.floor(t/24); tw.hour=t-tw.day*24; tw.weekday=wdOf(tw.day); const r=r0.call(this,tw,id); if(!r) return r;

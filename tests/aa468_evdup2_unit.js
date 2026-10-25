@@ -1,13 +1,13 @@
-// AA_468 事件台詞第二輪（企劃線 cd2dc7646，AA-B 2026-10-25 15:5x；第①、②級）——不需要瀏覽器。台詞逐字對稿（git show 讀稿、解析表格），實際跑事件看演出來的字。
+// AA_468 事件台詞第二輪（企劃線 cd2dc7646，AA-B 2026-10-25 15:5x；第①、②級）＋第 4 節（企劃線 8a7f797ec，回 LAWWW-B）——不需要瀏覽器。台詞逐字對稿（git show 讀稿、解析表格），實際跑事件看演出來的字。
 //   0 讀稿：第 1 節大四的表（七列）、第 2 節 2-1 可昕九句＋收尾、2-2 語彤八句＋收尾；R2Y4B_BAR_NARR 照稿一字不差
 //   1 芷若在英國的跨年 ev_zr_nye_video_y4：照表換字（旁白、兩個選項的回覆、結尾、結尾旁白、沒接 08:30 那一則）；開頭、選項照舊；大三 ev_zr_nye_video_y3 照舊；兩年演出來的除了選項沒有一句一樣
 //   2 律師讀書小組（src/r2y4b3d.js 的 groupLine／narrLine、src/data/r2y4b_events.js 的 ev_bar_group_night／_video）：2/26～8/3 每一場實際跑事件——
 //     2-a 只有可昕（視訊；週六政大）：第一輪 k1～k4 各一次照舊；之後平日 1～7、週六 8～9 每句一次照順序，用完只留收尾（平日「（讀到十一點。）」、週六「（讀到傍晚。）」）
 //     2-b 只有語彤（麵店；週六總圖）：第一次那三句照舊、y1～y4 各一次；之後平日 1～6、週六 7～8 每句一次，用完收尾（「（讀到十點半，鐵門拉下來。）」「（讀到閉館。）」）
 //     2-c 分開讀：一晚可昕（一、三視訊）、一晚語彤（五、六），各自照順序
-//     2-d 舊存檔：BAR_GROUP_KI／YI 照現在數，超過 4 減 4 找第幾句；週六另外記，舊存檔從第 1 句開始
-//     2-e 三個人一起讀（kind three，兩個人都在麵店）：照舊輪 k1～k4、y1～y4（AA_468 的旁白是視訊／政大、麵店／總圖寫的——待 AA 確認）
-// 修改前（開發分支 661423a71）：0（R2Y4B_BAR_NARR）、1、2-a～2-d FAIL。用法：node tests/aa468_evdup2_unit.js
+//     2-d 第 4 節 ③ 舊存檔：不用「減 4」，旁白另開計數（BAR_GROUP_KN／KNS、YN／YNS），舊存檔沒有＝從第 1 句看起；第一輪是不是演完照 KI、YI 有沒有到 4
+//     2-e 第 4 節 ② 三個人一起讀（kind three，都在麵店）：第一輪 k、y 輪流八次照舊；之後另一組六句照順序各一次（第 4 句只在平日、第 5 句只在週六），用完收尾（「（讀到十點半，鐵門拉下來。）」「（讀到傍晚。）」）；舊存檔也從第 1 句
+// 修改前（開發分支 661423a71）：0（R2Y4B_BAR_NARR）、1、2-a～2-e FAIL（第 4 節以前的 896071162：0（three）、2-a 計數、2-d、2-e FAIL）。用法：node tests/aa468_evdup2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -16,7 +16,7 @@ const {check,GM,E}=H, J=JSON.stringify;
 GM.caption=()=>{}; GM.toast=()=>{}; GM.memo=()=>{}; GM.money=()=>{};
 global.CG_REGISTRY={};
 load('src/noodle_closed3d.js'); load('src/data/r2y4b_events.js'); load('src/r2y4b3d.js');
-const SHA='cd2dc7646', P468='docs/story_planning/AA_468_事件台詞第二輪_芷若英國跨年兩年_律師讀書小組九十晚.md';
+const SHA='8a7f797ec', P468='docs/story_planning/AA_468_事件台詞第二輪_芷若英國跨年兩年_律師讀書小組九十晚.md';
 const DOC=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show '+SHA+':"'+P468+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+a.length):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const rows=s=>s.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|[-| :]+\|\s*$/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
@@ -26,6 +26,8 @@ const Y3_OLD=['（她把手機轉向窗外。很遠的地方有煙火，聲音�
 /* 第 2 節：2-1、2-2 */
 const narrTab=s=>{ const R=rows(s), wd=[], sat=[]; let end=null; for(const r of R){ if(/^\d+$/.test(r[0])){ (r[1]==='週六'?sat:wd).push(r[2]); } else if(r[0]==='收尾'){ const [a,b]=r[2].split('／'); end={wd:a,sat:b}; } } return {wd,sat,end}; };
 const K=narrTab(part('### 2-1','### 2-2')), Y=narrTab(part('### 2-2','- **三個人一起讀**'));
+/* 第 4 節 ② 三個人：[旁白, when（null 都可以、'wd' 平日、'sat' 週六）]、收尾 */
+const T3=(()=>{ const R=rows(part('## 4.','- **③')), L=[], W=[]; let end=null; for(const r of R){ if(/^\d+$/.test(r[0])){ L.push(r[2]); W.push(r[1]==='平日'?'wd':(r[1]==='週六'?'sat':null)); } else if(r[0]==='收尾'){ const [a,b]=r[2].split('／'); end={wd:a,sat:b}; } } return {list:L,when:W,end}; })();
 const ev=id=>STORY_EVENTS.find(e=>e.id===id), S=typeof R2Y4B!=='undefined'?R2Y4B:null, D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const fresh=(key,h,zone,flags)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1},flags||{})); G.acts={att:{}}; G.outings=[]; H.at(key,h); G.zone=zone||'dorm'; GM.npc={}; return G; };
@@ -45,14 +47,15 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
     if(c<4){ exp.push(J([first4[c]])); c++; continue; } if(r.sat){ exp.push(J([s<T.sat.length?T.sat[s]:T.end.sat])); s++; } else { exp.push(J([w<T.wd.length?T.wd[w]:T.end.wd])); w++; } c++; } return exp; };
 
 (async()=>{
-  check('0. 讀稿（企劃線 AA_468 @'+SHA+'）：第 1 節七列、2-1 可昕七＋二＋收尾、2-2 語彤六＋二＋收尾',DOC.indexOf('# AA_468')>=0&&Object.keys(T1).length===7&&K.wd.length===7&&K.sat.length===2&&!!K.end&&Y.wd.length===6&&Y.sat.length===2&&!!Y.end,J({T1,K,Y}));
+  check('0. 讀稿（企劃線 AA_468 @'+SHA+'）：第 1 節七列、2-1 可昕七＋二＋收尾、2-2 語彤六＋二＋收尾、第 4 節三個人六句＋收尾',DOC.indexOf('# AA_468')>=0&&Object.keys(T1).length===7&&K.wd.length===7&&K.sat.length===2&&!!K.end&&Y.wd.length===6&&Y.sat.length===2&&!!Y.end&&T3.list.length===6&&J(T3.when)===J([null,null,null,'wd','sat',null])&&!!T3.end,J({T1,K,Y,T3}));
   check('0. 檔案載得到（R2Y4B、事件）',!!S&&!!ev('ev_bar_group_night')&&!!ev('ev_zr_nye_video_y4'));
   if(!DOC||!S){ H.done(); return; }
   await sec(0,()=>{
     const N=typeof R2Y4B_BAR_NARR!=='undefined'?R2Y4B_BAR_NARR:null;
     check('0. R2Y4B_BAR_NARR＝2-1、2-2 的表（平日、週六、收尾），一字不差、照順序',!!N&&J(N.kexin.wd)===J(K.wd)&&J(N.kexin.sat)===J(K.sat)&&N.kexin.wdEnd===K.end.wd&&N.kexin.satEnd===K.end.sat&&J(N.yutong.wd)===J(Y.wd)&&J(N.yutong.sat)===J(Y.sat)&&N.yutong.wdEnd===Y.end.wd&&N.yutong.satEnd===Y.end.sat,J(N));
+    check('0. R2Y4B_BAR_NARR.three＝第 4 節的表（六句、平日／週六、收尾），一字不差',!!N&&!!N.three&&J(N.three.list)===J(T3.list)&&J(N.three.when)===J(T3.when)&&N.three.wdEnd===T3.end.wd&&N.three.satEnd===T3.end.sat,J(N&&N.three));
     const TX=['ev_bar_group_night','ev_bar_group_video'].flatMap(id=>ev(id).dialogue.filter(l=>l.text).map(l=>l.text));
-    check('0. 旁白都是沒有人說話的（speaker null）、照舊沒有條號',[...K.wd,...K.sat,...Y.wd,...Y.sat].every(t=>['ev_bar_group_night','ev_bar_group_video'].some(id=>ev(id).dialogue.some(l=>l.text===t&&l.speaker===null)))&&!TX.some(t=>/第\s*[0-9一二三四五六七八九十百]+\s*條/.test(t)));
+    check('0. 旁白都是沒有人說話的（speaker null）、照舊沒有條號',[...K.wd,...K.sat,...Y.wd,...Y.sat,...T3.list].every(t=>['ev_bar_group_night','ev_bar_group_video'].some(id=>ev(id).dialogue.some(l=>l.text===t&&l.speaker===null)))&&!TX.some(t=>/第\s*[0-9一二三四五六七八九十百]+\s*條/.test(t)));
   });
 
   /* ======================= 1 芷若在英國的跨年 ======================= */
@@ -81,7 +84,7 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
     check('2-a 九句旁白各出現一次；k1～k4 各一次；其他都是收尾那兩句',[...K.wd,...K.sat].every(t=>flat.filter(x=>x===t).length===1)&&OLD_K.every(t=>flat.filter(x=>x===t).length===1)&&flat.filter(t=>![...K.wd,...K.sat,...OLD_K].includes(t)).every(t=>t===K.end.wd||t===K.end.sat));
     check('2-a 週六那兩句只在週六；收尾平日「（讀到十一點。）」、週六「（讀到傍晚。）」',R.filter(r=>K.sat.includes(r.L[0])||r.L[0]===K.end.sat).every(r=>r.sat)&&R.filter(r=>K.wd.includes(r.L[0])||r.L[0]===K.end.wd).every(r=>!r.sat)&&flat.includes(K.end.wd)&&flat.includes(K.end.sat));
     check('2-a 旁白沒有人說話（speaker null）；k1～k4 是可昕說的',R.filter(r=>!OLD_K.includes(r.L[0])).length>70&&R.filter(r=>!OLD_K.includes(r.L[0])).every(r=>r.W[0]===null)&&R.filter(r=>OLD_K.includes(r.L[0])).every(r=>r.W[0]!==null&&/可昕/.test(r.W[0])),J(R.slice(0,6).map(r=>r.W[0])));
-    check('2-a 計數：BAR_GROUP_KI＝場數、BAR_GROUP_KS＝第一輪以後的週六場數',G.flags.BAR_GROUP_KI===R.length&&G.flags.BAR_GROUP_KS===R.slice(4).filter(r=>r.sat).length,J([G.flags.BAR_GROUP_KI,G.flags.BAR_GROUP_KS,R.length]));
+    check('2-a 計數：BAR_GROUP_KI＝場數；旁白另開計數 BAR_GROUP_KN＝第一輪以後的平日場數、BAR_GROUP_KNS＝第一輪以後的週六場數（沒有 KS 了）',G.flags.BAR_GROUP_KI===R.length&&G.flags.BAR_GROUP_KN===R.slice(4).filter(r=>!r.sat).length&&G.flags.BAR_GROUP_KNS===R.slice(4).filter(r=>r.sat).length&&G.flags.BAR_GROUP_KS===undefined,J([G.flags.BAR_GROUP_KI,G.flags.BAR_GROUP_KN,G.flags.BAR_GROUP_KNS,R.length]));
   });
 
   /* ======================= 2-b 只有語彤 ======================= */
@@ -102,20 +105,28 @@ const model=(R,first4,T,firstExtra)=>{ let c=0, w=0, s=0; const exp=[]; for(cons
     check('2-c 語彤那幾晚照 2-2 的順序（第一次那三句，y1～y4，之後平日、週六各自照順序）',J(RY.map(r=>J(r.L)))===J(model(RY,OLD_Y,Y,YT_FIRST)),J(RY.slice(0,12).map(r=>(r.sat?'六':'')+r.L[0])));
   });
 
-  /* ======================= 2-d 舊存檔 ======================= */
+  /* ======================= 2-d 舊存檔（第 4 節 ③）======================= */
   await sec('2-d',async()=>{
     let G=await bar('kexin',{BAR_GROUP_KI:10,BAR_GROUP_N:10}); let R=await season(G,'2029-05-07','2029-05-12');
-    check('2-d 舊存檔（可昕 KI=10，沒有 KS）：平日接第 7 句（10 減 4）、週六從第 1 句開始',R.length>=3&&R[0].L[0]===K.wd[6]&&R.filter(r=>!r.sat).slice(1).every(r=>r.L[0]===K.end.wd)&&R.find(r=>r.sat).L[0]===K.sat[0],J(R.map(r=>r.k+r.L[0])));
+    check('2-d 舊存檔（可昕 KI=10，四句聽過好幾輪、沒有旁白的計數）：平日從第 1 句看起、下一晚第 2 句；週六也從第 1 句',R.length===4&&R[0].L[0]===K.wd[0]&&R[1].L[0]===K.wd[1]&&R[2].L[0]===K.wd[2]&&R[3].sat&&R[3].L[0]===K.sat[0],J(R.map(r=>r.k+r.L[0])));
     G=await bar('kexin',{BAR_GROUP_KI:3}); R=await season(G,'2029-05-07','2029-05-09');
-    check('2-d 舊存檔（KI=3）：第一輪還沒完，先 k4，再平日第 1 句',R.length===2&&R[0].L[0]===OLD_K[3]&&R[1].L[0]===K.wd[0],J(R.map(r=>r.L[0])));
+    check('2-d 舊存檔（KI=3）：第一輪還沒完（KI 沒到 4），先 k4，再平日第 1 句',R.length===2&&R[0].L[0]===OLD_K[3]&&R[1].L[0]===K.wd[0],J(R.map(r=>r.L[0])));
     G=await bar('yutong',{BAR_GROUP_YI:6,BAR_GROUP_YT_FIRST:D('2029-02-26')}); R=await season(G,'2029-05-07','2029-05-12');
-    check('2-d 舊存檔（語彤 YI=6）：平日接第 3 句、下一晚第 4 句；週六從第 1 句（總圖的長桌）',R.length>=3&&R[0].L[0]===Y.wd[2]&&R[1].L[0]===Y.wd[3]&&R.find(r=>r.sat).L[0]===Y.sat[0],J(R.map(r=>r.k+r.L[0])));
+    check('2-d 舊存檔（語彤 YI=6）：平日從第 1 句看起、下一晚第 2 句；週六從第 1 句（總圖的長桌）',R.length===4&&R[0].L[0]===Y.wd[0]&&R[1].L[0]===Y.wd[1]&&R[2].L[0]===Y.wd[2]&&R[3].sat&&R[3].L[0]===Y.sat[0],J(R.map(r=>r.k+r.L[0])));
+    G=await bar('three',{BAR_GROUP_KI:9,BAR_GROUP_YI:9,BAR_GROUP_N:18}); R=await season(G,'2029-05-07','2029-05-12');
+    check('2-d 舊存檔（三個人 KI=YI=9）：三個人的旁白從第 1 句看起',R.length===4&&J(R.map(r=>r.L[0]))===J([T3.list[0],T3.list[1],T3.list[2],T3.list[4]]),J(R.map(r=>r.k+(r.sat?'六':'')+r.L[0])));
   });
 
-  /* ======================= 2-e 三個人 ======================= */
+  /* ======================= 2-e 三個人（第 4 節 ②）======================= */
   await sec('2-e',async()=>{
-    const G=await bar('three'); const R=await season(G,'2029-02-26','2029-04-30'), flat=R.map(r=>r.L[0]);
-    check('2-e 三個人在麵店（kind three）：照舊一晚可昕、一晚語彤輪四句（待 AA 確認旁白）',R.length>=20&&R.every(r=>r.mode==='noodle'&&r.who==='three')&&flat.every((t,i)=>t===(i%2===0?OLD_K[(i/2)%4]:OLD_Y[((i-1)/2)%4])),J(flat.slice(0,10)));
+    const G=await bar('three'); const R=await season(G), flat=R.map(r=>r.L[0]);
+    check('2-e 三個人在麵店（kind three）：'+R.length+' 場都在麵店、每場一句',R.length>=80&&R.every(r=>r.mode==='noodle'&&r.who==='three'&&r.L.length===1),J(R.length));
+    check('2-e 第一輪照舊：k、y 輪流八次（可昕 k1、語彤 y1、k2、y2…）',J(flat.slice(0,8))===J([OLD_K[0],OLD_Y[0],OLD_K[1],OLD_Y[1],OLD_K[2],OLD_Y[2],OLD_K[3],OLD_Y[3]]),J(flat.slice(0,8)));
+    const used=[], exp=R.slice(8).map(r=>{ for(let i=0;i<6;i++){ if(used.includes(i)) continue; const w=T3.when[i]; if((w==='sat'&&!r.sat)||(w==='wd'&&r.sat)) continue; used.push(i); return T3.list[i]; } return r.sat?T3.end.sat:T3.end.wd; });
+    check('2-e 之後第 4 節的六句照順序各一次（第 4 句只在平日、第 5 句只在週六，輪到不能用的先留著），用完留收尾',J(flat.slice(8))===J(exp),J(R.slice(8,18).map(r=>r.k+(r.sat?'六':'')+r.L[0])));
+    check('2-e 六句都出現一次；「（十點，阿姨把燈關掉一半。…）」在平日、「（週六的長桌。…）」在週六；收尾平日「（讀到十點半，鐵門拉下來。）」、週六「（讀到傍晚。）」',T3.list.every(t=>flat.filter(x=>x===t).length===1)&&R.filter(r=>r.L[0]===T3.list[3]).every(r=>!r.sat)&&R.filter(r=>r.L[0]===T3.list[4]).every(r=>r.sat)&&R.filter(r=>r.L[0]===T3.end.wd).every(r=>!r.sat)&&R.filter(r=>r.L[0]===T3.end.sat).every(r=>r.sat)&&flat.includes(T3.end.wd)&&flat.includes(T3.end.sat));
+    check('2-e 三個人的時候不出現可昕視訊、語彤總圖那兩套旁白',!flat.some(t=>[...K.wd,...K.sat,...Y.wd,...Y.sat].includes(t)));
+    check('2-e 旁白沒有人說話；用過的記在 BAR_GROUP_3U',R.slice(8).every(r=>r.W[0]===null)&&J((G.flags.BAR_GROUP_3U||[]).slice().sort())===J([0,1,2,3,4,5]),J(G.flags.BAR_GROUP_3U));
   });
   H.done();
 })();
