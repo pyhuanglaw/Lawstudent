@@ -31922,7 +31922,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。"
+   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。 ｜ ④ 公館 LAWWW2 09:08 查到原因：立面約 4 萬三角形、雙面、主畫面和陰影各一次；只動 wz_street.py／gongguan_shops.glb（單面＋小細節不投影子），遠處簡化版先不做。"
   },
   {
    "id": "SIS-B11-1025",
@@ -32011,6 +32011,36 @@
    "source": "AA-B 2026-10-25 08:42（企劃線 3be31d3c8，outbox 64b5a64b3）；vac_sweep 交往中四位＋跨假期一字不差掃描；D99 第二優先",
    "authorized": "D99、D109、D111",
    "notes": "LAWWW-B 10-25 09:2x 子代理實作、審過（WIP 檢查點 3a607f406 就是完整版）：tests/aa457_vac_unit.js（舊程式 20 FAIL）；aa350_s S4、never_set_flags 4-10～4-13 照 AA_457 換期待；全部 Node 622 支 0 失敗。自定：每週＝從到英國那天起每七天（第一次週五、第二次週日），台灣 07:00；新句寫在 msg3d.js S.UK_WEEK（msg_pool.js 是產生的檔）。第一次在英國發 22 則、第二次 40 則。 ｜ AA-B 09:06 兩題答案已做（d809cdd21）：沛珊 homeBy 改 [節日][城市]（情人節、七夕台中；三月十四、聖誕台南；做十六歲、生日拿掉）；芷若 UK_LEAVE（2028-02-11、2029-08-25）＋UK_COUNT 三句照離開前第幾天、優先、不照月份。aa457 測試讀 d809cdd21、aa416 第 8 項照 3-1 節換字；相關測試全過。"
+  },
+  {
+   "id": "PERF-SINGLESIDE-GLB-1025",
+   "title": "環境 GLB 單面巡查（幾乎每個都是雙面材質：Blender 共用材質函式預設 cull=False）：順序照 D99——公館（PERF-PATROL-ECON ④）→ 溫州街 → 118 巷 → 社科圖 → 總圖 → 便利商店 → 體育館 → 美國校園 → 美國社區／超市／超市街 → 機場",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "經濟系開學走公館、溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-25 09:08 盤點（us_campus 13 萬、us_community／market／market_street 各約 10 萬、wenzhou_street 9.4 萬、soclib_interior 8.6 萬、airport_dep 7.7 萬、lane118 6.4 萬、gym 5 萬…）；LAWWW-B 09:1x 定順序",
+   "authorized": "D99、D108、D111",
+   "xai": {
+    "spec": "US-COMMUNITY-WEST-PERF、PERF-PATROL-ECON 的做法",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "每棟改前改後同角度截圖與 fps、三角形；外觀不退",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }
