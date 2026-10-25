@@ -14738,6 +14738,32 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-B 10-25 16:3x 套進開發分支；BB 在 69bb17f53 上 22 項 PASS"
+  },
+  {
+   "id": "DL-LW2-SINGLESIDE-3",
+   "date": "2026-10-25",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "bae544475",
+   "what": "LAWWW2 單面 GLB 第三份：溫州街、118 巷、體育館大廳木格柵雙面、便利商店促銷牌補反面",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-25 17:1x 套進開發分支（GLB＋patch）；相關 Node 測試 ALL PASS；待 BB 瀏覽器"
+  },
+  {
+   "id": "DL-LW2-WINDOW-DUSK",
+   "date": "2026-10-25",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "bae544475",
+   "what": "ART-HALL-WINDOW-DUSK-1025 黃昏窗景照片照光線疊成夜景（W3.photoFade）",
+   "task": "ART-HALL-WINDOW-DUSK-1025",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-25 17:1x 套進開發分支（GLB＋patch）；相關 Node 測試 ALL PASS；待 BB 瀏覽器"
   }
  ],
  "ignored": [

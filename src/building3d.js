@@ -36,7 +36,7 @@ const B3=(function(){
      平面放大（往下蓋過地面、往上蓋過屋頂、左右多 20 m）：原本斜著看或從樓梯往下看，會從平面邊緣和玻璃底下的縫看到天空。
      平面中心高度＝拍照的鏡頭高度（照片的地平線）；照片還沒載入就用原本程序化的 outsideTex。萬才館（src/wancai3d.js）也用這兩個函式 */
   function outView(kind,photo,w,h,x,yc,z,ry,depth,grp){ const m=W3.windowMat(depth); const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m); p.position.set(x,yc,z); p.rotation.y=ry; p.userData.outside=kind; p.userData.photo=photo; setOutView(p,11,'sunny',false); grp.add(p); return p; }
-  function setOutView(o,h,weather,night){ const ph=W3.viewPhoto(o.userData.photo,night); W3.setWindowView(o.material,o.userData.photo,night,outsideTex(o.userData.outside,night),ph?W3.photoTint(h,weather==='rain'):0xffffff); }
+  function setOutView(o,h,weather,night){ const ph=W3.viewPhoto(o.userData.photo,night); W3.setWindowView(o.material,o.userData.photo,night,outsideTex(o.userData.outside,night),ph?W3.photoTint(h,weather==='rain'):0xffffff,ph&&W3.photoFade?W3.photoFade(h):0); }
 
   // ---- 樓梯的高度：從最下面那一階的邊緣（和地面／平台同高）連續斜上到最上面那一階踏面的中心（接縫沒有落差；
   //      踏面邊緣和斜面最多差半階 8.4 cm，腳的高度之後用 IK 補）。第一版的斜面在接縫有 8.4 cm 落差，加上坡度超過人物允許的高低差，走到樓梯底就卡住（tests/nav_buildings_unit.js 抓到）----

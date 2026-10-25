@@ -1,6 +1,6 @@
 // 體育館三個室內 GLB 單面（PERF-SINGLESIDE-GLB-1025 第二份，LAWWW2-B 2026-10-25）——不需要瀏覽器，讀 GLB。
 //   同一頁全部改單面的上限：3F 主球場 1.55→2.3、1F 大廳 3.6→4.6、B1 5.0→6.0（Z3.attachRoomGLB 把 WALL_* 設成 transparent，雙面又半透明要畫兩次）。
-//   1. gym_interior、gym_b1、gym_arena 除了玻璃都單面；玻璃照舊雙面；
+//   1. gym_interior、gym_b1、gym_arena 除了玻璃都單面；玻璃照舊雙面；大廳的木格柵（gym_wood）照舊雙面（LAWWW-B 10-25：單面以後木條的條紋放大看有斜波紋，近景）；
 //   2. 開口的零件補了反面（每個三角形都有反過來的分身）：主球場的看台踢面、盆栽葉片卡；B1 的盆栽葉片卡；大廳的石牆；
 //   3. 原本就單面的天花板、屋頂（朝下：鏡頭超過天花板高度時看得穿）沒有補朝上的那一面；
 //   4. B1 的器材（gym_b1_props.glb 22 件）、櫃台置物櫃（gym_b1_entry.glb 8 件）都在——匯出時少了這兩個檔，腳本會安靜地跳過（第一次重匯就少了 1.7 萬個三角形）；
@@ -20,8 +20,9 @@ function paired(G,re){ let ok=0, nt=0; for(const x of G.prims){ if(!re.test(x.ma
     for(let t=0;t<n;t++){ const a=key(t*3), b=key(t*3+1), c=key(t*3+2); tri.push([a,b,c]); set.add([a,b,c].join('|')); }
     for(const [a,b,c] of tri) if([[a,c,b],[c,b,a],[b,a,c]].some(r=>set.has(r.join('|')))) ok++; nt+=n; } return [ok,nt]; }
 const GL={ gym_interior:load('gym_interior'), gym_b1:load('gym_b1'), gym_arena:load('gym_arena') };
-for(const [k,G] of Object.entries(GL)){ const ds=G.mats.filter(m=>m.doubleSided&&!/glass/.test(m.name)).map(m=>m.name), gl=G.mats.filter(m=>/glass/.test(m.name));
-  check('1. '+k+'：除了玻璃都單面（'+G.mats.length+' 個材質）；玻璃照舊雙面', !ds.length&&gl.length>0&&gl.every(m=>m.doubleSided), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.map(m=>m.name).join(' ')); }
+const KEEP2={gym_interior:/^gym_wood$/};
+for(const [k,G] of Object.entries(GL)){ const kp=KEEP2[k], ds=G.mats.filter(m=>m.doubleSided&&!/glass/.test(m.name)&&!(kp&&kp.test(m.name))).map(m=>m.name), gl=G.mats.filter(m=>/glass/.test(m.name)), kk=kp?G.mats.filter(m=>kp.test(m.name)):[];
+  check('1. '+k+'：除了玻璃'+(kp?'、木格柵':'')+'都單面（'+G.mats.length+' 個材質）；玻璃'+(kp?'、木格柵':'')+'照舊雙面', !ds.length&&gl.length>0&&gl.every(m=>m.doubleSided)&&kk.every(m=>m.doubleSided)&&(!kp||kk.length===1), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.concat(kk).map(m=>m.name+(m.doubleSided?'':'(單面)')).join(' ')); }
 const P2=[['主球場 看台踢面',GL.gym_arena,/^arena_riser$/],['主球場 葉片卡',GL.gym_arena,/^arena_pl_leaf_/],['B1 葉片卡',GL.gym_b1,/^b1_pl_leaf_/],['大廳 石牆',GL.gym_interior,/^gym_stone_wall$/]];
 const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
 check('2. 開口的零件有反面（至少一半的三角形有反過來的分身）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));

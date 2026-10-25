@@ -4,7 +4,8 @@
 //   1. 社科圖、總圖大廳、便利商店的材質除了玻璃都是單面（glTF doubleSided false）；玻璃照舊雙面；
 //   2. 開口的零件補了反面（每個三角形都有反過來的分身）：總圖的葉片卡（室內樹、盆栽）、樓梯踏面；社科圖的天井、竹子；便利商店的牆面；
 //   3. 原本就單面的天花板（朝下：鏡頭超過天花板高度時看得穿，剖面視角）沒有補朝上的那一面——第一次試便利商店，從高處看整片擋住；
-//   4. 背面看不到的沒有補：社科圖的書、便利商店架上的商品（三角形數和改前一樣）。
+//   4. 背面看不到的沒有補：社科圖的書、便利商店架上的商品（三角形數和改前一樣；便利商店只多端架促銷牌的背面 8 個）；
+//   5. 便利商店端架的 4 張促銷牌有背面（BB-B 10-25：材質改單面以後，從貨架另一頭看促銷牌整片不見；只給促銷牌補一片反面，商品貼圖集照舊單面）。
 // 修改前 FAIL。用法：node tests/singleside_interiors_unit.js
 const fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -28,5 +29,6 @@ const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
 check('2. 開口的零件有反面（至少一半的三角形有反過來的分身；封閉的部分不需要）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
 const [cok,cnt]=paired(GL.cvs,/^cvs_ceiling$/), ceil=GL.cvs.mats.find(m=>m.name==='cvs_ceiling');
 check('3. 便利商店的天花板沒有補朝上的那一面（照舊單面朝下，高處看得穿）', ceil&&!ceil.doubleSided&&cnt>0&&cok===0, 'cvs_ceiling '+cok+'/'+cnt);
-check('4. 社科圖的書、便利商店的商品沒有補反面（三角形數和改前一樣：44,362、47,172）', tris(GL.soclib,/^soclib_books$/)===44362&&tris(GL.cvs,/^cvs_goods_atlas$/)===47172, tris(GL.soclib,/^soclib_books$/)+' / '+tris(GL.cvs,/^cvs_goods_atlas$/));
+check('4. 社科圖的書、便利商店的商品沒有補反面（三角形數：44,362、47,172＋促銷牌背面 8）', tris(GL.soclib,/^soclib_books$/)===44362&&tris(GL.cvs,/^cvs_goods_atlas$/)===47180, tris(GL.soclib,/^soclib_books$/)+' / '+tris(GL.cvs,/^cvs_goods_atlas$/));
+{ const [ok,nt]=paired(GL.cvs,/^cvs_goods_atlas$/); check('5. 便利商店端架的 4 張促銷牌有背面（前後各 8 個三角形互為反面；其他商品沒有）', ok===16, ok+'/'+nt); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
