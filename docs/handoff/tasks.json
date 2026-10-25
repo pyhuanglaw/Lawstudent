@@ -31967,6 +31967,28 @@
    "source": "BB-B 10-25 06:20 R34_SNOW_R3B（v9.10.10 判定前回報；BB 分支 2e391d324）",
    "authorized": "D85、D111",
    "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。 ｜ v9.10.10 候選改成 3acaf8bea：全部 Node 618 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 06:3x，乾淨 worktree）。"
+  },
+  {
+   "id": "VAC-READ2-1025",
+   "title": "法律系寒暑假再讀（AA_456）：跨年阿哲那句、麵店公休、沒去的同學回覆、阿哲回高雄、期末邀約那句、子晴每月那則——四年一字不差的照年份換（tag 不變、不加數值）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW-B 子代理實作；之後 BB 瀏覽器（v9.10.10 之後那一版）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 18,
+    "earliest": "大一寒假（跨年、過年）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 07:59（企劃線 71f260ecc，outbox 343dadc88）；vac_sweep 7 存檔 × 8 假期 0 錯誤＋跨假期一字不差掃描；D99 第二優先",
+   "authorized": "D99、D109、D111",
+   "notes": ""
   }
  ]
 }
