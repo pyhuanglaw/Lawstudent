@@ -3072,6 +3072,22 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "總圖 B1 原本就自己固定光線，加標記畫面不變"
+  },
+  {
+   "task": "US-AIRPORT-DUSK-1025：桃園機場窗外遠景和屋外同一刻天黑（LAWWW-B 10-25 02:0x 派工 ①）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_airport_dusk_1025.patch（對 b8a6934e7；src/us3d.js apOutside、tests/airport_cam_unit.js 18:30 期望照新規則、新 tests/us_airport_dusk_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/us_airport_dusk_1025（README、改前改後兩張）"
+   ],
+   "state": "已交付；apOutside 收到的本來就是光線時刻，問題是自己寫死 17～19、亮度 35% 就換夜景（光線 18.3，日落前）。改成亮度＝1−nk（引擎同一公式）、換夜景＝臺灣大廳窗景（≥19.2 或 <6）。us_airport_dusk_unit 改前 FAIL 6 → ALL PASS；airport_cam_unit 新版改前 2 FAIL → ALL PASS；12/23 05:40 入境暗、8/2 07:00 出境亮；12 張截圖 errors 0、draw call 不變",
+   "remaining": "日落前調暗的白天景偏藍灰、不偏暖（原本的 AP_NIGHT，要的話照 VT 18.2 加暖色列）；早上 6:00 換回白天那塊會跳一下（亮度一半，和大廳窗景同一刻）；沒跑整套回歸、實機",
+   "next": "LAWWW-B 套 patch、跑 us_airport_dusk_unit、airport_cam_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "沒碰 engine3d.js"
   }
  ]
 }
