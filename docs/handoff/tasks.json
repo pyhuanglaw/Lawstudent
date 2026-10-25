@@ -31713,6 +31713,66 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-25 01:5x 合：patches window_night_sync_v2_1025、windowless_night_1025（engine3d.js applyTime 兩處只對 def.windowless；gym3d、library_b1_3d windowless:true；rooms_glb3d 窗數 0 自動 windowless）；相關 Node 全過、全套背景跑。"
+  },
+  {
+   "id": "US-AIRPORT-DUSK-1025",
+   "title": "機場（桃園出境／入境）窗外遠景照季節天色變暗：src/us3d.js apOutside() 固定 17～19 → 照 E.lightH",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做 patch＋README＋outbox",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國路線 8/2 07:00 桃園出境；12/23 05:40 入境",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-25 02:0x 派工（WINDOWLESS-NIGHT-1025 記錄未修、BB v9.10.9 判定附註）",
+   "authorized": "D99 第三優先、D108、D111",
+   "xai": {
+    "spec": "派工訊息 10-25 02:0x",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "單元測試改前 FAIL；12/23 05:40 入境暗、8/2 07:00 出境亮；同鏡頭截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
+  },
+  {
+   "id": "US-COMMUNITY-WEST-PERF-1025",
+   "title": "美國社區西邊出口往西 fps 拉回（v9.10.9 加街道、公車站、對面平房後 SwiftShader 6.1 → 3.8）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 做 patch＋README＋outbox",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/3 社區",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-25 02:0x 派工（WINDOWLESS-NIGHT-1025 記錄未修、BB v9.10.9 判定附註）",
+   "authorized": "D99 第三優先、D108、D111",
+   "xai": {
+    "spec": "派工訊息 10-25 02:0x",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "同角度 fps 回到 5.5 以上、外觀不退回方塊；改前改後截圖、三角形數",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": ""
   }
  ]
 }
