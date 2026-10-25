@@ -3019,8 +3019,27 @@
    "next": "LAWWW-B 換 gym_b1.glb＋gym_b1.json、帶進 gym_b1.py／gym_tex.py／貼圖、跑 tests/gym_b1_fitness_unit.js",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACTIONED（LAWWW-B 10-25 00:10：已整合 32ddad549；gym_*、ground_zfight、nav_buildings 全過；登記 GYM-B1-FITNESS-1024、DL-LW2-GYM-B1-FITNESS）",
    "note": "順便修大廳開館時間牌、公告欄（原本貼在框後面看不到、字左右相反）"
+  },
+  {
+   "task": "SIGN-AUDIT-1025：有字的牌子掃一遍（B1 大廳牌子貼在框後面引起）＋3F 舞台深色木地板（D112 漏掉）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "db5c09e23",
+   "files": [
+    "assets/models/env/second_ai/airport_dep.glb（換匯看板 UV）、us_community.glb（公車站牌 UV）、gym_arena.glb＋.json（舞台紅地毯、深紅裙板）",
+    "tools/blender/env_second/airport_t2.py、us_community.py、gym_arena.py（開發那份 airport_t2／gym_arena 是舊版，這份包含它）",
+    "tools/blender/env_second/check_signs.py（新工具）",
+    "tests/sign_audit_1025_unit.js（新）",
+    "docs/art-rebuild/second_ai/test_shots/sign_audit_1025（README、改前改後兩張）"
+   ],
+   "state": "已交付；只換 GLB；sign_audit_1025_unit 改前 FAIL 5 → ALL PASS；gym_arena、gym_ceremony、airport_cam、us_lamp_pools ALL PASS；遊戲內 7 個鏡頭 errors 0、draw call 不變",
+   "remaining": "沒跑整套回歸、實機；演講、演唱會布置打開時的舞台沒拍（同一個材質）；118 巷七家＋定食店收銀機店員那面螢幕被機身包住（只記錄）",
+   "next": "LAWWW-B 換三份 GLB、帶進腳本、跑 tests/sign_audit_1025_unit.js",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "舞台改紅地毯＝和開學典禮 2D 背景 v3 一致；演唱會帳篷頂照舊黑色"
   }
  ]
 }
