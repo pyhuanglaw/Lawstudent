@@ -32189,7 +32189,7 @@
    "title": "美國交往中週末 14:00 快轉停點沒事也停（去過的週日、10/7～8、11/4）：S.nextStop 只在 US208.due 而且這週末還沒演時停",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "next": "v9.10.10 發布後",
    "priority": "P3",
    "first": {
@@ -32204,7 +32204,7 @@
    },
    "source": "BB-B 10-25 11:0x RELEASE-91010-TEST 附註③",
    "authorized": "D85、D111",
-   "notes": ""
+   "notes": "LAWWW-B 10-25 13:0x 起在隔離 worktree 子代理修（分支 bug-us-wknd，基底 661423a71；v9.10.10 發布後合併）。"
   },
   {
    "id": "ART-HALL-WINDOW-DUSK-1025",
