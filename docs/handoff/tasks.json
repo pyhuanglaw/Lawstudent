@@ -31989,6 +31989,28 @@
    "source": "AA-B 2026-10-25 07:59（企劃線 71f260ecc，outbox 343dadc88）；vac_sweep 7 存檔 × 8 假期 0 錯誤＋跨假期一字不差掃描；D99 第二優先",
    "authorized": "D99、D109、D111",
    "notes": "LAWWW-B 10-25 08:2x 子代理實作、審過：tests/aa456_vac_unit.js 38 項（舊程式 23 FAIL）；8 支既有測試只換寫死的舊句（註明 AA_456）；全部 Node 619 支 0 失敗。自定：1-6 照「收到的第幾個月」輪（稿寫第 1 個月原句、第 5 個月起再輪），不照日曆月份；六項都沒有經濟系版本。tag 都不變。"
+  },
+  {
+   "id": "VAC-READ3-1025",
+   "title": "寒暑假重複第二輪（AA_457）：芷若在英國每天一則改每週一則＋照月份新句（同一次在英國每句只發一次）、語彤裂縫 yt2 開頭照第幾次四組輪流、沛珊在台南節日 homeBy 照節日",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW-B 子代理實作；之後 BB 瀏覽器（v9.10.10 之後那一版）",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 0,
+    "earliest": "芷若去英國（2027-09）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 08:42（企劃線 3be31d3c8，outbox 64b5a64b3）；vac_sweep 交往中四位＋跨假期一字不差掃描；D99 第二優先",
+   "authorized": "D99、D109、D111",
+   "notes": ""
   }
  ]
 }
