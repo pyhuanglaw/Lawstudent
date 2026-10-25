@@ -31908,7 +31908,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "①②③⑤ 已整合（LAWWW-B 08:4x）→ BB 瀏覽器：博雅大廳往北、普通、校門、大道 fps（perf_route.py）；博雅白天晚上、二樓、階梯教室外觀；校園外圍有沒有破洞。④ 公館店面 LAWWW2 繼續；⑥ 路人 18 m LAWWW-B 已定（看 07／08 比較圖看不出差別），LAWWW2 量完 fps 出 patch",
+   "next": "①②③⑤⑥ 已整合（待 BB 新候選測）；④ 公館不交；遠處立面簡化版暫緩",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31930,7 +31930,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。 ｜ ④ 公館 LAWWW2 09:08 查到原因：立面約 4 萬三角形、雙面、主畫面和陰影各一次；只動 wz_street.py／gongguan_shops.glb（單面＋小細節不投影子），遠處簡化版先不做。"
+   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。 ｜ ④ 公館 LAWWW2 09:08 查到原因：立面約 4 萬三角形、雙面、主畫面和陰影各一次；只動 wz_street.py／gongguan_shops.glb（單面＋小細節不投影子），遠處簡化版先不做。 ｜ ④ 公館 LAWWW2 10:56（4ca54bfe2）：不交 GLB——單面會讓鐵窗、盆栽消失，補反面後 fps 沒差（2.1→2.2）；小零件不投影量不出來；貴的是立面三角形本身。③ 遠處立面簡化版 LAWWW-B 先不做（室內巡查之後再評估）。"
   },
   {
    "id": "SIS-B11-1025",
@@ -32024,10 +32024,10 @@
   },
   {
    "id": "PERF-SINGLESIDE-GLB-1025",
-   "title": "環境 GLB 單面巡查（幾乎每個都是雙面材質：Blender 共用材質函式預設 cull=False）：順序照 D99——公館（PERF-PATROL-ECON ④）→ 溫州街 → 118 巷 → 社科圖 → 總圖 → 便利商店 → 體育館 → 美國校園 → 美國社區／超市／超市街 → 機場",
+   "title": "環境 GLB 單面巡查——先在同一頁切換單面量上限、10% 以上才做：室內（attachFormal／attachRoomGLB 設 transparent 的 WALL_* 雙面要畫兩次）先：社科圖 → 總圖 → 便利商店 → 體育館；街景（溫州街、118 巷、美國）後量",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "next": "LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
@@ -32048,9 +32048,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "每棟改前改後同角度截圖與 fps、三角形；外觀不退",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "notes": ""
+   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。"
   },
   {
    "id": "TERM-READ-Y1S1-1025",
