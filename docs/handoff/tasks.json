@@ -32257,6 +32257,28 @@
    "source": "AA-B 2026-10-25 11:02（企劃線 81bee6b83，outbox 997302d3c）；八種存檔 9/6～12/26；AA_458、AA_457 在遊戲裡已確認",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "AA458-S7-MOON-1025",
+   "title": "AA_458 第 7 節：中秋那兩則每年發的話，2026～2028 媽媽、爸爸的照片各換一張（2028 爸爸多一句「這張最清楚」）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 4,
+    "earliest": "大二上中秋（2026）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:08（企劃線 ae13fa69e，AA_458 第 7 節）",
+   "authorized": "D109、D111",
+   "notes": ""
   }
  ]
 }
