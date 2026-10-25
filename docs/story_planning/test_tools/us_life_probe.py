@@ -20,6 +20,7 @@ HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; if(
   const oc=ADV.cg; ADV.cg=function(id){ try{ window.__LOG.push({n:'CG',t:'CG:'+id, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return oc.apply(this,arguments); };
   const ot=GAME.toast; GAME.toast=function(x){ try{ window.__LOG.push({n:'TOAST',t:'TOAST:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ot.apply(this,arguments); };
   if(GAME.caption){ const ocp=GAME.caption; GAME.caption=function(x){ try{ window.__LOG.push({n:'CAPTION',t:'CAPTION:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ocp.apply(this,arguments); }; } })()"""   # 2026-10-21 AA370：提示（亞洲超市公休）、字幕（208 的門關著）也記
+DRAIN_ASKS = {}
 async def drain(pg, cdp, pref=None, secs=120):
     t0 = time.time()
     while time.time() - t0 < secs:
@@ -36,7 +37,11 @@ async def drain(pg, cdp, pref=None, secs=120):
             if MID['n'] < 3 and MID['run'] and any(k in (s.get('dtext') or '') for k in MID['keys']):
                 MID['n'] += 1; await MID['run'].shot(pg, 'mid_%s_%d' % (MID['id'], MID['n']))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
-        if await phone_open(pg): await close_phone(pg); continue   # BB-B 10-23：手機自己打開時人物也是 busy，原本先等 busy＝手機永遠不收（US370_k23 卡在 09:02）
+        if await phone_open(pg):   # BB-B 10-23：手機自己打開時人物也是 busy，原本先等 busy＝手機永遠不收（US370_k23 卡在 09:02）
+            # BB-B 10-25 07:5x：臺灣學期中的快轉（semff3d.js S.menu）停在要回的訊息＝自己打開手機、關掉就接著跳（D103）＝先照 ffloop 的 asks 回，再關（R37_ABS_* 原本直接關掉＝沒回就跳到 4/10）
+            if DRAIN_ASKS and await pg.evaluate("PHONE.pending(GAME.G).length"): await answer(pg, cdp, DRAIN_ASKS)
+            if await phone_open(pg): await close_phone(pg)
+            continue
         if s['busy']: await pg.wait_for_timeout(600); continue
         await pg.wait_for_timeout(1000); s = await L.state(pg)
         if not (s['dlg'] or s['choices'] or s['busy']): return True
@@ -347,6 +352,7 @@ async def go_class(pg, cdp, run, sc):
     ok = await use(pg, cdp, run, '^去上課'); return ok
 async def ffloop(pg, cdp, run, sc, until_key, until_h, n=30):
     """一直快轉到 until；中間有「去上課」就去上課（玩家會去）"""
+    global DRAIN_ASKS; DRAIN_ASKS = sc.get('asks') or {}   # drain 遇到手機自己打開時照這個回（見 drain）
     await pg.evaluate("(()=>{ if(typeof STORY!=='undefined'&&STORY.tick&&!STORY.__bbTick){ const t0=STORY.tick; STORY.tick=function(){ window.__ST=(window.__ST|0)+1; return t0.apply(this,arguments); }; STORY.__bbTick=1; } })()")   # 數 STORY.tick 跑了幾次（不改行為）
     for i in range(n):
         # BB-B 10-23 17:3x：停下來以後等遊戲的劇情檢查（STORY.tick，每 30 格一次）至少跑過一次再看——手機訊息、出遊提醒都在那裡發。
