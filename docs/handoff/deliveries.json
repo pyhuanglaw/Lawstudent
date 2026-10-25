@@ -14242,8 +14242,8 @@
    "what": "AA_448 美國交換程式文字盤點：換季日子兩處、初雪 bg、要的四張背景",
    "task": "QA-TRANSCRIPT-US-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 15:1x 整合；outbox 5f5cede5e"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 15:1x 整合；outbox 5f5cede5e ｜ 10-25 03:2x：AA_448 1-1、1-2、初雪 bg 在 v9.10.9 BB 判定第 ⑪ 項 PASS（RELEASE-9109-TEST）"
   },
   {
    "id": "DL-LW2-US-ROUTE-NIGHT",
@@ -14333,8 +14333,8 @@
    "what": "AA_450 美國交換逐日劇本（交往中）讀後 11 項",
    "task": "US-READ-DATING-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 23:2x 整合（138a74c0d）；outbox 2b831566f"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 23:2x 整合（138a74c0d）；outbox 2b831566f ｜ 10-25 03:2x BB 三份劇本 AA_450 六件 PASS（ec98a8836）"
   },
   {
    "id": "DL-LW2-WINDOW-NIGHT-SYNC",
