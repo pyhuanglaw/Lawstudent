@@ -14348,6 +14348,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-B 10-24 23:2x 整合；a14fb6bfc 是 outbox／README；BB-B 10-24 23:46 瀏覽器 PASS"
+  },
+  {
+   "id": "DL-LW2-GYM-B1-FITNESS",
+   "date": "2026-10-25",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c6c631868",
+   "what": "B1 健身中心不再單調（gym_b1.glb 重新匯出＋貼圖、測試）",
+   "task": "GYM-B1-FITNESS-1024",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-25 00:1x 整合；3486247a3 是 outbox／HANDOFF"
   }
  ],
  "ignored": [
