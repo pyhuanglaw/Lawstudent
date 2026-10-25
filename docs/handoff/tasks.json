@@ -31692,8 +31692,8 @@
    "title": "路線巡查⑤美國交換的傍晚＋窗景同步 v2（美國公寓窗景、法圖天窗 19.5→19.2；臺灣七棟大廳窗景 18.6→19.2）＋沒有窗的室內晚上不變暗（體育館 B1、總圖 B1、視聽室、美國法圖 2F）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：美國 11/23 17:54 公寓窗景、法圖天窗和屋外同一刻暗；臺灣霖澤館／宿舍／總圖等大廳 12/10 17:45 前後窗景跟屋外；四個沒窗的室內 21:00＝14:00；記錄未修：桃園機場窗外 18.3 起換夜景（日落前）",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -31714,15 +31714,16 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-25 01:5x 合：patches window_night_sync_v2_1025、windowless_night_1025（engine3d.js applyTime 兩處只對 def.windowless；gym3d、library_b1_3d windowless:true；rooms_glb3d 窗數 0 自動 windowless）；相關 Node 全過、全套背景跑。 ｜ 10-25 02:2x：全部 Node 609 支 0 失敗（eaeefdc4b＋b8a6934e7）；BB 排 R33（02:0x ACK）。"
+   "notes": "LAWWW-B 10-25 01:5x 合：patches window_night_sync_v2_1025、windowless_night_1025（engine3d.js applyTime 兩處只對 def.windowless；gym3d、library_b1_3d windowless:true；rooms_glb3d 窗數 0 自動 windowless）；相關 Node 全過、全套背景跑。 ｜ 10-25 02:2x：全部 Node 609 支 0 失敗（eaeefdc4b＋b8a6934e7）；BB 排 R33（02:0x ACK）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R33 窗景 v2、沒窗室內；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-AIRPORT-DUSK-1025",
    "title": "機場（桃園出境／入境）窗外遠景照季節天色變暗：src/us3d.js apOutside() 固定 17～19 → 照 E.lightH",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：12/23 05:40 桃園入境窗外暗、夜景；8/2 07:00 出境亮；冬天 16:55、夏天 18:40 日落前還是白天那塊",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31744,15 +31745,16 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "LAWWW2-B 10-25 02:12 交（0d8a64275，patches/us_airport_dusk_1025.patch 對 b8a6934e7；README test_shots/us_airport_dusk_1025）；LAWWW-B 02:5x 整合：us_airport_dusk（改前 FAIL 6）、airport_cam（18:30 改白天、19:12 夜景）、window_night_sync、season_dusk、after_midnight 等 14 支 ALL PASS。只記錄：日落前調暗的白天景偏藍灰；早上 6:00 換回白天會跳一下。"
+   "notes": "LAWWW2-B 10-25 02:12 交（0d8a64275，patches/us_airport_dusk_1025.patch 對 b8a6934e7；README test_shots/us_airport_dusk_1025）；LAWWW-B 02:5x 整合：us_airport_dusk（改前 FAIL 6）、airport_cam（18:30 改白天、19:12 夜景）、window_night_sync、season_dusk、after_midnight 等 14 支 ALL PASS。只記錄：日落前調暗的白天景偏藍灰；早上 6:00 換回白天會跳一下。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R33b 機場窗外遠景；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-COMMUNITY-WEST-PERF-1025",
    "title": "美國社區西邊出口往西 fps 拉回（v9.10.9 加街道、公車站、對面平房後 SwiftShader 6.1 → 3.8）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 用 tools/blender/env_second/shots/perf_us_community_west.py 重量：出口 (−39,0) 往西橫向、直向 fps（v9.10.9 6.1→3.8；LAWWW2 沙盒 3.2→4.0、照比例估 5.6～6.1）；四季外觀看不出差別",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31774,15 +31776,16 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "LAWWW2-B 10-25 03:44 交（ac5c0f990；README test_shots/us_community_west_perf_1025）：原因是地面雙面薄板＋草地墊在柏油、人行道、停車場底下（同一處畫好幾層）；改地面單面、草地只鋪看得到的地方，樹房子沒動。LAWWW-B 03:5x 整合（只換 GLB＋腳本＋測試）：us_community_perf（改前 FAIL 5）、us_season、sign_audit_1025、us_lamp_pools、exch_min、nav_us ALL PASS。不進 v9.10.10（候選凍結 ad5251364）。"
+   "notes": "LAWWW2-B 10-25 03:44 交（ac5c0f990；README test_shots/us_community_west_perf_1025）：原因是地面雙面薄板＋草地墊在柏油、人行道、停車場底下（同一處畫好幾層）；改地面單面、草地只鋪看得到的地方，樹房子沒動。LAWWW-B 03:5x 整合（只換 GLB＋腳本＋測試）：us_community_perf（改前 FAIL 5）、us_season、sign_audit_1025、us_lamp_pools、exch_min、nav_us ALL PASS。不進 v9.10.10（候選凍結 ad5251364）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：美國社區往西 fps +22～31%、外觀一樣；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-READ-NOLONG-1025",
    "title": "美國交換逐日劇本（交往中、沒見過何俊朗）讀後修正（AA_451）：芝加哥巴士上認識他（MET_LONG＋LONG_CHI）、12/16「還好？你學我。」、一直沒見過的「同一組的交換生」換字、媽媽 12/17 在舊金山收到",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器：沒見過何俊朗的存檔 11/11 芝加哥開頭巴士五句、之後何俊朗版；12/16 選「還好。」；12/8 最後一堂、Legal Writing 第二句；舊金山那一週 12/17 收到媽媽「棉被曬過了。」（飛回臺灣以前）",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -31796,15 +31799,16 @@
    },
    "source": "AA-B 2026-10-25 02:2x（企劃線 14ee5d2a7，outbox 3c4a100de）；讀 BB 劇本 qa/美國交換逐日劇本_交往中_沒見過何俊朗.md（29b4e87a7）；D99 第三優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 02:4x 實作：tests/aa451_us_unit.js（舊程式 6 FAIL）；aa370 L1、aa412 C 兩支照 AA_451 換期待。1-3 採 AA 建議：舊金山那一週（r2y4a3d S.leave 一個劇情跑完就飛回）每天先跑手機規則，回臺灣以後不補（S.here 已經不成立）。9/10～10/6 太空：AA 判斷不補。 ｜ 全部 Node 610 支 0 失敗（乾淨 worktree 658704309）。"
+   "notes": "LAWWW-B 10-25 02:4x 實作：tests/aa451_us_unit.js（舊程式 6 FAIL）；aa370 L1、aa412 C 兩支照 AA_451 換期待。1-3 採 AA 建議：舊金山那一週（r2y4a3d S.leave 一個劇情跑完就飛回）每天先跑手機規則，回臺灣以後不補（S.here 已經不成立）。9/10～10/6 太空：AA 判斷不補。 ｜ 全部 Node 610 支 0 失敗（乾淨 worktree 658704309）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R34 AA_451；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-READ-REPAIR-1025",
    "title": "美國交換逐日劇本（挽回中）讀後修正（AA_452）：12/2 初雪被快轉跳過（改排進行程、19:45 問出發）、何俊朗群組換字、9/13 鍋子、感恩節湖邊開頭、機場媽媽、10/4 筆記換句、返台字卡",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器（挽回中）：12/2 18:00 群組兩句、快轉停 19:45 問「出發：初雪」→ 演；不去了＝沒演；9/13、11/23、12/23、10/4 的句子；12/21 字卡「舊金山轉機」",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -31818,15 +31822,16 @@
    },
    "source": "AA-B 2026-10-25 02:41（企劃線 8d9910961，outbox 433dd69a3）；讀 BB 劇本 qa/美國交換逐日劇本_挽回中.md（fc1642184）；D99 第三優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 03:0x 實作：tests/aa452_us_unit.js（舊程式 10 FAIL）；r2y4a_events N2／N3、aa370 M3、us_life S11 照 AA_452 換期待。1-1 選 AA 的第一個做法（照交往中排行程）；late 3（到 23:00）和原本自動到場的時段一樣；舊存檔（訊息已傳、沒行程）照舊 20:00 自動到場。 ｜ 全部 Node 612 支 0 失敗（乾淨 worktree ad5251364，含 AA_451、機場窗外）。BB 排 R34b（挽回中初雪三種）、trx_alone5 重跑（2090c3477）。 ｜ 10-25 06:3x AA_452 第 4 節（2c75de1bc，讀 BB 重跑 b28d82e70）：初雪重新開始 CG 後加「（她往旁邊挪了一點，讓出半階台階。……）」＋交往中 SNOW_END（計畫本「雪」）；aa452 第 4 節測試（舊程式 FAIL）。"
+   "notes": "LAWWW-B 10-25 03:0x 實作：tests/aa452_us_unit.js（舊程式 10 FAIL）；r2y4a_events N2／N3、aa370 M3、us_life S11 照 AA_452 換期待。1-1 選 AA 的第一個做法（照交往中排行程）；late 3（到 23:00）和原本自動到場的時段一樣；舊存檔（訊息已傳、沒行程）照舊 20:00 自動到場。 ｜ 全部 Node 612 支 0 失敗（乾淨 worktree ad5251364，含 AA_451、機場窗外）。BB 排 R34b（挽回中初雪三種）、trx_alone5 重跑（2090c3477）。 ｜ 10-25 06:3x AA_452 第 4 節（2c75de1bc，讀 BB 重跑 b28d82e70）：初雪重新開始 CG 後加「（她往旁邊挪了一點，讓出半階台階。……）」＋交往中 SNOW_END（計畫本「雪」）；aa452 第 4 節測試（舊程式 FAIL）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R34b 挽回中初雪三種＋R2_END（舊金山轉機、媽媽在揮手）＋AA_452 第 4 節、挽回中逐日劇本補 met_sis 重跑；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-READ-DATING2-1025",
    "title": "美國交換逐日劇本（交往中、見過何俊朗，新版）讀後（AA_453）：8/25 學姊美國七夕沒出現（查快轉停點）、七夕有排時 8/26 兩場學姊互相知道、9/13 退回的報告改要回＋排出遊",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器（交往中、有 met_sis 的存檔）：8/25 17:00 七夕停點＋當面約；8/25 21:00 私訊「市集逛完，下午去圖書館。課表帶著。」；8/26 圖書館第一句桃子；9/13 18:00 回「我過去。」→「樓下的門，按 208。」→ 快轉停 18:10 問「出發：C 棟・廚房」→ C 棟演 ev_us2_kitchen；回「今天不行。」→ 20:00 那則照舊。BB 探針底檔要補 met_sis",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -31840,15 +31845,16 @@
    },
    "source": "AA-B 2026-10-25 03:25（企劃線 38820fd5e，outbox ea58b6d52）；讀 BB 劇本 qa/美國交換逐日劇本_交往中.md（ec98a8836，開發 91c8f9c6e）；D99 第三優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 03:5x 子代理實作、審過：1-1 是 BB 探針底檔沒有 met_sis（SISQX.ok 要它；真實玩家認識學姊的路線都會記），遊戲不改，單元測試兩種情境對照；1-2、1-3 照稿。tests/aa453_us_unit.js 34 項（舊程式 10 FAIL）；相關 28 支 ALL PASS。出遊沿用預設 2 小時（演完 20:30）。 ｜ 全部 Node 613 支 0 失敗（乾淨 worktree 57a70aec1）。"
+   "notes": "LAWWW-B 10-25 03:5x 子代理實作、審過：1-1 是 BB 探針底檔沒有 met_sis（SISQX.ok 要它；真實玩家認識學姊的路線都會記），遊戲不改，單元測試兩種情境對照；1-2、1-3 照稿。tests/aa453_us_unit.js 34 項（舊程式 10 FAIL）；相關 28 支 ALL PASS。出遊沿用預設 2 小時（演完 20:30）。 ｜ 全部 Node 613 支 0 失敗（乾淨 worktree 57a70aec1）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R35 AA_453；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US208-DM-1025",
    "title": "美國 208 週末七場（AA_412 第 3 節）一快轉就全錯過 → 週六 14:00 她私訊要回（我過去＝帶到 208 演；今天不行＝週日再傳一次）；湖邊樹變色照 usSeasonKey；感恩節一個人那句不再下雪（AA_454）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器（交往中、US2 以後）：週六 14:00 她私訊（那一場的那一句）→ 快轉停下；「我過去。」→ 停 14:10 問「出發：C 棟 208」→ 208 演；「今天不行。」→「好。」→ 週日 14:00「今天也在 208。」；週日也不行＝不再傳、自己走過去照演；「我過去。」她「嗯。」；3-5 只有 11/5（日）；湖邊 10/1～10/8 還是夏天那句；11/23 一個人的感恩節泡麵那句",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -31862,15 +31868,16 @@
    },
    "source": "AA-B 2026-10-25 03:32（企劃線 eaa98aaa7，outbox 4408396b5）；D99 第三優先、AA 自己排（D109）",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 04:3x 子代理實作、審過（WIP 檢查點 7c167dfa8＋a87004523 就是完整版）：tests/aa454_us_unit.js 63 項（舊程式 7da7f35ad 33 FAIL）；全部 Node 615 支 0 失敗；us_life_unit S 感恩節那句照 AA_454 換期待。自定：出遊＝回覆後 15 分鐘（最早 14:30）、回覆期限與最晚出發 20:30（她 21:00 離開 208）；「我過去。」她不回話（稿沒寫）；週日也說不行＝自己走過去也不演（照稿字面）。us3d.js usSeasonKey 加可省略參數 G（向後相容，LAWWW2 的檔，已告知）。 ｜ AA-B 04:12 補兩點已改：週日也說不行＝只是不再傳，自己走過去照演；「我過去。」她回「嗯。」（七場共用）。aa454 測試照改、ALL PASS。 ｜ 全部 Node 615 支 0 失敗（乾淨 worktree 79546c542）。"
+   "notes": "LAWWW-B 10-25 04:3x 子代理實作、審過（WIP 檢查點 7c167dfa8＋a87004523 就是完整版）：tests/aa454_us_unit.js 63 項（舊程式 7da7f35ad 33 FAIL）；全部 Node 615 支 0 失敗；us_life_unit S 感恩節那句照 AA_454 換期待。自定：出遊＝回覆後 15 分鐘（最早 14:30）、回覆期限與最晚出發 20:30（她 21:00 離開 208）；「我過去。」她不回話（稿沒寫）；週日也說不行＝自己走過去也不演（照稿字面）。us3d.js usSeasonKey 加可省略參數 G（向後相容，LAWWW2 的檔，已告知）。 ｜ AA-B 04:12 補兩點已改：週日也說不行＝只是不再傳，自己走過去照演；「我過去。」她回「嗯。」（七場共用）。aa454 測試照改、ALL PASS。 ｜ 全部 Node 615 支 0 失敗（乾淨 worktree 79546c542）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R36 AA_454；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "US-COMMUNITY-EAST-PERF-1025",
    "title": "美國社區往東（停車場、公寓）1.6～1.9 fps，比往西慢一倍：找原因、外觀不退（LAWWW2 自排 ③）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 用 perf_us_community_west.py 同一套量往東、出生點、靠近車 fps（LAWWW2 沙盒往東 1.9→2.6）；切換點 11～24 m 外觀看不出跳動",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31892,7 +31899,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "LAWWW2-B 10-25 04:52 交（7e582d0c7；patches/us_cars_lod_1025.patch）：原因停車場 28 台車三角形（每台 5.8k＋陰影）；做法 us_cars.glb 每款多 _lod1（約 1/4 三角形、完整版沒動），us3d.js outdoorZone 放車包 THREE.LOD、CAR_LOD_D 14 m。三角形往東 51 萬→34 萬。LAWWW-B 05:0x 整合：us_cars_lod（改前 FAIL 8）、us_* 全部、aa454、nav_us、exch_min ALL PASS。沒做：超市街停車沒量、us_traffic3d 會動的車沒改。"
+   "notes": "LAWWW2-B 10-25 04:52 交（7e582d0c7；patches/us_cars_lod_1025.patch）：原因停車場 28 台車三角形（每台 5.8k＋陰影）；做法 us_cars.glb 每款多 _lod1（約 1/4 三角形、完整版沒動），us3d.js outdoorZone 放車包 THREE.LOD、CAR_LOD_D 14 m。三角形往東 51 萬→34 萬。LAWWW-B 05:0x 整合：us_cars_lod（改前 FAIL 8）、us_* 全部、aa454、nav_us、exch_min ALL PASS。沒做：超市街停車沒量、us_traffic3d 會動的車沒改。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：美國社區往東 fps +45～53%、外觀一樣；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "PERF-PATROL-ECON-1025",
@@ -31929,8 +31937,8 @@
    "title": "學姊大四下朋友版補兩場（AA_455，C25）：3/21 法圖二樓「摘要」（3/20 私訊要回＋出遊）、4/18 總圖門口「五月二十九日」（4/16～4/27 平日傍晚遇到、快轉停 4/18、沒遇到 21:00 私訊；5/28 私訊＋5/29 出遊）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 瀏覽器（法律系大四下、朋友版學姊存檔）：3/20 21:00 私訊（快轉停）→「有。」→ 3/21 12:30 法圖二樓摘要；4/18 快轉停 16:45「去：總圖」→ 總圖門口五月二十九日；4/16～4/27 沒遇到＝4/27 21:00 私訊；選「那天我去門口等。」又不在家族群組＝5/28 21:00 私訊＋5/29 口試；交往中、前任沒有這兩場",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -31944,15 +31952,16 @@
    },
    "source": "AA-B 2026-10-25 05:17（企劃線 2de70709f，outbox 8e1969e28）；USER_WANTS C25（使用者 10-23：學姊才是真正的女主角，劇情要充實）",
    "authorized": "D109、D111、C25",
-   "notes": "LAWWW-B 10-25 05:4x 子代理實作、審過：新檔 src/data/sis_b11_events.js、src/sis_b11_3d.js（index.html 插在 zq_testbuild3d 後；family_xmas 緊接 sis_b10 的順序由測試鎖住），social3d MEMORY_LABEL.SIS_ABSTRACT（SIS_DEFENSE_DATE 稿沒寫面板名，沒加）。tests/aa455_sis_unit.js（舊程式 20 FAIL）；全部 Node 617 支 0 失敗；沒改既有測試。自定：11-1 出遊 1 小時；11-2 只在校園總圖門口、演完留在原地；「去：總圖」不加鬧鐘（不然快轉停 16:30）；5/29 接 M9 在新檔排同一個 y4_m9（M9 參數兩個檔各一份）。 ｜ AA-B 05:39 兩題答案已做（0c5afca90）：沒去法圖 13:15 她一則；SIS_DEFENSE_DATE 人物頁「她告訴你口試的日子」。"
+   "notes": "LAWWW-B 10-25 05:4x 子代理實作、審過：新檔 src/data/sis_b11_events.js、src/sis_b11_3d.js（index.html 插在 zq_testbuild3d 後；family_xmas 緊接 sis_b10 的順序由測試鎖住），social3d MEMORY_LABEL.SIS_ABSTRACT（SIS_DEFENSE_DATE 稿沒寫面板名，沒加）。tests/aa455_sis_unit.js（舊程式 20 FAIL）；全部 Node 617 支 0 失敗；沒改既有測試。自定：11-1 出遊 1 小時；11-2 只在校園總圖門口、演完留在原地；「去：總圖」不加鬧鐘（不然快轉停 16:30）；5/29 接 M9 在新檔排同一個 y4_m9（M9 參數兩個檔各一份）。 ｜ AA-B 05:39 兩題答案已做（0c5afca90）：沒去法圖 13:15 她一則；SIS_DEFENSE_DATE 人物頁「她告訴你口試的日子」。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R37 AA_455 九段（含 13:15 那一則）；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "BUG-CG-AFTER-END-1025",
    "title": "事件最後一步是 CG：事件結束以後畫面一直是模糊的 CG 底（挽回中初雪「這次我先說」；v9.10.9 就有）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "BB 乾淨 checkout 重跑 R34_SNOW_R3B（12/3 三個時間點 #adv 不能是 cg）＋R34_SNOW_R3／R2／NO",
+   "status": "已驗收",
+   "next": "—（已驗收）",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -31966,7 +31975,8 @@
    },
    "source": "BB-B 10-25 06:20 R34_SNOW_R3B（v9.10.10 判定前回報；BB 分支 2e391d324）",
    "authorized": "D85、D111",
-   "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。 ｜ v9.10.10 候選改成 3acaf8bea：全部 Node 618 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 06:3x，乾淨 worktree）。 ｜ 10-25 11:0x：發布只能整條合（GitHub 工具不能從 commit 開分支），3acaf8bea 以後已合 AA_456／457、經濟系效能 ①②③⑤⑥、BUG-PHONE-CAP、BUG-US-NEXTCLASS、AA_458（審中）→ v9.10.10 候選再往前＝AA_458 審完的 head，之後開發分支凍結到發布；BB 補測多出來的部分（11:0x 已通知 BB、LAWWW2）。"
+   "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。 ｜ v9.10.10 候選改成 3acaf8bea：全部 Node 618 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 06:3x，乾淨 worktree）。 ｜ 10-25 11:0x：發布只能整條合（GitHub 工具不能從 commit 開分支），3acaf8bea 以後已合 AA_456／457、經濟系效能 ①②③⑤⑥、BUG-PHONE-CAP、BUG-US-NEXTCLASS、AA_458（審中）→ v9.10.10 候選再往前＝AA_458 審完的 head，之後開發分支凍結到發布；BB 補測多出來的部分（11:0x 已通知 BB、LAWWW2）。",
+   "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R34_SNOW_R3C 三個時間點 #adv 都不是 cg、cg_last_scan 0 個；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
    "id": "VAC-READ2-1025",
@@ -32172,6 +32182,58 @@
    },
    "source": "AA-B 2026-10-25 10:53（企劃線 2afc82609，outbox baea57c21）；八種存檔 2/22～6/13",
    "authorized": "D81、D109、D111",
+   "notes": ""
+  },
+  {
+   "id": "BUG-US-WKND-EMPTYSTOP-1025",
+   "title": "美國交往中週末 14:00 快轉停點沒事也停（去過的週日、10/7～8、11/4）：S.nextStop 只在 US208.due 而且這週末還沒演時停",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 4,
+    "earliest": "美國交換交往中第一個週末",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-25 11:0x RELEASE-91010-TEST 附註③",
+   "authorized": "D85、D111",
+   "notes": ""
+  },
+  {
+   "id": "ART-HALL-WINDOW-DUSK-1025",
+   "title": "臺灣大廳窗外白天照片在 12/10 17:20 比屋外亮（窗景換夜景以前那段，白天照片沒跟著變暗）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2 排進巡查（v9.10.10 發布後）",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 14,
+    "earliest": "大一上 12 月傍晚進系館大廳",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-25 11:0x RELEASE-91010-TEST 附註④",
+   "authorized": "D108、D111",
+   "xai": {
+    "spec": "BB_218 RELEASE-91010-TEST 附註④",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "12/10 17:20 窗外和屋外亮度一致；改前改後截圖",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   },
    "notes": ""
   }
  ]

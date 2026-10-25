@@ -14385,8 +14385,8 @@
    "what": "路線巡查⑤美國傍晚（117 張）＋窗景同步 v2＋沒有窗的室內晚上不變暗（兩份 patch）",
    "task": "WINDOWLESS-NIGHT-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 01:5x 整合；e50843fb9 是 outbox／HANDOFF"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 01:5x 整合；e50843fb9 是 outbox／HANDOFF ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-451",
@@ -14398,8 +14398,8 @@
    "what": "AA_451 美國交換讀後（交往中、沒見過何俊朗）：芝加哥巴士上認識他、沒見過版換字、媽媽 12/17",
    "task": "US-READ-NOLONG-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 02:4x 整合；outbox 3c4a100de"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 02:4x 整合；outbox 3c4a100de ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-LW2-AIRPORT-DUSK",
@@ -14411,8 +14411,8 @@
    "what": "桃園機場窗外遠景和屋外同一刻天黑（us3d.js apOutside 亮度＝1−nk、換夜景 ≥19.2 或 6 點以前）",
    "task": "US-AIRPORT-DUSK-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 02:5x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 02:5x 整合 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-452",
@@ -14424,8 +14424,8 @@
    "what": "AA_452 美國交換讀後（挽回中）七項",
    "task": "US-READ-REPAIR-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 03:0x 整合；outbox 433dd69a3"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 03:0x 整合；outbox 433dd69a3 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-453",
@@ -14437,8 +14437,8 @@
    "what": "AA_453 美國交換讀後（交往中新版）：七夕、8/26 兩場、9/13 退回的報告",
    "task": "US-READ-DATING2-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 03:5x 整合；outbox ea58b6d52"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 03:5x 整合；outbox ea58b6d52 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-LW2-COMMUNITY-PERF",
@@ -14450,8 +14450,8 @@
    "what": "美國社區西邊效能：us_community.glb 地面單面、草地不墊在柏油底下（只換 GLB）",
    "task": "US-COMMUNITY-WEST-PERF-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 03:5x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 03:5x 整合 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-454",
@@ -14463,8 +14463,8 @@
    "what": "AA_454 美國 208 週末七場私訊、湖邊照季節、一個人的感恩節不下雪",
    "task": "US208-DM-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 04:3x 整合（7c167dfa8、a87004523）；outbox 4408396b5"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 04:3x 整合（7c167dfa8、a87004523）；outbox 4408396b5 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-LW2-CARS-LOD",
@@ -14476,8 +14476,8 @@
    "what": "美國社區往東效能：停車場車子遠處換低面數（us_cars.glb _lod1＋us3d.js THREE.LOD 14 m）",
    "task": "US-COMMUNITY-EAST-PERF-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 05:0x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 05:0x 整合 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-455",
@@ -14489,8 +14489,8 @@
    "what": "AA_455 學姊大四下朋友版兩場（摘要、五月二十九日）",
    "task": "SIS-B11-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 05:4x 整合；outbox 8e1969e28"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 05:4x 整合；outbox 8e1969e28 ｜ 10-25 11:0x BB RELEASE-91010-TEST 3acaf8bea GO"
   },
   {
    "id": "DL-AA-456",
