@@ -2823,6 +2823,14 @@ R32 = [dict(id='SIGN_ARENA', key='2025-08-31', h=17.5, zone='gym_arena', flags=d
        dict(id='SIGN_BUS', key='2028-09-15', h=15.0, zone='us_outside', flags=dict(USC), js='', pref=[],
             steps=[('wait', "!!GAME.E.scene.getObjectByName('usc_bus_sign')", 60, 'us_community.glb 載入'), PAUSE(6, '等貼圖')]
                   + SSHOT('bus_sign_E', -44.0, -6.2, 1.5708, 0.0, 2.5, '公車站牌，從東邊往西看（x 大的那一面）') + SSHOT('bus_sign_W', -49.0, -6.2, -1.5708, 0.0, 2.5, '公車站牌，從西邊往東看（x 小的那一面）'), want=[])]
+# BB-B 04:0x：SIGN_AIRPORT 照 GLB 座標站（32.5, −13.5）拍到的是商店貨架後面的航班看板（準時 On Time／提早 Early），不是換匯看板（區域裡的位置和 GLB 不一樣）→
+# 【捷徑】在遊戲裡讀 GLOW_ap_fx_board 的世界座標中心和朝向（GLB 裡看板朝 −x，套上父節點的旋轉），主角站到正前方 d 公尺、鏡頭在主角背後朝看板
+FACEAT = "(([nm,d,dist,pitch,lx,lz])=>{ const E=GAME.E, o=E.scene.getObjectByName(nm); if(!o) return 'NO '+nm; o.updateWorldMatrix(true,true); const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()); const q=new THREE.Quaternion(); o.getWorldQuaternion(q); const n=new THREE.Vector3(lx,0,lz).applyQuaternion(q); n.y=0; n.normalize(); const px=c.x+n.x*d, pz=c.z+n.z*d, P=E.player; if(E.placeAt) E.placeAt(P,px,pz); else P.obj.position.set(px,P.obj.position.y,pz); const cm=E.cam; cm.yaw=Math.atan2(n.x,n.z); cm.pitch=pitch; cm.distTarget=dist; cm.dist=dist; cm.manualT=60; return {c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)],n:[+n.x.toFixed(2),+n.z.toFixed(2)],p:[+P.obj.position.x.toFixed(2),+P.obj.position.z.toFixed(2)]}; })(%s)"
+def FACE(nm, d, dist, pitch, lx=-1.0, lz=0.0, note=''): return ('jsrun', FACEAT % json.dumps([nm, d, dist, pitch, lx, lz]), '【捷徑】主角站到 %s 正前方 %.1f m、鏡頭朝它 %s' % (nm, d, note))
+R32 += [dict(id='SIGN_AIRPORT2', key='2028-08-01', h=10.0, zone='airport_dep', flags=dict(TW3), js='', pref=[],
+             steps=[('wait', "!!GAME.E.scene.getObjectByName('GLOW_ap_fx_board')", 60, 'airport_dep.glb 載入'), PAUSE(6, '等貼圖'),
+                    ('chk', '換匯看板的世界座標、朝向（記下來）', FACEAT % json.dumps(['GLOW_ap_fx_board', 2.5, 2.2, 0.0, -1.0, 0.0]), lambda d: isinstance(d, dict)), PAUSE(3, '等鏡頭'), ('shot', 'ap_fx_board2', None, 'true', 2),
+                    FACE('GLOW_ap_fx_board', 4.0, 3.0, 0.05, note='（遠一點）'), PAUSE(3, '等鏡頭'), ('shot', 'ap_fx_board2_wide', None, 'true', 2)], want=[])]
 SCENS = SCENS + R32
 
 # ---------- R33（BB-B 10-25 02:0x）：窗景同步 v2＋沒有窗的室內晚上不變暗（WINDOWLESS-NIGHT-1025，開發分支 eaeefdc4b；LAWWW2 ee1e3108e）----------
