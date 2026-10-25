@@ -2865,6 +2865,20 @@ R33b = [WN('WN_AP_ARR_0540', '2028-12-23', 5.67, 'airport_arr', dict(TW3), yaws=
         WN('WN_AP_DEP_1655', '2028-12-20', 16.92, 'airport_dep', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)]),
         WN('WN_AP_DEP_1745', '2028-12-20', 17.75, 'airport_dep', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)])]
 SCENS = SCENS + R33b
+
+# ---------- R34b（BB-B 10-25 02:5x）：AA_452（讀挽回中劇本以後的改稿；開發分支 ad5251364，US-READ-REPAIR-1025）----------
+# ① 挽回中 12/2 初雪：18:00 何俊朗群組兩則 → 排行程 us_snow_r（20:00，到 23:00）→ 快轉停 19:45「出發：初雪」→ 選了就演；REPAIR≥3＝「……這次我先說。」、REPAIR 2＝「……回去吧，會冷。」；「不去了」＝沒演、之後也不自動到場（OUT us_snow_r missed）
+# 【前置】挽回中（ALONE）、可昕那條線關掉；【捷徑】REPAIR 直接寫成 3／2（遊戲裡一週最多 +1）。從 12/2 17:36 開始照逐日劇本快轉。② 那五處換句看 trx_alone5（挽回中整份重跑，≥ ad5251364）
+SNOW_GRP = ['今晚會積雪。', '上次那種落地就化了。這次會積起來。']
+SNOW0 = '（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'
+SNOWR = "(q=>q?q.state:null)(OUT.get(GAME.G,'us_snow_r'))"
+def SNOWSC(sid, rep, pref, want, none, jsok):
+    return dict(id=sid, key='2028-12-02', h=17.6, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + B['ALONE'] + (" G.flags.REPAIR={heroine_05:%d};" % rep) + B['BED'],
+                steps=[('ffloop', '2028-12-02', 21.5, 120), ('dumplog', sid), ('ffloop', '2028-12-03', 9.0, 120)], pref=pref, asks={'*': ''}, want=want, none=none, wantMsg=SNOW_GRP, jsok=jsok)
+R34b = [SNOWSC('R34_SNOW_R3', 3, ['出發', '「好。」'], [SNOW0, '如果你還想的話，我們重新開始。這次我先說。'], ['……回去吧，會冷。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
+        SNOWSC('R34_SNOW_R2', 2, ['出發'], [SNOW0, '……回去吧，會冷。'], ['這次我先說。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
+        SNOWSC('R34_SNOW_NO', 3, ['不去了'], [], [SNOW0], [('不去了＝us_snow_r missed', SNOWR, 'missed'), ('沒有演 ev_us_snow_repair', "!((GAME.G.events||{}).done||{}).ev_us_snow_repair", True)])]
+SCENS = SCENS + R34b
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48

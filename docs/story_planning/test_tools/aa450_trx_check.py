@@ -15,6 +15,7 @@ CLUB = ['明天晚上七點，會所。學期最後一頓。', '每個人帶一�
 
 def one(lab, path):
     J = json.load(open(path)); L = J.get('log', []); M = J.get('msgs', []); out = []
+    rep = lab.startswith('alone')   # 挽回中：學姊不在身邊的那幾句（亞洲超市、湖邊、約芝加哥私訊）不適用；8/15 摘要演在快轉跳完的第一站
     def r(n, st, why): out.append((n, st, why))
     lt = lambda s: [x for x in L if s in str(x.get('t', ''))]
     mt = lambda s: [m for m in M if s in str(m.get('text', ''))]
@@ -29,7 +30,9 @@ def one(lab, path):
     # 2. 8/15 迎新週第二天：收起 8/18 手機再快轉，先演（不是 8/21 才演）；舊旁白「銀行帳戶、手機門號」不能出現
     O = lt(ORIENT); old = lt('學生證、銀行帳戶、手機門號')
     if not O: r('2. 8/15 迎新週第二天', 'FAIL', '沒有演（找不到新旁白）' + ('；舊旁白還在 %s' % old[0]['d'] if old else ''))
-    else: r('2. 8/15 迎新週第二天', 'PASS' if ('2028-08-15' <= O[0]['d'] <= '2028-08-18' and not old) else 'FAIL', '演在 %s %.2f%s' % (O[0]['d'], O[0]['h'], '；舊旁白還在' if old else ''))
+    else:
+        lim = '2028-08-19' if rep else '2028-08-18'
+        r('2. 8/15 迎新週第二天', 'PASS' if ('2028-08-15' <= O[0]['d'] <= lim and not old) else 'FAIL', '演在 %s %.2f%s' % (O[0]['d'], O[0]['h'], '；舊旁白還在' if old else ''))
     # 3. 媽媽每週日照日期、每則一次
     mm = [m for m in M if m.get('th') == 'p:mom']; bad = []
     for k, t in MOM:
@@ -49,15 +52,15 @@ def one(lab, path):
     # 5. 換句
     def has(n, s, want=True, where=lt):
         f = where(s); ok = bool(f) == want; r(n, 'PASS' if ok else ('FAIL' if want is False or f is not None else 'FAIL'), ('有 %s' % f[0].get('d', f[0].get('key')) if f else '沒有') + '「%s」' % s[:30])
-    has('5a. 亞洲超市新句', '……我在研究室常吃這一種。'); has('5a. 亞洲超市舊句不在', '這是鄉愁', False)
-    has('5b. 湖邊新句', '台灣這時候，大家在吃早餐了。'); has('5b. 湖邊舊句不在', '天快亮了', False)
+    if not rep: has('5a. 亞洲超市新句', '……我在研究室常吃這一種。'); has('5b. 湖邊新句', '台灣這時候，大家在吃早餐了。')
+    has('5a. 亞洲超市舊句不在', '這是鄉愁', False); has('5b. 湖邊舊句不在', '天快亮了', False)
     ch = [m for m in M if m.get('th') == 'p:heroine_05' and (m.get('key') or '') in ('2028-11-11', '2028-11-12')] + [m for m in M if m.get('th') == 'g:us_exchange' and (m.get('key') or '') in ('2028-11-11', '2028-11-12')]
     went = bool(lt('芝加哥')) and not ch
     r('5c. 芝加哥', 'INFO', '11/11、11/12 的訊息：%s' % [(m.get('key'), m.get('name'), m.get('text')) for m in ch])
     if ch:
         r('5c. 芝加哥沒去：「下次一起」最多一次', 'PASS' if len([m for m in ch if '下次一起' in m['text']]) <= 1 else 'FAIL', str([m['text'] for m in ch if '下次一起' in m['text']]))
         r('5c. 第一張「密西根湖，浪很大」、沒有「湖邊的風」', 'PASS' if any('密西根湖，浪很大' in m['text'] for m in ch) and not any('湖邊的風' in m['text'] for m in ch) else 'FAIL', '')
-    has('5d. 約芝加哥「……到了再看。」', '……到了再看。', met, where=mt) if met else r('5d. 約芝加哥', 'INFO', '沒見過何俊朗：這一句不出現')
+    has('5d. 約芝加哥「……到了再看。」', '……到了再看。', met, where=mt) if (met and not rep) else r('5d. 約芝加哥', 'INFO', '挽回中或沒見過何俊朗：這一句不出現')
     has('5d. 「我們去驗證」不在', '我們去驗證', False, where=mt)
     lm = [m for m in M if m.get('th') == 'p:heroine_05' and m.get('key') == '2028-11-23']
     r('5e. 感恩節湖邊（11/23 她的私訊）', 'INFO', str([m.get('text') for m in lm]))
@@ -69,6 +72,16 @@ def one(lab, path):
     sn = [x for x in L if x.get('d') == '2028-12-02' and str(x.get('t', '')).startswith('CHOICE')]
     q = mt('其實不太好。回去再跟你說。')
     r('6. 12/2 雪那天的選擇／12/3 私訊', 'INFO', '12/2 選項紀錄：%s；12/3「回去再跟你說」：%s（12/24 期末飯另外跑 R30）' % ([x['t'][:40] for x in sn][:3], [(m.get('key'), m.get('h')) for m in q]))
+    if rep:
+        for n, t in [('A452 1-3. 9/13 退回的報告第一句（鍋子）', '（你去 C 棟還上個禮拜跟她室友借的鍋子。'), ('A452 1-6. 10/4 回公寓「誰都」「誰也」', '（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。'),
+                     ('A452 1-5. 12/23 機場「（出口，媽媽在揮手。）」', '（出口，媽媽在揮手。）'), ('A452 1-7. 返台字卡「舊金山轉機」', '舊金山轉機')]:
+            f = lt(t); r(n, 'PASS' if f else 'CHECK', ('%s %.2f' % (f[0]['d'], f[0]['h'])) if f else '沒有（要看那一場有沒有演）')
+        lk = lt('（湖邊。何俊朗和其他人走在前面。') + lt('（湖邊。大家走在前面。')
+        r('A452 1-4. 11/23 湖邊「分手那天」前一句', 'PASS' if lk else 'CHECK', ('%s：%s' % (lk[0]['d'], lk[0]['t'][:24])) if lk else '沒有（湖邊那一場沒有演？）')
+        g = [m for m in M if m.get('th') == 'g:us_exchange' and m.get('key') == '2028-12-02']
+        r('A452 1-2. 12/2 18:00 何俊朗群組兩則', 'PASS' if [m['text'] for m in g if m.get('from') == 'npc_long'][:2] == ['今晚會積雪。', '上次那種落地就化了。這次會積起來。'] else 'FAIL', str([(m.get('name'), m['text']) for m in g]))
+        sc = [x for x in L if x.get('d') == '2028-12-02' and '初雪' in str(x.get('t'))]; sn = lt('（下雪了。學姊坐在小教堂前面的台階上')
+        r('A452 1-1. 12/2 初雪：排行程、「出發：初雪」、有演', 'PASS' if (sc and sn) else 'FAIL', '%s｜演了：%s' % ([x['t'][:40] for x in sc][:3], bool(sn)))
     return out
 
 
