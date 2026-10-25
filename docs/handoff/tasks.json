@@ -32050,7 +32050,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。"
+   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。"
   },
   {
    "id": "TEST-FLOW-SOCLIB-X75-1025",
