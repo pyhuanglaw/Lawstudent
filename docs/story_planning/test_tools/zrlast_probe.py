@@ -2915,6 +2915,12 @@ _r2e = dict(SNOWSC('R34_SNOW_R2_END', 2, ['出發'], [SNOW0, '……回去吧，
 _r2e['steps'] = [('ffloop', '2028-12-02', 21.5, 120), ('ffloop', '2028-12-23', 12.0, 120), ('dumplog', 'R34_SNOW_R2_END')]
 _r2e['want'] = _r2e['want'] + ['舊金山轉機']   # 返台字卡（CARD:…，want 比對畫面上的每一行、子字串就算）
 R34b += [_r2e]
+# BB-B 10-25 06:3x：新候選 3acaf8bea（LAWWW-B 06:3x）＝A.cg 事件結束以後不再蓋 CG 底＋AA_452 第 4 節（40f3c2bc4）：選完她讓出半階台階＋計畫本「雪」
+SNOW_SEAT = '（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）'
+SNOW_END4 = ['（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', '寫什麼？', '不給你看。', '（她把計畫本闔起來。那一格寫的是「雪」。）']
+_r3c = dict(_r3b, id='R34_SNOW_R3C', want=list(_r3b['want']) + [SNOW_SEAT] + SNOW_END4, order=[SNOW0, '如果你還想的話，我們重新開始。這次我先說。', SNOW_SEAT] + SNOW_END4)
+_r3c['steps'] = [(st[0], st[1], st[2], st[3]) if st[0] == 'chk' else (('dumplog', 'R34_SNOW_R3C') if st[0] == 'dumplog' else st) for st in _r3b['steps']]
+R34b += [_r3c]
 SCENS = SCENS + R34b
 
 # ---------- R35（BB-B 10-25 04:5x）：AA_453（交往中新版讀後；開發分支 57a70aec1 以後，US-READ-DATING2-1025）——v9.10.10 判定以後跑 ----------
@@ -3033,6 +3039,9 @@ R37 = [B11('R37_ABS_YES', '2029-03-20', 19.0, SISF, ('2029-03-21', 14.0), {'sisb
            wantMsg=[M9_DM], msgAt={M9_DM: ('2029-05-28', 21.0, 0.1)}, jsok=[('5/29 M9 學姊的口試 ev_sis_defense 演了', EVDN % json.dumps(['ev_sis_defense']), [True])]),
        B11('R37_M9_GRP', '2029-05-28', 20.0, SISF + FAMJ + " G.flags.SIS_DEF_DATE='wait'; G.events.done.ev_sis_defense_date=1;", ('2029-05-29', 19.0), pref=['出發', '去'],
            noneMsg=[M9_DM], jsok=[('在家族群組：M9 照舊排「學姊的口試」y4_m9', OUTST % json.dumps('y4_m9'), lambda x: x is not None)])]
+# AA_455 3-1 節①（e19c416f0）：回了「有。」沒去法圖＝3/21 13:15 她「沒看到你。我自己讀完了。」、SIS_ABSTRACT missed、不扣關係
+R37 += [B11('R37_ABS_MISS', '2029-03-20', 19.0, SISF, ('2029-03-21', 15.0), {'sisb11_abs_ask': '有。'}, ['不去了'], none=ABS0[:1], wantMsg=ABS_ASK + ['十二點半。帶筆。', '沒看到你。我自己讀完了。'],
+            msgAt={'沒看到你。我自己讀完了。': ('2029-03-21', 13.25, 0.1)}, eqflags={'SIS_ABSTRACT': 'missed'}, cflags=['SIS_ABSTRACT'])]
 SCENS = SCENS + R37
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
