@@ -2897,6 +2897,18 @@ def SNOWSC(sid, rep, pref, want, none, jsok):
 R34b = [SNOWSC('R34_SNOW_R3', 3, ['出發', '「好。」'], [SNOW0, '如果你還想的話，我們重新開始。這次我先說。'], ['……回去吧，會冷。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
         SNOWSC('R34_SNOW_R2', 2, ['出發'], [SNOW0, '……回去吧，會冷。'], ['這次我先說。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
         SNOWSC('R34_SNOW_NO', 3, ['不去了'], [], [SNOW0], [('不去了＝us_snow_r missed', SNOWR, 'missed'), ('沒有演 ev_us_snow_repair', "!((GAME.G.events||{}).done||{}).ev_us_snow_repair", True)])]
+# BB-B 10-25 05:3x：n_snow 的 R34_SNOW_R3 最後一張（12/3 14:07 公寓、一般操作畫面）整個 3D 是模糊的（R2、NO 停在 12/8 是清楚的）→ 查是不是初雪那一場（有 CG）演完以後 ADV 的模糊底留著
+#   R34_SNOW_R3B：同 R3，三個時間點讀 #adv／#advBg 的狀態：①初雪演完 12/2 21:0x ②快轉停在 12/3 14:00 ③再過半小時。ADV 沒在演、#adv 看得到、底還有 blur＝NG
+ADVST = "(()=>{ const a=document.getElementById('adv'), b=document.getElementById('advBg'); const cs=a?getComputedStyle(a):null; return {cls:a?a.className:null, disp:cs?cs.display:null, vis:cs?cs.visibility:null, op:cs?cs.opacity:null, bgf:b?getComputedStyle(b).backdropFilter:null, bgfl:b?getComputedStyle(b).filter:null, active:!!(typeof ADV!=='undefined'&&ADV.active), key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2), zone:GAME.G.zone}; })()"
+def ADVOK(d):
+    if not isinstance(d, dict) or d.get('active'): return True
+    shown = d.get('disp') != 'none' and d.get('vis') != 'hidden' and float(d.get('op') or 0) > 0.05
+    blurred = ('blur' in str(d.get('bgf') or '') and str(d.get('bgf')) != 'blur(0px)') or ('blur' in str(d.get('bgfl') or ''))
+    return not (shown and blurred)
+_r3b = dict(SNOWSC('R34_SNOW_R3B', 3, ['出發', '「好。」'], [SNOW0, '如果你還想的話，我們重新開始。這次我先說。'], [], [('排了行程 us_snow_r、演完', SNOWR, 'done')]))
+_r3b['steps'] = [('ffloop', '2028-12-02', 21.05, 120), ('chk', '①初雪演完：沒在演 ADV 時畫面不模糊', ADVST, ADVOK), ('ffloop', '2028-12-03', 9.0, 120),
+                 ('chk', '②快轉停下（12/3）：沒在演 ADV 時畫面不模糊', ADVST, ADVOK), ('until', 14.6), ('chk', '③半小時以後：沒在演 ADV 時畫面不模糊', ADVST, ADVOK), ('dumplog', 'R34_SNOW_R3B')]
+R34b += [_r3b]
 SCENS = SCENS + R34b
 
 # ---------- R35（BB-B 10-25 04:5x）：AA_453（交往中新版讀後；開發分支 57a70aec1 以後，US-READ-DATING2-1025）——v9.10.10 判定以後跑 ----------
