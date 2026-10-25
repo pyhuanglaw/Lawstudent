@@ -2855,6 +2855,16 @@ R34 = [A451('R34_CHI', {'us_chi': '去。', '*': ''}, A451_BUS + ['……還好�
        A451('R34_NOCHI', {'us_chi': '這週不行。', '*': ''}, ['（一個香港來的交換生念的那一句，沒有 however。全班拍手。）', '（天還沒亮。社區門口停著機場巴士。）'], [A451_BUS[0], '同一組的交換生', '……還好？你學我。'],
             [('2028-12-08', 23.9), ('2028-12-16', 9.0)], jsok=[('一直沒見過：MET_LONG 沒開', "!GAME.G.flags.MET_LONG", True)])]
 SCENS = SCENS + R34
+
+# ---------- R33b（BB-B 10-25 02:2x）：桃園機場窗外遠景（US-AIRPORT-DUSK-1025，開發分支 91c8f9c6e；LAWWW2 0d8a64275）——和 R33 一起拍 ----------
+# us3d.js apOutside：亮度＝1−nk（和 applyTime 同一個公式）、夜景 ≥19.2 或 6 點以前（原本光線 18.3 就換）。GLOW_ap_outside＝白天那塊、GLOW_ap_outside_night*＝夜景
+# 12/23 05:40 入境（暗、夜景）；8/2 07:00 出境（亮）；12/20 16:55 出境（日落前，還是白天那塊）、17:45（夜景）。對照：lw30 7d56892eb（到 b8a6934e7 之間沒動機場）
+APOUT = "(()=>{ const r={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh||!/^GLOW_ap_outside/.test(o.name||'')) return; const m=[].concat(o.material)[0]; let v=o.visible, p=o.parent; while(p){ if(p.visible===false) v=false; p=p.parent; } r[o.name]=r[o.name]||{vis:v,c:m&&m.color?m.color.getHexString():null,e:m&&m.emissive?m.emissive.getHexString():null,op:m?+(+m.opacity).toFixed(2):null}; }); return r; })()"
+R33b = [WN('WN_AP_ARR_0540', '2028-12-23', 5.67, 'airport_arr', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)]),
+        WN('WN_AP_DEP_0700', '2028-08-02', 7.0, 'airport_dep', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)]),
+        WN('WN_AP_DEP_1655', '2028-12-20', 16.92, 'airport_dep', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)]),
+        WN('WN_AP_DEP_1745', '2028-12-20', 17.75, 'airport_dep', dict(TW3), yaws=(0, 1.5708, 3.1416, 4.7124), extra=[('chk', '機場窗外遠景（記下來）', APOUT, lambda d: True)])]
+SCENS = SCENS + R33b
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
