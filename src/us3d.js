@@ -118,7 +118,7 @@ const US3=(function(){
   /* 美國篇的季節（ART-US-SEASON；日期照 AA_213）：同一個 GLB 帶四季（tools/blender/env_second/us_season.py 的約定）。
      summer 夏末 8/2～10/8（4/16～8/1 也是）、autumn 秋天 10/9～10/31、bare 初冬 11/1～12/1（3/16～4/15 也是）、snow 雪 12/2～3/15。
      SEASON_MATS 底下每個小三角形帶一個替換材質「<原材質名>__S_<季節>」：用原材質的網格在那一季換成它；SEASON_GEO_*（userData.seasons＝'bare,snow'…）只有那幾季看得到 */
-  function usSeasonKey(){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;
+  function usSeasonKey(g){ const G=g||G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;   /* g：照那一份存檔的日子（AA_454 2-1 湖邊的「看」USL.lakeLook(G)）；沒給＝GAME.G */
     return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':(md>=316&&md<=415)?'bare':'summer'; }
   const SEA_MAT0=new WeakMap();   /* 網格原本的材質（不放 userData：clone 的時候 userData 會被 JSON 複製）*/
   function usSeason(root){ const key=usSeasonKey(); if(root.userData.usSeason===key) return; root.userData.usSeason=key;

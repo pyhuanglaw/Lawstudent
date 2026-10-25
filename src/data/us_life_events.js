@@ -185,7 +185,7 @@ const US_LIFE_EVENTS=(function(){
     nar('（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）'),
     {set:{USL_THANKS:'long'}} ]});
   /* 挽回中、沒有 MET_LONG：公寓裡一個人 */
-  ev('ev_usl_thanks_alone','感恩節',{background:'blur',dialogue:[ nar('（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）'), {set:{USL_THANKS:'alone'}} ]});
+  ev('ev_usl_thanks_alone','感恩節',{background:'blur',dialogue:[ nar('（你煮了一包台灣帶來的泡麵。社區很安靜，只有幾戶亮著燈。）'), {set:{USL_THANKS:'alone'}} ]});   /* AA_454 2-2：原本「窗外開始飄小雪」——11/23 不下雪（AA_450 1-9「氣象說錯了」，11/25 才下一點）*/
 
   /* ---------------- 上課的特別日子（AA_340 4-2：10/26 期中報告、12/8 最後一堂）---------------- */
   /* G4 10/26（四）比較憲法的期中報告：選項都過、不計分；德國同學不給名字 */

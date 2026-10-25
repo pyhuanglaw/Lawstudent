@@ -293,7 +293,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     check('I1. 19:00 會所：「（會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。）」「（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）」（旁白；何俊朗那一句在 17:00 的邀約裡，不再說一次）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(['（會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。）','（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）'])&&said.every(x=>x.who===null)&&G.flags.USL_THANKS==='long', JSON.stringify(lines())); }
   fresh('2028-11-23',16,'us_apartment',US({MET_LONG:true,US3:'two'})); date('heroine_05'); runRules('2028-11-23',16,17.5); check('I6. 早上 US3 回到交往（交往中）：17:00 沒有何俊朗的邀約、沒有排會所', !txt('p:npc_long').some(t=>/七點，會所/.test(t))&&!OUT.get(G,'usl_thanks_long'));
   fresh('2028-11-23',20.5,'us_apartment',US({MET_LONG:true})); rules(); check('I6. 20:00 以後才讀檔進來：不補邀約（那一場已經過了）', !txt('p:npc_long').length&&!OUT.get(G,'usl_thanks_long'));
-  fresh('2028-11-23',18.5,'us_apartment',US()); E.player.busy=false; await tick(); check('G6／US-B. 挽回中、沒有 MET_LONG：公寓裡一個人「（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）」', has('（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）'));
+  fresh('2028-11-23',18.5,'us_apartment',US()); E.player.busy=false; await tick(); check('G6／US-B. 挽回中、沒有 MET_LONG：公寓裡一個人「（你煮了一包台灣帶來的泡麵。社區很安靜，只有幾戶亮著燈。）」（AA_454 2-2：原本「窗外開始飄小雪」，11/23 不下雪）', has('（你煮了一包台灣帶來的泡麵。社區很安靜，只有幾戶亮著燈。）'));
   fresh('2028-12-03',9,'us_apartment',US()); E.player.busy=false; await tick(); G.zone='us_outside'; await tick(); check('G7. 12/3 走出公寓：「（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）」', caps.includes('（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）'));
   fresh('2028-12-06',20.5,'us_apartment',US()); date('heroine_05'); runRules('2028-12-06',20.5,21.25); check('G7. 12/6 21:00 學姊：「期末週以後，還有五天。」「……你想去哪裡，你先想。」', JSON.stringify(txt('p:heroine_05'))===JSON.stringify(['heroine_05:期末週以後，還有五天。','heroine_05:……你想去哪裡，你先想。']));
 

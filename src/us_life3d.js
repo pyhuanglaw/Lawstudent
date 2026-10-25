@@ -227,8 +227,11 @@ const USL=(function(){
 
   /* ======================= S12 湖邊（2D；8/5 以後自由時間也可以去）======================= */
   S.lakeOpen=G=>S.here(G)&&G.day>=D('2028-08-05')&&G.day<D(S.CAL.leave);
-  /* 「看」（AA_340 4-4＋AA_345 I4）：8～9 月／10 月／11 月～12/1／12/2 以後 */
-  S.lakeLook=G=>{ const x=CALENDAR.dateOf(G.day); if(G.day>=D('2028-12-02')) return X.looks.lakeSnow; if(x.m===10) return X.looks.lakeOct; if(x.m===11||x.m===12) return X.looks.lakeNov; return X.looks.lakeSummer; };
+  /* 「看」（AA_340 4-4＋AA_345 I4）：8～9 月／10 月／11 月～12/1／12/2 以後。
+     AA_454 2-1：改照窗景、校園模型的季節（US3.usSeasonKey：秋 10/9、初冬 11/1、雪 12/2）——原本照月份，10/1 起就說樹在變色，窗景 10/9 才換秋天；沒有 US3（只載這一支的測試）照舊照月份 */
+  S.LAKE_SEASON={summer:'lakeSummer',autumn:'lakeOct',bare:'lakeNov',snow:'lakeSnow'};
+  S.lakeLook=G=>{ const sk=typeof US3!=='undefined'&&US3.usSeasonKey?US3.usSeasonKey(G):null; if(sk&&S.LAKE_SEASON[sk]) return X.looks[S.LAKE_SEASON[sk]];
+    const x=CALENDAR.dateOf(G.day); if(G.day>=D('2028-12-02')) return X.looks.lakeSnow; if(x.m===10) return X.looks.lakeOct; if(x.m===11||x.m===12) return X.looks.lakeNov; return X.looks.lakeSummer; };
   S.lake=async function(GM){ const G=GM.G, F=G.flags; const x=CALENDAR.dateOf(G.day); const t=S.lakeLook(G);
     if((x.m===8||x.m===9)&&!dating(G)&&!F.USL_LAKE_SOLO){ GM.sceneBegin(); try{ await GM.fade(true); GM.advance(0.25); await GM.fade(false); await run('ev_usl_lake_solo',{noTitle:true}); await GM.fade(true); GM.advance(0.75); await GM.fade(false); } finally { GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; }   /* 挽回中第一次自己去（G1；8～9 月，取代那一次的「看」）*/
     GM.sceneBegin(); try{ await GM.fade(true); GM.advance(0.25); if(typeof ADV!=='undefined') ADV.begin({background:typeof OUT!=='undefined'?OUT.bg('us_lake'):'dark'}); await GM.fade(false); GM.caption('','湖邊',2200); await GM.sleep(900); if(t) await GM.say(null,t);
