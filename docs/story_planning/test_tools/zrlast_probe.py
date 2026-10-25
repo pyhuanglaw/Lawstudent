@@ -2760,7 +2760,7 @@ SQ_N = ['美國下雪那天，我說回去再跟你說。', '……論文還要�
 SQ_BACK = " G.flags.US_ARRIVED_DAY=D('2028-08-02'); G.flags.Y4_PATH_DAY=D('2028-06-08'); G.flags.US_RETURNED=D('2028-12-23'); G.flags.US_TRIP_DONE=true;"
 def SQSC(sid, flags, has, key='2028-12-24'):
     return dict(id=sid, key=key, h=18.45, zone='campus', flags=dict({'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'met_sis': True, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US1': 'together', 'US2': True, 'Y4_PATH': 'bar'}, **flags), js=SIS_D + SQ_BACK, pref=[],
-                steps=[('jsrun', SDIN, '【捷徑】直接演學姊大四上的期末飯（TERMEND.dinner Y4S1 gf）'), ('until', 21.5)],
+                steps=[('jsrun', SDIN, '【捷徑】直接演學姊大四上的期末飯（TERMEND.dinner Y4S1 gf）'), ('until', 19.3)],   # BB-B 00:3x：21.5 要等 20 分鐘（飯 13 句在前幾分鐘就演完）→ 19.3
                 want=SQ_B + (SQ_N if has else []), order=SQ_B + (SQ_N if has else []), none=([] if has else SQ_N) + ['（亞洲超市。'],
                 jsok=[('吃完飯人還在臺灣（不是 us_ 區域）', "!/^us_/.test(GAME.G.zone)", True)])
 R30 = [SQSC('SNOWQ_DIN', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True),
@@ -2792,6 +2792,27 @@ GYM_NIGHT = ([('wait', GYMGLB, 60, 'gym_b1.glb 載入'), PAUSE(6, '等貼圖'), 
 R31 = [dict(id='GYMB1_DAY', key='2026-10-14', h=15.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_DAY, want=[]),
        dict(id='GYMB1_NIGHT', key='2026-10-14', h=21.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_NIGHT, want=[])]
 SCENS = SCENS + R31
+
+# ---------- R32（BB-B 10-25 00:4x）：有字的牌子（SIGN-AUDIT-1025，開發分支 7d56892eb：三份 GLB 只差 UV／舞台材質；LAWWW2-B db5c09e23）----------
+# 位置照 GLB 節點（tests/sign_audit_1025_unit.js 讀的同一批）：
+#   機場出境 GLOW_ap_fx_board x 35.98、z −15.5～−11.5、高 1.6～2.6，朝 −x（人站在 x 小的那一邊往 +x 看）；
+#   美國社區 usc_bus_sign x −46.55、z −6.4～−6.0、高 2.15～2.75，兩面（從 +x 往 −x 看、從 −x 往 +x 看）；
+#   3F 主球場舞台 SET_STAGE_deck x ±11.2、z −21.6～−15.6：典禮那天（gym_layout.js arena.sets.ceremony.days：2025-08-31 開學、2029-06-02 畢業）才打開。
+# 【捷徑】讀檔直接進那個區域、主角站到牌子前面；截圖時藏主角和 HUD。開學典禮那天選 17:30（典禮已經結束，舞台照舊開著；不去碰典禮本身的劇情）
+STAGEQ = "(()=>{ const z=GAME.E.zone, o=GAME.E.scene.getObjectByName('SET_STAGE'); return {ceremonyOn:z?z.ceremonyOn||null:null, stageVisible:o?o.visible:null}; })()"
+def SSHOT(tag, x, z, yaw, pitch, dist, note): return [CAM(x, z, yaw, pitch, dist, note), PAUSE(3, '等鏡頭'), ('shot', tag, None, 'true', 2)]
+R32 = [dict(id='SIGN_ARENA', key='2025-08-31', h=17.5, zone='gym_arena', flags=dict(TW3), js='', pref=[],
+            steps=[('wait', "!!GAME.E.scene.getObjectByName('SET_STAGE_deck')||!!GAME.E.scene.getObjectByName('SET_STAGE')", 60, 'gym_arena.glb 載入'), PAUSE(6, '等貼圖'),
+                   ('chk', '典禮那天：舞台打開（記下來）', STAGEQ, lambda d: True)]
+                  + SSHOT('arena_stage', 0.0, -8.0, 0.0, 0.18, 7.0, '往北看舞台') + SSHOT('arena_stage_near', 4.0, -13.0, 0.4, 0.3, 4.0, '靠近看台面、裙板'), want=[],
+            jsok=[('典禮那天舞台是開著的（SET_STAGE visible）', "(o=>!!o&&o.visible)(GAME.E.scene.getObjectByName('SET_STAGE'))", True)]),
+       dict(id='SIGN_AIRPORT', key='2028-08-01', h=10.0, zone='airport_dep', flags=dict(TW3), js='', pref=[],
+            steps=[('wait', "!!GAME.E.scene.getObjectByName('GLOW_ap_fx_board')", 60, 'airport_dep.glb 載入'), PAUSE(6, '等貼圖')]
+                  + SSHOT('ap_fx_board', 32.5, -13.5, -1.5708, 0.05, 3.0, '換匯看板，往 +x 看') + SSHOT('ap_fx_board_wide', 30.0, -13.5, -1.5708, 0.1, 5.0, '換匯看板（遠一點）'), want=[]),
+       dict(id='SIGN_BUS', key='2028-09-15', h=15.0, zone='us_outside', flags=dict(USC), js='', pref=[],
+            steps=[('wait', "!!GAME.E.scene.getObjectByName('usc_bus_sign')", 60, 'us_community.glb 載入'), PAUSE(6, '等貼圖')]
+                  + SSHOT('bus_sign_E', -44.0, -6.2, 1.5708, 0.0, 2.5, '公車站牌，從東邊往西看（x 大的那一面）') + SSHOT('bus_sign_W', -49.0, -6.2, -1.5708, 0.0, 2.5, '公車站牌，從西邊往東看（x 小的那一面）'), want=[])]
+SCENS = SCENS + R32
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
