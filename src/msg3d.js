@@ -78,7 +78,9 @@ const MSG=(function(){
      哪一句：先用這個月的（S.UK_WEEK[第幾次在英國][月]，照表的順序；tag zr_uk<次>_<月><a、b、c>）；用完了從原本十句（msg_pool.js 的 daily）挑這一次在英國還沒發過的（照順序；tag 照舊 zr_uk_daily_<日>；第 8 則「一個月最多一次」照舊）；
      也用完了＝那一週不發。同一次在英國每句只發一次；兩次分開算。
      存檔 G.msgChat.ukWk＝{Y3|Y4:{wk:發過的最後一段, used:[句子 id：uk1_09a…／d0～d9]}}（舊存檔沒有＝沒發過）；第一次建的時候照舊存檔的手機紀錄補（S.ukWkRec）*/
-  S.UK_FROM={Y3:'2027-09-03',Y4:'2028-09-03'};   /* 她到英國的第一天（characters.js 芷若的 absentDates：出發那天不算在英國）；Y3／Y4＝S.zrUkKey */
+  S.UK_FROM={Y3:'2027-09-03',Y4:'2028-09-03'};
+  S.UK_LEAVE={Y3:'2028-02-11',Y4:'2029-08-25'};   /* 離開英國那一天（AA_457 3-1 節②照遊戲的資料：第一次 2/11 離開英國（characters.js 2/12 起回台中）、第二次 8/25 回來）*/
+  S.UK_COUNT={1:[['uk1_02a',15,21],['uk1_02b',0,7]],2:[['uk2_08a',8,14]]};   /* 倒數那三句照「離開前第幾天」（AA_457 3-1 節②，企劃線 d809cdd21）：剩三個禮拜＝21～15 天、箱子還沒整理＝7 天內（第一次）、剩兩個禮拜＝14～8 天（第二次）；那一週這三句優先，不照月份 */   /* 她到英國的第一天（characters.js 芷若的 absentDates：出發那天不算在英國）；Y3／Y4＝S.zrUkKey */
   S.UK_WEEK={   /* AA_457 1-1、1-2 的表，一字不改；「／」＝分成兩則（前面是照片）*/
     1:{9:['（照片：宿舍書桌，檯燈下一疊講義）／開學第一週。講義比臺灣厚。','這邊的咖啡店五點就關了。'],10:['今天在課上講話了。講完手在抖。','（照片：一排紅磚房子）／去上課的路。要走二十分鐘。'],
       11:['（照片：窗台上的霜）／今天零度。','天黑得好早。我把檯燈開到最亮。'],12:['（照片：街上的聖誕燈）／這邊十一月就開始掛了。','期末放映會，我的短片排在第三個。'],
@@ -102,7 +104,9 @@ const MSG=(function(){
     const k=S.zrUkKey(G), n=k==='Y3'?1:2, d0=DK(S.UK_FROM[k]), wk=Math.floor((G.day-d0)/7); if(!(wk>=0)) return false;
     const L=((POOL().people[id]||{}).replies||[]).filter(e=>e.variant===UK&&e.topic==='daily'&&!e.disabled), W=S.ukWkRec(G,k,d0,L); if(W.wk>=wk) return false; W.wk=wk;   /* 這一段已經決定過（發了、或沒有句子＝那一週不發）*/
     const R=S.rec(G), x=CALENDAR.dateOf(G.day), mon=x.key.slice(0,7), M=(S.UK_WEEK[n]||{})[x.m]||[]; let msgs=null, tag=null, u=null;
-    for(let i=0;i<M.length&&!msgs;i++){ const v='uk'+n+'_'+String(x.m).padStart(2,'0')+String.fromCharCode(97+i); if(!W.used.includes(v)&&!PHONE.sent(G,'zr_'+v)){ u=v; msgs=M[i].split('／'); tag='zr_'+v; } }   /* 這個月的，照順序 */
+    const left=DK(S.UK_LEAVE[k])-G.day, CNT=S.UK_COUNT[n]||[], CV=CNT.map(c=>c[0]);
+    for(const [v,a,b] of CNT){ if(msgs) break; const s=((S.UK_WEEK[n]||{})[+v.slice(4,6)]||[])[v.charCodeAt(6)-97]; if(s&&left>=a&&left<=b&&!W.used.includes(v)&&!PHONE.sent(G,'zr_'+v)){ u=v; msgs=s.split('／'); tag='zr_'+v; } }   /* 倒數那三句：照離開前第幾天，優先 */
+    for(let i=0;i<M.length&&!msgs;i++){ const v='uk'+n+'_'+String(x.m).padStart(2,'0')+String.fromCharCode(97+i); if(CV.includes(v)) continue; if(!W.used.includes(v)&&!PHONE.sent(G,'zr_'+v)){ u=v; msgs=M[i].split('／'); tag='zr_'+v; } }   /* 這個月的，照順序（倒數那三句不照月份）*/
     for(let i=0;i<L.length&&!msgs;i++){ const e=L[i], aff=(e.tags||[]).includes('一個月最多一次'); if(W.used.includes('d'+i)||(aff&&R.ukAff===mon)) continue; u='d'+i; msgs=e.msgs; tag='zr_uk_daily_'+G.day; if(aff) R.ukAff=mon; }   /* 原本十句，這一次在英國還沒發過的 */
     if(!msgs||PHONE.sent(G,tag)) return false;
     W.used.push(u); PHONE.at(G,G.day,S.ukOff(G)-1,msgs.map(t=>({th:'p:'+id,from:id,text:t})),tag); return true; };

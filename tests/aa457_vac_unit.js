@@ -23,8 +23,8 @@ const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
 const byTag=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag);
 const oldMsg=(tag,th,from,text,d,h)=>{ PHONE.rec(H.G); H.G.msgs.push({th,from,text,tag,day:d,h}); };   /* 舊存檔：這一則已經用舊的字收過了 */
 
-/* ---- 讀稿（企劃線 3be31d3c8）---- */
-let doc=''; try{ doc=cp.execSync('git show 3be31d3c8:"docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+/* ---- 讀稿（企劃線 d809cdd21＝3be31d3c8＋3-1 節兩題答案）---- */
+let doc=''; try{ doc=cp.execSync('git show d809cdd21:"docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const orig=s=>s.replace(/（原句）$/,'').trim();
@@ -32,8 +32,10 @@ const monTab=t=>{ const o={}; for(const r of rows(t)) if(/^\d{1,2}$/.test(r[0]))
 const X1=monTab(part('### 1-1','### 1-2')), X2=monTab(part('### 1-2','## 2.'));
 const N=o=>Object.values(o).reduce((a,L)=>a+L.length,0);
 const YA=[], YB=[]; let Y5=''; for(const r of rows(part('## 2.','## 3.'))){ if(/^[1-4]$/.test(r[0])){ YA[+r[0]-1]=orig(r[1]); YB[+r[0]-1]=orig(r[2]); } if(/^5/.test(r[0])) Y5=r[1]+'|'+r[2]; }
-const FK={情人節:'vday',三月十四:'white',七夕:'qixi',她的生日:'bday',聖誕:'xmas'}, X3={}; for(const r of rows(part('## 3.','## 4.'))) if(FK[r[0]]) X3[FK[r[0]]]=r[1];
+const FK={情人節:'vday',三月十四:'white',七夕:'qixi',她的生日:'bday',聖誕:'xmas'}, X3={}; for(const r of rows(part('## 3.','## 3-1.'))) if(FK[r[0]]) X3[FK[r[0]]]=r[1];   /* 第 3 節的表（3-1 節的表多一欄「她在哪」，另外讀）*/
+const inDoc=t=>doc.indexOf(t)>=0;
 const OLD3='明天你要下來嗎？……不用勉強。';
+const TC3={vday:'明天情人節。……你要下來台中嗎？不用勉強。',qixi:'明天七夕。台中的夜市很熱鬧，你要下來嗎？……不用勉強。'};   /* 3-1 節①：情人節、七夕她在台中老家；三月十四、聖誕在台南照第 3 節；「做十六歲」、生日那句拿掉 */
 const ZR='heroine_02', YT='heroine_03', PS='classmate_peishan';
 const PAT=/^zr_uk(_daily_\d+|[12]_\d\d[a-c])$/;
 const ORIG10=()=>((MSG_POOL.people[ZR]||{}).replies||[]).filter(e=>e.variant==='在英國'&&e.topic==='daily'&&!e.disabled);
@@ -49,7 +51,7 @@ await sec(0,()=>{
   const Y=(CRACKTALK_LINES.SRC2||{}).yt2||{};
   check('0. 語彤 yt2.A.ask、yt2.B.ask 是四組（照第 2 節的表，第 1 組＝原句）',J((Y.A||{}).ask)===J(YA)&&J((Y.B||{}).ask)===J(YB),J([Y.A&&Y.A.ask,Y.B&&Y.B.ask]));
   const A=((FEST_DATA.PEOPLE||{})[PS]||{}).ask||{}, hb=A.homeBy||{};
-  check('0. 沛珊 ask.homeBy 五個節日照第 3 節（vday／white／qixi／bday／xmas，一字不差）；原本的 homeLines 留著（不在台南用）',Object.keys(X3).every(k=>J(hb[k])===J([X3[k]]))&&J(A.homeLines)===J([OLD3]),J(hb));
+  check('0. 沛珊 ask.homeBy 照 3-1 節①：情人節、七夕＝台中那兩句，三月十四、聖誕＝台南（第 3 節）；沒有生日、沒有「做十六歲」；原本的 homeLines 留著',J(hb)===J({vday:{台中:[TC3.vday]},white:{台南:[X3.white]},qixi:{台中:[TC3.qixi]},xmas:{台南:[X3.xmas]}})&&inDoc(TC3.vday)&&inDoc(TC3.qixi)&&J(A.homeLines)===J([OLD3])&&!/做十六歲/.test(J(hb)),J(hb));
 });
 /* ---- 1 芷若在英國：每週一則 ---- */
 const zr=(k,h)=>{ const G=fresh(k,h); SOCIAL.remember(ZR,'FIRST_MET',''); INV.addContact(G,ZR); H.CLOSE(ZR); ROM.start(G,ZR); return G; };
@@ -68,15 +70,17 @@ await sec(1,()=>{
   check('1. 出發那天（9/2）不發；到的那天（9/3）起：第一則照片「'+(X1[9]||[''])[0]+'」',s1.length>0&&s1[0].day===F1&&J(s1[0].t)===J((X1[9]||[''])[0].split('／'))&&!s1.some(e=>e.day<F1),J(s1.slice(0,2)));
   check('1. 每週一則，不是每天：9/3～9/9 只有一則；兩則之間都隔七天的倍數（同一天、同一週不會兩則）；她回臺灣（2/12）以後不發',s1.filter(e=>e.day>=F1&&e.day<F1+7).length===1&&gaps.every(g=>g>=7&&g%7===0)&&!s1.some(e=>e.day>E1),J(s1.map(e=>keyOf(e.day))));
   check('1. 時間照原本：台灣 07:00（夏令時間 06:00）＝她那邊 23:00 睡前（9/3 06:00、11/5 07:00）',s1.every(e=>Math.abs(e.h-(MSG.ukOff(Object.assign({},H.G,{day:e.day}))-1))<0.05)&&Math.abs(s1[0].h-6)<0.05&&s1.some(e=>keyOf(e.day)==='2027-11-05'&&Math.abs(e.h-7)<0.05),J(s1.map(e=>[keyOf(e.day),e.h])));
-  const n1=s1.filter(isNew), bad1=n1.filter(e=>!/^zr_uk1_/.test(e.tag)||CALENDAR.dateOf(e.day).m!==mOf(e)||J(e.t)!==J(((X1[mOf(e)]||[])[iOf(e)]||'').split('／')));
-  check('1. 第一次在英國：1-1 的 12 句每句剛好一次，都在表上的那個月發、字一字不差（tag zr_uk1_<月><a、b>）',n1.length===12&&new Set(n1.map(e=>e.tag)).size===12&&!bad1.length,J(bad1.length?bad1:n1.map(e=>[keyOf(e.day),e.tag])));
+  const CNT1=(MSG.UK_COUNT||{})[1]||[], LV1=D('2028-02-11'), inWin=e=>{ const c=CNT1.find(c=>'zr_'+c[0]===e.tag); return !!c&&LV1-e.day>=c[1]&&LV1-e.day<=c[2]; };
+  const n1=s1.filter(isNew), bad1=n1.filter(e=>!/^zr_uk1_/.test(e.tag)||(CNT1.some(c=>'zr_'+c[0]===e.tag)?!inWin(e):CALENDAR.dateOf(e.day).m!==mOf(e))||J(e.t)!==J(((X1[mOf(e)]||[])[iOf(e)]||'').split('／')));
+  check('1. 倒數兩句照離開英國前第幾天（3-1 節②，第一次 2/11 離開）：「剩三個禮拜。我開始數了。」21～15 天、「箱子還沒整理。……」7 天以內',CNT1.length===2&&n1.filter(e=>CNT1.some(c=>'zr_'+c[0]===e.tag)).length===2&&n1.filter(e=>CNT1.some(c=>'zr_'+c[0]===e.tag)).every(inWin),J(n1.filter(e=>/02[ab]$/.test(e.tag)).map(e=>[keyOf(e.day),e.tag,LV1-e.day])));
+  check('1. 第一次在英國：1-1 的 12 句每句剛好一次，都在表上的那個月發（倒數兩句照離開前第幾天）、字一字不差（tag zr_uk1_<月><a、b>）',n1.length===12&&new Set(n1.map(e=>e.tag)).size===12&&!bad1.length,J(bad1.length?bad1:n1.map(e=>[keyOf(e.day),e.tag])));
   const ord=Object.keys(X1).every(m=>{ const z=n1.filter(e=>mOf(e)===+m).map(iOf); return J(z)===J(z.slice().sort()); });
   check('1. 同一個月照表的順序',ord);
   const o1=s1.filter(e=>!isNew(e)), oi=o1.map(oIdx);
   check('1. 那個月的用完了才用原本十句（tag 照舊 zr_uk_daily_<日>）：這一次在英國每句只發一次（十句都用到）；9 月第 3、4 週＝原本第 1、2 句',o1.every(e=>e.tag==='zr_uk_daily_'+e.day)&&oi.every(i=>i>=0)&&new Set(oi).size===oi.length&&oi.length===10&&
     o1.every(e=>{ const m=CALENDAR.dateOf(e.day).m; return (X1[m]||[]).every((x,i)=>n1.some(f=>f.day<e.day&&mOf(f)===m&&iOf(f)===i)); })&&J(o1.slice(0,2).map(e=>keyOf(e.day)))===J(['2027-09-17','2027-09-24'])&&J(oi.slice(0,2))===J([0,1]),J(o1.map(e=>[keyOf(e.day),oIdx(e)])));
   const blocks=[]; for(let w=0;F1+7*w<=E1;w++) blocks.push(w); const empty=blocks.filter(w=>!s1.some(e=>Math.floor((e.day-F1)/7)===w)).map(w=>keyOf(F1+7*w));
-  check('1. 這個月的、原本十句都用完了＝那一週不發（1/21、1/28 兩週沒有；其他每週一則）',J(empty)===J(['2028-01-21','2028-01-28'])&&s1.length===blocks.length-2,J({empty,n:s1.length,w:blocks.length}));
+  check('1. 這個月的、原本十句都用完了＝那一週不發（倒數兩句改照離開前第幾天以後：1/28、2/11 兩週沒有；其他每週一則）',J(empty)===J(['2028-01-28','2028-02-11'])&&s1.length===blocks.length-2,J({empty,n:s1.length,w:blocks.length}));
   check('1. 「今天沒什麼事。只是想跟你說晚安。」一個月最多一次（照舊）',(()=>{ const a=o1.filter(e=>oIdx(e)===7).map(e=>keyOf(e.day).slice(0,7)); return new Set(a).size===a.length; })());
   /* 第二次在英國（同一個存檔接著玩）：分開算 */
   const F2=D('2028-09-03'), E2=D('2029-08-24'); const s2=sim(D('2028-08-30'),D('2029-08-31'));
@@ -137,9 +141,9 @@ await sec(2,()=>{
 await sec(3,()=>{
   const K=['vday','white','qixi','bday','xmas'];
   const tn=K.map(k=>FEST.herLines(PS,k,true,'台南')), tc=K.map(k=>FEST.herLines(PS,k,true,'台中'));
-  check('3. 她在台南（home、台南）：五個節日各自的句子（'+K.map(k=>X3[k]).join('／')+'）',K.every((k,i)=>J(tn[i])===J([X3[k]])),J(tn));
-  check('3. 七夕那句是台南的「做十六歲」：「'+X3.qixi+'」',/做十六歲/.test(X3.qixi||'')&&J(FEST.herLines(PS,'qixi',true,'台南'))===J([X3.qixi]));
-  check('3. 不在台南（回台中的家）照原本「'+OLD3+'」',tc.every(L=>J(L)===J([OLD3])),J(tc));
+  check('3. 她在台南（home、台南）：三月十四「'+X3.white+'」、聖誕「'+X3.xmas+'」；情人節、七夕、生日在台南沒有＝原本「'+OLD3+'」（3-1 節①）',J(tn)===J([[OLD3],[X3.white],[OLD3],[OLD3],[X3.xmas]]),J(tn));
+  check('3. 「做十六歲」那句拿掉（3-1 節①）',!K.some(k=>[FEST.herLines(PS,k,true,'台南'),FEST.herLines(PS,k,true,'台中')].some(L=>/做十六歲/.test(J(L)))));
+  check('3. 她在台中老家：情人節「'+TC3.vday+'」、七夕「'+TC3.qixi+'」；三月十四、生日、聖誕在台中＝原本（3-1 節①）',J(tc)===J([[TC3.vday],[OLD3],[TC3.qixi],[OLD3],[OLD3]]),J(tc));
   check('3. 在臺北（不是 home）照原本：第一句照節日換（「明天是情人節！！」「明天是聖誕節！！」）、第二句約溫州街口',J(FEST.herLines(PS,'vday',false))===J(['明天是情人節！！','晚上六點半，溫州街口，可以嗎？'])&&J(FEST.herLines(PS,'xmas',false))===J(['明天是聖誕節！！','晚上六點半，溫州街口，可以嗎？']));
   check('3. 其他人照舊（以安聖誕第一句換字、芷若照 by 整組）',FEST.herLines('heroine_01','xmas',false)[0]==='明天是聖誕節。'&&J(FEST.herLines(ZR,'vday',false))===J(((FEST_DATA.PEOPLE[ZR].ask||{}).by||{}).vday||null));
   /* 實際手機（前一天 21:00，交往中）*/
@@ -150,7 +154,7 @@ await sec(3,()=>{
   check('3. 手機（她在台南）：2028、2029 白色情人節前一天 21:00「'+X3.white+'」；2027、2028 聖誕「'+X3.xmas+'」；tag fest_ask_classmate_peishan_<節日>_<年>、選項「好。」「那天不行。」照舊',
     [w8,w9].every(r=>r.w&&r.w.city==='台南'&&J(r.t)===J([X3.white]))&&[x7,x8].every(r=>r.w&&r.w.city==='台南'&&J(r.t)===J([X3.xmas]))&&[w8,x7,x8,w9].every(r=>J(r.o)===J(['好。','那天不行。'])),J({w8,x7,x8,w9}));
   const v8=flow('vday',2028,'2028-02-13'), q8=flow('qixi',2028,'2028-08-25');
-  check('3. 手機（她回台中的家：2028 情人節、2028 七夕）照原本「'+OLD3+'」',[v8,q8].every(r=>r.w&&r.w.city==='台中'&&J(r.t)===J([OLD3])),J({v8,q8}));
+  check('3. 手機（她回台中的家）：2028 情人節「'+TC3.vday+'」、2028 七夕「'+TC3.qixi+'」（3-1 節①）',[v8,q8].every(r=>r.w&&r.w.city==='台中')&&J(v8.t)===J([TC3.vday])&&J(q8.t)===J([TC3.qixi]),J({v8,q8}));
   ps('2028-03-13'); oldMsg('fest_ask_'+PS+'_white_2028','p:'+PS,PS,OLD3,D('2028-03-13'),21); FEST.phone(H.G); PHONE.tick(H.G);
   check('3. 舊存檔 2028 白色情人節那一則已經收過（舊的字）：不重發',byTag('fest_ask_'+PS+'_white_2028').length===1&&!dm().includes(X3.white),J(dm()));
 });

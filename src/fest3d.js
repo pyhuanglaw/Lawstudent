@@ -245,7 +245,7 @@ const FEST=(function(){
 
   /* ---------------- 1-4 ②她約（只有交往中、不是生日）---------------- */
   S.HER_K=['vday','white','qixi','xmas'];
-  S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}; if(home&&A.homeBy&&Array.isArray(A.homeBy[k])&&(!A.homeCity||A.homeCity===city)) return A.homeBy[k].slice();   /* AA_457 第 3 節：沛珊在台南的時候照節日換（homeBy）；不在台南、沒寫的照原本 */
+  S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}, hb=home&&A.homeBy?A.homeBy[k]:null, HB=Array.isArray(hb)?hb:(hb&&hb[city]); if(Array.isArray(HB)) return HB.slice();   /* AA_457 第 3 節：沛珊回家的時候照節日、照城市換（homeBy[節日][城市]；d809cdd21：情人節、七夕台中，三月十四、聖誕台南）；沒寫的照原本 */
     if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）*/
     const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 第一句照節日換（以安、沛珊）*/
   S.herAsks=function(G){ const F=G.flags;

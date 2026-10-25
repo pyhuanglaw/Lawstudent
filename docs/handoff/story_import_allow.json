@@ -2979,12 +2979,19 @@
   },
   {
    "path": "docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md",
-   "sha": "3be31d3c8",
+   "sha": "d809cdd21",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109）",
    "task": "VAC-READ3-1025",
    "kind": "text",
-   "note": "msg3d.js 芷若英國每週一則（S.UK_WEEK 第一次 12 句、第二次 30 句；同一次每句一次；用完退回原本十句沒發過的；ukWk 紀錄＋舊存檔補算）；cracktalk yt2 A／B 四組（第 5 次起從 2 再輪）；fest_events 沛珊 homeBy＋homeCity 台南、fest3d herLines；tests/aa457_vac_unit.js"
+   "note": "msg3d.js 芷若英國每週一則（S.UK_WEEK 第一次 12 句、第二次 30 句；同一次每句一次；用完退回原本十句沒發過的；ukWk 紀錄＋舊存檔補算）；cracktalk yt2 A／B 四組（第 5 次起從 2 再輪）；fest_events 沛珊 homeBy＋homeCity 台南、fest3d herLines；tests/aa457_vac_unit.js；d809cdd21 3-1 節：沛珊情人節、七夕台中兩句（三月十四、聖誕台南；做十六歲、生日拿掉），homeBy 改 [節日][城市]；芷若倒數三句照離開前第幾天（UK_LEAVE、UK_COUNT）",
+   "history": [
+    {
+     "sha": "3be31d3c8",
+     "until": "2026-10-25 09:4x",
+     "why": "3-1 節兩題答案以前"
+    }
+   ]
   }
  ]
 }
