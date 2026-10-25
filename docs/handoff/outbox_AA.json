@@ -2734,6 +2734,21 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "vac_sweep 改一份跑芷若、語彤、學姊、沛珊交往中（開發分支 d853debc1）＋跨假期一字不差掃描。"
+  },
+  {
+   "task": "TERM-READ-Y1S1-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "b01e32018",
+   "files": [
+    "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：媽媽週四群組照 AA_458 1-2 排、1-3 換句與回覆（不手改 home_lines.js）＋1-5 回家那週晚餐旁白；bbpack3d D5 沛珊講義照第幾次輪；story3d 1796/1799、family_xmas3d 31 換字；中秋當天、颱風假前一晚家人群組各兩則",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep（vac_sweep 學期版）跑 2025-09-01～12-21，開發分支 496eacd48，沒交往／可昕／以安三種存檔，0 錯誤；新開局連三週同一句由程式碼推得、沒實跑。"
   }
  ],
  "items": [
