@@ -1,0 +1,47 @@
+[
+ {
+  "name": "wenzhou",
+  "state": {
+   "zone": "wenzhou",
+   "day": 20,
+   "hour": 14,
+   "stage": "law"
+  }
+ },
+ {
+  "name": "lane118",
+  "state": {
+   "zone": "lane118",
+   "day": 20,
+   "hour": 14,
+   "stage": "law"
+  }
+ },
+ {
+  "name": "gym_1f_grille",
+  "state": {
+   "zone": "gym",
+   "day": 20,
+   "hour": 14,
+   "stage": "law",
+   "pos": {
+    "x": -5,
+    "z": 13.0,
+    "yaw": 0.9
+   }
+  },
+  "yaws": [
+   0.9,
+   -0.9
+  ]
+ },
+ {
+  "name": "cvs",
+  "state": {
+   "zone": "cvs",
+   "day": 20,
+   "hour": 14,
+   "stage": "law"
+  }
+ }
+]
