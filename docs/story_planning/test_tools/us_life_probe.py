@@ -327,7 +327,7 @@ async def ff_once(pg, cdp, run, sc):
             if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
             return sn
     if not await tap_start(pg, cdp, '快轉'): bad.append('%s：床的選單沒有「快轉」（%s）' % (sc['id'], cs)); return None
-    t = await tap_start(pg, cdp, '到下一個有事的日子')
+    t = await tap_start(pg, cdp, '到下一個有事的日子') or await tap_start(pg, cdp, '到下一個有事')   # BB-B 10-25 07:2x：臺灣學期中的快轉（semff3d.js）叫「到下一個有事的時候有劇情、要回的訊息、約好的事就停…」
     if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None
     await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
     try:   # BB-B 10-23 S3_LAKE：快轉停在出遊開始的那一刻，「出發」沒有跳出來、再快轉就錯過——停下來的時候記下該出發的出遊和畫面上的選項
