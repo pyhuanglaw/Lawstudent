@@ -90,6 +90,14 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 01:5x 更新**：
+    - LAWWW-B 00:36：SIGN-AUDIT 已整合（`7d56892eb`）。
+    - 已交：路線巡查⑤美國交換的傍晚（`test_shots/route_us_dusk_1025/README.md`，117 張、errors 0）＋ `patches/window_night_sync_v2_1025.patch`（臺灣七棟大廳 18.6、美國 VT 19.5 → 19.2）。
+    - 已交：沒有窗的室內晚上不變暗（`test_shots/windowless_night_1025/README.md`、`patches/windowless_night_1025.patch`；engine3d.js 兩處，00:3x 先告知 LAWWW-B）。
+    - 兩份 patch 對 `32ddad549` 一起套、分開套都乾淨；相關 Node 測試約 40 支 ALL PASS。
+    - 01:3x 容器重啟過一次：改後截圖重拍；WIP 先 push 在 `b2d79438d`。
+    - 測試樹 `$SP/dv8`＝開發 `32ddad549` 原樣（已還原）。
+    - 下一項：等 LAWWW-B 派。
   - **10-25 01:0x 更新**：
     - LAWWW-B 00:10：B1 健身中心已整合（`32ddad549`）；下一項照順序：①路線巡查⑤美國交換的傍晚 ②沒有窗的室內晚上不變暗（動 engine3d.js 前先說哪一段）。已回 ACK。
     - 已交：SIGN-AUDIT-1025（`test_shots/sign_audit_1025/README.md`）：機場換匯看板、美國社區公車站牌字左右相反；3F 主球場舞台深色木板 → 紅地毯（D112 清查漏掉）；新工具 `check_signs.py`；新測試 `tests/sign_audit_1025_unit.js` 改前 FAIL 5、改後 ALL PASS。

@@ -21,7 +21,7 @@
 | 區域 | 怎麼標 |
 |---|---|
 | 體育館 B1（`gym_b1`） | `gym3d.js` 區域定義 `windowless:true` |
-| 總圖 B1（`library_b1`） | `library_b1_3d.js` 區域定義 `windowless:true` |
+| 總圖 B1（`library_b1`） | `library_b1_3d.js` 區域定義 `windowless:true`。這一區當初已經在 `applyTime` 固定了光線，加標記只是讓四區用同一套規則，畫面不變 |
 | 總圖視聽室（`library_media`） | `rooms_glb3d.js`：GLB 房間的配置窗數＝0 就是 windowless（`room_glb_layouts.js` 寫「沒有窗（視聽室）」） |
 | 美國法學院圖書館 2F（`us_lawlib_2f`） | 同上（配置寫「二樓沒有窗」） |
 
@@ -41,3 +41,23 @@
   1. 引擎的判斷（燈、室內那一段）；
   2. 四個區域的標記；GLB 房間裡 windowless 的只有視聽室、美國法圖 2F；
   3. 抽出室內那一段來跑：windowless 在 21:00、17:00、7:00、23:30、3:00 都和 14:00 一樣；一般室內 21:00 照舊是夜晚。
+
+- **相關的 Node 測試**（和 `window_night_sync_v2_1025.patch` 一起套在 `32ddad549` 上）：
+  - ALL PASS：`season_dusk`、`after_midnight`、`window_night_sync`、`us_lawlib_sky`、`us_lamp_pools`、`gym_unit`、`gym_arena`、`gym_b1_fitness`、`library_b1`、`rooms_glb`、`linze_5f`、`shadow_levels`、`ui_night_bg`、`night_forget`、`campus_lamps`、`l118_shops`、`library_upper`、`nav_buildings`。
+  - 會讀到改過檔案的 `boya_*`、`dorm_*`、`classes`、`crowd` 等 20 支也都 ALL PASS。
+- **遊戲內量到的**（`E.hemi`、燈）：
+
+| 區域 | 14:00 | 21:00 改前 | 21:00 改後 |
+|---|---|---|---|
+| 體育館 B1 | 1.2、`#f4f1ea`、燈白天 | 1.05、`#e6ecfa`（偏藍）、燈夜間 | 1.2、`#f4f1ea`、燈白天 |
+| 視聽室 | 同上 | 同上 | 同上 |
+| 美國法圖 2F（11/23 17:45） | 同上 | 同上 | 同上 |
+| 總圖 B1 | 1.15、`#eef2f8` | 1.15、`#eef2f8`（本來就固定） | 不變 |
+
+## 改前、改後（同一個鏡頭）
+
+![體育館 B1、美國法圖 2F、視聽室：14:00 和晚上](01_windowless_before_after.jpg)
+
+- 改後晚上和白天一樣。唯一的差別是人物腳下的影子：引擎晚上本來就關掉太陽的影子（`E.nightShadow`），這次沒動。
+- 【捷徑】讀檔直接設時刻。
+- **沒測**：手機實機、整套回歸。
