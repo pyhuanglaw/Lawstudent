@@ -47,7 +47,12 @@ async def close_phone(pg):
     await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(500)
 async def answer(pg, cdp, rules):
     """要回覆的訊息：打開手機 → 訊息 → 點那個對話串 → 點選項（照玩家）。rules：{ask id 前綴: 選項開頭}"""
-    pend = await pg.evaluate("(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()")
+    PEND = "(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()"
+    QDUE = "(()=>{ const G=GAME.G, P=PHONE.rec(G), t=G.day*24+G.hour; return (P.q||[]).some(x=>x&&x.day!=null&&x.day*24+(+x.h||0)<=t+0.02); })()"
+    pend = await pg.evaluate(PEND)
+    for _ in range(8):   # BB-B 10-25 07:4x：臺灣學期中的快轉（semff3d.js）停在訊息的時間，訊息要等下一次手機規則（0.5 秒）才送到；原本馬上讀＝空的、沒回就再快轉（R37_ABS_*）
+        if pend or not await pg.evaluate(QDUE): break
+        await pg.wait_for_timeout(800); pend = await pg.evaluate(PEND)
     done = False
     for m in pend:
         want = next((v for k, v in rules.items() if k != '*' and m['id'].startswith(k)), None)
