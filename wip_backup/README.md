@@ -13,6 +13,7 @@
 
 | `aa461_462_1025.bundle` | `aa461-462-y2s2-y3s1`（5ddfe486a AA_461 大二下讀後、0b474c8b4 AA_462 大三上讀後，2 個 commit） | 0b474c8b4 | 2026-10-25 12:0x LAWWW-B 隔離 worktree 子代理做完（628 支 Node 0 失敗）；前置 661423a71 在 origin 的 claude/modest-rubin-2lyp7g | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa461_462_1025.bundle aa461-462-y2s2-y3s1:aa461-462-y2s2-y3s1`） |
 | `aa466_468_1025.bundle` | `aa466-468`（af26ff25e AA_466 日本路線、03bb9ee7f AA_467 期末最後一頓／可昕跨年、896071162 AA_468 芷若大四跨年／律師讀書小組，3 個 commit） | 896071162 | 2026-10-25 12:3x LAWWW-B 隔離 worktree 子代理做完（629 支 Node 0 失敗）；前置 661423a71 在 origin 的 claude/modest-rubin-2lyp7g | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa466_468_1025.bundle aa466-468:aa466-468`） |
+| `aa461_464_1025.bundle` | `aa463-464-y3s2-y4s1`（接在 aa461-462 之後：d833ee98f AA_461 第 6 節＋AA_462 第 8 節＋AA_465 第 3 節、ec323077c AA_463、89ac3bb65 AA_464；bundle 含 aa461-462 的兩個 commit，共 5 個） | 89ac3bb65 | 2026-10-25 12:4x LAWWW-B 隔離 worktree 子代理做完（630 支 Node 0 失敗）；前置 661423a71 在 origin | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa461_464_1025.bundle aa463-464-y3s2-y4s1:aa463-464-y3s2-y4s1`；取代 aa461_462_1025.bundle） |
 還原（在 repo 裡，開發分支已經 fetch 過）：
 ```bash
 git fetch wip_backup/dorm-hall.bundle wip/dorm-hall:wip/dorm-hall   # 需要的前置 commit（79e1fed、3c9e02f）都在 origin 的開發分支上
