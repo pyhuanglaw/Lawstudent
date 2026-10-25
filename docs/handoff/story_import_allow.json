@@ -2947,12 +2947,19 @@
   },
   {
    "path": "docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md",
-   "sha": "2de70709f",
+   "sha": "0c5afca90",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109；USER_WANTS C25）",
    "task": "SIS-B11-1025",
    "kind": "text",
-   "note": "src/data/sis_b11_events.js（ev_sis_abstract、ev_sis_defense_date）＋src/sis_b11_3d.js（朋友版條件、3/20 私訊要回＋出遊、4/16～4/27 總圖門口、4/18 去：總圖、4/27 私訊、5/28 私訊＋y4_m9）；index.html 兩個 script；social3d.js MEMORY_LABEL.SIS_ABSTRACT；tests/aa455_sis_unit.js"
+   "note": "src/data/sis_b11_events.js（ev_sis_abstract、ev_sis_defense_date）＋src/sis_b11_3d.js（朋友版條件、3/20 私訊要回＋出遊、4/16～4/27 總圖門口、4/18 去：總圖、4/27 私訊、5/28 私訊＋y4_m9）；index.html 兩個 script；social3d.js MEMORY_LABEL.SIS_ABSTRACT；tests/aa455_sis_unit.js；0c5afca90：3-1 節①沒去法圖 13:15 她一則「沒看到你。我自己讀完了。」②SIS_DEFENSE_DATE 人物頁「她告訴你口試的日子」",
+   "history": [
+    {
+     "sha": "2de70709f",
+     "until": "2026-10-25 05:5x",
+     "why": "3-1 節兩題答案以前"
+    }
+   ]
   }
  ]
 }

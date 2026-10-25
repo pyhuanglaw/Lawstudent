@@ -1,4 +1,4 @@
-// AA_455 學姊第十一批：大四下的朋友版——摘要、口試的日子（企劃線 2de70709f，AA-B 2026-10-25 05:4x；D111、USER_WANTS C25）——不需要瀏覽器。台詞逐字對 AA_455。
+// AA_455 學姊第十一批：大四下的朋友版——摘要、口試的日子（企劃線 2de70709f；3-1 節答案 0c5afca90，AA-B 2026-10-25 05:4x；D111、USER_WANTS C25）——不需要瀏覽器。台詞逐字對 AA_455。
 //   0  新檔載得到、index.html 接線；每一句台詞、旁白、選項都在稿裡（一字不差），稿裡兩場的每一句學姊、旁白都在遊戲裡；人物頁 SIS_ABSTRACT
 //   1  11-1：3/20 21:00 私訊（要回）、快轉停在那則；「有。」＝排出遊「法圖 12:30」、「明天不行。」／沒回＝不排；法圖二樓三個選項照稿；熟悉 +2、自在 +2、記憶 SIS_ABSTRACT；
 //      朋友版才有（交往中、前任、不熟、沒認識她都沒有；和別人交往中、三條交換路線都有）
@@ -46,7 +46,7 @@ const ff=async(to,until)=>{ const L=[]; let r=null;
   return {r,L}; };
 
 (async()=>{
-let doc=''; try{ doc=cp.execSync('git show 2de70709f:"docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 0c5afca90:"docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), at=s=>html.indexOf(s);
   check('0. 新檔載得到（SISB11、SISB11_LINES、SISB11_EVENTS）',ok1&&ok2&&!!X()&&typeof SISB11_LINES!=='undefined'&&Array.isArray(SISB11_EVENTS),J(loadErr));
@@ -58,7 +58,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const body=doc.slice(doc.indexOf('## 1.'),doc.indexOf('## 3.')), lines=[...body.matchAll(/(?:學姊|旁白)：([^\n]+)/g)].map(m=>m[1].trim()), mine=new Set(q.map(t=>t.replace(/^「|」$/g,'')));
   const lost=lines.filter(t=>!mine.has(t));
   check('0. 稿裡 11-1、11-2 的每一句學姊、旁白都在遊戲裡（'+lines.length+' 句）',!!doc&&lines.length>=25&&!lost.length,J(lost));
-  check('0. 人物頁：SIS_ABSTRACT＝「她給你看過論文摘要」（11-2 的 SIS_DEFENSE_DATE 稿沒寫名稱、不加）',SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL.SIS_ABSTRACT==='她給你看過論文摘要'); });
+  check('0. 人物頁：SIS_ABSTRACT＝「她給你看過論文摘要」、SIS_DEFENSE_DATE＝「她告訴你口試的日子」（AA_455 3-1 節②）',SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL.SIS_ABSTRACT==='她給你看過論文摘要'&&SOCIAL.MEMORY_LABEL.SIS_DEFENSE_DATE==='她告訴你口試的日子'); });
 /* ---- 1 ---- */
 await sec(1,async()=>{ fresh('2029-03-20',20,'FAMILIAR'); ph(); const early=byTag('sisb11_abs_ask').length; H.at('2029-03-20',21); ph(); const M=byTag('sisb11_abs_ask'), m=M.find(x=>x.ask);
   check('1. 3/20 21:00 她私訊「明天中午有空嗎。法圖二樓。」「我需要一個不是財經法組的人。」（21:00 以前沒有）；回「有。」／「明天不行。」',early===0&&J(M.map(x=>x.text))===J(['明天中午有空嗎。法圖二樓。','我需要一個不是財經法組的人。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['有。','明天不行。'])&&m.ask.until===T(D('2029-03-21'),12.5),J(M));
@@ -74,7 +74,8 @@ await sec(1,async()=>{ fresh('2029-03-20',20,'FAMILIAR'); ph(); const early=byTa
   fresh('2029-03-20',21,'FAMILIAR'); ph(); H.at('2029-03-21',12); ph(); H.at('2029-03-21',13); ph();
   check('1. 沒回：不排；12:30 以後不能再回',!OUT.get(H.G,'sisb11_abs')&&PHONE.answer(H.G,'sisb11_abs_ask',0)==null&&!OUT.get(H.G,'sisb11_abs'));
   fresh('2029-03-20',21,'FAMILIAR'); ph(); PHONE.answer(H.G,'sisb11_abs_ask',0); ph(); const qm=OUT.get(H.G,'sisb11_abs'), n0=th().length; H.at('2029-03-21',13); for(const x of OUT.expire(H.G)) OUT.onMissed(GM,x); H.at('2029-03-22',9); ph();
-  check('1. 回了「有。」沒到：記 missed、不補訊息（稿沒寫）',!!qm&&qm.state==='missed'&&H.G.flags.SIS_ABSTRACT==='missed'&&n0===4&&th().length===n0,J({st:qm&&qm.state,f:H.G.flags.SIS_ABSTRACT,n0,n1:th().length}));
+  const lm=th()[th().length-1];
+  check('1. 回了「有。」沒到：記 missed；3/21 13:15 她一則「沒看到你。我自己讀完了。」（AA_455 3-1 節①，0c5afca90），不扣關係',!!qm&&qm.state==='missed'&&H.G.flags.SIS_ABSTRACT==='missed'&&n0===4&&th().length===n0+1&&!!lm&&lm.text==='沒看到你。我自己讀完了。'&&lm.day===STORY.dayOfKey('2029-03-21')&&Math.abs(lm.h-13.25)<0.02,J({st:qm&&qm.state,f:H.G.flags.SIS_ABSTRACT,n0,n1:th().length,lm}));
   fresh('2029-03-20',18,'FAMILIAR'); { const {r,L}=await ff(T(D('2029-03-21'),7.5),r=>r.why==='msg'&&PHONE.pending(H.G).some(m=>m.ask&&m.ask.id==='sisb11_abs_ask'));
     check('1. 學期中的快轉停在 3/20 21:00 她那則（要回的訊息）',r&&r.why==='msg'&&lbl(now())==='03-20 21:00'&&PHONE.pending(H.G).some(m=>m.ask.id==='sisb11_abs_ask'),J(L)); }
   const none=[]; for(const [nm,lv,fl,dt] of [['和她交往中','FRIEND',{},()=>H.date(ID)],['前任','FRIEND',{},()=>{ H.date(ID); ROM.end(H.G,ID,'test'); }],['不熟（認識）',ACQ,{}],['沒認識她（met_sis 沒有）','FAMILIAR',{met_sis:false}]]){

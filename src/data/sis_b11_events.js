@@ -7,6 +7,8 @@ const SISB11_LINES={
   absOpts:[{t:'有。',k:true,r:'十二點半。帶筆。'},{t:'明天不行。',k:false,r:'好。那我自己再讀一次。'}],
   /* 11-2 4/27 以前都沒遇到：4/27 21:00 一則（只講資訊，不約）*/
   defDm:'口試日期下來了。五月二十九日，下午四點。',
+  /* 11-1 回了「有。」沒到：3/21 13:15 一則（AA_455 3-1 節，企劃線 0c5afca90；不扣關係、之後不再提）*/
+  absMiss:'沒看到你。我自己讀完了。',
   /* 11-2 接 5/29：選了「那天我去門口等。」、不在家族群組的，5/28 21:00 */
   m9Dm:'明天四點。……你說要來的。' };
 
@@ -29,7 +31,7 @@ const SISB11_EVENTS=(function(){
         {label:'e'},SIS('好。下禮拜給教授。'),SIS('……謝謝。樓下的自助餐，我請。'),
         N('（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'),
         Object.assign({set:{SIS_ABSTRACT:'went'}},mem('SIS_ABSTRACT',{fam:2,comf:2})) ],
-      outingMissed:G=>{ if(G.flags.SIS_ABSTRACT==null) G.flags.SIS_ABSTRACT='missed'; } },   /* 回了「有。」沒到：稿沒寫，不補訊息 */
+      outingMissed:(G,GM,q)=>{ if(G.flags.SIS_ABSTRACT==null) G.flags.SIS_ABSTRACT='missed'; if(q&&typeof PHONE!=='undefined') PHONE.at(G,q.day,13.25,[{th:'p:'+ID,from:ID,text:SISB11_LINES.absMiss}],'sisb11_abs_miss'); } },   /* 回了「有。」沒到：13:15 她一則（AA_455 3-1 節①），不扣關係 */
     /* ---------- 11-2 4/16～4/27 平日 17:00～17:30 總圖門口：五月二十九日（遇到就演，S.tick）---------- */
     { id:'ev_sis_defense_date', title:'五月二十九日', participants:[ID], location:'any', trigger:'manual', once:true, background:'blur',
       dialogue:[ {scene:'總圖・門口',bg:'library_gate_day'},
