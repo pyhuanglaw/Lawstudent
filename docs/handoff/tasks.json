@@ -31923,6 +31923,28 @@
     "ack": "SENT"
    },
    "notes": ""
+  },
+  {
+   "id": "SIS-B11-1025",
+   "title": "學姊大四下朋友版補兩場（AA_455，C25）：3/21 法圖二樓「摘要」（3/20 私訊要回＋出遊）、4/18 總圖門口「五月二十九日」（4/16～4/27 平日傍晚遇到、快轉停 4/18、沒遇到 21:00 私訊；5/28 私訊＋5/29 出遊）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW-B 子代理實作；之後 BB 瀏覽器",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": 5,
+    "earliest": "法律系大四下 3/20",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 05:17（企劃線 2de70709f，outbox 8e1969e28）；USER_WANTS C25（使用者 10-23：學姊才是真正的女主角，劇情要充實）",
+   "authorized": "D109、D111、C25",
+   "notes": ""
   }
  ]
 }
