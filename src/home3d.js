@@ -555,10 +555,15 @@ const HOME=(function(){
      颱風假（calendar.js 的 TYPHOON，CALENDAR.typhoon）前一晚：20:45 媽媽——住家裡（人在家）的不傳，媽媽就在旁邊；21:00 爸爸——住家裡的也傳。tag home_ty_<前一晚>、home_ty_dad_<前一晚>（麵店團群組的「四十二頁」照舊，story3d.js）
      「那時候人在家」記 G.home.famNo（那個 tag 之後不再補；舊存檔沒有＝沒記過）*/
   S.FAM_DAYS={moon:[['mom','📷（桌上一盒月餅，切開了一個）'],['mom','蛋黃的 留給你']],moonDad:[['dad','📷（上海的月亮，前面一棟很高的樓）']],ty:[['mom','颱風 窗戶關好 不要出門']],tyDad:[['dad','📷（颱風路徑圖）']]};
+  /* AA_458 第 7 節①（企劃線 ae13fa69e）：中秋照每一年換（四年一模一樣的照片會被認出來）。2025 照上面（原句）；那一年中秋的西元年沒有寫＝照上面。人在國外照舊不發 */
+  S.FAM_MOON={2026:{moon:[['mom','📷（一盒月餅，這次是芋頭的）'],['mom','你爸說蛋黃的吃膩了']],moonDad:[['dad','📷（上海的月亮，被雲擋住一半）']]},
+    2027:{moon:[['mom','📷（樓下鄰居在烤肉，煙飄到陽台）'],['mom','今年沒烤 聞就好']],moonDad:[['dad','📷（上海的月亮，旁邊多了一棟正在蓋的樓）']]},
+    2028:{moon:[['mom','📷（月餅剩最後一個）'],['mom','這個留給你 冰起來了']],moonDad:[['dad','📷（上海的月亮）'],['dad','這張最清楚']]}};
   S.famDays=function(G){ if(typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||!CALENDAR.fest||(G.stage||'law')!=='law'||!PHONE.inGroup(G,'home')||(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return;
     const now=G.day*24+G.hour, th='g:home', home=S.livesHome(G)||S.at(G), H=S.rec(G);
     const send=(d,h,k,tag,skip)=>{ if(now<d*24+h||now>=(d+2)*24||PHONE.sent(G,tag)||(Array.isArray(H.famNo)&&H.famNo.includes(tag))) return; if(skip){ (H.famNo=Array.isArray(H.famNo)?H.famNo:[]).push(tag); return; }
-      PHONE.at(G,d,h,S.FAM_DAYS[k].map(([w,t])=>({th,from:w,name:w==='dad'?'爸爸':'媽媽',text:t})),tag); };
+      const Y=S.FAM_MOON[CALENDAR.dateOf(d).y]||{};   /* 中秋照那一年換（第 7 節）；颱風、沒寫的年照 FAM_DAYS */
+      PHONE.at(G,d,h,(Y[k]||S.FAM_DAYS[k]).map(([w,t])=>({th,from:w,name:w==='dad'?'爸爸':'媽媽',text:t})),tag); };
     for(const d of [G.day,G.day-1]){ if(!CALENDAR.termOf(d)&&!CALENDAR.termOf(d+1)) continue;   /* 只在學期裡（家人群組週四那一套的範圍；畢業以後的中秋不發，postgrad3d.js 快轉不會多停一次）*/ if(CALENDAR.fest(d)==='中秋'&&CALENDAR.termOf(d)){ send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); }
       if(CALENDAR.typhoon(d+1)){ send(d,20.75,'ty','home_ty_'+d,home); send(d,21,'tyDad','home_ty_dad_'+d,false); } } };
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
