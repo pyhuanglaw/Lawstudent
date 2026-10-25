@@ -1,0 +1,90 @@
+diff -ruN a/src/engine3d.js b/src/engine3d.js
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -172,9 +172,10 @@
+       const lit=new THREE.Color(0xffffff).lerp(E.sun.color,0.25+0.6*dusk); lit.lerp(new THREE.Color(0x323a52),nk*0.92); const dark=sk.top.value.clone().lerp(new THREE.Color(0xa6b0bf),0.55).lerp(new THREE.Color(0x9a7472),dusk*0.45).lerp(new THREE.Color(0x141a28),nk*0.9);
+       sk.cloudLit.value.copy(lit); sk.cloudDark.value.copy(dark); sk.cover.value=0.43-0.04*dusk; sk.starAmt.value=Math.max(0,nk-0.3)*0.9;
+       if(E.skyline){ const fc=scene.fog.color; const haze=fc.clone().lerp(sk.mid.value,0.35); const U=E.skyline.userData; U.mount.material.color.copy(haze).lerp(new THREE.Color(0x67798c),0.7*(1-nk)).lerp(new THREE.Color(0x8a6f80),dusk*0.3).lerp(new THREE.Color(0x232a3c),nk*0.8); U.city.material.color.copy(haze).lerp(new THREE.Color(0x6f7c8c),0.45*(1-nk)).lerp(new THREE.Color(0x7a5e6c),dusk*0.35).lerp(new THREE.Color(0x121827),nk*0.9); U.win.material.opacity=Math.max(0,Math.min(1,(nk-0.15)*1.4)); } }
+-    const lamps=lerp(A[13],B[13])>0.5; if(lamps!==E.lampsOn){ E.lampsOn=lamps; E.setLamps(lamps); }
++    const nw=!!(E.indoor&&E.zone&&E.zone.def&&E.zone.def.windowless);   /* 沒有窗的室內（地下室、視聽室；區域 def.windowless）：整天都是白天的光——燈不切到夜間、下面室內那一段的 night／dusk／清晨色調都不用（LAWWW2-B 10-25：B1 健身房 21:00 偏藍偏暗）*/
++    const lamps=!nw&&lerp(A[13],B[13])>0.5; if(lamps!==E.lampsOn){ E.lampsOn=lamps; E.setLamps(lamps); }
+     if(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.cityLight&&E.lampsOn){ const cl=E.zone.def.cityLight; E.hemi.intensity+=0.45*cl; E.hemi.color.lerp(new THREE.Color(0xffd9a8),0.5*cl); scene.fog.color.lerp(new THREE.Color(0x4a4058),0.4*cl); }
+-    if(E.indoor){ const night=(h<6.5||h>=18); const dusk=(h>=16.5&&h<18.4); const warm=!!(E.zone&&E.zone.warm), cool=!!(E.zone&&E.zone.cool); E.hemi.intensity=night?(warm?0.8:(cool?1.05:0.95)):(dusk?1.1:1.2); E.hemi.color.set(night?(warm?0xffdcb0:(cool?0xe6ecfa:0xfff0dc)):(dusk?0xf9e6c8:(h<8?0xeef2f8:0xf4f1ea))); E.hemi.groundColor.set(night?0x6e5f52:(dusk?0xa08a6a:0x9a8a78)); E.sun.intensity=night?0:(dusk?0.7:0.9);   /* 室內晚上原本 0.12：太陽在地平線附近、會投影，陰影範圍的邊界在牆上留下一塊方形亮區（博雅一樓圓桌後牆，LAWWW2 10-14 C13 回報；關掉投影就不見）*/ if(E.sun.color) E.sun.color.set(dusk?0xffc07a:0xffffff); renderer.toneMappingExposure=E.toneK||1; scene.fog.far=E.q.far; if(E.zone&&E.zone.applyTime) E.zone.applyTime(h,E.weather); return; }
++    if(E.indoor){ const night=!nw&&(h<6.5||h>=18); const dusk=!nw&&(h>=16.5&&h<18.4); const warm=!!(E.zone&&E.zone.warm), cool=!!(E.zone&&E.zone.cool); E.hemi.intensity=night?(warm?0.8:(cool?1.05:0.95)):(dusk?1.1:1.2); E.hemi.color.set(night?(warm?0xffdcb0:(cool?0xe6ecfa:0xfff0dc)):(dusk?0xf9e6c8:(h<8&&!nw?0xeef2f8:0xf4f1ea))); E.hemi.groundColor.set(night?0x6e5f52:(dusk?0xa08a6a:0x9a8a78)); E.sun.intensity=night?0:(dusk?0.7:0.9);   /* 室內晚上原本 0.12：太陽在地平線附近、會投影，陰影範圍的邊界在牆上留下一塊方形亮區（博雅一樓圓桌後牆，LAWWW2 10-14 C13 回報；關掉投影就不見）*/ if(E.sun.color) E.sun.color.set(dusk?0xffc07a:0xffffff); renderer.toneMappingExposure=E.toneK||1; scene.fog.far=E.q.far; if(E.zone&&E.zone.applyTime) E.zone.applyTime(h,E.weather); return; }
+     if(E.zone&&E.zone.applyTimeOutdoor) E.zone.applyTimeOutdoor(h,E);
+     if(E.weather==='rain'||E.weather==='cloudy'){ E.sun.intensity*=E.weather==='rain'?0.35:0.55; E.hemi.intensity*=0.9; sk.sunAmt.value*=0.2; sk.cover.value=E.weather==='rain'?0.22:0.32; sk.cloudLit.value.lerp(new THREE.Color(0xb7bec8),0.6); sk.cloudDark.value.lerp(new THREE.Color(0x6d7682),0.6); sk.top.value.lerp(new THREE.Color(0x7f8a99),0.7); sk.mid.value.lerp(new THREE.Color(0xa9b3bd),0.6); scene.fog.color.lerp(new THREE.Color(0xa9b3bd),0.5); scene.fog.far=(E.fogFar||E.q.far)*0.7; } else scene.fog.far=E.fogFar||E.q.far; };   /* v9.3 第二十批：原本這裡每次都重設成畫質預設的 E.q.far，區域的 viewFar（applyViewFar）實際上沒有生效 */
+   E.setLamps=function(on){ for(const l of E.lampGlows){ l.visible=on; } if(E.zone&&E.zone.onLamps) E.zone.onLamps(on); };
+diff -ruN a/src/gym3d.js b/src/gym3d.js
+--- a/src/gym3d.js
++++ b/src/gym3d.js
+@@ -135,7 +135,7 @@
+     const wk=wkOf(G); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; } if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; r.fit=Math.min(100,(r.fit|0)+2); } r.fitDay=G.day;   /* fitDay：最後一次運動（src/fit3d.js 的 8 週提醒）*/   /* 重訓一小時 +2，每週最多算 3 次（和打羽球的 2 次分開）*/
+     const st=fitStage(r.fit|0), L=FIT_LINES[st]; r.fitLast=r.fitLast||{}; const prev=r.fitLast[st]; let k=(prev==null?0:(prev+1)%L.length); r.fitLast[st]=k; await GM.say(null,L[k]); }   /* 三句輪流、不連續重複 */
+   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
+-  const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
++  const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
+     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
+     g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz);
+     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+diff -ruN a/src/library_b1_3d.js b/src/library_b1_3d.js
+--- a/src/library_b1_3d.js
++++ b/src/library_b1_3d.js
+@@ -35,7 +35,7 @@
+       const ap=(GM.seatApproach&&GM.seatApproach(st))||st.ap||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,0))) sit(); }
+     return k; };
+   const inRoom=(s,rooms)=>{ for(const r of rooms||[]) if(s.x>r.x0&&s.x<r.x1&&s.z>r.z0&&s.z<r.z1) return r.id; return null; };
+-  const zone={ id:'library_b1', name:'總圖書館 B1', indoor:true, camDist:4.6, build(E){ const L=LAY(), Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
++  const zone={ id:'library_b1', name:'總圖書館 B1', indoor:true, windowless:true, camDist:4.6, build(E){ const L=LAY(), Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+     const z=Z3.room(E,{w:W,d:D,h:H,cool:true,windows:false,wallColor:'#ecebe6',floorTex:W3.stoneTex('#d2d0ca'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* 地下室：沒有窗 */
+     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+     for(const w of z.walls) w.visible=false; z.walls.length=0;
+diff -ruN a/src/rooms_glb3d.js b/src/rooms_glb3d.js
+--- a/src/rooms_glb3d.js
++++ b/src/rooms_glb3d.js
+@@ -42,7 +42,7 @@
+   function gateHide(it,shut){ Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=G_(), op=!!G&&openNow(ROOM_GLB_LAYOUTS[it.gate],G); return shut?op:!op; }}); return it; }
+   if(typeof Z3!=='undefined'){ Z3.roomGlbSet=(id,G)=>ROOM_GLB_LAYOUTS[id]?setOf(ROOM_GLB_LAYOUTS[id],G):null; Z3.roomGlbOpen=(id,G)=>openNow(ROOM_GLB_LAYOUTS[id],G); Z3.roomGlbGate=gateHide; }
+   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
+-    return { id, name:L.name, indoor:true, camDist:L.cam_dist||4.2, build(E){ const sk=setOf(L,G_()), SET=sk?L.sets[sk]:null, BL=SET?SET.blocks:L.blocks, SE=SET?SET.seats:L.seats; const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
++    return { id, name:L.name, indoor:true, windowless:!(WIN&&WIN.xs&&WIN.xs.length), camDist:L.cam_dist||4.2, build(E){   /* windowless：沒有窗的房間（視聽室、美國法圖 2F）晚上和白天一樣亮（engine3d.js applyTime）*/ const sk=setOf(L,G_()), SET=sk?L.sets[sk]:null, BL=SET?SET.blocks:L.blocks, SE=SET?SET.seats:L.seats; const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+       const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:(L.view_season==='us'&&typeof US3!=='undefined'&&US3.usSeasonKey?L.view+'_'+US3.usSeasonKey():L.view)||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* view_season:'us'：窗景照美國篇的季節換（us_bed_c_summer／autumn／bare／snow，us3d.js 的 usSeasonKey）*/
+       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+       for(const w of z.walls) w.visible=false; z.walls.length=0;
+--- /dev/null
++++ b/tests/windowless_night_unit.js
+@@ -0,0 +1,35 @@
++// 沒有窗的室內晚上和白天一樣亮（LAWWW2-B 2026-10-25；LAWWW-B 10-25 00:10 同意做）——不需要瀏覽器。
++//   原本 engine3d.js 的 applyTime 室內那一段照時刻切：18:00 以後 night（半球光 0.8～1.05、cool 的偏藍 0xe6ecfa、太陽光 0）、16:30～18:24 dusk（暖色）、
++//   清晨 h<8 偏冷；室內的燈（onLamps、光暈）也照路燈的時刻開關。地下室、視聽室沒有窗、燈一直開著，晚上卻偏藍偏暗（B1 健身房 21:00）。
++//   1. engine3d.js：區域 def.windowless 的室內，lamps 不切到夜間、night／dusk／清晨色調都不用（其他室內、戶外照舊）；
++//   2. 標成 windowless 的區域：體育館 B1（gym_b1）、總圖 B1（library_b1）、GLB 房間裡窗數＝0 的（視聽室 library_media、美國法圖 2F us_lawlib_2f）；
++//      有窗的房間（萬才研討室、霖澤 202、宿舍 205、臥室 C…）不是；
++//   3. 室內那一段的行為：用 vm 執行抽出來的判斷——windowless 在 21:00、17:00、7:00 都和 14:00 一樣；一般室內 21:00 照舊是 night。
++// 修改前 FAIL。用法：node tests/windowless_night_unit.js
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
++const eng=rd('src/engine3d.js');
++const nwLine=eng.match(/const nw=!!\(E\.indoor&&E\.zone&&E\.zone\.def&&E\.zone\.def\.windowless\);/);
++check('1. engine3d.js 有 windowless 的判斷（E.indoor＋區域 def.windowless）', !!nwLine);
++check('1. 燈：windowless 室內不切到夜間（lamps=!nw&&…）', /const lamps=!nw&&lerp\(A\[13\],B\[13\]\)>0\.5;/.test(eng));
++const ind=eng.match(/if\(E\.indoor\)\{ const night=[^;]*; const dusk=[^;]*;[^\n]*?E\.hemi\.color\.set\([^;]*\);/);
++check('1. 室內那一段：night、dusk 都看 nw', !!ind&&/night=!nw&&/.test(ind[0])&&/dusk=!nw&&/.test(ind[0]));
++check('1. 室內那一段：清晨色調看 nw', !!ind&&/h<8&&!nw/.test(ind[0]));
++// 2. 區域
++check('2. 體育館 B1 是 windowless', /const gym_b1=\{ id:'gym_b1', name:'[^']*', indoor:true, windowless:true,/.test(rd('src/gym3d.js')));
++check('2. 總圖 B1 是 windowless', /id:'library_b1', name:'[^']*', indoor:true, windowless:true,/.test(rd('src/library_b1_3d.js')));
++const rg=rd('src/rooms_glb3d.js');
++check('2. GLB 房間：窗數＝0 的是 windowless（windowless:!(WIN&&WIN.xs&&WIN.xs.length)）', /windowless:!\(WIN&&WIN\.xs&&WIN\.xs\.length\)/.test(rg));
++{ const ctx={console}; vm.createContext(ctx); vm.runInContext(rd('src/data/room_glb_layouts.js')+';this.R=ROOM_GLB_LAYOUTS;',ctx);
++  const nw=Object.entries(ctx.R).filter(([k,v])=>!(v.windows&&v.windows.xs&&v.windows.xs.length)).map(([k])=>k).sort();
++  check('2. GLB 房間裡 windowless 的是視聽室、美國法圖 2F（其他房間都有窗）', JSON.stringify(nw)===JSON.stringify(['library_media','us_lawlib_2f']), nw.join('、')); }
++// 3. 行為：把室內那一段的 night／dusk／清晨判斷抽出來跑
++if(ind){ const nightE=ind[0].match(/const night=([^;]*);/)[1], duskE=ind[0].match(/const dusk=([^;]*);/)[1], colE=ind[0].match(/E\.hemi\.color\.set\(([^;]*)\);/)[1], intE=ind[0].match(/E\.hemi\.intensity=([^;]*);/)[1];
++  const run=(h,nw,cool)=>vm.runInNewContext(`(()=>{ const night=${nightE}; const dusk=${duskE}; const warm=false; return {night,dusk,col:(${colE}),int:(${intE})}; })()`,{h,nw,cool,E:{zone:{warm:false,cool}}});
++  const day=run(14,true,true);
++  const same=[21,17,7,23.5,3].every(h=>JSON.stringify(run(h,true,true))===JSON.stringify(day));
++  check('3. windowless 室內：21:00、17:00、7:00、23:30、3:00 和 14:00 一樣（半球光強度、顏色、不是 night／dusk）', same&&!day.night&&!day.dusk, 'int '+day.int+' col 0x'+day.col.toString(16));
++  const n=run(21,false,true); check('3. 一般室內（有窗）21:00 照舊是 night', n.night===true&&n.int!==day.int, 'int '+n.int+' col 0x'+n.col.toString(16)); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

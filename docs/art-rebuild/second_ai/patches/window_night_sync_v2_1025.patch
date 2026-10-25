@@ -1,0 +1,109 @@
+--- a/src/building3d.js
++++ b/src/building3d.js
+@@ -157,7 +157,7 @@
+     for(const o of fb0.children.slice()) if(o.userData&&o.userData.outside){ fb0.remove(o); lv0.add(o); }   /* 窗外的景一直顯示 */
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.4,cool:true,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) setOutView(o,h,weather,night); }); },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); g.traverse(o=>{ if(o.userData&&o.userData.outside) setOutView(o,h,weather,night); }); },
+       onLamps(on){} };
+     zone.elev=buildElevator(L,g,nav0,nav1,zone);
+     zone.update=function(dt){ zone.elev.update(dt); };
+--- a/src/dorm3d.js
++++ b/src/dorm3d.js
+@@ -174,7 +174,7 @@
+     const walls=[], walkMeshes=[], outs=[], cols=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.0,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
+       /* 每一幀（engine3d.js）：玩家從一樓（第 0 層）換到樓上那一層（第 1 層）、大三住 507 ＝ Y3_UP（每次從一樓上去都說；從房間出來就在樓上的不說；對話、劇情進行中不說）*/
+       update(dt,E){ const lv=E&&E.player?(E.player.lv|0):0, prev=this._plv; this._plv=lv; if(prev!==0||lv!==1) return;
+--- a/src/lawlib3d.js
++++ b/src/lawlib3d.js
+@@ -172,7 +172,7 @@
+     const walls=[], walkMeshes=[], slabs=[], outs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},seeThru:true,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
+     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -200,7 +200,7 @@
+     const walls=[], walkMeshes=[], outs=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } }
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } }
+         for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); } },   /* 有景深的窗景（parallaxViews）*/
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
+--- a/src/teach3d.js
++++ b/src/teach3d.js
+@@ -306,7 +306,7 @@
+     const innerM=M('#ece6da'); innerM.userData.seeThrough=true;   /* 隔間、走廊牆擋住鏡頭時網點透空 */
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},seeThru:true,layout:L,
+       fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position);   /* 正式模型的牆（B3.attachFormal）頂點是世界座標、position 是原點：用包圍盒中心 */ const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
+       roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; },   /* 房間 → 範圍（areas）→ 大廳 */
+       spaceAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } return 'public'; } };   /* 同一個空間嗎：關起來的房間各自一間，走廊、門廳、自習區這些開放的地方算同一個（events3d.js「在她附近」用）*/
+--- a/src/wancai3d.js
++++ b/src/wancai3d.js
+@@ -105,7 +105,7 @@
+       const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z0-0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===ss.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z1+0.6,lv:1}]; } }
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:{x:0,z:6,yaw:Math.PI,lv:0},bounds:{w:W,d:D},camMaxY:3.4,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
+       onLamps(on){ light.intensity=on?18:11; } };
+     zone.elev=B3.buildElevator(L,g,nav0,nav1,zone);
+     zone.update=function(dt){ zone.elev.update(dt); };
+--- a/src/soclib3d.js
++++ b/src/soclib3d.js
+@@ -97,7 +97,7 @@
+     const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+     /* 天窗（正式模型的 soclib_skylight 自發光）：白天亮、黃昏變暗、晚上只剩一點（夜空）；陰雨天暗一點 */
+     const skyMats=[]; const skyLevel=(h,weather)=>{ h=h%24; const k=(h<5.5||h>=19.2)?0.08:(h<6.5?0.35:(h>=17.8?0.3:1)); return k*(weather==='rain'?0.6:(weather==='cloudy'?0.8:1)); };
+-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); const k=skyLevel(h,weather); for(const m of skyMats) m.emissiveIntensity=m.userData.slBase*k; };
++    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); const k=skyLevel(h,weather); for(const m of skyMats) m.emissiveIntensity=m.userData.slBase*k; };
+     // 座位、互動點（一層，全部 lv 0）
+     const IT=E.interactables, seats=z.seats=seatsOf(L);
+     for(const st of seats){ if(st.kind!=='lounge') Z3.chair(fb,st.x,st.z,st.yaw,'#c9a46a'); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:seatLabel(st),seat:st,study:true}); }
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -134,7 +134,7 @@
+   function aptSouthView(root){ for(const k of ['SEASON_SNOW_on','SEASON_SNOW_off']){ const g=root.getObjectByName(k); if(!g) continue;
+     for(const [ry,ax] of [[Math.PI,'x'],[Math.PI/2,'z'],[-Math.PI/2,'z']]) for(const d of [-18,0,18]){ const c=g.clone(true); c.rotation.y=ry; c.position[ax]+=d; c.userData.southView=true; g.parent.add(c); } } }
+   /* 窗外的景（自發光貼圖）跟著時段變色：天空的部分是透明的（遊戲照時段畫的天空透出來），對面的公寓、停車場白天原色、黃昏偏暖、晚上暗 */
+-  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.5,[0.22,0.25,0.36]]];
++  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.2,[0.22,0.25,0.36]]];   /* 最後一列 19.2＝屋外完全天黑（engine3d.js 的 nk）；原本 19.5，美國冬天晚了半小時（LAWWW2-B 10-25 路線巡查⑤）*/
+   function vtAt(h){ h=((h%24)+24)%24; if(h>=VT[VT.length-1][0]||h<VT[0][0]) return VT[0][1];
+     for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); return ca.map((v,k)=>v+(cb[k]-v)*t); } } return VT[0][1]; }
+   function viewTint(mats,h){ if(!mats.length) return; const c=vtAt(h);
+--- a/tests/window_night_sync_unit.js
++++ b/tests/window_night_sync_unit.js
+@@ -4,6 +4,9 @@
+ //   1. 引擎的 nk：h≥T 時是 1（讀出 T）；
+ //   2. 這五個地方換夜景的時刻都 = T：world3d.js photoTint、zones3d.js room() 的 winC 和 nightView、l118_shops3d.js setPhotoView、library_upper3d.js skyTint；
+ //   3. 早上那一頭（< 5.5）不動。
++//   v2（10-25，路線巡查⑤）：
++//   4. 大樓大廳的窗景（B3.setOutView 等，h≥18.6 就換夜景：比日落還早，冬天比屋外天黑早約 40 分鐘）：霖澤館、宿舍大廳、法律學院圖書館、總圖大廳、教學館、萬才館、社科院 = T；
++//   5. 美國公寓窗景、法圖天窗和彩色玻璃的色調表 VT（us3d.js）最後一列（完全夜晚）= T（原本 19.5，美國冬天晚了半小時）。
+ // 修改前 FAIL。用法：node tests/window_night_sync_unit.js
+ const fs=require('fs'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -19,4 +22,8 @@
+   ['src/library_upper3d.js','總圖樓上 skyTint',/function skyTint\(h,rain\)\{ h=h%24; if\(h<5\.5\|\|h>=([0-9.]+)\) return/]];
+ for(const [f,nm,re] of sites){ const r=rd(f).match(re); check('2. '+nm+'（'+f+'）換夜景的時刻 = 屋外天黑（'+T+'）', !!r&&+r[1]===T, r?'h≥'+r[1]:'找不到'); }
+ check('3. 早上那一頭都還是 h<5.5', sites.every(([f,,re])=>{ const r=rd(f).match(re); return !!r&&r[0].includes('h<5.5'); }));
++for(const f of ['building3d','dorm3d','lawlib3d','library3d','teach3d','wancai3d','soclib3d']){ const r=rd('src/'+f+'.js').match(/const night=\(h%24<6\|\|h%24>=([0-9.]+)\);/);
++  check('4. '+f+'.js 大廳窗景換夜景的時刻 = 屋外天黑（'+T+'）', !!r&&+r[1]===T, r?'h≥'+r[1]:'找不到'); }
++{ const r=rd('src/us3d.js').match(/const VT=\[(.*?)\];/), rows=r?[...r[1].matchAll(/\[([0-9.]+),\[/g)].map(q=>+q[1]):[];
++  check('5. 美國窗景色調表 VT 最後一列（完全夜晚）= 屋外天黑（'+T+'）', rows.length>0&&rows[rows.length-1]===T, rows.join(' ')); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
