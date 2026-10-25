@@ -32345,6 +32345,28 @@
    "source": "AA-B 2026-10-25 11:27（企劃線 ee0d6b70d，outbox 831cb644f）；第 6 節是 AA_458～465 總清單",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "JP-READ-1025",
+   "title": "日本交換路線讀後（AA_466）：JPPREP_LINES.HOME_GROUP 第 4 則國外版改「換了 上個月就換了」、加到十二則照順序一輪用完才從頭（標國外／在家照 STORY.abroad 跳過，第 1 節表）；y34b3d YT_JP 語彤田野照片改兩週一張、照順序各一次、加第 7、8 張",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "大三下日本交換出發前五週（2028-03-20 起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:37（企劃線 30cc3235a，outbox 2f27f3a99）；ROUTE=JP 掃描 2028-03-20～08-12，和以安交往中",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
