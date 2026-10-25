@@ -331,7 +331,13 @@ const Z3 = (function(){
       const WALLC=['#d9cbb0','#cfc5b2','#e3ddd0','#c8bca8','#d6c3a5','#e6dfd0','#bfb2a0'], HALLC=['#b9876a','#a86a52','#c8a27c','#9b5a42','#c2a78a'];
       const TALLC=['#a9a49a','#b9b4aa','#9fa3a6','#b5a48f','#c4bcae','#8f8b84','#a8968a'];   // 後排大樓：灰、磚色、水泥色（全部米色的話，遠一點起霧就變成一片白盒子）
       // 地面：城市（柏油）打底，校園延伸的部分鋪草地
-      ground(far,820,820,W3.asphaltTex(),[164,164],0,-20,-0.06);
+      { /* PERF-PATROL-ECON-1025（LAWWW2-B 2026-10-25，LAWWW-B 同意 ⑤）：城市的柏油只鋪在校園、外圍草地沒蓋到的地方——原本整片 820 m 見方墊在整個校園底下（同一個地方畫兩層）。COVER＝蓋在上面的整片地面（校園 260×170、北側兩片、北邊中庭、東、南；和這裡、上面的 ground() 一致）：改那幾片草地時一起改。把 820 m 照 COVER 的邊切成格子，沒被蓋住的格子一排一排併成長條。測試：node tests/campus_backdrop_ground_unit.js */
+        const COVER=[[-130,130,-85,85],[-8,112,-128,-84],[-132,-8,-128,-84],[-132,130,-141,-127],[130,320,-270,250],[-132,130,85,235]], X0=-410, X1=410, Z0=-430, Z1=390;
+        const xs=[...new Set([X0,X1,...COVER.flatMap(c=>[c[0],c[1]])])].sort((a,b)=>a-b), zs=[...new Set([Z0,Z1,...COVER.flatMap(c=>[c[2],c[3]])])].sort((a,b)=>a-b), pos=[], uv=[];
+        const quad=(a,b,c,d)=>{ pos.push(a,0,c, a,0,d, b,0,d, a,0,c, b,0,d, b,0,c); uv.push(a/5,-c/5, a/5,-d/5, b/5,-d/5, a/5,-c/5, b/5,-d/5, b/5,-c/5); };   /* 朝上；貼圖一格 5 m（和原本 820 m／164 格一樣）*/
+        for(let j=0;j+1<zs.length;j++){ const za=zs[j], zb=zs[j+1]; let run=null; for(let i=0;i+1<xs.length;i++){ const cx=(xs[i]+xs[i+1])/2, cz=(za+zb)/2, cov=COVER.some(c=>cx>c[0]&&cx<c[1]&&cz>c[2]&&cz<c[3]); if(!cov){ if(run===null) run=xs[i]; } else if(run!==null){ quad(run,xs[i],za,zb); run=null; } } if(run!==null) quad(run,X1,za,zb); }
+        const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2)); geo.computeVertexNormals();
+        const t=W3.asphaltTex().clone(); t.needsUpdate=true; const m=new THREE.Mesh(geo,texMat(t)); m.position.y=-0.06; m.receiveShadow=true; far.add(m); }
       ground(far,190,520,W3.grassTex(),[47,130],225,-10,-0.035);   // 東：x 130–320
       ground(far,262,150,W3.grassTex(),[65,37],-1,160,-0.035);     // 南：z 85–235
       ground(far,262,14,W3.grassTex(),[65,3.5],-1,-134,-0.035);    // 北：法學院後面的中庭（z -141–-127）

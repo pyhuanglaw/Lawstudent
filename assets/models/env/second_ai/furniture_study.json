@@ -5,7 +5,7 @@
  "tris_drawn": 5752,
  "materials": 1,
  "out": "assets/models/env/second_ai/furniture_study.glb",
- "bytes": 272204,
+ "bytes": 272184,
  "texres": 1024,
  "modules": {
   "study_table2": {

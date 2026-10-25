@@ -151,9 +151,36 @@ const TB3=(function(){
         const out=new THREE.Group(); out.name='furniture_glb'; const put=(name,list,fn)=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,list.length); list.forEach((q,i)=>{ fn(q); Mx.compose(V,Q,S); im.setMatrixAt(i,Mx); });
           im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; out.add(im); };
         for(const mod of [...new Set(its.map(it=>it.mod))]) put(mod,its.filter(it=>it.mod===mod),it=>{ V.set(it.x,0,it.z); Q.setFromAxisAngle(UP,it.ry); S.set(1,1,1); });
-        put('study_chair',its.flatMap(it=>it.seats),st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); });   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
+        const chairs=its.flatMap(it=>it.seats), chairM=st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); };   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
+        if(mesh.study_chair_lod1){ const mk=name=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,chairs.length); im.count=0; im.castShadow=false; im.receiveShadow=true; im.name=name; out.add(im); return im; };
+          (zone.chairLods=zone.chairLods||[]).push({out,near:mk('study_chair'),far:mk('study_chair_lod1'),list:chairs.map(st=>{ chairM(st); return {x:st.x,z:st.z,m:new THREE.Matrix4().compose(V,Q,S),near:true}; }),done:false}); }
+        else put('study_chair',chairs,chairM);
         fb.parent.add(out); fb.visible=false; }
+      if(zone.chairLods&&!zone.chairLodHook){ zone.chairLodHook=true; const prev=zone.update; zone.update=function(dt,E){ if(prev) prev.call(this,dt,E); chairLod(zone,E); }; }
       zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
+  /* 自習椅 10 m 外換 study_chair_lod1（72 個三角形；完整版 1,020）——PERF-PATROL-ECON-1025（LAWWW2-B 2026-10-25，LAWWW-B 同意）：博雅大廳 32 張椅子在鏡頭裡，雙面完整版一共 3.3 萬個三角形。
+     離鏡頭 10 m 外換、9.5 m 內換回來（邊界上不會一直換）；有變動才重填。測試：node tests/teach_perf_econ_unit.js */
+  /* 燈（PERF-PATROL-ECON-1025 ③，LAWWW2-B 2026-10-25，LAWWW-B 同意先試）：配置的燈（每棟 9 盞＋空橋 2 盞）當「燈位」，真的光源只有 3 盞，跟著玩家換到最近的 3 個燈位（照 3D 距離：照到玩家附近最亮的就是最近的那幾盞；試過同一層優先，二樓晚上人物變暗——一樓的燈原本隔著樓板照到人）；
+     換的時候先淡出、再淡入（各 0.4 秒），不會一下子亮暗。光源數固定（shader 不重編）；白天／晚上的亮度照燈位的 on／off（onLamps）。
+     博雅大廳往北：9 盞 1.55 fps、3 盞 2.3（全關 2.55）；離玩家遠的燈本來就只照到牆後的教室（點光源不擋牆）。測試：node tests/teach_perf_econ_unit.js */
+  const LIGHT_K=3, LIGHT_FADE=0.4;
+  function lightPool(zone,g,lights){ if(lights.length<=LIGHT_K) return;
+    const spots=lights.map(l=>{ if(l.parent) l.parent.remove(l); return {p:l.position.clone(),on:l.userData.on,off:l.userData.off,dist:l.distance,decay:l.decay,color:l.color.clone()}; }); lights.length=0;
+    const slots=[]; for(let i=0;i<LIGHT_K;i++){ const l=new THREE.PointLight(0xfff4e6,0,16,2); l.name='teach_light_'+i; g.add(l); slots.push({l,s:null,k:0}); }
+    zone.lightPool={spots,slots,on:false,first:true}; zone.onLamps=function(on){ zone.lightPool.on=!!on; lightStep(zone,0,null); };
+    const prev=zone.update; zone.update=function(dt,E){ if(prev) prev.call(this,dt,E); lightStep(zone,dt,E); }; }
+  function lightStep(zone,dt,E){ const P=zone.lightPool, pl=E&&E.player&&E.player.obj;
+    if(pl){ const want=P.spots.map(s=>({s,d:s.p.distanceTo(pl.position)})).sort((a,b)=>a.d-b.d).slice(0,LIGHT_K).map(o=>o.s), st=P.first?1:Math.min(1,(dt||0)/LIGHT_FADE);
+      for(const sl of P.slots){ if(!sl.s) continue; if(want.indexOf(sl.s)<0){ sl.k=Math.max(0,sl.k-st); if(sl.k<=0) sl.s=null; } else sl.k=Math.min(1,sl.k+st); }
+      for(const s of want){ if(P.slots.some(sl=>sl.s===s)) continue; const f=P.slots.find(sl=>!sl.s); if(!f) break; f.s=s; f.k=P.first?1:0; f.l.position.copy(s.p); f.l.distance=s.dist; f.l.decay=s.decay; f.l.color.copy(s.color); }
+      P.first=false; }
+    for(const sl of P.slots) sl.l.intensity=sl.s?sl.k*(P.on?sl.s.on:sl.s.off):0; }
+  const CHAIR_LOD_D=10, CHAIR_LOD_BACK=9.5, _cP=new THREE.Vector3();
+  function chairLod(zone,E){ const cam=E&&E.camera; if(!cam) return;
+    for(const L of zone.chairLods){ let ch=!L.done; L.out.updateWorldMatrix(true,false);
+      for(const c of L.list){ const d=_cP.set(c.x,0,c.z).applyMatrix4(L.out.matrixWorld).distanceTo(cam.position), nr=c.near?d<=CHAIR_LOD_D:d<CHAIR_LOD_BACK; if(nr!==c.near){ c.near=nr; ch=true; } }
+      if(!ch) continue; L.done=true; let a=0, b=0; for(const c of L.list){ if(c.near) L.near.setMatrixAt(a++,c.m); else L.far.setMatrixAt(b++,c.m); }
+      L.near.count=a; L.far.count=b; for(const im of [L.near,L.far]){ im.instanceMatrix.needsUpdate=true; im.computeBoundingSphere(); } } }
   /* ---- 關著的房間的門（ART-02：共同教學館沒有正式室內殼，洗手間、203 的門原本是一塊木板）：換成 furniture_study.glb 的門框＋關著的門片＋門牌 ----
      模組的約定：原點＝門洞中心的地面、z＝0 是牆的中心面、+z＝走廊；門洞 1.2×2.4、牆厚 0.2。這裡的牆沒有開口（關著的房間導航本來就擋著，鏡頭碰撞照牆算），
      所以門片貼在走廊那一面（中心離牆心 0.1245，比牆面凸 2 mm）、門框整個往走廊移 0.0475（門片比門框的飾條凹進去 1.5 cm，看起來像嵌在門框裡）；門牌在門的右邊、貼牆面（不移）。
@@ -317,6 +344,7 @@ const TB3=(function(){
     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
       const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.a) m.userData.stairEnds=[{x:ax,z:S.A.z1+0.5,lv:0},{x:ax,z:ldz,lv:0}]; if(s===ss.b) m.userData.stairEnds=[{x:bx,z:ldz,lv:0},{x:bx,z:S.B.z1+0.6,lv:1}]; }
     for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
+    lightPool(zone,g,lights);
     zone.teacherSpots={}; for(const r of L.rooms){ const lc=r.lectern; if(!lc||r.stage!=='S') continue; const bx=r.board?r.board.x:(r.x0+r.x1)/2, sx=bx<lc.x?-1:1;   /* 階梯教室（講台在南邊）：老師站在講桌靠黑板中間那一側、面向座位（-z）；story3d.js 的作息（CLS.profWhere）用 */
       zone.teacherSpots[r.id]={x:lc.x+sx*(lc.w/2+0.45),z:lc.z+0.2,yaw:Math.PI,lv:r.lv|0}; }
     /* 室內正式模型（LAWWW2-C teach_interior.py → ASSETS 'bldg.<id>_interior'；普通、博雅，2026-10-18 ART-EXT-TEACH）：和法圖、萬才館同一套接法（B3.attachFormal：L0_root／L1_root、WALL_*）；
