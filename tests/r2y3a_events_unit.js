@@ -372,8 +372,8 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('13. 不認識阿哲：沒有阿哲那兩段；「一個人對兩台筆電？」→「嗯。可是法官一直讓他講完。」（她把開庭表摺起來。）「……我在想，那是規定，還是那個法官。」',!any(/刑訴的作業不是要去地院嗎|明星/)&&has('嗯。可是法官一直讓他講完。')&&has('（她把開庭表摺起來。）')&&has('……我在想，那是規定，還是那個法官。'));
   fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM'); await play('ev_an_admin_court',[2]); check('13. 「下次我也想去。」→「好。開庭表我傳給你。……要早到，旁聽席很小。」',has('好。開庭表我傳給你。……要早到，旁聽席很小。'));
   fresh('2027-10-21',21,'dorm'); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25);
-  check('13. A3 沒去麵店：22:00 麵店團兩則（有句號）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我自己去行政法院旁聽了。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
-  fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:今天下午我自己去行政法院旁聽了。','heroine_01:是一個人告區公所。']));
+  check('13. A3 沒去麵店：22:00 麵店團兩則（有句號；AA_462 第 1 節換字「我先去了一趟……自己想看的。」）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
+  fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:今天下午我先去了一趟行政法院。自己想看的。','heroine_01:是一個人告區公所。']));
   fresh('2027-10-21',21,'dorm',{AN14:'there'}); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25); check('13. 演過了：沒有群組那兩則',!PHONE.sent(G,'y3_an14_msg'));
 
   // ===== 14. 2-Y3-14 翰 4（AA_343 B7，569621e0 改四樓：標題「四樓的樓梯間」、4F 樓梯間、「（他看著那扇刷卡的門很久。）」；「台階」、選項、「走了兩階」照原文）=====
@@ -409,9 +409,9 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 
   // ===== 16. 2-Y3-16 C4 阿哲的機車 =====
   fresh('2027-11-19',20,'dorm'); R('zhe','FAM'); run('2027-11-19',20.75,21.25);
-  check('16. 11/19 21:00 阿哲四則（一則一則、不加句號）；選項只有「去法服問」（沒有 U_TORT）',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:我剛在路口被一台車擦到','zhe:我沒事啦 人好好的 車殼裂了','zhe:對方說他趕時間 要給我一千塊 叫我簽一張紙','zhe:要簽嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_c4').ask.opts.map(o=>o.t))===JSON.stringify(['對方。後面怎麼賠，我們去法服問。']));
+  check('16. 11/19 21:00 阿哲四則（一則一則、不加句號）；選項只有「去法服問」（沒有 U_TORT）',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:我剛在路口被一台車擦到','zhe:我沒事啦 人好好的 車殼裂了','zhe:對方說他趕時間 要給我一千塊 叫我簽一張紙','zhe:要簽嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_c4').ask.opts.map(o=>o.t))===JSON.stringify(['找對方談。後面怎麼賠，我們去法服問。']));
   ans('y3_c4',0);
-  check('16. 回了：祐廷「先不要簽。拍照、報警做紀錄。」→ 選的那句 →「你真正想要的是什麼？」→ 阿哲 → 祐廷 → 阿哲（逐字）；記 ZHE_SCOOTER',JSON.stringify(txt('p:zhe').slice(4))===JSON.stringify(['player:先不要簽。拍照、報警做紀錄。','player:對方。後面怎麼賠，我們去法服問。','player:你真正想要的是什麼？','zhe:……我想要我的車修好 然後不要再想這件事','player:那就照修車的估價談，談好寫清楚。','zhe:好 我先拍照'])&&SOCIAL.has('zhe','ZHE_SCOOTER'),JSON.stringify(txt('p:zhe')));
+  check('16. 回了：祐廷「先不要簽。拍照、報警做紀錄。」→ 選的那句 →「你真正想要的是什麼？」→ 阿哲 → 祐廷 → 阿哲（逐字）；記 ZHE_SCOOTER',JSON.stringify(txt('p:zhe').slice(4))===JSON.stringify(['player:先不要簽。拍照、報警做紀錄。','player:找對方談。後面怎麼賠，我們去法服問。','player:你真正想要的是什麼？','zhe:……我想要我的車修好 然後不要再想這件事','player:那就照修車的估價談，談好寫清楚。','zhe:好 我先拍照'])&&SOCIAL.has('zhe','ZHE_SCOOTER'),JSON.stringify(txt('p:zhe')));
   { const S2=ev('ev_zhe_scooter'); to('2027-11-23',18); G.zone='noodle'; npc('zhe',0,2,0); me(0,3,0); check('16. S2 之後第一次在麵店（11/23 起的週二、週四 17:30～20:30）：可以演；11/19 不演；週三不演',EVENTS.check(S2)&&(()=>{ to('2027-11-18',18); const a=!EVENTS.check(S2); to('2027-11-24',18); const b=!EVENTS.check(S2); to('2027-11-23',18); return a&&b; })()); }
   await play('ev_zhe_scooter'); check('16. S2「修車行估了價。對方照估價付了。」「（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。」',JSON.stringify(all())===JSON.stringify(['修車行估了價。對方照估價付了。','（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。']));
   fresh('2027-11-19',20,'dorm',{U_TORT:true}); R('zhe','FAM'); run('2027-11-19',20.75,21.25);

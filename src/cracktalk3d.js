@@ -30,7 +30,7 @@
        芷若③第 6 週週日臺灣 07:00 戲院的照片（晚點再回、72 小時沒回＝+1）；子晴①大四上第 8～12 週加班取消（約人系統的約、校外約會的晚上；一個月第三次＋1）、②每月第一個週三 23:30、③手機選「我去妳公司樓下等妳」（30 天內第三次＋1）。
        修補承諾：沛珊「每個月我去台南找妳一次。」（之後三個月看 ev_hv_ps_tn，漏一個月她問、漏兩個月分開）；子晴「那妳來決定時間。」（她約三次，到兩次以上）。
        談話邀約的回覆選項：沛珊「明天可以嗎？」、芷若「後天可以嗎？」＝移到隔天。
-   存檔：G.flags.CRACKTALK＝{r:{人物:{talked:{學期:1}, plan, drift, commit, lastUnavoid, unavoidUsed, jpUsed, mode}}, seat:{日:{went,done}}, pc:{from,note:{}}}；舊存檔沒有＝空的。
+   存檔：G.flags.CRACKTALK＝{r:{人物:{talked:{學期:1}, plan, drift, commit, lastUnavoid, unavoidUsed, jpUsed, mode}}, seat:{日:{went,done}}, seatTxt:{term,i}, pc:{from,note:{}}}；舊存檔沒有＝空的。
    測試：node tests/v6_crack_unit.js */
 'use strict';
 const CRACKTALK=(function(){
@@ -226,9 +226,13 @@ const CRACKTALK=(function(){
     const Gx=Object.assign({},G,{day:d,hour:17.5,weekday:4}); if(!pres(YT,Gx).here) return false;
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[YT], e=c&&STORY.schedEnt?STORY.schedEnt(c,Gx):null; return !!(e&&e.zone==='library'); };
   S.seatTag=d=>'ct_yt_seat_'+keyOf(d);
+  /* 那一週傳哪一句（AA_462 第 3 節）：每學期（S.termKey，寒暑假算前一學期）第一個週四＝原句 yt_seat；之後 yt_seat_rot 四句照順序輪（不跟上一週同一句）。
+     R.seatTxt＝{term, i}（上一週用了哪句：0＝原句、1～4＝輪的那四句）；舊存檔沒有＝從原句開始 */
+  S.seatText=function(G,d){ const R=S.rec(G), k=S.termKey(G,d), P=R.seatTxt, rot=L.SRC.yt_seat_rot||[], n=rot.length;
+    const i=(!P||typeof P!=='object'||P.term!==k||!n)?0:((P.i|0)%n)+1; R.seatTxt={term:k,i}; return i===0?L.SRC.yt_seat:rot[i-1]; };
   S.seatPhone=function(G){ const R=S.rec(G), d=G.day, h=hh(G);
     if(wdOf(d)===4&&!R.seat[d]&&h>=12+10/60&&G.hour<20&&S.seatOn(G,d)){ R.seat[d]={went:false,done:false};
-      PHONE.at(G,d,12+10/60,[Object.assign(DM(YT,L.SRC.yt_seat),{ask:{id:S.seatTag(d),until:T(d,20),opts:[{t:L.SRC.yt_seat_no,set:{['CT_YT_SEAT_NO_'+keyOf(d)]:true}}]}})],S.seatTag(d)); }
+      PHONE.at(G,d,12+10/60,[Object.assign(DM(YT,S.seatText(G,d)),{ask:{id:S.seatTag(d),until:T(d,20),opts:[{t:L.SRC.yt_seat_no,set:{['CT_YT_SEAT_NO_'+keyOf(d)]:true}}]}})],S.seatTag(d)); }
     for(const k of Object.keys(R.seat)){ const dd=+k, s=R.seat[k]; if(s.done||now(G)<T(dd,20)) continue; s.done=true;
       const no=!!G.flags['CT_YT_SEAT_NO_'+keyOf(dd)]; if(!s.went&&!no&&dating(G,YT)) S.add(G,YT,{unavoidable:false}); }
     for(const k of Object.keys(R.seat)) if(+k<d-60) delete R.seat[k]; };

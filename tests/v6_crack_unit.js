@@ -128,7 +128,7 @@ await sec('Y',async()=>{
   for(const [k,tail,res] of [[0,['好。那斜對面，我繼續留。'],'mend'],[1,['嗯。那我把這段時間，還給我自己。……謝謝你教我分時間。'],'apart'],[2,[],'drift']]){
     ytG('2028-09-14'); for(const d of [t1,t1+7,t1+14]){ at(d,12.5); rules(); at(d,20); rules(); } at(t4,17.6); H.G.zone='library'; H.said=[]; H.opts=[]; H.picks=[k]; await tick();
     check('Y8. 總圖三樓（'+res+'）：逐字、三個選項',J(said())===J([YT_BODY].concat(tail))&&J(H.opts[0])===J(YT_O),J({s:said(),o:H.opts}));
-    if(res==='mend') check('Y9. 修補：歸零、繼續留位子（下個週四照樣傳）',cnt(YT)===0&&(at(t4+7,12.5),rules(),dm(YT).slice(-1)[0]==='heroine_03:今天週四。總圖三樓，斜對面的位子我留了。'));
+    if(res==='mend') check('Y9. 修補：歸零、繼續留位子（下個週四照樣傳；AA_462 第 3 節：這學期第 1～3 次是原句、輪 1、輪 2，談話那週不傳，這一週輪到第 3 句「三樓。老位子。」）',cnt(YT)===0&&(at(t4+7,12.5),rules(),dm(YT).slice(-1)[0]==='heroine_03:三樓。老位子。'),J(dm(YT).slice(-4)));
     if(res==='apart') check('Y9. 好好分開：apart_talk',H.G.flags.dating_heroine_03===false&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===YT&&h.how==='apart_talk'));
     if(res==='drift'){ at(t4+7,12.5); rules(); const noSeat=!PHONE.byAsk(H.G,'ct_yt_seat_'+keyOf(t4+7)); at(t4+7,21); rules(); const ended=H.G.flags.dating_heroine_03===false;
       at(t4+9,18); H.G.zone='noodle'; H.said=[]; await tick();
@@ -262,7 +262,7 @@ await sec('S',async()=>{
   ans('ct_ps2_Y3S1',0); rules(); check('S10. 用法條回答：「我不是要答案。我只是想講。」+1',dm(PS).slice(-1)[0]==='classmate_peishan:我不是要答案。我只是想講。'&&cnt(PS)===1);
   psD('2027-10-01'); at(w5,23.2); rules(); ans('ct_ps2_Y3S1',1); rules(); check('S10. 「後來呢？妳怎麼跟他說？」→ 兩句、不加',J(dm(PS).slice(-2))===J(['classmate_peishan:我跟他說，你不是。','classmate_peishan:……然後我們一起把作業寫完了。'])&&cnt(PS)===0);
   psD('2027-10-01'); at('2027-10-31',23.1); rules(); check('S11. 沛珊③：10 月底（9 月是交往開始那個月）：還不到兩個月',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
-  at('2027-11-30',23.1); rules(); check('S11. 10、11 月都沒去台南：11/30 23:00「這個月你也沒來。」「……我不是在數。我只是剛好記得。」、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:這個月你也沒來。','classmate_peishan:……我不是在數。我只是剛好記得。'])&&cnt(PS)===1);
+  at('2027-11-30',23.1); rules(); check('S11. 10、11 月都沒去台南：11/30 23:00「這個月你也沒來。」「……我記性太好了。」（第二句照 AA_462 第 5 節換）、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:這個月你也沒來。','classmate_peishan:……我記性太好了。'])&&cnt(PS)===1);
   psD('2027-10-01'); H.G.events.last.ev_hv_ps_tn=D('2027-11-06'); at('2027-11-30',23.1); rules(); check('S11. 11 月去過台南：沒有',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
   /* 沛珊修補 */
   psD('2027-10-01'); at('2027-10-05',10); pr(PS).commit={kind:'ps_month',day:H.G.day,miss:0,asked:{},done:{}};
