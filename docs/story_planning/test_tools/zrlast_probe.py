@@ -204,15 +204,17 @@ async def load_min(pg, sc, run):
     if sc.get('pregrad'):   # BB-B 10-23：畢業典禮當天早上（aa381_probe.py launch_min 的做法）＝還沒畢業、還沒搬走
         for k in ('GRADUATED', 'GRAD_DONE', 'MOVED_OUT', 'HOME_AFTER', 'PG'): F.pop(k, None)
         F.update({'met_sis': True, 'SIS_W1': True})
+    if sc.get('y1min'):   # BB-B 10-25（R39 AA_458）：法律系大一上的最小存檔＝tests/aa458_y1s1_unit.js fresh() 的前提（入學、上課、認識以安、阿哲），沒有畢業、搬家那些旗標
+        F = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'MET_ZHE': True}
     F.update(sc.get('flags', {}))
     st = {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': dk[sc['key']], 'hour': sc['h'], 'energy': 100, 'money': 22000, 'zone': sc.get('zone', 'campus'), 'pos': sc.get('pos'), 'weather': 'clear', 'flags': F,
-          'events': {'done': ({'ev_sis_w1': 1} if sc.get('pregrad') else {'ev_grad_family': 1, 'ev_grad_lunch': 1, 'ev_grad_envelope': 1, 'ev_move_out_y4': 1, 'ev_sis_w1': 1}), 'last': {}, 'count': 0}}
+          'events': {'done': ({} if sc.get('y1min') else {'ev_sis_w1': 1} if sc.get('pregrad') else {'ev_grad_family': 1, 'ev_grad_lunch': 1, 'ev_grad_envelope': 1, 'ev_move_out_y4': 1, 'ev_sis_w1': 1}), 'last': {}, 'count': 0}}
     if sc.get('pregrad'): st['contacts'] = {'heroine_05': dk['2025-09-24'] if '2025-09-24' in dk else 0}
     st['weekday'] = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % st['day'])
     await L.load_state(pg, st); await pg.wait_for_timeout(3000)
     await pg.evaluate(B['HOOK']); await pg.evaluate('window.__LOG=[]; window.__M0=GAME.G.money')
     if sc.get('js'): await pg.evaluate("(()=>{ const G=GAME.G, D=k=>STORY.dayOfKey(k), LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; %s })()" % sc['js'])
-    run.setup('[前置] %s：最小存檔（畢業以後，aa382_probe 的做法）%s %.2f %s %s；旗標 %s；console：%s' % (sc['id'], sc['key'], sc['h'], st['zone'], json.dumps(sc.get('pos')), json.dumps(sc.get('flags', {}), ensure_ascii=False), sc.get('js', '')))
+    run.setup('[前置] %s：最小存檔（%s）%s %.2f %s %s；旗標 %s；console：%s' % (sc['id'], '法律系大一上，aa458_y1s1_unit 的前提' if sc.get('y1min') else '畢業以後，aa382_probe 的做法', sc['key'], sc['h'], st['zone'], json.dumps(sc.get('pos')), json.dumps(sc.get('flags', {}), ensure_ascii=False), sc.get('js', '')))
 
 async def sendchat(pg, pid, topic, sc):
     """主動傳訊息（手機 → 朋友 → 那個人的「訊息」→「傳訊息」→ 話題；照 us_life_probe 的 sendchat），記下送之前 G.msgs 的長度"""
@@ -3119,6 +3121,32 @@ R38 += [dict(id='R38_457_UK_0121', key='2028-01-21', h=6.4, zone='dorm', flags=d
              steps=[('until', 21.4)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['明天情人節。……你要下來台中嗎？不用勉強。'], noneMsg=['明天你要下來嗎？……不用勉強。'])]
 # [前置] YT2：語彤交往中、裂縫② 已經收過 A、B 各一次（CRACKTALK.src.yt2.sent 兩筆、n=2）＝這次是 A 的第 2 次
 SCENS = SCENS + R38
+
+# ---------- R39（BB-B 10-25 11:2x）：AA_458 大一上讀後（ae12d0c47、3b65720aa，TERM-READ-Y1S1-1025；候選 f66ab34c6）各一輪 ----------
+# [前置] 法律系大一上最小存檔（y1min：aa458_y1s1_unit fresh() 的前提）＋新開局（LAW_START_DAY／MAIN_D1，主線第一天 9/3）；照真實時間等到那一則。日期、句子照遊戲資料算（bbtest/dates458.js → aa458_dates.js）
+NEWJS = " G.flags.LAW_START_DAY=STORY.LAW_D0; G.flags.MAIN_D1=STORY.MAIN_D1_NEW;"
+FAMJS = NEWJS + " PHONE.join(G,'family_law','法律系直屬家族'); G.flags.met_sis=true;"
+HOMEK = "(GAME.G.msgs||[]).filter(m=>m.ask&&/^home_ask_/.test(m.ask.id)).map(m=>CALENDAR.dateOf(m.day).key+' '+m.ask.k)"
+def Y1(sid, key, h, until, js=NEWJS, **kw):
+    d = dict(id=sid, key=key, h=h, zone='dorm', minimal=True, y1min=True, js=js, steps=[('until', until)], pref=[], asks={'*': ''}, nothree=True); d.update(kw); return d
+D5L = ['講義我先印了，放在女舍一樓的櫃子，誰要拿？', '明天的講義印好了！一樣放在女舍一樓的櫃子，誰要拿？']
+R39 = [Y1('R39_MOM_0904', '2025-09-04', 19.8, 20.4, wantMsg=['禮拜六回來吃飯 你姊也回來'], noneMsg=['這週回來吃飯嗎'], msgAt={'禮拜六回來吃飯 你姊也回來': ('2025-09-04', 20.0, 0.2)},
+          jsok=[('9/4 媽媽那一則是 first_sis（那個週六是 9/6，1～7 號）', HOMEK, ['2025-09-04 first_sis'])]),
+       Y1('R39_MOM_1002', '2025-10-02', 19.8, 20.4, wantMsg=['中秋回來嗎 月餅買好了'], jsok=[('10/2 媽媽那一則是 moon', HOMEK, ['2025-10-02 moon'])]),
+       Y1('R39_MOON_1006', '2025-10-06', 17.8, 21.3, wantMsg=['📷（桌上一盒月餅，切開了一個）', '蛋黃的 留給你', '📷（上海的月亮，前面一棟很高的樓）'],
+          msgAt={'蛋黃的 留給你': ('2025-10-06', 18.0, 0.2), '📷（上海的月亮，前面一棟很高的樓）': ('2025-10-06', 21.0, 0.2)}),
+       Y1('R39_TY_1012', '2025-10-12', 20.5, 21.3, wantMsg=['颱風 窗戶關好 不要出門', '📷（颱風路徑圖）'],
+          msgAt={'颱風 窗戶關好 不要出門': ('2025-10-12', 20.75, 0.2), '📷（颱風路徑圖）': ('2025-10-12', 21.0, 0.2)}),
+       Y1('R39_SIS_1014', '2025-10-14', 21.2, 21.8, js=NEWJS + " G.flags.met_sis=true; G.flags.SIS_W1=true; LV('heroine_05',50,40,35); G.contacts=G.contacts||{}; G.contacts.heroine_05=D('2025-09-10');",
+          wantMsg=['你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著。', '不要講話就好。閉館的時候，可以一起去買飲料。'], msgAt={'不要講話就好。閉館的時候，可以一起去買飲料。': ('2025-10-14', 21.5, 0.2)}),
+       Y1('R39_D5_2', '2025-11-05', 19.8, 20.4, js=NEWJS + " PHONE.join(G,'public_law','公法讀書會'); SOCIAL.remember('classmate_peishan','FIRST_MET',''); G.contacts=G.contacts||{}; G.contacts.classmate_peishan=D('2025-09-20'); G.flags.D5_ASK_N=1;",
+          wantMsg=[D5L[1]], noneMsg=[D5L[0]], jsok=[('D5_ASK_N 記成 2', "GAME.G.flags.D5_ASK_N", 2)]),
+       Y1('R39_FAM_INVITE', '2025-11-28', 20.2, 20.8, js=FAMJS, wantMsg=['家族聚餐！下週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'], msgAt={'家族聚餐！下週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）': ('2025-11-28', 20.5, 0.2)}),
+       Y1('R39_FAM_NOSHOW', '2025-12-05', 21.7, 22.3, js=FAMJS, wantMsg=['📷（一疊資料夾，最上面那份寫著「周老師　歷年考古題」）', '學姊整理的。沒來的人，跟我拿。'],
+          msgAt={'學姊整理的。沒來的人，跟我拿。': ('2025-12-05', 22.0, 0.2)}),
+       Y1('R39_FAMX', '2025-12-15', 20.8, 21.3, js=FAMJS, wantMsg=['家族聖誕交換禮物！期末考完，12/22 晚上六點半，公館那家火鍋。'], noneMsg=['期末考完那天'])]
+# [前置] R39_D5_2：公法讀書會群組、認識沛珊、D5_ASK_N=1（已經收過一次講義那一則）＝這次第 2 句；R39_SIS_1014：met_sis、SIS_W1、學姊朋友（50/40/35）
+SCENS = SCENS + R39
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
