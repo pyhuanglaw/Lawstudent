@@ -2967,6 +2967,15 @@
      "why": "3-1 節兩題答案以前"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md",
+   "sha": "71f260ecc",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "VAC-READ2-1025",
+   "kind": "text",
+   "note": "story3d.js 跨年宿委會四年；noodle_closed3d.js L.a／L.d 照年份；vac3d.js C01F_REPLY（Y2～Y4）、nye_y2_zhe；holff3d.js 大三大四回高雄；termend_lines.js invByTerm＋芷若 over 拆三筆、termend3d.js S.gf；cracktalk zq2.msgs 四組（照收到第幾個月輪）；tests/aa456_vac_unit.js"
   }
  ]
 }

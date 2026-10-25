@@ -70,5 +70,5 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
     check('5. 訪談沒去：這幾句都不出',!s.includes('致謝裡有你。')&&!s.includes('第四章那一句，是你記的。')&&s.includes('……好。我請大家喝飲料。販賣機的。'),J(s)); }
   /* ---- 6 AA_377 第 7 節 ---- */
   { const g=TERMEND.gf('heroine_02','Y3S2'), g2=TERMEND.gf('heroine_02','Y2S1');
-    check('6. 芷若大三下交往中的期末約會：「禮拜四十點，等我下班。」週四 22:00（稿 AA_377 第 7 節）；飯桌那句照留；別的學期照舊',/禮拜四十點，等我下班。/.test(doc377)&&!!g&&g.invite==='禮拜四十點，等我下班。'&&g.wd===4&&g.h===22&&TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='……六月的週五，你先全部給我。'&&!!g2&&g2.invite==='禮拜五十點，等我下班。',J({g,g2})); }
+    check('6. 芷若大三下交往中的期末約會：「禮拜四十點，等我下班。」週四 22:00（稿 AA_377 第 7 節）；飯桌那句照留；別的學期照舊（大二上的邀約句 AA_456 1-5 換成「禮拜五十點。最後一個客人走了，我傳給你。」）',/禮拜四十點，等我下班。/.test(doc377)&&!!g&&g.invite==='禮拜四十點，等我下班。'&&g.wd===4&&g.h===22&&TERMEND_LINES.GF.heroine_02.tableByTerm.Y3S2[1]==='……六月的週五，你先全部給我。'&&!!g2&&g2.invite==='禮拜五十點。最後一個客人走了，我傳給你。',J({g,g2})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

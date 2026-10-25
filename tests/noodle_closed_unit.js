@@ -51,7 +51,7 @@ fresh('2026-02-12',14); group(); FRIEND(); const fam0=SOCIAL.rel('heroine_03').f
   // N3、N4
   fresh('2026-02-10',21.1); group(); STORY.phoneRules(GM); PHONE.tick(G);
   const M=()=>(G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.text);
-  check('N3. 2/10 21:00 群組：「這週店休，到初三。」「阿姨說要大掃除。想吃麵的，初四以後。」（語彤）',JSON.stringify(M())===JSON.stringify(NOODLE_CLOSED.L.a)&&(G.msgs||[]).filter(m=>m.th==='g:noodle_team').every(m=>m.from==='heroine_03'),JSON.stringify(M()));
+  check('N3. 2/10 21:00 群組：「這週店休，到初三。」「阿姨說要大掃除。想吃麵的，初四以後。」（語彤）',JSON.stringify(M())===JSON.stringify(NOODLE_CLOSED.L.a[2026])&&/* AA_456 1-2：L.a 改成照年份，2026 是原句 */(G.msgs||[]).filter(m=>m.th==='g:noodle_team').every(m=>m.from==='heroine_03'),JSON.stringify(M()));
   G.day=D('2026-02-20'); G.hour=12.1; STORY.phoneRules(GM); PHONE.tick(G);
   check('N4. 2/20 12:00「開了。」「阿姨說，今天第一碗加蛋。」',M().slice(-2).join('|')==='開了。|阿姨說，今天第一碗加蛋。',JSON.stringify(M()));
   fresh('2026-02-10',21.1); STORY.phoneRules(GM); PHONE.tick(G); check('不在麵店團：沒有群組訊息',!(G.msgs||[]).some(m=>m.th==='g:noodle_team'));

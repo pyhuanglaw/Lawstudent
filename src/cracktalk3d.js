@@ -334,7 +334,7 @@ const CRACKTALK=(function(){
         c.o.zqOT=true; c.cancel(); const m=monthOf(c.day), M=sub(R,'ot'); M[m]=(M[m]|0)+1;
         S.sendAsk(G,ZQ,c.day,17.5,[X2.zq1.msg].concat(M[m]===3?[X2.zq1.third]:[]),c.key,[{t:X2.zq1.opt[0],say:[DM(ZQ,X2.zq1.opt[1])]}],T(c.day+1,23)); if(M[m]===3) S.add(G,ZQ,{unavoidable:true}); } }
     /* ② 每個月第一個週三 23:30「今天又改了三個 bug」*/
-    if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ S1[m]=d; S.sendAsk(G,ZQ,d,23.5,X2.zq2.msgs,'ct_zq2_'+m,opt3(ZQ,X2.zq2.opts),T(d+1,23.5)); } }
+    if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, mg=Array.isArray(M2[0])?M2[k%M2.length]:M2; S1[m]=d; S.sendAsk(G,ZQ,d,23.5,mg,'ct_zq2_'+m,opt3(ZQ,X2.zq2.opts),T(d+1,23.5)); } }   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
     for(const m of Object.keys(R.sent2||{})){ const P=sub(R,'done2'); if(P[m]) continue; const a=ansOf('ct_zq2_'+m); if(a==null) continue; P[m]=true; if(X2.zq2.opts[a]&&X2.zq2.opts[a][2]) S.add(G,ZQ); } };
   /* ③ 等她下班：手機私訊選「我去妳公司樓下等妳」（MSG 的話題；她上班以後、交往中、平日 19:00～21:30）→ 2D 短場景、1 小時；30 天內第三次＝+1 */
   S.zq3On=G=>law(G)&&dating(G,ZQ)&&S.zqWork(G)&&!abroad(G)&&wdOf(G.day)>=1&&wdOf(G.day)<=5&&hh(G)>=19&&hh(G)<21.5;
