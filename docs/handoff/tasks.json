@@ -31751,8 +31751,8 @@
    "title": "美國社區西邊出口往西 fps 拉回（v9.10.9 加街道、公車站、對面平房後 SwiftShader 6.1 → 3.8）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2 做 patch＋README＋outbox",
+   "status": "已整合待測試",
+   "next": "BB 用 tools/blender/env_second/shots/perf_us_community_west.py 重量：出口 (−39,0) 往西橫向、直向 fps（v9.10.9 6.1→3.8；LAWWW2 沙盒 3.2→4.0、照比例估 5.6～6.1）；四季外觀看不出差別",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31772,9 +31772,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同角度 fps 回到 5.5 以上、外觀不退回方塊；改前改後截圖、三角形數",
     "receiver": "LAWWW",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    },
-   "notes": ""
+   "notes": "LAWWW2-B 10-25 03:44 交（ac5c0f990；README test_shots/us_community_west_perf_1025）：原因是地面雙面薄板＋草地墊在柏油、人行道、停車場底下（同一處畫好幾層）；改地面單面、草地只鋪看得到的地方，樹房子沒動。LAWWW-B 03:5x 整合（只換 GLB＋腳本＋測試）：us_community_perf（改前 FAIL 5）、us_season、sign_audit_1025、us_lamp_pools、exch_min、nav_us ALL PASS。不進 v9.10.10（候選凍結 ad5251364）。"
   },
   {
    "id": "US-READ-NOLONG-1025",
