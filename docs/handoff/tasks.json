@@ -32116,7 +32116,7 @@
    },
    "source": "AA-B 2026-10-25 10:45 AA_460 第 1 節（企劃線 b9362f474；看程式推的）",
    "authorized": "D85、D111",
-   "notes": "LAWWW-B 10-25 10:5x：phone3d.js put 刪最舊的時候把 tag 推進 PHONE.rec(G).cut（不重複）。tests/phone_cap_tag_unit.js（舊程式 2 FAIL）；用到 PHONE 的 40 支測試 ALL PASS。舊存檔已經被刪掉、忘記的 tag 救不回（之後再排一次的會留下來一則），從這版起不再發生。"
+   "notes": "LAWWW-B 10-25 10:5x：phone3d.js put 刪最舊的時候把 tag 推進 PHONE.rec(G).cut（不重複）。tests/phone_cap_tag_unit.js（舊程式 2 FAIL）；用到 PHONE 的 40 支測試 ALL PASS。舊存檔已經被刪掉、忘記的 tag 救不回（之後再排一次的會留下來一則），從這版起不再發生。 ｜ BB-B 11:2x R38_CAP_GUITAR PARTIAL：invites3d.js INV.msg／msgAt 也刪到 200 則沒記 cut（skipNotes 補群組訊息把 guitar_grp1 擠掉，再送一次）→ LAWWW-B 11:3x 兩處改用同一個 trim（記 cut）；phone_cap_tag 加 4、5 項（舊程式 FAIL）。"
   },
   {
    "id": "TERM-READ-Y2S1-1025",
@@ -32160,7 +32160,7 @@
    },
    "source": "BB-B 10-25 BB_218（R2／NO 12/8 08:07 觀察，不擋 v9.10.10）",
    "authorized": "D85、D111",
-   "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。"
+   "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。 ｜ BB-B 11:2x R38_HUD_JP：日本第二行對、第一行（goalFor）還是「今天沒有課」→ LAWWW-B 11:3x jp3d.js 包 CLS.todayLine／goalFor（同 us_life3d）；tests/jp_hud_unit.js（舊程式 2 FAIL）。"
   },
   {
    "id": "TERM-READ-Y2S2-1025",

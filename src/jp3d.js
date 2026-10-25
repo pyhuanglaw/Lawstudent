@@ -447,6 +447,9 @@ const JP=(function(){
   if(typeof CLS!=='undefined'){ const td0=CLS.todayHTML, wk0=CLS.weekHTML, sg0=CLS.showGrades;
     if(td0) CLS.todayHTML=function(G){ if(S.inJapan(G)) return S.todayHTML(G); return td0.apply(this,arguments); };
     if(wk0) CLS.weekHTML=function(G){ if(S.inJapan(G)) return S.weekHTML(G); return wk0.apply(this,arguments); };
+    { const l0=CLS.todayLine, g0=CLS.goalFor;   /* HUD 第一行（#goal）：人在日本照交換學校的課表（BB-B 10-25 R38_HUD_JP：第二行對了、第一行還是「今天沒有課」；同 us_life3d.js 包 todayLine／goalFor）*/
+      if(l0) CLS.todayLine=function(G){ if(!G||!S.inJapan(G)) return l0.apply(this,arguments); const its=S.classesOn(G,G.day); return its.length?'今天的課：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):'今天沒有課'; };
+      if(g0) CLS.goalFor=function(G){ if(!G||!S.inJapan(G)) return g0.apply(this,arguments); const R=S.rec(G), h=G.hour, nx=S.classesOn(G,G.day).find(it=>!R.att[it.key]&&h<it.t0+0.25); return {text:CLS.todayLine(G)+(nx?'。上課、讀書或自由活動都可以':''),dest:null}; }; }
     { const u0=CLS.updateHUD; if(u0) CLS.updateHUD=function(GM){ const G=GM&&GM.G; if(!G||GM.titleIdle||!S.inJapan(G)) return u0.apply(this,arguments); const el=typeof document!=='undefined'&&document.getElementById?document.getElementById('nextClass'):null; if(!el) return;   /* HUD 第二行：人在日本照交換學校的課表（原本照臺灣課表寫「今天沒有課」，BB-B 10-25 同美國那一則）*/
         const R=S.rec(G), h=G.hour, its=S.classesOn(G,G.day), nx=its.find(it=>!R.att[it.key]&&h<it.t0+0.25), s=nx?((h>=nx.t0-1?'現在可以上課：':'下一堂 ')+hm(nx.t0)+' '+nx.c.name):(its.length?'今天的課都結束了':'今天沒有課');
         if(el.dataset.s!==s){ el.dataset.s=s; el.textContent=s; } el.classList.remove('hide'); }; }
