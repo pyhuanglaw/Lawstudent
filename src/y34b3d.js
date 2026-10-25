@@ -102,10 +102,15 @@ const Y34B=(function(){
   S.t1WeekDue=(G,E)=>S.t1On(G)&&!!G.flags.YT_T1&&S.t1Window(G)&&nearDoor(G,E)&&G.flags.YT_T1_DAY!==G.day;
   S.ytPhone=function(G){ const d=D('yt'); if(d==null||G.day<d||G.day>D('thu1')||!S.t1On(G)) return; if(NOW(G)>=T(d,21)&&NOW(G)<T(D('thu1'),17.5)) at(G,d,G.day===d?Math.max(21,G.hour):G.hour,[DM('heroine_03','明天傍晚 麵店門口'),DM('heroine_03','我有事想問你')],'y3_yt_t1_ask'); };   /* AA_180 第 4 節 */
   /* 日本路線（AA_337 第 2 節；AA_341 裁定 4 改從 3/30 起）：她每週四 21:00 傳一張田野的照片，沒有字、不用回、也沒有回問；3/30 起到第 15 週（6/1），六張輪完從頭。人在日本＝當地 22:00（3/23 以前日本路線還在臺灣，照台灣路線去麵店門口）*/
-  const YT_JP=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）','📷（老書店門口的傘桶，插滿了傘）','📷（鐘錶行的玻璃櫃，每一支錶停在不同的時間）','📷（修鞋店的牆，掛滿了鞋楦）','📷（她的田野筆記，第一頁只寫了一行，字太小看不清楚）','📷（巷口的公布欄，貼著一張手寫的「收舊家電」）'];
+  /* AA_466 第 2 節（AA-B 2026-10-25，企劃線 30cc3235a）：改成兩週一張（3/30、4/13、4/27、5/11、5/25、6/8、6/22、7/6），照順序各一次；原本六張留著，加第 7、8 張。
+     第幾張＝已經收過幾張（tag y3_yt_jp_<日>；舊存檔照手機裡已經收過的張數接著算，八張收完就不再傳）。8/5 回來以後照舊不傳 */
+  const YT_JP=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）','📷（老書店門口的傘桶，插滿了傘）','📷（鐘錶行的玻璃櫃，每一支錶停在不同的時間）','📷（修鞋店的牆，掛滿了鞋楦）','📷（她的田野筆記，第一頁只寫了一行，字太小看不清楚）','📷（巷口的公布欄，貼著一張手寫的「收舊家電」）',
+    '📷（巷子裡一台修了三次的腳踏車，車主坐在旁邊）','📷（她的田野筆記，翻到第二十頁，字很小）'];
   S.YT_JP=YT_JP;
-  S.ytJPPhone=function(G){ const d0=D('ff2'), w15=D('y3s2w15'); if(d0==null||w15==null||G.day<d0||G.day>w15+6||!law(G)||!JP(G)||!fri('heroine_03')) return;
-    for(let d=Math.min(G.day,w15);d>=d0&&d>G.day-7;d--){ if(CALENDAR.dateOf(d).wd!==4) continue; const h=tzH(G,d,21); if(NOW(G)>=T(d,h)) at(G,d,h,[DM('heroine_03',YT_JP[Math.round((d-d0)/7)%YT_JP.length])],'y3_yt_jp_'+d); return; } };   /* 最近的那個週四（跳過時間的也補那一張）*/
+  S.ytJPCount=function(G){ const re=/^y3_yt_jp_-?\d+$/, s=new Set(), P=P_(); if(P&&P.rec){ const R0=P.rec(G); for(const q of (R0.q||[])) if(q&&re.test(q.tag||'')) s.add(q.tag); for(const t of (R0.cut||[])) if(re.test(t||'')) s.add(t); }
+    for(const m of (G.msgs||[])) if(m&&re.test(m.tag||'')) s.add(m.tag); return s.size; };
+  S.ytJPPhone=function(G){ const d0=D('ff2'); if(d0==null) return; const dl=d0+14*(YT_JP.length-1); if(G.day<d0||G.day>dl+13||!law(G)||!JP(G)||!fri('heroine_03')) return;
+    for(let d=Math.min(G.day,dl);d>=d0&&d>G.day-14;d--){ if((d-d0)%14!==0) continue; const h=tzH(G,d,21); if(NOW(G)>=T(d,h)&&!sent(G,'y3_yt_jp_'+d)){ const n=S.ytJPCount(G); if(n<YT_JP.length) at(G,d,h,[DM('heroine_03',YT_JP[n])],'y3_yt_jp_'+d); } return; } };   /* 最近的那一個兩週的週四（跳過時間的也補那一張）*/
   S.t1Week=async function(GM){ const G=GM.G, F=G.flags; F.YT_T1_DAY=G.day; const ev=evOf('ev_yt_thursday'); if(!ev||typeof EVENTS==='undefined') return false;
     const a=D('ff'), b=D('ff2'); F.Y34B_FF=!F.FIELD_FINDING&&(G.day===a||G.day===b)?1:0; await EVENTS.run(ev);
     if(F.Y34B_FF&&F.YT_T1_GO===G.day&&!F.FIELD_FINDING){ const ff=evOf('ev_field_finding'); if(ff) await EVENTS.run(ff); }   /* 去了＝田野的發現（AA 的 ID ev_field_finding；那一週的旁白、快轉在它裡面）*/

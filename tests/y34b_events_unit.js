@@ -99,7 +99,7 @@ const date=id=>H.date(id);
     at('2028-03-30',21.5); phone(); const d=ph().length; at('2028-03-30',22); phone(); const e=ph();
     at('2028-04-06',22); phone(); const f=ph().slice(-1)[0]; at('2028-05-11',22); phone(); const f2=ph().slice(-1)[0], n=ph().length; at('2028-06-08',22); phone(); const g=ph().length;
     check('AA_337 第 2 節＋AA_341 裁定 4 日本路線：田野的照片從 3/30（四）起（2/24、3/2 人在臺灣，照台灣路線去麵店門口，沒有照片）；人在日本＝當地 22:00（台灣 21:00），第一張是水源市場', a===0&&b===0&&d===0&&JSON.stringify(e)===JSON.stringify([S.YT_JP[0]])&&S.YT_JP[0]==='📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）', JSON.stringify([a,b,d,e]));
-    check('AA_337 第 2 節 日本路線：4/6 第二張；5/11 六張輪完從頭；第 16 週（6/8）沒有', f===S.YT_JP[1]&&f2===S.YT_JP[0]&&g===n, JSON.stringify([f,f2,n,g]));
+    check('AA_466 第 2 節（原本 AA_337 每週一張、六張輪）日本路線：兩週一張、照順序各一次——4/6 沒有新的；5/11 第二張（中間 4/13、4/27 沒跑規則、不補）；6/8 還有（第三張）', f===S.YT_JP[0]&&f2===S.YT_JP[1]&&g===n+1&&n===2, JSON.stringify([f,f2,n,g]));
     check('AA_337 第 2 節 日本路線的照片：沒有字、不用回（沒有選項）', (H.G.msgs||[]).filter(m=>m.th==='p:heroine_03').every(m=>!m.ask&&/^📷（/.test(m.text))); }
   /* ===== 1B-14 ===== */
   const z=ev('ev_zhiruo_no_sugar');
