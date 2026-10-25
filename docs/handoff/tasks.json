@@ -32279,6 +32279,28 @@
    "source": "AA-B 2026-10-25 11:08（企劃線 ae13fa69e，AA_458 第 7 節）",
    "authorized": "D109、D111",
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y3S2-1025",
+   "title": "法律系大三下（留在臺灣）讀後（AA_463）：以安在日本訊息改十則照順序各一次、母親節姊姊問過媽媽不重問、端午回家的不傳粽子、沛珊在台南 ps1～ps3 照第幾次換",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "大三下（以安去日本）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:11（企劃線 c0ad4d168，outbox 637918dd7）；八種存檔 2/21～6/11",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
