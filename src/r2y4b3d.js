@@ -619,9 +619,18 @@ const R2Y4B=(function(){
   S.groupLine=function(G,force){ const F=G.flags, s=S.session(G,G.day), w=force||(s&&s.who)||'kexin';
     if(w!=='kexin'&&!F.BAR_GROUP_YT_FIRST&&(w==='yutong')&&F.BAR_GROUP_KIND!=='three'&&s&&(s.mode==='noodle'||(s.mode==='library'&&F.BAR_GROUP_KIND==='yutong'))) return 'yt_first';   /* AA_350 N1：只有語彤、第一次是週六白天總圖的＝演白天版（第一句旁白換，其他兩句一樣）；分開讀的照舊留到她第一個麵店的晚上 */   /* 只有語彤（或分開讀的語彤那幾晚）：第一次那三句。是晚上的事（「十點，麵店拉下一半的鐵門」）：週六白天在總圖不演；分開讀的放在她的第一個週五晚上 3/2（AA_345 G6）*/
     const pick=w==='three'?(((F.BAR_GROUP_N|0)%2===0)?'kexin':'yutong'):w;
-    return pick==='kexin'?'k'+(((F.BAR_GROUP_KI|0)%4)+1):'y'+(((F.BAR_GROUP_YI|0)%4)+1); };
+    if(w==='three') return pick==='kexin'?'k'+(((F.BAR_GROUP_KI|0)%4)+1):'y'+(((F.BAR_GROUP_YI|0)%4)+1);   /* 三個人在麵店：照舊輪四句（AA_468 的旁白是視訊／政大、麵店／總圖寫的，見 S.narrLine）*/
+    return S.narrLine(G,pick==='kexin'?'k':'y'); };
+  /* AA_468 第 2 節（企劃線 cd2dc7646）：第一輪 k1～k4、y1～y4 各一次照舊；之後換成旁白（R2Y4B_BAR_NARR，src/data/r2y4b_events.js），每句一次、照順序；週六那幾句只在週六；用完只留收尾那一句（平日、週六各一句）。
+     回傳 k1～k4／kw1～kw7／ks1～ks2／kwe（平日收尾）／kse（週六收尾），語彤 y…同。
+     BAR_GROUP_KI／YI 照舊每一晚都加；超過 4 以後，平日第幾句＝KI（YI）減 4、再減第一輪以後週六的次數 BAR_GROUP_KS／YS（舊存檔沒有＝0：週六從第 1 句開始、平日照 KI 減 4 接著算）。
+     三個人一起讀（who:'three'，兩個人都在麵店）不換：AA_468 說各自照順序，可是可昕那一套是視訊、政大的字，語彤的週六是總圖——待 AA 確認，先照舊輪四句 */
+  S.BAR_NARR=typeof R2Y4B_BAR_NARR!=='undefined'?R2Y4B_BAR_NARR:null;
+  S.narrLine=function(G,p){ const F=G.flags, N=S.BAR_NARR&&S.BAR_NARR[p==='k'?'kexin':'yutong'], c=(p==='k'?F.BAR_GROUP_KI:F.BAR_GROUP_YI)|0; if(!N||c<4) return p+((c%4)+1);
+    const sat=(p==='k'?F.BAR_GROUP_KS:F.BAR_GROUP_YS)|0; if(S.isSat(G)) return sat<N.sat.length?p+'s'+(sat+1):p+'se';
+    const w=Math.max(0,c-4-sat); return w<N.wd.length?p+'w'+(w+1):p+'we'; };
   S.groupNightDone=function(G,mode){ const F=G.flags, ln=S.groupLine(G,mode==='video'?'kexin':undefined); F.BAR_GROUP_LAST=G.day; F.BAR_GROUP_N=(F.BAR_GROUP_N|0)+1;
-    if(ln==='yt_first') F.BAR_GROUP_YT_FIRST=G.day; else if(ln[0]==='k') F.BAR_GROUP_KI=(F.BAR_GROUP_KI|0)+1; else F.BAR_GROUP_YI=(F.BAR_GROUP_YI|0)+1; };
+    if(ln==='yt_first') F.BAR_GROUP_YT_FIRST=G.day; else if(ln[0]==='k'){ F.BAR_GROUP_KI=(F.BAR_GROUP_KI|0)+1; if(ln[1]==='s') F.BAR_GROUP_KS=(F.BAR_GROUP_KS|0)+1; } else { F.BAR_GROUP_YI=(F.BAR_GROUP_YI|0)+1; if(ln[1]==='s') F.BAR_GROUP_YS=(F.BAR_GROUP_YS|0)+1; } };   /* 第一輪以後的週六另外記（AA_468）*/
   const groupVideoRules=G=>{ const F=G.flags; if(!F.BAR_GROUP_KIND||F.BAR_GROUP_KIND==='none'||!evDone(G,'ev_bar_group_start')) return;
     if(typeof OUT!=='undefined'&&OUT.rec(G).some(q=>/^y4_bar_vid_/.test(q.id)&&q.state==='planned')) return;   /* 一次只排下一場 */
     for(let d=G.day;d<=G.day+7;d++){ const s=S.session(G,d); if(!s||(s.mode!=='video'&&s.mode!=='nccu')) continue; if(now(G)>T(d,s.t0+0.5)) continue; if(outGet(G,'y4_bar_vid_'+d)) continue; if(F.BAR_GROUP_LAST===d) continue;
