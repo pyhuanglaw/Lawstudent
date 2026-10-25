@@ -14268,8 +14268,8 @@
    "what": "AA_449 經濟系那一年讀過一遍：五處（情人節、旁白主詞、鬧鐘條件、新車、2/2 高雄版）",
    "task": "ECON-READ-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 15:4x 整合；outbox 6dd849b1b"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 15:4x 整合；outbox 6dd849b1b；v9.10.9 發布（f10d2701）BB aa449_probe PASS"
   },
   {
    "id": "DL-LW2-SEASON-DUSK",
@@ -14359,8 +14359,8 @@
    "what": "B1 健身中心不再單調（gym_b1.glb 重新匯出＋貼圖、測試）",
    "task": "GYM-B1-FITNESS-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 00:1x 整合；3486247a3 是 outbox／HANDOFF"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 00:1x 整合；3486247a3 是 outbox／HANDOFF；v9.10.10 發布（b9044511）BB 第一輪 lw31 PASS"
   },
   {
    "id": "DL-LW2-SIGN-AUDIT",
@@ -14372,8 +14372,8 @@
    "what": "有字的牌子掃一遍：換匯看板、公車站牌左右相反；3F 舞台深色木板 → 紅地毯（三份 GLB）",
    "task": "SIGN-AUDIT-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 00:4x 整合；5e7b4afd1 是 outbox／HANDOFF"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 00:4x 整合；5e7b4afd1 是 outbox／HANDOFF；v9.10.10 發布（b9044511）BB 第一輪 lw31 PASS"
   },
   {
    "id": "DL-LW2-WINDOWLESS-NIGHT",
@@ -14502,8 +14502,8 @@
    "what": "AA_456 法律系寒暑假再讀：六處四年一字不差的台詞照年份換",
    "task": "VAC-READ2-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 08:2x 整合；outbox 343dadc88"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 08:2x 整合；outbox 343dadc88；v9.10.10 發布（b9044511）BB R38 AA_456 PASS"
   },
   {
    "id": "DL-LW2-PERF-ECON-1",
@@ -14515,8 +14515,8 @@
    "what": "經濟系路線效能 ①②③⑤：教學館室內殼與自習家具單面、自習椅 10 m 外 lod1、博雅燈 3 盞跟著玩家、校園外圍柏油不重疊",
    "task": "PERF-PATROL-ECON-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 08:4x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 08:4x 整合；v9.10.10 發布（b9044511）BB 經濟系 fps 快或持平"
   },
   {
    "id": "DL-LW2-PERF-ECON-6",
@@ -14528,8 +14528,8 @@
    "what": "室外無名路人 18 m 外換遠距離版本（原本 30 m）",
    "task": "PERF-PATROL-ECON-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 09:0x 整合"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 09:0x 整合；v9.10.10 發布（b9044511）BB 經濟系 fps 快或持平"
   },
   {
    "id": "DL-AA-457",
@@ -14541,8 +14541,8 @@
    "what": "AA_457 寒暑假重複第二輪：芷若英國每週一則、語彤 yt2、沛珊台南節日",
    "task": "VAC-READ3-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 09:2x 整合（3a607f406）；outbox 64b5a64b3"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 09:2x 整合（3a607f406）；outbox 64b5a64b3；v9.10.10 發布（b9044511）BB R38 AA_457 PASS"
   },
   {
    "id": "DL-AA-458",
@@ -14554,8 +14554,8 @@
    "what": "AA_458 法律系大一上讀後：媽媽週四群組照那一週的事、沛珊講義、家族群組、中秋與颱風假前一晚",
    "task": "TERM-READ-Y1S1-1025",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-25 11:2x 整合（3b65720aa、ae12d0c47、28a287dd6）；outbox 2105efc82"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 11:2x 整合（3b65720aa、ae12d0c47、28a287dd6）；outbox 2105efc82；v9.10.10 發布（b9044511）BB R39 AA_458 九個情境 PASS"
   }
  ],
  "ignored": [

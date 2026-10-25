@@ -31413,7 +31413,7 @@
    "title": "經濟系那一年讀者那一輪（AA_449）：2/14 情人節問補習班、旁白主詞、阿勳鬧鐘只在住宿舍、韋綸新車那則、可昕 2/2 去過高雄的版本",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 下一輪經濟系 30 分鐘版順手看 2/14 結尾三句、2/2 22:30 訊息",
    "priority": "P1",
    "first": {
@@ -31428,7 +31428,8 @@
    },
    "source": "AA-B 2026-10-24 15:33Z（企劃線 e3f697c0e）；D99 第一優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-24 15:4x 整合 AA_449（企劃線 e3f697c0e，outbox 6dd849b1b）：1-1～1-5 全做（1-5 可選也做）；tests：lifeline_g5（E27b 結尾三句、旁白主詞）、v0_kxphone（鬧鐘條件、新車那則）、v0_winter（2/2 兩版）、day2_whylaw（LEGIT 加一句）。"
+   "notes": "LAWWW-B 10-24 15:4x 整合 AA_449（企劃線 e3f697c0e，outbox 6dd849b1b）：1-1～1-5 全做（1-5 可選也做）；tests：lifeline_g5（E27b 結尾三句、旁白主詞）、v0_kxphone（鬧鐘條件、新車那則）、v0_winter（2/2 兩版）、day2_whylaw（LEGIT 加一句）。",
+   "evidence": "v9.10.9 發布（main f10d2701，PR #15）帶進 AA_449（fac17bba3）；BB-B aa449_probe 候選 c6fef17e1 ALL PASS（BB_218 18:23）、阿勳鬧鐘／韋綸新車由 v0_kxphone_unit 涵蓋——v9.10.9 發布時漏改狀態，10-25 補"
   },
   {
    "id": "ENGINE-SEASON-DUSK-1024",
@@ -31634,7 +31635,7 @@
    "title": "B1 健身中心不再單調（巡查 P3）：主題牆、鏡子牆、公告螢幕、使用須知、地墊／草皮道、輕鋼架天花板；順修大廳東牆開館時間牌、公告欄字反",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：B1 健身中心 9 個鏡頭、大廳東牆開館時間牌與公告欄字的方向；手機 draw call（西北角 130→148）；P3 待定：B1 晚上 21:00 偏藍偏暗（引擎室內夜間光線）",
    "priority": "P3",
    "first": {
@@ -31656,14 +31657,15 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-25 00:1x 合：只換 GLB＋.json、gym_b1.py、gym_tex.py（開發那份是 10-16 舊版、新的包含它）、textures/gen/b1_* 9 張、tests/gym_b1_fitness_unit.js；版面 v5、導航、程式不動；gym_*、ground_zfight、nav_buildings 全過。READY_FOR_ART_REVIEW。"
+   "notes": "LAWWW-B 10-25 00:1x 合：只換 GLB＋.json、gym_b1.py、gym_tex.py（開發那份是 10-16 舊版、新的包含它）、textures/gen/b1_* 9 張、tests/gym_b1_fitness_unit.js；版面 v5、導航、程式不動；gym_*、ground_zfight、nav_buildings 全過。READY_FOR_ART_REVIEW。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B 第一輪 lw31 B1 健身中心對 v9.10.9 PASS（3acaf8bea GO 4abfb8d8f）"
   },
   {
    "id": "SIGN-AUDIT-1025",
    "title": "有字的牌子掃一遍（128 個 GLB）：機場出境換匯看板、美國社區公車站牌字左右相反；3F 主球場舞台台面深色木板（D112 漏掉）→ 紅地毯＋深紅裙板",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：開學典禮／舞台開著時 3F 主球場舞台是紅地毯、機場出境換匯看板、美國社區公車站牌字是正的；記錄未修：118 巷收銀機店員那面螢幕被機身包住",
    "priority": "P2",
    "first": {
@@ -31685,7 +31687,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-25 00:4x 合：airport_dep.glb、us_community.glb（只差 UV）、gym_arena.glb＋.json（多一個材質 arena_stage_skirt_red）、airport_t2.py／gym_arena.py（開發那份是舊版）、us_community.py、新 check_signs.py、tests/sign_audit_1025_unit.js；gym_*、airport_cam、us_*、ground_zfight 全過。READY_FOR_ART_REVIEW。"
+   "notes": "LAWWW-B 10-25 00:4x 合：airport_dep.glb、us_community.glb（只差 UV）、gym_arena.glb＋.json（多一個材質 arena_stage_skirt_red）、airport_t2.py／gym_arena.py（開發那份是舊版）、us_community.py、新 check_signs.py、tests/sign_audit_1025_unit.js；gym_*、airport_cam、us_*、ground_zfight 全過。READY_FOR_ART_REVIEW。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B 第一輪 lw31 招牌三份 GLB 對 v9.10.9 PASS（3acaf8bea GO 4abfb8d8f）"
   },
   {
    "id": "WINDOWLESS-NIGHT-1025",
@@ -31907,7 +31910,7 @@
    "title": "經濟系路線效能巡查（D99 第一優先）：新遊戲 → 宿營 → 在學 → 休學在家 → 重考 → 放榜，各主要地點量 fps／三角形，找最慢的三處照美國社區的做法修（外觀不退）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "①②③⑤⑥ 已整合（待 BB 新候選測）；④ 公館不交；遠處立面簡化版暫緩",
    "priority": "P2",
    "first": {
@@ -31930,7 +31933,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。 ｜ ④ 公館 LAWWW2 09:08 查到原因：立面約 4 萬三角形、雙面、主畫面和陰影各一次；只動 wz_street.py／gongguan_shops.glb（單面＋小細節不投影子），遠處簡化版先不做。 ｜ ④ 公館 LAWWW2 10:56（4ca54bfe2）：不交 GLB——單面會讓鐵窗、盆栽消失，補反面後 fps 沒差（2.1→2.2）；小零件不投影量不出來；貴的是立面三角形本身。③ 遠處立面簡化版 LAWWW-B 先不做（室內巡查之後再評估）。"
+   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。 ｜ ④ 公館 LAWWW2 09:08 查到原因：立面約 4 萬三角形、雙面、主畫面和陰影各一次；只動 wz_street.py／gongguan_shops.glb（單面＋小細節不投影子），遠處簡化版先不做。 ｜ ④ 公館 LAWWW2 10:56（4ca54bfe2）：不交 GLB——單面會讓鐵窗、盆栽消失，補反面後 fps 沒差（2.1→2.2）；小零件不投影量不出來；貴的是立面三角形本身。③ 遠處立面簡化版 LAWWW-B 先不做（室內巡查之後再評估）。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B 經濟系 fps 對 3acaf8bea：博雅大廳往北 1.65→3.60、101 +95%、普通 +74～105%，外觀並排沒有退"
   },
   {
    "id": "SIS-B11-1025",
@@ -31983,7 +31987,7 @@
    "title": "法律系寒暑假再讀（AA_456）：跨年阿哲那句、麵店公休、沒去的同學回覆、阿哲回高雄、期末邀約那句、子晴每月那則——四年一字不差的照年份換（tag 不變、不加數值）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：大一～大四跨年 12/31 21:00 阿哲第二句各不同；過年麵店公休 2026～2029 各不同；大二～大四寒假海邊沒去的人收到的回覆不同；阿哲回高雄三年不同；各學期期末邀約那句；子晴每月那則輪四組",
    "priority": "P2",
    "first": {
@@ -31998,14 +32002,15 @@
    },
    "source": "AA-B 2026-10-25 07:59（企劃線 71f260ecc，outbox 343dadc88）；vac_sweep 7 存檔 × 8 假期 0 錯誤＋跨假期一字不差掃描；D99 第二優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 08:2x 子代理實作、審過：tests/aa456_vac_unit.js 38 項（舊程式 23 FAIL）；8 支既有測試只換寫死的舊句（註明 AA_456）；全部 Node 619 支 0 失敗。自定：1-6 照「收到的第幾個月」輪（稿寫第 1 個月原句、第 5 個月起再輪），不照日曆月份；六項都沒有經濟系版本。tag 都不變。"
+   "notes": "LAWWW-B 10-25 08:2x 子代理實作、審過：tests/aa456_vac_unit.js 38 項（舊程式 23 FAIL）；8 支既有測試只換寫死的舊句（註明 AA_456）；全部 Node 619 支 0 失敗。自定：1-6 照「收到的第幾個月」輪（稿寫第 1 個月原句、第 5 個月起再輪），不照日曆月份；六項都沒有經濟系版本。tag 都不變。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B R38 AA_456 七項 PASS"
   },
   {
    "id": "VAC-READ3-1025",
    "title": "寒暑假重複第二輪（AA_457）：芷若在英國每天一則改每週一則＋照月份新句（同一次在英國每句只發一次）、語彤裂縫 yt2 開頭照第幾次四組輪流、沛珊在台南節日 homeBy 照節日",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：芷若英國每週一則（1/21「剩三個禮拜」、2/4「箱子還沒整理」、第二次 8/11 起那週「剩兩個禮拜」）；語彤 yt2 開頭；沛珊 2028 情人節／七夕在台中的句子、白色情人節／聖誕在台南的句子",
    "priority": "P2",
    "first": {
@@ -32020,7 +32025,8 @@
    },
    "source": "AA-B 2026-10-25 08:42（企劃線 3be31d3c8，outbox 64b5a64b3）；vac_sweep 交往中四位＋跨假期一字不差掃描；D99 第二優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 09:2x 子代理實作、審過（WIP 檢查點 3a607f406 就是完整版）：tests/aa457_vac_unit.js（舊程式 20 FAIL）；aa350_s S4、never_set_flags 4-10～4-13 照 AA_457 換期待；全部 Node 622 支 0 失敗。自定：每週＝從到英國那天起每七天（第一次週五、第二次週日），台灣 07:00；新句寫在 msg3d.js S.UK_WEEK（msg_pool.js 是產生的檔）。第一次在英國發 22 則、第二次 40 則。 ｜ AA-B 09:06 兩題答案已做（d809cdd21）：沛珊 homeBy 改 [節日][城市]（情人節、七夕台中；三月十四、聖誕台南；做十六歲、生日拿掉）；芷若 UK_LEAVE（2028-02-11、2029-08-25）＋UK_COUNT 三句照離開前第幾天、優先、不照月份。aa457 測試讀 d809cdd21、aa416 第 8 項照 3-1 節換字；相關測試全過。"
+   "notes": "LAWWW-B 10-25 09:2x 子代理實作、審過（WIP 檢查點 3a607f406 就是完整版）：tests/aa457_vac_unit.js（舊程式 20 FAIL）；aa350_s S4、never_set_flags 4-10～4-13 照 AA_457 換期待；全部 Node 622 支 0 失敗。自定：每週＝從到英國那天起每七天（第一次週五、第二次週日），台灣 07:00；新句寫在 msg3d.js S.UK_WEEK（msg_pool.js 是產生的檔）。第一次在英國發 22 則、第二次 40 則。 ｜ AA-B 09:06 兩題答案已做（d809cdd21）：沛珊 homeBy 改 [節日][城市]（情人節、七夕台中；三月十四、聖誕台南；做十六歲、生日拿掉）；芷若 UK_LEAVE（2028-02-11、2029-08-25）＋UK_COUNT 三句照離開前第幾天、優先、不照月份。aa457 測試讀 d809cdd21、aa416 第 8 項照 3-1 節換字；相關測試全過。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B R38 AA_457 PASS"
   },
   {
    "id": "PERF-SINGLESIDE-GLB-1025",
@@ -32086,7 +32092,7 @@
    "title": "法律系大一上讀後（AA_458）：媽媽週四群組照那一週的事挑句子（每句自己的回覆；回家那週晚餐加旁白）、沛珊講義五種說法、家族群組換字三處、中秋與颱風假前一晚家人群組",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器（v9.10.10 新候選）：新開局大一上媽媽週四群組照 1-4（9/4、9/11、9/18 不重複、中秋、考試週）、回會回去那週晚餐旁白、中秋 18:00／21:00、颱風假前一晚 20:45／21:00、沛珊講義第 2 次換說法、家族群組三處",
    "priority": "P2",
    "first": {
@@ -32101,7 +32107,8 @@
    },
    "source": "AA-B 2026-10-25 10:16（企劃線 b01e32018，outbox 2105efc82）；學期版 vac_sweep 三種存檔 9/1～12/21；D81（D99 三項讀過一輪之後）",
    "authorized": "D81、D109、D111",
-   "notes": "LAWWW-B 10-25 11:2x 子代理實作、審過（WIP 檢查點 3b65720aa、ae12d0c47、28a287dd6 就是完整版）：tests/aa458_y1s1_unit.js（舊程式 b5e07ddab 31 FAIL）；5 支既有測試只換 AA_458 的句子；全部 Node 624 支 0 失敗。自定：中秋每年（學期裡，大一上到大四上）；爸爸寄東西春天跳過大閘蟹；颱風、中秋人在家不發；D5 舊存檔照已收則數接著輪；calendar.js 加冬至 dz（2024～2030）、母親節照五月第二個週日。"
+   "notes": "LAWWW-B 10-25 11:2x 子代理實作、審過（WIP 檢查點 3b65720aa、ae12d0c47、28a287dd6 就是完整版）：tests/aa458_y1s1_unit.js（舊程式 b5e07ddab 31 FAIL）；5 支既有測試只換 AA_458 的句子；全部 Node 624 支 0 失敗。自定：中秋每年（學期裡，大一上到大四上）；爸爸寄東西春天跳過大閘蟹；颱風、中秋人在家不發；D5 舊存檔照已收則數接著輪；calendar.js 加冬至 dz（2024～2030）、母親節照五月第二個週日。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B R39 AA_458 九個情境 PASS"
   },
   {
    "id": "TERM-READ-Y1S2-1025",
@@ -32130,7 +32137,7 @@
    "title": "手機超過 200 則刪最舊的以後 PHONE.sent 忘了傳過，條件只寫 !PHONE.sent 的訊息會再排一次（例 guitar_grp1）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：玩到手機超過 200 則的存檔（例：可昕交往中 5/28 以後），舊訊息不會重複出現",
    "priority": "P1",
    "first": {
@@ -32145,7 +32152,8 @@
    },
    "source": "AA-B 2026-10-25 10:45 AA_460 第 1 節（企劃線 b9362f474；看程式推的）",
    "authorized": "D85、D111",
-   "notes": "LAWWW-B 10-25 10:5x：phone3d.js put 刪最舊的時候把 tag 推進 PHONE.rec(G).cut（不重複）。tests/phone_cap_tag_unit.js（舊程式 2 FAIL）；用到 PHONE 的 40 支測試 ALL PASS。舊存檔已經被刪掉、忘記的 tag 救不回（之後再排一次的會留下來一則），從這版起不再發生。 ｜ BB-B 11:2x R38_CAP_GUITAR PARTIAL：invites3d.js INV.msg／msgAt 也刪到 200 則沒記 cut（skipNotes 補群組訊息把 guitar_grp1 擠掉，再送一次）→ LAWWW-B 11:3x 兩處改用同一個 trim（記 cut）；phone_cap_tag 加 4、5 項（舊程式 FAIL）。"
+   "notes": "LAWWW-B 10-25 10:5x：phone3d.js put 刪最舊的時候把 tag 推進 PHONE.rec(G).cut（不重複）。tests/phone_cap_tag_unit.js（舊程式 2 FAIL）；用到 PHONE 的 40 支測試 ALL PASS。舊存檔已經被刪掉、忘記的 tag 救不回（之後再排一次的會留下來一則），從這版起不再發生。 ｜ BB-B 11:2x R38_CAP_GUITAR PARTIAL：invites3d.js INV.msg／msgAt 也刪到 200 則沒記 cut（skipNotes 補群組訊息把 guitar_grp1 擠掉，再送一次）→ LAWWW-B 11:3x 兩處改用同一個 trim（記 cut）；phone_cap_tag 加 4、5 項（舊程式 FAIL）。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B R38_CAP_GUITAR 661423a71 PASS（3acaf8bea 再送 46 次＝抓得到）"
   },
   {
    "id": "TERM-READ-Y2S1-1025",
@@ -32174,7 +32182,7 @@
    "title": "人在美國／日本，HUD 第二行（#nextClass）照臺灣課表寫「今天沒有課」，和第一行的當地課表打架（v9.10.9 就有）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "next": "BB 瀏覽器：美國有課的日子 HUD 第二行「下一堂 …／現在可以上課：…」、課都過了「今天的課都結束了」、週末「今天沒有課」；日本同樣",
    "priority": "P2",
    "first": {
@@ -32189,7 +32197,8 @@
    },
    "source": "BB-B 10-25 BB_218（R2／NO 12/8 08:07 觀察，不擋 v9.10.10）",
    "authorized": "D85、D111",
-   "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。 ｜ BB-B 11:2x R38_HUD_JP：日本第二行對、第一行（goalFor）還是「今天沒有課」→ LAWWW-B 11:3x jp3d.js 包 CLS.todayLine／goalFor（同 us_life3d）；tests/jp_hud_unit.js（舊程式 2 FAIL）。"
+   "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。 ｜ BB-B 11:2x R38_HUD_JP：日本第二行對、第一行（goalFor）還是「今天沒有課」→ LAWWW-B 11:3x jp3d.js 包 CLS.todayLine／goalFor（同 us_life3d）；tests/jp_hud_unit.js（舊程式 2 FAIL）。",
+   "evidence": "v9.10.10 發布（main b9044511，PR #16，2026-10-25 15:30 UTC；候選 661423a71）；BB-B RELEASE-91010-TEST GO（BB_218 5ffd42ef0：發布前清單 656 PASS 0 FAIL、save_compat 2 PASS）；BB-B R38_HUD 美日兩行 661423a71 PASS"
   },
   {
    "id": "TERM-READ-Y2S2-1025",
