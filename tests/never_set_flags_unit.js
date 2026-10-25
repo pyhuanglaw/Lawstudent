@@ -165,17 +165,19 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       check('4-7. 好朋友：台灣 22:00 有晚安（她那邊下午）；回的是「這邊才下午。」或「晚安。我還有一堂課。」、當天就回',T.includes('night')&&r.ok&&Q.length===1&&Q[0].day===M1&&Q[0].h<23&&['這邊才下午。','晚安。我還有一堂課。'].includes(Q[0].items[0].text),JSON.stringify({T,Q})); }
     { const G=zr(M1,20,5); let cafe=0; for(let i=0;i<12;i++){ const e=MSG.pick(G,ZR,'chat'); if(!e||e.variant!=='在英國') cafe++; if(e&&(e.tags||[]).includes('交往中')) cafe++; }
       check('4-8. 好朋友：只用「在英國」那一組（朋友那一組也用），不出交往中才有的句子、不用 Café 的句子',cafe===0); }
-    /* 4. 交往中：每天一則（英國 23:00 她睡前＝台灣 07:00，夏令 06:00）*/
+    /* 4. 交往中：每週一則（AA_457 第 1 節改的；原本每天一則。英國 23:00 她睡前＝台灣 07:00，夏令 06:00）*/
     { const W=STORY.dayOfKey('2028-11-14'); const G=zr(W,6,5,{dating_heroine_02:true}); ROM.rec(G);
       check('4-9. 交往中＝mode uk、dating',MSG.open(G,ZR).uk==='dating');
       setDay(W,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d1=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W).map(m=>[m.h,m.text]);
-      check('4-10. 大四（2028-11，冬令）：台灣 07:00 收到每天那一則（第一則「今天看了兩部片。一部很好，一部我睡著了。」）',d1.length===1&&d1[0][0]>=7&&d1[0][0]<7.25&&d1[0][1]==='今天看了兩部片。一部很好，一部我睡著了。',JSON.stringify(d1));
-      STORY.phoneRules(GM); PHONE.tick(G); check('4-11. 同一天不再有第二則',(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W).length===1);
-      setDay(W+1,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d2=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+1).map(m=>m.text);
-      check('4-12. 隔天輪下一則（照片＋「要睡了。你那邊早安。」）',JSON.stringify(d2)===JSON.stringify(['（照片：宿舍窗外的路燈）','要睡了。你那邊早安。']),JSON.stringify(d2));
-      MSG.rec(G).rot.uk_daily=7; setDay(W+2,7.2); STORY.phoneRules(GM); PHONE.tick(G); MSG.rec(G).rot.uk_daily=7; setDay(W+3,7.2); STORY.phoneRules(GM); PHONE.tick(G);
-      const a=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+2).map(m=>m.text), b=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+3).map(m=>m.text);
-      check('4-13. 第 8 則「今天沒什麼事。只是想跟你說晚安。」一個月最多一次（同一個月又輪到＝換下一則）',a[0]==='今天沒什麼事。只是想跟你說晚安。'&&b[0]==='學校的咖啡今天比較好喝。換了一個人煮。',JSON.stringify([a,b]));
+      check('4-10. 大四（2028-11，冬令）：台灣 07:00 收到這一週那一則（AA_457：先用這個月的新句子，11 月第一句「（照片：放映室的最後一排）」「今天的片三個小時。我沒有睡著。」）',d1.length===2&&d1.every(x=>x[0]>=7&&x[0]<7.25)&&JSON.stringify(d1.map(x=>x[1]))===JSON.stringify(['（照片：放映室的最後一排）','今天的片三個小時。我沒有睡著。']),JSON.stringify(d1));
+      STORY.phoneRules(GM); PHONE.tick(G); check('4-11. 同一天不再有第二則',new Set((G.msgs||[]).filter(m=>m.th===thZ&&m.day===W).map(m=>m.tag)).size===1);
+      setDay(W+1,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d0=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+1).map(m=>m.text);
+      setDay(W+5,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d2=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+5).map(m=>m.text);
+      check('4-12. 每週一則（AA_457）：隔天沒有；下一週（11/19）輪 11 月第二句「室友問我臺灣的冬天冷不冷。我說會下雨。」',!d0.length&&JSON.stringify(d2)===JSON.stringify(['室友問我臺灣的冬天冷不冷。我說會下雨。']),JSON.stringify([d0,d2]));
+      const K=MSG.rec(G).ukWk.Y4; K.used.push('uk2_11c','d0','d1','d2','d3','d4','d5','d6'); MSG.rec(G).ukAff='2028-11'; setDay(W+12,7.2); STORY.phoneRules(GM); PHONE.tick(G);
+      K.used.push('uk2_12a','uk2_12b','uk2_12c'); setDay(W+19,7.2); STORY.phoneRules(GM); PHONE.tick(G);
+      const a=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+12).map(m=>m.text), b=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+19).map(m=>m.text);
+      check('4-13. 第 8 則「今天沒什麼事。只是想跟你說晚安。」一個月最多一次照舊（AA_457：這個月的用完、原本前七句發過；11 月已經發過＝換下一則，12 月才發）',b[0]==='今天沒什麼事。只是想跟你說晚安。'&&a[0]==='學校的咖啡今天比較好喝。換了一個人煮。',JSON.stringify([a,b]));
       const T=MSG.topics(G,ZR).map(x=>x.k); check('4-14. 交往中的「在幹嘛」會出現交往中那兩則（照好朋友那一組再加）',T.includes('chat')&&(()=>{ let hit=false; for(let i=0;i<20;i++){ const e=MSG.pick(G,ZR,'chat'); if(e&&(e.tags||[]).includes('交往中')) hit=true; } return hit; })()); }
     { const W=STORY.dayOfKey('2028-11-14'); const G=zr(W,7.2,5); STORY.phoneRules(GM); PHONE.tick(G);
       check('4-15. 條件不成立不發：沒有交往＝沒有每天那一則',!(G.msgs||[]).some(m=>m.th===thZ)); }

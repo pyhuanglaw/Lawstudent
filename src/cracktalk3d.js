@@ -283,7 +283,8 @@ const CRACKTALK=(function(){
   S.yt2=function(G){ const R=sub(S.src(G),'yt2'), tag=n=>'ct_yt2_'+n;
     if(dating(G,YT)){ if(R.next==null){ const since=(ROM.get(G,YT)||{}).sinceDay; R.next=(since!=null?since:G.day)+28; R.n=0; }
       if(G.day>=R.next&&!abroad(G)&&pres(YT,G).here){ const k=(R.n|0)%2===0?'A':'B', h=hh(G), X=X2.yt2[k];
-        if((k==='A'&&S.ytShop(G,G.day)&&h>=16.5&&h<21)||(k==='B'&&wdOf(G.day)===5&&h>=21)){ const n=R.n|0; S.sendAsk(G,YT,G.day,k==='A'?16.5:21,[X.ask],tag(n),opt3(YT,X.opts),k==='A'?T(G.day,21):T(G.day+1,12)); (R.sent||(R.sent={}))[n]=k; R.n=n+1; R.next=G.day+28; } } }
+        if((k==='A'&&S.ytShop(G,G.day)&&h>=16.5&&h<21)||(k==='B'&&wdOf(G.day)===5&&h>=21)){ const n=R.n|0, A=[].concat(X.ask), c=Object.values(R.sent||{}).filter(v=>v===k).length, i=c<A.length?c:(A.length>1?1+(c-1)%(A.length-1):0);   /* 開頭照這一種（A／B）第幾次輪流（AA_457 第 2 節）：已經收過幾次（sent 裡同一種的筆數，舊存檔照算）→ 第 1～4 次照表、第 5 次起從第 2 組再輪；tag 照舊 ct_yt2_<n> */
+          S.sendAsk(G,YT,G.day,k==='A'?16.5:21,[A[i]],tag(n),opt3(YT,X.opts),k==='A'?T(G.day,21):T(G.day+1,12)); (R.sent||(R.sent={}))[n]=k; R.n=n+1; R.next=G.day+28; } } }
     else R.next=null;
     for(const n of Object.keys(R.sent||{})){ const P=sub(R,'done'); if(P[n]) continue; const a=ansOf(tag(n)); if(a==null) continue; P[n]=true; const X=X2.yt2[R.sent[n]]; if(X.opts[a]&&X.opts[a][2]) S.add(G,YT); } };   /* 不回＝0（她本來就只是告知）*/
 

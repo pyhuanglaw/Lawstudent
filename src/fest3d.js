@@ -245,7 +245,8 @@ const FEST=(function(){
 
   /* ---------------- 1-4 ②她約（只有交往中、不是生日）---------------- */
   S.HER_K=['vday','white','qixi','xmas'];
-  S.herLines=function(id,k,home){ const A=(X.PEOPLE[id]||{}).ask||{}; if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）*/
+  S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}; if(home&&A.homeBy&&Array.isArray(A.homeBy[k])&&(!A.homeCity||A.homeCity===city)) return A.homeBy[k].slice();   /* AA_457 第 3 節：沛珊在台南的時候照節日換（homeBy）；不在台南、沒寫的照原本 */
+    if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）*/
     const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 第一句照節日換（以安、沛珊）*/
   S.herAsks=function(G){ const F=G.flags;
     for(const id of HER){ if(!dating(G,id)) continue; const A=(X.PEOPLE[id]||{}).ask; if(!A) continue;
@@ -255,7 +256,7 @@ const FEST=(function(){
           const home=!!W&&W.mode==='home'&&!!A.homeLines&&!!S.cellLines(S.cell(id,k),'dt'), here=!!W&&W.mode==='taipei'&&!W.fixed;
           const busy=S.bookedWith(G,id,d)||(G.invites||[]).some(iv=>iv.who===id&&iv.day===d&&liveIv(iv));   /* 玩家已經約她了 */
           const win=home?[0,24]:[A.h-0.25,A.h+2], ok=(home||here)&&!busy&&contact(G,id,a)&&S.slotOk(G,d,home?'day':(S.slotOf(A.h)||'eve'),id,win).ok;
-          if(ok){ const M=S.herLines(id,k,home).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
+          if(ok){ const M=S.herLines(id,k,home,W&&W.city).map(dm(id)); M[M.length-1].ask={id:tag,until:T(d,A.h),opts:[{t:'好。',set:{[fk]:home?'home':'yes'}},{t:'那天不行。',set:{[fk]:'no'},say:(A.no||[]).map(t=>({from:id,text:t}))}]};
             PHONE.at(G,a,21,M,tag); } }
         if((F[fk]==='yes'||F[fk]==='home')&&now(G)<T(d,A.h+0.25)&&!(typeof OUT!=='undefined'&&OUT.get(G,outId(f)))){ const c=S.cell(id,k)||{}, W=S.where(G,id,k,y,d)||{};
           if(F[fk]==='home') S.planDrive(G,f,{city:W.city||((X.PEOPLE[id].home||{}).city)});
