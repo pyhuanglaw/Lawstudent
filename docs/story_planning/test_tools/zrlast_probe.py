@@ -3098,13 +3098,15 @@ R38 += [dict(id='R38_456_NYE3', key='2027-12-31', h=20.9, zone='dorm', flags=dic
              pref=['不去了'], asks={'vac_c01first_Y3': '我那天不行', '*': ''}, nothree=True,
              wantMsg=['這次我要帶暖暖包', '九點十分。這次不要有人遲到。', '不去。我負責看照片。', '我可以。這次我帶熱水。', '明天回高雄 我阿嬤問你們今年要不要來'],
              noneMsg=['冬天去海邊？？', '火車九點十分有一班。', '我怕冷，我不去了。你們拍照。', '我明天回高雄']),
-        dict(id='R38_456_GF_AN', key='2026-12-24', h=19.9, zone='dorm', flags=dict(TW3), js=AN_D, steps=[('ffloop', '2026-12-26', 12.4, 160), ('dumplog', 'R38_456_GF_AN')],
+        dict(id='R38_456_GF_AN', key='2026-12-24', h=19.9, zone='dorm', flags=dict(TW3, dating_kexin=False, dating_heroine_01=True), js=AN_D + " if(G.termend&&G.termend.Y2S1) delete G.termend.Y2S1;", steps=[('ffloop', '2026-12-26', 12.4, 160), ('dumplog', 'R38_456_GF_AN')],
              pref=['不去了'], asks={'*': ''}, nothree=True,
              wantMsg=['最後一科交卷了。今天不讀書。……你也一樣。'], noneMsg=['考完了。……今天不讀書，你也不准讀。'],
              jsok=[('tag te_gf_Y2S1_heroine_01（12/26 12:00）', "(GAME.G.msgs||[]).filter(m=>m.tag==='te_gf_Y2S1_heroine_01').map(m=>CALENDAR.dateOf(m.day).key+' '+(+m.h).toFixed(1))", ['2026-12-26 12.0'])]),
         dict(id='R38_456_ZQ2', key='2028-08-02', h=23.2, zone='dorm', flags=dict(TWF), js=Y4 + ZQD + " G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_04'); const C=G.flags.CRACKTALK=G.flags.CRACKTALK||{}; C.src=C.src||{}; C.src.zq=C.src.zq||{}; C.src.zq.sent2={'2028-06':D('2028-06-07'),'2028-07':D('2028-07-05')};",
              steps=[('until', 23.7)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['明天要上線', '我還在公司'], noneMsg=['今天又改了三個 bug', '改好一個 bug 又多兩個'],
              jsok=[('ct_zq2_2028-08 從子晴（第 3 個月＝第 3 組）', "(GAME.G.msgs||[]).filter(m=>m.tag==='ct_zq2_2028-08').map(m=>m.text)", ['明天要上線', '我還在公司'])])]
+# BB-B 10-25 15:3x：R38_456_GF_AN 第一次（661423a71）FAIL＝測試的問題：TERMEND 期末窗口一開始就排好整個 plan（R.plan 快取），讀檔後等 5 秒才跑 console 的 NOKX／AN_D，
+#   plan 已經照使用者存檔（可昕交往中、以安不是女朋友）排成可昕的學期末約會、沒有以安。改成 dating_kexin／dating_heroine_01 寫進存檔旗標（讀檔前），console 再清掉 G.termend.Y2S1 讓它重排（【前置】）
 # [前置] ZQ2：子晴交往中、2028-06、07 已經收過兩個月（CRACKTALK.src.zq.sent2 兩筆）＝這個月是第 3 組
 # ④ AA_457（c211251c3、384d84d69，VAC-READ3-1025）各一輪：芷若在英國倒數兩句（1/21、2/4）、語彤 yt2 開頭第 2 組、沛珊 2028 白色情人節（台南）、情人節（台中）
 R38 += [dict(id='R38_457_UK_0121', key='2028-01-21', h=6.4, zone='dorm', flags=dict(TW3), js=ZRD, steps=[('until', 7.4)], pref=[], asks={'*': ''}, nothree=True,
