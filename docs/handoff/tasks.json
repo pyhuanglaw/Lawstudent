@@ -32129,6 +32129,28 @@
    "source": "AA-B 2026-10-25 10:45（企劃線 b9362f474，outbox f1a67f67c）；八種存檔 9/7～12/27",
    "authorized": "D81、D109、D111",
    "notes": "AA 要確認：以安 2027 生日 noonOnly，herAsks 那一年會不會發？會的話改中午版。"
+  },
+  {
+   "id": "BUG-US-NEXTCLASS-1025",
+   "title": "人在美國／日本，HUD 第二行（#nextClass）照臺灣課表寫「今天沒有課」，和第一行的當地課表打架（v9.10.9 就有）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：美國有課的日子 HUD 第二行「下一堂 …／現在可以上課：…」、課都過了「今天的課都結束了」、週末「今天沒有課」；日本同樣",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 3,
+    "earliest": "美國交換開學 8/21",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-25 BB_218（R2／NO 12/8 08:07 觀察，不擋 v9.10.10）",
+   "authorized": "D85、D111",
+   "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。"
   }
  ]
 }

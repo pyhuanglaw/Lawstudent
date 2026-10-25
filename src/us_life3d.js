@@ -62,6 +62,10 @@ const USL=(function(){
     return x.m+'/'+x.d+' '+CLS.WD[x.wd]+(h?'・'+h:(S.finals(day)?'・期末週':'')); };   /* 美國路線：台灣的節日、學期週次不寫 */
   CLS.todayLine=function(G){ if(!S.here(G)) return line0.apply(this,arguments); const its=S.items(G); if(its.length) return '今天的課：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、');
     const h=S.holiday(G.day); return h?'今天放假（'+h+'），沒有課':'今天沒有課'; };
+  /* HUD 第二行（#nextClass，classes3d.js S.updateHUD 照臺灣課表算）：人在美國照美國課表（BB-B 10-25：第一行「今天的課：09:00 Legal Writing」、第二行卻是「今天沒有課」；v9.10.9 就有）*/
+  { const u0=CLS.updateHUD; CLS.updateHUD=function(GM){ const G=GM&&GM.G; if(!G||GM.titleIdle||!S.here(G)) return u0.apply(this,arguments); const el=typeof document!=='undefined'&&document.getElementById?document.getElementById('nextClass'):null; if(!el) return;
+      const its=S.items(G), nx=its.find(it=>{ const st=S.status(G,it); return st==='open'||st==='upcoming'; }), s=nx?((S.status(G,nx)==='open'?'現在可以上課：':'下一堂 ')+hm(nx.t0)+' '+nx.c.name):(its.length?'今天的課都結束了':'今天沒有課');
+      if(el.dataset.s!==s){ el.dataset.s=s; el.textContent=s; } el.classList.remove('hide'); }; }
   CLS.goalFor=function(G){ if(!S.here(G)) return goal0.apply(this,arguments); const nx=S.items(G).find(it=>{ const s=S.status(G,it); return s==='open'||s==='upcoming'; });
     return {text:CLS.todayLine(G)+(nx?'。上課、讀書或自由活動都可以':''),dest:null}; };
 

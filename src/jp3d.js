@@ -447,6 +447,9 @@ const JP=(function(){
   if(typeof CLS!=='undefined'){ const td0=CLS.todayHTML, wk0=CLS.weekHTML, sg0=CLS.showGrades;
     if(td0) CLS.todayHTML=function(G){ if(S.inJapan(G)) return S.todayHTML(G); return td0.apply(this,arguments); };
     if(wk0) CLS.weekHTML=function(G){ if(S.inJapan(G)) return S.weekHTML(G); return wk0.apply(this,arguments); };
+    { const u0=CLS.updateHUD; if(u0) CLS.updateHUD=function(GM){ const G=GM&&GM.G; if(!G||GM.titleIdle||!S.inJapan(G)) return u0.apply(this,arguments); const el=typeof document!=='undefined'&&document.getElementById?document.getElementById('nextClass'):null; if(!el) return;   /* HUD 第二行：人在日本照交換學校的課表（原本照臺灣課表寫「今天沒有課」，BB-B 10-25 同美國那一則）*/
+        const R=S.rec(G), h=G.hour, its=S.classesOn(G,G.day), nx=its.find(it=>!R.att[it.key]&&h<it.t0+0.25), s=nx?((h>=nx.t0-1?'現在可以上課：':'下一堂 ')+hm(nx.t0)+' '+nx.c.name):(its.length?'今天的課都結束了':'今天沒有課');
+        if(el.dataset.s!==s){ el.dataset.s=s; el.textContent=s; } el.classList.remove('hide'); }; }
     if(sg0) CLS.showGrades=function(GM,termId,opts){ if(termId==='Y3S2'&&GM&&isJP(GM.G)) return S.showGrades(GM,opts); return sg0.apply(this,arguments); }; }
   { const e=evOf('ev_jp_repair_river'); if(e) e.after=G=>{ if(G.flags.AN_REPAIR4==='sorry') S.repair(G); };   /* 挽回第 4 步：REPAIR +1 */
     const t=evOf('ev_jp_tanabata_repair'); if(t) t.after=G=>{ if(G.flags.AN_JP_RECONCILED) S.resume(G); };   /* 挽回第 5 步：重新交往 */
