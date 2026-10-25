@@ -90,7 +90,7 @@ const ADV = (function(){
       sp.apply(A,arguments); if(tgt) A.lastSlot=tgt; if(charId) A.root.classList.remove('narr'); solo(); }; }   /* game3d.js say 旁白時也會叫 ADV.speaker(null)：那不是換人說話，旁白變暗要留著 */   /* 沒有立繪的人（店員、承辦人）說話：那一框是空的、另一邊收起來＝台上沒人，不會看起來像別人在講；祐廷說話（tgt 空）照舊 */
   { const b=A.begin; A.begin=function(opts){ b.apply(A,arguments); A.lastSlot=opts&&opts.right?'right':(opts&&opts.left?'left':null); solo(); }; }
   { const h=A.hide; A.hide=function(slot){ h.apply(A,arguments); if(A.lastSlot===slot) A.lastSlot=null; solo(); }; }
-  { const e=A.end; A.end=function(){ e.apply(A,arguments); A.lastSlot=null; if(A.L){ A.L.classList.remove('off'); A.R.classList.remove('off'); } }; }
+  { const e=A.end; A.end=function(){ A.endN=(A.endN|0)+1; e.apply(A,arguments); A.lastSlot=null; if(A.L){ A.L.classList.remove('off'); A.R.classList.remove('off'); } }; }
   A.log=function(name,text){ A.history.push({name,text}); if(A.history.length>60) A.history.shift(); };
   A.toggleHistory=function(){ const h=A.hist; if(h.style.display==='block'){ h.style.display='none'; return; } h.innerHTML=A.history.map(x=>'<div>'+(x.name?'<b>'+x.name+'</b>':'')+x.text+'</div>').join('')||'<div>（還沒有對話）</div>'; h.style.display='block'; h.scrollTop=h.scrollHeight; };
   // Event CG：稀有；不存在時自動退回一般 ADV
@@ -100,7 +100,9 @@ const ADV = (function(){
   A.setBg=function(mode){ if(!A.active) return; mode=mode||'blur'; A.bgMode=mode; for(const c of ['blur','freeze','dark','image','cg','night']) A.root.classList.remove(c); if(A.cgEl) A.cgEl.style.backgroundImage='';   /* 換場景＝離開 CG 那一拍（例：芷若 Z5 戲院門口 BCG-21 → 豆漿店）；之後說話的人照常出現 */
     if(typeof mode==='object'&&mode.image){ A.root.classList.add('image'); if(mode.night) A.root.classList.add('night'); A.bg.style.backgroundImage='url('+mode.image+')'; loadImage(mode.image).catch(()=>{ A.root.classList.remove('image','night'); A.root.classList.add('dark'); A.bg.style.backgroundImage=''; }); }
     else { A.root.classList.add(typeof mode==='object'?'dark':mode); A.bg.style.backgroundImage=''; } };
-  A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; loadImage(reg.file).then(()=>{ A.root.className='on image cg'; A.bg.style.backgroundImage='url('+reg.file+')'; A.cgEl.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); } }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
+  A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; const tk=A.endN|0; loadImage(reg.file).then(()=>{ if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); }
+      if(!A.active||(A.endN|0)!==tk) return;   /* 圖載好以前這一段 ADV 已經結束（CG 是事件最後一步：events3d.js 的 CG 步驟不等點）＝不再蓋上 CG 底，免得結束以後畫面一直是模糊的 CG（BB-B 10-25 R34_SNOW_R3B，挽回中初雪）；圖鑑照樣解鎖 */
+      A.root.className='on image cg'; A.bg.style.backgroundImage='url('+reg.file+')'; A.cgEl.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
   return A;
 })();
 // Event CG 登錄（檔案尚未提供；解鎖狀態存於 G.cg.unlocked）

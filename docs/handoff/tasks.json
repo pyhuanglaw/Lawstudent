@@ -31945,6 +31945,28 @@
    "source": "AA-B 2026-10-25 05:17（企劃線 2de70709f，outbox 8e1969e28）；USER_WANTS C25（使用者 10-23：學姊才是真正的女主角，劇情要充實）",
    "authorized": "D109、D111、C25",
    "notes": "LAWWW-B 10-25 05:4x 子代理實作、審過：新檔 src/data/sis_b11_events.js、src/sis_b11_3d.js（index.html 插在 zq_testbuild3d 後；family_xmas 緊接 sis_b10 的順序由測試鎖住），social3d MEMORY_LABEL.SIS_ABSTRACT（SIS_DEFENSE_DATE 稿沒寫面板名，沒加）。tests/aa455_sis_unit.js（舊程式 20 FAIL）；全部 Node 617 支 0 失敗；沒改既有測試。自定：11-1 出遊 1 小時；11-2 只在校園總圖門口、演完留在原地；「去：總圖」不加鬧鐘（不然快轉停 16:30）；5/29 接 M9 在新檔排同一個 y4_m9（M9 參數兩個檔各一份）。 ｜ AA-B 05:39 兩題答案已做（0c5afca90）：沒去法圖 13:15 她一則；SIS_DEFENSE_DATE 人物頁「她告訴你口試的日子」。"
+  },
+  {
+   "id": "BUG-CG-AFTER-END-1025",
+   "title": "事件最後一步是 CG：事件結束以後畫面一直是模糊的 CG 底（挽回中初雪「這次我先說」；v9.10.9 就有）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "BB 乾淨 checkout 重跑 R34_SNOW_R3B（12/3 三個時間點 #adv 不能是 cg）＋R34_SNOW_R3／R2／NO",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 15,
+    "earliest": "美國交換挽回中 12/2 初雪",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "BB-B 10-25 06:20 R34_SNOW_R3B（v9.10.10 判定前回報；BB 分支 2e391d324）",
+   "authorized": "D85、D111",
+   "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。"
   }
  ]
 }
