@@ -136,9 +136,14 @@ draw call：社科圖 72 → 68、總圖 204 → 188、便利商店 100 → 85�
 - 讀這三個 GLB 的其他 Node 測試 ALL PASS：gym_arena_unit、gym_b1_fitness_unit、gym_ceremony_unit、gym_unit、gymcer_unit、sign_audit_1025_unit、windowless_night_unit。
 - 沒跑：體育館的瀏覽器流程測試、整套回歸、手機實機。
 
-## 第三份：溫州街、118 巷（大面改單面）＋體育館 1F 大廳木格柵照舊雙面（10-25 16:xx 交）
+## 第三份：溫州街、118 巷（大面改單面）＋體育館 1F 大廳木格柵照舊雙面＋便利商店促銷牌補背面（10-25 17:xx 交）
 
 LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1F 大廳木格柵（`gym_wood`）照舊雙面，重匯 `gym_interior.glb`、fps 照實報。另外「街景拆成本」照我排的做。
+
+檔案（我的分支）：
+- GLB：`assets/models/env/second_ai/wenzhou_street.glb`、`lane118_street.glb`、`gym_interior.glb`、`cvs_interior.glb`（＋各自的 `.json`）；
+- 腳本：`tools/blender/env_second/wz_street.py`（匯出前只關大面的雙面旗標）、`gym_interior.py`（`keep` 加 `^gym_wood$`）、`cvs_goods.py`＋`cvs_interior.py`（促銷牌補背面，下面）；
+- 測試（都對開發 `e015b7c10`，`git apply --check` 過）：`patches/singleside_streets_1025.patch`（新）、`patches/singleside_gym_wood_1025.patch`、`patches/singleside_cvs_promo_1025.patch`（改開發已經有的兩支）。
 
 ### 街景為什麼不是整條街單面
 
@@ -183,3 +188,19 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
 - `tests/singleside_gym_unit.js` 第 1 項改成木格柵照舊雙面（`patches/singleside_gym_wood_1025.patch`，對開發 `e015b7c10` 已經有的那一份）：交件版本 ALL PASS。
 - 沒跑：溫州街、118 巷、體育館的瀏覽器流程測試、整套回歸、手機實機。
 - `lane118_street.json` 的 `materials` 129 → 136：那是 Blender 裡的材質數（含沒用到的），GLB 裡的材質一樣是 33 個；三角形數、截圖都一樣。
+
+### 便利商店端架促銷牌補背面（BB-B 驗收回饋，LAWWW-B 16:2x 轉來）
+
+- **BB-B 找到**：從店裡往門口看（入口地墊回頭，perf_route cvs 方向 1），兩排貨架靠門那一端頂上的紅、黃促銷牌整片不見。
+- **原因**：促銷牌是商品貼圖集（`cvs_goods_atlas`）裡的一片平面；第一份為了不補商品的反面，整個貼圖集設成 `nodup`，材質改單面以後促銷牌背面被剔掉。我第一份的「入口回頭」截圖有拍到，但牌子小、在畫面邊緣，沒看出來。
+- **改法**（照走道吊牌的做法，只給促銷牌補一片反面，貼圖集照舊單面）：
+  - `cvs_goods.py` 的 `Goods.promo` 加 `back=True` 選項：另外補一片反過來的面，UV 一樣（背面看到的和原本雙面時一樣是反的字）；
+  - `cvs_interior.py` 的四個端架用 `back=True`。`wz_shopkit.py` 也用 `cvs_goods`，沒加，不受影響。
+- **結果**：三角形 50,618 → 50,626（四張牌各 2 個）。三版同角度：開發原本（雙面）｜第一份（單面）｜改後；放大圖（18）裡改後和開發一樣。
+
+![便利商店：開發原本｜第一份｜改後，5 個鏡頭](17_cvs_promo_sheet.jpg)
+
+![促銷牌背面放大 2 倍：上＝開發原本、中＝第一份（不見）、下＝改後](18_cvs_promo_back_zoom.jpg)
+
+- 測試：`tests/singleside_interiors_unit.js`（`patches/singleside_cvs_promo_1025.patch`，對開發已經有的那一份）第 4 項的商品三角形數改成 47,172＋8；新第 5 項「4 張促銷牌前後的 16 個三角形互為反面、其他商品沒有」。**第一份的 GLB FAILED 2（第 4、5 項）、新的 ALL PASS**；`room_ceiling_unit` ALL PASS。
+- 沒重量 fps（只多 8 個三角形）。

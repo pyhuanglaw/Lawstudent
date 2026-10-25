@@ -90,6 +90,16 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 17:xx 更新（PERF-SINGLESIDE-GLB-1025 第三份＋ART-HALL-WINDOW-DUSK-1025）**：
+    - LAWWW-B 15:0x：主球場用交出去的那一版；1F 大廳木格柵照舊雙面、重匯、fps 照實報。16:2x 轉 BB-B 驗收（社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 +3～27%，沒有破面）：便利商店端架促銷牌從背面不見 → 只給促銷牌補背面。
+    - 已交第三份（`test_shots/singleside_glb_1025/README.md` 第三份）：
+      - 溫州街、118 巷：只關「大面、背面看不到」的材質的雙面旗標（店內、牆面、騎樓柱、牆腳；幾何不動），溫州街 +8～30%、118 巷 +16～19%（另一個方向沒差別）。
+      - 體育館大廳：木格柵照舊雙面，+2～11%，波紋沒了（16）。
+      - 便利商店：`cvs_goods.promo(back=True)`，三角形 +8，三版對照（17、18）。
+      - patch（對開發 `e015b7c10`）：`singleside_streets_1025`（新）、`singleside_gym_wood_1025`、`singleside_cvs_promo_1025`。
+    - 已交 ART-HALL-WINDOW-DUSK-1025（`test_shots/window_dusk_1025/README.md`、`patches/window_dusk_fade_1025.patch`）：光線 18.6～19.2 窗外白天照片照 nk 疊成夜景照片。12/10 17:20 霖澤館窗 0.084 → 0.055（屋外 0.041）、總圖 0.116 → 0.069（屋外 0.029，剩下大多是玻璃反光）、萬才館 0.057 → 0.061（屋外 0.054）；換夜景那一刻不跳。改 `world3d.js`、`building3d.js`、`library3d.js`、`l118_shops3d.js`、`zones3d.js`（不是 engine3d／story3d／us3d）。
+    - 新工具：`shots/window_dusk_ab.py`（屋外 vs 大廳窗，窗的像素用「藏起窗景平面再拍一張」找）。
+    - 下一步：單面巡查美國那邊——有 `WALL_` 會淡出的室內（`us_apartment` 23、`us_lawlib` 15、`us_asian_market` 14、`us_bed_c` 11 個 WALL_ 節點，幾乎全雙面）先量上限；`us_campus`、`us_community`、`us_market*`、`airport_dep` 是戶外／不透明，照街景的經驗可能只有大面才有用。最後補超市街停車場車子 LOD 那一張截圖。
   - **10-25 15:xx 更新（PERF-SINGLESIDE-GLB-1025 第二份）**：
     - LAWWW-B 13:2x：第一份 ACK，v9.10.10 發布後整合；flow_soclib 是測試舊（BB 改，TEST-FLOW-SOCLIB-X75-1025）。
     - 已交第二份：體育館 1F 大廳、B1、3F 主球場的 GLB＋腳本、`patches/singleside_gym_1025.patch`。大廳 +2～31%、B1 +7～38%、主球場只有 +6～10%（上限 +47% 是連該畫的背面都不畫）。
