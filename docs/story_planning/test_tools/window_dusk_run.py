@@ -4,13 +4,15 @@
 import os, sys, json, subprocess
 OUT = sys.argv[2]; HERE = os.path.dirname(os.path.abspath(__file__))
 SP = '/tmp/claude-0/-home-user-Lawstudent/773c49b9-ad25-576f-b588-101fb9f8321d/scratchpad'
-items = [x.split('=', 1) for x in os.environ.get('SCEN', '').split(',') if '=' in x]
+items = [x.split('=', 1) for x in os.environ.get('SCEN', '').split(';')[0].split(',') if '=' in x]
+OPT = dict(x.split('=', 1) for x in (os.environ.get('SCEN', '').split(';') + [''])[1].split(',') if '=' in x)   # SCEN 第二段（; 後面）：seasons=summer,where=out（季節、內外用 + 分隔）
+XENV = dict(os.environ, WD_SEASONS=OPT.get('seasons', '').replace('+', ','), WD_WHERE=OPT.get('where', '').replace('+', ','))
 bad = 0; R = {}
 for name, rest in items:
     port, wt = rest.split(':', 1); out = os.path.join(OUT, name); os.makedirs(out, exist_ok=True)
     sha = subprocess.run(['git', '-C', os.path.join(SP, wt), 'rev-parse', '--short=9', 'HEAD'], capture_output=True, text=True).stdout.strip()
     print('== %s（%s %s）' % (name, wt, sha), flush=True)
-    r = subprocess.run([sys.executable, os.path.join(HERE, 'window_dusk_bb.py'), 'http://127.0.0.1:%s/index.html' % port, out], capture_output=True, text=True, timeout=5400)
+    r = subprocess.run([sys.executable, os.path.join(HERE, 'window_dusk_bb.py'), 'http://127.0.0.1:%s/index.html' % port, out], capture_output=True, text=True, timeout=5400, env=XENV)
     print(r.stdout.strip()[-6000:], flush=True)
     if r.returncode != 0 or 'PASS 量完' not in r.stdout: bad += 1; print('FAIL rc=%d %s' % (r.returncode, r.stderr.strip()[-600:]), flush=True)
     p = os.path.join(out, 'readings.json'); R[name] = json.load(open(p)) if os.path.exists(p) else []

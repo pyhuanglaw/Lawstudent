@@ -22,6 +22,8 @@ SCENES = [   # 同 window_dusk_ab.py（LAWWW2）
     {'name': 'library', 'zone': 'library_hall', 'pos': [0, 3.5], 'yaw': PI, 'pitch': 0.1, 'out': {'pos': [80, 3], 'eye': [77, 2.0, 0], 'look': [30, 2.0, 0]}},
 ]
 if ONLY: SCENES = [s for s in SCENES if s['name'] in ONLY]
+SEAS = [x for x in os.environ.get('WD_SEASONS', '').split(',') if x] or list(DAYS)   # BB-B 18:4x：只量某些季節／只量屋外（夏天屋外補量）
+WHERE = [x for x in os.environ.get('WD_WHERE', '').split(',') if x] or None
 def lin(a):
     a = a / 255.0
     return np.where(a <= 0.04045, a / 12.92, ((a + 0.055) / 1.055) ** 2.4)
@@ -57,8 +59,9 @@ async def main():
         await pg.evaluate("(css=>{ const el=document.createElement('style'); el.textContent=css; document.head.appendChild(el); setInterval(()=>{ try{ if(window.ADV&&ADV.active&&ADV.end) ADV.end(); if(GAME.E.paused) GAME.E.paused=false; }catch(e){} },300); })(%s)" % json.dumps(HIDE))
         print('photoFade', await pg.evaluate("typeof W3!=='undefined'&&!!W3.photoFade"), flush=True)
         for season, key in DAYS.items():
+            if season not in SEAS: continue
             for s in SCENES:
-                for where in (['out', 'in'] if season == 'winter' else ['in']):
+                for where in (WHERE or (['out', 'in'] if season == 'winter' else ['in'])):
                     await load(pg, 'campus' if where == 'out' else s['zone'], 18.0, key)
                     ss = await pg.evaluate("GAME.E.sunsetNow()")
                     clocks = [(await pg.evaluate(CLK + "(%s,%s)" % (lh, ss)), 'L%.2f' % lh) for lh in LH] + ([(c, 'C%02d%02d' % (int(c), round(c % 1 * 60))) for c in WCLK] if season == 'winter' else [])
