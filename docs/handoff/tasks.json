@@ -32041,6 +32041,28 @@
     "ack": "SENT"
    },
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y1S1-1025",
+   "title": "法律系大一上讀後（AA_458）：媽媽週四群組照那一週的事挑句子（每句自己的回覆；回家那週晚餐加旁白）、沛珊講義五種說法、家族群組換字三處、中秋與颱風假前一晚家人群組",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW-B 子代理實作；之後 BB 瀏覽器（v9.10.10 之後那一版）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 10:16（企劃線 b01e32018，outbox 2105efc82）；學期版 vac_sweep 三種存檔 9/1～12/21；D81（D99 三項讀過一輪之後）",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
