@@ -2921,13 +2921,13 @@ QX_PEACH = '（從市集回來，那顆桃子放在桌角。一樓中庭的長�
 QX_SYL0 = '（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）'
 QX_MSG, QX_MSG0 = '市集逛完，下午去圖書館。課表帶著。', '明天下午圖書館。課表拿來。'
 P5ON = "(k=>(GAME.G.msgs||[]).filter(m=>m&&m.th==='p:heroine_05'&&m.day!=null&&CALENDAR.dateOf(m.day).key===k).map(m=>(m.from==='player'?'你':'她')+'：'+m.text))(%s)"
-EVDONE = "(ids=>ids.map(i=>!!(((GAME.G.events||{}).done||{})[i])))(%s)"
+EVDN = "(ids=>ids.map(i=>!!(((GAME.G.events||{}).done||{})[i])))(%s)"
 OUTST = "(i=>{ const q=OUT.get(GAME.G,i); return q?q.state:null; })(%s)"
 def QX453(sid, ms, want, none, wantMsg, noneMsg, done):
     return dict(id=sid, key='2028-08-21', h=21.67, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + (MS if ms else '') + B['DATE'] + B['BED'],
                 steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-08-26', 17.0, 120), ('dumplog', sid)], pref=['出發', '去', '「好。」'], asks={'*': ''},
                 want=want, none=none, wantMsg=wantMsg, noneMsg=noneMsg, msgAt={wantMsg[0]: ('2028-08-25', 21.0, 0.1)},
-                jsok=[('七夕（當面約、市集）、圖書館 ev_usb_syllabus 演了沒', EVDONE % json.dumps(['ev_sis_qixi_us_ask', 'ev_sis_qixi', 'ev_usb_syllabus']), done)])
+                jsok=[('七夕（當面約、市集）、圖書館 ev_usb_syllabus 演了沒', EVDN % json.dumps(['ev_sis_qixi_us_ask', 'ev_sis_qixi', 'ev_usb_syllabus']), done)])
 US913 = ['報告被退回來了。', '……我在煮麵。C 棟，廚房。要不要吃。']; US913_LATE = '麵我吃完了。報告我自己再改一次。'
 KIT0 = ['（她在煮泡麵，兩包。）', '我的報告被退回了。']
 def US453(sid, ans, want, none, wantMsg, noneMsg, msgAt, jsok):
@@ -2939,11 +2939,11 @@ R35 = [QX453('R35_QX_PEACH', True, [QX_PEACH], [QX_SYL0], [QX_MSG], [QX_MSG0], [
        US453('R35_913_GO', '我過去。', KIT0, [], US913 + ['樓下的門，按 208。'], [US913_LATE], {US913[1]: ('2028-09-13', 18.0, 0.1), '樓下的門，按 208。': ('2028-09-13', 18.0, 0.3)},
              [('9/13 她那邊的訊息照順序（你回「我過去。」）', P5ON % json.dumps('2028-09-13'), lambda L: isinstance(L, list) and L[-3:] == ['她：' + US913[1], '你：我過去。', '她：樓下的門，按 208。']),
               ('出遊「C 棟・廚房」us2_kitchen 演完（done）', OUTST % json.dumps('us2_kitchen'), 'done'),
-              ('ev_us2_kitchen 演了', EVDONE % json.dumps(['ev_us2_kitchen']), [True])]),
+              ('ev_us2_kitchen 演了', EVDN % json.dumps(['ev_us2_kitchen']), [True])]),
        US453('R35_913_NO', '今天不行。', [], KIT0, US913 + [US913_LATE], ['樓下的門，按 208。'], {US913_LATE: ('2028-09-13', 20.0, 0.1)},
              [('9/13 她那邊的訊息（你回「今天不行。」→「好。」→ 20:00 那一則）', P5ON % json.dumps('2028-09-13'), lambda L: isinstance(L, list) and L[-4:] == ['她：' + US913[1], '你：今天不行。', '她：好。', '她：' + US913_LATE]),
               ('沒有排出遊 us2_kitchen', OUTST % json.dumps('us2_kitchen'), None),
-              ('ev_us2_kitchen 沒演', EVDONE % json.dumps(['ev_us2_kitchen']), [False])])]
+              ('ev_us2_kitchen 沒演', EVDN % json.dumps(['ev_us2_kitchen']), [False])])]
 SCENS = SCENS + R35
 
 # ---------- R36（BB-B 10-25 04:5x）：AA_454（美國 208 週末七場的私訊、湖邊換季、一個人的感恩節；開發分支 bcb0dc771，US208-DM-1025）——v9.10.10 判定以後跑 ----------
@@ -2971,26 +2971,63 @@ def LAKE454(sid, key, want, none):
                 steps=[('usep', '^去湖邊'), ('wait', "!(typeof ADV!=='undefined'&&ADV.active)&&!GAME.E.player.busy", 60, '湖邊演完')], pref=[], want=want, none=none)
 R36 = [W454('R36_208_GO', '2028-09-15', 12.0, ('2028-09-17', 17.0), {'us208_ask': '我過去。'}, [M208, 'Legal Writing 的作業寫完了嗎？'], [], [DM31, '嗯。'], ['今天也在 208。'],
             {DM31: ('2028-09-16', 14.0, 0.1)},
-            [('出遊「C 棟 208」us208_0916 演完', OUTST % json.dumps('us208_0916'), 'done'), ('3-1 ev_us208_memo 演了', EVDONE % json.dumps(['ev_us208_memo']), [True]),
+            [('出遊「C 棟 208」us208_0916 演完', OUTST % json.dumps('us208_0916'), 'done'), ('3-1 ev_us208_memo 演了', EVDN % json.dumps(['ev_us208_memo']), [True]),
              ('週六去過：週日不傳（只有 9/16 一則）', DMTAGS, lambda L: isinstance(L, list) and len(L) == 1 and L[0].startswith('us208_dm_0916'))]),
        W454('R36_208_SUN', '2028-09-15', 12.0, ('2028-09-17', 17.0), {'us208_ask_0916': '今天不行。', 'us208_ask_0917': '我過去。'}, [M208], [], [DM31, '今天也在 208。', '嗯。'], [],
             {DM31: ('2028-09-16', 14.0, 0.1), '今天也在 208。': ('2028-09-17', 14.0, 0.1)},
             [('週六沒排、週日排了出遊 us208_0917 演完', "[%s,%s]" % (OUTST % json.dumps('us208_0916'), OUTST % json.dumps('us208_0917')), [None, 'done']),
-             ('3-1 ev_us208_memo 演了', EVDONE % json.dumps(['ev_us208_memo']), [True]), ('US208_NO 沒有記', "GAME.G.flags.US208_NO==null", True)]),
+             ('3-1 ev_us208_memo 演了', EVDN % json.dumps(['ev_us208_memo']), [True]), ('US208_NO 沒有記', "GAME.G.flags.US208_NO==null", True)]),
        W454('R36_208_NONO', '2028-09-15', 12.0, ('2028-09-17', 23.0), {'us208_ask_0916': '今天不行。', 'us208_ask_0917': '今天不行。'}, [], [M208], [DM31, '今天也在 208。'], [],
             {DM31: ('2028-09-16', 14.0, 0.1), '今天也在 208。': ('2028-09-17', 14.0, 0.1)},
-            [('兩天都不行：這個週末沒演', EVDONE % json.dumps(['ev_us208_memo']), [False]), ('US208_NO＝那個週六（9/16）', "GAME.G.flags.US208_NO===STORY.dayOfKey('2028-09-16')", True),
+            [('兩天都不行：這個週末沒演', EVDN % json.dumps(['ev_us208_memo']), [False]), ('US208_NO＝那個週六（9/16）', "GAME.G.flags.US208_NO===STORY.dayOfKey('2028-09-16')", True),
              ('週日說不行以後不再傳（9/16、9/17 各一則）', DMTAGS, lambda L: isinstance(L, list) and len(L) == 2)], countMsg={'今天也在 208。': 1}),
        W454('R36_208_X35', '2028-11-04', 9.0, ('2028-11-05', 17.0), {'us208_ask': '我過去。'}, [X35], [], [DM35], [],
             {DM35: ('2028-11-05', 14.0, 0.1)},
             [('11/4（六）不傳、只有 11/5 一則', DMTAGS, lambda L: isinstance(L, list) and len(L) == 1 and L[0].startswith('us208_dm_1105')),
-             ('3-5 ev_us208_extra_hour 演了', EVDONE % json.dumps(['ev_us208_extra_hour']), [True])]),
+             ('3-5 ev_us208_extra_hour 演了', EVDN % json.dumps(['ev_us208_extra_hour']), [True])]),
        LAKE454('R36_LAKE_1005', '2028-10-05', [LAKE_S], [LAKE_A]),
        LAKE454('R36_LAKE_1012', '2028-10-12', [LAKE_A], [LAKE_S]),
        dict(id='R36_THANKS_ALONE', key='2028-11-23', h=17.6, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + MS + NOLONG + B['ALONE'] + B['BED'],
             steps=[('until', 19.0), ('dumplog', 'R36_THANKS_ALONE')], pref=[], want=[TH1], none=[TH0],
-            jsok=[('ev_usl_thanks_alone 演了', EVDONE % json.dumps(['ev_usl_thanks_alone']), [True]), ('沒見過何俊朗', "!GAME.G.flags.MET_LONG", True)])]
+            jsok=[('ev_usl_thanks_alone 演了', EVDN % json.dumps(['ev_usl_thanks_alone']), [True]), ('沒見過何俊朗', "!GAME.G.flags.MET_LONG", True)])]
 SCENS = SCENS + R36
+
+# ---------- R37（BB-B 10-25 05:4x）：AA_455 學姊大四下的朋友版兩場（開發分支 2d5d64fe9，SIS-B11-1025；LAWWW-B 05:4x 排在 R35／R36 之後）——v9.10.10 判定以後跑 ----------
+# 【前置】法律系大四下、臺灣（TWF＋Y4）、認識學姊、有聯絡方式、熟悉以上（SISF）、沒有交往、不是前任；對照組交往中（SIS_D）
+# ① 3/20（二）21:00 私訊兩則、快轉會停 →「有。」→「十二點半。帶筆。」→ 3/21 12:30 法圖二樓「摘要」三個選項 → SIS_ABSTRACT went
+#    「明天不行。」→「好。那我自己再讀一次。」、不排；交往中＝沒有這兩則
+# ② 4/18（三）快轉停 16:45 問「去：總圖」→ 去＝17:00 總圖門口「五月二十九日」→ 椰林大道那一段；4/16～4/27 都不去（4/18 選「不去了」）＝4/27 21:00 她私訊口試日期
+# ③ 選了「那天我去門口等。」、不在家族群組＝5/28 21:00「明天四點。……你說要來的。」→ 5/29 M9「學姊的口試」；在家族群組＝不多傳這一則
+ABS_ASK = ['明天中午有空嗎。法圖二樓。', '我需要一個不是財經法組的人。']
+ABS0 = ['（法圖二樓的長桌。她把兩張紙推過來，一張中文、一張英文。）', '論文的摘要。中文那一張。', '你讀一次。哪裡讀不懂，就畫起來。']
+ABS_CH = 'CHOICE:「這句太長了。」｜「財經法的人都這樣寫嗎？」｜（畫了一個圈，沒有說話）'
+ABS_END = '（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'
+DEF0 = ['（總圖門口。她剛從研究小間出來，站在台階上，手機還亮著。）', '口試日期下來了。五月二十九日，下午四點。']
+DEF_WALK = ['（你們沿著椰林大道走了一段。路燈一盞一盞亮起來。）', '口試完，就要開始上班了。', '五月二十九日。……不用帶東西。']
+DEF_DM, M9_DM = '口試日期下來了。五月二十九日，下午四點。', '明天四點。……你說要來的。'
+NOGRP = " { const P=PHONE.rec(G); if(P.groups) delete P.groups.family_law; }"
+def B11(sid, key, h, js, until, asks=None, pref=None, **kw):
+    d = dict(id=sid, key=key, h=h, zone='dorm', flags=dict(TWF), js=Y4 + js, steps=[('ffloop', until[0], until[1], 120), ('dumplog', sid)],
+             pref=pref or ['出發', '去'], asks=dict(asks or {}, **{'*': ''}), want=[], nothree=True)
+    d.update(kw); return d
+R37 = [B11('R37_ABS_YES', '2029-03-20', 19.0, SISF, ('2029-03-21', 14.0), {'sisb11_abs_ask': '有。'}, ['出發', '去', '「這句太長了。」'],
+           want=ABS0 + [ABS_CH, ABS_END], wantMsg=ABS_ASK + ['十二點半。帶筆。'], msgAt={ABS_ASK[0]: ('2029-03-20', 21.0, 0.1)},
+           eqflags={'SIS_ABSTRACT': 'went', 'SIS_ABS_GO': True}, cflags=['SIS_ABSTRACT', 'SIS_ABS_GO']),
+       B11('R37_ABS_NO', '2029-03-20', 19.0, SISF, ('2029-03-21', 14.0), {'sisb11_abs_ask': '明天不行。'}, none=ABS0[:1], wantMsg=ABS_ASK + ['好。那我自己再讀一次。'],
+           noneMsg=['十二點半。帶筆。'], jsok=[('沒有排出遊 sisb11_abs', OUTST % json.dumps('sisb11_abs'), None), ('SIS_ABS_GO＝false', "GAME.G.flags.SIS_ABS_GO", False)]),
+       B11('R37_ABS_DATING', '2029-03-20', 19.0, SIS_D, ('2029-03-21', 14.0), none=ABS0[:1], noneMsg=ABS_ASK, jsok=[('交往中：沒有排出遊 sisb11_abs', OUTST % json.dumps('sisb11_abs'), None)]),
+       B11('R37_DEF_418', '2029-04-18', 12.0, SISF, ('2029-04-18', 19.0), pref=['去', '「那天我去門口等。」', '「還在走。」'],
+           want=DEF0 + DEF_WALK, order=DEF0 + DEF_WALK, noneMsg=[DEF_DM], eqflags={'SIS_DEF_DATE': 'wait'}, cflags=['SIS_DEF_DATE'],
+           jsok=[('4/18 排的「去：總圖」sisb11_lib 用掉了（done）', OUTST % json.dumps('sisb11_lib'), 'done'), ('演了 ev_sis_defense_date', EVDN % json.dumps(['ev_sis_defense_date']), [True])]),
+       B11('R37_DEF_MSG', '2029-04-16', 18.0, SISF, ('2029-04-27', 22.0), pref=['不去了'], none=DEF0[:1], wantMsg=[DEF_DM], msgAt={DEF_DM: ('2029-04-27', 21.0, 0.1)},
+           eqflags={'SIS_DEF_DATE': 'msg'}, cflags=['SIS_DEF_DATE'], jsok=[('4/18 選了不去：sisb11_lib 不是 done', OUTST % json.dumps('sisb11_lib'), lambda x: x != 'done'),
+                                                                         ('沒演 ev_sis_defense_date', EVDN % json.dumps(['ev_sis_defense_date']), [False])]),
+       B11('R37_DEF_DATING', '2029-04-18', 12.0, SIS_D, ('2029-04-18', 19.0), none=DEF0[:1], jsok=[('交往中：沒有排「去：總圖」', OUTST % json.dumps('sisb11_lib'), None)]),
+       B11('R37_M9_NOGRP', '2029-05-28', 20.0, SISF + NOGRP + " G.flags.SIS_DEF_DATE='wait'; G.events.done.ev_sis_defense_date=1;", ('2029-05-29', 19.0), pref=['出發', '去'],
+           wantMsg=[M9_DM], msgAt={M9_DM: ('2029-05-28', 21.0, 0.1)}, jsok=[('5/29 M9 學姊的口試 ev_sis_defense 演了', EVDN % json.dumps(['ev_sis_defense']), [True])]),
+       B11('R37_M9_GRP', '2029-05-28', 20.0, SISF + FAMJ + " G.flags.SIS_DEF_DATE='wait'; G.events.done.ev_sis_defense_date=1;", ('2029-05-29', 19.0), pref=['出發', '去'],
+           noneMsg=[M9_DM], jsok=[('在家族群組：M9 照舊排「學姊的口試」y4_m9', OUTST % json.dumps('y4_m9'), lambda x: x is not None)])]
+SCENS = SCENS + R37
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
