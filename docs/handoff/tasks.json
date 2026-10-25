@@ -32063,6 +32063,28 @@
    "source": "AA-B 2026-10-25 10:16（企劃線 b01e32018，outbox 2105efc82）；學期版 vac_sweep 三種存檔 9/1～12/21；D81（D99 三項讀過一輪之後）",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y1S2-1025",
+   "title": "法律系大一下讀後（AA_459）：補 AA_458 媽媽群組規則（連假、期中一次、期末上下學期）、家族群組兩處換字、落選通知改私訊、5/27 唐睿即興劇和生活營籌備會撞期（加問題）、四處換字",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "等 AA_458 子代理做完（同一段 home3d.js）再接；不進 v9.10.10",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "法律系大一下第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 10:27（企劃線 c0972cd32，outbox b4b27d2d6）；學期版掃描五種存檔 2/23～6/14",
+   "authorized": "D81、D109、D111",
+   "notes": "AA 另外記：可昕那份 5/28 起手機碰到 200 則上限（phone3d），掃描看不到新訊息；OUT.plan 沒檢查撞期（其他直接排的出遊要不要一起查，LAWWW 決定）。"
   }
  ]
 }
