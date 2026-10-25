@@ -97,7 +97,7 @@ const SL3=(function(){
     const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
     /* 天窗（正式模型的 soclib_skylight 自發光）：白天亮、黃昏變暗、晚上只剩一點（夜空）；陰雨天暗一點 */
     const skyMats=[]; const skyLevel=(h,weather)=>{ h=h%24; const k=(h<5.5||h>=19.2)?0.08:(h<6.5?0.35:(h>=17.8?0.3:1)); return k*(weather==='rain'?0.6:(weather==='cloudy'?0.8:1)); };
-    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); const k=skyLevel(h,weather); for(const m of skyMats) m.emissiveIntensity=m.userData.slBase*k; };
+    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); const k=skyLevel(h,weather); for(const m of skyMats) m.emissiveIntensity=m.userData.slBase*k; };
     // 座位、互動點（一層，全部 lv 0）
     const IT=E.interactables, seats=z.seats=seatsOf(L);
     for(const st of seats){ if(st.kind!=='lounge') Z3.chair(fb,st.x,st.z,st.yaw,'#c9a46a'); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:seatLabel(st),seat:st,study:true}); }

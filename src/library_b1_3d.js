@@ -35,7 +35,7 @@ const LB1=(function(){
       const ap=(GM.seatApproach&&GM.seatApproach(st))||st.ap||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,0))) sit(); }
     return k; };
   const inRoom=(s,rooms)=>{ for(const r of rooms||[]) if(s.x>r.x0&&s.x<r.x1&&s.z>r.z0&&s.z<r.z1) return r.id; return null; };
-  const zone={ id:'library_b1', name:'總圖書館 B1', indoor:true, camDist:4.6, build(E){ const L=LAY(), Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+  const zone={ id:'library_b1', name:'總圖書館 B1', indoor:true, windowless:true, camDist:4.6, build(E){ const L=LAY(), Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
     const z=Z3.room(E,{w:W,d:D,h:H,cool:true,windows:false,wallColor:'#ecebe6',floorTex:W3.stoneTex('#d2d0ca'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* 地下室：沒有窗 */
     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
     for(const w of z.walls) w.visible=false; z.walls.length=0;

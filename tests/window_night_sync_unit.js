@@ -4,6 +4,9 @@
 //   1. 引擎的 nk：h≥T 時是 1（讀出 T）；
 //   2. 這五個地方換夜景的時刻都 = T：world3d.js photoTint、zones3d.js room() 的 winC 和 nightView、l118_shops3d.js setPhotoView、library_upper3d.js skyTint；
 //   3. 早上那一頭（< 5.5）不動。
+//   v2（10-25，路線巡查⑤）：
+//   4. 大樓大廳的窗景（B3.setOutView 等，h≥18.6 就換夜景：比日落還早，冬天比屋外天黑早約 40 分鐘）：霖澤館、宿舍大廳、法律學院圖書館、總圖大廳、教學館、萬才館、社科院 = T；
+//   5. 美國公寓窗景、法圖天窗和彩色玻璃的色調表 VT（us3d.js）最後一列（完全夜晚）= T（原本 19.5，美國冬天晚了半小時）。
 // 修改前 FAIL。用法：node tests/window_night_sync_unit.js
 const fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -19,4 +22,8 @@ const sites=[['src/world3d.js','photoTint',/function photoTint\(h,rain\)\{ h=\(\
   ['src/library_upper3d.js','總圖樓上 skyTint',/function skyTint\(h,rain\)\{ h=h%24; if\(h<5\.5\|\|h>=([0-9.]+)\) return/]];
 for(const [f,nm,re] of sites){ const r=rd(f).match(re); check('2. '+nm+'（'+f+'）換夜景的時刻 = 屋外天黑（'+T+'）', !!r&&+r[1]===T, r?'h≥'+r[1]:'找不到'); }
 check('3. 早上那一頭都還是 h<5.5', sites.every(([f,,re])=>{ const r=rd(f).match(re); return !!r&&r[0].includes('h<5.5'); }));
+for(const f of ['building3d','dorm3d','lawlib3d','library3d','teach3d','wancai3d','soclib3d']){ const r=rd('src/'+f+'.js').match(/const night=\(h%24<6\|\|h%24>=([0-9.]+)\);/);
+  check('4. '+f+'.js 大廳窗景換夜景的時刻 = 屋外天黑（'+T+'）', !!r&&+r[1]===T, r?'h≥'+r[1]:'找不到'); }
+{ const r=rd('src/us3d.js').match(/const VT=\[(.*?)\];/), rows=r?[...r[1].matchAll(/\[([0-9.]+),\[/g)].map(q=>+q[1]):[];
+  check('5. 美國窗景色調表 VT 最後一列（完全夜晚）= 屋外天黑（'+T+'）', rows.length>0&&rows[rows.length-1]===T, rows.join(' ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

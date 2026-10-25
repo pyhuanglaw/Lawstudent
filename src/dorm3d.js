@@ -174,7 +174,7 @@ const DM3=(function(){
     const walls=[], walkMeshes=[], outs=[], cols=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.0,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
       /* 每一幀（engine3d.js）：玩家從一樓（第 0 層）換到樓上那一層（第 1 層）、大三住 507 ＝ Y3_UP（每次從一樓上去都說；從房間出來就在樓上的不說；對話、劇情進行中不說）*/
       update(dt,E){ const lv=E&&E.player?(E.player.lv|0):0, prev=this._plv; this._plv=lv; if(prev!==0||lv!==1) return;

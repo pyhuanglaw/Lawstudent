@@ -172,7 +172,7 @@ const LL3=(function(){
     const walls=[], walkMeshes=[], slabs=[], outs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},seeThru:true,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,zone); windowViews(L,lv0,lv1,outs);
     // 樓梯可以點的面（點地面移動；一直在，正式模型載入後也用這幾片）

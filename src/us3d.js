@@ -134,7 +134,7 @@ const US3=(function(){
   function aptSouthView(root){ for(const k of ['SEASON_SNOW_on','SEASON_SNOW_off']){ const g=root.getObjectByName(k); if(!g) continue;
     for(const [ry,ax] of [[Math.PI,'x'],[Math.PI/2,'z'],[-Math.PI/2,'z']]) for(const d of [-18,0,18]){ const c=g.clone(true); c.rotation.y=ry; c.position[ax]+=d; c.userData.southView=true; g.parent.add(c); } } }
   /* 窗外的景（自發光貼圖）跟著時段變色：天空的部分是透明的（遊戲照時段畫的天空透出來），對面的公寓、停車場白天原色、黃昏偏暖、晚上暗 */
-  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.5,[0.22,0.25,0.36]]];
+  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.2,[0.22,0.25,0.36]]];   /* 最後一列 19.2＝屋外完全天黑（engine3d.js 的 nk）；原本 19.5，美國冬天晚了半小時（LAWWW2-B 10-25 路線巡查⑤）*/
   function vtAt(h){ h=((h%24)+24)%24; if(h>=VT[VT.length-1][0]||h<VT[0][0]) return VT[0][1];
     for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); return ca.map((v,k)=>v+(cb[k]-v)*t); } } return VT[0][1]; }
   function viewTint(mats,h){ if(!mats.length) return; const c=vtAt(h);

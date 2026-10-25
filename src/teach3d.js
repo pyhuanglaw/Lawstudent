@@ -306,7 +306,7 @@ const TB3=(function(){
     const innerM=M('#ece6da'); innerM.userData.seeThrough=true;   /* 隔間、走廊牆擋住鏡頭時網點透空 */
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},seeThru:true,layout:L,
       fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position);   /* 正式模型的牆（B3.attachFormal）頂點是世界座標、position 是原點：用包圍盒中心 */ const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
       roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; },   /* 房間 → 範圍（areas）→ 大廳 */
       spaceAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } return 'public'; } };   /* 同一個空間嗎：關起來的房間各自一間，走廊、門廳、自習區這些開放的地方算同一個（events3d.js「在她附近」用）*/

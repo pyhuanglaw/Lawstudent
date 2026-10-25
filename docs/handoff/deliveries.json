@@ -14374,6 +14374,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-25 00:4x 整合；5e7b4afd1 是 outbox／HANDOFF"
+  },
+  {
+   "id": "DL-LW2-WINDOWLESS-NIGHT",
+   "date": "2026-10-25",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee1e3108e",
+   "what": "路線巡查⑤美國傍晚（117 張）＋窗景同步 v2＋沒有窗的室內晚上不變暗（兩份 patch）",
+   "task": "WINDOWLESS-NIGHT-1025",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 10-25 01:5x 整合；e50843fb9 是 outbox／HANDOFF"
   }
  ],
  "ignored": [
