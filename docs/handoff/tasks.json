@@ -31841,6 +31841,28 @@
    "source": "AA-B 2026-10-25 03:25（企劃線 38820fd5e，outbox ea58b6d52）；讀 BB 劇本 qa/美國交換逐日劇本_交往中.md（ec98a8836，開發 91c8f9c6e）；D99 第三優先",
    "authorized": "D99、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "US208-DM-1025",
+   "title": "美國 208 週末七場（AA_412 第 3 節）一快轉就全錯過 → 週六 14:00 她私訊要回（我過去＝帶到 208 演；今天不行＝週日再傳一次）；湖邊樹變色照 usSeasonKey；感恩節一個人那句不再下雪（AA_454）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "等 AA_453 子代理做完（同一批檔案：us_life3d.js）再實作；不進 v9.10.10",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 3,
+    "earliest": "美國交換交往中第一個週末 208",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 03:32（企劃線 eaa98aaa7，outbox 4408396b5）；D99 第三優先、AA 自己排（D109）",
+   "authorized": "D99、D109、D111",
+   "notes": ""
   }
  ]
 }
