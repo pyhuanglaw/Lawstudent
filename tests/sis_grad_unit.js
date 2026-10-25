@@ -110,7 +110,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
   await sec('2-3',async()=>{
     const tue=td('Y1S1',7,2);
     fresh(tue,20,'dorm',{SIS_W1:true}); FRI(); span(Tm(tue,20),Tm(tue,21.6)); const m=her();
-    check('2-3／G2. 第 7 週星期二 21:30：「我旁邊的位子常常空著」兩則＋兩個選項；SIS_STUDY',m.length===2&&m[0].text==='你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著'&&m[1].text==='不要講話就好。閉館的時候，可以一起去買飲料'&&Math.abs(m[0].h-21.5)<0.02&&!!m[1].ask&&m[1].ask.opts.map(o=>o.t).join('|')==='好。|這週有點忙。'&&G.flags.SIS_STUDY===true&&!!G.events.done.ev_sis_study_invite,JSON.stringify(m.map(x=>[x.h,x.text])));
+    check('2-3／G2. 第 7 週星期二 21:30：「我旁邊的位子常常空著」兩則（AA_458 3-4 尾巴補句號）＋兩個選項；SIS_STUDY',m.length===2&&m[0].text==='你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著。'&&m[1].text==='不要講話就好。閉館的時候，可以一起去買飲料。'&&Math.abs(m[0].h-21.5)<0.02&&!!m[1].ask&&m[1].ask.opts.map(o=>o.t).join('|')==='好。|這週有點忙。'&&G.flags.SIS_STUDY===true&&!!G.events.done.ev_sis_study_invite,JSON.stringify(m.map(x=>[x.h,x.text])));
     answer(m[1].ask.id,0); check('2-3. 「好。」→「明天七點。」',her().slice(-1)[0].text==='明天七點。');
     { fresh(tue,20,'dorm',{SIS_W1:true}); FRI(); span(Tm(tue,21.4),Tm(tue,21.6)); const a=ask('sisg_study_invite'); answer(a.ask.id,1); check('2-3. 「這週有點忙。」→「好。位子還是空的。」（也解鎖）',her().slice(-1)[0].text==='好。位子還是空的。'&&G.flags.SIS_STUDY===true); }
     { const none=(day,o)=>{ fresh(day,20,'dorm',o.w1===false?{}:{SIS_W1:true}); if(o.fam) FAM(); else FRI(); span(Tm(day,21),Tm(day,23)); return !her().length&&!G.flags.SIS_STUDY; };
