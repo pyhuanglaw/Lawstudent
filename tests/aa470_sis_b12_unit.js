@@ -14,7 +14,8 @@
 //  11  5-1 家族四場（12/5、12/22、3/20、3/27）沒有 SIS_W1 的兩句、演完記 met_sis／SIS_W1；舊存檔讀檔（ROM.rec）補記號
 //  12  5-2 Kevin 生日（2026、2027、2028）、口試兩則：在家族群組就收到（沒認識也收到；出遊、SIS_DEFENSE 照舊）
 //  13  舊存檔：沒有新旗標照常跑、不丟例外
-// 修改前（開發分支 1dacc06af）：沒有 src/sis_b12_3d.js、src/data/sis_b12_events.js——每一節至少一項 FAIL。用法：node tests/aa470_sis_b12_unit.js
+//  14  第 8 節②（企劃線 110a5b55c）：口試門口（M9 y4_m9）認識她、熟悉以上、在家族群組、不是前任也排；不熟、沒認識（met_sis）、前任、不在群組不排；沒去記 missed；交往中、朋友照舊；不在群組選了「那天我去門口等。」照 sis_b11
+// 修改前（開發分支 1dacc06af）：沒有 src/sis_b12_3d.js、src/data/sis_b12_events.js——每一節至少一項 FAIL；第 14 節在 49aefbf15（第 8 節以前）FAIL。用法：node tests/aa470_sis_b12_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -307,6 +308,24 @@ await sec(12,async()=>{
   check('12. 口試：沒認識的不排出遊、不記 SIS_DEFENSE',!OUT.get(H.G,'y4_m9')&&H.G.flags.SIS_DEFENSE==null);
   fresh('2029-05-28',20,'friend'); at('2029-05-28',21); ph(); const q=OUT.get(H.G,'y4_m9'); at('2029-05-29',18.6); ph();
   check('12. 朋友照舊：排 5/29 16:00「學姊的口試」、沒到記 missed、18:30 群組',!!q&&q.h===16&&H.G.flags.SIS_DEFENSE==='missed'&&byTag('y4_m9_grp_after').length===2); });
+
+/* ---- 14 第 8 節② ---- */
+await sec(14,async()=>{ const a=D('2029-05-28'), d=D('2029-05-29');
+  const m9=(kind,flags,o)=>{ fresh('2029-05-28',20,kind,flags,o); at(a,21); ph(); return OUT.get(H.G,'y4_m9'); };
+  let q=m9('fam');
+  check('14. 熟悉、認識她、在家族群組：5/28 21:00 Kevin「學姊明天下午四點口試！大家去門口等！」＋排 5/29 16:00「學姊的口試」（y4_m9、霖澤館・研究室的走廊、ev_sis_defense）',byTag('y4_m9_grp').length===2&&!!q&&q.day===d&&q.h===16&&q.ev==='ev_sis_defense'&&q.title==='學姊的口試'&&q.place==='霖澤館・研究室的走廊',J(q));
+  const r0=relNow(); at(d,15.8); await goOut('y4_m9'); const dd=dRel(r0,relNow());
+  check('14. 去了＝演 M9（「（研究室門口的長椅，門上貼著「口試中」。）」…「等妳。大家都是。」「……好。我請大家喝飲料。販賣機的。」）；SIS_DEFENSE there；熟悉 +2',seq(['（研究室門口的長椅，門上貼著「口試中」。）','過了。','……你們怎麼都還在？','等妳。大家都是。','……好。我請大家喝飲料。販賣機的。'])&&H.G.flags.SIS_DEFENSE==='there'&&dd.fam===2,J({s:said(),dd}));
+  m9('fam'); at(d,18.6); ph();
+  check('14. 熟悉、在群組、沒去：18:30 記 SIS_DEFENSE missed、群組「學姊過了！！」照收',H.G.flags.SIS_DEFENSE==='missed'&&byTag('y4_m9_grp_after').length===2);
+  q=m9('fam',{SIS_DEF_DATE:'wait'}); at(a,22); ph();
+  check('14. 熟悉、在群組、選了「那天我去門口等。」：排同一趟（只一趟），sis_b11 不另外私訊',!!q&&OUT.rec(H.G).filter(x=>x.id==='y4_m9').length===1&&!byTag('sisb11_m9_dm').length);
+  const no=[]; for(const [n,kind,flags,o] of [['認識、不熟','acq'],['沒認識（沒有 met_sis，有 FIRST_MET、熟悉）','fam',{met_sis:false,SIS_W1:false}],['沒認識（陌生）','none'],['前任','ex'],['熟悉、不在家族群組','fam',{},{grp:false}]]){ if(m9(kind,flags,o)) no.push(n); }
+  check('14. 不熟、沒認識（met_sis）、前任、不在家族群組：不排（沒認識的看得到群組那一則）',!no.length&&(m9('none'),byTag('y4_m9_grp').length===2),J(no));
+  m9('fam',{SIS_DEF_DATE:'wait'},{grp:false}); const dm=byTag('sisb11_m9_dm'), qb=OUT.get(H.G,'y4_m9');
+  check('14. 不在家族群組、選了「那天我去門口等。」：照 sis_b11（5/28 21:00「明天四點。……你說要來的。」＋同一趟）',dm.length===1&&dm[0].text==='明天四點。……你說要來的。'&&!!qb&&qb.h===16,J({dm,qb}));
+  q=m9('dating'); const qf=(m9('friend'),OUT.get(H.G,'y4_m9'));
+  check('14. 交往中（私訊「明天四點口試。……你坐在外面就好。」＋排）、朋友在群組（排）：照舊',!!q&&!!qf&&(m9('dating'),byTag('y4_m9_dm').some(x=>x.text==='明天四點口試。……你坐在外面就好。')),J({q,qf})); });
 
 /* ---- 13 ---- */
 await sec(13,async()=>{ const errs=[]; const ow=console.warn; console.warn=(...a)=>{ if(/SISB12/.test(String(a[0]))) errs.push(a.map(String).join(' ')); };

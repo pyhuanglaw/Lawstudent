@@ -361,11 +361,13 @@ const Y34B=(function(){
     return S.an20Mode(G)==='cafe'?G.hour>=17.25&&G.hour<23:G.hour>=18.5&&G.hour<23; };
   /* ================= 1B-25 學姊 M9 ================= */
   S.m9Phone=function(G){ const F=G.flags, a=D('m9ask'), d=D('m9'); if(a==null||G.day<a||G.day>d+1||!law(G)) return; const dt=dating(G,'heroine_05');
-    /* AA_470 5-2：家族群組那兩則，在群組的人都收得到（不看認不認識她、交情）；出遊、私訊、SIS_DEFENSE 照舊只管朋友以上、交往中、前任 */
+    /* AA_470 5-2：家族群組那兩則，在群組的人都收得到（不看認不認識她、交情）；出遊、私訊、SIS_DEFENSE 只管下面這幾種 */
     if(inGrp(G,'family_law')&&NOW(G)>=T(a,21)&&NOW(G)<T(d,16)) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[GKEV('學姊明天下午四點口試！大家去門口等！'),GSIS('……不用來。')],'y4_m9_grp');
-    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05'))){ if(inGrp(G,'family_law')&&F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after'); return; }
+    /* AA_470 第 8 節②（企劃線 110a5b55c）：認識她（met_sis）、熟悉以上、在家族群組、不是前任＝也排門口那一趟（Kevin 叫的是「大家」）；朋友以上、交往中、前任照舊；沒認識的只看得到群組 */
+    const famIn=!!F.met_sis&&fam('heroine_05')&&inGrp(G,'family_law')&&!exOf(G,'heroine_05');
+    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05')||famIn)){ if(inGrp(G,'family_law')&&F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after'); return; }
     if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)){ if(dt) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_05','明天四點口試。……你坐在外面就好。')],'y4_m9_dm'); }
-    if(F.SIS_DEFENSE==null&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dt)&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9')&&(sent(G,'y4_m9_grp')||sent(G,'y4_m9_dm'))&&NOW(G)<T(d,17.5))
+    if(F.SIS_DEFENSE==null&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dt||famIn)&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9')&&(sent(G,'y4_m9_grp')||sent(G,'y4_m9_dm'))&&NOW(G)<T(d,17.5))
       OUT.plan(G,{id:'y4_m9',ev:'ev_sis_defense',day:d,h:16,late:2,place:'霖澤館・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1});   /* 5/29 16:00～18:00 走廊的窗口 */
     if(F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)){ F.SIS_DEFENSE='missed';
       if(inGrp(G,'family_law')) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after');
