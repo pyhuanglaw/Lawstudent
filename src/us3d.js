@@ -219,6 +219,7 @@ const US3=(function(){
     bar:{usShared:'bar'} });   /* BB_217：US2 祐廷坐窗口吧台外側的高腳椅，「坐下」＝演出開始（交換系統攔 usShared:'bar'）*/
 
   // =================== 戶外：公寓社區 us_outside（主街 us_street 之後也可以用同一套）===================
+  const CAR_LOD_D=14;   /* 停著的車：離鏡頭幾公尺以外換低面數版本（跟隨鏡頭在玩家後面 5 m：玩家身邊 9 m 內的車都是完整版）*/
   const CAR_DIMS={car_sedan:[4.88,1.84],car_suv:[4.6,1.85],car_pickup:[5.9,2.03],car_hatch:[4.4,1.8],car_minivan:[5.15,2.0]};   /* us_cars.json 的 dims：[車長, 車寬]；車頭朝 +z */
   const US_LINK={x:-35.0,z:0,yaw:Math.PI/2};   /* 從社區入口（西邊的車道）走進來、面向東：登機抵達、從超市回來都到這裡；離「出門」3.8 m（−37.5 的時候一到就在「出門」的範圍裡）*/
   const MS=()=>typeof US_MARKET_STREET_LAYOUT!=='undefined'?US_MARKET_STREET_LAYOUT:null;   /* 超市街（US-MARKET-STREET）：有這份配置就把超市、亞洲超市、社區的「出門」接過去；沒有就照舊直接進店 */
@@ -259,8 +260,12 @@ const US3=(function(){
       { const sm=SEE_MATS[o.id]; if(sm) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||!sm.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); } const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
-      for(const car of L.cars){ if(OWN(car)) continue; const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
-        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
+      for(const car of L.cars){ if(OWN(car)) continue; const node=src.getObjectByName(car.kind); if(!node) continue; const low=src.getObjectByName(car.kind+'_lod1');
+        const prep=nd=>{ const q=nd.clone(true); q.position.set(0,0,0); q.rotation.set(0,0,0);
+          q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
+          return q; };
+        let q; if(low){ q=new THREE.LOD(); q.addLevel(prep(node),0); q.addLevel(prep(low),CAR_LOD_D); } else q=prep(node);   /* 離鏡頭 CAR_LOD_D 以外換低面數版本（us_cars.py 的 <款式>_lod1，約 1/4 個三角形；陰影那一輪也跟著換）：社區停車場 28 台車是往東看最貴的一項（US-COMMUNITY-EAST-PERF，LAWWW2-B 10-25）*/
+        q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
         cg.add(q); n++; }
       if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
     return zone; } }; }

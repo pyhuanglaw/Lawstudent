@@ -83,7 +83,10 @@ def extrude_profile(mesh, pts, x0, x1, bevel=0.05, segs=3):
     mesh.add_bm(bm); bm.free()
 
 
-def build(name, C, xoff):
+def build(name, C, xoff, lod=0):
+    """lod＝1：遠處用的低面數版本（節點 <款式>_lod1；遊戲離鏡頭 14 m 以外換這個）。輪廓、比例、車窗位置、顏色和完整版一樣，
+    只減細節：站點、輪拱點數、倒角段數、車窗格數、輪子段數；不做門縫、水箱罩橫條、門把、輪圈的幅條（遠處看不出來）。US-COMMUNITY-EAST-PERF，LAWWW2-B 2026-10-25"""
+    if lod: name = name + '_lod1'
     Lc, W, wb, R, clr = C['L'], C['W'], C['wb'], C['R'], C['clr']; ST = C['ST']
     g = B.group(name, root, {'kind': 'car', 'len': Lc, 'width': W})
     zr, zf = -wb / 2, wb / 2
@@ -95,19 +98,21 @@ def build(name, C, xoff):
     bottom = [(zof(0.0) + 0.02, yb0 + 0.06)]
     for wz in (zr, zf):
         bottom.append((wz - ra - 0.02, yb0))
-        for k in range(13):
-            a = math.pi - math.pi * k / 12
+        KA = 6 if lod else 12
+        for k in range(KA + 1):
+            a = math.pi - math.pi * k / KA
             bottom.append((wz + ra * math.cos(a), R + ra * math.sin(a) * 0.95 if math.sin(a) > 0 else yb0))
         bottom.append((wz + ra + 0.02, yb0))
     bottom.append((zof(1.0) - 0.02, yb0 + 0.06))
     top = []
-    ts = sorted(set([i / 40 for i in range(41)] + [st[0] for st in ST]))   # 每一站都要在（擋風玻璃的起點不能被跳過）
+    NS = 16 if lod else 40
+    ts = sorted(set([i / NS for i in range(NS + 1)] + [st[0] for st in ST]))   # 每一站都要在（擋風玻璃的起點不能被跳過）
     for t in reversed(ts):
         top.append((zof(t), interp(ST, t, 1)))
     # 車頭、車尾的面往內收一點點（斜的保險桿）
     top[0] = (top[0][0] - 0.03, top[0][1]); top[-1] = (top[-1][0] + 0.03, top[-1][1])
     prof = bottom + top
-    extrude_profile(paint, prof, -hw, hw, bevel=min(0.11, W * 0.06), segs=4)
+    extrude_profile(paint, prof, -hw, hw, bevel=min(0.11, W * 0.06), segs=1 if lod else 4)
     # 平面上車頭、車尾的角收圓：越靠兩端 x 縮越多
     for v in paint.bm.verts:
         z = -v.co.y; u = abs(z) / (Lc / 2); q = max(0.0, min(1.0, (u - 0.68) / 0.32)); f = 1.0 - 0.09 * q * q * (3 - 2 * q)
@@ -123,7 +128,7 @@ def build(name, C, xoff):
         for t in reversed(gts): gp.append((zof(t), interp(ST, t, 2)))
         gm = Mesh(name + '_gh', M['paint'])
         hg = hw * 0.95
-        extrude_profile(gm, gp, -hg, hg, bevel=0.045, segs=3)
+        extrude_profile(gm, gp, -hg, hg, bevel=0.045, segs=1 if lod else 3)
         yb_ = min(interp(ST, t, 1) for t in gts); yr_ = max(interp(ST, t, 2) for t in gts); rw = max(st[4] for st in ST)
         for v in gm.bm.verts:
             y = v.co.z; u = max(0.0, min(1.0, (y - yb_) / max(yr_ - yb_, 1e-3))); v.co.x *= 1.0 - (1.0 - rw / 0.95) * u ** 1.4
@@ -139,7 +144,7 @@ def build(name, C, xoff):
         segs_.append((cur, tw1))
         for (s0, s1) in segs_:
             if s1 - s0 < 0.02: continue
-            n = 8; lo, hi = [], []
+            n = 2 if lod else 8; lo, hi = [], []
             for k in range(n + 1):
                 t = s0 + (s1 - s0) * k / n; yb = interp(ST, t, 1) + 0.06; yr = interp(ST, t, 2) - 0.07
                 if yr <= yb: yr = yb + 0.01
@@ -152,7 +157,7 @@ def build(name, C, xoff):
                     q = (L1[k], L1[k + 1], H1[k + 1], H1[k]); bm.faces.new(q if side > 0 else q[::-1])
         for p in mids:                                                     # B 柱（中間的柱子）貼黑色飾板（真車多半是黑的）
             for side in (1, -1):
-                bm = glass.bm; n = 4; rows = []
+                bm = glass.bm; n = 1 if lod else 4; rows = []
                 for k in range(n + 1):
                     t = p[0] + (p[1] - p[0]) * k / n
                     y0_ = interp(ST, t, 1) + 0.05; y1_ = interp(ST, t, 2) - 0.06
@@ -162,7 +167,7 @@ def build(name, C, xoff):
                     q = (Vb[k][0], Vb[k + 1][0], Vb[k + 1][1], Vb[k][1]); trim.bm.faces.new(q if side > 0 else q[::-1])
         # 車門接縫：A 柱下、B 柱下、後門後緣（細深色線，腰線到側裙）
         seams = [A_[0] + 0.01] + [(p[0] + p[1]) / 2 for p in mids] + ([Cc[1] - 0.02] if len(mids) else [])
-        for t in seams:
+        for t in ([] if lod else seams):
             if not (0.12 < t < 0.9): continue
             ylo = yb0 + 0.12; yhi = interp(ST, t, 1) - 0.02
             for side in (1, -1):
@@ -170,7 +175,7 @@ def build(name, C, xoff):
                 q = [g2b(xx, ylo, zof(t) - 0.004), g2b(xx, ylo, zof(t) + 0.004), g2b(xx, yhi, zof(t) + 0.004), g2b(xx, yhi, zof(t) - 0.004)]
                 vs = [trim.bm.verts.new(c) for c in q]; trim.bm.faces.new(vs if side > 0 else vs[::-1])
         for (t0, t1, front) in ((A_[0], tb, True), (ta, Cc[1], False)):   # 擋風玻璃（A 柱 → 車頂前緣）、後擋（車頂後緣 → C 柱）
-            n = 8; rows = []
+            n = 3 if lod else 8; rows = []
             for k in range(n + 1):
                 t = t0 + (t1 - t0) * k / n; y = interp(ST, t, 2) if interp(ST, t, 2) is not None else interp(ST, t, 1)
                 y = max(y, interp(ST, t, 1) + 0.04); wv = width_at(y) - 0.07
@@ -185,19 +190,20 @@ def build(name, C, xoff):
         trim.box(-hw * 0.9, hw * 0.9, yt - 0.40, yt + 0.006, z0, z1)
     # ---- 保險桿下緣、水箱罩、燈、後照鏡、門把、車牌 ----
     zfr, zre = Lc / 2, -Lc / 2
-    trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zfr - 0.20, zfr - 0.01, r=0.04, seg=2)   # 前下護板（黑）
-    trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zre + 0.01, zre + 0.20, r=0.04, seg=2)   # 後下護板
+    SG = 1 if lod else 2
+    trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zfr - 0.20, zfr - 0.01, r=0.04, seg=SG)   # 前下護板（黑）
+    trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zre + 0.01, zre + 0.20, r=0.04, seg=SG)   # 後下護板
     yh = interp(ST, 0.975, 1) - 0.04
-    trim.rbox(-W * 0.22, W * 0.22, yh - 0.26, yh - 0.04, zfr - 0.05, zfr - 0.015, r=0.03, seg=2)        # 水箱罩
-    for k in range(3): trim.box(-W * 0.2, W * 0.2, yh - 0.22 + k * 0.06, yh - 0.205 + k * 0.06, zfr - 0.015, zfr - 0.005)   # 水箱罩橫條
+    trim.rbox(-W * 0.22, W * 0.22, yh - 0.26, yh - 0.04, zfr - 0.05, zfr - 0.015, r=0.03, seg=SG)       # 水箱罩
+    for k in range(0 if lod else 3): trim.box(-W * 0.2, W * 0.2, yh - 0.22 + k * 0.06, yh - 0.205 + k * 0.06, zfr - 0.015, zfr - 0.005)   # 水箱罩橫條
     head = Mesh(name + '_headlights', M['head']); tail = Mesh(name + '_taillights', M['tail']); chrome = Mesh(name + '_chrome', M['chrome'])
     for s_ in (1, -1):
         head.rbox(s_ * W * 0.31 - 0.16, s_ * W * 0.31 + 0.16, yh - 0.13, yh - 0.02, zfr - 0.06, zfr - 0.025, r=0.02, seg=1)
         yt_ = interp(ST, 0.02, 1) - 0.05
         tail.rbox(s_ * W * 0.35 - 0.14, s_ * W * 0.35 + 0.14, yt_ - 0.16, yt_ - 0.01, zre + 0.025, zre + 0.06, r=0.02, seg=1)
         pa = C['pillars'][-1][0]; zm = zof(pa) - 0.02; ym = interp(ST, pa, 1) + 0.04
-        trim.rbox(s_ * hw - (0.0 if s_ > 0 else 0.19), s_ * hw + (0.19 if s_ > 0 else 0.0), ym, ym + 0.12, zm - 0.07, zm + 0.06, r=0.03, seg=2)
-        for dz in (-0.25, -1.05):
+        trim.rbox(s_ * hw - (0.0 if s_ > 0 else 0.19), s_ * hw + (0.19 if s_ > 0 else 0.0), ym, ym + 0.12, zm - 0.07, zm + 0.06, r=0.03, seg=SG)
+        for dz in (() if lod else (-0.25, -1.05)):
             zz = zof(pa) + dz; yy = interp(ST, pa, 1) - 0.12
             chrome.box(s_ * (hw + 0.004) - 0.01, s_ * (hw + 0.004) + 0.01, yy, yy + 0.03, zz - 0.1, zz + 0.1)
     for z in (zfr - 0.015, zre + 0.015):
@@ -206,15 +212,20 @@ def build(name, C, xoff):
     tire = Mesh(name + '_tires', M['tire']); rim = Mesh(name + '_rims', M['rim'])
     tw = 0.22 if R < 0.37 else 0.27
     pr = [(R - 0.12, -tw / 2), (R - 0.03, -tw / 2 - 0.005), (R - 0.005, -tw / 2 + 0.02), (R, -tw / 2 + 0.05), (R, tw / 2 - 0.05), (R - 0.005, tw / 2 - 0.02), (R - 0.03, tw / 2 + 0.005), (R - 0.12, tw / 2)]
+    if lod: pr = [pr[0], pr[2], pr[5], pr[7]]   # 遠處：胎壁圓角只留一段
     for wz in (zr, zf):
         for s_ in (1, -1):
             xc = s_ * (hw - tw / 2 - 0.02)
-            bmt = L.lathe(pr, seg=24)
+            bmt = L.lathe(pr, seg=10 if lod else 24)
             for v in bmt.verts:
                 r_, h_ = math.hypot(v.co.x, v.co.y), v.co.z; a = math.atan2(v.co.y, v.co.x)
                 v.co = g2b(xc + s_ * h_, R + r_ * math.sin(a), wz + r_ * math.cos(a))
             tire.add_bm(bmt); bmt.free()
             xo = xc + s_ * (tw / 2 - 0.035)
+            if lod:                                                                              # 遠處：輪圈一個圓盤
+                rim.cyl((xo - s_ * 0.03, R, wz), (xo, R, wz), R - 0.115, seg=10)
+                trim.cyl((s_ * (hw - 0.03), R, wz), (s_ * (hw - 0.03 - tw - 0.06), R, wz), R + 0.035, seg=12, caps=False)
+                continue
             rim.cyl((xo - s_ * 0.03, R, wz), (xo, R, wz), R - 0.115, seg=24, caps=False)          # 輪圈外緣
             rim.cyl((xo - s_ * 0.06, R, wz), (xo - s_ * 0.05, R, wz), R - 0.12, seg=24)            # 輪圈底盤（深一點）
             for k in range(5):
@@ -232,7 +243,9 @@ def build(name, C, xoff):
 
 x = 0.0
 for name, C in CARS.items():
-    build(name, C, x); x += 3.2
+    build(name, C, x)
+    if '--render' not in ARGS: build(name, C, x, lod=1)   # 遠處用的低面數版本（驗收渲染不做）
+    x += 3.2
 tris = {}
 for g in root.children:
     n = 0

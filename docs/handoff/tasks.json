@@ -31869,8 +31869,8 @@
    "title": "美國社區往東（停車場、公寓）1.6～1.9 fps，比往西慢一倍：找原因、外觀不退（LAWWW2 自排 ③）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 實驗版 GLB 量 fps → patch／GLB＋README＋outbox；動 us3d.js、engine3d.js 先告知",
+   "status": "已整合待測試",
+   "next": "BB 用 perf_us_community_west.py 同一套量往東、出生點、靠近車 fps（LAWWW2 沙盒往東 1.9→2.6）；切換點 11～24 m 外觀看不出跳動",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31890,7 +31890,37 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "往東 fps 明顯提升、外觀不退；改前改後截圖、三角形數",
     "receiver": "LAWWW",
-    "ack": "自領"
+    "ack": "ACTIONED"
+   },
+   "notes": "LAWWW2-B 10-25 04:52 交（7e582d0c7；patches/us_cars_lod_1025.patch）：原因停車場 28 台車三角形（每台 5.8k＋陰影）；做法 us_cars.glb 每款多 _lod1（約 1/4 三角形、完整版沒動），us3d.js outdoorZone 放車包 THREE.LOD、CAR_LOD_D 14 m。三角形往東 51 萬→34 萬。LAWWW-B 05:0x 整合：us_cars_lod（改前 FAIL 8）、us_* 全部、aa454、nav_us、exch_min ALL PASS。沒做：超市街停車沒量、us_traffic3d 會動的車沒改。"
+  },
+  {
+   "id": "PERF-PATROL-ECON-1025",
+   "title": "經濟系路線效能巡查（D99 第一優先）：新遊戲 → 宿營 → 在學 → 休學在家 → 重考 → 放榜，各主要地點量 fps／三角形，找最慢的三處照美國社區的做法修（外觀不退）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "next": "LAWWW2：先量（同一套 perf 工具），列最慢三處與原因，再逐項交 patch／GLB",
+   "priority": "P2",
+   "first": {
+    "term": "Y0",
+    "week": 0,
+    "earliest": "新遊戲經濟系開局",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-25 05:0x 派工（LAWWW2 回報 D99 三條路線巡查清單沒有開著的 P1／P2）",
+   "authorized": "D99、D108、D111",
+   "xai": {
+    "spec": "US-COMMUNITY-WEST／EAST-PERF-1025 的做法",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "每處改前改後同角度 fps、三角形數、截圖；外觀不退",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    },
    "notes": ""
   }

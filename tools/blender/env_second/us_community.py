@@ -732,7 +732,7 @@ print('us_community tris', tris)
 
 if PREVIEW:   # 驗收渲染用：把車停進去（每台一個顏色的材質副本）
     bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets/models/env/second_ai/us_cars.glb'))
-    src = {o.name: o for o in bpy.data.objects if o.name.startswith('car_') and o.type == 'EMPTY'}
+    src = {o.name: o for o in bpy.data.objects if o.name.startswith('car_') and o.type == 'EMPTY' and not o.name.endswith('_lod1')}   # 遠處用的低面數版本不要停進預覽
     cols = {}
     for c_ in J['cars']:
         s0 = src.get(c_['kind'])
