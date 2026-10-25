@@ -1,0 +1,167 @@
+diff --git a/src/building3d.js b/src/building3d.js
+index 0048a9f25..ca8419bd7 100644
+--- a/src/building3d.js
++++ b/src/building3d.js
+@@ -36,7 +36,7 @@ const B3=(function(){
+      平面放大（往下蓋過地面、往上蓋過屋頂、左右多 20 m）：原本斜著看或從樓梯往下看，會從平面邊緣和玻璃底下的縫看到天空。
+      平面中心高度＝拍照的鏡頭高度（照片的地平線）；照片還沒載入就用原本程序化的 outsideTex。萬才館（src/wancai3d.js）也用這兩個函式 */
+   function outView(kind,photo,w,h,x,yc,z,ry,depth,grp){ const m=W3.windowMat(depth); const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m); p.position.set(x,yc,z); p.rotation.y=ry; p.userData.outside=kind; p.userData.photo=photo; setOutView(p,11,'sunny',false); grp.add(p); return p; }
+-  function setOutView(o,h,weather,night){ const ph=W3.viewPhoto(o.userData.photo,night); W3.setWindowView(o.material,o.userData.photo,night,outsideTex(o.userData.outside,night),ph?W3.photoTint(h,weather==='rain'):0xffffff); }
++  function setOutView(o,h,weather,night){ const ph=W3.viewPhoto(o.userData.photo,night); W3.setWindowView(o.material,o.userData.photo,night,outsideTex(o.userData.outside,night),ph?W3.photoTint(h,weather==='rain'):0xffffff,ph&&W3.photoFade?W3.photoFade(h):0); }
+ 
+   // ---- 樓梯的高度：從最下面那一階的邊緣（和地面／平台同高）連續斜上到最上面那一階踏面的中心（接縫沒有落差；
+   //      踏面邊緣和斜面最多差半階 8.4 cm，腳的高度之後用 IK 補）。第一版的斜面在接縫有 8.4 cm 落差，加上坡度超過人物允許的高低差，走到樓梯底就卡住（tests/nav_buildings_unit.js 抓到）----
+diff --git a/src/l118_shops3d.js b/src/l118_shops3d.js
+index ea3b6d1af..f9f53304d 100644
+--- a/src/l118_shops3d.js
++++ b/src/l118_shops3d.js
+@@ -27,7 +27,7 @@ const L118S=(function(){
+     for(const x of [].concat(src.material)) if(x){ x.colorWrite=false; x.depthWrite=false; }   /* 原本那一片不畫（還留在淡出清單：鏡頭在店外時它的 visible 變 false，新的平面跟著）*/
+     g0.add(m); return {mesh:m,key,fb}; }
+   function setPhotoView(pv,h,weather){ if(!pv) return; const night=(h<5.5||h>=19.2), rain=weather==='rain'||weather==='storm', ph=W3.viewPhoto(pv.key,night);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
+-    W3.setWindowView(pv.mesh.material,pv.key,night,pv.fb,ph?W3.photoTint(h,rain):new THREE.Color(1,1,1).multiplyScalar(viewK(h)).getHex()); }
++    W3.setWindowView(pv.mesh.material,pv.key,night,pv.fb,ph?W3.photoTint(h,rain):new THREE.Color(1,1,1).multiplyScalar(viewK(h)).getHex(),ph&&W3.photoFade?W3.photoFade(h):0); }
+   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
+   /* 看東西的字：配置檔的 note 有字就用（例：家常菜的電視，AA_280 原句）；dev 那一欄是 LAWWW2 給開發組的話（產生的檔，不改；不會出現在遊戲裡）。
+      AA_355 1-3（AA-C 2026-10-21）給了滇香小館牆上的織布；5-1（2f1aaa22）給了自取的湯（第一間＝好家自助餐、第二間＝巷口家常菜）、書架（慢讀咖啡）、
+diff --git a/src/library3d.js b/src/library3d.js
+index 96521c010..5f4d36786 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -201,7 +201,7 @@ const LB3=(function(){
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+       applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } }
+-        for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); } },   /* 有景深的窗景（parallaxViews）*/
++        for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); const v2=(v&&!night&&W3.photoFade&&W3.photoFade(h)>0)?viewOf(o.userData.view,true):null; if(u.xf){ u.map2.value=v2; u.near2.value=0; u.xf.value=v2?W3.photoFade(h):0; } } },   /* 有景深的窗景（parallaxViews）*/
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
+     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
+diff --git a/src/world3d.js b/src/world3d.js
+index 3a8d603f1..195bfbf47 100644
+--- a/src/world3d.js
++++ b/src/world3d.js
+@@ -176,18 +176,24 @@ const W3 = (function(){
+      遠景、近景都是 tools/shots/shop_views_layers.py 在遊戲裡拍的（近景＝鏡頭 far 設在分界、黑白兩種底色去背）；景深照它量的中位數（遠景的 far 取代區域給的 viewDepth）。
+      不在這個表裡的窗（教室、圖書館、宿舍…）照舊一層，不多載任何檔案 */
+   const VIEW_LAYERS={cvs:{far:22.4,near:6.54},noodle:{far:13.31,near:4.01},bookstore:{far:12.48,near:8.96},cafe:{far:12.06,near:5.25}};   /* 公館三家 10-23 公館街景加了機車、行道樹後重拍（ART-GG-STREETLIFE-1023）：麵店、書店的遠景景深變近 */
+-  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0} },
++  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0}, map2:{value:null}, nmap2:{value:null}, near2:{value:0}, xf:{value:0} },
+     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+-    fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
+-      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
+-      '  if(near>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998) nc=texture2D(nmap,un); } }\n'+
+-      ' vec4 c=texture2D(map,uv); gl_FragColor=vec4(mix(c.rgb,nc.rgb,nc.a)*tint,1.0);\n #include <colorspace_fragment>\n}',
++    fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform sampler2D map2; uniform sampler2D nmap2; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform float near2; uniform float xf; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
++      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
++      '  if(near>0.5||near2>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998){ if(near>0.5) nc=texture2D(nmap,un); if(near2>0.5) n2=texture2D(nmap2,un); } } }\n'+
++      ' vec4 c=texture2D(map,uv); vec3 col=mix(c.rgb,nc.rgb,nc.a)*tint; if(xf>0.0){ vec4 c2=texture2D(map2,uv); col=mix(col,mix(c2.rgb,n2.rgb,n2.a),xf); } gl_FragColor=vec4(col,1.0);\n #include <colorspace_fragment>\n}',
+     toneMapped:false, fog:false }); }
+   // 換貼圖（白天／晚上、照片或退回的程序化貼圖）＋色調
+-  function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);
++  function setWindowView(m,kind,night,fallback,tint,xf){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);
+     const L=VIEW_LAYERS[kind]; if(L&&u.nmap){ const nph=viewPhoto(kind+'_near',night); if(L.far) u.depth.value=L.far; u.ndepth.value=L.near; u.nmap.value=nph; u.near.value=(ph&&nph)?1:0; }   /* 兩層窗景：近景還沒載入（或沒有遠景照片）時只畫遠景 */
++    if(u.xf){ const ph2=(ph&&!night&&xf>0)?viewPhoto(kind,true):null, n2=(ph2&&L)?viewPhoto(kind+'_near',true):null; u.map2.value=ph2; u.nmap2.value=n2; u.near2.value=n2?1:0; u.xf.value=ph2?Math.min(1,xf):0; }   /* 黃昏換夜景照片（photoFade）；夜景還沒載入時照舊只畫白天那張 */
+     return !!ph; }
++  /* 黃昏慢慢換成夜景照片（ART-HALL-WINDOW-DUSK-1025，LAWWW2-B 2026-10-25；BB-B RELEASE-91010-TEST 附註④）：原本 19.2 才一下子換，之前是調暗的白天照片（0x8a8aa8，亮度約 26%）；
++     冬天傍晚光線拉長，12/10 17:20（光線 19.1，引擎的夜晚係數 nk 0.92、屋外幾乎全黑、路燈亮）大廳窗外還是白天的景，比屋外亮。
++     光線 18.6～19.2（nk 0.625→1）白天照片照 nk 疊成夜景照片：到 19.2 已經全是夜景，換的那一刻不跳；店家那種夜景比白天亮的（亮著的招牌）也不會先暗下去再亮。
++     回傳 0～1＝夜景照片的比例；清晨照舊（5.5／6 以前夜景，之後白天照片） */
++  function photoFade(h){ h=((h%24)+24)%24; return (h>=18.6&&h<19.2)?(h-18.6)/0.6:0; }
+   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
+   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.2) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
+-  return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
++  return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,photoFade,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index d07b9bd72..fa4421bce 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1289,7 +1289,7 @@ const Z3 = (function(){
+         const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.2),new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending})); sp.rotation.x=-Math.PI/2; { const q=at(wx+0.4,1.6); sp.position.set(q[0],0.012,q[1]); } sp.rotation.z=ry; sp.userData.dyn=true; g.add(sp); zone.sunPatches.push(sp); } }
+     // 室內時間感：窗色、光斑、燈色依時段與天氣變化
+     zone.applyTime=function(h,weather){ h=h%24; const rain=weather==='rain'; let winC, patchA=0, patchC=0xffd9a0; if(h<5.5||h>=19.2){ winC=0x141c2c; } else if(h<6.5){ winC=0x5a6a8a; } else if(h<8){ winC=rain?0x8a949c:0xd9e3ea; patchA=rain?0:0.10; patchC=0xdfe8ff; } else if(h<16){ winC=rain?0x9aa4ac:0xcfe3ea; patchA=rain?0.04:0.16; patchC=0xfff3d6; } else if(h<17.6){ winC=rain?0x8a8f96:0xe8d6b8; patchA=rain?0.03:0.22; patchC=0xffcf8a; } else if(h<18.4){ winC=rain?0x6a6c74:0xf0a868; patchA=rain?0:0.18; patchC=0xff9a5a; } else { winC=0x3a4260; patchA=0.03; patchC=0xff8a4a; }
+-      const nightView=(h<5.5||h>=19.2);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */ if(zone.wins) for(const w of zone.wins){ if(w.userData.pview){ const ph=W3.viewPhoto(w.userData.pview,nightView); W3.setWindowView(w.material,w.userData.pview,nightView,viewTex(nightView),ph?W3.photoTint(h,rain):(nightView?(rain?0x9098a8:0xd8dce6):winC)); continue; } const want=w.userData.viewFixed?null:viewTex(nightView); if(want&&w.material.map!==want){ w.material.map=want; w.material.needsUpdate=true; } w.material.color.set(nightView?(rain?0x9098a8:0xd8dce6):winC); } if(zone.sunPatches) for(const p of zone.sunPatches){ p.material.opacity=patchA; p.material.color.set(patchC); }
++      const nightView=(h<5.5||h>=19.2);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */ if(zone.wins) for(const w of zone.wins){ if(w.userData.pview){ const ph=W3.viewPhoto(w.userData.pview,nightView); W3.setWindowView(w.material,w.userData.pview,nightView,viewTex(nightView),ph?W3.photoTint(h,rain):(nightView?(rain?0x9098a8:0xd8dce6):winC),ph&&W3.photoFade?W3.photoFade(h):0); continue; } const want=w.userData.viewFixed?null:viewTex(nightView); if(want&&w.material.map!==want){ w.material.map=want; w.material.needsUpdate=true; } w.material.color.set(nightView?(rain?0x9098a8:0xd8dce6):winC); } if(zone.sunPatches) for(const p of zone.sunPatches){ p.material.opacity=patchA; p.material.color.set(patchC); }
+       const night=(h<6.5||h>=18); if(o.warm){ ceilLight.color.set(night?0xffb870:0xfff0d8); ceilLight.intensity=night?22:14; for(const l of lights) l.material.color.set(night?0xffc890:0xfff6e0); } };
+     return zone; }
+   // 書桌／長桌（v9.3 第十七批：原本是一塊板＋四根方棒，12 m 的教室長桌也只有四根腳）：5 cm 桌板＋深色封邊、金屬圓管腳（長桌約每 2 m 一組）＋橫桿。
+diff --git a/tests/window_dusk_fade_unit.js b/tests/window_dusk_fade_unit.js
+new file mode 100644
+index 000000000..6c7e427d3
+--- /dev/null
++++ b/tests/window_dusk_fade_unit.js
+@@ -0,0 +1,73 @@
++// 黃昏窗外的照片跟著屋外暗下來（ART-HALL-WINDOW-DUSK-1025，LAWWW2-B 2026-10-25；BB-B RELEASE-91010-TEST 附註④）——不需要瀏覽器。
++//   12/10 17:20（臺北 17:06 日落、光線 19.1、引擎的夜晚係數 nk 0.92：屋外幾乎全黑、路燈亮）三個大廳窗外還是白天的照片（調暗到約 26%），比屋外亮；
++//   19.2 才一下子換成夜景照片。改成光線 18.6～19.2（nk 0.625→1）白天照片照 nk 疊成夜景照片（world3d.js photoFade＋窗景材質的 map2／xf）。
++//   1. photoFade：18.6 以前、19.2 以後都是 0；18.6～19.2＝(nk−0.625)/0.375（跟著屋外的夜晚係數），一直往上、19.2 前一刻到 1（換夜景那一刻不跳）；
++//   2. 窗景材質（windowMat）照 xf 把白天（×色調）疊成夜景照片（遠景 map2＋近景 nmap2）；
++//   3. setWindowView：白天、xf>0 時把夜景照片放進 map2（近景放 nmap2）；晚上、xf=0、白天照片還沒載入時 xf=0；夜景照片還沒載入時 xf=0（照舊只畫白天那張）；
++//   4. 用照片的窗景都把 photoFade 傳進去：大樓大廳（B3.setOutView：霖澤館、萬才館、法圖、社科圖、教學館）、118 巷店內、房間（zones3d room()）、總圖大廳（library3d）；
++//   5. 12/10 17:20：白天照片剩下的亮度（(1−xf)×色調的亮度）≤ 10%（改前 26%）；12/10 16:30、夏天 7/15 18:00 照舊是白天照片（xf=0）；7/15 18:30（日落前 16 分鐘）才開始疊、不到兩成；
++//   6. 白天（光線 18.6 以前）照片的色調和改前一樣（photoTint 沒動）。
++// 修改前 FAIL。用法：node tests/window_dusk_fade_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), grab=(s,re)=>{ const m=s.match(re); return m?m[0]:null; };
++const eng=rd('src/engine3d.js'), w3=rd('src/world3d.js');
++const nkM=eng.match(/const nk=(h>=([0-9.]+)\|\|h<5\.6\?1:[^;]*?);/), T=nkM?+nkM[2]:19.2;
++const fPF=grab(w3,/function photoFade\(h\)\{[^\n]*\n/), fPT=grab(w3,/function photoTint\(h,rain\)\{[^\n]*\n/), fSW=grab(w3,/function setWindowView\(m,kind,night,fallback,tint,xf\)\{[\s\S]*?\n    return !!ph; \}/);
++const fSS=grab(eng,/function sunsetAt\(y,m,d,lat,lon,tz\)\{[^\n]*\n/), fLH=grab(eng,/function lightHour\(h,ss\)\{[^\n]*\n/), fSP=grab(eng,/function sunsetPlace\(key,pl\)\{[^\n]*\n/);
++check('1. world3d.js 有 photoFade（黃昏夜景照片的比例）', !!fPF);
++check('1. 引擎的夜晚係數 nk、sunsetAt、lightHour、sunsetPlace', !!(nkM&&fSS&&fLH&&fSP), nkM?'T='+T:'');
++check('3. setWindowView 收 xf（黃昏夜景照片的比例）', !!fSW);
++if(!(fPF&&fPT&&fSW&&nkM&&fSS&&fLH&&fSP)){ console.log('FAILED '+fails); process.exit(1); }
++const ctx={Math}; vm.createContext(ctx);
++vm.runInContext('this.nk=h=>('+nkM[1]+');\n'+fPF+fPT+'this.photoFade=photoFade; this.photoTint=photoTint;\n'+fSS+fLH+fSP+'this.lightHour=lightHour; this.sunsetPlace=sunsetPlace;',ctx);
++const {nk,photoFade:PF,photoTint:PT}=ctx;
++// 1. photoFade 的形狀
++{ let bad=[]; for(let i=0;i<2400;i++){ const h=i*0.01, x=PF(h), want=(h>=18.6&&h<T)?(nk(h)-0.625)/0.375:0; if(Math.abs(x-want)>1e-6) bad.push(h.toFixed(2)+':'+x.toFixed(3)); }
++  check('1. 18.6 以前、'+T+' 以後是 0；中間＝(nk−0.625)/0.375（跟著屋外的夜晚係數）', bad.length===0, bad.length?bad.slice(0,4).join(' '):''); }
++{ let prev=-1, mono=true; for(let i=1860;i<Math.round(T*100);i++){ const x=PF(i/100); if(x<prev-1e-9) mono=false; prev=x; } const end=PF(T-1e-6);
++  check('1. 18.6～'+T+' 一直往上，'+T+' 前一刻到 1（換夜景那一刻不跳）', mono&&end>0.999, 'T 前一刻 '+end.toFixed(4)); }
++// 2. 窗景材質
++{ const wm=grab(w3,/function windowMat\(depth\)\{[\s\S]*?toneMapped:false, fog:false \}\); \}/)||'';
++  const ok=/map2:\{value:null\}/.test(wm)&&/nmap2:\{value:null\}/.test(wm)&&/xf:\{value:0\}/.test(wm)&&/uniform sampler2D map2;/.test(wm)&&/col=mix\(col,mix\(c2\.rgb,n2\.rgb,n2\.a\),xf\)/.test(wm)&&/vec3 col=mix\(c\.rgb,nc\.rgb,nc\.a\)\*tint;/.test(wm);
++  check('2. 窗景材質照 xf 把白天（×色調）疊成夜景照片（遠景 map2＋近景 nmap2）', ok); }
++// 3. setWindowView 的行為（假的貼圖快取）
++{ const loaded=new Set(['a_day','a_night','b_day','b_near_day','b_night','b_near_night','c_day']);
++  const c2={VIEW_LAYERS:{b:{far:8,near:5}}}; vm.createContext(c2);
++  vm.runInContext('const VIEW_LAYERS=this.VIEW_LAYERS; function viewPhoto(kind,night){ return LOADED.has(kind+(night?"_night":"_day"))?{tex:kind+(night?"_night":"_day")}:null; }\n'+fSW+'\nthis.sw=setWindowView;',Object.assign(c2,{LOADED:loaded}));
++  const mk=()=>({uniforms:{map:{value:null},tint:{value:{set(){}}},depth:{value:20},photo:{value:0},sxy:{value:null},nmap:{value:null},ndepth:{value:4},near:{value:0},map2:{value:null},nmap2:{value:null},near2:{value:0},xf:{value:0}}});
++  const t=(u)=>({map:u.map.value&&u.map.value.tex, map2:u.map2.value&&u.map2.value.tex, nmap2:u.nmap2.value&&u.nmap2.value.tex, near2:u.near2.value, xf:u.xf.value});
++  const R=[]; let m;
++  m=mk(); c2.sw(m,'a',false,null,0xffffff,0.5); R.push(['白天 xf 0.5：夜景照片放進 map2',t(m.uniforms),r=>r.map==='a_day'&&r.map2==='a_night'&&r.xf===0.5&&r.near2===0]);
++  m=mk(); c2.sw(m,'b',false,null,0xffffff,0.8); R.push(['兩層窗景：夜景近景放進 nmap2',t(m.uniforms),r=>r.map2==='b_night'&&r.nmap2==='b_near_night'&&r.near2===1&&r.xf===0.8]);
++  m=mk(); c2.sw(m,'a',false,null,0xffffff,0.5); c2.sw(m,'a',false,null,0xffffff,0); R.push(['xf 回到 0：不畫夜景',t(m.uniforms),r=>r.xf===0&&!r.map2]);
++  m=mk(); c2.sw(m,'a',true,null,0xffffff,0.5); R.push(['晚上：xf＝0（已經是夜景照片）',t(m.uniforms),r=>r.map==='a_night'&&r.xf===0]);
++  m=mk(); c2.sw(m,'c',false,null,0xffffff,0.5); R.push(['夜景照片還沒載入：xf＝0（照舊只畫白天那張）',t(m.uniforms),r=>r.map==='c_day'&&r.xf===0]);
++  m=mk(); c2.sw(m,'z',false,{tex:'fallback'},0xffffff,0.5); R.push(['白天照片還沒載入（程序化貼圖）：xf＝0',t(m.uniforms),r=>r.map==='fallback'&&r.xf===0]);
++  m=mk(); c2.sw(m,'a',false,null,0xffffff,1.7); R.push(['xf 最多 1',t(m.uniforms),r=>r.xf===1]);
++  m={uniforms:{map:{value:null},tint:{value:{set(){}}},photo:{value:0},nmap:{value:null},near:{value:0}}}; let err=null; try{ c2.sw(m,'a',false,null,0xffffff,0.5); }catch(e){ err=e.message; } R.push(['舊的材質（沒有 xf）不出錯',{err},r=>!r.err]);
++  for(const [n,r,f] of R) check('3. '+n, f(r), JSON.stringify(r)); }
++// 4. 每個用照片的窗景都把 photoFade 傳進去
++{ const S=[['src/building3d.js','大樓大廳 B3.setOutView（霖澤館、萬才館、法圖、社科圖、教學館）',/function setOutView\(o,h,weather,night\)\{[^\n]*W3\.photoTint\(h,weather==='rain'\):0xffffff,ph&&W3\.photoFade\?W3\.photoFade\(h\):0\); \}/],
++    ['src/l118_shops3d.js','118 巷店內 setPhotoView',/function setPhotoView\(pv,h,weather\)\{[\s\S]{0,700}?getHex\(\),ph&&W3\.photoFade\?W3\.photoFade\(h\):0\); \}/],
++    ['src/zones3d.js','房間 room() 的照片窗景',/W3\.setWindowView\(w\.material,w\.userData\.pview,nightView,viewTex\(nightView\),ph\?W3\.photoTint\(h,rain\):\(nightView\?\(rain\?0x9098a8:0xd8dce6\):winC\),ph&&W3\.photoFade\?W3\.photoFade\(h\):0\)/],
++    ['src/library3d.js','總圖大廳 pOuts',/u\.tint\.value\.set\(v\?W3\.photoTint\(h,weather==='rain'\):0xffffff\); const v2=\(v&&!night&&W3\.photoFade&&W3\.photoFade\(h\)>0\)\?viewOf\(o\.userData\.view,true\):null; if\(u\.xf\)\{ u\.map2\.value=v2; u\.near2\.value=0; u\.xf\.value=v2\?W3\.photoFade\(h\):0; \}/]];
++  for(const [f,n,re] of S) check('4. '+n+'（'+f+'）', re.test(rd(f)));
++  const calls=(rd('src/building3d.js')+rd('src/l118_shops3d.js')+rd('src/zones3d.js')+rd('src/library3d.js')+rd('src/lawlib3d.js')+rd('src/soclib3d.js')+rd('src/teach3d.js')+rd('src/wancai3d.js')).match(/W3\.photoTint\(/g)||[];
++  check('4. 用 photoTint 的地方都已經在上面（4 處）', calls.length===4, calls.length+' 處'); }
++// 5. 派工指定的時刻（臺北的日落 → 光線用的時刻）
++const lum=hex=>{ const l=c=>{ c/=255; return c<=0.04045?c/12.92:Math.pow((c+0.055)/1.055,2.4); }; return 0.2126*l(hex>>16&255)+0.7152*l(hex>>8&255)+0.0722*l(hex&255); };
++const tp=(key,hh,mm)=>{ const ss=ctx.sunsetPlace(key,'tw'); return {ss, h:ctx.lightHour(hh+mm/60,ss)}; };
++const fmt=x=>Math.floor(x)+':'+String(Math.round((x%1)*60)).padStart(2,'0');
++{ const t=tp('2025-12-10',17,20), xf=PF(t.h), day=(1-xf)*lum(PT(t.h,false)), before=lum(0x8a8aa8);
++  check('5. 12/10 17:20（'+fmt(t.ss)+' 日落）白天照片剩下的亮度 ≤ 10%（改前 '+Math.round(before*100)+'%）', day<=0.10, '光線 '+t.h.toFixed(2)+'、nk '+nk(t.h).toFixed(2)+'、夜景照片 '+Math.round(xf*100)+'%、白天照片剩 '+(day*100).toFixed(1)+'%'); }
++{ const t=tp('2025-12-10',16,30); check('5. 12/10 16:30 照舊是白天照片', PF(t.h)===0, '光線 '+t.h.toFixed(2)); }
++{ const t=tp('2026-07-15',18,0); check('5. 7/15 18:00（'+fmt(t.ss)+' 日落）照舊是白天照片', PF(t.h)===0, '光線 '+t.h.toFixed(2)); }
++{ const t=tp('2026-07-15',18,30), x=PF(t.h); check('5. 7/15 18:30（日落前 16 分鐘，引擎的 nk 已經 '+nk(t.h).toFixed(2)+'）才開始疊夜景，不到兩成', x>0&&x<0.2, '光線 '+t.h.toFixed(2)+'、夜景照片 '+Math.round(x*100)+'%'); }
++{ const t=tp('2025-12-10',17,45); check('5. 12/10 17:45 已經是夜景照片（換夜景＝'+T+'）', t.h>=T, '光線 '+t.h.toFixed(2)); }
++// 6. photoTint 沒動
++{ const OLD=(h,rain)=>{ h=((h%24)+24)%24; if(h<5.5||h>=19.2) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; };
++  let bad=[]; for(let i=0;i<2400;i++){ const h=i*0.01; for(const r of [false,true]) if(PT(h,r)!==OLD(h,r)) bad.push(h.toFixed(2)); }
++  check('6. 照片的色調（photoTint）和改前一樣', bad.length===0, bad.slice(0,4).join(' ')); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

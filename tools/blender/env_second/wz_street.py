@@ -12,7 +12,7 @@
 中文字不放在 GLB：招牌板面 SIGN_FACE_<棟>、直立招牌 VSIGN_FACE_<棟>、店內景深卡 INTERIOR_FACE_<棟> 是空白板面
 （自訂屬性帶店名、顏色、店種），遊戲用 TK.signTex／TK.interiorTex 畫（和原本的套件同一套字型與設計）。
 """
-import math, os, sys, random
+import math, os, re, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
@@ -916,6 +916,11 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else '')   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
 for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)   # ART-WZ6：開關的店面各自照材質合併（節點保留，遊戲照名字開關；原本 15 個網格＝15 次 draw call）
+if SET in ('wenzhou', 'lane118'):   # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：只把「大面、背面看不到」的材質改單面——立面的牆與柱（只從巷子看）、
+    # 店內的殼和商品（隔著玻璃）、店內地板、亮窗的房間卡。網格不動、不補反面（鐵窗、鋁框、葉片卡這些照舊雙面：公館試過全部單面＋薄零件補反面，instancing 乘上去反而沒變快）。
+    # 同一頁量（路人拿掉）：溫州街 +11%、118 巷 +15%／+3%；公館量不出差別，不改
+    for _m in {s.material for o in root.children_recursive if o.type == 'MESH' for s in o.material_slots if s.material}:
+        if re.match(r'(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_pillar_|wz_ground_wall)', _m.name): _m.use_backface_culling = True
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)
