@@ -90,6 +90,12 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 00:1x 更新**：
+    - 已交：B1 健身中心不再單調（`test_shots/gym_b1_fitness_1024/README.md`；只換 `gym_b1.glb`，`gym_b1.py` v7、`gym_tex.py b1`、新測試 `tests/gym_b1_fitness_unit.js` 改前 FAIL 11、改後 ALL PASS）。
+    - 順便修：大廳開館時間牌、公告欄原本貼在框後面（看起來是黑板、空木板）、字左右相反。
+    - 記錄給 LAWWW-B：B1 地下室晚上偏藍偏暗（引擎室內夜間光線）。
+    - 測試樹 `$SP/dv8`：開發 `5bcdd7e8e`＋新的 `gym_b1.glb`（還沒還原）。
+    - 下一項：等 LAWWW-B 派；巡查表剩機場柱子（記錄）、e24b2／c2_hiking（退役事件）。
   - **10-24 23:2x 更新**：
     - LAWWW-B 22:45：舟山路路燈已整合（`5bcdd7e8e`）。
     - send_message 恢復，宿舍洗手間外牆的通知已補傳。
