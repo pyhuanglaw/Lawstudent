@@ -12,7 +12,7 @@
 中文字不放在 GLB：招牌板面 SIGN_FACE_<棟>、直立招牌 VSIGN_FACE_<棟>、店內景深卡 INTERIOR_FACE_<棟> 是空白板面
 （自訂屬性帶店名、顏色、店種），遊戲用 TK.signTex／TK.interiorTex 畫（和原本的套件同一套字型與設計）。
 """
-import math, os, sys, random
+import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
@@ -878,6 +878,11 @@ for _m in bpy.data.materials:
 for _n, _v in list(WZ_VC.items()):
     if _v in (VC_MATTE, VC_METAL) and (_n.startswith(('wz_door_', 'wz_frame_')) or _n in ('cafe_pipe', 'cafe_curtain', 'wz_laundry', 'cafe_alu', 'cafe_iron_black', 'cafe_brass', 'wz_mailbox')):
         WZ_VC[_n] = VC_SMETAL if _v is VC_METAL else VC_SMATTE
+# 公館（PERF-PATROL-ECON-1025 ④，LAWWW2-B 2026-10-25）：店面立面的鐵窗、水塔架也不投影——細鐵條的影子在陰影貼圖（一格約 4 cm）上看不出來，
+# 卻是店面會投影的網格裡唯一一組小零件（約 2,900 個三角形）。溫州街不動（巷子窄、鏡頭近）
+if SET == 'gongguan':
+    for _n in ('cafe_grille', 'cafe_tank_steel'):
+        if WZ_VC.get(_n) is VC_METAL: WZ_VC[_n] = VC_SMETAL
 print('vc_consolidate:', len(WZ_VC), 'materials ->', sorted({v.name for v in WZ_VC.values()}), sorted(k for k, v in WZ_VC.items() if v.name.startswith('cafe_vc_wz')))
 _keep = lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or (ob.parent is not None and 'SEASON' in ob.parent.name) or ob.name.startswith('COPY_') or (ob.parent is not None and ob.parent.name.startswith('COPY_'))   # COPY_：阿德影印的兩種外觀（ART-WZ6，遊戲照名字開關）
 L.realize_small_instances(root, keep=_keep)   # 只擺一兩個的店面小物（店裡的冰箱、販賣機、麵攤、傘架、電表…）不用 instancing，合進大網格
@@ -916,6 +921,14 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
     L.merge_by_material(root, keep=_keep,
                         key=lambda ob: 'NOSHADOW' if ob.name.startswith('NOSHADOW_') else '')   # 公館七樓以上：合併後名字是 NOSHADOW_<材質>
 for _g in [o for o in root.children if o.name.startswith('COPY_')]: L.merge_by_material(_g)   # ART-WZ6：開關的店面各自照材質合併（節點保留，遊戲照名字開關；原本 15 個網格＝15 次 draw call）
+if SET == 'gongguan':   # PERF-PATROL-ECON-1025 ④（LAWWW2-B 2026-10-25）：公館店面除了玻璃都單面（lib2.single_side）——
+    # 封閉的殼（牆、柱子、方盒、店內的殼）直接單面；鐵窗的十字薄片、鋁框、葉片卡、踏板、蓋子朝內的圓柱這些本來靠雙面材質的零件補反面
+    # （第一次只把材質改單面：鐵窗的直條、葉子少一半，同角度截圖看得出來）。玻璃（兩面都看得到）照舊雙面。
+    # 開口但背面看不到的不補（第一次全部單面不補，十個鏡頭這些都和原本一樣）：立面的牆（只從馬路看）、店內的殼和商品（隔著玻璃）、地板、亮窗的房間卡、
+    # 窗台下的雨痕（半透明、貼在牆上朝外；半透明又雙面在 three.js 要畫兩次）
+    # 遊戲照名字接手的板面（招牌、店內景深卡、門牌：*_FACE_*）不補：遊戲的 wzAtlasFaces 要原本那一片四邊形（補了以後整條店面載入失敗）
+    _ss = L.single_side(root, keep=r'glass', nodup=r'^(wz_in_goods|wz_in_shop|wz_wall_|wz_in_tiles_|wz_room_lit|wz_stain)', skip=lambda ob: 'FACE' in ob.name)
+    print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)

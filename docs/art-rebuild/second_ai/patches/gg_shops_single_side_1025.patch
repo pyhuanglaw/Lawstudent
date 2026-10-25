@@ -1,0 +1,46 @@
+diff --git a/tests/gg_shops_single_side_unit.js b/tests/gg_shops_single_side_unit.js
+new file mode 100644
+index 000000000..969e67023
+--- /dev/null
++++ b/tests/gg_shops_single_side_unit.js
+@@ -0,0 +1,40 @@
++// 公館店面變快（PERF-PATROL-ECON-1025 ④，LAWWW2-B 2026-10-25；LAWWW-B 06:1x 排的順序）——不需要瀏覽器，讀 GLB。
++//   公館往店面那一側（路人拿掉）SwiftShader 2.1～2.2 fps：整排店面藏起來 4.25、只藏外牆 3.05、店面全改單面 2.55；店內商品、玻璃、會亮的材質、法線貼圖各自都在誤差內。
++//   wz_street.py --set gongguan 的材質原本全是雙面（38／39）：雙面在 three.js 不剔除背面。改成 lib2.single_side：
++//   1. gongguan_shops.glb 除了玻璃都是單面（glTF doubleSided false）；
++//   2. 玻璃照舊雙面（兩面都看得到）；
++//   3. 本來靠雙面材質才看得到的零件補了反面（每個三角形都有一個反過來的分身）：鐵窗（十字薄片的直條朝牆，第一次只改材質時直條不見了）、
++//      窗的鋁框（同一種十字薄片）、騎樓盆栽和頂樓蕨類的葉片卡（方向隨機，單面少一半葉子）；
++//   4. 背面看不到的沒有補（立面的牆、店內的殼和商品——補了只是多三角形）：這幾個材質的三角形數和改前一樣；
++//   5. 鐵窗、水塔架不投影：合進 cafe_vc_wz_metal（遊戲 zones3d.js 的 WZ_NO_SHADOW 對 cafe_vc_ 開頭的材質不投影），
++//      不再有會投影的 wz_vc_metal（店面會投影的網格裡唯一一組小零件，約 2,900 個三角形；大牆、招牌帶、柱子、雨遮照舊投影）。
++// 修改前 FAIL。用法：node tests/gg_shops_single_side_unit.js
++const fs=require('fs'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/gongguan_shops.glb')), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++const mats=J.materials||[], glass=m=>/glass/.test(m.name||'');
++function acc(i){ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], off=(bv.byteOffset||0)+(a.byteOffset||0), n={SCALAR:1,VEC3:3}[a.type], T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType];
++  return new T(bin.buffer.slice(bin.byteOffset+off, bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); }
++const triCount=p=>(p.indices!=null?J.accessors[p.indices].count:J.accessors[p.attributes.POSITION].count)/3;
++function paired(p){ const P=acc(p.attributes.POSITION), I=p.indices!=null?acc(p.indices):null, nt=(I?I.length:P.length/3)/3, key=k=>{ const v=I?I[k]:k; return P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); };
++  const cnt=new Set(), tri=[]; for(let t=0;t<nt;t++){ const a=key(t*3), b=key(t*3+1), c=key(t*3+2); tri.push([a,b,c]); cnt.add([a,b,c].join('|')); }
++  let ok=0; for(const [a,b,c] of tri){ if([[a,c,b],[c,b,a],[b,a,c]].some(r=>cnt.has(r.join('|')))) ok++; } return [ok,nt]; }
++const prims=[]; for(const n of J.nodes){ if(n.mesh==null) continue; const inst=n.extensions&&n.extensions.EXT_mesh_gpu_instancing, cnt=inst?J.accessors[inst.attributes.TRANSLATION].count:1;
++  for(const p of J.meshes[n.mesh].primitives) prims.push({node:n.name, mat:mats[p.material].name, cnt, p}); }
++
++const ds=mats.filter(m=>m.doubleSided&&!glass(m)).map(m=>m.name);
++check('1. 除了玻璃都單面（'+mats.length+' 個材質）', mats.length>=30&&!ds.length, ds.length?'雙面：'+ds.join(' '):'');
++const g=mats.filter(glass);
++check('2. 玻璃（名字有 glass；三片半透明、晚上亮窗那片不透明）照舊雙面', g.length>=3&&g.every(m=>m.doubleSided)&&g.filter(m=>m.alphaMode==='BLEND').length>=3, g.map(m=>m.name+(m.doubleSided?'':'(單面)')+'/'+(m.alphaMode||'OPAQUE')).join(' '));
++// 3. 薄零件補了反面：鐵窗原型（113 個）、窗的鋁框原型（397 扇）的金屬、騎樓盆栽（20 盆）的葉子、頂樓蕨類
++const thin=[['鐵窗×113',x=>/vc_wz_metal|wz_vc_metal/.test(x.mat)&&x.cnt===113],['窗框×397',x=>/vc_wz_metal|wz_vc_metal/.test(x.mat)&&x.cnt===397],['盆栽葉子×20',x=>x.mat==='cafe_vc_wz_gloss'&&x.cnt===20],['蕨類',x=>x.mat==='cafe_leaf_fern']];
++const res=thin.map(([n,f])=>{ const ps=prims.filter(f); let ok=0, nt=0; for(const x of ps){ const [a,c]=paired(x.p); ok+=a; nt+=c; } return [n,ok,nt]; });
++check('3. 鐵窗、窗框、葉子每個三角形都有反過來的分身（單面也兩面看得到）', res.every(([,ok,nt])=>nt>0&&ok===nt), res.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
++// 4. 背面看不到的沒有補：三角形數和改前（開發的 GLB）一樣
++const SAME={wz_in_goods:33106, wz_in_shop:31338, wz_wall_tile:8694, wz_wall_plaster:4168, wz_wall_mosaic:4090, wz_in_tiles_gongguan:4388, wz_room_lit:1520};
++const got={}; for(const x of prims) if(x.mat in SAME) got[x.mat]=(got[x.mat]||0)+triCount(x.p);
++check('4. 牆、店內的殼和商品、地板、亮窗的房間沒有補反面（三角形數和改前一樣）', Object.entries(SAME).every(([k,v])=>got[k]===v), Object.entries(SAME).filter(([k,v])=>got[k]!==v).map(([k,v])=>k+' '+got[k]+'≠'+v).join(' '));
++const big=['wz_wall_tile','wz_wall_mosaic','wz_wall_plaster','cafe_band','wz_vc_matte','wz_pillar_tile'];
++check('5. 鐵窗、水塔架不投影（沒有 wz_vc_metal）；大牆、招牌帶、柱子、雨遮的材質還在', !mats.some(m=>m.name==='wz_vc_metal')&&mats.some(m=>m.name==='cafe_vc_wz_metal')&&big.every(n=>mats.some(m=>m.name===n)), mats.filter(m=>/vc_/.test(m.name)).map(m=>m.name).join(' '));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
