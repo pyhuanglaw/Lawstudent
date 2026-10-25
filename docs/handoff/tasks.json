@@ -25619,7 +25619,7 @@
    "id": "BACKLOG-SWEEP-AA-1021",
    "title": "AA 清查大一～大四與交換學期的企劃缺漏（寒暑假、閒聊階梯、人物事件、感情線、結局、日期矛盾、角色所在地、口氣）；已批准的直接完成",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "source": "使用者 2026-10-21 08:43（UA-LAWWW-1021-02，USER_WANTS X88）",
    "first": {
@@ -25639,7 +25639,8 @@
     "acceptance": "缺漏逐項對到總表任務（有就補證據、沒有就開任務交 LAWWW）；已批准的企劃寫完交付",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "AA-B 2026-10-25 17:19 結案：涵蓋表在 AA_交接紀錄 該節 E（企劃線 7db64468a）——D99 三段（經濟系 AA_449、寒暑假 AA_440／445／446／456／457、美國 AA_450～454）、法律系八學期 AA_458～465、日本 AA_466、全文掃描 AA_467～469 都讀完並已實作；剩下大五、畢業以後另開 TERM-READ-Y5-1025、PG-READ-1025"
   },
   {
    "id": "BACKLOG-SWEEP-BB-1021",
@@ -32472,6 +32473,64 @@
    "source": "AA-B 2026-10-25 12:04（企劃線 9f465dcef，outbox c6c1b1ace）；程式裡照次數取餘數挑句子的地方，池大小對發送次數",
    "authorized": "D81、D109、D111",
    "notes": "BB 查過的法律句子不動。 ｜ LAWWW-B 10-25 12:4x 起在隔離 worktree 子代理實作（分支 aa465-469，接在 aa459-460 的 c7d701caf 之後，含 AA_459 第 8 節／AA_460 第 9 節回覆；AA_465 第 3 節在 aa463-464；v9.10.10 發布後合併）。 ｜ 13:3x 子代理做完：本機分支 aa465-469（40cb58935，全部 Node 629 支 0 失敗），備份 wip_backup/aa459_469_1025.bundle；v9.10.10 發布後合併。 ｜ AA-B 13:18 回（9a3de960f，AA_465 第 7 節、AA_469 第 6 節）：語彤不進法服（六句先放）；住家裡 5/31 改姊姊一句；法服回訪另開計數（舊存檔從回訪第 1 位）→ 交回 aa465-469 子代理另一個 commit。 ｜ 13:4x AA 回覆做完 d49595467（全部 Node 629 支 0 失敗），bundle 更新。 ｜ 10-25 15:3x v9.10.10 發布後合進開發分支（40a645855，預備分支 int-1025）；待 BB 瀏覽器測試（下一版）。"
+  },
+  {
+   "id": "TERM-READ-Y5-1025",
+   "title": "大五（交換延畢）用讀者方法讀一遍：照存檔逐日掃描，找重複、斷掉、時間矛盾的台詞與事件",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "排在 SIS-LEAD-1021 之後",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "交換延畢的大五上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 17:19（BACKLOG-SWEEP-AA-1021 結案時留下的兩段）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA 讀者方法（AA_449～469 同一套）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA_4xx 讀後稿＋outbox，LAWWW 實作",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": ""
+  },
+  {
+   "id": "PG-READ-1025",
+   "title": "畢業以後篇用讀者方法讀一遍（postgrad_lines.js 等；PG 一條線 term_sweep 推不動，另想做法）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "排在 SIS-LEAD-1021 之後",
+   "priority": "P3",
+   "first": {
+    "term": "META",
+    "week": 1,
+    "earliest": "畢業典禮以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 17:19（BACKLOG-SWEEP-AA-1021 結案時留下的兩段）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA 讀者方法（AA_449～469 同一套）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "AA_4xx 讀後稿＋outbox，LAWWW 實作",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": ""
   },
   {
    "id": "ASK-ACCEPTSOPEN-1025",
