@@ -171,7 +171,7 @@ const SISG=(function(){
      星期二晚上睡著的：隔天 09:00 以前補（時間照星期二 21:30）。兩個選項都解鎖（傳的時候就記 SIS_STUDY）；回覆到星期三 19:00 */
   S.unlockRule=function(G,now){ const F=G.flags; if(F.SIS_STUDY||!F.SIS_W1||sent(G,'sisg_study_invite')||!atLeast(ID,'FRIEND')) return;
     for(const d of [G.day,G.day-1]){ if(wdOf(d)!==2) continue; const t=term(d); if(!t||t.id!=='Y1S1'||t.week<7||t.week>16||now<T(d,21.5)||now>=T(d+1,9)) continue;
-      PHONE.at(G,d,21.5,[P5('你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著'),Object.assign(P5('不要講話就好。閉館的時候，可以一起去買飲料'),{ask:{id:'sisg_study_invite',until:T(d+1,19),opts:[{t:'好。',say:[P5('明天七點。')]},{t:'這週有點忙。',say:[P5('好。位子還是空的。')]}]}})],'sisg_study_invite');
+      PHONE.at(G,d,21.5,[P5('你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著。'),Object.assign(P5('不要講話就好。閉館的時候，可以一起去買飲料。'),{ask:{id:'sisg_study_invite',until:T(d+1,19),opts:[{t:'好。',say:[P5('明天七點。')]},{t:'這週有點忙。',say:[P5('好。位子還是空的。')]}]}})],'sisg_study_invite');   /* 兩句尾巴補句號（AA_458 3-4：學姊的私訊都用句號收尾）*/
       F.SIS_STUDY=true; F.SISG_STUDY_DAY=d; done(G,'ev_sis_study_invite'); return; } };
   /* 2-3 她邀（一週最多一次）：解鎖以後的星期日 21:30「這週三晚上，法圖。」；那個星期三要在大一上的學期裡、法圖晚上有開；沒接不扣分。
      她不追人（AA_339 第 5 題）：剛解鎖（解鎖後的第一個星期日），或這一週（上一個星期日以後）有去法圖和她坐（SISG_SAT_DAY，S.onStudy 記）才傳——

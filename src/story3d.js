@@ -1793,10 +1793,10 @@ const STORY = (function(){
     if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'npc_lawclub_pres',name:'法服社長',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；前一天 Kevin 提醒；沒去的玩家 22:00 Kevin 貼資料夾。學姊自己起頭的群組訊息都刪（使用者 08:1x「她根本就不是主動在群組會說話的人」，AA_218 17-12、17-12a）*/
     if(PHONE.inGroup(G,'family_law')){ const fri=termDay('Y1S1',14,5); if(fri){ const th='g:family_law', sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
-      if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');
+      if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！下週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');   /* 前一週的週五晚上傳：「週五」→「下週五」（AA_458 3-1）*/
       if(G.day===fri-1) PHONE.at(G,fri-1,21,[kv('明天六點半，公館。記得來。')],'fam_dinner_eve');   /* 前一天 21:00 提醒一次（BB_95 3-8，DL-04B）；學姊不在群組主動發言＝改 Kevin（AA_218 17-12a）*/
       if(G.day===fri&&h(G)>=17.5&&h(G)<18.5&&!F.famDinnerToast&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)){ F.famDinnerToast=true; GM.toast('今天 18:30 家族聚餐（公館）',4200); }   /* 當天 17:30 */
-      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷 學姊整理的，沒來的人自己拿。')],'fam_dinner_noshow');   /* 學姊那句刪（AA_218 17-12a）*/
+      if(G.day===fri&&h(G)>=19&&!(G.events&&G.events.done&&G.events.done.ev_sis_family_dinner)) PHONE.at(G,fri,22,[kv('📷（一疊資料夾，最上面那份寫著「周老師　歷年考古題」）'),kv('學姊整理的。沒來的人，跟我拿。')],'fam_dinner_noshow');   /* 學姊那句刪（AA_218 17-12a）*/   /* 照片寫拍了什麼（聚餐裡學姊拿出來的周老師考古題，ev_sis_family_dinner）、「自己拿」改「跟我拿」，一則改兩則（AA_458 3-2；tag 照舊）*/
       /* 跨年夜學姊第一次貼貼圖（sis_first_sticker）刪：她不在群組主動發言（AA_218 17-12a）*/ } }
     if(F.guitarFirstDay!=null&&!PHONE.sent(G,'guitar_grp1')){ PHONE.join(G,'guitar','吉他社'); PHONE.at(G,F.guitarFirstDay,21.5,[{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。'}],'guitar_grp1'); }
     if(G.msgs&&G.msgs.some(m=>m.tag==='sis_yutong')&&!F.yutongFwd){ F.yutongFwd=true;

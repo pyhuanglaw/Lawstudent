@@ -28,7 +28,7 @@ const FAMXMAS=(function(){
   S.ok=G=>law(G)&&inGrp(G)&&!abroadOn(G,D(S.DAYS.day));
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; const F=G.flags, a=D(S.DAYS.ask), d=D(S.DAYS.day); if(a==null||d==null) return;
     if(G.day>=a&&G.day<=d&&now(G)<T(d,18.5)&&(G.day>a||G.hour>=21)&&!sent(G,'famx_y1_grp')&&S.ok(G))
-      PHONE.at(G,G.day===a?a:G.day,G.day===a?21:G.hour,[GK('家族聖誕交換禮物！期末考完那天，12/22 晚上六點半，公館那家火鍋。'),GK('家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。'),GS('收到。')],'famx_y1_grp');
+      PHONE.at(G,G.day===a?a:G.day,G.day===a?21:G.hour,[GK('家族聖誕交換禮物！期末考完，12/22 晚上六點半，公館那家火鍋。'),GK('家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。'),GS('收到。')],'famx_y1_grp');   /* 期末考第 16 週（12/15～12/21），12/22 已經是寒假第一天：「期末考完那天」→「期末考完」（AA_458 3-3；AA_406 那一句也照這次）*/
     if(sent(G,'famx_y1_grp')&&F.SIS_FAMXMAS_Y1==null&&typeof OUT!=='undefined'&&!OUT.get(G,'famx_y1')&&now(G)<T(d,18.5+0.5))
       OUT.plan(G,{id:'famx_y1',ev:'ev_family_xmas_y1',day:d,h:18.5,late:0.5,place:'公館・火鍋店',title:'家族聖誕：公館的火鍋店',travel:'走路 約 15 分鐘',travelH:0.25,hours:2.5,alarm:true,back:'回到宿舍。'});
     if(sent(G,'famx_y1_grp')&&!sent(G,'famx_y1_gift')&&now(G)<T(d,18)){ const opts=S.GIFTS.filter(g=>!g.need||g.need(G)).map(g=>Object.assign({t:g.t+(g.price?'（'+g.price+' 元）':'（不用錢）'),post:false,set:{SIS_FAMXMAS_BUY:g.k}},g.price?{need:{money:g.price,why:'錢不夠。'}}:{}));
