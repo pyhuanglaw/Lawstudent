@@ -32063,7 +32063,7 @@
    "title": "tests/flow_soclib.py 還寫死 X75（10-20 社科院搬到霖澤館西南）以前的門口 (101,−69.3)、出來的位置 (101,−67.6) 和走過去的路線，乾淨的開發也 FAILED 2～3；改成讀 SOCSCI_LAYOUT.libDoor／libOut（現在 (11,−65.7)／(11,−67.4)）與新的路線。遊戲本身的門照 layout（socsci_place_unit ALL PASS）",
    "area": "TEST",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已驗收",
    "next": "BB 發布判定以後",
    "priority": "P3",
    "first": {
@@ -32083,9 +32083,10 @@
     "branch": "claude/elegant-brown-fcos7n",
     "acceptance": "flow_soclib.py 在開發分支 PASS（進館、閘門、座位、林間書房、窗邊、出館回中庭、走回法學院廣場、手機地點前往、天窗晚上變暗）",
     "receiver": "LAWWW",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    },
-   "notes": "10-25 15:3x 和下一版測試一起派給 BB-B（send_message）。 ｜ BB-B 16:2x：patch 第二版 91e56a3f3 回程改法學院廣場 (60,−92)（霖澤館前會演 ev_sk01_soc），重跑中。"
+   "notes": "10-25 15:3x 和下一版測試一起派給 BB-B（send_message）。 ｜ BB-B 16:2x：patch 第二版 91e56a3f3 回程改法學院廣場 (60,−92)（霖澤館前會演 ev_sk01_soc），重跑中。",
+   "evidence": "BB-B patch flow_soclib_x75.patch（BB 分支 2b08dd72c）套進開發分支；lw37 69bb17f53 上 22 項全部 PASS（16:20～16:30，出來站在 (11,−67.4)、手機前往社科圖、天窗白天 1／晚上 0.08、沒有 JS 例外）；舊版同一版 FAIL 2 項（寫死座標）"
   },
   {
    "id": "TERM-READ-Y1S1-1025",

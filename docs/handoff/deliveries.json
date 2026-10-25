@@ -14725,6 +14725,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 隔離 worktree 實作、預備分支 int-1025 驗證（全部 Node 639 支 0 失敗），10-25 15:3x v9.10.10 發布後合進開發分支 40a645855；AA 回覆的追加修正（cb5caad65、878496edb、8a7f797ec、7fa83ebc9、9a3de960f）一併"
+  },
+  {
+   "id": "DL-BB-SOCLIB-X75",
+   "date": "2026-10-25",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2b08dd72c",
+   "what": "tests/flow_soclib.py 改讀 SOCSCI_LAYOUT.libDoor／libOut、回程走到法學院廣場（patch flow_soclib_x75.patch）",
+   "task": "TEST-FLOW-SOCLIB-X75-1025",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-25 16:3x 套進開發分支；BB 在 69bb17f53 上 22 項 PASS"
   }
  ],
  "ignored": [
