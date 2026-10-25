@@ -373,7 +373,7 @@ const E3 = (function(){
     // 距離 LOD：遠處路人不畫、動畫降頻
     const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
-  /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 30 m 外換、28 m 內換回來；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
+  /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 18 m 外換、16.5 m 內換回來（原本 30／28 m，PERF-PATROL-ECON-1025 改）；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
      博雅一樓階梯教室一整班坐著的路人，後排換了幾乎看不出來；有名字的角色不換）。中間差一段才換回來：在邊界上不會一直切換。測試：node tests/crowd_far_indoor_unit.js */
   function farWant(isFar,cd,indoor){ const out=indoor&&CHAR.FAR_OUT_IN?CHAR.FAR_OUT_IN:CHAR.FAR_OUT, back=indoor&&CHAR.FAR_IN_IN?CHAR.FAR_IN_IN:CHAR.FAR_IN; return isFar?cd>back:cd>out; }
   // ---------- 樹幹透視 ----------

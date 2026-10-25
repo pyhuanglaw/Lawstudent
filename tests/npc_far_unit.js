@@ -4,7 +4,7 @@
 //   ③ 綁對骨頭：走路動畫走一段以後，遠距離版本的每個頂點（CPU 算蒙皮）都貼在原本模型的頂點上（減面只拿掉頂點、不搬動，綁錯骨頭或反向綁定矩陣會差幾公分到幾十公分）；
 //   ④ CHAR.setFar 切換：遠＝原本的網格藏起來、遠距離版本顯示，近＝反過來；CHAR.farOff（網址 ?nofar）時一律近；
 //   ⑤ CHAR.release：遠距離版本拿掉、原本的網格恢復顯示；同一個 VRM 再借出去時不會留下舊的遠距離網格；
-//   ⑥ engine3d.js 的 NPC 迴圈（路人 isExtra）和騎車的路人（E.extras）照距離切換、28／30 m 兩個門檻；
+//   ⑥ engine3d.js 的 NPC 迴圈（路人 isExtra）和騎車的路人（E.extras）照距離切換、16.5／18 m 兩個門檻（PERF-PATROL-ECON-1025，原本 28／30 m）；
 //   ⑦ 每個 anon 底模都有遠距離版本的檔案，網格 2 個、三角形 ≤ 原本的 30%。
 //   ⑧ 明暗照 MToon：遠距離版本的明暗漸層（MeshToonMaterial 的 gradientMap）每一格＝用這個人自己的 MToon 材質（套過 C.LOOK）在同一個入射角算的 mix(陰影色, 受光色, shading)÷受光色；
 //      皮膚的頂點乘皮膚材質的顏色（C.LOOK 的膚色）。
@@ -71,7 +71,7 @@ function nearestStats(A,B){ // A 的每個點到 B 最近的點（格子加速�
   }
   // ⑥ engine3d.js 的接法（原始碼）：路人 isExtra、騎車的路人都照距離切換，兩個門檻
   const e=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
-  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（室外遠 30 m、回到 28 m 才換回來；室內 7／6.5 m 見 crowd_far_indoor_unit.js）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,farWant\(!!o\.userData\.isFar,cd,!!E\.indoor\)\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
+  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（室外遠 18 m、回到 16.5 m 才換回來——PERF-PATROL-ECON-1025，原本 30／28 m；室內 7／6.5 m 見 crowd_far_indoor_unit.js）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,farWant\(!!o\.userData\.isFar,cd,!!E\.indoor\)\)/.test(e)&&CHAR.FAR_OUT===18&&CHAR.FAR_IN===16.5);
   check('engine3d.js：騎腳踏車的路人（E.extras）同一套',/const rd=x\.rider; if\(rd&&rd\.userData&&rd\.userData\.farLOD&&x\.obj\)\{[^}]*CHAR\.setFar\(rd,rd\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

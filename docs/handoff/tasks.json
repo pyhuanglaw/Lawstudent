@@ -31922,7 +31922,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。"
+   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。 ｜ LAWWW2-B 08:37 交 ①②③⑤（bf120462d；patches teach_perf_econ_1025、teach_lights_econ_1025、campus_backdrop_ground_1025 對 cc9bd3c4e＋boya／putong_interior、furniture_study GLB 單面）：博雅大廳往北 1.45→2.35（燈 3 盞再到 3.2）、普通 2.1→2.95、校門／大道／醉月湖 +8～18%。LAWWW-B 08:4x 整合（三份 patch 原樣套上、GLB 基準一致）：teach_*、boya_*、campus_*、desk_furniture、nav_teach 等 13 支 ALL PASS；看過 03 燈 9 vs 3 比較圖白天晚上看不出差別＝採用。 ｜ ⑥ LAWWW2-B 09:01 交（4d78c1998，npc_far18_1025.patch）：character3d C.FAR_OUT 30→18、FAR_IN 28→16.5（室內 7／6.5 不動；騎車路人同一組；有名字的不換）；人多的鏡頭快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形）。LAWWW-B 09:0x 整合：10 支 ALL PASS。剩 ④ 公館店面。"
   },
   {
    "id": "SIS-B11-1025",
