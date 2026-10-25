@@ -33,7 +33,9 @@ const PHONE=(function(){
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); }
     if(it.cg){ m.cg=it.cg; G.cg=G.cg||{unlocked:[]}; G.cg.unlocked=G.cg.unlocked||[]; if(!G.cg.unlocked.includes(it.cg)) G.cg.unlocked.push(it.cg); }   /* 照片是一張 CG（例：CG-2b Alison 傳的讀書會白板，AA_343 E2）：訊息下面顯示那張圖（game3d.js threadHTML），送出就收進相簿 */
     return m; };
-  const put=(G,m)=>{ let i=G.msgs.length; while(i>0&&abs(G.msgs[i-1].day,G.msgs[i-1].h)>abs(m.day,m.h)) i--; G.msgs.splice(i,0,m); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); return m; };
+  const put=(G,m)=>{ let i=G.msgs.length; while(i>0&&abs(G.msgs[i-1].day,G.msgs[i-1].h)>abs(m.day,m.h)) i--; G.msgs.splice(i,0,m);
+    if(G.msgs.length>200){ const gone=G.msgs.splice(0,G.msgs.length-200), P=S.rec(G), C=P.cut||(P.cut=[]); for(const x of gone) if(x&&x.tag&&!C.includes(x.tag)) C.push(x.tag); }   /* 超過 200 則刪最舊的：刪掉的 tag 記進 cut，PHONE.sent 才記得傳過——不然條件只寫 !PHONE.sent 的訊息會再排一次（AA_460 第 1 節，例 guitar_grp1）*/
+    return m; };
   /* 現在送出（時間＝現在）；postAt：補在過去的時間（照時間排進去）*/
   S.post=function(G,it){ S.rec(G); return put(G,mk(G,it,G.day,G.hour)); };
   S.postAt=function(G,it,day,h){ S.rec(G); return put(G,mk(G,it,day,h)); };
