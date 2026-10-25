@@ -3049,7 +3049,7 @@ SCENS = SCENS + R37
 # ---------- R38（BB-B 10-25 11:3x）：RELEASE-91010-TEST 第二輪——3acaf8bea 以後多出來的（LAWWW-B 11:0x）。新候選、3acaf8bea 各跑一次（舊版應該 FAIL＝測試抓得到）----------
 # ① BUG-US-NEXTCLASS-1025（3ed115119）：人在美國／日本，HUD 第二行 #nextClass 照當地課表。日本那一段沒有單元測試（LAWWW-B 註明），這裡兩邊都測。
 #    【捷徑】同一天撥時間（JUMPK：G.day／G.hour 直接改）——HUD 只看當下時間和課表，不測時間怎麼流過去。
-NXC = "(()=>{ const el=document.getElementById('nextClass'); return {t:el?el.textContent:null, hide:el?el.classList.contains('hide'):null, line:(typeof CLS!=='undefined'&&CLS.todayLine)?CLS.todayLine(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2), zone:GAME.G.zone}; })()"
+NXC = "(()=>{ const el=document.getElementById('nextClass'); const g=document.getElementById('goal'); return {t:el?el.textContent:null, hide:el?el.classList.contains('hide'):null, goal:g?g.textContent:null, line:(typeof CLS!=='undefined'&&CLS.todayLine)?CLS.todayLine(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2), zone:GAME.G.zone}; })()"
 def HUDW(label, want, line=None):   # 等第二行變成 want（最多 20 秒），再記下來；line＝第一行（CLS.todayLine）要以這個開頭
     cond = "(()=>{ const el=document.getElementById('nextClass'); return !!el&&el.textContent===%s&&!el.classList.contains('hide'); })()" % json.dumps(want)
     return [('wait', cond, 20, label), ('chk', label, NXC, lambda d, w=want, l=line: d['t'] == w and not d['hide'] and (l is None or (d['line'] or '').startswith(l)))]
@@ -3067,14 +3067,14 @@ R38 = [dict(id='R38_HUD_US', key='2028-09-14', h=7.5, zone='us_apartment', flags
                   + [JUMPK('2028-04-12', 8.5, 'jp_room')] + HUDW('4/12（三）08:30：「現在可以上課：09:00 %s」' % JP_N, '現在可以上課：09:00 ' + JP_N)
                   + [JUMPK('2028-04-15', 10.0, 'jp_room')] + HUDW('4/15（六）10:00：「今天沒有課」', '今天沒有課'))]
 # ② BUG-PHONE-CAP-1025（c77903a09）：手機超過 200 則刪最舊的，tag 記進 cut，條件只寫 !PHONE.sent 的 guitar_grp1 不再排一次（AA_460 第 1 節）。
-#    [前置／捷徑] 使用者存檔（可昕交往中）改到 2027-05-27（四）19:00；手機換成 200 則：最舊的是吉他社 guitar_grp1（2026-09-23 21:30，guitarFirstDay），後面 199 則媽媽的舊訊息（capfill_*）。
+#    [前置／捷徑] 使用者存檔（可昕交往中）改到 2027-05-27（四）19:00；存檔裡排隊還沒送的訊息清掉（PHONE.rec(G).q＝[]，不然讀檔就補送 2025 年的舊訊息、先把最舊的擠掉）；手機換成 200 則：最舊的是吉他社 guitar_grp1（2026-09-23 21:30，guitarFirstDay），後面 199 則媽媽的舊訊息（capfill_*）。
 #    之後照真實快轉玩到 5/29 12:00：新訊息進來就會把 guitar_grp1 擠掉。舊版（3acaf8bea）：擠掉以後每次手機規則都再排、再補進去、再被擠掉＝「手機｜吉他社…」通知一直跳
-CAPJS = (" G.flags.guitarFirstDay=D('2026-09-23'); PHONE.join(G,'guitar','吉他社'); const P=PHONE.rec(G); P.cut=(P.cut||[]).filter(t=>t!=='guitar_grp1'); P.q=P.q.filter(q=>q.tag!=='guitar_grp1'); G.msgs=[];"
+CAPJS = (" G.flags.guitarFirstDay=D('2026-09-23'); PHONE.join(G,'guitar','吉他社'); const P=PHONE.rec(G); P.cut=(P.cut||[]).filter(t=>t!=='guitar_grp1'); P.q=[]; G.msgs=[];"
          " PHONE.postAt(G,{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。',tag:'guitar_grp1'},D('2026-09-23'),21.5);"
          " for(let i=0;i<199;i++) PHONE.postAt(G,{th:'p:mom',from:'mom',text:'（舊訊息 '+i+'）',tag:'capfill_'+i},D('2026-10-01')+i,9);"
-         " window.__GG=0; const p0=PHONE.postAt, p1=PHONE.post; PHONE.postAt=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p0.apply(this,arguments); }; PHONE.post=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p1.apply(this,arguments); };")
+         " window.__CAP0=[G.msgs.length,G.msgs[0]&&G.msgs[0].tag]; window.__GG=0; const p0=PHONE.postAt, p1=PHONE.post; PHONE.postAt=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p0.apply(this,arguments); }; PHONE.post=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p1.apply(this,arguments); };")
 R38 += [dict(id='R38_CAP_GUITAR', key='2027-05-27', h=19.0, zone='dorm', flags=dict(TW3), js=CAPJS, pref=['不去了'], asks={'*': ''}, nothree=True,
-             steps=[('chk', '[前置] 手機 200 則、最舊的是 guitar_grp1', "(()=>{ const M=GAME.G.msgs; return [M.length, M[0]&&M[0].tag]; })()", [200, 'guitar_grp1']),
+             steps=[('chk', '[前置] 設定當下：手機 200 則、最舊的是 guitar_grp1（存檔裡排隊的訊息清掉）', "window.__CAP0||null", [200, 'guitar_grp1']),
                     ('ffloop', '2027-05-29', 12.0, 120), ('dumplog', 'R38_CAP_GUITAR')],
              none=['新人自己報名字'],
              jsok=[('手機還是 200 則', "GAME.G.msgs.length", 200),
