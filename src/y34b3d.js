@@ -207,9 +207,10 @@ const Y34B=(function(){
     if(F.SIS_BDAY_Y3==='late_ask'&&nd!=null&&NOW(G)>T(nd,15)) F.SIS_BDAY_Y3='missed';   /* 22:30 那則一直沒回（AA_392 第 9 節確認：不另外傳）*/
     if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&NOW(G)>=T(nd,15.5)) F.SIS_BDAY_Y3='missed';   /* 答應了 15:00 卻沒到（AA_392 第 9 節確認：不另外傳）*/
     if(F.SIS_BDAY_Y3==='video_set'&&G.day>d) F.SIS_BDAY_Y3='missed';   /* 視訊那天沒演到（AA_392 第 9 節確認）*/
-    if(G.day<d||G.day>d+2||!law(G)||!met('heroine_05')) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
+    if(G.day<d||G.day>d+2||!law(G)) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
+    { const h12=tzH(G,d,12); if(inGrp(G,'family_law')&&NOW(G)>=T(d,h12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(h12,G.hour):h12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday'); }   /* 人在日本＝當地 13:00（台灣 12:00；AA_341 J-S13）。AA_470 5-2：在家族群組就收得到（不看認不認識她、交情）*/
+    if(!met('heroine_05')) return;
     const ok=dating(G,'heroine_05')||exOf(G,'heroine_05')||fri('heroine_05'); if(!ok) return;
-    { const h12=tzH(G,d,12); if(inGrp(G,'family_law')&&NOW(G)>=T(d,h12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(h12,G.hour):h12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday'); }   /* 人在日本＝當地 13:00（台灣 12:00；AA_341 J-S13）*/
     if(F.SIS_BDAY_Y3==='invited'&&(F.SIS_BDAY_Y3_AT==null||NOW(G)>=F.SIS_BDAY_Y3_AT)&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday')&&NOW(G)<T(d,18.5)&&G.zone!=='cafe'&&!(STORY.abroad&&STORY.abroad(G)))
       OUT.plan(G,{id:'y3_sis_bday',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d,h:18,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6});   /* 她的回覆到了才排（人在日本的不排；舊存檔的群組選項是馬上回的，沒有 SIS_BDAY_Y3_AT）*/
     if(F.SIS_BDAY_Y3==='invited'&&NOW(G)>=T(d,21)){ F.SIS_BDAY_Y3='missed'; at(G,d,21,[DM('heroine_05',BDAY_REPLY.missed[0])],'y3_sis_bday_miss'); }
@@ -360,9 +361,10 @@ const Y34B=(function(){
     return S.an20Mode(G)==='cafe'?G.hour>=17.25&&G.hour<23:G.hour>=18.5&&G.hour<23; };
   /* ================= 1B-25 學姊 M9 ================= */
   S.m9Phone=function(G){ const F=G.flags, a=D('m9ask'), d=D('m9'); if(a==null||G.day<a||G.day>d+1||!law(G)) return; const dt=dating(G,'heroine_05');
-    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05'))) return;
-    if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)){ if(inGrp(G,'family_law')) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[GKEV('學姊明天下午四點口試！大家去門口等！'),GSIS('……不用來。')],'y4_m9_grp');
-      if(dt) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_05','明天四點口試。……你坐在外面就好。')],'y4_m9_dm'); }
+    /* AA_470 5-2：家族群組那兩則，在群組的人都收得到（不看認不認識她、交情）；出遊、私訊、SIS_DEFENSE 照舊只管朋友以上、交往中、前任 */
+    if(inGrp(G,'family_law')&&NOW(G)>=T(a,21)&&NOW(G)<T(d,16)) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[GKEV('學姊明天下午四點口試！大家去門口等！'),GSIS('……不用來。')],'y4_m9_grp');
+    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05'))){ if(inGrp(G,'family_law')&&F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after'); return; }
+    if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)){ if(dt) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_05','明天四點口試。……你坐在外面就好。')],'y4_m9_dm'); }
     if(F.SIS_DEFENSE==null&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dt)&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9')&&(sent(G,'y4_m9_grp')||sent(G,'y4_m9_dm'))&&NOW(G)<T(d,17.5))
       OUT.plan(G,{id:'y4_m9',ev:'ev_sis_defense',day:d,h:16,late:2,place:'霖澤館・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1});   /* 5/29 16:00～18:00 走廊的窗口 */
     if(F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)){ F.SIS_DEFENSE='missed';
