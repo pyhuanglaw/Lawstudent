@@ -2393,6 +2393,15 @@ R18 += [TRX('TRX_US_DATING2', NOKX + B['DATE'], ['出發', '去', '「好。」'
 # BB-B 23:2x（LAWWW-B 23:19 AA_450 加測：「沒見過何俊朗」那一份）：【捷徑】把 8/14 國際學生迎新（usl_long1）、9/8 Legal Writing 下課（usl_long2a）兩場出遊記成沒排（state 'declined'，OUT.plan 同一個 id 不再排）＝沒見過他；其他照交往中
 NOLONG = " OUT.rec(G).push({id:'usl_long1',ev:'ev_usl_long1',state:'declined'},{id:'usl_long2a',ev:'ev_usl_long2a',state:'declined'});"
 R18 += [TRX('TRX_US_DATING_NOLONG', NOKX + NOLONG + B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。', '*': ''})]
+# BB-B 10-25 03:3x（AA-B 03:25 讀交往中新版：學姊美國的七夕 8/25～8/26 沒有出現）：底檔（大一第 9 天）沒有 met_sis、沒有她的聯絡方式，B['DATE']／B['ALONE'] 也沒寫 →
+#   sis_qixi3d.js S.ok 要 met_sis（還有 sis_b4／b8／b9／b10、sis_y2y3、story3d、social3d…二十幾處）。MS＝補「大一就認識學姊、有她的聯絡方式」（R30 SIS_D 也是這樣寫）
+MS = " G.flags.met_sis=true; G.flags.SIS_W1=true; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_05'); G.contacts=G.contacts||{}; G.contacts.heroine_05=D('2025-09-10');"
+R18 += [TRX('TRX_US_DATING3', NOKX + MS + B['DATE'], ['出發', '去', '「好。」'], {'sis0803': '醒了。', '*': ''}),
+        TRX('TRX_US_ALONE3', NOKX + MS + B['ALONE'], ['出發', '去'], {'*': ''})]
+QXDONE = "(e=>[!!e.ev_sis_qixi_us_ask,!!e.ev_sis_qixi])(((GAME.G.events||{}).done)||{})"
+R18 += [dict(id='QIXI28_US', key='2028-08-21', h=21.0, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + MS + B['DATE'] + B['BED'],
+             steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-08-26', 13.0, 120), ('dumplog', 'QIXI28_US')], pref=['出發', '去', '「好。」'], asks={'*': ''}, want=[],
+             jsok=[('8/25 當面約（ev_sis_qixi_us_ask）、8/26 市集（ev_sis_qixi）都演了', QXDONE, [True, True])])]
 SCENS = SCENS + R18
 
 # ---------- R19（BB-B 10-24 09:5x）：美國法學院圖書館 2F 書庫（b43a86cdf＋AA_444 第 4 節 f23a5b948；v9.10.8 之後那一版）----------
@@ -2848,7 +2857,7 @@ def A451(sid, asks, want, none, until, jsok=None, extra_pref=None):
     st = [('bedpick', '睡覺', ['睡覺', '再撐一下'])]
     for k, h in until:
         st += [('ffloop', k, h, 120), ('dumplog', sid)]
-    return dict(id=sid, key='2028-11-03', h=21.1, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + NOLONG + B['DATE'] + B['BED'], steps=st,
+    return dict(id=sid, key='2028-11-03', h=21.1, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + MS + NOLONG + B['DATE'] + B['BED'], steps=st,
                 pref=['出發', '去', '「好。」'] + (extra_pref or []), asks=asks, want=want, none=none, jsok=jsok or [])
 R34 = [A451('R34_CHI', {'us_chi': '去。', '*': ''}, A451_BUS + ['……還好？你學我。', '（他笑了一下，上了車。）'], ['同行的人說了好幾次', '……你又來了。'],
             [('2028-11-12', 23.9), ('2028-12-16', 9.0), ('2028-12-23', 12.0)], extra_pref=['「還好。」'],
@@ -2875,7 +2884,7 @@ SNOW_GRP = ['今晚會積雪。', '上次那種落地就化了。這次會積起
 SNOW0 = '（下雪了。學姊坐在小教堂前面的台階上，沒有撐傘。）'
 SNOWR = "(q=>q?q.state:null)(OUT.get(GAME.G,'us_snow_r'))"
 def SNOWSC(sid, rep, pref, want, none, jsok):
-    return dict(id=sid, key='2028-12-02', h=17.6, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + B['ALONE'] + (" G.flags.REPAIR={heroine_05:%d};" % rep) + B['BED'],
+    return dict(id=sid, key='2028-12-02', h=17.6, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + MS + B['ALONE'] + (" G.flags.REPAIR={heroine_05:%d};" % rep) + B['BED'],
                 steps=[('ffloop', '2028-12-02', 21.5, 120), ('dumplog', sid), ('ffloop', '2028-12-03', 9.0, 120)], pref=pref, asks={'*': ''}, want=want, none=none, wantMsg=SNOW_GRP, jsok=jsok)
 R34b = [SNOWSC('R34_SNOW_R3', 3, ['出發', '「好。」'], [SNOW0, '如果你還想的話，我們重新開始。這次我先說。'], ['……回去吧，會冷。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
         SNOWSC('R34_SNOW_R2', 2, ['出發'], [SNOW0, '……回去吧，會冷。'], ['這次我先說。'], [('排了行程 us_snow_r、演完', SNOWR, 'done')]),
