@@ -31712,14 +31712,14 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW-B 10-25 01:5x 合：patches window_night_sync_v2_1025、windowless_night_1025（engine3d.js applyTime 兩處只對 def.windowless；gym3d、library_b1_3d windowless:true；rooms_glb3d 窗數 0 自動 windowless）；相關 Node 全過、全套背景跑。"
+   "notes": "LAWWW-B 10-25 01:5x 合：patches window_night_sync_v2_1025、windowless_night_1025（engine3d.js applyTime 兩處只對 def.windowless；gym3d、library_b1_3d windowless:true；rooms_glb3d 窗數 0 自動 windowless）；相關 Node 全過、全套背景跑。 ｜ 10-25 02:2x：全部 Node 609 支 0 失敗（eaeefdc4b＋b8a6934e7）；BB 排 R33（02:0x ACK）。"
   },
   {
    "id": "US-AIRPORT-DUSK-1025",
    "title": "機場（桃園出境／入境）窗外遠景照季節天色變暗：src/us3d.js apOutside() 固定 17～19 → 照 E.lightH",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "next": "LAWWW2 做 patch＋README＋outbox",
    "priority": "P2",
    "first": {
@@ -31740,7 +31740,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "單元測試改前 FAIL；12/23 05:40 入境暗、8/2 07:00 出境亮；同鏡頭截圖",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "notes": ""
   },
@@ -31770,7 +31770,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同角度 fps 回到 5.5 以上、外觀不退回方塊；改前改後截圖、三角形數",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "notes": ""
   }
