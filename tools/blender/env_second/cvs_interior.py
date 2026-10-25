@@ -183,7 +183,7 @@ for (xc, zz), (cat, promo) in ENDCAP.items():
         a = xc - 0.24
         while a + p['w'] <= xc + 0.24 and p['h'] <= 0.24:
             gd.one(p, a, y, front, face, 'x'); a += p['w'] + 0.006
-    gd.promo(xc - 0.22, xc + 0.22, 1.14, 1.46, front + s * 0.005, face, promo)
+    gd.promo(xc - 0.22, xc + 0.22, 1.14, 1.46, front + s * 0.005, face, promo, back=True)   # 補背面：商品貼圖集單面（single_side 的 nodup），促銷牌從貨架另一頭看得到背面
 
 # ---- 櫃檯後面：香菸櫃（後牆右段，套件 goodsWall(4.5,−4.2,0,3) 的位置）＋咖啡機台
 cab = Mesh('cvs_cabinet', M['black']); cab.box(3.0, X1 - 0.02, 0.0, 0.9, Z0 + 0.05, Z0 + 0.5)

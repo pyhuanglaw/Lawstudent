@@ -434,10 +434,13 @@ class Goods:
         else: q = [(zf, y0, x0), (zf, y0, x1), (zf, y1, x1), (zf, y1, x0)]
         self._face(q, [(fu[0], fu[1]), (fu[2], fu[1]), (fu[2], fu[3]), (fu[0], fu[3])])
 
-    def promo(self, x0, x1, y0, y1, zf, face, i):
+    def promo(self, x0, x1, y0, y1, zf, face, i, back=False):
+        """back＝另外補一片反過來的面（材質改單面以後，從背面也看得到；PERF-SINGLESIDE-GLB-1025，BB-B 10-25：便利商店端架的促銷牌從背面整片不見）"""
         fu = cell_uv(PROMO_CELLS + i, 'front')
         q = [(x0, y0, zf), (x1, y0, zf), (x1, y1, zf), (x0, y1, zf)] if face == '+z' else [(x1, y0, zf), (x0, y0, zf), (x0, y1, zf), (x1, y1, zf)]
-        self._face(q, [(fu[0], fu[1]), (fu[2], fu[1]), (fu[2], fu[3]), (fu[0], fu[3])])
+        uv = [(fu[0], fu[1]), (fu[2], fu[1]), (fu[2], fu[3]), (fu[0], fu[3])]
+        self._face(q, uv)
+        if back: self._face([q[0], q[3], q[2], q[1]], [uv[0], uv[3], uv[2], uv[1]])
 
     def poster(self, side, i, pts):
         """牆上的海報：pts＝左下、右下、右上、左上（從室內看）"""
