@@ -134,21 +134,25 @@ const TERMEND=(function(){
         if(RG[id]==null) pick();   /* gf：女朋友版（S.XMAS_GF 避開那一天、S.GF_FIXED 固定那一天）*/
         if(RG[id]>=0&&now>=T(RG[id],12)&&S.eveningBusy(G,RG[id])) pick();   /* 排好以後、邀約以前，那天晚上又有了別的出遊＝照同一套規則往後讓（不重複約在同一個晚上）*/
         const dd=RG[id]; if(dd<0||now<T(dd,12)) continue;
-        { const ago=g.tnVisited?S.tnVisited(G,id,dd):-1; if(ago>=0){ const tv=resolve(g.tnVisited,G); PHONE.at(G,dd,12,[{th:'p:'+id,from:id,text:Array.isArray(tv)?tv[Math.min(ago,tv.length-1)]:tv}],tag); continue; } }   /* 沛珊在台南：當天或前兩天內去找過她＝一句訊息（照幾天前換字）、不約（AA_462 第 4、8 節）*/
-        PHONE.at(G,dd,12,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }
+        const hAt=Math.min(Math.max(12,G.day===dd?(+G.hour||0):(G.day>dd?24:12)),23.5);   /* 等同一天那一場的結果才傳的（AA_464 第 7 節）：照真的傳出去的時間；那一場演到半夜＝記在當天 23:30（「今天」還是那一天；PHONE.tick 晚 15 分鐘以內會改記成現在）*/
+        { const ago=g.tnVisited?S.tnVisited(G,id,dd):-1; if(ago==='wait') continue;   /* 同一天那一場（聖誕）排了、還沒演完：先不傳，等演完或沒去 */
+          if(ago>=0){ const tv=resolve(g.tnVisited,G); PHONE.at(G,dd,ago===0?hAt:12,[{th:'p:'+id,from:id,text:Array.isArray(tv)?tv[Math.min(ago,tv.length-1)]:tv}],tag); continue; } }   /* 沛珊在台南：當天（演完）或前兩天內去找過她＝一句訊息（照幾天前換字）、不約（AA_462 第 4、8 節）*/
+        PHONE.at(G,dd,hAt,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }   /* 同一天那一場沒去（不去了、過了時間）＝照平常約（18:30 的飯照排）*/
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ if(id==='zhe'&&w.id==='Y2S1'&&G.events&&G.events.done&&G.events.done.ev_term_last_meal_y2s1) continue;   /* AA_374 第 24 項：最後一科考完那天 17:00 阿哲約的「期末最後一頓」（麵店）演過了，20:30 他不再約期末飯（同一晚約兩次）*/
       const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),S.friendNo(f,w.id)); }   /* noByTerm：學姊大三下「好。我出發前再找你。」（AA_260 (b-1) 第 14 項）*/   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
     S.pickCheck(GM); };
   /* 約會那天（dd）或前兩天內（dd-2、dd-1）已經去她的城市找過她（AA_462 第 4 節：沛珊在台南，聖誕那天開車下去、隔天學期末又要「你下來」＝連兩天往返；
      第 8 節①、AA_464 4-2：同一天也算——12/24 聖誕開車下去、學期末的飯也排在 12/24）：
-     她的節日那一場（fest3d.js 的出遊，當面、在台南）或「我去台南找妳？」（hometown3d.js 的 ev_hv_ps_tn）有去（OUT 的 state 'done'；同一天的那一場 12:00 還沒演完＝'planned' 也算，聖誕那一場照演）。
-     回傳幾天前（0＝同一天、1＝前一天、2＝前兩天；幾場都有取最近的），沒有＝-1 */
-  S.tnVisited=(G,id,dd)=>{ if(typeof OUT==='undefined') return -1; let ago=-1;
-    for(const q of OUT.rec(G)){ if(!q||q.day<dd-2||q.day>dd) continue; if(!(q.state==='done'||(q.day===dd&&q.state==='planned'))) continue;
+     她的節日那一場（fest3d.js 的出遊，當面、在台南）或「我去台南找妳？」（hometown3d.js 的 ev_hv_ps_tn）有去（OUT 的 state 'done'）。
+     同一天的那一場只是排了不算（AA_464 第 7 節）：還沒演完（'planned'）＝'wait'（等演完再傳、沒去＝照平常約）；前一天、前兩天的已經演過了，照算。
+     回傳幾天前（0＝同一天、1＝前一天、2＝前兩天；幾場都有取最近的）、'wait'，沒有＝-1 */
+  S.tnVisited=(G,id,dd)=>{ if(typeof OUT==='undefined') return -1; let ago=-1, wait=false;
+    for(const q of OUT.rec(G)){ if(!q||q.day<dd-2||q.day>dd) continue;
       if(!((!!q.fest&&q.fest.id===id&&q.fest.mode==='meet'&&q.place==='台南')||(q.ev==='ev_hv_ps_tn'&&!!q.hv&&q.hv.key===id+'@台南'))) continue;
+      if(q.state==='planned'&&q.day===dd){ wait=true; continue; } if(q.state!=='done') continue;
       const a=dd-q.day; if(ago<0||a<ago) ago=a; }
-    return ago; };
+    return ago>=0?ago:(wait?'wait':-1); };
   /* 接了一個：排出遊、其他的自動婉拒；女朋友的學期末約會另外排 */
   S.eveningBusy=(G,d)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q&&q.day===d&&(q.state==='planned'||q.state==='done')&&!/^te_/.test(q.id||'')&&q.h>=17);   /* AA_378 S4：那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）*/
   /* 女朋友版的學期末約會要避開的那一天（AA_386 第 3 節）：學姊交往中，大二上、大三上的 12/24 晚上是她約的聖誕（Café 門口、研究室；src/sis_b4_3d.js）*/

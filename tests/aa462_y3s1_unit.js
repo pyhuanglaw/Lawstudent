@@ -9,7 +9,8 @@
 //     不能回、不排出遊；沒去（說那天不行、答應了沒去）照原本約；「我去台南找妳？」那一趟（ev_hv_ps_tn）在前兩天內也算；三天前的不算
 //   5 小改字：Kevin 12/3 那一組（10/15 照舊）、沛珊的台南美術館第二句、沛珊③第二句、可昕聖誕視訊（學期末的飯也在 12/25 才換；不同天照舊）
 //   6 第 8 節（企劃線 878496edb，回 LAWWW-B 施工問題）：①沛珊那一句照幾天前換字（同一天／前一天／前兩天）：大四上 12/23 她約聖誕、12/24 開車下去，學期末的飯也排在 12/24＝
-//     「學期結束了！今天就是學期末的那一頓。」（AA_464 4-2；不排出遊、聖誕那一場照演）；12/23 去台南找她（ev_hv_ps_tn）、12/25 學期末＝「……前天那一頓……」；
+//     「學期結束了！今天就是學期末的那一頓。」（AA_464 4-2；不排出遊、聖誕那一場照演；AA_464 第 7 節：只是排了不算，等那一場演完才傳，沒去＝照平常約、18:30 的飯照排）；
+//     12/23 去台南找她（ev_hv_ps_tn）、12/25 學期末＝「……前天那一頓……」；
 //     ②兩種去台南都算、每個在台南的學期都適用；③3D 版 ev_an_admin_court「今天下午，我先去了一趟行政法院。」，不認識阿哲＝她補「刑訴那場還是禮拜五。這個是我自己想看的。」
 // 修改前（開發分支 661423a71）：1～5 每一節至少一項 FAIL；6 在 0b474c8b4 FAIL。用法：node tests/aa462_y3s1_unit.js
 require('./alison.js');
@@ -185,19 +186,28 @@ await sec(6,async()=>{
   const tag4='te_gf_Y4S1_'+PS, xTag4='fest_ask_'+PS+'_xmas_2028', xQ4='fest_'+PS+'_xmas_2028', OLD4=TERMEND.gf(PS,'Y4S1').invite;
   { ps4(); const R=TERMEND.rec(H.G,'Y4S1'), dd=R&&R.gfDay&&R.gfDay[PS]; const a=PHONE.byAsk(H.G,xTag4)?PHONE.answer(H.G,xTag4,0):null; run('2028-12-23',21.5,22,0.25); const q=OUT.get(H.G,xQ4);
     check('6. [前置] 大四上學期末的飯排在 12/24；12/23 21:00 她約聖誕→「好。」＝12/24 12:00 開車去台南',dd===D('2028-12-24')&&!!a&&!!q&&q.day===D('2028-12-24')&&q.place==='台南'&&q.state==='planned',J({dd:dd!=null&&dd>=0?keyOf(dd):dd,q:q&&[keyOf(q.day),q.h,q.state]}));
-    run('2028-12-24',8,12.5,0.25); const L=byTag(tag4);
-    check('6. ① 同一天：12/24 12:00 學期末那一則＝「'+TN3[0]+'」（不能回、不排出遊）',L.length===1&&L[0].text===TN3[0]&&!L[0].ask&&L[0].day===D('2028-12-24')&&!OUT.rec(H.G).some(x=>/^te_gf_/.test(x.id||'')),J(L.map(x=>[keyOf(x.day),x.h,x.text,!!x.ask])));
-    if(q) await goOut(q,[0,0,0,0]);
-    check('6. ① 聖誕那一場照演（12/24 去了）、之後不再約',!!q&&q.state==='done'&&(run('2028-12-24',13,23.5,0.5),byTag(tag4).length===1)&&!TH('p:'+PS).some(x=>x.text===OLD4),J(q&&q.state)); }
+    run('2028-12-24',8,12,0.25); const L0=byTag(tag4).length;
+    check('6. ① 同一天：聖誕那一場只是排了（還沒演完）＝12:00 先不傳（AA_464 第 7 節）',!!q&&q.state==='planned'&&L0===0,J({st:q&&q.state,L0}));
+    if(q) await goOut(q,[0,0,0,0]); const hEnd=H.G.hour; rules(); const L=byTag(tag4);
+    check('6. ① 聖誕那一場演完（done）才傳「'+TN3[0]+'」（傳的時間在演完以後、不能回、不排出遊）',!!q&&q.state==='done'&&L.length===1&&L[0].text===TN3[0]&&!L[0].ask&&L[0].day===D('2028-12-24')&&L[0].h>12&&!OUT.rec(H.G).some(x=>/^te_gf_/.test(x.id||'')),J({hEnd,L:L.map(x=>[keyOf(x.day),x.h,x.text,!!x.ask])}));
+    run('2028-12-24',Math.ceil(hEnd*2)/2,23.5,0.5); check('6. ① 之後不再約',byTag(tag4).length===1&&!TH('p:'+PS).some(x=>x.text===OLD4)); }
+  { ps4(); PHONE.answer(H.G,xTag4,0); run('2028-12-23',21.5,22,0.25); const q=OUT.get(H.G,xQ4); run('2028-12-24',8,12.5,0.25); const L0=byTag(tag4).length;
+    at('2028-12-24',13.5); for(const x of OUT.expire(H.G)) OUT.onMissed(GM,x); rules(); const L=byTag(tag4);
+    check('6. ① 同一天、聖誕那一場過了時間沒去（missed）：照平常約「'+OLD4+'」（可以回；之前先不傳）',L0===0&&!!q&&q.state==='missed'&&L.length===1&&L[0].text===OLD4&&!!L[0].ask&&L[0].h>=12.5,J({st:q&&q.state,L0,L:L.map(x=>[x.h,x.text])}));
+    PHONE.answer(H.G,tag4,0); rules(); const te=OUT.rec(H.G).find(x=>x.id==='te_gf_Y4S1_'+PS);
+    check('6. ① 回「好。」＝那天 18:30 的飯照排（台南）',!!te&&te.day===D('2028-12-24')&&Math.abs(te.h-18.5)<0.01&&/台南/.test(te.place),J(te&&[keyOf(te.day),te.h,te.place])); }
+  { ps4(); PHONE.answer(H.G,xTag4,0); run('2028-12-23',21.5,22,0.25); const q=OUT.get(H.G,xQ4); run('2028-12-24',8,11.75,0.25); H.picks=[2]; H.opts=[]; at('2028-12-24',11.9); const r=q?await OUT.prompt(GM,q):null; run('2028-12-24',12,12.5,0.25); const L=byTag(tag4);
+    check('6. ① 同一天、聖誕那一場「不去了」：照平常約「'+OLD4+'」',r==='no'&&!!q&&q.state==='missed'&&L.length===1&&L[0].text===OLD4&&!!L[0].ask,J({r,st:q&&q.state,opts:H.opts[0],L:L.map(x=>x.text)})); }
   { ps4(); PHONE.answer(H.G,xTag4,1); run('2028-12-23',21.5,22,0.25); run('2028-12-24',8,12.5,0.25); const L=byTag(tag4);
     check('6. ① 同一天但聖誕說「那天不行。」：照原本約「'+OLD4+'」',L.length===1&&L[0].text===OLD4&&!!L[0].ask,J(L.map(x=>x.text))); }
   /* ① 前一天（大三上 12/24 聖誕、12/25 學期末）＝第 4 節已經查過「'+TN3[1]+'」；前兩天（12/23 ev_hv_ps_tn、12/25）＝第 4 節最後一項 */
   check('6. ① 前一天＝第 4 節那一句（第 4 節 12/24 聖誕→12/25 已查過）、前兩天＝「'+TN3[2]+'」（第 4 節 12/23 去台南找她→12/25 已查過）',TN3[1]===PS_LINE);
   /* ② 兩種去台南（節日那一場、ev_hv_ps_tn）都算；每個在台南的學期都適用＝第 4 節最後一項 */
-  check('6. ② S.tnVisited 回傳幾天前：同一天的 planned 算、三天前不算、missed 不算',(()=>{ fresh('2028-06-10',8,{}); const dd=D('2028-06-20'), mk=(id,day,state,o)=>Object.assign({id,day,h:12,state,place:'台南',fest:{id:PS,mode:'meet'}},o||{}); const R=OUT.rec(H.G);
+  check('6. ② S.tnVisited 回傳幾天前：三天前不算、missed 不算、前一天去過又排了同一天＝1；同一天只是排了＝wait、同一天演完＝0、同一天沒去＝-1（AA_464 第 7 節）',(()=>{ fresh('2028-06-10',8,{}); const dd=D('2028-06-20'), mk=(id,day,state,o)=>Object.assign({id,day,h:12,state,place:'台南',fest:{id:PS,mode:'meet'}},o||{}); const R=OUT.rec(H.G);
       R.push(mk('a',dd-3,'done')); const r3=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('b',dd-2,'done')); const r2=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('c',dd-1,'missed')); const rm=TERMEND.tnVisited(H.G,PS,dd);
-      R.push({id:'d',day:dd-1,h:15,state:'done',ev:'ev_hv_ps_tn',hv:{key:PS+'@台南'}}); const r1=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('e',dd,'planned')); const r0=TERMEND.tnVisited(H.G,PS,dd);
-      return r3===-1&&r2===2&&rm===2&&r1===1&&r0===0; })());
+      R.push({id:'d',day:dd-1,h:15,state:'done',ev:'ev_hv_ps_tn',hv:{key:PS+'@台南'}}); const r1=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('e',dd,'planned')); const r1b=TERMEND.tnVisited(H.G,PS,dd);
+      R.length=0; R.push(mk('f',dd,'planned')); const rw=TERMEND.tnVisited(H.G,PS,dd); R[0].state='done'; const r0=TERMEND.tnVisited(H.G,PS,dd); R[0].state='missed'; const rx=TERMEND.tnVisited(H.G,PS,dd);
+      return r3===-1&&r2===2&&rm===2&&r1===1&&r1b===1&&rw==='wait'&&r0===0&&rx===-1; })());
   /* ③ 3D 版 ev_an_admin_court */
   const adm=async(knowZhe)=>{ fresh('2027-10-21',17.75,{MET_ZHE:knowZhe},'noodle'); H.FAMILIAR(AN); const W1=STORY.week1Start; if(!knowZhe) STORY.week1Start=()=>true; H.said=[]; H.opts=[]; H.picks=[0];
     try{ await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_an_admin_court')); } finally { STORY.week1Start=W1; } return H.said.map(x=>x.t); };

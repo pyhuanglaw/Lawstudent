@@ -373,7 +373,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-03-26',19.9,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); rules();
   check('AB0. 3/26（日）19:54：還沒有', txt('p:heroine_01').length===0);
   at('2028-03-26',20.05); rules();
-  check('AB1. 3/26 她那邊 21:00（時鐘 20:00）：T1 第一則（照片＋一句）＝到的那週「宿舍房間，箱子還沒拆」（AA_463 第 1 節十則；櫻花那則只在 4 月）；AN_ABROAD_TIER 1', txt('p:heroine_01').join('|')==='heroine_01:（照片：宿舍房間，箱子還沒拆）|heroine_01:到了。箱子明天拆。'&&G.flags.AN_ABROAD_TIER===1, JSON.stringify(txt('p:heroine_01')));
+  check('AB1. 3/26 她那邊 21:00（時鐘 20:00）：T1 第一則（照片＋一句）＝到的那週「公寓房間，箱子還沒拆」（AA_463 第 1 節十則、第 7 節改字；櫻花那則只在 4 月）；AN_ABROAD_TIER 1', txt('p:heroine_01').join('|')==='heroine_01:（照片：公寓房間，箱子還沒拆）|heroine_01:到了。箱子明天拆。'&&G.flags.AN_ABROAD_TIER===1, JSON.stringify(txt('p:heroine_01')));
   { const m=PHONE.byAsk(G,'y3_ab_w1'); check('AB1. D3 T1 也有兩個回覆按鈕（AA_343 D3）：「累嗎？」／「房間多大？」（AA_463 第 1 節）', !!m&&m.ask.opts.map(o=>o.t).join('|')==='累嗎？|房間多大？'&&m.ask.opts.map(o=>(o.say||[]).map(x=>x.text).join()).join('|')==='還好。……床比宿舍軟。|六疊。我量過了。', JSON.stringify(m&&m.ask)); }
   at('2028-03-26',21); PHONE.post(G,{th:'p:heroine_01',from:'player',text:'好漂亮。'}); at('2028-04-02',20.1); rules();
   check('AB1. 第 2 週（偶數週）T1 不傳；用手機傳過話＝那一則算回了', txt('p:heroine_01').filter(t=>/^heroine_01:/.test(t)).length===2&&G.flags.AN_ABROAD.log[0].replied===true);

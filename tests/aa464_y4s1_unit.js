@@ -5,6 +5,7 @@
 //   2 週日（S.m6）：六題爭論以後，「不吵」的週日照第幾個換（9/17 原句、9/24「外面在下雨」…12/17「下禮拜六，我回去」）；前面的「（照片）」照舊、不用回；11/5 起 20:00 照舊
 //   3 子晴的裂縫談話（cracktalk3d.js S.zq；zq2.optsBy）：她回的照她傳的那一組換（四組×兩個選項）；選項的字、回「妳要不要先休息？」加裂縫照舊
 //   4 4-1 12/11 麵店團群組阿哲「週四 麵店二十三週年 倒數三天」；4-2 沛珊同一天（12/24 聖誕開車下去、學期末的飯也在 12/24）＝「學期結束了！今天就是學期末的那一頓。」、不排出遊
+//     （第 7 節，企劃線 7fa83ebc9：等聖誕那一場演完才傳；沒去的照平常約、18:30 的飯照排——細項在 aa462_y3s1_unit 第 6 節）
 // 修改前（0b474c8b4）：1～4 每一節至少一項 FAIL。用法：node tests/aa464_y4s1_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -105,8 +106,9 @@ await sec(4,async()=>{
   fresh('2028-12-18',8,{PS_BACK_FIRST:1}); H.CLOSE(PS); INV.addContact(H.G,PS); H.G.contacts[PS]=0; ROM.start(H.G,PS); H.G.flags['dating_'+PS]=true;
   for(const k of ['2028-12-18','2028-12-19','2028-12-20','2028-12-21','2028-12-22']) run(k,8,23.5,0.5); run('2028-12-23',8,21.25,0.25);
   const xTag='fest_ask_'+PS+'_xmas_2028', a=PHONE.byAsk(H.G,xTag)?PHONE.answer(H.G,xTag,0):null; run('2028-12-23',21.5,22,0.25); const q=OUT.get(H.G,'fest_'+PS+'_xmas_2028');
-  run('2028-12-24',8,12.5,0.25); const L=byTag('te_gf_Y4S1_'+PS);
-  check('4-2. 12/23 她約聖誕→去（12/24 開車下台南）、學期末的飯也在 12/24：12:00「'+PS_SAME+'」、不能回、不排出遊',!!a&&!!q&&q.day===D('2028-12-24')&&L.length===1&&L[0].text===PS_SAME&&!L[0].ask&&!OUT.rec(H.G).some(x=>/^te_gf_/.test(x.id||'')),J({q:q&&[keyOf(q.day),q.state],L:L.map(x=>x.text)}));
+  run('2028-12-24',8,12,0.25); const L0=byTag('te_gf_Y4S1_'+PS).length;
+  if(q){ H.said=[]; H.opts=[]; H.picks=[0,0,0,0]; at(q.day,q.h); await OUT.go(GM,q); } rules(); const L=byTag('te_gf_Y4S1_'+PS);
+  check('4-2. 12/23 她約聖誕→去（12/24 開車下台南）、學期末的飯也在 12/24：聖誕那一場演完才傳「'+PS_SAME+'」（第 7 節：只是排了不算，12:00 先不傳）、不能回、不排出遊',!!a&&!!q&&q.day===D('2028-12-24')&&L0===0&&q.state==='done'&&L.length===1&&L[0].text===PS_SAME&&L[0].day===D('2028-12-24')&&!L[0].ask&&!OUT.rec(H.G).some(x=>/^te_gf_/.test(x.id||'')),J({q:q&&[keyOf(q.day),q.state],L0,L:L.map(x=>[keyOf(x.day),x.h,x.text])}));
 });
 
 H.done();

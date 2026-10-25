@@ -293,13 +293,18 @@ const CRACKTALK=(function(){
     for(const n of Object.keys(R.sent||{})){ const P=sub(R,'done'); if(P[n]) continue; const a=ansOf(tag(n)); if(a==null) continue; P[n]=true; const X=X2.yt2[R.sent[n]]; if(X.opts[a]&&X.opts[a][2]) S.add(G,YT); } };   /* 不回＝0（她本來就只是告知）*/
 
   /* ---------- 1-4 沛珊（大三起她在台南）---------- */
+  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法 */
+  const mwCache={}; S.midWeeks=function(G,tid){ if(tid in mwCache) return mwCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return mwCache[tid]={8:false,9:false};
+    const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
+    return mwCache[tid]={8:has(8),9:has(9)}; };
   const midCache={}; S.midBoth=function(G,tid){ if(tid in midCache) return midCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return midCache[tid]=false; const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
     return midCache[tid]=has(8)&&has(9); };   /* 祐廷的期中考在第 8、9 兩週都有；只有一週的學期沒有這一項 */
   S.ps=function(G){ const R=sub(S.src(G),'ps'), d=G.day, h=hh(G), t=CALENDAR.termOf(d); S.psVisits(G);
     const on=dating(G,PS)&&!abroad(G)&&S.psTN(G,d);
     /* ① 期中考週的週五 21:00：改期（避不掉）*/
-    if(on&&t&&(t.week===8||t.week===9)&&wdOf(d)===5&&h>=21){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'); if(!S1[k]&&S.midBoth(G,t.id)){ S1[k]=d; const P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
-        PHONE.at(G,d,21,[DM(PS,P1.ask),{th:'p:'+PS,from:'player',who:null,text:P1.me}].concat((t.week===8?P1.w8:P1.w9).map(x=>DM(PS,x))),'ct_'+k); if(t.week===9) S.add(G,PS,{unavoidable:true}); } }
+    /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第 9 週）再發第 9 週那一版（加裂縫，避不掉）。tag 照週次 ct_ps1_<學期>_<週> */
+    if(on&&t&&(t.week===8||t.week===9)&&wdOf(d)===5&&h>=21){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'), MW=S.midWeeks(G,t.id); if(!S1[k]&&MW[t.week]){ S1[k]=d; const second=t.week===9&&MW[8], P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
+        PHONE.at(G,d,21,[DM(PS,P1.ask),{th:'p:'+PS,from:'player',who:null,text:P1.me}].concat((second?P1.w9:P1.w8).map(x=>DM(PS,x))),'ct_'+k); if(second) S.add(G,PS,{unavoidable:true}); } }
     /* ② 第 5 週週三 23:10：用法條回答 */
     if(on&&t&&t.week===5&&wdOf(d)===3&&h>=23+10/60){ const k='ps2_'+t.id, S1=sub(R,'sent'); if(!S1[k]){ const c=Object.keys(S1).filter(x=>/^ps2_/.test(x)).length, i=S.nthRot(c,1+(X2.ps2x||[]).length), X=S.ps2Of(i);   /* 照第幾次換（AA_463 4-1）：已經收過幾次（sent 裡 ps2_ 的筆數，舊存檔照算）*/
         S1[k]=d; sub(R,'v2')[k]=i; S.sendAsk(G,PS,d,23+10/60,[X.ask],'ct_'+k,opt3(PS,X.opts),T(d+1,23)); } }

@@ -1,14 +1,16 @@
 // AA_463 法律系大三下讀一遍（留在臺灣；企劃線 878496edb，AA-B 2026-10-25 13:1x；D109）——不需要瀏覽器。台詞逐字對 AA_463（從企劃線 git show 讀稿、解析表格）。
 //   0 讀稿（第 1 節十則、第 2 節的表、第 3 節那一句、第 4 節三張表）；資料照稿一字不差；新檔載得到
-//   1 以安在日本（r2y3b3d.js abPhone／S.abPickT1；台灣、美國路線、還沒交往、T1）：十則照順序各傳一次——3/26 到的那週「宿舍房間」、4/9 飯糰（不再是到的第二天）、4/23 櫻花（四月）、
+//   1 以安在日本（r2y3b3d.js abPhone／S.abPickT1；台灣、美國路線、還沒交往、T1）：十則照順序各傳一次——3/26 到的那週「公寓房間」（第 7 節改字）、4/9 飯糰（不再是到的第二天）、4/23 櫻花（四月）、
 //     6/18 梅雨（六月）、7/30 行李箱（七月底），其他照順序補空的那一週；十則傳完不再傳；每則兩個回覆按鈕、她回一句；舊存檔（原本四則的 n1／n1s）不重傳舊的、接著傳新的
 //   2 母親節（home3d.js S.grpPick＋twfill3d.js TWFILL.sisMom）：2028 5/10 姊姊在家人群組問、回了「回。」＝5/11 媽媽「你姊說你禮拜天要回來 不用買東西」（回「會回去」好＋愛心貼圖、
 //     回「這週不回」好 那打電話就好）；回「這週不行。」或沒回＝照平常輪（不說母親節）；其他年份（2027）照 AA_458
 //   3 端午（twfill3d.js S.zongziHome／TWFILL.zongziShip）：2028 5/25 回「會回去」＝5/28 不傳「粽子寄去宿舍了」；回「這週不回」＝她回「好 那我寄過去」、5/28 照傳；沒回＝5/28 照傳；
 //     其他年份回「這週不回」照舊「好 粽子冰起來」
 //   4 沛珊在台南（cracktalk3d.js S.ps）：② 照第幾次換（第 1 次原句；回覆①加裂縫、②不加；第 5 次起從第 2 次再輪；舊存檔照已經收過幾次）；③ 照第幾次換（第 5 次起從 2 再輪；舊存檔問過算一次）；
-//     ① 照學期換（大三下、大四上、大四下；祐廷的回覆固定；第 9 週照舊 +1）
-// 修改前（0b474c8b4）：1～4 每一節至少一項 FAIL。用法：node tests/aa463_y3s2_unit.js
+//     ① 照學期換（大三下、大四上、大四下；祐廷的回覆固定）
+//   7 第 7 節（企劃線 7fa83ebc9，回 LAWWW-B 施工問題）：② 以安住公寓改字（第 1 則「公寓房間」、第 8 則回覆①「公寓有烘衣機嗎？」→「樓下有。……」）；
+//     ③ 沛珊① 觸發條件：第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）、兩週都有的第二個週五發第 9 週那一版（+1）；每個她在台南的學期都至少一次，四組都用得到
+// 修改前（0b474c8b4）：1～4 每一節至少一項 FAIL；7 在 89ac3bb65 FAIL。用法：node tests/aa463_y3s2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -30,7 +32,7 @@ const byTag=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag);
 const TH=th=>(H.G.msgs||[]).filter(m=>m.th===th);
 
 /* ---- 讀稿（企劃線 878496edb）---- */
-let doc=''; try{ doc=cp.execSync('git show 878496edb:"docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 7fa83ebc9:"docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const strip=s=>String(s||'').replace(/（原句）$/,'').replace(/（`[^）]*）$/,'').trim();
@@ -38,6 +40,9 @@ const msgsOf=s=>strip(s).split('／');
 const rep=s=>{ const i=s.indexOf('→'); return i<0?null:[s.slice(0,i),msgsOf(s.slice(i+1))]; };
 /* 第 1 節 */
 const T1R=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+r[0],when:r[1],L:msgsOf(r[2]),o1:r[3],o2:r[4]}));
+/* 第 7 節②（以安住公寓）：第 1 則、第 8 則回覆①改字，蓋過第 1 節的表 */
+const S7=part('## 7.'), S7a=(S7.match(/第 1 則：(.+)$/m)||[])[1], S7b=S7.match(/第 8 則回覆①：「([^」]+)」→ (.+)$/m);
+if(S7a&&T1R[0]) T1R[0].L=msgsOf(S7a.trim()); if(S7b&&T1R[7]) T1R[7].o1=S7b[1]+'→'+S7b[2].trim();
 const OLD_T1O={'飯糰':[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],'櫻花':[['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],
   '洗衣機':[['一百圓是多少？','二十幾塊。我記了匯率。'],['手帳記幾頁了？','十一頁。']],'號碼牌':[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]};   /* 原本四則的回覆（「照舊」）*/
 const oldKey=L=>Object.keys(OLD_T1O).find(k=>L[0].includes(k));
@@ -97,6 +102,14 @@ await sec(1,()=>{
   /* 第 4 階以上（T2、T3）的週不傳 T1；回到 T1 再接著傳 */
   abG(); at(D('2028-04-09'),19); H.CLOSE(AN); H.G.flags.AN_ABROAD={log:[{day:D('2028-03-26'),h:20,kind:'msg',wk:1,tier:1,replied:true},{day:D('2028-04-02'),h:20,kind:'msg',wk:2,tier:1,replied:true}],tier:1,wk:2,n1:0,n1s:[],t1s:[0],n2:0,n3:0};
   at(D('2028-04-09'),20.05); rules(); check('1. 第 4 階＋回了：T2，不傳 T1（t1s 不變）',H.G.flags.AN_ABROAD_TIER>=2&&!t1Of(3).some(t=>T1R.some(r=>r.L[1]===t))&&J(R2Y3B.abRec(H.G).t1s)===J([0]),J(R2Y3B.abRec(H.G).t1s));
+});
+
+/* ---- 7② 以安住公寓 ---- */
+await sec('7',()=>{
+  check('7. ② 讀得到第 7 節的兩處改字（第 1 則、第 8 則回覆①）',!!S7a&&!!S7b&&/公寓房間/.test(S7a)&&/^公寓/.test(S7b[1]),J({S7a,S7b:S7b&&S7b.slice(1)}));
+  const AB=R2Y3B_EVENTS.AB;
+  check('7. ② 第 1 則「'+T1R[0].L[0]+'」、第 8 則回覆①「'+T1O[7][0][0]+'」→「'+T1O[7][0][1]+'」（不再說宿舍）',J(AB.t1[0])===J(T1R[0].L)&&J(AB.t1O[7][0])===J(T1O[7][0])&&!J(AB.t1).includes('宿舍')&&!J(AB.t1O[7]).includes('宿舍'),J([AB.t1[0],AB.t1O[7]]));
+  abG(); at(D('2028-03-26'),20.05); rules(); check('7. ② 實際跑 3/26：第一則是「（照片：公寓房間，箱子還沒拆）」',J(t1Of(1))===J(T1R[0].L),J(t1Of(1)));
 });
 
 /* ---- 2 母親節 ---- */
@@ -163,11 +176,23 @@ await sec(4,()=>{
   const o3=(H.G.msgs||[]).filter(m=>/^ct_classmate_peishan_ps3_/.test(m.tag||'')).map(m=>m.text);
   check('4. ③ 舊存檔（問過一次、沒有記第幾次）：下一次＝第 2 句「'+P3[1].join('')+'」',J(o3)===J(P3[1]),J(o3));
   /* ① 照學期 */
-  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5); psG(keyOf(f8-3)); if(!CRACKTALK.midBoth(H.G,tid)) return null; clr(); at(f8,21.05); rules(); const a=ctTxt('ct_ps1_'+tid+'_8'); const c0=cnt(); at(f9,21.05); rules(); return {a,b:ctTxt('ct_ps1_'+tid+'_9'),add:cnt()-c0}; };
-  const r1={}; for(const tid of ['Y3S2','Y4S1','Y4S2']) r1[tid]=ps1(tid);
-  const has1=Object.keys(r1).filter(t=>r1[t]);
-  check('4. ① 期中考兩週都有的學期（'+has1.join('、')+'）：她問、第 8 週她回、第 9 週她回照 4-3 的表；祐廷的回覆固定「這週考試，下週好不好？」；第 9 週 +1',has1.length>=1&&has1.every(t=>J(r1[t].a)===J([P1[t].ask,'這週考試，下週好不好？'].concat(P1[t].w8))&&J(r1[t].b)===J([P1[t].ask,'這週考試，下週好不好？'].concat(P1[t].w9))&&r1[t].add===1),J(r1));
+  /* ① 第 7 節③：第 8 或第 9 週有期中考的第一個週五＝第 8 週那一版（不加）；兩週都有的，第二個週五＝第 9 週那一版（+1）*/
+  const ME='這週考試，下週好不好？';
+  const ps1=(tid)=>{ const f8=termDay(tid,8,5), f9=termDay(tid,9,5); psG(keyOf(f8-3)); const MW=CRACKTALK.midWeeks(H.G,tid); clr(); const c0=cnt(); at(f8,21.05); rules(); const c8=cnt(); at(f9,21.05); rules();
+    return {MW,a:ctTxt('ct_ps1_'+tid+'_8'),b:ctTxt('ct_ps1_'+tid+'_9'),add8:c8-c0,add9:cnt()-c8}; };
+  const r1={}; for(const tid of ['Y3S1','Y3S2','Y4S1','Y4S2']) r1[tid]=ps1(tid);
+  const exp1=(tid,x)=>{ const P=P1[tid], first=[P.ask,ME].concat(P.w8), sec=[P.ask,ME].concat(P.w9);
+    if(x.MW[8]&&x.MW[9]) return J(x.a)===J(first)&&x.add8===0&&J(x.b)===J(sec)&&x.add9===1;   /* 兩週都有 */
+    if(x.MW[8]) return J(x.a)===J(first)&&x.add8===0&&!x.b.length&&x.add9===0;   /* 只有第 8 週 */
+    if(x.MW[9]) return !x.a.length&&J(x.b)===J(first)&&x.add9===0;   /* 只有第 9 週：第 9 週的週五發第 8 週那一版 */
+    return false; };
+  check('7. ① 大三上～大四下每個她在台南的學期都至少收到一次（第 7 節③）：有考試的第一個週五＝問＋「'+ME+'」＋第 8 週那一版、不加；兩週都有的第二個週五＝第 9 週那一版、+1（'+Object.keys(r1).map(t=>t+':'+(r1[t].MW[8]?'8':'')+(r1[t].MW[9]?'9':'')).join(' ')+'）',
+    Object.keys(r1).every(t=>exp1(t,r1[t])),J(r1));
+  check('7. ① 四組都用得到（大三上的原句、大三下、大四上、大四下）',new Set(Object.values(r1).map(x=>(x.a[0]||x.b[0]))).size===4&&(r1.Y3S1.a[0]||r1.Y3S1.b[0])===CRACKTALK_LINES.SRC2.ps1.ask,J(Object.values(r1).map(x=>x.a[0]||x.b[0])));
   check('4. ① 大三上、大五上（表上沒有的學期）照原句',!CRACKTALK_LINES.SRC2.ps1.byTerm.Y3S1&&!CRACKTALK_LINES.SRC2.ps1.byTerm.Y5S1);
+  /* 只有第 9 週有期中考的學期（目前課表沒有，造一個）：第 9 週的週五發第 8 週那一版、不加 */
+  { const tid='Y3S2', f9=termDay(tid,9,5); psG(keyOf(f9-3)); const C=CRACKTALK, keep=C.midWeeks; C.midWeeks=()=>({8:false,9:true}); try{ clr(); at(termDay(tid,8,5),21.05); rules(); const a=ctTxt('ct_ps1_'+tid+'_8'); const c0=cnt(); at(f9,21.05); rules();
+      check('7. ① 只有第 9 週有期中考（造的課表）：第 9 週的週五發第 8 週那一版（「'+P1[tid].w8.join('')+'」）、不加',!a.length&&J(ctTxt('ct_ps1_'+tid+'_9'))===J([P1[tid].ask,ME].concat(P1[tid].w8))&&cnt()===c0,J(ctTxt('ct_ps1_'+tid+'_9'))); } finally { C.midWeeks=keep; } }
 });
 
 H.done();
