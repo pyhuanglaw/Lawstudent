@@ -3088,6 +3088,25 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "沒碰 engine3d.js"
+  },
+  {
+   "task": "US-COMMUNITY-WEST-PERF-1025：美國社區西邊出口往西變慢（LAWWW-B 10-25 02:0x 派工 ②）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/us_community.glb（＋.json；116,686 → 116,758 三角形、8.66 → 8.67 MB）",
+    "tools/blender/env_second/us_community.py",
+    "tests/us_community_perf_unit.js（新，讀 GLB）",
+    "tools/blender/env_second/shots/perf_us_community_west.py（量 fps：同一個鏡頭換 GLB）",
+    "docs/art-rebuild/second_ai/test_shots/us_community_west_perf_1025（README、改前改後三張）"
+   ],
+   "state": "已交付；只換 GLB、程式不動。原因：地面（草地、柏油、水泥）雙面＋草地墊在馬路、人行道、停車場底下（同一個地方畫好幾層）；樹、房子各自拿掉都在誤差內。改：地面材質單面（含季節換裝）、草地只鋪看得到的地方。fps 往西橫向 天空 4.3／改前 3.2／改後 4.0、直向 3.9／3.1／3.9（換算 BB 約 5.6～6.1）；往東也快一點。新測試改前 FAIL 5 → ALL PASS；疊面一定會閃 115 → 115；20 張截圖 errors 0、draw call 不變、看起來沒有差別",
+   "remaining": "fps 換算是估計，請 BB 用同一套重量；沒跑整套回歸、實機；腳本每次匯出 tree_core、shrub_core、vc 三個網格頂點順序不同（原本就這樣）",
+   "next": "LAWWW-B 換 GLB＋測試、跑 us_community_perf_unit、us_season_unit、nav_us_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "沒動 us3d.js、engine3d.js"
   }
  ]
 }

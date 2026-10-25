@@ -90,11 +90,15 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
-  - **10-25 03:xx 更新**：
+  - **10-25 04:xx 更新**：
     - LAWWW-B 02:0x：窗景同步 v2＋沒有窗的室內已整合（`eaeefdc4b`）；派 ① US-AIRPORT-DUSK-1025 ② US-COMMUNITY-WEST-PERF-1025 ③ 之後照巡查清單自己排（D99 三條路線內）。
     - 已交 ①：`test_shots/us_airport_dusk_1025/README.md`、`patches/us_airport_dusk_1025.patch`（對 `b8a6934e7`；只動 `us3d.js` 的 `apOutside`＋兩支測試，不碰 engine3d.js）。新測試改前 FAIL 6、改後 ALL PASS；12 張截圖 errors 0。
-    - 進行中 ②：做了 7 個實驗版 `us_community.glb`（`$SP/uswest/exp_runner.py`：拿掉房子後面的樹林／房子／前院樹／整段、遠處樹林葉片減少兩種），同一個鏡頭量 fps（`$SP/uswest/perf.py`、`run_perf.sh`）。
-    - 測試樹 `$SP/dv8`＝開發 `b8a6934e7`＋機場那份 patch（量社區 fps 不受影響）。
+    - LAWWW-B 02:5x：① 已整合（`91c8f9c6e`）。
+    - 已交 ②：`test_shots/us_community_west_perf_1025/README.md`；`us_community.glb`（＋`.json`）、`us_community.py`、新 `tests/us_community_perf_unit.js`、量 fps 工具 `shots/perf_us_community_west.py`。
+      - 原因不是樹、房子，是地面雙面＋草地墊在柏油底下；改單面、草地只鋪看得到的地方。
+      - 往西（橫向）天空 4.3／改前 3.2／改後 4.0，直向 3.9／3.1／3.9；換算 BB 的量法約 5.6～6.1。
+    - 測試樹 `$SP/dv8`＝開發 `32b1f99dc`＋新的 `us_community.glb`、`tests/us_community_perf_unit.js`（還沒還原）。
+    - 下一項：③ 照巡查清單自己排（D99 三條路線內）。
   - **10-25 01:5x 更新**：
     - LAWWW-B 00:36：SIGN-AUDIT 已整合（`7d56892eb`）。
     - 已交：路線巡查⑤美國交換的傍晚（`test_shots/route_us_dusk_1025/README.md`，117 張、errors 0）＋ `patches/window_night_sync_v2_1025.patch`（臺灣七棟大廳 18.6、美國 VT 19.5 → 19.2）。
