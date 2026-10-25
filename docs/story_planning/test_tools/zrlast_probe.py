@@ -3230,6 +3230,21 @@ R41 = [
 for _s in R41:   # Y1() 一定會放 ('until', until)：steps 已經另外給的不要
     _s['steps'] = [x for x in _s['steps'] if x != ('until', None)]
 SCENS = SCENS + R41
+
+# ---------- R42（BB-B 10-25 19:3x）：v9.10.11 候選 f54a35ec4（AA_471 第 1、2 節）——兩個版本都跑：1dacc06af 應該 FAIL、f54a35ec4 應該 PASS ----------
+# [前置] JPPG：日本路線、畢業以後搬回家（沒有 ROOM_Y4＝JP.movedOut 又成立）、在家人群組；2029-07-05（週四）照真實時間等過臺灣 20:00
+JPPG = JPIN + NOKX + " delete G.flags.ROOM_Y4; PHONE.join(G,'home','家人');"
+HL = "(GAME.G.msgs||[]).filter(m=>/^home_live_/.test(m.tag||'')&&m.day===GAME.G.day).map(m=>m.text)"
+YTSEAT = "(GAME.G.msgs||[]).filter(m=>/^ct_yt_seat_/.test(m.tag||'')).map(m=>(m.tag||'').slice(11)+' '+m.text)"
+YTROT = ['今天週四。', '位子留了。', '三樓。老位子。', '今天也是斜對面。']
+R42 = [dict(id='R42_JP_PG_HOME', key='2029-07-05', h=19.7, zone='dorm', flags=dict(JPF7), js=JPPG, steps=[('until', 20.6)], pref=[], asks={'*': ''}, nothree=True,
+            jsok=[('畢業以後的週四 20:00 沒有住家裡版家人群組（tag home_live_今天）', HL, []), ('JPPREP.jpOn＝false', "!!(typeof JPPREP!=='undefined'&&JPPREP.jpOn(GAME.G))", False)]),
+       # 語彤交往中、2030 年（最後一個學期過了）週四 12:10 留位子：第一週原句、下一週要換成輪的那四句（原本每天一個學期鍵＝每週都是原句）
+       dict(id='R42_YT_2030', key='2030-01-10', h=11.9, zone='dorm', flags=dict(TW3), js=YTD, steps=[('until', 12.5), ('ffloop', '2030-01-17', 12.5), ('until', 12.6), ('dumplog', 'R42_YT_2030')],
+            pref=['不去了', '先不'], asks={'*': ''}, nothree=True,
+            jsok=[('語彤留位子（日子 文字）：第一週原句、第二週是輪的四句之一', YTSEAT, lambda x: isinstance(x, list) and len(x) >= 2 and x[0].endswith('今天週四。總圖三樓，斜對面的位子我留了。') and x[1].split(' ', 1)[1] in YTROT),
+                  ('CRACKTALK.termKey（2030）＝PG', "typeof CRACKTALK!=='undefined'?CRACKTALK.termKey(GAME.G):null", 'PG')])]
+SCENS = SCENS + R42
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
