@@ -32524,14 +32524,14 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "AA-B 19:23 交 AA_471（企劃線 763993620）。第 1 節（日本路線家人群組畢業以後不停：AA_466 第 5 節帶進 v9.10.11 候選的問題）、第 2 節（S.termKey 220 天後每天一個鍵）LAWWW-B 19:4x 直接修進候選（jpprep3d S.jpOn 只到 2028-09-04；cracktalk3d termKey 大五上 Y5S1、之後 PG）；tests/pg_jpon_termkey_unit.js（1dacc06af 上 7 FAIL）。第 3～7 節（國考放榜換字、畢業後中秋、被當延畢 12/26 與 2030-06-17 證書、芷若 17:00 收尾三句、交往中 2029 跨年字卡可選）v9.10.11 發布後做。"
+   "notes": "AA-B 19:23 交 AA_471（企劃線 763993620）。第 1 節（日本路線家人群組畢業以後不停：AA_466 第 5 節帶進 v9.10.11 候選的問題）、第 2 節（S.termKey 220 天後每天一個鍵）LAWWW-B 19:4x 直接修進候選（jpprep3d S.jpOn 只到 2028-09-04；cracktalk3d termKey 大五上 Y5S1、之後 PG）；tests/pg_jpon_termkey_unit.js（1dacc06af 上 7 FAIL）。第 3～7 節（國考放榜換字、畢業後中秋、被當延畢 12/26 與 2030-06-17 證書、芷若 17:00 收尾三句、交往中 2029 跨年字卡可選）v9.10.11 發布後做。 ｜ 第 3～7 節 19:4x 起和 AA_472 一起在隔離 worktree 子代理做（aa471-472）。"
   },
   {
    "id": "PG-READ-1025",
    "title": "畢業以後篇用讀者方法讀一遍（postgrad_lines.js 等；PG 一條線 term_sweep 推不動，另想做法）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "next": "排在 SIS-LEAD-1021 之後",
    "priority": "P3",
    "first": {
@@ -32553,7 +32553,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": ""
+   "notes": "AA-B 19:34 交 AA_472（企劃線 1ebcf530e，臺灣路線八種存檔）：學姊 sisLow 換句、retake 便條一句、可昕第六年週年 2030-10-17、芷若 6/2 時差、學姊考場 2030 換句、沛珊 2030-06 運河（AA_367 原稿已改，白名單 AA_367 換 1ebcf530e 重匯 pg_dates.js）；AA_471 第 2～4、6 節臺灣路線也適用。v9.10.11 發布後合；LAWWW-B 19:4x 起在隔離 worktree 子代理和 AA_471 第 3～7 節一起做（分支 aa471-472，接在 aa470 之後）。"
   },
   {
    "id": "ASK-ACCEPTSOPEN-1025",
