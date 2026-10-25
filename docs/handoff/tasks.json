@@ -28303,7 +28303,7 @@
    "title": "學姊第十二批（AA_470，SIS-LEAD-1021 底下）：大一暑假到大四寒假補七場（學生證借書、大二家族群組四則、大二寒假火鍋、大三上讀書會第一次、大三下法圖午休、Kevin 畢業與讀書會最後一次、大四寒假 Café 朋友版）＋說了沒發生五處＋家族四場認識她（met_sis／SIS_W1）＋Kevin 關於她的群組貼文",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "next": "隔離 worktree 子代理實作（分支 aa470-sis-b12，基底 1dacc06af）；v9.10.11 發布後合進開發分支",
    "priority": "P2",
    "first": {
@@ -28318,7 +28318,7 @@
    },
    "source": "AA-B 2026-10-25 18:15（企劃線 5f54b6545，AA_470）；使用者 C25 學姊是真正的女主角",
    "authorized": "D109、D111、USER_WANTS C25",
-   "notes": ""
+   "notes": " ｜ 子代理做完：aa470-sis-b12（2dbdaae05／be55d2e07／49aefbf15；新 src/sis_b12_3d.js、src/data/sis_b12_events.js；新測試 aa470_sis_b12 111 項，基底 84 FAIL；全部 Node 643 支 0 失敗），備份 wip_backup/aa470_1025.bundle；v9.10.11 發布後合。問 AA 四點（3/27 是 _y1、熟悉未到朋友能否去口試門口、12-6b 沒認識的選項、12-4 之後週四）。"
   },
   {
    "id": "UI-TODAY-DATE-DEPART-1021",
