@@ -1,6 +1,6 @@
 // AA_454（企劃線 eaa98aaa7，AA-B 2026-10-25 03:5x；美國 208 的週末七場：快轉的玩家一場都看不到，補她的私訊）——不需要瀏覽器。台詞逐字對 AA_454。
 //   第 1 節 週末 14:00 她私訊一則要回的（七句照表，src/us208_3d.js）：「我過去。」＝出遊「C 棟 208」、快轉停在出發前、出發就換到 208 演那一場；
-//          「今天不行。」＝她「好。」→ 週日 14:00「今天也在 208。」一次；週日也不行＝這個週末不演；沒回＝照現在（自己走過去也會演）；週六去過的週日不傳
+//          「今天不行。」＝她「好。」→ 週日 14:00「今天也在 208。」一次；週日也不行＝這個週末不再傳（自己走過去照演，AA-B 04:12）；「我過去。」她「嗯。」；沒回＝照現在（自己走過去也會演）；週六去過的週日不傳
 //   2-1 湖邊的「看」照 US3.usSeasonKey（秋 10/9、初冬 11/1、雪 12/2；src/us_life3d.js S.lakeLook）
 //   2-2 一個人的感恩節（ev_usl_thanks_alone）：「窗外開始飄小雪」→「社區很安靜，只有幾戶亮著燈。」
 // 修改前（開發分支 7da7f35ad＝AA_454 的 WIP 檢查點 7c167dfa8 的前一個）：每一節至少一項 FAIL（第 1 節 28 項、2-1 3 項、2-2 2 項，共 33 項；第 1 節「不該傳的時候不傳」6 項、「沒回＝照現在」1 項修改前就通過）。
@@ -47,7 +47,7 @@ const stageOff=()=>{ Z3.ZONES=ZONES0; };
 /* 照稿（AA_454 第 1 節的表＋週日那一句、兩個選項、她的回覆）*/
 const DM={'3-1':'我在 208。門沒鎖。','3-2':'我在煮東西。……第一次煮這個。','3-3':'臺灣寄來的東西到了。','3-4':'下午在 208。你來的時候先敲門。',
   '3-5':'冬令時間。手機自己改了。……你過來嗎。','3-6':'客廳那盆植物，我在救它。','3-7':'我在寫報告。你要來的話，帶你自己的書。'};
-const SUN='今天也在 208。', YES='我過去。', NO='今天不行。', NO_RE='好。';
+const SUN='今天也在 208。', YES='我過去。', YES_RE='嗯。', NO='今天不行。', NO_RE='好。';   /* YES_RE：AA-B 04:12 補（七場共用）*/
 const EVN={'3-1':'ev_us208_memo','3-2':'ev_us208_lurou','3-3':'ev_us208_clipping','3-4':'ev_us208_rehearsal','3-5':'ev_us208_extra_hour','3-6':'ev_us208_plant','3-7':'ev_us208_lastweek'};
 const M01='（門沒鎖。她坐在沙發上，腿上放著筆電。）';   /* 3-1 的第一句（AA_412）*/
 const LAKE={summer:'（湖邊有人在遛狗。太陽很晚才下山。）',autumn:'（湖面很平。對岸的樹，一棵一棵變顏色。）',bare:'（樹葉都掉光了。湖面的顏色比天還灰。）',snow:'（湖邊的長椅積了雪。）'};
@@ -67,7 +67,7 @@ await sec('1',async()=>{
   check('1. 一路快轉（9/15 →「到下一個有事的日子」）：停在 9/16（六）14:00，她私訊一則「'+DM['3-1']+'」，要回（「'+YES+'」「'+NO+'」）——快轉停在要回的訊息',why==='msg'&&s0==='2028-09-16 14'&&m.length===1&&!!last&&last.text===DM['3-1']&&last.from===S5&&last.th==='p:'+S5&&!!last.ask&&J(last.ask.opts.map(o=>o.t))===J([YES,NO])&&PHONE.askOpen(G,last),J({why,s0,m:m.map(x=>x.text),ask:last&&last.ask}));
   check('1. 記「這個週末傳過了」：G.flags.US208_DM＝那個週六（9/16）',G.flags.US208_DM===D('2028-09-16'),J(G.flags.US208_DM));
   PHONE.answer(G,last&&last.ask?last.ask.id:'',0); rules(); const q=OUT.get(G,'us208_0916');
-  check('1. 回「'+YES+'」（她不回話）→ 排出遊「C 棟 208」9/16 14:30（演 3-1 ev_us208_memo）',J(p5().slice(-2))===J(['她：'+DM['3-1'],'你：'+YES])&&!!q&&q.state==='planned'&&q.ev===EVN['3-1']&&q.place==='C 棟 208'&&q.title==='C 棟 208'&&q.day===D('2028-09-16')&&q.h===14.5,J({t:p5().slice(-3),q}));
+  check('1. 回「'+YES+'」→ 她「'+YES_RE+'」（AA-B 04:12）→ 排出遊「C 棟 208」9/16 14:30（演 3-1 ev_us208_memo）',J(p5().slice(-3))===J(['她：'+DM['3-1'],'你：'+YES,'她：'+YES_RE])&&!!q&&q.state==='planned'&&q.ev===EVN['3-1']&&q.place==='C 棟 208'&&q.title==='C 棟 208'&&q.day===D('2028-09-16')&&q.h===14.5,J({t:p5().slice(-3),q}));
   why=await USL.jump(GM,T(D('2028-09-18'),9)); const s1=stop(), due=OUT.due(G);
   check('1. 再快轉：停在出發前（14:10，走路 5 分鐘），跳出「出發：C 棟 208」',s1==='2028-09-16 14.17'&&!!due&&due.id==='us208_0916',J({why,s1,due:due&&due.id}));
   stageOn(); let g; try{ H.entered=[]; g=await go([0,0]); } finally { stageOff(); }
@@ -85,11 +85,11 @@ await sec('1-不行',async()=>{
   let why=await USL.jump(GM,T(D('2028-09-18'),9)); const s0=stop(), m=byTag('us208_dm_0917'), last=m[m.length-1];
   check('1. 快轉停在週日（9/17）14:00：「'+SUN+'」（同樣兩個選項）',why==='msg'&&s0==='2028-09-17 14'&&m.length===1&&last.text===SUN&&J(last.ask.opts.map(o=>o.t))===J([YES,NO])&&PHONE.askOpen(G,last),J({why,s0,m:m.map(x=>x.text)}));
   PHONE.answer(G,'us208_ask_0917',1); rules(); at('2028-09-17',15); G.zone='us_shared'; const w=await walk([0]);
-  check('1. 週日也回「'+NO+'」→ 她「'+NO_RE+'」；這個週末不演（自己走進 208 也不演：US208_NO＝那個週六）',J(p5().slice(-3))===J(['她：'+SUN,'你：'+NO,'她：'+NO_RE])&&G.flags.US208_NO===D('2028-09-16')&&US208.due(G)===null&&w===false&&!done(EVN['3-1']),J({t:p5().slice(-3),NO:G.flags.US208_NO,w}));
+  check('1. 週日也回「'+NO+'」→ 她「'+NO_RE+'」；不再傳（US208_NO＝那個週六）；自己走進 208 照演（AA-B 04:12：改主意了）',J(p5().slice(-3))===J(['她：'+SUN,'你：'+NO,'她：'+NO_RE])&&G.flags.US208_NO===D('2028-09-16')&&w===true&&done(EVN['3-1']),J({t:p5().slice(-3),NO:G.flags.US208_NO,w}));
   at('2028-09-17',16); rules();
   check('1. 一個週末最多兩則（週六一則、週日一則）',dm208().length===2,J(dm208().map(x=>x.text)));
   at('2028-09-23',14.05); G.zone='us_apartment'; rules(); const m23=byTag('us208_dm_0923');
-  check('1. 下一個週末（9/23）：3-1 還在範圍（到 9/24）、沒演過＝再傳「'+DM['3-1']+'」',m23.length===1&&m23[0].text===DM['3-1'],J(m23.map(x=>x.text)));
+  check('1. 下一個週末（9/23）：3-1 已經自己走進去演過＝傳 3-2「'+DM['3-2']+'」',m23.length===1&&m23[0].text===DM['3-2'],J(m23.map(x=>x.text)));
   /* 週六不行、週日「我過去。」*/
   G=w208('2028-09-16',13.9,'us_apartment'); at('2028-09-16',14); rules(); PHONE.answer(G,'us208_ask_0916',1); at('2028-09-17',14); rules(); PHONE.answer(G,'us208_ask_0917',0); rules();
   const q=OUT.get(G,'us208_0917'); at('2028-09-17',14.2); stageOn(); let g; try{ H.entered=[]; g=await go([0,1]); } finally { stageOff(); }
@@ -128,7 +128,7 @@ await sec('1-表',async()=>{
   let G=w208('2028-11-04',13.9,'us_apartment'); at('2028-11-04',14); rules(); const m4=dm208().length; at('2028-11-05',14); rules(); const m5=byTag('us208_dm_1105');
   check('1. 3-5：11/4（六）沒有該演的＝不傳；11/5（日）14:00 是這個週末第一則「'+DM['3-5']+'」',m4===0&&m5.length===1&&m5[0].text===DM['3-5']&&G.flags.US208_DM===D('2028-11-04'),J({m4,m5:m5.map(x=>x.text)}));
   PHONE.answer(G,'us208_ask_1105',1); rules(); at('2028-11-05',15); G.zone='us_shared';
-  check('1. 3-5：週日回「'+NO+'」→「'+NO_RE+'」、這個週末不演（之後不補）',G.flags.US208_NO===D('2028-11-04')&&US208.due(G)===null&&(at('2028-11-18',15),US208.due(G)===US208.SCENES.find(s=>s.n==='3-6')),J({NO:G.flags.US208_NO}));
+  check('1. 3-5：週日回「'+NO+'」→「'+NO_RE+'」、不再傳；當天自己走進 208 照演 3-5；之後不補（11/18 是 3-6）',G.flags.US208_NO===D('2028-11-04')&&US208.due(G)===US208.SCENES.find(s=>s.n==='3-5')&&(at('2028-11-18',15),US208.due(G)===US208.SCENES.find(s=>s.n==='3-6')),J({NO:G.flags.US208_NO}));
 });
 
 /* ======================= 第 1 節 條件同 S.due：不該傳的時候不傳 ======================= */
