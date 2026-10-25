@@ -3050,9 +3050,9 @@ SCENS = SCENS + R37
 # ① BUG-US-NEXTCLASS-1025（3ed115119）：人在美國／日本，HUD 第二行 #nextClass 照當地課表。日本那一段沒有單元測試（LAWWW-B 註明），這裡兩邊都測。
 #    【捷徑】同一天撥時間（JUMPK：G.day／G.hour 直接改）——HUD 只看當下時間和課表，不測時間怎麼流過去。
 NXC = "(()=>{ const el=document.getElementById('nextClass'); const g=document.getElementById('goal'); return {t:el?el.textContent:null, hide:el?el.classList.contains('hide'):null, goal:g?g.textContent:null, line:(typeof CLS!=='undefined'&&CLS.todayLine)?CLS.todayLine(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2), zone:GAME.G.zone}; })()"
-def HUDW(label, want, line=None):   # 等第二行變成 want（最多 20 秒），再記下來；line＝第一行（CLS.todayLine）要以這個開頭
+def HUDW(label, want, line=None, goal=None):   # 等第二行變成 want（最多 20 秒），再記下來；line＝CLS.todayLine 要以這個開頭；goal＝畫面第一行 #goal 要以這個開頭（BB-B 11:3x：661423a71 日本也包了 goalFor）
     cond = "(()=>{ const el=document.getElementById('nextClass'); return !!el&&el.textContent===%s&&!el.classList.contains('hide'); })()" % json.dumps(want)
-    return [('wait', cond, 20, label), ('chk', label, NXC, lambda d, w=want, l=line: d['t'] == w and not d['hide'] and (l is None or (d['line'] or '').startswith(l)))]
+    return [('wait', cond, 20, label), ('chk', label, NXC, lambda d, w=want, l=line, g=goal: d['t'] == w and not d['hide'] and (l is None or (d['line'] or '').startswith(l)) and (g is None or (d.get('goal') or '').startswith(g)))]
 US_C = 'Comparative Constitutional Law'; US_W = 'Legal Writing for International Students'; JP_L = '日本法入門（英語授課）'; JP_N = '日本語（中級）'
 R38 = [dict(id='R38_HUD_US', key='2028-09-14', h=7.5, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + B['ALONE'], pref=[], asks={'*': ''}, nothree=True,
             steps=HUDW('9/14（四）07:30：第二行「下一堂 13:00 %s」、第一行「今天的課：13:00 …」' % US_C, '下一堂 13:00 ' + US_C, '今天的課：13:00 ' + US_C)
@@ -3061,11 +3061,11 @@ R38 = [dict(id='R38_HUD_US', key='2028-09-14', h=7.5, zone='us_apartment', flags
                   + [JUMPK('2028-09-15', 7.5, 'us_apartment')] + HUDW('9/15（五）07:30：「下一堂 09:00 %s」' % US_W, '下一堂 09:00 ' + US_W, '今天的課：09:00 ' + US_W)
                   + [JUMPK('2028-09-16', 10.0, 'us_apartment')] + HUDW('9/16（六）10:00：「今天沒有課」', '今天沒有課')),
        dict(id='R38_HUD_JP', key='2028-04-11', h=9.0, zone='jp_room', flags=dict(JPF7), js=JPIN + NOKX, pref=[], asks={'*': ''}, nothree=True,
-            steps=HUDW('4/11（二）09:00：第二行「下一堂 10:40 %s」' % JP_L, '下一堂 10:40 ' + JP_L)
+            steps=HUDW('4/11（二）09:00：第二行「下一堂 10:40 %s」、第一行「目標：今天的課：10:40 …」' % JP_L, '下一堂 10:40 ' + JP_L, None, '目標：今天的課：10:40 ' + JP_L)
                   + [JUMPK('2028-04-11', 10.0, 'jp_room')] + HUDW('4/11 10:00（開課前一小時內）：「現在可以上課：10:40 %s」' % JP_L, '現在可以上課：10:40 ' + JP_L)
-                  + [JUMPK('2028-04-11', 13.0, 'jp_room')] + HUDW('4/11 13:00（課過了）：「今天的課都結束了」', '今天的課都結束了')
-                  + [JUMPK('2028-04-12', 8.5, 'jp_room')] + HUDW('4/12（三）08:30：「現在可以上課：09:00 %s」' % JP_N, '現在可以上課：09:00 ' + JP_N)
-                  + [JUMPK('2028-04-15', 10.0, 'jp_room')] + HUDW('4/15（六）10:00：「今天沒有課」', '今天沒有課'))]
+                  + [JUMPK('2028-04-11', 13.0, 'jp_room')] + HUDW('4/11 13:00（課過了）：「今天的課都結束了」、第一行還是「目標：今天的課：10:40 …」', '今天的課都結束了', None, '目標：今天的課：10:40 ' + JP_L)
+                  + [JUMPK('2028-04-12', 8.5, 'jp_room')] + HUDW('4/12（三）08:30：「現在可以上課：09:00 %s」、第一行「目標：今天的課：09:00 …」' % JP_N, '現在可以上課：09:00 ' + JP_N, None, '目標：今天的課：09:00 ' + JP_N)
+                  + [JUMPK('2028-04-15', 10.0, 'jp_room')] + HUDW('4/15（六）10:00：兩行都「今天沒有課」', '今天沒有課', None, '目標：今天沒有課'))]
 # ② BUG-PHONE-CAP-1025（c77903a09）：手機超過 200 則刪最舊的，tag 記進 cut，條件只寫 !PHONE.sent 的 guitar_grp1 不再排一次（AA_460 第 1 節）。
 #    [前置／捷徑] 使用者存檔（可昕交往中）改到 2027-05-27（四）19:00；存檔裡排隊還沒送的訊息清掉（PHONE.rec(G).q＝[]，不然讀檔就補送 2025 年的舊訊息、先把最舊的擠掉）；手機換成 200 則：最舊的是吉他社 guitar_grp1（2026-09-23 21:30，guitarFirstDay），後面 199 則媽媽的舊訊息（capfill_*）。
 #    之後照真實快轉玩到 5/29 12:00：新訊息進來就會把 guitar_grp1 擠掉。舊版（3acaf8bea）：擠掉以後每次手機規則都再排、再補進去、再被擠掉＝「手機｜吉他社…」通知一直跳
