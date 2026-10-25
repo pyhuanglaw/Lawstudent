@@ -31719,8 +31719,8 @@
    "title": "機場（桃園出境／入境）窗外遠景照季節天色變暗：src/us3d.js apOutside() 固定 17～19 → 照 E.lightH",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 做 patch＋README＋outbox",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：12/23 05:40 桃園入境窗外暗、夜景；8/2 07:00 出境亮；冬天 16:55、夏天 18:40 日落前還是白天那塊",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -31740,9 +31740,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "單元測試改前 FAIL；12/23 05:40 入境暗、8/2 07:00 出境亮；同鏡頭截圖",
     "receiver": "LAWWW",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    },
-   "notes": ""
+   "notes": "LAWWW2-B 10-25 02:12 交（0d8a64275，patches/us_airport_dusk_1025.patch 對 b8a6934e7；README test_shots/us_airport_dusk_1025）；LAWWW-B 02:5x 整合：us_airport_dusk（改前 FAIL 6）、airport_cam（18:30 改白天、19:12 夜景）、window_night_sync、season_dusk、after_midnight 等 14 支 ALL PASS。只記錄：日落前調暗的白天景偏藍灰；早上 6:00 換回白天會跳一下。"
   },
   {
    "id": "US-COMMUNITY-WEST-PERF-1025",
