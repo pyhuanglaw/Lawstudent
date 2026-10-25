@@ -49,7 +49,7 @@ const R2Y4A_EVENTS=(function(){
       sis('對面那間也去一下。') ] });
   EV.push({ id:'ev_us1_asian', title:'竹葉亞洲超市', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ nar('（亞洲超市。她在泡麵那一排停了很久，拿了一包台灣的泡麵，貴三倍。）'),
-      sis('……這個不算浪費。這是鄉愁。') ] });
+      sis('……我在研究室常吃這一種。') ] });   /* AA_450 1-1：原「……這個不算浪費。這是鄉愁。」（口氣表 0-3 禁的「不算 X，這是 Y」）*/
   EV.push({ id:'ev_us1_door', title:'公寓 214', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',   /* 二樓的戶外樓梯平台；她不進門；BB_98 2-7 原句拿掉編號（裁定第 6 點）*/
     dialogue:[ sis('你一個人一戶？……有客廳，還有自己的廚房。'),
       sis('我住 C 棟，三個人合租。廚房是共用的，冰箱上貼了一張輪值表。'),
@@ -79,7 +79,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'end'},{set:{US2:'there'}} ] });
   /* 挽回中（AA_253 §6 第 2 步原句）：她沒有約他；19:00 前後他去 C 棟還向她室友借的鍋子（r2y4a3d.js：人在社區就帶到 C 棟）。選「還沒。」＝REPAIR +1（after）*/
   EV.push({ id:'ev_us2_repair', title:'退回的報告', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ nar('（C 棟，學姊合租那一戶。廚房朝客廳的窗口開著，她站在爐子前面，水還沒滾。你把鍋子放在窗口的吧台上。）'),
+    dialogue:[ nar('（你去 C 棟還上個禮拜跟她室友借的鍋子。廚房朝客廳的窗口開著，她站在爐子前面，水還沒滾。你把鍋子放在窗口的吧台上。）'),   /* AA_452 1-3：交代鍋子是哪來的 */
       CG('cg_us_kitchen_heroine05'),   /* BCG-32 接這一句 */
       sis('……報告被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
       nar('（水滾了。她把麵放進去，放了兩人份，又拿出一把。）'),
@@ -92,13 +92,19 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-18 芝加哥的週末（BB_98 2-9；D47：芝加哥用圖片）：11/11 07:00 出發（出遊），兩天＝兩段（第二天在 afterOuting 接 ev_us_chicago2）---- */
   EV.push({ id:'ev_us_chicago', title:'芝加哥的週末', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'芝加哥',bg:'chicago_lake'},
+    dialogue:[ {if:{custom:LONG},goto:'chi0'},   /* AA_451 1-1：沒見過他的（8/14 迎新、9/8 下課都沒去），11/3 學姊說「我們一起認識他」——在巴士上認識（MET_LONG＋LONG_CHI）；之後的句子照有見過的版本 */
+      nar('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）'),
+      {speaker:'何俊朗',text:'臺灣來的？我聽你們講話聽出來的。'},
+      {speaker:'何俊朗',text:'香港。何俊朗。叫我 Long 就好。'},
+      me('{name}。'),
+      nar('（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）'),
+      {set:{MET_LONG:true,LONG_CHI:true}},
+      {label:'chi0'},{scene:'芝加哥',bg:'chicago_lake'},
       nar('（她排了一張行程表，每一格都有時間。第一個景點就遲到二十分鐘：巴士誤點。）'),
       nar('（她看著行程表，然後把它摺起來，放進口袋。）'),
       CG('cg_chicago_heroine05'),   /* BCG-17（何俊朗只畫背影）*/
       sis('……今天不照表。'),
-      IF(LONG,nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句 */
-      UN(LONG,nar('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_370 L1：沒見過他（沒去 8/14 迎新、9/8 下課）＝「同行的人」*/
+      nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句。沒見過他的在上面巴士上認識了（AA_451 1-1；原本 AA_370 L1 的「同行的人」版不再用）*/
       sis('「還好」是好還是不好？'),
       me('看情況。'),
       sis('……法律系的回答。'),
@@ -130,6 +136,7 @@ const R2Y4A_EVENTS=(function(){
       sis('（打字，停了一下，又加兩個字）跟你。'),
       {set:{US3:'two'}},{end:true},
       {label:'r'},
+      IF(LONG,nar('（湖邊。何俊朗和其他人走在前面。她放慢腳步，走到你旁邊。）')),UN(LONG,nar('（湖邊。大家走在前面。她放慢腳步，走到你旁邊。）')),   /* AA_452 1-4：群組約的是「大家」*/
       sis('分手那天，你沒有解釋。'),
       sis('我後來想，那樣比較好。你解釋的話，我可能會信。'),
       sis('……我不想因為信了一個解釋，再跟你在一起。'),
@@ -176,6 +183,8 @@ const R2Y4A_EVENTS=(function(){
       sis('如果你還想的話，我們重新開始。這次我先說。'),
       {choice:[{text:'「好。」'},{text:'「……我還想。」'}]},
       CG('cg_snow_steps_heroine05'),
+      nar('（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）'),   /* AA_452 第 4 節（企劃線 2c75de1bc）：選完她要有反應，接交往中那一段計畫本「雪」 */
+      ...SNOW_END,
       {set:{US_SNOW:'restart'}} ],
     after:G=>{ if(G.flags.US_SNOW==='restart'&&typeof R2Y4A!=='undefined') R2Y4A.restart(G); } });
 
@@ -199,7 +208,7 @@ const R2Y4A_EVENTS=(function(){
       {speaker:'何俊朗',text:'我的飛機比你早。……香港見？'},
       {choice:[{text:'「香港見。」',goto:'a'},{text:'「還好。」',goto:'b'}]},
       {label:'a'},{speaker:'何俊朗',text:'我帶你去吃。說好了。'},{goto:'e'},
-      {label:'b'},{speaker:'何俊朗',text:'……你又來了。'},nar('（他笑了一下，上了車。）'),{goto:'e'},
+      {label:'b'},UN(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……你又來了。'}),IF(G=>!!G.flags.LONG_CHI,{speaker:'何俊朗',text:'……還好？你學我。'}),nar('（他笑了一下，上了車。）'),{goto:'e'},   /* AA_451 1-1：芝加哥才認識的（LONG_CHI），說「還好」的是他自己 */
       {label:'n'},nar('（天還沒亮。社區門口停著機場巴士。）'),
       {label:'e'},{set:{US_LEFT:true}} ] });
   EV.push({ id:'ev_sf1', title:'舊金山', participants:[S5], location:'any', trigger:'manual', once:true, background:'dark',
@@ -266,7 +275,7 @@ const R2Y4A_EVENTS=(function(){
       sis('下次我會帶伴手禮來。'),
       {phone:S5,text:'……第二句是反的。是我照顧你。'},   /* 下車以後她傳 */
       {set:{CAME_BACK_TOGETHER:true}},{end:true},
-      {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）') ] });
+      {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）'),nar('（出口，媽媽在揮手。）') ] });   /* AA_452 1-5：12/10 媽媽說要來接 */
   EV.push({ id:'ev_us_home', title:'臺北的家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
     dialogue:[ {scene:'臺北・家裡',bg:'home_living_day'},
       nar('（九點。廚房裡有粥的味道。你回來了。）'),   /* AA_370 M5：媽媽 05:40 就接到人了，九點這句是旁白（AA_291 第 5 節；原「媽媽：你回來了。」）*/

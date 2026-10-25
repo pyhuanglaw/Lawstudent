@@ -10,7 +10,7 @@
      SK10 每學期第 6、15 週週一 21:00 芯慈在「一題換一題」小群組（ECON_LAW_BRIDGE 以後建立）；那一場沒去＝SK10_MISSED（下一次唐睿一句）
      G4c 日文上、日文下第 15 週週日 20:00 日文班群組；沒去＝第 16 週週一 12:00 采蓁一句
      NYE 大一跨年（2026-01-01）：Kevin 家族群組照片；子晴、沛珊 00:00、芷若 00:04、明軒 00:06、方奕廷 15:10 私訊（AA_432 第 4 節）；沒上頂樓＝12:00 阿凱
-     D5  公法讀書會的前一天（週三）20:00 公法讀書會群組，冷卻四週（大一上第 10 週～大二上，沛珊 12/17 休學以前）
+     D5  公法讀書會的前一天（週三）20:00 公法讀書會群組，冷卻四週（大一上第 10 週～大二上，沛珊 12/17 休學以前）；沛珊那句照第幾次輪五種說法（AA_458 第 2 節，S.D5_LINES）
    課堂（CLS.IN_CLASS）：G1 第一次去上日文那一堂、G6 日文下第 10 週那一堂。
    測試：node tests/bbpack_unit.js */
 'use strict';
@@ -30,6 +30,7 @@ const BBPACK=(function(){
   S.here=(id,G)=>{ const p=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):null; return !(p&&p.here===false); };
   S.away=(id,G)=>!!(typeof STORY!=='undefined'&&STORY.awayNow&&STORY.awayNow(id,G));
   S.abroad=G=>!!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G));
+  S.D5_LINES=['講義我先印了，放在女舍一樓的櫃子，誰要拿？','明天的講義印好了！一樣放在女舍一樓的櫃子，誰要拿？','這次的講義比較厚，我印成雙面了。櫃子那邊，誰要拿？','講義在櫃子了！上次有人拿了兩份，這次一人一份喔！','印表機今天卡紙三次……講義還是印好了！誰要拿？'];   /* D5 沛珊的講義：照第幾次輪（AA_458 第 2 節的表，一字不改；第 1 句＝原句）*/
   S.beforeKey=(G,k)=>{ const d=D(k); return d!=null&&G.day<d; };
   S.knowXun=G=>!!(G.flags.MET_XUN||G.flags.PLAYED_Y0);   /* 認識阿勳：法律系時期見過，或玩過經濟系那一年（室友）*/
   S.attendN=(G,cid)=>{ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}); return ((R&&R.attend)||{})[cid]|0; };
@@ -142,12 +143,14 @@ const BBPACK=(function(){
         /* BB_171 第 3 節（AA_432 4-6「照 BB_171」）：沒上頂樓的玩家，1/1 中午阿凱一則 */
         if(win(G,ny,12,ny+2,0)&&F.NYE_Y1!=='roof'&&knows('kai')) ph.at(G,ny,12,[{th:'p:kai',from:'kai',text:'昨天頂樓好吵 我在打團戰'}],'bb_nye_kai_y1'); } }
     /* D5：沛珊的講義（公法讀書會的前一天；冷卻四週）*/
+    /* AA_458 第 2 節（企劃線 b01e32018）：原本每次都是同一句（大一上兩次、到大二上十次左右）→ 照第幾次輪：第 1 次原句，用到第 5 句以後從第 2 句再輪（照 cracktalk3d.js 的 yt2）。
+       選項、她回的「好，明天直接給你。」照舊；tag 照舊 bb_d5_<日>。第幾次記 F.D5_ASK_N（D5_N 是 ev_d5_handout 去拿了幾次，不一樣）；舊存檔沒有＝照手機裡看得到、已經收過的 bb_d5_ 則數算（沒收過＝第 1 句）*/
     { const t=term(G), wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:0;
       if(t&&!t.exam&&wd===3&&(+G.hour||0)>=20&&(+G.hour||0)<22&&['Y1S1','Y1S2','Y2S1'].includes(t.id)&&(t.id!=='Y1S1'||t.week>=10)&&S.beforeKey(G,'2026-12-17')&&ph.inGroup(G,'public_law')&&knows(PS)&&S.here(PS,G)
         &&(F.D5_LAST==null||G.day-F.D5_LAST>=28)&&!ph.sent(G,'bb_d5_'+G.day)){
         const plgA=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.find(a=>a.id==='public_law_group');
-        if(plgA&&ACTIVITIES.on(plgA,G.day+1,G)){ F.D5_LAST=G.day;
-          ph.at(G,G.day,20,[{th:'g:public_law',from:PS,text:'講義我先印了，放在女舍一樓的櫃子，誰要拿？',ask:{id:'bb_d5_'+G.day,until:G.day*24+22,opts:[{t:'我去拿。',set:{D5_GO:G.day}},{t:'請別人幫我拿。',say:[{from:PS,text:'好，明天直接給你。'}]}]}}],'bb_d5_'+G.day); } } }
+        if(plgA&&ACTIVITIES.on(plgA,G.day+1,G)){ F.D5_LAST=G.day; const A=S.D5_LINES, c=typeof F.D5_ASK_N==='number'?F.D5_ASK_N:(G.msgs||[]).filter(m=>/^bb_d5_\d+$/.test(m.tag||'')&&m.from===PS).length, i=c<A.length?c:1+(c-1)%(A.length-1);
+          if(ph.at(G,G.day,20,[{th:'g:public_law',from:PS,text:A[i],ask:{id:'bb_d5_'+G.day,until:G.day*24+22,opts:[{t:'我去拿。',set:{D5_GO:G.day}},{t:'請別人幫我拿。',say:[{from:PS,text:'好，明天直接給你。'}]}]}}],'bb_d5_'+G.day)) F.D5_ASK_N=c+1; } } }
   };
 
   /* ---------------- 課堂（CLS.IN_CLASS）---------------- */

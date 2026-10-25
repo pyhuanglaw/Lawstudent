@@ -246,10 +246,15 @@ bch = wm('bath_w', 'chrome'); bch.cyl((bx0 - 0.02, 1.0, d0 + 0.1), (xo - 0.05, 1
 bi0, bi1, bj0, bj1 = bx0 + bt / 2, IX1, bz0 + bt / 2, IZ1
 Mesh('dorm_bath_floor', M['tile_f']).box(bi0, bi1, 0.0, 0.015, bj0, bj1).finish(root)
 tw = Mesh('dorm_bath_tile', M['tile_w'])
-tw.box(bi0, bi1 - 0.003, 0.015, 2.2, bj0, bj0 + 0.008); tw.box(bi0, bi1 - 0.003, 0.015, 2.2, bj1 - 0.008, bj1)
+tw.box(bi0, bi1 - 0.003, 0.015, 2.2, bj0, bj0 + 0.008); tw.box(bi0, bi1 - 0.003, 0.015, 2.2, bj1 - 0.008, bj1 - 0.004)
 tw.box(bi0, bi0 + 0.008, 0.015, 2.2, bj0 + 0.008, d0); tw.box(bi0, bi0 + 0.008, 0.015, 2.2, d1, bj1 - 0.008); tw.box(bi0, bi0 + 0.008, bdh + 0.004, 2.2, d0, d1)
-tw.box(bi1 - 0.008, bi1, 0.015, 2.2, bj0 + 0.008, bj1 - 0.008)
+tw.box(bi1 - 0.008, bi1 - 0.004, 0.015, 2.2, bj0 + 0.008, bj1 - 0.008)
 fin(tw)
+# 貼著前牆、右牆（房間的外牆）的那兩片：朝外那一面是油漆牆（LAWWW2-B 10-24 巡查 P3）。原本整片是磁磚方塊，鏡頭在門外、前牆淡出時，
+# 房間右邊露出一整片浴室磁磚，像浴室翻到外面（每天早上起床的鏡頭）。磁磚只留在洗手間裡面那一面；兩層中間空 0.5 mm，不疊面
+po = Mesh('dorm_bath_outer', M['wall'])
+po.box(bi0, bi1 - 0.003, 0.015, 2.2, bj1 - 0.0035, bj1); po.box(bi1 - 0.0035, bi1, 0.015, 2.2, bj0 + 0.008, bj1 - 0.008)
+fin(po)
 cer = Mesh('dorm_ceramic', M['ceramic'])
 tx, tz = bi1 - 0.36, bj1 - 0.42                                                                      # 馬桶（面向 −x）
 cer.add_bm(L.lathe([(0.0, 0.0), (0.12, 0.0), (0.16, 0.2), (0.19, 0.38), (0.17, 0.4), (0.0, 0.4)], seg=16), Matrix.Translation(g2b(tx, 0.015, tz)) @ Matrix.Scale(1.0, 4))

@@ -92,7 +92,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     for(const t of ['Y1S1','Y1S2','Y2S1']){ const H=TERMEND.heart('heroine_02',t), F=TERMEND.gf('heroine_02',t); ok.push([t,H.invite,H.invite2,H.h,F.invite,F.h]); }
     check('補充. 心意邀約大一上～大二上「這禮拜五我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。」、第二次「禮拜五十點。……上次那句，你想好了嗎？」、22:00',
       ok.every(x=>x[1]==='這禮拜五我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&x[2]==='禮拜五十點。……上次那句，你想好了嗎？'&&x[3]===22),J(ok));
-    check('補充. 女朋友的學期末約會大一上～大二上「禮拜五十點，等我下班。」22:00',ok.every(x=>x[4]==='禮拜五十點，等我下班。'&&x[5]===22),J(ok));
+    check('補充. 女朋友的學期末約會大一上～大二上 22:00（邀約那一句 AA_456 1-5 照學期換：大一上「禮拜五十點，等我下班。」照舊、大一下「……今天我留了一塊蛋糕。」、大二上「禮拜五十點。最後一個客人走了，我傳給你。」）',ok.every((x,i)=>x[4]===['禮拜五十點，等我下班。','禮拜五十點，等我下班。……今天我留了一塊蛋糕。','禮拜五十點。最後一個客人走了，我傳給你。'][i]&&x[5]===22),J(ok));
     const Fr=TERMEND_LINES.FRIEND.heroine_02;
     check('補充. 朋友的邀約：大一上「這禮拜五我十點下班。要不要吃宵夜？」；大一上～大二上「下班以後」都是 22:00',Fr.y1s1==='這禮拜五我十點下班。要不要吃宵夜？'&&['Y1S1','Y1S2','Y2S1'].every(t=>Fr.hByTerm&&Fr.hByTerm[t]===22),J([Fr.y1s1,Fr.hByTerm]));
     const H3=TERMEND.heart('heroine_02','Y3S2');

@@ -22,11 +22,13 @@ const INV=(function(){
   const wdOf=(G,day)=>((G.weekday+(day-G.day))%7+7)%7;
   const when=(G,day,h)=>(day===G.day?'今天':(day===G.day+1?'明天':(()=>{ const d=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day):null; return d?d.m+'/'+d.d:'第 '+day+' 天'; })()))+' '+hh(h);
   S.when=when;
+  /* 超過 200 則刪最舊的：刪掉的 tag 記進手機的 cut（同 phone3d.js put），PHONE.sent 才記得傳過（BUG-PHONE-CAP-1025，BB-B 10-25 R38_CAP_GUITAR：skipNotes 補的群組訊息把 guitar_grp1 擠掉，又再排一次）*/
+  const trim=G=>{ if(G.msgs.length<=200) return; const gone=G.msgs.splice(0,G.msgs.length-200), P=G.phone||(G.phone={}), C=P.cut||(P.cut=[]); for(const x of gone) if(x&&x.tag&&!C.includes(x.tag)) C.push(x.tag); };
   /* 訊息 */
-  S.msg=function(G,who,text,iv){ S.rec(G); G.msgs.push({day:G.day,h:+(G.hour%24).toFixed(2),who:who||null,text,iv:iv?iv.id:null}); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); };
+  S.msg=function(G,who,text,iv){ S.rec(G); G.msgs.push({day:G.day,h:+(G.hour%24).toFixed(2),who:who||null,text,iv:iv?iv.id:null}); trim(G); };
   /* 補在過去某個時間的訊息（翹課的轉述：睡過一整天，前一天那堂課的群組訊息照下課的時間排進去；classes3d.js 的 skipNotes）*/
   S.msgAt=function(G,who,text,day,h){ S.rec(G); const m={day,h:+(h%24).toFixed(2),who:who||null,text,iv:null}; let i=G.msgs.length; while(i>0&&(G.msgs[i-1].day>day||(G.msgs[i-1].day===day&&G.msgs[i-1].h>m.h))) i--;
-    G.msgs.splice(i,0,m); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); };
+    G.msgs.splice(i,0,m); trim(G); };
   /* 聯絡方式 */
   S.hasContact=(G,id)=>D().contacts0.includes(id)||!!(G.contacts&&G.contacts[id]!=null);
   S.addContact=function(G,id){ S.rec(G); if(S.hasContact(G,id)) return false; G.contacts[id]=G.day; S.msg(G,id,'加了'+nameOf(id)+'的聯絡方式。'); return true; };

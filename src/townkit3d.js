@@ -497,9 +497,10 @@ const TK = (function(){
       if(style==='campus'){ // 一樓拱廊：拱形開口（裡面暗）、拱與拱之間是石材
         if(night){ x.fillStyle='rgba(255,200,130,0.55)'; x.fillRect(ox+30,62,68,58); continue; }
         x.fillStyle='#dcd3c3'; x.fillRect(ox,0,128,h); x.fillStyle='#2e2925'; x.beginPath(); x.moveTo(ox+20,h); x.lineTo(ox+20,52); x.arc(ox+64,52,44,Math.PI,0); x.lineTo(ox+108,h); x.fill(); x.fillStyle='rgba(0,0,0,0.12)'; x.fillRect(ox,0,128,6); continue; }
-      const hue=[['#c9463d','#fff'],['#2f7d5b','#fff'],['#e0b24a','#3b2a1e'],['#3b5a8c','#fff']][(b+1)%4];
-      if(night){ x.fillStyle=hue[0]; x.fillRect(ox+6,4,116,26); if(b!==2){ x.fillStyle='#ffd8a0'; x.fillRect(ox+12,40,104,80); } continue; }
-      x.fillStyle='#8a8278'; x.fillRect(ox,0,128,h); x.fillStyle=hue[0]; x.fillRect(ox+6,4,116,26); x.fillStyle=hue[1]; for(let t=0;t<4;t++) x.fillRect(ox+18+t*24,11,16,12);   // 招牌（字形色塊）
+      /* 招牌：顏色壓低彩度、一塊米白底深色字，拉下鐵捲門那一家的招牌只有一半寬（LAWWW2-B 10-24：原本四家都是滿版的正紅、正綠、正黃、正藍，遠看連成一條彩色帶子，像舞台布景）*/
+      const hue=[['#9c5148','#f3ece2'],['#46705e','#eef0e8'],['#d9d0bd','#4a3b2c'],['#5a6574','#e9e9e6']][(b+1)%4], sx=b===2?ox+30:ox+6, sw=b===2?68:116;
+      if(night){ x.fillStyle=hue[0]; x.fillRect(sx,4,sw,26); if(b!==2){ x.fillStyle='#ffd8a0'; x.fillRect(ox+12,40,104,80); } continue; }
+      x.fillStyle='#8a8278'; x.fillRect(ox,0,128,h); x.fillStyle=hue[0]; x.fillRect(sx,4,sw,26); x.fillStyle=hue[1]; for(let t=0;t<(b===2?2:4);t++) x.fillRect(sx+12+t*24,11,16,12);   // 招牌（字形色塊）
       if(b===2){ x.fillStyle='#a9adb0'; x.fillRect(ox+10,36,108,92); x.fillStyle='rgba(0,0,0,0.25)'; for(let y=38;y<h;y+=5) x.fillRect(ox+10,y,108,1.5); }   // 鐵捲門
       else { x.fillStyle='#4a3a2c'; x.fillRect(ox+10,36,108,92); x.fillStyle='#d9c7a2'; x.fillRect(ox+14,40,100,84); x.fillStyle='rgba(120,90,60,0.6)'; for(let i=0;i<5;i++) x.fillRect(ox+18+i*20,60+(i%2)*10,14,40); x.fillStyle='rgba(255,255,255,0.18)'; x.fillRect(ox+14,40,30,84); }
       x.fillStyle='#5b5650'; x.fillRect(ox,0,6,h); x.fillRect(ox+122,0,6,h); } }); }

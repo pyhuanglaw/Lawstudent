@@ -56,7 +56,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { fresh(termDay('Y1S1',3,5),19,'dorm',{}); const ns=new Set(); for(let k=0;k<20;k++){ const d=HOME.dinnerPick(G); if(d){ ns.add(d.n); HOME.rec(G).ate[d.n]=G.day-30; } G.day++; } check('9. 第 3 週不會問期中考',!ns.has(8),JSON.stringify([...ns])); }
   // 家人群組
   const THU=termDay('Y1S1',4,4); fresh(THU,20.1,'dorm',{introDone:true}); STORY.phoneRules(GM); PHONE.tick(G);
-  const g=(G.msgs||[]).filter(m=>m.th==='g:home'); check('10. 週四 20:00 家人群組：媽媽一句、可以回「會回去／這週不回」',g.length===1&&g[0].ask&&g[0].ask.opts.length===2&&HOME_LINES.group.some(x=>x.t===g[0].text),JSON.stringify(g.map(m=>m.text)));
+  const g=(G.msgs||[]).filter(m=>m.th==='g:home'); check('10. 週四 20:00 家人群組：媽媽一句、可以回「會回去／這週不回」（AA_458 第 1 節起句子在 HOME.GROUP_WK、照這一週的種類挑）',g.length===1&&g[0].ask&&g[0].ask.opts.length===2&&(HOME_LINES.group.some(x=>x.t===g[0].text)||Object.values(HOME.GROUP_WK||{}).some(w=>w[0]===g[0].text)||(HOME.ELDER||[]).includes(g[0].text)),JSON.stringify(g.map(m=>m.text)));
   G.hour=22.2; STORY.phoneRules(GM); PHONE.tick(G); check('10. 兩小時沒回：爸爸傳「？」',(G.msgs||[]).some(m=>m.th==='g:home'&&m.from==='dad'&&m.text==='？'));
   fresh(THU,20.1,'dorm',{introDone:true}); STORY.phoneRules(GM); PHONE.tick(G); const q=(G.msgs||[]).find(m=>m.th==='g:home'&&m.ask); PHONE.answer(G,q.ask.id,0); G.hour=22.5; STORY.phoneRules(GM); PHONE.tick(G);
   check('10. 回「會回去」：媽媽「好」＋愛心貼圖、爸爸不傳「？」',(G.msgs||[]).some(m=>m.from==='mom'&&m.text==='好')&&!(G.msgs||[]).some(m=>m.from==='dad'));

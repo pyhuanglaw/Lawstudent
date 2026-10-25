@@ -50,6 +50,15 @@ def uv_quad(mesh, pts, uvs):
     return f
 
 
+def outside_night(x0, x1, y0, y1, z, eye=(0.0, 4.0, 0.0), back=0.5):
+    """窗外遠景的夜景平面（airport_backdrop.py --night：停車場樓層、路燈、窗戶亮著）：放在白天那塊後面 back 公尺，從大廳中間 eye 看出去和白天那塊蓋住同一個範圍
+    （照距離比例放大）；遊戲晚上才藏起白天那塊、露出這塊（us3d.js apOutside）。沒有接 us3d.js 的版本，白天那塊在前面擋住，看不到這塊"""
+    k = (z + back - eye[2]) / (z - eye[2]); X = lambda x: eye[0] + (x - eye[0]) * k; Y = lambda y: eye[1] + (y - eye[1]) * k
+    on = Mesh('GLOW_ap_outside_night', img_mat('GLOW_ap_outside_night_m', 'ap_outside_night.png', rough=0.9, emit=1.0))
+    uv_quad(on, [(X(x0), Y(y0), z + back), (X(x1), Y(y0), z + back), (X(x1), Y(y1), z + back), (X(x0), Y(y1), z + back)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1])
+    on.finish(root, uv=False)
+
+
 def sign_board(mesh, frame, cx, cy, cz, w, h, face, uvr, depth=0.12, back=None):
     """招牌燈箱：深灰外框盒＋正面（face：'S'＝朝 +z、'N'＝朝 −z、'E'＝朝 +x、'W'＝朝 −x）貼圖集的 uvr＝(u0, v0, u1, v1)；back＝背面也貼（兩面招牌）"""
     u0, v0, u1, v1 = uvr; hw, hh = w / 2, h / 2
@@ -79,16 +88,16 @@ AIRL = {'lumen': (0.0, 0.5, 0.5, 1.0), 'kite': (0.5, 0.5, 1.0, 1.0), 'nanfeng': 
 M = {'floor': L.pbr('ap_floor', 'granite_tile', tile=1.6, target='#cfcdc7', contrast=0.5, normal=0.12, maps=('diff', 'nor'), res=512, rough_value=0.2),
      'floorD': L.pbr('ap_floor_band', 'granite_tile', tile=1.6, target='#5d5e60', contrast=0.6, maps=('diff',), res=256, rough_value=0.22),
      'wall': L.pbr('ap_wall', 'white_plaster_02', tile=2.4, target='#e8e6e0', contrast=0.2, normal=0.06, maps=('diff', 'nor'), res=256, rough_value=0.8),
-     'panel': L.flat('ap_wall_panel', '#3a3e42', rough=0.45, metal=0.2),
+     'panel': L.flat('ap_wall_panel', '#575c61', rough=0.55),   # 報到島背牆、燈箱框：烤漆深灰（ART-VAC-AIRPORT-1021：原本 #3a3e42＋金屬 0.2，遊戲沒有環境貼圖，看起來是一片黑洞）
      'ceil': img_mat('ap_ceiling', 'ap_ceiling.png', rough=0.4, nor='ap_ceiling_nor.png'),
      'white': L.flat('ap_white', '#ecebe7', rough=0.4),
      'col': L.flat('ap_column', '#eeeeea', rough=0.35),
      'steel': L.flat('ap_steel', '#b9bcc0', rough=0.3, metal=0.45),
-     'mull': L.flat('ap_mullion', '#4a4e52', rough=0.35, metal=0.35),
+     'mull': L.flat('ap_mullion', '#8a8f94', rough=0.35, metal=0.3),   # 帷幕、門的框：陽極鋁灰（原本 #4a4e52＋金屬 0.35，近看一根黑柱）
      'glass': L.flat('ck_glass', '#dfe9ec', rough=0.05, alpha=0.16),
      'frost': L.flat('GLOW_ap_frosted', '#eef2f2', rough=0.3, emit=B.srgb('#c8d2d6'), alpha=0.85),
      'top': L.pbr('ap_counter_top', 'granite_tile_03', tile=0.8, target='#4a4a4c', normal=0.15, maps=('diff', 'nor'), res=256, rough_value=0.25),
-     'rubber': L.flat('ap_belt', '#1c1d1f', rough=0.8),
+     'rubber': L.flat('ap_belt', '#2c2e31', rough=0.85),   # 輸送帶：深橡膠灰（原本 #1c1d1f，看起來是挖空的黑方塊）
      'seat': L.flat('ap_seat', '#26282b', rough=0.5),
      'belt': L.flat('ap_queue_belt', '#24427a', rough=0.6),
      'down': L.flat('GLOW_ap_downlight', '#ffffff', rough=0.3, emit=B.srgb('#fff6e6')),
@@ -105,6 +114,7 @@ M = {'floor': L.pbr('ap_floor', 'granite_tile', tile=1.6, target='#cfcdc7', cont
      'paint': L.flat('ap_road_paint', '#ecebe6', rough=0.6),
      'wood': L.pbr('ap_wood', 'walnut_veneer', tile=0.8, target='#9a7450', normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.45),
      'vc': L.vc_material('ap_vc', rough=0.5)}
+M['ceil'].use_backface_culling = True   # 10-22：天花板單面（出境的弧形格柵、入境的平頂都朝下）
 try:
     import plants as PL
     PM = PL.materials('ap_')
@@ -217,7 +227,8 @@ def shopfront(side, z0, z1, kind, xwall, h=4.2):
     if kind == 'fx':
         tp.box(min(xf, xf - s * 0.6), max(xf, xf - s * 0.6), 1.05, 1.1, z0 + 0.5, z1 - 0.5)
         fx_ = Mesh('GLOW_ap_fx_board', M['fidsA']); uv_quad(fx_, [(xb + s * 0.02, 1.6, z1 - 0.5), (xb + s * 0.02, 1.6, z0 + 0.5), (xb + s * 0.02, 2.6, z0 + 0.5), (xb + s * 0.02, 2.6, z1 - 0.5)][::(1 if s > 0 else -1)],
-                                         [(0.6, 0.1), (0.95, 0.1), (0.95, 0.6), (0.6, 0.6)][::(1 if s > 0 else -1)]); fx_.finish(root, uv=False)
+                                         [(0.6, 0.1), (0.95, 0.1), (0.95, 0.6), (0.6, 0.6)][::(1 if s > 0 else -1)] if s > 0 else [(0.95, 0.6), (0.6, 0.6), (0.6, 0.1), (0.95, 0.1)]); fx_.finish(root, uv=False)
+        # ↑ 2026-10-25 招牌稽核：E 牆（s < 0，看板朝 −x）那一間原本字左右相反（頂點和 UV 一起反轉，配對沒變）——那一間的 UV 左右對調
 
 
 PROD = Mesh('ap_products', M['prod'])
@@ -264,7 +275,7 @@ if AREA == 'dep':
     for xa in range(int(X0), int(X1), 6):
         xb = xa + 6
         for za, zb in zip(zs, zs[1:]):
-            q = [(xa, roof_y(za), za), (xa, roof_y(zb), zb), (xb, roof_y(zb), zb), (xb, roof_y(za), za)]
+            q = [(xb, roof_y(za), za), (xb, roof_y(zb), zb), (xa, roof_y(zb), zb), (xa, roof_y(za), za)]   # 朝下（10-22：天花板單面，鏡頭拉到上面時看得穿）
             f = bm.faces.new([bm.verts.new(g2b(*p)) for p in q])
             for lp, (px, py, pz) in zip(f.loops, q): lp[uvl].uv = (pz / 2.0, px / 2.0)
     ce.finish(root, uv=False)
@@ -310,6 +321,10 @@ if AREA == 'dep':
     for isl in J['islands']:
         x, z0, z1, w, sp = isl['x'], isl['z0'], isl['z1'], isl['w'], isl['spine']
         pn.box(x - sp / 2, x + sp / 2, 0.0, 3.2, z0, z1)                                             # 背牆
+        for s in (-1, 1):                                                                            # 背牆的鋁收邊：每 1.2 m 一道直的、頂邊一道（板材的分割，看得出尺度）
+            xf = x + s * sp / 2; zz = z0 + 0.6
+            while zz < z1 - 0.3: mu.box(min(xf, xf + s * 0.012), max(xf, xf + s * 0.012), 0.1, 3.2, zz - 0.02, zz + 0.02); zz += 1.2
+        mu.box(x - sp / 2 - 0.015, x + sp / 2 + 0.015, 3.17, 3.22, z0 - 0.015, z1 + 0.015)
         for s in (-1, 1):
             xb0 = x + s * sp / 2
             st.box(min(xb0, xb0 + s * 0.75), max(xb0, xb0 + s * 0.75), 0.0, 0.45, z0, z1)          # 行李輸送帶（送進背牆）
@@ -406,6 +421,7 @@ if AREA == 'dep':
     ov = Mesh('GLOW_ap_outside', img_mat('GLOW_ap_outside_m', 'ap_outside.png', rough=0.9, emit=1.0))
     uv_quad(ov, [(-90, -2.0, 60), (90, -2.0, 60), (90, 34, 60), (-90, 34, 60)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1])
     ov.finish(root, uv=False)
+    outside_night(-90, 90, -2.0, 34.0, 60.0)
     sg_t = Mesh('GLOW_ap_signs_out', M['signs'])
     sign_board(sg_t, pn, 0.0, EAVE + 1.3, Z1 + 0.3, 14.0, 1.4, 'S', row_uv(SIGN['t2dep'], 8, 0.0, 0.62), depth=0.2)   # 帷幕上方的大字
     sg_t.finish(root, uv=False)
@@ -419,7 +435,7 @@ else:
     for x in range(-27, 28, 9): fb.box(x - 0.15, x + 0.15, 0.0, 0.002, Z0, Z1)
     fb.finish(root)
     ce = Mesh('ap_ceiling', M['ceil']); bm = ce.bm; uvl = bm.loops.layers.uv.verify()
-    q = [(X0, HH, Z1), (X1, HH, Z1), (X1, HH, Z0), (X0, HH, Z0)]
+    q = [(X0, HH, Z0), (X1, HH, Z0), (X1, HH, Z1), (X0, HH, Z1)]   # 朝下（10-22：入境 5.6 m，鏡頭拉遠最高 6.85 m；原本雙面朝上＝畫面整片格柵）
     f = bm.faces.new([bm.verts.new(g2b(*p)) for p in q])
     for lp, (px, py, pz) in zip(f.loops, q): lp[uvl].uv = (pz / 2.0, px / 2.0)
     ce.finish(root, uv=False)
@@ -488,6 +504,7 @@ else:
         sign_board(sg, pn, (a + b) / 2, 3.5, Z1 - 0.4, 3.0, 0.1875 * 2, 'N', row_uv(SIGN['exit'], 8, 0.0, 0.55), depth=0.1)
     ov = Mesh('GLOW_ap_outside', img_mat('GLOW_ap_outside_m', 'ap_outside.png', rough=0.9, emit=1.0))
     uv_quad(ov, [(-70, -2.0, Z1 + 30), (70, -2.0, Z1 + 30), (70, 26, Z1 + 30), (-70, 26, Z1 + 30)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1]); ov.finish(root, uv=False)
+    outside_night(-70, 70, -2.0, 26.0, Z1 + 30)
     og = Mesh('ap_outside_walk', M['conc'], tile=2.0); og.box(-70, 70, -0.06, -0.02, Z1, Z1 + 30); og.finish(root)
     for (px, pz) in ((-8.0, 10.6), (8.0, 10.6), (-26.6, -10.6), (26.6, -10.6)): potted_plant(px, pz)
     for (cx, cz) in ((-18.0, -6.0), (18.0, -6.0), (-18.0, 6.0), (18.0, 6.0)): co.cyl((cx, 0.0, cz), (cx, HH, cz), 0.4, seg=18)

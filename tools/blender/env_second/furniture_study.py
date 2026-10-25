@@ -363,6 +363,7 @@ def build():
     B.reset(texres=1024)
     root = B.group('furniture_study', props={'kind': 'furniture_study'})
     mat = bpy.data.materials.new('study_furn'); mat.use_nodes = True; nt = mat.node_tree; bsdf = nt.nodes['Principled BSDF']
+    mat.use_backface_culling = True   # 單面（PERF-PATROL-ECON-1025）：倒角方盒、Solidify 的夾板、有蓋的圓管都是封閉的，背面看不到；博雅大廳 32 張自習椅＋桌子雙面時多畫一倍
     tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(ATLAS); tx.image.pack()
     nt.links.new(tx.outputs['Color'], bsdf.inputs['Base Color'])
     to = nt.nodes.new('ShaderNodeTexImage'); to.image = bpy.data.images.load(ATLAS_ORM); to.image.colorspace_settings.name = 'Non-Color'; to.image.pack()

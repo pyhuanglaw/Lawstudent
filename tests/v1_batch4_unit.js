@@ -154,7 +154,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const can=(day,h)=>{ fresh(day,h,'gongguan'); return EVENTS.check(e); };
     check('家族聚餐：第 14 週週五 18:00–19:30 在公館（DL-04B 放寬，AA_160 3-4、BB_95 3-8）',!!fri&&can(fri,18.05)&&can(fri,19.4)&&!can(fri,19.6)&&!can(fri,17.9)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
     fresh(fri-7,21,'campus'); grp(); STORY.phoneRules(GM); PHONE.tick(G);
-    check('前一週 Kevin 在家族群組約（BB_95 原文）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
+    check('前一週 Kevin 在家族群組約（BB_95 原文；AA_458 3-1「週五」→「下週五」）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！下週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
     const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','……還有——','還有傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
     for(const [pick,tail,sticker] of [['手心都是汗',['那一題大家都會卡。你有回答就很好了。'],false],['收到',['因為收到了。','她連過年都回收到。','……不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃麵。','學姊說吃麵耶！'],false]]){
       fresh(fri,18.55,'gongguan',{classDone:true,classAnswer:'good'}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();
@@ -170,6 +170,6 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
       check('校慶前一天（週五）21:00 法服群組：學姊「明天校慶，問答攤十點開。輪班表在記事本。」',L.includes('明天校慶，問答攤十點開。輪班表在記事本。'),JSON.stringify(L));
       const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('沒加入法服：校慶前一天走過大道的公告欄，旁白「公告欄：明天校慶，各社團擺攤。」（AMBIENT festEve）',/key:'festEve'[^]*?PHONE\.inGroup\(G,'lawclub_study'\)\)\) return null; return \['公告欄：明天校慶，各社團擺攤。'\]/.test(src)); }
     fresh(fri,19.2,'campus',{}); grp(); STORY.phoneRules(GM); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G);
-    check('家族聚餐 沒去：22:00 只有 Kevin 貼資料夾「學姊整理的，沒來的人自己拿。」（學姊那句、22:30 的訂正都刪，AA_218 17-12a）',T().some(t=>/學姊整理的，沒來的人自己拿。/.test(t))&&!T().includes('溫學姊：下學期的書，我會留給學弟。')&&!T().some(t=>/紅筆改錯/.test(t)),JSON.stringify(T())); }
+    check('家族聚餐 沒去：22:00 只有 Kevin 貼資料夾（AA_458 3-2：照片寫「周老師　歷年考古題」＋「學姊整理的。沒來的人，跟我拿。」兩則；學姊那句、22:30 的訂正都刪，AA_218 17-12a）',T().some(t=>/學姊整理的。沒來的人，跟我拿。/.test(t))&&T().some(t=>/周老師　歷年考古題/.test(t))&&!T().includes('溫學姊：下學期的書，我會留給學弟。')&&!T().some(t=>/紅筆改錯/.test(t)),JSON.stringify(T())); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

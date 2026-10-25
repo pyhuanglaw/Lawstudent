@@ -93,13 +93,13 @@ const CHAR = (function(){
   function collectRim(model){ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||C.rimMats.has(mt)) continue; if(/FACE|EYE|Face|Eye|MOUTH|BROW|Outline/.test(mt.name||'')) continue; const rw=/HAIR/i.test(mt.name||'')?1:(/Tops/.test(mt.name||'')?0.45:0); if(!rw) continue;   /* 頭髮全強度、上衣一半；褲子、鞋子、皮膚不加（深色褲子加了會變成偏棕的塑膠光澤）*/ /* 原始值：路人換色時 clone 會連 userData 一起複製，所以黃昏時才 clone 的材質也拿得到「改之前」的值 */ if(!mt.userData.rim0){ const c=mt.parametricRimColorFactor; mt.userData.rim0={c:{r:c.r,g:c.g,b:c.b},p:mt.parametricRimFresnelPowerFactor,l:mt.parametricRimLiftFactor,w:rw}; } C.rimMats.add(mt); } }); }
   /* 臉上的小零件（眼白、虹膜、高光、睫毛、眼線、眉毛、嘴）：包在頭裡，影子被頭和頭髮蓋住；不投影＝每個 VRM 人物陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
   const FACE_PART=/(FaceMouth|FaceBrow|FaceEyelash|FaceEyeline|EyeIris|EyeHighlight|EyeWhite|EyeExtra)/;
-  /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 30 m 外換成 tools/lod/npc_lod.py 做的低面數網格
+  /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 18 m 外（室外；原本 30 m，PERF-PATROL-ECON-1025 改）換成 tools/lod/npc_lod.py 做的低面數網格
      （2 個網格、約 6,400 三角形；原本 13～14 個網格＋描邊、約 3 萬）。綁在這個人自己的骨頭上（照骨頭名字；反向綁定矩陣用他自己 skeleton 的），
-     動作、位置、朝向完全跟著原本的模型走；30 m 內完全是原本的模型。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）。
+     動作、位置、朝向完全跟著原本的模型走；18 m 內完全是原本的模型。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）。
      明暗照 MToon 算：MToon 的直射光是 mix(陰影色, 受光色, linearstep(-1+toony, 1-toony, dotNL+shift))，陰影色＝受光色×r 時，就是 MeshToonMaterial 的漸層 r+(1-r)·linearstep(…)
      （環境光兩邊都是 irradiance×受光色）。r、toony、shift 從這個人自己的 MToon 材質讀（已經套過 C.LOOK）：身體用衣服的平均、頭髮用頭髮的。
      頂點顏色是貼圖原本的顏色：衣服和 MToon 的衣服一樣乘 CLOTH_K，皮膚乘 C.LOOK 的膚色（從皮膚材質讀）*/
-  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_OUT_IN=7; C.FAR_IN_IN=6.5; C.FAR_K=1.0;   /* 室內（教室、圖書館）7 m 外就換、6.5 m 內換回來（LAWWW2-B 2026-10-24：博雅一樓階梯教室一整班路人 361 calls、76 萬三角形 → 271、50 萬；engine3d.js 的 farWant）*/ C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
+  C.FAR_OUT=18; C.FAR_IN=16.5; C.FAR_OUT_IN=7; C.FAR_IN_IN=6.5; C.FAR_K=1.0;   /* 室外 18 m 外換、16.5 m 內換回來（PERF-PATROL-ECON-1025，LAWWW2-B 2026-10-25，LAWWW-B 看 18／24／30 m 並排比較圖定案：18 m 看不出差別；椰林大道往東 0.9→1.2 fps、80.6→62.6 萬三角形）。室內（教室、圖書館）7 m 外就換、6.5 m 內換回來（LAWWW2-B 2026-10-24：博雅一樓階梯教室一整班路人 361 calls、76 萬三角形 → 271、50 萬；engine3d.js 的 farWant）*/ C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
   function farRamp(sh){ const N=32, a=new Uint8Array(N), lo=-1+sh.toony, w=Math.max(1e-3,2-2*sh.toony); for(let i=0;i<N;i++){ const s=Math.min(1,Math.max(0,((i+0.5)/N*2-1+sh.shift-lo)/w)); a[i]=Math.round(255*(sh.r+(1-sh.r)*s)); }
     const t=new THREE.DataTexture(a,N,1,THREE.RedFormat); t.minFilter=t.magFilter=THREE.LinearFilter; t.generateMipmaps=false; t.needsUpdate=true; return t; }
   function farShade(model,re){ let n=0,r=0,toony=0,shift=0, col=null; const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;

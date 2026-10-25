@@ -198,7 +198,7 @@ GM.money=function(n){ G.money+=n; };
     check('17. 大二寒假第二週週一（1/4）前的週三 21:05：阿哲「今年還去海邊嗎」「一樣禮拜一」',Z.includes('zhe:今年還去海邊嗎')&&Z.includes('zhe:一樣禮拜一')&&CALENDAR.dateOf(d).wd%7===1&&K(d)==='1/4',JSON.stringify(Z));
     PHONE.answer(G,'vac_c01ask_Y2',0); STORY.phoneRules(GM); const q=OUT.get(G,'vac_c01_Y2'); check('17. 我去＝那個週一 08:50 臺北車站，標題「禮拜一 08:50 臺北車站集合」',!!q&&q.day===d&&q.title==='海邊一日遊（禮拜一 08:50 臺北車站集合）',q&&q.title);
     G.day=d; G.hour=8.9; said=[]; await VAC.outing(GM,q); G.hour=21.1; STORY.phoneRules(GM); PHONE.tick(G);
-    check('17. 阿哲海邊那天 21:00 群組「我明天回高雄」（AA_264 第 5 節第 1 點；不在 1/1）',txt('g:noodle_team').includes('zhe:我明天回高雄')&&PHONE.sent(G,'nye_y2_zhe'));
+    check('17. 阿哲海邊那天 21:00 群組「明天回高雄 回來帶烏魚子」（AA_264 第 5 節第 1 點；不在 1/1；大二的字 AA_456 1-4 換）',txt('g:noodle_team').includes('zhe:明天回高雄 回來帶烏魚子')&&PHONE.sent(G,'nye_y2_zhe'));
     check('17. 第二次的日誌三行',JSON.stringify(lines())===JSON.stringify(['第二次去海邊。阿哲說他記得帶防曬，結果帶的是乳液。','浪比去年大。柏翰坐在離海最遠的地方看書。','回程的車上，一半的人睡著了。']),JSON.stringify(lines()));
     const d3=VAC.c01Day('Y3'); G.day=VAC.c01Ask(d3); G.hour=21; run(21,21.2); check('17. 大三：「海邊」「照舊」',txt('g:noodle_team').includes('zhe:海邊')&&txt('g:noodle_team').includes('zhe:照舊'));
     { const d4=VAC.c01Day('Y4'); G.day=VAC.c01Ask(d4); G.hour=21; run(21,21.2); const Z4=txt('g:noodle_team');
@@ -210,8 +210,8 @@ GM.money=function(n){ G.money+=n; };
     { const d2=VAC.c01Day('Y2'); fresh(VAC.c01Ask(d2),21.2,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); PHONE.tick(G); G.day=d2; G.hour=18.2; STORY.phoneRules(GM); PHONE.tick(G); const N=txt('g:noodle_team');
       check('17c. 大二沒去：「📷（大家站在防波堤上，頭髮都被吹歪）」「今年的風比去年大！！」、芯慈「我在家看照片就好。」（AA_446 第 3 節）',N.includes('yu:📷（大家站在防波堤上，頭髮都被吹歪）')&&N.includes('yu:今年的風比去年大！！')&&N.includes('classmate_xinci:我在家看照片就好。')&&!N.includes('yu:好冷但好好玩'),JSON.stringify(N.slice(-4))); }
     // 17b. 大二以後才第一次去（AA_264 第 4 節 e01ee2a8）：照 AA_204 第 3 節演整段，換三句
-    fresh(da,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:25}); run(21,21.8); const Z1=txt('g:noodle_team').filter(t=>!/人擠人|人超多|我明天回高雄/.test(t));   /* 大二 1/1 也有跨年的群組訊息（AA_210）*/
-    check('17b. 大一沒去過：大二揪人那天 21:05 照 AA_204 3-1 揪，阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」；以安 FAMILIAR 在臺北＝「我可以。幾點集合？」',Z1[0]==='zhe:禮拜一去海邊？過幾天我就回高雄了'&&Z1.includes('classmate_bohan:火車九點十分有一班。')&&Z1.includes('heroine_01:我可以。幾點集合？')&&!Z1.includes('zhe:今年還去海邊嗎')&&G.flags.VA03_AN===true,JSON.stringify(Z1));
+    fresh(da,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:25}); run(21,21.8); const Z1=txt('g:noodle_team').filter(t=>!/人擠人|人超多|明天回高雄/.test(t));   /* 大二 1/1 也有跨年的群組訊息（AA_210）*/
+    check('17b. 大一沒去過：大二揪人那天 21:05 照 AA_204 3-1 揪，阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」；以安 FAMILIAR 在臺北才回（大二的回覆 AA_456 1-3 照年份換：柏翰「一樣九點十分那班。」、以安「去年那家熱豆漿還在嗎？」）',Z1[0]==='zhe:禮拜一去海邊？過幾天我就回高雄了'&&Z1.includes('classmate_bohan:一樣九點十分那班。')&&Z1.includes('heroine_01:去年那家熱豆漿還在嗎？')&&!Z1.includes('zhe:今年還去海邊嗎')&&G.flags.VA03_AN===true,JSON.stringify(Z1));
     PHONE.answer(G,'vac_c01first_Y2',0); STORY.phoneRules(GM); const q1=OUT.get(G,'vac_c01_Y2');
     check('17b. 我去＝那個禮拜一 08:50 臺北車站，演第一次的整段（ev_va03_beach）',!!q1&&q1.day===d&&q1.ev==='ev_va03_beach'&&Math.abs(q1.h-(8+50/60))<0.01,JSON.stringify(q1));
     { G.day=d; const E1=STORY_EVENTS.find(e=>e.id==='ev_va03_beach'), first=E1.dialogue.filter(l=>l.text&&/風很大/.test(l.text)&&(!l.if||EVENTS.cond(l.if))&&(!l.unless||!EVENTS.cond(l.unless))).map(l=>l.text);

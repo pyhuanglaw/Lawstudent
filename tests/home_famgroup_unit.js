@@ -2,7 +2,7 @@
 // 原因：新局從 2025-08-29 開始，9/4（週四）是第 -12 天，home3d.js 用 (G.day/7|0)%句數 挑句子＝-1 → 拿不到句子、丟例外；
 //       story3d.js 的 phoneRules 攔下來只印警告，所以 9/4 那一則一直沒發（同一個 try 裡的 HOME.breakPhone 也跟著跳過），整晚每次跑手機規則都印一次警告。
 // 檢查：1. 9/4 20:00 媽媽在「家人」群組問一句、沒有 HOME.phoneRules 的警告；2. 9/11、9/18 也照常問；
-//       3. 第 1 天以後挑的句子和原本一樣（第 30 天＝10/16 還是「天氣變涼了 外套帶回去」）。
+//       3. 第 1 天以後照 AA_458 1-4 的排法（第 30 天＝10/16 第 7 週＝「你爸從上海寄了一箱點心 回來吃」；原本照 G.day/7 輪是「天氣變涼了 外套帶回去」）。
 // 修改前：第 1 項 FAIL。用法：node tests/home_famgroup_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -31,6 +31,6 @@ const D=k=>STORY.dayOfKey(k);
 for(const k of ['2025-09-11','2025-09-18']){ const d=D(k); fresh(d); warns.length=0; run(19.5,21); const a=ask(d), w=warns.filter(t=>/HOME\.phoneRules/.test(t));
   check('2. '+k+'（週四）也照常問、沒有警告',a.length===1&&w.length===0,JSON.stringify({msgs:a.map(m=>m.text),warn:w[0]})); }
 { const d=D('2025-10-16'); fresh(d); run(19.5,21); const a=ask(d);
-  check('3. 第 1 天以後挑的句子和原本一樣（第 '+d+' 天＝10/16：「天氣變涼了 外套帶回去」）',d===30&&a.length===1&&a[0].text==='天氣變涼了 外套帶回去',JSON.stringify({d,msgs:a.map(m=>m.text)})); }
+  check('3. 第 1 天以後照 AA_458 1-4（第 '+d+' 天＝10/16 第 7 週，爸爸寄東西：「你爸從上海寄了一箱點心 回來吃」；原本照週數輪是「天氣變涼了」）',d===30&&a.length===1&&a[0].text==='你爸從上海寄了一箱點心 回來吃',JSON.stringify({d,msgs:a.map(m=>m.text)})); }
 console.warn=cw;
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

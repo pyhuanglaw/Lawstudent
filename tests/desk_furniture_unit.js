@@ -62,8 +62,10 @@ const angEq=(a,b)=>Math.abs(Math.atan2(Math.sin(a-b),Math.cos(a-b)))<0.01;
   { const im=ims.study_table2||{count:-1}; const got=[]; for(let i=0;i<im.count;i++) got.push(decomp(im,i));
     check('B 自習雙人桌 '+study.tables.length+' 張：位置＝桌子中心、轉 90°、沒有縮放',im.count===study.tables.length&&study.tables.every(t=>got.some(p=>Math.abs(p.x-t.x)<1e-3&&Math.abs(p.z-t.z)<1e-3&&Math.abs(p.y)<1e-6&&angEq(p.yaw,Math.PI/2)&&Math.abs(p.sy-1)<1e-6))); }
   { const im=ims.round_table||{count:-1}; check('B 圓桌 '+round.tables.length+' 張：位置＝桌子中心',im.count===round.tables.length&&round.tables.every(t=>{ for(let i=0;i<im.count;i++){ const p=decomp(im,i); if(Math.abs(p.x-t.x)<1e-3&&Math.abs(p.z-t.z)<1e-3) return true; } return false; })); }
-  { const im=ims.study_chair||{count:-1}, want=[...study.tables,...round.tables].flatMap(t=>t.seats); const got=[]; for(let i=0;i<im.count;i++) got.push(decomp(im,i));
-    check('B 椅子 '+want.length+' 張：每個座位一張、位置＝座位、朝向＝座位 yaw（坐的人面向桌子）',im.count===want.length&&want.every(s=>got.some(p=>Math.abs(p.x-s.x)<1e-3&&Math.abs(p.z-s.z)<1e-3&&angEq(p.yaw,s.yaw))));
+  /* 自習椅 10 m 外換 study_chair_lod1（PERF-PATROL-ECON-1025 ②）：椅子分在完整版、遠處版兩組，第一格更新才分；兩組合起來檢查（每個座位剛好一張）*/
+  if(z.update&&ims.study_chair_lod1){ const cam=new THREE.PerspectiveCamera(); cam.position.set(0,3.4,11); E.camera=cam; z.update(1/30,E); }
+  { const ims2=[ims.study_chair,ims.study_chair_lod1].filter(Boolean), want=[...study.tables,...round.tables].flatMap(t=>t.seats); const got=[]; for(const im of ims2) for(let i=0;i<im.count;i++) got.push(decomp(im,i));
+    check('B 椅子 '+want.length+' 張（完整版＋遠處版 '+ims2.map(im=>im.count).join('＋')+'）：每個座位一張、位置＝座位、朝向＝座位 yaw（坐的人面向桌子）',got.length===want.length&&want.every(s=>got.filter(p=>Math.abs(p.x-s.x)<1e-3&&Math.abs(p.z-s.z)<1e-3&&angEq(p.yaw,s.yaw)).length===1));
     check('B 椅子垂直放大 '+CHAIR_FIT.toFixed(3)+'、水平不變',got.every(p=>Math.abs(p.sy-CHAIR_FIT)<1e-4&&Math.abs(p.sx-1)<1e-4&&Math.abs(p.sz-1)<1e-4)); }
   { const fb=[]; z.group.traverse(o=>{ if(o.name==='furniture_fallback') fb.push(o); }); const merged=fb[0]&&fb[0].children.filter(o=>o.name==='furniture');
     check('B 程序化備用（合成一個網格）藏起來',fb.length===1&&!fb[0].visible&&merged&&merged.length===1,JSON.stringify({n:fb.length,visible:fb[0]&&fb[0].visible})); }

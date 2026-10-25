@@ -75,7 +75,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
 
   // ======================= H3 8/5 18:30 湖邊（交往中）=======================
   fresh('2028-08-05',18.5,'us_outside',US()); date('heroine_05'); picks=[1]; await run('ev_usl_lake1',{noTitle:true});
-  check('H3. 湖邊：學姊「台灣這時候，天快亮了。」（當地 8/5 18:30＝臺灣 8/6 06:30；不是「已經在吃宵夜了」）', has('台灣這時候，天快亮了。')&&!has('台灣這時候，已經在吃宵夜了。'), JSON.stringify(lines().slice(0,4)));
+  check('H3. 湖邊：學姊「台灣這時候，大家在吃早餐了。」（當地 8/5 18:30＝臺灣 8/6 06:30；AA_450 1-2：不是「已經在吃宵夜了」、也不是「天快亮了」）', has('台灣這時候，大家在吃早餐了。')&&!has('台灣這時候，已經在吃宵夜了。')&&!has('台灣這時候，天快亮了。'), JSON.stringify(lines().slice(0,4)));
 
   // ======================= M1 芷若要地址只發一次（8/10；8/20 那則 y4_zr_addr 拿掉）=======================
   fresh('2028-08-10',8,'us_apartment',US()); R('heroine_02','FAM'); G.contacts.heroine_02=1; runRules('2028-08-10',8,10,0.5);
@@ -107,7 +107,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   check('M3. 舊存檔：R3 版 2a 演過＝USL 的 2a 不排、2b（9/15 新開的餐廳）照排', !OUT.get(G,'usl_long2a')&&!!OUT.get(G,'usl_long2b'), JSON.stringify(OUT.rec(G).map(q=>q.id+':'+q.state)));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true})); G.events.done.ev_long_bbq=1;
   check('M3. R3 版回公寓的筆記（ev_long_note）不再演（第 6 節第 9 題：資料刪掉）', !STORY_EVENTS.some(e=>e.id==='ev_long_note'));
-  said=[]; await uslTick(); const note='（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）';
+  said=[]; await uslTick(); const note='（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。看了很久，還是聽不出來。）';   /* AA_452 1-6 換句 */
   check('M3. 舊存檔：R3 版會所自習室演過＝當晚回公寓演 USL 的筆記（一次）', has(note)&&G.flags.LONG_NOTE===true&&(said=[],0)===0, JSON.stringify(lines()));
   await uslTick(); check('M3. 筆記不重複', !has(note));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true,LONG_NOTE:true})); G.events.done.ev_usl_long3=1; said=[]; await uslTick();
@@ -172,14 +172,14 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
 
   // ======================= L1 沒見過何俊朗：不出現「Long」「何俊朗」=======================
   fresh('2028-09-01',8.5,'us_apartment',US()); G.usLife={att:{us_writing:1}}; await interact({uslClass:true});
-  check('L1. 沒見過他（沒去 8/14 迎新）：Legal Writing 第二句「同一組的交換生交出去的作業，被圈出三個『however』。」', has('同一組的交換生交出去的作業，被圈出三個『however』。')&&!said.some(s=>/Long|何俊朗/.test(s.t)), JSON.stringify(lines()));
+  check('L1. 沒見過他（沒去 8/14 迎新）：Legal Writing 第二句「坐你前面的交換生交出去的作業，被圈出三個『however』。」（AA_451 1-2：原本「同一組的交換生」）', has('坐你前面的交換生交出去的作業，被圈出三個『however』。')&&!said.some(s=>/Long|何俊朗/.test(s.t)), JSON.stringify(lines()));
   fresh('2028-09-01',8.5,'us_apartment',US({MET_LONG:true})); G.usLife={att:{us_writing:1}}; await interact({uslClass:true});
   check('L1. 見過他：照原句「Long 交出去的作業，被圈出三個『however』。」', has('Long 交出去的作業，被圈出三個『however』。'));
   fresh('2028-12-08',8.5,'us_apartment',US()); await interact({uslClass:true});
-  check('L1. 沒見過他：12/8 最後一堂「（同一組的交換生念的那一句，沒有 however。全班拍手。）」', has('（同一組的交換生念的那一句，沒有 however。全班拍手。）')&&!has('（何俊朗念的那一句，沒有 however。全班拍手。）'), JSON.stringify(lines()));
+  check('L1. 沒見過他：12/8 最後一堂「（一個香港來的交換生念的那一句，沒有 however。全班拍手。）」（AA_451 1-2）', has('（一個香港來的交換生念的那一句，沒有 however。全班拍手。）')&&!has('（何俊朗念的那一句，沒有 however。全班拍手。）'), JSON.stringify(lines()));
   fresh('2028-12-08',8.5,'us_apartment',US({MET_LONG:true})); await interact({uslClass:true}); check('L1. 見過他：照原句「（何俊朗念的那一句……）」', has('（何俊朗念的那一句，沒有 however。全班拍手。）'));
   fresh('2028-11-11',7,'us_outside',US()); date('heroine_05'); await run('ev_us_chicago');
-  check('L1. 沒見過他：芝加哥「（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）」', has('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')&&!said.some(s=>/何俊朗/.test(s.t)), JSON.stringify(lines()));
+  check('L1. 沒見過他：芝加哥在巴士上認識他（AA_451 1-1，原本「同行的人」），之後「一路上，何俊朗說了好幾次……」', has('（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）')&&has('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')&&!has('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'), JSON.stringify(lines()));
   fresh('2028-11-11',7,'us_outside',US({MET_LONG:true})); date('heroine_05'); await run('ev_us_chicago'); check('L1. 見過他：芝加哥照原句', has('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'));
 
   // ======================= L2 阿哲 8/21「我回來了」（holff3d.js）：美國路線也照時差 =======================

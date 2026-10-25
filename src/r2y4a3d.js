@@ -4,6 +4,7 @@
    美國路線（2-Y4-16～22；時間都是當地時間，STORY.tzOffset）：
      8/2 抵達＝US1：交往中 19:00 巴士站 → 19:30 草原超市 → 20:15 竹葉亞洲超市 → 21:00 公寓 214 門口 → 21:30 打給媽媽；挽回中＝巴士站一句以後自己走（社區入口），21:30 打給媽媽。加入「交換生」群組。
      9/13 US2：交往中 18:00 私訊、18:30～19:30 坐到 C 棟 208 的高腳椅、20:00 沒到一則、10/16 21:00「拿了 A」；挽回中 19:00 前後人在社區＝帶到 C 棟（還鍋子）。
+       AA_453 1-3：交往中 18:00 最後一則要回——「我過去。」＝出遊「C 棟・廚房」18:30（出發就換到 C 棟演，S.us2Stage）；「今天不行。」、沒回＝照舊；自己走去坐高腳椅照舊、先到的直接演。
      11/3 21:00 芝加哥（交往中私訊、挽回中群組；「去。」＝11/11 07:00 出遊兩天）；11/22 21:00 → 11/23 09:00 感恩節的湖邊；12/2 18:00 → 20:00 初雪（交往中：20:15 沒到＝20:30 一則、
      21:30 還沒到＝帶到場；挽回中 20:00 自動到場、REPAIR ≥ 3 才重新開始）；12/13 21:00 → 12/14 19:00 會所晚餐；12/16 07:00 社區門口（鬧鐘 06:30）→ 交往中舊金山一週／挽回中布魯明頓三天
      → 12/21 起飛 → 12/23 05:40 桃園入境大廳 → 家 → 19:00 409（story3d.js roomY4FromAirport）→ 20:00 阿凱。
@@ -36,6 +37,9 @@ const R2Y4A=(function(){
   const toDay=(GM,day,h)=>{ const G=GM.G; if(G.day<day){ if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,day,h); else { G.day=day; G.hour=h; } } else if(G.day===day) at(GM,h); };
   const EXG='us_exchange', EXTH='g:'+EXG;
   const P5=t=>({th:'p:'+S5,from:S5,text:t}), X5=t=>({th:EXTH,from:S5,text:t});
+  /* AA_450 1-8：交換生群組裡起頭的改成何俊朗（使用者：「她根本就不是主動在群組會說話的人」AA_218 17-12）；沒見過他的玩家＝寄件人「國際學生會」，句子一樣（傳的那一刻看 MET_LONG）*/
+  const LONG=G=>!!(G&&G.flags&&G.flags.MET_LONG)||has('npc_long','MET_LONG');
+  const XL=(G,t)=>LONG(G)?{th:EXTH,from:'npc_long',name:'何俊朗',text:t}:{th:EXTH,from:'us_isa',name:'國際學生會',text:t};
   const md=day=>{ if(typeof CALENDAR==='undefined') return ''; const d=CALENDAR.dateOf(day); return d.m+' 月 '+d.d+' 日'; };
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('R2Y4A',e)).finally(()=>{ busy=false; }); return true; };
   S.isBusy=()=>busy;
@@ -70,21 +74,38 @@ const R2Y4A=(function(){
   S.us2Props=function(GM,on){ const z=GM.E&&GM.E.zone; if(GM.G.zone==='us_shared'&&z&&typeof z.us2==='function'&&!!z.us2On!==!!on) z.us2(on); };   /* EVENT_US2：鍋、泡麵、碗、紅筆圈滿的報告（us3d.js）*/
   S.us2RepairDue=G=>{ const d=D913(); return isUS(G)&&abroad(G)&&d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<20&&!dating(G,S5)&&!G.flags.US2&&['us_outside','us_apartment','us_shared'].includes(G.zone); };
   S.us2Repair=async function(GM){ const G=GM.G; if(G.zone!=='us_shared') await GM.enter('us_shared',SP('us_shared_kitchen')); S.us2Props(GM,true); await run(GM,'ev_us2_repair'); };
+  /* AA_453 1-3：交往中 18:00 回「我過去。」排的出遊「C 棟・廚房」：出發就換到 C 棟 208 演（OUT.STAGE，同 us_blank3d.js 的竹葉、圖書館）——
+     道具（EVENT_US2）打開、她在爐子前（同 USL.sisSync 9/13 傍晚的位置）、你坐窗口外的高腳椅（seat.lift＞0），畫面用模糊的 3D；演完回到原本的地方 */
+  S.US2_OUT='us2_kitchen';
+  S.us2Stage=async function(GM,q,ev){ if(!q||q.id!==S.US2_OUT||!ev||ev.id!=='ev_us2_kitchen') return null; const G=GM.G, E=GM.E, P=E&&E.player;
+    if(!G||!P||!P.obj||!GM.enter||!isUS(G)||P.riding||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES.us_shared||!Z3.ZONES[G.zone]||(typeof OUT!=='undefined'&&OUT.fromHome)) return null;
+    const prev={zone:G.zone,x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; if(P.seat&&GM.standUp) GM.standUp(P);
+    const sp=SP('us_shared_kitchen'); await GM.enter('us_shared',{x:sp.x,z:sp.z,yaw:sp.yaw||0},{noFade:true,deferStory:true,noAutosave:true});
+    try{ S.us2Props(GM,true); if(GM.npc&&GM.npc[S5]&&GM.removeNPC) GM.removeNPC(S5);
+      const n=GM.spawnCharacter?GM.spawnCharacter(S5,-3.2,2.0,{yaw:Math.PI,pose:'idle'}):null; if(n){ n.idlePose=n.pose; n.frozen=true; }
+      const bar=((GM.E&&GM.E.zone&&GM.E.zone.seats)||[]).find(s=>s.lift>0); if(bar&&GM.sitAt) GM.sitAt(P,bar); }
+    catch(e){ console.warn('R2Y4A.us2Stage',e); }
+    let fin=false;
+    return {restore:async()=>{ if(fin) return; fin=true; if(P.seat&&GM.standUp) GM.standUp(P); await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
 
   /* ===================== 2-Y4-18 芝加哥 ===================== */
   S.chicagoDay2=async function(GM){ const G=GM.G, d12=D('2028-11-12'); if(d12==null) return;
     if(GM.fade) await GM.fade(true); toDay(GM,d12,10); if(GM.titleCard) await GM.titleCard(md(d12),'芝加哥',2200);
     if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); if(GM.fade) await GM.fade(false);
     await run(GM,'ev_us_chicago2',{noTitle:true}); at(GM,21.75); G.flags.US_CHICAGO='went'; };
-  /* 這週不行、07:15 還沒上車、沒回：三張照片＋「下次一起。」（交往中私訊；挽回中只在群組）；沒上車的 07:20 先一則 */
-  S.chicagoMissed=function(G,late){ if(typeof PHONE==='undefined') return; const d11=D('2028-11-11'), d12=D('2028-11-12'); if(d11==null) return; const M=dating(G,S5)?P5:X5; G.flags.US_CHICAGO='missed';
+  /* 這週不行、07:15 還沒上車、沒回：三張照片（交往中私訊；挽回中只在群組）；沒上車的 07:20 先一則。
+     AA_450 1-5：「下次一起。」拿掉（11/11 21:00 她已經說過「……下次一起來。」，US_BLANK.CHI）；交往中第一張「📷（湖邊的風）」→「📷（密西根湖，浪很大）」（風拍不到）。
+     AA_450 1-8：挽回中的群組版改何俊朗傳（沒見過他＝國際學生會）*/
+  S.chicagoMissed=function(G,late){ if(typeof PHONE==='undefined') return; const d11=D('2028-11-11'), d12=D('2028-11-12'); if(d11==null) return; const dt=dating(G,S5), M=dt?P5:t=>XL(G,t); G.flags.US_CHICAGO='missed';
     if(late) PHONE.at(G,d11,7+20/60,[M('巴士要開了。……我們先走。')],'us_chi_late');
-    PHONE.at(G,d12,21,[M('📷（湖邊的風）'),M('📷（博物館的恐龍）'),M('📷（深盤披薩）'),M('下次一起。')],'us_chi_photos'); };
+    PHONE.at(G,d12,21,[M('📷（密西根湖，浪很大）'),M('📷（博物館的恐龍）'),M('📷（深盤披薩）')],'us_chi_photos'); };   /* AA-B 10-24 23:19：挽回中群組版的第一張也換（風拍不到）*/
 
   /* ===================== 2-Y4-19 US3 ===================== */
+  /* AA_450 1-9：交往中 11/23 岸邊不能有雪（11/25 才「下了一點雪，落地就化了」、12/2 才是第一場會積的雪；AA_448 第 2 節）——原「我自己去了。……下雪了。拍給你。」「📷（一張照片）」；
+     1-8：挽回中的群組版改何俊朗傳（沒見過他＝國際學生會）*/
   S.lakeMissed=function(G){ if(typeof PHONE==='undefined') return; const d=D('2028-11-23'); if(d==null) return; G.flags.US3='missed';
-    if(dating(G,S5)) PHONE.at(G,d,10,[P5('我自己去了。……下雪了。拍給你。'),P5('📷（一張照片）')],'us3_missed');
-    else PHONE.at(G,d,21.5,[X5('📷（湖邊一排人，中間空了一個位子。）'),X5('大家都在。少你一個。')],'us3_missed'); };
+    if(dating(G,S5)) PHONE.at(G,d,10,[P5('我自己去了。氣象說錯了，沒有下雪。'),P5('📷（灰色的湖，岸邊沒有人）')],'us3_missed');
+    else PHONE.at(G,d,21.5,[XL(G,'📷（湖邊一排人，中間空了一個位子。）'),XL(G,'大家都在。少你一個。')],'us3_missed'); };
 
   /* ===================== 2-Y4-20 初雪 ===================== */
   /* 交往中：20:15 沒到＝20:30「我還在台階上。雪還沒停。」，窗口延到 21:30；再沒到＝帶到場（US_SNOW_LATE：先一句「你還是去了。」）*/
@@ -94,7 +115,7 @@ const R2Y4A=(function(){
   { const e=evOf('ev_us_first_snow'); if(e) e.outingMissed=(G,GM,q)=>S.snowMissed(G,q); }
 
   /* ===================== 2-Y4-21 會所晚餐 ===================== */
-  S.clubMissed=function(G){ const d=D('2028-12-14'); if(d==null||typeof PHONE==='undefined') return; G.flags.US_CLUB_DINNER='missed'; PHONE.at(G,d,21.5,[X5('📷（會所的長桌，盤子都空了。）'),X5('你的那一份，有人幫你留了。')],'us_club_missed'); };
+  S.clubMissed=function(G){ const d=D('2028-12-14'); if(d==null||typeof PHONE==='undefined') return; G.flags.US_CLUB_DINNER='missed'; PHONE.at(G,d,21.5,[XL(G,'📷（會所的長桌，盤子都空了。）'),XL(G,'你的那一份，有人幫你留了。')],'us_club_missed'); };   /* AA_450 1-8：何俊朗傳（沒見過他＝國際學生會）*/
   S.clubDue=G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'us_club'):null, d=D('2028-12-14'); return !!q&&q.state==='planned'&&G.day===d&&hh(G)>=18.75&&hh(G)<20; };
 
   /* ===================== 2-Y4-22 離開、舊金山／布魯明頓、回臺灣 ===================== */
@@ -108,6 +129,7 @@ const R2Y4A=(function(){
                   :[['ev_us_bloom16',0,12],['ev_us_bloom18',2,12],['ev_us_bloom20',4,12],['ev_us_bus21',5,13]];   /* 12/16、12/18、12/20 摘要日；12/21 13:00 社區巴士 */
     GM.sceneBegin(); try{
       for(const [id,dd,h] of steps){ if(done(G,id)) continue; if(GM.fade) await GM.fade(true); toDay(GM,d16+dd,h);
+        if(typeof STORY!=='undefined'&&STORY.phoneRules&&typeof PHONE!=='undefined'){ try{ STORY.phoneRules(GM); PHONE.tick(G); }catch(e){ console.warn('R2Y4A trip phone',e); } }   /* 這一週整段在一個劇情裡跑完、直接飛回臺灣：每一天先跑手機規則（AA_451 1-3：媽媽 12/17「棉被曬過了。」在舊金山那幾天收到，不是回家以後才補）*/
         if(GM.titleCard) await GM.titleCard(md(d16+dd),sf?'舊金山':'布魯明頓',2200); if(typeof ADV!=='undefined') ADV.begin({background:sf?'dark':'blur'}); if(GM.fade) await GM.fade(false);
         await run(GM,id,{noTitle:true}); }
       if(sf) F.SF_DONE=true; F.US_TRIP_DONE=true;
@@ -127,31 +149,37 @@ const R2Y4A=(function(){
     if(F.US_ARRIVED&&abroad(G)) PHONE.join(G,EXG,'交換生');   /* 舊存檔（抵達以後才有這個事件包）*/
     /* ---- US2 ---- */
     { const d=D913(); if(d!=null&&G.day>=d&&G.day<=d+40){
-        if(G.day===d&&dating(G,S5)&&past(G,d,18)&&hh(G)<19.5&&!F.US2&&!PHONE.sent(G,'us2_msg')) PHONE.at(G,d,18,[P5('報告被退回來了。'),P5('……我在煮麵。C 棟，廚房。要不要吃。')],'us2_msg');
+        if(G.day===d&&dating(G,S5)&&past(G,d,18)&&hh(G)<19.5&&!F.US2&&!PHONE.sent(G,'us2_msg')){ const L=[P5('報告被退回來了。'),P5('……我在煮麵。C 棟，廚房。要不要吃。')];
+          L[1].ask={id:'us2_ask',until:T(d,19.5),opts:[{t:'我過去。',say:[{from:S5,text:'樓下的門，按 208。'}]},{t:'今天不行。',say:[{from:S5,text:'好。'}]}]}; PHONE.at(G,d,18,L,'us2_msg'); }   /* AA_453 1-3：最後一則改成要回的（原本不用回，一快轉就錯過）；回的是哪一個看手機的回覆紀錄（ans），不加旗標 */
+        { const m=PHONE.byAsk(G,'us2_ask'); if(m&&m.ans===0&&!F.US2&&now(G)<T(d,19.5)&&typeof OUT!=='undefined'&&!OUT.get(G,S.US2_OUT))
+            OUT.plan(G,{id:S.US2_OUT,ev:'ev_us2_kitchen',day:d,h:18.5,late:1,place:'C 棟・廚房',title:'C 棟・廚房',travel:'走路 約 5 分鐘',travelH:1/12,back:'回到社區。',alarm:true}); }   /* 「我過去。」＝排 18:30（到 19:30 都能出發）；出發就帶到 C 棟 208 演 ev_us2_kitchen（S.us2Stage）。快轉停在出發前（USL.nextStop 算出遊）；「今天不行。」、沒回＝照舊 19:30 以後 20:00 那一則 */
+        { const q=F.US2&&typeof OUT!=='undefined'?OUT.get(G,S.US2_OUT):null; if(q&&q.state==='planned') q.state='done'; }   /* 自己走過去、坐高腳椅先演了（ev_us2_kitchen 記 US2）：不再問「出發」，不會演兩次 */
         if(PHONE.sent(G,'us2_msg')&&!F.US2&&past(G,d,19.5)){ F.US2='missed'; PHONE.at(G,d,20,[P5('麵我吃完了。報告我自己再改一次。')],'us2_missed'); }   /* 20:00 */
         const dA=D('2028-10-16'); if(dA!=null&&(F.US2==='there'||F.US2==='missed')&&dating(G,S5)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」＝10/16（一）21:00（AA_340 第 11 週；AA_345 F10、I8 定案：F10 寫的 18:00 作廢）*/
     /* ---- 芝加哥（11/3 21:00）---- */
     { const d3=D('2028-11-03'), d11=D('2028-11-11'); if(d3!=null&&G.day>=d3&&G.day<=d11+1){
-        if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發，帶厚外套。'),P5(F.MET_LONG||has('npc_long','MET_LONG')?'何俊朗也去。他說他知道哪一家的披薩最好吃。……我們去驗證。':'香港來的那個同學也去，我們一起認識他。')]:[X5('下週末有人要去芝加哥嗎。巴士早上七點。')];
+        if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發，帶厚外套。'),P5(F.MET_LONG||has('npc_long','MET_LONG')?'何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。':'香港來的那個同學也去，我們一起認識他。')]:[XL(G,'下週末有人要去芝加哥嗎。巴士早上七點。')];   /* AA_450 1-6：「……我們去驗證。」是可昕的話（經濟系 10/11）→「……到了再看。」；1-8：挽回中的群組改何俊朗傳（沒見過他＝國際學生會）*/
           L[L.length-1].ask={id:'us_chi',until:T(d11,7),opts:[{t:'去。',set:{US_CHI:'go'}},{t:'這週不行。',set:{US_CHI:'no'}}]}; PHONE.at(G,d3,G.day===d3?Math.max(21,G.hour):21,L,'us_chi_ask'); F.US_CHI_DATING=dt; }
         const m=PHONE.byAsk(G,'us_chi');
-        if(m&&m.ans!=null&&!F.US_CHI_DATING&&!F.US_CHI_REP){ F.US_CHI_REP=true; S.repairAdd(G,'chicago_reply'); }   /* 挽回中：她在群組說的事，祐廷有回（BB_204 第 4 節「每週」那一列）*/
+        if(m&&m.ans!=null&&!F.US_CHI_DATING&&!F.US_CHI_REP){ F.US_CHI_REP=true; S.repairAdd(G,'chicago_reply'); }   /* 挽回中：群組裡芝加哥的邀約，祐廷有回（BB_204 第 4 節「每週」那一列；AA_450 1-8 起是何俊朗起頭，照舊算）*/
         if(F.US_CHI==='go'&&typeof OUT!=='undefined'&&!OUT.get(G,'us_chicago')) OUT.plan(G,{id:'us_chicago',ev:'ev_us_chicago',day:d11,h:7,late:0.25,place:'社區門口（長途巴士）',title:'芝加哥的週末',travel:'',travelH:0,back:'回到社區。'});
         if(m&&!F.US_CHICAGO&&(F.US_CHI==='no'||(m.ans==null&&now(G)>=T(d11,7)))) S.chicagoMissed(G,false); } }   /* 沒回＝沒去（照「這週不行」）*/
     /* ---- US3（11/22 21:00）---- */
     { const d22=D('2028-11-22'), d23=d22!=null?d22+1:null; if(d22!=null&&G.day>=d22&&G.day<=d23&&past(G,d22,21)&&now(G)<T(d23,9.25)&&!PHONE.sent(G,'us3_ask')){
-        PHONE.at(G,d22,G.day===d22?Math.max(21,G.hour):21,[dating(G,S5)?P5('明天開始放感恩節。氣象說會下雪。我想去湖邊看。九點，會所門口。'):X5('感恩節第一天，大家要去湖邊。九點，會所門口集合。')],'us3_ask');
+        PHONE.at(G,d22,G.day===d22?Math.max(21,G.hour):21,[dating(G,S5)?P5('明天開始放感恩節。氣象說會下雪。我想去湖邊看。九點，會所門口。'):XL(G,'感恩節第一天，大家要去湖邊。九點，會所門口集合。')],'us3_ask');   /* AA_450 1-8：挽回中改何俊朗傳（沒見過他＝國際學生會）*/
         if(typeof OUT!=='undefined'&&!OUT.get(G,'us3_lake')) OUT.plan(G,{id:'us3_lake',ev:'ev_us3_lake',day:d23,h:9,late:0.25,place:'會所門口',title:'感恩節的湖邊',travel:'',travelH:0,back:'回到社區。'}); } }
     /* ---- 初雪（12/2 18:00）---- */
     { const d=D('2028-12-02'); if(d!=null&&G.day>=d&&G.day<=d+1){
         if(G.day===d&&past(G,d,18)&&hh(G)<20.25&&!F.US_SNOW&&!PHONE.sent(G,'us_snow_msg')){
           if(dating(G,S5)){ PHONE.at(G,d,18,[P5('今晚會下今年第一場真的會積起來的雪。'),P5('八點，小教堂前面的台階。')],'us_snow_msg'); F.US_SNOW_MODE='together';
             if(typeof OUT!=='undefined'&&!OUT.get(G,'us_snow')) OUT.plan(G,{id:'us_snow',ev:'ev_us_first_snow',day:d,h:20,late:0.25,place:'小教堂前的台階',title:'初雪',travel:'',travelH:0,back:'回到公寓。'}); }
-          else { const LG=t=>({th:EXTH,from:'npc_long',name:'何俊朗',text:t}); PHONE.at(G,d,18,[LG('今晚會積雪。'),LG('不是上次那種，是會積起來的。')],'us_snow_msg'); F.US_SNOW_MODE='repair'; } }   /* 交換生群組：何俊朗傳（AA_345 F10；沒見過他的玩家只是看到一個名字）*/
+          else { const LG=t=>({th:EXTH,from:'npc_long',name:'何俊朗',text:t}); PHONE.at(G,d,18,[LG('今晚會積雪。'),LG('上次那種落地就化了。這次會積起來。')],'us_snow_msg'); F.US_SNOW_MODE='repair';   /* 交換生群組：何俊朗傳（AA_345 F10；沒見過他的玩家只是看到一個名字）。AA_452 1-2：第二句換掉「不是 X，是 Y」*/
+            if(typeof OUT!=='undefined'&&!OUT.get(G,'us_snow_r')) OUT.plan(G,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:20,late:3,place:'小教堂前的台階',title:'初雪',travel:'',travelH:0,back:'回到公寓。'}); } }   /* AA_452 1-1：照交往中排進行程（19:45 問「出發：初雪」、到 23:00 都能去；「不去了」＝沒演）。原本只有 20:00～23:00 人在美國自動到場，快轉停在 19:45、一按「到下一個有事的日子」就跳過，挽回第 4 步整步沒有 */
         if(F.US_SNOW_QUIET&&past(G,d+1,8+10/60)&&!PHONE.sent(G,'us_snow_next')) PHONE.at(G,d+1,8+10/60,[P5('昨天你問我還好嗎。……其實不太好。回去再跟你說。')],'us_snow_next'); } }
     /* ---- 會所晚餐（12/13 21:00）---- */
-    { const d13=D('2028-12-13'); if(d13!=null&&G.day>=d13&&G.day<=d13+1&&past(G,d13,21)&&now(G)<T(d13+1,19)&&!PHONE.sent(G,'us_club_ask')){ const L=[X5('明天晚上七點，會所。學期最後一頓。每個人帶一道菜。')];
-        L[0].ask={id:'us_club',until:T(d13+1,19),opts:[{t:'滷一鍋茶葉蛋。',set:{US_CLUB_DISH:'egg'}},{t:'最後一包台灣泡麵，煮成一大鍋。',set:{US_CLUB_DISH:'noodle'}},{t:'什麼都沒煮，帶了一疊紙盤。',set:{US_CLUB_DISH:'plates'}}]};
+    /* AA_450 1-8：何俊朗傳兩則（沒見過他＝國際學生會）；帶什麼菜的三個選項掛在最後一則（原本學姊一則「明天晚上七點，會所。學期最後一頓。每個人帶一道菜。」）*/
+    { const d13=D('2028-12-13'); if(d13!=null&&G.day>=d13&&G.day<=d13+1&&past(G,d13,21)&&now(G)<T(d13+1,19)&&!PHONE.sent(G,'us_club_ask')){ const L=[XL(G,'明天晚上七點，會所。學期最後一頓。'),XL(G,'每個人帶一道菜。泡麵也算。')];
+        L[L.length-1].ask={id:'us_club',until:T(d13+1,19),opts:[{t:'滷一鍋茶葉蛋。',set:{US_CLUB_DISH:'egg'}},{t:'最後一包台灣泡麵，煮成一大鍋。',set:{US_CLUB_DISH:'noodle'}},{t:'什麼都沒煮，帶了一疊紙盤。',set:{US_CLUB_DISH:'plates'}}]};
         PHONE.at(G,d13,G.day===d13?Math.max(21,G.hour):21,L,'us_club_ask');
         if(typeof OUT!=='undefined'&&!OUT.get(G,'us_club')) OUT.plan(G,{id:'us_club',ev:'ev_us_club_dinner',day:d13+1,h:19,late:1,place:'會所',title:'會所晚餐',travel:'',travelH:0,back:'回到社區。'}); } }
     /* ---- 回到臺灣：20:00 阿凱（msg_kai_back_us；BB_198，台詞 AA 新寫）---- */
@@ -485,7 +513,7 @@ const R2Y4A=(function(){
       if(S.us2RepairDue(G)) return go(()=>S.us2Repair(GM));
       { const d=D('2028-12-02'); if(d!=null&&G.day===d&&!F.US_SNOW&&inUS(G)){
           if(F.US_SNOW_FORCE) { F.US_SNOW_LATE=true; return go(()=>outNow(GM,{id:'us_snow3',ev:'ev_us_first_snow',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); }
-          if(F.US_SNOW_MODE==='repair'&&hh(G)>=20&&hh(G)<23) return go(()=>outNow(GM,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); } }   /* 挽回中：20:00 前後走過小教堂（自動到場）*/
+          if(F.US_SNOW_MODE==='repair'&&hh(G)>=20&&hh(G)<23&&!(typeof OUT!=='undefined'&&OUT.get(G,'us_snow_r'))) return go(()=>outNow(GM,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); } }   /* 挽回中：舊存檔（18:00 的訊息已經傳了、沒排進行程）20:00 前後自動到場；排了的照行程問（AA_452 1-1）*/
       if(S.leaveDue(G)) return go(()=>S.leave(GM)); }
     return S.tickTW(GM); };
   /* 睡著也會醒來：抵達那晚 21:30（打給媽媽）、12/2 20:00（初雪）*/
@@ -524,6 +552,7 @@ const R2Y4A=(function(){
   if(typeof STORY!=='undefined'&&STORY.LADDER_HOLD){ const H=STORY.LADDER_HOLD, after=(k,G)=>{ const d=D(k); return d!=null&&G.day>d; };
     if(!H['Y7-L3']) H['Y7-L3']=G=>!!(G.flags&&G.flags.YT_ESSAY)||after('2028-10-24',G);
     if(!H['A7-L6']) H['A7-L6']=G=>!!(G.flags&&G.flags.PLG_HANDOVER)||after('2028-11-30',G); }
+  if(typeof OUT!=='undefined'&&Array.isArray(OUT.STAGE)&&!OUT._us2Stage){ OUT.STAGE.push((GM,q,ev)=>S.us2Stage(GM,q,ev)); OUT._us2Stage=true; }   /* AA_453 1-3 */
   if(typeof EXCH!=='undefined'){ EXCH.onArrive=async GM=>{ if(!S.us1Due(GM.G)) return false; busy=true; try{ return await S.us1(GM); } finally{ busy=false; } }; EXCH.onLand=GM=>S.onLand(GM); }
   return S;
 })();

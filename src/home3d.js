@@ -3,8 +3,8 @@
    第一版家裡是 2D 背景（OUT.BG.home_living，圖還沒有＝深色底＋地點字幕）＋對話：到家一句 → 晚餐（18:30～20:00：媽媽問、玩家二選一、媽媽收尾（爸爸在上海，AA_298 第 8 節）；
    每月第一個週末姊姊宜蓁也在，多一句）→ 睡覺（隔天早上在家醒來、早上一句）→ 取車（媽媽一句；G.flags.carWithMe）→ 回宿舍（媽媽一句）。
    週日 21:30 以後提醒該回宿舍（隔天有課）。在家的時候宿舍、校園的事件不會發生（不懲罰，之後照常）；手機照常收訊息。不加、不扣任何人的好感。
-   家人群組（g:home）：週四 20:00 媽媽一句＋「會回去／這週不回」；兩小時沒回，爸爸傳「？」。
-   存檔 G.home＝{at:true|false, day, eat:{day}, used:{池:[最近用過的序號]}, ate:{序號:第幾天}}（舊存檔沒有＝不在家）。
+   家人群組（g:home）：週四 20:00 媽媽一句＋「會回去／這週不回」；兩小時沒回，爸爸傳「？」。AA_458 第 1 節起照「這一週有什麼事」挑句子、每一句有自己的回覆（S.GROUP_WK、S.grpPlan）；第 4 節中秋當天、颱風假前一晚（S.famDays）。
+   存檔 G.home＝{at:true|false, day, eat:{day}, used:{池:[最近用過的序號]}, ate:{序號:第幾天}, grp:{p:平常用了幾次, e:長輩圖用了幾張}, grpDin:加過晚餐旁白的那個週四, famNo:[中秋、颱風前一晚那時候人在家、不發的 tag]}（舊存檔沒有＝不在家；grp、grpDin、famNo 沒有＝0、沒加過、沒記過）。
    測試：node tests/home_unit.js */
 'use strict';
 const HOME=(function(){
@@ -45,7 +45,7 @@ const HOME=(function(){
     const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
     const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(((G.day+Object.keys(H.ate).length)%pool.length)+pool.length)%pool.length]; };   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
-    await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/
+    await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); { const x=S.grpDinner(G); if(x) await GM.say(null,x); } await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/   /* 這週四群組說了月餅、湯圓、點心……、回了「會回去」＝多一句旁白（AA_458 1-5）*/
     const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));
     if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（媽媽')); else await GM.say(MOM,d.dad); if(d.dadAct) await GM.say(null,'（媽媽'+d.dadAct.replace(/給他$/,'給你')+'）');   /* 收尾改媽媽（AA_138 2026-10-18；欄位名 dad 照舊）*/
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
@@ -509,13 +509,64 @@ const HOME=(function(){
   S.sleepAtDorm=async function(GM){ if(typeof STORY==='undefined'||!STORY.bedOptions||!STORY.sleepNow) return; const o=STORY.bedOptions(GM.G).find(x=>x.kind==='sleep'); if(o) await STORY.sleepNow(GM,o.wake,o.alarm); };
   /* 讀檔時人在家裡：回到家的選單（story3d.js 的 S.tick）*/
   S.tick=function(GM){ const G=GM.G; if(!S.at(G)||busy) return; S.loop(GM).catch(e=>{ console.warn('HOME.loop',e); busy=false; }); };
+  /* ===== AA_458 第 1 節（企劃線 b01e32018，AA-B 2026-10-25；第①、②級）：週四群組照「這一週有什麼事」挑，不照週數輪 =====
+     原本 home_lines.js 的 group 五句照 G.day/7 輪：新局 9/4、9/11、9/18 都算到第 0 句（連三週「這週回來吃飯嗎」），回「會回去」每次都是「好」＋「（愛心貼圖）」。
+     1-2 排法（每個週四挑第一個符合的）：第一週（只有大一上：這學期第一個收得到的週四）→ 節日（中秋、冬至、端午之前的最後一個週四；母親節前的週四）→ 連假（這個週末連放三天以上＝週五或週一國定假日；一學期①②③各一次，第四個起照下面排）
+       → 考試週（期中第 8～9 週、期末）→ 天氣（涼：11 月第一個週四；熱：5 月第一個週四；被上面佔走往後一週）→ 爸爸寄東西（第 7 週週四；被上面佔走往後一週）→ 平常（照「用到第幾次平常」輪①～④；②④是長輩圖，四張輪流）。
+     日子都照 calendar.js（CALENDAR.holiday、CALENDAR.fest、termOf 的 exam、termDays）；校定的運動會（停課）、颱風假（前一晚才宣布）不算連假。
+     句子、回覆照 1-3 的表一字不改（home_lines.js 是產生器做的、不手改：新句子放這裡，照 msg3d.js 的 S.UK_WEEK）：[媽媽, 回「會回去」的幾則, 回「這週不回」的幾則]（「好＋（愛心貼圖）」＝兩則）。
+     tag 照舊 home_ask_<日>；ask.k＝這一週的種類（1-5 晚餐旁白用；舊存檔沒有＝不加）；平常、長輩圖用了幾次記 G.home.grp（舊存檔沒有＝0）*/
+  S.GROUP_WK={ first_sis:['禮拜六回來吃飯 你姊也回來',['好 我跟你姊說'],['好 那我跟你姊吃']], first:['東西缺什麼 這週回來拿',['好'],['好 缺什麼傳給我 我寄過去']],   /* 第一週：那個週六是 1～7 號（姊姊在家，firstWeekend）／其他 */
+    moon:['中秋回來嗎 月餅買好了',['好 我多買一盒'],['好 月餅冰起來']], dz:['冬至回來吃湯圓',['好 我包芝麻的'],['好 冰箱留一包給你']], mom:['禮拜天母親節 不用買東西 回來吃飯就好',['好','（愛心貼圖）'],['好 那打電話就好']], dragon:['端午回來嗎 粽子買好了',['好'],['好 粽子冰起來']],
+    lj0:['連假回來嗎',['好','（愛心貼圖）'],['好 那下次']], lj1:['放三天 回來住兩晚',['好 床單幫你換好'],['好']], lj2:['連假要出去玩嗎 不出去就回來',['好'],['好 玩得開心']],
+    exam:['這週考試吧 考完再回來',['好 回來讀也可以'],['好 不要熬夜']], cool:['天氣變涼了 外套帶回去',['好'],['那我寄過去']], hot:['天氣熱了 厚被子帶回來洗',['好'],['好 那放假再帶']],
+    dad_snack:['你爸從上海寄了一箱點心 回來吃',['好 留一盒給你'],['好 我先冰起來']], dad_tea:['你爸寄了茶葉 回來拿',['好'],['好 我先收著']], dad_crab:['你爸寄了大閘蟹 這週回來吃',['好 禮拜六蒸'],['好 那我們先吃了']], dad_snack2:['你爸又寄點心了 上次那家',['好 留一盒給你'],['好 我先冰起來']],
+    p1:['這週回來吃飯嗎',['好','（愛心貼圖）'],['好 那下週']], p3:['回來的話先講 我多煮',['好 我去買菜'],['好 那下週']], old:[null,['好','（一隻貓比讚的貼圖）'],['好 那下週']] };   /* old＝長輩圖（平常②④，句子照 S.ELDER 輪）*/
+  S.ELDER=['（長輩圖：週末愉快 天天開心）','（長輩圖：一朵蓮花 平安就是福）','（長輩圖：一壺茶 好友常聯絡 健康又快樂）','（長輩圖：夕陽 晚安 好夢）'];   /* 四張輪流（一學期最多四張長輩圖時，同一張同一學期最多一次）*/
+  /* 爸爸寄東西（一學期一次）：大一上點心（原句）、大一下茶葉、大二上大閘蟹、大二下「又寄點心」；大三以後照茶葉 → 大閘蟹 → 點心輪，大閘蟹只在秋天（9～11 月）：輪到春天的學期就跳過、換下一樣（點心照大二下那句）*/
+  S.DAD_ITEM={Y1S1:'dad_snack',Y1S2:'dad_tea',Y2S1:'dad_crab',Y2S2:'dad_snack2'}; S.DAD_ROT=['dad_tea','dad_crab','dad_snack2'];
+  S.dadKey=function(tid){ if(S.DAD_ITEM[tid]) return S.DAD_ITEM[tid]; const Ts=(typeof CALENDAR!=='undefined'&&CALENDAR.TERMS||[]).map(t=>t.id), i0=Ts.indexOf('Y3S1'), i=Ts.indexOf(tid); if(i0<0||i<i0) return 'dad_snack2';
+    let r=0, k=null; for(let j=i0;j<=i;j++){ k=S.DAD_ROT[r++%3]; if(k==='dad_crab'&&/S2$/.test(Ts[j])) k=S.DAD_ROT[r++%3]; } return k; };
+  const FEST_K={'中秋':'moon','冬至':'dz','端午':'dragon','母親節':'mom'};
+  /* 這學期每個週四是哪一種：{第幾天:種類}（'p'＝平常，送的時候照次數換成 p1／p3／old）。主線第二天以前的週四不算（還沒在家人群組裡，S.phoneRules 也不發）*/
+  S.grpPlan=function(G,tid){ const C=typeof CALENDAR!=='undefined'?CALENDAR:null, R=C&&C.termDays?C.termDays(tid):null, P={}; if(!R) return P;
+    const md=d=>typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G,d):d, W=[]; for(let d=R.from;d<=R.to;d++) if(C.dateOf(d).wd===4&&md(d)>=2) W.push(d);
+    const sch=Object.values(C.SCHOOL||{}), nat=d=>{ const n=C.holiday(d); return !!n&&n!=='颱風假'&&!sch.includes(n); };   /* 國定假日（含補假）*/
+    const fest=d=>{ for(let x=d+1;x<=d+7;x++){ const f=FEST_K[C.fest?C.fest(x):'']; if(f) return f; } return null; };   /* 節日在這個週四之後的七天裡＝之前的最後一個週四 */
+    let lj=0; W.forEach((d,i)=>{ const f=fest(d); P[d]=tid==='Y1S1'&&i===0?(C.dateOf(d+2).d<=7?'first_sis':'first'):f?f:((nat(d+1)||nat(d+4))&&lj<3)?'lj'+(lj++):((C.termOf(d)||{}).exam?'exam':null); });
+    const put=(d0,k)=>{ const d=W.find(x=>x>=d0&&!P[x]); if(d!=null) P[d]=k; };   /* 被上面佔走就往後一週 */
+    for(const [mo,k] of [[11,'cool'],[5,'hot']]){ const d0=W.find(x=>C.dateOf(x).m===mo); if(d0!=null) put(d0,k); }
+    put(R.from+6*7+3,S.dadKey(tid)); for(const d of W) if(!P[d]) P[d]='p'; return P; };
+  /* 這個週四挑哪一句：{k, t, yes, no, p：算一次平常, e：算一張長輩圖}；不在學期、不是排到的週四＝null */
+  S.grpPick=function(G,day){ const Tm=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!Tm) return null; let k=S.grpPlan(G,Tm.id)[day]; if(!k) return null;
+    const H=S.rec(G), C=H.grp&&typeof H.grp==='object'?H.grp:(H.grp={p:0,e:0}), p=k==='p';
+    if(p){ const j=(C.p|0)%4; k=j===0?'p1':j===2?'p3':'old'; if(k!=='old'&&S.livesHome(G)&&S.HOME_SKIP.group.includes(S.GROUP_WK[k][0])) k='old'; }   /* 住在家裡不問「這週回來吃飯嗎」「回來的話先講」（AA_298 第 4 節；HOME.LIVE_GROUP 沒有登記的時候）*/
+    const W=S.GROUP_WK[k]; if(!W) return null; return {k,t:k==='old'?S.ELDER[(C.e|0)%S.ELDER.length]:W[0],yes:W[1],no:W[2],p,e:k==='old'}; };
+  /* 1-5：那一週回了「會回去」、週末真的回家吃晚餐＝「（晚餐。媽媽煮了一桌。）」後面加一句；其他種類不加 */
+  S.GROUP_DINNER={moon:'（桌上有一盒月餅，已經切開一個。）',dz:'（吃完飯，媽媽端出一碗湯圓。芝麻的。）',dragon:'（桌上一串粽子。）',mom:'（你說要洗碗，媽媽說不用。最後還是你洗的。）',
+    dad_snack:'（桌上一盒上海的點心。媽媽說是你爸寄的。）',dad_snack2:'（桌上一盒上海的點心。媽媽說是你爸寄的。）',dad_tea:'（玄關放著一罐茶葉，上面貼著你的名字。）',dad_crab:'（桌上一盤大閘蟹。媽媽說是你爸挑的。）'};
+  S.grpDinner=function(G){ const H=S.rec(G), M=G.msgs||[]; for(let i=M.length-1;i>=0;i--){ const m=M[i], k=m&&m.ask&&m.ask.k, dt=G.day-(m&&m.day); if(!k||!S.GROUP_DINNER[k]||m.ans!==0||!/^home_ask_/.test(m.ask.id||'')||dt<1||dt>4) continue;
+      if(H.grpDin===m.day) return null; H.grpDin=m.day; return S.GROUP_DINNER[k]; } return null; };   /* 那個週四之後的週五～週一（中秋、連假的週一）；同一個週末只加一次（G.home.grpDin）*/
+  /* ===== AA_458 第 4 節：中秋當天、颱風假前一晚（家人群組、不用回）=====
+     法律系、學期裡（大一上～大四上的中秋、每一個颱風假）、人在臺灣（STORY.abroad；在日本、美國的時候 jp3d.js／us_life3d.js 也整個擋掉 HOME.phoneRules）、在家人群組。睡著、跳過時間的照原本的時間補（PHONE.at），過了那一段不補（舊存檔不爆量補發）。
+     中秋（CALENDAR.fest）：18:00 媽媽兩則——那時候人不在家裡（S.at）、不是住家裡（S.livesHome）才傳；21:00 爸爸一則——住家裡的也傳。tag home_moon_<日>、home_moon_dad_<日>
+     颱風假（calendar.js 的 TYPHOON，CALENDAR.typhoon）前一晚：20:45 媽媽——住家裡（人在家）的不傳，媽媽就在旁邊；21:00 爸爸——住家裡的也傳。tag home_ty_<前一晚>、home_ty_dad_<前一晚>（麵店團群組的「四十二頁」照舊，story3d.js）
+     「那時候人在家」記 G.home.famNo（那個 tag 之後不再補；舊存檔沒有＝沒記過）*/
+  S.FAM_DAYS={moon:[['mom','📷（桌上一盒月餅，切開了一個）'],['mom','蛋黃的 留給你']],moonDad:[['dad','📷（上海的月亮，前面一棟很高的樓）']],ty:[['mom','颱風 窗戶關好 不要出門']],tyDad:[['dad','📷（颱風路徑圖）']]};
+  S.famDays=function(G){ if(typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||!CALENDAR.fest||(G.stage||'law')!=='law'||!PHONE.inGroup(G,'home')||(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return;
+    const now=G.day*24+G.hour, th='g:home', home=S.livesHome(G)||S.at(G), H=S.rec(G);
+    const send=(d,h,k,tag,skip)=>{ if(now<d*24+h||now>=(d+2)*24||PHONE.sent(G,tag)||(Array.isArray(H.famNo)&&H.famNo.includes(tag))) return; if(skip){ (H.famNo=Array.isArray(H.famNo)?H.famNo:[]).push(tag); return; }
+      PHONE.at(G,d,h,S.FAM_DAYS[k].map(([w,t])=>({th,from:w,name:w==='dad'?'爸爸':'媽媽',text:t})),tag); };
+    for(const d of [G.day,G.day-1]){ if(!CALENDAR.termOf(d)&&!CALENDAR.termOf(d+1)) continue;   /* 只在學期裡（家人群組週四那一套的範圍；畢業以後的中秋不發，postgrad3d.js 快轉不會多停一次）*/ if(CALENDAR.fest(d)==='中秋'&&CALENDAR.termOf(d)){ send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); }
+      if(CALENDAR.typhoon(d+1)){ send(d,20.75,'ty','home_ty_'+d,home); send(d,21,'tyDad','home_ty_dad_'+d,false); } } };
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
   S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return;
+    try{ S.famDays(G); }catch(e){ console.warn('HOME.famDays',e); }   /* AA_458 第 4 節：中秋、颱風假前一晚（住家裡的也有爸爸那一則，所以在住家裡版之前）*/
     if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;
     PHONE.join(G,'home','家人'); const th='g:home', tag='home_ask_'+G.day;
-    if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const GL=(L().group||[]).filter(x=>!(S.livesHome(G)&&S.HOME_SKIP.group.includes(x.t))), g=GL[Math.max(0,G.day/7|0)%(GL.length||1)]; const R=L().groupReply||{};   /* 住在家裡不問「這週回來吃飯嗎」（AA_298 第 4 節）；法律系新局 9/4 是第 -12 天，週數不到 0 照第 0 週（原本算出 -1 拿不到句子、整則沒發，BUG-HOME-FAMGROUP-NEGIDX-1021）*/
-      if(g) PHONE.at(G,G.day,20,[{th,from:'mom',name:'媽媽',text:g.t,ask:{id:tag,until:G.day*24+20+2,opts:[{t:'會回去',say:[{from:'mom',name:'媽媽',text:(R.yes||['好'])[0]},{from:'mom',name:'媽媽',text:'（愛心貼圖）'}]},{t:'這週不回',say:[{from:'mom',name:'媽媽',text:(R.no||['好 那下週'])[0]}]}]}}],tag); }
+    if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const g=S.grpPick(G,G.day), M=t=>({from:'mom',name:'媽媽',text:t});   /* AA_458 第 1 節：照這一週的種類挑（原本照 G.day/7 輪 home_lines.js 的 group；新局 9/4 是第 -12 天的 BUG-HOME-FAMGROUP-NEGIDX-1021 也就不會再有）*/
+      if(g&&PHONE.at(G,G.day,20,[{th,from:'mom',name:'媽媽',text:g.t,ask:{id:tag,until:G.day*24+20+2,k:g.k,opts:[{t:'會回去',say:g.yes.map(M)},{t:'這週不回',say:g.no.map(M)}]}}],tag)){ const C=S.rec(G).grp; if(g.p) C.p=(C.p|0)+1; if(g.e) C.e=(C.e|0)+1; } }
     for(const m of (G.msgs||[])){ if(!m.ask||!/^home_ask_/.test(m.ask.id)||m.ans!=null) continue; const due=m.day*24+m.h+2; if(G.day*24+G.hour>=due&&!PHONE.sent(G,m.ask.id+'_dad')) PHONE.at(G,m.day,m.h+2,[{th,from:'dad',name:'爸爸',text:((L().groupReply||{}).none||['？'])[0]}],m.ask.id+'_dad'); } };   /* 兩小時沒回：爸爸「？」（睡著了也會補在那個時間）*/
   return S;
 })();

@@ -254,7 +254,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     { const dorm=x.drive('D28','台南',H.G,D('2028-03-14')), home=x.drive('D28','台南',H.G,D('2028-07-14'));
       check('8. 開車的算法（DATE-C7）：學期中＝去回各多 30 分、寫「回家取車約 30 分鐘，再開車到台南約 4 小時」；寒暑假從臺北的家＝不加、不寫那一句',dorm.travelH===4.5&&dorm.backH===4.5&&dorm.travel==='回家取車約 30 分鐘，再開車到台南約 4 小時'&&!dorm.home&&home.travelH===4&&home.backH===4&&home.travel==='開車到台南約 4 小時'&&home.home===true,J({dorm,home})); }
   { setup('2028-02-13',21.05,{lv:{[PS]:'dt'}}); rules(); const m=PHONE.byAsk(H.G,'fest_ask_classmate_peishan_vday_2028');
-    check('8. 她約、她在台中：「明天你要下來嗎？……不用勉強。」',J(dms(PS))===J(['明天你要下來嗎？……不用勉強。'])&&!!m,J(dms(PS)));
+    check('8. 她約、她在台中（2028 情人節）：「明天情人節。……你要下來台中嗎？不用勉強。」（AA_457 3-1 節①換字；原本「明天你要下來嗎？……不用勉強。」）',J(dms(PS))===J(['明天情人節。……你要下來台中嗎？不用勉強。'])&&!!m,J(dms(PS)));
     PHONE.answer(H.G,'fest_ask_classmate_peishan_vday_2028',0); rules(); const q=OUT.get(H.G,'fest_classmate_peishan_vday_2028');
     check('8. 「好。」＝開車去台中（一整天）',!!q&&q.fest.day&&q.place==='台中',J(q));
     setup('2026-03-13',21.05,{lv:{[PS]:'dt'}}); const m2=x.herLines(PS,'xmas'); check('8. 她約的第一句照節日換：「明天是聖誕節！！」「晚上六點半，溫州街口，可以嗎？」',J(m2)===J(['明天是聖誕節！！','晚上六點半，溫州街口，可以嗎？'])); }

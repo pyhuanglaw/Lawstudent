@@ -105,7 +105,7 @@ const WC3=(function(){
       const S=L.stair, sx=(S.x0+S.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.f1) m.userData.stairEnds=[{x:sx,z:S.flight1.z0-0.6,lv:0},{x:sx,z:ldz,lv:0}]; if(s===ss.f2) m.userData.stairEnds=[{x:sx,z:ldz,lv:0},{x:sx,z:S.flight2.z1+0.6,lv:1}]; } }
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:{x:0,z:6,yaw:Math.PI,lv:0},bounds:{w:W,d:D},camMaxY:3.4,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); g.traverse(o=>{ if(o.userData&&o.userData.outside) B3.setOutView(o,h,weather,night); }); },
       onLamps(on){ light.intensity=on?18:11; } };
     zone.elev=B3.buildElevator(L,g,nav0,nav1,zone);
     zone.update=function(dt){ zone.elev.update(dt); };

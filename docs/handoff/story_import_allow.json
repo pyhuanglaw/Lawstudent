@@ -2867,6 +2867,22 @@
    "note": "1-1／1-2 events.js ev_y0_e27b（情人節三句、旁白主詞）；1-3 story3d.js y0_xu_alarm 條件 !Y0_MOVED_OUT；1-4 y0_wl_newbike 換字；1-5 y0_e24b KH_TRIP_DONE 兩句"
   },
   {
+   "path": "docs/story_planning/AA_450_美國交換逐日劇本讀後_交往中.md",
+   "sha": "57c81bdac",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-24 定稿（D109 劇情自主；1-8 依使用者原話「她根本就不是主動在群組會說話的人」）",
+   "task": "US-READ-DATING-1024",
+   "kind": "text",
+   "note": "r2y4a_events.js ev_us1_asian；us_life_events.js ev_usl_lake1、mom 二十則（d）、ev_usl_long3、ev_usl_party；us_blank_lines.js ev_usb_orient＋us_blank3d.js orientBeforeJump；r2y4a3d.js chicagoMissed、us_chi_ask、lakeMissed、群組發話者 XL（何俊朗／國際學生會）；termend_lines.js 學姊 Y4S1 三句；us_life3d.js usl_long3 10/3 起才排；tests/aa450_us_unit.js 76 項；57c81bdac：1-8 補註（挽回中芝加哥照片一起換；AA_424 週六群組、12/2 何俊朗那則照舊）",
+   "history": [
+    {
+     "sha": "fb1d8ae45",
+     "until": "2026-10-24 23:2x",
+     "why": "1-8 補註以前"
+    }
+   ]
+  },
+  {
    "path": "docs/story_planning/AA_340_美國交換那一學期_每一週能做什麼_盤點與補稿.md",
    "sha": "03b7e6dff",
    "status": "approved",
@@ -2892,6 +2908,99 @@
    "task": "VAC-FILL-AA440-1024",
    "kind": "text",
    "note": "第 1、2 節 holff3d.js 大二寒暑假十則換字；第 3 節 vac3d.js C01_NONE 照年份；第 5 節 an_yt_hol_events.js grp；第 6 節 story3d.js nyeY2 選項「我去頂樓。」；第 7 節 r2y4b3d.js SA_T1 第 2 則；第 8 節 story3d.js zr_nye_y4 朋友版"
+  },
+  {
+   "path": "docs/story_planning/AA_451_美國交換讀後_沒見過何俊朗.md",
+   "sha": "14ee5d2a7",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
+   "task": "US-READ-NOLONG-1025",
+   "kind": "text",
+   "note": "r2y4a_events.js ev_us_chicago 沒見過版巴士上五句＋MET_LONG、LONG_CHI（「同行的人」那句不再用）、ev_us_leave「還好。」LONG_CHI 兩句；us_life_events.js ev_usl_lastclass、us_writing 沒見過版換字；us_life3d.js usl_long3 LONG_CHI 不補排；r2y4a3d.js 舊金山那一週每天跑手機規則（1-3 媽媽 12/17 在舊金山收到）；tests/aa451_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_452_美國交換讀後_挽回中.md",
+   "sha": "2c75de1bc",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
+   "task": "US-READ-REPAIR-1025",
+   "kind": "text",
+   "note": "r2y4a3d.js us_snow_msg 第二句、挽回中初雪排進行程 us_snow_r（19:45 問出發，舊存檔照舊自動到場）；r2y4a_events.js ev_us2_repair 第一句、ev_us3_lake label r 旁白、ev_us_return label n 媽媽；us_life_events.js ev_usl_long4；exchange3d.js 挽回中返台字卡「舊金山轉機」；tests/aa452_us_unit.js；2c75de1bc 第 4 節：初雪重新開始 CG 後半階台階＋SNOW_END",
+   "history": [
+    {
+     "sha": "8d9910961",
+     "until": "2026-10-25 06:2x",
+     "why": "第 4 節（BB 重跑挽回中）以前"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_453_美國交換讀後_交往中新版_七夕和退回的報告.md",
+   "sha": "38820fd5e",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
+   "task": "US-READ-DATING2-1025",
+   "kind": "text",
+   "note": "1-1 查證：BB 探針底檔沒有 met_sis（遊戲沒問題）；1-2 us_blank_lines.js 0826 msgQx、ev_usb_syllabus 第一句（QX＝sisqx_2028）、us_blank3d.js qxOn；1-3 r2y4a3d.js us2_msg 要回、出遊 us2_kitchen＋us2Stage（OUT.STAGE）；tests/aa453_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_454_美國208週末七場_快轉看不到_補她的私訊.md",
+   "sha": "eaa98aaa7",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主；AA 自己排的下一項）",
+   "task": "US208-DM-1025",
+   "kind": "text",
+   "note": "us208_3d.js 七場 dm、S.dmPhone（週末 14:00 私訊要回；週日「今天也在 208。」；US208_DM／US208_NO）、S.stage（OUT.STAGE）、S.dmDone；us_life3d.js lakeLook 照 usSeasonKey（us3d.js usSeasonKey 可給 G）；us_life_events.js ev_usl_thanks_alone；tests/aa454_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md",
+   "sha": "0c5afca90",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109；USER_WANTS C25）",
+   "task": "SIS-B11-1025",
+   "kind": "text",
+   "note": "src/data/sis_b11_events.js（ev_sis_abstract、ev_sis_defense_date）＋src/sis_b11_3d.js（朋友版條件、3/20 私訊要回＋出遊、4/16～4/27 總圖門口、4/18 去：總圖、4/27 私訊、5/28 私訊＋y4_m9）；index.html 兩個 script；social3d.js MEMORY_LABEL.SIS_ABSTRACT；tests/aa455_sis_unit.js；0c5afca90：3-1 節①沒去法圖 13:15 她一則「沒看到你。我自己讀完了。」②SIS_DEFENSE_DATE 人物頁「她告訴你口試的日子」",
+   "history": [
+    {
+     "sha": "2de70709f",
+     "until": "2026-10-25 05:5x",
+     "why": "3-1 節兩題答案以前"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_456_法律系寒暑假再讀一遍_每年一字不差的訊息.md",
+   "sha": "71f260ecc",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "VAC-READ2-1025",
+   "kind": "text",
+   "note": "story3d.js 跨年宿委會四年；noodle_closed3d.js L.a／L.d 照年份；vac3d.js C01F_REPLY（Y2～Y4）、nye_y2_zhe；holff3d.js 大三大四回高雄；termend_lines.js invByTerm＋芷若 over 拆三筆、termend3d.js S.gf；cracktalk zq2.msgs 四組（照收到第幾個月輪）；tests/aa456_vac_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md",
+   "sha": "d809cdd21",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "VAC-READ3-1025",
+   "kind": "text",
+   "note": "msg3d.js 芷若英國每週一則（S.UK_WEEK 第一次 12 句、第二次 30 句；同一次每句一次；用完退回原本十句沒發過的；ukWk 紀錄＋舊存檔補算）；cracktalk yt2 A／B 四組（第 5 次起從 2 再輪）；fest_events 沛珊 homeBy＋homeCity 台南、fest3d herLines；tests/aa457_vac_unit.js；d809cdd21 3-1 節：沛珊情人節、七夕台中兩句（三月十四、聖誕台南；做十六歲、生日拿掉），homeBy 改 [節日][城市]；芷若倒數三句照離開前第幾天（UK_LEAVE、UK_COUNT）",
+   "history": [
+    {
+     "sha": "3be31d3c8",
+     "until": "2026-10-25 09:4x",
+     "why": "3-1 節兩題答案以前"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md",
+   "sha": "b01e32018",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "TERM-READ-Y1S1-1025",
+   "kind": "text",
+   "note": "home3d.js 媽媽週四群組 GROUP_WK／grpPlan／grpPick＋晚餐旁白 GROUP_DINNER＋中秋、颱風假前一晚 FAM_DAYS；calendar.js 冬至 dz、CALENDAR.fest（母親節）；bbpack3d.js D5_LINES（D5_ASK_N）；story3d.js 家族群組兩處；family_xmas3d.js；sis_grad3d.js 句號；tests/aa458_y1s1_unit.js"
   }
  ]
 }

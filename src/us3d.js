@@ -118,7 +118,7 @@ const US3=(function(){
   /* 美國篇的季節（ART-US-SEASON；日期照 AA_213）：同一個 GLB 帶四季（tools/blender/env_second/us_season.py 的約定）。
      summer 夏末 8/2～10/8（4/16～8/1 也是）、autumn 秋天 10/9～10/31、bare 初冬 11/1～12/1（3/16～4/15 也是）、snow 雪 12/2～3/15。
      SEASON_MATS 底下每個小三角形帶一個替換材質「<原材質名>__S_<季節>」：用原材質的網格在那一季換成它；SEASON_GEO_*（userData.seasons＝'bare,snow'…）只有那幾季看得到 */
-  function usSeasonKey(){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;
+  function usSeasonKey(g){ const G=g||G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;   /* g：照那一份存檔的日子（AA_454 2-1 湖邊的「看」USL.lakeLook(G)）；沒給＝GAME.G */
     return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':(md>=316&&md<=415)?'bare':'summer'; }
   const SEA_MAT0=new WeakMap();   /* 網格原本的材質（不放 userData：clone 的時候 userData 會被 JSON 複製）*/
   function usSeason(root){ const key=usSeasonKey(); if(root.userData.usSeason===key) return; root.userData.usSeason=key;
@@ -134,7 +134,7 @@ const US3=(function(){
   function aptSouthView(root){ for(const k of ['SEASON_SNOW_on','SEASON_SNOW_off']){ const g=root.getObjectByName(k); if(!g) continue;
     for(const [ry,ax] of [[Math.PI,'x'],[Math.PI/2,'z'],[-Math.PI/2,'z']]) for(const d of [-18,0,18]){ const c=g.clone(true); c.rotation.y=ry; c.position[ax]+=d; c.userData.southView=true; g.parent.add(c); } } }
   /* 窗外的景（自發光貼圖）跟著時段變色：天空的部分是透明的（遊戲照時段畫的天空透出來），對面的公寓、停車場白天原色、黃昏偏暖、晚上暗 */
-  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.5,[0.22,0.25,0.36]]];
+  const VT=[[5.5,[0.22,0.25,0.36]],[7,[1,1,1]],[16.5,[1,1,1]],[18.2,[1,0.82,0.68]],[19.2,[0.22,0.25,0.36]]];   /* 最後一列 19.2＝屋外完全天黑（engine3d.js 的 nk）；原本 19.5，美國冬天晚了半小時（LAWWW2-B 10-25 路線巡查⑤）*/
   function vtAt(h){ h=((h%24)+24)%24; if(h>=VT[VT.length-1][0]||h<VT[0][0]) return VT[0][1];
     for(let i=0;i<VT.length-1;i++){ const [a,ca]=VT[i], [b,cb]=VT[i+1]; if(h>=a&&h<b){ const t=(h-a)/(b-a); return ca.map((v,k)=>v+(cb[k]-v)*t); } } return VT[0][1]; }
   function viewTint(mats,h){ if(!mats.length) return; const c=vtAt(h);
@@ -219,6 +219,7 @@ const US3=(function(){
     bar:{usShared:'bar'} });   /* BB_217：US2 祐廷坐窗口吧台外側的高腳椅，「坐下」＝演出開始（交換系統攔 usShared:'bar'）*/
 
   // =================== 戶外：公寓社區 us_outside（主街 us_street 之後也可以用同一套）===================
+  const CAR_LOD_D=14;   /* 停著的車：離鏡頭幾公尺以外換低面數版本（跟隨鏡頭在玩家後面 5 m：玩家身邊 9 m 內的車都是完整版）*/
   const CAR_DIMS={car_sedan:[4.88,1.84],car_suv:[4.6,1.85],car_pickup:[5.9,2.03],car_hatch:[4.4,1.8],car_minivan:[5.15,2.0]};   /* us_cars.json 的 dims：[車長, 車寬]；車頭朝 +z */
   const US_LINK={x:-35.0,z:0,yaw:Math.PI/2};   /* 從社區入口（西邊的車道）走進來、面向東：登機抵達、從超市回來都到這裡；離「出門」3.8 m（−37.5 的時候一到就在「出門」的範圍裡）*/
   const MS=()=>typeof US_MARKET_STREET_LAYOUT!=='undefined'?US_MARKET_STREET_LAYOUT:null;   /* 超市街（US-MARKET-STREET）：有這份配置就把超市、亞洲超市、社區的「出門」接過去；沒有就照舊直接進店 */
@@ -259,8 +260,12 @@ const US3=(function(){
       { const sm=SEE_MATS[o.id]; if(sm) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||!sm.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); } const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
-      for(const car of L.cars){ if(OWN(car)) continue; const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
-        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
+      for(const car of L.cars){ if(OWN(car)) continue; const node=src.getObjectByName(car.kind); if(!node) continue; const low=src.getObjectByName(car.kind+'_lod1');
+        const prep=nd=>{ const q=nd.clone(true); q.position.set(0,0,0); q.rotation.set(0,0,0);
+          q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
+          return q; };
+        let q; if(low){ q=new THREE.LOD(); q.addLevel(prep(node),0); q.addLevel(prep(low),CAR_LOD_D); } else q=prep(node);   /* 離鏡頭 CAR_LOD_D 以外換低面數版本（us_cars.py 的 <款式>_lod1，約 1/4 個三角形；陰影那一輪也跟著換）：社區停車場 28 台車是往東看最貴的一項（US-COMMUNITY-EAST-PERF，LAWWW2-B 10-25）*/
+        q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
         cg.add(q); n++; }
       if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
     return zone; } }; }
@@ -432,11 +437,12 @@ const US3=(function(){
   function apSeeThru(root,E){ root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!AP_SEE.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }
   function apMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)) if(m&&re.test(m.name||'')&&!out.includes(m)) out.push(m); }); return out; }
   /* 窗外的遠景（GLOW_ap_outside：白天的天空、停車大樓）原本跟著其他燈箱，晚上反而更亮——20:00 從大廳看出去還是白天。
-     白天 7～17 點照原本；17～19 點、5～7 點慢慢變；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗。
-     模型有夜景平面（GLOW_ap_outside_night：airport_backdrop.py --night，停車場樓層、路燈、窗戶亮著；在白天那塊後面 0.5 m）時，18:18 以後、5:42 以前藏起白天那塊、露出夜景 */
+     h 是光線用的時刻（區域的 applyTime 收到的就是 E.lightH：日落 18.95、屋外完全天黑 19.2）。亮度跟著屋外（engine3d.js applyTime 的夜晚係數 nk）；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗。
+     模型有夜景平面（GLOW_ap_outside_night：airport_backdrop.py --night，停車場樓層、路燈、窗戶亮著；在白天那塊後面 0.5 m）時，屋外完全天黑以後、6:00 以前藏起白天那塊、露出夜景（和臺灣大樓大廳的窗景同一刻）。
+     原本寫死 17～19、5～7 慢慢變、亮度剩 35% 就換夜景：光線 18.3 就換，比日落早；冬天 12/20 16:55 太陽還沒下山，窗外已經是夜景（LAWWW2-B 10-25 US-AIRPORT-DUSK）*/
   const AP_NIGHT=[0.13,0.16,0.26];
-  function apOutside(mats,h,planes){ h=((h%24)+24)%24; const d=h>=7&&h<=17?1:(h>=19||h<5?0:(h<7?(h-5)/2:(19-h)/2));
-    if(planes&&planes.night.length){ const nt=d<0.35; for(const o of planes.night) o.visible=nt; for(const o of planes.day) o.visible=!nt; }
+  function apOutside(mats,h,planes){ h=((h%24)+24)%24; const d=1-(h>=19.2||h<5.6?1:(h>=17.6?(h-17.6)/1.6:(h<6.4?(6.4-h)/0.8:0)));
+    if(planes&&planes.night.length){ const nt=h<6||h>=19.2; for(const o of planes.night) o.visible=nt; for(const o of planes.day) o.visible=!nt; }
     for(const m of mats){ const u=m.userData; if(!u.apC0){ u.apC0=m.color.clone(); u.apE0=m.emissive?m.emissive.clone():null; }
       const k=[0,1,2].map(i=>AP_NIGHT[i]+(1-AP_NIGHT[i])*d); m.color.setRGB(u.apC0.r*k[0],u.apC0.g*k[1],u.apC0.b*k[2]); if(u.apE0) m.emissive.setRGB(u.apE0.r*k[0],u.apE0.g*k[1],u.apE0.b*k[2]);
       if(u.usBase!=null) m.emissiveIntensity=u.usBase*0.75; } }   /* 白天的亮度和原本一樣（原本跟著燈箱乘 0.75）*/

@@ -32,6 +32,14 @@ async def main():
         for i in range(240):
             if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
             await pg.wait_for_timeout(500)
+        async def wait_label(want):
+            """等互動鈕的字變成 want（最多 10 秒；手機自己打開就先關，D103）。忙的機器上固定等 700 ms 會讀到舊字或鈕還沒出現（BB-B 10-24 RELEASE-9109-TEST 附註 1）"""
+            vis = {'hidden': True, 'label': ''}
+            for i in range(20):
+                vis = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); const b=document.getElementById('interact'); return {hidden:b.classList.contains('hide'), label:(document.getElementById('interactLabel')||{}).textContent}; })()")
+                if not vis['hidden'] and vis['label'] == want: break
+                await pg.wait_for_timeout(500)
+            return vis
         async def load_at(x, z, yaw=0):
             st = {'zone': 'gongguan', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': x, 'z': z, 'yaw': yaw}, 'flags': FLAGS}
             await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st))
@@ -67,7 +75,7 @@ async def main():
         # 實際按互動按鈕：麵店門口 → 進麵店 → 「離開麵店」→ 回到公館
         await load_at(-63, 20.4, 3.1416)
         await pg.wait_for_timeout(1500)
-        vis = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); return new Promise(r=>setTimeout(()=>{ const b=document.getElementById('interact'); r({hidden:b.classList.contains('hide'), label:(document.getElementById('interactLabel')||{}).textContent}); },700)); })()")   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
+        vis = await wait_label('進入阿鳳麵店')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('麵店門口出現互動按鈕「進入阿鳳麵店」', (not vis['hidden']) and vis['label'] == '進入阿鳳麵店', json.dumps(vis, ensure_ascii=False))
         await pg.evaluate("document.getElementById('interact').click()")
         zone = None
@@ -78,7 +86,7 @@ async def main():
         check('按下後進到麵店', zone == 'noodle', str(zone))
         await pg.evaluate("(()=>{ const P=GAME.E.player; P.obj.position.set(0,0,3.9); P.path=null; P.target=null; })()")
         await pg.wait_for_timeout(1500)
-        vis = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); return new Promise(r=>setTimeout(()=>{ const b=document.getElementById('interact'); r({hidden:b.classList.contains('hide'), label:(document.getElementById('interactLabel')||{}).textContent}); },700)); })()")   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
+        vis = await wait_label('離開麵店')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('麵店門口出現「離開麵店」', (not vis['hidden']) and vis['label'] == '離開麵店', json.dumps(vis, ensure_ascii=False))
         await pg.evaluate("document.getElementById('interact').click()")
         for i in range(60):
@@ -94,7 +102,7 @@ async def main():
         await pg.wait_for_timeout(1500)
         r = await pg.evaluate("(()=>{ const o=GAME.E.player.obj.position; return [+o.x.toFixed(2),+o.z.toFixed(2)]; })()")
         check('（測試前置）讀檔後人在巷口', abs(r[0] + 71) < 0.5 and abs(r[1] - 19.6) < 0.5, str(r))
-        vis = await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); return new Promise(r=>setTimeout(()=>{ const b=document.getElementById('interact'); r({hidden:b.classList.contains('hide'), label:(document.getElementById('interactLabel')||{}).textContent}); },700)); })()")   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
+        vis = await wait_label('往溫州街')   # [前置] 手機自動打開要回的訊息（STORY.phoneAuto，D103）時先收起來，互動按鈕才會更新
         check('巷口出現「往溫州街」', (not vis['hidden']) and vis['label'] == '往溫州街', json.dumps(vis, ensure_ascii=False))
         await pg.evaluate("document.getElementById('interact').click()")
         for i in range(60):

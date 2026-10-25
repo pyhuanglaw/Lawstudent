@@ -109,7 +109,7 @@ const TERMEND=(function(){
   /* 她的心意邀約規格：HEART[id] 疊上那一學期的 over（沛珊大三起的地點、大四上的版本…）*/
   const overOf=(h,term)=>{ if(!h) return null; let o=h; for(const v of (h.over||[])) if(v.terms.includes(term)){ o=Object.assign({},o,v); delete o.terms; } return o; };
   S.heart=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.HEART[id],term); };
-  S.gf=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.GF[id],term); };   /* 女朋友的學期末約會也照學期換（沛珊大三起的地點）*/
+  S.gf=function(id,term){ const Lx=L(), g=Lx&&Lx.GF[id], iv=g&&g.invByTerm&&g.invByTerm[term]; return overOf(iv!=null?Object.assign({},g,{invite:iv}):g,term); };   /* 女朋友的學期末約會也照學期換（沛珊大三起的地點）；邀約那一句照 invByTerm（AA_456 1-5：沒寫的學期照 invite，over 寫的照 over）*/
   S.friend=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.FRIEND[id],term); };   /* 朋友的一對一邀約也照學期換（芷若大二下：她 6/3 以後不上班，不在 Café 打烊以後，AA_375 第 1 項）*/
   const lines=(x,G)=>{ x=resolve(x,G); return x==null?[]:(Array.isArray(x)?x:[x]); };
   /* 不發心意邀約的那一句、朋友邀約的婉拒照學期換（AA_260 (b-1) 第 5、6、11、14 項，AA_262 (b) 第 4 條）：NOPE[種類][她] 可以是字串（照舊）或 {gen, byTerm:{學期:句子}}；FRIEND[她].noByTerm 優先於 noBySem、no */

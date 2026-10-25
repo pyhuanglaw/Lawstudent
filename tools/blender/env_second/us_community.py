@@ -75,10 +75,10 @@ M = {
      'glass': L.flat('ck_glass', '#3b4752', rough=0.06, metal=0.35),
      'glassw': L.flat('usc_win_glass', '#2e3842', rough=0.05, metal=0.3, alpha=0.38),   # 窗：看得到裡面的白色百葉（照片）
      'blinds': img_mat('usc_blinds', 'us_blinds.png', rough=0.6),
-     'conc': L.pbr('usc_concrete', 'concrete_wall_006', tile=2.0, target='#bdb8ae', normal=0.3, maps=('diff', 'nor'), rough_value=0.85),
-     'asph': L.pbr('usc_asphalt', 'asphalt_02', tile=3.0, target='#6f6e6b', normal=0.4, maps=('diff', 'nor'), rough_value=0.9),
-     'grass': L.pbr('usc_grass', 'grass_ground', tile=3.0, target='#5d6a44', normal=0.4, maps=('diff', 'nor'), rough_value=0.95),
-     'paint': L.flat('usc_line_paint', '#ecebe6', rough=0.6),
+     'conc': L.pbr('usc_concrete', 'concrete_wall_006', tile=2.0, target='#bdb8ae', normal=0.3, maps=('diff', 'nor'), rough_value=0.85, cull=True),   # 地面、路緣、地基、台階都是封閉的盒子：單面
+     'asph': L.pbr('usc_asphalt', 'asphalt_02', tile=3.0, target='#6f6e6b', normal=0.4, maps=('diff', 'nor'), rough_value=0.9, cull=True),
+     'grass': L.pbr('usc_grass', 'grass_ground', tile=3.0, target='#5d6a44', normal=0.4, maps=('diff', 'nor'), rough_value=0.95, cull=True),
+     'paint': L.flat('usc_line_paint', '#ecebe6', rough=0.6, cull=True),
      'door': L.flat('usc_door', '#f2f0ea', rough=0.35),
      'red': L.flat('usc_unit_plate', '#9b2a24', rough=0.5),
      'dark': L.flat('usc_dark', '#2a2b2d', rough=0.5),
@@ -104,11 +104,11 @@ for k_, png in zip('abc', ('us_leaves_red.png', 'us_leaves_orange.png', 'us_leav
     SEA.swap(CAR, m_, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))
 TWIG_IN = SEA.leaf_mat('usc_twig_inner', 'us_twigs.png'); SEA.swap(CAR, TWIG_IN, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))   # 落光以後樹冠裡面的細枝（只有初冬、雪天）
 LITTER = SEA.leaf_mat('usc_leaf_litter', 'us_leaf_litter.png', rough=0.85)                                                         # 樹下的落葉（秋天、初冬）
-SEA.swap(CAR, M['grass'], 'autumn', L.pbr('t', 'grass_ground', tile=3.0, target='#646b43', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))   # 秋天：草稍微轉黃
-SEA.swap(CAR, M['grass'], 'bare', L.pbr('t', 'withered_grass', tile=3.0, target='#857a58', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))  # 初冬：枯黃的草
-SEA.swap(CAR, M['grass'], 'snow', L.pbr('t', 'snow_02', tile=3.0, target='#e6eaee', normal=0.5, maps=('diff', 'nor'), rough_value=0.75))       # 雪
+SEA.swap(CAR, M['grass'], 'autumn', L.pbr('t', 'grass_ground', tile=3.0, target='#646b43', normal=0.4, maps=('diff', 'nor'), rough_value=0.95, cull=True))   # 秋天：草稍微轉黃
+SEA.swap(CAR, M['grass'], 'bare', L.pbr('t', 'withered_grass', tile=3.0, target='#857a58', normal=0.4, maps=('diff', 'nor'), rough_value=0.95, cull=True))  # 初冬：枯黃的草
+SEA.swap(CAR, M['grass'], 'snow', L.pbr('t', 'snow_02', tile=3.0, target='#e6eaee', normal=0.5, maps=('diff', 'nor'), rough_value=0.75, cull=True))       # 雪
 SEA.swap(CAR, M['roof'], 'snow', L.pbr('t', 'snow_02', tile=1.4, target='#e2e6ea', normal=0.4, maps=('diff', 'nor'), rough_value=0.8))          # 屋頂積雪
-SEA.swap(CAR, M['asph'], 'snow', L.pbr('t', 'asphalt_02', tile=3.0, target='#56565a', normal=0.4, maps=('diff', 'nor'), rough_value=0.55))      # 雪天：剷過雪、濕的柏油（深一點、比較亮）
+SEA.swap(CAR, M['asph'], 'snow', L.pbr('t', 'asphalt_02', tile=3.0, target='#56565a', normal=0.4, maps=('diff', 'nor'), rough_value=0.55, cull=True))      # 雪天：剷過雪、濕的柏油（深一點、比較亮）
 
 
 def facade_rects(w, h, holes):
@@ -428,7 +428,11 @@ if J.get('clubhouse'): clubhouse(J['clubhouse'])
 
 # ================= 地面 =================
 BD_ = J['bounds']; lot = J['lot']
-gr = Mesh('usc_grass', M['grass'], tile=3.0); gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, BD_['z0'], BD_['z1']); gr.finish(root)
+gr = Mesh('usc_grass', M['grass'], tile=3.0)   # 草地不墊在停車場、出口車道的柏油底下（同一個地方畫兩層，LAWWW2-B 10-25 US-COMMUNITY-WEST-PERF）
+gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, BD_['z0'], lot['z0']); gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, lot['z1'], BD_['z1'])   # 停車場北、南
+gr.box(lot['x1'], BD_['x1'], -0.06, -0.02, lot['z0'], lot['z1'])                                                                      # 東
+for (z0_, z1_) in ((lot['z0'], -3.6), (3.6, lot['z1'])): gr.box(BD_['x0'], lot['x0'], -0.06, -0.02, z0_, z1_)                        # 西（出口車道兩旁）
+gr.finish(root)
 asp = Mesh('usc_asphalt', M['asph'], tile=3.0)
 asp.box(lot['x0'], lot['x1'], -0.02, 0.0, lot['z0'], lot['z1'])
 asp.box(BD_['x0'], lot['x0'], -0.02, 0.0, -3.6, 3.6)                                       # 往西的出口車道
@@ -566,7 +570,10 @@ OX = BD_['x0']; ZR = 60.0
 RX0, RX1 = OX - 13.0, OX - 5.0          # 路面（8 m）
 SN0, SN1 = OX - 5.0, OX - 3.2           # 這一側的人行道
 SF0, SF1 = OX - 14.8, OX - 13.0         # 對面的人行道
-og = Mesh('usc_grass_out', M['grass'], tile=3.0); og.box(OX - 60.0, OX, -0.06, -0.02, -ZR, ZR); og.finish(root)
+og = Mesh('usc_grass_out', M['grass'], tile=3.0)                                                         # 草地不墊在路、人行道底下（同一個地方畫兩層：西邊出口往西 fps 3.8，LAWWW2-B 10-25 US-COMMUNITY-WEST-PERF）
+og.box(OX - 60.0, SF0, -0.06, -0.02, -ZR, ZR)                                                              # 對面人行道以西（前院、房子、後面的樹林）
+for (z0_, z1_) in ((-ZR, -3.6), (3.6, ZR)): og.box(SN1, OX, -0.06, -0.02, z0_, z1_)                        # 這一側人行道和社區之間（出口車道那一段是柏油）
+og.finish(root)
 oa = Mesh('usc_asphalt_out', M['asph'], tile=3.0); oa.box(RX0, RX1, -0.02, 0.0, -ZR, ZR); oa.box(SN1, OX, -0.02, 0.0, -3.6, 3.6); oa.finish(root)
 ow = Mesh('usc_walk_out', M['conc'], tile=2.0)
 ow.box(SN0, SN1, 0.0, 0.1, -ZR, ZR); ow.box(SF0, SF1, 0.0, 0.1, -ZR, ZR)                                   # 人行道（車道口照樣連過去：美國住宅區的人行道不斷）
@@ -574,7 +581,7 @@ for (z0_, z1_) in ((-ZR, -3.8), (3.8, ZR)): ow.rbox(RX1 - 0.15, RX1, 0.0, 0.15, 
 ow.box(RX1 - 0.15, RX1, 0.0, 0.04, -3.8, 3.8)
 ow.rbox(RX0, RX0 + 0.15, 0.0, 0.15, -ZR, ZR, r=0.02, seg=1)                                                 # 對面的路緣
 ow.finish(root)
-op = Mesh('usc_line_paint_out', M['paint']); oy = Mesh('usc_line_yellow', L.flat('usc_line_yellow', '#d9b23c', rough=0.6))
+op = Mesh('usc_line_paint_out', M['paint']); oy = Mesh('usc_line_yellow', L.flat('usc_line_yellow', '#d9b23c', rough=0.6, cull=True))
 xm = (RX0 + RX1) / 2
 for dx in (-0.12, 0.12): oy.box(xm + dx - 0.05, xm + dx + 0.05, 0.0, 0.004, -ZR, ZR)                        # 雙黃線
 for xx in (RX0 + 0.35, RX1 - 0.35): op.box(xx - 0.06, xx + 0.06, 0.0, 0.004, -ZR, ZR)                       # 白邊線
@@ -592,7 +599,8 @@ uvb = obs.bm.loops.layers.uv.verify()
 for sx_ in (1, -1):                                                                                          # 兩面（朝路、朝社區）
     xx = bx_ + sx_ * 0.03; pts = [(xx, 2.15, bz_ - sx_ * 0.225), (xx, 2.15, bz_ + sx_ * 0.225), (xx, 2.75, bz_ + sx_ * 0.225), (xx, 2.75, bz_ - sx_ * 0.225)]
     f_ = obs.bm.faces.new([obs.bm.verts.new(g2b(*p)) for p in pts])
-    for lp, uv in zip(f_.loops, sg_uv_('bus')): lp[uvb].uv = uv
+    u_ = sg_uv_('bus'); u_ = (u_[1], u_[0], u_[3], u_[2])   # 2026-10-25 招牌稽核：原本兩面的「BUS」「ROUTE 4」都左右相反（站在那一面看，u 往左手邊變大）——UV 左右對調，幾何不動
+    for lp, uv in zip(f_.loops, u_): lp[uvb].uv = uv
 obs.finish(root, uv=False); obm.finish(root, uv=False)
 ovc = CMesh('usc_out_vc', M['vc'])
 for k in range(4): ovc.crbox(SN1 - 0.65 + k * 0.13, SN1 - 0.55 + k * 0.13, 0.53, 0.56, bz_ - 2.9, bz_ - 1.1, '#8a6040', r=0.01, seg=1)   # 長椅（面向路）
@@ -724,7 +732,7 @@ print('us_community tris', tris)
 
 if PREVIEW:   # 驗收渲染用：把車停進去（每台一個顏色的材質副本）
     bpy.ops.import_scene.gltf(filepath=os.path.join(L.ROOT, 'assets/models/env/second_ai/us_cars.glb'))
-    src = {o.name: o for o in bpy.data.objects if o.name.startswith('car_') and o.type == 'EMPTY'}
+    src = {o.name: o for o in bpy.data.objects if o.name.startswith('car_') and o.type == 'EMPTY' and not o.name.endswith('_lod1')}   # 遠處用的低面數版本不要停進預覽
     cols = {}
     for c_ in J['cars']:
         s0 = src.get(c_['kind'])

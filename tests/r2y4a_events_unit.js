@@ -55,7 +55,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
 
   // ---------- 2-Y4-16 US1 抵達 ----------
   fresh('2028-08-02',13,'airport_dep',{EXCHANGE_ROUTE:'US',US_DEPARTED:true}); date('heroine_05'); await EXCH.fly(GM); await new Promise(r=>setTimeout(r,5));
-  check('U1. 交往中：登機 → 巴士站「十九個小時。」→ 超市「雞蛋要自己看日期」→ 亞洲超市「這是鄉愁。」→ 公寓門口 → 21:30 打給媽媽', has('十九個小時。……我在飛機上把論文第三章看完了。')&&has('這裡的雞蛋要自己看日期。我出發前查過了。')&&has('……這個不算浪費。這是鄉愁。')&&has('……有事打給我。同一個社區，走路五分鐘。')&&has('（你打給媽媽。台灣是早上九點半，她說她剛好醒了。）'), JSON.stringify(lines().slice(0,4)));
+  check('U1. 交往中：登機 → 巴士站「十九個小時。」→ 超市「雞蛋要自己看日期」→ 亞洲超市「……我在研究室常吃這一種。」（AA_450 1-1，原「這是鄉愁。」）→ 公寓門口 → 21:30 打給媽媽', has('十九個小時。……我在飛機上把論文第三章看完了。')&&has('這裡的雞蛋要自己看日期。我出發前查過了。')&&has('……我在研究室常吃這一種。')&&!has('……這個不算浪費。這是鄉愁。')&&has('……有事打給我。同一個社區，走路五分鐘。')&&has('（你打給媽媽。台灣是早上九點半，她說她剛好醒了。）'), JSON.stringify(lines().slice(0,4)));
   check('U1. 走過的區域：社區 → 草原超市 → 竹葉亞洲超市 → 公寓 214；時間 21:30；US1＝together；加入「交換生」群組', JSON.stringify(entered)===JSON.stringify(['us_outside','us_market','us_asian_market','us_apartment'])&&Math.abs(G.hour-21.5)<1e-6&&G.flags.US1==='together'&&PHONE.inGroup(G,'us_exchange'), JSON.stringify({entered,h:G.hour}));
   check('U1. 門口沒有「一，二，三」的條列（裁定第 6 點）；BCG-14 還沒重畫＝不放', !sisSaid().some(t=>/一，|二，|三，/.test(t))&&!cgs.includes('cg_bus_station_heroine05'));
   CG_REGISTRY.cg_bus_station_heroine05={file:'x.webp',title:'t'}; fresh('2028-08-02',13,'airport_dep',{EXCHANGE_ROUTE:'US',US_DEPARTED:true}); date('heroine_05'); await EXCH.fly(GM);
@@ -83,15 +83,15 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-11-03',21.1,'us_apartment',US()); date('heroine_05'); rules();
   check('C0. 沒有 MET_LONG：「香港來的那個同學也去，我們一起認識他。」＋去／這週不行', txt('p:heroine_05').join('|')==='heroine_05:下週末去芝加哥。巴士早上七點出發，帶厚外套。|heroine_05:香港來的那個同學也去，我們一起認識他。'&&PHONE.byAsk(G,'us_chi').ask.opts.length===2);
   fresh('2028-11-03',21.1,'us_apartment',US({MET_LONG:true})); date('heroine_05'); rules(); answer('us_chi',0); rules();
-  const qc=OUT.get(G,'us_chicago'); check('C1. 有 MET_LONG：「……我們去驗證。」；去＝11/11 07:00 出遊', txt('p:heroine_05').includes('heroine_05:何俊朗也去。他說他知道哪一家的披薩最好吃。……我們去驗證。')&&!!qc&&qc.day===D('2028-11-11')&&qc.h===7);
+  const qc=OUT.get(G,'us_chicago'); check('C1. 有 MET_LONG：「……到了再看。」（AA_450 1-6，原「……我們去驗證。」是可昕的話）；去＝11/11 07:00 出遊', txt('p:heroine_05').includes('heroine_05:何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。')&&!txt('p:heroine_05').some(t=>t.includes('我們去驗證'))&&!!qc&&qc.day===D('2028-11-11')&&qc.h===7);
   at('2028-11-11',6.9); said=[]; await OUT.go(GM,qc);
   { const HAI='（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）', i=said.findIndex(s=>s.t===HAI);
     check('C1. AA_345 F10：何俊朗的「還好」是一句旁白（不是他的台詞），接學姊「『還好』是好還是不好？」', i>=0&&said[i].who===null&&said[i+1]&&said[i+1].t==='「還好」是好還是不好？'&&!said.some(s=>s.t==='還好。'), JSON.stringify(lines().slice(0,6))); }
   check('C1. 第一天「……今天不照表。」「……法律系的回答。」；第二天博物館「……我只是想讀完。」；回程她睡著了；CHICAGO_TRIP；回到 11/12 晚上', has('……今天不照表。')&&has('……法律系的回答。')&&said.some(s=>s.who==='何俊朗'&&s.t==='妳每一塊都要讀？')&&has('……我只是想讀完。')&&has('（回程的巴士上，她睡著了。行程表還在她的外套口袋裡。）')&&SOCIAL.has('heroine_05','CHICAGO_TRIP')&&G.day===D('2028-11-12')&&G.hour>=21.5&&G.hour<23, JSON.stringify({d:CALENDAR.dateOf(G.day).key,h:G.hour}));
   check('C3. 沒有「一，二，三」的邀約、沒有「重點是」', !sisSaid().some(t=>/一，|重點是/.test(t))&&!txt('p:heroine_05').some(t=>/一，|重點是/.test(t)));
   fresh('2028-11-03',21.1,'us_apartment',US()); date('heroine_05'); rules(); answer('us_chi',1); rules(); at('2028-11-12',21.1); rules();
-  check('C2. 這週不行：11/12 三張照片＋「下次一起。」；沒有 CHICAGO_TRIP', txt('p:heroine_05').slice(-4).join('|')==='heroine_05:📷（湖邊的風）|heroine_05:📷（博物館的恐龍）|heroine_05:📷（深盤披薩）|heroine_05:下次一起。'&&!SOCIAL.has('heroine_05','CHICAGO_TRIP'));
-  fresh('2028-11-03',21.1,'us_apartment',US()); rules(); check('C. 挽回中：群組「下週末有人要去芝加哥嗎。巴士早上七點。」', txt('g:us_exchange').includes('heroine_05:下週末有人要去芝加哥嗎。巴士早上七點。'));
+  check('C2. 這週不行：11/12 只傳三張照片（AA_450 1-5：「下次一起。」拿掉、第一張「📷（密西根湖，浪很大）」）；沒有 CHICAGO_TRIP', txt('p:heroine_05').slice(-3).join('|')==='heroine_05:📷（密西根湖，浪很大）|heroine_05:📷（博物館的恐龍）|heroine_05:📷（深盤披薩）'&&!txt('p:heroine_05').some(t=>t.endsWith(':下次一起。'))&&!SOCIAL.has('heroine_05','CHICAGO_TRIP'));
+  fresh('2028-11-03',21.1,'us_apartment',US()); rules(); check('C. 挽回中：群組「下週末有人要去芝加哥嗎。巴士早上七點。」（AA_450 1-8：沒見過何俊朗＝國際學生會傳）', txt('g:us_exchange').includes('us_isa:下週末有人要去芝加哥嗎。巴士早上七點。')&&!txt('g:us_exchange').some(t=>t.startsWith('heroine_05:')));
   answer('us_chi',1); rules(); check('C. 挽回中：在群組回了＝REPAIR +1', G.flags.REPAIR&&G.flags.REPAIR.heroine_05===1);
 
   // ---------- 2-Y4-19 US3 ----------
@@ -102,7 +102,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-11-22',21.1,'us_apartment',US()); rules(); at('2028-11-23',8.8); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'us3_lake'));
   check('L2. 挽回中：「分手那天，你沒有解釋。」二選一；「那妳想因為什麼？」＝REPAIR +1', has('分手那天，你沒有解釋。')&&opts[0].length===2&&has('……因為你在這裡這三個月的樣子。')&&G.flags.REPAIR.heroine_05===1&&G.flags.US3==='repair');
   fresh('2028-11-22',21.1,'us_apartment',US()); date('heroine_05'); rules(); at('2028-11-23',9.5); await outTick(); at('2028-11-23',10.1); rules();
-  check('L. 交往中、09:15 沒到：10:00「我自己去了。……下雪了。拍給你。」', txt('p:heroine_05').includes('heroine_05:我自己去了。……下雪了。拍給你。')&&G.flags.US3==='missed');
+  check('L. 交往中、09:15 沒到：10:00「我自己去了。氣象說錯了，沒有下雪。」「📷（灰色的湖，岸邊沒有人）」（AA_450 1-9，原「……下雪了。拍給你。」）', txt('p:heroine_05').slice(-2).join('|')==='heroine_05:我自己去了。氣象說錯了，沒有下雪。|heroine_05:📷（灰色的湖，岸邊沒有人）'&&!txt('p:heroine_05').some(t=>t.includes('下雪了。拍給你'))&&G.flags.US3==='missed');
 
   // ---------- 2-Y4-20 初雪 ----------
   fresh('2028-12-02',18.1,'us_apartment',US()); date('heroine_05'); rules(); const qs=OUT.get(G,'us_snow');
@@ -115,18 +115,18 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('N4. 交往中 20:15 沒到：20:30「我還在台階上。雪還沒停。」', OUT.get(G,'us_snow').state==='missed'&&!!OUT.get(G,'us_snow2'));
   at('2028-12-02',21.6); await outTick(); rules(); said=[]; await tick();
   check('N4. 21:30 還沒到＝帶到場：「你還是去了。」接原台詞', has('（你還是去了。雪下得很小，她坐在台階最上面一階。）')&&has('剛買的。……還燙。')&&G.flags.US_SNOW==='together'&&txt('p:heroine_05').includes('heroine_05:我還在台階上。雪還沒停。'), JSON.stringify(lines().slice(0,2)));
-  fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:3}})); rules(); check('N2. 挽回中 18:00 交換生群組：何俊朗「今晚會積雪。」「不是上次那種，是會積起來的。」（AA_345 F10；沒有沒名字的「同學」）；睡著也會 20:00 醒來', seq(txt('g:us_exchange'),['npc_long:今晚會積雪。','npc_long:不是上次那種，是會積起來的。'])&&!(G.msgs||[]).some(m=>m.from==='us_classmate')&&(G.msgs||[]).filter(m=>m.from==='npc_long').every(m=>m.name==='何俊朗')&&STORY.lawWakeAt(G)===20, JSON.stringify(txt('g:us_exchange')));
-  at('2028-12-02',20.1); said=[]; await tick();
-  check('N2. 挽回中、REPAIR 3：20:00 自動到場；「這次我先說。」→ 重新交往', has('如果你還想的話，我們重新開始。這次我先說。')&&G.flags.dating_heroine_05===true&&ROM.get(G,'heroine_05').status==='dating'&&G.flags.US_SNOW==='restart');
-  fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:2}})); rules(); at('2028-12-02',20.1); said=[]; await tick();
+  fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:3}})); rules(); check('N2. 挽回中 18:00 交換生群組：何俊朗「今晚會積雪。」「上次那種落地就化了。這次會積起來。」（AA_345 F10；AA_452 1-2 換字；沒有沒名字的「同學」）；睡著也會 20:00 醒來', seq(txt('g:us_exchange'),['npc_long:今晚會積雪。','npc_long:上次那種落地就化了。這次會積起來。'])&&!(G.msgs||[]).some(m=>m.from==='us_classmate')&&(G.msgs||[]).filter(m=>m.from==='npc_long').every(m=>m.name==='何俊朗')&&STORY.lawWakeAt(G)===20, JSON.stringify(txt('g:us_exchange')));
+  at('2028-12-02',20.1); said=[]; picks=[0]; await OUT.go(GM,OUT.get(G,'us_snow_r'));   /* AA_452 1-1：排進行程（19:45 問「出發：初雪」），不再只靠 20:00 自動到場 */
+  check('N2. 挽回中、REPAIR 3：出發（行程 us_snow_r）；「這次我先說。」→ 重新交往', has('如果你還想的話，我們重新開始。這次我先說。')&&G.flags.dating_heroine_05===true&&ROM.get(G,'heroine_05').status==='dating'&&G.flags.US_SNOW==='restart');
+  fresh('2028-12-02',18.1,'us_apartment',US({REPAIR:{heroine_05:2}})); rules(); at('2028-12-02',20.1); said=[]; await OUT.go(GM,OUT.get(G,'us_snow_r'));
   check('N3. 挽回中、REPAIR 2：前三句＋「……回去吧，會冷。」', has('……我在臺灣，從來沒看過雪。')&&has('……回去吧，會冷。')&&!has('如果你還想的話，我們重新開始。這次我先說。')&&!G.flags.dating_heroine_05&&G.flags.US_SNOW==='cold');
 
   // ---------- 2-Y4-21 會所晚餐 ----------
-  fresh('2028-12-13',21.1,'us_apartment',US()); date('heroine_05'); rules(); check('D0. 12/13 21:00 群組；三選一帶什麼', txt('g:us_exchange').includes('heroine_05:明天晚上七點，會所。學期最後一頓。每個人帶一道菜。')&&PHONE.byAsk(G,'us_club').ask.opts.length===3);
+  fresh('2028-12-13',21.1,'us_apartment',US()); date('heroine_05'); rules(); check('D0. 12/13 21:00 群組（AA_450 1-8：沒見過何俊朗＝國際學生會傳兩則）；三選一帶什麼掛在最後一則', txt('g:us_exchange').slice(-2).join('|')==='us_isa:明天晚上七點，會所。學期最後一頓。|us_isa:每個人帶一道菜。泡麵也算。'&&PHONE.byAsk(G,'us_club').ask.opts.length===3&&PHONE.byAsk(G,'us_club').text==='每個人帶一道菜。泡麵也算。');
   answer('us_club',0); at('2028-12-14',18.9); G.zone='us_outside'; said=[]; const hit=await STORY.interact({usClub:'door',label:'會所',look:'x'},GM);
   check('D1. 會所門口（usClub:door）：帶的菜一句（學姊的室友）；舉杯「……謝謝你們這一學期。」；沒有她說的條列', hit===true&&said.some(s=>s.who==='學姊的室友'&&s.t==='這是什麼？……好香。')&&has('……謝謝你們這一學期。')&&!sisSaid().some(t=>/一，|二，/.test(t))&&G.flags.US_CLUB_DINNER==='went');
   fresh('2028-12-13',21.1,'us_apartment',US()); rules(); at('2028-12-14',20.2); await outTick(); at('2028-12-14',21.6); rules();
-  check('D2. 沒去：21:30 群組「你的那一份，有人幫你留了。」', txt('g:us_exchange').includes('heroine_05:你的那一份，有人幫你留了。')&&G.flags.US_CLUB_DINNER==='missed');
+  check('D2. 沒去：21:30 群組「你的那一份，有人幫你留了。」（AA_450 1-8：沒見過何俊朗＝國際學生會）', txt('g:us_exchange').includes('us_isa:你的那一份，有人幫你留了。')&&G.flags.US_CLUB_DINNER==='missed');
 
   // ---------- 2-Y4-22 離開、舊金山、回臺灣 ----------
   fresh('2028-12-15',23,'us_apartment',US()); date('heroine_05'); check('R0. 12/16 鬧鐘 06:30（07:00 社區門口）', STORY.wakeAlarms(G,D('2028-12-16')).some(a=>a.h===6.5));

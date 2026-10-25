@@ -68,8 +68,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
      ['2028-02-12',p=>isHome(p,'台中')],['2028-02-18',p=>isHome(p,'台中')],['2028-02-19',here],['2028-02-20',here]]);
   rowCheck('S4. 芷若大三暑假：7/1～7/31 台中、8/1 回臺北；9/2 出發去英國（出發那天在臺北）、9/3 起英國（大四上照舊 absent）','heroine_02',
     [['2028-06-30',here],['2028-07-01',p=>isHome(p,'台中')],['2028-07-31',p=>isHome(p,'台中')],['2028-08-01',here],['2028-09-02',here],['2028-09-03',p=>isUK(p)],['2028-10-15',p=>isUK(p,'absent')]]);
-  { const ukd=k=>{ fresh(D(k),7.5,'dorm',{dating_heroine_02:true}); know('heroine_02',60); MSG.ukDaily(G); return PHONE.sent(G,'zr_uk_daily_'+G.day); }, a=ukd('2027-09-02'), b=ukd('2027-09-03'), c=ukd('2028-09-02'), d=ukd('2028-09-03');
-    check('S4. 交往中「每天一則」（台灣 06:00）：出發那天（2027-09-02、2028-09-02）不傳、隔天起才傳',!a&&b&&!c&&d,JSON.stringify([a,b,c,d])); }
+  { const ukd=k=>{ fresh(D(k),7.5,'dorm',{dating_heroine_02:true}); know('heroine_02',60); MSG.ukDaily(G); return PHONE.sent(G,'zr_uk_daily_'+G.day)||(PHONE.rec(G).q||[]).some(q=>/^zr_uk[12]_\d\d[a-c]$/.test(q.tag||'')); }, a=ukd('2027-09-02'), b=ukd('2027-09-03'), c=ukd('2028-09-02'), d=ukd('2028-09-03');   /* AA_457 第 1 節：改每週一則、先用照月份的新句子（tag zr_uk<次>_<月><a…>） */
+    check('S4. 交往中「每週一則」（台灣 06:00；AA_457 原本每天一則）：出發那天（2027-09-02、2028-09-02）不傳、隔天起才傳',!a&&b&&!c&&d,JSON.stringify([a,b,c,d])); }
   { const at=k=>{ fresh(D(k),20,'campus'); know('heroine_02'); return MSG.open(G,'heroine_02'); }, a=at('2027-01-20'), b=at('2028-02-15'), c=at('2027-10-15');
     check('S4. 芷若在台中（2027-01-20、2028-02-15）手機照常；在英國（2027-10-15）有點熟＝只寄明信片（防回歸）',a.ok&&b.ok&&!c.ok&&c.why==='她在英國，只寄明信片',JSON.stringify([a,b,c])); }
   /* 阿凱（AA_350 S4 列的日子，含頭尾）*/

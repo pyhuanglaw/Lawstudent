@@ -218,7 +218,7 @@ const CL={us_intro:['教授問，誰的國家用的是法典。一半的人舉�
 await sec('C',async()=>{ const X=US_LIFE_EVENTS.DATA.classLines, G=fresh('2028-08-21',9,'us_apartment',US());
   check('C. 三門課都是八句：原本四句不動、新的四句接在後面（AA_412 第 4 節逐字）',['us_intro','us_comp','us_writing'].every(id=>X[id].length===8&&J(X[id].slice(4))===J(CL[id]))&&X.us_intro[0]==='教授第一堂課就問：『誰讀過陪審團的電影？』全班都舉手。'&&typeof X.us_writing[1]==='function');
   check('C. 輪流：第 1～4 次是原本的、第 5～8 次是新的、第 9 次回到第一句',['us_intro','us_comp','us_writing'].every(id=>USL.classLine(id,4,G)===CL[id][0]&&USL.classLine(id,7,G)===CL[id][3]&&USL.classLine(id,8,G)===USL.classLine(id,0,G)));
-  check('C. Legal Writing 第二句照舊：沒見過何俊朗＝「同一組的交換生」（AA_370 L1）',USL.classLine('us_writing',1,G)==='同一組的交換生交出去的作業，被圈出三個『however』。');
+  check('C. Legal Writing 第二句照舊：沒見過何俊朗＝「坐你前面的交換生」（AA_370 L1；AA_451 1-2 換字）',USL.classLine('us_writing',1,G)==='坐你前面的交換生交出去的作業，被圈出三個『however』。');
   /* 一鍵上課（USL.attend）實際上五次 Introduction（週一、三 10:00）：第五次出現新的第一句 */
   const got=[]; let d=D('2028-08-21'); while(got.length<5){ const w=wdOf(d); if((w===1||w===3)&&USL.classDay(d)){ at(CALENDAR.dateOf(d).key,9.5); const it=USL.items(G).find(x=>x.c.id==='us_intro'); H.said=[]; await USL.attend(GM,it); got.push(H.said.map(s=>s.t).join('｜')); } d++; }
   check('C. 一鍵上課五次 Introduction：第 1 次＝原本第一句、第 5 次＝新的第一句（第 5 次上那門課起出現新的）',got[0]===X.us_intro[0]&&got[4]===CL.us_intro[0]&&G.usLife.att.us_intro===5,J(got)); });

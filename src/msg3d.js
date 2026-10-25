@@ -58,7 +58,7 @@ const MSG=(function(){
      兩段：大三上交換、大四在英國念研究所（人物的 presence：不在、away「英國」）。回覆池是 msg_pool.js 的情況版「在英國」（她在英國只用這一組，不用 Café 的句子）。
      交情（S.ukRow）：認識、有點熟＝不開（只寄明信片）；朋友＝開，一週回一兩次（週三、週日台灣 22:00＝她那邊的下午；這一段傳的只回最新一則，前面加「抱歉，這週比較忙。」）；
      好朋友、曖昧（第 5 階以上，兩人都單身＝S.tier 的 L）、交往中＝當天回；她那邊半夜（台灣 07:00～16:00，夏令 06:00～15:00）傳的，她起床再回、先說「我剛起床。」；
-     交往中另外每天一則（英國 23:00 她睡前＝台灣 07:00，夏令 06:00；S.ukDaily，story3d.js 的手機規則每次叫）。前任：不開（BB_119 2-3）。
+     交往中另外每週一則（AA_457 第 1 節；原本每天一則。英國 23:00 她睡前＝台灣 07:00，夏令 06:00；S.ukDaily，story3d.js 的手機規則每次叫）。前任：不開（BB_119 2-3）。
      沒做：每月／每週約好的視訊（中間話題、收尾的裂縫 ① 要 BB_119 2-3）、生日新年按鈕的英國句子（MSG-2 回覆池還沒有）、社群發文（AA_276：遊戲沒有，不做）*/
   S.inUK=(G,id)=>{ const pr=presence(G,id); return !!(pr&&pr.here===false&&/英國/.test(String(pr.away||''))); };
   /* 英國比台灣慢 8 小時；夏令時間慢 7 小時：2027-10-31 以前、2028-03-26～10-29、2029-03-25 以後（BB_178 1-E）*/
@@ -73,13 +73,43 @@ const MSG=(function(){
     const off=S.ukOff(Object.assign({},G,{day})), wake=8+off, sleep=off-1;   /* 她 08:00 起床、23:00 睡（英國時間）＝台灣 16:00／07:00（夏令 15:00／06:00）*/
     if(h>=sleep&&h<wake) return {day,h:wake+seedMin(G,id,0,20)/60,late:true,ukWake:true};
     const m=seedMin(G,id,5,30); return {day,h:h+m/60,late:false,immediate:false}; };
-  /* 交往中每天一則（BB_178 1-E）：輪流、用完從頭；第 8 則（帶感情的那一句）一個月最多一次 */
+  /* 交往中每週一則（AA_457 第 1 節，企劃線 3be31d3c8；原本 BB_178 1-E 每天一則、十句照順序輪＝兩次在英國每句收到約五十次）：
+     哪一天：這一次在英國的第一天（S.UK_FROM）起每七天一段，那一段第一次跑到這裡的那天；時間照原本＝台灣 07:00（夏令 06:00），她那邊 23:00 睡前（AA_457 沒寫星期幾，LAWWW 定）。
+     哪一句：先用這個月的（S.UK_WEEK[第幾次在英國][月]，照表的順序；tag zr_uk<次>_<月><a、b、c>）；用完了從原本十句（msg_pool.js 的 daily）挑這一次在英國還沒發過的（照順序；tag 照舊 zr_uk_daily_<日>；第 8 則「一個月最多一次」照舊）；
+     也用完了＝那一週不發。同一次在英國每句只發一次；兩次分開算。
+     存檔 G.msgChat.ukWk＝{Y3|Y4:{wk:發過的最後一段, used:[句子 id：uk1_09a…／d0～d9]}}（舊存檔沒有＝沒發過）；第一次建的時候照舊存檔的手機紀錄補（S.ukWkRec）*/
+  S.UK_FROM={Y3:'2027-09-03',Y4:'2028-09-03'};
+  S.UK_LEAVE={Y3:'2028-02-11',Y4:'2029-08-25'};   /* 離開英國那一天（AA_457 3-1 節②照遊戲的資料：第一次 2/11 離開英國（characters.js 2/12 起回台中）、第二次 8/25 回來）*/
+  S.UK_COUNT={1:[['uk1_02a',15,21],['uk1_02b',0,7]],2:[['uk2_08a',8,14]]};   /* 倒數那三句照「離開前第幾天」（AA_457 3-1 節②，企劃線 d809cdd21）：剩三個禮拜＝21～15 天、箱子還沒整理＝7 天內（第一次）、剩兩個禮拜＝14～8 天（第二次）；那一週這三句優先，不照月份 */   /* 她到英國的第一天（characters.js 芷若的 absentDates：出發那天不算在英國）；Y3／Y4＝S.zrUkKey */
+  S.UK_WEEK={   /* AA_457 1-1、1-2 的表，一字不改；「／」＝分成兩則（前面是照片）*/
+    1:{9:['（照片：宿舍書桌，檯燈下一疊講義）／開學第一週。講義比臺灣厚。','這邊的咖啡店五點就關了。'],10:['今天在課上講話了。講完手在抖。','（照片：一排紅磚房子）／去上課的路。要走二十分鐘。'],
+      11:['（照片：窗台上的霜）／今天零度。','天黑得好早。我把檯燈開到最亮。'],12:['（照片：街上的聖誕燈）／這邊十一月就開始掛了。','期末放映會，我的短片排在第三個。'],
+      1:['（照片：雪地上一排腳印）／下雪了。沒有積。','這學期的課表出來了。週三整天都是片。'],2:['剩三個禮拜。我開始數了。','箱子還沒整理。……我不想整理。']},
+    2:{9:['（照片：機場的行李轉盤）／到了。這次的箱子比較輕。','第二年。這邊的路，我不看地圖了。'],10:['今天帶新來的臺灣學生去超市。她跟我第一年一樣，站在米那一排很久。','（照片：落葉堆滿的長椅）／坐不下去。','這學期的導師很嚴。我喜歡。'],
+      11:['（照片：放映室的最後一排）／今天的片三個小時。我沒有睡著。','室友問我臺灣的冬天冷不冷。我說會下雨。','你那邊快期末了吧。'],12:['（照片：一盒從臺灣寄來的鳳梨酥）／我媽寄的。一半分給室友了。','今天寫了八千字。英文的。','（照片：結冰的水窪）／走路要小心。'],
+      1:['新的一年，我買了一本新的筆記本。第一頁寫片名。','今天看完一部老片。下次回去，我們去那家二輪戲院。','下雪了。這次有積。'],2:['（照片：雪地裡一台腳踏車）／停在那邊三天了。','期中週。我三天沒去咖啡店了。'],
+      3:['（照片：公園裡的水仙）／這邊的春天是黃色的。','天黑得越來越晚了。','期末作品要拍十分鐘。我寫了三版。'],4:['（照片：一台借來的攝影機）／學校的。要很小心。','今天拍了一整天。演員是同學，他一直笑場。','復活節放假。圖書館沒開，我在宿舍剪片。'],
+      5:['剪完第一版了。十二分鐘，要剪掉兩分鐘。','（照片：河邊的草地，很多人躺著）／一出太陽，大家就躺下來。'],6:['放映會。……我的片放完，有人拍手。','晚上十點天還亮著。我睡不太著。'],
+      7:['這邊的暑假很安靜。學校只剩我們幾個。','（照片：一張手寫的回程日期）／八月二十五。'],8:['剩兩個禮拜。我開始把書寄回去了。','你那邊很熱吧。我這邊要穿外套。']}};
+  /* 這一次在英國的紀錄。舊存檔第一次建（AA_457 第 5 節「舊存檔已經發過的原本十句，算這次在英國已經發過」）：手機紀錄（G.msgs、還沒送到的 PHONE 佇列）裡這一次在英國的 zr_uk_daily_<日>
+     照字對回原本十句＝發過、最後那一則的那一段＝這一段發過（不在同一週再補一則）；手機紀錄被截掉（200 則）、看不到這一次在英國的開頭＝十句都算發過（不爆量補發）*/
+  S.ukWkRec=function(G,k,d0,L){ const R=S.rec(G); if(!R.ukWk||typeof R.ukWk!=='object') R.ukWk={}; if(R.ukWk[k]) return R.ukWk[k];
+    const W=R.ukWk[k]={wk:-1,used:[]}, P=typeof PHONE!=='undefined'?PHONE.rec(G):{q:[]}, txt=e=>e.msgs.join('\n'); let last=-1;
+    const seen=(d,t)=>{ if(!(d>=d0)) return; const i=L.findIndex(e=>txt(e)===t); if(i<0) return; if(!W.used.includes('d'+i)) W.used.push('d'+i); if(d>last) last=d; };
+    const by={}; for(const m of (G.msgs||[])){ const x=/^zr_uk_daily_(\d+)$/.exec(m.tag||''); if(x) (by[m.tag]=by[m.tag]||{d:+x[1],t:[]}).t.push(m.text); } for(const t in by) seen(by[t].d,by[t].t.join('\n'));
+    for(const q of (P.q||[])){ const x=/^zr_uk_daily_(\d+)$/.exec(q.tag||''); if(x) seen(+x[1],(q.items||[]).map(i=>i.text).join('\n')); }
+    if(last>=0&&(G.msgs||[]).length>=200&&G.msgs[0].day>d0) W.used=L.map((e,i)=>'d'+i);
+    if(last>=0) W.wk=Math.floor((last-d0)/7); return W; };
   S.ukDaily=function(G){ const id='heroine_02'; if(typeof PHONE==='undefined'||!G||!G.flags||G.flags['dating_'+id]!==true||(G.stage||'law')!=='law'||!S.inUK(G,id)) return false;
-    const tag='zr_uk_daily_'+G.day; if(PHONE.sent(G,tag)) return false; const L=((POOL().people[id]||{}).replies||[]).filter(e=>e.variant===UK&&e.topic==='daily'&&!e.disabled); if(!L.length) return false;
-    const R=S.rec(G), mon=CALENDAR.dateOf(G.day).key.slice(0,7); let i=(R.rot['uk_daily']|0)%L.length, e=L[i];
-    if((e.tags||[]).includes('一個月最多一次')&&R.ukAff===mon){ i=(i+1)%L.length; e=L[i]; }
-    if((e.tags||[]).includes('一個月最多一次')) R.ukAff=mon; R.rot['uk_daily']=i+1;
-    PHONE.at(G,G.day,S.ukOff(G)-1,e.msgs.map(t=>({th:'p:'+id,from:id,text:t})),tag); return true; };
+    const k=S.zrUkKey(G), n=k==='Y3'?1:2, d0=DK(S.UK_FROM[k]), wk=Math.floor((G.day-d0)/7); if(!(wk>=0)) return false;
+    const L=((POOL().people[id]||{}).replies||[]).filter(e=>e.variant===UK&&e.topic==='daily'&&!e.disabled), W=S.ukWkRec(G,k,d0,L); if(W.wk>=wk) return false; W.wk=wk;   /* 這一段已經決定過（發了、或沒有句子＝那一週不發）*/
+    const R=S.rec(G), x=CALENDAR.dateOf(G.day), mon=x.key.slice(0,7), M=(S.UK_WEEK[n]||{})[x.m]||[]; let msgs=null, tag=null, u=null;
+    const left=DK(S.UK_LEAVE[k])-G.day, CNT=S.UK_COUNT[n]||[], CV=CNT.map(c=>c[0]);
+    for(const [v,a,b] of CNT){ if(msgs) break; const s=((S.UK_WEEK[n]||{})[+v.slice(4,6)]||[])[v.charCodeAt(6)-97]; if(s&&left>=a&&left<=b&&!W.used.includes(v)&&!PHONE.sent(G,'zr_'+v)){ u=v; msgs=s.split('／'); tag='zr_'+v; } }   /* 倒數那三句：照離開前第幾天，優先 */
+    for(let i=0;i<M.length&&!msgs;i++){ const v='uk'+n+'_'+String(x.m).padStart(2,'0')+String.fromCharCode(97+i); if(CV.includes(v)) continue; if(!W.used.includes(v)&&!PHONE.sent(G,'zr_'+v)){ u=v; msgs=M[i].split('／'); tag='zr_'+v; } }   /* 這個月的，照順序（倒數那三句不照月份）*/
+    for(let i=0;i<L.length&&!msgs;i++){ const e=L[i], aff=(e.tags||[]).includes('一個月最多一次'); if(W.used.includes('d'+i)||(aff&&R.ukAff===mon)) continue; u='d'+i; msgs=e.msgs; tag='zr_uk_daily_'+G.day; if(aff) R.ukAff=mon; }   /* 原本十句，這一次在英國還沒發過的 */
+    if(!msgs||PHONE.sent(G,tag)) return false;
+    W.used.push(u); PHONE.at(G,G.day,S.ukOff(G)-1,msgs.map(t=>({th:'p:'+id,from:id,text:t})),tag); return true; };
   /* 子晴「芷若在英國」那一句（BB_178 第 2 節）：她在英國的那一段只播一次（段＝第幾次去英國：大三上、大四）*/
   S.zrUkKey=G=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:''; return k<'2028-06-01'?'Y3':'Y4'; };
   /* 什麼時候有「傳訊息」：回傳 {ok, why, mode}（mode：'business'＝學姊的事務版；'silent'＝沛珊重考消失期，只顯示已送達）。BB_178 0-1、AA_202 第 4 節 */
@@ -136,7 +166,7 @@ const MSG=(function(){
     if(p==='考試週') return !!(t&&t.exam); if(p==='深夜') return h>=23||h<5; if(p==='下雨天') return G.weather==='rain'; if(p==='平日課後') return wd>=1&&wd<=5&&h>=12;
     if(p==='交往中') return !!(G.flags&&G.flags['dating_'+id]===true);   /* BB_178 1-E 交往中那一組 */
     if(p==='沒交往') return !(G.flags&&G.flags['dating_'+id]===true);   /* AA_393 第 4 節「朋友以上」那一欄（交往中用另一句）*/
-    if(p==='一個月最多一次') return true;   /* 芷若每天一則的第 8 則：S.ukDaily 管 */
+    if(p==='一個月最多一次') return true;   /* 芷若每週一則（原本每天一則）的第 8 則：S.ukDaily 管 */
     if(p==='兩人是朋友') return true;   /* 子晴「芷若在英國」（BB_178 第 2 節）：遊戲還沒有子晴×芷若的狀態（ZZ），她們是朋友 */
     if(p==='每月第一個週日以後那一週'){ const x=CALENDAR.dateOf(G.day), d1=G.day-((x.d|0)-1); let s0=d1; while((CALENDAR.dateOf(s0).wd%7)!==0&&s0<d1+7) s0++; return G.day>=s0&&G.day<=s0+6; }   /* 子晴「芷若這個月打來了」（BB_178 第 2 節）：那個月第一個週日起的七天 */
     if(p==='祐廷也在美國') return S.usWithHer(G);   /* AA_370 第 6 節第 3 題：學姊事務版「在圖書館。有事嗎？」只在祐廷也在布魯明頓時用 */

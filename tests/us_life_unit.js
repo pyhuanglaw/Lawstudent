@@ -227,7 +227,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-08-05',17,'us_apartment',US()); date('heroine_05'); runRules('2028-08-05',17,17.75);
   check('G1. 8/5 17:30 學姊「傍晚去湖邊走走。……走路十五分鐘。」→ 18:30 湖邊（出遊）', txt('p:heroine_05').includes('heroine_05:傍晚去湖邊走走。……走路十五分鐘。')&&OUT.get(G,'usl_lake1')&&OUT.get(G,'usl_lake1').h===18.5);
   at('2028-08-05',18.2); picks=[1]; await go('usl_lake1');
-  check('G1. 湖邊：「這裡天黑得好晚。」「台灣這時候，天快亮了。」（AA_370 H3）→「想家嗎？」→「……問我第四十天的時候。」；記 US_LAKE_FIRST', has('這裡天黑得好晚。')&&has('台灣這時候，天快亮了。')&&has('……問我第四十天的時候。')&&G.flags.US_LAKE_FIRST===true, JSON.stringify(lines()));
+  check('G1. 湖邊：「這裡天黑得好晚。」「台灣這時候，大家在吃早餐了。」（AA_370 H3、AA_450 1-2）→「想家嗎？」→「……問我第四十天的時候。」；記 US_LAKE_FIRST', has('這裡天黑得好晚。')&&has('台灣這時候，大家在吃早餐了。')&&has('……問我第四十天的時候。')&&G.flags.US_LAKE_FIRST===true, JSON.stringify(lines()));
   fresh('2028-08-05',17,'us_apartment',US()); runRules('2028-08-05',17,19); check('G1／US-B. 挽回中：湖邊沒有邀約', !OUT.get(G,'usl_lake1')&&!txt('p:heroine_05').length);
   fresh('2028-08-10',8,'us_apartment',US()); R('heroine_02','FAM'); G.contacts.heroine_02=1; runRules('2028-08-10',8,10);
   check('G1. 8/10 當地 09:00（台灣 21:00）芷若「給我你在那邊的地址。英國寄到美國要多久，我想試試看。」（和芷若 FAMILIAR 以上）', JSON.stringify(txt('p:heroine_02'))===JSON.stringify(['heroine_02:給我你在那邊的地址。英國寄到美國要多久，我想試試看。'])&&G.msgs.find(m=>m.th==='p:heroine_02').h===9&&G.flags.USL_ZR_ADDR===true, JSON.stringify(txt('p:heroine_02')));
@@ -242,11 +242,11 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   rules(); { const q=OUT.get(G,'usl_long2b'); check('S11. 何俊朗 2b：9/15 18:30 新開的餐廳（2a 演過才有）', !!q&&q.day===D('2028-09-15')&&q.h===18.5); }
   at('2028-09-15',18.3); picks=[0]; await go('usl_long2b');
   check('S11. 何俊朗 2b：「你們台灣人的「還好」，到底是好還是不好？」→「要看你問的是什麼。」→「所以你們的『還好』，是一個要先知道題目的答案。」；記 LONG_HAIHAO', has('你們台灣人的「還好」，到底是好還是不好？')&&has('所以你們的『還好』，是一個要先知道題目的答案。')&&G.flags.LONG_HAIHAO===true);
-  fresh('2028-10-01',9,'us_apartment',US({MET_LONG:true})); rules(); at('2028-10-04',19.8); picks=[1]; await go('usl_long3');
+  fresh('2028-10-01',9,'us_apartment',US({MET_LONG:true})); rules(); at('2028-10-04',19.8); rules(); picks=[1]; await go('usl_long3');   /* AA_450 1-11：10/3 起才排（這裡 10/4 跑一次手機規則）*/
   check('S11. 何俊朗 3（10/4 20:00 會所自習室）：公布欄「週五晚上，國際學生會的秋假前聚餐」、「誰都」「誰也」；「那就都不要去。」→「……去吧。」；記 LONG_BBQ', has('（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）')&&has('「誰也」，像每個人自己決定不去。')&&has('……去吧。')&&G.flags.LONG_BBQ===true);
   G.zone='us_apartment'; G.hour=22; E.player.busy=false; await tick();
-  check('S11. 何俊朗 4：當晚回公寓自動「（回到公寓，你在筆記本寫了一行：……條文也是。）」；記 LONG_NOTE', has('（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）')&&G.flags.LONG_NOTE===true);
-  at('2028-10-06',20.5); G.zone='us_outside'; await tick(); check('S11. 10/6 20:00 人在社區：秋假前的聚餐一句旁白', has('（秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）'));
+  check('S11. 何俊朗 4：當晚回公寓自動「（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。……）」（AA_452 1-6）；記 LONG_NOTE', has('（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。看了很久，還是聽不出來。）')&&G.flags.LONG_NOTE===true);
+  at('2028-10-06',20.5); G.zone='us_outside'; await tick(); check('S11. 10/6 20:00 人在社區：秋假前的聚餐一句旁白', has('（星期五晚上，秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）'));
   fresh('2028-10-24',20.5,'us_apartment',US({MET_LONG:true})); runRules('2028-10-24',20.5,21.25); { const m=PHONE.byAsk(G,'usl_long5');
     check('S11. 何俊朗 5：10/24 21:00「明天晚上去中餐館？我想吃白飯。」→「明天不行。」→「那下週三。」＝11/1 19:00', !!m&&m.text==='明天晚上去中餐館？我想吃白飯。'&&(PHONE.answer(G,'usl_long5',1),rules(),true)&&txt('p:npc_long').slice(-1)[0]==='npc_long:那下週三。'&&OUT.get(G,'usl_long5b')&&OUT.get(G,'usl_long5b').day===D('2028-11-01')&&!OUT.get(G,'usl_long5'), JSON.stringify(txt('p:npc_long'))); }
   fresh('2028-10-25',18.8,'us_apartment',US({MET_LONG:true,USL_LONG5:'go'})); rules(); await go('usl_long5');
@@ -293,7 +293,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
     check('I1. 19:00 會所：「（會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。）」「（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）」（旁白；何俊朗那一句在 17:00 的邀約裡，不再說一次）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(['（會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。）','（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）'])&&said.every(x=>x.who===null)&&G.flags.USL_THANKS==='long', JSON.stringify(lines())); }
   fresh('2028-11-23',16,'us_apartment',US({MET_LONG:true,US3:'two'})); date('heroine_05'); runRules('2028-11-23',16,17.5); check('I6. 早上 US3 回到交往（交往中）：17:00 沒有何俊朗的邀約、沒有排會所', !txt('p:npc_long').some(t=>/七點，會所/.test(t))&&!OUT.get(G,'usl_thanks_long'));
   fresh('2028-11-23',20.5,'us_apartment',US({MET_LONG:true})); rules(); check('I6. 20:00 以後才讀檔進來：不補邀約（那一場已經過了）', !txt('p:npc_long').length&&!OUT.get(G,'usl_thanks_long'));
-  fresh('2028-11-23',18.5,'us_apartment',US()); E.player.busy=false; await tick(); check('G6／US-B. 挽回中、沒有 MET_LONG：公寓裡一個人「（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）」', has('（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）'));
+  fresh('2028-11-23',18.5,'us_apartment',US()); E.player.busy=false; await tick(); check('G6／US-B. 挽回中、沒有 MET_LONG：公寓裡一個人「（你煮了一包台灣帶來的泡麵。社區很安靜，只有幾戶亮著燈。）」（AA_454 2-2：原本「窗外開始飄小雪」，11/23 不下雪）', has('（你煮了一包台灣帶來的泡麵。社區很安靜，只有幾戶亮著燈。）'));
   fresh('2028-12-03',9,'us_apartment',US()); E.player.busy=false; await tick(); G.zone='us_outside'; await tick(); check('G7. 12/3 走出公寓：「（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）」', caps.includes('（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）'));
   fresh('2028-12-06',20.5,'us_apartment',US()); date('heroine_05'); runRules('2028-12-06',20.5,21.25); check('G7. 12/6 21:00 學姊：「期末週以後，還有五天。」「……你想去哪裡，你先想。」', JSON.stringify(txt('p:heroine_05'))===JSON.stringify(['heroine_05:期末週以後，還有五天。','heroine_05:……你想去哪裡，你先想。']));
 

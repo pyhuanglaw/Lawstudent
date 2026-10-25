@@ -11,10 +11,11 @@
           日期卡：USL.SUM（跳日期時出在日期卡下面，沒跳過的那天到時間出一次）多幾張，每張有 if（包住 USL.sumDue、USL.tick：if 不成立的不出）。
    第 3 節 交往中、開學前（還沒演 US2：9/13 以前）的週六：8/12 竹葉亞洲超市、8/19 湖邊、8/26 法學院圖書館＝前一天 21:00 私訊約（「好。」→ 排行程；「明天不行。」→「好。」）；
           竹葉、圖書館是 3D 的區域：演之前換到那裡（OUT.STAGE），畫面用模糊的 3D，演完回到原本的地方。
+          AA_453 1-2：8/26 早上學姊的七夕（sis_qixi3d.js 的週六市集 sisqx_2028）排了或演了＝8/25 21:00 那一則換句（S.qxOn）；七夕演過的，圖書館的第一句換句（us_blank_lines.js 的 QX）。
           9/9 上午（08:00～12:00）在公寓「洗衣機」那裡選「洗衣服」才演（社區的洗衣間）；快轉停在 9/9 11:00。
           「洗衣服」平常也可以做（40 分鐘、不加數值，同宿舍洗衣間 closed3d.js）；「只看看」＝原本「看」的字（AA_287）。
           AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）。
-   第 4 節 8/15 迎新週第二天的摘要（每個人都有）：那天第一次出門（人在美國、不在公寓）就演；快轉跳過 8/15 18:00 的，跳完演（包住 USL.jump）。
+   第 4 節 8/15 迎新週第二天的摘要（每個人都有）：那天第一次出門（人在美國、不在公寓）就演；快轉跳過 8/15 18:00 的，跳完演（包住 USL.jump）；還沒演就又快轉的，那一次快轉以前先演（AA_450 1-3）。
    第 5 節 11/11 交往中、沒有去芝加哥（US_CHICAGO 'missed'：「這週不行。」、沒回、沒趕上巴士）：日期卡＋21:00 私訊（兩個回覆，她已讀不回）。
    存檔：G.flags.USB_*（群組回法 USB_GRP_<月日>、約的回覆 USB_SAT_<月日>、迎新摘要 USB_ORIENT）、G.flags.USB_REC={grp:{月日:回的那天}}（REPAIR 算過了）；舊存檔沒有＝空的。
    測試：node tests/aa424_us_blank_unit.js */
@@ -64,10 +65,11 @@ const US_BLANK=(function(){
   S.fbRepair=G=>here(G)&&!dating(G);
   S.SAT=X.SAT.map(r=>Object.assign({},r,{tag:'usb_sat_'+r.n,key:'USB_SAT_'+r.n,out:'usb_sat_'+r.n}));
   S.satOK=(G,r)=>dating(G)&&(r.fall?S.noCanyon(G):D(r.d)<D(S.US2_DAY));   /* 開學前的週六：還沒演 US2（9/13 以前）；秋假：沒有大峽谷 */
+  S.qxOn=G=>{ const s=US_BLANK_LINES.QX?US_BLANK_LINES.QX(G):null; return s==='planned'||s==='done'; };   /* AA_453 1-2：8/26 早上學姊的七夕（週六市集，sisqx_2028）排了或演了＝8/25 21:00 那一則換成 msgQx（「市集逛完，下午去圖書館。課表帶著。」）；傳的那一刻看，沒排的照舊 */
   S.satPhone=function(G){ const F=G.flags;
     for(const r of S.SAT){ const da=D(r.ask), d=D(r.d); if(da==null||d==null) continue;
       if(now(G)>=T(da,21)&&now(G)<T(d,r.h)&&!PHONE.sent(G,r.tag)&&S.satOK(G,r)){
-        const m={th:'p:'+S5,from:S5,text:r.msg,ask:{id:r.tag,until:T(d,r.h),opts:[{t:X.SAT_YES,set:{[r.key]:'go'}},{t:X.SAT_NO,say:[{from:S5,text:X.SAT_NO_REPLY}],set:{[r.key]:'no'}}]}};
+        const m={th:'p:'+S5,from:S5,text:r.msgQx&&S.qxOn(G)?r.msgQx:r.msg,ask:{id:r.tag,until:T(d,r.h),opts:[{t:X.SAT_YES,set:{[r.key]:'go'}},{t:X.SAT_NO,say:[{from:S5,text:X.SAT_NO_REPLY}],set:{[r.key]:'no'}}]}};
         PHONE.at(G,da,G.day===da?Math.max(21,G.hour):21,[m],r.tag); }
       if(F[r.key]==='go'&&typeof OUT!=='undefined'&&!OUT.get(G,r.out)&&now(G)<T(d,r.h)+0.75)
         OUT.plan(G,{id:r.out,ev:r.ev,day:d,h:r.h,late:0.75,place:r.place,title:r.title,travel:r.travel,travelH:r.travelH,back:'回到社區。'}); } };
@@ -99,7 +101,11 @@ const US_BLANK=(function(){
   S.orientDue=function(G){ if(!here(G)||S.orientDone(G)) return false; const d=D(S.ORIENT_DAY);
     if(G.flags.USB_ORIENT_DUE) return G.day<=d+7;
     return G.day===d&&hh(G)>=7&&G.hour<24&&G.zone!=='us_apartment'&&inUS(G); };   /* 那天的第一次出門 */
-  if(USL.jump&&!USL._usbJump){ const j0=USL.jump; USL.jump=async function(GM){ const G=GM&&GM.G, tS=G?now(G):0; const r=await j0.apply(this,arguments);
+  /* AA_450 1-3：上一次快轉跨過 8/15 18:00、還沒演就又快轉（快轉停在要回的訊息＝手機自動打開（story3d.js S.phoneAuto 在 STORY.TICKS 前面、E.paused），收起手機馬上又按快轉，
+     中間沒有一格空下來的 tick——BB-B 的逐日劇本 8/14→8/18 21:00 停在她的私訊，到 8/21 跳完才演）：這一次快轉以前先演 */
+  S.orientBeforeJump=async function(GM){ const G=GM&&GM.G; if(!G||!G.flags||!G.flags.USB_ORIENT_DUE||busy||!S.orientDue(G)||(typeof EVENTS!=='undefined'&&EVENTS.running)) return false;
+    G.flags.USB_ORIENT_DUE=false; try{ await run('ev_usb_orient',{noTitle:true}); }catch(e){ console.warn('US_BLANK.orient',e); } return true; };
+  if(USL.jump&&!USL._usbJump){ const j0=USL.jump; USL.jump=async function(GM){ const G=GM&&GM.G; await S.orientBeforeJump(GM); const tS=G?now(G):0; const r=await j0.apply(this,arguments);
       try{ const x=T(D(S.ORIENT_DAY),S.ORIENT_H); if(G&&here(G)&&!S.orientDone(G)&&tS<x&&now(G)>=x) G.flags.USB_ORIENT_DUE=true; }catch(e){ console.warn('US_BLANK.jump',e); }
       return r; }; USL._usbJump=true; }
 

@@ -73,10 +73,10 @@ for(const id of ['airport_dep','airport_arr']){ const isDep=id==='airport_dep'; 
     `基本色 ${d.c.toFixed(3)}→${nt.c.toFixed(3)}（18:00 ${du.c.toFixed(3)}）、自發光 ${d.e.toFixed(3)}→${nt.e.toFixed(3)}`);
   check('招牌、燈箱照舊：白天 0.75、晚上 1',Math.abs(d.s-0.75)<0.01&&Math.abs(nt.s-1)<0.01);
   check(isDep?'出境的混凝土（雨遮底下）晚上不變暗':'入境門外的地面（ap_concrete）晚上變暗',isDep?Math.abs(nt.k-d.k)<1e-6:nt.k<0.3*d.k,`${d.k.toFixed(3)}→${nt.k.toFixed(3)}`);
-  /* 夜景平面：18:18 以後、5:42 以前藏起白天那塊、露出夜景；基本色壓低（不被大廳的燈照亮）*/
+  /* 夜景平面：屋外完全天黑（光線 19.2）以後、6:00 以前藏起白天那塊、露出夜景；基本色壓低（不被大廳的燈照亮）。原本 18:18 就換，比日落（光線 18.95）還早（US-AIRPORT-DUSK-1025）*/
   const pl={}; z.group.traverse(o=>{ if(o.isMesh&&/^GLOW_ap_outside/.test(o.name)) pl[o.name]=o; }); const dp=pl.GLOW_ap_outside, np=pl.GLOW_ap_outside_night;
-  const vis=h=>{ z.applyTime(h,'clear'); return [dp.visible,np.visible]; }; const V={12:vis(12),17.5:vis(17.5),18.5:vis(18.5),21:vis(21),4:vis(4),6:vis(6)};
-  check('夜景平面：12、17:30、6 點白天那塊；18:30、21、4 點夜景那塊',!!dp&&!!np&&[12,17.5,6].every(h=>V[h][0]&&!V[h][1])&&[18.5,21,4].every(h=>!V[h][0]&&V[h][1])&&np.material.color.r<0.2*0.7,JSON.stringify(V));
+  const vis=h=>{ z.applyTime(h,'clear'); return [dp.visible,np.visible]; }; const V={12:vis(12),17.5:vis(17.5),18.5:vis(18.5),19.2:vis(19.2),21:vis(21),4:vis(4),6:vis(6)};
+  check('夜景平面：12、17:30、18:30（日落前）、6 點白天那塊；19:12（屋外完全天黑）、21、4 點夜景那塊',!!dp&&!!np&&[12,17.5,18.5,6].every(h=>V[h][0]&&!V[h][1])&&[19.2,21,4].every(h=>!V[h][0]&&V[h][1])&&np.material.color.r<0.2*0.7,JSON.stringify(V));
   z.applyTime(12,'clear');
 }
 /* 舊的模型（沒有夜景平面）：照舊用調暗的做法，不會出錯 */

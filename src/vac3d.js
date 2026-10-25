@@ -229,15 +229,16 @@ const VAC=(function(){
     for(const yk of ['Y2','Y3','Y4']){ const d=S.c01Day(yk), tg='vac_c01ask_'+yk, da=d!=null?S.c01Ask(d):null; if(d==null||PHONE.sent(G,tg)||now<T(da,21+5/60)||G.day>=d) continue; const n=S.c01N(G); if(n<1||PHONE.sent(G,'vac_c01first_'+yk)) continue;
       const L=(CALENDAR.dateOf(d).wd%7===2&&C.askTue?C.askTue:C.ask)[n>=2?3:2], T2='g:noodle_team', M=L.map(t=>({th:T2,from:'zhe',text:t})); Object.assign(M[M.length-1],{ask:{id:tg,until:T(d,8.5),opts:[{t:C.opts[0],set:{C01_PICK:yk}},{t:C.opts[1]}]}}); PHONE.at(G,da,21+5/60,M,tg); }
     /* 阿哲每年寒假在海邊隔天回高雄（AA_264 第 5 節第 1 點）：大二的「我明天回高雄」（AA_210 1-4）改在海邊那天 21:00；tag 照舊，已經在 1/1 收到的舊存檔不重複 */
-    { const d=S.c01Day('Y2'); if(d!=null&&!PHONE.sent(G,'nye_y2_zhe')&&now>=T(d,21)&&G.day<=d+1) PHONE.at(G,d,21,[{th:'g:noodle_team',from:'zhe',text:'我明天回高雄'}],'nye_y2_zhe'); } };
+    { const d=S.c01Day('Y2'); if(d!=null&&!PHONE.sent(G,'nye_y2_zhe')&&now>=T(d,21)&&G.day<=d+1) PHONE.at(G,d,21,[{th:'g:noodle_team',from:'zhe',text:'明天回高雄 回來帶烏魚子'}],'nye_y2_zhe'); } };   /* AA_456 1-4：大二換字（接 AA_446 大二 2/20「這次帶了烏魚子 我阿嬤做的」；大三、大四在 holff3d.js）*/
   /* 大二以後才第一次去（AA_264 第 4 節，e01ee2a8；第 5 節 7fa3660d）：揪人那天（S.c01Ask）21:05 麵店團群組照 AA_204 3-1（阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」，大四週二換「禮拜二…」）；
      以安：和她 FAMILIAR 以上、而且那一天她在臺北，才回、才去（VA03_AN）；我去＝那天 08:50 臺北車站（出遊 ev_va03_beach，第一句旁白每年都是「放寒假的第二個禮拜」）；當晚群組照 AA_204 */
   S.C01_NONE={Y2:['📷（大家站在防波堤上，頭髮都被吹歪）','今年的風比去年大！！','我在家看照片就好。'],Y3:['📷（沙灘上用樹枝寫的「麵店團」）','浪一下就把它沖掉了','……拍到就好。'],Y4:['📷（大家在月台上，手裡拿著熱的飲料）','最後一次寒假的海！！','下次我去。']};   /* AA_446 第 3 節：沒去海邊的那一則照年份換（Alison 兩句、芯慈一句；大一照舊在 story3d.js）*/
+  S.C01F_REPLY={Y2:['又是海邊？？','好啊','一樣九點十分那班。','我一樣不去。照片記得傳。','去年那家熱豆漿還在嗎？'],Y3:['這次我要帶暖暖包','好啊','九點十分。這次不要有人遲到。','不去。我負責看照片。','我可以。這次我帶熱水。'],Y4:['大四了還去？？','……去','九點十分。我查過了，還是那班。','我在家等照片。四年都是。','我可以。幾點集合？']};   /* AA_456 1-3（企劃線 71f260ecc）：一直沒去的玩家每年都收到同一串，回覆照年份換——Alison 兩句、柏翰、芯慈、以安（以安照原本的條件才有）；阿哲那句照 C01.first；大一照舊在 story3d.js；tag 不變 */
   S.c01First=function(G,yk,d){ const V=S.rec(G), F=G.flags, now=T(G.day,G.hour), tg='vac_c01first_'+yk, TH='g:noodle_team', C=V.c01||(V.c01={});
     if(!PHONE.sent(G,tg)){ if(now<T(S.c01Ask(d),21+5/60)||G.day>=d||S.c01N(G)>=1) return;
       const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('heroine_01',Object.assign({},G,{day:d,hour:9})):{here:true}, an=atLeast('heroine_01','FAMILIAR')&&!!(pr.here||pr.kind==='taipei');
-      const C1=Dt().C01, L=[['zhe',C1.first[CALENDAR.dateOf(d).wd%7===2?2:1],21+5/60],['yu','冬天去海邊？？',21.1],['yu','好啊',21.1],['classmate_bohan','火車九點十分有一班。',21+10/60],['classmate_xinci','我怕冷，我不去了。你們拍照。',21.5]];
-      if(an) L.push(['heroine_01','我可以。幾點集合？',21+40/60]); F.VA03_AN=an;
+      const C1=Dt().C01, R=S.C01F_REPLY[yk]||S.C01F_REPLY.Y2, L=[['zhe',C1.first[CALENDAR.dateOf(d).wd%7===2?2:1],21+5/60],['yu',R[0],21.1],['yu',R[1],21.1],['classmate_bohan',R[2],21+10/60],['classmate_xinci',R[3],21.5]];
+      if(an) L.push(['heroine_01',R[4],21+40/60]); F.VA03_AN=an;
       L.forEach(([from,text,h],i)=>{ const m={th:TH,from,text}; if(i===L.length-1) m.ask={id:tg,until:T(d,8.5),opts:[{t:'我去',set:{C01F_PICK:yk}},{t:'我那天不行'}]}; PHONE.at(G,S.c01Ask(d),h,[m],i===L.length-1?tg:tg+'_'+i); });
       return; }
     if(F.C01F_PICK===yk){ delete F.C01F_PICK; C[yk]='first'; if(typeof OUT!=='undefined'&&!OUT.get(G,'vac_c01_'+yk)&&G.day<=d) OUT.plan(G,{id:'vac_c01_'+yk,ev:'ev_va03_beach',day:d,h:8+50/60,late:0.25,place:'臺北車站',title:c01Title(d),travel:'捷運約 20 分鐘',travelH:1/3,back:'回到臺北。'}); }

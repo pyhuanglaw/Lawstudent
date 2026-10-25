@@ -26,12 +26,12 @@ const setup=(gift,hot)=>{ fresh('2025-12-15',20); if(hot) H.G.events.done.ev_sis
 let doc=''; try{ doc=cp.execSync('git show 895496a7:"docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b10_3d.js 後面；沒有大二版（ev_family_xmas_y2）',ok&&!!X()&&/sis_b10_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/family_xmas3d\.js\?v=[^"]+"><\/script>/.test(html)&&!STORY_EVENTS.some(e=>e.id==='ev_family_xmas_y2'));
-  const q=[...J(X().EVENT).matchAll(/"text":"([^"]+)"/g)].map(m=>m[1]).concat(['家族聖誕交換禮物！期末考完那天，12/22 晚上六點半，公館那家火鍋。','家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','我用了。昨天。'],X().GIFTS.map(g=>g.t));
+  const q=[...J(X().EVENT).matchAll(/"text":"([^"]+)"/g)].map(m=>m[1]).concat(['家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','我用了。昨天。'],X().GIFTS.map(g=>g.t));   /* 12/15 第一句 AA_458 3-3 改成「期末考完，12/22」（稿在企劃線 b01e32018，逐字對在 tests/aa458_y1s1_unit.js）*/
   const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['公館・火鍋店'].includes(t));
   check('0. 每一句台詞、禮物名都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,()=>{ fresh('2025-12-15',20); H.at('2025-12-15',21); ph(); const q=OUT.get(H.G,'famx_y1');
-  check('1. 12/15 21:00 家族群組：Kevin 兩則＋溫學姊「收到。」（沒有「聖誕節晚三天」）；排 12/22（一）18:30「家族聖誕：公館的火鍋店」',J(grp())===J(['家族聖誕交換禮物！期末考完那天，12/22 晚上六點半，公館那家火鍋。','家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','收到。'])&&!!q&&keyOf(q.day)==='2025-12-22'&&CALENDAR.dateOf(q.day).wd===1&&q.h===18.5&&q.title==='家族聖誕：公館的火鍋店',J({g:grp(),q}));
+  check('1. 12/15 21:00 家族群組：Kevin 兩則（第一句照 AA_458 3-3）＋溫學姊「收到。」（沒有「聖誕節晚三天」）；排 12/22（一）18:30「家族聖誕：公館的火鍋店」',J(grp())===J(['家族聖誕交換禮物！期末考完，12/22 晚上六點半，公館那家火鍋。','家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','收到。'])&&!!q&&keyOf(q.day)==='2025-12-22'&&CALENDAR.dateOf(q.day).wd===1&&q.h===18.5&&q.title==='家族聖誕：公館的火鍋店',J({g:grp(),q}));
   const G=H.fresh('2025-12-15',21,'dorm',{met_sis:true}); H.FAMILIAR(ID); G.outings=[]; ph(); check('1. 不在家族群組：沒有',!grp().length&&!OUT.get(G,'famx_y1')); });
 /* ---- 2 ---- */
 await sec(2,async()=>{ fresh('2025-12-15',21.1); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='famx_y1_gift');

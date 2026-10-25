@@ -157,7 +157,7 @@ const B3=(function(){
     for(const o of fb0.children.slice()) if(o.userData&&o.userData.outside){ fb0.remove(o); lv0.add(o); }   /* 窗外的景一直顯示 */
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.4,cool:true,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); g.traverse(o=>{ if(o.userData&&o.userData.outside) setOutView(o,h,weather,night); }); },
+      applyTime(h,weather){ const night=(h%24<6||h%24>=19.2); g.traverse(o=>{ if(o.userData&&o.userData.outside) setOutView(o,h,weather,night); }); },
       onLamps(on){} };
     zone.elev=buildElevator(L,g,nav0,nav1,zone);
     zone.update=function(dt){ zone.elev.update(dt); };

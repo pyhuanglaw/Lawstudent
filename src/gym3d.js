@@ -135,7 +135,7 @@ const GY3=(function(){
     const wk=wkOf(G); if(r.fitWk!==wk){ r.fitWk=wk; r.fitN=0; } if((r.fitN|0)<3){ r.fitN=(r.fitN|0)+1; r.fit=Math.min(100,(r.fit|0)+2); } r.fitDay=G.day;   /* fitDay：最後一次運動（src/fit3d.js 的 8 週提醒）*/   /* 重訓一小時 +2，每週最多算 3 次（和打羽球的 2 次分開）*/
     const st=fitStage(r.fit|0), L=FIT_LINES[st]; r.fitLast=r.fitLast||{}; const prev=r.fitLast[st]; let k=(prev==null?0:(prev+1)%L.length); r.fitLast[st]=k; await GM.say(null,L[k]); }   /* 三句輪流、不連續重複 */
   async function deskB1(GM){ const r=rec(GM.G); if(!r.card){ await cardScene(GM,r); return; } GM.toast(r.pass===ym(GM.G)?'會員證：這個月的月票':'會員證：單次 50 元（或買這個月的月票）',3200); }
-  const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
+  const gym_b1={ id:'gym_b1', name:'綜合體育館 B1', indoor:true, windowless:true, camDist:3.6, build(E){ const Ly=L(), B=Ly.b1, cz=-5;   /* 配置：x −24～24、z −24～14（room() 中心在原點，整個往 −z 移 5 m）*/
     const z=Z3.room(E,{w:48,d:38,h:B.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#3a3d40'),spawn:Object.assign({},B.spawn)}); const g0=z.group, nav=z.nav;
     g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz);
     const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
