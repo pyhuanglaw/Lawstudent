@@ -31863,6 +31863,36 @@
    "source": "AA-B 2026-10-25 03:32（企劃線 eaa98aaa7，outbox 4408396b5）；D99 第三優先、AA 自己排（D109）",
    "authorized": "D99、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "US-COMMUNITY-EAST-PERF-1025",
+   "title": "美國社區往東（停車場、公寓）1.6～1.9 fps，比往西慢一倍：找原因、外觀不退（LAWWW2 自排 ③）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "next": "LAWWW2 實驗版 GLB 量 fps → patch／GLB＋README＋outbox；動 us3d.js、engine3d.js 先告知",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "美國交換 8/3 每天從公寓出來",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-25 03:46 自排（D111 美術總監；BB v9.10.9 判定附註「往東兩版都 1.5」）",
+   "authorized": "D99 第三優先、D108、D111",
+   "xai": {
+    "spec": "同 US-COMMUNITY-WEST-PERF-1025 的做法",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "往東 fps 明顯提升、外觀不退；改前改後截圖、三角形數",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "notes": ""
   }
  ]
 }
