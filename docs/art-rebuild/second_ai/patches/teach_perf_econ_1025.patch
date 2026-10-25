@@ -1,0 +1,74 @@
+diff --git a/src/teach3d.js b/src/teach3d.js
+index 337a079ab..487d7517e 100644
+--- a/src/teach3d.js
++++ b/src/teach3d.js
+@@ -151,9 +151,21 @@ const TB3=(function(){
+         const out=new THREE.Group(); out.name='furniture_glb'; const put=(name,list,fn)=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,list.length); list.forEach((q,i)=>{ fn(q); Mx.compose(V,Q,S); im.setMatrixAt(i,Mx); });
+           im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; out.add(im); };
+         for(const mod of [...new Set(its.map(it=>it.mod))]) put(mod,its.filter(it=>it.mod===mod),it=>{ V.set(it.x,0,it.z); Q.setFromAxisAngle(UP,it.ry); S.set(1,1,1); });
+-        put('study_chair',its.flatMap(it=>it.seats),st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); });   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
++        const chairs=its.flatMap(it=>it.seats), chairM=st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); };   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
++        if(mesh.study_chair_lod1){ const mk=name=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,chairs.length); im.count=0; im.castShadow=false; im.receiveShadow=true; im.name=name; out.add(im); return im; };
++          (zone.chairLods=zone.chairLods||[]).push({out,near:mk('study_chair'),far:mk('study_chair_lod1'),list:chairs.map(st=>{ chairM(st); return {x:st.x,z:st.z,m:new THREE.Matrix4().compose(V,Q,S),near:true}; }),done:false}); }
++        else put('study_chair',chairs,chairM);
+         fb.parent.add(out); fb.visible=false; }
++      if(zone.chairLods&&!zone.chairLodHook){ zone.chairLodHook=true; const prev=zone.update; zone.update=function(dt,E){ if(prev) prev.call(this,dt,E); chairLod(zone,E); }; }
+       zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
++  /* 自習椅 10 m 外換 study_chair_lod1（72 個三角形；完整版 1,020）——PERF-PATROL-ECON-1025（LAWWW2-B 2026-10-25，LAWWW-B 同意）：博雅大廳 32 張椅子在鏡頭裡，雙面完整版一共 3.3 萬個三角形。
++     離鏡頭 10 m 外換、9.5 m 內換回來（邊界上不會一直換）；有變動才重填。測試：node tests/teach_perf_econ_unit.js */
++  const CHAIR_LOD_D=10, CHAIR_LOD_BACK=9.5, _cP=new THREE.Vector3();
++  function chairLod(zone,E){ const cam=E&&E.camera; if(!cam) return;
++    for(const L of zone.chairLods){ let ch=!L.done; L.out.updateWorldMatrix(true,false);
++      for(const c of L.list){ const d=_cP.set(c.x,0,c.z).applyMatrix4(L.out.matrixWorld).distanceTo(cam.position), nr=c.near?d<=CHAIR_LOD_D:d<CHAIR_LOD_BACK; if(nr!==c.near){ c.near=nr; ch=true; } }
++      if(!ch) continue; L.done=true; let a=0, b=0; for(const c of L.list){ if(c.near) L.near.setMatrixAt(a++,c.m); else L.far.setMatrixAt(b++,c.m); }
++      L.near.count=a; L.far.count=b; for(const im of [L.near,L.far]){ im.instanceMatrix.needsUpdate=true; im.computeBoundingSphere(); } } }
+   /* ---- 關著的房間的門（ART-02：共同教學館沒有正式室內殼，洗手間、203 的門原本是一塊木板）：換成 furniture_study.glb 的門框＋關著的門片＋門牌 ----
+      模組的約定：原點＝門洞中心的地面、z＝0 是牆的中心面、+z＝走廊；門洞 1.2×2.4、牆厚 0.2。這裡的牆沒有開口（關著的房間導航本來就擋著，鏡頭碰撞照牆算），
+      所以門片貼在走廊那一面（中心離牆心 0.1245，比牆面凸 2 mm）、門框整個往走廊移 0.0475（門片比門框的飾條凹進去 1.5 cm，看起來像嵌在門框裡）；門牌在門的右邊、貼牆面（不移）。
+diff --git a/tests/teach_perf_econ_unit.js b/tests/teach_perf_econ_unit.js
+new file mode 100644
+index 000000000..99cd5775c
+--- /dev/null
++++ b/tests/teach_perf_econ_unit.js
+@@ -0,0 +1,41 @@
++// 教學館變快（PERF-PATROL-ECON-1025，LAWWW2-B 2026-10-25；LAWWW-B 同意 ①②）——不需要瀏覽器。
++//   博雅大廳往北看 SwiftShader 1.55 fps（往南 4.1）：同一頁一次藏一類，室內殼 GLB 改單面 →1.95、自習椅＋桌子藏起來 →2.15。
++//   ① 博雅、普通的室內殼（teach_interior.py）除了玻璃都單面；家具模組 furniture_study.glb 單面（網格都是封閉的：方盒、Solidify 的夾板、有蓋的圓管）。
++//   ② 自習椅 10 m 外換 study_chair_lod1（72 個三角形；完整版 1,020）：teach3d.js 的 chairLod，9.5 m 內換回來；真的照距離分兩組、數量對、有變動才重填。
++// 修改前 FAIL。用法：node tests/teach_perf_econ_unit.js
++const fs=require('fs'), path=require('path'), vm=require('vm');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const glb=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), jl=b.readUInt32LE(12); return JSON.parse(b.slice(20,20+jl).toString('utf8')); };
++const tris=(J,name)=>{ const n=J.nodes.find(n=>n.name===name); if(!n||n.mesh==null) return 0; return J.meshes[n.mesh].primitives.reduce((s,p)=>s+J.accessors[p.indices!=null?p.indices:p.attributes.POSITION].count/3,0); };
++// ① 單面
++for(const set of ['boya','putong']){ const J=glb('assets/models/env/second_ai/'+set+'_interior.glb'); const ds=J.materials.filter(m=>m.doubleSided).map(m=>m.name);
++  check('① '+set+'_interior.glb 只有玻璃是雙面（'+J.materials.length+' 個材質）', ds.length===1&&ds[0]==='tb_glass', '雙面：'+ds.join(' '));
++  const blend=J.materials.filter(m=>m.alphaMode==='BLEND').map(m=>m.name); check('① '+set+' 玻璃照舊半透明', blend.length===1&&blend[0]==='tb_glass', blend.join(' ')); }
++{ const J=glb('assets/models/env/second_ai/furniture_study.glb'); const m=J.materials.find(m=>m.name==='study_furn');
++  check('① furniture_study.glb 的 study_furn 是單面', !!m&&!m.doubleSided);
++  const a=tris(J,'study_chair'), b=tris(J,'study_chair_lod1'); check('② furniture_study.glb 有 study_chair_lod1，三角形 ≤ 完整版的 10%', a>0&&b>0&&b<=a*0.1, b+' / '+a); }
++// ② teach3d.js 的 chairLod
++const src=fs.readFileSync(path.join(ROOT,'src/teach3d.js'),'utf8');
++check('② teach3d.js 放椅子時有 study_chair_lod1 那一組', /mk\('study_chair_lod1'\)/.test(src)&&/zone\.chairLods/.test(src));
++const blk=/const CHAIR_LOD_D=[\s\S]*?\n  function chairLod\(zone,E\)\{[\s\S]*?\} \} \}\n/.exec(src);
++check('② 找得到 chairLod', !!blk);
++if(blk){ vm.runInThisContext(fs.readFileSync(path.join(ROOT,'lib/three.bundle.js'),'utf8').replace(/^const (\w+)\s*=/m,'globalThis.$1='),{filename:'three'});
++  const f=vm.runInThisContext('(function(){ '+blk[0]+' return {chairLod,CHAIR_LOD_D,CHAIR_LOD_BACK}; })()');
++  check('② 切換距離 10 m、換回來 9.5 m', f.CHAIR_LOD_D===10&&f.CHAIR_LOD_BACK===9.5, f.CHAIR_LOD_D+' / '+f.CHAIR_LOD_BACK);
++  const geo=new THREE.BoxGeometry(0.4,0.8,0.4), mat=new THREE.MeshStandardMaterial(); const N=12, out=new THREE.Group();
++  const mk=()=>{ const im=new THREE.InstancedMesh(geo,mat,N); im.count=0; out.add(im); return im; };
++  const L={out,near:mk(),far:mk(),list:[...Array(N)].map((_,i)=>({x:i*2,z:0,m:new THREE.Matrix4().makeTranslation(i*2,0,0),near:true})),done:false}; const zone={chairLods:[L]};
++  const cam=new THREE.PerspectiveCamera(); cam.position.set(0,0,0); const E={camera:cam};
++  f.chairLod(zone,E);   // 0,2,4,…,22 m：10 m 以內 6 張（0～10）、以外 6 張
++  check('② 10 m 內完整版、外面遠處版', L.near.count===6&&L.far.count===6, L.near.count+' / '+L.far.count);
++  const v0=L.near.instanceMatrix.version; f.chairLod(zone,E); check('② 沒有變動不重填', L.near.instanceMatrix.version===v0);
++  cam.position.set(0.3,0,0); f.chairLod(zone,E);   // 10 m 那張變成 9.7 m：照舊完整版；10.3 m 外那張（12 m 的 11.7）照舊遠處版
++  check('② 9.5～10 m 之間不會來回換', L.near.count===6&&L.far.count===6, L.near.count+' / '+L.far.count);
++  cam.position.set(-0.6,0,0); f.chairLod(zone,E);   // 10 m 那張變 10.6 m → 遠處版
++  check('② 超過 10 m 換成遠處版', L.near.count===5&&L.far.count===7, L.near.count+' / '+L.far.count);
++  cam.position.set(0.6,0,0); f.chairLod(zone,E);   // 10 m 那張 9.4 m → 完整版；12 m 那張 11.4 m 照舊遠處版
++  check('② 9.5 m 內換回完整版', L.near.count===6&&L.far.count===6, L.near.count+' / '+L.far.count);
++  const p=new THREE.Vector3(); const xs=[]; for(let i=0;i<L.near.count;i++){ L.near.getMatrixAt(i,new THREE.Matrix4()); const m=new THREE.Matrix4(); L.near.getMatrixAt(i,m); p.setFromMatrixPosition(m); xs.push(p.x); }
++  check('② 完整版放的是近的那幾張', xs.join(',')==='0,2,4,6,8,10', xs.join(',')); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -61,6 +61,8 @@ M = {
     'mat': L.flat('tb_doormat', '#6e6c67', rough=0.95),   # 入口的地墊：第一版 #4a4d50、深 1.4 m，大廳的鏡頭往下看是一整條黑帶
     'dark': L.flat('tb_dark', '#26282b', rough=0.5),
 }
+for _k, _m in M.items():   # 除了玻璃都單面（PERF-PATROL-ECON-1025，LAWWW2-B 10-25）：網格全是封閉的方盒、有蓋的圓柱、朝固定方向的面，背面本來就看不到；
+    if _k != 'glass': _m.use_backface_culling = True   # 雙面時博雅大廳往北看 1.55 fps、單面 1.95（SwiftShader）。玻璃兩面都看得到，照舊雙面
 MESH, WMESH = {}, {}
 def mk(lv, key):
     k = (lv, key)
