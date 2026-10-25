@@ -12448,8 +12448,8 @@
    "what": "人物知道不該知道的事（AA-C 清查）：13 句改成每條路線都成立（AA 直接推開發分支，只改引號裡的字）",
    "task": "BACKLOG-SWEEP-AA-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "cb3ad00d 合併；全套 unit 跑中"
+   "integration": "已驗收",
+   "note": "cb3ad00d 合併；全套 unit 跑中；10-21 合進開發分支，v9.10.4（10-22）起每一版都帶著發布（BB 發布前清單 PASS），10-25 BACKLOG-SWEEP-AA-1021 結案時補改狀態"
   },
   {
    "id": "DL-LAWWW2-23456747",
@@ -12747,8 +12747,8 @@
    "what": "禁用句型第三輪（口氣表 0-3「不是 X，是 Y」格言句不用在日常）：散步偶遇「……真的很燙。」、隊伍合照「這張我要留著。……我帶的第一個隊伍。」（AA 直接推開發分支，只改引號裡的字）",
    "task": "BACKLOG-SWEEP-AA-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 14:2x 合併（87ecb999）；沒有測試寫死舊句子"
+   "integration": "已驗收",
+   "note": "LAWWW-C 14:2x 合併（87ecb999）；沒有測試寫死舊句子；10-21 合進開發分支，v9.10.4（10-22）起每一版都帶著發布（BB 發布前清單 PASS），10-25 BACKLOG-SWEEP-AA-1021 結案時補改狀態"
   },
   {
    "id": "DL-AA-bde0df0a",
@@ -12760,8 +12760,8 @@
    "what": "AA_362 禁用句型第三輪（「不是 X，是 Y」日常不用）：約會 D01、D05 五句、ladder_bb_y2s1 學姊一句（企劃源檔）；要 LAWWW 改的四處（一個人吃飯、國考簡章兩處、沛珊台南「你可以說不」、溫州街公園貓）",
    "task": "BACKLOG-SWEEP-AA-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 14:2x（3c6b9440）：白名單 D01、D05、ladder_bb_y2s1 換 bde0df0a 重新匯入；四處照第 3 節改字、四支測試寫死的舊句照改（改之前 src 一改 4 支 FAIL）"
+   "integration": "已驗收",
+   "note": "LAWWW-C 14:2x（3c6b9440）：白名單 D01、D05、ladder_bb_y2s1 換 bde0df0a 重新匯入；四處照第 3 節改字、四支測試寫死的舊句照改（改之前 src 一改 4 支 FAIL）；10-21 合進開發分支，v9.10.4（10-22）起每一版都帶著發布（BB 發布前清單 PASS），10-25 BACKLOG-SWEEP-AA-1021 結案時補改狀態"
   },
   {
    "id": "DL-AA-8d32ed63",
@@ -12773,8 +12773,8 @@
    "what": "AA-C 交班紀錄（AA_交接紀錄.md 最上面）；交班時沒做完、寫死在測試裡的兩句：沛珊台南 D06 草地「（一起看）」改「雲走得好慢。……我們也走慢一點。」；柏翰 b2「這是我第一次跟人說這個。」刪掉",
    "task": "BACKLOG-SWEEP-AA-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 14:3x：hometown_lines.js、r2y3a_events.js 照改；peishan_tainan_unit 加第 9 項（新句在、舊句不在）、r2y3a_events_unit 第 14 項改成那句不在；兩支 ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-C 14:3x：hometown_lines.js、r2y3a_events.js 照改；peishan_tainan_unit 加第 9 項（新句在、舊句不在）、r2y3a_events_unit 第 14 項改成那句不在；兩支 ALL PASS；10-21 合進開發分支，v9.10.4（10-22）起每一版都帶著發布（BB 發布前清單 PASS），10-25 BACKLOG-SWEEP-AA-1021 結案時補改狀態"
   },
   {
    "id": "DL-LAWWW2-bf3ed802",
