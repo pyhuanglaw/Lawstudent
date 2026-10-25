@@ -2944,6 +2944,15 @@
    "task": "US208-DM-1025",
    "kind": "text",
    "note": "us208_3d.js 七場 dm、S.dmPhone（週末 14:00 私訊要回；週日「今天也在 208。」；US208_DM／US208_NO）、S.stage（OUT.STAGE）、S.dmDone；us_life3d.js lakeLook 照 usSeasonKey（us3d.js usSeasonKey 可給 G）；us_life_events.js ev_usl_thanks_alone；tests/aa454_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_455_學姊第十一批_大四下的朋友版.md",
+   "sha": "2de70709f",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109；USER_WANTS C25）",
+   "task": "SIS-B11-1025",
+   "kind": "text",
+   "note": "src/data/sis_b11_events.js（ev_sis_abstract、ev_sis_defense_date）＋src/sis_b11_3d.js（朋友版條件、3/20 私訊要回＋出遊、4/16～4/27 總圖門口、4/18 去：總圖、4/27 私訊、5/28 私訊＋y4_m9）；index.html 兩個 script；social3d.js MEMORY_LABEL.SIS_ABSTRACT；tests/aa455_sis_unit.js"
   }
  ]
 }
