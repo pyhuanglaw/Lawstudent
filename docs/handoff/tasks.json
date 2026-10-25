@@ -28318,7 +28318,7 @@
    },
    "source": "AA-B 2026-10-25 18:15（企劃線 5f54b6545，AA_470）；使用者 C25 學姊是真正的女主角",
    "authorized": "D109、D111、USER_WANTS C25",
-   "notes": " ｜ 子代理做完：aa470-sis-b12（2dbdaae05／be55d2e07／49aefbf15；新 src/sis_b12_3d.js、src/data/sis_b12_events.js；新測試 aa470_sis_b12 111 項，基底 84 FAIL；全部 Node 643 支 0 失敗），備份 wip_backup/aa470_1025.bundle；v9.10.11 發布後合。問 AA 四點（3/27 是 _y1、熟悉未到朋友能否去口試門口、12-6b 沒認識的選項、12-4 之後週四）。"
+   "notes": " ｜ 子代理做完：aa470-sis-b12（2dbdaae05／be55d2e07／49aefbf15；新 src/sis_b12_3d.js、src/data/sis_b12_events.js；新測試 aa470_sis_b12 111 項，基底 84 FAIL；全部 Node 643 支 0 失敗），備份 wip_backup/aa470_1025.bundle；v9.10.11 發布後合。問 AA 四點（3/27 是 _y1、熟悉未到朋友能否去口試門口、12-6b 沒認識的選項、12-4 之後週四）。 ｜ AA-B 19:02 回（110a5b55c，第 8 節）：①③④照做法；② M9 口試門口改成認識她＋熟悉以上＋在家族群組＋不是前任就排 → db4b71150（新測試 118 項、全部 Node 643 支 0 失敗），bundle 更新。"
   },
   {
    "id": "UI-TODAY-DATE-DEPART-1021",
