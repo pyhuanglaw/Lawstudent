@@ -2749,6 +2749,21 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "term_sweep（vac_sweep 學期版）跑 2025-09-01～12-21，開發分支 496eacd48，沒交往／可昕／以安三種存檔，0 錯誤；新開局連三週同一句由程式碼推得、沒實跑。"
+  },
+  {
+   "task": "TERM-READ-Y1S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "c0972cd32",
+   "files": [
+    "docs/story_planning/AA_459_法律系大一下讀一遍_媽媽群組補兩條_家族群組_落選通知_撞期.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：AA_458 媽媽群組規則補（連假②改字、期中只一次、期末上下學期兩句）；fam_dinner_inv「下週五」、fam_final_y1s2 沒去三句換字、可選上榜聚餐 Kevin 一句；vac3d 落選通知帶 sel.name＋阿哲改私訊；SK07 撞期加問題；四處換字（date_wish 改 wish_bb.json 再產生）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2026-02-23～06-14，開發分支 496eacd48，沒交往／可昕／以安／沛珊／子晴五種存檔，0 錯誤；可昕那份 5/28 起手機 200 則上限，之後不算數。"
   }
  ],
  "items": [
