@@ -31840,7 +31840,7 @@
    },
    "source": "AA-B 2026-10-25 03:25（企劃線 38820fd5e，outbox ea58b6d52）；讀 BB 劇本 qa/美國交換逐日劇本_交往中.md（ec98a8836，開發 91c8f9c6e）；D99 第三優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 03:5x 子代理實作、審過：1-1 是 BB 探針底檔沒有 met_sis（SISQX.ok 要它；真實玩家認識學姊的路線都會記），遊戲不改，單元測試兩種情境對照；1-2、1-3 照稿。tests/aa453_us_unit.js 34 項（舊程式 10 FAIL）；相關 28 支 ALL PASS。出遊沿用預設 2 小時（演完 20:30）。"
+   "notes": "LAWWW-B 10-25 03:5x 子代理實作、審過：1-1 是 BB 探針底檔沒有 met_sis（SISQX.ok 要它；真實玩家認識學姊的路線都會記），遊戲不改，單元測試兩種情境對照；1-2、1-3 照稿。tests/aa453_us_unit.js 34 項（舊程式 10 FAIL）；相關 28 支 ALL PASS。出遊沿用預設 2 小時（演完 20:30）。 ｜ 全部 Node 613 支 0 失敗（乾淨 worktree 57a70aec1）。"
   },
   {
    "id": "US208-DM-1025",
