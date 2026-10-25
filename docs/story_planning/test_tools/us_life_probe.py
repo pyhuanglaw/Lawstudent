@@ -310,7 +310,7 @@ async def ff_once(pg, cdp, run, sc):
     # BB-B 10-23 15:5x：床邊已經寫「約好的時間」＝約就在眼前，玩家會睡到被叫醒或撐著等，不會再快轉（原本再按快轉就跳過約：QX26/27/28、B6_SEND_AIR_D）
     if cs and any('約好的時間' in c for c in cs) and any(c.startswith('快轉') for c in cs):
         nap = next((c for c in cs if c.startswith('睡一下') and '約好的時間' in c), None)
-        safe = [c for c in cs if c.startswith('小睡') and '約好的時間' not in c]   # 睡了不會超過約好的時間的小睡（最長的那個）
+        safe = [c for c in cs if (c.startswith('小睡') or c.startswith('睡到')) and '約好的時間' not in c]   # 睡了不會超過約好的時間的（最長的那個）。BB-B 10-25 06:4x：「睡到明天早上（07:30）」也算（約在隔天 09:00 的 R35_QX 原本每次只撐 10 分鐘、撐 12 小時）
         if nap: t = await tap_start(pg, cdp, '睡一下'); say('   ▶ 床：%s（約好的時間到了會叫醒）' % nap[:30])
         elif safe: t = await tap_start(pg, cdp, safe[-1][:6]); say('   ▶ 床：%s（不超過約好的時間）' % safe[-1][:24])
         else: t = await tap_start(pg, cdp, '再撐一下'); say('   ▶ 床：再撐一下（約好的時間就快到了，不快轉）'); await pg.wait_for_timeout(6000)
