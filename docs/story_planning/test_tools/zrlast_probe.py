@@ -3043,6 +3043,82 @@ R37 = [B11('R37_ABS_YES', '2029-03-20', 19.0, SISF, ('2029-03-21', 14.0), {'sisb
 R37 += [B11('R37_ABS_MISS', '2029-03-20', 19.0, SISF, ('2029-03-21', 15.0), {'sisb11_abs_ask': '有。'}, ['不去了'], none=ABS0[:1], wantMsg=ABS_ASK + ['十二點半。帶筆。', '沒看到你。我自己讀完了。'],
             msgAt={'沒看到你。我自己讀完了。': ('2029-03-21', 13.25, 0.1)}, eqflags={'SIS_ABSTRACT': 'missed'}, cflags=['SIS_ABSTRACT'])]
 SCENS = SCENS + R37
+
+# ---------- R38（BB-B 10-25 11:3x）：RELEASE-91010-TEST 第二輪——3acaf8bea 以後多出來的（LAWWW-B 11:0x）。新候選、3acaf8bea 各跑一次（舊版應該 FAIL＝測試抓得到）----------
+# ① BUG-US-NEXTCLASS-1025（3ed115119）：人在美國／日本，HUD 第二行 #nextClass 照當地課表。日本那一段沒有單元測試（LAWWW-B 註明），這裡兩邊都測。
+#    【捷徑】同一天撥時間（JUMPK：G.day／G.hour 直接改）——HUD 只看當下時間和課表，不測時間怎麼流過去。
+NXC = "(()=>{ const el=document.getElementById('nextClass'); return {t:el?el.textContent:null, hide:el?el.classList.contains('hide'):null, line:(typeof CLS!=='undefined'&&CLS.todayLine)?CLS.todayLine(GAME.G):null, key:CALENDAR.dateOf(GAME.G.day).key, h:+GAME.G.hour.toFixed(2), zone:GAME.G.zone}; })()"
+def HUDW(label, want, line=None):   # 等第二行變成 want（最多 20 秒），再記下來；line＝第一行（CLS.todayLine）要以這個開頭
+    cond = "(()=>{ const el=document.getElementById('nextClass'); return !!el&&el.textContent===%s&&!el.classList.contains('hide'); })()" % json.dumps(want)
+    return [('wait', cond, 20, label), ('chk', label, NXC, lambda d, w=want, l=line: d['t'] == w and not d['hide'] and (l is None or (d['line'] or '').startswith(l)))]
+US_C = 'Comparative Constitutional Law'; US_W = 'Legal Writing for International Students'; JP_L = '日本法入門（英語授課）'; JP_N = '日本語（中級）'
+R38 = [dict(id='R38_HUD_US', key='2028-09-14', h=7.5, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + B['ALONE'], pref=[], asks={'*': ''}, nothree=True,
+            steps=HUDW('9/14（四）07:30：第二行「下一堂 13:00 %s」、第一行「今天的課：13:00 …」' % US_C, '下一堂 13:00 ' + US_C, '今天的課：13:00 ' + US_C)
+                  + [JUMPK('2028-09-14', 12.3, 'us_apartment')] + HUDW('9/14 12:18（開課前一小時內）：「現在可以上課：13:00 %s」' % US_C, '現在可以上課：13:00 ' + US_C)
+                  + [JUMPK('2028-09-14', 14.2, 'us_apartment')] + HUDW('9/14 14:12（課過了）：「今天的課都結束了」', '今天的課都結束了')
+                  + [JUMPK('2028-09-15', 7.5, 'us_apartment')] + HUDW('9/15（五）07:30：「下一堂 09:00 %s」' % US_W, '下一堂 09:00 ' + US_W, '今天的課：09:00 ' + US_W)
+                  + [JUMPK('2028-09-16', 10.0, 'us_apartment')] + HUDW('9/16（六）10:00：「今天沒有課」', '今天沒有課')),
+       dict(id='R38_HUD_JP', key='2028-04-11', h=9.0, zone='jp_room', flags=dict(JPF7), js=JPIN + NOKX, pref=[], asks={'*': ''}, nothree=True,
+            steps=HUDW('4/11（二）09:00：第二行「下一堂 10:40 %s」' % JP_L, '下一堂 10:40 ' + JP_L)
+                  + [JUMPK('2028-04-11', 10.0, 'jp_room')] + HUDW('4/11 10:00（開課前一小時內）：「現在可以上課：10:40 %s」' % JP_L, '現在可以上課：10:40 ' + JP_L)
+                  + [JUMPK('2028-04-11', 13.0, 'jp_room')] + HUDW('4/11 13:00（課過了）：「今天的課都結束了」', '今天的課都結束了')
+                  + [JUMPK('2028-04-12', 8.5, 'jp_room')] + HUDW('4/12（三）08:30：「現在可以上課：09:00 %s」' % JP_N, '現在可以上課：09:00 ' + JP_N)
+                  + [JUMPK('2028-04-15', 10.0, 'jp_room')] + HUDW('4/15（六）10:00：「今天沒有課」', '今天沒有課'))]
+# ② BUG-PHONE-CAP-1025（c77903a09）：手機超過 200 則刪最舊的，tag 記進 cut，條件只寫 !PHONE.sent 的 guitar_grp1 不再排一次（AA_460 第 1 節）。
+#    [前置／捷徑] 使用者存檔（可昕交往中）改到 2027-05-27（四）19:00；手機換成 200 則：最舊的是吉他社 guitar_grp1（2026-09-23 21:30，guitarFirstDay），後面 199 則媽媽的舊訊息（capfill_*）。
+#    之後照真實快轉玩到 5/29 12:00：新訊息進來就會把 guitar_grp1 擠掉。舊版（3acaf8bea）：擠掉以後每次手機規則都再排、再補進去、再被擠掉＝「手機｜吉他社…」通知一直跳
+CAPJS = (" G.flags.guitarFirstDay=D('2026-09-23'); PHONE.join(G,'guitar','吉他社'); const P=PHONE.rec(G); P.cut=(P.cut||[]).filter(t=>t!=='guitar_grp1'); P.q=P.q.filter(q=>q.tag!=='guitar_grp1'); G.msgs=[];"
+         " PHONE.postAt(G,{th:'g:guitar',from:'heroine_04',text:'新人自己報名字，不要讓我問。這不是問句。',tag:'guitar_grp1'},D('2026-09-23'),21.5);"
+         " for(let i=0;i<199;i++) PHONE.postAt(G,{th:'p:mom',from:'mom',text:'（舊訊息 '+i+'）',tag:'capfill_'+i},D('2026-10-01')+i,9);"
+         " window.__GG=0; const p0=PHONE.postAt, p1=PHONE.post; PHONE.postAt=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p0.apply(this,arguments); }; PHONE.post=function(g,it){ if(it&&it.tag==='guitar_grp1') window.__GG++; return p1.apply(this,arguments); };")
+R38 += [dict(id='R38_CAP_GUITAR', key='2027-05-27', h=19.0, zone='dorm', flags=dict(TW3), js=CAPJS, pref=['不去了'], asks={'*': ''}, nothree=True,
+             steps=[('chk', '[前置] 手機 200 則、最舊的是 guitar_grp1', "(()=>{ const M=GAME.G.msgs; return [M.length, M[0]&&M[0].tag]; })()", [200, 'guitar_grp1']),
+                    ('ffloop', '2027-05-29', 12.0, 120), ('dumplog', 'R38_CAP_GUITAR')],
+             none=['新人自己報名字'],
+             jsok=[('手機還是 200 則', "GAME.G.msgs.length", 200),
+                   ('有新訊息進來（最新一則在 5/27 以後）', "Math.max(...GAME.G.msgs.map(m=>m.day))>=STORY.dayOfKey('2027-05-27')", True),
+                   ('guitar_grp1 被擠掉了、PHONE.sent 還記得傳過', "PHONE.sent(GAME.G,'guitar_grp1')&&!GAME.G.msgs.some(m=>m.tag==='guitar_grp1')", True),
+                   ('擠掉以後沒有再送一次（PHONE.post／postAt 送 guitar_grp1 的次數）', "window.__GG|0", 0),
+                   ('擠掉的 capfill 都記進 cut', "(()=>{ const c=PHONE.rec(GAME.G).cut||[], left=GAME.G.msgs.filter(m=>/^capfill_/.test(m.tag||'')).length; return c.filter(t=>/^capfill_/.test(t)).length===199-left; })()", True)])]
+# ③ AA_456（d853debc1，VAC-READ2-1025）各一輪：麵店團群組、交往中的期末邀約、子晴裂縫② 開頭。日期照遊戲資料算（bbtest/dates456.js 在開發分支跑）：
+#    2028 麵店店休 1/19～1/28、初四 1/29；大三寒假海邊 1/3、揪人 12/29（三）；以安大二上期末約會那天 12/26；子晴 2028-08 第一個週三 8/2
+OLD11 = '宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。'
+R38 += [dict(id='R38_456_NYE3', key='2027-12-31', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 21.4)], pref=['不去了'], asks={'*': ''}, nothree=True,
+             wantMsg=['十一點半，頂樓。以安說她要來。', '頂樓照開。登記一樣在一樓。'], noneMsg=[OLD11]),
+        dict(id='R38_456_NYE4', key='2028-12-31', h=20.9, zone='dorm', flags=dict(TWF), js=Y4 + NOKX + NGRP + KNOW2, steps=[('until', 21.4)], pref=['不去了'], asks={'*': ''}, nothree=True,
+             wantMsg=['十一點半，頂樓。', '頂樓照開。舍監說十二點半，一分鐘都不能多。', '最後一年了耶', '所以要來'], noneMsg=[OLD11]),
+        dict(id='R38_456_NOODLE_A28', key='2028-01-19', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP, steps=[('until', 21.3)], pref=[], asks={'*': ''}, nothree=True,
+             wantMsg=['這週店休，初四開。', '阿姨回老家三天。'], noneMsg=['阿姨說要大掃除。想吃麵的，初四以後。'],
+             jsok=[('tag noodle_closed_a_2028、語彤在麵店團', "(GAME.G.msgs||[]).filter(m=>m.tag==='noodle_closed_a_2028').map(m=>m.th+' '+m.from)", ['g:noodle_team heroine_03', 'g:noodle_team heroine_03'])]),
+        dict(id='R38_456_NOODLE_D28', key='2028-01-29', h=11.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP, steps=[('until', 12.3)], pref=[], asks={'*': ''}, nothree=True,
+             wantMsg=['開了。', '阿姨從老家帶了一箱橘子，吃麵送一顆。'], noneMsg=['阿姨說，今天第一碗加蛋。']),
+        dict(id='R38_456_C01_Y3', key='2027-12-29', h=20.9, zone='dorm', flags=dict(TW3), js=NOKX + NGRP + KNOW2, steps=[('until', 21.8), ('ffloop', '2028-01-03', 21.3, 160), ('dumplog', 'R38_456_C01_Y3')],
+             pref=['不去了'], asks={'vac_c01first_Y3': '我那天不行', '*': ''}, nothree=True,
+             wantMsg=['這次我要帶暖暖包', '九點十分。這次不要有人遲到。', '不去。我負責看照片。', '我可以。這次我帶熱水。', '明天回高雄 我阿嬤問你們今年要不要來'],
+             noneMsg=['冬天去海邊？？', '火車九點十分有一班。', '我怕冷，我不去了。你們拍照。', '我明天回高雄']),
+        dict(id='R38_456_GF_AN', key='2026-12-24', h=19.9, zone='dorm', flags=dict(TW3), js=AN_D, steps=[('ffloop', '2026-12-26', 12.4, 160), ('dumplog', 'R38_456_GF_AN')],
+             pref=['不去了'], asks={'*': ''}, nothree=True,
+             wantMsg=['最後一科交卷了。今天不讀書。……你也一樣。'], noneMsg=['考完了。……今天不讀書，你也不准讀。'],
+             jsok=[('tag te_gf_Y2S1_heroine_01（12/26 12:00）', "(GAME.G.msgs||[]).filter(m=>m.tag==='te_gf_Y2S1_heroine_01').map(m=>CALENDAR.dateOf(m.day).key+' '+(+m.h).toFixed(1))", ['2026-12-26 12.0'])]),
+        dict(id='R38_456_ZQ2', key='2028-08-02', h=23.2, zone='dorm', flags=dict(TWF), js=Y4 + ZQD + " G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_04'); const C=G.flags.CRACKTALK=G.flags.CRACKTALK||{}; C.src=C.src||{}; C.src.zq=C.src.zq||{}; C.src.zq.sent2={'2028-06':D('2028-06-07'),'2028-07':D('2028-07-05')};",
+             steps=[('until', 23.7)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['明天要上線', '我還在公司'], noneMsg=['今天又改了三個 bug', '改好一個 bug 又多兩個'],
+             jsok=[('ct_zq2_2028-08 從子晴（第 3 個月＝第 3 組）', "(GAME.G.msgs||[]).filter(m=>m.tag==='ct_zq2_2028-08').map(m=>m.text)", ['明天要上線', '我還在公司'])])]
+# [前置] ZQ2：子晴交往中、2028-06、07 已經收過兩個月（CRACKTALK.src.zq.sent2 兩筆）＝這個月是第 3 組
+# ④ AA_457（c211251c3、384d84d69，VAC-READ3-1025）各一輪：芷若在英國倒數兩句（1/21、2/4）、語彤 yt2 開頭第 2 組、沛珊 2028 白色情人節（台南）、情人節（台中）
+R38 += [dict(id='R38_457_UK_0121', key='2028-01-21', h=6.4, zone='dorm', flags=dict(TW3), js=ZRD, steps=[('until', 7.4)], pref=[], asks={'*': ''}, nothree=True,
+             wantMsg=['剩三個禮拜。我開始數了。'], noneMsg=['箱子還沒整理。……我不想整理。'],
+             jsok=[('1/21 07:00 tag zr_uk1_02a', "(GAME.G.msgs||[]).filter(m=>/^zr_uk/.test(m.tag||'')).map(m=>m.tag+' '+CALENDAR.dateOf(m.day).key+' '+(+m.h).toFixed(1))", ['zr_uk1_02a 2028-01-21 7.0'])]),
+        dict(id='R38_457_UK_0204', key='2028-02-04', h=6.4, zone='dorm', flags=dict(TW3), js=ZRD, steps=[('until', 7.4)], pref=[], asks={'*': ''}, nothree=True,
+             wantMsg=['箱子還沒整理。……我不想整理。'], noneMsg=['剩三個禮拜。我開始數了。']),
+        dict(id='R38_457_YT2', key='2027-03-16', h=16.2, zone='dorm', flags=dict(TW3), js=YTD + " G.contacts=G.contacts||{}; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_03'); const C=G.flags.CRACKTALK=G.flags.CRACKTALK||{}; C.src=C.src||{}; C.src.yt2={next:D('2027-03-16'),n:2,sent:{0:'A',1:'B'}};",
+             steps=[('until', 16.8)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['今天阿姨不在。我顧到打烊。'], noneMsg=['今天顧店到九點。'],
+             jsok=[('ct_yt2_2（A 第 2 次＝第 2 組）', "(GAME.G.msgs||[]).filter(m=>m.tag==='ct_yt2_2').map(m=>m.text)", ['今天阿姨不在。我顧到打烊。'])]),
+        dict(id='R38_457_PS_WHITE28', key='2028-03-13', h=20.9, zone='dorm', flags=dict(TW3), js=PSJ + " try{ ROM.start(G,'classmate_peishan'); }catch(e){} G.contacts.classmate_peishan=G.day-60;",
+             steps=[('until', 21.4)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['明天三月十四！你下來的話，我去車站接你。……不用勉強。'], noneMsg=['明天你要下來嗎？……不用勉強。']),
+        dict(id='R38_457_PS_VDAY28', key='2028-02-13', h=20.9, zone='dorm', flags=dict(TW3), js=PSJ + " try{ ROM.start(G,'classmate_peishan'); }catch(e){} G.contacts.classmate_peishan=G.day-60;",
+             steps=[('until', 21.4)], pref=[], asks={'*': ''}, nothree=True, wantMsg=['明天情人節。……你要下來台中嗎？不用勉強。'], noneMsg=['明天你要下來嗎？……不用勉強。'])]
+# [前置] YT2：語彤交往中、裂縫② 已經收過 A、B 各一次（CRACKTALK.src.yt2.sent 兩筆、n=2）＝這次是 A 的第 2 次
+SCENS = SCENS + R38
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48

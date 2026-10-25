@@ -1,0 +1,9 @@
+[
+ {"name": "boya_lobby_day", "state": {"zone": "boya", "day": -351, "hour": 14, "stage": "econ", "pos": {"x": 0, "z": 6.8, "yaw": 3.1416}}, "yaws": [0, 3.1416]},
+ {"name": "boya_lobby_night", "state": {"zone": "boya", "day": -351, "hour": 20, "stage": "econ", "pos": {"x": 0, "z": 6.8, "yaw": 3.1416}}, "yaws": [0, 3.1416]},
+ {"name": "boya_101_day", "state": {"zone": "boya", "day": -351, "hour": 14, "stage": "econ", "pos": {"x": -11.5, "z": 6.6, "yaw": 0}}, "yaws": [0]},
+ {"name": "putong_day", "state": {"zone": "putong", "day": -351, "hour": 14, "stage": "econ"}},
+ {"name": "campus_gate", "state": {"zone": "campus", "day": -351, "hour": 15, "stage": "econ", "pos": {"x": -119, "z": 0, "yaw": -1.5708}}, "yaws": [-1.5708, 1.5708]},
+ {"name": "campus_avenue", "state": {"zone": "campus", "day": -351, "hour": 15, "stage": "econ", "pos": {"x": -40, "z": 0, "yaw": -1.5708}}, "yaws": [-1.5708, 1.5708]},
+ {"name": "gongguan_shops", "state": {"zone": "gongguan", "day": -351, "hour": 15, "stage": "econ", "pos": {"x": 0, "z": 12, "yaw": 3.1416}}, "yaws": [3.1416, 0]}
+]
