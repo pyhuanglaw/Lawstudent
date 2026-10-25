@@ -1,6 +1,7 @@
 // AA_452（企劃線 8d9910961，AA-B 2026-10-25 03:0x；讀 BB-B 美國交換逐日劇本（挽回中）fc1642184）——不需要瀏覽器。台詞逐字對 AA_452。
 //   1-1 12/2 挽回中的初雪排進行程（19:45 問「出發」；不去了＝沒演；舊存檔照舊自動到場）　1-2 何俊朗群組第二句換字
 //   1-3 9/13 鍋子　1-4 感恩節湖邊開頭一句旁白　1-5 機場媽媽在揮手　1-6 10/4 回公寓換句　1-7 挽回中返台字卡「舊金山轉機」
+//   第 4 節（企劃線 2c75de1bc，讀 BB 重跑的挽回中劇本）：初雪重新開始，CG 後她讓出半階台階＋計畫本「雪」（交往中那一段 SNOW_END）
 // 修改前（開發分支 b00b922fc）：每一節至少一項 FAIL。用法：node tests/aa452_us_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const H=require('./pg_harness.js');
@@ -11,7 +12,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
 const loadErr=[];
 for(const f of ['src/exchange3d.js','src/data/us_layouts.js','src/us3d.js','src/y34b3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/r2y4a_events.js','src/r2y4a3d.js','src/data/us_life_events.js','src/us_life3d.js','src/us208_3d.js','src/data/us_blank_lines.js','src/us_blank3d.js']){
   if(!fs.existsSync(path.join(ROOT,f))){ loadErr.push(f+'：沒有這個檔'); continue; } try{ load(f); }catch(e){ loadErr.push(f+'：'+e.message); } }
-let doc=''; try{ doc=cp.execSync('git show 8d9910961:"docs/story_planning/AA_452_美國交換讀後_挽回中.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 2c75de1bc:"docs/story_planning/AA_452_美國交換讀後_挽回中.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const inDoc=t=>doc.indexOf(t)>=0;
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h;
@@ -40,7 +41,7 @@ const waitFor=async f=>{ for(let i=0;i<400&&!f();i++) await new Promise(r=>setTi
 (async()=>{
 await sec(0,()=>{
   check('0. 美國篇的檔案都載得到',!loadErr.length,loadErr.join('；'));
-  check('0. 讀稿（企劃線 8d9910961 AA_452）',doc.length>2000&&inDoc('### 1-1.')&&inDoc('### 1-7.')); });
+  check('0. 讀稿（企劃線 2c75de1bc AA_452；8d9910961＋第 4 節）',doc.length>2000&&inDoc('### 1-1.')&&inDoc('### 1-7.')); });
 
 /* ======================= 1-1、1-2 12/2 挽回中的初雪 ======================= */
 await sec('1-1',async()=>{
@@ -83,6 +84,14 @@ await sec('1-7',async()=>{ const cards=[]; const tc=GM.titleCard; GM.titleCard=a
   try{ for(const mode of ['bloom','sf']){ fresh('2028-12-21',23.95,'us_outside',{US1:'alone',US2:'repair',US_TRIP_MODE:mode,US_TRIP_DONE:true}); await EXCH.returnHome(GM,{force:true}); } }
   finally{ GM.titleCard=tc; EXCH.onLand=land; }
   check('1-7. 返台字卡：挽回中（布魯明頓）「舊金山轉機」、交往中（舊金山那一週）照舊「舊金山起飛」',cards.indexOf('飛回臺灣｜舊金山轉機　約 14 小時')>=0&&cards.indexOf('飛回臺灣｜舊金山起飛　約 14 小時')>=0,J(cards)); });
+
+/* ======================= 第 4 節 初雪重新開始：選完她要有反應 ======================= */
+await sec('4',async()=>{ const A='（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）', P0='（回公寓以前，她翻開計畫本，在 12 月 2 日那一格寫了一個字。）', P9='（她把計畫本闔起來。那一格寫的是「雪」。）';
+  check('4. 稿裡有「'+A+'」',inDoc(A.slice(1,-1)));
+  for(const pick of [0,1]){ fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:3}}); const L=await play('ev_us_snow_repair',[pick]), i=L.indexOf(A);
+    check('4. 重新開始（選項 '+(pick+1)+'）：「這次我先說。」→ CG 後「'+A+'」→ 計畫本「雪」（交往中那一段）',i>0&&L[i-1]==='如果你還想的話，我們重新開始。這次我先說。'&&L[i+1]===P0&&L[L.length-1]===P9&&H.G.flags.US_SNOW==='restart',J(L.slice(-7))); }
+  fresh('2028-12-02',20.1,'us_outside',{US1:'alone',US2:'repair',REPAIR:{heroine_05:2}}); const L2=await play('ev_us_snow_repair');
+  check('4. 「……回去吧，會冷。」那一支照舊（沒有半階台階、沒有計畫本）',L2[L2.length-1]==='……回去吧，會冷。'&&L2.indexOf(A)<0&&L2.indexOf(P9)<0,J(L2)); });
 
 H.done();
 })();

@@ -183,6 +183,8 @@ const R2Y4A_EVENTS=(function(){
       sis('如果你還想的話，我們重新開始。這次我先說。'),
       {choice:[{text:'「好。」'},{text:'「……我還想。」'}]},
       CG('cg_snow_steps_heroine05'),
+      nar('（她往旁邊挪了一點，讓出半階台階。你坐下來。雪積在兩個人的帽子上。）'),   /* AA_452 第 4 節（企劃線 2c75de1bc）：選完她要有反應，接交往中那一段計畫本「雪」 */
+      ...SNOW_END,
       {set:{US_SNOW:'restart'}} ],
     after:G=>{ if(G.flags.US_SNOW==='restart'&&typeof R2Y4A!=='undefined') R2Y4A.restart(G); } });
 

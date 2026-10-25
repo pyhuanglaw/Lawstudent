@@ -2920,12 +2920,19 @@
   },
   {
    "path": "docs/story_planning/AA_452_美國交換讀後_挽回中.md",
-   "sha": "8d9910961",
+   "sha": "2c75de1bc",
    "status": "approved",
    "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
    "task": "US-READ-REPAIR-1025",
    "kind": "text",
-   "note": "r2y4a3d.js us_snow_msg 第二句、挽回中初雪排進行程 us_snow_r（19:45 問出發，舊存檔照舊自動到場）；r2y4a_events.js ev_us2_repair 第一句、ev_us3_lake label r 旁白、ev_us_return label n 媽媽；us_life_events.js ev_usl_long4；exchange3d.js 挽回中返台字卡「舊金山轉機」；tests/aa452_us_unit.js"
+   "note": "r2y4a3d.js us_snow_msg 第二句、挽回中初雪排進行程 us_snow_r（19:45 問出發，舊存檔照舊自動到場）；r2y4a_events.js ev_us2_repair 第一句、ev_us3_lake label r 旁白、ev_us_return label n 媽媽；us_life_events.js ev_usl_long4；exchange3d.js 挽回中返台字卡「舊金山轉機」；tests/aa452_us_unit.js；2c75de1bc 第 4 節：初雪重新開始 CG 後半階台階＋SNOW_END",
+   "history": [
+    {
+     "sha": "8d9910961",
+     "until": "2026-10-25 06:2x",
+     "why": "第 4 節（BB 重跑挽回中）以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_453_美國交換讀後_交往中新版_七夕和退回的報告.md",
