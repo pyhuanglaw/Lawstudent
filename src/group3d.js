@@ -62,7 +62,11 @@ const GROUP=(function(){
   /* 群組 @ 了你兩次「誰開車」（3/23、3/30），選完祐廷在群組回一句、有人回（AA_461 第 1 節；句子跟大一下的 spring_pick_msg 不一樣）；
      4/1 以前沒回（'none'）＝4/2 21:00 柏翰一句（接得上 4/4 的海邊照片）。只給在群組裡、收到 3/30 那則的玩家 */
   S.SPRING_PICK={noodle:[['player','我開。'],['zhe','司機有了！']],kexin:[['player','春假我有約了。'],['classmate_bohan','那我租車。']],dorm:[['player','這次我不去。'],['classmate_bohan','那我租車。']]};
-  S.springPick=function(G,k,o){ if(!grp(G)||typeof PHONE==='undefined'||!PHONE.sent(G,'y2s2_spring_grp')) return;
+  /* 選可昕：私訊回她（AA_461 第 6 節④：大一下有「好。我們去。」，大二下補；她問的是 y2s2_spring_kx「春假。今年也開車？」；群組那一句照上表一起傳）*/
+  S.SPRING_PICK_KX=[['player','好。今年也開。'],['kexin','嗯。七點四十，校門口。']];
+  S.springPick=function(G,k,o){ if(typeof PHONE==='undefined') return;
+    if(k==='kexin'&&!o.silent&&PHONE.sent(G,'y2s2_spring_kx')) PHONE.at(G,G.day,G.hour+0.05,S.SPRING_PICK_KX.map(([from,text])=>from==='player'?{th:'p:kexin',from,who:null,text}:{th:'p:kexin',from,text}),'y2s2_spring_kx_pick');
+    if(!grp(G)||!PHONE.sent(G,'y2s2_spring_grp')) return;
     const L=!o.silent&&S.SPRING_PICK[k]; if(L) PHONE.at(G,G.day,G.hour+0.05,L.map(([from,text])=>from==='player'?{th:NG,from,who:null,text}:{th:NG,from,text}),'y2s2_spring_pick');
     const d2=DK('2027-04-02'); if(k==='none'&&o.silent&&d2!=null) PHONE.at(G,d2,21,[{th:NG,from:'classmate_bohan',text:(G.name||'祐廷')+'沒回。我租車了。'}],'y2s2_spring_none'); };
   /* 麵店團那一趟（4/4）誰去（AA_375 第 5、14 項）：祐廷去＝認識的那幾個（事件照「認識沒」）；祐廷沒去、在群組裡（邀約那則傳了）＝麵店團六個人照樣去（S.springPhoto）；沒有邀約＝沒有這一趟 */

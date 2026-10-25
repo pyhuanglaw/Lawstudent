@@ -17,8 +17,9 @@ const TERMEND_LINES=(function(){
   /* AA_450 1-7：美國下雪那天選「（不問了）」（US_SNOW_QUIET）、她 12/3 傳「……其實不太好。回去再跟你說。」的，期末飯她自己說出來（「再問一次」那一支 SIS_ASKED_TWICE 已經說過的不加）；往後讓的哪一天吃就哪一天說 */
   const SNOWQ=G=>XM3US(G)&&!!G&&!!G.flags&&!!G.flags.US_SNOW_QUIET&&!G.flags.SIS_ASKED_TWICE;
   /* 沛珊大三起在台南（AA_282 第 5 節第 5 點）：期末飯的地點、交通（高鐵去、搭最後一班高鐵回臺北；票錢照 hometown_lines.js 台南那一組 2700）——系統字，不是台詞 */
-  /* 女朋友版：約會那天的前兩天內已經去台南找過她（她的聖誕那一場有去）＝學期末那一則不約，改傳這一句、不排出遊（AA_462 第 4 節；termend3d.js S.tnVisited）*/
-  const PS_TN_VISITED='學期結束了！昨天那一頓，就算學期末的。';
+  /* 女朋友版：約會那天或前兩天內已經去台南找過她（她的聖誕那一場有去）＝學期末那一則不約，改傳這一句、不排出遊（AA_462 第 4 節；termend3d.js S.tnVisited）。
+     照幾天前換字（AA_462 第 8 節①、AA_464 4-2）：[同一天, 前一天, 前兩天] */
+  const PS_TN_VISITED=['學期結束了！今天就是學期末的那一頓。','學期結束了！昨天那一頓，就算學期末的。','學期結束了！前天那一頓，就算學期末的。'];
   const PS_TN={place:'eatery_tn',placeName:'台南・她學校附近的簡餐',travel:'高鐵（去台南）約兩小時',travelH:2,back:'搭最後一班高鐵回到臺北。',fare:2700};
   /* 地點：AA_250 10-1 一對一的開場、收尾（AA-C c524b61e）；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
   const PLACE={

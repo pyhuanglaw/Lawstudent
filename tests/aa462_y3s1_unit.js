@@ -8,7 +8,10 @@
 //   4 沛珊在台南的學期末（termend3d.js tnVisited）：聖誕那一場（12/23 她約、12/24 開車下去）有去＝12/25 學期末那一則改成「學期結束了！昨天那一頓，就算學期末的。」、
 //     不能回、不排出遊；沒去（說那天不行、答應了沒去）照原本約；「我去台南找妳？」那一趟（ev_hv_ps_tn）在前兩天內也算；三天前的不算
 //   5 小改字：Kevin 12/3 那一組（10/15 照舊）、沛珊的台南美術館第二句、沛珊③第二句、可昕聖誕視訊（學期末的飯也在 12/25 才換；不同天照舊）
-// 修改前（開發分支 661423a71）：1～5 每一節至少一項 FAIL。用法：node tests/aa462_y3s1_unit.js
+//   6 第 8 節（企劃線 878496edb，回 LAWWW-B 施工問題）：①沛珊那一句照幾天前換字（同一天／前一天／前兩天）：大四上 12/23 她約聖誕、12/24 開車下去，學期末的飯也排在 12/24＝
+//     「學期結束了！今天就是學期末的那一頓。」（AA_464 4-2；不排出遊、聖誕那一場照演）；12/23 去台南找她（ev_hv_ps_tn）、12/25 學期末＝「……前天那一頓……」；
+//     ②兩種去台南都算、每個在台南的學期都適用；③3D 版 ev_an_admin_court「今天下午，我先去了一趟行政法院。」，不認識阿哲＝她補「刑訴那場還是禮拜五。這個是我自己想看的。」
+// 修改前（開發分支 661423a71）：1～5 每一節至少一項 FAIL；6 在 0b474c8b4 FAIL。用法：node tests/aa462_y3s1_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -48,6 +51,12 @@ const sp=s=>s.replace(/^[^／]*?：(?=[^／]*／)/,'').split('／');   /* 「12/
 const KW_OLD=['這週辛苦了各位','@學姊 妳也是','辛苦了。'];
 const YT_ORIG='今天週四。總圖三樓，斜對面的位子我留了。';
 const OLD_C4='對方。後面怎麼賠，我們去法服問。', TORT='如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。';
+/* 第 8 節（企劃線 878496edb）*/
+let doc8=''; try{ doc8=cp.execSync('git show 878496edb:"docs/story_planning/AA_462_法律系大三上讀一遍_以安旁聽_語彤的週四_沛珊連兩天下台南.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc8=''; }
+const S8=(()=>{ const i=doc8.indexOf('## 8.'); return i<0?'':doc8.slice(i); })();
+const S8L=k=>{ const m=S8.match(new RegExp('^\\s*- '+k+'：(.+?)(（`[^）]*）)?\\s*$','m')); return m?m[1].trim():null; };
+const TN3=[S8L('同一天'),S8L('前一天'),S8L('前兩天')];
+const AD_OLD=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[1], AD_NEW=(S8.match(/第二句「([^」]+)」→「([^」]+)」/)||[])[2], AD_SELF=(quotes(S8).find(q=>q.who==='以安')||{}).t;
 
 (async()=>{
 const r5=k=>T5.find(r=>r.where.includes(k))||{};
@@ -138,11 +147,11 @@ await sec(4,async()=>{
   { psG(); at('2027-12-22',20); H.picks=[0]; const day=await HV.ask(GM,PS); const q=OUT.get(H.G,'hv_'+PS+'_'+day);
     check('4. [前置] 12/22「我去台南找妳？」約 12/23（ev_hv_ps_tn）',day===D('2027-12-23')&&!!q&&q.ev==='ev_hv_ps_tn',J(q&&[keyOf(q.day),q.ev]));
     if(q) await goOut(q,[0,0,0,0,0,0]); run('2027-12-23',22,23.5,0.5); run('2027-12-24',8,23.5,0.5); to1225(); const L=byTag(gfTag);
-    check('4. 12/23 去台南找過她（前兩天內）：12/25 也是那一句、不約',!!q&&q.state==='done'&&L.length===1&&L[0].text===PS_LINE&&!L[0].ask,J({st:q&&q.state,L:L.map(x=>x.text)})); }
+    check('4. 12/23 去台南找過她（前兩天內）：12/25 也不約、傳一句（前兩天的字照第 8 節①「'+TN3[2]+'」）',!!q&&q.state==='done'&&L.length===1&&L[0].text===TN3[2]&&!L[0].ask,J({st:q&&q.state,L:L.map(x=>x.text)})); }
   { psG(); at('2027-12-20',20); H.picks=[1]; const day=await HV.ask(GM,PS); const q=OUT.get(H.G,'hv_'+PS+'_'+day);
     if(q) await goOut(q,[0,0,0,0,0,0]); for(const d of ['2027-12-22','2027-12-23','2027-12-24']) run(d,8,23.5,0.5); to1225(); const L=byTag(gfTag);
     check('4. 三天以前（12/22）去過：照原本約',day===D('2027-12-22')&&!!q&&q.state==='done'&&L.length===1&&L[0].text===OLD_INV&&!!L[0].ask,J({day:day&&keyOf(day),st:q&&q.state,L:L.map(x=>x.text)})); }
-  check('4. 只有在台南的學期（大三上、大三下、大四上、大五上）有這一句；大二下（她不在台南）沒有',['Y3S1','Y3S2','Y4S1','Y5S1'].every(t=>TERMEND.gf(PS,t).tnVisited===PS_LINE)&&!TERMEND.gf(PS,'Y2S2').tnVisited);
+  check('4. 只有在台南的學期（大三上、大三下、大四上、大五上）有這一句（第 8 節①：[同一天, 前一天, 前兩天]，前一天＝第 4 節那一句）；大二下（她不在台南）沒有',['Y3S1','Y3S2','Y4S1','Y5S1'].every(t=>J(TERMEND.gf(PS,t).tnVisited)===J(TN3))&&TN3[1]===PS_LINE&&!TERMEND.gf(PS,'Y2S2').tnVisited,J(TERMEND.gf(PS,'Y3S1').tnVisited));
 });
 
 /* ---- 5 小改字 ---- */
@@ -166,6 +175,36 @@ await sec(5,async()=>{
   const te2=OUT.get(H.G,'te_kx_Y3S1'), X2=byTag('y3_kx_xmas').map(m=>m.text);
   check('5. 可昕：12/25 晚上已經有別的約、學期末的飯排到別天（'+(te2?keyOf(te2.day):'沒有')+'）＝照舊「'+KX_OLD.join('」「')+'」',!!te2&&te2.day!==D('2027-12-25')&&J(X2)===J(KX_OLD),J({te2:te2&&keyOf(te2.day),X2}));
   check('5. 可昕那一則的選項、回覆照舊（「好。」「明天不行。」）',J((PHONE.byAsk(H.G,'y3_kx_xmas')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))===J(['好。','明天不行。']));
+});
+
+/* ---- 6 第 8 節 ---- */
+await sec(6,async()=>{
+  check('6. 讀得到第 8 節：①三句（同一天／前一天／前兩天）、③換字＋她補的那一句',TN3.every(Boolean)&&new Set(TN3).size===3&&!!AD_OLD&&!!AD_NEW&&!!AD_SELF,J({TN3,AD_OLD,AD_NEW,AD_SELF}));
+  /* ① 同一天：大四上（2028）12/23 21:00 她約聖誕 → 12/24 12:00 開車下去；學期末的飯也排在 12/24（AA_464 4-2 掃描的那一天）*/
+  const ps4=()=>{ fresh('2028-12-18',8,{PS_BACK_FIRST:1}); date(PS); for(const k of ['2028-12-18','2028-12-19','2028-12-20','2028-12-21','2028-12-22']) run(k,8,23.5,0.5); run('2028-12-23',8,21.25,0.25); };
+  const tag4='te_gf_Y4S1_'+PS, xTag4='fest_ask_'+PS+'_xmas_2028', xQ4='fest_'+PS+'_xmas_2028', OLD4=TERMEND.gf(PS,'Y4S1').invite;
+  { ps4(); const R=TERMEND.rec(H.G,'Y4S1'), dd=R&&R.gfDay&&R.gfDay[PS]; const a=PHONE.byAsk(H.G,xTag4)?PHONE.answer(H.G,xTag4,0):null; run('2028-12-23',21.5,22,0.25); const q=OUT.get(H.G,xQ4);
+    check('6. [前置] 大四上學期末的飯排在 12/24；12/23 21:00 她約聖誕→「好。」＝12/24 12:00 開車去台南',dd===D('2028-12-24')&&!!a&&!!q&&q.day===D('2028-12-24')&&q.place==='台南'&&q.state==='planned',J({dd:dd!=null&&dd>=0?keyOf(dd):dd,q:q&&[keyOf(q.day),q.h,q.state]}));
+    run('2028-12-24',8,12.5,0.25); const L=byTag(tag4);
+    check('6. ① 同一天：12/24 12:00 學期末那一則＝「'+TN3[0]+'」（不能回、不排出遊）',L.length===1&&L[0].text===TN3[0]&&!L[0].ask&&L[0].day===D('2028-12-24')&&!OUT.rec(H.G).some(x=>/^te_gf_/.test(x.id||'')),J(L.map(x=>[keyOf(x.day),x.h,x.text,!!x.ask])));
+    if(q) await goOut(q,[0,0,0,0]);
+    check('6. ① 聖誕那一場照演（12/24 去了）、之後不再約',!!q&&q.state==='done'&&(run('2028-12-24',13,23.5,0.5),byTag(tag4).length===1)&&!TH('p:'+PS).some(x=>x.text===OLD4),J(q&&q.state)); }
+  { ps4(); PHONE.answer(H.G,xTag4,1); run('2028-12-23',21.5,22,0.25); run('2028-12-24',8,12.5,0.25); const L=byTag(tag4);
+    check('6. ① 同一天但聖誕說「那天不行。」：照原本約「'+OLD4+'」',L.length===1&&L[0].text===OLD4&&!!L[0].ask,J(L.map(x=>x.text))); }
+  /* ① 前一天（大三上 12/24 聖誕、12/25 學期末）＝第 4 節已經查過「'+TN3[1]+'」；前兩天（12/23 ev_hv_ps_tn、12/25）＝第 4 節最後一項 */
+  check('6. ① 前一天＝第 4 節那一句（第 4 節 12/24 聖誕→12/25 已查過）、前兩天＝「'+TN3[2]+'」（第 4 節 12/23 去台南找她→12/25 已查過）',TN3[1]===PS_LINE);
+  /* ② 兩種去台南（節日那一場、ev_hv_ps_tn）都算；每個在台南的學期都適用＝第 4 節最後一項 */
+  check('6. ② S.tnVisited 回傳幾天前：同一天的 planned 算、三天前不算、missed 不算',(()=>{ fresh('2028-06-10',8,{}); const dd=D('2028-06-20'), mk=(id,day,state,o)=>Object.assign({id,day,h:12,state,place:'台南',fest:{id:PS,mode:'meet'}},o||{}); const R=OUT.rec(H.G);
+      R.push(mk('a',dd-3,'done')); const r3=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('b',dd-2,'done')); const r2=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('c',dd-1,'missed')); const rm=TERMEND.tnVisited(H.G,PS,dd);
+      R.push({id:'d',day:dd-1,h:15,state:'done',ev:'ev_hv_ps_tn',hv:{key:PS+'@台南'}}); const r1=TERMEND.tnVisited(H.G,PS,dd); R.push(mk('e',dd,'planned')); const r0=TERMEND.tnVisited(H.G,PS,dd);
+      return r3===-1&&r2===2&&rm===2&&r1===1&&r0===0; })());
+  /* ③ 3D 版 ev_an_admin_court */
+  const adm=async(knowZhe)=>{ fresh('2027-10-21',17.75,{MET_ZHE:knowZhe},'noodle'); H.FAMILIAR(AN); const W1=STORY.week1Start; if(!knowZhe) STORY.week1Start=()=>true; H.said=[]; H.opts=[]; H.picks=[0];
+    try{ await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_an_admin_court')); } finally { STORY.week1Start=W1; } return H.said.map(x=>x.t); };
+  { const S=await adm(true);
+    check('6. ③ 3D 版第二句「'+AD_NEW+'」（沒有「'+AD_OLD+'」）；認識阿哲：阿哲問、她答照舊，不補那一句',S[1]===AD_NEW&&!S.includes(AD_OLD)&&S.includes('刑訴的作業不是要去地院嗎？')&&S.includes('那個禮拜五去。今天這個是我自己想看的。')&&!S.includes(AD_SELF),J(S.slice(0,7))); }
+  { const S=await adm(false), i=S.indexOf(AD_SELF);
+    check('6. ③ 不認識阿哲（阿哲那兩句不出）：她自己補「'+AD_SELF+'」，在選項之前、收據那一句之後',S[1]===AD_NEW&&i===4&&S[3]==='他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'&&!S.includes('刑訴的作業不是要去地院嗎？')&&H.opts.length>=1,J(S.slice(0,7))); }
 });
 
 H.done();
