@@ -336,6 +336,9 @@ for m_ in (prod, sg): m_.finish(root, uv=False, merge=False)
 for m_ in (sh, pg, kk, pr, tags, pv): m_.finish(root, uv=False)
 
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('DOOR_') or ob.name.startswith('WALL_') or ob.name.startswith('usam_view'))
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：亞洲超市 2.85→4.15。
+_ss = L.single_side(root, keep=r'glass', skip=lambda ob: ob.name.startswith('usam_view'))   # 門外的景（usam_view）照舊一片
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st_ = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:

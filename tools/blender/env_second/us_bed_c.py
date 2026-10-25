@@ -225,6 +225,9 @@ def build():
     for m in (c.vc, c.vm, c.glass, c.warm): m.finish(c.root, uv=False)
     c.wood.finish(c.root); c.fab.finish(c.root); c.prt.finish(c.root, uv=False, merge=False)
     L.merge_by_material(c.root, keep=lambda ob: ob.name.startswith('WALL_'), key=lambda ob: '')
+    # PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：見 test_shots/singleside_glb_1025。
+    _ss = L.single_side(c.root, keep=r'glass')
+    print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
     out = os.path.join(OUTDIR, SID + '.glb'); st = L.export(out, gpu_instances=False)
     tris = 0
     for ob in bpy.data.objects:
