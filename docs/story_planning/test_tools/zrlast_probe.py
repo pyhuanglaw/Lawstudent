@@ -2904,7 +2904,7 @@ SCENS = SCENS + R34b
 #    對照：沒有 met_sis（v9.10.10 以前的探針底檔）＝沒有七夕，原本那一則、原本的第一句
 # ② 9/13 18:00 最後一則要回：「我過去。」→「樓下的門，按 208。」→ 快轉停在出發前問「出發：C 棟・廚房」→ 出發就到 C 棟演 ev_us2_kitchen、20:00 那一則不傳
 #    「今天不行。」→「好。」→ 20:00「麵我吃完了。報告我自己再改一次。」照舊、沒演
-# 【前置】同 QIXI28_US（NOKX＋MS＋交往中）；手機要回的照 asks、其他選第一個
+# 【前置】同 QIXI28_US（NOKX＋MS＋交往中）；手機要回的照 asks、其他選第一個。8/21 從 21:40 開始（同 TRX：21:06 的床是完整的選單，bedpick 的「睡覺／再撐一下」比對會誤報，R34 的教訓）
 QX_PEACH = '（從市集回來，那顆桃子放在桌角。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）'
 QX_SYL0 = '（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）'
 QX_MSG, QX_MSG0 = '市集逛完，下午去圖書館。課表帶著。', '明天下午圖書館。課表拿來。'
@@ -2912,7 +2912,7 @@ P5ON = "(k=>(GAME.G.msgs||[]).filter(m=>m&&m.th==='p:heroine_05'&&m.day!=null&&C
 EVDONE = "(ids=>ids.map(i=>!!(((GAME.G.events||{}).done||{})[i])))(%s)"
 OUTST = "(i=>{ const q=OUT.get(GAME.G,i); return q?q.state:null; })(%s)"
 def QX453(sid, ms, want, none, wantMsg, noneMsg, done):
-    return dict(id=sid, key='2028-08-21', h=21.0, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + (MS if ms else '') + B['DATE'] + B['BED'],
+    return dict(id=sid, key='2028-08-21', h=21.67, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + (MS if ms else '') + B['DATE'] + B['BED'],
                 steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-08-26', 17.0, 120), ('dumplog', sid)], pref=['出發', '去', '「好。」'], asks={'*': ''},
                 want=want, none=none, wantMsg=wantMsg, noneMsg=noneMsg, msgAt={wantMsg[0]: ('2028-08-25', 21.0, 0.1)},
                 jsok=[('七夕（當面約、市集）、圖書館 ev_usb_syllabus 演了沒', EVDONE % json.dumps(['ev_sis_qixi_us_ask', 'ev_sis_qixi', 'ev_usb_syllabus']), done)])
