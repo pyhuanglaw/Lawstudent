@@ -245,7 +245,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-10-01',9,'us_apartment',US({MET_LONG:true})); rules(); at('2028-10-04',19.8); rules(); picks=[1]; await go('usl_long3');   /* AA_450 1-11：10/3 起才排（這裡 10/4 跑一次手機規則）*/
   check('S11. 何俊朗 3（10/4 20:00 會所自習室）：公布欄「週五晚上，國際學生會的秋假前聚餐」、「誰都」「誰也」；「那就都不要去。」→「……去吧。」；記 LONG_BBQ', has('（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）')&&has('「誰也」，像每個人自己決定不去。')&&has('……去吧。')&&G.flags.LONG_BBQ===true);
   G.zone='us_apartment'; G.hour=22; E.player.busy=false; await tick();
-  check('S11. 何俊朗 4：當晚回公寓自動「（回到公寓，你在筆記本寫了一行：……條文也是。）」；記 LONG_NOTE', has('（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）')&&G.flags.LONG_NOTE===true);
+  check('S11. 何俊朗 4：當晚回公寓自動「（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。……）」（AA_452 1-6）；記 LONG_NOTE', has('（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。看了很久，還是聽不出來。）')&&G.flags.LONG_NOTE===true);
   at('2028-10-06',20.5); G.zone='us_outside'; await tick(); check('S11. 10/6 20:00 人在社區：秋假前的聚餐一句旁白', has('（星期五晚上，秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）'));
   fresh('2028-10-24',20.5,'us_apartment',US({MET_LONG:true})); runRules('2028-10-24',20.5,21.25); { const m=PHONE.byAsk(G,'usl_long5');
     check('S11. 何俊朗 5：10/24 21:00「明天晚上去中餐館？我想吃白飯。」→「明天不行。」→「那下週三。」＝11/1 19:00', !!m&&m.text==='明天晚上去中餐館？我想吃白飯。'&&(PHONE.answer(G,'usl_long5',1),rules(),true)&&txt('p:npc_long').slice(-1)[0]==='npc_long:那下週三。'&&OUT.get(G,'usl_long5b')&&OUT.get(G,'usl_long5b').day===D('2028-11-01')&&!OUT.get(G,'usl_long5'), JSON.stringify(txt('p:npc_long'))); }

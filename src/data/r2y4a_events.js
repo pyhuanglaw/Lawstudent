@@ -79,7 +79,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'end'},{set:{US2:'there'}} ] });
   /* 挽回中（AA_253 §6 第 2 步原句）：她沒有約他；19:00 前後他去 C 棟還向她室友借的鍋子（r2y4a3d.js：人在社區就帶到 C 棟）。選「還沒。」＝REPAIR +1（after）*/
   EV.push({ id:'ev_us2_repair', title:'退回的報告', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ nar('（C 棟，學姊合租那一戶。廚房朝客廳的窗口開著，她站在爐子前面，水還沒滾。你把鍋子放在窗口的吧台上。）'),
+    dialogue:[ nar('（你去 C 棟還上個禮拜跟她室友借的鍋子。廚房朝客廳的窗口開著，她站在爐子前面，水還沒滾。你把鍋子放在窗口的吧台上。）'),   /* AA_452 1-3：交代鍋子是哪來的 */
       CG('cg_us_kitchen_heroine05'),   /* BCG-32 接這一句 */
       sis('……報告被退了。教授說：「妳的論點很清楚，但我讀不到妳。」'),
       nar('（水滾了。她把麵放進去，放了兩人份，又拿出一把。）'),
@@ -136,6 +136,7 @@ const R2Y4A_EVENTS=(function(){
       sis('（打字，停了一下，又加兩個字）跟你。'),
       {set:{US3:'two'}},{end:true},
       {label:'r'},
+      IF(LONG,nar('（湖邊。何俊朗和其他人走在前面。她放慢腳步，走到你旁邊。）')),UN(LONG,nar('（湖邊。大家走在前面。她放慢腳步，走到你旁邊。）')),   /* AA_452 1-4：群組約的是「大家」*/
       sis('分手那天，你沒有解釋。'),
       sis('我後來想，那樣比較好。你解釋的話，我可能會信。'),
       sis('……我不想因為信了一個解釋，再跟你在一起。'),
@@ -272,7 +273,7 @@ const R2Y4A_EVENTS=(function(){
       sis('下次我會帶伴手禮來。'),
       {phone:S5,text:'……第二句是反的。是我照顧你。'},   /* 下車以後她傳 */
       {set:{CAME_BACK_TOGETHER:true}},{end:true},
-      {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）') ] });
+      {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）'),nar('（出口，媽媽在揮手。）') ] });   /* AA_452 1-5：12/10 媽媽說要來接 */
   EV.push({ id:'ev_us_home', title:'臺北的家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
     dialogue:[ {scene:'臺北・家裡',bg:'home_living_day'},
       nar('（九點。廚房裡有粥的味道。你回來了。）'),   /* AA_370 M5：媽媽 05:40 就接到人了，九點這句是旁白（AA_291 第 5 節；原「媽媽：你回來了。」）*/

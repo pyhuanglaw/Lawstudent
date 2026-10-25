@@ -2917,6 +2917,15 @@
    "task": "US-READ-NOLONG-1025",
    "kind": "text",
    "note": "r2y4a_events.js ev_us_chicago 沒見過版巴士上五句＋MET_LONG、LONG_CHI（「同行的人」那句不再用）、ev_us_leave「還好。」LONG_CHI 兩句；us_life_events.js ev_usl_lastclass、us_writing 沒見過版換字；us_life3d.js usl_long3 LONG_CHI 不補排；r2y4a3d.js 舊金山那一週每天跑手機規則（1-3 媽媽 12/17 在舊金山收到）；tests/aa451_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_452_美國交換讀後_挽回中.md",
+   "sha": "8d9910961",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
+   "task": "US-READ-REPAIR-1025",
+   "kind": "text",
+   "note": "r2y4a3d.js us_snow_msg 第二句、挽回中初雪排進行程 us_snow_r（19:45 問出發，舊存檔照舊自動到場）；r2y4a_events.js ev_us2_repair 第一句、ev_us3_lake label r 旁白、ev_us_return label n 媽媽；us_life_events.js ev_usl_long4；exchange3d.js 挽回中返台字卡「舊金山轉機」；tests/aa452_us_unit.js"
   }
  ]
 }

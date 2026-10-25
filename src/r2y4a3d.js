@@ -155,7 +155,8 @@ const R2Y4A=(function(){
         if(G.day===d&&past(G,d,18)&&hh(G)<20.25&&!F.US_SNOW&&!PHONE.sent(G,'us_snow_msg')){
           if(dating(G,S5)){ PHONE.at(G,d,18,[P5('今晚會下今年第一場真的會積起來的雪。'),P5('八點，小教堂前面的台階。')],'us_snow_msg'); F.US_SNOW_MODE='together';
             if(typeof OUT!=='undefined'&&!OUT.get(G,'us_snow')) OUT.plan(G,{id:'us_snow',ev:'ev_us_first_snow',day:d,h:20,late:0.25,place:'小教堂前的台階',title:'初雪',travel:'',travelH:0,back:'回到公寓。'}); }
-          else { const LG=t=>({th:EXTH,from:'npc_long',name:'何俊朗',text:t}); PHONE.at(G,d,18,[LG('今晚會積雪。'),LG('不是上次那種，是會積起來的。')],'us_snow_msg'); F.US_SNOW_MODE='repair'; } }   /* 交換生群組：何俊朗傳（AA_345 F10；沒見過他的玩家只是看到一個名字）*/
+          else { const LG=t=>({th:EXTH,from:'npc_long',name:'何俊朗',text:t}); PHONE.at(G,d,18,[LG('今晚會積雪。'),LG('上次那種落地就化了。這次會積起來。')],'us_snow_msg'); F.US_SNOW_MODE='repair';   /* 交換生群組：何俊朗傳（AA_345 F10；沒見過他的玩家只是看到一個名字）。AA_452 1-2：第二句換掉「不是 X，是 Y」*/
+            if(typeof OUT!=='undefined'&&!OUT.get(G,'us_snow_r')) OUT.plan(G,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:20,late:3,place:'小教堂前的台階',title:'初雪',travel:'',travelH:0,back:'回到公寓。'}); } }   /* AA_452 1-1：照交往中排進行程（19:45 問「出發：初雪」、到 23:00 都能去；「不去了」＝沒演）。原本只有 20:00～23:00 人在美國自動到場，快轉停在 19:45、一按「到下一個有事的日子」就跳過，挽回第 4 步整步沒有 */
         if(F.US_SNOW_QUIET&&past(G,d+1,8+10/60)&&!PHONE.sent(G,'us_snow_next')) PHONE.at(G,d+1,8+10/60,[P5('昨天你問我還好嗎。……其實不太好。回去再跟你說。')],'us_snow_next'); } }
     /* ---- 會所晚餐（12/13 21:00）---- */
     /* AA_450 1-8：何俊朗傳兩則（沒見過他＝國際學生會）；帶什麼菜的三個選項掛在最後一則（原本學姊一則「明天晚上七點，會所。學期最後一頓。每個人帶一道菜。」）*/
@@ -494,7 +495,7 @@ const R2Y4A=(function(){
       if(S.us2RepairDue(G)) return go(()=>S.us2Repair(GM));
       { const d=D('2028-12-02'); if(d!=null&&G.day===d&&!F.US_SNOW&&inUS(G)){
           if(F.US_SNOW_FORCE) { F.US_SNOW_LATE=true; return go(()=>outNow(GM,{id:'us_snow3',ev:'ev_us_first_snow',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); }
-          if(F.US_SNOW_MODE==='repair'&&hh(G)>=20&&hh(G)<23) return go(()=>outNow(GM,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); } }   /* 挽回中：20:00 前後走過小教堂（自動到場）*/
+          if(F.US_SNOW_MODE==='repair'&&hh(G)>=20&&hh(G)<23&&!(typeof OUT!=='undefined'&&OUT.get(G,'us_snow_r'))) return go(()=>outNow(GM,{id:'us_snow_r',ev:'ev_us_snow_repair',day:d,h:G.hour,place:'小教堂前的台階',title:'初雪',back:'回到公寓。'})); } }   /* 挽回中：舊存檔（18:00 的訊息已經傳了、沒排進行程）20:00 前後自動到場；排了的照行程問（AA_452 1-1）*/
       if(S.leaveDue(G)) return go(()=>S.leave(GM)); }
     return S.tickTW(GM); };
   /* 睡著也會醒來：抵達那晚 21:30（打給媽媽）、12/2 20:00（初雪）*/

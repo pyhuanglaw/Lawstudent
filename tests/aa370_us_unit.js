@@ -107,7 +107,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   check('M3. 舊存檔：R3 版 2a 演過＝USL 的 2a 不排、2b（9/15 新開的餐廳）照排', !OUT.get(G,'usl_long2a')&&!!OUT.get(G,'usl_long2b'), JSON.stringify(OUT.rec(G).map(q=>q.id+':'+q.state)));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true})); G.events.done.ev_long_bbq=1;
   check('M3. R3 版回公寓的筆記（ev_long_note）不再演（第 6 節第 9 題：資料刪掉）', !STORY_EVENTS.some(e=>e.id==='ev_long_note'));
-  said=[]; await uslTick(); const note='（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）';
+  said=[]; await uslTick(); const note='（回到公寓，你在筆記本最後一頁寫了「誰都」和「誰也」。看了很久，還是聽不出來。）';   /* AA_452 1-6 換句 */
   check('M3. 舊存檔：R3 版會所自習室演過＝當晚回公寓演 USL 的筆記（一次）', has(note)&&G.flags.LONG_NOTE===true&&(said=[],0)===0, JSON.stringify(lines()));
   await uslTick(); check('M3. 筆記不重複', !has(note));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true,LONG_NOTE:true})); G.events.done.ev_usl_long3=1; said=[]; await uslTick();
