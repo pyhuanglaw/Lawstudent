@@ -428,7 +428,11 @@ if J.get('clubhouse'): clubhouse(J['clubhouse'])
 
 # ================= 地面 =================
 BD_ = J['bounds']; lot = J['lot']
-gr = Mesh('usc_grass', M['grass'], tile=3.0); gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, BD_['z0'], BD_['z1']); gr.finish(root)
+gr = Mesh('usc_grass', M['grass'], tile=3.0)   # 草地不墊在停車場、出口車道的柏油底下（同一個地方畫兩層，LAWWW2-B 10-25 US-COMMUNITY-WEST-PERF）
+gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, BD_['z0'], lot['z0']); gr.box(BD_['x0'], BD_['x1'], -0.06, -0.02, lot['z1'], BD_['z1'])   # 停車場北、南
+gr.box(lot['x1'], BD_['x1'], -0.06, -0.02, lot['z0'], lot['z1'])                                                                      # 東
+for (z0_, z1_) in ((lot['z0'], -3.6), (3.6, lot['z1'])): gr.box(BD_['x0'], lot['x0'], -0.06, -0.02, z0_, z1_)                        # 西（出口車道兩旁）
+gr.finish(root)
 asp = Mesh('usc_asphalt', M['asph'], tile=3.0)
 asp.box(lot['x0'], lot['x1'], -0.02, 0.0, lot['z0'], lot['z1'])
 asp.box(BD_['x0'], lot['x0'], -0.02, 0.0, -3.6, 3.6)                                       # 往西的出口車道
