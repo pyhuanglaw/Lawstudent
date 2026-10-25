@@ -15,7 +15,7 @@
          日本路線＝台灣 18:00（當地 19:00）視訊（AA_337 第 7 節）。SIS_BDAY_Y3（msg／invited／late_ask／next_cafe／video_set → cafe／video／missed）。
    1B-18＋22 學姊出發 8/2：7/26 21:00 家族群組（台灣路線才有按鈕）→ 家族共乘／兩個人 → 8/2 08:00 出遊（車上＋機場）；沒說要送＝8/2 09:00 客運照片、之後麵店語彤轉交便條；
          美國路線＝一起出發（exchange3d.js 的 3D 機場：進到機場演前三列，「登機」時演登機口那一列）；8/3 09:00 US0（台灣、日本路線）；
-         M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
+         M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉；AA_470 4-1：大三上 11/17 聽過「每天傳一張照片給你」的 SIS_PHOTO_TO_YOU＝平日的照片改私訊、第一張多「說好的。」）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
    1B-19 以安新 18：10/19（四）21:30 萬才館（讀書會散會；讀書會去過 3 次以上或那天在場）＝走廊；其他 22:00 麵店團群組；美國路線照當地時間。AN_CHOICE_TOLD。
          美國路線、和以安交往中＝臺灣 22:00（當地 10:00）她打來的視訊（AA_296 2-3-1 ①，AN_CHOICE video，讀 AN_CHOICE 的地方當成 here 那一類）；沒接＝原本那兩則私訊（dm）。
    1B-20 二十三週年：12/11 讀書會群組、12/11～12/13 麵店團群組的倒數、12/12 語彤的班那一句、12/14 19:00 麵店（18:45～19:15；19:30 還沒到＝電話帶到場，睡著也會醒來）；CG-8；強制下雨；
@@ -281,8 +281,10 @@ const Y34B=(function(){
       else at(G,d,hh,[GSIS('（照片）'),GSIS(S.M6_QUIET[wi-M6_Q.length]||S.M6_QUIET[0])],tag);   /* 第幾個「不吵」的週日（AA_464 第 2 節；超過十四個照原句）*/
       return; }
     const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
-    at(G,d,h9,[GSIS(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])],tag);   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
-    const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')); if(old.length>6){ const cut=old.slice(0,old.length-6); G.msgs=G.msgs.filter(m=>!cut.includes(m)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）*/
+    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
+    if(mine&&F.SIS_PHOTO_SAID==null){ F.SIS_PHOTO_SAID=d; L.push(DM('heroine_05','說好的。')); }   /* AA_470 4-1：大三上 11/17 雙方單身那一句（SIS_PHOTO_TO_YOU）＝平日的照片改傳私訊（週日照舊在家族群組）；第一張（8/3）多一句 */
+    at(G,d,h9,L,tag);
+    const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')), days=[...new Set(old.map(m=>m.tag))]; if(days.length>6){ const cut=new Set(days.slice(0,days.length-6)); G.msgs=G.msgs.filter(m=>!cut.has(m.tag)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）；私訊也照用，一天算一張（第一張的「說好的。」跟著那一張）*/
   /* 美國路線：一起出發（exchange3d.js 的 3D 機場；進到機場演前三列、登機前演登機口那一列）*/
   S.usDepartDue=G=>law(G)&&US(G)&&G.zone==='airport_dep'&&!!G.flags.US_DEPARTED&&!G.flags.US_ARRIVED&&G.flags.SIS_SENDOFF==null&&(dating(G,'heroine_05')||exOf(G,'heroine_05'));
   S.usGate=async function(GM){ const G=GM.G, F=G.flags; if(!US(G)||F.SIS_SENDOFF!=='together'||F.SIS_GATE) return false; F.SIS_GATE=true; const ev=evOf('ev_sis_gate_us'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
