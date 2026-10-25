@@ -32056,14 +32056,14 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。"
+   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。 ｜ BB-B 16:2x 驗兩份（69bb17f53）：社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 1F +8～27%、B1 +10～23%、3F +3%，沒有破面看穿；便利商店貨架端紅黃小旗背面看不見（cvs_goods_atlas 單片）→ 16:2x 請 LAWWW2 只給小旗補反面、重匯 cvs_interior.glb（和 gym 木格柵一起交）。"
   },
   {
    "id": "TEST-FLOW-SOCLIB-X75-1025",
    "title": "tests/flow_soclib.py 還寫死 X75（10-20 社科院搬到霖澤館西南）以前的門口 (101,−69.3)、出來的位置 (101,−67.6) 和走過去的路線，乾淨的開發也 FAILED 2～3；改成讀 SOCSCI_LAYOUT.libDoor／libOut（現在 (11,−65.7)／(11,−67.4)）與新的路線。遊戲本身的門照 layout（socsci_place_unit ALL PASS）",
    "area": "TEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "進行中",
    "next": "BB 發布判定以後",
    "priority": "P3",
    "first": {
@@ -32083,9 +32083,9 @@
     "branch": "claude/elegant-brown-fcos7n",
     "acceptance": "flow_soclib.py 在開發分支 PASS（進館、閘門、座位、林間書房、窗邊、出館回中庭、走回法學院廣場、手機地點前往、天窗晚上變暗）",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "notes": "10-25 15:3x 和下一版測試一起派給 BB-B（send_message）。"
+   "notes": "10-25 15:3x 和下一版測試一起派給 BB-B（send_message）。 ｜ BB-B 16:2x：patch 第二版 91e56a3f3 回程改法學院廣場 (60,−92)（霖澤館前會演 ev_sk01_soc），重跑中。"
   },
   {
    "id": "TERM-READ-Y1S1-1025",
