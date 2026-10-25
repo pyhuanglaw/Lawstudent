@@ -90,6 +90,14 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 15:xx 更新（PERF-SINGLESIDE-GLB-1025 第二份）**：
+    - LAWWW-B 13:2x：第一份 ACK，v9.10.10 發布後整合；flow_soclib 是測試舊（BB 改，TEST-FLOW-SOCLIB-X75-1025）。
+    - 已交第二份：體育館 1F 大廳、B1、3F 主球場的 GLB＋腳本、`patches/singleside_gym_1025.patch`。大廳 +2～31%、B1 +7～38%、主球場只有 +6～10%（上限 +47% 是連該畫的背面都不畫）。
+    - `lib2.single_side` 新規則：裡外相反的薄零件翻成朝外（主球場欄杆收邊第一次變細）；B1 用 `flip=False`（4 片小鐵片 Blender 和 GLB 算出來相反，沒查到底）。
+    - 看得出的差別：大廳木格柵放大看有斜波紋（木條比像素細），交 LAWWW-B／使用者決定。
+    - 匯出 B1 要有 `bb_support/gym_b1_props.glb`、`gym_b1_entry.glb`（測試樹沒有，第一次少了 1.7 萬個三角形；我從自己的分支複製進去）。
+    - 新工具 `shots/singleside_breakdown.py`（同一頁一組一組改單面量）。
+    - 下一步：街景（溫州街、118 巷）用 breakdown 拆是哪一組貴 → 量得到 10% 的才做；之後 ART-HALL-WINDOW-DUSK-1025。
   - **10-25 13:xx 更新（PERF-SINGLESIDE-GLB-1025 第一份）**：
     - LAWWW-B 10:5x：同意「同一頁量上限、10% 以上才做、室內先」；開發分支即將凍結（v9.10.10 候選），交件照常交，他在獨立工作樹先套；另排 ART-HALL-WINDOW-DUSK-1025（單面巡查告一段落時看）。
     - 上限表（8 處都過 10%）：`test_shots/singleside_glb_1025/README.md`。

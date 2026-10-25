@@ -3199,6 +3199,24 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "只換 GLB，遊戲程式沒動；凍結期間在獨立工作樹先套"
+  },
+  {
+   "task": "PERF-SINGLESIDE-GLB-1025 第二份：體育館 1F 大廳、B1、3F 主球場室內 GLB 單面",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/gym_interior.glb、gym_b1.glb、gym_arena.glb（＋各自 .json）",
+    "tools/blender/env_second/gym_interior.py、gym_b1.py、gym_arena.py、lib2.py（single_side：裡外相反的薄零件翻成朝外、flip 選項）",
+    "docs/art-rebuild/second_ai/patches/singleside_gym_1025.patch（新 tests/singleside_gym_unit.js，對開發 01bab5952）",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md（第二份：fps、06～12 同角度）"
+   ],
+   "state": "已交付。fps（路人拿掉，和兩次改前都比）：大廳 3.5→4.6／6.05→7.0、B1 4.6→5.65／3.95→5.45、主球場看台 3.13→3.43（+6～10%）。同角度 26 個鏡頭一樣；看得出的只有大廳木格柵放大後的斜波紋（12）。新測試開發 FAILED 5、交件 ALL PASS；gym 相關 7 支 Node 測試 ALL PASS",
+   "remaining": "沒跑體育館瀏覽器流程測試、整套回歸、實機；主球場只快 6～10%、大廳木格柵波紋，換不換由 LAWWW-B／使用者決定",
+   "next": "LAWWW-B 換三個 GLB、套 patch（凍結期間獨立工作樹）；我接著拆街景（溫州街、118 巷）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "只換 GLB，遊戲程式沒動"
   }
  ]
 }
