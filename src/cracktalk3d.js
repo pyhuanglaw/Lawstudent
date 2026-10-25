@@ -56,7 +56,11 @@ const CRACKTALK=(function(){
   /* ======================= 學期、計數 ======================= */
   const tkCache={};
   S.termKey=function(G,day){ const d=day==null?G.day:day; if(d in tkCache) return tkCache[d]; let k=null;
-    if(typeof CALENDAR!=='undefined'&&CALENDAR.termOf){ for(let i=0;i<220;i++){ const t=CALENDAR.termOf(d-i); if(t){ k=t.id; break; } } }   /* 寒暑假＝前一個學期 */
+    if(typeof CALENDAR!=='undefined'&&CALENDAR.termOf){ const del=CALENDAR.termOfDelayed?(x=>CALENDAR.termOfDelayed(x)):(()=>null);
+      for(let i=0;i<220;i++){ const t=CALENDAR.termOf(d-i); if(t){ k=t.id; break; } const t5=del(d-i); if(t5){ k=i===0?t5.id:'PG'; break; } } }   /* 寒暑假＝前一個學期 */
+    /* AA_471 第 2 節：最後一個學期結束以後不要每天一個鍵（原本 220 天找不到就回 'D'+日子：2030-01 起語彤留位子每週都是原句、裂縫次數每天歸零）。
+       交換延畢的大五上（CALENDAR.termOfDelayed，2029-09-03～12-23）＝'Y5S1'，之後＝'PG'；220 天找不到、而且在最後一個學期之後＝'PG' */
+    if(!k&&typeof CALENDAR!=='undefined'&&Array.isArray(CALENDAR.TERMS)&&CALENDAR.TERMS.length&&CALENDAR.tOf){ const T=CALENDAR.TERMS[CALENDAR.TERMS.length-1]; if(T&&T.t1!=null&&CALENDAR.tOf(d)>=T.t1) k='PG'; }
     return tkCache[d]=k||('D'+d); };
   S.key=id=>ROM.CRACK[id];
   S.count=function(G,id){ const k=S.key(id), F=G.flags||{}; if(!k) return 0; if(F[k+'_TERM']!=null&&F[k+'_TERM']!==S.termKey(G)) return 0; return Math.max(0,+F[k]||0); };

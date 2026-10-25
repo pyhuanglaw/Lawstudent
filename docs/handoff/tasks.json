@@ -32502,7 +32502,7 @@
    "title": "大五（交換延畢）用讀者方法讀一遍：照存檔逐日掃描，找重複、斷掉、時間矛盾的台詞與事件",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "next": "排在 SIS-LEAD-1021 之後",
    "priority": "P3",
    "first": {
@@ -32524,7 +32524,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": ""
+   "notes": "AA-B 19:23 交 AA_471（企劃線 763993620）。第 1 節（日本路線家人群組畢業以後不停：AA_466 第 5 節帶進 v9.10.11 候選的問題）、第 2 節（S.termKey 220 天後每天一個鍵）LAWWW-B 19:4x 直接修進候選（jpprep3d S.jpOn 只到 2028-09-04；cracktalk3d termKey 大五上 Y5S1、之後 PG）；tests/pg_jpon_termkey_unit.js（1dacc06af 上 7 FAIL）。第 3～7 節（國考放榜換字、畢業後中秋、被當延畢 12/26 與 2030-06-17 證書、芷若 17:00 收尾三句、交往中 2029 跨年字卡可選）v9.10.11 發布後做。"
   },
   {
    "id": "PG-READ-1025",

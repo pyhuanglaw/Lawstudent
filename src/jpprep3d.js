@@ -60,7 +60,7 @@ const JPPREP=(function(){
   S.termOn=function(G){ if(!law(G)) return false; const Tm=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, md=typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day; return !!Tm&&md>=2; };
   /* AA_466 第 5 節（企劃線 8a7f797ec）：日本路線退宿以後（JP.movedOut：出發前住臺北的家 → 人在日本（6/8 學期表結束以後也發）→ 8/5 回來以後住家裡的暑假，到搬進 409）每週四都發，
      同一輪接著輪、不重算（F.HOME_LIVE_N）；人在日本＝國外（STORY.abroad）；臺灣 20:00＝手機的當地時間 20＋時差（日本 21:00）。人在日本那一路由 jp3d.js 的 HOME.phoneRules 放行 */
-  S.jpOn=G=>isJP(G)&&typeof JP!=='undefined'&&!!JP.movedOut&&!!JP.movedOut(G);
+  S.jpOn=G=>isJP(G)&&typeof JP!=='undefined'&&!!JP.movedOut&&!!JP.movedOut(G)&&!(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&CALENDAR.dateOf(G.day).key>='2028-09-04');   /* AA_471 第 1 節：只到大四上開學（2028-09-04 搬進 409）為止——畢業 6/28 搬回家以後 JP.movedOut 又成立，原本一路發到 2030（76 個週四、每則一個停點）；畢業以後照所有人一樣 */
   S.on=G=>S.termOn(G)||S.jpOn(G);
   S.liveH=G=>20+((typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,G.day):0)||0);
   S.liveDue=G=>S.on(G)&&G.weekday===4&&((G.hour%24)+24)%24>=S.liveH(G)&&!S.dadHome(G.day);   /* 寒暑假不發（AA_443 第 3 節；日本路線退宿以後例外，AA_466 第 5 節）*/
