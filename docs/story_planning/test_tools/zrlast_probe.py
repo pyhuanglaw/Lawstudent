@@ -3184,6 +3184,49 @@ R40 = [dict(id='R40_MOON_2027', key='2027-09-15', h=17.8, zone='dorm', flags=dic
        # AA_469 第 1 節：阿哲揪麵店（大一上第一個麵店日 17:30「麵店 我揪了」）
        Y1('R40_469_NOODLE', '2025-10-02', 17.2, 17.8, js=NEWJS + NGRP + " SOCIAL.remember('zhe','FIRST_MET','');", wantMsg=['麵店 我揪了'])]
 SCENS = SCENS + R40
+
+# ---------- R41（BB-B 10-25 16:3x）：AA_466～469 的瀏覽器版（單元測試只在 Node 裡跑；這裡用真的遊戲迴圈、快轉、進門觸發、手機）----------
+# 日期照遊戲資料（test_tools/aa466_469_dates.js @69bb17f53）：麵店日 10/2、10/7、10/9、10/14、10/16，接著期中考週，下一個 11/4；大一下期末最後一科 2026-06-12 12:10、大二上 2026-12-24 12:10
+NDLQ = "(GAME.G.msgs||[]).filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&/^rt_zhe_ndl_/.test(m.tag||'')).map(m=>CALENDAR.dateOf(m.day).key+' '+m.text)"
+NDL4 = ['麵店 我揪了', '麵店 我先到', '今天阿姨有滷蛋', '你最近都沒來 還好嗎']
+NTD = " G.flags.noodleTableDay=D('2025-09-30');"   # [前置] 阿哲的長桌（哲 1）已經發生過（麵店事件 prereq 要 noodleTableDay）
+MEAL_OLD = ['期末最後一科考完。麵店團一定吃一頓。', '阿姨多送了一盤小菜。', '考完了，吃好一點。']
+ZRN_OLD = ['（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）', '我要去睡了。你去吃早餐。']
+JPA = " G.flags.HOME_LIVE_N=3;"   # [前置] 家人群組已經走過 3 個位置＝這個週四輪到第 4 則（熱水器）
+YTF = (" LV('heroine_03',50,40,35); G.contacts=G.contacts||{}; G.contacts.heroine_03=D('2025-09-20');"
+       " for(const k of ['2028-03-30','2028-04-13','2028-04-27','2028-05-11','2028-05-25','2028-06-08']) PHONE.post(G,{th:'p:heroine_03',from:'heroine_03',text:'（前置）語彤的田野照片 '+k,tag:'y3_yt_jp_'+D(k)});")
+# [前置] YTF：語彤是朋友、已經收過六張田野照片（tag y3_yt_jp_<日>，字換成「（前置）…」，免得和遊戲的照片混在一起）＝6/22 是第 7 張
+R41 = [
+    # AA_469 第 1 節：一直沒去麵店＝揪三次（第 1～3 句）→ 第四個麵店日「你最近都沒來 還好嗎」→ 之後不揪（10/16、11/4 沒有）。照玩家快轉（床），不撥時間
+    Y1('R41_469_NDL3', '2025-10-02', 17.2, None, js=NEWJS + NGRP + " SOCIAL.remember('zhe','FIRST_MET','');",
+       steps=[('until', 17.8), ('ffloop', '2025-10-07', 18.0), ('ffloop', '2025-10-09', 18.0), ('ffloop', '2025-10-14', 18.0), ('ffloop', '2025-10-16', 18.0), ('ffloop', '2025-11-04', 18.0), ('dumplog', 'R41_469_NDL3')],
+       pref=['不去了', '先不'], wantMsg=NDL4, msgAt={'你最近都沒來 還好嗎': ('2025-10-14', 17.5, 0.2)},
+       jsok=[('阿哲在麵店團的揪，照順序四則、第四則是「還好嗎」、之後沒有（日子 文字）', NDLQ, lambda x: isinstance(x, list) and [t.split(' ', 1)[1] for t in x] == NDL4),
+             ('ndlMiss＝4（停了）、這學期問過（ndlOkT＝Y1S1）', "[GAME.G.flags.ndlMiss, GAME.G.flags.ndlOkT]", [4, 'Y1S1'])]),
+    # AA_467 第 1 節：大一下、大二上的期末最後一頓，進麵店就演，前三句換字（大一上照舊）
+    Y1('R41_467_MEAL_Y1S2', '2026-06-12', 17.3, None, js=NEWJS + NTD, steps=[ENTER('noodle'), ('until', 17.8)],
+       want=['（大一最後一科考完。長桌又併起來了。）', '（阿姨這次多送了兩盤小菜。）', '一年了。吃好一點。'], none=MEAL_OLD,
+       jsok=[('ev_term_last_meal_y1s2 演完', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal_y1s2)", True)]),
+    Y1('R41_467_MEAL_Y2S1', '2026-12-24', 17.3, None, js=NEWJS + NTD, steps=[ENTER('noodle'), ('until', 17.8)],
+       want=['（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）', '（阿姨端出一盤小菜，放在正中間，沒說話。）', '吃好一點。'], none=MEAL_OLD,
+       jsok=[('ev_term_last_meal_y2s1 演完', "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_term_last_meal_y2s1)", True)]),
+    # AA_468 第 1 節：芷若大四跨年視訊（交往中，她在英國；1/1 08:00 臺灣）：接起來＝大四的字；先不接＝08:30「睡吧。新年快樂。……醒了再說。」
+    dict(id='R41_468_ZRNYE4', key='2029-01-01', h=7.0, zone='dorm', flags=dict(TWF), js=Y4 + ZRD, steps=[('until', 8.6)], pref=['接起來', '「新年快樂。」'], asks={'*': ''}, nothree=True,
+         want=['臺灣的年你跨完了。換我。', '（她把手機轉向窗外。今年的煙火近一點，是從河對岸放的。）', '新年快樂。……第二年了，我還是比你晚。', '我要去睡了。……八月就回去了。', '（畫面斷掉以前，她把手機轉回窗外，讓你多看了一秒煙火。）'],
+         none=ZRN_OLD, cflags=['ZR_NYE_VIDEO_Y4']),
+    dict(id='R41_468_ZRNYE4_MISS', key='2029-01-01', h=7.0, zone='dorm', flags=dict(TWF), js=Y4 + ZRD, steps=[('until', 8.8)], pref=['先不接'], asks={}, nothree=True,
+         none=['臺灣的年你跨完了。換我。'], wantMsg=['睡吧。新年快樂。……醒了再說。'], msgAt={'睡吧。新年快樂。……醒了再說。': ('2029-01-01', 8.5, 0.2)}),
+    # AA_466 第 1-1 節：人在日本、家人群組輪到第 4 則＝媽媽「換了 上個月就換了」（不是「你兒子在家 叫他去問」）；手機日本 21:00（臺灣 20:00）
+    dict(id='R41_466_JP4', key='2028-06-15', h=20.6, zone='jp_room', flags=dict(JPF7), js=JPIN + NOKX + JPA, steps=[('until', 21.3)], pref=[], asks={'*': ''}, nothree=True,
+         wantMsg=['家裡的熱水器 上次說要換的 換了沒', '換了 上個月就換了'], noneMsg=['你兒子在家 叫他去問'], msgAt={'換了 上個月就換了': ('2028-06-15', 21.0, 0.2)},
+         jsok=[('HOME_LIVE_N 3 → 4', "GAME.G.flags.HOME_LIVE_N", 4)]),
+    # AA_466 第 2 節：語彤在日本的田野照片兩週一張，第 7 張（6/22）＝「巷子裡一台修了三次的腳踏車」；臺灣 21:00＝手機日本 22:00
+    dict(id='R41_466_YT7', key='2028-06-22', h=21.6, zone='jp_room', flags=dict(JPF7), js=JPIN + NOKX + YTF, steps=[('until', 22.3)], pref=[], asks={'*': ''}, nothree=True,
+         wantMsg=['📷（巷子裡一台修了三次的腳踏車，車主坐在旁邊）'], noneMsg=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）', '📷（她的田野筆記，翻到第二十頁，字很小）'],
+         msgAt={'📷（巷子裡一台修了三次的腳踏車，車主坐在旁邊）': ('2028-06-22', 22.0, 0.2)})]
+for _s in R41:   # Y1() 一定會放 ('until', until)：steps 已經另外給的不要
+    _s['steps'] = [x for x in _s['steps'] if x != ('until', None)]
+SCENS = SCENS + R41
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
