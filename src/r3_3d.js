@@ -48,7 +48,8 @@ const R3=(function(){
   S.zrHour=G=>(typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,'heroine_02').length>0:!!(G.flags&&G.flags.dating_kexin))?15+10/60:22+7/60;
 
   /* ===================== 3-01 芷若的試譯稿費（BB_70 8b、8b-1 C2；AA_117 C2；BB_97 第 0b 節）===================== */
-  S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
+  /* 第二張換字（AA_461 第 3 節：兩張原本一字不差）*/
+  S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖，往上滑的那一段）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
   S.zrFee=function(G){ const F=G.flags, d=D('2026-11-11'), d2=D('2026-11-25'); if(d==null||now(G)<T(d,0)||now(G)>=T(d2+2,0)) return;
     const ok=met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02');
     if(ok&&G.day<=d+1&&now(G)>=T(d,S.zrHour(G))&&!PHONE.sent(G,'r3_zr_fee')){ const h=S.zrHour(G), sh=S.ZR_FEE_SHOTS.map(x=>Object.assign({},x)), mem=[{npc:'heroine_02',tag:'ZR_FEE_LETTER',note:''}];

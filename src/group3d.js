@@ -57,7 +57,14 @@ const GROUP=(function(){
     if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'臺北的家（先回家取車）',title:'春假：開車載麵店團',travel:'回家取車約 30 分鐘',travelH:0.5,back:'回到台北。'});
     if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'政大校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到政大接她',travelH:40/60,back:'送她回政大，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
+    S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
+  /* 群組 @ 了你兩次「誰開車」（3/23、3/30），選完祐廷在群組回一句、有人回（AA_461 第 1 節；句子跟大一下的 spring_pick_msg 不一樣）；
+     4/1 以前沒回（'none'）＝4/2 21:00 柏翰一句（接得上 4/4 的海邊照片）。只給在群組裡、收到 3/30 那則的玩家 */
+  S.SPRING_PICK={noodle:[['player','我開。'],['zhe','司機有了！']],kexin:[['player','春假我有約了。'],['classmate_bohan','那我租車。']],dorm:[['player','這次我不去。'],['classmate_bohan','那我租車。']]};
+  S.springPick=function(G,k,o){ if(!grp(G)||typeof PHONE==='undefined'||!PHONE.sent(G,'y2s2_spring_grp')) return;
+    const L=!o.silent&&S.SPRING_PICK[k]; if(L) PHONE.at(G,G.day,G.hour+0.05,L.map(([from,text])=>from==='player'?{th:NG,from,who:null,text}:{th:NG,from,text}),'y2s2_spring_pick');
+    const d2=DK('2027-04-02'); if(k==='none'&&o.silent&&d2!=null) PHONE.at(G,d2,21,[{th:NG,from:'classmate_bohan',text:(G.name||'祐廷')+'沒回。我租車了。'}],'y2s2_spring_none'); };
   /* 麵店團那一趟（4/4）誰去（AA_375 第 5、14 項）：祐廷去＝認識的那幾個（事件照「認識沒」）；祐廷沒去、在群組裡（邀約那則傳了）＝麵店團六個人照樣去（S.springPhoto）；沒有邀約＝沒有這一趟 */
   S.SPRING_TEAM=['heroine_03','zhe','heroine_01','yu','classmate_bohan','classmate_xinci'];
   S.springRiders=G=>S.SPRING_TEAM.filter(id=>knows(id,G));   /* 祐廷去的那一趟：認識的那幾個（ev_spring_y2_noodle 的「只有認識的人在場」）*/
