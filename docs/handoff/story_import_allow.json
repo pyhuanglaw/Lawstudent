@@ -2992,6 +2992,15 @@
      "why": "3-1 節兩題答案以前"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md",
+   "sha": "b01e32018",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "TERM-READ-Y1S1-1025",
+   "kind": "text",
+   "note": "home3d.js 媽媽週四群組 GROUP_WK／grpPlan／grpPick＋晚餐旁白 GROUP_DINNER＋中秋、颱風假前一晚 FAM_DAYS；calendar.js 冬至 dz、CALENDAR.fest（母親節）；bbpack3d.js D5_LINES（D5_ASK_N）；story3d.js 家族群組兩處；family_xmas3d.js；sis_grad3d.js 句號；tests/aa458_y1s1_unit.js"
   }
  ]
 }
