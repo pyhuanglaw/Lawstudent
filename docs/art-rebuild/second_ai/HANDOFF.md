@@ -90,6 +90,13 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 05:xx 更新**：
+    - LAWWW-B 03:5x：② 已整合（`3ea2a78d5`），fps 重量派 BB；04:3x 知會 `us3d.js` 的 `usSeasonKey(g)`（patch 要對 `96efb47a2` 以後）。
+    - 已交 ③ US-COMMUNITY-EAST-PERF（自己排，03:5x 告知開工、04:5x 告知動 us3d.js 哪一段）：`test_shots/us_community_east_perf_1025/README.md`、`patches/us_cars_lod_1025.patch`（對 `bcb0dc771`）、`us_cars.glb`（＋json）、`us_cars.py`。
+      - 往東最貴的是停車場 28 台車；合併網格、車材質單面都不採用（理由在 README）；遠處 14 m 外換 `_lod1`（約 1/4 三角形），近處完整版不動。
+      - 往東 1.9 → 2.6、出生點 2.2 → 2.6；改前改後、切換點附近完整版／遠處版／自動並排都看不出差別。
+    - 測試樹 `$SP/dv8`＝開發 `bcb0dc771`＋這份 patch＋新的 `us_cars.glb`（還沒還原）。
+    - 下一項：等 LAWWW-B；巡查清單 D99 三條路線內沒有其他開著的 P1／P2。
   - **10-25 04:xx 更新**：
     - LAWWW-B 02:0x：窗景同步 v2＋沒有窗的室內已整合（`eaeefdc4b`）；派 ① US-AIRPORT-DUSK-1025 ② US-COMMUNITY-WEST-PERF-1025 ③ 之後照巡查清單自己排（D99 三條路線內）。
     - 已交 ①：`test_shots/us_airport_dusk_1025/README.md`、`patches/us_airport_dusk_1025.patch`（對 `b8a6934e7`；只動 `us3d.js` 的 `apOutside`＋兩支測試，不碰 engine3d.js）。新測試改前 FAIL 6、改後 ALL PASS；12 張截圖 errors 0。

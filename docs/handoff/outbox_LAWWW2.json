@@ -3107,6 +3107,24 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "沒動 us3d.js、engine3d.js"
+  },
+  {
+   "task": "US-COMMUNITY-EAST-PERF：美國社區往東（停車場、公寓）變快（LAWWW-B 02:0x 的 ③ 自己排；03:5x 告知開工、04:5x 告知動 us3d.js 262～264 行）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_cars_lod_1025.patch（對 bcb0dc771；src/us3d.js 放車那一段包 THREE.LOD＋const CAR_LOD_D=14、新 tests/us_cars_lod_unit.js）",
+    "assets/models/env/second_ai/us_cars.glb（＋.json；多五個 <款式>_lod1，完整版不動；0.87 → 1.18 MB）",
+    "tools/blender/env_second/us_cars.py（lod=1）、us_community.py／us_market_street.py（預覽不放 _lod1）",
+    "docs/art-rebuild/second_ai/test_shots/us_community_east_perf_1025（README、改前改後、切換點比較）"
+   ],
+   "state": "已交付；往東最貴的是停車場 28 台車（藏起來 1.9→3.3）。合併網格（draw call 498→138 但 fps 不變、全合往西變慢）、車材質單面（輪胎消失）不採用。遠處 14 m 外換 _lod1（約 1/4 三角形、長寬高差 ≤4 mm、材質一樣）。fps 往東 1.9→2.6、出生點 2.2→2.6、往西 3.9→4.1、靠近車 2.3→2.6。us_cars_lod_unit 改前 FAIL 8 → ALL PASS；us_* 15 支、nav_us、aa370/412/424/450～454、exch_min 等 ALL PASS（aa450～454 需要企劃分支 claude/cool-heisenberg-o8kuqx 的 commit 讀稿）",
+   "remaining": "超市街的停車也會換（同一段程式）但沒量沒拍；超市街會動的車（us_traffic3d.js）沒改；沒跑整套回歸、實機",
+   "next": "LAWWW-B 套 patch、換 us_cars.glb、跑 us_cars_lod_unit、us_market_street_unit、us_traffic_unit、nav_us_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "us3d.js 只動放車那一段；usSeasonKey(g) 那行沒碰"
   }
  ]
 }
