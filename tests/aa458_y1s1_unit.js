@@ -41,8 +41,8 @@ const KMAP={'第一週（那個週六是 1～7 號）':'first_sis','第一週（
 const T13={}; for(const r of rows(part('### 1-3','**爸爸寄東西**'))) if(KMAP[r[0]]) T13[KMAP[r[0]]]=[r[0]==='長輩圖（②④）'?null:r[1],r[2].split('＋'),r[3].split('＋')];
 const DMAP={'大一上':'dad_snack','大一下':'dad_tea','大二上':'dad_crab','大二下':'dad_snack2'};
 for(const r of rows(part('**爸爸寄東西**','### 1-4'))) if(DMAP[r[0]]) T13[DMAP[r[0]]]=[orig(r[1]),r[2].split('＋'),r[3].split('＋')];
-/* AA_459 第 1 節（企劃線 c0972cd32）：連假②換字「這次連假 回來住幾天」、期末多兩種（fin1／fin2，大一上第 16 週是冬至＝用不到）——對稿在 tests/aa459_y1s2_unit.js；這裡照 AA_459 改期待 */
-T13.lj1[0]='這次連假 回來住幾天'; const NEW459=['fin1','fin2'];
+/* AA_459 第 1 節（企劃線 c0972cd32）：連假②換字「這次連假 回來住幾天」、期末多一種（下學期 fin2；上學期 fin1 照 AA_459 第 8 節刪掉）——對稿在 tests/aa459_y1s2_unit.js；這裡照 AA_459 改期待 */
+T13.lj1[0]='這次連假 回來住幾天'; const NEW459=['fin2'];
 const T14=rows(part('### 1-4','- 舊開局')).filter(r=>/^\d{1,2}\/\d{1,2}$/.test(r[0])).map(r=>{ const [m,d]=r[0].split('/').map(Number); return {d:D('2025-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')),kind:r[1],t:r[2]==='放三天 回來住兩晚'?T13.lj1[0]:r[2]}; });
 const DIN_MAP={'中秋':['moon'],'冬至':['dz'],'端午':['dragon'],'母親節':['mom'],'爸爸寄東西：點心':['dad_snack','dad_snack2'],'爸爸寄東西：茶葉':['dad_tea'],'爸爸寄東西：大閘蟹':['dad_crab']};
 const T15={}; for(const r of rows(part('### 1-5','## 2.'))) for(const k of (DIN_MAP[r[0]]||[])) T15[k]=r[1];
@@ -58,7 +58,7 @@ await sec(0,()=>{
   check('0. 稿裡的表都讀得到（長輩圖 4、1-3 十五種＋爸爸四學期、1-4 十六週、1-5 七種、第 2 節五句、3-1～3-4、4-1 三則、4-2 兩則）',ELD.length===4&&Object.keys(T13).length===19&&T14.length===16&&T14.every(r=>r.d!=null&&wdOf(r.d)===4)&&Object.keys(T15).length===8&&D5.length===5&&D5[0]===OLD_D5&&Q31.length===1&&Q32.length===2&&Q33.length===1&&S34.length===2&&Q41.length===3&&Q42.length===2,
     J({ELD:ELD.length,T13:Object.keys(T13),T14:T14.length,T15:Object.keys(T15),D5:D5.length,Q:[Q31.length,Q32.length,Q33.length,S34.length,Q41.length,Q42.length]}));
   const W=HOME.GROUP_WK||{}, bad=Object.keys(T13).filter(k=>J(W[k])!==J(T13[k]));
-  check('0. HOME.GROUP_WK 照 1-3 的兩張表（媽媽那句、回「會回去」、回「這週不回」；「好＋（愛心貼圖）」＝兩則；長輩圖那句照 ELDER 輪；連假②、fin1／fin2 照 AA_459）',!bad.length&&Object.keys(W).filter(k=>!NEW459.includes(k)).length===Object.keys(T13).length,J(bad.map(k=>[k,W[k],T13[k]])));
+  check('0. HOME.GROUP_WK 照 1-3 的兩張表（媽媽那句、回「會回去」、回「這週不回」；「好＋（愛心貼圖）」＝兩則；長輩圖那句照 ELDER 輪；連假②、fin2 照 AA_459）',!bad.length&&Object.keys(W).filter(k=>!NEW459.includes(k)).length===Object.keys(T13).length,J(bad.map(k=>[k,W[k],T13[k]])));
   check('0. HOME.ELDER＝1-2 的四張長輩圖（照稿的順序）',J(HOME.ELDER)===J(ELD),J(HOME.ELDER));
   check('0. HOME.GROUP_DINNER＝1-5 的表（點心兩學期同一句；其他種類沒有）',J(Object.keys(HOME.GROUP_DINNER||{}).sort())===J(Object.keys(T15).sort())&&Object.keys(T15).every(k=>HOME.GROUP_DINNER[k]===T15[k]),J(HOME.GROUP_DINNER));
   check('0. BBPACK.D5_LINES＝第 2 節的五句（第 1 句＝原句）',J(BBPACK.D5_LINES)===J(D5),J(BBPACK.D5_LINES));

@@ -3,11 +3,11 @@
 //   2 沛珊重考消失期（交往中）每晚 23:00 以後一則：2026-12-18～2027-08-05 每晚一句；有日子的那天用那一句、週六用那個月的下一句、每月第一個週日「有想到你」、其他晚上短句四句輪（不跟前一晚同一句）；
 //     32 句每句一次、原本六句都還在；手機實際收到（tag ps_keep_<日>）；舊存檔（PS_KEEP_N 很大）照日子挑；子代理判斷的三處（7/10 考試那天不用週六那句、2 月「開學了吧」等開學、8 月那句放 7/31）
 //   3 阿凱的泡麵評鑑表（kai_sheet）照第幾次換四種；舊存檔照 dpN 接
-//   4 節日邀約：以安、沛珊照節日換整組（by）；沛珊回家照舊 homeBy＞homeLines；手機實際收到（前一天 21:00）；以安生日那則不提生日；
+//   4 節日邀約：以安照節日換整組（by，四個節日；生日那一列照第 9 節當作沒有）；沛珊在臺北那張（4-3）照第 9 節（企劃線 cb5caad65）當作沒有＝照原本（第一句換節日名）；沛珊回家照舊 homeBy＞homeLines；手機實際收到（前一天 21:00）；
 //     稿問「以安 2027 生日 herAsks 會不會發」：herAsks 只有情人節、白色情人節、七夕、聖誕（FEST.HER_K），生日不發（2027 中秋那年也不發）＝不用改中午版
 //   5 可昕的學期末邀約：地點前寫約會那天（今天／明天／禮拜幾；大二上 12/24 傳、12/26 約＝「禮拜六」）；大一下照舊「禮拜五」；排不到日子＝拿掉 {哪天}
 //   6 芷若光典影展兩句換字（date_wish.js，tools/date/import_wish.py 的 REPLACE）
-// 修改前（開發分支 a2a423fae）：0、2～6 每一節至少一項 FAIL（實測 22 項 FAIL、第 2、5 節中途丟例外）。用法：node tests/aa460_y2s1_unit.js
+// 修改前（開發分支 a2a423fae）：0、2～6 每一節至少一項 FAIL（實測 22 項 FAIL、第 2、5 節中途丟例外）。第 9 節（4-3 沛珊、4-2 以安生日當作沒有）：c7d701caf 上 FAIL。用法：node tests/aa460_y2s1_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -41,6 +41,9 @@ const AN_BY=tab4(part('### 4-2','### 4-3')), PS_BY=tab4(part('### 4-3','### 4-4'
 const TM={'大一下':'Y1S2','大二上':'Y2S1','大二下':'Y2S2','大三上':'Y3S1','大三下':'Y3S2','大四上':'Y4S1','大五上':'Y5S1'}, KXT={}; for(const r of rows(part('## 5.','## 6.'))) if(TM[r[0]]) KXT[TM[r[0]]]=[r[1],r[2]];
 const T6=rows(part('## 6.','## 7.')).filter(r=>r.length>=3&&r[0]!=='哪裡');
 const AN='heroine_01', PS='classmate_peishan', ZR='heroine_02';
+let doc9=''; try{ doc9=cp.execSync('git show cb5caad65:"docs/story_planning/AA_460_法律系大二上讀一遍_沛珊重考每晚一則_節日邀約_手機上限.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc9=''; }   /* 第 9 節：回 LAWWW-B 的施工問題（企劃線 cb5caad65）*/
+const P9=(()=>{ const i=doc9.indexOf('## 9.'); return i<0?'':doc9.slice(i); })();
+const AN_BY4=Object.fromEntries(Object.entries(AN_BY).filter(([k])=>k!=='bday'));   /* 第 9 節：4-2 生日那一列當作沒有，其他四列照表 */
 
 (async()=>{
 /* ---- 0 讀稿、資料照稿 ---- */
@@ -51,7 +54,8 @@ await sec(0,()=>{
     J({SHORT,SUN,ROWS:ROWS.length,EXAM,KAI:KAI.length,AN:Object.keys(AN_BY),PS:Object.keys(PS_BY),KXT:Object.keys(KXT),T6:T6.length}));
   check('0. STORY.PS_KEEP_ROWS＝2-3 的表（月、句子、日子，照稿的順序）',J((STORY.PS_KEEP_ROWS||[]).map(r=>[r[0],r[1],r[2]||null]))===J(ROWS),J((STORY.PS_KEEP_ROWS||[]).length));
   check('0. STORY.PS_KEEP_SHORT＝2-2 的四句短句、PS_KEEP_SUN＝「'+SUN+'」、PS_EXAM＝'+EXAM.join('、'),J(STORY.PS_KEEP_SHORT)===J(SHORT)&&STORY.PS_KEEP_SUN===SUN&&J(STORY.PS_EXAM)===J(EXAM));
-  check('0. fest_events：以安 ask.by＝4-2、沛珊 ask.by＝4-3（五個節日）',J((FEST_DATA.PEOPLE[AN].ask||{}).by)===J(AN_BY)&&J((FEST_DATA.PEOPLE[PS].ask||{}).by)===J(PS_BY),J([(FEST_DATA.PEOPLE[AN].ask||{}).by,(FEST_DATA.PEOPLE[PS].ask||{}).by]));
+  check('0. 第 9 節讀得到：4-3 沛珊在臺北「當作沒有」、4-2 以安「生日」那一列當作沒有、其他四列照表',/4-3 沛珊在臺北的節日邀約：當作沒有/.test(P9)&&/4-2 以安「生日」那一列也當作沒有/.test(P9)&&/其他四列照表/.test(P9),P9.slice(0,120));
+  check('0. fest_events：以安 ask.by＝4-2 扣掉生日那一列（四個節日）、沛珊沒有 ask.by（第 9 節）',J((FEST_DATA.PEOPLE[AN].ask||{}).by)===J(AN_BY4)&&Object.keys(AN_BY4).length===4&&(FEST_DATA.PEOPLE[PS].ask||{}).by===undefined,J([(FEST_DATA.PEOPLE[AN].ask||{}).by,(FEST_DATA.PEOPLE[PS].ask||{}).by]));
   const bad=Object.keys(KXT).filter(t=>{ const L=TERMEND_LINES.KX[t].invite, [now,to]=KXT[t]; return to.startsWith('照舊')?!L.includes(now):!(L.includes(to)&&!L.includes(now)); });
   check('0. termend_lines 可昕 KX[學期].invite＝第 5 節（大二上～大五上那一句加 {哪天}；大一下照舊）',!bad.length,J(bad.map(t=>[t,TERMEND_LINES.KX[t].invite])));
 });
@@ -109,9 +113,10 @@ const dating=(id,k)=>{ const G=fresh(k,21.05); const r=SOCIAL.rel(id); Object.as
 const dm=id=>(H.G.msgs||[]).filter(m=>m.th==='p:'+id&&m.from===id).map(m=>m.text);
 await sec(4,()=>{
   const K5=['vday','white','qixi','bday','xmas'];
-  check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「手帳上這一格」、七夕「農曆的日子」、聖誕「穿暖一點」）',K5.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K5.map(k=>FEST.herLines(AN,k,false))));
-  check('4-2. 以安生日那一組不提生日：「'+AN_BY.bday.join('」「')+'」',!/生日/.test(J(FEST.herLines(AN,'bday',false)))&&J(FEST.herLines(AN,'bday',false))===J(AN_BY.bday));
-  check('4-3. 沛珊在臺北（不是 home）照節日換整組（情人節原句；三月十四、七夕、生日、聖誕各自的第二句）',K5.every(k=>J(FEST.herLines(PS,k,false))===J(PS_BY[k])),J(K5.map(k=>FEST.herLines(PS,k,false))));
+  const K4=['vday','white','qixi','xmas'], AL=FEST_DATA.PEOPLE[AN].ask.lines, PL=FEST_DATA.PEOPLE[PS].ask.lines, old=(L,k)=>L.map((t,i)=>i===0&&k!=='vday'?t.replace('情人節',FEST.name(k)):t);
+  check('4-2. 以安 herLines 照節日換整組（情人節原句；白色情人節「手帳上這一格」、七夕「農曆的日子」、聖誕「穿暖一點」）',K4.every(k=>J(FEST.herLines(AN,k,false))===J(AN_BY[k])),J(K4.map(k=>FEST.herLines(AN,k,false))));
+  check('4-2. 以安生日那一列當作沒有（第 9 節）：沒有「'+AN_BY.bday.join('」「')+'」，照原本（第一句換節日名）',J(FEST.herLines(AN,'bday',false))===J(old(AL,'bday'))&&!AN_BY.bday.some(t=>FEST.herLines(AN,'bday',false).includes(t)),J(FEST.herLines(AN,'bday',false)));
+  check('4-3. 沛珊在臺北（不是 home）那張當作沒有（第 9 節）：照原本（第一句換節日名、第二句「'+PL[1]+'」），沒有 4-3 的第二句',K5.every(k=>J(FEST.herLines(PS,k,false))===J(old(PL,k)))&&!K5.some(k=>k!=='vday'&&FEST.herLines(PS,k,false).some(t=>PS_BY[k].includes(t))),J(K5.map(k=>FEST.herLines(PS,k,false))));
   const OLD3='明天你要下來嗎？……不用勉強。', hm=c=>K5.map(k=>FEST.herLines(PS,k,true,c));
   check('4-3. 沛珊回家（home）照舊：台中情人節、七夕 homeBy，三月十四、聖誕在台南 homeBy，其他＝homeLines「'+OLD3+'」（AA_457 3-1，不看 by）',J(hm('台南'))===J([[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.white['台南'][0]],[OLD3],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.xmas['台南'][0]]])&&J(hm('台中'))===J([[FEST_DATA.PEOPLE[PS].ask.homeBy.vday['台中'][0]],[OLD3],[FEST_DATA.PEOPLE[PS].ask.homeBy.qixi['台中'][0]],[OLD3],[OLD3]]),J([hm('台南'),hm('台中')]));
   /* 手機：交往中、前一天 21:00 */

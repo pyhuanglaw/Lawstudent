@@ -1,14 +1,14 @@
 // AA_459 法律系大一下讀一遍（企劃線 c0972cd32，AA-B 2026-10-25 10:5x；接 AA_458）——不需要瀏覽器。台詞逐字對 AA_459（從企劃線 git show 讀稿、解析表格與引文）。
 //   0 讀稿（1-1、1-2、1-3 的表、2-1～2-3、第 3、4 節的引文、第 5 節的表都讀得到）；HOME.GROUP_WK 的連假②、期中、期末上下學期照稿
 //   1 媽媽的週四群組：大一下逐週＝1-3 的表（新開局、舊開局都一樣；平常、長輩圖照「這學期」用到第幾次）；期中只用一次（4/16，4/23 是平常①）；期末下學期 6/11「考完東西先搬一些回來」、
-//     期末上學期（大二上 12/24，第 16 週沒被佔走）「期末考完就放寒假了 早點回來」；各自的回覆；春天不再說「天氣變涼了」；一字不差的只剩「這週回來吃飯嗎」「回來的話先講 我多煮」各兩次；
+//     期末上學期那句（fin1）照第 8 節（企劃線 cb5caad65）刪掉：大二上 12/24 第 16 週沒被佔走時照平常排；各自的回覆；春天不再說「天氣變涼了」；一字不差的只剩「這週回來吃飯嗎」「回來的話先講 我多煮」各兩次；
 //     舊存檔（G.home.grp 沒有學期）不在學期中間重來
 //   2 家族群組：2-1 咖哩「下週五」；2-2 沒去咖哩、說過要請的期末那三句換字（tag 照舊）；2-3 學姊上榜聚餐那則，收過咖哩邀約的 Kevin 多一句（沒收過的沒有）
 //   3 見習團落選：系統通知帶名字（sel.name）；阿哲私訊兩句（不在麵店團群組）、寒假的活動第二句照舊換；系辦／事務所的信（noGroup）照舊沒有阿哲
 //   4 唐睿的即興劇（SK07）和法律生活營籌備會撞期：那晚 19:00 已經有籌備會＝唐睿多一句、要回（「我去。」＝排出遊；「那天晚上有籌備會。」＝「好。品妤會錄。」、不排、那天晚上品妤傳影片）；
 //     沒撞期照舊直接排、不問；舊存檔（已經收過 sk07_call）不重發
 //   5 四處換字：麵店團春假照片「明天下午」、可昕生日回「謝謝。」、沛珊美術館邀約（date_wish.js，wish_bb.json 的換字由 tools/date/import_wish.py 做）、學姊畢業那天早上補句號
-// 修改前（開發分支 a2a423fae）：0～5 每一節至少一項 FAIL（實測 24 項 FAIL、第 4 節中途丟例外）。用法：node tests/aa459_y1s2_unit.js
+// 修改前（開發分支 a2a423fae）：0～5 每一節至少一項 FAIL（實測 24 項 FAIL、第 4 節中途丟例外）。第 8 節（fin1 刪掉）：c7d701caf 上 FAIL。用法：node tests/aa459_y1s2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -42,6 +42,8 @@ const Q21=quotes(part('### 2-1','### 2-2')).map(sp), P22=part('### 2-2','### 2-3
 const Q3=quotes(part('## 3.','## 4.')), Q3sys=Q3[0], Q3zhe=Q3.slice(1).map(sp), P4=part('## 4.','## 5.'), Q4=quotes(P4).map(sp);
 const O4=[(P4.match(/回「(我去。)」/)||[])[1],(P4.match(/回「(那天晚上有籌備會。)」/)||[])[1]], R4=(P4.match(/唐睿回「([^」]+)」/)||[])[1], V4=(P4.match(/沒到的那一版傳影片（「([^」]+)」）/)||[])[1];
 const T5=rows(part('## 5.','## 6.')).filter(r=>r.length>=3&&r[0]!=='哪裡');
+let doc8=''; try{ doc8=cp.execSync('git show cb5caad65:"docs/story_planning/AA_459_法律系大一下讀一遍_媽媽群組補兩條_家族群組_落選通知_撞期.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc8=''; }   /* 第 8 節：回 LAWWW-B 的施工問題（企劃線 cb5caad65）*/
+const P8=(()=>{ const i=doc8.indexOf('## 8.'); return i<0?'':doc8.slice(i); })();
 const WIN={sis:'學姊',kevin:'Kevin'}, WHO={'學姊':'heroine_05','Kevin':'kevin','阿哲':'zhe','唐睿':'econ_tangrui'};
 
 (async()=>{
@@ -53,7 +55,8 @@ await sec(0,()=>{
     J({LJ1,T12:Object.keys(T12),T13:T13.length,Q:[Q21.length,Q22.length,Q22old.length,Q23.length,Q3.length,Q4.length],O4,R4,V4,T5:T5.length}));
   const W=HOME.GROUP_WK||{};
   check('0. HOME.GROUP_WK：連假②「'+LJ1+'」（回「'+LJ1Y+'」／「'+LJ1N+'」）',J(W.lj1)===J([LJ1,[LJ1Y],[LJ1N]]),J(W.lj1));
-  check('0. HOME.GROUP_WK：期中、期末（上學期 fin1、下學期 fin2）照 1-2 的表（媽媽那句、回「會回去」、回「這週不回」）',['exam','fin1','fin2'].every(k=>J(W[k])===J(T12[k])),J(['exam','fin1','fin2'].map(k=>[k,W[k],T12[k]])));
+  check('0. HOME.GROUP_WK：期中、期末（下學期 fin2）照 1-2 的表（媽媽那句、回「會回去」、回「這週不回」）',['exam','fin2'].every(k=>J(W[k])===J(T12[k])),J(['exam','fin2'].map(k=>[k,W[k],T12[k]])));
+  check('0. 第 8 節：「期末（上學期）」那句（fin1「'+T12.fin1[0]+'」）刪掉——HOME.GROUP_WK 沒有 fin1、也沒有那句',/fin1）：刪掉/.test(P8)&&/下學期那句（「考完東西先搬一些回來」）照舊/.test(P8)&&!('fin1' in W)&&!Object.values(W).some(x=>x&&x[0]===T12.fin1[0]),J([P8.slice(0,80),Object.keys(W)]));
 });
 
 /* ---- 1 媽媽的週四群組 ---- */
@@ -84,9 +87,9 @@ await sec(1,()=>{
      這裡把大二上的 12/25 當成上課日（CALENDAR.holiday 暫時換掉），測第 16 週週四沒被佔走時的句子和回覆 */
   const f1=D('2026-12-24'), hol=CALENDAR.holiday, plain=()=>{ CALENDAR.holiday=d=>d===f1+1?null:hol.call(CALENDAR,d); };
   const allS1=CALENDAR.TERMS.filter(t=>/^Y[1-4]S1$/.test(t.id)).map(t=>{ fresh(D('2025-09-01'),8,{}); const P=HOME.grpPlan(H.G,t.id), d=Object.keys(P).map(Number).find(x=>(CALENDAR.termOf(x)||{}).exam==='final'); return [t.id,d!=null&&keyOf(d),d!=null&&P[d]]; });
-  check('1-2. 現在的日曆：上學期第 16 週的週四都被冬至、聖誕連假佔走（fin1 不會出現；子代理查的，回報給 AA）',allS1.length>=4&&allS1.every(r=>['dz','lj0','lj1','lj2'].includes(r[2])),J(allS1));
+  check('1-2. 現在的日曆：上學期第 16 週的週四都被冬至、聖誕連假佔走（子代理查的；AA_459 第 8 節據此刪掉 fin1）',allS1.length>=4&&allS1.every(r=>['dz','lj0','lj1','lj2'].includes(r[2])),J(allS1));
   let r1, r2; try{ plain(); fresh(D('2026-09-07'),8,{}); sim(D('2026-09-07'),f1-1); r1=sim(f1,f1,()=>0)[0]; fresh(D('2026-09-07'),8,{}); sim(D('2026-09-07'),f1-1); r2=sim(f1,f1,()=>1)[0]; } finally { CALENDAR.holiday=hol; }
-  check('1-2. 期末（上學期）：第 16 週週四沒被佔走（大二上 12/24、12/25 當成上課日）「'+T12.fin1[0]+'」，回「'+T12.fin1[1]+'」／「'+T12.fin1[2]+'」；12/17 冬至',r1.k==='fin1'&&r1.t===T12.fin1[0]&&J(r1.r)===J(T12.fin1[1])&&J(r2.r)===J(T12.fin1[2])&&CALENDAR.termOf(f1).exam==='final'&&(askOf(D('2026-12-17'))||{}).text===HOME.GROUP_WK.dz[0],J([r1,r2]));
+  check('1-2. 期末（上學期）那句刪掉（第 8 節）：第 16 週週四沒被佔走（大二上 12/24、12/25 當成上課日）也不說「'+T12.fin1[0]+'」，照平常排（平常①～④）；12/17 冬至',!!r1&&r1.k!=='fin1'&&r1.t!==T12.fin1[0]&&r2.t!==T12.fin1[0]&&['p1','p3','old'].includes(r1.k)&&CALENDAR.termOf(f1).exam==='final'&&(askOf(D('2026-12-17'))||{}).text===HOME.GROUP_WK.dz[0],J([r1,r2]));
   /* 舊存檔：G.home.grp 有次數、沒有學期（AA_458 的版本）→ 不在學期中間重來 */
   { const d=D('2026-04-23'); fresh(d,19,{}); H.G.home={at:false,used:{},ate:{},grp:{p:1,e:1}}; at(d,20.05); hr(); const m=askOf(d);
     check('1. 舊存檔（G.home.grp 沒有記學期）：接著原本的次數（第 2 次平常＝長輩圖第 2 張「'+HOME.ELDER[1]+'」），之後記學期',!!m&&m.text===HOME.ELDER[1]&&HOME.rec(H.G).grp.t==='Y1S2'&&HOME.rec(H.G).grp.p===2,J([m&&m.text,HOME.rec(H.G).grp])); }

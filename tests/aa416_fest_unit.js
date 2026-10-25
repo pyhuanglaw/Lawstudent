@@ -257,7 +257,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('8. 她約、她在台中（2028 情人節）：「明天情人節。……你要下來台中嗎？不用勉強。」（AA_457 3-1 節①換字；原本「明天你要下來嗎？……不用勉強。」）',J(dms(PS))===J(['明天情人節。……你要下來台中嗎？不用勉強。'])&&!!m,J(dms(PS)));
     PHONE.answer(H.G,'fest_ask_classmate_peishan_vday_2028',0); rules(); const q=OUT.get(H.G,'fest_classmate_peishan_vday_2028');
     check('8. 「好。」＝開車去台中（一整天）',!!q&&q.fest.day&&q.place==='台中',J(q));
-    setup('2026-03-13',21.05,{lv:{[PS]:'dt'}}); const m2=x.herLines(PS,'xmas'); check('8. 她約照節日換（AA_460 4-3 整組）：聖誕「明天聖誕節！」「晚上六點半，溫州街口。會冷，你穿厚一點！」',J(m2)===J(['明天聖誕節！','晚上六點半，溫州街口。會冷，你穿厚一點！'])); }
+    setup('2026-03-13',21.05,{lv:{[PS]:'dt'}}); const m2=x.herLines(PS,'xmas'); check('8. 她約的第一句照節日換：「明天是聖誕節！！」「晚上六點半，溫州街口，可以嗎？」（AA_460 4-3 的臺北版照第 9 節當作沒有）',J(m2)===J(['明天是聖誕節！！','晚上六點半，溫州街口，可以嗎？'])); }
   { setup('2026-08-19',10,{lv:{[PS]:'dt'}}); const a=await play({id:PS,k:'qixi',y:2026,mode:'meet'}); setup('2028-03-15',10,{lv:{[PS]:6},flags:{PS_RECONNECT:true}}); H.G.money=200; const b=await play({id:PS,k:'bday',y:2028,mode:'meet'},[3,2]);
     check('8. 七夕交往中「我查到了。……不告訴你。明年再問我。」；生日第 6 階＋禮物（錢不夠的那一樣不能選：「錢不夠。」）',J(a.L)===J(['我查到了。……不告訴你。明年再問我。'])&&J(b.L)===J(['你怎麼知道？……我只在讀書會說過一次。','我們家的生日蛋糕是蛋餅疊起來的，三層。我爸的發明。','錢不夠。','我的問題都是用筆想的。……這支我會寫很多問題。'])&&H.G.money===0,J({a:a.L,b:b.L,m:H.G.money})); }
   });
