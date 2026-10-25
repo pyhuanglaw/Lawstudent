@@ -31655,6 +31655,35 @@
     "ack": "ACK"
    },
    "notes": "LAWWW-B 10-25 00:1x 合：只換 GLB＋.json、gym_b1.py、gym_tex.py（開發那份是 10-16 舊版、新的包含它）、textures/gen/b1_* 9 張、tests/gym_b1_fitness_unit.js；版面 v5、導航、程式不動；gym_*、ground_zfight、nav_buildings 全過。READY_FOR_ART_REVIEW。"
+  },
+  {
+   "id": "SIGN-AUDIT-1025",
+   "title": "有字的牌子掃一遍（128 個 GLB）：機場出境換匯看板、美國社區公車站牌字左右相反；3F 主球場舞台台面深色木板（D112 漏掉）→ 紅地毯＋深紅裙板",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "next": "BB 瀏覽器：開學典禮／舞台開著時 3F 主球場舞台是紅地毯、機場出境換匯看板、美國社區公車站牌字是正的；記錄未修：118 巷收銀機店員那面螢幕被機身包住",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "大一開學典禮（3F 舞台）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-25 00:35 交（db5c09e23；README sign_audit_1025）；D112（使用者 10-23 不要深色木地板）",
+   "authorized": "D108、D111、D112",
+   "xai": {
+    "spec": "README sign_audit_1025",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "sign_audit_1025_unit 修改前 FAIL 5／修改後 PASS；遊戲內 7 個鏡頭",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "LAWWW-B 10-25 00:4x 合：airport_dep.glb、us_community.glb（只差 UV）、gym_arena.glb＋.json（多一個材質 arena_stage_skirt_red）、airport_t2.py／gym_arena.py（開發那份是舊版）、us_community.py、新 check_signs.py、tests/sign_audit_1025_unit.js；gym_*、airport_cam、us_*、ground_zfight 全過。READY_FOR_ART_REVIEW。"
   }
  ]
 }

@@ -592,7 +592,8 @@ uvb = obs.bm.loops.layers.uv.verify()
 for sx_ in (1, -1):                                                                                          # 兩面（朝路、朝社區）
     xx = bx_ + sx_ * 0.03; pts = [(xx, 2.15, bz_ - sx_ * 0.225), (xx, 2.15, bz_ + sx_ * 0.225), (xx, 2.75, bz_ + sx_ * 0.225), (xx, 2.75, bz_ - sx_ * 0.225)]
     f_ = obs.bm.faces.new([obs.bm.verts.new(g2b(*p)) for p in pts])
-    for lp, uv in zip(f_.loops, sg_uv_('bus')): lp[uvb].uv = uv
+    u_ = sg_uv_('bus'); u_ = (u_[1], u_[0], u_[3], u_[2])   # 2026-10-25 招牌稽核：原本兩面的「BUS」「ROUTE 4」都左右相反（站在那一面看，u 往左手邊變大）——UV 左右對調，幾何不動
+    for lp, uv in zip(f_.loops, u_): lp[uvb].uv = uv
 obs.finish(root, uv=False); obm.finish(root, uv=False)
 ovc = CMesh('usc_out_vc', M['vc'])
 for k in range(4): ovc.crbox(SN1 - 0.65 + k * 0.13, SN1 - 0.55 + k * 0.13, 0.53, 0.56, bz_ - 2.9, bz_ - 1.1, '#8a6040', r=0.01, seg=1)   # 長椅（面向路）
