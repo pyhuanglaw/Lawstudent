@@ -2976,6 +2976,15 @@
    "task": "VAC-READ2-1025",
    "kind": "text",
    "note": "story3d.js 跨年宿委會四年；noodle_closed3d.js L.a／L.d 照年份；vac3d.js C01F_REPLY（Y2～Y4）、nye_y2_zhe；holff3d.js 大三大四回高雄；termend_lines.js invByTerm＋芷若 over 拆三筆、termend3d.js S.gf；cracktalk zq2.msgs 四組（照收到第幾個月輪）；tests/aa456_vac_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_457_寒暑假重複第二輪_芷若英國每天一則_語彤裂縫_沛珊回家的邀約.md",
+   "sha": "3be31d3c8",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109）",
+   "task": "VAC-READ3-1025",
+   "kind": "text",
+   "note": "msg3d.js 芷若英國每週一則（S.UK_WEEK 第一次 12 句、第二次 30 句；同一次每句一次；用完退回原本十句沒發過的；ukWk 紀錄＋舊存檔補算）；cracktalk yt2 A／B 四組（第 5 次起從 2 再輪）；fest_events 沛珊 homeBy＋homeCity 台南、fest3d herLines；tests/aa457_vac_unit.js"
   }
  ]
 }
