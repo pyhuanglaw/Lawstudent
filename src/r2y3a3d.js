@@ -242,7 +242,8 @@ const R2Y3A=(function(){
   /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 麵店團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
     const th=!knows('heroine_01',G)?null:grp(G)?NG:(met(G,'heroine_01','FRIEND')?'p:heroine_01':null); if(!th) return;
-    PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我自己去行政法院旁聽了。'},{th,from:'heroine_01',text:'是一個人告區公所。'}],'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
+    /* AA_462 第 1 節：「我自己去」緊接在「我跟以安去。」後面像放你鴿子——換字；約了她週五一起去地院的（CRIMPRO_WITH 'an'）多一句 */
+    PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我先去了一趟行政法院。自己想看的。'},{th,from:'heroine_01',text:'是一個人告區公所。'}].concat(F.CRIMPRO_WITH==='an'?[{th,from:'heroine_01',text:'禮拜五的地院照舊。'}]:[]),'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
 
   /* ===================== 2-Y3-14 翰 4：柏翰接讀書會的版本＝11/18（四）21:40 私訊 ===================== */
   S.bohanPhone=function(G){ const F=G.flags, d=DK('2027-11-18'); if(d==null||G.day<d||G.day>d+1||now(G)<T(d,21+40/60)||sent(G,'y3_bohan_w11')) return;
@@ -262,7 +263,7 @@ const R2Y3A=(function(){
       /* 第一則回覆固定（大三的祐廷一定會說到這裡），接著選「向誰」，然後問「你真正想要的是什麼？」（AA_117；「四個問題」的筆記畫面還沒有：先用訊息的回覆）*/
       const tail=[Me('你真正想要的是什麼？'),Zhr('……我想要我的車修好 然後不要再想這件事'),Me('那就照修車的估價談，談好寫清楚。'),Zhr('好 我先拍照')];
       const opt=(t,k)=>({t,post:false,say:[Me('先不要簽。拍照、報警做紀錄。'),Me(t)].concat(tail),mem:[{npc:'zhe',tag:'ZHE_SCOOTER',note:''}],set:{ZHE_C4:k}});
-      const O=[opt('對方。後面怎麼賠，我們去法服問。','fafu')]; if(F.U_TORT) O.push(opt('如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。','tort'));
+      const O=[opt('找對方談。後面怎麼賠，我們去法服問。','fafu')];   /* AA_462 第 2 節：原本開頭只有「對方。」接不上前一句；U_TORT 那一句不動 */ if(F.U_TORT) O.push(opt('如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。','tort'));
       PHONE.at(G,d,atH(G,d,21),[Zh('我剛在路口被一台車擦到'),Zh('我沒事啦 人好好的 車殼裂了'),Zh('對方說他趕時間 要給我一千塊 叫我簽一張紙'),Object.assign(Zh('要簽嗎'),{ask:{id:'y3_c4',until:T(d+1,18),opts:O}})],'y3_c4'); }
     const m=PHONE.byAsk(G,'y3_c4'); if(m&&m.ans==null&&n>=T(d+1,18)&&!sent(G,'y3_c4_noreply')) PHONE.at(G,d+1,18,[Zh('沒事啦 我沒簽 明天去修車')],'y3_c4_noreply'); };   /* 沒回：沒有記憶 */
 
@@ -295,7 +296,8 @@ const R2Y3A=(function(){
 
   /* ===================== 2-Y3-21 可昕 聖誕 ===================== */
   S.xmasPhone=function(G){ const F=G.flags, d24=DK('2027-12-24'); if(d24==null||G.day<d24||G.day>d24+1||!dating(G,'kexin')) return; const d25=d24+1, n=now(G);
-    if(n>=T(d24,21)&&n<T(d25,21)&&!sent(G,'y3_kx_xmas')) PHONE.at(G,d24,atH(G,d24,21),[K('明天晚上九點，視訊。'),Object.assign(K('我還在趕報告。你陪我就好。'),{ask:{id:'y3_kx_xmas',until:T(d25,21),opts:[{t:'好。',say:[Kr('嗯。')],set:{KX_XMAS3_GO:true}},{t:'明天不行。',say:[Kr('……好。')],set:{KX_XMAS3_GO:false}}]}})],'y3_kx_xmas');
+    const teSame=()=>{ const q=outGet(G,'te_kx_Y3S1'); return !!q&&q.day===d25&&q.state!=='cancelled'&&q.state!=='missed'; };   /* AA_462 第 5 節：學期末的飯（te_kx_Y3S1）也排在 12/25＝先講吃完飯 */
+    if(n>=T(d24,21)&&n<T(d25,21)&&!sent(G,'y3_kx_xmas')) PHONE.at(G,d24,atH(G,d24,21),[K(teSame()?'明天吃完飯，九點再視訊。':'明天晚上九點，視訊。'),Object.assign(K('我還在趕報告。你陪我就好。'),{ask:{id:'y3_kx_xmas',until:T(d25,21),opts:[{t:'好。',say:[Kr('嗯。')],set:{KX_XMAS3_GO:true}},{t:'明天不行。',say:[Kr('……好。')],set:{KX_XMAS3_GO:false}}]}})],'y3_kx_xmas');
     if(F.KX_XMAS3_GO===true&&!outGet(G,'y3_kx_xmas')&&n<T(d25,21+1/6)) plan(G,VIDEO('y3_kx_xmas','ev_kexin_xmas_y3',d25,21,'可昕的視訊：聖誕',{late:1/6}));   /* 10 分鐘沒接＝沒接 */
     const m=PHONE.byAsk(G,'y3_kx_xmas'); if((F.KX_XMAS3_GO===false||(m&&m.ans==null&&n>=T(d25,21)))&&n>=T(d25,22.5)&&!(F.KX_XMAS&&F.KX_XMAS[3])) S.xmasMissed(G); };   /* 不視訊的（「明天不行」、不回）：報告寫完那一則（要問 AA）*/
   S.xmasMissed=function(G){ const d25=DK('2027-12-25'); kxYearSet(G,'KX_XMAS',3,'missed'); PHONE.at(G,d25,22.5,[K('報告我寫完了。聖誕快樂。禮物等考完。')],'y3_kx_xmas_missed'); };

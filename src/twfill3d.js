@@ -58,8 +58,8 @@ const TWFILL=(function(){
     /* 3-2 第 14 週 5/27（六）22:00 阿凱：兩個回覆（不影響 6/11 暑住、7/15 抽籤）*/
     {tag:'tw_y3_kai_dorm',day:'2028-05-27',h:22,who:'kai',ms:[L.kaiDorm],if:G=>tw(G)&&knows('kai'),
       ask:{until:['2028-05-29',22],opts:(L.kaiDormOpts||[]).map(([t,r])=>({t,say:[{from:'kai',text:r}]}))}},
-    /* 3-2 第 14 週 5/28（日）端午 12:00 媽媽 */
-    {tag:'tw_y3_zongzi',day:'2028-05-28',h:12,who:'mom',name:'媽媽',ms:[L.zongzi],if:tw},
+    /* 3-2 第 14 週 5/28（日）端午 12:00 媽媽；5/25 週四家人群組「端午回來嗎 粽子買好了」回了「會回去」＝那個週末回家，不傳（AA_463 第 3 節；S.zongziHome）*/
+    {tag:'tw_y3_zongzi',day:'2028-05-28',h:12,who:'mom',name:'媽媽',ms:[L.zongzi],if:G=>tw(G)&&!S.zongziHome(G)},
     /* 4-1 第 11 週 11/17（五）21:00 柏翰（和他有點熟以上；AA_342 沒寫門檻，照 2-2 那則柏翰私訊）*/
     {tag:'tw_y4_bohan_1117',day:'2028-11-17',h:21,who:'classmate_bohan',ms:L.bohan1117,if:G=>tw(G)&&knows('classmate_bohan')&&atLeast('classmate_bohan','FAMILIAR'),contact:true},
     /* 4-2 第 14 週 5/25（五）22:00 阿凱 */
@@ -70,6 +70,16 @@ const TWFILL=(function(){
       const M=m.ms.map(t=>Object.assign({th:'p:'+m.who,from:m.who,text:t},m.name?{name:m.name}:{}));
       if(m.ask){ const u=D(m.ask.until[0]); M[M.length-1].ask={id:m.tag,until:u!=null?T(u,m.ask.until[1]):null,opts:m.ask.opts.map(o=>Object.assign({},o))}; }
       PHONE.at(G,d,m.h,M,m.tag); } };
+
+  /* AA_463 第 2、3 節（home3d.js S.grpPick 問這裡）：
+     sisMom：媽媽週四的母親節那一則（day＝那個週四），那一年姊姊 5/10 已經在家人群組問過（tw_y3_mom_day_ask）＝回了「回。」（Y3_MOM_DAY go／went）'yes'、「這週不行。」或還沒回 'no'；不是那一週、沒有那一則＝null
+     zongziShip：那個週四之後的端午，媽媽會把粽子寄去宿舍（tw_y3_zongzi 那一年、人在臺灣）
+     zongziHome：那個週四（home_ask_<日>，種類 dragon）回了「會回去」＝不寄 */
+  S.MOM_DAY='2028-05-14'; S.ZONGZI_DAY='2028-05-28';
+  S.sisMom=function(G,day){ const dm=D(S.MOM_DAY); if(dm==null||day==null||dm-day<1||dm-day>7||typeof PHONE==='undefined'||!PHONE.sent(G,'tw_y3_mom_day_ask')) return null;
+    const f=G.flags&&G.flags.Y3_MOM_DAY; return f==='go'||f==='went'?'yes':'no'; };
+  S.zongziShip=function(G,day){ const dz=D(S.ZONGZI_DAY); return dz!=null&&day!=null&&dz-day>=1&&dz-day<=7&&tw(G); };
+  S.zongziHome=function(G){ const dz=D(S.ZONGZI_DAY); if(dz==null) return false; return (G.msgs||[]).some(m=>!!m&&!!m.ask&&m.ask.k==='dragon'&&/^home_ask_/.test(m.ask.id||'')&&m.day<dz&&dz-m.day<=7&&m.ans===0); };
 
   /* ===================== 出遊 ===================== */
   const plan=(G,q)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,q.id)) return; OUT.plan(G,q); };

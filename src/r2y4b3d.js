@@ -133,7 +133,15 @@ const R2Y4B=(function(){
     if(k==='noodle') plan(G,{id:'y4_spring',ev:'ev_spring_y4',day:D.d0,h:8,late:0.5,place:'台大校門口',title:'春假：開車載麵店團去宜蘭',travel:'走到校門口約 10 分鐘',travelH:1/6,back:'回到臺北。'});
     if(k==='kexin') plan(G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D.d0,h:7+40/60,place:'政大校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到政大接她',travelH:40/60,back:'送她回政大，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm'||k==='none')){ if(!o.silent) PHONE.at(G,G.day,G.hour+0.1,[P_('kexin','好。那畢業旅行再說。')],'y4_spring_kx_reply'); PHONE.at(G,D.d0,21.5,[P_('kexin','📷（讀書會的長桌。予樂比 YA，可昕低頭在寫講義，沒有看鏡頭。）')],'y4_spring_kx_photo'); }   /* BB_99 9-15；照片的說明照 AA_345 G5 */
+    S.springPick(G,k,o);
     if(k!=='noodle'&&g) S.springPhoto(G); };
+  /* 選完：祐廷在群組回以安一句、以安回（AA_465 第 3 節；句子和大一、大二都不一樣；沒選＝4/3 的月台照片已經說明了，不補）；
+     選可昕：私訊回她（AA_461 第 6 節④：她問的是 y4_spring_kx「最後一個春假。……」；群組那一句一起傳）。同 group3d.js 的 S.springPick */
+  S.SPRING_PICK={noodle:[['player','我開車。兩天一夜。'],['heroine_01','好。車上的位子我排。']],kexin:[['player','最後一個春假，我有約了。'],['heroine_01','好。照片會傳。']],dorm:[['player','這次我留在台北。'],['heroine_01','好。照片會傳。']]};
+  S.SPRING_PICK_KX=[['player','好。我開車。'],['kexin','嗯。到時候見。']];
+  S.springPick=function(G,k,o){ if(typeof PHONE==='undefined'||o.silent) return; const msg=(th,[from,text])=>from==='player'?{th,from,who:null,text}:{th,from,text};
+    if(k==='kexin'&&PHONE.sent(G,'y4_spring_kx')) PHONE.at(G,G.day,G.hour+0.05,S.SPRING_PICK_KX.map(x=>msg('p:kexin',x)),'y4_spring_kx_pick');
+    const L=S.SPRING_PICK[k]; if(L&&grp(G)&&PHONE.sent(G,'y4_spring_grp')) PHONE.at(G,G.day,G.hour+0.05,L.map(x=>msg(NG,x)),'y4_spring_pick'); };
   S.springPhoto=G=>{ const D=SPD(); if(D.d0!=null&&grp(G)) PHONE.at(G,D.d0,21.5,[GR('heroine_01','📷（火車站的月台。他們改搭火車。）')],'y4_spring_photo'); };   /* 祐廷沒去：他們改搭火車 */
   const springPhone=function(G,GM){ const F=G.flags, D=SPD(); if(D.inv==null||G.day<D.inv||G.day>D.d1+1) return;
     if(grp(G)&&G.day<=D.dl&&at(G,SP.inv,20.5)) PHONE.at(G,D.inv,atH(G,D.inv,20.5),[GR('heroine_01','春假要不要出去 兩天一夜'),GR('heroine_01','行程我排好了 4/1 前跟我說')],'y4_spring_grp');

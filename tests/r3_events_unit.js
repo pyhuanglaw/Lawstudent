@@ -64,8 +64,8 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
   check('1. 11/11 22:07 兩則（原本一句拆成兩則）', JSON.stringify(txt('p:heroine_02'))===JSON.stringify(['heroine_02:我幫一個出版社翻了一篇短文，對方說「先試譯，不付錢」。','heroine_02:可是他們拿去用了。……這樣正常嗎。'])&&Math.abs(at('p:heroine_02','可是他們拿去用了。……這樣正常嗎。')-(f11*24+22+7/60))<0.26, JSON.stringify(txt('p:heroine_02')));
   check('1. F1 有 U_CONTRACT：兩個選項', JSON.stringify(askOpts('r3_zr_fee'))===JSON.stringify(['妳先把你們的對話拍給我看。','先看你們說好了什麼。']));
   ans('r3_zr_fee',1);
-  check('1. F1 選第二個：祐廷接著傳「說好試譯不付錢，是試譯。……」、截圖兩張、四件事、「……原來我可以這樣講。」、問法服、「好。我先寫信，不行再去問。」；ZR_FEE contract、ZR_FEE_LETTER',
-    JSON.stringify(txt('p:heroine_02').slice(2))===JSON.stringify(['player:先看你們說好了什麼。','player:說好試譯不付錢，是試譯。拿去用，就不是試譯了。','heroine_02:📷（對話的截圖）','heroine_02:📷（對話的截圖）',':（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）','heroine_02:……原來我可以這樣講。','player:翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。','heroine_02:好。我先寫信，不行再去問。'])&&G.flags.ZR_FEE==='contract'&&SOCIAL.has('heroine_02','ZR_FEE_LETTER'), JSON.stringify(txt('p:heroine_02').slice(2)));
+  check('1. F1 選第二個：祐廷接著傳「說好試譯不付錢，是試譯。……」、截圖兩張（第二張照 AA_461 第 3 節換字）、四件事、「……原來我可以這樣講。」、問法服、「好。我先寫信，不行再去問。」；ZR_FEE contract、ZR_FEE_LETTER',
+    JSON.stringify(txt('p:heroine_02').slice(2))===JSON.stringify(['player:先看你們說好了什麼。','player:說好試譯不付錢，是試譯。拿去用，就不是試譯了。','heroine_02:📷（對話的截圖）','heroine_02:📷（對話的截圖，往上滑的那一段）',':（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）','heroine_02:……原來我可以這樣講。','player:翻譯算不算妳的作品、能不能被拿去用，我還沒學到。這部分我們問法服。','heroine_02:好。我先寫信，不行再去問。'])&&G.flags.ZR_FEE==='contract'&&SOCIAL.has('heroine_02','ZR_FEE_LETTER'), JSON.stringify(txt('p:heroine_02').slice(2)));
   run(f25,22,22.5);
   check('1. 11/25 22:07「出版社回信了。道歉，稿費也付了。」「我沒想到「問清楚」就有用。」＋恭喜／時間表做得好', JSON.stringify(txt('p:heroine_02').slice(-2))===JSON.stringify(['heroine_02:出版社回信了。道歉，稿費也付了。','heroine_02:我沒想到「問清楚」就有用。'])&&JSON.stringify(askOpts('r3_zr_fee2'))===JSON.stringify(['恭喜。','時間表做得好。']));
   ans('r3_zr_fee2',1); check('1. 「時間表做得好。」→「外文系的仔細。……好啦，也是被你問出來的。」', txt('p:heroine_02').slice(-1)[0]==='heroine_02:外文系的仔細。……好啦，也是被你問出來的。');

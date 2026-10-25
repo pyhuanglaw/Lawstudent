@@ -524,6 +524,8 @@ const HOME=(function(){
     p1:['這週回來吃飯嗎',['好','（愛心貼圖）'],['好 那下週']], p3:['回來的話先講 我多煮',['好 我去買菜'],['好 那下週']], old:[null,['好','（一隻貓比讚的貼圖）'],['好 那下週']] };   /* old＝長輩圖（平常②④，句子照 S.ELDER 輪）*/
   /* AA_459 第 1 節（企劃線 c0972cd32）：連假②「放三天 回來住兩晚」→「這次連假 回來住幾天」（大一下春假放四天）；期中（第 8～9 週）只用一次＝第一個沒被佔走的週四；期末分上下學期兩句（fin1／fin2，第 16 週的週四；被節日、連假佔走就沒有）。
      AA_459 第 8 節（企劃線 cb5caad65）：上學期那句（fin1「期末考完就放寒假了 早點回來」）刪掉——上學期第 16 週的週四一定被冬至或聖誕連假佔走；下學期 fin2 照舊。上學期第 16 週沒被佔走的話照下面排（天氣、爸爸寄東西、平常）*/
+  S.MOM_SIS=['你姊說你禮拜天要回來 不用買東西',['好','（愛心貼圖）'],['好 那打電話就好']];   /* AA_463 第 2 節：那一年姊姊已經在家人群組問過母親節、你回了「回。」（twfill3d.js TWFILL.sisMom）＝媽媽照姊姊的回答；種類照舊 mom */
+  S.DRAGON_SHIP_NO=['好 那我寄過去'];   /* AA_463 第 3 節：那一年端午媽媽會把粽子寄去宿舍（twfill3d.js TWFILL.zongziShip）＝回「這週不回」她回這句（其他年份照舊「好 粽子冰起來」）*/
   S.ELDER=['（長輩圖：週末愉快 天天開心）','（長輩圖：一朵蓮花 平安就是福）','（長輩圖：一壺茶 好友常聯絡 健康又快樂）','（長輩圖：夕陽 晚安 好夢）'];   /* 四張輪流（一學期最多四張長輩圖時，同一張同一學期最多一次）*/
   /* AA_465 第 1 節（企劃線 ee0d6b70d）：畢業典禮那一週的週四（2029-06-02 週六典禮＝5/31）：排在「第一週」之後、節日之前；媽媽兩則，不問、不用回，爸爸不傳「？」。
      參加典禮的玩家＝法律系（story3d.js 的 gradMorningDue 那一組；交換延畢的也去）。住家裡版（S.LIVE_GROUP）那兩則不發，改成姊姊一句（第 7 節，S.gradLive）。典禮前一天 21:00 爸爸的照片在 S.famDays */
@@ -551,9 +553,14 @@ const HOME=(function(){
   /* 這個週四挑哪一句：{k, t, yes, no, p：算一次平常, e：算一張長輩圖}；不在學期、不是排到的週四＝null */
   S.grpPick=function(G,day){ const Tm=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!Tm) return null; let k=S.grpPlan(G,Tm.id)[day]; if(!k) return null;
     if(k==='grad') return {k,t:S.GROUP_GRAD[0],lines:S.GROUP_GRAD.slice(),noAsk:true,p:false,e:false};   /* AA_465 第 1 節：不問、不用回（不算平常、長輩圖的次數）*/
+    const TW=typeof TWFILL!=='undefined'?TWFILL:null, sis=k==='mom'&&TW&&TW.sisMom?TW.sisMom(G,day):null;   /* AA_463 第 2 節：那一年姊姊問過母親節：回了「回。」＝'yes'、「這週不行。」或還沒回＝'no'（照平常輪，不說母親節）；沒有那一則＝null（照 AA_458）*/
+    if(sis==='no') k='p';
     const H=S.rec(G), C=H.grp&&typeof H.grp==='object'?H.grp:(H.grp={p:0,e:0}), p=k==='p'; if(C.t!==Tm.id){ if(C.t!=null){ C.p=0; C.e=0; } C.t=Tm.id; }   /* 平常、長輩圖照「這學期」用到第幾次（AA_459 1-3：大一下 3/5 從平常①、第一張長輩圖開始；G.home.grp.t＝哪一學期，舊存檔沒有＝照原本的次數接下去，不在學期中間重來）*/
     if(p){ const j=(C.p|0)%4; k=j===0?'p1':j===2?'p3':'old'; if(k!=='old'&&S.livesHome(G)&&S.HOME_SKIP.group.includes(S.GROUP_WK[k][0])) k='old'; }   /* 住在家裡不問「這週回來吃飯嗎」「回來的話先講」（AA_298 第 4 節；HOME.LIVE_GROUP 沒有登記的時候）*/
-    const W=S.GROUP_WK[k]; if(!W) return null; return {k,t:k==='old'?S.ELDER[(C.e|0)%S.ELDER.length]:W[0],yes:W[1],no:W[2],p,e:k==='old'}; };
+    let W=S.GROUP_WK[k]; if(!W) return null;
+    if(sis==='yes') W=S.MOM_SIS;
+    if(k==='dragon'&&TW&&TW.zongziShip&&TW.zongziShip(G,day)) W=[W[0],W[1],S.DRAGON_SHIP_NO];   /* AA_463 第 3 節 */
+    return {k,t:k==='old'?S.ELDER[(C.e|0)%S.ELDER.length]:W[0],yes:W[1],no:W[2],p,e:k==='old'}; };
   /* 1-5：那一週回了「會回去」、週末真的回家吃晚餐＝「（晚餐。媽媽煮了一桌。）」後面加一句；其他種類不加 */
   S.GROUP_DINNER={moon:'（桌上有一盒月餅，已經切開一個。）',dz:'（吃完飯，媽媽端出一碗湯圓。芝麻的。）',dragon:'（桌上一串粽子。）',mom:'（你說要洗碗，媽媽說不用。最後還是你洗的。）',
     dad_snack:'（桌上一盒上海的點心。媽媽說是你爸寄的。）',dad_snack2:'（桌上一盒上海的點心。媽媽說是你爸寄的。）',dad_tea:'（玄關放著一罐茶葉，上面貼著你的名字。）',dad_crab:'（桌上一盤大閘蟹。媽媽說是你爸挑的。）'};
