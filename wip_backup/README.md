@@ -11,6 +11,7 @@
 | `subagents_1022.bundle` | `y1b`（b177b020：AA_372 §6／BB_105、106／AA_373 §6，5 個 commit）、`aa374`（bdb2100d：AA_369 §9／AA_374／AA_375，最後一個是 WIP）、`y3`（89d62218：AA_376／AA_377／畢業後，WIP）、`date2`（eedb94ca：校外約會四個 bug＋AA_359 第 5 節，最後一個是 WIP） | 見左 | 2026-10-22 01:1x 工作階段重新啟動，帳號 A LAWWW 的四個子代理被停掉（系統不讓自動接續）；前置 commit 都在 origin 的開發分支上（e11007d4 以前） | WORK_IN_PROGRESS：沒有跑完測試；LAWWW 接著做、跑完測試再合併 |
 | `aa459_460_1025.bundle` | `aa459-460-y1s2-y2s1`（c7d701caf：AA_459 大一下讀後＋AA_460 大二上讀後，1 個 commit） | c7d701caf | 2026-10-25 12:0x LAWWW-B 隔離 worktree 子代理做完（627 支 Node 0 失敗）；前置 a2a423fae 在 origin 的 claude/modest-rubin-2lyp7g；v9.10.10 發布凍結期間不進開發分支 | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa459_460_1025.bundle aa459-460-y1s2-y2s1:aa459-460-y1s2-y2s1`） |
 
+| `aa461_462_1025.bundle` | `aa461-462-y2s2-y3s1`（5ddfe486a AA_461 大二下讀後、0b474c8b4 AA_462 大三上讀後，2 個 commit） | 0b474c8b4 | 2026-10-25 12:0x LAWWW-B 隔離 worktree 子代理做完（628 支 Node 0 失敗）；前置 661423a71 在 origin 的 claude/modest-rubin-2lyp7g | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa461_462_1025.bundle aa461-462-y2s2-y3s1:aa461-462-y2s2-y3s1`） |
 還原（在 repo 裡，開發分支已經 fetch 過）：
 ```bash
 git fetch wip_backup/dorm-hall.bundle wip/dorm-hall:wip/dorm-hall   # 需要的前置 commit（79e1fed、3c9e02f）都在 origin 的開發分支上
