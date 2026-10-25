@@ -3150,6 +3150,9 @@ R39 = [Y1('R39_MOM_0904', '2025-09-04', 19.8, 20.4, wantMsg=['禮拜六回來吃
 # [前置] R39_D5_2：公法讀書會群組、認識沛珊、D5_ASK_N=1（已經收過一次講義那一則）＝這次第 2 句；R39_SIS_1014：met_sis、SIS_W1、學姊朋友（50/40/35）
 SCENS = SCENS + R39
 
+# BB-B 10-25 17:2x：R40_469_NOODLE 第一次（69bb17f53）FAIL＝測試的問題：最小存檔沒有 noodleTableDay（哲 1 的長桌沒發生過）＝阿哲不揪；
+#   而且第一次開始記（ndlTrack0＝今天）以前的麵店日當作有來（story3d.js），10/2 不會揪。【前置】長桌 9/25、9/26 開始記＝9/30 沒來（同 aa469_rot_unit 的 start()：先有長桌、再一天一天沒來）
+NDL0 = " G.flags.noodleTableDay=D('2025-09-25'); G.flags.ndlTrack0=D('2025-09-26');"
 # ---------- R40（BB-B 10-25 16:0x）：NEXT-AFTER-91010B——v9.10.10 發布後合進的（開發分支 69bb17f53，LAWWW-B 15:36 派工）各一輪 ----------
 # 句子、日子照遊戲資料（home3d.js FAM_MOON、y34b3d.js M6_WED／M6_QUIET、各 aa45x～aa469 單元測試的檢查名稱）；照真實時間等那一則
 FAMG = " PHONE.join(G,'family_law','法律系直屬家族'); G.flags.met_sis=true; G.flags.SIS_W1=true;"
@@ -3182,7 +3185,7 @@ R40 = [dict(id='R40_MOON_2027', key='2027-09-15', h=17.8, zone='dorm', flags=dic
             pref=['不去了'], asks={'*': ''}, nothree=True, wantMsg=['禮拜六典禮 你爸明天回來', '典禮完一起吃中午 你姊也來', '📷（桃園機場的入境大廳）'], noneMsg=['考完東西先搬一些回來'],
             msgAt={'📷（桃園機場的入境大廳）': ('2029-06-01', 21.0, 0.2)}),
        # AA_469 第 1 節：阿哲揪麵店（大一上第一個麵店日 17:30「麵店 我揪了」）
-       Y1('R40_469_NOODLE', '2025-10-02', 17.2, 17.8, js=NEWJS + NGRP + " SOCIAL.remember('zhe','FIRST_MET','');", wantMsg=['麵店 我揪了'])]
+       Y1('R40_469_NOODLE', '2025-10-02', 17.2, 17.8, js=NEWJS + NGRP + NDL0 + " SOCIAL.remember('zhe','FIRST_MET','');", wantMsg=['麵店 我揪了'])]
 SCENS = SCENS + R40
 
 # ---------- R41（BB-B 10-25 16:3x）：AA_466～469 的瀏覽器版（單元測試只在 Node 裡跑；這裡用真的遊戲迴圈、快轉、進門觸發、手機）----------
@@ -3198,7 +3201,7 @@ YTF = (" LV('heroine_03',50,40,35); G.contacts=G.contacts||{}; G.contacts.heroin
 # [前置] YTF：語彤是朋友、已經收過六張田野照片（tag y3_yt_jp_<日>，字換成「（前置）…」，免得和遊戲的照片混在一起）＝6/22 是第 7 張
 R41 = [
     # AA_469 第 1 節：一直沒去麵店＝揪三次（第 1～3 句）→ 第四個麵店日「你最近都沒來 還好嗎」→ 之後不揪（10/16、11/4 沒有）。照玩家快轉（床），不撥時間
-    Y1('R41_469_NDL3', '2025-10-02', 17.2, None, js=NEWJS + NGRP + " SOCIAL.remember('zhe','FIRST_MET','');",
+    Y1('R41_469_NDL3', '2025-10-02', 17.2, None, js=NEWJS + NGRP + NDL0 + " SOCIAL.remember('zhe','FIRST_MET','');",
        steps=[('until', 17.8), ('ffloop', '2025-10-07', 18.0), ('ffloop', '2025-10-09', 18.0), ('ffloop', '2025-10-14', 18.0), ('ffloop', '2025-10-16', 18.0), ('ffloop', '2025-11-04', 18.0), ('dumplog', 'R41_469_NDL3')],
        pref=['不去了', '先不'], wantMsg=NDL4, msgAt={'你最近都沒來 還好嗎': ('2025-10-14', 17.5, 0.2)},
        jsok=[('阿哲在麵店團的揪，照順序四則、第四則是「還好嗎」、之後沒有（日子 文字）', NDLQ, lambda x: isinstance(x, list) and [t.split(' ', 1)[1] for t in x] == NDL4),
