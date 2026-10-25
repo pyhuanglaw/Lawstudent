@@ -32083,9 +32083,9 @@
     "branch": "claude/elegant-brown-fcos7n",
     "acceptance": "flow_soclib.py 在開發分支 PASS（進館、閘門、座位、林間書房、窗邊、出館回中庭、走回法學院廣場、手機地點前往、天窗晚上變暗）",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "SENT"
    },
-   "notes": ""
+   "notes": "10-25 15:3x 和下一版測試一起派給 BB-B（send_message）。"
   },
   {
    "id": "TERM-READ-Y1S1-1025",
