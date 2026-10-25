@@ -33,7 +33,8 @@ const inPark=()=>{ const L=WZ_PARK_LAYOUT.area.back; E.player.obj.position.x=(L.
 (async()=>{
 let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'}); doc=cp.execSync('git show 8f1701b23:"docs/story_planning/AA_397_店員的支線_順手的事.md"',{cwd:H.ROOT,encoding:'utf8'})+doc408
   +cp.execSync('git show 30bf21de8:"docs/story_planning/AA_404_店員的支線_第二批.md"',{cwd:H.ROOT,encoding:'utf8'})+cp.execSync('git show f923751c:"docs/story_planning/AA_405_店員的支線_第三批.md"',{cwd:H.ROOT,encoding:'utf8'})
-    +cp.execSync('git show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'});   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+    +cp.execSync('git show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'})
+    +cp.execSync('git show ee0d6b70d:"docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"',{cwd:H.ROOT,encoding:'utf8'});   /* AA_465 第 2 節：貓的第 6 張照片換字 */   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 kx_khh3d.js 後面',ok&&!!X()&&/kx_khh3d\.js\?v=[^"]+"><\/script>\n<script src="src\/sideq3d\.js\?v=[^"]+"><\/script>/.test(html),err);
@@ -217,7 +218,7 @@ await sec(3,async()=>{ const cat=()=>({it:{park:'cat'}});
   /* 收養以後的照片：2029-01～06 每月第一個週六 */
   fresh('2029-01-05',10,'dorm'); H.FRIEND(ZQ); INV.addContact(H.G,ZQ); const got=[]; for(const ym of X().PHOTO_MONTHS){ const d=X().firstSat(ym); set(keyOf(d),12.2); ph(); }
   const P=zqMsgs().filter(t=>!/加了/.test(t));
-  check('3. 收養以後：每月第一個週六（1/6、2/3、3/3、4/7、5/5、6/2）照順序六則照片',J(X().PHOTO_MONTHS.map(ym=>keyOf(X().firstSat(ym))))===J(['2029-01-06','2029-02-03','2029-03-03','2029-04-07','2029-05-05','2029-06-02'])&&J(P)===J(['牠霸佔了我的鍵盤。','牠睡在電暖器前面一整天。我也是。','醫生說牠胖回來了一點。','我遊戲裡的貓，換了一個新的動作：睡覺。','牠學會開衣櫃了。我不知道是誰教的。','（照片：貓和畢業證書）','牠比我早一步拿到證書。……是我放上去的。']),J(P));
+  check('3. 收養以後：每月第一個週六（1/6、2/3、3/3、4/7、5/5、6/2）照順序六則照片',J(X().PHOTO_MONTHS.map(ym=>keyOf(X().firstSat(ym))))===J(['2029-01-06','2029-02-03','2029-03-03','2029-04-07','2029-05-05','2029-06-02'])&&J(P)===J(['牠霸佔了我的鍵盤。','牠睡在電暖器前面一整天。我也是。','醫生說牠胖回來了一點。','我遊戲裡的貓，換了一個新的動作：睡覺。','牠學會開衣櫃了。我不知道是誰教的。','（照片：貓趴在一張畢業證書上）','去年的。今天借牠拍一張。……畢業快樂。']),J(P));   /* 第 6 張照 AA_465 第 2 節換字（原本「（照片：貓和畢業證書）」「牠比我早一步拿到證書。……是我放上去的。」）*/
   check('3. 沒交往：照片不能回「（去看貓）」',!(H.G.msgs||[]).some(m=>m.ask&&/^sqcat_visit/.test(m.ask.id)));
   fresh('2029-02-03',10,'dorm'); H.FRIEND(ZQ); INV.addContact(H.G,ZQ); H.date(ZQ); set('2029-02-03',12.2); ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sqcat_visit1');
   const a=m&&PHONE.answer(H.G,'sqcat_visit1',0); ph(); const q=OUT.get(H.G,'sq_cat_visit2');

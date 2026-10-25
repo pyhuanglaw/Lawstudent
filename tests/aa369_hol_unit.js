@@ -181,7 +181,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
   // ===== L4 可昕大三下的約會分路線 =====
   { const KX=TERMEND_LINES.KX.Y3S2, tb=r=>{ fresh(D('2028-06-20'),12,'campus',r?{EXCHANGE_ROUTE:r}:{}); return typeof KX.table==='function'?KX.table(G):KX.table; };
     check('L4. 可昕大三下：邀約「暑假的事 當面講」；飯桌台灣「暑假你在臺北，我在高雄。……又是兩個月的視訊。」、美國「八月你就去美國了。……我算過了，我們分開最久就是這次。」',
-      J(KX.invite)===J(['河堤 五點半','暑假的事 當面講'])&&J(tb('TW'))===J(['暑假你在臺北，我在高雄。……又是兩個月的視訊。'])&&J(tb(null))===J(tb('TW'))&&J(tb('US'))===J(['八月你就去美國了。……我算過了，我們分開最久就是這次。']),J([KX.invite,tb('TW'),tb('US')])); }
+      J(KX.invite)===J(['{哪天} 河堤 五點半','暑假的事 當面講'])/* AA_460 第 5 節：地點前加 {哪天}（傳的時候換成今天／明天／禮拜幾）*/&&J(tb('TW'))===J(['暑假你在臺北，我在高雄。……又是兩個月的視訊。'])&&J(tb(null))===J(tb('TW'))&&J(tb('US'))===J(['八月你就去美國了。……我算過了，我們分開最久就是這次。']),J([KX.invite,tb('TW'),tb('US')])); }
   // ===== L5～L9 =====
   check('L5. 大二下柏翰：「暑假回新竹。八月底上來。」',J(TERMEND_LINES.POOL.Y2S2.classmate_bohan)===J(['成績二十八號出來。','暑假回新竹。八月底上來。']),J(TERMEND_LINES.POOL.Y2S2.classmate_bohan));
   check('L6. 8/25 摘要日：「（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）」',Y1FILL_LINES.sum0825==='（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）',Y1FILL_LINES.sum0825);

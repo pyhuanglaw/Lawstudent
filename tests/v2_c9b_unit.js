@@ -63,7 +63,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   M=fam(()=>{ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','FAMILY_DINNER',''); });
   check('5. 6/12（五）21:00；去了而且請了：「收到。這次飲料我請。」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。這次飲料我請。'])&&G.msgs.find(m=>m.tag==='fam_final_y1s2').h===21,JSON.stringify(M));
   M=fam(()=>{ G.flags.SAID_TREAT_SIS=true; });
-  check('5. 沒去家聚、說過要請：學姊、Kevin、學姊三句（中間那句是 Kevin）',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:你上次說要請全家族飲料。','Kevin:學姊以為是客套吧。','溫學姊:……對。可是我記得。']),JSON.stringify(M));
+  check('5. 沒去家聚、說過要請：學姊、Kevin、學姊三句（中間那句是 Kevin；AA_459 2-2 換字）',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:你上次說要請全家族飲料。','Kevin:結果那天學弟沒來。','溫學姊:……這次記你的。']),JSON.stringify(M));
   M=fam(null); check('5. 其他：「收到。」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。']),JSON.stringify(M));
   M=fam(()=>{ G.flags.SAID_TREAT_SIS=true; SOCIAL.remember('heroine_05','FAMILY_DINNER',''); }); check('5. 去了家聚、說過要請但沒記到請客（不會發生，保險）：照「其他」',JSON.stringify(M)===JSON.stringify([K0,'溫學姊:收到。']),JSON.stringify(M));
   /* K8 照片 */

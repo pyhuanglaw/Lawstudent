@@ -70,9 +70,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     start(); sim(W4THU+1,thu6,d=>d===tue5||d===thu6);
     check('第 5 週週二有來、週四沒來：只有第 6 週週二揪一次（「麵店 我揪了」）；第 6 週週四（週二沒來）再揪（「麵店 我先到」）',JSON.stringify(pings())===JSON.stringify([[tue6,PINGS[0]],[thu6,PINGS[1]]]),JSON.stringify(pings()));
     const exam=[]; for(let d=termDay(8,1);d<=termDay(9,7);d++){ const w=CALENDAR.dateOf(d).wd; if(w===2||w===4) exam.push(d); }
-    start(); sim(W4THU+1,termDay(10,4),()=>false); const pd=pings().map(x=>x[0]);
-    check('考試週（第 8、9 週）不是麵店日、不揪；第 10 週週二照樣揪（上一個麵店日是第 7 週週四，沒來）',exam.length===4&&exam.every(d=>!STORY.noodleDay(d)&&!pd.includes(d))&&pd.includes(termDay(10,2)),JSON.stringify({exam,pd}));
-    check('四句輪流',pings().every((x,i)=>x[1]===PINGS[i%4]),JSON.stringify(pings().map(x=>x[1])));
+    start(); sim(W4THU+1,termDay(10,4),d=>d===termDay(7,2)); const pd=pings().map(x=>x[0]);   /* AA_469 第 1 節：連三次沒來就不揪了——第 7 週週二去一次麵店（從頭算），才看得到「第 10 週週二照樣揪」*/
+    check('考試週（第 8、9 週）不是麵店日、不揪；第 10 週週二照樣揪（上一個麵店日是第 7 週週四，沒來；第 7 週週二有去＝AA_469 從頭算）',exam.length===4&&exam.every(d=>!STORY.noodleDay(d)&&!pd.includes(d))&&pd.includes(termDay(10,2)),JSON.stringify({exam,pd}));
+    check('照順序輪（AA_469 第 1 節：八句；連揪三次都沒來＝第 7 週週二「'+STORY.NDL_OK+'」，那天去了麵店＝從頭算，第 10 週週二、週四接第 4、5 句）',JSON.stringify(pings().map(x=>x[1]))===JSON.stringify([PINGS[0],PINGS[1],PINGS[2],STORY.NDL_OK,PINGS[3],STORY.NDL_PINGS[4]])&&pd[3]===termDay(7,2)&&JSON.stringify(STORY.NDL_PINGS.slice(0,4))===JSON.stringify(PINGS),JSON.stringify(pings().map(x=>x[1])));
     const xmas=(()=>{ for(let d=80;d<120;d++) if(CALENDAR.dateOf(d).key.endsWith('12-25')) return d; return null; })();
     { let hd=null; for(let d=-10;d<760&&hd==null;d++){ const t=CALENDAR.termOf(d), w=CALENDAR.dateOf(d).wd; if(t&&!t.exam&&(w===2||w===4)&&CALENDAR.holiday(d)&&CALENDAR.termOf(d-7)&&!CALENDAR.termOf(d-7).exam&&!CALENDAR.holiday(d-7)) hd=d; }
     check('學期中、週二或週四的國定假日（16 週制以後 12/25 在寒假；找第一個：'+(hd!=null?CALENDAR.dateOf(hd).key:'無')+'）不是麵店日；前一週的同一天是；12/25（寒假）也不是',hd!=null&&!STORY.noodleDay(hd)&&STORY.noodleDay(hd-7)&&!STORY.noodleDay(xmas),JSON.stringify({hd,xmas})); }

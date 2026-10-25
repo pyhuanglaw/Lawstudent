@@ -46,7 +46,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 邀約＋誰有車 */
   const toInvite=(treat)=>{ setup(); if(treat) G.flags.SAID_TREAT_SIS=true; run(18,21.2); G.day=dI; run(18,21.5); };
   { toInvite(true); const inv=askOf(/永康街/), car=askOf(/誰有車/);
-    check('有 SAID_TREAT_SIS：週五 21:00 Kevin「週五六點半，永康街那家咖哩。全家族。」＋學姊三句',JSON.stringify(fam().filter(m=>Math.abs(m.h-21)<0.01&&m.day===dI).map(m=>(m.from||'')+':'+m.text))==='["kevin:週五六點半，永康街那家咖哩。全家族。","heroine_05:……學弟，你是認真的？","heroine_05:我以為那是客套話。","heroine_05:好，六點半。我會準時，你們也不要遲到。"]'&&inv&&JSON.stringify(inv.ask.opts.map(o=>o.t))==='["去。","這次不行。"]',JSON.stringify(last(6)));
+    check('有 SAID_TREAT_SIS：週五 21:00 Kevin「下週五六點半，永康街那家咖哩。全家族。」（AA_459 2-1 加「下」）＋學姊三句',JSON.stringify(fam().filter(m=>Math.abs(m.h-21)<0.01&&m.day===dI).map(m=>(m.from||'')+':'+m.text))==='["kevin:下週五六點半，永康街那家咖哩。全家族。","heroine_05:……學弟，你是認真的？","heroine_05:我以為那是客套話。","heroine_05:好，六點半。我會準時，你們也不要遲到。"]'&&inv&&JSON.stringify(inv.ask.opts.map(o=>o.t))==='["去。","這次不行。"]',JSON.stringify(last(6)));
     check('接著 Kevin「家聚要搬兩箱飲料，誰有車？」（回「我有。」）',!!car&&JSON.stringify(car.ask.opts.map(o=>o.t))==='["我有。"]');
     PHONE.answer(G,car.ask.id,0); check('「我有。」：Kevin「學弟有車！」學姊「……好。之後有用。」；SAID_HAS_CAR',JSON.stringify(last(2))==='["kevin:學弟有車！","heroine_05:……好。之後有用。"]'&&G.flags.SAID_HAS_CAR===true,JSON.stringify(last(2)));
     PHONE.answer(G,inv.ask.id,0); run(21.5,21.6); const q=OUT.get(G,'fam_dinner_y1s2');
