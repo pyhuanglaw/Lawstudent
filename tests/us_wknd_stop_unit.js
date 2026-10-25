@@ -5,6 +5,8 @@
 //   用實際的快轉停點算：USL.nextStop（照 index.html 的順序，us_blank3d.js、sis_qixi3d.js 也包了一層）、USL.ffOpts、USL.jump。
 // 修改前（開發分支 661423a71）：15 項 FAIL——「空停」那幾項（週六沒回的週日、去過的週日、週六自己走進去演過的週日、10/7～8、11/4、七場演完、3-7 演完、一路快轉停在 10/7～8 什麼都沒有），
 //   和「不是美國路線／已經回臺灣」的 USL.nextStop 兩項（原本會算週末 14:00，只是美國的快轉選單沒有、玩家碰不到）；「該停的照停」「照舊不停」「快轉選單照舊沒有」修改前就通過。
+// 第 7 節（同一個 bug 的第二個 commit，LAWWW-B 追加）：us_life3d.js FIXED 的 10/16 21:00 原本不看條件都停；改成學姊「改過的報告拿了 A。」那一則的條件
+//   （r2y4a3d.js R2Y4A.us2GradeOn：交往中、US2 是 there 或 missed），或那時「大四要怎麼過？」要再問一次（STORY.y4Path2Due）。修改前「不該停的不停」那幾項 FAIL。
 //   用法：node tests/us_wknd_stop_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const H=require('./pg_harness.js');
@@ -130,6 +132,36 @@ await sec(6,async()=>{
     if(why==='msg'){ const p=PHONE.pending(H.G); for(const m of p) if(/^us208_ask_/.test(m.ask.id)) PHONE.answer(H.G,m.ask.id,1); else PHONE.answer(H.G,m.ask.id,0); rules(); }
     if(nowT()<=t0) H.G.hour+=0.25; }
   check('6. 9/14～10/29 一路快轉（208 的私訊都回「今天不行。」）：沒有停在週末 14:00 卻什麼都沒有（共 '+n+' 次快轉）',empty.length===0,J(empty));
+});
+
+/* ======================= 7. 10/16 21:00：學姊「改過的報告拿了 A。」那一則的條件（R2Y4A.us2GradeOn）才停 ======================= */
+await sec(7,async()=>{
+  const A='改過的報告拿了 A。教授說：『這次我讀到妳了。』', d16=D('2028-10-16'), t21=T(d16,21), in16=()=>stopsIn(T(d16,12),T(d16,23)).includes(t21);
+  /* 一路快轉到 10/17 08:30：途中要回的訊息（不是這裡要看的）先回第一個選項再接著快轉；回傳停過的時間 */
+  const ff=async()=>{ const end=T(D('2028-10-17'),8.5), seen=[]; for(let i=0;i<12&&nowT()<end-1e-6;i++){ const why=await USL.jump(GM,end); seen.push(stop()+(why==='msg'?'（訊息）':''));
+      if(why!=='msg') break; for(const m of PHONE.pending(H.G)) PHONE.answer(H.G,m.ask.id,0); rules(); } return seen; };
+  check('7. 停點和那一則用同一個判斷：R2Y4A.us2GradeOn（r2y4a3d.js）、USL.oct16On（us_life3d.js FIXED 10/16 21:00）都在',typeof R2Y4A!=='undefined'&&typeof R2Y4A.us2GradeOn==='function'&&typeof USL.oct16On==='function');
+  /* 該停的照停 */
+  for(const v of ['there','missed']){ w208('2028-10-16',12,'us_apartment',{US2:v}); doneUpTo('3-1','3-2');
+    check('7. 交往中、US2＝'+v+'：10/16 21:00 是停點',in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
+    const seen=await ff(), m=byTag('us2_grade');
+    check('7. 交往中、US2＝'+v+'：一路快轉停在 10/16 21:00，她傳「'+A+'」',seen.includes('2028-10-16 21')&&m.length===1&&m[0].text===A&&m[0].day===d16&&m[0].h===21,J({seen,m:m.map(x=>x.text)})); }
+  /* 不該停的不停 */
+  fresh('2028-10-16',12,'us_apartment',{US2:'there'});
+  check('7. 挽回中（沒在交往）、US2＝there：10/16 21:00 不停',!in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
+  { const seen=await ff(); check('7. 挽回中：一路快轉（途中的訊息回掉、接著快轉到 10/17 08:30）不停在 10/16 21:00、也沒有那一則',!seen.includes('2028-10-16 21')&&seen[seen.length-1]==='2028-10-17 8.5'&&!byTag('us2_grade').length,J(seen)); }
+  fresh('2028-10-16',12,'us_apartment',{US2:'repair'});
+  check('7. 挽回中、US2＝repair（還了鍋子）：10/16 21:00 不停',!in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
+  w208('2028-10-16',12,'us_apartment',{US2:'repair'}); doneUpTo('3-1','3-2');
+  check('7. 交往中但 US2＝repair（還了鍋子以後才在一起）：10/16 21:00 不停',!in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
+  { const seen=await ff(); check('7. 交往中、US2＝repair：一路快轉不停在 10/16 21:00、也沒有那一則',!seen.includes('2028-10-16 21')&&seen[seen.length-1]==='2028-10-17 8.5'&&!byTag('us2_grade').length,J(seen)); }
+  /* 10/16 21:00 另一件事：「大四要怎麼過？」再問一次（上次選④；story3d.js STORY.y4Path2Due，在公寓演）——挽回中也照停 */
+  fresh('2028-10-16',12,'us_apartment',{US2:'repair',Y4_PATH:'undecided',Y4_PATH_DAY:D('2028-06-02')});
+  check('7. 挽回中、上次「大四要怎麼過？」選④（再問一次在 10/16 21:00）：照停',in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
+  { const end=T(D('2028-10-17'),8.5); let seen=[], due=false; for(let i=0;i<12&&nowT()<end-1e-6;i++){ const why=await USL.jump(GM,end); seen.push(stop()); if(stop()==='2028-10-16 21'){ due=STORY.y4Path2Due(H.G); break; } if(why!=='msg') break; for(const m of PHONE.pending(H.G)) PHONE.answer(H.G,m.ask.id,0); rules(); }
+    check('7. 選④：一路快轉停在 10/16 21:00，那時候 STORY.y4Path2Due 為真（公寓裡就演再問一次）',due,J(seen)); }
+  fresh('2028-10-16',12,'us_apartment',{US2:'repair',Y4_PATH:'undecided',Y4_PATH_DAY:D('2028-06-02'),Y4_PATH_ASK2:D('2028-10-15')});
+  check('7. 選④但已經再問過（Y4_PATH_ASK2）：不停',!in16(),J(stopsIn(T(d16,12),T(d16,23)).map(lab)));
 });
 
 H.done();

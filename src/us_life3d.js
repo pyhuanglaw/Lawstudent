@@ -297,8 +297,14 @@ const USL=(function(){
   /* ======================= S3 快轉、摘要日 ======================= */
   S.ffEnd=()=>T(D(S.CAL.leave),7);   /* 12/16 07:00 離開（之後是 r2y4a3d.js 的那一週）*/
   const FIXED=[ ['2028-08-03',4.5,G=>!G.flags.USL_JETLAG],['2028-08-05',17.5,G=>dating(G)],['2028-08-21',9,G=>!(S.rec(G).att.us_intro|0)],['2028-09-04',17,G=>!done(G,'ev_usl_bbq')],
-    ['2028-09-13',18,G=>dating(G)],['2028-09-13',18.75,G=>!dating(G)],['2028-10-04',20.5,G=>S.long3Done(G)&&!done(G,'ev_usl_long4')&&!G.flags.LONG_NOTE],['2028-10-16',21,()=>true],['2028-10-26',12,()=>true],['2028-10-31',18,G=>!done(G,'ev_usl_halloween')],['2028-10-31',19,G=>done(G,'ev_usl_halloween')&&!done(G,'ev_usl_halloween2')],
+    ['2028-09-13',18,G=>dating(G)],['2028-09-13',18.75,G=>!dating(G)],['2028-10-04',20.5,G=>S.long3Done(G)&&!done(G,'ev_usl_long4')&&!G.flags.LONG_NOTE],['2028-10-16',21,G=>S.oct16On(G)],['2028-10-26',12,()=>true],['2028-10-31',18,G=>!done(G,'ev_usl_halloween')],['2028-10-31',19,G=>done(G,'ev_usl_halloween')&&!done(G,'ev_usl_halloween2')],
     ['2028-11-22',21,()=>true],['2028-11-23',17,G=>!dating(G)&&!!G.flags.MET_LONG],['2028-12-02',18,()=>true],['2028-12-02',19.75,G=>!dating(G)],['2028-12-08',8,()=>true],['2028-12-16',7,()=>true] ];   /* AA_340 第 1 節的事件（出遊、要回的訊息另外停）*/
+  /* 10/16 21:00 的停點（BUG-US-WKND-EMPTYSTOP-1025）：原本不看條件都停；改成那個時間真的有事才停——
+     ① 學姊「改過的報告拿了 A。」（r2y4a3d.js R2Y4A.us2GradeOn：交往中、US2 是 there 或 missed；挽回中、US2 其他值＝不傳）
+     ② 「大四要怎麼過？」再問一次（story3d.js STORY.y4Path2Due：上次選④，10/16 21:00 在公寓演）——原本的停點也讓這一場準時，不能一起拿掉
+     沒載 r2y4a3d.js（單元測試）＝照舊停 */
+  S.oct16On=function(G){ if(typeof R2Y4A==='undefined'||!R2Y4A.us2GradeOn) return true; if(R2Y4A.us2GradeOn(G)) return true;
+    const d=D('2028-10-16'); if(d==null||!STORY.y4Path2Due) return false; return !!STORY.y4Path2Due(Object.assign({},G,{day:d,hour:21,weekday:wdOf(d)})); };
   S.nextStop=function(G,t0){ let best=null; const c=x=>{ if(x!=null&&x>t0+1e-6&&(best==null||x<best)) best=x; };
     for(const [k,h,f] of FIXED){ const d=D(k); if(d!=null&&(!f||f(G))) c(T(d,h)); }
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned') c(T(q.day,q.h)-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.25);
