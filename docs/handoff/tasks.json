@@ -32411,6 +32411,28 @@
    "source": "AA-B 2026-10-25 11:54（企劃線 cd2dc7646，outbox 188bd7458）；七位女主角台詞十二字以上跨兩個事件 21 句，會重複的兩組",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "ROT-POOLS-1025",
+   "title": "輪換句子池太小（AA_469）：NDL_PINGS 四句改八句、連揪三次沒來就停、下一個麵店日「你最近都沒來 還好嗎」（一學期最多一次，去一次重算）；法服值班 FAFU_CASES 第二輪八人回來講後續（2-1 表）、第三輪起旁白三句輪，FAFU_OPEN／FAFU_YT 各六句只用一輪；wz_jobs withLines／night 各加四句、六句輪",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "大一上第一個麵店日（NDL_PINGS）；法服大二起；溫州街打工",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 12:04（企劃線 9f465dcef，outbox c6c1b1ace）；程式裡照次數取餘數挑句子的地方，池大小對發送次數",
+   "authorized": "D81、D109、D111",
+   "notes": "BB 查過的法律句子不動。"
   }
  ]
 }
