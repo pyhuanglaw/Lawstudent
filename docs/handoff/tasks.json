@@ -31903,7 +31903,7 @@
    "next": "LAWWW2：先量（同一套 perf 工具），列最慢三處與原因，再逐項交 patch／GLB",
    "priority": "P2",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 0,
     "earliest": "新遊戲經濟系開局",
     "mainline": true,
