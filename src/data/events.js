@@ -1845,7 +1845,7 @@ const STORY_EVENTS=[
   /* 大一下的期末最後一頓（交接包 v2 C19：AA_71 2-13，同一段原文；只一次）。大一上那一個 id 不改（舊存檔 events.done 相容）*/
   { id:'ev_term_last_meal_y1s2', title:'期末最後一頓', participants:[], location:'noodle', trigger:'enter', term:['Y1S2'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S2','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
-    dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
+    dialogue:[ {speaker:null,text:'（大一最後一科考完。長桌又併起來了。）'},{speaker:null,text:'（阿姨這次多送了兩盤小菜。）'},{speaker:'阿姨',text:'一年了。吃好一點。'} ],   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字（大一上 ev_term_last_meal 照舊）*/
     consequences:{memo:'大一下期末最後一頓（阿鳳麵店）'} },
   /* 可昕 K2 她第一次來台大（BB_95 9-3）：第 6 週週五 20:00 她傳「這次換我去台大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列），週六 16:00 在社科院門口（story3d.js 的 phoneRules；出遊）。
      最小版本（BB_95 第 9 節）：依序換背景——社科院門口（她和品妤；品妤第一次出現＝重新介紹自己，之前遇過＝「你來了。」）→ 霖澤館前（假設題三選一）→ 椰林大道（旁白帶過去公館吃晚餐）。
@@ -3600,7 +3600,8 @@ const STORY_EVENTS=[
       {set:{NYE_Y2:'roof'}},{rel:{classmate_bohan:{fam:1}}},{if:{custom:G=>NYE_AN(G)},rel:{heroine_01:{fam:1}}} ],
     consequences:{memo:'跨年：宿舍頂樓（大二）'} },
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2，AA-C 881ed505／28ac4ea3；寒假她在高雄，AA_276）：去高雄＝ev_kx_nye_river_y2～y4（照大一 ev_nye_river；高鐵 2980 出發時扣）；
-     留在臺北＝23:59 她打視訊（ev_kx_nye_video_y2～y4，「接起來」；大二在頂樓的版本接在 ev_y2_newyear 裡）。台詞一字照 5-2 */
+     留在臺北＝23:59 她打視訊（ev_kx_nye_video_y2～y4，「接起來」；大二在頂樓的版本接在 ev_y2_newyear 裡）。台詞一字照 5-2
+     AA_467 第 2 節（企劃線 5bbd16ab1）：大三、大四的零點那句、結尾那句換成那一年的事（大二照舊）*/
   { id:'ev_kx_nye_river_y2', title:'跨年（大二・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她站在橋下等你，手插在外套口袋裡。）'},
@@ -3614,20 +3615,20 @@ const STORY_EVENTS=[
   { id:'ev_kx_nye_river_y3', title:'跨年（大三・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她帶了兩個暖暖包，一個塞進你的外套口袋。）'},{speaker:'kexin',expression:'smile',text:'今年比去年冷。'},
-      {speaker:null,text:'（零點。煙火在河的另一邊。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},
+      {speaker:null,text:'（零點。煙火一放，你口袋裡的暖暖包還是熱的。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「暖暖包還妳。」',goto:'b'}]},
       {label:'a'},{speaker:'kexin',expression:'smile',text:'嗯。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'teasing',text:'不用。那個本來就是你的。'},
-      {label:'end'},{speaker:null,text:'（凌晨一點，加開的那班高鐵。）'},{set:{KX_NYE_DONE:3}} ],
+      {label:'end'},{speaker:null,text:'（凌晨一點的高鐵。暖暖包到台中才冷掉。）'},{set:{KX_NYE_DONE:3}} ],
     consequences:{memo:'跨年：高雄・愛河邊（大三）'} },
   { id:'ev_kx_nye_river_y4', title:'跨年（大四・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, kxAway:true,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
     dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她已經占好了位置，就在橋旁邊。）'},{speaker:'kexin',expression:'laugh',text:'這個位置我從國中就想占。今年終於占到。'},
-      {speaker:null,text:'（零點。煙火在河的另一邊。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},
+      {speaker:null,text:'（零點。煙火就在橋的正上方。這個位置，真的看得最清楚。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「明年也來。」',goto:'b'}]},
       {label:'a'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'teasing',text:'……你先考完再說。'},
-      {label:'end'},{speaker:null,text:'（凌晨一點，加開的那班高鐵。）'},{set:{KX_NYE_DONE:4}} ],
+      {label:'end'},{speaker:null,text:'（凌晨一點的高鐵。手機亮了一下，是她：「到了說。」）'},{set:{KX_NYE_DONE:4}} ],
     consequences:{memo:'跨年：高雄・愛河邊（大四）'} },
   { id:'ev_kx_nye_video_y2', title:'可昕的視訊（大二跨年）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     dialogue:[ {scene:'視訊',bg:'video'}, {speaker:null,text:'（十一點五十九分，手機響了。可昕打視訊來。）'},{speaker:'kexin',expression:'smile',text:'你在房間喔？……那我們一起看電視的倒數。'},
@@ -3762,7 +3763,7 @@ const STORY_EVENTS=[
       {label:'end'},{set:{YT_NYE_CALL_Y2:true}} ] },
   { id:'ev_term_last_meal_y2s1', title:'期末最後一頓（大二上）', participants:[], location:'noodle', trigger:'enter', term:['Y2S1'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y2S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
-    dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'},
+    dialogue:[ {speaker:null,text:'（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）'},{speaker:null,text:'（阿姨端出一盤小菜，放在正中間，沒說話。）'},{speaker:'阿姨',text:'吃好一點。'},   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字，後面三句照舊 */
       {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||!!G.flags.YU_ZHE_TOLD},speaker:null,text:'（Alison 和阿哲坐在一起。）'},
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安在手帳上寫：「大二上：完成」。）'},
       {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天阿姨叫我坐下來吃。'} ],
