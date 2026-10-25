@@ -1,0 +1,95 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index 740187459..24841ff09 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -432,11 +432,12 @@ const US3=(function(){
+   function apSeeThru(root,E){ root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!AP_SEE.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }
+   function apMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)) if(m&&re.test(m.name||'')&&!out.includes(m)) out.push(m); }); return out; }
+   /* 窗外的遠景（GLOW_ap_outside：白天的天空、停車大樓）原本跟著其他燈箱，晚上反而更亮——20:00 從大廳看出去還是白天。
+-     白天 7～17 點照原本；17～19 點、5～7 點慢慢變；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗。
+-     模型有夜景平面（GLOW_ap_outside_night：airport_backdrop.py --night，停車場樓層、路燈、窗戶亮著；在白天那塊後面 0.5 m）時，18:18 以後、5:42 以前藏起白天那塊、露出夜景 */
++     h 是光線用的時刻（區域的 applyTime 收到的就是 E.lightH：日落 18.95、屋外完全天黑 19.2）。亮度跟著屋外（engine3d.js applyTime 的夜晚係數 nk）；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗。
++     模型有夜景平面（GLOW_ap_outside_night：airport_backdrop.py --night，停車場樓層、路燈、窗戶亮著；在白天那塊後面 0.5 m）時，屋外完全天黑以後、6:00 以前藏起白天那塊、露出夜景（和臺灣大樓大廳的窗景同一刻）。
++     原本寫死 17～19、5～7 慢慢變、亮度剩 35% 就換夜景：光線 18.3 就換，比日落早；冬天 12/20 16:55 太陽還沒下山，窗外已經是夜景（LAWWW2-B 10-25 US-AIRPORT-DUSK）*/
+   const AP_NIGHT=[0.13,0.16,0.26];
+-  function apOutside(mats,h,planes){ h=((h%24)+24)%24; const d=h>=7&&h<=17?1:(h>=19||h<5?0:(h<7?(h-5)/2:(19-h)/2));
+-    if(planes&&planes.night.length){ const nt=d<0.35; for(const o of planes.night) o.visible=nt; for(const o of planes.day) o.visible=!nt; }
++  function apOutside(mats,h,planes){ h=((h%24)+24)%24; const d=1-(h>=19.2||h<5.6?1:(h>=17.6?(h-17.6)/1.6:(h<6.4?(6.4-h)/0.8:0)));
++    if(planes&&planes.night.length){ const nt=h<6||h>=19.2; for(const o of planes.night) o.visible=nt; for(const o of planes.day) o.visible=!nt; }
+     for(const m of mats){ const u=m.userData; if(!u.apC0){ u.apC0=m.color.clone(); u.apE0=m.emissive?m.emissive.clone():null; }
+       const k=[0,1,2].map(i=>AP_NIGHT[i]+(1-AP_NIGHT[i])*d); m.color.setRGB(u.apC0.r*k[0],u.apC0.g*k[1],u.apC0.b*k[2]); if(u.apE0) m.emissive.setRGB(u.apE0.r*k[0],u.apE0.g*k[1],u.apE0.b*k[2]);
+       if(u.usBase!=null) m.emissiveIntensity=u.usBase*0.75; } }   /* 白天的亮度和原本一樣（原本跟著燈箱乘 0.75）*/
+diff --git a/tests/airport_cam_unit.js b/tests/airport_cam_unit.js
+index 401a6d6dd..e0a390720 100644
+--- a/tests/airport_cam_unit.js
++++ b/tests/airport_cam_unit.js
+@@ -73,10 +73,10 @@ for(const id of ['airport_dep','airport_arr']){ const isDep=id==='airport_dep';
+     `基本色 ${d.c.toFixed(3)}→${nt.c.toFixed(3)}（18:00 ${du.c.toFixed(3)}）、自發光 ${d.e.toFixed(3)}→${nt.e.toFixed(3)}`);
+   check('招牌、燈箱照舊：白天 0.75、晚上 1',Math.abs(d.s-0.75)<0.01&&Math.abs(nt.s-1)<0.01);
+   check(isDep?'出境的混凝土（雨遮底下）晚上不變暗':'入境門外的地面（ap_concrete）晚上變暗',isDep?Math.abs(nt.k-d.k)<1e-6:nt.k<0.3*d.k,`${d.k.toFixed(3)}→${nt.k.toFixed(3)}`);
+-  /* 夜景平面：18:18 以後、5:42 以前藏起白天那塊、露出夜景；基本色壓低（不被大廳的燈照亮）*/
++  /* 夜景平面：屋外完全天黑（光線 19.2）以後、6:00 以前藏起白天那塊、露出夜景；基本色壓低（不被大廳的燈照亮）。原本 18:18 就換，比日落（光線 18.95）還早（US-AIRPORT-DUSK-1025）*/
+   const pl={}; z.group.traverse(o=>{ if(o.isMesh&&/^GLOW_ap_outside/.test(o.name)) pl[o.name]=o; }); const dp=pl.GLOW_ap_outside, np=pl.GLOW_ap_outside_night;
+-  const vis=h=>{ z.applyTime(h,'clear'); return [dp.visible,np.visible]; }; const V={12:vis(12),17.5:vis(17.5),18.5:vis(18.5),21:vis(21),4:vis(4),6:vis(6)};
+-  check('夜景平面：12、17:30、6 點白天那塊；18:30、21、4 點夜景那塊',!!dp&&!!np&&[12,17.5,6].every(h=>V[h][0]&&!V[h][1])&&[18.5,21,4].every(h=>!V[h][0]&&V[h][1])&&np.material.color.r<0.2*0.7,JSON.stringify(V));
++  const vis=h=>{ z.applyTime(h,'clear'); return [dp.visible,np.visible]; }; const V={12:vis(12),17.5:vis(17.5),18.5:vis(18.5),19.2:vis(19.2),21:vis(21),4:vis(4),6:vis(6)};
++  check('夜景平面：12、17:30、18:30（日落前）、6 點白天那塊；19:12（屋外完全天黑）、21、4 點夜景那塊',!!dp&&!!np&&[12,17.5,18.5,6].every(h=>V[h][0]&&!V[h][1])&&[19.2,21,4].every(h=>!V[h][0]&&V[h][1])&&np.material.color.r<0.2*0.7,JSON.stringify(V));
+   z.applyTime(12,'clear');
+ }
+ /* 舊的模型（沒有夜景平面）：照舊用調暗的做法，不會出錯 */
+diff --git a/tests/us_airport_dusk_unit.js b/tests/us_airport_dusk_unit.js
+new file mode 100644
+index 000000000..d72255b23
+--- /dev/null
++++ b/tests/us_airport_dusk_unit.js
+@@ -0,0 +1,50 @@
++// 桃園機場窗外的遠景和屋外同一刻天黑（US-AIRPORT-DUSK-1025，LAWWW2-B 2026-10-25；LAWWW-B 派工）——不需要瀏覽器。
++//   us3d.js 的 apOutside（出境、入境大廳窗外的遠景＋入境門外的地面）原本寫死「光線 7～17 白天、17～19、5～7 慢慢變」、亮度剩 35% 以下就換夜景：
++//   光線 18.3 就換成夜景（亮著燈的停車大樓），比日落（18.95）還早；冬天 12 月 16:55 太陽還沒下山，機場外已經是夜景。
++//   改成和屋外同一套：亮度＝屋外的亮度（engine3d.js applyTime 的夜晚係數 nk）；換夜景和臺灣大樓大廳的窗景同一刻（光線 ≥ 屋外完全天黑、早上 6 點以前）。
++//   1. 讀得到引擎的 nk、臺灣大廳換夜景的規則（building3d.js）、us3d.js 的 apOutside；
++//   2. 遠景的亮度＝屋外的亮度（1−nk），一整天每 3 分鐘比一次；
++//   3. 換夜景的時刻＝臺灣大廳窗景（傍晚 ≥ 屋外完全天黑、早上 < 6）；屋外還沒完全天黑以前都是白天那塊；
++//   4. 派工指定的時刻（用引擎自己的 lightHour、臺北的日落）：12/23 05:40 桃園入境是暗的、夜景；8/2 07:00 出境是亮的、白天；
++//      冬天 12/20 16:55（17:07 日落前）還是白天那塊；夏天 7/13 18:40（18:47 日落前）也是。
++// 修改前 FAIL。用法：node tests/us_airport_dusk_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8'), grab=(s,re)=>{ const m=s.match(re); return m?m[0]:null; };
++const eng=rd('src/engine3d.js'), us=rd('src/us3d.js'), bld=rd('src/building3d.js');
++const nkM=eng.match(/const nk=(h>=([0-9.]+)\|\|h<5\.6\?1:[^;]*?);/), T=nkM?+nkM[2]:19.2;
++const lobby=bld.match(/const night=\(h%24<([0-9.]+)\|\|h%24>=([0-9.]+)\);/);
++const fAP=grab(us,/const AP_NIGHT=\[[^\]]*\];\s*function apOutside\(mats,h,planes\)\{[\s\S]*?u\.usBase\*0\.75; \} \}/);
++const fSS=grab(eng,/function sunsetAt\(y,m,d,lat,lon,tz\)\{[^\n]*\n/), fLH=grab(eng,/function lightHour\(h,ss\)\{[^\n]*\n/), fSP=grab(eng,/function sunsetPlace\(key,pl\)\{[^\n]*\n/);
++check('1. 引擎的夜晚係數 nk（h ≥ T 就是 1）', !!nkM, nkM?'T='+T:'');
++check('1. 霖澤館大廳窗景換夜景的規則（building3d.js）', !!lobby, lobby?'h<'+lobby[1]+' 或 h≥'+lobby[2]:'');
++check('1. us3d.js 的 apOutside', !!fAP);
++check('1. 引擎的 sunsetAt、lightHour、sunsetPlace', !!(fSS&&fLH&&fSP));
++if(!(nkM&&lobby&&fAP&&fSS&&fLH&&fSP)){ console.log('FAILED '+fails); process.exit(1); }
++class C{ constructor(r,g,b){ this.r=r; this.g=g; this.b=b; } clone(){ return new C(this.r,this.g,this.b); } setRGB(r,g,b){ this.r=r; this.g=g; this.b=b; return this; } }
++const ctx={Math}; vm.createContext(ctx);
++vm.runInContext('this.nk=h=>('+nkM[1]+');\n'+fAP+'\nthis.apOutside=apOutside;\n'+fSS+fLH+fSP+'this.lightHour=lightHour; this.sunsetPlace=sunsetPlace;',ctx);
++const nk=ctx.nk, mOut=0.8*0.8; // 遠景的材質：基本色 0.8、自發光 0.8
++const mat={color:new C(0.8,0.8,0.8),emissive:new C(0.8,0.8,0.8),emissiveIntensity:1,userData:{usBase:1}};
++const planes={day:[{visible:true}],night:[{visible:false}]};
++const run=h=>{ ctx.apOutside([mat],h,planes); return {k:mat.color.r/0.8, night:planes.night[0].visible, day:planes.day[0].visible}; };
++const AP=(us.match(/const AP_NIGHT=\[([^\]]*)\]/)||[,'0.13'])[1].split(',').map(Number);
++// 2. 亮度＝屋外的亮度：k＝AP_NIGHT[0]＋(1−AP_NIGHT[0])×(1−nk)
++{ let worst=0, at=null; for(let i=0;i<480;i++){ const h=i*0.05, r=run(h), want=AP[0]+(1-AP[0])*(1-nk(h)), e=Math.abs(r.k-want); if(e>worst){ worst=e; at=h; } }
++  check('2. 遠景的亮度＝屋外的亮度（1−nk），一整天每 3 分鐘比一次', worst<0.01, '最大差 '+worst.toFixed(3)+(at!=null?'（光線 '+at.toFixed(2)+'）':'')); }
++// 3. 換夜景的時刻＝臺灣大廳窗景
++{ const lo=+lobby[1], hi=+lobby[2]; let bad=[]; for(let i=0;i<2400;i++){ const h=i*0.01, r=run(h), want=(h<lo||h>=hi); if(r.night!==want||r.day===want) bad.push(h.toFixed(2)); }
++  check('3. 換夜景的時刻＝臺灣大廳的窗景（h<'+lo+' 或 h≥'+hi+'）', bad.length===0, bad.length?'不一樣的光線時刻：'+bad.slice(0,4).join(' ')+(bad.length>4?' …共 '+bad.length:''):'');
++  check('3. 臺灣大廳換夜景＝屋外完全天黑（nk 的 T）', hi===T, 'h≥'+hi+'、T='+T);
++  let early=[]; for(let i=1500;i<Math.round(T*100);i++){ const h=i/100; if(run(h).night) early.push(h); }
++  check('3. 屋外還沒完全天黑（光線 15～'+T+'）都是白天那塊', early.length===0, early.length?'光線 '+early[0].toFixed(2)+' 就換夜景':''); }
++// 4. 派工指定的時刻（臺北的日落 → 光線用的時刻）
++const tp=(md,hh,mm)=>{ const ss=ctx.sunsetPlace('2028-'+md,'tw'); return {ss, h:ctx.lightHour(hh+mm/60,ss)}; };
++const fmt=x=>Math.floor(x)+':'+String(Math.round((x%1)*60)).padStart(2,'0');
++{ const t=tp('12-23',5,40), r=run(t.h); check('4. 12/23 05:40 桃園入境：暗的、夜景', r.night&&r.k<=0.25, '光線 '+t.h.toFixed(2)+'、亮度 '+r.k.toFixed(2)+(r.night?'、夜景':'、白天那塊')); }
++{ const t=tp('08-02',7,0), r=run(t.h); check('4. 8/2 07:00 出境：亮的、白天', !r.night&&r.k>=0.99, '光線 '+t.h.toFixed(2)+'、亮度 '+r.k.toFixed(2)); }
++{ const t=tp('12-20',16,55), r=run(t.h); check('4. 12/20 16:55（'+fmt(t.ss)+' 日落前）還是白天那塊', !r.night, '光線 '+t.h.toFixed(2)+'、亮度 '+r.k.toFixed(2)+(r.night?'、夜景':'')); }
++{ const t=tp('07-13',18,40), r=run(t.h); check('4. 7/13 18:40（'+fmt(t.ss)+' 日落前）還是白天那塊', !r.night, '光線 '+t.h.toFixed(2)+'、亮度 '+r.k.toFixed(2)+(r.night?'、夜景':'')); }
++{ const t=tp('12-20',17,45), r=run(t.h); check('4. 12/20 17:45（屋外已經完全天黑）夜景', r.night, '光線 '+t.h.toFixed(2)); }
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
