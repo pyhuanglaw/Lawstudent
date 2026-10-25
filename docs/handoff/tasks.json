@@ -32235,6 +32235,28 @@
     "ack": "未派"
    },
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y3S1-1025",
+   "title": "法律系大三上（留在臺灣）讀後（AA_462）：以安 10/21 行政法院那則、法服選項開頭、語彤每週四那句四句輪、沛珊台南聖誕和學期末不重複約、四處換字",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（開發分支凍結期間在獨立工作樹做）",
+   "priority": "P3",
+   "first": {
+    "term": "Y3S1",
+    "week": 7,
+    "earliest": "大三上 10/21",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:02（企劃線 81bee6b83，outbox 997302d3c）；八種存檔 9/6～12/26；AA_458、AA_457 在遊戲裡已確認",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
