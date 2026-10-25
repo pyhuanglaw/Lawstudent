@@ -31899,8 +31899,8 @@
    "title": "經濟系路線效能巡查（D99 第一優先）：新遊戲 → 宿營 → 在學 → 休學在家 → 重考 → 放榜，各主要地點量 fps／三角形，找最慢的三處照美國社區的做法修（外觀不退）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2：先量（同一套 perf 工具），列最慢三處與原因，再逐項交 patch／GLB",
+   "status": "進行中",
+   "next": "LAWWW2 照順序交：①教學館室內殼＋自習家具單面 ②自習椅 10 m 外 lod1（teach3d）③博雅 9 盞點光源減到 2～3（白天晚上比較圖）④公館店面 GLB ⑤校園底下 820 m 柏油（zones3d）⑥室外無名路人遠距離版本 30→18 m（18／24／30 比較圖，LAWWW 看圖定）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -31920,9 +31920,9 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "每處改前改後同角度 fps、三角形數、截圖；外觀不退",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    },
-   "notes": ""
+   "notes": "LAWWW2-B 10-25 06:04 量完（b880e2399，test_shots/perf_patrol_econ_1025/；SwiftShader 844×390，12 地點×2 方向）：最慢三處＝椰林大道一帶 0.95～1.2（沒有單一元兇：人、騎車、校外背景、樹、影子各一點）、博雅大廳往北 1.55（9 盞點光源→2.55、自習椅雙面 1,020 三角形→2.15、室內殼雙面→1.95）、公館店面側 2.1（gongguan_shops 藏起來→3.25）；臺北的家、補習班、放榜是 2D 不量。LAWWW-B 06:1x 同意 a／b／c 出 patch、定順序。醉月湖面對玻璃牆照樣畫整個校園：記錄不處理。"
   },
   {
    "id": "SIS-B11-1025",
