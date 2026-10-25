@@ -31975,7 +31975,7 @@
    },
    "source": "BB-B 10-25 06:20 R34_SNOW_R3B（v9.10.10 判定前回報；BB 分支 2e391d324）",
    "authorized": "D85、D111",
-   "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。 ｜ v9.10.10 候選改成 3acaf8bea：全部 Node 618 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 06:3x，乾淨 worktree）。 ｜ 10-25 11:0x：發布只能整條合（GitHub 工具不能從 commit 開分支），3acaf8bea 以後已合 AA_456／457、經濟系效能 ①②③⑤⑥、BUG-PHONE-CAP、BUG-US-NEXTCLASS、AA_458（審中）→ v9.10.10 候選再往前＝AA_458 審完的 head，之後開發分支凍結到發布；BB 補測多出來的部分（11:0x 已通知 BB、LAWWW2）。",
+   "notes": "原因：events3d.js 的 CG 步驟不等點、adv3d.js A.cg 是 loadImage.then 才設 className——CG 是事件最後一步時，事件先結束、圖載好又蓋回去。修法：A.cg 的 then 裡 ADV 已經結束（A.endN 變了）就不蓋，圖鑑照樣解鎖（也蓋到 r2y3b3d、termend3d、postgrad3d、multirel3d 自己逐句演的路）；另外 40f3c2bc4（AA_452 第 4 節）讓初雪 CG 後面還有台詞。tests/adv_cg_after_end_unit.js（舊程式 2 FAIL）。 ｜ v9.10.10 候選改成 3acaf8bea：全部 Node 618 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 06:3x，乾淨 worktree）。 ｜ 10-25 11:0x：發布只能整條合（GitHub 工具不能從 commit 開分支），3acaf8bea 以後已合 AA_456／457、經濟系效能 ①②③⑤⑥、BUG-PHONE-CAP、BUG-US-NEXTCLASS、AA_458（審中）→ v9.10.10 候選再往前＝AA_458 審完的 head，之後開發分支凍結到發布；BB 補測多出來的部分（11:0x 已通知 BB、LAWWW2）。 ｜ v9.10.10 最終候選 f66ab34c6：全部 Node 625 支 0 失敗、HV-15 題目漏收 0（399）、check_orphans 88（10-25 11:1x，乾淨 worktree）；BB 第二輪測試中。",
    "evidence": "BB-B 10-25 11:0x RELEASE-91010-TEST 3acaf8bea＝GO（BB 分支 4abfb8d8f，BB_218）：R34_SNOW_R3C 三個時間點 #adv 都不是 cg、cg_last_scan 0 個；發布前清單 648 PASS 0 FAIL、save_compat_v7／live PASS（Playwright 手機模擬，不是 iPhone）"
   },
   {
