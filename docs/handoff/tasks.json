@@ -32389,6 +32389,28 @@
    "source": "AA-B 2026-10-25 11:52（企劃線 5bbd16ab1，outbox b5cb0fc51）；事件台詞全文掃描（十字以上一字不差三次以上 17 句，同一玩家會看到的兩組）",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "EV-STATIC-DUP2-1025",
+   "title": "事件台詞重複第二輪（AA_468）：ev_zr_nye_video_y4 照表換字（含 outingMissed，接「第二年了」「八月就回去了」）；r2y4b3d 律師讀書小組第一輪照舊、之後換旁白（可昕九句、語彤八句，週六另一組，照順序各一次，用完只留一句收尾；BAR_GROUP_KI／YI 超過 4 減 4）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 17,
+    "earliest": "大四跨年（ev_zr_nye_video_y4）；讀書小組 2/26～8/3",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:54（企劃線 cd2dc7646，outbox 188bd7458）；七位女主角台詞十二字以上跨兩個事件 21 句，會重複的兩組",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
