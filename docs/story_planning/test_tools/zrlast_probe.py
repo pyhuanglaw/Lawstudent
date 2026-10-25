@@ -2834,6 +2834,27 @@ for _z, _f, _k in [('gym_b1', TW3, '2026-10-14'), ('library_b1', TW3, '2026-10-1
     for _h in (14.0, 21.0):
         R33.append(WN('WL_%s_%02d' % (_z.upper(), int(_h)), _k, _h, _z, dict(_f), yaws=(0, 1.5708)))
 SCENS = SCENS + R33
+
+# ---------- R34（BB-B 10-25 02:1x）：AA_451（讀「沒見過何俊朗」劇本以後的改稿；開發分支 658704309，US-READ-NOLONG-1025）----------
+# 照逐日劇本的走法（TRX：讀檔 → 快轉到下一個有事的日子、有課就去、選項照偏好、手機要回的照 asks），只是從 11/3 21:06 開始（11/3 21:00 那一則約芝加哥剛發）：
+#   R34_CHI：沒見過何俊朗（NOLONG）、約芝加哥回「去。」→ ① 11/11 巴士上五句、11/12 博物館何俊朗版 ② 12/16 離開選「還好。」＝「……還好？你學我。」 ④ 舊金山那一週 12/17 媽媽「棉被曬過了。」在舊金山就收到、回臺灣不再跳一則
+#   R34_NOCHI：沒見過、約芝加哥回「這週不行。」→ ③ 12/8 最後一堂「一個香港來的交換生」、12/16「社區門口停著機場巴士」
+# 【前置】同 TRX_US_DATING_NOLONG（NOKX＋NOLONG＋交往中）；BUS 台詞照 tests/aa451_us_unit.js 的 BUS（第 4 句是你報自己的名字，不比）
+A451_BUS = ['（巴士上，坐在你們前面的是一個戴圓框眼鏡的男生。車子一開，他就回頭。）', '臺灣來的？我聽你們講話聽出來的。', '香港。何俊朗。叫我 Long 就好。', '（學姊點了一下頭，報了自己的名字。他轉回去以前，把手機上一家披薩店的地址給你們看。）']
+MOM1217 = "(()=>{ const M=(GAME.G.msgs||[]).filter(m=>m.th==='p:mom'&&String(m.text)==='棉被曬過了。'); return M.map(m=>({key:CALENDAR.dateOf(m.day).key,h:m.h})); })()"
+def A451(sid, asks, want, none, until, jsok=None, extra_pref=None):
+    st = [('bedpick', '睡覺', ['睡覺', '再撐一下'])]
+    for k, h in until:
+        st += [('ffloop', k, h, 120), ('dumplog', sid)]
+    return dict(id=sid, key='2028-11-03', h=21.1, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + NOLONG + B['DATE'] + B['BED'], steps=st,
+                pref=['出發', '去', '「好。」'] + (extra_pref or []), asks=asks, want=want, none=none, jsok=jsok or [])
+R34 = [A451('R34_CHI', {'us_chi': '去。', '*': ''}, A451_BUS + ['……還好？你學我。', '（他笑了一下，上了車。）'], ['同行的人說了好幾次', '……你又來了。'],
+            [('2028-11-12', 23.9), ('2028-12-16', 9.0), ('2028-12-23', 12.0)], extra_pref=['「還好。」'],
+            jsok=[('芝加哥巴士上認識：MET_LONG＋LONG_CHI', "(f=>[!!f.MET_LONG,!!f.LONG_CHI])(GAME.G.flags)", [True, True]),
+                  ('媽媽 12/17「棉被曬過了。」只有一則、日期 12/17', MOM1217, lambda L: isinstance(L, list) and len(L) == 1 and L[0]['key'] == '2028-12-17')]),
+       A451('R34_NOCHI', {'us_chi': '這週不行。', '*': ''}, ['（一個香港來的交換生念的那一句，沒有 however。全班拍手。）', '（天還沒亮。社區門口停著機場巴士。）'], [A451_BUS[0], '同一組的交換生', '……還好？你學我。'],
+            [('2028-12-08', 23.9), ('2028-12-16', 9.0)], jsok=[('一直沒見過：MET_LONG 沒開', "!GAME.G.flags.MET_LONG", True)])]
+SCENS = SCENS + R34
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
