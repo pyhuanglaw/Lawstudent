@@ -2779,6 +2779,21 @@
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
    "note": "term_sweep 2026-09-07～12-27，開發分支 25b535be4，八種存檔，0 錯誤；掃描每天先剪舊訊息、tag 記進 cut（模擬修好的樣子）。"
+  },
+  {
+   "task": "TERM-READ-Y2S2-1025",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "2afc82609",
+   "files": [
+    "docs/story_planning/AA_461_法律系大二下讀一遍_春假群組沒人回_Kevin的生日貼文.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW-B：group3d springChoose 選完祐廷一句＋回的人、none 加 4/2 21:00 柏翰；bdayKevin 分年 2027 換句；r3_3d ZR_FEE_SHOTS 第二張換字",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW-B",
+   "ack": "DELIVERED",
+   "note": "term_sweep 2027-02-22～06-13，開發分支 3b65720aa，八種存檔，0 錯誤。"
   }
  ],
  "items": [
