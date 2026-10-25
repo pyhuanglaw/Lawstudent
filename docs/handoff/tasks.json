@@ -32151,6 +32151,28 @@
    "source": "BB-B 10-25 BB_218（R2／NO 12/8 08:07 觀察，不擋 v9.10.10）",
    "authorized": "D85、D111",
    "notes": "LAWWW-B 10-25 11:0x：us_life3d.js、jp3d.js 各包 CLS.updateHUD（照 USL.items／status、jp classesOn／att）。tests/us_jp_nextclass_unit.js（舊程式 2 FAIL；只測美國，日本同一段寫法沒有單元測試）。"
+  },
+  {
+   "id": "TERM-READ-Y2S2-1025",
+   "title": "法律系大二下讀後（AA_461）：春假選完群組補祐廷的回覆（三種＋沒回 4/2 柏翰）、2027 學姊生日 Kevin 那句換字、芷若稿費截圖第二張換字",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（開發分支凍結期間在獨立工作樹做）",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S2",
+    "week": 6,
+    "earliest": "大二下春假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 10:53（企劃線 2afc82609，outbox baea57c21）；八種存檔 2/22～6/13",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
