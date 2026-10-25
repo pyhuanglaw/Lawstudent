@@ -3,8 +3,8 @@
    第一版家裡是 2D 背景（OUT.BG.home_living，圖還沒有＝深色底＋地點字幕）＋對話：到家一句 → 晚餐（18:30～20:00：媽媽問、玩家二選一、媽媽收尾（爸爸在上海，AA_298 第 8 節）；
    每月第一個週末姊姊宜蓁也在，多一句）→ 睡覺（隔天早上在家醒來、早上一句）→ 取車（媽媽一句；G.flags.carWithMe）→ 回宿舍（媽媽一句）。
    週日 21:30 以後提醒該回宿舍（隔天有課）。在家的時候宿舍、校園的事件不會發生（不懲罰，之後照常）；手機照常收訊息。不加、不扣任何人的好感。
-   家人群組（g:home）：週四 20:00 媽媽一句＋「會回去／這週不回」；兩小時沒回，爸爸傳「？」。
-   存檔 G.home＝{at:true|false, day, eat:{day}, used:{池:[最近用過的序號]}, ate:{序號:第幾天}}（舊存檔沒有＝不在家）。
+   家人群組（g:home）：週四 20:00 媽媽一句＋「會回去／這週不回」；兩小時沒回，爸爸傳「？」。AA_458 第 1 節起照「這一週有什麼事」挑句子、每一句有自己的回覆（S.GROUP_WK、S.grpPlan）；第 4 節中秋當天、颱風假前一晚（S.famDays）。
+   存檔 G.home＝{at:true|false, day, eat:{day}, used:{池:[最近用過的序號]}, ate:{序號:第幾天}, grp:{p:平常用了幾次, e:長輩圖用了幾張}, grpDin:加過晚餐旁白的那個週四}（舊存檔沒有＝不在家；grp、grpDin 沒有＝0、沒加過）。
    測試：node tests/home_unit.js */
 'use strict';
 const HOME=(function(){
@@ -45,7 +45,7 @@ const HOME=(function(){
     const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
     const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(((G.day+Object.keys(H.ate).length)%pool.length)+pool.length)%pool.length]; };   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
-    await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/
+    await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); { const x=S.grpDinner(G); if(x) await GM.say(null,x); } await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/   /* 這週四群組說了月餅、湯圓、點心……、回了「會回去」＝多一句旁白（AA_458 1-5）*/
     const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));
     if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（媽媽')); else await GM.say(MOM,d.dad); if(d.dadAct) await GM.say(null,'（媽媽'+d.dadAct.replace(/給他$/,'給你')+'）');   /* 收尾改媽媽（AA_138 2026-10-18；欄位名 dad 照舊）*/
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
