@@ -5,6 +5,7 @@
   python3 tools/blender/env_second/shots/perf_variants.py http://127.0.0.1:8765/index.html <清單.json> <截圖資料夾> <地點,地點> 改前= 改後=src/zones3d.js:/path/zones3d_new.js [844x390] [--samples=4]
   - 「名稱=」不換任何檔案；「名稱=網址路徑:本機檔案[,網址路徑:本機檔案]」換一個或幾個檔案。
   - 每一份輪流量（A B A B…）不準：重新載入的時間很長。改成每一份量完全部地點，最後再量一次第一份（看機器有沒有變慢）。
+  - --nopeople：把路人、騎車的人拿掉再量（只比場景本身）。
 同一台機器上同時只跑這一個瀏覽器工作，也不要同時跑 Blender（搶 CPU，數字會偏低）。"""
 import asyncio, json, sys, os, math
 from playwright.async_api import async_playwright
@@ -12,6 +13,7 @@ URL, LIST, OUT, NAMES = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4].split
 REST = sys.argv[5:]
 WH = next((a for a in REST if 'x' in a and '=' not in a and not a.startswith('--')), '844x390'); W, H = map(int, WH.split('x'))
 NS = int(next((a.split('=')[1] for a in REST if a.startswith('--samples=')), 4))
+NOPEOPLE = '--nopeople' in REST   # 【捷徑】把路人、騎車的人拿掉（有人走來走去的地方數字會跳；只比場景本身時用）
 VARS = [a.split('=', 1) for a in REST if '=' in a and not a.startswith('--')]
 VARS.append((VARS[0][0] + '_again', VARS[0][1]))
 FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
@@ -49,6 +51,7 @@ async def main():
                         cur = (st['zone'], st.get('day'), st.get('stage'))
                     await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; if(E.setLv) E.setLv(P,s.pos.lv|0); if(E.settleY) E.settleY(P); }
                         P.busy=true; if('hour' in s){ GAME.G.hour=s.hour; E.applyTime(s.hour); } const C=E.cam; C.mode='follow'; })(%s)""" % json.dumps(st, ensure_ascii=False))
+                    if NOPEOPLE: await pg.evaluate("(()=>{ const E=GAME.E; E.npcs.forEach(n=>{ n.hidden=true; n.obj.visible=false; }); (E.extras||[]).forEach(x=>{ if(x.obj&&x.obj.parent) x.obj.parent.remove(x.obj); }); })()")
                     await pg.evaluate(STABLE)
                     y0 = await pg.evaluate("GAME.E.cam.yaw")
                     yaws = pt.get('yaws') or [y0, y0 + math.pi]

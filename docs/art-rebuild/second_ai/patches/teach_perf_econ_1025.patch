@@ -1,8 +1,7 @@
 diff --git a/src/teach3d.js b/src/teach3d.js
-index 337a079ab..487d7517e 100644
 --- a/src/teach3d.js
 +++ b/src/teach3d.js
-@@ -151,9 +151,21 @@ const TB3=(function(){
+@@ -151,9 +151,21 @@
          const out=new THREE.Group(); out.name='furniture_glb'; const put=(name,list,fn)=>{ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,list.length); list.forEach((q,i)=>{ fn(q); Mx.compose(V,Q,S); im.setMatrixAt(i,Mx); });
            im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; out.add(im); };
          for(const mod of [...new Set(its.map(it=>it.mod))]) put(mod,its.filter(it=>it.mod===mod),it=>{ V.set(it.x,0,it.z); Q.setFromAxisAngle(UP,it.ry); S.set(1,1,1); });
@@ -25,9 +24,24 @@ index 337a079ab..487d7517e 100644
    /* ---- 關著的房間的門（ART-02：共同教學館沒有正式室內殼，洗手間、203 的門原本是一塊木板）：換成 furniture_study.glb 的門框＋關著的門片＋門牌 ----
       模組的約定：原點＝門洞中心的地面、z＝0 是牆的中心面、+z＝走廊；門洞 1.2×2.4、牆厚 0.2。這裡的牆沒有開口（關著的房間導航本來就擋著，鏡頭碰撞照牆算），
       所以門片貼在走廊那一面（中心離牆心 0.1245，比牆面凸 2 mm）、門框整個往走廊移 0.0475（門片比門框的飾條凹進去 1.5 cm，看起來像嵌在門框裡）；門牌在門的右邊、貼牆面（不移）。
+diff --git a/tests/desk_furniture_unit.js b/tests/desk_furniture_unit.js
+--- a/tests/desk_furniture_unit.js
++++ b/tests/desk_furniture_unit.js
+@@ -62,8 +62,10 @@
+   { const im=ims.study_table2||{count:-1}; const got=[]; for(let i=0;i<im.count;i++) got.push(decomp(im,i));
+     check('B 自習雙人桌 '+study.tables.length+' 張：位置＝桌子中心、轉 90°、沒有縮放',im.count===study.tables.length&&study.tables.every(t=>got.some(p=>Math.abs(p.x-t.x)<1e-3&&Math.abs(p.z-t.z)<1e-3&&Math.abs(p.y)<1e-6&&angEq(p.yaw,Math.PI/2)&&Math.abs(p.sy-1)<1e-6))); }
+   { const im=ims.round_table||{count:-1}; check('B 圓桌 '+round.tables.length+' 張：位置＝桌子中心',im.count===round.tables.length&&round.tables.every(t=>{ for(let i=0;i<im.count;i++){ const p=decomp(im,i); if(Math.abs(p.x-t.x)<1e-3&&Math.abs(p.z-t.z)<1e-3) return true; } return false; })); }
+-  { const im=ims.study_chair||{count:-1}, want=[...study.tables,...round.tables].flatMap(t=>t.seats); const got=[]; for(let i=0;i<im.count;i++) got.push(decomp(im,i));
+-    check('B 椅子 '+want.length+' 張：每個座位一張、位置＝座位、朝向＝座位 yaw（坐的人面向桌子）',im.count===want.length&&want.every(s=>got.some(p=>Math.abs(p.x-s.x)<1e-3&&Math.abs(p.z-s.z)<1e-3&&angEq(p.yaw,s.yaw))));
++  /* 自習椅 10 m 外換 study_chair_lod1（PERF-PATROL-ECON-1025 ②）：椅子分在完整版、遠處版兩組，第一格更新才分；兩組合起來檢查（每個座位剛好一張）*/
++  if(z.update&&ims.study_chair_lod1){ const cam=new THREE.PerspectiveCamera(); cam.position.set(0,3.4,11); E.camera=cam; z.update(1/30,E); }
++  { const ims2=[ims.study_chair,ims.study_chair_lod1].filter(Boolean), want=[...study.tables,...round.tables].flatMap(t=>t.seats); const got=[]; for(const im of ims2) for(let i=0;i<im.count;i++) got.push(decomp(im,i));
++    check('B 椅子 '+want.length+' 張（完整版＋遠處版 '+ims2.map(im=>im.count).join('＋')+'）：每個座位一張、位置＝座位、朝向＝座位 yaw（坐的人面向桌子）',got.length===want.length&&want.every(s=>got.filter(p=>Math.abs(p.x-s.x)<1e-3&&Math.abs(p.z-s.z)<1e-3&&angEq(p.yaw,s.yaw)).length===1));
+     check('B 椅子垂直放大 '+CHAIR_FIT.toFixed(3)+'、水平不變',got.every(p=>Math.abs(p.sy-CHAIR_FIT)<1e-4&&Math.abs(p.sx-1)<1e-4&&Math.abs(p.sz-1)<1e-4)); }
+   { const fb=[]; z.group.traverse(o=>{ if(o.name==='furniture_fallback') fb.push(o); }); const merged=fb[0]&&fb[0].children.filter(o=>o.name==='furniture');
+     check('B 程序化備用（合成一個網格）藏起來',fb.length===1&&!fb[0].visible&&merged&&merged.length===1,JSON.stringify({n:fb.length,visible:fb[0]&&fb[0].visible})); }
 diff --git a/tests/teach_perf_econ_unit.js b/tests/teach_perf_econ_unit.js
 new file mode 100644
-index 000000000..99cd5775c
 --- /dev/null
 +++ b/tests/teach_perf_econ_unit.js
 @@ -0,0 +1,41 @@

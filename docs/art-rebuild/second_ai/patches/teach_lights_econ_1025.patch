@@ -1,0 +1,75 @@
+diff --git a/src/teach3d.js b/src/teach3d.js
+--- a/src/teach3d.js
++++ b/src/teach3d.js
+@@ -160,6 +160,21 @@
+       zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
+   /* 自習椅 10 m 外換 study_chair_lod1（72 個三角形；完整版 1,020）——PERF-PATROL-ECON-1025（LAWWW2-B 2026-10-25，LAWWW-B 同意）：博雅大廳 32 張椅子在鏡頭裡，雙面完整版一共 3.3 萬個三角形。
+      離鏡頭 10 m 外換、9.5 m 內換回來（邊界上不會一直換）；有變動才重填。測試：node tests/teach_perf_econ_unit.js */
++  /* 燈（PERF-PATROL-ECON-1025 ③，LAWWW2-B 2026-10-25，LAWWW-B 同意先試）：配置的燈（每棟 9 盞＋空橋 2 盞）當「燈位」，真的光源只有 3 盞，跟著玩家換到最近的 3 個燈位（照 3D 距離：照到玩家附近最亮的就是最近的那幾盞；試過同一層優先，二樓晚上人物變暗——一樓的燈原本隔著樓板照到人）；
++     換的時候先淡出、再淡入（各 0.4 秒），不會一下子亮暗。光源數固定（shader 不重編）；白天／晚上的亮度照燈位的 on／off（onLamps）。
++     博雅大廳往北：9 盞 1.55 fps、3 盞 2.3（全關 2.55）；離玩家遠的燈本來就只照到牆後的教室（點光源不擋牆）。測試：node tests/teach_perf_econ_unit.js */
++  const LIGHT_K=3, LIGHT_FADE=0.4;
++  function lightPool(zone,g,lights){ if(lights.length<=LIGHT_K) return;
++    const spots=lights.map(l=>{ if(l.parent) l.parent.remove(l); return {p:l.position.clone(),on:l.userData.on,off:l.userData.off,dist:l.distance,decay:l.decay,color:l.color.clone()}; }); lights.length=0;
++    const slots=[]; for(let i=0;i<LIGHT_K;i++){ const l=new THREE.PointLight(0xfff4e6,0,16,2); l.name='teach_light_'+i; g.add(l); slots.push({l,s:null,k:0}); }
++    zone.lightPool={spots,slots,on:false,first:true}; zone.onLamps=function(on){ zone.lightPool.on=!!on; lightStep(zone,0,null); };
++    const prev=zone.update; zone.update=function(dt,E){ if(prev) prev.call(this,dt,E); lightStep(zone,dt,E); }; }
++  function lightStep(zone,dt,E){ const P=zone.lightPool, pl=E&&E.player&&E.player.obj;
++    if(pl){ const want=P.spots.map(s=>({s,d:s.p.distanceTo(pl.position)})).sort((a,b)=>a.d-b.d).slice(0,LIGHT_K).map(o=>o.s), st=P.first?1:Math.min(1,(dt||0)/LIGHT_FADE);
++      for(const sl of P.slots){ if(!sl.s) continue; if(want.indexOf(sl.s)<0){ sl.k=Math.max(0,sl.k-st); if(sl.k<=0) sl.s=null; } else sl.k=Math.min(1,sl.k+st); }
++      for(const s of want){ if(P.slots.some(sl=>sl.s===s)) continue; const f=P.slots.find(sl=>!sl.s); if(!f) break; f.s=s; f.k=P.first?1:0; f.l.position.copy(s.p); f.l.distance=s.dist; f.l.decay=s.decay; f.l.color.copy(s.color); }
++      P.first=false; }
++    for(const sl of P.slots) sl.l.intensity=sl.s?sl.k*(P.on?sl.s.on:sl.s.off):0; }
+   const CHAIR_LOD_D=10, CHAIR_LOD_BACK=9.5, _cP=new THREE.Vector3();
+   function chairLod(zone,E){ const cam=E&&E.camera; if(!cam) return;
+     for(const L of zone.chairLods){ let ch=!L.done; L.out.updateWorldMatrix(true,false);
+@@ -329,6 +344,7 @@
+     for(const s of [ss.a,ss.ld,ss.b,ss.top]){ const w=s.x1-s.x0, d=s.z1-s.z0; const ya=s.y!==undefined?s.y:s.ya, yb=s.y!==undefined?s.y:s.yb; const m=new THREE.Mesh(new THREE.PlaneGeometry(w,Math.hypot(d,yb-ya)),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((s.x0+s.x1)/2,(ya+yb)/2+0.01,(s.z0+s.z1)/2); m.rotation.x=-Math.PI/2-Math.atan2(yb-ya,d); m.userData.walkLv=(s===ss.b||s===ss.top)?1:0; m.userData.dyn=true; lv0.add(m); walkMeshes.push(m);
+       const ax=(S.A.x0+S.A.x1)/2, bx=(S.B.x0+S.B.x1)/2, ldz=(S.landing.z0+S.landing.z1)/2; if(s===ss.a) m.userData.stairEnds=[{x:ax,z:S.A.z1+0.5,lv:0},{x:ax,z:ldz,lv:0}]; if(s===ss.b) m.userData.stairEnds=[{x:bx,z:ldz,lv:0},{x:bx,z:S.B.z1+0.6,lv:1}]; }
+     for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
++    lightPool(zone,g,lights);
+     zone.teacherSpots={}; for(const r of L.rooms){ const lc=r.lectern; if(!lc||r.stage!=='S') continue; const bx=r.board?r.board.x:(r.x0+r.x1)/2, sx=bx<lc.x?-1:1;   /* 階梯教室（講台在南邊）：老師站在講桌靠黑板中間那一側、面向座位（-z）；story3d.js 的作息（CLS.profWhere）用 */
+       zone.teacherSpots[r.id]={x:lc.x+sx*(lc.w/2+0.45),z:lc.z+0.2,yaw:Math.PI,lv:r.lv|0}; }
+     /* 室內正式模型（LAWWW2-C teach_interior.py → ASSETS 'bldg.<id>_interior'；普通、博雅，2026-10-18 ART-EXT-TEACH）：和法圖、萬才館同一套接法（B3.attachFormal：L0_root／L1_root、WALL_*）；
+diff --git a/tests/teach_perf_econ_unit.js b/tests/teach_perf_econ_unit.js
+--- a/tests/teach_perf_econ_unit.js
++++ b/tests/teach_perf_econ_unit.js
+@@ -2,6 +2,7 @@
+ //   博雅大廳往北看 SwiftShader 1.55 fps（往南 4.1）：同一頁一次藏一類，室內殼 GLB 改單面 →1.95、自習椅＋桌子藏起來 →2.15。
+ //   ① 博雅、普通的室內殼（teach_interior.py）除了玻璃都單面；家具模組 furniture_study.glb 單面（網格都是封閉的：方盒、Solidify 的夾板、有蓋的圓管）。
+ //   ② 自習椅 10 m 外換 study_chair_lod1（72 個三角形；完整版 1,020）：teach3d.js 的 chairLod，9.5 m 內換回來；真的照距離分兩組、數量對、有變動才重填。
++//   ③ 燈：配置的燈當燈位，真的光源只有 3 盞（lightPool／lightStep），跟著玩家換到最近的 3 個燈位（3D 距離）、換的時候淡出淡入、白天晚上亮度照 on／off；光源數一直是 3。
+ // 修改前 FAIL。用法：node tests/teach_perf_econ_unit.js
+ const fs=require('fs'), path=require('path'), vm=require('vm');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -38,4 +39,30 @@
+   check('② 9.5 m 內換回完整版', L.near.count===6&&L.far.count===6, L.near.count+' / '+L.far.count);
+   const p=new THREE.Vector3(); const xs=[]; for(let i=0;i<L.near.count;i++){ L.near.getMatrixAt(i,new THREE.Matrix4()); const m=new THREE.Matrix4(); L.near.getMatrixAt(i,m); p.setFromMatrixPosition(m); xs.push(p.x); }
+   check('② 完整版放的是近的那幾張', xs.join(',')==='0,2,4,6,8,10', xs.join(',')); }
++
++// ③ 燈
++const lb=/  const LIGHT_K=[\s\S]*?\n  function lightStep\(zone,dt,E\)\{[\s\S]*?sl\.l\.intensity=sl\.s\?sl\.k\*\(P\.on\?sl\.s\.on:sl\.s\.off\):0; \}\n/.exec(src);
++check('③ teach3d.js 建燈的地方呼叫 lightPool', /lights\.push\(l\); \}\n    lightPool\(zone,g,lights\);/.test(src));
++check('③ 找得到 lightPool／lightStep', !!lb);
++if(lb){ const f=vm.runInThisContext('(function(){ '+lb[0]+' return {lightPool,lightStep,LIGHT_K,LIGHT_FADE}; })()');
++  const BOYA=[[0,3.9,2,6,4],[0,3.9,-3,5,3],[-11.4,3.9,-3,6,3],[-11.4,3.9,5,6,3],[11.4,3.9,-3,6,3],[11.4,3.9,5,6,3],[0,8.2,1,6,4],[-11.4,8.2,-4.6,6,3],[11.4,8.2,-4.6,6,3]];
++  const g=new THREE.Group(), lights=[]; for(const [x,y,z,on,off] of BOYA){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
++  const zone={group:g}; f.lightPool(zone,g,lights);
++  const pls=()=>g.children.filter(o=>o.isPointLight);
++  check('③ 博雅 9 盞 → 真的光源 3 盞', f.LIGHT_K===3&&pls().length===3, pls().length+' 盞');
++  const pl={obj:{position:new THREE.Vector3(0,0,4)}}, E={player:pl};
++  zone.onLamps(false); zone.update(1/30,E);
++  const lit=()=>pls().filter(l=>l.intensity>0).map(l=>[l.position.x,l.position.y,l.position.z].join(',')+'@'+l.intensity.toFixed(2)).sort();
++  check('③ 進來第一格就是最近的 3 盞、白天的亮度（大廳兩盞＋上面二樓中間那盞）', JSON.stringify(lit())===JSON.stringify(['0,3.9,-3@3.00','0,3.9,2@4.00','0,8.2,1@4.00']), lit().join(' '));
++  zone.onLamps(true); check('③ 開燈（晚上）馬上換成 on 的亮度', JSON.stringify(lit())===JSON.stringify(['0,3.9,-3@5.00','0,3.9,2@6.00','0,8.2,1@6.00']), lit().join(' '));
++  pl.obj.position.set(-11.4,0,1);   // 走進西邊的階梯教室
++  zone.update(1/30,E); const mid=pls().map(l=>l.intensity);
++  check('③ 換燈位不會一下子跳：下一格還在淡出（亮度在 0 和原本之間）', mid.some(v=>v>0&&v<6)&&pls().length===3, mid.map(v=>v.toFixed(2)).join(' '));
++  for(let i=0;i<60;i++) zone.update(1/30,E);
++  check('③ 淡完以後是教室裡的兩盞＋教室上面二樓那盞', JSON.stringify(lit())===JSON.stringify(['-11.4,3.9,-3@6.00','-11.4,3.9,5@6.00','-11.4,8.2,-4.6@6.00']), lit().join(' '));
++  pl.obj.position.set(0,4.8,1); for(let i=0;i<60;i++) zone.update(1/30,E);   // 上二樓
++  check('③ 上二樓：最近的是正下方大廳的兩盞＋二樓中間那盞', JSON.stringify(lit())===JSON.stringify(['0,3.9,-3@5.00','0,3.9,2@6.00','0,8.2,1@6.00']), lit().join(' '));
++  pl.obj.position.set(-11.4,0,1); for(let i=0;i<60;i++) zone.update(1/30,E);
++  check('③ 光源數一直是 3（shader 不重編）', pls().length===3&&g.children.filter(o=>o.isPointLight).length===3);
++  zone.onLamps(false); check('③ 關燈（白天）回到 off 的亮度', JSON.stringify(lit())===JSON.stringify(['-11.4,3.9,-3@3.00','-11.4,3.9,5@3.00','-11.4,8.2,-4.6@3.00']), lit().join(' ')); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
