@@ -6,7 +6,8 @@
 //   2 法服值班：開場六句照順序各一次、用完不說；民眾第一輪八件（照舊問「你先問什麼？」）→ 第二輪同一批人回來講後續（不問）→ 第三輪起一句旁白三句輪；
 //     語彤六句照順序各一次、用完不說（暫時打開 YT_FAFU 測）；舊存檔 FAFU_ROT 照原本的次數接著算、缺欄位不壞
 //   3 打工的收尾：Café 芷若、書店沛珊、便利商店夜班最後一句，六句照順序輪（實際上班）；舊存檔 withN／nightN 接著輪
-// 修改前（c7d701caf）：0～3 每一節至少一項 FAIL。用法：node tests/aa469_rot_unit.js
+//   6 第 6 節（企劃線 9a3de960f）：①語彤六句先放著（YT_FAFU 照舊 no）；法服的回訪另開計數（FAFU_ROT.bk）：舊存檔 cs 已經 8 以上的從回訪第 1 位開始、八位演完才進旁白（旁白從第 1 句，FAFU_ROT.lg）；開場、語彤照原本
+// 修改前（c7d701caf）：0～3 每一節至少一項 FAIL；第 6 節：40cb58935 上 FAIL。用法：node tests/aa469_rot_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -35,6 +36,8 @@ const LOG=sub(part('- **第三輪起**','- 第二輪的句子'),'  ');
 const OPEN3=sub(part('### 2-2','### 2-3'),'  ').map(sp), YT3=sub(part('### 2-3','- 口氣照她'),'  ');
 const T3={}; for(const r of rows(part('## 3.','## 4.'))){ const k=/^Café/.test(r[0])?'cafe':/^書店/.test(r[0])?'books':/^便利商店/.test(r[0])?'cvs':null; if(k) T3[k]=r[1].split('／'); }
 const arr=(src,name)=>{ const m=src.match(new RegExp('(?:const |S\\.)'+name+'=(\\[[^;]*?\\]);')); if(!m) return null; try{ return vm.runInNewContext(m[1]); }catch(e){ return null; } };
+let doc6=''; try{ doc6=cp.execSync('git show 9a3de960f:"docs/story_planning/AA_469_長期輪流的短句_阿哲揪麵店_法服值班_打工收尾.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc6=''; }   /* 第 6 節：回 LAWWW-B 的施工問題 */
+const P6=(()=>{ const i=doc6.indexOf('## 6.'); return i<0?'':doc6.slice(i); })();
 const OLD={P:arr(base,'NDL_PINGS'),OPEN:arr(base,'FAFU_OPEN'),YT:arr(base,'FAFU_YT'),CASES:(base.match(/S\.FAFU_CASES=\[[\s\S]*?\]\];/)||[''])[0]};
 
 (async()=>{
@@ -91,15 +94,18 @@ await sec(2,async()=>{
   check('2-1. 第一輪（第 1～8 次）：八件照順序、照舊問「你先問什麼？」、民眾和 BB 查過的回覆照舊',S.slice(0,8).every((L,i)=>{ const c=STORY.FAFU_CASES[i]; return has(L,null,'（'+c[0]+'。）')&&has(L,null,Q)&&has(L,'民眾',c[1])&&has(L,c[2],c[3]); })&&O.slice(0,8).every(o=>o.length===2),J(S[0]));
   check('2-1. 第二輪（第 9～16 次）：同樣八個人照順序回來（2-1 的表：旁白、民眾、學長／學姊），不問「你先問什麼？」、只剩「再待到十二點／先走」',S.slice(8,16).every((L,i)=>{ const r=T21[i]; return has(L,null,r[0][1])&&has(L,'民眾',r[1][1])&&has(L,r[2][0],r[2][1])&&!has(L,null,Q)&&!STORY.FAFU_CASES.some(c=>has(L,null,'（'+c[0]+'。）')); })&&O.slice(8,16).every(o=>o.length===1&&J(o[0])===J(['再待到十二點。','先走。'])),J([S[8],O[8]]));
   check('2-1. 第三輪起（第 17 次～）：只有一句旁白，三句輪（'+LOG.map(t=>t.slice(1,6)).join('／')+'…），沒有民眾、不問',S.slice(16).every((L,i)=>has(L,null,LOG[i%3])&&!L.some(x=>x.w==='民眾')&&!has(L,null,Q))&&has(S[19],null,LOG[0]),J(S.slice(16).map(L=>L.filter(x=>LOG.includes(x.t)).map(x=>x.t))));
-  check('2. 結尾照舊（初談紀錄、學長簽名）；FAFU_ROT 記到第 20 次（cs）、開場停在 6',S.every(L=>has(L,null,'（初談紀錄，一頁。學長在最下面簽名。）'))&&H.G.flags.FAFU_ROT.cs===20&&H.G.flags.FAFU_ROT.open===6,J(H.G.flags.FAFU_ROT));
+  check('2. 結尾照舊（初談紀錄、學長簽名）；FAFU_ROT 記到第 20 次（cs）、開場停在 6、回訪 8 位（bk）、旁白 4 次（lg）',S.every(L=>has(L,null,'（初談紀錄，一頁。學長在最下面簽名。）'))&&H.G.flags.FAFU_ROT.cs===20&&H.G.flags.FAFU_ROT.open===6&&H.G.flags.FAFU_ROT.bk===8&&H.G.flags.FAFU_ROT.lg===4,J(H.G.flags.FAFU_ROT));
   /* 語彤（S.YT_FAFU 固定 no；暫時打開）*/
   const yf=STORY.YT_FAFU; let Y=[];
   try{ STORY.YT_FAFU='yes'; fresh(SAT,9,'wancai',Object.assign({YT_LEGALAID_Y2:true},MEM)); H.G.stage='law'; SOCIAL.remember('heroine_03','FIRST_MET',''); H.FRIEND('heroine_03'); for(let i=0;i<8;i++){ const L=await shift(); Y.push(L.filter(x=>STORY.FAFU_YT.includes(x.t)).map(x=>x.t)); } } finally { STORY.YT_FAFU=yf; }
   check('2-3. 語彤在法服（暫時打開 YT_FAFU）：第 1～6 次照順序各一句，第 7 次起她在、不說話',J(Y)===J(STORY.FAFU_YT.map(t=>[t]).concat([[],[]])),J(Y));
-  check('2-3. 遊戲裡語彤照舊不在法服（STORY.YT_FAFU＝no）',STORY.YT_FAFU==='no');
+  check('2-3. 遊戲裡語彤照舊不在法服（STORY.YT_FAFU＝no；第 6 節①「先放著，語彤不進法服」，六句留在資料裡）',STORY.YT_FAFU==='no'&&/語彤在法服的六句：先放著，語彤不進法服/.test(P6)&&/`S\.YT_FAFU` 照舊是 no/.test(P6)&&STORY.FAFU_YT.length===6);
   /* 舊存檔 */
+  check('6. 讀得到第 6 節：回訪另開計數、舊存檔 cs 已經 8 以上的從回訪第 1 位開始、八位回訪演完才進流水帳旁白',/回訪另開計數/.test(P6)&&/舊存檔 `cs` 已經 8 以上的，從回訪第 1 位開始，八位回訪演完才進流水帳旁白/.test(P6),P6.slice(0,80));
   fresh(SAT,9,'wancai',Object.assign({FAFU_ROT:{open:4,cs:10,stay:1,yt:2,bh:0}},MEM)); H.G.stage='law'; const L1=await shift();
-  check('2. 舊存檔（FAFU_ROT open 4、cs 10）：開場第 5 句「'+(STORY.FAFU_OPEN[4]||OPEN3[1])[1]+'」、民眾＝第二輪第 3 位（冰箱那位先生）',!!STORY.FAFU_OPEN[4]&&L1[0].t===STORY.FAFU_OPEN[4][1]&&has(L1,null,T21[2][0][1])&&has(L1,'民眾',T21[2][1][1]),J(L1.slice(0,4)));
+  check('6. 舊存檔（FAFU_ROT open 4、cs 10、沒有 bk）：開場照原本的計數（第 5 句「'+(STORY.FAFU_OPEN[4]||OPEN3[1])[1]+'」）、民眾＝回訪第 1 位（拖吊的大學生），不是跳到第 3 位',!!STORY.FAFU_OPEN[4]&&L1[0].t===STORY.FAFU_OPEN[4][1]&&has(L1,null,T21[0][0][1])&&has(L1,'民眾',T21[0][1][1])&&!has(L1,null,T21[2][0][1])&&!has(L1,null,'你先問什麼？'),J(L1.slice(0,4)));
+  fresh(SAT,9,'wancai',Object.assign({FAFU_ROT:{open:9,cs:30,stay:3,yt:0,bh:0}},MEM)); H.G.stage='law'; const LL=[]; for(let i=0;i<10;i++) LL.push(await shift());
+  check('6. 舊存檔值班很多次（cs 30）：八位回訪照順序演完（第 1～8 次），第 9 次起才進旁白（從第 1 句「'+LOG[0].slice(0,8)+'…」）；沒有開場',LL.slice(0,8).every((L,i)=>has(L,null,T21[i][0][1])&&has(L,'民眾',T21[i][1][1])&&has(L,T21[i][2][0],T21[i][2][1])&&!has(L,null,'你先問什麼？'))&&has(LL[8],null,LOG[0])&&has(LL[9],null,LOG[1])&&!LL[8].some(x=>x.w==='民眾')&&LL.every(L=>!L.some(x=>STORY.FAFU_OPEN.some(o=>o[1]===x.t)))&&H.G.flags.FAFU_ROT.bk===8&&H.G.flags.FAFU_ROT.cs===40,J([LL.map(L=>L.filter(x=>x.w===null).map(x=>x.t)[0]),H.G.flags.FAFU_ROT]));
   fresh(SAT,9,'wancai',Object.assign({FAFU_ROT:{open:0,cs:0}},MEM)); H.G.stage='law'; let L2=null; try{ L2=await shift(); }catch(e){ L2=null; }
   check('2. 舊存檔 FAFU_ROT 少欄位（沒有 yt、stay、bh）：照常演、不丟例外',!!L2&&L2[0].t===STORY.FAFU_OPEN[0][1]&&H.G.flags.FAFU_ROT.cs===1);
 });

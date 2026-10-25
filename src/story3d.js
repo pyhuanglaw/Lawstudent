@@ -637,7 +637,8 @@ const STORY = (function(){
     ['一個高中生，打工的地方要他簽一張單子，上面寫「自願不投保」','不簽的話，他說我就不能來。','研究所學長','這張單子我們幫你問清楚，這幾天回你。'],
     ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','雅筑學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
   /* AA_469 2-1（企劃線 9f465dcef）：第一輪八件照上面（BB 查過的法律句子不動）；第二輪（第 9～16 次）同樣八個人照順序回來講後續（[旁白, 民眾, 誰回, 回的話]；不給結論、不問「你先問什麼？」）；
-     第三輪起不寫民眾，只寫一句旁白（FAFU_LOG 三句輪）。照 FAFU_ROT.cs（第幾次）；舊存檔照原本的次數接著算 */
+     第三輪起不寫民眾，只寫一句旁白（FAFU_LOG 三句輪）。第一輪照 FAFU_ROT.cs（第幾次）。
+     AA_469 第 6 節（企劃線 9a3de960f）：回訪另開計數 FAFU_ROT.bk（回訪演到第幾位）——舊存檔 cs 已經 8 以上的從回訪第 1 位開始，八位回訪演完才進旁白；旁白照 FAFU_ROT.lg 輪（從第 1 句）*/
   S.FAFU_BACK=[['（上次機車被拖吊的大學生又來了。）','單子找到了。時間我照你們說的寫下來了。','研究所學長','好。下一步我們一起看。'],
     ['（樓上漏水的阿姨又來了，手上拿著一疊照片。）','樓上終於開門了。……他也不知道在漏。','雅筑學姊','照片還是留著。'],
     ['（冰箱那位先生又來了。）','那一頁我帶去了。店家說可以換。','研究所學長','換好以前，紀錄先不要丟。'],
@@ -671,21 +672,21 @@ const STORY = (function(){
     if(/^Y4/.test(t.id)){ if(once('s10',['你的紀錄，學弟拿去當範本了。','……原話都還在。'])) return out; once('s11',['我論文的第三章，是在這張圓桌旁邊想出來的。']); }
     return out; };
   S.fafuShift=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuShiftable(G)) return false; F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; F.FAFU_SHIFT_N=(F.FAFU_SHIFT_N|0)+1;
-    const R=F.FAFU_ROT||(F.FAFU_ROT={open:0,cs:0,stay:0,yt:0,bh:0}), nm=n=>({name:n}), sisWho={name:typeof SOCIAL!=='undefined'?SOCIAL.npcName('heroine_05'):'溫學姊',charId:'heroine_05'};
+    const R=F.FAFU_ROT||(F.FAFU_ROT={open:0,cs:0,stay:0,yt:0,bh:0,bk:0,lg:0}), nm=n=>({name:n}), sisWho={name:typeof SOCIAL!=='undefined'?SOCIAL.npcName('heroine_05'):'溫學姊',charId:'heroine_05'};
     const sayL=async(who,L)=>{ for(const l of L){ if(l&&l.n) await GM.say(null,l.n); else await GM.say(who,l); } };
     GM.sceneBegin(); let retell=false, sis;
     let bhHello=false;
     try{ if((R.open|0)<S.FAFU_OPEN.length){ const op=S.FAFU_OPEN[R.open|0]; R.open=(R.open|0)+1; await GM.say(nm(op[0]),op[1]); }   /* AA_469 2-2：六句只用一輪 */
       { const t=CALENDAR.termOf(G.day); if(t&&/^Y2/.test(t.id)&&!(t.id==='Y2S1'&&t.week<6)&&!F.FAFU_BH_HELLO&&S.knows('classmate_bohan',G)){ F.FAFU_BH_HELLO=G.day; bhHello=true; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},S.FAFU_BH_HELLO); } }
       sis=S.fafuSisLines(G,'front'); if(sis.lines.length) await sayL(sisWho,sis.lines);
-      const ci=R.cs|0, nC=S.FAFU_CASES.length; R.cs=ci+1;   /* AA_469 2-1：第一輪八件、第二輪回訪、第三輪起旁白 */
+      const ci=R.cs|0, nC=S.FAFU_CASES.length, bi=R.bk|0; R.cs=ci+1;   /* AA_469 2-1：第一輪八件、第二輪回訪、第三輪起旁白；回訪另開計數（第 6 節）*/
       if(ci<nC){ const c=S.FAFU_CASES[ci]; await GM.say(null,'（'+c[0]+'。）');
         await GM.say(null,'你先問什麼？'); const k=await GM.choose([{t:'「先請他從頭講一次。」'},{t:'「先問什麼時候發生的。」'},{t:'「先問手上有什麼資料。」'}]);
         if(k===0){ retell=true; await GM.say(nm('雅筑學姊'),'好。先聽完。'); await GM.say(null,'（他講了十五分鐘。最重要的那一句，在最後。）'); }
         else if(k===1) await GM.say(nm('研究所學長'),'時間寫在最上面。對。'); else await GM.say(nm('研究所學長'),'有的話，下次帶來，會快很多。');
         await GM.say(nm('民眾'),c[1]); await GM.say(nm(c[2]),c[3]); }
-      else if(ci<nC+S.FAFU_BACK.length){ const b=S.FAFU_BACK[ci-nC]; await GM.say(null,b[0]); await GM.say(nm('民眾'),b[1]); await GM.say(nm(b[2]),b[3]); }   /* 回來講後續：不問「你先問什麼？」*/
-      else await GM.say(null,S.FAFU_LOG[(ci-nC-S.FAFU_BACK.length)%S.FAFU_LOG.length]);
+      else if(bi<S.FAFU_BACK.length){ const b=S.FAFU_BACK[bi]; R.bk=bi+1; await GM.say(null,b[0]); await GM.say(nm('民眾'),b[1]); await GM.say(nm(b[2]),b[3]); }   /* 回來講後續：不問「你先問什麼？」*/
+      else { const li=R.lg|0; R.lg=li+1; await GM.say(null,S.FAFU_LOG[li%S.FAFU_LOG.length]); }
       if(F.YT_LEGALAID_Y2&&S.ytFafu(G)&&S.knows('heroine_03',G)&&(R.yt|0)<S.FAFU_YT.length){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt|0]); R.yt=(R.yt|0)+1; }   /* AA_469 2-3：六句只用一輪 */
       { const t=CALENDAR.termOf(G.day); if(t&&!bhHello&&!(t.id==='Y2S1'&&t.week<6)&&S.knows('classmate_bohan',G)){ const L=/^Y2/.test(t.id)?S.FAFU_BH:S.FAFU_BH_Y3; await GM.say({name:SOCIAL.displayName('classmate_bohan'),charId:'classmate_bohan'},L[R.bh%2]); R.bh++; } }
       { const more=S.fafuSisLines(G,'back',{retell}); if(more.lines.length) await sayL(sisWho,more.lines); }

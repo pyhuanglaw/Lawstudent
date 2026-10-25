@@ -4,7 +4,9 @@
 //     原本那天的「考完東西先搬一些回來」（期末下學期）不再出現；排在節日之前（那一週有節日也是畢業那兩則）；別的學期、別的週四不受影響；不是法律系（沒去典禮）照原本；舊存檔那個週四已經收過的不重發；
 //     典禮前一天（06-01）21:00 爸爸「📷（桃園機場的入境大廳）」：家人群組、不用回；住家裡的也傳；人在國外、不在家人群組不傳；睡過了照原本的時間補，過了那一段不補
 //   2 子晴的貓第 6 張（2029-06-02 12:00）：「（照片：貓趴在一張畢業證書上）」「去年的。今天借牠拍一張。……畢業快樂。」；交往中的「（去看貓）」照舊
-// 修改前（c7d701caf）：0～2 每一節至少一項 FAIL。用法：node tests/aa465_y4s2_unit.js
+//   7 第 7 節（企劃線 9a3de960f）：住家裡（HOME.LIVE_GROUP，載真的 src/jpprep3d.js）的玩家 05-31 媽媽那兩則不發，改成姊姊在家人群組一句 20:00「禮拜六我請假了 典禮見」（不用回、爸爸不傳「？」；
+//     那個週四住家裡版的 H1～H6 不另外發）；別的週四住家裡版照舊；06-01 爸爸的照片照舊傳；舊存檔那個週四已經收過住家裡版的不重發
+// 修改前（c7d701caf）：0～2 每一節至少一項 FAIL；第 7 節：40cb58935 上 FAIL。用法：node tests/aa465_y4s2_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -29,6 +31,8 @@ const quotes=t=>t.split('\n').map(l=>l.trim()).filter(l=>/^> \S/.test(l)).map(l=
 const P1=part('## 1.','## 2.'), Q1=quotes(P1), MOM=Q1.filter(q=>q.who==='媽媽').map(q=>q.t), DAD=Q1.filter(q=>q.who==='爸爸').map(q=>q.t);
 const P2=part('## 2.','## 3.'), Q2=quotes(P2), OLD2=Q2.slice(0,2).map(q=>q.t), NEW2=Q2.slice(2,4).map(q=>q.t);
 const GRAD=D('2029-06-02'), THU=GRAD-2, EVE=GRAD-1;
+let doc7=''; try{ doc7=cp.execSync('git show 9a3de960f:"docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc7=''; }   /* 第 7 節：回 LAWWW-B 的施工問題 */
+const P7=(()=>{ const i=doc7.indexOf('## 7.'); return i<0?'':doc7.slice(i); })(), Q7=quotes(P7);
 
 (async()=>{
 /* ---- 0 讀稿、資料照稿 ---- */
@@ -97,6 +101,27 @@ await sec(2,()=>{
   check('2. 交往中：最後一則（新句）照舊可以回「（去看貓）」',!!v&&v.text===NEW2[1]&&J(v.ask.opts.map(o=>o.t))===J(['（去看貓）']),J(v&&[v.text,v.ask]));
   H.fresh('2029-06-01',10,'dorm',{EXCHANGE_ROUTE:'TW'}); H.G.outings=[]; H.FRIEND(ZQ); INV.addContact(H.G,ZQ); H.G.msgs.push({day:GRAD,h:12,th:'p:'+ZQ,from:ZQ,text:OLD2[1],tag:'sqcat_ph5'}); setD(GRAD,12.5); SIDEQ.phone(H.G); PHONE.tick(H.G);
   check('2. 舊存檔（已經收過舊的那張）：不重發',zq().length===1&&zq()[0].text===OLD2[1],J(zq().map(x=>x.text)));
+});
+/* ---- 7 住家裡的玩家：姊姊一句（第 7 節）---- */
+await sec(7,()=>{
+  const ok=L3('src/data/jpprep_events.js')&&L3('src/jpprep3d.js');   /* 真的住家裡版（AA_442 第 1 節，HOME.LIVE_GROUP）*/
+  check('7. 讀得到第 7 節：姊姊一句（5/31 週四 20:00，不用回）、6/1 爸爸照樣傳；住家裡版載得到',Q7.length===1&&Q7[0].who==='姊姊'&&/5\/31 週四 20:00，不用回/.test(P7)&&/住家裡的照樣傳/.test(P7)&&ok&&typeof HOME.LIVE_GROUP==='function',J([Q7,loadErr]));
+  check('7. HOME.GRAD_SIS＝「'+(Q7[0]||{}).t+'」',HOME.GRAD_SIS===(Q7[0]||{}).t,HOME.GRAD_SIS);
+  const lh=HOME.livesHome, live=()=>{ HOME.livesHome=()=>true; };
+  try{
+    live(); fresh(D('2029-05-21'),8,{}); PHONE.join(H.G,'home','家人'); for(const d of [THU-7,THU]){ at(d,20.05); hr(); at(d,23.5); hr(); }
+    const t=fam().concat((H.G.msgs||[]).filter(m=>m.th==='g:home'&&m.from==='sister')).filter((m,i,a)=>a.indexOf(m)===i), on=d=>t.filter(m=>m.day===d), o=on(THU);
+    check('7. 住家裡、05-31 20:00：只有姊姊一則「'+HOME.GRAD_SIS+'」（家人群組、不用回），媽媽那兩則不發、那個週四住家裡版的句子不另外發',o.length===1&&o[0].from==='sister'&&o[0].name==='姊姊'&&o[0].text===(Q7[0]||{}).t&&o[0].th==='g:home'&&!o[0].ask&&o[0].h>=20&&o[0].h<20.3&&o[0].tag==='home_live_'+THU&&!t.some(m=>MOM.includes(m.text)),J(o.map(m=>[m.from,m.text,m.h,m.tag])));
+    check('7. 兩小時後爸爸不傳「？」',!t.some(m=>m.day===THU&&m.from==='dad'));
+    const w=on(THU-7);
+    check('7. 前一個週四（05-24）住家裡版照舊（JPPREP 的一則、沒有姊姊那句）',w.length>=1&&w.every(m=>m.text!==HOME.GRAD_SIS&&!m.ask)&&w.some(m=>/^home_live_/.test(m.tag||'')),J(w.map(m=>[m.from,m.text])));
+    live(); fresh(EVE,21.05,{}); PHONE.join(H.G,'home','家人'); hr();
+    check('7. 住家裡（真的住家裡版）：06-01 21:00 爸爸的照片照舊傳',fam().filter(m=>m.from==='dad'&&m.text===DAD[0]&&m.day===EVE).length===1,J(fam().map(nm)));
+    live(); fresh(THU,19,{}); PHONE.join(H.G,'home','家人'); H.G.msgs.push({day:THU,h:20,th:'g:home',from:'mom',name:'媽媽',text:'（舊的住家裡版）',tag:'home_live_'+THU}); at(THU,20.5); hr();
+    check('7. 舊存檔（05-31 已經收過住家裡版那一則）：不重發、沒有姊姊那句',!(H.G.msgs||[]).some(m=>m.text===HOME.GRAD_SIS)&&byTag('home_live_'+THU).length===1);
+    HOME.livesHome=lh; fresh(THU,19,{}); PHONE.join(H.G,'home','家人'); at(THU,20.05); hr();
+    check('7. 不是住家裡：照第 1 節（媽媽兩則），沒有姊姊那句',J(thuOf(THU))===J(MOM)&&!(H.G.msgs||[]).some(m=>m.text===HOME.GRAD_SIS));
+  } finally { HOME.livesHome=lh; }
 });
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

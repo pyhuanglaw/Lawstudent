@@ -526,8 +526,13 @@ const HOME=(function(){
      AA_459 第 8 節（企劃線 cb5caad65）：上學期那句（fin1「期末考完就放寒假了 早點回來」）刪掉——上學期第 16 週的週四一定被冬至或聖誕連假佔走；下學期 fin2 照舊。上學期第 16 週沒被佔走的話照下面排（天氣、爸爸寄東西、平常）*/
   S.ELDER=['（長輩圖：週末愉快 天天開心）','（長輩圖：一朵蓮花 平安就是福）','（長輩圖：一壺茶 好友常聯絡 健康又快樂）','（長輩圖：夕陽 晚安 好夢）'];   /* 四張輪流（一學期最多四張長輩圖時，同一張同一學期最多一次）*/
   /* AA_465 第 1 節（企劃線 ee0d6b70d）：畢業典禮那一週的週四（2029-06-02 週六典禮＝5/31）：排在「第一週」之後、節日之前；媽媽兩則，不問、不用回，爸爸不傳「？」。
-     參加典禮的玩家＝法律系（story3d.js 的 gradMorningDue 那一組；交換延畢的也去）。住家裡版（S.LIVE_GROUP）不動。典禮前一天 21:00 爸爸的照片在 S.famDays */
+     參加典禮的玩家＝法律系（story3d.js 的 gradMorningDue 那一組；交換延畢的也去）。住家裡版（S.LIVE_GROUP）那兩則不發，改成姊姊一句（第 7 節，S.gradLive）。典禮前一天 21:00 爸爸的照片在 S.famDays */
   S.GRAD_KEY='2029-06-02'; S.GROUP_GRAD=['禮拜六典禮 你爸明天回來','典禮完一起吃中午 你姊也來'];
+  /* AA_465 第 7 節（企劃線 9a3de960f）：住家裡（S.LIVE_GROUP）的玩家，那個週四媽媽就在旁邊、那兩則不發，改成姊姊在家人群組一句（20:00，不用回）。
+     用住家裡版同一個 tag（home_live_<日>）：這一則就是那個週四住家裡版的那一則（不再另外發 H1～H6 那一句）；已經收過的舊存檔不重發 */
+  S.GRAD_SIS='禮拜六我請假了 典禮見';
+  S.gradLive=function(G){ if(typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||G.weekday!==4||((G.hour%24)+24)%24<20) return false; const Tm=CALENDAR.termOf(G.day); if(!Tm||S.grpPlan(G,Tm.id)[G.day]!=='grad') return false;
+    const tag='home_live_'+G.day; if(PHONE.sent(G,tag)) return false; PHONE.join(G,'home','家人'); return PHONE.at(G,G.day,20,[{th:'g:home',from:'sister',name:'姊姊',text:S.GRAD_SIS}],tag); };
   /* 爸爸寄東西（一學期一次）：大一上點心（原句）、大一下茶葉、大二上大閘蟹、大二下「又寄點心」；大三以後照茶葉 → 大閘蟹 → 點心輪，大閘蟹只在秋天（9～11 月）：輪到春天的學期就跳過、換下一樣（點心照大二下那句）*/
   S.DAD_ITEM={Y1S1:'dad_snack',Y1S2:'dad_tea',Y2S1:'dad_crab',Y2S2:'dad_snack2'}; S.DAD_ROT=['dad_tea','dad_crab','dad_snack2'];
   S.dadKey=function(tid){ if(S.DAD_ITEM[tid]) return S.DAD_ITEM[tid]; const Ts=(typeof CALENDAR!=='undefined'&&CALENDAR.TERMS||[]).map(t=>t.id), i0=Ts.indexOf('Y3S1'), i=Ts.indexOf(tid); if(i0<0||i<i0) return 'dad_snack2';
@@ -576,7 +581,7 @@ const HOME=(function(){
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
   S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return;
     try{ S.famDays(G); }catch(e){ console.warn('HOME.famDays',e); }   /* AA_458 第 4 節：中秋、颱風假前一晚（住家裡的也有爸爸那一則，所以在住家裡版之前）*/
-    if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
+    if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.gradLive(G); }catch(e){ console.warn('HOME.gradLive',e); } try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_465 第 7 節：畢業那一週的週四先換成姊姊那一句 */   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;
     PHONE.join(G,'home','家人'); const th='g:home', tag='home_ask_'+G.day;
     if(G.weekday===4&&G.hour>=20&&!PHONE.sent(G,tag)){ const g=S.grpPick(G,G.day), M=t=>({from:'mom',name:'媽媽',text:t});   /* AA_458 第 1 節：照這一週的種類挑（原本照 G.day/7 輪 home_lines.js 的 group；新局 9/4 是第 -12 天的 BUG-HOME-FAMGROUP-NEGIDX-1021 也就不會再有）*/
