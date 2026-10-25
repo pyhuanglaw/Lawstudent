@@ -384,7 +384,10 @@ const USL=(function(){
     /* G7 12/6 21:00 學姊（交往中）*/
     { const d=D('2028-12-06'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&!PHONE.sent(G,'usl_sis_1206')) PHONE.at(G,d,21,M.sis1206.map(P5),'usl_sis_1206'); }
     /* AA_291 4-1：每個星期天 台灣 21:00（＝當地 09:00，11/5 以後 08:00），媽媽一則（8/6 起）。AA_450 1-4：照日期那一則（X.mom 的 d；每一則只發一次，原本四句輪流）*/
-    { const first=D('2028-08-06'); for(let d=first; d<=G.day&&d<S.ret(); d+=7){ const tag='usl_mom_'+d; if(PHONE.sent(G,tag)) continue; const h=21+(STORY.tzOffset(G,d)||0); if(!past(G,d,h)) break; if(G.day>d+1) continue;   /* 讀檔回來：太舊的不補 */
+    /* 旅行（大峽谷 10/7～10/14、舊金山那一週）字卡一天跳一天、跳過星期天的，回來照原本的時間補（BB 逐日劇本 trx_nolong3：10/8、12/17 沒發）；
+       「太舊的不補」改成：第一次跑這條規則（抵達，或舊存檔讀進來）的前一天以前的不補（USL_MOM_FROM）*/
+    { const first=D('2028-08-06'); if(F.USL_MOM_FROM==null) F.USL_MOM_FROM=G.day-1;
+      for(let d=first; d<=G.day&&d<S.ret(); d+=7){ const tag='usl_mom_'+d; if(PHONE.sent(G,tag)) continue; const h=21+(STORY.tzOffset(G,d)||0); if(!past(G,d,h)) break; if(d<F.USL_MOM_FROM) continue;   /* 讀檔回來：太舊的不補 */
         const m=X.mom.find(x=>D(x.d)===d); if(m) PHONE.at(G,d,h,[{th:'p:mom',from:'mom',name:'媽媽',text:m.t}],tag); } }
   };
 
