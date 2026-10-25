@@ -2935,6 +2935,15 @@
    "task": "US-READ-DATING2-1025",
    "kind": "text",
    "note": "1-1 查證：BB 探針底檔沒有 met_sis（遊戲沒問題）；1-2 us_blank_lines.js 0826 msgQx、ev_usb_syllabus 第一句（QX＝sisqx_2028）、us_blank3d.js qxOn；1-3 r2y4a3d.js us2_msg 要回、出遊 us2_kitchen＋us2Stage（OUT.STAGE）；tests/aa453_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_454_美國208週末七場_快轉看不到_補她的私訊.md",
+   "sha": "eaa98aaa7",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主；AA 自己排的下一項）",
+   "task": "US208-DM-1025",
+   "kind": "text",
+   "note": "us208_3d.js 七場 dm、S.dmPhone（週末 14:00 私訊要回；週日「今天也在 208。」；US208_DM／US208_NO）、S.stage（OUT.STAGE）、S.dmDone；us_life3d.js lakeLook 照 usSeasonKey（us3d.js usSeasonKey 可給 G）；us_life_events.js ev_usl_thanks_alone；tests/aa454_us_unit.js"
   }
  ]
 }
