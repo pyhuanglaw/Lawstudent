@@ -2937,7 +2937,7 @@ EVDN = "(ids=>ids.map(i=>!!(((GAME.G.events||{}).done||{})[i])))(%s)"
 OUTST = "(i=>{ const q=OUT.get(GAME.G,i); return q?q.state:null; })(%s)"
 def QX453(sid, ms, want, none, wantMsg, noneMsg, done):
     return dict(id=sid, key='2028-08-21', h=21.67, zone='us_apartment', flags=dict(USF, Y4_PATH='bar'), js=B['USJS'] + NOKX + (MS if ms else '') + B['DATE'] + B['BED'],
-                steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-08-26', 17.0, 120), ('dumplog', sid)], pref=['出發', '去', '「好。」'], asks={'*': ''},
+                steps=[('bedpick', '再撐一下'), ('ffloop', '2028-08-26', 17.0, 120), ('dumplog', sid)], pref=['出發', '去', '「好。」'], asks={'*': ''},   # BB-B 06:5x：21:40 的床也是完整選單＝不比對選單（n35b 的 4 項是這個）
                 want=want, none=none, wantMsg=wantMsg, noneMsg=noneMsg, msgAt={wantMsg[0]: ('2028-08-25', 21.0, 0.1)},
                 jsok=[('七夕（當面約、市集）、圖書館 ev_usb_syllabus 演了沒', EVDN % json.dumps(['ev_sis_qixi_us_ask', 'ev_sis_qixi', 'ev_usb_syllabus']), done)])
 US913 = ['報告被退回來了。', '……我在煮麵。C 棟，廚房。要不要吃。']; US913_LATE = '麵我吃完了。報告我自己再改一次。'
