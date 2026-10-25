@@ -3179,6 +3179,26 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "沒有要整合的檔案；我的分支的 gongguan_shops.glb、wz_street.py 已還原成開發的版本"
+  },
+  {
+   "task": "PERF-SINGLESIDE-GLB-1025 第一份：社科圖、總圖大廳、便利商店室內 GLB 單面",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/soclib_interior.glb（＋.json）",
+    "assets/models/env/library_interior.glb",
+    "assets/models/env/second_ai/cvs_interior.glb（＋.json）",
+    "tools/blender/env_second/soclib_interior.py、tools/blender/library_interior.py（以開發版本為底）、tools/blender/env_second/cvs_interior.py、tools/blender/env_second/lib2.py",
+    "docs/art-rebuild/second_ai/patches/singleside_interiors_1025.patch（新 tests/singleside_interiors_unit.js，對開發 01bab5952）",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md（上限表、fps、01～05 同角度）"
+   ],
+   "state": "已交付。fps（路人拿掉）社科圖 2.35→3.4／3.5→4.3、總圖大廳 1.8→2.55／3.8→4.75、便利商店 3.25→4.95／4.55→5.7；改前改後同角度一樣（只有鏡頭插進家具時看得穿）。新測試開發 FAILED 4、新 GLB ALL PASS；library_b1_unit、room_ceiling_unit、flow_library_scene、flow_library_floors、cvs_glb_integration ALL PASS",
+   "remaining": "flow_soclib.py FAILED 2（校園那一側的門口互動點），開發的 GLB 也一樣失敗（FAILED 3）；沒跑整套回歸、手機實機",
+   "next": "LAWWW-B 換三個 GLB、套 patch；我接著做體育館三個，再拆街景",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "只換 GLB，遊戲程式沒動；凍結期間在獨立工作樹先套"
   }
  ]
 }

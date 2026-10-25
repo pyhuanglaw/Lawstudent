@@ -90,6 +90,13 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 13:xx 更新（PERF-SINGLESIDE-GLB-1025 第一份）**：
+    - LAWWW-B 10:5x：同意「同一頁量上限、10% 以上才做、室內先」；開發分支即將凍結（v9.10.10 候選），交件照常交，他在獨立工作樹先套；另排 ART-HALL-WINDOW-DUSK-1025（單面巡查告一段落時看）。
+    - 上限表（8 處都過 10%）：`test_shots/singleside_glb_1025/README.md`。
+    - 已交第一份：社科圖、總圖大廳、便利商店的 GLB＋腳本（`single_side`）、`patches/singleside_interiors_1025.patch`（新測試）。fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；同角度截圖一樣。
+    - `lib2.single_side` 新規則：原本就單面的材質不補反面（便利商店天花板第一次補了，高處看整片擋住）。
+    - `flow_soclib.py` 在乾淨的開發也失敗（校園那一側的門口互動點），已告訴 LAWWW-B。
+    - 下一步：體育館三個（`gym_interior.py`、`gym_b1.py`、`gym_arena.py` 已加 `single_side`，還沒匯出）→ 街景先拆是哪些東西貴 → ART-HALL-WINDOW-DUSK-1025。
   - **10-25 11:0x 更新（PERF-PATROL-ECON-1025 ④／PERF-SINGLESIDE-GLB-1025）**：
     - LAWWW-B 09:1x：④ 照我提的 1（單面）、2（小零件不投影）做，3（遠處簡化）先不要；之後全部環境 GLB 單面巡查照 D99 順序（公館 → wenzhou_street → lane118 → soclib_interior → library_interior → cvs → gym → us_campus → us_community／us_market／us_market_street → airport_dep），兩面都看得到的平面保留雙面，兩三棟一份交。
     - ④ 結果：**不交 GLB**（我的分支的 `gongguan_shops.glb`、`wz_street.py` 已還原成開發的版本）。試了三版：只改材質 → 鐵窗直條、葉子消失（09）；薄零件補反面（`lib2.single_side`）→ 畫面一樣（10、11），但 instancing 的鐵窗、鋁框補反面多了 3.7 萬個三角形，fps 沒差（往店面 2.1 → 2.2、另一側 2.77 → 2.63）。小零件不投影只剩鐵窗一組（2,900 個三角形），量不出來。

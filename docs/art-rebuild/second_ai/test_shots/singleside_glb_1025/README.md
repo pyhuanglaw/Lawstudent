@@ -77,6 +77,9 @@ draw call：社科圖 72 → 68、總圖 204 → 188、便利商店 100 → 85�
 
 - 新 `tests/singleside_interiors_unit.js`：1 三個 GLB 除了玻璃都單面、玻璃雙面；2 開口的零件有反面（總圖葉片卡 15,816／15,816、樓梯踏面、社科圖天井、便利商店牆面）；3 便利商店天花板沒有補朝上的面；4 社科圖的書、便利商店的商品三角形數和改前一樣。**開發的 GLB FAILED 4（1、2 失敗；3、4 是防退步的，改前也過）**，新的 ALL PASS。
 - 讀這三個 GLB 的其他測試：`library_b1_unit`、`room_ceiling_unit` ALL PASS。
-- 沒跑：瀏覽器流程測試（`flow_library_floors.py`、`flow_library_scene.py`、社科圖、便利商店的流程）、整套回歸、手機實機。
+- 瀏覽器流程測試（乾淨的開發 `01bab5952` 換上這三個 GLB，跑完還原）：
+  - `flow_library_scene.py` ALL PASS、`flow_library_floors.py` ALL PASS、`cvs_glb_integration.py` ALL PASS；
+  - `flow_soclib.py` FAILED 2：「校園有『進入社科院圖書館』」「回到校園社科院圖書館門前、站得住」——**開發的 GLB 也一樣失敗**（同一支在乾淨的開發跑：FAILED 3，多一個「走到閱覽長桌的座位旁」）。兩個都是校園那一側的門口互動點，不是室內模型；社科圖裡面的檢查（走過閘門、天窗晚上變暗、離開圖書館）都過。給 LAWWW-B 看要不要另外查。
+- 沒跑：整套回歸、手機實機。
 
 （體育館三個、街景之後補。）
