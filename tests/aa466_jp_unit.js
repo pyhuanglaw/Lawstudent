@@ -71,7 +71,10 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
 
   /* ======================= 1-a 住家裡、人在臺灣 ======================= */
   await sec('1-a',()=>{
-    pgG('2029-03-01',20.05); const R=thursdays('2029-03-01','2029-06-21');
+    pgG('2029-03-01',20.05); const R0=thursdays('2029-03-01','2029-06-21');
+    /* 合併 AA_465 第 7 節以後：畢業那一週的週四（2029-05-31）住家裡的玩家改成姊姊一句（HOME.GRAD_SIS，用同一個 tag、取代那一週住家裡版的那一則，不佔位置）——從輪換順序裡拿掉、另外驗 */
+    const GD=D('2029-05-31'), RG=R0.filter(r=>r.day===GD), R=R0.filter(r=>r.day!==GD);
+    if(HOME.GRAD_SIS) check('1-a 畢業那一週的週四（5/31）是姊姊「'+HOME.GRAD_SIS+'」（AA_465 第 7 節），不佔住家裡版的位置',RG.length===1&&J(pairs(GD))===J(['sister:'+HOME.GRAD_SIS]),J(pairs(GD)));
     const want=[0,1,2,3,4,5,6,8,9,11,0,1,2,3,4,5,6,8,9,11];
     check('1-a 畢業以後住家裡（學期中）'+R.length+' 個週四：照順序 1→12、「國外」的 8、11 跳過，一輪用完才從頭',R.length>=12&&J(R.map(r=>r.i))===J(want.slice(0,R.length))&&R.every(r=>!r.abroad),J(R.map(r=>r.k+'#'+(r.i+1))));
     check('1-a 第 4 則是在家版「你兒子在家 叫他去問」（不是國外版）',R.filter(r=>r.i===3).length>=1&&R.filter(r=>r.i===3).every(r=>r.v==='home'));

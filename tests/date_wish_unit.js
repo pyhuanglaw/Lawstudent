@@ -41,11 +41,11 @@ const E_=id=>X()&&X().ev(id);
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
   const DW=DATE_WISH;
-  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@1ced2f8b3（AA_432 學姊的邀約 18:30）、AA_127@967b4273a（AA_426）、BB_128@1ced2f8b3（AA_432）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@a1bc53f4/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@a1bc53f4/.test(DW.source),DW.source);
+  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@cb5caad65（AA_459／460 三句改進原稿）、AA_127@967b4273a（AA_426）、BB_128@cb5caad65',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@cb5caad6/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@cb5caad6/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
   /* AA_459 第 5 節、AA_460 第 6 節的換字（tools/date/import_wish.py 的 REPLACE；wish_bb.json 還沒跟著改）：比對 JSON 時換回原句、對原稿時不算 */
   const REP=[['你可以說不。我只是問問看。','你可以說不。不是叫你說不，是問你。'],['你的，你自己買。……這樣才算約好。','你的，你自己買。這樣比較像約好，不像我請你。'],['好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。','好。兩點半，光典門口。……兩點半是巧合，不是店名。']];
-  check('0. 換字三條都做了（verify.replaced；沛珊美術館那句兩處）',(DW.verify.replaced||[]).length===3,J(DW.verify.replaced));
+  check('0. 三句已經改進原稿（wish_bb.json@cb5caad65）：不再有暫代換字（verify.replaced 沒有）、原稿對不到 0 句',!(DW.verify.replaced||[]).length&&(DW.verify.miss||[]).length===0,J([DW.verify.replaced,DW.verify.miss]));
   { const unrep=s=>{ for(const [a,b] of REP) s=s.split(J(a)).join(J(b)); return s; }, strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
     check('0. 七位的事件和企劃線的 JSON 逐欄相同（一字不改；只多以安大一的收尾、AA_459／AA_460 的三條換字）',same&&Object.keys(DW.events).length===7); }
