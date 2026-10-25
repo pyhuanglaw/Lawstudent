@@ -136,4 +136,39 @@ draw call：社科圖 72 → 68、總圖 204 → 188、便利商店 100 → 85�
 - 讀這三個 GLB 的其他 Node 測試 ALL PASS：gym_arena_unit、gym_b1_fitness_unit、gym_ceremony_unit、gym_unit、gymcer_unit、sign_audit_1025_unit、windowless_night_unit。
 - 沒跑：體育館的瀏覽器流程測試、整套回歸、手機實機。
 
-（街景之後補。）
+## 第三份：溫州街、118 巷（大面改單面）＋體育館 1F 大廳木格柵照舊雙面（10-25 16:xx 交）
+
+LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1F 大廳木格柵（`gym_wood`）照舊雙面，重匯 `gym_interior.glb`、fps 照實報。另外「街景拆成本」照我排的做。
+
+### 街景為什麼不是整條街單面
+
+- 公館 ④ 試過：開口的薄零件（鐵窗、招牌、遮雨棚、葉片卡、電線）補反面以後，三角形多了、好處就沒了（還要避開遊戲照名字接手的 `*_FACE_*`）。
+- 所以這一份**不動幾何**，只把「大面、背面在遊戲裡看不到」的材質的雙面旗標關掉（`wz_street.py` 匯出前那一段，只對 `wenzhou`、`lane118`）：
+  - 店內的貨（`wz_in_goods`）、店內的殼（`wz_in_shop`）、店內地磚（`wz_in_tiles_*`）、亮著的房間（`wz_room_lit`）；
+  - 牆面（`wz_wall_mosaic`、`wz_wall_plaster`、`wz_wall_tile`）、騎樓柱（`wz_pillar_*`）、地面的牆腳（`wz_ground_wall`）。
+- 其他（鐵窗、招牌、遮雨棚、葉片、電線、腳踏車…）照舊雙面。溫州街 9 個材質、118 巷 7 個；三角形數和改前一樣（93,881、63,826）。
+- 公館同一招量不出差別（同一頁 2.25 → 2.05），不做。
+
+### fps（路人拿掉；每一份重新載入，每格 4×5 秒；最後再量一次改前）
+
+（量測中）
+
+### 改前改後同角度（左＝改前、右＝改後；路人拿掉）
+
+![溫州街：8 個鏡頭](13_wenzhou_sheet.jpg)
+
+![118 巷：6 個鏡頭](14_lane118_sheet.jpg)
+
+![體育館 1F 大廳（木格柵照舊雙面）：7 個鏡頭](15_gym_lobby_sheet.jpg)
+
+- 三組改前改後逐像素比：只有會動的東西不一樣——玩家的頭髮（溫州街「巷子往西」、118 巷「看西側店面」鏡頭貼著頭）、飄落的葉子（溫州街「店門口斜看」）、目的地光圈、人的待機動作。建築、店面、牆一樣。
+- 木格柵放大比較（16）：第三份和開發一樣；第二份（木格柵也單面）的斜波紋沒了。
+
+![木格柵放大 3 倍：開發｜第二份｜第三份](16_gym_lobby_slats_zoom3.jpg)
+
+### 測試
+
+- 新 `tests/singleside_streets_unit.js`（`patches/singleside_streets_1025.patch`）：1 大面的材質單面（9、7 個）；2 其他材質照舊雙面（原本就單面的 `wz_stain` 除外）；3 三角形數和改前一樣；4 FACE 節點（4、45 個）、材質數（44、33）一樣。**開發的 GLB FAILED 2（第 1 項）、交件版本 ALL PASS。**
+- `tests/singleside_gym_unit.js` 第 1 項改成木格柵照舊雙面（`patches/singleside_gym_wood_1025.patch`，對開發 `e015b7c10` 已經有的那一份）：交件版本 ALL PASS。
+- 沒跑：溫州街、118 巷、體育館的瀏覽器流程測試、整套回歸、手機實機。
+- `lane118_street.json` 的 `materials` 129 → 136：那是 Blender 裡的材質數（含沒用到的），GLB 裡的材質一樣是 33 個；三角形數、截圖都一樣。
