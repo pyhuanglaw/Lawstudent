@@ -32367,6 +32367,28 @@
    "source": "AA-B 2026-10-25 11:37（企劃線 30cc3235a，outbox 2f27f3a99）；ROUTE=JP 掃描 2028-03-20～08-12，和以安交往中",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "EV-STATIC-DUP-1025",
+   "title": "事件台詞重複（AA_467）：ev_term_last_meal_y1s2、_y2s1 前三句換字（大一上照舊，第 1 節表）；ev_kx_nye_river_y3、_y4 的「（零點。煙火在河的另一邊。）」「（凌晨一點，加開的那班高鐵。）」各換一句（接暖暖包、她占的位置）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一下期末最後一科考完（ev_term_last_meal_y1s2）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:52（企劃線 5bbd16ab1，outbox b5cb0fc51）；事件台詞全文掃描（十字以上一字不差三次以上 17 句，同一玩家會看到的兩組）",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
