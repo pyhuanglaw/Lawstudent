@@ -39,11 +39,13 @@ async def main():
                 const pick=E.npcs.filter(n=>n.isExtra&&n.obj.userData.farLOD&&!n.seat&&n.pose!=='sit'&&n.pose!=='read').slice(0,3);
                 E.npcs.forEach(n=>{ if(pick.indexOf(n)<0){ n.hidden=true; n.obj.visible=false; } });
                 window.__pick=pick; return pick.length; })(%s,%s,%s)""" % (json.dumps(S), json.dumps(DIST), json.dumps(LAT)))
-            await pg.wait_for_timeout(3000)
-            # 鏡頭位置定了以後，把三個人放在鏡頭前方 18／24／30 m（水平距離）
-            await pg.evaluate("""((D,LAT)=>{ const E=GAME.E, cam=E.camera; const f=new THREE.Vector3(); cam.getWorldDirection(f); f.y=0; f.normalize(); const r=new THREE.Vector3(-f.z,0,f.x);
+            await pg.wait_for_timeout(12000)   # 跟隨鏡頭是慢慢移過去的：等它停下來
+            # 鏡頭位置定了以後，把三個人放在鏡頭前方 18／24／30 m（水平距離）；放完再等一下、照新的鏡頭位置校正一次（鏡頭還會微動）
+            for _ in range(3):
+              await pg.evaluate("""((D,LAT)=>{ const E=GAME.E, cam=E.camera; const f=new THREE.Vector3(); cam.getWorldDirection(f); f.y=0; f.normalize(); const r=new THREE.Vector3(-f.z,0,f.x);
                 window.__pick.forEach((n,i)=>{ const x=cam.position.x+f.x*D[i]+r.x*LAT[i], z=cam.position.z+f.z*D[i]+r.z*LAT[i]; n.obj.position.set(x,0,z); n.obj.rotation.y=Math.atan2(cam.position.x-x,cam.position.z-z); n.path=null; n.frozen=true; n.beh='idle'; n.pose='idle'; n.speed=0; });
                 window.__dist=window.__pick.map(n=>+Math.hypot(cam.position.x-n.obj.position.x,cam.position.z-n.obj.position.z).toFixed(1)); })(%s,%s)""" % (json.dumps(DIST), json.dumps(LAT)))
+              await pg.wait_for_timeout(3000)
             shots = {}
             for mode in ['near', 'far']:
                 await pg.evaluate("(m=>{ if(window.__F0==null){ window.__F0=[CHAR.FAR_OUT,CHAR.FAR_IN]; } if(m==='near'){ CHAR.FAR_OUT=1e9; CHAR.FAR_IN=1e9; } else { CHAR.FAR_OUT=0; CHAR.FAR_IN=0; } })(%s)" % json.dumps(mode))

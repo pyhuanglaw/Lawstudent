@@ -90,6 +90,17 @@
       - 半熟的證書埋在牆裡（wz 的牆 0.12 m 厚、往屋裡長）；
       - 失物籃像紙箱 → 橢圓竹籃＋提把。
     - 下一步：遊戲內 on／off 截圖 → README → commit → outbox → 交 LAWWW-B。
+  - **10-25 08:xx 更新（PERF-PATROL-ECON-1025）**：
+    - 派工（LAWWW-B 05:0x）：經濟系路線效能巡查，先列最慢三處＋原因，再逐項修。06:0x 交「最慢三處」；LAWWW-B 06:1x 定順序 ①～⑥。
+    - 報告：`test_shots/perf_patrol_econ_1025/README.md`（12 個地點的表、一次藏一類的找原因表、每一項改前改後同角度）。
+    - 已做完、patch 在 `docs/art-rebuild/second_ai/patches/`（都對開發 `cc9bd3c4e`）：
+      - ① 教學館室內殼、家具單面（`teach_interior.py`、`furniture_study.py` → `boya_interior.glb`、`putong_interior.glb`、`furniture_study.glb`）＋② 自習椅 10 m 外 lod1：`teach_perf_econ_1025.patch`（teach3d.js、新 `tests/teach_perf_econ_unit.js`、`tests/desk_furniture_unit.js` 椅子改成兩組合起來檢查）。博雅大廳 1.45→2.35。
+      - ③ 博雅 9 盞燈 → 3 盞跟著玩家（最近的 3 個燈位、淡入淡出）：`teach_lights_econ_1025.patch`（接在 ①② 後面）。博雅大廳 2.15→3.2。試過「同一層優先」二樓人物變暗，不採用。
+      - ⑤ 校園外圍 820 m 柏油不墊底：`campus_backdrop_ground_1025.patch`（zones3d.js＋新 `tests/campus_backdrop_ground_unit.js`）。校門、大道、醉月湖 +8～18%。
+      - ⑥ 18／24／30 m 比較圖已拍（07、08）；24／18 m 各能快多少量測中。
+    - 還在做：④ 公館店面（整排藏起來 2.3→4.1，但店內商品、單面、影子、貼圖各自都不是原因；下一輪：玻璃、亮的材質、牆面、換成不受光的材質）。
+    - 測試樹：`$SP/dv8`＝開發 `cc9bd3c4e` 乾淨（量 fps 用 page.route 換檔案，沒改它）；`$SP/dv9`＝`cc9bd3c4e`＋①②③⑤＋新 GLB（跑單元測試用）。
+    - 教訓：`perf_variants.py` 最後會自動「再量一次第一份」，要等它跑完才能開下一個瀏覽器工作（07:1x 兩個工作重疊，柏油第一輪的數字作廢重量）。
   - **10-25 05:xx 更新**：
     - LAWWW-B 03:5x：② 已整合（`3ea2a78d5`），fps 重量派 BB；04:3x 知會 `us3d.js` 的 `usSeasonKey(g)`（patch 要對 `96efb47a2` 以後）。
     - 已交 ③ US-COMMUNITY-EAST-PERF（自己排，03:5x 告知開工、04:5x 告知動 us3d.js 哪一段）：`test_shots/us_community_east_perf_1025/README.md`、`patches/us_cars_lod_1025.patch`（對 `bcb0dc771`）、`us_cars.glb`（＋json）、`us_cars.py`。
