@@ -2768,6 +2768,30 @@ R30 = [SQSC('SNOWQ_DIN', {'US_SNOW_QUIET': True, 'SIS_XMAS_Y3': 'missed'}, True)
        SQSC('SNOWQ_ASKED2', {'US_SNOW_QUIET': True, 'SIS_ASKED_TWICE': True, 'SIS_XMAS_Y3': 'missed'}, False),
        SQSC('SNOWQ_NONE', {'SIS_XMAS_Y3': 'missed'}, False)]
 SCENS = SCENS + R30
+
+# ---------- R31（BB-B 10-25 00:1x）：B1 健身中心（GYM-B1-FITNESS-1024，開發分支 32ddad549：只換 gym_b1.glb；LAWWW2-B c6c631868 README gym_b1_fitness_1024）----------
+# 健身中心 x −24～10、z 3～14（gym_layout.js b1.fitness）：南牆 z 13.9 整面鏡子；西牆主題牆＋計時器；東牆置物櫃、使用須知、時鐘；地板黑墊／灰墊／草皮道；輕鋼架天花板。
+# B1 大廳 x 12～24、z 2～14：東牆（x 24）開館時間牌、公告欄（原本黑板＋空木板、字左右相反）；服務台 (21, 0.95)。
+# 鏡頭照 README 的 9 個：有氧區、自由重量區、往西、往東、西北角、往北、從走廊門口、大廳東牆、服務台；21:00 另一段。每個鏡頭讀 renderer.info 的 draw call（SwiftShader，只能比相對值）；西北角量 10 秒幀率。
+# 【捷徑】讀檔直接進 gym_b1（不從 1F 樓梯走下來）、主角站到鏡頭位置；截圖時藏主角和 HUD。
+DCALL = "(()=>{ const R=GAME.E.renderer; return R&&R.info?{calls:R.info.render.calls,tris:R.info.render.triangles}:null; })()"
+GYMGLB = "(()=>{ let n=0; GAME.E.scene.traverse(o=>{ if(/^(WALL_|GYM_|GYM2_)/.test(o.name||'')) n++; }); return n>0; })()"
+def GSHOT(tag, x, z, yaw, pitch, dist, note): return [CAM(x, z, yaw, pitch, dist, note), PAUSE(3, '等鏡頭'), ('shot', tag, None, 'true', 2), ('chk', '%s draw call（記下來）' % tag, DCALL, lambda d: True)]
+GYM_DAY = ([('wait', GYMGLB, 60, 'gym_b1.glb 載入（場景裡有 WALL_／GYM_ 節點）'), PAUSE(6, '等貼圖')]
+           + GSHOT('b1_cardio', 3.0, 7.0, 3.1416, 0.15, 4.5, '有氧區、往南看鏡子')
+           + GSHOT('b1_free', -15.0, 7.0, 3.1416, 0.15, 4.5, '自由重量區、往南看鏡子')
+           + GSHOT('b1_west', -15.0, 8.5, 1.5708, 0.12, 4.5, '往西看主題牆、計時器')
+           + GSHOT('b1_east', 2.0, 6.5, -1.5708, 0.12, 4.5, '往東看置物櫃、使用須知、時鐘')
+           + GSHOT('b1_nw', -19.0, 7.0, 0.785, 0.15, 4.0, '西北角') + [('chk', '西北角 10 秒幀率（記下來）', FPS10, lambda d: True)]
+           + GSHOT('b1_north', -5.0, 10.0, 0.0, 0.15, 4.5, '往北看走廊那一面玻璃牆')
+           + GSHOT('b1_door', 4.1, 1.2, 3.1416, 0.2, 3.5, '從走廊門口往健身中心裡面看')
+           + GSHOT('b1_lobbyE_a', 20.0, 6.0, -1.5708, 0.1, 3.5, '大廳東牆（偏北）') + GSHOT('b1_lobbyE_b', 20.0, 11.0, -1.5708, 0.1, 3.5, '大廳東牆（偏南）')
+           + GSHOT('b1_desk', 21.0, 3.6, 0.0, 0.15, 3.0, '服務台'))
+GYM_NIGHT = ([('wait', GYMGLB, 60, 'gym_b1.glb 載入'), PAUSE(6, '等貼圖'), ('chk', '光線讀數（記下來）', LIGHT, lambda d: True)]
+             + GSHOT('b1n_cardio', 3.0, 7.0, 3.1416, 0.15, 4.5, '21:00 有氧區') + GSHOT('b1n_west', -15.0, 8.5, 1.5708, 0.12, 4.5, '21:00 往西'))
+R31 = [dict(id='GYMB1_DAY', key='2026-10-14', h=15.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_DAY, want=[]),
+       dict(id='GYMB1_NIGHT', key='2026-10-14', h=21.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_NIGHT, want=[])]
+SCENS = SCENS + R31
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
