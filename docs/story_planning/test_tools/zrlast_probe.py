@@ -2791,6 +2791,8 @@ GYM_NIGHT = ([('wait', GYMGLB, 60, 'gym_b1.glb 載入'), PAUSE(6, '等貼圖'), 
              + GSHOT('b1n_cardio', 3.0, 7.0, 3.1416, 0.15, 4.5, '21:00 有氧區') + GSHOT('b1n_west', -15.0, 8.5, 1.5708, 0.12, 4.5, '21:00 往西'))
 R31 = [dict(id='GYMB1_DAY', key='2026-10-14', h=15.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_DAY, want=[]),
        dict(id='GYMB1_NIGHT', key='2026-10-14', h=21.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=GYM_NIGHT, want=[])]
+# BB-B 03:2x：b1_north 那一張鏡頭退到南牆（鏡子）後面、拍到一片灰（主角站 z 10、鏡頭再往 +z 4.5＝14.5，牆在 13.9）→ 重拍：主角站 z 6.0
+R31 += [dict(id='GYMB1_NORTH2', key='2026-10-14', h=15.0, zone='gym_b1', flags=dict(TW3), js='', pref=[], steps=[('wait', GYMGLB, 60, 'gym_b1.glb 載入'), PAUSE(6, '等貼圖')] + GSHOT('b1_north2', -5.0, 6.0, 0.0, 0.15, 4.0, '往北看走廊那一面玻璃牆（鏡頭在 z 10）'), want=[])]
 SCENS = SCENS + R31
 
 # ---------- R32（BB-B 10-25 00:4x）：有字的牌子（SIGN-AUDIT-1025，開發分支 7d56892eb：三份 GLB 只差 UV／舞台材質；LAWWW2-B db5c09e23）----------
