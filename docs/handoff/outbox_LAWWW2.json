@@ -3146,6 +3146,22 @@
    "receiver": "LAWWW",
    "ack": "",
    "note": "③ 只動 teach3d.js 的燈（L.lights＋空橋兩盞）；engine3d.js、character3d.js 沒動。雙面＋transparent 的材質 three.js 每個網格畫兩次：其他建築的室內 GLB（B3.attachFormal 把牆設 transparent）可能也有同樣的問題，之後可以巡"
+  },
+  {
+   "task": "PERF-PATROL-ECON-1025 ⑥：室外無名路人 18 m 外換遠距離版本（LAWWW-B 08:4x 看 07、08 定案）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/npc_far18_1025.patch（對開發 01bab5952；character3d.js C.FAR_OUT=18／FAR_IN=16.5、engine3d.js 一行註解、tests/crowd_far_indoor_unit.js、tests/npc_far_unit.js 期望值）",
+    "docs/art-rebuild/second_ai/test_shots/perf_patrol_econ_1025/README.md（⑥ 30／24／18 m fps 表）"
+   ],
+   "state": "已交付。人多的鏡頭 18 m 比 30 m 快 15～30%（大道往東 0.9→1.2、80.6→62.6 萬三角形；校門往東 0.95→1.1）。騎車的路人同一組常數也跟著換；有名字的角色不換。crowd_far_indoor、npc_far 等 10 支 Node 測試 ALL PASS",
+   "remaining": "沒跑瀏覽器流程測試、整套回歸、手機實機",
+   "next": "LAWWW-B 套 patch、跑 crowd_far_indoor_unit、npc_far_unit；接著 ④ 公館店面、巡其他建築室內 GLB 雙面＋transparent",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "engine3d.js 只改註解；程式邏輯（farWant）沒動"
   }
  ]
 }
