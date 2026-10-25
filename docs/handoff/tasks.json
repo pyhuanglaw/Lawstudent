@@ -32351,7 +32351,7 @@
    "title": "日本交換路線讀後（AA_466）：JPPREP_LINES.HOME_GROUP 第 4 則國外版改「換了 上個月就換了」、加到十二則照順序一輪用完才從頭（標國外／在家照 STORY.abroad 跳過，第 1 節表）；y34b3d YT_JP 語彤田野照片改兩週一張、照順序各一次、加第 7、8 張",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "next": "v9.10.10 發布後（凍結期間）",
    "priority": "P3",
    "first": {
@@ -32366,14 +32366,14 @@
    },
    "source": "AA-B 2026-10-25 11:37（企劃線 30cc3235a，outbox 2f27f3a99）；ROUTE=JP 掃描 2028-03-20～08-12，和以安交往中",
    "authorized": "D81、D109、D111",
-   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。"
+   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。 ｜ 10-25 12:3x 子代理做完：本機分支 aa466-468（af26ff25e／03bb9ee7f／896071162，基底 661423a71；新測試基底 20／12／18 FAIL、分支 ALL PASS；全部 Node 629 支 0 失敗），備份 wip_backup/aa466_468_1025.bundle；v9.10.10 發布後合併。 問 AA：J-S14 出發後擋 HOME.phoneRules，人在日本不發家人群組（第 8、11 則與第 4 則國外版幾乎不出現）。"
   },
   {
    "id": "EV-STATIC-DUP-1025",
    "title": "事件台詞重複（AA_467）：ev_term_last_meal_y1s2、_y2s1 前三句換字（大一上照舊，第 1 節表）；ev_kx_nye_river_y3、_y4 的「（零點。煙火在河的另一邊。）」「（凌晨一點，加開的那班高鐵。）」各換一句（接暖暖包、她占的位置）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "next": "v9.10.10 發布後（凍結期間）",
    "priority": "P3",
    "first": {
@@ -32388,14 +32388,14 @@
    },
    "source": "AA-B 2026-10-25 11:52（企劃線 5bbd16ab1，outbox b5cb0fc51）；事件台詞全文掃描（十字以上一字不差三次以上 17 句，同一玩家會看到的兩組）",
    "authorized": "D81、D109、D111",
-   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。"
+   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。 ｜ 10-25 12:3x 子代理做完：本機分支 aa466-468（af26ff25e／03bb9ee7f／896071162，基底 661423a71；新測試基底 20／12／18 FAIL、分支 ALL PASS；全部 Node 629 支 0 失敗），備份 wip_backup/aa466_468_1025.bundle；v9.10.10 發布後合併。"
   },
   {
    "id": "EV-STATIC-DUP2-1025",
    "title": "事件台詞重複第二輪（AA_468）：ev_zr_nye_video_y4 照表換字（含 outingMissed，接「第二年了」「八月就回去了」）；r2y4b3d 律師讀書小組第一輪照舊、之後換旁白（可昕九句、語彤八句，週六另一組，照順序各一次，用完只留一句收尾；BAR_GROUP_KI／YI 超過 4 減 4）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已實作待整合",
    "next": "v9.10.10 發布後（凍結期間）",
    "priority": "P3",
    "first": {
@@ -32410,7 +32410,7 @@
    },
    "source": "AA-B 2026-10-25 11:54（企劃線 cd2dc7646，outbox 188bd7458）；七位女主角台詞十二字以上跨兩個事件 21 句，會重複的兩組",
    "authorized": "D81、D109、D111",
-   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。"
+   "notes": "LAWWW-B 10-25 12:0x 起在隔離 worktree 子代理實作（分支 aa466-468，基底 661423a71；v9.10.10 發布後合併）。 ｜ 10-25 12:3x 子代理做完：本機分支 aa466-468（af26ff25e／03bb9ee7f／896071162，基底 661423a71；新測試基底 20／12／18 FAIL、分支 ALL PASS；全部 Node 629 支 0 失敗），備份 wip_backup/aa466_468_1025.bundle；v9.10.10 發布後合併。 問 AA：三個人一起讀用哪套句子；舊存檔照減 4 會跳過前面旁白。"
   },
   {
    "id": "ROT-POOLS-1025",

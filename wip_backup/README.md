@@ -12,6 +12,7 @@
 | `aa459_460_1025.bundle` | `aa459-460-y1s2-y2s1`（c7d701caf：AA_459 大一下讀後＋AA_460 大二上讀後，1 個 commit） | c7d701caf | 2026-10-25 12:0x LAWWW-B 隔離 worktree 子代理做完（627 支 Node 0 失敗）；前置 a2a423fae 在 origin 的 claude/modest-rubin-2lyp7g；v9.10.10 發布凍結期間不進開發分支 | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa459_460_1025.bundle aa459-460-y1s2-y2s1:aa459-460-y1s2-y2s1`） |
 
 | `aa461_462_1025.bundle` | `aa461-462-y2s2-y3s1`（5ddfe486a AA_461 大二下讀後、0b474c8b4 AA_462 大三上讀後，2 個 commit） | 0b474c8b4 | 2026-10-25 12:0x LAWWW-B 隔離 worktree 子代理做完（628 支 Node 0 失敗）；前置 661423a71 在 origin 的 claude/modest-rubin-2lyp7g | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa461_462_1025.bundle aa461-462-y2s2-y3s1:aa461-462-y2s2-y3s1`） |
+| `aa466_468_1025.bundle` | `aa466-468`（af26ff25e AA_466 日本路線、03bb9ee7f AA_467 期末最後一頓／可昕跨年、896071162 AA_468 芷若大四跨年／律師讀書小組，3 個 commit） | 896071162 | 2026-10-25 12:3x LAWWW-B 隔離 worktree 子代理做完（629 支 Node 0 失敗）；前置 661423a71 在 origin 的 claude/modest-rubin-2lyp7g | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa466_468_1025.bundle aa466-468:aa466-468`） |
 還原（在 repo 裡，開發分支已經 fetch 過）：
 ```bash
 git fetch wip_backup/dorm-hall.bundle wip/dorm-hall:wip/dorm-hall   # 需要的前置 commit（79e1fed、3c9e02f）都在 origin 的開發分支上
