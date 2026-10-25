@@ -64,7 +64,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('6. 例外時群組、其他人照樣聯絡不到（psGone 仍成立）；她的私訊不是 silent',STORY.psGone(g2)&&MSG.open(g2,ps).mode!=='silent',J(MSG.open(g2,ps)));
     G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m1=txt('p:'+ps);
     G.day++; G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m2=txt('p:'+ps);
-    check('6. 每晚 23:00 以後一則，輪流（第一晚「兩回考古題」、第二晚「一大鍋湯」）',m1.length===1&&/兩回考古題/.test(m1[0])&&m2.length===2&&/一大鍋湯/.test(m2[1])&&G.flags.PS_KEPT===true,J(m2));
+    check('6. 每晚 23:00 以後一則（AA_460 第 2 節起照日子挑：3/1、3/2 是平常的晚上＝短句，兩晚不同句；排法另見 tests/aa460_y2s1_unit.js）',m1.length===1&&m1[0]===ps+':'+STORY.psKeepLine(G.day-1)&&STORY.PS_KEEP_SHORT.includes(STORY.psKeepLine(G.day-1))&&m2.length===2&&m2[1]===ps+':'+STORY.psKeepLine(G.day)&&m2[1]!==m2[0]&&G.flags.PS_KEPT===true,J(m2));
     { const g4=law('2027-03-02',15,{dating_classmate_peishan:true}); g4.flags.romance={[ps]:{status:'dating',sinceDay:D0-30}}; R(ps,30,20,20); G.contacts[ps]=D0-100;
       const tp=MSG.topics(G,ps).map(q=>q.k); const r=MSG.send(G,ps,'chat'); G.hour=22.9; PHONE.tick(G); const before=txt('p:'+ps); G.hour=23.6; PHONE.tick(G); const after=txt('p:'+ps);
       check('6-1. 消失期交往中：傳「在幹嘛」她 23:00 以後才回「在念地理。」；問課不開（AA_276 6-1）',!tp.includes('course')&&tp.includes('chat')&&r.ok&&!before.some(t=>/在念地理/.test(t))&&after.some(t=>t==='classmate_peishan:在念地理。'),J([tp,before,after])); }

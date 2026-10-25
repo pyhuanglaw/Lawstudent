@@ -134,7 +134,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('3. 「我忘了。」→「我知道你會忘，所以先說了。」「下次不准忘。」；2027 沒一起過 2/14：「白色情人節。……我們都沒送東西。」「那今天就是出來走走。」',J(m.L.slice(2))===J(['我知道你會忘，所以先說了。','下次不准忘。'])&&J(n.L)===J(['白色情人節。……我們都沒送東西。','那今天就是出來走走。']),J({m,n}));
     check('3. 交往中的情人節 +3／+6／+5、這學期的裂縫 -1（2→1）',dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.flags.AN_CRACK===1,dRel(AN,r0)); }
   { setup('2026-03-13',20,{lv:{[AN]:'dt'}}); rules(); const pre=dms(AN).length; at('2026-03-13',21.05); rules(); const m=PHONE.byAsk(H.G,'fest_ask_heroine_01_white_2026');
-    check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」（照節日換）「晚上六點半，總圖門口。……你不要排別的。」；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。……你不要排別的。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
+    check('3. 她約（交往中）：前一天 21:00「明天是白色情人節。」「晚上六點半，總圖門口。手帳上這一格，我先寫了。」（AA_460 4-2 照節日換整組）；回覆「好。」「那天不行。」',pre===0&&J(dms(AN))===J(['明天是白色情人節。','晚上六點半，總圖門口。手帳上這一格，我先寫了。'])&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','那天不行。']),J(dms(AN)));
     PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',0); rules(); const q=OUT.get(H.G,'fest_heroine_01_white_2026'); at('2026-03-14',18.1); const r0=relOf(AN); const g=await goOut(q.id);
     check('3. 「好。」＝出遊 3/14 18:30 總圖門口（library_gate_night），到了演交往中那一段',!!q&&q.h===18.5&&q.place==='總圖門口'&&img(H.bgs.find(b=>b&&b.image))==='library_gate_night'&&g.L.includes('白色情人節。……我們都沒送東西。')&&dRel(AN,r0)===J({fam:3,comf:6,npcRom:5})&&H.G.hour===20.5,J({q,L:g.L,h:H.G.hour}));
     setup('2026-03-13',21.05,{lv:{[AN]:'dt'}}); rules(); PHONE.answer(H.G,'fest_ask_heroine_01_white_2026',1); rules();
@@ -257,7 +257,7 @@ const REG=o=>{ global.CG_REGISTRY=o||{}; };
     check('8. 她約、她在台中（2028 情人節）：「明天情人節。……你要下來台中嗎？不用勉強。」（AA_457 3-1 節①換字；原本「明天你要下來嗎？……不用勉強。」）',J(dms(PS))===J(['明天情人節。……你要下來台中嗎？不用勉強。'])&&!!m,J(dms(PS)));
     PHONE.answer(H.G,'fest_ask_classmate_peishan_vday_2028',0); rules(); const q=OUT.get(H.G,'fest_classmate_peishan_vday_2028');
     check('8. 「好。」＝開車去台中（一整天）',!!q&&q.fest.day&&q.place==='台中',J(q));
-    setup('2026-03-13',21.05,{lv:{[PS]:'dt'}}); const m2=x.herLines(PS,'xmas'); check('8. 她約的第一句照節日換：「明天是聖誕節！！」「晚上六點半，溫州街口，可以嗎？」',J(m2)===J(['明天是聖誕節！！','晚上六點半，溫州街口，可以嗎？'])); }
+    setup('2026-03-13',21.05,{lv:{[PS]:'dt'}}); const m2=x.herLines(PS,'xmas'); check('8. 她約照節日換（AA_460 4-3 整組）：聖誕「明天聖誕節！」「晚上六點半，溫州街口。會冷，你穿厚一點！」',J(m2)===J(['明天聖誕節！','晚上六點半，溫州街口。會冷，你穿厚一點！'])); }
   { setup('2026-08-19',10,{lv:{[PS]:'dt'}}); const a=await play({id:PS,k:'qixi',y:2026,mode:'meet'}); setup('2028-03-15',10,{lv:{[PS]:6},flags:{PS_RECONNECT:true}}); H.G.money=200; const b=await play({id:PS,k:'bday',y:2028,mode:'meet'},[3,2]);
     check('8. 七夕交往中「我查到了。……不告訴你。明年再問我。」；生日第 6 階＋禮物（錢不夠的那一樣不能選：「錢不夠。」）',J(a.L)===J(['我查到了。……不告訴你。明年再問我。'])&&J(b.L)===J(['你怎麼知道？……我只在讀書會說過一次。','我們家的生日蛋糕是蛋餅疊起來的，三層。我爸的發明。','錢不夠。','我的問題都是用筆想的。……這支我會寫很多問題。'])&&H.G.money===0,J({a:a.L,b:b.L,m:H.G.money})); }
   });

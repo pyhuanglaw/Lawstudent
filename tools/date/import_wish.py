@@ -3,12 +3,14 @@
   - date_system/wish/wish_aa.json（以安 D07、語彤 D13；AA-B 照 AA_127 逐句轉的，0b478a53 補了以安大一的版本）
   - date_system/wish/wish_bb.json（芷若 D05、子晴 D03、學姊 D15、沛珊 D06、可昕 D25；BB-B 照 BB_128 第 3 節逐句轉的）
   - AA_127、BB_128（白名單原有的版本）：拿來逐句對——JSON 的每一句（旁白去掉括號、空白不算）都要在原稿裡，對不到的印出來、寫進 verify.miss
-台詞一字不改。只多兩件事：
+台詞一字不改。只多三件事（第 3 件見下面的 REPLACE）：
   1. AA_127 1-5「大一的版本：前三句換成……」（以安收尾），wish_aa.json 沒轉進去（0b478a53 只補了走廊、小路、結尾）：照 AA_127 原文加成 closing.linesIf（原稿逐字對）。
   2. hold：和現行人物設定衝突、整場先不播的人（照舊走一般的第一次約會，心願照樣算完成）。衝突的句子逐句列出來（給 AA 改）：
      子晴（「欸不是」＋「這不是問句」類每學期合計 2、約會台詞不用「存檔」「這是規則」：AA_188 2-6、AA_313 6-1）、
      學姊（不數東西、沒有「重點是」、朋友以上叫名字；美國學期是大四上 2028-08～12）、可昕（不說「假設」、不比輸贏：AA_373 6-1；AA_188 拿掉「這是告知」）。
      AA 改了原稿重新匯入：衝突的句子不在了，hold 自己消失。
+  3. REPLACE：AA 讀後稿指定換字、wish_aa／wish_bb.json 還沒跟著改的句子（AA_459 第 5 節、AA_460 第 6 節）：整句相同才換；
+     換過的句子不拿 AA_127／BB_128 對（對 REPLACE 自己的出處），列在 verify.replaced。JSON 改好、白名單換版本以後，原句不在了就自己不作用（印出來）。
 用法：python3 tools/date/import_wish.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -45,6 +47,28 @@ EV = {}
 for src, W in (('aa', WAA), ('bb', WBB)):
     for k, e in W['events'].items():
         e = dict(e); e['src'] = src; EV[k] = e
+
+# ---- 0. 換字（AA 讀後稿指定、JSON 還沒跟著改的；整句相同才換）----
+REPLACE = [  # (人物, 原句, 新句, 出處)
+    ('classmate_peishan', '你可以說不。不是叫你說不，是問你。', '你可以說不。我只是問問看。', 'AA_459 第 5 節（企劃線 c0972cd32）：沛珊美術館邀約，同 AA_362 改過的 hometown_lines.js'),
+    ('heroine_02', '你的，你自己買。這樣比較像約好，不像我請你。', '你的，你自己買。……這樣才算約好。', 'AA_460 第 6 節（企劃線 b9362f474）：芷若光典影展邀約（「像 A，不像 B」）'),
+    ('heroine_02', '好。兩點半，光典門口。……兩點半是巧合，不是店名。', '好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。', 'AA_460 第 6 節：回「好」之後（「是 A，不是 B」，口氣表 0-3）'),
+]
+replaced = []
+for who, a, b, why in REPLACE:
+    n = [0]
+    def sub(t, a=a, b=b, n=n):
+        if t == a:
+            n[0] += 1
+            return b
+        return t
+    if who in EV:
+        EV[who] = deep(EV[who], sub)
+    if n[0]:
+        replaced.append(f'{who}：{a} → {b}（{n[0]} 處；{why}）')
+    else:
+        print('  REPLACE 沒作用（原句已經不在）：', who, a)
+NEW_TXT = {b for _, _, b, _ in REPLACE}
 
 # ---- 1. 以安收尾的大一版本（AA_127 1-5）----
 aa = MD['aa']
@@ -89,6 +113,7 @@ def walk_ifs(e, k):
 for k, e in EV.items():
     free = tuple(walk_ifs(e, k))
     for path, who, t0 in all_text(e, k):
+        if t0 in NEW_TXT: continue   # 第 0 步換過的句子：出處是 REPLACE（AA_459、AA_460），不拿 AA_127／BB_128 對
         t = norm(t0)
         parts = [p for p in re.split(r'[（）「」]', t) if p] if who in ('narr', 'opt') else [t]
         if all(found(MDN[e['src']], p) for p in parts): continue
@@ -110,11 +135,11 @@ for k, (rx, why) in RULES.items():
         hold[k] = {'why': why, 'lines': bad}
 
 out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p][:8]}' for p in FILES.values()),
-       'verify': {'miss': miss, 'freeVisited': extra}, 'hold': hold, 'events': EV}
+       'verify': {'miss': miss, 'freeVisited': extra, 'replaced': replaced}, 'hold': hold, 'events': EV}
 js = ('/* 校外約會的心願事件（DATE-C4、DATE-C5；AA_127 第 1、2 節、BB_128 第 3 節；date_system/wish/）。產生器：tools/date/import_wish.py（不要手改）。'
       '來源：' + out['source'] + '。hold＝和現行人物設定衝突、先不播的人（衝突的句子在 hold[id].lines，給 AA 改）。接線：src/wish3d.js */\n'
       "'use strict';\nconst DATE_WISH=" + json.dumps(out, ensure_ascii=False) + ';\n')
 open(os.path.join(ROOT, 'src', 'data', 'date_wish.js'), 'w', encoding='utf-8').write(js)
-print('寫入 src/data/date_wish.js：', len(EV), '位；原稿對不到', len(miss), '句（另有「你來過一次」', len(extra), '句：AA_271、BB_213 加的）；hold', ', '.join(f'{k}（{len(v["lines"])} 句）' for k, v in hold.items()) or '無')
+print('寫入 src/data/date_wish.js：', len(EV), '位；原稿對不到', len(miss), '句（另有「你來過一次」', len(extra), '句：AA_271、BB_213 加的）；hold', ', '.join(f'{k}（{len(v["lines"])} 句）' for k, v in hold.items()) or '無', '；換字', len(replaced), '條')
 for x in miss:
     print('  對不到：', x)

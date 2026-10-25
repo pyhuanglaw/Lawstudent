@@ -518,10 +518,11 @@ const HOME=(function(){
      tag 照舊 home_ask_<日>；ask.k＝這一週的種類（1-5 晚餐旁白用；舊存檔沒有＝不加）；平常、長輩圖用了幾次記 G.home.grp（舊存檔沒有＝0）*/
   S.GROUP_WK={ first_sis:['禮拜六回來吃飯 你姊也回來',['好 我跟你姊說'],['好 那我跟你姊吃']], first:['東西缺什麼 這週回來拿',['好'],['好 缺什麼傳給我 我寄過去']],   /* 第一週：那個週六是 1～7 號（姊姊在家，firstWeekend）／其他 */
     moon:['中秋回來嗎 月餅買好了',['好 我多買一盒'],['好 月餅冰起來']], dz:['冬至回來吃湯圓',['好 我包芝麻的'],['好 冰箱留一包給你']], mom:['禮拜天母親節 不用買東西 回來吃飯就好',['好','（愛心貼圖）'],['好 那打電話就好']], dragon:['端午回來嗎 粽子買好了',['好'],['好 粽子冰起來']],
-    lj0:['連假回來嗎',['好','（愛心貼圖）'],['好 那下次']], lj1:['放三天 回來住兩晚',['好 床單幫你換好'],['好']], lj2:['連假要出去玩嗎 不出去就回來',['好'],['好 玩得開心']],
-    exam:['這週考試吧 考完再回來',['好 回來讀也可以'],['好 不要熬夜']], cool:['天氣變涼了 外套帶回去',['好'],['那我寄過去']], hot:['天氣熱了 厚被子帶回來洗',['好'],['好 那放假再帶']],
+    lj0:['連假回來嗎',['好','（愛心貼圖）'],['好 那下次']], lj1:['這次連假 回來住幾天',['好 床單幫你換好'],['好']], lj2:['連假要出去玩嗎 不出去就回來',['好'],['好 玩得開心']],
+    exam:['這週考試吧 考完再回來',['好 回來讀也可以'],['好 不要熬夜']], fin1:['期末考完就放寒假了 早點回來',['好'],['好 考完再說']], fin2:['考完東西先搬一些回來',['好'],['好 那放假再搬']], cool:['天氣變涼了 外套帶回去',['好'],['那我寄過去']], hot:['天氣熱了 厚被子帶回來洗',['好'],['好 那放假再帶']],
     dad_snack:['你爸從上海寄了一箱點心 回來吃',['好 留一盒給你'],['好 我先冰起來']], dad_tea:['你爸寄了茶葉 回來拿',['好'],['好 我先收著']], dad_crab:['你爸寄了大閘蟹 這週回來吃',['好 禮拜六蒸'],['好 那我們先吃了']], dad_snack2:['你爸又寄點心了 上次那家',['好 留一盒給你'],['好 我先冰起來']],
     p1:['這週回來吃飯嗎',['好','（愛心貼圖）'],['好 那下週']], p3:['回來的話先講 我多煮',['好 我去買菜'],['好 那下週']], old:[null,['好','（一隻貓比讚的貼圖）'],['好 那下週']] };   /* old＝長輩圖（平常②④，句子照 S.ELDER 輪）*/
+  /* AA_459 第 1 節（企劃線 c0972cd32）：連假②「放三天 回來住兩晚」→「這次連假 回來住幾天」（大一下春假放四天）；期中（第 8～9 週）只用一次＝第一個沒被佔走的週四；期末分上下學期兩句（fin1／fin2，第 16 週的週四；被節日、連假佔走就沒有）*/
   S.ELDER=['（長輩圖：週末愉快 天天開心）','（長輩圖：一朵蓮花 平安就是福）','（長輩圖：一壺茶 好友常聯絡 健康又快樂）','（長輩圖：夕陽 晚安 好夢）'];   /* 四張輪流（一學期最多四張長輩圖時，同一張同一學期最多一次）*/
   /* 爸爸寄東西（一學期一次）：大一上點心（原句）、大一下茶葉、大二上大閘蟹、大二下「又寄點心」；大三以後照茶葉 → 大閘蟹 → 點心輪，大閘蟹只在秋天（9～11 月）：輪到春天的學期就跳過、換下一樣（點心照大二下那句）*/
   S.DAD_ITEM={Y1S1:'dad_snack',Y1S2:'dad_tea',Y2S1:'dad_crab',Y2S2:'dad_snack2'}; S.DAD_ROT=['dad_tea','dad_crab','dad_snack2'];
@@ -533,13 +534,13 @@ const HOME=(function(){
     const md=d=>typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G,d):d, W=[]; for(let d=R.from;d<=R.to;d++) if(C.dateOf(d).wd===4&&md(d)>=2) W.push(d);
     const sch=Object.values(C.SCHOOL||{}), nat=d=>{ const n=C.holiday(d); return !!n&&n!=='颱風假'&&!sch.includes(n); };   /* 國定假日（含補假）*/
     const fest=d=>{ for(let x=d+1;x<=d+7;x++){ const f=FEST_K[C.fest?C.fest(x):'']; if(f) return f; } return null; };   /* 節日在這個週四之後的七天裡＝之前的最後一個週四 */
-    let lj=0; W.forEach((d,i)=>{ const f=fest(d); P[d]=tid==='Y1S1'&&i===0?(C.dateOf(d+2).d<=7?'first_sis':'first'):f?f:((nat(d+1)||nat(d+4))&&lj<3)?'lj'+(lj++):((C.termOf(d)||{}).exam?'exam':null); });
+    let lj=0, mid=0; W.forEach((d,i)=>{ const f=fest(d), ex=(C.termOf(d)||{}).exam; P[d]=tid==='Y1S1'&&i===0?(C.dateOf(d+2).d<=7?'first_sis':'first'):f?f:((nat(d+1)||nat(d+4))&&lj<3)?'lj'+(lj++):ex==='final'?(/S2$/.test(tid)?'fin2':'fin1'):(ex==='mid'&&!mid++)?'exam':null; });   /* AA_459 1-2：期中一學期一次（第二個考試週照下面排）、期末上下學期不同句 */
     const put=(d0,k)=>{ const d=W.find(x=>x>=d0&&!P[x]); if(d!=null) P[d]=k; };   /* 被上面佔走就往後一週 */
     for(const [mo,k] of [[11,'cool'],[5,'hot']]){ const d0=W.find(x=>C.dateOf(x).m===mo); if(d0!=null) put(d0,k); }
     put(R.from+6*7+3,S.dadKey(tid)); for(const d of W) if(!P[d]) P[d]='p'; return P; };
   /* 這個週四挑哪一句：{k, t, yes, no, p：算一次平常, e：算一張長輩圖}；不在學期、不是排到的週四＝null */
   S.grpPick=function(G,day){ const Tm=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!Tm) return null; let k=S.grpPlan(G,Tm.id)[day]; if(!k) return null;
-    const H=S.rec(G), C=H.grp&&typeof H.grp==='object'?H.grp:(H.grp={p:0,e:0}), p=k==='p';
+    const H=S.rec(G), C=H.grp&&typeof H.grp==='object'?H.grp:(H.grp={p:0,e:0}), p=k==='p'; if(C.t!==Tm.id){ if(C.t!=null){ C.p=0; C.e=0; } C.t=Tm.id; }   /* 平常、長輩圖照「這學期」用到第幾次（AA_459 1-3：大一下 3/5 從平常①、第一張長輩圖開始；G.home.grp.t＝哪一學期，舊存檔沒有＝照原本的次數接下去，不在學期中間重來）*/
     if(p){ const j=(C.p|0)%4; k=j===0?'p1':j===2?'p3':'old'; if(k!=='old'&&S.livesHome(G)&&S.HOME_SKIP.group.includes(S.GROUP_WK[k][0])) k='old'; }   /* 住在家裡不問「這週回來吃飯嗎」「回來的話先講」（AA_298 第 4 節；HOME.LIVE_GROUP 沒有登記的時候）*/
     const W=S.GROUP_WK[k]; if(!W) return null; return {k,t:k==='old'?S.ELDER[(C.e|0)%S.ELDER.length]:W[0],yes:W[1],no:W[2],p,e:k==='old'}; };
   /* 1-5：那一週回了「會回去」、週末真的回家吃晚餐＝「（晚餐。媽媽煮了一桌。）」後面加一句；其他種類不加 */

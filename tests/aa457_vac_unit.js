@@ -144,7 +144,7 @@ await sec(3,()=>{
   check('3. 她在台南（home、台南）：三月十四「'+X3.white+'」、聖誕「'+X3.xmas+'」；情人節、七夕、生日在台南沒有＝原本「'+OLD3+'」（3-1 節①）',J(tn)===J([[OLD3],[X3.white],[OLD3],[OLD3],[X3.xmas]]),J(tn));
   check('3. 「做十六歲」那句拿掉（3-1 節①）',!K.some(k=>[FEST.herLines(PS,k,true,'台南'),FEST.herLines(PS,k,true,'台中')].some(L=>/做十六歲/.test(J(L)))));
   check('3. 她在台中老家：情人節「'+TC3.vday+'」、七夕「'+TC3.qixi+'」；三月十四、生日、聖誕在台中＝原本（3-1 節①）',J(tc)===J([[TC3.vday],[OLD3],[TC3.qixi],[OLD3],[OLD3]]),J(tc));
-  check('3. 在臺北（不是 home）照原本：第一句照節日換（「明天是情人節！！」「明天是聖誕節！！」）、第二句約溫州街口',J(FEST.herLines(PS,'vday',false))===J(['明天是情人節！！','晚上六點半，溫州街口，可以嗎？'])&&J(FEST.herLines(PS,'xmas',false))===J(['明天是聖誕節！！','晚上六點半，溫州街口，可以嗎？']));
+  check('3. 在臺北（不是 home）照 by（AA_460 4-3）：情人節「明天是情人節！！」（原句）、聖誕「明天聖誕節！」，第二句約溫州街口',J(FEST.herLines(PS,'vday',false))===J(['明天是情人節！！','晚上六點半，溫州街口，可以嗎？'])&&J(FEST.herLines(PS,'xmas',false))===J(['明天聖誕節！','晚上六點半，溫州街口。會冷，你穿厚一點！']));
   check('3. 其他人照舊（以安聖誕第一句換字、芷若照 by 整組）',FEST.herLines('heroine_01','xmas',false)[0]==='明天是聖誕節。'&&J(FEST.herLines(ZR,'vday',false))===J(((FEST_DATA.PEOPLE[ZR].ask||{}).by||{}).vday||null));
   /* 實際手機（前一天 21:00，交往中）*/
   const ps=k=>{ const G=fresh(k,21.05); const r=SOCIAL.rel(PS); Object.assign(r,{fam:65,trust:50,comf:45,npcRom:60,rom:35}); SOCIAL.remember(PS,'FIRST_MET',''); INV.addContact(G,PS); G.contacts[PS]=G.day-60; G.flags['dating_'+PS]=true; ROM.get(G,PS).status='dating'; return G; };
