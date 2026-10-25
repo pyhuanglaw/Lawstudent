@@ -13,6 +13,8 @@ if CO:
     sha = subprocess.run(['git', '-C', W, 'rev-parse', 'HEAD'], capture_output=True, text=True).stdout.strip()
     print('換到 %s；deploy_check 預期版本字樣：%s' % (sha, VER or '（不檢查）'), flush=True)
 os.makedirs(OUT, exist_ok=True)
-r = subprocess.run(['bash', 'tests/release_suite.sh', URL, OUT] + ([VER] if VER else []), cwd=W)
-print(open(os.path.join(OUT, 'SUMMARY.txt')).read() if os.path.exists(os.path.join(OUT, 'SUMMARY.txt')) else '（沒有 SUMMARY.txt）', flush=True)
+# BB-B 10-25 10:3x：release_suite.sh 的 save_compat_v7／save_compat_live 要環境變數 V7、LIVE（舊版的網址）才會跑；沒給＝跳過（relsuite_3acaf 就漏了）
+ENV = dict(os.environ, V7=os.environ.get('V7', 'http://127.0.0.1:8812/index.html'), LIVE=os.environ.get('LIVE', 'http://127.0.0.1:8827/index.html'))
+r = subprocess.run(['bash', 'tests/release_suite.sh', URL, OUT] + ([VER] if VER else []), cwd=W, env=ENV)
+print(open(os.path.join(OUT, 'SUMMARY.txt'), 'rb').read().decode('utf-8', 'replace') if os.path.exists(os.path.join(OUT, 'SUMMARY.txt')) else '（沒有 SUMMARY.txt）', flush=True)
 sys.exit(r.returncode)
