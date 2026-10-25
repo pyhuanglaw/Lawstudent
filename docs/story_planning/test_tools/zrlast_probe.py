@@ -2813,6 +2813,27 @@ R32 = [dict(id='SIGN_ARENA', key='2025-08-31', h=17.5, zone='gym_arena', flags=d
             steps=[('wait', "!!GAME.E.scene.getObjectByName('usc_bus_sign')", 60, 'us_community.glb 載入'), PAUSE(6, '等貼圖')]
                   + SSHOT('bus_sign_E', -44.0, -6.2, 1.5708, 0.0, 2.5, '公車站牌，從東邊往西看（x 大的那一面）') + SSHOT('bus_sign_W', -49.0, -6.2, -1.5708, 0.0, 2.5, '公車站牌，從西邊往東看（x 小的那一面）'), want=[])]
 SCENS = SCENS + R32
+
+# ---------- R33（BB-B 10-25 02:0x）：窗景同步 v2＋沒有窗的室內晚上不變暗（WINDOWLESS-NIGHT-1025，開發分支 eaeefdc4b；LAWWW2 ee1e3108e）----------
+# ① 美國：us3d.js 的 VT 最後一列 19.5→19.2（公寓窗景 viewTint、法圖天窗和彩色玻璃 skyTint）：11/23 17:54（當天日落 17:28）
+# ② 臺灣七棟大廳窗景換夜景 18.6→19.2（光線時刻）：12/10 17:20（lightH 約 18.9：舊＝已經夜景、新＝還沒）與 17:45（lightH 19.3：兩版都夜景）；霖澤館、宿舍大廳、總圖大廳
+# ③ 沒有窗的室內（def.windowless）：體育館 B1、總圖 B1、視聽室 library_media、美國法圖 2F us_lawlib_2f——21:00 和 14:00 的半球光、顏色、燈要一樣
+# 對照是 eaeefdc4b 的前一版 7d56892eb（有 lightH、門檻還是 18.6／19.5），不是 v9.10.9（v9.10.9 沒有光線時刻）
+INL = "(()=>{ const E=GAME.E, z=E.zone; return {hour:+GAME.G.hour.toFixed(2), lightH:E.lightH!=null?+E.lightH.toFixed(2):null, indoor:!!E.indoor, windowless:!!(z&&z.def&&z.def.windowless), hemi:[+E.hemi.intensity.toFixed(3),E.hemi.color.getHexString(),E.hemi.groundColor.getHexString()], sun:+E.sun.intensity.toFixed(3), lampsOn:!!E.lampsOn}; })()"
+TINTS = "(()=>{ const out={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh||!/view|sky|glass|stain|window|win_/i.test(o.name||'')) return; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ if(!m) continue; const k=(o.name||'')+'|'+(m.name||''); if(out[k]) continue; out[k]={c:m.color?m.color.getHexString():null,e:m.emissive?m.emissive.getHexString():null,ei:m.emissiveIntensity!=null?+(+m.emissiveIntensity).toFixed(3):null,map:(m.map&&m.map.image&&(m.map.image.currentSrc||m.map.image.src||'').replace(/^.*\\//,''))||null}; } }); const ks=Object.keys(out).slice(0,24); const r={}; for(const k of ks) r[k]=out[k]; return r; })()"
+def RDY(n): return [PAUSE(n, '等模型、貼圖'), ('chk', '光線讀數（記下來）', INL, lambda d: True), ('chk', '窗／天窗材質（記下來）', TINTS, lambda d: True)]
+def WN(sid, key, h, zone, flags, pos=None, yaws=(0, 3.1416), extra=None):
+    st = RDY(8) + ([('chk', '窗景圖（記下來）', VIEWTEX2, lambda d: True)]) + (extra or []) + YAWS(sid.lower(), pos[0] if pos else None, pos[1] if pos else None, 0.18, 4.0, yaws=yaws)
+    return dict(id=sid, key=key, h=h, zone=zone, flags=flags, js='', pref=[], steps=st, want=[])
+R33 = [WN('WN_US_APT_1754', '2028-11-23', 17.9, 'us_apartment', dict(USC)), WN('WN_US_APT_1640', '2028-11-23', 16.67, 'us_apartment', dict(USC)),
+       WN('WN_US_LIB_1754', '2028-11-23', 17.9, 'us_lawlib', dict(USC), yaws=(0, 1.5708, 3.1416)), WN('WN_US_LIB_1400', '2028-11-23', 14.0, 'us_lawlib', dict(USC), yaws=(0, 1.5708, 3.1416)),
+       WN('WN_LINZE_1720', '2026-12-10', 17.33, 'linze', dict(TW3)), WN('WN_LINZE_1745', '2026-12-10', 17.75, 'linze', dict(TW3)),
+       WN('WN_DORMH_1720', '2026-12-10', 17.33, 'dorm_hall', dict(TW3)), WN('WN_DORMH_1745', '2026-12-10', 17.75, 'dorm_hall', dict(TW3)),
+       WN('WN_LIBH_1720', '2026-12-10', 17.33, 'library_hall', dict(TW3)), WN('WN_LIBH_1745', '2026-12-10', 17.75, 'library_hall', dict(TW3))]
+for _z, _f, _k in [('gym_b1', TW3, '2026-10-14'), ('library_b1', TW3, '2026-10-14'), ('library_media', TW3, '2026-10-14'), ('us_lawlib_2f', USC, '2028-09-13')]:
+    for _h in (14.0, 21.0):
+        R33.append(WN('WL_%s_%02d' % (_z.upper(), int(_h)), _k, _h, _z, dict(_f), yaws=(0, 1.5708)))
+SCENS = SCENS + R33
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
 # LATE、DECL 起床以後【捷徑】撥到 09:33（過了 08:30＋1 小時＝沒來；09:40 那一則照遊戲自己發），再等到 09:48
