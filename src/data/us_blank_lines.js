@@ -11,6 +11,7 @@ const US_BLANK_LINES=(function(){
   const S5='heroine_05', LG='何俊朗';
   const dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+S5]===true||!!(R[S5]&&R[S5].status==='dating'); };
   const LONG=G=>!!(G&&G.flags&&G.flags.MET_LONG)||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('npc_long','MET_LONG'));   /* 見過何俊朗（AA_370 M3：記憶⇄旗標兩邊都認）*/
+  const QX=G=>{ const q=G&&typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'sisqx_2028'):null; return q?q.state:null; };   /* AA_453 1-2：學姊美國的七夕（sis_qixi3d.js 的出遊 sisqx_2028，8/26 09:00 週六市集）：'planned' 排了、'done' 演了；讀出遊紀錄，不加旗標 */
   const sis=t=>({speaker:S5,text:t}), nar=t=>({speaker:null,text:t}), lg=t=>({speaker:LG,text:t});
   const IF=(fn,l)=>Object.assign({if:{custom:fn}},l);
   const EV=[];
@@ -60,7 +61,8 @@ const US_BLANK_LINES=(function(){
   /* 3-3 8/26（六）14:00 法學院圖書館（3D us_lawlib）*/
   ev('ev_usb_syllabus','法學院圖書館',{trigger:'outing',hours:2,dialogue:[
     {scene:'法學院圖書館',bg:false},
-    nar('（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）'),   /* AA_424 第 7-3 節：照現有的 3D */
+    IF(G=>QX(G)!=='done',nar('（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）')),   /* AA_424 第 7-3 節：照現有的 3D */
+    IF(G=>QX(G)==='done',nar('（從市集回來，那顆桃子放在桌角。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）')),   /* AA_453 1-2：早上七夕的週六市集演過（同一天兩場學姊）＝第一句換這一句（桃子接市集那場「她挑了兩顆桃子，捏了一下，放回去一顆」）*/
     sis('第一週的閱讀很多。'),
     sis('你的也拿來。一起排。'),
     {choice:[{text:'「好。」',goto:'a'},{text:'「我自己排。」',goto:'b'}]},
@@ -113,7 +115,7 @@ const US_BLANK_LINES=(function(){
     SAT:[
       {n:'0812',ask:'2028-08-11',d:'2028-08-12',h:15,msg:'明天去竹葉。你幫我提。',ev:'ev_usb_asian',place:'竹葉亞洲超市',title:'竹葉亞洲超市',travel:'公車 約 20 分鐘',travelH:1/3},
       {n:'0819',ask:'2028-08-18',d:'2028-08-19',h:16,msg:'學期還沒開始。明天去湖邊走走。',ev:'ev_usb_lake_dog',place:'湖邊',title:'湖邊',travel:'走路 約 15 分鐘',travelH:0.25},
-      {n:'0826',ask:'2028-08-25',d:'2028-08-26',h:14,msg:'明天下午圖書館。課表拿來。',ev:'ev_usb_syllabus',place:'法學院圖書館',title:'法學院圖書館',travel:'公車 約 20 分鐘',travelH:1/3},
+      {n:'0826',ask:'2028-08-25',d:'2028-08-26',h:14,msg:'明天下午圖書館。課表拿來。',msgQx:'市集逛完，下午去圖書館。課表帶著。',ev:'ev_usb_syllabus',place:'法學院圖書館',title:'法學院圖書館',travel:'公車 約 20 分鐘',travelH:1/3},
       {n:'1010',ask:'2028-10-09',d:'2028-10-10',h:14,msg:'明天圖書館五點就關。下午要不要去湖邊。',ev:'ev_usb_fb_lake',place:'湖邊',title:'秋假的湖邊',travel:'走路 約 15 分鐘',travelH:0.25,fall:true} ],
     SAT_YES:'好。', SAT_NO:'明天不行。', SAT_NO_REPLY:'好。',
     LAUNDRY:{d:'2028-09-09',ask:10.5,h:11,msg:'你在家嗎？',yes:'在。',no:'不在。',noReply:'好。我等她們。'},   /* AA_424 第 7-1 節 */
@@ -128,6 +130,6 @@ const US_BLANK_LINES=(function(){
     CHI:['📷（河上的橋，一座接一座）','風很大。','……下次一起來。'], CHI_ASK:['好。','下次一定。'],
     /* 第 3-1 節：AA_412 3-2 滷肉（9/23 起），有 US_ASIAN_MARKET 的開頭多一句旁白 */
     LUROU_EXTRA:'（你認得那包八角。）' };
-  return {EV,DATA,dating,LONG};
+  return {EV,DATA,dating,LONG,QX};
 })();
 for(const e of US_BLANK_LINES.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);

@@ -11,6 +11,7 @@
           日期卡：USL.SUM（跳日期時出在日期卡下面，沒跳過的那天到時間出一次）多幾張，每張有 if（包住 USL.sumDue、USL.tick：if 不成立的不出）。
    第 3 節 交往中、開學前（還沒演 US2：9/13 以前）的週六：8/12 竹葉亞洲超市、8/19 湖邊、8/26 法學院圖書館＝前一天 21:00 私訊約（「好。」→ 排行程；「明天不行。」→「好。」）；
           竹葉、圖書館是 3D 的區域：演之前換到那裡（OUT.STAGE），畫面用模糊的 3D，演完回到原本的地方。
+          AA_453 1-2：8/26 早上學姊的七夕（sis_qixi3d.js 的週六市集 sisqx_2028）排了或演了＝8/25 21:00 那一則換句（S.qxOn）；七夕演過的，圖書館的第一句換句（us_blank_lines.js 的 QX）。
           9/9 上午（08:00～12:00）在公寓「洗衣機」那裡選「洗衣服」才演（社區的洗衣間）；快轉停在 9/9 11:00。
           「洗衣服」平常也可以做（40 分鐘、不加數值，同宿舍洗衣間 closed3d.js）；「只看看」＝原本「看」的字（AA_287）。
           AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）。
@@ -64,10 +65,11 @@ const US_BLANK=(function(){
   S.fbRepair=G=>here(G)&&!dating(G);
   S.SAT=X.SAT.map(r=>Object.assign({},r,{tag:'usb_sat_'+r.n,key:'USB_SAT_'+r.n,out:'usb_sat_'+r.n}));
   S.satOK=(G,r)=>dating(G)&&(r.fall?S.noCanyon(G):D(r.d)<D(S.US2_DAY));   /* 開學前的週六：還沒演 US2（9/13 以前）；秋假：沒有大峽谷 */
+  S.qxOn=G=>{ const s=US_BLANK_LINES.QX?US_BLANK_LINES.QX(G):null; return s==='planned'||s==='done'; };   /* AA_453 1-2：8/26 早上學姊的七夕（週六市集，sisqx_2028）排了或演了＝8/25 21:00 那一則換成 msgQx（「市集逛完，下午去圖書館。課表帶著。」）；傳的那一刻看，沒排的照舊 */
   S.satPhone=function(G){ const F=G.flags;
     for(const r of S.SAT){ const da=D(r.ask), d=D(r.d); if(da==null||d==null) continue;
       if(now(G)>=T(da,21)&&now(G)<T(d,r.h)&&!PHONE.sent(G,r.tag)&&S.satOK(G,r)){
-        const m={th:'p:'+S5,from:S5,text:r.msg,ask:{id:r.tag,until:T(d,r.h),opts:[{t:X.SAT_YES,set:{[r.key]:'go'}},{t:X.SAT_NO,say:[{from:S5,text:X.SAT_NO_REPLY}],set:{[r.key]:'no'}}]}};
+        const m={th:'p:'+S5,from:S5,text:r.msgQx&&S.qxOn(G)?r.msgQx:r.msg,ask:{id:r.tag,until:T(d,r.h),opts:[{t:X.SAT_YES,set:{[r.key]:'go'}},{t:X.SAT_NO,say:[{from:S5,text:X.SAT_NO_REPLY}],set:{[r.key]:'no'}}]}};
         PHONE.at(G,da,G.day===da?Math.max(21,G.hour):21,[m],r.tag); }
       if(F[r.key]==='go'&&typeof OUT!=='undefined'&&!OUT.get(G,r.out)&&now(G)<T(d,r.h)+0.75)
         OUT.plan(G,{id:r.out,ev:r.ev,day:d,h:r.h,late:0.75,place:r.place,title:r.title,travel:r.travel,travelH:r.travelH,back:'回到社區。'}); } };

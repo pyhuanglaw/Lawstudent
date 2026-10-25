@@ -4,6 +4,7 @@
    美國路線（2-Y4-16～22；時間都是當地時間，STORY.tzOffset）：
      8/2 抵達＝US1：交往中 19:00 巴士站 → 19:30 草原超市 → 20:15 竹葉亞洲超市 → 21:00 公寓 214 門口 → 21:30 打給媽媽；挽回中＝巴士站一句以後自己走（社區入口），21:30 打給媽媽。加入「交換生」群組。
      9/13 US2：交往中 18:00 私訊、18:30～19:30 坐到 C 棟 208 的高腳椅、20:00 沒到一則、10/16 21:00「拿了 A」；挽回中 19:00 前後人在社區＝帶到 C 棟（還鍋子）。
+       AA_453 1-3：交往中 18:00 最後一則要回——「我過去。」＝出遊「C 棟・廚房」18:30（出發就換到 C 棟演，S.us2Stage）；「今天不行。」、沒回＝照舊；自己走去坐高腳椅照舊、先到的直接演。
      11/3 21:00 芝加哥（交往中私訊、挽回中群組；「去。」＝11/11 07:00 出遊兩天）；11/22 21:00 → 11/23 09:00 感恩節的湖邊；12/2 18:00 → 20:00 初雪（交往中：20:15 沒到＝20:30 一則、
      21:30 還沒到＝帶到場；挽回中 20:00 自動到場、REPAIR ≥ 3 才重新開始）；12/13 21:00 → 12/14 19:00 會所晚餐；12/16 07:00 社區門口（鬧鐘 06:30）→ 交往中舊金山一週／挽回中布魯明頓三天
      → 12/21 起飛 → 12/23 05:40 桃園入境大廳 → 家 → 19:00 409（story3d.js roomY4FromAirport）→ 20:00 阿凱。
@@ -73,6 +74,19 @@ const R2Y4A=(function(){
   S.us2Props=function(GM,on){ const z=GM.E&&GM.E.zone; if(GM.G.zone==='us_shared'&&z&&typeof z.us2==='function'&&!!z.us2On!==!!on) z.us2(on); };   /* EVENT_US2：鍋、泡麵、碗、紅筆圈滿的報告（us3d.js）*/
   S.us2RepairDue=G=>{ const d=D913(); return isUS(G)&&abroad(G)&&d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<20&&!dating(G,S5)&&!G.flags.US2&&['us_outside','us_apartment','us_shared'].includes(G.zone); };
   S.us2Repair=async function(GM){ const G=GM.G; if(G.zone!=='us_shared') await GM.enter('us_shared',SP('us_shared_kitchen')); S.us2Props(GM,true); await run(GM,'ev_us2_repair'); };
+  /* AA_453 1-3：交往中 18:00 回「我過去。」排的出遊「C 棟・廚房」：出發就換到 C 棟 208 演（OUT.STAGE，同 us_blank3d.js 的竹葉、圖書館）——
+     道具（EVENT_US2）打開、她在爐子前（同 USL.sisSync 9/13 傍晚的位置）、你坐窗口外的高腳椅（seat.lift＞0），畫面用模糊的 3D；演完回到原本的地方 */
+  S.US2_OUT='us2_kitchen';
+  S.us2Stage=async function(GM,q,ev){ if(!q||q.id!==S.US2_OUT||!ev||ev.id!=='ev_us2_kitchen') return null; const G=GM.G, E=GM.E, P=E&&E.player;
+    if(!G||!P||!P.obj||!GM.enter||!isUS(G)||P.riding||typeof Z3==='undefined'||!Z3.ZONES||!Z3.ZONES.us_shared||!Z3.ZONES[G.zone]||(typeof OUT!=='undefined'&&OUT.fromHome)) return null;
+    const prev={zone:G.zone,x:P.obj.position.x,z:P.obj.position.z,yaw:P.obj.rotation.y,lv:P.lv|0}; if(P.seat&&GM.standUp) GM.standUp(P);
+    const sp=SP('us_shared_kitchen'); await GM.enter('us_shared',{x:sp.x,z:sp.z,yaw:sp.yaw||0},{noFade:true,deferStory:true,noAutosave:true});
+    try{ S.us2Props(GM,true); if(GM.npc&&GM.npc[S5]&&GM.removeNPC) GM.removeNPC(S5);
+      const n=GM.spawnCharacter?GM.spawnCharacter(S5,-3.2,2.0,{yaw:Math.PI,pose:'idle'}):null; if(n){ n.idlePose=n.pose; n.frozen=true; }
+      const bar=((GM.E&&GM.E.zone&&GM.E.zone.seats)||[]).find(s=>s.lift>0); if(bar&&GM.sitAt) GM.sitAt(P,bar); }
+    catch(e){ console.warn('R2Y4A.us2Stage',e); }
+    let fin=false;
+    return {restore:async()=>{ if(fin) return; fin=true; if(P.seat&&GM.standUp) GM.standUp(P); await GM.enter(prev.zone,{x:prev.x,z:prev.z,yaw:prev.yaw,lv:prev.lv},{noFade:true,deferStory:true,noAutosave:true}); }}; };
 
   /* ===================== 2-Y4-18 芝加哥 ===================== */
   S.chicagoDay2=async function(GM){ const G=GM.G, d12=D('2028-11-12'); if(d12==null) return;
@@ -135,7 +149,11 @@ const R2Y4A=(function(){
     if(F.US_ARRIVED&&abroad(G)) PHONE.join(G,EXG,'交換生');   /* 舊存檔（抵達以後才有這個事件包）*/
     /* ---- US2 ---- */
     { const d=D913(); if(d!=null&&G.day>=d&&G.day<=d+40){
-        if(G.day===d&&dating(G,S5)&&past(G,d,18)&&hh(G)<19.5&&!F.US2&&!PHONE.sent(G,'us2_msg')) PHONE.at(G,d,18,[P5('報告被退回來了。'),P5('……我在煮麵。C 棟，廚房。要不要吃。')],'us2_msg');
+        if(G.day===d&&dating(G,S5)&&past(G,d,18)&&hh(G)<19.5&&!F.US2&&!PHONE.sent(G,'us2_msg')){ const L=[P5('報告被退回來了。'),P5('……我在煮麵。C 棟，廚房。要不要吃。')];
+          L[1].ask={id:'us2_ask',until:T(d,19.5),opts:[{t:'我過去。',say:[{from:S5,text:'樓下的門，按 208。'}]},{t:'今天不行。',say:[{from:S5,text:'好。'}]}]}; PHONE.at(G,d,18,L,'us2_msg'); }   /* AA_453 1-3：最後一則改成要回的（原本不用回，一快轉就錯過）；回的是哪一個看手機的回覆紀錄（ans），不加旗標 */
+        { const m=PHONE.byAsk(G,'us2_ask'); if(m&&m.ans===0&&!F.US2&&now(G)<T(d,19.5)&&typeof OUT!=='undefined'&&!OUT.get(G,S.US2_OUT))
+            OUT.plan(G,{id:S.US2_OUT,ev:'ev_us2_kitchen',day:d,h:18.5,late:1,place:'C 棟・廚房',title:'C 棟・廚房',travel:'走路 約 5 分鐘',travelH:1/12,back:'回到社區。',alarm:true}); }   /* 「我過去。」＝排 18:30（到 19:30 都能出發）；出發就帶到 C 棟 208 演 ev_us2_kitchen（S.us2Stage）。快轉停在出發前（USL.nextStop 算出遊）；「今天不行。」、沒回＝照舊 19:30 以後 20:00 那一則 */
+        { const q=F.US2&&typeof OUT!=='undefined'?OUT.get(G,S.US2_OUT):null; if(q&&q.state==='planned') q.state='done'; }   /* 自己走過去、坐高腳椅先演了（ev_us2_kitchen 記 US2）：不再問「出發」，不會演兩次 */
         if(PHONE.sent(G,'us2_msg')&&!F.US2&&past(G,d,19.5)){ F.US2='missed'; PHONE.at(G,d,20,[P5('麵我吃完了。報告我自己再改一次。')],'us2_missed'); }   /* 20:00 */
         const dA=D('2028-10-16'); if(dA!=null&&(F.US2==='there'||F.US2==='missed')&&dating(G,S5)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」＝10/16（一）21:00（AA_340 第 11 週；AA_345 F10、I8 定案：F10 寫的 18:00 作廢）*/
     /* ---- 芝加哥（11/3 21:00）---- */
@@ -534,6 +552,7 @@ const R2Y4A=(function(){
   if(typeof STORY!=='undefined'&&STORY.LADDER_HOLD){ const H=STORY.LADDER_HOLD, after=(k,G)=>{ const d=D(k); return d!=null&&G.day>d; };
     if(!H['Y7-L3']) H['Y7-L3']=G=>!!(G.flags&&G.flags.YT_ESSAY)||after('2028-10-24',G);
     if(!H['A7-L6']) H['A7-L6']=G=>!!(G.flags&&G.flags.PLG_HANDOVER)||after('2028-11-30',G); }
+  if(typeof OUT!=='undefined'&&Array.isArray(OUT.STAGE)&&!OUT._us2Stage){ OUT.STAGE.push((GM,q,ev)=>S.us2Stage(GM,q,ev)); OUT._us2Stage=true; }   /* AA_453 1-3 */
   if(typeof EXCH!=='undefined'){ EXCH.onArrive=async GM=>{ if(!S.us1Due(GM.G)) return false; busy=true; try{ return await S.us1(GM); } finally{ busy=false; } }; EXCH.onLand=GM=>S.onLand(GM); }
   return S;
 })();

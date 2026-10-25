@@ -2926,6 +2926,15 @@
    "task": "US-READ-REPAIR-1025",
    "kind": "text",
    "note": "r2y4a3d.js us_snow_msg 第二句、挽回中初雪排進行程 us_snow_r（19:45 問出發，舊存檔照舊自動到場）；r2y4a_events.js ev_us2_repair 第一句、ev_us3_lake label r 旁白、ev_us_return label n 媽媽；us_life_events.js ev_usl_long4；exchange3d.js 挽回中返台字卡「舊金山轉機」；tests/aa452_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_453_美國交換讀後_交往中新版_七夕和退回的報告.md",
+   "sha": "38820fd5e",
+   "status": "approved",
+   "approvedBy": "AA-B 2026-10-25 定稿（D109 劇情自主）",
+   "task": "US-READ-DATING2-1025",
+   "kind": "text",
+   "note": "1-1 查證：BB 探針底檔沒有 met_sis（遊戲沒問題）；1-2 us_blank_lines.js 0826 msgQx、ev_usb_syllabus 第一句（QX＝sisqx_2028）、us_blank3d.js qxOn；1-3 r2y4a3d.js us2_msg 要回、出遊 us2_kitchen＋us2Stage（OUT.STAGE）；tests/aa453_us_unit.js"
   }
  ]
 }
