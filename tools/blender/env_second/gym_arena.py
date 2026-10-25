@@ -484,6 +484,10 @@ for name, mat, pts, uv, parent in IMGS:
     nm = name if name.startswith('SET_') else P + name; me = bpy.data.meshes.new(nm); bm.to_mesh(me); bm.free(); me.materials.append(mat)
     ob = bpy.data.objects.new(nm, me); B.scene().collection.objects.link(ob); ob.parent = parent or root
 L.merge_by_material(root, keep=lambda ob: 'SET_' in ob.name or (ob.parent is not None and 'SET_' in ob.parent.name) or 'seat' in ob.name or (ob.parent is not None and 'seats' in ob.parent.name))
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件補反面，看起來和原本一樣；原本就單面的（天花板朝下、屋頂）不動；玻璃照舊雙面；*_FACE_* 板面不動網格
+_ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAY['version'], 'seats_lower': nseat, 'ceremony_chairs': n_cer, 'lecture_chairs': n_lec})
 L.write_json(OUT[:-4] + '.json', info)

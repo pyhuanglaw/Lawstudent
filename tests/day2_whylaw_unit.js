@@ -89,7 +89,7 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
     /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。」，BB_104 8b-16；BB_179 段 E 改短）：先拿掉這幾句再搜尋 */
-    const LEGIT=['我媽說我寒假胖了。','我媽說我這三天胖了。……都是夜市害的。','我媽說她不好意思拒絕。','我媽說今年要包一百個。'];   /* 法服值班民眾第 6 件（AA_184）；阿哲的大二過年（AA_143 2-1，AA-B 9035ede0）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
+    const LEGIT=['我媽說我寒假胖了。','我媽說我這三天胖了。……都是夜市害的。','我媽說她不好意思拒絕。','我媽說今年要包一百個。','我媽說，下次她會先打給我。'];   /* 法服值班民眾第 6 件（AA_184）；阿哲的大二過年（AA_143 2-1，AA-B 9035ede0）；法服值班第二輪第 6 位回來（AA_469 2-1，企劃線 9f465dcef）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
     check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
     const h=CHARACTERS.heroine_01;
     check('5 以安的 family_context＝「母親是高等法院庭長，單親；家在台中，家境寬裕」（2026-10-18 01:3x 使用者經 AA-C）',h.family_context==='母親是高等法院庭長，單親；家在台中，家境寬裕',h.family_context);

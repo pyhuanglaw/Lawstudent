@@ -145,6 +145,8 @@ const R2Y4A=(function(){
     if(GM.fade) await GM.fade(true); return true; };
 
   /* ===================== 手機（STORY.PHONE_RULES）===================== */
+  /* 10/16 21:00「改過的報告拿了 A。」傳不傳（交往中、US2 是 there 或 missed）：下面 phoneUS 那一則和美國快轉的 10/16 21:00 停點（us_life3d.js FIXED）共用（BUG-US-WKND-EMPTYSTOP-1025）*/
+  S.us2GradeOn=G=>{ const F=(G&&G.flags)||{}; return (F.US2==='there'||F.US2==='missed')&&dating(G,S5); };
   S.phoneUS=function(G){ const F=G.flags;
     if(F.US_ARRIVED&&abroad(G)) PHONE.join(G,EXG,'交換生');   /* 舊存檔（抵達以後才有這個事件包）*/
     /* ---- US2 ---- */
@@ -155,7 +157,7 @@ const R2Y4A=(function(){
             OUT.plan(G,{id:S.US2_OUT,ev:'ev_us2_kitchen',day:d,h:18.5,late:1,place:'C 棟・廚房',title:'C 棟・廚房',travel:'走路 約 5 分鐘',travelH:1/12,back:'回到社區。',alarm:true}); }   /* 「我過去。」＝排 18:30（到 19:30 都能出發）；出發就帶到 C 棟 208 演 ev_us2_kitchen（S.us2Stage）。快轉停在出發前（USL.nextStop 算出遊）；「今天不行。」、沒回＝照舊 19:30 以後 20:00 那一則 */
         { const q=F.US2&&typeof OUT!=='undefined'?OUT.get(G,S.US2_OUT):null; if(q&&q.state==='planned') q.state='done'; }   /* 自己走過去、坐高腳椅先演了（ev_us2_kitchen 記 US2）：不再問「出發」，不會演兩次 */
         if(PHONE.sent(G,'us2_msg')&&!F.US2&&past(G,d,19.5)){ F.US2='missed'; PHONE.at(G,d,20,[P5('麵我吃完了。報告我自己再改一次。')],'us2_missed'); }   /* 20:00 */
-        const dA=D('2028-10-16'); if(dA!=null&&(F.US2==='there'||F.US2==='missed')&&dating(G,S5)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」＝10/16（一）21:00（AA_340 第 11 週；AA_345 F10、I8 定案：F10 寫的 18:00 作廢）*/
+        const dA=D('2028-10-16'); if(dA!=null&&S.us2GradeOn(G)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」＝10/16（一）21:00（AA_340 第 11 週；AA_345 F10、I8 定案：F10 寫的 18:00 作廢）*/
     /* ---- 芝加哥（11/3 21:00）---- */
     { const d3=D('2028-11-03'), d11=D('2028-11-11'); if(d3!=null&&G.day>=d3&&G.day<=d11+1){
         if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發，帶厚外套。'),P5(F.MET_LONG||has('npc_long','MET_LONG')?'何俊朗也去。他說他知道哪一家的披薩最好吃。……到了再看。':'香港來的那個同學也去，我們一起認識他。')]:[XL(G,'下週末有人要去芝加哥嗎。巴士早上七點。')];   /* AA_450 1-6：「……我們去驗證。」是可昕的話（經濟系 10/11）→「……到了再看。」；1-8：挽回中的群組改何俊朗傳（沒見過他＝國際學生會）*/

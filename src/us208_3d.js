@@ -12,7 +12,8 @@
    掛勾：STORY.TICKS（人在 us_shared、空下來、有該演的那一場就演），不改 us_life3d.js。測試：node tests/aa412_us_unit.js
    AA_454 第 1 節（AA-B 2026-10-25 03:5x，企劃線 eaa98aaa7）：快轉在週末 14:00 有停、畫面上什麼都沒有，一路快轉七場全部錯過——週末 14:00 她私訊一則要回的（S.dmPhone，每一場的那一句＝SCENES 的 dm）：
      「我過去。」＝出遊「C 棟 208」，出發就換到 208 演那一場（OUT.STAGE，S.stage）；「今天不行。」＝她「好。」，週日 14:00 再一次「今天也在 208。」；週日也說不行＝這個週末不演；沒回＝照現在。
-     存檔 G.flags.US208_DM＝這個週末傳過了（那個週六）、US208_NO＝週日說不行的那個週末（那個週六；只是紀錄：AA-B 04:12「這個週末就不演」＝不再傳私訊，自己走過去照演）；舊存檔沒有＝沒傳過。測試：node tests/aa454_us_unit.js */
+     存檔 G.flags.US208_DM＝這個週末傳過了（那個週六）、US208_NO＝週日說不行的那個週末（那個週六；只是紀錄：AA-B 04:12「這個週末就不演」＝不再傳私訊，自己走過去照演）；舊存檔沒有＝沒傳過。測試：node tests/aa454_us_unit.js
+   BUG-US-WKND-EMPTYSTOP-1025：USL.nextStop 的週末 14:00 停點問 S.stopAt（只停在她那天會傳私訊的時候）。測試：node tests/us_wknd_stop_unit.js */
 'use strict';
 const US208=(function(){
   const S={}, S5='heroine_05';
@@ -135,15 +136,24 @@ const US208=(function(){
   const now=G=>G.day*24+G.hour, T=(d,h)=>d*24+h, qc=x=>Math.ceil(x*4-1e-6)/4;
   const md=d=>{ const k=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d).key:''; return k?k.slice(5,7)+k.slice(8,10):String(d); };
   S.askId=d=>'us208_ask_'+md(d); S.dmTag=d=>'us208_dm_'+md(d); S.outId=d=>'us208_'+md(d);   /* d＝傳的那一天 */
+  /* d 那天（星期 w）她要傳的那一句；不傳＝null。S.dmPhone 和快轉的停點（S.stopAt）共用，兩邊不會對不起來 */
+  const dmLine=(G,d,w,s)=>{ const wk=w===0?d-1:d; if(PHONE.sent(G,S.dmTag(d))) return null;
+    if(G.flags.US208_DM!==wk) return s.dm;   /* 這個週末的第一則：那一場的那一句 */
+    if(w===0){ const m=PHONE.byAsk(G,S.askId(wk)); if(m&&m.ans===1) return S.DM_SUN; }   /* 週六回「今天不行。」：週日再一次（一個週末最多一次）*/
+    return null; };
   S.dmPhone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!(G.weekday===6||G.weekday===0)) return; const F=G.flags, d=G.day, wk=S.wk(G), s=S.due(G); if(!s) return;
-    if(hh(G)<S.DM_UNTIL&&!PHONE.sent(G,S.dmTag(d))){ let t=null;
-      if(F.US208_DM!==wk) t=s.dm;   /* 這個週末的第一則：那一場的那一句 */
-      else if(G.weekday===0){ const m=PHONE.byAsk(G,S.askId(wk)); if(m&&m.ans===1) t=S.DM_SUN; }   /* 週六回「今天不行。」：週日再一次（一個週末最多一次）*/
+    if(hh(G)<S.DM_UNTIL){ const t=dmLine(G,d,G.weekday,s);
       if(t){ const no={t:S.DM_NO,say:[{from:S5,text:S.DM_NO_RE}]}; if(G.weekday===0) no.set={US208_NO:wk};
         PHONE.at(G,d,Math.max(14,hh(G)),[{th:'p:'+S5,from:S5,text:t,ask:{id:S.askId(d),until:T(d,S.DM_UNTIL),opts:[{t:S.DM_YES,say:[{from:S5,text:S.DM_YES_RE}]},no]}}],S.dmTag(d)); F.US208_DM=wk; } }
     const m=PHONE.byAsk(G,S.askId(d));
     if(m&&m.ans===0&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.outId(d))&&hh(G)<S.DM_UNTIL){ const h=Math.max(14.5,qc(hh(G)+0.25));   /* 「我過去。」＝排出遊（演的是排的當下該演的那一場）*/
       OUT.plan(G,{id:S.outId(d),ev:s.ev,day:d,h,late:Math.max(0.25,S.DM_UNTIL-h),place:'C 棟 208',title:'C 棟 208',travel:'走路 約 5 分鐘',travelH:1/12,back:'回到社區。'}); } };
+  /* BUG-US-WKND-EMPTYSTOP-1025（BB-B BB_218 R36 附註③）：快轉的週末 14:00 停點（USL.nextStop）只停在她那時候真的會傳私訊的那一天——
+     d 那天 14:00 有該演的那一場（S.due：她在 208、這個週末還沒演）、那天還沒傳，而且是這個週末的第一則、或週六回了「今天不行。」的週日（同 S.dmPhone）。
+     原本交往中每個週六、日 14:00 都停：週六去過的週日、沒有該演的週末（10/7～8、11/4）、七場都演完以後，停下來什麼都沒有。*/
+  S.stopAt=function(G,d){ if(!G||!G.flags||typeof PHONE==='undefined'||d==null) return false;
+    const w=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?(x=>x===7?0:x)(CALENDAR.dateOf(d).wd):((G.weekday+d-G.day)%7+7)%7; if(!(w===6||w===0)) return false;
+    const s=S.due(Object.assign({},G,{day:d,weekday:w,hour:14})); return !!s&&!!dmLine(G,d,w,s); };
   /* 自己走進 208 先演了（S.tick）：這個週末還沒回的那一則不用回了（期限設成現在）、排了的出遊記 done（不再問「出發」，不演兩次）*/
   S.dmDone=function(G){ const wk=S.wk(G);
     for(const d of [wk,wk+1]){ const m=typeof PHONE!=='undefined'?PHONE.byAsk(G,S.askId(d)):null; if(m&&m.ask&&m.ans==null) m.ask.until=now(G)-0.01;

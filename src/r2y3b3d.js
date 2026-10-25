@@ -325,9 +325,22 @@ const R2Y3B=(function(){
      櫻花那則只在 4 月；「你那邊期中考了嗎？」只在臺灣的第 8～9 週；「這禮拜的課很難。」那段視訊只在 7/21 以前；讀書會 Alison 那則只給參加過讀書會的（第 3 項）。
      挑法：先出還沒出過、今天可以出的（照原本的順序）；都出過了照輪到的順序找今天可以出的。R.n1／n2／n3＝下一個輪到第幾則、n1s／n2s／n3s＝出過的（舊存檔照原本的輪流補）*/
   const plgAny=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group');
-  S.AB_WHEN={t1:{0:(G,d)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(d).m===4},
+  S.AB_WHEN={   /* t1（櫻花只在 4 月）改成 S.AB_T1_WHEN（AA_463 第 1 節十則）*/
     t2:{0:(G,d)=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null; return !!t&&(t.week===8||t.week===9); },2:G=>plgAny(G)},
     t3:{0:(G,d)=>{ const e=D('2028-07-21'); return e==null||d<e; }}};
+  /* T1 十則（AA_463 第 1 節）：照順序各傳一次。有月份的（到的那週、四月櫻花、六月梅雨、七月底行李箱）照月份：今天在那個時段、而且之後的單週週日都不在那個時段（最後一次機會）＝先傳它；
+     其他照順序補空的那一週；都傳過了（或剩下的今天都不能傳）＝這一週不傳。R.t1s＝傳過的（十則的位置）；舊存檔（原本四則的 n1／n1s）照 S.AB_T1_OLD 換成新的位置，舊的那幾則不再傳 */
+  const mdOf=d=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).key:''; return k.slice(5); };   /* 'MM-DD' */
+  S.AB_T1_WHEN={0:(G,d)=>{ const s=D(AB_K.sun1); return s!=null&&d>=s&&d<s+7; },   /* 到的那週 */
+    2:(G,d)=>mdOf(d).slice(0,2)==='04', 7:(G,d)=>mdOf(d).slice(0,2)==='06', 9:(G,d)=>{ const m=mdOf(d); return m>='07-20'&&m<='07-31'; }};   /* 四月、六月、七月底 */
+  S.AB_T1_OLD=[2,1,3,4];   /* 原本四則（櫻花、飯糰、洗衣機、號碼牌）在十則裡的位置 */
+  S.abT1Sent=function(R){ if(!Array.isArray(R.t1s)){ const old=Array.isArray(R.n1s)?R.n1s:Array.from({length:Math.min(R.n1|0,S.AB_T1_OLD.length)},(_,k)=>k); R.t1s=[]; for(const i of old){ const j=S.AB_T1_OLD[i]; if(j!=null&&!R.t1s.includes(j)) R.t1s.push(j); } } return R.t1s; };
+  S.abPickT1=function(G,R,day,n){ const W=S.AB_T1_WHEN, sent=S.abT1Sent(R), ok=(i,d)=>!W[i]||!!W[i](G,d), un=[]; for(let i=0;i<n;i++) if(!sent.includes(i)) un.push(i);
+    const later=S.abSundays().filter(w=>w.wk%2===1&&w.day>day).map(w=>w.day);
+    let i=un.find(k=>!!W[k]&&ok(k,day)&&!later.some(d=>ok(k,d)));   /* 有月份的：最後一次機會 */
+    if(i==null) i=un.find(k=>!W[k]);   /* 其他照順序 */
+    if(i==null) i=un.find(k=>!!W[k]&&ok(k,day));
+    if(i==null) return -1; sent.push(i); return i; };
   S.abPick=function(G,R,key,n,pool,day){ const W=S.AB_WHEN[pool]||{}, ok=i=>!W[i]||!!W[i](G,day), sk=key+'s';
     if(!Array.isArray(R[sk])) R[sk]=Array.from({length:Math.min(R[key]|0,n)},(_,k)=>k);
     let i=-1; for(let k=0;k<n;k++) if(ok(k)&&!R[sk].includes(k)){ i=k; break; }
@@ -337,7 +350,7 @@ const R2Y3B=(function(){
     for(const w of S.abSundays()){ if(w.wk<=(R.wk|0)) continue; const t=T(w.day,S.jp(21)); if(now(G)<t) break; R.wk=w.wk;
       if(now(G)>T(w.day+1,18)) continue;   /* 隔天 18:00 以後才跑到這一週（很久沒跑手機規則、讀檔）：不補 */
       const tier=S.abTier(G), tag='y3_ab_w'+w.wk; R.tier=tier; F.AN_ABROAD_TIER=tier;
-      if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPick(G,R,'n1',AB.t1.length,'t1',w.day); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；哪一則照日子挑（S.abPick，AA_377 第 5 項）*/
+      if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPickT1(G,R,w.day,AB.t1.length); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；十則照順序各一次、有月份的照月份（S.abPickT1，AA_463 第 1 節）*/
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
         PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }
       else if(tier===2){ const i2=S.abPick(G,R,'n2',AB.t2.length,'t2',w.day); if(i2<0) continue; const x=AB.t2[i2], L=x.L.map(A); L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:x.O.map(o=>({t:o,say:[]}))}; PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }   /* 她不再回（一來一回就停）*/

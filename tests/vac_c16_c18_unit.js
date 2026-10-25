@@ -161,7 +161,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     PHONE.answer(G,'vac_ask_C18@Y1',0); STORY.phoneRules(GM); const iv=OUT.get(G,'vac_C18@Y1_pre0'), tq=OUT.get(G,'vac_C18@Y1');
     check('8. 報名：第 11 週週三 19:00 面試；7/20 08:00 出發（去機場）',VAC.state(G,'C18@Y1')==='yes'&&!!iv&&iv.day===termDay('Y1S2',11,3)&&iv.h===19&&!!tq&&tq.day===D('2026-07-20')&&tq.h===8);
     const s0=JSON.stringify(G); G.day=termDay('Y1S2',13,1); G.weekday=1; toasts=[]; run(11.9,12.2); const R1=tagged('vac_sel_C18@Y1');
-    check('8. 沒去面試：第 13 週週一 12:00「【通知】很遺憾，本次未能錄取。」＋阿哲「沒差啦 暑假還很長」＋（沒上。）；出發取消',R1.some(x=>x.th==='sys'&&x.text==='【通知】很遺憾，本次未能錄取。')&&R1.some(x=>x.th==='g:noodle_team'&&x.text==='沒差啦 暑假還很長')&&toasts.includes('（沒上。）')&&VAC.state(G,'C18@Y1')==='rejected'&&OUT.get(G,'vac_C18@Y1').state==='cancelled',JSON.stringify(R1.map(x=>x.text)));
+    check('8. 沒去面試：第 13 週週一 12:00「【通知】很遺憾，法律與社會海外見習團（新加坡）本次未能錄取。」＋阿哲私訊「名單出來了 我看到了」「沒差啦 暑假還很長」（AA_459 第 3 節：通知帶名字、阿哲改私訊）＋（沒上。）；出發取消',R1.some(x=>x.th==='sys'&&x.text==='【通知】很遺憾，法律與社會海外見習團（新加坡）本次未能錄取。')&&JSON.stringify(R1.filter(x=>x.th==='p:zhe').map(x=>x.text))===JSON.stringify(['名單出來了 我看到了','沒差啦 暑假還很長'])&&!R1.some(x=>x.th==='g:noodle_team')&&toasts.includes('（沒上。）')&&VAC.state(G,'C18@Y1')==='rejected'&&OUT.get(G,'vac_C18@Y1').state==='cancelled',JSON.stringify(R1.map(x=>x.text)));
     G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); G.day=iv.day; G.hour=19; said=[]; opts=[]; picks=[0]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y1_pre0')); let L=lines();
     check('8. 面試：帶隊老師「英文不用很好。去了敢問就好。」「你會問嗎？」→「會。」「好。到時候我會看。」',JSON.stringify(L)===JSON.stringify(['帶隊老師：英文不用很好。去了敢問就好。','帶隊老師：你會問嗎？','帶隊老師：好。到時候我會看。'])&&JSON.stringify(opts[0])===JSON.stringify(['「會。」','「我會試試看。」']),JSON.stringify(L));
     G.day=termDay('Y1S2',13,1); G.weekday=1; run(11.9,12.2); const R2=tagged('vac_sel_C18@Y1');
@@ -188,7 +188,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     VAC.signup(G,'C18W@Y2','yes'); const iv=OUT.get(G,'vac_C18W@Y2_pre0');   // 行事曆報名（沒去面試＝下面測沒錄取）
     check('9. 面試：大二上第 10 週週三 19:00；出發 2027-01-04 08:00',!!iv&&iv.day===termDay('Y2S1',10,3)&&iv.h===19&&OUT.get(G,'vac_C18W@Y2').day===D('2027-01-04'));
     G.day=termDay('Y2S1',12,1); G.weekday=1; run(11.9,12.2); const R=tagged('vac_sel_C18W@Y2');
-    check('9. 寒假團沒錄取：「【通知】很遺憾，本次未能錄取。」＋阿哲寒假版「沒差啦 過年比較重要」（AA_242 12-4），不是「暑假還很長」',R.length===2&&R[0].text==='【通知】很遺憾，本次未能錄取。'&&R[1].th==='g:noodle_team'&&R[1].from==='zhe'&&R[1].text==='沒差啦 過年比較重要'&&!txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text)));
+    check('9. 寒假團沒錄取：「【通知】很遺憾，法律與社會海外見習團（新加坡）本次未能錄取。」＋阿哲私訊「名單出來了 我看到了」＋寒假版「沒差啦 過年比較重要」（AA_242 12-4；AA_459 第 3 節），不是「暑假還很長」',R.length===3&&R[0].text==='【通知】很遺憾，法律與社會海外見習團（新加坡）本次未能錄取。'&&R[1].th==='p:zhe'&&R[1].text==='名單出來了 我看到了'&&R[2].th==='p:zhe'&&R[2].from==='zhe'&&R[2].text==='沒差啦 過年比較重要'&&!txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text)));
     check('9. 沒錄取：不排行前說明會',!OUT.get(G,'vac_C18W@Y2_brief')); });
   await sec(async()=>{ fresh(D('2027-01-04'),8,'dorm',{}); G.stage='law'; reg('C18W@Y2'); said=[]; cards=[]; await VAC.outing(GM,OUT.get(G,'vac_C18W@Y2'));
     check('9. 寒假團 7 天：1/5 法院、1/7 座談、1/9 最後一晚；1/10 18:00 回來、BACK_FROM_C18W',cards.some(c=>c[0].startsWith('1/5'))&&cards.some(c=>c[0].startsWith('1/7'))&&cards.some(c=>c[0].startsWith('1/9'))&&G.day===D('2027-01-10')&&G.hour===18&&G.flags.STUDYTOUR_SG===true&&G.flags.BACK_FROM_C18W===D('2027-01-10'));
@@ -295,7 +295,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
 
   // ===== 18. AA_242 12-4 (c)：沒錄取時阿哲那一句寒假版（C18W 在第 9 項；C11 東京一起用）=====
   await sec(async()=>{ fresh(termDay('Y2S1',5,1),9.5,'dorm',{}); G.stage='law'; LAWC(); VAC.signup(G,'C11@Y2','yes'); G.day=termDay('Y2S1',8,1); G.weekday=1; toasts=[]; run(11.9,12.2); const R=tagged('vac_sel_C11@Y2');
-    check('18. C11 東京（寒假）沒錄取：「【通知】很遺憾，本次未能錄取。」＋阿哲「沒差啦 過年比較重要」（不是「暑假還很長」）',R.some(x=>x.th==='sys'&&x.text==='【通知】很遺憾，本次未能錄取。')&&R.some(x=>x.th==='g:noodle_team'&&x.from==='zhe'&&x.text==='沒差啦 過年比較重要')&&!R.some(x=>x.text==='沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text))); });
+    check('18. C11 東京（寒假）沒錄取：「【通知】很遺憾，姊妹校冬季短期課程（東京）本次未能錄取。」＋阿哲私訊「沒差啦 過年比較重要」（不是「暑假還很長」；AA_459 第 3 節）',R.some(x=>x.th==='sys'&&x.text==='【通知】很遺憾，姊妹校冬季短期課程（東京）本次未能錄取。')&&R.some(x=>x.th==='p:zhe'&&x.from==='zhe'&&x.text==='沒差啦 過年比較重要')&&!R.some(x=>x.text==='沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text))); });
 
   // ===== 19. AA_242 12-5 (d)：C18 行前說明會（暑假團第 15 週週三 12:20、寒假團第 14 週週三 12:20；系館的小教室，2D）=====
   const BR=['（系館的小教室。桌上一疊行程表，第一頁是新加坡的地圖。）','帶隊老師：護照、轉接頭、一件薄外套。法院裡冷氣很強。','帶隊老師：每個人選一天寫紀錄。不用寫得很好，寫你看到的。'], BR1=['（坐你旁邊的人把名牌轉過來給你看：姚思穎，地理系。）','思穎：我是團長。','思穎：……其實是因為沒人要當。'];

@@ -76,7 +76,7 @@ const SISY23=(function(){
   S.bday=function(G){ const F=G.flags;
     for(const y in S.BDAY){ const B=S.BDAY[y], d=D(B.day); if(d==null) continue;
       if(G.day>=d&&G.day<=d+1&&!sent(G,'sisy23_bday_kevin_'+y)&&law(G)&&!!F.met_sis&&inGrp(G,'family_law'))   /* 認識她就收得到 */
-        PHONE.at(G,d,12+10/60,[{th:'g:family_law',from:'kevin',name:'Kevin',text:L.bdayKevin}],'sisy23_bday_kevin_'+y);
+        PHONE.at(G,d,12+10/60,[{th:'g:family_law',from:'kevin',name:'Kevin',text:y==='y2'&&L.bdayKevin2?L.bdayKevin2:L.bdayKevin}],'sisy23_bday_kevin_'+y);   /* 2027 換句（AA_461 第 2 節）*/
       if(dating(G)&&F[B.flag]==null&&G.day>=d-1&&G.day<=d&&now(G)<T(d,19)&&!sent(G,'sisy23_bday_ask_'+y)&&S.ok(G,'FAMILIAR')&&contact(G,d-1))   /* 交往中：前一天 21:00 她約 */
         PHONE.at(G,d-1,21,L.bdayAsk.map(dm),'sisy23_bday_ask_'+y);
       if(sent(G,'sisy23_bday_ask_'+y)&&F[B.flag]==null&&now(G)>=T(d-1,21)&&now(G)<T(d,19.5)) plan(G,{id:'sisy23_bday_'+y,ev:'ev_sis_bday_date_'+y,day:d,h:19,late:0.5,place:'法圖旁邊的簡餐',title:'她的生日（法圖旁邊那家）',travel:'走路 約 10 分鐘',travelH:1/6});

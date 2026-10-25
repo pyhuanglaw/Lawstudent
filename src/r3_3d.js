@@ -48,7 +48,8 @@ const R3=(function(){
   S.zrHour=G=>(typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,'heroine_02').length>0:!!(G.flags&&G.flags.dating_kexin))?15+10/60:22+7/60;
 
   /* ===================== 3-01 芷若的試譯稿費（BB_70 8b、8b-1 C2；AA_117 C2；BB_97 第 0b 節）===================== */
-  S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
+  /* 第二張換字（AA_461 第 3 節：兩張原本一字不差）*/
+  S.ZR_FEE_SHOTS=[R('📷（對話的截圖）'),R('📷（對話的截圖，往上滑的那一段）'),NAR('（你問了四件事：誰找她、要她做什麼、有沒有說好價錢、他們拿去做了什麼。她一題一題回。）')];
   S.zrFee=function(G){ const F=G.flags, d=D('2026-11-11'), d2=D('2026-11-25'); if(d==null||now(G)<T(d,0)||now(G)>=T(d2+2,0)) return;
     const ok=met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02');
     if(ok&&G.day<=d+1&&now(G)>=T(d,S.zrHour(G))&&!PHONE.sent(G,'r3_zr_fee')){ const h=S.zrHour(G), sh=S.ZR_FEE_SHOTS.map(x=>Object.assign({},x)), mem=[{npc:'heroine_02',tag:'ZR_FEE_LETTER',note:''}];
@@ -315,6 +316,7 @@ const R3=(function(){
   /* 定時：[id, 日子, 臺灣的時刻（null＝寫在 local 的當地時刻）, 條件, 訊息]；隔一分鐘的照 dt 分開排 */
   const fangOk=G=>met(G,'npc_fangyt','FAMILIAR')&&contact(G,'npc_fangyt');
   const KW=()=>[GK('這週辛苦了各位'),Object.assign(GK('@學姊 妳也是'),{dt:1/60}),Object.assign(GW('辛苦了。'),{dt:3/60})];
+  const KW2=()=>[GK('期末倒數三週 各位撐住'),Object.assign(GK('@學姊 妳也是'),{dt:1/60}),Object.assign(GW('我的期末是論文。'),{dt:3/60})];   /* 12/3（第 13 週）換一組（AA_462 第 5 節：原本和 10/15 一字不差；學姊碩二，期末是論文）；10/15 照舊 KW */
   S.zqDogTold=G=>has('heroine_04','ZQ_DOG_TOLD')||!!(G.flags&&G.flags.ZQ_DOG_TOLD);
   S.DP3_AT=[
     ['y2s_fang_moss','2027-07-19',19.5,fangOk,()=>SQ('npc_fangyt',['📷（山上的一片苔蘚，上面有露水）','沒訊號。下山才傳。'])],
@@ -322,7 +324,7 @@ const R3=(function(){
     ['y3_kx_civpro','2027-09-08',21+10/60,kxOn,()=>[P1('kexin','民訴開課了。第一堂就抄了十一頁。')]],
     ['y3_kevin_week_1015','2027-10-15',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
     ['y3_fang_sample','2027-11-01',7.5,fangOk,()=>SQ('npc_fangyt',['📷（雲海）','畢業專題的樣區在這裡。這禮拜收不到訊號。'])],
-    ['y3_kevin_week_1203','2027-12-03',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
+    ['y3_kevin_week_1203','2027-12-03',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW2],
     ['y3_ps_kid','2027-12-10',19.5,G=>dating(G,'classmate_peishan'),()=>SQ('classmate_peishan',['📷（一張孩子的作業，最上面寫著：老師我長大要當法官）','我回他：那你要先學會寫字。'])],
     ['y3s2_fang_azalea','2028-03-06',12+20/60,fangOk,()=>SQ('npc_fangyt',['📷（一叢杜鵑）','畢業專題的樣區，花開了。'])],
     ['y3s2_zq_dog_jp','2028-03-29',22+40/60,G=>route(G)==='JP'&&has('heroine_04','DAD_PLAYS')&&!S.zqDogTold(G)&&contact(G,'heroine_04'),G=>{ G.flags.ZQ_DOG_TOLD='msg'; return SQ('heroine_04',['我爸：『第七關那隻狗是誰設計的，很討厭』','是我','他已讀了']); }],

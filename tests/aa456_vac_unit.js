@@ -148,7 +148,7 @@ await sec('1-6',()=>{
     got.length>=5&&!bad.length,J(got.map(g=>[g.t,g.m])));
   check('1-6. 選項照舊（每個月都是「妳要不要先休息？」「要我過去陪妳加班嗎？」）；tag ct_zq2_<年-月>',got.length>=2&&got.every(g=>J(g.o)===J(['妳要不要先休息？','要我過去陪妳加班嗎？'])),J(got.map(g=>g.o)));
   const gl=got[got.length-1], ra=gl?PHONE.answer(H.G,gl.t,0):null; rules();   /* 最後收到的那個月（回覆期限還沒過；第 8 個月＝第 4 組）*/
-  check('1-6. 回覆照舊：第 '+got.length+' 個月（第 '+((got.length-1)%4+1)+' 組）選「妳要不要先休息？」→「你在替我決定嗎」',!!gl&&ra!=null&&(H.G.msgs||[]).filter(m=>m.th==='p:'+ZQ&&m.from===ZQ).map(m=>m.text).slice(-1)[0]==='你在替我決定嗎',J(gl&&gl.t));
+  check('1-6. 第 '+got.length+' 個月（第 '+((got.length-1)%4+1)+' 組）選「妳要不要先休息？」→ 她回的照那一組換（AA_464 第 3 節：第 4 組「你又來了。」）',!!gl&&ra!=null&&(H.G.msgs||[]).filter(m=>m.th==='p:'+ZQ&&m.from===ZQ).map(m=>m.text).slice(-1)[0]===((got.length-1)%4===3?'你又來了。':'你在替我決定嗎'),J(gl&&gl.t));
   /* 舊存檔：已經用舊的字收過 10 月、11 月（兩則都是原句）——11 月不重發，12 月是第 3 組 */
   zq(); const R=CRACKTALK.src(H.G); R.zq={sent2:{'2028-10':firstWed(2028,10),'2028-11':firstWed(2028,11)}};
   for(const [y,m] of [[2028,10],[2028,11]]) for(const t of ['今天又改了三個 bug','眼睛快掉了']) oldMsg('ct_zq2_'+y+'-'+m,'p:'+ZQ,ZQ,t,firstWed(y,m),23.5);

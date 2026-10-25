@@ -246,8 +246,8 @@ const FEST=(function(){
   /* ---------------- 1-4 ②她約（只有交往中、不是生日）---------------- */
   S.HER_K=['vday','white','qixi','xmas'];
   S.herLines=function(id,k,home,city){ const A=(X.PEOPLE[id]||{}).ask||{}, hb=home&&A.homeBy?A.homeBy[k]:null, HB=Array.isArray(hb)?hb:(hb&&hb[city]); if(Array.isArray(HB)) return HB.slice();   /* AA_457 第 3 節：沛珊回家的時候照節日、照城市換（homeBy[節日][城市]；d809cdd21：情人節、七夕台中，三月十四、聖誕台南）；沒寫的照原本 */
-    if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）*/
-    const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 第一句照節日換（以安、沛珊）*/
+    if(A.by&&Array.isArray(A.by[k])&&!(home&&A.homeLines)) return A.by[k].slice();   /* AA_445 1-2：芷若、語彤、子晴、學姊、可昕照節日換整組（by.vday／white／qixi／bday／xmas）；以安 AA_460 4-2 起也有（沒有生日那一列；沛珊在臺北那張當作沒有：AA_460 第 9 節）*/
+    const L=(home&&A.homeLines)||A.lines||[]; return L.map((t,i)=>i===0&&k!=='vday'?String(t).replace('情人節',S.name(k)):t); };   /* 沒有 by 的：第一句照節日換（沛珊在臺北、以安的生日）*/
   S.herAsks=function(G){ const F=G.flags;
     for(const id of HER){ if(!dating(G,id)) continue; const A=(X.PEOPLE[id]||{}).ask; if(!A) continue;
       for(const k of S.HER_K) for(const y of S.years(id,k)){ const d=S.dayOf(id,k,y); if(d==null||G.day<d-1||G.day>d) continue; const a=d-1, f={id,k,y,d};

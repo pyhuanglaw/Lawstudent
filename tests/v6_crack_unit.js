@@ -128,7 +128,7 @@ await sec('Y',async()=>{
   for(const [k,tail,res] of [[0,['好。那斜對面，我繼續留。'],'mend'],[1,['嗯。那我把這段時間，還給我自己。……謝謝你教我分時間。'],'apart'],[2,[],'drift']]){
     ytG('2028-09-14'); for(const d of [t1,t1+7,t1+14]){ at(d,12.5); rules(); at(d,20); rules(); } at(t4,17.6); H.G.zone='library'; H.said=[]; H.opts=[]; H.picks=[k]; await tick();
     check('Y8. 總圖三樓（'+res+'）：逐字、三個選項',J(said())===J([YT_BODY].concat(tail))&&J(H.opts[0])===J(YT_O),J({s:said(),o:H.opts}));
-    if(res==='mend') check('Y9. 修補：歸零、繼續留位子（下個週四照樣傳）',cnt(YT)===0&&(at(t4+7,12.5),rules(),dm(YT).slice(-1)[0]==='heroine_03:今天週四。總圖三樓，斜對面的位子我留了。'));
+    if(res==='mend') check('Y9. 修補：歸零、繼續留位子（下個週四照樣傳；AA_462 第 3 節：這學期第 1～3 次是原句、輪 1、輪 2，談話那週不傳，這一週輪到第 3 句「三樓。老位子。」）',cnt(YT)===0&&(at(t4+7,12.5),rules(),dm(YT).slice(-1)[0]==='heroine_03:三樓。老位子。'),J(dm(YT).slice(-4)));
     if(res==='apart') check('Y9. 好好分開：apart_talk',H.G.flags.dating_heroine_03===false&&H.G.flags.ROMANCE_HISTORY.some(h=>h.id===YT&&h.how==='apart_talk'));
     if(res==='drift'){ at(t4+7,12.5); rules(); const noSeat=!PHONE.byAsk(H.G,'ct_yt_seat_'+keyOf(t4+7)); at(t4+7,21); rules(); const ended=H.G.flags.dating_heroine_03===false;
       at(t4+9,18); H.G.zone='noodle'; H.said=[]; await tick();
@@ -254,15 +254,16 @@ await sec('S',async()=>{
   const psD=k=>{ fresh(k,10,'dorm'); date(PS); ROM.get(H.G,PS).sinceDay=D('2027-09-01'); };
   const f8=firstWd('Y4S1',8,5), f9=firstWd('Y4S1',9,5);
   psD('2028-10-16'); at(f8,21.05); rules();
-  check('S9. 沛珊①：期中考週（第 8 週）週五 21:00「這週末要視訊嗎？還是你要考試？」→ 祐廷（固定）「這週考試，下週好不好？」→「好啊！考試加油。」、不加',J(dm(PS).slice(-3))===J(['classmate_peishan:這週末要視訊嗎？還是你要考試？','player:這週考試，下週好不好？','classmate_peishan:好啊！考試加油。'])&&cnt(PS)===0,J(dm(PS)));
-  at(f9,21.05); rules(); check('S9. 第 9 週第二次改期：「又改期了。……沒關係，我寫在下週。」「下週的格子也滿了。我們再找。」、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:又改期了。……沒關係，我寫在下週。','classmate_peishan:下週的格子也滿了。我們再找。'])&&cnt(PS)===1);
-  psD('2027-10-01'); at(firstWd('Y3S1',9,5),21.05); rules(); check('S9. 期中考只有一週的學期（大三上）：沒有',!dm(PS).some(t=>/還是你要考試/.test(t)));
+  check('S9. 沛珊①：期中考週（第 8 週）週五 21:00（大四上照 AA_463 4-3）「週末視訊？還是又是考試週？」→ 祐廷（固定）「這週考試，下週好不好？」→「好。我也在改考卷，剛好。」、不加',J(dm(PS).slice(-3))===J(['classmate_peishan:週末視訊？還是又是考試週？','player:這週考試，下週好不好？','classmate_peishan:好。我也在改考卷，剛好。'])&&cnt(PS)===0,J(dm(PS)));
+  at(f9,21.05); rules(); check('S9. 第 9 週第二次改期：（大四上）「下週。我寫進去了，用紅筆。」、+1',J(dm(PS).slice(-1))===J(['classmate_peishan:下週。我寫進去了，用紅筆。'])&&cnt(PS)===1);
+  psD('2027-10-01'); at(firstWd('Y3S1',8,5),21.05); rules(); { const a=dm(PS).slice(), c8=cnt(PS); at(firstWd('Y3S1',9,5),21.05); rules();
+    check('S9. 期中考只有第 8 週的學期（大三上；AA_463 第 7 節③換觸發條件）：第 8 週週五發第 8 週那一版（原句「這週末要視訊嗎？還是你要考試？」→「好啊！考試加油。」）、不加；第 9 週週五沒有',J(a)===J(['classmate_peishan:這週末要視訊嗎？還是你要考試？','player:這週考試，下週好不好？','classmate_peishan:好啊！考試加油。'])&&c8===0&&J(dm(PS))===J(a)&&cnt(PS)===0,J(dm(PS))); }
   const w5=firstWd('Y3S1',5,3); psD('2027-10-01'); at(w5,23.2); rules();
   check('S10. 沛珊②：第 5 週週三 23:10「今天有一個孩子說，他爸爸說他是笨蛋。」',dm(PS).slice(-1)[0]==='classmate_peishan:今天有一個孩子說，他爸爸說他是笨蛋。'&&J(optsOf('ct_ps2_Y3S1'))===J(['這可能已經算言語上的……','後來呢？妳怎麼跟他說？']));
   ans('ct_ps2_Y3S1',0); rules(); check('S10. 用法條回答：「我不是要答案。我只是想講。」+1',dm(PS).slice(-1)[0]==='classmate_peishan:我不是要答案。我只是想講。'&&cnt(PS)===1);
   psD('2027-10-01'); at(w5,23.2); rules(); ans('ct_ps2_Y3S1',1); rules(); check('S10. 「後來呢？妳怎麼跟他說？」→ 兩句、不加',J(dm(PS).slice(-2))===J(['classmate_peishan:我跟他說，你不是。','classmate_peishan:……然後我們一起把作業寫完了。'])&&cnt(PS)===0);
   psD('2027-10-01'); at('2027-10-31',23.1); rules(); check('S11. 沛珊③：10 月底（9 月是交往開始那個月）：還不到兩個月',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
-  at('2027-11-30',23.1); rules(); check('S11. 10、11 月都沒去台南：11/30 23:00「這個月你也沒來。」「……我不是在數。我只是剛好記得。」、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:這個月你也沒來。','classmate_peishan:……我不是在數。我只是剛好記得。'])&&cnt(PS)===1);
+  at('2027-11-30',23.1); rules(); check('S11. 10、11 月都沒去台南：11/30 23:00「這個月你也沒來。」「……我記性太好了。」（第二句照 AA_462 第 5 節換）、+1',J(dm(PS).slice(-2))===J(['classmate_peishan:這個月你也沒來。','classmate_peishan:……我記性太好了。'])&&cnt(PS)===1);
   psD('2027-10-01'); H.G.events.last.ev_hv_ps_tn=D('2027-11-06'); at('2027-11-30',23.1); rules(); check('S11. 11 月去過台南：沒有',!dm(PS).some(t=>/這個月你也沒來/.test(t)));
   /* 沛珊修補 */
   psD('2027-10-01'); at('2027-10-05',10); pr(PS).commit={kind:'ps_month',day:H.G.day,miss:0,asked:{},done:{}};

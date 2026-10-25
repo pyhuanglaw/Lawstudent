@@ -191,7 +191,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     H.said=[]; await TERMEND.dinner(GM,{te:{term:'Y5S1',who:'kexin',kind:'kexin'}}); const LK=H.said.map(x=>x.t);
     const Gt=grad('2029-12-20',20,{EXCHANGE_ROUTE:'TW'}); H.date('heroine_01'); const wt=TERMEND.window(Gt);
     check('G5. 3-4 大五上女朋友的學期末約會：六位邀約照 AA 稿（芷若、語彤照原本）、只有女朋友的約、出遊在 12/19～12/23、飯桌是 Y5S1 那一句；可昕「學期結束了吧」三則、河堤、飯桌兩句；臺灣路線沒有大五上',
-      !bad.length&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道','河堤 五點半'])&&!!qk&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候不能看手機。……你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
+      !bad.length&&!!qk&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道',TERMEND.dayWord(D('2029-12-19'),qk.day)+' 河堤 五點半'])/* AA_460 第 5 節：地點前寫約會那天（今天／明天／禮拜幾）*/&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候不能看手機。……你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
   // ===== G5 2-2 人在哪裡（七處矛盾＋過時的閒聊）=====
   { const ent=(id,key,h)=>{ const G=grad(key,h,{EXCHANGE_ROUTE:'TW'}); return STORY.schedEnt(CHARACTERS[id],G); }, z=e=>e?e.zone:null;
     const k0=ent('kai','2029-06-20',20), kai0=k0?(k0.zone||k0.away||null):null, kai1=z(ent('kai','2029-07-02',20)), kai2=z(ent('kai','2029-07-06',22.5));   /* kai0：大二起他住別棟（BUG-KAI-Y2-SCHED-1022，c89f17df）＝「在他那棟宿舍」，不是你這棟的 dorm */

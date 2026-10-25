@@ -40,7 +40,7 @@ GM.money=function(n){ G.money+=n; };
   const T8=txt('g:law_class'); check('2. 系辦公告【交流計畫】…第 9 週週五前交申請書',T8.some(t=>t==='sysoffice:【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'),JSON.stringify(T8));
   PHONE.answer(G,'vac_ask_C08@Y1',0); STORY.phoneRules(GM); check('2. 交了：報名、出發的出遊排在 7/13 08:00',VAC.state(G,'C08@Y1')==='yes'&&!!OUT.get(G,'vac_C08@Y1')&&OUT.get(G,'vac_C08@Y1').day===D('2026-07-13')&&OUT.get(G,'vac_C08@Y1').h===8);
   { const q=OUT.get(G,'vac_C08@Y1_pre0'); check('2. 報名隔天 20:00 宿舍書桌「寫申請資料」（BB-C 13:03：沒寫就沒上）',!!q&&q.day===w6+1&&q.h===20); const s0=JSON.stringify(G);
-    const w12a=termDay('Y1S2',12,1); G.day=w12a; run(11.9,12.2); check('2. 沒寫申請資料：第 12 週「【通知】很遺憾，本次未能錄取。」＋阿哲「沒差啦 暑假還很長」；出發取消',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='【通知】很遺憾，本次未能錄取。')&&txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長')&&VAC.state(G,'C08@Y1')==='rejected'&&OUT.get(G,'vac_C08@Y1').state==='cancelled');
+    const w12a=termDay('Y1S2',12,1); G.day=w12a; run(11.9,12.2); check('2. 沒寫申請資料：第 12 週「【通知】很遺憾，姊妹校暑期交流（首爾）本次未能錄取。」＋阿哲私訊「沒差啦 暑假還很長」（AA_459 第 3 節：帶名字、私訊）；出發取消',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='【通知】很遺憾，姊妹校暑期交流（首爾）本次未能錄取。')&&txt('p:zhe').includes('zhe:沒差啦 暑假還很長')&&!txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長')&&VAC.state(G,'C08@Y1')==='rejected'&&OUT.get(G,'vac_C08@Y1').state==='cancelled');
     G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); G.day=w6+1; G.hour=20; await VAC.outing(GM,q); check('2. 寫了：VAC_C08_APP',G.flags.VAC_C08_APP===true); }
   const w12=termDay('Y1S2',12,1), w14=termDay('Y1S2',14,3); G.day=w12; G.weekday=wdOf(w12); run(11.9,12.2); const x14=CALENDAR.dateOf(w14);
   const sys=(G.msgs||[]).filter(m=>m.th==='sys').map(m=>m.text), mom=txt('g:home');

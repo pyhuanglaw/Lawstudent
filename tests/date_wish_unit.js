@@ -41,14 +41,17 @@ const E_=id=>X()&&X().ev(id);
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
   const DW=DATE_WISH;
-  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@1ced2f8b3（AA_432 學姊的邀約 18:30）、AA_127@967b4273a（AA_426）、BB_128@1ced2f8b3（AA_432）',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@a1bc53f4/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@a1bc53f4/.test(DW.source),DW.source);
+  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@cb5caad65（AA_459／460 三句改進原稿）、AA_127@967b4273a（AA_426）、BB_128@cb5caad65',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@cb5caad6/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@cb5caad6/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
-  { const strip=e=>{ const x=JSON.parse(J(e)); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
+  /* AA_459 第 5 節、AA_460 第 6 節的換字（tools/date/import_wish.py 的 REPLACE；wish_bb.json 還沒跟著改）：比對 JSON 時換回原句、對原稿時不算 */
+  const REP=[['你可以說不。我只是問問看。','你可以說不。不是叫你說不，是問你。'],['你的，你自己買。……這樣才算約好。','你的，你自己買。這樣比較像約好，不像我請你。'],['好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。','好。兩點半，光典門口。……兩點半是巧合，不是店名。']];
+  check('0. 三句已經改進原稿（wish_bb.json@cb5caad65）：不再有暫代換字（verify.replaced 沒有）、原稿對不到 0 句',!(DW.verify.replaced||[]).length&&(DW.verify.miss||[]).length===0,J([DW.verify.replaced,DW.verify.miss]));
+  { const unrep=s=>{ for(const [a,b] of REP) s=s.split(J(a)).join(J(b)); return s; }, strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
-    check('0. 七位的事件和企劃線的 JSON 逐欄相同（一字不改；只多以安大一的收尾）',same&&Object.keys(DW.events).length===7); }
+    check('0. 七位的事件和企劃線的 JSON 逐欄相同（一字不改；只多以安大一的收尾、AA_459／AA_460 的三條換字）',same&&Object.keys(DW.events).length===7); }
   { const li=(DW.events[AN].closing.linesIf||[])[0], two=li?sp(AN,li.lines):[];
     check('0. 以安大一的收尾照 AA_127 1-5「大一的版本：前三句換成」：「上憲法講第八條那天，我只覺得它很長。」「今天比較知道，每一句後面都有人。」（旁白照用；大二以後照原本三句）',J(two)===J(['上憲法講第八條那天，我只覺得它很長。','今天比較知道，每一句後面都有人。'])&&two.every(t=>AA127.includes(t))&&J(li.if)===J({unless:{termFrom:'Y2S1'}})&&li.lines[0].text===DW.events[AN].closing.lines[0].text&&li.lines[3].text===DW.events[AN].closing.lines[4].text,J(li)); }
-  { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };
+  { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)&&!REP.some(r=>r[0]===o.text)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };
     for(const id of [AN,YT]) walk(DW.events[id],AA127); for(const id of [ZR,ZQ,SIS,PS,KX]) walk(DW.events[id],BB128);
     const free=(DW.verify.freeVisited||[]).map(s=>s.replace(/^[^：]*：/,''));
     check('0. 每一句台詞、旁白都在原稿（AA_127／BB_128；「你來過一次」那幾句除外）',n>400&&bad.filter(t=>!free.includes(t)).length===0,n+' 句；對不到：'+J(bad.filter(t=>!free.includes(t)).slice(0,5))); }
@@ -151,7 +154,7 @@ const E_=id=>X()&&X().ev(id);
     setup('2026-10-14',23,{lv:{[ZR]:5}}); phone(); const tag='wish_ask_'+ZR+'_Y2S1';
     check('3. 她主動約（週三打烊後 23:00）：「光典的影展，週六下午那一場。」「我買好我的票了。」「你的，你自己買。……」',J(msgs(ZR))===J(sp(ZR,I.lines))&&!!PHONE.byAsk(H.G,tag),J(msgs(ZR)));
     PHONE.answer(H.G,tag,0); phone(); const tr=H.G.trips.find(t=>t.who===ZR);
-    check('3. 答應：「好。兩點半，光典門口。……兩點半是巧合，不是店名。」；週六 14:30 光典（by:her）',msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
+    check('3. 答應：「好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。」（AA_460 第 6 節換字）；週六 14:30 光典（by:her）',msgs(ZR).slice(-1)[0]===sp(ZR,I.accept)[0]&&!!tr&&tr.locs[0]==='D05'&&tr.depart===14.5&&tr.day===H.D('2026-10-17'),J(tr));
     setup('2026-10-17',9,{lv:{[ZR]:6}}); SOCIAL.remember(ZR,'WATCHED_FILM',''); const m0=H.G.money; r=await goDate(ZR,'D05',13,['院子',1,'書店',1,'片單',0,'咖啡',1,0]);
     check('3. 那一天：抵達「這裡以前住的是外交官。現在住的是電影。」……第 6 階單身「今天我不坐走道。……」；看電影（固定，不算互動點）兩句旁白',has(r.L,sp(ZR,ev.arrive.lines).concat(sp(ZR,ev.arrive.extraIf[1].lines),allSay(ev.fixed.lines))),J(r.L.slice(0,9)));
     check('3. 院子選②大二＝「我在申請交換。……去看別人的電影院。」；書店選②買明信片（扣 30）；片單選①第 6 階＝「好。我先買我的。」',has(r.L,['我在申請交換。……去看別人的電影院。','……你挑的？','這張我會貼在店裡的吧檯後面。不告訴任何人。','好。我先買我的。'])&&!r.L.includes('想。很想。……講出來好像就要負責。'),J(r.L));
