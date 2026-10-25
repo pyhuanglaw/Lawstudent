@@ -32301,6 +32301,28 @@
    "source": "AA-B 2026-10-25 11:11（企劃線 c0ad4d168，outbox 637918dd7）；八種存檔 2/21～6/11",
    "authorized": "D81、D109、D111",
    "notes": ""
+  },
+  {
+   "id": "TERM-READ-Y4S1-1025",
+   "title": "法律系大四上（留在臺灣）讀後（AA_464）：學姊在美國照片加每月週三二十張、爭論題用完後十四個週日各一句、子晴 zq2 回覆照第幾種換、麵店二十三週年倒數那句、沛珊聖誕學期末同一天規則",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "v9.10.10 發布後（凍結期間）",
+   "priority": "P3",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上（學姊去美國）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-25 11:20（企劃線 d781b5255，outbox 84ead8c6d）；八種存檔 9/4～12/24",
+   "authorized": "D81、D109、D111",
+   "notes": ""
   }
  ]
 }
