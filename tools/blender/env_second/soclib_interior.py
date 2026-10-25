@@ -361,6 +361,11 @@ tris = {}
 for ob in root.children_recursive:
     if ob.type != 'MESH': continue
     me = ob.data; me.calc_loop_triangles(); tris[ob.name] = len(me.loop_triangles)
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
+# 開口但背面看不到的不補：書（書背朝走道，後面是書架背板）、天花板（只從下面看）
+_ss = L.single_side(root, keep=r'glass', nodup=r'^(soclib_books|soclib_ceiling)', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st = L.export(OUT)
 info = dict(st, tris_by_object=dict(sorted(tris.items(), key=lambda kv: -kv[1])), columns=len(J['columns']), skylights=len(J['skylights']), seats=len(J['seats']))
 L.write_json(OUT[:-4] + '.json', info)

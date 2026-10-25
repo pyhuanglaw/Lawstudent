@@ -13,7 +13,7 @@
   店面玻璃窗與自動門（門上的貼紙、門口的地墊）、牆上的海報。
 會淡出的牆：WALL_<front|back|left|right>_*（自訂屬性 dir＝往室內的法線；遊戲 attachRoomGLB）。字（分類牌、海報標題）用 canvas：SIGN_FACE_*。
 """
-import math, os, sys, random
+import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
@@ -280,5 +280,10 @@ gd.finish(root)
 pb.finish(root, props={'dir': DIRS['back']}); pst.finish(root, props={'dir': DIRS['left']})
 uv01(PROMO[0].finish(root, uv=True, props=PROMO[1]))
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
+# 開口但背面看不到的不補：架上的商品（正面朝走道，後面是層架）
+_ss = L.single_side(root, keep=r'glass', nodup=r'^cvs_goods_atlas', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 L.write_json(OUT[:-4] + '.json', info)

@@ -1,11 +1,11 @@
 {
  "objects": 29,
  "unique_meshes": 29,
- "tris": 85540,
- "tris_drawn": 85540,
+ "tris": 89756,
+ "tris_drawn": 89756,
  "materials": 20,
  "out": "assets/models/env/second_ai/soclib_interior.glb",
- "bytes": 5527296,
+ "bytes": 5716104,
  "texres": 512,
  "tris_by_object": {
   "soclib_books": 44362,

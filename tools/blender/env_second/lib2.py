@@ -703,3 +703,61 @@ class CMesh(Mesh):
             vs = list({v for f in fs for v in f.verts}); es = list({e for f in fs for e in f.edges})
             bmesh.ops.bevel(self.bm, geom=es + vs, offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
         return self.paint([f for f in self.bm.faces if f not in before], hexcol, k)
+
+
+def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, dry=False):
+    """材質改單面（glTF doubleSided false）＋本來靠雙面材質才看得到的零件補反面——PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）。
+    雙面材質在 three.js 不剔除背面（背面也算像素），牆要淡出的（transparent）還整個網格畫兩次；改單面以前先照「零件」分兩種：
+    - 封閉、方向一致的殼（方盒、圓柱、店內的殼）：單面就看得對——朝外的從外面看、朝內的（店內、房間）從裡面看；
+      影子也一樣（three.js 單面材質的影子那一輪畫背面，封閉的殼形狀不變）。不動。
+    - 其他（一片四邊形、十字薄片 xbar、葉片卡、蓋子朝內或方向不一致的圓柱、開口的殼…）：面複製一份反過來——兩面都看得到、
+      影子兩面都畫，和原本的雙面材質一樣。只多頂點、不多像素（背面在光柵化以前就剔掉）。
+    零件＝相連的面；頂點位置相同就算相連（box 每一面各自的頂點也算），每條邊剛好兩個面、方向相反才算封閉。
+    原本就單面的材質（use_backface_culling，作者故意的，例如室內天花板朝下＝剖面視角）不補反面、照舊單面。
+    keep（正規表示式）：材質名符合的照舊雙面、不補反面（玻璃：兩面都看得到、半透明）。
+    nodup（正規表示式）：材質名符合的開口零件也不補反面——背面確定看不到的（只從外面看的立面、隔著玻璃看的店內與商品、只從上面看的地板）；
+    要用同角度截圖確認過（例：公館店面先全部單面不補，十個鏡頭和原本一樣，才把這些列進來）。
+    skip(ob)：這些物件的網格不補反面（遊戲照名字、照網格形狀接手的板面，例如公館的 SIGN_FACE_／INTERIOR_FACE_：補了反面遊戲的
+    wzAtlasFaces 合不起來、整條店面載入失敗——第一次試的時候遊戲退回套件外觀）。材質一樣改單面。
+    回傳 {材質名: [封閉的三角形, 補了反面的三角形]}（instancing 的原型照網格算一次）；dry=True 只統計不改。"""
+    import re as _re
+    kre = _re.compile(keep); nre = _re.compile(nodup) if nodup else None; stats = {}
+    obs = [ob for ob in [root] + list(root.children_recursive) if ob.type == 'MESH']
+    skipped = {ob.data for ob in obs if skip(ob)}
+    for me in {ob.data for ob in obs} - skipped:
+        mats = list(me.materials)
+        bm = bmesh.new(); bm.from_mesh(me); bm.faces.ensure_lookup_table()
+        def mname(f): return mats[f.material_index].name if f.material_index < len(mats) and mats[f.material_index] else ''
+        faces = [f for f in bm.faces if not kre.search(mname(f))]
+        if not faces: bm.free(); continue
+        par = {f.index: f.index for f in faces}
+        def find(x):
+            while par[x] != x: par[x] = par[par[x]]; x = par[x]
+            return x
+        ed = {}
+        for f in faces:
+            ks = [(round(v.co.x, 4), round(v.co.y, 4), round(v.co.z, 4)) for v in f.verts]
+            for i in range(len(ks)):
+                a, b = ks[i], ks[(i + 1) % len(ks)]
+                if a != b: ed.setdefault((a, b) if a < b else (b, a), []).append((f.index, a < b))
+        bad = set()
+        for lst in ed.values():
+            if len(lst) == 2 and lst[0][1] != lst[1][1]:
+                ra, rb = find(lst[0][0]), find(lst[1][0])
+                if ra != rb: par[ra] = rb
+            else: bad.update(fi for fi, _ in lst)   # 邊界、三個面以上、方向不一致
+        badr = {find(fi) for fi in bad}
+        if nre: badr -= {find(f.index) for f in faces if nre.search(mname(f))}   # 一個零件只有一種材質（merge_by_material 以後）；混材質的零件有一面在 nodup 就整個不補
+        # 原本就單面的材質（作者故意的：室內的天花板朝下，鏡頭超過天花板高度時看得穿——剖面視角）不補；第一次試便利商店，天花板補了朝上的那一面，從高處看整片擋住
+        badr -= {find(f.index) for f in faces if f.material_index < len(mats) and mats[f.material_index] and mats[f.material_index].use_backface_culling}
+        dup = [f for f in faces if find(f.index) in badr]
+        for f in faces:
+            s = stats.setdefault(mname(f), [0, 0]); s[1 if find(f.index) in badr else 0] += len(f.verts) - 2
+        if dup and not dry:
+            nf = [g for g in bmesh.ops.duplicate(bm, geom=dup)['geom'] if isinstance(g, bmesh.types.BMFace)]
+            bmesh.ops.reverse_faces(bm, faces=nf); bm.to_mesh(me); me.update()
+        bm.free()
+    if not dry:
+        for m in {s.material for ob in [root] + list(root.children_recursive) if ob.type == 'MESH' for s in ob.material_slots if s.material}:
+            m.use_backface_culling = not kre.search(m.name)
+    return stats

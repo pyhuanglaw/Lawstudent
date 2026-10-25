@@ -672,6 +672,14 @@ for ob in scene.objects:
     if ob.type == 'MESH':
         sm = ob.data.materials[0].name.startswith('lb_leaf_')   # 模型葉子用平滑著色（看起來是彎的葉面，匯出的頂點也少一半以上）；其他維持平面著色
         for p in ob.data.polygons: p.use_smooth = sm
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'env_second'))
+import lib2 as L2   # noqa: E402
+_ss = {}
+for _r in [o for o in scene.objects if o.parent is None]:
+    for _k, _v in L2.single_side(_r, keep=r'glass', skip=lambda ob: 'FACE' in ob.name).items(): _s = _ss.setdefault(_k, [0, 0]); _s[0] += _v[0]; _s[1] += _v[1]
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 tris = sum(sum(len(p.vertices) - 2 for p in ob.data.polygons) for ob in scene.objects if ob.type == 'MESH')
 bpy.ops.export_scene.gltf(filepath=OUT, export_format='GLB', export_image_format='WEBP', export_image_quality=82, export_yup=True, export_apply=True,
