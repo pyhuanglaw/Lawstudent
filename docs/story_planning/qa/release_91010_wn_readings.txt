@@ -1,0 +1,118 @@
+== WN_US_APT_1754
+  新 L: h17.94 lh19.23 sun0 hemi[0.8, 'ffdcb0', '6e5f52']  lampson | V: []
+  舊 L: h17.94 lh19.22 sun0 hemi[0.8, 'ffdcb0', '6e5f52']  lampson | V: []
+  新 T: usa_view_off c8189a2 e8189a2/1; usa_view_on c8189a2 e8189a2/1; usa_glass ca9bccb e000000/1
+  舊 T: usa_view_off ca6a3af ea6a3af/1; usa_view_on ca6a3af ea6a3af/1; usa_glass ca9bccb e000000/1
+== WN_US_APT_1640
+  新 L: h16.72 lh17.76 sun0.7 hemi[1.1, 'f9e6c8', 'a08a6a']  lampson | V: []
+  舊 L: h16.72 lh17.76 sun0.7 hemi[1.1, 'f9e6c8', 'a08a6a']  lampson | V: []
+  新 T: usa_view_off cffefe2 effefe2/1; usa_view_on cffefe2 effefe2/1; usa_glass ca9bccb e000000/1
+  舊 T: usa_view_off cffefe2 effefe2/1; usa_view_on cffefe2 effefe2/1; usa_glass ca9bccb e000000/1
+== WN_US_LIB_1754
+  新 L: h17.97 lh19.25 sun0 hemi[0.8, 'ffdcb0', '6e5f52']  lampson | V: []
+  舊 L: h17.98 lh19.25 sun0 hemi[0.8, 'ffdcb0', '6e5f52']  lampson | V: []
+  新 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight c37415f e35405e/1; WALL_N_stained c3e4765 e3b4360/1; WALL_S_door_glass cd4e6e8 e000000/1
+  舊 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight c5c5e6f e5a5b6d/1; WALL_N_stained c686575 e63606f/1; WALL_S_door_glass cd4e6e8 e000000/1
+== WN_US_LIB_1400
+  新 L: h14.08 lh14.07 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h14.08 lh14.08 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  新 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4eef2 edfe9ee/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+  舊 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4eef2 edfe9ee/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+== WN_LINZE_1720
+  新 L: h17.4 lh19.11 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: ['linze_east_day.webp', 'linze_south_day.webp']
+  舊 L: h17.41 lh19.12 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: ['linze_east_night.webp', 'linze_south_night.webp']
+  新 T: L0_glass cc4d6dc e000000/1; L1_glass cc4d6dc e000000/1
+  舊 T: L0_glass cc4d6dc e000000/1; L1_glass cc4d6dc e000000/1
+== WN_LINZE_1745
+  新 L: h17.83 lh19.34 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: ['linze_east_night.webp', 'linze_south_night.webp']
+  舊 L: h17.83 lh19.34 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: ['linze_east_night.webp', 'linze_south_night.webp']
+  新 T: L0_glass cc4d6dc e000000/1; L1_glass cc4d6dc e000000/1
+  舊 T: L0_glass cc4d6dc e000000/1; L1_glass cc4d6dc e000000/1
+== WN_DORMH_1720
+  新 L: h17.37 lh19.1 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: []
+  舊 L: h17.38 lh19.1 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: []
+  新 T: L0_dm_glass cc4d6dc e000000/1; L1_dm_glass cc4d6dc e000000/1
+  舊 T: L0_dm_glass cc4d6dc e000000/1; L1_dm_glass cc4d6dc e000000/1
+== WN_DORMH_1745
+  新 L: h17.8 lh19.32 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: []
+  舊 L: h17.8 lh19.32 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: []
+  新 T: L0_dm_glass cc4d6dc e000000/1; L1_dm_glass cc4d6dc e000000/1
+  舊 T: L0_dm_glass cc4d6dc e000000/1; L1_dm_glass cc4d6dc e000000/1
+== WN_LIBH_1720
+  新 L: h17.39 lh19.1 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: ['library_view_avenue_day.webp', 'library_view_lawn_day.webp']
+  舊 L: h17.38 lh19.1 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: ['library_view_avenue_night.webp', 'library_view_lawn_night.webp']
+  新 T: 
+  舊 T: 
+== WN_LIBH_1745
+  新 L: h17.8 lh19.32 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: ['library_view_avenue_night.webp', 'library_view_lawn_night.webp']
+  舊 L: h17.8 lh19.32 sun0 hemi[0.95, 'fff0dc', '6e5f52']  lampson | V: ['library_view_avenue_night.webp', 'library_view_lawn_night.webp']
+  新 T: 
+  舊 T: 
+== WL_GYM_B1_14
+  新 L: h14.04 lh14.04 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h14.04 lh14.04 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  新 T: WALL_fitN_fitN_glass cdfe6e6 e000000/1; WALL_poolN_poolN_glass cdfe6e6 e000000/1
+  舊 T: WALL_fitN_fitN_glass cdfe6e6 e000000/1; WALL_poolN_poolN_glass cdfe6e6 e000000/1
+== WL_GYM_B1_21
+  新 L: h21.08 lh21.07 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h21.08 lh21.08 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: WALL_fitN_fitN_glass cdfe6e6 e000000/1; WALL_poolN_poolN_glass cdfe6e6 e000000/1
+  舊 T: WALL_fitN_fitN_glass cdfe6e6 e000000/1; WALL_poolN_poolN_glass cdfe6e6 e000000/1
+== WL_LIBRARY_B1_14
+  新 L: h14.03 lh14.03 sun0.45 hemi[1.15, 'eef2f8', '9a9a92']  lampsoff | V: []
+  舊 L: h14.04 lh14.03 sun0.45 hemi[1.15, 'eef2f8', '9a9a92']  lampsoff | V: []
+  新 T: WALL_P1_glass cdfe9ec e000000/1; WALL_P4_glass cdfe9ec e000000/1
+  舊 T: WALL_P1_glass cdfe9ec e000000/1; WALL_P4_glass cdfe9ec e000000/1
+== WL_LIBRARY_B1_21
+  新 L: h21.06 lh21.06 sun0.45 hemi[1.15, 'eef2f8', '9a9a92']  lampsoff | V: []
+  舊 L: h21.06 lh21.05 sun0.45 hemi[1.15, 'eef2f8', '9a9a92']  lampson | V: []
+  新 T: WALL_P1_glass cdfe9ec e000000/1; WALL_P4_glass cdfe9ec e000000/1
+  舊 T: WALL_P1_glass cdfe9ec e000000/1; WALL_P4_glass cdfe9ec e000000/1
+== WL_LIBRARY_MEDIA_14
+  新 L: h14.07 lh14.07 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h14.07 lh14.07 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  新 T: WALL_E_glass cdfe9ec e000000/1
+  舊 T: WALL_E_glass cdfe9ec e000000/1
+== WL_LIBRARY_MEDIA_21
+  新 L: h21.06 lh21.06 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h21.07 lh21.07 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: WALL_E_glass cdfe9ec e000000/1
+  舊 T: WALL_E_glass cdfe9ec e000000/1
+== WL_US_LAWLIB_2F_14
+  新 L: h14.05 lh14.04 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h14.05 lh14.04 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  新 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4d3c0 edfcebd/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+  舊 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4d3c0 edfcebd/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+== WL_US_LAWLIB_2F_21
+  新 L: h21.06 lh20.03 sun0.9 hemi[1.2, 'f4f1ea', '9a8a78']  lampsoff | V: []
+  舊 L: h21.05 lh20.03 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4d3c0 edfcebd/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+  舊 T: usll_rail_glass cd4e6e8 e000000/1; usll_skylight ce4d3c0 edfcebd/1; WALL_N_stained cffffff ef3f3f3/1; WALL_S_door_glass cd4e6e8 e000000/1
+== WN_AP_ARR_0540
+  新 L: h5.7 lh5.7 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  舊 L: h5.7 lh5.7 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: ap_glass cdfe9ec e000000/1
+  舊 T: ap_glass cdfe9ec e000000/1
+  新 A: W_ap_outside hid c858c9f; utside_night vis c6c6c6c
+  舊 A: W_ap_outside vis cb0b4bf; utside_night hid c6c6c6c
+== WN_AP_DEP_0700
+  新 L: h7.05 lh7.04 sun0.9 hemi[1.2, 'eef2f8', '9a8a78']  lampsoff | V: []
+  舊 L: h7.05 lh7.04 sun0.9 hemi[1.2, 'eef2f8', '9a8a78']  lampsoff | V: []
+  新 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/0.75
+  舊 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/0.75
+  新 A: W_ap_outside vis cffffff; utside_night hid c6c6c6c
+  舊 A: W_ap_outside vis cffffff; utside_night hid c6c6c6c
+== WN_AP_DEP_1655
+  新 L: h16.97 lh18.6 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  舊 L: h16.97 lh18.61 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/1
+  舊 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/1
+  新 A: W_ap_outside vis cb4b7c1; utside_night hid c6c6c6c
+  舊 A: W_ap_outside hid c959aab; utside_night vis c6c6c6c
+== WN_AP_DEP_1745
+  新 L: h17.8 lh19.29 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  舊 L: h17.8 lh19.29 sun0 hemi[1.05, 'e6ecfa', '6e5f52']  lampson | V: []
+  新 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/1
+  舊 T: ap_glass cdfe9ec e000000/1; GLOW_ap_skylights cffffff eeef6ff/1
+  新 A: W_ap_outside hid c656f8b; utside_night vis c6c6c6c
+  舊 A: W_ap_outside hid c656f8b; utside_night vis c6c6c6c
