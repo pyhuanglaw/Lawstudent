@@ -3038,8 +3038,40 @@
    "next": "LAWWW-B 換三份 GLB、帶進腳本、跑 tests/sign_audit_1025_unit.js",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACTIONED（LAWWW-B 10-25 00:36：已整合 7d56892eb；sign_audit、gym_*、airport_cam、us_*、ground_zfight 全過；登記 SIGN-AUDIT-1025、DL-LW2-SIGN-AUDIT；118 巷收銀機只記錄不修）",
    "note": "舞台改紅地毯＝和開學典禮 2D 背景 v3 一致；演唱會帳篷頂照舊黑色"
+  },
+  {
+   "task": "路線巡查⑤美國交換的傍晚＋窗景同步 v2（LAWWW-B 10-25 00:10 派）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee1e3108e",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/route_us_dusk_1025（README、巡查兩張、改前改後一張）",
+    "docs/art-rebuild/second_ai/patches/window_night_sync_v2_1025.patch（對 32ddad549；building3d／dorm3d／lawlib3d／library3d／teach3d／wancai3d／soclib3d 的 18.6→19.2、us3d.js VT 19.5→19.2、tests/window_night_sync_unit.js 加第 4、5 項）"
+   ],
+   "state": "已交付；117 張 errors 0；找到 3 項（VT 晚半小時、美國法圖 2F 沒有窗偏藍、臺灣七棟大廳 18.6 太早）；window_night_sync_unit 改前 FAIL 8 → ALL PASS",
+   "remaining": "臺灣另外六棟大廳沒逐一拍（同一行程式）；機場 apOutside 18.3 只記錄；沒跑整套回歸、實機",
+   "next": "LAWWW-B 套 patch、跑 window_night_sync_unit、season_dusk、us_lawlib_sky",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "和 windowless_night_1025.patch 一起套、分開套都乾淨"
+  },
+  {
+   "task": "沒有窗的室內晚上不變暗（LAWWW-B 10-25 00:10 同意；00:3x 先告知 engine3d.js 兩處）",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee1e3108e",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/windowless_night_1025.patch（對 32ddad549；engine3d.js applyTime 兩處、gym3d.js／library_b1_3d.js windowless:true、rooms_glb3d.js 窗數＝0 自動 windowless、新 tests/windowless_night_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/windowless_night_1025（README、改前改後一張）"
+   ],
+   "state": "已交付；windowless_night_unit 改前 FAIL 8 → ALL PASS；四區（體育館 B1、總圖 B1、視聽室、美國法圖 2F）21:00＝14:00（hemi 1.2 #f4f1ea、燈白天）；相關 Node 測試約 40 支 ALL PASS",
+   "remaining": "晚上人物沒有太陽影子（nightShadow 照舊）；沒跑整套回歸、實機",
+   "next": "LAWWW-B 套 patch、跑 windowless_night_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "note": "總圖 B1 原本就自己固定光線，加標記畫面不變"
   }
  ]
 }
