@@ -31816,7 +31816,7 @@
    },
    "source": "AA-B 2026-10-25 02:41（企劃線 8d9910961，outbox 433dd69a3）；讀 BB 劇本 qa/美國交換逐日劇本_挽回中.md（fc1642184）；D99 第三優先",
    "authorized": "D99、D109、D111",
-   "notes": "LAWWW-B 10-25 03:0x 實作：tests/aa452_us_unit.js（舊程式 10 FAIL）；r2y4a_events N2／N3、aa370 M3、us_life S11 照 AA_452 換期待。1-1 選 AA 的第一個做法（照交往中排行程）；late 3（到 23:00）和原本自動到場的時段一樣；舊存檔（訊息已傳、沒行程）照舊 20:00 自動到場。"
+   "notes": "LAWWW-B 10-25 03:0x 實作：tests/aa452_us_unit.js（舊程式 10 FAIL）；r2y4a_events N2／N3、aa370 M3、us_life S11 照 AA_452 換期待。1-1 選 AA 的第一個做法（照交往中排行程）；late 3（到 23:00）和原本自動到場的時段一樣；舊存檔（訊息已傳、沒行程）照舊 20:00 自動到場。 ｜ 全部 Node 612 支 0 失敗（乾淨 worktree ad5251364，含 AA_451、機場窗外）。BB 排 R34b（挽回中初雪三種）、trx_alone5 重跑（2090c3477）。"
   }
  ]
 }
