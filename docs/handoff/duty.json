@@ -41,7 +41,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "0cba6d6e",
+   "sha": "0fe5184c",
    "since": "2026-10-27T17:06Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -53,7 +53,7 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "fc961b2c",
+   "sha": "e089e878",
    "since": "2026-10-27T16:48Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
@@ -62,14 +62,14 @@
    "handoffSnapshot": "2026-10-17T0238Z_B_AA.json"
   },
   "BB": {
-   "account": "B",
-   "session": "session_01J1g2TPcPzWrihXSY2WvseV",
-   "branch": "claude/elegant-brown-fcos7n",
-   "sha": "28fef8fd",
-   "since": "2026-10-23T06:46Z",
+   "account": "C",
+   "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f3720693",
+   "since": "2026-10-27T17:21Z",
    "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "4a25046b",
+   "sinceSha": "2109de7b",
    "handedOffAt": "2026-10-17T02:39Z",
    "handoffSnapshot": "2026-10-22T1508Z_A_BB.json"
   }
@@ -377,6 +377,20 @@
     }
    },
    "until": "2026-10-27T17:04Z"
+  },
+  {
+   "account": "B",
+   "role": "BB",
+   "roles": {
+    "BB": {
+     "session": "session_01J1g2TPcPzWrihXSY2WvseV",
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "28fef8fd",
+     "state": "on",
+     "handedOffAt": "2026-10-17T02:39Z"
+    }
+   },
+   "until": "2026-10-27T17:27Z"
   }
  ],
  "anomalies": [
@@ -572,8 +586,8 @@
    "at": "2026-10-27T16:4xZ",
    "branch": "claude/funny-albattani-iawshm",
    "reviewedThrough": "e1486b51",
-   "resolved": false,
-   "note": "LAWWW2-B 沒有正式交班（10-25 19:22 UTC 停住，最後 e1486b51）；duty.json roles 裡還寫著 B on，等帳號 C 的 LAWWW2 用 duty register --user-ok 接班後就解決。接班時合併 claude/funny-albattani-iawshm（不 rebase、不 force push）"
+   "resolved": true,
+   "note": "LAWWW2-B 沒有正式交班（10-25 19:22 UTC 停住，最後 e1486b51）；duty.json roles 裡還寫著 B on，等帳號 C 的 LAWWW2 用 duty register --user-ok 接班後就解決。接班時合併 claude/funny-albattani-iawshm（不 rebase、不 force push）｜10-27 17:0x 解決：LAWWW2-C 接班（快轉到 B 的 e1486b51、3c3096907 duty register --user-ok，sync seq 30）"
   },
   {
    "kind": "no-handoff",
@@ -598,8 +612,8 @@
    "at": "2026-10-27T16:4xZ",
    "branch": "claude/elegant-brown-fcos7n",
    "reviewedThrough": "2109de7b",
-   "resolved": false,
-   "note": "BB-B 沒有正式交班（10-25 19:31 UTC 停住，最後 2109de7b）；duty.json roles 裡還寫著 B on，等帳號 C 的 BB 用 duty register --user-ok 接班後就解決。接班時合併 claude/elegant-brown-fcos7n（不 rebase、不 force push）"
+   "resolved": true,
+   "note": "BB-B 沒有正式交班（10-25 19:31 UTC 停住，最後 2109de7b）；duty.json roles 裡還寫著 B on，等帳號 C 的 BB 用 duty register --user-ok 接班後就解決。接班時合併 claude/elegant-brown-fcos7n（不 rebase、不 force push）｜10-27 17:2x 解決：BB-C 接班（claude/wonderful-mayer-7fm9g6 快轉合併 2109de7b0、a78f96567 duty register --user-ok，sync seq 32）"
   },
   {
    "kind": "no-handoff",
@@ -607,8 +621,8 @@
    "from": "B",
    "to": "C",
    "at": "2026-10-27T16:53Z",
-   "note": "BB 上一任沒有正式交班",
-   "resolved": false
+   "note": "BB 上一任沒有正式交班｜和第 13 筆同一件（10-27 16:53 那次被擋下的 sync 自動加的重複紀錄，見 stale-sync）；17:2x 一起解決",
+   "resolved": true
   },
   {
    "kind": "stale-sync",
@@ -620,9 +634,49 @@
    "evidence": [
     "duty.json HEAD 446b36c55 的 roles.LAWWW2／BB"
    ]
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "LAWWW",
+   "account": "B",
+   "branch": "claude/modest-rubin-2lyp7g",
+   "at": "2026-10-27T17:3xZ",
+   "resolved": true,
+   "reviewedThrough": "5b6737cd3",
+   "note": "帳號 B 10-23 接班以後到 10-25 停住寫的 commit（B 沒有交班，所以 duty verify 第 6 項拿 B 上一次 10-22 的交班紀錄比，報「疑似兩個帳號同時寫」）。不是雙寫：B 寫的時候是 B 值班，帳號 C 10-27 16:4x 以後才接班。已全部合併進 claude/adoring-meitner-mqzst8（LAWWW-C 16:46 快轉），並在增量核對（watermarks）、HANDOFF_GAP_MATRIX 第 1 節查核；這條分支之後又有新 commit 照樣報異常"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "LAWWW2",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "at": "2026-10-27T17:3xZ",
+   "resolved": true,
+   "reviewedThrough": "e1486b51b",
+   "note": "帳號 B 10-23 接班以後到 10-25 停住寫的 commit（B 沒有交班，所以 duty verify 第 6 項拿 B 上一次 10-22 的交班紀錄比，報「疑似兩個帳號同時寫」）。不是雙寫：B 寫的時候是 B 值班，帳號 C 10-27 16:4x 以後才接班。已全部合併進 claude/focused-cray-c9uwvw（LAWWW2-C 快轉，3c3096907），並在增量核對（watermarks）、HANDOFF_GAP_MATRIX 第 1 節查核；這條分支之後又有新 commit 照樣報異常"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "AA",
+   "account": "B",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "at": "2026-10-27T17:3xZ",
+   "resolved": true,
+   "reviewedThrough": "89accb6d4",
+   "note": "帳號 B 10-23 接班以後到 10-25 停住寫的 commit（B 沒有交班，所以 duty verify 第 6 項拿 B 上一次 10-22 的交班紀錄比，報「疑似兩個帳號同時寫」）。不是雙寫：B 寫的時候是 B 值班，帳號 C 10-27 16:4x 以後才接班。已全部合併進 claude/magical-albattani-bk7b4n（AA-C 快轉，25c921a8f），並在增量核對（watermarks）、HANDOFF_GAP_MATRIX 第 1 節查核；這條分支之後又有新 commit 照樣報異常"
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "BB",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "at": "2026-10-27T17:3xZ",
+   "resolved": true,
+   "reviewedThrough": "2109de7b0",
+   "note": "帳號 B 10-23 接班以後到 10-25 停住寫的 commit（B 沒有交班，所以 duty verify 第 6 項拿 B 上一次 10-22 的交班紀錄比，報「疑似兩個帳號同時寫」）。不是雙寫：B 寫的時候是 B 值班，帳號 C 10-27 16:4x 以後才接班。已全部合併進 claude/wonderful-mayer-7fm9g6（BB-C 快轉合併，a78f96567），並在增量核對（watermarks）、HANDOFF_GAP_MATRIX 第 1 節查核；這條分支之後又有新 commit 照樣報異常"
   }
  ],
- "seq": 31,
+ "seq": 32,
  "chain": [
   {
    "seq": 1,
@@ -839,6 +893,13 @@
    "at": "2026-10-27T17:07Z",
    "account": "C",
    "role": "LAWWW2,AA",
+   "event": "sync"
+  },
+  {
+   "seq": 32,
+   "at": "2026-10-27T17:27Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
    "event": "sync"
   }
  ]
