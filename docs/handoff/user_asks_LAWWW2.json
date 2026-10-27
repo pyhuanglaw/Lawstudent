@@ -340,10 +340,10 @@
    "at": "2026-10-27T19:4x",
    "quote": "美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸",
    "kind": "原話",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "US-APT-CLOSET-1027",
    "src": "使用者直接對 LAWWW2-C 工作階段說",
-   "note": "LAWWW2-C 解讀（回覆使用者確認中，先照做）：衣物間改成走得進去的小 walk-in closet（門開著、吊衣桿、層架、行李箱）；臥室床頭靠東牆 → 書桌貼在床邊 → 洗手間的門，排在同一側（洗手間、衣物間對調）；洗手間保留浴缸。C 棟合租戶不動。X14 交件暫停（WIP 7946893be）、B08、PERF-TEX-DEDUP 排在後面。｜20:4x 已交付 f64e0e6d3（GLB 7e1cd225a）：patches/us_apt_closet_1027.patch＋README（test_shots/us_apt_closet_1027）；LAWWW-C 19:58Z 同意解讀；等 LAWWW-C 整合、BB 測、使用者看圖。｜22:0x：狀態「已交付」不是允許的值（LAWWW-C 21:56Z HV-18）→ 改「做好了沒進遊戲」；LAWWW-C 套進開發分支以後改「在開發分支」。"
+   "note": "LAWWW2-C 解讀（回覆使用者確認中，先照做）：衣物間改成走得進去的小 walk-in closet（門開著、吊衣桿、層架、行李箱）；臥室床頭靠東牆 → 書桌貼在床邊 → 洗手間的門，排在同一側（洗手間、衣物間對調）；洗手間保留浴缸。C 棟合租戶不動。X14 交件暫停（WIP 7946893be）、B08、PERF-TEX-DEDUP 排在後面。｜20:4x 已交付 f64e0e6d3（GLB 7e1cd225a）：patches/us_apt_closet_1027.patch＋README（test_shots/us_apt_closet_1027）；LAWWW-C 19:58Z 同意解讀；等 LAWWW-C 整合、BB 測、使用者看圖。｜22:0x：狀態「已交付」不是允許的值（LAWWW-C 21:56Z HV-18）→ 改「做好了沒進遊戲」；LAWWW-C 套進開發分支以後改「在開發分支」。｜22:4x：LAWWW-C 合進開發分支 9ac53ef1d（LAWWW-C 22:24Z）→「在開發分支」。"
   }
  ]
 }
