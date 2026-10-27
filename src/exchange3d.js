@@ -64,7 +64,7 @@ const EXCH=(function(){
   /* 同行的人在大廳跟著你（不能搭話、不揮手；換區域就沒了，讀檔回到大廳再放一次）*/
   S.airMates=function(GM){ const G=GM.G, E=GM.E, rec=G.flags.AIR_DEP; if(!rec||!Array.isArray(rec.with)||!rec.with.length||!GM.spawnCharacter||!E||!E.player) return 0; if(S._airMatesN===GM.enterN) return 0; S._airMatesN=GM.enterN;
     const P=E.player.obj.position, OFF=[[1.2,0.8],[-1.2,0.8],[0,1.6],[1.6,-0.4]]; let k=0;
-    rec.with.forEach((id,i)=>{ if(GM.npc&&GM.npc[id]) return; for(const [dx,dz] of OFF.slice(i)){ const x=P.x+dx, z=P.z+dz; if(E.canStand&&!E.canStand(x,z,0.3,0)) continue; const n=GM.spawnCharacter(id,x,z,{yaw:E.player.obj.rotation.y,talk:null,talkLabel:null,greet:false,beh:'follow',extra:{followOff:1.1+0.5*i}}); if(n){ n.frozen=false; k++; } break; } });
+    rec.with.forEach((id,i)=>{ if(GM.npc&&GM.npc[id]) return; for(const [dx,dz] of OFF.slice(i)){ const x=P.x+dx, z=P.z+dz; if(E.canStand&&!E.canStand(x,z,0.3,0)) continue; const n=GM.spawnCharacter(id,x,z,{yaw:E.player.obj.rotation.y,talk:null,talkLabel:null,greet:false,beh:'follow',extra:{followOff:1.1+0.6*Math.floor(i/2),side:i%2?-1:1}}); if(n){ n.frozen=false; k++; } break; } });   /* 跟在旁邊（engine3d.js followStep）：第一個在右邊、第二個在左邊、第三個右邊遠一點 */
     return k; };
   /* 等登機：「搭車離開」拿掉（同美國那一趟，us3d.js 只在 US_DEPARTED 的時候不放）*/
   S.airHall=function(GM){ const E=GM.E; if(!E||!Array.isArray(E.interactables)) return; for(let i=E.interactables.length-1;i>=0;i--){ const it=E.interactables[i]; if(it&&it.exit&&!it.airportBoard&&!it.exchFly) E.interactables.splice(i,1); } S.airMates(GM); };
