@@ -1,3 +1,19 @@
+值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
+上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
+接班核對（RULE_SOURCE `origin/claude/modest-rubin-2lyp7g`，`duty find`：值班 B、上一任 A、HV-18、seq 27）：
+- `check --ref`：OK（十一項都沒有異常）。
+- `asks --role AA`：OK（48 筆）。
+- `roles --role AA`：異常 16 項，全是 AA 全部待辦表的「表外」（上一班已交、還沒補成 tasks.json 任務），補任務是值班 LAWWW 的事，已列給 LAWWW-C。
+- `duty register --account C --role AA --user-ok`：已寫 `docs/handoff/duty_AA.json`，等值班 LAWWW `duty sync`。
+- 上一班最後在做什麼（照 commit 和使用者貼來的最後對話核對）：
+  - AA_470～473（學姊總檢查、大五、畢業以後、前任的畢業以後）已交 LAWWW-B。
+  - 日本路線大四讀完、沒有要改的（dfa685e28）。
+  - 讀稿工具存檔（89accb6d4）。
+  - 之後在**等 BB 的「交往中逐日劇本」**，送到先讀。
+  - 使用者貼的對話裡提到的 d809cdd21（AA_457 答案）、c211251c3（LAWWW-B 實作 AA_457）都在遠端。
+  - **沒推上去的東西看不到**：上一班若有只在它工作階段裡的半成品，這一班不知道，照規則當作沒有。
+- 等使用者：ASK-ACCEPTSOPEN-1025（七位能不能各自接受交往，A／B／C；決定前照現在「都不行」）。
+
 值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 4a25046b（快轉合併帳號 A 的 `claude/story-planning`）｜2026-10-23 06:44 UTC
 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit dea49ab3（`duty_AA.json` handed-off）｜2026-10-22 15:04 正常交班 → 使用者對 AA-B 說「我回來了，請同步 GitHub 最新進度，接續工作」。
 接班核對（RULE_SOURCE `origin/claude/confident-ritchie-8rwh7t` @ 719cca3b）：
