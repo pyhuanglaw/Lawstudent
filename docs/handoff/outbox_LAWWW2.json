@@ -3627,6 +3627,29 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "建築 GLB 用 bldgLoader（afterRoot 外掛）：原始圖片 SHA-1＋取樣＋色彩空間＋UV 當 key，同 key 共用第一份 Texture、重複的 dispose＋ImageBitmap close（模型裡沒別人用才 close）；共用的不 close；?nodedup 關。離線：89 個建築 GLB 924 份貼圖只有 554 張不同。瀏覽器：校園場景 Texture 682→631、電腦 105.8→92.6 MP、手機 79.8→71.4 MP，到溫州街累計合併 74／63 張；雜湊 25～74 ms；A→B→A 不變黑、沒有 JS 例外。tex_dedup_unit 改前 7 FAIL＋例外、改後 ALL PASS（15 項）。patch 對 6c65b866f apply --check 過"
+  },
+  {
+   "task": "CLUBFAIR-REAL-1027（X109）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/club_fair_expo_1027.patch",
+    "src/data/club_fair_expo_layout.js",
+    "assets/models/env/second_ai/club_fair_expo.glb",
+    "assets/models/env/second_ai/club_fair_expo.json",
+    "tools/blender/env_second/club_fair_expo.py",
+    "tools/blender/env_second/textures/gen/club_fair_expo_atlas.png",
+    "tools/blender/env_second/textures/gen/club_fair_expo_orm.png",
+    "docs/art-rebuild/second_ai/test_shots/club_fair_expo_1027/README.md",
+    "tools/shots/club_fair_expo_shots.py"
+   ],
+   "state": "已交付",
+   "remaining": "顧攤的人、人流、舞台表演者（LAWWW-C）；背景攤沒有專屬圖案；真機效能沒量",
+   "next": "LAWWW 套 patches/club_fair_expo_1027.patch（zones3d clubFairExpo／isExpoDay／fairExpoFront／EXPO_DAYS、assets3d bldg.club_fair_expo、index.html 載入配置、新 tests/club_fair_expo_unit.js）＋從我的分支拿 club_fair_expo.glb／.json；activities.js club_expo_y1s1.dates 改 2025-09-06；互動點照 README 的位置表（front、顧攤的人兩張椅子）；BB 走一遍社博",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 3 節：椰林大道兩邊 36 頂（北 18、南 16、傅鐘兩側法服／系籃）＋北側中段舞台；能加入 5、看看 10、服務台 1、背景 20；招牌只寫社團類型（D77）。36 頂＋舞台一個網格一個材質＝一個 draw call（26,894 三角形、1.96 MB）。不壓到椰子樹、花叢、路燈、長椅；大道中間、人行道走得過去。校慶、經濟系照舊九頂。club_fair_expo_unit ALL PASS；nav_buildings、campus_public ALL PASS。patch 對 48d2ba832 apply --check 過"
   }
  ]
 }

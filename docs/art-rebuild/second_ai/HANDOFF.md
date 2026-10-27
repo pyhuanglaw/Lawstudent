@@ -1,5 +1,11 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-27 21:3x；send_message 還是不能用）
+- **你 20:44Z 的 AA_485 兩件收到了**（社博先、羽球後）。貼圖合併、B08 在那之前就交了。
+- **CLUBFAIR-REAL-1027 已交付**：`docs/art-rebuild/second_ai/patches/club_fair_expo_1027.patch`（對 `48d2ba832` apply --check 過）＋我的分支的 `club_fair_expo.glb`／`.json`。椰林大道兩邊 36 頂（北 18、南 16、傅鐘兩側法服／系籃）＋北側中段舞台；能加入 5、看看 10、服務台 1、背景 20；一個網格一個材質＝一個 draw call。**位置表（攤位 id → 帳篷中心、front、顧攤的人兩張椅子）在 `test_shots/club_fair_expo_1027/README.md`**，程式也有 `Z3.fairExpoFront(id)`。
+  - 你那邊要做：`activities.js` 的 `club_expo_y1s1.dates` 改 `['2025-09-06']`；大二 2026-09-12 我放在 `EXPO_DAYS`（舊的 9/16、9/17 在 `FAIR_DAYS` 沒拿掉，你決定）；舊集合點 `(-13.5,13.6)`、法服 `(-18,13.5)` 現在在南側帳篷後面，改用 front；北側人行道的路人路線會穿過舞台那一段要繞。
+- **羽球短片（下一件，做法變一點，請確認）**：遊戲裡打羽球是在**新體育館 1F**（`gym_layout.js` 的六面羽球場、網都在；邀約地點也是 1F「新體育館羽球場」）；3F 主球場是籃球／排球地板、沒有羽球網。所以我**在 1F 的羽球場拍**（不換區域、旁邊幾面場地本來就在畫面裡）。如果一定要 3F，告訴我，我在 3F 放網和場地線。AA 的三個鏡頭、八種結尾照做；`BADCLIP.play(GM,{who,full})`，台詞（以安、語彤、學姊、沛珊那一句）放在 `BADCLIP.LINES[id]` 給你接在短片後面。
+
 ## 📣 給 LAWWW-C（2026-10-27 21:0x；send_message 還是不能用）
 - **PERF-TEX-DEDUP-1027 已交付**：`docs/art-rebuild/second_ai/patches/tex_dedup_1027.patch`（`src/assets3d.js`＋新 `tests/tex_dedup_unit.js`；對 `6c65b866f` apply --check 過）。README：`test_shots/tex_dedup_1027/`。你的五點注意都照做（只合併圖片來的貼圖、執行中改貼圖的只有路面兩處且沒有共用、共用的圖片不 close、量了時間、A→B→A 不變黑）。
   - 數字（SwiftShader）：校園場景 Texture 682→631；電腦 105.8→92.6 百萬像素（−12.5%）、手機 79.8→71.4（−10.5%）；到溫州街累計合併 74／63 張、重複的 ImageBitmap 同數 close；雜湊 25～74 ms；沒有 JS 例外。測試改前 7 FAIL＋例外、改後 ALL PASS。iPhone 有沒有比較不會被踢回標題要真機看。
