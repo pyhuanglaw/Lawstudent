@@ -33053,6 +33053,46 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AA477-NYE-CARD-1027",
+   "title": "大五跨年字卡開始日 2029-12-24→2030-01-01（被當延畢 12/26 那一停會讓它在跨年以前出現；AA_477 第 2 節第 1 點）",
+   "area": "Y4S2",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "AA-C 10-27 AA_477（企劃線 0fae57ee2）讀 AA_471～473 時發現",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "被當延畢的大五上 12/26",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 18:4x UTC】postgrad3d.js 兩列跨年字卡（在家、沒在家）開始日都改 2030-01-01（AA 只點名在家那一列，沒在家那列同一個問題一起改，已告訴 AA）；tests/aa471_pg_unit.js 第 5 節加回歸檢查（修改前 FAIL：12/26 出「跨年那天晚上，你在家」→ 修改後 ALL PASS）；BB 照 BB_TEST_QUEUE_1027 第 1 節第 3 項順帶看"
+  },
+  {
+   "id": "AA477-ZHE-PERIOD-1027",
+   "title": "阿哲的手機訊息照口氣表 2-1 不加句號：全遊戲 43 則（當面說的不算；AA_477 第 3 節表：位置、新句、寫死的測試）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "AA-C 10-27 AA_477（企劃線 0fae57ee2）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "阿哲第一次傳訊息",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 18:4x UTC】排在 ACCEPTSOPEN-C-1027 以後（AA 說不擋玩家）"
   }
  ]
 }

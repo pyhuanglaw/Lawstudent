@@ -97,6 +97,7 @@ await tsec(5,async()=>{ const S5=sec(5), Lx=(typeof FD!=='undefined'&&FD.LINES)|
   { const G=fdSave('2029-12-23',20,2); H.said=[]; const at=await advanceUntil(G,'fd_late_note');
     check('5. 出席兩堂：12/24 記 FAIL_DELAY_CERT 2030-06',G.flags.FAIL_DELAY_PASS===false&&G.flags.FAIL_DELAY_CERT==='2030-06');
     check('5. 跳到下一件事：停在 12/26（三）09:00 演旁白兩句（記號記下以後第一次停）',!!at&&at[0]===D('2029-12-26')&&Math.abs(at[1]-9)<1e-6,J(at));
+    check('5. 12/26 那一停的日期卡不出跨年那張（AA_477 第 2 節：跨年字卡從 2030-01-01 起；修改前 12-24 起，被當延畢的會在跨年以前看到）',!(PG.rec(G).lines||[]).some(t=>/^（跨年那天晚上/.test(t)),J(PG.rec(G).lines));
     const want=NOTE.map(t=>t.replace('{課名}',nm)); check('5. 旁白「'+want.join('」「')+'」',J(H.said.filter(x=>x.who===null&&want.includes(x.t)).map(x=>x.t))===J(want),J(H.lines().slice(-4)));
     check('5. 1/21 的證書不演（不到三堂）',!PG.done(G,'r2y4b_y5_cert')||PG.rec(G).done.r2y4b_y5_cert==='missed'||!R2Y4B.STEPS.find(x=>x.id==='r2y4b_y5_cert').cond(G)); }
   { const G=fdSave('2029-12-23',20,3); H.said=[]; await advanceUntil(G,'fd_late_note',6);
