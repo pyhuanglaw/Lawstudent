@@ -169,5 +169,106 @@ await sec(7,async()=>{
   check('7. 她寒暑假在高雄（③，戀愛 65）：不排出遊；隔天她那邊 21:00～23:30 演出來的視訊 → 「我們分開吧。」（不只用手機文字）',!!p4&&p4.why===3&&noOut&&!d4&&!e4&&!!f4&&f4.bg==='video'&&seq(['你沒做錯什麼。你都有講。','我們分開吧。'])&&!H.G.flags.dating_kexin,J([p4,d4&&d4.k,f4&&f4.k]));
 });
 
+/* ---------------- 8. 第 4 節 3b：開始交往的那一刻她知道祐廷有別人 ---------------- */
+/* 8-1 以安七夕（2028-07-07，臺灣路線；她在日本）*/
+await sec('8-1',async()=>{
+  const tana=async picks=>{ fresh('2028-07-06',7.5,'dorm',{dating_kexin:true,EXCHANGE_ROUTE:'TW'}); H.CLOSE(A1); learn(A1,KX); setRom(A1,80); R2Y3B.abTripPlan(H.G); clr(); H.picks=picks.slice(); const q=OUT.get(H.G,'y3_an_tanabata'); if(q) await OUT.go(GM,q); return q; };
+  let q=await tana([0,'我還是跟她在一起']);
+  check('8-1. 以安七夕、她知道祐廷和可昕交往：玩家先說「以安，我喜歡妳。」→「……我知道。」接 KNOW.say「你先講完。」「你們現在還在一起？」→ 三個選項（沒有原本的「好。」）',
+    !!q&&seq(['你要寫一張嗎？','……我知道。','你先講完。','你們現在還在一起？'])&&!H.has('……我知道。我等你說，等了三個月。')&&J(H.opts[1])===J(KNOWL(A1).opts.map(o=>o.t)),J([T(),H.opts]));
+  check('8-1. 「我還是跟她在一起。」＝「我不知道我為什麼會答應。」「……可是我想答應。」＝交往＋OPEN_OK（照原本的交往：AN_TANABATA confess、行程照算兩次約會＋心願地點）；之後 d3～d5 照演',
+    seq(['我不知道我為什麼會答應。','……可是我想答應。','（她排的行程表上，每一格都有時間。你們只走完一半。）','八月五號，你來接我。'])&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&H.G.flags.AN_TANABATA==='confess'&&(H.G.flags.confessed||{})[A1]!=null&&(X().rec(H.G).gate[A1]||{}).at==='tanabata');
+  q=await tana([1,'我會跟她講清楚','跟她分手']);
+  check('8-1. 她先說（把短冊掛上去）＝她原本三句「你不說，那我說。」「我喜歡你。理由我寫在手帳裡，回臺灣再給你看。」「……你不准賴。」接 KNOW.she「你們現在還在一起？」；「我會跟她講清楚。」→「跟她分手。」＝不交往、記承諾（exclusive）、AN_TANABATA knows、d3～d5 照舊、不排手帳那一場',
+    seq(['你不說，那我說。','我喜歡你。理由我寫在手帳裡，回臺灣再給你看。','……你不准賴。','你們現在還在一起？','講清楚是什麼意思？','好。那你分完，再來找我。','八月五號，你來接我。'])&&!H.has('你先講完。')&&!H.G.flags.dating_heroine_01&&!okOpen(A1,KX)&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.AN_TANABATA==='knows'&&DATE.log(H.G,A1).count>=2&&(R2Y3B.anBackPhone(Object.assign(H.G,{day:D('2028-08-05'),hour:12})),!OUT.get(H.G,'y3_an_notebook')),J(T()));
+  fresh('2028-07-06',7.5,'dorm',{EXCHANGE_ROUTE:'TW'}); H.CLOSE(A1); setRom(A1,80); R2Y3B.abTripPlan(H.G); clr(); H.picks=[0]; await OUT.go(GM,OUT.get(H.G,'y3_an_tanabata'));
+  check('8-1. 她不知道（祐廷沒有別人）＝照原本「……我知道。我等你說，等了三個月。」「好。」交往',H.has('……我知道。我等你說，等了三個月。')&&H.G.flags.dating_heroine_01===true&&H.G.flags.AN_TANABATA==='confess'&&!H.has('你先講完。'));
+});
+
+/* 8-2 七月最後一次的心意邀約（2029-07-14，2-Y4-46）*/
+await sec('8-2',async()=>{
+  const GD={GRADUATED:D('2029-06-02'),dating_kexin:true};
+  const july=async(id,picks,o)=>{ fresh('2029-07-14',18.3,'dorm',Object.assign({},GD,(o&&o.fl)||{})); H.CLOSE(id); learn(id,KX); if(id===SIS) learn(KX,SIS); setRom(id,(o&&o.rom)||80); const L=DATE.log(H.G,id); L.count=4; L.wish=true; TERMEND.rec(H.G).think[id]='Y4S2';
+    if(o&&o.pre) o.pre(); OUT.plan(H.G,{id:'y4_july',ev:'ev_heart_july',day:D('2029-07-14'),h:18.5,place:'x',title:'t',travelH:0.25,july:{id}}); setT('2029-07-14',18.3); return goOut('y4_july',picks); };
+  await july(A1,[0,'我還是跟她在一起']);
+  check('8-2. 以安、她知道祐廷和可昕交往：說出來＝接 KNOW.say「你先講完。」「你們現在還在一起？」→「我還是跟她在一起。」→ 接受＝交往＋OPEN_OK（沒有原本的「……嗯。這次換你先說了。」）',
+    seq(['你先講完。','你們現在還在一起？','……所以你要我跟她一起。','我不知道我為什麼會答應。','……可是我想答應。'])&&!H.has('……嗯。這次換你先說了。')&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&H.G.flags.HEART_JULY.res==='yes',J(T()));
+  await july(A1,[3,'我會跟她講清楚','跟她分手'],{fl:{BAR_REG:true}});
+  check('8-2. 先不說＝她七月那幾句（手帳寫滿了、「你回答。」）接 KNOW.she「你們現在還在一起？」；「我會跟她講清楚。」→「跟她分手。」＝不交往：朋友那一句「好。……八月四號，你考試加油。」、HEART_LAST（最後一次）、記承諾',
+    seq(['（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）','我寫完了。這次我不等下一次。','你回答。','你們現在還在一起？','好。那你分完，再來找我。','好。……八月四號，你考試加油。'])&&!H.opts.some(o=>J(o)===J(['「好。」','「我們還是朋友。」']))&&!H.G.flags.dating_heroine_01&&H.G.flags.HEART_LAST_heroine_01===true&&H.G.flags.HEART_FRIEND_heroine_01===true&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.HEART_JULY.res==='friend'&&TERMEND.rec(H.G).think[A1]==null,J(T()));
+  await july(SIS,[0,'她知道','她說可以'],{rom:80,fl:{YT_HONEST:{heroine_05:true}},pre:()=>{ setT('2029-06-20',15); X().meetAction(H.G,SIS,'talk'); setT('2029-06-27',15); X().meetAction(H.G,SIS,'talk'); }});
+  check('8-2. 學姊七月算第二次：中間兩次見面、照實、戀愛 80＝「……嗯。」「這學期我一直在想這件事。」「……好。我們試試看。」交往＋OPEN_OK',seq(['……她怎麼說？','……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX),J(T()));
+  await july(SIS,[0,'她知道','她說可以'],{rom:80,fl:{YT_HONEST:{heroine_05:true}}});
+  check('8-2. 學姊七月、中間沒有見面＝「我還沒準備好。」→ 朋友那一句、HEART_LAST',seq(['……嗯。','我還沒準備好。'])&&!H.G.flags.dating_heroine_05&&H.G.flags.HEART_LAST_heroine_05===true,J(T()));
+});
+
+/* 8-3 芷若 8/26 出國前的最後一場（2028-08-26）*/
+await sec('8-3',async()=>{
+  const last=async(picks,pre)=>{ fresh('2028-08-26',19.5,'dorm',{dating_kexin:true}); H.CLOSE(ZR); setRom(ZR,60); learn(ZR,KX,'test',{day:D('2028-08-25'),h:12}); if(pre) pre(); clr(); H.picks=picks.slice(); await EVENTS.run(ev('ev_zhiruo_last_screening')); };
+  await last(['我會跟她講']);
+  check('8-3. 她知道祐廷和可昕交往（8/24 以後）、沒問過第一問：「……一年。」之後先演第一問「那你打算怎麼辦？」→「我會跟她講。」＝不交往、記承諾（handle）→ 原本的 keep「好。……那就先收著。」（沒有「我等妳回來。」那兩個選項）',
+    seq(['……一年。','那你打算怎麼辦？','……好。','好。……那就先收著。','（她往捷運站走。走到路口，回頭揮了一下手。）'])&&!H.opts.some(o=>o.includes('「我等妳回來。」'))&&H.G.flags.ZR_LAST==='keep'&&!H.G.flags.dating_heroine_02&&H.G.flags.YT_PROMISED[ZR]==='handle:kexin'&&TERMEND.rec(H.G).think[ZR]!=null&&!!X().rec(H.G).zr.q1,J([T(),H.opts]));
+  await last(['是。'],()=>{ const Z=X().rec(H.G).zr; Z.q1={term:'Y3S1',day:D('2028-01-10'),y:KX}; Z.q2={day:D('2028-03-01'),y:KX,ok:true}; });
+  check('8-3. 問過第一、二問（都照實）＝第三問「你是真的想跟我在一起嗎？」→「是。」＝「……好。」（握手）交往＋OPEN_OK → 原本的 wait「一年。……你說的喔。」',
+    seq(['……一年。','你是真的想跟我在一起嗎？','……好。','（她把手伸過來，握了一下你的手，又放開。）','一年。……你說的喔。'])&&H.G.flags.ZR_LAST==='wait'&&H.G.flags.dating_heroine_02===true&&okOpen(ZR,KX)&&!H.has('好。……那就先收著。'),J(T()));
+  fresh('2028-08-26',19.5,'dorm',{}); H.CLOSE(ZR); clr(); H.picks=[0]; await EVENTS.run(ev('ev_zhiruo_last_screening'));
+  check('8-3. 她不知道（祐廷單身）＝照原本「我等妳回來。」／「我先收著。」',J(H.opts[0])===J(['「我等妳回來。」','「我先收著。」'])&&H.G.flags.ZR_LAST==='wait'&&H.G.flags.dating_heroine_02===true&&!H.has('那你打算怎麼辦？'));
+});
+
+/* 8-4 芷若 Z13（大三下學期末特別版）、「你點的那一杯」 */
+await sec('8-4',async()=>{
+  const zrSet=knows=>{ fresh('2028-06-08',20.6,'dorm',{CAFE_VISITS:3,dating_kexin:true,YT_HONEST:{heroine_02:true},ZR_GAVE_HER_ORDER:true}); H.CLOSE(ZR); setRom(ZR,40); H.G.contacts[ZR]=1; const L=DATE.log(H.G,ZR); L.count=6; L.wish=true;
+    for(const t of ['ASKED_HER_DRINK','REMEMBERED_HER','WATCHED_FILM','POSTCARDS']) SOCIAL.remember(ZR,t,''); H.G.events.done.ev_zhiruo_film_night=1; if(knows) learn(ZR,KX,'test',{day:D('2028-06-01'),h:12}); };
+  const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
+  const zt='te_Y3S2_heroine_02', inv=()=>(H.G.msgs||[]).filter(m=>m.th==='p:heroine_02').map(m=>m.text);
+  zrSet(true); rules(); const P=TERMEND.rec(H.G,'Y3S2').plan||{};
+  H.G.zone='cafe'; const hisO=ROM1016.hisOrderDue(H.G);
+  check('8-4. Z13 的條件都到、她知道祐廷和可昕交往：這學期不演 Z13 特別版（邀約是一般版、不是「畢業以後我還有幾個班。」）；也沒有「（點一杯熱可可加濃縮）」',(P.heart||[]).includes(ZR)&&!(P.special&&P.special[ZR])&&inv().length>0&&!inv().includes('畢業以後我還有幾個班。')&&!hisO,J([P,inv(),hisO]));
+  PHONE.answer(H.G,zt,0); rules(); let q=OUT.get(H.G,'te_Y3S2'); if(q){ setD(q.day,q.h-0.1); } await goOut('te_Y3S2',['先不說','我會跟她講']);
+  check('8-4. 一般的飯 → 回家路上走知情版（芷若第一問「那你打算怎麼辦？」）；沒有杯子',!!q&&!q.te.special&&seq(['那你打算怎麼辦？'])&&!H.has('（是她自己的點法：「熱可可＋濃縮」。）')&&H.G.flags.ZR_CUP==null&&!H.G.flags.dating_heroine_02,J([q,T()]));
+  zrSet(false); rules(); PHONE.answer(H.G,zt,0); rules(); q=OUT.get(H.G,'te_Y3S2'); const sp=q&&q.te&&q.te.special; learn(ZR,KX,'test',{day:D('2028-06-10'),h:12}); if(q) setD(q.day,q.h-0.1); await goOut('te_Y3S2',['先不說','我會跟她講']);
+  check('8-4. 排好 Z13 以後她才知道：那頓飯不演杯子，改走一般的飯＋知情版心意邀約',sp==='z13'&&H.has('那你打算怎麼辦？')&&!H.has('（是她自己的點法：「熱可可＋濃縮」。）')&&H.G.flags.ZR_CUP==null,J(T()));
+});
+
+/* 8-5 子晴 Q15（大三下學期末特別版）＋回答.exe */
+await sec('8-5',async()=>{
+  const zqSet=knows=>{ fresh('2028-06-08',20.6,'dorm',{ZQ_DAD_HEARD:true,ATTENDED_SHOW:true,dating_kexin:true,YT_HONEST:{heroine_04:true},ZQ_ASK_KAI_D:knows?null:0});   /* 不知道的那一版：阿凱那一條（子晴問阿凱，ROM.zqAskTick）先關掉 */ H.CLOSE(ZQ); setRom(ZQ,40); H.G.contacts[ZQ]=1; const L=DATE.log(H.G,ZQ); L.count=4; L.wish=true;
+    for(const t of ['CLAPPED','PLAYTESTED','TOLD_HER_CHANGE']) SOCIAL.remember(ZQ,t,''); if(knows) learn(ZQ,KX,'test',{day:D('2028-06-01'),h:12}); };
+  const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
+  const qt='te_Y3S2_heroine_04', inv=()=>(H.G.msgs||[]).filter(m=>m.th==='p:heroine_04').map(m=>m.text);
+  zqSet(true); rules(); const P=TERMEND.rec(H.G,'Y3S2').plan||{};
+  check('8-5. Q15 的條件都到、她知道祐廷和可昕交往：這學期不演 Q15 特別版（plan.special 沒有她）',R2Y3B.q15Ready(H.G)&&(P.heart||[]).includes(ZQ)&&!(P.special&&P.special[ZQ])&&inv().length>0,J([P,inv()]));
+  PHONE.answer(H.G,qt,0); rules(); let q=OUT.get(H.G,'te_Y3S2'); if(q) setD(q.day,q.h-0.1); await goOut('te_Y3S2',[0,'對。']);
+  check('8-5. 一般的飯（沒有 Q15 的飯桌一句）→ 回家路上走一般的知情版：「所以你是認真的喔？」「可昕呢？」「你現在是想同時跟我們兩個在一起？」→「對。」＝「……我居然在考慮。」「好。可是你不准瞞我任何事。」交往＋OPEN_OK（沒有 Q15 的三句）',
+    seq(['所以你是認真的喔？','可昕呢？','你現在是想同時跟我們兩個在一起？','……我居然在考慮。','好。可是你不准瞞我任何事。'])&&!H.has('發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。')&&!H.opts.some(o=>o.some(t=>/第一個玩的/.test(t)))&&H.G.flags.dating_heroine_04===true&&okOpen(ZQ,KX)&&H.G.flags.ZQ_Q15==null,J([T(),H.opts]));
+  zqSet(false); rules(); PHONE.answer(H.G,qt,0); rules(); q=OUT.get(H.G,'te_Y3S2'); if(q) setD(q.day,q.h-0.1); await goOut('te_Y3S2',[0]);
+  const Q=H.G.flags.ZQ_Q15; learn(ZQ,KX,'test',{day:Q?Q.day:H.G.day,h:23}); if(Q) setD(Q.day+1,12.1); rules(); const sent=PHONE.sent(H.G,'y3_zq_exe');
+  check('8-5. Q15 演完、回答.exe 以前她才知道：不傳檔案、不交往；這學期算「讓我想想」（下學期一般的知情版）',!!Q&&Q.res==='knows'&&!sent&&!R2Y3B.exeDue(H.G)&&!H.G.flags.dating_heroine_04&&TERMEND.rec(H.G).think[ZQ]==='Y3S2',J([Q,sent]));
+});
+
+/* 8-6 學姊大峽谷（臺灣路線，2028-10-13）*/
+await sec('8-6',async()=>{
+  const canyon=async(picks,pre)=>{ fresh('2028-10-07',7,'dorm',{EXCHANGE_ROUTE:'TW',dating_kexin:true,YT_HONEST:{heroine_05:true}}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); setRom(SIS,80); const L=DATE.log(H.G,SIS); L.count=4; if(pre) pre(); clr(); H.picks=picks.slice(); await EVENTS.run(ev('ev_sis_canyon')); };
+  await canyon([0,'她知道','她說可以']);
+  check('8-6. 她知道祐廷和可昕交往：告白「學姊，我喜歡妳。」那一刻接 KNOW.heroine_05「可昕知道嗎？」→「她知道。」→「她說可以。」→「……好。我想一下。」（第一次＝讓我想想）；沒有原本的「好。」',
+    seq(['可昕知道嗎？','……她怎麼說？','……好。我想一下。','十二月二十三號，晚上八點落地。你來接我。'])&&!H.has('……我以為我要先說。')&&!H.has('我們試試看。'),J(T()));
+  check('8-6. 不交往：行程照算兩次約會＋心願地點、SIS_GF_CANYON 不記、不叫書瑀（SIS_CANYON knows）',!H.G.flags.dating_heroine_05&&H.G.flags.SIS_CANYON==='knows'&&H.G.flags.SIS_GF_CANYON==null&&!H.G.flags.CALLED_SHUYU&&DATE.log(H.G,SIS).count===6&&DATE.log(H.G,SIS).wish===true);
+  await canyon([1,'我會跟她說','說我們分手']);
+  check('8-6. 她先說（看著峽谷）：她原本三句接「可昕知道嗎？」；「我會跟她說。」→「說我們分手。」＝不交往、記承諾（exclusive）',seq(['那我先說。','我喜歡你。……我想了很久，要不要在這裡說。','你要說好，還是要我再說一次。','可昕知道嗎？','那等你說完。'])&&!H.G.flags.dating_heroine_05&&H.G.flags.YT_PROMISED[SIS]==='exclusive'&&H.G.flags.SIS_CANYON==='knows',J(T()));
+  await canyon([0,'她知道','她說可以'],()=>{ TERMEND.rec(H.G).think[SIS]='Y3S2'; H.G.termend.Y3S2=Object.assign(H.G.termend.Y3S2||{},{done:{who:SIS,kind:'heart',day:D('2028-06-12')}}); setT('2028-09-02',15); X().meetAction(H.G,SIS,'talk'); setT('2028-09-20',15); X().meetAction(H.G,SIS,'talk'); setT('2028-10-07',7); });
+  check('8-6. 上學期心意邀約讓我想想過、中間兩次見面、照實、戀愛 80＝第二次：「……嗯。」「這學期我一直在想這件事。」「……好。我們試試看。」交往＋OPEN_OK、SIS_GF_CANYON、叫書瑀',
+    seq(['可昕知道嗎？','……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX)&&H.G.flags.SIS_GF_CANYON!=null&&H.G.flags.CALLED_SHUYU===true&&H.G.flags.SIS_CANYON==='confess',J(T()));
+});
+
+/* 8-7 學姊分開過以後重新開始，第二次約會結尾的告白（date3d.js S.confess；AA_386 4-2）*/
+await sec('8-7',async()=>{
+  const conf=async(picks,pre)=>{ fresh('2027-03-20',17,'dorm',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); setRom(SIS,80); if(pre) pre(); clr(); H.picks=picks.slice(); return DATE.confess(GM,SIS,{ok:true},{who:SIS,locs:['D07'],day:H.G.day,trip:'T9'}); };
+  let r=await conf([0,'她知道','她說可以']);
+  check('8-7. 告白、她知道祐廷和可昕交往（第一次）：接 KNOW.heroine_05 →「……好。我想一下。」＝不交往、走 L.notYet（她的「還沒」）',
+    seq(['時間差不多了。……你剛剛好像一直想講什麼。','可昕知道嗎？','……好。我想一下。','……謝謝你。可是我還沒想好。'])&&r==='notYet'&&!H.G.flags.dating_heroine_05&&!!DATE.log(H.G,SIS).notYet&&!H.has('……我知道。'),J([r,T()]));
+  r=await conf([0,'她知道','她說可以'],()=>{ X().rs(H.G,'sk')[SIS]={day:D('2027-01-10'),term:'Y2S1'}; setT('2027-02-20',15); X().meetAction(H.G,SIS,'talk'); setT('2027-03-01',15); X().meetAction(H.G,SIS,'talk'); setT('2027-03-20',17); H.G.flags.YT_HONEST={heroine_05:true}; });
+  check('8-7. 第二次（之前演過知情對話、中間兩次見面、照實）＝接受：交往＋OPEN_OK（「這學期我一直在想這件事。」「……好。我們試試看。」）',r==='yes'&&seq(['……嗯。','這學期我一直在想這件事。','……好。我們試試看。'])&&H.G.flags.dating_heroine_05===true&&okOpen(SIS,KX),J([r,T()]));
+});
+
 H.done();
 })();
