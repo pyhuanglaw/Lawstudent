@@ -4,7 +4,7 @@
  "tris": 63776,
  "tris_drawn": 65624,
  "materials": 38,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/apt/us_apartment_v3.glb",
+ "out": "assets/models/env/second_ai/us_apartment.glb",
  "bytes": 3914088,
  "texres": 512,
  "layout": 3,

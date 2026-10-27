@@ -3544,6 +3544,28 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED",
    "note": "X79：第一次走經濟系路線（校門→椰林大道→總圖→社科院→霖澤館）路上 13 次編新 shader（0.5～2.2 秒）；Z3.warmup 淡入後背景預先編（含畫面外、晚接上的正式模型、路人底模、遠距離版本 toon、陰影深度）＋主動讀一次（onFirstUse）。SwiftShader 手機模擬：新 shader 30→0、>1 秒 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒；代價：等待挪到剛進場（SwiftShader 61 秒、真機沒量）、電腦先傳 467 張貼圖。patch 對 ee573caad apply --check 過。（patch 改名 08709df6）；LAWWW-C 19:10Z：已合進開發 8dfa52530（zone_warmup／zone_prewarm／nav_buildings／vrm_release ALL PASS），BB 瀏覽器排後面"
+  },
+  {
+   "task": "US-APT-CLOSET-1027",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "src/data/us_apartment_layout.js",
+    "tools/blender/env_second/us_apartment.py",
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_apartment.json",
+    "docs/art-rebuild/second_ai/patches/us_apt_closet_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/us_apt_closet_1027/README.md",
+    "docs/art-rebuild/second_ai/test_shots/us_apt_closet_1027/cmp.jpg",
+    "tools/shots/us_apt_closet_shots.py"
+   ],
+   "state": "已交付",
+   "remaining": "衣服是帶衣架的平板（近看偏平，下一輪做肩線、袖子）；開著的門板從臥室西邊看有一點擋；舊存檔沒實際讀過",
+   "next": "LAWWW 套 patches/us_apt_closet_1027.patch（src/us3d.js、src/data/us_layouts.js 一行、tests/us_cam_walls_unit.js、新 tests/us_apt_closet_unit.js），從我的分支拿 assets/models/env/second_ai/us_apartment.glb＋.json（src/data/us_apartment_layout.js、tools/blender/env_second/us_apartment.py 是原始檔）；跑 us_apt_closet_unit、nav_us_unit、us_cam_walls_unit、Node 全部、reachability_all --zones us_apartment,us_shared；BB：進門、床、書桌、洗手間、衣物間、睡覺起床、舊存檔在公寓讀檔",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 19:4x P0（X104）：衣物間走得進去（不是衣櫃）、床→書桌→洗手間門同在東牆、洗手間門開著有浴缸；C 棟合租戶不動。新測試改前 FAILED 11、改後 ALL PASS；最新開發 0969b1028＋patch 13 支相關 Node＋reachability_all（us_apartment、us_shared）ALL PASS。寫死座標清單在 README（只有書桌椅走近點要改，已在 patch）。READY_FOR_ART_REVIEW"
   }
  ]
 }
