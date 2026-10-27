@@ -80,6 +80,16 @@
    "task": "RELEASE-9106-TEST",
    "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
    "note": "P0 換班口令（CLAUDE.md）：兩條測試線停止、結果寫 BB_218、BB_00 交班紀錄＋全部待辦、duty_BB.json handed-off＋快照、commit＋push。未完成的 RELEASE-9106-TEST 第 4～14 項、BB119-Y4-1017、USD_kexin 重跑、AA283-PARK-1021 見 BB_00"
+  },
+  {
+   "id": "UA-BB-1027-01",
+   "at": "2026-10-27T17:2x",
+   "quote": "以後都跟我說中文",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "永久",
+   "src": "BB-C 對話（使用者直接對 BB-C 說；之前 BB-C 回覆夾英文，使用者兩次要求）",
+   "note": "所有對使用者的回覆、回報、測試結果一律繁體中文（CLAUDE.md 和使用者合作的規則 1）；接手的 BB 照做"
   }
  ]
 }

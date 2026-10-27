@@ -1,0 +1,2 @@
+# v9.10.11 R42 舊版（1dacc06af，應 FAIL）
+r42_old zrlast_probe.py R42_JP_PG_HOME,R42_YT_2030
