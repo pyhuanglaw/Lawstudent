@@ -234,10 +234,11 @@
    "at": "2026-10-20T13:1x",
    "quote": "衝刺班管理人員請過很多次才笑：演兩次再笑（6/12 第一次請假、6/17 兩個人都睡過頭遲到，6/24 才笑）",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在遊戲裡",
    "task": "CRAM-LEAVE-LAUGH-1018",
    "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
-   "checked": "10-21 AA-C 核對：retake_home.js 有 RH-C2、RH-C3，但 econff3d.js RH_PLAY 沒有、6/9～6/23 日期卡沒拆三句；任務 CRAM-LEAVE-LAUGH-1018 待開工（AA_348 第 5 節）"
+   "checked": "10-21 AA-C 核對：retake_home.js 有 RH-C2、RH-C3，但 econff3d.js RH_PLAY 沒有、6/9～6/23 日期卡沒拆三句；任務 CRAM-LEAVE-LAUGH-1018 待開工（AA_348 第 5 節）；2026-10-27 AA-C：main（v9.10.10）econff3d.js 有 RH-C2、RH-C3，任務 CRAM-LEAVE-LAUGH-1018 已整合；USER_WANTS X59 在遊戲裡（v9.10.4 起）",
+   "wants": "X59"
   },
   {
    "id": "UA-AA-1020-24",
