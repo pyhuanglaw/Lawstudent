@@ -100,5 +100,27 @@ await tsec(5,async()=>{ const S5=sec(5), Lx=(typeof FD!=='undefined'&&FD.LINES)|
     const card=(a,b)=>PG.cardLine(G,D(a),D(b));
     check('5. 6 月字卡「（證書放在書桌上。你媽這次把框裝上了。）」06-18 起：6/17 以前的跳不出、6/18 以後的跳才出',card('2030-06-01','2030-06-17')!=='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-06-17','2030-06-22')==='（證書放在書桌上。你媽這次把框裝上了。）'); } });
 
+/* ======================= 6. 芷若在英國，17:00 那一版的收尾三句輪 ======================= */
+await tsec(6,async()=>{ const S6=sec(6), UK=['你要去吃晚餐了吧。……去吧。','你那邊天要黑了。……去吃飯。','好。我這邊要出門了。'], US=['你要去吃午餐了吧。……去吧。','你那邊中午了。……去吃飯。','好。我這邊要出門了。'];
+  check('6. 稿：三句（第一句原句）、美國那一版三句',UK.every((t,i)=>S6.includes('  - '+t+(i===0?'（原句）':'')))&&S6.includes(US.map(t=>'「'+t+'」').join('／')));
+  check('6. ZRUK 的兩組照稿',typeof ZRUK!=='undefined'&&J(ZRUK.FIX_CLOSE)===J(UK)&&J(ZRUK.US_FIX_CLOSE)===J(US),typeof ZRUK!=='undefined'?J([ZRUK.FIX_CLOSE,ZRUK.US_FIX_CLOSE]):'沒有 ZRUK');
+  const ZR='heroine_02', zr=(key,h,flags)=>{ const G=H.fresh(key,h,'dorm',flags); G.outings=[]; INV.addContact(G,ZR); H.CLOSE(ZR); SOCIAL.rel(ZR).npcRom=35; H.date(ZR); return G; };
+  const last=L=>{ const x=L[L.length-1]; return x&&x.text; };
+  { const G=zr('2028-11-05',9,{ZR_WEEKLY_FIX:true}), d=D('2028-11-05'); const got=[0,1,2,3,4].map(i=>last(ZRUK.weekLines(G,d+7*i,true)));
+    check('6. 修補以後（17:00）的收尾照順序輪：原句 → 天要黑了 → 要出門了 → 原句……',J(got)===J([UK[0],UK[1],UK[2],UK[0],UK[1]]),J(got));
+    check('6. 不跟上一週同一句',got.every((t,i)=>i===0||t!==got[i-1]));
+    const nf=last(ZRUK.weekLines(G,d+35,false)); check('6. 22:00 那一版照舊（不輪、不動計數）',nf!==UK[2]&&last(ZRUK.weekLines(G,d+42,true))===UK[2],nf); }
+  { const G=zr('2028-11-05',9,{ZR_WEEKLY_FIX:true}); delete ZRUK.rec(G).w.fc; const R=G.flags.ZR_UK_CALLS; delete R.w.fc;
+    check('6. 舊存檔（沒有 w.fc）從原句開始',last(ZRUK.weekLines(G,D('2028-11-05'),true))===UK[0]); }
+  { const G=zr('2028-11-05',6,{ZR_WEEKLY_FIX:true,EXCHANGE_ROUTE:'US'}), d=D('2028-11-05'); const got=[0,1,2].map(i=>last(ZRUK.weekLines(G,d+7*i,true)));
+    check('6. 美國那學期：同樣三句換字（午餐、中午、出門）',J(got)===J(US),J(got)); }
+  /* 實際接起來（出遊）：三週接、一週沒接——沒接的那週不算，下一次接著輪 */
+  { const G=zr('2029-06-03',9,{ZR_WEEKLY_FIX:true}), d0=D('2029-06-03'), seen=[];
+    const setT=(d,h)=>{ G.day=d; G.hour=h; G.weekday=CALENDAR.dateOf(d).wd%7; };
+    for(let i=0;i<4;i++){ const d=d0+7*i; setT(d,9); STORY.phoneRules(GM); PHONE.tick(G); const q=OUT.get(G,'zruk_w_'+CALENDAR.dateOf(d).key); if(!q){ seen.push('沒排'); continue; }
+      if(i===1){ setT(d,q.h+0.3); for(const x of OUT.expire(G)) OUT.onMissed(GM,x); seen.push('沒接'); continue; }
+      H.said=[]; H.picks=[]; setT(q.day,q.h-1/6); await OUT.go(GM,q); seen.push((H.said[H.said.length-1]||{}).t); }
+    check('6. 畢業以後的夏天（2029-06，她還在英國）：接了的三次照順序輪、沒接的那一週不算',J(seen)===J([UK[0],'沒接',UK[1],UK[2]]),J(seen)); } });
+
 H.done();
 })();
