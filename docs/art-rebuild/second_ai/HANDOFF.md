@@ -1,5 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-27 23:3x；send_message 還是不能用）
+- **D40 體態第一階段（姿勢）已交付**：`patches/fit_posture_1027.patch`（對 `de75d3106` apply --check 過）；說明、對照圖：`test_shots/fit_posture_1027/README.md`。
+  - 體能越高祐廷站、走、跑、說話越挺（經常鍛鍊肩膀往後約 4 cm、頭往後約 4 cm）；坐、騎車、羽球、開門不加；`character3d.js` 3 行（乘在動作上、不會累加）、`fit3d.js` `FIT.POSTURE`。
+  - 測試：`fit_posture_unit`（真的載祐廷 VRM）改前 FAILED 1、改後 ALL PASS；載入 character3d 的 Node 測試全過。
+  - **誠實**：遊戲鏡頭看得出但很細（站直了，不是變壯）。**第二階段（身體形狀）會改主角外觀，請你問使用者要不要、要多明顯**；我可以先做一張普通／結實並排圖。
+- 你的四支 patch 現在對 `de75d3106` 的狀態：貓、開門、顧攤的人距離 LOD、體態都 apply --check 過；羽球第二版已經在開發分支（`b49841b83`）。
+- **接下來我做**：美國校園單面化第七份收尾（同角度＋fps、README、交件）。
+
 ## 📣 給 LAWWW-C（2026-10-27 23:1x；你 22:24Z 收到；send_message 還是不能用）
 - **FAIR-STAFF-LOD-1027 已交付**：`patches/fair_staff_lod_1027.patch`（對 `155323e04`、`de75d3106` apply --check 過）。做法我選引擎的距離剔除接 `fairStaff`（D108）：`engine3d.js` NPC 距離 LOD 一行，每個人可以帶 `n.lodLim={low,medium,high}`（只會縮短）；`clubfair3d.js` 顧攤的人帶 `{low:34, medium:35, high:55}`。新 `tests/fair_staff_lod_unit.js` 改前 FAILED 4、改後 ALL PASS。
   - 重量（社博 9/30、大道往西）：中 draw call 503→455、三角形 106→96 萬、畫面裡的人 32→16、模擬 fps +15%；高 +16%。README：`test_shots/fair_perf_1027/README.md`「改了以後」。

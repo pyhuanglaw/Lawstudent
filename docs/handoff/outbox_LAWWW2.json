@@ -3747,7 +3747,7 @@
   {
    "task": "FAIR-STAFF-LOD-1027（顧攤的人照距離藏）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "e0d50873f",
    "files": [
     "docs/art-rebuild/second_ai/patches/fair_staff_lod_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/fair_perf_1027/README.md",
@@ -3760,6 +3760,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "中 35 m、高 55 m、低 34 m。社博 9/30 大道往西：中 draw call 503→455、三角形 106→96 萬、畫面裡的人 32→16（顧攤 4）、模擬 fps +15%；高 548→494、116→103 萬、47→34、+16%。fair_staff_lod_unit 改前 FAILED 4、改後 ALL PASS 11；社博 6 支、anon、crowd、nav Node 測試 ALL PASS；patch 對 155323e04、de75d3106 apply --check 過"
+  },
+  {
+   "task": "FIT-3D-BODY-1027（D40 體態第一階段：姿勢）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/fit_posture_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/fit_posture_1027/README.md",
+    "tools/shots/fit_posture_shots.py"
+   ],
+   "state": "已交付",
+   "remaining": "看得出但很細（站直了、不是變壯）；第二階段身體形狀要使用者決定；真機、BB 流程沒跑",
+   "next": "LAWWW 套 patches/fit_posture_1027.patch（fit3d.js FIT.POSTURE＋sync、character3d.js 3 行、新 tests/fit_posture_unit.js）；跑 fit_posture_unit、fit_unit、載入 character3d 的 Node 測試；問使用者第二階段",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "體能越高站、走、跑、說話越挺：經常鍛鍊肩膀往後約 4 cm、頭往後約 4 cm、兩肩寬 +0.8 cm；坐、騎車、疊加姿勢不加；不會一格一格累加。fit_posture_unit（真的載祐廷 VRM）改前 FAILED 1、改後 ALL PASS 10；character3d 相關 Node 測試全過；patch 對 de75d3106 apply --check 過。另：羽球第二版已在開發分支 b49841b83（和我交的一樣）"
   }
  ]
 }
