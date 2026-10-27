@@ -417,24 +417,17 @@ const CLS=(function(){
     } finally { if(!o.inScene) GM.sceneEnd(); }
     S.slotFillSpan(G,a.t0,a.t1);   /* 社團、演講、活動＝那個時段的一件主要的事（DEC-SLOTS-1018 ③）*/
     if(GM.autosave) GM.autosave(); return true; };
-  /* 社團博覽會（AA_110 6-8 (b)，AA 暫定）：椰林大道上的公告欄，選單列五個社團，選了就加入（CLUB_<id>；法服另外記 lawclub）；已經加入的寫「已加入」。
-     開放時間（11:00–17:00）以外按：寫幾點開始／今天收了。沒去博覽會的玩家，第一次去社課也算加入（6-3）*/
+  /* 社團博覽會（AA_110 6-8 (b)；CLUBFAIR-REAL-1027 起照 AA_485 第 3 節）：服務台（椰林大道上的集合點）＝十五攤的選單（CLUBFAIR.menu）；各攤帳篷前面也有互動點（src/clubfair3d.js）。
+     開放時間（10:00–16:00）以外按：寫幾點開始／今天收了。沒去博覽會的玩家，第一次去社課也算加入（6-3），旁白多一句「（你在門口填了表。）」（AA_485 3-4，clubfair3d.js）*/
   const WDN=['日','一','二','三','四','五','六'];
   S.clubWhen=function(c,termId){ if(c&&c.whenText) return c.whenText;   /* whenText：時間地點不照課表寫（法服，AA_372 第 1 項）*/
     const wds=c.weekdays||(c.weekday?[c.weekday]:[]); const w0=((termId&&c.termWeeks&&c.termWeeks[termId])||c.weeks||[])[0]; return (wds.length?'每週'+wds.map(d=>WDN[d]).join('、')+' ':'')+hhmm(c.t0)+'–'+hhmm(c.t1)+(c.roomName?'，'+c.roomName:'')+(w0>1?'（第 '+w0+' 週起）':''); };
-  S.fairMenu=async function(GM,a){ const G=GM.G, h=hr(G), F=G.flags||(G.flags={});
+  S.fairMenu=async function(GM,a){ const G=GM.G, h=hr(G);
     if(!ACTIVITIES.on(a,G.day,G)||h<a.t0||h>=a.t1){ GM.caption('',a.title+'：'+(!ACTIVITIES.on(a,G.day,G)?'':h<a.t0?'今天 '+hhmm(a.t0)+' 開始。':'今天的攤位收了。')+(a.desc||''),4200); return 0; }
     if(!ACTIVITIES.attendedAny(G,a.id,G.day)) ACTIVITIES.markAttended(G,a);   /* 去過博覽會（出席紀錄：之後的事件可以用 attended）*/
-    const L=(a.clubs||[]).map(id=>ACTIVITIES.list.find(q=>q.id===id)).filter(Boolean); let n=0, expo=false;
-    GM.sceneBegin(); try{ await GM.say(null,'椰林大道上一整排攤位。公告欄貼著今天擺攤的社團。');
-      for(let guard=0;guard<12;guard++){ const opts=L.map(c=>{ const j=!!F['CLUB_'+c.id]; return {t:(c.clubName||c.title)+(j?'（已加入）':''),hint:S.clubWhen(c)}; }); opts.push({t:'逛完了'});
-        const i=await GM.choose(opts); if(i<0||i>=L.length) break; const c=L[i];
-        if(F['CLUB_'+c.id]){ await GM.say(null,'「'+(c.clubName||c.title)+'」的表你已經填過了。'); continue; }
-        if(c.id==='lawclub_study'&&!F.SIS_CLUB_EXPO&&typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_sis_club_expo')){ expo=true; break; }   /* 法服：走到攤位前（學姊那一段，AA_218 17-3），不是只填表 */
-        F['CLUB_'+c.id]=true; if(c.id==='lawclub_study') F.lawclub=true; n++; await GM.say(null,'你在「'+(c.clubName||c.title)+'」的攤位填了表。'+S.clubWhen(c)+'。'); }
-    } finally { GM.sceneEnd(); }
-    if(expo){ await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_sis_club_expo')); n++; }
-    if(n&&GM.autosave) GM.autosave(); return n; };
+    /* CLUBFAIR-REAL-1027（AA_485 3-3）：服務台＝十五攤的選單（能加入的五攤＋只能看看的十攤；src/clubfair3d.js、src/data/club_fair.js）。原本只有五個社團、選了就填表 */
+    if(typeof CLUBFAIR!=='undefined'&&CLUBFAIR.menu) return CLUBFAIR.menu(GM,a);
+    GM.caption('',a.title+'：'+(a.desc||''),4200); return 0; };
   /* 座位（霖澤館 201）：這堂課現在可以上 → 坐下時的第一個選項（game3d.js 的 seatMenu）*/
   S.seatClass=function(G,seat){ if(!G) return null; if(seat&&seat.room) return S.liveIn(G,G.zone).find(it=>it.room.room===seat.room&&S.status(G,it)==='open')||null;   /* 建築裡的教室（共同教學館 101…）：座位在那一間 */
     if(G.zone!=='classroom') return null; return S.liveIn(G,'classroom').find(it=>S.status(G,it)==='open')||null; };
