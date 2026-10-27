@@ -33626,6 +33626,33 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 19:3x UTC】改好：us_life3d.js usl_sis_0803 ask 加 until＝8/3 09:00；sis_qixi_events.js y28Us 社區門口；us_life_events.js 11/25 書瑀說；測試 us_life、aa370_us、aa453_us、aa388_sis_qixi ALL PASS（aa388 對稿多認 AA_479）；BB 美國交往中劇本順帶看"
+  },
+  {
+   "id": "US-APT-CLOSET-1027",
+   "title": "美國交換祐廷租的單人公寓（us_apartment）照使用者描述改格局：小的 walk-in closet（走得進去，不是衣櫃）；床旁邊是書桌、再旁邊是洗手間；洗手間有浴缸（使用者 10-27 19:4x 對 LAWWW2-C 原話：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」）",
+   "area": "V4-US",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 2026-10-27 19:4x 直接對 LAWWW2-C（UA-LAWWW2-1027-02，LAWWW2 分支 131e59dfe；P0 通知 3dd0db7c4 docs/art-rebuild/second_ai/HANDOFF.md）",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國交換抵達、第一次進公寓（大四上 8/2 起）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:0x UTC】LAWWW2 照做（D108 場景＋程式）：US_APARTMENT_LAYOUT（src/data/us_layouts.js）、tools/blender/env_second/us_apartment.py、us_apartment.glb；寫死座標的程式（床、書桌、衣物間互動點、事件站位）列出來一起交 patch；C 棟合租戶不動。AA-C 查美國稿裡「衣櫃」、書桌在窗下、洗手間位置的句子。LAWWW 收到 patch 合併、跑 Node；BB 測公寓（進門、床、書桌、洗手間、衣物間、睡覺起床）。LAWWW2 佇列：公寓 → X14 登記 → B08 → PERF-TEX-DEDUP-1027",
+   "xai": {
+    "spec": "使用者原話（UA-LAWWW2-1027-02）；LAWWW2 解讀：床頭靠東牆→書桌貼床邊→洗手間門同一側（洗手間、衣物間對調）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "公寓裡走得進衣物間、看得到吊衣桿和行李箱；床、書桌、洗手間門照使用者說的順序；洗手間走得進去看得到浴缸；舊存檔在公寓裡讀檔不卡牆；相關 Node 測試 ALL PASS",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
