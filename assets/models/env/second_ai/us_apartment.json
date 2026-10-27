@@ -1,12 +1,12 @@
 {
- "objects": 86,
- "unique_meshes": 84,
- "tris": 56348,
- "tris_drawn": 58196,
- "materials": 36,
- "out": "assets/models/env/second_ai/us_apartment.glb",
- "bytes": 3372176,
+ "objects": 92,
+ "unique_meshes": 90,
+ "tris": 63776,
+ "tris_drawn": 65624,
+ "materials": 38,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/apt/us_apartment_v3.glb",
+ "bytes": 3914088,
  "texres": 512,
- "layout": 2,
+ "layout": 3,
  "furniture": 33
 }
