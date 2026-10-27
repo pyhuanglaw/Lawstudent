@@ -27,8 +27,8 @@ const ZRLAST_EVENTS=(function(){
   const ZR='heroine_02', N=t=>({speaker:null,text:t}), Z=t=>({speaker:ZR,text:t});
   const X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;
   const ASKED={memory:[{npc:ZR,tag:'ASKED_HER_DRINK'}]};   /* 問過她喝什麼（Z3）*/
-  const Y=t=>({speaker:'player',text:t}), A=ZRLAST_LINES.again, OK={custom:G=>{ const x=X(); return !!x&&x.againOk(G); }};
-  const ZR_KNOWS={custom:G=>{ const x=X(); return !!x&&!!x.knowsOther&&x.knowsOther(G); }};   /* AA_474 3b：她知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）*/   /* 第 10 節 A1：第 1 節第 3、5、6 點照當時算 */
+  const Y=t=>({speaker:'player',text:t}), A=ZRLAST_LINES.again, OK={custom:G=>{ const x=X(); return !!x&&x.againOk(G); }};   /* 第 10 節 A1：第 1 節第 3、5、6 點照當時算 */
+  const ZR_KNOWS={custom:G=>{ const x=X(); return !!x&&!!x.knowsOther&&x.knowsOther(G); }};   /* AA_474 3b：她知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）*/
   return [
     /* ---------- 第 3、4 節：8/26（六）19:30 公館二輪戲院（2D 底圖 gongguan_cinema；散場的騎樓同一張底圖）---------- */
     { id:'ev_zhiruo_last_screening', title:'出國前的最後一場', participants:[ZR], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
