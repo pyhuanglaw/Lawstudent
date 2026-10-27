@@ -217,8 +217,8 @@ async def m_fair(c):
     want_staff = {'high': 36, 'medium': 36 - s1['bg'] + round(s1['bg'] * 3 / 4), 'low': 36 - s1['bg'] + round(s1['bg'] / 2)}.get(s1['q'], None)
     run.check('2. 36 頂帳篷（CLUB_FAIR_EXPO）、十五攤互動點打開', s1['tents'] == 36 and s1['boothsShown'] == 15, json.dumps(s1))
     run.check('2. 顧攤的人：每頂一個（畫質 %s：背景攤照比例，應該 %s 個；互動十五攤＋服務台一定有）' % (s1['q'], want_staff), want_staff is not None and abs(s1['staff'] - want_staff) <= 1, json.dumps(s1))
-    walkers = await pg.evaluate("GAME.E.npcs.filter(n=>n&&n.isExtra&&!n.fairStaff&&!n.fairCrowd&&n.obj&&Math.abs(n.obj.position.z)<3.4&&n.obj.position.x>-90&&n.obj.position.x<10).length")
-    run.check('2. 大道中間有人走（拿傳單的新生）、攤位前有人停（填表的人）', walkers >= 1 and s1['crowd'] >= 2, json.dumps({'walkers': walkers, 'crowd': s1['crowd']}))
+    cr = await pg.evaluate("(()=>{ const C=GAME.E.npcs.filter(n=>n&&n.fairCrowd&&n.obj); return {walk:C.filter(n=>!n.frozen).length, stand:C.filter(n=>n.frozen).length, walkMid:C.filter(n=>!n.frozen&&Math.abs(n.obj.position.z)<3.4).length}; })()")
+    run.check('2. 大道中間有人走（拿傳單的新生，大道中間 |z|<3.4）、攤位前有人停（填表的人）', cr['walk'] >= 2 and cr['walkMid'] >= 1 and cr['stand'] >= 2, json.dumps(cr))
     await yaw(c, -math.pi / 2, '大道西端往東看'); await run.shot(pg, 'fair_A_avenue_east')
     # 吉他社：兩句 → 填表 → 加入；再按＝填過了
     lab, sy, cp, _ = await booth(c, 'guitar', None, pref=['填表'])
@@ -256,7 +256,7 @@ async def m_fair(c):
     n0 = await mark(c); lab = await press(c, SP.get('label', '社團博覽會')[:4])
     for _ in range(20):
         s = await L.state(pg)
-        if s['choices'] and len(s['choices']) > 3: break
+        if s['choices'] > 3: break
         if s['dlg']: await L.tap(pg, c.cdp, '#dlg')
         await pg.wait_for_timeout(700)
     s = await L.state(pg); await run.shot(pg, 'fair_D_service_menu')
@@ -324,9 +324,9 @@ async def open_topics(c, pid):
 
 async def m_sismsg(c):
     pg, run = c.pg, c.run; S5 = 'heroine_05'
-    await load_new(c, '2025-09-03', 11.5, 'campus', flags={'SIS_CONTACTED': True}, quiet=quiet_for('sismsg'), extra={'contacts': {S5: 0}},
+    await load_new(c, '2025-09-03', 11.92, 'campus', flags={'SIS_CONTACTED': True}, quiet=quiet_for('sismsg'), extra={'contacts': {S5: 0}},
                    js="G.contacts=G.contacts||{}; G.contacts.heroine_05=G.day; delete G.flags.SIS_W1; delete G.flags.met_sis;",
-                   why='sismsg：9/3 11:30 校園；學姊接受了交友邀請（SIS_CONTACTED、contacts），還沒在現實見過')
+                   why='sismsg：9/3 11:55 校園；學姊接受了交友邀請（SIS_CONTACTED、contacts），還沒在現實見過')
     tops = await open_topics(c, S5)
     exp = next((t for t in tops if t['k'].endswith('|sis_expo')), None)
     run.check('4. 9/3 加了好友：手機能傳訊息給學姊（事務版話題），有「問社博」', bool(exp), json.dumps(tops, ensure_ascii=False))

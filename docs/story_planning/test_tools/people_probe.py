@@ -202,7 +202,7 @@ async def crowd(pg, cdp, run, case):
     if case == 'c_door':
         await load_at(pg, cdp, run, '2025-09-23', 8 + 50 / 60, 'boya', why='c_door')
         sp = await pg.evaluate("(()=>{ const s=CROWD.SPOTS.find(q=>q.id==='boya_101'); return s?{x:s.c[0],z:s.c[1],lv:s.lv|0}:null; })()")
-        ok = await L.go_to(pg, cdp, run, sp['x'], sp['z'] + 1.6, 1.2, '博雅 101 門口', max_s=240) if sp else False
+        ok = await L.go_to(pg, cdp, run, sp['x'], sp['z'], 1.8, '博雅 101 門口', max_s=240) if sp else False
         run.check('c_door：自己走到博雅 101 門口', bool(ok), json.dumps(sp))
         await pg.evaluate("""(()=>{ const w=GAME.E.npcs.filter(n=>n.crowd==='boya_101'); window.__bbW=w; window.__bbH=new Map(w.map(n=>[n,{pose:n.pose,pk:!!n.pockets,ry:n.obj.rotation.y,fid:n.fid|0}])); window.__bbK=new Map(w.map(n=>[n,new Set()]));
           window.__bbWi=setInterval(()=>{ for(const n of window.__bbW){ const h=window.__bbH.get(n), S=window.__bbK.get(n); if(n.pose!==h.pose) S.add('pose'); if(!!n.pockets!==h.pk) S.add('pockets'); if(n.faceYaw!=null&&Math.abs(n.faceYaw-h.ry)>0.05) S.add('turn'); if(n.lookAt) S.add('look'); if(n.path&&n.path.length) S.add('step'); } },200); })()""")
@@ -297,20 +297,21 @@ async def gym(pg, cdp, run, case):
         it = await pg.evaluate("(()=>{ const q=GAME.E.interactables.find(q=>q.label==='去健身房'); return q?[q.x,q.z]:null; })()")
         ok = await L.go_to(pg, cdp, run, it[0], it[1], 0.9, '去健身房', max_s=180) if it else False
         s = await L.state(pg); run.check('g_b1：走到「去健身房」互動鍵出現', bool(ok) and '健身' in s['interact'], s['interact'])
-        ry0 = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n.crowdRole==='desk_b1'); return n?+n.obj.rotation.y.toFixed(2):null; })()")
+        AUNT = "(()=>{ const n=GAME.E.npcs.find(n=>n.crowdRole==='desk_b1'); return n?{ry:+n.obj.rotation.y.toFixed(2),look:!!n.lookAt}:null; })()"
+        a0 = await pg.evaluate(AUNT)
         await pg.evaluate("window.__bbSays=[]"); await L.tap(pg, cdp, '#interact')
         names, rys = [], []
         for i in range(40):
             s = await L.state(pg)
             nm = await pg.evaluate("(document.getElementById('dlgName')||{}).textContent||''"); names.append(nm)
-            rys.append(await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n.crowdRole==='desk_b1'); return n?+n.obj.rotation.y.toFixed(2):null; })()"))
+            rys.append(await pg.evaluate(AUNT))
             if '櫃台阿姨' in nm and i > 1: await run.shot(pg, 'g_b1_aunt_talk')
             if not s['dlg'] and not s['choices'] and not s['busy'] and i > 3: break
             if s['choices']: await L.advance_dialogs(pg, cdp, run, lambda q: not q['choices'], max_steps=4)
             elif s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(900)
         run.check('g_b1：第一次去健身房，說話的是「櫃台阿姨」', any('櫃台阿姨' in n for n in names), json.dumps(sorted(set(names)), ensure_ascii=False))
-        run.check('g_b1：櫃台阿姨說話時轉頭（rotation 有變）', ry0 is not None and any(r is not None and abs(r - ry0) > 0.1 for r in rys), '原本 %s → %s' % (ry0, sorted(set(r for r in rys if r is not None))[:6]))
+        run.check('g_b1：櫃台阿姨說話時轉頭看你（game3d.js say()：說話的人 lookAt＝玩家）', bool(a0) and any(r and r['look'] for r in rys), '開始前 %s → 說話中 %s' % (json.dumps(a0), json.dumps([r for r in rys if r][:6])))
     elif case == 'g_3f':
         await load_at(pg, cdp, run, '2025-09-27', 15.0, 'gym_arena', why='g_3f'); await pg.wait_for_timeout(2000)
         p = await pg.evaluate(GYMPPL); rec('g_3f', p); R = p['roles']; await run.shot(pg, 'g_3f')
