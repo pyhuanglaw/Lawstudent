@@ -4,6 +4,11 @@
 - **對**：開發 `bbd6a9c7d`（`claude/adoring-meitner-mqzst8`）。
 - **環境**：Playwright＋SwiftShader（GPU 也是 CPU 模擬），手機模擬 844×390；另跑一次電腦模式（1280×720，不模擬手機）確認沒有錯誤。SwiftShader 的絕對數字比真機慢很多，只拿來比前後。**沒有在 iPhone、真的電腦上量過。**
 
+## 檔案（我的分支 `claude/focused-cray-c9uwvw`）
+
+- `docs/art-rebuild/second_ai/patches/x79_warmup_1027.patch`：`src/zones3d.js`（`Z3.warmup`）、`src/game3d.js`（`enter` 淡入以後一行）、新測試 `tests/zone_warmup_unit.js`。
+- 量測工具：`tools/shots/x79_walk.py`、`tools/shots/x79_prof.py`；整理好的數字 `walk_summary.json`。
+
 ## 量法
 
 - `tools/shots/x79_walk.py`：經濟系那一年常走的路線——校門 → 椰林大道 → 總圖 → 社科院 → 霖澤館 → 回椰林大道（遊戲找路的路線，393 步、每步 1.2 m）。11:00、晴天。【捷徑】讀檔；玩家每一格直接往前放 1.2 m（不是搖桿）；路人照常出現、走動。
@@ -66,5 +71,7 @@
 ## 測試
 
 - `tests/zone_warmup_unit.js`（新，不需要瀏覽器，假的 renderer）：開發 `bbd6a9c7d` FAILED（沒有 `Z3.warmup`），套 patch 後 ALL PASS（⓪～⑫ 共 24 項：看得到的都編、鏡頭外的也編、晚接上的也編、藏起來的不編、TK paint 不碰、有燈的子樹不編、路人底模和遠距離版本也編、一批的量、陰影相機放大後還原、電腦傳貼圖手機不傳、換區域就停、?nowarmup、做完以後新加的照樣編、主動讀一次、有平行編譯時不等、`GAME.enter` 淡入以後呼叫）。
-- 全部 Node 單元測試（開發＋patch）：見下面「回歸」。
+- **全部 Node 單元測試**（開發 `bbd6a9c7d`＋patch，650 支）：647 支 ALL PASS；3 支沒過——`aa417_sport_invite_unit`、`aa463_y3s2_unit`、`date_wish_unit`，都是要讀企劃線的 commit（`482c7f6e9`、`ab9d70fe0`），我這個 clone 沒有（`fatal: invalid object name`），沒改過的開發版一樣失敗，和這次改動無關（LAWWW-C 那邊的開發分支 Node 全部通過）。
+- patch 對最新開發 `ee573caad` `git apply --check` 過（`zones3d.js`、`game3d.js` 在 `bbd6a9c7d`～`ee573caad` 之間沒變）。
+- 電腦模式（1280×720，不模擬手機）進校園：prewarm 先做（2 秒上限）、warmup 接著補 323 個物件、陰影深度 3 個 shader、先傳 467 張貼圖，沒有 JS 錯誤。
 - 沒跑：瀏覽器流程測試（BB）、整套回歸、手機實機、真的電腦。
