@@ -637,6 +637,21 @@
    "next": "照 docs/handoff/release_9103/README.md 第 5 節重做 bcbd4b65、第 6 節乾淨環境比較",
    "noDirectIntegrate": true,
    "source": "使用者 10-21 14:5x「現在正式交班」"
+  },
+  {
+   "id": "WIP-LAWWW-PGFIX-1027",
+   "role": "LAWWW",
+   "task": "PG-FIX-471-473-1027",
+   "branch": "pgfix-471-473（wip_backup/pgfix_471_473_1027.bundle）",
+   "sha": "129540766",
+   "files": [
+    "wip_backup/pgfix_471_473_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "AA_471 第 3～7 節、AA_472 六項、AA_473 兩項都還沒做（開工檢查點 243db0938）",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node，v9.10.11 發布後合",
+   "noDirectIntegrate": true,
+   "source": "帳號 B 的 aa471-472 子代理成果遺失（HANDOFF-C-1027）"
   }
  ]
 }

@@ -59,3 +59,7 @@ git worktree add <資料夾> wip/dorm-hall
 ## wip_subagents_1021_1500.bundle（LAWWW-C 2026-10-21 14:5x UTC，使用者「現在正式交班」）
 子代理 a73c8f28（AA 回覆小修 A～E）被停在 `8a9a5e5a`（分支 `worktree-agent-a73c8f28082f050ca`，最上面還有一個合併開發分支的 `bcbc0c82`）：A 組 AA_242 第 12 節 `d5d7e526`（測試先寫 `d4ae2af9`）、B 組日本宿舍「你的房間」三個「看」`16e97be8`、C 組 AA_355 第 5 節 `cb29c54f`、D 組 AA_358 第 2 節 `8a9a5e5a`；E 組（AA_350 第 9 節）沒做。**沒合併進開發分支、LAWWW 沒驗過**（WIP-LAWWW-AAFIX-1021）。
 還原：`git fetch wip_backup/wip_subagents_1021_1500.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/worktree-agent-a73c8f28082f050ca`；合併前跑它改過的那些單元測試（vac_c16_c18、aa355、aa358、jp_semester、termend 等）。合併進開發分支以後這個檔可以刪。
+
+## pgfix_471_473_1027.bundle（LAWWW-C 2026-10-27，D113：開工就備份、每 15～20 分鐘更新）
+分支 `pgfix-471-473`：開發分支 129540766 合學姊第十二批（AA_470 db4b71150）＋重做 AA_471 第 3～7 節、AA_472、AA_473 的實作（PG-FIX-471-473-1027；帳號 B 的子代理成果沒 push 已遺失）。v9.10.11 發布後合進開發分支。
+還原：`git fetch wip_backup/pgfix_471_473_1027.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/pgfix-471-473`。

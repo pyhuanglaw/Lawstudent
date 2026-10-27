@@ -32650,7 +32650,7 @@
    "title": "重做 AA_471 第 3～7 節＋AA_472（畢業以後臺灣八種六項）＋AA_473（前任的畢業以後兩處）的實作——帳號 B 的子代理成果沒 push、已遺失",
    "area": "v5",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "LAWWW-B 10-25 19:35 派的隔離 worktree 子代理（aa471-472，19:39 追加 AA_473），最後備份 19:10 在它開工以前；稿：企劃線 claude/cool-heisenberg-o8kuqx 763993620（AA_471）、1ebcf530e（AA_472）、66393bb91（AA_473）",
    "first": {
@@ -32663,7 +32663,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
+   "next": "【LAWWW-C 2026-10-27 17:0x UTC】子代理在獨立工作目錄做（分支 pgfix-471-473＝開發分支 129540766＋AA_470 合併 06242745e）；開工檢查點 243db0938 已備份 wip_backup/pgfix_471_473_1027.bundle（D113，每 15～20 分鐘更新）；v9.10.11 發布後合 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
   },
   {
    "id": "RELEASE-91011",
