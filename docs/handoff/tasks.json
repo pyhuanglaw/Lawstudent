@@ -34114,7 +34114,7 @@
    "title": "同類「延後才開演、沒有先鎖」的寫法還有五處（closed2_3d.js:235、lupstory3d.js:55、sideq3d.js:602、us208_3d.js:125、zq_testbuild3d.js:72），同一格的 EVENTS.tick 可能和它們一起開演；game3d.js 的 say 被蓋掉時沒有保底，staleCheck 把 ADV 一直算成還在演＝這類卡住不放開讀檔、不進 _stuck",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "子代理 an-stuck-1027 回報（AN-MEAL-STUCK-1027 照最小修正沒動的風險，10-27 21:0x）",
    "first": {
@@ -34127,7 +34127,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 21:1x UTC】v9.10.11 發布後做：五處照 invites3d.js 的做法先鎖；say 被蓋掉時舊的那段收到結束訊號（不永遠等）；staleCheck 不把 ADV 一直算 live"
+   "next": "【LAWWW-C 2026-10-27 23:1x UTC】33d24f9db：say 被蓋掉時舊的那一句收起來、演完放回去（同 X81 選單）；staleCheck 只剩 ADV 開著放寬到 30 秒才算停住（不再永遠算還在演）；五處延後開演決定那一刻就 sceneBegin、演完 sceneEnd＋自動存檔；新 tests/say_cover_unit.js（修改前 FAIL）；BB 5q 跑 stale_lock_escape.py、各處自動開演的劇情｜【LAWWW-C 2026-10-27 21:1x UTC】v9.10.11 發布後做：五處照 invites3d.js 的做法先鎖；say 被蓋掉時舊的那段收到結束訊號（不永遠等）；staleCheck 不把 ADV 一直算 live",
+   "sha": "33d24f9db"
   },
   {
    "id": "AA489-LINES-1027",
