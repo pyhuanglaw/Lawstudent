@@ -6,6 +6,7 @@
 //   5. 「回來了沒」回現在回去：空下來就回家；過了 20:00 才到＝晚餐換「（媽媽把菜熱了一次。）」；回這週回不去了＝told
 //   6. 姊姊：first_sis 那一週沒說沒回去＝週六 21:00「我等到九點」；母親節那一週＝週日 21:00「媽今天一直看手機」
 //   7. 颱風假：提醒不出、told、不發訊息
+//   8. 那個週末已經排了別的約：提醒多一句（「下午四點和可昕有約。」），赴約，結束再回家／這次不回去；約結束以後第一次空下來再問「回家」「這次不回去」
 // 修改前（c3d003d0b）：第 0 項 FAIL（沒有 HPROM）。用法：node tests/home_promise_unit.js
 const H=require('./pg_harness.js'); const {check,GM}=H; const fs=require('fs'), vm=require('vm'), path=require('path');
 let loaded=false; try{ let src=fs.readFileSync(path.join(H.ROOT,'src/homepromise3d.js'),'utf8'); src=src.replace(/^const HPROM\s*=/m,'globalThis.HPROM='); vm.runInThisContext(src,{filename:'homepromise3d.js'}); loaded=typeof HPROM!=='undefined'; }catch(e){ console.log(String(e)); }
@@ -65,5 +66,13 @@ const grp=()=>(H.G.msgs||[]).filter(m=>m.th==='g:home').map(m=>(m.from==='player
   // 7
   { ask(TH,0); const ty0=CALENDAR.typhoon; CALENDAR.typhoon=d=>d===TH+2||(ty0?ty0(d):false); HPROM.rules(H.G); const p=HPROM.get(H.G); at(TH+2,8,'dorm'); const r=tick(); CALENDAR.typhoon=ty0;
     check('7. 颱風假：told、提醒不出、不發訊息',p.st==='told'&&p.ty===true&&r===false&&!grp().includes('祐廷：這週回不去了')); }
+  // 8（第 2 節「那個週末已經排了別的約」）
+  { ask(TH,0); H.G.invites=H.G.invites||[]; H.G.invites.push({id:'ivT1',who:'kexin',place:'teahouse',zone:INV.place('teahouse').zone,day:TH+2,h:16,state:'accepted',accepted:true,by:'npc'});
+    at(TH+2,8,'dorm'); H.said=[]; H.opts=[]; H.picks=['赴約']; const r=tick(); await flush(); await flush(); const p=HPROM.get(H.G);
+    check('8. 週六早上、那天下午四點和可昕有約：「（這週末答應媽媽要回家。下午四點和可昕有約。）」，赴約，結束再回家／這次不回去',r===true&&H.has('（這週末答應媽媽要回家。下午四點和可昕有約。）')&&J(H.opts[0])===J(['赴約，結束再回家','這次不回去']),J([H.said.map(x=>x.t),H.opts]));
+    const en=(TH+2)*24+16+(INV.place('teahouse').stay||1); check('8. 赴約：約結束以後再問（p.after＝約結束的時間）、約定還是 open',p.st==='open'&&p.after===en,J(p.after));
+    at(TH+2,15,'campus'); check('8. 約還沒結束：不問',tick()===false); at(TH+2,(en%24)+0.2,'teahouse'); H.opts=[]; H.picks=['這次不回去']; const r2=tick(); await flush(); await flush();
+    check('8. 約結束以後第一次空下來（在哪裡都問）：「回家」「這次不回去」',r2===true&&J(H.opts[0])===J(['回家','這次不回去'])&&HPROM.get(H.G).st==='told',J(H.opts)); }
+  check('8. 時間的寫法：16＝下午四點、14＝下午兩點、19.5＝晚上七點半、10＝上午十點',HPROM.when(16)==='下午四點'&&HPROM.when(14)==='下午兩點'&&HPROM.when(19.5)==='晚上七點半'&&HPROM.when(10)==='上午十點');
   H.done();
 })();

@@ -48,15 +48,28 @@ const HPROM=(function(){
   S.grpPreSent=function(G){ const p=S.get(G); if(p) p.pre=true; };
   /* 過了 20:00 才到家（「回來了沒」→ 現在回去）：晚餐那一段換成「（媽媽把菜熱了一次。）」，沒有晚餐旁白 */
   S.lateDinner=function(G){ const p=S.get(G); if(!p||p.late!==G.day||p.lateUsed) return null; p.lateUsed=true; return S.LATE; };
+  /* 那個週末已經排了的約（第 2 節）：邀約 accepted、出遊 planned，還沒結束、和答應的時段重疊；照時間排 */
+  const HZ=['零','一','兩','三','四','五','六','七','八','九','十','十一','十二'];
+  S.when=h=>{ const hh=Math.floor(h%24), mm=Math.round((h%1)*60), pre=hh<11?'上午':hh<13?'中午':hh<18?'下午':'晚上'; return pre+HZ[hh>12?hh-12:hh]+'點'+(mm>=30?'半':''); };   /* 16＝下午四點、14＝下午兩點 */
+  const nm=id=>(typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(id))||(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].nickname)||(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id);   /* 和 social3d.js「熟了一點」的提示同一套：交往中的叫法→暱稱（可昕、語彤）→名字 */
+  S.plans=function(G,p){ const t=now(G), out=[];
+    for(const iv of (G.invites||[])){ if(!iv||iv.state!=='accepted') continue; const P=typeof INV!=='undefined'&&INV.place?INV.place(iv.place):null, st=T(iv.day,iv.h), en=st+((P&&P.stay)||1); if(en<=t||st>=p.to||en<=p.from) continue; out.push({kind:'inv',id:iv.id,st,en,who:iv.who,place:P&&P.name}); }
+    for(const o of (G.outings||[])){ if(!o||o.state!=='planned') continue; const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===o.ev):null, st=T(o.day,o.h), en=st+(o.travelH||0)+((ev&&ev.hours)||3); if(en<=t||st>=p.to||en<=p.from) continue; out.push({kind:'out',id:o.id,st,en,who:o.who||null,place:o.place||o.title}); }
+    return out.sort((a,b)=>a.st-b.st); };
+  S.planLine=q=>S.when(q.st%24)+(q.who?'和'+nm(q.who)+'有約。':'要去'+(q.place||'外面')+'。');   /* 「下午四點和可昕有約。」「下午兩點要去淡水。」*/
   const idle=GM=>/^dorm/.test(GM.G.zone||'')&&!GM.E.player.busy&&!(GM.D&&GM.D.active)&&!(typeof ADV!=='undefined'&&ADV.active);   /* 人在宿舍、空下來 */
   S.goHome=async function(GM){ const G=GM.G, p=S.get(G); if(typeof HOME==='undefined'||!HOME.canGo(G)||HOME.at(G)) return false; if(p) p.late=(G.hour%24)+(HOME.livesHome&&HOME.livesHome(G)?0.5:0.7)>=20?G.day:null; return HOME.go(GM); };
   /* 第 2 節：那個週末第一個不用上課的早上 07:00～11:00 一次（「回家」「晚一點」「這次不回去」）；「晚一點」→ 16:00 以後再一次（「回家」「這次不回去」）*/
-  S.remind=async function(GM,n){ const G=GM.G, p=S.get(G); if(!p) return; const opts=n===1?['回家','晚一點','這次不回去']:['回家','這次不回去']; let k=null; GM.sceneBegin();
-    try{ await GM.say(null,S.REMIND); const i=await GM.choose(opts.map(t=>({t}))); k=opts[i]||opts[0]; if(k==='晚一點') p.r2=true; else if(k==='這次不回去') S.tell(G); }
+  /* n：1＝早上那一次、2＝「晚一點」以後那一次、3＝約結束以後那一次。那個週末已經排了別的約（1、2）：旁白多一句、選項換成「赴約，結束再回家」「這次不回去」*/
+  S.remind=async function(GM,n){ const G=GM.G, p=S.get(G); if(!p) return; const L=n<3?S.plans(G,p):[];
+    const opts=L.length?['赴約，結束再回家','這次不回去']:(n===1?['回家','晚一點','這次不回去']:['回家','這次不回去']); let k=null; GM.sceneBegin();
+    try{ await GM.say(null,L.length?S.REMIND.replace(/）$/,'')+S.planLine(L[0])+'）':S.REMIND); const i=await GM.choose(opts.map(t=>({t}))); k=opts[i]||opts[0];
+      if(k==='晚一點') p.r2=true; else if(k==='這次不回去') S.tell(G); else if(k==='赴約，結束再回家'){ p.after=Math.max(...L.map(q=>q.en)); p.r2=false; } }
     finally { GM.sceneEnd(); }
     if(k==='回家') await S.goHome(GM); };
   S.tick=function(GM){ const G=GM.G, p=S.get(G); if(!p||p.st!=='open'||typeof HOME==='undefined'||HOME.at(G)) return false; const t=now(G), h=G.hour%24;
     if(p.goNow&&!p.goDone&&HOME.canGo(G)&&!GM.E.player.busy&&!(GM.D&&GM.D.active)){ p.goDone=true; void S.goHome(GM).catch(e=>console.warn('HPROM.go',e)); return true; }
+    if(p.after&&!p.afterDone&&t>=p.after&&t<p.to&&!GM.E.player.busy&&!(GM.D&&GM.D.active)&&!(typeof ADV!=='undefined'&&ADV.active)){ p.afterDone=true; void S.remind(GM,3).catch(e=>console.warn('HPROM.after',e)); return true; }   /* 約結束以後第一次空下來：「回家」「這次不回去」（在哪裡都問）*/
     if(t<p.from||t>=p.to||!idle(GM)) return false;
     if(G.day===p.rd&&h>=7&&h<11&&!p.r1){ p.r1=true; void S.remind(GM,1).catch(e=>console.warn('HPROM.remind',e)); return true; }
     if(p.r2&&!p.r2done&&G.day===p.rd&&h>=16&&t<T(p.sat,18.5)){ p.r2done=true; void S.remind(GM,2).catch(e=>console.warn('HPROM.remind2',e)); return true; }
