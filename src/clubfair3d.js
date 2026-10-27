@@ -8,7 +8,7 @@
    - 錯過社博（3-4）：第一次去吉他、辯論、登山、系籃的社課，旁白多一句「（你在門口填了表。）」（包住 CLS.attendActivity；記 CLUB_<id> 照現在由那裡記）。
      法服：萬才館一樓公告欄最後一句改（story3d.js 的 notice:'lawclub'）。
    - 提示（3-5，只給社博在 9/6 週六的局）：9/1 08:00 手機行事曆、9/1～9/5 傅鐘旁的公告欄、9/4 21:00 系學會群組、9/5 21:00 家族群組 Kevin、9/6 起床提示框（包住 CLS.morning）。
-   載入順序：classes3d.js 之後（包住 CLS.attendActivity、CLS.morning）。測試：node tests/clubfair_1027_unit.js */
+   載入順序：classes3d.js、semff3d.js 之後（包住 CLS.attendActivity、CLS.morning）。測試：node tests/clubfair_1027_unit.js */
 'use strict';
 const CLUBFAIR=(function(){
   const S={};

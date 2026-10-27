@@ -26,7 +26,7 @@ const said=()=>H.said.map(s=>(s.who?s.who+'：':'')+s.t);
 
 (async()=>{
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-check('0. club_fair.js、clubfair3d.js 載得到、index.html 在 classes3d.js 後面',ok&&typeof CLUBFAIR!=='undefined'&&/classes3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/club_fair\.js\?v=[^"]+"><\/script>\n<script src="src\/clubfair3d\.js/.test(html),err);
+check('0. club_fair.js、clubfair3d.js 載得到、index.html 在 classes3d.js 後面（接在 semff3d.js 後面：semff 要緊接 classes3d.js）',ok&&typeof CLUBFAIR!=='undefined'&&/classes3d\.js\?v=[^"]+"><\/script>\n<script src="src\/semff3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/club_fair\.js\?v=[^"]+"><\/script>\n<script src="src\/clubfair3d\.js/.test(html),err);
 if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
 /* 0. 逐字對稿 */
 { const B=CLUB_FAIR.BOOTHS, by=id=>B.find(b=>b.id===id);
