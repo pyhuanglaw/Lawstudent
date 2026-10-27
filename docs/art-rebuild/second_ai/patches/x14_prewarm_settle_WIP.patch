@@ -1,0 +1,193 @@
+diff --git a/src/game3d.js b/src/game3d.js
+index d979a3fc1..a63246569 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -199,7 +199,7 @@ const GAME = (function(){
+     return n; };
+   // ---------- 區域進入 ----------
+   let entering=false;
+-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1;   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000});   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
++  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1;   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000});   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } if(Z3.warmup) Z3.warmup(E);   /* 淡入以後在背景把還沒編的 shader 編好（X79，zones3d.js）*/ } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
+   GM.isEntering=()=>entering;
+   GM.enter=enter;
+   // ---------- 小地圖 ----------
+diff --git a/src/zones3d.js b/src/zones3d.js
+index fa4421bce..30621ea2d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1809,6 +1809,7 @@ const Z3 = (function(){
+      只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
+   async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
+     const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
++    const qc=+((q.match(/[?&]prewarmcap=(\d+)/)||[])[1]||0); if(qc) opts=Object.assign({},opts,{cap:qc});   /* 量測用：?prewarmcap=毫秒 改黑畫面最多等多久 */
+     const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
+   async function prewarmRun(E,R,opts){
+     const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
+@@ -1822,6 +1823,10 @@ const Z3 = (function(){
+     finally{ for(const [o,m] of off) o.material=m; }
+     out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
+     out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
++    /* 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：沒有平行編譯時 isReady() 一律是 true，compileAsync 馬上就好，真正的等待留到淡入第一格（three.js 第一次畫到時讀編譯結果：onFirstUse）——
++       SwiftShader 電腦模式量到公館→溫州街第一次淡入那一格 10.3 秒，其中 3.9 秒在等編譯結果。黑畫面時在 cap 之內先讀（program.getUniforms）；讀不完的照舊第一格讀 */
++    const tsl=performance.now(); for(const pg of ((R.info&&R.info.programs)||[])){ if(left()<=0){ out.timedOut=true; break; } if(pg.isReady&&!pg.isReady()) continue; try{ pg.getUniforms(); out.settled=(out.settled|0)+1; }catch(e){ console.warn('prewarm settle',e); } }
++    out.settleMs=performance.now()-tsl;
+     const texs=new Set(), add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture) texs.add(v); };
+     for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
+     const tt=performance.now(); let batch=0;
+@@ -1841,5 +1846,54 @@ const Z3 = (function(){
+     const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
+       ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
+     setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
++  /* 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）：GAME.enter 淡入以後呼叫。
++     量測（tools/shots/x79_walk.py，SwiftShader 手機模擬，校門 → 椰林大道 → 總圖 → 社科院 → 霖澤館）：第一次走，路上 13 次「這一格編新的 shader」，每次停 0.5～2.2 秒——
++     還沒進過畫面的建築材質（社科院門廊、屋頂…）、路人的遠距離版本（第一個人走到 18 m 外）、陰影的深度 shader（新的投影子物件走進陰影範圍）；同一條路第二次走 0 次。
++     three.js 第一次畫到才編；prewarm 只在電腦、只在剛進區域、只編那時候已經接上的，之後才接上的正式模型、藏著的遠距離版本、陰影那一輪都沒編。
++     現在：淡入以後每 0.25 秒做一小批——①看得到（visible，不管在不在畫面裡）而沒編過的材質：R.compile(物件, 鏡頭, E.scene)，燈光、霧照區域的，所以編出來的就是畫的時候要用的；
++     路人的遠距離版本（npc_far，藏著）也編；還沒放進場景的路人底模（ASSETS 快取裡的 VRM 樣板）和遠距離版本的 toon 材質也編——等一下才生出來的人第一格不用停
++     （量測：只編場景裡的，起點附近新生出來的路人臉、頭髮、第一個走到 18 m 外的人，還是各停 1.5～2 秒）。
++     ②場景裡沒有沒編過的、連續幾次都沒有新的（正式模型都接上了）以後，陰影相機暫時放大到整個區域畫一格，陰影的深度 shader 一次編完（那一格陰影比較糊）。
++     ③做完以後每 3 秒再看一次有沒有新的（之後才載完的路人底模、正式模型），有就照樣一小批一小批編；換區域就停。
++     ④編好的 shader 主動「讀一次」（program.getUniforms＝three.js 第一次畫到時做的 onFirstUse：讀編譯結果、uniform 位置）：只送出編譯還不夠，
++     GPU 真的編完、第一次讀結果時照樣要等（第二版量測：路上 0 個新 shader，起點附近還是有 4 格 1～2.5 秒全花在 getProgramInfoLog）。
++     沒有平行編譯一批讀 1 個（那一批不再送新的）；有平行編譯只讀已經好的（isReady），不會等。
++     有平行編譯（KHR_parallel_shader_compile）一批最多 8 個新的 shader、不卡主執行緒；沒有的（不保證）一批 1 個，停頓分散在剛進來的那幾秒，不在走路的時候。
++     電腦另外把這些物件的貼圖先傳上 GPU（每批約 400 萬像素）；手機貼圖照舊第一次畫到才傳（記憶體）。網址 ?nowarmup 關掉（比較用）。E.lastWarmup 記結果（測試、量測用）。*/
++  let warmGen=0;
++  function warmup(E,opts){ opts=opts||{}; const R=E.renderer, q=(typeof location!=='undefined'&&location.search)||'';
++    if(!R||!R.compile||!R.properties||!E.scene||!E.camera||/[?&]nowarmup\b/.test(q)) return null;
++    const zone=E.zone, gen=++warmGen, mobile=typeof ASSETS!=='undefined'&&!!ASSETS.texCap, par=!!(R.extensions&&R.extensions.get&&R.extensions.get('KHR_parallel_shader_compile'));
++    const out={zone:zone&&zone.def&&zone.def.id,objects:0,programs:0,textures:0,mpix:0,depth:false,depthPrograms:0,ticks:0,parallel:par,done:false,ms:0}; E.lastWarmup=out;
++    const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
++    const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
++    const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
++    let queue=[], idle=0; const loose=new WeakSet(), settled=new WeakSet();
++    const settle=()=>{ let n=0; for(const pg of (R.info.programs||[])){ if(settled.has(pg)) continue; if(par&&pg.isReady&&!pg.isReady()) continue;
++        try{ pg.getUniforms(); }catch(e){ console.warn('warmup settle',e); } settled.add(pg); n++; if(n>=maxProg) break; } out.settled=(out.settled|0)+n; return n; };
++    const unsettled=()=>(R.info.programs||[]).some(pg=>!settled.has(pg));   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
++    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
++      if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); queue.push(...extras()); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
++    const extras=()=>{ const out_=[], A=typeof ASSETS!=='undefined'&&ASSETS.cache; if(!A) return out_;
++      for(const k in A){ const c=A[k]; if(!c||!c.tpl||!c.tpl.vrm) continue; const sc=c.tpl.vrm.scene;
++        if(sc&&!sc.parent) sc.traverse(o=>{ if((o.isMesh||o.isSkinnedMesh)&&o.material&&shown(o)&&mats(o).every(isMat)&&mats(o).some(need)) out_.push(o); });   /* 路人底模（不在場景裡）：骨架 clone 共用幾何、材質 */
++        const L=c.lod; if(L&&L.parts) for(const p of L.parts) if(p.toon&&p.geo&&need(p.toon)){ const sm=new THREE.SkinnedMesh(p.geo,p.toon); loose.add(sm); out_.push(sm); } }   /* 遠距離版本的 toon：和遊戲裡一樣是 SkinnedMesh、不收影子 */
++      return out_; };
++    const texs=o=>{ const out_=[], add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture&&!R.properties.get(v).__webglTexture&&!out_.includes(v)) out_.push(v); };
++      for(const m of mats(o)){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } return out_; };   /* VRM 的 MToon 貼圖放在 uniforms */
++    const depthOnce=()=>{ out.depth=true; const c=E.sun.shadow.camera, keep=[c.left,c.right,c.top,c.bottom,c.near,c.far], sz=(zone&&zone.def&&zone.def.size)||[200,200], h=Math.hypot(sz[0],sz[1])+20, p0=nprog(), td=performance.now();
++      c.left=-h; c.right=h; c.top=h; c.bottom=-h; c.near=-2*h; c.far=2*h; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true;
++      try{ E.render(); } catch(e){ console.warn('warmup depth',e); } finally { [c.left,c.right,c.top,c.bottom,c.near,c.far]=keep; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true; }
++      out.depthPrograms=nprog()-p0; out.depthMs=Math.round(performance.now()-td); };
++    const step=()=>{ if(gen!==warmGen||E.zone!==zone) return; out.ticks++; const ts=performance.now();
++      if(settle()&&!par){ setTimeout(step,gap); return; }   /* 這一批已經等過一個 */
++      if(!queue.length&&unsettled()){ setTimeout(step,gap); return; }   /* 有平行編譯：等還沒好的 */
++      if(!queue.length){ scan(); if(queue.length) idle=0; else if(++idle>=idleScans){ if(!out.depth&&R.shadowMap.enabled&&E.sun&&E.sun.castShadow){ depthOnce(); idle=0; } else { if(!out.done){ out.done=true; out.ms=Math.round(performance.now()-t0); } idle=0; setTimeout(step,opts.watch||3000); return; } } }
++      const p0=nprog(); let px=0;
++      while(queue.length&&performance.now()-ts<budget&&nprog()-p0<maxProg){ const o=queue.shift(); if((!o.parent&&!loose.has(o))||!mats(o).some(need)) continue;
++        try{ R.compile(o,E.camera,E.scene); out.objects++; } catch(e){ console.warn('warmup compile',e); } for(const m of mats(o)) tried.add(m);
++        if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
++      const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
++    setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
+ })();
+diff --git a/tests/zone_warmup_unit.js b/tests/zone_warmup_unit.js
+new file mode 100644
+index 000000000..f023afbb0
+--- /dev/null
++++ b/tests/zone_warmup_unit.js
+@@ -0,0 +1,95 @@
++// 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）——不需要瀏覽器。
++// 原本：three.js 第一次畫到才編 shader；prewarm（電腦、剛進區域）只編那時候已經接上、看得到的。SwiftShader 手機模擬沿經濟系路線第一次走，
++//   路上 13 次「這一格編新的 shader」（每次 0.5～2.2 秒）：畫面外的建築材質、晚接上的正式模型、路人遠距離版本（藏著）、陰影的深度 shader。
++// 修正（src/zones3d.js 的 Z3.warmup＋src/game3d.js 的 enter）：淡入以後在背景一小批一小批編好。這支測試用假的 renderer：
++//   ① Z3.warmup 存在；② 看得到但沒編過的都編（不管在不在畫面裡），晚接上的（warmup 開始以後才加進場景）也編；
++//   ③ 藏起來的不編（套件備用模型、藏起來的群組底下的子物件）、material 不是真材質的（TK paint）不碰；路人遠距離版本（npc_far，自己藏著、人看得到）要編；
++//   ④ 子樹裡有燈的不編（compile 會把那盞燈多算一次，編出來對不上）；⑤ 沒有平行編譯一批最多 1 個新 shader，有的最多 8 個；
++//   ⑥ 都編完、連續幾次沒有新的以後，陰影相機放大到整個區域畫一格（陰影的深度 shader），畫完相機還原、下一格重畫陰影；
++//   ⑦ 電腦把這些物件的貼圖傳上 GPU（MToon 放在 uniforms 的也傳），手機（ASSETS.texCap）不傳；⑧ 換了區域就停；?nowarmup 關掉；⑨ GAME.enter 淡入以後呼叫；
++//   ⑩ 還沒放進場景的路人底模（ASSETS 快取的 VRM 樣板）、遠距離版本的 toon 材質也編（量測：等一下才生出來的路人臉、頭髮、第一個走到 18 m 外的人，各停 1.5～2 秒）；
++//   ⑪ 做完以後隔一段時間再看，有新的（之後才載完的底模、正式模型）照樣編，記在 later；
++//   ⑫ 編好的 shader 主動讀一次（getUniforms＝第一次畫到的 onFirstUse；只送出編譯不夠，第一次讀結果時照樣要等——第二版量測抓到）：做完的時候每一個都讀過；
++//      有平行編譯時只讀已經好的（isReady），還沒好的不讀（不會等）。
++// 用法：node tests/zone_warmup_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const sleep=ms=>new Promise(r=>setTimeout(r,ms));
++const tex=(name,w,h)=>{ const t=new THREE.Texture({width:w,height:h}); t.name=name; return t; };
++// 假的 renderer：compile(物件, 鏡頭, 目標場景) 和 three.js 一樣走過子樹「所有」物件；同一個材質名＝同一個 shader（第一次才算新的）
++function fakeRenderer(parallel){ const props=new WeakMap(), progs=new Set(); const R={ compiledNames:[], compileCalls:[], usedOrder:[], inited:[], renders:0, renderCams:[],
++  info:{programs:[]}, properties:{get(o){ if(!props.has(o)) props.set(o,{}); return props.get(o); }}, extensions:{get:k=>k==='KHR_parallel_shader_compile'&&parallel?{}:null},
++  shadowMap:{enabled:true,needsUpdate:false},
++  compile(scene,camera,target){ R.compileCalls.push({scene,target}); scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; for(const m of [].concat(o.material)){ if(typeof m.customProgramCacheKey!=='function') throw new TypeError('material.customProgramCacheKey is not a function'); R.properties.get(m).currentProgram={}; R.compiledNames.push(m.name); if(!progs.has(m.name)){ progs.add(m.name); const pg={name:m.name,used:false,readyAt:Date.now()+(parallel?15:0),getUniforms(){ pg.used=true; R.usedOrder.push(m.name); return {}; },isReady(){ return Date.now()>=pg.readyAt; }}; R.info.programs.push(pg); } } }); },
++  initTexture(t){ R.inited.push(t.name); R.properties.get(t).__webglTexture={}; } }; return R; }
++const mesh=(name,map)=>new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name,map:map||null}));
++function world(R,mobile){ const S=new THREE.Scene(), cam=new THREE.PerspectiveCamera(50,2,0.1,100);
++  S.add(mesh('in_view',tex('in_view_tex',512,512)));
++  const far=mesh('out_of_view',tex('out_of_view_tex',512,512)); far.position.set(0,0,500); S.add(far);   /* 鏡頭看不到的地方 */
++  const fb=mesh('hidden_fallback',tex('hidden_tex',512,512)); fb.visible=false; S.add(fb);
++  const hg=new THREE.Group(); hg.visible=false; hg.add(mesh('hidden_child')); S.add(hg);
++  const paint=new THREE.Mesh(new THREE.CylinderGeometry(),{isPaint:true,color:'#777'}); S.add(paint); S.userData.paint=paint;
++  const human=new THREE.Group(); human.name='human'; const nf=mesh('npc_far_toon'); nf.name='npc_far'; nf.visible=false; human.add(nf); S.add(human);
++  const ghost=new THREE.Group(); ghost.visible=false; const nf2=mesh('npc_far_of_hidden_person'); nf2.name='npc_far'; nf2.visible=false; ghost.add(nf2); S.add(ghost);
++  const lamp=mesh('lamp_with_light'); lamp.add(new THREE.PointLight()); S.add(lamp);
++  for(let i=0;i<6;i++) S.add(mesh('bldg'+i));
++  const sun=new THREE.DirectionalLight(); sun.castShadow=true; const sc=sun.shadow.camera; sc.left=-22; sc.right=22; sc.top=22; sc.bottom=-22; sc.near=1; sc.far=120;
++  const E={renderer:R,scene:S,camera:cam,sun,zone:{def:{id:'campus',size:[260,170]}},render(){ R.renders++; R.renderCams.push([sc.left,sc.right,sc.near,sc.far]); }};
++  const tpl=new THREE.Group(); tpl.add(mesh('tpl_face')); const hid=mesh('tpl_hidden'); hid.visible=false; tpl.add(hid);
++  const used=new THREE.Group(); used.add(mesh('tpl_in_use')); S.add(used);   /* 借出去的樣板在場景裡：照場景的規則 */
++  const mt=new THREE.ShaderMaterial({name:'mtoon_uniform',uniforms:{map:{value:tex('mtoon_tex',256,256)}}}); const mtm=new THREE.Mesh(new THREE.BoxGeometry(),mt); S.add(mtm);
++  global.ASSETS.cache={npc_a:{tpl:{vrm:{scene:tpl}},lod:{parts:[{geo:new THREE.BoxGeometry(),toon:new THREE.MeshToonMaterial({name:'lod_toon'})}]}},npc_b:{tpl:{vrm:{scene:used}}},bldg:{}};
++  global.ASSETS.texCap=mobile?1024:null; return E; }
++(async()=>{
++  check('① Z3.warmup 存在',typeof Z3.warmup==='function');
++  if(typeof Z3.warmup!=='function'){ console.log('FAILED'); process.exit(1); }
++  // 電腦、沒有平行編譯
++  let R=fakeRenderer(false), E=world(R,false); let err=null, out=null;
++  try{ out=Z3.warmup(E,{gap:5,delay:0,idleScans:3}); }catch(e){ err=e; }
++  check('⓪ 不丟例外（material 不是真材質的物件也一樣）',!err&&out,err?String(err.message||err):'');
++  await sleep(30); const late=mesh('late_glb',tex('late_tex',1024,1024)); E.scene.add(late);   /* 正式模型晚到 */
++  for(let i=0;i<200&&!out.done;i++) await sleep(10);
++  check('⓪ 做完（done）',out.done,JSON.stringify(out));
++  const N=R.compiledNames;
++  check('② 看得到但沒編過的都編，鏡頭外的也編',['in_view','out_of_view','bldg0','bldg5'].every(n=>N.includes(n)),JSON.stringify(N));
++  check('② 晚接上的正式模型也編',N.includes('late_glb'));
++  check('③ 藏起來的不編（套件備用模型、藏起來的群組底下的子物件）',!N.includes('hidden_fallback')&&!N.includes('hidden_child'));
++  check('③ 路人遠距離版本（npc_far）要編；人整個藏起來的不編',N.includes('npc_far_toon')&&!N.includes('npc_far_of_hidden_person'));
++  check('③ TK paint 描述不碰（material 原封不動）',E.scene.userData.paint.material.isPaint===true);
++  check('④ 子樹裡有燈的不編',!N.includes('lamp_with_light'));
++  check('④ 每次 compile 的燈光、霧照區域的（目標場景＝E.scene）',R.compileCalls.length>0&&R.compileCalls.every(c=>c.target===E.scene&&c.scene!==E.scene));
++  const per=[]; { let ticks=0; const R5=fakeRenderer(false), E5=world(R5,false); const o5=Z3.warmup(E5,{gap:5,delay:0,idleScans:3}); let last=0; for(let i=0;i<120&&!o5.done;i++){ await sleep(4); const n=R5.info.programs.length; if(n!==last){ per.push(n-last); last=n; } } }
++  check('⑤ 沒有平行編譯：一批最多 1 個新 shader',per.length>0&&per.every(d=>d<=1),JSON.stringify(per));
++  const R6=fakeRenderer(true), E6=world(R6,false); const o6=Z3.warmup(E6,{gap:40,delay:0,idleScans:3}); await sleep(20); const first=R6.info.programs.length;
++  check('⑤ 有平行編譯：第一批就編好幾個（最多 8 個）',first>1&&first<=8,`第一批 ${first} 個；parallel=${o6.parallel}`);
++  check('⑥ 都編完以後畫一格（陰影的深度 shader）：陰影相機放大到整個區域',out.depth&&R.renders===1&&R.renderCams[0][0]<=-300&&R.renderCams[0][1]>=300&&R.renderCams[0][2]<0,JSON.stringify(R.renderCams));
++  const sc=E.sun.shadow.camera; check('⑥ 畫完陰影相機還原、下一格重畫陰影',sc.left===-22&&sc.right===22&&sc.near===1&&sc.far===120&&R.shadowMap.needsUpdate===true);
++  check('⑦ 電腦：這些物件的貼圖傳上 GPU（MToon uniforms 的也傳；藏起來的不傳）',['in_view_tex','out_of_view_tex','late_tex','mtoon_tex'].every(n=>R.inited.includes(n))&&!R.inited.includes('hidden_tex'),JSON.stringify(R.inited));
++  check('⑩ 還沒放進場景的路人底模也編（藏起來的零件不編）',N.includes('tpl_face')&&!N.includes('tpl_hidden')&&N.filter(n=>n==='tpl_in_use').length===1,JSON.stringify(N.filter(n=>/^tpl/.test(n))));
++  check('⑩ 遠距離版本的 toon 材質也編（用 SkinnedMesh：和遊戲裡一樣有 skinning）',N.includes('lod_toon')&&R.compileCalls.some(c=>c.scene.isSkinnedMesh&&c.scene.material.name==='lod_toon'));
++  const R11=fakeRenderer(false), E11=world(R11,false); const o11=Z3.warmup(E11,{gap:3,delay:0,idleScans:2,watch:15}); for(let i=0;i<200&&!o11.done;i++) await sleep(5);
++  E11.scene.add(mesh('after_done')); await sleep(80);
++  check('⑪ 做完以後新加的照樣編（later）',R11.compiledNames.includes('after_done')&&o11.later>=1,JSON.stringify(o11));
++  const R7=fakeRenderer(false), E7=world(R7,true); const o7=Z3.warmup(E7,{gap:3,delay:0,idleScans:3}); for(let i=0;i<200&&!o7.done;i++) await sleep(5);
++  check('⑦ 手機（ASSETS.texCap）：shader 照樣編、貼圖不傳',R7.compiledNames.includes('out_of_view')&&R7.inited.length===0,JSON.stringify(R7.inited));
++  const R8=fakeRenderer(false), E8=world(R8,false); Z3.warmup(E8,{gap:5,delay:0}); await sleep(8); E8.zone={def:{id:'wenzhou'}}; const n8=R8.compiledNames.length; await sleep(60);
++  check('⑧ 換了區域就停',R8.compiledNames.length===n8,`換區域時 ${n8}、之後 ${R8.compiledNames.length}`);
++  global.location={search:'?nowarmup'}; const R9=fakeRenderer(false), E9=world(R9,false); const o9=Z3.warmup(E9,{gap:5,delay:0}); await sleep(30); global.location={search:''};
++  check('⑧ ?nowarmup 關掉',o9===null&&R9.compiledNames.length===0);
++  const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const m=g.match(/async function enter\(zoneId,spawn,opts\)\{[\s\S]*?\n/); const body=m?m[0]:'';
++  const iF=body.indexOf('await fade(false)'), iW=body.indexOf('Z3.warmup(E)'), iFin=body.indexOf('finally');
++  check('⑨ GAME.enter：淡入以後呼叫 Z3.warmup（noFade 也呼叫）',iF>=0&&iW>iF&&iW<iFin&&!/if\(!opts\.noFade\)\{ await fade\(false\); if\(Z3\.warmup/.test(body),`fade ${iF}、warmup ${iW}、finally ${iFin}`);
++  check('⑫ 做完的時候每個新編的 shader 都主動讀過一次（getUniforms）',out.done&&R.info.programs.length>0&&R.info.programs.every(pg=>pg.used),JSON.stringify(R.info.programs.filter(pg=>!pg.used).map(pg=>pg.name)));
++  { const R12=fakeRenderer(true), E12=world(R12,false); let early=null; const o12=Z3.warmup(E12,{gap:2,delay:0,idleScans:2}); await sleep(6); early=R12.info.programs.filter(pg=>pg.used&&pg.readyAt>Date.now()).length;
++    let bad=0; const orig=R12.info.programs; for(let i=0;i<300&&!o12.done;i++){ await sleep(3); }
++    check('⑫ 有平行編譯：還沒好的不讀（不會等），最後都讀過',early===0&&o12.done&&R12.info.programs.every(pg=>pg.used),`提早讀 ${early}；${JSON.stringify(o12)}`); }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
