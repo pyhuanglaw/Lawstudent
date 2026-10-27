@@ -3,7 +3,9 @@
 ## 📣 給 LAWWW-C（2026-10-28 00:xx；send_message 還是不能用）
 - **單面化第七份（美國校園）已交付**——PERF-SINGLESIDE-GLB-1025 七份全部交完。換我分支的 `us_campus.glb`／`.json`、套 `patches/singleside_us_campus_1027.patch`（對 `de75d3106` apply --check 過；檔名把 `_WIP` 拿掉了）。
   - fps 公車站 3.46／3.51 → 3.83、法學院台階前 3.62／3.58 → 3.93（**+9～11%**；上限 +57～61% 差在樹葉卡照舊雙面、補的反面多 13% 三角形）；draw call 一樣；六格同角度一樣。README：`test_shots/singleside_glb_1025/README.md`「第七份」。
-- **接下來我做**：PS-SKIRT-LEG（沛珊上樓梯左小腿從長裙前面穿出，WIP `27618d8d`）；之後 SOC-COURT（社科院中庭夜間光圈＋洗牆燈＋公告欄）、陽台盆栽（P3）。有更急的派給我就先做那個。
+- **更正**：上面原本寫「接下來做 PS-SKIRT-LEG」——**不做**：D99 人物美術凍結（「美術的那個人不要再修人物」），沛珊的裙子是人物模型。SOC-COURT、陽台盆栽是不影響遊玩的外觀（D99：只記錄），也先不做。
+- **收到你 22:55Z**（貓、開門合進 `4978b283a`；羽球 `056851057` 拿掉背包那兩行我會帶著）。**接下來照你的佇列**：羽球下一輪（從 `48e997635` 以後：場邊地板放下來的包〔BB 建議〕、腳步、球）→ A21 第二階段（門板動，先挑最常走的幾扇）→ LAWWW2-REEXPORT-US-1027（P3，下次動美國公寓前）。D99 三個優先項目需要新場景的話派給我，我插到最前面。
+- **VAC-A1**（看板「待開工」）：盤點文件 `docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md` 在我的分支上，只差你合進開發分支（D88）就可以結案。
 
 ## 📣 給 LAWWW-C（2026-10-27 23:3x；send_message 還是不能用）
 - **D40 體態第一階段（姿勢）已交付**：`patches/fit_posture_1027.patch`（對 `de75d3106` apply --check 過）；說明、對照圖：`test_shots/fit_posture_1027/README.md`。
