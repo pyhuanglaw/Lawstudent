@@ -51,8 +51,11 @@ async def main():
             if MODE == 'talk':
                 # 【捷徑】進門後「和沈以安說話」一出現就按：SwiftShader 1–4 fps，從 Python 觸控（每次 evaluate 幾百 ms）趕不上 S.arrive 那 0.9 秒（第一版 f54 talk1 按到的時候見面已經開始）；
                 # 改成頁面裡每 20 ms 看一次互動鍵，看到就 click（同一個 onclick＝doInteract，玩家手指點按鈕會走的路），只在進門 4 秒內
-                await pg.evaluate("""(()=>{ window.__bbTalk=null; window.__bbT0=null; const iv=setInterval(()=>{ try{ if(GAME.G.zone!=='noodle') return; const now=performance.now(); if(window.__bbT0==null) window.__bbT0=now; if(now-window.__bbT0>4000){ clearInterval(iv); return; }
-                  const b=document.getElementById('interact'), l=(document.getElementById('interactLabel').textContent||''); if(b&&!b.classList.contains('hide')&&/沈以安/.test(l)){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:l,depth:GAME.D.busyDepth}; b.click(); clearInterval(iv); } }catch(e){} },20); })()""")
+                await pg.evaluate("""(()=>{ window.__bbTalk=null; window.__bbT0=null; window.__bbSeen=[]; let last=''; const iv=setInterval(()=>{ try{ if(GAME.G.zone!=='noodle') return; const now=performance.now(); if(window.__bbT0==null) window.__bbT0=now; if(now-window.__bbT0>4000){ clearInterval(iv); return; }
+                  const b=document.getElementById('interact'), l=(document.getElementById('interactLabel').textContent||''), an=GAME.E.npcs.find(m=>m.charId==='heroine_01');
+                  const k=[b&&b.classList.contains('hide')?'hide':'show', l, 'busy='+!!GAME.E.player.busy, 'depth='+GAME.D.busyDepth, 'dlg='+!!GAME.D.active, 'an='+(an?an.beh:'-')].join(' ');
+                  if(k!==last){ last=k; window.__bbSeen.push(Math.round(now-window.__bbT0)+'ms '+k); }
+                  if(b&&!b.classList.contains('hide')&&/沈以安/.test(l)){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:l,depth:GAME.D.busyDepth}; b.click(); clearInterval(iv); } }catch(e){} },20); })()""")
                 run.setup('[捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）')
             run.note('互動按鈕：%s' % s['it']); await L.tap(pg, cdp, '#interact'); t_in = None
             for k in range(60):
@@ -64,6 +67,10 @@ async def main():
                         if tk: talk_ms = tk['ms']; run.note('進門後 %d ms 按到「%s」（按的時候 busyDepth %s）' % (talk_ms, tk['label'], tk['depth'])); break
                     if MODE == 'plain' or (t_in and time.time() - t_in > 5): break
                 await pg.wait_for_timeout(80)
+            if MODE == 'talk':
+                await pg.wait_for_timeout(4500); run.note('進門後 4 秒內互動鍵的變化：%s' % json.dumps(await pg.evaluate("window.__bbSeen||[]"), ensure_ascii=False))
+                tk = await pg.evaluate("window.__bbTalk")
+                if tk and talk_ms is None: talk_ms = tk['ms']; run.note('進門後 %d ms 按到「%s」（按的時候 busyDepth %s）' % (talk_ms, tk['label'], tk['depth']))
             run.check('走得進麵店', s['zone'] == 'noodle', json.dumps(s, ensure_ascii=False))
             if MODE == 'talk': run.check('進門後按得到「和沈以安說話」（使用者的操作）', talk_ms is not None, str(talk_ms))
         t0 = time.time(); idle = None; stuck = False; last = None; ended = None

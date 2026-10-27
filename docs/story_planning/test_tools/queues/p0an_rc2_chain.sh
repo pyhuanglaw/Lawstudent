@@ -4,15 +4,16 @@ SP=/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scra
 LOG=$P/chain.log; F54=$SP/lwwt5; RC2=$SP/lwwt8
 probe(){ local tree=$1 port=$2 sha=$3 mode=$4 save=$5 tag=$6; local o=$P/${sha}_${tag}; mkdir -p $o
   echo "[p0] $(date -u +%H:%M) 開始 $sha $tag" >> $LOG
-  ( cd $SP && LW_TESTS=$tree/tests MODE=$mode SHA=$sha timeout 900 python3 $TT/an_stuck_probe.py "http://127.0.0.1:$port/index.html?turbo" $o $save > $o.log 2>&1 ); local rc=$?
+  ( cd $SP && LW_TESTS=$tree/tests MODE=$mode SHA=$sha timeout 900 python3 $TT/an_stuck_probe.py "http://127.0.0.1:$port/index.html?turbo${Q:-}" $o $save > $o.log 2>&1 ); local rc=$?
   echo "[p0] $(date -u +%H:%M) 結束 $sha $tag rc=$rc；$(grep -c '^ *FAIL\|\bFAIL ' $o.log) 行 FAIL；卡住：$(grep -c '卡住：' $o.log)；$(grep -o '進門後 [0-9]* ms' $o.log | head -1)" >> $LOG; return $rc; }
+echo "[p0] $(date -u +%H:%M) 第三版：talk 改用 ?turbo&lowres（像素比 0.4，SwiftShader 格數高一點）＋記進門 4 秒內互動鍵的變化" >> $LOG
 # A：f54 重現（talk 最多三次，有一次卡住就停）
-for i in 1 2 3; do probe $F54 8837 f54a35ec4 talk $P/user_day14.json talk$i; grep -q '卡住：' $P/f54a35ec4_talk$i.log && break; done
+for i in 1 2 3; do Q='&lowres' probe $F54 8837 f54a35ec4 talk $P/user_day14.json talk$i; grep -q '卡住：' $P/f54a35ec4_talk$i.log && break; done
 # B：f54 讀「進門那一刻」的存檔（自己造的＋LAWWW-C 的 day14_going_in_noodle）
 probe $F54 8837 f54a35ec4 reload $P/user_day14.json reload
 probe $F54 8837 f54a35ec4 user $P/day14_going_in_noodle.json goingsave
 # C：rc2
-for i in 1 2; do probe $RC2 8838 6aebbb4d8 talk $P/user_day14.json talk$i; done
+for i in 1 2; do Q='&lowres' probe $RC2 8838 6aebbb4d8 talk $P/user_day14.json talk$i; done
 probe $RC2 8838 6aebbb4d8 plain $P/user_day14.json plain
 probe $RC2 8838 6aebbb4d8 reload $P/user_day14.json reload
 probe $RC2 8838 6aebbb4d8 user $P/day14_going_in_noodle.json goingsave
