@@ -35,7 +35,7 @@ await sec(1,async()=>{ H.fresh('2029-06-18',9,'dorm',{BAR_REG:true,Y4_PATH:'bar'
   const nm=FD.cname(fc.id);
   check('1. 旁白「（{課名}，不及格。）」「（證書要等下學期。九月，你要回學校重修。）」',H.has('（'+nm+'，不及格。）')&&H.has('（證書要等下學期。九月，你要回學校重修。）'),J(H.lines().slice(-4)));
   check('1. 已經報名國考：「（今年的國考，考不成了。明年再報。）」、BAR_REG＝false',H.has('（今年的國考，考不成了。明年再報。）')&&H.G.flags.BAR_REG===false);
-  H.G.hour=22; PHONE.tick(H.G); check('1. 22:00 阿哲：「聽說了。」「九月我還在總圖 B1。你來，我幫你占位子。」',J(H.msgs('p:zhe').slice(-2))===J(['聽說了。','九月我還在總圖 B1。你來，我幫你占位子。']),J(H.msgs('p:zhe')));
+  H.G.hour=22; PHONE.tick(H.G); check('1. 22:00 阿哲：「聽說了」「九月我還在總圖 B1 你來，我幫你占位子」',J(H.msgs('p:zhe').slice(-2))===J(['聽說了','九月我還在總圖 B1 你來，我幫你占位子']),J(H.msgs('p:zhe')));
   check('1. PG.delayed、Y5.delayed 成立；PG.exchDelayed 不成立（交換才有的句子不出）',PG.delayed(H.G)&&Y5.delayed(H.G)&&!PG.exchDelayed(H.G)&&!Y5.exch(H.G));
   const n=H.said.length; await CLS.showGrades(GM,'Y4S2'); check('1. 第二次看成績單不再演',H.said.filter(x=>x.t==='（證書要等下學期。九月，你要回學校重修。）').length===1); });
 

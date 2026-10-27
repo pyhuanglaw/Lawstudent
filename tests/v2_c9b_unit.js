@@ -42,7 +42,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   M=pick('kexin',true,{dating_kexin:true});
   check('2. 選可昕：私訊「好。我們去。」；群組「我這次有約了。」→ 阿哲「……喔～」',JSON.stringify(M)===JSON.stringify(['我@p:kexin:好。我們去。','我@g:noodle_team:我這次有約了。','zhe@g:noodle_team:……喔～']),JSON.stringify(M));
   M=pick('kexin',false,{dating_kexin:true}); check('2. 選可昕、沒有群組：只有私訊',JSON.stringify(M)===JSON.stringify(['我@p:kexin:好。我們去。']),JSON.stringify(M));
-  M=pick('dorm',true); check('2. 留在宿舍：群組「我這次留在宿舍。」→ 阿哲「好啦，照片會傳給你。」',JSON.stringify(M)===JSON.stringify(['我@g:noodle_team:我這次留在宿舍。','zhe@g:noodle_team:好啦，照片會傳給你。']),JSON.stringify(M));
+  M=pick('dorm',true); check('2. 留在宿舍：群組「我這次留在宿舍。」→ 阿哲「好啦，照片會傳給你」',JSON.stringify(M)===JSON.stringify(['我@g:noodle_team:我這次留在宿舍。','zhe@g:noodle_team:好啦，照片會傳給你']),JSON.stringify(M));
   M=pick('dorm',true,{},true); check('2. 沒選就過了 4/2（自動留在宿舍）：不替玩家傳',M.length===0,JSON.stringify(M));
   /* 那一趟 */
   const go=async(setup)=>{ fresh(D.d0,7.9,'dorm',{}); PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); if(setup) setup(); G.energy=30; const wd0=G.weekday; STORY.springChoose(GM,'noodle',{silent:true}); const q=OUT.get(G,'ndl_trip_y1s2'); said=[]; await OUT.go(GM,q); return {L:lines(),wd0}; };

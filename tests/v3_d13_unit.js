@@ -39,7 +39,7 @@ GM.money=function(n){ G.money+=n; };
   setup(ny,10.5); run(10.5,10.95);
   check('1. 初一 10:57 還沒有',!PHONE.sent(G,'cny_noodle_y2'));
   run(11,11.2); const t=txt(NG);
-  const want=['zhe:📷（高雄老家的廚房，媽媽在包水餃）','zhe:我媽說今年要包一百個。','zhe:我包到第四十個就被趕出廚房。……你們在幹嘛？','heroine_01:📷（台中阿嬤家門口的春聯，字有一點歪）','heroine_01:新年快樂。今年的春聯是我寫的。','heroine_01:阿嬤說我的字最工整。……歪是照片的角度。','yu:📷（和阿哲視訊的截圖，兩個人各舉著一顆水餃）','yu:我們隔著三百公里吃年夜飯。','zhe:她包的比較醜。','yu:你閉嘴。'];
+  const want=['zhe:📷（高雄老家的廚房，媽媽在包水餃）','zhe:我媽說今年要包一百個','zhe:我包到第四十個就被趕出廚房……你們在幹嘛？','heroine_01:📷（台中阿嬤家門口的春聯，字有一點歪）','heroine_01:新年快樂。今年的春聯是我寫的。','heroine_01:阿嬤說我的字最工整。……歪是照片的角度。','yu:📷（和阿哲視訊的截圖，兩個人各舉著一顆水餃）','yu:我們隔著三百公里吃年夜飯。','zhe:她包的比較醜','yu:你閉嘴。'];
   check('1. 11:00 十則照 AA_143 2-1',JSON.stringify(t)===JSON.stringify(want),JSON.stringify(t));
   check('1. 大一的原句沒有出現（高雄沒有冬天、第三個路口）',!t.some(x=>/高雄沒有冬天|第三個路口/.test(x)));
   const m=TH(NG).find(x=>x.ask&&x.ask.id==='cny_noodle_y2_reply');

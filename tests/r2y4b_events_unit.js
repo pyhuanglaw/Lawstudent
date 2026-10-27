@@ -339,7 +339,7 @@ const date=id=>H.date(id);
   { fresh('2029-09-08',20,'dorm',Object.assign({},GD,RT)); H.FAMILIAR('zhe'); at('2029-09-08',21);
     check('2-Y4-51 9/8 21:00：重考那一年的選擇到期（只有台灣路線、2029 一試沒過）', dueHas('r2y4b_retake_plan')&&S.retaker(H.G)&&!S.retaker(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:'JP'})})));
     H.said=[]; H.opts=[]; H.picks=['跟阿哲一起讀']; await H.run('r2y4b_retake_plan'); at('2029-09-08',21.1); PHONE.tick(H.G);
-    check('Y1 9/8「（明年八月，再一次。）」三選一（補習班／在家／跟阿哲，阿哲 FAMILIAR 以上）；阿哲「好。總圖 B1，週四照舊。」「……這次我們兩個。」；RETAKE_STYLE zhe', has('（明年八月，再一次。）')&&H.opts[0].length===3&&H.G.flags.RETAKE_STYLE==='zhe'&&th('p:zhe').includes('好。總圖 B1，週四照舊。')&&th('p:zhe').includes('……這次我們兩個。'));
+    check('Y1 9/8「（明年八月，再一次。）」三選一（補習班／在家／跟阿哲，阿哲 FAMILIAR 以上）；阿哲「好 總圖 B1，週四照舊」「……這次我們兩個」；RETAKE_STYLE zhe', has('（明年八月，再一次。）')&&H.opts[0].length===3&&H.G.flags.RETAKE_STYLE==='zhe'&&th('p:zhe').includes('好 總圖 B1，週四照舊')&&th('p:zhe').includes('……這次我們兩個'));
     const N=[['r2y4b_rt_1020','（朋友們去考二試的那兩天，你在自習室讀民法。）'],['r2y4b_rt_1214','（群組很熱鬧。你把手機蓋起來，讀完那一章才打開。）'],['r2y4b_rt_0109','（你接了一個國中生的家教，週三晚上。）'],['r2y4b_rt_0308','（杜鵑又開了。你從椰林大道旁邊走過去，沒有停。）']];
     let okN=true; for(const [id,t] of N){ H.said=[]; await H.run(id); if(!has(t)) okN=false; }
     check('2-Y4-51 摘要日（一個月一句）：10/20、12/14、2030-01（週三）、2030-03 杜鵑', okN&&CALENDAR.dateOf(D('2030-01-09')).wd%7===3);

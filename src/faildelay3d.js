@@ -15,7 +15,7 @@ const FD=(function(){
   const law=G=>!!G&&(G.stage||'law')==='law';
   const exch=G=>law(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G);
   S.LINES={ fail:'（{課名}，不及格。）', cert:'（證書要等下學期。九月，你要回學校重修。）', bar:'（今年的國考，考不成了。明年再報。）',
-    zhe:['聽說了。','九月我還在總圖 B1。你來，我幫你占位子。'], teacher:'延畢的同學，期末交一份報告就好。……課要來。',
+    zhe:['聽說了','九月我還在總圖 B1 你來，我幫你占位子'], teacher:'延畢的同學，期末交一份報告就好。……課要來。',
     plan1:'（這學期，只要重修{課名}。其他的日子——）', plan2:'（這學期，要重修兩門課。其他的日子——）',
     lateNote:['（{課名}的重修，出席不到三堂。）','（證書，要等到六月。）'], lateCert:'延了兩個學期。……這次是真的恭喜。' };   /* AA_471 第 5 節（企劃線 763993620）：12/26（三）09:00 旁白兩句；2030-06-17（一）10:00 系辦助教那一句 */
   S.on=G=>law(G)&&!!(G.flags&&G.flags.FAIL_DELAY);   /* 被當延畢（沒有交換）*/

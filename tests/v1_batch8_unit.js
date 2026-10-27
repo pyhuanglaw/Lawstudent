@@ -1,6 +1,6 @@
 // 交接包 v1（大一上）第 8 批：A14 以安新 3（轉述）、A15 G1 考完試走出教室——不需要瀏覽器。
 // 檢查（修改前都會失敗：事件、群組訊息、考完的事件都不存在）：
-//   A14：第 7 週週二晚上麵店團群組：Alison 兩則（「報告！……」）、阿哲「……她說得對耶。」、以安隔一陣子才回「三頁是因為字很大。」；只給那天以前就在群組裡的玩家；
+//   A14：第 7 週週二晚上麵店團群組：Alison 兩則（「報告！……」）、阿哲「……她說得對耶」、以安隔一陣子才回「三頁是因為字很大。」；只給那天以前就在群組裡的玩家；
 //     沒有群組（或之後才加入）的玩家：第 7 週起找沛珊說話，她當面說同樣的內容；只一次；旗標 AN_DORM_RULES（group／peishan），不寫成玩家在場的記憶。
 //   A15 G1：民總期中考考完接著演（一般的課、別科的考試、翹課都不會）；只有認識的人在場（柏翰沒見過＝第一句變成旁白；芯慈和柏翰那段兩個都認識才有；Alison、明軒、以安各自）；
 //     第一個選項要第一天讀過案例；三個選項的反應；SHARED_CLASS 只記認識的人；只一次。
@@ -37,7 +37,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* ---------- A14 以安新 3 宿舍的規則 ---------- */
   { fresh(W7TUE,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); G.phone.groups.noodle_team.day=10; run(8,23);
     const gm=G.msgs.filter(m=>m.tag==='an_rules_grp'||m.tag==='an_rules_an');
-    check('A14：第 7 週週二晚上麵店團群組：Alison 兩則、阿哲一則、以安隔一陣子才回（交接包_v1 第 3 節原文）',JSON.stringify(gm.map(m=>[m.from,m.text]))===JSON.stringify([['yu','報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'],['yu','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'],['zhe','……她說得對耶。'],['heroine_01','三頁是因為字很大。']])&&gm.every(m=>m.th==='g:noodle_team')&&gm[3].h-gm[2].h>0.5,JSON.stringify(gm.map(m=>[m.from,m.h])));
+    check('A14：第 7 週週二晚上麵店團群組：Alison 兩則、阿哲一則、以安隔一陣子才回（交接包_v1 第 3 節原文）',JSON.stringify(gm.map(m=>[m.from,m.text]))===JSON.stringify([['yu','報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'],['yu','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'],['zhe','……她說得對耶'],['heroine_01','三頁是因為字很大。']])&&gm.every(m=>m.th==='g:noodle_team')&&gm[3].h-gm[2].h>0.5,JSON.stringify(gm.map(m=>[m.from,m.h])));
     check('A14：旗標 AN_DORM_RULES=group；不寫成玩家在場的記憶（以安沒有新的記憶）',G.flags.AN_DORM_RULES==='group'&&SOCIAL.memories('heroine_01').length===0);
     fresh(W7TUE,8,'campus'); meet('classmate_peishan'); run(8,23); check('A14：沒有麵店團群組：群組沒有訊息',!G.msgs||!G.msgs.some(m=>m.tag==='an_rules_grp'));
     const e=ev('ev_an_dorm_rules_peishan'); fresh(W7TUE,13,'campus'); meet('classmate_peishan'); const a=EVENTS.check(e);
@@ -99,7 +99,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     PHONE.join(G,'noodle_team','麵店團'); G.hour=23; picks=['出發','把民總讀完']; await OUT.tick(GM); const L=lines();
     check('跨年（河堤）：旁白、她的兩句、三個選項、選「把民總讀完。」→「好無聊。」她數到三「新年快樂。」（AA_295）、最後「十分鐘。看完就回去。我媽說十二點半以前要到家。」（AA_369 M5）＋旁白「（凌晨一點，加開的那班高鐵。你在車上睡著了。）」（AA_276 第 3 節）',L[0]==='河堤上的人不多。煙火在很遠的地方，聲音晚了好幾秒才到。'&&L.includes('今年我們不去人多的地方。')&&L.includes('明年你最想做什麼？……一件就好。')&&JSON.stringify(opts[1])==='["「每個禮拜都見到妳。」","「把民總讀完。」","「妳先說。」"]'&&L.includes('好無聊。')&&L.includes('她數到三。')&&L[L.length-2]==='十分鐘。看完就回去。我媽說十二點半以前要到家。'&&L[L.length-1]==='（凌晨一點，加開的那班高鐵。你在車上睡著了。）',JSON.stringify({L,o:opts[1]}));
     run(G.hour,24.4); const ph=G.msgs.filter(x=>x.tag==='nye_roof_photo').map(x=>x.text);
-    check('跨年（河堤）：回宿舍的路上麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」',JSON.stringify(ph)==='["📷（宿舍頂樓，遠遠的煙火）","我們就說有看到。"]',JSON.stringify(ph));
+    check('跨年（河堤）：回宿舍的路上麵店團群組：頂樓的照片＋阿哲「我們就說有看到」',JSON.stringify(ph)==='["📷（宿舍頂樓，遠遠的煙火）","我們就說有看到"]',JSON.stringify(ph));
     ask(0); toNye(20); { const o1=OUT.get(G,'nye'); o1.state='missed'; OUT.onMissed(GM,o1); const qc1=OUT.get(G,'kx_nye_call_y1');
       check('跨年（高雄）答應了沒出發：KX_NYE[1]＝missed、00:05 她打來（演出來的電話，AA_313 第 2 節第 15 列、2-3 B；原本什麼都沒有）',G.flags.KX_NYE[1]==='missed'&&!!qc1&&qc1.day===NYE+1&&Math.abs(qc1.h-5/60)<1e-6&&qc1.ev==='ev_kexin_nye_missed_call'&&qc1.verb==='接起來',JSON.stringify(qc1)); }
     ask(1); const r=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);

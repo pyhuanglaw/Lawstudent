@@ -151,8 +151,8 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('18. 合併的那一件也記原本 ev_peishan_bohan_split 的後果（PEISHAN_BOHAN_SPLIT）',a.F.PEISHAN_BOHAN_SPLIT===true);
     const grp=(done)=>{ fresh(termDay('Y2S1',6,5),20,'campus',{}); R('classmate_peishan','FRI'); if(done) G.events.done[done]=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); return TH('g:noodle_team').map(m=>m.from+':'+m.text); };
     const g0=grp(), g1=grp('ev_peishan_bohan_split'), g2=grp('ev_peishan_split');
-    check('18. 沒遇到的玩家：週五 21:00 群組照 BB_97 版「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」、阿哲「……收到。」；沒有「你們吃你們的」',
-      J(g0)===J(['classmate_peishan:說一件事，說完就好。','classmate_peishan:我和柏翰分開了。是我說的。我們都好。','classmate_peishan:……大家照常吃飯，不用特別安慰我。','zhe:……收到。']),J(g0));
+    check('18. 沒遇到的玩家：週五 21:00 群組照 BB_97 版「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」、阿哲「……收到」；沒有「你們吃你們的」',
+      J(g0)===J(['classmate_peishan:說一件事，說完就好。','classmate_peishan:我和柏翰分開了。是我說的。我們都好。','classmate_peishan:……大家照常吃飯，不用特別安慰我。','zhe:……收到']),J(g0));
     check('18. 舊存檔演過 ev_peishan_bohan_split（或合併的那一件）：群組不發',!g1.length&&!g2.length,J([g1,g2]));
     fresh(termDay('Y2S1',6,3),20,'campus',{}); R('classmate_bohan','FRI'); R('classmate_peishan','FRI'); G.events.done.ev_peishan_split=1; G.events.last.ev_peishan_split=G.day-1;
     const ck=MSG.conds2(G,'classmate_bohan','ok').map(x=>x.key), cp=MSG.conds2(G,'classmate_peishan','ok').map(x=>x.key);

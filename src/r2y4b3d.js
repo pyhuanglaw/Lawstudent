@@ -298,7 +298,7 @@ const R2Y4B=(function(){
   S.retakePlan=async function(GM){ const G=GM.G, F=G.flags; let k=0;
     await scene(GM,async()=>{ await GM.say(null,'（明年八月，再一次。）'); const O=[{t:'「去補習班的自習室。」',v:'cram'},{t:'「在家讀。」',v:'home'}]; if(met(G,'zhe','FAMILIAR')) O.push({t:'「跟阿哲一起讀。」',v:'zhe'});
       k=await GM.choose(O.map(o=>({t:o.t}))); F.RETAKE_STYLE=(O[k]||O[0]).v; });   /* 只改摘要日的句子，不改結果（AA_286 2-1）*/
-    if(F.RETAKE_STYLE==='zhe'&&typeof PHONE!=='undefined') PHONE.at(G,G.day,G.hour+0.05,[P_('zhe','好。總圖 B1，週四照舊。'),P_('zhe','……這次我們兩個。')],'y5_retake_zhe');
+    if(F.RETAKE_STYLE==='zhe'&&typeof PHONE!=='undefined') PHONE.at(G,G.day,G.hour+0.05,[P_('zhe','好 總圖 B1，週四照舊'),P_('zhe','……這次我們兩個')],'y5_retake_zhe');
     return true; };
   const narrStep=(id,key,h,text,cond)=>({id,at:G=>T(DK(key),h),until:G=>T(DK(key),h+48),cond,run:async GM=>{ await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(GM.G.day,GM.G.hour),'',1600); await GM.say(null,text); }); }});
 
