@@ -30761,7 +30761,7 @@
    },
    "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-C 2026-10-27 23:0x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
+   "next": "【LAWWW-C 2026-10-27 23:2x UTC】AA_493（868726e5c）四句接好 199f71b40：環境句白天版、取名兩版、所長回來白天版；季節句不改｜【LAWWW-C 2026-10-27 23:0x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
    "xai": {
     "spec": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
     "owner": "LAWWW2",
@@ -32575,8 +32575,8 @@
    "title": "環境 GLB 單面巡查——先在同一頁切換單面量上限、10% 以上才做：室內（attachFormal／attachRoomGLB 設 transparent 的 WALL_* 雙面要畫兩次）先：社科圖 → 總圖 → 便利商店 → 體育館；街景（溫州街、118 巷、美國）後量",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【LAWWW-C 2026-10-27 18:1x UTC】第六份（機場出境／入境，DL-LW2-SINGLESIDE-6）合進開發分支，相關 Node 9 支 ALL PASS；LAWWW2 照 D99 先做 X79→X14，美國校園（第七份）暫停在 WIP、排後面｜【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-27 23:2x UTC】第七份（美國校園 us_campus，02ad9eb3d）合進開發分支 e6da67e38；七份全部交完、都在開發分支；BB 測美國校園畫面、fps｜【LAWWW-C 2026-10-27 18:1x UTC】第六份（機場出境／入境，DL-LW2-SINGLESIDE-6）合進開發分支，相關 Node 9 支 ALL PASS；LAWWW2 照 D99 先做 X79→X14，美國校園（第七份）暫停在 WIP、排後面｜【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -32598,7 +32598,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。 ｜ BB-B 16:2x 驗兩份（69bb17f53）：社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 1F +8～27%、B1 +10～23%、3F +3%，沒有破面看穿；便利商店貨架端紅黃小旗背面看不見（cvs_goods_atlas 單片）→ 16:2x 請 LAWWW2 只給小旗補反面、重匯 cvs_interior.glb（和 gym 木格柵一起交）。 ｜ 17:1x 第三份 bae544475 合進開發分支：溫州街 +8～30%、118 巷 +16～19%（大面材質單面、幾何不動）；體育館大廳木格柵照舊雙面（波紋沒了）；便利商店促銷牌補反面（BB 回饋已修）；singleside_streets、singleside_gym、singleside_interiors ALL PASS。待 BB 瀏覽器驗第三份。"
+   "notes": "LAWWW2-B 10:56：街景外觀（不透明）單面量不出差別，室內 WALL_* transparent 才有用（博雅 1.45→2.35）；LAWWW-B 同意先量再做。注意：SIGN_FACE_／INTERIOR_FACE_ 不能補反面（wzAtlasFaces 合不起來會退回套件）。 ｜ LAWWW2-B 13:23 第一份交件 cd3f2feeb（社科圖、總圖大廳、便利商店室內 GLB 單面；fps 社科圖 2.35→3.4、總圖 1.8→2.55、便利商店 3.25→4.95；patch singleside_interiors_1025.patch；新測試開發 FAILED 4、新 GLB ALL PASS）→ v9.10.10 發布後整合。接著體育館三個。 ｜ 第一份已套進預備分支 int-1025（b8fc0a546）；15:0x 第二份 055577d00（體育館 1F 大廳 3.5→4.6、B1 4.6→5.65、主球場 +6～10%）套進 int-1025 f257a94af（含 bb_support gym_b1_props／entry）。LAWWW-B 決定：主球場用補反面版；1F 大廳木格柵木條留雙面（斜波紋），請重匯 gym_interior.glb。 ｜ 第一、二份 10-25 15:3x 合進開發分支（40a645855）；1F 大廳木格柵留雙面的重匯還在等 LAWWW2。 ｜ BB-B 16:2x 驗兩份（69bb17f53）：社科圖 +33～54%、總圖大廳 +28～37%、便利商店 +30～38%、體育館 1F +8～27%、B1 +10～23%、3F +3%，沒有破面看穿；便利商店貨架端紅黃小旗背面看不見（cvs_goods_atlas 單片）→ 16:2x 請 LAWWW2 只給小旗補反面、重匯 cvs_interior.glb（和 gym 木格柵一起交）。 ｜ 17:1x 第三份 bae544475 合進開發分支：溫州街 +8～30%、118 巷 +16～19%（大面材質單面、幾何不動）；體育館大廳木格柵照舊雙面（波紋沒了）；便利商店促銷牌補反面（BB 回饋已修）；singleside_streets、singleside_gym、singleside_interiors ALL PASS。待 BB 瀏覽器驗第三份。",
+   "sha": "e6da67e38"
   },
   {
    "id": "TEST-FLOW-SOCLIB-X75-1025",
@@ -33388,7 +33389,7 @@
    "title": "健身的 3D 體態（D40：體能、加成、注意到的台詞都有了；fit3d.js 寫「等 LAWWW2 評估」）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "USER_WANTS D40；USER_WANTS_AUDIT_1027 第 3 節第 3 點（使用者要過、沒有任務）",
    "first": {
@@ -33401,14 +33402,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估（做不做、怎麼做由美術總監決定，D111；人物外觀大改要問使用者）",
+   "next": "【LAWWW-C 2026-10-27 23:2x UTC】第一階段（體態＝姿勢：體能越高站走跑越挺，LAWWW2 eedf57f21）合進開發分支 e6da67e38（合併 fe4d31a86）；fit_posture_unit ALL PASS；BB 看四階體能的站姿；第二階段（身體形狀）LAWWW2 要問使用者——照 D97 由 BB 一起整理成選擇題｜【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估（做不做、怎麼做由美術總監決定，D111；人物外觀大改要問使用者）",
    "xai": {
     "spec": "USER_WANTS D40；src/fit3d.js",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "評估結果（做法或不做的理由）；做的話附改前改後截圖",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "sha": "e6da67e38"
   },
   {
    "id": "ANIM-DOOR-OPEN-1027",
@@ -34190,6 +34192,34 @@
    },
    "next": "【LAWWW-C 2026-10-27 23:0x UTC】LAWWW 修 056851057：CHAR.carryOff＋badminton_clip3d.js 開演拿下、finally 還原；tests/badclip_bag_unit.js（修改前 FAIL）；BB 照 5j 從手機約起驗（以安、語彤、男生朋友各一次，三個鏡頭裡兩個人身上沒有包）；場邊地板放一個包（BB 的建議）交 LAWWW2 下一輪羽球一起看",
    "sha": "056851057"
+  },
+  {
+   "id": "FAIR-STAFF-LOD-1027",
+   "title": "社博那天顧攤的人照距離藏（效能）：中畫質 35 m、高 55 m、低 34 m 以外的顧攤 NPC 不畫（engine3d.js NPC 距離 LOD 加 n.lodLim、clubfair3d.js STAFF_LOD）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "LAWWW-C 10-27 派 LAWWW2（FAIR-PERF：社博多了 26～36 個坐著的人，X109 社博改造以後的效能）",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "大一上社團博覽會那天走大道",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 23:2x UTC】LAWWW2 e0d50873f 合進開發分支 e6da67e38（合併 fe4d31a86）；fair_staff_lod_unit 改前 FAILED 4、改後 ALL PASS；LAWWW2 量中畫質 draw call 503→455、模擬 fps +15%；BB 看社博那天走大道、遠處攤位的人有沒有突然出現",
+   "sha": "e6da67e38",
+   "xai": {
+    "spec": "LAWWW-C 派工訊息（社博效能）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "社博那天 fps 回到平常附近、顧攤的人近處看得到",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }
