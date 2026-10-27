@@ -3713,7 +3713,7 @@
   {
    "task": "FAIR-PERF-1027（社博那天校園效能）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "d26af3065",
    "files": [
     "docs/art-rebuild/second_ai/test_shots/fair_perf_1027/README.md",
     "tools/shots/fair_perf.py",
@@ -3726,6 +3726,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "479e35f11、舊局社博 9/30 vs 平常 10/02、11:00、大道往西：中畫質 draw call 382→503（+32%）、三角形 72→106 萬（+48%）、畫面裡的人 10→32、SwiftShader fps −29%；高 +44%／+69%／−38%。舞台前往北兩天差不多。顧攤的人只留 35 m 內：畫面裡 15→4、fps +27%。判斷超標，建議照距離藏、不減人數"
+  },
+  {
+   "task": "ANIM-DOOR-OPEN-1027（A21 開門第一階段）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/door_open_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/door_open_1027/README.md",
+    "tools/shots/door_open_shots.py"
+   ],
+   "state": "已交付",
+   "remaining": "門板不會動（第二階段）；用 getter／拼字的出入口照規則判斷、沒逐一看；真機、BB 流程沒跑",
+   "next": "LAWWW 套 patches/door_open_1027.patch（新 src/door3d.js、game3d.js 一行、index.html 一行、新 tests/door_open_unit.js）；跑 door_open_unit、zone_transitions；BB 看到開放式的店推門就告訴我加 OPEN_ZONES",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "按有門的出入口：轉向門＋右手推門約 0.45 秒再變黑；自動門（便利商店、美國超市、機場）只轉向；樓梯、電梯、往…的路、搭車、過馬路、開放式麵店不演；exit.door 可蓋過。換到新區域第一格（全黑）手放下（計時器版實測晚 1～2 秒、已改）。door_open_unit 改前 FAILED 1、改後 ALL PASS 16；zone_transitions ALL PASS 37；patch 對 479e35f11、de75d3106 apply --check 過"
   }
  ]
 }
