@@ -32097,7 +32097,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -32748,6 +32748,33 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）"
+  },
+  {
+   "id": "LAWWW2-REEXPORT-US-1027",
+   "title": "開發分支能重新匯出美國公寓、C 棟 208 的 GLB：補 us_apartment_layout 舊檔名的配置、aa_support／bb_support 道具組（或改腳本讀現在的檔名）",
+   "area": "v4",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 10-27 17:13 交件訊息（README 第四份「匯出環境」）",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "之後要改美國公寓、C 棟 208 模型的時候",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】不擋遊戲（GLB 已經在）；只影響以後重匯。LAWWW2 自己排（D111 美術總監），下次動到這兩個模型前做",
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md 第四份「匯出環境」",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "在開發分支的檔案上跑公寓、C 棟 208 的 Blender 匯出腳本成功，匯出的 GLB 和現在的一樣（--check 或逐物件比對）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

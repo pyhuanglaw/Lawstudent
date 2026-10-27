@@ -14764,6 +14764,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 10-25 17:1x 套進開發分支（GLB＋patch）；相關 Node 測試 ALL PASS；待 BB 瀏覽器"
+  },
+  {
+   "id": "DL-LW2-SINGLESIDE-4",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d66eed041",
+   "what": "LAWWW2 單面 GLB 第四份：美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室（GLB＋.json 在 09b41377e；測試 patch docs/art-rebuild/second_ai/patches/singleside_us_1025.patch＝新 tests/singleside_us_unit.js；outbox edddae2a1）",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW2-C 在開發 5b6737cd3（遊戲程式＝f54a35ec4）驗證：singleside_us_unit 舊 FAILED 7（公寓門板 39、C 棟 208 門板 52 裡外相反）→ 新 ALL PASS；美國相關 18 支 Node ALL PASS；屋內同角度補拍 README 26～30；draw call 公寓 86→70、C 棟 208 92→74。沒跑：美國區域瀏覽器流程、整套回歸、手機實機。LAWWW-C 10-27 17:1x 決定：v9.10.11（f54a35ec4）發布以後才合進開發分支（和 AA_470、PG-FIX-471-473 同一批），不讓 BB 重測發布候選；合進去以後派 BB 跑美國區域流程。開發分支重匯不了公寓、C 棟 208（缺 us_apartment_layout 舊檔名配置、aa_support／bb_support 道具組）→ LAWWW2-REEXPORT-US-1027"
   }
  ],
  "ignored": [
