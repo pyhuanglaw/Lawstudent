@@ -715,11 +715,13 @@
    "files": [
     "wip_backup/aopen_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "七位接不接受同時交往（AA_474 最後版 020f695a3）子代理做中；bundle 到 eb97e846c（9 個 commit，含新測試 aa474_acceptsopen_unit 57 項），前提 d5ce20a40",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-27 選 C（UA-AA-1027-49）；AA_474"
+   "source": "使用者 10-27 選 C（UA-AA-1027-49）；AA_474",
+   "closedBy": "fb8d27888",
+   "note": "20:1x 子代理第一輪做完（eb97e846c），合進開發分支 fb8d27888。第二輪另開 WIP-LAWWW-AOPEN-R2-1027。"
   },
   {
    "id": "WIP-LAWWW-L118-1027",
@@ -752,6 +754,21 @@
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
    "source": "AA_480（be47f6341）；USER_WANTS X66"
+  },
+  {
+   "id": "WIP-LAWWW-AOPEN-R2-1027",
+   "role": "LAWWW",
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "aopen-1027 第二輪（wip_backup/aopen_r2_1027.bundle）",
+   "sha": "fb8d27888",
+   "files": [
+    "wip_backup/aopen_r2_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "AA_481（265f54809）五處：以安七夕她先說、大峽谷她先說、芷若 8/26「我等妳回來。」、七月最後一次朋友那一句、可昕收回的訊息與視訊開頭；AA 回答第一輪八題後一起併；子代理做中，前提 fb8d27888（還沒有新 commit 時 bundle 不存在）",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "AA_481（265f54809）；AA_474（020f695a3）"
   }
  ]
 }

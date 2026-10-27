@@ -3200,6 +3200,14 @@
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "AA479-US-FIX-1027",
    "note": "LAWWW-C 10-27 登記（手抄三處：us_life3d.js、sis_qixi_events.js、us_life_events.js）"
+  },
+  {
+   "path": "docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md",
+   "sha": "020f695a3",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（使用者 10-27 對 AA-C 選 C＝逐一決定，UA-AA-1027-49；D109）",
+   "task": "ACCEPTSOPEN-C-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：romance3d.js、multirel3d.js、multirel_lines.js、zr_last3d.js、r2y3b3d.js、r2y4b3d.js 等（子代理 aopen-1027，合併 fb8d27888；tests/aa474_acceptsopen_unit.js 用 git show 020f695a3 逐字對）"
   }
  ]
 }
