@@ -33696,7 +33696,7 @@
    "title": "朋友注意到你在運動的句子提到「健身房」（柏翰「你去健身房的時間，比我念刑法的時間多。」、阿凱「健身房？好喔」、明軒「健身房？學校的？」），但體能是打羽球、系籃、登山也會加：沒去過健身房的玩家也會聽到——改成真的去過健身房（有會員證）才講，其他請 AA 寫「有在運動」的版本",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-27 20:1x 對 LAWWW-C（UA-LAWWW-1027-08）",
    "first": {
@@ -33709,7 +33709,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 1 節定句（5aaa71d6a）；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】src/fit3d.js S.NOTICE；請 AA-C 寫沒去過健身房的版本（三句），交了 LAWWW 加條件（gym 的 card）"
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb-1027 合進開發分支 5b227d3aa（沒會員證的健身句）；BB 5k 第 6 項｜【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 1 節定句（5aaa71d6a）；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】src/fit3d.js S.NOTICE；請 AA-C 寫沒去過健身房的版本（三句），交了 LAWWW 加條件（gym 的 card）"
   },
   {
    "id": "BADMINTON-CLIP-1027",
@@ -33785,7 +33785,7 @@
    "title": "社團博覽會照真實的臺大社博重做：攤位太少（九頂帳篷、選單五個社團）、沒人顧攤、看不出可以參加什麼——AA 查實際的社博（日期、地點、社團類型）重排攤位與可參加的社團（參加了有什麼）；LAWWW2 加帳篷、招牌；LAWWW 每攤放顧攤的人和逛的人",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-12、-14）",
    "first": {
@@ -33798,7 +33798,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 21:4x UTC】LAWWW2 3D 帳篷交件 1c537e9c9（DL-LW2-CLUBFAIR）；等 y1fb-1027 合進來再套 patch、把顧攤的人放到位置表",
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb 十五攤（5b227d3aa）＋LAWWW2 36 頂（1cb7bcbb3，位置對齊、顧攤的人每頂一個）＋AA_491（b1a71c1a3：嘉義校友會、說明沒有＝、系籃場邊、大二開場句）；BB 5k｜【LAWWW-C 2026-10-27 21:4x UTC】LAWWW2 3D 帳篷交件 1c537e9c9（DL-LW2-CLUBFAIR）；等 y1fb-1027 合進來再套 patch、把顧攤的人放到位置表",
    "xai": {
     "spec": "使用者原話；AA-C 交攤位表",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -33833,7 +33833,7 @@
    "title": "遊戲裡沒有提示社團博覽會：前幾天加提示（公告欄、群組或學姊的訊息、手機行事曆），讓玩家知道 9/30、10/1 在椰林大道",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C「而且遊戲中也沒提示」（UA-LAWWW-1027-14）",
    "first": {
@@ -33846,14 +33846,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 3-5 節提示表；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】請 AA-C 定提示的句子與時間點（誰傳、哪天）；LAWWW 接（PHONE、公告欄、行事曆）"
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb 合進 5b227d3aa（9/1 行事曆、公告欄、系學會、Kevin、起床提示、錯過社博的門口旁白）；BB 5k 第 1、3 項｜【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 3-5 節提示表；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】請 AA-C 定提示的句子與時間點（誰傳、哪天）；LAWWW 接（PHONE、公告欄、行事曆）"
   },
   {
    "id": "MSG-SIS-EARLY-1027",
    "title": "大一上不能傳訊息給學姊（msg3d.js S.open：第 2 階以前「還不熟」）：玩家知道她在法服、社博卻不能問她——加了好友（9/3）以後就開事務話題（社博、法服、課業），聊天照舊",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C「為什麼不能傳訊息給學姊」（UA-LAWWW-1027-15）",
    "first": {
@@ -33866,7 +33866,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 4 節：加了好友就開事務版＋限時話題「問社博」「問法服」；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】AA-C 定：要不要開、開哪些話題（事務版第 2 階以前的句子）；LAWWW 照定案改 S.open",
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb-1027 合進 5b227d3aa（加了好友就開事務版＋問社博、問法服）；BB 5k 第 4 項｜【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 4 節：加了好友就開事務版＋限時話題「問社博」「問法服」；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】AA-C 定：要不要開、開哪些話題（事務版第 2 階以前的句子）；LAWWW 照定案改 S.open",
    "xai": {
     "spec": "使用者原話；LAWWW 建議",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -33964,7 +33964,7 @@
    "title": "使用者問麵店團存在的必要：AA 說明它在故事裡負責什麼，玩起來是不是只剩一直跳的群組訊息；要精簡或改由 AA 提",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-27 20:4x 對 LAWWW-C「麵店團存在的必要到底是?」（UA-LAWWW-1027-20）",
    "first": {
@@ -33977,7 +33977,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_486（cd824bf41）＋AA_487（b830dd5eb）：不拿掉、群組建好阿哲兩句、長桌閒聊大一 8＋大二～大四各 6；子代理 y1fb-1027 做；1-1 的說明 LAWWW 轉給使用者｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者",
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb-1027 合進 5b227d3aa（群組建好阿哲兩則、長桌閒聊大一 8＋大二～大四各 6）；AA_491 第 7 點（大二「考試前的麵店」第 6～7、14～15 週）b1a71c1a3；BB 5k 第 5 項｜【LAWWW-C 2026-10-27 20:4x UTC】AA_486（cd824bf41）＋AA_487（b830dd5eb）：不拿掉、群組建好阿哲兩句、長桌閒聊大一 8＋大二～大四各 6；子代理 y1fb-1027 做；1-1 的說明 LAWWW 轉給使用者｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者",
    "xai": {
     "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -33991,7 +33991,7 @@
    "title": "語彤（社會系一年級）出現在法律系麵店團的中秋烤肉，遊戲沒交代為什麼——補一句交代（她和麵店阿姨的關係、怎麼認識阿哲他們）或調整她大一出現的場合",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-27 20:4x 對 LAWWW-C「為什麼中秋烤肉會有語彤是法律系還是?」（UA-LAWWW-1027-21）",
    "first": {
@@ -34004,7 +34004,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_486 第 2 節三行；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接",
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】y1fb-1027 合進 5b227d3aa（ev_mid_autumn_bbq 三行）；BB 5k 第 7 項｜【LAWWW-C 2026-10-27 20:4x UTC】AA_486 第 2 節三行；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接",
    "xai": {
     "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -34128,7 +34128,7 @@
    "title": "AA_489 五處句子：①ev_sis_club_expo 兩句（她一直站在帳篷前）②社博學姊手機地點「椰林大道（社團博覽會，法服的攤位，到下午四點）」③提早坐下轉暗旁白（已做）④體育館路人「聽一句」13 句⑤以安吃完麵那一句（已做）",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_489（c4bcf86f6）",
    "first": {
@@ -34141,7 +34141,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 21:2x UTC】③⑤合進 8f3d4d2f9（class_arrive_unit 第 3、5 項、inv_arrive_lock_unit 第 6 項）；①②④等 y1fb-1027 合進來再做"
+   "next": "【LAWWW-C 2026-10-27 22:0x UTC】第 3、5 節 8f3d4d2f9；第 1、2、4 節 b1a71c1a3（社博學姊兩句、手機地點、體育館路人 13 句：aa489_lines_unit、gym_hear_unit）｜【LAWWW-C 2026-10-27 21:2x UTC】③⑤合進 8f3d4d2f9（class_arrive_unit 第 3、5 項、inv_arrive_lock_unit 第 6 項）；①②④等 y1fb-1027 合進來再做"
   },
   {
    "id": "SIS-B12-FIX-1027",

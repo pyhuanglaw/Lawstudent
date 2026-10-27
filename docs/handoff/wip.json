@@ -864,11 +864,12 @@
    "files": [
     "wip_backup/y1fb_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "大一上回報批次（社博照實際、學姊事務版、健身句、麵店長桌、語彤烤肉）；子代理做中；前提 592de7e18",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-27 回報"
+   "source": "使用者 10-27 回報",
+   "closedBy": "5b227d3aa（合併 y1fb-1027 d4933d0c3）＋1cb7bcbb3（對齊 LAWWW2 36 頂）"
   },
   {
    "id": "WIP-LAWWW-HP-1027",

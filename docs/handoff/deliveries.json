@@ -14957,8 +14957,8 @@
    "what": "AA_485 使用者大一上試玩五件：健身句（沒有會員證版＋以安、沛珊）、羽球短片演出、社博照實際（2025-09-06 一天、36 帳篷、15 攤互動、喊話、舞台、錯過的處理、提示表）、學姊事務版＋限時話題",
    "task": "CLUBFAIR-REAL-1027",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027 做第 1、3、4 節；第 2 節羽球＝LAWWW2（3D）＋LAWWW 接線；outbox b4d858aa0"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027 做第 1、3、4 節；第 2 節羽球＝LAWWW2（3D）＋LAWWW 接線；outbox b4d858aa0｜【LAWWW-C 2026-10-27 22:0x UTC】5b227d3aa（y1fb）＋1cb7bcbb3"
   },
   {
    "id": "DL-AA-486",
@@ -14970,8 +14970,8 @@
    "what": "AA_486 麵店團在故事裡做什麼（給使用者的說明 1-1）、群組建好後阿哲兩句、長桌閒聊大一八則、語彤中秋烤肉三行",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027；outbox ee12ef998"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027；outbox ee12ef998｜【LAWWW-C 2026-10-27 22:0x UTC】5b227d3aa（y1fb）＋1cb7bcbb3"
   },
   {
    "id": "DL-AA-487",
@@ -14983,8 +14983,8 @@
    "what": "AA_487 麵店團長桌閒聊大二～大四各六則",
    "task": "NOODLE-TEAM-WHY-1027",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027；outbox 410766e48"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 20:4x UTC】子代理 y1fb-1027；outbox 410766e48｜【LAWWW-C 2026-10-27 22:0x UTC】5b227d3aa（y1fb）＋1cb7bcbb3"
   },
   {
    "id": "DL-AA-488",
@@ -15009,8 +15009,8 @@
    "what": "AA_489 兩個子代理做完要定的句子：ev_sis_club_expo 兩句、社博學姊手機地點、提早坐下轉暗旁白、體育館路人 13 句、以安吃完麵那一句",
    "task": "AA489-LINES-1027",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "【LAWWW-C 2026-10-27 21:2x UTC】第 3、5 節合進 8f3d4d2f9；第 1、2、4 節等 y1fb-1027 合進來（社博、crowd 同一帶）；outbox 3fd7f0d03"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 21:2x UTC】第 3、5 節合進 8f3d4d2f9；第 1、2、4 節等 y1fb-1027 合進來（社博、crowd 同一帶）；outbox 3fd7f0d03｜【LAWWW-C 2026-10-27 22:0x UTC】第 1、2、4 節 b1a71c1a3"
   },
   {
    "id": "DL-AA-490",
@@ -15076,6 +15076,19 @@
    "task": "CLUBFAIR-REAL-1027",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-27 21:4x UTC】patch 在開發分支 git apply --check 過；等子代理 y1fb-1027（社博十五攤、喊話、提示）合進來再套，顧攤的人照 LAWWW2 的位置表"
+  },
+  {
+   "id": "DL-AA-491",
+   "date": "2026-10-27",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9544aaf7f",
+   "what": "AA_491 社博續：公告欄後半句改寫、嘉義校友會、大二長桌「考試前的麵店」第 6～7、14～15 週、yu_expo 改 9/10（四）21:00、大二社博開場（社課門口填表的玩家）、系籃「（你在場邊填了表。）」",
+   "task": "CLUBFAIR-REAL-1027",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 22:0x UTC】b1a71c1a3；outbox 08c475fb4"
   }
  ],
  "ignored": [
