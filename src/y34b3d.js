@@ -88,7 +88,7 @@ const Y34B=(function(){
   /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。
      E08（使用者 10-16 21:49「3d做機場…」、10-17 00:0x「機場的也是阿」；2026-10-27）：機場改成 3D 的出境大廳（EXCH.airGo，同美國那一趟）——
        字卡「出發｜桃園機場第二航廈」→ 出境大廳（交往中以安跟在旁邊）→ 報到櫃台那一段（ev_an_depart_jp 登機口以前的台詞，2D 疊在模糊的大廳上；第一個地點字幕不換 2D 背景）
-       → 自由走動 → 安檢入口「登機」（或一小時以後自動登機）→ S.departFly：登機口那一段（照舊 2D 機場圖＋CG-22）→ 字卡「飛往日本」→ 抵達（jp3d.js 包住 departFly，進日本的據點）。
+       → 自由走動（挽回中：以安不跟著，站在大廳另一頭另一排報到櫃台前、不能搭話，AA_478 第 4 節）→ 安檢入口「登機」（或一小時以後自動登機）→ S.departFly：登機口那一段（照舊 2D 機場圖＋CG-22）→ 字卡「飛往日本」→ 抵達（jp3d.js 包住 departFly，進日本的據點）。
        台詞一字沒改，只是切成兩段演。沒有 3D 機場（EXCH 沒載入）＝照原本一口氣演完。存檔：G.flags.AIR_DEP（k:'jp'）；AN_SENDOFF 'together' 進大廳就記（同原本）*/
   const JP_GATE=()=>{ const i=DEPART_JP.findIndex(l=>l&&l.scene==='登機口'); return i<0?DEPART_JP.length:i; };
   S.JP_HALL=()=>DEPART_JP.slice(0,JP_GATE()).map(l=>l&&l.scene!==undefined&&l.bg==='airport_departure'?Object.assign({},l,{bg:false}):l);   /* bg:false＝只出地點字幕，背景是 3D 的大廳（events3d.js）*/
@@ -105,6 +105,7 @@ const Y34B=(function(){
     if(air){ leaveHome(G); if(EXCH.AIR&&!EXCH.AIR.jp) EXCH.AIR.jp={board:GM2=>S.departFly(GM2)};
       await EXCH.airGo(GM,{k:'jp',with:dAn(G)&&met('heroine_01')?['heroine_01']:[],noSave:true});   /* 字卡上面出過了；報到櫃台那一段演完才存（EVENTS.run 存）*/
       if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(Object.assign({},ev,{background:'blur',dialogue:S.JP_HALL()}));
+      if(!dAn(G)&&met('heroine_01')&&EXCH.airStand&&EXCH.airStand(GM,[{id:'heroine_01',spot:'checkinA'}])&&GM.autosave) GM.autosave();   /* AA_478 第 4 節：挽回中＝以安不跟著走，站在大廳另一頭（另一排報到櫃台前）、不能搭話；演完那一段才放（EVENTS 會把鏡頭對著她）。站不到＝照原本不在 */
       return true; }   /* 人在出境大廳等登機（jp3d.js 包的 S.arrive 這時候還沒出發、不做事）*/
     if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev);
     await flyJP(GM); return true; };

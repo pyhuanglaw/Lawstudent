@@ -101,7 +101,7 @@ const OUT=(function(){
     if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
     if(o&&o.fromHome) S.fromHome=true;   /* 從家裡出發的 2D 出遊：途中 3D 一直藏著（home3d.js backdrop），演完不會露出最後一個 3D 區域（使用者 10-18：「跨年的劇情結束之後居然是跳回醉月湖」）*/
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
-    await GM.fade(true); if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）*/
+    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
     const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
@@ -111,7 +111,7 @@ const OUT=(function(){
       const tr2=DATE.trip(G,q.dateTrip); await GM.fade(true); GM.advance(tr2?(DATE.travel(tr2.locs[tr2.locs.length-1],tr2.transport)||{minutes:30}).minutes/60:0.5); if(tr2&&tr2.fare&&GM.money) GM.money(-tr2.fare,'交通'); await GM.fade(false); if(GM.caption) GM.caption('',q.back||S.backText(G),2400);
       if(GM.autosave) GM.autosave(); return true; }
     let stg=null; if(!(o&&o.fromHome)) for(const f of S.STAGE){ try{ stg=await f(GM,q,ev); }catch(e){ console.warn('OUT.STAGE',e); stg=null; } if(stg) break; }   /* 有 3D 場景的出遊（OUT.STAGE.push(fn)，fn(GM,q,ev) 回傳 {restore}）：演之前換到那個區域、畫面用模糊的 3D（例：霖澤館 5F 研究室，src/lab5f3d.js）；演完、時間往後以前回到原本的地方 */
-    if(typeof ADV!=='undefined'){ ADV.begin({background:stg?'blur':(ev.background||'dark')}); }
+    if(typeof ADV!=='undefined'){ ADV.begin({background:stg?(stg.bg||'blur'):(ev.background||'dark')}); }   /* stg.bg：那個 3D 場景不露出來（E08 登機以後還在出境大廳、人已經在飛機上＝深色底，vac3d.js S.airStage）*/
     await GM.fade(false); if(typeof EAT!=='undefined'&&EAT.outingFirst) await EAT.outingFirst(GM,q);   /* 宵夜滷味攤第一次去：一句旁白、吃過的（src/eat3d.js，AA_329 第 2 節）*/ for(const f of S.BEFORE){ try{ await f(GM,q,ev); }catch(e){ console.warn('OUT.BEFORE',e); } }   /* 每一趟出遊開始時先做的（OUT.BEFORE.push(fn)）。期末成績打賭的宵夜那句 AA_338 第 3 題改到結尾（OUT.AFTER）*/ if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
     const kxHere=(ev.participants||[]).includes('kexin')&&!ev.kxAway;   /* AA_309 第 3 列（通則）：結尾可昕不在場的（ev.kxAway：10/17 回 412、8/30 一個人開車下山、跨年回程的高鐵）後面不接她的那幾句、不接她的閒聊階梯 */
