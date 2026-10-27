@@ -3,17 +3,22 @@
    - 找她說話時先演（S.preTalk；包住 SISY23.preTalk，同 sis_b8／b9／b10；同一天只演一場她的說話前接演）：
      12-1 學生證：2026-07-06～07-31 平日 9:00～17:00 在總圖閱覽區（library）；認識她（met_sis）、熟悉以上（交往中也演）、不是前任、她在、你人不在國外。
           演完第 21 天 21:00 私訊兩則（不用回；SIS_CARD_DAY＝演的那一天）。
-     12-5 法圖的午休：2028-03-01～03-24 平日 12:00～14:00 在法圖（lawlib）；認識她、熟悉以上（交往中也演）、不是前任、人在臺灣（三條路線都有：日本路線 3/25 才走）。
+     12-5 法圖的午休：2028-03-03～04-21 的週五 12:00～14:00 在法圖（lawlib）；認識她、熟悉以上（交往中也演）、不是前任、人在臺灣（日本路線 3/25 出發＝只到 3/24）。
+          AA_490 第 1 節（SIS-B12-FIX-1027，BB_218 e936b4624）：她的作息不改——週一～週四 9:00～14:00 在霖澤館 5F 研究室（兩筆 linze_5f）、只有週五整天在法圖；
+          原本「3/1～3/24 平日」實際只有四個週五演得到，改成週五、日期放寬到 4/21（臺灣、美國路線八個週五，日本路線四個）。
      12-7 空白的一月：2029-01-02～02-08 週一、二、四 19:00～21:30 在兩點半 Café；認識她、熟悉以上、沒在和她交往、不是前任、人在臺灣（朋友版）。
      錯過不補（窗口過了就不演）。
    - 家族群組（STORY.PHONE_RULES；在家族群組 family_law 的人都收得到，不看認不認識她——AA_470 5-2；只有選項、出遊、私訊要「認識她」，12-4、12-6a 的選項寫明所有人）：
      12-2 四則（2026-09-07、09-14、10-26、2027-03-08 21:00；不用回）；
      12-3 2027-01-12 21:00 三則（「我也在。」只給認識她、不是前任的）→ 1/13 19:00 出遊「公館的火鍋店（幫 Kevin 吃一份）」；沒回、沒有選項＝1/13 12:00 兩則；演完群組三則；SIS_HOTPOT_GO／SIS_HOTPOT_Y2；
+          和 C04W 托福寒假班（週一、三晚上）撞期照撞期處理（AA_490 4-1）：報了 C04W、1/13 晚上有課的，「我也在。」帶小字「那天晚上有托福班」（S.vacEve；白天上課的不撞、不加）；
      12-4 2027-09-13 21:00 五則（「我去。」／「這週不行。」所有人）→ 9/16（四）19:00 出遊「法圖・討論室（家族讀書會）」；9/16 21:40 兩則；SIS_FAMSTUDY_GO／SIS_FAM_STUDY；
+          和以安的公法讀書會（週四 20:00）同一晚，照撞期處理、不換日子（AA_490 第 3 節）：那一學期去過公法讀書會的，「我去。」帶小字「那天晚上也是公法讀書會」（S.plgTerm）；
           之後的週四（AA_470 12-4「LAWWW 看成本決定」）這一版不做：她週四照舊在 Café；
      12-6a 2028-06-03 13:00 五則（「學長恭喜！」所有人）；12-6b 2028-07-10 21:00 三則（認識她的才有選項：人在臺灣「我去。」／「這週不行。」→ 7/13 19:00 出遊；
           人在日本「我在日本。」）；SIS_FAMSTUDY_LAST_GO／SIS_FAM_STUDY_LAST、SIS_STUDY_ROOM。人在日本＝當地時間（STORY.tzOffset）。
-   - 4-2 交往版「另外一本」：S.bookWithYou（termend_lines.js 學姊女朋友版大四上 lastByTerm 讀）；朋友版接在 12-7 裡。
+          7/13 那天寒暑假出國中（VAC.abroadOn，例 C10 加州 6/21～7/31、C08 首爾 7/13 出發；LAWWW-C ②）也不在臺灣：三則照收、沒有選項、不排；舊存檔已經排好的取消（cancelled），不記 missed。
+   - 4-2 交往版「另外一本」：S.bookWithYou（termend_lines.js 學姊女朋友版大四上 lastByTerm 讀；12/24 約在哪一家都演，AA_490 第 2 節——termend3d.js）；朋友版接在 12-7 裡。
    - 5-1 舊存檔：有 FAMILY_DINNER 記憶、去過家族聖誕（SIS_FAMXMAS_Y1，'missed' 不算）、或 ev_sis_family_dinner／ev_sis_results_dinner(_y1) 演過的，讀檔時補 met_sis、SIS_W1
      （game3d.js migrate 會叫 ROM.rec：包一層，同 multirel3d.js）。
    測試：node tests/aa470_sis_b12_unit.js */
@@ -49,13 +54,20 @@ const SISB12=(function(){
   S.usDating=G=>route(G)==='US'&&S.dating(G);
   S.okFam=G=>law(G)&&!!G.flags.met_sis&&!S.isEx(G)&&(S.dating(G)||stageOk('FAMILIAR'))&&here(G)&&!abroad(G);   /* 12-1、12-5 */
   S.okFriend=G=>law(G)&&!!G.flags.met_sis&&!S.dating(G)&&!S.isEx(G)&&stageOk('FAMILIAR')&&here(G)&&!abroad(G);   /* 12-7 */
+  /* 撞期的小字（AA_490 第 3 節、4-1：照撞期處理，玩家自己選去哪一個；選項的 hint＝小字，game3d.js askBtns 畫在按鈕裡）*/
+  S.plgTerm=(G,d)=>{ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.list||!ACTIVITIES.on||!ACTIVITIES.attendedAny||typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false;
+    const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'), t=CALENDAR.termOf(d), p='public_law_group@', A=(G.acts&&G.acts.att)||{}; if(!a||!t||!ACTIVITIES.on(a,d,G)) return false;
+    return Object.keys(A).some(k=>{ if(k.indexOf(p)!==0) return false; const x=+k.slice(p.length), tx=CALENDAR.termOf(x); return !!tx&&tx.id===t.id&&ACTIVITIES.attendedAny(G,'public_law_group',x); }); };   /* d 那天晚上也有公法讀書會、而且那一學期去過（聽完或中途離開都算；到場紀錄 G.acts.att 的 public_law_group@日）*/
+  S.vacEve=(G,id,d)=>{ if(typeof VAC==='undefined'||!VAC.inst||!VAC.enrolled||!VAC.daysOf) return false;
+    for(const yk of (VAC.YEARS||[])){ const I=VAC.inst(id,yk); if(I&&d>=I.from&&d<=I.to&&I.A.slot==='eve'&&VAC.enrolled(G,id,yk)&&VAC.daysOf(I).includes(d)) return true; } return false; };   /* 報了那一班（yes／done）、d 是上課日、晚上上課（slot 'eve'；白天上課的不撞）：C04W 托福寒假班週一、三晚上 */
+  S.vacAway=(G,d)=>typeof VAC!=='undefined'&&!!VAC.abroadOn&&VAC.abroadOn(G,d);   /* d 那天寒暑假出國中（報了、或去過的出國行程那幾天）：沿用 VAC.abroadOn（同 home3d.js sumSkip、jobs3d.js vacBusy）*/
 
   /* ---------------- 找她說話時先演（12-1、12-5、12-7）---------------- */
   const SIS_PRE=/^ev_sis_(adv_|three_conditions|lab_desk|seminar|topic|us_told|db_taught|ta_papers|econ_|old_notes|hot_water_back|jp_note|which_book|y3s2_rain|pg_q|borrowed_card|lawlib_kevin|blank_jan)/;
   const preToday=G=>{ const R=G.events&&G.events.last; if(!R) return false; return Object.keys(R).some(id=>SIS_PRE.test(id)&&R[id]===G.day); };   /* 同一天只演一場 */
-  S.CARD={from:'2026-07-06',to:'2026-07-31'}; S.KEVIN={from:'2028-03-01',to:'2028-03-24'}; S.JAN={from:'2029-01-02',to:'2029-02-08'};
+  S.CARD={from:'2026-07-06',to:'2026-07-31'}; S.KEVIN={from:'2028-03-03',to:'2028-04-21',toJP:'2028-03-24'}; S.JAN={from:'2029-01-02',to:'2029-02-08'};   /* 12-5：AA_490 第 1 節（原本 3/1～3/24 平日）*/
   S.cardDue=G=>!!G&&law(G)&&G.zone==='library'&&inDays(G,S.CARD.from,S.CARD.to)&&wd(G)>=1&&wd(G)<=5&&hh(G)>=9&&hh(G)<17&&!done(G,'ev_sis_borrowed_card')&&G.flags.SIS_CARD_DAY==null&&S.okFam(G);
-  S.kevinDue=G=>!!G&&law(G)&&G.zone==='lawlib'&&inDays(G,S.KEVIN.from,S.KEVIN.to)&&wd(G)>=1&&wd(G)<=5&&hh(G)>=12&&hh(G)<14&&!done(G,'ev_sis_lawlib_kevin')&&S.okFam(G);
+  S.kevinDue=G=>!!G&&law(G)&&G.zone==='lawlib'&&inDays(G,S.KEVIN.from,route(G)==='JP'?S.KEVIN.toJP:S.KEVIN.to)&&wd(G)===5&&hh(G)>=12&&hh(G)<14&&!done(G,'ev_sis_lawlib_kevin')&&S.okFam(G);   /* 只有週五（週一～週四中午她在霖澤館 5F）；日本路線 3/25 出發＝到 3/24 */
   S.janDue=G=>!!G&&law(G)&&G.zone==='cafe'&&inDays(G,S.JAN.from,S.JAN.to)&&[1,2,4].includes(wd(G))&&hh(G)>=19&&hh(G)<21.5&&!done(G,'ev_sis_blank_jan')&&S.okFriend(G);
   S.preTalkEv=function(G){ if(!G||!G.flags||preToday(G)) return null;
     if(S.cardDue(G)) return 'ev_sis_borrowed_card'; if(S.kevinDue(G)) return 'ev_sis_lawlib_kevin'; if(S.janDue(G)) return 'ev_sis_blank_jan'; return null; };
@@ -78,7 +90,7 @@ const SISB12=(function(){
   S.hotOk=G=>law(G)&&!!G.flags.met_sis&&!S.isEx(G);   /* 「我也在。」只給認識她、不是前任的（交往中也有；住家裡也算在臺北）*/
   S.hot=function(G){ const F=G.flags, a=D(S.HOT.ask), b=D(S.HOT.day), tag='sisb12_hot_ask'; if(a==null||b==null||G.day<a||G.day>b+1) return;
     if(!sent(G,tag)&&inGrp(G)&&G.day<=b&&now(G)<T(b,12)){ const M=(L.hotAsk||[]).map(g);
-      if(S.hotOk(G)&&L.hotYes) M[M.length-1].ask={id:tag,until:T(b,12),opts:[{t:L.hotYes.t,set:{SIS_HOTPOT_GO:true},say:L.hotYes.say.map(r)}]};
+      if(S.hotOk(G)&&L.hotYes) M[M.length-1].ask={id:tag,until:T(b,12),opts:[Object.assign({t:L.hotYes.t,set:{SIS_HOTPOT_GO:true},say:L.hotYes.say.map(r)},L.hotHint&&S.vacEve(G,'C04W',b)?{hint:L.hotHint}:{})]};   /* 報了 C04W、1/13 晚上有課：小字「那天晚上有托福班」（AA_490 4-1）*/
       PHONE.at(G,a,21,M,tag); }
     if(F.SIS_HOTPOT_GO===true&&F.SIS_HOTPOT_Y2==null&&now(G)<T(b,S.HOT_OUT.h+S.HOT_OUT.late)) plan(G,Object.assign({},S.HOT_OUT,{day:b}));
     if(sent(G,tag)&&F.SIS_HOTPOT_GO!==true&&now(G)>=T(b,12)&&!sent(G,'sisb12_hot_none')) PHONE.at(G,b,12,(L.hotNone||[]).map(g),'sisb12_hot_none'); };   /* 不回、或沒有選項的玩家 */
@@ -89,7 +101,7 @@ const SISB12=(function(){
   S.STUDY_OUT={id:'sisb12_famstudy',ev:'ev_sis_fam_study',h:19,late:0.25,place:'法圖・討論室',title:'法圖・討論室（家族讀書會）',travel:'走路 約 10 分鐘',travelH:1/6,hours:2.5,back:'回到住的地方。'};
   S.study=function(G){ const F=G.flags, a=D(S.STUDY.ask), d=D(S.STUDY.day), tag='sisb12_study_ask'; if(a==null||d==null||G.day<a||G.day>d+2) return;
     if(!sent(G,tag)&&inGrp(G)&&G.day<=d&&now(G)<T(d,19)){ const M=(L.studyAsk||[]).map(g);
-      M[M.length-1].ask={id:tag,until:T(d,19),opts:(L.studyOpts||[]).map(o=>({t:o.t,set:{SIS_FAMSTUDY_GO:o.k}}))}; PHONE.at(G,a,21,M,tag); }   /* 選項（所有人）*/
+      M[M.length-1].ask={id:tag,until:T(d,19),opts:(L.studyOpts||[]).map(o=>Object.assign({t:o.t,set:{SIS_FAMSTUDY_GO:o.k}},o.k===true&&L.studyHint&&S.plgTerm(G,d)?{hint:L.studyHint}:{}))}; PHONE.at(G,a,21,M,tag); }   /* 選項（所有人）；那一學期去過公法讀書會的，「我去。」帶小字「那天晚上也是公法讀書會」（AA_490 第 3 節）*/
     if(F.SIS_FAMSTUDY_GO===true&&F.SIS_FAM_STUDY==null&&now(G)<T(d,S.STUDY_OUT.h+S.STUDY_OUT.late)) plan(G,Object.assign({},S.STUDY_OUT,{day:d}));
     if(inGrp(G)&&G.day>=d&&now(G)>=T(d,21+40/60)&&!sent(G,'sisb12_study_after')) PHONE.at(G,d,21+40/60,(L.studyAfter||[]).map(g),'sisb12_study_after'); };   /* 9/16 21:40 群組 */
 
@@ -101,9 +113,11 @@ const SISB12=(function(){
     if(L.gradOpt) M[M.length-1].ask={id:tag,until:T(d+2,0),opts:[{t:L.gradOpt.t,say:L.gradOpt.say.map(r)}]};   /* 選項（所有人）*/
     PHONE.at(G,d,tzH(G,d,13),M,tag); };
   S.last=function(G){ const F=G.flags, a=D(S.LAST.ask), d=D(S.LAST.day), tag='sisb12_last_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
+    const away=S.vacAway(G,d);   /* 7/13 那天寒暑假出國中（LAWWW-C ②；例 C10 加州 6/21～7/31、C08 首爾 7/13 出發）＝人不在臺灣：不收邀約、不排、不記 missed */
     if(!sent(G,tag)&&inGrp(G)&&G.day<=d&&now(G)<T(d,19)){ const M=(L.lastAsk||[]).map(g);
-      if(law(G)&&G.flags.met_sis){ M[M.length-1].ask=S.inJapan(G,a)?{id:tag,until:T(d,19),opts:[{t:L.lastJp.t,say:L.lastJp.say.map(r)}]}:{id:tag,until:T(d,19),opts:(L.lastOpts||[]).map(o=>({t:o.t,set:{SIS_FAMSTUDY_LAST_GO:o.k}}))}; }   /* 選項要「認識她」（AA_470 5-2）*/
+      if(law(G)&&G.flags.met_sis&&(S.inJapan(G,a)||!away)){ M[M.length-1].ask=S.inJapan(G,a)?{id:tag,until:T(d,19),opts:[{t:L.lastJp.t,say:L.lastJp.say.map(r)}]}:{id:tag,until:T(d,19),opts:(L.lastOpts||[]).map(o=>({t:o.t,set:{SIS_FAMSTUDY_LAST_GO:o.k}}))}; }   /* 選項要「認識她」（AA_470 5-2）；出國中的群組三則照收、沒有選項 */
       PHONE.at(G,a,tzH(G,a,21),M,tag); }
+    if(away){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.LAST_OUT.id):null; if(q&&q.state==='planned') q.state='cancelled'; return; }   /* 舊存檔（改之前收到有選項的那一則）：說要去的不排、已經排好的取消（同 VAC.drop 的 cancelled），過了時間不會變 missed */
     if(F.SIS_FAMSTUDY_LAST_GO===true&&F.SIS_FAM_STUDY_LAST==null&&!abroad(G)&&now(G)<T(d,S.LAST_OUT.h+S.LAST_OUT.late)) plan(G,Object.assign({},S.LAST_OUT,{day:d})); };
 
   /* ---------------- 4-2 交往版：「另外一本，放你那邊。……回來跟你拿。」聽過的（SIS_BOOK_WITH_YOU；舊存檔：她那時候已經在交往）---------------- */

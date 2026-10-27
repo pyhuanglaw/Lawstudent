@@ -46,7 +46,7 @@ const reg=(key,v)=>{ VAC.rec(H.G).reg[key]=v||'yes'; };   /* 寒暑假活動報�
 const plg=(key,end)=>{ H.G.acts.att['public_law_group@'+D(key)]={h:20,end:end||'full'}; };   /* 公法讀書會的到場紀錄（ACTIVITIES.markAttended 的格式；end 'left'＝中途離開）*/
 const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);   /* 同 game3d.js */
 /* 手機的按鈕：抽 game3d.js 的 askBtns 那一行出來跑（game3d.js 整支要瀏覽器）*/
-const g3src=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), g3m=g3src.match(/^\s*const askBtns=(m=>.*);\s*$/m);
+const g3src=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), g3m=g3src.match(/^\s*const askBtns=(m=>.*?\+'<\/div>');/m);   /* 到 .join('')+'</div>'; 為止（後面可以有註解）*/
 const askBtns=m=>{ if(!g3m) return ''; return new Function('escH','G','PHONE','return ('+g3m[1]+')')(escH,H.G,PHONE)(m); };
 
 (async()=>{
@@ -92,7 +92,8 @@ await sec(2,async()=>{ const PUSH='（你把那本書推過去。這半年，它
   check('2. 12/24 約在阿鳳麵店（不是法圖旁邊那家）：也演「（你把那本書推過去。…）」「（翻到書籤那一頁）……你沒有往後翻。」；選項「我翻了一頁。」「沒有。」→「哪一頁。……算了，不要講。」',
     seq([PUSH,BM,'哪一頁。……算了，不要講。'])&&H.opts.some(o=>J(o)===J(['「我翻了一頁。」','「沒有。」']))&&!has('（下午的人散了，店裡只剩你們這一桌。）'),J({o:H.opts,s:said()}));
   await dinner({place:'brunch',placeName:'半熟'},{SIS_BOOK:'novel',SIS_BOOK_WITH_YOU:true},[1]);
-  check('2. 約在半熟：也演；「沒有。」→「嗯。」',seq([PUSH,BM,'嗯。'])&&has('（半熟。）'),J(said()));
+  const li=t=>said().lastIndexOf(t);   /* 「嗯。」前面的閒聊也有：看最後一次 */
+  check('2. 約在半熟：也演；「沒有。」→「嗯。」',seq([PUSH,BM])&&li('嗯。')===idx(BM)+1&&has('（半熟。）'),J(said()));
   await dinner({},{SIS_BOOK:'law',SIS_BOOK_WITH_YOU:true},[0]);
   check('2. 她約的那一家（法圖旁邊的簡餐）照舊演，在收尾那句旁白前面',seq([PUSH,BM,'哪一頁。……算了，不要講。','（她看了一下錶，沒有要起身的意思。）']),J(said()));
   const none=[]; for(const [n,f] of [['聽的是朋友版',{SIS_BOOK:'law',SIS_BOOK_WITH_YOU:false}],['both',{SIS_BOOK:'both',SIS_BOOK_WITH_YOU:false}],['沒演過帶哪一本',{}]]){ await dinner({place:'noodle',placeName:'阿鳳麵店'},f); if(has(PUSH)||has(BM)) none.push(n); }
@@ -150,8 +151,9 @@ await sec(5,async()=>{
 await sec(6,async()=>{ const a=D('2028-07-10'), d=D('2028-07-13');
   const lastMs=()=>byTag('sisb12_last_ask'), opts=()=>{ const m=lastMs().find(x=>x.ask); return m?m.ask.opts.map(o=>o.t):null; };
   const pass=()=>{ at(d,19.9); for(const x of OUT.expire(H.G)) OUT.onMissed(GM,x); at(d+1,9); ph(); };
-  check('6. 前提：C10 加州（6/21～7/31）、C08 首爾（7/13 出發）7/13 都在國外（VAC.abroadOn）',(()=>{ fresh('2028-07-10',20,'friend'); reg('C10@Y3'); const x=VAC.abroadOn(H.G,d); fresh('2028-07-10',20,'friend'); reg('C08@Y3'); return x&&VAC.abroadOn(H.G,d)&&!VAC.abroadOn(H.G,a); })());
-  const bad=[]; for(const [n,k] of [['C10 加州','C10@Y3'],['C08 首爾','C08@Y3']]){ fresh('2028-07-10',20,'friend'); reg(k); at(a,23.9); ph(); at(a+1,9); ph();
+  const APP={C10:{},C08:{VAC_C08_APP:true}};   /* C08 要寫過申請資料才錄取（沒寫的甄選日 VAC 改成 rejected＝沒出國）*/
+  check('6. 前提：C10 加州（6/21～7/31）、C08 首爾（7/13 出發，寫過申請資料＝錄取）7/13 都在國外（VAC.abroadOn；跑過手機規則以後也是）',(()=>{ fresh('2028-07-10',20,'friend'); reg('C10@Y3'); ph(); const x=VAC.abroadOn(H.G,d); fresh('2028-07-10',20,'friend',APP.C08); reg('C08@Y3'); ph(); return x&&VAC.abroadOn(H.G,d)&&!VAC.abroadOn(H.G,a); })());
+  const bad=[]; for(const [n,k] of [['C10 加州','C10@Y3'],['C08 首爾','C08@Y3']]){ fresh('2028-07-10',20,'friend',APP[k.slice(0,3)]); reg(k); at(a,23.9); ph(); at(a+1,9); ph();
     const L7=lastMs(); if(J(L7.map(x=>x.text))!==J(['最後一次家族讀書會 這週四','學姊下個月就飛了 我下個月就考了','題目我出好了。'])) bad.push(n+'：三則沒收到'); if(L7.some(x=>x.ask)) bad.push(n+'：有選項');
     H.G.flags.SIS_FAMSTUDY_LAST_GO=true; ph(); if(OUT.get(H.G,'sisb12_famstudy_last')) bad.push(n+'：排了出遊'); pass(); if(H.G.flags.SIS_FAM_STUDY_LAST!=null) bad.push(n+'：記了 '+H.G.flags.SIS_FAM_STUDY_LAST); }
   check('6. 報了 C10 加州、C08 首爾（7/13 人在國外）：7/10 群組三則照收、沒有選項（不收邀約）；就算有「我去。」的旗標也不排、不記 missed',!bad.length,J(bad));

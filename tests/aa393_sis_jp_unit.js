@@ -28,6 +28,7 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
 let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 try{ doc+='\n'+cp.execSync('git show d94d259ec:"docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_442 第 3 節改了提示那一句（「你禮拜六走，對吧。」）*/
 try{ doc+='\n'+cp.execSync('git show 5f54b6545:"docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_470 4-5 加了 7/10 那一則 */
+try{ doc+='\n'+cp.execSync('git show a4f530c11:"docs/story_planning/AA_490_回LAWWW_學姊第十二批三件_法圖午休改週五_書推過去_讀書會撞期.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_490 4-2 換了 5/29 的第二句（SIS-B12-FIX-1027）*/
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
