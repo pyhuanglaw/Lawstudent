@@ -36,6 +36,9 @@ check('0. 讀得到企劃線 '+SHA+' 的 AA_471',DOC.length>1000&&DOC.includes('
 await tsec(3,async()=>{ const S3=sec(3), want={};
   for(const k of ['2029-12-14','2030-09-06','2030-12-13']) want[k]=cellMsgs(row(S3,k)[2]);
   want['2029-09-07']=[['yu','一試放榜了。'],[null,'（群組安靜了三秒。）'],['zhe','宵夜。']];   /* 原句（稿：「原句」）*/
+  /* AA_476 A-7（企劃線 6ad997806）：阿哲照口氣表不加句號——2030-09-06「宵夜」、2030-12-13「最後一次宵夜」、2029-09-07 原句也拿掉；Alison 的句號照稿 */
+  check('3. 稿：AA_476 A-7 阿哲不加句號（「宵夜」「最後一次宵夜」、9/7 原句也拿掉）',a476(7).includes('「宵夜」')&&a476(7).includes('「最後一次宵夜」')&&/2029-09-07 原句「宵夜。」也拿掉句號/.test(a476(7))&&/Alison 的句號照稿/.test(a476(7)));
+  for(const k in want) want[k]=want[k].map(x=>x[0]==='zhe'?[x[0],x[1].replace(/。$/,'')]:x);
   check('3. 稿：三個日子各一版（阿哲／Alison）',['2029-12-14','2030-09-06','2030-12-13'].every(k=>want[k].length>=2&&want[k].every(x=>x[0]==='zhe'||x[0]==='yu'))&&/Alison：一試放榜了。/.test(S3),J(want));
   /* 考兩年的玩家（2029 一試不到 12 題、2030 再考）：四次都在群組 */
   const G=grad('2029-09-07',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:5}); PHONE.join(G,'noodle_team','麵店團');
@@ -48,7 +51,7 @@ await tsec(3,async()=>{ const S3=sec(3), want={};
   check('3. 原本那一版（「國考放榜了。」）不再出現；「（群組安靜了三秒。）」只在 2029-09-07 一次',!all.includes('國考放榜了。')&&all.filter(t=>t==='（群組安靜了三秒。）').length===1,J(all));
   /* 接下來誰上了的那幾則照舊（2030-12-13 阿哲、Alison）*/
   H.at('2030-12-13',15.3); H.tick(); const after=grpMsgs(G,'g:noodle_team').map(x=>x[1]), zw=PG.zhe2030(G).map(m=>m.text);
-  check('3. 2030-12-13 後面的阿哲「'+zw.join('」「')+'」、Alison「司法官還是沒上。……」照舊，接在放榜那兩行後面',J(after.slice(-1-zw.length))===J(zw.concat([POSTGRAD_LINES.Y2030.yu]))&&after.indexOf('最後一次宵夜。')<after.indexOf(zw[0]),J(after.slice(-6)));
+  check('3. 2030-12-13 後面的阿哲「'+zw.join('」「')+'」、Alison「司法官還是沒上。……」照舊，接在放榜那兩行後面',J(after.slice(-1-zw.length))===J(zw.concat([POSTGRAD_LINES.Y2030.yu]))&&after.indexOf('最後一次宵夜')>=0&&after.indexOf('最後一次宵夜')<after.indexOf(zw[0]),J(after.slice(-6)));
   /* 只考 2029 一年的：只有前兩次 */
   const G2=grad('2029-12-14',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer'}); PHONE.join(G2,'noodle_team','麵店團'); H.tick(); H.at('2029-12-14',15.02); H.tick();
   check('3. 只考 2029：12/14 那一版',J(grpMsgs(G2,'g:noodle_team').filter(x=>/放榜|洗澡|洗完/.test(x[1])))===J(want['2029-12-14']),J(grpMsgs(G2,'g:noodle_team'))); });
