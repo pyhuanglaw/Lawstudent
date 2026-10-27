@@ -757,9 +757,13 @@ const STORY = (function(){
     for(const m of preMem) if(SOCIAL.remember) SOCIAL.remember(id,m,st.id);   /* linesIf／extraIf 那一套自己的記憶（BB 的芷若、子晴 ZR_ZQ_SETUP_*：只說一次，之後的線讀它）*/
     so.ladder[K]=(so.ladder[K]|0)+1; so.ladderDay[id]=G.day; if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } return true; };
   /* 和她說話時：有下一層就播；沒有就短招呼。回傳 true＝處理了（呼叫的人不要再接舊的閒聊）*/
+  /* AA_489 第 5 節（企劃線 c4bcf86f6）：以安在麵店的那一句「你點好了嗎？我還在看菜單。」——這一趟已經和她在麵店吃過（約她的那一筆 done、同一天、開始後兩小時內）＝換句（使用者 10-27 回報吃完追上她說話對不上；AN-MEAL-STUCK-1027 子代理）。
+     一個人在麵店吃（EAT 只記日子不記時間）不算 */
+  S.AN_MENU='你點好了嗎？我還在看菜單。'; S.AN_MENU_AFTER='你吃完了？我才剛到。……還在看菜單。';
+  S.anAteNoodle=G=>(G.invites||[]).some(v=>v&&v.who==='heroine_01'&&v.place==='noodle'&&v.state==='done'&&v.day===G.day&&G.hour>=v.h&&G.hour<=v.h+2);
   S.ladderTalk=async function(GM,who,id,mode){ const G=GM.G; if(!S.ladData(G,id)) return false;
     const st=S.ladNext(G,id,mode); if(st) return S.ladPlay(GM,who,id,st);
-    const g=S.ladGreet(G,id); if(!g) return false; await GM.say(who,g); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
+    let g=S.ladGreet(G,id); if(!g) return false; if(id==='heroine_01'&&g===S.AN_MENU&&S.anAteNoodle(G)) g=S.AN_MENU_AFTER; await GM.say(who,g); if(SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
   /* 載妹墊（AA_137 第 5 節；使用者 2026-10-15「腳踏車要可以載人」；使用者 2026-10-16 更正：「一開始腳踏車就有載妹墊不用加裝 學姊也要給我載」——取代 AA_137 的公館車行加裝、學姊走在旁邊）：
      開局就有載妹墊。誰願意坐（約好同行的人）：可昕（交往中）、以安／語彤／芷若／子晴／沛珊／學姊（熟悉以上；女生側坐）、阿凱／阿哲（跨坐）。
      台詞：AA_137 的表（SEAT_AA）、BB-B 的 LADDER.bikeSeat（芷若、子晴、沛珊）——沒有寫的就不說話（學姊坐後座的台詞等 BB-B）。

@@ -72,13 +72,14 @@ const inRoom=(z,room)=>{ const sts=z.seats.filter(q=>q.room===room); const s=sts
 async function attendAt(min,zid,cid,room){ const z=enter(zid,0,0); const c=COURSES.list.find(q=>q.id===cid); const d0=TUE-1; let it=null, G=null; for(let d=d0;d<d0+8&&!it;d++){ const g={day:d,hour:8,zone:zid,flags:{},weekday:CALENDAR.dateOf(d).wd%7}; const q=CLS.dayItems(g).find(x=>x.c.id===cid); if(q){ it=q; G=g; } }
   G.hour=it.t0-0.7; const GM=mkGM(G); CLS.syncRooms(GM,{instant:true}); CROWD.enter(GM,zid); const sts=z.seats.filter(q=>q.room===room); const st=sts[sts.length-1], ap=CROWD.seatSide(E,st); E.player.obj.position.set(ap[0],0,ap[1]);
   for(let m=-41;m<=min;m++){ G.hour=it.t0+m/60; CROWD.tick(GM,2); CLS.syncRooms(GM); if(m<min) arriveAll(); }
-  E.player.seat=st; popped=[]; let atSay=null; const pop0=[]; GM.say=async()=>{ if(atSay==null){ pop0.push(...popped); atSay={seated:E.npcs.filter(n=>n.clsStudent&&n.seat&&!n.path).length,walking:E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length).length,teacher:E.npcs.some(n=>n.clsTeacher&&!n.leaving&&!(n.path&&n.path.length)),h:G.hour,faded}; } };   /* pop0：到上課的第一句為止，沒轉暗的時候直接坐在座位上加進來的人 */
-  await CLS.attend(GM,it,{inScene:true}); E.player.seat=null; return {it,atSay,popped:popped.slice(),pop0}; }
+  E.player.seat=st; popped=[]; let atSay=null; const pop0=[]; let waitSaid=0; GM.say=async(who,t)=>{ if(t==='（你在座位上等。教室慢慢坐滿了。）'){ waitSaid++; return; }   /* AA_489 第 3 節：轉暗時那一句旁白，不算上課的第一句 */ if(atSay==null){ pop0.push(...popped); atSay={seated:E.npcs.filter(n=>n.clsStudent&&n.seat&&!n.path).length,walking:E.npcs.filter(n=>n.clsStudent&&n.path&&n.path.length).length,teacher:E.npcs.some(n=>n.clsTeacher&&!n.leaving&&!(n.path&&n.path.length)),h:G.hour,faded}; } };   /* pop0：到上課的第一句為止，沒轉暗的時候直接坐在座位上加進來的人 */
+  await CLS.attend(GM,it,{inScene:true}); E.player.seat=null; return {it,atSay,popped:popped.slice(),pop0,waitSaid}; }
 (async()=>{
   { const r=await attendAt(-25,'boya','chinese_y1','101'); const inView=r.pop0.length;   /* 轉暗以前就出現在座位上的人 */
+    check('3. AA_489 第 3 節：提早坐下、轉暗時一句「（你在座位上等。教室慢慢坐滿了。）」，一次',r.waitSaid===1,'說了 '+r.waitSaid+' 次');
     check('3. 開始前 25 分鐘坐下選「上課」：先轉暗、等到上課時間（上課的對話在 09:10 以後）',!!r.atSay&&r.atSay.h>=r.it.t0-1e-6&&!r.atSay.faded,r.atSay&&('對話時 '+CLS.hhmm(r.atSay.h)));
     check('3. 開始前 25 分鐘坐下選「上課」：轉暗以前沒有人出現在座位上；上課的時候同學都坐好了、老師在講台',inView===0&&r.atSay&&r.atSay.seated>=8&&r.atSay.teacher,'轉暗前出現 '+inView+' 人；上課時坐好 '+(r.atSay&&r.atSay.seated)+' 人、老師 '+(r.atSay&&r.atSay.teacher)); }
-  { const r=await attendAt(2,'boya','chinese_y1','101'); const sit=r.pop0.length;
+  { const r=await attendAt(2,'boya','chinese_y1','101'); check('5. AA_489 第 3 節：開始以後才坐下＝沒有那一句（沒有轉暗）',r.waitSaid===0,'說了 '+r.waitSaid+' 次'); const sit=r.pop0.length;
     check('3. 開始後 2 分鐘才坐下上課：沒有人出現在座位上（還沒到的同學從門口走進來）',sit===0&&r.atSay&&r.atSay.seated+r.atSay.walking>=8,'座位上冒出來 '+sit+' 人；坐好 '+(r.atSay&&r.atSay.seated)+'、走進來 '+(r.atSay&&r.atSay.walking)); }
   { const r=await attendAt(-25,'putong','ge_film_y1s1','101');
     check('3. 普通 101（平面教室）開始前 25 分鐘坐下上「電影與敘事」：轉暗以前沒有人出現在座位上，上課時有老師、同學',r.pop0.length===0&&r.atSay&&r.atSay.seated>=5&&r.atSay.teacher,'轉暗前出現 '+r.pop0.length+' 人；坐好 '+(r.atSay&&r.atSay.seated)+'、老師 '+(r.atSay&&r.atSay.teacher)); }
