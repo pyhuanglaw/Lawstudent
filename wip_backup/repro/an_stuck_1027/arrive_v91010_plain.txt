@@ -1,0 +1,13 @@
+loaded True
+door [-63, 21]
+pre {"depth": 0, "who": [], "dlg": false, "txt": "｜", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "gongguan", "hour": 16.786, "iv": "going@16.68", "an": {"beh": "follow", "d": 64.9, "seat": false, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+0.0 {"depth": 0, "who": [], "dlg": false, "txt": "｜", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "gongguan", "hour": 16.794, "iv": "going@16.68", "an": {"beh": "follow", "d": 56.9, "seat": false, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+2.3 {"depth": 0, "who": [], "dlg": false, "txt": "｜", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "noodle", "hour": 16.796, "iv": "going@16.68", "an": {"beh": "follow", "d": 0.6, "seat": false, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+2.8 {"depth": 1, "who": ["S.meet (http://127.0.0.1:8813/src/invites3d.js?v=9.10.10:288:25)"], "dlg": true, "txt": "｜", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 16.798, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.6, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+8.0 {"depth": 1, "who": ["S.meet (http://127.0.0.1:8813/src/invites3d.js?v=9.10.10:288:25)"], "dlg": true, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.6, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+10.0 {"depth": 0, "who": [], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "noodle", "hour": 17.55, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.8, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+END {"depth": 0, "who": [], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "noodle", "hour": 17.572, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.8, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+after {"depth": 0, "who": [], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "noodle", "hour": 17.585, "iv": "done@16.798", "an": {"beh": "leave", "d": 3.7, "seat": false, "leaving": true}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+stuck False
+errs []
+logs ['warning: 星期和日期對不上，照行事曆改： 4 → 3']
