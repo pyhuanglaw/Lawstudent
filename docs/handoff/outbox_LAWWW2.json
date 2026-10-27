@@ -3606,6 +3606,27 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "遊戲場（配置 z 往北）往北 1.5 m、入口 B 步道改走遊戲場南邊；原本入口 B 到老樹要繞 42.5 m，改後直走。wz_park_unit 新項目改前 FAIL、改後 ALL PASS；會載入小公園配置的 Node 測試 46 支 ALL PASS；crowd3d.js 課輔班路線自動改回從入口 B 進來（程式不用改）"
+  },
+  {
+   "task": "PERF-TEX-DEDUP-1027",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/tex_dedup_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/tex_dedup_1027/README.md",
+    "docs/art-rebuild/second_ai/test_shots/tex_dedup_1027/cmp.jpg",
+    "docs/art-rebuild/second_ai/test_shots/tex_dedup_1027/data/",
+    "tools/shots/glb_tex_dups.py",
+    "tools/shots/tex_dedup_probe.py",
+    "tools/shots/road_probe.py"
+   ],
+   "state": "已交付",
+   "remaining": "真機（iPhone 記憶體、被踢回標題）沒量；下載量不變（GLB 檔裡還是各帶一份）；另外發現原本就有的路面問題（手機模擬回校園 15 秒後柏油路變地磚，?nodedup&nowarmup 也有）",
+   "next": "LAWWW 套 patches/tex_dedup_1027.patch（src/assets3d.js、新 tests/tex_dedup_unit.js），跑 tex_dedup_unit、tex_cap_close_unit、Node 全部；BB：校園↔溫州街↔咖啡廳來回看有沒有貼圖錯、變黑；iPhone 實機看會不會比較不容易被踢回標題",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "建築 GLB 用 bldgLoader（afterRoot 外掛）：原始圖片 SHA-1＋取樣＋色彩空間＋UV 當 key，同 key 共用第一份 Texture、重複的 dispose＋ImageBitmap close（模型裡沒別人用才 close）；共用的不 close；?nodedup 關。離線：89 個建築 GLB 924 份貼圖只有 554 張不同。瀏覽器：校園場景 Texture 682→631、電腦 105.8→92.6 MP、手機 79.8→71.4 MP，到溫州街累計合併 74／63 張；雜湊 25～74 ms；A→B→A 不變黑、沒有 JS 例外。tex_dedup_unit 改前 7 FAIL＋例外、改後 ALL PASS（15 項）。patch 對 6c65b866f apply --check 過"
   }
  ]
 }

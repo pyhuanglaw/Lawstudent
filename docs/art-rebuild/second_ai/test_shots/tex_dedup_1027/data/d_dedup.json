@@ -1,0 +1,67 @@
+{
+ "nodedup": false,
+ "desktop": true,
+ "res": [
+  {
+   "zone": "campus",
+   "gpuTextures": 293,
+   "sceneTextures": 631,
+   "sceneMpix": 92.6,
+   "pending": 0,
+   "glbLoaded": 0,
+   "glbMsSum": 0,
+   "glbMsMax": 0,
+   "dedup": {
+    "textures": 158,
+    "shared": 51,
+    "closed": 51,
+    "mpix": 13.152256,
+    "ms": 26.899999999906868
+   },
+   "capped": 0,
+   "freed": 0,
+   "label": "校園（第一次）"
+  },
+  {
+   "zone": "wenzhou",
+   "gpuTextures": 335,
+   "sceneTextures": 579,
+   "sceneMpix": 83.9,
+   "pending": 0,
+   "glbLoaded": 8,
+   "glbMsSum": 48924,
+   "glbMsMax": 11531,
+   "dedup": {
+    "textures": 282,
+    "shared": 74,
+    "closed": 74,
+    "mpix": 16.822271999999995,
+    "ms": 47.89999999944121
+   },
+   "capped": 0,
+   "freed": 0,
+   "label": "溫州街"
+  },
+  {
+   "zone": "campus",
+   "gpuTextures": 261,
+   "sceneTextures": 631,
+   "sceneMpix": 92.6,
+   "pending": 0,
+   "glbLoaded": 8,
+   "glbMsSum": 48924,
+   "glbMsMax": 11531,
+   "dedup": {
+    "textures": 282,
+    "shared": 74,
+    "closed": 74,
+    "mpix": 16.822271999999995,
+    "ms": 47.89999999944121
+   },
+   "capped": 0,
+   "freed": 0,
+   "label": "校園（回來）"
+  }
+ ],
+ "errs": []
+}
