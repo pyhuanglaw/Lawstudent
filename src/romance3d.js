@@ -16,8 +16,11 @@ const ROM=(function(){
   const S={};
   S.CRACK={heroine_01:'AN_CRACK',heroine_03:'YT_CRACK',classmate_peishan:'PS_CRACK',heroine_05:'SIS_CRACK',heroine_02:'ZR_CRACK',heroine_04:'ZQ_CRACK',kexin:'KX_CRACK'};
   /* 0-3 P1、P2：還沒經使用者確認的數字，照提案值做成可調參數（AA_126 9-2、9-3；BB_125 第 0 節；AA_127）*/
+  /* acceptsOpen：她有沒有「接受祐廷同時和別人交往」的可能（使用者 2026-10-27 回答 C＝每個人不同，AA_474 第 4 節第 1 點：七位都打開）。
+     開關只表示「有可能」，不是「她接受」：知情版心意邀約照 termend3d.js 的 S.KNOWS_OK（BB_203 5-3）、發現以後照各人的結果（BB_194 第 9 節、13-4），學姊第一次一律讓我想想（AA_474 1-2，multirel3d.js）。
+     之後使用者想讓某一位永遠不接受：只把那一位改回 false（AA_474 第 0 節）*/
   S.PARAMS={
-    acceptsOpen:{heroine_01:false,heroine_03:false,heroine_02:false,heroine_04:false,heroine_05:false,classmate_peishan:false,kexin:false},
+    acceptsOpen:{heroine_01:true,heroine_03:true,heroine_02:true,heroine_04:true,heroine_05:true,classmate_peishan:true,kexin:true},
     dropTo:{heroine_01:'FRIEND',heroine_03:'FRIEND',heroine_02:'FRIEND',heroine_04:'FRIEND',heroine_05:'FRIEND',classmate_peishan:'CLOSE_FRIEND',kexin:'FRIEND'},
     restartWeeks:{heroine_05:6}, restartWeeksDefault:4 };
   /* 誰知道祐廷在和誰交往（knowsRel；BB_191 第 1、9 節 @08429294、第 10 節 @f3ae0e82；AA_218 17-7／17-8／17-10／17-11；使用者 2026-10-17「大家一開始都不知道祐廷有女友」）：
