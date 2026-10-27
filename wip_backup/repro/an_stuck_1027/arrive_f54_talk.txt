@@ -1,0 +1,13 @@
+loaded True
+door [-63, 21]
+pre {"depth": 0, "who": [], "dlg": false, "txt": "｜", "ch": [], "adv": false, "evr": null, "busy": false, "zone": "gongguan", "hour": 16.788, "iv": "going@16.68", "an": {"beh": "follow", "d": 62.9, "seat": false, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+talk try 1 talk
+1.7 {"depth": 1, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)"], "dlg": true, "txt": "沈以安｜你點好了嗎？我還在", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 16.798, "iv": "going@16.68", "an": {"beh": "follow", "d": 0.2, "seat": false, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+5.1 {"depth": 2, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)", "S.meet (http://127.0.0.1:8812/src/invites3d.js?v=9.10.10:288:25)"], "dlg": false, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.6, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+5.5 {"depth": 2, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)", "S.meet (http://127.0.0.1:8812/src/invites3d.js?v=9.10.10:288:25)"], "dlg": true, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.6, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安一起去阿鳳麵店吃飯。"}
+6.8 {"depth": 1, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)"], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.8, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+STUCK {"depth": 1, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)"], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.8, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+after {"depth": 1, "who": ["S.talkCharacter (http://127.0.0.1:8812/src/story3d.js?v=9.10.10:831:25)"], "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "adv": true, "evr": null, "busy": true, "zone": "noodle", "hour": 17.548, "iv": "done@16.798", "an": {"beh": "idle", "d": 1.8, "seat": true, "leaving": false}, "stale": false, "last": "和沈以安在阿鳳麵店。"}
+stuck True
+errs []
+logs ['warning: 星期和日期對不上，照行事曆改： 4 → 3']

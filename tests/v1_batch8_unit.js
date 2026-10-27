@@ -128,7 +128,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{})};
     check('C19：大一下最後一科考完以後傍晚進麵店才有（之前、沒有麵店團：沒有）',r.after&&!r.before&&!r.noTeam,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); G.events.done.ev_term_last_meal=true; await EVENTS.run(e);
-    check('C19：大一上演過了，大一下照樣有一次（旁白＋阿姨「考完了，吃好一點。」）',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
+    check('C19：大一上演過了，大一下照樣有一次（AA_467 第 1 節換字：兩句旁白＋阿姨「一年了。吃好一點。」）',JSON.stringify(lines())===JSON.stringify(['（大一最後一科考完。長桌又併起來了。）','（阿姨這次多送了兩盤小菜。）','一年了。吃好一點。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
   /* ---------- 可昕：期末成績寒假第一天一起打開（BB_95 9-8）---------- */
   { const LAST=termDay(16,5), BRK=CALENDAR.gradeDay('Y1S1');   /* 16 週制（AA_198 第 2 節第 3 點）：12/19 期末最後一天約、1/5 成績公布那天一起看；變數名照舊。台詞「寒假第一天一起打開」要 AA 改（已通知） */
     check('期末成績：期末考週最後一天＝'+CALENDAR.dateOf(LAST).key+'、成績公布＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2025-12-19'&&CALENDAR.dateOf(BRK).key==='2026-01-05'&&!CALENDAR.termOf(BRK));

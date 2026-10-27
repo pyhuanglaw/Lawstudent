@@ -176,18 +176,24 @@ const W3 = (function(){
      遠景、近景都是 tools/shots/shop_views_layers.py 在遊戲裡拍的（近景＝鏡頭 far 設在分界、黑白兩種底色去背）；景深照它量的中位數（遠景的 far 取代區域給的 viewDepth）。
      不在這個表裡的窗（教室、圖書館、宿舍…）照舊一層，不多載任何檔案 */
   const VIEW_LAYERS={cvs:{far:22.4,near:6.54},noodle:{far:13.31,near:4.01},bookstore:{far:12.48,near:8.96},cafe:{far:12.06,near:5.25}};   /* 公館三家 10-23 公館街景加了機車、行道樹後重拍（ART-GG-STREETLIFE-1023）：麵店、書店的遠景景深變近 */
-  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0} },
+  function windowMat(depth){ return new THREE.ShaderMaterial({ uniforms:{ map:{value:null}, tint:{value:new THREE.Color(1,1,1)}, depth:{value:depth||20}, photo:{value:0}, sxy:{value:new THREE.Vector2(1,1)}, nmap:{value:null}, ndepth:{value:4}, near:{value:0}, map2:{value:null}, nmap2:{value:null}, near2:{value:0}, xf:{value:0} },
     vertexShader:'varying vec3 vP; varying vec3 vC; varying vec2 vUv; void main(){ vP=position; vUv=uv; vC=(inverse(modelMatrix)*vec4(cameraPosition,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
-    fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
-      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
-      '  if(near>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998) nc=texture2D(nmap,un); } }\n'+
-      ' vec4 c=texture2D(map,uv); gl_FragColor=vec4(mix(c.rgb,nc.rgb,nc.a)*tint,1.0);\n #include <colorspace_fragment>\n}',
+    fragmentShader:'uniform sampler2D map; uniform sampler2D nmap; uniform sampler2D map2; uniform sampler2D nmap2; uniform vec3 tint; uniform float depth; uniform float ndepth; uniform float photo; uniform float near; uniform float near2; uniform float xf; uniform vec2 sxy; varying vec3 vP; varying vec3 vC; varying vec2 vUv;\n'+
+      'void main(){ vec2 uv=vUv; vec4 nc=vec4(0.0); vec4 n2=vec4(0.0); if(photo>0.5){ vec3 d=vP-vC; float t=(depth+vC.z)/max(0.001,vC.z); vec2 h=(vC.xy+d.xy*t)*sxy; uv=clamp(vec2(h.x/(2.0*depth)+0.5,h.y/depth+0.5),vec2(0.002),vec2(0.998));\n'+
+      '  if(near>0.5||near2>0.5){ float tn=(ndepth+vC.z)/max(0.001,vC.z); vec2 hn=(vC.xy+d.xy*tn)*sxy; vec2 un=vec2(hn.x/(2.0*ndepth)+0.5,hn.y/ndepth+0.5); if(un.x>0.002&&un.x<0.998&&un.y>0.002&&un.y<0.998){ if(near>0.5) nc=texture2D(nmap,un); if(near2>0.5) n2=texture2D(nmap2,un); } } }\n'+
+      ' vec4 c=texture2D(map,uv); vec3 col=mix(c.rgb,nc.rgb,nc.a)*tint; if(xf>0.0){ vec4 c2=texture2D(map2,uv); col=mix(col,mix(c2.rgb,n2.rgb,n2.a),xf); } gl_FragColor=vec4(col,1.0);\n #include <colorspace_fragment>\n}',
     toneMapped:false, fog:false }); }
   // 換貼圖（白天／晚上、照片或退回的程序化貼圖）＋色調
-  function setWindowView(m,kind,night,fallback,tint){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);
+  function setWindowView(m,kind,night,fallback,tint,xf){ const u=m.uniforms; if(!u) return; const ph=viewPhoto(kind,night); const want=ph||fallback; if(u.map.value!==want){ u.map.value=want; } u.photo.value=ph?1:0; if(tint!=null) u.tint.value.set(tint);
     const L=VIEW_LAYERS[kind]; if(L&&u.nmap){ const nph=viewPhoto(kind+'_near',night); if(L.far) u.depth.value=L.far; u.ndepth.value=L.near; u.nmap.value=nph; u.near.value=(ph&&nph)?1:0; }   /* 兩層窗景：近景還沒載入（或沒有遠景照片）時只畫遠景 */
+    if(u.xf){ const ph2=(ph&&!night&&xf>0)?viewPhoto(kind,true):null, n2=(ph2&&L)?viewPhoto(kind+'_near',true):null; u.map2.value=ph2; u.nmap2.value=n2; u.near2.value=n2?1:0; u.xf.value=ph2?Math.min(1,xf):0; }   /* 黃昏換夜景照片（photoFade）；夜景還沒載入時照舊只畫白天那張 */
     return !!ph; }
+  /* 黃昏慢慢換成夜景照片（ART-HALL-WINDOW-DUSK-1025，LAWWW2-B 2026-10-25；BB-B RELEASE-91010-TEST 附註④）：原本 19.2 才一下子換，之前是調暗的白天照片（0x8a8aa8，亮度約 26%）；
+     冬天傍晚光線拉長，12/10 17:20（光線 19.1，引擎的夜晚係數 nk 0.92、屋外幾乎全黑、路燈亮）大廳窗外還是白天的景，比屋外亮。
+     光線 18.6～19.2（nk 0.625→1）白天照片照 nk 疊成夜景照片：到 19.2 已經全是夜景，換的那一刻不跳；店家那種夜景比白天亮的（亮著的招牌）也不會先暗下去再亮。
+     回傳 0～1＝夜景照片的比例；清晨照舊（5.5／6 以前夜景，之後白天照片） */
+  function photoFade(h){ h=((h%24)+24)%24; return (h>=18.6&&h<19.2)?(h-18.6)/0.6:0; }
   // 白天的照片隨時段調色（照片是 11:00 拍的）：清晨偏冷、傍晚偏暖、黃昏暗下來；晚上換夜景照片，不調色
   function photoTint(h,rain){ h=((h%24)+24)%24; if(h<5.5||h>=19.2) return 0xffffff; if(h<6.5) return 0xb8c2d6; if(h<8) return rain?0xc8ccd2:0xe8eef8; if(h<16) return rain?0xc9cfd6:0xffffff; if(h<17.6) return rain?0xc2c4c8:0xfff0dc; if(h<18.4) return rain?0x9a9ca4:0xffcfa0; return 0x8a8aa8; }   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
-  return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
+  return {VIEW_LAYERS,viewPhoto,releaseViews,windowMat,setWindowView,photoTint,photoFade,mergeGroup,canvasTex,grassTex,pathTex,asphaltTex,brickTex,stoneTex,facadeTex,signPlane,signTex,building,setNight,palm,banyan,bush,hedge,bench,formalBench,lampPost,bike,bikeAny,bikeRack,bulletin,planter,bell,vending,scooter,foodCart,gate,mrtEntrance,awning,updateWind,foliageMat};
 })();

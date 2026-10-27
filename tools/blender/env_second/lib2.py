@@ -703,3 +703,92 @@ class CMesh(Mesh):
             vs = list({v for f in fs for v in f.verts}); es = list({e for f in fs for e in f.edges})
             bmesh.ops.bevel(self.bm, geom=es + vs, offset=r, segments=seg, affect='EDGES', profile=0.5, clamp_overlap=True)
         return self.paint([f for f in self.bm.faces if f not in before], hexcol, k)
+
+
+def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, flip=True, dry=False):
+    """材質改單面（glTF doubleSided false）＋本來靠雙面材質才看得到的零件補反面——PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）。
+    雙面材質在 three.js 不剔除背面（背面也算像素），牆要淡出的（transparent）還整個網格畫兩次；改單面以前先照「零件」分兩種：
+    - 封閉、方向一致的殼（方盒、圓柱、店內的殼）：單面就看得對——朝外的從外面看、朝內的（店內、房間）從裡面看；
+      影子也一樣（three.js 單面材質的影子那一輪畫背面，封閉的殼形狀不變）。不動。
+    - 其他（一片四邊形、十字薄片 xbar、葉片卡、蓋子朝內或方向不一致的圓柱、開口的殼…）：面複製一份反過來——兩面都看得到、
+      影子兩面都畫，和原本的雙面材質一樣。只多頂點、不多像素（背面在光柵化以前就剔掉）。
+    零件＝相連的面；頂點位置相同就算相連（box 每一面各自的頂點也算），每條邊剛好兩個面、方向相反才算封閉。
+    原本就單面的材質（use_backface_culling，作者故意的，例如室內天花板朝下＝剖面視角）不補反面、照舊單面。
+    keep（正規表示式）：材質名符合的照舊雙面、不補反面（玻璃：兩面都看得到、半透明）。
+    nodup（正規表示式）：材質名符合的開口零件也不補反面——背面確定看不到的（只從外面看的立面、隔著玻璃看的店內與商品、只從上面看的地板）；
+    要用同角度截圖確認過（例：公館店面先全部單面不補，十個鏡頭和原本一樣，才把這些列進來）。
+    skip(ob)：這些物件的網格不補反面（遊戲照名字、照網格形狀接手的板面，例如公館的 SIGN_FACE_／INTERIOR_FACE_：補了反面遊戲的
+    wzAtlasFaces 合不起來、整條店面載入失敗——第一次試的時候遊戲退回套件外觀）。只有這些物件在用的材質照舊（不改單面）：
+    美國亞洲超市門外的景（usam_view）只有一片、正面朝外，第一次改單面，從店裡看整片不見（第四份）；別的零件也在用的材質照樣改單面。
+    封閉、方向一致但裡外相反（體積是負的）、又有一邊小於 1 m 的零件（欄杆收邊、樓梯防滑條、門板、小盒子）翻成朝外（雙面時看不出來，單面會看到背面）；
+    大的不動（可能是從裡面看的房間）。
+    flip=False：不翻（體育館 B1：有 4 片 4 cm 的小鐵片在 Blender 裡算出來裡外相反、匯出的 GLB 卻是正的，翻了反而變反；B1 不翻的版本同角度截圖一樣、GLB 也沒有裡外相反的零件）。
+    ——原因後來找到了：體積原本用 32 位元的向量從原點算，離原點遠的小零件正負號會錯；10-27 改成 64 位元、以零件自己的頂點當原點（B1 沒有用新算法重匯過）。
+    回傳 {材質名: [封閉的三角形, 補了反面的三角形]}（翻面的另外記在「（翻面）材質名」）（instancing 的原型照網格算一次）；dry=True 只統計不改。"""
+    import re as _re
+    flip_ok = flip
+    kre = _re.compile(keep); nre = _re.compile(nodup) if nodup else None; stats = {}
+    obs = [ob for ob in [root] + list(root.children_recursive) if ob.type == 'MESH']
+    skipped = {ob.data for ob in obs if skip(ob)}
+    for me in {ob.data for ob in obs} - skipped:
+        mats = list(me.materials)
+        bm = bmesh.new(); bm.from_mesh(me); bm.faces.ensure_lookup_table()
+        def mname(f): return mats[f.material_index].name if f.material_index < len(mats) and mats[f.material_index] else ''
+        faces = [f for f in bm.faces if not kre.search(mname(f))]
+        if not faces: bm.free(); continue
+        par = {f.index: f.index for f in faces}
+        def find(x):
+            while par[x] != x: par[x] = par[par[x]]; x = par[x]
+            return x
+        ed = {}
+        for f in faces:
+            ks = [(round(v.co.x, 4), round(v.co.y, 4), round(v.co.z, 4)) for v in f.verts]
+            for i in range(len(ks)):
+                a, b = ks[i], ks[(i + 1) % len(ks)]
+                if a != b: ed.setdefault((a, b) if a < b else (b, a), []).append((f.index, a < b))
+        bad = set()
+        for lst in ed.values():
+            if len(lst) == 2 and lst[0][1] != lst[1][1]:
+                ra, rb = find(lst[0][0]), find(lst[1][0])
+                if ra != rb: par[ra] = rb
+            else: bad.update(fi for fi, _ in lst)   # 邊界、三個面以上、方向不一致
+        badr = {find(fi) for fi in bad}
+        openr = set(badr)   # 真的開口的零件（下面 nodup、原本單面的例外只決定補不補反面；翻面只看真的封閉的）
+        if nre: badr -= {find(f.index) for f in faces if nre.search(mname(f))}   # 一個零件只有一種材質（merge_by_material 以後）；混材質的零件有一面在 nodup 就整個不補
+        # 原本就單面的材質（作者故意的：室內的天花板朝下，鏡頭超過天花板高度時看得穿——剖面視角）不補；第一次試便利商店，天花板補了朝上的那一面，從高處看整片擋住
+        badr -= {find(f.index) for f in faces if f.material_index < len(mats) and mats[f.material_index] and mats[f.material_index].use_backface_culling}
+        dup = [f for f in faces if find(f.index) in badr]
+        # 封閉、方向一致、但裡外相反的零件（體積是負的；例如體育館主球場的欄杆收邊、樓梯防滑條、門板）：雙面時看不出來，單面以後從外面看到的是背面那幾片。
+        # 薄的（有一邊小於 1 m：板、條、小盒子）翻成朝外；大的不動（可能是從裡面看的房間）
+        # 鏡射的物件（負的縮放）：用到這個網格的物件全部鏡射就反過來看；有的鏡射有的沒有（instancing 混在一起）就不翻——翻了一定有一半變反
+        dets = {ob.matrix_world.determinant() < 0 for ob in obs if ob.data is me}
+        sgn = 0.0 if len(dets) > 1 else (-1.0 if dets == {True} else 1.0)
+        comp = {}
+        for f in faces:
+            r = find(f.index)
+            if r in openr: continue
+            # 體積用 Python 的浮點數（64 位元）、以零件的第一個頂點當原點算：mathutils 的向量是 32 位元，離原點 20～130 m 的幾公分小零件
+            # 從原點算，誤差比零件本身的體積還大、正負號會錯（美國校園第七份：站牌上 6 cm 的小方塊被翻反、一條石材收邊該翻沒翻，LAWWW2-C 10-27）
+            vs = [tuple(v.co) for v in f.verts]; c = comp.setdefault(r, [0.0, [1e9] * 3, [-1e9] * 3, [], vs[0]]); c[3].append(f)
+            q = [(p[0] - c[4][0], p[1] - c[4][1], p[2] - c[4][2]) for p in vs]
+            for i in range(1, len(q) - 1):
+                a_, b_, d_ = q[0], q[i], q[i + 1]
+                c[0] += (a_[0] * (b_[1] * d_[2] - b_[2] * d_[1]) - a_[1] * (b_[0] * d_[2] - b_[2] * d_[0]) + a_[2] * (b_[0] * d_[1] - b_[1] * d_[0])) / 6.0
+            for v in vs:
+                for k in range(3): c[1][k] = min(c[1][k], v[k]); c[2][k] = max(c[2][k], v[k])
+        flip = [f for c in comp.values() if c[0] * sgn < -1e-6 and 1e-3 <= min(c[2][k] - c[1][k] for k in range(3)) < 1.0 for f in c[3]]   # 扁的（一邊 < 1 mm）沒有裡外，不翻
+        if not flip_ok: flip = []
+        if flip and not dry: bmesh.ops.reverse_faces(bm, faces=flip)
+        for f in flip: stats.setdefault('（翻面）' + mname(f), [0, 0])[0] += len(f.verts) - 2
+        for f in faces:
+            s = stats.setdefault(mname(f), [0, 0]); s[1 if find(f.index) in badr else 0] += len(f.verts) - 2
+        if dup and not dry:
+            nf = [g for g in bmesh.ops.duplicate(bm, geom=dup)['geom'] if isinstance(g, bmesh.types.BMFace)]
+            bmesh.ops.reverse_faces(bm, faces=nf)
+        if (dup or flip) and not dry: bm.to_mesh(me); me.update()
+        bm.free()
+    if not dry:
+        used = {s.material for ob in obs if ob.data not in skipped for s in ob.material_slots if s.material}   # 只有 skip 的物件在用的材質不動
+        for m in used:
+            m.use_backface_culling = not kre.search(m.name)
+    return stats

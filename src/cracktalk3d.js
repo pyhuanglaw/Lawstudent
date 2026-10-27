@@ -30,7 +30,7 @@
        芷若③第 6 週週日臺灣 07:00 戲院的照片（晚點再回、72 小時沒回＝+1）；子晴①大四上第 8～12 週加班取消（約人系統的約、校外約會的晚上；一個月第三次＋1）、②每月第一個週三 23:30、③手機選「我去妳公司樓下等妳」（30 天內第三次＋1）。
        修補承諾：沛珊「每個月我去台南找妳一次。」（之後三個月看 ev_hv_ps_tn，漏一個月她問、漏兩個月分開）；子晴「那妳來決定時間。」（她約三次，到兩次以上）。
        談話邀約的回覆選項：沛珊「明天可以嗎？」、芷若「後天可以嗎？」＝移到隔天。
-   存檔：G.flags.CRACKTALK＝{r:{人物:{talked:{學期:1}, plan, drift, commit, lastUnavoid, unavoidUsed, jpUsed, mode}}, seat:{日:{went,done}}, pc:{from,note:{}}}；舊存檔沒有＝空的。
+   存檔：G.flags.CRACKTALK＝{r:{人物:{talked:{學期:1}, plan, drift, commit, lastUnavoid, unavoidUsed, jpUsed, mode}}, seat:{日:{went,done}}, seatTxt:{term,i}, pc:{from,note:{}}}；舊存檔沒有＝空的。
    測試：node tests/v6_crack_unit.js */
 'use strict';
 const CRACKTALK=(function(){
@@ -56,7 +56,11 @@ const CRACKTALK=(function(){
   /* ======================= 學期、計數 ======================= */
   const tkCache={};
   S.termKey=function(G,day){ const d=day==null?G.day:day; if(d in tkCache) return tkCache[d]; let k=null;
-    if(typeof CALENDAR!=='undefined'&&CALENDAR.termOf){ for(let i=0;i<220;i++){ const t=CALENDAR.termOf(d-i); if(t){ k=t.id; break; } } }   /* 寒暑假＝前一個學期 */
+    if(typeof CALENDAR!=='undefined'&&CALENDAR.termOf){ const del=CALENDAR.termOfDelayed?(x=>CALENDAR.termOfDelayed(x)):(()=>null);
+      for(let i=0;i<220;i++){ const t=CALENDAR.termOf(d-i); if(t){ k=t.id; break; } const t5=del(d-i); if(t5){ k=i===0?t5.id:'PG'; break; } } }   /* 寒暑假＝前一個學期 */
+    /* AA_471 第 2 節：最後一個學期結束以後不要每天一個鍵（原本 220 天找不到就回 'D'+日子：2030-01 起語彤留位子每週都是原句、裂縫次數每天歸零）。
+       交換延畢的大五上（CALENDAR.termOfDelayed，2029-09-03～12-23）＝'Y5S1'，之後＝'PG'；220 天找不到、而且在最後一個學期之後＝'PG' */
+    if(!k&&typeof CALENDAR!=='undefined'&&Array.isArray(CALENDAR.TERMS)&&CALENDAR.TERMS.length&&CALENDAR.tOf){ const T=CALENDAR.TERMS[CALENDAR.TERMS.length-1]; if(T&&T.t1!=null&&CALENDAR.tOf(d)>=T.t1) k='PG'; }
     return tkCache[d]=k||('D'+d); };
   S.key=id=>ROM.CRACK[id];
   S.count=function(G,id){ const k=S.key(id), F=G.flags||{}; if(!k) return 0; if(F[k+'_TERM']!=null&&F[k+'_TERM']!==S.termKey(G)) return 0; return Math.max(0,+F[k]||0); };
@@ -226,9 +230,13 @@ const CRACKTALK=(function(){
     const Gx=Object.assign({},G,{day:d,hour:17.5,weekday:4}); if(!pres(YT,Gx).here) return false;
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[YT], e=c&&STORY.schedEnt?STORY.schedEnt(c,Gx):null; return !!(e&&e.zone==='library'); };
   S.seatTag=d=>'ct_yt_seat_'+keyOf(d);
+  /* 那一週傳哪一句（AA_462 第 3 節）：每學期（S.termKey，寒暑假算前一學期）第一個週四＝原句 yt_seat；之後 yt_seat_rot 四句照順序輪（不跟上一週同一句）。
+     R.seatTxt＝{term, i}（上一週用了哪句：0＝原句、1～4＝輪的那四句）；舊存檔沒有＝從原句開始 */
+  S.seatText=function(G,d){ const R=S.rec(G), k=S.termKey(G,d), P=R.seatTxt, rot=L.SRC.yt_seat_rot||[], n=rot.length;
+    const i=(!P||typeof P!=='object'||P.term!==k||!n)?0:((P.i|0)%n)+1; R.seatTxt={term:k,i}; return i===0?L.SRC.yt_seat:rot[i-1]; };
   S.seatPhone=function(G){ const R=S.rec(G), d=G.day, h=hh(G);
     if(wdOf(d)===4&&!R.seat[d]&&h>=12+10/60&&G.hour<20&&S.seatOn(G,d)){ R.seat[d]={went:false,done:false};
-      PHONE.at(G,d,12+10/60,[Object.assign(DM(YT,L.SRC.yt_seat),{ask:{id:S.seatTag(d),until:T(d,20),opts:[{t:L.SRC.yt_seat_no,set:{['CT_YT_SEAT_NO_'+keyOf(d)]:true}}]}})],S.seatTag(d)); }
+      PHONE.at(G,d,12+10/60,[Object.assign(DM(YT,S.seatText(G,d)),{ask:{id:S.seatTag(d),until:T(d,20),opts:[{t:L.SRC.yt_seat_no,set:{['CT_YT_SEAT_NO_'+keyOf(d)]:true}}]}})],S.seatTag(d)); }
     for(const k of Object.keys(R.seat)){ const dd=+k, s=R.seat[k]; if(s.done||now(G)<T(dd,20)) continue; s.done=true;
       const no=!!G.flags['CT_YT_SEAT_NO_'+keyOf(dd)]; if(!s.went&&!no&&dating(G,YT)) S.add(G,YT,{unavoidable:false}); }
     for(const k of Object.keys(R.seat)) if(+k<d-60) delete R.seat[k]; };
@@ -289,21 +297,31 @@ const CRACKTALK=(function(){
     for(const n of Object.keys(R.sent||{})){ const P=sub(R,'done'); if(P[n]) continue; const a=ansOf(tag(n)); if(a==null) continue; P[n]=true; const X=X2.yt2[R.sent[n]]; if(X.opts[a]&&X.opts[a][2]) S.add(G,YT); } };   /* 不回＝0（她本來就只是告知）*/
 
   /* ---------- 1-4 沛珊（大三起她在台南）---------- */
+  /* 第 8、9 週哪幾週有期中考（AA_463 第 7 節③）：{8:bool, 9:bool}，同 S.midBoth 的算法 */
+  const mwCache={}; S.midWeeks=function(G,tid){ if(tid in mwCache) return mwCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return mwCache[tid]={8:false,9:false};
+    const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
+    return mwCache[tid]={8:has(8),9:has(9)}; };
   const midCache={}; S.midBoth=function(G,tid){ if(tid in midCache) return midCache[tid]; if(typeof CLS==='undefined'||!CLS.dayItems) return midCache[tid]=false; const has=w=>{ for(let wd=1;wd<=5;wd++){ const d=dayOfTerm(tid,w,wd); if(d!=null&&CLS.dayItems(Object.assign({},G,{day:d}),d).some(it=>it.exam==='mid')) return true; } return false; };
     return midCache[tid]=has(8)&&has(9); };   /* 祐廷的期中考在第 8、9 兩週都有；只有一週的學期沒有這一項 */
   S.ps=function(G){ const R=sub(S.src(G),'ps'), d=G.day, h=hh(G), t=CALENDAR.termOf(d); S.psVisits(G);
     const on=dating(G,PS)&&!abroad(G)&&S.psTN(G,d);
     /* ① 期中考週的週五 21:00：改期（避不掉）*/
-    if(on&&t&&(t.week===8||t.week===9)&&wdOf(d)===5&&h>=21){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'); if(!S1[k]&&S.midBoth(G,t.id)){ S1[k]=d;
-        PHONE.at(G,d,21,[DM(PS,X2.ps1.ask),{th:'p:'+PS,from:'player',who:null,text:X2.ps1.me}].concat((t.week===8?X2.ps1.w8:X2.ps1.w9).map(x=>DM(PS,x))),'ct_'+k); if(t.week===9) S.add(G,PS,{unavoidable:true}); } }
+    /* 觸發條件（AA_463 第 7 節③）：那學期第 8 或第 9 週有期中考＝有考試的第一個週五發第 8 週那一版（不加）；兩週都有考試的，第二個週五（第 9 週）再發第 9 週那一版（加裂縫，避不掉）。tag 照週次 ct_ps1_<學期>_<週> */
+    if(on&&t&&(t.week===8||t.week===9)&&wdOf(d)===5&&h>=21){ const k='ps1_'+t.id+'_'+t.week, S1=sub(R,'sent'), MW=S.midWeeks(G,t.id); if(!S1[k]&&MW[t.week]){ S1[k]=d; const second=t.week===9&&MW[8], P1=Object.assign({},X2.ps1,(X2.ps1.byTerm||{})[t.id]||{});   /* 她的話照學期換（AA_463 4-3）*/
+        PHONE.at(G,d,21,[DM(PS,P1.ask),{th:'p:'+PS,from:'player',who:null,text:P1.me}].concat((second?P1.w9:P1.w8).map(x=>DM(PS,x))),'ct_'+k); if(second) S.add(G,PS,{unavoidable:true}); } }
     /* ② 第 5 週週三 23:10：用法條回答 */
-    if(on&&t&&t.week===5&&wdOf(d)===3&&h>=23+10/60){ const k='ps2_'+t.id, S1=sub(R,'sent'); if(!S1[k]){ S1[k]=d; S.sendAsk(G,PS,d,23+10/60,[X2.ps2.ask],'ct_'+k,opt3(PS,X2.ps2.opts),T(d+1,23)); } }
-    for(const k of Object.keys(R.sent||{})){ if(!/^ps2_/.test(k)) continue; const P=sub(R,'done'); if(P[k]) continue; const a=ansOf('ct_'+k); if(a==null) continue; P[k]=true; if(X2.ps2.opts[a]&&X2.ps2.opts[a][2]) S.add(G,PS); }   /* 不回＝0（隔天她傳一張貼圖：AA 沒寫哪一張，沒有傳）*/
+    if(on&&t&&t.week===5&&wdOf(d)===3&&h>=23+10/60){ const k='ps2_'+t.id, S1=sub(R,'sent'); if(!S1[k]){ const c=Object.keys(S1).filter(x=>/^ps2_/.test(x)).length, i=S.nthRot(c,1+(X2.ps2x||[]).length), X=S.ps2Of(i);   /* 照第幾次換（AA_463 4-1）：已經收過幾次（sent 裡 ps2_ 的筆數，舊存檔照算）*/
+        S1[k]=d; sub(R,'v2')[k]=i; S.sendAsk(G,PS,d,23+10/60,[X.ask],'ct_'+k,opt3(PS,X.opts),T(d+1,23)); } }
+    for(const k of Object.keys(R.sent||{})){ if(!/^ps2_/.test(k)) continue; const P=sub(R,'done'); if(P[k]) continue; const a=ansOf('ct_'+k); if(a==null) continue; P[k]=true; const X=S.ps2Of((R.v2||{})[k]|0); if(X.opts[a]&&X.opts[a][2]) S.add(G,PS); }   /* 不回＝0（隔天她傳一張貼圖：AA 沒寫哪一張，沒有傳）*/
     /* ③ 連續兩個自然月（寒暑假不算）都沒去台南找她：第二個月最後一天 23:00（避不掉）；修補期間由修補那邊管 */
     if(dating(G,PS)&&!(S.pr(G,PS).commit&&S.pr(G,PS).commit.kind==='ps_month')){ const since=(ROM.get(G,PS)||{}).sinceDay, m=monthOf(d), last=S.monthLast(m);
       if(last===d&&h>=23&&S.monthCounts(G,m)&&R.m3!==m){ let prev=null, x=m; for(let i=0;i<8;i++){ x=S.monthPrev(x); if(S.monthCounts(G,x)){ prev=x; break; } }
         const okSince=prev&&since!=null&&S.monthFirst(prev)>since&&(R.m3==null||R.m3<prev);   /* 兩個月都在交往以後、上一次問過以後 */
-        if(okSince&&!S.psVisited(G,m)&&!S.psVisited(G,prev)){ R.m3=m; S.send(G,PS,d,23,X2.ps3,'ps3'); S.add(G,PS,{unavoidable:true}); } } } };
+        if(okSince&&!S.psVisited(G,m)&&!S.psVisited(G,prev)){ if(R.n3==null) R.n3=R.m3!=null?1:0; const i=S.nthRot(R.n3|0,1+(X2.ps3x||[]).length); R.m3=m; R.n3=(R.n3|0)+1;   /* 照第幾次換（AA_463 4-2）：R.n3＝收過幾次；舊存檔沒有＝問過（m3）算一次、沒問過從第 1 句 */
+          S.send(G,PS,d,23,i===0?X2.ps3:X2.ps3x[i-1],'ps3'); S.add(G,PS,{unavoidable:true}); } } } };
+  /* 第幾次（c＝已經收過幾次，0 起算）用第幾組（n 組）：第 1～n 次照順序，之後從第 2 組再輪（同 yt2 的開頭，AA_457 第 2 節；AA_463 4-2「5 以後從 2 再輪」）*/
+  S.nthRot=(c,n)=>c<n?c:(n>1?1+(c-1)%(n-1):0);
+  S.ps2Of=i=>i>0&&X2.ps2x&&X2.ps2x[i-1]?X2.ps2x[i-1]:X2.ps2;
   S.monthPrev=m=>{ let [y,mo]=m.split('-').map(Number); mo--; if(mo<1){ mo=12; y--; } return y+'-'+String(mo).padStart(2,'0'); };
   /* 修補「每個月我去台南找妳一次。」（1-7 第 1 點）：之後三個月（寒暑假往後延），每個月至少一次；漏一個月＝下個月 1 日 21:00 她問；漏兩個月＝分開 */
   S.psMonthCommit=function(G,r,c){ S.psVisits(G); const d=G.day; let m=monthOf(c.day), n=0;
@@ -335,7 +353,7 @@ const CRACKTALK=(function(){
         c.o.zqOT=true; c.cancel(); const m=monthOf(c.day), M=sub(R,'ot'); M[m]=(M[m]|0)+1;
         S.sendAsk(G,ZQ,c.day,17.5,[X2.zq1.msg].concat(M[m]===3?[X2.zq1.third]:[]),c.key,[{t:X2.zq1.opt[0],say:[DM(ZQ,X2.zq1.opt[1])]}],T(c.day+1,23)); if(M[m]===3) S.add(G,ZQ,{unavoidable:true}); } }
     /* ② 每個月第一個週三 23:30「今天又改了三個 bug」*/
-    if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, mg=Array.isArray(M2[0])?M2[k%M2.length]:M2; S1[m]=d; S.sendAsk(G,ZQ,d,23.5,mg,'ct_zq2_'+m,opt3(ZQ,X2.zq2.opts),T(d+1,23.5)); } }   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
+    if(dating(G,ZQ)&&S.zqWork(G)&&wdOf(d)===3&&CALENDAR.dateOf(d).d<=7&&h>=23.5){ const S1=sub(R,'sent2'), m=monthOf(d); if(!S1[m]){ const M2=X2.zq2.msgs, k=Object.keys(S1).length, vi=Array.isArray(M2[0])?k%M2.length:0, mg=Array.isArray(M2[0])?M2[vi]:M2, O=(X2.zq2.optsBy&&X2.zq2.optsBy[vi])||X2.zq2.opts; S1[m]=d; S.sendAsk(G,ZQ,d,23.5,mg,'ct_zq2_'+m,opt3(ZQ,O),T(d+1,23.5)); } }   /* 她回的照那一組換（AA_464 第 3 節；會不會加裂縫照 opts）*/   /* 開頭兩則照第幾個月輪流（AA_456 1-6）：已經收過幾個月（sent2 的筆數，舊存檔照算）→ 第 k%4 組；tag 照舊 ct_zq2_<年-月> */
     for(const m of Object.keys(R.sent2||{})){ const P=sub(R,'done2'); if(P[m]) continue; const a=ansOf('ct_zq2_'+m); if(a==null) continue; P[m]=true; if(X2.zq2.opts[a]&&X2.zq2.opts[a][2]) S.add(G,ZQ); } };
   /* ③ 等她下班：手機私訊選「我去妳公司樓下等妳」（MSG 的話題；她上班以後、交往中、平日 19:00～21:30）→ 2D 短場景、1 小時；30 天內第三次＝+1 */
   S.zq3On=G=>law(G)&&dating(G,ZQ)&&S.zqWork(G)&&!abroad(G)&&wdOf(G.day)>=1&&wdOf(G.day)<=5&&hh(G)>=19&&hh(G)<21.5;

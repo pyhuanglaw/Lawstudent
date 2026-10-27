@@ -637,6 +637,255 @@
    "next": "照 docs/handoff/release_9103/README.md 第 5 節重做 bcbd4b65、第 6 節乾淨環境比較",
    "noDirectIntegrate": true,
    "source": "使用者 10-21 14:5x「現在正式交班」"
+  },
+  {
+   "id": "WIP-LAWWW-PGFIX-1027",
+   "role": "LAWWW",
+   "task": "PG-FIX-471-473-1027",
+   "branch": "pgfix-471-473（wip_backup/pgfix_471_473_1027.bundle）",
+   "sha": "ed026bc21",
+   "files": [
+    "wip_backup/pgfix_471_473_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "AA_471 第 1～7 節、AA_472 六項、AA_473 兩項都已 commit（a87fdf4e5）；子代理在跑全部 Node／收尾",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node，v9.10.11 發布後合",
+   "noDirectIntegrate": true,
+   "source": "帳號 B 的 aa471-472 子代理成果遺失（HANDOFF-C-1027）",
+   "note": "18:3x 第二輪（AA_476）合進開發分支 60919c7a9；bundle 最後到 9d6a11356。18:0x 子代理做完、合進開發分支 7dacc9463（PG-FIX-471-473-1027 已整合待測試）。17:5x 第四次備份：bundle 裡 pgfix-471-473＝a87fdf4e5；前提 129540766。17:1x 第二次備份：bundle 裡 pgfix-471-473＝5f83d3bf5（AA_471 第 3、4 節已 commit）；前提 129540766。",
+   "closedBy": "7dacc9463"
+  },
+  {
+   "id": "WIP-LAWWW-X58-1027",
+   "role": "LAWWW",
+   "task": "X58-REST-1027",
+   "branch": "x58-e08-1027（wip_backup/x58_e08_1027.bundle）",
+   "sha": "376973f4e",
+   "files": [
+    "wip_backup/x58_e08_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "X58（法律系寒暑假、日本、寒暑假出遊快轉途中收到訊息就停）、E08（寒暑假出國、日本送機走 3D 機場）子代理做中；bundle 到 f0cff6fd5（3 個 commit），前提 7dacc9463",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "USER_WANTS_AUDIT_1027 第 3 節第 5 點；VAC-A2",
+   "closedBy": "c4581469a",
+   "note": "19:1x 子代理做完（005358306），合進開發分支 c4581469a。"
+  },
+  {
+   "id": "WIP-LAWWW-UW-1027",
+   "role": "LAWWW",
+   "task": "USER-WANTS-AUDIT-C-1027",
+   "branch": "uw-refresh-1027（wip_backup/uw_refresh_1027.bundle）",
+   "sha": "376973f4e",
+   "files": [
+    "wip_backup/uw_refresh_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "照 USER_WANTS_AUDIT_1027 改 USER_WANTS.md（在遊戲裡的搬出第 1 節、暫停列補五欄、C26 撞號）子代理做中；bundle 到 7f579f81a，前提 d049a52ac",
+   "next": "子代理做；LAWWW 看 diff、跑 check_handoff asks 再合",
+   "noDirectIntegrate": true,
+   "source": "HV-15；USER-WANTS-AUDIT-C-1027",
+   "closedBy": "cf7f969b4",
+   "note": "18:3x 子代理做完（7c1d961bd），合進開發分支 cf7f969b4。"
+  },
+  {
+   "id": "WIP-LAWWW-X58R2-1027",
+   "role": "LAWWW",
+   "task": "VAC-A2",
+   "branch": "x58-e08-1027 第二輪（wip_backup/x58_e08_r2_1027.bundle）",
+   "sha": "f227b01d5",
+   "files": [
+    "wip_backup/x58_e08_r2_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "E08 第二輪（AA_478：飛往字卡、出發那幕進大廳、大廳兩句、挽回中以安站大廳另一頭、C13 七個目的地）子代理做中；bundle 到 9c61dd48a（4 個 commit），前提 005358306",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "AA_478（c88da7e75、f1afaf4f1）",
+   "closedBy": "e1adf4cc5",
+   "note": "19:4x 子代理做完（b24bbaa75），合進開發分支 e1adf4cc5。"
+  },
+  {
+   "id": "WIP-LAWWW-AOPEN-1027",
+   "role": "LAWWW",
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "aopen-1027（wip_backup/aopen_1027.bundle）",
+   "sha": "e125e0898",
+   "files": [
+    "wip_backup/aopen_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "七位接不接受同時交往（AA_474 最後版 020f695a3）子代理做中；bundle 到 eb97e846c（9 個 commit，含新測試 aa474_acceptsopen_unit 57 項），前提 d5ce20a40",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 選 C（UA-AA-1027-49）；AA_474",
+   "closedBy": "fb8d27888",
+   "note": "20:1x 子代理第一輪做完（eb97e846c），合進開發分支 fb8d27888。第二輪另開 WIP-LAWWW-AOPEN-R2-1027。"
+  },
+  {
+   "id": "WIP-LAWWW-L118-1027",
+   "role": "LAWWW",
+   "task": "LANE118-SHOP-STORY-1020",
+   "branch": "l118story-1027（wip_backup/l118story_1027.bundle）",
+   "sha": "078e0c403",
+   "files": [
+    "wip_backup/l118story_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "118 巷熟客三段招呼＋考試週、H2～H9（AA_311 580ed6302；H2b 作廢不做）子代理做中；bundle 到 48f626a6b（3 個 commit），前提 d5ce20a40",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "USER_WANTS X66；AA_311",
+   "closedBy": "675c4714c",
+   "note": "19:5x 子代理做完（48f626a6b），合進開發分支 675c4714c。"
+  },
+  {
+   "id": "WIP-LAWWW-L118R2-1027",
+   "role": "LAWWW",
+   "task": "LANE118-SHOP-STORY-1020",
+   "branch": "l118story-1027 第二輪（wip_backup/l118story_r2_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/l118story_r2_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "第二輪暫停（使用者中斷回合時子代理被停下）：l118story-1027 44d3800fb（3 個 commit，AA_480 大部分），沒確認 H9、沒跑完全部 Node，不能直接合；繼續要使用者說",
+   "next": "等使用者",
+   "noDirectIntegrate": true,
+   "source": "AA_480（be47f6341）；USER_WANTS X66"
+  },
+  {
+   "id": "WIP-LAWWW-AOPEN-R2-1027",
+   "role": "LAWWW",
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "aopen-1027 第二輪（wip_backup/aopen_r2_1027.bundle）",
+   "sha": "f642d440f",
+   "files": [
+    "wip_backup/aopen_r2_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "第二輪暫停（使用者停下了子代理）：aopen-1027 f642d440f＝AA_481 開頭改到一半（r2y3b_events.js、aa474_acceptsopen_unit.js），沒測、不能直接合；繼續要使用者說",
+   "next": "等使用者；D113 bundle 照備份",
+   "noDirectIntegrate": true,
+   "source": "AA_481（265f54809）；AA_474（020f695a3）"
+  },
+  {
+   "id": "WIP-LAWWW-X58R3-1027",
+   "role": "LAWWW",
+   "task": "VAC-A2",
+   "branch": "x58-e08-1027 第三輪（wip_backup/x58_e08_r3_1027.bundle）",
+   "sha": "98bde8461",
+   "files": [
+    "wip_backup/x58_e08_r3_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "E08 第三輪（AA_478 第 7 節：出國途中的時鐘換當地時間）；bundle 到 7b0510018（4 個 commit），前提 b24bbaa75",
+   "next": "—",
+   "noDirectIntegrate": true,
+   "source": "AA_478（6d9ebd49a）",
+   "closedBy": "673e13527",
+   "note": "20:3x 子代理做完（7b0510018），合進開發分支 673e13527。"
+  },
+  {
+   "id": "WIP-LAWWW-JPRESUME-1027",
+   "role": "LAWWW",
+   "task": "JP-AIR-RESUME-1027",
+   "branch": "x58-e08-1027 第四輪（wip_backup/x58_jpresume_1027.bundle）",
+   "sha": "673e13527",
+   "files": [
+    "wip_backup/x58_jpresume_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "日本（美國）出發中途存檔讀回來接著演；子代理做中，前提 673e13527（還沒有新 commit 時 bundle 不存在）",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "E08 第三輪子代理回報；D36",
+   "closedBy": "448e8811b",
+   "note": "21:0x 子代理做完（f0a921972），合進開發分支 448e8811b。"
+  },
+  {
+   "id": "WIP-LAWWW-PEOPLE-1027",
+   "role": "LAWWW",
+   "task": "CLASS-TEACHER-1027",
+   "branch": "people-1027（wip_backup/people_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/people_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "使用者 20:1x～20:3x 回報的「場景裡的人」：上課講台一定有老師（四年每一門課測試）、門口的人有小動作且上課前陸續走進去、體育館三層人流、社博學姊站在法服帳篷＋地點（CLASS-TEACHER-1027、CROWD-CLASS-ARRIVE-1027、GYM-CROWD-1027、SIS-EXPO-PRESENCE-1027）；子代理做中，前提 c33a9c158",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "UA-LAWWW-1027-10、-11、-13、-16、-17",
+   "closedBy": "096d3ca50",
+   "note": "21:1x 子代理做完（a447787d1），合進開發分支 096d3ca50。"
+  },
+  {
+   "id": "WIP-LAWWW-ANSTUCK-1027",
+   "role": "LAWWW",
+   "task": "AN-MEAL-STUCK-1027",
+   "branch": "an-stuck-1027（wip_backup/an_stuck_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/an_stuck_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "P0 以安吃麵卡住＋讀檔一直跟著（invites3d.js arrive／autoStart 沒鎖、走進門的自動存檔還在 going）；子代理修中，要套進 v9.10.11 發布樹；前提 3240d3802",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報",
+   "closedBy": "8a5361bf8",
+   "note": "21:1x 子代理做完（35f8e7fb2），合進開發分支 8a5361bf8；候選 rc2 6aebbb4d8。"
+  },
+  {
+   "id": "WIP-LAWWW-SMALL-1027",
+   "role": "LAWWW",
+   "task": "US-BLANK-1012-HINT-1027",
+   "branch": "small-1027（wip_backup/small_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/small_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "三件小修已 commit 1bcbbe3a7（US 10/12 提示、AA_484 兩處、凌晨 2:30 以後不出休息）；等開發分支全部 Node 跑完再合；前提 592de7e18",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報",
+   "closedBy": "ef936bc59",
+   "note": "20:5x 合進開發分支 ef936bc59。"
+  },
+  {
+   "id": "WIP-LAWWW-Y1FB-1027",
+   "role": "LAWWW",
+   "task": "CLUBFAIR-REAL-1027",
+   "branch": "y1fb-1027（wip_backup/y1fb_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/y1fb_1027.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "大一上回報批次（社博照實際、學姊事務版、健身句、麵店長桌、語彤烤肉）；子代理做中；前提 592de7e18",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報",
+   "closedBy": "5b227d3aa（合併 y1fb-1027 d4933d0c3）＋1cb7bcbb3（對齊 LAWWW2 36 頂）"
+  },
+  {
+   "id": "WIP-LAWWW-HP-1027",
+   "role": "LAWWW",
+   "task": "HOME-PROMISE-1027",
+   "branch": "homepromise-1027（wip_backup/homepromise_1027.bundle）",
+   "sha": "d874aa740",
+   "files": [
+    "wip_backup/homepromise_1027.bundle"
+   ],
+   "state": "已取消",
+   "remaining": "答應媽媽回家（AA_488 961a3a8a0）：記約定、週末提醒、撞約三選一、沒回去的反應；子代理做中，前提 d874aa740（還沒有新 commit 時 bundle 不存在）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488",
+   "closedBy": "子代理被使用者停掉（2026-10-27 21:3x），只有開工檢查點 5ec254b3a（沒有修改，bundle wip_backup/homepromise_1027.bundle 留著）；HOME-PROMISE-1027 改 LAWWW 自己做"
   }
  ]
 }

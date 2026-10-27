@@ -27,7 +27,7 @@ const L118S=(function(){
     for(const x of [].concat(src.material)) if(x){ x.colorWrite=false; x.depthWrite=false; }   /* 原本那一片不畫（還留在淡出清單：鏡頭在店外時它的 visible 變 false，新的平面跟著）*/
     g0.add(m); return {mesh:m,key,fb}; }
   function setPhotoView(pv,h,weather){ if(!pv) return; const night=(h<5.5||h>=19.2), rain=weather==='rain'||weather==='storm', ph=W3.viewPhoto(pv.key,night);   /* 19.4 → 19.2（LAWWW2-B 10-24 路線巡查④）：和引擎的夜晚係數 nk＝1、屋外完全天黑同一刻換夜景；原本晚 0.2 小時，冬天傍晚光線拉長後，12 月 17:35～17:58 屋外全黑、窗外還是調暗的白天照片 */
-    W3.setWindowView(pv.mesh.material,pv.key,night,pv.fb,ph?W3.photoTint(h,rain):new THREE.Color(1,1,1).multiplyScalar(viewK(h)).getHex()); }
+    W3.setWindowView(pv.mesh.material,pv.key,night,pv.fb,ph?W3.photoTint(h,rain):new THREE.Color(1,1,1).multiplyScalar(viewK(h)).getHex(),ph&&W3.photoFade?W3.photoFade(h):0); }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
   /* 看東西的字：配置檔的 note 有字就用（例：家常菜的電視，AA_280 原句）；dev 那一欄是 LAWWW2 給開發組的話（產生的檔，不改；不會出現在遊戲裡）。
      AA_355 1-3（AA-C 2026-10-21）給了滇香小館牆上的織布；5-1（2f1aaa22）給了自取的湯（第一間＝好家自助餐、第二間＝巷口家常菜）、書架（慢讀咖啡）、

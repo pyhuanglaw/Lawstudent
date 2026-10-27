@@ -343,6 +343,10 @@ for ob in list(root.children):
     if ob.type == 'MESH' and ob.data.materials and 'leaf_' in ob.data.materials[0].name: L.smooth_mesh(ob, angle=1.2)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or (ob.parent is not None and ob.parent.name == 'b1_equipment'),
                     key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件補反面，看起來和原本一樣；原本就單面的（天花板朝下、屋頂）不動；玻璃照舊雙面；*_FACE_* 板面不動網格
+_ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name, flip=False)   # 不翻裡外相反的零件：見 lib2.single_side 的說明（B1 的 4 片小鐵片）
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAY['version'], 'equipment': n_eq, 'entryProps': n_en})
 L.write_json(OUT[:-4] + '.json', info)

@@ -22,6 +22,7 @@ const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.ind
 const rows=s=>s.split('\n').filter(l=>/^\|/.test(l)&&!/^\|[-| :]+\|\s*$/.test(l)).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const Q=s=>s.split('\n').map(l=>/^\s*>\s*(.+?)\s*$/.exec(l)).filter(Boolean).map(m=>m[1]).map(t=>{ const k=t.indexOf('：'); return k>0&&k<8?{sp:t.slice(0,k),text:t.slice(k+1)}:{sp:null,text:t}; });
 const qs=s=>{ const out=[]; const re=/「([^「」]*(?:「[^「」]*」[^「」]*)*)」/g; let m; while((m=re.exec(s))) out.push(m[1]); return out; };
+const DOC466=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 30cc3235a:"docs/story_planning/AA_466_日本路線讀一遍_家人群組在日本_語彤的田野照片.md"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();   /* AA_466 第 1 節（十二則）*/
 const P443='docs/story_planning/AA_443_多媒體中心看的字_摘要池加寫_週四家人群組範圍.md';
 const DOC443=(()=>{ try{ return cp.execSync('git -c core.quotepath=false show 540e1d3fb:"'+P443+'"',{cwd:process.env.SPEC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<26,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } })();
 const S1=part('## 1.','## 2.'), S21=part('### 2-1.','### 2-2.'), S22=part('### 2-2.','### 2-3.'), S23=part('### 2-3.','### 2-4.');
@@ -52,9 +53,9 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
   if(!X()||!DOC){ H.done(); return; }
   await sec(0,async()=>{
     const all=[]; const walk=v=>{ if(typeof v==='string') all.push(v); else if(Array.isArray(v)) v.forEach(walk); else if(v&&typeof v==='object') Object.values(v).forEach(walk); };
-    walk(L()); const ids=/^(dad|mom|sister|heroine_01|yu|classmate_xinci|zhe|20\d\d-\d\d-\d\d)$/;
-    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0);
-    check('0. JPPREP_LINES 的每一句都在 AA_442（人物 id、日期除外）',bad.length===0,bad.join('｜'));
+    walk(L()); const ids=/^(dad|mom|sister|heroine_01|yu|classmate_xinci|zhe|abroad|home|20\d\d-\d\d-\d\d)$/;
+    const bad=all.filter(t=>!ids.test(t)&&DOC.indexOf(t)<0&&DOC466.indexOf(t)<0);   /* AA_466 第 1 節加的六則、第 4 則國外版在 AA_466 */
+    check('0. JPPREP_LINES 的每一句都在 AA_442 或 AA_466（人物 id、日期、國外／在家的標記除外）',bad.length===0,bad.join('｜'));
     check('0. 事件進了 STORY_EVENTS；JP.SCH 多了這一包的列；JP.STOPS、PHONE_RULES 掛上',JPPREP_EVENTS.every(e=>STORY_EVENTS.includes(e))&&X().SCH.every(s=>JP.SCH.includes(s))&&JP.STOPS.length>0&&STORY.PHONE_RULES.length>0);
     const days=['2028-02-21',1,'2028-02-25',5,'2028-02-26',6,'2028-02-29',2,'2028-03-01',3,'2028-03-04',6,'2028-03-05',0,'2028-03-08',3,'2028-03-10',5,'2028-03-11',6,'2028-03-12',0,'2028-03-14',2,'2028-03-17',5,'2028-03-18',6,'2028-03-19',0,'2028-03-21',2,'2028-03-22',3,'2028-03-23',4];
     let wdOK=true; for(let i=0;i<days.length;i+=2) if(CALENDAR.dateOf(D(days[i])).wd%7!==days[i+1]) wdOK=false; check('0. 稿上的星期和遊戲的日曆一樣',wdOK);
@@ -63,8 +64,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
   /* ======================= 1 住家裡的週四家人群組 ======================= */
   await sec(1,async()=>{
     const HR=rows(S1).filter(r=>/^H\d$/.test(r[0])).map(r=>brs(r[1]).map(x=>SP[x.sp]+':'+x.text));
-    check('1. 稿的 H1～H6（六則）和 HOME_GROUP 一樣',HR.length===6&&J(L().HOME_GROUP.map(g=>g.map(([w,t])=>w+':'+t)))===J(HR),J(HR).slice(0,200));
-    let G=jpG('2028-02-24',20.05); rules(); const d=G.day, idx=((Math.floor(d/7)%6)+6)%6, M=homeGrp(d);
+    check('1. 稿的 H1～H6（六則）和 HOME_GROUP 的前六則一樣（AA_466 加到十二則，tests/aa466_jp_unit.js）',HR.length===6&&J(L().HOME_GROUP.slice(0,6).map(g=>g.map(([w,t])=>w+':'+t)))===J(HR),J(HR).slice(0,200));
+    let G=jpG('2028-02-24',20.05); rules(); const d=G.day, idx=0, M=homeGrp(d);   /* AA_466 第 1 節：照順序一輪用完才從頭，新的存檔從第 1 則開始（原本照 G.day/7）*/
     check('1. 日本路線出發前（住家裡，學期中）2/24（四）20:00：住家裡版 H'+(idx+1)+'；沒有「這週回來吃飯嗎」那一套、沒有選項',J(M.map(m=>m.from+':'+m.text))===J(HR[idx])&&M.every(m=>!m.ask&&m.tag==='home_live_'+d&&m.h>=20)&&!tagged('home_ask_'+d).length,J(M.map(m=>m.text)));
     check('1. 手機上的名字：爸爸／媽媽／姊姊',M.every(m=>m.name===({dad:'爸爸',mom:'媽媽',sister:'姊姊'})[m.from]));
     setT(d,22.5); rules(); check('1. 兩個小時以後爸爸不傳「？」',!homeGrp(d).some(m=>m.text==='？'));
@@ -77,11 +78,11 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     G=lawG('2026-07-16',20.05); rules(); check('1. 放假留宿舍：照舊沒有（放假中原本就不發）',!homeGrp(G.day).length);
     G=lawG('2026-10-15',20.05); rules(); check('1. 學期中住宿舍：照舊問「會回去／這週不回」',tagged('home_ask_'+G.day).length===1&&J(optsOf('home_ask_'+G.day))===J(['會回去','這週不回'])&&!tagged('home_live_'+G.day).length);
     const pg=k=>{ const G=lawG(k,20.05,{home:true,flags:{MOVED_OUT:true}}); return G; };
-    G=pg('2029-03-01'); rules(); const i4=((Math.floor(G.day/7)%6)+6)%6;
+    G=pg('2029-03-01'); rules(); const i4=0;   /* AA_466：新的存檔從第 1 則開始 */
     check('1. 學期中住家裡（pgHome，學期表還在算：延畢那種）2029-03-01（四）：住家裡版、沒有問句',HOME.pgHome(G)&&!!CALENDAR.termOf(G.day)&&J(homeGrp(G.day).map(m=>m.from+':'+m.text))===J(HR[i4])&&!tagged('home_ask_'+G.day).length);
     G=pg('2029-02-22'); rules(); check('1. 過年爸爸在家（2029 他待到元宵 2/26；2/22 是學期中）：不發，也不發問句版',HOME.pgHome(G)&&!!CALENDAR.termOf(G.day)&&!homeGrp(G.day).length&&!tagged('home_ask_'+G.day).length);
     G=pg('2029-03-01'); setT('2029-02-27',20.05); rules(); check('1. 學期中住家裡、不是週四：只加入家人群組（同原本），不發',PHONE.inGroup(G,'home')&&!(G.msgs||[]).some(m=>m.th==='g:home'));
-    G=jpG('2028-08-10',20.05,{flags:{JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')}}); rules(); check('1. 日本路線回來以後住家裡（8/5～9/3，暑假）的週四：不發（AA_443 第 3 節）',JP.homeOn(G)&&!homeGrp(G.day).length&&!tagged('home_ask_'+G.day).length);
+    G=jpG('2028-08-10',20.05,{flags:{JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')}}); rules(); check('1. 日本路線回來以後住家裡（8/5～9/3，暑假）的週四：AA_466 第 5 節改成照發住家裡版（原本 AA_443 第 3 節不發；tests/aa466_jp_unit.js 1-b）、沒有問句版',JP.homeOn(G)&&homeGrp(G.day).length>0&&homeGrp(G.day).every(m=>m.tag==='home_live_'+G.day&&!m.ask)&&!tagged('home_ask_'+G.day).length);
     G=lawG('2025-03-06',20.05,{home:true}); G.stage='econ'; G.flags.Y0_MOVED_OUT=true; rules(); check('1. 經濟系休學在家：照舊不發（那一年 STORY.mainDay 是負的，home3d.js 原本就整則不發；只換、不新增）',HOME.baseMode(G)&&!homeGrp(G.day).length);
   });
 

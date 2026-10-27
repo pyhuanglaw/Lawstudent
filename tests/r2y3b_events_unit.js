@@ -373,14 +373,14 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-03-26',19.9,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); rules();
   check('AB0. 3/26（日）19:54：還沒有', txt('p:heroine_01').length===0);
   at('2028-03-26',20.05); rules();
-  check('AB1. 3/26 她那邊 21:00（時鐘 20:00）：T1 第一則（照片＋一句）；櫻花那則只在 4 月（AA_377 第 5 項）＝先出飯糰；AN_ABROAD_TIER 1', txt('p:heroine_01').join('|')==='heroine_01:（照片：便利商店的飯糰架）|heroine_01:飯糰的海苔要自己拉開。我研究了三天。'&&G.flags.AN_ABROAD_TIER===1, JSON.stringify(txt('p:heroine_01')));
-  { const m=PHONE.byAsk(G,'y3_ab_w1'); check('AB1. D3 T1 也有兩個回覆按鈕（AA_343 D3）：「照 1、2、3 的順序拉。」／「拉破了也能吃。」', !!m&&m.ask.opts.map(o=>o.t).join('|')==='照 1、2、3 的順序拉。|拉破了也能吃。'&&m.ask.opts.map(o=>(o.say||[]).map(x=>x.text).join()).join('|')==='……你早點說。|我知道。我吃了三個破的。', JSON.stringify(m&&m.ask)); }
+  check('AB1. 3/26 她那邊 21:00（時鐘 20:00）：T1 第一則（照片＋一句）＝到的那週「公寓房間，箱子還沒拆」（AA_463 第 1 節十則、第 7 節改字；櫻花那則只在 4 月）；AN_ABROAD_TIER 1', txt('p:heroine_01').join('|')==='heroine_01:（照片：公寓房間，箱子還沒拆）|heroine_01:到了。箱子明天拆。'&&G.flags.AN_ABROAD_TIER===1, JSON.stringify(txt('p:heroine_01')));
+  { const m=PHONE.byAsk(G,'y3_ab_w1'); check('AB1. D3 T1 也有兩個回覆按鈕（AA_343 D3）：「累嗎？」／「房間多大？」（AA_463 第 1 節）', !!m&&m.ask.opts.map(o=>o.t).join('|')==='累嗎？|房間多大？'&&m.ask.opts.map(o=>(o.say||[]).map(x=>x.text).join()).join('|')==='還好。……床比宿舍軟。|六疊。我量過了。', JSON.stringify(m&&m.ask)); }
   at('2028-03-26',21); PHONE.post(G,{th:'p:heroine_01',from:'player',text:'好漂亮。'}); at('2028-04-02',20.1); rules();
   check('AB1. 第 2 週（偶數週）T1 不傳；用手機傳過話＝那一則算回了', txt('p:heroine_01').filter(t=>/^heroine_01:/.test(t)).length===2&&G.flags.AN_ABROAD.log[0].replied===true);
-  at('2028-04-09',20.1); rules(); check('AB1. 第 3 週（4 月）：T1 第二則＝櫻花', txt('p:heroine_01').includes('heroine_01:四月。這邊的櫻花開得比較晚。'));
-  answer('y3_ab_w3',1); check('AB1. D3 回「好看。」→ 她回「嗯。」；這一則算回了', txt('p:heroine_01').slice(-2).join('|')==='player:好看。|heroine_01:嗯。'&&(R2Y3B.abSettle(G),G.flags.AN_ABROAD.log.slice(-1)[0].replied===true), JSON.stringify(txt('p:heroine_01').slice(-2)));
+  at('2028-04-09',20.1); rules(); check('AB1. 第 3 週：T1 第二則＝飯糰（AA_463 第 1 節：「我研究了三天」不再是到的第二天；櫻花排四月最後一個單週 4/23）', txt('p:heroine_01').includes('heroine_01:飯糰的海苔要自己拉開。我研究了三天。')&&!txt('p:heroine_01').includes('heroine_01:四月。這邊的櫻花開得比較晚。'));
+  answer('y3_ab_w3',1); check('AB1. D3 回「拉破了也能吃。」→ 她回「我知道。我吃了三個破的。」；這一則算回了', txt('p:heroine_01').slice(-2).join('|')==='player:拉破了也能吃。|heroine_01:我知道。我吃了三個破的。'&&(R2Y3B.abSettle(G),G.flags.AN_ABROAD.log.slice(-1)[0].replied===true), JSON.stringify(txt('p:heroine_01').slice(-2)));
   { const O=R2Y3B_EVENTS.AB.t1O, W=[['臺北的已經謝了。','嗯。這邊才剛開。','好看。','嗯。'],['照 1、2、3 的順序拉。','……你早點說。','拉破了也能吃。','我知道。我吃了三個破的。'],['一百圓是多少？','二十幾塊。我記了匯率。','手帳記幾頁了？','十一頁。'],['辛苦了。','嗯。','排到了嗎？','排到了。辦完只要五分鐘。']];
-    check('AB1. D3 四則 T1 的回覆按鈕和她的那一句（逐字）', JSON.stringify((O||[]).map(x=>x.flat()))===JSON.stringify(W)); }
+    check('AB1. D3 原本四則 T1（十則的第 3、2、4、5 則，AA_463 第 1 節）的回覆按鈕和她的那一句照舊（逐字）', (O||[]).length===10&&JSON.stringify([2,1,3,4].map(i=>O[i].flat()))===JSON.stringify(W)); }
   fresh('2028-04-09',20.05,'dorm'); R('heroine_01','CLO'); ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(2,[true,true]),tier:1,wk:2,n1:2,n2:0,n3:0}; rules();
   { const m=PHONE.byAsk(G,'y3_ab_w3'); check('AB3. 第 4 階＋最近三則回了兩則：T2（長一點、會問你的事；4/9 是臺灣第 7 週，期中那則不出，AA_377 第 5 項）；每則兩個回覆按鈕', G.flags.AN_ABROAD_TIER===2&&txt('p:heroine_01').join('|')==='heroine_01:町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。|heroine_01:你最近都去哪裡讀書？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='總圖。|麵店。', JSON.stringify(txt('p:heroine_01'))); }
   answer('y3_ab_w3',1); check('AB3. 回了＝她不再回（一來一回就停）；算回了', txt('p:heroine_01').slice(-1)[0]==='player:麵店。'&&(S2=>{ R2Y3B.abSettle(G); return G.flags.AN_ABROAD.log.slice(-1)[0].replied===true; })());

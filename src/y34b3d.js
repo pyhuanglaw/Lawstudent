@@ -102,10 +102,15 @@ const Y34B=(function(){
   S.t1WeekDue=(G,E)=>S.t1On(G)&&!!G.flags.YT_T1&&S.t1Window(G)&&nearDoor(G,E)&&G.flags.YT_T1_DAY!==G.day;
   S.ytPhone=function(G){ const d=D('yt'); if(d==null||G.day<d||G.day>D('thu1')||!S.t1On(G)) return; if(NOW(G)>=T(d,21)&&NOW(G)<T(D('thu1'),17.5)) at(G,d,G.day===d?Math.max(21,G.hour):G.hour,[DM('heroine_03','明天傍晚 麵店門口'),DM('heroine_03','我有事想問你')],'y3_yt_t1_ask'); };   /* AA_180 第 4 節 */
   /* 日本路線（AA_337 第 2 節；AA_341 裁定 4 改從 3/30 起）：她每週四 21:00 傳一張田野的照片，沒有字、不用回、也沒有回問；3/30 起到第 15 週（6/1），六張輪完從頭。人在日本＝當地 22:00（3/23 以前日本路線還在臺灣，照台灣路線去麵店門口）*/
-  const YT_JP=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）','📷（老書店門口的傘桶，插滿了傘）','📷（鐘錶行的玻璃櫃，每一支錶停在不同的時間）','📷（修鞋店的牆，掛滿了鞋楦）','📷（她的田野筆記，第一頁只寫了一行，字太小看不清楚）','📷（巷口的公布欄，貼著一張手寫的「收舊家電」）'];
+  /* AA_466 第 2 節（AA-B 2026-10-25，企劃線 30cc3235a）：改成兩週一張（3/30、4/13、4/27、5/11、5/25、6/8、6/22、7/6），照順序各一次；原本六張留著，加第 7、8 張。
+     第幾張＝已經收過幾張（tag y3_yt_jp_<日>；舊存檔照手機裡已經收過的張數接著算，八張收完就不再傳）。8/5 回來以後照舊不傳 */
+  const YT_JP=['📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）','📷（老書店門口的傘桶，插滿了傘）','📷（鐘錶行的玻璃櫃，每一支錶停在不同的時間）','📷（修鞋店的牆，掛滿了鞋楦）','📷（她的田野筆記，第一頁只寫了一行，字太小看不清楚）','📷（巷口的公布欄，貼著一張手寫的「收舊家電」）',
+    '📷（巷子裡一台修了三次的腳踏車，車主坐在旁邊）','📷（她的田野筆記，翻到第二十頁，字很小）'];
   S.YT_JP=YT_JP;
-  S.ytJPPhone=function(G){ const d0=D('ff2'), w15=D('y3s2w15'); if(d0==null||w15==null||G.day<d0||G.day>w15+6||!law(G)||!JP(G)||!fri('heroine_03')) return;
-    for(let d=Math.min(G.day,w15);d>=d0&&d>G.day-7;d--){ if(CALENDAR.dateOf(d).wd!==4) continue; const h=tzH(G,d,21); if(NOW(G)>=T(d,h)) at(G,d,h,[DM('heroine_03',YT_JP[Math.round((d-d0)/7)%YT_JP.length])],'y3_yt_jp_'+d); return; } };   /* 最近的那個週四（跳過時間的也補那一張）*/
+  S.ytJPCount=function(G){ const re=/^y3_yt_jp_-?\d+$/, s=new Set(), P=P_(); if(P&&P.rec){ const R0=P.rec(G); for(const q of (R0.q||[])) if(q&&re.test(q.tag||'')) s.add(q.tag); for(const t of (R0.cut||[])) if(re.test(t||'')) s.add(t); }
+    for(const m of (G.msgs||[])) if(m&&re.test(m.tag||'')) s.add(m.tag); return s.size; };
+  S.ytJPPhone=function(G){ const d0=D('ff2'); if(d0==null) return; const dl=d0+14*(YT_JP.length-1); if(G.day<d0||G.day>dl+13||!law(G)||!JP(G)||!fri('heroine_03')) return;
+    for(let d=Math.min(G.day,dl);d>=d0&&d>G.day-14;d--){ if((d-d0)%14!==0) continue; const h=tzH(G,d,21); if(NOW(G)>=T(d,h)&&!sent(G,'y3_yt_jp_'+d)){ const n=S.ytJPCount(G); if(n<YT_JP.length) at(G,d,h,[DM('heroine_03',YT_JP[n])],'y3_yt_jp_'+d); } return; } };   /* 最近的那一個兩週的週四（跳過時間的也補那一張）*/
   S.t1Week=async function(GM){ const G=GM.G, F=G.flags; F.YT_T1_DAY=G.day; const ev=evOf('ev_yt_thursday'); if(!ev||typeof EVENTS==='undefined') return false;
     const a=D('ff'), b=D('ff2'); F.Y34B_FF=!F.FIELD_FINDING&&(G.day===a||G.day===b)?1:0; await EVENTS.run(ev);
     if(F.Y34B_FF&&F.YT_T1_GO===G.day&&!F.FIELD_FINDING){ const ff=evOf('ev_field_finding'); if(ff) await EVENTS.run(ff); }   /* 去了＝田野的發現（AA 的 ID ev_field_finding；那一週的旁白、快轉在它裡面）*/
@@ -245,6 +250,21 @@ const Y34B=(function(){
     /* M6：8/3 起每天一張照片（只在家族群組；美國路線沒有）；週日六題爭論，之後「今天不吵」 */
     if(!US(G)&&G.day>=u0&&G.day<end) S.m6(G); };
   const M6_PHOTO=['（照片：一片沒有雲的天空）','（照片：一張空的桌子）','（照片：一杯熱水）'];
+  /* AA_464 第 1 節：每週三用那個月的下一張（照順序；那個月的用完了照原本三張）；其他天原本三張輪（不跟前一天同一張）；週日照第 2 節。
+     after：那一張要在這一天以後（「手錶，調慢了一個小時」排在 11/5 冬令時間之後的週三＝11/8；稿上「11/8」和「照順序」兩個都照：11/1 先用下一張）*/
+  S.M6_WED={8:['（照片：宿舍門口的郵箱，名字貼紙還沒貼）','（照片：一張手畫的校園地圖）','（照片：教室最後一排的位子）','（照片：一雙走到起水泡的鞋）'],
+    9:['（照片：圖書館門口的告示「24 HOURS」）','（照片：超市的米，最小包也有五磅）','（照片：一疊讀完的判決，用長尾夾夾著）','（照片：窗台上一盆小小的薄荷）'],
+    10:['（照片：一片紅葉，夾在書裡）','（照片：教室窗外，下雨）','（照片：計畫本十月那一頁，寫滿了）','（照片：路邊的南瓜攤）'],
+    11:['（照片：手錶，調慢了一個小時）','（照片：一條灰色的圍巾）','（照片：圖書館的暖氣出風口，旁邊一杯熱水）','（照片：空蕩蕩的走廊）','（照片：機票的確認信，日期是 12/23）'],
+    12:['（照片：第一場雪，落地就化了）','（照片：收到一半的行李箱）','（照片：宿舍的鑰匙，放在桌上）']};
+  S.M6_WED_AFTER={'（照片：手錶，調慢了一個小時）':'dst'};
+  /* 那個週三放哪一張：那個月從 8/3 起的每個週三照順序分（有 after 的等到那一天以後），用完了＝null（照原本三張）。只看日子，不用記（舊存檔、跳過的日子都一樣）*/
+  S.m6Wed=function(d){ const u0=D('us0'), end=D('m6End'); if(u0==null||d<u0||d>=end||CALENDAR.dateOf(d).wd!==3) return null; const mo=CALENDAR.dateOf(d).m, L=(S.M6_WED[mo]||[]).slice();
+    for(let x=u0;x<end&&x<=d;x++){ if(CALENDAR.dateOf(x).wd!==3||CALENDAR.dateOf(x).m!==mo) continue; const i=L.findIndex(p=>{ const a=S.M6_WED_AFTER[p]; return !a||x>=D(a); }); const p=i<0?null:L.splice(i,1)[0]; if(x===d) return p; }
+    return null; };
+  /* AA_464 第 2 節：六題用完以後的週日「今天不吵。」照第幾個換（第一個照原句；前面的「（照片）」照舊；都不用回）*/
+  S.M6_QUIET=['今天不吵。今天只放空白。','今天不吵。外面在下雨。','今天不吵。我在洗衣服。','今天不吵。圖書館那一題，我現在十二點就走。','今天不吵。這邊的葉子全紅了。','今天不吵。期中週。','今天不吵。室友在刻南瓜。',
+    '今天不吵。今天多一個小時。','今天不吵。開始冷了，我買了圍巾。','今天不吵。下禮拜感恩節，大家都要回家。','今天不吵。宿舍只剩我和另一個交換生。','今天不吵。下了一點雪，沒有積。','今天不吵。最後一份報告。','今天不吵。下禮拜六，我回去。'];
   const M6_Q=[ {q:'這裡的學生直接叫教授的名字。要不要學？',o:[['要，比較平等。','我試了一次。教授回信也直接叫我名字。'],['不要，稱呼也是距離。','我也是。寫信還是寫 Professor。'],['看那個人。','那要先知道對方喜歡怎麼被叫。我還不知道。']]},
     {q:'美國的法律扶助為什麼要先審收入。',o:[['資源有限，先給最需要的。','那剛好超過的人去哪裡？'],['會擋掉剛好超過的人。','對。我今天就遇到一個。'],['應該先看案子，不是先看人。','……這個我要想到明天。']]},
     {q:'圖書館二十四小時開。是體貼，還是壓力？',o:[['體貼，想念就有地方。','嗯。可是我昨天待到兩點，今天整天頭痛。'],['壓力，沒有理由回家。','我昨天在那裡待到三點。……你說得對。'],['看是誰在用。','對。像我就不太知道什麼時候該走。']]},
@@ -258,10 +278,10 @@ const Y34B=(function(){
       if(wi<M6_Q.length){ const Q=M6_Q[wi], L=[GSIS('（照片）'),GSIS('今天的爭論題：'+Q.q),GSIS('你們先講。我這裡早上七點。')];
         L[2].ask={id:'y4_m6_q'+(wi+1),until:T(d+1,18),opts:Q.o.map(([t,r])=>({t,say:[{from:'heroine_05',name:'溫學姊',text:r},{from:'kevin',name:'Kevin',text:'我去睡了'}],mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'週日的爭論題，第 '+(wi+1)+' 題'}]}))};
         at(G,d,hh,L,tag); }
-      else at(G,d,hh,[GSIS('（照片）'),GSIS('今天不吵。今天只放空白。')],tag);
+      else at(G,d,hh,[GSIS('（照片）'),GSIS(S.M6_QUIET[wi-M6_Q.length]||S.M6_QUIET[0])],tag);   /* 第幾個「不吵」的週日（AA_464 第 2 節；超過十四個照原句）*/
       return; }
     const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
-    at(G,d,h9,[GSIS(M6_PHOTO[(d-D('us0'))%3])],tag);
+    at(G,d,h9,[GSIS(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])],tag);   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
     const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')); if(old.length>6){ const cut=old.slice(0,old.length-6); G.msgs=G.msgs.filter(m=>!cut.includes(m)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）*/
   /* 美國路線：一起出發（exchange3d.js 的 3D 機場；進到機場演前三列、登機前演登機口那一列）*/
   S.usDepartDue=G=>law(G)&&US(G)&&G.zone==='airport_dep'&&!!G.flags.US_DEPARTED&&!G.flags.US_ARRIVED&&G.flags.SIS_SENDOFF==null&&(dating(G,'heroine_05')||exOf(G,'heroine_05'));
@@ -290,7 +310,7 @@ const Y34B=(function(){
   S.a23TueDue=G=>{ const d=D('a23tue'); return law(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&!G.flags.ANNIV23_TOLD&&fam('heroine_03')&&!!(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf('heroine_03')); };   /* 12/12（二）語彤的班：人在店裡才說 */
   S.a23Phone=function(G){ const F=G.flags, d=D('a23'), m=D('a23msg'); if(d==null||G.day<m||G.day>d+1||!law(G)) return;
     { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
-    if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
+    if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 麵店二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
       const dd=D(k), hh=dd!=null?tzH(G,dd,21):21; if(dd!=null&&NOW(G)>=T(dd,hh)&&G.day<=dd+1) at(G,dd,hh,L,'y4_a23_count_'+k); }   /* 麵店團群組的倒數（AA_337 第 3 節）：12/11、12/12、12/13 21:00 */
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
       at(G,d,22.5,[{th:'p:kexin',who:null,text:'（你傳了一張長桌的照片給可昕。）'},DM('kexin','人好多。'),DM('kexin','……下次帶我去。人少的時候。')],'y4_a23_kx_photo');   /* 和可昕交往、她沒見過麵店團（AA_337 第 3 節）：系統字＋她兩句 */

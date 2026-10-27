@@ -10,6 +10,26 @@
    AA_346 ev_choice_apart_<id>（2-Y4-54「選一個人」之後其他人各一場分開的談話；R2Y4B.apartScene）
    沒有的字（AA 稿沒寫）不補；CG 只在 CG_REGISTRY 有登錄時放（hasCG 守門）。測試：node tests/r2y4b_events_unit.js */
 'use strict';
+/* AA_468 第 2 節（AA-B 2026-10-25，企劃線 cd2dc7646；第②級）：律師讀書小組第一輪（k1～k4、y1～y4 各一次）以後換成旁白，每句一次、照順序；週六那幾句只在週六；用完只留收尾那一句。
+   台詞照 2-1、2-2 的表一字不改。第幾句在 src/r2y4b3d.js 的 R2Y4B.narrLine。測試：node tests/aa468_evdup2_unit.js
+   AA_468 第 4 節（企劃線 8a7f797ec）：三個人一起讀（kind three，都在麵店）另一組六句（three；when：'wd'＝平日、'sat'＝週六、null＝都可以），R2Y4B.threeLine；
+   旁白另開計數（BAR_GROUP_KN／KNS、YN／YNS、三個人 BAR_GROUP_3U），舊存檔從第 1 句看起 */
+const R2Y4B_BAR_NARR={
+  kexin:{   /* 2-1 可昕（視訊；週六在政大）*/
+    wd:['（視訊開著。兩個人都沒說話，只有翻頁的聲音。）','（她把今天的考古題拍給你，紅筆圈了三題。）','（十點半，她說要去倒水。回來的時候拿著兩杯，看了一下螢幕，自己笑了。）','（她讀到一半睡著了。你等了十分鐘才叫她。）',
+      '（你們互相出了五題。她錯兩題，你錯三題。）','（今天讀民訴。她說民訴讀起來像在排隊。）','（掛之前，她把桌上的日曆翻給你看：又劃掉一格。）'],
+    sat:['（政大山上的自習室。她占了靠窗的兩個位子。）','（山下買的便當，你們坐在自習室外面的樓梯吃完。）'],
+    wdEnd:'（讀到十一點。）', satEnd:'（讀到傍晚。）' },
+  yutong:{   /* 2-2 語彤（麵店；週六在總圖）*/
+    wd:['（十點，阿姨把燈關掉一半，留長桌那一盞。）','（語彤把今天讀的抄在一張小卡上，放進圍裙口袋。）','（你講完一段，她說：「再一次。」你又講了一次。）','（阿姨端了兩碗湯過來，沒說話，又走回廚房。）',
+      '（她在你筆記的邊邊寫了一個字：「慢」。）','（收桌的時候，她把你的筆蓋蓋好，放回你的筆袋。）'],
+    sat:['（總圖的長桌。她讀社會系的書，你讀你的，中間隔一個位子放水壺。）','（她問了一題你答不出來的。你們一起查到閉館。）'],
+    wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到閉館。）' },
+  three:{   /* 第 4 節 三個人一起讀（都在麵店）*/
+    list:['（可昕出題，語彤計時。你答完，兩個人一起看你。）','（語彤把麵推到長桌另一頭，可昕把考古題推回來。）','（可昕問了一題，語彤說她社會系也學過。兩個人講了五分鐘，你在旁邊寫答案。）',
+      '（十點，阿姨把燈關掉一半。可昕說：「再一題。」語彤說：「最後一題。」）','（週六的長桌。三疊考古題，一盤沒人動的滷味。）','（可昕和語彤交換了筆記。兩個人的字，一個圓一個方。）'],
+    when:[null,null,null,'wd','sat',null],
+    wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到傍晚。）' } };
 const R2Y4B_EVENTS=(function(){
   const R=()=>typeof R2Y4B!=='undefined'?R2Y4B:null;
   const knows=(id,G)=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(id,G);
@@ -22,6 +42,10 @@ const R2Y4B_EVENTS=(function(){
   const sawJP={custom:G=>{ const v=G&&G.flags&&G.flags.AN_SENDOFF; return v==='went'||v==='together'; }};   /* 2028-03-25 送過她去日本（ev_an_sendoff 演完＝went；日本路線一起出發＝together）*/
   const jpGo={custom:G=>!!(G&&G.flags&&G.flags.AN_JP_TRIP_ASK==='go')};   /* 2028 年答應過去日本看七夕 */
   const SAW={any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY'}]}]};
+  const BN=R2Y4B_BAR_NARR, narrRows=(who,p,force)=>{ const N=BN[who], gl=G=>R().groupLine(G,force);
+    return N.wd.map((t,i)=>({if:{custom:G=>gl(G)===p+'w'+(i+1)},speaker:null,text:t})).concat(N.sat.map((t,i)=>({if:{custom:G=>gl(G)===p+'s'+(i+1)},speaker:null,text:t})),
+      [{if:{custom:G=>gl(G)===p+'we'},speaker:null,text:N.wdEnd},{if:{custom:G=>gl(G)===p+'se'},speaker:null,text:N.satEnd}]); };   /* AA_468 第 2 節：第一輪以後的旁白（R2Y4B.narrLine）*/
+  const threeRows=()=>{ const N=BN.three, gl=G=>R().groupLine(G); return N.list.map((t,i)=>({if:{custom:G=>gl(G)==='t'+(i+1)},speaker:null,text:t})).concat([{if:{custom:G=>gl(G)==='twe'},speaker:null,text:N.wdEnd},{if:{custom:G=>gl(G)==='tse'},speaker:null,text:N.satEnd}]); };   /* AA_468 第 4 節：三個人（R2Y4B.threeLine）*/
   return [
   /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝Alison 拍；交往中＝兩個人入鏡（CG-18）---------- */
   { id:'ev_azalea_y4', title:'杜鵑花第四張', participants:['heroine_01'], location:'campus', trigger:'auto', once:true, background:'blur',
@@ -453,6 +477,8 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().groupLine(G)==='y2'},speaker:'heroine_03',text:'……這個詞我在社會系也學過，可是意思不一樣。你講你們的。'},
       {if:{custom:G=>R().groupLine(G)==='y3'},speaker:'heroine_03',text:'你剛剛那一段，跟上禮拜講的不一樣。哪一個對？'},
       {if:{custom:G=>R().groupLine(G)==='y4'},speaker:'heroine_03',text:'我出一題我自己不會的。你答完，我抄下來。'},
+      ...narrRows('yutong','y'),
+      ...threeRows(),
       {end:true},
       {label:'first'},
       {unless:{custom:G=>{ const r=R(), x=r&&r.session(G,G.day); return !!x&&x.mode==='library'; }},speaker:null,text:'（十點，麵店拉下一半的鐵門。語彤把兩碗麵推到長桌另一頭，她自己那一份不在桌上。）'},
@@ -465,7 +491,8 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
       {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
-      {if:{custom:G=>R().groupLine(G,'kexin')==='k4'},speaker:'kexin',expression:'smile',text:'好，換你出題。出一題你自己也不確定的。'} ],
+      {if:{custom:G=>R().groupLine(G,'kexin')==='k4'},speaker:'kexin',expression:'smile',text:'好，換你出題。出一題你自己也不確定的。'},
+      ...narrRows('kexin','k','kexin') ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'video'); } },
   { id:'ev_bar_group_three', title:'三個人的長桌', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},

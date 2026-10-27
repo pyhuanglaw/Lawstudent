@@ -347,11 +347,12 @@ const R2Y3A_EVENTS=(function(){
   const ADMIN={ id:'ev_an_admin_court', title:'她選了行政法院', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'heroine_01', nearDist:3,
     prereq:{custom:G=>on(G,'2027-10-21',17.5,19+40/60)&&stAt(G,'heroine_01','FAMILIAR')&&!(G.flags&&G.flags.AN14)},
     dialogue:[ {speaker:null,text:'（麵店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）'},
-      {speaker:'heroine_01',text:'今天下午，我自己去了行政法院。'},
+      {speaker:'heroine_01',text:'今天下午，我先去了一趟行政法院。'},   /* AA_462 第 8 節③：「我自己去了」換字（同 an14Phone 那一則，AA_462 第 1 節）*/
       {speaker:'heroine_01',text:'一個人告區公所。他坐左邊，區公所的人坐右邊。'},
       {speaker:'heroine_01',text:'他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。'},
       {if:kn('zhe'),speaker:'zhe',text:'刑訴的作業不是要去地院嗎？'},
       {if:kn('zhe'),speaker:'heroine_01',text:'那個禮拜五去。今天這個是我自己想看的。'},
+      {if:nkn('zhe'),speaker:'heroine_01',text:'刑訴那場還是禮拜五。這個是我自己想看的。'},   /* AA_462 第 8 節③：不認識阿哲（上面兩句不出）她自己補一句 */
       {choice:[{text:'「一個人對兩台筆電？」',goto:'a1'},{text:'「妳怎麼不去刑事庭？」',goto:'a2'},{text:'「下次我也想去。」',goto:'a3'}]},
       {label:'a1'},{speaker:'heroine_01',text:'嗯。可是法官一直讓他講完。'},{speaker:null,text:'（她把開庭表摺起來。）'},{speaker:'heroine_01',expression:'thinking',text:'……我在想，那是規定，還是那個法官。'},{goto:'end'},
       {label:'a2'},{speaker:'heroine_01',text:'禮拜五去。'},{speaker:null,text:'（她停了一下。）'},{speaker:'heroine_01',text:'刑事庭的旁聽席，有人會認得我。行政法院不會。'},

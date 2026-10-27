@@ -1,0 +1,23 @@
+{
+ "objects": 17,
+ "unique_meshes": 17,
+ "tris": 8752,
+ "tris_drawn": 8752,
+ "materials": 2,
+ "out": "assets/models/env/second_ai/bb_support/gym_b1_entry.glb",
+ "bytes": 532864,
+ "texres": 256,
+ "items_tris": {
+  "GYM2_COUNTER": 2860,
+  "GYM2_LOCKERS": 1800,
+  "GYM2_WATER": 568,
+  "GYM2_LIFEGUARD": 768,
+  "GYM2_SCALE": 468,
+  "GYM2_TOWEL_BIN": 456,
+  "GYM2_KICKBOARD_RACK": 820,
+  "GYM2_MIRROR": 308,
+  "GYM2_FLOOR": 704
+ },
+ "tris_total": 8752,
+ "note": "GYM-P2／P3a（LAWWW2-B 派工）；每件一個頂層節點；原點底部中央、正面 +z；GLB 裡的位置只是排開給人看"
+}

@@ -306,6 +306,11 @@ for name, pts, props in PLATE:
     pm = Mesh(name, base['board']); pm.quad(pts); CL.uv01(pm.finish(root, uv=True, props=props))
 VC.finish(root, uv=False)
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SET_' in ob.name or (ob.parent is not None and 'SET_' in ob.parent.name), key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。
+# 封閉的殼直接單面；開口的零件補反面，看起來和原本一樣；原本就單面的（天花板朝下、屋頂）不動；玻璃照舊雙面；*_FACE_* 板面不動網格
+# 木格柵（gym_wood：4.5 cm 木條）留雙面——LAWWW-B 10-25 15:0x：單面以後條紋取樣變了、放大看有斜波紋，近景、玩家常停留，比那一點 fps 顯眼（公告欄的木框同一個材質，一起雙面）
+_ss = L.single_side(root, keep=r'glass|^gym_wood$', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAY['version'], 'set_second_hall_chairs': n})
 L.write_json(OUT[:-4] + '.json', info)

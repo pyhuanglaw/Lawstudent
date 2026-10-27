@@ -9,7 +9,8 @@
 //   3 家族群組換字：3-1「下週五」、3-2 沒去聚餐一則改兩則（考古題資料夾的照片＋「跟我拿」）、3-3「期末考完，12/22」、3-4 學姊 10/14 兩句補句號
 //   4 中秋當天（10/6 18:00 媽媽兩則、21:00 爸爸）、颱風假前一晚（10/12 20:45 媽媽、21:00 爸爸；calendar.js 每一個法律系的颱風假）：家人群組、不用回；
 //     那時候人在家裡、住家裡、人在國外的差別；睡著的照原本的時間補，過了那一段不補
-// 修改前（開發分支 b5e07ddab）：0～4 每一節至少一項 FAIL。用法：node tests/aa458_y1s1_unit.js
+//   7 第 7 節①（企劃線 ae13fa69e）：中秋照每一年換（2025 原句、2026 芋頭、2027 烤肉、2028 最後一個＋爸爸「這張最清楚」）；日子照日曆；舊存檔那一年已經收過的不重發
+// 修改前（開發分支 b5e07ddab）：0～4 每一節至少一項 FAIL；第 7 節：c7d701caf 上 FAIL。用法：node tests/aa458_y1s1_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -41,13 +42,19 @@ const KMAP={'第一週（那個週六是 1～7 號）':'first_sis','第一週（
 const T13={}; for(const r of rows(part('### 1-3','**爸爸寄東西**'))) if(KMAP[r[0]]) T13[KMAP[r[0]]]=[r[0]==='長輩圖（②④）'?null:r[1],r[2].split('＋'),r[3].split('＋')];
 const DMAP={'大一上':'dad_snack','大一下':'dad_tea','大二上':'dad_crab','大二下':'dad_snack2'};
 for(const r of rows(part('**爸爸寄東西**','### 1-4'))) if(DMAP[r[0]]) T13[DMAP[r[0]]]=[orig(r[1]),r[2].split('＋'),r[3].split('＋')];
-const T14=rows(part('### 1-4','- 舊開局')).filter(r=>/^\d{1,2}\/\d{1,2}$/.test(r[0])).map(r=>{ const [m,d]=r[0].split('/').map(Number); return {d:D('2025-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')),kind:r[1],t:r[2]}; });
+/* AA_459 第 1 節（企劃線 c0972cd32）：連假②換字「這次連假 回來住幾天」、期末多一種（下學期 fin2；上學期 fin1 照 AA_459 第 8 節刪掉）——對稿在 tests/aa459_y1s2_unit.js；這裡照 AA_459 改期待 */
+T13.lj1[0]='這次連假 回來住幾天'; const NEW459=['fin2'];
+const T14=rows(part('### 1-4','- 舊開局')).filter(r=>/^\d{1,2}\/\d{1,2}$/.test(r[0])).map(r=>{ const [m,d]=r[0].split('/').map(Number); return {d:D('2025-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0')),kind:r[1],t:r[2]==='放三天 回來住兩晚'?T13.lj1[0]:r[2]}; });
 const DIN_MAP={'中秋':['moon'],'冬至':['dz'],'端午':['dragon'],'母親節':['mom'],'爸爸寄東西：點心':['dad_snack','dad_snack2'],'爸爸寄東西：茶葉':['dad_tea'],'爸爸寄東西：大閘蟹':['dad_crab']};
 const T15={}; for(const r of rows(part('### 1-5','## 2.'))) for(const k of (DIN_MAP[r[0]]||[])) T15[k]=r[1];
 const D5=[]; for(const r of rows(part('## 2.','## 3.'))) if(/^[1-5]$/.test(r[0])) D5[+r[0]-1]=orig(r[1]);
 const Q31=quotes(part('### 3-1','### 3-2')), Q32=quotes(part('### 3-2','### 3-3')), Q33=quotes(part('### 3-3','### 3-4')), Q41=quotes(part('### 4-1','### 4-2')), Q42=quotes(part('### 4-2','## 5.'));
 const S34=[...part('### 3-4','## 4.').matchAll(/「(你晚上如果也要讀書[^」]+|不要講話就好[^」]+)」/g)].map(m=>m[1]);
 const OLD_D5='講義我先印了，放在女舍一樓的櫃子，誰要拿？';
+let doc7=''; try{ doc7=cp.execSync('git show ae13fa69e:"docs/story_planning/AA_458_法律系大一上讀一遍_媽媽週四群組_沛珊講義_家族群組的日子.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc7=''; }   /* 第 7 節：中秋照每一年換 */
+const P7=(()=>{ const i=doc7.indexOf('## 7.'); return i<0?'':doc7.slice(i); })();
+const MOON_KEYS=((P7.match(/日子照日曆（([^）]+)）/)||[])[1]||'').split('、').filter(Boolean);
+const T7=rows(P7).filter(r=>/^20\d\d$/.test(r[0])).map(r=>({y:+r[0],mom:orig(r[1]).split('／').map(t=>'媽媽：'+t),dad:orig(r[2]).split('／').map(t=>'爸爸：'+t)}));
 
 (async()=>{
 /* ---- 0 讀稿、資料照稿 ---- */
@@ -56,7 +63,7 @@ await sec(0,()=>{
   check('0. 稿裡的表都讀得到（長輩圖 4、1-3 十五種＋爸爸四學期、1-4 十六週、1-5 七種、第 2 節五句、3-1～3-4、4-1 三則、4-2 兩則）',ELD.length===4&&Object.keys(T13).length===19&&T14.length===16&&T14.every(r=>r.d!=null&&wdOf(r.d)===4)&&Object.keys(T15).length===8&&D5.length===5&&D5[0]===OLD_D5&&Q31.length===1&&Q32.length===2&&Q33.length===1&&S34.length===2&&Q41.length===3&&Q42.length===2,
     J({ELD:ELD.length,T13:Object.keys(T13),T14:T14.length,T15:Object.keys(T15),D5:D5.length,Q:[Q31.length,Q32.length,Q33.length,S34.length,Q41.length,Q42.length]}));
   const W=HOME.GROUP_WK||{}, bad=Object.keys(T13).filter(k=>J(W[k])!==J(T13[k]));
-  check('0. HOME.GROUP_WK 照 1-3 的兩張表（媽媽那句、回「會回去」、回「這週不回」；「好＋（愛心貼圖）」＝兩則；長輩圖那句照 ELDER 輪）',!bad.length&&Object.keys(W).length===Object.keys(T13).length,J(bad.map(k=>[k,W[k],T13[k]])));
+  check('0. HOME.GROUP_WK 照 1-3 的兩張表（媽媽那句、回「會回去」、回「這週不回」；「好＋（愛心貼圖）」＝兩則；長輩圖那句照 ELDER 輪；連假②、fin2 照 AA_459）',!bad.length&&Object.keys(W).filter(k=>!NEW459.includes(k)).length===Object.keys(T13).length,J(bad.map(k=>[k,W[k],T13[k]])));
   check('0. HOME.ELDER＝1-2 的四張長輩圖（照稿的順序）',J(HOME.ELDER)===J(ELD),J(HOME.ELDER));
   check('0. HOME.GROUP_DINNER＝1-5 的表（點心兩學期同一句；其他種類沒有）',J(Object.keys(HOME.GROUP_DINNER||{}).sort())===J(Object.keys(T15).sort())&&Object.keys(T15).every(k=>HOME.GROUP_DINNER[k]===T15[k]),J(HOME.GROUP_DINNER));
   check('0. BBPACK.D5_LINES＝第 2 節的五句（第 1 句＝原句）',J(BBPACK.D5_LINES)===J(D5),J(BBPACK.D5_LINES));
@@ -91,10 +98,10 @@ await sec(1,()=>{
     fresh(S1,8,{}); const r2=sim(D('2025-09-18'),D('2025-09-18'),()=>flip); if(J(r2[0].r)!==J(T13.first[flip?2:1])) bad.push(['first',flip,r2[0].r]); }
   check('1. 每一句都有自己的回覆（1-3 的表；大一上十二種＋第一週（其他），「會回去」「這週不回」都對）',!bad.length,J(bad));
   /* 大一上沒有的種類：照日曆排到的週四 */
-  const OTH=[['mom','2026-05-07'],['hot','2026-05-14'],['dad_tea','2026-04-09'],['dad_crab','2026-11-19'],['dad_snack2','2027-04-08'],['dragon','2027-06-03']], bad2=[];
+  const OTH=[['mom','2026-05-07'],['hot','2026-05-14'],['dad_tea','2026-04-09'],['dad_crab','2026-11-12'],['dad_snack2','2027-04-08'],['dragon','2027-06-03']], bad2=[];
   for(const [k,key] of OTH) for(const a of [0,1]){ const d=D(key); fresh(d,20.05); hr(); const m=askOf(d); const r=m?PHONE.answer(H.G,m.ask.id,a):null; const got={t:m&&m.text,k:m&&m.ask.k,r:r?r.out.filter(x=>x.from==='mom').map(x=>x.text):null};
     if(got.t!==T13[k][0]||got.k!==k||J(got.r)!==J(T13[k][a?2:1])) bad2.push([key,k,a,got]); }
-  check('1. 母親節（5/10 前的週四 5/7）、天氣熱（5 月第一個週四被母親節佔走→5/14）、端午（2027-06-09 前的週四 6/3）、爸爸寄茶葉（大一下第 7 週 4/9）、大閘蟹（大二上第 7 週被佔走→11/19）、又寄點心（大二下 4/8）：句子、回覆照稿',!bad2.length,J(bad2));
+  check('1. 母親節（5/10 前的週四 5/7）、天氣熱（5 月第一個週四被母親節佔走→5/14）、端午（2027-06-09 前的週四 6/3）、爸爸寄茶葉（大一下第 7 週 4/9）、大閘蟹（大二上第 7 週被佔走→11/12；AA_459 1-2 期中只用一次，11/5 空出來給天氣涼，原本 11/19）、又寄點心（大二下 4/8）：句子、回覆照稿',!bad2.length,J(bad2));
   check('1. 大三以後爸爸寄的照茶葉 → 大閘蟹 → 點心輪、大閘蟹只在秋天（大三上茶葉、大三下輪到大閘蟹＝跳過換點心）',HOME.dadKey('Y3S1')==='dad_tea'&&HOME.dadKey('Y3S2')==='dad_snack2'&&!['Y1S2','Y2S2','Y3S2','Y4S2'].some(t=>HOME.dadKey(t)==='dad_crab'),J(['Y3S1','Y3S2','Y4S1','Y4S2'].map(HOME.dadKey)));
   /* 爸爸「？」照舊、STORY.phoneRules 接得到 */
   { const d=D('2025-09-04'); fresh(d,20.05,NEW); STORY.phoneRules(GM); PHONE.tick(H.G); const m=askOf(d); at(d,22.1); STORY.phoneRules(GM); PHONE.tick(H.G);
@@ -115,7 +122,7 @@ await sec('1-5',async()=>{
   fresh(S1,8,NEW); sim(S1,D('2025-12-18'),e=>e.k==='dz'?0:1); const L5=await dinner(D('2025-12-20'));
   check('1-5. 冬至那週回「會回去」、12/20 晚餐：「'+T15.dz+'」',L5[1]===T15.dz,J(L5.slice(0,2)));
   const one=async(key,k,dn)=>{ const d=D(key); fresh(d,20.05); hr(); PHONE.answer(H.G,'home_ask_'+d,0); const L=await dinner(D(dn)); return L[1]===T15[k]; };
-  check('1-5. 母親節（5/9）、爸爸寄茶葉（4/11）、大閘蟹（11/21）、端午（6/5）回「會回去」那個週末的晚餐：各自那一句',await one('2026-05-07','mom','2026-05-09')&&await one('2026-04-09','dad_tea','2026-04-11')&&await one('2026-11-19','dad_crab','2026-11-21')&&await one('2027-06-03','dragon','2027-06-05'));
+  check('1-5. 母親節（5/9）、爸爸寄茶葉（4/11）、大閘蟹（11/14，AA_459 1-2）、端午（6/5）回「會回去」那個週末的晚餐：各自那一句',await one('2026-05-07','mom','2026-05-09')&&await one('2026-04-09','dad_tea','2026-04-11')&&await one('2026-11-12','dad_crab','2026-11-14')&&await one('2027-06-03','dragon','2027-06-05'));
   /* 舊存檔：那個週四已經用舊的句子收過（ask 沒有 k）＝不加、不重發 */
   { const d=D('2025-10-02'); fresh(d,19,NEW); H.G.msgs.push({day:d,h:20,who:null,text:'這週回來吃飯嗎',th:'g:home',from:'mom',name:'媽媽',tag:'home_ask_'+d,ask:{id:'home_ask_'+d,until:d*24+22,opts:[{t:'會回去'},{t:'這週不回'}]},ans:0}); at(d,20.5); hr(); const L=await dinner(d+1);
     check('1-5. 舊存檔（中秋那週四已經收過舊的「這週回來吃飯嗎」、回了會回去）：不重發、晚餐不加旁白',byTag('home_ask_'+d).length===1&&isHead(L[0])&&!Object.values(T15).includes(L[1]),J([byTag('home_ask_'+d).map(m=>m.text),L.slice(0,2)])); }
@@ -187,6 +194,18 @@ await sec(4,()=>{
   fresh(D('2026-09-25'),21.05,{}); PHONE.join(H.G,'home','家人'); hr();
   const y2=famNew().length; fresh(D('2029-09-22'),21.05,{}); PHONE.join(H.G,'home','家人'); hr(); const pg=famNew().length;
   check('4-1. 在學的每年中秋都照這個（大二 2026-09-25 也有；子代理判斷：稿 4-1 的「住家裡」條件大一以後才用得到）；畢業以後（2029-09-22）不發',y2===3&&pg===0,J([y2,pg]));
+});
+/* ---- 7 中秋照每一年換（第 7 節①）---- */
+await sec(7,()=>{
+  check('7. 讀得到第 7 節：四年（2025～2028）媽媽兩則、爸爸一則（2028 兩則）；日子 '+MOON_KEYS.join('、'),T7.length===4&&J(T7.map(r=>r.y))===J([2025,2026,2027,2028])&&T7.every(r=>r.mom.length===2&&r.dad.length===(r.y===2028?2:1))&&MOON_KEYS.length===4&&MOON_KEYS.every((k,i)=>CALENDAR.fest(D(k))==='中秋'&&CALENDAR.dateOf(D(k)).y===T7[i].y),J({T7,MOON_KEYS}));
+  check('7. 2025 那一列＝4-1 的原句（HOME.FAM_DAYS 不動）',J(T7[0].mom.concat(T7[0].dad))===J(Q41.map(q=>q.who+'：'+q.t)));
+  const got=MOON_KEYS.map(k=>{ const M=D(k); fresh(M,17,{}); PHONE.join(H.G,'home','家人'); at(M,18.05); hr(); const a=famNew().map(x=>x.w+'：'+x.t); at(M,21.05); hr(); return {a,b:famNew().map(x=>x.w+'：'+x.t),d:famNew().filter(x=>x.w==='爸爸').map(x=>[x.day===M,Math.round(x.h*100)/100])}; });
+  const bad=got.map((g,i)=>J(g.a)===J(T7[i].mom)&&J(g.b)===J(T7[i].mom.concat(T7[i].dad))&&g.d.every(x=>x[0]&&x[1]>=21&&x[1]<21.3)?null:[MOON_KEYS[i],g]).filter(Boolean);
+  check('7. 每一年的中秋（'+MOON_KEYS.join('、')+'）：18:00 媽媽兩則、21:00 爸爸照那一年的表（2026「'+T7[1].mom[1].slice(3)+'」、2027「'+T7[2].mom[1].slice(3)+'」、2028 爸爸多「'+T7[3].dad[1].slice(3)+'」）',!bad.length,J(bad));
+  const all=[].concat(...got.map(g=>g.b)), dup=all.filter((t,i)=>all.indexOf(t)!==i);
+  check('7. 四年沒有一則一字不差',!dup.length,J(dup));
+  { const M=D(MOON_KEYS[1]); fresh(M,17,{}); PHONE.join(H.G,'home','家人'); H.G.msgs.push({day:M,h:18,th:'g:home',from:'mom',name:'媽媽',text:T7[0].mom[0].slice(3),tag:'home_moon_'+M}); at(M,21.05); hr();
+    check('7. 舊存檔（2026 已經用舊的照片收過媽媽那則）：媽媽不重發，爸爸照 2026 的表',byTag('home_moon_'+M).length===1&&J(byTag('home_moon_dad_'+M).map(m=>'爸爸：'+m.text))===J(T7[1].dad),J(famNew())); }
 });
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

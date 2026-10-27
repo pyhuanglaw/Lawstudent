@@ -196,13 +196,13 @@ const SISG=(function(){
     if(now>=T(d,20)&&!evDone(G,'ev_sis_results')) done(G,'ev_sis_results');   /* 3/23 20:00 起，對所有玩家算演過（閒聊階梯 S2-L3 的 skipIf、S2-L5 的 linesIf 讀它）*/
     if(inFam(G)&&now>=T(d,20)&&now<T(d+2,0)&&!sent(G,'sisg_rank_fam')) PHONE.at(G,d,20,[K('各位！！學姊上榜了！！！'),W('收到。'),K('學姊妳可以多講兩個字'),W('謝謝。')],'sisg_rank_fam');   /* 所有在家族群組的玩家（錄取固定）*/
     if(inFam(G)&&now>=T(d,21)&&now<T(d27,18.5)&&!sent(G,'sisg_rank_dinner'))
-      PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})],'sisg_rank_dinner');
+      PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})].concat(sent(G,'fam_dinner_inv')?[K('上禮拜罰她，這禮拜請她。')]:[]),'sisg_rank_dinner');   /* AA_459 2-3：收過咖哩那一則（story3d.js fam_dinner_inv，3/20 罰學姊）的，Kevin 多一句 */
     if(F.SISG_DINNER_GO===true){ F.SISG_DINNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d27,19.25)) OUT.plan(G,{id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d27,h:19,late:0.25,place:'公館・日日定食',title:'學姊上榜聚餐（公館・日日定食）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true}); }
     if(inFam(G)&&sent(G,'sisg_rank_dinner')&&now>=T(d27,21.5)&&now<T(d27+2,0)&&!evDone(G,'ev_sis_results_dinner_y1')&&!sent(G,'sisg_rank_dinner_photo'))   /* 沒去的玩家：21:30 Kevin 貼合照 */
       PHONE.at(G,d27,21.5,[K('📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題 */
   /* 2-12：6/6（六）早上她的私訊（有點熟以上）→ 11:00 霖澤館（出遊）。11:00 以後才起床的不補 */
   S.gradRule=function(G,now){ const d=D('grad'); if(d==null||now<T(d,8)||now>=T(d,11)||sent(G,'sisg_grad_msg')||!atLeast(ID,'FAMILIAR')) return;
-    PHONE.at(G,d,8,[P5('今天十一點，霖澤館。不用帶花')],'sisg_grad_msg');
+    PHONE.at(G,d,8,[P5('今天十一點，霖澤館。不用帶花。')],'sisg_grad_msg');   /* AA_459 第 5 節：學姊的私訊用句號收尾 */
     if(typeof OUT!=='undefined') OUT.plan(G,{id:'sisg_grad',ev:'ev_sis_graduation',day:d,h:11,late:0.5,place:'霖澤館',title:'學姊的畢業典禮（霖澤館）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開霖澤館。'}); };
   S.phone=function(G){ if(typeof PHONE==='undefined'||!law(G)) return; if(!G.flags) G.flags={}; const now=T(G.day,G.hour);
     S.unlockRule(G,now); S.wedInvite(G,now); S.breakRules(G,now); S.rankRules(G,now); S.gradRule(G,now); };

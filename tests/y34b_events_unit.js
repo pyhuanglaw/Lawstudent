@@ -99,7 +99,7 @@ const date=id=>H.date(id);
     at('2028-03-30',21.5); phone(); const d=ph().length; at('2028-03-30',22); phone(); const e=ph();
     at('2028-04-06',22); phone(); const f=ph().slice(-1)[0]; at('2028-05-11',22); phone(); const f2=ph().slice(-1)[0], n=ph().length; at('2028-06-08',22); phone(); const g=ph().length;
     check('AA_337 第 2 節＋AA_341 裁定 4 日本路線：田野的照片從 3/30（四）起（2/24、3/2 人在臺灣，照台灣路線去麵店門口，沒有照片）；人在日本＝當地 22:00（台灣 21:00），第一張是水源市場', a===0&&b===0&&d===0&&JSON.stringify(e)===JSON.stringify([S.YT_JP[0]])&&S.YT_JP[0]==='📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）', JSON.stringify([a,b,d,e]));
-    check('AA_337 第 2 節 日本路線：4/6 第二張；5/11 六張輪完從頭；第 16 週（6/8）沒有', f===S.YT_JP[1]&&f2===S.YT_JP[0]&&g===n, JSON.stringify([f,f2,n,g]));
+    check('AA_466 第 2 節（原本 AA_337 每週一張、六張輪）日本路線：兩週一張、照順序各一次——4/6 沒有新的；5/11 第二張（中間 4/13、4/27 沒跑規則、不補）；6/8 還有（第三張）', f===S.YT_JP[0]&&f2===S.YT_JP[1]&&g===n+1&&n===2, JSON.stringify([f,f2,n,g]));
     check('AA_337 第 2 節 日本路線的照片：沒有字、不用回（沒有選項）', (H.G.msgs||[]).filter(m=>m.th==='p:heroine_03').every(m=>!m.ask&&/^📷（/.test(m.text))); }
   /* ===== 1B-14 ===== */
   const z=ev('ev_zhiruo_no_sugar');
@@ -249,7 +249,7 @@ const date=id=>H.date(id);
     for(let d=D('2028-08-07');d<D('2028-08-20');d++){ H.G.day=d; H.G.hour=9.5; phone(); }
     check('M6 每天的照片只留最近 7 張', (H.G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')).length===7, String((H.G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')).length));
     const sun=S.m6Sundays(); at('2028-09-17',19); phone(); check('M6 六題用完（第 7 個週日）：「今天不吵。今天只放空白。」', sun.length>=7&&sun[6]===D('2028-09-17')&&th('g:family_law').includes('今天不吵。今天只放空白。'));
-    at('2028-11-12',19.5); phone(); const a=th('g:family_law').filter(t=>t==='今天不吵。今天只放空白。').length; at('2028-11-12',20); phone(); const b=th('g:family_law').filter(t=>t==='今天不吵。今天只放空白。').length;
+    at('2028-11-12',19.5); phone(); const a=th('g:family_law').filter(t=>/^今天不吵。/.test(t)).length; at('2028-11-12',20); phone(); const b=th('g:family_law').filter(t=>/^今天不吵。/.test(t)).length;   /* 11/12 是第 9 個「不吵」的週日（AA_464 第 2 節換句）*/
     check('M6 11/5 起 20:00（她那邊早上七點）', b===a+1); }
   /* 美國路線一起出發 */
   { fresh('2028-08-02',13,'airport_dep',{US_DEPARTED:true},'US'); date('heroine_05'); check('W3 美國路線：在機場（3D）＝一起出發到期', S.usDepartDue(H.G));
@@ -302,7 +302,7 @@ const date=id=>H.date(id);
     check('1B-20 見過麵店團的可昕：她在場（「你說了三年的麵，原來是真的。」）、沒有事後照片', has('你說了三年的麵，原來是真的。')&&!th('p:kexin').length); }
   { fresh('2028-12-11',20,'dorm'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-11',21); phone(); const a=th('g:noodle_team').slice(); at('2028-12-12',21); phone(); const b=th('g:noodle_team').slice(); at('2028-12-13',20.9); phone(); const c=th('g:noodle_team').length; at('2028-12-13',21); phone();
     const L=(H.G.msgs||[]).filter(m=>m.th==='g:noodle_team').map(m=>m.from+':'+m.text);
-    check('AA_337 第 3 節 麵店團群組的倒數：12/11 阿哲「週四 二十三週年 倒數三天」、12/12 Alison「兩天」、12/13 阿哲「明天七點 不准遲到」柏翰「我六點半到。」', a.join('|')==='週四 二十三週年 倒數三天'&&b.slice(-1)[0]==='兩天'&&c===2&&L.join('|')==='zhe:週四 二十三週年 倒數三天|yu:兩天|zhe:明天七點 不准遲到|classmate_bohan:我六點半到。', JSON.stringify(L)); }
+    check('AA_337 第 3 節 麵店團群組的倒數：12/11 阿哲「週四 麵店二十三週年 倒數三天」（AA_464 4-1 加「麵店」）、12/12 Alison「兩天」、12/13 阿哲「明天七點 不准遲到」柏翰「我六點半到。」', a.join('|')==='週四 麵店二十三週年 倒數三天'&&b.slice(-1)[0]==='兩天'&&c===2&&L.join('|')==='zhe:週四 麵店二十三週年 倒數三天|yu:兩天|zhe:明天七點 不准遲到|classmate_bohan:我六點半到。', JSON.stringify(L)); }
   { const zc=ev('ev_noodle_zr_postcard'); fresh('2028-12-16',15,'noodle'); H.FAMILIAR('heroine_02'); const a=EVENTS.check(zc); at('2028-12-17',15); H.G.zone='noodle'; const b=EVENTS.check(zc); H.G.zone='cafe'; const c=EVENTS.check(zc); H.G.zone='noodle';
     await run('ev_noodle_zr_postcard'); const said=has('（麵店的牆上多了一張明信片，英國的郵戳。背面寫著：「麵店生日快樂。」）'), d=EVENTS.check(zc); fresh('2028-12-20',15,'noodle'); const e=EVENTS.check(zc);
     check('AA_337 第 3 節 芷若的明信片：12/17 以後、和她 FAMILIAR 以上第一次進麵店＝牆上的旁白（只一次；不熟的沒有）', !a&&b&&!c&&said&&!d&&!e&&zc.trigger==='auto'); }

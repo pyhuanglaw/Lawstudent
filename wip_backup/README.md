@@ -17,6 +17,7 @@
 | `aa459_469_1025.bundle` | `aa465-469`（接在 aa459-460 的 c7d701caf 之後：c51b47153 AA_459 第 8 節／AA_460 第 9 節、4701d70d1 中秋每年換、900416f51 AA_465 第 1、2 節、40cb58935 AA_469、d49595467 AA_465 第 7 節＋AA_469 第 6 節；bundle 含 c7d701caf，共 6 個） | d49595467 | 2026-10-25 13:3x LAWWW-B 隔離 worktree 子代理做完（629 支 Node 0 失敗）；前置 a2a423fae 在 origin | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa459_469_1025.bundle aa465-469:aa465-469`；取代 aa459_460_1025.bundle） |
 | `bug_us_wknd_1025.bundle` | `bug-us-wknd`（5d81d0b0f 美國週末 14:00 只在 208 私訊會傳時才停、f69d17905 10/16 21:00 照「改過的報告拿了 A。」或 y4Path2Due 才停，2 個 commit） | f69d17905 | 2026-10-25 13:5x LAWWW-B 隔離 worktree 子代理做完（627 支 Node 0 失敗）；前置 661423a71 在 origin | 已完成待合併：v9.10.10 發布後由 LAWWW-B 合併（`git fetch wip_backup/bug_us_wknd_1025.bundle bug-us-wknd:bug-us-wknd`） |
 | `int_1025.bundle` | `int-1025`（4f6f720ad：開發分支 4759fef4b 合 aa465-469、aa463-464、aa466-468、bug-us-wknd；home3d.js 一處衝突已解；心願白名單換 cb5caad65、拿掉 REPLACE；LAWWW2 單面 GLB 第一份；合併後測試三支跟著改；全部 Node 639 支 0 失敗；f257a94af 加 LAWWW2 單面 GLB 第二份體育館三處） | f257a94af | 2026-10-25 14:0x LAWWW-B 預先合併（v9.10.10 發布凍結期間） | 已驗證待合併：發布後開發分支直接合這條（`git fetch wip_backup/int_1025.bundle int-1025:int-1025`）；上面五個 bundle 都包含在內 |
+| `aa470_1025.bundle` | `aa470-sis-b12`（2dbdaae05 第 3 節、be55d2e07 第 4 節、49aefbf15 第 5 節＋測試、db4b71150 第 8 節②；AA_470 學姊第十二批） | db4b71150 | 2026-10-25 LAWWW-B 隔離 worktree 子代理做完（全部 Node 643 支 0 失敗，新測試 111 項，基底 84 FAIL）；前置 1dacc06af 在 origin | 已完成待合併：v9.10.11 發布後由 LAWWW-B 合併（`git fetch wip_backup/aa470_1025.bundle aa470-sis-b12:aa470-sis-b12`） |
 還原（在 repo 裡，開發分支已經 fetch 過）：
 ```bash
 git fetch wip_backup/dorm-hall.bundle wip/dorm-hall:wip/dorm-hall   # 需要的前置 commit（79e1fed、3c9e02f）都在 origin 的開發分支上
@@ -58,3 +59,7 @@ git worktree add <資料夾> wip/dorm-hall
 ## wip_subagents_1021_1500.bundle（LAWWW-C 2026-10-21 14:5x UTC，使用者「現在正式交班」）
 子代理 a73c8f28（AA 回覆小修 A～E）被停在 `8a9a5e5a`（分支 `worktree-agent-a73c8f28082f050ca`，最上面還有一個合併開發分支的 `bcbc0c82`）：A 組 AA_242 第 12 節 `d5d7e526`（測試先寫 `d4ae2af9`）、B 組日本宿舍「你的房間」三個「看」`16e97be8`、C 組 AA_355 第 5 節 `cb29c54f`、D 組 AA_358 第 2 節 `8a9a5e5a`；E 組（AA_350 第 9 節）沒做。**沒合併進開發分支、LAWWW 沒驗過**（WIP-LAWWW-AAFIX-1021）。
 還原：`git fetch wip_backup/wip_subagents_1021_1500.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/worktree-agent-a73c8f28082f050ca`；合併前跑它改過的那些單元測試（vac_c16_c18、aa355、aa358、jp_semester、termend 等）。合併進開發分支以後這個檔可以刪。
+
+## pgfix_471_473_1027.bundle（LAWWW-C 2026-10-27，D113：開工就備份、每 15～20 分鐘更新）
+分支 `pgfix-471-473`：開發分支 129540766 合學姊第十二批（AA_470 db4b71150）＋重做 AA_471 第 3～7 節、AA_472、AA_473 的實作（PG-FIX-471-473-1027；帳號 B 的子代理成果沒 push 已遺失）。v9.10.11 發布後合進開發分支。
+還原：`git fetch wip_backup/pgfix_471_473_1027.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/pgfix-471-473`。
