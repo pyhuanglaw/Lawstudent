@@ -81,7 +81,7 @@ const GAME = (function(){
   GM.letterbox=letterbox;
   function titleCard(text,sub,ms){ const el=$('title3'); el.innerHTML=text+(sub?'<small>'+sub+'</small>':''); el.style.opacity=1; return sleep(ms||2200).then(()=>{ el.style.opacity=0; }); }
   GM.titleCard=titleCard;
-  function hideHUD(on){ $('hud').style.opacity=on?0:1; $('hudR').style.opacity=on?0:1; $('minimap').style.opacity=on?0:1; $('minimap').style.pointerEvents=on?'none':'auto'; $('ctlR').style.opacity=on?0:1; $('joy').style.opacity=(on||!S.joystick)?0:1; $('ctlR').style.pointerEvents=on?'none':'auto'; $('joy').style.pointerEvents=(on||!S.joystick)?'none':'auto'; }
+  function hideHUD(on){ $('hud').style.opacity=on?0:1; for(const c of $('hudR').children){ if(c.id!=='quickPop') c.style.opacity=on?(c.id==='btnQuick'?0.55:0):1; }   /* 劇情中 💾 半透明留著（卡住時還找得到匯出，QUICK-SAVE-EXPORT-1027）*/ $('minimap').style.opacity=on?0:1; $('minimap').style.pointerEvents=on?'none':'auto'; $('ctlR').style.opacity=on?0:1; $('joy').style.opacity=(on||!S.joystick)?0:1; $('ctlR').style.pointerEvents=on?'none':'auto'; $('joy').style.pointerEvents=(on||!S.joystick)?'none':'auto'; }
   GM.hideHUD=hideHUD;
   // ---------- 對話 ----------
   const D={active:false,resolve:null,typing:false,full:'',shown:0,timer:0,busyDepth:0,busyWho:[],stale:false};
@@ -355,7 +355,7 @@ const GAME = (function(){
     G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; D.busyWho.length=0; GM.chooseReset(); if(typeof STORY!=='undefined'){ STORY._sleeping=false; STORY._resume=null; } D.stale=false; staleT=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw,lv:G.pos.lv|0}:undefined;   /* 多樓層（v9.4）：舊存檔沒有 lv＝一樓 */ await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—',G.goalDest); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); if(G.flags.CAMP_Y1_ON&&!G.flags.CAMP_Y1&&STORY.campY1) void STORY.campY1(GM,{resume:true}); else if(G.zone==='dorm'&&G.flags.LAW_MOVEIN_DAY!=null&&G.day===G.flags.LAW_MOVEIN_DAY&&!G.flags.KAI_MOVEIN&&STORY.lawMoveIn) void STORY.lawMoveIn(GM,{resume:true}); }   /* 宿營中途存的檔：從下一段接著演（CAMP-L1）*/
   GM.applySave=applySave;
   function exportText(){ return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot())))); }
-  function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; return obj; }
+  function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; if(obj&&obj._busy) delete obj._busy; return obj; }
   GM.parseImport=parseImport; GM.exportText=exportText;
   const dayLab=d=>typeof SOCIAL!=='undefined'&&SOCIAL.dayLabel?SOCIAL.dayLabel(d):'第 '+d+' 天';   /* 筆記、日誌的日期（9/11），不是「第 -379 天」（經濟系那一年 day 是負的，2026-10-17 瀏覽器實測）*/
   function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); box.appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); } }
@@ -599,6 +599,14 @@ const GAME = (function(){
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;
   GM.phoneIsOpen=()=>!!phoneOpen;
+  /* 快速存檔、匯出（使用者 2026-10-27「可以有快速存檔按鍵嗎」「快速匯出」，QUICK-SAVE-EXPORT-1027）：右上 💾 一按打開兩個按鈕。
+     存檔＝自動存檔那一格（讀取選單的「自動存檔」）；劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
+     匯出＝和「選單 → 存檔 → 匯出 → 下載」同一個檔（含 _stuck、_busy），任何時候都能按：卡住時回報用。 */
+  function quickSave(){ if(!G||!E.player||GM.titleIdle) return false;
+    if(D.busyDepth>0){ toast('劇情進行中，結束後再存。卡住的話按「匯出存檔檔案」傳給開發。',3800); return false; }
+    autosave(); const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
+    toast('已存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):''),2400); return true; }
+  GM.quickSave=quickSave;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
     const userClosePhone=()=>{ if(G&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined)){ toast('先回覆。'); return; } closePhone(); };   /* 一定要回的訊息（ask.must）沒回之前，玩家按關閉不會關 */
     if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) userClosePhone(); else openPhone(); }; $('btnPhoneClose').onclick=userClosePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; phonePerson=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);
@@ -610,9 +618,14 @@ const GAME = (function(){
     $('btnTitle').onclick=()=>{ if(D.busyDepth>0&&!D.stale){ toast('劇情還在進行，結束後再回標題',3200); return; }   /* 和 loadFrom 一樣：劇情演到一半回標題再讀檔，舊的劇情流程會接著演到新存檔 */ autosave(); closeMenu(); if(GM.liveMark) GM.liveMark(false); $('titleScreen').classList.remove('hide'); GM.running=false; };
     $('btnExport').onclick=()=>{ $('importBox').classList.add('hide'); $('exportBox').classList.remove('hide'); $('exportText').value=exportText(); };
     $('btnCopy').onclick=async()=>{ const t=$('exportText'); try{ await navigator.clipboard.writeText(t.value); toast('已複製到剪貼簿'); }catch(e){ t.focus(); t.select(); toast('請手動長按複製'); } };
-    $('btnDownload').onclick=async()=>{ const sl=stuckLog(); const text=JSON.stringify(sl.length?Object.assign(snapshot(),{_stuck:sl}):snapshot(),null,1);   /* _stuck：卡住的紀錄（stuckLog），給開發看；讀檔時拿掉 */ const fname='fatiao3d_save_day'+G.day+'.json'; // claude.ai artifact 環境：透過 downloads 能力存檔
+    const downloadSave=async()=>{ const sl=stuckLog(), snap=snapshot(); if(D.busyDepth>0) snap._busy={depth:D.busyDepth,by:D.busyWho.slice(),dlg:!!D.active,stale:!!D.stale};   /* _busy：匯出那一刻還在跑的劇情（卡住時按匯出＝看得到是哪一段，QUICK-SAVE-EXPORT-1027；讀檔時拿掉）*/ const text=JSON.stringify(sl.length?Object.assign(snap,{_stuck:sl}):snap,null,1);   /* _stuck：卡住的紀錄（stuckLog），給開發看；讀檔時拿掉 */ const fname='fatiao3d_save_day'+G.day+'.json'; // claude.ai artifact 環境：透過 downloads 能力存檔
       try{ if(window.claude&&typeof window.claude.use==='function'){ const dl=await window.claude.use('downloads'); if(dl){ try{ const r=await dl.save({filename:fname,data:text}); toast(r&&r.status==='saved'?'已儲存檔案':'已送出'); }catch(err){ if(err&&err.code==='declined') toast('已取消下載'); else toast('無法下載（'+((err&&err.code)||'unavailable')+'），請改用複製文字',3500); } return; } } }catch(e){}
       try{ const blob=new Blob([text],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },1000); toast('若沒有下載，請改用複製文字'); }catch(e){ toast('此環境無法下載，請複製文字'); } };
+    $('btnDownload').onclick=downloadSave; GM.quickExport=downloadSave;
+    $('btnQuick').onclick=ev=>{ ev.stopPropagation(); $('quickPop').classList.toggle('hide'); };
+    $('btnQuickSave').onclick=ev=>{ ev.stopPropagation(); $('quickPop').classList.add('hide'); quickSave(); };
+    $('btnQuickExport').onclick=ev=>{ ev.stopPropagation(); $('quickPop').classList.add('hide'); downloadSave(); };
+    for(const id of ['btnQuick','quickPop']) $(id).addEventListener('pointerup',ev=>ev.stopPropagation());   /* 劇情對話中按 💾 不要順便翻下一句 */
     $('btnImport').onclick=()=>{ $('exportBox').classList.add('hide'); $('importBox').classList.remove('hide'); $('importMsg').textContent=''; };
     $('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $('importText').value=r.result; }; r.readAsText(f); };
     $('btnImportGo').onclick=async()=>{ try{ const obj=parseImport($('importText').value); const cur=read(KEY_AUTO); if(cur) write(KEY_BACKUP,cur); write(KEY_AUTO,obj); $('importMsg').textContent='匯入成功，已備份原本進度。'; await loadFrom(obj); }catch(err){ $('importMsg').textContent='匯入失敗：'+err.message; } };
