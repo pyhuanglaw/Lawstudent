@@ -3548,7 +3548,7 @@
   {
    "task": "US-APT-CLOSET-1027",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "ccc329672",
+   "sha": "f64e0e6d3",
    "files": [
     "src/data/us_apartment_layout.js",
     "tools/blender/env_second/us_apartment.py",
@@ -3570,7 +3570,7 @@
   {
    "task": "PERF-ZONE-ENTER-1018（X14 第二輪）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "ccc329672",
+   "sha": "e55f18585",
    "files": [
     "docs/art-rebuild/second_ai/patches/x14_prewarm_settle_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/x14_prewarm_settle_1027/README.md",
@@ -3589,7 +3589,7 @@
   {
    "task": "PARK-ENTRY-B-1027（B08）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "ccc329672",
+   "sha": "c89b4aa8d",
    "files": [
     "docs/art-rebuild/second_ai/patches/park_entry_b_1027.patch",
     "src/data/wz_park_layout.js",
@@ -3610,7 +3610,7 @@
   {
    "task": "PERF-TEX-DEDUP-1027",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "ccc329672",
+   "sha": "5e6267d5a",
    "files": [
     "docs/art-rebuild/second_ai/patches/tex_dedup_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/tex_dedup_1027/README.md",
