@@ -3430,6 +3430,209 @@ R43 = [
        jsok=[ANLV, NOCALL, ('12/14 那時候還不到 FRIEND：沒有 pg_an_ex1', "PHONE.sent(GAME.G,'pg_an_ex1')", False)]),
 ]
 SCENS = SCENS + R43
+# ---------- R44（BB-C 10-27 23:xx）：學姊第十二批 SIS-B12（AA_470，合併 7b1b1abcc；AA_490 修正 SIS-B12-FIX-1027 也在 de75d3106 裡）瀏覽器驗收 ----------
+# 開發分支 de75d3106（src/sis_b12_3d.js、src/data/sis_b12_events.js；單元測試 tests/aa470_sis_b12_unit.js 118/0）。逐條照 BB-C 助手讀程式後寫的 15 條步驟。
+# 【前置／捷徑】都是：使用者 9/25 存檔（load_at）改日子、時間、區域、旗標；讀檔以後 console 寫關係（不跑一年的劇情）；之後照玩家操作（時間照走、走過去按「和她說話」、手機回訊息、出遊按「出發」）。
+#   認識她的程度（tests/pg_harness.js 同值）：熟悉＝熟 25（SOCIAL FAMILIAR）；朋友＝SISF（50/40/35）；交往中＝SIS_D；前任＝EXJS；沒認識＝SNONE（拿掉 met_sis、SIS_W1、她的記憶，關係歸零）。
+#   家族群組：FAMJ（PHONE.join family_law）。全部套 NOKX（使用者存檔原本和可昕交往中，「雙方單身」那些條件要拿掉）。
+# AA_490（企劃線 a4f530c11，de75d3106 已實作）：12-5 改成「只有週五」、日期放寬到 4/21——週三進法圖她不在是照設計（R44_C5_WED_KNOWN 記錄實況）；
+#   12-6b 7/13 寒暑假出國中（VAC.abroadOn：C10 加州 6/21～7/31、C08 首爾 7/13 起）＝三則照收、沒有選項、不排（R44_C6B_C10_KNOWN 驗這個新行為）；
+#   12-3 報了 C04W、1/13 晚上有課：「我也在。」帶小字「那天晚上有托福班」；12-4 那一學期去過公法讀書會：「我去。」帶小字「那天晚上也是公法讀書會」。
+SNONE = NOKX + (" G.flags.met_sis=false; G.flags.SIS_W1=false; if(G.social&&G.social.mem) delete G.social.mem.heroine_05;"
+                " { const r=SOCIAL.rel('heroine_05'); r.fam=0; r.trust=0; r.comf=0; }")   # 沒認識學姊（AA_470「三種玩家」的第一種）
+SFAM = SISB + " LV('heroine_05',25,0,0);"   # 熟悉（FAMILIAR，熟 25）
+SFRI = SISF                                 # 朋友（50/40/35）
+SDT = SIS_D                                 # 交往中
+SEX = EXJS('2027-01-05')                    # 前任（2027-01-05 分手）
+SPK = "(t=>{ const x=(window.__LOG||[]).find(x=>String(x.t)===t); return x?x.n:null; })(%s)"   # 這一句是誰說的（ADV.log 記的名字；旁白＝''）
+def SP_SIS(t): return ('「%s」是學姊說的' % t[:14], SPK % json.dumps(t, ensure_ascii=False), lambda n: bool(n) and 'Kevin' not in n and n not in ('CARD', 'CHOICE', 'BG'))
+def SP_KEV(t): return ('「%s」是 Kevin 說的' % t[:14], SPK % json.dumps(t, ensure_ascii=False), lambda n: bool(n) and 'Kevin' in n)
+def SP_NAR(t): return ('「%s」是旁白' % t[:14], SPK % json.dumps(t, ensure_ascii=False), lambda n: n == '')
+MFROM = "(t=>(GAME.G.msgs||[]).filter(m=>String(m.text||'')===t).map(m=>(m.th||'')+'|'+(m.from||'')))(%s)"   # 手機那一則在哪個對話串、誰傳的
+def MF(t, th, frm): return ('手機「%s」在 %s、%s 傳的' % (t[:14], th, frm), MFROM % json.dumps(t, ensure_ascii=False), lambda x, a=th + '|' + frm: bool(x) and all(y == a for y in x))
+def TAGASK(tag): return "(GAME.G.msgs||[]).filter(m=>m.tag===%s).some(m=>!!m.ask)" % json.dumps(tag)   # 那一組訊息有沒有選項
+def TAGHINT(tag): return "(()=>{ const m=(GAME.G.msgs||[]).find(m=>m.tag===%s&&m.ask); return m?m.ask.opts.map(o=>o.t+(o.hint?'〔'+o.hint+'〕':'')):null; })()" % json.dumps(tag)
+def OUTQ(i): return "(q=>q?CALENDAR.dateOf(q.day).key+' '+q.h+' '+q.state:null)(typeof OUT!=='undefined'?OUT.get(GAME.G,%s):null)" % json.dumps(i)
+def EVD(ev): return "!!((GAME.G.events||{}).done||{})[%s]" % json.dumps(ev)
+SISWHERE = "(()=>{ let e=null; try{ e=STORY.schedEnt(CHARACTERS.heroine_05,GAME.G); }catch(x){} const n=GAME.E.npcs.find(n=>n&&(n.charId==='heroine_05'||n.charId==='sis')&&!n.hidden); return {sched:e&&e.zone, here:!!n, zone:GAME.G.zone}; })()"
+FAM2 = [('2026-09-07', ['新學期！！下禮拜新的學弟妹進群組', '置頂的東西 老人們先整理一下', '置頂的筆記我換過了。去年的錯字也改了。', '學姊連錯字都改']),
+        ('2026-09-14', ['歡迎新學弟妹！！（貼圖）', '上面那位是溫學姊 碩一 有問題問她 她回很快', '學姊好🙏', '學妹好。先問你們的直屬，問不到再問我。']),
+        ('2026-10-26', ['📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）', '期中加油各位', '學姊這次有看完嗎', '有。牠到最後都沒醒。']),
+        ('2027-03-08', ['請問民總的考古題在哪裡🙏', '置頂第二個資料夾。去年的我也放進去了。', '學姊回得比我快', '我還在找置頂在哪'])]
+HOTASK = ['寒假還有誰在台北的', '我回家第三天 已經被我媽唸兩次了', '我在。']; HOTYES = ['那你們兩個去吃火鍋 幫我吃一份', '……明天七點。去年聖誕節那家。', '要拍照給我看']
+HOTNONE = '好吧 那學姊幫大家吃一份'; HOTAFT = ['（照片：兩個空的鍋子）', '我的那份呢？？', '吃掉了。']
+HOT0 = '（公館那家火鍋。去年聖誕節，家族坐的是裡面那張長桌。今天店員帶你們到靠窗的兩人桌。）'; HOTMEAT = '（她點了兩盤肉。去年聖誕節，她的碗裡只有白飯和青菜。）'
+STUDYASK = ['大四了 國考倒數 家族讀書會開張！！', '每週四晚上七點 法圖討論室 學姊帶', '我只負責訂討論室。', '還有出題']; STUDYAFT = ['第一次讀書會 存活', '（照片：擦乾淨的白板，角落寫著下週四的日期）']
+STUDY0 = '（法圖的討論室。白板上寫著今天的日期，下面一行小字：「九點半前離開」。Kevin、家族的學妹，還有兩個你叫不出名字的大四。）'
+GRADP = ['（照片：學士服，站在霖澤館門口，比了一個 V）', '我畢業了！！！', '學姊多講兩個字', '恭喜畢業。']; LASTASK = ['最後一次家族讀書會 這週四', '學姊下個月就飛了 我下個月就考了', '題目我出好了。']
+LAST0 = '（法圖的討論室。白板只寫了一題，下面沒有寫「九點半前離開」。）'
+KEV0 = ['（法圖最裡面那張桌子。她對面坐著 Kevin，額頭貼在一疊考古題上。）', '學弟……救我。', '他沒事。他在休息。', '學姊，妳當年怎麼撐過來的。', '我沒有撐。（她把保溫瓶的蓋子轉開）……後來我學會睡覺。']
+KEVEND = ['（看了你一眼）你大三下了。', '明年這個時候，坐在這裡的可能是你。', '（一點五十分，她收好計畫本，把 Kevin 叫醒。）', '兩點了。我去研究小間。', '學姊妳的研究小間有冷氣嗎', '有。不借你。']
+JAN0 = '（兩點半 Café。她坐在老位子，桌上一杯熱水、一本新的計畫本。）'
+CARD0 = '（總圖三樓靠窗的位子。她面前疊著五本書，最上面夾著一張手寫的書單。）'
+CARDM = ['（你還沒回答，她已經把借書單推過來，書名都寫好了。）', '我的學生證六月底停了。研究所的，九月才發。', '這三本，用你的名字借。到期以前我還。', '（櫃台蓋完章，她把三本書抱在手上。最上面那本的書名，你只看得懂一半。）',
+         '許老師開的書單。開學以前要讀完。', '你暑假讀什麼？', '（走到樓梯口，她把借書的收據折好，夾進計畫本八月那一頁。）']
+GO = ['出發']   # 出遊「出發」（play_until 本來也會加）
+# 【前置】手機規則（S.hot／S.study／S.last…）在讀檔後等 5 秒那時候就會照「讀檔那一刻」的狀態排好訊息（選項、小字），比 console 寫關係還早——
+#   所以有手機規則的情境都讀「前一天中午」、console 寫好狀態，再【捷徑】撥到當天（JD），讓遊戲照寫好的狀態排
+def JD(key, h): return ('jump', "STORY.dayOfKey('%s')" % key, h, '【捷徑】撥到 %s %.2f' % (key, h))
+NOF = {'met_sis': False, 'SIS_W1': False}   # 沒認識：讀檔以前就拿掉（存檔原本可能有）
+R44 = [
+  # ---- 12-1 學生證（2026-07-06～07-31 平日 9～17 總圖閱覽區，找她說話先演；演完第 21 天 21:00 私訊兩則）----
+  dict(id='R44_C1_CARD', key='2026-07-08', h=10.0, zone='library', flags=dict(TW3), js=SFAM, steps=[('talksis',), ('jump', "STORY.dayOfKey('2026-07-29')", 20.8, '【捷徑】演完第 21 天（7/29）20:48'), ('until', 21.3)],
+       pref=['「好。」', '「民法。」'], nothree=True,
+       want=[CARD0, '學弟。你的學生證，借我一下。'] + CARDM + ['（她點了一下頭，把三本抽出來疊好。）', '哪一本。……那本可以。第三章慢慢讀。', 'CHOICE:「好。」｜「妳不是畢業了嗎？」｜「逾期算誰的？」'],
+       order=[CARD0, '學弟。你的學生證，借我一下。', '許老師開的書單。開學以前要讀完。', '（走到樓梯口，她把借書的收據折好，夾進計畫本八月那一頁。）'],
+       wantMsg=['書還了。三本。', '你的借閱紀錄，沒有逾期。'], msgAt={'書還了。三本。': ('2026-07-29', 21.0, 0.1)}, cflags=['SIS_CARD_DAY'],
+       jsok=[('SIS_CARD_DAY＝7/8', "(d=>d==null?null:CALENDAR.dateOf(d).key)(GAME.G.flags.SIS_CARD_DAY)", '2026-07-08'), ('記憶 SIS_BORROWED_CARD', MEMQ('heroine_05', 'SIS_BORROWED_CARD'), True),
+             SP_NAR(CARD0), SP_SIS('學弟。你的學生證，借我一下。'), MF('書還了。三本。', 'p:heroine_05', 'heroine_05'), ('7/29 那兩則不用回', TAGASK('sisb12_card_back'), False)]),
+  dict(id='R44_C1_FRIEND', key='2026-07-08', h=14.0, zone='library', flags=dict(TW3), js=SFRI, steps=[('talksis',)], pref=['「逾期算誰的？」', '「什麼都不讀。」'], nothree=True,
+       want=[CARD0, '。你的學生證，借我一下。', '算我的。……不會逾期。', '……也可以。一個暑假而已。'], none=['學弟。你的學生證，借我一下。']),
+  dict(id='R44_C1_AUG', key='2026-08-03', h=10.0, zone='library', flags=dict(TW3), js=SFAM, steps=[('talksis',)], pref=[], nothree=True,   # 8/3（一）：窗口過了，不演
+       none=[CARD0], jsok=[('沒有 SIS_CARD_DAY', "GAME.G.flags.SIS_CARD_DAY==null", True), ('ev_sis_borrowed_card 沒演', EVD('ev_sis_borrowed_card'), False)]),
+  # ---- 12-2 大二的家族群組（沒認識學姊、在群組也收到；21:00；不用回）----
+  dict(id='R44_C2_FAM2', key='2026-09-06', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ,
+       steps=[JD('2026-09-07', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2026-09-14')", 20.9, '【捷徑】9/14 20:54'), ('until', 21.3), ('jump', "STORY.dayOfKey('2026-10-26')", 20.9, '【捷徑】10/26 20:54'), ('until', 21.3),
+              ('jump', "STORY.dayOfKey('2027-03-08')", 20.9, '【捷徑】2027-03-08 20:54'), ('until', 21.3)], pref=[], nothree=True,
+       wantMsg=[t for _, L_ in FAM2 for t in L_], msgAt={FAM2[0][1][2]: ('2026-09-07', 21.0, 0.1), FAM2[1][1][2]: ('2026-09-14', 21.0, 0.1), FAM2[2][1][3]: ('2026-10-26', 21.0, 0.1), FAM2[3][1][3]: ('2027-03-08', 21.0, 0.1)},
+       jsok=[MF(FAM2[0][1][0], 'g:family_law', 'kevin'), MF(FAM2[0][1][2], 'g:family_law', 'heroine_05'), MF('學姊好🙏', 'g:family_law', 'family_junior'), MF('請問民總的考古題在哪裡🙏', 'g:family_law', 'family_junior'),
+             ('四組都沒有選項', "(GAME.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).some(m=>!!m.ask)", False), ('四組共 17 則（不重傳）', "(GAME.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length", 17)]),
+  # ---- 12-3 大二寒假：幫 Kevin 吃一份（1/12 21:00 群組 → 1/13 19:00 出遊；沒回＝1/13 12:00 兩則）----
+  dict(id='R44_C3_NONE', key='2027-01-11', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2027-01-12', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2027-01-13')", 11.9, '【捷徑】1/13 11:54'), ('until', 12.3)],
+       pref=[], nothree=True, wantMsg=HOTASK + [HOTNONE], msgAt={'我在。': ('2027-01-12', 21.0, 0.1), HOTNONE: ('2027-01-13', 12.0, 0.1)}, noneMsg=HOTYES[:1],
+       jsok=[('沒認識：「我在。」沒有選項', TAGASK('sisb12_hot_ask'), False), ('不排火鍋', OUTQ('sisb12_hotpot'), None), MF('我在。', 'g:family_law', 'heroine_05')]),
+  dict(id='R44_C3_GO', key='2027-01-11', h=12.0, zone='dorm', flags=dict(TW3, SIS_FAMXMAS_Y1='pencil'), js=SFAM + FAMJ + " G.events.done.ev_sis_ta_papers=1;",
+       steps=[JD('2027-01-12', 20.9), ('until', 21.3), ('chk', '「我也在。」排了 1/13 19:00', OUTQ('sisb12_hotpot'), '2027-01-13 19 planned'), ('jump', "STORY.dayOfKey('2027-01-13')", 18.4, '【捷徑】1/13 18:24（等出發）'), ('until', 21.4)],
+       asks={'sisb12_hot_ask': '我也在。'}, pref=GO + ['「妳改的考卷改完了？」', '「學姊大一的時候呢？」'], nothree=True,
+       want=[HOT0, 'Kevin 說要幫他吃一份。', '我們吃兩份就好。', HOTMEAT, '期末考得怎樣。', 'CHOICE:「還可以。」｜「有一科不太好。」｜「妳改的考卷改完了？」', '昨天改完。紅筆用完一支。', '（湯滾了。她伸手把你那一鍋的火轉小。）',
+             'Kevin 大一的時候，家聚吃到一半睡著。', '我坐最旁邊，負責算錢。……算到現在。', '（結帳的時候，她拿手機拍了兩個空鍋子。）'],
+       wantMsg=HOTYES + HOTAFT, noneMsg=[HOTNONE], eqflags={'SIS_HOTPOT_GO': True, 'SIS_HOTPOT_Y2': 'went'},
+       jsok=[('記憶 SIS_HOTPOT_Y2', MEMQ('heroine_05', 'SIS_HOTPOT_Y2'), True), MF('吃掉了。', 'g:family_law', 'heroine_05'), MF('我的那份呢？？', 'g:family_law', 'kevin'), SP_SIS('Kevin 說要幫他吃一份。'), SP_NAR(HOTMEAT)]),
+  dict(id='R44_C3_DATE', key='2027-01-11', h=12.0, zone='dorm', flags=dict(TW3), js=SDT + FAMJ,
+       steps=[JD('2027-01-12', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2027-01-13')", 18.4, '【捷徑】1/13 18:24'), ('until', 21.4)], asks={'sisb12_hot_ask': '我也在。'}, pref=GO + ['「還可以。」', '「妳大一的時候呢？」'], nothree=True,
+       want=[HOT0, '嗯。考完的就不講了。', '「妳大一的時候呢？」', '我坐最旁邊，負責算錢。……算到現在。'], none=[HOTMEAT, '「學姊大一的時候呢？」', '「妳改的考卷改完了？」'], eqflags={'SIS_HOTPOT_Y2': 'went'}),
+  dict(id='R44_C3_EX', key='2027-01-11', h=12.0, zone='dorm', flags=dict(TW3), js=SEX + FAMJ, steps=[JD('2027-01-12', 20.9), ('until', 21.3)],
+       pref=[], nothree=True, wantMsg=HOTASK, jsok=[('前任：沒有選項', TAGASK('sisb12_hot_ask'), False)]),
+  dict(id='R44_C3_C04W', key='2027-01-11', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " VAC.rec(G).reg['C04W@Y2']='yes';", steps=[JD('2027-01-12', 20.9), ('until', 21.3)], pref=[], nothree=True,   # AA_490 4-1
+       wantMsg=HOTASK, jsok=[('「我也在。」帶小字「那天晚上有托福班」', TAGHINT('sisb12_hot_ask'), ['我也在。〔那天晚上有托福班〕']), ('前置：報了 C04W', "VAC.enrolled(GAME.G,'C04W','Y2')", True)]),
+  # ---- 12-4 大三上：家族讀書會第一次（9/13（一）21:00 群組五則、選項所有人 → 9/16（四）19:00 法圖討論室；21:40 群組）----
+  dict(id='R44_C4_NONE_GO', key='2027-09-12', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ,
+       steps=[JD('2027-09-13', 20.9), ('until', 21.3), ('chk', '「我去。」排了 9/16 19:00', OUTQ('sisb12_famstudy'), '2027-09-16 19 planned'), ('jump', "STORY.dayOfKey('2027-09-16')", 18.4, '【捷徑】9/16 18:24'), ('until', 21.9)],
+       asks={'sisb12_study_ask': '我去。'}, pref=GO + ['「先找爭點。」'], nothree=True,
+       want=[STUDY0, '學姊好，我是', '我知道。群組裡那個名字。……坐。', '今天一題。讀完再講。', '學姊，這題是陷阱吧。', '陷阱在你沒讀的那一行。', '找到幾個？……一個就夠，先寫那一個。', '（九點二十五分，她把白板擦乾淨。角落已經寫好下週四的日期。）', '題目我週三傳。'],
+       order=[STUDY0, '學姊好，我是', '我知道。群組裡那個名字。……坐。', '今天一題。讀完再講。'], wantMsg=STUDYASK + STUDYAFT, msgAt={STUDYAFT[0]: ('2027-09-16', 21.67, 0.12)},
+       eqflags={'SIS_FAMSTUDY_GO': True, 'SIS_FAM_STUDY': 'went', 'met_sis': True, 'SIS_W1': True},
+       jsok=[('記憶 SIS_FAM_STUDY', MEMQ('heroine_05', 'SIS_FAM_STUDY'), True), SP_KEV('學姊，這題是陷阱吧。'), SP_SIS('今天一題。讀完再講。'), MF(STUDYASK[0], 'g:family_law', 'kevin'), MF('我只負責訂討論室。', 'g:family_law', 'heroine_05')]),
+  dict(id='R44_C4_FRI_NO', key='2027-09-12', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; G.acts.att['public_law_group@'+D('2027-09-09')]=1;",
+       steps=[JD('2027-09-13', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2027-09-16')", 21.5, '【捷徑】9/16 21:30'), ('until', 21.9)], asks={'sisb12_study_ask': '這週不行。'}, pref=[], nothree=True,   # AA_490 第 3 節：那一學期去過公法讀書會＝小字
+       wantMsg=STUDYASK + STUDYAFT, none=[STUDY0, '學姊好，我是'],
+       jsok=[('「我去。」帶小字「那天晚上也是公法讀書會」', TAGHINT('sisb12_study_ask'), ['我去。〔那天晚上也是公法讀書會〕', '這週不行。']), ('「這週不行。」不排', OUTQ('sisb12_famstudy'), None)]),
+  # ---- 12-5 法圖的午休（AA_490：2028-03-03～04-21 的週五 12～14；日本路線到 3/24）----
+  dict(id='R44_C5_FRI', key='2028-03-03', h=12.05, zone='lawlib', flags=dict(TW3), js=SFAM, steps=[('chk', '學姊在法圖', SISWHERE, lambda w: bool(w) and w.get('sched') == 'lawlib' and w.get('here')), ('talksis',)],
+       pref=['「Kevin 學長加油。」', '「我會記得睡覺。」'], nothree=True,
+       want=KEV0 + ['CHOICE:「學姊以前不睡覺？」｜「Kevin 學長加油。」｜「那我不吵你們。」', '學弟好溫暖。學姊妳學一下。', '加油。', '……謝謝喔。', '嗯。……我會檢查。'] + KEVEND, order=KEV0[:3] + KEVEND,
+       jsok=[('記憶 SIS_LAWLIB_KEVIN', MEMQ('heroine_05', 'SIS_LAWLIB_KEVIN'), True), ('ev_sis_lawlib_kevin 演了', EVD('ev_sis_lawlib_kevin'), True), SP_KEV('學弟……救我。'), SP_SIS('他沒事。他在休息。'), SP_NAR(KEV0[0]),
+             ('下一個週五不再演', "(()=>{ const G=GAME.G, d=G.day, h=G.hour; G.day=STORY.dayOfKey('2028-03-10'); G.hour=12.5; const r=SISB12.preTalkEv(G); G.day=d; G.hour=h; return r; })()", None)]),
+  dict(id='R44_C5_WED_KNOWN', key='2028-03-01', h=12.5, zone='lawlib', flags=dict(TW3), js=SFAM, steps=[('until', 12.7)], pref=[], nothree=True,   # AA_490 第 1 節：週一～四中午她在霖澤館 5F（照設計）；記錄實況
+       none=[KEV0[0]], jsok=[('週三 12:30 她的作息在哪、人在不在法圖（記錄）', SISWHERE, lambda w: bool(w) and w.get('sched') == 'linze_5f' and not w.get('here')), ('preTalkEv＝沒有', "SISB12.preTalkEv(GAME.G)", None)]),
+  dict(id='R44_C5_JP324', key='2028-03-24', h=12.05, zone='lawlib', flags={'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'Y4_PATH': 'other'}, js=SFRI + " G.flags.X1_JP=D('2028-02-20');",
+       steps=[('talksis',)], pref=['「學姊以前不睡覺？」', '「我還沒想要不要考。」'], nothree=True,   # 日本路線 3/25 出發：3/24（五）還在臺灣
+       want=KEV0[:2] + ['以前覺得睡覺很浪費。……後來倒下過一次。', '那先不要想。大四上再想也來得及。'], jsok=[('前置：3/24 還不在國外', "!!(STORY.abroad&&STORY.abroad(GAME.G))", False)]),
+  dict(id='R44_C5_DATE', key='2028-03-17', h=13.0, zone='lawlib', flags=dict(TW3), js=SDT, steps=[('talksis',)], pref=['「Kevin 學長加油。」', '「我還沒想要不要考。」'], nothree=True,
+       want=KEV0[:2] + ['CHOICE:「妳以前不睡覺？」｜「Kevin 學長加油。」｜「那我不吵你們。」', '學弟好溫暖。學姊妳學一下。', '那先不要想。大四上再想也來得及。'], none=['「學姊以前不睡覺？」']),
+  # ---- 12-6a Kevin 畢業（6/3（六）13:00 群組五則；選項所有人）----
+  dict(id='R44_C6A_NONE', key='2028-06-02', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2028-06-03', 12.9), ('until', 13.4)], asks={'sisb12_grad': '學長恭喜！'}, pref=[], nothree=True,
+       wantMsg=GRADP + ['學弟明年換你！！'], msgAt={'我畢業了！！！': ('2028-06-03', 13.0, 0.1)}, jsok=[MF('我畢業了！！！', 'g:family_law', 'kevin'), MF('恭喜畢業。', 'g:family_law', 'heroine_05')]),
+  dict(id='R44_C6A_JP', key='2028-06-02', h=12.0, zone='jp_room', flags=dict(JPF7), js=JPIN + SFRI + FAMJ, steps=[JD('2028-06-03', 12.9), ('until', 14.4)], asks={'sisb12_grad': '學長恭喜！'}, pref=[], nothree=True,   # 人在日本＝當地 14:00
+       wantMsg=GRADP, msgAt={'我畢業了！！！': ('2028-06-03', 14.0, 0.1)}),
+  # ---- 12-6b 讀書會最後一次（7/10（一）21:00 群組三則；認識她才有選項 → 7/13（四）19:00）----
+  dict(id='R44_C6B_GO', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ,
+       steps=[JD('2028-07-10', 20.9), ('until', 21.3), ('chk', '「我去。」排了 7/13 19:00', OUTQ('sisb12_famstudy_last'), '2028-07-13 19 planned'), ('jump', "STORY.dayOfKey('2028-07-13')", 18.4, '【捷徑】7/13 18:24'), ('until', 21.8)],
+       asks={'sisb12_last_ask': '我去。'}, pref=GO + ['「我可以訂討論室。」'], nothree=True,
+       want=[LAST0, '最後一題。寫完的先走。', '（九點，桌上只剩你和 Kevin。Kevin 寫完，把筆一丟，趴在桌上。）', '學姊，下學期誰帶？', '你考完就畢業了。你不用管。', '……好。題目我從那邊寄。', '八月二號。……群組會說。'],
+       none=['八月二號。……你不用送，我們同一班。'], wantMsg=LASTASK, eqflags={'SIS_FAMSTUDY_LAST_GO': True, 'SIS_FAM_STUDY_LAST': 'went', 'SIS_STUDY_ROOM': True},
+       jsok=[('記憶 SIS_STUDY_ROOM、SIS_FAM_STUDY_LAST', "SOCIAL.has('heroine_05','SIS_STUDY_ROOM')&&SOCIAL.has('heroine_05','SIS_FAM_STUDY_LAST')", True), SP_KEV('學姊，下學期誰帶？'), SP_SIS('最後一題。寫完的先走。')]),
+  dict(id='R44_C6B_US_DATE', key='2028-07-09', h=12.0, zone='dorm', flags={'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1}, js=SDT + FAMJ,
+       steps=[JD('2028-07-10', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2028-07-13')", 18.4, '【捷徑】7/13 18:24'), ('until', 21.8)], asks={'sisb12_last_ask': '我去。'}, pref=GO + ['（幫她擦白板）'], nothree=True,
+       want=[LAST0, '（她把板擦遞給你，自己去收桌上的考卷。）', '八月二號。……你不用送，我們同一班。'], none=['八月二號。……群組會說。'], jsok=[('沒有 SIS_STUDY_ROOM', "!GAME.G.flags.SIS_STUDY_ROOM", True)]),
+  dict(id='R44_C6B_JP', key='2028-07-09', h=12.0, zone='jp_room', flags=dict(JPF7), js=JPIN + SFRI + FAMJ, steps=[JD('2028-07-10', 20.9), ('until', 22.4)], asks={'sisb12_last_ask': '我在日本。'}, pref=[], nothree=True,   # 當地 22:00
+       wantMsg=LASTASK + ['對齁 學弟在日本', '題目傳給你。'], msgAt={'題目我出好了。': ('2028-07-10', 22.0, 0.15)}, jsok=[('不排出遊', OUTQ('sisb12_famstudy_last'), None)]),
+  dict(id='R44_C6B_NONE', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2028-07-10', 20.9), ('until', 21.3)], pref=[], nothree=True,
+       wantMsg=LASTASK, jsok=[('沒認識：沒有選項', TAGASK('sisb12_last_ask'), False)]),
+  dict(id='R44_C6B_C10_KNOWN', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " VAC.rec(G).reg['C10@Y3']='yes';", steps=[JD('2028-07-10', 20.9), ('until', 21.3)], pref=[], nothree=True,   # LAWWW-C ②：出國中＝三則照收、沒有選項、不排
+       wantMsg=LASTASK, jsok=[('前置：7/13 在加州（VAC.abroadOn）', "VAC.abroadOn(GAME.G,STORY.dayOfKey('2028-07-13'))", True), ('出國中：沒有「我去。／這週不行。」', TAGASK('sisb12_last_ask'), False), ('不排出遊', OUTQ('sisb12_famstudy_last'), None)]),
+  # ---- 12-7 空白的一月（2029-01-02～02-08 週一、二、四 19～21:30 兩點半 Café；朋友版、沒在交往）----
+  dict(id='R44_C7_JAN', key='2029-01-08', h=19.4, zone='cafe', flags=dict(TW3, SIS_PLAN_POSTED=True, SIS_BOOK='law'), js=SFRI, steps=[('talksis',)], pref=['「每一天都照做。」', '「我幫妳寫一格？」'], nothree=True,
+       want=[JAN0, '。坐。', '十月那份讀書計畫。後來照著做了多少？', '……休息日呢。', '（你沒有回答。）', '那就是沒有。', '（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）', '在美國，最後一格寫的是回臺灣。', '回來以後，這本一直空著。',
+             '（看了你一眼）……寫什麼。', '（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）', '（計畫本旁邊是那本小說。書籤還在快一半的地方。）', '回來以後開始看。……還沒看完。', '下學期要的書，開學以前跟我說。法圖寒假開得很短。', '（她把計畫本收起來。那一格「休息」還在上面。）'],
+       none=['學弟。坐。', '寒假你怎麼排的？'], eqflags={'SIS_BLANK_JAN_REST': True}, jsok=[('記憶 SIS_BLANK_JAN', MEMQ('heroine_05', 'SIS_BLANK_JAN'), True), SP_NAR(JAN0), SP_SIS('那就是沒有。')]),
+  dict(id='R44_C7_FAM_NOVEL', key='2029-02-08', h=20.9, zone='cafe', flags=dict(TW3, SIS_BOOK='novel'), js=SFAM, steps=[('talksis',)], pref=['「大概一半。」', '「美國好玩嗎？」'], nothree=True,
+       want=[JAN0, '學弟。坐。', '寒假你怎麼排的？', '一半很多了。', '好玩。……照片你都看過了。', '（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）', '回來第一個禮拜翻完了。問號少了一點。'],
+       none=['十月那份讀書計畫。後來照著做了多少？', '（她把計畫本收起來。那一格「休息」還在上面。）']),
+  dict(id='R44_C7_DATE', key='2029-01-08', h=19.4, zone='cafe', flags=dict(TW3), js=SDT, steps=[('talksis',)], pref=[], nothree=True, none=[JAN0, '在美國，最後一格寫的是回臺灣。'],
+       jsok=[('交往中不演', EVD('ev_sis_blank_jan'), False)]),
+  # ---- 4-1 每天一張照片（11/17 雙方單身、朋友、法圖當面＝SIS_PHOTO_TO_YOU；2028-08-03 起平日照片改私訊）----
+  dict(id='R44_41_FACE', key='2027-11-17', h=21.05, zone='lawlib', flags=dict(TW3), js=SFRI, steps=[('until', 21.5)], pref=[], nothree=True,
+       want=['志願表填了？', '沒填。留在臺灣。', '好。那我明年在美國，每天傳一張照片給你。'], none=['好。那我明年在美國，每天在家族群組放一張照片。……你們要回。'], eqflags={'SIS_PHOTO_TO_YOU': True, 'SIS_FORM_REACT': 'face'}),
+  dict(id='R44_41_DM', key='2028-08-02', h=12.0, zone='dorm', flags=dict(TW3, SIS_PHOTO_TO_YOU=True), js=SFRI + FAMJ, steps=[JD('2028-08-03', 8.9), ('until', 9.4)], pref=[], nothree=True,
+       wantMsg=['（照片：一片沒有雲的天空）', '說好的。'], msgAt={'說好的。': ('2028-08-03', 9.0, 0.2)}, jsok=[MF('（照片：一片沒有雲的天空）', 'p:heroine_05', 'heroine_05'), ('不用回', "(GAME.G.msgs||[]).filter(m=>/^y4_m6_d/.test(m.tag||'')).some(m=>!!m.ask)", False)]),
+  dict(id='R44_41_GRP', key='2028-08-02', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " delete G.flags.SIS_PHOTO_TO_YOU;", steps=[JD('2028-08-03', 8.9), ('until', 9.4)], pref=[], nothree=True,
+       wantMsg=['（照片：一片沒有雲的天空）'], noneMsg=['說好的。'], jsok=[MF('（照片：一片沒有雲的天空）', 'g:family_law', 'heroine_05')]),
+  # ---- 4-2 交往版「另外一本」：大四上女朋友版的那一頓（12/24）最後 ----
+  dict(id='R44_42_BOOK', key='2028-12-24', h=18.4, zone='campus', flags=dict(TW3, SIS_BOOK='law', SIS_BOOK_WITH_YOU=True), js=SDT,
+       steps=[('jsrun', "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.dinner(GAME,{te:{term:'Y4S1',who:'heroine_05',kind:'gf'}}); }catch(e){ console.warn('TD',e); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GAME.sceneEnd(); } })(); return true; })()",
+                      'TERMEND.dinner（大四上學姊女朋友版那一頓；遊戲裡是她 12/24「我回來了。今天晚上，法圖旁邊那家。」約了以後出發）')],
+       pref=['「我翻了一頁。」'], nothree=True,
+       want=['（你把那本書推過去。這半年，它一直放在你書桌最上面那一格。）', '（翻到書籤那一頁）……你沒有往後翻。', 'CHOICE:「我翻了一頁。」｜「沒有。」', '哪一頁。……算了，不要講。'],
+       order=['（你把那本書推過去。這半年，它一直放在你書桌最上面那一格。）', '（翻到書籤那一頁）……你沒有往後翻。', '哪一頁。……算了，不要講。']),
+  dict(id='R44_42_NOBOOK', key='2028-12-24', h=18.4, zone='campus', flags=dict(TW3, SIS_BOOK='law', SIS_BOOK_WITH_YOU=False), js=SDT,
+       steps=[('jsrun', "(()=>{ void (async()=>{ GAME.sceneBegin(); try{ await TERMEND.dinner(GAME,{te:{term:'Y4S1',who:'heroine_05',kind:'gf'}}); }catch(e){ console.warn('TD',e); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GAME.sceneEnd(); } })(); return true; })()",
+                      'TERMEND.dinner（同上；聽的是朋友版＝沒有那一段）')], pref=[], nothree=True,
+       want=['時差還沒調好。我現在很想睡。'], none=['（翻到書籤那一頁）……你沒有往後翻。']),
+  # ---- 4-3 直屬的午餐（2026-11-04 21:00 她約 → 11/6 12:20 公館自助餐）----
+  dict(id='R44_43_LUNCH', key='2026-11-03', h=12.0, zone='dorm', flags=dict(TW3), js=SFAM,
+       steps=[JD('2026-11-04', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2026-11-06')", 11.8, '【捷徑】11/6 11:48'), ('until', 13.6)], asks={'sisb8_lunch_ask': '好。'}, pref=GO + ['「債總。」'], nothree=True,
+       want=['（結帳的時候她已經付好了。）', '我大一的時候，我的學姊也請過我。'], order=['（結帳的時候她已經付好了。）', '我大一的時候，我的學姊也請過我。'], none=['下次你當直屬的時候，記得也要請。', '……下次你請。'],
+       jsok=[SP_SIS('我大一的時候，我的學姊也請過我。')]),
+  dict(id='R44_43_DATE', key='2026-11-03', h=12.0, zone='dorm', flags=dict(TW3), js=SDT,
+       steps=[JD('2026-11-04', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2026-11-06')", 11.8, '【捷徑】11/6 11:48'), ('until', 13.6)], asks={'sisb8_lunch_ask': '好。'}, pref=GO + ['「都還好。」'], nothree=True,
+       want=['……下次你請。'], none=['我大一的時候，我的學姊也請過我。']),
+  # ---- 4-4 摘要（2029-03-20 21:00 她約 → 3/21 12:30 法圖二樓）----
+  dict(id='R44_44_ABS', key='2029-03-19', h=12.0, zone='dorm', flags=dict(TW3), js=SFAM,
+       steps=[JD('2029-03-20', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2029-03-21')", 11.9, '【捷徑】3/21 11:54'), ('until', 13.6)], asks={'sisb11_abs_ask': '有。'}, pref=GO + ['「財經法的人都這樣寫嗎？」'], nothree=True,
+       want=['都這樣寫。所以才找你。', '……謝謝。樓下的自助餐，我請。', '（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）', '（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'],
+       order=['……謝謝。樓下的自助餐，我請。', '（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）', '（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'], eqflags={'SIS_ABSTRACT': 'went'}),
+  # ---- 4-5 日本路線 7/10（一）臺灣 20:00＝當地 21:00 私訊兩則（7/24 那一則照舊）----
+  dict(id='R44_45_JP', key='2028-07-09', h=12.0, zone='jp_room', flags=dict(JPF7), js=JPIN + SFRI, steps=[JD('2028-07-10', 19.8), ('until', 21.4)], pref=[], asks={}, nothree=True,
+       wantMsg=['（照片：研究小間的窗，外面是午後的雷陣雨）', '七月每天三點下雨。第五章寫到一半。'], msgAt={'七月每天三點下雨。第五章寫到一半。': ('2028-07-10', 21.0, 0.15)},
+       jsok=[MF('七月每天三點下雨。第五章寫到一半。', 'p:heroine_05', 'heroine_05'), ('tag sisjp_m_0710', "(GAME.G.msgs||[]).filter(m=>m.tag==='sisjp_m_0710').length", 2)]),
+  # ---- 5-1 家族四場認識她（例：大一 12/22 家族聖誕；沒有 SIS_W1 的開頭兩句、演完記 met_sis、SIS_W1）＋舊存檔讀檔補記號 ----
+  dict(id='R44_51_XMAS', key='2025-12-22', h=18.2, zone='dorm', flags=dict(NOF), js=SNONE + FAMJ + " G.flags.SIS_FAMXMAS_BUY='pencil'; G.flags.SIS_FAMXMAS_PAID=true;", steps=[('until', 21.6)],
+       pref=['出發：家族聖誕', '「名字是妳刻的？」'], nothree=True,
+       want=['學姊好，我是', '我知道。直屬送直屬，我準備的是你的。', '（學姊坐在你對面。她的碗裡只有白飯和青菜。）'], order=['（學姊坐在你對面。她的碗裡只有白飯和青菜。）', '學姊好，我是', '我知道。直屬送直屬，我準備的是你的。'],
+       eqflags={'met_sis': True, 'SIS_W1': True, 'SIS_FAMXMAS_Y1': 'pencil'}, jsok=[SP_SIS('我知道。直屬送直屬，我準備的是你的。')]),
+  dict(id='R44_51_XMAS_MET', key='2025-12-22', h=18.2, zone='dorm', js=SFRI + FAMJ + " G.flags.SIS_FAMXMAS_BUY='pencil'; G.flags.SIS_FAMXMAS_PAID=true;", steps=[('until', 21.6)],
+       pref=['出發：家族聖誕', '「名字是妳刻的？」'], nothree=True, want=['（學姊坐在你對面。她的碗裡只有白飯和青菜。）'], none=['學姊好，我是', '我知道。直屬送直屬，我準備的是你的。']),
+  # 【前置】存檔的旗標在讀檔以前就改（load_at 的 flags）：met_sis／SIS_W1 false、去過家族聖誕＝讀檔時（game3d.js migrate → ROM.rec → SISB12.metFix）補上；'missed'＝不補
+  dict(id='R44_51_MIGRATE', key='2026-03-02', h=10.0, zone='dorm', flags=dict(TW3, met_sis=False, SIS_W1=False, SIS_FAMXMAS_Y1='pencil'), js='', steps=[('until', 10.1)], pref=[], nothree=True,
+       eqflags={'met_sis': True, 'SIS_W1': True}),
+  dict(id='R44_51_MIGRATE_MISSED', key='2026-03-02', h=10.0, zone='dorm', flags=dict(TW3, met_sis=False, SIS_W1=False, SIS_FAMXMAS_Y1='missed'), js='', steps=[('until', 10.1)], pref=[], nothree=True,
+       eqflags={'met_sis': False, 'SIS_W1': False}),
+  # ---- 5-2 Kevin 關於她的群組貼文（沒認識也收得到）----
+  dict(id='R44_52_BDAY26', key='2026-06-01', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2026-06-02', 11.9), ('until', 12.4)], pref=[], nothree=True,
+       wantMsg=['今天溫學姊生日🎂'], msgAt={'今天溫學姊生日🎂': ('2026-06-02', 12.17, 0.1)}, jsok=[MF('今天溫學姊生日🎂', 'g:family_law', 'kevin')]),
+  dict(id='R44_52_BDAY27', key='2027-06-01', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2027-06-02', 11.9), ('until', 12.4)], pref=[], nothree=True,
+       wantMsg=['今天溫學姊生日🎂🎂 去年一個蛋糕，今年兩個。']),
+  dict(id='R44_52_BDAY28', key='2028-06-01', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2028-06-02', 11.9), ('until', 12.4)], pref=[], nothree=True,
+       wantMsg=['學姊今天生日！'], jsok=[('y3_sis_bday 兩則', "(GAME.G.msgs||[]).filter(m=>m.tag==='y3_sis_bday').map(m=>m.text)", ['學姊今天生日！', '收到。'])]),
+  dict(id='R44_52_DEF_NONE', key='2029-05-27', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ,
+       steps=[JD('2029-05-28', 20.9), ('until', 21.3), ('jump', "STORY.dayOfKey('2029-05-29')", 18.3, '【捷徑】5/29 18:18'), ('until', 18.8)], pref=[], nothree=True,
+       wantMsg=['學姊明天下午四點口試！大家去門口等！', '……不用來。', '學姊過了！！（一張研究室門口的照片）', '過了。謝謝大家。'], msgAt={'學姊過了！！（一張研究室門口的照片）': ('2029-05-29', 18.5, 0.12)},
+       jsok=[('沒認識：不排「學姊的口試」', OUTQ('y4_m9'), None), ('不記 SIS_DEFENSE', "GAME.G.flags.SIS_DEFENSE==null", True)]),
+  dict(id='R44_52_DEF_FAM', key='2029-05-27', h=12.0, zone='dorm', flags=dict(TW3), js=SFAM + FAMJ, steps=[JD('2029-05-28', 20.9), ('until', 21.3)], pref=[], nothree=True,
+       wantMsg=['學姊明天下午四點口試！大家去門口等！'], jsok=[('熟悉、認識她：排 5/29 16:00「學姊的口試」', OUTQ('y4_m9'), '2029-05-29 16 planned')]),
+]
+SCENS = SCENS + R44
 async def pguntil(pg, cdp, run, sc, key, h, secs=1800):
     """畢業後篇（PG.on）：照玩家站著不動，讓遊戲自己「跳到下一件事」，直到遊戲日子時間 ≥ (key, h)。對話照 pref 點、選項照 pref、要回的訊息照 asks、出遊的「出發」照 pref。
     到了以後【捷徑】PG.IDLE_MS 調大（＝玩家開始走動，不再站著讓它跳），後面的檢查不會被下一跳蓋掉。畫面沒有對話、選項、劇情，遊戲時間 600 秒沒前進＝卡住"""
@@ -3585,6 +3788,9 @@ async def main():
                     elif st[0] == 'addday':   # [捷徑] 日子往後撥 st[1] 天（同一個時間、同一個地方）
                         await pg.evaluate("(n=>{ const G=GAME.G; G.day+=n; const w=CALENDAR.dateOf(G.day).wd; G.weekday=w===7?0:w; if(GAME.updateHUD) GAME.updateHUD(); })(%d)" % st[1])
                         run.setup('[捷徑] %s：日子往後撥 %d 天' % (sc['id'], st[1])); await pg.wait_for_timeout(1500)
+                    elif st[0] == 'talksis':   # R44：找學姊說話（總圖閱覽室、Café 可能是舊的 sis 生成＝charId 'sis'；EVENTS.npcOf 的別名）
+                        who = await pg.evaluate("(()=>{ const f=id=>GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&!n.hidden); return f('heroine_05')?'heroine_05':(f('sis')?'sis':'heroine_05'); })()")
+                        await talkp(pg, cdp, run, who, sc.get('pref', []))
                     elif st[0] == 'talk': await talkp(pg, cdp, run, st[1], sc.get('pref', []))   # 走到那個人旁邊、按「和○○說話」（BB-B 10-23：選項照情境的 pref，原本 B['talk'] 只選「聊／說」）
                     elif st[0] == 'usep': await usep(pg, cdp, run, st[1], sc.get('pref', []))   # 同 use（走到互動點按下去），選項照情境的 pref（房間「看看房間裡的東西」的選單）
                     elif st[0] == 'jsrun':   # [捷徑] 在頁面裡直接叫一段遊戲函式（st[2] 是說明），演完照 pref 選
