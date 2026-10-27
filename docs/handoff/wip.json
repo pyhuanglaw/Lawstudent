@@ -843,11 +843,13 @@
    "files": [
     "wip_backup/small_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "三件小修已 commit 1bcbbe3a7（US 10/12 提示、AA_484 兩處、凌晨 2:30 以後不出休息）；等開發分支全部 Node 跑完再合；前提 592de7e18",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-27 回報"
+   "source": "使用者 10-27 回報",
+   "closedBy": "ef936bc59",
+   "note": "20:5x 合進開發分支 ef936bc59。"
   },
   {
    "id": "WIP-LAWWW-Y1FB-1027",

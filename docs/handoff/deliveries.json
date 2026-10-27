@@ -14932,7 +14932,7 @@
    "task": "ACCEPTSOPEN-C-1027",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "第 1～2 節等 ACCEPTSOPEN 第二輪（暫停中，使用者決定要不要繼續）；第 3 節 LAWWW 接（US-BLANK-1012-HINT-1027）；outbox 13c6666ba"
+   "note": "第 1～2 節等 ACCEPTSOPEN 第二輪（暫停中，使用者決定要不要繼續）；第 3 節 LAWWW 接（US-BLANK-1012-HINT-1027）；outbox 13c6666ba｜第 3 節（10/12 提示）合進 ef936bc59；第 1～2 節等 ACCEPTSOPEN 第二輪（暫停）"
   },
   {
    "id": "DL-AA-484",
@@ -14943,9 +14943,9 @@
    "sha": "af7ecfd62",
    "what": "AA_484 BB 美國挽回中逐日劇本讀後：11/25 字卡改回「學姊」（更正 AA_479 第 3 節）、us208_3d.js 89「是X，不是Y」句型",
    "task": "AA484-WORDING-1027",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-C 20:3x 接；outbox f498e97d3"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 20:3x 接；outbox f498e97d3｜合進 ef936bc59"
   },
   {
    "id": "DL-AA-485",

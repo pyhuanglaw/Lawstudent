@@ -33668,7 +33668,7 @@
    "title": "美國交換挽回中 10/12（四）19:30 秋假自習室的快轉停點（us_blank3d S.stops）停下來只有日期卡、沒有提示她在會所，玩家會以為沒事——加一句提示（AA 定句子，LAWWW 接）",
    "area": "V4-US",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 10-27 20:15 v9.10.11 判定進度（BB_218，64cb3b4c0；trx_alone8 f54a35ec4 ALL PASS，這件不擋發布）",
    "first": {
@@ -33681,14 +33681,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】AA_483 第 3 節（187584ca8）定句：只在 S.studyDue 時出旁白「（秋假的社區很安靜。窗外，會所自習室的燈還亮著。）」；HUD 由 LAWWW 加「會所的自習室還開著」；LAWWW 接｜【LAWWW-C 2026-10-27 20:1x UTC】已請 AA-C 寫一句提示（旁白或她的訊息、AA 定）；AA 交句子後 LAWWW 接進 us_blank3d 那個停點，BB 再看一次",
+   "next": "【LAWWW-C 2026-10-27 20:5x UTC】合進開發分支 ef936bc59（small-1027 1bcbbe3a7），開發分支 Node 659/0；BB 照 BB_TEST_QUEUE_1027 第 5g 節｜【LAWWW-C 2026-10-27 20:3x UTC】AA_483 第 3 節（187584ca8）定句：只在 S.studyDue 時出旁白「（秋假的社區很安靜。窗外，會所自習室的燈還亮著。）」；HUD 由 LAWWW 加「會所的自習室還開著」；LAWWW 接｜【LAWWW-C 2026-10-27 20:1x UTC】已請 AA-C 寫一句提示（旁白或她的訊息、AA 定）；AA 交句子後 LAWWW 接進 us_blank3d 那個停點，BB 再看一次",
    "xai": {
     "spec": "BB_218（64cb3b4c0）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "10/12 19:30 停下來時玩家看得出她在會所、可以去找她",
     "receiver": "LAWWW",
-    "ack": "ACK"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": "ef936bc59"
   },
   {
    "id": "GYM-NOTICE-1027",
@@ -34011,7 +34012,7 @@
    "title": "畢業後住臺北的家（pgHome）、日本宿舍：家的選單「在家休息一下」可以一直按，過了午夜日子不換（G.hour 到 131、day 還是 01-17），隔天訊息和課都不來——G.hour≥26.5 時改成直接睡（或選單只留「睡覺」）",
    "area": "PG",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "BB-C 10-27 20:18（BB_218 102c75250；R42 log qa/r42yt_new2_f54a35ec4.log；舊問題、不擋發布）",
    "first": {
@@ -34024,14 +34025,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】home3d.js 478～483 LAWWW 自己改；jp3d.js 313／415 等 x58-e08 第四輪（同檔）合進來以後再改"
+   "next": "【LAWWW-C 2026-10-27 20:5x UTC】合進開發分支 ef936bc59（small-1027 1bcbbe3a7），開發分支 Node 659/0；BB 照 BB_TEST_QUEUE_1027 第 5g 節｜【LAWWW-C 2026-10-27 20:3x UTC】home3d.js 478～483 LAWWW 自己改；jp3d.js 313／415 等 x58-e08 第四輪（同檔）合進來以後再改",
+   "sha": "ef936bc59"
   },
   {
    "id": "AA484-WORDING-1027",
    "title": "AA_484 兩處換字：美國 11/25 字卡改回「學姊說這不算初雪」（更正 AA_479 第 3 節，us_life_events.js、us_life_unit 改回）；us208_3d.js 89「我查了。是水澆太多，不是太少。」改「我查了。是水澆太多。」",
    "area": "V4-US",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "AA_484（af7ecfd62）",
    "first": {
@@ -34044,7 +34046,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】LAWWW 自己改（和 US-BLANK-1012-HINT-1027 一起）"
+   "next": "【LAWWW-C 2026-10-27 20:5x UTC】合進開發分支 ef936bc59（small-1027 1bcbbe3a7），開發分支 Node 659/0；BB 照 BB_TEST_QUEUE_1027 第 5g 節｜【LAWWW-C 2026-10-27 20:4x UTC】LAWWW 自己改（和 US-BLANK-1012-HINT-1027 一起）",
+   "sha": "ef936bc59"
   },
   {
    "id": "QUICK-SAVE-EXPORT-1027",
