@@ -57,6 +57,10 @@ await tsec(2,async()=>{ const S2=sec(2), L1='二試過了。一月面試。', L2
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(G,'heroine_01'); H.FAMILIAR('heroine_01');
     PG.rules(GM); H.at('2029-12-14',21.1); H.tick(); const a=noodle(G).slice(); H.at('2030-01-25',20.6); PG.rules(GM); H.at('2030-01-25',21.1); H.tick();
     check('2. 前任、不到 FRIEND：12/14 沒有（照原本）、1/25 麵店團「'+L2+'」',!a.length&&J(noodle(G))===J([L2])&&!PG.due(G),J([a,noodle(G)])); }
+  /* 舊存檔：這一版以前已經演過電話（PG.done an1／an2 是 1）＝不再發群組那一則（不重演）*/
+  { const G=H.fresh('2029-12-14',21.4,'dorm'); graduated(G); PHONE.join(G,'noodle_team','麵店團'); ex('heroine_01'); PG.rec(G).done.an1=1; PG.rules(GM); H.tick(); const a=noodle(G).slice();
+    H.at('2030-01-25',21.4); PG.rec(G).done.an2=1; PG.rules(GM); H.tick();
+    check('2. 舊存檔（電話已經演過）：12/14、1/25 都不再發群組那一則',!a.length&&!noodle(G).length,J([a,noodle(G)])); }
   /* 前任、不在麵店團：沒有 */
   { const G=H.fresh('2029-12-14',20.6,'dorm'); graduated(G); ex('heroine_01'); PG.rules(GM); H.at('2029-12-14',21.1); H.tick(); const c=PG.due(G);
     check('2. 前任、不在麵店團：沒有電話、沒有群組',!(c&&c.id==='an1')&&!(G.msgs||[]).some(m=>m.text===L1)); } });
