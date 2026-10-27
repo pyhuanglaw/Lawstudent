@@ -33863,6 +33863,26 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "CLASS-TEACHER-1027",
+   "title": "上課時講台前一定有老師（電影敘事等通識課沒有老師的 3D 人物：晚到走進教室講台是空的）——有名字的教授照作息；沒有名字的課放一位老師站講台；四年課表每一門課都要檢查",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-27 20:3x 對 LAWWW-C「電影敘事上課沒老師? 如果我晚到也要看到有老師啊」「每一堂課都要檢查」（UA-LAWWW-1027-16、-17）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一堂課（共同教學館）、法律系第一堂課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】派子代理（和 CROWD-CLASS-ARRIVE-1027、GYM-CROWD-1027 同一個）：classes3d.js 上課中的教室放老師；新測試把 COURSES 四年每一門課跑過（準時、晚到兩種）"
   }
  ]
 }
