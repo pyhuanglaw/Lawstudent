@@ -191,6 +191,7 @@ const CHAR = (function(){
   const BIKE_G={saddle:[0,0.935,-0.31], grip:[0.29,1.06,0.083], bb:[0,0.285,-0.045], crank:0.165, pedalX:0.115};
   const ARMS=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']];
   const ARMQ=new THREE.Quaternion(), ARMZ=new THREE.Vector3(0,0,1), ARMX=new THREE.Vector3(1,0,0), ARMV=new THREE.Vector3();
+  const OVQ=new THREE.Quaternion(), OVE=new THREE.Euler();   /* 疊加姿勢 u.overlay（羽球揮拍，src/badminton_clip3d.js）*/
   /* 裙子的輔助骨頭（見建立 VRM 的地方）：在腳步貼合之後（真實骨架的腿已經是最後的角度） */
   const SKQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()], SKV=new THREE.Vector3();
   function skirtLift(b,q0,d){ SKQ[2].copy(b.quaternion).multiply(q0); SKV.copy(d.dn).applyQuaternion(SKQ[2]); return Math.atan2(SKV.dot(d.fw),SKV.dot(d.dn)); }
@@ -275,6 +276,7 @@ const CHAR = (function(){
           ARMQ.setFromAxisAngle(ARMZ,s_*u.armOut*sx); b.quaternion.premultiply(ARMQ); } }
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(0,0,-0.9*sx); if(B.RightForeArm) B.RightForeArm.rotation.set(0,0,(-1.6+g*0.25)*sx); if(B.Head) B.Head.rotation.z+=0.08*sx; }
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05*sx; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.Spine1) B.Spine1.rotation.y+=Math.sin(a.t*0.6)*0.03; }
+      if(u.overlay&&u.overlay.bones){ const o=u.overlay, k=o.k==null?1:Math.max(0,Math.min(1,o.k)); for(const n in o.bones){ const bn=B[n]; if(!bn) continue; const r=o.bones[n]; OVE.set(r[0]*sx,r[1],r[2]*sx); OVQ.setFromEuler(OVE); bn.quaternion.slerp(OVQ,k); } }   /* 疊加姿勢（羽球揮拍 BADMINTON-CLIP-1027，src/badminton_clip3d.js）：片段算完以後把幾根骨頭轉到指定角度（和 SIT_VRM 同一套角度：x、z 乘 sx），k＝比例；坐下、騎車不受影響 */
       u.ikSt=st; }  // VRM 的前臂軸向和程序化人物不同，說話時不轉前臂（舊版會把手舉到頭上）
     // 注視（眼睛＋頭）
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
