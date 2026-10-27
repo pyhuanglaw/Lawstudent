@@ -15127,7 +15127,7 @@
    "task": "SIS-B12-FIX-1027",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:0x UTC】1c4223a30（sis_b12_3d.js、sis_b12_events.js、date3d.js settle／settleOvernight、vac3d.js abroadDest；tests/aa492_sis_b12_fix2_unit.js）；outbox e6a0a859f；BB 5o"
+   "note": "【LAWWW-C 2026-10-27 22:4x UTC】1c4223a30（sis_b12_3d.js、sis_b12_events.js、date3d.js settle／settleOvernight、vac3d.js abroadDest；tests/aa492_sis_b12_fix2_unit.js）；outbox e6a0a859f；BB 5o"
   },
   {
    "id": "DL-LW2-J13-CATWALK",
@@ -15140,7 +15140,7 @@
    "what": "WZ-CAT-LIFE-1023（J13）：溫州街的貓會走動——wz_cat.glb v3（站姿＋24 根骨頭＋走／站／坐下／坐著）、src/wzcat3d.js（白天小公園七個點、走近停下、劇情時坐著、摸摸跟著貓）、zones3d.js 接線；Blender 原始檔；wz_cat_walk_unit",
    "task": "WZ-CAT-LIFE-1023",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:0x UTC】4978b283a（合併 48e997635）；patch 原樣套用；wz_cat_walk、wz_cat、wz_park ALL PASS；BB 5o 同批"
+   "note": "【LAWWW-C 2026-10-27 22:5x UTC】4978b283a（合併 48e997635）；patch 原樣套用；wz_cat_walk、wz_cat、wz_park ALL PASS；BB 5o 同批"
   },
   {
    "id": "DL-LW2-A21-DOOR",
@@ -15153,7 +15153,7 @@
    "what": "ANIM-DOOR-OPEN-1027（A21）第一階段：有門的出入口轉向門＋右手推門約 0.45 秒再換區域、自動門只轉向、樓梯與開放式店面不演、exit.door 可蓋過（src/door3d.js、game3d.js 一行、index.html 一行、door_open_unit）",
    "task": "ANIM-DOOR-OPEN-1027",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:0x UTC】4978b283a（合併 48e997635）；patch 原樣套用；door_open ALL PASS（LAWWW2 zone_transitions ALL PASS）"
+   "note": "【LAWWW-C 2026-10-27 22:5x UTC】4978b283a（合併 48e997635）；patch 原樣套用；door_open ALL PASS（LAWWW2 zone_transitions ALL PASS）"
   },
   {
    "id": "DL-AA-493",
@@ -15166,7 +15166,7 @@
    "what": "AA_493 溫州街的貓會走動以後的四句：環境句時段＋白天版、取名分日夜兩版、所長回來白天版（固定姿勢的替代）、季節句不改",
    "task": "WZ-CAT-LIFE-1023",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:2x UTC】199f71b40；tests/aa493_cat_lines_unit.js；outbox fda420d4e"
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】199f71b40；tests/aa493_cat_lines_unit.js；outbox fda420d4e"
   },
   {
    "id": "DL-LW2-FAIR-LOD",
@@ -15179,7 +15179,7 @@
    "what": "FAIR-STAFF-LOD-1027：社博顧攤的人照距離藏（engine3d.js n.lodLim、clubfair3d.js STAFF_LOD）；fair_staff_lod_unit",
    "task": "FAIR-STAFF-LOD-1027",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:2x UTC】e6da67e38（合併 fe4d31a86）"
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】e6da67e38（合併 fe4d31a86）"
   },
   {
    "id": "DL-LW2-FIT-POSTURE",
@@ -15192,7 +15192,7 @@
    "what": "FIT-3D-BODY-1027（D40）第一階段：體態＝姿勢（fit3d.js FIT.POSTURE、character3d.js 三行）；fit_posture_unit",
    "task": "FIT-3D-BODY-1027",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:2x UTC】e6da67e38（合併 fe4d31a86）"
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】e6da67e38（合併 fe4d31a86）"
   },
   {
    "id": "DL-LW2-SINGLESIDE-7",
@@ -15205,7 +15205,7 @@
    "what": "PERF-SINGLESIDE-GLB-1025 第七份：美國校園 us_campus 單面（GLB＋Blender 腳本 single_side）；singleside_us_campus_unit",
    "task": "PERF-SINGLESIDE-GLB-1025",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-27 23:2x UTC】e6da67e38（合併 fe4d31a86）"
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】e6da67e38（合併 fe4d31a86）"
   }
  ],
  "ignored": [

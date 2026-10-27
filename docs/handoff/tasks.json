@@ -30761,7 +30761,7 @@
    },
    "source": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
    "authorized": "使用者直接交代；D108（場景程式歸 LAWWW2）、D111",
-   "next": "【LAWWW-C 2026-10-27 23:2x UTC】AA_493（868726e5c）四句接好 199f71b40：環境句白天版、取名兩版、所長回來白天版；季節句不改｜【LAWWW-C 2026-10-27 23:0x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】AA_493（868726e5c）四句接好 199f71b40：環境句白天版、取名兩版、所長回來白天版；季節句不改｜【LAWWW-C 2026-10-27 22:5x UTC】LAWWW2 交件 0610ceeb1（wz_cat.glb v3 骨架＋四段動畫、src/wzcat3d.js、zones3d.js 接線；wz_cat_walk_unit 改前 FAILED 6）合進開發分支 4978b283a（合併 48e997635）；BB 測走路、摸、餵、晚上趴著；白天句子和畫面衝突（圓椅上睡覺）四處交 AA-C 定｜【LAWWW-C 2026-10-27 18:0x UTC】查核：貓還不會走動（摸、餵、子晴收養都有了）——派 LAWWW2-C 評估排期 ｜ 【LAWWW-B 10-23 08:3x】AA_397 第 3 節：子晴收養——2028-12-11～17 寒流那一週、12/14 22:10 在公園演出來；認識她的人每月一張照片；公布欄那張紙所有人看得到；大四下公園沒有貓；LAWWW2 做貓的 3D 與互動，LAWWW 接事件 ｜ 【LAWWW-B 10-23 08:0x ACK】LAWWW2 做 3D 與互動點（D108）；收養劇情 AA 定誰、什麼時候（D109）；LAWWW 接事件",
    "xai": {
     "spec": "使用者 2026-10-23 08:1x 直接對 LAWWW2：「貓咪要能動 能互動吧 甚至安排其中一個女主角收養 跟AA討論」（UA-LAWWW2-1023-08）",
     "owner": "LAWWW2",
@@ -32576,7 +32576,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "【LAWWW-C 2026-10-27 23:2x UTC】第七份（美國校園 us_campus，02ad9eb3d）合進開發分支 e6da67e38；七份全部交完、都在開發分支；BB 測美國校園畫面、fps｜【LAWWW-C 2026-10-27 18:1x UTC】第六份（機場出境／入境，DL-LW2-SINGLESIDE-6）合進開發分支，相關 Node 9 支 ALL PASS；LAWWW2 照 D99 先做 X79→X14，美國校園（第七份）暫停在 WIP、排後面｜【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】第七份（美國校園 us_campus，02ad9eb3d）合進開發分支 e6da67e38；七份全部交完、都在開發分支；BB 測美國校園畫面、fps｜【LAWWW-C 2026-10-27 18:1x UTC】第六份（機場出境／入境，DL-LW2-SINGLESIDE-6）合進開發分支，相關 Node 9 支 ALL PASS；LAWWW2 照 D99 先做 X79→X14，美國校園（第七份）暫停在 WIP、排後面｜【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -33402,7 +33402,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:2x UTC】第一階段（體態＝姿勢：體能越高站走跑越挺，LAWWW2 eedf57f21）合進開發分支 e6da67e38（合併 fe4d31a86）；fit_posture_unit ALL PASS；BB 看四階體能的站姿；第二階段（身體形狀）LAWWW2 要問使用者——照 D97 由 BB 一起整理成選擇題｜【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估（做不做、怎麼做由美術總監決定，D111；人物外觀大改要問使用者）",
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】第一階段（體態＝姿勢：體能越高站走跑越挺，LAWWW2 eedf57f21）合進開發分支 e6da67e38（合併 fe4d31a86）；fit_posture_unit ALL PASS；BB 看四階體能的站姿；第二階段（身體形狀）LAWWW2 要問使用者——照 D97 由 BB 一起整理成選擇題｜【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估（做不做、怎麼做由美術總監決定，D111；人物外觀大改要問使用者）",
    "xai": {
     "spec": "USER_WANTS D40；src/fit3d.js",
     "branch": "claude/focused-cray-c9uwvw",
@@ -33430,7 +33430,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:0x UTC】第一階段（LAWWW2 a25bede18：src/door3d.js 轉向門＋右手推門 0.45 秒、自動門只轉向、樓梯／路／開放式店面不演；door_open_unit 改前 FAILED 1）合進開發分支 4978b283a（合併 48e997635）；BB 測每天出門、進教室、進出店；第二階段（門板轉開）LAWWW2 排｜【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估排期",
+   "next": "【LAWWW-C 2026-10-27 22:5x UTC】第一階段（LAWWW2 a25bede18：src/door3d.js 轉向門＋右手推門 0.45 秒、自動門只轉向、樓梯／路／開放式店面不演；door_open_unit 改前 FAILED 1）合進開發分支 4978b283a（合併 48e997635）；BB 測每天出門、進教室、進出店；第二階段（門板轉開）LAWWW2 排｜【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估排期",
    "xai": {
     "spec": "USER_WANTS A21；docs/history/specs/21",
     "branch": "claude/focused-cray-c9uwvw",
@@ -34129,7 +34129,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:1x UTC】33d24f9db：say 被蓋掉時舊的那一句收起來、演完放回去（同 X81 選單）；staleCheck 只剩 ADV 開著放寬到 30 秒才算停住（不再永遠算還在演）；五處延後開演決定那一刻就 sceneBegin、演完 sceneEnd＋自動存檔；新 tests/say_cover_unit.js（修改前 FAIL）；BB 5q 跑 stale_lock_escape.py、各處自動開演的劇情｜【LAWWW-C 2026-10-27 21:1x UTC】v9.10.11 發布後做：五處照 invites3d.js 的做法先鎖；say 被蓋掉時舊的那段收到結束訊號（不永遠等）；staleCheck 不把 ADV 一直算 live",
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】33d24f9db：say 被蓋掉時舊的那一句收起來、演完放回去（同 X81 選單）；staleCheck 只剩 ADV 開著放寬到 30 秒才算停住（不再永遠算還在演）；五處延後開演決定那一刻就 sceneBegin、演完 sceneEnd＋自動存檔；新 tests/say_cover_unit.js（修改前 FAIL）；BB 5q 跑 stale_lock_escape.py、各處自動開演的劇情｜【LAWWW-C 2026-10-27 21:1x UTC】v9.10.11 發布後做：五處照 invites3d.js 的做法先鎖；say 被蓋掉時舊的那段收到結束訊號（不永遠等）；staleCheck 不把 ADV 一直算 live",
    "sha": "33d24f9db"
   },
   {
@@ -34170,7 +34170,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:0x UTC】第二輪 AA_492（DL-AA-492，2a5b78ee3）1c4223a30：12-6b 出國中「我在{國}。」＋取消提示、12-7 考研究所不問選項一、「另外一本」約會補演；tests/aa492_sis_b12_fix2_unit.js；BB 5o｜【LAWWW-C 2026-10-27 22:3x UTC】第一輪 cff93a2d1（子代理 sisb12fix-1027）：①12-5 週五 3/3～4/21 ②12-6b 出國中不收邀約（VAC.abroadOn）③4-2 約哪一家都演 ④12-4、12-3 撞期小字、日本 5/29 換句；BB 5n｜【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做。AA_490（DL-AA-490，a4f530c11）回了①③④：①12-5 改這一場：週五 12:00～14:00、2028-03-03～04-21（日本路線到 3/24），兩筆 linze_5f 不加結束日；③4-2 約哪一家都演、店的條件拿掉；④12-4 照撞期：9/13「我去。」旁小字「那天晚上也是公法讀書會」（那學期去過公法讀書會的才有）；另 12-3 火鍋撞托福班照撞期（C04W 那晚有課的才有小字）、日本路線 5/29 sis_jp_events.js 第 13 行第二句換；②LAWWW 改（VAC 出國中也排除）；⑤照舊不補"
+   "next": "【LAWWW-C 2026-10-27 22:4x UTC】第二輪 AA_492（DL-AA-492，2a5b78ee3）1c4223a30：12-6b 出國中「我在{國}。」＋取消提示、12-7 考研究所不問選項一、「另外一本」約會補演；tests/aa492_sis_b12_fix2_unit.js；BB 5o｜【LAWWW-C 2026-10-27 22:3x UTC】第一輪 cff93a2d1（子代理 sisb12fix-1027）：①12-5 週五 3/3～4/21 ②12-6b 出國中不收邀約（VAC.abroadOn）③4-2 約哪一家都演 ④12-4、12-3 撞期小字、日本 5/29 換句；BB 5n｜【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做。AA_490（DL-AA-490，a4f530c11）回了①③④：①12-5 改這一場：週五 12:00～14:00、2028-03-03～04-21（日本路線到 3/24），兩筆 linze_5f 不加結束日；③4-2 約哪一家都演、店的條件拿掉；④12-4 照撞期：9/13「我去。」旁小字「那天晚上也是公法讀書會」（那學期去過公法讀書會的才有）；另 12-3 火鍋撞托福班照撞期（C04W 那晚有課的才有小字）、日本路線 5/29 sis_jp_events.js 第 13 行第二句換；②LAWWW 改（VAC 出國中也排除）；⑤照舊不補"
   },
   {
    "id": "BADCLIP-BAG-1027",
@@ -34190,7 +34190,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:0x UTC】LAWWW 修 056851057：CHAR.carryOff＋badminton_clip3d.js 開演拿下、finally 還原；tests/badclip_bag_unit.js（修改前 FAIL）；BB 照 5j 從手機約起驗（以安、語彤、男生朋友各一次，三個鏡頭裡兩個人身上沒有包）；場邊地板放一個包（BB 的建議）交 LAWWW2 下一輪羽球一起看",
+   "next": "【LAWWW-C 2026-10-27 22:5x UTC】LAWWW 修 056851057：CHAR.carryOff＋badminton_clip3d.js 開演拿下、finally 還原；tests/badclip_bag_unit.js（修改前 FAIL）；BB 照 5j 從手機約起驗（以安、語彤、男生朋友各一次，三個鏡頭裡兩個人身上沒有包）；場邊地板放一個包（BB 的建議）交 LAWWW2 下一輪羽球一起看",
    "sha": "056851057"
   },
   {
@@ -34211,7 +34211,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 23:2x UTC】LAWWW2 e0d50873f 合進開發分支 e6da67e38（合併 fe4d31a86）；fair_staff_lod_unit 改前 FAILED 4、改後 ALL PASS；LAWWW2 量中畫質 draw call 503→455、模擬 fps +15%；BB 看社博那天走大道、遠處攤位的人有沒有突然出現",
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】LAWWW2 e0d50873f 合進開發分支 e6da67e38（合併 fe4d31a86）；fair_staff_lod_unit 改前 FAILED 4、改後 ALL PASS；LAWWW2 量中畫質 draw call 503→455、模擬 fps +15%；BB 看社博那天走大道、遠處攤位的人有沒有突然出現",
    "sha": "e6da67e38",
    "xai": {
     "spec": "LAWWW-C 派工訊息（社博效能）",
