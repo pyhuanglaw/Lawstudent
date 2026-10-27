@@ -60,6 +60,8 @@ const EAT=(function(){
     const k=await GM.choose(O); if(same<0) return k;
     if(k===names.length){ const t=S.sameLine(T,last); if(t) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說 */
     return k>names.length?k-1:k; };
+  /* 沒有經過 S.choose 就點了（118 巷熟客「老樣子」選「好」，lane118.js）：點餐那一刻照樣記下來，「一起吃」照那一刻判斷 */
+  S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };
   /* 點好了（扣完錢）：次數、上一次點的、吃過的；那間店第一次＝旁白 */
   S.ordered=async function(GM,key,item){ const G=GM.G, R=S.rec(G); R.n[key]=(R.n[key]|0)+1; R.last[key]=item; if(!S.isFood(key)) return false;
     S.note(GM,key,item); if(R.first[key]!=null) return false; R.first[key]=G.day; const t=(L()&&L().first&&L().first[S.shopOf(key)])||(xShop(key)&&xShop(key).first); if(t){ await GM.say(null,t); return true; } return false; };   /* 登記的店：它自己的第一次旁白（AA_364 第 5 節第 4 點）*/
@@ -95,6 +97,7 @@ const EAT=(function(){
       if(set==='exLow'){ if(n){ n.until=G.hour; } return true; }   /* 她先走（refreshSchedule 照 until 走到門口）；不加關係、不算一起吃 */
       await GM.say(null,S.isDoor(key)?L().closeDoor:L().closeRecycle);
       if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'meal');
+      S.lastTog={id,key,day:G.day};   /* 剛才和誰一起吃（lane118.js 記 118 巷一起吃的次數：AA_311 H4）*/
       return true;
     } finally { GM.sceneEnd(); } };
   /* 點完的共用一段：次數、吃過的、第一次的旁白，接著問一起吃；回傳 true＝一起吃了 */
