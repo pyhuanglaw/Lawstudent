@@ -126,11 +126,11 @@ const PG=(function(){
     {tag:'pg_go_'+y,at:[K.exam,7.5],cond:G=>S.sits(G,y)&&inNoodle(G),items:G=>grp(L().EXAM.go)},
     {tag:'pg_none_'+y,at:[K.exam,17.5],cond:G=>y===2029&&!S.sits(G,2029)&&inNoodle(G),items:G=>grp(L().EXAM.none)},
     {tag:'pg_kxnone_'+y,at:[K.exam,17.5+2/60],cond:G=>y===2029&&!S.sits(G,2029)&&S.dating(G,'kexin'),items:G=>L().EXAM.kexinNone.concat(S.delayed(G)?[L().EXAM.kexinLate]:[]).map(t=>P_('kexin',t))},
-    {tag:'pg_r1g_'+y,at:[K.r1,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(L().R1.group)},
+    {tag:'pg_r1g_'+y,at:[K.r1,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R1.group2030||L().R1.group)},   /* AA_471 第 3 節：四次放榜各一版（2029-09-07 原句）*/
     {tag:'pg_r1f_'+y,at:[K.r1,15+6/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&inNoodle(G),items:G=>grp(L().R1.friends.concat(S.stage(G,2029)==='none'?L().R1.low:[]))},
     {tag:'pg_r1kx_'+y,at:[K.r1,15+8/60],cond:G=>y===2029&&S.dating(G,'kexin'),items:G=>[P_('kexin',L().R1.kexin)].concat(S.stage2(G,2029)?[P_('kexin',L().R1.kexinBoth)]:[])},
     {tag:'pg_r1sis_'+y,at:[K.r1,15+20/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&S.sisOk(G),items:G=>L().R1.sisLow.map(t=>P_('heroine_05',t))},
-    {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(L().R2.group)},
+    {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R2.group2030||L().R2.group)},
     {tag:'pg_r2f_'+y,at:[K.r2,15+6/60],cond:G=>y===2029&&S.stage2(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().R2.zhe)].concat(L().R2.bohan.map(t=>GR('classmate_bohan',t)))},
     {tag:'pg_r2late_'+y,at:[K.r2,15+5/60],cond:G=>y===2029&&S.delayed(G),items:G=>[P_('zhe',L().R2.zheLate)]},
     /* 可昕考上律師（交往中、沒報 2029 國考）：原本 15:05 兩則私訊（pg_r2kx_2029），AA_296 2-3-1 ③ 起改成她打來的電話＝場景 kx_bar_2029（S.STEPS）；沒接＝那兩則（S.kxBarMissed）*/
