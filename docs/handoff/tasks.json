@@ -34142,6 +34142,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 21:2x UTC】③⑤合進 8f3d4d2f9（class_arrive_unit 第 3、5 項、inv_arrive_lock_unit 第 6 項）；①②④等 y1fb-1027 合進來再做"
+  },
+  {
+   "id": "SIS-B12-FIX-1027",
+   "title": "學姊第十二批 BB 讀程式核對的問題：①12-5 法圖午休實際只有週五能演（characters.js:78 兩筆 linze_5f 沒有結束日，蓋過 :80 的 2028-02～2029-05 法圖）②12-6b「人在臺灣」只排除日本路線（C10 加州、C08 首爾出國的照樣收邀約、記 missed）③4-2 交往版玩家約的店不是法圖旁邊那家就不演「書推過去」④12-4 2027-09-16（四）家族讀書會和以安公法讀書會撞期⑤4-1 舊存檔不補 SIS_PHOTO_TO_YOU（企劃沒要求，照舊）",
+   "area": "Y2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 10-27 21:19（BB_218 最後一節 e936b4624；SIS-B12 讀程式核對 118/0）",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "大二～大四學姊第十二批的幾場",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後：②LAWWW 改（VAC 出國中也排除）；①③④ 問 AA-C（已送）；⑤照舊不補"
   }
  ]
 }
