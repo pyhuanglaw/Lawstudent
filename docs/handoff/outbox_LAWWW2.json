@@ -3675,7 +3675,7 @@
   {
    "task": "BADMINTON-CLIP-1027 第二版",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "310543676",
    "files": [
     "docs/art-rebuild/second_ai/patches/badminton_clip_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/badminton_clip_1027/README.md"
@@ -3687,6 +3687,28 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "引拍改成拍頭垂到頭後面；短片在演時卡住偵測不跳「畫面好像停住了」、HUD 不跑出來（第一版說真機不會跳是錯的：短片 13 秒＞10 秒門檻）；以安結尾直接切到她正前方；沛珊坐在地上（第一版坐在空氣上）＋近景；羽球放大 1.5 倍。七個人都播完沒有例外。badminton_clip_unit 17 項（⑥ 改前 FAIL）；對 d874aa740 套上：10 支 character3d Node 測試、stale_lock_escape.py PASS"
+  },
+  {
+   "task": "WZ-CAT-LIFE-1023（J13 貓會走動）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/wz_cat_walk_1027.patch",
+    "assets/models/env/second_ai/aa_support/wz_cat.glb",
+    "assets/models/env/second_ai/aa_support/wz_cat.json",
+    "tools/blender/env_second/aa_support/wz_cat.py",
+    "tools/blender/env_second/aa_support/wz_cat_preview.py",
+    "tools/blender/env_second/textures/gen/wz_cat_fur.png",
+    "tools/blender/env_second/textures/gen/wz_cat_fur_old.png",
+    "docs/art-rebuild/second_ai/test_shots/wz_cat_walk_1027/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "走路是程式算的關鍵格；白天劇情若寫『貓睡在圓椅上』可能對不上（請 AA-C 看）；真機、BB 流程沒跑",
+   "next": "LAWWW 套 patches/wz_cat_walk_1027.patch（新 src/wzcat3d.js、zones3d.js 兩處接線、index.html 一行、新 tests/wz_cat_walk_unit.js）＋從我的分支拿 wz_cat.glb／.json（取代原本的）；跑 wz_cat_walk_unit、wz_cat_unit、reachability_all",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "白天 07:00～17:30 不下雨：貓在小公園七個點之間走（坐 25～70 秒→站起來看→走 0.32 m/s→坐）；玩家 1.6 m 內停下看玩家；劇情時坐著；摸摸的互動點跟著貓。晚上、下雨、寒流、走失、收養照舊。Blender：CAT_walk 改成站姿＋24 根骨頭＋四段動畫（走、站、坐下、坐著）。wz_cat_walk_unit 改前 FAILED 6、改後 ALL PASS 23；溫州街 40 支 Node 測試、reachability_all wenzhou ALL PASS；patch 對 d874aa740 apply --check 過"
   }
  ]
 }

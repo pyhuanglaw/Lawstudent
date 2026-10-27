@@ -4,7 +4,8 @@
 一隻橘白色的胖貓（體長約 46 cm，不含尾巴）。三種靜態姿勢，每個一個頂層節點（原點＝四腳中間的地面、頭朝 +z）：
   CAT_sit   坐著，尾巴繞到前腳前面
   CAT_lie   趴著睡，縮成一團（麻糬）
-  CAT_walk  走路中的一步（左前腳、右後腳往前）
+  CAT_walk  v3（LAWWW2-C 10-27，J13「貓咪要能動」）：有骨架的站姿＋四段動畫 cat_walk／cat_idle／cat_sit／cat_sit_idle（build_rig）；
+            GLB 裡 CAT_walk 是骨架節點，身體是 CAT_walk_mesh（v2 是靜止的走路中的一步：左前腳、右後腳往前）
   CAT_curl  寒流那一週縮成一團（身體捲成圓、頭低低靠在前腳上、尾巴繞過身體蓋到鼻子前面、眼睛閉著）——LAWWW2-B 2026-10-23 加（WZ-CAT-LIFE-1023，AA_397 第 3 節）
 每個姿勢都有 morph target `fat`（大二上胖了；大二下瘦一點＝0.5）。
 造型：身體、胸、臀、頭、臉頰、口鼻、四腳、腳掌、尾巴一串的橢球（實際尺寸）→ 體素重建網格（關節自然融合）→ 平滑 → 減面；耳朵、眼睛、鼻子另外建（耳朵是有厚度的三角錐，眼睛是半埋的橢球）。不用方塊。
@@ -73,6 +74,8 @@ POSES = {
         ('ELLIPSOID', (0.03, 0.022, 0.19), 0.022, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
         ('ELLIPSOID', (-0.03, 0.022, 0.185), 0.022, (1.0, 0.6, 1.2), (0, 0, 0), 'paw'),
     ] + tail_chain([(-0.08, 0.03, -0.20), (-0.13, 0.025, -0.13), (-0.15, 0.022, -0.03), (-0.135, 0.02, 0.06), (-0.09, 0.02, 0.13)], 0.024, 0.018),
+    # v3（LAWWW2-C 10-27，WZ-CAT-LIFE-1023／J13）：走路那一隻改成「有骨架的站姿」——四隻腳直直站好（v2 是走路中的一步：左前腳、右後腳往前），
+    # 走路、站著甩尾巴、坐下都由骨架動畫做（build_rig）；遊戲本來只用趴、縮成一團兩個姿勢，這一隻之前沒有用到
     'walk': [
         ('ELLIPSOID', (0, 0.20, -0.02), 0.13, (0.85, 0.85, 1.65), (0, 0, 0), 'torso'),
         ('ELLIPSOID', (0, 0.205, -0.16), 0.095, (1.0, 1.0, 0.9), (0, 0, 0), 'hip'),
@@ -80,16 +83,15 @@ POSES = {
         ('BALL', (0, 0.29, 0.235), 0.066, (1, 1, 1), (0, 0, 0), 'head'),
         ('ELLIPSOID', (0, 0.272, 0.255), 0.05, (1.25, 0.8, 0.8), (0, 0, 0), 'cheek'),
         ('ELLIPSOID', (0, 0.266, 0.288), 0.027, (1.2, 0.8, 0.9), (0, 0, 0), 'muzzle'),
-        # 腳：左前腳、右後腳往前（+z），另外兩隻往後
-        # v2（LAWWW2-B 驗收）：四條腿粗 30%、腳掌粗 15%（v1 像筷子，跟胖身體不搭）
-        ('CAPSULE', (0.04, 0.10, 0.17), 0.025, (0.072, 1, 1), (0, 0, 90 - 12), 'leg'),
-        ('CAPSULE', (-0.04, 0.10, 0.10), 0.025, (0.072, 1, 1), (0, 0, 90 + 14), 'leg'),
-        ('CAPSULE', (0.05, 0.10, -0.20), 0.0285, (0.07, 1, 1), (0, 0, 90 + 14), 'leg'),
-        ('CAPSULE', (-0.05, 0.10, -0.12), 0.0285, (0.07, 1, 1), (0, 0, 90 - 12), 'leg'),
-        ('ELLIPSOID', (0.04, 0.016, 0.19), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (-0.04, 0.016, 0.075), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (0.05, 0.016, -0.225), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
-        ('ELLIPSOID', (-0.05, 0.016, -0.10), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        # 四條腿直立（v2 的粗細）：前腳 x ±0.04、z 0.14；後腳 x ±0.05、z −0.16
+        ('CAPSULE', (0.04, 0.10, 0.14), 0.025, (0.072, 1, 1), (0, 0, 90), 'leg'),
+        ('CAPSULE', (-0.04, 0.10, 0.14), 0.025, (0.072, 1, 1), (0, 0, 90), 'leg'),
+        ('CAPSULE', (0.05, 0.10, -0.16), 0.0285, (0.07, 1, 1), (0, 0, 90), 'leg'),
+        ('CAPSULE', (-0.05, 0.10, -0.16), 0.0285, (0.07, 1, 1), (0, 0, 90), 'leg'),
+        ('ELLIPSOID', (0.04, 0.016, 0.158), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (-0.04, 0.016, 0.158), 0.024, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (0.05, 0.016, -0.142), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
+        ('ELLIPSOID', (-0.05, 0.016, -0.142), 0.025, (1.0, 0.6, 1.25), (0, 0, 0), 'paw'),
     ] + tail_chain(TAIL_PTS_WALK, 0.030, 0.017),   # 這串球只給花色、fat 判斷部位用；網格是 tail_tube（TAIL_TUBE）
     # 寒流（LAWWW2-B 10-23）：一顆扁圓的身體（轉 20°，屁股在右後、胸在左前）、頭低低的在正前方、兩隻前腳收在下巴底下、尾巴從屁股繞過右邊到下巴前面
     'curl': [
@@ -341,7 +343,7 @@ NECK = {   # (中心, 朝頭的方向, 半徑)
 LEG = {    # 左前腳：(中心, 腳的方向, 半徑)
     'sit': ((0.035, 0.065, 0.086), (0, 1, 0), 0.0215),
     'lie': ((0.03, 0.024, 0.172), (0, 0, 1), 0.0255),   # v2 前臂接到腳掌
-    'walk': ((0.037, 0.085, 0.172), (0, 0.98, 0.2), 0.0275),   # v2 腿粗了（0.019→0.025）
+    'walk': ((0.04, 0.085, 0.14), (0, 1, 0), 0.0275),   # v2 腿粗了（0.019→0.025）；v3 站直
     'curl': ((0.03, 0.022, 0.17), (0, 0, 1), 0.0235),   # 繃帶纏在收著的左前腳上
 }
 ACC_UV = {'collar': (0.52, 0.02, 0.96, 0.06), 'tag': (0.52, 0.07, 0.74, 0.15), 'tag_back': (0.76, 0.07, 0.96, 0.15), 'bandage': (0.52, 0.16, 0.96, 0.24)}   # 10-23：配件縮到右下格的下半（上半給 CAT_curl）
@@ -503,6 +505,176 @@ def fur_material(name, path):
     return m
 
 
+# ---------------- v3：CAT_walk 的骨架、權重、動畫（LAWWW2-C 10-27，WZ-CAT-LIFE-1023／J13：「貓咪要能動」）----------------
+# 骨頭（遊戲座標；頭朝 +z、貓的左邊＝+x）。GLB 裡 CAT_walk 是骨架節點（底下是骨頭、CAT_walk_mesh、CAT_walk_tag、CAT_walk_bandage，都跟著骨頭動）。
+# 遊戲端：THREE_JSM.SkeletonUtils.clone（一般 clone 不會重新綁骨頭）→ AnimationMixer；片段：
+#   cat_walk      走路一步一秒循環（原地走，水平位移交給遊戲；步幅約 0.32 m，走 0.32 m/s 腳不滑）
+#   cat_idle      站著：尾巴慢慢甩、轉頭看一下、呼吸，4 秒循環
+#   cat_sit       坐下 0.8 秒、停在坐姿（倒著播＝站起來）
+#   cat_sit_idle  坐著甩尾巴尖、眨眼一樣的點頭，4 秒循環（第一格＝cat_sit 最後一格）
+FPS = 24
+TP = TAIL_PTS_WALK
+
+
+def _leg(side, front):
+    x = (0.04 if front else 0.05) * side; s = 'L' if side > 0 else 'R'
+    if front:
+        return [(f'upperarm_{s}', (x, 0.17, 0.14), (x, 0.10, 0.14), 'chest'), (f'forearm_{s}', (x, 0.10, 0.14), (x, 0.035, 0.145), f'upperarm_{s}'),
+                (f'paw_{s}', (x, 0.035, 0.145), (x, 0.012, 0.185), f'forearm_{s}')]
+    return [(f'thigh_{s}', (x, 0.17, -0.16), (x, 0.105, -0.15), 'hips'), (f'shin_{s}', (x, 0.105, -0.15), (x, 0.04, -0.162), f'thigh_{s}'),
+            (f'foot_{s}', (x, 0.04, -0.162), (x, 0.012, -0.12), f'shin_{s}')]
+
+
+RIG = ([('root', (0, 0, 0), (0, 0, 0.08), None), ('body', (0, 0.20, -0.06), (0, 0.20, 0.0), 'root'),
+        ('hips', (0, 0.20, -0.06), (0, 0.205, -0.19), 'body'), ('spine', (0, 0.20, 0.0), (0, 0.20, 0.08), 'body'),
+        ('chest', (0, 0.20, 0.08), (0, 0.21, 0.16), 'spine'), ('neck', (0, 0.21, 0.16), (0, 0.255, 0.205), 'chest'),
+        ('head', (0, 0.255, 0.205), (0, 0.29, 0.30), 'neck')]
+       + _leg(1, True) + _leg(-1, True) + _leg(1, False) + _leg(-1, False)
+       + [(f'tail{i + 1}', TP[i], TP[i + 1], 'hips' if i == 0 else f'tail{i}') for i in range(len(TP) - 1)])
+TAILS = [f'tail{i + 1}' for i in range(len(TP) - 1)]
+
+
+def _cands(part, p):
+    s = 'L' if p[0] > 0 else 'R'
+    if part in ('head', 'cheek', 'muzzle'): return ['head', 'neck']
+    if part == 'chest': return ['chest', 'spine', 'neck', 'upperarm_L', 'upperarm_R']
+    if part == 'torso': return ['spine', 'body', 'hips', 'chest']
+    if part == 'hip': return ['hips', 'body', 'thigh_L', 'thigh_R', 'tail1']
+    if part in ('leg', 'paw'):
+        return [f'upperarm_{s}', f'forearm_{s}', f'paw_{s}', 'chest'] if p[2] > -0.02 else [f'thigh_{s}', f'shin_{s}', f'foot_{s}', 'hips']
+    if part == 'tail': return ['hips'] + TAILS
+    return ['body']
+
+
+def _seg_d(p, a, b):
+    a, b = np.array(a, float), np.array(b, float); ab = b - a; t = max(0.0, min(1.0, float(np.dot(p - a, ab) / max(1e-9, np.dot(ab, ab)))))
+    return float(np.linalg.norm(p - (a + ab * t)))
+
+
+def rig_weights(me, rng):
+    """每個頂點：最靠近的部位決定候選骨頭（腳不會被另一隻腳拉走）→ 到骨頭線段的距離 → 1/(d+6mm)^4，留前三名、正規化；耳朵眼睛鼻子＝頭"""
+    seg = {n: (h, t) for n, h, t, _ in RIG}; elems = POSES['walk']; out = []
+    for i, v in enumerate(me.vertices):
+        if i >= rng['body'][1]: out.append({'head': 1.0}); continue
+        p = np.array([v.co.x, v.co.z, -v.co.y]); part, _, _ = nearest_part(p, elems)
+        ws = sorted(((1.0 / (_seg_d(p, *seg[n]) + 0.006) ** 4, n) for n in _cands(part, p)), reverse=True)[:3]
+        tot = sum(w for w, _ in ws); out.append({n: w / tot for w, n in ws if w / tot > 0.02})
+    return out
+
+
+def _qa(axis, ang):   # 骨架座標（Blender）的軸＋角度 → 四元數
+    from mathutils import Quaternion
+    return Quaternion(Vector(axis).normalized(), ang)
+
+
+X_, Z_ = (1, 0, 0), (0, 0, 1)   # 繞左右軸（前後擺）、繞垂直軸（左右轉）；Blender 座標：遊戲 x→X、遊戲 y（上）→Z、遊戲 z（前）→−Y
+
+
+def pose_set(arm, rots, locs=None):
+    """rots＝{骨頭: [(軸, 角度), …]}（骨架座標的軸，在骨頭靜止的方向上轉）；其他骨頭歸零。locs＝{骨頭: 遊戲座標的位移}"""
+    from mathutils import Quaternion
+    for pb in arm.pose.bones:
+        pb.rotation_mode = 'QUATERNION'; R = pb.bone.matrix_local.to_3x3().normalized(); q = Quaternion()
+        for ax, a in rots.get(pb.name, []): q = _qa(ax, a) @ q
+        pb.rotation_quaternion = (R.inverted() @ q.to_matrix() @ R).to_quaternion()
+        d = (locs or {}).get(pb.name); pb.location = (R.inverted() @ g2b(*d)) if d else Vector((0, 0, 0))
+
+
+def key_all(arm, f):
+    for pb in arm.pose.bones:
+        pb.keyframe_insert('rotation_quaternion', frame=f, group=pb.name); pb.keyframe_insert('location', frame=f, group=pb.name)
+
+
+def sit_pose(k=1.0):
+    """坐姿（k＝0～1 的比例，坐下的中間格用）：整個身體以肩膀為支點往後倒（屁股著地）、前腳轉回垂直、後腳折起來（大腿往前平放、小腿往後折、腳掌平貼）、頭轉回水平、尾巴繞到身體旁邊"""
+    phi = math.radians(26) * k; S = np.array([0, 0.17, 0.14]); H = np.array([0, 0.20, -0.06])
+    c, s_ = math.cos(-phi), math.sin(-phi)   # 繞 x 軸、屁股往下（遊戲座標：y 上、z 前）
+    rel = S - H; rot = np.array([rel[0], rel[1] * c - rel[2] * s_, rel[1] * s_ + rel[2] * c]); off = S - (H + rot)
+    sgn = -1   # Blender 繞 +X 轉正角＝前面往下；屁股往下、前面抬起＝負的（check_rig 驗證）
+    rots = {'body': [(X_, sgn * phi)], 'neck': [(X_, -sgn * phi * 0.55)], 'head': [(X_, -sgn * phi * 0.45)],
+            'upperarm_L': [(X_, -sgn * phi)], 'upperarm_R': [(X_, -sgn * phi)]}
+    for sd in ('L', 'R'):
+        rots[f'thigh_{sd}'] = [(X_, -math.radians(78) * k)]; rots[f'shin_{sd}'] = [(X_, math.radians(150) * k)]; rots[f'foot_{sd}'] = [(X_, -math.radians(70) * k)]
+    for i, t in enumerate(TAILS): rots[t] = [(X_, math.radians(28) * k if i == 0 else math.radians(12) * k), (Z_, math.radians(-16 - 6 * i) * k)]
+    return rots, {'body': tuple(off)}
+
+
+def build_rig(body, accs, rng):
+    sc = B.scene(); body.name = 'CAT_walk_mesh'
+    ad = bpy.data.armatures.new('CAT_walk_rig'); arm = bpy.data.objects.new('CAT_walk', ad); sc.collection.objects.link(arm)
+    arm.parent = body.parent; arm.location = body.location.copy(); body.parent = arm; body.location = (0, 0, 0)
+    for a in accs: a.parent = arm; a.location = (0, 0, 0)
+    for o in bpy.context.view_layer.objects: o.select_set(o == arm)
+    bpy.context.view_layer.objects.active = arm; bpy.ops.object.mode_set(mode='EDIT'); eb = {}
+    for n, h, t, par in RIG:
+        b = ad.edit_bones.new(n); b.head = g2b(*h); b.tail = g2b(*t); b.roll = 0.0
+        if par: b.parent = eb[par]; b.use_connect = False
+        eb[n] = b
+    bpy.ops.object.mode_set(mode='OBJECT')
+    for n, *_ in RIG: body.vertex_groups.new(name=n)
+    for i, w in enumerate(rig_weights(body.data, rng)):
+        for n, x in w.items(): body.vertex_groups[n].add([i], x, 'REPLACE')
+    for a in accs:   # 項圈＋名牌＝脖子；繃帶＝左前腳的前臂（硬的，不變形）
+        g = a.vertex_groups.new(name='neck' if a.name.endswith('_tag') else 'forearm_L'); g.add(list(range(len(a.data.vertices))), 1.0, 'REPLACE')
+    for o in [body] + list(accs):
+        m = o.modifiers.new('armature', 'ARMATURE'); m.object = arm
+    # ---- 動畫 ----
+    arm.animation_data_create(); acts = {}
+    def act(name, frames, fn):
+        a = bpy.data.actions.new(name); arm.animation_data.action = a
+        for f in frames:
+            r, l = fn(f); pose_set(arm, r, l); key_all(arm, f)
+        tr = arm.animation_data.nla_tracks.new(); tr.name = name; tr.strips.new(name, int(frames[0]), a); arm.animation_data.action = None; acts[name] = (frames[0], frames[-1])
+    A = math.radians
+    def walk(f):   # 側對步（左後、左前、右後、右前，各差 1/4 拍）
+        t = f / FPS; r = {}; ph = {'thigh_L': 0.0, 'upperarm_L': 0.25, 'thigh_R': 0.5, 'upperarm_R': 0.75}
+        for up, p0 in ph.items():
+            sd = up[-1]; front = up.startswith('upper'); w = 2 * math.pi * (t + p0); sw = math.sin(w); lift = max(0.0, math.cos(w))
+            r[up] = [(X_, -A(22 if front else 20) * sw)]
+            lo, ft = (f'forearm_{sd}', f'paw_{sd}') if front else (f'shin_{sd}', f'foot_{sd}')
+            r[lo] = [(X_, A(42 if front else 34) * lift)]; r[ft] = [(X_, -A(30 if front else 22) * lift)]
+        r['body'] = [(Z_, A(2.5) * math.sin(2 * math.pi * t))]; r['chest'] = [(Z_, -A(3) * math.sin(2 * math.pi * t))]
+        r['head'] = [(Z_, -A(2) * math.sin(2 * math.pi * t)), (X_, A(2) * math.sin(4 * math.pi * t))]
+        for i, tb in enumerate(TAILS): r[tb] = [(Z_, A(6 + 3 * i) * math.sin(2 * math.pi * t - 0.6 * i))]
+        return r, {'body': (0, 0.004 * math.sin(4 * math.pi * t), 0)}
+    def idle(f):
+        t = f / FPS; w = 2 * math.pi * t / 4.0; r = {}
+        for i, tb in enumerate(TAILS): r[tb] = [(Z_, A(9 + 6 * i) * math.sin(w - 0.7 * i))]
+        r['neck'] = [(Z_, A(10) * math.sin(w + 1.0) ** 3)]; r['head'] = [(Z_, A(14) * math.sin(w + 1.0) ** 3), (X_, A(3) * math.sin(2 * w))]
+        r['chest'] = [(X_, A(1.2) * math.sin(4 * w))]
+        return r, {'body': (0, 0.0015 * math.sin(4 * w), 0)}
+    def sit(f):
+        k = min(1.0, f / (0.8 * FPS)); k = k * k * (3 - 2 * k); return sit_pose(k)
+    def sit_idle(f):
+        t = f / FPS; w = 2 * math.pi * t / 4.0; r, l = sit_pose(1.0)
+        r[TAILS[-1]] = r[TAILS[-1]] + [(Z_, A(18) * math.sin(w))]; r[TAILS[-2]] = r[TAILS[-2]] + [(Z_, A(8) * math.sin(w - 0.6))]
+        r['head'] = r['head'] + [(Z_, A(10) * math.sin(w + 0.5) ** 3), (X_, A(2.5) * max(0.0, math.sin(2 * w)) ** 4)]
+        return r, l
+    act('cat_walk', list(range(0, FPS + 1, 2)), walk)
+    act('cat_idle', list(range(0, 4 * FPS + 1, 4)), idle)
+    act('cat_sit', list(range(0, int(0.8 * FPS) + 1, 2)), sit)
+    act('cat_sit_idle', list(range(0, 4 * FPS + 1, 4)), sit_idle)
+    pose_set(arm, {})   # 靜止＝站姿
+    return arm, acts
+
+
+def bone_world(arm, name, end='tail'):
+    pb = arm.pose.bones[name]; v = arm.matrix_world @ (pb.tail if end == 'tail' else pb.head); return np.array([v.x, v.z, -v.y]) - np.array([arm.matrix_world.translation.x, arm.matrix_world.translation.z, -arm.matrix_world.translation.y])
+
+
+def check_rig(arm):
+    """坐姿：四隻腳的末端要在地面上下 2 cm 內、屁股（hips 尾端）離地 0～6 cm；站姿：腳掌在地面"""
+    out = {}; trs = arm.animation_data.nla_tracks if arm.animation_data else []
+    for tr in trs: tr.mute = True   # NLA 的動畫會蓋掉手動擺的姿勢
+    for label, (r, l) in (('stand', ({}, None)), ('sit', sit_pose(1.0))):
+        pose_set(arm, r, l); bpy.context.view_layer.update()
+        out[label] = {n: [round(float(x), 3) for x in bone_world(arm, n)] for n in ('paw_L', 'paw_R', 'foot_L', 'foot_R', 'hips', 'head')}
+    pose_set(arm, {}); bpy.context.view_layer.update()
+    for tr in trs: tr.mute = False
+    return out
+
+
+RIGINFO = {}
 TILES = {'sit': (0.0, 0.5), 'lie': (0.5, 0.5), 'walk': (0.0, 0.0), 'curl': (0.5, 0.25)}
 TILE_H = {'curl': 0.23}   # CAT_curl 只有半格高（右下格的上半；牠本來就扁）
 SPREAD = {'sit': -0.6, 'lie': 0.0, 'walk': 0.6, 'curl': 1.2}
@@ -512,7 +684,7 @@ def build():
     B.reset(texres=TEX_N)
     sc = B.scene(); sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = 16
     root = B.group('wz_cat', props={'kind': 'wz_cat'})
-    bodies, info, OFF = {}, {}, {}
+    bodies, info, OFF, RNG = {}, {}, {}, {}
     for pose in POSES:
         me, rng = build_pose(pose)
         ob = bpy.data.objects.new('CAT_' + pose, me); sc.collection.objects.link(ob); ob.parent = root
@@ -520,6 +692,7 @@ def build():
         M, Sp = masks(pose, me, rng); set_attr(me, 'Mask', M); set_attr(me, 'Spec', Sp)
         uv_tile(ob, TILES[pose], TILE_H.get(pose, 0.48)); set_glint_uv(ob, rng)
         OFF[pose] = fat_offsets(pose, me, rng)   # 存在 Python 裡（自訂屬性存巢狀陣列會壞掉，lib2 merge_by_material 的註解）
+        RNG[pose] = rng
         bodies[pose] = ob
     os.makedirs(GEN, exist_ok=True)
     for pal, path in (('young', FUR), ('old', FUR_OLD)):
@@ -544,8 +717,9 @@ def build():
         for i, dd in enumerate(off): k.data[i].co = k.data[i].co + Vector((dd[0], -dd[2], dd[1]))
         accs = accessory_objects(pose, ob, fur, body=ob)
         ob.location = g2b(SPREAD[pose], 0, 0)
-        tris[ob.name] = sum(len(p.vertices) - 2 for p in ob.data.polygons)
+        tris['CAT_' + pose] = sum(len(p.vertices) - 2 for p in ob.data.polygons)
         for a in accs: tris[a.name] = sum(len(p.vertices) - 2 for p in a.data.polygons)
+        if pose == 'walk': RIGINFO['arm'], RIGINFO['acts'] = build_rig(ob, accs, RNG[pose])
     # cat_fur_old 要在 GLB 裡：一個很小的隱藏節點掛著（遊戲端照名稱找到材質，換到身上；這個節點不顯示）
     hm = bpy.data.meshes.new('CAT_fur_old_holder'); hm.from_pydata([(0, 0, -1.0), (0.001, 0, -1.0), (0, 0.001, -1.0)], [], [(0, 1, 2)])
     hm.uv_layers.new(); hm.materials.append(fur_old)
@@ -553,12 +727,15 @@ def build():
     for pose in POSES:
         t = tris['CAT_' + pose] + tris[f'CAT_{pose}_tag'] + tris[f'CAT_{pose}_bandage']
         assert t <= 3000, (pose, t)
+    RIGINFO['check'] = check_rig(RIGINFO['arm'])
     out = os.path.join(L.ROOT, OUT)
     st = L.export(out, gpu_instances=False)
     st['materials'] = len({m.name for o in bpy.data.objects if o.type == 'MESH' for m in o.data.materials if m})   # L.export 數的是 bpy.data 全部（含烘焙用的暫時材質）；GLB 裡只有掛在網格上的 2 個
     st['tris_per_node'] = tris
+    st['rig'] = {'node': 'CAT_walk', 'bones': len(RIG), 'clips': {n: round((b - a) / FPS, 3) for n, (a, b) in RIGINFO['acts'].items()}, 'check': RIGINFO['check']}
     st['textures'] = [os.path.relpath(p, L.ROOT) for p in (FUR, FUR_OLD)]
     st['note'] = ('四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；'
+                  'CAT_walk（v3）是骨架節點＋CAT_walk_mesh（站姿），動畫 cat_walk（1 秒一步、原地）／cat_idle（4 秒）／cat_sit（0.8 秒坐下）／cat_sit_idle（4 秒），遊戲要用 SkeletonUtils.clone；'
                   '每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；'
                   '所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）')
     L.write_json(out[:-4] + '.json', st)
