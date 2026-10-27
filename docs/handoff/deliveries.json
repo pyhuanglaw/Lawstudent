@@ -15128,6 +15128,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-27 23:0x UTC】1c4223a30（sis_b12_3d.js、sis_b12_events.js、date3d.js settle／settleOvernight、vac3d.js abroadDest；tests/aa492_sis_b12_fix2_unit.js）；outbox e6a0a859f；BB 5o"
+  },
+  {
+   "id": "DL-LW2-J13-CATWALK",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0610ceeb1",
+   "msg": "ACK",
+   "what": "WZ-CAT-LIFE-1023（J13）：溫州街的貓會走動——wz_cat.glb v3（站姿＋24 根骨頭＋走／站／坐下／坐著）、src/wzcat3d.js（白天小公園七個點、走近停下、劇情時坐著、摸摸跟著貓）、zones3d.js 接線；Blender 原始檔；wz_cat_walk_unit",
+   "task": "WZ-CAT-LIFE-1023",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】4978b283a（合併 48e997635）；patch 原樣套用；wz_cat_walk、wz_cat、wz_park ALL PASS；BB 5o 同批"
+  },
+  {
+   "id": "DL-LW2-A21-DOOR",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a25bede18",
+   "msg": "ACK",
+   "what": "ANIM-DOOR-OPEN-1027（A21）第一階段：有門的出入口轉向門＋右手推門約 0.45 秒再換區域、自動門只轉向、樓梯與開放式店面不演、exit.door 可蓋過（src/door3d.js、game3d.js 一行、index.html 一行、door_open_unit）",
+   "task": "ANIM-DOOR-OPEN-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】4978b283a（合併 48e997635）；patch 原樣套用；door_open ALL PASS（LAWWW2 zone_transitions ALL PASS）"
   }
  ],
  "ignored": [
