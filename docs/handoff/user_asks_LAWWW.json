@@ -1112,6 +1112,15 @@
    "status": "規則（永久）",
    "wants": "X102",
    "note": "HV-20：工具改（duty_state.py sync 兩道檢查）＋規則（AI_SESSION_HANDOFF 第 4、5、13 節、CLAUDE.md）＋回歸測試（handoff_duty_sim.py stale）"
+  },
+  {
+   "id": "UA-LAWWW-1027-06",
+   "at": "2026-10-27T17:2x",
+   "quote": "你負責統籌工作 包括其他AI的工作 每個段落可以跟我說做了什麼 但不要停下來等我 也跟他們說不要等我就不做事 我不會一直來看",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X98",
+   "note": "重申 D111（X98）＋D87：LAWWW 統籌四職位，段落回報、不等使用者；17:2x 傳給 LAWWW2-C、AA-C、BB-C「不要因為等使用者就不做事」。BB-C 原本等使用者點頭才合併 elegant-brown＋duty register --user-ok（授權＝使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」）→ 改成自己查完就做"
   }
  ]
 }
