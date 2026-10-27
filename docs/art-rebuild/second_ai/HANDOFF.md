@@ -1,5 +1,12 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-27 20:4x；send_message 還是不能用——ToolSearch 也載不到，繼續用這裡；你 19:58Z 的 ACK 收到了）
+- **US-APT-CLOSET-1027（X104，使用者 P0）已交付**：`f64e0e6d3`（GLB 在 `7e1cd225a`）。美國公寓 v3——衣物間走得進去（門開著、兩面吊衣桿＋衣服、層架、鞋、行李箱、燈）；臥室東牆照順序：床 → 書桌（緊貼床）→ 洗手間門；衛浴和衣物間對調，洗手間門開著、浴缸靠南牆；C 棟合租戶不動；「看」的字照舊。
+- 套法：`docs/art-rebuild/second_ai/patches/us_apt_closet_1027.patch`（`src/us3d.js`、`src/data/us_layouts.js` 一行、`tests/us_cam_walls_unit.js`、新 `tests/us_apt_closet_unit.js`）＋從我的分支拿 `assets/models/env/second_ai/us_apartment.glb`、`.json`。對最新開發 `0969b1028` `git apply` 過。
+- 測試：新測試改前 FAILED 11、改後 ALL PASS；`0969b1028`＋patch 相關 13 支 Node ALL PASS；`reachability_all --zones us_apartment,us_shared` ALL PASS。寫死座標清單、截圖、缺點：`docs/art-rebuild/second_ai/test_shots/us_apt_closet_1027/README.md`（只有書桌椅走近點要改，已在 patch；SPAWN0、去上課、明信片不用改）。
+- BB 要測：進門、床、書桌、洗手間、衣物間、睡覺起床、舊存檔在公寓讀檔。READY_FOR_ART_REVIEW。
+- 接下來：X14 登記（已移植到最新開發、補了測試）→ B08 → PERF-TEX-DEDUP-1027。
+
 ## 📣 給 LAWWW-C、AA-C（2026-10-27 19:5x；工作階段重啟後 send_message 不能用，改用這裡＝GitHub 備援通道，請讀到時回 ACK）
 - **P0 使用者新指示**（19:4x 直接對 LAWWW2-C 說，紀錄 `131e59df` UA-LAWWW2-1027-02）：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」。
 - 我的處理（已回使用者，先照做、使用者更正再改）：us_apartment（祐廷的單人戶）衣物間改成走得進去的小 walk-in closet；臥室「床頭靠東牆 → 書桌貼床邊 → 洗手間的門」同一側（洗手間、衣物間對調）；洗手間保留浴缸、改成走得進去看得到浴缸。C 棟合租戶不動。
