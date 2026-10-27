@@ -1,0 +1,157 @@
+diff --git a/index.html b/index.html
+index 70b7acfa8..ccd680217 100644
+--- a/index.html
++++ b/index.html
+@@ -207,6 +207,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/townkit3d.js?v=9.10.10"></script>
+ <script src="src/campuskit3d.js?v=9.10.10"></script>
+ <script src="src/data/wz_park_layout.js?v=9.10.10"></script>
++<script src="src/data/club_fair_expo_layout.js?v=9.10.10"></script>
+ <script src="src/data/wz_shops_layout.js?v=9.10.10"></script>
+ <script src="src/data/lane118_layout.js?v=9.10.10"></script>
+ <script src="src/data/lane118_shops.js?v=9.10.10"></script>
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 4b4e03bdb..61ad2636c 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -112,6 +112,7 @@ const ASSETS = (function(){
+     'bldg.campus_gongtong':{url:'assets/models/env/second_ai/campus_gongtong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gongtong.py（共同教學館外觀＋西側木造走廊；校園世界座標；一樓的拱廊柱子、門廊、本體範圍照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（土黃色面磚、樓板位置的豎貼面磚帶、洗石子拱窗、山牆青瓷花磚、三四樓逐層退縮），沒有照片；面磚、洗石子、屋瓦、花崗石、紅磚地、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'prop.bike_ride':{url:'assets/models/env/bike_ride.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bike_ride.py（LAWWW2 ⑫：騎車用的淑女車，零件分開——frame、fork、wheel_f、wheel_r、crank、pedal_r、pedal_l；尺寸表 bike_ride.json；VISUAL_REVIEW（second_ai）第 19 節）；鋼絲與前籃鐵絲網的透明貼圖本作程式產生', license:'本作'},   /* 玩家騎的車（src/bike3d.js）；騎乘姿勢在 character3d.js 的 rideIK */
+     'bldg.club_fair':{url:'assets/models/env/second_ai/club_fair.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/club_fair.py（LAWWW2 479b7fc：社團博覽會九頂帳篷——登山社、法服、服務台、吉他社、辯論社、系籃、三個不具名背景攤；只在博覽會那兩天擺在椰林大道南側，zones3d.js 的 clubFair）', license:'本作；貼圖是程式畫的（LICENSES.md）'},
++    'bldg.club_fair_expo':{url:'assets/models/env/second_ai/club_fair_expo.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/club_fair_expo.py（CLUBFAIR-REAL-1027，LAWWW2-C：社團博覽會 36 頂帳篷＋舞台，配置 src/data/club_fair_expo_layout.js；帳篷做法沿用 club_fair.py；字是 WenQuanYi Zen Hei 只畫進貼圖）', license:'本作；貼圖是程式畫的（LICENSES.md）'},
+     'bldg.campus_lake':{url:'assets/models/env/second_ai/campus_lake.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_lake.py（LAWWW2 ⑩：醉月湖的石砌湖岸、置石、六角湖心亭、木棧道；湖的本地座標，zones3d.js 的 attachLakeGLB 放在湖中心）', license:'本作；石材、木材貼圖 Poly Haven CC0（LICENSES.md）'},
+     'bldg.bball_court':{url:'assets/models/env/second_ai/bball_court.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bball_court.py（LAWWW2 9428f9f：系籃半場——鋪面＋場線、籃架＋籃板＋籃框＋籃網、場邊長椅；位置 A 醉月湖東側 (-4,-113)，zones3d.js 的 bballCourt）', license:'本作；貼圖是程式畫的純色（LICENSES.md）'},
+     'bldg.skybridge':{url:'assets/models/env/second_ai/skybridge.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/skybridge.py（LAWWW2-B a22ba0e：博雅⇄普通二樓空橋，玻璃走廊 3.2×7.5 m、兩端 1 m 平台＋11% 緩坡升 0.6 m；地磚 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 普通教學館區域的空橋（src/teach3d.js buildBridge）＋校園外觀（zones3d.js）共用 */
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5703be4e9..02f2fcced 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -292,7 +292,7 @@ const Z3 = (function(){
+     // 社團博覽會的公告欄（AA_110 6-8 (b)，AA 暫定：用現有的公告欄，不另做攤位）：平常是一塊公告欄；9/30、10/1 11:00–17:00 前面是「社團博覽會」的集合點
+     // （activities.js 的 club_expo_y1s1，spot (-13.5,13.6)；classes3d.js 的 fairMenu）。LAWWW2 的攤位做好以後原地換掉，位置不變
+     if(!fairDay){ const bb=W3.bulletin(); place(g,bb,-13.5,14.6,Math.PI); nav.blockRect(-13.5,14.6,2.6,0.4,0); }
+-    const fairGLB=fairDay?clubFair(E,g,nav):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載 */
++    const fairGLB=fairDay?(isExpoDay()&&typeof CLUB_FAIR_EXPO!=='undefined'?clubFairExpo(E,g,nav):clubFair(E,g,nav)):null;   /* 博覽會的帳篷：位置、碰撞現在放；正式模型等 zone 建好再載。社博那天（大一、大二）＝椰林大道兩邊 36 頂＋舞台（clubFairExpo）；校慶、經濟系那一年＝九頂那一排 */
+     // 路旁散置腳踏車
+     for(const [x,z] of [[-60,-15.5],[-57,15.5],[0,-15.5],[24,-64],[36,-64]]){ const b=parkedBike(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b'][(x+z)&3],x*7+z,null,1.7); place(g,b,x,z,Math.PI/2); nav.blockRect(x,z,1.7,0.6,0); }   /* v9.3 第十八批：車子沿 x 方向停，導航原本擋成沿 z 方向（走得過車頭車尾、旁邊空地反而不能走）*/
+     // ---- v9.3 第十八批：校園加密 ----
+@@ -490,9 +490,32 @@ const Z3 = (function(){
+      大二的社團博覽會 9/16～9/17（AA_170，祐廷站在攤位後面）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
+      經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
+   const FAIR_DAYS=['2025-11-15','2026-09-16','2026-09-17','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];
+-  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
++  function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||EXPO_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
+   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false;
+     return fairDayKey(CALENDAR.dateOf(G.day).key,typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G),A.dates); }catch(e){ console.warn('isFairDay',e); return false; } }
++  /* ---- 社團博覽會（大一 2025-09-06、大二 2026-09-12）：椰林大道兩邊 36 頂帳篷＋舞台（CLUBFAIR-REAL-1027，AA_485 第 3 節；LAWWW2-C 2026-10-27）----
++     使用者 X109「社團博覽會攤會也太少 都沒人顧」「要參考實際的吧」：照臺大的社團聯展，椰林大道兩邊一路排帳篷、大道中段一個舞台。
++     配置 src/data/club_fair_expo_layout.js（CLUB_FAIR_EXPO；Blender tools/blender/env_second/club_fair_expo.py 讀同一份）；正式模型 bldg.club_fair_expo
++     （36 頂＋舞台烘成一個網格、一個材質＝一個 draw call，約 2.7 萬三角形；整組放在 (0,0,0)）。博覽會那天（activities.js club_expo_y1s1 的日子、大二 EXPO_DAYS）用這一組；
++     校慶、經濟系那一年照舊用下面九頂那一排（clubFair）。每頂帳篷 3×3 m 擋起來；舞台台面、前面兩邊的台階、兩邊的喇叭擋起來；
++     大道中間（z ±3.4 以內）、人行道（z ±7）照舊走得到。Z3.fairExpoFront(id)＝站在攤位前的位置（互動點、顧攤的人的對面）。
++     正式模型載入前／失敗：簡單的帳篷、台子（D38 分類 ③）*/
++  const EXPO_DAYS=['2026-09-12'];   /* 大二的社博（AA_485 3-2）；大一的日子在 activities.js 的 club_expo_y1s1.dates */
++  function isExpoDay(){ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(!G||typeof CALENDAR==='undefined') return false; if(typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G)) return false;
++    const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'), key=CALENDAR.dateOf(G.day).key; return EXPO_DAYS.includes(key)||!!(A&&A.dates&&A.dates.includes(key)); }catch(e){ console.warn('isExpoDay',e); return false; } }
++  function fairExpoFront(id){ const L=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO:null; if(!L) return null; if(id==='stage') return L.stage.front.slice();
++    const t=L.tents.find(q=>q.id===id); if(!t) return null; const d=L.tent.front; return [+(t.x+Math.sin(t.ry)*d).toFixed(2),+(t.z+Math.cos(t.ry)*d).toFixed(2)]; }
++  function clubFairExpo(E,g,nav){ const L=CLUB_FAIR_EXPO, fb=new THREE.Group(); fb.name='fair_expo_fallback'; fb.userData.dyn=true;   /* 不參加整區靜態合併（同 clubFair）*/
++    const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8}), dark=P3.M('#26262a',{rough:0.8});
++    for(const t of L.tents){ const o=new THREE.Group(); const r=new THREE.Mesh(new THREE.ConeGeometry(2.15,0.85,4,1),roof); r.rotation.y=Math.PI/4; r.position.y=2.47; o.add(r);
++      for(const [px,pz] of [[-1.48,-1.48],[1.48,-1.48],[-1.48,1.48],[1.48,1.48]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,2.05,6),pole); p.position.set(px,1.025,pz); o.add(p); }
++      const tb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.75,0.76),table); tb.position.set(0,0.375,0.95); o.add(tb); o.position.set(t.x,0,t.z); o.rotation.y=t.ry; fb.add(o);
++      nav.blockRect(t.x,t.z,L.tent.w,L.tent.d,0); }
++    const S=L.stage, st=new THREE.Mesh(new THREE.BoxGeometry(S.w,S.h,S.d),dark); st.position.set(S.x,S.h/2,S.z); fb.add(st);
++    nav.blockRect(S.x,S.z,S.w,S.d,0); for(const sx of [-1,1]){ nav.blockRect(S.x+sx*(S.w/2-1.3),S.z+S.d/2+0.45,1.0,0.9,0); nav.blockCircle(S.x+sx*(S.w/2+0.6),S.z+S.d/2-0.6,0.5); }   /* 台階、喇叭（舞台 ry=0：正面朝 +z）*/
++    g.add(fb);
++    return zone=>{ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.club_fair_expo']) return; ASSETS.loadOne('bldg.club_fair_expo').then(c=>{ if(!c||!c.scene||E.zone!==zone) return;
++      const m=c.scene.clone(true); m.position.set(0,0,0); m.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); g.add(m); fb.visible=false; }).catch(e=>console.warn('社團博覽會正式模型載入失敗，用簡單的帳篷',e)); }; }
+   function clubFair(E,g,nav){ const fb=new THREE.Group(); fb.name='fair_fallback'; fb.userData.dyn=true;   /* 不參加整區靜態合併（帳篷共用 P3.M 材質，沒有這行會被合併搬走，正式模型載入後 fb.visible=false 藏不到，兩套帳篷疊在一起）*/ const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8});
+     for(const [,x] of FAIR){ const t=new THREE.Group(); const r=new THREE.Mesh(new THREE.ConeGeometry(2.15,0.85,4,1),roof); r.rotation.y=Math.PI/4; r.position.y=2.47; t.add(r);
+       for(const [px,pz] of [[-1.48,-1.48],[1.48,-1.48],[-1.48,1.48],[1.48,1.48]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,2.05,6),pole); p.position.set(px,1.025,pz); t.add(p); }
+@@ -1890,5 +1913,5 @@ const Z3 = (function(){
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
+ })();
+diff --git a/tests/club_fair_expo_unit.js b/tests/club_fair_expo_unit.js
+new file mode 100644
+index 000000000..cab0bcba8
+--- /dev/null
++++ b/tests/club_fair_expo_unit.js
+@@ -0,0 +1,73 @@
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/club_fair_expo_layout.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++const sim=(a,b,dt)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt:dt||1/30});
++const both=(a,b)=>{ const r1=sim(a,b,1/30); if(!r1.ok) return r1; const r2=sim(a,b,0.1); return r2.ok?r1:Object.assign({lowfps:true},r2); };
++// 跑步（點的地方超過 16 m 時玩家用跑的，4.1 m/s）＋低幀率（dt 0.1，手機或模擬器卡的時候）：一步 0.41 m。2026-10-11 萬才館大樓梯真實流程：走下樓梯停在最下面一兩階
++//（轉折點前後來回跳、換層時拿畫面上一階一階的高度比，跨一大步就換不回地面那一層）。走路速度、30 fps 都抓不到
++const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt,speed:4.1}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3)},r); } return {ok:true}; };
++const fmt=(r)=>JSON.stringify(r).slice(0,220);
++// 社團博覽會（CLUBFAIR-REAL-1027，AA_485 第 3 節；使用者 X109「社團博覽會攤會也太少 都沒人顧」「要參考實際的吧」；LAWWW2-C 2026-10-27）——不需要瀏覽器。
++// 原本：博覽會那兩天大道南側一排九頂（clubFair）。現在：社博那天（大一 club_expo_y1s1 的日子、大二 2026-09-12）椰林大道兩邊 36 頂＋舞台（clubFairExpo，src/data/club_fair_expo_layout.js）：
++//   ① 配置：36 頂（能加入 5、只能看看 10、服務台 1、背景 20），招牌名稱照 AA_485，互相不重疊；
++//   ② 社博那天建校園：每頂帳篷的中心擋住、站在攤位前（Z3.fairExpoFront）站得住、從大道中間走得到；舞台台面擋住、舞台前面站得住；
++//   ③ 大道中間 z=0 從 x −90 走到 +12 一路走得過去；人行道 z=−7（舞台那一段以外）、z=+7 走得過去；
++//   ④ 帳篷、舞台沒有壓到原本的東西（椰子樹、花叢、路燈、長椅、腳踏車）：不擺帳篷的時候，帳篷範圍裡的格子都站得住；
++//   ⑤ 校慶（2025-11-15）照舊是九頂那一排、經濟系那一年也是；不是博覽會的日子沒有帳篷；
++//   ⑥ 正式模型 club_fair_expo.glb：一個網格、一個材質；大小在帳篷範圍裡（x −90～+12、z −8～+14.2）。
++// 用法：node tests/club_fair_expo_unit.js
++const L=CLUB_FAIR_EXPO;
++check('① 配置 36 頂（能加入 5、只能看看 10、服務台 1、背景 20）',L.tents.length===36&&['join','look','info','bg'].map(k=>L.tents.filter(t=>t.kind===k).length).join()==='5,10,1,20');
++const want=['法律服務社','吉他社','辯論社','登山社','法律系系學會　系籃','熱舞社','合唱團','攝影社','桌遊社','羽球社','服務隊','咖啡研究社','電影研究社','魔術社'];
++check('① AA_485 的 15 攤都在（校友會用一個縣市的名字）',want.every(n=>L.tents.some(t=>t.label===n))&&L.tents.some(t=>/校友會$/.test(t.label)&&t.kind==='look'),want.filter(n=>!L.tents.some(t=>t.label===n)).join('、'));
++check('① 能加入的五攤對到 clubs 的 id（lawclub、club_guitar、club_debate、club_hiking、dept_basketball）',L.tents.filter(t=>t.kind==='join').map(t=>t.club).sort().join()==='club_debate,club_guitar,club_hiking,dept_basketball,lawclub');
++{ let ov=[]; for(let i=0;i<36;i++) for(let j=i+1;j<36;j++){ const a=L.tents[i], b=L.tents[j]; if(Math.abs(a.x-b.x)<3.0&&Math.abs(a.z-b.z)<3.0) ov.push(a.id+'/'+b.id); } check('① 帳篷互相不重疊',!ov.length,ov.join(' ')); }
++// 日子：用假的 GAME／CALENDAR／ACTIVITIES（只有日期）
++const DATES={}; let dd=0; const day=k=>{ if(DATES[k]==null) DATES[k]=++dd; return DATES[k]; };
++global.CALENDAR={dateOf:d=>({key:Object.keys(DATES).find(k=>DATES[k]===d)||'2025-01-01'})};
++global.ACTIVITIES={list:[{id:'club_expo_y1s1',dates:['2025-09-06']}]};
++const setDay=(k,econ)=>{ global.GAME={G:{day:day(k),flags:{}}}; global.STORY={isEcon:()=>!!econ}; };
++// ④ 不擺帳篷的時候（平常日）：帳篷、舞台範圍裡的格子都站得住
++setDay('2025-09-20'); loadZone('campus');
++const R=0.3, stand=(x,z)=>E.canStand(x,z,R,0), rect=(x,z,w,d,f)=>{ const bad=[]; for(let u=-w/2+0.25;u<=w/2-0.25+1e-6;u+=0.5) for(let v=-d/2+0.25;v<=d/2-0.25+1e-6;v+=0.5) if(!f(x+u,z+v)) bad.push([+(x+u).toFixed(2),+(z+v).toFixed(2)]); return bad; };
++{ const bad=[]; for(const t of L.tents){ const b=rect(t.x,t.z,3,3,(x,z)=>E.nav.walkable?E.nav.walkable(x,z):stand(x,z)); if(b.length) bad.push(t.id+' '+JSON.stringify(b.slice(0,2))); }
++  const S=L.stage, bs=rect(S.x,S.z,S.w,S.d,(x,z)=>E.nav.walkable?E.nav.walkable(x,z):stand(x,z)); if(bs.length) bad.push('stage '+JSON.stringify(bs.slice(0,3)));
++  check('④ 平常日：帳篷、舞台範圍裡原本沒有東西（椰子樹、花叢、路燈、長椅、腳踏車）',!bad.length,bad.slice(0,6).join('；')); }
++check('⑤ 平常日沒有博覽會的帳篷',!E.zone.group.getObjectByName('fair_expo_fallback')&&!E.zone.group.getObjectByName('fair_fallback'));
++// ② ③ 社博那天
++setDay('2025-09-06'); check('② 2025-09-06 是社博的日子（Z3.isExpoDay）',Z3.isExpoDay&&Z3.isExpoDay()===true);
++const zc=loadZone('campus');
++check('② 社博那天：36 頂＋舞台的簡單帳篷在（正式模型載入前）、沒有九頂那一排',!!zc.group.getObjectByName('fair_expo_fallback')&&!zc.group.getObjectByName('fair_fallback'));
++{ const bad=L.tents.filter(t=>stand(t.x,t.z)).map(t=>t.id); check('② 每頂帳篷的中心擋住',!bad.length,bad.join(' ')); }
++check('② 舞台台面、兩邊台階擋住',!stand(L.stage.x,L.stage.z)&&!stand(L.stage.x-3.2,L.stage.z+L.stage.d/2+0.45)&&!stand(L.stage.x+3.2,L.stage.z+L.stage.d/2+0.45));
++{ const bad=[]; for(const t of L.tents.concat([{id:'stage'}])){ const f=Z3.fairExpoFront(t.id); if(!f||!stand(f[0],f[1])){ bad.push(t.id+' 站不住 '+JSON.stringify(f)); continue; }
++    const from=[Math.max(-88,Math.min(10,f[0])),0]; const r=both(from,f); if(!r.ok) bad.push(t.id+' 走不到 '+fmt(r)); }
++  check('② 站在每一攤前面（Z3.fairExpoFront）、舞台前面：站得住、從大道中間走得到',!bad.length,bad.slice(0,5).join('；')); }
++check('② fairExpoFront：北側在帳篷南邊 2 m、南側在北邊 2 m',JSON.stringify(Z3.fairExpoFront('guitar'))==='[-84.4,-2.9]'&&JSON.stringify(Z3.fairExpoFront('dance'))==='[-80.8,2.9]'&&JSON.stringify(Z3.fairExpoFront('lawclub'))==='[-47.5,11.5]');
++{ const r=both([-90,0],[12,0]); check('③ 大道中間 z=0 從 x −90 走到 +12 走得過去',r.ok,fmt(r)); }
++{ const r1=both([-90,7],[12,7]); check('③ 南側人行道 z=+7 從 x −90 走到 +12 走得過去',r1.ok,fmt(r1));
++  const r2=both([-90,-7],[-33,-7]), r3=both([-18,-7],[12,-7]); check('③ 北側人行道 z=−7 舞台以外的兩段走得過去',r2.ok&&r3.ok,fmt(r2)+' '+fmt(r3)); }
++{ const S=L.stage, f=Z3.fairExpoFront('stage'); let n=0; for(let x=S.x-4;x<=S.x+4;x+=1) for(let z=f[1]-1;z<=f[1]+3;z+=1) if(stand(x,z)) n++; check('③ 舞台前面（大道中間）有一塊站得住的觀眾區（9×5 m 裡 ≥ 40 格）',n>=40,n+' 格'); }
++// ⑤ 校慶、經濟系那一年
++setDay('2025-11-15'); const zf=loadZone('campus'); check('⑤ 校慶 2025-11-15：照舊是九頂那一排（clubFair），沒有 36 頂',!!zf.group.getObjectByName('fair_fallback')&&!zf.group.getObjectByName('fair_expo_fallback')&&Z3.isExpoDay()===false);
++setDay('2024-09-18',true); const ze=loadZone('campus'); check('⑤ 經濟系那一年的博覽會（2024-09-18）：照舊九頂',!!ze.group.getObjectByName('fair_fallback')&&!ze.group.getObjectByName('fair_expo_fallback'));
++setDay('2026-09-12'); check('⑤ 大二的社博 2026-09-12 也是 36 頂（EXPO_DAYS）',Z3.isExpoDay()===true&&Z3.fairDayKey('2026-09-12',false,[]));
++// ⑥ 正式模型
++{ const p=path.join(ROOT,'assets/models/env/second_ai/club_fair_expo.glb'); const ok=fs.existsSync(p); let info='沒有檔案';
++  if(ok){ const b=fs.readFileSync(p); const jl=b.readUInt32LE(12); const J=JSON.parse(b.slice(20,20+jl).toString()); const mesh=J.meshes||[]; let mn=[1e9,1e9,1e9], mx=[-1e9,-1e9,-1e9];
++    for(const m of mesh) for(const pr of m.primitives){ const a=J.accessors[pr.attributes.POSITION]; mn=mn.map((v,i)=>Math.min(v,a.min[i])); mx=mx.map((v,i)=>Math.max(v,a.max[i])); }
++    info=JSON.stringify({meshes:mesh.length,materials:(J.materials||[]).length,mn:mn.map(v=>+v.toFixed(2)),mx:mx.map(v=>+v.toFixed(2))});
++    check('⑥ club_fair_expo.glb：一個網格、一個材質，範圍在 x −90～+12、z −8～+15.1、高 ≤ 4.5 m',mesh.length===1&&(J.materials||[]).length===1&&mn[0]>-90&&mx[0]<12&&mn[2]>-8.1&&mx[2]<15.1&&mx[1]<4.5,info); }
++  else check('⑥ club_fair_expo.glb 存在',false,info); }
++check('⑥ ASSETS.manifest 有 bldg.club_fair_expo（type building、lazy）',!!ASSETS.manifest['bldg.club_fair_expo']&&ASSETS.manifest['bldg.club_fair_expo'].type==='building'&&ASSETS.manifest['bldg.club_fair_expo'].lazy===true);
++check('⑥ index.html 載入 src/data/club_fair_expo_layout.js',/src\/data\/club_fair_expo_layout\.js/.test(fs.readFileSync(path.join(ROOT,'index.html'),'utf8')));
++console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
