@@ -448,7 +448,8 @@ const VAC=(function(){
      原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
      → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
      存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
-     進大廳就演：C05、T02、C08 的「出發」那一幕（關鍵事件的 hall:true，AA_478 第 2 節；S.airHallScene）。C10 的那一場改成「抵達」、留在下飛機以後（資料）。
+     進大廳就演：C05、T02、C08 的「出發」那一幕（關鍵事件的 hall:true，AA_478 第 2 節；S.airHallScene）、T03 子晴和阿凱各一句（hallLines，第 3 節；T02 方奕廷兩句接在「出發」後面）；
+     其他（C09～C12、C18、VA10、C13）照舊只跟著走、不加話。C10 的那一場改成「抵達」、留在下飛機以後（資料）。
      登機以後：「飛往〇〇」字卡（AA_478 第 1 節、1-1：S.flyCard，資料在 vac_activities.js 的 fly）→ 深色底（人在飛機上，不露出出境大廳）→ 第一張日期卡。台詞沒有新寫的（AA 定）。*/
   S.abroadTrip=function(q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return false; if(/^T13#/.test(v.key)||v.key==='VA10') return true;
     if(v.k!=='trip'||!/@/.test(v.key)) return false; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); return !!I&&!!I.A.place&&I.A.place.kind==='abroad'; };
@@ -476,6 +477,7 @@ const VAC=(function(){
      第二次以後照 S.repKey（C08 第二次、第三次沒有「出發」那一場＝不演）。q.airHall＝在大廳演過了：登機以後的整趟不再演那一場（S.outing）；沒有 3D 機場＝照舊在旅程開頭演 */
   S.hallKeys=function(G,q){ const v=q&&q.vac; if(!v||v.k!=='trip'||typeof v.key!=='string'||!/@/.test(v.key)) return []; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return []; const out=[];
     (I.A.keys||[]).forEach((k,i)=>{ if(!k||!k.hall) return; const kk=S.repKey(G,I,i,k); if(kk&&S.hasLines(G,kk)) out.push({k:Object.assign({},kk,{bg:'blur'}),I}); });
+    if(Array.isArray(I.A.hallLines)&&I.A.hallLines.length) out.push({k:{bg:'blur',lines:I.A.hallLines},I});   /* 有認識的人帶隊的那一團多的幾句（T03 子晴、阿凱，AA_478 第 3 節；T02 方奕廷那兩句接在「出發」那一幕裡）*/
     return out; };
   S.airHallScene=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get&&rec?OUT.get(G,rec.q):null; if(!q||!q.vac) return false; q.airHall=true;
     const L=S.hallKeys(G,q); if(!L.length) return false;

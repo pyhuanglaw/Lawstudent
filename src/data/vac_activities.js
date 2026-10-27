@@ -6,7 +6,7 @@
      days：起訖（'MM-DD'）、wd（每週固定的星期，0＝日）、slot（am／pm／eve／day／night）、place（{kind:'taipei'|'domestic'|'abroad', name}）、
      cost（{payer:'family'|'self'|'none'}）、free（期間能不能自由操作：yes／partial／no）、
      signup：怎麼報名（phone＝手機邀約、ask 的選項；until＝最後報名日 'MM-DD'）、
-     keys：關鍵事件 [{day:'MM-DD', h, place, bg, lines:[…], choice}]（其他日子寫進日誌）；hall:true＝出國那一趟進 3D 出境大廳就演（E08，AA_478 第 2 節）、
+     keys：關鍵事件 [{day:'MM-DD', h, place, bg, lines:[…], choice}]（其他日子寫進日誌）；hall:true＝出國那一趟進 3D 出境大廳就演（E08，AA_478 第 2 節）；hallLines：進大廳演一次的幾句（T03，AA_478 第 3 節）、
      fly：登機以後的「飛往〇〇」字卡（檔尾，AA_478 第 1 節）、
      trip：連續好幾天人不在（整段當一趟出遊：出發 → 中間的關鍵事件 → 回來）、
      miss：沒參加的那一則（時間、誰、訊息）。
@@ -184,7 +184,7 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'npc_fangyt',text:'好。有拍到樹，再給你看。'}]} },
       trip:{ start:{day:'08-01',h:5}, end:{day:'08-04',h:20}, placeName:'日本的山', home:'auto' }, back:{},
       keys:[
-        {day:'08-01',h:5,title:'出發',bg:null,hall:true,lines:[{narr:'（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）'}]},   /* hall：進 3D 出境大廳就演（AA_478 第 2 節）*/
+        {day:'08-01',h:5,title:'出發',bg:null,hall:true,lines:[{narr:'（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）'},{who:'npc_fangyt',text:'山上這幾天有霧。'},{who:'npc_fangyt',text:'……霧裡的樹比較好看。'}]},   /* hall：進 3D 出境大廳就演（AA_478 第 2 節）；方奕廷兩句接在水壺旁白後面（AA_478 第 3 節）*/
         {day:'08-02',h:10,title:'山上第一天',bg:null,lines:[{narr:'（步道上的霧很濃。方奕廷走在最前面，每隔一段就停下來看一棵樹。）'},{who:'npc_fangyt',text:'這棵，台灣沒有。'}]},
         {day:'08-02',h:21,title:'山屋那晚',bg:null,lines:[{narr:'（山屋的燈九點就關了。黑暗裡有人在打呼。）'},{who:'npc_fangyt',text:'（小聲）明天四點起來，看日出。'}]},
         {day:'08-03',h:20,title:'下山那晚',bg:'trip_jp_onsen',lines:[{narr:'（溫泉街的燈籠一路亮到坡底。）'},{who:'npc_fangyt',text:'這座山還有一條路沒走。'}]} ],
@@ -198,6 +198,7 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'heroine_04',text:'好吧 帶東西給你'}]} },
       alt:{day:'07-05',h:21,who:'heroine_04',min:'FAMILIAR',if:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP',msgs:['📷（遊戲展的入口）','你不在 好可惜']},
       trip:{ start:{day:'07-03',h:8}, end:{day:'07-07',h:18}, placeName:'曼谷', home:'auto' }, back:{},
+      hallLines:[{who:'heroine_04',text:'我在飛機上要睡覺。到了再叫我。'},{who:'kai',text:'遊戲展第一天要排隊。……我查過了，九點開門。'}],   /* 進 3D 出境大廳演一次、不用選項（AA_478 第 3 節；src/vac3d.js S.hallKeys）*/
       keys:[
         {day:'07-04',h:14,title:'遊戲展',bg:null,lines:[{narr:'（展場很小，攤位一個挨著一個。子晴在一個攤位前站了二十分鐘，一直玩同一關。）'},{who:'heroine_04',text:'這關設計得很爛。……可是我停不下來。'}]},
         {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'}]},
