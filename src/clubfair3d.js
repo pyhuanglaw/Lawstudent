@@ -55,6 +55,9 @@ const CLUBFAIR=(function(){
   /* ---------- 校園：攤位的互動點、顧攤的人、人流、公告欄（STORY.populate 之後）---------- */
   /* 大二的社博（2026-09-12，zones3d.js EXPO_DAYS；祐廷站攤位那一段在 events.js ev_y2_club_expo）：一樣 36 頂、有人顧攤、有人走，攤位不能互動（不是新生了）*/
   S.expoY2=G=>law(G)&&!S.today(G)&&typeof Z3!=='undefined'&&!!Z3.isExpoDay&&!!Z3.isExpoDay();
+  /* 顧攤的人照距離藏（FAIR-STAFF-LOD-1027，LAWWW2-C 量：大道往西看中畫質三角形 +48%、模擬 fps −29%，35 m 內才畫：畫面裡 15→4、fps +27%；
+     35 m 外的帳篷在手機上只有幾個像素寬）：engine3d.js NPC 距離 LOD 的 n.lodLim，比一般路人短（低畫質本來就 34 m）*/
+  S.STAFF_LOD={low:34,medium:35,high:55};
   S.populate=function(zoneId,GM){ if(zoneId!=='campus'||!GM||!GM.E||!GM.G) return; const E=GM.E, G=GM.G, X=D(); if(!X) return;
     const y1=S.today(G), y2=!y1&&S.expoY2(G);
     if(y1||y2){ const A=S.expo();
@@ -64,7 +67,7 @@ const CLUBFAIR=(function(){
         const T=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO.tents:[]; let nb=0;
         for(const t of T){ if(t.kind==='bg'&&(nb++%4)>=Math.round(4*q)) continue;   /* 顧攤的人：每一頂第一張椅子（帳篷裡 (−0.45, +0.2)），面向帳篷正面；背景攤照畫質少放幾個 */
           const c=Math.cos(t.ry), sn=Math.sin(t.ry), lx=-0.45, lz=0.2; const o=CHAR.build(STORY.extraSpec(400+i++)); o.position.set(t.x+c*lx+sn*lz,0,t.z-sn*lx+c*lz); o.rotation.y=t.ry;
-          E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairStaff:t.id}); }
+          E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairStaff:t.id,lodLim:S.STAFF_LOD}); }
         if(GM.spawnExtra){ const R=X.ROUTES||[], n=Math.max(2,Math.round(8*q)); for(let k=0;k<n&&R.length;k++){ const r=R[k%R.length]; const nn=GM.spawnExtra(STORY.extraSpec(420+k),r.map(p=>[p[0],p[1]])); if(nn) nn.fairCrowd=true; } }   /* 拿著傳單走的新生（大道中間）*/
         for(const [x,z,ry] of (X.FILL||[]).slice(0,q<1?2:3)){ const o=CHAR.build(STORY.extraSpec(440+i++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairCrowd:true}); } } }   /* 停在攤位前填表的人（站在互動點旁邊，不擋）*/
     else if(S.hintOn(G)){ const d6=S.fairDay(G), B=X.BOARD; if(B&&G.day>=d6-5&&G.day<d6) E.interactables.push({x:B.x,z:B.z,radius:B.r||1.3,lv:0,label:'公告欄',look:X.HINTS.board,fairBoard:true}); } };   /* 9/1～9/5 傅鐘旁的公告欄 */

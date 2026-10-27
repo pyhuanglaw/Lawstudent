@@ -1,0 +1,62 @@
+// 美國校園（法學院前）GLB 單面（PERF-SINGLESIDE-GLB-1025 第七份，LAWWW2-C 2026-10-27）——不需要瀏覽器，讀 GLB。
+//   同一頁全部改單面的上限 +57～61%（test_shots/singleside_glb_1025/README.md）。
+//   1. us_campus 除了玻璃、樹葉、細枝（葉片卡；四季各一套）都單面；它們照舊雙面（葉片卡補反面三角形 +50%，不划算）；
+//   2. 地面（柏油、草地、人行道、鋪面、標線、落葉、花台的土；四季的版本也算）從上面看得到：朝下的三角形要嘛有反過來的分身、要嘛同一個高度有朝上的面蓋住
+//      （多邊形補的反面三角化可能不一樣），要嘛是封閉、朝外的板子的底面（從上面本來就看不到）。試過不補：2,775 個裡有 862 個朝下，雙面時看不出來；
+//   3. 開口的零件補了反面：法學院的鋼構框（usl_steel_frame）；
+//   4. 沒有裡外相反的薄零件（單面會從外面看到背面）。體積用零件自己的頂點當原點算（從原點算，離原點 130 m 的小零件誤差比體積還大——lib2 原本就是這樣錯的）。
+// 修改前 FAIL。用法：node tests/singleside_us_campus_unit.js
+const fs=require('fs'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+function load(n){ const b=fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+n+'.glb')), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
+  const acc=i=>{ const a=J.accessors[i], bv=J.bufferViews[a.bufferView], off=(bv.byteOffset||0)+(a.byteOffset||0), k={SCALAR:1,VEC3:3}[a.type], T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType];
+    return new T(bin.buffer.slice(bin.byteOffset+off, bin.byteOffset+off+a.count*k*T.BYTES_PER_ELEMENT)); };
+  const prims=[]; for(const nd of J.nodes){ if(nd.mesh==null) continue; for(const p of J.meshes[nd.mesh].primitives) prims.push({mat:J.materials[p.material].name, p}); }
+  let info={}; try{ info=JSON.parse(fs.readFileSync(path.join(ROOT,'assets/models/env/second_ai/'+n+'.json'),'utf8')); }catch(e){}
+  return {J, acc, prims, mats:J.materials, info}; }
+function paired(G,re){ let ok=0, nt=0; const seen=new Set(); for(const x of G.prims){ if(!re.test(x.mat)||seen.has(x.p)) continue; seen.add(x.p); const p=x.p, P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, n=(I?I.length:P.length/3)/3;
+    const key=k=>{ const v=I?I[k]:k; return P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); }; const set=new Set(), tri=[];
+    for(let t=0;t<n;t++){ const a=key(t*3), b=key(t*3+1), c=key(t*3+2); tri.push([a,b,c]); set.add([a,b,c].join('|')); }
+    for(const [a,b,c] of tri) if([[a,c,b],[c,b,a],[b,a,c]].some(r=>set.has(r.join('|')))) ok++; nt+=n; } return [ok,nt]; }
+function insideOut(G){ const out={}; const seen=new Set();
+  for(const nd of G.J.nodes){ if(nd.mesh==null||seen.has(nd.mesh)) continue; seen.add(nd.mesh);
+    for(const p of G.J.meshes[nd.mesh].primitives){ const mn=G.mats[p.material].name; if(/glass/.test(mn)) continue; const P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, nt=(I?I.length:P.length/3)/3;
+      const V=k=>I?I[k]:k, key=v=>P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4); const par=Array.from({length:nt},(_,i)=>i), find=x=>{ while(par[x]!==x){ par[x]=par[par[x]]; x=par[x]; } return x; };
+      const ed=new Map(); for(let t=0;t<nt;t++){ const ks=[0,1,2].map(e=>key(V(t*3+e))); for(let e=0;e<3;e++){ const a=ks[e], c=ks[(e+1)%3]; if(a===c) continue; const k=a<c?a+'|'+c:c+'|'+a; if(!ed.has(k)) ed.set(k,[]); ed.get(k).push([t,a<c]); } }
+      const bad=new Set(); for(const l of ed.values()){ if(l.length===2&&l[0][1]!==l[1][1]){ const ra=find(l[0][0]), rb=find(l[1][0]); if(ra!==rb) par[ra]=rb; } else l.forEach(([t])=>bad.add(t)); }
+      const badr=new Set([...bad].map(find)), comp=new Map();
+      for(let t=0;t<nt;t++){ const r=find(t); if(badr.has(r)) continue; const v0=V(t*3), c=comp.get(r)||{v:0,o:[P[v0*3],P[v0*3+1],P[v0*3+2]],mn:[1e9,1e9,1e9],mx:[-1e9,-1e9,-1e9]}; comp.set(r,c); const q=[0,1,2].map(e=>{ const v=V(t*3+e); return [P[v*3]-c.o[0],P[v*3+1]-c.o[1],P[v*3+2]-c.o[2]]; });
+        c.v+=(q[0][0]*(q[1][1]*q[2][2]-q[1][2]*q[2][1])-q[0][1]*(q[1][0]*q[2][2]-q[1][2]*q[2][0])+q[0][2]*(q[1][0]*q[2][1]-q[1][1]*q[2][0]))/6; for(const w of q) for(let k=0;k<3;k++){ c.mn[k]=Math.min(c.mn[k],w[k]); c.mx[k]=Math.max(c.mx[k],w[k]); } }
+      for(const c of comp.values()){ const d=Math.min(...c.mx.map((v,k)=>v-c.mn[k])); if(c.v<-1e-6&&d>=1e-3&&d<1) out[mn]=(out[mn]||0)+1; } } }
+  return out; }
+
+const G=load('us_campus');
+const KEEP=/glass|^usu_(leaf_tree_[abc]|leaf_small|twig_inner)(__S_|$)/, GROUND=/^usu_(asphalt|grass|grass_far|sidewalk|pavers|brick_paving|paving_joints|soil|line_white|line_yellow|leaf_litter)(__S_|$)/;
+const ds=G.mats.filter(m=>m.doubleSided&&!KEEP.test(m.name)).map(m=>m.name), kp=G.mats.filter(m=>KEEP.test(m.name));
+check('1. us_campus：除了玻璃、樹葉、細枝都單面（'+G.mats.length+' 個材質）；它們照舊雙面', !ds.length&&kp.length>0&&kp.every(m=>m.doubleSided), ds.length?'雙面：'+ds.join('、'):kp.length+' 個照舊雙面');
+// 地面每個三角形：朝下、沒有反過來的分身時，看同一個高度有沒有朝上的面蓋住它的中心，或它是不是封閉、朝外的板子的底面
+let lone=0, total=0, slabBottom=0, covered=0; const seenP=new Set(), loneAt=[];
+for(const x of G.prims){ if(!GROUND.test(x.mat)||seenP.has(x.p)) continue; seenP.add(x.p); const p=x.p, P=G.acc(p.attributes.POSITION), I=p.indices!=null?G.acc(p.indices):null, n=(I?I.length:P.length/3)/3;
+  const V=k=>I?I[k]:k, key=v=>P[v*3].toFixed(4)+','+P[v*3+1].toFixed(4)+','+P[v*3+2].toFixed(4), pt=k=>{ const v=V(k); return [P[v*3],P[v*3+1],P[v*3+2]]; };
+  const set=new Set(), tri=[]; for(let t=0;t<n;t++){ const ks=[0,1,2].map(e=>key(V(t*3+e))); tri.push(ks); set.add(ks.join('|')); }
+  const par=Array.from({length:n},(_,i)=>i), find=a=>{ while(par[a]!==a){ par[a]=par[par[a]]; a=par[a]; } return a; }, ed=new Map();
+  tri.forEach((ks,t)=>{ for(let e=0;e<3;e++){ const a=ks[e], c=ks[(e+1)%3]; if(a===c) continue; const k=a<c?a+'|'+c:c+'|'+a; if(!ed.has(k)) ed.set(k,[]); ed.get(k).push([t,a<c]); } });
+  const bad=new Set(); for(const l of ed.values()){ if(l.length===2&&l[0][1]!==l[1][1]){ const ra=find(l[0][0]), rb=find(l[1][0]); if(ra!==rb) par[ra]=rb; } else l.forEach(([t])=>bad.add(t)); }
+  const badr=new Set([...bad].map(find)), vol=new Map();
+  const nrm=t=>{ const v=[0,1,2].map(e=>pt(t*3+e)), e1=v[1].map((a,i)=>a-v[0][i]), e2=v[2].map((a,i)=>a-v[0][i]); const nx=e1[1]*e2[2]-e1[2]*e2[1], ny=e1[2]*e2[0]-e1[0]*e2[2], nz=e1[0]*e2[1]-e1[1]*e2[0]; return [v, ny/(Math.hypot(nx,ny,nz)||1)]; };
+  for(let t=0;t<n;t++){ const r=find(t); if(badr.has(r)) continue; const [v]=nrm(t), c=vol.get(r)||{v:0,o:v[0]}; vol.set(r,c); const q=v.map(w=>w.map((a,i)=>a-c.o[i]));
+    c.v+=(q[0][0]*(q[1][1]*q[2][2]-q[1][2]*q[2][1])-q[0][1]*(q[1][0]*q[2][2]-q[1][2]*q[2][0])+q[0][2]*(q[1][0]*q[2][1]-q[1][1]*q[2][0]))/6; }
+  const up=[]; for(let t=0;t<n;t++){ const [v,ny]=nrm(t); if(ny>0.05) up.push(v); }
+  const inTri=(px,pz,v)=>{ const s=(a,b)=>(b[0]-a[0])*(pz-a[2])-(b[2]-a[2])*(px-a[0]), d1=s(v[0],v[1]), d2=s(v[1],v[2]), d3=s(v[2],v[0]); return (d1>=-1e-9&&d2>=-1e-9&&d3>=-1e-9)||(d1<=1e-9&&d2<=1e-9&&d3<=1e-9); };
+  for(let t=0;t<n;t++){ total++; const [v,ny]=nrm(t); if(ny>=-0.05) continue; const ks=tri[t]; if([[ks[0],ks[2],ks[1]],[ks[2],ks[1],ks[0]],[ks[1],ks[0],ks[2]]].some(r=>set.has(r.join('|')))) continue;
+    const r=find(t); if(!badr.has(r)&&vol.get(r).v>1e-9){ slabBottom++; continue; }
+    const cx=(v[0][0]+v[1][0]+v[2][0])/3, cy=(v[0][1]+v[1][1]+v[2][1])/3, cz=(v[0][2]+v[1][2]+v[2][2])/3;
+    if(up.some(u=>inTri(cx,cz,u)&&Math.abs((u[0][1]+u[1][1]+u[2][1])/3-cy)<2e-3)){ covered++; continue; }
+    lone++; if(loneAt.length<3) loneAt.push(x.mat+'@'+[cx,cy,cz].map(a=>a.toFixed(2)).join(',')); } }
+check('2. 地面從上面看得到：朝下、沒有反面、上面也沒有蓋住的三角形 0 個', total>0&&lone===0, '沒蓋住 '+lone+(loneAt.length?'（'+loneAt.join('；')+'）':'')+'；封閉板子的底面 '+slabBottom+'；反面三角化不同但蓋住 '+covered+'／地面 '+total);
+const [so,sn]=paired(G,/^usl_steel_frame$/);
+check('3. 開口的零件補了反面（法學院鋼構框）', sn>0&&so>=sn*0.5, so+'/'+sn);
+const o=insideOut(G);
+check('4. 沒有裡外相反的薄零件（單面會看到背面）', !Object.keys(o).length, JSON.stringify(o));
+console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

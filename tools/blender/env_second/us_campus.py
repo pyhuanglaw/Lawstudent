@@ -365,6 +365,11 @@ if '--stats' in A:   # 每個物件的三角形數（找最重的）
     for n, nm in sorted(rows, reverse=True)[:30]: print('STATS', n, nm)
 if not PREVIEW:
     L.merge_by_material(root, keep=SEA.keep)
+    # PERF-SINGLESIDE-GLB-1025 第七份（LAWWW2-C 2026-10-27）：材質改單面（lib2.single_side）——上限（同一頁全部改單面）+57～61%（test_shots/singleside_glb_1025/README.md）。
+    # 玻璃、樹葉和細枝（葉片卡，四季各一套；第一次全補三角形 132,611 → 199,562，葉子占五萬）照舊雙面；其他開口零件補反面。
+    # 地面也補反面：試過只從上面看、不補，但 2,775 個地面三角形有 862 個朝下（雙面時看不出來），不補從上面看會不見；補了只多 2,775 個。
+    _ss = L.single_side(root, keep=r'glass|^usu_(leaf_tree_[abc]|leaf_small|twig_inner)')
+    print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
     st_ = L.export(OUT, gpu_instances=False)
     tris = 0
     for ob in bpy.data.objects:
