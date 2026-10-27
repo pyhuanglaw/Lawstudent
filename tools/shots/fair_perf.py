@@ -25,7 +25,7 @@ async def main():
             await pg.wait_for_timeout(9000)
             v = [round(await pg.evaluate(SAMPLE), 2) for _ in range(3)]
             info = await pg.evaluate("(()=>{ const r=GAME.E.renderer.info; return [r.render.calls, r.render.triangles, r.programs?r.programs.length:0, r.memory.geometries]; })()")
-            vis = await pg.evaluate("(()=>{ let n=0; for(const q of (GAME.E.npcs||[])) if(q.obj&&q.obj.visible) n++; return n; })()")
+            vis = await pg.evaluate("(()=>{ let n=0,s=0; for(const q of (GAME.E.npcs||[])) if(q.obj&&q.obj.visible){ n++; if(q.fairStaff) s++; } return [n,s]; })()")
             res[nm] = {'fps': v, 'mean': round(sum(v) / len(v), 2), 'calls': info[0], 'tris': info[1], 'programs': info[2], 'geoms': info[3], 'npcVisible': vis}
             print(nm, json.dumps(res[nm]), flush=True); await run.shot(pg, nm)
         res['errs'] = errs[:5]; print('npcs', json.dumps(res['npcs']), 'errs', errs[:3]); await b.close()

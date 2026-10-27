@@ -41,3 +41,19 @@
 
 - 數據：`medium_2025-09-30.json`、`medium_2025-10-02.json`、`high_2025-09-30.json`、`high_2025-10-02.json`、`staff_medium.json`
 - 工具：`tools/shots/fair_perf.py`、`tools/shots/fair_perf_staff.py`
+
+## 改了以後（FAIR-STAFF-LOD-1027，LAWWW-C 22:24Z 照建議做）
+
+- **patch**：`docs/art-rebuild/second_ai/patches/fair_staff_lod_1027.patch`（對 `155323e04`、`de75d3106` apply --check 過）
+  - `src/engine3d.js`（NPC 距離 LOD 一行）：每個人可以帶 `n.lodLim={low,medium,high}`，取「畫質的距離」和它比較短的那個（只會縮短、不會加長；沒帶的人照舊 34／60／95 m）。
+  - `src/clubfair3d.js`：顧攤的人帶 `CLUBFAIR.STAFF_LOD={low:34, medium:35, high:55}`；停在攤位前填表的人、走路的人流照一般路人。
+  - 新 `tests/fair_staff_lod_unit.js`：**改前 FAILED 4、改後 ALL PASS（11 項）**。社博相關的 6 支、路人（anon、crowd）、導航 Node 測試 ALL PASS。
+- **同一個鏡頭（社博 9/30、大道往西）重量**：
+
+| 畫質 | draw call | 三角形 | 畫面裡的人（其中顧攤） | fps（SwiftShader） |
+|---|---|---|---|---|
+| 中 | 503 → **455** | 106 萬 → **96 萬** | 32 → **16（4）** | 1.26 → **1.45（+15%）** |
+| 高 | 548 → **494** | 116 萬 → **103 萬** | 47 → **34（15）** | 1.16 → **1.34（+16%）** |
+
+- 中畫質還是比平常日重（平常日 382／72 萬／1.78）：剩下的是走路的人流、停在攤位前的人、帳篷附近 35 m 內的顧攤的人——**這些是社博的樣子，我建議不再減**。
+- 改了以後：`lod_medium_avenueW.webp`（近的攤位照樣有人顧）；數據 `lod_medium_2025-09-30.json`、`lod_high_2025-09-30.json`。沒有 JS 例外。手機實機沒量。

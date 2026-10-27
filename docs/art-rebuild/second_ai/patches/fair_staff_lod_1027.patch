@@ -1,0 +1,71 @@
+diff --git a/src/clubfair3d.js b/src/clubfair3d.js
+index 2fe88afc4..bf4161ee0 100644
+--- a/src/clubfair3d.js
++++ b/src/clubfair3d.js
+@@ -55,6 +55,9 @@ const CLUBFAIR=(function(){
+   /* ---------- 校園：攤位的互動點、顧攤的人、人流、公告欄（STORY.populate 之後）---------- */
+   /* 大二的社博（2026-09-12，zones3d.js EXPO_DAYS；祐廷站攤位那一段在 events.js ev_y2_club_expo）：一樣 36 頂、有人顧攤、有人走，攤位不能互動（不是新生了）*/
+   S.expoY2=G=>law(G)&&!S.today(G)&&typeof Z3!=='undefined'&&!!Z3.isExpoDay&&!!Z3.isExpoDay();
++  /* 顧攤的人照距離藏（FAIR-STAFF-LOD-1027，LAWWW2-C 量：大道往西看中畫質三角形 +48%、模擬 fps −29%，35 m 內才畫：畫面裡 15→4、fps +27%；
++     35 m 外的帳篷在手機上只有幾個像素寬）：engine3d.js NPC 距離 LOD 的 n.lodLim，比一般路人短（低畫質本來就 34 m）*/
++  S.STAFF_LOD={low:34,medium:35,high:55};
+   S.populate=function(zoneId,GM){ if(zoneId!=='campus'||!GM||!GM.E||!GM.G) return; const E=GM.E, G=GM.G, X=D(); if(!X) return;
+     const y1=S.today(G), y2=!y1&&S.expoY2(G);
+     if(y1||y2){ const A=S.expo();
+@@ -64,7 +67,7 @@ const CLUBFAIR=(function(){
+         const T=typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO.tents:[]; let nb=0;
+         for(const t of T){ if(t.kind==='bg'&&(nb++%4)>=Math.round(4*q)) continue;   /* 顧攤的人：每一頂第一張椅子（帳篷裡 (−0.45, +0.2)），面向帳篷正面；背景攤照畫質少放幾個 */
+           const c=Math.cos(t.ry), sn=Math.sin(t.ry), lx=-0.45, lz=0.2; const o=CHAR.build(STORY.extraSpec(400+i++)); o.position.set(t.x+c*lx+sn*lz,0,t.z-sn*lx+c*lz); o.rotation.y=t.ry;
+-          E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairStaff:t.id}); }
++          E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairStaff:t.id,lodLim:S.STAFF_LOD}); }
+         if(GM.spawnExtra){ const R=X.ROUTES||[], n=Math.max(2,Math.round(8*q)); for(let k=0;k<n&&R.length;k++){ const r=R[k%R.length]; const nn=GM.spawnExtra(STORY.extraSpec(420+k),r.map(p=>[p[0],p[1]])); if(nn) nn.fairCrowd=true; } }   /* 拿著傳單走的新生（大道中間）*/
+         for(const [x,z,ry] of (X.FILL||[]).slice(0,q<1?2:3)){ const o=CHAR.build(STORY.extraSpec(440+i++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,fairCrowd:true}); } } }   /* 停在攤位前填表的人（站在互動點旁邊，不擋）*/
+     else if(S.hintOn(G)){ const d6=S.fairDay(G), B=X.BOARD; if(B&&G.day>=d6-5&&G.day<d6) E.interactables.push({x:B.x,z:B.z,radius:B.r||1.3,lv:0,label:'公告欄',look:X.HINTS.board,fairBoard:true}); } };   /* 9/1～9/5 傅鐘旁的公告欄 */
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 65108bd97..5adc29bef 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -370,8 +370,8 @@ const E3 = (function(){
+     // 打招呼：認識的人靠近時揮手
+     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
+     if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
+-    // 距離 LOD：遠處路人不畫、動畫降頻
+-    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
++    // 距離 LOD：遠處路人不畫、動畫降頻；n.lodLim＝{low,medium,high} 這個人比較短的距離（社博顧攤的人，FAIR-STAFF-LOD-1027）
++    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim0=E.q.level==='low'?34:(E.q.level==='high'?95:60), lim=n.lodLim&&n.lodLim[E.q.level]?Math.min(lim0,n.lodLim[E.q.level]):lim0; _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,farWant(!!o.userData.isFar,cd,!!E.indoor));   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
+     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
+   /* 無名路人要不要換遠距離版本（PERF-CROWD-LOD-1021）：室外 18 m 外換、16.5 m 內換回來（原本 30／28 m，PERF-PATROL-ECON-1025 改）；室內 7 m 外換、6.5 m 內換回來（LAWWW2-B 2026-10-24，LAWWW-B 同意：
+      博雅一樓階梯教室一整班坐著的路人，後排換了幾乎看不出來；有名字的角色不換）。中間差一段才換回來：在邊界上不會一直切換。測試：node tests/crowd_far_indoor_unit.js */
+diff --git a/tests/fair_staff_lod_unit.js b/tests/fair_staff_lod_unit.js
+new file mode 100644
+index 000000000..fac1ff0dd
+--- /dev/null
++++ b/tests/fair_staff_lod_unit.js
+@@ -0,0 +1,27 @@
++// FAIR-STAFF-LOD-1027（LAWWW2-C 2026-10-27；LAWWW-C 22:24Z 照 FAIR-PERF-1027 的建議）：社博顧攤的人照距離藏——中畫質 35 m、高畫質 55 m、低畫質照一般路人 34 m。
++//   量測（docs/art-rebuild/second_ai/test_shots/fair_perf_1027）：大道往西看中畫質三角形 +48%、模擬 fps −29%；35 m 內才畫：畫面裡顧攤的人 15→4、模擬 fps +27%。
++//   ① 社博那天放的每一個顧攤的人都帶 lodLim（人流、平常的路人不帶）② engine3d.js NPC 距離 LOD 照 lodLim 取比較短的距離（一般路人照舊 34／60／95）。不需要瀏覽器。用法：node tests/fair_staff_lod_unit.js
++const H=require('./pg_harness.js');
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const {check}=H, J=JSON.stringify;
++for(const f of ['src/data/club_fair_expo_layout.js','src/data/club_fair.js','src/clubfair3d.js']){ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (CLUB_FAIR_EXPO|CLUB_FAIR|CLUBFAIR)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++const D=k=>STORY.dayOfKey(k);
++const NEW={LAW_START_DAY:D('2025-08-29'),MAIN_D1:D('2025-09-04')};   /* 開學改 9/1 的新局：社博 9/6 */
++const fakeE=lv=>({interactables:[],npcs:[],q:{level:lv},player:{obj:{position:{x:0,y:0,z:0}},lv:0},addNPC(n){ this.npcs.push(n); return n; }});
++(async()=>{
++  global.CHAR={setExpr(){},build:()=>({position:{x:0,y:0,z:0,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{y:0}})};   /* 不需要真的人物模型 */
++  for(const lv of ['high','medium','low']){ const G=H.fresh('2025-09-06',11,'campus',Object.assign({},NEW)), E=fakeE(lv); CLUBFAIR.populate('campus',{E,G,spawnExtra:()=>({fairCrowd:true})});
++    const st=E.npcs.filter(n=>n.fairStaff), other=E.npcs.filter(n=>!n.fairStaff);
++    check('① '+lv+'：社博那天每一個顧攤的人都帶 lodLim＝{low:34, medium:35, high:55}（'+st.length+' 人）',st.length>=20&&st.every(n=>n.lodLim&&n.lodLim.low===34&&n.lodLim.medium===35&&n.lodLim.high===55),J(st[0]&&st[0].lodLim));
++    check('① '+lv+'：停在攤位前填表的人不帶 lodLim（照一般路人）',other.length>0&&other.every(n=>!n.lodLim),other.length+' 人'); }
++  { const G=H.fresh('2025-09-08',11,'campus',Object.assign({},NEW)), E=fakeE('medium'); CLUBFAIR.populate('campus',{E,G,spawnExtra:()=>({})}); check('① 平常日沒有顧攤的人',!E.npcs.some(n=>n.fairStaff)); }
++  /* ② 引擎：NPC 迴圈裡算距離 LOD 的那一段，拿出來用假的 n、E 算 */
++  const eng=fs.readFileSync(path.join(H.ROOT,'src/engine3d.js'),'utf8'), m=eng.match(/const cd=Math\.hypot\(camera\.position\.x-o\.position\.x,camera\.position\.z-o\.position\.z\); (const lim0?=[^;]*;)[^\n]*?const vis=!n\.hidden&&\(cd<lim\|\|!n\.isExtra\)/);
++  check('② engine3d.js：NPC 的距離 LOD 用 lim 判斷（cd<lim）',!!m);
++  if(m){ const f=new Function('n','E','"use strict"; '+m[1]+' return lim;'); const L=CLUBFAIR.STAFF_LOD, q=level=>({q:{level}});
++    const got={staff:['low','medium','high'].map(l=>f({lodLim:L},q(l))), crowd:['low','medium','high'].map(l=>f({},q(l)))};
++    check('② 顧攤的人：低 34、中 35、高 55 m',J(got.staff)===J([34,35,55]),J(got.staff));
++    check('② 一般路人照舊：低 34、中 60、高 95 m',J(got.crowd)===J([34,60,95]),J(got.crowd));
++    check('② lodLim 只會縮短、不會加長（寫 200 也是照畫質上限）',f({lodLim:{medium:200}},q('medium'))===60); }
++  H.done();
++})();

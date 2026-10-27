@@ -3730,7 +3730,7 @@
   {
    "task": "ANIM-DOOR-OPEN-1027（A21 開門第一階段）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "a25bede18",
    "files": [
     "docs/art-rebuild/second_ai/patches/door_open_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/door_open_1027/README.md",
@@ -3743,6 +3743,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "按有門的出入口：轉向門＋右手推門約 0.45 秒再變黑；自動門（便利商店、美國超市、機場）只轉向；樓梯、電梯、往…的路、搭車、過馬路、開放式麵店不演；exit.door 可蓋過。換到新區域第一格（全黑）手放下（計時器版實測晚 1～2 秒、已改）。door_open_unit 改前 FAILED 1、改後 ALL PASS 16；zone_transitions ALL PASS 37；patch 對 479e35f11、de75d3106 apply --check 過"
+  },
+  {
+   "task": "FAIR-STAFF-LOD-1027（顧攤的人照距離藏）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/fair_staff_lod_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/fair_perf_1027/README.md",
+    "tools/shots/fair_perf.py"
+   ],
+   "state": "已交付",
+   "remaining": "手機實機沒量",
+   "next": "LAWWW 套 patches/fair_staff_lod_1027.patch（engine3d.js 一行 n.lodLim、clubfair3d.js STAFF_LOD、新 tests/fair_staff_lod_unit.js）；跑 fair_staff_lod_unit、clubfair_1027_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "中 35 m、高 55 m、低 34 m。社博 9/30 大道往西：中 draw call 503→455、三角形 106→96 萬、畫面裡的人 32→16（顧攤 4）、模擬 fps +15%；高 548→494、116→103 萬、47→34、+16%。fair_staff_lod_unit 改前 FAILED 4、改後 ALL PASS 11；社博 6 支、anon、crowd、nav Node 測試 ALL PASS；patch 對 155323e04、de75d3106 apply --check 過"
   }
  ]
 }

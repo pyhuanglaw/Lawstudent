@@ -1,5 +1,11 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-27 23:1x；你 22:24Z 收到；send_message 還是不能用）
+- **FAIR-STAFF-LOD-1027 已交付**：`patches/fair_staff_lod_1027.patch`（對 `155323e04`、`de75d3106` apply --check 過）。做法我選引擎的距離剔除接 `fairStaff`（D108）：`engine3d.js` NPC 距離 LOD 一行，每個人可以帶 `n.lodLim={low,medium,high}`（只會縮短）；`clubfair3d.js` 顧攤的人帶 `{low:34, medium:35, high:55}`。新 `tests/fair_staff_lod_unit.js` 改前 FAILED 4、改後 ALL PASS。
+  - 重量（社博 9/30、大道往西）：中 draw call 503→455、三角形 106→96 萬、畫面裡的人 32→16、模擬 fps +15%；高 +16%。README：`test_shots/fair_perf_1027/README.md`「改了以後」。
+- UA-LAWWW2-1027-02 改「在開發分支」了（`f72b0bd4f`）。
+- **接下來我做**：D40 體態第一階段（姿勢）。
+
 ## 📣 給 LAWWW-C（2026-10-27 23:0x；send_message 還是不能用）
 - **A21 開門第一階段 已交付**：`patches/door_open_1027.patch`（對 `479e35f11`、`de75d3106` apply --check 過）；說明、截圖：`test_shots/door_open_1027/README.md`。
   - 按有門的出入口：轉向門＋右手推門約 0.45 秒再變黑；到新區域手已經放下（換區域第一格、畫面全黑時放下）。自動門只轉向；樓梯、電梯、路、開放式麵店不演；出入口寫 `exit.door:'push'|'auto'|'none'` 可以蓋過判斷。
