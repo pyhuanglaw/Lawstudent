@@ -79,7 +79,7 @@ const Y34B=(function(){
     if(sent(G,'y3_an_farewell_ask')&&F.AN_FAREWELL==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_farewell')&&G.day===d24&&G.hour<19.25&&G.zone!=='noodle')
       OUT.plan(G,{id:'y3_an_farewell',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:d24,h:19,late:0.25,place:'公館',title:'阿鳳麵店',travelH:1/6});
     if(F.AN_FAREWELL==null&&NOW(G)>=T(d24,19.25)) F.AN_FAREWELL='missed';
-    if(!JP(G)){ if(th&&NOW(G)>=T(d24,21)&&NOW(G)<T(d25,9)) at(G,d24,G.day===d24?Math.max(21,G.hour):G.hour,[Z('明天以安的飛機。早上十點，桃園機場。要去的舉手。')],'y3_an_sendoff_ask');   /* AA_201 */
+    if(!JP(G)){ if(th&&NOW(G)>=T(d24,21)&&NOW(G)<T(d25,9)) at(G,d24,G.day===d24?Math.max(21,G.hour):G.hour,[Z('明天以安的飛機 早上十點，桃園機場 要去的舉手')],'y3_an_sendoff_ask');   /* AA_201 */
       if(sent(G,'y3_an_sendoff_ask')&&F.AN_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_sendoff')&&NOW(G)<T(d25,10.5))
         OUT.plan(G,{id:'y3_an_sendoff',ev:'ev_an_sendoff',day:d25,h:10,late:0.5,place:'桃園機場第二航廈',title:'桃園機場',travel:'機場捷運 約 1 小時',travelH:1,hours:1.5,alarm:true,back:'回到台北。'});
       if(F.AN_SENDOFF==null&&NOW(G)>=T(d25,11+40/60)){ F.AN_SENDOFF='missed';   /* 11:40（AA_180 2-6）*/

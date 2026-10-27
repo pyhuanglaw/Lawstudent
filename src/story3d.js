@@ -2312,7 +2312,7 @@ const STORY = (function(){
           M('heroine_01','📷（台中阿嬤家門口的春聯，字有一點歪）'),M('heroine_01','新年快樂。今年的春聯是我寫的。'),M('heroine_01','阿嬤說我的字最工整。……歪是照片的角度。'),
           M('yu','📷（和阿哲視訊的截圖，兩個人各舉著一顆水餃）'),M('yu','我們隔著三百公里吃年夜飯。'),M('zhe','她包的比較醜'),
           M('yu','你閉嘴。',{ask:{id:'cny_noodle_y2_reply',opts:[{t:'（傳家裡的年夜飯照片）',post:'📷（家裡的年夜飯，滿桌的菜）',say:[{from:'zhe',text:F.ZHE_CALLS_GE?'哥，你家也太多菜！':'你家也太多菜！'},{from:'heroine_01',text:'左下角那盤是什麼？'}]},
-            {t:'新年快樂。Alison，醜的水餃比較好吃。',say:[{from:'yu',text:'連你也！'},{from:'zhe',text:F.ZHE_CALLS_GE?'哥懂我。':'懂我。'}]},   /* 阿哲叫「哥」照 ZHE_CALLS_GE（AA_313 5-1 第 2 點、5-3）*/
+            {t:'新年快樂。Alison，醜的水餃比較好吃。',say:[{from:'yu',text:'連你也！'},{from:'zhe',text:F.ZHE_CALLS_GE?'哥懂我':'懂我'}]},   /* 阿哲叫「哥」照 ZHE_CALLS_GE（AA_313 5-1 第 2 點、5-3）*/
             {t:'（傳一張貼圖）',post:'（貼圖：新年快樂）',say:[{from:'zhe',text:'（貼圖：新年快樂）'}]}]}})],'cny_noodle_y2'); } }
     /* 芷若 Z7（BB_97 3-4 最終版、AA-B b95cea49）：交換申請截止 12/10（四）那晚 23:59 私訊三則——要演過 Z4、有她的聯絡方式；祐廷有伴侶而且她知道＝沒有（AA_112 8-1，Café 才說）。
        Café 裡選「妳跟妳媽說了嗎？」＝那晚 22:15 再一則。大二上結束都沒去 Café（收到深夜訊息的）＝寒假第一天 21:00 一則。
@@ -2354,9 +2354,9 @@ const STORY = (function(){
     /* ===== 大二（交接包 v3）的群戲：邀約＋出發選單＋沒去的群組照片（AA_143、AA_177 第 6 節、AA_176 R5）=====
        不在麵店團群組的玩家：阿哲私訊（R5「沒有那個群組就用私訊」）。19:15／18:15 還沒出發＝沒去（OUT 的 late 15 分鐘），21:30 照片 */
     if(typeof OUT!=='undefined'){ const gth=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe', Z=t=>({th:gth,from:'zhe',text:t}), dk=k=>S.dayOfKey(k);
-      const v3=[{id:'y2_first_meal',ev:'ev_y2_first_meal',key:'2026-09-17',inv:[0,17,'開學第一頓。七點，長桌。'],h:19,place:'阿鳳麵店',title:'開學第一頓',travel:'走過去約 15 分鐘',photo:'📷（長桌上六碗麵，一碗是大碗。）'},
-                {id:'y2_midautumn',ev:'ev_y2_midautumn',key:'2026-09-25',inv:[-1,21,'明天中秋，河濱，晚上六點。烤肉架今年你負責。'],h:18,place:'公館的河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',photo:'📷（兩個烤肉架，少一支夾子。）'},
-                {id:'y2_xmas',ev:'ev_y2_xmas',key:'2026-12-17',inv:[-1,21,'聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。'],h:12+20/60,place:'霖澤館一樓',title:'聖誕交換禮物',travel:'走過去約 10 分鐘',photo:'📷（一堆拆開的包裝紙。）'}
+      const v3=[{id:'y2_first_meal',ev:'ev_y2_first_meal',key:'2026-09-17',inv:[0,17,'開學第一頓 七點，長桌'],h:19,place:'阿鳳麵店',title:'開學第一頓',travel:'走過去約 15 分鐘',photo:'📷（長桌上六碗麵，一碗是大碗。）'},
+                {id:'y2_midautumn',ev:'ev_y2_midautumn',key:'2026-09-25',inv:[-1,21,'明天中秋，河濱，晚上六點 烤肉架今年你負責'],h:18,place:'公館的河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',photo:'📷（兩個烤肉架，少一支夾子。）'},
+                {id:'y2_xmas',ev:'ev_y2_xmas',key:'2026-12-17',inv:[-1,21,'聖誕交換禮物，明天中午，霖澤館一樓 兩百以內'],h:12+20/60,place:'霖澤館一樓',title:'聖誕交換禮物',travel:'走過去約 10 分鐘',photo:'📷（一堆拆開的包裝紙。）'}
                ];   /* 跨年大二搬到 S.nyeY2（AA_210 第 1 節：16 週制 12/31 在寒假，邀約五句、23:30、沒去的照片換掉）。聖誕交換 12/24 是第 16 週期末考週，改 12/17（四）12:20（AA_313 第 4-1 節第 8 點）*/
       for(const q of v3){ const d=dk(q.key); if(d==null) continue; const di=d+q.inv[0];
         if((G.day>di||(G.day===di&&G.hour>=q.inv[1]))&&G.day<=d&&!PHONE.sent(G,q.id+'_ask')){ PHONE.at(G,di,G.day===di?Math.max(q.inv[1],h(G)):q.inv[1],[Z(q.inv[2])],q.id+'_ask');
@@ -2364,7 +2364,7 @@ const STORY = (function(){
         const pH=q.photoH||21.5, o=OUT.get(G,q.id); if(o&&o.state==='missed'&&!(G.events.done[q.ev])&&(G.day>d||G.hour>=pH)&&G.day<=d+2&&!PHONE.sent(G,q.id+'_photo')) PHONE.at(G,d,pH,[].concat(q.photo).map(Z),q.id+'_photo'); }   /* photo 可以是好幾則（跨年：照片＋阿哲一句）；photoH：照片的時間（跨年 00:05）*/
       S.nyeY2(GM); S.nyeY3(GM); S.nyeY4(GM); S.kxNye(GM); S.zrNye(GM);
       /* 期末最後一頓（大二上；AA_177 第 6 節）：最後一科考完那天 17:00 阿哲「考完了。七點，麵店。」；那晚 21:30 還沒吃到＝群組照片。事件是走進麵店（ev_term_last_meal_y2s1）*/
-      { const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y2S1','final'):null; if(e&&G.day===e.day&&G.flags.noodleTableDay!=null){ if(G.hour>=17&&!PHONE.sent(G,'y2_final_ask')) PHONE.at(G,e.day,Math.max(17,h(G)),[Z('考完了。七點，麵店。')],'y2_final_ask');
+      { const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y2S1','final'):null; if(e&&G.day===e.day&&G.flags.noodleTableDay!=null){ if(G.hour>=17&&!PHONE.sent(G,'y2_final_ask')) PHONE.at(G,e.day,Math.max(17,h(G)),[Z('考完了 七點，麵店')],'y2_final_ask');
           if(G.hour>=21.5&&!G.events.done.ev_term_last_meal_y2s1&&!PHONE.sent(G,'y2_final_photo')) PHONE.at(G,e.day,21.5,[Z('📷（空碗疊成一座塔。）')],'y2_final_photo'); } } }
     /* 明軒 F-M1 最便宜的地圖（BB_70 5-6，BB-B 2026-10-16 補，BB_134 第 3 節）：M1 公車站的筆記（SAW_HIM_STUDY）那晚 23:00，他私訊傳「公館一百元以內」的手機筆記；
        訊息到了就進筆記本（S.MX_FM1）。地圖上七家店的「100」小標先不做（BB_70：做不到就只放在手機筆記）。舊存檔已經有 SAW_HIM_STUDY 的：今晚 23:00 */

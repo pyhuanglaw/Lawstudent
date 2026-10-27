@@ -51,7 +51,7 @@ const date=id=>H.date(id);
     check('1B-12 日本路線的餞行：阿哲「還有你。兩個都要傳。」；選項換成「到了我幫妳顧行李。」「（舉杯）」；不認識 Alison＝她那兩句都不出', has('（轉向你）還有你。兩個都要傳。')&&H.opts[0].join('|')==='「到了我幫妳顧行李。」|「（舉杯）」'&&!has('要傳照片喔。每天。')&&!has('……每天太多了。一個禮拜一張。')); }
   fresh('2028-03-24',20,'dorm'); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); PHONE.join(H.G,'noodle_team','麵店團'); H.G.flags.HOOK_AN_SENDOFF=D('2027-12-20');
   at('2028-03-24',21); phone(); const qs=OUT.get(H.G,'y3_an_sendoff');
-  check('1B-12 3/24 21:00 群組「明天以安的飛機。……要去的舉手。」→ 出發選單「桃園機場」10:00（鬧鐘）', th('g:noodle_team').includes('明天以安的飛機。早上十點，桃園機場。要去的舉手。')&&!!qs&&qs.h===10&&qs.title==='桃園機場'&&qs.alarm===true);
+  check('1B-12 3/24 21:00 群組「明天以安的飛機。……要去的舉手。」→ 出發選單「桃園機場」10:00（鬧鐘）', th('g:noodle_team').includes('明天以安的飛機 早上十點，桃園機場 要去的舉手')&&!!qs&&qs.h===10&&qs.title==='桃園機場'&&qs.alarm===true);
   at('2028-03-25',9); await goOut('y3_an_sendoff',[0]);
   check('A1 送機友情版：「位子幫我占著」、期末說過要送＝「你說你會來。……你來了。」；AN_SENDOFF went、沒有撕頁', has('八月五號回來。位子幫我占著。')&&has('（看著你）你說你會來。……你來了。')&&H.G.flags.AN_SENDOFF==='went'&&!H.G.flags.AN_PAGE_GIVEN&&!has('手帳的理由欄，空的。'));
   { fresh('2028-03-25',9,'dorm'); H.FAMILIAR('heroine_01'); H.FAMILIAR('zhe'); date('heroine_01'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-03-24',21); phone(); at('2028-03-25',9); await goOut('y3_an_sendoff',[2]);

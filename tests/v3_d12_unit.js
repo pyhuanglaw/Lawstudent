@@ -36,7 +36,7 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const d16=D('2026-12-16'), d17=D('2026-12-17'), d31=D('2026-12-31');
   fresh(d16,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); let o=OUT.get(G,'y2_xmas');
-  check('1. 聖誕：12/16 21:00 阿哲「聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。」；出發選單 12/17（四）12:20（12/24 是第 16 週期末考週，AA_313 第 4-1 節第 8 點）',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。')&&o&&o.day===d17&&Math.abs(o.h-(12+20/60))<1e-6&&CALENDAR.termOf(d17).week<16,JSON.stringify([txt('g:noodle_team'),o]));
+  check('1. 聖誕：12/16 21:00 阿哲「聖誕交換禮物，明天中午，霖澤館一樓 兩百以內」；出發選單 12/17（四）12:20（12/24 是第 16 週期末考週，AA_313 第 4-1 節第 8 點）',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，霖澤館一樓 兩百以內')&&o&&o.day===d17&&Math.abs(o.h-(12+20/60))<1e-6&&CALENDAR.termOf(d17).week<16,JSON.stringify([txt('g:noodle_team'),o]));
   const X=ev('ev_y2_xmas'); fresh(d17,12.4,'campus'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); meet('heroine_01'); said=[]; G.flags.Y2_XMAS_FROM=null; const r0=Math.random; Math.random=()=>0; await EVENTS.run(X); Math.random=r0; STORY.knows=k0; let L=lines();
   check('2. 兩個一樣的保溫杯「……為什麼有兩個一樣的保溫杯？」阿哲、Alison「不是我們。」；抽到以安＝空白手帳「跟我用的同一款。你不用寫得很整齊。」（AA_313 4-3）',L.includes('拆到的人：……為什麼有兩個一樣的保溫杯？')&&L.includes('阿哲、Alison：不是我們。')&&L.includes('你抽到以安的：一本空白手帳。')&&L.includes('沈以安：跟我用的同一款。你不用寫得很整齊。')&&!L.some(t=>/理由欄/.test(t)),JSON.stringify(L));
   // 3. 跨年大二（AA_210 第 1 節＋第 5 節 881ed505：16 週制 12/31 在寒假；取代原本的「十一點五十，頂樓。十分鐘就好。」）
@@ -112,7 +112,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(d31,23.5,'dorm',{dating_heroine_01:true,NYE_Y1:'roof',NYE_Y1_AN:true}); G.events.done.ev_nye_dinner=1; meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
   check('3. 大一走「一起去信義區」那條、她也在（ev_nye_dinner、NYE_Y1 roof、NYE_Y1_AN）：「去年這時候還在捷運上。」（AA_313 4-3）',L.includes('沈以安：去年這時候還在捷運上。')&&!L.includes('沈以安：今年風比較小。'),JSON.stringify(L));
   const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));
-  if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了。七點，麵店。」',txt('g:noodle_team').includes('zhe:考完了。七點，麵店。'),JSON.stringify(txt('g:noodle_team')));
+  if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了 七點，麵店」',txt('g:noodle_team').includes('zhe:考完了 七點，麵店'),JSON.stringify(txt('g:noodle_team')));
     run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));
     const M=ev('ev_term_last_meal_y2s1'); fresh(e.day,19,'noodle',{noodleTableDay:3,YU_ZHE_TOLD:'msg'}); G.hour=Math.max(19,e.h+0.1); const ok=EVENTS.check(M); meet('heroine_01'); meet('heroine_03'); const k1=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id); said=[]; await EVENTS.run(M); STORY.knows=k1; L=lines();
     check('4. 期末最後一頓（大二上）：阿姨「吃好一點。」（AA_467 第 1 節換字，原本「考完了，吃好一點。」）；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「今天阿姨叫我坐下來吃。」（AB65-3：AA_211 附錄 A 語彤一列）',ok&&L.includes('阿姨：吃好一點。')&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/語彤：今天阿姨叫我坐下來吃。$/.test(t))&&!L.some(t=>/不用端/.test(t)),JSON.stringify(L)); }

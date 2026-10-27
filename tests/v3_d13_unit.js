@@ -47,7 +47,7 @@ GM.money=function(n){ G.money+=n; };
   PHONE.answer(G,'cny_noodle_y2_reply',0);
   check('2. 年夜飯照片 → 阿哲「你家也太多菜！」（沒有 ZHE_CALLS_GE 不叫哥，AA_313 5-1 第 2 點）以安「左下角那盤是什麼？」（AA_313 4-3：拿掉「……記下來了。」）',txt(NG).slice(-3).join('｜')==='player:📷（家裡的年夜飯，滿桌的菜）｜zhe:你家也太多菜！｜heroine_01:左下角那盤是什麼？',JSON.stringify(txt(NG).slice(-3)));
   setup(ny,10.9); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',1);
-  check('2. 醜的水餃 → Alison「連你也！」阿哲「懂我。」（沒有 ZHE_CALLS_GE；有的話「哥懂我。」見 aa313_s4s5_unit）',txt(NG).slice(-2).join('｜')==='yu:連你也！｜zhe:懂我。');
+  check('2. 醜的水餃 → Alison「連你也！」阿哲「懂我」（沒有 ZHE_CALLS_GE；有的話「哥懂我」見 aa313_s4s5_unit）',txt(NG).slice(-2).join('｜')==='yu:連你也！｜zhe:懂我');
   setup(ny,10.9); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',2);
   check('2. 貼圖 → 阿哲回一樣的貼圖',txt(NG).slice(-2).join('｜')==='player:（貼圖：新年快樂）｜zhe:（貼圖：新年快樂）');
   fresh(ny,10.9,'home'); run(10.9,11.5);

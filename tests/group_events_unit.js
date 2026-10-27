@@ -111,7 +111,7 @@ const NAME=id=>SOCIAL.displayName(id);
   // ===== 2. 1C-02 中秋 =====
   const m14=D('2027-09-14'), m15=D('2027-09-15');
   fresh(m14,20,'dorm'); team(); run(m14,20,21.25);
-  { const q=OUT.get(G,'y3_midautumn'); check('2. 9/14 21:00 阿哲「明天中秋，河濱，六點。」、9/15 18:00 公館的河濱（late 15 分鐘）', txt('g:noodle_team').slice(-1)[0]==='zhe:明天中秋，河濱，六點。'&&!!q&&q.day===m15&&q.h===18&&q.late===0.25&&q.ev==='ev_midautumn_y3'); }
+  { const q=OUT.get(G,'y3_midautumn'); check('2. 9/14 21:00 阿哲「明天中秋，河濱，六點」、9/15 18:00 公館的河濱（late 15 分鐘）', txt('g:noodle_team').slice(-1)[0]==='zhe:明天中秋，河濱，六點'&&!!q&&q.day===m15&&q.h===18&&q.late===0.25&&q.ev==='ev_midautumn_y3'); }
   fresh(m15,18,'gongguan'); team(); let M1=await play('ev_midautumn_y3',['擋風']);
   const bday='（九月十五日。中秋，也是以安的生日。）', pom=NAME('heroine_03')+'：（拿出一顆柚子，上面插了一根蠟燭）蛋糕店關了。……柚子可以。';
   check('2. M1 不知道她生日：那一句在語彤拿出柚子之後；柚子插蠟燭', M1.indexOf(pom)===0&&M1[1]===bday, JSON.stringify(M1.slice(0,2)));
@@ -144,7 +144,7 @@ const NAME=id=>SOCIAL.displayName(id);
   // ===== 4. 1C-04 哲 4＋冠軍賽 =====
   const {d:f28,g:f29}=GROUP.finalDays();
   fresh(f28,20,'dorm'); team(); R('zhe','FRI'); run(f28,20,21.25);
-  check('4. 4/28 21:00 群組「明天晚上七點，冠軍賽。來喊。」、排 4/29 19:00 新體育館', txt('g:noodle_team').slice(-1)[0]==='zhe:明天晚上七點，冠軍賽。來喊。'&&!!OUT.get(G,'y3_final')&&OUT.get(G,'y3_final').day===f29&&OUT.get(G,'y3_final').h===19);
+  check('4. 4/28 21:00 群組「明天晚上七點，冠軍賽 來喊」、排 4/29 19:00 新體育館', txt('g:noodle_team').slice(-1)[0]==='zhe:明天晚上七點，冠軍賽 來喊'&&!!OUT.get(G,'y3_final')&&OUT.get(G,'y3_final').day===f29&&OUT.get(G,'y3_final').h===19);
   run(f28,21.5,22.75); check('4. 23:00 以前沒有哲 4', !PHONE.sent(G,'y3_zhe4'));
   run(f28,23,23.25); { const m=PHONE.byAsk(G,'y3_zhe4');
     check('4. Z1 23:00 阿哲「你在宿舍嗎」；在宿舍＝回「（下樓）」（不替玩家傳那一句）', txt('p:zhe').slice(-1)[0]==='zhe:你在宿舍嗎'&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（下樓）"]'&&m.ask.opts[0].post===false); }
@@ -225,7 +225,7 @@ const NAME=id=>SOCIAL.displayName(id);
   const l22=D('2029-02-22'), l25=D('2029-02-25');
   fresh(l22,16,'dorm'); team(); run(l22,16,16.75); check('6. 17:00 以前群組名字照舊', PHONE.title(G,'g:noodle_team')==='麵店團');
   run(l22,17,17.25);
-  { const q=OUT.get(G,'y4_last_term'); check('6. L1 17:00 群組改名「最後一學期」＋系統字＋阿哲「開學第一頓。七點，長桌。」、19:00 麵店', PHONE.title(G,'g:noodle_team')==='最後一學期'&&JSON.stringify(TH('g:noodle_team').slice(-2).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改成「最後一學期」。）','zhe:開學第一頓。七點，長桌。'])&&!!q&&q.day===l22&&q.h===19&&q.late===0.25); }
+  { const q=OUT.get(G,'y4_last_term'); check('6. L1 17:00 群組改名「最後一學期」＋系統字＋阿哲「開學第一頓 七點，長桌」、19:00 麵店', PHONE.title(G,'g:noodle_team')==='最後一學期'&&JSON.stringify(TH('g:noodle_team').slice(-2).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改成「最後一學期」。）','zhe:開學第一頓 七點，長桌'])&&!!q&&q.day===l22&&q.h===19&&q.late===0.25); }
   fresh(l22,19,'noodle'); team(); let T1=await play('ev_last_term_first_dinner',[1]);
   check('6. L1 麵店：Alison「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); run(l25,20,20.75); check('6. 2/25 21:00 以前還是「最後一學期」', PHONE.title(G,'g:noodle_team')==='最後一學期');
