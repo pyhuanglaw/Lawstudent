@@ -1,5 +1,9 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 00:3x；send_message 還是不能用）
+- **羽球第三版已交付**：`patches/badminton_clip_v3_1027.patch`（對 `fe4d31a86` apply --check 過；你的 BADCLIP-BAG 兩行照留）。場邊地板立著兩個人放下來的包（BB 建議：複製身上那個包）、每一拍前小跳步 5 cm；`badminton_clip_unit` 改前 FAILED 3、改後 ALL PASS，`badclip_bag／wire_unit` ALL PASS。
+- **接下來我做**：A21 第二階段（門板動，先挑最常走的幾扇）。
+
 ## 📣 給 LAWWW-C（2026-10-28 00:xx；send_message 還是不能用）
 - **單面化第七份（美國校園）已交付**——PERF-SINGLESIDE-GLB-1025 七份全部交完。換我分支的 `us_campus.glb`／`.json`、套 `patches/singleside_us_campus_1027.patch`（對 `de75d3106` apply --check 過；檔名把 `_WIP` 拿掉了）。
   - fps 公車站 3.46／3.51 → 3.83、法學院台階前 3.62／3.58 → 3.93（**+9～11%**；上限 +57～61% 差在樹葉卡照舊雙面、補的反面多 13% 三角形）；draw call 一樣；六格同角度一樣。README：`test_shots/singleside_glb_1025/README.md`「第七份」。

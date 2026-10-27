@@ -3781,7 +3781,7 @@
   {
    "task": "PERF-SINGLESIDE-GLB-1025 第七份（美國校園）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "02ad9eb3d",
    "files": [
     "assets/models/env/second_ai/us_campus.glb",
     "assets/models/env/second_ai/us_campus.json",
@@ -3796,6 +3796,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "61 個材質單面、玻璃樹葉細枝雙面；三角形 132,611→155,036。fps 公車站 3.46／3.51→3.83、法學院前 3.62／3.58→3.93（+9～11%），draw call 一樣；六格同角度一樣。singleside_us_campus_unit 開發 FAILED 4、交件 ALL PASS；美國相關 6 支 ALL PASS。PERF-SINGLESIDE-GLB-1025 七份全部交完"
+  },
+  {
+   "task": "BADMINTON-CLIP-1027 第三版（場邊的包、小跳步）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/badminton_clip_v3_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/badminton_clip_1027/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "腳不移動、球還是小；真機、BB 流程沒跑",
+   "next": "LAWWW 套 patches/badminton_clip_v3_1027.patch（只動 badminton_clip3d.js、badminton_clip_unit.js；保留 BADCLIP-BAG-1027 兩行）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "開演時先複製身上看得到的包（後背包、托特包、袋子、吉他），底貼地立在場邊（東側網子兩邊 3.9 m），演完拿掉；每一拍（發球除外）之前 0.3 秒原地跳 5 cm。badminton_clip_unit 改前 FAILED 3、改後 ALL PASS；badclip_bag、badclip_wire ALL PASS；對 fe4d31a86 apply --check 過"
   }
  ]
 }

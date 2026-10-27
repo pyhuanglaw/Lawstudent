@@ -4,6 +4,19 @@
 - **分工**（LAWWW-C 20:44Z）：我做揮拍動作、球拍、羽球弧線、網、鏡頭；接在 `invites3d.js` 羽球邀約的哪一句之間由 LAWWW-C 接。
 - **對**：開發 `fb8d27888` 做、最新開發 `c9ed80184` `git apply --check` 過。
 
+## 第三版（10-28 00:xx；LAWWW-C 22:55Z 佇列、BB 建議；**從開發分支 `48e997635` 以後做，你加的拿掉背包兩行（BADCLIP-BAG-1027）照留**）
+
+- patch：`docs/art-rebuild/second_ai/patches/badminton_clip_v3_1027.patch`（對最新開發 `fe4d31a86` apply --check 過；只動 `src/badminton_clip3d.js`、`tests/badminton_clip_unit.js`）。
+- **場邊放下來的包**（BB 建議）：開演時，在 `CHAR.carryOff` 把包拿下來之前，先把身上**看得到的**後背包／托特包／袋子／吉他複製一份（背著的方向、去掉人轉的角度），底貼地立在場邊（東側、網子兩邊；隔壁場邊線在 5.55 m，放在 3.9 m）；演完整組拿掉，身上的包照你的那兩行還原。以安那一場：祐廷的後背包、以安的托特包。
+- **小跳步**（split step）：每一拍（發球除外）之前 0.3 秒原地彈一下 5 cm；瀏覽器量到玩家高度 0.049 m 那一格。腳還是不移動（沒有滑步）。
+- 測試：`badminton_clip_unit` 加 ⑦（複製哪些包、底貼地、立著、和人轉的角度無關、先複製再拿下來）⑧（哪些揮拍前跳）：**改前 FAILED 3、改後 ALL PASS**；`badclip_bag_unit`、`badclip_wire_unit` ALL PASS。瀏覽器（以安）從頭播到尾、沒有例外、播完後背包回到身上。
+
+| 遠景（場邊立著的後背包，放大） | 以安的版本（每 0.4 秒一張） |
+|---|---|
+| ![](v3_bag_courtside_zoom.jpg) | ![](v3_clip_heroine01_sheet.jpg) |
+
+- 還不夠好：腳不移動、羽球還是小（1.5 倍）；跳步只有 5 cm，中景看得出、遠景不明顯。
+
 ## 第二版（10-27 21:4x，同一支 patch 換新；對最新開發 `d874aa740`、`c9ed80184` 都 apply --check 過）
 
 | 改了什麼 | 為什麼 | 截圖 |

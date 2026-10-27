@@ -1,0 +1,61 @@
+diff --git a/src/badminton_clip3d.js b/src/badminton_clip3d.js
+index 43ddf8322..367e38920 100644
+--- a/src/badminton_clip3d.js
++++ b/src/badminton_clip3d.js
+@@ -75,15 +75,27 @@ const BADCLIP=(function(){
+     const go=e=>{ if(e){ e.preventDefault&&e.preventDefault(); e.stopPropagation&&e.stopPropagation(); } onSkip(); }; b.addEventListener('click',go); b.addEventListener('touchend',go); document.body.appendChild(b);
+     const tap=e=>{ if(e.target===b) return; onSkip(); }; const c=document.getElementById&&document.getElementById('c'); setTimeout(()=>{ if(c) c.addEventListener('pointerdown',tap); },400);
+     return ()=>{ b.remove(); if(c) c.removeEventListener('pointerdown',tap); }; }
++  // ---- 放在場邊的包（BB 建議，BADCLIP-BAG-1027 之後）：開演時從身上拿下來的包（後背包、托特包、吉他），複製一份立在場邊地板上（看起來是放下了）；演完整組拿掉 ----
++  const HOP={clear:1,smash:1,drive:1,drop:1,whiff:1,reach:1};
++  const BAG_KEYS=['backpack','tote','bag_yu','guitar'];
++  function bagClones(e){ const u=e&&e.obj&&e.obj.userData, out=[]; if(!u||!u.props) return out; e.obj.updateMatrixWorld(true); const qInv=e.obj.getWorldQuaternion(new THREE.Quaternion()).invert();
++    for(const k of BAG_KEYS){ const o=u.props[k]; if(!o) continue; let vis=true; for(let p=o;p&&p!==e.obj;p=p.parent) if(p.visible===false){ vis=false; break; } if(!vis) continue;
++      const c=o.clone(true), q=o.getWorldQuaternion(new THREE.Quaternion()), sc=o.getWorldScale(new THREE.Vector3()); c.quaternion.copy(qInv.clone().multiply(q)); c.scale.copy(sc); c.position.set(0,0,0);   /* 背著的方向（直立）、去掉人轉的角度 */
++      const h=new THREE.Group(); h.name='badclip_bag_'+k; h.add(c); h.updateMatrixWorld(true); const bb=new THREE.Box3().setFromObject(c); c.position.set(-(bb.min.x+bb.max.x)/2,-bb.min.y,-(bb.min.z+bb.max.z)/2);   /* 底貼地、中心在原點 */
++      c.traverse(m=>{ if(m.isMesh){ m.castShadow=true; m.frustumCulled=false; } }); out.push(h); }
++    return out; }
++  S._bagClones=bagClones; S._HOP=HOP;   /* 測試用 */
+   // ---- 主流程 ----
+   S.busy=false;
+   S.play=async function(GM,opts){ opts=opts||{}; const E=GM&&GM.E; if(!E||!E.player||S.busy) return false; S.busy=true; let skipped=false; const id=opts.who;
+     const C=court(), half=4.4, P1=E.player, keep=[]; let partner=GM.npc&&GM.npc[id], spawned=false;
+     if(!partner&&GM.spawnCharacter&&id){ partner=GM.spawnCharacter(id,C.x,C.z-half,{yaw:0}); spawned=!!partner; }
+     if(!partner){ S.busy=false; return false; }
++    const dropped=[]; for(const e of [P1,partner]){ dropped.push(bagClones(e)); }
+     for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path,
+       bags:typeof CHAR!=='undefined'&&CHAR.carryOff?CHAR.carryOff(e.obj):null});   /* 打球不背包：後背包、托特包、吉他、資料夾…先拿下來，演完（含跳過、出錯）照原本還原（BADCLIP-BAG-1027，使用者 10-27 22:4x）*/
+     const grp=new THREE.Group(); grp.name='badclip'; E.scene.add(grp);
++    dropped.forEach((L,i)=>L.forEach((h,j)=>{ h.position.set(C.x+3.9+j*0.55,keep[i].y,C.z+(i?-1.6:1.6)); h.rotation.y=-PI/2+(i?0.35:-0.25); grp.add(h); }));   /* 兩個人的包放在場邊（東側、網子兩邊；隔壁場的邊線在 5.55 m）*/
+     let props={}; try{ if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.badminton_props']) props=propsFrom(await ASSETS.loadOne('bldg.badminton_props')); }catch(e){ console.warn('羽球道具載入失敗，用簡單的',e); }
+     const rA=attachRacket(P1,props.racketA||simpleRacket(0x1d2b57)), rB=attachRacket(partner,props.racketB||simpleRacket(0xeef1f4));
+     const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); sh.scale.multiplyScalar(1.5); grp.add(sh);   /* 放大 1.5 倍：側面中景裡真實大小只有幾個像素（v1）*/
+@@ -99,6 +111,8 @@ const BADCLIP=(function(){
+     const run=(dur,acts,fly,camf)=>new Promise(res=>{ let t=0, last=performance.now(); const tmp=new THREE.Vector3();
+       const f=now=>{ if(skipped){ res(); return; } const dt=Math.min(0.25,(now-last)/1000); last=now; t+=dt;
+         for(const a of acts){ const s=SW[a.sw]; const u=(t-a.t0)/s.dur; if(u<0||u>1){ if(u>1&&!a.end){ a.end=true; ov(a.who,still(a.after||'ready')); } continue; } ov(a.who,pose(a.sw,u)); }
++        for(const k of keep){ let hy=0; for(const a of acts){ if(a.who!==k.e||!HOP[a.sw]) continue; const u=(t-(a.t0-0.3))/0.28; if(u>0&&u<1) hy=Math.max(hy,0.05*Math.sin(PI*u)); }   /* 小跳步（split step）：每一拍（發球除外）之前 0.3 秒原地彈一下 5 cm */
++          if(hy>0||k.hop){ k.e.obj.position.y=k.y+hy; k.hop=hy>0; } }
+         let shown=false; for(const q of fly){ const u=(t-q.t0)/q.dur; if(u<0||u>1+1e-6){ if(u>1&&q.land){ sh.position.copy(q.to); sh.position.y=0.012; sh.rotation.set(PI/2-0.25,0,0.6); shown=true; } continue; }
+           if(!q.A) q.A=q.from.isVector3?q.from.clone():racketHead(q.from===P1?rA:rB); const p=flightPos(q.A,q.to,q.top,Math.min(1,u),tmp); const v=flightPos(q.A,q.to,q.top,Math.min(1,u+0.02),new THREE.Vector3()).sub(p);
+           sh.position.copy(p); if(v.lengthSq()>1e-8) sh.quaternion.setFromUnitVectors(V(0,-1,0),v.normalize()); shown=true; }
+diff --git a/tests/badminton_clip_unit.js b/tests/badminton_clip_unit.js
+index 2838a1bb3..dea6483c5 100644
+--- a/tests/badminton_clip_unit.js
++++ b/tests/badminton_clip_unit.js
+@@ -36,4 +36,15 @@ check('① BADCLIP 存在（play、LINES、揮拍資料）',typeof BADCLIP!=='un
+   check('⑤ badminton_props.glb 有兩支球拍、羽球、球網',['badminton_racket','badminton_racket_b','badminton_shuttle','badminton_net'].every(n=>names.includes(n)),names.slice(0,8).join(' ')); }
+ { const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=g.match(/function staleCheck[\s\S]*?live=([^;]*);/);
+   check('⑥ 卡住偵測（game3d.js staleCheck）：羽球短片在演的時候算「有東西在演」——短片約 13 秒、沒有對話，超過 10 秒會跳「畫面好像停住了」（真機也會）',!!m&&/BADCLIP\.busy/.test(m[1]),m?'':'找不到 staleCheck'); }
++{ const mk=yaw=>{ const e={obj:new THREE.Group()}; e.obj.rotation.y=yaw; const bone=new THREE.Group(); bone.position.set(0,1.3,-0.15); bone.rotation.x=0.2; e.obj.add(bone);
++    const bp=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.42,0.15)); bone.add(bp); const gt=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1)); gt.visible=false; bone.add(gt); const fd=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.3,0.02)); bone.add(fd);
++    e.obj.userData.props={backpack:bp,guitar:gt,folder:fd}; return e; };
++  const ok=typeof BADCLIP._bagClones==='function'; check('⑦ 場邊的包：BADCLIP._bagClones 存在',ok);
++  if(ok){ const A=BADCLIP._bagClones(mk(0)), B=BADCLIP._bagClones(mk(1.2)); const box=L=>{ const h=L[0]; h.updateMatrixWorld(true); return new THREE.Box3().setFromObject(h); };
++    check('⑦ 只複製身上看得到的包（後背包；藏起來的吉他、資料夾不算）',A.length===1&&/backpack/.test(A[0].name),A.map(h=>h.name).join(' '));
++    const a=box(A), b=box(B); check('⑦ 包的底貼地（y＝0）、中心在原點；和人轉的角度無關（轉 1.2 rad 一樣）',Math.abs(a.min.y)<1e-6&&Math.abs(a.min.x+a.max.x)<1e-6&&Math.abs(a.min.z+a.max.z)<1e-6&&a.min.distanceTo(b.min)<1e-6&&a.max.distanceTo(b.max)<1e-6,J([a.min,a.max]));
++    check('⑦ 包是立著的（背著的方向：高 0.42 m 左右，不是躺平）',a.max.y>0.4&&a.max.y<0.5,a.max.y.toFixed(3)); }
++  const src=fs.readFileSync(path.join(ROOT,'src/badminton_clip3d.js'),'utf8');
++  check('⑦ 開演時先複製包、再 CHAR.carryOff 拿下來（順序反了就複製不到）；放進短片的群組（演完整組拿掉）',src.indexOf('dropped.push(bagClones(e))')>0&&src.indexOf('dropped.push(bagClones(e))')<src.indexOf('CHAR.carryOff(e.obj)')&&/dropped\.forEach\([^\n]*grp\.add\(h\)/.test(src));
++  const H=BADCLIP._HOP||{}; check('⑧ 小跳步：高遠球、殺球、平抽、放小球、揮空、伸拍之前跳；發球不跳',['clear','smash','drive','drop','whiff','reach'].every(k=>H[k])&&!H.serve); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
