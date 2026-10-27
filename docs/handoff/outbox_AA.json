@@ -3271,6 +3271,36 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_485 第 4 節"
+  },
+  {
+   "task": "NOODLE-TEAM-WHY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cd824bf41",
+   "files": [
+    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+   ],
+   "state": "已交付",
+   "remaining": "大二以後的長桌閒聊 AA 接著寫",
+   "next": "LAWWW：建群組後阿哲兩則；麵店日長桌閒聊（大一八則）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_486 第 1 節：不拿掉麵店團，不用問使用者"
+  },
+  {
+   "task": "YT-BBQ-WHY-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cd824bf41",
+   "files": [
+    "docs/story_planning/AA_486_回LAWWW_麵店團在故事裡做什麼_長桌閒聊_語彤中秋烤肉一句.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：ev_mid_autumn_bbq 768 行換三行",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_486 第 2 節"
   }
  ],
  "items": [
