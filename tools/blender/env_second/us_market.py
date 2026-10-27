@@ -46,7 +46,7 @@ def img_mat(name, fn, rough=0.6, clip=False, emit=0.0):
 M = {'floor': L.pbr('usm_floor', 'large_floor_tiles_02', tile=1.2, target='#d4d2cb', contrast=0.5, normal=0.2, maps=('diff', 'nor'), res=512, rough_value=0.26),
      'wall': L.pbr('usm_wall', 'white_plaster_02', tile=2.0, target='#e9e5da', contrast=0.25, normal=0.08, maps=('diff', 'nor'), res=256, rough_value=0.85),
      'band': L.flat('usm_wall_green', '#2f5a3e', rough=0.7),
-     'deck': L.flat('usm_deck', '#e4e4e0', rough=0.85),
+     'deck': L.flat('usm_deck', '#e4e4e0', rough=0.85, cull=True),   # 10-22：單面朝下（鏡頭拉遠最高 6.85 m，頂板 6.4 m；原本雙面＝畫面整片白）
      'steel': L.flat('usm_joist', '#eeeeea', rough=0.6, metal=0.2),
      'duct': L.flat('usm_duct', '#b8bcc0', rough=0.35, metal=0.45),
      'col': L.flat('usm_column', '#d9d9d4', rough=0.5),
@@ -150,7 +150,7 @@ skirt = Mesh('usm_skirt', M['kick'])
 skirt.box(X0, X1, 0.0, 0.12, Z0, Z0 + 0.03); skirt.box(X0, X0 + 0.03, 0.0, 0.12, Z0, Z1); skirt.box(X1 - 0.03, X1, 0.0, 0.12, Z0, Z1)   # 踢腳線
 skirt.finish(root, uv=False)
 # 天花板：鋼承板（白）＋桁架（每 1.8 m 一支，跨 z）＋主梁（z＝±8）＋圓形風管＋長條 LED（沿 z，在每條走道上方）
-dk = Mesh('usm_deck', M['deck']); dk.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); dk.finish(root, uv=False)
+dk = Mesh('usm_deck', M['deck']); dk.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); dk.finish(root, uv=False)   # 朝下
 st = Mesh('usm_joists', M['steel'])
 x = X0 + 0.9
 while x < X1:
@@ -313,6 +313,7 @@ def fruit_bin(c, s_dir, t_dir, ls, lt, kind, lift=0.0):
     if n_.y < 0: n_ = -n_
     res = 0.06; ns, nt_ = max(2, int(ls / res)), max(2, int(lt / res)); amp = min(0.1, 0.24 * min(ls, lt))
     du, dv = rng.uniform(0, 1), rng.uniform(0, 1); V = {}
+    down = s_dir.cross(t_dir).y < 0   # 面的方向照 s_dir×t_dir：朝下的那幾箱把頂點順序反過來（單面化以後從上面看才不會整箱不見；PERF-SINGLESIDE 第五份）
     for i in range(ns + 1):
         for k in range(nt_ + 1):
             s, t = ls * i / ns, lt * k / nt_
@@ -322,6 +323,7 @@ def fruit_bin(c, s_dir, t_dir, ls, lt, kind, lift=0.0):
     for i in range(ns):
         for k in range(nt_):
             vs = [V[i, k], V[i + 1, k], V[i + 1, k + 1], V[i, k + 1]]
+            if down: vs = vs[::-1]
             f = bm.faces.new([v[0] for v in vs])
             for lp, v in zip(f.loops, vs): lp[uvl].uv = v[1]
 for t_ in J['produce_tables']:
@@ -528,6 +530,11 @@ for m_ in (wd, prod, sh, pg, kk, pr, tags, sg, fv, pv, wr, rd, ch):
     m_.finish(root, uv=(m_ is wd)) if m_ is not prod and m_ is not sg and m_ is not wr else m_.finish(root, uv=False, merge=False)
 
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('PLATE_FACE') or ob.name.startswith('DOOR_') or ob.name.startswith('WALL_'))
+# PERF-SINGLESIDE-GLB-1025 第五份（LAWWW2-C 2026-10-27，接 LAWWW2-B 的第一～四份）：材質改單面（lib2.single_side）——雙面材質在 three.js 不剔除背面；
+# 上限（同一頁全部改單面）+33～56%（test_shots/singleside_glb_1025/README.md 上限表）。玻璃照舊雙面；遊戲接手的 PLATE_FACE_ 不補反面。
+# 水果（開口的球、葉片）只從上面、外面看：nodup 不補反面（第一次全補，三角形 +36%、水果占 1.9 萬）
+_ss = L.single_side(root, keep=r'glass', nodup=r'^usm_fruit_', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st_ = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:

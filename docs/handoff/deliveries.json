@@ -14790,6 +14790,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 10-27 17:3x：白名單 wish_aa→482c7f6e9；wish_bb、D09、D14、D20、ladder_bb_y3s2→ab9d70fe0；D10、D11→e089e8788（AA 訊息寫 ab9d70fe0，自查更正在後面）；原稿 AA_127→482c7f6e9、BB_128→ab9d70fe0（import_wish.py 逐句對原稿：對不到 3→0）；重跑 import_wish／import_date_lines／import_ladder；cracktalk_lines.js、invites.js＋tests/aa417_sport_invite_unit.js 第 97 行手改；11 句新句都在遊戲資料裡、舊句都不見"
+  },
+  {
+   "id": "DL-LW2-SINGLESIDE-5",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "f1774b379",
+   "what": "LAWWW2 單面 GLB 第五份：美國大超市 us_market（玻璃照舊雙面；修水果堆一半面朝下；fps 入口 3.85→5.09、第 1 走道 1.50→2.16；三角形 98,732→115,382）＋測試 patch singleside_us_market_1027.patch＋Blender 腳本 us_market.py（開發分支少了 10-22 天花板單面朝下兩行）；outbox fe903518",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 10-27 17:4x 合進開發分支：us_market.glb＋.json、tools/blender/env_second/us_market.py 換 LAWWW2 版、套 patch；singleside_us_market、singleside_us、nav_us、room_ceiling、us_life、us_market_cam、us_market_street、us_ms_seethru、us_season、us_traffic ALL PASS；待 BB 瀏覽器（大超市走道、水果堆、冷藏蔬菜牆、玻璃）"
   }
  ],
  "ignored": [
