@@ -33586,8 +33586,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:1x UTC】43 則照 AA_477 第 3 節表改＋同規則補兩則（大二跨年私訊版、大二下系籃邀約，Z() 包的；已告訴 AA-C，不對就改回）；測試寫死的字 27 支照改（改前 FAIL、改後 PASS；含 AA 要 grep 的「收到」＝cold_week_unit）；當面的話、別人的「收到。」「出發。」、可昕的「下次你要來。」不動；開發分支 Node 655 支（cold_week 修好前 1 FAIL，修好單獨重跑 PASS）。BB：BB_TEST_QUEUE_1027 第 5d 節｜【LAWWW-C 2026-10-27 18:4x UTC】排在 ACCEPTSOPEN-C-1027 以後（AA 說不擋玩家）",
-   "sha": "0b668f38d、8aa501e4c"
+   "next": "【LAWWW-C 2026-10-27 21:0x UTC】BB-C 讀程式核對（BB_218 1fba7a276）找到小函式包起來的 11 則，照同一條規則補改（229b69fc4、1f7b3cce7；AA-C 確認 SQ05 兩則是手機訊息、AA_477 加更正 d04a6c416）；開發分支 Node 見 node_dev_1027m｜【LAWWW-C 2026-10-27 20:1x UTC】43 則照 AA_477 第 3 節表改＋同規則補兩則（大二跨年私訊版、大二下系籃邀約，Z() 包的；已告訴 AA-C，不對就改回）；測試寫死的字 27 支照改（改前 FAIL、改後 PASS；含 AA 要 grep 的「收到」＝cold_week_unit）；當面的話、別人的「收到。」「出發。」、可昕的「下次你要來。」不動；開發分支 Node 655 支（cold_week 修好前 1 FAIL，修好單獨重跑 PASS）。BB：BB_TEST_QUEUE_1027 第 5d 節｜【LAWWW-C 2026-10-27 18:4x UTC】排在 ACCEPTSOPEN-C-1027 以後（AA 說不擋玩家）",
+   "sha": "0b668f38d、8aa501e4c、229b69fc4、1f7b3cce7"
   },
   {
    "id": "PERF-TEX-DEDUP-1027",
