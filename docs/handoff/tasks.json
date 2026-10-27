@@ -28342,8 +28342,8 @@
    "title": "學姊第十二批（AA_470，SIS-LEAD-1021 底下）：大一暑假到大四寒假補七場（學生證借書、大二家族群組四則、大二寒假火鍋、大三上讀書會第一次、大三下法圖午休、Kevin 畢業與讀書會最後一次、大四寒假 Café 朋友版）＋說了沒發生五處＋家族四場認識她（met_sis／SIS_W1）＋Kevin 關於她的群組貼文",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "隔離 worktree 子代理實作（分支 aa470-sis-b12，基底 1dacc06af）；v9.10.11 發布後合進開發分支",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-27 17:3x UTC】合進開發分支 7b1b1abcc（合併 PG-FIX 分支上的 6eb20c9db＝AA_470 bundle db4b71150）；v9.10.11 發布用發布樹（f54a35ec4），所以不用等發布；Node 全部跑中；待 BB 瀏覽器（學姊第十二批七場、說了沒發生五處、家族四場認識她、Kevin 群組貼文）｜隔離 worktree 子代理實作（分支 aa470-sis-b12，基底 1dacc06af）；v9.10.11 發布後合進開發分支",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -32097,7 +32097,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "next": "【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -32795,6 +32795,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 17:3x UTC】子代理唯讀查證中，報告逐批寫進 docs/handoff/USER_WANTS_AUDIT_1027.md（LAWWW 每 15～20 分鐘 commit＋push，D113）；查完 LAWWW 改 USER_WANTS、各列派給負責職位"
+  },
+  {
+   "id": "AA475-BAN5-1027",
+   "title": "AA_475 禁用句第五輪：AA_439 以後新加的台詞三句＋句號版「不是 X。是 Y。」10 句（約會、可昕閒聊、芷若心願、子晴羽球）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "AA-C 10-27 劇情總監自主清查（企劃線 482c7f6e9、ab9d70fe0、e089e8788；D109）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "約會、閒聊、心願、羽球邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 17:3x UTC】已整合（DL-AA-475）；Node 全部跑中；BB 之後順帶看（只改句子，不用專門測）"
   }
  ]
 }
