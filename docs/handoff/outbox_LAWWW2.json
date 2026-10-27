@@ -3566,6 +3566,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 19:4x P0（X104）：衣物間走得進去（不是衣櫃）、床→書桌→洗手間門同在東牆、洗手間門開著有浴缸；C 棟合租戶不動。新測試改前 FAILED 11、改後 ALL PASS；最新開發 0969b1028＋patch 13 支相關 Node＋reachability_all（us_apartment、us_shared）ALL PASS。寫死座標清單在 README（只有書桌椅走近點要改，已在 patch）。READY_FOR_ART_REVIEW"
+  },
+  {
+   "task": "PERF-ZONE-ENTER-1018（X14 第二輪）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/x14_prewarm_settle_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/x14_prewarm_settle_1027/README.md",
+    "docs/art-rebuild/second_ai/test_shots/x14_prewarm_settle_1027/data/",
+    "tools/shots/x14_prof.py",
+    "tools/shots/x14_tex.py"
+   ],
+   "state": "已交付",
+   "remaining": "第一次進溫州街：正式模型、路人 VRM 到的時候在亮著的畫面接上、編新 shader（另外討論）；真的電腦有沒有平行編譯、真的時間沒量",
+   "next": "LAWWW 套 patches/x14_prewarm_settle_1027.patch（src/zones3d.js prewarmRun 5 行、tests/zone_prewarm_unit.js ⑪），跑 zone_prewarm_unit、zone_warmup_unit、Node 全部；BB 在瀏覽器（電腦模式）咖啡廳↔溫州街來回看淡入後停不停",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "原因：沒有平行編譯時 isReady() 一律 true，compileAsync 馬上就好，讀編譯結果（onFirstUse）留到淡入第一格（公館→溫州街第一次那一格 10.3 秒裡 3.9 秒）。修法：prewarm 黑畫面時對已經好的 program 先 getUniforms，cap 2 秒內。SwiftShader 電腦模式：咖啡廳→溫州街（第二次）淡入後最長一格 5.1～5.3→3.2～3.4 秒，黑畫面 4.2～4.4→5.9～6.1 秒（等待挪到黑畫面，總時間差不多）。zone_prewarm_unit ⑪ 改前 3 FAIL、改後 ALL PASS；對 0969b1028 apply --check 過"
   }
  ]
 }

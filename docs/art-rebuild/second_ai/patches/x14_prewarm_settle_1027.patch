@@ -1,0 +1,57 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5703be4e9..30621ea2d 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1809,6 +1809,7 @@ const Z3 = (function(){
+      只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
+   async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
+     const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
++    const qc=+((q.match(/[?&]prewarmcap=(\d+)/)||[])[1]||0); if(qc) opts=Object.assign({},opts,{cap:qc});   /* 量測用：?prewarmcap=毫秒 改黑畫面最多等多久 */
+     const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
+   async function prewarmRun(E,R,opts){
+     const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
+@@ -1822,6 +1823,10 @@ const Z3 = (function(){
+     finally{ for(const [o,m] of off) o.material=m; }
+     out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
+     out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
++    /* 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：沒有平行編譯時 isReady() 一律是 true，compileAsync 馬上就好，真正的等待留到淡入第一格（three.js 第一次畫到時讀編譯結果：onFirstUse）——
++       SwiftShader 電腦模式量到公館→溫州街第一次淡入那一格 10.3 秒，其中 3.9 秒在等編譯結果。黑畫面時在 cap 之內先讀（program.getUniforms）；讀不完的照舊第一格讀 */
++    const tsl=performance.now(); for(const pg of ((R.info&&R.info.programs)||[])){ if(left()<=0){ out.timedOut=true; break; } if(pg.isReady&&!pg.isReady()) continue; try{ pg.getUniforms(); out.settled=(out.settled|0)+1; }catch(e){ console.warn('prewarm settle',e); } }
++    out.settleMs=performance.now()-tsl;
+     const texs=new Set(), add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture) texs.add(v); };
+     for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
+     const tt=performance.now(); let batch=0;
+diff --git a/tests/zone_prewarm_unit.js b/tests/zone_prewarm_unit.js
+index 52b8bad27..42b5d5da4 100644
+--- a/tests/zone_prewarm_unit.js
++++ b/tests/zone_prewarm_unit.js
+@@ -10,6 +10,8 @@
+ //   ⑨ 等的時候主迴圈先不畫（畫面是黑的；不然那一格會停下來等還沒編好的 shader），做完還原 E.renderSkip。
+ //   ⑩ 手機（ASSETS.texCap）不預熱，照原本的做法；?prewarm 強制、?noprewarm 關掉。
+ //   ⑦ 藏起來的物件不編、不傳（three.js 的 compile 會走到藏起來的物件：溫州街有三個藏起來的套件零件 material 是 TK paint 描述，編下去丟例外——2026-10-21 遊戲內量測抓到）。
++//   ⑪ 編譯結果先讀一次（X14 第二輪，LAWWW2-C 2026-10-27）：已經編好的 shader 在黑畫面時呼叫 getUniforms（three.js 第一次畫到時讀編譯結果的那一步），
++//      淡入第一格不再等；還沒好的不讀；cap 到了就停；?prewarmcap=毫秒（量測用）。
+ // 用法：node tests/zone_prewarm_unit.js
+ const fs=require('fs'), vm=require('vm'), path=require('path');
+ const ROOT=path.resolve(__dirname,'..');
+@@ -95,6 +97,20 @@ const glbTpl=()=>{ const g=new THREE.Group(); g.add(new THREE.Mesh(new THREE.Box
+     ASSETS.texCap=null; global.location={search:'?noprewarm'}; const R3=fakeRenderer(0), E3={renderer:R3,scene:scene(),camera:new THREE.PerspectiveCamera()}; const o3=await Z3.prewarm(E3,{cap:300});
+     check('⑩ ?noprewarm 關掉（電腦也照原本的做法）',o3===null&&R3.compiled===null,JSON.stringify(o3));
+     global.location={search:''}; ASSETS.texCap=cap0; }
++  // ⑪ 編譯結果先讀一次（X14，LAWWW2-C 2026-10-27）：黑畫面時對已經好的 program 呼叫 getUniforms（three.js 第一次畫到時的 onFirstUse）；還沒好的（isReady false）不讀、不等；
++  //    cap 用完就停（剩下的照舊淡入第一格讀）；?prewarmcap=毫秒 改 cap（量測用）
++  if(typeof Z3.prewarm==='function'){
++    const mk=(ready,ms)=>{ const p={reads:0,isReady:()=>ready,getUniforms(){ const t=Date.now(); while(Date.now()-t<(ms||0)); p.reads++; return {}; }}; return p; };
++    const R=fakeRenderer(0), P=[mk(true),mk(true),mk(false),mk(true)]; R.info={programs:P};
++    const o=await Z3.prewarm({renderer:R,scene:scene(),camera:new THREE.PerspectiveCamera()},{cap:2000});
++    check('⑪ 黑畫面時已經編好的 shader 先讀一次（getUniforms），還沒好的不讀',P[0].reads===1&&P[1].reads===1&&P[2].reads===0&&P[3].reads===1&&!!o&&o.settled===3,JSON.stringify({reads:P.map(p=>p.reads),settled:o&&o.settled}));
++    const R2=fakeRenderer(0), P2=Array.from({length:40},()=>mk(true,30)); R2.info={programs:P2}; const t0=Date.now();
++    const o2=await Z3.prewarm({renderer:R2,scene:scene(),camera:new THREE.PerspectiveCamera()},{cap:300}); const dt=Date.now()-t0, n2=P2.filter(p=>p.reads).length;
++    check('⑪ 讀不完的時候 cap 到了就停（剩下的照舊淡入第一格讀）、標 timedOut',dt<700&&n2>0&&n2<40&&!!o2&&o2.timedOut,`${dt} ms、讀了 ${n2}／40`);
++    global.location={search:'?prewarmcap=150'}; const R3=fakeRenderer(0), P3=Array.from({length:40},()=>mk(true,30)); R3.info={programs:P3}; const t1=Date.now();
++    const o3=await Z3.prewarm({renderer:R3,scene:scene(),camera:new THREE.PerspectiveCamera()},{cap:5000}); const dt3=Date.now()-t1;
++    check('⑪ 網址 ?prewarmcap=毫秒 改黑畫面最多等多久（量測用）',dt3<500&&!!o3&&o3.timedOut,`${dt3} ms`);
++    global.location={search:''}; }
+   // ⑥ game3d.js：enter() 在淡入之前 await Z3.prewarm（E.update 之後、E.render 之前；noFade 不等）
+   const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const m=g.match(/async function enter\(zoneId,spawn,opts\)\{[\s\S]*?\n/); const body=m?m[0]:'';
+   const iU=body.indexOf('E.update(0.016)'), iP=body.search(/if\(!opts\.noFade&&Z3\.prewarm\) await Z3\.prewarm\(E/), iR=body.indexOf('E.render()'), iF=body.indexOf('await fade(false)');
