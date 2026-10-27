@@ -137,10 +137,10 @@ async def main():
         json.dump(R, open(os.path.join(OUT, 'record_%s.json' % run.name), 'w', encoding='utf-8'), ensure_ascii=False)
         run.note('鏡頭切換：%s' % json.dumps(R['cuts'], ensure_ascii=False))
         run.check('短片有演（BADCLIP.busy 出現過）', started, str(len(R['samples'])))
-        nc = len(R['cuts'] or [])
+        nc = max(0, len(R['cuts'] or []) - 1)   # BB-C 23:3x：cuts 第一筆（t=0）是開演那一格原本跟著玩家的鏡頭，不是切換（第一版把它算進去：完整版 4 筆＝切 3 次、第二次 2 筆＝切 1 次）
         if SKIP: run.check('跳過：按得到「跳過」', bool(skipped))
-        elif FULL: run.check('完整版：三個鏡頭（鏡頭切換 ≥3；鏡頭 3 裡面可能再切一次）', nc >= 3, str(nc))
-        else: run.check('第二次：只有鏡頭 2（鏡頭切換 1 次）', nc == 1, str(nc))
+        elif FULL: run.check('完整版：三個鏡頭（鏡頭切換 ≥3，不算開演那一格；鏡頭 3 裡面可能再切一次）', nc >= 3, str(nc))
+        else: run.check('第二次：只有鏡頭 2（鏡頭切換 1 次，不算開演那一格）', nc == 1, str(nc))
         # 演出中每一格：包都不見；不是包的配件跟開演以前一樣
         pre = (R.get('pre') or {}).get('ents') or {}
         bad, keep_bad, seen_ents = [], [], set()
