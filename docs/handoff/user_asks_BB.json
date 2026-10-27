@@ -102,6 +102,17 @@
    "src": "使用者對 LAWWW-C 說，LAWWW-C 17:22 轉給 BB-C",
    "note": "BB 每段做完寫交接檔／outbox、跟使用者說做了什麼，不停下來等使用者點頭；需要使用者決定的才問（選擇題）",
    "wants": "X98"
+  },
+  {
+   "id": "UA-BB-1027-03",
+   "at": "2026-10-27T22:4x",
+   "quote": "打羽球男主角還背著背包什麼意思",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "已修（開發分支 056851057，待 BB 瀏覽器驗）",
+   "src": "使用者直接問 BB-C",
+   "note": "羽球小短片（badminton_clip3d.js）祐廷、對手背著包打球＝缺漏；BB-C 22:4x 回答並轉 LAWWW-C（BUG-BADCLIP-BACKPACK-1027）；LAWWW-C 修成 CHAR.carryOff（056851057，tests/badclip_bag_unit.js），驗收照 BB_TEST_QUEUE_1027 5p：以安、語彤、男生朋友各一次看三個鏡頭",
+   "wants": "X117"
   }
  ]
 }
