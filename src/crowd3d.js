@@ -177,14 +177,16 @@ const CROWD=(function(){
       npcs.push(n); });
     live[spot.id]={slotKey:slot.key,npcs}; }
   function runPend(GM){ const h=hr(GM.G); for(const q of pend.slice()){ if(h<q.h-1e-9) continue; dropPend(q.n); if(GM.E.npcs.includes(q.n)) q.go(); } }
-  function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0;
-    for(const p of grp){ if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
+  function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0; const h=hr(GM.G);
+    for(let k=0;k<grp.length;k++){ const p=grp[k]; if(slot.cls&&h>=S.goTime(slot,k,grp.length)) continue;   /* 已經過了他走進教室的時間（CROWD-CLASS-ARRIVE-1027）：人在教室裡了（classes3d.js 的 syncRooms 照時間坐好），門口不放 */
+      if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
       const slv=fromDoor?(byDoor?(spot.doorLv|0):(spot.roadLv!=null?spot.roadLv:lv)):lv;   /* 室內：從教室門口（教室那一層）或建築出口（一樓）出來 */
-      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
+      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv,home:{x:p.x,z:p.z,yaw:p.yaw}});
+      if(slot.cls){ n.crowdCls=slot.cls; n.crowdIdx=k; }   /* 等這一堂課的人：classes3d.js 的 syncRooms 把他算進這堂課的人數（不會多排人從大門進來）；第 k 個人照 S.goTime 走進教室 */
       if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
     S.giveLines(GM,spot,slot,npcs);
-    live[spot.id]={slotKey:slot.key,npcs}; }
+    live[spot.id]={slotKey:slot.key,npcs,n:grp.length}; }
   /* 點了可以聽一句的路人（spot.lines(G,slot)＝這個時段的句子；一句給一個人，allTalk＝每個人都是同一串）*/
   S.giveLines=function(GM,spot,slot,npcs){ if(!spot.lines) return []; const L=spot.lines(GM.G,slot)||[]; const out=[];
     npcs.forEach((n,k)=>{ const sc=spot.allTalk?L[0]:L[k]; if(!sc) return; n.talkLabel=spot.talkLabel||'聽一句'; n.talk=()=>S.overhear(GM,n,sc); out.push(n); }); return out; };
@@ -195,31 +197,63 @@ const CROWD=(function(){
     if(st.ap&&E.canStand(st.ap[0],st.ap[1],0.3,lv)) return [st.ap[0],st.ap[1]];   /* 座位指定的走近點（Café 的沙發）*/
     for(const [dx,dz] of [[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.5,fz*0.5],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, z=st.z+dz; if(!E.canStand(x,z,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,z,lv)-st.y)>0.2) continue; return [x,z]; } return null; };
   function sitDown(n,st){ const o=n.obj.position; o.set(st.x,st.y!=null?st.y:o.y,st.z); n.obj.rotation.y=st.yaw||0; n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; }
+  /* 走進教室、找空位坐下（成為那堂課的同學：clsStudent、clsKey）；沒有空位或走不到＝false */
+  function toSeat(GM,spot,cls,n,used){ const E=GM.E; const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(!st||!ap) return false; used.add(st);
+    n.frozen=false; n.pose='walk'; n.lookAt=null; n.faceYaw=null; n.crowd=null; n.clsStudent=true; n.clsKey=cls; n.seat=st;
+    if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) return true; n.seat=null; n.clsStudent=false; return false; }
+  /* 走出建築（或走去門口、馬路）：走開的人不能再點、不再東張西望 */
+  function walkAwayCrowd(GM,spot,n,leave){ const E=GM.E; const toRoad=leave==='road'||leave==='seat';   /* 'seat' 走到這裡＝沒有空位：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿，等在門口的人全部走到教室門口那一點停下來疊成一團）*/
+    const tgt=toRoad?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door), tlv=toRoad?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false; n.lookAt=null; n.faceYaw=null;
+    if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; }
   function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id]; const used=new Set();
     for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null; if(instant){ dropPend(n); E.removeNPC(n); continue; }   /* 走開的人不能再點（D7、D9）*/
       if(spot.people){ if(n.hidden){ dropPend(n); E.removeNPC(n); continue; } if(n.passing) continue; if(n.seat) standNPC(E,n); n.beh='idle'; n.waypoints=null; n.held=false; n.lookAt=null; }   /* 小公園：還沒出發的課輔班拿掉、正在走的照走；坐著的先站起來、繞圈和走動的停下來，再走出公園 */
-      if(L.leave==='seat'){ const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(st&&ap){ used.add(st); n.frozen=false; n.pose='walk'; n.crowd=null; n.clsStudent=true; n.clsKey=L.cls; n.seat=st;
-          if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }
-      /* 沒有空位或走不到：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿（classes3d.js syncRoom full），等在門口的人全部走到教室門口那一點停下來疊成一團）*/
-      const noSeat=L.leave==='seat';
-      const tgt=(L.leave==='road'||noSeat?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)), tlv=(L.leave==='road'||noSeat)?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false;
-      if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; } }
+      if(L.leave==='seat'&&toSeat(GM,spot,L.cls,n,used)) continue;
+      walkAwayCrowd(GM,spot,n,L.leave); } }
+  /* ---------- 上課前 10 分鐘起，門口等的人分批走進教室（CROWD-CLASS-ARRIVE-1027；使用者 2026-10-27「博雅上課門口為什麼一坨人都不會動 開始上課教室突然出現更多人已經坐在位置上?」）----------
+     原本全部等到開始上課那一刻才一起走進去。改成：一群 n 個人，第 k 個在「開始前 10 分鐘＋(k＋½)×10 分鐘／n」走進教室找空位坐下（和 classes3d.js 的 arriveFrac 同一段時間：開始前 10 分鐘起陸續進來）；
+     到了開始上課還在門口的（同一時間到的）照舊一起進去；沒有空位走出建築。 */
+  S.GO_LEAD=1/6;
+  S.goTime=(slot,k,n)=>slot.t1-S.GO_LEAD+(k+0.5)*S.GO_LEAD/Math.max(1,n);
+  function goIn(GM,spot,slot,L){ const h=hr(GM.G), E=GM.E; let used=null;
+    for(const n of L.npcs.slice()){ if(n.crowdIdx==null||h<S.goTime(slot,n.crowdIdx,L.n||L.npcs.length)) continue; L.npcs.splice(L.npcs.indexOf(n),1); if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null;
+      used=used||new Set(); if(toSeat(GM,spot,slot.cls,n,used)) continue; walkAwayCrowd(GM,spot,n,'seat'); } }
+  /* ---------- 等的人、聊天的人的小動作（CROWD-CLASS-ARRIVE-1027：「一坨人都不會動」）----------
+     每個人每 4～10 秒（真實時間）換一個小動作，只用現有的動畫：轉頭看旁邊的人／和他聊兩句（talk）、手插口袋／拿出來、轉身換個方向（慢慢轉）、偶爾走一兩步再站好（離原本的位置 0.8 m 以內）、回到原本的樣子。
+     站著、沒在走的人才動；坐著的、走開的、小公園（spot.people 有自己的安排）不動。每 1.5 秒看一次、一次一群（便宜：不是每一格）。滑手機的動作沒有現成的動畫（要的話是美術缺口）*/
+  S.FIDGET=[4,10];
+  function fidget(GM,dt){ const E=GM.E;
+    for(const id in live){ const L=live[id], spot=S.SPOTS.find(q=>q.id===id); if(!spot||spot.people) continue; const ppl=L.npcs.filter(n=>!n.leaving&&!n.seat&&!n.clsStudent&&!(n.path&&n.path.length)&&E.npcs.includes(n));
+      for(const n of ppl){ if(!n.home) n.home={x:n.obj.position.x,z:n.obj.position.z,yaw:n.obj.rotation.y};
+        if(n.fidT==null){ n.fidT=S.FIDGET[0]+Math.random()*(S.FIDGET[1]-S.FIDGET[0]); continue; } n.fidT-=dt; if(n.fidT>0) continue; n.fidT=S.FIDGET[0]+Math.random()*(S.FIDGET[1]-S.FIDGET[0]);
+        const P=n.obj.position, r=Math.random(); let near=null, bd=1e9; for(const m of ppl){ if(m===n) continue; const d=Math.hypot(m.obj.position.x-P.x,m.obj.position.z-P.z); if(d<bd){ bd=d; near=m; } }
+        n.fid=(n.fid|0)+1;
+        if(r<0.3&&near&&bd<3.5){ n.lookAt=near.obj.position; n.pose=n.idlePose=(n.pose==='talk'?'idle':'talk'); n.frozen=false; n.faceYaw=Math.atan2(near.obj.position.x-P.x,near.obj.position.z-P.z); }   /* 轉頭看旁邊的人、聊兩句（或停下來聽）*/
+        else if(r<0.5){ n.pockets=!n.pockets; }   /* 手插口袋／拿出來 */
+        else if(r<0.72){ n.lookAt=null; n.frozen=false; n.faceYaw=n.home.yaw+(Math.random()-0.5)*1.6; }   /* 轉身換個方向（引擎慢慢轉過去）*/
+        else if(r<0.88){ const a=Math.random()*Math.PI*2, d=0.3+Math.random()*0.5, x=n.home.x+Math.cos(a)*d, z=n.home.z+Math.sin(a)*d, lv=n.lv|0;   /* 走一兩步（離原本的位置 0.8 m 以內）*/
+          if(E.canStand(x,z,0.3,lv)&&E.moveTo&&E.moveTo(n,x,z,()=>{ n.pose=n.idlePose||'idle'; n.faceYaw=n.home.yaw+(Math.random()-0.5)*0.8; },lv)){ n.frozen=false; n.lookAt=null; } }
+        else { n.lookAt=null; n.pose=n.idlePose=n.home.pose||n.idlePose||'idle'; n.frozen=false; n.faceYaw=n.home.yaw; } } } }   /* 回到原本的樣子 */
+  S.fidget=fidget;   /* 測試用 */
   /* 走到門口或馬路的人：不在玩家眼前就移除（走進建築、走遠了）*/
   function sweep(GM){ const E=GM.E, now=Date.now(); for(const n of E.npcs.slice()){ if(!n.leaving||!n.arrived) continue; if(!inView(E,n.obj.position)||Math.hypot(n.obj.position.x-E.player.obj.position.x,n.obj.position.z-E.player.obj.position.z)>40){ E.removeNPC(n); continue; }
       /* 走到門口、玩家看得到：不要一直站在那一點（好幾個人走到同一點會疊在一起）——3 秒後繼續走出建築，還是走不了就移除 */
       if(!n.arrT) n.arrT=now; else if(now-n.arrT>3000){ const sp=S.SPOTS.find(q=>q.id===n.crowdSpot); if(sp&&!n.toRoad){ n.toRoad=true; n.arrived=false; n.arrT=0; if(!E.moveTo(n,sp.road[0],sp.road[1],()=>{ n.arrived=true; },sp.roadLv!=null?sp.roadLv:(sp.lv|0))) E.removeNPC(n); } else E.removeNPC(n); } } }
   function sync(GM,instant){ const G=GM.G, E=GM.E; for(const spot of S.SPOTS){ if(spot.zone!==G.zone) continue; const slot=S.slotAt(G,spot); const L=live[spot.id];
       if(L&&(!slot||slot.key!==L.slotKey)){ const old=spot.slots(G).find(s=>s.key===L.slotKey)||{}; L.leave=old.leave||'road'; L.cls=old.cls; leaveGroup(GM,spot,instant); }
-      if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
+      if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); }
+      else if(slot&&slot.cls&&live[spot.id]&&!instant) goIn(GM,spot,slot,live[spot.id]); } }   /* 上課前 10 分鐘起分批走進教室 */
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
   S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true); };
   /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
   S.keep=function(G){ lastH=G.hour; };
+  /* 轉暗、時間過去以後（classes3d.js：提早坐下上課，先等到上課時間）：照新的時間直接重排門口的人（和「時間跳了」一樣；玩家在黑畫面裡沒看到中間那段）*/
+  S.resync=function(GM){ const G=GM.G, E=GM.E; if(!G||G.zone!==zoneNow) return; for(const n of E.npcs.slice()) if(n.crowd&&n.crowd!=='cls') E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; lastH=G.hour; sync(GM,true); };
   S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
     const jump=lastH!=null&&Math.abs(G.hour-lastH)>0.2; lastH=G.hour;   /* 時間突然跳了：直接重排 */
     if(jump){ const E=GM.E; for(const n of E.npcs.slice()) if(n.crowd) E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; sync(GM,true); }   /* 正在走開的人也一起拿掉（玩家沒有看到中間那段時間）*/
     else sync(GM,false);
-    sweep(GM); };
+    fidget(GM,1.5); sweep(GM); };
   S.live=live; S.pend=pend;
   return S;
 })();
