@@ -3537,13 +3537,13 @@
     "tools/shots/x79_walk.py",
     "tools/shots/x79_prof.py"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "手機的貼圖第一次看到才傳（起步轉向那幾格）：建議先做各棟 GLB 重複貼圖合併（要改 assets3d.js，先討論）；人多的地方平常就慢（沒動）",
    "next": "LAWWW 套 patches/x79_warmup_1027.patch（src/zones3d.js Z3.warmup、src/game3d.js enter 一行、新 tests/zone_warmup_unit.js），跑 zone_warmup_unit、zone_prewarm_unit、Node 全部；BB 在瀏覽器走校園看卡不卡、剛進場那幾秒；真機等使用者",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "X79：第一次走經濟系路線（校門→椰林大道→總圖→社科院→霖澤館）路上 13 次編新 shader（0.5～2.2 秒）；Z3.warmup 淡入後背景預先編（含畫面外、晚接上的正式模型、路人底模、遠距離版本 toon、陰影深度）＋主動讀一次（onFirstUse）。SwiftShader 手機模擬：新 shader 30→0、>1 秒 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒；代價：等待挪到剛進場（SwiftShader 61 秒、真機沒量）、電腦先傳 467 張貼圖。patch 對 ee573caad apply --check 過。（patch 改名 08709df6）"
+   "ack": "ACTIONED",
+   "note": "X79：第一次走經濟系路線（校門→椰林大道→總圖→社科院→霖澤館）路上 13 次編新 shader（0.5～2.2 秒）；Z3.warmup 淡入後背景預先編（含畫面外、晚接上的正式模型、路人底模、遠距離版本 toon、陰影深度）＋主動讀一次（onFirstUse）。SwiftShader 手機模擬：新 shader 30→0、>1 秒 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒；代價：等待挪到剛進場（SwiftShader 61 秒、真機沒量）、電腦先傳 467 張貼圖。patch 對 ee573caad apply --check 過。（patch 改名 08709df6）；LAWWW-C 19:10Z：已合進開發 8dfa52530（zone_warmup／zone_prewarm／nav_buildings／vrm_release ALL PASS），BB 瀏覽器排後面"
   }
  ]
 }
