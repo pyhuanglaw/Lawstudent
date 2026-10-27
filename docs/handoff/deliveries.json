@@ -15011,6 +15011,19 @@
    "msg": "ACK",
    "integration": "部分整合",
    "note": "【LAWWW-C 2026-10-27 21:2x UTC】第 3、5 節合進 8f3d4d2f9；第 1、2、4 節等 y1fb-1027 合進來（社博、crowd 同一帶）；outbox 3fd7f0d03"
+  },
+  {
+   "id": "DL-AA-490",
+   "date": "2026-10-27",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a4f530c11",
+   "what": "AA_490 學姊第十二批三件：12-5 法圖午休改週五 12–14（2028-03-03～04-21 八個週五；日本路線到 3/24），兩筆 linze_5f 不加結束日；4-2 書推過去約哪一家都演；12-4、12-3 照撞期處理（「我去。」旁小字）；日本路線 5/29 sis_jp_events.js 第 13 行第二句換「讀書會還在。Kevin 說考完國考才算結束。」",
+   "task": "SIS-B12-FIX-1027",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做；②（VAC 出國中排除）、⑤（舊存檔不補）照 LAWWW 的做法；outbox dd4f27eef"
   }
  ],
  "ignored": [
