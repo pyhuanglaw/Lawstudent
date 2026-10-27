@@ -34122,6 +34122,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 21:1x UTC】v9.10.11 發布後做：五處照 invites3d.js 的做法先鎖；say 被蓋掉時舊的那段收到結束訊號（不永遠等）；staleCheck 不把 ADV 一直算 live"
+  },
+  {
+   "id": "AA489-LINES-1027",
+   "title": "AA_489 五處句子：①ev_sis_club_expo 兩句（她一直站在帳篷前）②社博學姊手機地點「椰林大道（社團博覽會，法服的攤位，到下午四點）」③提早坐下轉暗旁白（已做）④體育館路人「聽一句」13 句⑤以安吃完麵那一句（已做）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_489（c4bcf86f6）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上社博、上課、體育館、麵店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 21:2x UTC】③⑤合進 8f3d4d2f9（class_arrive_unit 第 3、5 項、inv_arrive_lock_unit 第 6 項）；①②④等 y1fb-1027 合進來再做"
   }
  ]
 }
