@@ -3408,7 +3408,7 @@ const STORY = (function(){
   S.abroad=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.dep), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* 出發日 ≦ 今天 ＜ 返台日 */
   S.movedOut=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.out), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* X1 退宿以後到返台：台灣沒有宿舍 */
   S.routeWeek=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R||!S.abroad(G)) return null; const a=S.dayOfKey(R.arrive); return Math.floor((G.day-a)/7)+1; };   /* 國外事件的週次：(今天 − 抵達日) ÷ 7 ＋ 1 */
-  S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const std=S.dayOfKey('2028-11-05'); return std!=null&&day>=std?-13:-12; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
+  S.tzOffset=function(G,day){ if(day==null) day=G.day; { const v=typeof VAC!=='undefined'&&VAC.tzAt?VAC.tzAt(G,day):null; if(v!=null) return v; }   /* 寒暑假出國途中：遊戲時鐘是當地時間（AA_478 第 7 節，src/vac3d.js）*/ const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const std=S.dayOfKey('2028-11-05'); return std!=null&&day>=std?-13:-12; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
   /* 1A-02（AA_315；BB_204 第 1、5 節、AA_253 第 2 節；使用者 2026-10-17 經 BB-C）：交換路線不讓玩家選——志願表截止 2027-11-18（四）12:00 那一刻照「交往中」定（S.routeWatch，見下面「截止那一刻」）：
      和學姊（heroine_05）＝US、和以安（heroine_01）＝JP、都沒有（只和可昕、芷若、子晴、語彤、沛珊交往也算）＝TW。好感、曖昧不算；定了以後任何事（分手、復合、新的交往）都不改。
      兩段都在交往的，第 10 週的攤牌（ev_two_hearts_cafe）已經選了一個；萬一還是兩段（測試存檔）照學姊那一列。

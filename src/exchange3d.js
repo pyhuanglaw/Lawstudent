@@ -56,7 +56,7 @@ const EXCH=(function(){
        S.airGo(GM,rec)：（字卡：rec.card＝[標題, 小字]，沒有就不出）→ 出境大廳 airport_dep（同行的人 rec.with 跟在旁邊）→ G.flags.AIR_DEP＝{k, at:進大廳的時間, with, q…}；
        「登機」（us3d.js 出境大廳安檢入口的 airportBoard）或進大廳一個小時以後自動登機（同美國，AA_370 H2）→ S.airBoard → S.AIR[k].board(GM,rec)＝原本的流程接著演（2D）。
        S.AIR 由各系統登記：'vac'＝寒暑假出國（src/vac3d.js）、'jp'＝日本路線和以安一起出發（src/y34b3d.js）。S.AIR[k].hall(GM,rec)（有的話）＝進大廳就演的那一幕（演完才存檔）。
-       rec.stand（S.airStand）＝站在大廳另一頭、不跟著走的人（日本路線挽回中的以安，AA_478 第 4 節）。
+       rec.stand（S.airStand）＝站在大廳另一頭、不跟著走的人（日本路線挽回中的以安，AA_478 第 4 節）。S.AIR[k].resume(GM)（有的話）＝每一格先問：登機以後還在途中的存檔要不要接著演（S.tick）。
      等登機的時候：大廳的「搭車離開（回台北）」拿掉、不能用手機回臺北的家（同美國那一趟出發以後一定飛）；人不在大廳了（手機「地點」、讀到別的區域）＝直接登機。
      存檔：G.flags.AIR_DEP（沒有＝沒有要搭的飛機；舊存檔都沒有）。測試：node tests/e08_airport_unit.js */
   S.AIR={};
@@ -101,6 +101,7 @@ const EXCH=(function(){
   S.interact=async function(GM,it){ if((it.exchFly||it.airportBoard)&&S.airPending(GM.G)){ await S.airBoard(GM); return true; }   /* 寒暑假出國、日本路線：安檢入口「登機」（E08）*/
     if(it.exchFly){ await S.fly(GM); return true; } return false; };
   S.tick=function(GM){ const G=GM.G, E=GM.E; if(!G||!G.flags) return false;
+    if(!S._busy) for(const k in S.AIR){ const A=S.AIR[k]; if(A&&typeof A.resume==='function'&&A.resume(GM)) return true; }   /* 登機以後、還在途中存的檔（S.AIR[k].resume：寒暑假出國＝接著演那一趟，AA_478 第 7 節）*/
     if(S.airTick(GM)) return true;   /* 寒暑假出國、日本路線在出境大廳等登機（E08）*/
     if(S.departDue(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.depart(GM); return true; }   /* 在家的在 home3d.js 的 loop 裡 */
     if(S.returnDue(G)){ void S.returnHome(GM); return true; }   /* 美國路線返台（1A-09）*/
