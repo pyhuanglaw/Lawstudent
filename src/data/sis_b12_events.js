@@ -28,12 +28,19 @@ const SISB12_LINES={
   /* 12-6b 讀書會最後一次：7/10 21:00 群組 */
   lastAsk:[['k','最後一次家族讀書會 這週四'],['k','學姊下個月就飛了 我下個月就考了'],['s','題目我出好了。']],
   lastOpts:[{t:'我去。',k:true},{t:'這週不行。',k:false}],
-  lastJp:{t:'我在日本。',say:[['k','對齁 學弟在日本'],['s','題目傳給你。']]} };
+  lastJp:{t:'我在日本。',say:[['k','對齁 學弟在日本'],['s','題目傳給你。']]},
+  /* 7/13 那天寒暑假出國中（AA_492 第 1 節，AA 分支 2a5b78ee3；和日本路線一樣給一個替代選項）：{國}＝那一趟「飛往〇〇」字卡的第一行去掉「飛往」（src/vac3d.js S.abroadDest）。Kevin 照他的寫法不加句號 */
+  lastAway:{t:'我在{國}。',say:[['k','對齁 學弟在{國}'],['s','題目傳給你。']]},
+  lastCancel:'行程取消：法圖・討論室（讀書會最後一次）。那天你在國外。',   /* 舊存檔：已經排好 7/13、後來才出國而取消的，取消那一刻手機系統提示（AA_492 第 1 節）*/
+  /* 4-2 朋友版「另外一本，回來再看。」之後才交往的：下一次和她正式約會的結尾補演一次（AA_492 第 3 節；句子照 12-7 那兩版，旁白換成約會的場合；說話人照交往中的顯示「書瑀」）*/
+  bookLate:{law:['（她的包包裡露出那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。'],
+    novel:['（她的包包裡是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。']} };
 
 const SISB12_EVENTS=(function(){
   const ID='heroine_05', X=()=>typeof SISB12!=='undefined'?SISB12:null;
   const SIS=t=>({speaker:ID,text:t}), N=t=>({speaker:null,text:t}), KEV=t=>({speaker:'Kevin',text:t}), ME=t=>({speaker:'player',text:t});
   const dt={custom:G=>!!X()&&X().dating(G)}, up={custom:G=>!!X()&&X().nameUp(G)};   /* up：朋友以上或交往中＝叫名字 */
+  const gx={custom:G=>typeof R3!=='undefined'&&!!R3.gradExam&&R3.gradExam(G)};   /* 考研究所的玩家（r3_3d.js S.gradExam）：1/8 她要過計畫、1/9 在研究室看過，12-7 不再問（AA_492 第 2 節）*/
   const mem=(tag,rel)=>({mem:[{npc:ID,tag,note:''}],rel:{[ID]:rel}});
   const noW1={flags:['SIS_W1']};
   return [
@@ -143,6 +150,7 @@ const SISB12_EVENTS=(function(){
     { id:'ev_sis_blank_jan', title:'空白的一月', participants:[ID], location:'cafe', trigger:'manual', once:true, background:'blur',
       dialogue:[ N('（兩點半 Café。她坐在老位子，桌上一杯熱水、一本新的計畫本。）'),
         Object.assign({if:up},SIS('{name}。坐。')),Object.assign({unless:up},SIS('學弟。坐。')),
+        {if:gx,goto:'m'},   /* 考研究所的玩家不問選項一，直接接「接著」那一段（她翻開自己的計畫本）；選項二、「另外一本」、結尾照舊（AA_492 第 2 節）*/
         Object.assign({if:{flags:['SIS_PLAN_POSTED']}},SIS('十月那份讀書計畫。後來照著做了多少？')),   /* 十月在家族群組貼過讀書計畫（r3_3d.js r3_sis_plan_a）*/
         Object.assign({unless:{flags:['SIS_PLAN_POSTED']}},SIS('寒假你怎麼排的？')),
         {choice:[{text:'「大概一半。」',goto:'a'},{text:'「每一天都照做。」',goto:'b'},{text:'「沒照做。」',goto:'c'}]},
@@ -157,8 +165,8 @@ const SISB12_EVENTS=(function(){
         {label:'q'},SIS('（看了你一眼）……寫什麼。'),N('（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）'),{goto:'bk'},
         {label:'r'},SIS('好玩。……照片你都看過了。'),
         {label:'bk'},   /* 4-2「另外一本，回來再看。」朋友版（AA_395 1-2 的 SIS_BOOK；both、沒演過的沒有這段）*/
-        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）'},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。……還沒看完。'},
-        {if:{flagIs:{SIS_BOOK:'novel'}},speaker:null,text:'（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）'},{if:{flagIs:{SIS_BOOK:'novel'}},speaker:ID,text:'回來第一個禮拜翻完了。問號少了一點。'},
+        {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。……還沒看完。'},
+        {if:{flagIs:{SIS_BOOK:'novel'}},speaker:null,text:'（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）',set:{SIS_BOOK_BACK:true}},   /* SIS_BOOK_BACK：「另外一本」演過了（交往以後的約會補演同一個記號，sis_b12_3d.js S.bookLate）*/{if:{flagIs:{SIS_BOOK:'novel'}},speaker:ID,text:'回來第一個禮拜翻完了。問號少了一點。'},
         SIS('下學期要的書，開學以前跟我說。法圖寒假開得很短。'),
         {if:{flags:['SIS_BLANK_JAN_REST']},speaker:null,text:'（她把計畫本收起來。那一格「休息」還在上面。）'},
         mem('SIS_BLANK_JAN',{comf:2,trust:1}) ] } ];

@@ -504,6 +504,7 @@ const DATE=(function(){
     if(r.counted&&typeof TERMEND!=='undefined'&&TERMEND.contact) TERMEND.contact(G,t.who,'meet');   /* 學期末的飯：正式約會 +2（BB_202 1-1）*/
     if(r.counted&&r.count===1) G.flags['DATED_1_'+t.who]=true;   /* 第一次之後：當晚她傳一張照片或一句話（AA_128 5-5；訊息內容 BB 寫）*/
     if(r.counted&&!(o&&o.quick)) await S.confessOffer(GM,t);   /* 告白：正式校外約會的結尾（AA_128 5-5、AA_215 第 1 節）*/
+    if(r.counted&&typeof SISB12!=='undefined'&&SISB12.bookLate) await SISB12.bookLate(GM,t);   /* 學姊：朋友版「另外一本」之後才交往的，下一次正式約會的結尾補演一次（AA_492 第 3 節，sis_b12_3d.js）*/
     const spent=Math.max(0,(m0|0)-(G.money|0))+(t.fare|0), ph=(G.album||[]).some(a=>a.trip===t.trip);
     const fx=S.fixedOf(loc);   /* 做了什麼：固定段落（看電影）排第一個 */
     await GM.say(null,'（今天去了'+L.name+'：'+(fx?[fx.label]:[]).concat(spots.map(id=>(pts.find(p=>p.id===id)||{}).name)).join('、')+'。'+(spent?'花了 '+spent+' 元'+(t.fare?'（含來回車資）':'')+'。':'')+(ph?'照片存進相簿。':'')+'）');   /* 結算畫面：去了哪裡、做了什麼、花了多少錢、相簿（不顯示好感數字）*/
@@ -566,6 +567,7 @@ const DATE=(function(){
     if(r.counted&&r.count===1) G.flags['DATED_1_'+id]=true;
     if(r.counted){ const F=G.flags, DO=F.DATE_OVERNIGHT&&typeof F.DATE_OVERNIGHT==='object'?F.DATE_OVERNIGHT:(F.DATE_OVERNIGHT={}); DO[id]=(DO[id]|0)+1; }
     if(r.counted) await S.confessOffer(GM,t);
+    if(r.counted&&typeof SISB12!=='undefined'&&SISB12.bookLate) await SISB12.bookLate(GM,t);   /* 同 S.settle（AA_492 第 3 節）*/
     const spent=Math.max(0,(m0|0)-(G.money|0))+(t.fare|0), ph=(G.album||[]).some(a=>a.trip===t.trip);
     await GM.say(null,'（這兩天去了'+t.locs.map(l=>(S.loc(l)||{}).name).join('、')+'：'+spots.map(s=>(pts.find(p=>p.id===s)||{}).name).join('、')+'。'+(spent?'花了 '+spent+' 元（含來回車資、住宿）。':'')+(ph?'照片存進相簿。':'')+'）');
     return r; };

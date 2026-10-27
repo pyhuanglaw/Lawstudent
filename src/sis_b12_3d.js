@@ -17,8 +17,11 @@
           之後的週四（AA_470 12-4「LAWWW 看成本決定」）這一版不做：她週四照舊在 Café；
      12-6a 2028-06-03 13:00 五則（「學長恭喜！」所有人）；12-6b 2028-07-10 21:00 三則（認識她的才有選項：人在臺灣「我去。」／「這週不行。」→ 7/13 19:00 出遊；
           人在日本「我在日本。」）；SIS_FAMSTUDY_LAST_GO／SIS_FAM_STUDY_LAST、SIS_STUDY_ROOM。人在日本＝當地時間（STORY.tzOffset）。
-          7/13 那天寒暑假出國中（VAC.abroadOn，例 C10 加州 6/21～7/31、C08 首爾 7/13 出發；LAWWW-C ②）也不在臺灣：三則照收、沒有選項、不排；舊存檔已經排好的取消（cancelled），不記 missed。
+          7/13 那天寒暑假出國中（VAC.abroadOn，例 C10 加州 6/21～7/31、C08 首爾 7/13 出發；LAWWW-C ②）也不在臺灣：三則照收、不排；舊存檔已經排好的取消（cancelled），不記 missed。
+          AA_492 第 1 節（AA 分支 2a5b78ee3）：出國中也給一個替代選項「我在{國}。」→ Kevin「對齁 學弟在{國}」→ 學姊「題目傳給你。」（{國}＝那一趟「飛往〇〇」字卡去掉「飛往」，VAC.abroadDest；
+          手機自己排的出國旅遊 T13 也算出國）；已經排好、後來才出國而取消的，取消那一刻手機系統提示「行程取消：法圖・討論室（讀書會最後一次）。那天你在國外。」
    - 4-2 交往版「另外一本」：S.bookWithYou（termend_lines.js 學姊女朋友版大四上 lastByTerm 讀；12/24 約在哪一家都演，AA_490 第 2 節——termend3d.js）；朋友版接在 12-7 裡。
+     朋友版之後才交往的（兩版都沒演到）：下一次正式約會的結尾補演一次（S.bookLate，AA_492 第 3 節）。12-7 考研究所的玩家不問選項一（sis_b12_events.js，AA_492 第 2 節）。
    - 5-1 舊存檔：有 FAMILY_DINNER 記憶、去過家族聖誕（SIS_FAMXMAS_Y1，'missed' 不算）、或 ev_sis_family_dinner／ev_sis_results_dinner(_y1) 演過的，讀檔時補 met_sis、SIS_W1
      （game3d.js migrate 會叫 ROM.rec：包一層，同 multirel3d.js）。
    測試：node tests/aa470_sis_b12_unit.js */
@@ -61,6 +64,7 @@ const SISB12=(function(){
   S.vacEve=(G,id,d)=>{ if(typeof VAC==='undefined'||!VAC.inst||!VAC.enrolled||!VAC.daysOf) return false;
     for(const yk of (VAC.YEARS||[])){ const I=VAC.inst(id,yk); if(I&&d>=I.from&&d<=I.to&&I.A.slot==='eve'&&VAC.enrolled(G,id,yk)&&VAC.daysOf(I).includes(d)) return true; } return false; };   /* 報了那一班（yes／done）、d 是上課日、晚上上課（slot 'eve'；白天上課的不撞）：C04W 托福寒假班週一、三晚上 */
   S.vacAway=(G,d)=>typeof VAC!=='undefined'&&!!VAC.abroadOn&&VAC.abroadOn(G,d);   /* d 那天寒暑假出國中（報了、或去過的出國行程那幾天）：沿用 VAC.abroadOn（同 home3d.js sumSkip、jobs3d.js vacBusy）*/
+  S.vacDest=(G,d)=>typeof VAC!=='undefined'&&VAC.abroadDest?VAC.abroadDest(G,d):(S.vacAway(G,d)?'國外':null);   /* d 那天寒暑假出國中＝目的地（「飛往〇〇」去掉「飛往」；手機自己排的出國旅遊 T13 也算，AA_492 第 1 節）；不在國外＝null */
 
   /* ---------------- 找她說話時先演（12-1、12-5、12-7）---------------- */
   const SIS_PRE=/^ev_sis_(adv_|three_conditions|lab_desk|seminar|topic|us_told|db_taught|ta_papers|econ_|old_notes|hot_water_back|jp_note|which_book|y3s2_rain|pg_q|borrowed_card|lawlib_kevin|blank_jan)/;
@@ -112,18 +116,33 @@ const SISB12=(function(){
   S.grad=function(G){ const d=D(S.GRAD), tag='sisb12_grad'; if(d==null||G.day<d||G.day>d+2||sent(G,tag)||!inGrp(G)) return; const M=(L.gradPost||[]).map(g);
     if(L.gradOpt) M[M.length-1].ask={id:tag,until:T(d+2,0),opts:[{t:L.gradOpt.t,say:L.gradOpt.say.map(r)}]};   /* 選項（所有人）*/
     PHONE.at(G,d,tzH(G,d,13),M,tag); };
+  S.awayOpt=dest=>{ const A=L.lastAway, x=t=>String(t).split('{國}').join(dest); return A?{t:x(A.t),say:A.say.map(([w,t])=>r([w,x(t)]))}:null; };   /* 「我在{國}。」→ Kevin、學姊各一句（AA_492 第 1 節）*/
   S.last=function(G){ const F=G.flags, a=D(S.LAST.ask), d=D(S.LAST.day), tag='sisb12_last_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
-    const away=S.vacAway(G,d);   /* 7/13 那天寒暑假出國中（LAWWW-C ②；例 C10 加州 6/21～7/31、C08 首爾 7/13 出發）＝人不在臺灣：不收邀約、不排、不記 missed */
-    if(!sent(G,tag)&&inGrp(G)&&G.day<=d&&now(G)<T(d,19)){ const M=(L.lastAsk||[]).map(g);
-      if(law(G)&&G.flags.met_sis&&(S.inJapan(G,a)||!away)){ M[M.length-1].ask=S.inJapan(G,a)?{id:tag,until:T(d,19),opts:[{t:L.lastJp.t,say:L.lastJp.say.map(r)}]}:{id:tag,until:T(d,19),opts:(L.lastOpts||[]).map(o=>({t:o.t,set:{SIS_FAMSTUDY_LAST_GO:o.k}}))}; }   /* 選項要「認識她」（AA_470 5-2）；出國中的群組三則照收、沒有選項 */
+    const dest=S.vacDest(G,d), away=!!dest;   /* 7/13 那天寒暑假出國中（LAWWW-C ②；例 C10 加州 6/21～7/31、C08 首爾 7/13 出發；手機自己排的出國旅遊）＝人不在臺灣：不排、不記 missed */
+    if(!sent(G,tag)&&inGrp(G)&&G.day<=d&&now(G)<T(d,19)){ const M=(L.lastAsk||[]).map(g), jp=S.inJapan(G,a), ao=away&&!jp?S.awayOpt(dest):null;
+      if(law(G)&&G.flags.met_sis&&(jp||!away||ao)){ M[M.length-1].ask=jp?{id:tag,until:T(d,19),opts:[{t:L.lastJp.t,say:L.lastJp.say.map(r)}]}:(ao?{id:tag,until:T(d,19),opts:[ao]}:{id:tag,until:T(d,19),opts:(L.lastOpts||[]).map(o=>({t:o.t,set:{SIS_FAMSTUDY_LAST_GO:o.k}}))}); }   /* 選項要「認識她」（AA_470 5-2）；人在日本「我在日本。」、寒暑假出國中「我在{國}。」（AA_492 第 1 節） */
       PHONE.at(G,a,tzH(G,a,21),M,tag); }
-    if(away){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.LAST_OUT.id):null; if(q&&q.state==='planned') q.state='cancelled'; return; }   /* 舊存檔（改之前收到有選項的那一則）：說要去的不排、已經排好的取消（同 VAC.drop 的 cancelled），過了時間不會變 missed */
+    if(away){ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.LAST_OUT.id):null, was=!!q&&q.state==='planned'; if(was) q.state='cancelled';   /* 已經排好、後來才出國（舊存檔；或回了「我去。」以後才排出國旅遊）：取消（同 VAC.drop 的 cancelled），過了時間不會變 missed */
+      if((was||F.SIS_FAMSTUDY_LAST_GO===true)&&F.SIS_FAM_STUDY_LAST==null&&L.lastCancel&&!sent(G,'sisb12_last_cancel')) PHONE.at(G,G.day,+G.hour||0,[{th:'sys',text:L.lastCancel}],'sisb12_last_cancel');   /* 取消那一刻手機系統提示一則（AA_492 第 1 節）*/
+      return; }
     if(F.SIS_FAMSTUDY_LAST_GO===true&&F.SIS_FAM_STUDY_LAST==null&&!abroad(G)&&now(G)<T(d,S.LAST_OUT.h+S.LAST_OUT.late)) plan(G,Object.assign({},S.LAST_OUT,{day:d})); };
 
   /* ---------------- 4-2 交往版：「另外一本，放你那邊。……回來跟你拿。」聽過的（SIS_BOOK_WITH_YOU；舊存檔：她那時候已經在交往）---------------- */
   S.bookWithYou=G=>{ const F=(G&&G.flags)||{}; if(F.SIS_BOOK!=='law'&&F.SIS_BOOK!=='novel') return false; if(!S.dating(G)) return false;
     if(F.SIS_BOOK_WITH_YOU!=null) return F.SIS_BOOK_WITH_YOU===true;
     const w=G.events&&G.events.last&&G.events.last.ev_sis_which_book, R=F.romance&&F.romance[ID]; return w!=null&&!!R&&R.sinceDay!=null&&R.sinceDay<=w; };
+
+  /* ---------------- 4-2 朋友版「另外一本，回來再看。」之後才交往的（AA_492 第 3 節）：12-7 只給沒交往的、交往版（12/24 那一頓）講的是放在祐廷那裡的書——兩邊都沒演到。
+     交往中、SIS_BOOK 是 law／novel、聽的是朋友版、兩版都沒演過（SIS_BOOK_BACK 沒記、12-7 沒演）的：她回臺灣（2028-12-23）以後、畢業典禮（2029-06-02）以前，
+     下一次和她正式約會的結尾演一次（date3d.js S.settle、S.settleOvernight 叫 S.bookLate）。演完記 SIS_BOOK_BACK（和 12-7 同一個記號，不再演第二次）---------------- */
+  S.BOOK_LATE={from:'2028-12-23',to:'2029-06-02'};
+  S.bookFriendVer=G=>{ const F=(G&&G.flags)||{}; if(F.SIS_BOOK!=='law'&&F.SIS_BOOK!=='novel') return false; if(F.SIS_BOOK_WITH_YOU!=null) return F.SIS_BOOK_WITH_YOU===false;
+    const w=G.events&&G.events.last&&G.events.last.ev_sis_which_book, R=F.romance&&F.romance[ID]; return w!=null&&!(R&&R.sinceDay!=null&&R.sinceDay<=w); };   /* 舊存檔（還沒有 SIS_BOOK_WITH_YOU）：那時候還沒在交往＝朋友版（同 S.bookWithYou 的判斷）*/
+  S.bookLateDue=G=>{ const F=(G&&G.flags)||{}; if(!law(G)||!S.dating(G)||F.SIS_BOOK_BACK||done(G,'ev_sis_blank_jan')||!S.bookFriendVer(G)) return false; const a=D(S.BOOK_LATE.from), b=D(S.BOOK_LATE.to); return a!=null&&b!=null&&G.day>=a&&G.day<b; };
+  S.bookLate=async function(GM,t){ const G=GM&&GM.G; if(!G||!t||t.who!==ID||!S.bookLateDue(G)) return false; const B=L.bookLate&&L.bookLate[G.flags.SIS_BOOK]; if(!B) return false;
+    G.flags.SIS_BOOK_BACK=true;   /* 先記：演到一半出錯也不會每次約會都重來 */
+    const me={name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(ID):'書瑀',charId:ID};   /* 交往中＝「書瑀」（social3d.js：CALLED_SHUYU）；旁白不寫名字 */
+    await GM.say(null,B[0]); await GM.say(me,B[1]); return true; };
 
   /* ---------------- 5-1 舊存檔補 met_sis、SIS_W1 ---------------- */
   S.metFix=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||(F.met_sis&&F.SIS_W1)||(s.stage||'law')!=='law') return false;

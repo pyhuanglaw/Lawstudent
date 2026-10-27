@@ -472,6 +472,13 @@ const VAC=(function(){
     else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; f=C&&C.fly; }
     else if(/@/.test(v.key)){ const [id,yk]=v.key.split('@'), I=S.inst(id,yk); f=I&&I.A.fly; }
     return Array.isArray(f)&&f.length?f:null; };
+  /* d 那天人在國外的話，在哪裡（AA_492 第 1 節：學姊 12-6b「我在{國}。」＝那一趟「飛往〇〇」字卡的第一行去掉「飛往」）：
+     出國活動（同 S.abroadOn：報了、或去過，出發到回來那幾天）＋手機自己排的出國旅遊（T13：出發到回來那幾天；那一趟取消、錯過的不算）。沒有字卡的回「國外」；不在國外＝null */
+  S.abroadDest=function(G,d){ const V=S.rec(G), R=V.reg, nmOf=f=>Array.isArray(f)&&typeof f[0]==='string'&&/^飛往./.test(f[0])?f[0].slice(2):'國外';
+    const I=S.all().find(I=>I.A.place.kind==='abroad'&&['yes','done'].includes(R[I.key])&&d>=I.from&&d<=I.to); if(I) return nmOf(I.A.fly);
+    for(const r of (V.t13||[])){ if(!(d>=r.from&&d<=r.to)) continue; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'vac_t13_'+r.n):null; if(q&&(q.state==='cancelled'||q.state==='missed')) continue;
+      const De=TV()&&TV().dest[r.dest]; return nmOf(De&&De.fly); }
+    return null; };
   S.airOk=(GM,q)=>!!q&&q.state==='planned'&&!q.airDone&&S.abroadTrip(q)&&typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM&&!!GM.enter;
   /* 出發：到出境大廳。回傳 false＝人在機場等登機、沒有回家（家裡的選單照「出門了」收起來；jp3d.js、home3d.js 的 !ok 先看 EXCH.airPending）*/
   const airReg=()=>{ if(typeof EXCH!=='undefined'&&EXCH.AIR&&!EXCH.AIR.vac) EXCH.AIR.vac={board:(GM,rec)=>S.airBoardTrip(GM,rec),hall:(GM,rec)=>S.airHallScene(GM,rec),resume:GM=>S.airResume(GM)}; };   /* 登記登機以後接著演什麼（exchange3d.js 照 index.html 在前面；單元測試載入順序不一定，出發時再補一次）*/

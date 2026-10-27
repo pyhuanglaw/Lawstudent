@@ -9,7 +9,7 @@
 //   4  12-3 1/12 群組「我也在。」的小字「那天晚上有托福班」：報了 C04W 大二寒假班（12/28～1/20 週一、三晚上；1/13 週三有課）才有（yes、done 都算）；
 //        沒報、報的是 C04W 別年、C04 暑期班：沒有；托福班白天上課（slot 改 day）、1/13 不是上課日（只上週一）：沒有
 //   5  日本路線 2028-05-29：第二句換成「讀書會還在。Kevin 說考完國考才算結束。」，照片那一則照舊；舊句「柏翰在帶」不在遊戲裡
-//   6  ② 12-6b 寒暑假出國中（VAC.abroadOn：C10 加州 6/21～7/31、C08 首爾 7/13 出發）：7/10 群組三則照收、沒有選項、不排、不記 missed；
+//   6  ② 12-6b 寒暑假出國中（VAC.abroadOn：C10 加州 6/21～7/31、C08 首爾 7/13 出發）：7/10 群組三則照收、沒有「我去。」（AA_492 第 1 節起改成「我在〇〇。」，見 tests/aa492_sis_b12_fix2_unit.js）、不排、不記 missed；
 //        曼谷 7/3～7/7 回來了、沒報出國：照舊有「我去。」／「這週不行。」、回了照排；
 //        舊存檔（改之前已經收到有選項的那一則）：出國中回「我去。」不排；已經排好的取消（cancelled，同 VAC.drop），過了時間也不變 missed
 // 修改前（int-usapt-1027 b49841b83）：1、2、3、4、5、6 各至少一項 FAIL（0 也有：遊戲裡還沒有兩句小字、5/29 還是舊句）。用法：node tests/aa490_sis_b12_fix_unit.js
@@ -154,9 +154,10 @@ await sec(6,async()=>{ const a=D('2028-07-10'), d=D('2028-07-13');
   const APP={C10:{},C08:{VAC_C08_APP:true}};   /* C08 要寫過申請資料才錄取（沒寫的甄選日 VAC 改成 rejected＝沒出國）*/
   check('6. 前提：C10 加州（6/21～7/31）、C08 首爾（7/13 出發，寫過申請資料＝錄取）7/13 都在國外（VAC.abroadOn；跑過手機規則以後也是）',(()=>{ fresh('2028-07-10',20,'friend'); reg('C10@Y3'); ph(); const x=VAC.abroadOn(H.G,d); fresh('2028-07-10',20,'friend',APP.C08); reg('C08@Y3'); ph(); return x&&VAC.abroadOn(H.G,d)&&!VAC.abroadOn(H.G,a); })());
   const bad=[]; for(const [n,k] of [['C10 加州','C10@Y3'],['C08 首爾','C08@Y3']]){ fresh('2028-07-10',20,'friend',APP[k.slice(0,3)]); reg(k); at(a,23.9); ph(); at(a+1,9); ph();
-    const L7=lastMs(); if(J(L7.map(x=>x.text))!==J(['最後一次家族讀書會 這週四','學姊下個月就飛了 我下個月就考了','題目我出好了。'])) bad.push(n+'：三則沒收到'); if(L7.some(x=>x.ask)) bad.push(n+'：有選項');
+    const L7=lastMs(); if(J(L7.map(x=>x.text))!==J(['最後一次家族讀書會 這週四','學姊下個月就飛了 我下個月就考了','題目我出好了。'])) bad.push(n+'：三則沒收到');
+    { const m=L7.find(x=>x.ask), o=m?m.ask.opts.map(q=>q.t):[]; if(o.some(t=>t==='我去。'||t==='這週不行。')) bad.push(n+'：有「我去。」'); }   /* AA_492 第 1 節起：出國中改成一個替代選項「我在〇〇。」（tests/aa492_sis_b12_fix2_unit.js 第 1 節）*/
     H.G.flags.SIS_FAMSTUDY_LAST_GO=true; ph(); if(OUT.get(H.G,'sisb12_famstudy_last')) bad.push(n+'：排了出遊'); pass(); if(H.G.flags.SIS_FAM_STUDY_LAST!=null) bad.push(n+'：記了 '+H.G.flags.SIS_FAM_STUDY_LAST); }
-  check('6. 報了 C10 加州、C08 首爾（7/13 人在國外）：7/10 群組三則照收、沒有選項（不收邀約）；就算有「我去。」的旗標也不排、不記 missed',!bad.length,J(bad));
+  check('6. 報了 C10 加州、C08 首爾（7/13 人在國外）：7/10 群組三則照收、沒有「我去。」（不收邀約；AA_492 第 1 節起只有「我在〇〇。」）；就算有「我去。」的旗標也不排、不記 missed',!bad.length,J(bad));
   const ok=[]; for(const [n,regs] of [['曼谷 7/3～7/7 回來了',[['T03@Y3','yes']]],['沒報出國',[]]]){ fresh('2028-07-10',20,'friend'); regs.forEach(([k,v])=>reg(k,v)); at(a,21); ph(); const o=opts(); PHONE.answer(H.G,'sisb12_last_ask',0); ph(); const q=OUT.get(H.G,'sisb12_famstudy_last'); if(J(o)===J(['我去。','這週不行。'])&&!!q&&q.state==='planned'&&q.day===d) ok.push(n); }
   check('6. 曼谷回來了、沒報出國：照舊「我去。」／「這週不行。」，回了排 7/13 19:00',ok.length===2,J(ok));
   fresh('2028-07-10',20,'friend'); at(a,21); ph(); reg('C10@Y3'); PHONE.answer(H.G,'sisb12_last_ask',0); ph();
