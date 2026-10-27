@@ -18561,6 +18561,27 @@
    "branch": "origin/claude/funny-albattani-iawshm",
    "kind": "not_delivery",
    "reason": "巡查表 P3：312／409／507 重看過、不用改（截圖留證）；LAWWW-B 10-24 22:4x 分類"
+  },
+  {
+   "sha": "0cba6d6e",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "reason": "單面 GLB 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）的 WIP 檢查點，D113 檢查點：美國公寓屋內同角度 8 位置×15:00／21:00；交件時由那一筆 outbox 涵蓋（LAWWW-C 10-27 17:0x 分類）"
+  },
+  {
+   "sha": "e1486b51",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "reason": "單面 GLB 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）的 WIP 檢查點，LAWWW2-B 10-25 19:22 最後一筆：單面第四份同角度對照圖（帳號 B 沒交班）；交件時由那一筆 outbox 涵蓋（LAWWW-C 10-27 17:0x 分類）"
+  },
+  {
+   "sha": "09b41377",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "reason": "單面 GLB 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）的 WIP 檢查點，LAWWW2-B 10-25 18:59：單面第四份 GLB＋測試 patch＋README；交件時由那一筆 outbox 涵蓋（LAWWW-C 10-27 17:0x 分類）"
   }
  ]
 }
