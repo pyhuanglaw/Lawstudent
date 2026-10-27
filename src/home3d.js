@@ -288,16 +288,25 @@ const HOME=(function(){
   S.CARD_LINES=[];
   S.cardLine=function(G,t,o){ for(const f of S.CARD_LINES){ try{ const l=f(G,t,o||{}); if(l) return l; }catch(e){ console.warn('HOME.CARD_LINES',e); } } return null; };
   /* 跳到下一個要停的時間：中間每小時跑一次手機規則（訊息照時間戳記收進來，A44）；中間冒出新的出遊、當面約就停在那裡。
-     o.ff（玩家選的快轉，S.ffMenu）：再加上面 S.waitNew 那幾種，停在收到的那一刻（o.why＝'msg'／'event'）*/
+     o.ff（玩家選的快轉，S.ffMenu）：再加上面 S.waitNew 那幾種，停在收到的那一刻（o.why＝'msg'／'event'）
+     X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：快轉、睡覺跳過去的途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（o.why＝'msg'）——
+     呼叫的人打開手機（S.ffPhone，「收起來」寫「跳過」）、關掉以後接著跳（S.ffMenu、breakRound 的睡覺）；跳完不再說「收到 N 則」（同經濟系 y0Jump）*/
+  S.recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* PHONE.tick 這一批裡別人傳的（祐廷自己那一句不算「收到」）*/
+  S.FF_MAX=200;   /* 一次快轉最多停幾次（每一次都要玩家按「跳過」；只是防呆）*/
   S.breakJump=async function(GM,t,o){ o=o||{}; const G=GM.G, E=GM.E; await GM.fade(true); let n=0, tt=T(G.day,G.hour), mo=null; G.flags._repSkipLine=null; const w0=o.ff?S.waitSnap(G):null;
     const repPass=x=>{ if(typeof OUT==='undefined'||typeof VAC==='undefined'||!VAC.repSkip) return; for(const q of OUT.rec(G)){ if(q.state!=='planned'||T(q.day,q.h)>x) continue; const l=VAC.repSkip(G,q); if(l!=null){ VAC.repDone(G,q); if(l) G.flags._repSkipLine=l; } } };   /* ''＝記成去過、沒有旁白（C16、C17 沒有關鍵事件的上班日，vac3d.js S.workSkip）*/   /* 跳過的第二次以後的活動：記成去過、旁白換成那一句（AA_275 第 1 節）*/
-    while(tt+1<t-1e-6){ tt+=1; setTime(G,E,tt); repPass(tt);
+    while(tt+1<t-1e-6){ tt+=1; setTime(G,E,tt); repPass(tt); let got=0;
       if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
-      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME breakJump phone',e); } }
+      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; got+=S.recvN(out); }); }catch(e){ console.warn('HOME breakJump phone',e); } }
       const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
-      if(w0){ const why=S.waitNew(G,w0); if(why){ o.why=why; t=tt; break; } } }   /* H2：要回的訊息不會被一次跳過（例：C05 阿凱、VA10 香港、C01 海邊的邀約）*/
+      if(w0){ const why=S.waitNew(G,w0); if(why){ o.why=why; t=tt; break; } }   /* H2：要回的訊息不會被一次跳過（例：C05 阿凱、VA10 香港、C01 海邊的邀約）*/
+      if(got){ o.why='msg'; t=tt; break; } }   /* X58：不用回的訊息也停（快轉、睡覺都一樣；事件照上面先算）*/
     setTime(G,E,t); repPass(t); if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD(); { const cl=S.cardLine(G,t,o); if(GM.titleCard) await GM.titleCard(dateLabel(t),cl||(o.dorm?'宿舍':'臺北的家'),cl?3200:2200); } if(!o.dorm&&typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false);   /* o.dorm：宿舍的床快轉（AA_197 1-2）*/
-    if(mo&&GM.toast) GM.toast(mo.text,3800); if(n&&GM.toast) GM.toast('手機｜跳過的日子收到 '+n+' 則訊息',3800); if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return t; };
+    if(mo&&GM.toast) GM.toast(mo.text,3800); /* 收到 N 則：改成途中一則一則停下來看（上面 o.why＝'msg'），跳完不再統計（X58）*/ if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return t; };
+  /* 跳到 to、途中收到訊息就停下來打開手機，按「跳過」接著跳（X58；S.ffMenu 的迴圈的簡單版：睡覺經過要停的時間用）。回傳最後一次 breakJump 的 o */
+  S.jumpSkip=async function(GM,to,o0,dorm){ const G=GM.G; let jo={};
+    for(let k=0;k<S.FF_MAX;k++){ jo=Object.assign({},o0||{}); await S.breakJump(GM,to,jo); if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,to)) break; }
+    return jo; };
   /* 到了表上的日子：那一天要做的（旁白、手機在 S.breakPhone）*/
   S.breakArrive=async function(GM){ const G=GM.G, now=T(G.day,G.hour), P=S.breakPts(G).filter(p=>Math.abs(T(p.day,p.h)-now)<1e-6);
     for(const p of P){ if(p.k==='lottery'||p.k==='lottery3'){ phoneTick(GM); await GM.say(null,p.k==='lottery'?'換一層樓，換一個房間。':'換一層樓，換一個房間。三年，第三個房間。'); }   /* AA_183 3-2（大二）；AA_170 第 2 節（大三，2026-10-16 改「換一層樓」）*/
@@ -352,8 +361,8 @@ const HOME=(function(){
   S.ffMenu=async function(GM,where){ const G=GM.G; if(S.eveDue(G)){ await S.eveGo(GM); return true; }   /* HOLFF-EVE-SKIP：除夕 17:00 以後還在宿舍＝先回家吃年夜飯，不快轉 */ if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return true; const O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null||o.to<=T(G.day,G.hour)) return false;
       const d0=G.day, t0=T(G.day,G.hour); let t1=t0, rl=null;
-      for(let k=0;k<40;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=rl||G.flags._repSkipLine; G.flags._repSkipLine=null;
-        if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,o.to)) break; }   /* H2（AA_340 6-1；D103）：跳的途中收到要回的訊息＝停在那一刻、打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子 */
+      for(let k=0;k<S.FF_MAX;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=rl||G.flags._repSkipLine; G.flags._repSkipLine=null;
+        if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,o.to)) break; }   /* H2（AA_340 6-1；D103）：跳的途中收到要回的訊息＝停在那一刻、打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子；X58 起不用回的訊息也停（原本 40 次的上限一週停不完，改 S.FF_MAX）*/
       { const l=rl||(S.cardLine(G,t1,{dorm})?null:S.breakSkipLine(G,t0,t1,{dorm})); if(l) await GM.say(null,l); }   /* AA_350 O1：停的那一站日期卡有專用句（2/5、8/25 等摘要日）＝一張卡一句，不再接輪替句 */   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */
       return true; }
@@ -399,7 +408,7 @@ const HOME=(function(){
     if(o.k==='eat'){ if(await confirmMiss(GM,G.hour+1)) await S.dinner(GM); return H.at; }   /* BB_214 第 1 點：吃晚餐一小時，會錯過約好的出遊、當面約要先問 */
     if(o.k==='ff'){ await S.ffMenu(GM,'home'); return H.at; }
     if(o.k==='dorm'){ H.lbreak=null; H.bskip=null; await S.back(GM); return false; }
-    { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake){ await S.breakJump(GM,nx); await S.breakArrive(GM); } else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過要停的時間（例：除夕 12:00 以前不會，出遊的晚上會）：停在那裡 */
+    { const wake=T(G.day+1,8.5); if(nx!=null&&nx<wake){ await S.jumpSkip(GM,nx,{},false); await S.breakArrive(GM); } else await S.sleep(GM); S.rec(G).wakeAsk=null; }   /* 睡覺會經過要停的時間（例：除夕 12:00 以前不會，出遊的晚上會）：停在那裡；途中收到訊息先停、打開手機，「跳過」接著睡到那裡（X58）*/
     return H.at; }
   /* 放假的手機（AA_183 3-2）：7/9 語彤的生日（12:00 麵店團群組 Alison；不在群組、和語彤有點熟以上＝她的私訊）、7/15 10:00 大二宿舍抽籤（一定抽中）＋10:05 阿哲。
      story3d.js 的 S.phoneRules 每次呼叫（在家、在外面都一樣；跳過時間的時候每小時一次）*/
