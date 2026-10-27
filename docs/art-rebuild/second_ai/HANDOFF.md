@@ -26,6 +26,11 @@
   - **第七份（美國校園）暫停在 WIP**：`us_campus.py` 加了 `single_side`（`56257299`）；重匯 `$S/uc/ss4.glb`（155,036 個三角形，沒推：跑腳本約 1 分鐘重做）；測試 `patches/singleside_us_campus_1027_WIP.patch` 在新 GLB 上 ALL PASS、開發 FAILED 4。剩：同角度＋fps（`tools/shots/singleside_zone_ab.py`）、README、交件。
   - **LAWWW-C 18:00 P1 派工（D99）**：先做經濟系的卡——**X79 校園白天走起來會卡**、**X14 換區域（Café→溫州街）卡一下比較久**；排在美國單面化前面，量法自己決定、附改前改後數字。另外評估排期：J13 溫州街的貓會走動、B08 小公園從入口 B 走不進主園區、D40 健身的 3D 體態、A21 人物開門動作。
   - **下一步**：X79 → X14 → 第七份美國校園收尾 → 評估 J13／B08／D40／A21。
+- **10-27 20:xx 更新**：
+  - **X79 交件**（PERF-CAMPUS-DAY-1027，`test_shots/perf_campus_day_1027/README.md`、`patches/x79_warmup_1027.patch`）：原因＝第一次走時路上編新 shader（13 次、SwiftShader 0.5～2.2 秒）；`Z3.warmup` 淡入後背景預先編＋主動讀一次。經濟系路線第一次走：新 shader 30→0、>1 秒 9→3、多出來的時間 9.5→3.9 秒。Node 650 支 647 過（3 支缺企劃線 commit，開發一樣）。
+  - user_asks 4 筆對齊 USER_WANTS（e7a47555，LAWWW-C 18:39 通知）。
+  - **下一步**：X14（換區域卡一下：`$S/x14_prof.py` 寫好了，CPU profiler 分格）→ B08（遊戲場往北 1.5 m、入口 B 步道改走遊戲場南邊、wz_park 重匯）→ 第七份美國校園收尾 → 評估 J13／A21／D40。
+  - 建議 LAWWW-C 討論：各棟 GLB 重複貼圖合併（校園 332 張裡 213 張重複，約 24 百萬像素；改 assets3d.js）。
 
 ## ✅ 接班：2026-10-23 06:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **使用者原話**（06:4x）：「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」（UA-LAWWW2-1023-01）。
