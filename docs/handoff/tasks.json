@@ -33894,7 +33894,7 @@
    "title": "日本路線出發的存檔缺口：登機口那段（EVENTS.run）演完自動存檔、JP_DEPARTED 還沒記的那幾秒關掉遊戲，讀回來永遠出發不了——補 EXCH.AIR.jp.resume（照 E08 第三輪 S.airResume 的做法），美國出發同一個缺口一起查",
    "area": "V4-JP",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "E08 第三輪子代理回報（10-27 20:2x；E08 以前就有的舊問題）；D36 玩家不能永久卡住",
    "first": {
@@ -33907,7 +33907,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】LAWWW 決定做；同一個子代理第四輪（x58-e08-1027，基底 673e13527）"
+   "next": "【LAWWW-C 2026-10-27 21:0x UTC】子代理 f0a921972 合進開發分支 448e8811b（e08_jp_resume_unit 基底 6 FAIL）；美國出發沒有這個缺口；BB 照 BB_TEST_QUEUE_1027 第 5e 節｜【LAWWW-C 2026-10-27 20:3x UTC】LAWWW 決定做；同一個子代理第四輪（x58-e08-1027，基底 673e13527）",
+   "sha": "448e8811b"
   },
   {
    "id": "AN-MEAL-STUCK-1027",
@@ -34048,7 +34049,7 @@
    "title": "快速存檔、快速匯出：HUD 一個按鈕，一按存檔（劇情進行中不存、說明原因）、一按匯出存檔檔案（任何時候都能匯出，含 _stuck，卡住時回報用）",
    "area": "META",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-27 20:4x 對 LAWWW-C「可以有快速存檔按鍵嗎」「快速匯出」（UA-LAWWW-1027-24）",
    "first": {
@@ -34061,7 +34062,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:5x UTC】LAWWW 自己做（index.html hudR＋game3d.js；匯出照 btnDownload 那一段）"
+   "next": "【LAWWW-C 2026-10-27 21:0x UTC】LAWWW 做好 3a3aa0639（quick_save_unit 基底 FAIL）；BB 照 BB_TEST_QUEUE_1027 第 5f 節看手機直向、橫向的位置｜【LAWWW-C 2026-10-27 20:5x UTC】LAWWW 自己做（index.html hudR＋game3d.js；匯出照 btnDownload 那一段）",
+   "sha": "3a3aa0639"
   },
   {
    "id": "HOME-PROMISE-1027",

@@ -796,11 +796,13 @@
    "files": [
     "wip_backup/x58_jpresume_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "日本（美國）出發中途存檔讀回來接著演；子代理做中，前提 673e13527（還沒有新 commit 時 bundle 不存在）",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "E08 第三輪子代理回報；D36"
+   "source": "E08 第三輪子代理回報；D36",
+   "closedBy": "448e8811b",
+   "note": "21:0x 子代理做完（f0a921972），合進開發分支 448e8811b。"
   },
   {
    "id": "WIP-LAWWW-PEOPLE-1027",
