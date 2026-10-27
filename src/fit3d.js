@@ -42,7 +42,13 @@ const FIT=(function(){
   S.bike=function(G,d){ if(!(d>0)) return; const r=rec(G), wk=wkOf(G); if(r.bkWk!==wk){ r.bkWk=wk; r.bkN=0; } r.bkM=(+r.bkM||0)+d;
     while(r.bkM>=2000){ r.bkM-=2000; if((r.bkN|0)<3){ r.bkN=(r.bkN|0)+1; S.add(G,1); } } };
   /* 走路、騎車的加成：每 0.5 秒照存檔設（換存檔、讀檔都跟著）*/
-  S.sync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E) return false; const i=S.stageIx(rec(G).fit|0); E.fitWalk=S.WALK[i]; E.fitBike=S.BIKE[i]; return false; };
+  /* 3D 體態第一階段（FIT-3D-BODY-1027，LAWWW2-C；USER_WANTS D40）：姿勢——有在運動以上站、走的時候挺胸、肩膀往後、下巴微收，越高階越明顯；不改身體形狀（第二階段要問使用者）。
+     只有祐廷（E.player）；character3d.js animateVRM 的 u.posture 疊在動作上（坐、騎車、羽球、開門的時候不加）。角度：骨頭的 Euler（x、z 乘 sx，和 SIT_VRM 同一套）*/
+  const PB={Spine1:[-0.035,0,0],Spine2:[-0.02,0,0],Neck:[0.03,0,0],LeftShoulder:[0,0.06,0],RightShoulder:[0,-0.06,0]};
+  const scaleP=k=>{ const o={}; for(const n in PB) o[n]=PB[n].map(v=>+(v*k).toFixed(4)); return o; };
+  S.POSTURE=[null,scaleP(1),scaleP(1.8),scaleP(2.8)];   /* 經常鍛鍊：肩膀往後約 4 cm、頭往後約 4 cm（瀏覽器量的，test_shots/fit_posture_1027）*/
+  S.sync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E) return false; const i=S.stageIx(rec(G).fit|0); E.fitWalk=S.WALK[i]; E.fitBike=S.BIKE[i];
+    const P=E.player, u=P&&P.obj&&P.obj.userData; if(u) u.posture=S.POSTURE[i]; return false; };
   /* 升階以後第一次見到阿哲 */
   S.preTalk=async function(GM,who,id){ const G=GM.G, r=rec(G), i=S.stageIx(r.fit|0); if(i<1) return;
     if(id==='zhe'){ if((r.zheSeen|0)>=i) return; r.zheSeen=i; await GM.say(who,S.LINES.zhe); return; }
