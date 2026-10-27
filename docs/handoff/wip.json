@@ -869,6 +869,21 @@
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
    "source": "使用者 10-27 回報"
+  },
+  {
+   "id": "WIP-LAWWW-HP-1027",
+   "role": "LAWWW",
+   "task": "HOME-PROMISE-1027",
+   "branch": "homepromise-1027（wip_backup/homepromise_1027.bundle）",
+   "sha": "d874aa740",
+   "files": [
+    "wip_backup/homepromise_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "答應媽媽回家（AA_488 961a3a8a0）：記約定、週末提醒、撞約三選一、沒回去的反應；子代理做中，前提 d874aa740（還沒有新 commit 時 bundle 不存在）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488"
   }
  ]
 }
