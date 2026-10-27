@@ -322,6 +322,7 @@ const INV=(function(){
     S.rec(G); if(clash(G,null,thu,Q.h,P.stay)||tripAt(G,thu,Q.h,P.stay)||(G.invites||[]).some(iv=>iv.who===id&&live(iv))) return false;
     A[t.id]=G.day; return !!S.offer(G,id,Q.place,thu,Q.h,Q.text); };
   S.tick=function(GM){ const G=GM.G; if(G) S.anAsk(G); if(!G||!Array.isArray(G.invites)) return; const h=G.hour%24, past=iv=>iv.day<G.day||(iv.day===G.day&&h>=iv.h+S.WAIT_H);
+    if(S.arriveDue(GM)){ S.arrive(GM,G.zone).catch(e=>console.warn('INV.arrive',e)); return true; }   /* 讀途中存的檔回來、人已經在約好的地方（BUG-AN-NOODLE-STUCK-1027 ②）：照走到了開始，不等兩小時記成作罷 */
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day) continue; const P=S.place(iv.place)||{};
       if(P.noRain&&G.weather==='rain'&&h<iv.h+S.WAIT_H){ iv.state='cancelled'; const t=fmtWhy((D().why||{}).rainOff||'下雨了，和{who}的晨跑取消。',{who:nameOf(iv.who)}); S.msg(G,iv.who,t,iv); if(GM.toast) GM.toast(t,4200); continue; }   /* 晨跑那天早上下雨＝取消（AA_126 6-6「下雨不能約」；沒有天氣預報，約的時候只看得到現在的天氣）*/
       if(!iv.rem&&h>=iv.h-0.5&&h<iv.h){ iv.rem=1; if(GM.toast) GM.toast('提醒：'+hh(iv.h)+' 和'+nameOf(iv.who)+'約在'+(P.name||'')+'。',4200); }
@@ -348,11 +349,22 @@ const INV=(function(){
   /* 約好的事：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）。
      她從約好的時間前 15 分鐘就在那裡（S.entryFor）；你進那個區域、她也生出來了＝開始。有座位的地方兩個人一起坐下（淡出淡入），接著照 S.meet。STORY.tick 只在玩家空下來的時候跑 */
   let autoBusy=false;
+  /* 開演當下就鎖住（BUG-AN-NOODLE-STUCK-1027，使用者 10-27 20:3x「跟沈以安吃完飯卡住在她說話的畫面」）：S.arrive 走進門以後先等 0.9 秒、S.autoStart 用 Promise.then 延後，
+     原本都沒有先 sceneBegin——這段空檔玩家按「和她說話」、同一格的 EVENTS.tick（自動事件）都會另外開一段；GM.say 只留一個等點擊的 resolve（game3d.js），
+     先開始的那一段被蓋掉、永遠等不到＝停在她說話的畫面（ADV 還開著，staleCheck 不放開讀檔）。例：day 14 走進麵店馬上和以安說話；10-23 day 9 麵店的 _stuck（X.run 阿哲長桌＋以安的見面）。
+     改成決定開演的那一刻就 sceneBegin（玩家 busy、互動鍵收起來、STORY.tick 和 EVENTS.tick 都跳過），演完 sceneEnd 再自動存檔（見面裡的 autosave 在鎖裡面會略過）。
+     換區域的自動存檔（game3d.js enter 在 STORY.onEnter 之後）也因此不會存成「人在麵店、還在一起走過去」——那份讀回來她一直跟著（②，S.arriveDue）*/
+  const arrivingIv=new WeakSet();   /* 正在演「走到了」的那一筆（不存進存檔）*/
+  S.sceneFree=GM=>{ const E=GM&&GM.E, Dg=GM&&GM.D; return !(E&&E.player&&E.player.busy)&&!(Dg&&(Dg.active||(Dg.busyDepth|0)>0))&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof OUT!=='undefined'&&OUT.due&&GM.G&&OUT.due(GM.G)); };   /* 該出發的出遊先問（同 S.goPrompt；OUT.tick 在同一輪接著跑）*/
+  /* 一起走過去、人已經在約好的地方，可是沒有走 S.arrive（讀檔：途中存的檔、走進門那一刻的自動存檔；使用者 10-27 20:4x「紀錄是我沒有去吃麵 所以重新讀取她才跟著我」）：玩家空下來就照走到了開始 */
+  S.arriveDue=function(GM){ const G=GM&&GM.G; if(autoBusy||!G||!Array.isArray(G.invites)||!S.sceneFree(GM)) return null; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return null;
+    return G.invites.find(iv=>iv.state==='going'&&iv.zone===G.zone&&iv.day===G.day&&!arrivingIv.has(iv)&&!S.privateZone(G.zone))||null; };
   S.npcOf=(GM,id)=>(GM.npc&&GM.npc[id])||(typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(id):null);   /* 學姊在總圖閱覽室、Café 是舊的 sis 生成（別名，EVENTS.npcOf）；一起走到、作罷、坐到她旁邊也都用這個找她（BB 10-22 05:4x：一起走到 Café 自己開始但沒坐下——S.arrive 只找 GM.npc.heroine_05）*/
-  S.autoStart=function(GM){ const G=GM.G; if(autoBusy||!G||!Array.isArray(G.invites)) return false; const h=G.hour%24;
+  S.autoStart=function(GM){ const G=GM.G; if(autoBusy||!G||!Array.isArray(G.invites)||!S.sceneFree(GM)) return false; const h=G.hour%24;
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day||h<iv.h-0.25||h>=iv.h+S.WAIT_H||G.zone!==iv.zone) continue;
       const n=S.npcOf(GM,iv.who); if(!n||!n.obj) continue;
-      autoBusy=true; Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; }); return true; }
+      autoBusy=true; if(GM.sceneBegin) GM.sceneBegin();   /* 當下就鎖住（見上面）：同一格的 EVENTS.tick、這時候按的「和她說話」都進不來 */
+      Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); }); return true; }
     return false; };
   /* 開始：有座位的地點（總圖、Café、麵店、茶館、早午餐）先一起坐下——她坐著就坐她旁邊，沒坐就找兩個相鄰的空位；找不到就照舊直接開始 */
   S.pairSeats=function(GM,n,place){ const E=GM.E; if(!SEATED[place]||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
@@ -406,9 +418,12 @@ const INV=(function(){
       pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(/^（/.test(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
   /* 走進一個區域：一起走過去的人到了目的地 → 見面 */
   S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state==='going'&&iv.zone!==zoneId&&S.privateZone(zoneId)) S.dropGoing(GM,iv); }   /* 走回宿舍＝作罷（使用者 10-21 23:1x）*/
-    for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=S.npcOf(GM,iv.who); iv.state='accepted'; iv.h=+((G.hour%24)).toFixed(3);   /* 約定時間改成到的時候（路上花的時間不算遲到）*/
-      await S.startTogether(GM,iv,n); return true; }   /* 兩個人都到了＝直接開始，有座位的地方一起坐下（使用者 10-21 23:2x；原本她先去找位子、你坐到她旁邊或跟她說話才開始：S.seatFirst 留給舊的流程）*/
-    return false; };
+    const iv=(G.invites||[]).find(v=>v.state==='going'&&v.zone===zoneId); if(!iv) return false; if(arrivingIv.has(iv)) return true;
+    arrivingIv.add(iv); if(GM.sceneBegin) GM.sceneBegin();   /* 走進門那一刻就鎖住（BUG-AN-NOODLE-STUCK-1027，見 S.autoStart 上面）：這 0.9 秒裡按不到「和她說話」、別的事件不會插進來、換區域的自動存檔不會存成 going */
+    try{ await GM.sleep(900); if(iv.state==='going'){ const n=S.npcOf(GM,iv.who); iv.state='accepted'; iv.h=+((G.hour%24)).toFixed(3);   /* 約定時間改成到的時候（路上花的時間不算遲到）*/
+        await S.startTogether(GM,iv,n); } }   /* 兩個人都到了＝直接開始，有座位的地方一起坐下（使用者 10-21 23:2x；原本她先去找位子、你坐到她旁邊或跟她說話才開始：S.seatFirst 留給舊的流程）*/
+    finally{ arrivingIv.delete(iv); if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); }
+    return true; };
   /* 一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）：她走去一個旁邊還有空位的位子坐下；約定時間改成現在（不會因為路上花的時間被算成沒赴約）。
      見面：你坐到她旁邊（S.seatMeet，座位選單呼叫）或跟她說話（story3d.js talkCharacter 的 INV.meetable）。找不到位子或走不到就照舊直接見面。 */
   const SEATED={library:'read',cafe:'sit',noodle:'sit',teahouse:'sit',brunch:'sit'};
