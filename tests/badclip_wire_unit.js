@@ -2,7 +2,7 @@
 //   invites3d.js 見面那一段：答應、第一次那一句（FAof）→ 短片（S.badClip）→「一起的時候」→ 時間往前 →「結束」。
 //   第一次和這個人打＝完整版；之後只演鏡頭 2；最後一個鏡頭的一句只在完整版演完、沒跳過時說；不在新體育館不演；演的時候收 ADV、演完開回來。
 //   game3d.js 的卡住偵測：短片播的時候（BADCLIP.busy）不算卡住（完整版約 13 秒，超過偵測的 10 秒）。
-// 修改前（int-l2-1027 套完 LAWWW2 的 patch、還沒接）：第 0 項 FAIL。用法：node tests/badclip_wire_unit.js
+// 修改前（int-l2-1027 套完 LAWWW2 的 patch、還沒接）：第 0 項 FAIL。8197dbdb9 看 E.zone.id（遊戲的 E.zone 沒有 id）：第 2、3、4、6、7 項 FAIL（短片不演）。用法：node tests/badclip_wire_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 const INV=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8'), GAME=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
@@ -16,7 +16,7 @@ check('1. 卡住偵測：BADCLIP.busy 算還在動',/live=[^\n]*\(typeof BADCLIP
 function run(o){ const log=[]; const ADV={active:o.adv!==false,end(){ this.active=false; log.push('adv.end'); },begin(op){ this.active=true; log.push('adv.begin:'+op.right); }};
   const BADCLIP={LINES:{heroine_03:'……你說不笑的。'},play:async(GM,op)=>{ log.push('play:'+op.who+':'+(op.full?'full':'short')+':adv='+ADV.active); return o.skip?false:true; }};
   const ctx={ADV,BADCLIP}; vm.createContext(ctx); vm.runInContext('const S={};'+m[0]+'\nthis.S=S;',ctx);
-  const GM={E:{zone:{id:o.zone||'gym'}},G:{invites:o.invites||[]},say:async(w,t)=>log.push('say:'+t)};
+  const GM={E:{zone:{},player:{}},G:{zone:o.zone||'gym',invites:o.invites||[]},say:async(w,t)=>log.push('say:'+t)};   /* 遊戲的 E.zone 沒有 id（區域在 G.zone）：照遊戲的樣子給 */
   const iv=o.iv||{who:'heroine_03',place:'gym_badminton',state:'done'}; if(!o.invites) GM.G.invites=[iv];
   return ctx.S.badClip(GM,iv,{name:'陳語彤'}).then(r=>({r,log})); }
 (async()=>{

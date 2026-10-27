@@ -284,8 +284,8 @@ const INV=(function(){
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ SOCIAL.MEMORY_LABEL.SPORT_BADMINTON=SOCIAL.MEMORY_LABEL.SPORT_BADMINTON||'一起打羽球'; SOCIAL.MEMORY_LABEL.SPORT_RUN=SOCIAL.MEMORY_LABEL.SPORT_RUN||'一起晨跑'; }   /* 人物頁的記憶名稱 */
   /* 羽球小短片（BADMINTON-CLIP-1027，使用者 X106「跟陳羽彤打羽球也只是對話帶過? 不能做個小短片?」；演出 AA_485 第 2 節；src/badminton_clip3d.js）：
      和這個人第一次一起打（之前沒有一筆 done 的羽球邀約）＝完整版三個鏡頭，之後只演鏡頭 2；可以跳過。最後一個鏡頭那一句（BADCLIP.LINES：以安、語彤、學姊、沛珊）只在完整版演完、沒跳過時說。
-     人在新體育館（區域 gym）才演；短片要看到 3D，演的時候先收 ADV、演完照原本的樣子開回來。*/
-  S.badClip=async function(GM,iv,who){ const E=GM.E; if(typeof BADCLIP==='undefined'||!BADCLIP.play||!E||!E.zone||E.zone.id!=='gym') return false;
+     人在新體育館（G.zone==='gym'）才演；短片要看到 3D，演的時候先收 ADV、演完照原本的樣子開回來。*/
+  S.badClip=async function(GM,iv,who){ const E=GM.E; if(typeof BADCLIP==='undefined'||!BADCLIP.play||!E||!E.player||!GM.G||GM.G.zone!=='gym') return false;   /* 看 G.zone（區域物件 E.zone 沒有 id：原本寫 E.zone.id，短片永遠不演——10-27 錄影抓到）*/
     const G=GM.G, full=!(G.invites||[]).some(q=>q!==iv&&q.who===iv.who&&q.place==='gym_badminton'&&q.state==='done');
     const adv=typeof ADV!=='undefined'&&ADV.active; if(adv) ADV.end();
     let ok=false; try{ ok=await BADCLIP.play(GM,{who:iv.who,full}); } finally { if(adv) ADV.begin({background:'blur',right:iv.who}); }
