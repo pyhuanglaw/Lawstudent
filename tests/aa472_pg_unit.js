@@ -1,7 +1,7 @@
 // AA_472 畢業以後讀一遍（臺灣路線八種存檔；企劃線 1ebcf530e；任務 PG-FIX-471-473-1027）——不需要瀏覽器。
 //   1 學姊 9/7 15:20「明年。……讀書計畫你先排，我幫你看。」（原本「我幫你排」，和 2030 字卡「你自己排」打架；字卡不動）
 //   2 2030 第二次考的便條一張只寫一句「（便條：「你比去年多念了一年。」）」
-//   3 可昕交往第六年（2030-10-17）：地點照第五年（沒有邀約那一則）、地點之後一句（第五年選了「寫什麼？」的換一句）、禮物照第二～五年、卡片在祐廷手上那一段、沒去＝22:00 私訊
+//   3 可昕交往第六年（2030-10-17）：10/10 21:00 她私訊兩則（AA_476 A-3）、地點照第五年、地點之後一句（第五年選了「寫什麼？」的換一句）、禮物照第二～五年、卡片在祐廷手上那一段、沒去＝22:00 私訊
 //   4 芷若 6/2 視訊兩句：AA_472 第 4 節的改字作廢（AA_476 A-1，企劃線 6ad997806：視訊在 10:30＝英國 03:30，改回原句「凌晨三點」、視訊不搬）
 //   5 學姊交往中、2030 第二次考的考場那一句換成「同一家便利商店。……我坐去年那個位子。」（2029 照舊；去年她沒在便利商店等的照原句）
 //   6 沛珊 2030-06「說好的，運河一圈。……」（AA_367 白名單改 1ebcf530、重新匯入 pg_dates.js）
@@ -44,16 +44,17 @@ await tsec(2,async()=>{ const NOTE='（便條：「你比去年多念了一年�
 
 /* ======================= 3. 可昕的第六年（2030-10-17）======================= */
 await tsec(3,async()=>{ const S3=sec(3);
-  const OPEN='六年。……今年是你寫。', OPEN2='六年。……你想好要寫什麼了嗎？', MISS='卡片你留著。……明年一起給我。';
+  const OPEN='六年。……今年是你寫。', OPEN2='六年。……你想好要寫什麼了嗎？', MISS='卡片你留著。……明年一起給我。', ASK=['十七號晚上，老時間。','……卡片記得帶。'];
   const CARD=[[null,'（這一次，卡片在你的外套口袋裡。你把它推過去。）'],[null,'（她翻開第一頁，看了很久。從包包拿出一支紅筆。）'],['kexin','（圈了一個字）……這個字寫錯了。'],['kexin','留著。不要改。'],[null,'（她把卡片收進包包最裡面那一層。）']];
   check('3. 稿：地點之後兩種、卡片那一段五行、沒去的私訊',S3.includes('> 可昕：'+OPEN)&&S3.includes('> 可昕：'+OPEN2)&&S3.includes('> 可昕：'+MISS)&&CARD.every(x=>S3.includes('> '+(x[0]?'可昕：':'旁白：')+x[1])));
   check('3. 第六年的日子 2030-10-17（四）',STORY.KX_ANNIV_DAYS[6]==='2030-10-17'&&CALENDAR.dateOf(D('2030-10-17')).wd===4);
   const kx6=(key,h,fl)=>{ const G=grad(key,h,Object.assign({KX_ANNIV:{1:'wheel',2:'shop',3:'river',4:'shop',5:'river'},KX_ANNIV_PLACE_5:'river',K7_GIFT_5:'planner'},fl||{})); H.FRIEND('kexin'); H.date('kexin'); return G; };
   const rules=()=>{ STORY.phoneRules(GM); PHONE.tick(H.G); };
-  { const G=kx6('2030-10-10',20.9); rules(); const a=!!OUT.get(G,'kx_anniv6'); H.at('2030-10-10',21.05); rules(); const q=OUT.get(G,'kx_anniv6');
+  { const G=kx6('2030-10-10',20.9); rules(); const a=!!OUT.get(G,'kx_anniv6'), pre=(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask6').length; H.at('2030-10-10',21.05); rules(); const q=OUT.get(G,'kx_anniv6');
     check('3. 交往中、第五年有演到：10/10 21:00 起排第六年（地點照第五年＝河堤、18:30、同一個事件 year 6）；21:00 以前不排',!a&&!!q&&q.day===D('2030-10-17')&&q.h===18.5&&q.year===6&&q.ev==='ev_kexin_anniversary_yn'&&q.ap==='river'&&G.flags.KX_ANNIV_PLACE_6==='river',J(q));
-    const an=(G.msgs||[]).concat(PHONE.rec(G).q).filter(m=>/^kx_anniv/.test(m.tag||''));
-    check('3. 稿上沒有前一週的邀約：不傳（沒有週年的私訊）',!an.length,J(an)); }
+    const ask=(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask6');
+    check('3. 稿：AA_476 A-3 前一週的邀約兩則（可昕，不用回）',ASK.every(t=>a476(3).includes('> 可昕：'+t))&&/不用回/.test(a476(3)));
+    check('3. 10/10（四）21:00 她私訊「'+ASK.join('」「')+'」，不用回（沒有按鈕）；21:00 以前還沒收到',J(ask.map(m=>m.text))===J(ASK)&&ask.every(m=>m.th==='p:kexin'&&m.from==='kexin'&&!m.ask&&m.day===D('2030-10-10')&&m.h>=21&&m.h<21.25)&&pre===0,J(ask)); }
   { const G=kx6('2030-10-10',21.05,{KX_ANNIV_PLACE_6:'wheel'}); rules(); const q=OUT.get(G,'kx_anniv6'); check('3. 有 KX_ANNIV_PLACE_6 的照它（摩天輪）',!!q&&q.ap==='wheel',J(q)); }
   for(const [why,fl] of [['第五年沒去（missed）',{KX_ANNIV:{5:'missed'}}],['沒有第五年',{KX_ANNIV:{4:'shop'}}]]){ const G=kx6('2030-10-10',21.05,fl); rules(); check('3. '+why+'：沒有第六年',!OUT.get(G,'kx_anniv6')&&!G.flags.KX_ANNIV_PLACE_6); }
   { const G=grad('2030-10-10',21.05,{KX_ANNIV:{5:'river'},KX_ANNIV_PLACE_5:'river'}); H.FRIEND('kexin'); rules(); check('3. 沒有在交往：沒有第六年',!OUT.get(G,'kx_anniv6')); }
@@ -72,13 +73,14 @@ await tsec(3,async()=>{ const S3=sec(3);
   /* 沒去（過了時間）*/
   { const G=kx6('2030-10-10',21.05); rules(); const q=OUT.get(G,'kx_anniv6'); H.at('2030-10-17',19.6); for(const x of OUT.expire(G)) OUT.onMissed(GM,x); H.at('2030-10-17',22.05); PHONE.tick(G); H.at('2030-10-18',12.2); rules();
     const an=(G.msgs||[]).filter(m=>/^kx_anniv/.test(m.tag||'')).map(m=>m.text);
-    check('3. 沒去：KX_ANNIV[6] missed；22:00 她私訊「'+MISS+'」（週年的私訊只有這一則）',q.state==='missed'&&G.flags.KX_ANNIV[6]==='missed'&&J(an)===J([MISS])&&(m=>!!m&&m.th==='p:kexin'&&m.day===D('2030-10-17')&&m.h>=22&&m.h<22.25)(G.msgs.find(m=>m.text===MISS)),J(an));
+    check('3. 沒去：KX_ANNIV[6] missed；22:00 她私訊「'+MISS+'」（週年的私訊只有 10/10 那兩則和這一則）',q.state==='missed'&&G.flags.KX_ANNIV[6]==='missed'&&J(an)===J(ASK.concat([MISS]))&&(m=>!!m&&m.th==='p:kexin'&&m.day===D('2030-10-17')&&m.h>=22&&m.h<22.25)(G.msgs.find(m=>m.text===MISS)),J(an));
     check('3. 沒去：沒有 21:00 的電話（卡片我寫好了）、沒有隔天卡片的照片；之後當面也不給卡片（卡片在你手上）',!OUT.get(G,'kx_anniv_call6')&&!H.msgs('p:kexin').includes('週年快樂。下次你準備。')&&(typeof ROM1016==='undefined'||!ROM1016.cardDue||ROM1016.cardDue(G)!==6)); }
-  /* 畢業後篇跳到下一件事：還沒排的時候也停在該問「出發」的時間（長跳每 6 小時看一次）*/
-  { const G=kx6('2030-08-05',10,{FIRST_DAY_SEEN:true}); PG.rec(G).done.first=1; let from=null, i=0;
-    for(;i<6&&!OUT.due(G);i++){ E.player.busy=false; from=G.day; if(!await PG.advance(GM)) break; }   /* 測試存檔的其他一次性訊息會先停一下，照樣跳 */
-    const due=OUT.due(G);
-    check('3. 8/5 跳到下一件事（60 天以上的長跳，每 6 小時看一次）：停在 10/17 該出發的時間（18:00，車程 15 分鐘），第六年已經排好、問「出發」；沒有這個停點會直接跳到 2034 尾聲',D('2030-10-17')-from>=60&&G.day===D('2030-10-17')&&Math.abs(G.hour-18)<1e-6&&!!due&&due.id==='kx_anniv6',J([from,G.day,G.hour,due&&due.id,i])); } });
+  /* 畢業後篇跳到下一件事：10/10 21:00 那兩則私訊停一次（長跳每 6 小時看一次，不然會晚到 23:00）、之後停在 10/17 該問「出發」的時間 */
+  { const G=kx6('2030-08-05',10,{FIRST_DAY_SEEN:true}); PG.rec(G).done.first=1; const lands=[]; let i=0;
+    for(;i<8&&!OUT.due(G);i++){ E.player.busy=false; const from=[G.day,G.hour]; if(!await PG.advance(GM)) break; lands.push({from,to:[G.day,G.hour],ask:(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask6').length}); }   /* 測試存檔的其他一次性訊息會先停一下，照樣跳 */
+    const due=OUT.due(G), k=lands.findIndex(x=>x.to[0]===D('2030-10-10')), L=lands[k], last=lands[lands.length-1];
+    check('3. 8/5 跳到下一件事（60 天以上的長跳）：先停在 10/10 21:00（她的兩則私訊剛到、第六年排好）',!!L&&Math.abs(L.to[1]-21)<1e-6&&L.ask===2&&D('2030-10-10')-L.from[0]>=60&&!!OUT.get(G,'kx_anniv6'),J(lands));
+    check('3. 再跳：停在 10/17 該出發的時間（18:00，車程 15 分鐘）、問「出發」；沒有這兩個停點會直接跳到 2034 尾聲',!!last&&last.to[0]===D('2030-10-17')&&Math.abs(last.to[1]-18)<1e-6&&!!due&&due.id==='kx_anniv6',J(lands.slice(-2))); } });
 
 /* ======================= 4. 芷若 6/2 視訊兩句：改回原句（AA_476 A-1）======================= */
 await tsec(4,async()=>{ const V=['這裡凌晨三點。……學士服是不是借太大件？','再一個多小時這裡就天亮了。你們拍完我再睡。'], NO=['這裡早上五點。……學士服是不是借太大件？','天已經亮了。你們拍完我再睡。'];
