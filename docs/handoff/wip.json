@@ -698,11 +698,13 @@
    "files": [
     "wip_backup/x58_e08_r2_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "E08 第二輪（AA_478：飛往字卡、出發那幕進大廳、大廳兩句、挽回中以安站大廳另一頭、C13 七個目的地）子代理做中；bundle 到 9c61dd48a（4 個 commit），前提 005358306",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "AA_478（c88da7e75、f1afaf4f1）"
+   "source": "AA_478（c88da7e75、f1afaf4f1）",
+   "closedBy": "e1adf4cc5",
+   "note": "19:4x 子代理做完（b24bbaa75），合進開發分支 e1adf4cc5。"
   }
  ]
 }
