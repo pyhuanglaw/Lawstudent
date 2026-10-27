@@ -32842,7 +32842,7 @@
    "title": "校園白天走起來還是會卡（X79：影子閃已修；經濟系那一年大多在校園）",
    "area": "Y0S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "USER_WANTS X79（使用者 10-20）；USER_WANTS_AUDIT_1027 第 2 節；D99 第一優先（經濟系）",
    "first": {
@@ -32855,7 +32855,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】派給 LAWWW2-C（排在美國機場／校園單面化前面）；量法、做法 LAWWW2 決定（D108、D111）",
+   "next": "【LAWWW-C 2026-10-27 18:4x UTC】LAWWW2-C 找到原因：第一次走校園時路上 13 次「這一格編新 shader」（SwiftShader 每次 0.5～2.2 秒：畫面外的建築、晚接上的正式模型、路人臉頭髮、遠距離版本、陰影深度）；做 Z3.warmup（淡入後背景分批預先編）＋zone_warmup_unit（舊 FAIL、新 ALL PASS）；第一版路上新 shader 30→4，第二版量測中，WIP fe92b834 ｜ 【LAWWW-C 2026-10-27 18:0x UTC】派給 LAWWW2-C（排在美國機場／校園單面化前面）；量法、做法 LAWWW2 決定（D108、D111）",
    "xai": {
     "spec": "USER_WANTS X79；docs/handoff/USER_WANTS_AUDIT_1027.md",
     "branch": "claude/focused-cray-c9uwvw",
