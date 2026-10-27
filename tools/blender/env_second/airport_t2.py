@@ -514,6 +514,10 @@ for m_ in (pv, st, mu, gl, wt, pn, tp, rb, se, sg, sh_, al, dl, co, bl, fr, fdD,
     if not m_.empty(): m_.finish(root, uv=(m_ in (tp,)), merge=not (m_ in (sg, sh_, al, fdD, fdA, PROD, ADS)))
 if LEAF is not None and not LEAF.empty(): LEAF.finish(root, uv=False, merge=False)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('DOOR_'))
+# PERF-SINGLESIDE-GLB-1025 第六份（LAWWW2-C 2026-10-27）：材質改單面（lib2.single_side）——上限（同一頁全部改單面）出境大廳 +53～61%（test_shots/singleside_glb_1025/README.md）。
+# 玻璃、霧面玻璃（半透明）照舊雙面；窗外的景（GLOW_ap_outside*，一片）和盆栽葉子是開口零件，補反面。
+_ss = L.single_side(root, keep=r'glass|frosted', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st_ = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:
