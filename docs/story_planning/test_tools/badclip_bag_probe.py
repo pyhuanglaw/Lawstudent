@@ -95,12 +95,20 @@ async def main():
                 run.setup('[捷徑] 時間撥到約好的前 12 分鐘（%.2f）' % (iv['h'] - 0.2))
                 await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })(%s)" % (iv['h'] - 0.2))
             await L.close_panels(pg, cdp)
-            if await pg.evaluate("document.getElementById('phone').classList.contains('hide')"): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
-            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="places"]'); await pg.wait_for_timeout(800)
-            sel = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(x=>x.dataset.place.startsWith('gym|')); if(!e) return null; e.scrollIntoView({block:'center'}); return e.dataset.place; })()")
-            run.check('手機「地點」有新體育館', bool(sel), str(sel))
-            if sel:
-                await pg.wait_for_timeout(500); await L.tap(pg, cdp, '#phoneBody [data-place="%s"]' % sel); await pg.wait_for_timeout(6000)
+            # BB-C 23:4x：手機「地點」的快速前往清單（PLACES.quickList）沒有新體育館——第一版找它＝FAIL（工具假設錯）。
+            # 遊戲的路：約好的時間前 30 分鐘、人不在那一區、空下來＝跳「直接過去：和…」（invites3d.js S.goPrompt，UX-INV-GO-1023）→ 點它
+            gl = await pg.evaluate("(PLACES.quickList()||[]).filter(p=>p&&p[0]==='gym').map(p=>p[1])")
+            run.note('手機「地點」快速前往清單裡的新體育館：%s（沒有＝要走過去或用「直接過去」）' % gl)
+            got = None
+            for _ in range(120):
+                q = await pg.evaluate("(()=>{ const ch=document.getElementById('choices'); return (ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].map(b=>b.textContent):[]; })()")
+                if any(t.startswith('直接過去') for t in q):
+                    got = next(t for t in q if t.startswith('直接過去')); await tap_choice(pg, cdp, "t=>t.startsWith('直接過去')"); break
+                if q: await tap_choice(pg, cdp, "t=>true")
+                elif await pg.evaluate("!!(GAME.D&&GAME.D.active)"): await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(500)
+            run.check('約好的時間前跳出「直接過去：和…」、點它', bool(got), str(got))
+            await pg.wait_for_timeout(6000)
         else:
             st = base_state('gym', H_MEET - 0.2, GYM_SPAWN)
             run.setup('[前置] 讀使用者存檔（day 14）：新體育館 1F 入口 %.2f；%s 有點熟、有聯絡方式；%s' % (H_MEET - 0.2, PARTNER, '之前沒一起打過羽球' if FULL else '之前打過一次'))
