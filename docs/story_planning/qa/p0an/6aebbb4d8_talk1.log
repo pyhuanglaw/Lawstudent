@@ -1,0 +1,58 @@
+  [前置／捷徑] [前置] iv13 改回 going、16:47 公館麵店門口外
+  [  36.7s] 麵店的門 [-63, 21, '進入阿鳳麵店']
+  [前置／捷徑] [前置] 站在門口外 1.5 m
+  [  70.6s] 到達「進入阿鳳麵店」附近（0.27 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，31 秒
+  [前置／捷徑] [捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）
+  [  70.6s] 互動按鈕：進入阿鳳麵店
+  [  83.2s] 進門後 4 秒內互動鍵的變化：["0ms show 離開麵店 busy=false depth=0 dlg=false an=follow", "200ms hide 離開麵店 busy=true depth=1 dlg=false an=follow", "1596ms hide 離開麵店 busy=true depth=1 dlg=false an=idle", "2095ms hide 離開麵店 busy=true depth=2 dlg=true an=idle"]
+PASS 走得進麵店  {"depth": 2, "dlg": true, "txt": "｜你和沈以安在阿鳳麵店", "ch": [], "busy": true, "zone": "noodle", "hour": 16.881, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+FAIL 進門後按得到「和沈以安說話」（使用者的操作）  None
+  [  83.2s] {"depth": 2, "dlg": true, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 16.881, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  84.6s] {"depth": 2, "dlg": false, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 16.881, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  85.1s] {"depth": 2, "dlg": false, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 17.631, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  85.5s] {"depth": 2, "dlg": true, "txt": "沈以安｜「今天謝謝。", "ch": [], "busy": true, "zone": "noodle", "hour": 17.631, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  87.5s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.632, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  88.0s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.634, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  88.4s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.635, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  88.9s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.636, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  89.4s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.638, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  89.8s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.64, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  90.3s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.641, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  90.7s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.642, "iv": "done", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.8}}
+  [  91.6s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.643, "iv": "done", "it": "和沈以安說話", "an": {"beh": "leave", "d": 2.2}}
+  [  92.1s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.644, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.3}}
+  [  92.5s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.644, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.4}}
+  [  93.0s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.645, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.5}}
+  [  93.5s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.646, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.6}}
+  [  93.9s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.646, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.7}}
+  [  94.4s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.647, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.8}}
+  [  94.8s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.648, "iv": "done", "it": "", "an": {"beh": "leave", "d": 2.9}}
+  [  95.3s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.648, "iv": "done", "it": "", "an": {"beh": "leave", "d": 3}}
+  [  95.7s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.649, "iv": "done", "it": "", "an": {"beh": "leave", "d": 3.1}}
+  [  96.2s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.65, "iv": "done", "it": "", "an": {"beh": "leave", "d": 3.3}}
+  [  96.7s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.651, "iv": "done", "it": "", "an": {"beh": "leave", "d": 3.4}}
+  [  97.1s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.652, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 3.5}}
+  [  97.6s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.652, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 3.6}}
+  [  98.0s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.653, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 3.7}}
+  [  98.5s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.654, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 3.9}}
+  [  99.4s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.655, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 3.9}}
+  [  99.8s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.656, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4}}
+  [ 100.3s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.656, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 100.8s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.657, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 101.2s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.658, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 102.1s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.659, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 102.6s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.66, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 103.5s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.661, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 104.0s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.662, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 104.9s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.663, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 105.3s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.664, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 106.2s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.665, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 106.7s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.666, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.2}}
+  [ 107.6s] {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.667, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.1}}
+  [ 117.1s] 結束 {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.669, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.1}} → 8 秒後 {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.681, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.1}}
+PASS 沒有卡在對話（12 秒以上沒有對話框、沒有選項、還在忙）  {"depth": 0, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": false, "zone": "noodle", "hour": 17.667, "iv": "done", "it": "和阿哲說話", "an": {"beh": "leave", "d": 4.1}}
+PASS iv13 不再是 going（約好的那一場有結束）  done
+PASS 她沒有一直跟著（beh 不是 follow）  {"beh": "leave", "d": 4.1}
+PASS 沒有 JS 例外  []
+SHA 6aebbb4d8 MODE talk
+FAILED: 進門後按得到「和沈以安說話」（使用者的操作）
