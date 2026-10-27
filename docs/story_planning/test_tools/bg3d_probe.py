@@ -12,7 +12,9 @@ SHOTS = [('cafe_window', 'cafe', 15.0, (3.2, -2.5), {}), ('cafe_closed', 'cafe',
          # 2026-10-21 BB（帳號 A）加：ntu_gate（LAWWW 17:4x，BUG-ECON-HOME-SHOTS n255；camp_y1.js 8/22 08:30 集合上遊覽車、8/24 12:30 回到校門）＝公館那一側看校門＋校園裡往外看；
          # 黑畫面盤點（black_bg_audit 18:09）：法學院圖書館（ev_an_sis_meet_lawlib 16 句）、霖澤館一樓（ev_y2_xmas 10 句）
          ('ntu_gate_gg', 'gongguan', 8.5, (0.0, -38.0), {}), ('ntu_gate_campus', 'campus', 8.5, (-112.0, 0.0), {}),
-         ('lawlib_night', 'lawlib', 20.0, None, {}), ('linze_1f', 'linze', 15.0, None, {})]
+         ('lawlib_night', 'lawlib', 20.0, None, {}), ('linze_1f', 'linze', 15.0, None, {}),
+         # BB-C 10-27：第 96 組說好要附截圖的兩張——博雅教學館大教室（可昕來台大聽講座 ev_kexin_lecture_ntu 19:00）、公館騎樓白天（BB_220 ② gongguan_day；店面立面 z=19）
+         ('boya_lecture_hall', 'boya', 19.2, None, {}), ('gongguan_day', 'gongguan', 14.0, (10.0, 16.5), {})]
 ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]
 CLEAN = """(on=>{ for(const el of document.body.children){ if(el.tagName==='CANVAS'||el.querySelector('canvas')) continue; if(on){ el.dataset.bbHide=el.style.visibility||'-'; el.style.visibility='hidden'; } else if(el.dataset.bbHide){ el.style.visibility=el.dataset.bbHide==='-'?'':el.dataset.bbHide; delete el.dataset.bbHide; } } const p=GAME.E.player&&GAME.E.player.obj; if(p) p.visible=!on; })"""
 async def closephone(pg):
