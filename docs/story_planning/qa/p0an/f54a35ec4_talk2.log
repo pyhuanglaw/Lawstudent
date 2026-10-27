@@ -1,0 +1,23 @@
+  [前置／捷徑] [前置] iv13 改回 going、16:47 公館麵店門口外
+  [  35.0s] 麵店的門 [-63, 21, '進入阿鳳麵店']
+  [前置／捷徑] [前置] 站在門口外 1.5 m
+  [  64.1s] 到達「進入阿鳳麵店」附近（0.89 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，27 秒
+  [前置／捷徑] [捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）
+  [  64.1s] 互動按鈕：進入阿鳳麵店
+  [  70.2s] 進門後 2893 ms 按到「和沈以安說話」（按的時候 busyDepth 0）
+  [  74.7s] 進門後 4 秒內互動鍵的變化：["0ms show 離開麵店 busy=false depth=0 dlg=false an=follow", "1550ms show 離開麵店 busy=false depth=0 dlg=false an=idle", "2893ms show 和沈以安說話 busy=false depth=0 dlg=false an=idle"]
+PASS 走得進麵店  {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.868, "iv": "accepted", "it": "和沈以安說話", "an": {"beh": "idle", "d": 1.6}}
+PASS 進門後按得到「和沈以安說話」（使用者的操作）  2893
+  [  74.7s] {"depth": 2, "dlg": true, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 16.869, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  77.2s] {"depth": 2, "dlg": false, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 16.869, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  77.6s] {"depth": 2, "dlg": false, "txt": "｜你和沈以安在阿鳳麵店吃飯。", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  78.1s] {"depth": 2, "dlg": true, "txt": "沈以安｜「今天謝謝。", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.6}}
+  [  79.6s] {"depth": 1, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.8}}
+  [  91.6s] 卡住：{"depth": 1, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.8}}
+  [ 101.7s] 結束 {"depth": 1, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.8}} → 8 秒後 {"depth": 1, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.8}}
+FAIL 沒有卡在對話（12 秒以上沒有對話框、沒有選項、還在忙）  {"depth": 1, "dlg": false, "txt": "沈以安｜「今天謝謝。我回去整理筆記。」", "ch": [], "busy": true, "zone": "noodle", "hour": 17.619, "iv": "done", "it": "", "an": {"beh": "idle", "d": 1.8}}
+PASS iv13 不再是 going（約好的那一場有結束）  done
+PASS 她沒有一直跟著（beh 不是 follow）  {"beh": "idle", "d": 1.8}
+PASS 沒有 JS 例外  []
+SHA f54a35ec4 MODE talk
+FAILED: 沒有卡在對話（12 秒以上沒有對話框、沒有選項、還在忙）
