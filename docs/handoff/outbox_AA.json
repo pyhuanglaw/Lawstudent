@@ -3029,6 +3029,36 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "AA_475＝AA_439 的後續（禁用句第五輪＋AA_362 漏掉的句號版「不是X。是Y。」）；LAWWW-C 17:35 開任務 AA475-BAN5-1027（DL-AA-475），已整合待測試"
+  },
+  {
+   "task": "PG-FIX-471-473-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6ad997806",
+   "files": [
+    "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照 A 節九題改（芷若視訊改回原句、延畢擋字卡、第六年邀約兩則、阿哲句號、住外面的中秋照年份）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_476 A 節"
+  },
+  {
+   "task": "AA290-INTAKE",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6ad997806",
+   "files": [
+    "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：白名單 12 檔換到 AA_476 B-2 表的版本（程式不用改）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_476 B-2（USER_WANTS C11）；B-1 I10 抓包 CG 等使用者 A/B/C"
   }
  ],
  "items": [
