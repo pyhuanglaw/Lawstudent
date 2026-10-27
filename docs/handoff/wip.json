@@ -880,11 +880,12 @@
    "files": [
     "wip_backup/homepromise_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已取消",
    "remaining": "答應媽媽回家（AA_488 961a3a8a0）：記約定、週末提醒、撞約三選一、沒回去的反應；子代理做中，前提 d874aa740（還沒有新 commit 時 bundle 不存在）",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488"
+   "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488",
+   "closedBy": "子代理被使用者停掉（2026-10-27 21:3x），只有開工檢查點 5ec254b3a（沒有修改，bundle wip_backup/homepromise_1027.bundle 留著）；HOME-PROMISE-1027 改 LAWWW 自己做"
   }
  ]
 }

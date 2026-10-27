@@ -90,7 +90,7 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
-    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝「（你在門口填了表。）」（AA_485 3-4）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='（你在門口填了表。）'&&iF===1&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
+    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝「（你在場邊填了表。）」（AA_485 3-4；AA_491 C：系籃在球場、沒有門口）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='（你在場邊填了表。）'&&iF===1&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
   /* I：事件的條件 */
   const ez=STORY_EVENTS.find(e=>e.id==='ev_ziqing_club'), es=STORY_EVENTS.find(e=>e.id==='ev_studygroup_wed');
   const why=ez.dialogue.find(d=>d.choice).choice.find(c=>/程式比賽/.test(c.text));
