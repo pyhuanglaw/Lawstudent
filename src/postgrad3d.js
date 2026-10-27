@@ -10,7 +10,8 @@
    - 一試 20 題：期末考的題庫（EXAM_BANK）＋刑訴 QBANK 一起隨機抽、不重複，第二年換一組；題目、答案照題庫，不改。答對題數只在 9/7 放榜看得到。
    - 1A-12（主線 12 畢業典禮的家人，別一批）有 ev_grad_family 的話，拍照等那一段演完；沒有的話 6/2 早上直接帶到 12:00。
    - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_REG_2030（交換延畢 2030 的報名，AA_357 1-6）、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
-     GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE）。
+     GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE；
+     SIS_STORE_2029＝2029 一試那天學姊有沒有說「我在對面的便利商店等」，AA_472 第 5 節）。
    - 開發分支還沒有的旗標（Y4_PATH、GRAD_ADMIT、ZQ_CONTRACT、KAI_STAYED_UP…）一律當作沒有。
    - 掛勾：S.MSGS／S.STEPS／S.stops／S.RULES（別的模組加訊息、場景、停點、每一次的規則；訊息的 win＝過了幾小時不補）。交往中的固定格（可昕「我們的日子」AA_366、六位每月一格 AA_367）在 src/pgdates3d.js。
    測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js、tests/pg_cardline_unit.js */
@@ -234,7 +235,7 @@ const PG=(function(){
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?DLY(G,'yt17Other',Y17.other):DLY(G,'yt17Friend',Y17.friend)));
     if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
-  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多 */
+  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_472 第 4 節把她的句子改成「這裡早上五點」，是照 12:00 拍照算的；時間要不要跟著挪，待 AA 定）*/
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
   S.partnerBeat=async function(GM,id){ const G=GM.G, P=L().PARTNER;
     if(id==='kexin') return S.play(GM,G.flags.GIRAFFE_KEYCHAIN?P.kexin.key:P.kexin.noKey);
@@ -312,9 +313,13 @@ const PG=(function(){
   async function b1Scene2030(GM){ const G=GM.G, A=adv(); GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T('2030-07-11',20)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'總圖 B1',2000);
       if(A) A.begin({background:BG('ntu_lib_b1')}); await GM.fade(false); await S.play(GM,S.b1Lines2030(G)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,T('2030-07-11',22)); await GM.fade(false); }
-  S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05');
+  S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05'), d=S.dating(G,'heroine_05');
     if(y===2030&&S.retaker(G)) await GM.say(null,N.retake.note); else await S.play(GM,N.lines);
-    if(S.dating(G,'heroine_05')) await GM.say(sis,N.lover); };   /* 戀人版當面給：最後多一句 */
+    if(d) await GM.say(sis,y===2030&&N.lover2030&&S.sisWaited2029(G)?N.lover2030:N.lover);   /* 戀人版當面給：最後多一句；AA_472 第 5 節：2030 第二次考、去年她也在便利商店等＝換句 */
+    if(y===2029) G.flags.SIS_STORE_2029=d; };   /* 2029 那一次她有沒有說「我在對面的便利商店等」（AA_472 第 5 節）*/
+  /* 2029 一試那天她在對面的便利商店等過（戀人版當面給便條）：記 SIS_STORE_2029；舊存檔沒有＝2029 有考、現在這一段交往在 2029-08-04 以前就開始 */
+  S.sisWaited2029=G=>{ const F=G.flags||{}; if(F.SIS_STORE_2029!=null) return F.SIS_STORE_2029===true; if(F.BAR_SIT_2029!==true||!S.dating(G,'heroine_05')) return false;
+    const R=F.romance&&F.romance.heroine_05, e=S.DK(Y[2029].exam); if(!R) return false; if(typeof R.sinceDay==='number') return R.sinceDay<=e; const m=/^D(-?\d+)$/.exec(String(R.since||'')); return m?+m[1]<=e:!!R.since; };
   async function examDay(GM,y){ const G=GM.G, F=G.flags, Lx=L(), d=S.DK(Y[y].exam), A=adv();
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,d*24+8);
       if(S.noteInPerson(G,y)){ if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('ntu_avenue'),right:{charId:'heroine_05',expression:'smile'}}); await GM.fade(false); await S.noteScene(GM,y); await GM.fade(true); if(A&&A.active) A.end(); }
