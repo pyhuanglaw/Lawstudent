@@ -28,7 +28,7 @@ const HPROM=(function(){
       const p=S.get(G); if(p&&p.ask>=m.day) return p; if(m.ans!==0||!S.KIND.test(m.ask.k||'')) return p;
       const sp=S.span(m.day); if(now(G)>sp.to) return p;   /* 週末已經過了（舊存檔讀進來）＝不補（第 5 節）*/
       const no=(((m.ask.opts||[])[1]||{}).say||[]).map(x=>x.text);
-      const np={ask:m.day,k:m.ask.k,from:sp.from,to:sp.to,rd:sp.rd,sat:sp.sat,sun:sp.sun,st:'open',no}; rec(G).promise=np; return np; } return S.get(G); };
+      const np={ask:m.day,k:m.ask.k,from:sp.from,to:sp.to,rd:sp.rd,sat:sp.sat,sun:sp.sun,st:'open',no}; np.seen=S.plans(G,np).map(q=>q.kind+':'+q.id); rec(G).promise=np; return np; } return S.get(G); };   /* seen：答應以前就排好的約（第 4 節：先有約、後來才答應＝不另外問，週六早上照「已經排了別的約」那一版提醒）*/
   /* 說了不回去（第 3-1 節）：祐廷一則、媽媽回那一週原本「這週不回」的那一句 */
   S.tell=function(G){ const p=S.get(G); if(!p||p.st!=='open') return; p.st='told'; if(typeof PHONE!=='undefined') PHONE.at(G,G.day,G.hour,[ME('這週回不去了')].concat(p.no.map(MOM)),'hp_told_'+p.ask); };
   /* 每次 phoneRules（STORY.PHONE_RULES）：做到了、颱風假、週六 18:30「回來了沒」、姊姊兩則、週日 21:30 沒回去（第 3-2、5 節）*/
@@ -57,6 +57,22 @@ const HPROM=(function(){
     for(const o of (G.outings||[])){ if(!o||o.state!=='planned') continue; const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===o.ev):null, st=T(o.day,o.h), en=st+(o.travelH||0)+((ev&&ev.hours)||3); if(en<=t||st>=p.to||en<=p.from) continue; out.push({kind:'out',id:o.id,st,en,who:o.who||null,place:o.place||o.title}); }
     return out.sort((a,b)=>a.st-b.st); };
   S.planLine=q=>S.when(q.st%24)+(q.who?'和'+nm(q.who)+'有約。':'要去'+(q.place||'外面')+'。');   /* 「下午四點和可昕有約。」「下午兩點要去淡水。」*/
+  /* 第 4 節：答應以後，那個週末的時段裡多了一個約（邀約 accepted、出遊 planned）→ 下一次空下來（手機關起來、在 3D 裡）問一次：
+     赴約，結束再回家／赴約，這週不回去／改天再約；整個週末都佔掉的約（12 小時以上：兩天的出遊、出國、宿營）沒有第一個 */
+  const WD=['禮拜天','禮拜一','禮拜二','禮拜三','禮拜四','禮拜五','禮拜六'];
+  S.newPlans=function(G,p){ const seen=p.seen||(p.seen=[]); return S.plans(G,p).filter(q=>!seen.includes(q.kind+':'+q.id)); };
+  S.clash=async function(GM,q){ const G=GM.G, p=S.get(G); if(!p) return; const opts=(q.en-q.st>=12?[]:['赴約，結束再回家']).concat(['赴約，這週不回去','改天再約']); let k=null; GM.sceneBegin();
+    try{ await GM.say(null,S.REMIND); const i=await GM.choose(opts.map(t=>({t}))); k=opts[i]||opts[0]; }
+    finally { GM.sceneEnd(); }
+    if(typeof PHONE==='undefined') return;
+    if(k==='赴約，結束再回家'){ const wd=WD[(typeof CALENDAR!=='undefined'?CALENDAR.dateOf(Math.floor(q.st/24)).wd:6)%7]; PHONE.at(G,G.day,G.hour,[ME(wd+'有事 晚一點回去'),MOM('好 晚餐留給你')],'hp_late_'+p.ask+'_'+q.id); }   /* 約定照舊 open：週六早上照「已經排了別的約」那一版提醒 */
+    else if(k==='赴約，這週不回去'){ p.st='told'; PHONE.at(G,G.day,G.hour,[ME('這週有事 回不去了')].concat(p.no.map(MOM)),'hp_told_'+p.ask); }
+    else if(k==='改天再約') S.unplan(G,q); };
+  /* 改天再約：這個約不答應——邀約照那個系統「改天」那一條（INV：「你跟〇〇說改天。」）；出遊是手機答應的就照那一則原本的婉拒回覆，沒有婉拒回覆的＝不排 */
+  S.unplan=function(G,q){ if(q.kind==='inv'){ const iv=(G.invites||[]).find(x=>x.id===q.id); if(iv){ iv.state='declined'; iv.accepted=false; if(typeof INV!=='undefined'&&INV.msg) INV.msg(G,iv.who,'你跟'+nm(iv.who)+'說改天。',iv); } return; }
+    const o=(G.outings||[]).find(x=>x.id===q.id); if(!o) return; o.state='cancelled'; o.byHome=true;
+    const m=o.ask&&typeof PHONE!=='undefined'&&PHONE.byAsk?PHONE.byAsk(G,o.ask):null, d=m&&m.ask&&(m.ask.opts||[]).find((x,j)=>j!==m.ans&&x&&x.say&&x.say.length);
+    if(d) PHONE.at(G,G.day,G.hour,[{th:m.th,from:'player',who:null,text:d.post||d.t}].concat(d.say.map(r=>Object.assign({th:m.th},r))),'hp_unplan_'+o.id); };
   const idle=GM=>/^dorm/.test(GM.G.zone||'')&&!GM.E.player.busy&&!(GM.D&&GM.D.active)&&!(typeof ADV!=='undefined'&&ADV.active);   /* 人在宿舍、空下來 */
   S.goHome=async function(GM){ const G=GM.G, p=S.get(G); if(typeof HOME==='undefined'||!HOME.canGo(G)||HOME.at(G)) return false; if(p) p.late=(G.hour%24)+(HOME.livesHome&&HOME.livesHome(G)?0.5:0.7)>=20?G.day:null; return HOME.go(GM); };
   /* 第 2 節：那個週末第一個不用上課的早上 07:00～11:00 一次（「回家」「晚一點」「這次不回去」）；「晚一點」→ 16:00 以後再一次（「回家」「這次不回去」）*/
@@ -70,6 +86,7 @@ const HPROM=(function(){
   S.tick=function(GM){ const G=GM.G, p=S.get(G); if(!p||p.st!=='open'||typeof HOME==='undefined'||HOME.at(G)) return false; const t=now(G), h=G.hour%24;
     if(p.goNow&&!p.goDone&&HOME.canGo(G)&&!GM.E.player.busy&&!(GM.D&&GM.D.active)){ p.goDone=true; void S.goHome(GM).catch(e=>console.warn('HPROM.go',e)); return true; }
     if(p.after&&!p.afterDone&&t>=p.after&&t<p.to&&!GM.E.player.busy&&!(GM.D&&GM.D.active)&&!(typeof ADV!=='undefined'&&ADV.active)){ p.afterDone=true; void S.remind(GM,3).catch(e=>console.warn('HPROM.after',e)); return true; }   /* 約結束以後第一次空下來：「回家」「這次不回去」（在哪裡都問）*/
+    if(t<p.to){ const nq=!GM.E.player.busy&&!(GM.D&&GM.D.active)&&!(typeof ADV!=='undefined'&&ADV.active)?S.newPlans(G,p):[]; if(nq.length){ p.seen.push(nq[0].kind+':'+nq[0].id); void S.clash(GM,nq[0]).catch(e=>console.warn('HPROM.clash',e)); return true; } }   /* 第 4 節（在哪裡都問；週末還沒開始也問）*/
     if(t<p.from||t>=p.to||!idle(GM)) return false;
     if(G.day===p.rd&&h>=7&&h<11&&!p.r1){ p.r1=true; void S.remind(GM,1).catch(e=>console.warn('HPROM.remind',e)); return true; }
     if(p.r2&&!p.r2done&&G.day===p.rd&&h>=16&&t<T(p.sat,18.5)){ p.r2done=true; void S.remind(GM,2).catch(e=>console.warn('HPROM.remind2',e)); return true; }
