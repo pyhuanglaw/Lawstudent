@@ -306,12 +306,13 @@ const JP=(function(){
     finally{ R.place='room'; if(A&&A.active){ if(A.hide) A.hide('right'); if(A.setBg) A.setBg(S.bgNow(G)); } }
     return true; };
   S.phoneTick=function(GM){ const G=GM.G, P=P_(); if(!P) return; try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ if(out.length&&GM.toast) GM.toast('手機｜'+P.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('JP phone',e); } };
+  const REST_UNTIL=()=>typeof HOME!=='undefined'&&HOME.REST_UNTIL?HOME.REST_UNTIL:26.5;   /* 凌晨 2:30（home3d.js S.REST_UNTIL）*/
   S.round=async function(GM){ const G=GM.G, O=[], A=A_();
     const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null;
     if(q) O.push({t:(q.verb||'出發')+'：'+q.title,hint:(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:''),k:'out',q});
     const c=S.classNow(G); if(c) O.push({t:'去上課：'+c.c.name,hint:hm(c.t0)+'　交換學校',k:'class',c});
     O.push({t:'共用廚房',k:'place',p:'kitchen'},{t:'便利商店',k:'place',p:'konbini'},{t:'河邊',k:'place',p:'river'});
-    O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'},S.hasRoom3d()?{t:'在房間休息一下',hint:'走進你的房間',k:'room3d'}:{t:'在房間休息一下',hint:'一小時',k:'rest'});
+    O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'}); if(S.hasRoom3d()) O.push({t:'在房間休息一下',hint:'走進你的房間',k:'room3d'}); else if(G.hour<REST_UNTIL()) O.push({t:'在房間休息一下',hint:'一小時',k:'rest'});   /* 凌晨 2:30 以後不出一小時的休息（BUG-HOME-REST-NOCAP-1027）*/
     const ff=S.ffOpts(G,'jp'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'},{t:'睡覺',hint:'明天 '+hm(S.wakeH(G,G.day+1))+' 醒來',k:'sleep'});
     const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
@@ -408,7 +409,7 @@ const JP=(function(){
     const ff=S.ffOpts(G,'home'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});
     if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'});
-    O.push({t:'在家休息一下',hint:'一小時',k:'rest'},{t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
+    if(G.hour<REST_UNTIL()) O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});   /* 同上 */
     const o=O[await GM.choose(O,{menu:true})]||O.find(x=>x.k==='sleep');
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='out'){ const call=S.callLike(o.q); H.at=false; if(A&&A.end) A.end(); const ok=await OUT.go(GM,o.q,{fromHome:true});

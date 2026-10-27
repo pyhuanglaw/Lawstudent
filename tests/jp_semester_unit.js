@@ -143,6 +143,12 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('J-S9 回臺北的家（AA_144 X2）：「你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。」；在家', has('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')&&HOME.at(G)&&idx('你回來了。媽媽把你的房間打掃過，桌上多了一盒你小時候的模型。')>idx('……好熱。'));
     at('2028-08-05',19); const ff=S.ffOpts(G,'home'); check('J-S9／裁定 10 回來的那晚：快轉停在 20:00（1A-08「大四要怎麼過？」在家演）；沒有大三暑假三選一', !!ff&&ff[0].to===T(D('2028-08-05'),20)&&(at('2028-08-05',20),STORY.y4HomeDue(G)==='stay'), JSON.stringify(ff&&ff[0])); }
   { const G=inJapan('2028-08-05',8,{},false); H.said=[]; await S.returnHome(GM); check('J-S9 挽回不成：入境大廳只有旁白「（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）」', has('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）')&&!has('……好熱。')); }
+  /* BUG-HOME-REST-NOCAP-1027（BB-C 10-27）：凌晨 2:30 以後日本據點、日本路線住臺北的家都不出一小時的「休息一下」（只剩睡覺） */
+  { const G=inJapan('2028-04-13',27); H.opts=[]; H.picks=['睡覺']; await S.round(GM); const o=H.opts[0]||[];
+    check('J-REST 日本據點凌晨 3:00：沒有一小時的「在房間休息一下」（有 3D 房間的走進房間照舊）、有「睡覺」',!o.some(t=>t==='在房間休息一下')||S.hasRoom3d(),JSON.stringify(o)); }
+  { const menuAt=async h=>{ const G=fresh('2028-02-22',h,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; H.opts=[]; H.picks=['睡覺']; await S.homeRound(GM); return H.opts[0]||[]; };
+    const o26=await menuAt(26), o266=await menuAt(26.6);
+    check('J-REST 住臺北的家：凌晨 2:00 有「在家休息一下」；2:36 以後沒有（不出選單或只剩睡覺）',o26.includes('在家休息一下')&&!o266.includes('在家休息一下'),JSON.stringify({o26,o266})); }
   /* ===================== J-S11 住臺北的家（2/20 退宿以後）===================== */
   { const G=fresh('2028-02-22',10,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; H.opts=[]; H.picks=['在家休息一下']; await S.homeRound(GM); const o=H.opts[0]||[];
     check('J-S11 2/22 住臺北的家：選單沒有「回宿舍」、有「出門」「快轉」；平日也能回家（canGo）、從家裡出發（livesHome）', S.homeOn(G)&&o.includes('出門')&&o.includes('快轉')&&!o.some(t=>/回宿舍/.test(t))&&HOME.canGo(G)&&HOME.livesHome(G), JSON.stringify(o));
