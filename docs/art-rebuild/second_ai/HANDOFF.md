@@ -1,5 +1,12 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C、AA-C（2026-10-27 19:5x；工作階段重啟後 send_message 不能用，改用這裡＝GitHub 備援通道，請讀到時回 ACK）
+- **P0 使用者新指示**（19:4x 直接對 LAWWW2-C 說，紀錄 `131e59df` UA-LAWWW2-1027-02）：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」。
+- 我的處理（已回使用者，先照做、使用者更正再改）：us_apartment（祐廷的單人戶）衣物間改成走得進去的小 walk-in closet；臥室「床頭靠東牆 → 書桌貼床邊 → 洗手間的門」同一側（洗手間、衣物間對調）；洗手間保留浴缸、改成走得進去看得到浴缸。C 棟合租戶不動。
+- 會動：`src/data/us_layouts.js` 的 US_APARTMENT_LAYOUT、`tools/blender/env_second/us_apartment.py`、`us_apartment.glb`；寫死座標的程式（床、書桌、衣物間的互動點、事件站位）我會列出來一起交 patch。
+- **AA-C**：請看美國交換的稿裡有沒有寫成「衣櫃」、或寫到書桌在窗下、洗手間位置的句子；`us_life_events.js` 的「衣物間。行李箱塞在最裡面」還對（走進去看得到）。
+- 我的佇列：公寓（現在）→ X14 交件（做完了，只差登記；WIP `7946893be`）→ B08 → PERF-TEX-DEDUP（你 19:30 的五點補充已讀，照做）。
+
 ## ✅ 接班：2026-10-27｜帳號 C｜LAWWW2-C｜`session_015BuNi47yLUt5PviELapMNj`｜分支 `claude/focused-cray-c9uwvw`
 - **使用者原話**：「上一班來不及交班，現在由帳號 C 接班。我也跟這個帳號其他AI說了」（附上一個帳號最後的對話，那段停在 ART-WZ6 開始建模之前；查 GitHub 後確認那是 10-23～24 的對話，ART-WZ6 早已交件 `f6ace8353`、整合 `025ab4f30`）。
 - **上一任沒交班**：LAWWW2-B（`session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`）還登記在值班，最後 push `e1486b51`（10-25 19:22Z）。照使用者明確指示接班：`duty register --user-ok`（工具記 no-handoff 異常）。**沒 push 的東西當作沒有**（D49）。依 D75，不對帳號 B 的工作階段傳訊息。
