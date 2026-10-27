@@ -111,7 +111,7 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   fresh('2028-11-24',7,'us_apartment',US()); await USL.jump(GM,T(D('2028-11-27'),8.5));
   check('S3／G6. 11/24～11/26 摘要日（挽回中：「（下了一點雪，落地就化了。）」）', cards.some(c=>c.endsWith('（黑色星期五。草原超市排隊排到門口。你沒有進去。）'))&&cards.some(c=>c.endsWith('｜（下了一點雪，落地就化了。）'))&&cards.some(c=>c.endsWith('（連假的最後一天。自習室只有你和兩個學生。）')), JSON.stringify(cards));
   fresh('2028-11-24',7,'us_apartment',US()); date('heroine_05'); await USL.jump(GM,T(D('2028-11-27'),8.5));
-  check('S3／G6. 交往中 11/25：「（下了一點雪，落地就化了。書瑀說這不算初雪。）」', cards.some(c=>c.endsWith('（下了一點雪，落地就化了。書瑀說這不算初雪。）')));
+  check('S3／G6. 交往中 11/25：「（下了一點雪，落地就化了。學姊說這不算初雪。）」', cards.some(c=>c.endsWith('（下了一點雪，落地就化了。學姊說這不算初雪。）')));
   fresh('2028-12-10',9,'us_apartment',US()); await USL.jump(GM,T(D('2028-12-15'),18));
   check('S3. 期末週的摘要日（AA_291 1-2）：12/11、12/13；12/13 21:00 美國群組問「明天晚上七點，會所。學期最後一頓。」（r2y4a3d.js）就停', cards.some(c=>c.endsWith('Introduction 的期末考是開書考。你帶去的書，有一半的頁數貼了便利貼。'))&&cards.some(c=>c.endsWith('比較憲法的期末報告交出去了。最後一頁的參考資料，比正文還長。'))&&G.day===D('2028-12-13')&&Math.abs(G.hour-21)<1e-6&&PHONE.pending(G).some(m=>m.ask&&m.ask.id==='us_club'), JSON.stringify(cards));
   fresh('2028-12-14',22,'us_apartment',US()); await USL.jump(GM,T(D('2028-12-15'),18));
