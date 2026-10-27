@@ -33904,6 +33904,46 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 20:3x UTC】LAWWW 決定做；同一個子代理第四輪（x58-e08-1027，基底 673e13527）"
+  },
+  {
+   "id": "AN-MEAL-STUCK-1027",
+   "title": "P0 跟沈以安吃完飯卡在她說話的畫面（使用者存檔 day 14 17:33 麵店）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 10-27 20:3x 對 LAWWW-C（UA-LAWWW-1027-18；存檔 scratchpad/save_day14）",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "法律系大一上第 2 週和以安吃飯（麵店）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】子代理 an-stuck-1027（基底 3240d3802）重現、修、確認 f54a35ec4（v9.10.11 候選）會不會卡——會就擋發布、先修"
+  },
+  {
+   "id": "AN-INVITE-NONE-1027",
+   "title": "以安沒有「約她去其他地方」的選項，其他人不熟也有（使用者存檔 day 14）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-27 20:3x 對 LAWWW-C（UA-LAWWW-1027-18）",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "法律系大一上想約以安出去",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】同一個子代理查原因：bug 就修；是劇情條件（例：經濟系那年和可昕交往）就轉 AA-C 定"
   }
  ]
 }
