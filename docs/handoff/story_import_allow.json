@@ -3144,6 +3144,54 @@
    "task": "TERM-READ-Y1S1-1025",
    "kind": "text",
    "note": "home3d.js 媽媽週四群組 GROUP_WK／grpPlan／grpPick＋晚餐旁白 GROUP_DINNER＋中秋、颱風假前一晚 FAM_DAYS；calendar.js 冬至 dz、CALENDAR.fest（母親節）；bbpack3d.js D5_LINES（D5_ASK_N）；story3d.js 家族群組兩處；family_xmas3d.js；sis_grad3d.js 句號；tests/aa458_y1s1_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md",
+   "sha": "5f54b6545",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "SIS-B12-1025",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：src/data/sis_b12_events.js、src/sis_b12_3d.js（帳號 B 的子代理實作、10-27 LAWWW-C 合進開發分支 7b1b1abcc；tests/aa470_sis_b12_unit.js 讀這個版本逐字對）"
+  },
+  {
+   "path": "docs/story_planning/AA_471_大五讀一遍_日本路線家人群組不停_學期判斷過了220天_放榜四次.md",
+   "sha": "763993620",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "PG-FIX-471-473-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：postgrad_lines.js、home3d.js、faildelay3d.js、zr_uk3d.js 等（PG-FIX 子代理，合併 7dacc9463、60919c7a9）"
+  },
+  {
+   "path": "docs/story_planning/AA_472_畢業以後讀一遍_臺灣路線八種存檔_讀書計畫誰排_可昕第六年.md",
+   "sha": "1ebcf530e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "PG-FIX-471-473-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：同上；第 4 節芷若視訊被 AA_476 A-1 作廢（改回原句）"
+  },
+  {
+   "path": "docs/story_planning/AA_473_前任的畢業以後_學姊恭喜兩次_以安不打給前男友.md",
+   "sha": "66393bb91",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "PG-FIX-471-473-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：同上"
+  },
+  {
+   "path": "docs/story_planning/AA_475_禁用句第五輪_AA439以後新增的三句.md",
+   "sha": "e089e8788",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "AA475-BAN5-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：cracktalk_lines.js、invites.js 兩句手改；其他句走白名單上的 wish／date／ladder JSON"
+  },
+  {
+   "path": "docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md",
+   "sha": "6ad997806",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "PG-FIX-471-473-1027",
+   "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：A 節九題（PG-FIX 第二輪，合併 60919c7a9）；B-2 白名單換版（C11-WL-SYNC-1027）"
   }
  ]
 }
