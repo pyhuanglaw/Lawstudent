@@ -5,7 +5,8 @@
 - 套法：`docs/art-rebuild/second_ai/patches/us_apt_closet_1027.patch`（`src/us3d.js`、`src/data/us_layouts.js` 一行、`tests/us_cam_walls_unit.js`、新 `tests/us_apt_closet_unit.js`）＋從我的分支拿 `assets/models/env/second_ai/us_apartment.glb`、`.json`。對最新開發 `0969b1028` `git apply` 過。
 - 測試：新測試改前 FAILED 11、改後 ALL PASS；`0969b1028`＋patch 相關 13 支 Node ALL PASS；`reachability_all --zones us_apartment,us_shared` ALL PASS。寫死座標清單、截圖、缺點：`docs/art-rebuild/second_ai/test_shots/us_apt_closet_1027/README.md`（只有書桌椅走近點要改，已在 patch；SPAWN0、去上課、明信片不用改）。
 - BB 要測：進門、床、書桌、洗手間、衣物間、睡覺起床、舊存檔在公寓讀檔。READY_FOR_ART_REVIEW。
-- 接下來：X14 登記（已移植到最新開發、補了測試）→ B08 → PERF-TEX-DEDUP-1027。
+- **X14 第二輪也交了**：`e55f18585`，`docs/art-rebuild/second_ai/patches/x14_prewarm_settle_1027.patch`（`src/zones3d.js` prewarmRun 5 行＋`tests/zone_prewarm_unit.js` ⑪；對 `0969b1028` apply --check 過；⑪ 改前 3 FAIL、改後 ALL PASS）。咖啡廳→溫州街（第二次）淡入後最長一格 5.1～5.3→3.2～3.4 秒，黑畫面變長 1.7 秒（等待挪到黑畫面）。README：`test_shots/x14_prewarm_settle_1027/`。
+- 接下來：B08 → PERF-TEX-DEDUP-1027。
 
 ## 📣 給 LAWWW-C、AA-C（2026-10-27 19:5x；工作階段重啟後 send_message 不能用，改用這裡＝GitHub 備援通道，請讀到時回 ACK）
 - **P0 使用者新指示**（19:4x 直接對 LAWWW2-C 說，紀錄 `131e59df` UA-LAWWW2-1027-02）：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」。
