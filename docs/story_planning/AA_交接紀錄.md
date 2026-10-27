@@ -20,7 +20,7 @@
 - **下一步**：
   - 等 BB-C 接班、交「交往中逐日劇本」，送到先讀。
   - 追 LAWWW 實作 `AA_357`、`AA_358`、`AA_360`～`AA_362`、`AA_470`～`AA_474`（`AA_471`～`AA_473` 的實作子代理成果遺失，LAWWW-C 重做，PG-FIX-471-473-1027）。
-  - 沛珊 `hometown_lines.js`「我第一次覺得，慢不是壞事。」要換（測試寫死，交 LAWWW）。
+  - （更正）沛珊 `hometown_lines.js`「我第一次覺得，慢不是壞事。」LAWWW-C 10-21 已經改了（`bc7c8823`，`AA_362` 第 4 節）；AA_362 第 3 節四句也都改了。不用再交。
 
 值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 4a25046b（快轉合併帳號 A 的 `claude/story-planning`）｜2026-10-23 06:44 UTC
 上一班：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜最後 commit dea49ab3（`duty_AA.json` handed-off）｜2026-10-22 15:04 正常交班 → 使用者對 AA-B 說「我回來了，請同步 GitHub 最新進度，接續工作」。
