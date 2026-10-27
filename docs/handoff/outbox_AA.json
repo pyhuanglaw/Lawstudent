@@ -3008,7 +3008,7 @@
    "note": "使用者 10-27 回答 C（UA-AA-1027-49）；第一版 d03d5da1a、更正 314c61ce4、第 5 節 fc961b2c5 都被第二版取代"
   },
   {
-   "task": "AA439-LINT-1024",
+   "task": "AA475-BAN5-1027",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "e089e8788",
    "files": [
@@ -3027,8 +3027,8 @@
    "next": "LAWWW：白名單換到 e089e8788、重跑 import_date_lines／import_ladder／import_wish；開發分支 cracktalk_lines.js 沛珊一句、invites.js 子晴羽球一句＋tests/aa417_sport_invite_unit.js 第 97 行",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "AA_475＝AA_439 的後續（禁用句第五輪＋AA_362 漏掉的句號版「不是X。是Y。」）；總表還沒有自己的任務，先掛這裡，LAWWW 另開任務的話 AA 改這一筆"
+   "ack": "ACK",
+   "note": "AA_475＝AA_439 的後續（禁用句第五輪＋AA_362 漏掉的句號版「不是X。是Y。」）；LAWWW-C 17:35 開任務 AA475-BAN5-1027（DL-AA-475），已整合待測試"
   }
  ],
  "items": [
