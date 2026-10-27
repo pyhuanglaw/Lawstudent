@@ -756,7 +756,8 @@ const CLS=(function(){
   S.entryPoint=function(E){ const L=E.zone&&E.zone.layout; if(L&&L.entrance&&L.entrance.exit) return {x:L.entrance.exit.x,z:L.entrance.exit.z-0.7,lv:0}; const sp=E.zone&&E.zone.spawn; return sp?{x:sp.x,z:sp.z,lv:sp.lv|0}:null; };
   const tStand=(E,n,sp)=>{ n.path=null; if(E.placeAt) E.placeAt(n,sp.x,sp.z,sp.lv|0); else n.obj.position.set(sp.x,0,sp.z); n.obj.rotation.y=sp.yaw||0; n.faceYaw=null; n.pose=n.idlePose='idle'; n.frozen=true; n.arrived=true; };
   S.syncTeacher=function(GM,live,instant){ const G=GM.G, E=GM.E; if(!E||!E.zone||!E.npcs||typeof CHAR==='undefined') return 0; const want=new Map();
-    for(const it of (live||[])){ if(!it||!it.c||S.namedProf(it.c)||want.has(it.key)) continue; if(S.storyClass&&S.storyClass(G,it)) continue; const sp=S.teacherSpot(E,it.room&&it.room.room); if(sp) want.set(it.key,{it,sp}); }
+    const rooms=new Set(); for(const it of (live||[]).slice().sort((a,b)=>(a.t0||0)-(b.t0||0))){ if(!it||!it.c) continue; const rk=(it.room&&it.room.room)||'_'; if(rooms.has(rk)) continue; rooms.add(rk);   /* 同一間連著兩堂（重修排到相鄰的時段）：先上那一堂的老師下課走了，下一堂的才進來（講台只站一個人）*/
+      if(S.namedProf(it.c)||want.has(it.key)||(S.storyClass&&S.storyClass(G,it))) continue; const sp=S.teacherSpot(E,it.room&&it.room.room); if(sp) want.set(it.key,{it,sp}); }
     let n0=0;
     for(const n of E.npcs.slice()){ if(!n.clsTeacher||want.has(n.clsTeacher)||n.leaving) continue;   /* 下課：走出去（時間跳了就直接拿掉）*/
       const ex=S.entryPoint(E); n.frozen=false; n.leaving=true; n.arrived=false; n.crowd='tch'; n.pose='walk';   /* crowd：時間跳了（crowd3d.js 的 tick）一起拿掉、走到了不在眼前就拿掉（sweep）；'tch'＝老師（'cls' 是同學）*/

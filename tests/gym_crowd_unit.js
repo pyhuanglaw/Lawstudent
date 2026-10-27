@@ -46,6 +46,11 @@ const MONPE=(()=>{ for(let d=1;d<120;d++){ const q=CALENDAR.dateOf(d), t=CALENDA
   check('1. B1 櫃台阿姨站在櫃台後面（面向客人那一邊）',!!aunt&&Math.abs(aunt.obj.position.x-GYM_LAYOUT.b1.desk.staff.x)<0.3&&Math.abs(aunt.obj.position.z-GYM_LAYOUT.b1.desk.staff.z)<0.3&&Math.cos(aunt.obj.rotation.y)>0.9);
   const TMs=(GYM_LAYOUT.b1.equipment.find(e=>e.node==='GYM_TREADMILL')||{at:[]}).at;
   check('1. 跑步機上原地跑：姿勢 run（停下來也是 run）、在跑步機上、站在皮帶上（0.18 m）',tm.every(n=>n.pose==='run'&&n.idlePose==='run'&&TMs.some(q=>Math.abs(q[0]-n.obj.position.x)<0.05&&Math.abs(n.obj.position.z-12.2)<0.05)&&Math.abs(n.obj.position.y-0.18)<0.01),tm.length+' 人'); }
+{ let sd=4242; const R0=Math.random; Math.random=()=>{ sd=(sd*16807)%2147483647; return (sd-1)/2147483646; };   /* 小動作用到亂數：固定種子 */
+  const G=mkG(SAT,10.2), {GM}=enter('gym_b1',G); const st=ppl().filter(n=>!n.fixedPos&&!n.seat&&n.beh!=='route'); for(let i=0;i<16;i++){ G.hour+=0.01; CROWD.tick(GM,1.5); for(const n of E.npcs) if(n.path&&n.path.length){ const p=n.path[n.path.length-1]; E.placeAt(n,p[0],p[1],0); n.path=null; const f=n.onArrive; n.onArrive=null; if(f) f(n); } }
+  const fx=ppl().filter(n=>n.fixedPos);
+  check('1. B1 站著運動的人（器材旁、墊子上）也有小動作；櫃台阿姨、跑步機上的人不亂走',st.length>=1&&st.every(n=>(n.fid|0)>=1)&&fx.every(n=>!n.fid),st.map(n=>n.crowdRole+':'+(n.fid|0)).join(' '));
+  Math.random=R0; }
 { const {z}=enter('gym_arena',mkG(SAT,15)); const bb=role('basketball'), rest=role('rest');
   check('1. 3F 主球場（週六 15:00）：北邊籃框半場有人打球（跑一段停一下、停下來面向籃框）、場邊有人休息',bb.length>=3&&rest.length>=1&&bb.every(n=>n.run&&n.pauseAt&&n.beh==='route'&&n.waypoints.every(q=>q[1]<-6)),'打球 '+bb.length+'、休息 '+rest.length); }
 // ---------- 2. 站得住、走得到、坐得下；同一時段同一批人 ----------
