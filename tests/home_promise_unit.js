@@ -74,6 +74,8 @@ const grp=()=>(H.G.msgs||[]).filter(m=>m.th==='g:home').map(m=>(m.from==='player
     const en=(TH+2)*24+16+(INV.place('teahouse').stay||1); check('8. 赴約：約結束以後再問（p.after＝約結束的時間）、約定還是 open',p.st==='open'&&p.after===en,J(p.after));
     at(TH+2,15,'campus'); check('8. 約還沒結束：不問',tick()===false); at(TH+2,(en%24)+0.2,'teahouse'); H.opts=[]; H.picks=['這次不回去']; const r2=tick(); await flush(); await flush();
     check('8. 約結束以後第一次空下來（在哪裡都問）：「回家」「這次不回去」',r2===true&&J(H.opts[0])===J(['回家','這次不回去'])&&HPROM.get(H.G).st==='told',J(H.opts)); }
+  { const q={st:0,who:'heroine_01'}; q.st=16; const q5={st:14,who:'heroine_05'};
+    check('8. 旁白的叫法（AA-C 回 AA_488 第 4 點）：以安（不寫小安）、學姊（不寫溫學姊、書瑀）',HPROM.planLine(q)==='下午四點和以安有約。'&&HPROM.planLine(q5)==='下午兩點和學姊有約。',J([HPROM.planLine(q),HPROM.planLine(q5)])); }
   check('8. 時間的寫法：16＝下午四點、14＝下午兩點、19.5＝晚上七點半、10＝上午十點',HPROM.when(16)==='下午四點'&&HPROM.when(14)==='下午兩點'&&HPROM.when(19.5)==='晚上七點半'&&HPROM.when(10)==='上午十點');
   // 9（第 4 節：答應以後別人約那個週末）
   const IV=(id,d,h)=>({id,who:'kexin',place:'teahouse',zone:INV.place('teahouse').zone,day:d,h,state:'accepted',accepted:true,by:'npc'});

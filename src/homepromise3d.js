@@ -51,7 +51,8 @@ const HPROM=(function(){
   /* 那個週末已經排了的約（第 2 節）：邀約 accepted、出遊 planned，還沒結束、和答應的時段重疊；照時間排 */
   const HZ=['零','一','兩','三','四','五','六','七','八','九','十','十一','十二'];
   S.when=h=>{ const hh=Math.floor(h%24), mm=Math.round((h%1)*60), pre=hh<11?'上午':hh<13?'中午':hh<18?'下午':'晚上'; return pre+HZ[hh>12?hh-12:hh]+'點'+(mm>=30?'半':''); };   /* 16＝下午四點、14＝下午兩點 */
-  const nm=id=>(typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(id))||(typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].nickname)||(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id);   /* 和 social3d.js「熟了一點」的提示同一套：交往中的叫法→暱稱（可昕、語彤）→名字 */
+  const NARR={heroine_01:'以安',heroine_02:'芷若',heroine_03:'語彤',heroine_04:'子晴',heroine_05:'學姊',classmate_peishan:'沛珊',kexin:'可昕',zhe:'阿哲',classmate_bohan:'柏翰',classmate_mingxuan:'明軒',kai:'阿凱',npc_fangyt:'方奕廷',yu:'Alison'};
+  const nm=id=>NARR[id]||(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id);   /* 旁白的叫法（AA-C 2026-10-27 回 AA_488：不用暱稱；溫書瑀一律「學姊」，交往中也是〔AA_365 第 2 節〕）*/
   S.plans=function(G,p){ const t=now(G), out=[];
     for(const iv of (G.invites||[])){ if(!iv||iv.state!=='accepted') continue; const P=typeof INV!=='undefined'&&INV.place?INV.place(iv.place):null, st=T(iv.day,iv.h), en=st+((P&&P.stay)||1); if(en<=t||st>=p.to||en<=p.from) continue; out.push({kind:'inv',id:iv.id,st,en,who:iv.who,place:P&&P.name}); }
     for(const o of (G.outings||[])){ if(!o||o.state!=='planned') continue; const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===o.ev):null, st=T(o.day,o.h), en=st+(o.travelH||0)+((ev&&ev.hours)||3); if(en<=t||st>=p.to||en<=p.from) continue; out.push({kind:'out',id:o.id,st,en,who:o.who||null,place:o.place||o.title}); }
