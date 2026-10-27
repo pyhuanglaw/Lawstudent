@@ -3316,6 +3316,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_487：AA_486 第 1-4 節的後續"
+  },
+  {
+   "task": "HOME-PROMISE-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "961a3a8a0",
+   "files": [
+    "docs/story_planning/AA_488_答應媽媽回家_記下約定_提醒_撞約_沒回去.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：home3d.js 記約定＋週六提醒＋18:30／21:30＋下週四一則＋姊姊兩則；邀約、出遊撞到三選一",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_488（USER_WANTS X116）"
   }
  ],
  "items": [
