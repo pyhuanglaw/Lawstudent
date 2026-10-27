@@ -625,9 +625,9 @@
    "sha": "e7dbb1df",
    "what": "v0 交付清單：E36 休學後住臺北的家、編號對照 G43",
    "task": "V0-A5、V0-B3",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -679,8 +679,8 @@
    "what": "AA_144（延畢 X1～X8、以安研究所、國考新制、國外路線 §5、首次出現 §6）、AA_145（2D 底圖用途與新 id）",
    "task": "V4-X18、ART-18、SCN-US-EV",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -795,9 +795,9 @@
    "sha": "4ab575c7",
    "what": "G05 子晴 Q4 錯過延到下一個週六（新台詞）；G12 明軒 M2 以 BB_40 為準、排進大二下",
    "task": "V2-G05、V3-B06",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "AA_140 裁定（從企劃線看到）",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "AA_140 裁定（從企劃線看到）｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -952,9 +952,9 @@
    "sha": "9d1aa277",
    "what": "G12 以安那一邊確認（AA_113 9-2）；v3 骨架、AA_116",
    "task": "V3-B06",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "從企劃線看到（掃描找到）",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "從企劃線看到（掃描找到）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1161,9 +1161,9 @@
    "sha": "62b7451d",
    "what": "AA_147／AA_146 第 2 節／美國公寓照片：BB_107 K4、KH、BCG-21 開演前、阿凱 K3 第 1 週、學姊 W7 霖澤館、BB_98 志願表第 11 週與抵達後第 N 週、US1 樓梯平台、US2 高腳椅",
    "task": "V2-Z5M、SCN-US-EV、SCN-US-01、V3-G08",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1245,9 +1245,9 @@
    "sha": "adb74422",
    "what": "AA_140：G02、G05、G12、G23～G25、G27、G28、G32 企劃完成",
    "task": "V4-G02、V5-G02、V2-G05、V3-G12、V4-X18、SCN-US-EV、V4-B04、ART-15、V5-G32",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "G 對任務：見各任務 source",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "G 對任務：見各任務 source｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1265,9 +1265,9 @@
    "sha": "308da467",
    "what": "G41／G43／G11：v0 休學後住臺北的家、E28 第 6 週、T3 開學第一週、E02 2024-09-02、y0s1 編註拿掉",
    "task": "V0-B1、V0-B3、V3-G11",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1317,9 +1317,9 @@
    "sha": "09eaeddf",
    "what": "AA_140：G11、G41、G43 企劃完成",
    "task": "V3-G11、V0-B1、V0-B3",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1507,8 +1507,8 @@
    "what": "E15 宿營改三天兩夜青年活動中心（使用者更正）",
    "task": "V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v0 實作時用",
+   "integration": "已驗收",
+   "note": "v0 實作時用｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1527,8 +1527,8 @@
    "what": "E15 照使用者更正：AA_145 econ_camp 改活動中心夜景、新增 econ_camp_room",
    "task": "V0-B1、ART-18",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "",
+   "integration": "已驗收",
+   "note": "10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1645,8 +1645,8 @@
    "what": "AA_154 v0 時間線開發與驗收規格（G40）",
    "task": "V0-A1、V0-G40、V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v0 開工直接用；PLAYED_Y0 旗標名由 LAWWW 定",
+   "integration": "參考用",
+   "note": "v0 開工直接用；PLAYED_Y0 旗標名由 LAWWW 定｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -1937,9 +1937,9 @@
    "sha": "db3164c9",
    "what": "AA_159 經濟系四人＋家豪、魏教授的 characters.js 欄位",
    "task": "V0-B3、V0-G40",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "v0 開工時接（AA-REQ-06 已驗收＝規格交付完成）",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "v0 開工時接（AA-REQ-06 已驗收＝規格交付完成）｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -2010,9 +2010,9 @@
    "sha": "8cda27f8",
    "what": "AB-09（AA_154 第 5 節）四句：E08 沒去、P1 略過、P5 保齡球、E18 Y0_EXTRA",
    "task": "V0-B1、V0-B2、V0-B3",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "v0 實作時用",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "v0 實作時用｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -2062,9 +2062,9 @@
    "sha": "7e4b6e35",
    "what": "AB-09②：v0 文件時間標註照 AA_154 改；AB-10、AB-12 BB_139 併進 AA_159",
    "task": "V0-B1、V0-B3",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "v0 開工時用",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "v0 開工時用｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -2562,9 +2562,9 @@
    "sha": "869b9415",
    "what": "BB_119 多段感情：四人各三件裂縫小事件台詞（提案）",
    "task": "V6-S5",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "照 D81 在那一學年／系統做時接",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "照 D81 在那一學年／系統做時接｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -2677,8 +2677,8 @@
    "what": "AA_168 E01 照 BB-B 改兩處",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "tests/v0_e01_unit.js"
+   "integration": "已驗收",
+   "note": "tests/v0_e01_unit.js｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-160",
@@ -2721,8 +2721,8 @@
    "what": "BB_153 v0 E08、E20、E28、E34 完整稿（AA-B 核對通過）",
    "task": "V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v0 事件批次接",
+   "integration": "已驗收",
+   "note": "v0 事件批次接｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -3135,8 +3135,8 @@
    "what": "AA_154：E02 改在 9/2 下午＋兩句場景之間的旁白",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "a569eed3"
+   "integration": "已驗收",
+   "note": "a569eed3｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-192",
@@ -3328,8 +3328,8 @@
    "what": "溫州街效能第一輪：wenzhou_street／cafe_exterior／wz_park／wz_jphouse／bike_ride 五個 GLB（三個鏡頭 draw call 392／355／448 → 337／301／372）",
    "task": "FIX-WZ-PERF",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "開發分支已換檔（節點名不變）；wz_／bike／cafe 單元測試通過；瀏覽器 wz_street_integration 等 v9.9 冒煙測試跑完再跑。不在 v9.9 候選 1"
+   "integration": "已驗收",
+   "note": "開發分支已換檔（節點名不變）；wz_／bike／cafe 單元測試通過；瀏覽器 wz_street_integration 等 v9.9 冒煙測試跑完再跑。不在 v9.9 候選 1｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-204",
@@ -3340,8 +3340,8 @@
    "what": "AA_154 2-1b 10/15 群組聚會",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-205",
@@ -3352,8 +3352,8 @@
    "what": "AA_154 A31 E11 10/31、A32 E12 私訊約＋手機版",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-206",
@@ -3364,8 +3364,8 @@
    "what": "AA_154 A33 晚上群體出遊通則",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-207",
@@ -3376,8 +3376,8 @@
    "what": "AA_154 2-1b 審稿版、A32 定稿",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-208",
@@ -3388,8 +3388,8 @@
    "what": "AA_154 A36 可錯過出遊的邀約",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-209",
@@ -3400,8 +3400,8 @@
    "what": "AA_154 A33 三句審定",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-210",
@@ -3412,8 +3412,8 @@
    "what": "AA_154 A36 定稿",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450"
+   "integration": "已驗收",
+   "note": "280a818d、e490a5c2、9e8aa3ec、bd2d468e、84c1fb1d、11cc574f、49163450｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-211",
@@ -3424,8 +3424,8 @@
    "what": "BB_104 8b-4 E10 沒去版 22:30 兩則",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "bd2d468e、49163450（E21a 還沒做）"
+   "integration": "已驗收",
+   "note": "bd2d468e、49163450（E21a 還沒做）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-212",
@@ -3436,8 +3436,8 @@
    "what": "BB_104 8-4 E12 邀約與手機版開頭、收尾",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "bd2d468e、49163450（E21a 還沒做）"
+   "integration": "已驗收",
+   "note": "bd2d468e、49163450（E21a 還沒做）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-213",
@@ -3448,8 +3448,8 @@
    "what": "BB_104 8b-9／8b-10／8b-12 E17、E18、E21a 邀約",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "bd2d468e、49163450（E21a 還沒做）"
+   "integration": "已驗收",
+   "note": "bd2d468e、49163450（E21a 還沒做）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-214",
@@ -3492,8 +3492,8 @@
    "what": "AA_154 A37：E15、C2 的邀約與出發選單；A38：E22、E21a 改總圖 B1 自習室",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "E15 邀約（照 BB-B e0e7a359 定稿）、C2 四種已接；E21a、E22（A38）接著做"
+   "integration": "已驗收",
+   "note": "E15 邀約（照 BB-B e0e7a359 定稿）、C2 四種已接；E21a、E22（A38）接著做｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DLV-1016-217",
@@ -3631,8 +3631,8 @@
    "what": "AA_154 2-5a P2b 機制、T2 掛點、A34 補充（照遊戲的最後一場期末考）",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "P2b 60bedabc、T2 268cd7c9、A34 662b25d2",
+   "integration": "已驗收",
+   "note": "P2b 60bedabc、T2 268cd7c9、A34 662b25d2｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T11:4xZ"
   },
   {
@@ -3728,8 +3728,8 @@
    "what": "FIX-WZ-PERF 第二輪",
    "task": "FIX-WZ-PERF",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "0b41a1e8；瀏覽器 280／258／298 次 draw call",
+   "integration": "已驗收",
+   "note": "0b41a1e8；瀏覽器 280／258／298 次 draw call｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T12:5xZ"
   },
   {
@@ -3752,8 +3752,8 @@
    "what": "可昕生日 E18A_DOUHUA 兩句",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "7d813237",
+   "integration": "已驗收",
+   "note": "7d813237｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T12:5xZ"
   },
   {
@@ -3776,8 +3776,8 @@
    "what": "AA_154 A44 寒假",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "ffbf3a8f、09ae6f95",
+   "integration": "已驗收",
+   "note": "ffbf3a8f、09ae6f95｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T12:5xZ"
   },
   {
@@ -3800,8 +3800,8 @@
    "what": "E28 觸發改出發選單＋2D（BB_153 完整稿）",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "441cd77a",
+   "integration": "已驗收",
+   "note": "441cd77a｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T12:5xZ"
   },
   {
@@ -3832,8 +3832,8 @@
    "what": "E24「什麼湯」三個回覆按鈕",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "寒假 E24",
+   "integration": "已驗收",
+   "note": "寒假 E24｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:0xZ"
   },
   {
@@ -3844,8 +3844,8 @@
    "what": "E27 三種反應選項、E22B_TOLD 位置確認",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "E27",
+   "integration": "已驗收",
+   "note": "E27｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:0xZ"
   },
   {
@@ -3912,8 +3912,8 @@
    "what": "AA_169 邊界 3：3/27 起不排經濟系的課，門口那句旁白不用做",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "Y0_LEFT 已是這樣（c996e5f3）",
+   "integration": "已驗收",
+   "note": "Y0_LEFT 已是這樣（c996e5f3）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:3xZ"
   },
   {
@@ -3944,8 +3944,8 @@
    "what": "溫州街效能第三輪：修第二輪貼圖集把木紋、磁磚變糊；三角形 −1.3 萬（303／286／321 次、43.1／40.7／44.3 萬）",
    "task": "FIX-WZ-PERF",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "v9.9 RC2 用第三輪（LAWWW-B 選 A）；wz_street_integration 只有效能一項沒過、cafe_glb_integration 全過",
+   "integration": "已驗收",
+   "note": "v9.9 RC2 用第三輪（LAWWW-B 選 A）；wz_street_integration 只有效能一項沒過、cafe_glb_integration 全過｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:4xZ"
   },
   {
@@ -4061,8 +4061,8 @@
    "what": "AA_154 A47：E35 考完以後的約定（7/14 20:00 私訊、7/19 摘要日、三種旁白）；E18b、T3 時間定案",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "7/14 私訊（BB-B 8b-18）、7/19 摘要日已接；E18b、T3 照現在",
+   "integration": "已驗收",
+   "note": "7/14 私訊（BB-B 8b-18）、7/19 摘要日已接；E18b、T3 照現在｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:4xZ"
   },
   {
@@ -4097,8 +4097,8 @@
    "what": "BB_104 8b-19：E36 放榜那晚「以後怎麼見面」可昕的回應（E36_PACT）",
    "task": "V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "E36 一起接（第②級，等 AA-B 確認）",
+   "integration": "已驗收",
+   "note": "E36 一起接（第②級，等 AA-B 確認）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:4xZ",
    "audit": [
     {
@@ -4117,8 +4117,8 @@
    "what": "BB_104 8b-19 E36_PACT weekly 那句和 K5 接得上",
    "task": "V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "E36 一起接",
+   "integration": "已驗收",
+   "note": "E36 一起接｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:4xZ",
    "audit": [
     {
@@ -4202,8 +4202,8 @@
    "what": "BB_104 8b-18 E35 考完以後三種各兩則私訊",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "d3a658bb",
+   "integration": "已驗收",
+   "note": "d3a658bb｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T13:5xZ"
   },
   {
@@ -4250,8 +4250,8 @@
    "what": "溫州街效能第四輪：磁磚、木紋等 14 種合成 2D 貼圖集；draw call 289／272／307、三角形 43.3／40.9／44.5 萬",
    "task": "FIX-WZ-PERF",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "收進開發分支 9735698a（v9.9 之後那一版）；LAWWW-B 這邊的 wz_street_integration 還沒跑",
+   "integration": "已驗收",
+   "note": "收進開發分支 9735698a（v9.9 之後那一版）；LAWWW-B 這邊的 wz_street_integration 還沒跑｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T14:08Z"
   },
   {
@@ -4306,8 +4306,8 @@
    "what": "溫州街效能第五輪：三角形 42.1／39.7／43.3 萬、draw call 289／272／307",
    "task": "FIX-WZ-PERF",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "收進開發分支（下一版）；LAWWW-B 的 wz_street_integration 待跑",
+   "integration": "已驗收",
+   "note": "收進開發分支（下一版）；LAWWW-B 的 wz_street_integration 待跑｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T14:2xZ"
   },
   {
@@ -4674,8 +4674,8 @@
    "what": "AA_183 法律系寒暑假在家模式（回家／回宿舍、要演的日子、旁白、宿舍房號）",
    "task": "SYS-LBREAK",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "f977d81b：home3d.js 放假模式；tests/law_break_unit.js 37 項；KH、七夕、學姊舊書（BB_95 3-8）還沒實作，做好以後自動變成要停的日子",
+   "integration": "已驗收",
+   "note": "f977d81b：home3d.js 放假模式；tests/law_break_unit.js 37 項；KH、七夕、學姊舊書（BB_95 3-8）還沒實作，做好以後自動變成要停的日子｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:2xZ"
   },
   {
@@ -4940,8 +4940,8 @@
    "what": "AA_154 A49：E36 白天放榜旁白、E29 habit 旁白位置、換階段不加錢",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
+   "integration": "已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4952,8 +4952,8 @@
    "what": "AA_154 A50：BB_113 經濟系手機小事定稿、重考期 DAILY 到 7/10",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
+   "integration": "已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -4964,8 +4964,8 @@
    "what": "AA_154 A51 ③：P1 本來就記 Y0_P1_SEAT",
    "task": "V0-B1",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）",
+   "integration": "已驗收",
+   "note": "已在程式裡（A49 E36 白天旁白、E29 habit 旁白、不加錢；A50 重考期 DAILY 到 7/10；A51 P4／P4b／P4c）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ"
   },
   {
@@ -5040,8 +5040,8 @@
    "what": "AA_181 對齊 BB_99 第 10 節；春假以安邀約 3/25 20:30",
    "task": "V5-F14",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v5 開工時用",
+   "integration": "已驗收",
+   "note": "v5 開工時用｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ",
    "audit": [
     {
@@ -5060,8 +5060,8 @@
    "what": "校外約會：交換延畢可約到 2029-06-01",
    "task": "V5-F14",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "v5 開工時用",
+   "integration": "已驗收",
+   "note": "v5 開工時用｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "date": "2026-10-16T17:3xZ",
    "audit": [
     {
@@ -5081,8 +5081,8 @@
    "what": "AA_181 2-4：交換路線大五上不推甄",
    "task": "V5-F14",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v5 開工時用",
+   "integration": "已驗收",
+   "note": "v5 開工時用｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ",
    "audit": [
     {
@@ -5101,8 +5101,8 @@
    "what": "v5 骨架、清單、AA_181：明軒在台灣到畢業",
    "task": "V5-F14",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v5 開工時用",
+   "integration": "已驗收",
+   "note": "v5 開工時用｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ",
    "audit": [
     {
@@ -5121,8 +5121,8 @@
    "what": "v5 交付清單 F8、F9、F16、F17、F26 日子",
    "task": "V5-F14",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "v5 開工時用",
+   "integration": "已驗收",
+   "note": "v5 開工時用｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T17:3xZ",
    "audit": [
     {
@@ -5487,8 +5487,8 @@
    "what": "AA_183 補：D79 四題（字卡照年、跳過旁白多一句、大二寒假停點 3-2b、SK03 同意）",
    "task": "SYS-LBREAK",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "2fbde086",
+   "integration": "已驗收",
+   "note": "2fbde086｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "date": "2026-10-16T18:0xZ"
   },
   {
@@ -6407,8 +6407,8 @@
    "what": "BB_174 課表 16 週制 JSON（11 學期，exam_weeks [8,9,16]）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "等 16 週共用系統一起匯入（現在匯入會和 18 週日曆對不上）",
+   "integration": "已驗收",
+   "note": "等 16 週共用系統一起匯入（現在匯入會和 18 週日曆對不上）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -6577,8 +6577,8 @@
    "what": "MSG-L1 正式交付：AA_202 玩家主動傳訊息系統規格定稿（話題、次數、回覆排程、熟悉度、可昕另一條）",
    "task": "SYS-PHONE-CHAT",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "排在 QA-W1-VISUAL（P0）之後實作",
+   "integration": "已驗收",
+   "note": "排在 QA-W1-VISUAL（P0）之後實作｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -6598,8 +6598,8 @@
    "what": "BB_178 傳訊息回覆池（各人各階段的回覆台詞）定稿",
    "task": "SYS-PHONE-CHAT",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB 另外會補兩行的最終 SHA；和 AA_202 一起實作",
+   "integration": "已驗收",
+   "note": "BB 另外會補兩行的最終 SHA；和 AA_202 一起實作｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -6671,8 +6671,8 @@
    "what": "AB65-2 大一上 BB 人物事件改稿（AA_207＋附錄；BB-B 口氣審通過）：換句（附錄第 2 節＋BB_167 SC3、SC4 約 35 句，清單 AA_207 附錄第 5 節）、結構（法律系梗每人每學期一句、可昕假設題大一上只留 kexinFirstMsg 與視訊第一題、芷若紙杯電影只在第一次、四事件加 term、兩事件拿掉多的「」）、新條件（學姊攤位 met_sis、芷若經原分組依 FIRST_MET 兩版、kx_yule_ask ②、ev_kai_late_screen weekday）、新開局矛盾 9 項（跟 START-WEEK／CAMP-L1 一起換）",
    "task": "AB-65",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "不動旗標與選項數量；驗收照 AA_197 1-7 大一上那列；排在 CAMP-L1 之後、和 START-WEEK 一起做",
+   "integration": "參考用",
+   "note": "不動旗標與選項數量；驗收照 AA_197 1-7 大一上那列；排在 CAMP-L1 之後、和 START-WEEK 一起做｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -6732,8 +6732,8 @@
    "what": "經濟系前傳（v0）口語改稿整包：AA_203 第 6 節清單；BB_179（BB 分支 9ebf6663：主檔＋附錄五段、ladder_bb_y0s1/y0s2、syllabus y0s1 JSON、第 4 節程式事項、第 8 節四人房）；AA_203 第 3 節 30 處；AA_206（E26、E37）；AA_200 7-2／7-3／7-4；E15 CG 帶過；AA_198 日期住宿；AA_208 第 3、6 節",
    "task": "V0-REWRITE-L",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "AA、BB 互審完成；驗收照 AA_154 第 6 節、AA_197 1-7 的 113 上下兩列",
+   "integration": "已驗收",
+   "note": "AA、BB 互審完成；驗收照 AA_154 第 6 節、AA_197 1-7 的 113 上下兩列｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7012,8 +7012,8 @@
    "what": "BB_179 經濟系前傳改稿寫回（AB-66）",
    "task": "AB-66",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。V0-REWRITE-L 段 A 已用；段 B～E 未做（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——段 A 已整合，段 B～E、第 4 節程式事項沒做，改未整合（部分整合）",
+   "integration": "已驗收",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。V0-REWRITE-L 段 A 已用；段 B～E 未做（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——段 A 已整合，段 B～E、第 4 節程式事項沒做，改未整合（部分整合）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7054,8 +7054,8 @@
    "what": "BB_180 大一下口氣審（交 AA-B，AA_209 2-1 裁定）＋BB_177 第 8 節顧火烤肉版",
    "task": "AB-65",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——部分整合（顧火烤肉版已做；大一下其餘見 AB65-3-Y1S2-L），改未整合（部分整合）",
+   "integration": "已驗收",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）｜核對：原標已整合待測試偏樂觀——部分整合（顧火烤肉版已做；大一下其餘見 AB65-3-Y1S2-L），改未整合（部分整合）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7225,8 +7225,8 @@
    "what": "AA_198 第 2 節改定：經濟系寒假 12/23 放假、住宿舍到 1/5、1/6 才回家；A2 留 1/5 只換成日期",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：總表 HOLIDAY-SYS next 已列「AA 4516159b」；src/data/calendar.js:18 TERMS 仍 18 週、src/story3d.js:1329 仍用 termDay('Y0S1',18,2)（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：總表 HOLIDAY-SYS next 已列「AA 4516159b」；src/data/calendar.js:18 TERMS 仍 18 週、src/story3d.js:1329 仍用 termDay('Y0S1',18,2)（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7367,8 +7367,8 @@
    "what": "AA_154 1-1：經濟系那年照 16 週制（12/25、1/1 在寒假、E20 改寒假聚會、平行世界說明作廢、校定假日加 113～115 學年運動會停課、寒假 12/23 起）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "整合：未整合｜證據：src/data/calendar.js:27 SCHOOL 只有 2025-11-15、2025-11-21，沒有 2024-11-22、2026-11-20；TERMS 仍 18 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：src/data/calendar.js:27 SCHOOL 只有 2025-11-15、2025-11-21，沒有 2024-11-22、2026-11-20；TERMS 仍 18 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7423,8 +7423,8 @@
    "what": "AA_197 1-6：大三下開學定 2028/2/21（附理由：113～115 學年春季開學都在 2 月中下旬）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：src/data/calendar.js:20 Y3S2 start 仍 2028-02-14；總表 HOLIDAY-SYS next 已列「Y3S2 開學改 2028-02-21（AA-B 21:46）」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：src/data/calendar.js:20 Y3S2 start 仍 2028-02-14；總表 HOLIDAY-SYS next 已列「Y3S2 開學改 2028-02-21（AA-B 21:46）」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7478,8 +7478,8 @@
    "what": "AA_197 1-5：大一跨年改搭捷運去信義區、明軒在管制線當工作人員是掉頭的原因（BB_171 互審）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：src/data/events.js ev_nye_roof／ev_nye_river 沒有信義區、管制線（events.js:2276 的信義區是經濟系 E21a）；V1-BB171 T2～T5 等 16 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：src/data/events.js ev_nye_roof／ev_nye_river 沒有信義區、管制線（events.js:2276 的信義區是經濟系 E21a）；V1-BB171 T2～T5 等 16 週（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7568,8 +7568,8 @@
    "what": "AA_197 1-5 跨年重排：大一 12/31 寒假版（12/26 群組揪、19:00 麵店→22:30 人太多→23:40 頂樓、阿哲「我們就說有看到」、NYE_Y1 四值）、AA 六位六件事表、其他四年方向；附帶 AA_199 任務表狀態",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：src 沒有 NYE_Y1；ev_nye_roof 仍是舊版（events.js:967、story3d.js:1578）。台詞在後來的 AA_204（4048e3ec），HOLIDAY-SYS next 寫「做到大一上那段直接照用」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：src 沒有 NYE_Y1；ev_nye_roof 仍是舊版（events.js:967、story3d.js:1578）。台詞在後來的 AA_204（4048e3ec），HOLIDAY-SYS next 寫「做到大一上那段直接照用」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7589,8 +7589,8 @@
    "what": "AA_197 1-6：期末考週的國定假日（115 下端午、116 上 12/24 補假、116 下端午補假）、成績照公布日發",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7610,8 +7610,8 @@
    "what": "AA_198 16 週制八學期影響清單（必搬／重寫／可留、存檔遷移、施工順序）＋AA 決定：聖誕留真正日期改放假聚會、成績放假後第 3 個週一、重訪日 1 6/12、階梯週次、大三下開學 2/21",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合（零星照用）｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18；已照用的：story3d.js:2003 revisitDay＝2026-06-12、:1900 沛珊 6/7（AA_198 第 5 節）；第 3 節存檔遷移已被 c3159886 作廢（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合（零星照用）｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18；已照用的：story3d.js:2003 revisitDay＝2026-06-12、:1900 沛珊 6/7（AA_198 第 5 節）；第 3 節存檔遷移已被 c3159886 作廢（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7631,8 +7631,8 @@
    "what": "AA_197 1-6 逐學期日期表（113 經濟系、114～117 法律系；116、117 推測；成績＝放假後第 3 個週一；換房間日、成績日；要改的五件）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合（零星照用）｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18；calendar.js Y3S2 仍是 2028-02-14（AA 定 2/21，HOLIDAY-SYS next 有列）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合（零星照用）｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18；calendar.js Y3S2 仍是 2028-02-14（AA 定 2/21，HOLIDAY-SYS next 有列）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7665,8 +7665,8 @@
    "what": "AA_197 1-1～1-4：學期運作／生活運作、假期的一天（快轉是選項、除夕回家）、宿舍寒暑假不清空、暑住一鍵、AA 六位假期所在地；AA_183 在家模式部分作廢",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18。注意：AA_183（SYS-LBREAK，已整合待測試）的在家模式有一部分被這裡作廢，HOLIDAY-SYS 施工時要回頭改（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：16 週制還沒做：src/data/calendar.js 的 TERMS 每學期仍是 weeks:18。注意：AA_183（SYS-LBREAK，已整合待測試）的在家模式有一部分被這裡作廢，HOLIDAY-SYS 施工時要回頭改（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7699,8 +7699,8 @@
    "what": "使用者 P0 21:08 16 週制假期生活制度：AA_197 第 0 節決定紀錄（必測九項、每學期七件）；AA_195 2-4 結案（8/29 照舊、直接有住宿資格）、民總保留週四下午、茶會分流",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：AA_197 第 0 節未整合（HOLIDAY-SYS 進行中）；AA_195 部分已整合待測試｜證據：tasks HOLIDAY-SYS 的 xai.spec 指到 a119fceb（只有任務、沒有交付登記）；story3d.js:84 8/29 16:05 搬入（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）",
+   "integration": "已驗收",
+   "note": "整合：AA_197 第 0 節未整合（HOLIDAY-SYS 進行中）；AA_195 部分已整合待測試｜證據：tasks HOLIDAY-SYS 的 xai.spec 指到 a119fceb（只有任務、沒有交付登記）；story3d.js:84 8/29 16:05 搬入（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7896,8 +7896,8 @@
    "what": "16 週制：BB_98 大三跨年（寒假版）、BB_99 大四聖誕／跨年／成績 1/8／KH 1/2～1/6／芷若 1/5 明信片、BB_119 日曆；BB_173 附錄記已改",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：大三、大四事件還沒做；16 週共用系統 HOLIDAY-SYS 進行中（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：大三、大四事件還沒做；16 週共用系統 HOLIDAY-SYS 進行中（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7917,8 +7917,8 @@
    "what": "16 週制：BB_95 可昕跨年 12/24 邀、期末成績約定 12/19＋成績 1/5（BB_171 T1～T3）、BB_96 大一下成績與重訪日 1、BB_97 大二重訪日 2（6/13）、Z9（6/3）、K14、KH、跨年、成績打賭",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：story3d.js 1580 行可昕成績約定仍是「期末考週最後一個上課日（1/2 週五）」；src 沒有大二重訪日 2；大一下部分已經 AB65-3-Y1S2-L 照 AA_209 做（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：story3d.js 1580 行可昕成績約定仍是「期末考週最後一個上課日（1/2 週五）」；src 沒有大二重訪日 2；大一下部分已經 AB65-3-Y1S2-L 照 AA_209 做（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -7977,8 +7977,8 @@
    "what": "BB_96 16 週制日期定案：期末 6/8～6/12、重訪日 1 6/12 18:00、成績 6/29、W2b 21:30",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "整合：大部分已整合｜證據：重訪日 1 6/12、成績 6/29、P4e 等已照 AA_209 第 4 節做（AB65-3-Y1S2-L）；W2b 家族期末訊息 BB 改 21:30（錯開可昕 21:00），story3d.js fam_final_y1s2 仍是 21:00（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜大部分已整合，W2b 21:30 還沒改（部分整合）",
+   "integration": "已驗收",
+   "note": "整合：大部分已整合｜證據：重訪日 1 6/12、成績 6/29、P4e 等已照 AA_209 第 4 節做（AB65-3-Y1S2-L）；W2b 家族期末訊息 BB 改 21:30（錯開可昕 21:00），story3d.js fam_final_y1s2 仍是 21:00（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜大部分已整合，W2b 21:30 還沒改（部分整合）｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8020,8 +8020,8 @@
    "what": "BB_153 E20 經濟系聖誕交換禮物改寒假版（12/25 放寒假第三天）",
    "task": "V0-B1",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：未整合｜證據：events.js 2188 行 E20 仍是「期末考週的中間，大家還是來了」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）",
+   "integration": "已驗收",
+   "note": "整合：未整合｜證據：events.js 2188 行 E20 仍是「期末考週的中間，大家還是來了」（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8054,8 +8054,8 @@
    "what": "16 週制機械性修改：ladder 十檔週次 [17,18]→[16,16]、[16,18]→[15,16]、防卡關看第 16 週、K0-L8「快兩個月」；exam_official 14 題＋BB_negotiable 1 題 scopeWeek 16→15",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "整合：部分整合｜證據：y0s1/y0s2 已整合（ladder.js @9ebf6663 含本 commit）；y1s2 已搬進 AA 分支（646490c5）；**y2s1～y4s2 只有 BB 分支有 16 週版，AA 分支是舊版（還是 [15,16] 以前的週次），AA-B 接手前要先搬**；exam scopeWeek 未整合：AA 分支與開發 exam_bank.js 的 CRIM45_43／44 仍是 16（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）",
+   "integration": "已驗收",
+   "note": "整合：部分整合｜證據：y0s1/y0s2 已整合（ladder.js @9ebf6663 含本 commit）；y1s2 已搬進 AA 分支（646490c5）；**y2s1～y4s2 只有 BB 分支有 16 週版，AA 分支是舊版（還是 [15,16] 以前的週次），AA-B 接手前要先搬**；exam scopeWeek 未整合：AA 分支與開發 exam_bank.js 的 CRIM45_43／44 仍是 16（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記；原本沒有登記）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8395,8 +8395,8 @@
    "what": "LIFE-LINE-1017 AA 企劃時間線：AA_218 第 1～12 節、附錄 A／B、AA_12／106／154 0b 節新骨架／169／213／99／交接包 v0",
    "task": "LIFE-LINE-1017",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "可以先排【裁定】骨架（日期、刪除清單、KX_CAR、E24C_REASON 新值與舊存檔對應）；台詞等 BB_188；已發布文字要使用者批准 BB 稿才改；白名單不加",
+   "integration": "已驗收",
+   "note": "可以先排【裁定】骨架（日期、刪除清單、KX_CAR、E24C_REASON 新值與舊存檔對應）；台詞等 BB_188；已發布文字要使用者批准 BB 稿才改；白名單不加｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8416,8 +8416,8 @@
    "what": "AA_218 第 13 節（860d5893）＋第 14 節（覆蓋第 13 節衝突處）：使用者 P0——高中校慶（祐廷高二上、三類組、吃冰沒看臉）→ 法律大一上社群相識（她知道同校；他點進 FB 第一眼有好感、沒認出）→ 法律大一下 3～4 月推薦通識課、祐廷先問、她翻筆記本電話核對、兩人一起震驚",
    "task": "LIFE-LINE-1017",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "台詞暫停（使用者 A、B、C 三段自己修改；BB_188 A5-1 不交付；13-1 已發布直屬事件兩處也等）。LAWWW 要核對：高中版／大學版造型（高中她披肩長髮不綁馬尾、他金色燙髮；大學她綁馬尾、他不是金髮）、場景圖、CG、事件條件（C 只要 B 發生過＋她放榜後，不綁好感與交往）、Life Album 筆記本道具（號碼遮住、不得出現真實電話）",
+   "integration": "已驗收",
+   "note": "台詞暫停（使用者 A、B、C 三段自己修改；BB_188 A5-1 不交付；13-1 已發布直屬事件兩處也等）。LAWWW 要核對：高中版／大學版造型（高中她披肩長髮不綁馬尾、他金色燙髮；大學她綁馬尾、他不是金髮）、場景圖、CG、事件條件（C 只要 B 發生過＋她放榜後，不綁好感與交往）、Life Album 筆記本道具（號碼遮住、不得出現真實電話）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -8793,8 +8793,8 @@
    "what": "AA_183 4-b 宿舍的快轉旁白（寒假、暑假各四格＋同一段又跳一次）",
    "task": "HOLIDAY-SYS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "home3d BREAK_SKIP_DORM；law_break_unit 第 6 項"
+   "integration": "已驗收",
+   "note": "home3d BREAK_SKIP_DORM；law_break_unit 第 6 項｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-0c092c47",
@@ -9421,8 +9421,8 @@
    "what": "AA_269 經濟系舊清單對帳（作廢／已涵蓋／還要做）＋15 點驗收短清單；第 8 節手機小事重排 1fb2e4cf",
    "task": "V0-REWRITE-L",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "",
+   "integration": "已驗收",
+   "note": "10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -9585,8 +9585,8 @@
    "what": "MSG-1 玩家主動傳訊息：AA_202 第 1～6 節（規格＋AA 六位回覆池）、BB_178（BB 九位回覆池第二版，AA 核過）",
    "task": "SYS-PHONE-CHAT",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "src/data/msg_pool.js 391 則逐字；src/msg3d.js 機制"
+   "integration": "已驗收",
+   "note": "src/data/msg_pool.js 391 則逐字；src/msg3d.js 機制｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-4fa4a1e2",
@@ -9624,8 +9624,8 @@
    "what": "MSG-2 玩家主動傳訊息第二批（謝謝、生日快樂、還好嗎、新年快樂）：AA_202 第 7 節（AA 六位）、AA_257（BB 九位，含 19:44 補的十處回問）、BB_178 第 10 節（條件）",
    "task": "SYS-PHONE-CHAT",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "MSG-2 第二批話題：AA-C 19:44「MSG-2 全部用 b61e4f55」；LAWWW-C 接進 src/msg3d.js＋src/data/msg2_pool.js，tests/msg_chat_unit.js 第 H 項。瀏覽器還沒看"
+   "integration": "已驗收",
+   "note": "MSG-2 第二批話題：AA-C 19:44「MSG-2 全部用 b61e4f55」；LAWWW-C 接進 src/msg3d.js＋src/data/msg2_pool.js，tests/msg_chat_unit.js 第 H 項。瀏覽器還沒看｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-0621bea6",
@@ -9719,8 +9719,8 @@
    "what": "美國區域 patch（src/us3d.js、src/data/us_layouts.js、index.html、assets3d 八筆、tests/nav_us_unit.js、tests/flow_us_exchange.py）＋八個 GLB：通用機場（出境／入境）、公寓、C 棟 208、社區＋會所、大超市、亞洲超市（outbox c8345f4b）",
    "task": "US-MIN-FLOW",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 套進 RULE_SOURCE；exchange3d 的 US_ZONES 加 us_shared、us_market、us_asian_market；nav_us_unit、exch_min_unit ALL PASS（Node）；瀏覽器流程 flow_exch_min、flow_us_exchange 派 BB-C；usShared／usClub／usMarket／airportBoard 的演出還沒接（照區域預設）"
+   "integration": "已驗收",
+   "note": "LAWWW-C 套進 RULE_SOURCE；exchange3d 的 US_ZONES 加 us_shared、us_market、us_asian_market；nav_us_unit、exch_min_unit ALL PASS（Node）；瀏覽器流程 flow_exch_min、flow_us_exchange 派 BB-C；usShared／usClub／usMarket／airportBoard 的演出還沒接（照區域預設）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-4580d0c5",
@@ -10310,8 +10310,8 @@
    "what": "AA_297 重考期在家的日常：retake_home_v1.json（short 30、long 12）、AA_292 第 5 節改演這個池",
    "task": "RT-TOGETHER-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 07:0x ACK；接進事件接事件第二階段"
+   "integration": "已驗收",
+   "note": "LAWWW-C 07:0x ACK；接進事件接事件第二階段｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-f35286a1",
@@ -10414,8 +10414,8 @@
    "what": "AA_298 更正：衝刺班是另一間補習班（管理人員、不知道分數）、6/8 15:00 當面報名、O6 改 7/10 看考場",
    "task": "Q-CRAM-SPRINT-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "a9446ebb、74e3889b 整合"
+   "integration": "已驗收",
+   "note": "a9446ebb、74e3889b 整合｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-294cea95",
@@ -10479,8 +10479,8 @@
    "what": "AA_300 經濟系縮到約 30 分鐘：保留 29 場、日期卡 22 句、新遊戲可以選、手機跳過",
    "task": "AA300-ECON30-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "52bf3f16（第 6 節手機「跳過」按鈕還沒做）"
+   "integration": "已驗收",
+   "note": "52bf3f16（第 6 節手機「跳過」按鈕還沒做）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-017ee079",
@@ -10643,8 +10643,8 @@
    "what": "AA_304：2/12 看不懂的民法「樓下，媽媽叫你吃飯」（AA 直接推到 RULE_SOURCE）",
    "task": "QA-TRANSCRIPT-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "AA-C 直接 push 到 claude/adoring-meitner-mqzst8（d9981762 合併）；LAWWW-C 確認只改 events.js 一句台詞"
+   "integration": "已驗收",
+   "note": "AA-C 直接 push 到 claude/adoring-meitner-mqzst8（d9981762 合併）；LAWWW-C 確認只改 events.js 一句台詞｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-8fcc2c7e",
@@ -10833,8 +10833,8 @@
    "what": "US-CAMPUS-WIRE：us_campus／us_lawlib 接線 patch",
    "task": "US-CAMPUS-WIRE-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "下一版接（先套 us_season.diff）；d3fdab82 整合"
+   "integration": "已驗收",
+   "note": "下一版接（先套 us_season.diff）；d3fdab82 整合｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-e544b4f4",
@@ -10845,9 +10845,9 @@
    "sha": "e544b4f4",
    "what": "AA_308：重考鋪陳（12/13 補習班、1/8 麵店）、高雄三天分場＋新景點、10/17 跟媽媽說、衝刺班請假演兩次再笑、7/25 落點見面後、學期結束日期卡、一層樓、拿掉可昕 Lx2",
    "task": "CRAM-DEC-SCENE-1018",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "同一份涵蓋 KH-RETAKE-PACING、KH-TRIP-MORE、E30-MOM、CRAM-LEAVE-LAUGH、ECON-TERM-END-CUE、KH-SCORE-TIMING、HOME-ONEFLOOR、LAD-K0LX2-CUT；BB 要寫高雄五張純場景提示詞",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "同一份涵蓋 KH-RETAKE-PACING、KH-TRIP-MORE、E30-MOM、CRAM-LEAVE-LAUGH、ECON-TERM-END-CUE、KH-SCORE-TIMING、HOME-ONEFLOOR、LAD-K0LX2-CUT；BB 要寫高雄五張純場景提示詞｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -10866,9 +10866,9 @@
    "sha": "36682e78",
    "what": "KX-EXPR 可昕表情：retake_home 71 句（86ffcd9a）、階梯 y0s1 24 句＋y0s2 8 句改成 {t,e}（f8a2ce92）；開發分支 events.js 39 句（5df8cdc7、5ed93586 已推進開發分支）",
    "task": "KX-EXPR-1018",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "events.js 那部分已在開發分支；retake_home、階梯要重匯（階梯 lines 變成 {t,e}，程式要能讀）",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "events.js 那部分已在開發分支；retake_home、階梯要重匯（階梯 lines 變成 {t,e}，程式要能讀）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -10887,9 +10887,9 @@
    "sha": "50f2142c",
    "what": "AA_309（QA 劇本 v2 沒蓋到的 4 列）：①10/29 小福「上完大一國文」（AA 已推開發分支 a6d1e65b）②10/17 車上告白交通算在 17:40 以前 ③可昕不在場的場景後面不接她的階梯 ④9/13 保齡球品妤第一句；＋AA_308 第 10 節 7/12 對答案",
    "task": "CRAM-DEC-SCENE-1018",
-   "msg": "DELIVERED",
-   "integration": "已整合待測試",
-   "note": "①已在開發分支；②③④、7/12 LAWWW 改（v0_e14、lifeline_g6 寫死的地方）",
+   "msg": "ACTIONED",
+   "integration": "已驗收",
+   "note": "①已在開發分支；②③④、7/12 LAWWW 改（v0_e14、lifeline_g6 寫死的地方）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -11895,8 +11895,8 @@
    "what": "AA_336（17 題）、AA_337（1B-12～25 八題＋第 7 節三處）、AA_338（AA_325 十一題＋1B-06 更正＋面板名稱）、AA_339（AA_332 十題）回 LAWWW 的實作問題",
    "task": "EVPKG-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "AA_336／338 面板、1B-06：4a40ab7b；AA_337：cb2e3a65；AA_337 第 7 節、AA_338 其餘、AA_339：子代理重開工中（容器重啟）"
+   "integration": "已驗收",
+   "note": "AA_336／338 面板、1B-06：4a40ab7b；AA_337：cb2e3a65；AA_337 第 7 節、AA_338 其餘、AA_339：子代理重開工中（容器重啟）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-171b62fb",
@@ -11908,8 +11908,8 @@
    "what": "AA_340 第 6 節寒暑假：H1～H3 系統缺口（快轉跳過主線 9、不停在要回的訊息、大二以後沒有回老家訊息）、6-2 企劃有開發沒做的清單、6-3 空白週補稿",
    "task": "HOL-FF-AA340-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 20:4x 派子代理",
+   "integration": "已驗收",
+   "note": "LAWWW-C 20:4x 派子代理｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -12007,8 +12007,8 @@
    "what": "AA_343 B7 更正（翰 4 改到四樓樓梯間刷卡門前的台階）＋AA_344：AA_314 第 4 節 14 項在開發 2900fa69 的覆核（12 項已照新規則）＋五件小改 ①～⑤",
    "task": "EVPKG-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理；B7 更正與 ③④⑤ 在 584d4030（AA_343 子代理）、①② 在 6026c0ce",
+   "integration": "已驗收",
+   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理；B7 更正與 ③④⑤ 在 584d4030（AA_343 子代理）、①② 在 6026c0ce｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 A",
@@ -12344,8 +12344,8 @@
    "what": "清查 A3 LICENSES 補 13 列＋A4 原始檔清單（54 個拿回）",
    "task": "ART-SWEEP-A3A4-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "d37cf28c"
+   "integration": "已驗收",
+   "note": "d37cf28c｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-57de1709",
@@ -12396,8 +12396,8 @@
    "what": "寒暑假回老家的訊息：大三、大四不再和大二一字不差（AA 直接推開發分支，只改引號裡的字）",
    "task": "HOL-FF-AA340-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "bc7c64e3 合併；holiday_ff_unit、holiday_presence_unit ALL PASS"
+   "integration": "已驗收",
+   "note": "bc7c64e3 合併；holiday_ff_unit、holiday_presence_unit ALL PASS｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-cae5cc76",
@@ -12578,8 +12578,8 @@
    "what": "AA_242 第 12 節 C16～C18 七項裁定＋缺字（上班日日誌 C16 6 句、C17 12 句；第二次以後日誌；阿哲寒假版；C18 行前說明會；思穎回國）；AA_341 檔尾日本宿舍房間三個「看」（窗外分 4/30 前後、小冰箱、行李箱）",
    "task": "AA-VAC-C16-C18-Q-1021",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "【LAWWW-C 13:4x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準"
+   "integration": "參考用",
+   "note": "【LAWWW-C 13:4x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA-2f1aaa22",
@@ -12591,8 +12591,8 @@
    "what": "AA_355 第 5 節、AA_353 第 3 節：回 LAWWW 13:42 七題（cardLine 出最後一句、延畢 2029 夏天三句、1-1 今天→昨天、挽回中冷靜中不約、運動會大二起不停課、y34b3d.js:346 加以安電話一句、十個物件旁白 5-1）",
    "task": "AA-Q-1021-PG",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
+   "integration": "參考用",
+   "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-LAWWW2-cfd0e566",
@@ -12981,8 +12981,8 @@
    "what": "BUG-NAV-LAMPPOST-1021＋椰林大道路燈：patches/lamppost_nav.diff（路燈導航阻擋半徑 0.25→0.5：校園、公館、118 巷、溫州街小公園）＋patches/campus_avenue_lamps.diff 第三版（大道與鐘亭兩側路燈、路面光圈）；tests/lamppost_nav_unit.js（修改前 4 FAIL）、tests/campus_lamps_unit.js（修改前 3 FAIL）；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS（LAWWW2 跑，SwiftShader）；說明 test_shots/avenue_lamps_1021/README.md（fb8546f3）",
    "task": "BUG-NAV-LAMPPOST-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）21:3x 照順序套兩份 patch，對 78f4c813 乾淨；相關 45 支 Node 測試全過；路燈畫面 READY_FOR_ART_REVIEW、燈柱導航 FUNCTIONAL_VERIFIED（LAWWW2）；BB 晚上走椰林大道看路燈、試著穿過燈柱"
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）21:3x 照順序套兩份 patch，對 78f4c813 乾淨；相關 45 支 Node 測試全過；路燈畫面 READY_FOR_ART_REVIEW、燈柱導航 FUNCTIONAL_VERIFIED（LAWWW2）；BB 晚上走椰林大道看路燈、試著穿過燈柱｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-8512b3b0",
@@ -12994,8 +12994,8 @@
    "what": "US-MARKET-STREET：新戶外區域 us_market_street（草原超市 IN／OUT、停車場 54 格、四線道＋分隔島＋兩個路口、南邊小商店＋竹葉亞洲超市、公車站，四季照 us_season）：patches/us_market_street.diff（8512b3b0：assets3d.js、us_layouts.js、exchange3d.js、us3d.js、us_life3d.js、nav_us_unit、新 us_market_street_unit）＋us_market_street.glb／.json／.layout.json＋Blender 腳本（fa7c85e2）＋LICENSES 一列；說明 test_shots/us_market_street_1021/README.md（07967c55）；READY_FOR_ART_REVIEW",
    "task": "US-MARKET-STREET",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）22:3x 整合進開發分支（patch 對 4fd3bda0 乾淨；LICENSES 那一列照位置手動加；美國相關 24 支單元測試全過）；還不到：晚上停車場偏暗、車不會動、沒有路人（美國人流是 LAWWW 的範圍）；BB 看畫面"
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）22:3x 整合進開發分支（patch 對 4fd3bda0 乾淨；LICENSES 那一列照位置手動加；美國相關 24 支單元測試全過）；還不到：晚上停車場偏暗、車不會動、沒有路人（美國人流是 LAWWW 的範圍）；BB 看畫面｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-3d6f2cee",
@@ -13046,8 +13046,8 @@
    "what": "PERF-CROWD-LOD-1021 第二版：遠距離（30～60 m）路人換低面數版本＋遠的不跑彈簧骨（patches/crowd_far_lod.diff：assets3d／character3d／engine3d＋tests/npc_far_unit.js＋tools/shots/crowd_lod_audit.py；assets/models/char/second_ai/lod/ 40 個 .lod.glb 10.8 MB）；大道中段 −34 draw call、−9.6 萬三角形；記憶體三趟沒有變多",
    "task": "PERF-CROWD-LOD-1021",
    "msg": "ACK",
-   "integration": "取消／被取代",
-   "note": "第三版 DL-LAWWW2-583cf89d 取代（只差 character3d.js updateVRM 那一行和 skirt_drive 合在一起、nm3 遠距離版本重做）｜v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）"
+   "integration": "已驗收",
+   "note": "第三版 DL-LAWWW2-583cf89d 取代（只差 character3d.js updateVRM 那一行和 skirt_drive 合在一起、nm3 遠距離版本重做）｜v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-LAWWW2-1598a47d",
@@ -13150,8 +13150,8 @@
    "what": "美國超市：一進門鏡頭不在店外（us_market_cam.diff）、超市街站牌柱網點透空（us_ms_seethru.diff）；us_asian_market.glb／.json（47eb0d5a、baf53ffd）",
    "task": "US-MARKET-CROWD-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "開發分支整合（LAWWW 06:4x，7 份 patch 照順序疊套）；全部 Node 單元測試 468 支過；瀏覽器流程（wz_street_integration、gongguan_layout_nav、reachability_all --zones wenzhou,gongguan、flow_dorm_hall）派 BB；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）"
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 06:4x，7 份 patch 照順序疊套）；全部 Node 單元測試 468 支過；瀏覽器流程（wz_street_integration、gongguan_layout_nav、reachability_all --zones wenzhou,gongguan、flow_dorm_hall）派 BB；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LAWWW2-e6512c87",
@@ -13254,8 +13254,8 @@
    "id": "DL-LAWWW2-63d4a3e3",
    "what": "天花板第四版（ART-CEIL-LAWWW-ROOMS-1022）：201 教室、男宿門廳、霖澤館二樓、萬才館二樓的天花板改單面朝下（classroom_201、dorm_hall、linze_interior、wancai_interior 四份 GLB＋腳本）；201 的 T 型骨架只留底面（684→114 三角形）；room_ceiling_unit 多驗這四份、2 m 以上每一層",
    "task": "ART-CEIL-LAWWW-ROOMS-1022",
-   "integration": "已整合待測試",
-   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:3x：四份 GLB＋四個腳本照 63d4a3e3，ceiling_more.diff 套上）；修改前（3256ce62 的四份）room_ceiling_unit FAIL 8，現在 ALL PASS；rooms_glb、nav_buildings、seethru 五支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW"
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:3x：四份 GLB＋四個腳本照 63d4a3e3，ceiling_more.diff 套上）；修改前（3256ce62 的四份）room_ceiling_unit FAIL 8，現在 ALL PASS；rooms_glb、nav_buildings、seethru 五支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "date": "2026-10-22",
@@ -13319,8 +13319,8 @@
    "what": "天花板第二版（ART-CEIL-LAWWW-ROOMS-1022 修正）：骨架、輕鋼架、燈框、201 燈箱、男宿吸頂日光燈照舊方盒、整組 WALL_ dir 朝下（鏡頭比它高時和牆一樣淡出）；燈板單面（霖澤館、萬才館、博雅、普通、總圖 3F、法圖）；男宿大門鋁框、門把跟前牆淡出（巡場景第 3 區 P1）；8 份 GLB＋4 份 json＋7 個腳本＋ceiling_lights.diff（room_ceiling_unit）；取代第一版「骨架只留底面」（從下面平視遠處格子不見）",
    "task": "ART-CEIL-LAWWW-ROOMS-1022",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "開發分支整合（LAWWW 帳號 A 10-22 10:4x）；新測試＋舊模型 FAIL 8、＋新模型 ALL PASS；nav_buildings、rooms_glb、indoor_crowd、seethru、dorm／linze／教學館／法圖 15 支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW"
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 帳號 A 10-22 10:4x）；新測試＋舊模型 FAIL 8、＋新模型 ALL PASS；nav_buildings、rooms_glb、indoor_crowd、seethru、dorm／linze／教學館／法圖 15 支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-088556ed",
@@ -13397,8 +13397,8 @@
    "what": "PERF-CROWD-LOD-1021 第三版：crowd_far_lod.diff 對齊開發分支 eece763b（updateVRM 那一行和沛珊 skirt_drive 合在一起；其他和第二版相同）＋40 個 lod GLB（nm3 用 10-22 新頭髮的 VRM 重做）；說明 7ccab572",
    "task": "PERF-CROWD-LOD-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "開發分支整合（LAWWW 帳號 A 12:0x）：patch 乾淨套上、40 個 lod GLB 和 LAWWW2 分支的 blob 逐檔相同、tools/lod/npc_lod.py、LICENSES 一列；npc_far_unit 修改前 11 項 FAIL、修改後＋18 支相關（anon_dedup、anon_pool、ride_pose、seated_look、stairs_feet、v0_econ_chars、walkdir、crowd、follow_buddy、npc_ambient、indoor_crowd、ios_memory、bike、quick_travel、zone_dispose、nav_buildings、sit_feet、sit_floor）ALL PASS；瀏覽器由 BB 在 v9.10.6 測（30 m 邊界不閃、近景樣子不變、?nofar 對照）；放 v9.10.6"
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 帳號 A 12:0x）：patch 乾淨套上、40 個 lod GLB 和 LAWWW2 分支的 blob 逐檔相同、tools/lod/npc_lod.py、LICENSES 一列；npc_far_unit 修改前 11 項 FAIL、修改後＋18 支相關（anon_dedup、anon_pool、ride_pose、seated_look、stairs_feet、v0_econ_chars、walkdir、crowd、follow_buddy、npc_ambient、indoor_crowd、ios_memory、bike、quick_travel、zone_dispose、nav_buildings、sit_feet、sit_floor）ALL PASS；瀏覽器由 BB 在 v9.10.6 測（30 m 邊界不閃、近景樣子不變、?nofar 對照）；放 v9.10.6｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-5ef4e291",
@@ -13488,8 +13488,8 @@
    "what": "AA_388 學姊第五批・七夕（三年；白色情人節不做學姊版）",
    "task": "SIS-QIXI-L-1023",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "AA-B 06:50 send_message；outbox_AA.json 已登記｜LAWWW-B 10-23 08:4x 合併 64ac48557"
+   "integration": "已驗收",
+   "note": "AA-B 06:50 send_message；outbox_AA.json 已登記｜LAWWW-B 10-23 08:4x 合併 64ac48557｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA389",
@@ -13527,8 +13527,8 @@
    "what": "林家乾麵牆上菜單加「貢丸湯 30」（六張紅紙）；shops_tex.py 整支換",
    "task": "ART-WZ-LIN-MENU-1022",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 收四個檔；遊戲程式不用改；前後截圖 docs/art-rebuild/second_ai/test_shots/wz_lin_menu_1022/README.md（LAWWW2 分支）"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 收四個檔；遊戲程式不用改；前後截圖 docs/art-rebuild/second_ai/test_shots/wz_lin_menu_1022/README.md（LAWWW2 分支）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA392",
@@ -13540,8 +13540,8 @@
    "what": "AA_392 學姊第六批：她在美國時女朋友的每週視訊六組、送機答應了就有（含機場等她）、口試沒到那通電話、研究室便條、第二次訪談、荷花池、出發前總圖、她爸爸的下次、日本路線生日邊界",
    "task": "SIS-B6-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 07:3x ACK；實作 SIS-B6-L-1023，排在 SIS-QIXI-L-1023 之後"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 07:3x ACK；實作 SIS-B6-L-1023，排在 SIS-QIXI-L-1023 之後｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA393",
@@ -13553,8 +13553,8 @@
    "what": "AA_393 學姊第七批・日本路線（3/23 Café 便條、在日本八則照片、8/1 視訊、回覆池國外:JP、交往中四組視訊）",
    "task": "SIS-B7-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:0x ACK；實作排在 SIS-B6-L-1023 之後"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:0x ACK；實作排在 SIS-B6-L-1023 之後｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA394",
@@ -13566,8 +13566,8 @@
    "what": "AA_394 學姊第八批・大二整年＋兩個暑假（三場約、法圖週三五場、助教設定、自助餐底圖、債各筆記）",
    "task": "SIS-B8-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:0x ACK；實作排在 SIS-B6-L-1023 之後"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:0x ACK；實作排在 SIS-B6-L-1023 之後｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-LW2-NODARK-1",
@@ -13618,8 +13618,8 @@
    "what": "AA_395 學姊第九批：雨天總圖門口、Café 帶哪一本、T2 奇數週短視訊、楓葉書籤、大峽谷條件（待 BB 跑）",
    "task": "SIS-B9-1024",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:3x ACK"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:3x ACK｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA399",
@@ -13644,8 +13644,8 @@
    "what": "AA_396 學姊第十批：交往中三年跨年、三年除夕電話、前任四場、畢業以後每季 Café",
    "task": "SIS-B10-1024",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:5x 收；AA_391 六～十批全部交完"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:5x 收；AA_391 六～十批全部交完｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA400",
@@ -13657,8 +13657,8 @@
    "what": "AA_400 子晴的測試版（2028-03-07 私訊→3/8 12:10 總圖二樓；房間玩一次三種回饋；貓接 AA_397；做好拿掉 termend_lines HOOK_ZQ_GAME noOpt）",
    "task": "AA389-ZQ-GAME-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA401",
@@ -13670,8 +13670,8 @@
    "what": "AA_401 可昕學期末約會每場加二選一（大二上～大五上；答應去高雄那次寒暑假多兩則訊息、ev_hv_kx 多一句）",
    "task": "AA389-KX-TERMDATE-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA402",
@@ -13683,8 +13683,8 @@
    "what": "AA_402 柏翰、芯慈 SMALLTALK 大二起每學期各兩句",
    "task": "AA389-BH-XC-SMALLTALK-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-AA403「這一段你來講」改當面",
@@ -13696,8 +13696,8 @@
    "what": "AA_403「這一段你來講」改當面 ev_grad_debate_teach",
    "task": "AA389-GRAD-DEBATE-1023",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完"
+   "integration": "參考用",
+   "note": "LAWWW-B 10-23 08:5x 收；AA_389 九點全部交完｜10-27 LAWWW-C：任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付狀態一起改"
   },
   {
    "id": "DL-LW2-NODARK-2",
@@ -13787,8 +13787,8 @@
    "what": "AA_409 第 1 節更正：交往中版本接 AA_245 柏翰算麵錢三句（兩個並存）",
    "task": "PS-DATE-EARLY-1023",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 13:0x：events.js ev_midterm_supper_y1s2 滷蛋那幾行之後接柏翰三句（認識柏翰才有）；tests/aa245_psbh_unit.js ALL PASS"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 13:0x：events.js ev_midterm_supper_y1s2 滷蛋那幾行之後接柏翰三句（認識柏翰才有）；tests/aa245_psbh_unit.js ALL PASS｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA408-6",
@@ -13917,8 +13917,8 @@
    "what": "tests/see_through.py 兩項 FAIL 查明是測試過時；測試修正 patch",
    "task": "SEE-THROUGH-FAIL-1023",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-23 14:4x 整合；README：docs/art-rebuild/second_ai/test_shots/see_through_1023/README.md"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-23 14:4x 整合；README：docs/art-rebuild/second_ai/test_shots/see_through_1023/README.md｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LW2-LINZE5F",
@@ -14177,8 +14177,8 @@
    "what": "BUG-SHADOW-UPPER-1024：玩家這一層以上的樓層不投影子（engine3d.js shadowLevels）",
    "task": "BUG-SHADOW-UPPER-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 11:2x 整合；瀏覽器回歸給 BB（普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 11:2x 整合；瀏覽器回歸給 BB（普通 101、博雅一樓坐下看牆、霖澤館樓梯／電梯）｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LW2-CROWD-FAR-INDOOR",
@@ -14190,8 +14190,8 @@
    "what": "室內無名路人 7 m 外換低面數（博雅一樓階梯教室效能）",
    "task": "BUG-SHADOW-UPPER-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 11:5x 整合；BB 瀏覽器：博雅一樓上課坐後排、Café、總圖 3F 看路人換模型會不會跳"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 11:5x 整合；BB 瀏覽器：博雅一樓上課坐後排、Café、總圖 3F 看路人換模型會不會跳｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LW2-BG-DARK-1",
@@ -14229,8 +14229,8 @@
    "what": "AA_447 全遊戲重複台詞掃描：四件要改（紐約送機、台南送行、機票那句、是A不是B 四句）",
    "task": "AA447-DUPLINES-1024",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-B 10-24 14:5x 整合；outbox e845a3793"
+   "integration": "已驗收",
+   "note": "LAWWW-B 10-24 14:5x 整合；outbox e845a3793｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-AA-448",
@@ -14788,8 +14788,8 @@
    "what": "AA_475 禁用句第五輪：第 1 節三句（482c7f6e9：沛珊裂縫談話「我記住了」、以安心願、沛珊心願）、第 3 節句號版「不是 X。是 Y。」10 句（ab9d70fe0：約會 D09／D10／D11／D14／D20、可昕閒聊 K6、芷若心願、子晴羽球）、自查更正（e089e8788：D10 子晴、D11 以安）",
    "task": "AA475-BAN5-1027",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 10-27 17:3x：白名單 wish_aa→482c7f6e9；wish_bb、D09、D14、D20、ladder_bb_y3s2→ab9d70fe0；D10、D11→e089e8788（AA 訊息寫 ab9d70fe0，自查更正在後面）；原稿 AA_127→482c7f6e9、BB_128→ab9d70fe0（import_wish.py 逐句對原稿：對不到 3→0）；重跑 import_wish／import_date_lines／import_ladder；cracktalk_lines.js、invites.js＋tests/aa417_sport_invite_unit.js 第 97 行手改；11 句新句都在遊戲資料裡、舊句都不見"
+   "integration": "已驗收",
+   "note": "LAWWW-C 10-27 17:3x：白名單 wish_aa→482c7f6e9；wish_bb、D09、D14、D20、ladder_bb_y3s2→ab9d70fe0；D10、D11→e089e8788（AA 訊息寫 ab9d70fe0，自查更正在後面）；原稿 AA_127→482c7f6e9、BB_128→ab9d70fe0（import_wish.py 逐句對原稿：對不到 3→0）；重跑 import_wish／import_date_lines／import_ladder；cracktalk_lines.js、invites.js＋tests/aa417_sport_invite_unit.js 第 97 行手改；11 句新句都在遊戲資料裡、舊句都不見｜10-27 任務照 BB-C 盤點（BB_INTEGRATED_TRIAGE_1027）結案，交付一起改已驗收"
   },
   {
    "id": "DL-LW2-SINGLESIDE-5",
