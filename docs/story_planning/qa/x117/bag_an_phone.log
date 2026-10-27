@@ -1,0 +1,25 @@
+PASS 遊戲載入
+  [前置／捷徑] [前置] 讀使用者存檔（day 14）：宿舍房間 17:00；heroine_01 有點熟、有聯絡方式、去過新體育館；之前沒一起打過羽球
+PASS 手機「朋友」有 heroine_01 的「約」
+PASS 選地方「去新體育館打羽球」  去新體育館打羽球
+PASS 選時間（今天的時段）  今天 19:00
+PASS 答應了：約好今天的羽球（accepted）  {"id": "iv14", "who": "heroine_01", "place": "gym_badminton", "zone": "gym", "day": 14, "h": 19, "state": "accepted", "accepted": true, "by": "player", "now": false, "label": "和沈以安約在新體育館羽球場", "kxd": 1}
+  [前置／捷徑] [捷徑] 時間撥到約好的前 12 分鐘（18.80）
+FAIL 手機「地點」有新體育館  None
+  [  53.2s] 開演以前的配件：{"t":52515.300000000745,"ents":{"P1":{"props":{"backpack":{"vis":true,"own":true,"carry":true,"d":0.02}},"pose":"idle","propOn":null}}}
+  [  53.3s] {"depth": 0, "dlg": false, "txt": "約好 今天 19:00，新體育館羽球場。", "busy": false, "frozen": false, "zone": "dorm", "hour": 18.805, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [ 473.7s] 鏡頭切換：[]
+FAIL 短片有演（BADCLIP.busy 出現過）  0
+FAIL 完整版：三個鏡頭（鏡頭切換 ≥3，不算開演那一格；鏡頭 3 裡面可能再切一次）  0
+FAIL 演出中記到祐廷和對手（P1、partner）  []
+  [ 473.7s] 開演以前身上的包：{"P1": ["backpack"], "partner": []}
+PASS 演出中兩個人身上都沒有包（每 200 ms 一格）
+PASS 眼鏡、耳環、髮圈等不是包的配件照舊
+FAIL 演完照原本還原（包回到身上；坐著的不算）  P1.backpack 不見了（模型換了？）
+  [ 473.7s] 演完的 propOn：{"P1": null, "partner": null}
+PASS 沒有卡住（busyDepth 0、玩家不忙、沒有凍住）  {"depth": 0, "dlg": false, "txt": "約好 今天 19:00，新體育館羽球場。", "busy": false, "frozen": false, "zone": "dorm", "hour": 18.805, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+FAIL 推搖桿走得動  0.00 m／3 次
+FAIL 約好的那一場結束（iv done）  accepted
+PASS 頁面記錄沒出錯  None
+PASS 沒有 JS 例外  []
+FAILED: 手機「地點」有新體育館, 短片有演（BADCLIP.busy 出現過）, 完整版：三個鏡頭（鏡頭切換 ≥3，不算開演那一格；鏡頭 3 裡面可能再切一次）, 演出中記到祐廷和對手（P1、partner）, 演完照原本還原（包回到身上；坐著的不算）, 推搖桿走得動, 約好的那一場結束（iv done）
