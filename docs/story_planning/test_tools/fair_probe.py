@@ -295,18 +295,22 @@ async def m_fair(c):
 async def m_missed(c):
     pg, run = c.pg, c.run
     k = await pg.evaluate("CALENDAR.dateOf(STORY.termDay('Y1S1',5,1)).key")
-    A = await pg.evaluate("(()=>{ const a=ACTIVITIES.list.find(a=>a.id==='club_guitar'); return a?{zone:a.zone,spot:a.spot,t0:a.t0,title:a.title}:null; })()")
+    A = await pg.evaluate("(()=>{ const a=ACTIVITIES.list.find(a=>a.id==='club_guitar'); return a?{zone:a.zone,room:a.room,roomName:a.roomName,t0:a.t0,title:a.title,door:!!a.door}:null; })()")
     run.note('吉他社社課：%s；第 5 週週一＝%s' % (json.dumps(A, ensure_ascii=False), k))
-    if not A or not A.get('spot'): run.check('3. 找得到吉他社社課的地點', False, json.dumps(A)); return
-    sp = A['spot']
-    await load_new(c, k, (A['t0'] or 19) - 0.12, A['zone'], pos={'x': sp['x'], 'z': sp['z'] + 2.5, 'yaw': 0, 'lv': sp.get('lv', 0) or 0, 'y': 0}, quiet=quiet_for('missed'),
+    if not A: run.check('3. 找得到吉他社社課（activities.js club_guitar）', False); return
+    # 社課在萬才館一樓多功能教室（room multi、door:true）：門口的互動點＝classes3d.js S.roomDoor →「參加：吉他社社課」→ CLS.attendActivity（clubfair3d.js 包住：旁白多一句）
+    await load_new(c, k, A['t0'] - 0.12, A['zone'], quiet=quiet_for('missed'),
                    js="MET('heroine_04'); G.events.done.ev_ziqing_club=1; for(const k of Object.keys(G.flags)) if(/^CLUB_|^FAIR_/.test(k)) delete G.flags[k];",
-                   why='missed：第 5 週週一社課前 7 分鐘、萬才館社課門口 2.5 m；沒去社博、沒加入吉他社（子晴認識、ev_ziqing_club 演過＝避開她那一段，同 clubfair_1027_unit 第 9 項）')
+                   why='missed：第 5 週週一（%s）社課前 7 分鐘、萬才館大廳；沒去社博、沒加入吉他社（子晴認識、ev_ziqing_club 演過＝避開她那一段，同 clubfair_1027_unit 第 9 項）' % k)
     run.check('3. 前置：沒去過社博（出席紀錄沒有）', not await pg.evaluate("ACTIVITIES.attendedAny(GAME.G,'club_expo_y1s1',CLUBFAIR.fairDay(GAME.G))"))
-    await wait_hour(c, A['t0'] or 19, 600)
-    await walk(c, sp['x'], sp['z'], sp.get('label') or A['title'], near=0.8)
-    n0 = await mark(c); lab = await press(c, (sp.get('label') or A['title'])[:3]); await drain(c, pref=['上', '參加', '進去'], secs=240)
-    sy = texts(await log_from(c, n0))
+    door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>/多功能/.test(i.label||'')); return it?[it.x,it.z,it.label,it.lv|0]:null; })()")
+    run.note('多功能教室的門：%s' % json.dumps(door, ensure_ascii=False))
+    if not door: run.check('3. 萬才館大廳找得到多功能教室的門', False); return
+    await wait_hour(c, A['t0'], 600)
+    await walk(c, door[0], door[1], door[2], near=0.8)
+    n0 = await mark(c); lab = await press(c, '多功能'); await drain(c, pref=['參加：吉他社', '參加'], secs=240)
+    Lg = await log_from(c, n0); sy = texts(Lg); op = [x['t'] for x in Lg if x['k'] == 'opts']
+    run.note('門口的選項：%s' % json.dumps(op, ensure_ascii=False))
     run.check('3. 錯過社博、第一次去吉他社社課：第一句「（你在門口填了表。）」', bool(lab) and bool(sy) and sy[0] == '（你在門口填了表。）', json.dumps(sy[:4], ensure_ascii=False))
     run.check('3. 記 CLUB_club_guitar、CLUB_DOOR（沒有 FAIR_JOIN）', await pg.evaluate("GAME.G.flags.CLUB_club_guitar===true&&GAME.G.flags.CLUB_DOOR===true&&!GAME.G.flags.FAIR_JOIN"))
     await run.shot(pg, 'missed_door')
@@ -396,7 +400,7 @@ async def m_gymline(c):
         W = await pg.evaluate(FIND_WHERE + "(%s)" % json.dumps(pid))
         run.note('%s 今天在哪：%s' % (pid, json.dumps(W[:6] if isinstance(W, list) else W, ensure_ascii=False)))
         if not isinstance(W, list) or not W: run.check('6. %s：今天找得到人（作息）' % pid, False, json.dumps(W)); continue
-        w = W[len(W) // 2]
+        pr = ['cafe', 'campus', 'dorm', 'library', 'classroom']; W.sort(key=lambda e: (pr.index(e['zone']) if e['zone'] in pr else 9, abs(e['h'] - 15))); w = W[0]   # 先找不在上課的地方（Café、校園、宿舍、總圖），都沒有才去教室
         await jump(c, 'GAME.G.day', w['h'], '%s 的作息時段' % pid, zone=w['zone'])
         p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(pid))
         if not p: run.check('6. %s：%s 這個區域裡有他／她' % (pid, w['zone']), False); continue

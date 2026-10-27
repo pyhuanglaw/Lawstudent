@@ -2,7 +2,7 @@
 四個 MODE（SUB＝逗號分隔的情境 id，預設那個 MODE 全部）：
   teacher（CLASS-TEACHER-1027，上課有老師）
     t_stay   ：普通 101「電影與敘事」（2025-09-23 週二 13:20）——【前置】12:44 人在 101 最後一排（教室 12:50 才開放：classes3d.js WIN0＝開始前 30 分鐘；
-               規格寫 13:00，但 13:00 進來老師已經照「剛走進來」直接放在講台，看不到走進來，所以提早到 12:44 待著）→ 時間照真的走到 12:53：
+               規格寫 13:00，但 13:00 進來老師已經照「剛走進來」直接放在講台，看不到走進來，所以提早到 12:44 待著）→ 時間照真的走到 13:08：
                老師第一次出現離講台 ≥1.5 m（從大門）、有在走、走到講台（離講台 <0.6 m）、面向學生、每個座位都在他前面。
     t_stay13 ：同一堂 13:00 才進 101（照規格的時間）——只記錄看到什麼（老師已在講台＝照設計），不判 FAIL。
     t_late   ：同一堂 13:40 才進 101＝5 秒內講台前已經有老師、面向學生、不在走。
@@ -30,7 +30,8 @@
     e_booth  ：同一天 12:00 走到法服攤位（「法律服務社」）按＝演同一段，演完她還在。
     e_close  ：【前置】演過（SIS_CLUB_EXPO）、15:55 站在攤位前 → 照真的走到 16:06：她走開（leaving／路線）不是在眼前消失；攤位互動點收起來。
     e_week   ：隔一週 2025-09-13（六）12:00：她不在攤位（不在作息點 5 m 內）、whereText 不是社團博覽會。
-【前置／捷徑】全部用最小存檔（法律系大一上：introDone 等 7 個旗標＝zrlast_probe.py load_min 的 y1min；大二的加 ROOM_Y2）直接讀到那一天那一刻那一區（GAME.applySave）；
+【前置／捷徑】全部用最小存檔（法律系大一上：introDone 等 7 個旗標＝zrlast_probe.py load_min 的 y1min；大二的加 ROOM_Y2；
+  另外照新遊戲（開學改 9/1，story3d.js startLawWeek1）寫 LAW_START_DAY＝2025-08-29、MAIN_D1＝STORY.MAIN_D1_NEW——沒有這兩個＝舊局，社博照 datesOld 是 9/30、10/1，不是 9/6；OLDGAME=1 跑舊局）直接讀到那一天那一刻那一區（GAME.applySave）；
   玩家位置用 E.placeAt 放到教室最後一排的座位旁（CROWD.seatSide）——之後都是時間照真的走（不用 ?turbo）、觸控走路（L.go_to）、按互動鍵、點對話；
   teacher／crowd／gym 預設 QUIET=1（關條件事件、手機不自己打開，避免開學那幾天的劇情插進來），expo 預設 QUIET=0（要演 ev_sis_club_expo）。
   E.addNPC、GAME.say 包一層只記錄（不改行為）。
@@ -84,7 +85,10 @@ async def free(pg):
 async def load_at(pg, cdp, run, key, h, zone, flags=None, quiet=None, why=''):
     day = await pg.evaluate("STORY.dayOfKey(%s)" % json.dumps(key))
     wd = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % day)
-    F = dict(Y1F); F.update(flags or {})
+    F = dict(Y1F)
+    if os.environ.get('OLDGAME') != '1':   # 新局（開學改 9/1）：story3d.js startLawWeek1 寫的兩個旗標＝STORY.week1Start 為真，社博才是 9/6（沒有＝舊局，activities.js 走 datesOld 9/30、10/1）
+        F.update(await pg.evaluate("({LAW_START_DAY:STORY.dayOfKey('2025-08-29'), MAIN_D1:STORY.MAIN_D1_NEW})"))
+    F.update(flags or {})
     st = {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': day, 'weekday': wd, 'hour': h, 'energy': 100, 'money': 22000, 'zone': zone, 'pos': None, 'weather': 'clear', 'flags': F,
           'events': {'done': {}, 'last': {}, 'count': 0}}
     q = QUIET if quiet is None else quiet
@@ -146,7 +150,7 @@ async def teacher(pg, cdp, run, cid_case):
     await pg.evaluate("""(cid=>{ window.__bbTL=[]; let last=''; const T=%s; window.__bbTLi=setInterval(()=>{ try{ const t=T(cid); const k=JSON.stringify([!!t.n, t.n&&t.n.leaving, t.n&&t.n.path>0, t.dist==null?null:Math.round(t.dist*2)/2]);
       if(k!==last){ last=k; window.__bbTL.push(t); } }catch(e){} },250); })(%s)""" % (TEACH, json.dumps(cid)))
     if kind == 'stay':
-        await wait_hour(pg, cdp, t['t0'] - 0.45, 900, run)
+        await wait_hour(pg, cdp, t['t0'] - 0.2, 900, run)   # 12:50 開放、老師從大門走進來；等到 13:08（走到講台要幾十秒真實時間＝十幾分鐘遊戲時間）
     else:
         await wait_hour(pg, cdp, t['t1'] + 4 / 60, 900, run)
     tl = await pg.evaluate("(()=>{ clearInterval(window.__bbTLi); return window.__bbTL; })()"); rec(cid_case, tl)

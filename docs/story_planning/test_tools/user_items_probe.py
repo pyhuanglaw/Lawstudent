@@ -156,8 +156,17 @@ async def m_closet(pg, cdp, run, errs):
     for _ in range(8):
         if '書桌' in (await L.state(pg))['interact']: break
         await pg.wait_for_timeout(700)
-    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500); s = await settle(pg, cdp, 30, pref=['坐', '讀書', '寫'])
-    seat = await pg.evaluate("(()=>{ const P=GAME.E.player; return {seat:!!P.seat, pose:P.pose, yaw:+P.obj.rotation.y.toFixed(2)}; })()")
+    SEAT = "(()=>{ const P=GAME.E.player; return {seat:!!P.seat, pose:P.pose, yaw:+P.obj.rotation.y.toFixed(2)}; })()"
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500); seat = await pg.evaluate(SEAT)
+    if not seat['seat']:   # 有選單：只選「坐」那一項（不選讀書，免得時間往前、讀完站起來）
+        ch = await pg.evaluate(CHOICES); w = next((c for c in ch if '坐' in c), None)
+        if w: await pick(pg, cdp, w[:4]); await pg.wait_for_timeout(2500)
+        for _ in range(6):
+            seat = await pg.evaluate(SEAT)
+            if seat['seat']: break
+            if (await L.state(pg))['dlg']: await L.tap(pg, cdp, '#dlg')
+            await pg.wait_for_timeout(800)
+    run.note('按「坐在書桌前」以後：%s；選單 %s' % (J(seat), J(await pg.evaluate(CHOICES))))
     yaw = seat['yaw']; east = abs(math.atan2(math.sin(yaw - math.pi / 2), math.cos(yaw - math.pi / 2))) < 0.5
     run.check('書桌：坐下（pose sit／read）、面向東牆（yaw≈π/2）', ok and seat['seat'] and seat['pose'] in ('sit', 'read') and east, J(seat)); await run.shot(pg, '15_desk')
     await L.push_until(pg, cdp, 0, 60, 0.3, max_pushes=3)   # 起來（往後推搖桿）
@@ -334,7 +343,8 @@ async def layout_check(pg, cdp, run, tag):
 
 
 async def m_qsave(pg, cdp, run, errs):
-    await load(pg, base(), run, '[前置] 讀使用者存檔（day 14 麵店）', quiet=False); await L.close_panels(pg, cdp); await settle(pg, cdp, 60, pref=[])
+    await load(pg, base(), run, '[前置] 讀使用者存檔（day 14 麵店）', quiet=False); await L.close_panels(pg, cdp)
+    await settle(pg, cdp, 60, pref=['不用了', '算了', '先不', '就這樣', '不了', '離開'])
     await layout_check(pg, cdp, run, '橫向')
     await pg.set_viewport_size({'width': 390, 'height': 844}); await pg.wait_for_timeout(2500)
     await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); if(r) r.classList.remove('want'); })()")
@@ -351,7 +361,11 @@ async def m_qsave(pg, cdp, run, errs):
     await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#menu .tabs button[data-tab="settings"]'); await pg.wait_for_timeout(600)
     await L.tap(pg, cdp, '#btnTitle'); await pg.wait_for_timeout(2500)
     auto2 = await pg.evaluate("(()=>{ const s=JSON.parse(localStorage.getItem('fatiao3d_auto')||'null'); return s?{day:s.day,hour:+s.hour.toFixed(3)}:null; })()")
-    await L.tap(pg, cdp, '#btnContinue'); await pg.wait_for_timeout(7000); await L.close_panels(pg, cdp)
+    await L.tap(pg, cdp, '#btnContinue')
+    for _ in range(60):
+        if await pg.evaluate("document.getElementById('titleScreen').classList.contains('hide')&&!!GAME.G&&!!GAME.E.player"): break
+        await pg.wait_for_timeout(1000)
+    await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
     g = await pg.evaluate("({day:GAME.G.day,hour:+GAME.G.hour.toFixed(3),zone:GAME.G.zone})")
     run.check('回標題「繼續（自動存檔）」讀得回來：日子一樣、時間不早於快速存檔那一刻（回標題時會再自動存一次）', g['day'] == auto['day'] and auto['hour'] - 0.01 <= g['hour'] <= auto['hour'] + 1.0, J([auto, auto2, g]))
     await pg.evaluate(B['HOOK']); await pg.evaluate(TOASTW)
@@ -401,7 +415,8 @@ async def m_qsave(pg, cdp, run, errs):
         g = await pg.evaluate("({day:GAME.G.day,hour:+GAME.G.hour.toFixed(3),zone:GAME.G.zone,busy:GAME.D.busyDepth,stale:!!GAME.D.stale,hasBusy:'_busy' in GAME.G})")
         run.check('匯出的檔用「匯入」讀回來：匯入成功、日子區域一樣、沒有 _busy', '匯入成功' in msg and g['day'] == ex['day'] and g['zone'] == ex['zone'] and not g['hasBusy'], J([msg, g]))
         s = await L.state(pg); moved, k, _ = await L.push_until(pg, cdp, 0, -60, 0.4, max_pushes=3)
-        run.check('讀回來不卡：busyDepth 0、走得動', g['busy'] == 0 or (await pg.evaluate("GAME.D.busyDepth")) == 0 and moved >= 0.4, '%s，走了 %.2f m' % (J(g), moved))
+        bd = await pg.evaluate("GAME.D.busyDepth")
+        run.check('讀回來不卡：busyDepth 0、走得動', bd == 0 and moved >= 0.4, '%s，busyDepth %s，走了 %.2f m' % (J(g), bd, moved))
 
 
 # ---------- 5j 羽球短片的台詞 ----------
@@ -500,11 +515,17 @@ async def m_parkB(pg, cdp, run, errs):
     d = await pg.evaluate("(d0=>{ for(let d=d0+1; d<d0+15; d++){ if(CALENDAR.dateOf(d).wd===2&&CALENDAR.termOf(d)) return d; } return null; })(GAME.G.day)")
     await load(pg, base(d, 17.08, 'wenzhou', {'x': P['tree'][0] - 2, 'z': P['tree'][1] - 3, 'yaw': 3.14159, 'lv': 0, 'y': 0}), run, '[前置] 週二 17:05 溫州街、小公園老樹旁', quiet=False)
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(8000)
-    kids = await pg.evaluate("""(()=>{ const out=[]; for(const n of (GAME.E.npcs||[])){ if(!n||!n.obj||n.hidden) continue; const u=n.crowd||n.userData||{}; const tag=JSON.stringify(u).slice(0,80); if(/pass|kid|課輔/.test(tag)||/pass/.test(n.crowdKind||'')) out.push({x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1),tag}); } return out; })()""")
-    route = await pg.evaluate("(()=>{ try{ const sp=(CROWD.parkSpots||[]).find(s=>s.passPts); return sp?sp.passPts:null; }catch(e){ return String(e); } })()")
-    run.note('課輔班（頁面裡找到的走路的人）：%s；路線：%s' % (J(kids[:10]), J(route)))
+    P2 = await pg.evaluate(PARKP); mx = 0; near_b = False; samples = []
+    for _ in range(30):   # 課輔班（crowd3d.js：n.passing＝正在走 S.passRoute、role tutor／tutor_kid）
+        ks = await pg.evaluate("(()=>(GAME.E.npcs||[]).filter(n=>n&&n.obj&&!n.hidden&&(n.passing||/tutor/.test(n.role||''))).map(n=>[+n.obj.position.x.toFixed(1),+n.obj.position.z.toFixed(1)]))()")
+        mx = max(mx, len(ks)); near_b = near_b or any(abs(k[0] - P2['gate'][0]) < 3.5 and abs(k[1] - P2['gate'][1]) < 3.5 for k in ks)
+        if ks and len(samples) < 6: samples.append(ks)
+        await pg.wait_for_timeout(2000)
+    route = await pg.evaluate("(()=>{ try{ const sp=(CROWD.SPOTS||[]).find(s=>s.passPts); if(!sp) return null; const r=CROWD.passRoute(GAME.E,sp); return {pts:sp.passPts, route:r?Object.keys(r):null, len:r&&r.len}; }catch(e){ return String(e); } })()")
+    run.note('課輔班：最多同時 %d 人在走；經過入口 B 附近：%s；取樣 %s；路線 %s' % (mx, near_b, J(samples), J(route)))
     await run.shot(pg, 'parkB_class')
-    run.check('課輔班那一場照舊：17:05 公園裡有一排人在走（看截圖確認從入口 B 那邊進來）', len(kids) >= 3 or bool(route), '%d 人' % len(kids))
+    kids = [0] * mx
+    run.check('課輔班那一場照舊：17:05 起公園裡有一排人在走（≥3 人），而且有人經過入口 B 附近', len(kids) >= 3 and near_b, '%d 人、入口 B %s' % (len(kids), near_b))
 
 
 # ---------- 5j 貼圖去重複 ----------
@@ -550,8 +571,8 @@ async def m_tex(pg, cdp, run, errs):
         await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })(14.0)"); await pg.wait_for_timeout(2500)
         await pg.evaluate("GAME.E.cam.yaw=0"); await pg.wait_for_timeout(1500)
         await pg.evaluate(CLEAN + "(true)"); await pg.evaluate("GAME.E.player.obj.visible=false"); await pg.wait_for_timeout(700)
-        nm = 'tex_%d_%s' % (i, z); await run.shot(pg, nm); await pg.evaluate(CLEAN + "(false)"); await pg.evaluate("GAME.E.player.obj.visible=true")
-        shot = next((os.path.join(OUT, f) for f in sorted(os.listdir(OUT)) if nm in f and f.endswith('.png')), None)
+        nm = 'tex_%d_%s' % (i, z); shot = await run.shot(pg, nm); await pg.evaluate(CLEAN + "(false)"); await pg.evaluate("GAME.E.player.obj.visible=true")
+        shot = shot if shot and os.path.exists(shot) else None
         st = img_stats(shot) if shot else None; tx = await pg.evaluate(TEX_JS)
         rows.append({'i': i, 'zone': z, 'phone': ok, 'img': st, 'tex': tx}); run.note('%s：%s' % (nm, J(rows[-1])))
         run.check('%d %s：場景裡沒有已經 close 還在用的貼圖、沒有缺圖' % (i, z), tx['closed'] == 0 and tx['nullImg'] == 0, J(tx['bad']))
