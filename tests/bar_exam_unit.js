@@ -29,7 +29,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     H.at('2029-08-04',17.6); PHONE.tick(G); check('2. 和可昕交往：她傳「考完了。手還在抖。」「……你的也是吧。」',H.msgs('p:kexin').join('|')==='考完了。手還在抖。|……你的也是吧。',JSON.stringify(H.msgs('p:kexin')));
     // 9/7
     H.at('2029-09-07',14.6); PG.rules(GM); H.at('2029-09-07',15); H.tick();
-    check('3. 9/7 15:00 群組「一試放榜了。」（群組安靜了三秒。）「宵夜。」',H.msgs('g:noodle_team').join('|').includes('一試放榜了。|（群組安靜了三秒。）|宵夜。'));
+    check('3. 9/7 15:00 群組「一試放榜了。」（群組安靜了三秒。）「宵夜」（AA_476 A-7：阿哲不加句號）',(m=>{ const i=m.indexOf('（群組安靜了三秒。）'); return i>0&&m[i-1]==='一試放榜了。'&&m[i+1]==='宵夜'; })(H.msgs('g:noodle_team')),JSON.stringify(H.msgs('g:noodle_team').slice(0,4)));
     H.at('2029-09-07',15+5/60); const r=PG.due(G); check('3. 15:05 系統字',r&&r.id==='r1_2029'); await PG.runStep(GM,r);
     check('3. Y1：答對 14＝「律師一試：通過。司法官一試：未通過。」；BAR_STAGE_2029 lawyer',H.has('律師一試：通過。司法官一試：未通過。')&&G.flags.BAR_STAGE_2029==='lawyer');
     H.at('2029-09-07',15.2); H.tick(); check('3. 朋友：Alison「一試沒過。明年再來。」阿哲「我也沒過。……宵夜照吃。」柏翰「過了。」；沒有「明年一起。」',H.msgs('g:noodle_team').join('|').includes('一試沒過。明年再來。|我也沒過。……宵夜照吃。|過了。')&&!H.msgs('g:noodle_team').includes('明年一起。'));

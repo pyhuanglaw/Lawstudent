@@ -236,7 +236,7 @@ const PG=(function(){
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?DLY(G,'yt17Other',Y17.other):DLY(G,'yt17Friend',Y17.friend)));
     if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
-  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_472 第 4 節把她的句子改成「這裡早上五點」，是照 12:00 拍照算的；時間要不要跟著挪，待 AA 定）*/
+  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_476 A-1：視訊不搬到 12:00，句子照原句）*/
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
   S.partnerBeat=async function(GM,id){ const G=GM.G, P=L().PARTNER;
     if(id==='kexin') return S.play(GM,G.flags.GIRAFFE_KEYCHAIN?P.kexin.key:P.kexin.noKey);
@@ -516,8 +516,8 @@ const PG=(function(){
      每一列：[起 MM-DD, 迄 MM-DD（含）, 條件 (G, 年), 句子]。有沒有考一試看 BAR_SIT_<年>；一試過了＝考二試（S.stage2：BAR_STAGE_<年> 是 both／lawyer）*/
   const sat=(G,y)=>!!(G.flags&&G.flags['BAR_SIT_'+y]===true), two=(G,y)=>sat(G,y)&&S.stage2(G,y);
   S.CARDS_2029=[
-    ['06-03','06-27',(G,y)=>S.sits(G,y),'（畢業以後，你還是每天八點起床。不用上課，就去總圖。）'],
-    ['06-03','06-27',(G,y)=>!S.sits(G,y),'（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）'],
+    ['06-03','06-27',(G,y)=>S.sits(G,y)&&!fdLate(G),'（畢業以後，你還是每天八點起床。不用上課，就去總圖。）'],
+    ['06-03','06-27',(G,y)=>!S.sits(G,y)&&!fdLate(G),'（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）'],   /* AA_476 A-2（企劃線 6ad997806）：FAIL_DELAY_CERT 有值的（被當延畢、證書延到六月）不出——他的「畢業以後」從 6/17 領證書才開始，6/18 起接「你媽這次把框裝上了」。上一列（報了 2030 國考的那一版）同一段、同一個理由，一起擋 */
     ['06-29','07-11',(G,y)=>S.sits(G,y),'（七月。總圖 B1 的長桌，每天早上都是同一群人。）'],
     ['07-15','08-02',(G,y)=>S.sits(G,y),'（考前三個禮拜。讀書計畫表的格子一格一格劃掉，剩下的比劃掉的少了。）'],
     ['08-05','09-06',(G,y)=>sat(G,y),'（一試考完，離放榜還有一個月。你把法典放在書架最上面。）'],
