@@ -1,5 +1,14 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ✅ 接班：2026-10-27｜帳號 C｜LAWWW2-C｜`session_015BuNi47yLUt5PviELapMNj`｜分支 `claude/focused-cray-c9uwvw`
+- **使用者原話**：「上一班來不及交班，現在由帳號 C 接班。我也跟這個帳號其他AI說了」（附上一個帳號最後的對話，那段停在 ART-WZ6 開始建模之前；查 GitHub 後確認那是 10-23～24 的對話，ART-WZ6 早已交件 `f6ace8353`、整合 `025ab4f30`）。
+- **上一任沒交班**：LAWWW2-B（`session_01GV1WG3UeT2DhuDpxeWJsvD`，分支 `claude/funny-albattani-iawshm`）還登記在值班，最後 push `e1486b51`（10-25 19:22Z）。照使用者明確指示接班：`duty register --user-ok`（工具記 no-handoff 異常）。**沒 push 的東西當作沒有**（D49）。依 D75，不對帳號 B 的工作階段傳訊息。
+- **RULE_SOURCE**：`duty find` → `claude/modest-rubin-2lyp7g`（值班 B、seq 27）。帳號 C 的 LAWWW 接班後會改。
+- **合併**：我的分支 `2b4f2028` 是 B 分支的祖先 → 快轉到 `e1486b51`（沒有 rebase、沒有 force push）。
+- **對帳**（`--ref origin/claude/modest-rubin-2lyp7g`）：`check` OK；`asks` OK（203 筆、USER_WANTS 295 列）；`incr` 異常 245 項（LAWWW2 217：outbox 第 67 筆以後 150 項欄位又是自由文字、上一班 67 個 WIP 檢查點 commit 沒分類；AA 28 項）——都是記帳格式，不是遺失的工作；LAWWW2 的我來修（照 10-21 outbox_fix 的做法）。
+- **上一班停在哪**：PERF-SINGLESIDE-GLB-1025 **第四份**（美國公寓、C 棟 208、法學院圖書館、亞洲超市、C 棟臥室單面 GLB＋測試 patch＋README，fps +11～40%）已 push（`09b41377`），**沒交件**：最後一個 commit「公寓、C 棟 208 屋內補拍中」——那兩組同角度對照圖沒 push，要重拍。outbox 沒有這一筆。
+- **下一步**：① 補拍第四份公寓、C 棟 208 屋內 → 交 LAWWW（outbox）② 修 outbox／WIP 分類（incr 的 LAWWW2 異常）③ 照下面上一班的佇列。
+
 ## ✅ 接班：2026-10-23 06:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **使用者原話**（06:4x）：「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」（UA-LAWWW2-1023-01）。
 - **值班狀態**：
