@@ -3,7 +3,7 @@
 //   1  以安（蛋包飯研究所，週五的常客）：知道以前／以後都有「也幫以安點一份」→ 品項 → 小選項（畫面一樣）；她說「只吃得下半份」＝知道＋筆記本；
 //      只點品項、點錯、選對（熟悉 +2、她的戀愛 +1、REMEMBERED_HER、筆記本、吃完那一句不說、之後不再問）；交往中多一行旁白
 //   2  沛珊（蛋包飯研究所，週三，到 2026-12-16）：沒有小選項；她的那一句＝知道；選對、點錯；2026-12-16 以後沒有
-//   3  語彤（滇香，大二上起週一）：一起吃過一次以後、別天自己來＝老闆娘兩句（KNOW_FAV_YT、筆記本，一次）；同一天、沒一起吃過＝沒有；選對、只點、點錯；大一沒有
+//   3  語彤（滇香，大二上起週一）：一起吃過一次以後、別天自己來＝老闆娘兩句（KNOW_FAV_YT、筆記本，一次；AA_311 H8 做了以後排在 H8 之後、不同一天）；同一天、沒一起吃過＝沒有；選對、只點、點錯；大一沒有
 //   4  學姊（一一八茶飲）：選對（演過 AA_284 2-3 第 5 段＝換「又是她說的。」）、只點、點錯；H1 店員那兩句＝知道（筆記本）
 //   5  子晴（兩點半 Café，她在店裡）：12～2 月看到她的杯子（一次，KNOW_FAV_ZQ、筆記本），其他月份沒有；選對、只點（熱的）、點錯（拿鐵；熱可可稿裡沒有＝不說話）；
 //      沒見過、不在店裡＝沒有；芷若在班的點餐事件最後也有
@@ -102,9 +102,11 @@ await sec(3,async()=>{ const YT='heroine_03', mon=td('Y2S1',3,1), tue=td('Y2S1',
   await order('dian',['椒麻雞飯','也幫語彤點一份','酸辣河粉','不加']);
   check('3. 「也幫語彤點一份」→ 椒麻雞飯／酸辣河粉／打拋豬飯 →「多加辣」「不加」；只點酸辣河粉：「……嗯，謝謝。」「（她跟老闆娘要了一小碟辣椒。）」',J(H.opts.slice(1,4))===J([['也幫語彤點一份','（就這樣）'],['椒麻雞飯　110 元','酸辣河粉　100 元','打拋豬飯　105 元'],['多加辣','不加']])&&seq(T(L(YT).itemOnly)),J({o:H.opts,s:said()}));
   delete GM.npc[YT]; E.npcs=[]; T0.hour=13.5; await order('dian',['椒麻雞飯']); check('3. 同一天再自己來：沒有老闆娘那兩句',!has(L(YT).know[0][1]));
-  Object.assign(T0,{day:tue,weekday:2,hour:12.5}); await order('dian',['椒麻雞飯']);
-  check('3. 一起吃過以後、別天自己來：老闆娘「那個社會系的妹妹，每次都叫我多放辣。」「看不出來吧。」→ KNOW_FAV_YT、筆記本「語彤：滇香的酸辣河粉，多加辣。看不出來。」',seq(T(L(YT).know))&&H.said.find(x=>x.t===L(YT).know[0][1]).who==='老闆娘'&&SOCIAL.has(YT,'KNOW_FAV_YT')&&noteOf(YT)==='語彤：滇香的酸辣河粉，多加辣。看不出來。',J({s:said(),notes}));
-  Object.assign(T0,{day:tue+1,weekday:3}); await order('dian',['椒麻雞飯']); check('3. 只說一次',!has(L(YT).know[0][1]));
+  Object.assign(T0,{day:tue,weekday:2,hour:12.5}); await order('dian',['椒麻雞飯']);   /* AA_410 第 2 節、4-1：這兩句排在 AA_311 H8 之後、不同一天（H8 做了以後）*/
+  check('3. 一起吃過以後、別天第一次自己來：先演 AA_311 H8（老闆娘說她問開店的事），老闆娘說她點法的那兩句這一天不說',has(L118.H8.lines[0][1])&&!has(L(YT).know[0][1])&&!X().know(H.G,YT),J(said()));
+  Object.assign(T0,{day:tue+1,weekday:3}); await order('dian',['椒麻雞飯']);
+  check('3. 再下一次（別天）自己來：老闆娘「那個社會系的妹妹，每次都叫我多放辣。」「看不出來吧。」→ KNOW_FAV_YT、筆記本「語彤：滇香的酸辣河粉，多加辣。看不出來。」',seq(T(L(YT).know))&&H.said.find(x=>x.t===L(YT).know[0][1]).who==='老闆娘'&&SOCIAL.has(YT,'KNOW_FAV_YT')&&noteOf(YT)==='語彤：滇香的酸辣河粉，多加辣。看不出來。'&&!has(L118.H8.lines[0][1]),J({s:said(),notes}));
+  Object.assign(T0,{day:tue+2,weekday:4}); await order('dian',['椒麻雞飯']); check('3. 只說一次',!has(L(YT).know[0][1]));
   fresh(mon+7,12.5,'l118_dian'); met(YT); here(YT); await order('dian',['椒麻雞飯','也幫語彤點一份','打拋豬飯','多加辣']);
   check('3. 點錯：「謝謝。……我吃這個也可以。」',has('謝謝。……我吃這個也可以。'),J(said()));
   const r0=rel(YT); await order('dian',['椒麻雞飯','也幫語彤點一份','酸辣河粉','多加辣']); const r1=rel(YT);
