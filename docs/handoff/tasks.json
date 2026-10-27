@@ -32686,7 +32686,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】BB-C 更正（17:0x 訊息）：trx_dating8 沒有通過紀錄，要在 f54a35ec4 重跑。BB 要跑的完整清單：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_dating8、trx_alone8，兩份 transcript 都要過 stops_check 再判定；不重跑：R40、R41、單面三份、窗景黃昏（含 9b3185665）、flow_soclib。BB-C 合併 elegant-brown＋duty register 等使用者點頭 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
   },
   {
    "id": "AA435-JP-BLANK-1024",
@@ -32747,7 +32747,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）"
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）"
   }
  ]
 }
