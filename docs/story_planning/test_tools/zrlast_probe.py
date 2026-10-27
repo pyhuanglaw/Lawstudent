@@ -3244,6 +3244,10 @@ R42 = [dict(id='R42_JP_PG_HOME', key='2029-07-05', h=19.7, zone='dorm', flags=di
             pref=['不去了', '先不'], asks={'*': ''}, nothree=True,
             jsok=[('語彤留位子（日子 文字）：第一週原句、第二週是輪的四句之一', YTSEAT, lambda x: isinstance(x, list) and len(x) >= 2 and x[0].endswith('今天週四。總圖三樓，斜對面的位子我留了。') and x[1].split(' ', 1)[1] in YTROT),
                   ('CRACKTALK.termKey（2030）＝PG', "typeof CRACKTALK!=='undefined'?CRACKTALK.termKey(GAME.G):null", 'PG')])]
+# BB-C 10-27：R42_YT_2030 在候選上床快轉卡住（走不到床、床的選單沒有快轉），第二週沒驗到 → 【捷徑】直接撥到 2030-01-17 11:54 再等留位子（兩版都跑：1dacc06af 應 FAIL、f54a35ec4 應 PASS）
+_yj = dict(R42[1]); _yj['id'] = 'R42_YT_2030J'
+_yj['steps'] = [('until', 12.5), ('jump', "STORY.dayOfKey('2030-01-17')", 11.9, '下一週週四留位子前'), ('until', 12.6), ('dumplog', 'R42_YT_2030J')]
+R42.append(_yj)
 SCENS = SCENS + R42
 # BB-B 10-23 19:1x：芷若送機（ZR43_*，第 43 項）在 375e90903 那次全部「等不到 21.30」：她 21:00 才私訊（zr_sendoff3d.js S.phone），讀檔 20:30，
 # 負載 25 時 420 秒走不到半小時。SEEN、GF、LATE、DECL 沒回到訊息或沒走到出發＝腳本 FAIL。改：讀檔 20:54、等訊息最多 1500 秒；送機那天等到 10:36 最多 2400 秒；
