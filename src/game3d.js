@@ -423,7 +423,7 @@ const GAME = (function(){
      不自己解鎖、不跳過劇情：只放開讀檔／回標題，並把是哪一段沒結束寫進 console 和除錯面板 */
   let staleT=0;
   function staleCheck(rdt){ const P=E.player; if(!P||GM.titleIdle||!(D.busyDepth>0||P.busy)){ staleT=0; if(D.stale) D.stale=false; return; }
-    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
+    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
     if(live){ staleT=0; if(D.stale) D.stale=false; return; }
     staleT+=Math.min(rdt,0.5); if(staleT<10||D.stale) return; D.stale=true;
     console.warn('劇情鎖住沒有結束（BUG-BOWL-STUCK-1018）',{depth:D.busyDepth,busy:P.busy,cam:E.cam.mode,by:D.busyWho.slice(),zone:G&&G.zone,day:G&&G.day,hour:G&&G.hour});
