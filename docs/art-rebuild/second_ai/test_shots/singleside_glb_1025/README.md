@@ -380,3 +380,34 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
 - `singleside_airport_unit.js`（新）：開發 FAILED 6、交件 ALL PASS；
 - `airport_cam_unit`、`exch_min_unit`、`nav_us_unit`、`us_life_unit`、`us_season_unit`、`singleside_gym／interiors／streets／us／us_market_unit`：ALL PASS。
 - 沒跑：瀏覽器流程測試（BB 測）、整套回歸、手機實機。
+
+## 第七份：美國校園（法學院前，`us_campus`；LAWWW2-C 10-27）
+
+檔案（我的分支）：
+- GLB：`assets/models/env/second_ai/us_campus.glb`（＋`.json`）；腳本 `us_campus.py` 匯出前呼叫 `single_side`（`56257299`）；
+- 測試：`patches/singleside_us_campus_1027.patch`（新 `tests/singleside_us_campus_unit.js`；對開發 `de75d3106` `git apply --check` 過）。
+
+### 做法
+- `single_side(root, keep=r'glass|^usu_(leaf_tree_[abc]|leaf_small|twig_inner)')`：玻璃、樹葉、細枝（葉片卡，四季各一套）照舊雙面——第一次全補三角形 132,611 → 199,562，葉子占五萬，不划算；其他 61 個材質單面，開口零件補反面（法學院鋼構框 7,596、石材收邊、鋪面接縫…共 22,425 個三角形）。
+- 地面也補反面：2,775 個地面三角形有 862 個朝下（雙面時看不出來），不補從上面看會不見。
+- 三角形 132,611 → 155,036（+16.9%）。
+
+### fps（路人藏起來；每格 4×5 秒；開發 `de75d3106` 對 同一棵＋交件 GLB；15:00）
+
+| 地點 | 改前 | **改後** | 再量一次改前 | 改後比兩次改前 |
+|---|---|---|---|---|
+| 公車站往北（bus_n） | 3.46 | **3.83** | 3.51 | +9～11% |
+| 法學院台階前往北（law_n） | 3.62 | **3.93** | 3.58 | +9～10% |
+
+- draw call 一樣（124、119）；畫面上的三角形 32.4 萬 → 36.6 萬（+13%，補的反面）。
+- **比上限（+57～61%）少很多**：上限是「同一頁全部改單面」，連樹葉卡也少畫一面；美國校園滿地都是樹，樹葉照舊雙面，補的反面又多了 13% 的三角形。這一份的收穫是 **+10% 左右**，比前幾份小。
+
+### 改前改後同角度（左＝改前、右＝改後；15:00；路人藏起來）
+- 公車站往北、法學院台階前往北、校門往東、人行道往西、車道往北、往南：六格兩版一樣（像素差 > 30 的點 0.04～0.4%；法學院那一格 2.1% 是兩次拍的時間差一分鐘，影子和樹葉擺動）。
+
+![美國校園（左改前、右改後）](34_us_campus_sheet.jpg)
+
+### 測試（開發 `de75d3106`＋交件 GLB）
+- `singleside_us_campus_unit.js`（新）：開發 FAILED 4、交件 ALL PASS；
+- `nav_us_unit`、`us_season_unit`、`us_life_unit`、`exch_min_unit`、`singleside_us_unit`、`us_cam_walls_unit`：ALL PASS。
+- 沒跑：瀏覽器流程測試（BB 測）、整套回歸、手機實機。

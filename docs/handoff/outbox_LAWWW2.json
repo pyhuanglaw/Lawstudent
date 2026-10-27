@@ -3764,7 +3764,7 @@
   {
    "task": "FIT-3D-BODY-1027（D40 體態第一階段：姿勢）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "eedf57f21",
    "files": [
     "docs/art-rebuild/second_ai/patches/fit_posture_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/fit_posture_1027/README.md",
@@ -3777,6 +3777,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "體能越高站、走、跑、說話越挺：經常鍛鍊肩膀往後約 4 cm、頭往後約 4 cm、兩肩寬 +0.8 cm；坐、騎車、疊加姿勢不加；不會一格一格累加。fit_posture_unit（真的載祐廷 VRM）改前 FAILED 1、改後 ALL PASS 10；character3d 相關 Node 測試全過；patch 對 de75d3106 apply --check 過。另：羽球第二版已在開發分支 b49841b83（和我交的一樣）"
+  },
+  {
+   "task": "PERF-SINGLESIDE-GLB-1025 第七份（美國校園）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "assets/models/env/second_ai/us_campus.glb",
+    "assets/models/env/second_ai/us_campus.json",
+    "tools/blender/env_second/us_campus.py",
+    "docs/art-rebuild/second_ai/patches/singleside_us_campus_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "收穫只有 +10% 左右（樹葉照舊雙面）；瀏覽器流程、真機沒跑",
+   "next": "LAWWW 換 us_campus.glb／.json、套 patches/singleside_us_campus_1027.patch（新 tests/singleside_us_campus_unit.js）；跑 singleside_us_campus_unit、nav_us_unit、us_season_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "61 個材質單面、玻璃樹葉細枝雙面；三角形 132,611→155,036。fps 公車站 3.46／3.51→3.83、法學院前 3.62／3.58→3.93（+9～11%），draw call 一樣；六格同角度一樣。singleside_us_campus_unit 開發 FAILED 4、交件 ALL PASS；美國相關 6 支 ALL PASS。PERF-SINGLESIDE-GLB-1025 七份全部交完"
   }
  ]
 }

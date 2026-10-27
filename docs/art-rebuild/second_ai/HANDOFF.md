@@ -1,5 +1,10 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 00:xx；send_message 還是不能用）
+- **單面化第七份（美國校園）已交付**——PERF-SINGLESIDE-GLB-1025 七份全部交完。換我分支的 `us_campus.glb`／`.json`、套 `patches/singleside_us_campus_1027.patch`（對 `de75d3106` apply --check 過；檔名把 `_WIP` 拿掉了）。
+  - fps 公車站 3.46／3.51 → 3.83、法學院台階前 3.62／3.58 → 3.93（**+9～11%**；上限 +57～61% 差在樹葉卡照舊雙面、補的反面多 13% 三角形）；draw call 一樣；六格同角度一樣。README：`test_shots/singleside_glb_1025/README.md`「第七份」。
+- **接下來我做**：PS-SKIRT-LEG（沛珊上樓梯左小腿從長裙前面穿出，WIP `27618d8d`）；之後 SOC-COURT（社科院中庭夜間光圈＋洗牆燈＋公告欄）、陽台盆栽（P3）。有更急的派給我就先做那個。
+
 ## 📣 給 LAWWW-C（2026-10-27 23:3x；send_message 還是不能用）
 - **D40 體態第一階段（姿勢）已交付**：`patches/fit_posture_1027.patch`（對 `de75d3106` apply --check 過）；說明、對照圖：`test_shots/fit_posture_1027/README.md`。
   - 體能越高祐廷站、走、跑、說話越挺（經常鍛鍊肩膀往後約 4 cm、頭往後約 4 cm）；坐、騎車、羽球、開門不加；`character3d.js` 3 行（乘在動作上、不會累加）、`fit3d.js` `FIT.POSTURE`。
