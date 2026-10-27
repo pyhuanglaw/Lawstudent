@@ -40,7 +40,8 @@ const ACTIVITIES={
     /* 6-8 (b)：社團博覽會——椰林大道上的公告欄（zones3d.js，傅鐘廣場東側、法服招生攤位旁邊）；LAWWW2 的攤位做好以後原地換掉，位置不變 */
     /* CLUBFAIR-REAL-1027（AA_485 第 3-2 節，AA-C 定稿；使用者 10-27「社團博覽會要參考實際的吧」）：照實際的臺大社團聯展——開學第一週的週六，一天，10:00～16:00（2025 年是 9/6）。
        datesOld：還沒有「開學改 9/1」的舊局（9/17 才開始，9/6 已經過了）照舊 9/30、10/1，舊存檔不會一個社博都沒有。攤位、舞台、喊話、提示在 src/clubfair3d.js、src/data/club_fair.js */
-    {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-13.5,z:13.6,lv:0,label:'社團博覽會',r:1.3},dates:['2025-09-06'],datesOld:['2025-09-30','2025-10-01'],t0:10,t1:16,poster:{daysBefore:5},
+    {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-20.8,z:2.9,lv:0,label:'社團博覽會',r:1.3},   /* spot＝服務台的帳篷前（LAWWW2 36 頂的 info，CLUBFAIR-REAL-1027；原本傅鐘旁 (-13.5,13.6)）*/
+     dates:['2025-09-06'],datesOld:['2025-09-30','2025-10-01'],t0:10,t1:16,poster:{daysBefore:5},
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
      desc:'一百多個社團擺攤，中午有舞台表演。能加入的：法服、吉他社、辯論社、登山社、系籃（系學會），在攤位填表＝加入。',story:false},   /* 第一句照 AA_485 3-5 公告欄；「可以參加的社團到底是什麼」（使用者 10-27）：寫出能加入的五個 */
     /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——開學前（8/31 上午，AA_310；使用者 2026-10-20「迎新在9/27不合理阿 應該在開學前」）；有宿營的局不辦（大一的迎新就是 8/22～24 宿營）。傅鐘前集合（和社團博覽會同一點，日期不同）；

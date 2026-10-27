@@ -1,18 +1,19 @@
 /* ===== 社團博覽會照實際（CLUBFAIR-REAL-1027＋CLUBFAIR-HINT-1027；AA_485 第 3 節〔企劃線 5aaa71d6a〕，AA-C 定稿，句子照抄）=====
    使用者 2026-10-27：「社團博覽會攤會也太少 都沒人顧 可以參加的社團到底是什麼 學姊有劇情卻沒在攤位」「社團博覽會要參考實際的吧 而且遊戲中也沒提示」。
    日子在 activities.js 的 club_expo_y1s1（新局 2025-09-06（六）10:00～16:00）；邏輯在 src/clubfair3d.js。
-   ── 攤位位置表 POS（給 LAWWW2：帳篷、招牌、舞台的 3D 是 LAWWW2 的；36 頂做好以後只改這張表）──
-     攤位 id → {x, z}＝玩家站的互動點（校園座標，在帳篷正面、桌子前面，要站得住；半徑 R）；null＝還沒有帳篷，只能從服務台（博覽會的集合點）的選單去。
-     現在用 LAWWW2 479b7fc 的九頂（zones3d.js FAIR：帳篷中心 z=15.1、面向北）：登山、法服、服務台、吉他、辯論、系籃照帳篷的社名；bg1（相機腳架）＝攝影社、bg2（桌遊盒）＝桌遊社；
-     bg3（手作）不是稿上的十五攤＝只是畫面。服務台＝activities.js club_expo_y1s1 的 spot（-13.5, 13.6），不在這張表。
-     STAGE＝舞台前面（走到這個圈裡＝看到台上；暫定在大道北側、服務台對面，等 LAWWW2 的舞台）。STAFF＝顧攤的人（路人模型）站的位置：帳篷後面、桌子後面。 */
+   ── 攤位位置表 POS（帳篷、招牌、舞台的 3D 是 LAWWW2 的：src/data/club_fair_expo_layout.js 的 36 頂＋舞台，LAWWW2-C 1c537e9c9）──
+     攤位 id → {x, z}＝玩家站的互動點（校園座標）＝LAWWW2 位置表的 front（Z3.fairExpoFront(id)，帳篷前緣再外 0.5 m；choir＝那份表的 chorus）；tests/club_fair_align_unit.js 核對兩份一致、站得住。
+     服務台＝activities.js club_expo_y1s1 的 spot＝服務台的 front (-20.8, 2.9)，不在這張表。
+     顧攤的人：src/clubfair3d.js 照 CLUB_FAIR_EXPO 每一頂帳篷的第一張椅子放一個人（面向帳篷正面）；互動的十五攤＋服務台一定有人，背景攤照畫質（低 2/4、中 3/4、高全部）。
+     FILL＝停在攤位前填表的人 [x,z,轉向]；ROUTES＝拿著傳單走的新生（大道中間 z ±1.4 以內，帳篷前緣 ±3.4）；STAGE＝舞台前面（走到這個圈裡＝看到台上） */
 const CLUB_FAIR={
   R:1.3,
-  POS:{ hiking:{x:-21.3,z:12.9}, lawclub:{x:-17.8,z:12.9}, guitar:{x:-9.7,z:12.9}, debate:{x:-5.9,z:12.9}, basketball:{x:3.4,z:12.9},
-    photo:{x:7.2,z:12.9}, boardgame:{x:11.0,z:12.9},
-    dance:null, choir:null, badminton:null, service:null, alumni:null, coffee:null, film:null, magic:null },
-  STAFF:[[-21.3,15.0],[-13.5,15.0],[-9.7,15.0],[-5.9,15.0],[3.4,15.0],[7.2,15.0],[11.0,15.0],[14.8,15.0]],   /* 法服的帳篷後面本來就有一個人（story3d.js populate 的 (-18,15.4)），學姊另外照她的作息 */
-  STAGE:{x:-3,z:-12.5,r:5},
+  POS:{ guitar:{x:-84.4,z:-2.9}, debate:{x:-77.2,z:-2.9}, hiking:{x:-62.8,z:-2.9}, lawclub:{x:-47.5,z:11.5}, basketball:{x:-28.5,z:11.5},
+    photo:{x:-70,z:-2.9}, boardgame:{x:-55.6,z:-2.9}, magic:{x:-48.4,z:-2.9}, film:{x:-4.6,z:-2.9},
+    dance:{x:-80.8,z:2.9}, choir:{x:-73.6,z:2.9}, badminton:{x:-66.4,z:2.9}, service:{x:-59.2,z:2.9}, coffee:{x:-17.2,z:2.9}, alumni:{x:-10,z:2.9} },
+  FILL:[[-61.8,-2.7,Math.PI],[-79.8,2.7,0],[-16.2,2.7,0]],   /* 北側帳篷（面向南）前面的人面向北（轉 π）、南側的面向南（0）；離互動點 1 m，不擋 */
+  ROUTES:[[[-86,1.4],[8,1.4]],[[8,0.5],[-86,0.5]],[[-86,-0.5],[8,-0.5]],[[8,-1.4],[-86,-1.4]]],
+  STAGE:{x:-25.25,z:-1.0,r:4.5},   /* LAWWW2 的舞台 (-25.25,-5.5) 9×4.5 m 面向南；台前 front (-25.25,-0.6) */
   /* 十五攤（AA_485 3-3）。club＝能加入（填表＝加入：CLUB_<club>）；who＝顧攤的人（說話人顯示「顧攤的學長」「顧攤的學姊」；稿上沒寫的照句子裡的他／她、其餘 LAWWW 排的，回報給 AA）；
      say＝顧攤的人說的（能加入的五攤）；look＝只能看看的十攤：[['say'|'narr', 句子]]，每一攤演一次，之後再點只出招牌名；after＝法服：學姊那一段演過以後再看 */
   BOOTHS:[

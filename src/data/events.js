@@ -3791,8 +3791,8 @@ const STORY_EVENTS=[
   ...(()=>{ const knows=id=>G=>typeof STORY!=='undefined'&&STORY.knows(id,G), B=v=>({flagIs:{Y2_EXPO_BOOTH:v}}), C=id=>G=>!!G.flags['CLUB_'+id];
     const CLUBS=['lawclub_study','club_guitar','club_debate','club_hiking','dept_basketball'], NAME={lawclub_study:'法服',club_guitar:'吉他社',club_debate:'辯論社',club_hiking:'登山社',dept_basketball:'系籃'};
     const DATES=['2026-09-12'];   /* CLUBFAIR-REAL-1027（AA_485 3-2）：照實際，開學第一週的週六、一天 10:00～16:00（原本 9/16、9/17 11:00～17:00）*/
-    return [{ id:'ev_y2_club_expo', title:'社團博覽會（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], time:[10,16], once:true, background:'blur', near:{x:-13.5,z:13.6,r:5},
-      prereq:{custom:G=>typeof CALENDAR!=='undefined'&&DATES.includes(CALENDAR.dateOf(G.day).key)},
+    return [{ id:'ev_y2_club_expo', title:'社團博覽會（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], time:[10,16], once:true, background:'blur', near:{x:-39,z:0,r:53},
+      prereq:{custom:G=>typeof CALENDAR!=='undefined'&&DATES.includes(CALENDAR.dateOf(G.day).key)&&(()=>{ const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj.position; return !P||(Math.abs(P.z)<=12.5&&P.x>=-91&&P.x<=13); })()},   /* 走到攤位那一排＝椰林大道 x −91～13、|z|≤12.5（傅鐘那兩頂的前面 z 11.5 也算；LAWWW2 36 頂沿大道兩邊，CLUBFAIR-REAL-1027；原本傅鐘旁 (-13.5,13.6) 半徑 5）*/
       dialogue:[ {speaker:null,text:'去年，你站在這一排攤位前面填表。'},
         {if:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},speaker:null,text:'今年，你站在攤位後面。'},
         {unless:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},set:{Y2_EXPO_BOOTH:'none'}},{unless:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},goto:'none'},   /* 帶 goto 的那一行不會執行 set，分兩行 */

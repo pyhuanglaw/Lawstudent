@@ -10,12 +10,13 @@
 //   7  喊話（攤位附近，大約每 18 秒一句、四句輪流）、舞台（10:30～15:30，照時間輪、每種一次；11:30 是熱舞社）
 //   8  提示：9/1 08:00 行事曆、9/1～9/5 傅鐘旁的公告欄、9/4 21:00 系學會群組、9/5 21:00 家族群組 Kevin、9/6 起床提示框；舊局（社博不在週六）沒有
 //   9  錯過社博：第一次去吉他、辯論、登山、系籃的社課，旁白多一句「（你在門口填了表。）」；萬才館公告欄最後一句
-//  10  顧攤的人、人流（社博那天、攤位開著的時候）
+//  10  顧攤的人、人流（社博那天、攤位開著的時候）：LAWWW2 36 頂（1c537e9c9）每一頂一個人、低畫質背景攤一半；大二的社博也有人顧攤
+//  （LAWWW-C 2026-10-27 套 LAWWW2 36 頂：位置表、顧攤的人、人流照新的帳篷改；第 0、2、7、10 項照新位置）
 // 修改前（開發分支 592de7e18）：社博 9/30、10/1、只有五個社團的選單——FAIL。用法：node tests/clubfair_1027_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;
-let ok=true, err=''; try{ for(const f of ['src/data/club_fair.js','src/clubfair3d.js']){ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (CLUB_FAIR|CLUBFAIR)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); } }catch(e){ ok=false; err=String(e); }
+let ok=true, err=''; try{ for(const f of ['src/data/club_fair_expo_layout.js','src/data/club_fair.js','src/clubfair3d.js']){ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (CLUB_FAIR_EXPO|CLUB_FAIR|CLUBFAIR)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); } }catch(e){ ok=false; err=String(e); }
 const D=k=>STORY.dayOfKey(k);
 const NEW={LAW_START_DAY:D('2025-08-29'),MAIN_D1:D('2025-09-04')};   /* 開學改 9/1 的新局 */
 const at=(key,hh,fl,zone)=>{ const G=H.fresh(key,hh,zone||'campus',Object.assign({},NEW,fl||{})); return G; };
@@ -44,7 +45,9 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
   check('0. 舞台三句',J(Object.values(CLUB_FAIR.STAGE_LINES).sort())===J(['（台上一個人彈吉他、一個人唱。唱到副歌，台下有人跟著哼。）','（台上是熱舞社。音樂很大聲，前排的新生拍手拍得很整齊。）','（台上是直笛團。十幾支直笛，吹的是一首卡通的主題曲。）'].sort()));
   check('0. 提示五則',J(CLUB_FAIR.HINTS)===J({cal:'9/6（六）10:00～16:00　社團博覽會（椰林大道）',board:'【社團博覽會】9/6（六）10:00～16:00，椰林大道。一百多個社團擺攤，中午有舞台表演。',dept:'禮拜六社博！系籃的攤位在傅鐘旁邊，大一的來找學長聊聊～',kevin:'明天社博！書瑀學姊在法服顧攤，大一的去打個招呼～',wake:'今天椰林大道有社團博覽會（10:00～16:00）。'}));
   check('0. 錯過社博：「（你在門口填了表。）」',CLUB_FAIR.DOOR_LINE==='（你在門口填了表。）');
-  check('0. 位置表：每一攤都有一列（座標或 null）；有座標的站在帳篷前面（z 12.9）',B.every(b=>b.id in CLUB_FAIR.POS)&&Object.values(CLUB_FAIR.POS).filter(Boolean).every(p=>Math.abs(p.z-12.9)<0.01)); }
+  const FR=id=>{ const t=CLUB_FAIR_EXPO.tents.find(q=>q.id===(id==='choir'?'chorus':id)); return t?[+(t.x+Math.sin(t.ry)*CLUB_FAIR_EXPO.tent.front).toFixed(2),+(t.z+Math.cos(t.ry)*CLUB_FAIR_EXPO.tent.front).toFixed(2)]:null; };   /* LAWWW2 36 頂的 front（zones3d.js fairExpoFront 同一個算法；choir＝表上的 chorus）*/
+  const badP=B.filter(b=>{ const p=CLUB_FAIR.POS[b.id], f=FR(b.id); return !p||!f||Math.abs(p.x-f[0])>0.01||Math.abs(p.z-f[1])>0.01; }).map(b=>b.id);
+  check('0. 位置表：十五攤都有座標＝LAWWW2 36 頂那一攤的 front（帳篷前面；CLUBFAIR-REAL-1027 1c537e9c9）',!badP.length,J(badP)); }
 
 /* 1. 日子 */
 { const G=at('2025-09-06',12); check('1. 新局：9/6（六）有社博、10:00～16:00',ACTIVITIES.on(A(),G.day,G)&&A().t0===10&&A().t1===16&&CALENDAR.dateOf(G.day).wd===6);
@@ -55,9 +58,9 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
 
 /* 2. 互動點 */
 { const G=at('2025-09-06',9.5), E=fakeE(); GM.E0=GM.E; const P={E,G}; CLUBFAIR.populate('campus',P);
-  const its=E.interactables.filter(i=>i.fairBooth); check('2. 社博那天：位置表上有座標的七攤各一個互動點（招牌名）',J(its.map(i=>i.label))===J(['法律服務社','吉他社','辯論社','登山社','法律系系學會（系籃）','攝影社','桌遊社']),J(its.map(i=>i.label)));
+  const its=E.interactables.filter(i=>i.fairBooth); check('2. 社博那天：十五攤各一個互動點（招牌名）',J(its.map(i=>i.label))===J(CLUB_FAIR.BOOTHS.map(b=>b.sign)),J(its.map(i=>i.label)));
   check('2. 09:30：藏起來（10:00 開始）',its.every(i=>i.hidden)); G.hour=12; check('2. 12:00：看得到',its.every(i=>!i.hidden)); G.hour=16; check('2. 16:00：收了',its.every(i=>i.hidden));
-  const L=CLUB_FAIR.POS.lawclub; check('2. 法服的互動點在法服帳篷前面（-17.8，原本的法服攤位點）',Math.abs(L.x+17.8)<0.01);
+  const L=CLUB_FAIR.POS.lawclub; check('2. 法服的互動點在法服帳篷前面（傅鐘西邊 (-47.5, 11.5)）',Math.abs(L.x+47.5)<0.01&&Math.abs(L.z-11.5)<0.01);
   const G2=at('2025-09-08',12), E2=fakeE(); CLUBFAIR.populate('campus',{E:E2,G:G2}); check('2. 平常（9/8）：沒有攤位',!E2.interactables.some(i=>i.fairBooth));
   const s3=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); check('2. story3d.js 不再自己放「法服的攤位」（一起由 clubfair3d.js 放）',!/label:'法服的攤位'/.test(s3)); }
 
@@ -90,7 +93,7 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
   at('2025-09-06',16.2); caps.length=0; await CLS.fairMenu(GM,A()); check('6. 16:12：「今天的攤位收了。」',/攤位收了/.test(caps[0]||''),J(caps)); }
 
 /* 7. 喊話、舞台 */
-{ const G=at('2025-09-06',11.2), E=fakeE(); const gm={G,E,caption:(w,t)=>caps.push(t)}; caps.length=0; E.player.obj.position.x=-9.7; E.player.obj.position.z=11.5;
+{ const G=at('2025-09-06',11.2), E=fakeE(); const gm={G,E,caption:(w,t)=>caps.push(t)}; caps.length=0; E.player.obj.position.x=-84.4; E.player.obj.position.z=-1.6;   /* 吉他社帳篷前面 */
   for(let i=0;i<36*4;i++) CLUBFAIR.tick(gm); check('7. 攤位附近：大約每 18 秒（36 次）一句，四句輪流',J(caps)===J(CLUB_FAIR.SHOUTS),J(caps));
   caps.length=0; E.player.obj.position.x=60; for(let i=0;i<80;i++) CLUBFAIR.tick(gm); check('7. 離開攤位：不喊',!caps.length);
   const st=CLUB_FAIR.STAGE; E.player.obj.position.x=st.x; E.player.obj.position.z=st.z; G.hour=11.6; CLUBFAIR.tick(gm); check('7. 11:36 走到舞台前面：熱舞社那一句',caps[0]===CLUB_FAIR.STAGE_LINES.dance,J(caps));
@@ -121,9 +124,17 @@ if(!ok||typeof CLUBFAIR==='undefined'){ H.done(); return; }
   const s3=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'); check('9. 萬才館公告欄（notice lawclub）最後一句：「報名請到社團博覽會的攤位，或週六上午到萬才館一樓找值班的學長姊。」',s3.includes('新社員先跟著旁聽、做紀錄。報名請到社團博覽會的攤位，或週六上午到萬才館一樓找值班的學長姊。\'')); }
 
 /* 10. 顧攤的人、人流 */
-{ const built=[]; const C0=global.CHAR; global.CHAR={setExpr(){},build:spec=>{ built.push(spec); return {position:{set(){}},rotation:{y:0}}; }}; const spawned=[];
+{ const built=[]; const C0=global.CHAR; global.CHAR={setExpr(){},build:spec=>{ built.push(spec); return {position:{x:NaN,y:NaN,z:NaN,set(x,y,z){ this.x=x; this.y=y; this.z=z; }},rotation:{y:0}}; }};   /* 位置要記下來（第 10 項看顧攤的人站在哪）*/ const spawned=[];
   const G=at('2025-09-06',11), E=fakeE(); const gm={E,G,spawnExtra:(spec,route)=>{ spawned.push(route); return {}; }}; CLUBFAIR.populate('campus',gm);
-  check('10. 顧攤的人（帳篷後面）八個＋停在攤位前的人三個',E.npcs.filter(n=>n.fairStaff).length===8&&E.npcs.filter(n=>n.fairCrowd).length===3,J(E.npcs.map(n=>!!n.fairStaff)));
+  const st=E.npcs.filter(n=>n.fairStaff), T=CLUB_FAIR_EXPO.tents;
+  check('10. 顧攤的人：36 頂每一頂一個（高畫質）＋停在攤位前的人三個',st.length===36&&E.npcs.filter(n=>n.fairCrowd).length===3,J([st.length,E.npcs.filter(n=>n.fairCrowd).length]));
+  const off=st.filter(n=>{ const t=T.find(q=>q.id===n.fairStaff), p=n.obj.position; return !t||!(Math.abs(p.x-t.x)<=1.4&&Math.abs(p.z-t.z)<=1.4&&Math.abs(n.obj.rotation.y-t.ry)<1e-6); }).map(n=>n.fairStaff);
+  check('10. 顧攤的人在自己的帳篷裡（3×3 m）、面向帳篷正面',!off.length,J(off));
+  const fill=E.npcs.filter(n=>n.fairCrowd&&n.frozen); check('10. 停在攤位前的人：離互動點至少 0.9 m（不擋）、面向帳篷（北側轉 π、南側 0）',fill.length===3&&fill.every(n=>{ const p=n.obj.position; return Object.values(CLUB_FAIR.POS).every(q=>Math.hypot(q.x-p.x,q.z-p.z)>=0.9)&&Math.abs(n.obj.rotation.y-(p.z<0?Math.PI:0))<1e-6; }));
+  check('10. 拿傳單的新生走大道中間（帳篷前緣 z ±3.4 以內）',spawned.length>=2&&spawned.every(r=>r.every(p=>Math.abs(p[1])<3.0)),J(spawned.slice(0,2)));
+  { const E3=fakeE(); E3.q={level:'low'}; CLUBFAIR.populate('campus',{E:E3,G,spawnExtra:()=>({})}); const s3=E3.npcs.filter(n=>n.fairStaff); check('10. 低畫質：互動的十五攤＋服務台一定有人、背景攤一半',s3.length===26&&T.filter(t=>t.kind!=='bg').every(t=>s3.some(n=>n.fairStaff===t.id)),J(s3.length)); }
+  { const z0=globalThis.Z3; globalThis.Z3={isExpoDay:()=>true}; const G4=at('2026-09-12',11), E4=fakeE(); CLUBFAIR.populate('campus',{E:E4,G:G4,spawnExtra:()=>({})}); globalThis.Z3=z0;
+    check('10. 大二的社博（2026-09-12）：一樣有人顧攤，攤位不能互動',E4.npcs.filter(n=>n.fairStaff).length===36&&!E4.interactables.some(i=>i.fairBooth)); }
   check('10. 走路的新生八個（畫質高）',spawned.length===8);
   const G2=at('2025-09-06',17), E2=fakeE(); CLUBFAIR.populate('campus',{E:E2,G:G2,spawnExtra:()=>({})}); check('10. 收攤以後進校園：沒有顧攤的人',!E2.npcs.length);
   global.CHAR=C0; }
