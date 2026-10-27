@@ -218,11 +218,13 @@ const MREL=(function(){
   S.zrAsk=async function(GM,c,term,ys,start){ const G=GM.G, K=L().KNOW[ZR], Z=S.rec(G).zr, y=c.y;
     if(!Z.q1){ await S.run(GM,ZR,K.q,c); const cc=await S.knowOpts(GM,ZR,K.opts,c,term,ys); Z.q1={term,day:G.day,y}; return cc.res||cc.gate||'think'; }
     await S.run(GM,ZR,K.q3,c); const O=K.opts3, kk=await GM.choose(O.map(o=>({t:o.t}))), o=O[kk]||O[0]; S.applyPick(G,c,o); Z.q3={term,day:G.day,pick:kk};
-    if(o.q3yes){ const ok=!!(Z.q1&&Z.q2&&Z.q2.ok)&&!S.lieCount(G,ZR)&&!S.defaults(G).YT_BROKE_PROMISE[ZR]&&S.acc(ZR);
+    if(o.q3yes){ const ok=!!(Z.q1&&Z.q2&&Z.q2.ok)&&!S.lieCount(G,ZR)&&!S.defaults(G).YT_BROKE_PROMISE[ZR]&&S.acc(ZR)&&!S.zzPair(G,ZR,ys);
       if(ok&&start()){ await S.run(GM,ZR,o.yes,c); return 'yes'; } await S.run(GM,ZR,o.no,c); S.block(G,ZR,ys); return 'no'; }
     await S.run(GM,ZR,o.then,c); return 'think'; };
   /* 選項的「第二次另外要的條件」（again.need）。sis2＝學姊知情版的第二次（AA_474 1-2）：她的知情條件（termend3d.js S.KNOWS_OK）＋沒說謊＋兩次邀約中間至少兩次正常的 L1／L2 */
   S.NEED={ sis2:G=>S.sis2Ok(G) };
+  /* 子晴、芷若（AA_474 1-4、1-5、第 2 節；使用者 10-17 定案「確定選朋友，不會三個人一起」）：她知道的那幾位裡有另一位＝知情條件不到（heartWhy 不發、只傳那一句）、也不會接受（開關打開也一樣）*/
+  S.zzPair=(G,x,ys)=>{ const o=x===ZQ?ZR:(x===ZR?ZQ:null); return !!o&&(ys||S.knownOthers(G,x)).includes(o); };
   S.knowOpts=async function(GM,who,opts,c,term,ys,o2){ const G=GM.G; o2=o2||{};
     const O=opts.filter(o=>o.if===undefined||condOk(o.if,G,c)), k=await GM.choose(O.map(o=>({t:S.subst(o.t,G,c)}))), o=O[k]||O[0]; S.applyPick(G,c,o);
     await S.run(GM,who,o.then,c);
@@ -231,7 +233,7 @@ const MREL=(function(){
       S.applyPick(G,c,q); await S.run(GM,who,q.then,c); pr=q.promise||pr; if('accept' in q) acc=q.accept; need=q.need||null;
       if(q.first==='think'&&!o2.again) acc=null; }   /* 第一次一律讓我想想（AA_474 1-2：說完「……好。我想一下。」就停）*/
     if(pr&&ys.length) S.promise(G,who,pr,ys,term);
-    if(acc){ const ok=S.acc(who)&&(!need||!S.NEED[need]||!!S.NEED[need](G,who));   /* acceptsOpen（使用者 10-27 回答 C：七位都打開）；她的知情條件在發邀約以前已經看過（S.KNOWS_OK），這裡不再加（AA_474 第 4 節第 2 點）*/
+    if(acc){ const ok=S.acc(who)&&!S.zzPair(G,who,ys)&&(!need||!S.NEED[need]||!!S.NEED[need](G,who));   /* acceptsOpen（使用者 10-27 回答 C：七位都打開）；她的知情條件在發邀約以前已經看過（S.KNOWS_OK），這裡不再加（AA_474 第 4 節第 2 點）*/
       if(ok&&o2.start&&o2.start()){ await S.run(GM,who,acc.yes,c); c.res='yes'; return c; }
       await S.run(GM,who,acc.no,c); c.gate='no'; return c; }
     c.gate=pr&&ys.length?'promise':'think'; return c; };   /* c.gate：沒有答應的時候是哪一種（knowGate 用；knowWalk 一律算這學期的讓我想想）*/
@@ -876,7 +878,8 @@ const MREL=(function(){
     ROM._mrel=true; }
   if(typeof TERMEND!=='undefined'&&!TERMEND._mrel){
     const w0=TERMEND.walkHome; TERMEND.walkHome=async function(GM,who,term){ try{ if(GM&&GM.G&&law(GM.G)&&S.knowWalkDue(GM.G,who,term)) return await S.knowWalk(GM,who,term); }catch(e){ console.warn('MREL knowWalk',e); throw e; } return w0.apply(this,arguments); };
-    const h0=TERMEND.heartWhy; TERMEND.heartWhy=function(G,id,w){ if(G&&S.blocked(G,id)) return false; if(G&&S.rebuildBlock(G,id)) return false;   /* 以安、語彤分開以後：祐廷先開口那一場做完以前不發（AA_185 4-1）*/ if(G&&S.zzRefusing(G,id)) return false; if(G&&G.flags&&G.flags.RESTART_WITH&&(id===ZQ||id===ZR)&&G.flags.RESTART_WITH!==id) return false; return h0.apply(this,arguments); };
+    const h0=TERMEND.heartWhy; TERMEND.heartWhy=function(G,id,w){ if(G&&S.blocked(G,id)) return false; if(G&&S.rebuildBlock(G,id)) return false;   /* 以安、語彤分開以後：祐廷先開口那一場做完以前不發（AA_185 4-1）*/ if(G&&S.zzRefusing(G,id)) return false; if(G&&G.flags&&G.flags.RESTART_WITH&&(id===ZQ||id===ZR)&&G.flags.RESTART_WITH!==id) return false;
+      const r=h0.apply(this,arguments); if(r===true&&G&&law(G)&&S.zzPair(G,id)) return {nope:'knows'}; return r; };   /* 子晴知道的是芷若（或反過來）＝知情條件不到（AA_474 1-4、1-5）*/
     TERMEND._mrel=true; }
   if(typeof DATE!=='undefined'&&!DATE._mrel){
     const a0=DATE.arriveLine; DATE.arriveLine=async function(GM,t,visits,o){ const r=await a0.apply(this,arguments); try{ if(!(o&&o.combo)&&GM&&law(GM.G)) await S.dateOpen(GM,t); }catch(e){ console.warn('MREL dateOpen',e); } return r; };

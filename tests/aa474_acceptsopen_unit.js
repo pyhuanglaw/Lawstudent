@@ -104,6 +104,12 @@ await sec(4,async()=>{
 await sec(5,async()=>{
   fresh('2026-10-01',12,'campus',{}); H.CLOSE(ZQ); H.CLOSE(ZR); setRom(ZQ,95); setRom(ZR,95); ROM.start(H.G,ZQ); setT('2026-10-10',12); ROM.start(H.G,ZR); setT('2026-10-23',16.1); await play(due()); setT('2026-10-24',19.6); H.picks=[2]; await play(due());
   check('5. 開關打開（七位都 true）、戀愛 95：子晴、芷若同時被發現照樣兩段都結束（使用者 10-17 定案，S.excluded 不鬆）、沒有 OPEN_OK',ON()&&!H.G.flags.dating_heroine_04&&!H.G.flags.dating_heroine_02&&H.G.flags.ZQ_ZR_ENDED_DAY!=null&&!okOpen(ZQ,ZR)&&!okOpen(ZR,ZQ));
+  { const w=TERMEND.windowOf('Y2S1'); fresh('2027-01-02',12,'campus',{YT_HONEST:{heroine_04:true}}); H.CLOSE(ZR); ROM.start(H.G,ZR); H.CLOSE(ZQ); learn(ZQ,ZR); setRom(ZQ,90); const L=DATE.log(H.G,ZQ); L.count=4; L.wish=true;
+    const hw=TERMEND.heartWhy(H.G,ZQ,w); setT('2027-01-10',21); clr(); const r=await walk(ZQ,'Y2S1',['我喜歡妳。','對。']);
+    fresh('2027-01-10',21,'campus',{}); H.CLOSE(ZQ); ROM.start(H.G,ZQ); H.CLOSE(ZR); learn(ZR,ZQ); setRom(ZR,90); { const Z=X().rec(H.G).zr; Z.q1={term:'Y2S1',day:H.G.day-30,y:ZQ}; Z.q2={day:H.G.day-10,y:ZQ,ok:true}; }
+    setT('2027-06-20',21); clr(); const r2=await walk(ZR,'Y2S2',['先不說','是。']);
+    check('5. 開關打開、子晴知道的是芷若（Y＝芷若）＝知情條件不到（不發、只傳那一句），走到「對。」也不接受；芷若反過來（Y＝子晴）第三問也不接受（AA_474 1-4、1-5、第 2 節）',
+      ON()&&hw&&hw.nope==='knows'&&r!=='yes'&&!H.G.flags.dating_heroine_02&&H.G.flags.dating_heroine_04===true&&!okOpen(ZR,ZQ)&&r2!=='yes'&&H.has('……我沒辦法。'),J([hw,r,r2])); }
   const pd=async()=>{ fresh('2026-09-20',12,'campus',{dating_kexin:true}); H.CLOSE(PS); setRom(PS,90); ROM.start(H.G,PS); setT('2026-10-20',12); learn(PS,KX); H.G.hour=13; await X().meet(GM,PS,'talk'); clr(); };
   await pd(); setT('2026-10-23',15); H.picks=['我不太能接受','對。不公平','還是想兩邊']; await X().meetAction(H.G,PS,'talk').run(GM); setT('2026-10-26',15); await X().meetAction(H.G,PS,'talk').run(GM);
   const noA=H.has('那這樣對我不太公平吧？')&&!H.G.flags.PS_MUTUAL&&!okOpen(PS,KX);
