@@ -3478,6 +3478,29 @@
    "receiver": "LAWWW",
    "ack": "ACK",
    "note": "第四份：上一班 LAWWW2-B 做（GLB 09b41377、六區對照圖 e1486b51），沒交班；LAWWW2-C 10-27 接班補拍公寓、C 棟 208 屋內同角度（26～30）、在開發 5b6737cd3 重驗：singleside_us_unit 開發 FAILED 7→新 ALL PASS，美國相關 18 支 ALL PASS。fps 是上一班量的（+11～40%）。開發分支重匯不了公寓、C 棟 208（缺配置檔、道具組），README 有寫。；LAWWW-C 10-27 17:16Z ACK：登記 DL-LW2-SINGLESIDE-4（5f563a875），v9.10.11 發布以後合進開發、派 BB 測美國區域；重匯問題開 LAWWW2-REEXPORT-US-1027（P3）"
+  },
+  {
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "f1774b37",
+   "files": [
+    "tools/blender/env_second/us_market.py",
+    "assets/models/env/second_ai/us_market.glb",
+    "assets/models/env/second_ai/us_market.json",
+    "docs/art-rebuild/second_ai/patches/singleside_us_market_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/31_us_market_fruit_first_try.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/32_us_market_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md",
+    "tools/shots/singleside_upper.py",
+    "tools/shots/singleside_us_market_ab.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 換 us_market.glb＋.json、套 patches/singleside_us_market_1027.patch（新 tests/singleside_us_market_unit.js），跑 singleside_us_market_unit、us_market_* 單元；BB 測超市流程",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第五份：美國大超市。fps 入口 3.85→5.09、第 1 走道 1.50→2.16；三角形 98,732→115,382；修水果堆一半的面朝下（第一次單面整箱不見）。以我分支的腳本為底（開發的腳本少 10-22 天花板那兩行，GLB 三分支一樣）。機場出境、美國校園先量上限。"
   }
  ]
 }
