@@ -62,7 +62,7 @@ const md=c=>{ const x=CALENDAR.dateOf(c[2]); return x.m*100+x.d; }, yr=c=>CALEND
     check('A. 不丟例外、沒有警告、沒有未處理的 Promise',!r.err&&!warns.length&&!rej.length,(r.err&&r.err.stack||'')+warns.slice(0,3).join('｜')+rej.slice(0,2).join('｜'));
     check('A. 典型玩家 6/3 跳到 12/14：每一段各出一句、照順序（畢業以後八點起床 → 七月 B1 → 考前三個禮拜 → 一試考完 → 二試的書 → 等放榜七個禮拜）、不重複',JSON.stringify(r.lines)===JSON.stringify(want)&&r.G.flags.BAR_STAGE_2029==='both'&&PG.done(r.G,'r2_2029'),JSON.stringify(r.cards));
     const D=r.cards.map(md), inR=(x,a,b)=>x>=a&&x<=b;
-    check('A. 句子出在跳完的那張日期卡（6/28、7/12、8/3～8/4、9/1～9/7、10/20、12/14）',D.length===6&&inR(D[0],628,628)&&inR(D[1],712,712)&&inR(D[2],803,804)&&inR(D[3],901,907)&&inR(D[4],1020,1020)&&inR(D[5],1214,1214),JSON.stringify(r.cards.map(c=>c[0])));
+    check('A. 句子出在跳完的那張日期卡（6/28、7/12、8/3～8/4、9/1～9/7、9/22 中秋或 10/20、12/14）',D.length===6&&inR(D[0],628,628)&&inR(D[1],712,712)&&inR(D[2],803,804)&&inR(D[3],901,907)&&(inR(D[4],922,922)||inR(D[4],1020,1020))&&inR(D[5],1214,1214),JSON.stringify(r.cards.map(c=>c[0])));   /* AA_471 第 4 節：畢業以後的中秋 20:00 家人群組多一個停點（2029-09-22），「二試的書」那一句落在那一跳 */
     check('A. 有句子的日期卡停 3.2 秒（同經濟系）、沒有句子的照舊 1.8 秒',r.cards.length>0&&r.cards.every(c=>c[3]===3200)&&H.cards.filter(c=>c[1]===''&&c[3]!=null).every(c=>c[3]!==3200),JSON.stringify(r.cards.map(c=>c[3]))); }
   // ===== B. 沒報名 =====
   { const r=await sim({BAR_REG:false,LAWCLUB_SAT_VISITS:10});

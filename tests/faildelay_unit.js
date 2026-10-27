@@ -63,7 +63,7 @@ await sec(4,async()=>{ H.fresh('2029-09-03',8,'dorm',{FAIL_DELAY:true,FAIL_DELAY
   H.G.day=d; H.G.hour=its[0].t0-0.5; await Y5.attend(GM,its[0]); check('4. 第一次上課：老師「延畢的同學，期末交一份報告就好。……課要來。」',H.said.some(x=>x.who==='老師'&&x.t==='延畢的同學，期末交一份報告就好。……課要來。'),J(H.lines()));
   const n=H.said.length; let d2=d+7; while(CALENDAR.holiday(d2)) d2+=7; H.G.day=d2; H.G.hour=its[0].t0-0.5; await Y5.attend(GM,Y5.classItems(H.G,d2)[0]); check('4. 第二次沒有那一句',!H.said.slice(n).some(x=>x.who==='老師'&&/延畢的同學/.test(x.t)));
   H.G.day=D('2029-12-25'); FD.result(H.G); check('4. 12/24 以後：只上了兩堂＝不到三堂、證書延到 2030-06',H.G.flags.FAIL_DELAY_PASS===false&&H.G.flags.FAIL_DELAY_CERT==='2030-06');
-  check('4. 不到三堂：「（二月。又一個學期。這次你每一堂都去了。）」、6 月「（證書放在書桌上。你媽這次把框裝上了。）」；1/22 證書那張不出',card('2030-02-19','2030-03-01')==='（二月。又一個學期。這次你每一堂都去了。）'&&card('2030-06-01','2030-06-10')==='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-01-21','2030-01-30')!=='（證書放在書桌上。你媽買了一個框，還沒裝進去。）');
+  check('4. 不到三堂：「（二月。又一個學期。這次你每一堂都去了。）」、6 月「（證書放在書桌上。你媽這次把框裝上了。）」（AA_471 第 5 節：06-18 起，排在 6/17 領證書之後；原本 06-01 起）；1/22 證書那張不出',card('2030-02-19','2030-03-01')==='（二月。又一個學期。這次你每一堂都去了。）'&&card('2030-06-01','2030-06-10')!=='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-06-17','2030-06-25')==='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-01-21','2030-01-30')!=='（證書放在書桌上。你媽買了一個框，還沒裝進去。）');
   check('4. 1/21 證書的場景不演',!R2Y4B.STEPS.find(x=>x.id==='r2y4b_y5_cert').cond(H.G));
   H.fresh('2029-12-25',8,'dorm',{FAIL_DELAY:true,FAIL_DELAY_COURSES:[fc.id]}); const R=Y5.rec(H.G); for(let k=0;k<3;k++) R.cls[(D('2029-09-10')+7*k)+':'+fc.id]=1; FD.result(H.G); check('4. 出席三堂：過了（證書 1/21 照交換延畢）',H.G.flags.FAIL_DELAY_PASS===true&&!H.G.flags.FAIL_DELAY_CERT&&R2Y4B.STEPS.find(x=>x.id==='r2y4b_y5_cert').cond(H.G)); });
 

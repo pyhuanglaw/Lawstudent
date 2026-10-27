@@ -72,5 +72,33 @@ await tsec(4,async()=>{ const S4=sec(4), want={2029:cellMsgs(row(S4,'2029')[2]),
     check('4. 學期裡的中秋照舊（2027：FAM_MOON 那一年的句子，18:00 媽媽、21:00 爸爸）',fest!=='中秋'||J(grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom').map(x=>x[1]))===J(HOME.FAM_MOON[2027].moon.concat(HOME.FAM_MOON[2027].moonDad).map(x=>x[1])),fest+' '+J(grpMsgs(G,'g:home'))); }
   { const G=grad('2029-09-22',20.05,{}); STORY.phoneRules(GM); PHONE.tick(G); check('4. 不在家人群組：不發',!(G.msgs||[]).some(m=>m.th==='g:home')); } });
 
+/* ======================= 5. 被當延畢、重修不到三堂：證書延到六月 ======================= */
+await tsec(5,async()=>{ const S5=sec(5), Lx=(typeof FD!=='undefined'&&FD.LINES)||{};
+  const NOTE=['（{課名}的重修，出席不到三堂。）','（證書，要等到六月。）'], NARR='（系辦的助教把證書遞給你。）', TA='延了兩個學期。……這次是真的恭喜。';
+  check('5. 稿：旁白兩句、助教那一句、手機「畢業證書已可領取。」、6 月字卡 06-18～06-30',NOTE.every(t=>S5.includes('> '+t))&&S5.includes('> '+NARR)&&S5.includes('> 助教：'+TA)&&S5.includes('「畢業證書已可領取。」')&&S5.includes('06-18～06-30'));
+  check('5. FD.LINES 照稿',J(Lx.lateNote)===J(NOTE)&&Lx.lateCert===TA,J([Lx.lateNote,Lx.lateCert]));
+  const c=CLS.termCourses(H.fresh('2029-06-18',9,'dorm'),'Y4S2').find(x=>CLS.isExamCourse(x)), nm=FD.cname(c.id);
+  const fdSave=(key,h,att)=>{ const G=grad(key,h,{FAIL_DELAY:true,FAIL_DELAY_DAY:D('2029-06-18'),FAIL_DELAY_COURSES:[c.id],Y5_DAYS:'study',BAR_REG_2030:false}); PG.rec(G).done.reg_2030=1;
+    const R=Y5.rec(G); for(let k=0;k<att;k++) R.cls[(D('2029-09-10')+7*k)+':'+c.id]=1; return G; };
+  /* 跳到下一件事（照畢業後篇：場景到了就演）直到 id 演完；回傳演的時候的時間 */
+  const advanceUntil=async(G,id,n)=>{ let at=null; const run0=PG.runStep; PG.runStep=async function(GM_,s){ if(s&&s.id===id) at=[G.day,G.hour]; return run0.apply(this,arguments); };
+    try{ for(let i=0;i<(n||25)&&!PG.done(G,id);i++){ E.player.busy=false; H.picks=[]; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); const s=PG.due(G); if(s){ await PG.runStep(GM,s); continue; } if(!await PG.advance(GM)) break; } } finally { PG.runStep=run0; } return at; };
+  { const G=fdSave('2029-12-23',20,2); H.said=[]; const at=await advanceUntil(G,'fd_late_note');
+    check('5. 出席兩堂：12/24 記 FAIL_DELAY_CERT 2030-06',G.flags.FAIL_DELAY_PASS===false&&G.flags.FAIL_DELAY_CERT==='2030-06');
+    check('5. 跳到下一件事：停在 12/26（三）09:00 演旁白兩句（記號記下以後第一次停）',!!at&&at[0]===D('2029-12-26')&&Math.abs(at[1]-9)<1e-6,J(at));
+    const want=NOTE.map(t=>t.replace('{課名}',nm)); check('5. 旁白「'+want.join('」「')+'」',J(H.said.filter(x=>x.who===null&&want.includes(x.t)).map(x=>x.t))===J(want),J(H.lines().slice(-4)));
+    check('5. 1/21 的證書不演（不到三堂）',!PG.done(G,'r2y4b_y5_cert')||PG.rec(G).done.r2y4b_y5_cert==='missed'||!R2Y4B.STEPS.find(x=>x.id==='r2y4b_y5_cert').cond(G)); }
+  { const G=fdSave('2029-12-23',20,3); H.said=[]; await advanceUntil(G,'fd_late_note',6);
+    check('5. 出席三堂：沒有那兩句、沒有 12/26 的停點',G.flags.FAIL_DELAY_PASS===true&&!PG.done(G,'fd_late_note')&&!H.said.some(x=>x.t==='（證書，要等到六月。）')&&!PG.STEPS.find(s=>s.id==='fd_late_note').cond(G)); }
+  { const G=grad('2029-12-23',20,{EXCHANGE_ROUTE:'JP'}); check('5. 交換延畢：沒有這兩個場景',!PG.STEPS.find(s=>s.id==='fd_late_note').cond(G)&&!PG.STEPS.find(s=>s.id==='fd_late_cert').cond(G)); }
+  /* 2030-06-17（一）10:00 系辦 */
+  { const G=fdSave('2030-06-10',9,2); G.flags.FAIL_DELAY_PASS=false; G.flags.FAIL_DELAY_CERT='2030-06'; PG.rec(G).done.fd_late_note=1; H.said=[]; const at=await advanceUntil(G,'fd_late_cert');
+    check('5. 2030-06-17（一）10:00 系辦領證書（跳到下一件事停在那裡）',!!at&&at[0]===D('2030-06-17')&&Math.abs(at[1]-10)<1e-6&&CALENDAR.dateOf(D('2030-06-17')).wd===1,J(at));
+    check('5. 「'+NARR+'」助教「'+TA+'」',H.said.some(x=>x.who===null&&x.t===NARR)&&H.said.some(x=>x.who==='助教'&&x.t===TA)&&!H.has('恭喜。……延了一學期，還是恭喜。'),J(H.lines().slice(-3)));
+    check('5. 手機「畢業證書已可領取。」（10:00）',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='畢業證書已可領取。'&&m.day===D('2030-06-17')),J(H.msgs('sys').slice(-3)));
+    H.at('2030-06-17',12.1); PHONE.tick(G); check('5. 照 S.cert：12:00 媽媽「照片傳給我。我要傳給你爸。」、CERT_DAY 那一天',H.msgs('p:mom').includes('照片傳給我。我要傳給你爸。')&&G.flags.CERT_DAY===D('2030-06-17'),J(H.msgs('p:mom')));
+    const card=(a,b)=>PG.cardLine(G,D(a),D(b));
+    check('5. 6 月字卡「（證書放在書桌上。你媽這次把框裝上了。）」06-18 起：6/17 以前的跳不出、6/18 以後的跳才出',card('2030-06-01','2030-06-17')!=='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-06-17','2030-06-22')==='（證書放在書桌上。你媽這次把框裝上了。）'); } });
+
 H.done();
 })();

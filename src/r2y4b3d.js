@@ -313,9 +313,10 @@ const R2Y4B=(function(){
   S.intern=async function(GM,i){ const G=GM.G, A=adv(); await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(G.day,G.hour),'法律實習',1800); if(A&&A.begin) A.begin({background:bg('legal_aid_office')});
       for(const x of S.INTERN[i]){ if(x.narr) await GM.say(null,x.narr); else await GM.say(x[0]==='me'?{name:G.name||'祐廷'}:x[0],x[1]); } });
     const L=Array.isArray(G.flags.Y5_INTERN)?G.flags.Y5_INTERN:(G.flags.Y5_INTERN=[]); if(!L.includes(i+1)) L.push(i+1); return true; };
-  S.cert=async function(GM){ const G=GM.G, d=DK('2030-01-21'); if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],'y5_cert_sys'); PHONE.tick(G); }
-    await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。'); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
-    G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],'y5_cert_mom'); return true; };
+  /* o（AA_471 第 5 節，被當延畢、重修不到三堂的 2030-06-17，src/faildelay3d.js）：{key:那一天, ta:助教那一句, tag:手機的 tag 開頭}；沒有＝2030-01-21 那一場 */
+  S.cert=async function(GM,o){ o=o||{}; const G=GM.G, d=DK(o.key||'2030-01-21'), tg=o.tag||'y5'; if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],tg+'_cert_sys'); PHONE.tick(G); }
+    await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,o.ta||(fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。')); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
+    G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],tg+'_cert_mom'); return true; };
   S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* 黑幕兩節（照 2-Y4-27），不出題目 */
     G.flags['GRAD_EXAM_'+y]=true; if(y===2031){ G.flags.GRAD_EXAM_RESULT='pass'; G.flags.GRAD_ADMIT='exam'; } return true; };   /* 2031 再考：上了（AA_181 2-4）*/
   S.gradPass2030=G=>G.flags.GRAD_RETRY===true&&!delayed(G)?true:(S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24;   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
