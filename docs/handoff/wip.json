@@ -809,7 +809,7 @@
    "role": "LAWWW",
    "task": "CLASS-TEACHER-1027",
    "branch": "people-1027（wip_backup/people_1027.bundle）",
-   "sha": "c33a9c158",
+   "sha": "6c65b866f",
    "files": [
     "wip_backup/people_1027.bundle"
    ],
@@ -818,6 +818,51 @@
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
    "source": "UA-LAWWW-1027-10、-11、-13、-16、-17"
+  },
+  {
+   "id": "WIP-LAWWW-ANSTUCK-1027",
+   "role": "LAWWW",
+   "task": "AN-MEAL-STUCK-1027",
+   "branch": "an-stuck-1027（wip_backup/an_stuck_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/an_stuck_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "P0 以安吃麵卡住＋讀檔一直跟著（invites3d.js arrive／autoStart 沒鎖、走進門的自動存檔還在 going）；子代理修中，要套進 v9.10.11 發布樹；前提 3240d3802",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報"
+  },
+  {
+   "id": "WIP-LAWWW-SMALL-1027",
+   "role": "LAWWW",
+   "task": "US-BLANK-1012-HINT-1027",
+   "branch": "small-1027（wip_backup/small_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/small_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "三件小修已 commit 1bcbbe3a7（US 10/12 提示、AA_484 兩處、凌晨 2:30 以後不出休息）；等開發分支全部 Node 跑完再合；前提 592de7e18",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報"
+  },
+  {
+   "id": "WIP-LAWWW-Y1FB-1027",
+   "role": "LAWWW",
+   "task": "CLUBFAIR-REAL-1027",
+   "branch": "y1fb-1027（wip_backup/y1fb_1027.bundle）",
+   "sha": "6c65b866f",
+   "files": [
+    "wip_backup/y1fb_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "大一上回報批次（社博照實際、學姊事務版、健身句、麵店長桌、語彤烤肉）；子代理做中；前提 592de7e18",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 回報"
   }
  ]
 }

@@ -33706,7 +33706,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:2x UTC】src/fit3d.js S.NOTICE；請 AA-C 寫沒去過健身房的版本（三句），交了 LAWWW 加條件（gym 的 card）"
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 1 節定句（5aaa71d6a）；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】src/fit3d.js S.NOTICE；請 AA-C 寫沒去過健身房的版本（三句），交了 LAWWW 加條件（gym 的 card）"
   },
   {
    "id": "BADMINTON-CLIP-1027",
@@ -33726,13 +33726,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:2x UTC】LAWWW2：揮拍動作（VRM 人形；Blender 關鍵影格或程式動作，先講做法）、球拍、羽球飛的弧線、3F 球場鏡頭；AA-C：短片那一段的演出（幾個鏡頭、中間一兩句）；LAWWW 接進 invites.js 的羽球結束前；排在美國公寓、X14 之後",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 2 節演出（三個鏡頭、三種動作、第一次完整版）已轉 LAWWW2；排在美國公寓、X14、社博帳篷之後｜【LAWWW-C 2026-10-27 20:2x UTC】LAWWW2：揮拍動作（VRM 人形；Blender 關鍵影格或程式動作，先講做法）、球拍、羽球飛的弧線、3F 球場鏡頭；AA-C：短片那一段的演出（幾個鏡頭、中間一兩句）；LAWWW 接進 invites.js 的羽球結束前；排在美國公寓、X14 之後",
    "xai": {
     "spec": "使用者原話；AA-C 寫演出",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "羽球邀約玩到時有 10～20 秒的 3D 短片：兩個人在 3F 球場打球（揮拍、球飛過網）、可以跳過；手機模擬 fps 不掉太多；舊存檔不受影響",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -33780,7 +33780,7 @@
    "title": "社團博覽會照真實的臺大社博重做：攤位太少（九頂帳篷、選單五個社團）、沒人顧攤、看不出可以參加什麼——AA 查實際的社博（日期、地點、社團類型）重排攤位與可參加的社團（參加了有什麼）；LAWWW2 加帳篷、招牌；LAWWW 每攤放顧攤的人和逛的人",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-12、-14）",
    "first": {
@@ -33793,13 +33793,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:2x UTC】AA-C：查實際的臺大社博、交新版的攤位表（社團名、類型、顧攤的人一兩句、可不可以參加、參加了的活動時段與效果、法服＝學姊那一段照舊）；LAWWW2：帳篷、招牌（zones3d.js clubFair，D108）；LAWWW：顧攤 NPC＋人流（crowd3d）、選單",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 3 節（5aaa71d6a）：大一社博改 2025-09-06（六）10–16 一天、36 帳篷、15 攤互動；子代理 y1fb-1027 做邏輯（互動點先用現有九頂的位置）、LAWWW2 做帳篷招牌舞台（已轉）｜【LAWWW-C 2026-10-27 20:2x UTC】AA-C：查實際的臺大社博、交新版的攤位表（社團名、類型、顧攤的人一兩句、可不可以參加、參加了的活動時段與效果、法服＝學姊那一段照舊）；LAWWW2：帳篷、招牌（zones3d.js clubFair，D108）；LAWWW：顧攤 NPC＋人流（crowd3d）、選單",
    "xai": {
     "spec": "使用者原話；AA-C 交攤位表",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "社博那兩天椰林大道一整排攤位、每攤有人顧、有人逛；選單照攤位表；看得出哪些可以參加",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -33827,7 +33827,7 @@
    "title": "遊戲裡沒有提示社團博覽會：前幾天加提示（公告欄、群組或學姊的訊息、手機行事曆），讓玩家知道 9/30、10/1 在椰林大道",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C「而且遊戲中也沒提示」（UA-LAWWW-1027-14）",
    "first": {
@@ -33840,14 +33840,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:2x UTC】請 AA-C 定提示的句子與時間點（誰傳、哪天）；LAWWW 接（PHONE、公告欄、行事曆）"
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 3-5 節提示表；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】請 AA-C 定提示的句子與時間點（誰傳、哪天）；LAWWW 接（PHONE、公告欄、行事曆）"
   },
   {
    "id": "MSG-SIS-EARLY-1027",
    "title": "大一上不能傳訊息給學姊（msg3d.js S.open：第 2 階以前「還不熟」）：玩家知道她在法服、社博卻不能問她——加了好友（9/3）以後就開事務話題（社博、法服、課業），聊天照舊",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "使用者 10-27 20:2x 對 LAWWW-C「為什麼不能傳訊息給學姊」（UA-LAWWW-1027-15）",
    "first": {
@@ -33860,13 +33860,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:2x UTC】AA-C 定：要不要開、開哪些話題（事務版第 2 階以前的句子）；LAWWW 照定案改 S.open",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 4 節：加了好友就開事務版＋限時話題「問社博」「問法服」；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:2x UTC】AA-C 定：要不要開、開哪些話題（事務版第 2 階以前的句子）；LAWWW 照定案改 S.open",
    "xai": {
     "spec": "使用者原話；LAWWW 建議",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "加了好友以後手機能傳事務話題給學姊、她回得出合理的句子",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -33955,7 +33955,7 @@
    "title": "使用者問麵店團存在的必要：AA 說明它在故事裡負責什麼，玩起來是不是只剩一直跳的群組訊息；要精簡或改由 AA 提",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "使用者 10-27 20:4x 對 LAWWW-C「麵店團存在的必要到底是?」（UA-LAWWW-1027-20）",
    "first": {
@@ -33968,13 +33968,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_486（cd824bf41）＋AA_487（b830dd5eb）：不拿掉、群組建好阿哲兩句、長桌閒聊大一 8＋大二～大四各 6；子代理 y1fb-1027 做；1-1 的說明 LAWWW 轉給使用者｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者",
    "xai": {
     "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 交說明或句子；改動照 D109（結構大改用選擇題問使用者）",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -33982,7 +33982,7 @@
    "title": "語彤（社會系一年級）出現在法律系麵店團的中秋烤肉，遊戲沒交代為什麼——補一句交代（她和麵店阿姨的關係、怎麼認識阿哲他們）或調整她大一出現的場合",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "使用者 10-27 20:4x 對 LAWWW-C「為什麼中秋烤肉會有語彤是法律系還是?」（UA-LAWWW-1027-21）",
    "first": {
@@ -33995,13 +33995,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_486 第 2 節三行；子代理 y1fb-1027 做｜【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接",
    "xai": {
     "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 交說明或句子；改動照 D109（結構大改用選擇題問使用者）",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -34083,13 +34083,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:5x UTC】AA-C 定：哪些回覆算答應（連假、節日、平常週末）、連假第一天怎麼問、不回去媽媽說什麼、別人約那個週末時的提示句；LAWWW 照定案改 home3d.js（S.GROUP_WK 的回覆記約定）＋invites／outings 衝突提示",
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_488（961a3a8a0）規格到了；LAWWW 等 an-stuck-1027 合進來（invites／outings 同一帶）再做｜【LAWWW-C 2026-10-27 20:5x UTC】AA-C 定：哪些回覆算答應（連假、節日、平常週末）、連假第一天怎麼問、不回去媽媽說什麼、別人約那個週末時的提示句；LAWWW 照定案改 home3d.js（S.GROUP_WK 的回覆記約定）＋invites／outings 衝突提示",
    "xai": {
     "spec": "使用者原話；home3d.js S.GROUP_WK（AA_458 第 1 節）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "答應回家的那個週末：連假第一天問要不要回家、回得去；不回去有媽媽的反應；有人約那個週末時看得到衝突",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   }
  ]
