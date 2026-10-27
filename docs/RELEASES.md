@@ -31,7 +31,7 @@
 | v9.10.8 | `3fca7768`（PR [pyhuanglaw/Lawstudent#14](https://github.com/pyhuanglaw/Lawstudent/pull/14)；遊戲檔案＝發布樹 `5724a7516`＝候選 `63da1d633`＋臺北的家不寫上下樓三句＋美國 8/11 摘要） | 2026-10-24 13:55:13 UTC（run 40100085375 success） | `964c9cb1`（v9.10.7） |
 | v9.10.9 | `f10d2701`（PR [pyhuanglaw/Lawstudent#15](https://github.com/pyhuanglaw/Lawstudent/pull/15)；遊戲檔案＝候選 `55eed589e`＋`bae6a039a` 測試等待） | 2026-10-24 21:26:36 UTC（run 40134076963 success） | `3fca7768`（v9.10.8） |
 | v9.10.10 | `b9044511`（PR [pyhuanglaw/Lawstudent#16](https://github.com/pyhuanglaw/Lawstudent/pull/16)；遊戲檔案＝候選 `661423a71`，開發分支之後只多 docs／wip_backup） | 2026-10-25 15:33:37 UTC（run 40207307491） | `f10d2701`（v9.10.9） |
-| v9.10.11 | `（合併後補）`（PR（合併後補）；遊戲檔案＝候選 rc2 `6aebbb4d8`＋版本字樣） | （部署後補） | v9.10.10 `b9044511` |
+| v9.10.11 | `c8b9659e5`（PR [pyhuanglaw/Lawstudent#17](https://github.com/pyhuanglaw/Lawstudent/pull/17)；遊戲檔案＝候選 rc2 `6aebbb4d8`＋版本字樣） | 2026-10-27 22:34:37 UTC | v9.10.10 `b9044511` |
 
 ---
 
@@ -45,15 +45,15 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.11（2026-10-27 UTC 合併 `（合併後補）`，PR（合併後補）；GitHub Pages 部署（部署後補））——以安麵店卡住修正、各學年讀後修正（大一下～大四下、日本路線）、美國快轉停點、室內場景單面模型（效能）、黃昏窗景漸變成夜景
+## v9.10.11（2026-10-27 22:32 UTC 合併 `c8b9659e5`，PR #17；GitHub Pages 部署 run 40595623389 22:34:37 成功）——以安麵店卡住修正、各學年讀後修正（大一下～大四下、日本路線）、美國快轉停點、室內場景單面模型（效能）、黃昏窗景漸變成夜景
 
 **候選**：rc2＝`6aebbb4d8`＝`f54a35ec4`（10-27）＋以安麵店卡住的修正（AN-MEAL-STUCK-1027：src/invites3d.js＋tests/inv_arrive_lock_unit.js，cherry-pick 開發分支 an-stuck-1027 的三個 commit）。原本凍結在 f54a35ec4；使用者 10-27 20:3x 玩到吃完麵卡在以安說話的畫面（線上 v9.10.10 也有），修好放進這一版。版本字樣（index.html `?v=9.10.11`×220、標題「版本 v9.10.11（2026-10-28）」）在發布樹加。開發分支在 f54a35ec4 之後合進來的東西**都不在這一版**，下一版。發布用發布樹：遊戲檔案（src／tests／assets／index.html）＝`6aebbb4d8`（index.html 只多版本字樣），其餘照開發分支。
 
-**發布**：main `（合併後補）`；回復目標＝v9.10.10 `b9044511`。
+**發布**：main `c8b9659e5`（PR [pyhuanglaw/Lawstudent#17](https://github.com/pyhuanglaw/Lawstudent/pull/17) 的合併 commit，merge；PR 的 head＝發布樹 `4ab01d947`：遊戲檔案＝候選 rc2 `6aebbb4d8`＋版本字樣、劇情匯入白名單也用 rc2 那一份）；回復目標＝v9.10.10 `b9044511`。發布後開發分支 `1f49be250` 換回開發的遊戲檔案、`13fb0c635` 合併 main 回來。
 
-**BB 判定**：GO（BB-C 22:15，BB_218 aebdc8022）——P0：f54a35ec4 照玩家按鈕卡住、讀「一起走過去」的存檔一直跟著都重現，rc2 七種全 PASS（talk×2、FCALL、plain、reload、going 存檔、使用者原檔）；載入 invites3d 的 Node 256 項 PASS；save_compat_v7、save_compat_live（v9.10.10 存檔）PASS；flow_termend PASS；flow_invite_phone、flow_trip_date 在 rc2 和 f54 同一步同內容 FAIL＝測試過時（不是回歸，改測試）；flow_lane118「阿哲站在六張犁麵舖門口」一行＝舊問題（其他 13 行 PASS）；f54 發布前清單 663 PASS（rc2 只多 invites3d）。flow_main_day12：（結果後補）。不是 iPhone 實機。
+**BB 判定**：GO（BB-C 22:15，BB_218 aebdc8022）——P0：f54a35ec4 照玩家按鈕卡住、讀「一起走過去」的存檔一直跟著都重現，rc2 七種全 PASS（talk×2、FCALL、plain、reload、going 存檔、使用者原檔）；載入 invites3d 的 Node 256 項 PASS；save_compat_v7、save_compat_live（v9.10.10 存檔）PASS；flow_termend PASS；flow_invite_phone、flow_trip_date 在 rc2 和 f54 同一步同內容 FAIL＝測試過時（不是回歸，改測試）；flow_lane118「阿哲站在六張犁麵舖門口」一行＝舊問題（其他 13 行 PASS）；f54 發布前清單 663 PASS（rc2 只多 invites3d）。flow_main_day12 ALL PASS（762 s，22:28）；relsuite 剩下的 10 支發布後接著跑。不是 iPhone 實機。
 
-**LAWWW 發布前檢查**：rc2 乾淨 worktree 全部 Node 單元測試 644 支 0 失敗（10-27 21:3x）；`f54a35ec4` 643 支 0 失敗；HV-15：題目漏收 0、check_orphans 程式沒提到的素材 88（和上一版一樣）、check_lines 可能抄錯 504（多是標題、地點名稱的寫法，不擋發布）。
+**LAWWW 發布前檢查**：發布樹（rc2＋版本字樣）全部 Node 單元測試 644 支：劇情匯入白名單用開發分支那一份時 aa417_sport_invite_unit 1 支失敗（白名單比 rc2 的程式新），換回 rc2 那一份以後白名單相關 14 支通過（22:3x）；rc2 乾淨 worktree 全部 Node 單元測試 644 支 0 失敗（10-27 21:3x）；`f54a35ec4` 643 支 0 失敗；HV-15：題目漏收 0、check_orphans 程式沒提到的素材 88（和上一版一樣）、check_lines 可能抄錯 504（多是標題、地點名稱的寫法，不擋發布）。
 
 **這版有的（v9.10.10 以後，玩家玩得到的）**：
 - **修好卡住**（使用者 10-27 回報、附存檔）：約以安一起去吃麵，走進麵店那一下按了說話（或剛好有別的事件），劇情會停在她說話的畫面；讀進門那一刻的存檔，她會一直跟著、約不到她、兩小時後記成沒去。現在進門那一刻就鎖住、演完才放開；讀途中的存檔會接著吃完。
