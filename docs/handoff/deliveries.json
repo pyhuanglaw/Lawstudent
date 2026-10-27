@@ -18680,6 +18680,55 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-SINGLESIDE-6",
    "reason": "outbox 登記第六份交件（ed222cf2）＋第四、五份改 ACTIONED＋HANDOFF 第七份暫停；交付本身是 DL-LW2-SINGLESIDE-6（LAWWW-C 10-27 18:3x 分類）"
+  },
+  {
+   "sha": "5f419767",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-CAMPUS-DAY-1027",
+   "reason": "X79 第一版檢查點（找到原因），D113；交件時由 DL-LW2-X79-WARMUP 涵蓋（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "fe92b834",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-CAMPUS-DAY-1027",
+   "reason": "X79 warmup 第二版檢查點，D113；交件時由 DL-LW2-X79-WARMUP 涵蓋（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "7cd2d876",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-CAMPUS-DAY-1027",
+   "reason": "X79 warmup 第三版檢查點（onFirstUse），D113；交件時由 DL-LW2-X79-WARMUP 涵蓋（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "12889fb7",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PERF-CAMPUS-DAY-1027",
+   "reason": "X79 交件說明草稿檢查點，D113；交件時由 DL-LW2-X79-WARMUP 涵蓋（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "08709df6",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-X79-WARMUP",
+   "reason": "X79 交件 commit（patch、測試、README）（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "497253c6",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-X79-WARMUP",
+   "reason": "X79 交件說明（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "6626f68c",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-X79-WARMUP",
+   "reason": "outbox 登記 X79 交件（LAWWW-C 10-27 19:2x 分類）"
   }
  ]
 }
