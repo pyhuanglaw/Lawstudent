@@ -33641,7 +33641,7 @@
    "title": "美國交換祐廷租的單人公寓（us_apartment）照使用者描述改格局：小的 walk-in closet（走得進去，不是衣櫃）；床旁邊是書桌、再旁邊是洗手間；洗手間有浴缸（使用者 10-27 19:4x 對 LAWWW2-C 原話：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」）",
    "area": "V4-US",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 2026-10-27 19:4x 直接對 LAWWW2-C（UA-LAWWW2-1027-02，LAWWW2 分支 131e59dfe；P0 通知 3dd0db7c4 docs/art-rebuild/second_ai/HANDOFF.md）",
    "first": {
@@ -33654,7 +33654,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:0x UTC】LAWWW2 照做（D108 場景＋程式）：US_APARTMENT_LAYOUT（src/data/us_layouts.js）、tools/blender/env_second/us_apartment.py、us_apartment.glb；寫死座標的程式（床、書桌、衣物間互動點、事件站位）列出來一起交 patch；C 棟合租戶不動。AA-C 查美國稿裡「衣櫃」、書桌在窗下、洗手間位置的句子。LAWWW 收到 patch 合併、跑 Node；BB 測公寓（進門、床、書桌、洗手間、衣物間、睡覺起床）。LAWWW2 佇列：公寓 → X14 登記 → B08 → PERF-TEX-DEDUP-1027",
+   "next": "【LAWWW-C 2026-10-27 22:2x UTC】LAWWW2 f64e0e6d3＋a8fb7bf76 合進開發分支 9ac53ef1d；BB 瀏覽器：美國公寓衣物間、書桌、洗手間｜【LAWWW-C 2026-10-27 20:0x UTC】LAWWW2 照做（D108 場景＋程式）：US_APARTMENT_LAYOUT（src/data/us_layouts.js）、tools/blender/env_second/us_apartment.py、us_apartment.glb；寫死座標的程式（床、書桌、衣物間互動點、事件站位）列出來一起交 patch；C 棟合租戶不動。AA-C 查美國稿裡「衣櫃」、書桌在窗下、洗手間位置的句子。LAWWW 收到 patch 合併、跑 Node；BB 測公寓（進門、床、書桌、洗手間、衣物間、睡覺起床）。LAWWW2 佇列：公寓 → X14 登記 → B08 → PERF-TEX-DEDUP-1027",
    "xai": {
     "spec": "使用者原話（UA-LAWWW2-1027-02）；LAWWW2 解讀：床頭靠東牆→書桌貼床邊→洗手間門同一側（洗手間、衣物間對調）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -33729,7 +33729,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 21:4x UTC】8197dbdb9（LAWWW2 4286fb3e2＋接進約會）；BB 瀏覽器：約兩個人打羽球兩次；場地 1F（LAWWW2 說明：遊戲打羽球本來就在 1F）；LAWWW2 下一輪：引拍手腕、腳步",
+   "next": "【LAWWW-C 2026-10-27 22:2x UTC】第二版 310543676 合進 9ac53ef1d（引拍）｜【LAWWW-C 2026-10-27 21:4x UTC】8197dbdb9（LAWWW2 4286fb3e2＋接進約會）；BB 瀏覽器：約兩個人打羽球兩次；場地 1F（LAWWW2 說明：遊戲打羽球本來就在 1F）；LAWWW2 下一輪：引拍手腕、腳步",
    "xai": {
     "spec": "使用者原話；AA-C 寫演出",
     "branch": "claude/focused-cray-c9uwvw",

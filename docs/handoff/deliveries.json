@@ -15089,6 +15089,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-27 22:0x UTC】b1a71c1a3；outbox 08c475fb4"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-US-APT-CLOSET",
+   "sha": "f64e0e6d3",
+   "what": "US-APT-CLOSET-1027（X104）：美國公寓 v3——衣物間走得進去（walk-in closet）、床→書桌→洗手間門同在東牆、洗手間門開著有浴缸（patch＋us_apartment.glb／.json、配置、Blender 原始檔；a8fb7bf76 加舊存檔讀檔第 7 項）",
+   "task": "US-APT-CLOSET-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 22:2x UTC】b2b97952c（合併 9ac53ef1d）；LAWWW2 20:09 交件寫在 GitHub（send_message 不能用），LAWWW-C 22:0x 才看到；us_apt_closet、us_cam_walls、nav_us、us_bed_c、us_life、us_community_perf、us_ms_seethru 通過；BB：美國公寓走進衣物間、床邊書桌坐下、洗手間"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-BADCLIP-V2",
+   "sha": "310543676",
+   "what": "BADMINTON-CLIP-1027 第二版：引拍拍頭垂到頭後面；短片在演時卡住偵測不跳提示",
+   "task": "BADMINTON-CLIP-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 22:2x UTC】b49841b83（合併 9ac53ef1d）：只換 badminton_clip3d.js、badminton_clip_unit；game3d.js 那一行開發分支 8197dbdb9 已有（BADCLIP.busy）"
   }
  ],
  "ignored": [
