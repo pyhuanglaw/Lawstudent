@@ -813,11 +813,13 @@
    "files": [
     "wip_backup/people_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "使用者 20:1x～20:3x 回報的「場景裡的人」：上課講台一定有老師（四年每一門課測試）、門口的人有小動作且上課前陸續走進去、體育館三層人流、社博學姊站在法服帳篷＋地點（CLASS-TEACHER-1027、CROWD-CLASS-ARRIVE-1027、GYM-CROWD-1027、SIS-EXPO-PRESENCE-1027）；子代理做中，前提 c33a9c158",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "UA-LAWWW-1027-10、-11、-13、-16、-17"
+   "source": "UA-LAWWW-1027-10、-11、-13、-16、-17",
+   "closedBy": "096d3ca50",
+   "note": "21:1x 子代理做完（a447787d1），合進開發分支 096d3ca50。"
   },
   {
    "id": "WIP-LAWWW-ANSTUCK-1027",
@@ -828,11 +830,13 @@
    "files": [
     "wip_backup/an_stuck_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "P0 以安吃麵卡住＋讀檔一直跟著（invites3d.js arrive／autoStart 沒鎖、走進門的自動存檔還在 going）；子代理修中，要套進 v9.10.11 發布樹；前提 3240d3802",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-27 回報"
+   "source": "使用者 10-27 回報",
+   "closedBy": "8a5361bf8",
+   "note": "21:1x 子代理做完（35f8e7fb2），合進開發分支 8a5361bf8；候選 rc2 6aebbb4d8。"
   },
   {
    "id": "WIP-LAWWW-SMALL-1027",
