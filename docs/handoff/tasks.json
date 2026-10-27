@@ -32097,7 +32097,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
+   "next": "【LAWWW-C 2026-10-27 18:1x UTC】第六份（機場出境／入境，DL-LW2-SINGLESIDE-6）合進開發分支，相關 Node 9 支 ALL PASS；LAWWW2 照 D99 先做 X79→X14，美國校園（第七份）暫停在 WIP、排後面｜【LAWWW-C 2026-10-27 17:4x UTC】第五份（大超市，DL-LW2-SINGLESIDE-5）合進開發分支，相關 Node 10 支 ALL PASS；BB 瀏覽器排在 v9.10.11 後面；LAWWW2 接著量機場出境大廳、美國校園（過 10% 才做）｜【LAWWW-C 2026-10-27 17:3x UTC】第四份合進開發分支（GLB＋.json＋singleside_us_unit.js ALL PASS）；待 BB 美國區域流程（公寓、C 棟 208、法圖、亞洲超市、C 棟臥室：走得進去、家具在、門板不是裡外相反）｜【LAWWW-C 2026-10-27 17:1x UTC】第四份交件（d66eed041，DL-LW2-SINGLESIDE-4）：v9.10.11 發布以後合進開發分支（換五個 GLB＋.json、套 singleside_us_1025.patch），再派 BB 跑美國區域流程；LAWWW2 接著照自己的佇列做美國超市、機場出境大廳、美國校園 ｜ LAWWW2：④ 公館做完照順序，每兩三棟一份 GLB／patch；兩面都看得到的平面（招牌、葉片卡、布簾）保留雙面；改前改後同角度",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -33025,6 +33025,33 @@
     "acceptance": "每項 PASS／FAIL／PARTIAL＋重現步驟（BB_218）；要圖的提示詞照 D97",
     "receiver": "LAWWW",
     "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-LAMPSHADE-FLIP-1027",
+   "title": "溫州街 3 個、118 巷 9 個店內吊燈燈罩裡外相反（隔玻璃看只是明暗反；開發 5b6737cd3 就是）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 10-27 18:13 交件訊息（已知問題 P3，lib2.single_side 64 位元修正時發現）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "走進溫州街、118 巷的店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 18:1x UTC】LAWWW2 自己排（D111），不擋",
+   "xai": {
+    "spec": "LAWWW2-C 10-27 18:13 訊息",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "燈罩裡外正確（singleside 類的測試守）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
    }
   }
  ]

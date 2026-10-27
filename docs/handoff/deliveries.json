@@ -14803,6 +14803,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 10-27 17:4x 合進開發分支：us_market.glb＋.json、tools/blender/env_second/us_market.py 換 LAWWW2 版、套 patch；singleside_us_market、singleside_us、nav_us、room_ceiling、us_life、us_market_cam、us_market_street、us_ms_seethru、us_season、us_traffic ALL PASS；待 BB 瀏覽器（大超市走道、水果堆、冷藏蔬菜牆、玻璃）"
+  },
+  {
+   "id": "DL-LW2-SINGLESIDE-6",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ed222cf20",
+   "what": "LAWWW2 單面 GLB 第六份：桃園機場出境、入境大廳（玻璃、霧面玻璃照舊雙面；出境 fps 2.60→3.38、2.74→3.46；三角形出境 77,108→82,150、入境 17,478→18,118）＋測試 patch singleside_airport_1027.patch＋airport_t2.py、lib2.py（single_side 體積改 64 位元：離原點遠的小零件正負號會錯，56257299d）；outbox cdfe46b6",
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 10-27 18:1x 合進開發分支：GLB＋.json（ed222cf20）、airport_t2.py／lib2.py 換 LAWWW2 分支最新、套 patch；singleside_airport、airport_cam、exch_min、nav_us、us_life、us_season、singleside_us、singleside_us_market、room_ceiling ALL PASS；待 BB 機場流程（出境、入境、送機）"
   }
  ],
  "ignored": [

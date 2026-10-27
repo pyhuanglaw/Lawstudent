@@ -718,10 +718,12 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, flip=Tru
     nodup（正規表示式）：材質名符合的開口零件也不補反面——背面確定看不到的（只從外面看的立面、隔著玻璃看的店內與商品、只從上面看的地板）；
     要用同角度截圖確認過（例：公館店面先全部單面不補，十個鏡頭和原本一樣，才把這些列進來）。
     skip(ob)：這些物件的網格不補反面（遊戲照名字、照網格形狀接手的板面，例如公館的 SIGN_FACE_／INTERIOR_FACE_：補了反面遊戲的
-    wzAtlasFaces 合不起來、整條店面載入失敗——第一次試的時候遊戲退回套件外觀）。材質一樣改單面。
+    wzAtlasFaces 合不起來、整條店面載入失敗——第一次試的時候遊戲退回套件外觀）。只有這些物件在用的材質照舊（不改單面）：
+    美國亞洲超市門外的景（usam_view）只有一片、正面朝外，第一次改單面，從店裡看整片不見（第四份）；別的零件也在用的材質照樣改單面。
     封閉、方向一致但裡外相反（體積是負的）、又有一邊小於 1 m 的零件（欄杆收邊、樓梯防滑條、門板、小盒子）翻成朝外（雙面時看不出來，單面會看到背面）；
     大的不動（可能是從裡面看的房間）。
     flip=False：不翻（體育館 B1：有 4 片 4 cm 的小鐵片在 Blender 裡算出來裡外相反、匯出的 GLB 卻是正的，翻了反而變反；B1 不翻的版本同角度截圖一樣、GLB 也沒有裡外相反的零件）。
+    ——原因後來找到了：體積原本用 32 位元的向量從原點算，離原點遠的小零件正負號會錯；10-27 改成 64 位元、以零件自己的頂點當原點（B1 沒有用新算法重匯過）。
     回傳 {材質名: [封閉的三角形, 補了反面的三角形]}（翻面的另外記在「（翻面）材質名」）（instancing 的原型照網格算一次）；dry=True 只統計不改。"""
     import re as _re
     flip_ok = flip
@@ -765,8 +767,13 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, flip=Tru
         for f in faces:
             r = find(f.index)
             if r in openr: continue
-            c = comp.setdefault(r, [0.0, [1e9] * 3, [-1e9] * 3, []]); vs = [v.co for v in f.verts]; c[3].append(f)
-            for i in range(1, len(vs) - 1): c[0] += vs[0].dot(vs[i].cross(vs[i + 1])) / 6.0
+            # 體積用 Python 的浮點數（64 位元）、以零件的第一個頂點當原點算：mathutils 的向量是 32 位元，離原點 20～130 m 的幾公分小零件
+            # 從原點算，誤差比零件本身的體積還大、正負號會錯（美國校園第七份：站牌上 6 cm 的小方塊被翻反、一條石材收邊該翻沒翻，LAWWW2-C 10-27）
+            vs = [tuple(v.co) for v in f.verts]; c = comp.setdefault(r, [0.0, [1e9] * 3, [-1e9] * 3, [], vs[0]]); c[3].append(f)
+            q = [(p[0] - c[4][0], p[1] - c[4][1], p[2] - c[4][2]) for p in vs]
+            for i in range(1, len(q) - 1):
+                a_, b_, d_ = q[0], q[i], q[i + 1]
+                c[0] += (a_[0] * (b_[1] * d_[2] - b_[2] * d_[1]) - a_[1] * (b_[0] * d_[2] - b_[2] * d_[0]) + a_[2] * (b_[0] * d_[1] - b_[1] * d_[0])) / 6.0
             for v in vs:
                 for k in range(3): c[1][k] = min(c[1][k], v[k]); c[2][k] = max(c[2][k], v[k])
         flip = [f for c in comp.values() if c[0] * sgn < -1e-6 and 1e-3 <= min(c[2][k] - c[1][k] for k in range(3)) < 1.0 for f in c[3]]   # 扁的（一邊 < 1 mm）沒有裡外，不翻
@@ -781,6 +788,7 @@ def single_side(root, keep=r'glass', nodup=None, skip=lambda ob: False, flip=Tru
         if (dup or flip) and not dry: bm.to_mesh(me); me.update()
         bm.free()
     if not dry:
-        for m in {s.material for ob in [root] + list(root.children_recursive) if ob.type == 'MESH' for s in ob.material_slots if s.material}:
+        used = {s.material for ob in obs if ob.data not in skipped for s in ob.material_slots if s.material}   # 只有 skip 的物件在用的材質不動
+        for m in used:
             m.use_backface_culling = not kre.search(m.name)
     return stats
