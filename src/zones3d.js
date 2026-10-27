@@ -285,7 +285,7 @@ const Z3 = (function(){
     for(const [x,z] of [...(SOCX?[]:[[8,-70],[8,-50],[0,-56]]),[52,-50],[-54,-19],[-5,-16],[40,-20],[-95,-12],[-62,-56],[-96,24],[-82,31],[-68,24],[78,-38],[64,-44]]){   /* 第十八批拿掉：(8,-30)、(20,-20)、(52,-30)、(66,-28)（新系館的位置）、(-10,18)、(10,18)、(50,18)（換成大道南側的大樹牆）；X75：(8,-70)、(8,-50)、(0,-56) 在社科院的新位置裡面 */ const b=TREE(1+((x+z)%3)*0.2); place(g,b,x,z,(x+z)*0.3); nav.blockCircle(x,z,0.8); }
     // 花圃
     for(const x of [-64,-48]){ const p=W3.planter(); place(g,p,x,-13,0); nav.blockRect(x,-13,1.2,0.5,0); }
-    /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：9/30、10/1）那兩天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
+    /* 社團博覽會（AA_110 6-8 (b)；activities.js 的 club_expo_y1s1：新局 9/6、舊局 9/30、10/1，CLUBFAIR-REAL-1027）那幾天：LAWWW2 479b7fc 的九頂帳篷（clubFair），原本的招生攤位、公告欄收起來 */
     const fairDay=isFairDay();
     // 社團招生攤位（傅鐘廣場東側，面向椰林大道）：摺疊桌、布條、傳單
     if(!fairDay){ const SX=-18, SZ=14.5; const st=new THREE.Group(); const tb=new THREE.Mesh(new THREE.BoxGeometry(1.8,0.05,0.7),M('#e8e2d6')); tb.position.set(0,0.74,0); st.add(tb); for(const [sx,sz] of [[-0.8,-0.25],[0.8,-0.25],[-0.8,0.25],[0.8,0.25]]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.04,0.72,0.04),M('#3a3f46')); leg.position.set(sx,0.36,sz); st.add(leg); } const cloth=new THREE.Mesh(new THREE.BoxGeometry(1.85,0.6,0.02),M('#2f5d50')); cloth.position.set(0,0.42,0.36); st.add(cloth); const banner=W3.signPlane('法律服務社 招生中 ・ 免費法律諮詢',1.8,0.5,{color:'#ffffff',size:40}); banner.position.set(0,0.42,0.38); st.add(banner); const fly=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.02,0.42),M('#ffffff')); fly.position.set(-0.4,0.78,0); st.add(fly); st.position.set(SX,0,SZ); st.rotation.y=Math.PI; g.add(st); nav.blockRect(SX,SZ,1.9,0.8,0,0.1); E.interactables.push({x:SX,z:SZ-1,radius:1.5,label:'看法律服務社的招生攤位',notice:'lawclub'}); }
@@ -487,12 +487,12 @@ const Z3 = (function(){
      每頂帳篷整個擋起來（3×3 m）；人站在帳篷前面 z 12.5–13.5；傅鐘廣場（x≤−24）和長椅前面留空。正式模型載入前／失敗：簡單的帳篷（D38 分類 ③）*/
   const FAIR_Z=15.1, FAIR=[['booth_hiking',-21.3],['booth_lawclub',-17.8],['booth_info',-13.5],['booth_guitar',-9.7],['booth_debate',-5.9],['booth_basketball',3.4],['booth_bg1',7.2],['booth_bg2',11.0],['booth_bg3',14.8]];
   /* 校園擺帳篷的日子（同一排帳篷）：大一的社團博覽會（activities.js club_expo_y1s1 的日子）、大一校慶 2025-11-15（BB_95 3-7，法服的法律問答攤）；
-     大二的社團博覽會 9/16～9/17（AA_170，祐廷站在攤位後面）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
+     大二的社團博覽會 9/12（AA_170，祐廷站在攤位後面；AA_485 3-2 從 9/16～9/17 搬到開學第一週的週六）、各年校慶：大二 2026-11-14、大三 2027-11-13、大四 2028-11-11（AA_177 第 7、10 節；「每年 11/15」只留給大一）；
      經濟系那一年的社團博覽會 9/18～9/20（BB_104 E07、AA_154）、校慶園遊會 11/9（E17）*/
-  const FAIR_DAYS=['2025-11-15','2026-09-16','2026-09-17','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];
+  const FAIR_DAYS=['2025-11-15','2026-09-12','2026-11-14','2027-11-13','2028-11-11'], FAIR_DAYS_ECON=['2024-09-18','2024-09-19','2024-09-20','2024-11-09'];   /* 大二的社團博覽會 2026-09-12（六）一天（CLUBFAIR-REAL-1027，AA_485 3-2：原本 9/16、9/17）*/
   function fairDayKey(key,econ,expo){ return FAIR_DAYS.includes(key)||(!!econ&&FAIR_DAYS_ECON.includes(key))||(expo||[]).includes(key); }
   function isFairDay(){ try{ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list&&ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const G=typeof GAME!=='undefined'&&GAME.G; if(!A||!G||typeof CALENDAR==='undefined') return false;
-    return fairDayKey(CALENDAR.dateOf(G.day).key,typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G),A.dates); }catch(e){ console.warn('isFairDay',e); return false; } }
+    return fairDayKey(CALENDAR.dateOf(G.day).key,typeof STORY!=='undefined'&&STORY.isEcon&&STORY.isEcon(G),ACTIVITIES.on(A,G.day,G)?[CALENDAR.dateOf(G.day).key]:[]); }catch(e){ console.warn('isFairDay',e); return false; } }   /* 大一的社博照 ACTIVITIES.on（新局 9/6、舊局 9/30～10/1：CLUBFAIR-REAL-1027）*/
   function clubFair(E,g,nav){ const fb=new THREE.Group(); fb.name='fair_fallback'; fb.userData.dyn=true;   /* 不參加整區靜態合併（帳篷共用 P3.M 材質，沒有這行會被合併搬走，正式模型載入後 fb.visible=false 藏不到，兩套帳篷疊在一起）*/ const roof=P3.M('#e8e4da',{rough:0.9}), pole=P3.M('#9aa0a6',{rough:0.5}), table=P3.M('#3f6b8a',{rough:0.8});
     for(const [,x] of FAIR){ const t=new THREE.Group(); const r=new THREE.Mesh(new THREE.ConeGeometry(2.15,0.85,4,1),roof); r.rotation.y=Math.PI/4; r.position.y=2.47; t.add(r);
       for(const [px,pz] of [[-1.48,-1.48],[1.48,-1.48],[-1.48,1.48],[1.48,1.48]]){ const p=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,2.05,6),pole); p.position.set(px,1.025,pz); t.add(p); }

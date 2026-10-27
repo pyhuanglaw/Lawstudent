@@ -369,6 +369,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>!G.flags.SIS_CLUB_EXPO},
     dialogue:[ {speaker:null,text:'（椰林大道上一整排帳篷。你走到法服的攤位前。）'},
       {speaker:'學姐',text:'學弟，要不要聽一下？我們是法律服務社——'},
+      {if:{flags:['SIS_MSG_EXPO']},unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true,_EXPO_MERGED:true}},   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：私訊問過「問社博」的玩家照「見過」那一條，不另外加句子；這裡第一次見到她＝也算 W1（同合併版）*/
       {if:{flags:['SIS_W1']},goto:'main'},
       {speaker:null,text:'（帳篷後面走出來一個綁馬尾的人。你認得她——家族群組大頭貼上那個學姊。）'},
       {speaker:'player',text:'學姊好，我是{name}，妳的直屬學弟。'},
@@ -3782,14 +3783,14 @@ const STORY_EVENTS=[
       {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天阿姨叫我坐下來吃。'} ],
     consequences:{memo:'期末最後一頓（大二上）'} },
   /* ===================== 大二（交接包 v3）=====================
-     D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-16（三）、09-17（四）11:00～17:00，椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
+     D24 社團博覽會大二版（AA_170 第 1 節，AA-B 2026-10-16；第②級）：2026-09-12（六）10:00～16:00（AA_485 3-2；原本 09-16（三）、09-17（四）11:00～17:00），椰林大道同一排攤位（大一 club_expo_y1s1 的 spot），
      窗口內第一次走到攤位那一排。站哪一攤照大一加入的社團（CLUB_<id>）；加入不只一個＝選單選；站一個小時（不扣時段次數）。都沒加入＝走過、柏翰遞傳單（AA_358 2-5：原本語彤，她不進法服）。
      記 Y2_EXPO_BOOTH（攤位 id／'none'）、Y2_EXPO_SENIOR（第一次被叫學長；AA 寫的「記憶」，存成旗標）；在場、認識的同社團的人熟悉 +1。
      只有認識的人說話（AA_143 通則）；子晴、學姊的句子是 BB-B 補的（BB_157 第 1 節）*/
   ...(()=>{ const knows=id=>G=>typeof STORY!=='undefined'&&STORY.knows(id,G), B=v=>({flagIs:{Y2_EXPO_BOOTH:v}}), C=id=>G=>!!G.flags['CLUB_'+id];
     const CLUBS=['lawclub_study','club_guitar','club_debate','club_hiking','dept_basketball'], NAME={lawclub_study:'法服',club_guitar:'吉他社',club_debate:'辯論社',club_hiking:'登山社',dept_basketball:'系籃'};
-    const DATES=['2026-09-16','2026-09-17'];
-    return [{ id:'ev_y2_club_expo', title:'社團博覽會（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], time:[11,17], once:true, background:'blur', near:{x:-13.5,z:13.6,r:5},
+    const DATES=['2026-09-12'];   /* CLUBFAIR-REAL-1027（AA_485 3-2）：照實際，開學第一週的週六、一天 10:00～16:00（原本 9/16、9/17 11:00～17:00）*/
+    return [{ id:'ev_y2_club_expo', title:'社團博覽會（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], time:[10,16], once:true, background:'blur', near:{x:-13.5,z:13.6,r:5},
       prereq:{custom:G=>typeof CALENDAR!=='undefined'&&DATES.includes(CALENDAR.dateOf(G.day).key)},
       dialogue:[ {speaker:null,text:'去年，你站在這一排攤位前面填表。'},
         {if:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},speaker:null,text:'今年，你站在攤位後面。'},
