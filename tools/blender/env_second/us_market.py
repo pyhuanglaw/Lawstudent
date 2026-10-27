@@ -528,6 +528,11 @@ for m_ in (wd, prod, sh, pg, kk, pr, tags, sg, fv, pv, wr, rd, ch):
     m_.finish(root, uv=(m_ is wd)) if m_ is not prod and m_ is not sg and m_ is not wr else m_.finish(root, uv=False, merge=False)
 
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('PLATE_FACE') or ob.name.startswith('DOOR_') or ob.name.startswith('WALL_'))
+# PERF-SINGLESIDE-GLB-1025 第五份（LAWWW2-C 2026-10-27，接 LAWWW2-B 的第一～四份）：材質改單面（lib2.single_side）——雙面材質在 three.js 不剔除背面；
+# 上限（同一頁全部改單面）+33～56%（test_shots/singleside_glb_1025/README.md 上限表）。玻璃照舊雙面；遊戲接手的 PLATE_FACE_ 不補反面。
+# 水果（開口的球、葉片）只從上面、外面看：nodup 不補反面（第一次全補，三角形 +36%、水果占 1.9 萬）
+_ss = L.single_side(root, keep=r'glass', nodup=r'^usm_fruit_', skip=lambda ob: 'FACE' in ob.name)
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st_ = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:
