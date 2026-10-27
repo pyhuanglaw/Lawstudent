@@ -10,7 +10,7 @@ const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const load=f=>{ const p=path.join(ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
-for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/places.js']) load(f);
+for(const f of ['src/data/linze_layout.js','src/data/library_layout.js','src/data/lawlib_layout.js','src/data/soclib_layout.js','src/data/gym_layout.js','src/data/places.js']) load(f);   /* gym_layout：快速前往的新體育館（和宿舍同一顆圖釘）*/
 const ok=load('src/placemap3d.js');
 const Q=PLACES.quickList(), J=JSON.stringify;
 check('0. 載入 src/placemap3d.js；快速前往清單有建築的入口（霖澤館、總圖、法圖、社科圖）',ok&&['linze','library_hall','lawlib','soclib'].every(z=>Q.some(p=>p[0]===z)),J(Q.map(p=>p[0])));

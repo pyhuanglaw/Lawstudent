@@ -68,14 +68,14 @@ const PLACES={
     const later=o.close>24?(h<o.open&&h>=o.close-24):(h<o.open); return nm+' 開放時間 '+o.text+'。現在沒有開，'+(later?'今天 ':'明天 ')+hh+' 開'+(zone==='cafe'?'門':'館')+'。'; },
   /* 快速前往的地點（D54 ①；手機「地點」與大地圖用同一份）：[區域, 名稱, 落點 {x,z,yaw}（null＝區域預設的出生點）]。
      落點都要站得住、走得出去（tests/quick_travel_unit.js）。建築的落點照 layout 的入口（layout 檔在 places.js 之前載入）*/
-  quickList(){ const sp=(L)=>typeof L!=='undefined'?Object.assign({},L.entrance.spawn):null; const L1=typeof LINZE_LAYOUT!=='undefined'?sp(LINZE_LAYOUT):null, LB=typeof LIBRARY_LAYOUT!=='undefined'?sp(LIBRARY_LAYOUT):null, LL=typeof LAWLIB_LAYOUT!=='undefined'?sp(LAWLIB_LAYOUT):null, SC=typeof SOCLIB_LAYOUT!=='undefined'?sp(SOCLIB_LAYOUT):null;
-    return [['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林大道・傅鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博雅教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],
+  quickList(){ const sp=(L)=>typeof L!=='undefined'?Object.assign({},L.entrance.spawn):null; const L1=typeof LINZE_LAYOUT!=='undefined'?sp(LINZE_LAYOUT):null, LB=typeof LIBRARY_LAYOUT!=='undefined'?sp(LIBRARY_LAYOUT):null, LL=typeof LAWLIB_LAYOUT!=='undefined'?sp(LAWLIB_LAYOUT):null, SC=typeof SOCLIB_LAYOUT!=='undefined'?sp(SOCLIB_LAYOUT):null, GY=typeof GYM_LAYOUT!=='undefined'&&GYM_LAYOUT.spawn?Object.assign({},GYM_LAYOUT.spawn):null;   /* GY：新體育館 1F 大廳（BB-C 10-27 23:4x：體育課、健身房、羽球都在那裡，清單上沒有）*/
+    return [['campus','台大校園（霖澤館前）',{x:34,z:-98,yaw:0}],['campus','椰林大道・傅鐘',{x:-38,z:6,yaw:0}],['campus','校門口',{x:-112,z:0,yaw:-Math.PI/2}],['campus','共同教學館',{x:2,z:21.4,yaw:0}],['campus','普通教學館',{x:-38,z:-47.4,yaw:0}],['campus','博雅教學館',{x:-38,z:-71.4,yaw:0}],['campus','大一女舍（門口）',{x:-93,z:56,yaw:0}],GY&&['gym','新體育館（大廳）',GY],
       L1&&['linze','霖澤館（大廳）',L1],['classroom','霖澤館 201 教室',null],['wancai','萬才館（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
       ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','阿鳳麵店',{x:0,z:3.4,yaw:Math.PI}],['cvs','日日便利',{x:0,z:3.4,yaw:Math.PI}],['bookstore','舊路書房',{x:0,z:4,yaw:Math.PI}],
       ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
   /* 「已知」的地點（D54 ①）：開學第三週的大一生本來就知道的地方（校園、上課的教室、圖書館、宿舍、公館、溫州街、便利商店）；
      特定的店（麵店、書店、Café）自己走去過一次才會出現在清單上，留給探索去發現 */
-  known0:{campus:1,linze:1,classroom:1,wancai:1,lawlib:1,soclib:1,library_hall:1,library:1,gongguan:1,cvs:1,wenzhou:1,lane118:1,dorm:1,dorm_hall:1},   /* 118 巷：法學院後門那條巷子，一開始就知道（使用者 2026-10-20「118巷也要可及時到達吧手機地圖那邊」，X65；落點＝從霖澤館後門走過去的出生點）*/
+  known0:{campus:1,linze:1,classroom:1,wancai:1,lawlib:1,soclib:1,library_hall:1,library:1,gongguan:1,cvs:1,wenzhou:1,lane118:1,dorm:1,dorm_hall:1,gym:1},   /* gym：體育課（必修）的新體育館，一開始就知道 */   /* 118 巷：法學院後門那條巷子，一開始就知道（使用者 2026-10-20「118巷也要可及時到達吧手機地圖那邊」，X65；落點＝從霖澤館後門走過去的出生點）*/
   // 大地圖上的地名（沒有入口、或想讓玩家認得的地標）
   landmarks:{
     campus:[ ['校門',-120,0], ['椰林大道',-60,0], ['傅鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['大一女舍',-93,67], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],

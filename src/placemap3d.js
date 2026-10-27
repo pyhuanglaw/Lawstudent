@@ -24,7 +24,7 @@ const PLACEMAP=(function(){
     {id:'library',name:'總圖',x:330,y:172,lab:'t',cx:86,cz:0,m:[['library_hall','總圖書館（大廳）']]},
     {id:'gongtong',name:'共同',x:262,y:206,lab:'b',cx:2,cz:22,m:[['campus','共同教學館']]},
     {id:'gdorm',name:'女一舍',x:182,y:228,lab:'r',cx:-93,cz:56,m:[['campus','大一女舍（門口）']]},
-    {id:'dorm',name:'宿舍',x:318,y:228,lab:'b',cx:20,cz:60,m:[['dorm','宿舍']]},
+    {id:'dorm',name:'宿舍・體育館',x:318,y:228,lab:'b',cx:47,cz:60,m:[['dorm','宿舍'],['gym','新體育館（大廳）']]},   /* 新體育館（門口 x 74、z 59）在男宿東邊，圖上放不下另一顆圖釘（至少相隔 52）：和宿舍同一顆（同 博雅・普通）*/
     {id:'gongguan',name:'公館',x:100,y:172,lab:'t',m:[['gongguan','公館商圈'],['gongguan','捷運公館站'],['noodle','阿鳳麵店'],['bookstore','舊路書房'],['cvs','日日便利']]},
     {id:'wenzhou',name:'溫州街',x:66,y:82,lab:'t',m:[['wenzhou','溫州街'],['cafe','兩點半 Café']]}];
   /* 區域的底：校園、公館（羅斯福路那一條）、溫州街 */
@@ -35,7 +35,7 @@ const PLACEMAP=(function(){
   const inPin=(p,pl)=>p.m.some(m=>m[0]===pl[0]&&m[1]===pl[1]);
   S.pinOf=function(pl){ return S.PINS.find(p=>inPin(p,pl))||null; };
   /* 玩家在哪個圖釘：校園照座標找最近的；其他區域＝那一區的圖釘；不在圖上＝null */
-  S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',
+  S.ZONE_PIN={linze:'linze',classroom:'linze',wancai:'wancai',lawlib:'wancai',library_hall:'library',library:'library',library_b1:'library',library_carrels:'library',library_stacks:'library',soclib:'soclib',dorm:'dorm',dorm_hall:'dorm',lane118:'lane118',gym:'dorm',gym_b1:'dorm',gym_arena:'dorm',
     gongguan:'gongguan',noodle:'gongguan',bookstore:'gongguan',cvs:'gongguan',cafe:'wenzhou',wenzhou:'wenzhou',boya:'boya',putong:'boya',gongtong:'gongtong'};
   S.hereId=function(zone,x,z){ if(zone==='campus'&&x!=null){ let b=null, bd=1e9; for(const p of S.PINS){ if(p.cx==null) continue; const d=Math.hypot(p.cx-x,p.cz-z); if(d<bd){ bd=d; b=p.id; } } return b; }
     return S.ZONE_PIN[zone]||null; };
