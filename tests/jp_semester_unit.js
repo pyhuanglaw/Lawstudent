@@ -119,7 +119,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('J-S6 大四下補修（AA_144 X4）：日本路線多民事訴訟法甲下（週一上午）、保險法（週四上午，不撞海商法），重播大三下的 syllabus；台灣路線沒有',
       !!cv&&!!ins&&cv.slots[0].wd===1&&ins.slots[0].wd===4&&!CLS.termCourses(g2,'Y4S2').some(c=>/_re$/.test(c.id))&&(!SYLLABUS.courses.civpro_2||cv.syllabus===SYLLABUS.courses.civpro_2), [!!cv,!!ins].join()); }
   /* ===================== J-S7／J-S13 時差 ===================== */
-  { const G=inJapan('2028-04-28',20); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('zhe'); at('2028-04-28',21); phone(); const a=th('g:noodle_team').includes('明天晚上七點，冠軍賽。來喊。'); at('2028-04-28',22); phone(); const b=th('g:noodle_team').includes('明天晚上七點，冠軍賽。來喊。');
+  { const G=inJapan('2028-04-28',20); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('zhe'); at('2028-04-28',21); phone(); const a=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊'); at('2028-04-28',22); phone(); const b=th('g:noodle_team').includes('明天晚上七點，冠軍賽 來喊');
     at('2028-04-28',23); phone(); const c=!!OUT.get(G,'y3_zhe4'); at('2028-04-29',0); phone(); const q=OUT.get(G,'y3_zhe4');
     check('J-S13 group3d.js 日本路線：4/28 群組「冠軍賽」當地 22:00（台灣 21:00）；哲 4 的視訊當地 0:00（台灣 23:00），不是當地 23:00', !a&&b&&!c&&!!q&&q.day===D('2028-04-28')&&q.h>=24&&q.place==='視訊', [a,b,c,q&&q.h].join());
     at('2028-04-29',19.5); phone(); const s1=GROUP.streamDue(G); at('2028-04-29',20); phone(); const s2=GROUP.streamDue(G);
