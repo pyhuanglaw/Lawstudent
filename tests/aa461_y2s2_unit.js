@@ -112,7 +112,7 @@ await sec(2,()=>{
   fresh('2027-06-02',13,{met_sis:true,SIS_W1:true}); PHONE.join(H.G,'family_law','法律系直屬家族'); H.G.msgs.push({day:D('2027-06-02'),h:12+10/60,th:'g:family_law',from:'kevin',name:'Kevin',text:OLD_KV,tag:'sisy23_bday_kevin_y2'}); run(D('2027-06-02'),13,13.5); run(D('2027-06-03'),9,9.5);
   check('2. 舊存檔：2027 那一則已經用舊句收過＝不重發',J(kv())===J([OLD_KV]),J(kv()));
   fresh('2027-06-02',9,{SIS_W1:true}); PHONE.join(H.G,'family_law','法律系直屬家族'); run(D('2027-06-02'),11.5,12.5);
-  check('2. 不認識學姊（met_sis 沒有）：照舊不發',!kv().length);
+  check('2. 不認識學姊（met_sis 沒有）、在家族群組：也收到（AA_470 5-2，企劃線 5f54b6545：群組大家都看得到；原本不發）',J(kv())===J([KV27.t]),J(kv()));
 });
 
 /* ---- 3 芷若的兩張截圖 ---- */

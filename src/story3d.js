@@ -3707,17 +3707,18 @@ const STORY = (function(){
   S.sisFormLines=function(G){ const r=S.routeFor(G);
     if(cwDating(G,'heroine_05')) return {pre:[['sis','志願表交了？'],['me','交了。美國。'],['sis','……我知道你會填那裡。'],['sis','可是你要自己也想去。不是只因為我在那邊。']],opts:[['我自己也想去。','好。那我相信你。'],['一半一半。','……誠實。好。']],route:r};
     const single=!cwPartners(G).length&&!cwHasMate(G,'heroine_05'), last=r!=='JP'&&single?'好。那我明年在美國，每天傳一張照片給你。':'好。那我明年在美國，每天在家族群組放一張照片。……你們要回。';   /* 雙方都單身：最後一句改 */
-    return {pre:[['sis','志願表填了？'],['me',r==='JP'?'日本。':'沒填。留在臺灣。'],['sis',last]],opts:null,route:r,last}; };
+    return {pre:[['sis','志願表填了？'],['me',r==='JP'?'日本。':'沒填。留在臺灣。'],['sis',last]],opts:null,route:r,last,toYou:r!=='JP'&&single}; };   /* toYou：說了「每天傳一張照片給你」＝記 SIS_PHOTO_TO_YOU（AA_470 4-1：大四上平日的照片改傳私訊，y34b3d.js S.m6）*/
   S.sisFormFaceDue=function(G,E){ const D=an15D(), F=(G&&G.flags)||{}; if(D.d17==null||G.day!==D.d17||h(G)<21||h(G)>=21.75||F.SIS_FORM_REACT!=null||!S.sisFormOn(G)) return false; if(G.zone==='lawlib') return true;
     const LD=typeof WANCAI_LAYOUT!=='undefined'&&WANCAI_LAYOUT.lawlibDoor&&WANCAI_LAYOUT.lawlibDoor.it, P=E&&E.player&&E.player.obj.position; return G.zone==='wancai'&&!!LD&&!!P&&Math.hypot(P.x-LD.x,P.z-LD.z)<4; };   /* 法圖或門口（萬才館大廳的法圖門）*/
   S.sisFormFace=async function(GM){ const G=GM.G, F=G.flags; if(!S.sisFormFaceDue(G,GM.E)) return false; F.SIS_FORM_REACT='face'; cwDone(G,'ev_sis_form_react'); const sis=cwWho('heroine_05'), me={name:G.name}, L=S.sisFormLines(G);
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload(['heroine_05']); ADV.begin({background:'blur',right:{charId:'heroine_05',expression:'neutral'}}); }
       for(const [sp,t] of L.pre) await GM.say(sp==='me'?me:sis,t);
+      if(L.toYou) F.SIS_PHOTO_TO_YOU=true;   /* AA_470 4-1：那一句說出口了（當面）*/
       if(L.opts){ const k=await GM.choose(L.opts.map(o=>({t:'「'+o[0]+'」'}))); await GM.say(sis,(L.opts[k]||L.opts[0])[1]); }
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   S.sisFormPhone=function(G){ const L=S.sisFormLines(G), S5=t=>({th:'p:heroine_05',from:'heroine_05',text:t});   /* 22:30 手機版：交往中＝當面的四句變訊息、選項一樣；不是交往中＝「Kevin 說……」 */
     if(L.opts) return [Object.assign(S5('志願表交了？'),{ask:{opts:[{t:'交了。美國。',say:[S5('……我知道你會填那裡。'),Object.assign(S5('可是你要自己也想去。不是只因為我在那邊。'),{ask:{opts:L.opts.map(o=>({t:o[0],say:[S5(o[1])]}))}})]}]}})];
-    return [Object.assign(S5('Kevin 說交換志願明天截止。你填了嗎？'),{ask:{opts:[{t:L.route==='JP'?'日本。':'沒填，留在臺灣。',say:[S5(L.last)]}]}})]; };
+    return [Object.assign(S5('Kevin 說交換志願明天截止。你填了嗎？'),{ask:{opts:[Object.assign({t:L.route==='JP'?'日本。':'沒填，留在臺灣。',say:[S5(L.last)]},L.toYou?{set:{SIS_PHOTO_TO_YOU:true}}:{})]}})]; };   /* 22:30 手機版：回了才說出那一句＝記 SIS_PHOTO_TO_YOU（AA_470 4-1）*/
   /* 2-6 可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 呼叫 how 'face'）；沒見面＝11/17 22:00 電話（'call'）。不出假設題、不拿祐廷比較 */
   S.kxExchTalkDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return (G.stage||'law')==='law'&&D.d15!=null&&G.day>=D.d15&&G.day<=D.d17&&F.KX_EXCH_TALK==null&&cwDating(G,'kexin'); };
   S.kxExchCallDue=G=>{ const D=an15D(); return S.kxExchTalkDue(G)&&G.day===D.d17&&h(G)>=22; };

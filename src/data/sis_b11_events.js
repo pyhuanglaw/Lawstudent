@@ -29,6 +29,7 @@ const SISB11_EVENTS=(function(){
         {label:'b'},SIS('都這樣寫。所以才找你。'),{goto:'e'},
         {label:'c'},N('（她看了那個圈很久，然後把整句劃掉，在旁邊重寫。）'),
         {label:'e'},SIS('好。下禮拜給教授。'),SIS('……謝謝。樓下的自助餐，我請。'),
+        N('（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）'),   /* AA_470 4-4：說了自助餐我請、沒吃到——結尾那句旁白前加一句 */
         N('（她把兩張紙收進資料夾。資料夾的封面貼著一張便利貼：「5/29」。）'),
         Object.assign({set:{SIS_ABSTRACT:'went'}},mem('SIS_ABSTRACT',{fam:2,comf:2})) ],
       outingMissed:(G,GM,q)=>{ if(G.flags.SIS_ABSTRACT==null) G.flags.SIS_ABSTRACT='missed'; if(q&&typeof PHONE!=='undefined') PHONE.at(G,q.day,13.25,[{th:'p:'+ID,from:ID,text:SISB11_LINES.absMiss}],'sisb11_abs_miss'); } },   /* 回了「有。」沒到：13:15 她一則（AA_455 3-1 節①），不扣關係 */

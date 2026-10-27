@@ -41,6 +41,7 @@ const FAMXMAS=(function(){
     dialogue:[ {scene:'公館・火鍋店',bg:'gongguan_hotpot'},
       N('（長桌，六個人，一鍋。Kevin 坐在中間，負責下肉。）'),
       N('（學姊坐在你對面。她的碗裡只有白飯和青菜。）'),
+      {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,text:'我知道。直屬送直屬，我準備的是你的。'},   /* AA_470 5-1：還沒認識她的（沒有 SIS_W1）兩句；演完記 met_sis、SIS_W1（同 9/12 家聚 ev_sis_fam_dinner）*/
       KEV('她二月要考試，不吃辣，不吃肉丸。不要問。'),
       KEV('好，交換！直屬送直屬，學弟先！'),
       N('（她把一個用牛皮紙包的小東西放在桌上，等你先拿出來。）'),
@@ -62,7 +63,7 @@ const FAMXMAS=(function(){
       {label:'p_e'},KEV('好！大家都送完了，吃！'),
       N('（她九點就先走了。說要回去念書。走到門口，又回頭跟你說了一句。）'),
       SIS('鉛筆用完了，再跟我說。'),
-      {mem:[{npc:ID,tag:'SIS_XMAS_PENCIL',note:''}]} ],
+      {mem:[{npc:ID,tag:'SIS_XMAS_PENCIL',note:''}]},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ],
     afterOuting:G=>{ if(G.flags.SIS_FAMXMAS_Y1==null) G.flags.SIS_FAMXMAS_Y1=G.flags.SIS_FAMXMAS_BUY||'none'; },   /* 送了哪一樣（沒準備的事件裡已經記 none）*/
     outingMissed:G=>{ if(G.flags.SIS_FAMXMAS_Y1==null) G.flags.SIS_FAMXMAS_Y1='missed'; } };
   if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e.id===S.EVENT.id)) STORY_EVENTS.push(S.EVENT);
