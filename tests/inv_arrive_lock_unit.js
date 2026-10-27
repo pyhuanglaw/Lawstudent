@@ -9,10 +9,11 @@
 //   玩家只有不 busy、沒有對話的時候按得到「和她說話」（game3d.js updateInteract）；每一格＝STORY.tick 的 INV.tick（玩家空下來才跑）＋ game3d.js 的 EVENTS.tick。
 //   1. day 14：一起走進麵店，0.9 秒內按「和沈以安說話」——改前：說話那一段被見面蓋掉、演完停在第 1 層（使用者看到的）；改後：走進門就鎖住，按不到，見面演完、她不再跟著
 //   2. 換區域的自動存檔：改前存成「在麵店、going」；改後走進門那一刻不存，見面演完才存（done）
+//   1b. 更早一點：走進門、淡入的時候（還沒走到 S.arrive）就按了「和沈以安說話」——那一段先演完，再開始見面（改前兩段一起演、說話那一段停住）
 //   3. day 9（10-23 那筆 _stuck：X.run）：約好 17:30 麵店，進門時阿哲長桌（自動事件）也成立——改前同一格兩段一起開演、一段停住；改後先演見面、再演長桌，兩段都演完
 //   4. 讀「途中存的檔」（在麵店、iv13 還是 going）：改前她一直跟著、跟她說話沒有「約她去…」、兩小時後作罷（紀錄是沒去吃麵）；改後玩家空下來就照走到了開始，見面、done，之後約得到她
 //   5. 讀「途中存的檔」（還在公館、going）：照舊跟著走；走進麵店照常見面（不壞掉原本的一起走過去）
-// 修改前（開發分支 3240d3802、v9.10.11 候選 f54a35ec4、線上 v9.10.10 的 invites3d.js 都一樣）：1、2、3、4 FAIL。用法：node tests/inv_arrive_lock_unit.js
+// 修改前（開發分支 3240d3802、v9.10.11 候選 f54a35ec4、線上 v9.10.10 的 invites3d.js 都一樣）：1、1b、2、3、4 FAIL。用法：node tests/inv_arrive_lock_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -86,6 +87,14 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     check('2. 見面演完以後自動存檔（done）',log.saves.length>0&&/iv13:done/.test(log.saves[log.saves.length-1].iv),JSON.stringify(log.saves));
     const o=await inviteOpts(an);
     check('1. 吃完再跟她說話：有「約她去…」（使用者：「沒辦法約她到其他地方玩?沒有選項」）',o.some(t=>/^約她去/.test(t)),JSON.stringify(o)); }
+  /* ---------- 1b 淡入的時候（S.arrive 鎖住以前）就按了「和沈以安說話」 ---------- */
+  { fresh('2025-09-30',16.807,'noodle'); const iv=going(G,16.68); const an=anFollow();
+    void STORY.talkCharacter('heroine_01',an); await turn();   /* game3d.js enter：淡入（await fade(false)）的時候互動鍵已經出來了，玩家先按到 */
+    const talkLine=log.said.slice(-1)[0]||'';
+    const pEnter=STORY.onEnter('noodle',GM,{}); GM.autosave();
+    await play(500); await Promise.race([pEnter,turn()]);
+    check('1b. 先開始的說話演完、再見面：沒有被蓋掉的對話、劇情層數回到 0、ADV 關了（改前說話那一段停住）',D.busyDepth===0&&!log.orphans.length&&!ADV.active,st()+' 說話：'+talkLine);
+    check('1b. 見面照樣演完（done、「和沈以安在阿鳳麵店。」）、她不再跟著',iv.state==='done'&&metMsg(G)&&an.beh!=='follow',JSON.stringify({st:iv.state,msg:metMsg(G),beh:an.beh})); }
   /* ---------- 3 day 9：約好 17:30 麵店，進門時阿哲長桌也成立（同一格 autoStart＋EVENTS.tick）---------- */
   { fresh('2025-09-25',17.6,'noodle'); delete G.flags.zheNoodleDone;
     const iv=INV.accept(G,'heroine_01','noodle',G.day,17.5,{by:'player'}); const an=GM.spawnCharacter('heroine_01',-3,-0.3,{pose:'sit'}); an.seat=E.zone.seats[0];

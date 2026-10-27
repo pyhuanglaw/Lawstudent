@@ -364,7 +364,7 @@ const INV=(function(){
     for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day||h<iv.h-0.25||h>=iv.h+S.WAIT_H||G.zone!==iv.zone) continue;
       const n=S.npcOf(GM,iv.who); if(!n||!n.obj) continue;
       autoBusy=true; if(GM.sceneBegin) GM.sceneBegin();   /* 當下就鎖住（見上面）：同一格的 EVENTS.tick、這時候按的「和她說話」都進不來 */
-      Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); }); return true; }
+      Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; }
     return false; };
   /* 開始：有座位的地點（總圖、Café、麵店、茶館、早午餐）先一起坐下——她坐著就坐她旁邊，沒坐就找兩個相鄰的空位；找不到就照舊直接開始 */
   S.pairSeats=function(GM,n,place){ const E=GM.E; if(!SEATED[place]||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
@@ -420,9 +420,11 @@ const INV=(function(){
   S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state==='going'&&iv.zone!==zoneId&&S.privateZone(zoneId)) S.dropGoing(GM,iv); }   /* 走回宿舍＝作罷（使用者 10-21 23:1x）*/
     const iv=(G.invites||[]).find(v=>v.state==='going'&&v.zone===zoneId); if(!iv) return false; if(arrivingIv.has(iv)) return true;
     arrivingIv.add(iv); if(GM.sceneBegin) GM.sceneBegin();   /* 走進門那一刻就鎖住（BUG-AN-NOODLE-STUCK-1027，見 S.autoStart 上面）：這 0.9 秒裡按不到「和她說話」、別的事件不會插進來、換區域的自動存檔不會存成 going */
-    try{ await GM.sleep(900); if(iv.state==='going'){ const n=S.npcOf(GM,iv.who); iv.state='accepted'; iv.h=+((G.hour%24)).toFixed(3);   /* 約定時間改成到的時候（路上花的時間不算遲到）*/
+    try{ await GM.sleep(900);
+      while(GM.G===G&&GM.D&&((GM.D.busyDepth|0)>1||GM.D.active)) await GM.sleep(200);   /* 鎖住以前已經開始的那一段（淡入的時候先按了「和她說話」）先演完再見面，兩段不一起演 */
+      if(GM.G===G&&iv.state==='going'){ const n=S.npcOf(GM,iv.who); iv.state='accepted'; iv.h=+((G.hour%24)).toFixed(3);   /* 約定時間改成到的時候（路上花的時間不算遲到）*/
         await S.startTogether(GM,iv,n); } }   /* 兩個人都到了＝直接開始，有座位的地方一起坐下（使用者 10-21 23:2x；原本她先去找位子、你坐到她旁邊或跟她說話才開始：S.seatFirst 留給舊的流程）*/
-    finally{ arrivingIv.delete(iv); if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); }
+    finally{ arrivingIv.delete(iv); if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }   /* 中途讀了別的檔（applySave 已經把層數歸零）：不動新的那一局 */
     return true; };
   /* 一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）：她走去一個旁邊還有空位的位子坐下；約定時間改成現在（不會因為路上花的時間被算成沒赴約）。
      見面：你坐到她旁邊（S.seatMeet，座位選單呼叫）或跟她說話（story3d.js talkCharacter 的 INV.meetable）。找不到位子或走不到就照舊直接見面。 */
