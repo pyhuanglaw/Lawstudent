@@ -188,8 +188,11 @@ await sec('8-1',async()=>{
   check('8-1. 「我還是跟她在一起。」＝「我不知道我為什麼會答應。」「……可是我想答應。」＝交往＋OPEN_OK（照原本的交往：AN_TANABATA confess、行程照算兩次約會＋心願地點）；之後 d3～d5 照演',
     seq(['我不知道我為什麼會答應。','……可是我想答應。','（她排的行程表上，每一格都有時間。你們只走完一半。）','八月五號，你來接我。'])&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&H.G.flags.AN_TANABATA==='confess'&&(H.G.flags.confessed||{})[A1]!=null&&(X().rec(H.G).gate[A1]||{}).at==='tanabata');
   q=await tana([1,'我會跟她講清楚','跟她分手']);
-  check('8-1. 她先說（把短冊掛上去）＝她原本三句「你不說，那我說。」「我喜歡你。理由我寫在手帳裡，回臺灣再給你看。」「……你不准賴。」接 KNOW.she「你們現在還在一起？」；「我會跟她講清楚。」→「跟她分手。」＝不交往、記承諾（exclusive）、AN_TANABATA knows、d3～d5 照舊、不排手帳那一場',
-    seq(['你不說，那我說。','我喜歡你。理由我寫在手帳裡，回臺灣再給你看。','……你不准賴。','你們現在還在一起？','講清楚是什麼意思？','好。那你分完，再來找我。','八月五號，你來接我。'])&&!H.has('你先講完。')&&!H.G.flags.dating_heroine_01&&!okOpen(A1,KX)&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.AN_TANABATA==='knows'&&DATE.log(H.G,A1).count>=2&&(R2Y3B.anBackPhone(Object.assign(H.G,{day:D('2028-08-05'),hour:12})),!OUT.get(H.G,'y3_an_notebook')),J(T()));
+  check('8-1. 她先說（把短冊掛上去）、她知道＝只說「你不說，那我說。」「我喜歡你。」就接 KNOW.she「你們現在還在一起？」（AA_481 第 1 節：沒有「理由我寫在手帳裡，回臺灣再給你看。」「……你不准賴。」）；「我會跟她講清楚。」→「跟她分手。」＝不交往、記承諾（exclusive）、AN_TANABATA knows、d3～d5 照舊、不排手帳那一場',
+    seq(['你不說，那我說。','我喜歡你。','你們現在還在一起？','講清楚是什麼意思？','好。那你分完，再來找我。','八月五號，你來接我。'])&&!H.has('我喜歡你。理由我寫在手帳裡，回臺灣再給你看。')&&!H.has('……你不准賴。')&&!H.has('你先講完。')&&!H.G.flags.dating_heroine_01&&!okOpen(A1,KX)&&H.G.flags.YT_PROMISED[A1]==='exclusive'&&H.G.flags.AN_TANABATA==='knows'&&DATE.log(H.G,A1).count>=2&&(R2Y3B.anBackPhone(Object.assign(H.G,{day:D('2028-08-05'),hour:12})),!OUT.get(H.G,'y3_an_notebook')),J(T()));
+  q=await tana([1,'我還是跟她在一起']); const nb=(R2Y3B.anBackPhone(Object.assign(H.G,{day:D('2028-08-05'),hour:12})),OUT.get(H.G,'y3_an_notebook'));
+  check('8-1. 她先說、她知道、「我還是跟她在一起。」＝「你不說，那我說。」「我喜歡你。」→ 知情對話 → 交往＋OPEN_OK；照原本排手帳那一場（AA_481 第 1 節：手帳第一頁「理由欄。空著，給你。」接得上）',
+    seq(['你不說，那我說。','我喜歡你。','你們現在還在一起？','我不知道我為什麼會答應。'])&&!H.has('我喜歡你。理由我寫在手帳裡，回臺灣再給你看。')&&H.G.flags.dating_heroine_01===true&&okOpen(A1,KX)&&H.G.flags.AN_TANABATA==='confess'&&!!nb,J([T(),nb]));
   fresh('2028-07-06',7.5,'dorm',{EXCHANGE_ROUTE:'TW'}); H.CLOSE(A1); setRom(A1,80); R2Y3B.abTripPlan(H.G); clr(); H.picks=[0]; await OUT.go(GM,OUT.get(H.G,'y3_an_tanabata'));
   check('8-1. 她不知道（祐廷沒有別人）＝照原本「……我知道。我等你說，等了三個月。」「好。」交往',H.has('……我知道。我等你說，等了三個月。')&&H.G.flags.dating_heroine_01===true&&H.G.flags.AN_TANABATA==='confess'&&!H.has('你先講完。'));
 });
