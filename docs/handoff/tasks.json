@@ -33359,7 +33359,7 @@
    "title": "溫州街小公園從入口 B 走不進主園區（B08）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "USER_WANTS_AUDIT_1027（B08 部分做了）",
    "first": {
@@ -33372,7 +33372,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】派 LAWWW2-C 評估排期",
+   "next": "【LAWWW-C 2026-10-27 21:4x UTC】13a7c8692 整合（合併 213d6dd7a）；BB 瀏覽器：北巷搖桿走入口 B",
    "xai": {
     "spec": "USER_WANTS B08；USER_WANTS_AUDIT_1027",
     "branch": "claude/focused-cray-c9uwvw",
@@ -33594,7 +33594,7 @@
    "title": "各棟 GLB 重複的貼圖合併（椰林大道場景 332 張裡 213 張是同一張 Poly Haven 材質的重複，約 24 百萬像素）：手機少傳、省顯示記憶體——和 iPhone 記憶體不足被踢回標題（BUG-IOS-RELOAD）直接相關",
    "area": "P0",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "LAWWW2-C 10-27 19:07 交件訊息的建議；BUG-IOS-RELOAD（使用者 iPhone 回報）",
    "first": {
@@ -33607,7 +33607,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 19:3x UTC】LAWWW2 改法（GLTFLoader afterRoot 算原始圖檔 SHA-1＋取樣設定當 key、同 key 共用第一張、重複的 dispose＋close、capTextures 之前做、不加參考計數、?nodedup 關）LAWWW 同意，加五點：只合併圖片來源（跳過 KTX2／Data／Canvas／VRM、userData 有東西的）；grep 執行時改 GLB 貼圖屬性的地方；共用那張 image 不能 close；量載入時間；驗 A→B→回 A 不黑。排在 X14、B08 之後 ｜ 【LAWWW-C 2026-10-27 19:1x UTC】LAWWW 決定：做，交 LAWWW2（D108 場景效能；要改 assets3d.js 的 GLB 載入——照 D108 先講好改法再動，LAWWW 審）；排在 X14、B08 之後；交件附改前改後的貼圖數、顯示記憶體、JS heap（tests/dorm_start_memory.py 那一套）",
+   "next": "【LAWWW-C 2026-10-27 21:4x UTC】0b8a8f0da 整合（合併 213d6dd7a）；BB 來回換區域看貼圖；iPhone 實機要使用者",
    "xai": {
     "spec": "LAWWW2-C 10-27 19:07 訊息；BUG-IOS-RELOAD next",
     "branch": "claude/focused-cray-c9uwvw",
@@ -33716,7 +33716,7 @@
    "title": "和語彤打羽球做成 3D 小短片（現在只有對話）：綜合體育館 3F 主球場，兩個人打幾球、幾個鏡頭（約 10～20 秒），接在羽球邀約的對話裡",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-27 20:1x 對 LAWWW-C「跟陳羽彤打羽球也只是對話帶過? 不能做個小短片?」（UA-LAWWW-1027-09）",
    "first": {
@@ -33729,7 +33729,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 2 節演出（三個鏡頭、三種動作、第一次完整版）已轉 LAWWW2；排在美國公寓、X14、社博帳篷之後｜【LAWWW-C 2026-10-27 20:2x UTC】LAWWW2：揮拍動作（VRM 人形；Blender 關鍵影格或程式動作，先講做法）、球拍、羽球飛的弧線、3F 球場鏡頭；AA-C：短片那一段的演出（幾個鏡頭、中間一兩句）；LAWWW 接進 invites.js 的羽球結束前；排在美國公寓、X14 之後",
+   "next": "【LAWWW-C 2026-10-27 21:4x UTC】8197dbdb9（LAWWW2 4286fb3e2＋接進約會）；BB 瀏覽器：約兩個人打羽球兩次；場地 1F（LAWWW2 說明：遊戲打羽球本來就在 1F）；LAWWW2 下一輪：引拍手腕、腳步",
    "xai": {
     "spec": "使用者原話；AA-C 寫演出",
     "branch": "claude/focused-cray-c9uwvw",
@@ -33798,7 +33798,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】AA_485 第 3 節（5aaa71d6a）：大一社博改 2025-09-06（六）10–16 一天、36 帳篷、15 攤互動；子代理 y1fb-1027 做邏輯（互動點先用現有九頂的位置）、LAWWW2 做帳篷招牌舞台（已轉）｜【LAWWW-C 2026-10-27 20:2x UTC】AA-C：查實際的臺大社博、交新版的攤位表（社團名、類型、顧攤的人一兩句、可不可以參加、參加了的活動時段與效果、法服＝學姊那一段照舊）；LAWWW2：帳篷、招牌（zones3d.js clubFair，D108）；LAWWW：顧攤 NPC＋人流（crowd3d）、選單",
+   "next": "【LAWWW-C 2026-10-27 21:4x UTC】LAWWW2 3D 帳篷交件 1c537e9c9（DL-LW2-CLUBFAIR）；等 y1fb-1027 合進來再套 patch、把顧攤的人放到位置表",
    "xai": {
     "spec": "使用者原話；AA-C 交攤位表",
     "branch": "claude/magical-albattani-bk7b4n",

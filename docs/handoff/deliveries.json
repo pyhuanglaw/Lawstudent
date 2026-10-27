@@ -15024,6 +15024,58 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做；②（VAC 出國中排除）、⑤（舊存檔不補）照 LAWWW 的做法；outbox dd4f27eef"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-B08-PARKB",
+   "sha": "c89b4aa8d",
+   "what": "B08 PARK-ENTRY-B-1027：溫州街小公園入口 B 走得進主園區（遊戲場往北 1.5 m、wz_park_layout v3、wz_park.glb／.json、wz_park_unit 兩項）",
+   "task": "PARK-ENTRY-B-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 21:4x UTC】13a7c8692（合併 213d6dd7a）；wz_park_unit、crowd_unit、aa163_tutor_unit 通過；BB：北巷用搖桿走入口 B 到老樹、課輔班那一場"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-TEX-DEDUP",
+   "sha": "5e6267d5a",
+   "what": "PERF-TEX-DEDUP-1027：建築 GLB 重複貼圖合併（assets3d.js texDedup／bldgLoader；新 tests/tex_dedup_unit.js）",
+   "task": "PERF-TEX-DEDUP-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 21:4x UTC】0b8a8f0da（合併 213d6dd7a）；tex_dedup_unit、tex_cap_close_unit 通過；BB：校園↔溫州街↔咖啡廳來回看貼圖；iPhone 被踢回標題要使用者實機；LAWWW2 另報回校園 15 秒柏油變地磚（原本就有）"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-BADCLIP",
+   "sha": "4286fb3e2",
+   "what": "BADMINTON-CLIP-1027：一起打羽球的小短片（三個鏡頭、八種結尾、可跳過；character3d.js 疊加姿勢掛勾、badminton_clip3d.js、badminton_props.glb；場地照遊戲在 1F 羽球場不是 AA 寫的 3F）",
+   "task": "BADMINTON-CLIP-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 21:4x UTC】8197dbdb9（合併 213d6dd7a）：LAWWW-C 接進 invites3d.js 見面（第一次完整版、之後鏡頭 2、最後一句只在完整版演完說、收 ADV、卡住偵測認 BADCLIP.busy）；新 badclip_wire_unit；BB：約語彤、以安打羽球兩次（第一次完整、第二次只有中段、跳過）"
+  },
+  {
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LW2-CLUBFAIR",
+   "sha": "1c537e9c9",
+   "what": "CLUBFAIR-REAL-1027：社團博覽會椰林大道兩邊 36 頂帳篷＋舞台（club_fair_expo_layout.js、club_fair_expo.glb、zones3d 接線 patch、club_fair_expo_unit）",
+   "task": "CLUBFAIR-REAL-1027",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-27 21:4x UTC】patch 在開發分支 git apply --check 過；等子代理 y1fb-1027（社博十五攤、喊話、提示）合進來再套，顧攤的人照 LAWWW2 的位置表"
   }
  ],
  "ignored": [
