@@ -15,6 +15,10 @@
     - **HV-20**：交班一定要跑 `python3 tools/handoff/check_handoff.py duty handoff …`，把自己的 `duty_LAWWW2.json` 改成 handed-off；只寫 HANDOFF.md 不算（10-27 的誤判：10-21 交班時那個檔還寫著 state on）。
   - outbox 記帳修好（`a44e9e08`：outbox_problems 0；65 個 WIP commit 補登，剩第四份兩個交件時涵蓋）。
   - 通訊實測：BB-C 雙向 ACK；AA-C 送達、還沒回。
+- **10-27 17:2x 更新**：
+  - **單面第四份已交件**（`d66eed04`，outbox `edddae2a`）：補拍公寓、C 棟 208 屋內 32 格＋等 8 秒重拍 4 格，改前改後一樣；開發 `5b6737cd3` 上 singleside_us_unit 舊 FAILED 7→新 ALL PASS、美國相關 18 支 ALL PASS。LAWWW-C 17:16Z ACK：DL-LW2-SINGLESIDE-4（`5f563a875`），v9.10.11 發布以後合進開發、派 BB 測；重匯問題開 **LAWWW2-REEXPORT-US-1027（P3，我的）**：開發分支重匯不了公寓、C 棟 208（配置檔舊名、aa_support／bb_support 道具組），下次動這兩個模型以前做。
+  - **正在做：單面第五份——美國大超市**（`us_market.py` 加 `single_side`，玻璃照舊雙面、水果 `nodup`：三角形 98,732 → 115,382；第一次全補是 134,626，水果占 1.9 萬）。WIP `98caf3f2`。以**我分支的腳本**為底（開發分支的腳本少了 10-22 天花板單面朝下那兩行，GLB 三個分支一樣）。遊戲內 11 個位置同角度＋兩個位置 fps 在背景拍（`$S/ab_us_market.py`、測試樹 `$S/devwt12` 開發／`$S/devwt13` 開發＋新 GLB）。
+  - 之後：量機場出境大廳（`airport_dep`）、美國校園（`us_campus`）的上限（工具 `$S/upper_singleside.py`：同一頁原本／全部單面各兩輪）→ 過 10% 才做。LAWWW-C：巡查時看到經濟系、寒暑假路線上更擋玩家的美術問題可以先做（說一聲）。
 
 ## ✅ 接班：2026-10-23 06:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **使用者原話**（06:4x）：「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」（UA-LAWWW2-1023-01）。

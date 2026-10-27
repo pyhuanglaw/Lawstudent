@@ -3476,8 +3476,8 @@
    "next": "LAWWW 換五個 GLB（us_apartment、us_shared、us_lawlib、us_asian_market、us_bed_c＋各自 .json）、套 patches/singleside_us_1025.patch（新 tests/singleside_us_unit.js），跑 singleside_us_unit 和美國相關單元；BB 測美國區域瀏覽器流程",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "第四份：上一班 LAWWW2-B 做（GLB 09b41377、六區對照圖 e1486b51），沒交班；LAWWW2-C 10-27 接班補拍公寓、C 棟 208 屋內同角度（26～30）、在開發 5b6737cd3 重驗：singleside_us_unit 開發 FAILED 7→新 ALL PASS，美國相關 18 支 ALL PASS。fps 是上一班量的（+11～40%）。開發分支重匯不了公寓、C 棟 208（缺配置檔、道具組），README 有寫。"
+   "ack": "ACK",
+   "note": "第四份：上一班 LAWWW2-B 做（GLB 09b41377、六區對照圖 e1486b51），沒交班；LAWWW2-C 10-27 接班補拍公寓、C 棟 208 屋內同角度（26～30）、在開發 5b6737cd3 重驗：singleside_us_unit 開發 FAILED 7→新 ALL PASS，美國相關 18 支 ALL PASS。fps 是上一班量的（+11～40%）。開發分支重匯不了公寓、C 棟 208（缺配置檔、道具組），README 有寫。；LAWWW-C 10-27 17:16Z ACK：登記 DL-LW2-SINGLESIDE-4（5f563a875），v9.10.11 發布以後合進開發、派 BB 測美國區域；重匯問題開 LAWWW2-REEXPORT-US-1027（P3）"
   }
  ]
 }
