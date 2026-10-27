@@ -125,14 +125,13 @@ const SISG=(function(){
     /* 2-9 上榜聚餐（舊的大二版 ev_sis_results_dinner 不用）：3/23 21:00 Kevin 在家族群組邀、回「去。」＝3/27（五）19:00 公館的日日定食（虛構店名；2D gongguan＋字幕）*/
     { id:'ev_sis_results_dinner_y1', title:'上榜聚餐', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
       dialogue:[ {scene:'公館・日日定食',bg:'gongguan'},
-        {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:ID,expression:'neutral',text:'……我知道。家聚你都沒來。今天來了就好。'},   /* AA_470 5-1（表上寫 ev_sis_results_dinner＝大一下 3/27 這一場）：還沒認識她的兩句，點菜之前（沒有開場旁白：接在場景後面）；3/20 演過就不會到這裡；演完記 met_sis、SIS_W1 */
         {speaker:ID,expression:'neutral',text:'你們真的不用請我。'},
         {speaker:'Kevin',text:'學姊，坐好。今天妳只負責吃。'},
         {speaker:ID,expression:'neutral',text:'……好。'},
         {speaker:null,text:'（她點了最貴的那一份，然後看了 Kevin 一眼。Kevin 假裝沒看到。）'},
         {if:{flags:['SIS_RESULT_TOLD']},speaker:null,text:'（她小聲對你說。）'},
         {if:{flags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'那天你傳的時候，我還在睡。'},
-        {if:{flags:['SIS_NEW_PLANNER'],notFlags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'計畫本今天這一格，我寫了『吃飯』。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ] },
+        {if:{flags:['SIS_NEW_PLANNER'],notFlags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'計畫本今天這一格，我寫了『吃飯』。'} ] },
     /* 2-10 舊教科書（接 12/5「下學期的書，我會留給你」）：去過 12/5 家族聚餐的玩家，2/22（日）回宿舍那天；回家住的在 17:00 回宿舍（寒假表的 back）以後。
        2/22 那天沒回宿舍的：第一次回宿舍那天演（AA_339 第 10 題；不限 2/28 以前，到大一下結束）*/
     { id:'ev_sis_books_y1s2', title:'舊教科書', participants:[], location:['dorm','dorm_hall'], trigger:'auto', once:true, priority:6, background:'blur',

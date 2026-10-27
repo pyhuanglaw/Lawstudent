@@ -45,7 +45,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 週二揪人 */
   fresh(tue,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,13);
   const inv=G.msgs.filter(m=>m.tag==='b4_invite');
-  check('3. 週二 12:30 麵店團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博雅 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟 散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
+  check('3. 週二 12:30 麵店團：以安兩句、Alison、阿哲（原文）',JSON.stringify(inv.map(m=>m.from+':'+m.text))===JSON.stringify(['heroine_01:週四晚上七點，博雅 101 有演講。','heroine_01:「政府可以為了大家，限制一個人嗎？」誰要去？','yu:我！我是憲法迷。','zhe:……我跟。散場有宵夜嗎？'])&&inv.every(m=>m.h===12.5&&m.th==='g:noodle_team'),JSON.stringify(inv.map(m=>[m.h,m.from,m.text])));
   const q=inv.find(m=>m.ask); check('3. 可以回「我去。」／「我看看。」（不回也可以，到週四 19:00）',!!q&&JSON.stringify(q.ask.opts.map(o=>o.t))==='["我去。","我看看。"]'&&q.ask.until===thu*24+19,JSON.stringify(q&&q.ask));
   PHONE.answer(G,q.ask.id,0); check('3. 回「我去。」只記 B4_REPLY（不影響週四能不能去）',G.flags.B4_REPLY==='go'&&TH('g:noodle_team').some(m=>m.from==='player'&&m.text==='我去。'));
   fresh(tue,8,'campus'); run(8,13); check('3. 不在麵店團：沒有這幾則',!G.msgs.some(m=>m.tag==='b4_invite'));

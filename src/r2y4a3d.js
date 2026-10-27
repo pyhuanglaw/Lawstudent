@@ -208,7 +208,7 @@ const R2Y4A=(function(){
         if(past(G,d17,20)&&!PHONE.sent(G,'y4_ty_notice')) PHONE.at(G,d17,G.day===d17?Math.max(20,G.hour):20,[{th:'sys',who:null,text:'颱風假：明天（9/18）停班停課。'}],'y4_ty_notice');
         if(past(G,d18,8)&&!PHONE.sent(G,'y4_ty_mail')){ PHONE.postAt(G,{th:'sys',who:null,name:'老師（信）',text:'明日停課。',tag:'y4_ty_mail'},d17,21.5); PHONE.postAt(G,{th:'sys',who:null,name:'老師（信）',text:'報告的期限不會停。照舊。',tag:'y4_ty_mail'},d17,21.51);
           if(PHONE.inGroup(G,'law_class')){ const L=[]; if(knows('yu',G)) L.push({th:'g:law_class',from:'yu',text:'這是本學期最強制的一封信。'}); const zq={th:'g:law_class',from:'zhe',text:'颱風可以聲明異議嗎？'};
-            zq.ask={id:'y4_ty_reply',opts:[{t:'颱風不是當事人。不能聲明異議。',say:knows('classmate_xinci',G)?[{from:'classmate_xinci',text:'……這句可以寫進報告。'}]:[]},{t:'先吃泡麵。',say:[{from:'zhe',text:'大四了，還是泡麵'}]}]}; L.push(zq);
+            zq.ask={id:'y4_ty_reply',opts:[{t:'颱風不是當事人。不能聲明異議。',say:knows('classmate_xinci',G)?[{from:'classmate_xinci',text:'……這句可以寫進報告。'}]:[]},{t:'先吃泡麵。',say:[{from:'zhe',text:'大四了，還是泡麵。'}]}]}; L.push(zq);
             PHONE.at(G,d18,G.day===d18?Math.max(8,G.hour):8,L,'y4_ty_group'); }
           if(!F.TYPHOON_Y4) F.TYPHOON_Y4='phone'; } } }
     /* ---- 2-Y4-03 中秋：10/2 21:00 阿哲（麵店團；不在群組＝和阿哲 FAMILIAR 以上的私訊）→ 10/3 18:00；沒到 21:30 照片；美國路線 19:30 照片（可昕另外一句）；可昕沒見過麵店團＝22:00 私訊 ---- */

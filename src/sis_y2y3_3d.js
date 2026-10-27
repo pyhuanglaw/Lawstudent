@@ -75,7 +75,7 @@ const SISY23=(function(){
   S.bdayTalkDue=function(G,y){ const B=S.BDAY[y], d=B&&D(B.day); return d!=null&&G.day===d&&hh(G)>=18&&G.zone===B.zone&&G.flags[B.flag]==null&&!dating(G)&&S.ok(G,'FAMILIAR'); };
   S.bday=function(G){ const F=G.flags;
     for(const y in S.BDAY){ const B=S.BDAY[y], d=D(B.day); if(d==null) continue;
-      if(G.day>=d&&G.day<=d+1&&!sent(G,'sisy23_bday_kevin_'+y)&&law(G)&&inGrp(G,'family_law'))   /* 在家族群組就收得到（AA_470 5-2：群組大家都看得到，不看認不認識她；原本要 met_sis）*/
+      if(G.day>=d&&G.day<=d+1&&!sent(G,'sisy23_bday_kevin_'+y)&&law(G)&&!!F.met_sis&&inGrp(G,'family_law'))   /* 認識她就收得到 */
         PHONE.at(G,d,12+10/60,[{th:'g:family_law',from:'kevin',name:'Kevin',text:y==='y2'&&L.bdayKevin2?L.bdayKevin2:L.bdayKevin}],'sisy23_bday_kevin_'+y);   /* 2027 換句（AA_461 第 2 節）*/
       if(dating(G)&&F[B.flag]==null&&G.day>=d-1&&G.day<=d&&now(G)<T(d,19)&&!sent(G,'sisy23_bday_ask_'+y)&&S.ok(G,'FAMILIAR')&&contact(G,d-1))   /* 交往中：前一天 21:00 她約 */
         PHONE.at(G,d-1,21,L.bdayAsk.map(dm),'sisy23_bday_ask_'+y);

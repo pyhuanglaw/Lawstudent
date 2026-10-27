@@ -220,7 +220,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
         if(!await PG.advance(GM)) break; } }catch(e){ err=e; }
     return {G,err,stops,lines:H.cards.filter(c=>Y5LINES.has(c[1])).map(c=>c[1]),cards:H.cards.map(c=>c[0]+' '+c[1])}; };
   { const C=PG.CARDS_DELAY||[], t=(a,cond)=>{ const r=C.find(x=>x[0]===a&&!(x[4]&&x[4].common)&&(cond?x[2]({flags:{Y5_DAYS:cond,EXCHANGE_ROUTE:'JP'},stage:'law'}):true)); return r?r[3]:'?'; };   /* 三選一那句（共通的不算）*/
-    const L={us:'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',common:'（週二去法扶。其他的日子，一天和一天很像。）',end:'（大五上結束了。這一次，沒有期末考。）',nye:'（跨年那天晚上，你在家。煙火是從電視上看的。）',nyeDating:'（跨年那天晚上，你沒有在家。煙火很遠，她說這樣剛好。）'};   /* nyeDating：AA_471 第 7 節（企劃線 763993620），交往中的 2029 跨年 */
+    const L={us:'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',common:'（週二去法扶。其他的日子，一天和一天很像。）',end:'（大五上結束了。這一次，沒有期末考。）',nye:'（跨年那天晚上，你在家。煙火是從電視上看的。）'};
     const OCT={study:'（有一天，一個大一的跟你借延長線。他叫你學長。）',work:'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）',bar:'（刑法的書，書邊都翻黑了。）'};   /* 10/17～11/19 的三選一（AA_357 第 4 節原文）*/
     const exp=v=>[t('2029-09-04',v),t('2029-09-12',v),t('2029-09-23',v),OCT[v],t('2029-11-21',v),L.nye];   /* 停在 9/7 放榜群組、9/11 實習、9/20 中秋群組、9/22 照片、10/15 明軒、10/16、11/20 實習、12/14 放榜群組、12/18 最後一次實習、2030-01-21 證書。10/16 → 11/20 落在 10/17～11/19 以後＝三選一（AA_363 T3）*/
     const R={}; for(const [v,pick] of [['study','去總圖讀書'],['work','接家教'],['bar','在家準備國考']]) R[v]=await simY5({EXCHANGE_ROUTE:'JP'},null,pick);
@@ -228,8 +228,8 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G5. 模擬 日本路線 9/2 跳到 12/23（總圖／家教／國考各一輪）：每一次跳過的那一段出那一段的一句（三選一照 9/3 的選擇）；10/16 一跳到 11/20＝出 10/17～11/19 的三選一（借延長線／橘子／刑法的書邊），共通的不出（AA_363 T3）；12/18 最後一次實習有停、不重複；12/19～23 那句在這條路上被下一段蓋過（照現在）',
       !bad.length,bad.map(v=>v+'='+(R[v].err?R[v].err.stack:JSON.stringify(R[v].lines))).join('｜'));
     const U=await simY5({EXCHANGE_ROUTE:'US'},()=>{ H.FRIEND('kexin'); H.date('kexin'); },'接家教');
-    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),OCT.work,t('2029-11-21','work'),L.end,L.nyeDating];   /* 和可昕交往中：跨年那一句是交往中那一版（AA_471 第 7 節）。10/16 實習 → 10/17 週年（隔一天，沒有句子）→ 11/20：落在範圍以後＝三選一（AA_363 T3）*/
-    check('G5. 模擬 美國路線（和可昕交往、接家教）：第一次跳先出「週一、週三補修兩門課……」，下一次跳再出第一週那一句；10/17 → 11/20 出橘子那句（AA_363 T3）；可昕的學期末約會（12/21）有停、出「大五上結束了……」、跨年出交往中那一句（AA_471 第 7 節）',
+    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),OCT.work,t('2029-11-21','work'),L.end,L.nye];   /* 10/16 實習 → 10/17 週年（隔一天，沒有句子）→ 11/20：落在範圍以後＝三選一（AA_363 T3）*/
+    check('G5. 模擬 美國路線（和可昕交往、接家教）：第一次跳先出「週一、週三補修兩門課……」，下一次跳再出第一週那一句；10/17 → 11/20 出橘子那句（AA_363 T3）；可昕的學期末約會（12/21）有停、出「大五上結束了……」',
       !U.err&&JSON.stringify(U.lines)===JSON.stringify(ue)&&U.stops.some(s=>/^te_kx_Y5S1@2029-12-2[123]$/.test(s))&&PG.done(U.G,'y5_intern4'),(U.err?U.err.stack:'')+JSON.stringify(U.lines)+JSON.stringify(U.stops)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

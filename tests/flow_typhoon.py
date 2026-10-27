@@ -82,7 +82,7 @@ async def main():
         await tap_sel(pg, cdp, '#phoneBody [data-thback="1"]'); await pg.wait_for_timeout(700)
         await tap_sel(pg, cdp, '#phoneBody [data-th="g:noodle_team"]'); await pg.wait_for_timeout(900)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
-        lines = ['四十二頁 颱風比較仁慈', '我讀完第一頁了。第一頁是目錄。', '我讀到第十二頁。', '……你是颱風嗎？']
+        lines = ['四十二頁。颱風比較仁慈。', '我讀完第一頁了。第一頁是目錄。', '我讀到第十二頁。', '……你是颱風嗎？']
         pos = [txt.find(t) for t in lines]
         btns = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>b.textContent)")
         await run.shot(pg, 'A_group')

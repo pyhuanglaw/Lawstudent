@@ -134,7 +134,7 @@ await sec('2 SQ05',async()=>{ fresh('2027-10-04',12,'l118_noodle2'); know('六�
   set('2027-10-06',12); const closed=!L118.isOpen('noodle2',H.G); H.said=[]; H.opts=[]; await L118.order(GM,'noodle2');
   check('2. SQ05 公休那兩週：關門；去點餐＝門上那張紙「本店公休至10月18日。」',closed&&H.said.length===1&&H.said[0].t==='「本店公休至10月18日。」'&&!H.opts.length);
   set('2027-10-05',20.5); ph(); const m=(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team').map(x=>x.text);
-  check('2. SQ05 答應那天 21:00 阿哲揪簽卡片（三則）；開刀那天 20:00 阿哲傳病床的照片「老闆說，這個沒有他煮的好吃」（AA_408）',J(m)===J(['六張犁的老闆要去開膝蓋！','我買了一張卡片，明天中午霖澤館一樓，大家來簽','我帶彩色筆','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）','老闆說，這個沒有他煮的好吃'])&&(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team').every(x=>x.from==='zhe'||x.from==='yu'),J(m));
+  check('2. SQ05 答應那天 21:00 阿哲揪簽卡片（三則）；開刀那天 20:00 阿哲傳病床的照片「老闆說，這個沒有他煮的好吃。」（AA_408）',J(m)===J(['六張犁的老闆要去開膝蓋！','我買了一張卡片，明天中午霖澤館一樓，大家來簽。','我帶彩色筆','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）','老闆說，這個沒有他煮的好吃。'])&&(H.G.msgs||[]).filter(x=>x.th==='g:noodle_team').every(x=>x.from==='zhe'||x.from==='yu'),J(m));
   set('2027-10-19',12); const op=L118.isOpen('noodle2',H.G); money=[]; await shop('六張犁麵舖',[0],{item:'大碗',price:90});
   check('2. SQ05 重新開店：「大碗加蛋。……今天不收錢。」、退錢；做完',op&&has('大碗加蛋。……今天不收錢。')&&J(money)===J([90])&&R('SQ05').state==='done');
   set('2027-10-20',12); await shop('六張犁麵舖',[0]); check('2. SQ05 痕跡（有阿哲的）：（卡片貼在煮麵台旁邊的牆上。）',has('（卡片貼在煮麵台旁邊的牆上。）'));

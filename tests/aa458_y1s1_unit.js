@@ -190,7 +190,7 @@ await sec(4,()=>{
   const all=['2026-10-19','2027-10-13','2028-09-18'].map(k=>{ const t=D(k); fresh(t-1,20,{}); PHONE.join(H.G,'home','家人'); at(t,9); hr(); return famNew().map(x=>[keyOf(x.day),x.w,Math.round(x.h*100)/100]); });
   check('4-2. 每一個法律系的颱風假（大二 2026-10-19、大三 2027-10-13、大四 2028-09-18）前一晚都傳（睡過了隔天補在原本的時間）',all.every((L,i)=>J(L)===J([[keyOf(D(['2026-10-19','2027-10-13','2028-09-18'][i])-1),'媽媽',20.75],[keyOf(D(['2026-10-19','2027-10-13','2028-09-18'][i])-1),'爸爸',21]])),J(all));
   fresh(E,21.6,NEW); PHONE.join(H.G,'home','家人'); PHONE.join(H.G,'noodle_team','麵店團'); PHONE.rec(H.G).groups.noodle_team.day=E-10; STORY.phoneRules(GM); PHONE.tick(H.G);
-  check('4-2. 大一上這一晚的新聞、張教授的信、麵店團「四十二頁」照舊',byTag('ty1_news').length===1&&byTag('ty1_mail').length===1&&byTag('ty1_g1').some(m=>m.text==='四十二頁 颱風比較仁慈')&&byTag('home_ty_'+E).length===1);
+  check('4-2. 大一上這一晚的新聞、張教授的信、麵店團「四十二頁」照舊',byTag('ty1_news').length===1&&byTag('ty1_mail').length===1&&byTag('ty1_g1').some(m=>m.text==='四十二頁。颱風比較仁慈。')&&byTag('home_ty_'+E).length===1);
   fresh(D('2026-09-25'),21.05,{}); PHONE.join(H.G,'home','家人'); hr();
   const y2=famNew().length; fresh(D('2029-09-22'),21.05,{}); PHONE.join(H.G,'home','家人'); hr(); const pg=famNew().length;
   check('4-1. 在學的每年中秋都照這個（大二 2026-09-25 也有；子代理判斷：稿 4-1 的「住家裡」條件大一以後才用得到）；畢業以後（2029-09-22）不發',y2===3&&pg===0,J([y2,pg]));

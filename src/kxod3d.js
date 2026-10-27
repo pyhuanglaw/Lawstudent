@@ -31,7 +31,7 @@ const KXOD=(function(){
   /* 地點（同大一下 story3d.js 那一段）：[odPlace（事件的地點字幕）, 出遊地點, 標題, 車程, 車程（小時）] */
   S.PLACE={nccu:['nccu','政大・山下的小吃街','我們的日子：開車去政大','開車約 30 分鐘',0.5],ntu:['ntu','社科院門口','我們的日子：她來台大','走過去約 10 分鐘',1/6],video:['video','視訊','我們的日子：視訊','',0]};
   S.MID=[['gongguan','公館','我們的日子：約在公館','騎車約 10 分鐘',1/6],['wenzhou','溫州街','我們的日子：溫州街','走過去約 10 分鐘',1/6],['river','河濱','我們的日子：河濱','騎車約 15 分鐘',0.25]];
-  S.on=G=>law(G)&&!!G.flags&&G.flags.dating_kexin===true&&!!G.flags.KX_OUR_DAY&&typeof G.flags.KX_OUR_DAY==='object'&&!!S.WD[G.flags.KX_OUR_DAY.day]&&!(typeof MREL!=='undefined'&&MREL.kxOdPaused&&MREL.kxOdPaused(G));   /* 可昕收回以後回 B＝我們的日子暫停（AA_474 第 3 節，multirel3d.js）*/
+  S.on=G=>law(G)&&!!G.flags&&G.flags.dating_kexin===true&&!!G.flags.KX_OUR_DAY&&typeof G.flags.KX_OUR_DAY==='object'&&!!S.WD[G.flags.KX_OUR_DAY.day];
   const route=G=>STORY.route?STORY.route(G):null;
   S.jp=(G,term)=>term==='Y3S2'&&route(G)==='JP';
   S.us=(G,term)=>term==='Y4S1'&&route(G)==='US';

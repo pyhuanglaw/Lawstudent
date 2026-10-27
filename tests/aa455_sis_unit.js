@@ -53,7 +53,7 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. index.html：data/sis_b11_events.js → sis_b11_3d.js 接在一起，在 y34b3d.js（M9）、sis_b10_3d.js、semff3d.js 後面、GAME.boot() 前面',/src\/data\/sis_b11_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b11_3d\.js\?v=[^"]+"><\/script>/.test(html)&&at('src/sis_b11_3d.js')>at('src/y34b3d.js')&&at('src/sis_b11_3d.js')>at('src/sis_b10_3d.js')&&at('src/sis_b11_3d.js')>at('src/semff3d.js')&&at('src/sis_b11_3d.js')<at('<script>GAME.boot();</script>'));
   check('0. 兩場都在 STORY_EVENTS（ev_sis_abstract 出遊、ev_sis_defense_date 遇到就演）',['ev_sis_abstract','ev_sis_defense_date'].every(id=>STORY_EVENTS.some(e=>e.id===id))&&STORY_EVENTS.find(e=>e.id==='ev_sis_abstract').trigger==='outing');
   const all=J(SISB11_EVENTS)+J(SISB11_LINES), q=[...all.matchAll(/"(?:text|t|r)":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB11_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['（樓下的自助餐。她付錢的時候，摘要的資料夾一直夾在手臂下面。）'].includes(t));   /* AA_470 4-4（企劃線 5f54b6545）加的一句旁白，對字在 tests/aa470_sis_b12_unit.js */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0);
   check('0. 每一句台詞、旁白、選項、私訊都在稿裡（一字不差）',!!doc&&q.length>30&&!notIn.length,J(notIn));
   const body=doc.slice(doc.indexOf('## 1.'),doc.indexOf('## 3.')), lines=[...body.matchAll(/(?:學姊|旁白)：([^\n]+)/g)].map(m=>m[1].trim()), mine=new Set(q.map(t=>t.replace(/^「|」$/g,'')));
   const lost=lines.filter(t=>!mine.has(t));

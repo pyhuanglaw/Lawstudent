@@ -6,8 +6,7 @@
      days：起訖（'MM-DD'）、wd（每週固定的星期，0＝日）、slot（am／pm／eve／day／night）、place（{kind:'taipei'|'domestic'|'abroad', name}）、
      cost（{payer:'family'|'self'|'none'}）、free（期間能不能自由操作：yes／partial／no）、
      signup：怎麼報名（phone＝手機邀約、ask 的選項；until＝最後報名日 'MM-DD'）、
-     keys：關鍵事件 [{day:'MM-DD', h, place, bg, lines:[…], choice}]（其他日子寫進日誌）；hall:true＝出國那一趟進 3D 出境大廳就演（E08，AA_478 第 2 節）；hallLines：進大廳演一次的幾句（T03，AA_478 第 3 節）、
-     fly：登機以後的「飛往〇〇」字卡（檔尾，AA_478 第 1 節）、
+     keys：關鍵事件 [{day:'MM-DD', h, place, bg, lines:[…], choice}]（其他日子寫進日誌）、
      trip：連續好幾天人不在（整段當一趟出遊：出發 → 中間的關鍵事件 → 回來）、
      miss：沒參加的那一則（時間、誰、訊息）。
    第二批（C16～C18，AA_242 第 9～11 節 ede67b34）多的欄位：work（連續數週的平日上班：{h0,h1,travel,travelH}，每個平日一趟）、pay（實習津貼：{hourly,hours}，照去了的天數）、
@@ -165,7 +164,7 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'kai',text:'OK 我帶伴手禮'}]} },
       trip:{ start:{day:'08-24',h:6}, end:{day:'08-28',h:18}, placeName:'日本', travel:'機場', home:'auto' },
       keys:[
-        {day:'08-24',h:6,title:'出發',bg:null,hall:true,lines:[{narr:'（早上六點的機場。阿凱的背包比行李箱還大。）'},{who:'kai',text:'裡面是空的。回來會滿。'}]},   /* hall：進 3D 出境大廳就演（AA_478 第 2 節）*/
+        {day:'08-24',h:6,title:'出發',bg:null,lines:[{narr:'（早上六點的機場。阿凱的背包比行李箱還大。）'},{who:'kai',text:'裡面是空的。回來會滿。'}]},
         {day:'08-25',h:14,title:'秋葉原',bg:'jp_street_night',lines:[{narr:'（二手遊戲店的樓梯很窄。一層一層往上，每一層賣的東西都比下面那層舊。）'},{who:'kai',text:'（在玻璃櫃前面停下來）這台。'},{who:'kai',text:'我國小的時候想要。我媽說考第一名才買。'},{who:'kai',text:'我沒考第一名。'}],
           choice:[{t:'「現在買給自己。」',say:[{who:'kai',text:'……對。'},{narr:'（他把店員叫過來。）'}]},{t:'「多少錢？」',say:[{who:'kai',text:'（看了一下標籤）……我再想一下。走到下一層再決定。'},{narr:'（走到下一層，他又走回來了。）'}]}],
           after:[{narr:'（之後他的背包裡多了一個盒子。）'}]},
@@ -184,7 +183,7 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'npc_fangyt',text:'好。有拍到樹，再給你看。'}]} },
       trip:{ start:{day:'08-01',h:5}, end:{day:'08-04',h:20}, placeName:'日本的山', home:'auto' }, back:{},
       keys:[
-        {day:'08-01',h:5,title:'出發',bg:null,hall:true,lines:[{narr:'（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）'},{who:'npc_fangyt',text:'山上這幾天有霧。'},{who:'npc_fangyt',text:'……霧裡的樹比較好看。'}]},   /* hall：進 3D 出境大廳就演（AA_478 第 2 節）；方奕廷兩句接在水壺旁白後面（AA_478 第 3 節）*/
+        {day:'08-01',h:5,title:'出發',bg:null,lines:[{narr:'（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）'}]},
         {day:'08-02',h:10,title:'山上第一天',bg:null,lines:[{narr:'（步道上的霧很濃。方奕廷走在最前面，每隔一段就停下來看一棵樹。）'},{who:'npc_fangyt',text:'這棵，台灣沒有。'}]},
         {day:'08-02',h:21,title:'山屋那晚',bg:null,lines:[{narr:'（山屋的燈九點就關了。黑暗裡有人在打呼。）'},{who:'npc_fangyt',text:'（小聲）明天四點起來，看日出。'}]},
         {day:'08-03',h:20,title:'下山那晚',bg:'trip_jp_onsen',lines:[{narr:'（溫泉街的燈籠一路亮到坡底。）'},{who:'npc_fangyt',text:'這座山還有一條路沒走。'}]} ],
@@ -198,7 +197,6 @@ const VAC_DATA=(function(){
         no:{t:'這次不行。',say:[{from:'heroine_04',text:'好吧 帶東西給你'}]} },
       alt:{day:'07-05',h:21,who:'heroine_04',min:'FAMILIAR',if:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP',msgs:['📷（遊戲展的入口）','你不在 好可惜']},
       trip:{ start:{day:'07-03',h:8}, end:{day:'07-07',h:18}, placeName:'曼谷', home:'auto' }, back:{},
-      hallLines:[{who:'heroine_04',text:'我在飛機上要睡覺。到了再叫我。'},{who:'kai',text:'遊戲展第一天要排隊。……我查過了，九點開門。'}],   /* 進 3D 出境大廳演一次、不用選項（AA_478 第 3 節；src/vac3d.js S.hallKeys）*/
       keys:[
         {day:'07-04',h:14,title:'遊戲展',bg:null,lines:[{narr:'（展場很小，攤位一個挨著一個。子晴在一個攤位前站了二十分鐘，一直玩同一關。）'},{who:'heroine_04',text:'這關設計得很爛。……可是我停不下來。'}]},
         {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'}]},
@@ -219,7 +217,7 @@ const VAC_DATA=(function(){
       depart:{zhe:'記得吃炸雞',yu:'幫我看有沒有好看的筆'}, back:{},
       trip:{ start:{day:'07-13',h:8}, end:{day:'07-24',h:18}, placeName:'首爾', home:'auto' },
       keys:[
-        {day:'07-13',h:8,title:'出發',bg:'airport_departure',hall:true,lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},   /* hall：進 3D 出境大廳就演，大廳就是那個地方（AA_478 第 2 節；bg 只剩沒有 3D 機場的時候用）*/
+        {day:'07-13',h:8,title:'出發',bg:'airport_departure',lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},
         {day:'07-13',h:19,title:'歡迎晚會',bg:'intl_seoul_dinner',lines:[{narr:'（長桌上擺了一整排小菜。對面的女生拿起一個小碟子，放到你前面。）'},{who:'npc_jieun',name:'智恩',text:'這個，不辣。我試過。'},{who:'npc_jieun',name:'智恩',text:'你是……法律？'}],
           choice:[{t:'「對，法律系。」',say:[{who:'npc_jieun',name:'智恩',text:'我的朋友說，法律系的人，很會吵架。'},{narr:'（她說完自己笑了。）'}]},{t:'「妳中文好好。」',say:[{who:'npc_jieun',name:'智恩',text:'我學三年了。……可是你們說話太快。'}]}]},
         {day:'07-18',h:14,title:'傳統市場',bg:'intl_seoul_market',lines:[{narr:'（市場很窄，兩邊的攤位往中間擠。智恩走在前面，每到一個攤位就回頭講一句。）'},{who:'npc_jieun',name:'智恩',text:'這個是做年糕的。那個是賣魚的。那個……我也不知道。'},{who:'npc_jieun',name:'智恩',text:'（問了老闆）她說是她媽媽做的醬。賣了四十年。'}],
@@ -273,7 +271,7 @@ const VAC_DATA=(function(){
       depart:{zhe:'你要去六個禮拜喔？？',yu:'時差多少'}, back:{},
       trip:{ start:{day:'06-21',h:7}, end:{day:'07-31',h:20}, placeName:'加州', home:'auto', missWeek:3, videoWd:0, videoH:10 },
       keys:[
-        {day:'06-21',h:7,title:'抵達',bg:'us_airport',lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},   /* AA_478 第 2 節：留在下飛機以後（「出發」改「抵達」；背景＝美國路線的機場大廳 us_airport，原本是出境的 airport_departure）。順序：飛往美國字卡 → 抵達 → 6/23 第一堂課 */
+        {day:'06-21',h:7,title:'出發',bg:'airport_departure',lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},
         {day:'06-23',h:9,title:'第一堂課',bg:'intl_ca_classroom',lines:[{narr:'（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
           choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
         {day:'07-02',h:10,title:'第一次報告',bg:'intl_ca_classroom',lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
@@ -546,14 +544,5 @@ const VAC_DATA=(function(){
     /* va11_exam_yt：雙主修筆試 6/18 考完那天傍晚（AA_313 4-4，原本 6/19 中午）；收過這則的人，期末飯她只說「成績單七月三號才寄。」（termend_lines.js POOL.Y1S2）*/
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
-  /* ===== 登機以後的「飛往〇〇」字卡（AA_478 第 1 節、1-1，企劃線 f1afaf4f1）：E08 3D 出境大廳「登機」（或一小時以後自動登機）以後、第一張日期卡以前出（src/vac3d.js S.flyCard），
-     格式同日本路線的 GM.titleCard('飛往日本','關西　約 3 小時')：[第一行, 第二行]，第二行地名和「約」中間是全形空白。
-     T02 的稿子沒寫到哪一座山、飛哪一個機場：第二行只寫時間，不編地名。C13（手機自己排的出國旅遊）照目的地：TRAVEL.dest 的 fly；和女朋友、朋友一起去的字卡一樣 */
-  const FLY={ C05:['飛往日本','東京　約 3 小時'], T02:['飛往日本','約 3 小時'], T03:['飛往泰國','曼谷　約 4 小時'], C08:['飛往韓國','首爾　約 2 小時半'], C09:['飛往柬埔寨','約 4 小時'],
-    C10:['飛往美國','加州　約 12 小時'], C11:['飛往日本','東京　約 3 小時'], C12:['飛往日本','關西　約 3 小時'], C18:['飛往新加坡','約 4 小時半'], C18W:['飛往新加坡','約 4 小時半'] };
-  for(const id in FLY) if(A[id]) A[id].fly=FLY[id];
-  const FLY13={ jp:['飛往日本','東京　約 3 小時'], kr:['飛往韓國','首爾　約 2 小時半'], th:['飛往泰國','曼谷　約 4 小時'], vn:['飛往越南','河內　約 3 小時'], hk:['飛往香港','約 1 小時半'], eu:['飛往歐洲','約 14 小時'], us:['飛往美國','約 12 小時'] };
-  for(const k in FLY13) if(TRAVEL.dest[k]) TRAVEL.dest[k].fly=FLY13[k];
-  VA10.fly=['飛往香港','約 1 小時半'];
   return {A,MSGS,TRIP_MSG,TRAVEL,C01,VA09,VA10,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12；ede67b34 第 9～11 節：C16～C18；56a36a4d 第 12 節：C16～C18 的裁定與補字）'};
 })();

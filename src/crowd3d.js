@@ -136,88 +136,6 @@ const CROWD=(function(){
     const pts=[[from[0],from[1]]].concat(path.map(q=>[q[0],q[1]])); let len=0; for(let i=1;i<pts.length;i++) len+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);
     return {pts,len,viaB,to:P.aOut}; };
   S.SPOTS.push(...S.parkSpots());
-  /* ===== 體育館三層的人（GYM-CROWD-1027；使用者 2026-10-27「然後體育館最詭異的是不管哪裡都沒有人」）=====
-     開館時間照 gym3d.js（平日 08:00～22:00、週六 09:00～22:00、週日 09:00～18:00、每月第四個星期一休館；國定假日、寒暑假照開、人少一點）：
-     - 1F 大廳：服務台的工讀生、走過大廳的人（大廳 ⇄ 球場兩側的開口、樓梯口）、長椅坐一個；
-       1F 球場：兩面羽球場有人打球（平日 12:00 起、週末 09:00～17:00；中間那面留給玩家的「打羽球」、中圈留給體育課）；
-       玩家自己的體育課（課表的體育課，門口 gym）上課中：中圈北邊一位體育老師（名字＝課堂上的稱呼）面向一排同學（6 個）。
-     - B1：服務櫃台後面的櫃台阿姨（「去健身房」那幾句是她說的：gym3d.js 的 SAY_DESK）；跑步機上原地跑、深蹲架、啞鈴架前站著、重訓椅上坐著、墊子上拉筋。
-     - 3F 主球場：北邊的籃框半場有人打球（跑一段、停一下、面向籃框）、場邊站著休息聊天；典禮的日子（gym3d.js ceremonyDay：開學、畢業典禮的布置打開）不打球。
-     人數照時段（午休、傍晚以後、週末多；早上、寒暑假、國定假日少），一層最多約 12 個完整人物（手機效能：教室 16 個的同一個量級；人數固定，不乘 CROWD_X）。
-     玩家的劇情場景不站人：服務台、販賣機、直飲台前面、中圈「體育課集合」、中間那面羽球場的「打羽球」、進門的地方（羽球邀約的朋友在那裡等）、B1 櫃台前面、3F 入口通道。
-     同一天同一時段同一批人（日期＋時段當種子，D55）；沒有名字、不能搭話。測試：node tests/gym_crowd_unit.js */
-  S.gymHours=G=>{ if(typeof CALENDAR==='undefined') return null; const d=CALENDAR.dateOf(G.day); if(d.wd===1&&d.d>=22&&d.d<=28) return null; return d.wd===7?[9,18]:(d.wd===6?[9,22]:[8,22]); };   /* 第四個星期一休館（和 gym3d.js 的 fourthMonday 同一個判斷）*/
-  S.gymSpots=function(){ const L=typeof GYM_LAYOUT!=='undefined'?GYM_LAYOUT:null; if(!L||!L.b1||!L.arena) return [];
-    const quiet=G=>typeof CALENDAR!=='undefined'&&CALENDAR.kind(G.day)!=='term', wk=G=>typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
-    const specs=(r,n,ix)=>{ const base=3000+(ix|0)*200+Math.floor(r()*90)*2; return Array.from({length:n},(_,k)=>base+k*2+(r()<0.5?1:0)); };   /* 路人編號（偶數＝女生）：每一群一段，同一層不會撞到同一個人 */
-    const cnt=(r,slot)=>slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1));
-    const mk=(sp,slot,k,o)=>Object.assign({key:sp.id+'|'+slot.key+'|'+k,pose:'idle',yaw:0},o);
-    const face=(p,q)=>+Math.atan2(q[0]-p[0],q[1]-p[1]).toFixed(4);
-    const shuffle=(a,r)=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
-    /* 一天分幾段（每段一群人；段落交界時這一群走掉、下一群走進來）：busy＝[早上, 午休, 下午, 傍晚以後] 的人數範圍 */
-    const daySlots=(G,busy,from,to)=>{ const H=S.gymHours(G); if(!H) return []; const a=Math.max(H[0],from==null?H[0]:from), b=Math.min(H[1],to==null?H[1]:to); if(b<=a) return [];
-      const q=quiet(G)||(typeof CALENDAR!=='undefined'&&!!CALENDAR.holiday(G.day)), w=wk(G); const cuts=[[a,12,0],[12,14,1],[14,17.5,2],[17.5,b,3]];
-      return cuts.map(([t0,t1,i])=>({t0:Math.max(t0,a),t1:Math.min(t1,b),i})).filter(c=>c.t1-c.t0>0.05).map(c=>{ let n=busy[c.i].slice(); if(w) n=[Math.max(n[0],busy[3][0]-1),Math.max(n[1],busy[3][1]-1)]; if(q) n=[Math.max(0,n[0]-1),Math.max(1,n[1]-1)];
-        return {key:'g'+c.i,t0:c.t0,t1:c.t1,n,fixed:true,pose:'idle',talk:0,enter:'door',leave:'door'}; }); };
-    let IX=0; const mkSpot=(id,zone,c,door,people,slots,extra)=>Object.assign({id:'gym_'+id,zone,label:'體育館',gym:id,ix:IX++,c,spread:[1,1],door,road:door,people,slots,fidget:true},extra||{});   /* fidget：站著的人（器材旁、場邊、體育課的同學）也有小動作 */
-    const D1=[0,17.9], DB=[18,7.6], DA=[0,24.8];   /* 進出的地方：1F 大門、B1 上樓的樓梯、3F 入口通道 */
-    const B=L.b1, A=L.arena, eq=n=>(B.equipment.find(e=>e.node===n)||{at:[]}).at;
-    /* ---- 1F 大廳 ---- */
-    const WALK=[[[-2.8,16.4],[-9.8,13.4],[-10,9.4],[-10.4,5.6],[-10,9.4],[-9.8,13.4]],[[3.2,16.6],[9.8,13.2],[10,9.4],[13.2,6.6],[10,9.4],[9.8,13.2]],[[-3.6,14.2],[-13.8,14.2],[-15.2,16.4],[-13.8,14.2],[3.6,14.0],[14.0,14.0],[15.0,16.6],[14.0,14.0]]];
-    const lobby=mkSpot('lobby','gym',[0,15],D1,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
-        out.push(mk(this,slot,0,{x:11,z:16.45,yaw:Math.PI,spec:sp[0],role:'desk_1f',fixed:true}));   /* 服務台後面的工讀生（面向大廳）*/
-        const rs=shuffle(WALK,r); for(let k=1;k<n;k++){ const w=rs[(k-1)%rs.length], i=Math.floor(r()*w.length); out.push(mk(this,slot,k,{x:w[i][0],z:w[i][1],spec:sp[k],role:'walker',beh:'route',waypoints:w.map(q=>[q[0],q[1],0]),ri:i,walkSpeed:1.1+r()*0.3})); }
-        if(n>=3) out.push(mk(this,slot,n,{x:-5.4,z:15.34,yaw:Math.PI,spec:sp[n],role:'bench',seat:{x:-5.4,z:15.34,yaw:Math.PI}}));   /* 長椅坐一個（另外三個位子留給玩家）*/
-        return out; },G=>daySlots(G,[[2,3],[3,4],[2,4],[3,5]]));
-    /* ---- 1F 球場：羽球（兩面，跑一段停一下、停下來面向網子）---- */
-    const COURTS=[[-8.6,-11.2],[8.6,3.2],[8.6,-11.2]];
-    const court=mkSpot('court','gym',[0,-4],D1,function(G,slot,r){ const nc=Math.min(COURTS.length,Math.max(1,Math.round(cnt(r,slot)/2))), sp=specs(r,nc*2,this.ix), out=[];
-        for(let c=0;c<nc;c++){ const [cx,cz]=COURTS[c]; for(const sd of [-1,1]){ const k=out.length, z0=cz+sd*3.0, wp=[[cx-1.2,z0+sd*0.5],[cx+1.1,z0-sd*0.6],[cx+0.5,z0+sd*1.4],[cx-0.8,z0-sd*0.9]].map(q=>[+q[0].toFixed(2),+q[1].toFixed(2),0]);
-          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'badminton',beh:'route',waypoints:wp,ri:Math.floor(r()*wp.length),walkSpeed:2.6,run:true,pauseAt:true,faceYaw:face([cx,z0],[cx,cz])})); } }
-        return out; },G=>{ const w=wk(G); return daySlots(G,[[0,0],[2,4],[2,4],[4,6]],w?9:12,w?17:21).filter(s=>s.n[1]>0); });
-    /* ---- 1F 球場：體育課（玩家自己的體育課上課中）---- */
-    const pe=mkSpot('pe','gym',[0,-6],D1,function(G,slot,r){ const sp=specs(r,7,this.ix), out=[]; const c=slot.course;
-        out.push(mk(this,slot,0,{x:0,z:-7.9,yaw:0,spec:Object.assign({},(typeof CLS!=='undefined'&&CLS.teacherSpec&&c)?CLS.teacherSpec(c):STORY.extraSpec(sp[0])),role:'pe_teacher',name:(typeof CLS!=='undefined'&&CLS.teacherName&&c)?CLS.teacherName(c):'體育老師',rawSpec:true}));
-        [-4.2,-3.0,-1.8,1.8,3.0,4.2].forEach((x,k)=>out.push(mk(this,slot,k+1,{x,z:-6.0+(k%2?0.25:0),yaw:Math.PI,spec:sp[k+1],role:'pe_student',pose:k%3===1?'talk':'idle'})));
-        return out; },G=>{ if(typeof CLS==='undefined'||!CLS.dayItems) return []; return CLS.dayItems(G).filter(it=>it.room&&it.room.door==='gym').map(it=>({key:'pe|'+it.key,t0:it.t0-0.5,t1:it.t1,n:[7,7],fixed:true,pose:'idle',talk:0,enter:'door',leave:'door',course:it.c})); });
-    /* ---- B1 ---- */
-    const TM=eq('GYM_TREADMILL'), SQ=eq('GYM_SQUAT_RACK'), DBR=eq('GYM_DB_RACK'), BN=eq('GYM_BENCH'), MAT=eq('GYM_MAT');
-    const fit=[].concat(TM.filter((q,i)=>i%2===0).map(q=>({x:q[0],z:12.2,y:0.18,yaw:0,pose:'run',idlePose:'run',fixed:true,role:'treadmill'})),   /* 跑步機上原地跑（皮帶 0.18 m 高）*/
-      SQ.map(q=>({x:q[0],z:+(q[1]-1.2).toFixed(2),yaw:0,role:'rack'})), DBR.map(q=>({x:+(q[0]-0.5).toFixed(2),z:+(q[1]-1.0).toFixed(2),yaw:0,role:'dumbbell'})),
-      BN.slice(1,2).map(q=>({x:q[0],z:q[1],yaw:Math.PI/2,role:'bench',seat:{x:q[0],z:q[1],yaw:Math.PI/2}})), MAT.slice(0,2).map(q=>({x:q[0],z:q[1],yaw:0,role:'mat',pose:'talk'})));
-    const b1=mkSpot('b1','gym_b1',[-6,9],DB,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n+1,this.ix), out=[];
-        out.push(mk(this,slot,0,{x:B.desk.staff.x,z:B.desk.staff.z,yaw:0,spec:sp[0]&~1,role:'desk_b1',name:'櫃台阿姨',fixed:true}));   /* 櫃台後面，面向客人（偶數＝女生）*/
-        const pick=shuffle(fit,r).slice(0,n); pick.forEach((q,k)=>out.push(mk(this,slot,k+1,Object.assign({spec:sp[k+1]},q))));
-        return out; },G=>daySlots(G,[[2,3],[3,4],[2,4],[4,6]]));
-    /* ---- 3F 主球場 ---- */
-    const HOOP=A.court&&A.court.hoops?A.court.hoops[0]:[0,-14.43];
-    const arena=mkSpot('arena','gym_arena',[0,-10],DA,function(G,slot,r){ const n=cnt(r,slot), sp=specs(r,n,this.ix), out=[], np=Math.max(2,n-2);
-        for(let k=0;k<np;k++){ const wp=shuffle([[-4.2,-12.2],[4.0,-12.6],[-2.2,-8.4],[2.4,-8.2],[0,-10.6],[-5.0,-9.2],[5.2,-9.6],[0.8,-12.8]],r).slice(0,4).map(q=>[q[0],q[1],0]);
-          out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
-        const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
-        return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
-    for(const sp of [lobby,court,pe,b1,arena]) sp.bind=S.gymBind;
-    return [lobby,court,pe,b1,arena]; };
-  /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
-     每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
-     散步的人、1F 長椅上的人沒有句子（AA 沒寫）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。*/
-  S.GYM_HEAR={ desk_1f:{who:'工讀生',L:['學生證給我刷一下。','羽球場現場的只剩晚上那一面，要的話先登記。']},
-    badminton:{who:'打球的人',L:['剛剛那顆是界內吧？','再一局就好，我十點有課。']},
-    pe_student:{who:'同學',L:['老師說期末要考發球。','我的拍線斷了，誰有多一支？']},
-    pe_teacher:{who:'老師',L:['熱身兩圈，跑完到網子這邊集合。']},
-    desk_b1:{who:'櫃台阿姨',L:['毛巾自己帶，器材用完擦一下。']},
-    fit:{who:'運動的人',L:['你還要用嗎？我輪一組。','今天練腿。明天走樓梯會很好笑。']},
-    basketball:{who:'打球的人',L:['三對三，輸的下場。','傳球啦！']},
-    rest:{who:'看球的人',L:['我們系明天比賽，先來看場地。']} };
-  S.gymHearKind=(spot,role)=>spot&&spot.gym==='b1'&&['treadmill','rack','dumbbell','bench','mat'].includes(role)?'fit':(spot&&spot.gym==='lobby'&&role!=='desk_1f'?null:role);
-  let gymVisit=null;
-  S.gymBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n) return; const k=S.gymHearKind(this,p&&p.role), H=k&&S.GYM_HEAR[k]; if(!H) return;
-    const vk=(GM.enterN|0)+':'+G.zone; if(!gymVisit||gymVisit.key!==vk) gymVisit={key:vk,used:{},start:{}};
-    const F=G.flags||(G.flags={}), R=F.gymHear||(F.gymHear={}); if(gymVisit.start[k]==null){ gymVisit.start[k]=R[k]|0; R[k]=((R[k]|0)+1)%H.L.length; }   /* 這一次從第幾句開始；下一次從下一句 */
-    const u=gymVisit.used[k]|0; if(u>=H.L.length) return; gymVisit.used[k]=u+1;
-    const t=H.L[(gymVisit.start[k]+u)%H.L.length], who=k==='pe_teacher'&&n.name?n.name:(k==='desk_b1'&&n.name?n.name:H.who);
-    n.hear={who,t}; n.talkLabel='聽一句'; n.talk=()=>S.overhear(GM,n,[{who,t}]); };
-  S.SPOTS.push(...S.gymSpots());
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定（spot.people：每個人的位置由那個地點自己排，小公園）*/
   S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); if(spot.people) return spot.people(G,slot,r); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*(slot.fixed?1:((typeof STORY!=='undefined'&&STORY.CROWD_X)||1)));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）；fixed：攤位的社員這種固定人數的不加倍 */ const out=[]; const base=1000+Math.floor(r()*500);
@@ -245,13 +163,11 @@ const CROWD=(function(){
   function spawnPeople(GM,spot,slot,fromDoor){ const E=GM.E, G=GM.G, lv=spot.lv|0, npcs=[]; const grp=S.group(G,spot,slot); const route=slot.pass?S.passRoute(E,spot):null;
     grp.forEach((p,k)=>{ const st=p.seat||null; let d=0;
       if(p.pass){ if(!route) return; d=passD(GM,slot,p,k,fromDoor); if(d>=route.len) return; }   /* 已經走過去了 */
-      else if(st){ if(!S.seatSide(E,st)) return; } else if(!p.fixed&&!E.canStand(p.x,p.z,0.3,lv)) return;   /* fixed：照位置放（跑步機上、櫃台後面：導航擋住的地方，人不走動）*/
-      const spec=p.rawSpec?Object.assign({},p.spec):STORY.extraSpec(p.spec); if(p.height) spec.height=p.height; if(st&&st.surf!=null) st.lift=Math.max(0,+(st.surf-0.47*(spec.height||1.7)/1.75).toFixed(3));   /* 鞦韆：坐姿的屁股（身高 1.75 m＝0.47 m）抬到座面 */
+      else if(st){ if(!S.seatSide(E,st)) return; } else if(!E.canStand(p.x,p.z,0.3,lv)) return;
+      const spec=STORY.extraSpec(p.spec); if(p.height) spec.height=p.height; if(st&&st.surf!=null) st.lift=Math.max(0,+(st.surf-0.47*(spec.height||1.7)/1.75).toFixed(3));   /* 鞦韆：坐姿的屁股（身高 1.75 m＝0.47 m）抬到座面 */
       const o=CHAR.build(spec); const start=fromDoor&&!p.pass?spot.door:(st?[st.x,st.z]:[p.x,p.z]); o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw||0;
-      const n=E.addNPC({obj:o,name:p.name||'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,crowd:spot.id,crowdSpot:spot.id,crowdKey:p.key,crowdRole:p.role,frozen:true,walkSpeed:p.walkSpeed||1.15,lv});
-      const settle=()=>{ if(st){ sitNPC(GM,n,st); return; } if(p.beh){ n.beh=p.beh; n.waypoints=p.waypoints; n.ri=p.ri|0; n.pauseAt=!!p.pauseAt; n.run=!!p.run; n.frozen=false; n.pose=n.idlePose=p.pose||'idle'; n.timer=0; if(p.faceYaw!=null) n.faceYaw=p.faceYaw; return; }   /* run：跑步（打球）；pauseAt：每一段跑完停 1～4 秒；faceYaw：停下來面向網子、籃框 */
-        if(p.fixed){ n.fixedPos=true; if(E.placeAt) E.placeAt(n,p.x,p.z,lv); else n.obj.position.set(p.x,0,p.z); if(p.y) n.obj.position.y+=p.y; }   /* 跑步機的皮帶、櫃台後面（小動作不動他們）*/
-        n.frozen=true; n.pose=n.idlePose=p.pose||'idle'; if(p.idlePose) n.idlePose=p.idlePose; n.obj.rotation.y=p.yaw||0; };   /* 跑步機上：pose、idlePose 都是 run（原地跑；引擎停下來時回到 idlePose）*/
+      const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,crowd:spot.id,crowdSpot:spot.id,crowdKey:p.key,crowdRole:p.role,frozen:true,walkSpeed:p.walkSpeed||1.15,lv});
+      const settle=()=>{ if(st){ sitNPC(GM,n,st); return; } if(p.beh){ n.beh=p.beh; n.waypoints=p.waypoints; n.ri=p.ri|0; n.pauseAt=false; n.frozen=false; n.pose=n.idlePose=p.pose||'idle'; n.timer=0; return; } n.frozen=true; n.pose=n.idlePose=p.pose||'idle'; n.obj.rotation.y=p.yaw||0; };
       if(p.pass){ const arrive=()=>{ n.passing=false; n.leaving=true; n.arrived=true; }, go=()=>{ n.hidden=false; n.frozen=false; n.passing=true; n.pose='walk'; if(!E.moveTo(n,route.to[0],route.to[1],arrive,lv)) arrive(); };
         if(d>=0){ const q=along(route.pts,d); E.placeAt(n,q[0],q[1],lv); go(); }
         else { E.placeAt(n,route.pts[0][0],route.pts[0][1],lv); n.hidden=true; n.passing=true; pend.push({n,h:slot.t0+(k*PASS_GAP)/passMph(GM,p),go}); } }   /* 還沒輪到他出發：先藏在起點 */
@@ -261,16 +177,14 @@ const CROWD=(function(){
       npcs.push(n); });
     live[spot.id]={slotKey:slot.key,npcs}; }
   function runPend(GM){ const h=hr(GM.G); for(const q of pend.slice()){ if(h<q.h-1e-9) continue; dropPend(q.n); if(GM.E.npcs.includes(q.n)) q.go(); } }
-  function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0; const h=hr(GM.G);
-    for(let k=0;k<grp.length;k++){ const p=grp[k]; if(slot.cls&&h>=S.goTime(slot,k,grp.length)) continue;   /* 已經過了他走進教室的時間（CROWD-CLASS-ARRIVE-1027）：人在教室裡了（classes3d.js 的 syncRooms 照時間坐好），門口不放 */
-      if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
+  function spawnGroup(GM,spot,slot,fromDoor){ if(spot.people) return spawnPeople(GM,spot,slot,fromDoor); const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0;
+    for(const p of grp){ if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
       const slv=fromDoor?(byDoor?(spot.doorLv|0):(spot.roadLv!=null?spot.roadLv:lv)):lv;   /* 室內：從教室門口（教室那一層）或建築出口（一樓）出來 */
-      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv,home:{x:p.x,z:p.z,yaw:p.yaw,pose:p.pose}});
-      if(slot.cls){ n.crowdCls=slot.cls; n.crowdIdx=k; }   /* 等這一堂課的人：classes3d.js 的 syncRooms 把他算進這堂課的人數（不會多排人從大門進來）；第 k 個人照 S.goTime 走進教室 */
+      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
       if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
     S.giveLines(GM,spot,slot,npcs);
-    live[spot.id]={slotKey:slot.key,npcs,n:grp.length}; }
+    live[spot.id]={slotKey:slot.key,npcs}; }
   /* 點了可以聽一句的路人（spot.lines(G,slot)＝這個時段的句子；一句給一個人，allTalk＝每個人都是同一串）*/
   S.giveLines=function(GM,spot,slot,npcs){ if(!spot.lines) return []; const L=spot.lines(GM.G,slot)||[]; const out=[];
     npcs.forEach((n,k)=>{ const sc=spot.allTalk?L[0]:L[k]; if(!sc) return; n.talkLabel=spot.talkLabel||'聽一句'; n.talk=()=>S.overhear(GM,n,sc); out.push(n); }); return out; };
@@ -281,64 +195,31 @@ const CROWD=(function(){
     if(st.ap&&E.canStand(st.ap[0],st.ap[1],0.3,lv)) return [st.ap[0],st.ap[1]];   /* 座位指定的走近點（Café 的沙發）*/
     for(const [dx,dz] of [[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.5,fz*0.5],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, z=st.z+dz; if(!E.canStand(x,z,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,z,lv)-st.y)>0.2) continue; return [x,z]; } return null; };
   function sitDown(n,st){ const o=n.obj.position; o.set(st.x,st.y!=null?st.y:o.y,st.z); n.obj.rotation.y=st.yaw||0; n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; }
-  /* 走進教室、找空位坐下（成為那堂課的同學：clsStudent、clsKey）；沒有空位或走不到＝false */
-  function toSeat(GM,spot,cls,n,used){ const E=GM.E; const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(!st||!ap) return false; used.add(st);
-    n.frozen=false; n.pose='walk'; n.lookAt=null; n.faceYaw=null; n.crowd=null; n.clsStudent=true; n.clsKey=cls; n.seat=st;
-    if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) return true; n.seat=null; n.clsStudent=false; return false; }
-  /* 走出建築（或走去門口、馬路）：走開的人不能再點、不再東張西望 */
-  function walkAwayCrowd(GM,spot,n,leave){ const E=GM.E; const toRoad=leave==='road'||leave==='seat';   /* 'seat' 走到這裡＝沒有空位：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿，等在門口的人全部走到教室門口那一點停下來疊成一團）*/
-    const tgt=toRoad?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door), tlv=toRoad?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false; n.lookAt=null; n.faceYaw=null;
-    if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; }
   function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id]; const used=new Set();
     for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null; if(instant){ dropPend(n); E.removeNPC(n); continue; }   /* 走開的人不能再點（D7、D9）*/
-      if(spot.people){ if(n.hidden){ dropPend(n); E.removeNPC(n); continue; } if(n.passing) continue; if(n.seat) standNPC(E,n); n.beh='idle'; n.waypoints=null; n.held=false; n.lookAt=null; n.run=false; n.faceYaw=null; n.idlePose='idle'; }   /* 打球的不再跑、跑步機上的不再原地跑（體育館）*/   /* 小公園：還沒出發的課輔班拿掉、正在走的照走；坐著的先站起來、繞圈和走動的停下來，再走出公園 */
-      if(L.leave==='seat'&&toSeat(GM,spot,L.cls,n,used)) continue;
-      walkAwayCrowd(GM,spot,n,L.leave); } }
-  /* ---------- 上課前 10 分鐘起，門口等的人分批走進教室（CROWD-CLASS-ARRIVE-1027；使用者 2026-10-27「博雅上課門口為什麼一坨人都不會動 開始上課教室突然出現更多人已經坐在位置上?」）----------
-     原本全部等到開始上課那一刻才一起走進去。改成：一群 n 個人，第 k 個在「開始前 10 分鐘＋(k＋½)×10 分鐘／n」走進教室找空位坐下（和 classes3d.js 的 arriveFrac 同一段時間：開始前 10 分鐘起陸續進來）；
-     到了開始上課還在門口的（同一時間到的）照舊一起進去；沒有空位走出建築。 */
-  S.GO_LEAD=1/6;
-  S.goTime=(slot,k,n)=>slot.t1-S.GO_LEAD+(k+0.5)*S.GO_LEAD/Math.max(1,n);
-  function goIn(GM,spot,slot,L){ const h=hr(GM.G), E=GM.E; let used=null;
-    for(const n of L.npcs.slice()){ if(n.crowdIdx==null||h<S.goTime(slot,n.crowdIdx,L.n||L.npcs.length)) continue; L.npcs.splice(L.npcs.indexOf(n),1); if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null;
-      used=used||new Set(); if(toSeat(GM,spot,slot.cls,n,used)) continue; walkAwayCrowd(GM,spot,n,'seat'); } }
-  /* ---------- 等的人、聊天的人的小動作（CROWD-CLASS-ARRIVE-1027：「一坨人都不會動」）----------
-     每個人每 4～10 秒（真實時間）換一個小動作，只用現有的動畫：轉頭看旁邊的人／和他聊兩句（talk）、手插口袋／拿出來、轉身換個方向（慢慢轉）、偶爾走一兩步再站好（離原本的位置 0.8 m 以內）、回到原本的樣子。
-     站著、沒在走的人才動；坐著的、走開的、小公園（spot.people 有自己的安排）不動。每 1.5 秒看一次、一次一群（便宜：不是每一格）。滑手機的動作沒有現成的動畫（要的話是美術缺口）*/
-  S.FIDGET=[4,10];
-  function fidget(GM,dt){ const E=GM.E;
-    for(const id in live){ const L=live[id], spot=S.SPOTS.find(q=>q.id===id); if(!spot||(spot.people&&!spot.fidget)) continue;   /* 小公園的人照 AA 的安排（不加）；體育館站著的人（fidget）也有小動作 */
-      const ppl=L.npcs.filter(n=>!n.leaving&&!n.seat&&!n.clsStudent&&!n.fixedPos&&n.beh!=='route'&&n.beh!=='wander'&&!(n.path&&n.path.length)&&E.npcs.includes(n));   /* fixedPos：櫃台後面、跑步機上的人不動；繞路線、走動的人本來就在動 */
-      for(const n of ppl){ if(!n.home) n.home={x:n.obj.position.x,z:n.obj.position.z,yaw:n.obj.rotation.y,pose:n.idlePose||'idle'};
-        if(n.fidT==null){ n.fidT=S.FIDGET[0]+Math.random()*(S.FIDGET[1]-S.FIDGET[0]); continue; } n.fidT-=dt; if(n.fidT>0) continue; n.fidT=S.FIDGET[0]+Math.random()*(S.FIDGET[1]-S.FIDGET[0]);
-        const P=n.obj.position, r=Math.random(); let near=null, bd=1e9; for(const m of ppl){ if(m===n) continue; const d=Math.hypot(m.obj.position.x-P.x,m.obj.position.z-P.z); if(d<bd){ bd=d; near=m; } }
-        n.fid=(n.fid|0)+1;
-        if(r<0.3&&near&&bd<3.5){ n.lookAt=near.obj.position; n.pose=n.idlePose=(n.pose==='talk'?'idle':'talk'); n.frozen=false; n.faceYaw=Math.atan2(near.obj.position.x-P.x,near.obj.position.z-P.z); }   /* 轉頭看旁邊的人、聊兩句（或停下來聽）*/
-        else if(r<0.5){ n.pockets=!n.pockets; }   /* 手插口袋／拿出來 */
-        else if(r<0.72){ n.lookAt=null; n.frozen=false; n.faceYaw=n.home.yaw+(Math.random()-0.5)*1.6; }   /* 轉身換個方向（引擎慢慢轉過去）*/
-        else if(r<0.88){ const a=Math.random()*Math.PI*2, d=0.3+Math.random()*0.5, x=n.home.x+Math.cos(a)*d, z=n.home.z+Math.sin(a)*d, lv=n.lv|0;   /* 走一兩步（離原本的位置 0.8 m 以內）*/
-          if(E.canStand(x,z,0.3,lv)&&E.moveTo&&E.moveTo(n,x,z,()=>{ n.pose=n.idlePose||'idle'; n.faceYaw=n.home.yaw+(Math.random()-0.5)*0.8; },lv)){ n.frozen=false; n.lookAt=null; } }
-        else { n.lookAt=null; n.pose=n.idlePose=n.home.pose||n.idlePose||'idle'; n.frozen=false; n.faceYaw=n.home.yaw; } } } }   /* 回到原本的樣子 */
-  S.fidget=fidget;   /* 測試用 */
+      if(spot.people){ if(n.hidden){ dropPend(n); E.removeNPC(n); continue; } if(n.passing) continue; if(n.seat) standNPC(E,n); n.beh='idle'; n.waypoints=null; n.held=false; n.lookAt=null; }   /* 小公園：還沒出發的課輔班拿掉、正在走的照走；坐著的先站起來、繞圈和走動的停下來，再走出公園 */
+      if(L.leave==='seat'){ const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(st&&ap){ used.add(st); n.frozen=false; n.pose='walk'; n.crowd=null; n.clsStudent=true; n.clsKey=L.cls; n.seat=st;
+          if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }
+      /* 沒有空位或走不到：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿（classes3d.js syncRoom full），等在門口的人全部走到教室門口那一點停下來疊成一團）*/
+      const noSeat=L.leave==='seat';
+      const tgt=(L.leave==='road'||noSeat?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)), tlv=(L.leave==='road'||noSeat)?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false;
+      if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; } }
   /* 走到門口或馬路的人：不在玩家眼前就移除（走進建築、走遠了）*/
   function sweep(GM){ const E=GM.E, now=Date.now(); for(const n of E.npcs.slice()){ if(!n.leaving||!n.arrived) continue; if(!inView(E,n.obj.position)||Math.hypot(n.obj.position.x-E.player.obj.position.x,n.obj.position.z-E.player.obj.position.z)>40){ E.removeNPC(n); continue; }
       /* 走到門口、玩家看得到：不要一直站在那一點（好幾個人走到同一點會疊在一起）——3 秒後繼續走出建築，還是走不了就移除 */
       if(!n.arrT) n.arrT=now; else if(now-n.arrT>3000){ const sp=S.SPOTS.find(q=>q.id===n.crowdSpot); if(sp&&!n.toRoad){ n.toRoad=true; n.arrived=false; n.arrT=0; if(!E.moveTo(n,sp.road[0],sp.road[1],()=>{ n.arrived=true; },sp.roadLv!=null?sp.roadLv:(sp.lv|0))) E.removeNPC(n); } else E.removeNPC(n); } } }
   function sync(GM,instant){ const G=GM.G, E=GM.E; for(const spot of S.SPOTS){ if(spot.zone!==G.zone) continue; const slot=S.slotAt(G,spot); const L=live[spot.id];
       if(L&&(!slot||slot.key!==L.slotKey)){ const old=spot.slots(G).find(s=>s.key===L.slotKey)||{}; L.leave=old.leave||'road'; L.cls=old.cls; leaveGroup(GM,spot,instant); }
-      if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); }
-      else if(slot&&slot.cls&&live[spot.id]&&!instant) goIn(GM,spot,slot,live[spot.id]); } }   /* 上課前 10 分鐘起分批走進教室 */
+      if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
   S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true); };
   /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
   S.keep=function(G){ lastH=G.hour; };
-  /* 轉暗、時間過去以後（classes3d.js：提早坐下上課，先等到上課時間）：照新的時間直接重排門口的人（和「時間跳了」一樣；玩家在黑畫面裡沒看到中間那段）*/
-  S.resync=function(GM){ const G=GM.G, E=GM.E; if(!G||G.zone!==zoneNow) return; for(const n of E.npcs.slice()) if(n.crowd&&n.crowd!=='cls') E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; lastH=G.hour; sync(GM,true); };
   S.tick=function(GM,dt){ const G=GM.G; if(!G||G.zone!==zoneNow) return; if(pend.length) runPend(GM); tAcc+=dt; if(tAcc<1.5) return; tAcc=0;   /* 課輔班輪到的人出發（每一格看）*/
     const jump=lastH!=null&&Math.abs(G.hour-lastH)>0.2; lastH=G.hour;   /* 時間突然跳了：直接重排 */
     if(jump){ const E=GM.E; for(const n of E.npcs.slice()) if(n.crowd) E.removeNPC(n); for(const k in live) delete live[k]; pend.length=0; sync(GM,true); }   /* 正在走開的人也一起拿掉（玩家沒有看到中間那段時間）*/
     else sync(GM,false);
-    fidget(GM,1.5); sweep(GM); };
+    sweep(GM); };
   S.live=live; S.pend=pend;
   return S;
 })();

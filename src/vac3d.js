@@ -14,7 +14,6 @@
      第二次以後的關鍵日（rep.keys2：一句；again：後面照演的，C16 語彤那兩段）、C16 午餐（work.lunch，上班日扣）、C16 上學期被當＝沒錄取（select.noFail，S.failedTerm）、
      C17 去過的人公告多一個選項（signup.again「寄信給馮律師」：不用交履歷、不面試，V.ok 記 AGAIN＋面試那一格）、沒錄取時阿哲那句照季節（寒假版）、C18 行前說明會（select.brief，錄取時排；vac.k＝'brief'）。
    存檔 G.vac＝{reg:{'C02@Y1':'yes'|'no'|'later'|'done'|'missed'|'rejected'}, seen:{C02:true}, log:[{day,t}], ok:{'C16@Y2:APP':日}, work:{'C17@Y2':[去了的日子]}, paid:{'C17@Y2':元}}；舊存檔沒有後三個＝用到時才建。
-   2026-10-27：X58 中間跳過的日子收到訊息就停、打開手機（S.jump，tests/x58_skip_msg_unit.js）；E08 出國的那一趟先到 3D 出境大廳再登機（檔尾，tests/e08_airport_unit.js）；AA_478：大廳裡演「出發」、帶隊的人各一句，登機以後「飛往〇〇」字卡（tests/e08_hall_unit.js）；第 7 節：出國途中的時鐘換當地時間（檔尾，tests/e08_tz_unit.js）。
    測試：node tests/vac_unit.js、node tests/vac_c16_c18_unit.js */
 const VAC=(function(){
   const S={}; S.ON=true;
@@ -170,8 +169,8 @@ const VAC=(function(){
       /* 子晴一天一到兩則（BB-C 13:03）：00:40 那則在當天 18:00 以前回了，23:10 再傳第二則（回的時間＝手機第一次看到回覆的那一刻）*/
       for(const z of ((V.zq2||{})[I.key]||[])){ if(z.done) continue; const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id===z.tag); if(!m) continue;
         if(m.ans!=null&&z.at==null) z.at=now;
-        if(z.at!=null){ z.done=true; if(z.at<=S.tw2g(G,T(z.d,18))){ const g=S.tw2g(G,T(z.d,23+10/60)), gd=Math.floor(g/24+1e-9); PHONE.at(G,gd,g-gd*24,z.texts.map(t=>({th:'p:heroine_04',from:'heroine_04',text:t})),z.tag+'_2'); } }   /* 臺灣時間 18:00／23:10（出國途中換成當地時間，S.tw2g）*/
-        else if(now>S.tw2g(G,T(z.d,18))) z.done=true; }
+        if(z.at!=null){ z.done=true; if(z.at<=T(z.d,18)) PHONE.at(G,z.d,23+10/60,z.texts.map(t=>({th:'p:heroine_04',from:'heroine_04',text:t})),z.tag+'_2'); }
+        else if(now>T(z.d,18)) z.done=true; }
       /* 考前提醒（C04：Kevin 考試日前七天 21:00 私訊，只給報了的；AA_241 9-3）*/
       const rm=I.A.remind; if(rm&&(V.reg[I.key]==='yes'||V.reg[I.key]==='done')){ const kd=S.dayOf(I.yk,I.A.season,I.A.keys[rm.key].day), rd=kd!=null?kd-rm.before:null, tg='vac_rem_'+I.key;
         if(rd!=null&&now>=T(rd,rm.h)&&G.day<=rd+2&&!PHONE.sent(G,tg)){ const th='p:'+rm.who, M=rm.msgs.map(t=>({th,from:rm.who,name:rm.name,text:t})); if(rm.opts) M[M.length-1].ask={id:tg,until:T(rd+2,24),opts:rm.opts.map(o=>({t:o.t,say:o.say.map(t=>({th,from:rm.who,name:rm.name,text:t}))}))}; PHONE.at(G,rd,rm.h,M,tg); } }
@@ -212,12 +211,11 @@ const VAC=(function(){
     const went=F.VA10==='yes'&&(OUT.get(G,'vac_va10')||{}).state==='done';
     if(F.VA10!=='yes'||(OUT.get(G,'vac_va10')||{}).state==='missed'){ const m=C.missPhoto; if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_photo')&&now>=T(d0+m.d,m.h)&&G.day<=d1) PHONE.at(G,d0+m.d,m.h,m.ms.map(x=>P(g,x)),'va10_photo'); }
     if(PHONE.sent(G,'va10_ask')&&!PHONE.sent(G,'va10_back')&&now>=T(d1,C.back.h)&&G.day<=d1+2){ const M=C.back.ms.map(x=>P(g,x)); if(!went) for(const x of C.missTail) M.push(P(g,x)); PHONE.at(G,d1,C.back.h,M,'va10_back'); } };
-  S.va10Trip=async function(GM,q){ const G=GM.G, C=Dt().VA10, d0=DK(C.from), d1=DK(C.to), F=G.flags; if(!C||d0==null) return false; const endT=T(d1,18);
-    if(q) S.flyStart(GM,q,endT,C.mates||[]);   /* 香港和臺灣同一個時區（tz 0）：時鐘不變，照樣記出國途中 */
+  S.va10Trip=async function(GM){ const G=GM.G, C=Dt().VA10, d0=DK(C.from), d1=DK(C.to), F=G.flags; if(!C||d0==null) return false;
     const I={key:'VA10',with:null,A:{id:'VA10',place:{kind:'abroad'},season:'summer',trip:{sd:d0,ed:d1,start:{h:8},end:{h:18}},mates:C.mates||[]},yk:null}; S.tripMsgs(G,I);   /* mates：阿哲、Alison、柏翰（AA_369 H4）*/
     for(const id in (C.datingMsg||{})){ const m=C.datingMsg[id], d=DK(m.day); if(F['dating_'+id]&&d!=null&&typeof PHONE!=='undefined') PHONE.at(G,d,m.h,m.ms.map(t=>({th:'p:'+id,from:id,text:t})),'va10_dm_'+id); }   /* AA_369 H1：以安在京都，交往中 8/27 21:00 她私訊 */
     for(const st of C.steps){ const extra=[]; for(const id in (st.dating||{})) if(F['dating_'+id]) extra.push(...st.dating[id]); await S.jump(GM,T(d0+st.d,st.h),'香港'); await S.key(GM,{bg:null,lines:st.lines.concat(extra)},I); }
-    await S.jump(GM,S.clockEnd(G,endT),'香港'); S.flyEnd(GM,q); F.BACK_FROM_VA10=G.day; return true; };
+    await S.jump(GM,T(d1,18),'香港'); F.BACK_FROM_VA10=G.day; return true; };
   /* ---- C01 麵店團海邊：大二～大四寒假（AA_264）。大一照 AA_204（story3d.js va03）；去過的照第 2 節（第二次、第三次以後）；大二以後才第一次去的照 AA_264 第 4 節（AA_204 第 3 節整段、換三句）---- */
   S.c01Day=function(yk){ if(typeof CALENDAR==='undefined'||!CALENDAR.termDays) return null; const r=CALENDAR.termDays(yk+'S1'); if(!r) return null;
     if(typeof HOME!=='undefined'&&HOME.breakOf){ for(let d=r.to+1;d<=r.to+7;d++){ const B=HOME.breakOf(d); if(B&&B.kind==='winter'){ for(let x=B.from+7;x<=B.from+13;x++) if(CALENDAR.dateOf(x).wd%7===1){ while(CALENDAR.holiday&&CALENDAR.holiday(x)||CALENDAR.dateOf(x).wd%7===0||CALENDAR.dateOf(x).wd%7===6) x++; return x; } break; } } }   /* 落在國定假日（大四 2029-01-01 元旦）往後挪到最近的平日 */   /* AA_275 第 3 節：寒假開始後第 8 天以後的第一個週一（不撞期末考週、不撞 12/25）；揪人＝前一個週五 */
@@ -250,34 +248,16 @@ const VAC=(function(){
   const run=async(GM,lines)=>{ const G=GM.G; for(let x of (lines||[])){ if(typeof x==='function') x=x(G); if(x==null) continue; if(Array.isArray(x)){ await run(GM,x); continue; }
       let t=typeof x.text==='function'?x.text(G):x.text; if(typeof x==='string') await GM.say(null,x);
       else if(x.narr) await GM.say(null,x.narr); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},t); else if(x.who) await GM.say({name:x.name||nm(x.who),charId:x.name?null:x.who},t); } };
-  S.key=async function(GM,k,I){ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:k.bg==='blur'?'blur':(k.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(k.bg):'dark')});   /* 'blur'＝疊在模糊的 3D 上（E08 出境大廳裡的「出發」那一幕）*/
+  S.key=async function(GM,k,I){ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:k.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(k.bg):'dark'});
     await run(GM,k.lines); if(k.choice&&k.choice.length&&(!k.choiceIf||k.choiceIf(G))){ const i=await GM.choose(k.choice.map(c=>({t:c.t}))), c=k.choice[i]||k.choice[0]; await run(GM,c.say); if(c.set) Object.assign(G.flags,c.set); if(c.rel&&typeof SOCIAL!=='undefined') for(const id in c.rel) SOCIAL.adjust(id,c.rel[id]); }
     if(k.after) await run(GM,k.after); if(k.set) Object.assign(G.flags,k.set); };
-  /* 跳到 t（出國、營隊、上班的那幾天：中間的日子不演，手機照時間收）。
-     X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻——
-     日期卡（月/日（星期）時:分＋地點；o.quiet 不出、同一天一小時內不再出）→ 打開手機的對話列表（「收起來」寫「跳過」，同 home3d.js 的 ffPhone）→ 關掉以後接著跳到 t；
-     跳完不再說「這幾天收到 N 則」。手機開著的時候 2D 先收起來（S.away：home3d.js 的 backdrop 照樣把 3D 藏著，不露出出發前的宿舍、機場）*/
-  const dayCard=G=>{ const x=CALENDAR.dateOf(G.day); return x.m+'/'+x.d+'（'+WDN[x.wd%7]+'）'; };   /* WDN：上面 C01 那一段的「日一二三四五六」*/
-  const hhmm=h=>{ const m=Math.round((((h%24)+24)%24)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
-  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
-  S.MSG_STOPS=200;   /* 一次跳過最多停幾次（每一次都要玩家按「跳過」；只是防呆：超過就照舊一路跳到 t）*/
-  S.away=false;   /* 跳過途中打開手機的那一下（2D 收起來）：home3d.js 的 S.backdrop 照這個把 3D 藏著 */
-  S.msgStop=async function(GM,place,o,card){ const G=GM.G;
-    if(card&&!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined') await GM.titleCard(dayCard(G)+hhmm(G.hour),place||'',2000);
-    await GM.fade(false); const A=typeof ADV!=='undefined'?ADV:null, on=!!(A&&A.active), bgm=on?A.bgMode:null;
-    S.away=true; if(typeof HOME!=='undefined'&&HOME.backdrop){ try{ HOME.backdrop(G); }catch(e){} } if(on&&A.end) A.end();
-    try{ const P=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G):[], m=P[P.length-1]; if(typeof HOME!=='undefined'&&HOME.askSeen) HOME.askSeen(G,P);   /* 要回的：記成打開過（3D 的 STORY.phoneAuto 不再開同一則）*/
-      await GM.phoneThread(m&&PHONE.th?PHONE.th(m):null,{skip:true}); }
-    finally{ S.away=false; if(on&&A.begin) A.begin({background:bgm||'dark'}); }
-    await GM.fade(true); };
-  S.jump=async function(GM,t,place,o){ const G=GM.G, E=GM.E; if(t<=T(G.day,G.hour)) return;   /* o.quiet：不出日期卡（同一天下班，C16、C17）*/ await GM.fade(true); let tt=T(G.day,G.hour), stops=0, tc=tt;
-    while(tt+1<t-1e-6){ tt+=1; let got=0; const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:(G.weekday+1)%7; G.energy=100; G.flags.companion=null; } G.hour=tt-G.day*24; if(E) E.hour=G.hour;
+  S.jump=async function(GM,t,place,o){ const G=GM.G, E=GM.E; if(t<=T(G.day,G.hour)) return;   /* o.quiet：不出日期卡（同一天下班，C16、C17）*/ await GM.fade(true); let tt=T(G.day,G.hour), n=0;
+    while(tt+1<t-1e-6){ tt+=1; const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:(G.weekday+1)%7; G.energy=100; G.flags.companion=null; } G.hour=tt-G.day*24; if(E) E.hour=G.hour;
       if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f&&GM.money) GM.money(f.amount); }
-      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ got+=recvN(out); }); }catch(e){ console.warn('VAC jump phone',e); } }
-      if(got){ if(GM.phoneBadge) GM.phoneBadge(); if(GM.phoneThread&&stops<S.MSG_STOPS){ stops++; if(GM.updateHUD) GM.updateHUD(); const card=Math.floor(tc/24)!==G.day||tt-tc>=1; await S.msgStop(GM,place,o,card); tc=tt; } } }   /* X58：停在收到的那一刻，「跳過」接著跳 */
+      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('VAC jump phone',e); } } }
     const d=Math.floor(t/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:G.weekday; } G.hour=t-G.day*24; if(E) E.hour=G.hour; if(GM.updateHUD) GM.updateHUD();
-    if(!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined') await GM.titleCard(dayCard(G),place||'',2000);
-    await GM.fade(false); /* 「這幾天收到 N 則」：改成途中一則一則停下來看（X58）*/ };
+    if(!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined'){ const x=CALENDAR.dateOf(G.day); await GM.titleCard(x.m+'/'+x.d+'（'+['日','一','二','三','四','五','六'][x.wd%7]+'）',place||'',2000); }
+    await GM.fade(false); if(n&&GM.toast) GM.toast('手機｜這幾天收到 '+n+' 則訊息',3600); };
   /* ---- 出國期間的訊息（AA_242 第 6、8 節；BB_200 第 2～3 節）：出發的時候一次排好（交往中、熟不熟照出發那一刻）----
      交往中：出發那天一則、每天輪播池（學姊兩天一則；第二圈只用前半）、中間那天換成「中間」那則、回來那天一則；池子的每一則有兩個回覆（她不再回，沒回不扣分）。
      朋友（FAMILIAR 以上）：整趟一兩則。柬埔寨：晚上（臺灣 22:00）以後才收得到；停電那晚（8/2）不收，隔天早上一次收到＋交往中的「怎麼沒回？」。加州：第 3 週多一次「想念」。 */
@@ -285,8 +265,7 @@ const VAC=(function(){
     const sd=tr.sd!=null?tr.sd:S.dayOf(I.yk,A.season,tr.start.day), ed=tr.ed!=null?tr.ed:S.dayOf(I.yk,A.season,tr.end.day), dark=tr.dark?S.dayOf(I.yk,A.season,tr.dark):null; let n=0;
     const wdOf=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:0;
     const when=(d,h)=>{ if(tr.signalAfter&&d>sd&&d<ed){ if(dark!=null&&d===dark) return {d:d+1,h:8}; if(h<tr.signalAfter&&h>=7) h=tr.signalAfter; } return {d,h}; };   /* 柬埔寨：白天收不到、停電那晚隔天早上才收到 */
-    const put=(id,d,h,texts,tag,ask)=>{ const w=when(d,h), th='p:'+id, ms=texts.map(t=>({th,from:id,text:t})), g=S.tw2g(G,T(w.d,w.h)), gd=Math.floor(g/24+1e-9);   /* 她們照臺灣時間傳；出國途中遊戲時鐘是當地時間（AA_478 第 7 節）：換算（S.tw2g），送到的那一刻和原本一樣 */
-      if(ask){ if(ask.until!=null) ask.until=S.tw2g(G,ask.until); Object.assign(ms[ms.length-1],{ask}); } if(PHONE.at(G,gd,g-gd*24,ms,tag)) n++; };
+    const put=(id,d,h,texts,tag,ask)=>{ const w=when(d,h), th='p:'+id, ms=texts.map(t=>({th,from:id,text:t})); if(ask) Object.assign(ms[ms.length-1],{ask}); if(PHONE.at(G,w.d,w.h,ms,tag)) n++; };
     const tx=(x)=>typeof x==='function'?x(G):x;
     const off=(o,d)=>{ if(!o) return false; const a=DK(o[0]), b=DK(o[1]); return a!=null&&b!=null&&d>=a&&d<b; };
     const mid=Math.floor((sd+ed)/2), depH=Math.max(7,tr.start.h-1), T0='vac_tm_'+I.key+'_', mates=S.mates(I);   /* 同行的人不傳（AA_369 H4：活動卡的 mates 也算，不只 C13 的 I.with）*/
@@ -358,8 +337,7 @@ const VAC=(function(){
       const P=W.gf&&D.gf[W.id]; if(P&&P.eve) PHONE.at(G,from-1,21,P.eve.map(t=>({th:'p:'+W.id,from:W.id,text:t})),'vac_t13eve_'+n); }   /* 學姊住家裡：出發前一天 21:00「我跟我媽說了。」*/
     if(typeof OUT!=='undefined') OUT.plan(G,{id:'vac_t13_'+n,ev:'ev_vac_key',day:from,h:8,late:0.5,place:D.dest[dest].name,title:'出國旅遊：'+D.dest[dest].name+(W.id?'（和'+nm(W.id)+'）':''),travel:'去機場 約 1 小時',travelH:1,back:'回到臺北。',vac:{key:'T13#'+n,k:'trip'}});
     if(GM.toast) GM.toast('排好了：'+dl(from)+'～'+dl(to)+' '+D.dest[dest].name,3000); return true; };
-  S.trip13=async function(GM,key,q){ const G=GM.G, D=TV(), V=S.rec(G), rec=(V.t13||[]).find(r=>'T13#'+r.n===key); if(!rec||!D) return false; const De=D.dest[rec.dest], place=De.name, endT=T(rec.to,18);
-    if(q) S.flyStart(GM,q,endT,rec.with?[rec.with]:[]);   /* 時鐘換當地時間（TRAVEL.dest 的 tz；AA_478 第 7 節）*/
+  S.trip13=async function(GM,key){ const G=GM.G, D=TV(), V=S.rec(G), rec=(V.t13||[]).find(r=>'T13#'+r.n===key); if(!rec||!D) return false; const De=D.dest[rec.dest], place=De.name;
     const I={key,with:rec.with,A:{id:'T13',place:{kind:'abroad'},season:rec.season,trip:{sd:rec.from,ed:rec.to,start:{h:8},end:{h:18}}},yk:null}; S.tripMsgs(G,I);
     const mid=Math.floor((rec.from+rec.to)/2), last=rec.to-1, k=x=>typeof x==='function'?x(G):x;
     const comp=rec.with?(rec.gf?(rec.with==='heroine_02'&&rec.dest!=='hk'?D.gf[rec.with].lastNot:D.gf[rec.with].last):D.friend[rec.with]):null;
@@ -368,13 +346,13 @@ const VAC=(function(){
       :[{d:rec.from,h:15,lines:[{narr:k(De.keys[0])}]},{d:mid,h:14,lines:[{narr:k(De.keys[1])}]},{d:last,h:20,lines:[{narr:k(De.keys[2])}].concat(comp?[{who:rec.with,text:comp}]:[])}];
     if(rec.gf) steps.push({d:last,h:23,bg:'trip_hotel_twin',lines:[{narr:'（燈關了。）'}]});   /* 雙床房（BB_173 VB-12）：對話在睡前結束 */
     for(const st of steps){ await S.jump(GM,T(st.d,st.h),place); await S.key(GM,{bg:st.bg||null,lines:st.lines},I); }
-    await S.jump(GM,S.clockEnd(G,endT),place); S.flyEnd(GM,q); rec.done=true; G.flags.BACK_FROM_T13=G.day;
+    await S.jump(GM,T(rec.to,18),place); rec.done=true; G.flags.BACK_FROM_T13=G.day;
     if(rec.gf&&typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,rec.with); L.count=(L.count|0)+1; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&DATE.GAIN) SOCIAL.adjust(rec.with,DATE.GAIN[0]); }   /* 算一次正式約會（不加倍）*/
     if(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')){ const n=S.all().filter(J=>J.A.back&&PHONE.sent(G,'vac_back_'+J.key)).length+V.t13.filter(r=>PHONE.sent(G,'vac_back_T13#'+r.n)).length; PHONE.at(G,rec.to,20,[{th:'g:noodle_team',from:'zhe',text:n===0?'伴手禮咧':(n===1?'這次伴手禮咧':'（貼圖：伸出手）')}],'vac_back_'+key); }
     return true; };
   /* 可昕的週末視訊（BB_200 第 3 節：週六晚上；加州是臺灣週日早上 10:00）：這一版整趟演一次（第一個週末），台詞 AA_242 8-2 */
   S.videoKey=function(G,I){ const M=Dt()&&Dt().TRIP_MSG; if(!M||!(G.flags&&G.flags.dating_kexin)) return null; const A=I.A, tr=A.trip, sd=S.dayOf(I.yk,A.season,tr.start.day), ed=S.dayOf(I.yk,A.season,tr.end.day), wd=tr.videoWd!=null?tr.videoWd:6, h=tr.videoH||20;
-    for(let d=sd+1;d<ed;d++){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(d).wd%7===wd){ const x=CALENDAR.dateOf(d); return {day:String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'),h,at:S.tw2g(G,T(d,h)),title:'視訊',bg:null,lines:M.gf.kexin.video.map(t=>({who:'kexin',text:t}))}; } } return null; };   /* 星期、幾點是臺灣時間（可昕在臺灣）；at＝遊戲時鐘的時刻（出國途中是當地時間：加州＝當地週六 19:00，AA_478 第 7 節）*/
+    for(let d=sd+1;d<ed;d++){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(d).wd%7===wd){ const x=CALENDAR.dateOf(d); return {day:String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'),h,title:'視訊',bg:null,lines:M.gf.kexin.video.map(t=>({who:'kexin',text:t}))}; } } return null; };
   /* ---- 連續數週的平日白天（C16 法扶實習、C17 律所暑期實習；AA_199 3-4、7-7「平日白天不行，晚上、週末可以」）----
      每個平日 W.h0 一趟上班（S.plan 排，vac.k＝'w'）：那一天有關鍵事件的，到那個時間演（第一次參加；第二次以後不重演，換成 rep.keys2 的一句＋again，AA_264 第 0 節第 1 點、AA_242 12-3），演完過到 W.h1 下班（不出日期卡）。
      沒有關鍵事件的上班日（第一次參加）：日誌一行（W.diary，AA_242 12-2：照順序用——去了的日子才用掉一句，沒去的那天不用；用完以後只有日期卡；W.diaryLastWeek 固定在最後一週的第一個上班日）。第二次以後沒有。
@@ -415,7 +393,7 @@ const VAC=(function(){
     if(v.k==='w'){ S.workDone(G,I,q); return; }
     if(typeof v.k==='number'){ (V.att||(V.att={}))[I.key]=(V.att[I.key]|0)+1; if(v.k===(I.A.keys.length-1)){ V.reg[I.key]='done'; V.seen[id]=true; } }
     if(/^pre\d+$/.test(String(v.k))){ const p=(I.A.pre||[])[+String(v.k).slice(3)]; if(p&&p.set) Object.assign(G.flags,p.set); if(p&&p.setI) S.markI(G,I,p.setI); } };
-  S.outing=async function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return false; if(/^T13#/.test(v.key)) return S.trip13(GM,v.key,q); if(v.key==='VA10') return S.va10Trip(GM,q);
+  S.outing=async function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return false; if(/^T13#/.test(v.key)) return S.trip13(GM,v.key); if(v.key==='VA10') return S.va10Trip(GM);
     if(/^C01#/.test(v.key)){ const yk=v.key.slice(4), V=S.rec(G), n=S.c01N(G)+1, L=Dt().C01.diary[n>=3?3:2]; const pts=[[8+50/60],[12],[18]]; for(let i=0;i<3;i++){ if(i) await S.jump(GM,T(G.day,pts[i][0]),'海邊'); await S.key(GM,{bg:null,lines:[{narr:L[i]}]},null); } (V.c01||(V.c01={}))[yk]='done'; return true; } const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return false; const A=I.A, V=S.rec(G);
     if(v.k==='prep'){ const rl=S.repLine(G,I,'prep'); await S.key(GM,rl!==undefined?{bg:A.prep.bg,lines:[{narr:rl}]}:Object.assign({bg:A.prep.bg},A.prep),I); return true; }
     if(/^pre\d+$/.test(String(v.k))){ const pi=+String(v.k).slice(3), p=(A.pre||[])[pi], rl=S.repLine(G,I,'pre',pi); if(p&&typeof rl==='string'){ await S.key(GM,{bg:p.bg,lines:[{narr:rl}]},I); if(p.set) Object.assign(G.flags,p.set); if(p.setI) S.markI(G,I,p.setI); return true; } if(p){ if(p.lines&&p.lines.length) await S.key(GM,p,I); else if(GM.toast) GM.toast(p.title+'（'+(p.advance||1)+' 小時）',2600); if(p.advance&&GM.advance) GM.advance(p.advance); if(p.set) Object.assign(G.flags,p.set); if(p.setI) S.markI(G,I,p.setI); } return true; }
@@ -423,13 +401,10 @@ const VAC=(function(){
     if(v.k==='brief'){ const b=A.select&&A.select.brief; if(b) await S.key(GM,{bg:b.bg,lines:b.lines.concat(S.nth(G,I)===1&&b.first?b.first:[])},I); return true; }   /* C18 行前說明會（AA_242 12-5）：第一次參加的多三行 */
     if(v.k==='kx'){ if(A.kx) await S.key(GM,A.kx,I); return true; }   /* 可昕的視訊（C17 最後一天 22:00，AA_242 10-6）*/
     if(v.k==='re'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day); await S.key(GM,{bg:R.bg,lines:(ns&&ns.lines)||R.lines},I); G.flags['REUNION_'+id]=true; } return true; }   /* 她不上班的那段（芷若 2027-06-04～09-02）：noShift 的台詞（AA_369 第 9 節第 2 題）*/
-    if(v.k==='trip'){ const abroad=A.place.kind==='abroad', ed=S.dayOf(I.yk,A.season,A.trip.end.day), endT=T(ed,A.trip.end.h);   /* endT：回到臺灣的那一刻（臺灣時間）*/
-      if(abroad){ S.flyStart(GM,q,endT,[...S.mates(I)]); S.tripMsgs(G,I); }   /* 出國：時鐘換當地時間（AA_478 第 7 節），之後才排訊息（照臺灣時間排的換算成當地）*/
-      const at=k=>k.at!=null?k.at:T(S.dayOf(I.yk,A.season,k.day),k.h);   /* 關鍵事件的 day／h 是當地時間（遊戲時鐘）；可昕的視訊 at＝換算過的 */
-      const K=(A.keys||[]).slice(); if(abroad){ const vk=S.videoKey(G,I); if(vk) K.push(vk); } K.sort((a,b)=>at(a)-at(b));
-      for(const k of K){ if(k.hall&&q.airHall) continue;   /* 進出境大廳就演過了（E08，AA_478 第 2 節：C05、T02、C08 的「出發」）*/ const i=(A.keys||[]).indexOf(k), kk=i>=0?S.repKey(G,I,i,k):k; await S.jump(GM,at(k),A.trip.placeName); if(kk) await S.key(GM,kk,I); }
-      await S.jump(GM,S.clockEnd(G,endT),A.trip.placeName); S.flyEnd(GM,q);   /* 最後一張日期卡是當地時間；回到臺灣那一刻換回臺灣時間 */
-      V.reg[I.key]='done'; V.seen[id]=true; if(abroad) G.flags['BACK_FROM_'+id]=G.day;   /* 回來以後第一次在 3D 遇到的招呼（BB_200 第 4 節、AA_242 8-7）*/
+    if(v.k==='trip'){ if(A.place.kind==='abroad') S.tripMsgs(G,I);
+      const K=(A.keys||[]).slice(); if(A.place.kind==='abroad'){ const vk=S.videoKey(G,I); if(vk) K.push(vk); } K.sort((a,b)=>T(S.dayOf(I.yk,A.season,a.day),a.h)-T(S.dayOf(I.yk,A.season,b.day),b.h));
+      for(const k of K){ const d=S.dayOf(I.yk,A.season,k.day), i=(A.keys||[]).indexOf(k), kk=i>=0?S.repKey(G,I,i,k):k; await S.jump(GM,T(d,k.h),A.trip.placeName); if(kk) await S.key(GM,kk,I); }
+      const ed=S.dayOf(I.yk,A.season,A.trip.end.day); await S.jump(GM,T(ed,A.trip.end.h),A.trip.placeName); V.reg[I.key]='done'; V.seen[id]=true; if(A.place.kind==='abroad') G.flags['BACK_FROM_'+id]=G.day;   /* 回來以後第一次在 3D 遇到的招呼（BB_200 第 4 節、AA_242 8-7）*/
       if(A.trip.endLines) await run(GM,A.trip.endLines);
       if(A.post&&typeof OUT!=='undefined'&&(!A.post.if||G.flags[A.post.if])){ const p=A.post, d=S.preDay(I,p,G); if(d!=null) OUT.plan(G,{id:'vac_'+I.key+'_post',ev:'ev_vac_key',day:d,h:S.freeAfterClass(G,d,p),late:0.25,place:p.place,title:A.title+'：'+p.title,travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'post'}}); }
       return true; }
@@ -449,108 +424,5 @@ const VAC=(function(){
     for(const r of (V.t13||[])){ const De=TV()&&TV().dest[r.dest]; if(!De) continue; rows.push('<div class="item phrow"><div>出國旅遊：'+esc(De.name)+(r.with?'（和'+esc(nm(r.with))+'）':'')+'<div class="muted">'+esc(dl(r.from)+'～'+dl(r.to))+(r.done?'・去過':'')+'</div></div></div>'); }
     if(TV()&&S.nextBreak(G)) rows.push('<div class="item phrow"><div>出國旅遊<div class="muted">自己排：目的地、和誰、幾天</div></div><button class="btn" data-vac13="1">安排</button></div>');
     return rows.length?'<div class="item"><b>假期行事曆</b></div>'+rows.join(''):''; };
-  /* ===== E08：寒暑假出國從 3D 的出境大廳出發（使用者 10-16 21:49「3d做機場 旅館 街景 這種都我給妳CG」、10-17 00:0x「機場的也是阿」；src/exchange3d.js 的 EXCH.airGo）=====
-     出國的那一趟（出國活動 trip：C05、T02、T03、C08～C12、C18／C18W；C13 自己排的出國旅遊 T13#；VA10 麵店團香港）時間到了「出發」（3D 的出發選單、放假住家裡的「出發」）：
-     原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
-     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
-     存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
-     進大廳就演：C05、T02、C08 的「出發」那一幕（關鍵事件的 hall:true，AA_478 第 2 節；S.airHallScene）、T03 子晴和阿凱各一句（hallLines，第 3 節；T02 方奕廷兩句接在「出發」後面）；
-     其他（C09～C12、C18、VA10、C13）照舊只跟著走、不加話。C10 的那一場改成「抵達」、留在下飛機以後（資料）。
-     登機以後：「飛往〇〇」字卡（AA_478 第 1 節、1-1：S.flyCard，資料在 vac_activities.js 的 fly）→ 深色底（人在飛機上，不露出出境大廳）→ 第一張日期卡。台詞沒有新寫的（AA 定）。*/
-  S.abroadTrip=function(q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return false; if(/^T13#/.test(v.key)||v.key==='VA10') return true;
-    if(v.k!=='trip'||!/@/.test(v.key)) return false; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); return !!I&&!!I.A.place&&I.A.place.kind==='abroad'; };
-  /* 一起出發的人（在大廳跟著你，最多三個、認識的）：活動卡 mates 是陣列的那幾團（C05 阿凱、T02 方奕廷、T03 子晴和阿凱）、VA10 麵店團、C13 和誰去；
-     C11、C12 的以安（mates 照年份）是到了那邊才遇到，不算 */
-  S.airWith=function(G,q){ const v=q.vac; let L=[];
-    if(/^T13#/.test(v.key)){ const r=(S.rec(G).t13||[]).find(x=>'T13#'+x.n===v.key); if(r&&r.with) L=[r.with]; }
-    else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; L=(C&&C.mates)||[]; }
-    else { const [id,yk]=v.key.split('@'), I=S.inst(id,yk), m=I&&I.A.mates; if(Array.isArray(m)) L=m.slice(); }
-    return L.filter(id=>typeof CHARACTERS!=='undefined'&&!!CHARACTERS[id]&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')).slice(0,3); };
-  /* 登機以後的字卡（AA_478 第 1 節、1-1）：出國活動＝活動卡的 fly；C13＝目的地（TRAVEL.dest 的 fly）；VA10＝VA10.fly。沒有＝不出（OUT.go 的 noCard）*/
-  S.flyCard=function(G,q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return null; let f=null;
-    if(/^T13#/.test(v.key)){ const r=(S.rec(G).t13||[]).find(x=>'T13#'+x.n===v.key), De=r&&TV()&&TV().dest[r.dest]; f=De&&De.fly; }
-    else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; f=C&&C.fly; }
-    else if(/@/.test(v.key)){ const [id,yk]=v.key.split('@'), I=S.inst(id,yk); f=I&&I.A.fly; }
-    return Array.isArray(f)&&f.length?f:null; };
-  S.airOk=(GM,q)=>!!q&&q.state==='planned'&&!q.airDone&&S.abroadTrip(q)&&typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM&&!!GM.enter;
-  /* 出發：到出境大廳。回傳 false＝人在機場等登機、沒有回家（家裡的選單照「出門了」收起來；jp3d.js、home3d.js 的 !ok 先看 EXCH.airPending）*/
-  const airReg=()=>{ if(typeof EXCH!=='undefined'&&EXCH.AIR&&!EXCH.AIR.vac) EXCH.AIR.vac={board:(GM,rec)=>S.airBoardTrip(GM,rec),hall:(GM,rec)=>S.airHallScene(GM,rec),resume:GM=>S.airResume(GM)}; };   /* 登記登機以後接著演什麼（exchange3d.js 照 index.html 在前面；單元測試載入順序不一定，出發時再補一次）*/
-  S.toAirport=async function(GM,q,o){ airReg(); const G=GM.G, P=GM.E&&GM.E.player, home=!!(o&&o.fromHome)||(typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G)), tr=OUT.trip(G,q,home);
-    q.airHome=home; q.airFrom=home||!P?null:{zone:G.zone,x:+P.obj.position.x.toFixed(2),z:+P.obj.position.z.toFixed(2),yaw:+((P.obj.rotation&&P.obj.rotation.y)||0).toFixed(3),lv:P.lv|0}; q.state='airport';
-    await EXCH.airGo(GM,{k:'vac',q:q.id,with:S.airWith(G,q),card:[OUT.tt?OUT.tt(q.title):q.title,tr.travel],arrive:Math.max(T(G.day,G.hour)+(tr.travelH||0),T(q.day,q.h))});
-    return false; };
-  /* 進大廳就演的（EXCH.airGo 的 S.AIR.vac.hall；AA_478 第 2 節）：關鍵事件裡 hall:true 的那一場（C05、T02、C08 的「出發」：寫的都是登機前的機場）——2D 疊在模糊的大廳上，演完人照樣跟著走。
-     第二次以後照 S.repKey（C08 第二次、第三次沒有「出發」那一場＝不演）。q.airHall＝在大廳演過了：登機以後的整趟不再演那一場（S.outing）；沒有 3D 機場＝照舊在旅程開頭演 */
-  S.hallKeys=function(G,q){ const v=q&&q.vac; if(!v||v.k!=='trip'||typeof v.key!=='string'||!/@/.test(v.key)) return []; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); if(!I) return []; const out=[];
-    (I.A.keys||[]).forEach((k,i)=>{ if(!k||!k.hall) return; const kk=S.repKey(G,I,i,k); if(kk&&S.hasLines(G,kk)) out.push({k:Object.assign({},kk,{bg:'blur'}),I}); });
-    if(Array.isArray(I.A.hallLines)&&I.A.hallLines.length) out.push({k:{bg:'blur',lines:I.A.hallLines},I});   /* 有認識的人帶隊的那一團多的幾句（T03 子晴、阿凱，AA_478 第 3 節；T02 方奕廷那兩句接在「出發」那一幕裡）*/
-    return out; };
-  S.airHallScene=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get&&rec?OUT.get(G,rec.q):null; if(!q||!q.vac) return false; q.airHall=true;
-    const L=S.hallKeys(G,q); if(!L.length) return false;
-    GM.sceneBegin(); try{ for(const x of L) await S.key(GM,x.k,x.I); } finally{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
-    return true; };
-  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回臺北的家（同 home3d.js breakRound「出遊演完回家」）*/
-  S.airBoardTrip=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,rec.q):null;
-    if(!q||q.state!=='airport'){ await S.airBack(GM,q,false); return false; }   /* 找不到那一趟（不該發生）：回到出發前的地方 */
-    q.state='flying'; q.arrived=true; q.airDone=true;   /* flying：登機了、整趟演完以前（OUT 不會再問「出發」、不會算沒去；途中存的檔讀回來接著演，S.airResume）*/
-    return S.airFly(GM,q,S.flyCard(G,q)); };   /* 「飛往〇〇」字卡（AA_478 第 1 節）*/
-  /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
-  S._fly=new Set();   /* 正在演的那一趟（不存檔）*/
-  S.airFly=async function(GM,q,card){ const G=GM.G; S._fly.add(q.id);
-    try{ const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true,card:card||null}); if(G.zone==='airport_dep') await S.airBack(GM,q,false); return ok; }
-    finally{ S._fly.delete(q.id); } };
-  /* 回到出發前的地方：放假住家裡＝回臺北的家（字卡「回臺北的家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
-  S.airBack=async function(GM,q,inFade){ const G=GM.G; if(G.zone!=='airport_dep') return false;
-    if(q&&q.airHome&&typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)){ const H=HOME.rec(G);
-      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
-      H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); if(!inFade) await GM.fade(false); return true; }   /* 家裡的選單：story3d.js 的 HOME.tick 接著 */
-    const f0=q&&q.airFrom, fine=!!f0&&!!f0.zone&&f0.zone!=='airport_dep'&&(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[f0.zone]), f=fine?f0:{zone:'dorm',x:0,z:2.4,yaw:Math.PI,lv:0};
-    if(GM.enter) await GM.enter(f.zone,{x:f.x,z:f.z,yaw:f.yaw||0,lv:f.lv|0},inFade?{noFade:true,deferStory:true,noAutosave:true}:{}); return true; };
-  /* OUT.go 結尾的黑幕裡換回出發前的地方（OUT.STAGE：演之前不換區域，回傳 restore）：登機以後才演的那一趟（q.airDone）、人還在出境大廳。
-     bg:'dark'：登機了、人在飛機上——「飛往〇〇」字卡以後是深色底，不是模糊的出境大廳（AA_478 第 1 節；之後每一場照那一場的背景）*/
-  S.airStage=async function(GM,q){ const G=GM&&GM.G; if(!G||!q||!q.airDone||G.zone!=='airport_dep') return null; return {restore:()=>S.airBack(GM,q,true),bg:'dark'}; };
-  if(typeof OUT!=='undefined'){
-    if(Array.isArray(OUT.STAGE)&&!OUT._vacAirStage){ OUT.STAGE.push(S.airStage); OUT._vacAirStage=true; }
-    if(OUT.go&&!OUT._vacAir){ const go0=OUT.go; OUT.go=async function(GM,q,o){ if(S.airOk(GM,q)) return S.toAirport(GM,q,o); return go0.apply(this,arguments); }; OUT._vacAir=true; } }
-  /* ===== 出國途中的時鐘換當地時間（AA_478 第 7 節，企劃線 6d9ebd49a，AA 定；做法同日本據點的 STORY.tzOffset）=====
-     範圍：登機以後（行程開始）到回國桃園入境為止——遊戲時鐘（畫面上的時鐘、日期卡、X58 停下來那張卡、手機收到訊息的時間）、場次的觸發都照當地時間；回到臺灣那一刻換回臺灣時間。
-       時差：活動卡 place.tz、C13 TRAVEL.dest[].tz、VA10 香港＝0（當地＝臺灣＋tz）。關鍵事件的 day／h 本來就是當地時間（AA：C10 第一堂課 6/23 09:00、C08 歡迎晚會 19:00）；
-       行程的 start（從臺灣出發）、end（回到臺灣的那一刻）是臺灣時間。
-     時鐘不往回走（手機訊息的先後、已讀、要回的期限都照時鐘）：比臺灣慢的地方（泰國、柬埔寨、越南 −1、歐洲 −6、加州／美國 −15）出發那一刻時鐘不動（當作飛行多花了那幾個小時），
-       回來那一刻往後撥到臺灣時間；比臺灣快的地方（日本、韓國 +1）出發那一刻往後撥，回來那一刻不動。回到臺灣的時刻（end）和原本一樣。
-     和臺灣的人往來（AA：手機照現在的排法，不用改）：照臺灣時間排的換成當地時間（送到的那一刻和原本一樣，手機上顯示當地時間）——S.tripMsgs、子晴的第二則、可昕的週末視訊（S.videoKey）、
-       照 STORY.tzOffset 換算的系統（story3d.js 的 S.tzOffset 先問 VAC.tzAt：群組、可昕、芷若在英國……）、臺灣的朋友回訊息（MSG.replyAt；一起去的人照當地）。
-     存檔：G.vac.clock＝{q, tz, end, with}（出國途中才有；舊存檔沒有＝臺灣時間）；那一趟出遊 q.state＝'flying'（演完 'done'）。途中存的檔讀回來（EXCH.tick → S.airResume）：接著演那一趟，
-       時鐘已經是當地的就不再撥；E08 第一、二輪的存檔（登機以後 state 還是 planned）也接著演——原本讀回來會過了出發時間、被算成沒去。測試：node tests/e08_tz_unit.js */
-  S.tzOf=function(G,q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return null;
-    if(/^T13#/.test(v.key)){ const r=(S.rec(G).t13||[]).find(x=>'T13#'+x.n===v.key), De=r&&TV()&&TV().dest[r.dest]; return De&&typeof De.tz==='number'?De.tz:null; }
-    if(v.key==='VA10') return 0;
-    if(/@/.test(v.key)){ const [id,yk]=v.key.split('@'), I=S.inst(id,yk), P=I&&I.A.place; return P&&P.kind==='abroad'&&typeof P.tz==='number'?P.tz:null; }
-    return null; };
-  const clk=G=>{ const C=G&&G.vac&&G.vac.clock; return C&&typeof C==='object'&&typeof C.tz==='number'&&typeof C.end==='number'?C:null; };
-  const setT=(GM,t)=>{ const G=GM.G, d=Math.floor(t/24+1e-9); G.day=d; G.hour=+(t-d*24).toFixed(4); if(typeof CALENDAR!=='undefined') G.weekday=CALENDAR.dateOf(d).wd%7; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); };
-  S.clock=G=>clk(G);
-  /* 出國的那一趟開始（登機以後；沒有 3D 機場＝出發以後）：那一趟記成 flying、時鐘換當地時間（已經換過＝不再撥：讀檔接著演）*/
-  S.flyStart=function(GM,q,end,withIds){ const G=GM.G; if(!q||typeof q!=='object') return null; if(q.state==='planned'||q.state==='airport') q.state='flying'; const C0=clk(G); if(C0) return C0;
-    const tz=S.tzOf(G,q); if(tz==null) return null; const C=S.rec(G).clock={q:q.id,tz,end,with:(withIds||[]).filter(x=>typeof x==='string')};
-    if(tz>0) setT(GM,T(G.day,G.hour)+tz); return C; };
-  S.clockEnd=(G,end)=>{ const C=clk(G); return C?end+Math.min(C.tz,0):end; };   /* 行程最後那一張日期卡（當地時間）：回到臺灣那一刻 */
-  S.clockBack=function(GM){ const G=GM.G, C=clk(G); if(!C) return false; delete S.rec(G).clock; if(C.tz<0) setT(GM,T(G.day,G.hour)-C.tz); return true; };   /* 換回臺灣時間（只往後撥）*/
-  S.flyEnd=function(GM,q){ S.clockBack(GM); if(q&&q.state==='flying') q.state='planned'; };   /* 演完：換回臺灣時間；那一趟的 done 由 OUT.go 接著記（OUT.go 整段是 sceneBegin，中間不會被 OUT 問、算沒去）*/
-  S.tw2g=function(G,t){ const C=clk(G); return C&&t<C.end?t+C.tz:t; };   /* 臺灣時間 → 遊戲時鐘（出國途中、回臺灣以前＝當地時間）*/
-  S.tzAt=function(G,day){ const C=clk(G); if(!C) return null; if(day!=null&&day>Math.floor((C.end+Math.min(C.tz,0))/24+1e-9)) return 0; return C.tz; };   /* STORY.tzOffset 先問這裡（story3d.js）：沒有在國外＝null（照原本）；回國以後的日子＝0 */
-  /* 讀檔回來、那一趟還在途中（flying；第一、二輪的存檔：planned＋登機了＋到了）：接著演（一次）。沒有在途中的那一趟、時鐘卻還是當地的（不該發生）：換回臺灣時間 */
-  const tried=new WeakMap();
-  S.airResume=function(GM){ const G=GM&&GM.G; if(!G||S._fly.size) return false;
-    const q=(Array.isArray(G.outings)?G.outings:[]).find(x=>x&&x.vac&&(x.state==='flying'||(x.state==='planned'&&x.airDone&&x.arrived)));
-    if(!q){ if(clk(G)) S.clockBack(GM); return false; }
-    let D=tried.get(G); if(!D){ D=new Set(); tried.set(G,D); } if(D.has(q.id)) return false; D.add(q.id);
-    q.state='flying'; q.arrived=true; void S.airFly(GM,q,null).catch(e=>console.warn('VAC.airResume',e)); return true; };
-  /* 臺灣的朋友回訊息的時間（MSG.replyAt）：照臺灣時間算他們醒著、在忙，再換回當地時間；一起去的人照當地（同 jp3d.js、us_life3d.js）*/
-  const msgReg=()=>{ if(typeof MSG==='undefined'||!MSG.replyAt||MSG._vacTz) return; const r0=MSG.replyAt; MSG.replyAt=function(G,id){ const C=clk(G); if(!C||!C.tz||(C.with||[]).includes(id)) return r0.apply(this,arguments);
-      const t=T(G.day,G.hour)-C.tz, tw=Object.assign({},G), d=Math.floor(t/24+1e-9); tw.day=d; tw.hour=t-d*24; if(typeof CALENDAR!=='undefined') tw.weekday=CALENDAR.dateOf(d).wd%7; const r=r0.call(this,tw,id); if(!r) return r;
-      const x=T(r.day,r.h)+C.tz, out=Object.assign({},r), xd=Math.floor(x/24+1e-9); out.day=xd; out.h=x-xd*24; out.tz=C.tz; return out; }; MSG._vacTz=true; };   /* msg3d.js 照 index.html 在前面；單元測試載入順序不一定（VAC.msgReg 再叫一次）*/
-  S.msgReg=msgReg; msgReg();
-  S.airReg=airReg; airReg();
   return S;
 })();

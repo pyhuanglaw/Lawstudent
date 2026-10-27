@@ -54,7 +54,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     toInvite(false); check('沒有 SAID_TREAT_SIS：只有 Kevin 那一句',!fam().some(m=>/客套話/.test(m.text))&&!!askOf(/永康街/));
     toInvite(false); PHONE.answer(G,askOf(/永康街/).ask.id,1); run(21.5,21.6); check('「這次不行。」：不排',!OUT.get(G,'fam_dinner_y1s2')); }
   /* 聚餐 */
-  { const dinner=async(flags)=>{ fresh(dD,18.5,'dorm',Object.assign({SIS_W1:true,met_sis:true},flags||{})); await EVENTS.run(e); return lines(); };   /* 已經認識她（SIS_W1）：還沒認識的開頭多兩句自我介紹（AA_470 5-1），驗在 tests/aa470_sis_b12_unit.js */
+  { const dinner=async(flags)=>{ fresh(dD,18.5,'dorm',flags||{}); await EVENTS.run(e); return lines(); };
     const nm=CHARACTERS.heroine_05.name;
     let L=await dinner({SAID_TREAT_SIS:true,SAID_HAS_CAR:true});
     check('有 SAID_TREAT_SIS：「（看菜單三十秒）我要辣的。……飲料學弟請，咖哩我請。」「我不是在客氣喔。」（Kevin 遲到七分鐘。）「Kevin，下次的地方你選。」＋載人；TREATED_FAMILY',

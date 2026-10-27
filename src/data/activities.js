@@ -38,12 +38,9 @@ const ACTIVITIES={
      narr:['（白板上寫著今天的兩個爭點。大家先安靜讀五分鐘。）','（今天的題目是學長姊從題庫裡挑的。一年級坐後面，先聽。）','（研討室的冷氣很強。有人把外套借給隔壁，然後開始吵第一題。）',
            '（今天來的人比上週少兩個。題目反而讀得比較深。）','（結束前，每個人把今天的爭點用一句話寫在白板上。）']},
     /* 6-8 (b)：社團博覽會——椰林大道上的公告欄（zones3d.js，傅鐘廣場東側、法服招生攤位旁邊）；LAWWW2 的攤位做好以後原地換掉，位置不變 */
-    /* CLUBFAIR-REAL-1027（AA_485 第 3-2 節，AA-C 定稿；使用者 10-27「社團博覽會要參考實際的吧」）：照實際的臺大社團聯展——開學第一週的週六，一天，10:00～16:00（2025 年是 9/6）。
-       datesOld：還沒有「開學改 9/1」的舊局（9/17 才開始，9/6 已經過了）照舊 9/30、10/1，舊存檔不會一個社博都沒有。攤位、舞台、喊話、提示在 src/clubfair3d.js、src/data/club_fair.js */
-    {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-20.8,z:2.9,lv:0,label:'社團博覽會',r:1.3},   /* spot＝服務台的帳篷前（LAWWW2 36 頂的 info，CLUBFAIR-REAL-1027；原本傅鐘旁 (-13.5,13.6)）*/
-     dates:['2025-09-06'],datesOld:['2025-09-30','2025-10-01'],t0:10,t1:16,poster:{daysBefore:5},
+    {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-13.5,z:13.6,lv:0,label:'社團博覽會',r:1.3},dates:['2025-09-30','2025-10-01'],t0:11,t1:17,
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
-     desc:'一百多個社團擺攤，中午有舞台表演。能加入的有五個：法服、吉他社、辯論社、登山社、系籃。走到攤位前面就能填表。'   /* AA_491 第 2 點：玩家畫面不要出現「＝」 */,story:false},   /* 第一句照 AA_485 3-5 公告欄；「可以參加的社團到底是什麼」（使用者 10-27）：寫出能加入的五個 */
+     desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
     /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——開學前（8/31 上午，AA_310；使用者 2026-10-20「迎新在9/27不合理阿 應該在開學前」）；有宿營的局不辦（大一的迎新就是 8/22～24 宿營）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
     {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-08-31'],t0:9.5,t1:12,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）不辦；只留給沒有宿營的局（開發起點直接跳 8/29）防呆——下午 14:00 是開學典禮（S.ceremonyY1），中間有午餐時間 */
@@ -92,7 +89,7 @@ const ACTIVITIES={
   canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
   on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&a.skip(G||{flags:{}})) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）；沒給 G 的呼叫也照 skip 判斷（法服讀書會停用＝()=>true）*/
-    const w1=G&&typeof STORY!=='undefined'&&STORY.week1Start?!!STORY.week1Start(G):null; const ds=a.datesW1&&w1?a.datesW1:(a.datesOld&&w1===false?a.datesOld:a.dates);   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）。datesOld：反過來——dates 是新局的、舊局照 datesOld（社團博覽會，CLUBFAIR-REAL-1027）*/
+    const ds=a.datesW1&&G&&typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)?a.datesW1:a.dates;   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）*/
     if(ds) return ds.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
     if(a.weekday&&d.wd!==a.weekday) return false; if(a.weekdays&&!a.weekdays.includes(d.wd)) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; const wks=(a.termWeeks&&t&&a.termWeeks[t.id])||a.weeks; if(wks&&(!t||!wks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday||a.weekdays); },   /* termWeeks：不同學期的週次不一樣（法服讀書會大一下第 2 週起）*/

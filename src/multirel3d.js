@@ -4,11 +4,9 @@
    date3d.js（第一次正式校外約會的開頭 arriveLine、quickPick、scene、complete、menu）、story3d.js（TICKS、PHONE_RULES、PRE_TALK、TALK_OPTS、talkCharacter、在家的 y4HomeDue）、events3d.js（EVENTS.run：麵店團說溜嘴）。
    一、第一次 L3 的問句（AA_422 0-1）：她知道祐廷正在和別人交往（TERMEND.knownOthers，沒有 OPEN_OK）、她還沒在和祐廷交往，那之後第一次正式校外約會的到達那一句之後、第一個互動點之前，一位一次。
        記 <X>_ASKED_GF（AN／SIS／ZQ／ZR／YT（語彤）／PS）＝那一天；選項的 yt 照 ROM.ytAnswer 記 YT_HONEST／YT_DODGED。這一趟不出「快速約會」（才演得到開頭）。芷若第二問（5-2）也在這裡。
-   二、知情版心意邀約（0-2）：回家路上她知道祐廷還在和別人交往＝換成 KNOW[她]；答應照 ROM.PARAMS.acceptsOpen（使用者 10-27 回答 C：七位都打開，AA_474；她的條件＝發邀約以前的 S.KNOWS_OK）；承諾記 YT_PROMISED[她]＝'exclusive'／'handle:<Y>'；
+   二、知情版心意邀約（0-2）：回家路上她知道祐廷還在和別人交往＝換成 KNOW[她]；答應照 ROM.PARAMS.acceptsOpen（現在七位都是 false）；承諾記 YT_PROMISED[她]＝'exclusive'／'handle:<Y>'；
        不接受、說要處理、不知道＝這學期的「讓我想想」（G.termend.think）。下學期她再約：承諾做到了＝照原本的第二次（termend3d.js）；沒做到＝YT_BROKE_PROMISE[她]＋BROKE[她]，之後那一段還在的學期她不發心意邀約（heartWhy）。
-       學姊（AA_474 1-2）：「她說可以。」第一次一律讓我想想；第二次（下學期）知情條件＋沒說謊＋中間兩次 L1／L2 才接受（S.sis2Ok）。
        芷若三個問題分三次（第一次邀約、之後第一次正式約會、下學期邀約），三次都照實＋acceptsOpen 才接受。可昕（分手後重新開始）要等 TERMEND_LINES.HEART.kexin（AA_254 第 7 節：還沒有她的心意邀約）。
-       特別場景（七夕、七月最後一次、芷若 8/26、學姊大峽谷、學姊重新開始的告白）開始交往的那一刻她知道＝同一套（S.knowGate，AA_474 3b）。
    三、發現（0-3）：她和祐廷交往中、在交往期間經任何來源知道 Y（knowsRel 的 day ≥ 她那一段的開始日）、沒有 OPEN_OK、還沒演過這一對、不是祐廷自己說的 → G.flags.MREL.pend[她]。
        演的時機：以安＝和她說話、和她的正式約會、或公法讀書會散會（21:30 人在萬才館）；書瑀＝說話、正式約會；沛珊＝散會後回女舍的路上（只有 2026-10-01～12-16 學到的）；語彤＝她顧店的時候來麵店；
        子晴＝那天晚上 22:00 以後（男宿樓下；在家＝家那站出口）；芷若＝她上班的晚上留到打烊（人在 Café、她的班要結束）；可昕＝當晚 21:30 她打來、過來。她在國外或祐廷在國外＝演出來的視訊（沛珊在台南／台中＝電話）。
@@ -17,12 +15,11 @@
        祐廷先坦白（以安、沛珊有台詞）：和她說話時的選項「我有件事要跟妳講。」／「那我也跟妳講一件事。」→ ROM.tellBy、YT_CONFESSED[她][Y]、演坦白版。沛珊還有還沒交往那一版（「我也喜歡另一個女生。」，S.likes）。
        沛珊：宥辰的三次互動、《換我講一件事》（PS_CONFESSED）、台南那幾年在「去台南找她的那一次」演（src/hometown3d.js 叫 MREL.hvMeet），那學期沒去＝電話（見「沛珊」那一節）。
    四、挽回、結果（AA_423）：發現以後 MREL.st[她]＝{y, n（第幾次冷靜）, day, …}；各人的流程見下面 FLOW。系統不自己分手：只有結果事件的 D、B 不接受。
-       「接受同時交往」那一格照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；使用者 10-27 回答 C：七位都打開，條件照各人的結果，AA_474 第 4 節第 3 點不改）。祐廷的心意記 YT_INTENT[她]；AN_TALKED、AN_WILLING、SIS_TALKED、KX_TALKED（BB_194 §9 的名字）。
-       可昕接受以後可以收回（AA_474 第 3 節，S.kxWithdraw）：①又說謊、②又和第三個人開始交往她從別人那裡先知道、③每個學期末她的戀愛 < 80 ＝下一次見面（公館捷運出口；國外、她在高雄＝視訊）；≥ 70 回 B（我們的日子暫停）、< 70 分手。
+       「接受同時交往」那一格照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；現在都是 false＝不接受那一格）。祐廷的心意記 YT_INTENT[她]；AN_TALKED、AN_WILLING、SIS_TALKED、KX_TALKED（BB_194 §9 的名字）。
    五、誠實／閃避／說謊（BB_194 §24，任務 BB194-YTFLAGS）：選項標 yt（honest／dodge／claimEnded／claimNone，ytAbout:'y'＝這一場的 Y）交給 ROM.ytAnswer 比事實；劇本固定、照實的那一句用 {ytRec:'honest'}。
-   存檔：G.flags.MREL＝{v, disc:{她:{Y:{day,ver}}}, pend, st, zr, zz, gh, scan, block, prom, once, like, liked, sk, sm, lc, gate, kxo, kwp}（AA_474 加的見 S.rec）、KX_WITHDREW；YT_CONFESSED／YT_PROMISED／YT_BROKE_PROMISE／YT_LIED／OPEN_OK／YT_INTENT 舊存檔沒有＝{}（ROM.rec 讀檔時補）；
+   存檔：G.flags.MREL＝{v, disc:{她:{Y:{day,ver}}}, pend, st, zr, zz, gh, scan, block, prom, once, like, liked}；YT_CONFESSED／YT_PROMISED／YT_BROKE_PROMISE／YT_LIED／OPEN_OK／YT_INTENT 舊存檔沒有＝{}（ROM.rec 讀檔時補）；
      G.flags.PS_YC＝{n1,n2,n3}（第一次讀才建）、PS_CONFESSED（那一天）。
-   測試：node tests/aa422_multirel_unit.js、node tests/aa423_multirel_unit.js、node tests/mrel_ps_turn_unit.js、node tests/aa474_acceptsopen_unit.js */
+   測試：node tests/aa422_multirel_unit.js、node tests/aa423_multirel_unit.js、node tests/mrel_ps_turn_unit.js */
 'use strict';
 const MREL=(function(){
   const S={};
@@ -45,15 +42,12 @@ const MREL=(function(){
 
   /* ---------- 存檔 ---------- */
   S.FLAGS=['YT_CONFESSED','YT_PROMISED','YT_BROKE_PROMISE','YT_LIED','OPEN_OK','YT_HONEST','YT_DODGED','YT_INTENT'];
-  /* 接受同時交往照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；使用者 10-27 回答 C：七位都打開，AA_474）：結果的「接受」（B／C 那一格）都要它，不然就是「不接受」那一格；真正的條件是各人自己的（結果照 BB_194，知情版心意邀約照 S.KNOWS_OK）*/
+  /* 接受同時交往照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；現在七位都是 false）：結果的「接受」（B／C 那一格）都要它，不然就是「不接受」那一格 */
   S.acc=x=>!!(typeof ROM!=='undefined'&&ROM.PARAMS&&ROM.PARAMS.acceptsOpen&&ROM.PARAMS.acceptsOpen[x]);
   /* 祐廷的心意 YT_INTENT[她]（BB_194 §9：exclusive／both／unsure；每一場談話的選擇改寫它）*/
   S.intent=(G,x,v)=>{ if(v) S.defaults(G).YT_INTENT[x]=v; return v; };
   S.defaults=function(G){ const F=G.flags||(G.flags={}); for(const k of S.FLAGS) if(!F[k]||typeof F[k]!=='object') F[k]={}; return F; };   /* 舊存檔：曾坦白／承諾／違約／說謊／同意的紀錄＝空的（不追溯）*/
   S.rec=function(G){ const F=S.defaults(G); if(!F.MREL||typeof F.MREL!=='object') F.MREL={v:1}; const R=F.MREL; for(const k of ['disc','pend','st','zr','zz','gh','scan','block','prom','once','like','liked','cpend','rb']) sub(R,k); return R; };
-  S.rs=(G,k)=>sub(S.rec(G),k);   /* 用到才建（舊存檔、沒用到的存檔不多欄位）*/
-  /* AA_474 加的（用到才建：S.rs；舊存檔沒有＝空的，不追溯）：sk[學姊]＝演過知情對話沒有答應的那一次 {day,term}；sm[學姊]＝最近兩次正常見面的日子；lc[她]＝說謊記了幾次（YT_LIED 每記一次 +1）；
-     gate[她]＝特別場景的知情對話（knowGate）{day,r,at}；kxo＝可昕接受那一次 {y,day,lc,since,terms}；kwp＝可昕收回還沒演 {why,y,z,day,h}（G.flags.KX_WITHDREW＝演過的那一次）*/
   S.st=(G,x)=>S.rec(G).st[x]||null;
 
   /* ---------- 叫法、期間（AA_422 0-4、AA_227 第二節）---------- */
@@ -78,9 +72,6 @@ const MREL=(function(){
   S.lied=(G,x,y)=>!!(G.flags&&G.flags.YT_LIED&&G.flags.YT_LIED[x]&&(y?G.flags.YT_LIED[x][y]:Object.keys(G.flags.YT_LIED[x]).length));
   S.confessed=(G,x,y)=>!!(G.flags&&G.flags.YT_CONFESSED&&G.flags.YT_CONFESSED[x]&&G.flags.YT_CONFESSED[x][y]);
   S.lieCount=(G,x)=>{ const M=G.flags&&G.flags.YT_LIED&&G.flags.YT_LIED[x]; return M?Object.keys(M).filter(k=>M[k]).length:0; };
-  /* 說謊記了幾次（YT_LIED 是 {她:{Y:true}}，同一位再說一次謊不會多一格；可昕收回 ①「YT_LIED.kexin 又記一筆」看這個，AA_474 第 3 節）：ROM.ytAnswer 回 'lied'、選項的 lie 各 +1 */
-  S.lieN=(G,x)=>((S.rec(G).lc||{})[x]|0);
-  S.lieMark=(G,x)=>{ if(!G||!x) return; const M=S.rs(G,'lc'); M[x]=(M[x]|0)+1; };
 
   /* ---------- 在哪裡（國外＝視訊；沛珊在台南、台中＝電話）---------- */
   const pres=(G,x)=>typeof STORY!=='undefined'&&STORY.presence?STORY.presence(x,G):{here:true};
@@ -128,7 +119,7 @@ const MREL=(function(){
   /* yt：BB_194 §24（任務 BB194-YTFLAGS）——'honest'／'dodge'／'claimEnded'／'claimNone' 交給 ROM.ytAnswer 和事實比；ytAbout:'y'＝說的是這一場的 Y（「沒有，那是誤會。」＝說 Y 那一段不存在）*/
   S.yt=function(G,c,kind,about){ if(typeof ROM==='undefined'||!ROM.ytAnswer) return null; const r=ROM.ytAnswer(G,c.x,kind,about==='y'?c.y:about); if(r==='lied') c.lied=true; return r; };
   S.applyPick=function(G,c,o){ if(o.yt) S.yt(G,c,o.yt,o.ytAbout);
-    if(o.lie&&c.y){ const M=sub(sub(S.defaults(G),'YT_LIED'),c.x); M[c.y]=true; c.lied=true; S.lieMark(G,c.x); }
+    if(o.lie&&c.y){ const M=sub(sub(S.defaults(G),'YT_LIED'),c.x); M[c.y]=true; c.lied=true; }
     if(o.like) S.rec(G).liked[c.x]=G.day;   /* 祐廷親口承認在追她（S.likes）*/
     if(o.promise) c.promise=o.promise; if(o.intent) c.intent=o.intent; if(o.set) c.sets=Object.assign(c.sets||{},o.set);
     if(o.fx){ try{ o.fx(G,c); }catch(e){ console.warn('MREL pick fx',e); } } };
@@ -206,70 +197,28 @@ const MREL=(function(){
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolveL(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
     const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t}))), said=k<3; c.said=said; if(said) S.rec(G).liked[who]=G.day;
     if(!said) await S.run(GM,who,resolveL(again?(h.she2||h.she):h.she,G),c);
-    const start=()=>{ const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&ys.length){ const M=sub(S.defaults(G).OPEN_OK,who); for(const q of ys) M[q]=true; } if(ok){ (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; if(who===SIS&&S.rec(G).sk) delete S.rec(G).sk[SIS]; } return ok; };
+    const start=()=>{ const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&ys.length){ const M=sub(S.defaults(G).OPEN_OK,who); for(const q of ys) M[q]=true; } if(ok){ (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; } return ok; };
     const think=()=>{ Rt.think[who]=term; R.result='think'; return 'think'; };
-    /* 芷若：第一次問「那你打算怎麼辦？」，第三次（之前問過第一次）問「你是真的想跟我在一起嗎？」（S.zrAsk）*/
-    if(who===ZR){ const r=await S.zrAsk(GM,c,term,ys,start); if(r==='yes') return 'yes'; think(); return r==='no'?'no':'think'; }
+    /* 芷若：第一次問「那你打算怎麼辦？」，第三次（之前問過第一次）問「你是真的想跟我在一起嗎？」*/
+    if(who===ZR){ const Z=S.rec(G).zr;
+      if(!Z.q1){ await S.run(GM,who,K.q,c); const cc=await S.knowOpts(GM,who,K.opts,c,term,ys); Z.q1={term,day:G.day,y}; return cc.res||think(); }
+      await S.run(GM,who,K.q3,c); const O=K.opts3, kk=await GM.choose(O.map(o=>({t:o.t}))), o=O[kk]||O[0]; S.applyPick(G,c,o); Z.q3={term,day:G.day,pick:kk};
+      if(o.q3yes){ const ok=!!(Z.q1&&Z.q2&&Z.q2.ok)&&!S.lieCount(G,ZR)&&!S.defaults(G).YT_BROKE_PROMISE[ZR]&&!!(ROM.PARAMS&&ROM.PARAMS.acceptsOpen&&ROM.PARAMS.acceptsOpen[ZR]);
+        if(ok&&start()){ await S.run(GM,who,o.yes,c); return 'yes'; } await S.run(GM,who,o.no,c); S.block(G,ZR,ys); think(); return 'no'; }
+      await S.run(GM,who,o.then,c); return think(); }
     const qL=said?(K.say||K.q):(K.she||K.q); await S.run(GM,who,qL,c);
-    const cc=await S.knowOpts(GM,who,K.opts,c,term,ys,{start,again:who===SIS?S.sisSecond(G,again):again});   /* 學姊：第一次一律讓我想想，第二次另外看 NEED.sis2（AA_474 1-2）*/
-    if(cc.res) return cc.res; if(who===SIS) S.sisMark(G,term); return think(); };
-  /* 芷若的三個問題（AA_422 5-2；學期末的知情版心意邀約、AA_474 3b 的特別場景同一套）：沒問過第一問＝第一問＋選項；問過＝第三問（第一、二問都照實＋沒說謊＋沒違約＋acceptsOpen＝接受）。
-     回 'yes'（已經交往）／'no'（第三問不接受：之後那一段還在的學期不發心意邀約）／'think'／'promise'（第一問「我會跟她講。」）*/
-  S.zrAsk=async function(GM,c,term,ys,start){ const G=GM.G, K=L().KNOW[ZR], Z=S.rec(G).zr, y=c.y;
-    if(!Z.q1){ await S.run(GM,ZR,K.q,c); const cc=await S.knowOpts(GM,ZR,K.opts,c,term,ys); Z.q1={term,day:G.day,y}; return cc.res||cc.gate||'think'; }
-    await S.run(GM,ZR,K.q3,c); const O=K.opts3, kk=await GM.choose(O.map(o=>({t:o.t}))), o=O[kk]||O[0]; S.applyPick(G,c,o); Z.q3={term,day:G.day,pick:kk};
-    if(o.q3yes){ const ok=!!(Z.q1&&Z.q2&&Z.q2.ok)&&!S.lieCount(G,ZR)&&!S.defaults(G).YT_BROKE_PROMISE[ZR]&&S.acc(ZR)&&!S.zzPair(G,ZR,ys);
-      if(ok&&start()){ await S.run(GM,ZR,o.yes,c); return 'yes'; } await S.run(GM,ZR,o.no,c); S.block(G,ZR,ys); return 'no'; }
-    await S.run(GM,ZR,o.then,c); return 'think'; };
-  /* 選項的「第二次另外要的條件」（again.need）。sis2＝學姊知情版的第二次（AA_474 1-2）：她的知情條件（termend3d.js S.KNOWS_OK）＋沒說謊＋兩次邀約中間至少兩次正常的 L1／L2 */
-  S.NEED={ sis2:G=>S.sis2Ok(G) };
-  /* 子晴、芷若（AA_474 1-4、1-5、第 2 節；使用者 10-17 定案「確定選朋友，不會三個人一起」）：她知道的那幾位裡有另一位＝知情條件不到（heartWhy 不發、只傳那一句）、也不會接受（開關打開也一樣）*/
-  S.zzPair=(G,x,ys)=>{ const o=x===ZQ?ZR:(x===ZR?ZQ:null); return !!o&&(ys||S.knownOthers(G,x)).includes(o); };
-  S.knowOpts=async function(GM,who,opts,c,term,ys,o2){ const G=GM.G; o2=o2||{};
+    const cc=await S.knowOpts(GM,who,K.opts,c,term,ys,{start});
+    return cc.res||think(); };
+  S.knowOpts=async function(GM,who,opts,c,term,ys,o2){ const G=GM.G, Rt=TERMEND.rec(G), R=TERMEND.rec(G,term); o2=o2||{};
     const O=opts.filter(o=>o.if===undefined||condOk(o.if,G,c)), k=await GM.choose(O.map(o=>({t:S.subst(o.t,G,c)}))), o=O[k]||O[0]; S.applyPick(G,c,o);
     await S.run(GM,who,o.then,c);
-    let pr=o.promise||null, acc=o.accept, need=null;
-    if(o.sub){ const s=await GM.choose(o.sub.map(q=>({t:q.t}))), q0=o.sub[s]||o.sub[0], q=o2.again&&q0.again?Object.assign({},q0,q0.again):q0;   /* 第二次換 again 那一套（學姊「她說可以。」，AA_474 第 5 節）*/
-      S.applyPick(G,c,q); await S.run(GM,who,q.then,c); pr=q.promise||pr; if('accept' in q) acc=q.accept; need=q.need||null;
-      if(q.first==='think'&&!o2.again) acc=null; }   /* 第一次一律讓我想想（AA_474 1-2：說完「……好。我想一下。」就停）*/
+    let pr=o.promise||null, acc=o.accept;
+    if(o.sub){ const s=await GM.choose(o.sub.map(q=>({t:q.t}))), q=o.sub[s]||o.sub[0]; S.applyPick(G,c,q); await S.run(GM,who,q.then,c); pr=q.promise||pr; if('accept' in q) acc=q.accept; }
     if(pr&&ys.length) S.promise(G,who,pr,ys,term);
-    if(acc){ const ok=S.acc(who)&&!S.zzPair(G,who,ys)&&(!need||!S.NEED[need]||!!S.NEED[need](G,who));   /* acceptsOpen（使用者 10-27 回答 C：七位都打開）；她的知情條件在發邀約以前已經看過（S.KNOWS_OK），這裡不再加（AA_474 第 4 節第 2 點）*/
+    if(acc){ const ok=!!(typeof ROM!=='undefined'&&ROM.PARAMS&&ROM.PARAMS.acceptsOpen&&ROM.PARAMS.acceptsOpen[who]);
       if(ok&&o2.start&&o2.start()){ await S.run(GM,who,acc.yes,c); c.res='yes'; return c; }
-      await S.run(GM,who,acc.no,c); c.gate='no'; return c; }
-    c.gate=pr&&ys.length?'promise':'think'; return c; };   /* c.gate：沒有答應的時候是哪一種（knowGate 用；knowWalk 一律算這學期的讓我想想）*/
-
-  /* ---------- 學姊知情版的第一次／第二次（AA_474 1-2）----------
-     第二次＝之前有過心意邀約的「讓我想想」（G.termend.think），或演過她的知情對話沒有答應（MREL.sk）；七月最後一次照 AA 算第二次（knowGate 的 again）。
-     中間的 L1／L2 照 FLOW.heroine_05 的 meets 同一種算法：和她說話、和她的正式校外約會（MREL.meetAction 沒有別的事要演＝正常的一次）。MREL.sm[學姊]＝最近兩次的日子 */
-  S.sisSecond=(G,again)=>!!again||(typeof TERMEND!=='undefined'&&!!TERMEND.rec&&TERMEND.rec(G).think[SIS]!=null)||!!(S.rec(G).sk||{})[SIS];
-  S.sisMark=(G,term)=>{ S.rs(G,'sk')[SIS]={day:G.day,term:term||null}; };
-  S.sisMet=G=>{ const M=S.rs(G,'sm'); M[SIS]=(Array.isArray(M[SIS])?M[SIS]:[]).concat([G.day]).slice(-2); };
-  S.sisLastAsk=function(G){ let d=-1e9; const k=(S.rec(G).sk||{})[SIS]; if(k&&typeof k.day==='number') d=k.day;   /* 上一次的邀約：知情對話那天、或上一次心意邀約的飯（G.termend[那一學期].done）*/
-    const th=typeof TERMEND!=='undefined'&&TERMEND.rec?TERMEND.rec(G).think[SIS]:null, Rd=th&&G.termend&&G.termend[th]&&G.termend[th].done; if(Rd&&Rd.who===SIS&&typeof Rd.day==='number') d=Math.max(d,Rd.day);
-    return d; };
-  S.sis2Ok=function(G){ const KO=typeof TERMEND!=='undefined'&&TERMEND.KNOWS_OK?TERMEND.KNOWS_OK[SIS]:null; if(!KO||!KO(G)||S.lied(G,SIS)) return false;
-    const d=S.sisLastAsk(G); return ((S.rec(G).sm||{})[SIS]||[]).filter(x=>x>d).length>=2; };
-
-  /* =================== 二之二、開始交往的那一刻她知道祐廷有別人（AA_474 第 4 節 3b，通則）===================
-     學期末一般的心意邀約以外會開始交往的地方：以安七夕（r2y3b3d.js）、七月最後一次（r2y4b3d.js julyScene）、芷若 8/26（zr_last3d.js）、學姊大峽谷（r2y4b3d.js canyonKnow）、
-     學姊重新開始的告白（date3d.js S.confess）。knownOthers(她) 有人＝先演她那一節的知情對話（KNOW[她]＋knowOpts；芷若照三問），台詞、條件、承諾、YT_* 記錄和心意邀約同一套；
-     接受＝照那一場原本的答應（o.start：ROM.start＋OPEN_OK＋confessed）；其他＝那一場走它自己的「還沒」那一條（這裡不記 G.termend.think）。沒有人知道＝null（照原本）。
-     Z13、Q15 不用這個：她知道＝不演特別版，改走一般的知情版心意邀約（r2y3b3d.js、rom1016_3d.js）。
-     o：said（祐廷先說＝KNOW.say，沒有就 q；她先說＝KNOW.she，沒有就 q）、again（學姊算第二次）、term（承諾記在哪一學期）、start、at（哪一場，記在 MREL.gate）。
-     回 'yes'／'promise'（說會分、會講：YT_PROMISED）／'no'（不接受）／'think'（讓我想想、不知道）；MREL.gate[她]＝{day, r, at} */
-  S.knowsOther=(G,x)=>law(G)&&!!L()&&!!L().KNOW&&!!L().KNOW[x]&&S.knownOthers(G,x).length>0;
-  S.startOpen=function(G,x,ys){ const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,x):((G.flags['dating_'+x]=true),true);
-    if(ok){ const M=sub(S.defaults(G).OPEN_OK,x); for(const q of ys||[]) M[q]=true; (G.flags.confessed||(G.flags.confessed={}))[x]=G.day; } return ok; };
-  S.termNow=G=>(typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(G.day))||null;
-  S.knowGate=async function(GM,x,o){ o=o||{}; const G=GM.G; if(!S.knowsOther(G,x)) return null;
-    const K=L().KNOW[x], ys=S.knownOthers(G,x), y=S.newest(G,x,ys), c=S.ctx(G,x,y), term=o.term||S.termNow(G);
-    c.said=!!o.said; if(o.said) S.rec(G).liked[x]=G.day;   /* 祐廷親口說了（同 knowWalk 的「說出來」）*/
-    const start=()=>{ const ok=o.start?!!o.start(G):S.startOpen(G,x,ys); if(ok&&x===SIS&&S.rec(G).sk) delete S.rec(G).sk[SIS]; return ok; };
-    let r;
-    if(x===ZR) r=await S.zrAsk(GM,c,term,ys,start);
-    else { await S.run(GM,x,o.said?(K.say||K.q):(K.she||K.q),c); const cc=await S.knowOpts(GM,x,K.opts,c,term,ys,{start,again:x===SIS?S.sisSecond(G,o.again):!!o.again}); r=cc.res||cc.gate||'think'; }
-    if(x===SIS&&r!=='yes') S.sisMark(G,term);
-    S.rs(G,'gate')[x]={day:G.day,r,at:o.at||''}; return r; };
+      await S.run(GM,who,acc.no,c); }
+    return c; };
 
   /* =================== 三、發現（AA_422 0-3）=================== */
   S.WINDOW_PS_END='2026-12-16';   /* 沛珊「她後來才發現」只會在這一天以前（AA_425 第 1 節：讀書會以安傳開、在場；大一下交往中的玩家也可能）*/
@@ -282,11 +231,8 @@ const MREL=(function(){
   S.scan=function(G){ if(!law(G)) return; const R=S.rec(G);
     for(const x of S.IDS){ if(R.pend[x]){ if(!dating(G,x)||!dating(G,R.pend[x].y)) delete R.pend[x]; else continue; }
       if(!dating(G,x)) continue; const D=R.disc[x]||{};
-      let ys=(typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,x):[]).filter(y=>!S.openOk(G,x,y)&&!D[y]&&!S.confessed(G,x,y)&&!S.excluded(G,x,y)&&S.learnedDuring(G,x,y));
-      if(!ys.length) continue;
-      if(x===KX&&S.kwOn(G)){ const zs=ys.filter(z=>!S.ytSaid(G,KX,z));   /* 可昕收回 ②（AA_474 第 3 節）：她接受以後，祐廷又和第三個人交往、她從別人那裡先知道＝收回（不另外演發現）*/
-        if(zs.length){ const D2=sub(R.disc,KX); for(const z of zs) D2[z]={day:G.day,ver:'withdraw'}; S.kwQueue(G,2,S.kxOpenY(G),S.newest(G,KX,zs)); ys=ys.filter(z=>!zs.includes(z)); if(!ys.length) continue; } }
-      const y=S.newest(G,x,ys), r=S.relAt(G,x,y)||{}; R.pend[x]={y,day:r.day!=null?r.day:G.day,h:r.h!=null?r.h:+G.hour||0,src:r.source||''};
+      const ys=(typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,x):[]).filter(y=>!S.openOk(G,x,y)&&!D[y]&&!S.confessed(G,x,y)&&!S.excluded(G,x,y)&&S.learnedDuring(G,x,y));
+      if(!ys.length) continue; const y=S.newest(G,x,ys), r=S.relAt(G,x,y)||{}; R.pend[x]={y,day:r.day!=null?r.day:G.day,h:r.h!=null?r.h:+G.hour||0,src:r.source||''};
       if(/^slip:/.test(r.source||'')) R.pend[x].slip=/^slip:yu/.test(r.source)?'yu':'zhe';
       if(r.source==='seen_by:li_guanhong'){ const g=R.gh[y]||{}; R.pend[x].gh={place:g.place||'',known:[A1,YT,PS].includes(y)}; } } };
   S.prevKnown=function(G,x,y){ const R=S.rec(G), D=R.disc[x]||{}; let best=null;
@@ -531,8 +477,7 @@ const MREL=(function(){
 
   /* =================== 四、挽回、結果（AA_423）=================== */
   S.end=function(G,x,how){ if(typeof ROM==='undefined'||!ROM.end) return false; const ok=ROM.end(G,x,how||'mrel'); if(ok){ const R=ROM.get(G,x); R.by='her'; R.endedDay=G.day; } const st=S.st(G,x); if(st){ st.phase='ended'; st.result='D'; } return ok; };
-  S.agree=function(G,x,y){ sub(S.defaults(G).OPEN_OK,x)[y]=true; S.defaults(G).YT_PROMISED[x]='tell_first'; S.rec(G).prom[x]={ys:[y],day:G.day}; const st=S.st(G,x); if(st){ st.phase='done'; st.result='C'; }
-    if(x===KX) S.rec(G).kxo={y,day:G.day,lc:S.lieN(G,KX),since:S.sinceDay(G,KX)}; };   /* 知情後繼續（OPEN_OK、以後你要自己先講＝tell_first）；可昕記接受的那一次（收回看它，AA_474 第 3 節）*/
+  S.agree=function(G,x,y){ sub(S.defaults(G).OPEN_OK,x)[y]=true; S.defaults(G).YT_PROMISED[x]='tell_first'; S.rec(G).prom[x]={ys:[y],day:G.day}; const st=S.st(G,x); if(st){ st.phase='done'; st.result='C'; } };   /* 知情後繼續（OPEN_OK、以後你要自己先講＝tell_first）*/
   S.liedSince=(G,x,st)=>S.lieCount(G,x)>(st?st.lies0|0:0)||!!(st&&st.lieDisc&&x!==KX);
   S.plg=()=>typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='public_law_group'):null;
   S.plgOn=(G,d)=>{ const a=S.plg(); return !!a&&ACTIVITIES.on(a,d,G); };
@@ -562,7 +507,6 @@ const MREL=(function(){
     if(x===KX&&kind==='date'&&R.cpend[KX]&&!S.heAbroad(G)) return {abort:true,disc:true,run:async GM=>S.playConf(GM,KX,{})};   /* 可昕：說好下次見面講的，這一次正式約會講（講完她走了，這一趟不去）*/
     if(S.discDue(G,x,kind)) return {abort:true,disc:true,run:async GM=>S.playDisc(GM,x,{remote:null})};
     const st=R.st[x]; const F=S.FLOW[x]; if(st&&F&&F.meet){ const a=F.meet(G,st,kind); if(a) return a; }
-    if(x===SIS&&(kind==='talk'||kind==='date')) S.sisMet(G);   /* 正常的一次見面（學姊知情版第二次要中間兩次，AA_474 1-2；同 FLOW.heroine_05 的 meets）*/
     return null; };
   S.meet=async function(GM,x,kind){ const a=S.meetAction(GM.G,x,kind); if(!a) return false; await a.run(GM); return a.abort?'abort':true; };
 
@@ -594,13 +538,12 @@ const MREL=(function(){
         if((st.meets|0)>=2){ const r=st.intent==='both'?(rom(SIS)>=75&&S.acc(SIS)?'Byes':'Bno'):'C'; return {abort:true,run:async GM=>S.result(GM,SIS,st,r)}; }
         st.meets=(st.meets|0)+1; return null; } },
     kexin:{
-      tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done'||st.phase==='thinking') return null;
+      tick(G,st){ const t=now(G); if(st.phase==='ended'||st.phase==='done') return null;
         if(st.selfAt!=null&&!seen(st,'self')&&t>=st.selfAt) return {k:'self',bg:'nccu_gate',cap:'政大',cut:true,run:async GM=>S.kxSelf(GM,st)};
         if(S.kxEDue(G,st)) return {k:'kx_e',x:KX,bg:'phone_street_night',cap:'電話',run:async GM=>S.kxE(GM,st)};   /* 結果 E（AA_429 第 2 節）*/
         if(seen(st,'n4')&&!seen(st,'hug')&&st.hugAt!=null&&t>=st.hugAt&&rom(KX)>=80&&!S.liedSince(G,KX,st)) return {k:'hug',x:KX,bg:'phone_street_night',run:async GM=>S.kxHug(GM,st)};
         return null; },
-      meet(G,st,kind){ if(st.phase==='thinking') return S.kxThinkMeet(G,st,kind);   /* 收回以後回 B（AA_474 第 3 節）*/
-        if(!seen(st,'back')||st.phase==='ended'||st.phase==='done') return null; const y=st.y;
+      meet(G,st,kind){ if(!seen(st,'back')||st.phase==='ended'||st.phase==='done') return null; const y=st.y;
         if(!seen(st,'n4')) return {abort:kind!=='out',run:async GM=>S.kxFour(GM,st)};
         if(!dating(G,y)) return {abort:kind!=='out',run:async GM=>S.result(GM,KX,st,'A')};
         if(!st.b1&&!seen(st,'hug')&&G.day<=(st.done.n4|0)+1) return null;   /* 隔天晚上她可能打來（5-5）：先等 */
@@ -723,50 +666,6 @@ const MREL=(function(){
     else if(r==='D'||r==='Bno'||r==='Bno_D'){ S.end(G,x); st.endedDay=G.day; if(x===A1) st.dAfterAt=G.day+1; }
     st.resultDay=G.day; return r; };
 
-  /* =================== 可昕收回（AA_474 第 3 節；BB_194 第 9 節「她可以收回」）===================
-     她接受以後（OPEN_OK.kexin[Y]，Y 還在交往），下面任一件＝下一次兩人見面演：①YT_LIED.kexin 又記一筆（S.lieN）；②祐廷又和第三個人開始交往、她從別人那裡先知道（S.scan：不另外演發現）；
-     ③接受以後每個學期末（學期末的飯那個時段，TERMEND.window）看一次她的戀愛 < 80（她自己改變想法）。
-     在哪：她約公館捷運出口，晚上（出遊 20:00，接受以後的隔天起）；祐廷或她在國外、她寒暑假在高雄＝演出來的視訊（同發現：她那邊 21:00～23:30）。
-     演完：清掉 OPEN_OK.kexin[Y]、記 KX_WITHDREW {day, why, y, z, since}（每段交往只演一次）；她的戀愛 ≥ 70＝回 B（MREL.st.kexin.phase 'thinking'：我們的日子暫停，還一起吃飯）；< 70＝她提分手（ended，by her）。
-     回 B 以後：Y（②那一位也是）真的結束了＝照 5-6 的 A；之後第一次見面（隔天起）祐廷再提兩個都要＝她直接答「我說過了。」（一次；不再走一次接受）。
-     她約的那一則訊息、視訊的開頭 AA 沒有寫：沒有傳字，只排出遊（行程有標題）。*/
-  S.KW_PLACE='公館捷運出口'; S.KW_H=20;
-  S.ytSaid=(G,x,y)=>{ const r=S.relAt(G,x,y)||{}; return r.source==='yt_told'||r.source==='legacy'||S.confessed(G,x,y); };   /* 祐廷自己講的（tellBy／舊存檔他親口說的／先坦白）*/
-  S.kxOpenY=G=>{ if(!dating(G,KX)) return null; const O=(G.flags&&G.flags.OPEN_OK&&G.flags.OPEN_OK[KX])||{}; return Object.keys(O).find(q=>O[q]&&q!==KX&&dating(G,q))||null; };
-  S.kwDone=G=>{ const W=G.flags&&G.flags.KX_WITHDREW; return !!W&&W.since===S.sinceDay(G,KX); };   /* 這一段交往演過了 */
-  S.kwOn=G=>law(G)&&!S.kwDone(G)&&!!S.kxOpenY(G);
-  S.kwQueue=function(G,why,y,z){ const R=S.rec(G); if(R.kwp) return false; R.kwp={why,y,z:z||null,day:G.day,h:+(+G.hour||0).toFixed(2)}; return true; };
-  S.kwTick=function(G){ if(!S.kwOn(G)) return; const R=S.rec(G); if(R.kwp) return; const y=S.kxOpenY(G);
-    const o=R.kxo&&R.kxo.y===y&&R.kxo.since===S.sinceDay(G,KX)?R.kxo:(R.kxo={y,day:G.day,lc:S.lieN(G,KX),since:S.sinceDay(G,KX)});   /* 沒有接受紀錄（不應該發生）：從現在起算 */
-    if(S.lieN(G,KX)>(o.lc|0)){ S.kwQueue(G,1,y); return; }   /* ① */
-    const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null;
-    if(w&&w.from>o.day){ const Tm=o.terms||(o.terms={}); if(Tm[w.id]==null){ Tm[w.id]=G.day; if(rom(KX)<80) S.kwQueue(G,3,y); } } };   /* ③ */
-  S.kwRemote=G=>{ let rm=S.remote(G,KX); if(!rm&&pres(G,KX).kind==='home'&&!pres(G,KX).here) rm='video'; return rm?'video':null; };
-  S.kwPlan=function(G){ const R=S.rec(G), p=R.kwp; if(!p) return; if(!dating(G,KX)){ delete R.kwp; return; } if(typeof OUT==='undefined'||!OUT.rec||S.kwRemote(G)) return;
-    if(OUT.rec(G).some(q=>q&&q.state==='planned'&&q.mrel&&q.mrel.x===KX&&q.mrel.kind==='withdraw')) return;
-    let d=Math.max(p.day+1,G.day); if(now(G)>T(d,S.KW_H+0.5)) d++;
-    S.planOut(G,KX,'withdraw',d,S.KW_H,{place:S.KW_PLACE,title:S.KW_PLACE+'（'+nm(KX)+'）',travel:'走過去約 15 分鐘',travelH:0.25}); };
-  S.kwDue=function(G){ const R=S.rec(G), p=R.kwp; if(!p||G.day<=p.day||R.pend[KX]) return null; if(!dating(G,KX)){ delete R.kwp; return null; }
-    const h=+G.hour||0; if(S.kwRemote(G)&&h>=21&&h<23.5) return {k:'kx_withdraw_remote',x:KX,bg:'video',run:async GM=>S.kxWithdraw(GM,{remote:'video'})}; return null; };
-  S.kxWithdraw=async function(GM,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.kwp; if(!p) return false; delete R.kwp; if(!dating(G,KX)) return false;
-    const y=p.y&&dating(G,p.y)?p.y:(S.kxOpenY(G)||p.y), W=L().KX_WITHDRAW, c=S.ctx(G,KX,y,{remote:o.remote||null});
-    await S.run(GM,KX,p.why===3?W.self:W.broke,c);
-    const O=S.defaults(G).OPEN_OK[KX]; if(O&&y) delete O[y];
-    const D2=sub(R.disc,KX); if(y&&!D2[y]) D2[y]={day:G.day,ver:'withdraw'};   /* 不再被當成「被發現」演一次 */
-    G.flags.KX_WITHDREW={day:G.day,why:p.why,y,z:p.z||null,since:S.sinceDay(G,KX)};
-    const st=R.st[KX]||S.startStrain(G,KX,y,{ver:'withdraw'}); st.w={day:G.day,why:p.why,z:p.z||null};
-    if(rom(KX)>=70){ await S.run(GM,KX,W.pause,c); st.phase='thinking'; st.result='W'; S.kxOdPause(G); }
-    else { await S.run(GM,KX,W.end,c); S.end(G,KX); st.endedDay=G.day; }
-    return true; };
-  /* 回 B（thinking）以後的見面 */
-  S.kxThinkMeet=function(G,st,kind){ if(!dating(G,KX)) return null; const w=st.w||(st.w={day:G.day}), left=[st.y,w.z].filter(q=>q&&dating(G,q));
-    if(!left.length) return {abort:kind!=='out',run:async GM=>S.result(GM,KX,st,'A')};   /* 照 5-6 的 A */
-    if(!w.told&&G.day>(w.day|0)) return {abort:false,run:async GM=>{ w.told=G.day; await S.run(GM,KX,L().KX_WITHDRAW.told,S.ctx(G,KX,st.y)); }};
-    return null; };
-  /* 我們的日子暫停（「我們的日子先停。」）：kxod3d.js、pgdates3d.js、story3d.js（大一下）排固定格以前看 kxOdPaused；回 A、分手以後照常 */
-  S.kxOdPaused=G=>{ const M=G&&G.flags&&G.flags.MREL, st=M&&M.st?M.st[KX]:null; return !!st&&st.phase==='thinking'&&!!G.flags.dating_kexin&&S.kwDone(G); };   /* 這一段交往收回過、還在 B */
-  S.kxOdPause=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return; for(const q of OUT.rec(G)) if(q&&q.state==='planned'&&(/^kx_od_/.test(q.id||'')||q.ev==='ev_kexin_our_day'||q.ev==='ev_kexin_our_day_wk')) q.state='skipped'; };   /* 已經排好的固定格 */
-
   /* =================== 五、子晴、芷若兩個人一起（AA_227 6-4、6-5、6-6；AA_422 4-4、AA_423 4-1；BB_194 §22）=================== */
   S.zzDue=function(G){ if(!law(G)||!dating(G,ZQ)||!dating(G,ZR)) return false; const Z=S.rec(G).zz; if(Z.friday) return false;
     if(S.openOk(G,ZQ,ZR)||S.openOk(G,ZR,ZQ)) return false; if(knows(G,ZQ,ZR)&&knows(G,ZR,ZQ)) return false; if(S.heAbroad(G)) return false;
@@ -838,7 +737,6 @@ const MREL=(function(){
       if(x===YT&&G.zone==='noodle'&&S.ytShift(G)) return {k:'disc',x,blur:true,run:async GM=>S.playDisc(GM,x,{})};
       if(x===KX&&h>=21.5&&h<24.5&&(G.day>p.day||p.h<21.5)&&!S.heAbroad(G)) return {k:'disc',x,bg:'phone_street_night',run:async GM=>S.playDisc(GM,x,{})};
       if((x===A1||x===PS)&&G.zone==='wancai'&&G.day>p.day&&S.plgOn(G,G.day)&&h>=21.5&&h<22.5) return {k:'disc',x,bg:x===A1?'wancai_seminar':'girls_dorm_gate',run:async GM=>S.playDisc(GM,x,{})}; }
-    { const a=S.kwDue(G); if(a) return a; }   /* 可昕收回：國外、她在高雄＝視訊（AA_474 第 3 節；在臺北＝出遊，S.kwPlan）*/
     { const a=S.confDue(G); if(a) return a; }   /* 祐廷先坦白（AA_429）：說好下次見面講的 */
     { const a=S.confAskDue(G); if(a) return a; }   /* 祐廷在國外：問一次要不要視訊講（AA_436 第 3 節第 3 點）*/
     { const k=S.anRbDue(G); if(k) return {k:'an_rb_'+k,x:A1,bg:'wancai_seminar',run:async GM=>S.anRb(GM,k)}; }   /* 以安重新開始（AA_185 4-1）*/
@@ -850,19 +748,17 @@ const MREL=(function(){
     for(const x of S.IDS){ const st=R.st[x], F=S.FLOW[x]; if(!st||!F||!F.tick) continue; const a=F.tick(G,st); if(a) return Object.assign({x:a.x!==undefined?a.x:x},a); }
     return null; };
   S.play=async function(GM,a){ if(a.noScene) return a.run(GM); return S.scene(GM,{x:a.cut?null:a.x,bg:a.bg,blur:a.blur,cap:a.cap},()=>a.run(GM)); };
-  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)) return false; S._gm=GM; S.rec(G); S.spreadTick(G); S.scan(G); S.zzCap(G); S.ycPhone(G); S.kwTick(G); S.kwPlan(G);
+  S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)) return false; S._gm=GM; S.rec(G); S.spreadTick(G); S.scan(G); S.zzCap(G); S.ycPhone(G);
     { const st=S.st(G,KX); if(st) S.kxPhone(G,st); }
     if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;   /* 在家：家裡的選單接（y4HomeDue）*/
     const a=S.dueAuto(G); if(!a||!S.free(GM)) return false; busy=true; S._p=S.play(GM,a).catch(e=>console.warn('MREL',a.k,e)).finally(()=>{ busy=false; }); return true; };
-  S.phone=function(G,GM){ if(!law(G)) return; S.rec(G); const st=S.st(G,KX); if(st) S.kxPhone(G,st); S.ycPhone(G); S.kwTick(G); S.kwPlan(G); };
+  S.phone=function(G,GM){ if(!law(G)) return; S.rec(G); const st=S.st(G,KX); if(st) S.kxPhone(G,st); S.ycPhone(G); };
 
   /* =================== 接線 =================== */
   /* 出遊（自己排的：書瑀的小店、可昕的公館、子晴的宵夜、語彤的走廊）*/
   const OUTEV={ id:S.OUT_EV, get title(){ const q=S._q||S._lastQ; return q&&q.place&&q.place!=='視訊'?q.place:''; }, participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:1,
     beforeOuting:(G,GM,q)=>{ S._q=q; },
-    dialogue:[ {call:async(G,GM)=>{ const q=S._q; S._q=null; S._lastQ=q; if(!q||!q.mrel) return; const {x,kind}=q.mrel, st=S.st(G,x);
-      if(x===KX&&kind==='withdraw'){ if(typeof ADV!=='undefined'){ if(ADV.setBg&&typeof OUT!=='undefined'&&OUT.bg) ADV.setBg(OUT.bg('gongguan')); if(ADV.speaker) try{ ADV.speaker(x,'neutral'); }catch(e){} } if(GM.caption) GM.caption('',S.KW_PLACE,2400); return S.kxWithdraw(GM,{}); }   /* 可昕收回（AA_474 第 3 節）*/
-      if(!st) return; if(typeof ADV!=='undefined'&&ADV.speaker) try{ ADV.speaker(x,'neutral'); }catch(e){}
+    dialogue:[ {call:async(G,GM)=>{ const q=S._q; S._q=null; S._lastQ=q; if(!q||!q.mrel) return; const {x,kind}=q.mrel, st=S.st(G,x); if(!st) return; if(typeof ADV!=='undefined'&&ADV.speaker) try{ ADV.speaker(x,'neutral'); }catch(e){}
       if(x===SIS&&kind==='dinner'){ if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(q.call?(OUT.bg?OUT.bg('video'):'video'):(OUT.bg?OUT.bg('y0_lane_shop'):'dark')); return S.sisDinner(GM,st); }
       if(x===KX&&kind==='back'){ if(typeof ADV!=='undefined'&&ADV.setBg&&OUT.bg) ADV.setBg(OUT.bg('gongguan')); return S.kxBack(GM,st); }
       if(x===ZQ&&kind==='talk'){ if(typeof ADV!=='undefined'&&ADV.setBg&&OUT.bg) ADV.setBg(OUT.bg('gongguan')); return S.zqTalk(GM,st); }
@@ -872,14 +768,11 @@ const MREL=(function(){
   if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e.id===OUTEV.id)) STORY_EVENTS.push(OUTEV);
   if(typeof ROM!=='undefined'&&!ROM._mrel){
     const r0=ROM.rec; ROM.rec=function(G){ const r=r0.apply(this,arguments); try{ if(G&&G.flags) S.defaults(G); }catch(e){} return r; };   /* 讀檔時補（game3d.js migrate 叫 ROM.rec）*/
-    const s0=ROM.start; ROM.start=function(G,id){ const ok=s0.apply(this,arguments); try{ if(ok) S.zzStartHook(G,id); if(ok&&(id===A1||id===YT)&&G.flags&&G.flags['EX_'+id]) delete G.flags['EX_'+id];
-        if(ok&&id===KX){ const s=S.rec(G).st[KX]; if(s&&s.phase==='thinking') s.phase='ended'; } }catch(e){ console.warn('MREL start',e); } return ok; };   /* AA_185 4-1：重新交往那一刻起 EX 清掉、前任版切回交往版；和可昕重新交往＝上一段收回以後的 B 不帶過來 */
-    const ya0=ROM.ytAnswer; if(ya0) ROM.ytAnswer=function(G,x){ const r=ya0.apply(this,arguments); try{ if(r==='lied'&&G&&G.flags) S.lieMark(G,x); }catch(e){ console.warn('MREL lie',e); } return r; };   /* 說謊記一筆（S.lieN；可昕收回 ①）*/
+    const s0=ROM.start; ROM.start=function(G,id){ const ok=s0.apply(this,arguments); try{ if(ok) S.zzStartHook(G,id); if(ok&&(id===A1||id===YT)&&G.flags&&G.flags['EX_'+id]) delete G.flags['EX_'+id]; }catch(e){ console.warn('MREL start',e); } return ok; };   /* AA_185 4-1：重新交往那一刻起 EX 清掉、前任版切回交往版 */
     ROM._mrel=true; }
   if(typeof TERMEND!=='undefined'&&!TERMEND._mrel){
     const w0=TERMEND.walkHome; TERMEND.walkHome=async function(GM,who,term){ try{ if(GM&&GM.G&&law(GM.G)&&S.knowWalkDue(GM.G,who,term)) return await S.knowWalk(GM,who,term); }catch(e){ console.warn('MREL knowWalk',e); throw e; } return w0.apply(this,arguments); };
-    const h0=TERMEND.heartWhy; TERMEND.heartWhy=function(G,id,w){ if(G&&S.blocked(G,id)) return false; if(G&&S.rebuildBlock(G,id)) return false;   /* 以安、語彤分開以後：祐廷先開口那一場做完以前不發（AA_185 4-1）*/ if(G&&S.zzRefusing(G,id)) return false; if(G&&G.flags&&G.flags.RESTART_WITH&&(id===ZQ||id===ZR)&&G.flags.RESTART_WITH!==id) return false;
-      const r=h0.apply(this,arguments); if(r===true&&G&&law(G)&&S.zzPair(G,id)) return {nope:'knows'}; return r; };   /* 子晴知道的是芷若（或反過來）＝知情條件不到（AA_474 1-4、1-5）*/
+    const h0=TERMEND.heartWhy; TERMEND.heartWhy=function(G,id,w){ if(G&&S.blocked(G,id)) return false; if(G&&S.rebuildBlock(G,id)) return false;   /* 以安、語彤分開以後：祐廷先開口那一場做完以前不發（AA_185 4-1）*/ if(G&&S.zzRefusing(G,id)) return false; if(G&&G.flags&&G.flags.RESTART_WITH&&(id===ZQ||id===ZR)&&G.flags.RESTART_WITH!==id) return false; return h0.apply(this,arguments); };
     TERMEND._mrel=true; }
   if(typeof DATE!=='undefined'&&!DATE._mrel){
     const a0=DATE.arriveLine; DATE.arriveLine=async function(GM,t,visits,o){ const r=await a0.apply(this,arguments); try{ if(!(o&&o.combo)&&GM&&law(GM.G)) await S.dateOpen(GM,t); }catch(e){ console.warn('MREL dateOpen',e); } return r; };

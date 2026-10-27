@@ -43,7 +43,7 @@ const SISJP=(function(){
   /* ---------------- 第 2 節 ---------------- */
   const busy=(G,d,h)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.day===d&&q.state!=='missed'&&Math.abs(q.h-h)<1.5&&!/^sisjp_/.test(q.id));   /* 那一天 20:00 前後已經有出遊 */
   S.msgs=function(G){ const F=G.flags; if(!S.ok(G)) return; const M=L.msgs||[];
-    for(let i=0;i<M.length;i++){ const tag=M[i].tag||('sisjp_m_'+i); if(sent(G,tag)) continue;   /* tag：中間插進來的那一則（AA_470 4-5 的 7/10）另外取，原本的照舊 */ const d0=D(M[i].day); if(d0==null||G.day<d0||G.day>d0+2) continue;
+    for(let i=0;i<M.length;i++){ const tag='sisjp_m_'+i; if(sent(G,tag)) continue; const d0=D(M[i].day); if(d0==null||G.day<d0||G.day>d0+2) continue;
       const d=busy(G,d0,twH(G,d0,20))?d0+1:d0, h=twH(G,d,20); if(now(G)>T(d,h)+48) continue;
       if(PHONE.at(G,d,h,M[i].L.map(dm),tag)) F.SIS_JP_MSG=Math.max(F.SIS_JP_MSG|0,i+1); } };
   /* ---------------- 第 3 節 ---------------- */

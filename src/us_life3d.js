@@ -360,7 +360,7 @@ const USL=(function(){
     if(!S.here(G)) return;
     S.markTW(G);
     /* G1 8/3 05:10 學姊（交往中）*/
-    { const d=D('2028-08-03'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,5+10/60)&&!PHONE.sent(G,'usl_sis_0803')){   /* AA_479 第 1 點（企劃線 02428913b）：回覆期限 8/3 09:00——手續就在當天十點，睡到隔天才回會變成「手續是明天十點」*/ const L=M.sis0803.map(P5); L[L.length-1].ask={id:'usl_sis_0803',until:d*24+9,opts:M.sis0803ask.map(([t,r])=>({t,say:[{from:S5,text:r}]}))}; PHONE.at(G,d,5+10/60,L,'usl_sis_0803'); } }
+    { const d=D('2028-08-03'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,5+10/60)&&!PHONE.sent(G,'usl_sis_0803')){ const L=M.sis0803.map(P5); L[L.length-1].ask={id:'usl_sis_0803',opts:M.sis0803ask.map(([t,r])=>({t,say:[{from:S5,text:r}]}))}; PHONE.at(G,d,5+10/60,L,'usl_sis_0803'); } }
     /* G1 8/4 10:00 國際學生辦公室（一鍵：出遊）*/
     plan(G,{id:'usl_office',ev:'ev_usl_office',day:D('2028-08-04'),h:10,late:1,place:'國際學生辦公室',title:'國際學生辦公室',alarm:true});
     /* G1 8/5 17:30 學姊「傍晚去湖邊走走。……」→ 18:30 湖邊（交往中）*/

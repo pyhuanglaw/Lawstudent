@@ -77,7 +77,6 @@ const ASSETS = (function(){
     'bldg.v0_dorm_props':{url:'assets/models/env/second_ai/aa_support/v0_dorm_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/aa_support/v0_dorm_props.py（經濟系那一年的宿舍：紙箱三種狀態、阿勳的書桌、保齡球袋、經濟學原理；AA-B 製作、LAWWW2-B 驗收 f2bebf72）', license:'本作'},
     'bldg.gym_interior':{url:'assets/models/env/second_ai/gym_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_interior.py（新體育館第一階段：大廳＋1F 多功能球場；LAWWW2-B 4d19c88d v2；貼圖 Poly Haven CC0＋gym_tex.py）', license:'本作；貼圖 CC0'},
     'bldg.gym_b1':{url:'assets/models/env/second_ai/gym_b1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_b1.py（新體育館 B1：大廳、健身中心、游泳池；健身器材是 BB-B 的 GYM-P1；LAWWW2-B f3180c69）', license:'本作；貼圖 CC0'},
-    'bldg.badminton_props':{url:'assets/models/env/second_ai/badminton_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/badminton_props.py（BADMINTON-CLIP-1027，LAWWW2-C：羽球短片的球拍兩支、羽球、球網；貼圖是程式畫的）', license:'本作；貼圖是程式畫的（LICENSES.md）'},
     'bldg.gym_arena':{url:'assets/models/env/second_ai/gym_arena.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_arena.py（新體育館 3F 主球場：場地、三面看台、上層看台、舞台與典禮／演講／演唱會布置；LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4；接成區域 ART-GYM2-INT LAWWW2 2026-10-21）', license:'本作；貼圖 CC0'},
     'bldg.wz_brunch_interior':{url:'assets/models/env/second_ai/wz_brunch_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop brunch（溫州街「半熟」早午餐店室內，配置 src/data/wz_shops_layout.js；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
     'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
@@ -113,7 +112,6 @@ const ASSETS = (function(){
     'bldg.campus_gongtong':{url:'assets/models/env/second_ai/campus_gongtong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gongtong.py（共同教學館外觀＋西側木造走廊；校園世界座標；一樓的拱廊柱子、門廊、本體範圍照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（土黃色面磚、樓板位置的豎貼面磚帶、洗石子拱窗、山牆青瓷花磚、三四樓逐層退縮），沒有照片；面磚、洗石子、屋瓦、花崗石、紅磚地、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
     'prop.bike_ride':{url:'assets/models/env/bike_ride.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bike_ride.py（LAWWW2 ⑫：騎車用的淑女車，零件分開——frame、fork、wheel_f、wheel_r、crank、pedal_r、pedal_l；尺寸表 bike_ride.json；VISUAL_REVIEW（second_ai）第 19 節）；鋼絲與前籃鐵絲網的透明貼圖本作程式產生', license:'本作'},   /* 玩家騎的車（src/bike3d.js）；騎乘姿勢在 character3d.js 的 rideIK */
     'bldg.club_fair':{url:'assets/models/env/second_ai/club_fair.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/club_fair.py（LAWWW2 479b7fc：社團博覽會九頂帳篷——登山社、法服、服務台、吉他社、辯論社、系籃、三個不具名背景攤；只在博覽會那兩天擺在椰林大道南側，zones3d.js 的 clubFair）', license:'本作；貼圖是程式畫的（LICENSES.md）'},
-    'bldg.club_fair_expo':{url:'assets/models/env/second_ai/club_fair_expo.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/club_fair_expo.py（CLUBFAIR-REAL-1027，LAWWW2-C：社團博覽會 36 頂帳篷＋舞台，配置 src/data/club_fair_expo_layout.js；帳篷做法沿用 club_fair.py；字是 WenQuanYi Zen Hei 只畫進貼圖）', license:'本作；貼圖是程式畫的（LICENSES.md）'},
     'bldg.campus_lake':{url:'assets/models/env/second_ai/campus_lake.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_lake.py（LAWWW2 ⑩：醉月湖的石砌湖岸、置石、六角湖心亭、木棧道；湖的本地座標，zones3d.js 的 attachLakeGLB 放在湖中心）', license:'本作；石材、木材貼圖 Poly Haven CC0（LICENSES.md）'},
     'bldg.bball_court':{url:'assets/models/env/second_ai/bball_court.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bball_court.py（LAWWW2 9428f9f：系籃半場——鋪面＋場線、籃架＋籃板＋籃框＋籃網、場邊長椅；位置 A 醉月湖東側 (-4,-113)，zones3d.js 的 bballCourt）', license:'本作；貼圖是程式畫的純色（LICENSES.md）'},
     'bldg.skybridge':{url:'assets/models/env/second_ai/skybridge.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/skybridge.py（LAWWW2-B a22ba0e：博雅⇄普通二樓空橋，玻璃走廊 3.2×7.5 m、兩端 1 m 平台＋11% 緩坡升 0.6 m；地磚 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 普通教學館區域的空橋（src/teach3d.js buildBridge）＋校園外觀（zones3d.js）共用 */
@@ -208,33 +206,6 @@ const ASSETS = (function(){
     'tree.palm':(o)=>W3.palm(o.height||9), 'tree.leafy':(o)=>W3.banyan((o.height||6)/6), 'tree.conifer':(o)=>W3.banyan((o.height||6)/6), 'prop.bench':()=>W3.bench(),
   };
   const loader=()=>{ if(!A._loader){ A._loader=new THREE_JSM.GLTFLoader.GLTFLoader(); } return A._loader; };
-  /* 各棟 GLB 重複的貼圖合併（PERF-TEX-DEDUP-1027，LAWWW2-C；LAWWW-C 同意的做法＋五點注意）：同一張 Poly Haven 材質每棟各帶一份——
-     89 個建築 GLB 的 924 份貼圖只有 554 張不同的圖（370 份重複、約 153 百萬像素；站在椰林大道時場景裡 332 張有 213 張重複）。每一份都各自解碼、各自傳上 GPU。
-     建築（type:'building'）用 bldgLoader：解析完（afterRoot）、縮手機貼圖（capTextures）以前，每個貼圖用「原始圖片位元組的 SHA-1＋尺寸＋取樣、色彩空間、UV、轉換」當 key，
-     之前的 GLB 已經有同一個 key 的就換成那一份（共用一個 Texture＝GPU 只傳一次），自己那份 dispose；它的圖片在這個模型裡沒有別的貼圖在用才 close
-     （GLTFLoader 同一張圖、不同取樣的兩個貼圖共用一個 ImageBitmap）。共用的那一份圖片從來不 close。
-     只合併從圖片來的貼圖（ImageBitmap、<img>）；KTX2、DataTexture、Canvas、有 userData 的（GLTFLoader 自己放的 mimeType 以外）不碰；VRM、人物、動畫、路人遠距離版本用別的 loader，不碰。
-     不做參照計數：建築模型一直留在 ASSETS.cache（不卸載）；換區域時 engine3d.js 的 disposeGroup 只放掉 GPU 那份，下次畫到用圖片重新上傳（和原本一樣）。
-     沒有 crypto.subtle（不是 https／localhost）就不合併；網址 ?nodedup 關掉（比較用）。A.texDedup 記結果（看了幾個、共用幾個、close 幾張、省幾百萬像素、花多久）。*/
-  A.texShare=new Map(); A.texDedup={textures:0,shared:0,closed:0,mpix:0,ms:0};
-  const dedupOn=()=>!(typeof location!=='undefined'&&/[?&]nodedup\b/.test(location.search||''))&&typeof crypto!=='undefined'&&!!(crypto.subtle&&crypto.subtle.digest);
-  const isImg=im=>!!im&&im.width>0&&((typeof ImageBitmap!=='undefined'&&im instanceof ImageBitmap)||(typeof HTMLImageElement!=='undefined'&&im instanceof HTMLImageElement));
-  const hex=b=>Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join('');
-  const texDedup=parser=>({ name:'LAWWW2_tex_dedup', async afterRoot(res){ if(!dedupOn()) return; const t0=performance.now(), J=parser.json, D=A.texDedup, slots=[], keyOf=new Map();
-    for(const sc of (res.scenes||[res.scene])) if(sc) sc.traverse(o=>{ for(const m of [].concat(o.material||[])){ if(!m||!m.isMaterial||m.isShaderMaterial) continue; for(const k of TEX_KEYS){ const t=m[k]; if(t&&t.isTexture) slots.push([m,k,t]); } } });
-    for(const [,,t] of slots){ if(keyOf.has(t)) continue; keyOf.set(t,null);
-      if(t.isCompressedTexture||t.isDataTexture||t.isCanvasTexture||t.isVideoTexture||Object.keys(t.userData||{}).some(k=>k!=='mimeType')||!isImg(t.image)) continue;
-      const as=parser.associations.get(t), td=as&&as.textures!=null&&J.textures?J.textures[as.textures]:null; if(!td) continue;   /* texCoord>0 的複製品沒有對應：不碰 */
-      const ex=td.extensions||{}, src=td.source!=null?td.source:(ex.EXT_texture_webp||ex.EXT_texture_avif||{}).source, idef=src!=null&&J.images?J.images[src]:null; if(!idef||idef.bufferView==null) continue;
-      try{ const buf=await parser.getDependency('bufferView',idef.bufferView), h=hex(await crypto.subtle.digest('SHA-1',buf));
-        keyOf.set(t,[h,buf.byteLength,t.image.width,t.image.height,t.wrapS,t.wrapT,t.magFilter,t.minFilter,t.generateMipmaps,t.colorSpace,t.flipY,t.channel,t.offset.x,t.offset.y,t.repeat.x,t.repeat.y,t.rotation,t.center.x,t.center.y].join('|')); }
-      catch(e){ console.warn('tex dedup',e); } }
-    const dups=new Set();
-    for(const [m,k,t] of slots){ const key=keyOf.get(t); if(!key) continue; const s=A.texShare.get(key); if(!s){ A.texShare.set(key,t); continue; } if(s!==t){ m[k]=s; dups.add(t); } }
-    if(dups.size){ const used=new Set(); for(const [m,k] of slots){ const t=m[k]; if(t&&t.image) used.add(t.image); }
-      for(const t of dups){ const im=t.image; D.shared++; D.mpix+=im.width*im.height/1e6; t.dispose(); if(!used.has(im)&&typeof ImageBitmap!=='undefined'&&im instanceof ImageBitmap){ used.add(im); try{ im.close(); D.closed++; }catch(e){} } } }
-    D.textures+=keyOf.size; D.ms+=performance.now()-t0; } });
-  const bldgLoader=()=>{ if(!A._bldgLoader){ A._bldgLoader=new THREE_JSM.GLTFLoader.GLTFLoader(); A._bldgLoader.register(texDedup); } return A._bldgLoader; };
   // VRM：另一個 loader 註冊 @pixiv/three-vrm 的 VRMLoaderPlugin（lib/three-vrm.bundle.js 沒載入時 VRM 資產視為失敗 → fallback）
   const vrmLoader=()=>{ if(typeof THREE_VRM==='undefined') return null; if(!A._vrmLoader){ A._vrmLoader=new THREE_JSM.GLTFLoader.GLTFLoader(); A._vrmLoader.register(p=>new THREE_VRM.VRMLoaderPlugin(p,{autoUpdateHumanBones:true})); } return A._vrmLoader; };
   A.parseVRM=function(buf){ return new Promise((res,rej)=>{ const l=vrmLoader(); if(!l) return rej(new Error('three-vrm not loaded')); l.parse(buf,'',g=>{ const vrm=g.userData.vrm; if(!vrm) return rej(new Error('not a VRM')); try{ THREE_VRM.VRMUtils.removeUnnecessaryVertices(g.scene); THREE_VRM.VRMUtils.combineSkeletons(g.scene); THREE_VRM.VRMUtils.rotateVRM0(vrm); }catch(e){} res({gltf:g,vrm}); },rej); }); };
@@ -280,10 +251,9 @@ const ASSETS = (function(){
         const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });
         const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
         fetchBuf(m.url).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
-      const L=m.type==='building'?bldgLoader():loader();   /* 建築：重複的貼圖合併（texDedup）*/
-      const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ L.parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
+      const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
       // 1) 直接抓 .glb；2) 失敗（例如平台不提供 .glb）改抓同名 .glb.json（{b64}）
-      fetchBuf(m.url).then(buf=>L.parse(buf,'',done,fail)).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>L.parse(b64ToBuf(j.b64),'',done,fail)).catch(fail); }); });
+      fetchBuf(m.url).then(buf=>loader().parse(buf,'',done,fail)).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(b64ToBuf(j.b64),'',done,fail)).catch(fail); }); });
     return A.status[key]; };
   /* 一定要載到（使用者 2026-10-17：「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」）：沒有時間上限；下載或解析失敗就清掉狀態、
      等一下重抓（2、4、8、16、30 秒…），直到成功。onProgress(已完成, 總數, 最近一次的錯誤或 null)。開遊戲、開始、繼續都用這個等人物（game3d.js）*/

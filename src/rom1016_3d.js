@@ -40,7 +40,6 @@ const ROM1016=(function(){
     if(!S.hisWindow(G,x)) return false;   /* 大三下、只在她的學期末心意邀約窗口（6/8～6/18：學期最後一天以後 termOf 是 null，所以不看 termOf）（AA_438 第 1 節：告白只在學期末，他點她的點法就是告白）*/
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,ZR)) return false;
     if(typeof TERMEND==='undefined'||!TERMEND.cond) return false; const c=TERMEND.cond(G,ZR); if(!c.ok||c.decline) return false;   /* 心意邀約的條件（她的戀愛 ≥30、4 次正式校外約會含心願 D05、她當時願意）*/
-    if(TERMEND.knownOthers&&TERMEND.knownOthers(G,ZR).length) return false;   /* AA_474 3b：她知道祐廷正在和別人交往＝這學期不演 Z13 特別版（這一杯也是），改走一般的知情版心意邀約 */
     return GM?S.onShift(GM):true; };
   /* 窗口：大三下學期末（TERMEND.window＝Y3S2，6/8 起）到 Z13 那頓飯（排好的話＝那天 22:00）以前；Z13 沒排（條件不到、她不約）就到窗口結束 */
   S.hisWindow=function(G,x){ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; if(!w||w.id!=='Y3S2') return false;

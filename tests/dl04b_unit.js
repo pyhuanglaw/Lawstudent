@@ -46,7 +46,7 @@ let caps=[]; GM.caption=(w,t)=>caps.push(t);
   /* 2b. 週二晚上的第二則提醒（AA-B 10-16）*/
   { const tue=termDay('Y1S1',17,2); fresh(tue,21.9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); check('2b. 週二 21:54：還沒傳',!PHONE.sent(G,'xmas_eve1'));
     G.hour=22.01; STORY.phoneRules(GM); G.hour=22.06; PHONE.tick(G); const m=G.msgs.filter(x=>x.th==='g:noodle_team'&&/明天晚上六點半|還沒買|十點半/.test(x.text)).map(x=>x.from+'：'+x.text);
-    check('2b. 22:00 Alison「明天晚上六點半麵店！禮物記得包起來。」（AA_204 1-2）→ 22:02 阿哲「我還沒買」→ 22:03 Alison「……書店開到十點半。」',m.length===3&&m[0]==='yu：明天晚上六點半麵店！禮物記得包起來。'&&m[1]==='zhe：我還沒買'&&m[2]==='yu：……書店開到十點半。',JSON.stringify(m));
+    check('2b. 22:00 Alison「明天晚上六點半麵店！禮物記得包起來。」（AA_204 1-2）→ 22:02 阿哲「我還沒買。」→ 22:03 Alison「……書店開到十點半。」',m.length===3&&m[0]==='yu：明天晚上六點半麵店！禮物記得包起來。'&&m[1]==='zhe：我還沒買。'&&m[2]==='yu：……書店開到十點半。',JSON.stringify(m));
     const fresh2=()=>{ fresh(tue+1,9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); STORY.phoneRules(GM); }; fresh2(); check('2b. 週三早上才加入群組（或才讀到）：照樣看到',PHONE.sent(G,'xmas_eve1'));
     fresh(tue+1,13,'dorm',{introDone:true,classDone:true,afternoonDone:true}); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_xmas_exchange=1; STORY.phoneRules(GM); check('2b. 交換禮物演過以後不傳',!PHONE.sent(G,'xmas_eve1')); }
   /* 3. 颱風假 */

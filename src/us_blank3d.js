@@ -107,7 +107,6 @@ const US_BLANK=(function(){
     G.flags.USB_ORIENT_DUE=false; try{ await run('ev_usb_orient',{noTitle:true}); }catch(e){ console.warn('US_BLANK.orient',e); } return true; };
   if(USL.jump&&!USL._usbJump){ const j0=USL.jump; USL.jump=async function(GM){ const G=GM&&GM.G; await S.orientBeforeJump(GM); const tS=G?now(G):0; const r=await j0.apply(this,arguments);
       try{ const x=T(D(S.ORIENT_DAY),S.ORIENT_H); if(G&&here(G)&&!S.orientDone(G)&&tS<x&&now(G)>=x) G.flags.USB_ORIENT_DUE=true; }catch(e){ console.warn('US_BLANK.jump',e); }
-      try{ const d=D(S.STUDY_DAY); if(G&&d!=null&&G.day===d&&Math.abs(G.hour-19.5)<0.01&&!G.flags.USB_STUDY_HINT&&S.studyDue(G)){ G.flags.USB_STUDY_HINT=G.day; GM.sceneBegin(); try{ await GM.say(null,S.STUDY_HINT); } finally{ GM.sceneEnd(); } if(GM.setGoal) GM.setGoal('會所的自習室還開著'); } }catch(e){ console.warn('US_BLANK.studyHint',e); }   /* 10/12 19:30 停點的提示（AA_483 第 3 節）*/
       return r; }; USL._usbJump=true; }
 
   /* ======================= 第 3-4 節 9/9 社區的洗衣間（交往中、還沒演 US2）======================= */
@@ -133,9 +132,6 @@ const US_BLANK=(function(){
   S.STUDY_DAY='2028-10-12';
   S.studyOn=(G,day)=>here(G)&&!dating(G)&&day===D(S.STUDY_DAY)&&!done(G,'ev_usb_fb_study');
   S.studyDue=G=>S.studyOn(G,G.day)&&!!USL.sisClub&&USL.sisClub(G);   /* 她週二、四晚上本來就在（10 月起 19～21）*/
-  /* 10/12 19:30 快轉停下來只有日期卡、看不出她在會所（BB-C 10-27 BB_218，US-BLANK-1012-HINT-1027）：AA_483 第 3 節（企劃線 187584ca8）定句，只在 S.studyDue 時出這句旁白；
-     HUD 目標「會所的自習室還開著」（LAWWW 定）。接在上面包住 USL.jump 的那一段（停在 10/12 19:30 這一點才演，只一次：USB_STUDY_HINT）*/
-  S.STUDY_HINT='（秋假的社區很安靜。窗外，會所自習室的燈還亮著。）';
   /* 會所的選單（同 USL.club）：選「讀書」進自習室＝先演這一場，再選讀多久（何俊朗秋假不在，AA_370 L4；她「抬頭看了你一眼」那句由這一場取代）*/
   S.club=async function(GM){ const G=GM.G; let k=1; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:bg('us_club_study')}); GM.caption('','會所',2000); { const lk=USL.look?USL.look(G,'us_outside','club'):null; if(lk) await GM.say(null,lk); }

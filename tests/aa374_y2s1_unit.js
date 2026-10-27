@@ -67,9 +67,9 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 3、4、5、22 項：主線 4「這週的訊息」的週次 =====
   { const pick=(k,ids,flags,done)=>{ fresh(D(k),21.5,'dorm',flags); for(const id of ids) R(id,'FAM'); for(const e of done||[]) G.events.done[e]=1; return STORY.neededPick(G,D(k)).map(e=>e.id); };
     const y1=pick('2026-09-13',['yu']), y2=pick('2026-09-20',['yu']);
-    check('3. Alison「社團博覽會你站哪一攤？」照日子發（AA_491 A：社博搬到 9/12（六），第 1 週週四 9/10 21:00）；第 2 週不再挑',!y2.includes('yu_expo')&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').w)===J([1,1])&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').at)===J({day:'2026-09-10',h:21}),J([y1,y2]));
-    fresh(D('2026-09-10'),21.05,'dorm',{}); R('yu','FAM'); STORY.neededRules(GM); PHONE.tick(G); const m=TH('p:yu').find(x=>x.text==='社團博覽會你站哪一攤？我要去偷看。');
-    check('3. 真的排進手機：9/10（四）21:00 一到就發，在社博 9/12 以前',!!m&&K(m.day)==='2026-09-10'&&m.h>=21&&m.h<21.2,J(m&&[K(m.day),m.h]));
+    check('3. Alison「社團博覽會你站哪一攤？」第 1 週（9/13 週日）就收到——博覽會 9/16～17 以前（BB 測試）；第 2 週不再挑',y1.includes('yu_expo')&&!y2.includes('yu_expo')&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').w)===J([1,1]),J([y1,y2]));
+    fresh(D('2026-09-13'),21,'dorm',{}); R('yu','FAM'); STORY.neededRules(GM); PHONE.tick(G); const m=TH('p:yu').find(x=>x.text==='社團博覽會你站哪一攤？我要去偷看。');
+    check('3. 真的排進手機：9/13 21:00',!!m&&K(m.day)==='2026-09-13'&&m.h===21,J(m&&[K(m.day),m.h]));
     const z13=pick('2026-12-06',['zhe']), z14=pick('2026-12-13',['zhe']);
     check('4. 阿哲「週六系籃缺一個記分的」第 14 週（12/13 發，週六＝12/19 系籃）；第 13 週（12/6）不發',z14.includes('zhe_score')&&!z13.includes('zhe_score'),J([z13,z14]));
     const TF=['ev_an_tutor_family_1'], a12=pick('2026-11-29',['heroine_01'],{},TF), a13=pick('2026-12-06',['heroine_01'],{},TF), ar=pick('2026-12-06',['heroine_01'],{AN10_PICK:'reason'},TF), af=pick('2026-12-06',['heroine_01'],{AN10_PICK:'fafu'},TF), an0=pick('2026-12-06',['heroine_01']);
@@ -151,8 +151,8 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('18. 合併的那一件也記原本 ev_peishan_bohan_split 的後果（PEISHAN_BOHAN_SPLIT）',a.F.PEISHAN_BOHAN_SPLIT===true);
     const grp=(done)=>{ fresh(termDay('Y2S1',6,5),20,'campus',{}); R('classmate_peishan','FRI'); if(done) G.events.done[done]=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); return TH('g:noodle_team').map(m=>m.from+':'+m.text); };
     const g0=grp(), g1=grp('ev_peishan_bohan_split'), g2=grp('ev_peishan_split');
-    check('18. 沒遇到的玩家：週五 21:00 群組照 BB_97 版「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」、阿哲「……收到」；沒有「你們吃你們的」',
-      J(g0)===J(['classmate_peishan:說一件事，說完就好。','classmate_peishan:我和柏翰分開了。是我說的。我們都好。','classmate_peishan:……大家照常吃飯，不用特別安慰我。','zhe:……收到']),J(g0));
+    check('18. 沒遇到的玩家：週五 21:00 群組照 BB_97 版「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」、阿哲「……收到。」；沒有「你們吃你們的」',
+      J(g0)===J(['classmate_peishan:說一件事，說完就好。','classmate_peishan:我和柏翰分開了。是我說的。我們都好。','classmate_peishan:……大家照常吃飯，不用特別安慰我。','zhe:……收到。']),J(g0));
     check('18. 舊存檔演過 ev_peishan_bohan_split（或合併的那一件）：群組不發',!g1.length&&!g2.length,J([g1,g2]));
     fresh(termDay('Y2S1',6,3),20,'campus',{}); R('classmate_bohan','FRI'); R('classmate_peishan','FRI'); G.events.done.ev_peishan_split=1; G.events.last.ev_peishan_split=G.day-1;
     const ck=MSG.conds2(G,'classmate_bohan','ok').map(x=>x.key), cp=MSG.conds2(G,'classmate_peishan','ok').map(x=>x.key);

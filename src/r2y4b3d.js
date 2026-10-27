@@ -270,15 +270,10 @@ const R2Y4B=(function(){
     const start=()=>{ const K=TERMEND.knownOthers?TERMEND.knownOthers(G,id):[]; const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,id):((F['dating_'+id]=true),true);
       if(ok&&K.length){ const O=F.OPEN_OK||(F.OPEN_OK={}), M=O[id]||(O[id]={}); for(const y of K) M[y]=true; } if(ok) (F.confessed||(F.confessed={}))[id]=G.day; return ok; };
     let res;
-    const friend=async()=>{ await play(GM,id,[(F.BAR_REG!==true&&J.friendNo)?J.friendNo:J.friend]); F['HEART_FRIEND_'+id]=true; F['HEART_LAST_'+id]=true; res='friend'; };   /* 「沒報國考」＝8/4 國考沒有報名（BAR_REG 不是 true）*/
-    if(typeof MREL!=='undefined'&&MREL.knowsOther&&MREL.knowsOther(G,id)){   /* AA_474 3b：她知道祐廷正在和別人交往＝先演她那一節的知情對話（說出來＝KNOW.say，沒有就 q；先不說＝她七月那幾句接 KNOW.she）；學姊算第二次 */
-      if(k>=3) await play(GM,id,J.last);
-      const r=await MREL.knowGate(GM,id,{said:k<3,again:true,term:'Y4S2',at:'july',start});
-      if(r==='yes') res=k<3?'yes':'sheSaid'; else await friend(); }   /* 不交往＝朋友那一句、HEART_LAST（最後一次：承諾以後沒有下一次）*/
-    else if(k<3){ start(); await play(GM,id,h.yes2||[]); res='yes'; }   /* 第二次、七月：她上一次已經先說過（AA_254 第 0 節第 7 點）*/
+    if(k<3){ start(); await play(GM,id,h.yes2||[]); res='yes'; }   /* 第二次、七月：她上一次已經先說過（AA_254 第 0 節第 7 點）*/
     else { await play(GM,id,J.last); const a=await GM.choose(['「好。」','「我們還是朋友。」'].map(t=>({t})));
       if(a===0){ start(); res='sheSaid'; }
-      else await friend(); }
+      else { await play(GM,id,[(F.BAR_REG!==true&&J.friendNo)?J.friendNo:J.friend]); F['HEART_FRIEND_'+id]=true; F['HEART_LAST_'+id]=true; res='friend'; } }   /* 「沒報國考」＝8/4 國考沒有報名（BAR_REG 不是 true）*/
     delete TERMEND.rec(G).think[id]; F.HEART_JULY={id,res,day:G.day}; return res; };
 
   /* ===================== 2-Y4-47 芷若回國（8/25、9/1）。延後的回答：PROPOSAL，等使用者，不做 ===================== */
@@ -303,7 +298,7 @@ const R2Y4B=(function(){
   S.retakePlan=async function(GM){ const G=GM.G, F=G.flags; let k=0;
     await scene(GM,async()=>{ await GM.say(null,'（明年八月，再一次。）'); const O=[{t:'「去補習班的自習室。」',v:'cram'},{t:'「在家讀。」',v:'home'}]; if(met(G,'zhe','FAMILIAR')) O.push({t:'「跟阿哲一起讀。」',v:'zhe'});
       k=await GM.choose(O.map(o=>({t:o.t}))); F.RETAKE_STYLE=(O[k]||O[0]).v; });   /* 只改摘要日的句子，不改結果（AA_286 2-1）*/
-    if(F.RETAKE_STYLE==='zhe'&&typeof PHONE!=='undefined') PHONE.at(G,G.day,G.hour+0.05,[P_('zhe','好 總圖 B1，週四照舊'),P_('zhe','……這次我們兩個')],'y5_retake_zhe');
+    if(F.RETAKE_STYLE==='zhe'&&typeof PHONE!=='undefined') PHONE.at(G,G.day,G.hour+0.05,[P_('zhe','好。總圖 B1，週四照舊。'),P_('zhe','……這次我們兩個。')],'y5_retake_zhe');
     return true; };
   const narrStep=(id,key,h,text,cond)=>({id,at:G=>T(DK(key),h),until:G=>T(DK(key),h+48),cond,run:async GM=>{ await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(GM.G.day,GM.G.hour),'',1600); await GM.say(null,text); }); }});
 
@@ -318,10 +313,9 @@ const R2Y4B=(function(){
   S.intern=async function(GM,i){ const G=GM.G, A=adv(); await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(G.day,G.hour),'法律實習',1800); if(A&&A.begin) A.begin({background:bg('legal_aid_office')});
       for(const x of S.INTERN[i]){ if(x.narr) await GM.say(null,x.narr); else await GM.say(x[0]==='me'?{name:G.name||'祐廷'}:x[0],x[1]); } });
     const L=Array.isArray(G.flags.Y5_INTERN)?G.flags.Y5_INTERN:(G.flags.Y5_INTERN=[]); if(!L.includes(i+1)) L.push(i+1); return true; };
-  /* o（AA_471 第 5 節，被當延畢、重修不到三堂的 2030-06-17，src/faildelay3d.js）：{key:那一天, ta:助教那一句, tag:手機的 tag 開頭}；沒有＝2030-01-21 那一場 */
-  S.cert=async function(GM,o){ o=o||{}; const G=GM.G, d=DK(o.key||'2030-01-21'), tg=o.tag||'y5'; if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],tg+'_cert_sys'); PHONE.tick(G); }
-    await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,o.ta||(fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。')); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
-    G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],tg+'_cert_mom'); return true; };
+  S.cert=async function(GM){ const G=GM.G, d=DK('2030-01-21'); if(typeof PHONE!=='undefined'){ PHONE.at(G,d,10,[{th:'sys',text:'畢業證書已可領取。'}],'y5_cert_sys'); PHONE.tick(G); }
+    await scene(GM,async()=>{ await GM.say(null,'（系辦的助教把證書遞給你。）'); await GM.say(TA,fdOnly(G)?'恭喜。……延了一學期，還是恭喜。':'你們交換回來的，今天第三個了。'); });   /* 被當延畢：AA_399 第 7 節延畢的證書那一句（「交換回來的」只給交換）*/
+    G.flags.CERT_DAY=G.day; if(typeof PHONE!=='undefined') PHONE.at(G,d,12,[{th:'p:mom',from:'mom',text:'照片傳給我。我要傳給你爸。'}],'y5_cert_mom'); return true; };
   S.gradExam=async function(GM,y){ const G=GM.G; await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard('考場',PG.dateLabel(G.day,G.hour),2200); await GM.say(null,'（兩節。第二節最後一題，你寫到鐘響。）'); });   /* 黑幕兩節（照 2-Y4-27），不出題目 */
     G.flags['GRAD_EXAM_'+y]=true; if(y===2031){ G.flags.GRAD_EXAM_RESULT='pass'; G.flags.GRAD_ADMIT='exam'; } return true; };   /* 2031 再考：上了（AA_181 2-4）*/
   S.gradPass2030=G=>G.flags.GRAD_RETRY===true&&!delayed(G)?true:(S.libDays(G,'2029-02-19','2030-02-15')+(G.flags.Y5_DAYS==='study'?64:0))>=24;   /* 台灣路線明年再考＝上；交換延畢看總圖天數（Y5S1 選了去總圖＝一週 4 天，16 週；AA 審稿 #6）*/
@@ -520,13 +514,7 @@ const R2Y4B=(function(){
     await scene(GM,async()=>{ await GM.say(null,n===1?'秋假。社區的停車場空了一半。':(G.flags.MET_LONG?'何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。':'你把三門課的閱讀都讀完了。')); }); return true; };   /* AA 稿這兩句沒有括號，照原樣 */
   S.canyonAfter=function(G,kind){ if(typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,'heroine_05'); L.count=(L.count|0)+2; if(kind==='tw'){ L.wish=true; L.wishKnown=true; } }   /* 算 2 次正式約會（台灣路線也算她的心願地點）*/
     if(kind==='us'&&typeof SOCIAL!=='undefined') SOCIAL.adjust('heroine_05',{rom:2,npcRom:2});   /* 她和祐廷的戀愛各 +2（AA_291 2-1）*/
-    if(kind==='tw'&&G.flags.SIS_CANYON!=='knows'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')){ (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; G.flags.SIS_GF_CANYON=G.day; } };   /* SIS_GF_CANYON：大峽谷才交往（AA_392 第 1-3 節：中秋那組不演；從第一組開始）*/   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）；知情對話沒答應（SIS_CANYON 'knows'）＝不交往 */
-  /* AA_474 3b：大峽谷告白的那一刻她知道祐廷正在和別人交往（臺灣路線）＝接 KNOW.heroine_05（她第一次知情＝一律讓我想想，AA_474 1-2）。
-     接受（第二次才可能）＝照原本的交往（ROM.start＋OPEN_OK＋confessed、SIS_GF_CANYON）；不交往＝SIS_CANYON 'knows'：行程照算兩次約會＋心願地點（canyonAfter），SIS_GF_CANYON 不記、不叫書瑀 */
-  S.knowsOther=(G,id)=>typeof MREL!=='undefined'&&!!MREL.knowsOther&&MREL.knowsOther(G,id);
-  S.canyonKnow=async function(GM,said){ const G=GM.G; if(typeof MREL==='undefined'||!MREL.knowGate) return null;
-    const ys=MREL.knownOthers(G,'heroine_05'), r=await MREL.knowGate(GM,'heroine_05',{said,at:'canyon',start:G0=>{ const ok=MREL.startOpen(G0,'heroine_05',ys); if(ok) G0.flags.SIS_GF_CANYON=G0.day; return ok; }});
-    if(r!=null) G.flags.SIS_CANYON=r==='yes'?'confess':'knows'; return r; };
+    if(kind==='tw'&&!dating(G,'heroine_05')&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,'heroine_05')){ (G.flags.confessed||(G.flags.confessed={})).heroine_05=G.day; G.flags.SIS_GF_CANYON=G.day; } };   /* SIS_GF_CANYON：大峽谷才交往（AA_392 第 1-3 節：中秋那組不演；從第一組開始）*/   /* 10/13 告白＝交往；交往當天起叫她「書瑀」（CALLED_SHUYU）*/
 
   /* ===================== 2-Y4-57 台灣、日本路線：學姊在美國（8/2～12/23）——每週的訊息、視訊、秋假大峽谷 ===================== */
   /* AA_378 第 1 節 S1（企劃線 f2de8d1c；使用者 10-21 22:5x「學姊才是真正的女主角」）：不輪播——每一則、每一組最多一次。「到了。」拿出每週那一套，她落地那天 8/3（四）07:00 傳（臺灣時間）；

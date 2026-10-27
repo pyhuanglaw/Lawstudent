@@ -32,7 +32,7 @@ const byTag=tag=>(H.G.msgs||[]).filter(m=>m.tag===tag);
 const TH=th=>(H.G.msgs||[]).filter(m=>m.th===th);
 
 /* ---- 讀稿（企劃線 878496edb）---- */
-let doc=''; try{ doc=cp.execSync('git show 482c7f6e9:"docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 7fa83ebc9:"docs/story_planning/AA_463_法律系大三下讀一遍_以安在日本的私訊_母親節姊姊和媽媽_沛珊的裂縫談話.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const strip=s=>String(s||'').replace(/（原句）$/,'').replace(/（`[^）]*）$/,'').trim();

@@ -118,8 +118,7 @@ const GY3=(function(){
     '經常鍛鍊':['訓練的順序已經不用想了。毛巾、學生證、室內鞋，一樣不少。','重訓區的老面孔對你點頭。你們不知道彼此的名字。','練完走上樓梯，外面的空氣是涼的。你不想坐下。']};
   const ym=G=>{ const d=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{y:2025,m:10}; return d.y+'-'+String(d.m).padStart(2,'0'); };
   const fourthMonday=G=>{ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(G.day); return d.wd===1&&d.d>=22&&d.d<=28; };
-  const deskAunt=GM=>{ const E=GM&&GM.E; return E&&Array.isArray(E.npcs)?E.npcs.find(n=>n&&n.crowdRole==='desk_b1'&&!n.leaving&&n.obj)||null:null; };
-  const SAY_DESK=(GM,t)=>GM.say(deskAunt(GM)||{name:'櫃台阿姨'},t);   /* 櫃台後面的阿姨（crowd3d.js 的 B1 那一群，GYM-CROWD-1027）在場就是她說：轉頭看你、嘴巴動；不在（關門以後）照舊只有名字 */
+  const SAY_DESK=(GM,t)=>GM.say({name:'櫃台阿姨'},t);
   async function cardScene(GM,r){ const G=GM.G; await GM.say(null,'B1 的櫃台。阿姨推過來一張同意書。'); await SAY_DESK(GM,'第一次喔？這張填一下，學生證給我。'); await GM.say(null,'你簽了名。她對著你拍了一張大頭照，你還沒準備好。'); await SAY_DESK(GM,'好，卡做好了。單次五十，月票兩百，要哪一個？');
     const i=await buyPass(GM,r,true); if(i<0) return false; await SAY_DESK(GM,'毛巾要帶喔。還有——（看了一眼你的鞋）下次記得穿室內鞋喔。'); await GM.say(null,'她還是讓你進去了。卡上的照片，表情像在等公車。'); r.card=G.day; return true; }
   /* 單次／月票：first＝第一次辦卡那一段的選項（回答不同）；回傳 0 單次、1 月票、−1 錢不夠 */

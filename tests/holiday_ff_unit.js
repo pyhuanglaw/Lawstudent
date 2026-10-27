@@ -4,8 +4,6 @@
 // 修改前（1475d312）FAIL 的：H2 全部（一路跳過邀約、不打開手機）；H1 的大四寒假表、大三大四的除夕初一、除夕在宿舍 17:00、主線 9、WAKE_AT、2/3 筆試；H3、6-3 全部（沒有 src/holff3d.js）。
 // AA_345 H1～H7（2026-10-21）：大三寒假那一頓改 2/20（2/18 21:00 揪、2/20 17:30 回來）、大四寒假柏翰兩則和阿哲回來、大三暑假 8/12 兩版、大四寒假 1/17 推甄上了／實習／交換延畢、
 //   大二以後柏翰暑假只說「我回新竹了。」——H3-3、H3-4、H3-5、H3-6、6-3-5、6-3-6 的期待照改；6-3-9（8/12）新加。修改前這幾項 FAIL。
-// X58（2026-10-27，使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：不用回的訊息也停、打開手機，「跳過」接著跳——
-//   H2-1、H2-3、6-3-2 改成找「看得到那則邀約的那一次」打開手機（之前會先停在別的訊息）；H2-5 改成不用回的那則也停；6-3-1、6-3-4、6-3-7 看最後一張日期卡（中間停在訊息的卡在前面）。修改前（7dacc9463）H2-5 FAIL。
 // AA_350 S1、S2（2026-10-21）：柏翰大三寒假只回去過年（1/24 17:00、1/28 20:00，蓋掉 AA 170a150d 的「民訴」兩句）、大三暑假七月補習（6/27、7/2 兩則）——H3-4 柏翰那一項、H3-5 照改，修改前（10dc79b1）這兩項 FAIL。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -48,28 +46,28 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   /* ================= H2：要回的訊息停下來、打開手機 ================= */
   // H2-1 C05 阿凱（大一暑假 7/15 21:00 私訊、回到 7/19）：7/15 12:00 在宿舍的床快轉「過一週」
   fresh('2026-07-15',12,'dorm'); meet('kai');
-  { picks=['過一週']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('vac_ask_C05@Y1'));   /* X58：不用回的訊息也會先停一次——找第一次看得到邀約的那一次 */
-    check('H2-1. C05：快轉一週，7/15 21 點多停下來打開手機（對話列表、「跳過」），那時看得到阿凱的邀約',!!c&&phoneCalls.every(x=>x.skip)&&c.day===D('2026-07-15')&&c.hour>=21&&c.hour<22.01,JSON.stringify(phoneCalls));
+  { picks=['過一週']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0];
+    check('H2-1. C05：快轉一週，7/15 21 點多停下來打開手機（對話列表、「跳過」），那時看得到阿凱的邀約',phoneCalls.length===1&&c.skip&&c.day===D('2026-07-15')&&c.hour>=21&&c.hour<22.01&&c.pend.includes('vac_ask_C05@Y1'),JSON.stringify(phoneCalls));
     check('H2-1. 關掉手機（不回）以後接著跳：停在原本會停的 7/20 18:30（摘要日）',G.day===D('2026-07-20')&&Math.abs(G.hour-18.5)<1e-6,lbl(now()));
     check('H2-1. 開過的記在 _autoAsk（3D 的 STORY.phoneAuto 不再開同一則）',(G.flags._autoAsk||[]).includes(PHONE.byAsk(G,'vac_ask_C05@Y1').text));
-    check('H2-1. 字卡：7/15 21 點多停一次（宿舍）、最後停在 7/20 18:30',cards.some(x=>/^7\/15（三）21:/.test(x[0])&&x[1]==='宿舍')&&cards[cards.length-1][0]==='7/20（一）18:30',JSON.stringify(cards)); }
+    check('H2-1. 字卡：先 7/15 21 點多（宿舍）、再 7/20 18:30',cards.length===2&&/^7\/15（三）21:/.test(cards[0][0])&&cards[0][1]==='宿舍'&&cards[1][0]==='7/20（一）18:30',JSON.stringify(cards)); }
   // H2-2 在手機裡回「去。」：報名、排日本五天；接著跳照樣到 7/20 18:30
   fresh('2026-07-15',12,'dorm'); meet('kai');
   { onPhone=async()=>{ PHONE.answer(G,'vac_ask_C05@Y1',0); }; picks=['過一週']; await HOME.ffMenu(GM,'dorm');
     check('H2-2. 停下來回了「去。」＝報名（VAC reg yes）、阿凱「好 我拉你進群」、排了 8/24 出發；之後接著跳到 7/20 18:30',VAC.state(G,'C05@Y1')==='yes'&&msg('vac_ask_C05@Y1').length>0&&(G.msgs||[]).some(m=>m.from==='kai'&&m.text==='好 我拉你進群')&&!!OUT.rec(G).find(q=>q.vac&&q.vac.key==='C05@Y1'&&q.day===D('2026-08-24'))&&G.day===D('2026-07-20')&&Math.abs(G.hour-18.5)<1e-6,lbl(now())); }
   // H2-3 VA10 香港（大二暑假 7/20 21:00 麵店團群組）：7/20 18:30 摘要日之後「過三天」
   fresh('2027-07-20',18.5,'dorm'); noodle(); meet('heroine_01'); meet('heroine_03');
-  { picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('va10_ask'));   /* X58：找第一次看得到邀約的那一次 */
-    check('H2-3. VA10：7/20 21 點多停下來打開手機，看得到「我也去。」的邀約',!!c&&c.day===D('2027-07-20')&&c.hour>=21&&c.hour<22.01,JSON.stringify(phoneCalls)); }
+  { picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0];
+    check('H2-3. VA10：7/20 21 點多停下來打開手機，看得到「我也去。」的邀約',!!c&&c.day===D('2027-07-20')&&c.hour>=21&&c.hour<22.01&&c.pend.includes('va10_ask'),JSON.stringify(phoneCalls)); }
   // H2-4 C01 海邊（大二寒假第一次去：揪人那天 21:05 起麵店團群組，問到海邊那天早上）
   { const d=VAC.c01Day('Y2'), da=VAC.c01Ask(d); fresh('2026-12-28',10,'dorm'); noodle(); G.day=da-1; G.weekday=wdOf(G.day); G.hour=10;
     picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0];
     check('H2-4. C01：揪人那天 21 點多停下來（海邊在 '+CALENDAR.dateOf(d).key.slice(5)+'），看得到「我去／我那天不行」',!!c&&c.day===da&&c.hour>=21&&c.hour<22.75&&c.pend.includes('vac_c01first_Y2'),JSON.stringify(phoneCalls)); }
-  // H2-5 沒有選項的訊息也停（X58，使用者 10-18 15:4x；原本不停、跳完才說「收到 N 則」）；跳之前就在的要回訊息不再停
+  // H2-5 沒有選項的訊息不停；跳之前就在的要回訊息不再停
   fresh('2026-01-07',10,'dorm');
   { PHONE.at(G,D('2026-01-08'),20,[{th:'p:zhe',from:'zhe',text:'測試：沒有選項的一則'}],'t_plain'); PHONE.post(G,{th:'p:zhe',from:'zhe',text:'測試：跳之前就在的問句',ask:{id:'t_old',opts:[{t:'好'}]}});
     picks=['過三天']; await HOME.ffMenu(GM,'dorm');
-    check('H2-5. 沒有選項的訊息（X58）：1/8 20:00 停下來打開手機（對話列表、「跳過」）；跳之前就在的問句不另外停；關掉以後照樣跳到 1/10 08:30',phoneCalls.length===1&&phoneCalls[0].skip&&phoneCalls[0].day===D('2026-01-08')&&Math.abs(phoneCalls[0].hour-20)<1e-6&&G.day===D('2026-01-10')&&Math.abs(G.hour-8.5)<1e-6&&msg('t_plain').length===1,lbl(now())+' '+JSON.stringify(phoneCalls)); }
+    check('H2-5. 沒有選項的訊息、跳之前就在的問句：不停、不打開手機，照樣跳到 1/10 08:30',phoneCalls.length===0&&G.day===D('2026-01-10')&&Math.abs(G.hour-8.5)<1e-6&&msg('t_plain').length===1,lbl(now())); }
   // H2-6 當面約的邀請（INV.offer）也算要回的
   fresh('2026-01-07',10,'dorm'); meet('zhe');
   { HOME.STOPS.push(function tStop(Gx,n){ if(Gx.day===D('2026-01-08')&&Gx.hour>=14&&!Gx.flags.T_OFFER){ Gx.flags.T_OFFER=1; INV.offer(Gx,'zhe','noodle',D('2026-01-09'),19); } return null; });
@@ -150,8 +148,8 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // 大一寒假：1/12 在宿舍「到下一個有事的日子」＝1/14 18:30，日期卡下面那一行是旁白；1/15 21:00 阿哲（要回的＝H2 停）
   fresh('2026-01-12',10,'dorm'); noodle();
   { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm');
-    check('6-3-1. 大一寒假：1/12 快轉停在 1/14 18:30，日期卡下面「（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）」（X58：中間停在訊息的卡在前面，看最後一張；這一句只出一次）',G.day===D('2026-01-14')&&Math.abs(G.hour-18.5)<1e-6&&cards[cards.length-1][1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）'&&cards.filter(x=>x[1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）').length===1,JSON.stringify(cards));
-    let r1=null; onPhone=async()=>{ r1=PHONE.answer(G,'hol63_y1w_zhe',0); }; picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('hol63_y1w_zhe')), m=PHONE.byAsk(G,'hol63_y1w_zhe');   /* X58：找看得到阿哲那則的那一次 */
+    check('6-3-1. 大一寒假：1/12 快轉停在 1/14 18:30，日期卡下面「（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）」',G.day===D('2026-01-14')&&Math.abs(G.hour-18.5)<1e-6&&cards.length===1&&cards[0][1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）',JSON.stringify(cards));
+    let r1=null; onPhone=async()=>{ r1=PHONE.answer(G,'hol63_y1w_zhe',0); }; picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0], m=PHONE.byAsk(G,'hol63_y1w_zhe');
     check('6-3-2. 1/15 21:00 麵店團，阿哲「高雄今天二十六度」「台北的人在幹嘛」＋「讀書。」「睡覺。」；快轉停在那一刻打開手機',JSON.stringify(msg('hol63_y1w_zhe'))===JSON.stringify(['g:noodle_team|zhe:高雄今天二十六度','g:noodle_team|zhe:台北的人在幹嘛'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['讀書。','睡覺。'])&&!!c&&c.day===D('2026-01-15')&&c.hour>=21,JSON.stringify([msg('hol63_y1w_zhe'),phoneCalls]));
     check('6-3-2. 停下來的時候回「讀書。」→ 阿哲「騙人」',!!r1&&r1.out.map(x=>x.from+':'+x.text).join('|')==='player:讀書。|zhe:騙人',JSON.stringify(r1&&r1.out.map(x=>x.text))); }
   fresh('2026-01-15',21.5,'dorm'); noodle(); runTo('2026-01-15',21.75); { const r=PHONE.answer(G,'hol63_y1w_zhe',1); check('6-3-2. 回「睡覺。」→ 阿哲「這才對」',!!r&&r.out.map(x=>x.text).join('|')==='睡覺。|這才對'); }
@@ -163,8 +161,8 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2027-02-19',20,'dorm'); PHONE.join(G,'public_law','公法讀書會'); meet('heroine_01'); runTo('2027-02-19',21.25); check('6-3-3. 和以安不到 FAMILIAR：沒有',msg('hol63_y2w_pl').length===0);
   // 大三寒假：1/19、2/2 摘要日；2/9 阿哲揪 2/12 麵店（去＝出遊）
   fresh('2028-01-17',10,'dorm'); noodle();
-  { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c1=cards[cards.length-1];   /* X58：最後一張（停在訊息的卡在前面）*/
-    fresh('2028-01-31',10,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c2=cards[cards.length-1];
+  { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c1=cards[0];
+    fresh('2028-01-31',10,'dorm'); noodle(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const c2=cards[0];
     check('6-3-4. 大三寒假：1/19 18:30「（寒假第四週。你回國中的學校走了一圈。圍牆換了顏色。）」、2/2 18:30「（初八。公館的店一間一間開了。）」',c1[0]==='1/19（三）18:30'&&c1[1]==='（寒假第四週。你回國中的學校走了一圈。圍牆換了顏色。）'&&c2[0]==='2/2（三）18:30'&&c2[1]==='（初八。公館的店一間一間開了。）',JSON.stringify([c1,c2])); }
   fresh('2028-02-09',20,'dorm'); noodle(); runTo('2028-02-09',21.25); const none9=!msg('hol63_y3w_zhe').length;
   fresh('2028-02-18',20,'dorm'); noodle(); runTo('2028-02-18',21.25);
@@ -186,8 +184,8 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2029-01-22',10,'dorm',{Y4_PATH:'bar',EXCHANGE_ROUTE:'JP'}); { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); check('6-3-6. 1/24 18:30「（寒假第五週。總圖的人比期末考的時候還多。）」（交換延畢的日本路線也一樣）',cards[0][0]==='1/24（三）18:30'&&cards[0][1]==='（寒假第五週。總圖的人比期末考的時候還多。）',JSON.stringify(cards)); }
   fresh('2029-01-31',20,'dorm'); noodle(); runTo('2029-01-31',21.25); check('6-3-6. 1/31 21:00 麵店團，Alison「考試的人 加油」「沒考試的人 不要吵他們」',JSON.stringify(msg('hol63_y4w_yu'))===JSON.stringify(['g:noodle_team|yu:考試的人 加油','g:noodle_team|yu:沒考試的人 不要吵他們']));
   // 暑假：大一 8/12、大二 8/15、大三 7/18（宿舍／家裡兩版；日本路線在國外不停）
-  { const r=[]; for(const [k,h0,want] of [['2026-08-10',10,'（暑假過了一半。你把大二上的課表排了三次。）'],['2027-08-12',10,'（八月中。你把大三的課表印出來，貼在書桌前面。）'],['2028-07-16',10,'（暑假的宿舍很安靜。走廊只聽得到冷氣的聲音。）']]){ fresh(k,h0,'dorm'); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const cz=cards[cards.length-1]; r.push([lbl(now()),cz[1],cz[1]===want]); }   /* X58：最後一張（停在訊息的卡在前面）*/
-    fresh('2028-07-16',10,'dorm'); atHome(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); { const cz=cards[cards.length-1]; r.push([lbl(now()),cz[1],cz[1]==='（你在家裡的書桌讀書。媽媽每兩個小時進來問一次要不要吃水果。）']); }
+  { const r=[]; for(const [k,h0,want] of [['2026-08-10',10,'（暑假過了一半。你把大二上的課表排了三次。）'],['2027-08-12',10,'（八月中。你把大三的課表印出來，貼在書桌前面。）'],['2028-07-16',10,'（暑假的宿舍很安靜。走廊只聽得到冷氣的聲音。）']]){ fresh(k,h0,'dorm'); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); r.push([lbl(now()),cards[0][1],cards[0][1]===want]); }
+    fresh('2028-07-16',10,'dorm'); atHome(); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); r.push([lbl(now()),cards[0][1],cards[0][1]==='（你在家裡的書桌讀書。媽媽每兩個小時進來問一次要不要吃水果。）']);
     check('6-3-7. 暑假的摘要日：大一 8/12、大二 8/15、大三 7/18（續住在宿舍／回家住在家裡兩版）',r.every(x=>x[2])&&r[0][0]==='8/12 18:30'&&r[1][0]==='8/15 18:30'&&r[2][0]==='7/18 18:30'&&r[3][0]==='7/18 18:30',JSON.stringify(r)); }
   fresh('2028-07-16',10,'dorm',{EXCHANGE_ROUTE:'JP'}); check('6-3-7. 日本路線 7/18 人在日本：大三暑假那一天不停',!HOLFF.stops(G,now()).includes(Tm(D('2028-07-18'),18.5)));
   // 6-3-9 大三暑假 8/12（AA_345 H3）：台灣路線照 Y4_PATH 兩版；日本路線（8/5 回來住家裡）是 jp3d.js 的 s_0812（用同一個 HOLFF.y3sPath），這裡不排；美國路線 8/2 起在國外

@@ -36,7 +36,7 @@ const msgs=th=>(H.G.msgs||[]).filter(m=>!th||m.th===th).map(m=>m.text);
 (async()=>{
 check('0. 兩個檔都載得到；每週的視訊 ZRUK.playW 包上',ok&&!!X()&&!!ZRUK._mrel,err);
 if(!X()){ H.done(); return; }
-/* 結果「接受同時交往」那一格照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；使用者 10-27 回答 C：遊戲裡七位都打開，AA_474）：這個檔測「接受」那幾句；關著的情形在 tests/mrel_ps_turn_unit.js */
+/* 結果「接受同時交往」那一格照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；遊戲裡現在七位都是 false）：這個檔測「接受」那幾句，所以這裡打開；false 的情形在 tests/mrel_ps_turn_unit.js */
 for(const k in ROM.PARAMS.acceptsOpen) ROM.PARAMS.acceptsOpen[k]=true;
 
 /* ---------------- 1. 以安 ---------------- */
@@ -92,7 +92,7 @@ await sec(2,async()=>{
     seq(['我那天回去有想過。','嗯。','我還是很生氣。','我知道。','可是我也還是想跟你吃飯。','（她低頭喝了一口水。）','這樣很矛盾嗎？','不會。','好。那我們繼續講。','所以你現在還是想跟她在一起？','對。','那你也想跟我繼續？','對。','……你知道我現在很難回答嗎？','我要想一段時間。……會很久。'])&&st(SIS).intent==='both',J(T()));
   setRom(SIS,80); check('2. 之後兩次正常的見面（照常閒聊）',!X().meetAction(H.G,SIS,'talk')&&!X().meetAction(H.G,SIS,'talk'));
   const a=X().meetAction(H.G,SIS,'talk'); clr(); await a.run(GM);
-  check('2. 結果 B 接受（她的戀愛 ≥ 75、沒說謊）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「……你去見她那天，出門前傳一句給我就好。」（第三句 AA_474 第 5 節改）＝OPEN_OK',seq(['我想過了。','我還是喜歡你。這個我不想騙自己。','……你去見她那天，出門前傳一句給我就好。'])&&!H.has('她的事，你要自己跟我講。我不想用猜的。')&&H.G.flags.OPEN_OK[SIS].kexin===true);
+  check('2. 結果 B 接受（她的戀愛 ≥ 75、沒說謊）：「我想過了。」「我還是喜歡你。這個我不想騙自己。」「她的事，你要自己跟我講。我不想用猜的。」＝OPEN_OK',seq(['我想過了。','我還是喜歡你。這個我不想騙自己。','她的事，你要自己跟我講。我不想用猜的。'])&&H.G.flags.OPEN_OK[SIS].kexin===true);
   await disc(SIS,KX,'2026-04-20','2026-04-01'); Object.assign(st(SIS),{phase:'talked',intent:'both',meets:2}); setRom(SIS,60); clr(); await X().meetAction(H.G,SIS,'talk').run(GM);
   check('2. 結果 B 不接受：「我想過了。」「我沒辦法。我會一直在想你現在在哪裡。」「我們先不要在一起了。」→ 分手',seq(['我想過了。','我沒辦法。我會一直在想你現在在哪裡。','我們先不要在一起了。'])&&!H.G.flags.dating_heroine_05);
   await disc(SIS,KX,'2026-04-20','2026-04-01'); Object.assign(st(SIS),{phase:'talked',intent:'unsure',meets:2}); clr(); await X().meetAction(H.G,SIS,'talk').run(GM);

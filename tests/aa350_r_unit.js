@@ -66,8 +66,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       JSON.stringify(a)==='["「書瑀。」>heroine_05","「以安。」>heroine_01"]'&&JSON.stringify(b)==='["「學姊。」>heroine_05","「以安。」>heroine_01"]',JSON.stringify([a,b])); }
   { /* 防回歸：祐廷說出口的「學姊」（選項、speaker player），沒有「交往中換句」的事件只能是下面這幾場（交往以前一定已經過了的；或待 AA 定的）。新加的要照 R7 換句或加進這張表並寫原因 */
     const OK={ev_sis_w1:'大一上認識她',ev_sis_fam_hall:'大一上第 2 週',ev_sis_fam_hall2:'大一上第 2 週',ev_sis_fam_dinner:'大一上家聚',ev_sis_club_expo:'大一上社團博覽會',ev_sis_festival_booth:'大一上第 11 週',ev_sis_family_dinner:'大一上第 14 週',ev_sis_empty_flask:'大一上第 8、9 週',ev_sis_canyon:'告白那一場（還沒交往）',ev_sis_w1_late:'第一次認識她的晚到版（AA_379 §3：大一下以後才第一次在 Café、法圖遇到）',
-      ev_sis_office_together:'「學姊叫我來的。」是對許教授說的，R7 沒有對第三人說的寫法：等 AA',
-      ev_family_dinner:'大一下 3/20 咖哩；「學姊好，我是…」只在還沒認識她（沒有 SIS_W1）時說（AA_470 5-1）',ev_family_xmas_y1:'大一上 12/22 家族聖誕；同上（AA_470 5-1）',ev_sis_results_dinner_y1:'大一下 3/27 上榜聚餐；同上（AA_470 5-1）',ev_sis_fam_study:'大三上 9/16 家族讀書會；同上（AA_470 12-4）'};
+      ev_sis_office_together:'「學姊叫我來的。」是對許教授說的，R7 沒有對第三人說的寫法：等 AA'};
     const src=v=>typeof v==='function'?String(v):JSON.stringify(v,(k,x)=>typeof x==='function'?String(x):x)||'';
     const guarded=l=>!!l.unless&&/heroine_05/.test(src(l.unless))&&/dating/.test(src(l.unless));
     const bad=[];

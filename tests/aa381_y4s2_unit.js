@@ -49,7 +49,7 @@ const D=POSTGRAD_LINES.DELAYED;
     check('4. 交換延畢、生日友情版「生日快樂。」→「'+D.bdayFriend+'」',H.has(D.bdayFriend)&&!H.has('今天你畢業，我生日。都沒排，結果還不錯。'),JSON.stringify(H.lines())); }
   { const G=H.fresh('2029-06-02',12,'campus',{EXCHANGE_ROUTE:'US'}); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
-    check('4. 交換延畢、分手過的學姊：中午「今天恭喜。」已經送到＝晚上只回「謝謝。」（AA_473 第 1 節；原本多一句「今天的典禮，恭喜你。」，DELAYED.bdayEx 第 2 句留給中午那一則沒送到的）',H.msgs('p:heroine_05').join('|').endsWith(D.thermosEx+'|生日快樂。|謝謝。')&&!H.msgs('p:heroine_05').includes(D.bdayEx[1]),JSON.stringify(H.msgs('p:heroine_05'))); }
+    check('4. 交換延畢、分手過的學姊：「謝謝。」「今天的典禮，恭喜你。」',H.msgs('p:heroine_05').join('|').endsWith('生日快樂。|謝謝。|'+D.bdayEx[1]),JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 5. 手機的心意邀約：接了別人，其他人自動回 AUTO_NO_GRAD（termend3d.js）----
   for(const route of ['JP',null]){ const G=H.fresh('2029-06-02',16,'campus',route?{EXCHANGE_ROUTE:route}:{});
     PHONE.at(G,G.day,16,[{th:'p:yu',from:'yu',text:'晚上一起吃飯嗎！！',ask:{id:'te_t_yu',until:G.day*24+20,opts:[{t:'好。'}]}}],'te_t_yu'); PHONE.tick(G);

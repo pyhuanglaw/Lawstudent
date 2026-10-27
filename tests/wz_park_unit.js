@@ -16,7 +16,7 @@ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=sr
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
-check('1. 配置檔載入（WZ_PARK_LAYOUT v3：B08 遊戲場往北、入口 B 步道改走遊戲場南邊）',typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.version===3);
+check('1. 配置檔載入（WZ_PARK_LAYOUT v2）',typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.version===2);
 const z=loadZone('wenzhou'); const L=WZ_PARK_LAYOUT;
 const walk=(a,b)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt:0.1,speed:4.1});
 const nearStand=(x,z,R)=>{ for(let rr=0;rr<=R;rr+=0.1) for(let a=0;a<24;a++){ const tx=x+Math.cos(a/24*Math.PI*2)*rr, tz=z+Math.sin(a/24*Math.PI*2)*rr; if(E.canStand(tx,tz,0.32,0)) return [tx,tz]; } return null; };
@@ -26,9 +26,6 @@ check('2. 入口段步道 (26,8)、主園區環狀步道 (26,17.6)、往入口 B
 { const r=walk(LANE,[33.4,23.0]); check('2. 走得到鞦韆旁邊（主園區東邊）',r.ok,r.reason||''); }
 { const r=walk(LANE,[14.6,22.8]); check('2. 走得到涼亭前面（主園區西邊）',r.ok,r.reason||''); }
 { const r=walk([5.75,15],[10,19]); check('2. 從北巷經入口 B 走進主園區',r.ok,r.reason||''); }
-{ const r=walk([5.75,15],[23.6,18.4]); check('2. 從北巷經入口 B 走到老樹的環狀步道（B08：原本遊戲場的導航阻擋把 B 步道整段擋住，只走得到入口 B 裡面那一小塊）',r.ok,r.reason||'');
-  const p=E.pathTo(5.75,15,0,23.6,18.4,0)||[]; let len=0, a=[5.75,15]; for(const q of p){ len+=Math.hypot(q[0]-a[0],q[1]-a[1]); a=q; }
-  check('2. 入口 B 到老樹走 B 步道（不繞北巷、主巷：路線 30 m 以內）',p.length>0&&len<30,len.toFixed(1)+' m'); }
 check('3. 擋住的：樹圍座椅中心、涼亭、遊戲場、北側花籬、入口兩側花籬',!E.canStand(26,21.2,0.1,0)&&!E.canStand(14.6,25.2,0.1,0)&&!E.canStand(15.2,19.4,0.1,0)&&!E.canStand(24,28.7,0.1,0)&&!E.canStand(21.4,5.4,0.1,0)&&!E.canStand(30.6,5.4,0.1,0));
 check('3. 西北角（巷底那棟 F1，x<11.8、z>21）不能走；公園外面（z 30、x 37）不能走',!E.canStand(10,24,0.1,0)&&!E.canStand(26,30.5,0.1,0)&&!E.canStand(37,22,0.1,0));
 { const seats=E.interactables.filter(i=>i.seat&&i.x>8&&i.x<37&&i.z>5&&i.z<30); const want=L.seats;

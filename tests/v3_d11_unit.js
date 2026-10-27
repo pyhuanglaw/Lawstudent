@@ -38,7 +38,7 @@ GM.money=function(n){ G.money+=n; };
   const d18=D('2026-12-18'), d19=D('2026-12-19');
   check('0. 12/19 是大二上第 15 週週六',CALENDAR.termOf(d19).week===15&&wdOf(d19)===6);
   fresh(d18,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const o=OUT.get(G,'y2_ball');
-  check('1. 12/18 21:00 麵店團群組阿哲「明天下午兩點，系籃，新體育館 來喊」＋出發選單 12/19 14:00',txt('g:noodle_team').includes('zhe:明天下午兩點，系籃，新體育館 來喊')&&!!o&&o.day===d19&&o.h===14&&o.ev==='ev_zhe_game_y2',JSON.stringify([txt('g:noodle_team'),o]));
+  check('1. 12/18 21:00 麵店團群組阿哲「明天下午兩點，系籃，新體育館。來喊。」＋出發選單 12/19 14:00',txt('g:noodle_team').includes('zhe:明天下午兩點，系籃，新體育館。來喊。')&&!!o&&o.day===d19&&o.h===14&&o.ev==='ev_zhe_game_y2',JSON.stringify([txt('g:noodle_team'),o]));
   const Gm=ev('ev_zhe_game_y2'); fresh(d19,14,'campus'); meet('heroine_01'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); said=[]; picks=[1]; await EVENTS.run(Gm); STORY.knows=k0; let L=L0();
   check('2. 系籃大二版（AA-B c2f1c5aa）：以安、Alison 在觀眾席、加油板「17 號，不要犯規。」；記分＝「今年一次都沒翻錯。」以安「（在觀眾席喊）十七號四犯了！」（AB65-3（AA_211 附錄 A） 以安一列：旁白「（以安坐在觀眾席第一排。）」，規則手冊拿掉）；WATCHED_GAME_Y2',L.includes('（以安坐在觀眾席第一排。）')&&L.includes('（Alison 的加油板上寫著：『17 號，不要犯規。』）')&&L.includes('你坐到記分台，今年一次都沒翻錯。')&&L.some(t=>/（在觀眾席喊）十七號四犯了！$/.test(t))&&!L.some(t=>/規則手冊|第十二頁/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME_Y2'),JSON.stringify(L));
   const Y=ev('ev_yu_together'); { fresh(d19,19,'noodle'); G.flags.met_yu=true; const a=EVENTS.check(Y); fresh(d19,17,'noodle'); G.flags.met_yu=true; const b=EVENTS.check(Y); fresh(d19+7,19,'noodle'); G.flags.met_yu=true; const c=EVENTS.check(Y);

@@ -19,7 +19,7 @@
    時間：都照臺灣時間；祐廷在國外（美國路線 2028-08～12 和她第二次去英國重疊）時遊戲時鐘是當地時間＝臺灣＋STORY.tzOffset，排程照換算（S.toGame）。
    接線：index.html 緊接在 msg3d.js 後面（那時 STORY、OUT 還沒載入）——手機規則掛在 MSG.ukDaily（story3d.js 的 phoneRules 每次都叫它），
    事件推進 STORY_EVENTS；MSG.pick2／send／replyAt 包一層（之後載入的 jp3d.js、us_life3d.js、kxdrift3d.js 再包在外面）。
-   存檔：G.flags.ZR_UK_CALLS＝{m:{o,c,used,seenM6,log}, w:{o,used,sleep,miss,log,fc}}（舊存檔沒有＝空的；fc＝17:00 那一版收尾輪到第幾句，AA_471 第 6 節）。
+   存檔：G.flags.ZR_UK_CALLS＝{m:{o,c,used,seenM6,log}, w:{o,used,sleep,miss,log}}（舊存檔沒有＝空的）。
    測試：node tests/aa419_zr_uk_unit.js */
 'use strict';
 const ZRUK=(function(){
@@ -44,7 +44,7 @@ const ZRUK=(function(){
     if(!R.m||typeof R.m!=='object') R.m={o:0,c:0,used:[],seenM6:false,log:[]};
     if(!R.w||typeof R.w!=='object') R.w={o:0,used:[],sleep:0,miss:0,log:[]};
     for(const k of ['m','w']){ if(!Array.isArray(R[k].used)) R[k].used=[]; if(!Array.isArray(R[k].log)) R[k].log=[]; R[k].o=R[k].o|0; }
-    R.m.c=R.m.c|0; R.w.sleep=R.w.sleep|0; R.w.miss=R.w.miss|0; R.w.fc=R.w.fc|0; return R; };   /* w.fc：17:00 那一版收尾輪到第幾句（AA_471 第 6 節；舊存檔沒有＝0，從原句開始）*/
+    R.m.c=R.m.c|0; R.w.sleep=R.w.sleep|0; R.w.miss=R.w.miss|0; return R; };
   const log=(L,e)=>{ L.push(e); if(L.length>80) L.splice(0,L.length-80); };
 
   /* ---------- 台詞（AA_419，照原文）---------- */
@@ -81,9 +81,6 @@ const ZRUK=(function(){
     W14:{say:['我把你寄來的明信片貼在書桌前面。','……室友問是誰寫的。我說，常客。'],opts:[{t:'常客？',r:['……好啦。不是常客。']}]} };
   S.W_CLOSE_Q='你那邊很晚了吧。';
   S.W_CLOSE={sleep:{t:'早點睡。',r:['好。……晚安。',N('（視訊結束。）')]},more:{t:'再講十分鐘。',r:['好。……我泡一杯茶，你看我泡。',N('（十分鐘以後，她先說了晚安。）')]},fix:'你要去吃晚餐了吧。……去吧。'};
-  /* AA_471 第 6 節（企劃線 763993620）：17:00 那一版的收尾三句輪（照順序、不跟上一週同一句；第一句＝原句 W_CLOSE.fix）；美國那學期同樣三句換字（第一句＝US.fixClose）*/
-  S.FIX_CLOSE=['你要去吃晚餐了吧。……去吧。','你那邊天要黑了。……去吃飯。','好。我這邊要出門了。'];
-  S.US_FIX_CLOSE=['你要去吃午餐了吧。……去吧。','你那邊中午了。……去吃飯。','好。我這邊要出門了。'];
   S.ASK={q:'明天晚上十點？',yes:'好。',no:'這次不行。',noR:'好。下個月。'};
   /* 祐廷人在美國（2028-09～12，印第安納；AA_419 第 5 節第 4 點）：視訊照她那邊英國週日 15:00（他那邊早上），修補以後的版本也是；六句換 */
   S.usP=(G,d)=>tz(G,d)<=-11;   /* 美國（照 STORY.tzOffset：比臺灣慢 12～13 小時）*/
@@ -142,7 +139,7 @@ const ZRUK=(function(){
     const sp=S.W[nx.id], say=nx.id==='W12'?(win?sp.winter:sp.summer):sp.say;   /* 冬令又看過 M6 的不會挑到 W12（availW）*/
     R.miss=0; log(R.log,{day:d,ans:'yes',topic:nx.id,fix:!!fix});
     let tail;
-    if(fix){ const FC=us?S.US_FIX_CLOSE:S.FIX_CLOSE; tail=[Z(FC[R.fc%FC.length])]; R.fc++; }   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫；美國那學期＝英國 17:00、「你要去吃午餐了吧。……去吧。」（AA_428 第 1 節）；收尾三句照順序輪（AA_471 第 6 節）*/
+    if(fix) tail=[Z(us?S.US.fixClose:S.W_CLOSE.fix)];   /* 修補以後的 17:00：不問「你那邊很晚了吧」、不算裂縫；美國那學期＝英國 17:00、「你要去吃午餐了吧。……去吧。」（AA_428 第 1 節）*/
     else { const C=S.W_CLOSE, sR=us?S.US.sleepR:C.sleep.r, mR=us?C.more.r.slice(0,-1).concat([N(S.US.moreN)]):C.more.r;   /* 美國那學期：「好。……去吧。」、「她先說了再見」（AA_428 第 1 節）*/
       tail=[Z(us?S.US.wCloseQ:S.W_CLOSE_Q),{choice:[{text:'「'+(us?S.US.sleepT:C.sleep.t)+'」',goto:'zruk_ws'},{text:'「'+C.more.t+'」',goto:'zruk_wt'}]},
       {label:'zruk_ws'}].concat(sR.map(t=>typeof t==='string'?Z(t):t),[{call:g=>S.sleepPick(g,true)},{goto:'zruk_we'},{label:'zruk_wt'}],

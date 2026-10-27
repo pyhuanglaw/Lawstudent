@@ -369,55 +369,7 @@ def role_branch_no_ref():
         w.done()
 
 
-def stale_sync():
-    """HV-20：duty sync 不能收舊登記（兩次真實事故）。
-    ① 10-27：帳號 C 的 LAWWW2、BB 交班時沒用 duty handoff 改自己的 duty_<職位>.json（一直寫 state on、since 10-20）；中間帳號 B 值班；
-       C 接回來時只有 LAWWW、AA 重新登記——sync 不能把 LAWWW2、BB 收成帳號 C。
-    ② 10-23：LAWWW-B 的本機遠端分支沒 fetch，讀到 B 三個職位上一次交班的檔（handed-off）——sync 要先對 GitHub、不一樣就 fetch。"""
-    w = World('C')
-    try:
-        for r in ROLES[1:]:   # C 三個職位的登記是 10-20 的舊檔
-            d = w.clone(r, 'C'); reg = w.rjson(d, f'docs/handoff/duty_{r}.json'); reg['since'] = '2026-10-20T13:04Z'
-            w.wjson(d, f'docs/handoff/duty_{r}.json', reg); w.push(d, f'{r} 10-20 登記')
-        w.work('C', 'C1')
-        w.handoff('C', skip=('LAWWW2', 'AA', 'BB'))   # 只有 LAWWW 正式交班；三個職位的檔還是 state on
-        r1 = w.takeover('B', user_ok=True)
-        r2 = w.takeover('C', user_ok=True, roles=('LAWWW', 'AA'))   # 帳號 C 回來，只有 LAWWW、AA 重新登記
-        acc = {x: r2['duty']['roles'][x]['account'] for x in ROLES}
-        check('HV-20 ① 10-27 事故：C 回來只有 LAWWW、AA 重新登記；sync 收 AA＝C，LAWWW2、BB 留在 B（10-20 的舊登記不收，印「略過」）',
-              r1.get('reg_rc') == 0 and acc == {'LAWWW': 'C', 'LAWWW2': 'B', 'AA': 'C', 'BB': 'B'} and '[略過] LAWWW2' in (r2.get('sync') or '') and '[略過] BB' in (r2.get('sync') or ''),
-              json.dumps({'acc': acc, 'sync': (r2.get('sync') or '')[-400:]}, ensure_ascii=False))
-    finally:
-        w.done()
-    w = World('B')
-    try:
-        w.work('B', 'B1'); w.handoff('B')
-        w.takeover('A'); w.work('A', 'A1'); w.handoff('A')
-        lw = w.clone('LAWWW', 'B')   # 這時 fetch 一次；之後職位重新登記、push，LAWWW-B 不再 fetch（模擬本機遠端分支是舊的）
-        rc, out = w.tool(lw, 'duty', 'find'); rs = out.split('RULE_SOURCE：')[1].split('（')[0].strip()
-        git(lw, 'merge', '-q', '--no-edit', f'origin/{rs}')
-        rc, out = w.tool(lw, 'duty', 'register', '--account', 'B', '--role', 'LAWWW', '--session', session('LAWWW', 'B'), '--branch', branch('LAWWW', 'B'))
-        w.push(lw, 'LAWWW-B register')
-        for r in ROLES[1:]:
-            d = w.clone(r, 'B'); git(d, 'merge', '-q', '--no-edit', '-X', 'theirs', f'origin/{branch(r, "A")}')
-            w.tool(d, 'duty', 'register', '--account', 'B', '--role', r, '--session', session(r, 'B'), '--branch', branch(r, 'B'), '--ref', f'origin/{branch("LAWWW", "B")}')
-            w.push(d, f'{r}-B register')
-        rc, out = w.tool(lw, 'duty', 'sync')   # 不 fetch 直接 sync
-        dj = w.rjson(lw, 'docs/handoff/duty.json')
-        st = {x: (dj['roles'][x]['account'], dj['roles'][x].get('state')) for x in ROLES}
-        check('HV-20 ② 10-23 事故：LAWWW-B 的本機遠端分支是舊的（三個職位上一次交班的 handed-off）；sync 先對 GitHub、fetch 新的登記：三個職位＝B on，沒有 pending／B 的 lastHandoff',
-              rc == 0 and all(st[x] == ('B', 'on') for x in ROLES) and not dj.get('pending') and (dj.get('lastHandoff') or {}).get('from') != 'B',
-              json.dumps({'st': st, 'pending': dj.get('pending'), 'lh': (dj.get('lastHandoff') or {}).get('from'), 'sync': out[-300:]}, ensure_ascii=False))
-    finally:
-        w.done()
-
-
 def main():
-    if 'stale' in sys.argv[1:]:   # 只跑 HV-20 的兩個情境
-        stale_sync()
-        bad = [n for n, ok, _ in results if not ok]
-        print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
-        return 1 if bad else 0
     for a, b in (('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')):
         direction(a, b)
     chain(['A', 'B', 'C', 'A'], 'A → B → C → A')
@@ -426,7 +378,6 @@ def main():
     chain(['B', 'C', 'C'], '同一個帳號正式交班以後又回來（B → C，C 交班，中間沒人值班，C 回來）')
     anomalies()
     role_branch_no_ref()
-    stale_sync()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
     return 1 if bad else 0

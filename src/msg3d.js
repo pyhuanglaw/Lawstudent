@@ -120,13 +120,12 @@ const MSG=(function(){
     const out=[]; for(const t of ['chat','share_cat','share_food','share_notes','night']){ for(const v of V){ const L=Y.replies.filter(e=>e.topic===t&&e.variant===v); if(L.length){ out.push(...L); break; } } } return out; };   /* 同一個話題：這個時期最具體的那一版；都沒有就不出（AA_301 第 1 節）*/
   S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有'}; }
     if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有'};
-    const sisAdded=id==='heroine_05'&&!!(G.flags&&G.flags.SIS_CONTACTED)&&hasContact(G,id);   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：學姊加了好友（9/3 她接受交友邀請＝SIS_CONTACTED）起就開，還沒在現實見過也一樣 */
-    if(!sisAdded&&(!met(G,id)||!hasContact(G,id))) return {ok:false,why:'還沒有聯絡方式'};
+    if(!met(G,id)||!hasContact(G,id)) return {ok:false,why:'還沒有聯絡方式'};
     const pr=presence(G,id); if(pr&&pr.here===false&&(pr.kind==='before'||pr.kind==='after')) return {ok:false,why:'聯絡不上'};
     if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
-    if(id==='heroine_05'){ const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }   /* AA_485 第 4 節：不用等第 2 階，加了好友就是事務版（直屬學姊，事務上的訊息本來就該回）；閒聊照舊（第 3 階、雙方單身）*/
+    if(id==='heroine_05'){ if(stageNum(id)<2) return {ok:false,why:'還不熟'}; const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }
     if(id==='classmate_peishan'&&inDates(G,'2026-12-18','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
@@ -142,27 +141,7 @@ const MSG=(function(){
       if(o.mode==='keep'){ if(q.k==='course') continue; out.push(q); continue; }   /* 沛珊消失期交往中：問課不開（她不在學校）*/
       if(!S.hasPool(id,q.k==='share'?'share':q.k,o.mode)) continue;
       out.push(q); }
-    return out.concat(S.topics2(G,id,o),id==='heroine_05'?S.sisTopics(G):[]); };
-  /* ---------- 學姊的兩個限時話題（MSG-SIS-EARLY-1027；AA_485 第 4 節，AA-C 定稿，句子照抄）：各一次；回覆照她的作息（12:10、17:05、22:30）----------
-     問社博：加了好友～社博結束（activities.js club_expo_y1s1 那一天 t1；社博不在週六的舊局沒有：句子寫「禮拜六的社博」）。問了的玩家社博那天照 ev_sis_club_expo 的「見過」那一條（SIS_MSG_EXPO）。
-     問法服：社博以後、大一上（稿上沒寫到什麼時候，先放到大一上結束）；加入了法服（SIS_CLUB_EXPO／lawclub／CLUB_lawclub_study）＝第一版，沒加入＝第二版 */
-  S.SIS_T={ sis_expo:{t:'問社博',say:'學姊，禮拜六的社博，法律系的大多參加什麼？',r:['看你想做什麼。想練法律的，法服。想動的，系籃。','我那天在法服顧攤。十點到四點。'],set:'SIS_MSG_EXPO'},
-    sis_fafu_in:{t:'問法服',say:'法服第一次去要準備什麼？',r:['不用準備。站旁邊聽，做紀錄。','隔週週六九點，萬才館一樓。不要遲到。']},
-    sis_fafu_out:{t:'問法服',say:'法服現在還能報名嗎？',r:['可以。週六上午去萬才館一樓，找值班的學長姊。']} };
-  S.sisExpoDay=function(G){ const A=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'):null; if(!A||typeof CALENDAR==='undefined'||typeof STORY==='undefined'||!STORY.dayOfKey) return null;
-    const ks=(A.datesW1&&STORY.week1Start&&STORY.week1Start(G))?A.datesW1:(A.datesOld&&STORY.week1Start&&!STORY.week1Start(G)?A.datesOld:A.dates); const ds=(ks||[]).map(k=>STORY.dayOfKey(k)).filter(d=>d!=null).sort((a,b)=>a-b);
-    return ds.length?{d0:ds[0],d1:ds[ds.length-1],t1:A.t1}:null; };   /* 社博那幾天（第一天、最後一天、幾點收）*/
-  const sisFafuIn=G=>{ const F=G.flags||{}; return !!(F.SIS_CLUB_EXPO||F.lawclub||F.CLUB_lawclub_study); };
-  S.sisTopics=function(G){ const R=S.rec(G), X=S.sisExpoDay(G), out=[]; if(!X||(G.stage||'law')!=='law') return out; const h=G.hour%24, before=G.day<X.d1||(G.day===X.d1&&h<X.t1);
-    if(before&&!R.once['heroine_05:sis_expo']&&CALENDAR.dateOf(X.d0).wd===6) out.push({k:'sis_expo',t:S.SIS_T.sis_expo.t});
-    const t=T(G); if(!before&&!R.once['heroine_05:sis_fafu']&&t&&t.id==='Y1S1') out.push({k:sisFafuIn(G)?'sis_fafu_in':'sis_fafu_out',t:S.SIS_T.sis_fafu_in.t});
-    return out; };
-  S.sisSend=function(G,id,topic){ const X=S.SIS_T[topic], R=S.rec(G), th='p:'+id; if(typeof PHONE!=='undefined') PHONE.post(G,{th,from:'player',who:null,text:X.say});
-    R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++; R.once['heroine_05:'+(topic==='sis_expo'?'sis_expo':'sis_fafu')]=G.day; if(X.set&&G.flags) G.flags[X.set]=true;
-    const at=S.replyAt(G,id), items=[]; if(at.late) for(const t of (S.timing(id).wakeLine||[])) items.push({th,from:id,text:t});   /* 22:30 以後傳：隔天 12:10「抱歉，昨天十點半就睡了。」再回 */
-    for(const t of X.r) items.push({th,from:id,text:t}); if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items,null);
-    if(W.n<=3&&typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'msg');
-    return {ok:true,text:X.say,at}; };
+    return out.concat(S.topics2(G,id,o)); };
   const topicKeys=(topic,sub)=>topic==='share'?['share_'+sub,'share']:[topic];
   S.hasPool=(id,topic,mode)=>{ const L=((POOL().people[id]||{}).replies||[]); return L.some(e=>(topic==='share'?/^share/.test(e.topic):e.topic===topic)&&!e.disabled&&versionOk(e,mode)); };
   /* ---------- 挑哪一句 ---------- */
@@ -394,7 +373,6 @@ const MSG=(function(){
       let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } out.push({t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}); }
     return out.length?{opts:out}:null; };
   S.send=function(G,id,topic,sub){ if(!S.canSend(G,id)) return {ok:false,why:S.open(G,id).why||'今天傳過了'}; if(!S.topics(G,id).some(q=>q.k===topic)) return {ok:false,why:'這個話題現在不行'};
-    if(S.SIS_T[topic]&&id==='heroine_05') return S.sisSend(G,id,topic);   /* 學姊的限時話題（AA_485 第 4 節）*/
     const R=S.rec(G), o=S.open(G,id), th='p:'+id; const text=S.playerText(G,id,topic,sub);
     if(typeof PHONE!=='undefined') PHONE.post(G,{th,from:'player',who:null,text});
     R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++;

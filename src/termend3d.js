@@ -194,7 +194,6 @@ const TERMEND=(function(){
       if(typeof x==='string') await GM.say(me,x); else if(x.cg!==undefined){ if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(x.cg); }   /* {cg:id}：這一刻換成 CG（沒登錄的圖＝不顯示，照立繪）*/ else if(x.narr) await GM.say(null,x.narr);
       else if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）');   /* confess_lines.js 的寫法 */
       else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text);
-      else if(Array.isArray(x.choice)){ const k=await GM.choose(x.choice.map(o=>({t:o.t}))); await run(GM,who,(x.choice[k]||x.choice[0]).say||[]); }   /* {choice:[{t,say}]}：飯桌上的一組選項（AA_470 4-2）*/
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
@@ -211,7 +210,6 @@ const TERMEND=(function(){
       else if(kind==='heart'){ await talk(2); if(!other) await run(GM,who,lines(spec.table,G)); }
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
-      if(kind==='gf'&&!other&&spec.lastByTerm&&spec.lastByTerm[te.term]) await run(GM,who,lines(spec.lastByTerm[te.term],G));   /* 那一頓的最後（收尾之前；AA_470 4-2 學姊大四上）*/
       const cl=kind==='gf'&&P.closeGf?P.closeGf:P.close; if(cl) await GM.say(null,cl); }   /* 學姊的女朋友版收尾（AA_250 10-1）*/
     R.done={who,kind,day:G.day};
     if(kind==='heart') await S.walkHome(GM,who,te.term);

@@ -27,7 +27,6 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 try{ doc+='\n'+cp.execSync('git show d94d259ec:"docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_442 第 3 節改了提示那一句（「你禮拜六走，對吧。」）*/
-try{ doc+='\n'+cp.execSync('git show 5f54b6545:"docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_470 4-5 加了 7/10 那一則 */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
@@ -51,7 +50,7 @@ await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
   check('1. 沒去：3/24 09:00 便條的照片＋「昨天沒遇到。照片也算。」；SIS_JP_NOTE photo',th().some(m=>m.text==='昨天沒遇到。照片也算。'&&keyOf(m.day)==='2028-03-24'&&Math.floor(m.h)===9)&&H.G.flags.SIS_JP_NOTE==='photo',J(th().map(m=>keyOf(m.day)+' '+m.h+' '+m.text))); });
 /* ---- 2 ---- */
 await sec(2,()=>{ fresh('2028-03-24',10); walk(D('2028-03-24'),D('2028-08-04')); const M=th().filter(m=>/^sisjp_m_/.test(m.tag||'')&&/^（照片/.test(m.text));
-  check('2. 九則照順序、各一次：4/3、4/17、5/1、5/15、5/29、6/12、6/26、7/10（AA_470 4-5 加的）、7/24',J(M.map(m=>keyOf(m.day)))===J(['2028-04-03','2028-04-17','2028-05-01','2028-05-15','2028-05-29','2028-06-12','2028-06-26','2028-07-10','2028-07-24'])&&H.G.flags.SIS_JP_MSG===9,J(M.map(m=>keyOf(m.day))));
+  check('2. 八則照順序、各一次：4/3、4/17、5/1、5/15、5/29、6/12、6/26、7/24（7/10 沒有）',J(M.map(m=>keyOf(m.day)))===J(['2028-04-03','2028-04-17','2028-05-01','2028-05-15','2028-05-29','2028-06-12','2028-06-26','2028-07-24'])&&H.G.flags.SIS_JP_MSG===8,J(M.map(m=>keyOf(m.day))));
   check('2. 臺灣週一 20:00＝遊戲時鐘（人在日本）21:00；照片＋那一句',M.every(m=>m.h===21&&CALENDAR.dateOf(m.day).wd===1)&&th().some(m=>m.text==='第四章。……說好拍給你看。'),J(M.map(m=>m.h)));
   fresh('2028-04-01',10); OUT.plan(H.G,{id:'t_busy',ev:'ev_x',day:D('2028-04-03'),h:21,place:'x',title:'x',travel:'',travelH:0}); walk(D('2028-04-01'),D('2028-04-05'));
   const m0=th().find(m=>m.tag==='sisjp_m_0'); check('2. 4/3 21:00 已經有出遊：順延到週二 4/4 同一時間',!!m0&&keyOf(m0.day)==='2028-04-04'&&m0.h===21,J(m0)); });

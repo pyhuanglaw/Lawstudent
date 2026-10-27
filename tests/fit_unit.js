@@ -55,8 +55,7 @@ await sec(6,async()=>{ H.fresh('2026-03-02',10,'campus'); H.FRIEND('heroine_04')
   const n=H.said.length; await X().preTalk(GM,{name:'子晴',charId:'heroine_04'},'heroine_04'); check('6. 同一階第二次沒有',H.said.length===n);
   gym().fit=80; const r1=SOCIAL.rel('heroine_04').npcRom||0; await X().preTalk(GM,{name:'子晴',charId:'heroine_04'},'heroine_04');
   check('6. 跳到經常鍛鍊：三拍（含旁白「（她把筆電闔上。）」）、戀愛 +8（跳兩階）',H.has('你練了一年。我的遊戲也做了一年。')&&H.said.some(x=>x.who===null&&x.t==='（她把筆電闔上。）')&&H.has('……我們都還在做。')&&(SOCIAL.rel('heroine_04').npcRom||0)-r1===8);
-  H.fresh('2026-03-02',10,'campus'); gym().fit=55; gym().card=H.G.day-30;   /* 有會員證（GYM-NOTICE-1027 起沒有會員證的玩家，以安說「你最近走路變快了。」，tests/gym_notice_1027_unit.js 測）*/
-  await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（結實、有會員證）：一般那一句',H.has('你最近下課都往新體育館走。……我只是看到了。'));
+  H.fresh('2026-03-02',10,'campus'); gym().fit=55; await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（結實）：一般那一句',H.has('你最近下課都往新體育館走。……我只是看到了。'));
   gym().fit=90; await X().preTalk(GM,{name:'以安',charId:'heroine_01'},'heroine_01'); check('6. 以安（經常鍛鍊）：右邊兩句',H.has('你搬讀書會的資料，一次搬兩箱。')&&H.has('……以前你要搬兩趟。'));
   H.fresh('2026-03-02',10,'campus'); gym().fit=30; await X().preTalk(GM,{name:'語彤',charId:'heroine_03'},'heroine_03'); check('6. 語彤：「阿姨說你最近都吃兩碗。」',H.has('阿姨說你最近都吃兩碗。'));
   H.fresh('2026-03-02',10,'campus'); gym().fit=30; H.FRIEND('kexin'); const k0=SOCIAL.rel('kexin').npcRom||0; await X().outingPre(GM,{},{participants:['kexin']});

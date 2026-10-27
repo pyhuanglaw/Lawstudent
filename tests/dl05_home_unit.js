@@ -52,9 +52,5 @@ const choices=()=>opts.map(o=>o.join('｜'));
   { const FRI=termDay('Y1S1',5,5), SAT=FRI+1; fresh(FRI,21,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).eat={day:FRI}; G.invites=[{id:'iv_sat',who:'heroine_01',place:'library',day:SAT,h:10,state:'accepted'}];
     let woke=null; const tc=GM.titleCard; GM.titleCard=async(a,b)=>{ if(/臺北的家/.test(b||'')) woke={day:G.day,h:G.hour}; }; picks=['睡覺','回宿舍']; await HOME.loop(GM); GM.titleCard=tc;
     check('7. 週六早上約在學校（10:00）：週五晚上在家睡，週六 09:10 醒（開始前 50 分鐘）',!!woke&&woke.day===SAT&&Math.abs(woke.h-(10-50/60))<0.02,JSON.stringify(woke)); }
-  /* BUG-HOME-REST-NOCAP-1027（BB-C 10-27）：凌晨 2:30 以後家的選單不出「在家休息一下」（休息可以一直按、日子不換）；23:00 照舊有 */
-  { const WED=termDay('Y1S1',6,3); fresh(WED,23,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).eat={day:WED}; picks=['回宿舍']; await HOME.loop(GM); const o23=opts[0]||[];
-    fresh(WED,27,'dorm',{introDone:true,classDone:true,afternoonDone:true}); HOME.rec(G).at=true; HOME.rec(G).eat={day:WED}; picks=['回宿舍']; await HOME.loop(GM); const o27=opts[0]||[];
-    check('8. 家的選單：23:00 有「在家休息一下」；凌晨 3:00（G.hour 27）沒有、還有「睡覺」',o23.includes('在家休息一下')&&!o27.includes('在家休息一下')&&o27.includes('睡覺'),JSON.stringify({o23,o27})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

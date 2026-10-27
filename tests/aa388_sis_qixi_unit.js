@@ -20,8 +20,7 @@ const okDeps=['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_y0
 const ok1=load('src/data/sis_qixi_events.js'), ok2=load('src/sis_qixi3d.js');
 const PATH='docs/story_planning/AA_388_學姊第五批_七夕.md';
 let doc=''; try{ doc=cp.execSync('git show 3a509150:"'+PATH+'"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-let doc479=''; try{ doc479=cp.execSync('git show 02428913b:"docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc479=''; }   /* AA_479 第 2 點（10-27）：美國版「宿舍門口」→「社區門口」，新句在 AA_479 */
-const inDoc=t=>doc.indexOf(t)>=0||(t==='明天早上九點，我在社區門口等你。這邊週六有市集。'&&doc479.indexOf('社區門口')>=0);
+const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISQX!=='undefined'?SISQX:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const T=(d,h)=>d*24+h;
@@ -131,7 +130,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     rules(); const noDm=dms().length===0;
     check('1-3 美國. 8/25（五）17:00 以後、人在美國的公寓、社區、C 棟 208＝當面約；16:30、8/24、法學院圖書館／校園不演；沒有私訊',c0===false&&c1===false&&c2===true&&J(z)===J([true,true,false,false])&&noDm,J({c0,c1,c2,z}));
     const L=await play('ev_sis_qixi_us_ask'); const q=OUT.get(H.G,'sisqx_2028');
-    check('1-3 美國. 她一句「明天早上九點，我在社區門口等你。這邊週六有市集。」→ 排 8/26（六）09:00（出遊、不算正式校外約會）',J(L)===J(['明天早上九點，我在社區門口等你。這邊週六有市集。'])&&!!q&&q.day===H.D('2028-08-26')&&q.h===9&&q.ev==='ev_sis_qixi'&&!q.dateTrip&&!EVENTS.check(E1),J({L,q}));
+    check('1-3 美國. 她一句「明天早上九點，我在宿舍門口等你。這邊週六有市集。」→ 排 8/26（六）09:00（出遊、不算正式校外約會）',J(L)===J(['明天早上九點，我在宿舍門口等你。這邊週六有市集。'])&&!!q&&q.day===H.D('2028-08-26')&&q.h===9&&q.ev==='ev_sis_qixi'&&!q.dateTrip&&!EVENTS.check(E1),J({L,q}));
     at('2028-08-26',9); H.G.flags.SIS_CRACK=1; const c00=logN(), r0=relOf(); const L2=await play('ev_sis_qixi',[0]); const r1=relOf();
     check('1-3 美國. 週六市集（美國篇沒有市集的圖：先用校園底圖＝小教堂前的台階）：桃子和玉米、「這邊沒有七夕。」；「那我們過這邊的。」→「這邊的七夕是什麼？」祐廷「買桃子。」「……好。那就買桃子。」',
       J(L2)===J(L13)&&J(H.opts[0])===J(['「那我們過這邊的。」','「妳想家嗎？」'])&&H.bgs.some(b=>b&&b.image==='assets/bg/us_chapel_steps.webp')&&H.said[5].who!==null&&H.said[5].who!=='溫書瑀',J({L2,O:H.opts,bgs:H.bgs}));

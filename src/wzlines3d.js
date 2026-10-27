@@ -109,7 +109,7 @@ const WZL=(function(){
       {id:'ev_wz_b_home',due:(G,n)=>{ const F=G.flags; return n>=10&&done(G,'ev_wz_b2')&&!F.WZ_BRUNCH_BACK&&(!F.WZ_BRUNCH_HELP||!!F.WZ_INS_STOP); }},
       {id:'ev_wz_b2',due:(G,n)=>n>=7&&!done(G,'ev_wz_b2')},
       {id:'ev_wz_b4',due:G=>{ const t=tid(G); if(!(t==='Y2S1'||t==='Y2S2')||!sat(G)||!S.met('heroine_05')) return false; const R=G.flags.WZ_B4||{}; return !R[t]; },pre:G=>{ const R=G.flags.WZ_B4=Object.assign({},G.flags.WZ_B4); R[tid(G)]=G.day; }},
-      {id:'ev_wz_b3',due:(G,n)=>n>=3&&!done(G,'ev_wz_b3')&&S.atLeast('zhe','FAMILIAR'),post:(G,GM)=>{ if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'wz_b3_photo')) PHONE.at(G,G.day,Math.max(G.hour,11.5),[{th:'g:noodle_team',from:'zhe',text:'📷（你端著三個盤子的背影）'},{th:'g:noodle_team',from:'zhe',text:'麵店團週末分部成立'}],'wz_b3_photo'); }} ],
+      {id:'ev_wz_b3',due:(G,n)=>n>=3&&!done(G,'ev_wz_b3')&&S.atLeast('zhe','FAMILIAR'),post:(G,GM)=>{ if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'wz_b3_photo')) PHONE.at(G,G.day,Math.max(G.hour,11.5),[{th:'g:noodle_team',from:'zhe',text:'📷（你端著三個盤子的背影）'},{th:'g:noodle_team',from:'zhe',text:'麵店團週末分部成立。'}],'wz_b3_photo'); }} ],
     copy:[
       {id:'@lease4',due:G=>!!S.lease4(G)},
       {id:'ev_wz_c_lease1',due:G=>{ const t=S.term(G); return !!t&&t.id==='Y2S1'&&t.week>=6&&t.week<=10&&!G.flags.WZ_C_L1; }},

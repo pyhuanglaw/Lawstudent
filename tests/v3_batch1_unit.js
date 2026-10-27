@@ -32,7 +32,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const ids=['ev_y2_club_expo','ev_y2_first_meal','ev_y2_midautumn']; check('0. 三個事件在',ids.every(i=>ev(i))); if(!ids.every(i=>ev(i))){ console.log('FAILED '+fails); process.exit(1); }
   const dk=k=>STORY.dayOfKey(k), at=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=0; }, tick=()=>{ said=[]; return EVENTS.tick(0.1); };
   const wait=async()=>{ for(let i=0;i<50&&EVENTS.running;i++) await new Promise(r=>setTimeout(r,0)); };
-  const d16=dk('2026-09-12'); check('0. 社博 9/12 是大二上第 1 週週六（CLUBFAIR-REAL-1027，AA_485 3-2：照實際搬到開學第一週的週六；原本 9/16 週三）',CALENDAR.termOf(d16).id==='Y2S1'&&CALENDAR.termOf(d16).week===1&&CALENDAR.dateOf(d16).wd===6);   /* 變數名照舊 d16（下面每一段都用它）*/
+  const d16=dk('2026-09-16'); check('0. 9/16 是大二上第 2 週週三',CALENDAR.termOf(d16).id==='Y2S1'&&CALENDAR.termOf(d16).week===2&&CALENDAR.dateOf(d16).wd===3);
   // 1. 博覽會：吉他社＋法服都加入過 → 選吉他社
   fresh(d16,12,'campus',{CLUB_club_guitar:true,CLUB_lawclub_study:true,met_yu:true}); G.stage='law'; meet('heroine_04'); meet('heroine_05'); meet('heroine_03');
   R('yu',...LV.ACQ); R('heroine_04',...LV.ACQ); const f0=SOCIAL.rel('yu').fam, f4=SOCIAL.rel('heroine_04').fam;
@@ -64,26 +64,25 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：法服的傳單，週六有值班。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：……那你幫我拿給大一的。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 只認識語彤、不認識柏翰：只有「你只是走過。」（語彤不在法服攤位的任何一路）',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 都不認識：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
-  fresh(d16,9.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 10:00 以前不觸發（AA_485 3-2：10:00～16:00）',!tick());
-  fresh(d16,16.2,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 16:00 以後不觸發',!tick());
-  fresh(dk('2026-09-16'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/16（原本的日子）不觸發',!tick());
-  check('5. 校園的帳篷在大二的博覽會那天也擺（zones3d FAIR_DAYS：2026-09-12，CLUBFAIR-REAL-1027 AA_485 3-2 從 9/16、9/17 搬過來；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-12'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
+  fresh(d16,10.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 11:00 以前不觸發',!tick());
+  fresh(dk('2026-09-18'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/18 不觸發',!tick());
+  check('5. 校園的帳篷在大二的博覽會兩天也擺（zones3d FAIR_DAYS；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-16','2026-09-17'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
   // 6. 開學第一頓
   const d17=dk('2026-09-17'); fresh(d17,16,'campus',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); meet('heroine_03'); G.flags.met_yu=true;
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));
-  run(17,17.1); check('6. 17:00 阿哲在麵店團群組「開學第一頓 七點，長桌」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓 七點，長桌')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
+  run(17,17.1); check('6. 17:00 阿哲在麵店團群組「開學第一頓。七點，長桌。」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓。七點，長桌。')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
   picks=['行政法妳選']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();   /* AB65-3（AA_211） 第 3 節 3-1 */
   check('6. 台詞（逐字；AB65-3（AA_211） 第 3 節 3-1）：開頭旁白「（暑假以後第一次，長桌又併起來了。）」（AA_428 §2 第 1 點）、阿哲兩句（「老闆娘」改「阿姨」，AA_313 5-3）、以安「我把大家的課表排在一起了，週四晚上大家都沒課。」、語彤「（端麵過來）阿姨說開學，每碗多一顆滷蛋。」（Alison 那句刪掉）；選「行政法妳選哪一班？」→ 以安「許老師那班，聽說他很愛點人。」',L[0]==='（暑假以後第一次，長桌又併起來了。）'&&/大二了，要有學長的樣子。$/.test(L[1])&&/（三秒後）阿姨，大碗。$/.test(L[2])&&/我把大家的課表排在一起了，週四晚上大家都沒課。$/.test(L[3])&&/（端麵過來）阿姨說開學，每碗多一顆滷蛋。$/.test(L[4])&&/許老師那班，聽說他很愛點人。$/.test(L[5])&&L.length===6&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
   fresh(d17,16,'campus',{}); G.stage='law'; picks=['先吃']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
   check('6. 只認識阿哲：阿哲兩句、選項只有「先吃。」→ 旁白「（阿哲已經開始吃了。）」（AB65-3（AA_211） 3-1；原本「這才是學長的樣子。」；開頭旁白 AA_428 §2 第 1 點）',L.length===4&&L[0]==='（暑假以後第一次，長桌又併起來了。）'&&L[3]==='（阿哲已經開始吃了。）'&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「先吃。」']),JSON.stringify([L,opts]));
   // 沒去 → 21:30 照片；不在群組＝阿哲私訊
-  fresh(d17,16,'campus',{}); G.stage='law'; run(16,17.1); check('7. 不在麵店團群組：阿哲私訊邀約',txt('p:zhe').some(t=>t==='zhe:開學第一頓 七點，長桌'));
+  fresh(d17,16,'campus',{}); G.stage='law'; run(16,17.1); check('7. 不在麵店團群組：阿哲私訊邀約',txt('p:zhe').some(t=>t==='zhe:開學第一頓。七點，長桌。'));
   G.hour=19.3; OUT.expire(G); run(19.3,21.4); check('7. 沒出發＝沒去；21:30 以前沒有照片',OUT.get(G,'y2_first_meal').state==='missed'&&!txt('p:zhe').some(t=>/六碗麵/.test(t)));
   run(21.5,21.6); check('7. 21:30 照片「（長桌上六碗麵，一碗是大碗。）」',txt('p:zhe').some(t=>t==='zhe:📷（長桌上六碗麵，一碗是大碗。）'));
   // 8. 中秋烤肉
   const d25=dk('2026-09-25'); fresh(d25-1,20,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_xinci'); meet('heroine_03'); G.flags.met_yu=true;
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
-  run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點 烤肉架今年你負責」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點 烤肉架今年你負責')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
+  run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點。烤肉架今年你負責。」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點。烤肉架今年你負責。')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
   const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那輪流，一人夾十分鐘。','（Alison 已經拿筷子在翻肉了。）','classmate_xinci：左邊火比較大，肉先放左邊。','（語彤從袋子裡拿出一罐阿姨的醬。）','（回來時，大家已經用筷子烤完第一輪。）','zhe：你回來了喔，第一輪吃完了。'];   /* AB65-3（AA_211） 第 3 節 3-2；以安「我贊成。這樣公平。」刪掉（AA_428 §2 第 2 點：照 AA_211 3-2「以安這場不說話」）*/
   const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^Alison：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));

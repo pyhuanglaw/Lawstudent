@@ -23,7 +23,6 @@ const R2Y3B_EVENTS=(function(){
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
   const cg=id=>({if:{custom:()=>hasCG(id)},cg:id});   /* CG 登錄了才放（CG_REGISTRY；沒有就照原背景演）*/
   const X=()=>typeof R2Y3B!=='undefined'?R2Y3B:null;
-  const AN_KNOWS={custom:G=>{ const x=X(); return !!x&&!!x.knowsOther&&x.knowsOther(G,'heroine_01'); }};   /* 以安知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）：七夕告白先演知情對話（AA_474 3b）*/
   const fl=(k,v)=>({custom:G=>(G.flags||{})[k]===v});
 
   /* ---------- 2-Y3-26 開學第一頓（大三下）：2028-02-22（二）19:00 麵店長桌（17:00 阿哲揪；沒去＝21:30 群組照片）---------- */
@@ -446,10 +445,8 @@ const R2Y3B_EVENTS=(function(){
     d1:[ {scene:'關西・大學城',bg:'jp_station'},{speaker:null,text:'（她在車站的剪票口等，手上拿著一張手寫的行程表。）'},{speaker:'heroine_01',text:'這裡。行程表我印了兩份，這份給你。'} ],
     d2:[ {scene:'關西・大學城',bg:'jp_street_night'},{speaker:null,text:'（商店街掛滿了竹子，短冊在風裡一直響。）'},{speaker:'heroine_01',text:'你要寫一張嗎？'},{speaker:null,text:'（你寫了。她沒有看，把自己的那張掛在旁邊。）'},
       {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
-      {label:'p'},{goto:'pk',if:AN_KNOWS},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
-      {label:'pk'},{speaker:'heroine_01',text:'……我知道。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,true); }},{goto:'e'},   /* AA_474 3b：她知道祐廷有別人＝「……我知道。」接 KNOW.say、三個選項（R2Y3B.tanabataKnow）*/
+      {label:'p'},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
       {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},
-      {if:AN_KNOWS,call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_474 3b：她原本三句接 KNOW.she、三個選項 */
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
     d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],

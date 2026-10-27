@@ -27,7 +27,7 @@ let doc=''; try{ doc=cp.execSync('git show 895496a7:"docs/story_planning/AA_406_
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_b10_3d.js 後面；沒有大二版（ev_family_xmas_y2）',ok&&!!X()&&/sis_b10_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/family_xmas3d\.js\?v=[^"]+"><\/script>/.test(html)&&!STORY_EVENTS.some(e=>e.id==='ev_family_xmas_y2'));
   const q=[...J(X().EVENT).matchAll(/"text":"([^"]+)"/g)].map(m=>m[1]).concat(['家族的規矩齁：直屬送直屬。一百五以內，超過的自己吞。','我用了。昨天。'],X().GIFTS.map(g=>g.t));   /* 12/15 第一句 AA_458 3-3 改成「期末考完，12/22」（稿在企劃線 b01e32018，逐字對在 tests/aa458_y1s1_unit.js）*/
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['公館・火鍋店','學姊好，我是{name}。','我知道。直屬送直屬，我準備的是你的。'].includes(t));   /* 後兩句：AA_470 5-1（企劃線 5f54b6545）還沒認識她的兩句自我介紹，對字在 tests/aa470_sis_b12_unit.js */
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['公館・火鍋店'].includes(t));
   check('0. 每一句台詞、禮物名都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn)); });
 /* ---- 1 ---- */
 await sec(1,()=>{ fresh('2025-12-15',20); H.at('2025-12-15',21); ph(); const q=OUT.get(H.G,'famx_y1');

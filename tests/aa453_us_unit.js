@@ -38,7 +38,7 @@ const done=id=>!!(H.G.events&&H.G.events.done&&H.G.events.done[id]);
 const waitFor=async f=>{ for(let i=0;i<400&&!f();i++) await new Promise(r=>setTimeout(r,0)); return f(); };
 const go=async(picks)=>{ const q=OUT.due(H.G); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const r=q?await OUT.prompt(GM,q):null; return {id:q&&q.id,r,L:said()}; };
 
-const QX_ASK='明天早上九點，我在社區門口等你。這邊週六有市集。', PEACH='（她挑了兩顆桃子，捏了一下，放回去一顆。）';
+const QX_ASK='明天早上九點，我在宿舍門口等你。這邊週六有市集。', PEACH='（她挑了兩顆桃子，捏了一下，放回去一顆。）';
 const MSG0='明天下午圖書館。課表拿來。', MSG1='市集逛完，下午去圖書館。課表帶著。';
 const LIB0='（開學後的第一個週六。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）', LIB1='（從市集回來，那顆桃子放在桌角。一樓中庭的長桌，她把每一門課的 syllabus 攤在桌上。）';
 const US2A='報告被退回來了。', US2B='……我在煮麵。C 棟，廚房。要不要吃。', YES='我過去。', NO='今天不行。', YES_RE='樓下的門，按 208。', NO_RE='好。', MISSED='麵我吃完了。報告我自己再改一次。';

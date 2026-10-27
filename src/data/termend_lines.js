@@ -14,7 +14,6 @@ const TERMEND_LINES=(function(){
      12/24 晚上已經有別的約、往後讓的（不在 12/24 吃）不加，改成當晚 21:00 她私訊（sis_b4_3d.js S.xm3Fallback）*/
   const XM3=G=>!!G&&!!G.flags&&G.flags.SIS_XMAS_Y3==='there'&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day===STORY.dayOfKey('2028-12-24');
   const XM3US=G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
-  const BK470=G=>typeof SISB12!=='undefined'&&!!SISB12.bookWithYou&&SISB12.bookWithYou(G);   /* AA_470 4-2：「另外一本，放你那邊。……回來跟你拿。」（AA_395 1-2 交往版）聽過、帶的是 law／novel、現在交往中 */
   /* AA_450 1-7：美國下雪那天選「（不問了）」（US_SNOW_QUIET）、她 12/3 傳「……其實不太好。回去再跟你說。」的，期末飯她自己說出來（「再問一次」那一支 SIS_ASKED_TWICE 已經說過的不加）；往後讓的哪一天吃就哪一天說 */
   const SNOWQ=G=>XM3US(G)&&!!G&&!!G.flags&&!!G.flags.US_SNOW_QUIET&&!G.flags.SIS_ASKED_TWICE;
   /* 沛珊大三起在台南（AA_282 第 5 節第 5 點）：期末飯的地點、交通（高鐵去、搭最後一班高鐵回臺北；票錢照 hometown_lines.js 台南那一組 2700）——系統字，不是台詞 */
@@ -149,8 +148,6 @@ const TERMEND_LINES=(function(){
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。',
       invByTerm:{Y1S2:'考完了吧？今天晚上我空著。法圖旁邊那家。',Y2S1:'考完了吧。今天晚上不排別的。法圖旁邊那家。',Y2S2:'考完了吧。七點，法圖旁邊那家。……我先去占位子。',Y3S1:'考完了吧。法圖旁邊那家，我訂了靠窗的。',Y3S2:'考完了吧。今天晚上我空著。……這個暑假，能空的晚上不多。',Y4S1:'我回來了。今天晚上，法圖旁邊那家。'},
       tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。','……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。',G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null,G=>SNOWQ(G)?'美國下雪那天，我說回去再跟你說。':null,G=>SNOWQ(G)?'……論文還要改兩章。我不知道碩三畢不畢得了業。':null,G=>SNOWQ(G)?'還有，我其實不知道自己為什麼要念研究所。以前有人問，我都說「先不要問我」。':null],Y5S1:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。']},
-      lastByTerm:{Y4S1:[G=>BK470(G)?{narr:'（你把那本書推過去。這半年，它一直放在你書桌最上面那一格。）'}:null,G=>BK470(G)?'（翻到書籤那一頁）……你沒有往後翻。':null,
-        G=>BK470(G)?{choice:[{t:'「我翻了一頁。」',say:['哪一頁。……算了，不要講。']},{t:'「沒有。」',say:['嗯。']}]}:null]},   /* AA_470 4-2 交往版：那一頓的最後（收尾旁白之前，termend3d.js S.dinner）；聽過「另外一本，放你那邊。」的（sis_b12_3d.js S.bookWithYou）*/
       over:[{terms:['Y5S1'],invite:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。'}]},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。',
       tableByTerm:{Y2S1:['寒假我排了很多班。','……週五下班以後的時間，我沒排。'],Y2S2:['英國那邊，我一個人都不認識。','……你不准趁我不在，去別家喝咖啡。'],Y3S2:['九月又要走，這次一年。','……六月的週五，你先全部給我。']/* AA_377 第 11 項：她 7/1～8/1 在台中 */,Y5S1:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。']},
