@@ -34166,6 +34166,27 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 23:0x UTC】第二輪 AA_492（DL-AA-492，2a5b78ee3）1c4223a30：12-6b 出國中「我在{國}。」＋取消提示、12-7 考研究所不問選項一、「另外一本」約會補演；tests/aa492_sis_b12_fix2_unit.js；BB 5o｜【LAWWW-C 2026-10-27 22:3x UTC】第一輪 cff93a2d1（子代理 sisb12fix-1027）：①12-5 週五 3/3～4/21 ②12-6b 出國中不收邀約（VAC.abroadOn）③4-2 約哪一家都演 ④12-4、12-3 撞期小字、日本 5/29 換句；BB 5n｜【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做。AA_490（DL-AA-490，a4f530c11）回了①③④：①12-5 改這一場：週五 12:00～14:00、2028-03-03～04-21（日本路線到 3/24），兩筆 linze_5f 不加結束日；③4-2 約哪一家都演、店的條件拿掉；④12-4 照撞期：9/13「我去。」旁小字「那天晚上也是公法讀書會」（那學期去過公法讀書會的才有）；另 12-3 火鍋撞托福班照撞期（C04W 那晚有課的才有小字）、日本路線 5/29 sis_jp_events.js 第 13 行第二句換；②LAWWW 改（VAC 出國中也排除）；⑤照舊不補"
+  },
+  {
+   "id": "BADCLIP-BAG-1027",
+   "title": "打羽球不背包：羽球短片裡祐廷和對手身上的後背包、托特包、吉他、資料夾、圍裙先拿下來，演完（含跳過、出錯）照原本還原",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "使用者 10-27 22:4x 對 BB-C「打羽球男主角還背著背包什麼意思」；BB-C 22:43 讀程式轉 LAWWW-C（character3d.js MODEL_PROPS、animateVRM 只在坐著時藏包）；USER_WANTS X117",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次約人去體育館打羽球（短片）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】LAWWW 修 056851057：CHAR.carryOff＋badminton_clip3d.js 開演拿下、finally 還原；tests/badclip_bag_unit.js（修改前 FAIL）；BB 照 5j 從手機約起驗（以安、語彤、男生朋友各一次，三個鏡頭裡兩個人身上沒有包）；場邊地板放一個包（BB 的建議）交 LAWWW2 下一輪羽球一起看",
+   "sha": "056851057"
   }
  ]
 }
