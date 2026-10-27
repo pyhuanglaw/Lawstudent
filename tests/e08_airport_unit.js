@@ -1,7 +1,8 @@
 // E08（USER_WANTS：「3d做機場 旅館 街景 這種都我給妳CG」「機場的也是阿」，10-16 21:49、10-17 00:0x）：3D 桃園機場出境大廳用在寒暑假出國、日本路線出發——不需要瀏覽器。
 // 原本只有美國交換（exchange3d.js）會進 3D 的 airport_dep；寒暑假出國（vac3d.js：出國活動、C13 自己排的出國旅遊、VA10）、日本路線 3/25 和以安一起出發（y34b3d.js）是 2D 的機場圖。
 // 現在照美國那一趟：字卡 → 3D 出境大廳（一起出發的人跟著）→ 安檢入口「登機」（或一小時以後自動登機）→ 原本的流程接著演 → 回到出發前的地方。
-//   E1 從 3D（宿舍）出發的 C13：進大廳、等登機（OUT 不再問、不算沒去、不能回家、「搭車離開」拿掉）→「登機」→ 整趟照演、只出一次「去機場」字卡 → 回宿舍
+//   E1 從 3D（宿舍）出發的 C13：進大廳、等登機（OUT 不再問、不算沒去、不能回家、「搭車離開」拿掉）→「登機」→「飛往〇〇」字卡、深色底（AA_478 第 1 節，2026-10-27 改：原本是模糊的大廳）→ 整趟照演、只出一次「去機場」字卡 → 回宿舍
+//   （AA_478 的其他項目：tests/e08_hall_unit.js）
 //   E2 一小時以後自動登機；E3 人不在大廳了＝直接登機；E4 在大廳存檔、讀檔（JSON）以後照樣登機；舊存檔沒有 AIR_DEP＝「登機」照舊只是告示
 //   E5 放假住家裡從家裡「出發」：家裡的選單收起來、到大廳；演完回臺北的家（字卡「回臺北的家」）
 //   E6 一起出發的人：C13 和誰去、C05 阿凱、VA10 麵店團；C11、C12 的以安（到了才遇到）不算；跟著走、不能搭話
@@ -40,7 +41,7 @@ const atDue=q=>{ H.G.day=q.day; H.G.weekday=CALENDAR.dateOf(q.day).wd%7; H.G.hou
     hall(); const t1=tick();
     check('E1. 大廳：「搭車離開（回台北）」拿掉、「登機」還在；還不到一小時不自動登機',t1===false&&!E.interactables.some(it=>it.exit)&&E.interactables.some(it=>it.airportBoard),JSON.stringify(E.interactables.map(it=>it.label)));
     H.cards=[]; H.bgs=[]; const b=await board();
-    check('E1. 安檢入口「登機」：照原本整趟演完（done、BACK_FROM_T13）；登機以後不再出「去機場」字卡；開頭畫面是模糊的大廳',b===true&&r.done===true&&H.G.flags.BACK_FROM_T13===r.to&&goCards()===0&&H.bgs[0]==='blur'&&!H.G.flags.AIR_DEP&&q.state==='done',JSON.stringify([b,r.done,H.cards.slice(0,3),H.bgs.slice(0,2)]));
+    check('E1. 安檢入口「登機」：照原本整趟演完（done、BACK_FROM_T13）；登機以後不再出「去機場」字卡，第一張是「飛往韓國｜首爾　約 2 小時半」（AA_478 1-1）；接著是深色底（人在飛機上，不是模糊的大廳）',b===true&&r.done===true&&H.G.flags.BACK_FROM_T13===r.to&&goCards()===0&&JSON.stringify(H.cards[0])===JSON.stringify(['飛往韓國','首爾\u3000約 2 小時半'])&&H.bgs[0]==='dark'&&!H.G.flags.AIR_DEP&&q.state==='done',JSON.stringify([b,r.done,H.cards.slice(0,3),H.bgs.slice(0,2)]));
     check('E1. 演完回到出發前的地方（宿舍）、不是留在機場',H.G.zone==='dorm'&&H.entered[H.entered.length-1]==='dorm',JSON.stringify(H.entered)); }
 
   /* ===================== E2 一小時以後自動登機 ===================== */

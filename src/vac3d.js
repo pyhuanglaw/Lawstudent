@@ -448,7 +448,7 @@ const VAC=(function(){
      原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
      → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
      存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
-     台詞：沒有新寫的。登機以後到第一張日期卡中間沒有「飛往〇〇」的字卡（美國那一趟有）；C05、T02、C08、C10 的「出發」那一幕（機場）照舊在登機以後演——要不要改問 AA */
+     登機以後：「飛往〇〇」字卡（AA_478 第 1 節、1-1：S.flyCard，資料在 vac_activities.js 的 fly）→ 深色底（人在飛機上，不露出出境大廳）→ 第一張日期卡。台詞沒有新寫的（AA 定）。*/
   S.abroadTrip=function(q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return false; if(/^T13#/.test(v.key)||v.key==='VA10') return true;
     if(v.k!=='trip'||!/@/.test(v.key)) return false; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); return !!I&&!!I.A.place&&I.A.place.kind==='abroad'; };
   /* 一起出發的人（在大廳跟著你，最多三個、認識的）：活動卡 mates 是陣列的那幾團（C05 阿凱、T02 方奕廷、T03 子晴和阿凱）、VA10 麵店團、C13 和誰去；
@@ -458,6 +458,12 @@ const VAC=(function(){
     else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; L=(C&&C.mates)||[]; }
     else { const [id,yk]=v.key.split('@'), I=S.inst(id,yk), m=I&&I.A.mates; if(Array.isArray(m)) L=m.slice(); }
     return L.filter(id=>typeof CHARACTERS!=='undefined'&&!!CHARACTERS[id]&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')).slice(0,3); };
+  /* 登機以後的字卡（AA_478 第 1 節、1-1）：出國活動＝活動卡的 fly；C13＝目的地（TRAVEL.dest 的 fly）；VA10＝VA10.fly。沒有＝不出（OUT.go 的 noCard）*/
+  S.flyCard=function(G,q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return null; let f=null;
+    if(/^T13#/.test(v.key)){ const r=(S.rec(G).t13||[]).find(x=>'T13#'+x.n===v.key), De=r&&TV()&&TV().dest[r.dest]; f=De&&De.fly; }
+    else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; f=C&&C.fly; }
+    else if(/@/.test(v.key)){ const [id,yk]=v.key.split('@'), I=S.inst(id,yk); f=I&&I.A.fly; }
+    return Array.isArray(f)&&f.length?f:null; };
   S.airOk=(GM,q)=>!!q&&q.state==='planned'&&!q.airDone&&S.abroadTrip(q)&&typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM&&!!GM.enter;
   /* 出發：到出境大廳。回傳 false＝人在機場等登機、沒有回家（家裡的選單照「出門了」收起來；jp3d.js、home3d.js 的 !ok 先看 EXCH.airPending）*/
   const airReg=()=>{ if(typeof EXCH!=='undefined'&&EXCH.AIR&&!EXCH.AIR.vac) EXCH.AIR.vac={board:(GM,rec)=>S.airBoardTrip(GM,rec)}; };   /* 登記登機以後接著演什麼（exchange3d.js 照 index.html 在前面；單元測試載入順序不一定，出發時再補一次）*/
@@ -469,7 +475,7 @@ const VAC=(function(){
   S.airBoardTrip=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,rec.q):null;
     if(!q||q.state!=='airport'){ await S.airBack(GM,q,false); return false; }   /* 找不到那一趟（不該發生）：回到出發前的地方 */
     q.state='planned'; q.arrived=true; q.airDone=true;
-    const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true});
+    const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true,card:S.flyCard(G,q)});   /* 「飛往〇〇」字卡（AA_478 第 1 節）*/
     if(G.zone==='airport_dep') await S.airBack(GM,q,false);   /* 從家裡出發的（OUT.go 不換區域）＝回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
     return ok; };
   /* 回到出發前的地方：放假住家裡＝回臺北的家（字卡「回臺北的家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
@@ -479,8 +485,9 @@ const VAC=(function(){
       H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); if(!inFade) await GM.fade(false); return true; }   /* 家裡的選單：story3d.js 的 HOME.tick 接著 */
     const f0=q&&q.airFrom, fine=!!f0&&!!f0.zone&&f0.zone!=='airport_dep'&&(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[f0.zone]), f=fine?f0:{zone:'dorm',x:0,z:2.4,yaw:Math.PI,lv:0};
     if(GM.enter) await GM.enter(f.zone,{x:f.x,z:f.z,yaw:f.yaw||0,lv:f.lv|0},inFade?{noFade:true,deferStory:true,noAutosave:true}:{}); return true; };
-  /* OUT.go 結尾的黑幕裡換回出發前的地方（OUT.STAGE：演之前不換區域、畫面是模糊的出境大廳，回傳 restore）：登機以後才演的那一趟（q.airDone）、人還在出境大廳 */
-  S.airStage=async function(GM,q){ const G=GM&&GM.G; if(!G||!q||!q.airDone||G.zone!=='airport_dep') return null; return {restore:()=>S.airBack(GM,q,true)}; };
+  /* OUT.go 結尾的黑幕裡換回出發前的地方（OUT.STAGE：演之前不換區域，回傳 restore）：登機以後才演的那一趟（q.airDone）、人還在出境大廳。
+     bg:'dark'：登機了、人在飛機上——「飛往〇〇」字卡以後是深色底，不是模糊的出境大廳（AA_478 第 1 節；之後每一場照那一場的背景）*/
+  S.airStage=async function(GM,q){ const G=GM&&GM.G; if(!G||!q||!q.airDone||G.zone!=='airport_dep') return null; return {restore:()=>S.airBack(GM,q,true),bg:'dark'}; };
   if(typeof OUT!=='undefined'){
     if(Array.isArray(OUT.STAGE)&&!OUT._vacAirStage){ OUT.STAGE.push(S.airStage); OUT._vacAirStage=true; }
     if(OUT.go&&!OUT._vacAir){ const go0=OUT.go; OUT.go=async function(GM,q,o){ if(S.airOk(GM,q)) return S.toAirport(GM,q,o); return go0.apply(this,arguments); }; OUT._vacAir=true; } }
