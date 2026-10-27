@@ -33268,13 +33268,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 19:1x UTC】LAWWW 決定：做，交 LAWWW2（D108 場景效能；要改 assets3d.js 的 GLB 載入——照 D108 先講好改法再動，LAWWW 審）；排在 X14、B08 之後；交件附改前改後的貼圖數、顯示記憶體、JS heap（tests/dorm_start_memory.py 那一套）",
+   "next": "【LAWWW-C 2026-10-27 19:3x UTC】LAWWW2 改法（GLTFLoader afterRoot 算原始圖檔 SHA-1＋取樣設定當 key、同 key 共用第一張、重複的 dispose＋close、capTextures 之前做、不加參考計數、?nodedup 關）LAWWW 同意，加五點：只合併圖片來源（跳過 KTX2／Data／Canvas／VRM、userData 有東西的）；grep 執行時改 GLB 貼圖屬性的地方；共用那張 image 不能 close；量載入時間；驗 A→B→回 A 不黑。排在 X14、B08 之後 ｜ 【LAWWW-C 2026-10-27 19:1x UTC】LAWWW 決定：做，交 LAWWW2（D108 場景效能；要改 assets3d.js 的 GLB 載入——照 D108 先講好改法再動，LAWWW 審）；排在 X14、B08 之後；交件附改前改後的貼圖數、顯示記憶體、JS heap（tests/dorm_start_memory.py 那一套）",
    "xai": {
     "spec": "LAWWW2-C 10-27 19:07 訊息；BUG-IOS-RELOAD next",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "同一張圖只上傳一次（renderer.info 貼圖數、記憶體改前改後）；外觀不變（同角度截圖）；相關 Node 測試 ALL PASS",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
