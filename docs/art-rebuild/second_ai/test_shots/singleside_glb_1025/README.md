@@ -211,7 +211,7 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
 - 測試：`tests/singleside_interiors_unit.js`（`patches/singleside_cvs_promo_1025.patch`，對開發已經有的那一份）第 4 項的商品三角形數改成 47,172＋8；新第 5 項「4 張促銷牌前後的 16 個三角形互為反面、其他商品沒有」。**第一份的 GLB FAILED 2（第 4、5 項）、新的 ALL PASS**；`room_ceiling_unit` ALL PASS。
 - 沒重量 fps（只多 8 個三角形）。
 
-## 第四份：美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室（10-25 18:xx 交）
+## 第四份：美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室（10-25 18:xx 做；10-27 LAWWW2-C 接班補完屋內對照、交件）
 
 上限（表裡美國那幾列）都過 10%；美國超市（`us_market.py` 開發改過，要以開發的為底）下一份和機場出境大廳、美國校園一起做。
 
@@ -258,7 +258,25 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
 
 ### 改前改後同角度（左＝改前、右＝改後；路人拿掉）
 
-（截圖 20～25，見下）
+- 20～25：上一班（LAWWW2-B）拍的六區，鏡頭在門口和大空間；公寓、C 棟 208 那兩張是**門外走廊**（玩家出生在門口），屋內沒拍到。
+- 26～29：接班以後（LAWWW2-C，10-27）補拍的**屋內**：開發分支 `5b6737cd3`（改前）對同一棵＋這五個新 GLB（改後），`tools/shots/singleside_us_interior_ab.py`；每一列一個位置，左＝改前、右＝改後。
+  - 位置照順序：客廳往北、往南、往東、往西，廚房往西，走廊往北，臥室（公寓：往東、往北；C 棟 208：臥室 A、臥室 B 往東）。
+  - [捷徑] 讀檔、把玩家直接放到位置（客廳往東那一格玩家站在茶几上，兩版一樣）；路人藏起來；跳出來的手機通知是拍的時刻差幾秒，不是模型的差別。
+  - 結果：公寓 16 格改前改後一樣——沒有破面、沒有看穿；牆淡出的樣子也一樣。
+  - C 棟 208：白天第 4、5 列（客廳往西、廚房往西）、晚上第 4 列兩版的**鏡頭位置不一樣**。那兩個位置兩版各重拍一次、等 8 秒才拍（30）：兩版一樣。差別是鏡頭還在移動時就拍了（等 3.5 秒不夠，從上一個位置移過來時鏡頭還在拉近拉遠），不是模型造成的。其他格兩版一樣。
+  - 最後一格的 draw call：公寓 86 → 70、C 棟 208 92 → 74（三角形 5.7 → 6.1 萬、6.2 → 6.9 萬：開口零件補了反面）。
+
+![公寓（門外走廊）](20_us_apartment_sheet.jpg)
+![C 棟 208（門外）](21_us_shared_sheet.jpg)
+![法圖](22_us_lawlib_sheet.jpg)
+![法圖 2F](23_us_lawlib_2f_sheet.jpg)
+![亞洲超市](24_us_asian_market_sheet.jpg)
+![C 棟臥室](25_us_bed_c_sheet.jpg)
+![公寓屋內 15:00（左改前、右改後）](26_us_apartment_inside_1500.jpg)
+![公寓屋內 21:00](27_us_apartment_inside_2100.jpg)
+![C 棟 208 屋內 15:00](28_us_shared_inside_1500.jpg)
+![C 棟 208 屋內 21:00](29_us_shared_inside_2100.jpg)
+![C 棟 208 兩個位置等 8 秒重拍（左改前、右改後；上兩列 15:00、下兩列 21:00）](30_us_shared_reshoot_8s.jpg)
 
 ### 測試
 
@@ -269,6 +287,8 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
   4. 家具 33／37 件都在；
   5. 沒有裡外相反的薄零件。開發的公寓、C 棟 208 門板有裡外相反的零件（39、52 個），單面會從外面看到背面，匯出時翻成朝外。
   - **結果**：開發的 GLB FAILED 7、交件版本 ALL PASS。
-- 全部 Node：見下。
-- 沒跑：美國區域的瀏覽器流程測試、整套回歸、手機實機。
+- 接班重驗（LAWWW2-C，10-27，開發 `5b6737cd3`；上一班是對 `880b539bb`）：
+  - `singleside_us_unit.js`：開發的 GLB **FAILED 7**（第 5 項：公寓門板 39、C 棟 208 門板 52 個裡外相反的零件）、交件版本 **ALL PASS**；
+  - 同一棵＋新 GLB，其他 18 支 ALL PASS：`nav_us_unit`、`room_ceiling_unit`、`us_bed_c_unit`、`us_cam_walls_unit`、`us_lawlib_2f_unit`、`us_lawlib_sky_unit`、`us_life_unit`、`us_season_unit`、`us_market_cam_unit`、`us_ms_seethru_unit`、`us_lamp_pools_unit`、`aa370_us_unit`、`aa412_us_unit`、`aa424_us_blank_unit`、`exch_min_unit`、`us_jp_nextclass_unit`、`us_wknd_stop_unit`、`singleside_interiors_unit`。
+- 沒跑：美國區域的瀏覽器流程測試（BB 測）、整套回歸、手機實機。fps 是上一班量的（上面的表），接班以後沒有重量。
 

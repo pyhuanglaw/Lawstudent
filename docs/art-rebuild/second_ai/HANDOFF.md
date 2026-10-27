@@ -8,6 +8,13 @@
 - **對帳**（`--ref origin/claude/modest-rubin-2lyp7g`）：`check` OK；`asks` OK（203 筆、USER_WANTS 295 列）；`incr` 異常 245 項（LAWWW2 217：outbox 第 67 筆以後 150 項欄位又是自由文字、上一班 67 個 WIP 檢查點 commit 沒分類；AA 28 項）——都是記帳格式，不是遺失的工作；LAWWW2 的我來修（照 10-21 outbox_fix 的做法）。
 - **上一班停在哪**：PERF-SINGLESIDE-GLB-1025 **第四份**（美國公寓、C 棟 208、法學院圖書館、亞洲超市、C 棟臥室單面 GLB＋測試 patch＋README，fps +11～40%）已 push（`09b41377`），**沒交件**：最後一個 commit「公寓、C 棟 208 屋內補拍中」——那兩組同角度對照圖沒 push，要重拍。outbox 沒有這一筆。
 - **下一步**：① 補拍第四份公寓、C 棟 208 屋內 → 交 LAWWW（outbox）② 修 outbox／WIP 分類（incr 的 LAWWW2 異常）③ 照下面上一班的佇列。
+- **10-27 17:0x 更新**：
+  - LAWWW-C 已登記（seq 28／29），RULE_SOURCE 改成 `claude/adoring-meitner-mqzst8`；我用新的 `--ref` 重新登記（`3c309690`），LAWWW-C 已 `duty sync`（`14016b1e4`）。
+  - **新規則**（LAWWW-C 轉達）：
+    - **D113**（使用者 10-27）：派子代理的人開工就推檢查點，長的工作（Blender、匯出、截圖）每 15～20 分鐘 commit＋push 一次 WIP；
+    - **HV-20**：交班一定要跑 `python3 tools/handoff/check_handoff.py duty handoff …`，把自己的 `duty_LAWWW2.json` 改成 handed-off；只寫 HANDOFF.md 不算（10-27 的誤判：10-21 交班時那個檔還寫著 state on）。
+  - outbox 記帳修好（`a44e9e08`：outbox_problems 0；65 個 WIP commit 補登，剩第四份兩個交件時涵蓋）。
+  - 通訊實測：BB-C 雙向 ACK；AA-C 送達、還沒回。
 
 ## ✅ 接班：2026-10-23 06:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **使用者原話**（06:4x）：「我回來了，請同步 GitHub 最新進度，接續工作。我也會通知同個帳號其他AI，請你們確定彼此通訊OK」（UA-LAWWW2-1023-01）。

@@ -5,7 +5,9 @@ sys.path.insert(0, sys.argv[1] + '/tests')
 import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, ZONE = sys.argv[2], sys.argv[3], sys.argv[4]
-HOURS = [float(h) for h in (sys.argv[5].split(',') if len(sys.argv) > 5 else ['15.0', '21.0'])]
+HOURS = [float(h) for h in (sys.argv[5].split(',') if len(sys.argv) > 5 and sys.argv[5] else ['15.0', '21.0'])]
+ONLY = sys.argv[6].split(',') if len(sys.argv) > 6 else None
+WAIT = int(sys.argv[7]) if len(sys.argv) > 7 else 3500
 PI = math.pi
 N, S_, E_, W_ = (PI, 0), (0, PI), (PI / 2, -PI / 2), (-PI / 2, PI / 2)   # (玩家 rotation.y, 鏡頭 yaw)
 F = {'introDone': True, 'EXCHANGE_ROUTE': 'US', 'US_DEPARTED': True, 'US_ARRIVED': True}
@@ -28,8 +30,9 @@ async def main():
             await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp)
             await pg.evaluate("(()=>{ for(const n of (GAME.E.npcs||[])) if(n.obj) n.obj.visible=false; })()")
             for (nm, x, z, (ry, cy)) in SPOTS:
+                if ONLY and nm not in ONLY: continue
                 await pg.evaluate(f"(()=>{{ GAME.E.hour={h}; const P=GAME.E.player.obj; P.position.x={x}; P.position.z={z}; P.rotation.y={ry}; GAME.E.cam.yaw={cy}; GAME.E.cam.pitch=0.38; GAME.E.cam.distTarget=3.8; }})()")
-                await pg.wait_for_timeout(3500)
+                await pg.wait_for_timeout(WAIT)
                 await run.shot(pg, f'{nm}_{int(h*10):03d}')
         info = await pg.evaluate("(()=>{ const r=GAME.E.renderer.info.render; return {zone:GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id, formal:!!(GAME.E.zone&&GAME.E.zone.formal), calls:r.calls, tris:r.triangles}; })()")
         print('last', json.dumps(info), 'errs', errs[:5]); await b.close()
