@@ -110,7 +110,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('13. 沒去：第二天家族群組只有她一句「謝謝大家。」',q.state==='missed'&&H.msgs('g:family_law').includes('謝謝大家。')&&G.flags.SIS_BDAY_Y4==='none'&&G.flags.GRAD_EVENING==='none'); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
-    check('13. 前任：沒有「去」，傳一句生日快樂 →「謝謝。」「今天畢業，恭喜你。」',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|').endsWith('生日快樂。|謝謝。|今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
+    check('13. 前任：沒有「去」，傳一句生日快樂 →「謝謝。」（AA_473 第 1 節：中午她已經私訊「畢業快樂。」，晚上不再恭喜一次；原本多一句「今天畢業，恭喜你。」）',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|').endsWith('畢業快樂。|生日快樂。|謝謝。')&&!H.msgs('p:heroine_05').includes('今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 可昕 6/3、6/9（BB_99 9-17、AA_250 9-2）----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
     check('14. 6/2 傍晚可昕不發約會邀約',!(G.outings||[]).some(q=>/kexin|kx/.test(q.id)));

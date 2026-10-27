@@ -156,7 +156,8 @@ const PG=(function(){
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
-    {tag:'pg_an_group',at:['2030-01-25',21],cond:G=>!S.at(G,'heroine_01','FRIEND')&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）*/
+    {tag:'pg_an_group',at:['2030-01-25',21],cond:G=>(!S.at(G,'heroine_01','FRIEND')||S.isEx(G,'heroine_01'))&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節）*/
+    {tag:'pg_an_ex1',at:['2029-12-14',21],cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.exGroup1)]},   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
     {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
@@ -194,7 +195,7 @@ const PG=(function(){
     if(F.PG_SIS_SEA==='yes'&&S.seaOk(G)&&typeof OUT!=='undefined'&&!OUT.get(G,'pg_sis_sea')) S.planSea(G);   /* 6/1 21:00 回了「好。」*/
     if(F.SIS_BDAY_Y5==null&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&now>=T('2030-06-03',0)) F.SIS_BDAY_Y5='alone';   /* 15:00 那則沒送到（那時已經分手）也記一次 */
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
-    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY; PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of DLY(G,'bdayEx',B.exReply)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }
+    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
     if(F.PG_SIS_EX_BDAY==='no'&&F.SIS_BDAY_Y4==null) F.SIS_BDAY_Y4='none';
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
@@ -469,8 +470,8 @@ const PG=(function(){
     {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},
     {id:'b1_2030',at:G=>T('2030-07-11',20),until:G=>T('2030-07-11',27),cond:G=>S.sits(G,2030)&&!!L().B1_2030,run:b1Scene2030},   /* AA_331 2a */   /* b6757852：20:00（和國考讀書會同一個時間）*/
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
-    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）*/
-    {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,2)},
+    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）；前任不打給前男友（AA_473 第 2 節：改麵店團 pg_an_ex1、pg_an_group）*/
+    {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,2)},
     {id:'kx_bar_2029',at:G=>T(Y[2029].r2,S.KX_BAR.at),until:G=>T(Y[2029].r2,S.KX_BAR.until),cond:G=>S.kxBarOk(G),run:GM=>kxBarCall(GM),onMiss:G=>S.kxBarMissed(G)},   /* AA_296 2-3-1 ③ 可昕考上律師：她打來 */
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},
     {id:'epi',at:G=>T('2034-06-03',19),until:G=>Infinity,cond:G=>!!G.flags.FIRST_DAY_SEEN&&!G.flags.EPILOGUE_DONE&&!S.pendingExam(G),run:epilogue} ].concat(yStep(2029),yStep(2030));
