@@ -1,6 +1,6 @@
 // AA_471 第 3～7 節（企劃線 763993620；任務 PG-FIX-471-473-1027）——不需要瀏覽器。第 1、2 節在 tests/pg_jpon_termkey_unit.js（f54a35ec4）。
 //   3 國考放榜（麵店團）：2029-09-07 原句、2029-12-14、2030-09-06、2030-12-13 各一版（原本四次同樣三行）；接下來誰上了的那幾則不動
-//   4 畢業以後的中秋（2029-09-22、2030-09-12）：住家裡的 20:00 家人群組照表（爸爸的照片＋媽媽一句；不發「蛋黃的 留給你」）；住在外面的照原本 FAM_DAYS；學期裡照舊
+//   4 畢業以後的中秋（2029-09-22、2030-09-12）：住家裡的 20:00 家人群組照表（爸爸的照片＋媽媽一句；不發「蛋黃的 留給你」）；住在外面的照年份換（AA_476 A-8：18:00 媽媽兩則、21:00 爸爸）；學期裡照舊
 //   5 被當延畢、重修不到三堂：12/26（三）09:00 旁白兩句；2030-06-17（一）10:00 系辦領證書（手機「畢業證書已可領取。」）；6 月字卡改 06-18 起
 //   6 芷若在英國，17:00 那一版的收尾三句輪（照順序、不跟上一週同一句）；美國那學期換字
 //   7 交往中、2029 跨年的字卡換句（沒在交往的照原句）
@@ -68,8 +68,13 @@ await tsec(4,async()=>{ const S4=sec(4), want={2029:cellMsgs(row(S4,'2029')[2]),
     const m=(G.msgs||[]).find(x=>x.tag==='home_moon_pg_'+D(key)); check('4. '+key+' 那一則的時間是 20:00（那一天）、名字是爸爸／媽媽',!!m&&m.day===D(key)&&m.h>=20&&m.h<20.25&&(G.msgs||[]).filter(x=>x.tag==='home_moon_pg_'+D(key)).every(x=>x.name===(x.from==='dad'?'爸爸':'媽媽')),J(m)); }
   { const {out}=famAt('2029-09-22',{EXCHANGE_ROUTE:'JP'},[20.05]); check('4. 交換延畢（日本路線）大五上的中秋：一樣（住家裡）',J(out[20.05])===J(want[2029]),J(out[20.05])); }
   { const {out}=famAt('2029-09-22',{FAIL_DELAY:true,FAIL_DELAY_COURSES:['x']},[20.05]); check('4. 被當延畢：一樣（住家裡）',J(out[20.05])===J(want[2029]),J(out[20.05])); }
-  { const {out}=famAt('2029-09-22',{HOME_AFTER:'gongguan',Y4_PATH:'bar'},[18.05,21.05]), F=HOME.FAM_DAYS;
-    check('4. 還住在外面（公館的套房）：照原本 FAM_DAYS——18:00 媽媽兩則、21:00 爸爸一則',J(out[18.05])===J(F.moon)&&J(out[21.05])===J(F.moon.concat(F.moonDad)),J(out)); }
+  /* AA_476 A-8：住在外面的（公館的套房）也照年份換（不用 2025 的原句）；18:00 媽媽兩則、21:00 爸爸，不用回 */
+  { const A8=a476(8), tw={}; for(const y of ['2029','2030']){ const r=row(A8,y), sp=c=>String(c||'').split('／').filter(Boolean); tw[y]={mom:sp(r[2]).map(t=>['mom',t]),dad:sp(r[3]).map(t=>['dad',t])}; }
+    check('4. 稿：AA_476 A-8 住在外面的照年份換（表：2029、2030 媽媽兩則、爸爸一／兩則）、不用 FAM_DAYS 原句',/這個解讀不要用/.test(A8)&&tw[2029].mom.length===2&&tw[2029].dad.length===1&&tw[2030].mom.length===2&&tw[2030].dad.length===2,J(tw));
+    for(const [y,key] of [['2029','2029-09-22'],['2030','2030-09-12']]){ const {G,out}=famAt(key,{HOME_AFTER:'gongguan',Y4_PATH:'bar'},[17.9,18.05,20.95,21.05,23.9]), F=HOME.FAM_DAYS;
+      check('4. '+key+' 還住在外面（公館的套房）：18:00 媽媽「'+tw[y].mom.map(x=>x[1]).join('／')+'」、21:00 爸爸「'+tw[y].dad.map(x=>x[1]).join('／')+'」；不是 2025 那三則、沒有住家裡那一版',
+        out[17.9].length===0&&J(out[18.05])===J(tw[y].mom)&&J(out[20.95])===J(tw[y].mom)&&J(out[21.05])===J(tw[y].mom.concat(tw[y].dad))&&J(out[23.9])===J(tw[y].mom.concat(tw[y].dad))&&!F.moon.concat(F.moonDad).some(x=>out[23.9].some(o=>o[1]===x[1]))&&!(G.msgs||[]).some(m=>/^home_moon_pg_/.test(m.tag||''))&&!(G.msgs||[]).some(m=>m.th==='g:home'&&m.ask),J(out)); }
+    check('4. 爸爸的照片和住家裡那一版同一張（同一個晚上）',tw[2029].dad[0][1]===want[2029][0][1]&&tw[2030].dad[0][1]===want[2030][0][1]); }
   { const {G,out}=famAt('2029-09-22',{},[20.05]); H.at('2029-09-24',1); STORY.phoneRules(GM); PHONE.tick(G);
     check('4. 第二天以後不再補發、不重複',grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom').length===want[2029].length); }
   { const G=grad('2029-09-23',10,{}); PHONE.join(G,'home','家人'); STORY.phoneRules(GM); PHONE.tick(G);
