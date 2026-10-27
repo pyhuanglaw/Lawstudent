@@ -648,11 +648,11 @@
     "wip_backup/pgfix_471_473_1027.bundle"
    ],
    "state": "WIP",
-   "remaining": "AA_471 第 5～7 節、AA_472 六項、AA_473 兩項（第 3、4 節已 commit：684549a77、5f83d3bf5）",
+   "remaining": "AA_471 第 1～7 節、AA_472 六項、AA_473 兩項都已 commit（a87fdf4e5）；子代理在跑全部 Node／收尾",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node，v9.10.11 發布後合",
    "noDirectIntegrate": true,
    "source": "帳號 B 的 aa471-472 子代理成果遺失（HANDOFF-C-1027）",
-   "note": "17:1x 第二次備份：bundle 裡 pgfix-471-473＝5f83d3bf5（AA_471 第 3、4 節已 commit）；前提 129540766。"
+   "note": "17:5x 第四次備份：bundle 裡 pgfix-471-473＝a87fdf4e5；前提 129540766。17:1x 第二次備份：bundle 裡 pgfix-471-473＝5f83d3bf5（AA_471 第 3、4 節已 commit）；前提 129540766。"
   }
  ]
 }
