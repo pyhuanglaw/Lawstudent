@@ -123,7 +123,8 @@ await sec(4,async()=>{ const w9=TD('Y3S1',9,2), w10=TD('Y3S1',10,2); fresh(key(w
   at(w10+1,10); check('4. 隔天：公布欄換成「已找到」',PARK.catFound(H.G)&&!PARK.notices(H.G).some(q=>q[0]==='走失的貓'));
   check('4. 找到的那幾句（AA_420 6-3）：Alison、子晴；沒有「欸不是」、沒有 NPC 那句',lines('ev_wz_p_found').some(l=>l.text==='欸牠好胖！所以牠是受傷，還是太胖跳不上牆？')&&lines('ev_wz_p_found').some(l=>l.text==='受傷。')&&lines('ev_wz_p_found').some(l=>l.text==='牠在這裡度假。比我們會過日子。')&&WZL.FU.heroine_04==='我昨天繞去公園。牠在巡邏，走路已經不跛了。');
   /* 4-4 */
-  fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：第 11 週第一次進公園 4-4',said('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'));
+  fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：第 11 週第一次進公園 4-4（白天貓醒著在走：AA_493 第 3 節「坐在樹下的圓椅前面」）',said('所長回來了，前腳纏著一圈繃帶，坐在樹下的圓椅前面，和平常一樣不理人。')&&!said('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'));
+  fresh(key(TD('Y3S1',11,2)),19); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：晚上（17:30 以後）照原句「躺在樹下的圓椅上」',said('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'));
   fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:2}}; check('4. 餵不到三次：沒有這條線',!WZL.backDue(H.G)); });
 
 await sec(5,async()=>{ const SIS=['ev_wz_b4','ev_wz_c5','ev_wz_t4'].flatMap(id=>lines(id).filter(l=>l.speaker==='heroine_05').map(l=>l.text)).concat([WZL.TEA_GIFT.heroine_05,'週六早上的蛋，今天也是半熟嗎？','茶屋那壺水，我後來查了。……原來不能用滾的。']);

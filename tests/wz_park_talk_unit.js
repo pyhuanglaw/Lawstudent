@@ -65,7 +65,9 @@ const TREE={park:'tree',seat:{x:26,z:19.65,yaw:Math.PI}};
     const Gl=mk(termDay('Y3S1',10,3),15); check('6. 大三上第 10 週沒有貓',PARK.catLost(Gl)&&await PARK.interact(mkGM(Gl),{park:'cat'})==='lost'); }
   { const src=fs.readFileSync(path.join(ROOT,'src/wzpark3d.js'),'utf8'); check('7. 都不扣時段次數（PARK 不呼叫 slotUse／slotPlan）',!/slotUse|slotPlan/.test(src)); }
   { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const m=st.match(/key:'park',from:16,to:21,lines:(G=>\{.*?\})\}\];/); let f=null; try{ f=m&&eval('(PARK=>'+m[1]+')')(PARK); }catch(e){}
-    const Gn=mk(dayOf('2025-10-08'),17), Gc=mk(dayOf('2025-10-08'),17); Gc.daily.park={catName:'常客'}; const Gl=mk(termDay('Y3S1',10,3),17);
-    check('8. 公園的路過旁白（AA 定稿）：「老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。」；取名後用名字；大三上第 10 週不出現',!!f&&f(Gn)[0]==='老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。'&&f(Gc)[0]==='老樹下的圓椅上常客在睡覺。有人蹲在旁邊拍照。'&&f(Gl)===null,m?'':'找不到'); }
+    const Gn=mk(dayOf('2025-10-08'),18), Gc=mk(dayOf('2025-10-08'),18); Gc.daily.park={catName:'常客'}; const Gl=mk(termDay('Y3S1',10,3),18);
+    check('8. 公園的路過旁白（AA 定稿；AA_493 起 17:30 以後）：「老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。」；取名後用名字；大三上第 10 週不出現',!!f&&f(Gn)[0]==='老樹下的圓椅上有隻貓在睡覺。有人蹲在旁邊拍照。'&&f(Gc)[0]==='老樹下的圓椅上常客在睡覺。有人蹲在旁邊拍照。'&&f(Gl)===null,m?'':'找不到');
+    const Dn=mk(dayOf('2025-10-08'),17), Dc=mk(dayOf('2025-10-08'),17); Dc.daily.park={catName:'常客'}; const D29=mk(dayOf('2025-10-08'),17.49), D30=mk(dayOf('2025-10-08'),17.5);
+    check('8. 白天版（AA_493 第 1 節：貓 07:00～17:30 在公園走動）：17:00「有隻貓在老樹下面走來走去。有人蹲在旁邊拍照。」、取名後用名字；17:29 白天版、17:30 換回原句',!!f&&f(Dn)[0]==='有隻貓在老樹下面走來走去。有人蹲在旁邊拍照。'&&f(Dc)[0]==='常客在老樹下面走來走去。有人蹲在旁邊拍照。'&&/走來走去/.test(f(D29)[0])&&/圓椅上/.test(f(D30)[0]),m?JSON.stringify([f(Dn),f(Dc)]):'找不到'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

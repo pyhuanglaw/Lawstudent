@@ -26,14 +26,14 @@ const PARK=(function(){
   const SWING=['你盪得不高。鐵鍊吱吱響，像在跟你說話。','盪到最高的時候，看得到溫州街的屋頂。','你停下來，腳拖在沙地上。今天的事情，好像也停了一下。'];
   const SHRINE={normal:'你雙手合十，不知道要說什麼。就說了一聲謝謝。',exam:'你不知道土地公管不管期末考。你還是拜了。',last:'你想不到要求什麼。你只說：這四年，謝謝。',done:'你已經拜過了。'};
   const FOUNTAIN={normal:'水很冰。你多喝了兩口。',summer:'你把水潑在臉上。好一點了。',night:'直飲台的燈還亮著，整個公園只有這裡在發光。'};
-  const CAT_NAME_INTRO=['一隻橘白色的胖貓，在圓椅上曬太陽。牠沒有逃走。','你要叫牠什麼？'];
+  const CAT_NAME_INTRO=['一隻橘白色的胖貓，坐在圓椅前面看你。你蹲下來，牠沒有逃走。','你要叫牠什麼？'], CAT_NAME_LIE='一隻橘白色的胖貓，趴在圓椅上。牠沒有逃走。';   /* AA_493 第 2 節（原句「在圓椅上曬太陽」）：取名那一刻貓醒著在走（WZCAT.awake：白天、沒下雨）＝坐在圓椅前面（劇情一開始牠就坐下，wzcat3d.js）；其他時候第一句換 CAT_NAME_LIE */
   const CAT_NAMES=[['所長','牠的耳朵動了一下。好像在說：本所長知道了。'],['麻糬','牠翻了一個身，肚子是白的。確實像麻糬。'],['常客','牠看了你一眼，好像在說：你也是嗎？']];
   const CAT={ y1:['{cat}跟著你走了一段，走到巷口又回去。','你才打開罐頭，{cat}已經坐好了。'], y2a:['{cat}胖了。你摸摸看，都是肉。','吃完，{cat}躺下來，肚子朝天。'], y2b:['{cat}瘦了一點。……一點點。','吃得比上學期慢。你猜有人在幫牠控制。'],
     y3:['脖子上的名牌寫著：請不要再餵我，我很胖。——里長','你看了名牌一眼。……還是餵了。'], y4:['{cat}在你的背包上睡著了。你等牠醒。','吃了幾口，又回到你的背包上。'] };
   /* AA_397 第 3 節（照抄）：寒流那一週「看」、收養以後「看」圓椅（一次）、象棋阿伯（不在場的玩家）、12/17 的公布欄（{cat}＝玩家取的名字；沒取過＝走失告示的三個名字）*/
   const CAT_COLD='（牠縮在石桌下面，沒有出來。罐頭放在牠面前，牠只聞了一下。）', CAT_FUR='（圓椅上有一點橘白色的毛，被風吹掉了一半。）';
   const ADOPT_CHESS='被一個常來盪鞦韆的女生帶走了。', ADOPT_NOTICE='「{cat}已經被領養了。謝謝大家這幾年的照顧。牠現在在一個有電暖器的家。——里長」';
-  S.LINES={TREE,NEIGHBOR,NEIGHBOR_ELSE,CHESS_OPEN,CHESS,SWING,SHRINE,FOUNTAIN,CAT_NAME_INTRO,CAT_NAMES,CAT,CAT_COLD,CAT_FUR,ADOPT_CHESS,ADOPT_NOTICE};
+  S.LINES={TREE,NEIGHBOR,NEIGHBOR_ELSE,CHESS_OPEN,CHESS,SWING,SHRINE,FOUNTAIN,CAT_NAME_INTRO,CAT_NAME_LIE,CAT_NAMES,CAT,CAT_COLD,CAT_FUR,ADOPT_CHESS,ADOPT_NOTICE};
   const T_=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
   const month=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).m:6;
   const hr=G=>G.hour%24;
@@ -102,7 +102,7 @@ const PARK=(function(){
         if(S.catGone(G)){ const f17=DK_('2028-12-17'); if(P.furSeen!=null||(f17!=null&&G.day<f17)) return 'gone'; P.furSeen=G.day; await GM.say(null,CAT_FUR); return 'fur'; }   /* 收養以後：沒有摸、餵；「看」圓椅那一句 12/17 起一次（AA_408 第 4 節、AA_397 3-3 改）*/
         if(S.catCold(G)){ await GM.say(null,CAT_COLD); return 'cold'; }   /* 寒流那一週：縮在石桌下面，罐頭只聞了一下 */
         if(typeof SIDEQ!=='undefined'&&SIDEQ.cage14&&await SIDEQ.cage14(GM)) return 'cage';   /* 順手的事 SQ14（AA_404）：把牠放進外出籠，帶去回診 */
-        if(!P.catName){ for(const t of CAT_NAME_INTRO) await GM.say(null,t); const i=await GM.choose(CAT_NAMES.map(q=>({t:'「'+q[0]+'。」'}))); const q=CAT_NAMES[i]||CAT_NAMES[0]; P.catName=q[0]; await GM.say(null,q[1]); GM.advance(1/12); P.petDay=G.day; return 'named'; }
+        if(!P.catName){ for(const t of (S.catAwake(G)?CAT_NAME_INTRO:[CAT_NAME_LIE].concat(CAT_NAME_INTRO.slice(1)))) await GM.say(null,t); const i=await GM.choose(CAT_NAMES.map(q=>({t:'「'+q[0]+'。」'}))); const q=CAT_NAMES[i]||CAT_NAMES[0]; P.catName=q[0]; await GM.say(null,q[1]); GM.advance(1/12); P.petDay=G.day; return 'named'; }
         const cans=(G.daily.catCans|0), per=CAT[S.period(G)]; const opts=[{t:cat(G,'摸摸{cat}'),dim:P.petDay===G.day,hint:P.petDay===G.day?'今天摸過了':'5 分鐘',k:'pet'}]; if(cans>0) opts.push({t:cat(G,'餵{cat}（小罐罐頭）'),dim:P.feedDay===G.day,hint:P.feedDay===G.day?'今天餵過了':'還有 '+cans+' 罐',k:'feed'}); opts.push({t:'算了',k:'no'});
         const o=opts[await GM.choose(opts)]||{k:'no'}; if(o.k==='no') return 'no'; if(o.dim){ GM.toast(o.hint,2400); return 'dim'; }
         if(o.k==='pet'){ P.petDay=G.day; GM.advance(1/12); await GM.say(null,cat(G,per[0])); if(/——里長/.test(per[0])&&typeof SIDEQ!=='undefined'&&SIDEQ.knowsChief&&SIDEQ.knowsChief(G)) await GM.say(null,SIDEQ.LINES.SQ18.tag); return 'pet'; }   /* 大三起的名牌：AA_405 SQ18 做完多一行（阿伯的字。）*/
@@ -123,6 +123,7 @@ const PARK=(function(){
        路人都不取名、不記關係（不碰 SOCIAL）。
      存檔（一般狀態，G.daily.park）：entryDay（今天播過那一句）、pplDay＋pplDone（今天點過的人）、pplLast（每一種人上一次說第幾句）；舊存檔沒有＝今天還沒播、還沒點過 */
   S.rainy=G=>!!G&&(G.weather==='rain'||G.weather==='typhoon');
+  S.catAwake=G=>typeof WZCAT!=='undefined'&&WZCAT.awake?WZCAT.awake(G):(!!G&&(+G.hour||0)>=7&&(+G.hour||0)<17.5&&!S.rainy(G)&&!S.catCold(G)&&!S.catLost(G)&&!S.catGone(G));   /* 3D 的貓醒著在公園裡走（src/wzcat3d.js；沒載入時照同一個時段算）：AA_493 取名、所長回來的句子照這個換 */
   S.catUnder=G=>(S.rainy(G)||S.catCold(G))&&!S.catLost(G)&&!S.catGone(G);   /* 寒流那一週也在石桌底下（AA_397 3-2）；收養以後沒有貓 */   /* 下雨：貓在涼亭的石桌底下（AA_164 5-2；zones3d.js buildWzPark 照這個放）*/
   /* 放假的日子（週末、國定假日）照週末的表；校定的停課日（運動會）不算——國小、上班的人照常 */
   S.dayOff=function(G){ if(typeof CALENDAR==='undefined') return G.weekday===0||G.weekday===6; const d=CALENDAR.dateOf(G.day); if(d.wd>=6) return true; const hol=CALENDAR.holiday(G.day); return !!hol&&!(CALENDAR.SCHOOL&&CALENDAR.SCHOOL[d.key]); };
