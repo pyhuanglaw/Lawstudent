@@ -705,6 +705,36 @@
    "source": "AA_478（c88da7e75、f1afaf4f1）",
    "closedBy": "e1adf4cc5",
    "note": "19:4x 子代理做完（b24bbaa75），合進開發分支 e1adf4cc5。"
+  },
+  {
+   "id": "WIP-LAWWW-AOPEN-1027",
+   "role": "LAWWW",
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "aopen-1027（wip_backup/aopen_1027.bundle）",
+   "sha": "078e0c403",
+   "files": [
+    "wip_backup/aopen_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "七位接不接受同時交往（AA_474 最後版 020f695a3）子代理做中；bundle 到 e645ad5b2（4 個 commit），前提 d5ce20a40",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-27 選 C（UA-AA-1027-49）；AA_474"
+  },
+  {
+   "id": "WIP-LAWWW-L118-1027",
+   "role": "LAWWW",
+   "task": "LANE118-SHOP-STORY-1020",
+   "branch": "l118story-1027（wip_backup/l118story_1027.bundle）",
+   "sha": "078e0c403",
+   "files": [
+    "wip_backup/l118story_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "118 巷熟客三段招呼＋考試週、H2～H9（AA_311 580ed6302；H2b 作廢不做）子代理做中；bundle 到 48f626a6b（3 個 commit），前提 d5ce20a40",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "USER_WANTS X66；AA_311"
   }
  ]
 }
