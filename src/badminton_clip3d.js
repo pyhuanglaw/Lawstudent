@@ -81,7 +81,8 @@ const BADCLIP=(function(){
     const C=court(), half=4.4, P1=E.player, keep=[]; let partner=GM.npc&&GM.npc[id], spawned=false;
     if(!partner&&GM.spawnCharacter&&id){ partner=GM.spawnCharacter(id,C.x,C.z-half,{yaw:0}); spawned=!!partner; }
     if(!partner){ S.busy=false; return false; }
-    for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path});
+    for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path,
+      bags:typeof CHAR!=='undefined'&&CHAR.carryOff?CHAR.carryOff(e.obj):null});   /* 打球不背包：後背包、托特包、吉他、資料夾…先拿下來，演完（含跳過、出錯）照原本還原（BADCLIP-BAG-1027，使用者 10-27 22:4x）*/
     const grp=new THREE.Group(); grp.name='badclip'; E.scene.add(grp);
     let props={}; try{ if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.badminton_props']) props=propsFrom(await ASSETS.loadOne('bldg.badminton_props')); }catch(e){ console.warn('羽球道具載入失敗，用簡單的',e); }
     const rA=attachRacket(P1,props.racketA||simpleRacket(0x1d2b57)), rB=attachRacket(partner,props.racketB||simpleRacket(0xeef1f4));
@@ -118,7 +119,7 @@ const BADCLIP=(function(){
     } catch(e){ console.warn('羽球短片',e); }
     finally{
       undo(); for(const r of [rA,rB]) if(r&&r.parent) r.parent.remove(r); E.scene.remove(grp);
-      for(const k of keep){ const e=k.e; e.obj.userData.overlay=null; e.obj.position.set(k.x,k.y,k.z); e.obj.rotation.y=k.ry; e.pose=k.pose||'idle'; e.frozen=k.frozen; e.path=null; }
+      for(const k of keep){ const e=k.e; e.obj.userData.overlay=null; e.obj.position.set(k.x,k.y,k.z); e.obj.rotation.y=k.ry; e.pose=k.pose||'idle'; e.frozen=k.frozen; e.path=null; if(k.bags) k.bags(e.obj); }
       if(spawned&&GM.removeNPC) GM.removeNPC(id); if(E.endCinematic) E.endCinematic(); if(GM.sceneEnd) GM.sceneEnd(); S.busy=false; }
     return !skipped;
     // 鏡頭 3：照人換
