@@ -1,0 +1,12 @@
+# R43 PG-FIX-471-473-1027（BB_TEST_QUEUE_1027 第 1 節十項；開發分支 8df0742f0 起）——全部是最小存檔，第三個參數的存檔不讀
+r43_r29 zrlast_probe.py PGF1_R29
+r43_r30 zrlast_probe.py PGF1_R30
+r43_moon zrlast_probe.py PGF2_HOME29,PGF2_HOME30,PGF2_SUITE29,PGF2_SUITE30
+r43_fd zrlast_probe.py PGF3_NOTE,PGF3_CERT0,PGF3_CERT1
+r43_zr zrlast_probe.py PGF4_ZR
+r43_nye zrlast_probe.py PGF5_NYE_D,PGF5_NYE_S
+r43_sis zrlast_probe.py PGF6_STORE29,PGF6_RETAKE30
+r43_kx6 zrlast_probe.py PGF7_KX6_GO,PGF7_KX6_NO
+r43_zrv zrlast_probe.py PGF8_ZRV
+r43_ps zrlast_probe.py PGF9_PS
+r43_ex zrlast_probe.py PGF10_SIS_EX,PGF10_AN_EX,PGF10_AN_EX_LATE
