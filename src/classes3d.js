@@ -643,9 +643,9 @@ const CLS=(function(){
   let lastSync=null;
   /* 玩家自己坐著上完課、聽完演講（快轉到結束）：時間是「待在這裡過完的」，不是跳過去——下一次同步照一般的下課處理，同學站起來走出去（不是在黑畫面裡一起消失）*/
   const keepCrowd=G=>{ lastSync={zone:G.zone,h:G.hour}; if(typeof CROWD!=='undefined'&&CROWD.keep) CROWD.keep(G); };   /* crowd3d.js 自己也記時間（門口的人群、走出去的同學 n.crowd）：兩邊都要知道 */
-  function walkOut(GM,n){ const E=GM.E, L=E.zone&&E.zone.layout; if(!L||typeof CROWD==='undefined'||!CROWD.seatSide) return false; const st=n.seat, ap=st&&CROWD.seatSide(E,st); if(!ap) return false; const lv=st.lv|0;
+  function walkOut(GM,n){ const E=GM.E, ex=S.entryPoint(E); if(!ex||typeof CROWD==='undefined'||!CROWD.seatSide) return false; const st=n.seat, ap=st&&CROWD.seatSide(E,st); if(!ap) return false; const lv=st.lv|0;   /* 教學館＝大門；霖澤館 201、GLB 教室（沒有 layout）＝教室的門（CROWD-CLASS-ARRIVE-1027，原本直接拿掉）*/
     n.obj.position.set(ap[0],E.heightAt(ap[0],ap[1],lv),ap[1]); n.lv=lv; n.seat=null; n.clsStudent=false; n.frozen=false; n.pose='walk'; n.idlePose='idle'; n.leaving=true; n.arrived=false; n.crowd='cls';
-    const ex=L.entrance.exit; return E.moveTo(n,ex.x,ex.z-0.7,()=>{ n.arrived=true; },0); }
+    return E.moveTo(n,ex.x,ex.z,()=>{ n.arrived=true; },ex.lv|0); }
   // ---------- 遠處座位的替身（LAWWW2 167fc2d：assets/models/env/second_ai/seated_figures.glb）----------
   /* 使用者 2026-10-13（經 LAWWW2 轉達）：「101 要有遠處座位的低成本坐姿人物、近處少量 NPC；不要先做 400 個完整 3D NPC」。
      大的階梯教室（40 個位子以上）上課、演講時：完整人物照舊最多 16 個，其餘要坐的位子用替身——路人底模 4 種×聽講／抄筆記／滑手機×2 配色；
@@ -710,14 +710,59 @@ const CLS=(function(){
         if(!instant&&walkInSeat(GM,o,st,it.key,'sit')){ have++; continue; }   /* 待在教室裡：同學從門口走進來坐下（AA_137 第 8 節第 3 點：上課前 10 分鐘起陸續進來）*/
         o.position.set(st.x,st.y||0,st.z); o.rotation.y=st.yaw;   /* 階梯教室：座位的高度（addNPC 也照 seat.y 放）*/
         E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat:st,lv:st.lv|0,clsStudent:true,clsKey:it.key}); have++; }
-      const want=Math.min(seats.length,it.n||Math.round(seats.length*0.5)); if(seats.length>=40&&want>16) S.figPlace(GM,it.key,idx.slice(16,want).map(i=>seats[i]));   /* 其餘的位子：替身 */ } };
+      const want=Math.min(seats.length,it.n||Math.round(seats.length*0.5)); if(seats.length>=40&&want>16) S.figPlace(GM,it.key,idx.slice(16,want).map(i=>seats[i]));   /* 其餘的位子：替身 */ }
+    S.syncTeacher(GM,live,instant); };   /* 講台前的老師（CLASS-TEACHER-1027）：演講、活動（沒有 it.c）不放 */
   S.syncRoom=function(GM,opt){ const G=GM.G, E=GM.E; if(roomy(E.zone)) return S.syncRooms(GM,opt); if(!E.zone||!E.zone.seats) return; const live=S.liveIn(G,'classroom'); const key=live.length?live[0].key:null;
-    const mine=E.npcs.filter(n=>n.clsStudent); if(mine.length&&mine[0].clsKey!==key){ for(const n of mine){ if(n.obj&&n.obj.parent) n.obj.parent.remove(n.obj); } E.npcs=E.npcs.filter(n=>!n.clsStudent); }
+    const instant=(opt&&opt.instant)||!lastSync||lastSync.zone!==G.zone||Math.abs(G.hour-lastSync.h)>0.6; lastSync={zone:G.zone,h:G.hour};   /* 沒有課的時候也記（老師下課要走出去：CLASS-TEACHER-1027）*/
+    const mine=E.npcs.filter(n=>n.clsStudent); if(mine.length&&mine[0].clsKey!==key){ for(const n of mine){ if(instant||!walkOut(GM,n)) E.removeNPC(n); } }   /* 下課：同學起身從門口走出去（CROWD-CLASS-ARRIVE-1027；原本 201 的同學一下課就在座位上消失）；時間跳了才直接拿掉 */
+    S.syncTeacher(GM,G.flags&&G.flags.classNow?[]:live,instant);   /* 劇情課（第二天的民總、F.classNow）：講台上的周教授由 story3d.js 生，這裡不另外放 */
     if(!key) return; const seats=E.zone.seats; let i=0; const cells=[[0,0],[0,2],[0,5],[1,1],[1,6],[2,0],[2,2],[2,4],[2,7],[3,1],[3,3],[3,6],[4,0],[4,5],[5,2],[5,7]];
-    const instant=(opt&&opt.instant)||!lastSync||lastSync.zone!==G.zone||Math.abs(G.hour-lastSync.h)>0.6; lastSync={zone:G.zone,h:G.hour}; const tgt=Math.round(cells.length*(opt&&opt.full?1:S.arriveFrac(G,live[0]))); let have=E.npcs.filter(n=>n.clsStudent).length;   /* 上課前 10 分鐘起陸續進來（AA_137 第 8 節）*/
+    const tgt=Math.round(cells.length*(opt&&opt.full?1:S.arriveFrac(G,live[0]))); let have=E.npcs.filter(n=>n.clsStudent).length;   /* 上課前 10 分鐘起陸續進來（AA_137 第 8 節）*/
     for(const [r,c] of cells){ const sIdx=i++; if(have>=tgt) break; const s=seats.find(q=>q.row===r&&q.col===c); if(!s) continue; if(seatBusy(E,s)) continue; const o=CHAR.build(STORY.extraSpec(60+sIdx));
       if(!instant&&walkInSeat(GM,o,s,key,'read')){ have++; continue; }
       o.position.set(s.x,s.y||0,s.z); o.rotation.y=s.yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,seat:s,clsStudent:true,clsKey:key}); have++; } };
+  /* ---------- 講台前的老師（CLASS-TEACHER-1027；使用者 2026-10-27 20:3x「電影敘事上課沒老師? 如果我晚到也要看到有老師啊」「每一堂課都要檢查」）----------
+     每一堂上課中（S.live：開始前 30 分鐘到下課）的教室，講台前都有一位老師，面向學生：
+     - 有名字、有 3D 人物的教授（CHARACTERS 的 prof_*，社會圖 E 層）：照 story3d.js 的作息（schedFor → S.profWhere）站上講台，位置問 S.teacherSpot。
+       原本只查教學館的 teacherSpots[房號]：萬才館多功能教室、霖澤館 202（GLB 教室只有 teacherSpot）、共同 102、普通 101（平面教室沒有講台位置）都找不到，教授不出現（鄭、何、簡、蔡教授在萬才館、202 的課，黃教授的法學緒論）。
+     - 沒有 3D 教授的課（prof:null：國文、英文、通識、會計、微積分、日文、兼任老師的選修…）：一位一般的老師（路人底模、教授的穿著：STORY.profSpec；同一門課同一位），
+       名字＝課堂上說話的那個稱呼（c.pool.prof_label 或 S.profName：國文老師、通識老師、兼任老師…）。玩家待在教室裡時從門口走進來、下課走出去；剛進教室（晚到、讀檔、快速前往）就已經站在講台前。
+     老師站的位置（S.teacherSpot）：階梯教室＝講桌旁（teach3d.js 的 teacherSpots）；平面教室（共同 102、普通 101…）＝講桌旁邊離門遠的那一側、面向學生；霖澤館 201、GLB 教室＝區域的 teacherSpot。
+     測試：node tests/class_teacher_unit.js（課表四年每一門有 3D 教室的課，準時、晚 20 分鐘兩種）*/
+  S.teacherSpot=function(E,roomId){ const Z=E&&E.zone; if(!Z) return null;
+    if(roomId&&Z.teacherSpots&&Z.teacherSpots[roomId]) return Z.teacherSpots[roomId];
+    const L=Z.layout, r=roomId&&L&&Array.isArray(L.rooms)?L.rooms.find(q=>q.id===roomId):null;
+    if(r&&r.teacher){ const C=Z._tSpots||(Z._tSpots={}); if(C[roomId]) return C[roomId];
+      const T=r.teacher, s=r.board==='E'?-1:1, dz=r.doorZ!=null?r.doorZ:-0.4, away=(T.z-dz)>=0?1:-1, lv=r.lv|0, off=T.d/2+0.5;   /* 黑板在西（W）＝學生面向 −x、老師面向 +x */
+      const cand=[[T.x,T.z+away*off],[T.x,T.z-away*off],[T.x+s*(T.w/2+0.55),T.z]];   /* 講桌旁邊（離門遠的那一側 → 另一側 → 講桌前面）*/
+      const ok=p=>!E.canStand||E.canStand(p[0],p[1],0.3,lv); const p=cand.find(ok)||cand[0];
+      return (C[roomId]={x:+p[0].toFixed(2),z:+p[1].toFixed(2),yaw:s*Math.PI/2,lv}); }
+    return Z.teacherSpot||null; };
+  /* 這門課有沒有自己的 3D 教授（story3d.js 照作息生）：有＝這裡不放一般的老師 */
+  S.namedProf=c=>{ const id=c&&c.prof; return id&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].social_layer==='E'?id:null; };
+  S.teacherName=c=>{ attachSyllabus(); return (c&&c.pool&&c.pool.prof_label)||S.profName(c); };
+  S.teacherSpec=function(c){ const id='tch_'+(c.redo||c.id); let h=0; for(const ch of id) h=(h*31+ch.charCodeAt(0))>>>0; const f=h%2===0;
+    if(typeof STORY!=='undefined'&&STORY.profSpec) return Object.assign(STORY.profSpec({id,name:S.teacherName(c),gender:f?'f':'m'}),{name:S.teacherName(c)});
+    return typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(600+(h%40)*2+(f?0:1)):{id}; };
+  /* 從哪裡走進來、走出去：教學館＝大門（和同學一樣）；霖澤館 201、GLB 教室＝教室的門 */
+  S.entryPoint=function(E){ const L=E.zone&&E.zone.layout; if(L&&L.entrance&&L.entrance.exit) return {x:L.entrance.exit.x,z:L.entrance.exit.z-0.7,lv:0}; const sp=E.zone&&E.zone.spawn; return sp?{x:sp.x,z:sp.z,lv:sp.lv|0}:null; };
+  const tStand=(E,n,sp)=>{ n.path=null; if(E.placeAt) E.placeAt(n,sp.x,sp.z,sp.lv|0); else n.obj.position.set(sp.x,0,sp.z); n.obj.rotation.y=sp.yaw||0; n.faceYaw=null; n.pose=n.idlePose='idle'; n.frozen=true; n.arrived=true; };
+  S.syncTeacher=function(GM,live,instant){ const G=GM.G, E=GM.E; if(!E||!E.zone||!E.npcs||typeof CHAR==='undefined') return 0; const want=new Map();
+    for(const it of (live||[])){ if(!it||!it.c||S.namedProf(it.c)||want.has(it.key)) continue; if(S.storyClass&&S.storyClass(G,it)) continue; const sp=S.teacherSpot(E,it.room&&it.room.room); if(sp) want.set(it.key,{it,sp}); }
+    let n0=0;
+    for(const n of E.npcs.slice()){ if(!n.clsTeacher||want.has(n.clsTeacher)||n.leaving) continue;   /* 下課：走出去（時間跳了就直接拿掉）*/
+      const ex=S.entryPoint(E); n.frozen=false; n.leaving=true; n.arrived=false; n.crowd='cls'; n.pose='walk';
+      if(instant||!ex||!E.moveTo||!E.moveTo(n,ex.x,ex.z,()=>{ n.arrived=true; },ex.lv|0)) E.removeNPC(n); }
+    for(const [key,{it,sp}] of want){ if(E.npcs.some(n=>n.clsTeacher===key&&!n.leaving)) continue;
+      const o=CHAR.build(S.teacherSpec(it.c)), from=!instant?S.entryPoint(E):null; const at=from||sp; o.position.set(at.x,0,at.z); o.rotation.y=sp.yaw||0;
+      const n=E.addNPC({obj:o,name:S.teacherName(it.c),beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:at.lv|0,clsTeacher:key,clsTeacherOf:it.c.id,tSpot:sp}); n0++;
+      if(from&&E.moveTo){ n.frozen=false; n.pose='walk'; if(E.moveTo(n,sp.x,sp.z,()=>tStand(E,n,sp),sp.lv|0)) continue; }   /* 待在教室裡：從門口走到講台 */
+      tStand(E,n,sp); }
+    return n0; };
+  /* 快轉、轉暗以前：還在走向座位、講台的人直接到位（黑畫面裡時間過去了；不然快轉以後還走在半路，下課的同步會把沒坐下的人當場拿掉）*/
+  S.settleRoom=function(GM){ const E=GM.E; if(!E||!E.npcs) return 0; let k=0;
+    for(const n of E.npcs.slice()){ if(!(n.clsStudent||n.clsTeacher)||n.leaving||!n.path||!n.path.length) continue; const p=n.path[n.path.length-1]; if(E.placeAt) E.placeAt(n,p[0],p[1],p[2]!=null?p[2]:(n.lv|0)); else n.obj.position.set(p[0],0,p[1]); n.path=null; const f=n.onArrive; n.onArrive=null; if(f) f(n); k++; }
+    return k; };
   // ---------- HUD：下一堂（點了打開手機）----------
   S.updateHUD=function(GM){ const el=document.getElementById('nextClass'); if(!el) return; const G=GM.G; if(!G||GM.titleIdle){ el.classList.add('hide'); return; }
     const cur=S.dayItems(G).find(it=>S.live(G,it)&&S.rec(G).done[it.key]); let s='';
