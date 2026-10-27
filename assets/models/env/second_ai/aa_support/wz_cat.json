@@ -4,8 +4,8 @@
  "tris": 11925,
  "tris_drawn": 11925,
  "materials": 2,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/62ca4225-4c3d-5d85-9e8d-40846d4f390f/scratchpad/cat/wz_cat.glb",
- "bytes": 705660,
+ "out": "assets/models/env/second_ai/aa_support/wz_cat.glb",
+ "bytes": 855932,
  "texres": 512,
  "tris_per_node": {
   "CAT_sit": 2684,
@@ -21,9 +21,85 @@
   "CAT_curl_tag": 180,
   "CAT_curl_bandage": 120
  },
+ "rig": {
+  "node": "CAT_walk",
+  "bones": 24,
+  "clips": {
+   "cat_walk": 1.0,
+   "cat_idle": 4.0,
+   "cat_sit": 0.75,
+   "cat_sit_idle": 4.0
+  },
+  "check": {
+   "stand": {
+    "paw_L": [
+     0.04,
+     0.012,
+     0.185
+    ],
+    "paw_R": [
+     -0.04,
+     0.012,
+     0.185
+    ],
+    "foot_L": [
+     0.05,
+     0.012,
+     -0.12
+    ],
+    "foot_R": [
+     -0.05,
+     0.012,
+     -0.12
+    ],
+    "hips": [
+     0.0,
+     0.205,
+     -0.19
+    ],
+    "head": [
+     0.0,
+     0.29,
+     0.3
+    ]
+   },
+   "sit": {
+    "paw_L": [
+     0.04,
+     0.012,
+     0.185
+    ],
+    "paw_R": [
+     -0.04,
+     0.012,
+     0.185
+    ],
+    "foot_L": [
+     0.05,
+     0.019,
+     -0.074
+    ],
+    "foot_R": [
+     -0.05,
+     0.019,
+     -0.074
+    ],
+    "hips": [
+     0.0,
+     0.057,
+     -0.172
+    ],
+    "head": [
+     0.0,
+     0.303,
+     0.27
+    ]
+   }
+  }
+ },
  "textures": [
   "tools/blender/env_second/textures/gen/wz_cat_fur.png",
   "tools/blender/env_second/textures/gen/wz_cat_fur_old.png"
  ],
- "note": "四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
+ "note": "四個姿勢 CAT_sit／CAT_lie／CAT_walk／CAT_curl（寒流縮成一團、閉眼；原點＝四腳中間的地面、頭朝 +z；GLB 裡的位置只是排開給人看）；CAT_walk（v3）是骨架節點＋CAT_walk_mesh（站姿），動畫 cat_walk（1 秒一步、原地）／cat_idle（4 秒）／cat_sit（0.8 秒坐下）／cat_sit_idle（4 秒），遊戲要用 SkeletonUtils.clone；每個姿勢底下 CAT_<姿勢>_tag（項圈＋名牌，大三）、CAT_<姿勢>_bandage（左前腳繃帶，大三上第 9 週那一週）；所有網格都有 morph target「fat」（大二上 1.0、大二下 0.5）；材質 cat_fur（年輕）、cat_fur_old（大四：毛色淡、口鼻偏白，掛在隱藏節點 CAT_fur_old_holder，遊戲換材質）"
 }

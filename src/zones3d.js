@@ -950,7 +950,7 @@ const Z3 = (function(){
     const mktTick=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, on=!!(G&&typeof WZL!=='undefined'&&WZL.marketOn&&WZL.marketOn(G)); if(on===MKT.on) return; MKT.on=on; if(MKT.grp) MKT.grp.visible=on; mktNav(on); if(typeof WZL!=='undefined'&&WZL.marketKeepers) WZL.marketKeepers(on,MKT.w);   /* 攤主（LAWWW，WZ-MARKET-KEEPER-1024）*/ };
     if(G0&&typeof WZL!=='undefined'&&WZL.marketDay&&WZL.marketDay(G0)&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_market']){ MKT.grp=new THREE.Group(); MKT.grp.name='wz_market'; MKT.grp.userData.dyn=true; MKT.grp.visible=false; g.add(MKT.grp);
       ASSETS.loadOne('bldg.wz_market').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } if(/^MARKET_(CLEAR|RAIN)$/.test(o.name)) o.visible=o.name==='MARKET_'+MKT.w.toUpperCase(); }); MKT.grp.add(root); MKT.grp.visible=!!MKT.on; }).catch(e=>console.warn('二手市集的攤子載入失敗',e)); }
-    { const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(zone,dt,E2); copyTick(); mktTick(); }; } copyTick(); mktTick();
+    { const up0=zone.update; zone.update=function(dt,E2){ if(up0) up0.call(zone,dt,E2); copyTick(); mktTick(); if(typeof WZCAT!=='undefined') WZCAT.update(dt,E2); }; } copyTick(); mktTick();   /* WZCAT：公園的貓走動（src/wzcat3d.js，J13）*/
     // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
     if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); propBlocks(nav,WZ_PROP_BLOCKS); wzParkSeason(root); root.traverse(o=>{ if(/^COPY_(CORNER_SHUT|CORNER_OPEN|A1_SHUT|A1_RENEW)$/.test(o.name)) copyNodes.push(o); }); copyKey=null; copyTick(); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
@@ -1141,7 +1141,9 @@ const Z3 = (function(){
         /* 被子晴收養以後（PARK.catAdopted：12/14 23:00 起，或那一場演完）公園不顯示貓（WZ-CAT-LIFE-1023，AA_397 第 3 節）：每一格看，玩家待在公園裡過了 23:00 也會不見；「看圓椅」的互動點照 PARK.catHidden */
         { let shown=true; Object.defineProperty(catG,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!(G&&typeof PARK!=='undefined'&&PARK.catAdopted&&PARK.catAdopted(G)); },set(v){ shown=!!v; }}); }   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
         if(under){ catG.position.y=catAt.y-0.45; catG.userData.under=true; }   /* 套件的貓、正式模型（0.47）都是照圓椅的座面（0.45 m）放的：石桌底下整組放低到涼亭的地台上 */
-        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return; const m=wzCatModel(c.scene.clone(true),G0,(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0))?'curl':'lie');   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
+        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return;
+          if(!under&&typeof WZCAT!=='undefined'&&WZCAT.attach(E,catG,c,{G:G0})){ cg.visible=false; return; }   /* 白天醒著：有骨架的貓在公園裡走（src/wzcat3d.js，J13）；晚上、下雨、寒流照舊趴著／縮著 */
+          const m=wzCatModel(c.scene.clone(true),G0,(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0))?'curl':'lie');   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
           m.position.set(bf.x+0.05,0.47,bf.z-0.45); m.rotation.y=bf.yaw+Math.PI; cg.visible=false; catG.add(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
     // 備用外觀（模型載入後藏起來）
     const fb=o=>{ pkTag(o); o.userData.wzParkFb=true; return o; };
