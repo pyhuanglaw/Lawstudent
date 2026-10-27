@@ -14,7 +14,7 @@
      第二次以後的關鍵日（rep.keys2：一句；again：後面照演的，C16 語彤那兩段）、C16 午餐（work.lunch，上班日扣）、C16 上學期被當＝沒錄取（select.noFail，S.failedTerm）、
      C17 去過的人公告多一個選項（signup.again「寄信給馮律師」：不用交履歷、不面試，V.ok 記 AGAIN＋面試那一格）、沒錄取時阿哲那句照季節（寒假版）、C18 行前說明會（select.brief，錄取時排；vac.k＝'brief'）。
    存檔 G.vac＝{reg:{'C02@Y1':'yes'|'no'|'later'|'done'|'missed'|'rejected'}, seen:{C02:true}, log:[{day,t}], ok:{'C16@Y2:APP':日}, work:{'C17@Y2':[去了的日子]}, paid:{'C17@Y2':元}}；舊存檔沒有後三個＝用到時才建。
-   2026-10-27：X58 中間跳過的日子收到訊息就停、打開手機（S.jump，tests/x58_skip_msg_unit.js）；E08 出國的那一趟先到 3D 出境大廳再登機（檔尾，tests/e08_airport_unit.js）；AA_478：大廳裡演「出發」、帶隊的人各一句，登機以後「飛往〇〇」字卡（tests/e08_hall_unit.js）。
+   2026-10-27：X58 中間跳過的日子收到訊息就停、打開手機（S.jump，tests/x58_skip_msg_unit.js）；E08 出國的那一趟先到 3D 出境大廳再登機（檔尾，tests/e08_airport_unit.js）；AA_478：大廳裡演「出發」、帶隊的人各一句，登機以後「飛往〇〇」字卡（tests/e08_hall_unit.js）；第 7 節：出國途中的時鐘換當地時間（檔尾，tests/e08_tz_unit.js）。
    測試：node tests/vac_unit.js、node tests/vac_c16_c18_unit.js */
 const VAC=(function(){
   const S={}; S.ON=true;
@@ -547,9 +547,10 @@ const VAC=(function(){
     let D=tried.get(G); if(!D){ D=new Set(); tried.set(G,D); } if(D.has(q.id)) return false; D.add(q.id);
     q.state='flying'; q.arrived=true; void S.airFly(GM,q,null).catch(e=>console.warn('VAC.airResume',e)); return true; };
   /* 臺灣的朋友回訊息的時間（MSG.replyAt）：照臺灣時間算他們醒著、在忙，再換回當地時間；一起去的人照當地（同 jp3d.js、us_life3d.js）*/
-  if(typeof MSG!=='undefined'&&MSG.replyAt&&!MSG._vacTz){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ const C=clk(G); if(!C||!C.tz||(C.with||[]).includes(id)) return r0.apply(this,arguments);
+  const msgReg=()=>{ if(typeof MSG==='undefined'||!MSG.replyAt||MSG._vacTz) return; const r0=MSG.replyAt; MSG.replyAt=function(G,id){ const C=clk(G); if(!C||!C.tz||(C.with||[]).includes(id)) return r0.apply(this,arguments);
       const t=T(G.day,G.hour)-C.tz, tw=Object.assign({},G), d=Math.floor(t/24+1e-9); tw.day=d; tw.hour=t-d*24; if(typeof CALENDAR!=='undefined') tw.weekday=CALENDAR.dateOf(d).wd%7; const r=r0.call(this,tw,id); if(!r) return r;
-      const x=T(r.day,r.h)+C.tz, out=Object.assign({},r), xd=Math.floor(x/24+1e-9); out.day=xd; out.h=x-xd*24; out.tz=C.tz; return out; }; MSG._vacTz=true; }
+      const x=T(r.day,r.h)+C.tz, out=Object.assign({},r), xd=Math.floor(x/24+1e-9); out.day=xd; out.h=x-xd*24; out.tz=C.tz; return out; }; MSG._vacTz=true; };   /* msg3d.js 照 index.html 在前面；單元測試載入順序不一定（VAC.msgReg 再叫一次）*/
+  S.msgReg=msgReg; msgReg();
   S.airReg=airReg; airReg();
   return S;
 })();

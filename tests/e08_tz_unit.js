@@ -14,7 +14,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.rep
 for(const f of ['src/holff3d.js','src/exchange3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/group_events.js','src/group3d.js','src/y34b3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/data/jp_events.js','src/jp3d.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);
 /* 單元測試的載入順序（vac3d.js 在 msg3d.js、exchange3d.js 前面）：補登記；遊戲裡照 index.html msg3d.js、exchange3d.js 在 vac3d.js 前面 */
 if(typeof VAC!=='undefined'&&VAC.airReg) VAC.airReg();
-if(typeof MSG!=='undefined'&&MSG.replyAt&&!MSG._vacTz&&typeof VAC!=='undefined'&&VAC.tzAt){ load('src/vac3d.js'); if(VAC.airReg) VAC.airReg(); }
+if(typeof VAC!=='undefined'&&VAC.msgReg) VAC.msgReg();
 const {check,GM,E}=H;
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, NOW=()=>T(H.G.day,H.G.hour);
 const tz=()=>typeof STORY.tzOffset==='function'?(STORY.tzOffset(H.G)||0):0;
