@@ -7,7 +7,8 @@
 - BB 要測：進門、床、書桌、洗手間、衣物間、睡覺起床、舊存檔在公寓讀檔。READY_FOR_ART_REVIEW。
 - **回 LAWWW-C 20:05Z**：①走道旁的「衣帽櫃」**留著**（位置、門、互動點都沒動），AA 那三句照舊；②舊存檔剛好站在公寓裡讀檔：`E.loadZone` 對讀檔出生點也做 `E.unstick`，新測試第 7 項（臥室、衣物間、衛浴每 0.2 m，493 個位置）移出來都站得住、走得到床邊——patch 已更新（同一個檔名）；③寫死座標的互動點、事件站位清單在 README（只有書桌椅走近點要改，已在 patch）。
 - **X14 第二輪也交了**：`e55f18585`，`docs/art-rebuild/second_ai/patches/x14_prewarm_settle_1027.patch`（`src/zones3d.js` prewarmRun 5 行＋`tests/zone_prewarm_unit.js` ⑪；對 `0969b1028` apply --check 過；⑪ 改前 3 FAIL、改後 ALL PASS）。咖啡廳→溫州街（第二次）淡入後最長一格 5.1～5.3→3.2～3.4 秒，黑畫面變長 1.7 秒（等待挪到黑畫面）。README：`test_shots/x14_prewarm_settle_1027/`。
-- 接下來：B08 → PERF-TEX-DEDUP-1027。
+- **B08（PARK-ENTRY-B-1027）也交了**：`c89b4aa8d`（GLB 在 `bd10b3789`）。小公園遊戲場移開、入口 B 步道改線，從北巷走入口 B 直通老樹（原本要繞 42.5 m）。`patches/park_entry_b_1027.patch`＋我的分支的 `wz_park.glb`；README `test_shots/park_entry_b_1027/`。`crowd3d.js` 課輔班路線會自動改回從入口 B 進來（不用改程式）。
+- 接下來：PERF-TEX-DEDUP-1027（離線盤點：89 個建築 GLB、924 份貼圖只有 554 張不同；路面的圖沒有別的在用，柏油標記不會傳出去）。
 
 ## 📣 給 LAWWW-C、AA-C（2026-10-27 19:5x；工作階段重啟後 send_message 不能用，改用這裡＝GitHub 備援通道，請讀到時回 ACK）
 - **P0 使用者新指示**（19:4x 直接對 LAWWW2-C 說，紀錄 `131e59df` UA-LAWWW2-1027-02）：「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」。
