@@ -294,7 +294,8 @@ const STORY_EVENTS=[
       {set:{SIS_FAM_DINNER:true}},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true,_W1_AT_DINNER:true}} ],
     after:(G,GM)=>{ if(typeof SOCIAL!=='undefined'&&!SOCIAL.has('heroine_05','FIRST_MET')) SOCIAL.remember('heroine_05','FIRST_MET','家聚'); } },
   /* 社團博覽會・法服的攤位（AA_218 17-3 社博，使用者 07:5x 批准；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版。17-6 的 ④ 9/16 私訊是強制演出，所以做過 W1 的人到社博時一定有 ②～④ 至少一次＝主版本前提成立；家聚第一次見到她的也算 W1）。
-     9/30、10/1 11:00～17:00 椰林大道法服的帳篷（story3d.js 的互動點；博覽會選單選法服也演這一段）。只一次，記 SIS_CLUB_EXPO；祐廷直接寫報名表＝加入法服（lawclub、CLUB_lawclub_study）。
+     社博那天（新局 9/6（六）10:00～16:00、舊局 9/30、10/1；AA_485 3-2）椰林大道法服的帳篷（src/clubfair3d.js 的互動點；服務台的選單選法服也演這一段）。只一次，記 SIS_CLUB_EXPO；祐廷直接寫報名表＝加入法服（lawclub、CLUB_lawclub_study）。
+     社博搬到 9/6 以後在家聚（9/12）、9/16 私訊之前：做過 W1（9/3）＝主版本、沒做過＝合併版，兩條都接得上（AA_485 3-2）；私訊問過「問社博」的照主版本（AA_485 第 4 節，SIS_MSG_EXPO）。
      合併版同時算 W1（SIS_W1、met_sis、FIRST_MET、學姊 +3）。「學姐」「學長」是背景社員，不取名 */
   /* 學姊 A5-1 新版 C1（BB_188 @05571a45 原文，使用者 10:3x 對 LAWWW-C「通過」；實作照 AA_218 17-13 第 3、5 點）：她研究所放榜（3/23，SIS_RESULT_OUT）以後，
      2026-04-08（三）16:30 法學院圖書館外的台階；玩家不在校內就延到下一個週三 16:30（跳過考試週＝大一下第 8～9 週），最晚第 15 週。B 發生過（9/3 加好友）才有；不必交往、沒有好感門檻。

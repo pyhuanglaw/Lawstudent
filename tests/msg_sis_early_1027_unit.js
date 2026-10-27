@@ -32,7 +32,7 @@ check('0. STORY.week1Start（新局）',STORY.week1Start(fresh('2025-09-03',10))
   fresh('2025-09-06',15.9,{SIS_CONTACTED:true}); check('2. 9/6 15:54（社博還沒收）：還有「問社博」',keys().includes('sis_expo'));
   H.G.hour=16; check('2. 9/6 16:00 社博收了：沒有「問社博」，換「問法服」',!keys().includes('sis_expo')&&keys().includes('sis_fafu_out'),J(keys()));
   fresh('2025-09-04',23,{SIS_CONTACTED:true}); const r2=MSG.send(H.G,S5,'sis_expo'); tickTo(H.G.day+1,12.3);
-  check('2. 23:00 傳：隔天 12:10 先「抱歉，昨天十點半就睡了。」再回兩則',r2.at.day===H.G.day&&J(thread().slice(-3))===J(['抱歉，昨天十點半就睡了。','看你想做什麼。想練法律的，法服。想動的，系籃。','我那天在法服顧攤。十點到四點。']),J(thread())); }
+  check('2. 23:00 傳：隔天 12:10 先「抱歉，昨天十點半就睡了。」再回兩則',!!r2.at&&r2.at.day===H.G.day&&J(thread().slice(-3))===J(['抱歉，昨天十點半就睡了。','看你想做什麼。想練法律的，法服。想動的，系籃。','我那天在法服顧攤。十點到四點。']),J(thread())); }
 /* 3 */
 { fresh('2025-09-08',10,{SIS_CONTACTED:true,SIS_CLUB_EXPO:true,lawclub:true,CLUB_lawclub_study:true}); check('3. 社博以後、加入了法服：「問法服」（第一版）',keys().includes('sis_fafu_in')&&!keys().includes('sis_fafu_out'),J(keys()));
   MSG.send(H.G,S5,'sis_fafu_in'); tickTo(H.G.day,12.2);

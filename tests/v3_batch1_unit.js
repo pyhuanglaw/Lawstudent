@@ -32,7 +32,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const ids=['ev_y2_club_expo','ev_y2_first_meal','ev_y2_midautumn']; check('0. 三個事件在',ids.every(i=>ev(i))); if(!ids.every(i=>ev(i))){ console.log('FAILED '+fails); process.exit(1); }
   const dk=k=>STORY.dayOfKey(k), at=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=0; }, tick=()=>{ said=[]; return EVENTS.tick(0.1); };
   const wait=async()=>{ for(let i=0;i<50&&EVENTS.running;i++) await new Promise(r=>setTimeout(r,0)); };
-  const d16=dk('2026-09-16'); check('0. 9/16 是大二上第 2 週週三',CALENDAR.termOf(d16).id==='Y2S1'&&CALENDAR.termOf(d16).week===2&&CALENDAR.dateOf(d16).wd===3);
+  const d16=dk('2026-09-12'); check('0. 社博 9/12 是大二上第 1 週週六（CLUBFAIR-REAL-1027，AA_485 3-2：照實際搬到開學第一週的週六；原本 9/16 週三）',CALENDAR.termOf(d16).id==='Y2S1'&&CALENDAR.termOf(d16).week===1&&CALENDAR.dateOf(d16).wd===6);   /* 變數名照舊 d16（下面每一段都用它）*/
   // 1. 博覽會：吉他社＋法服都加入過 → 選吉他社
   fresh(d16,12,'campus',{CLUB_club_guitar:true,CLUB_lawclub_study:true,met_yu:true}); G.stage='law'; meet('heroine_04'); meet('heroine_05'); meet('heroine_03');
   R('yu',...LV.ACQ); R('heroine_04',...LV.ACQ); const f0=SOCIAL.rel('yu').fam, f4=SOCIAL.rel('heroine_04').fam;
@@ -64,9 +64,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：法服的傳單，週六有值班。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：……那你幫我拿給大一的。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 只認識語彤、不認識柏翰：只有「你只是走過。」（語彤不在法服攤位的任何一路）',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 都不認識：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
-  fresh(d16,10.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 11:00 以前不觸發',!tick());
-  fresh(dk('2026-09-18'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/18 不觸發',!tick());
-  check('5. 校園的帳篷在大二的博覽會兩天也擺（zones3d FAIR_DAYS；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-16','2026-09-17'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
+  fresh(d16,9.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 10:00 以前不觸發（AA_485 3-2：10:00～16:00）',!tick());
+  fresh(d16,16.2,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 16:00 以後不觸發',!tick());
+  fresh(dk('2026-09-16'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/16（原本的日子）不觸發',!tick());
+  check('5. 校園的帳篷在大二的博覽會那天也擺（zones3d FAIR_DAYS：2026-09-12，CLUBFAIR-REAL-1027 AA_485 3-2 從 9/16、9/17 搬過來；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-12'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
   // 6. 開學第一頓
   const d17=dk('2026-09-17'); fresh(d17,16,'campus',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); meet('heroine_03'); G.flags.met_yu=true;
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));
