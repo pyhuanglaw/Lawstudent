@@ -577,12 +577,21 @@ const HOME=(function(){
   S.FAM_MOON={2026:{moon:[['mom','📷（一盒月餅，這次是芋頭的）'],['mom','你爸說蛋黃的吃膩了']],moonDad:[['dad','📷（上海的月亮，被雲擋住一半）']]},
     2027:{moon:[['mom','📷（樓下鄰居在烤肉，煙飄到陽台）'],['mom','今年沒烤 聞就好']],moonDad:[['dad','📷（上海的月亮，旁邊多了一棟正在蓋的樓）']]},
     2028:{moon:[['mom','📷（月餅剩最後一個）'],['mom','這個留給你 冰起來了']],moonDad:[['dad','📷（上海的月亮）'],['dad','這張最清楚']]}};
+  /* AA_471 第 4 節（企劃線 763993620）：畢業以後的中秋（2029-09-22、2030-09-12；那時候 CALENDAR.termOf 沒有，原本整則不發）。
+     住家裡的（S.livesHome：退宿以後住臺北的家；交換延畢的大五上也是）媽媽就在旁邊：中秋當天 20:00 只發爸爸的照片、媽媽回一句（不發「蛋黃的 留給你」），不用回。tag home_moon_pg_<日>。
+     還住在外面的（公館的套房）照原本 FAM_DAYS（18:00 媽媽兩則、21:00 爸爸一則）。表上沒有的年（2031 以後）不發（尾聲以前不再多停）*/
+  S.FAM_MOON_PG={2029:[['dad','📷（上海的月亮，旁邊那棟樓蓋好了）'],['mom','我們這邊陰天']],2030:[['dad','📷（上海的月亮）'],['dad','明年回去看'],['mom','你每年都這樣講']]};
   S.famDays=function(G){ if(typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||!CALENDAR.fest||(G.stage||'law')!=='law'||!PHONE.inGroup(G,'home')||(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return;
     const now=G.day*24+G.hour, th='g:home', home=S.livesHome(G)||S.at(G), H=S.rec(G);
+    const msg=([w,t])=>({th,from:w,name:w==='dad'?'爸爸':'媽媽',text:t});
     const send=(d,h,k,tag,skip)=>{ if(now<d*24+h||now>=(d+2)*24||PHONE.sent(G,tag)||(Array.isArray(H.famNo)&&H.famNo.includes(tag))) return; if(skip){ (H.famNo=Array.isArray(H.famNo)?H.famNo:[]).push(tag); return; }
       const Y=S.FAM_MOON[CALENDAR.dateOf(d).y]||{};   /* 中秋照那一年換（第 7 節）；颱風、沒寫的年照 FAM_DAYS */
-      PHONE.at(G,d,h,(Y[k]||S.FAM_DAYS[k]).map(([w,t])=>({th,from:w,name:w==='dad'?'爸爸':'媽媽',text:t})),tag); };
-    for(const d of [G.day,G.day-1]){ if(!CALENDAR.termOf(d)&&!CALENDAR.termOf(d+1)) continue;   /* 只在學期裡（家人群組週四那一套的範圍；畢業以後的中秋不發，postgrad3d.js 快轉不會多停一次）*/ if(CALENDAR.fest(d)==='中秋'&&CALENDAR.termOf(d)){ send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); }
+      PHONE.at(G,d,h,(Y[k]||S.FAM_DAYS[k]).map(msg),tag); };
+    for(const d of [G.day,G.day-1]){
+      if(CALENDAR.fest(d)==='中秋'&&!CALENDAR.termOf(d)&&G.flags&&G.flags.GRADUATED&&S.FAM_MOON_PG[CALENDAR.dateOf(d).y]){   /* AA_471 第 4 節：畢業以後的中秋 */
+        if(S.livesHome(G)){ const tag='home_moon_pg_'+d; if(now>=d*24+20&&now<(d+2)*24&&!PHONE.sent(G,tag)) PHONE.at(G,d,20,S.FAM_MOON_PG[CALENDAR.dateOf(d).y].map(msg),tag); }
+        else { send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); } }
+      if(!CALENDAR.termOf(d)&&!CALENDAR.termOf(d+1)) continue;   /* 只在學期裡（家人群組週四那一套的範圍；畢業以後的中秋在上面那一段，AA_471 第 4 節：2029、2030 兩年各多停一次）*/ if(CALENDAR.fest(d)==='中秋'&&CALENDAR.termOf(d)){ send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); }
       if(CALENDAR.typhoon(d+1)){ send(d,20.75,'ty','home_ty_'+d,home); send(d,21,'tyDad','home_ty_dad_'+d,false); }
       if(typeof STORY!=='undefined'&&STORY.dayOfKey&&d+1===STORY.dayOfKey(S.GRAD_KEY)) send(d,21,'gradDad','home_grad_dad_'+d,false); } };   /* AA_465 第 1 節：典禮前一天 21:00 爸爸（法律系＝參加典禮；人在國外、不在家人群組照上面不傳）*/
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */

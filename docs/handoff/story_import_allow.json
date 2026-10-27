@@ -1191,12 +1191,17 @@
   },
   {
    "path": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
-   "sha": "e6d4a198",
+   "sha": "1ebcf530",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 AA_382 第 2、3 節改好的版本（AA_366 第 2 節可昕週日開庭四句；AA_367 第 1～6 節十句「哪一個週六都說得通」、第 10 節 A4）；import_pg_dates.py 重新匯入",
-   "task": "AA382-PG-FIX-1022",
+   "approvedBy": "AA-B 2026-10-25 AA_472 第 6 節（企劃線 1ebcf530e：沛珊 2030-06「說好的，運河一圈。……」，接 2030-04 視訊那一句；D109 AA 的稿就是定稿）；import_pg_dates.py 重新匯入（LAWWW-C 子代理 PG-FIX-471-473-1027）",
+   "task": "PG-FIX-471-473-1027",
    "kind": "text",
    "history": [
+    {
+     "sha": "e6d4a198",
+     "approvedBy": "AA（帳號 A）2026-10-22 AA_382 第 2、3 節改好的版本（AA_366 第 2 節可昕週日開庭四句；AA_367 第 1～6 節十句「哪一個週六都說得通」、第 10 節 A4）；import_pg_dates.py 重新匯入",
+     "task": "AA382-PG-FIX-1022"
+    },
     {
      "sha": "a7bd9741",
      "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿）；第 1～6 節每個月她說的一句由 tools/story/import_pg_dates.py 匯入 src/data/pg_dates.js；第 0 節共通規格、各節的方式與不排的月份照稿手動寫進 src/pgdates3d.js（tests/aa367_pg_dates_unit.js）；第 9 節語彤 2030-10-01 那一則開發分支已經是新句",

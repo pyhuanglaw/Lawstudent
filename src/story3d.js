@@ -1953,11 +1953,13 @@ const STORY = (function(){
        旗標一年一組：地點 KX_ANNIV_PLACE_n、準備的東西 K7_GIFT_n、結果 KX_ANNIV[n]（地點／'missed'／'video'）。
        第二年 2026-10-17（六）她選地方＝政大山下（訊息送出就定）；第三年 2027-10-17（日）、第四年 2028-10-17（二）三個地點照第一年（選項與她的回覆同第一年）、沒選＝和第一年一樣卡片的照片。
        第四年祐廷在美國（交換路線 US、那天在國外）＝她晚上九點打視訊（ev_kexin_anniversary_video）、不選地點與禮物：台灣 21:00＝當地早上 09:00（AA_340 S8，S.tzOffset）*/
-    for(const n of [2,3,4,5]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F.dating_kexin||G.day<an-8||G.day>an+1||(F.KX_ANNIV&&F.KX_ANNIV[n])) continue;   /* 第五年 2029-10-17（三）（AA_357 3-2）：前一週 10/10 21:00 她問，其他照第 2～4 年 */
+    for(const n of [2,3,4,5,6]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F.dating_kexin||G.day<an-8||G.day>an+1||(F.KX_ANNIV&&F.KX_ANNIV[n])) continue;   /* 第五年 2029-10-17（三）（AA_357 3-2）：前一週 10/10 21:00 她問，其他照第 2～4 年 */
+      if(n===6&&!S.kxAnniv6On(G)) continue;   /* 第六年 2030-10-17（四）（AA_472 第 3 節）：第五年有演到的才有 */
       const th='p:kexin', K=t=>({th,from:'kexin',text:t}), key='KX_ANNIV_PLACE_'+n;
       if(S.kxAnnivVideo(G,n)){ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'kx_anniv4v'); if(!q) OUT.plan(G,{id:'kx_anniv4v',ev:'ev_kexin_anniversary_video',day:an,h:21+(S.tzOffset(G,an)||0),year:n,place:'視訊',title:'可昕的視訊：週年',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。',alarm:true}); else if(q.state==='planned'&&!q.alarm) q.alarm=true; } continue; }   /* alarm：當地早上 09:00，睡覺會停在 08:30（BB 14:45：沒有 alarm＝照常睡到中午就錯過；舊存檔已經排好的補上）*/
       if(n===2){ if(!PHONE.sent(G,'kx_anniv_ask2')) PHONE.at(G,an-7,21,[K('下禮拜六週年。這次我選地方。')],'kx_anniv_ask2'); if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]='shop'; }
       else if(n===5){ if(!PHONE.sent(G,'kx_anniv_ask5')) PHONE.at(G,an-7,21,[K('下禮拜三。第五年。'),Object.assign(K('……地點你選。我那天下午有空。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask5'); }   /* AA_357 3-2 */
+      else if(n===6){ if(!F[key]&&G.day*24+G.hour>=(an-7)*24+21) F[key]=S.kxAnniv6Place(G); }   /* AA_472 第 3 節：地點照 KX_ANNIV_PLACE_6，沒有就照第五年的地點；稿上沒有前一週的邀約那一則＝不傳，10/10 21:00 起直接排（OUT.plan 的「排進行程」提示）*/
       else if(!PHONE.sent(G,'kx_anniv_ask'+n)) PHONE.at(G,an-7,21,[Object.assign(K(n===3?'下禮拜天。第三年。地點你選。':'下禮拜二。第四年。……平日也要過。'),{ask:{until:an*24+18.5,opts:kxAnnivPlaceOpts(F,K,key)}})],'kx_anniv_ask'+n);
       const AP=F[key]; if(AP&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv'+n)){ const P=KX_ANNIV_PLACE[AP]; OUT.plan(G,{id:'kx_anniv'+n,ev:'ev_kexin_anniversary_yn',day:an,h:18.5,year:n,ap:AP,place:P[0],title:P[1],travel:P[2],travelH:P[3]}); }
       if(!AP&&G.day*24+G.hour>=an*24+19.5){ F.KX_ANNIV=Object.assign({},F.KX_ANNIV||{},{[n]:'missed'}); S.kxAnnivMissed(G,n,an); } }   /* AA_313 第 2 節第 36 列：同第一年 */
@@ -3089,11 +3091,19 @@ const STORY = (function(){
   S.Y0_LEAVE_DAY='2024-10-17';   /* 祐廷辦休學那天（AA_218 第 9～11 節【裁定】：休學＝交往＝摩天輪，同一天）*/
   S.Y0_MOVE_DAY='2024-10-31';   /* A3 退宿（四；AA_305 第 7 節：宿舍住到月底，原本 10/19）*/
   S.KX_ANNIV_DAY='2025-10-17';   /* K7 第一年的交往週年（AA_224 第 2 組：每年 10/17）*/
-  S.KX_ANNIV_DAYS=[null,'2025-10-17','2026-10-17','2027-10-17','2028-10-17','2029-10-17'];   /* 第 n 年（AA_224 2-c）；第五年（AA_357 3-2，畢業後篇，不分延畢）*/
+  S.KX_ANNIV_DAYS=[null,'2025-10-17','2026-10-17','2027-10-17','2028-10-17','2029-10-17','2030-10-17'];   /* 第 n 年（AA_224 2-c）；第五年（AA_357 3-2，畢業後篇，不分延畢）；第六年（AA_472 第 3 節，交換延畢也一樣）*/
+  /* 第六年（AA_472 第 3 節，企劃線 1ebcf530e）：交往中、第五年有演到的（KX_ANNIV[5] 是地點，不是 missed／video）；地點照第五年；卡片在祐廷手上（ev_kexin_anniversary_yn 的 y6）*/
+  S.kxAnniv6On=G=>{ const F=(G&&G.flags)||{}, A=F.KX_ANNIV&&F.KX_ANNIV[5]; return !!F.dating_kexin&&!!A&&A!=='missed'&&A!=='video'; };
+  S.kxAnniv6Place=G=>{ const F=G.flags||{}; for(const p of [F.KX_ANNIV_PLACE_6,F.KX_ANNIV_PLACE_5,F.KX_ANNIV&&F.KX_ANNIV[5]]) if(p&&KX_ANNIV_PLACE[p]) return p; return 'shop'; };
+  /* 畢業後篇跳到下一件事的停點（postgrad3d.js S.stops）：第六年還沒排的時候，停在那天該問「出發」的時間（10/10 21:00 排好的時候已經在跳的途中：長跳每 6 小時看一次會跳過 18:30）*/
+  S.kxAnniv6Stop=function(G){ const F=(G&&G.flags)||{}, an=S.dayOfKey(S.KX_ANNIV_DAYS[6]); if(an==null||!S.kxAnniv6On(G)||(F.KX_ANNIV&&F.KX_ANNIV[6])||(typeof OUT!=='undefined'&&OUT.get(G,'kx_anniv6'))) return null;
+    const P=KX_ANNIV_PLACE[S.kxAnniv6Place(G)]||KX_ANNIV_PLACE.shop, tr=typeof OUT!=='undefined'&&OUT.trip?OUT.trip(G,{travelH:P[3],travel:P[2]}):{travelH:P[3]}, t=an*24+18.5-(+tr.travelH||0)-0.25;   /* 同 OUT.due（人在家＝至少 30 分鐘）*/
+    return t>G.day*24+(+G.hour||0)?t:null; };
   /* 週年的地點（第一年的三個選項與她的回覆；第三、四年照用，AA_224 2-c）：key＝記在哪個旗標 */
   /* 週年沒去（沒選地點、沒出發；AA_313 第 2 節第 10、36 列＋2-3 A）：當天 21:00 她打來（ev_kexin_anniv_missed_call；21:45 以後才發現的就不打）；
      原本當晚的照片「週年快樂。下次你準備。」改到隔天中午（AA：當作她自己消了一點）。tag 照舊（第一年 kx_anniv_photo、第 n 年 kx_anniv_photo＋n）*/
   S.kxAnnivMissed=function(G,n,day){ const tag=n===1?'kx_anniv_photo':'kx_anniv_photo'+n, K=t=>({th:'p:kexin',from:'kexin',text:t});
+    if(n===6){ if(typeof PHONE!=='undefined') PHONE.at(G,day,22,[K('卡片你留著。……明年一起給我。')],'kx_anniv_miss6'); return; }   /* AA_472 第 3 節：第六年卡片在祐廷手上——沒有 21:00 的電話（電話裡「卡片我寫好了。我自己帶回去。」對不上）、沒有隔天卡片的照片，改成她 22:00 私訊一句 */
     if(typeof OUT!=='undefined'&&!OUT.get(G,'kx_anniv_call'+n)&&G.day*24+G.hour<day*24+21.75) OUT.plan(G,{id:'kx_anniv_call'+n,ev:'ev_kexin_anniv_missed_call',day,h:21,place:'電話',title:'可昕打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});
     if(typeof PHONE!=='undefined') PHONE.at(G,day+1,12,[K('📷（一張卡片）'),K('週年快樂。下次你準備。')],tag); };
   /* 答應去高雄跨年卻沒出發（AA_313 第 2 節第 15、37 列，2-3 B）：00:05 她打來（ev_kexin_nye_missed_call）；y＝第幾年、nye＝12/31 那一天 */
@@ -3105,7 +3115,7 @@ const STORY = (function(){
   /* 第四年他在美國（那一天在國外）＝視訊 */
   S.kxAnnivVideo=function(G,n){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); return n===4&&an!=null&&S.routeAbroadRoute(G)==='US'&&S.abroad(Object.assign({},G,{day:an})); };
   /* 第二～四年選準備的東西的時候（前一晚 21:00 起、當天 18:30 前；地點定了、還沒選、不是視訊）：回傳第幾年（沒有＝0）；eve＝true 時只在前一晚成立（「明天是週年」那一句）*/
-  S.kxAnnivGiftYear=function(G,eve){ const F=G.flags||{}; if(!F.dating_kexin) return 0; for(const n of [2,3,4,5]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F['KX_ANNIV_PLACE_'+n]||F['K7_GIFT_'+n]!=null||S.kxAnnivVideo(G,n)) continue;
+  S.kxAnnivGiftYear=function(G,eve){ const F=G.flags||{}; if(!F.dating_kexin) return 0; for(const n of [2,3,4,5,6]){ const an=S.dayOfKey(S.KX_ANNIV_DAYS[n]); if(an==null||!F['KX_ANNIV_PLACE_'+n]||F['K7_GIFT_'+n]!=null||S.kxAnnivVideo(G,n)) continue;
       const night=G.day===an-1&&G.hour>=21, day=G.day===an&&G.hour<18.5; if(eve?night:(night||day)) return n; } return 0; };
   /* LIFE-LINE 的舊存檔（BB_188 A9-2 @d171faef；讀檔時 game3d migrate 呼叫，一次）：
      ① KX_CAR：舊的 E25_ANSWER（only_me→only_me、first_day→camp、new_year→take_back）；沒有 E25 看 E21_ANSWER（yes／serious→only_me、joke→take_back）；

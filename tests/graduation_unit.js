@@ -58,10 +58,10 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- D3：和芷若交往 ----
   { const G=H.fresh('2029-06-01',22.4,'dorm'); H.FRIEND('heroine_02'); H.date('heroine_02'); PG.rules(GM); H.at('2029-06-01',23.1); H.tick();
     check('6. D3：前一晚 23:00「我設了鬧鐘。」',H.msgs('p:heroine_02').includes('我設了鬧鐘。'),JSON.stringify(H.msgs('p:heroine_02')));
-    H.at('2029-06-02',8); await STORY.gradFamily(GM); const a=sayIdx('這裡凌晨三點。……學士服是不是借太大件？'), b=sayIdx('（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）');
+    H.at('2029-06-02',8); await STORY.gradFamily(GM); const a=sayIdx('這裡早上五點。……學士服是不是借太大件？'), b=sayIdx('（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）');
     check('6. D3：視訊在家人那一段裡、校級典禮完、法律學院典禮（撥穗）以前（10:30＝英國凌晨三點多）',a>=0&&a<b&&sayIdx('（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）')<a&&G.flags.PG_ZR_VIDEO===true,JSON.stringify([a,b]));
-    await H.run('grad'); check('6. D3：拍照那一段不再視訊一次',H.said.filter(s=>s.t==='這裡凌晨三點。……學士服是不是借太大件？').length===1);
-    check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡凌晨三點。……學士服是不是借太大件？')<sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
+    await H.run('grad'); check('6. D3：拍照那一段不再視訊一次',H.said.filter(s=>s.t==='這裡早上五點。……學士服是不是借太大件？').length===1);
+    check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡早上五點。……學士服是不是借太大件？')<sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
   // ---- D4：和學姊分手過 ----
   { const G=H.fresh('2029-06-02',11.6,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PG.rules(GM); H.at('2029-06-02',12.1); PHONE.tick(G);
     check('7. D4：學姊前任＝只有「畢業快樂。」訊息',H.msgs('p:heroine_05').includes('畢業快樂。'));
@@ -110,7 +110,7 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('13. 沒去：第二天家族群組只有她一句「謝謝大家。」',q.state==='missed'&&H.msgs('g:family_law').includes('謝謝大家。')&&G.flags.SIS_BDAY_Y4==='none'&&G.flags.GRAD_EVENING==='none'); }
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); await H.run('grad');
     H.at('2029-06-02',19.1); PG.rules(GM); H.at('2029-06-02',19.6); PHONE.tick(G); PHONE.answer(G,'pg_sis_ex_bday',0); PG.rules(GM);
-    check('13. 前任：沒有「去」，傳一句生日快樂 →「謝謝。」「今天畢業，恭喜你。」',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|').endsWith('生日快樂。|謝謝。|今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
+    check('13. 前任：沒有「去」，傳一句生日快樂 →「謝謝。」（AA_473 第 1 節：中午她已經私訊「畢業快樂。」，晚上不再恭喜一次；原本多一句「今天畢業，恭喜你。」）',!OUT.get(G,'pg_sis_bday')&&H.msgs('p:heroine_05').join('|').endsWith('畢業快樂。|生日快樂。|謝謝。')&&!H.msgs('p:heroine_05').includes('今天畢業，恭喜你。')&&G.flags.SIS_BDAY_Y4==='msg',JSON.stringify(H.msgs('p:heroine_05'))); }
   // ---- 可昕 6/3、6/9（BB_99 9-17、AA_250 9-2）----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('kexin'); H.date('kexin'); await H.run('grad');
     check('14. 6/2 傍晚可昕不發約會邀約',!(G.outings||[]).some(q=>/kexin|kx/.test(q.id)));
