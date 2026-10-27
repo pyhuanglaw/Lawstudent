@@ -34177,7 +34177,7 @@
    "title": "打羽球不背包：羽球短片裡祐廷和對手身上的後背包、托特包、吉他、資料夾、圍裙先拿下來，演完（含跳過、出錯）照原本還原",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "source": "使用者 10-27 22:4x 對 BB-C「打羽球男主角還背著背包什麼意思」；BB-C 22:43 讀程式轉 LAWWW-C（character3d.js MODEL_PROPS、animateVRM 只在坐著時藏包）；USER_WANTS X117",
    "first": {
@@ -34191,7 +34191,8 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 22:5x UTC】LAWWW 修 056851057：CHAR.carryOff＋badminton_clip3d.js 開演拿下、finally 還原；tests/badclip_bag_unit.js（修改前 FAIL）；BB 照 5j 從手機約起驗（以安、語彤、男生朋友各一次，三個鏡頭裡兩個人身上沒有包）；場邊地板放一個包（BB 的建議）交 LAWWW2 下一輪羽球一起看",
-   "sha": "056851057"
+   "sha": "056851057",
+   "evidence": "BB-C 10-27 23:4x（ceb05b785，BB_218 最後一節；開發分支 05069d928）：語彤、以安、阿哲、柏翰 × 完整版、第二次（鏡頭 2）、按跳過全 PASS——演出中每 200 ms 一格兩個人身上都沒有包、柏翰眼鏡在、演完包回來、沒卡沒例外；截圖 qa/x117/"
   },
   {
    "id": "FAIR-STAFF-LOD-1027",
@@ -34220,6 +34221,27 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "QUICK-GYM-1027",
+   "title": "手機「地點」快速前往加新體育館（體育課、健身房、羽球都在那裡）；地圖和宿舍同一顆圖釘",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "source": "BB-C 10-27 23:4x 觀察（X117 驗收時：PLACES.quickList 22 個沒有新體育館）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次要去上體育課或打羽球",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 23:5x UTC】LAWWW 做好 96689752e（places.js quickList＋known0、placemap3d.js 宿舍・體育館；quick_travel、placemap 測試載入 gym）；BB 手機「地點」點宿舍・體育館 → 新體育館（大廳）",
+   "sha": "96689752e"
   }
  ]
 }
