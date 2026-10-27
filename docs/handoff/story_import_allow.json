@@ -534,19 +534,33 @@
   },
   {
    "path": "docs/story_planning/AA_236_外部審稿回覆_全人物台詞.md",
-   "sha": "78cec297",
+   "sha": "556208df8",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 09:41Z 交付（外部審稿逐條回覆，AA 定稿，照使用者已裁定的設定改字）：施工清單 A1～A5、A7～A10、B1～B3",
    "task": "AA236-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "78cec297",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "556208df8：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
-   "sha": "05571a45",
+   "sha": "968473469",
    "status": "approved",
    "approvedBy": "使用者 2026-10-17 10:3x UTC 直接對 LAWWW-C「通過」（看的是 LAWWW-C 抄給他的 A5-1 新版全文，和 05571a45 的 A5-1 新版一節逐字相同）：只限「A5-1 新版」A、B、C1、C2；「已發布的兩處」已被 AA_218 17-1（W1 ★-6）與家族群組 (A) 取代，不照這裡；（合併 d171faef）只限 AA_224 寫「照用 BB_188 A2-x」的那幾段（A2-1e 除夕電話、A2-1b、A2-2、A2-3、A2-4、A2-5／A2-6 的底稿）與 A9 機制（BB 管機制，D98）；AA_224 衝突時以 AA_224 為準",
    "task": "LIFE-LINE-1017, LIFE-HS-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "05571a45",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "968473469：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_238_法服讀書會停用_缺的台詞.md",
@@ -558,19 +572,33 @@
   },
   {
    "path": "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md",
-   "sha": "4e3a7c2b",
+   "sha": "49ea396ce",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 10:45Z 交付（AA 定稿）：只限「第 7 組　開局」一節（使用者 10:4x 定案「直接進經濟系」）；（合併 ff3f2a4b）AA-C 2026-10-17 09:16Z 交付 2-c（回 LAWWW-C Q1～Q4：7/10 不傳訊息、旁白改「你」、法律系時期「為什麼重考」放宿營、K7 第二～四年；send_message 同時說明）；其餘同 31708531（第 1～6 組定稿）。第 7 組（開局日期）不在內",
    "task": "LIFE-LINE-1017, LIFE-G7-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "4e3a7c2b",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "49ea396ce：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
-   "sha": "60fc8720",
+   "sha": "968473469",
    "status": "approved",
    "approvedBy": "使用者 2026-10-17 10:3x 對 LAWWW-C 批准 17-6；AA-C 加 16 週日期（17-6）與 A5-1 實作對齊（17-13）：只限 17-6、17-13；（合併 edfcdd68）只限使用者已批准、AA-C 交付的段落：17-3 W1 第一次見面（使用者 07:5x 批准；開頭「台階」與 Café 版開頭句 2dc7f23d）、17-4 社團博覽會主版本與合併版（使用者 07:5x「可以」）、17-12／17-12a 學姊群組發言逐則改法（edfcdd68）、AA 補定（9/2 茶會學姊那段刪、家族群組 9/4 晚上加入、Kevin 置頂句）。17-5／17-6（W1 到社博之間的接觸）等使用者確認，不在內；13 節 A5-1 相識台詞暫停（使用者自己改），不在內；（合併 5063fbaf）AA-C 定稿台詞（17-11 子晴問阿凱三句；使用者 09:0x「阿凱一定知道、不主動說」的設計）＋BB-C 定觸發（BB_191 9-7 @0b075eac）；D50 第②級一般日常事件（AA、BB 共識）。只限 17-11 子晴問阿凱三句；到最新 62b16f5a 一字未改",
    "task": "SIS-W1-1017, SIS-176-1017, KNOWS-SPREAD-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "60fc8720",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "968473469：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_204_大一寒假_AA場景台詞_16週制.md",
@@ -623,10 +651,16 @@
   },
   {
    "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
-   "sha": "67f0f9e9",
+   "sha": "7915ac9d3",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 12:45：C04 考試日"
+   "note": "AA-C 12:45：C04 考試日；7915ac9d3：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）",
+   "history": [
+    {
+     "sha": "67f0f9e9",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_207_學姊大二上舊事件整理_熱水移到備考期.md",
@@ -637,17 +671,29 @@
   },
   {
    "path": "docs/story_planning/AA_261_回BB207_學姊熱水與空的保溫瓶.md",
-   "sha": "16919f86",
+   "sha": "5788b1cb4",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 12:51：AA_261 已審（AA 分支），機制 BB_207 7b39f636"
+   "note": "AA-C 12:51：AA_261 已審（AA 分支），機制 BB_207 7b39f636；5788b1cb4：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）",
+   "history": [
+    {
+     "sha": "16919f86",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_242_出國活動台詞_交流志工暑期課.md",
-   "sha": "6bcb154b",
+   "sha": "56a36a4d0",
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；（合併 18fe1b6a）AA-C（2026-10-17 交付給 LAWWW-C）；6bcb154b 出國時可昕的訊息照 AA_278 改",
-   "note": "AA-C 13:03：補 8-6 重逢的約、C10 成績、Priya 改字、七夕那則拿掉"
+   "note": "AA-C 13:03：補 8-6 重逢的約、C10 成績、Priya 改字、七夕那則拿掉；56a36a4d0：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）",
+   "history": [
+    {
+     "sha": "6bcb154b",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_264_假期活動每年重開_第二次以後的台詞.md",
@@ -658,11 +704,18 @@
   },
   {
    "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
-   "sha": "8c76052b",
+   "sha": "e7dbfd140",
    "status": "approved",
    "approvedBy": "AA-C 定稿（16:44 告白文件交叉檢查 18c5505b／04184f3a＋16:46 BB-C 口氣審 8c76052b；BB_203 機制使用者 2026-10-17 確認）：以安飯桌一句、她說的旁白與 CG-11 位置、大四上兩句、第二次後半；第 0 節第 7 點第二次答應六句；美國路線大四上邀約（以安、學姊）；第 9 節 C5 三句、學姊筆試前那句刪、時段最後一天；（合併 7fa1aad4）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js；（合併 89835b3a）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js",
    "task": "BB203-CONFESS-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "8c76052b",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "e7dbfd140：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_241_大一暑假_AA場景台詞.md",
@@ -858,11 +911,18 @@
   },
   {
    "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
-   "sha": "6bcb154b",
+   "sha": "f4151aa15",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 17:36（全檔照 AA_188 口語審 01029de1；BB 人物照 BB_212 換 6f6e9c7e）：話題池 1-1～7-1、邀約鉤子、9-2 可昕、10-1～10-4 用新句（劃線後的那一句）；（合併 ae841bba）AA-C 2026-10-17 12:29Z（9-2 可昕學期末約會重寫：地點照 BB_202、每學期的邀約、開場收尾、沒去的訊息）＋c524b61e 10-1、acf92ff0 第 10 節、375b91dd；第 1～7 節話題池、9-2、第 10 節進 src/data/termend_lines.js；6bcb154b 沛珊兩句、可昕大四上飯桌照 AA_278 改",
    "task": "BB203-CONFESS-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "6bcb154b",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "f4151aa15：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_271_自由出行第三批_AA偶遇與來過一次.md",
@@ -882,11 +942,18 @@
   },
   {
    "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
-   "sha": "0544a147",
+   "sha": "b13052e5d",
    "status": "approved",
    "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
    "task": "ENC-B3-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "0544a147",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "b13052e5d：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
@@ -968,11 +1035,18 @@
   },
   {
    "path": "docs/story_planning/BB_95_交接包v1_大一上.md",
-   "sha": "e627d747",
+   "sha": "9fecc202d",
    "status": "approved",
    "approvedBy": "交接包 v1 使用者批准進入實作（D50）；e627d747 是照使用者 23:3x「直屬只有一個＝溫學姊」改的（Kevin「直屬學弟妹」→「家族的學弟妹」）。只限這一句",
    "task": "START-WEEK",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "e627d747",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "9fecc202d：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_272_休學到放榜_不能快轉的事件.md",
@@ -1008,11 +1082,18 @@
   },
   {
    "path": "docs/story_planning/AA_278_寒暑假可昕沛珊不在臺北_逐件改.md",
-   "sha": "6bcb154b",
+   "sha": "dbf1cae01",
    "status": "approved",
    "approvedBy": "AA-C 定稿（依 AA_276 第 1 節使用者 10-17 23:4x 原話；D100 台詞歸 AA；第 1 節 AA 已直接改進開發分支，使用者 10-18 00:5x 授權）",
    "task": "VAC-HOMETOWN-1017",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "6bcb154b",
+     "note": "C11-WL-SYNC-1027 以前"
+    }
+   ],
+   "note": "dbf1cae01：C11-WL-SYNC-1027（AA_476 B-2，AA-C 10-27 逐份對過：程式已經是新句，差的只有說明文字、刪掉的舊句；白名單換新、程式不用改）"
   },
   {
    "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",

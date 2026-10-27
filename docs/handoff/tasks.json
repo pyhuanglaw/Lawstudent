@@ -32667,7 +32667,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】子代理做完（a87fdf4e5；分支上全部 Node 647 支 0 失敗），合進開發分支 7dacc9463；9 題給 AA 定（已傳）；BB 瀏覽器 10 步在 docs/handoff/BB_TEST_QUEUE_1027.md 第 1 節 ｜ 【LAWWW-C 2026-10-27 17:1x UTC】D113 第二次備份：pgfix-471-473 到 5f83d3bf5（AA_471 第 3 節國考放榜四次各一版 684549a77、第 4 節畢業以後中秋家人群組 5f83d3bf5），bundle wip_backup/pgfix_471_473_1027.bundle（前提 129540766）；子代理還在做第 5～7 節＋AA_472＋AA_473 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】子代理在獨立工作目錄做（分支 pgfix-471-473＝開發分支 129540766＋AA_470 合併 06242745e）；開工檢查點 243db0938 已備份 wip_backup/pgfix_471_473_1027.bundle（D113，每 15～20 分鐘更新）；v9.10.11 發布後合 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
+   "next": "【LAWWW-C 2026-10-27 18:1x UTC】AA_476 第 A 節九題的答案（1 芷若視訊改回原句、2 FAIL_DELAY_CERT 不出「畢業以後的第一個禮拜」、3 2030-10-10 21:00 可昕兩則、4 子代理暫定照用、5 不改、6 對、7 阿哲不加句號（含 2029-09-07 原句）、8 住外面的照年份換（AA_476 表）、9 對）→ 原子代理在 wt_pgfix 同一條分支接著做，做完再合；開發分支上 Node 全部 649 支 0 失敗（PG-FIX 合併後）｜【LAWWW-C 2026-10-27 18:0x UTC】子代理做完（a87fdf4e5；分支上全部 Node 647 支 0 失敗），合進開發分支 7dacc9463；9 題給 AA 定（已傳）；BB 瀏覽器 10 步在 docs/handoff/BB_TEST_QUEUE_1027.md 第 1 節 ｜ 【LAWWW-C 2026-10-27 17:1x UTC】D113 第二次備份：pgfix-471-473 到 5f83d3bf5（AA_471 第 3 節國考放榜四次各一版 684549a77、第 4 節畢業以後中秋家人群組 5f83d3bf5），bundle wip_backup/pgfix_471_473_1027.bundle（前提 129540766）；子代理還在做第 5～7 節＋AA_472＋AA_473 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】子代理在獨立工作目錄做（分支 pgfix-471-473＝開發分支 129540766＋AA_470 合併 06242745e）；開工檢查點 243db0938 已備份 wip_backup/pgfix_471_473_1027.bundle（D113，每 15～20 分鐘更新）；v9.10.11 發布後合 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
   },
   {
    "id": "RELEASE-91011",
@@ -32950,7 +32950,7 @@
    "title": "抓包 CG（I10「至少一張」）：圖 cg_doorbell 在，但 BCG-36 被 AA／BB 標舊方案、現在沒有任何「被發現」場景用到；取消要使用者原話（HV-15）",
    "area": "Y1S2",
    "owner": "AA",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P2",
    "source": "USER_WANTS I10；USER_WANTS_AUDIT_1027 第 3 節第 4 點",
    "first": {
@@ -32963,7 +32963,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】請 AA-C 選一場發現接上（事件 ID＋接在哪一句），或用選擇題問使用者",
+   "next": "【LAWWW-C 2026-10-27 18:1x UTC】AA_476 B-1：使用者 10-17 兩句原話互相拉（「偶然碰面要有完整動線」對「女主角不會親眼看到」），第③級——AA-C 在對話裡用 A/B/C 問使用者；LAWWW 照現狀不動，使用者答了 AA 交規格再接｜【LAWWW-C 2026-10-27 18:0x UTC】請 AA-C 選一場發現接上（事件 ID＋接在哪一句），或用選擇題問使用者",
    "xai": {
     "spec": "USER_WANTS I10；企劃線 00_文件狀態表.md:295",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -32977,7 +32977,7 @@
    "title": "AA_290 4-1 的 12 份口氣改稿：白名單還指舊版本、程式已經是新句（例 confess_lines.js:52）——逐份對過、白名單換新",
    "area": "Y1S1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "source": "USER_WANTS C11；USER_WANTS_AUDIT_1027 第 3 節第 10 點",
    "first": {
@@ -32990,14 +32990,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】請 AA-C 逐份對，給 LAWWW 每份要換到的 commit",
+   "next": "【LAWWW-C 2026-10-27 18:1x UTC】結案（白名單換版，程式不用改）｜【LAWWW-C 2026-10-27 18:0x UTC】請 AA-C 逐份對，給 LAWWW 每份要換到的 commit",
    "xai": {
     "spec": "USER_WANTS C11；AA_290 4-1",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "12 份稿各自的白名單 commit；LAWWW 換版重匯後 Node ALL PASS",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "AA_476 B-2（企劃線 6ad997806）：AA-C 12 份逐份對過開發分支 fa14944b9，程式已經是新句；LAWWW-C 白名單 12 筆換新（舊的進 history）；讀白名單的 15 支＋引用這些稿的 7 支 Node 測試 ALL PASS；沒有匯入工具讀這 12 份（只在註解引用）"
   },
   {
    "id": "BB-QUEUE-1027",
