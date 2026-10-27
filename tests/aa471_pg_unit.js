@@ -16,6 +16,9 @@ for(const f of ['src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d
 const SHA='763993620', SRC='docs/story_planning/AA_471_大五讀一遍_日本路線家人群組不停_學期判斷過了220天_放榜四次.md';
 let DOC=''; try{ DOC=cp.execFileSync('git',['-C',H.ROOT,'-c','core.quotepath=false','show',SHA+':'+SRC],{encoding:'utf8'}); }catch(e){ DOC=''; }
 const sec=n=>{ const a=DOC.indexOf('\n## '+n+'.'), b=DOC.indexOf('\n## ',a+4); return a<0?'':DOC.slice(a,b<0?undefined:b); };
+/* AA_476（企劃線 6ad997806，AA-C 10-27 回九題）A 節：2 擋「畢業以後的第一個禮拜」、7 阿哲不加句號、8 住在外面的中秋照年份換 */
+let D476=''; try{ D476=cp.execFileSync('git',['-C',H.ROOT,'-c','core.quotepath=false','show','6ad997806:docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md'],{encoding:'utf8'}); }catch(e){ D476=''; }
+const a476=n=>{ const a=D476.indexOf('\n'+n+'. **'), b=D476.indexOf('\n'+(n+1)+'. **',a+3); return a<0?'':D476.slice(a,b<0?D476.indexOf('\n## B',a):b); };
 const row=(s,k)=>(s.split('\n').find(l=>l.startsWith('| '+k))||'').split('|').map(x=>x.trim());
 const NAME={'阿哲':'zhe','Alison':'yu','爸爸':'dad','媽媽':'mom'};
 const cellMsgs=c=>String(c||'').split('／').filter(Boolean).map(x=>{ const i=x.indexOf('：'); return [NAME[x.slice(0,i)]||x.slice(0,i),x.slice(i+1)]; });
@@ -98,7 +101,17 @@ await tsec(5,async()=>{ const S5=sec(5), Lx=(typeof FD!=='undefined'&&FD.LINES)|
     check('5. 手機「畢業證書已可領取。」（10:00）',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='畢業證書已可領取。'&&m.day===D('2030-06-17')),J(H.msgs('sys').slice(-3)));
     H.at('2030-06-17',12.1); PHONE.tick(G); check('5. 照 S.cert：12:00 媽媽「照片傳給我。我要傳給你爸。」、CERT_DAY 那一天',H.msgs('p:mom').includes('照片傳給我。我要傳給你爸。')&&G.flags.CERT_DAY===D('2030-06-17'),J(H.msgs('p:mom')));
     const card=(a,b)=>PG.cardLine(G,D(a),D(b));
-    check('5. 6 月字卡「（證書放在書桌上。你媽這次把框裝上了。）」06-18 起：6/17 以前的跳不出、6/18 以後的跳才出',card('2030-06-01','2030-06-17')!=='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-06-17','2030-06-22')==='（證書放在書桌上。你媽這次把框裝上了。）'); } });
+    check('5. 6 月字卡「（證書放在書桌上。你媽這次把框裝上了。）」06-18 起：6/17 以前的跳不出、6/18 以後的跳才出',card('2030-06-01','2030-06-17')!=='（證書放在書桌上。你媽這次把框裝上了。）'&&card('2030-06-17','2030-06-22')==='（證書放在書桌上。你媽這次把框裝上了。）'); }
+  /* AA_476 A-2：FAIL_DELAY_CERT 有值的不出「（畢業以後的第一個禮拜……）」（他的「畢業以後」從 6/17 才開始）；報了 2030 國考的那一版「（畢業以後，你還是每天八點起床……）」同一段一起擋 */
+  { const WEEK='（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）', EIGHT='（畢業以後，你還是每天八點起床。不用上課，就去總圖。）', FRAME='（證書放在書桌上。你媽這次把框裝上了。）';
+    check('5. 稿：AA_476 A-2「擋」、「（畢業以後的第一個禮拜……）」、6/17 領證書才開始',/\*\*擋\*\*/.test(a476(2))&&a476(2).includes('（畢業以後的第一個禮拜……）')&&a476(2).includes('FAIL_DELAY_CERT')&&a476(2).includes('6/17'));
+    const june=(fl)=>{ const G=fdSave('2030-06-30',12,2); Object.assign(G.flags,{FAIL_DELAY_PASS:false,FAIL_DELAY_CERT:'2030-06'},fl||{}); const c=(a,b)=>PG.cardLine(G,D(a),D(b)); return [c('2030-05-31','2030-06-17'),c('2030-06-17','2030-06-22'),c('2030-06-22','2030-06-27'),c('2030-06-27','2030-07-01')]; };
+    const a=june({BAR_REG_2030:false}), b=june({BAR_REG_2030:true});
+    check('5. 證書延到六月、沒報 2030 國考：6 月一路跳都不出「第一個禮拜」那張；6/18 以後照樣出「框裝上了」',!a.includes(WEEK)&&a.includes(FRAME),J(a));
+    check('5. 證書延到六月、報了 2030 國考：一樣不出「八點起床」那張（同一段）',!b.includes(EIGHT)&&b.includes(FRAME),J(b));
+    const G2=fdSave('2030-06-30',12,3); Object.assign(G2.flags,{FAIL_DELAY_PASS:true,BAR_REG_2030:false}); const c2=PG.cardLine(G2,D('2030-05-31'),D('2030-06-17'));
+    const G3=grad('2030-06-30',12,{EXCHANGE_ROUTE:'JP',BAR_REG_2030:false}); const c3=PG.cardLine(G3,D('2030-05-31'),D('2030-06-17'));
+    check('5. 重修過了（一月就拿證書）、交換延畢：照舊出「第一個禮拜」',c2===WEEK&&c3===WEEK,J([c2,c3])); } });
 
 /* ======================= 6. 芷若在英國，17:00 那一版的收尾三句輪 ======================= */
 await tsec(6,async()=>{ const S6=sec(6), UK=['你要去吃晚餐了吧。……去吧。','你那邊天要黑了。……去吃飯。','好。我這邊要出門了。'], US=['你要去吃午餐了吧。……去吧。','你那邊中午了。……去吃飯。','好。我這邊要出門了。'];
