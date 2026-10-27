@@ -3192,6 +3192,14 @@
    "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
    "task": "PG-FIX-471-473-1027",
    "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：A 節九題（PG-FIX 第二輪，合併 60919c7a9）；B-2 白名單換版（C11-WL-SYNC-1027）"
+  },
+  {
+   "path": "docs/story_planning/AA_479_美國交換逐日劇本讀後_交往中第三版.md",
+   "sha": "02428913b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109 劇情總監自主決定）",
+   "task": "AA479-US-FIX-1027",
+   "note": "LAWWW-C 10-27 登記（手抄三處：us_life3d.js、sis_qixi_events.js、us_life_events.js）"
   }
  ]
 }

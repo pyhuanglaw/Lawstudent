@@ -33276,6 +33276,26 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA479-US-FIX-1027",
+   "title": "美國交換逐日劇本讀後三處（AA_479）：8/3 學姊 05:10 訊息回覆期限 09:00、七夕前一晚「宿舍門口」→「社區門口」、11/25 交往中字卡「學姊說」→「書瑀說」",
+   "area": "Y4S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "AA-C 10-27 AA_479（企劃線 02428913b），讀 BB-C 3b089e965 的逐日劇本",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國交換 8/3（和學姊交往中）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 19:3x UTC】改好：us_life3d.js usl_sis_0803 ask 加 until＝8/3 09:00；sis_qixi_events.js y28Us 社區門口；us_life_events.js 11/25 書瑀說；測試 us_life、aa370_us、aa453_us、aa388_sis_qixi ALL PASS（aa388 對稿多認 AA_479）；BB 美國交往中劇本順帶看"
   }
  ]
 }
