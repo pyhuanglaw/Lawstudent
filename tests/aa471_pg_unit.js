@@ -50,5 +50,27 @@ await tsec(3,async()=>{ const S3=sec(3), want={};
   const G2=grad('2029-12-14',14.6,{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer'}); PHONE.join(G2,'noodle_team','麵店團'); H.tick(); H.at('2029-12-14',15.02); H.tick();
   check('3. 只考 2029：12/14 那一版',J(grpMsgs(G2,'g:noodle_team').filter(x=>/放榜|洗澡|洗完/.test(x[1])))===J(want['2029-12-14']),J(grpMsgs(G2,'g:noodle_team'))); });
 
+/* ======================= 4. 畢業以後的中秋（家人群組）======================= */
+await tsec(4,async()=>{ const S4=sec(4), want={2029:cellMsgs(row(S4,'2029')[2]),2030:cellMsgs(row(S4,'2030')[2])};
+  check('4. 稿：2029 兩則、2030 三則（爸爸先）',want[2029].length===2&&want[2030].length===3&&want[2029][0][0]==='dad'&&want[2030][2][0]==='mom',J(want));
+  const famAt=(key,flags,hs)=>{ const G=grad(key,hs[0],flags); PHONE.join(G,'home','家人'); const out={}; for(const h of hs){ H.at(key,h); STORY.phoneRules(GM); PHONE.tick(G); out[h]=grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom'); } return {G,out}; };
+  for(const [y,key] of [[2029,'2029-09-22'],[2030,'2030-09-12']]){
+    const {G,out}=famAt(key,{},[17.5,19.9,20.05,21.5,23.9]);
+    check('4. '+key+' 中秋（住家裡）：20:00 以前沒有',out[19.9].length===0&&out[17.5].length===0,J(out[19.9]));
+    check('4. '+key+' 20:00 家人群組：'+want[y].map(x=>x[1]).join('／'),J(out[20.05])===J(want[y]),J(out[20.05]));
+    check('4. '+key+' 之後不再多（沒有 18:00 媽媽兩則、21:00 爸爸那一則、「蛋黃的 留給你」）；不用回',J(out[23.9])===J(want[y])&&!(G.msgs||[]).some(m=>m.th==='g:home'&&m.ask),J(out[23.9]));
+    const m=(G.msgs||[]).find(x=>x.tag==='home_moon_pg_'+D(key)); check('4. '+key+' 那一則的時間是 20:00（那一天）、名字是爸爸／媽媽',!!m&&m.day===D(key)&&m.h>=20&&m.h<20.25&&(G.msgs||[]).filter(x=>x.tag==='home_moon_pg_'+D(key)).every(x=>x.name===(x.from==='dad'?'爸爸':'媽媽')),J(m)); }
+  { const {out}=famAt('2029-09-22',{EXCHANGE_ROUTE:'JP'},[20.05]); check('4. 交換延畢（日本路線）大五上的中秋：一樣（住家裡）',J(out[20.05])===J(want[2029]),J(out[20.05])); }
+  { const {out}=famAt('2029-09-22',{FAIL_DELAY:true,FAIL_DELAY_COURSES:['x']},[20.05]); check('4. 被當延畢：一樣（住家裡）',J(out[20.05])===J(want[2029]),J(out[20.05])); }
+  { const {out}=famAt('2029-09-22',{HOME_AFTER:'gongguan',Y4_PATH:'bar'},[18.05,21.05]), F=HOME.FAM_DAYS;
+    check('4. 還住在外面（公館的套房）：照原本 FAM_DAYS——18:00 媽媽兩則、21:00 爸爸一則',J(out[18.05])===J(F.moon)&&J(out[21.05])===J(F.moon.concat(F.moonDad)),J(out)); }
+  { const {G,out}=famAt('2029-09-22',{},[20.05]); H.at('2029-09-24',1); STORY.phoneRules(GM); PHONE.tick(G);
+    check('4. 第二天以後不再補發、不重複',grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom').length===want[2029].length); }
+  { const G=grad('2029-09-23',10,{}); PHONE.join(G,'home','家人'); STORY.phoneRules(GM); PHONE.tick(G);
+    check('4. 睡過頭、隔天早上才讀檔：照 20:00 補（同學期裡的做法，兩天內）',J(grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom'))===J(want[2029]),J(grpMsgs(G,'g:home'))); }
+  { const G=H.fresh('2027-09-15',20.05,'dorm',{}); PHONE.join(G,'home','家人'); const d=D('2027-09-15'), fest=CALENDAR.fest(d); STORY.phoneRules(GM); H.at('2027-09-15',21.05); STORY.phoneRules(GM); PHONE.tick(G);
+    check('4. 學期裡的中秋照舊（2027：FAM_MOON 那一年的句子，18:00 媽媽、21:00 爸爸）',fest!=='中秋'||J(grpMsgs(G,'g:home').filter(x=>x[0]==='dad'||x[0]==='mom').map(x=>x[1]))===J(HOME.FAM_MOON[2027].moon.concat(HOME.FAM_MOON[2027].moonDad).map(x=>x[1])),fest+' '+J(grpMsgs(G,'g:home'))); }
+  { const G=grad('2029-09-22',20.05,{}); STORY.phoneRules(GM); PHONE.tick(G); check('4. 不在家人群組：不發',!(G.msgs||[]).some(m=>m.th==='g:home')); } });
+
 H.done();
 })();
