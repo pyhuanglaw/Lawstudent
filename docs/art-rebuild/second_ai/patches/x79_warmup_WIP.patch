@@ -12,10 +12,10 @@ index d979a3fc1..a63246569 100644
    GM.enter=enter;
    // ---------- 小地圖 ----------
 diff --git a/src/zones3d.js b/src/zones3d.js
-index fa4421bce..afad7712b 100644
+index fa4421bce..5703be4e9 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1841,5 +1841,46 @@ const Z3 = (function(){
+@@ -1841,5 +1841,54 @@ const Z3 = (function(){
      const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
        ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
      setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
@@ -29,6 +29,9 @@ index fa4421bce..afad7712b 100644
 +     （量測：只編場景裡的，起點附近新生出來的路人臉、頭髮、第一個走到 18 m 外的人，還是各停 1.5～2 秒）。
 +     ②場景裡沒有沒編過的、連續幾次都沒有新的（正式模型都接上了）以後，陰影相機暫時放大到整個區域畫一格，陰影的深度 shader 一次編完（那一格陰影比較糊）。
 +     ③做完以後每 3 秒再看一次有沒有新的（之後才載完的路人底模、正式模型），有就照樣一小批一小批編；換區域就停。
++     ④編好的 shader 主動「讀一次」（program.getUniforms＝three.js 第一次畫到時做的 onFirstUse：讀編譯結果、uniform 位置）：只送出編譯還不夠，
++     GPU 真的編完、第一次讀結果時照樣要等（第二版量測：路上 0 個新 shader，起點附近還是有 4 格 1～2.5 秒全花在 getProgramInfoLog）。
++     沒有平行編譯一批讀 1 個（那一批不再送新的）；有平行編譯只讀已經好的（isReady），不會等。
 +     有平行編譯（KHR_parallel_shader_compile）一批最多 8 個新的 shader、不卡主執行緒；沒有的（不保證）一批 1 個，停頓分散在剛進來的那幾秒，不在走路的時候。
 +     電腦另外把這些物件的貼圖先傳上 GPU（每批約 400 萬像素）；手機貼圖照舊第一次畫到才傳（記憶體）。網址 ?nowarmup 關掉（比較用）。E.lastWarmup 記結果（測試、量測用）。*/
 +  let warmGen=0;
@@ -39,7 +42,10 @@ index fa4421bce..afad7712b 100644
 +    const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
 +    const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
 +    const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
-+    let queue=[], idle=0; const loose=new WeakSet();   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
++    let queue=[], idle=0; const loose=new WeakSet(), settled=new WeakSet();
++    const settle=()=>{ let n=0; for(const pg of (R.info.programs||[])){ if(settled.has(pg)) continue; if(par&&pg.isReady&&!pg.isReady()) continue;
++        try{ pg.getUniforms(); }catch(e){ console.warn('warmup settle',e); } settled.add(pg); n++; if(n>=maxProg) break; } out.settled=(out.settled|0)+n; return n; };
++    const unsettled=()=>(R.info.programs||[]).some(pg=>!settled.has(pg));   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
 +    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
 +      if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); queue.push(...extras()); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
 +    const extras=()=>{ const out_=[], A=typeof ASSETS!=='undefined'&&ASSETS.cache; if(!A) return out_;
@@ -54,6 +60,8 @@ index fa4421bce..afad7712b 100644
 +      try{ E.render(); } catch(e){ console.warn('warmup depth',e); } finally { [c.left,c.right,c.top,c.bottom,c.near,c.far]=keep; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true; }
 +      out.depthPrograms=nprog()-p0; out.depthMs=Math.round(performance.now()-td); };
 +    const step=()=>{ if(gen!==warmGen||E.zone!==zone) return; out.ticks++; const ts=performance.now();
++      if(settle()&&!par){ setTimeout(step,gap); return; }   /* 這一批已經等過一個 */
++      if(!queue.length&&unsettled()){ setTimeout(step,gap); return; }   /* 有平行編譯：等還沒好的 */
 +      if(!queue.length){ scan(); if(queue.length) idle=0; else if(++idle>=idleScans){ if(!out.depth&&R.shadowMap.enabled&&E.sun&&E.sun.castShadow){ depthOnce(); idle=0; } else { if(!out.done){ out.done=true; out.ms=Math.round(performance.now()-t0); } idle=0; setTimeout(step,opts.watch||3000); return; } } }
 +      const p0=nprog(); let px=0;
 +      while(queue.length&&performance.now()-ts<budget&&nprog()-p0<maxProg){ const o=queue.shift(); if((!o.parent&&!loose.has(o))||!mats(o).some(need)) continue;
@@ -65,10 +73,10 @@ index fa4421bce..afad7712b 100644
  })();
 diff --git a/tests/zone_warmup_unit.js b/tests/zone_warmup_unit.js
 new file mode 100644
-index 000000000..5cc4016fb
+index 000000000..f023afbb0
 --- /dev/null
 +++ b/tests/zone_warmup_unit.js
-@@ -0,0 +1,89 @@
+@@ -0,0 +1,95 @@
 +// 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）——不需要瀏覽器。
 +// 原本：three.js 第一次畫到才編 shader；prewarm（電腦、剛進區域）只編那時候已經接上、看得到的。SwiftShader 手機模擬沿經濟系路線第一次走，
 +//   路上 13 次「這一格編新的 shader」（每次 0.5～2.2 秒）：畫面外的建築材質、晚接上的正式模型、路人遠距離版本（藏著）、陰影的深度 shader。
@@ -79,7 +87,9 @@ index 000000000..5cc4016fb
 +//   ⑥ 都編完、連續幾次沒有新的以後，陰影相機放大到整個區域畫一格（陰影的深度 shader），畫完相機還原、下一格重畫陰影；
 +//   ⑦ 電腦把這些物件的貼圖傳上 GPU（MToon 放在 uniforms 的也傳），手機（ASSETS.texCap）不傳；⑧ 換了區域就停；?nowarmup 關掉；⑨ GAME.enter 淡入以後呼叫；
 +//   ⑩ 還沒放進場景的路人底模（ASSETS 快取的 VRM 樣板）、遠距離版本的 toon 材質也編（量測：等一下才生出來的路人臉、頭髮、第一個走到 18 m 外的人，各停 1.5～2 秒）；
-+//   ⑪ 做完以後隔一段時間再看，有新的（之後才載完的底模、正式模型）照樣編，記在 later。
++//   ⑪ 做完以後隔一段時間再看，有新的（之後才載完的底模、正式模型）照樣編，記在 later；
++//   ⑫ 編好的 shader 主動讀一次（getUniforms＝第一次畫到的 onFirstUse；只送出編譯不夠，第一次讀結果時照樣要等——第二版量測抓到）：做完的時候每一個都讀過；
++//      有平行編譯時只讀已經好的（isReady），還沒好的不讀（不會等）。
 +// 用法：node tests/zone_warmup_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -94,10 +104,10 @@ index 000000000..5cc4016fb
 +const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 +const tex=(name,w,h)=>{ const t=new THREE.Texture({width:w,height:h}); t.name=name; return t; };
 +// 假的 renderer：compile(物件, 鏡頭, 目標場景) 和 three.js 一樣走過子樹「所有」物件；同一個材質名＝同一個 shader（第一次才算新的）
-+function fakeRenderer(parallel){ const props=new WeakMap(), progs=new Set(); const R={ compiledNames:[], compileCalls:[], inited:[], renders:0, renderCams:[],
++function fakeRenderer(parallel){ const props=new WeakMap(), progs=new Set(); const R={ compiledNames:[], compileCalls:[], usedOrder:[], inited:[], renders:0, renderCams:[],
 +  info:{programs:[]}, properties:{get(o){ if(!props.has(o)) props.set(o,{}); return props.get(o); }}, extensions:{get:k=>k==='KHR_parallel_shader_compile'&&parallel?{}:null},
 +  shadowMap:{enabled:true,needsUpdate:false},
-+  compile(scene,camera,target){ R.compileCalls.push({scene,target}); scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; for(const m of [].concat(o.material)){ if(typeof m.customProgramCacheKey!=='function') throw new TypeError('material.customProgramCacheKey is not a function'); R.properties.get(m).currentProgram={}; R.compiledNames.push(m.name); if(!progs.has(m.name)){ progs.add(m.name); R.info.programs.push({name:m.name}); } } }); },
++  compile(scene,camera,target){ R.compileCalls.push({scene,target}); scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; for(const m of [].concat(o.material)){ if(typeof m.customProgramCacheKey!=='function') throw new TypeError('material.customProgramCacheKey is not a function'); R.properties.get(m).currentProgram={}; R.compiledNames.push(m.name); if(!progs.has(m.name)){ progs.add(m.name); const pg={name:m.name,used:false,readyAt:Date.now()+(parallel?15:0),getUniforms(){ pg.used=true; R.usedOrder.push(m.name); return {}; },isReady(){ return Date.now()>=pg.readyAt; }}; R.info.programs.push(pg); } } }); },
 +  initTexture(t){ R.inited.push(t.name); R.properties.get(t).__webglTexture={}; } }; return R; }
 +const mesh=(name,map)=>new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name,map:map||null}));
 +function world(R,mobile){ const S=new THREE.Scene(), cam=new THREE.PerspectiveCamera(50,2,0.1,100);
@@ -156,5 +166,9 @@ index 000000000..5cc4016fb
 +  const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const m=g.match(/async function enter\(zoneId,spawn,opts\)\{[\s\S]*?\n/); const body=m?m[0]:'';
 +  const iF=body.indexOf('await fade(false)'), iW=body.indexOf('Z3.warmup(E)'), iFin=body.indexOf('finally');
 +  check('⑨ GAME.enter：淡入以後呼叫 Z3.warmup（noFade 也呼叫）',iF>=0&&iW>iF&&iW<iFin&&!/if\(!opts\.noFade\)\{ await fade\(false\); if\(Z3\.warmup/.test(body),`fade ${iF}、warmup ${iW}、finally ${iFin}`);
++  check('⑫ 做完的時候每個新編的 shader 都主動讀過一次（getUniforms）',out.done&&R.info.programs.length>0&&R.info.programs.every(pg=>pg.used),JSON.stringify(R.info.programs.filter(pg=>!pg.used).map(pg=>pg.name)));
++  { const R12=fakeRenderer(true), E12=world(R12,false); let early=null; const o12=Z3.warmup(E12,{gap:2,delay:0,idleScans:2}); await sleep(6); early=R12.info.programs.filter(pg=>pg.used&&pg.readyAt>Date.now()).length;
++    let bad=0; const orig=R12.info.programs; for(let i=0;i<300&&!o12.done;i++){ await sleep(3); }
++    check('⑫ 有平行編譯：還沒好的不讀（不會等），最後都讀過',early===0&&o12.done&&R12.info.programs.every(pg=>pg.used),`提早讀 ${early}；${JSON.stringify(o12)}`); }
 +  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 +})();
