@@ -48,14 +48,21 @@ async def main():
                 s = await pg.evaluate(DBG)
                 if s['it'] and ('麵店' in s['it'] or '進' in s['it']): break
                 await pg.wait_for_timeout(300)
+            if MODE == 'talk':
+                # 【捷徑】進門後「和沈以安說話」一出現就按：SwiftShader 1–4 fps，從 Python 觸控（每次 evaluate 幾百 ms）趕不上 S.arrive 那 0.9 秒（第一版 f54 talk1 按到的時候見面已經開始）；
+                # 改成頁面裡每 20 ms 看一次互動鍵，看到就 click（同一個 onclick＝doInteract，玩家手指點按鈕會走的路），只在進門 4 秒內
+                await pg.evaluate("""(()=>{ window.__bbTalk=null; window.__bbT0=null; const iv=setInterval(()=>{ try{ if(GAME.G.zone!=='noodle') return; const now=performance.now(); if(window.__bbT0==null) window.__bbT0=now; if(now-window.__bbT0>4000){ clearInterval(iv); return; }
+                  const b=document.getElementById('interact'), l=(document.getElementById('interactLabel').textContent||''); if(b&&!b.classList.contains('hide')&&/沈以安/.test(l)){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:l,depth:GAME.D.busyDepth}; b.click(); clearInterval(iv); } }catch(e){} },20); })()""")
+                run.setup('[捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）')
             run.note('互動按鈕：%s' % s['it']); await L.tap(pg, cdp, '#interact'); t_in = None
             for k in range(60):
                 s = await pg.evaluate(DBG)
                 if s['zone'] == 'noodle':
                     t_in = t_in or time.time()
-                    if MODE == 'talk' and '沈以安' in s['it'] and not s['busy']:
-                        await L.tap(pg, cdp, '#interact'); talk_ms = int((time.time() - t_in) * 1000); run.note('進門後 %d ms 按到「%s」' % (talk_ms, s['it'])); break
-                    if MODE == 'plain' or (t_in and time.time() - t_in > 4): break
+                    if MODE == 'talk':
+                        tk = await pg.evaluate("window.__bbTalk")
+                        if tk: talk_ms = tk['ms']; run.note('進門後 %d ms 按到「%s」（按的時候 busyDepth %s）' % (talk_ms, tk['label'], tk['depth'])); break
+                    if MODE == 'plain' or (t_in and time.time() - t_in > 5): break
                 await pg.wait_for_timeout(80)
             run.check('走得進麵店', s['zone'] == 'noodle', json.dumps(s, ensure_ascii=False))
             if MODE == 'talk': run.check('進門後按得到「和沈以安說話」（使用者的操作）', talk_ms is not None, str(talk_ms))
