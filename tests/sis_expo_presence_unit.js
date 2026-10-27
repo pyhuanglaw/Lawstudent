@@ -28,7 +28,7 @@ global.EVENTS={npcOf:id=>GMref&&(GMref.npc[id]||GMref.npc[ALIAS[id]])||null,onEn
   check:ev=>ev.id==='ev_sis_club_expo'&&!!GMref&&GMref.G.zone==='campus'&&!GMref.G.flags.SIS_CLUB_EXPO,   /* 只有博覽會那一段（location campus、還沒演過）*/
   run:async ev=>{ ran.push(ev.id); if(ev.id==='ev_sis_club_expo') GMref.G.flags.SIS_CLUB_EXPO=true; }};
 load('src/story3d.js');
-const SIS='heroine_05', TENT=[-17.8,15.1], BOOTH=[-17.8,13.2];
+const SIS='heroine_05', TENT=[-47.5,13.5], BOOTH=[-47.5,11.5];   /* 法服的帳篷：LAWWW2 36 頂的 lawclub（中心、front；CLUBFAIR-REAL-1027 1cb7bcbb3，原本九頂那一排 (-17.8,15.1)）*/
 const A0=ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const orig={dates:A0.dates.slice(),t0:A0.t0,t1:A0.t1};
 const wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const mkG=(day,h,o)=>Object.assign({day,hour:h,weekday:wdOf(day),flags:{afternoonDone:true,classDone:true},social:{},zone:'campus',goal:'',stage:'law'},o||{});
@@ -36,7 +36,7 @@ const expoDays=()=>{ const out=[]; for(let d=-400;d<400;d++) if(ACTIVITIES.on(A0
 const hhmm=x=>String(Math.floor(x)).padStart(2,'0')+':'+String(Math.round((x%1)*60)).padStart(2,'0');
 /* 測試用的校園（STORY.populate 需要的最少東西）：長椅的座位、互動點、加人 */
 function stubGM(G){ const E={npcs:[],q:{level:'medium'},zone:{seats:[],spawn:{x:-112,z:0}},interactables:[],levels:null,nav:null,camera:null,indoor:false,
-    player:{obj:{position:{x:-17.8,y:0,z:11.5},rotation:{y:0}},busy:false,lv:0},addNPC(n){ this.npcs.push(n); return n; },removeNPC(n){ this.npcs=this.npcs.filter(m=>m!==n); }};
+    player:{obj:{position:{x:-47.5,y:0,z:10.0},rotation:{y:0}},busy:false,lv:0},addNPC(n){ this.npcs.push(n); return n; },removeNPC(n){ this.npcs=this.npcs.filter(m=>m!==n); }};
   E.moveTo=(n,x,z,cb)=>{ n.path=[[x,z]]; n.onArrive=cb; return true; };
   const GM={G,E,npc:{},D:{active:false},hourRate:1/150};
   GM.spawnNPC=(id,spec,x,z,opts)=>{ opts=opts||{}; const o=CHAR.build(spec||{}); o.position.set(x,0,z); if(opts.yaw!=null) o.rotation.y=opts.yaw; const n=E.addNPC({obj:o,id,charId:opts.charId||id,name:(spec&&spec.name)||id,beh:opts.beh||'idle',seat:opts.seat,pose:opts.pose||'idle',lv:opts.lv|0,talk:opts.talk}); GM.npc[id]=n; return n; };
