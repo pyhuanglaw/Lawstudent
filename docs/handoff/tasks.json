@@ -32633,7 +32633,7 @@
    "title": "帳號 B 沒有交班（10-25 19:2x～19:4x 四職位停住），帳號 C 接班：登記 no-handoff、從 GitHub 重建 B 停住時的狀態、四職位接班",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "source": "使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」",
    "first": {
@@ -32646,7 +32646,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:3x UTC】四職位都接班了：BB-C 17:21 duty register --user-ok（claude/wonderful-mayer-7fm9g6 快轉合併 2109de7b0，a78f96567）→ duty sync seq 32；no-handoff 四筆都解決；duty verify 第 6 項（B 的四條分支在它 10-22 那次交班以後還有 commit＝B 10-23～10-25 值班寫的，不是雙寫）記 post-handoff-writes reviewedThrough＝四條分支最後的 SHA → 結果 OK。水位線：LAWWW、LAWWW2、BB 已前進（460d08761）；剩 AA outbox 28 項（AA-C 改）→ incr --advance AA 以後結案 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】LAWWW-C 已登記（duty seq 28 register-user-ok，no-handoff 已記、細節在 duty.json anomalies）；B 停住時的狀態重建在 HANDOFF_GAP_MATRIX 第 1 節。還差：BB-C、AA-C、LAWWW2-C 接班（使用者叫醒，各自 duty register --user-ok）；incr 異常 245 項（LAWWW2 outbox 格式 140、LAWWW2 沒分類 commit 67、AA outbox 任務 ID 27…）、roles 異常 16 項（AA 表外）——不擋開發，接班後清"
+   "next": "【LAWWW-C 2026-10-27 17:3x UTC】結案：四職位都在帳號 C 接班（duty verify OK）；AA-C outbox 改好（5be1c5fe5）→ incr OK、四職位水位線前進（LAWWW da238c461、LAWWW2 0fe5184c6、AA 5be1c5fe5、BB f37206934）；roles OK；通訊實測四方都通（BB-C、AA-C 回報）。B 停住時的東西：AA_471～473 實作遺失 → PG-FIX-471-473-1027 重做中；BB 沒留紀錄的瀏覽器測試 → RELEASE-91011 BB-C 重跑中 ｜ 【LAWWW-C 2026-10-27 17:3x UTC】四職位都接班了：BB-C 17:21 duty register --user-ok（claude/wonderful-mayer-7fm9g6 快轉合併 2109de7b0，a78f96567）→ duty sync seq 32；no-handoff 四筆都解決；duty verify 第 6 項（B 的四條分支在它 10-22 那次交班以後還有 commit＝B 10-23～10-25 值班寫的，不是雙寫）記 post-handoff-writes reviewedThrough＝四條分支最後的 SHA → 結果 OK。水位線：LAWWW、LAWWW2、BB 已前進（460d08761）；剩 AA outbox 28 項（AA-C 改）→ incr --advance AA 以後結案 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】LAWWW-C 已登記（duty seq 28 register-user-ok，no-handoff 已記、細節在 duty.json anomalies）；B 停住時的狀態重建在 HANDOFF_GAP_MATRIX 第 1 節。還差：BB-C、AA-C、LAWWW2-C 接班（使用者叫醒，各自 duty register --user-ok）；incr 異常 245 項（LAWWW2 outbox 格式 140、LAWWW2 沒分類 commit 67、AA outbox 任務 ID 27…）、roles 異常 16 項（AA 表外）——不擋開發，接班後清"
   },
   {
    "id": "PG-FIX-471-473-1027",
