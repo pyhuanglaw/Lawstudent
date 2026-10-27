@@ -225,9 +225,11 @@ for tag, mk in (('off', 'view_spring'), ('on', 'view_snow')):
     gm.quad([(8.0, -3.0, z), (8.0, -3.0, WALLDEF['N']['at']), (-10.0, -3.0, WALLDEF['N']['at']), (-10.0, -3.0, z)][::-1]); gm.finish(g, uv=True)
 
 # ======================== 門 ========================
-def six_panel(m, axis, at, c, y0, w_, nrm, rot=0.0):
-    """白色六格門板（厚 4 cm）：axis＝門所在牆的軸；c＝門的中心（沿牆）；rot＝開門角度（0 關著）。用一個局部座標系畫"""
+def six_panel(m, axis, at, c, y0, w_, nrm, rot=0.0, hinge_end='W'):
+    """白色六格門板（厚 4 cm）：axis＝門所在牆的軸；c＝門的中心（沿牆）；rot＝開門角度（0 關著）。用一個局部座標系畫。
+    hinge_end＝鉸鍊在門的哪一端：'W'（預設，沿牆座標小的那一端）或 'E'（大的那一端：從那一端轉 180°−rot，一樣是轉動、不是鏡射，面的方向不變）"""
     hinge = c - w_ / 2
+    if hinge_end == 'E': hinge = c + w_ / 2; rot = math.pi - rot
     def P_(u, v, s):   # u 沿門寬、v 高、s 厚度方向
         ca, sa = math.cos(rot), math.sin(rot); uu, ss = u * ca - s * sa * nrm, u * sa * nrm + s * ca
         return (hinge + uu, v, at + ss) if axis == 'x' else (at + ss, v, hinge + uu)
@@ -259,7 +261,8 @@ for d in LAY['doors']:
             wm(wid, 'door').box(at - 0.02, at + 0.02, 0.02, DOOR_H - 0.02, u0, u1) if axis == 'z' else None
             for v in range(10): wm(wid, 'trim').box(at - 0.025, at - 0.02, 0.35 + v * 0.13, 0.4 + v * 0.13, u0 + 0.04, u1 - 0.04)
         continue
-    m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0))
+    # v3（使用者 10-27 美國公寓）：衣物間、衛浴的門開著、往臥室開（swingOut：門板轉到牆的另一邊）；衛浴的鉸鍊在東邊（hinge E：門板靠在書桌南邊的牆角）
+    m = wm(wid, 'door'); six_panel(m, axis, at, c, 0.0, w_ - 0.02, -nrm if d.get('swingOut') else nrm, rot=(math.radians(95) if d.get('openDoor') else 0.0), hinge_end=d.get('hinge', 'W'))
     if d.get('plate'):   # 門牌（虛構的號碼）：遊戲照 PLATE_FACE 畫字
         x_, z_ = (c + 0.0, at + 0.03 * nrm * -1) if axis == 'x' else (at, c)
         pm = Mesh(f'PLATE_FACE_door_{d["id"]}', M['plate'])
@@ -277,6 +280,9 @@ acc('backsplash').quad([(-4.6 + T / 2, 0.92, 3.0 - T / 2 - 0.005), (-1.8 - T / 2
 # AA-B 的 ART-US4（us_bath_props.glb）交件以後用它（下面「衛浴＝ART-US4」）；沒有那個檔才做這裡的簡單版
 US4 = os.path.join(L.ROOT, 'assets/models/env/second_ai/aa_support/us_bath_props.glb'); US4_OK = os.path.exists(US4)
 F = {f['type']: f for f in LAY['furniture']}
+# 浴室四面牆的室內面：照配置的 bath 房間（原本寫死 x 0.6～3.0；v3 衛浴搬到 x 2.6～5.0——使用者 10-27「床旁邊是書桌再旁邊是洗手間」）
+_BR = next(r for r in LAY['rooms'] if r['id'] == 'bath')
+WB, EB, SB, NB = _BR['x0'] + T / 2, _BR['x1'] - T / 2, _BR['z1'] - T / 2, _BR['z0'] + T / 2
 if not US4_OK:
     tb = F['tub']; acc('porcelain').rbox(tb['x0'], tb['x1'], 0.0, 0.52, tb['z0'], tb['z1'], r=0.04, seg=3)
     acc('tile').quad([(tb['x0'] + 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z1'] - 0.08), (tb['x1'] - 0.08, 0.36, tb['z0'] + 0.08), (tb['x0'] + 0.08, 0.36, tb['z0'] + 0.08)])
@@ -289,17 +295,17 @@ if not US4_OK:
     vn = F['vanity']; acc('door').rbox(vn['x0'], vn['x1'], 0.0, 0.84, vn['z0'], vn['z1'], r=0.01, seg=1)
     acc('porcelain').rbox(vn['x0'] - 0.02, vn['x1'], 0.84, 0.88, vn['z0'] - 0.02, vn['z1'] + 0.02, r=0.01, seg=1)
     acc('chrome').cyl(((vn['x0'] + vn['x1']) / 2 + 0.18, 0.88, (vn['z0'] + vn['z1']) / 2), ((vn['x0'] + vn['x1']) / 2 + 0.18, 1.02, (vn['z0'] + vn['z1']) / 2), 0.015, seg=8)
-    acc('mirror').quad([(3.0 - T / 2 - 0.01, 1.0, vn['z1'] - 0.05), (3.0 - T / 2 - 0.01, 1.0, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z0'] + 0.05), (3.0 - T / 2 - 0.01, 1.85, vn['z1'] - 0.05)])
+    acc('mirror').quad([(EB - 0.01, 1.0, vn['z1'] - 0.05), (EB - 0.01, 1.0, vn['z0'] + 0.05), (EB - 0.01, 1.85, vn['z0'] + 0.05), (EB - 0.01, 1.85, vn['z1'] - 0.05)])
 
 # 浴缸三面牆的白磁磚（美國的浴缸淋浴兩用：南牆、西牆、東端短牆 tub_e，高 0.45～1.95；用廚房擋水牆的長條白磚）
 _tb = F['tub']; _te = [w for w in LAY['walls'][0]['list'] if w['id'] == 'tub_e']
-_sx0, _sx1, _sz = 0.6 + T / 2, (_te[0]['at'] - T / 2) if _te else _tb['x1'], 3.0 - T / 2 - 0.005
+_sx0, _sx1, _sz = WB, (_te[0]['at'] - T / 2) if _te else _tb['x1'], SB - 0.005
 acc('backsplash').quad([(_sx1, 0.45, _sz), (_sx0, 0.45, _sz), (_sx0, 1.95, _sz), (_sx1, 1.95, _sz)])                       # 南牆，面向北
-_wx = 0.6 + T / 2 + 0.005
-acc('backsplash').quad([(_wx, 0.45, 3.0 - T / 2), (_wx, 0.45, _tb['z0']), (_wx, 1.95, _tb['z0']), (_wx, 1.95, 3.0 - T / 2)])   # 西牆，面向東
+_wx = WB + 0.005
+acc('backsplash').quad([(_wx, 0.45, SB), (_wx, 0.45, _tb['z0']), (_wx, 1.95, _tb['z0']), (_wx, 1.95, SB)])   # 西牆，面向東
 if _te:
     _ex = _te[0]['at'] - T / 2 - 0.005
-    acc('backsplash').quad([(_ex, 0.45, _te[0]['from']), (_ex, 0.45, 3.0 - T / 2), (_ex, 1.95, 3.0 - T / 2), (_ex, 1.95, _te[0]['from'])])   # 東端短牆，面向西
+    acc('backsplash').quad([(_ex, 0.45, _te[0]['from']), (_ex, 0.45, SB), (_ex, 1.95, SB), (_ex, 1.95, _te[0]['from'])])   # 東端短牆，面向西
 
 # ======================== 陽台、樓梯平台 ========================
 for x in (BAL['x0'], BAL['x1']):
@@ -416,7 +422,7 @@ if US4_OK:
     if res:
         tops, new = res
         bx = {k: gbounds(v) for k, v in tops.items()}
-        WB, EB, SB, NB = 0.6 + T / 2, 3.0 - T / 2, 3.0 - T / 2, 1.0 + T / 2   # 浴室四面牆的室內面
+        # 浴室四面牆的室內面：WB、EB、SB、NB（上面照配置算好的）
         if 'US_TUB' in bx:        # 貼南牆、ry=π（本地 −z 靠牆轉到南邊）；西端貼西牆
             x0, x1, z0, z1 = bx['US_TUB']; place(tops, 'US_TUB', WB + x1 + 0.005, 0.0, SB + z0 - 0.005, math.pi)
         if 'US_TOILET' in bx:     # 靠西牆、面向東：ry=π/2（本地 −z 的水箱轉到西邊）
@@ -424,14 +430,104 @@ if US4_OK:
         if 'US_VANITY' in bx:     # 貼東牆、面向西：ry=−π/2（本地 −z 的牆面那一側轉到東邊）
             x0, x1, z0, z1 = bx['US_VANITY']; vn = F['vanity']; place(tops, 'US_VANITY', EB + z0 - 0.005, 0.0, (vn['z0'] + vn['z1']) / 2, -math.pi / 2)
         if 'US_TOWELBAR' in bx:   # 北牆、門的西邊（馬桶上方偏東），面向南
-            x0, x1, z0, z1 = bx['US_TOWELBAR']; place(tops, 'US_TOWELBAR', 1.3, 0.0, NB - z0 + 0.005, 0.0)
+            x0, x1, z0, z1 = bx['US_TOWELBAR']; place(tops, 'US_TOWELBAR', F['towelbar']['x'] if 'towelbar' in F else 1.3, 0.0, NB - z0 + 0.005, 0.0)
         if 'US_BATHMAT' in bx:    # 浴缸前面，長邊和浴缸平行
-            x0, x1, z0, z1 = bx['US_BATHMAT']; place(tops, 'US_BATHMAT', 1.5, 0.0, 1.92, 0.0 if (x1 - x0) >= (z1 - z0) else math.pi / 2)
+            _bm = F.get('bathmat', {'x': 1.5, 'z': 1.92}); x0, x1, z0, z1 = bx['US_BATHMAT']; place(tops, 'US_BATHMAT', _bm['x'], 0.0, _bm['z'], 0.0 if (x1 - x0) >= (z1 - z0) else math.pi / 2)
         bc = F.get('balconyChairs', {})
         for (cx, cz, a) in bc.get('chairs', [(-2.15, -4.1, 0.2), (-1.05, -4.1, -0.2)]): place(tops, 'US_BALCONY_CHAIR', cx, 0.0, cz, math.pi + a)   # 面向欄杆（北）
         if 'US_BALCONY_TABLE' in tops: tb_ = bc.get('table', {'x': -1.6, 'z': -4.15}); place(tops, 'US_BALCONY_TABLE', tb_['x'], 0.0, tb_['z'], 0.0)
         for o in new:
             if o.name in bpy.data.objects: bpy.data.objects.remove(o)
+
+# ======================== 走得進去的衣物間（walk-in closet；v3，使用者 10-27「有一個小的 WALKIN CLOSET 不是衣櫃」）========================
+# 美國公寓常見的白色鐵線層架：一層鐵線層板＋前緣下面的吊衣桿；西牆、南牆各一排（配置 closetRods 的 west、south：吊衣區的範圍）。
+# 衣服是頂點色的薄片（肩膀斜、下襬寬一點；襯衫、T 恤、外套、長大衣長短不一），掛在白色衣架上；層板上摺好的衣服、收納盒；地上鞋子；
+# 行李箱立在西南角最裡面（AA 的字「行李箱塞在最裡面」）、洗衣籃在東南角。只有配置有 closetRods 的 west／south 才做（合租戶的衣物間門關著，不做）
+CL = next((f for f in LAY['furniture'] if f['type'] == 'closetRods' and 'west' in f), None)
+if CL:
+    CLM = L.vc_material(P + 'closet_vc', rough=0.8); clo = L.CMesh(P + 'closet_clothes', CLM)
+    wire = L.flat(P + 'wire_shelf', '#f1f1ee', rough=0.35); shm = Mesh(P + 'closet_shelf', wire)
+    rr_ = random.Random(1027)
+    COLS = ['#2c3a55', '#4a5568', '#e9e6df', '#1f2023', '#5d6b4a', '#7a2f35', '#3f6f9a', '#9a8a72', '#c9c3b8', '#33475b', '#6b5b4a', '#b8b2a6']
+    ROD_Y, SHELF_Y = 1.72, 1.86
+    def garment(u, axis, wall_at, inward, kind, col):
+        """一件衣服：沿衣桿的位置 u；axis＝衣桿沿哪個軸；wall_at＝背後那面牆的室內面；inward＝離開牆的方向（+1／−1）。衣服的寬（0.42～0.5）朝房間裡、厚 4～7 cm 沿衣桿"""
+        L_ = {'shirt': 0.78, 'tee': 0.66, 'jacket': 0.86, 'coat': 1.12, 'hoodie': 0.72}[kind]; W2 = (0.24 if kind in ('jacket', 'coat', 'hoodie') else 0.22) + rr_.uniform(-0.01, 0.01)
+        th = {'coat': 0.075, 'jacket': 0.07, 'hoodie': 0.065}.get(kind, 0.045); dmid = wall_at + inward * 0.30   # 衣服的中心離牆 0.30
+        top = ROD_Y - 0.05
+        prof = [(-0.07, top), (0.07, top), (W2, top - 0.08), (W2 + 0.01, top - L_ * 0.55), (W2 - 0.01, top - L_), (-W2 + 0.01, top - L_), (-W2 - 0.01, top - L_ * 0.55), (-W2, top - 0.08)]   # (橫向, 高)
+        def P3(w, y, t):   # 橫向 w（垂直於牆）、高 y、厚度 t（沿衣桿）
+            d_ = dmid + inward * w
+            return (u + t, y, d_) if axis == 'x' else (d_, y, u + t)
+        bm = clo.bm; F_ = [bm.verts.new(g2b(*P3(w, y, -th / 2))) for (w, y) in prof]; B_ = [bm.verts.new(g2b(*P3(w, y, th / 2))) for (w, y) in prof]
+        fs = [bm.faces.new(F_), bm.faces.new(B_[::-1])]
+        n_ = len(prof)
+        for i in range(n_): fs.append(bm.faces.new([F_[i], B_[i], B_[(i + 1) % n_], F_[(i + 1) % n_]]))
+        bmesh.ops.recalc_face_normals(bm, faces=fs); clo.paint(fs, col, k=rr_.uniform(0.92, 1.05))
+        # 衣架（白色塑膠）：掛鉤＋肩線
+        hk = P3(0, ROD_Y + 0.03, 0); hb = P3(0, top + 0.01, 0); acc('trim').cyl(hk, hb, 0.006, seg=6)
+        acc('trim').cyl(P3(-0.2, top - 0.03, 0), P3(0, top + 0.01, 0), 0.007, seg=6); acc('trim').cyl(P3(0, top + 0.01, 0), P3(0.2, top - 0.03, 0), 0.007, seg=6)
+    sx, sz = CL['suitcase']
+    def rack(axis, a0, a1, wall_at, inward, short=()):
+        """一排：鐵線層板（深 0.36）＋前緣的吊衣桿＋兩端的斜撐；衣服沿衣桿掛"""
+        d0, d1 = (wall_at, wall_at + inward * 0.36) if inward > 0 else (wall_at + inward * 0.36, wall_at)
+        if axis == 'x': shm.box(a0, a1, SHELF_Y - 0.012, SHELF_Y, d0, d1)
+        else: shm.box(d0, d1, SHELF_Y - 0.012, SHELF_Y, a0, a1)
+        for k in range(1, 18):   # 鐵線（看得到一條一條）
+            dd = wall_at + inward * 0.36 * k / 18
+            if axis == 'x': shm.box(a0, a1, SHELF_Y, SHELF_Y + 0.006, dd - 0.003, dd + 0.003)
+            else: shm.box(dd - 0.003, dd + 0.003, SHELF_Y, SHELF_Y + 0.006, a0, a1)
+        lip = wall_at + inward * 0.36
+        rod_a = (a0 + 0.02, ROD_Y, lip) if axis == 'x' else (lip, ROD_Y, a0 + 0.02); rod_b = (a1 - 0.02, ROD_Y, lip) if axis == 'x' else (lip, ROD_Y, a1 - 0.02)
+        acc('chrome').cyl(rod_a, rod_b, 0.014, seg=10)
+        for e in (a0 + 0.04, a1 - 0.04):   # 斜撐：牆上 1.45 → 層板前緣
+            pa = (e, 1.45, wall_at + inward * 0.01) if axis == 'x' else (wall_at + inward * 0.01, 1.45, e); pb = (e, SHELF_Y - 0.01, lip) if axis == 'x' else (lip, SHELF_Y - 0.01, e)
+            shm.cyl(pa, pb, 0.008, seg=6)
+        u = a0 + 0.08; kinds = ['shirt', 'shirt', 'tee', 'jacket', 'hoodie', 'shirt', 'coat', 'tee']
+        while u < a1 - 0.08:
+            kd = rr_.choice(['shirt', 'tee'] if any(s0 <= u <= s1 for s0, s1 in short) else kinds); garment(u, axis, wall_at, inward, kd, rr_.choice(COLS)); u += {'coat': 0.11, 'jacket': 0.1, 'hoodie': 0.095}.get(kd, 0.075) + rr_.uniform(0, 0.02)
+        # 層板上：摺好的衣服（一疊三、四件）、收納盒
+        u = a0 + 0.1
+        while u < a1 - 0.3:
+            if rr_.random() < 0.35:
+                c0 = rr_.choice(['#d8cfc0', '#8a7f72', '#4b5563', '#e8e4dc']); bw = 0.3
+                if axis == 'x': clo.crbox(u, u + bw, SHELF_Y + 0.006, SHELF_Y + 0.25, wall_at + inward * 0.03, wall_at + inward * 0.33, c0, r=0.012) if inward > 0 else clo.crbox(u, u + bw, SHELF_Y + 0.006, SHELF_Y + 0.25, wall_at + inward * 0.33, wall_at + inward * 0.03, c0, r=0.012)
+                else: clo.crbox(*sorted((wall_at + inward * 0.03, wall_at + inward * 0.33)), SHELF_Y + 0.006, SHELF_Y + 0.25, u, u + bw, c0, r=0.012)
+                u += bw + 0.06
+            else:
+                h0 = SHELF_Y + 0.006
+                for j in range(rr_.randint(2, 4)):
+                    hh = rr_.uniform(0.035, 0.05); c0 = rr_.choice(COLS)
+                    a_, b_ = sorted((wall_at + inward * 0.05, wall_at + inward * 0.31))
+                    if axis == 'x': clo.crbox(u, u + 0.28, h0, h0 + hh, a_, b_, c0, r=0.01)
+                    else: clo.crbox(a_, b_, h0, h0 + hh, u, u + 0.28, c0, r=0.01)
+                    h0 += hh
+                u += 0.34
+    W_, S_ = CL['west'], CL['south']
+    rack('z', W_['z0'] + T / 2, W_['z1'] - T / 2, W_['x0'] + T / 2, +1, short=[(sz - 0.3, sz + 0.3)])   # 西牆那一排（衣服朝東）；行李箱上面只掛短的
+    rack('x', S_['x0'] + 0.02, S_['x1'] - T / 2, S_['z1'] - T / 2, -1, short=[(2.1, 2.6)])            # 南牆那一排（衣服朝北）；洗衣籃上面只掛短的
+    # 地上：鞋子（南牆那一排下面，一雙兩隻）
+    for k, (bx_, c0) in enumerate([(1.55, '#f2f2ee'), (1.85, '#1e1f22'), (2.15, '#6b4a33')]):
+        for j in (-0.06, 0.06):
+            clo.crbox(bx_ + j - 0.045, bx_ + j + 0.045, 0.0, 0.03, 2.62, 2.9, '#e6e4de', r=0.012)          # 鞋底
+            clo.crbox(bx_ + j - 0.042, bx_ + j + 0.042, 0.03, 0.1, 2.66, 2.89, c0, r=0.025)                 # 鞋面
+    # 行李箱：立在西南角最裡面（深灰藍的硬殼、拉桿收著）
+    clo.crbox(sx - 0.21, sx + 0.21, 0.04, 0.7, sz - 0.13, sz + 0.13, '#3b4a5c', r=0.04, seg=3)
+    for gx in (sx - 0.12, sx - 0.04, sx + 0.04, sx + 0.12): clo.crbox(gx - 0.012, gx + 0.012, 0.08, 0.66, sz + 0.128, sz + 0.136, '#34414f', r=0.004, seg=1)   # 硬殼的直條紋
+    for wx in (sx - 0.16, sx + 0.16): acc('black').cyl((wx, 0.03, sz - 0.08), (wx, 0.03, sz - 0.04), 0.03, seg=10)   # 輪子
+    acc('black').box(sx - 0.1, sx + 0.1, 0.7, 0.73, sz - 0.1, sz - 0.08)   # 拉桿的把手
+    # 洗衣籃（東南角，南牆那一排下面）
+    clo.crbox(2.2, 2.48, 0.0, 0.5, 2.42, 2.82, '#cdbb98', r=0.03, seg=2); clo.crbox(2.22, 2.46, 0.5, 0.56, 2.44, 2.8, '#7a8a9a', r=0.02, seg=2)
+    # 天花板中間一盞吸頂燈
+    acc('sconce').sphere((1.6, H - 0.06, 2.0), 0.16, seg=16, rings=6, sy=0.35)
+    shm.finish(root); clo.finish(root, uv=False)
+# 衛浴：洗手台上方一條燈（v3 走得進去以後看得到；照美國公寓常見的三顆燈泡燈條）
+if any(r['id'] == 'bath' and r.get('open') for r in LAY['rooms']):
+    _vn = F.get('vanity')
+    if _vn:
+        _cz = (_vn['z0'] + _vn['z1']) / 2
+        acc('chrome').box(EB - 0.05, EB - 0.005, 1.98, 2.06, _cz - 0.35, _cz + 0.35)
+        for _k in (-0.24, 0.0, 0.24): acc('sconce').sphere((EB - 0.09, 2.02, _cz + _k), 0.055, seg=12, rings=6)
 
 # ======================== 冰箱門上的輪值表（合租戶；BB_98 2-6）========================
 def tex_chores(path):
@@ -645,6 +741,9 @@ for wid, ms in walls.items():
         nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol', 'deco_')), props=props, smooth=key.startswith('deco_coat'))   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
                     key=lambda ob: '')
+# PERF-SINGLESIDE-GLB-1025（LAWWW2-B 2026-10-25）：材質改單面（lib2.single_side）——遊戲把 WALL_* 設成 transparent 才能淡出，雙面又半透明要畫兩次。同一頁上限：公寓 2.0→3.05、C 棟 208 1.85→2.9。
+_ss = L.single_side(root, keep=r'glass', skip=lambda ob: 'FACE' in ob.name)   # 門牌（PLATE_FACE_*）遊戲照名字接手，不動網格
+print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 info = L.export(OUT, gpu_instances=True)
 info.update({'layout': LAY['version'], 'furniture': n_fur})
 L.write_json(OUT[:-4] + '.json', info)

@@ -34,4 +34,6 @@ check('① BADCLIP 存在（play、LINES、揮拍資料）',typeof BADCLIP!=='un
   const m=ASSETS.manifest['bldg.badminton_props']; check('⑤ ASSETS.manifest 有 bldg.badminton_props（building、lazy）',!!m&&m.type==='building'&&m.lazy===true);
   const p=path.join(ROOT,'assets/models/env/second_ai/badminton_props.glb'); let names=[]; if(fs.existsSync(p)){ const b=fs.readFileSync(p); const jl=b.readUInt32LE(12); names=(JSON.parse(b.slice(20,20+jl).toString()).nodes||[]).map(n=>n.name); }
   check('⑤ badminton_props.glb 有兩支球拍、羽球、球網',['badminton_racket','badminton_racket_b','badminton_shuttle','badminton_net'].every(n=>names.includes(n)),names.slice(0,8).join(' ')); }
+{ const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=g.match(/function staleCheck[\s\S]*?live=([^;]*);/);
+  check('⑥ 卡住偵測（game3d.js staleCheck）：羽球短片在演的時候算「有東西在演」——短片約 13 秒、沒有對話，超過 10 秒會跳「畫面好像停住了」（真機也會）',!!m&&/BADCLIP\.busy/.test(m[1]),m?'':'找不到 staleCheck'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
