@@ -1,0 +1,187 @@
+{
+ "walk_prog": {
+  "label": "改前（開發 bbd6a9c7d）",
+  "frames": 392,
+  "newPrograms": 30,
+  "newTextures": 586,
+  "p50": 500,
+  "p90": 768,
+  "p99": 1598,
+  "max": 2318,
+  "over1s": 9,
+  "over2xMedian": 9,
+  "excessMs": 9491,
+  "standing": null,
+  "newProgramsAt": [
+   {
+    "x": -112.6,
+    "z": 0,
+    "renderMs": 908.8,
+    "programs": [
+     "bench_wood",
+     "bike_alpha",
+     "ck_glass_lit",
+     "soc_glass_clear",
+     "soc_glass_clear",
+     "ck_bell_wash",
+     "ck_bell_wash"
+    ]
+   },
+   {
+    "x": -111.4,
+    "z": 0,
+    "renderMs": 1372.9,
+    "programs": [
+     "ext_glass_dark",
+     "ext_brick",
+     "ext_granite_dark",
+     "wz_pillar_soc",
+     "ext_ceiling",
+     "F00_000_00_Face_00_SKIN",
+     "F00_000_00_Face_00_SKIN",
+     "NF5_HairCard_HAIR",
+     "physical",
+     "F00_000_HairBack_00_HAIR"
+    ]
+   },
+   {
+    "x": -107.8,
+    "z": 0.1,
+    "renderMs": 1862.7,
+    "programs": [
+     "bball_court"
+    ]
+   },
+   {
+    "x": -101.9,
+    "z": 0.1,
+    "renderMs": 1591.1,
+    "programs": [
+     "depth",
+     "depth",
+     "depth",
+     "depth",
+     "depth"
+    ]
+   },
+   {
+    "x": -98.3,
+    "z": 0.2,
+    "renderMs": 2185.2,
+    "programs": [
+     "npc_far"
+    ]
+   },
+   {
+    "x": 96.1,
+    "z": -55.9,
+    "renderMs": 498.7,
+    "programs": [
+     "depth"
+    ]
+   },
+   {
+    "x": 96.2,
+    "z": -61.5,
+    "renderMs": 707.5,
+    "programs": [
+     "lk_gold",
+     "lk_soffit",
+     "4"
+    ]
+   },
+   {
+    "x": 95.3,
+    "z": -62.3,
+    "renderMs": 583.4,
+    "programs": [
+     "sb_roof"
+    ]
+   },
+   {
+    "x": 72,
+    "z": -74.1,
+    "renderMs": 1102.7,
+    "programs": [
+     "depth"
+    ]
+   }
+  ]
+ },
+ "walk_new": {
+  "label": "第一版：只編場景裡的",
+  "frames": 392,
+  "newPrograms": 4,
+  "newTextures": 563,
+  "p50": 488,
+  "p90": 788,
+  "p99": 1474,
+  "max": 2503,
+  "over1s": 4,
+  "over2xMedian": 4,
+  "excessMs": 5804,
+  "standing": {
+   "frames": 46,
+   "maxMs": 1077,
+   "over1s": 1
+  },
+  "newProgramsAt": [
+   {
+    "x": -111.4,
+    "z": 0,
+    "renderMs": 1466.1,
+    "programs": [
+     "F00_000_00_Face_00_SKIN",
+     "F00_000_00_Face_00_SKIN",
+     "NF5_HairCard_HAIR"
+    ]
+   },
+   {
+    "x": -98.3,
+    "z": 0.2,
+    "renderMs": 2167.2,
+    "programs": [
+     "npc_far"
+    ]
+   }
+  ]
+ },
+ "walk_new2": {
+  "label": "第二版：＋路人底模、遠距離版本",
+  "frames": 392,
+  "newPrograms": 0,
+  "newTextures": 510,
+  "p50": 486,
+  "p90": 778,
+  "p99": 1344,
+  "max": 2766,
+  "over1s": 7,
+  "over2xMedian": 8,
+  "excessMs": 8524,
+  "standing": {
+   "frames": 41,
+   "maxMs": 919,
+   "over1s": 0
+  },
+  "newProgramsAt": []
+ },
+ "walk_new3": {
+  "label": "第三版（交件）：＋主動讀一次",
+  "frames": 392,
+  "newPrograms": 0,
+  "newTextures": 451,
+  "p50": 478,
+  "p90": 712,
+  "p99": 976,
+  "max": 2579,
+  "over1s": 3,
+  "over2xMedian": 4,
+  "excessMs": 3943,
+  "standing": {
+   "frames": 163,
+   "maxMs": 1673,
+   "over1s": 13
+  },
+  "newProgramsAt": []
+ }
+}
