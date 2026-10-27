@@ -978,6 +978,51 @@ const STORY = (function(){
   S.NDL_PINGS=NDL_PINGS; S.NDL_OK=NDL_OK;
   /* 舊存檔沒有 F.ndlMiss（連續揪了幾次都沒來）：照手機裡傳過的算——從上一個麵店日往回數，連續幾個麵店日有阿哲的揪（rt_zhe_ndl_<日>，最多 3）*/
   S.ndlMissLegacy=function(G,p){ const F=G.flags||{}; let n=0; if(typeof PHONE==='undefined'||p==null) return 0; for(let d=p;d>=(F.noodleTableDay|0)&&n<3;d--){ if(!S.noodleDay(d)) continue; if(PHONE.sent(G,'rt_zhe_ndl_'+d)) n++; else break; } return n; };
+  /* 長桌閒聊（NOODLE-TEAM-WHY-1027；AA_486 第 1-4 節〔企劃線 cd824bf41〕、AA_487〔b830dd5eb〕；句子在 src/data/noodle_table.js）：使用者 10-27「麵店團存在的必要到底是?」——
+     平常的麵店日去了沒有東西演，只剩群組在揪。麵店日 17:00～21:00 人在阿鳳麵店、這一天沒有別的麵店事件要演（有的話讓給它：S.ndlOtherDue）、在麵店團群組＝一則；
+     一天一則（F.ndlTalkDay），每一年一組照順序輪（F.ndlTalkN[組]＝下一則；那一則有不認識的人、條件不符合就跳下一則，下一輪再從頭看）；在場的人熟悉 +1（SOCIAL 的 classmate，一天一次）。
+     走進來以後等兩秒（S.ndlTalkTick）：進門的事件（EVENTS.onEnter）、出遊、事件包先判斷 */
+  const NDL_REGULARS=['zhe','yu','classmate_bohan','classmate_xinci'];
+  S.ndlTalkGroup=function(G){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t) return null; if(t.id==='Y1S1') return t.week>=3?'Y1':null;   /* 大一：Y1S1 第 3 週起、Y1S2 */
+    return {Y1S2:'Y1',Y2S1:'Y2',Y2S2:'Y2',Y3S1:'Y3',Y3S2:'Y3',Y4S1:'Y4',Y4S2:'Y4'}[t.id]||null; };   /* 交換延畢的大五上沒有麵店日（AA_487 第 4 節）*/
+  S.zheYu=function(G){ const D=(G.events&&G.events.done)||{}; return !!(D.ev_yu_together||D.ev_yu_together_call||(G.flags&&G.flags.YU_ZHE_TOLD)); };   /* 阿哲和 Alison 交往以後（現有的判斷：events.js「Alison 和阿哲坐在一起」那一句、needed_msgs yu_gift）*/
+  S.ndlTalkIf=function(G,c){ if(!c) return true;
+    if(c.zheYu!=null&&S.zheYu(G)!==c.zheYu) return false;
+    if(c.ytShift&&!(typeof MREL!=='undefined'&&MREL.ytShift&&MREL.ytShift(G))) return false;   /* 語彤在顧店（multirel3d.js：她的作息在麵店）*/
+    if(c.term){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!t||!c.term.includes(t.id)) return false; }
+    if(c.from){ const d=S.dayOfKey(c.from); if(d==null||G.day<d) return false; }
+    if(c.anJapan){ const p=S.presence('heroine_01',G); if(!(p&&p.here===false&&p.kind==='abroad'&&p.away==='日本')) return false; }   /* 以安在日本（characters.js absentDates 2028-03-25～08-05）*/
+    return true; };
+  S.ndlTalkPick=function(G){ const T=typeof NOODLE_TABLE!=='undefined'?NOODLE_TABLE:null, k=S.ndlTalkGroup(G), L=T&&k&&T[k]; if(!L||!L.length) return null;
+    const N=(G.flags&&G.flags.ndlTalkN)||{}, i0=(N[k]|0)%L.length;
+    for(let n=0;n<L.length;n++){ const i=(i0+n)%L.length, e=L[i]; if(!(e.who||[]).concat(e.know||[]).every(id=>S.knows(id,G))) continue; if(!S.ndlTalkIf(G,e.if)) continue; return {k,i,e}; }
+    return null; };
+  /* 這一天有別的麵店事件要演：今天在麵店有約（出遊、邀約）、今天已經演過一件麵店事件、現在就有一件麵店事件成立（進門的、走近的、找人說話的——人要在店裡）*/
+  S.ndlOtherDue=function(G){
+    if(typeof OUT!=='undefined'&&OUT.rec&&OUT.rec(G).some(q=>q.day===G.day&&(q.state==='planned'||q.state==='done')&&/麵店/.test(q.place||'')&&!/麵舖/.test(q.place||''))) return true;   /* 今天在麵店有出遊（還沒去、去過都算：開學第一頓、考完的晚餐…；照 noodle_closed3d.js storyDue 的認法）*/
+    if((G.invites||[]).some(iv=>iv&&iv.day===G.day&&/noodle/.test(iv.place||'')&&['accepted','going','done'].includes(iv.state))) return true;   /* 今天約了人在麵店（見過面、還沒見面都算；取消、沒赴約的不算）*/
+    if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined') return false; const last=(G.events&&G.events.last)||{};
+    for(const ev of STORY_EVENTS){ if(!ev||ev.retired||ev.off) continue; const L=ev.location; if(!(L==='noodle'||(Array.isArray(L)&&L.includes('noodle')))) continue;
+      if(last[ev.id]===G.day) return true;
+      if(ev.trigger!=='enter'&&ev.trigger!=='auto'&&ev.trigger!=='interact') continue;
+      const need=ev.trigger==='interact'?(ev.participants||[])[0]:(ev.near&&ev.near.npc); if(need&&!(EVENTS.npcOf&&EVENTS.npcOf(need))) continue;   /* 要走近、要找他說話的人不在店裡＝現在演不了 */
+      let ok=false; try{ ok=!!EVENTS.check(ev); }catch(e){ ok=false; } if(ok) return true; }
+    return false; };
+  S.ndlTalkDue=function(G,other){ const F=G.flags||{}; if((G.stage||'law')!=='law'||G.zone!=='noodle'||!S.noodleDay(G.day)||F.abroad) return false; const hh=h(G); if(hh<17||hh>=21) return false;
+    if(F.ndlTalkDay===G.day||typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||!S.ndlTalkPick(G)) return false;
+    return other===false?true:!S.ndlOtherDue(G); };
+  S.ndlTalk=async function(GM){ const G=GM.G, F=G.flags, p=S.ndlTalkPick(G); if(!p) return false; F.ndlTalkDay=G.day;
+    const N=F.ndlTalkN&&typeof F.ndlTalkN==='object'?F.ndlTalkN:(F.ndlTalkN={}); N[p.k]=p.i+1;
+    const here=(p.e.who&&p.e.who.length)?p.e.who:NDL_REGULARS.filter(id=>S.knows(id,G));   /* 旁白沒有點名的那幾則：長桌上認識的麵店團 */
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ if(ADV.preload) ADV.preload(p.e.who||[]); if(ADV.begin) ADV.begin({background:'blur'}); } await EVENTS.runLines(p.e.dialogue||[],{id:'ndl_table_'+p.k+'_'+(p.i+1)}); }
+    finally { if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here) SOCIAL.activity(id,'classmate');
+    return true; };
+  let ndlTalkBusy=false, ndlTalkSeen=null;
+  S.ndlTalkTick=function(GM){ const G=GM.G; if(G.zone!=='noodle'){ ndlTalkSeen=null; return false; } if(ndlTalkBusy) return false;
+    const n=GM.enterN|0; if(!ndlTalkSeen||ndlTalkSeen.n!==n) ndlTalkSeen={n,k:0}; if(++ndlTalkSeen.k<4) return false;   /* 走進來以後等兩秒（S.tick 每 0.5 秒一次）*/
+    if((typeof EVENTS!=='undefined'&&EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||!S.ndlTalkDue(G)) return false;
+    ndlTalkBusy=true; S.ndlTalk(GM).catch(e=>console.warn('NDL_TALK',e)).finally(()=>{ ndlTalkBusy=false; }); return true; };
   S.noodleOn=function(G){ if(typeof CALENDAR==='undefined') return false; const h=G.hour%24, wd=CALENDAR.dateOf(G.day).wd; return (wd===2||wd===4)&&CALENDAR.kind(G.day)==='term'&&h>=17.5&&h<19; };
   S.noodleCount=G=>{ let sd=(G.day*7919+13)%2147483646+1; sd=(sd*16807)%2147483647; return 2+Math.floor(((sd-1)/2147483646)*3); };
   let ndlLastH=null;
@@ -1042,6 +1087,7 @@ const STORY = (function(){
     if(typeof INV!=='undefined'){ try{ INV.tick(GM); if(INV.walkChat) INV.walkChat(GM,dt); }catch(e){ console.warn('INV.tick',e); } }   /* 邀約：過了時間沒見到＝沒赴約；一起走過去的路上聊一句 */
     let outP=null; if(typeof OUT!=='undefined'){ try{ const p=OUT.tick(GM); outP=p; if(p&&p.catch) p.catch(e=>console.warn('OUT.tick',e)); }catch(e){ console.warn('OUT.tick',e); } }   /* 出遊（離開 3D 地圖的約）：時間到了問「出發」*/
     if(!outP&&!springBusy&&typeof PHONE!=='undefined'&&S.springPending(G)){ springBusy=true; S.springPrompt(GM).catch(e=>console.warn('spring',e)).finally(()=>{ springBusy=false; }); }   /* 春假三選一（交接包 v2 C9）*/
+    if(!outP&&S.ndlTalkTick(GM)) return;   /* 麵店的長桌閒聊（NOODLE-TEAM-WHY-1027，AA_486 1-4）*/
     /* 法律學院圖書館閉館（D53，使用者 2026-10-13）：閉館前 10 分鐘廣播；過了閉館時間人還在館裡，館員請你離館（回到萬才館大廳的門口），
        並告訴你下次幾點開、可以改去總圖或回宿舍。不讓法圖變成 24 小時開放（讀檔回到閉館後的館裡也一樣）*/
     if(G.zone==='lawlib'&&typeof PLACES!=='undefined'&&PLACES.hours.lawlib&&typeof LL3!=='undefined'){ const hr=h(G), w=PLACES.windowOf('lawlib',G.day);
@@ -1839,7 +1885,8 @@ const STORY = (function(){
     /* 麵店團（AA_70 2-3、AA_40 哲 1）：哲 1 那天阿哲建的群組。麵店日＝上課週的週二、週四（考試週、國定假日、出國期間沒有）。
        阿哲 17:30 在群組裡揪，只在你上一個麵店日沒來的時候（AA 2026-10-14：一直有來的玩家，群組是安靜的）；四句輪流。tag rt_＝例行訊息（每天的手機小事不把它當成劇情訊息）。
        有沒有來：麵店日 17:00–21:00 在麵店（ndlDays，最近 12 個）；開始記以前（ndlTrack0：舊存檔）的麵店日當作有來 */
-    if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ PHONE.join(G,'noodle_team','麵店團'); PHONE.post(G,{th:'g:noodle_team',text:'阿哲建立了群組「麵店團」，把你加了進來。',tag:'noodle_team_new'}); }
+    if(F.noodleTableDay!=null&&typeof CALENDAR!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')){ PHONE.join(G,'noodle_team','麵店團'); PHONE.post(G,{th:'g:noodle_team',text:'阿哲建立了群組「麵店團」，把你加了進來。',tag:'noodle_team_new'});
+        for(const t of ['以後週二週四 麵店長桌','有空就來 沒空不用講']) PHONE.post(G,{th:'g:noodle_team',from:'zhe',text:t,tag:'noodle_team_rule'}); }   /* NOODLE-TEAM-WHY-1027（AA_486 1-3）：群組建好的下一則，阿哲講清楚「長桌」是什麼（手機訊息，不加句號）；舊存檔已經在群組裡的不補 */
       if(F.ndlTrack0==null) F.ndlTrack0=G.day;
       if(G.zone==='noodle'&&S.noodleDay(G.day)&&G.hour>=17&&G.hour<21){ const L=F.ndlDays||(F.ndlDays=[]); if(L[L.length-1]!==G.day){ L.push(G.day); if(L.length>12) L.shift(); } }
       if(G.day>F.noodleTableDay&&S.noodleDay(G.day)&&!F.abroad&&!PHONE.sent(G,'rt_zhe_ndl_'+G.day)){ let p=null; for(let d=G.day-1;d>=F.noodleTableDay;d--) if(S.noodleDay(d)){ p=d; break; }   /* abroad：之後的交換系統設 */
