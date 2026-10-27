@@ -1,0 +1,1414 @@
+{
+ "campus": [
+  {
+   "label": "走出校門",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -125.5,
+   "z": -5.3
+  },
+  {
+   "label": "走出校門",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -125.5,
+   "z": 5.3
+  },
+  {
+   "label": "從後門出去（118 巷）",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 34,
+   "z": -126.6
+  },
+  {
+   "label": "進入霖澤館",
+   "to": "linze",
+   "door": true,
+   "locked": false,
+   "kind": true,
+   "leaf": null,
+   "x": 27.9,
+   "z": -107.5
+  },
+  {
+   "label": "進入萬才館",
+   "to": "wancai",
+   "door": true,
+   "locked": false,
+   "kind": true,
+   "leaf": null,
+   "x": 93.8,
+   "z": -100.6
+  },
+  {
+   "label": "進入總圖書館",
+   "to": "library_hall",
+   "door": true,
+   "locked": false,
+   "kind": true,
+   "leaf": null,
+   "x": 86.4,
+   "z": 0
+  },
+  {
+   "label": "回宿舍",
+   "to": "dorm_hall",
+   "door": true,
+   "locked": false,
+   "kind": true,
+   "leaf": null,
+   "x": 20,
+   "z": 59.6
+  },
+  {
+   "label": "進入社科院圖書館",
+   "to": "soclib",
+   "door": true,
+   "locked": false,
+   "kind": true,
+   "leaf": null,
+   "x": 11,
+   "z": -65.7
+  },
+  {
+   "label": "進入萬才館（二樓）",
+   "to": "wancai",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 87,
+   "z": -101.2
+  },
+  {
+   "label": "共同教學館",
+   "to": "gongtong",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 2,
+   "z": 22.8
+  },
+  {
+   "label": "普通教學館",
+   "to": "putong",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -38,
+   "z": -49.4
+  },
+  {
+   "label": "博雅教學館",
+   "to": "boya",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -38,
+   "z": -72.8
+  },
+  {
+   "label": "體育館",
+   "to": "gym",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 74,
+   "z": 59.4
+  }
+ ],
+ "gongguan": [
+  {
+   "label": "進入阿鳳麵店",
+   "to": "noodle",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -63,
+   "z": 21
+  },
+  {
+   "label": "進入舊路書房",
+   "to": "bookstore",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -41.6,
+   "z": 21
+  },
+  {
+   "label": "進入便利商店",
+   "to": "cvs",
+   "door": null,
+   "locked": false,
+   "kind": "auto",
+   "leaf": null,
+   "x": -29.4,
+   "z": 21
+  },
+  {
+   "label": "往溫州街",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -71,
+   "z": 20.2
+  },
+  {
+   "label": "回到校園",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -5.3,
+   "z": -47.5
+  },
+  {
+   "label": "回到校園",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 5.3,
+   "z": -47.5
+  }
+ ],
+ "wenzhou": [
+  {
+   "label": "進入兩點半 Café",
+   "to": "cafe",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 54.2,
+   "z": 0
+  },
+  {
+   "label": "進去半熟",
+   "to": "wz_brunch",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 42,
+   "z": -4.6
+  },
+  {
+   "label": "進去阿德影印輸出",
+   "to": "wz_print",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -8,
+   "z": 4.6
+  },
+  {
+   "label": "進去一盞",
+   "to": "wz_teahouse",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -20.5,
+   "z": 4.6
+  },
+  {
+   "label": "進去林家乾麵",
+   "to": "wz_lin",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 35,
+   "z": 4.6
+  },
+  {
+   "label": "進去巷子裡定食",
+   "to": "wz_teishoku",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.8,
+   "z": -4.6
+  },
+  {
+   "label": "回公館",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 51.3,
+   "z": -13.4
+  }
+ ],
+ "lane118": [
+  {
+   "label": "進滇香小館（滇緬料理）",
+   "to": "l118_dian",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.3,
+   "z": 25
+  },
+  {
+   "label": "進好家自助餐（自助餐）",
+   "to": "l118_self",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.3,
+   "z": 17.5
+  },
+  {
+   "label": "進一一八茶飲（手搖飲）",
+   "to": "l118_tea",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.3,
+   "z": 11.5
+  },
+  {
+   "label": "進巷口家常菜（家常菜）",
+   "to": "l118_home",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.3,
+   "z": -2
+  },
+  {
+   "label": "進慢讀咖啡（咖啡）",
+   "to": "l118_cafe2",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.3,
+   "z": -12.5
+  },
+  {
+   "label": "進Pasta 118（義大利麵）",
+   "to": "l118_pasta",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 4.3,
+   "z": 24
+  },
+  {
+   "label": "進韓食小廚（韓式）",
+   "to": "l118_korea",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 4.3,
+   "z": 15.5
+  },
+  {
+   "label": "進蛋包飯研究所（蛋包飯）",
+   "to": "l118_omu",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 4.3,
+   "z": 1.5
+  },
+  {
+   "label": "進六張犁麵舖（麵店）",
+   "to": "l118_noodle2",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 4.3,
+   "z": -10.5
+  },
+  {
+   "label": "回到台大（後門）",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 0,
+   "z": 48.4
+  }
+ ],
+ "classroom": [
+  {
+   "label": "離開教室",
+   "to": "linze",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_S_doorleaf",
+   "x": 0,
+   "z": 7.9
+  }
+ ],
+ "library": [
+  {
+   "label": "樓梯間：下樓（2F 自習區、1F 大廳）",
+   "to": "library_hall",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 0,
+   "z": 7.6
+  }
+ ],
+ "cafe": [
+  {
+   "label": "離開咖啡廳",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 5.6
+  }
+ ],
+ "cvs": [
+  {
+   "label": "離開便利商店",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": "auto",
+   "leaf": null,
+   "x": 0,
+   "z": 4.2
+  }
+ ],
+ "noodle": [
+  {
+   "label": "離開麵店",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 0,
+   "z": 4.2
+  }
+ ],
+ "bookstore": [
+  {
+   "label": "離開書店",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 4.6
+  }
+ ],
+ "dorm": [
+  {
+   "label": "走出房間",
+   "to": "dorm_hall",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_front_door",
+   "x": 0,
+   "z": 3.3
+  }
+ ],
+ "wz_brunch": [
+  {
+   "label": "離開半熟",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0.4,
+   "z": 4.5
+  }
+ ],
+ "wz_print": [
+  {
+   "label": "離開影印店",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 4.2
+  }
+ ],
+ "wz_teahouse": [
+  {
+   "label": "離開一盞",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -3,
+   "z": 4.6
+  }
+ ],
+ "wz_lin": [
+  {
+   "label": "離開林家乾麵",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1,
+   "z": 3.5
+  }
+ ],
+ "wz_teishoku": [
+  {
+   "label": "離開巷子裡定食",
+   "to": "wenzhou",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2,
+   "z": 3.5
+  }
+ ],
+ "linze": [
+  {
+   "label": "走出霖澤館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 7.3,
+   "z": 4
+  },
+  {
+   "label": "進入 201 階梯教室",
+   "to": "classroom",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2,
+   "z": -6.3
+  },
+  {
+   "label": "進入 202 教室",
+   "to": "linze_202",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 3,
+   "z": -6.3
+  },
+  {
+   "label": "進入 樓梯間（往 3F、4F）",
+   "to": "linze_3f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 7,
+   "z": -6.3
+  },
+  {
+   "label": "進入 法律學院辦公室",
+   "to": "linze_office",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.6,
+   "z": -6.3
+  }
+ ],
+ "wancai": [
+  {
+   "label": "離開萬才館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 6.6
+  },
+  {
+   "label": "走出去（大樓梯平台）",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -6.8,
+   "z": 6.3
+  },
+  {
+   "label": "法律學院圖書館",
+   "to": "lawlib",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -8.4,
+   "z": 6
+  },
+  {
+   "label": "進入 多功能教室",
+   "to": "wancai_multi",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 2,
+   "z": -6.3
+  },
+  {
+   "label": "進入 研討室 A",
+   "to": "wancai_sema",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -3,
+   "z": -6.3
+  },
+  {
+   "label": "進入 研討室 B",
+   "to": "wancai_semb",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.5,
+   "z": -6.3
+  }
+ ],
+ "library_hall": [
+  {
+   "label": "研究小間",
+   "to": "library_carrels",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 11.1,
+   "z": 5.6
+  },
+  {
+   "label": "進入 多媒體中心",
+   "to": "library_media",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 10.4,
+   "z": -8.1
+  },
+  {
+   "label": "離開總圖",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 8.3
+  },
+  {
+   "label": "樓梯間：往 3F 閱覽區",
+   "to": "library",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 11.1,
+   "z": -6
+  },
+  {
+   "label": "走樓梯下 B1",
+   "to": "library_b1",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -11.3,
+   "z": -2.4
+  }
+ ],
+ "library_b1": [
+  {
+   "label": "走樓梯上 1F",
+   "to": "library_hall",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -11.4,
+   "z": -2.4
+  }
+ ],
+ "library_carrels": [
+  {
+   "label": "回 2F 自習區",
+   "to": "library_hall",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": "WALL_W_door",
+   "x": -8,
+   "z": 0
+  }
+ ],
+ "library_stacks": [],
+ "dorm_hall": [
+  {
+   "label": "進入 洗衣間",
+   "to": "dorm_laundry",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -11,
+   "z": 0.5
+  },
+  {
+   "label": "敲門（205）",
+   "to": "dorm_205",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -5.5,
+   "z": 0.5
+  },
+  {
+   "label": "離開宿舍",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 7.3
+  },
+  {
+   "label": "回房間（203）",
+   "to": "dorm",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 5.5,
+   "z": -0.9
+  }
+ ],
+ "lawlib": [
+  {
+   "label": "回萬才館大廳",
+   "to": "wancai",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 6.5,
+   "z": 6.6
+  }
+ ],
+ "soclib": [
+  {
+   "label": "離開圖書館（回社科院前）",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -9,
+   "z": 10.5
+  }
+ ],
+ "gym": [
+  {
+   "label": "下樓到 B1（健身中心・游泳池）",
+   "to": "gym_b1",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 18,
+   "z": 18.2
+  },
+  {
+   "label": "上樓到 3F 主球場",
+   "to": "gym_arena",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -16,
+   "z": 17.4
+  },
+  {
+   "label": "離開體育館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 18.5
+  }
+ ],
+ "gym_b1": [
+  {
+   "label": "上樓回大廳",
+   "to": "gym",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 18,
+   "z": 7.8
+  }
+ ],
+ "gym_arena": [
+  {
+   "label": "下樓回大廳",
+   "to": "gym",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 0,
+   "z": 26.6
+  }
+ ],
+ "gongtong": [
+  {
+   "label": "上 3F（考場）",
+   "to": "gongtong_3f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -0.6,
+   "z": -0.4
+  },
+  {
+   "label": "走出共同教學館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 6.2
+  }
+ ],
+ "boya": [
+  {
+   "label": "進入 博雅 203",
+   "to": "boya_203",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -11.6,
+   "z": 1.5
+  },
+  {
+   "label": "走上空橋（往普通教學館）",
+   "to": "putong",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -3.2,
+   "z": 8.4
+  },
+  {
+   "label": "走出博雅教學館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 8.2
+  }
+ ],
+ "putong": [
+  {
+   "label": "進博雅教學館",
+   "to": "boya",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -3.2,
+   "z": -15.1
+  },
+  {
+   "label": "走出普通教學館",
+   "to": "campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 7.2
+  }
+ ],
+ "l118_dian": [
+  {
+   "label": "離開滇香小館",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.5,
+   "z": 3.5
+  }
+ ],
+ "l118_self": [
+  {
+   "label": "離開好家自助餐",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2.2,
+   "z": 4
+  }
+ ],
+ "l118_tea": [
+  {
+   "label": "離開一一八茶飲",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -0.5,
+   "z": 1.9
+  }
+ ],
+ "l118_home": [
+  {
+   "label": "離開巷口家常菜",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2.6,
+   "z": 3.8
+  }
+ ],
+ "l118_cafe2": [
+  {
+   "label": "離開慢讀咖啡",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 2.2,
+   "z": 4
+  }
+ ],
+ "l118_pasta": [
+  {
+   "label": "離開Pasta 118",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2.6,
+   "z": 3.8
+  }
+ ],
+ "l118_korea": [
+  {
+   "label": "離開韓食小廚",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 2.2,
+   "z": 3.8
+  }
+ ],
+ "l118_omu": [
+  {
+   "label": "離開蛋包飯研究所",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -2.2,
+   "z": 3.5
+  }
+ ],
+ "l118_noodle2": [
+  {
+   "label": "離開六張犁麵舖",
+   "to": "lane118",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.6,
+   "z": 3.8
+  }
+ ],
+ "linze_3f": [
+  {
+   "label": "走樓梯下樓（2F）",
+   "to": "linze",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 6.5,
+   "z": -6.5
+  },
+  {
+   "label": "走樓梯上樓（4F）",
+   "to": "linze_4f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 7.5,
+   "z": -6.5
+  }
+ ],
+ "linze_4f": [
+  {
+   "label": "走樓梯下樓（3F）",
+   "to": "linze_3f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 6.5,
+   "z": -6.5
+  }
+ ],
+ "linze_5f": [
+  {
+   "label": "走樓梯下樓（4F）",
+   "to": "linze_4f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 6.5,
+   "z": -6.5
+  }
+ ],
+ "wancai_sema": [
+  {
+   "label": "離開研討室",
+   "to": "wancai",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": 3.2,
+   "z": -2.9
+  }
+ ],
+ "linze_202": [
+  {
+   "label": "離開教室",
+   "to": "linze",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": 5.9,
+   "z": -4.3
+  }
+ ],
+ "wancai_multi": [
+  {
+   "label": "離開教室",
+   "to": "wancai",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": 4.8,
+   "z": -4
+  }
+ ],
+ "wancai_semb": [
+  {
+   "label": "離開研討室",
+   "to": "wancai",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": 2.6,
+   "z": -2.5
+  }
+ ],
+ "linze_office": [
+  {
+   "label": "離開辦公室",
+   "to": "linze",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": 2.8,
+   "z": -2.5
+  }
+ ],
+ "gongtong_3f": [
+  {
+   "label": "下樓（回 2F）",
+   "to": "gongtong",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": "WALL_N_door",
+   "x": 4.6,
+   "z": -4
+  }
+ ],
+ "boya_203": [
+  {
+   "label": "離開 203",
+   "to": "boya",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_N_door",
+   "x": -0.1,
+   "z": -2.8
+  }
+ ],
+ "dorm_laundry": [
+  {
+   "label": "離開洗衣間",
+   "to": "dorm_hall",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": -1.8
+  }
+ ],
+ "dorm_205": [
+  {
+   "label": "離開 205",
+   "to": "dorm_hall",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_front_door",
+   "x": 0,
+   "z": 3.3
+  }
+ ],
+ "library_media": [
+  {
+   "label": "離開多媒體中心",
+   "to": "library_hall",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 3.4,
+   "z": 3.1
+  }
+ ],
+ "us_bed_c": [
+  {
+   "label": "離開房間",
+   "to": "us_shared",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -1.2,
+   "z": 0.8
+  }
+ ],
+ "us_lawlib_2f": [
+  {
+   "label": "下樓（一樓）",
+   "to": "us_lawlib",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 6.4,
+   "z": -5.8
+  }
+ ],
+ "airport_dep": [
+  {
+   "label": "搭車離開（回台北）",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4,
+   "z": 18.6
+  }
+ ],
+ "us_outside": [
+  {
+   "label": "回公寓",
+   "to": "us_apartment",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 14,
+   "z": -16.4
+  },
+  {
+   "label": "出門（去超市）",
+   "to": "us_market_street",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": -38.8,
+   "z": 0
+  },
+  {
+   "label": "搭公車（去學校）",
+   "to": "us_campus",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -38.8,
+   "z": -3.6
+  },
+  {
+   "label": "上樓（C 棟 208）",
+   "to": "us_shared",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 27.4,
+   "z": 8
+  }
+ ],
+ "us_apartment": [
+  {
+   "label": "出門",
+   "to": "us_outside",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.8,
+   "z": 4
+  }
+ ],
+ "us_campus": [
+  {
+   "label": "進圖書館",
+   "to": "us_lawlib",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 2.6,
+   "z": 7.7
+  },
+  {
+   "label": "搭公車（回社區）",
+   "to": "us_outside",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -24,
+   "z": 21
+  }
+ ],
+ "us_lawlib": [
+  {
+   "label": "上 2F（書庫）",
+   "to": "us_lawlib_2f",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 6.4,
+   "z": 5.3
+  },
+  {
+   "label": "離開圖書館",
+   "to": "us_campus",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 0,
+   "z": 9.2
+  }
+ ],
+ "us_shared": [
+  {
+   "label": "敲門（臥室 C）",
+   "to": "us_bed_c",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": "WALL_S_door",
+   "x": -0.7,
+   "z": 1.4
+  },
+  {
+   "label": "出門",
+   "to": "us_outside",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": null,
+   "x": 1.8,
+   "z": 4
+  }
+ ],
+ "us_market": [
+  {
+   "label": "離開超市",
+   "to": "us_market_street",
+   "door": null,
+   "locked": false,
+   "kind": "auto",
+   "leaf": null,
+   "x": -13.5,
+   "z": 14.5
+  }
+ ],
+ "us_asian_market": [
+  {
+   "label": "出門",
+   "to": "us_market_street",
+   "door": null,
+   "locked": false,
+   "kind": "auto",
+   "leaf": null,
+   "x": 4.5,
+   "z": 5.5
+  }
+ ],
+ "airport_arr": [
+  {
+   "label": "出口（搭車回台北）",
+   "to": "gongguan",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 0,
+   "z": 10.8
+  }
+ ],
+ "us_market_street": [
+  {
+   "label": "進草原超市",
+   "to": "us_market",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": 13.5,
+   "z": -18.8
+  },
+  {
+   "label": "進竹葉亞洲超市",
+   "to": "us_asian_market",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -4.5,
+   "z": 37.3
+  },
+  {
+   "label": "搭公車（回社區）",
+   "to": "us_outside",
+   "door": null,
+   "locked": false,
+   "kind": null,
+   "leaf": null,
+   "x": -26,
+   "z": 12.6
+  }
+ ],
+ "jp_hub": [],
+ "jp_room": [
+  {
+   "label": "走出房間",
+   "to": "jp_hub",
+   "door": null,
+   "locked": false,
+   "kind": "push",
+   "leaf": "WALL_S_door",
+   "x": -0.6,
+   "z": 1.9
+  }
+ ]
+}

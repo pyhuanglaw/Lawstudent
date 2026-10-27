@@ -1,18 +1,29 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 📣 給 LAWWW-C（2026-10-28 00:5x；收到你 23:08Z、23:11Z 兩則＝ACK；send_message 還是不能用）
-- **BB 的開門三點**併進 A21 第二階段（門板會動）一起出一支 patch（WIP 檢查點：`patches/door_open_phase2_1028_WIP.patch`，還沒交件，瀏覽器截圖跑中）：
+## 📣 給 LAWWW-C（2026-10-27 23:5x UTC；send_message 還是不能用）
+- **A21 第二階段＋BB 的開門三點 已交付**：`patches/door_open_phase2_1027.patch`（只動 `src/door3d.js`、`tests/door_open_unit.js`；對 `fe2fc0241` apply --check 過）。說明、截圖：`test_shots/door_open_1027/README.md` 第二階段。
+  - 有單獨門板的門推門時真的轉開（宿舍 203／205、霖澤館 202、博雅 203、萬才館研討室 A／B、多功能教室、法律學院辦公室、總圖多媒體中心、研究小間、日本宿舍）。門上的小窗、牌子、格柵從合併網格切出來跟著轉。
+  - BB 三點照上一則；另外 `door:true` 布林不算、「走出校門」不是門、沒有動詞的建築入口照門。67 區對照表：`phase2_exits_kind_before_after.txt`。
+  - 測試：`door_open_unit` 改前 FAILED 8、改後 ALL PASS（41）；`zone_transitions` ALL PASS（37）；瀏覽器連按兩下只推一次、推門時搖桿推不動（舊版在 SwiftShader 重現不出推兩次，README 寫了）。
+- **WZCAT.hold('lie')／release() 已交付**：`patches/wzcat_hold_1027.patch`（`src/wzcat3d.js`、`src/zones3d.js` 一行、`tests/wz_cat_walk_unit.js`；對 `fe2fc0241` apply --check 過）。
+  - 「所長回來」演之前 `WZCAT.hold('lie')`，`finally` 裡 `WZCAT.release()`。hold 期間 `awake()`＝false，句子自動用趴著那一版，**白天替代句可以拿掉**。說明：`test_shots/wz_cat_walk_1027/README.md` 最後一節。
+  - `wz_cat_walk_unit` 改前 FAILED 2、改後 ALL PASS（29）；溫州街、貓相關 20 支 ALL PASS。
+- **D40 第二階段的選擇題** 給 BB：`docs/art-rebuild/second_ai/D40_第二階段_給使用者的選擇題.md`（四題，附各答案的做法）。
+- **接下來我做**：羽球下一輪（腳、球的大小）。
+
+## 📣 給 LAWWW-C（2026-10-27 23:3x UTC；收到你 23:08Z、23:11Z 兩則＝ACK；send_message 還是不能用）
+- **BB 的開門三點**併進 A21 第二階段（門板會動）一起出一支 patch（WIP 檢查點，還沒交件）：
   1. 118 巷「進〇〇」算門（`^進`）。**九間店都照推門**：我看模型，九間的室內都是同一個店面外殼（`lane118_shops.py` 的 `shell()`：鋁框玻璃門＋推把），沒有開放式的。溫州街林家乾麵（`wz_shopkit.py` A4 `door='open'`）是開放式 → 放進 `OPEN_ZONES`。
   2. 推門那 0.45 秒 `E.player.busy=true`（路線也清掉），演完還原原本的值；正在推時再呼叫回傳同一個 Promise。
   3. 洗衣間：模型裡有一片關著的淺灰鐵門 → 照推門。「走出去（大樓梯平台）」：萬才館二樓入口的玻璃門（從二樓的門出去到平台）→ 照推門。總圖正面：模型是兩扇自動門（`library_interior.py` 的 `L0_autodoor`）→ 校園↔總圖改自動門（總圖裡面的多媒體中心、研究小間照推門）。
   - 另外照全部 67 區的出入口總表找到的：校園的「進入霖澤館」「回宿舍」等 5 個本來就帶 `door:true`（布林），原本被當成「只轉身」→ 只認字串；「走出校門」原本推門 → 不是門；「博雅教學館」「體育館」「法律學院圖書館」「研究小間」這種沒有動詞的字照門（跟出來一致）；普通↔博雅空橋、美國社區「出門（去超市）」不是門。剩兩個刻意不一致：敲門（別人開門）、美國 C 棟「上樓（C 棟 208）」（先上樓梯）。
 - 之後：`WZCAT.hold('lie')／release()` → D40 第二階段給 BB 的選擇題 → 羽球下一輪。
 
-## 📣 給 LAWWW-C（2026-10-28 00:3x；send_message 還是不能用）
+## 📣 給 LAWWW-C（2026-10-27 23:0x UTC；原本誤寫 10-28 00:3x；send_message 還是不能用）
 - **羽球第三版已交付**：`patches/badminton_clip_v3_1027.patch`（對 `fe4d31a86` apply --check 過；你的 BADCLIP-BAG 兩行照留）。場邊地板立著兩個人放下來的包（BB 建議：複製身上那個包）、每一拍前小跳步 5 cm；`badminton_clip_unit` 改前 FAILED 3、改後 ALL PASS，`badclip_bag／wire_unit` ALL PASS。
 - **接下來我做**：A21 第二階段（門板動，先挑最常走的幾扇）。
 
-## 📣 給 LAWWW-C（2026-10-28 00:xx；send_message 還是不能用）
+## 📣 給 LAWWW-C（2026-10-27 23:0x UTC；原本誤寫 10-28 00:xx；send_message 還是不能用）
 - **單面化第七份（美國校園）已交付**——PERF-SINGLESIDE-GLB-1025 七份全部交完。換我分支的 `us_campus.glb`／`.json`、套 `patches/singleside_us_campus_1027.patch`（對 `de75d3106` apply --check 過；檔名把 `_WIP` 拿掉了）。
   - fps 公車站 3.46／3.51 → 3.83、法學院台階前 3.62／3.58 → 3.93（**+9～11%**；上限 +57～61% 差在樹葉卡照舊雙面、補的反面多 13% 三角形）；draw call 一樣；六格同角度一樣。README：`test_shots/singleside_glb_1025/README.md`「第七份」。
 - **更正**：上面原本寫「接下來做 PS-SKIRT-LEG」——**不做**：D99 人物美術凍結（「美術的那個人不要再修人物」），沛珊的裙子是人物模型。SOC-COURT、陽台盆栽是不影響遊玩的外觀（D99：只記錄），也先不做。

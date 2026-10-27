@@ -1,0 +1,128 @@
+campus           走出校門                     →gongguan         push → none  回程 none/none  ★改
+campus           走出校門                     →gongguan         push → none  回程 none/none  ★改
+campus           從後門出去（118 巷）             →lane118          none → none  回程 none
+campus           進入霖澤館                    →linze            true → push  回程 push  ★改
+campus           進入萬才館                    →wancai           true → push  回程 push/push  ★改
+campus           進入萬才館（二樓）                →wancai           push → push  回程 push/push
+campus           進入總圖書館                   →library_hall     true → auto  回程 auto  ★改
+campus           回宿舍                      →dorm_hall        true → push  回程 push  ★改
+campus           進入社科院圖書館                 →soclib           true → push  回程 push  ★改
+campus           共同教學館                    →gongtong         none → push  回程 push  ★改
+campus           普通教學館                    →putong           none → push  回程 push  ★改
+campus           博雅教學館                    →boya             none → push  回程 push  ★改
+campus           體育館                      →gym              none → push  回程 push  ★改
+gongguan         進入阿鳳麵店                   →noodle           none → none  回程 none
+gongguan         進入舊路書房                   →bookstore        push → push  回程 push
+gongguan         進入便利商店                   →cvs              auto → auto  回程 auto
+gongguan         往溫州街                     →wenzhou          none → none  回程 none
+gongguan         回到校園                     →campus           none → none  回程 none/none
+gongguan         回到校園                     →campus           none → none  回程 none/none
+wenzhou          進入兩點半 Café               →cafe             push → push  回程 push
+wenzhou          進去半熟                     →wz_brunch        none → push  回程 push  ★改
+wenzhou          進去阿德影印輸出                 →wz_print         none → push  回程 push  ★改
+wenzhou          進去一盞                     →wz_teahouse      none → push  回程 push  ★改
+wenzhou          進去林家乾麵                   →wz_lin           none → none  回程 none
+wenzhou          進去巷子裡定食                  →wz_teishoku      none → push  回程 push  ★改
+wenzhou          回公館                      →gongguan         none → none  回程 none
+lane118          進滇香小館（滇緬料理）              →l118_dian        none → push  回程 push  ★改
+lane118          進好家自助餐（自助餐）              →l118_self        none → push  回程 push  ★改
+lane118          進一一八茶飲（手搖飲）              →l118_tea         none → push  回程 push  ★改
+lane118          進巷口家常菜（家常菜）              →l118_home        none → push  回程 push  ★改
+lane118          進慢讀咖啡（咖啡）                →l118_cafe2       none → push  回程 push  ★改
+lane118          進Pasta 118（義大利麵）         →l118_pasta       none → push  回程 push  ★改
+lane118          進韓食小廚（韓式）                →l118_korea       none → push  回程 push  ★改
+lane118          進蛋包飯研究所（蛋包飯）             →l118_omu         none → push  回程 push  ★改
+lane118          進六張犁麵舖（麵店）               →l118_noodle2     none → push  回程 push  ★改
+lane118          回到台大（後門）                 →campus           none → none  回程 none
+classroom        離開教室                     →linze            push → push  回程 push
+library          樓梯間：下樓（2F 自習區、1F 大廳）     →library_hall     none → none  回程 none
+cafe             離開咖啡廳                    →wenzhou          push → push  回程 push
+cvs              離開便利商店                   →gongguan         auto → auto  回程 auto
+noodle           離開麵店                     →gongguan         none → none  回程 none
+bookstore        離開書店                     →gongguan         push → push  回程 push
+dorm             走出房間                     →dorm_hall        push → push  回程 push
+wz_brunch        離開半熟                     →wenzhou          push → push  回程 push
+wz_print         離開影印店                    →wenzhou          push → push  回程 push
+wz_teahouse      離開一盞                     →wenzhou          push → push  回程 push
+wz_lin           離開林家乾麵                   →wenzhou          push → none  回程 none  ★改
+wz_teishoku      離開巷子裡定食                  →wenzhou          push → push  回程 push
+linze            走出霖澤館                    →campus           push → push  回程 push
+linze            進入 201 階梯教室              →classroom        push → push  回程 push
+linze            進入 202 教室                →linze_202        push → push  回程 push
+linze            進入 樓梯間（往 3F、4F）          →linze_3f         none → none  回程 none
+linze            進入 法律學院辦公室               →linze_office     push → push  回程 push
+wancai           離開萬才館                    →campus           push → push  回程 push/push
+wancai           走出去（大樓梯平台）               →campus           push → push  回程 push/push
+wancai           法律學院圖書館                  →lawlib           none → push  回程 push  ★改
+wancai           進入 多功能教室                 →wancai_multi     push → push  回程 push
+wancai           進入 研討室 A                 →wancai_sema      push → push  回程 push
+wancai           進入 研討室 B                 →wancai_semb      push → push  回程 push
+library_hall     研究小間                     →library_carrels  none → push  回程 push  ★改
+library_hall     進入 多媒體中心                 →library_media    push → push  回程 push
+library_hall     離開總圖                     →campus           push → auto  回程 auto  ★改
+library_hall     樓梯間：往 3F 閱覽區             →library          none → none  回程 none
+library_hall     走樓梯下 B1                  →library_b1       none → none  回程 none
+library_b1       走樓梯上 1F                  →library_hall     none → none  回程 none
+library_carrels  回 2F 自習區                 →library_hall     none → push  回程 push  ★改
+dorm_hall        進入 洗衣間                   →dorm_laundry     push → push  回程 push
+dorm_hall        敲門（205）                  →dorm_205         none → none  回程 push  ←不對稱
+dorm_hall        離開宿舍                     →campus           push → push  回程 push
+dorm_hall        回房間（203）                 →dorm             push → push  回程 push
+lawlib           回萬才館大廳                   →wancai           push → push  回程 push
+soclib           離開圖書館（回社科院前）             →campus           push → push  回程 push
+gym              下樓到 B1（健身中心・游泳池）         →gym_b1           none → none  回程 none
+gym              上樓到 3F 主球場               →gym_arena        none → none  回程 none
+gym              離開體育館                    →campus           push → push  回程 push
+gym_b1           上樓回大廳                    →gym              none → none  回程 none
+gym_arena        下樓回大廳                    →gym              none → none  回程 none
+gongtong         上 3F（考場）                 →gongtong_3f      none → none  回程 none
+gongtong         走出共同教學館                  →campus           push → push  回程 push
+boya             進入 博雅 203                →boya_203         push → push  回程 push
+boya             走上空橋（往普通教學館）             →putong           none → none  回程 none
+boya             走出博雅教學館                  →campus           push → push  回程 push
+putong           進博雅教學館                   →boya             none → none  回程 none
+putong           走出普通教學館                  →campus           push → push  回程 push
+l118_dian        離開滇香小館                   →lane118          push → push  回程 push
+l118_self        離開好家自助餐                  →lane118          push → push  回程 push
+l118_tea         離開一一八茶飲                  →lane118          push → push  回程 push
+l118_home        離開巷口家常菜                  →lane118          push → push  回程 push
+l118_cafe2       離開慢讀咖啡                   →lane118          push → push  回程 push
+l118_pasta       離開Pasta 118              →lane118          push → push  回程 push
+l118_korea       離開韓食小廚                   →lane118          push → push  回程 push
+l118_omu         離開蛋包飯研究所                 →lane118          push → push  回程 push
+l118_noodle2     離開六張犁麵舖                  →lane118          push → push  回程 push
+linze_3f         走樓梯下樓（2F）                →linze            none → none  回程 none
+linze_3f         走樓梯上樓（4F）                →linze_4f         none → none  回程 none
+linze_4f         走樓梯下樓（3F）                →linze_3f         none → none  回程 none
+linze_5f         走樓梯下樓（4F）                →linze_4f         none → none  回程 -
+wancai_sema      離開研討室                    →wancai           push → push  回程 push
+linze_202        離開教室                     →linze            push → push  回程 push
+wancai_multi     離開教室                     →wancai           push → push  回程 push
+wancai_semb      離開研討室                    →wancai           push → push  回程 push
+linze_office     離開辦公室                    →linze            push → push  回程 push
+gongtong_3f      下樓（回 2F）                 →gongtong         none → none  回程 none
+boya_203         離開 203                   →boya             push → push  回程 push
+dorm_laundry     離開洗衣間                    →dorm_hall        push → push  回程 push
+dorm_205         離開 205                   →dorm_hall        push → push  回程 none  ←不對稱
+library_media    離開多媒體中心                  →library_hall     push → push  回程 push
+us_bed_c         離開房間                     →us_shared        push → push  回程 none  ←不對稱
+us_lawlib_2f     下樓（一樓）                   →us_lawlib        none → none  回程 none
+airport_dep      搭車離開（回台北）                →gongguan         none → none  回程 -
+us_outside       回公寓                      →us_apartment     push → push  回程 push
+us_outside       出門（去超市）                  →us_market_street push → none  回程 none  ★改
+us_outside       搭公車（去學校）                 →us_campus        none → none  回程 none
+us_outside       上樓（C 棟 208）              →us_shared        none → none  回程 push  ←不對稱
+us_apartment     出門                       →us_outside       push → push  回程 push
+us_campus        進圖書館                     →us_lawlib        none → push  回程 push  ★改
+us_campus        搭公車（回社區）                 →us_outside       none → none  回程 none
+us_lawlib        上 2F（書庫）                 →us_lawlib_2f     none → none  回程 none
+us_lawlib        離開圖書館                    →us_campus        push → push  回程 push
+us_shared        敲門（臥室 C）                 →us_bed_c         none → none  回程 push  ←不對稱
+us_shared        出門                       →us_outside       push → push  回程 none  ←不對稱
+us_market        離開超市                     →us_market_street auto → auto  回程 auto
+us_asian_market  出門                       →us_market_street auto → auto  回程 auto
+airport_arr      出口（搭車回台北）                →gongguan         none → none  回程 -
+us_market_street 進草原超市                    →us_market        none → auto  回程 auto  ★改
+us_market_street 進竹葉亞洲超市                  →us_asian_market  none → auto  回程 auto  ★改
+us_market_street 搭公車（回社區）                 →us_outside       none → none  回程 none
+jp_room          走出房間                     →jp_hub           push → push  回程 -

@@ -1,10 +1,10 @@
 diff --git a/src/door3d.js b/src/door3d.js
-index 8453103b5..3d20e4d35 100644
+index 8453103b5..cc3f3826d 100644
 --- a/src/door3d.js
 +++ b/src/door3d.js
-@@ -1,38 +1,88 @@
+@@ -1,38 +1,99 @@
 -/* ===== 人物開門（ANIM-DOOR-OPEN-1027／USER_WANTS A21「人物動作要有開門」第一階段；LAWWW2-C 2026-10-27）=====
-+/* ===== 人物開門（ANIM-DOOR-OPEN-1027／USER_WANTS A21「人物動作要有開門」第一、二階段；LAWWW2-C 2026-10-27／28）=====
++/* ===== 人物開門（ANIM-DOOR-OPEN-1027／USER_WANTS A21「人物動作要有開門」第一、二階段；LAWWW2-C 2026-10-27）=====
     玩家按「進入／離開／走出／出門…」這種有門的出入口：先轉向門、伸右手推門（約 0.45 秒），接著照舊變黑換區域；畫面全黑以後手放下。
 -   - 自動門（便利商店、美國的兩家超市、機場）：不伸手，只轉向門口。開放式的店面（阿鳳麵店）：不是門。
 +   - 自動門（便利商店、美國的兩家超市、機場、總圖正面）：不伸手，只轉向門口。開放式的店面（阿鳳麵店、林家乾麵）：不是門。
@@ -58,7 +58,7 @@ index 8453103b5..3d20e4d35 100644
 -      if(now()-t0>=total){ if(push) watch(GM); res(k); return; } raf(f); }; raf(f); }); };
 +      if(sw) swingAt(sw);
 +      if(now()-t0>=total){ P.busy=busy0; cur=null; if(push) watch(GM,sw); res(k); return; } raf(f); }; raf(f); }); };
-+  /* ---- 第二階段（ANIM-DOOR-OPEN-1027 第二階段，LAWWW2-C 10-28）：門板真的轉開 ----
++  /* ---- 第二階段（ANIM-DOOR-OPEN-1027 第二階段，LAWWW2-C 10-27）：門板真的轉開 ----
 +     很多室內的門板本來就是模型裡單獨的一個網格（宿舍房門 WALL_front_door、霖澤館 202／博雅 203／萬才館研討室 WALL_N_door、社科院教室 door_class_*_leaf、美國公寓 WALL_S_door…，
 +     0.6～1.7 m 寬、1.8～2.8 m 高、13 cm 以下厚）：推門時找出入口 2.6 m 內、大小像一片門板的網格，繞門邊（鉸鏈）往遠離玩家的方向轉 70°（跟著推門的手，0.45 秒）。
 +     門板後面緊貼著牆（門是貼在牆上的、沒有門洞）：不轉（轉開會看到牆）。門後面空的（隔壁是另一個區域，看出去是天空色）：門洞後面放一張暗的走廊底卡。
@@ -74,7 +74,7 @@ index 8453103b5..3d20e4d35 100644
 +    if(ps){ if(ps.card&&!ps.card.parent) root.add(ps.card); return ps; }   /* 同一扇門再推一次：用同一個鉸鏈 */
 +    const c=bb.getCenter(V3()), pp=P.obj.position, alongX=(bb.max.x-bb.min.x)>=(bb.max.z-bb.min.z);
 +    const from=new THREE.Vector3(pp.x,c.y,pp.z), dir=c.clone().sub(from).setY(0); const dist=dir.length(); if(dist<0.05) return null; dir.normalize();
-+    const rid=riders(root,o,bb,alongX);   /* 門上的小窗、門把、牌子、通風格柵：跟著門板轉（10-28 截圖：只轉門板，小窗和「演出中」牌子浮在半空）*/
++    const rid=riders(root,o,bb,alongX);   /* 門上的小窗、門把、牌子、通風格柵：跟著門板轉（10-27 截圖：只轉門板，小窗和「演出中」牌子浮在半空）*/
 +    const rc=new THREE.Raycaster(from,dir,dist+0.03,dist+3); const hits=rc.intersectObject(root,true).filter(h=>h.object!==o&&h.object.isMesh&&!rid.includes(h.object));
 +    if(hits.length&&hits[0].distance<dist+0.25) return null;   /* 門板後面緊貼著牆：不轉 */
 +    const h=alongX?new THREE.Vector3(bb.min.x,0,c.z):new THREE.Vector3(c.x,0,bb.min.z), F=alongX?new THREE.Vector3(bb.max.x,0,c.z):new THREE.Vector3(c.x,0,bb.max.z);
@@ -84,15 +84,26 @@ index 8453103b5..3d20e4d35 100644
 +    piv.attach(o); rid.forEach(r=>piv.attach(r));
 +    let card=null; if(!hits.length){ card=beyondCard(bb,c,dir); root.add(card); }   /* 門後面空的：放走廊底卡 */
 +    const sw={piv,ang:sgn*S.SWING,o,bb,card,riders:rid,t0:0,gen:0}; piv.userData.doorSw=sw; return sw; }
-+  /* 門上的零件：整個在門板範圍裡（厚度方向前後各放寬 12 cm＝門把、牌子凸出來的部分，寬高各放寬 4 cm）、比門板小的網格 */
-+  function riders(root,o,bb,alongX){ const out=[], ex=alongX?[0.04,0.04,0.12]:[0.12,0.04,0.04], lo=bb.min.clone().sub(new THREE.Vector3(...ex)), hi=bb.max.clone().add(new THREE.Vector3(...ex));
-+    root.traverse(m=>{ if(!m.isMesh||m===o||m.isSkinnedMesh||m.name==='door_beyond_card') return; let p=m.parent; while(p&&p!==root){ if(p===o) return; p=p.parent; }
-+      const b=new THREE.Box3().setFromObject(m); if(b.isEmpty()) return; if(b.min.x>=lo.x&&b.min.y>=lo.y&&b.min.z>=lo.z&&b.max.x<=hi.x&&b.max.y<=hi.y&&b.max.z<=hi.z) out.push(m); });
++  /* 門上的零件（小窗、門把、牌子、通風格柵）：門板範圍裡（厚度方向前後各放寬 12 cm＝門把、牌子凸出來的部分，寬高各放寬 4 cm）。
++     整個在範圍裡的網格直接跟著轉；併在別的網格裡的（Blender 照材質合併：202 的小窗在 linze_202_props、博雅 203 的「演出中」在 WALL_N_print、宿舍門的通風格柵在 WALL_front_black）
++     把三個頂點都在範圍裡的三角形切出來（splitOut），變成新的網格跟著轉——門框、牆、踢腳板的三角形比範圍長，不會被切到 */
++  function riders(root,o,bb,alongX){ const out=[], list=[], ex=alongX?[0.04,0.04,0.12]:[0.12,0.04,0.04], box=new THREE.Box3(bb.min.clone().sub(new THREE.Vector3(...ex)),bb.max.clone().add(new THREE.Vector3(...ex)));
++    root.traverse(m=>{ if(!m.isMesh||m===o||m.isSkinnedMesh||m.isInstancedMesh||m.name==='door_beyond_card') return; let p=m.parent; while(p&&p!==root){ if(p===o) return; p=p.parent; } list.push(m); });
++    for(const m of list){ const b=new THREE.Box3().setFromObject(m); if(b.isEmpty()||!b.intersectsBox(box)) continue; if(box.containsBox(b)){ out.push(m); continue; } const r=splitOut(m,box); if(r) out.push(r); }
 +    return out; }
++  function splitOut(m,box){ const g=m.geometry, pos=g&&g.attributes&&g.attributes.position; if(!pos||!m.parent||Array.isArray(m.material)||(g.morphAttributes&&Object.keys(g.morphAttributes).length)) return null;
++    const idx=g.index, n=idx?idx.count:pos.count, v=new THREE.Vector3(), inV=new Uint8Array(pos.count); m.updateWorldMatrix(true,false);
++    for(let i=0;i<pos.count;i++){ v.fromBufferAttribute(pos,i).applyMatrix4(m.matrixWorld); inV[i]=box.containsPoint(v)?1:0; }
++    const keep=[], take=[]; for(let t=0;t+2<n;t+=3){ const a=idx?idx.getX(t):t, b=idx?idx.getX(t+1):t+1, c=idx?idx.getX(t+2):t+2; (inV[a]&&inV[b]&&inV[c]?take:keep).push(a,b,c); }
++    if(!take.length) return null;
++    const sub=L=>{ const q=new THREE.BufferGeometry(); for(const k in g.attributes) q.setAttribute(k,g.attributes[k]); q.setIndex(L); const bx=new THREE.Box3(); for(const i of L) bx.expandByPoint(v.fromBufferAttribute(pos,i));
++      q.boundingBox=bx; q.boundingSphere=bx.getBoundingSphere(new THREE.Sphere()); return q; };   /* 頂點共用、只換三角形清單：原本的幾何（可能是快取共用的）不動；包圍盒只算用到的頂點（computeBoundingBox 會算全部的頂點）*/
++    m.geometry=sub(keep); const r=new THREE.Mesh(sub(take),m.material); r.name=(m.name||'mesh')+'_doorpart'; r.position.copy(m.position); r.quaternion.copy(m.quaternion); r.scale.copy(m.scale);
++    r.userData=Object.assign({},m.userData); r.castShadow=m.castShadow; r.receiveShadow=m.receiveShadow; r.renderOrder=m.renderOrder; r.frustumCulled=m.frustumCulled; m.parent.add(r); r.updateMatrixWorld(true); return r; }   /* 同一個材質：牆淡出時跟著淡 */
 +  function swingAt(sw,back){ const t=(now()-sw.t0)/1000, a0=sw.from||0; sw.piv.rotation.y=back?0:a0+(sw.ang-a0)*sm(t/S.T_SWING); }
 +  function beyondCard(bb,c,dir){ const sz=bb.getSize(V3()), w=Math.max(sz.x,sz.z)*1.2, h=sz.y*1.06;
 +    let tex=null; if(typeof document!=='undefined'&&document.createElement){ const cv=document.createElement('canvas'); cv.width=32; cv.height=64; const g=cv.getContext('2d'), gr=g.createLinearGradient(0,0,0,64);
-+      gr.addColorStop(0,'#3b3631'); gr.addColorStop(0.45,'#6b645b'); gr.addColorStop(0.8,'#4a443d'); gr.addColorStop(1,'#2b2724'); g.fillStyle=gr; g.fillRect(0,0,32,64); tex=new THREE.CanvasTexture(cv); if(THREE.SRGBColorSpace) tex.colorSpace=THREE.SRGBColorSpace; }   /* 沒設 sRGB 會被當成線性、看起來偏白（10-28 截圖）*/
++      gr.addColorStop(0,'#3b3631'); gr.addColorStop(0.45,'#6b645b'); gr.addColorStop(0.8,'#4a443d'); gr.addColorStop(1,'#2b2724'); g.fillStyle=gr; g.fillRect(0,0,32,64); tex=new THREE.CanvasTexture(cv); if(THREE.SRGBColorSpace) tex.colorSpace=THREE.SRGBColorSpace; }   /* 沒設 sRGB 會被當成線性、看起來偏白（10-27 截圖）*/
 +    const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial(tex?{map:tex}:{color:0x4a443d})); m.name='door_beyond_card';
 +    m.position.set(c.x+dir.x*0.4,bb.min.y+h/2,c.z+dir.z*0.4); m.rotation.y=Math.atan2(-dir.x,-dir.z); return m; }   /* 正面朝玩家 */
 +  S._swingSetup=swingSetup; S._swingAt=swingAt;   /* 測試用 */
@@ -105,13 +116,13 @@ index 8453103b5..3d20e4d35 100644
    S.close=function(GM){ const P=GM&&GM.E&&GM.E.player, u=P&&P.obj&&P.obj.userData; if(u&&u.overlay&&u.overlay.door) u.overlay=null; };
    return S;
 diff --git a/tests/door_open_unit.js b/tests/door_open_unit.js
-index 84088e5ac..03d158cb0 100644
+index 84088e5ac..b7365ce7a 100644
 --- a/tests/door_open_unit.js
 +++ b/tests/door_open_unit.js
 @@ -1,20 +1,33 @@
 -// 人物開門（ANIM-DOOR-OPEN-1027／USER_WANTS A21 第一階段；LAWWW2-C 2026-10-27）：src/door3d.js 判斷哪些出入口是門、推門的時間、手放下；game3d.js 接線。不需要瀏覽器。
 +// 人物開門（ANIM-DOOR-OPEN-1027／USER_WANTS A21；LAWWW2-C 2026-10-27）：src/door3d.js 判斷哪些出入口是門、推門的時間、手放下；game3d.js 接線；
-+// 第二階段（10-28）：門板真的轉開（找門板、往遠離玩家的方向、後面緊貼牆不轉、門上零件跟著轉、門後面空的放底卡、沒換成轉回來）、推門期間鎖住玩家（BB-C 10-27）。不需要瀏覽器（three.js 在 Node 跑）。
++// 第二階段（10-27）：門板真的轉開（找門板、往遠離玩家的方向、後面緊貼牆不轉、門上零件跟著轉、門後面空的放底卡、沒換成轉回來）、推門期間鎖住玩家（BB-C 10-27）。不需要瀏覽器（three.js 在 Node 跑）。
  // 用法：node tests/door_open_unit.js
  const fs=require('fs'), vm=require('vm'), path=require('path');
  const ROOT=path.resolve(__dirname,'..');
@@ -128,7 +139,7 @@ index 84088e5ac..03d158cb0 100644
    ['進入便利商店','cvs','gongguan','auto'],['離開便利商店','gongguan','cvs','auto'],['過馬路（對面的亞洲超市）','us_asian_market','us_market','none'],
    ['往溫州街','wenzhou','gongguan','none'],['回到校園','campus','gongguan','none'],['回公館','gongguan','lane118','none'],['樓梯間：下樓（2F 自習區、1F 大廳）','library_hall','library','none'],
    ['上樓到 3F 主球場','gym_3f','gym','none'],['下樓到 B1（健身中心・游泳池）','gym_b1','gym','none'],['搭車離開（回台北）','campus','airport_arr','none'],['上 3F（考場）','x','y','none'],['走出去（大樓梯平台）','campus','wancai','push']];
-+/* BB-C 10-27（door_anim_probe 33 區出入口總表）＋LAWWW2-C 10-28 全部 67 區的總表：進出要一致；開放式、自動門照模型 */
++/* BB-C 10-27（door_anim_probe 33 區出入口總表）＋LAWWW2-C 10-27 全部 67 區的總表：進出要一致；開放式、自動門照模型 */
 +const CASES2=[['進六張犁麵舖（麵店）','l118_noodle2','lane118','push'],['離開六張犁麵舖','lane118','l118_noodle2','push'],['進好家自助餐（自助餐）','l118_self','lane118','push'],['進巷口家常菜（家常菜）','l118_home','lane118','push'],
 +  ['進一一八茶飲（手搖飲）','l118_tea','lane118','push'],['進慢讀咖啡（咖啡）','l118_cafe2','lane118','push'],['進Pasta 118（義大利麵）','l118_pasta','lane118','push'],
 +  ['進去半熟','wz_brunch','wenzhou','push'],['進去巷子裡定食','wz_teishoku','wenzhou','push'],['進去林家乾麵','wz_lin','wenzhou','none'],['離開林家乾麵','wenzhou','wz_lin','none'],
@@ -144,7 +155,7 @@ index 84088e5ac..03d158cb0 100644
  check('② exit.door 可以蓋過判斷（none／auto／push）',DOOR.kind({label:'進入舊路書房',exit:{to:'bookstore',door:'none'}},'gongguan')===null&&DOOR.kind({label:'往某處',exit:{to:'x',door:'push'}},'y')==='push'&&DOOR.kind({label:'進入阿鳳麵店',exit:{to:'noodle',door:'auto'}})==='auto');
  check('② label 是 getter 也讀得到',DOOR.kind({get label(){ return '離開書店'; },exit:{to:'gongguan'}},'bookstore')==='push');
  /* 推門：0.45 秒左右演完、手伸出去、轉向門；變黑以後手放下 */
-@@ -32,6 +45,53 @@ check('② label 是 getter 也讀得到',DOOR.kind({get label(){ return '離開
+@@ -32,6 +45,63 @@ check('② label 是 getter 也讀得到',DOOR.kind({get label(){ return '離開
    { const GM=mk(0,0,0); check('④ 不是門：馬上回傳 null（照舊換區域）',DOOR.open(GM,{x:0,z:2,label:'往溫州街',exit:{to:'wenzhou'}})===null); }
    { const GM=mk(0,0,0,true); check('④ 騎腳踏車：不演',DOOR.open(GM,{x:0,z:2,label:'進入舊路書房',exit:{to:'bookstore'}})===null); }
    { const GM=mk(0,0,0); GM.E.player.obj.userData.overlay={bones:{},k:1}; DOOR.close(GM); check('④ 手放下只清自己的（羽球短片的疊加姿勢不動）',!!GM.E.player.obj.userData.overlay); }
@@ -170,9 +181,19 @@ index 84088e5ac..03d158cb0 100644
 +    if(sw){ sw.piv.rotation.y=sw.ang; r.root.updateMatrixWorld(true); const c1=wpos(r.leaf), w1=wpos(r.win), s1=wpos(r.sign), p1=wpos(r.plate);
 +      check('⑦ 往遠離玩家的方向轉（推門：門板中心離玩家更遠）',c1.length()>c0.length()+0.2,c0.length().toFixed(2)+' → '+c1.length().toFixed(2));
 +      check('⑦ 轉 70°（1.22 rad）、鉸鏈在門板一邊（門板中心移動約 0.45 m×弦長）',Math.abs(Math.abs(sw.ang)-1.22)<1e-6&&Math.abs(c1.distanceTo(c0)-2*0.45*Math.sin(0.61))<0.03,c1.distanceTo(c0).toFixed(3));
-+      check('⑦ 門上的小窗、牌子跟著門板轉（10-28 截圖：浮在半空）',w1.distanceTo(w0)>0.2&&s1.distanceTo(s0)>0.2&&sw.riders.includes(r.win)&&sw.riders.includes(r.sign),'小窗 '+w1.distanceTo(w0).toFixed(2)+'、牌子 '+s1.distanceTo(s0).toFixed(2));
++      check('⑦ 門上的小窗、牌子跟著門板轉（10-27 截圖：浮在半空）',w1.distanceTo(w0)>0.2&&s1.distanceTo(s0)>0.2&&sw.riders.includes(r.win)&&sw.riders.includes(r.sign),'小窗 '+w1.distanceTo(w0).toFixed(2)+'、牌子 '+s1.distanceTo(s0).toFixed(2));
 +      check('⑦ 門旁邊牆上的門牌、門框、牆不動',p1.distanceTo(p0)<1e-6&&!sw.riders.some(m=>/frame|left|right/.test(m.name)));
 +      const card=r.root.getObjectByName('door_beyond_card'); check('⑦ 門後面空的：門洞後面放暗的底卡（正面朝玩家、在門板後面）',!!card&&card===sw.card&&wpos(card).z>2.2&&wpos(card).z<2.6,card&&wpos(card).z.toFixed(2)); } }
++  /* 門上的零件併在別的網格裡（Blender 照材質合併）：一個網格裡有門上的小窗（在門板範圍裡）、門框的直條（比門板高）、遠處的椅子 */
++  const merge=(...gs)=>{ const P=[], N=[], U=[], I=[]; let off=0; for(const q of gs){ const g=q.index?q:q; P.push(...g.attributes.position.array); N.push(...g.attributes.normal.array); U.push(...g.attributes.uv.array); for(let i=0;i<g.index.count;i++) I.push(g.index.getX(i)+off); off+=g.attributes.position.count; }
++    const m=new T.BufferGeometry(); m.setAttribute('position',new T.Float32BufferAttribute(P,3)); m.setAttribute('normal',new T.Float32BufferAttribute(N,3)); m.setAttribute('uv',new T.Float32BufferAttribute(U,2)); m.setIndex(I); return m; };
++  { const r=room('void'), E={zone:{group:r.root}}, P=mkP(0,0); const g0=merge(new T.BoxGeometry(0.25,0.25,0.06).translate(-0.15,1.55,2),new T.BoxGeometry(0.06,2.2,0.08).translate(0.47,1.1,2),new T.BoxGeometry(0.5,0.9,0.5).translate(2,0.45,0));
++    const pm=new T.Mesh(g0,new T.MeshBasicMaterial()); pm.name='room_props'; r.root.add(pm); r.root.updateMatrixWorld(true); const tri0=g0.index.count/3;
++    const sw=DOOR._swingSetup(E,IT,P); const part=sw&&sw.riders.find(m=>m.name==='room_props_doorpart');
++    if(sw){ sw.piv.rotation.y=sw.ang; r.root.updateMatrixWorld(true); }
++    const pb=part&&new T.Box3().setFromObject(part), keepTri=pm.geometry.index.count/3;
++    check('⑦ 併在別的網格裡的門上小窗：切出來跟著門板轉（12 個三角形），門框直條、遠處的椅子留在原網格（24 個）',!!part&&part.geometry.index.count/3===12&&keepTri===24&&pb.min.z>2.05,part?('切出 '+part.geometry.index.count/3+'、留 '+keepTri+'、小窗 z '+pb.min.z.toFixed(2)):'沒切出來');
++    check('⑦ 原本的幾何（可能是快取共用的）沒有被改：原網格換成新的幾何、頂點共用',g0.index.count/3===tri0&&pm.geometry!==g0&&pm.geometry.attributes.position===g0.attributes.position&&!!part&&part.material===pm.material); }
 +  { const r=room('wall'), E={zone:{group:r.root}}, P=mkP(0,0); const sw=DOOR._swingSetup(E,IT,P);
 +    check('⑧ 門板後面 8 cm 緊貼著牆（門貼在牆上、沒有門洞）：不轉、門上的零件不拆',sw===null&&r.leaf.parent===r.root&&r.win.parent===r.root); }
 +  { const r=room('far'), E={zone:{group:r.root}}, P=mkP(0,0); const sw=DOOR._swingSetup(E,IT,P);

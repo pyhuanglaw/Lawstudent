@@ -53,3 +53,28 @@
 - patch：`docs/art-rebuild/second_ai/patches/wz_cat_walk_1027.patch`
 - 正式模型：`assets/models/env/second_ai/aa_support/wz_cat.glb`＋`.json`（取代原本的；四個姿勢的名字照舊，`CAT_walk` 現在是骨架節點）
 - 原始檔：`tools/blender/env_second/aa_support/wz_cat.py`（v3）、`wz_cat_preview.py`（新）、`textures/gen/wz_cat_fur*.png`（重烘：走路姿勢那一格換成站姿）
+
+---
+
+## 劇情要貓趴在圓椅上：`WZCAT.hold('lie')`／`WZCAT.release()`（LAWWW-C 10-27 23:08Z；AA_493「所長回來」那一場）
+
+- **patch**：`docs/art-rebuild/second_ai/patches/wzcat_hold_1027.patch`（對開發分支 `fe2fc0241` apply --check 過）。
+  - 改 `src/wzcat3d.js`。
+  - `src/zones3d.js` 一行：attach 多傳晚上趴著的位置 `lie:{x,y,z,yaw}`，和晚上放趴著的貓同一個位置、同一個朝向。
+  - 改 `tests/wz_cat_walk_unit.js`。
+- **用法**：演之前 `if(typeof WZCAT!=='undefined') WZCAT.hold('lie');`，演完在 `finally` 裡 `WZCAT.release()`。hold 不存檔，讀檔以後沒有 hold。
+- **玩家會看到什麼**：
+  - 貓正在公園裡走（白天）時 hold：走路的貓藏起來，圓椅上出現趴著的貓（和晚上同一個模型、同一個位置），「摸摸」的互動點回到圓椅。
+  - 還沒進公園就 hold：進公園時 attach 不接手，`zones3d.js` 照晚上的做法放趴著的貓。下雨照舊在涼亭石桌底下（AA_493 第 5 節）。
+  - hold 期間 `WZCAT.awake()` 回傳 false，`PARK.catAwake` 跟著變：取名、環境句自動用「趴在圓椅上」那一版。所以白天的替代句可以拿掉。
+  - release 以後：拿掉趴著的貓，走路的貓從剛才的位置接著走。如果 hold 時沒有走路的貓（進公園時就是趴著的），那一次待在公園都是趴著，下次進公園才會走。
+- **測試**：`tests/wz_cat_walk_unit.js` **改前 FAILED 2、改後 ALL PASS（29 項）**。
+  - 新加的檢查：
+    - hold、release 存在。
+    - 正在走時 hold：走路的貓藏起來、圓椅上的趴姿貓出現在晚上那個位置、不再走。
+    - 互動點回到圓椅；awake 變 false。
+    - hold 期間進公園：attach 不接手。
+    - release：趴姿貓拿掉、走路的貓出現、awake 照時段，release 以後接著走。
+    - zones3d.js 有把位置交給 WZCAT。
+  - 溫州街、貓、公園相關 20 支 Node 測試（含 `aa493_cat_lines_unit`）ALL PASS。
+- **沒測**：瀏覽器截圖（LAWWW-C 接上「所長回來」那一場以後，BB 照那一場驗）；手機實機。

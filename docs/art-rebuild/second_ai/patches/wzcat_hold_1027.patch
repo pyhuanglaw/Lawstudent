@@ -1,0 +1,109 @@
+diff --git a/src/wzcat3d.js b/src/wzcat3d.js
+index bcb323d86..04de981df 100644
+--- a/src/wzcat3d.js
++++ b/src/wzcat3d.js
+@@ -6,7 +6,8 @@
+    - 「摸摸」的互動點（buildWzPark 推進 E.interactables、park:'cat' 那一個）跟著貓走。
+    - 找路用公園的導航格（E.pathTo）；幾個點在 attach 時用 E.canStand 檢查，站不住的不用。
+    - 舊的 GLB（沒有骨架、沒有動畫）：attach 回傳 false，照舊放趴著的貓。
+-   - 存檔不動（貓的位置不存）。*/
++   - 存檔不動（貓的位置不存）。
++   - 劇情要貓趴在圓椅上（AA_493「所長回來」那一場，不管幾點；LAWWW-C 10-27 23:08Z）：演之前 WZCAT.hold('lie')，演完 WZCAT.release()（請放在 finally）。見下面 S.hold。*/
+ const WZCAT=(function(){
+   const S={};
+   /* 貓會去的地方（溫州街區域座標；x 往東、z 往南）：老樹圓椅前（兩個點，最常回來）、涼亭東邊台階下、路燈下、土地公旁邊、東邊路燈和鞦韆之間、前面草地的步道邊 */
+@@ -14,9 +15,9 @@ const WZCAT=(function(){
+   S.SPEED=0.32;   /* m/s：cat_walk 一步一秒、步幅約 0.32 m（腳不滑）*/
+   S.AWAKE=[7,17.5];
+   S.NEAR=1.6; S.FAR=2.8;
+-  let cat=null;
++  let cat=null, held=null;
+   const P=()=>typeof PARK!=='undefined'?PARK:null;
+-  S.awake=function(G){ if(!G) return false; const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
++  S.awake=function(G){ if(!G||held) return false;   /* hold 期間＝趴著（取名、環境句照「趴在圓椅上」那一版：PARK.catAwake 照這個）*/ const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
+     if(K&&((K.rainy&&K.rainy(G))||(K.catCold&&K.catCold(G))||(K.catLost&&K.catLost(G))||(K.catAdopted&&K.catAdopted(G)))) return false; return true; };
+   const pick=(not,rnd)=>{ const L=cat.spots.filter(s=>s!==not); let t=L.reduce((a,s)=>a+s.w,0)*rnd(); for(const s of L){ t-=s.w; if(t<=0) return s; } return L[L.length-1]; };
+   /* 接手：opts={G, rnd}；成功回傳 true（呼叫的地方就不要再放趴著的貓）*/
+@@ -35,7 +36,7 @@ const WZCAT=(function(){
+     const blob=shadowBlob(); m.add(blob);
+     const s0=spots[0]; m.position.set(s0.x,0,s0.z); m.rotation.y=Math.PI; parent.add(m);
+     const it=(E.interactables||[]).find(q=>q&&q.park==='cat')||null;
+-    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:15+rnd()*30,cur:null,rnd,it,yaw:Math.PI};
++    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:15+rnd()*30,cur:null,rnd,it,yaw:Math.PI,glb,parent,G,lie:opts.lie||null,it0:it&&{x:it.x,z:it.z},lieObj:null};   /* lie：趴在圓椅上的位置（zones3d.js 晚上放趴著的貓的同一個位置）、it0：互動點原本的位置（圓椅）*/
+     play('cat_sit_idle',0); return true; };
+   function shadowBlob(){ if(typeof document==='undefined'||!document.createElement) return new THREE.Object3D(); const cv=document.createElement('canvas'); cv.width=cv.height=64; const c=cv.getContext('2d'), g=c.createRadialGradient(32,32,2,32,32,31);
+     g.addColorStop(0,'rgba(0,0,0,0.42)'); g.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=g; c.fillRect(0,0,64,64);
+@@ -48,6 +49,7 @@ const WZCAT=(function(){
+   const busy=()=>{ const GM=typeof GAME!=='undefined'?GAME:null; return !!(GM&&GM.E&&GM.E.player&&GM.E.player.busy); };
+   /* 每一格（溫州街區域的 update 呼叫）*/
+   S.update=function(dt,E){ if(!cat||cat.E!==E) return; if(!inScene(cat.obj)){ cat=null; return; }
++    if(held&&cat.lieObj){ if(cat.it&&cat.it0){ cat.it.x=cat.it0.x; cat.it.z=cat.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
+     dt=Math.min(dt,0.25); const c=cat, o=c.obj, pl=E.player&&E.player.obj, G=typeof GAME!=='undefined'&&GAME.G;
+     const dp=pl?Math.hypot(pl.position.x-o.position.x,pl.position.z-o.position.z):99;
+     const turnTo=(yaw,k)=>{ let d=yaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,k*dt); };
+@@ -70,5 +72,14 @@ const WZCAT=(function(){
+     c.mixer.update(dt); };
+   S.state=()=>cat?{state:cat.state,t:+cat.t.toFixed(1),busy:busy(),x:+cat.obj.position.x.toFixed(2),z:+cat.obj.position.z.toFixed(2),yaw:+cat.obj.rotation.y.toFixed(2),clip:cat.cur,at:cat.at&&[cat.at.x,cat.at.z],path:cat.path?cat.path.length:0}:null;
+   S._cat=()=>cat;   /* 測試用 */
++  /* 劇情要貓固定趴在圓椅上（不管幾點）：hold('lie')。
++     - 貓正在公園裡走（白天）：藏起走路的貓，圓椅上放趴著的貓（和晚上同一個模型、同一個位置），「摸摸」的互動點回到圓椅。
++     - 還沒進公園、或晚上：進公園時 attach 不接手（awake＝false），zones3d.js 照晚上放趴著的貓。下雨照舊在石桌底下（AA_493 第 5 節）。
++     - release()：拿掉趴著的貓，走路的貓從剛才的位置接著走（hold 的時候沒有走路的貓：下次進公園才會走）。hold 不存檔（讀檔以後沒有）。*/
++  S.hold=function(mode){ held=mode||'lie'; if(!cat||cat.lieObj||!cat.lie||typeof Z3==='undefined'||!Z3.wzCatModel) return true;
++    const m=Z3.wzCatModel(cat.glb.scene.clone(true),cat.G,'lie'); if(!m) return true; const L=cat.lie; m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; cat.parent.add(m); cat.lieObj=m; cat.obj.visible=false;
++    if(cat.it&&cat.it0){ cat.it.x=cat.it0.x; cat.it.z=cat.it0.z; } return true; };
++  S.release=function(){ held=null; if(!cat) return; if(cat.lieObj){ if(cat.lieObj.parent) cat.lieObj.parent.remove(cat.lieObj); cat.lieObj=null; } cat.obj.visible=true; };
++  S.held=()=>held;
+   return S;
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 8f3f8977f..c3e1b74f9 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1142,7 +1142,7 @@ const Z3 = (function(){
+         { let shown=true; Object.defineProperty(catG,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!(G&&typeof PARK!=='undefined'&&PARK.catAdopted&&PARK.catAdopted(G)); },set(v){ shown=!!v; }}); }   /* dyn：不參加整區靜態合併（正式模型載入後要藏起套件的貓）*/
+         if(under){ catG.position.y=catAt.y-0.45; catG.userData.under=true; }   /* 套件的貓、正式模型（0.47）都是照圓椅的座面（0.45 m）放的：石桌底下整組放低到涼亭的地台上 */
+         if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wz_cat']) ASSETS.loadOne('bldg.wz_cat').then(c=>{ if(!c||!c.scene) return;
+-          if(!under&&typeof WZCAT!=='undefined'&&WZCAT.attach(E,catG,c,{G:G0})){ cg.visible=false; return; }   /* 白天醒著：有骨架的貓在公園裡走（src/wzcat3d.js，J13）；晚上、下雨、寒流照舊趴著／縮著 */
++          if(!under&&typeof WZCAT!=='undefined'&&WZCAT.attach(E,catG,c,{G:G0,lie:{x:bf.x+0.05,y:0.47,z:bf.z-0.45,yaw:bf.yaw+Math.PI}})){ cg.visible=false; return; }   /* 白天醒著：有骨架的貓在公園裡走（src/wzcat3d.js，J13）；晚上、下雨、寒流照舊趴著／縮著 */
+           const m=wzCatModel(c.scene.clone(true),G0,(typeof PARK!=='undefined'&&G0&&PARK.catCold&&PARK.catCold(G0))?'curl':'lie');   /* 寒流那一週縮成一團（石桌底下，catUnder 已經照寒流放）*/ if(!m) return;
+           m.position.set(bf.x+0.05,0.47,bf.z-0.45); m.rotation.y=bf.yaw+Math.PI; cg.visible=false; catG.add(m); }).catch(e=>console.warn('貓的正式模型載入失敗，用套件的貓',e)); } }
+     // 備用外觀（模型載入後藏起來）
+diff --git a/tests/wz_cat_walk_unit.js b/tests/wz_cat_walk_unit.js
+index f6f5e7409..f8c70e816 100644
+--- a/tests/wz_cat_walk_unit.js
++++ b/tests/wz_cat_walk_unit.js
+@@ -46,7 +46,7 @@ const fakeGLB=(anims)=>{ const sc=new THREE.Group(); for(const p of ['sit','lie'
+   GAME.G.hour=19; check('⑤ 晚上 19:00：不接手（趴在圓椅上）',WZCAT.attach(E3,par,fakeGLB(true),{G:GAME.G})===false); GAME.G.hour=10;
+   const it={park:'cat',x:26,z:22.85,radius:1.4}; E3.interactables=[it]; E3.player={obj:new THREE.Object3D(),busy:false}; E3.player.obj.position.set(40,0,40); scene.add(E3.player.obj);
+   let r=0.3; const rnd=()=>{ r=(r*9301+49297)%233280/233280; return r; };
+-  check('⑤ 白天：接手（坐在老樹圓椅前）',WZCAT.attach(E3,par,fakeGLB(true),{G:GAME.G,rnd})===true&&WZCAT.state().state==='sit'&&WZCAT.state().x===26);
++  check('⑤ 白天：接手（坐在老樹圓椅前）',WZCAT.attach(E3,par,fakeGLB(true),{G:GAME.G,rnd,lie:{x:25.95,y:0.47,z:22.4,yaw:0.3}})===true&&WZCAT.state().state==='sit'&&WZCAT.state().x===26);
+   const c=WZCAT._cat(); let maxV=0, prev={x:c.obj.position.x,z:c.obj.position.z}, left=-1, arrived=-1, itOK=true, states=new Set();
+   for(let i=0;i<3000;i++){ WZCAT.update(0.1,E3); const o=c.obj.position, v=Math.hypot(o.x-prev.x,o.z-prev.z)/0.1; maxV=Math.max(maxV,v); prev={x:o.x,z:o.z}; states.add(c.state);
+     if(left<0&&Math.hypot(o.x-26,o.z-23.3)>0.05) left=i*0.1; if(left>=0&&arrived<0&&c.state==='sit') arrived=i*0.1; if(Math.abs(it.x-o.x)>1e-9||Math.abs(it.z-o.z)>1e-9) itOK=false; if(arrived>=0) break; }
+@@ -60,9 +60,22 @@ const fakeGLB=(anims)=>{ const sc=new THREE.Group(); for(const p of ['sit','lie'
+   check('⑦ 玩家走到 1.6 m 內：走路的貓停下來看玩家',walking&&c.state==='look'&&Math.hypot(o.x-at.x,o.z-at.z)<1e-6,JSON.stringify(WZCAT.state()));
+   E3.player.busy=true; for(let i=0;i<5;i++) WZCAT.update(0.1,E3);
+   check('⑦ 劇情在演（玩家忙）：貓坐下、不走',c.state==='sit');
+-  E3.player.busy=false; scene.remove(par); WZCAT.update(0.1,E3); check('⑧ 離開溫州街（貓不在場景裡）：不再更新',WZCAT.state()===null); }
++  E3.player.busy=false;
++  /* 劇情要貓趴在圓椅上（AA_493 所長回來；LAWWW-C 10-27 23:08Z）：hold('lie')／release() */
++  { const H=typeof WZCAT.hold==='function'&&typeof WZCAT.release==='function'; check('⑩ WZCAT.hold、WZCAT.release 存在',H);
++    if(H){ E3.player.obj.position.set(40,0,40); c.t=0; for(let i=0;i<400&&c.state!=='walk';i++) WZCAT.update(0.1,E3); const w0=c.state==='walk', p0={x:c.obj.position.x,z:c.obj.position.z};
++      WZCAT.hold('lie'); const lo=c.lieObj; for(let i=0;i<50;i++) WZCAT.update(0.1,E3);
++      check('⑩ hold（貓正在走）：走路的貓藏起來、圓椅上放趴著的貓（CAT_lie、晚上那個位置）、不再走',w0&&!c.obj.visible&&!!lo&&lo.parent===par&&Math.abs(lo.position.x-25.95)<1e-6&&Math.abs(lo.position.y-0.47)<1e-6&&!!lo.getObjectByName('CAT_lie')&&lo.getObjectByName('CAT_lie').visible&&Math.hypot(c.obj.position.x-p0.x,c.obj.position.z-p0.z)<1e-9,JSON.stringify(WZCAT.state()));
++      check('⑩ hold 期間「摸摸」的互動點回到圓椅、awake＝false（取名、環境句照「趴在圓椅上」那一版）',Math.abs(it.x-26)<1e-9&&Math.abs(it.z-22.85)<1e-9&&!WZCAT.awake(GAME.G));
++      const par2=new THREE.Group(); scene.add(par2); const keep=WZCAT._cat(); check('⑩ hold 期間進公園（白天）：attach 不接手（zones3d.js 照晚上放趴著的貓）',WZCAT.attach(E3,par2,fakeGLB(true),{G:GAME.G,rnd})===false); scene.remove(par2);
++      /* attach 失敗會清掉 cat：重新接手剛才那一隻再測 release */
++      WZCAT.release(); const ok2=WZCAT.attach(E3,par,fakeGLB(true),{G:GAME.G,rnd,lie:{x:25.95,y:0.47,z:22.4,yaw:0.3}}); const c2=WZCAT._cat(); WZCAT.hold('lie'); const lo2=c2&&c2.lieObj; WZCAT.release();
++      check('⑩ release：拿掉趴著的貓、走路的貓出現、awake 照時段（10:00＝醒著）',ok2&&!!lo2&&!lo2.parent&&c2.obj.visible&&!c2.lieObj&&WZCAT.awake(GAME.G)&&WZCAT.held()===null);
++      let moved=false; c2.t=0; const q0={x:c2.obj.position.x,z:c2.obj.position.z}; for(let i=0;i<600&&!moved;i++){ WZCAT.update(0.1,E3); moved=Math.hypot(c2.obj.position.x-q0.x,c2.obj.position.z-q0.z)>0.2; }
++      check('⑩ release 以後貓接著走',moved); } }
++  scene.remove(par); WZCAT.update(0.1,E3); check('⑧ 離開溫州街（貓不在場景裡）：不再更新',WZCAT.state()===null); }
+ { const zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'), ix=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
+-  check('⑨ zones3d.js：正式模型載入後先問 WZCAT.attach（下雨、寒流的石桌底下不接手），接手就不放趴著的貓',/if\(!under&&typeof WZCAT!=='undefined'&&WZCAT\.attach\(E,catG,c,\{G:G0\}\)\)\{ cg\.visible=false; return; \}/.test(zs));
++  check('⑨ zones3d.js：正式模型載入後先問 WZCAT.attach（下雨、寒流的石桌底下不接手），接手就不放趴著的貓；把晚上趴著的位置交給 WZCAT（hold 用）',/if\(!under&&typeof WZCAT!=='undefined'&&WZCAT\.attach\(E,catG,c,\{G:G0,lie:\{x:bf\.x\+0\.05,y:0\.47,z:bf\.z-0\.45,yaw:bf\.yaw\+Math\.PI\}\}\)\)\{ cg\.visible=false; return; \}/.test(zs));
+   check('⑨ index.html 在 wzpark3d.js 後面載入 src/wzcat3d.js',ix.indexOf('src/wzcat3d.js')>ix.indexOf('src/wzpark3d.js')&&ix.indexOf('src/wzpark3d.js')>0); }
+ delete global.GAME;
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -3800,7 +3800,7 @@
   {
    "task": "BADMINTON-CLIP-1027 第三版（場邊的包、小跳步）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "023ba6930",
    "files": [
     "docs/art-rebuild/second_ai/patches/badminton_clip_v3_1027.patch",
     "docs/art-rebuild/second_ai/test_shots/badminton_clip_1027/README.md"
@@ -3812,6 +3812,54 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "開演時先複製身上看得到的包（後背包、托特包、袋子、吉他），底貼地立在場邊（東側網子兩邊 3.9 m），演完拿掉；每一拍（發球除外）之前 0.3 秒原地跳 5 cm。badminton_clip_unit 改前 FAILED 3、改後 ALL PASS；badclip_bag、badclip_wire ALL PASS；對 fe4d31a86 apply --check 過"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ANIM-DOOR-OPEN-1027 第二階段（門板轉開）＋BB-C 開門三點",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/door_open_phase2_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/door_open_1027/README.md",
+    "tools/shots/door2/"
+   ],
+   "state": "已交付",
+   "remaining": "店面、建築大門的門板是整棟模型的一部分：只有手的動作；201 階梯教室門貼牆不轉；真機、BB 5o 沒跑",
+   "next": "LAWWW 套 patches/door_open_phase2_1027.patch（只動 src/door3d.js、tests/door_open_unit.js）",
+   "note": "有單獨門板的門推門時真的轉開 70°（門上的小窗、牌子、格柵從合併網格切出來跟著轉；原幾何不動）；門後空的放暗底卡；推門 0.45 秒 busy、連按同一個 Promise；118 巷「進〇〇」算門（九間都推門＝模型是玻璃門）、林家乾麵開放式、總圖正面自動門、走出校門不是門、door:true 布林不算、沒有動詞的建築入口照門。door_open_unit 改前 FAILED 8、改後 ALL PASS（41）；zone_transitions ALL PASS（37）；對 fe2fc0241 apply --check 過"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "WZCAT.hold／release（所長回來那一場貓趴在圓椅上）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/wzcat_hold_1027.patch",
+    "docs/art-rebuild/second_ai/test_shots/wz_cat_walk_1027/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "瀏覽器沒截圖（等接上那一場）；真機沒測",
+   "next": "LAWWW 套 patches/wzcat_hold_1027.patch（src/wzcat3d.js、src/zones3d.js 一行、tests/wz_cat_walk_unit.js），在那一場前後 hold(\"lie\")／finally release()，拿掉白天替代句",
+   "note": "hold 期間 awake＝false（PARK.catAwake 跟著：句子用趴著那一版）；正在走就換成圓椅上的趴姿貓、互動點回圓椅；release 接著走。wz_cat_walk_unit 改前 FAILED 2、改後 ALL PASS（29）；溫州街／貓 20 支 Node 測試 ALL PASS；對 fe2fc0241 apply --check 過"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "noDirectIntegrate": false,
+   "receiver": "BB",
+   "ack": "SENT",
+   "task": "D40 第二階段給使用者的選擇題（身體形狀）",
+   "files": [
+    "docs/art-rebuild/second_ai/D40_第二階段_給使用者的選擇題.md"
+   ],
+   "state": "已交付",
+   "remaining": "等使用者回答（BB 照 D97 一起整理）",
+   "next": "BB 併進給使用者的問題；使用者選 B／C 才開工（D111、D99）",
+   "note": "四題：要不要變、幾階開始、會不會退、要不要先看三欄並排預覽圖；附各答案的做法"
   }
  ]
 }
