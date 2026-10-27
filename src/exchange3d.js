@@ -55,7 +55,7 @@ const EXCH=(function(){
      美國那一趟（上面 S.depart／S.fly）的做法給別的系統用：
        S.airGo(GM,rec)：（字卡：rec.card＝[標題, 小字]，沒有就不出）→ 出境大廳 airport_dep（同行的人 rec.with 跟在旁邊）→ G.flags.AIR_DEP＝{k, at:進大廳的時間, with, q…}；
        「登機」（us3d.js 出境大廳安檢入口的 airportBoard）或進大廳一個小時以後自動登機（同美國，AA_370 H2）→ S.airBoard → S.AIR[k].board(GM,rec)＝原本的流程接著演（2D）。
-       S.AIR 由各系統登記：'vac'＝寒暑假出國（src/vac3d.js）、'jp'＝日本路線和以安一起出發（src/y34b3d.js）。
+       S.AIR 由各系統登記：'vac'＝寒暑假出國（src/vac3d.js）、'jp'＝日本路線和以安一起出發（src/y34b3d.js）。S.AIR[k].hall(GM,rec)（有的話）＝進大廳就演的那一幕（演完才存檔）。
      等登機的時候：大廳的「搭車離開（回台北）」拿掉、不能用手機回臺北的家（同美國那一趟出發以後一定飛）；人不在大廳了（手機「地點」、讀到別的區域）＝直接登機。
      存檔：G.flags.AIR_DEP（沒有＝沒有要搭的飛機；舊存檔都沒有）。測試：node tests/e08_airport_unit.js */
   S.AIR={};
@@ -75,7 +75,9 @@ const EXCH=(function(){
         if(rec.arrive!=null&&rec.arrive>T(G.day,G.hour)+1e-6){ const d=Math.floor(rec.arrive/24+1e-9); if(d>G.day){ G.day=d; if(GM.syncWeekday) GM.syncWeekday(); } G.hour=rec.arrive-G.day*24; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); } }   /* 到機場的時間（同 OUT.go：出發的時間＋車程，不早於約好的時間）*/
       finally{ GM.sceneEnd(); }
       const r=Object.assign({},rec,{at:T(G.day,G.hour)}); delete r.card; delete r.arrive; delete r.noSave; F.AIR_DEP=r; S._airMatesN=null;
-      await GM.enter('airport_dep',Object.assign({},S.SPAWN.airport_dep),{noAutosave:!!rec.noSave}); S.airHall(GM); }   /* noSave：進大廳以後馬上要演的（日本路線的報到櫃台那一段，演完 EVENTS.run 自己存）*/
+      await GM.enter('airport_dep',Object.assign({},S.SPAWN.airport_dep),{noAutosave:true}); S.airHall(GM);
+      const A=S.AIR[r.k]; if(A&&typeof A.hall==='function'){ try{ await A.hall(GM,r); }catch(e){ console.warn('EXCH.airGo hall',r.k,e); } }   /* 進大廳就演的那一幕（S.AIR[k].hall；AA_478 第 2、3 節：C05、T02、C08 的「出發」、T03 的兩句，2D 疊在模糊的大廳上）：演的時候 _busy，不會自動登機 */
+      if(!rec.noSave&&GM.autosave) GM.autosave(); }   /* 演完才存（讀檔不會再演一次）；noSave：進大廳以後馬上要演的（日本路線的報到櫃台那一段，演完 EVENTS.run 自己存）*/
     finally{ S._busy=false; }
     return true; };
   S.airBoard=async function(GM){ const G=GM.G, F=G.flags, rec=F.AIR_DEP; if(!S.airPending(G)||S._busy) return false; const A=S.AIR[rec.k]; F.AIR_DEP=null;   /* 先清掉：演到一半存檔、讀檔也不會再登機一次 */
