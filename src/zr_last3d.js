@@ -90,8 +90,15 @@ const ZRLAST=(function(){
     if(ok&&K.length){ const O=F.OPEN_OK||(F.OPEN_OK={}), M=O[ZR]||(O[ZR]={}); for(const y of K) M[y]=true; }
     if(ok) (F.confessed||(F.confessed={}))[ZR]=G.day; return ok; };
   S.result=function(G){ const F=G&&G.flags, k=F&&F.ZR_LAST; if(k!=='wait'&&k!=='keep') return null; const Rt=typeof TERMEND!=='undefined'&&TERMEND.rec?TERMEND.rec(G):null;
-    if(k==='wait'){ if(!S.start(G)) return 'blocked'; if(Rt) delete Rt.think[ZR]; return 'wait'; }   /* 還不能開始（例：剛分手還沒收拾）＝照學期末那一套的 blocked，不另外處理 */
+    if(k==='wait'){ if(!(F.ZR_LAST_KNOW==='yes'&&dating(G))&&!S.start(G)) return 'blocked'; if(Rt) delete Rt.think[ZR]; return 'wait'; }   /* 還不能開始（例：剛分手還沒收拾）＝照學期末那一套的 blocked，不另外處理；知情對話裡答應的已經交往了 */
     if(Rt) Rt.think[ZR]=(typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(G.day))||S.TERM; return 'keep'; };
+
+  /* ---------- AA_474 第 4 節 3b：「我等妳回來。」之前她知道祐廷正在和別人交往（8/24 以後才開始、她也知道了）＝先演她的知情對話（照 S.knowWalk 芷若那一段：
+     沒問過第一問＝第一問＋選項；問過第一、二問＝第三問；MREL.knowGate）。交往＝原本的 wait；其他＝原本的 keep（先收著）。記 ZR_LAST_KNOW＝結果 ---------- */
+  S.knowsOther=G=>typeof MREL!=='undefined'&&!!MREL.knowsOther&&MREL.knowsOther(G,ZR);
+  S.knowBefore=async function(GM){ const G=GM.G; if(typeof MREL==='undefined'||!MREL.knowGate) return null;
+    const r=await MREL.knowGate(GM,ZR,{said:false,term:(typeof STORY!=='undefined'&&STORY.termAt&&STORY.termAt(G.day))||S.TERM,at:'zr_last',start:G0=>S.start(G0)}); if(r==null) return null;
+    G.flags.ZR_LAST_KNOW=r; G.flags.ZR_LAST=r==='yes'?'wait':'keep'; return r; };
 
   /* ---------- 第 6 節：房間物件「她的票根」（宿舍書桌「看看房間裡的東西」）---------- */
   S.roomExtra=function(G,Lst){ const F=(G&&G.flags)||{}; if((F.ZR_LAST==='wait'||F.ZR_LAST==='keep')&&F.ZR_LAST2!=='closed'&&L&&Array.isArray(L.room)&&!Lst.some(r=>r&&r[0]===L.room[0])) Lst.push(L.room.slice()); };

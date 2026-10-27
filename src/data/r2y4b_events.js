@@ -32,6 +32,8 @@ const R2Y4B_BAR_NARR={
     wdEnd:'（讀到十點半，鐵門拉下來。）', satEnd:'（讀到傍晚。）' } };
 const R2Y4B_EVENTS=(function(){
   const R=()=>typeof R2Y4B!=='undefined'?R2Y4B:null;
+  const SIS_KNOWS={custom:G=>{ const r=R(); return !!r&&!!r.knowsOther&&r.knowsOther(G,'heroine_05'); }};   /* 學姊知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）：大峽谷告白先演知情對話（AA_474 3b）*/
+  const CANYON_KNEW={custom:G=>{ const v=(G.flags||{}).SIS_CANYON; return v==='knows'||v==='confess'; }};   /* 知情對話演過了（R2Y4B.canyonKnow 記 SIS_CANYON）*/
   const knows=(id,G)=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(id,G);
   const kn=(...ids)=>({custom:G=>ids.every(id=>knows(id,G))});
   const dating=id=>G=>{ const F=(G&&G.flags)||{}, Rm=F.romance||{}; return F['dating_'+id]===true||!!(Rm[id]&&Rm[id].status==='dating'); };
@@ -440,11 +442,14 @@ const R2Y4B_EVENTS=(function(){
       {advance:toDay('2028-10-14',9)},{scene:'峽谷',bg:'dark'},   /* 亞利桑那 10/13 傍晚＝臺灣 10/14 早上 */
       {speaker:null,text:'（太陽慢慢沉到峽谷另一邊。風很大，她把外套拉鍊拉到最上面。）'},
       {choice:[{text:'「學姊，我喜歡妳。」',goto:'say'},{text:'（看著峽谷，不說話）',goto:'she'}]},
-      {label:'say'},{speaker:'heroine_05',text:'……我以為我要先說。'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
+      {label:'say'},{if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,true); }},{goto:'air',if:CANYON_KNEW},   /* AA_474 3b：她知道祐廷正在和別人交往＝告白那一刻接 KNOW.heroine_05（R2Y4B.canyonKnow）*/
+      {speaker:'heroine_05',text:'……我以為我要先說。'},{speaker:'heroine_05',text:'好。'},{goto:'yes'},
       {label:'she'},{speaker:'heroine_05',text:'那我先說。'},
       {speaker:'heroine_05',text:'我喜歡你。……我想了很久，要不要在這裡說。'},
       {speaker:'heroine_05',text:'你要說好，還是要我再說一次。'},
+      {if:SIS_KNOWS,call:async(G,GM)=>{ const r=R(); if(r) await r.canyonKnow(GM,false); }},{goto:'air',if:CANYON_KNEW},
       {label:'yes'},{set:{SIS_CANYON:'confess',CALLED_SHUYU:true}},
+      {label:'air'},   /* 知情對話演過（SIS_CANYON 由 canyonKnow 記：答應＝confess，不交往＝knows）*/
       {advance:toDay('2028-10-15',3)},{scene:'鳳凰城的機場',bg:'us_airport'},   /* BB_220★：鳳凰城機場→us_airport（AA_370 合併以後接，BG-DARK-70-1021 最後一列）*/
       {speaker:'heroine_05',text:'十二月二十三號，晚上八點落地。你來接我。'},   /* 接 2-Y4-23 M7 戀人版 */
       {advance:toDay('2028-10-15',20)} ],
