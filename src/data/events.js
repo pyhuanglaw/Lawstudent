@@ -372,12 +372,12 @@ const STORY_EVENTS=[
       {speaker:'學姐',text:'學弟，要不要聽一下？我們是法律服務社——'},
       {if:{flags:['SIS_MSG_EXPO']},unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true,_EXPO_MERGED:true}},   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：私訊問過「問社博」的玩家照「見過」那一條，不另外加句子；這裡第一次見到她＝也算 W1（同合併版）*/
       {if:{flags:['SIS_W1']},goto:'main'},
-      {speaker:null,text:'（帳篷後面走出來一個綁馬尾的人。你認得她——家族群組大頭貼上那個學姊。）'},
+      {speaker:null,text:'（帳篷前面站著一個綁馬尾的人，手上拿著一疊傳單。你認得她——家族群組大頭貼上那個學姊。）'},
       {speaker:'player',text:'學姊好，我是{name}，妳的直屬學弟。'},
       {speaker:'heroine_05',expression:'neutral',text:'喔，hi。'},
       {speaker:'heroine_05',expression:'neutral',text:'（對旁邊的學姐）這我直屬學弟，我來跟他講。'},
       {set:{SIS_W1:true,met_sis:true,_EXPO_MERGED:true}},{goto:'common'},
-      {label:'main'},{speaker:null,text:'（帳篷後面走出來一個綁馬尾的人，看到你。）'},
+      {label:'main'},{speaker:null,text:'（站在帳篷前面那個綁馬尾的人轉過來，看到你。）'},
       {speaker:'heroine_05',expression:'surprised',text:'學弟？'},
       {speaker:'heroine_05',expression:'neutral',text:'這我直屬學弟，我來跟他講。'},
       {label:'common'},{speaker:'學長',text:'喔，學弟，她是我們前任社長。'},
@@ -3793,7 +3793,8 @@ const STORY_EVENTS=[
     const DATES=['2026-09-12'];   /* CLUBFAIR-REAL-1027（AA_485 3-2）：照實際，開學第一週的週六、一天 10:00～16:00（原本 9/16、9/17 11:00～17:00）*/
     return [{ id:'ev_y2_club_expo', title:'社團博覽會（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], time:[10,16], once:true, background:'blur', near:{x:-39,z:0,r:53},
       prereq:{custom:G=>typeof CALENDAR!=='undefined'&&DATES.includes(CALENDAR.dateOf(G.day).key)&&(()=>{ const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj.position; return !P||(Math.abs(P.z)<=12.5&&P.x>=-91&&P.x<=13); })()},   /* 走到攤位那一排＝椰林大道 x −91～13、|z|≤12.5（傅鐘那兩頂的前面 z 11.5 也算；LAWWW2 36 頂沿大道兩邊，CLUBFAIR-REAL-1027；原本傅鐘旁 (-13.5,13.6) 半徑 5）*/
-      dialogue:[ {speaker:null,text:'去年，你站在這一排攤位前面填表。'},
+      dialogue:[ {unless:{custom:G=>!!G.flags.CLUB_DOOR&&!G.flags.FAIR_JOIN},speaker:null,text:'去年，你站在這一排攤位前面填表。'},
+        {if:{custom:G=>!!G.flags.CLUB_DOOR&&!G.flags.FAIR_JOIN},speaker:null,text:'去年，你是在社課的門口填的表。'},   /* AA_491 B：大一沒在社博填表、在社課填的（clubfair3d.js 的 CLUB_DOOR、FAIR_JOIN）*/
         {if:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},speaker:null,text:'今年，你站在攤位後面。'},
         {unless:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},set:{Y2_EXPO_BOOTH:'none'}},{unless:{custom:G=>CLUBS.some(c=>G.flags['CLUB_'+c])},goto:'none'},   /* 帶 goto 的那一行不會執行 set，分兩行 */
         {choice:CLUBS.map(c=>({text:'（在'+NAME[c]+'的攤位站一個小時）',if:{custom:C(c)},set:{Y2_EXPO_BOOTH:c}}))},

@@ -23,7 +23,7 @@ const NOODLE_TABLE={
     {who:['classmate_bohan','zhe'],dialogue:[{speaker:'classmate_bohan',text:'法服這禮拜三個個案，兩個是房東不還押金。'},{speaker:'zhe',text:'那你可以開一門課了。'}]},
     /* 第 3 則：演過 ev_xinci_double（雙主修）＝3；沒有＝3b（取代第 3 則）*/
     {who:['classmate_xinci'],dialogue:[{if:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'經濟系的同學問我，法律系是不是每天都在背。……我說也有不背的時候。'},{unless:{events:['ev_xinci_double']},speaker:'classmate_xinci',text:'公車今天塞了二十分鐘。我以為趕不上了。'}]},
-    {who:['zhe'],dialogue:[{speaker:null,text:'期中考前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。'},{speaker:'zhe',text:'吃飯的時候不准讀。……好啦，讀到麵來。'}]},
+    {who:['zhe'],if:{weeks:[6,7,14,15]}/* AA_491 第 7 點：只在考試前（期中第 6～7 週、期末第 14～15 週）輪到 */,dialogue:[{speaker:null,text:'考試前的麵店，長桌比平常安靜。每個人的碗旁邊都有一本書。'},{speaker:'zhe',text:'吃飯的時候不准讀。……好啦，讀到麵來。'}]},
     {who:['yu','classmate_bohan'],dialogue:[{speaker:'yu',text:'欸，下禮拜的報告分組，你們不要又全部丟給柏翰。'},{speaker:'classmate_bohan',text:'我已經習慣了。'},{speaker:'yu',text:'就是因為你習慣了。'}]},
     {who:['heroine_03'],if:{ytShift:true},dialogue:[{speaker:null,text:'語彤在櫃台後面寫作業，社會系的書攤了一桌。阿姨叫她，她頭也沒抬就站起來。'}]} ],
   Y3:[

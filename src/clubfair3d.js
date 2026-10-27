@@ -41,7 +41,7 @@ const CLUBFAIR=(function(){
         if(F[k]){ await GM.say(null,'「'+nameOf(b)+'」的表你已經填過了。'); return 0; }
         for(const t of (b.say||[])) await GM.say(staff(b),t);
         const i=await GM.choose([{t:'填表'},{t:'先不要'}]);
-        if(i===0){ F[k]=true; if(b.club==='lawclub_study') F.lawclub=true; n=1; await GM.say(null,'你在「'+nameOf(b)+'」的攤位填了表。'); }
+        if(i===0){ F[k]=true; F.FAIR_JOIN=true; if(b.club==='lawclub_study') F.lawclub=true; n=1; await GM.say(null,'你在「'+nameOf(b)+'」的攤位填了表。'); }
       } finally { GM.sceneEnd(); }
       if(n&&GM.autosave) GM.autosave(); return n; }
     const L=S.lookRec(G); if(L[b.id]!=null){ if(GM.caption) GM.caption('',b.sign,2400); return 0; }   /* 看過了：只出招牌名 */
@@ -93,7 +93,7 @@ const CLUBFAIR=(function(){
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ return S.tick(GM); }catch(e){ console.warn('CLUBFAIR.tick',e); return false; } });
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); }
   if(typeof CLS!=='undefined'){
-    if(CLS.attendActivity&&!CLS.attendActivity._fair){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ if(GM&&GM.G&&S.doorLine(GM.G,a)){ GM.sceneBegin(); try{ await GM.say(null,D().DOOR_LINE); } finally { GM.sceneEnd(); } } }catch(e){ console.warn('CLUBFAIR.door',e); } return a0.apply(this,arguments); },a0,{_fair:true}); }
+    if(CLS.attendActivity&&!CLS.attendActivity._fair){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a,o){ try{ if(GM&&GM.G&&S.doorLine(GM.G,a)){ flags(GM.G).CLUB_DOOR=true; GM.sceneBegin(); try{ await GM.say(null,(D().DOOR_LINE_BY||{})[a.id]||D().DOOR_LINE); } finally { GM.sceneEnd(); } }   /* CLUB_DOOR：大二社博的開場句（AA_491 B）*/ }catch(e){ console.warn('CLUBFAIR.door',e); } return a0.apply(this,arguments); },a0,{_fair:true}); }
     if(CLS.morning&&!CLS.morning._fair){ const m0=CLS.morning; CLS.morning=Object.assign(async function(GM){ const r=await m0.apply(this,arguments); try{ S.wake(GM); }catch(e){ console.warn('CLUBFAIR.wake',e); } return r; },m0,{_fair:true}); } }
   return S;
 })();

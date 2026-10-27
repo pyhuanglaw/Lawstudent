@@ -196,7 +196,27 @@ const CROWD=(function(){
           out.push(mk(this,slot,k,{x:wp[0][0],z:wp[0][1],spec:sp[k],role:'basketball',beh:'route',waypoints:wp,ri:0,walkSpeed:2.8,run:true,pauseAt:true,faceYaw:face([wp[0][0],wp[0][1]],HOOP)})); }
         const REST=[[9.6,-16.8,'talk'],[10.5,-16.2,'idle'],[-9.4,-17.2,'idle']]; for(let k=np;k<n;k++){ const q=REST[(k-np)%REST.length]; out.push(mk(this,slot,k,{x:q[0],z:q[1],yaw:face([q[0],q[1]],[(k-np)===0?10.5:9.6,(k-np)===0?-16.2:-16.8]),spec:sp[k],role:'rest',pose:q[2]})); }
         return out; },G=>{ if(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)) return []; return daySlots(G,[[2,3],[4,5],[3,5],[6,8]]); });
+    for(const sp of [lobby,court,pe,b1,arena]) sp.bind=S.gymBind;
     return [lobby,court,pe,b1,arena]; };
+  /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
+     每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
+     散步的人、1F 長椅上的人沒有句子（AA 沒寫）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。*/
+  S.GYM_HEAR={ desk_1f:{who:'工讀生',L:['學生證給我刷一下。','羽球場現場的只剩晚上那一面，要的話先登記。']},
+    badminton:{who:'打球的人',L:['剛剛那顆是界內吧？','再一局就好，我十點有課。']},
+    pe_student:{who:'同學',L:['老師說期末要考發球。','我的拍線斷了，誰有多一支？']},
+    pe_teacher:{who:'老師',L:['熱身兩圈，跑完到網子這邊集合。']},
+    desk_b1:{who:'櫃台阿姨',L:['毛巾自己帶，器材用完擦一下。']},
+    fit:{who:'運動的人',L:['你還要用嗎？我輪一組。','今天練腿。明天走樓梯會很好笑。']},
+    basketball:{who:'打球的人',L:['三對三，輸的下場。','傳球啦！']},
+    rest:{who:'看球的人',L:['我們系明天比賽，先來看場地。']} };
+  S.gymHearKind=(spot,role)=>spot&&spot.gym==='b1'&&['treadmill','rack','dumbbell','bench','mat'].includes(role)?'fit':(spot&&spot.gym==='lobby'&&role!=='desk_1f'?null:role);
+  let gymVisit=null;
+  S.gymBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n) return; const k=S.gymHearKind(this,p&&p.role), H=k&&S.GYM_HEAR[k]; if(!H) return;
+    const vk=(GM.enterN|0)+':'+G.zone; if(!gymVisit||gymVisit.key!==vk) gymVisit={key:vk,used:{},start:{}};
+    const F=G.flags||(G.flags={}), R=F.gymHear||(F.gymHear={}); if(gymVisit.start[k]==null){ gymVisit.start[k]=R[k]|0; R[k]=((R[k]|0)+1)%H.L.length; }   /* 這一次從第幾句開始；下一次從下一句 */
+    const u=gymVisit.used[k]|0; if(u>=H.L.length) return; gymVisit.used[k]=u+1;
+    const t=H.L[(gymVisit.start[k]+u)%H.L.length], who=k==='pe_teacher'&&n.name?n.name:(k==='desk_b1'&&n.name?n.name:H.who);
+    n.hear={who,t}; n.talkLabel='聽一句'; n.talk=()=>S.overhear(GM,n,[{who,t}]); };
   S.SPOTS.push(...S.gymSpots());
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定（spot.people：每個人的位置由那個地點自己排，小公園）*/

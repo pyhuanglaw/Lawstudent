@@ -43,7 +43,7 @@ const ACTIVITIES={
     {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-20.8,z:2.9,lv:0,label:'社團博覽會',r:1.3},   /* spot＝服務台的帳篷前（LAWWW2 36 頂的 info，CLUBFAIR-REAL-1027；原本傅鐘旁 (-13.5,13.6)）*/
      dates:['2025-09-06'],datesOld:['2025-09-30','2025-10-01'],t0:10,t1:16,poster:{daysBefore:5},
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
-     desc:'一百多個社團擺攤，中午有舞台表演。能加入的：法服、吉他社、辯論社、登山社、系籃（系學會），在攤位填表＝加入。',story:false},   /* 第一句照 AA_485 3-5 公告欄；「可以參加的社團到底是什麼」（使用者 10-27）：寫出能加入的五個 */
+     desc:'一百多個社團擺攤，中午有舞台表演。能加入的有五個：法服、吉他社、辯論社、登山社、系籃。走到攤位前面就能填表。'   /* AA_491 第 2 點：玩家畫面不要出現「＝」 */,story:false},   /* 第一句照 AA_485 3-5 公告欄；「可以參加的社團到底是什麼」（使用者 10-27）：寫出能加入的五個 */
     /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——開學前（8/31 上午，AA_310；使用者 2026-10-20「迎新在9/27不合理阿 應該在開學前」）；有宿營的局不辦（大一的迎新就是 8/22～24 宿營）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
     {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-08-31'],t0:9.5,t1:12,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）不辦；只留給沒有宿營的局（開發起點直接跳 8/29）防呆——下午 14:00 是開學典禮（S.ceremonyY1），中間有午餐時間 */
