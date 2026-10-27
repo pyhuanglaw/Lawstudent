@@ -2,7 +2,7 @@
 //   1 學姊 9/7 15:20「明年。……讀書計畫你先排，我幫你看。」（原本「我幫你排」，和 2030 字卡「你自己排」打架；字卡不動）
 //   2 2030 第二次考的便條一張只寫一句「（便條：「你比去年多念了一年。」）」
 //   3 可昕交往第六年（2030-10-17）：地點照第五年（沒有邀約那一則）、地點之後一句（第五年選了「寫什麼？」的換一句）、禮物照第二～五年、卡片在祐廷手上那一段、沒去＝22:00 私訊
-//   4 芷若 6/2 視訊兩句（時差更正）
+//   4 芷若 6/2 視訊兩句：AA_472 第 4 節的改字作廢（AA_476 A-1，企劃線 6ad997806：視訊在 10:30＝英國 03:30，改回原句「凌晨三點」、視訊不搬）
 //   5 學姊交往中、2030 第二次考的考場那一句換成「同一家便利商店。……我坐去年那個位子。」（2029 照舊；去年她沒在便利商店等的照原句）
 //   6 沛珊 2030-06「說好的，運河一圈。……」（AA_367 白名單改 1ebcf530、重新匯入 pg_dates.js）
 // 每一節都逐字對稿（git 讀企劃線 1ebcf530e 的 AA_472、AA_367）。修改前（243db0938）的結果見檔尾。用法：node tests/aa472_pg_unit.js
@@ -17,6 +17,8 @@ for(const f of ['src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d
 const git=(sha,f)=>{ try{ return cp.execFileSync('git',['-C',H.ROOT,'-c','core.quotepath=false','show',sha+':'+f],{encoding:'utf8'}); }catch(e){ return ''; } };
 const DOC=git('1ebcf530e','docs/story_planning/AA_472_畢業以後讀一遍_臺灣路線八種存檔_讀書計畫誰排_可昕第六年.md');
 const D367=git('1ebcf530e','docs/story_planning/AA_367_畢業以後的交往節奏_六位.md');
+const D476=git('6ad997806','docs/story_planning/AA_476_回LAWWW_PGFIX九題_抓包CG_AA290白名單.md');   /* AA 回九題（AA-C 10-27）：第 4 節改回原句、第 3 節第六年前一週的邀約 */
+const a476=n=>{ const a=D476.indexOf('\n'+n+'. **'), b=D476.indexOf('\n'+(n+1)+'. **',a+3); return a<0?'':D476.slice(a,b<0?D476.indexOf('\n## B',a):b); };
 const sec=n=>{ const a=DOC.indexOf('\n## '+n+'.'), b=DOC.indexOf('\n## ',a+4); return a<0?'':DOC.slice(a,b<0?undefined:b); };
 const D=H.D;
 const tsec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
@@ -78,12 +80,12 @@ await tsec(3,async()=>{ const S3=sec(3);
     const due=OUT.due(G);
     check('3. 8/5 跳到下一件事（60 天以上的長跳，每 6 小時看一次）：停在 10/17 該出發的時間（18:00，車程 15 分鐘），第六年已經排好、問「出發」；沒有這個停點會直接跳到 2034 尾聲',D('2030-10-17')-from>=60&&G.day===D('2030-10-17')&&Math.abs(G.hour-18)<1e-6&&!!due&&due.id==='kx_anniv6',J([from,G.day,G.hour,due&&due.id,i])); } });
 
-/* ======================= 4. 芷若 6/2 視訊兩句（時差）======================= */
-await tsec(4,async()=>{ const V=['這裡早上五點。……學士服是不是借太大件？','天已經亮了。你們拍完我再睡。'], OLD=['這裡凌晨三點。……學士服是不是借太大件？','再一個多小時這裡就天亮了。你們拍完我再睡。'];
-  check('4. 稿：兩句（林芷若）',V.every(t=>sec(4).includes('> 林芷若：'+t)));
+/* ======================= 4. 芷若 6/2 視訊兩句：改回原句（AA_476 A-1）======================= */
+await tsec(4,async()=>{ const V=['這裡凌晨三點。……學士服是不是借太大件？','再一個多小時這裡就天亮了。你們拍完我再睡。'], NO=['這裡早上五點。……學士服是不是借太大件？','天已經亮了。你們拍完我再睡。'];
+  check('4. 稿：AA_476 A-1 改回原句（林芷若兩句）、AA_472 第 4 節作廢、視訊不搬到 12:00',V.every(t=>a476(1).includes('> 林芷若：'+t))&&/作廢/.test(a476(1))&&/不搬到 12:00/.test(a476(1)),a476(1).slice(0,80));
   const G=H.fresh('2029-06-01',22.4,'dorm'); H.FRIEND('heroine_02'); H.date('heroine_02'); H.at('2029-06-02',8); await STORY.gradFamily(GM);
-  const said=H.said.filter(x=>x.who===SOCIAL.datingName('heroine_02')||x.who===SOCIAL.displayName('heroine_02')).map(x=>x.t);
-  check('4. 交往中、她在英國：典禮的視訊兩句照稿；原本那兩句不再出現',V.every(t=>said.includes(t))&&!OLD.some(t=>H.has(t))&&said.indexOf(V[0])<said.indexOf(V[1]),J(said));
+  const said=H.said.filter(x=>x.who===SOCIAL.datingName('heroine_02')||x.who===SOCIAL.displayName('heroine_02')).map(x=>x.t), vi=H.said.findIndex(x=>x.t===V[0]), ce=H.said.findIndex(x=>x.t==='（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）');
+  check('4. 交往中、她在英國：家人那一段 10:30（撥穗以前）的視訊是原句兩句；「早上五點」那一版不出現',V.every(t=>said.includes(t))&&!NO.some(t=>H.has(t))&&said.indexOf(V[0])<said.indexOf(V[1])&&vi>=0&&vi<ce,J(said));
   H.said=[]; await H.run('grad'); check('4. 拍照那一段不再視訊一次（「我設了鬧鐘。」那一晚照舊）',!V.some(t=>H.has(t))&&POSTGRAD_LINES.PARTNER.heroine_02.eve==='我設了鬧鐘。'); });
 
 /* ======================= 5. 學姊交往中，2030 第二次考的考場那一句 ======================= */

@@ -236,7 +236,7 @@ const PG=(function(){
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?DLY(G,'yt17Other',Y17.other):DLY(G,'yt17Friend',Y17.friend)));
     if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
-  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_472 第 4 節把她的句子改成「這裡早上五點」，是照 12:00 拍照算的；時間要不要跟著挪，待 AA 定）*/
+  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_476 A-1：視訊不搬到 12:00，句子照原句）*/
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
   S.partnerBeat=async function(GM,id){ const G=GM.G, P=L().PARTNER;
     if(id==='kexin') return S.play(GM,G.flags.GIRAFFE_KEYCHAIN?P.kexin.key:P.kexin.noKey);
