@@ -730,11 +730,13 @@
    "files": [
     "wip_backup/l118story_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "118 巷熟客三段招呼＋考試週、H2～H9（AA_311 580ed6302；H2b 作廢不做）子代理做中；bundle 到 48f626a6b（3 個 commit），前提 d5ce20a40",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "USER_WANTS X66；AA_311"
+   "source": "USER_WANTS X66；AA_311",
+   "closedBy": "675c4714c",
+   "note": "19:5x 子代理做完（48f626a6b），合進開發分支 675c4714c。"
   }
  ]
 }
