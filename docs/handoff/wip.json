@@ -652,8 +652,38 @@
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node，v9.10.11 發布後合",
    "noDirectIntegrate": true,
    "source": "帳號 B 的 aa471-472 子代理成果遺失（HANDOFF-C-1027）",
-   "note": "18:0x 子代理做完、合進開發分支 7dacc9463（PG-FIX-471-473-1027 已整合待測試）。17:5x 第四次備份：bundle 裡 pgfix-471-473＝a87fdf4e5；前提 129540766。17:1x 第二次備份：bundle 裡 pgfix-471-473＝5f83d3bf5（AA_471 第 3、4 節已 commit）；前提 129540766。",
+   "note": "18:3x 第二輪（AA_476）合進開發分支 60919c7a9；bundle 最後到 9d6a11356。18:0x 子代理做完、合進開發分支 7dacc9463（PG-FIX-471-473-1027 已整合待測試）。17:5x 第四次備份：bundle 裡 pgfix-471-473＝a87fdf4e5；前提 129540766。17:1x 第二次備份：bundle 裡 pgfix-471-473＝5f83d3bf5（AA_471 第 3、4 節已 commit）；前提 129540766。",
    "closedBy": "7dacc9463"
+  },
+  {
+   "id": "WIP-LAWWW-X58-1027",
+   "role": "LAWWW",
+   "task": "X58-REST-1027",
+   "branch": "x58-e08-1027（wip_backup/x58_e08_1027.bundle）",
+   "sha": "376973f4e",
+   "files": [
+    "wip_backup/x58_e08_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "X58（法律系寒暑假、日本、寒暑假出遊快轉途中收到訊息就停）、E08（寒暑假出國、日本送機走 3D 機場）子代理做中；bundle 到 f0cff6fd5（3 個 commit），前提 7dacc9463",
+   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "USER_WANTS_AUDIT_1027 第 3 節第 5 點；VAC-A2"
+  },
+  {
+   "id": "WIP-LAWWW-UW-1027",
+   "role": "LAWWW",
+   "task": "USER-WANTS-AUDIT-C-1027",
+   "branch": "uw-refresh-1027（wip_backup/uw_refresh_1027.bundle）",
+   "sha": "376973f4e",
+   "files": [
+    "wip_backup/uw_refresh_1027.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "照 USER_WANTS_AUDIT_1027 改 USER_WANTS.md（在遊戲裡的搬出第 1 節、暫停列補五欄、C26 撞號）子代理做中；bundle 到 7f579f81a，前提 d049a52ac",
+   "next": "子代理做；LAWWW 看 diff、跑 check_handoff asks 再合",
+   "noDirectIntegrate": true,
+   "source": "HV-15；USER-WANTS-AUDIT-C-1027"
   }
  ]
 }
