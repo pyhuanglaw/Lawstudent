@@ -33216,7 +33216,7 @@
    "title": "七位接不接受同時交往（acceptsOpen）照使用者 C＝逐一決定：AA_474 七位各自的條件、子晴＋芷若同時兩人都離開、可昕收回",
    "area": "v6",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "暫停",
    "priority": "P2",
    "source": "使用者 10-27 對 AA-C 回答 C（UA-AA-1027-49）；AA_474（企劃線 claude/magical-albattani-bk7b4n：第一版 d03d5da1a、第 5 節 fc961b2c5、更正 314c61ce4、**第二版 7e3f8ed4c＋3b 通則 020f695a3 為準**）",
    "first": {
@@ -33229,8 +33229,12 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:1x UTC】AA_482（7620d336e）加進子代理第二輪、排在 AA_481 之後（2-Y4-54 坦白照她的條件、都同意不問選誰、尾聲兩邊坐；子代理另列畢業以後七位談話演不到的地方給 AA）｜【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
-   "sha": "fb8d27888"
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】第二輪暫停（見 pausedReason）｜【LAWWW-C 2026-10-27 20:1x UTC】AA_482（7620d336e）加進子代理第二輪、排在 AA_481 之後（2-Y4-54 坦白照她的條件、都同意不問選誰、尾聲兩邊坐；子代理另列畢業以後七位談話演不到的地方給 AA）｜【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
+   "sha": "fb8d27888",
+   "pausedBy": "使用者（20:13 前後在工作階段裡停下了第二輪的子代理；系統訊息：只有使用者明確要求才再開新的代理）",
+   "pausedReason": "第一輪已合進開發分支 fb8d27888；第二輪（AA_481 五處、AA_483 八題答案與定稿字、AA_482 坦白與尾聲）的子代理被使用者停下（很可能是使用者中斷 LAWWW-C 回合時一起停的），半成品 LAWWW 存成 aopen-1027 f642d440f（沒測、不能直接合）",
+   "resumeWhen": "使用者說要繼續（LAWWW-C 在進度回報裡問了）；繼續時從 aopen-1027 f642d440f 接，照 AA_481、AA_483 第 1～2 節、AA_482",
+   "recheckOn": "2026-11-03（或使用者下一次回覆時）"
   },
   {
    "id": "LAWWW2-REEXPORT-US-1027",
@@ -33662,7 +33666,7 @@
    "title": "美國交換挽回中 10/12（四）19:30 秋假自習室的快轉停點（us_blank3d S.stops）停下來只有日期卡、沒有提示她在會所，玩家會以為沒事——加一句提示（AA 定句子，LAWWW 接）",
    "area": "V4-US",
    "owner": "AA",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P3",
    "source": "BB-C 10-27 20:15 v9.10.11 判定進度（BB_218，64cb3b4c0；trx_alone8 f54a35ec4 ALL PASS，這件不擋發布）",
    "first": {
@@ -33675,13 +33679,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:1x UTC】已請 AA-C 寫一句提示（旁白或她的訊息、AA 定）；AA 交句子後 LAWWW 接進 us_blank3d 那個停點，BB 再看一次",
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】AA_483 第 3 節（187584ca8）定句：只在 S.studyDue 時出旁白「（秋假的社區很安靜。窗外，會所自習室的燈還亮著。）」；HUD 由 LAWWW 加「會所的自習室還開著」；LAWWW 接｜【LAWWW-C 2026-10-27 20:1x UTC】已請 AA-C 寫一句提示（旁白或她的訊息、AA 定）；AA 交句子後 LAWWW 接進 us_blank3d 那個停點，BB 再看一次",
    "xai": {
     "spec": "BB_218（64cb3b4c0）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "10/12 19:30 停下來時玩家看得出她在會所、可以去找她",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -33923,7 +33927,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:3x UTC】子代理 an-stuck-1027（基底 3240d3802）重現、修、確認 f54a35ec4（v9.10.11 候選）會不會卡——會就擋發布、先修"
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】使用者又查到：是「約以安去吃麵」那一趟（出遊同行段）卡在對話，存檔時那一趟還在進行中、紀錄是沒去吃，讀回來重新開始所以她一直跟著——已轉子代理｜【LAWWW-C 2026-10-27 20:3x UTC】子代理 an-stuck-1027（基底 3240d3802）重現、修、確認 f54a35ec4（v9.10.11 候選）會不會卡——會就擋發布、先修"
   },
   {
    "id": "AN-INVITE-NONE-1027",
@@ -33963,7 +33967,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者"
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者",
+   "xai": {
+    "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 交說明或句子；改動照 D109（結構大改用選擇題問使用者）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "YT-BBQ-WHY-1027",
@@ -33983,7 +33994,54 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接"
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接",
+   "xai": {
+    "spec": "使用者原話（UA-LAWWW-1027-20／-21）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 交說明或句子；改動照 D109（結構大改用選擇題問使用者）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-HOME-REST-NOCAP-1027",
+   "title": "畢業後住臺北的家（pgHome）、日本宿舍：家的選單「在家休息一下」可以一直按，過了午夜日子不換（G.hour 到 131、day 還是 01-17），隔天訊息和課都不來——G.hour≥26.5 時改成直接睡（或選單只留「睡覺」）",
+   "area": "PG",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P3",
+   "source": "BB-C 10-27 20:18（BB_218 102c75250；R42 log qa/r42yt_new2_f54a35ec4.log；舊問題、不擋發布）",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "畢業後住臺北的家、日本路線宿舍，半夜一直選休息",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:3x UTC】home3d.js 478～483 LAWWW 自己改；jp3d.js 313／415 等 x58-e08 第四輪（同檔）合進來以後再改"
+  },
+  {
+   "id": "AA484-WORDING-1027",
+   "title": "AA_484 兩處換字：美國 11/25 字卡改回「學姊說這不算初雪」（更正 AA_479 第 3 節，us_life_events.js、us_life_unit 改回）；us208_3d.js 89「我查了。是水澆太多，不是太少。」改「我查了。是水澆太多。」",
+   "area": "V4-US",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P3",
+   "source": "AA_484（af7ecfd62）",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國交換 11/25",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】LAWWW 自己改（和 US-BLANK-1012-HINT-1027 一起）"
   }
  ]
 }

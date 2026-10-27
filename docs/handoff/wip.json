@@ -760,13 +760,13 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "branch": "aopen-1027 第二輪（wip_backup/aopen_r2_1027.bundle）",
-   "sha": "fb8d27888",
+   "sha": "f642d440f",
    "files": [
     "wip_backup/aopen_r2_1027.bundle"
    ],
    "state": "WIP",
-   "remaining": "AA_481（265f54809）五處：以安七夕她先說、大峽谷她先說、芷若 8/26「我等妳回來。」、七月最後一次朋友那一句、可昕收回的訊息與視訊開頭；AA 回答第一輪八題後一起併；子代理做中，前提 fb8d27888（還沒有新 commit 時 bundle 不存在）",
-   "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
+   "remaining": "第二輪暫停（使用者停下了子代理）：aopen-1027 f642d440f＝AA_481 開頭改到一半（r2y3b_events.js、aa474_acceptsopen_unit.js），沒測、不能直接合；繼續要使用者說",
+   "next": "等使用者；D113 bundle 照備份",
    "noDirectIntegrate": true,
    "source": "AA_481（265f54809）；AA_474（020f695a3）"
   },
