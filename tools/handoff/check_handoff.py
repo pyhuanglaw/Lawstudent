@@ -485,7 +485,7 @@ ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
 ASK_FILE = 'docs/handoff/user_asks_{}.json'
 ASK_KINDS = ['原話', '選擇題答案', '轉述', 'AI解讀']   # AI解讀＝AI 自己擴大或推論的，不是使用者的話：要 confirmed:true（問過使用者）才算數
 ASK_STATUS = ['還沒做', '進行中', '做好了沒進遊戲', '在開發分支', '在遊戲裡', '暫停', '已取消', '規則（永久）', '已完成']
-WANT_ROW = re.compile(r'^\| ([A-Z]\d+)(?: ★)? \| ')
+WANT_ROW = re.compile(r'^\| ([A-Z]\d+[a-z]?)(?: ★)? \| ')   # 列號可以帶一個小寫尾碼（例：D35a；10-27 AA-C 的 UA-AA-1027-49 對不到）
 
 
 def wants_rows(text):

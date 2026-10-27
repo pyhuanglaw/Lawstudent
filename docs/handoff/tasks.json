@@ -32541,8 +32541,8 @@
    "title": "大五（交換延畢）用讀者方法讀一遍：照存檔逐日掃描，找重複、斷掉、時間矛盾的台詞與事件",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
-   "next": "排在 SIS-LEAD-1021 之後",
+   "status": "已驗收",
+   "next": "【LAWWW-C 2026-10-27 17:0x UTC】AA-C 確認 AA-B 10-25 已交 ｜ 排在 SIS-LEAD-1021 之後",
    "priority": "P3",
    "first": {
     "term": "Y4S2",
@@ -32563,15 +32563,16 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "AA-B 19:23 交 AA_471（企劃線 763993620）。第 1 節（日本路線家人群組畢業以後不停：AA_466 第 5 節帶進 v9.10.11 候選的問題）、第 2 節（S.termKey 220 天後每天一個鍵）LAWWW-B 19:4x 直接修進候選（jpprep3d S.jpOn 只到 2028-09-04；cracktalk3d termKey 大五上 Y5S1、之後 PG）；tests/pg_jpon_termkey_unit.js（1dacc06af 上 7 FAIL）。第 3～7 節（國考放榜換字、畢業後中秋、被當延畢 12/26 與 2030-06-17 證書、芷若 17:00 收尾三句、交往中 2029 跨年字卡可選）v9.10.11 發布後做。 ｜ 第 3～7 節 19:4x 起和 AA_472 一起在隔離 worktree 子代理做（aa471-472）。"
+   "notes": "AA-B 19:23 交 AA_471（企劃線 763993620）。第 1 節（日本路線家人群組畢業以後不停：AA_466 第 5 節帶進 v9.10.11 候選的問題）、第 2 節（S.termKey 220 天後每天一個鍵）LAWWW-B 19:4x 直接修進候選（jpprep3d S.jpOn 只到 2028-09-04；cracktalk3d termKey 大五上 Y5S1、之後 PG）；tests/pg_jpon_termkey_unit.js（1dacc06af 上 7 FAIL）。第 3～7 節（國考放榜換字、畢業後中秋、被當延畢 12/26 與 2030-06-17 證書、芷若 17:00 收尾三句、交往中 2029 跨年字卡可選）v9.10.11 發布後做。 ｜ 第 3～7 節 19:4x 起和 AA_472 一起在隔離 worktree 子代理做（aa471-472）。",
+   "evidence": "AA 讀完、交 AA_471（企劃線 763993620）；第 1、2 節已在 f54a35ec4，第 3～7 節施工在 PG-FIX-471-473-1027"
   },
   {
    "id": "PG-READ-1025",
    "title": "畢業以後篇用讀者方法讀一遍（postgrad_lines.js 等；PG 一條線 term_sweep 推不動，另想做法）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
-   "next": "排在 SIS-LEAD-1021 之後",
+   "status": "已驗收",
+   "next": "【LAWWW-C 2026-10-27 17:0x UTC】AA-C 確認 AA-B 10-25 已交 ｜ 排在 SIS-LEAD-1021 之後",
    "priority": "P3",
    "first": {
     "term": "META",
@@ -32592,15 +32593,16 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "AA-B 19:34 交 AA_472（企劃線 1ebcf530e，臺灣路線八種存檔）：學姊 sisLow 換句、retake 便條一句、可昕第六年週年 2030-10-17、芷若 6/2 時差、學姊考場 2030 換句、沛珊 2030-06 運河（AA_367 原稿已改，白名單 AA_367 換 1ebcf530e 重匯 pg_dates.js）；AA_471 第 2～4、6 節臺灣路線也適用。v9.10.11 發布後合；LAWWW-B 19:4x 起在隔離 worktree 子代理和 AA_471 第 3～7 節一起做（分支 aa471-472，接在 aa470 之後）。 ｜ AA-B 19:39 交 AA_473（66393bb91，前任的畢業以後：學姊前任 6/2 晚上只留「謝謝。」、以安前任 an1／an2 改麵店團群組兩則）→ 追加給 aa471-472 子代理。"
+   "notes": "AA-B 19:34 交 AA_472（企劃線 1ebcf530e，臺灣路線八種存檔）：學姊 sisLow 換句、retake 便條一句、可昕第六年週年 2030-10-17、芷若 6/2 時差、學姊考場 2030 換句、沛珊 2030-06 運河（AA_367 原稿已改，白名單 AA_367 換 1ebcf530e 重匯 pg_dates.js）；AA_471 第 2～4、6 節臺灣路線也適用。v9.10.11 發布後合；LAWWW-B 19:4x 起在隔離 worktree 子代理和 AA_471 第 3～7 節一起做（分支 aa471-472，接在 aa470 之後）。 ｜ AA-B 19:39 交 AA_473（66393bb91，前任的畢業以後：學姊前任 6/2 晚上只留「謝謝。」、以安前任 an1／an2 改麵店團群組兩則）→ 追加給 aa471-472 子代理。",
+   "evidence": "AA 讀完、交 AA_472（1ebcf530e，臺灣路線八種）、AA_473（66393bb91，前任）；施工在 PG-FIX-471-473-1027"
   },
   {
    "id": "ASK-ACCEPTSOPEN-1025",
    "title": "等使用者決定：七位女主角能不能接受（多段交往的）邀約 acceptsOpen——A 每人達到自己的條件後可以接受（AA 建議）／B 全部不能／C 逐一決定；決定前全部維持「不能」（現行預設，V6-CATCH P2）",
    "area": "STORY",
    "owner": "AA",
-   "status": "等待其他AI／素材",
-   "next": "使用者回來時決定（感情走向屬使用者保留，D109／D111）；AA-B 10-25 15:38 已在自己的工作階段問",
+   "status": "已驗收",
+   "next": "【LAWWW-C 2026-10-27 17:0x UTC】使用者已回答 C；實作 ACCEPTSOPEN-C-1027 ｜ 使用者回來時決定（感情走向屬使用者保留，D109／D111）；AA-B 10-25 15:38 已在自己的工作階段問",
    "priority": "P3",
    "first": {
     "term": "Y1S2",
@@ -32623,7 +32625,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "notes": "不擋開發：預設「不能」照現行。"
+   "notes": "不擋開發：預設「不能」照現行。",
+   "evidence": "使用者 10-27 對 AA-C 回答 C（user_asks_AA UA-AA-1027-49；原話「C 而且我記得之前有跟不知道哪個AI討論過這件事了!! 你找的到嗎」）；AA_474 d03d5da1a"
   },
   {
    "id": "HANDOFF-C-1027",
@@ -32723,8 +32726,28 @@
     "parallel": true,
     "confirmed": true
    },
-   "evidence": "tests/handoff_duty_sim.py stale：舊工具（HEAD 的 duty_state.py）0／2 FAIL——重現 10-27（LAWWW2、BB 被收成 C）與 10-23（三個職位被讀成 handed-off）；新工具 2／2 PASS；完整模擬另跑",
+   "evidence": "tests/handoff_duty_sim.py stale：舊工具（HEAD 的 duty_state.py）0／2 FAIL——重現 10-27（LAWWW2、BB 被收成 C）與 10-23（三個職位被讀成 handed-off）；新工具 2／2 PASS；完整模擬另跑；完整模擬 tests/handoff_duty_sim.py 23／23 PASS（含新的兩個）；10-27 17:0x 收 LAWWW2-C 登記時實際擋下 BB 的 10-20 舊檔（[略過] BB）",
    "next": "【LAWWW-C 2026-10-27 17:0x UTC】已改 tools/handoff/duty_state.py sync、規則寫進 AI_SESSION_HANDOFF 第 4、5、13 節（HV-20）與 CLAUDE.md"
+  },
+  {
+   "id": "ACCEPTSOPEN-C-1027",
+   "title": "七位接不接受同時交往（acceptsOpen）照使用者 C＝逐一決定：AA_474 七位各自的條件、子晴＋芷若同時兩人都離開、可昕收回",
+   "area": "v6",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "使用者 10-27 對 AA-C 回答 C（UA-AA-1027-49）；AA_474（企劃線 claude/magical-albattani-bk7b4n d03d5da1a）",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "多線交往被發現或知情以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）"
   }
  ]
 }
