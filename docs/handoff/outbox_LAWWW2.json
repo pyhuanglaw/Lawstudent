@@ -3631,7 +3631,7 @@
   {
    "task": "CLUBFAIR-REAL-1027（X109）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "1c537e9c9",
    "files": [
     "docs/art-rebuild/second_ai/patches/club_fair_expo_1027.patch",
     "src/data/club_fair_expo_layout.js",
@@ -3650,6 +3650,27 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_485 第 3 節：椰林大道兩邊 36 頂（北 18、南 16、傅鐘兩側法服／系籃）＋北側中段舞台；能加入 5、看看 10、服務台 1、背景 20；招牌只寫社團類型（D77）。36 頂＋舞台一個網格一個材質＝一個 draw call（26,894 三角形、1.96 MB）。不壓到椰子樹、花叢、路燈、長椅；大道中間、人行道走得過去。校慶、經濟系照舊九頂。club_fair_expo_unit ALL PASS；nav_buildings、campus_public ALL PASS。patch 對 48d2ba832 apply --check 過"
+  },
+  {
+   "task": "BADMINTON-CLIP-1027（X106）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/badminton_clip_1027.patch",
+    "assets/models/env/second_ai/badminton_props.glb",
+    "assets/models/env/second_ai/badminton_props.json",
+    "tools/blender/env_second/badminton_props.py",
+    "docs/art-rebuild/second_ai/test_shots/badminton_clip_1027/README.md",
+    "tools/shots/badminton_pose_shots.py",
+    "tools/shots/badminton_clip_run.py"
+   ],
+   "state": "已交付",
+   "remaining": "引拍時拍子沒垂到頭後面；腳不動；羽球在中景很小；以安、語彤以外五位＋男生朋友的結尾沒截圖；BB 接上邀約後的流程、真機都沒跑",
+   "next": "LAWWW 套 patches/badminton_clip_1027.patch（character3d.js 疊加姿勢掛勾 u.overlay、新 src/badminton_clip3d.js、assets3d bldg.badminton_props、index.html 載入、新 tests/badminton_clip_unit.js）＋從我的分支拿 badminton_props.glb／.json；在 invites3d.js 羽球邀約「答應／見面」之後、「一起的時候」那段之前呼叫 BADCLIP.play(GM,{who,full})（第一次 full、之後 false）；BADCLIP.LINES[id] 的一句接在短片後面；考慮短片期間關掉卡住偵測提示",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_485 第 2 節：三個鏡頭（遠景發球、側面四拍高遠球跟著球、照人換的結尾 8 種）；可跳過；不比分、短片裡不說話。場地在新體育館 1F 羽球場（遊戲原本打羽球就在 1F；3F 沒有羽球網）——請 LAWWW-C／AA-C 確認。badminton_clip_unit 改前 FAILED 3、改後 ALL PASS（16）；載入 character3d.js 的 10 支 Node 測試 ALL PASS；瀏覽器以安、語彤兩版從頭播到尾沒有例外。patch 對 c9ed80184 apply --check 過"
   }
  ]
 }
