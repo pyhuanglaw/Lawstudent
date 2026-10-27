@@ -757,12 +757,12 @@ const MREL=(function(){
     else { await S.run(GM,KX,W.end,c); S.end(G,KX); st.endedDay=G.day; }
     return true; };
   /* 回 B（thinking）以後的見面 */
-  S.kxThinkMeet=function(G,st,kind){ const w=st.w||(st.w={day:G.day}), left=[st.y,w.z].filter(q=>q&&dating(G,q));
+  S.kxThinkMeet=function(G,st,kind){ if(!dating(G,KX)) return null; const w=st.w||(st.w={day:G.day}), left=[st.y,w.z].filter(q=>q&&dating(G,q));
     if(!left.length) return {abort:kind!=='out',run:async GM=>S.result(GM,KX,st,'A')};   /* 照 5-6 的 A */
     if(!w.told&&G.day>(w.day|0)) return {abort:false,run:async GM=>{ w.told=G.day; await S.run(GM,KX,L().KX_WITHDRAW.told,S.ctx(G,KX,st.y)); }};
     return null; };
   /* 我們的日子暫停（「我們的日子先停。」）：kxod3d.js、pgdates3d.js、story3d.js（大一下）排固定格以前看 kxOdPaused；回 A、分手以後照常 */
-  S.kxOdPaused=G=>{ const M=G&&G.flags&&G.flags.MREL, st=M&&M.st?M.st[KX]:null; return !!st&&st.phase==='thinking'; };
+  S.kxOdPaused=G=>{ const M=G&&G.flags&&G.flags.MREL, st=M&&M.st?M.st[KX]:null; return !!st&&st.phase==='thinking'&&!!G.flags.dating_kexin&&S.kwDone(G); };   /* 這一段交往收回過、還在 B */
   S.kxOdPause=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return; for(const q of OUT.rec(G)) if(q&&q.state==='planned'&&(/^kx_od_/.test(q.id||'')||q.ev==='ev_kexin_our_day'||q.ev==='ev_kexin_our_day_wk')) q.state='skipped'; };   /* 已經排好的固定格 */
 
   /* =================== 五、子晴、芷若兩個人一起（AA_227 6-4、6-5、6-6；AA_422 4-4、AA_423 4-1；BB_194 §22）=================== */
@@ -870,7 +870,8 @@ const MREL=(function(){
   if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e.id===OUTEV.id)) STORY_EVENTS.push(OUTEV);
   if(typeof ROM!=='undefined'&&!ROM._mrel){
     const r0=ROM.rec; ROM.rec=function(G){ const r=r0.apply(this,arguments); try{ if(G&&G.flags) S.defaults(G); }catch(e){} return r; };   /* 讀檔時補（game3d.js migrate 叫 ROM.rec）*/
-    const s0=ROM.start; ROM.start=function(G,id){ const ok=s0.apply(this,arguments); try{ if(ok) S.zzStartHook(G,id); if(ok&&(id===A1||id===YT)&&G.flags&&G.flags['EX_'+id]) delete G.flags['EX_'+id]; }catch(e){ console.warn('MREL start',e); } return ok; };   /* AA_185 4-1：重新交往那一刻起 EX 清掉、前任版切回交往版 */
+    const s0=ROM.start; ROM.start=function(G,id){ const ok=s0.apply(this,arguments); try{ if(ok) S.zzStartHook(G,id); if(ok&&(id===A1||id===YT)&&G.flags&&G.flags['EX_'+id]) delete G.flags['EX_'+id];
+        if(ok&&id===KX){ const s=S.rec(G).st[KX]; if(s&&s.phase==='thinking') s.phase='ended'; } }catch(e){ console.warn('MREL start',e); } return ok; };   /* AA_185 4-1：重新交往那一刻起 EX 清掉、前任版切回交往版；和可昕重新交往＝上一段收回以後的 B 不帶過來 */
     const ya0=ROM.ytAnswer; if(ya0) ROM.ytAnswer=function(G,x){ const r=ya0.apply(this,arguments); try{ if(r==='lied'&&G&&G.flags) S.lieMark(G,x); }catch(e){ console.warn('MREL lie',e); } return r; };   /* 說謊記一筆（S.lieN；可昕收回 ①）*/
     ROM._mrel=true; }
   if(typeof TERMEND!=='undefined'&&!TERMEND._mrel){
