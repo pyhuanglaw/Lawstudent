@@ -3436,6 +3436,48 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "改遊戲程式（不是 engine3d／story3d／us3d）；state 原文：已交付（READY_FOR_ART_REVIEW）。光線 18.6～19.2（nk 0.625→1）白天照片照 nk 疊成夜景照片，19.2 不跳。12/10 17:20 窗（看得到窗外的像素平均亮度）：霖澤館 0.084→0.055（屋外 0.041）、總圖 0.116→0.069（屋外 0.029，剩玻璃反光）、萬才館 0.057→0.061（屋外 0.054）；霖澤館 17:00～17:40 一路變暗、不跳。新測試開發 FAILED→ALL PASS；window_night_sync、us_airport_dusk ALL PASS；task 原文：ART-HALL-WINDOW-DUSK-1025：黃昏大廳窗外白天照片跟著屋外暗下來（BB-B RELEASE-91010-TEST 附註④）；sha 原文：（本 commit）；files 原文：docs/art-rebuild/second_ai/patches/window_dusk_fade_1025.patch（world3d.js、building3d.js、library3d.js、l118_shops3d.js、zones3d.js＋新 tests/window_dusk_fade_unit.js；對開發 96c11e3fa，e015b7c10 也 apply --check 過）｜docs/art-rebuild/second_ai/test_shots/window_dusk_1025/README.md、01_dusk_1210_1720.jpg、readings.json｜tools/blender/env_second/shots/window_dusk_ab.py"
+  },
+  {
+   "task": "PERF-SINGLESIDE-GLB-1025",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d66eed04",
+   "files": [
+    "tools/blender/env_second/us_apartment.py",
+    "tools/blender/env_second/us_asian_market.py",
+    "tools/blender/env_second/us_bed_c.py",
+    "tools/blender/env_second/us_lawlib.py",
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_apartment.json",
+    "assets/models/env/second_ai/us_asian_market.glb",
+    "assets/models/env/second_ai/us_asian_market.json",
+    "assets/models/env/second_ai/us_bed_c.glb",
+    "assets/models/env/second_ai/us_bed_c.json",
+    "assets/models/env/second_ai/us_lawlib.glb",
+    "assets/models/env/second_ai/us_lawlib.json",
+    "assets/models/env/second_ai/us_shared.glb",
+    "assets/models/env/second_ai/us_shared.json",
+    "docs/art-rebuild/second_ai/patches/singleside_us_1025.patch",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/19_asian_view_first_try.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/README.md",
+    "tools/blender/env_second/lib2.py",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/20_us_apartment_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/21_us_shared_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/22_us_lawlib_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/23_us_lawlib_2f_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/24_us_asian_market_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/25_us_bed_c_sheet.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/28_us_shared_inside_1500.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/29_us_shared_inside_2100.jpg",
+    "docs/art-rebuild/second_ai/test_shots/singleside_glb_1025/30_us_shared_reshoot_8s.jpg",
+    "tools/shots/singleside_us_interior_ab.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 換五個 GLB（us_apartment、us_shared、us_lawlib、us_asian_market、us_bed_c＋各自 .json）、套 patches/singleside_us_1025.patch（新 tests/singleside_us_unit.js），跑 singleside_us_unit 和美國相關單元；BB 測美國區域瀏覽器流程",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第四份：上一班 LAWWW2-B 做（GLB 09b41377、六區對照圖 e1486b51），沒交班；LAWWW2-C 10-27 接班補拍公寓、C 棟 208 屋內同角度（26～30）、在開發 5b6737cd3 重驗：singleside_us_unit 開發 FAILED 7→新 ALL PASS，美國相關 18 支 ALL PASS。fps 是上一班量的（+11～40%）。開發分支重匯不了公寓、C 棟 208（缺配置檔、道具組），README 有寫。"
   }
  ]
 }
