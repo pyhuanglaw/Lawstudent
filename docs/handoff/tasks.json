@@ -34081,7 +34081,7 @@
    "title": "答應媽媽回家（週四家人群組回「會回去」）以後遊戲沒記下：連假到了不提醒、不帶回家，人還在宿舍；有人約那個週末（可昕）也沒提示衝突——記下約定、連假第一天問要不要回家、不回去媽媽有反應、約那個週末時提示衝突",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "使用者 10-27 20:5x 對 LAWWW-C（UA-LAWWW-1027-23、-25；存檔 wip_backup/saves/fatiao3d_save_day25_1027.json）",
    "first": {
@@ -34094,7 +34094,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 22:1x UTC】子代理 homepromise-1027 被使用者停掉（21:3x 使用者中斷那一次；只讀過規格、沒有修改，5ec254b3a 只有開工檢查點），系統規定沒有使用者明說不再開子代理——LAWWW 自己做，v9.10.11 發布後第一項（AA_488 961a3a8a0）｜【LAWWW-C 2026-10-27 21:3x UTC】子代理 homepromise-1027（基底 d874aa740）照 AA_488 做｜【LAWWW-C 2026-10-27 20:4x UTC】AA_488（961a3a8a0）規格到了；LAWWW 等 an-stuck-1027 合進來（invites／outings 同一帶）再做｜【LAWWW-C 2026-10-27 20:5x UTC】AA-C 定：哪些回覆算答應（連假、節日、平常週末）、連假第一天怎麼問、不回去媽媽說什麼、別人約那個週末時的提示句；LAWWW 照定案改 home3d.js（S.GROUP_WK 的回覆記約定）＋invites／outings 衝突提示",
+   "next": "【LAWWW-C 2026-10-27 22:2x UTC】第一階段 22049eb3f（AA_488 第 1、2、3、5 節：記約定、提醒、不回去、姊姊、颱風；home_promise_unit）；第二階段：第 2 節「已經排了別的約」那一版、第 4 節三選一（invites3d.js、outings3d.js）｜【LAWWW-C 2026-10-27 22:1x UTC】子代理 homepromise-1027 被使用者停掉（21:3x 使用者中斷那一次；只讀過規格、沒有修改，5ec254b3a 只有開工檢查點），系統規定沒有使用者明說不再開子代理——LAWWW 自己做，v9.10.11 發布後第一項（AA_488 961a3a8a0）｜【LAWWW-C 2026-10-27 21:3x UTC】子代理 homepromise-1027（基底 d874aa740）照 AA_488 做｜【LAWWW-C 2026-10-27 20:4x UTC】AA_488（961a3a8a0）規格到了；LAWWW 等 an-stuck-1027 合進來（invites／outings 同一帶）再做｜【LAWWW-C 2026-10-27 20:5x UTC】AA-C 定：哪些回覆算答應（連假、節日、平常週末）、連假第一天怎麼問、不回去媽媽說什麼、別人約那個週末時的提示句；LAWWW 照定案改 home3d.js（S.GROUP_WK 的回覆記約定）＋invites／outings 衝突提示",
    "xai": {
     "spec": "使用者原話；home3d.js S.GROUP_WK（AA_458 第 1 節）",
     "branch": "claude/magical-albattani-bk7b4n",
