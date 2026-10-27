@@ -8,7 +8,7 @@
      還沒接的互動（現在照區域自己的預設：進門、看告示）：usShared（US2 的爐子、冰箱、高腳椅）、usClub（會所）、usMarket（採買）、airportBoard（寒暑假出國）。
    - 返台（1A-09，AA_318；AA-C bf349b96 更正；AA_340 S10）：當地 12/21 23:55 起飛（平常由 r2y4a3d.js 12/16 離開那一週帶過來；人在美國、過了這個時間＝保底）→ 字卡（舊金山起飛約 14 小時）→ 臺灣 12/23 清晨 05:40 落地、桃園入境大廳（airport_arr）→ 上午回家睡到下午 → 傍晚 STORY.roomY4FromAirport（從家裡出發，19:00 到 409、拆箱）。
    - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物。測試：node tests/exch_min_unit.js、tests/room_y4_unit.js
-   - E08（2026-10-27）：寒暑假出國、日本路線出發也走這個出境大廳（下面 S.airGo／S.airBoard；src/vac3d.js、src/y34b3d.js 登記 S.AIR）。測試：node tests/e08_airport_unit.js */
+   - E08（2026-10-27）：寒暑假出國、日本路線出發也走這個出境大廳（下面 S.airGo／S.airBoard；src/vac3d.js、src/y34b3d.js 登記 S.AIR）。測試：node tests/e08_airport_unit.js、tests/e08_hall_unit.js（AA_478） */
 'use strict';
 const EXCH=(function(){
   const S={};

@@ -14,7 +14,7 @@
      第二次以後的關鍵日（rep.keys2：一句；again：後面照演的，C16 語彤那兩段）、C16 午餐（work.lunch，上班日扣）、C16 上學期被當＝沒錄取（select.noFail，S.failedTerm）、
      C17 去過的人公告多一個選項（signup.again「寄信給馮律師」：不用交履歷、不面試，V.ok 記 AGAIN＋面試那一格）、沒錄取時阿哲那句照季節（寒假版）、C18 行前說明會（select.brief，錄取時排；vac.k＝'brief'）。
    存檔 G.vac＝{reg:{'C02@Y1':'yes'|'no'|'later'|'done'|'missed'|'rejected'}, seen:{C02:true}, log:[{day,t}], ok:{'C16@Y2:APP':日}, work:{'C17@Y2':[去了的日子]}, paid:{'C17@Y2':元}}；舊存檔沒有後三個＝用到時才建。
-   2026-10-27：X58 中間跳過的日子收到訊息就停、打開手機（S.jump，tests/x58_skip_msg_unit.js）；E08 出國的那一趟先到 3D 出境大廳再登機（檔尾，tests/e08_airport_unit.js）。
+   2026-10-27：X58 中間跳過的日子收到訊息就停、打開手機（S.jump，tests/x58_skip_msg_unit.js）；E08 出國的那一趟先到 3D 出境大廳再登機（檔尾，tests/e08_airport_unit.js）；AA_478：大廳裡演「出發」、帶隊的人各一句，登機以後「飛往〇〇」字卡（tests/e08_hall_unit.js）。
    測試：node tests/vac_unit.js、node tests/vac_c16_c18_unit.js */
 const VAC=(function(){
   const S={}; S.ON=true;
