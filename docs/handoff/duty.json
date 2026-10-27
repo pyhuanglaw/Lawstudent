@@ -50,14 +50,14 @@
    "handoffSnapshot": "2026-10-17T0248Z_B_LAWWW2.json"
   },
   "AA": {
-   "account": "B",
-   "session": "session_016ACZaD4oB9tX94WqQR4dkS",
-   "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "2055f064",
-   "since": "2026-10-23T06:44Z",
+   "account": "C",
+   "session": "session_019evvieJUJD23EGf4nyLPgo",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "25c921a8",
+   "since": "2026-10-27T16:48Z",
    "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "4a25046b",
+   "sinceSha": "89accb6d",
    "handedOffAt": "2026-10-17T02:39Z",
    "handoffSnapshot": "2026-10-17T0238Z_B_AA.json"
   },
@@ -321,6 +321,48 @@
    },
    "until": "2026-10-27T16:46Z",
    "endKind": "no-handoff"
+  },
+  {
+   "account": "B",
+   "role": "LAWWW2",
+   "roles": {
+    "LAWWW2": {
+     "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
+     "branch": "claude/funny-albattani-iawshm",
+     "sha": "9d53752f",
+     "state": "on",
+     "handedOffAt": "2026-10-17T02:49Z"
+    }
+   },
+   "until": "2026-10-27T16:53Z"
+  },
+  {
+   "account": "B",
+   "role": "AA",
+   "roles": {
+    "AA": {
+     "session": "session_016ACZaD4oB9tX94WqQR4dkS",
+     "branch": "claude/cool-heisenberg-o8kuqx",
+     "sha": "2055f064",
+     "state": "on",
+     "handedOffAt": "2026-10-17T02:39Z"
+    }
+   },
+   "until": "2026-10-27T16:53Z"
+  },
+  {
+   "account": "B",
+   "role": "BB",
+   "roles": {
+    "BB": {
+     "session": "session_01J1g2TPcPzWrihXSY2WvseV",
+     "branch": "claude/elegant-brown-fcos7n",
+     "sha": "28fef8fd",
+     "state": "on",
+     "handedOffAt": "2026-10-17T02:39Z"
+    }
+   },
+   "until": "2026-10-27T16:53Z"
   }
  ],
  "anomalies": [
@@ -527,8 +569,12 @@
    "at": "2026-10-27T16:4xZ",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "reviewedThrough": "89accb6d",
-   "resolved": false,
-   "note": "AA-B 沒有正式交班（10-25 19:43 UTC 停住，最後 89accb6d）；duty.json roles 裡還寫著 B on，等帳號 C 的 AA 用 duty register --user-ok 接班後就解決。接班時合併 claude/cool-heisenberg-o8kuqx（不 rebase、不 force push）"
+   "resolved": true,
+   "note": "AA-B 沒有正式交班（10-25 19:43 UTC 停住，最後 89accb6d）；duty.json roles 裡還寫著 B on，等帳號 C 的 AA 用 duty register --user-ok 接班後就解決。接班時合併 claude/cool-heisenberg-o8kuqx（不 rebase、不 force push）｜10-27 16:5x 解決：AA-C 已接班（快轉合併 89accb6d4 → 25c921a8f，duty register --user-ok），LAWWW-C duty sync 收進來",
+   "evidence": [
+    "origin/claude/magical-albattani-bk7b4n@25c921a8f",
+    "duty_AA.json（AA-C register --user-ok 10-27 16:48）"
+   ]
   },
   {
    "kind": "no-handoff",
@@ -540,9 +586,29 @@
    "reviewedThrough": "2109de7b",
    "resolved": false,
    "note": "BB-B 沒有正式交班（10-25 19:31 UTC 停住，最後 2109de7b）；duty.json roles 裡還寫著 B on，等帳號 C 的 BB 用 duty register --user-ok 接班後就解決。接班時合併 claude/elegant-brown-fcos7n（不 rebase、不 force push）"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "BB",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-27T16:53Z",
+   "note": "BB 上一任沒有正式交班",
+   "resolved": false
+  },
+  {
+   "kind": "stale-sync",
+   "role": "LAWWW2,BB",
+   "account": "C",
+   "at": "2026-10-27T16:5xZ",
+   "resolved": true,
+   "note": "LAWWW-C 收 AA-C 接班的 duty sync 同時讀到 claude/focused-cray-c9uwvw、claude/wonderful-mayer-7fm9g6 上 10-20 留下的 duty_LAWWW2.json／duty_BB.json（state on，交班時沒改），把 LAWWW2、BB 寫成帳號 C 值班——但 LAWWW2-C、BB-C 10-21 已交班、這次還沒接班。已改回 sync 以前的值（帳號 B、no-handoff 未解決）；等它們 duty register --user-ok 再 sync。教訓同 10-23：sync 只收真的剛登記的職位",
+   "evidence": [
+    "duty.json HEAD 446b36c55 的 roles.LAWWW2／BB"
+   ]
   }
  ],
- "seq": 28,
+ "seq": 29,
  "chain": [
   {
    "seq": 1,
@@ -739,6 +805,13 @@
    "account": "C",
    "role": "LAWWW",
    "event": "register-user-ok"
+  },
+  {
+   "seq": 29,
+   "at": "2026-10-27T16:53Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
   }
  ]
 }
