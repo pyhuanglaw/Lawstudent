@@ -1,7 +1,7 @@
 {
  "version": 1,
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
- "ruleVersion": "HV-19",
+ "ruleVersion": "HV-20",
  "ruleSource": {
   "branch": "claude/adoring-meitner-mqzst8",
   "sha": "5b6737cd",

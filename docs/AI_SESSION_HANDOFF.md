@@ -230,6 +230,8 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 13 | **回報使用者「接班確認」**（第 6 節格式：含值班狀態、對帳結果、異常） | `duty verify` 結束碼寫進去；有異常照實寫 |
 | 14 | **立刻接續未完成工作**，不用使用者再說「開工」 | `python3 tools/handoff/check_handoff.py queue --owner <職位>`（D81 順序）；D87 自主連續；**D95：回合結束前保存、讀通知，佇列還有可做的就 send_later 自己接續，回報不是結束**；**D96：一回合連續做多項、send_later 同時最多一個、有背景通知就不排、批次回報** |
 
+- **HV-20（2026-10-27）duty sync 擋舊登記**：sync 只收比 duty.json 新的登記、讀之前先對 GitHub；LAWWW 只收已經**重新** `duty register` 的職位，沒登記的留給上一任（記 no-handoff），不要手改 duty.json 去「補」。印「[略過] <職位>」＝那個職位還沒重新登記，請它登記，不是工具壞了。
+
 - **第 4、7、8 步一律加 `--ref origin/<RULE_SOURCE>`**：那時還沒合併（第 11 步才合併），從 RULE_SOURCE 讀才是最新的值班狀態與總表；LAWWW 合併以後在自己的分支 `duty register`，其他職位登記時照樣加 `--ref`。
 - **找對方的 session ID**：`duty.json` 的 `roles`（或 `duty plan`）；同一帳號內 `list_sessions` 看標題。**只聯絡同一個帳號、值班中的職位（D75）**。
 - **職位的任務不跟著帳號走**：任務的 `owner` 是職位，換帳號不歸零；`deliveries.json` 記帳號、分支、commit，分得出哪一班交的。
@@ -255,6 +257,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 2. **寫六類紀錄**（上表）。
 3. **存快照、登記交班**：
    - LAWWW 以外的職位：`python3 tools/handoff/check_handoff.py snapshot --role <職位> --account <A|B|C>` → `python3 tools/handoff/check_handoff.py duty handoff --account <X> --role <職位> --snapshot <檔名> --ref origin/<RULE_SOURCE>` → commit＋push；同帳號值班中的 LAWWW 用 `send_message` 通知（LAWWW 已經交班就只寫 GitHub）。
+   - **一定要跑 `duty handoff`**（HV-20）：只寫交接檔、不改自己的 `duty_<職位>.json`，檔案會一直寫 state on，下次這個帳號回來時會被當成「值班中」（10-27 LAWWW2-C、BB-C 的事故）。
      （2026-10-18 起：自己的分支沒有 tasks.json 也直接跑——工具自動從 GitHub 上的 RULE_SOURCE 讀總表，不用從 LAWWW 分支借檔案；先 `git fetch --all`。BB-C 回報、LAWWW-C 修）
    - **各職位平時就在自己分支的 `outbox_<職位>.json` 登記交付與 WIP（D94，`docs/handoff/OUTBOX_TEMPLATE.md`）**，交班時只補最後的差異。
    - LAWWW 最後做：`check_handoff.py check`（異常處理掉或寫進交班紀錄）→ `check_handoff.py incr`（D94：水位線以後的新 commit 都分類、WIP 沒消失；通過後 commit＋push 再 `incr --advance all`）→ `check_handoff.py roles`（逐職位核對，D93：LAWWW2、AA、BB 的全部待辦都要在總表；異常沒處理完，交班紀錄寫「逐職位核對：異常 N 項未處理」並列出，不宣稱交接完整）→ `duty sync`（收其他職位的交班登記）→ `snapshot --role LAWWW --account <A|B|C>` → `duty handoff --account <X> --role LAWWW --snapshot <檔名>` → 值班表改成「換班中」、第 12 節加一行 → commit＋push、核對遠端 SHA。**沒 push 的快照＝沒有快照。**
@@ -710,6 +713,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-20** | 2026-10-27 | **duty sync 擋舊登記（HV-20，工具擋、不靠記得）**：sync 只收比 duty.json 現在那一筆新的職位登記（since 比較），讀之前先對 GitHub（ls-remote）、本機的遠端分支不是最新就先 fetch；舊檔一律印「[略過]」不收。起因兩次事故：10-23 LAWWW-B 的本機遠端分支沒 fetch，讀到三個職位上一次交班的檔；10-27 帳號 C 的 LAWWW2、BB 交班時沒用 duty handoff 改自己的 duty_<職位>.json（一直寫 state on），C 回來 sync 時被當成「C 值班中」。**人要做的兩件**：①職位交班一定要跑 `duty handoff`（只寫交接檔不算）；②接班時每個職位都要自己 `duty register`（上一任沒交班加 `--user-ok`），LAWWW 只 sync 已重新登記的，沒登記的照舊留給上一任、記 no-handoff。回歸測試：`python3 tests/handoff_duty_sim.py stale`（兩個事故情境；舊工具 0／2、新工具 2／2） | 使用者 10-27「這個要寫入多帳號交班共用規則確認如何避免」 | tools/handoff/duty_state.py sync、tests/handoff_duty_sim.py、本檔第 4 節第 12 步與第 5 節、CLAUDE.md 跨帳號接班 | （本次 commit） |
 | **HV-19** | 2026-10-27 | **子代理一開工就推檢查點、每 15～20 分鐘備份一次（D113）**；**沒交班的帳號照實記錄**：使用者指示接班時 `duty register --user-ok` 記 no-handoff，duty.json anomalies 寫各職位最後 commit、停住時間、遺失了什麼、誰重做；第 1 節、第 12 節寫「沒有交班」 | 使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」「可以再補一條：子代理一開工就先推一個檢查點……」 | CLAUDE.md D113、PROJECT_DECISIONS D113、本檔第 1、12、13 節、duty.json | （本次 commit） |
 | **HV-17** | 2026-10-18 | **第四個帳號 D**（使用者「我可能會開第四個帳號」「要讓四個帳號都知道怎麼回來，不一定是誰交給誰，可能很隨機」）：A、B、C、D 四個帳號任意方向輪值、不限次數、不照順序；帳號 D 的工作階段叫 LAWWW-D、LAWWW2-D、AA-D、BB-D（第 7.9～7.12 節啟動提示詞）；上一任一律看 `duty.json` 登記鏈；回來一律說「我回來了，請同步 GitHub 最新進度，接續工作。」；工具 duty_state.ACCOUNTS 加 D、duty.json accountState D＝unused | 使用者 10-18 12:4x 對 LAWWW-C | CLAUDE.md 開頭、本檔第 0a、4、5、7、8 節、tools/handoff | （本 commit） |
 | **HV-18** | 2026-10-18 | **使用者要求「機器會擋」**（使用者 13:5x：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務？交接規則到底要怎麼寫？」→ 選「三個都做」）：①`.claude/settings.json` UserPromptSubmit 提醒 hook ②每職位 `docs/handoff/user_asks_<職位>.json`（一則一筆、原話、kind、status、wants／task；AI 解讀要 confirmed）③`check_handoff.py asks` 每批工作結束、接班第 9 步、交班存快照前跑，有異常不得宣稱交接完整。全文：CLAUDE.md P0 HV-15 第 7 點。種子：LAWWW-C 依 USER-WANTS-AUDIT-1018 建了四個職位的檔（20 筆） | 四職位、所有帳號 |

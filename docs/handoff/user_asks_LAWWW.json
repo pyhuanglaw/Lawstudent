@@ -1103,6 +1103,15 @@
    "status": "進行中",
    "task": "HANDOFF-C-1027",
    "note": "17:0x 傳給 BB-C、LAWWW2-C、AA-C（delivered）：各自接班工作＋【通訊實測】互傳、回報收到誰的、ACK"
+  },
+  {
+   "id": "UA-LAWWW-1027-05",
+   "at": "2026-10-27T17:2x",
+   "quote": "登記 AA-C 時，工具誤把 LAWWW2、BB 也標成「帳號 C 值班中」……這正是 B 之前踩過的同一個坑。我只保留 AA 的更新，把 LAWWW2、BB 改回原狀並記錄下來。 這個要寫入多帳號交班共用規則確認如何避免",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X102",
+   "note": "HV-20：工具改（duty_state.py sync 兩道檢查）＋規則（AI_SESSION_HANDOFF 第 4、5、13 節、CLAUDE.md）＋回歸測試（handoff_duty_sim.py stale）"
   }
  ]
 }
