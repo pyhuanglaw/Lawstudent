@@ -33228,7 +33228,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
+   "next": "【LAWWW-C 2026-10-27 20:1x UTC】AA_482（7620d336e）加進子代理第二輪、排在 AA_481 之後（2-Y4-54 坦白照她的條件、都同意不問選誰、尾聲兩邊坐；子代理另列畢業以後七位談話演不到的地方給 AA）｜【LAWWW-C 2026-10-27 20:1x UTC】第一輪合進開發分支 fb8d27888（子代理 aopen-1027 eb97e846c：七位 acceptsOpen true＋各自條件、MREL.knowGate 3b 七處、可昕收回 ①②③；新測試 aa474_acceptsopen_unit 58 項，基底 53 FAIL；子代理分支 Node 653/0）。第二輪：AA_481（265f54809）五處前後句＋AA 回答第一輪八題（已轉 AA-C 20:1x），子代理同一分支做（基底 fb8d27888）；之後 BB 測 BB_TEST_QUEUE_1027 第 5c 節｜【LAWWW-C 2026-10-27 19:2x UTC】子代理開工（worktree wt_aopen，分支 aopen-1027，基底 d5ce20a40；照 AA_474 最後版本 020f695a3）；D113 每 15～20 分鐘 bundle（wip_backup/aopen_1027.bundle）｜【LAWWW-C 2026-10-27 17:2x UTC】**以 AA_474 第二版（7e3f8ed4c）＋第 4 節 3b 通則（020f695a3）為準，下面舊紀錄裡和它不同的都作廢**。要做的：①romance3d.js 第 20 行七位 acceptsOpen 改 true；②S.knowOpts 不加各人條件（AA 第一版讀漏 termend3d.js S.KNOWS_OK＝BB_203 5-3，她知道時要先過這張表心意邀約才會發），只改學姊：第一次一律讓我想想、第二次中間要兩次 L1/L2；③發現以後的結果照現在不改（以安 YT_INTENT、芷若約會 ≥8 次都作廢）；④3b 通則：開始交往前 knownOthers 有人＝先演 KNOW＋S.knowOpts（芷若照三問），七處：以安七夕 r2y3b3d.js S.romStart、七月最後一次 r2y4b3d.js S.julyScene start、芷若 8/26 zr_last3d.js S.start、Z13（z13Dinner＋hisOrderStart）、Q15（q15Walk＋貼紙）、學姊大峽谷 tw canyonAfter（連 OPEN_OK 都沒記）、學姊重新開始的約會結尾告白 date3d S.confess；Z13／Q15 在她知道時改走一般的 knowWalk；每處「還沒」那一條照 3b 的表；不在通則裡：jp3d 187、r2y4a3d S.restart、termend 295（只有可昕走得到，她沒有心意邀約）；⑤可昕收回（第 3 節）；⑥第 5 節 multirel_lines.js 三句改字＋aa423_multirel_unit.js 第 95 行；⑦romance_unit #14、mrel_ps_turn_unit #6 照新決定改寫。r2y4b3d.js 和 PG-FIX-471-473 改到同一檔 → PG-FIX 合進開發分支以後才開工（子代理照 D113 開工就備份）｜（以下舊紀錄）【LAWWW-C 2026-10-27 17:1x UTC】AA-C 更正（企劃線 314c61ce4）：「S.anResult 的 C 補 YT_INTENT both」作廢——以安、可昕的談話沒有心意那一題、從來不記 YT_INTENT，加了就永遠到不了接受；程式用「結果那天 Y 還在交往」判斷，照現在就對。發現以後的結果只剩一處要補：芷若 Byes 加約會 ≥8 次 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】AA_474 加第 5 節（企劃線 fc961b2c5）：multirel_lines.js 接受那幾句兩組撞句改三處——學姊 Byes 第三句、沛珊知情心意邀約 accept.yes、學姊第二次「她說可以」的 then／yes（第一次照舊）；aa423_multirel_unit.js 第 95 行寫死學姊 Byes 要一起改 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】照 AA_474 第 4 節：先補 multirel3d.js S.knowOpts 答應前的各人條件（現在只看開關、心意邀約 npcRom≥30＝開關一開就當場接受；表在第 1-8 節）→ 再把 romance3d.js 第 20 行七位改 true；學姊第一次「她說可以」一律讓我想想；S.anResult 的 C 補 YT_INTENT both；芷若補約會 ≥8 次；可昕收回（第 3 節新規格＋台詞）；romance_unit #14、mrel_ps_turn_unit #6「七位都 false」照新決定改寫。排在 v9.10.11 發布、PG-FIX-471-473 之後（子代理照 D113 開工就備份）",
    "sha": "fb8d27888"
   },
   {
@@ -33654,6 +33654,214 @@
     "acceptance": "公寓裡走得進衣物間、看得到吊衣桿和行李箱；床、書桌、洗手間門照使用者說的順序；洗手間走得進去看得到浴缸；舊存檔在公寓裡讀檔不卡牆；相關 Node 測試 ALL PASS",
     "receiver": "LAWWW",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "US-BLANK-1012-HINT-1027",
+   "title": "美國交換挽回中 10/12（四）19:30 秋假自習室的快轉停點（us_blank3d S.stops）停下來只有日期卡、沒有提示她在會所，玩家會以為沒事——加一句提示（AA 定句子，LAWWW 接）",
+   "area": "V4-US",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 10-27 20:15 v9.10.11 判定進度（BB_218，64cb3b4c0；trx_alone8 f54a35ec4 ALL PASS，這件不擋發布）",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國交換挽回中、10/12 秋假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:1x UTC】已請 AA-C 寫一句提示（旁白或她的訊息、AA 定）；AA 交句子後 LAWWW 接進 us_blank3d 那個停點，BB 再看一次",
+   "xai": {
+    "spec": "BB_218（64cb3b4c0）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "10/12 19:30 停下來時玩家看得出她在會所、可以去找她",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "GYM-NOTICE-1027",
+   "title": "朋友注意到你在運動的句子提到「健身房」（柏翰「你去健身房的時間，比我念刑法的時間多。」、阿凱「健身房？好喔」、明軒「健身房？學校的？」），但體能是打羽球、系籃、登山也會加：沒去過健身房的玩家也會聽到——改成真的去過健身房（有會員證）才講，其他請 AA 寫「有在運動」的版本",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "使用者 10-27 20:1x 對 LAWWW-C（UA-LAWWW-1027-08）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "體能升到第 1 階（有在運動）時朋友第一次注意到",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】src/fit3d.js S.NOTICE；請 AA-C 寫沒去過健身房的版本（三句），交了 LAWWW 加條件（gym 的 card）"
+  },
+  {
+   "id": "BADMINTON-CLIP-1027",
+   "title": "和語彤打羽球做成 3D 小短片（現在只有對話）：綜合體育館 3F 主球場，兩個人打幾球、幾個鏡頭（約 10～20 秒），接在羽球邀約的對話裡",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "使用者 10-27 20:1x 對 LAWWW-C「跟陳羽彤打羽球也只是對話帶過? 不能做個小短片?」（UA-LAWWW-1027-09）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次和語彤打羽球（AA_417 運動邀約）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】LAWWW2：揮拍動作（VRM 人形；Blender 關鍵影格或程式動作，先講做法）、球拍、羽球飛的弧線、3F 球場鏡頭；AA-C：短片那一段的演出（幾個鏡頭、中間一兩句）；LAWWW 接進 invites.js 的羽球結束前；排在美國公寓、X14 之後",
+   "xai": {
+    "spec": "使用者原話；AA-C 寫演出",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "羽球邀約玩到時有 10～20 秒的 3D 短片：兩個人在 3F 球場打球（揮拍、球飛過網）、可以跳過；手機模擬 fps 不掉太多；舊存檔不受影響",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "CROWD-CLASS-ARRIVE-1027",
+   "title": "上課前教室門口等的人站著不動、開始上課時教室突然多出一群已經坐好的同學（博雅，其他教學館同一套）——改成上課前門口的人陸續走進去坐下、教室裡的人是走進來的、等的人有小動作",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-10）",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系第一次上課（共同教學館）、法律系第一次上課（博雅 101）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】LAWWW 派子代理：src/crowd3d.js（門口等候、leaveGroup 走進去）、classes3d.js syncRoom（開始上課一次坐滿）"
+  },
+  {
+   "id": "GYM-CROWD-1027",
+   "title": "綜合體育館三層（1F 大廳、B1 健身中心、3F 主球場）都沒有人——加人流：大廳有人走過、櫃台、B1 有人在運動、3F 球場有人打球和在旁邊休息，照時段（開館時間內）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C「體育館最詭異的是不管哪裡都沒有人」（UA-LAWWW-1027-11）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次走進綜合體育館（體育課、系籃、羽球）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】LAWWW 派子代理（和 CROWD-CLASS-ARRIVE-1027 同一個）：crowd3d.js 的 SPOTS 加體育館三個區域；運動的動作先用現有的走、跑、站、坐"
+  },
+  {
+   "id": "CLUBFAIR-REAL-1027",
+   "title": "社團博覽會照真實的臺大社博重做：攤位太少（九頂帳篷、選單五個社團）、沒人顧攤、看不出可以參加什麼——AA 查實際的社博（日期、地點、社團類型）重排攤位與可參加的社團（參加了有什麼）；LAWWW2 加帳篷、招牌；LAWWW 每攤放顧攤的人和逛的人",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-12、-14）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "法律系大一上 9/30、10/1 社團博覽會（activities.js club_expo_y1s1）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】AA-C：查實際的臺大社博、交新版的攤位表（社團名、類型、顧攤的人一兩句、可不可以參加、參加了的活動時段與效果、法服＝學姊那一段照舊）；LAWWW2：帳篷、招牌（zones3d.js clubFair，D108）；LAWWW：顧攤 NPC＋人流（crowd3d）、選單",
+   "xai": {
+    "spec": "使用者原話；AA-C 交攤位表",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "社博那兩天椰林大道一整排攤位、每攤有人顧、有人逛；選單照攤位表；看得出哪些可以參加",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "SIS-EXPO-PRESENCE-1027",
+   "title": "社博那兩天（9/30、10/1 11:00～17:00）學姊人不在法服帳篷、手機地點還顯示總圖三樓：她要站在法服帳篷（3D 站位），地點照社博",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C（UA-LAWWW-1027-12、-13）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "法律系大一上 9/30 社博第一天 11:00",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】LAWWW：presence／作息加社博那兩天的例外（ev_sis_club_expo 演過以前、以後都站在帳篷，演過以後她照樣顧攤到 17:00）；3D 站位在 zones3d.js 法服帳篷前（story3d.js 260 那個互動點附近）"
+  },
+  {
+   "id": "CLUBFAIR-HINT-1027",
+   "title": "遊戲裡沒有提示社團博覽會：前幾天加提示（公告欄、群組或學姊的訊息、手機行事曆），讓玩家知道 9/30、10/1 在椰林大道",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C「而且遊戲中也沒提示」（UA-LAWWW-1027-14）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "法律系大一上第 4 週（社博前幾天）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】請 AA-C 定提示的句子與時間點（誰傳、哪天）；LAWWW 接（PHONE、公告欄、行事曆）"
+  },
+  {
+   "id": "MSG-SIS-EARLY-1027",
+   "title": "大一上不能傳訊息給學姊（msg3d.js S.open：第 2 階以前「還不熟」）：玩家知道她在法服、社博卻不能問她——加了好友（9/3）以後就開事務話題（社博、法服、課業），聊天照舊",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "使用者 10-27 20:2x 對 LAWWW-C「為什麼不能傳訊息給學姊」（UA-LAWWW-1027-15）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "9/3 加好友以後第一次想傳訊息給學姊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:2x UTC】AA-C 定：要不要開、開哪些話題（事務版第 2 階以前的句子）；LAWWW 照定案改 S.open",
+   "xai": {
+    "spec": "使用者原話；LAWWW 建議",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "加了好友以後手機能傳事務話題給學姊、她回得出合理的句子",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]
