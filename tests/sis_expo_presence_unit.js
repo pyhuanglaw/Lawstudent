@@ -1,6 +1,6 @@
 // SIS-EXPO-PRESENCE-1027（使用者 2026-10-27 20:2x：「社團博覽會…學姊有劇情卻沒在攤位」「社團博覽會甚至顯示學姊在圖書館3樓」）——不需要瀏覽器。
 // 社團博覽會的日子、時間一律讀 activities.js 的 club_expo_y1s1（ACTIVITIES.on、t0／t1；LAWWW-C 10-27：AA_485 第 3 節要改成 2025-09-06（六）10:00～16:00 一天，由另一個子代理改）——
-// 這個測試照現在的資料跑一次，再把活動換成 9/6 10:00～16:00 跑一次，兩種都要過：
+// 舊局（沒有 LAW_START_DAY／MAIN_D1：datesOld 9/30、10/1）、新局（startLawWeek1 的兩個旗標：9/6 10:00～16:00）各跑一輪，兩種都要過：
 //   1. 博覽會那幾天、開始到收攤：學姊（heroine_05）的作息是「椰林大道法服的帳篷旁」（STORY.schedEnt：campus、linger、帳篷前、面向椰林大道），時間照活動（from／to＝t0／t1）；
 //      比她其他的作息都優先（原本平日白天照「總圖」）；開始前、收攤以後、別的日子、經濟系那一年都不是。
 //   2. 手機的地點（STORY.whereIs）：台大校園、寫「社團博覽會法服的攤位」、到收攤的時間；不是總圖三樓。
@@ -31,8 +31,11 @@ load('src/story3d.js');
 const SIS='heroine_05', TENT=[-47.5,13.5], BOOTH=[-47.5,11.5];   /* 法服的帳篷：LAWWW2 36 頂的 lawclub（中心、front；CLUBFAIR-REAL-1027 1cb7bcbb3，原本九頂那一排 (-17.8,15.1)）*/
 const A0=ACTIVITIES.list.find(a=>a.id==='club_expo_y1s1'); const orig={dates:A0.dates.slice(),t0:A0.t0,t1:A0.t1};
 const wdOf=d=>CALENDAR.dateOf(d).wd%7;
-const mkG=(day,h,o)=>Object.assign({day,hour:h,weekday:wdOf(day),flags:{afternoonDone:true,classDone:true},social:{},zone:'campus',goal:'',stage:'law'},o||{});
-const expoDays=()=>{ const out=[]; for(let d=-400;d<400;d++) if(ACTIVITIES.on(A0,d,{day:d,flags:{},stage:'law'})) out.push(d); return out; };
+/* NEWG：新局（2025-08-29 搬進宿舍、9/1 開學：STORY.startLawWeek1 記 LAW_START_DAY＝LAW_D0、MAIN_D1＝MAIN_D1_NEW）＝社博 9/6；沒有這兩個旗標＝舊局（9/17 才開始）照 datesOld 9/30、10/1。
+   BB-C 10-27 23:3x：原本第二輪標「9/6」，G 沒有這兩個旗標，ACTIVITIES 走 datesOld——新局 9/6 從來沒測到 */
+let NEWG=false; const newFlags=()=>NEWG?{LAW_START_DAY:STORY.LAW_D0,MAIN_D1:STORY.MAIN_D1_NEW}:{};
+const mkG=(day,h,o)=>Object.assign({day,hour:h,weekday:wdOf(day),flags:Object.assign({afternoonDone:true,classDone:true},newFlags()),social:{},zone:'campus',goal:'',stage:'law'},o||{});
+const expoDays=()=>{ const out=[]; for(let d=-400;d<400;d++) if(ACTIVITIES.on(A0,d,{day:d,flags:newFlags(),stage:'law'})) out.push(d); return out; };
 const hhmm=x=>String(Math.floor(x)).padStart(2,'0')+':'+String(Math.round((x%1)*60)).padStart(2,'0');
 /* 測試用的校園（STORY.populate 需要的最少東西）：長椅的座位、互動點、加人 */
 function stubGM(G){ const E={npcs:[],q:{level:'medium'},zone:{seats:[],spawn:{x:-112,z:0}},interactables:[],levels:null,nav:null,camera:null,indoor:false,
@@ -71,10 +74,10 @@ async function round(tag){ const days=expoDays(), a=A0; let bad=[];
     check(tag+'4. 還沒演過：找她說話＝演 ev_sis_club_expo（和點攤位一樣）',ran[0]==='ev_sis_club_expo',ran.join(',')||'沒有演');
     ran.length=0; if(n&&n.talk){ try{ await n.talk(n); }catch(e){} } check(tag+'4. 演過以後：找她說話不再演那一段',!ran.includes('ev_sis_club_expo'),ran.join(',')); } }
 (async()=>{
-  await round('');
-  A0.dates=['2025-09-06']; A0.t0=10; A0.t1=16;   /* AA_485 第 3 節：大一社團博覽會 2025-09-06（六）10:00～16:00 一天 */
-  await round('［9/6 10:00～16:00］');
-  A0.dates=orig.dates; A0.t0=orig.t0; A0.t1=orig.t1;
+  await round('［舊局］');
+  NEWG=true; const nd=expoDays().map(d=>CALENDAR.dateOf(d).key);
+  check('［新局］0. 前提：新局的社博是 2025-09-06（六）10:00～16:00（AA_485 第 3 節；activities.js dates）',JSON.stringify(nd)==='["2025-09-06"]'&&A0.t0===10&&A0.t1===16,JSON.stringify(nd)+' '+A0.t0+'～'+A0.t1);
+  await round('［新局 9/6］'); NEWG=false;
   // 5. 遊戲真正的校園（博覽會那天有帳篷）：站得住、不在帳篷裡、離攤位 2 m 以內
   { const day=expoDays()[0]; global.GAME={G:{day,hour:(A0.t0+A0.t1)/2,flags:{},stage:'law'}}; const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
     const z=Z3.ZONES.campus.build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; else z.nav._cm=null;
