@@ -109,9 +109,9 @@
    "quote": "打羽球男主角還背著背包什麼意思",
    "kind": "原話",
    "confirmed": true,
-   "status": "已修（開發分支 056851057，待 BB 瀏覽器驗）",
+   "status": "在開發分支",
    "src": "使用者直接問 BB-C",
-   "note": "羽球小短片（badminton_clip3d.js）祐廷、對手背著包打球＝缺漏；BB-C 22:4x 回答並轉 LAWWW-C（BUG-BADCLIP-BACKPACK-1027）；LAWWW-C 修成 CHAR.carryOff（056851057，tests/badclip_bag_unit.js），驗收照 BB_TEST_QUEUE_1027 5p：以安、語彤、男生朋友各一次看三個鏡頭",
+   "note": "已修 056851057、待 BB 瀏覽器驗（5p：以安、語彤、男生朋友各一次看三個鏡頭；工具 test_tools/badclip_bag_probe.py）。羽球小短片（badminton_clip3d.js）祐廷、對手背著包打球＝缺漏；BB-C 22:4x 回答並轉 LAWWW-C（BUG-BADCLIP-BACKPACK-1027）；LAWWW-C 修成 CHAR.carryOff（056851057，tests/badclip_bag_unit.js），驗收照 BB_TEST_QUEUE_1027 5p：以安、語彤、男生朋友各一次看三個鏡頭",
    "wants": "X117"
   }
  ]
