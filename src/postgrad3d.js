@@ -532,6 +532,9 @@ const PG=(function(){
      每一列：[起 YYYY-MM-DD, 迄 YYYY-MM-DD（含）, 條件 G, 句子, {first}] */
   const dl=G=>S.delayed(G), ex=G=>S.exchDelayed(G), fd=G=>dl(G)&&!ex(G), fdc=G=>fd(G)&&!(typeof FD!=='undefined'&&FD.certLate&&FD.certLate(G)), fdLate=G=>fd(G)&&typeof FD!=='undefined'&&!!FD.certLate&&FD.certLate(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   S.reg2030=G=>{ const F=G.flags||{}; return F.BAR_REG_2030!=null?F.BAR_REG_2030===true:F.Y4_PATH==='bar'; };
+  /* AA_471 第 7 節：2029 跨年（延畢那一年）交往中、那天沒有另外排她的跨年場次（12/31～1/1 的出遊：id 有 nye 或約的是她；現在遊戲裡 2029 沒有這種場次）＝「你沒有在家」那一句 */
+  S.nyeOut=G=>{ if(typeof OUT==='undefined'||!OUT.rec) return false; const a=S.DK('2029-12-31'), P=S.partners(G); return OUT.rec(G).some(q=>q&&(q.day===a||q.day===a+1)&&q.state!=='cancelled'&&(/nye/i.test(q.id||'')||(!!q.who&&P.includes(q.who)))); };
+  S.nyeAway=G=>S.partners(G).length>0&&!S.nyeOut(G);
   S.CARDS_DELAY=[
     ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
     ['2029-06-18','2029-06-27',fd,'（同屆的人都畢業了。你還差{課名}，九月再回學校。）'],   /* 被當延畢（AA_421 1-4）：6/18 成績單以後；6/3～6/17 照一般畢業生（那時候還不是延畢）*/
@@ -559,7 +562,8 @@ const PG=(function(){
     ['2029-11-21','2029-12-17',G=>y5d(G,'bar'),'（考古題寫到第三年。錯的題目，越來越常是同一種。）'],
     ['2029-12-19','2029-12-23',ex,'（大五上結束了。這一次，沒有期末考。）',{common:true}],
     ['2029-12-19','2029-12-23',fd,'（大五上結束了。重修的報告，交出去了。）',{common:true}],   /* 共通（這一段沒有三選一：照現在，AA_363 T3）*/
-    ['2029-12-24','2030-01-20',dl,'（跨年那天晚上，你在家。煙火是從電視上看的。）'],
+    ['2029-12-24','2030-01-20',G=>dl(G)&&!S.nyeAway(G),'（跨年那天晚上，你在家。煙火是從電視上看的。）'],
+    ['2029-12-24','2030-01-20',G=>dl(G)&&S.nyeAway(G),'（跨年那天晚上，你沒有在家。煙火很遠，她說這樣剛好。）'],   /* AA_471 第 7 節（企劃線 763993620）：交往中、那天另外沒有排她的跨年場次的；沒在交往的照上面原句 */
     ['2030-01-22','2030-02-01',G=>ex(G)||fdc(G),'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
     ['2030-02-02','2030-02-10',G=>ex(G)||fdc(G),'（過年。親戚問你什麼時候畢業。你說上個月。）'],
     ['2030-02-11','2030-03-14',G=>ex(G)||fdc(G),'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],

@@ -122,5 +122,19 @@ await tsec(6,async()=>{ const S6=sec(6), UK=['你要去吃晚餐了吧。……�
       H.said=[]; H.picks=[]; setT(q.day,q.h-1/6); await OUT.go(GM,q); seen.push((H.said[H.said.length-1]||{}).t); }
     check('6. 畢業以後的夏天（2029-06，她還在英國）：接了的三次照順序輪、沒接的那一週不算',J(seen)===J([UK[0],'沒接',UK[1],UK[2]]),J(seen)); } });
 
+/* ======================= 7. 交往中，2029 跨年的字卡 ======================= */
+await tsec(7,async()=>{ const S7=sec(7), OLD='（跨年那天晚上，你在家。煙火是從電視上看的。）', NEW='（跨年那天晚上，你沒有在家。煙火很遠，她說這樣剛好。）';
+  check('7. 稿：原句、交往中換的那一句',S7.includes(OLD)&&S7.includes('> '+NEW));
+  const card=(G,a,b)=>PG.cardLine(G,D(a),D(b));
+  for(const [route,who] of [['JP','heroine_01'],['US','heroine_05'],[null,'kexin']]){ const fl=route?{EXCHANGE_ROUTE:route}:{FAIL_DELAY:true,FAIL_DELAY_COURSES:['x']};
+    const G=grad('2030-01-05',10,fl); H.FRIEND(who); H.date(who);
+    check('7. '+(route||'被當延畢')+'、和'+who+'交往中：12/23→1/5 的跳出「'+NEW+'」',card(G,'2029-12-23','2030-01-05')===NEW,String(card(H.G,'2029-12-23','2030-01-05'))); }
+  { const G=grad('2030-01-05',10,{EXCHANGE_ROUTE:'JP'}); check('7. 沒在交往：原句',card(G,'2029-12-23','2030-01-05')===OLD); }
+  { const G=grad('2030-01-05',10,{EXCHANGE_ROUTE:'JP'}); H.FRIEND('heroine_01'); H.date('heroine_01'); ROM.end(G,'heroine_01'); check('7. 分手了（前任）：原句',card(G,'2029-12-23','2030-01-05')===OLD); }
+  { const G=grad('2030-01-05',10,{EXCHANGE_ROUTE:'JP'}); H.FRIEND('heroine_03'); H.date('heroine_03'); OUT.rec(G).push({id:'nye_test',ev:'x',day:D('2029-12-31'),h:23.5,state:'done',who:'heroine_03'});
+    check('7. 那天另外排了她的跨年場次：原句（不換）',card(G,'2029-12-23','2030-01-05')===OLD); }
+  { const G=grad('2030-01-05',10,{}); H.FRIEND('heroine_01'); H.date('heroine_01'); check('7. 沒有延畢（2029 畢業的）：這一段沒有跨年字卡（照舊）',![OLD,NEW].includes(card(G,'2029-12-23','2030-01-05'))); } });
+
 H.done();
 })();
+// 修改前（243db0938，開工檢查點＝開發分支 129540766＋AA_470）：FAILED 29（第 3 節 5、第 4 節 11、第 5 節 4（第 5 節中途沒有 fd_late_note 丟例外）、第 6 節 6、第 7 節 3）；改完 ALL PASS。
