@@ -12,8 +12,8 @@ const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false;
 let ok1=false, ok2=false, err=''; try{ ok1=load('src/data/date_wish.js'); ok2=load('src/wish3d.js'); }catch(e){ err=String(e); }
 const X=()=>typeof WISH!=='undefined'?WISH:null;
 const git=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const AA127=git('967b4273a','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('a1bc53f4c','BB_128_校外單獨約會_心願地點與淡水示範規格.md');
-const WAA=(()=>{ try{ return JSON.parse(git('967b4273a','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('a1bc53f4c','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
+const AA127=git('482c7f6e9','AA_127_以安語彤_心願約會與邀約變化.md'), BB128=git('ab9d70fe0','BB_128_校外單獨約會_心願地點與淡水示範規格.md');   /* AA_475（10-27）：白名單換版 */
+const WAA=(()=>{ try{ return JSON.parse(git('482c7f6e9','date_system/wish/wish_aa.json')); }catch(e){ return null; } })(), WBB=(()=>{ try{ return JSON.parse(git('ab9d70fe0','date_system/wish/wish_bb.json')); }catch(e){ return null; } })();
 const J=JSON.stringify, AN='heroine_01', ZR='heroine_02', YT='heroine_03', ZQ='heroine_04', SIS='heroine_05', PS='classmate_peishan', KX='kexin';
 const norm=t=>String(t).replace(/[\s　]/g,'').replace(/『/g,'「').replace(/』/g,'」');
 const inMd=(t,md)=>{ const n=norm(md); return [t,t.replace(/^（|）$/g,''),t.replace(/[。：]$/,''),t.replace(/^她/,''),t.replace(/^她/,'').replace(/[。：]$/,'')].some(x=>x&&n.includes(norm(x))); };
@@ -41,14 +41,14 @@ const E_=id=>X()&&X().ev(id);
   check('0. src/data/date_wish.js、src/wish3d.js 載得到',ok1&&ok2&&!!X(),err);
   if(!X()){ H.done(); return; }
   const DW=DATE_WISH;
-  check('0. 來源＝白名單版本：wish_aa.json@967b4273a、wish_bb.json@cb5caad65（AA_459／460 三句改進原稿）、AA_127@967b4273a（AA_426）、BB_128@cb5caad65',/wish_aa\.json@967b4273/.test(DW.source)&&/wish_bb\.json@cb5caad6/.test(DW.source)&&/AA_127[^＋]*@967b4273/.test(DW.source)&&/BB_128[^＋]*@cb5caad6/.test(DW.source),DW.source);
+  check('0. 來源＝白名單版本：wish_aa.json@482c7f6e9、AA_127@482c7f6e9（AA_475 第 1 節以安心願；之前 967b4273a AA_426）、wish_bb.json@ab9d70fe0、BB_128@ab9d70fe0（AA_475 第 1、3 節沛珊、芷若心願；之前 cb5caad65 AA_459／460 三句改進原稿）',/wish_aa\.json@482c7f6e/.test(DW.source)&&/wish_bb\.json@ab9d70fe/.test(DW.source)&&/AA_127[^＋]*@482c7f6e/.test(DW.source)&&/BB_128[^＋]*@ab9d70fe/.test(DW.source),DW.source);
   check('0. 匯入時逐句對原稿：對不到 0 句（「你來過一次」13 句是 AA_271、BB_213 後來加的，另外列）',(DW.verify.miss||[]).length===0&&(DW.verify.freeVisited||[]).length===13,J(DW.verify));
   /* AA_459 第 5 節、AA_460 第 6 節的換字（tools/date/import_wish.py 的 REPLACE；wish_bb.json 還沒跟著改）：比對 JSON 時換回原句、對原稿時不算 */
   const REP=[['你可以說不。我只是問問看。','你可以說不。不是叫你說不，是問你。'],['你的，你自己買。……這樣才算約好。','你的，你自己買。這樣比較像約好，不像我請你。'],['好。兩點半，光典門口。……兩點半是巧合。跟店名沒關係。','好。兩點半，光典門口。……兩點半是巧合，不是店名。']];
   check('0. 三句已經改進原稿（wish_bb.json@cb5caad65）：不再有暫代換字（verify.replaced 沒有）、原稿對不到 0 句',!(DW.verify.replaced||[]).length&&(DW.verify.miss||[]).length===0,J([DW.verify.replaced,DW.verify.miss]));
-  { const unrep=s=>{ for(const [a,b] of REP) s=s.split(J(a)).join(J(b)); return s; }, strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
+  { const unrep=s=>s,   /* REP 三句 cb5caad65 起已經改進企劃線的 JSON，比對的版本（ab9d70fe0）就是新句：不用換回 */ strip=e=>{ const x=JSON.parse(unrep(J(e))); delete x.src; if(x.closing&&x.id==='wish_heroine_01') delete x.closing.linesIf; return x; };
     const same=[AN,YT].every(id=>WAA&&J(strip(DW.events[id]))===J(WAA.events[id]))&&[ZR,ZQ,SIS,PS,KX].every(id=>WBB&&J(strip(DW.events[id]))===J(WBB.events[id]));
-    check('0. 七位的事件和企劃線的 JSON 逐欄相同（一字不改；只多以安大一的收尾、AA_459／AA_460 的三條換字）',same&&Object.keys(DW.events).length===7); }
+    check('0. 七位的事件和企劃線的 JSON（wish_aa@482c7f6e9、wish_bb@ab9d70fe0）逐欄相同（一字不改；只多以安大一的收尾）',same&&Object.keys(DW.events).length===7); }
   { const li=(DW.events[AN].closing.linesIf||[])[0], two=li?sp(AN,li.lines):[];
     check('0. 以安大一的收尾照 AA_127 1-5「大一的版本：前三句換成」：「上憲法講第八條那天，我只覺得它很長。」「今天比較知道，每一句後面都有人。」（旁白照用；大二以後照原本三句）',J(two)===J(['上憲法講第八條那天，我只覺得它很長。','今天比較知道，每一句後面都有人。'])&&two.every(t=>AA127.includes(t))&&J(li.if)===J({unless:{termFrom:'Y2S1'}})&&li.lines[0].text===DW.events[AN].closing.lines[0].text&&li.lines[3].text===DW.events[AN].closing.lines[4].text,J(li)); }
   { let n=0, bad=[]; const walk=(o,src)=>{ if(Array.isArray(o)) return o.forEach(x=>walk(x,src)); if(!o||typeof o!=='object') return; if(typeof o.text==='string'&&o.who&&o.who!=='note'){ n++; if(!inMd(o.text,src)&&!REP.some(r=>r[0]===o.text)) bad.push(o.text); return; } for(const k in o) if(!['wish','rule','note','record','where','source','title','scene','repeat','costNote','likeNote','code','memory','name','context','hotspotsTitle'].includes(k)) walk(o[k],src); };

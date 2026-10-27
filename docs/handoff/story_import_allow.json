@@ -2177,12 +2177,19 @@
   },
   {
    "path": "docs/story_planning/AA_417_健身定稿_升階一句_注意到_羽球晨跑.md",
-   "sha": "99710a908",
+   "sha": "ab9d70fe0",
    "status": "approved",
-   "approvedBy": "AA-B 2026-10-23 18:2x 定稿（D109）",
+   "approvedBy": "AA-C 2026-10-27 AA_475 第 3 節改羽球「結束」句（D109；原本 AA-B 2026-10-23 18:2x 定稿 99710a908）",
    "task": "D14-T10",
    "kind": "text",
-   "note": "第 1、2 節 src/fit3d.js（873ea4b9f）；第 3 節一起運動（羽球 gym_badminton、晨跑 run_avenue）src/data/invites.js、src/invites3d.js（tests/aa417_sport_invite_unit.js）"
+   "note": "第 1、2 節 src/fit3d.js（873ea4b9f）；第 3 節一起運動（羽球 gym_badminton、晨跑 run_avenue）src/data/invites.js、src/invites3d.js（tests/aa417_sport_invite_unit.js）",
+   "history": [
+    {
+     "sha": "99710a908",
+     "approvedBy": "AA-B 2026-10-23 18:2x 定稿（D109）",
+     "note": "AA_475 以前"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/date_system/art/d15_base_night.webp",
