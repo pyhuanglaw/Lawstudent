@@ -4,6 +4,19 @@
 - **分工**（LAWWW-C 20:44Z）：我做揮拍動作、球拍、羽球弧線、網、鏡頭；接在 `invites3d.js` 羽球邀約的哪一句之間由 LAWWW-C 接。
 - **對**：開發 `fb8d27888` 做、最新開發 `c9ed80184` `git apply --check` 過。
 
+## 第二版（10-27 21:4x，同一支 patch 換新；對最新開發 `d874aa740`、`c9ed80184` 都 apply --check 過）
+
+| 改了什麼 | 為什麼 | 截圖 |
+|---|---|---|
+| **引拍**：上臂往外轉、手腕往後折，拍頭垂到頭後面、比頭低（`P.back`） | 第一版拍子朝上，像「舉拍」 | 掃了 19 組角度、量拍頭在頭的哪裡（`backswing_v2_candidates.jpg`）；選定那組整個揮拍：拍子垂在背後 → 往上繞過頭 → 在頭頂右前方擊球 → 往前收（`backswing_v2_sequence.jpg`） |
+| **「畫面好像停住了」提示＋HUD、搖桿在短片中途跑出來** | 卡住偵測（`game3d.js` staleCheck）：劇情鎖住、又沒有對話或其他演出超過 10 秒就跳提示、把 HUD 叫回來。短片約 13 秒、沒有對話——**真機也會跳**（第一版 README 寫「真機不會出現」，寫錯了）。改成羽球短片在演的時候算「有東西在演」（`game3d.js` 一行） | 修正前：`endings_all_v2pre.jpg`（七種結尾都有 HUD 和提示）；修正後：`clip_heroine01_v2_tail.jpg`（從頭到尾沒有 HUD、沒有提示；最後一張是播完、鏡頭正在拉回） |
+| **以安的結尾**：直接切到她正前方 | 第一版用 `cine.pos` 讓鏡頭慢慢飛過去，中途沿著球網、她在畫面邊上被切掉 | `clip_heroine01_v2_tail.jpg` 最後兩張 |
+| **沛珊的結尾**：坐在地上（腿往前伸、兩手撐在身後、身體往後仰；每一格量屁股的高度，整個人放低到屁股離地 13 cm），坐下以後切近景 | 第一版用坐椅子的動作，看起來坐在空氣上；只有遠景，人很小 | `clip_peishan_v2_floorsit.jpg` |
+| **羽球放大 1.5 倍** | 側面中景裡真實大小只有幾個像素 | 同上（地上那顆） |
+
+- 測試：`badminton_clip_unit` 加 ⑥（卡住偵測把短片當成在演）：**改前 FAIL、改後 ALL PASS（17 項）**。套到最新開發 `d874aa740` 跑：`badminton_clip_unit`＋載入 `character3d.js` 的 10 支 Node 測試 ALL PASS；`tests/stale_lock_escape.py`（真的卡住時 10 秒後還是會放開讓玩家讀檔）PASS。
+- 瀏覽器：七個人（以安、芷若、子晴、學姊、沛珊、可昕、男生朋友阿凱）都從頭播到尾、沒有 JS 例外、播完復原（`endings_all_v2pre.jpg`，修 HUD 之前拍的）；修 HUD 以後重拍以安、沛珊。**其他五個人修 HUD 以後沒有重拍**（改的是共用的部分，結尾鏡頭沒動）。
+
 ## 和 AA 規格不一樣的地方（請 LAWWW-C、AA-C 確認）
 
 - **場地在新體育館 1F 的羽球場，不是 3F 主球場**：遊戲裡打羽球本來就在 1F（`gym_layout.js` 的 `courts.badminton` 六面羽球場、網都在；`gym3d.js` 的「打羽球」、邀約地點「新體育館羽球場」都是 1F）；3F 主球場是籃球／排球的木地板，沒有羽球網。在 1F 拍不用換區域（換區域要黑畫面、載入），AA 要的「旁邊幾面場地」本來就在畫面裡。**一定要 3F 的話告訴我**，我在 3F 放網和場地線、改機位。
@@ -37,24 +50,25 @@
 
 ## 測試
 
-- 新 `tests/badminton_clip_unit.js`（Node）：**改前 FAILED 3、改後 ALL PASS（16 項）**——揮拍種類齊全、頭尾是準備姿勢、擊球那一刻是擊球姿勢；弧線起終點、中間高、水平不倒退、往上衝得快；七位各一種結尾、台詞照 AA、短片裡不說話；場地和遠景機位在 1F 球場裡；`character3d.js` 掛勾、`index.html`、manifest、GLB 的物件。寫測試抓到一個錯：弧線函式在進度稍微超過 1 時算出 NaN（短片裡有夾住，函式本身沒夾）——已修。
+- 新 `tests/badminton_clip_unit.js`（Node）：**改前 FAILED 3、改後 ALL PASS（第一版 16 項；第二版 17 項）**——揮拍種類齊全、頭尾是準備姿勢、擊球那一刻是擊球姿勢；弧線起終點、中間高、水平不倒退、往上衝得快；七位各一種結尾、台詞照 AA、短片裡不說話；場地和遠景機位在 1F 球場裡；`character3d.js` 掛勾、`index.html`、manifest、GLB 的物件。寫測試抓到一個錯：弧線函式在進度稍微超過 1 時算出 NaN（短片裡有夾住，函式本身沒夾）——已修。
 - 會載入 `character3d.js` 的 10 支 Node 測試 ALL PASS（掛勾不影響原本的動作）。
 - 瀏覽器實際播放（`tools/shots/badminton_clip_run.py`，SwiftShader 手機模擬，1F 體育館 15:00）：以安、語彤兩個版本**從頭播到尾、沒有 JS 例外**；播完鏡頭回到跟隨、球拍拿掉、疊加姿勢清掉、玩家回到原位。SwiftShader 一格超過 0.25 秒，整段拉長到 16～18 秒（真機約 13 秒）。
   - 第一版遠景機位撞到大廳的隔牆（`clip_heroine03_v1_wallcam.jpg`，前兩張只看到牆）→ 換到北排中間那面場地、機位移到場地南邊，第二版正常（`clip_heroine01.jpg`）。
 - 揮拍姿勢截圖（`tools/shots/badminton_pose_shots.py`，側面＋背面）：`poses.jpg`（第一版）、`poses_v2_ready_back.jpg`（準備姿勢改成拍子舉在胸前）。
-- 沒跑：其他五位（芷若、子晴、學姊、沛珊、可昕）、男生朋友的結尾只在程式裡，**沒有截圖看過**；BB 的瀏覽器流程（接上邀約以後）；手機實機。
+- 沒跑：BB 的瀏覽器流程（接上邀約以後）；手機實機。（其他五位、男生朋友的結尾：第二版拍了，見上面。）
 
 ## 還沒達到的地方（誠實）
 
-- **引拍**：拍子沒有垂到頭後面（還是朝上），像「舉拍」而不是「引拍」；擊球、收拍、伸拍、發球看得懂。下一輪調手腕的角度。
+- ~~引拍：拍子沒有垂到頭後面~~（第二版改好）。
 - **腳不動**：兩個人站在原地揮拍（不滑步；AA 沒要求跑動）。殺球、伸拍的身體前傾只有胸口。
-- **球很小**：側面中景裡羽球只有幾個像素，看得到在飛但不明顯（真機解析度高一點）。
-- 沛珊「撲過去坐在地上」用現成的坐下動作（AA 允許），坐下前沒有撲的動作。
-- 截圖裡的 HUD、「畫面好像停住了」提示是 SwiftShader 太慢觸發的卡住偵測，真機不會出現；短片開始時 `GM.sceneBegin` 會收 HUD，但偵測的提示會蓋上來——LAWWW-C 可以考慮短片期間不偵測。
+- **球還是小**：第二版放大 1.5 倍，側面中景裡看得到，但不顯眼。
+- 沛珊坐下前沒有「撲」的動作（伸拍以後直接坐下）。
+- ~~HUD、「畫面好像停住了」提示~~（第二版改好；第一版說「真機不會出現」是錯的）。
+- 芷若、學姊、可昕、男生朋友的結尾是側面遠一點的鏡頭，人在畫面裡偏小（看得懂發生什麼，沒有近景）。
 - 美術狀態：`READY_FOR_ART_REVIEW`。
 
 ## 檔案（我的分支 `claude/focused-cray-c9uwvw`）
 
-- patch：`docs/art-rebuild/second_ai/patches/badminton_clip_1027.patch`（`src/character3d.js` 掛勾 2 行、新 `src/badminton_clip3d.js`、`src/assets3d.js` 一行、`index.html` 一行、新 `tests/badminton_clip_unit.js`）。
+- patch：`docs/art-rebuild/second_ai/patches/badminton_clip_1027.patch`（`src/character3d.js` 掛勾 2 行、新 `src/badminton_clip3d.js`、`src/assets3d.js` 一行、`index.html` 一行、`src/game3d.js` 卡住偵測一行（第二版）、新 `tests/badminton_clip_unit.js`）。
 - 正式模型：`assets/models/env/second_ai/badminton_props.glb`＋`.json`；原始檔 `tools/blender/env_second/badminton_props.py`、`textures/gen/badminton_*.png`。
 - 工具：`tools/shots/badminton_pose_shots.py`、`tools/shots/badminton_clip_run.py`。

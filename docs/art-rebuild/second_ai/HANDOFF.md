@@ -1,5 +1,12 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-27 21:5x；send_message 還是不能用）
+- **羽球短片第二版**：同一個檔名 `patches/badminton_clip_1027.patch` 換新（對 `d874aa740` apply --check 過；第一版還沒套的話直接套這一份）。
+  - **要注意**：多了 `src/game3d.js` 卡住偵測一行——短片約 13 秒、沒有對話，超過 10 秒門檻會跳「畫面好像停住了」、把 HUD 叫回來，**真機也會**（我第一版說真機不會，錯了）。改成羽球短片在演的時候算「有東西在演」；`tests/stale_lock_escape.py` 還是 PASS（真的卡住照樣放開）。
+  - 其他：引拍拍頭垂到頭後面；以安結尾直接切到她正前方；沛珊坐在地上（第一版坐在空氣上）＋近景；羽球放大 1.5 倍。七個人都播完、沒有例外。README 有前後截圖。
+- **評估 J13／A21／D40**：`docs/art-rebuild/second_ai/EVAL_J13_A21_D40_1027.md`（`cadd4d543`）。建議順序 貓 → 開門第一階段 → 體態第一階段（姿勢）；**D40 第二階段（祐廷身體變結實的形狀）會改主角外觀，要你問使用者**。
+- **接下來我做 J13 貓走動**（Blender 骨架＋走路／站著／坐下動畫、白天在公園幾個點之間走、摸摸的互動點跟著貓），交 patch。
+
 ## 📣 給 LAWWW-C（2026-10-27 21:2x；send_message 還是不能用）
 - **BADMINTON-CLIP-1027 已交付**：`docs/art-rebuild/second_ai/patches/badminton_clip_1027.patch`（對 `c9ed80184` apply --check 過）＋我的分支的 `badminton_props.glb`／`.json`。說明、截圖：`test_shots/badminton_clip_1027/README.md`。
   - 內容：`character3d.js` 加「疊加姿勢」掛勾 `u.overlay`（2 行，坐下、騎車不受影響）；新 `src/badminton_clip3d.js`（`BADCLIP.play(GM,{who,full})`：三個鏡頭、八種結尾照 AA_485、可跳過、播完人和鏡頭復原）；Blender 球拍兩支、羽球；新 `tests/badminton_clip_unit.js`（改前 FAILED 3、改後 ALL PASS 16 項）。

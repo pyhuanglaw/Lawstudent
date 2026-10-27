@@ -24,10 +24,10 @@ index 4b4e03bdb..d429953ed 100644
      'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
 diff --git a/src/badminton_clip3d.js b/src/badminton_clip3d.js
 new file mode 100644
-index 000000000..fc284acf7
+index 000000000..1e54ef0e5
 --- /dev/null
 +++ b/src/badminton_clip3d.js
-@@ -0,0 +1,153 @@
+@@ -0,0 +1,157 @@
 +/* ===== 羽球小短片（BADMINTON-CLIP-1027，使用者 X106「跟陳語彤打羽球也只是對話帶過? 不能做個小短片?」；演出 AA_485 第 2 節；LAWWW2-C 2026-10-27）=====
 +   和一個人一起打羽球（invites3d.js 的 gym_badminton）時演：第一次＝完整版三個鏡頭（約 13 秒），之後只演鏡頭 2（約 6 秒）；點畫面或「跳過」就跳過。
 +     鏡頭 1（約 3 秒）：遠景，一面場地兩個人，她（他）站在發球線發球。
@@ -46,7 +46,7 @@ index 000000000..fc284acf7
 +  // ---- 揮拍姿勢（VRM 正規化骨架；角度和 character3d.js 的 SIT_VRM 同一套：x、z 乘 sx。右上臂 z 負＝往上舉、y 正＝往前；左上臂相反）----
 +  const P={
 +    ready:{RightArm:[0,0.85,0.3],RightForeArm:[0,0.5,-1.0],RightHand:[0,0,0],LeftArm:[0,-0.7,-0.6],LeftForeArm:[0,-0.8,0],Spine1:[0,0,0]},   /* 準備：拍子舉在胸前、手肘彎 */
-+    back:{RightArm:[0,-0.25,-0.55],RightForeArm:[0,0.2,-1.9],RightHand:[0,-1.3,0],LeftArm:[0,-0.5,1.05],LeftForeArm:[0,-0.25,0],Spine1:[0,-0.45,0]},   /* 引拍：手肘抬到肩膀高、前臂朝上、手腕往後折（拍子垂在頭後面）、左手指著球 */
++    back:{RightArm:[-1.6,-0.25,-0.7],RightForeArm:[0,0.2,-1.9],RightHand:[0,-1.5,0],LeftArm:[0,-0.5,1.05],LeftForeArm:[0,-0.25,0],Spine1:[0,-0.45,0]},   /* 引拍：手肘抬到肩膀高、上臂往外轉（前臂往後倒）、手腕往後折——拍頭垂到頭後面、比頭低（10-27 v2；v1 拍子朝上像舉拍）、左手指著球 */
 +    hit:{RightArm:[0,0.35,-1.45],RightForeArm:[0,0.1,-0.12],RightHand:[0,0,-0.15],LeftArm:[0,-0.3,-0.6],LeftForeArm:[0,-0.6,0],Spine1:[0,0.2,0]},
 +    follow:{RightArm:[0,1.25,0.85],RightForeArm:[0,0.7,0],RightHand:[0,0,0],LeftArm:[0,-0.2,-1.0],LeftForeArm:[0,-0.5,0],Spine1:[0,0.45,0]},
 +    smashHit:{RightArm:[0,0.65,-1.3],RightForeArm:[0,0.1,-0.08],RightHand:[0,0,-0.3],LeftArm:[0,-0.2,-0.8],LeftForeArm:[0,-0.5,0],Spine1:[0.28,0.3,0]},
@@ -56,7 +56,8 @@ index 000000000..fc284acf7
 +    sv2:{RightArm:[0,1.05,0.55],RightForeArm:[0,0.5,0],RightHand:[0,0,-0.3],LeftArm:[0,-0.6,-0.95],LeftForeArm:[0,-0.6,0],Spine1:[0,0.2,0]},
 +    drive:{RightArm:[0,0.95,0.15],RightForeArm:[0,0.35,0],RightHand:[0,0,-0.2],LeftArm:[0,-0.3,-0.9],LeftForeArm:[0,-0.6,0],Spine1:[0,0.3,0]},
 +    reach:{RightArm:[0,0.95,-0.15],RightForeArm:[0,0.15,0],RightHand:[0,0,0],LeftArm:[0,-0.2,-0.95],LeftForeArm:[0,-0.4,0],Spine1:[0.12,0.25,0]},
-+    rest:{RightArm:[0,0.35,1.0],RightForeArm:[0,0.6,0],RightHand:[0,0,0],LeftArm:[0,-0.2,-1.15],LeftForeArm:[0,-0.3,0],Spine1:[0,0,0]}   /* 拍子垂在身邊 */
++    rest:{RightArm:[0,0.35,1.0],RightForeArm:[0,0.6,0],RightHand:[0,0,0],LeftArm:[0,-0.2,-1.15],LeftForeArm:[0,-0.3,0],Spine1:[0,0,0]},   /* 拍子垂在身邊 */
++    floorSit:{LeftUpLeg:[-1.45,0,0.1],RightUpLeg:[-1.3,0,-0.08],LeftLeg:[0.15,0,0],RightLeg:[0.75,0,0],LeftArm:[0,0.6,-1.05],RightArm:[0,-0.6,1.05],LeftForeArm:[0,0,0],RightForeArm:[0,0,0],Spine1:[-0.22,0,0]}   /* 坐在地上（沛珊撲球以後）：搭在坐下的動作上——腿往前伸、一邊膝蓋微彎、兩手撐在身後、身體往後仰；人放低到屁股貼地（見 youSmashSheSits）*/
 +  };
 +  // 一次揮拍：[進度, 姿勢]；hit＝擊球那一刻（進度）；dur＝秒
 +  const SW={ clear:{k:[[0,'ready'],[0.38,'back'],[0.5,'hit'],[0.72,'follow'],[1,'ready']],hit:0.5,dur:0.9},
@@ -114,7 +115,7 @@ index 000000000..fc284acf7
 +    const grp=new THREE.Group(); grp.name='badclip'; E.scene.add(grp);
 +    let props={}; try{ if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.badminton_props']) props=propsFrom(await ASSETS.loadOne('bldg.badminton_props')); }catch(e){ console.warn('羽球道具載入失敗，用簡單的',e); }
 +    const rA=attachRacket(P1,props.racketA||simpleRacket(0x1d2b57)), rB=attachRacket(partner,props.racketB||simpleRacket(0xeef1f4));
-+    const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); grp.add(sh);
++    const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); sh.scale.multiplyScalar(1.5); grp.add(sh);   /* 放大 1.5 倍：側面中景裡真實大小只有幾個像素（v1）*/
 +    // 站位：玩家在南半場（面向北）、她在北半場（面向南）
 +    const place=(e,x,z,yaw)=>{ e.path=null; e.frozen=true; e.pose='idle'; e.speed=0; e.obj.position.set(x,e.obj.position.y,z); e.obj.rotation.y=yaw; };
 +    place(P1,C.x+0.4,C.z+half,PI); place(partner,C.x-0.4,C.z-half,0);
@@ -151,13 +152,14 @@ index 000000000..fc284acf7
 +      if(spawned&&GM.removeNPC) GM.removeNPC(id); if(E.endCinematic) E.endCinematic(); if(GM.sceneEnd) GM.sceneEnd(); S.busy=false; }
 +    return !skipped;
 +    // 鏡頭 3：照人換
-+    async function ending(kind){ const A=P1, Bn=partner; const near=V(C.x-3.2,1.6,C.z-half+3.0), herFace=V(Bn.obj.position.x,1.45,Bn.obj.position.z), you=V(A.obj.position.x,1.45,A.obj.position.z);
++    async function ending(kind){ const A=P1, Bn=partner; let cut2=false, floor0=null;
++      const hipsY=e=>{ const v=e.obj.userData.vrm, b=v&&v.humanoid&&v.humanoid.getRawBoneNode('hips'); if(!b) return null; b.updateWorldMatrix(true,false); return b.matrixWorld.elements[13]-e.obj.position.y; };   /* 屁股（hips 骨）離人物原點的高度 */ const near=V(C.x-3.2,1.6,C.z-half+3.0), herFace=V(Bn.obj.position.x,1.45,Bn.obj.position.z), you=V(A.obj.position.x,1.45,A.obj.position.z);
 +      const T=s=>SW[s].dur*SW[s].hit, netTop=V(C.x+0.1,1.53,C.z), floorB=z=>V(C.x+0.6,0.02,z);
 +      switch(kind){
 +        case 'herDriveYouMiss':   // 以安：平抽，你來不及；她把拍子收回胸前
 +          cut(V(C.x+5.5,1.7,C.z-1.0),V(C.x,1.3,C.z)); await run(4.0,[{who:A,sw:'clear',t0:0.1},{who:Bn,sw:'drive',t0:0.1+T('clear')+1.2-T('drive')},{who:A,sw:'reach',t0:0.1+T('clear')+1.2+0.25}],
 +            [{from:A,to:hitP(Bn,1.6),top:5.5,t0:0.1+T('clear'),dur:1.2},{from:hitP(Bn,1.6),to:floorB(C.z+half+1.6),top:1.75,t0:0.1+T('clear')+1.2,dur:0.55,land:true}],
-+            (tt)=>{ if(tt>2.4&&E.cam.cine){ E.cam.cine.pos.set(C.x-2.6,1.6,C.z-half+2.6); E.cam.cine.look.copy(herFace); } }); break;
++            (tt)=>{ if(tt>2.4&&!cut2){ cut2=true; cut(V(Bn.obj.position.x+1.2,1.5,Bn.obj.position.z+2.2),herFace); } }); break;   /* 直接切到她正前方（v1 用 cine.pos 慢慢飛過去，中途沿著球網、她在畫面邊上被切掉）*/
 +        case 'herServeNet':       // 語彤：發球掛網；她看了你一眼
 +          cut(V(C.x-2.8,1.6,C.z-half+3.2),herFace); await run(4.0,[{who:Bn,sw:'serve',t0:0.2}],[{from:Bn,to:V(netTop.x,1.2,netTop.z),top:1.7,t0:0.2+T('serve'),dur:0.55},{from:V(netTop.x,1.2,netTop.z),to:V(netTop.x,0.02,C.z-0.25),top:1.2,t0:0.75+T('serve'),dur:0.35,land:true}],
 +            (tt)=>{ if(tt>1.8){ Bn.obj.rotation.y=0; } }); break;
@@ -171,7 +173,9 @@ index 000000000..fc284acf7
 +            [{from:Bn,to:hitP(A),top:4.2,t0:0.1+T('serve'),dur:1.2},{from:A,to:V(Bn.obj.position.x+1.0,0.02,Bn.obj.position.z-0.6),top:5.2,t0:0.1+T('serve')+1.2,dur:1.3,land:true}],null); break;
 +        case 'youSmashSheSits':   // 沛珊：你殺一球，她撲過去，坐在地上笑
 +          cut(V(C.x+5.0,1.5,C.z-1.5),V(C.x,0.9,C.z-half+0.6)); await run(4.2,[{who:A,sw:'smash',t0:0.1},{who:Bn,sw:'reach',t0:0.1+T('smash')+0.25}],[{from:A,to:V(Bn.obj.position.x+0.9,0.02,Bn.obj.position.z+0.9),top:2.5,t0:0.1+T('smash'),dur:0.5,land:true}],
-+            (tt)=>{ if(tt>1.4&&Bn.pose!=='sit'){ Bn.obj.userData.overlay=null; Bn.pose='sit'; Bn.obj.position.x+=0.35; } }); break;
++            (tt)=>{ if(tt>1.4&&Bn.pose!=='sit'){ Bn.pose='sit'; ov(Bn,still('floorSit')); Bn.obj.position.x+=0.35; floor0=Bn.obj.position.y; }
++              if(floor0!=null){ const hy=hipsY(Bn); if(hy!=null) Bn.obj.position.y=floor0+0.13-hy; }   /* 坐下的動作是坐椅子的高度（v1 像坐在空氣上）：每一格量屁股的高度，整個人放低到屁股離地 13 cm */
++              if(tt>1.9&&!cut2){ cut2=true; const q=Bn.obj.position; cut(V(q.x+1.6,1.0,q.z+2.0),V(q.x,0.45,q.z)); } }); break;   /* 她坐下以後切近一點（v1 只有遠景，坐在地上很小）*/
 +        case 'herSmashYouMiss':   // 可昕：她殺球，你漏接；她回到底線
 +          cut(V(C.x+5.5,1.6,C.z+0.5),V(C.x,1.2,C.z)); await run(4.0,[{who:A,sw:'clear',t0:0.1},{who:Bn,sw:'smash',t0:0.1+T('clear')+1.2-T('smash')},{who:A,sw:'reach',t0:0.1+T('clear')+1.2+0.2}],
 +            [{from:A,to:hitP(Bn),top:5.5,t0:0.1+T('clear'),dur:1.2},{from:hitP(Bn),to:V(A.obj.position.x+1.0,0.02,A.obj.position.z-0.8),top:2.4,t0:0.1+T('clear')+1.2,dur:0.45,land:true}],null); break;
@@ -201,12 +205,25 @@ index a93ef8588..b10ef910e 100644
        u.ikSt=st; }  // VRM 的前臂軸向和程序化人物不同，說話時不轉前臂（舊版會把手舉到頭上）
      // 注視（眼睛＋頭）
      if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
+diff --git a/src/game3d.js b/src/game3d.js
+index a63246569..b9fe52b1a 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -423,7 +423,7 @@ const GAME = (function(){
+      不自己解鎖、不跳過劇情：只放開讀檔／回標題，並把是哪一段沒結束寫進 console 和除錯面板 */
+   let staleT=0;
+   function staleCheck(rdt){ const P=E.player; if(!P||GM.titleIdle||!(D.busyDepth>0||P.busy)){ staleT=0; if(D.stale) D.stale=false; return; }
+-    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
++    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy);   /* 羽球短片（約 13 秒、沒有對話）：演的時候不算卡住 */
+     if(live){ staleT=0; if(D.stale) D.stale=false; return; }
+     staleT+=Math.min(rdt,0.5); if(staleT<10||D.stale) return; D.stale=true;
+     console.warn('劇情鎖住沒有結束（BUG-BOWL-STUCK-1018）',{depth:D.busyDepth,busy:P.busy,cam:E.cam.mode,by:D.busyWho.slice(),zone:G&&G.zone,day:G&&G.day,hour:G&&G.hour});
 diff --git a/tests/badminton_clip_unit.js b/tests/badminton_clip_unit.js
 new file mode 100644
-index 000000000..18187d407
+index 000000000..2838a1bb3
 --- /dev/null
 +++ b/tests/badminton_clip_unit.js
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,39 @@
 +// 羽球小短片（BADMINTON-CLIP-1027，使用者 X106；演出 AA_485 第 2 節；LAWWW2-C 2026-10-27）——不需要瀏覽器（整段播放的瀏覽器量測：tools/shots/badminton_clip_run.py）。
 +//   ① BADCLIP 存在；揮拍三種（發球、高遠球、殺球）＋伸拍、揮空、平抽、放小球；每一種開頭、結尾是準備姿勢，擊球那一刻是擊球姿勢；
 +//   ② 球的弧線：起點、終點對、中間比兩端高、水平進度一路往前（不倒退）、往上衝得快（前半段走超過一半的水平距離）；
@@ -243,4 +260,6 @@ index 000000000..18187d407
 +  const m=ASSETS.manifest['bldg.badminton_props']; check('⑤ ASSETS.manifest 有 bldg.badminton_props（building、lazy）',!!m&&m.type==='building'&&m.lazy===true);
 +  const p=path.join(ROOT,'assets/models/env/second_ai/badminton_props.glb'); let names=[]; if(fs.existsSync(p)){ const b=fs.readFileSync(p); const jl=b.readUInt32LE(12); names=(JSON.parse(b.slice(20,20+jl).toString()).nodes||[]).map(n=>n.name); }
 +  check('⑤ badminton_props.glb 有兩支球拍、羽球、球網',['badminton_racket','badminton_racket_b','badminton_shuttle','badminton_net'].every(n=>names.includes(n)),names.slice(0,8).join(' ')); }
++{ const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=g.match(/function staleCheck[\s\S]*?live=([^;]*);/);
++  check('⑥ 卡住偵測（game3d.js staleCheck）：羽球短片在演的時候算「有東西在演」——短片約 13 秒、沒有對話，超過 10 秒會跳「畫面好像停住了」（真機也會）',!!m&&/BADCLIP\.busy/.test(m[1]),m?'':'找不到 staleCheck'); }
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
