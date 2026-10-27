@@ -18634,6 +18634,13 @@
    "kind": "wip",
    "task": "PERF-SINGLESIDE-GLB-1025",
    "reason": "單面 GLB 第四份（美國公寓、C 棟 208、法圖、亞洲超市、C 棟臥室）的 WIP 檢查點，LAWWW2-B 10-25 18:59：單面第四份 GLB＋測試 patch＋README；交件時由那一筆 outbox 涵蓋（LAWWW-C 10-27 17:0x 分類）"
+  },
+  {
+   "sha": "cdfe46b6",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-SINGLESIDE-6",
+   "reason": "outbox 登記第六份交件（ed222cf2）＋第四、五份改 ACTIONED＋HANDOFF 第七份暫停；交付本身是 DL-LW2-SINGLESIDE-6（LAWWW-C 10-27 18:3x 分類）"
   }
  ]
 }
