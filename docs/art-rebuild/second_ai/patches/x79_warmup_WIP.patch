@@ -1,0 +1,56 @@
+diff --git a/src/game3d.js b/src/game3d.js
+index d979a3fc1..a63246569 100644
+--- a/src/game3d.js
++++ b/src/game3d.js
+@@ -199,7 +199,7 @@ const GAME = (function(){
+     return n; };
+   // ---------- 區域進入 ----------
+   let entering=false;
+-  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1;   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000});   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
++  async function enter(zoneId,spawn,opts){ opts=opts||{}; if(entering) return; entering=true; GM.enterN=(GM.enterN|0)+1;   /* 第幾次換區域：home3d.js backdrop 用來分「剛出家門、3D 還是舊的」和「真的到了新的 3D 地點」*/ let z; try{ if(GM.liveMark) GM.liveMark(true); if(!opts.noFade) await fade(true); GM.npc={}; GM.extras=[]; if(W3.releaseViews) W3.releaseViews();   /* 窗景照片只留新區域要用的（v9.5 審查：16 張 1024×512 一直留著，iPhone 長時間玩可能被系統關掉分頁）*/ if(typeof BIKE!=='undefined'&&G) BIKE.beforeEnter(GM,zoneId,opts);   /* 腳踏車：要去的地方騎得到就一起過去，不行就停下（src/bike3d.js）*/ z=E.loadZone(Z3.ZONES[zoneId],spawn); G.zone=zoneId; G.visited[zoneId]=true; if(!opts.fromLoad){ habit('place:'+zoneId+':'+habitSlot(G.hour)); const comp=G.flags&&G.flags.companion; if(comp) habit('place:'+zoneId+':with:'+(CID[comp]||comp)); }   /* 習慣記憶（AA_110 5-4）*/ if(typeof EVENTS!=='undefined'&&EVENTS.zoneChanged) EVENTS.zoneChanged(zoneId);   /* 短篇事件「同一棟一次進入最多一個」的計數歸零（events3d.js 的 tier）*/ E.player.path=null; E.player.pose='idle'; E.player.frozen=false; E.player.seat=null; E.player.idlePose='idle'; if(STORY.populate) STORY.populate(zoneId,GM); if(typeof BIKE!=='undefined'&&G) BIKE.afterEnter(GM,zoneId); buildMinimap(); if(typeof GUIDE!=='undefined') GUIDE.zoneChanged(); if(opts.onLoaded) opts.onLoaded(z); updateHUD(); A3.setScene(zoneId,G.hour,G.weather); E.update(0.016); GM.dedupAnon(true); if(!opts.noFade&&Z3.prewarm) await Z3.prewarm(E,{cap:2000});   /* 畫面還是黑的：先接上已載過的正式模型、編 shader、傳貼圖，淡入才不會停住（PERF-ZONE-ENTER-1018，zones3d.js）*/ E.render(); if(!opts.noFade){ await fade(false); } if(Z3.warmup) Z3.warmup(E);   /* 淡入以後在背景把還沒編的 shader 編好（X79，zones3d.js）*/ } finally { entering=false; /* 區域建立失敗時錯誤照樣丟出去，但不能讓 entering 永遠是 true（之後就再也換不了區域）*/ } if(STORY.onEnter&&!opts.deferStory) STORY.onEnter(zoneId,GM,opts); if(!opts.noAutosave) autosave(); return z; }   /* deferStory／noAutosave：搭電梯換區域（總圖），走出車廂之後才觸發劇情、存檔 */
+   GM.isEntering=()=>entering;
+   GM.enter=enter;
+   // ---------- 小地圖 ----------
+diff --git a/src/zones3d.js b/src/zones3d.js
+index fa4421bce..2b6b16c71 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1841,5 +1841,37 @@ const Z3 = (function(){
+     const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
+       ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
+     setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
++  /* 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）：GAME.enter 淡入以後呼叫。
++     量測（tools/shots/x79_walk.py，SwiftShader 手機模擬，校門 → 椰林大道 → 總圖 → 社科院 → 霖澤館）：第一次走，路上 13 次「這一格編新的 shader」，每次停 0.5～2.2 秒——
++     還沒進過畫面的建築材質（社科院門廊、屋頂…）、路人的遠距離版本（第一個人走到 18 m 外）、陰影的深度 shader（新的投影子物件走進陰影範圍）；同一條路第二次走 0 次。
++     three.js 第一次畫到才編；prewarm 只在電腦、只在剛進區域、只編那時候已經接上的，之後才接上的正式模型、藏著的遠距離版本、陰影那一輪都沒編。
++     現在：淡入以後每 0.25 秒做一小批——①看得到（visible，不管在不在畫面裡）而沒編過的材質：R.compile(物件, 鏡頭, E.scene)，燈光、霧照區域的，所以編出來的就是畫的時候要用的；
++     路人的遠距離版本（npc_far，藏著）也編。②場景裡沒有沒編過的、連續幾次都沒有新的（正式模型都接上了）以後，陰影相機暫時放大到整個區域畫一格，陰影的深度 shader 一次編完（那一格陰影比較糊）。
++     有平行編譯（KHR_parallel_shader_compile）一批最多 8 個新的 shader、不卡主執行緒；沒有的（不保證）一批 1 個，停頓分散在剛進來的那幾秒，不在走路的時候。
++     電腦另外把這些物件的貼圖先傳上 GPU（每批約 400 萬像素）；手機貼圖照舊第一次畫到才傳（記憶體）。網址 ?nowarmup 關掉（比較用）。E.lastWarmup 記結果（測試、量測用）。*/
++  let warmGen=0;
++  function warmup(E,opts){ opts=opts||{}; const R=E.renderer, q=(typeof location!=='undefined'&&location.search)||'';
++    if(!R||!R.compile||!R.properties||!E.scene||!E.camera||/[?&]nowarmup\b/.test(q)) return null;
++    const zone=E.zone, gen=++warmGen, mobile=typeof ASSETS!=='undefined'&&!!ASSETS.texCap, par=!!(R.extensions&&R.extensions.get&&R.extensions.get('KHR_parallel_shader_compile'));
++    const out={zone:zone&&zone.def&&zone.def.id,objects:0,programs:0,textures:0,mpix:0,depth:false,depthPrograms:0,ticks:0,parallel:par,done:false,ms:0}; E.lastWarmup=out;
++    const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
++    const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
++    const need=m=>!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };
++    let queue=[], idle=0;
++    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
++      if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
++    const texs=o=>{ const out_=[]; for(const m of mats(o)){ for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!v.isRenderTargetTexture&&!R.properties.get(v).__webglTexture) out_.push(v); } } return out_; };
++    const depthOnce=()=>{ out.depth=true; const c=E.sun.shadow.camera, keep=[c.left,c.right,c.top,c.bottom,c.near,c.far], sz=(zone&&zone.def&&zone.def.size)||[200,200], h=Math.hypot(sz[0],sz[1])+20, p0=nprog(), td=performance.now();
++      c.left=-h; c.right=h; c.top=h; c.bottom=-h; c.near=-2*h; c.far=2*h; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true;
++      try{ E.render(); } catch(e){ console.warn('warmup depth',e); } finally { [c.left,c.right,c.top,c.bottom,c.near,c.far]=keep; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true; }
++      out.depthPrograms=nprog()-p0; out.depthMs=Math.round(performance.now()-td); };
++    const step=()=>{ if(gen!==warmGen||E.zone!==zone) return; out.ticks++; const ts=performance.now();
++      if(!queue.length){ scan(); if(queue.length) idle=0; else if(++idle>=idleScans){ if(!out.depth&&R.shadowMap.enabled&&E.sun&&E.sun.castShadow){ depthOnce(); idle=0; } else { out.done=true; out.ms=Math.round(performance.now()-t0); return; } } }
++      const p0=nprog(); let px=0;
++      while(queue.length&&performance.now()-ts<budget&&nprog()-p0<maxProg){ const o=queue.shift(); if(!o.parent||!mats(o).some(need)) continue;
++        try{ R.compile(o,E.camera,E.scene); out.objects++; } catch(e){ console.warn('warmup compile',e); }
++        if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
++      out.programs+=nprog()-p0; setTimeout(step,gap); };
++    setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
+ })();
