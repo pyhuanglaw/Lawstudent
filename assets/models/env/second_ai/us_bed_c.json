@@ -1,13 +1,13 @@
 {
  "objects": 18,
  "unique_meshes": 18,
- "tris": 4822,
- "tris_drawn": 4822,
+ "tris": 4996,
+ "tris_drawn": 4996,
  "materials": 10,
  "out": "assets/models/env/second_ai/us_bed_c.glb",
- "bytes": 590940,
+ "bytes": 602012,
  "texres": 512,
- "tris_total": 4822,
+ "tris_total": 4996,
  "layout": "us_bed_c.layout.json",
  "seats": 0
 }
