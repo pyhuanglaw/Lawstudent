@@ -15115,6 +15115,19 @@
    "task": "BADMINTON-CLIP-1027",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-27 22:2x UTC】b49841b83（合併 9ac53ef1d）：只換 badminton_clip3d.js、badminton_clip_unit；game3d.js 那一行開發分支 8197dbdb9 已有（BADCLIP.busy）"
+  },
+  {
+   "id": "DL-AA-492",
+   "date": "2026-10-27",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2a5b78ee3",
+   "what": "AA_492 學姊第十二批實作後三件：12-6b 出國中的替代選項「我在{國}。」＋舊存檔取消提示；12-7 考研究所的玩家不問選項一；朋友版「另外一本」之後才交往的，下一次正式約會結尾補演（第 1、2、4 點照 LAWWW 的做法）",
+   "task": "SIS-B12-FIX-1027",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 23:0x UTC】1c4223a30（sis_b12_3d.js、sis_b12_events.js、date3d.js settle／settleOvernight、vac3d.js abroadDest；tests/aa492_sis_b12_fix2_unit.js）；outbox e6a0a859f；BB 5o"
   }
  ],
  "ignored": [
@@ -18989,6 +19002,13 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-X79-WARMUP",
    "reason": "outbox 登記 X79 交件（LAWWW-C 10-27 19:2x 分類）"
+  },
+  {
+   "sha": "ca9c6e29a",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-TEX-DEDUP",
+   "reason": "PERF-TEX-DEDUP-1027 的 WIP 檢查點，最後交件是 DL-LW2-TEX-DEDUP（LAWWW-C 10-27 23:0x 分類）"
   }
  ]
 }

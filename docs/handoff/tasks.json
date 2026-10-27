@@ -33170,7 +33170,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 22:3x UTC】發布：main c8b9659e5（PR #17），Pages run 40595623389 22:34:37 成功；遊戲檔案＝rc2 6aebbb4d8＋版本字樣（發布樹 4ab01d947）；BB GO（P0、save_compat、main_day12）；發布後開發分支還原 1f49be250、合併 main 13fb0c635｜【LAWWW-C 2026-10-27 18:4x UTC】BB-C r42_new：termKey 2030＝PG ✔；語彤第二週床快轉卡住沒驗到（工具問題），加 R42_YT_2030J（捷徑撥到 1/17）兩版都跑（237e52e1b）；trx_dating8 跑中 ｜ 【LAWWW-C 2026-10-27 17:5x UTC】BB-C r42_old（1dacc06af，80b16615d BB_218）：①R42_YT_2030 照預期 FAIL（01-10、01-17 原句，termKey＝D1584）②R42_JP_PG_HOME 舊版也 PASS——瀏覽器到不了「畢業後沒有 ROOM_Y4」（story3d.js S.roomY4Late 大四以後會補回、畢業流程不刪），AA_471 第 1 節的修正無害、由 Node pg_jpon_termkey_unit 1-b 證明；LAWWW 判斷：不另外查「什麼情況真的沒有 ROOM_Y4」（正常玩碰不到，修正已經防住），不擋發布。r42_new 跑中 ｜ 【LAWWW-C 2026-10-27 17:1x UTC】LAWWW 的發布前檢查（乾淨 worktree f54a35ec4）做完：全部 Node 643 支 0 失敗（17:0x）；HV-15：題目漏收 0（從 AA 企劃線 claude/magical-albattani-bk7b4n 62729e77b 重新匯出 399 題，除了 source 那一欄以外 JSON 完全相同）、check_orphans 程式沒提到的素材 88（和 v9.10.10 一樣）、看板停住 27、白名單核准但程式沒提到 21。剩 BB 的瀏覽器（R42 兩版、relsuite＋savecompat、trx_dating8、trx_alone8）→ GO 以後 PR ｜ 【LAWWW-C 2026-10-27 17:1x UTC】BB-C 更正（17:0x 訊息）：trx_dating8 沒有通過紀錄，要在 f54a35ec4 重跑。BB 要跑的完整清單：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_dating8、trx_alone8，兩份 transcript 都要過 stops_check 再判定；不重跑：R40、R41、單面三份、窗景黃昏（含 9b3185665）、flow_soclib。BB-C 合併 elegant-brown＋duty register 等使用者點頭 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
+   "next": "【LAWWW-C 2026-10-27 22:3x UTC】發布：main c8b9659e5（PR #17），Pages run 40595623389 22:34:37 成功；遊戲檔案＝rc2 6aebbb4d8＋版本字樣（發布樹 4ab01d947）；BB GO（P0、save_compat、main_day12）；發布後開發分支還原 1f49be250、合併 main 13fb0c635｜【LAWWW-C 2026-10-27 18:4x UTC】BB-C r42_new：termKey 2030＝PG ✔；語彤第二週床快轉卡住沒驗到（工具問題），加 R42_YT_2030J（捷徑撥到 1/17）兩版都跑（237e52e1b）；trx_dating8 跑中 ｜ 【LAWWW-C 2026-10-27 17:5x UTC】BB-C r42_old（1dacc06af，80b16615d BB_218）：①R42_YT_2030 照預期 FAIL（01-10、01-17 原句，termKey＝D1584）②R42_JP_PG_HOME 舊版也 PASS——瀏覽器到不了「畢業後沒有 ROOM_Y4」（story3d.js S.roomY4Late 大四以後會補回、畢業流程不刪），AA_471 第 1 節的修正無害、由 Node pg_jpon_termkey_unit 1-b 證明；LAWWW 判斷：不另外查「什麼情況真的沒有 ROOM_Y4」（正常玩碰不到，修正已經防住），不擋發布。r42_new 跑中 ｜ 【LAWWW-C 2026-10-27 17:1x UTC】LAWWW 的發布前檢查（乾淨 worktree f54a35ec4）做完：全部 Node 643 支 0 失敗（17:0x）；HV-15：題目漏收 0（從 AA 企劃線 claude/magical-albattani-bk7b4n 62729e77b 重新匯出 399 題，除了 source 那一欄以外 JSON 完全相同）、check_orphans 程式沒提到的素材 88（和 v9.10.10 一樣）、看板停住 27、白名單核准但程式沒提到 21。剩 BB 的瀏覽器（R42 兩版、relsuite＋savecompat、trx_dating8、trx_alone8）→ GO 以後 PR ｜ 【LAWWW-C 2026-10-27 17:1x UTC】BB-C 更正（17:0x 訊息）：trx_dating8 沒有通過紀錄，要在 f54a35ec4 重跑。BB 要跑的完整清單：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_dating8、trx_alone8，兩份 transcript 都要過 stops_check 再判定；不重跑：R40、R41、單面三份、窗景黃昏（含 9b3185665）、flow_soclib。BB-C 合併 elegant-brown＋duty register 等使用者點頭 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027",
+   "evidence": "main c8b9659e5（PR #17 合併）；GitHub Pages run 40595623389 22:34:37 UTC 成功；遊戲檔案＝候選 rc2 6aebbb4d8（git diff 空）；LAWWW 發布前檢查 rc2 乾淨 worktree 全部 Node 644 支 0 失敗、HV-15 題目漏收 0；BB-C GO（P0 七種、save_compat、main_day12，5583d4bd4）。線上網址沒有從雲端打開核對（沙盒網路限制）"
   },
   {
    "id": "AA435-JP-BLANK-1024",
@@ -33936,7 +33937,8 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 22:3x UTC】v9.10.11 上線（c8b9659e5）；BB P0 七種全 PASS（5583d4bd4）｜【LAWWW-C 2026-10-27 21:1x UTC】合進開發分支 8a5361bf8（an-stuck-1027 35f8e7fb2；只動 invites3d.js＋新測試 inv_arrive_lock_unit，基底／f54／v9.10.10 FAILED 11）；同一包放進 v9.10.11 候選 rc2 6aebbb4d8（BB 驗證中）｜【LAWWW-C 2026-10-27 20:4x UTC】使用者又查到：是「約以安去吃麵」那一趟（出遊同行段）卡在對話，存檔時那一趟還在進行中、紀錄是沒去吃，讀回來重新開始所以她一直跟著——已轉子代理｜【LAWWW-C 2026-10-27 20:3x UTC】子代理 an-stuck-1027（基底 3240d3802）重現、修、確認 f54a35ec4（v9.10.11 候選）會不會卡——會就擋發布、先修",
-   "sha": "8a5361bf8"
+   "sha": "8a5361bf8",
+   "evidence": "tests/inv_arrive_lock_unit.js：開發分支基底、f54a35ec4、v9.10.10 都 FAILED 11，修正後 ALL PASS；BB-C 瀏覽器 P0 七種全 PASS（5583d4bd4）；隨 v9.10.11（c8b9659e5）上線"
   },
   {
    "id": "AN-INVITE-NONE-1027",
@@ -33957,7 +33959,8 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 22:3x UTC】v9.10.11 上線（c8b9659e5）；BB P0 七種全 PASS（5583d4bd4）｜【LAWWW-C 2026-10-27 21:1x UTC】是 bug：going 沒結束所以約不到（使用者存檔本身 canInvite true）；同一個修正｜【LAWWW-C 2026-10-27 20:3x UTC】同一個子代理查原因：bug 就修；是劇情條件（例：經濟系那年和可昕交往）就轉 AA-C 定",
-   "sha": "8a5361bf8"
+   "sha": "8a5361bf8",
+   "evidence": "和 AN-MEAL-STUCK-1027 同一個修正（going 沒結束所以約不到；使用者存檔本身 canInvite true）：tests/inv_arrive_lock_unit.js 修正前 FAILED 11、修正後 ALL PASS；BB-C P0 七種全 PASS（5583d4bd4）；隨 v9.10.11（c8b9659e5）上線"
   },
   {
    "id": "NOODLE-TEAM-WHY-1027",
@@ -34149,7 +34152,7 @@
    "title": "學姊第十二批 BB 讀程式核對的問題：①12-5 法圖午休實際只有週五能演（characters.js:78 兩筆 linze_5f 沒有結束日，蓋過 :80 的 2028-02～2029-05 法圖）②12-6b「人在臺灣」只排除日本路線（C10 加州、C08 首爾出國的照樣收邀約、記 missed）③4-2 交往版玩家約的店不是法圖旁邊那家就不演「書推過去」④12-4 2027-09-16（四）家族讀書會和以安公法讀書會撞期⑤4-1 舊存檔不補 SIS_PHOTO_TO_YOU（企劃沒要求，照舊）",
    "area": "Y2",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 10-27 21:19（BB_218 最後一節 e936b4624；SIS-B12 讀程式核對 118/0）；AA_490（a4f530c11）",
    "first": {
@@ -34162,7 +34165,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做。AA_490（DL-AA-490，a4f530c11）回了①③④：①12-5 改這一場：週五 12:00～14:00、2028-03-03～04-21（日本路線到 3/24），兩筆 linze_5f 不加結束日；③4-2 約哪一家都演、店的條件拿掉；④12-4 照撞期：9/13「我去。」旁小字「那天晚上也是公法讀書會」（那學期去過公法讀書會的才有）；另 12-3 火鍋撞托福班照撞期（C04W 那晚有課的才有小字）、日本路線 5/29 sis_jp_events.js 第 13 行第二句換；②LAWWW 改（VAC 出國中也排除）；⑤照舊不補"
+   "next": "【LAWWW-C 2026-10-27 23:0x UTC】第二輪 AA_492（DL-AA-492，2a5b78ee3）1c4223a30：12-6b 出國中「我在{國}。」＋取消提示、12-7 考研究所不問選項一、「另外一本」約會補演；tests/aa492_sis_b12_fix2_unit.js；BB 5o｜【LAWWW-C 2026-10-27 22:3x UTC】第一輪 cff93a2d1（子代理 sisb12fix-1027）：①12-5 週五 3/3～4/21 ②12-6b 出國中不收邀約（VAC.abroadOn）③4-2 約哪一家都演 ④12-4、12-3 撞期小字、日本 5/29 換句；BB 5n｜【LAWWW-C 2026-10-27 21:2x UTC】v9.10.11 發布後做。AA_490（DL-AA-490，a4f530c11）回了①③④：①12-5 改這一場：週五 12:00～14:00、2028-03-03～04-21（日本路線到 3/24），兩筆 linze_5f 不加結束日；③4-2 約哪一家都演、店的條件拿掉；④12-4 照撞期：9/13「我去。」旁小字「那天晚上也是公法讀書會」（那學期去過公法讀書會的才有）；另 12-3 火鍋撞托福班照撞期（C04W 那晚有課的才有小字）、日本路線 5/29 sis_jp_events.js 第 13 行第二句換；②LAWWW 改（VAC 出國中也排除）；⑤照舊不補"
   }
  ]
 }
