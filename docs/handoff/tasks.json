@@ -33944,6 +33944,46 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-27 20:3x UTC】同一個子代理查原因：bug 就修；是劇情條件（例：經濟系那年和可昕交往）就轉 AA-C 定"
+  },
+  {
+   "id": "NOODLE-TEAM-WHY-1027",
+   "title": "使用者問麵店團存在的必要：AA 說明它在故事裡負責什麼，玩起來是不是只剩一直跳的群組訊息；要精簡或改由 AA 提",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "使用者 10-27 20:4x 對 LAWWW-C「麵店團存在的必要到底是?」（UA-LAWWW-1027-20）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "法律系大一上第一次收到麵店團群組",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C；結構大改（拿掉麵店團、換成別的朋友圈）用選擇題問使用者"
+  },
+  {
+   "id": "YT-BBQ-WHY-1027",
+   "title": "語彤（社會系一年級）出現在法律系麵店團的中秋烤肉，遊戲沒交代為什麼——補一句交代（她和麵店阿姨的關係、怎麼認識阿哲他們）或調整她大一出現的場合",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "使用者 10-27 20:4x 對 LAWWW-C「為什麼中秋烤肉會有語彤是法律系還是?」（UA-LAWWW-1027-21）",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "大一上第 5 週週六中秋烤肉（ev_mid_autumn_bbq）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 20:4x UTC】轉 AA-C 定句子或調整，LAWWW 接"
   }
  ]
 }
