@@ -229,7 +229,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     fresh(d,20.5,'dorm',{SIS_W1:true}); FAM(); joinFam(); span(Tm(d,20.9),Tm(d,21.1)); const g=fam().filter(x=>x.tag==='sisg_rank_dinner');
     check('2-9. 3/23 21:00 Kevin「學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊」；只有「去。」',g.length===1&&g[0].from==='kevin'&&g[0].text==='學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'&&g[0].ask.opts.map(o=>o.t).join('|')==='去。',JSON.stringify(g.map(x=>x.text)));
     answer(g[0].ask.id,0); span(Tm(d,21.1),Tm(d,21.2)); const q=OUT.get(G,'sisg_rank_dinner'); check('2-9. 回「去。」→ 3/27（五）19:00 出遊',!!q&&q.day===d27&&q.h===19&&q.ev==='ev_sis_results_dinner_y1',JSON.stringify(q));
-    const e=ev('ev_sis_results_dinner_y1'); const play=async fl=>{ fresh(d27,19,'gongguan',fl); FAM(); await EVENTS.run(e); return txts(); };
+    const e=ev('ev_sis_results_dinner_y1'); const play=async fl=>{ fresh(d27,19,'gongguan',Object.assign({SIS_W1:true,met_sis:true},fl)); FAM(); await EVENTS.run(e); return txts(); };   /* 已經認識她（SIS_W1）：還沒認識的開頭多兩句自我介紹（AA_470 5-1），驗在 tests/aa470_sis_b12_unit.js */
     const head=['你們真的不用請我。','學姊，坐好。今天妳只負責吃。','……好。','（她點了最貴的那一份，然後看了 Kevin 一眼。Kevin 假裝沒看到。）'];
     const a=await play({SIS_RESULT_TOLD:true,SIS_NEW_PLANNER:true}), b=await play({SIS_NEW_PLANNER:true}), c=await play({});
     check('2-9. 聚餐台詞；有 SIS_RESULT_TOLD：「那天你傳的時候，我還在睡。」；沒有、但有 SIS_NEW_PLANNER：「計畫本今天這一格，我寫了『吃飯』。」',JSON.stringify(a)===JSON.stringify(head.concat(['（她小聲對你說。）','那天你傳的時候，我還在睡。']))&&JSON.stringify(b)===JSON.stringify(head.concat(['計畫本今天這一格，我寫了『吃飯』。']))&&JSON.stringify(c)===JSON.stringify(head),JSON.stringify([a,b,c]));

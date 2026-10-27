@@ -605,6 +605,7 @@ const STORY_EVENTS=[
      第一個選項接第二天的課堂（被周老師點名）；那天沒去上課的玩家沒有這個選項；第二個選項要在家族群組裡（看得到她都回「收到」） */
   { id:'ev_sis_family_dinner', title:'家族聚餐', participants:['heroine_05'], location:'gongguan', trigger:'auto', term:['Y1S1'], weeks:[14], weekday:[5], time:[18,19.5], once:true, background:'blur',   /* 窗口放寬到 18:00～19:30（AA_160 3-4 B 表、BB_95 3-8）*/
     dialogue:[ {if:{custom:G=>G.hour%24<18.5},speaker:null,text:'你先到了。麵店的阿姨把你們那一桌的椅子擺好。'},{speaker:null,text:'18:31。她跑進來，有點喘。'},{speaker:'heroine_05',expression:'surprised',text:'抱歉。抱歉。……抱歉，我遲到了。'},{speaker:'Kevin 學長',text:'一分鐘。學姊，一分鐘。'},{speaker:'heroine_05',expression:'neutral',text:'一分鐘也是遲到。'},
+      {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。我是妳的直屬。'},{unless:{flags:['SIS_W1']},speaker:'heroine_05',expression:'neutral',text:'我知道。群組裡那個名字。'},   /* AA_470 5-1：還沒認識她的（沒有 SIS_W1）兩句，演完記 met_sis、SIS_W1（同 9/12 家聚 ev_sis_fam_dinner）*/
       {speaker:null,text:'她坐下，從包包拿出一個資料夾。'},{speaker:'heroine_05',expression:'neutral',text:'周老師歷年的考古題。我整理過，錯的地方用紅筆改了。'},{speaker:'heroine_05',expression:'neutral',text:'下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。'},{speaker:'heroine_05',expression:'neutral',text:'……還有——'},   /* AA_398 第 4 列 */
       {speaker:'Kevin 學長',text:'還有傳統！直屬學姊要講一個自己大一的糗事！'},{speaker:'heroine_05',expression:'neutral',text:'……'},{speaker:'heroine_05',expression:'neutral',text:'我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。'},{speaker:'heroine_05',expression:'neutral',text:'老師說：「那心地不好的第三人，是不是就不用保護了？」'},
       {speaker:null,text:'全桌笑。她也笑了一下。'},{speaker:'heroine_05',expression:'smile',text:'其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'},
@@ -612,7 +613,7 @@ const STORY_EVENTS=[
       {label:'called'},{speaker:'heroine_05',expression:'smile',text:'那一題大家都會卡。你有回答就很好了。'},{goto:'end'},
       {label:'sticker'},{speaker:'heroine_05',expression:'neutral',text:'因為收到了。'},{speaker:'Kevin 學長',text:'她連過年都回收到。'},{speaker:'heroine_05',expression:'neutral',text:'……不然要回什麼？'},{speaker:'Kevin 學長',text:'貼圖啊！'},{speaker:'heroine_05',expression:'neutral',text:'我沒有貼圖。'},{goto:'end'},
       {label:'folder'},{speaker:null,text:'學姊看了一眼。'},{speaker:'heroine_05',expression:'neutral',text:'資料夾回去再看。現在吃麵。'},{speaker:'Kevin 學長',text:'學姊說吃麵耶！'},
-      {label:'end'},{speaker:'heroine_05',expression:'smile',text:'下學期的書，我會留給你。'} ],
+      {label:'end'},{speaker:'heroine_05',expression:'smile',text:'下學期的書，我會留給你。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ],
     consequences:{mem:[{npc:'heroine_05',tag:'SHARED_MEAL',note:'家族聚餐'}],stamp:['familyDinnerDay'],memo:'直屬家族聚餐（阿鳳麵店）'} },
   /* 哲 1：不用約，來就有人（AA_40 哲 1；交付清單 A9）：大一上第 4 週週四起（遊戲裡的第二個週四），週二、週四傍晚在阿鳳麵店遇到阿哲（他的日程 17:30–20:30）——
      第 4 週週四沒去的玩家，順延到之後第一次在麵店遇到他（BB_95 第 5 節第 4 點：不能永久錯過）；只一次。麵店的長桌從這裡開始：
@@ -1754,13 +1755,14 @@ const STORY_EVENTS=[
      回了「我有。」（SAID_HAS_CAR）：結束時順路載三個人回學校（BB_97 2-9 的描述寫成旁白）。記 FAMILY_DINNER；有 SAID_TREAT_SIS 而且到場＝TREATED_FAMILY */
   { id:'ev_family_dinner', title:'家族聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'永康街・咖哩店',bg:'yongkang_curry'},
+      {unless:{flags:['SIS_W1']},speaker:'player',text:'學姊好，我是{name}。'},{unless:{flags:['SIS_W1']},speaker:'heroine_05',expression:'neutral',text:'……我知道。家聚你都沒來。今天來了就好。'},   /* AA_470 5-1：還沒認識她的（沒有 SIS_W1）兩句，點菜之前（這一場沒有開場旁白：接在場景後面）；演完記 met_sis、SIS_W1 */
       {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）我要辣的。……飲料學弟請，咖哩我請。'},
       {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'（看菜單三十秒）我要辣的。今天我請。'},
       {if:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'smile',text:'我不是在客氣喔。'},
       {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'下次誰都不要遲到喔。'},
       {speaker:null,text:'Kevin 遲到七分鐘。'},
       {speaker:'heroine_05',expression:'neutral',text:'Kevin，下次的地方你選。'},
-      {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在問學弟妹下學期選什麼課。'} ],
+      {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在問學弟妹下學期選什麼課。'},{unless:{flags:['SIS_W1']},set:{SIS_W1:true,met_sis:true}} ],
     after:G=>{ if(typeof SOCIAL==='undefined') return; SOCIAL.remember('heroine_05','FAMILY_DINNER','永康街的咖哩'); if(G.flags.SAID_TREAT_SIS){ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','TREATED_FAMILY','說要請全家族飲料，真的請了'); } } },
   /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。

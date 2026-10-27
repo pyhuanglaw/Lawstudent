@@ -26,7 +26,7 @@ let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_394
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_jp3d.js 後面',ok1&&ok2&&!!X()&&/sis_jp3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b8_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b8_3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISB8_EVENTS)+J(SISB8_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISB8_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['兩點半 Café','公館・自助餐','霖澤館・研究室'].includes(t));
+  const notIn=[...new Set(q)].filter(t=>doc.indexOf(t.replace(/^「|」$/g,''))<0&&!['兩點半 Café','公館・自助餐','霖澤館・研究室','我大一的時候，我的學姊也請過我。'].includes(t));   /* 「我大一的時候，我的學姊也請過我。」：AA_470 4-3（企劃線 5f54b6545）換掉的那一句 */
   check('0. 每一句台詞、選項都在稿裡（一字不差）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisb8），前面幾層的記號還在',!!SISY23.preTalk._sisb8&&!!SISY23.preTalk._sisb4&&!!SISY23.preTalk._sisjp); });
 /* ---- 1 ---- */
@@ -39,9 +39,9 @@ await sec(1,async()=>{ fresh('2026-08-12',20); H.at('2026-08-12',21); ph(); cons
   fresh('2026-08-12',21); ph(); PHONE.answer(H.G,'sisb8_course_ask',2); ph(); H.at('2026-08-14',20); ph();
   check('1. 「那天不行。」→「好。截圖傳給我。」；8/14 20:00「債總選周老師那班。他會點人，你會被逼著想。」；不排出遊',th().includes('好。截圖傳給我。')&&th().includes('債總選周老師那班。他會點人，你會被逼著想。')&&!OUT.get(H.G,'sisb8_course'));
   fresh('2026-11-04',21); ph(); PHONE.answer(H.G,'sisb8_lunch_ask',0); ph(); const ql=OUT.get(H.G,'sisb8_lunch'); H.at('2026-11-06',12); await goOut('sisb8_lunch',[0]);
-  check('1. 2-2 11/4 約 → 11/6（五）12:20 公館的自助餐；「債總。」；最後「下次你當直屬的時候，記得也要請。」；熟悉 +2 自在 +2',!!ql&&keyOf(ql.day)==='2026-11-06'&&Math.abs(ql.h-(12+20/60))<1e-6&&has('對。債總是第一個讓人覺得自己不會讀書的科目。……過了就好了。')&&has('下次你當直屬的時候，記得也要請。')&&H.G.flags.SIS_LUNCH_Y2===true,J(H.said.map(x=>x.t)));
+  check('1. 2-2 11/4 約 → 11/6（五）12:20 公館的自助餐；「債總。」；最後「我大一的時候，我的學姊也請過我。」（AA_470 4-3 換句，原本「下次你當直屬的時候，記得也要請。」）；熟悉 +2 自在 +2',!!ql&&keyOf(ql.day)==='2026-11-06'&&Math.abs(ql.h-(12+20/60))<1e-6&&has('對。債總是第一個讓人覺得自己不會讀書的科目。……過了就好了。')&&has('我大一的時候，我的學姊也請過我。')&&!has('下次你當直屬的時候，記得也要請。')&&H.G.flags.SIS_LUNCH_Y2===true,J(H.said.map(x=>x.t)));
   fresh('2026-11-06',12,'FRIEND'); H.date(ID); OUT.plan(H.G,{id:'sisb8_lunch',ev:'ev_sis_lunch_y2',day:D('2026-11-06'),h:12.33,place:'x',title:'x',travel:'',travelH:0}); await goOut('sisb8_lunch',[1]);
-  check('1. 2-2 交往中：最後一句「……下次你請。」',has('……下次你請。')&&!has('下次你當直屬的時候，記得也要請。'));
+  check('1. 2-2 交往中：最後一句「……下次你請。」',has('……下次你請。')&&!has('下次你當直屬的時候，記得也要請。')&&!has('我大一的時候，我的學姊也請過我。'));
   fresh('2026-11-04',21); ph(); PHONE.answer(H.G,'sisb8_lunch_ask',1); ph(); check('1. 2-2「那天不行。」→「好。下次。」，不排',th().includes('好。下次。')&&!OUT.get(H.G,'sisb8_lunch'));
   fresh('2027-07-20',21); ph(); PHONE.answer(H.G,'sisb8_ch1_ask',1); ph(); const qc=OUT.get(H.G,'sisb8_ch1'); H.at('2027-07-22',14.6); await goOut('sisb8_ch1',[1]);
   check('1. 第 4 節「我看得懂嗎？」→「看不懂的地方，就是我要改的地方。」；7/22（四）15:00 研究室；「其他的都看得懂。」→「看得懂不夠。……你想讀下去嗎？」「想。」「好。」；SIS_CH1_READ went',th().includes('看不懂的地方，就是我要改的地方。')&&!!qc&&keyOf(qc.day)==='2027-07-22'&&seq(['看得懂不夠。……你想讀下去嗎？','想。','好。'])&&H.G.flags.SIS_CH1_READ==='went',J(H.said.map(x=>x.t)));
