@@ -147,7 +147,7 @@ const L118=(function(){
   /* H7：和芯慈在家常菜一起吃滿三次，第三次吃完多一句（她吃完那一句之後）*/
   S.h7cDue=(G,shopId,comp)=>shopId==='home'&&law(G)&&comp.includes(XC)&&!once(G,'H7a')&&((S.ateWith(G,XC,'home')||{}).n|0)>=3;
   /* H8：大二上起和語彤在滇香一起吃過以後，下一次（別天）自己來；語彤在臺北（presence）。AA_410 老闆娘說她點法的那兩句排在 H8 之後、不同一天（S.ytHold，foodfav3d.js 的 ytKnow 看它）*/
-  S.h8Base=function(G){ if(!law(G)||once(G,'H8')) return false; const w=S.ateWith(G,YT,'dian'), fy=G.fav&&G.fav.ytWith; const last=Math.max(w&&w.d!=null?w.d:-1,typeof fy==='number'?fy:-1); if(last<0||last>=G.day) return false;
+  S.h8Base=function(G){ if(!law(G)||once(G,'H8')) return false; const w=S.ateWith(G,YT,'dian'), D2=[w&&w.d,G.fav&&G.fav.ytWith].filter(x=>typeof x==='number'); if(!D2.length) return false; const last=Math.max.apply(null,D2); if(last>=G.day) return false;   /* 遊戲的日子可以是負的（大一上前兩週）：不用 -1 當「沒有」*/
     const y2=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y2S1'):null; return !(y2&&last<y2.from); };
   S.h8Due=function(G,shopId,comp){ if(shopId!=='dian'||(comp&&comp.length)||!S.h8Base(G)) return false;
     if(G.fav&&G.fav.know&&G.fav.know[YT]===G.day) return false;   /* 老闆娘今天已經說了她的點法（舊存檔）：不同一天 */
