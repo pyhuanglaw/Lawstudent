@@ -14842,6 +14842,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "E08 第二輪子代理接著做（x58-e08-1027）；outbox 最後 043d78583"
+  },
+  {
+   "id": "DL-LW2-X79-WARMUP",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "497253c6",
+   "what": "X79 校園白天卡：Z3.warmup（淡入以後背景每 0.25 秒一小批把還沒編的 shader 編好、路人底模、遠距離版本、陰影深度；換區域就停；?nowarmup 關）＋game3d.js enter 一行＋新 tests/zone_warmup_unit.js；同一條經濟系路線第一次走：路上新 shader 30→0、>1 秒的格子 9→3、多出來的時間 9.5→3.9 秒、p99 1.60→0.98 秒（SwiftShader）；代價：等待挪到剛進場（SwiftShader 61 秒背景，真機沒量），電腦先傳 467 張貼圖；outbox 6626f68c",
+   "task": "PERF-CAMPUS-DAY-1027",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 19:1x 套 x79_warmup_1027.patch 進開發分支；zone_warmup、zone_prewarm、nav_buildings、vrm_release ALL PASS；待 BB 走校園看卡不卡、剛進場那幾秒；手機實機沒量"
   }
  ],
  "ignored": [

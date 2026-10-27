@@ -1841,5 +1841,54 @@ const Z3 = (function(){
     const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
       ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
     setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
+  /* 走起來不卡（X79 PERF-CAMPUS-DAY-1027，使用者「校園白天走起來還是會卡」，LAWWW2-C 2026-10-27）：GAME.enter 淡入以後呼叫。
+     量測（tools/shots/x79_walk.py，SwiftShader 手機模擬，校門 → 椰林大道 → 總圖 → 社科院 → 霖澤館）：第一次走，路上 13 次「這一格編新的 shader」，每次停 0.5～2.2 秒——
+     還沒進過畫面的建築材質（社科院門廊、屋頂…）、路人的遠距離版本（第一個人走到 18 m 外）、陰影的深度 shader（新的投影子物件走進陰影範圍）；同一條路第二次走 0 次。
+     three.js 第一次畫到才編；prewarm 只在電腦、只在剛進區域、只編那時候已經接上的，之後才接上的正式模型、藏著的遠距離版本、陰影那一輪都沒編。
+     現在：淡入以後每 0.25 秒做一小批——①看得到（visible，不管在不在畫面裡）而沒編過的材質：R.compile(物件, 鏡頭, E.scene)，燈光、霧照區域的，所以編出來的就是畫的時候要用的；
+     路人的遠距離版本（npc_far，藏著）也編；還沒放進場景的路人底模（ASSETS 快取裡的 VRM 樣板）和遠距離版本的 toon 材質也編——等一下才生出來的人第一格不用停
+     （量測：只編場景裡的，起點附近新生出來的路人臉、頭髮、第一個走到 18 m 外的人，還是各停 1.5～2 秒）。
+     ②場景裡沒有沒編過的、連續幾次都沒有新的（正式模型都接上了）以後，陰影相機暫時放大到整個區域畫一格，陰影的深度 shader 一次編完（那一格陰影比較糊）。
+     ③做完以後每 3 秒再看一次有沒有新的（之後才載完的路人底模、正式模型），有就照樣一小批一小批編；換區域就停。
+     ④編好的 shader 主動「讀一次」（program.getUniforms＝three.js 第一次畫到時做的 onFirstUse：讀編譯結果、uniform 位置）：只送出編譯還不夠，
+     GPU 真的編完、第一次讀結果時照樣要等（第二版量測：路上 0 個新 shader，起點附近還是有 4 格 1～2.5 秒全花在 getProgramInfoLog）。
+     沒有平行編譯一批讀 1 個（那一批不再送新的）；有平行編譯只讀已經好的（isReady），不會等。
+     有平行編譯（KHR_parallel_shader_compile）一批最多 8 個新的 shader、不卡主執行緒；沒有的（不保證）一批 1 個，停頓分散在剛進來的那幾秒，不在走路的時候。
+     電腦另外把這些物件的貼圖先傳上 GPU（每批約 400 萬像素）；手機貼圖照舊第一次畫到才傳（記憶體）。網址 ?nowarmup 關掉（比較用）。E.lastWarmup 記結果（測試、量測用）。*/
+  let warmGen=0;
+  function warmup(E,opts){ opts=opts||{}; const R=E.renderer, q=(typeof location!=='undefined'&&location.search)||'';
+    if(!R||!R.compile||!R.properties||!E.scene||!E.camera||/[?&]nowarmup\b/.test(q)) return null;
+    const zone=E.zone, gen=++warmGen, mobile=typeof ASSETS!=='undefined'&&!!ASSETS.texCap, par=!!(R.extensions&&R.extensions.get&&R.extensions.get('KHR_parallel_shader_compile'));
+    const out={zone:zone&&zone.def&&zone.def.id,objects:0,programs:0,textures:0,mpix:0,depth:false,depthPrograms:0,ticks:0,parallel:par,done:false,ms:0}; E.lastWarmup=out;
+    const t0=performance.now(), gap=opts.gap||250, budget=opts.budget||12, maxProg=opts.maxProg||(par?8:1), idleScans=opts.idleScans||8;
+    const nprog=()=>(R.info.programs||[]).length, mats=o=>Array.isArray(o.material)?o.material:[o.material], isMat=m=>!!(m&&m.isMaterial);
+    const tried=new WeakSet(), need=m=>!tried.has(m)&&!R.properties.get(m).currentProgram, shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };   /* tried：試過的材質不再排（編不起來的不會一直重排）*/
+    let queue=[], idle=0; const loose=new WeakSet(), settled=new WeakSet();
+    const settle=()=>{ let n=0; for(const pg of (R.info.programs||[])){ if(settled.has(pg)) continue; if(par&&pg.isReady&&!pg.isReady()) continue;
+        try{ pg.getUniforms(); }catch(e){ console.warn('warmup settle',e); } settled.add(pg); n++; if(n>=maxProg) break; } out.settled=(out.settled|0)+n; return n; };
+    const unsettled=()=>(R.info.programs||[]).some(pg=>!settled.has(pg));   /* 不在場景裡的（路人底模、遠距離版本）：沒有 parent 也要編 */
+    const scan=()=>{ queue=[]; E.scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)||!o.material) return; const ms=mats(o); if(!ms.every(isMat)||!ms.some(need)) return;
+      if(o.name==='npc_far'?!shown(o.parent):!shown(o)) return; let lit=false; o.traverse(c=>{ if(c.isLight) lit=true; }); if(!lit) queue.push(o); }); queue.push(...extras()); };   /* 子樹裡有燈的不編：compile 會把那盞燈多算一次，編出來的 key 對不上 */
+    const extras=()=>{ const out_=[], A=typeof ASSETS!=='undefined'&&ASSETS.cache; if(!A) return out_;
+      for(const k in A){ const c=A[k]; if(!c||!c.tpl||!c.tpl.vrm) continue; const sc=c.tpl.vrm.scene;
+        if(sc&&!sc.parent) sc.traverse(o=>{ if((o.isMesh||o.isSkinnedMesh)&&o.material&&shown(o)&&mats(o).every(isMat)&&mats(o).some(need)) out_.push(o); });   /* 路人底模（不在場景裡）：骨架 clone 共用幾何、材質 */
+        const L=c.lod; if(L&&L.parts) for(const p of L.parts) if(p.toon&&p.geo&&need(p.toon)){ const sm=new THREE.SkinnedMesh(p.geo,p.toon); loose.add(sm); out_.push(sm); } }   /* 遠距離版本的 toon：和遊戲裡一樣是 SkinnedMesh、不收影子 */
+      return out_; };
+    const texs=o=>{ const out_=[], add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture&&!R.properties.get(v).__webglTexture&&!out_.includes(v)) out_.push(v); };
+      for(const m of mats(o)){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } return out_; };   /* VRM 的 MToon 貼圖放在 uniforms */
+    const depthOnce=()=>{ out.depth=true; const c=E.sun.shadow.camera, keep=[c.left,c.right,c.top,c.bottom,c.near,c.far], sz=(zone&&zone.def&&zone.def.size)||[200,200], h=Math.hypot(sz[0],sz[1])+20, p0=nprog(), td=performance.now();
+      c.left=-h; c.right=h; c.top=h; c.bottom=-h; c.near=-2*h; c.far=2*h; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true;
+      try{ E.render(); } catch(e){ console.warn('warmup depth',e); } finally { [c.left,c.right,c.top,c.bottom,c.near,c.far]=keep; c.updateProjectionMatrix(); R.shadowMap.needsUpdate=true; }
+      out.depthPrograms=nprog()-p0; out.depthMs=Math.round(performance.now()-td); };
+    const step=()=>{ if(gen!==warmGen||E.zone!==zone) return; out.ticks++; const ts=performance.now();
+      if(settle()&&!par){ setTimeout(step,gap); return; }   /* 這一批已經等過一個 */
+      if(!queue.length&&unsettled()){ setTimeout(step,gap); return; }   /* 有平行編譯：等還沒好的 */
+      if(!queue.length){ scan(); if(queue.length) idle=0; else if(++idle>=idleScans){ if(!out.depth&&R.shadowMap.enabled&&E.sun&&E.sun.castShadow){ depthOnce(); idle=0; } else { if(!out.done){ out.done=true; out.ms=Math.round(performance.now()-t0); } idle=0; setTimeout(step,opts.watch||3000); return; } } }
+      const p0=nprog(); let px=0;
+      while(queue.length&&performance.now()-ts<budget&&nprog()-p0<maxProg){ const o=queue.shift(); if((!o.parent&&!loose.has(o))||!mats(o).some(need)) continue;
+        try{ R.compile(o,E.camera,E.scene); out.objects++; } catch(e){ console.warn('warmup compile',e); } for(const m of mats(o)) tried.add(m);
+        if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+      const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+    setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
 })();
