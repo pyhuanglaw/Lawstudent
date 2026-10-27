@@ -1067,6 +1067,33 @@
    "status": "進行中",
    "wants": "X100",
    "note": "更正 UA-LAWWW-1023-16 的「都會看」→「都不會看」：使用者這十小時不看，LAWWW 自主排程、不停下來等使用者、監督三位總監有事做"
+  },
+  {
+   "id": "UA-LAWWW-1027-01",
+   "at": "2026-10-27T16:4x",
+   "quote": "上一班來不及交班，現在由帳號 C 接班。",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-C-1027",
+   "note": "duty register --user-ok（seq 28）；接班十四步"
+  },
+  {
+   "id": "UA-LAWWW-1027-02",
+   "at": "2026-10-27T16:4x",
+   "quote": "你要紀錄上個帳號沒有交班 你接手以免之後亂掉",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "HANDOFF-C-1027",
+   "note": "duty.json anomalies（四職位 no-handoff 細節）、AI_SESSION_HANDOFF 第 1、12 節、HANDOFF_GAP_MATRIX 第 1 節"
+  },
+  {
+   "id": "UA-LAWWW-1027-03",
+   "at": "2026-10-27T16:4x",
+   "quote": "可以再補一條：子代理一開工就先推一個檢查點，之後每 15～20 分鐘備份一次，不要等做完才備份。這樣就算沒交班，最多也只掉十幾分鐘。",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X101",
+   "note": "D113／HV-19；token 的問題（「這樣會多很多token使用量嗎」）當場回答：每次備份約一兩千 token，子代理本身每小時幾十萬，約多 1%"
   }
  ]
 }

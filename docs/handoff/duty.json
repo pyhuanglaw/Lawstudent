@@ -1,11 +1,11 @@
 {
  "version": 1,
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
- "ruleVersion": "HV-18",
+ "ruleVersion": "HV-19",
  "ruleSource": {
-  "branch": "claude/modest-rubin-2lyp7g",
-  "sha": "719cca3b",
-  "updated": "2026-10-23T06:46Z"
+  "branch": "claude/adoring-meitner-mqzst8",
+  "sha": "5b6737cd",
+  "updated": "2026-10-27T16:46Z"
  },
  "accounts": [
   "A",
@@ -13,28 +13,28 @@
   "C",
   "D"
  ],
- "onDuty": "B",
- "previous": "A",
+ "onDuty": "C",
+ "previous": "B",
  "accountState": {
   "A": "off",
-  "B": "on",
-  "C": "off",
+  "B": "off",
+  "C": "on",
   "D": "unused"
  },
  "roles": {
   "LAWWW": {
-   "account": "B",
-   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "719cca3b",
-   "sinceSha": "719cca3b",
-   "since": "2026-10-23T06:46Z",
+   "account": "C",
+   "session": "session_01Me1thu8Zn934H58kWKNfuF",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "5b6737cd",
+   "sinceSha": "5b6737cd",
+   "since": "2026-10-27T16:46Z",
    "state": "on",
    "prev": {
-    "account": "A",
-    "session": "session_01Eds6msqpsuzNEw98sdw8JX",
-    "branch": "claude/confident-ritchie-8rwh7t",
-    "sha": "1fec8d9f"
+    "account": "B",
+    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "sha": "719cca3b"
    }
   },
   "LAWWW2": {
@@ -303,6 +303,24 @@
     }
    },
    "until": "2026-10-23T06:47Z"
+  },
+  {
+   "account": "B",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "719cca3b",
+     "since": "2026-10-23T06:46Z",
+     "handedOffAt": null,
+     "state": "no-handoff",
+     "lastSha": "5b6737cd",
+     "stoppedAt": "2026-10-25T19:39Z"
+    }
+   },
+   "until": "2026-10-27T16:46Z",
+   "endKind": "no-handoff"
   }
  ],
  "anomalies": [
@@ -473,9 +491,58 @@
     "7e03e3b9..4a25046b"
    ],
    "note": "帳號 A BB 交班（7e03e3b9）以後的 commit 是 BB 自己的交班登記 d3c7951d（duty_BB.json 手寫，TOOL-DUTY-HANDOFF-BRANCH-1022）和合併 4a25046b，交班後沒有工作 commit；已併進 BB-B 分支。LAWWW-B（帳號 B）接班時查核"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "LAWWW",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-27T16:46Z",
+   "note": "帳號 B 沒有正式交班：四個職位 2026-10-25 19:2x～19:4x UTC 同時停住（額度用完；AA-B 最後一筆是 D45 緊急保存），之後到 10-27 16:4x 都沒有新的 commit。各職位最後 commit：LAWWW-B 5b6737cd（19:39，claude/modest-rubin-2lyp7g）、AA-B 89accb6d（19:43，claude/cool-heisenberg-o8kuqx）、BB-B 2109de7b（19:31，claude/elegant-brown-fcos7n）、LAWWW2-B e1486b51（19:22，claude/funny-albattani-iawshm，WIP 檢查點）。使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」。以遠端最後 push 的狀態為準；B 停住時的狀態由 LAWWW-C 從 GitHub 重建（HANDOFF_GAP_MATRIX 第 1 節）：遺失（沒 push）＝LAWWW-B 19:35 派的隔離 worktree 子代理（AA_471 第 3～7 節＋AA_472＋AA_473 實作，最後一次備份 19:10 在它開工以前）→ 帳號 C 重做（PG-FIX-471-473-1027）；BB-B 19:31 起在 v9.10.11 候選 f54a35ec4 上的瀏覽器測試結果沒有記錄 → BB 重跑。帳號 B 之後回來：先照 AI_SESSION_HANDOFF 第 4 節接班，不要直接合它本機還留著的東西（以總表為準，避免和帳號 C 重做的版本重複）",
+   "resolved": true,
+   "evidence": [
+    "5b6737cd",
+    "89accb6d",
+    "2109de7b",
+    "e1486b51",
+    "git log --all --since=2026-10-25T19:44Z 是空的（10-27 16:4x 查）"
+   ]
+  },
+  {
+   "kind": "no-handoff",
+   "role": "LAWWW2",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-27T16:4xZ",
+   "branch": "claude/funny-albattani-iawshm",
+   "reviewedThrough": "e1486b51",
+   "resolved": false,
+   "note": "LAWWW2-B 沒有正式交班（10-25 19:22 UTC 停住，最後 e1486b51）；duty.json roles 裡還寫著 B on，等帳號 C 的 LAWWW2 用 duty register --user-ok 接班後就解決。接班時合併 claude/funny-albattani-iawshm（不 rebase、不 force push）"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "AA",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-27T16:4xZ",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "reviewedThrough": "89accb6d",
+   "resolved": false,
+   "note": "AA-B 沒有正式交班（10-25 19:43 UTC 停住，最後 89accb6d）；duty.json roles 裡還寫著 B on，等帳號 C 的 AA 用 duty register --user-ok 接班後就解決。接班時合併 claude/cool-heisenberg-o8kuqx（不 rebase、不 force push）"
+  },
+  {
+   "kind": "no-handoff",
+   "role": "BB",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-27T16:4xZ",
+   "branch": "claude/elegant-brown-fcos7n",
+   "reviewedThrough": "2109de7b",
+   "resolved": false,
+   "note": "BB-B 沒有正式交班（10-25 19:31 UTC 停住，最後 2109de7b）；duty.json roles 裡還寫著 B on，等帳號 C 的 BB 用 duty register --user-ok 接班後就解決。接班時合併 claude/elegant-brown-fcos7n（不 rebase、不 force push）"
   }
  ],
- "seq": 27,
+ "seq": 28,
  "chain": [
   {
    "seq": 1,
@@ -665,6 +732,13 @@
    "account": "B",
    "role": "LAWWW2",
    "event": "sync"
+  },
+  {
+   "seq": 28,
+   "at": "2026-10-27T16:46Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register-user-ok"
   }
  ]
 }

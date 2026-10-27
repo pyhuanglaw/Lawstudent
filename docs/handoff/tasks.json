@@ -32585,6 +32585,66 @@
     "ack": "ACK"
    },
    "notes": "不擋開發：預設「不能」照現行。"
+  },
+  {
+   "id": "HANDOFF-C-1027",
+   "title": "帳號 B 沒有交班（10-25 19:2x～19:4x 四職位停住），帳號 C 接班：登記 no-handoff、從 GitHub 重建 B 停住時的狀態、四職位接班",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "接班",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 16:4x UTC】LAWWW-C 已登記（duty seq 28 register-user-ok，no-handoff 已記、細節在 duty.json anomalies）；B 停住時的狀態重建在 HANDOFF_GAP_MATRIX 第 1 節。還差：BB-C、AA-C、LAWWW2-C 接班（使用者叫醒，各自 duty register --user-ok）；incr 異常 245 項（LAWWW2 outbox 格式 140、LAWWW2 沒分類 commit 67、AA outbox 任務 ID 27…）、roles 異常 16 項（AA 表外）——不擋開發，接班後清"
+  },
+  {
+   "id": "PG-FIX-471-473-1027",
+   "title": "重做 AA_471 第 3～7 節＋AA_472（畢業以後臺灣八種六項）＋AA_473（前任的畢業以後兩處）的實作——帳號 B 的子代理成果沒 push、已遺失",
+   "area": "v5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "LAWWW-B 10-25 19:35 派的隔離 worktree 子代理（aa471-472，19:39 追加 AA_473），最後備份 19:10 在它開工以前；稿：企劃線 claude/cool-heisenberg-o8kuqx 763993620（AA_471）、1ebcf530e（AA_472）、66393bb91（AA_473）",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "畢業以後（2029-06 起）、交換延畢的大五",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
+  },
+  {
+   "id": "RELEASE-91011",
+   "title": "發布 v9.10.11（候選 f54a35ec4＝v9.10.10 以後合進來的十幾項＋AA_471 第 1、2 節兩個修正）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "LAWWW-B 10-25 19:29（f54a35ec4），帳號 B 停住時還沒發布",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "發布",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
   }
  ]
 }
