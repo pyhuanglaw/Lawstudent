@@ -29,6 +29,7 @@ const els={}; const $=id=>els[id]||(els[id]=el(id)); $('choices').classList.add(
 const ctx={ $, D:{active:false,resolve:null,typing:false,full:'',shown:0,timer:0,busyDepth:0,busyWho:[],stale:false}, GM:{}, A3:{blip(){}}, ADV:{active:false,skip:false,end(){}}, SOCIAL:undefined,
   E:{player:{busy:false,path:null,target:null,pose:'idle',obj:{position:{}}},npcs:[],endCinematic(){}},
   uncover(){}, overFade(){}, subst:t=>t, hideHUD(){}, letterbox(){}, toast(){}, performance:{now:()=>0}, requestAnimationFrame:f=>f(),
+  sayRestore(){}, sayRestoreSoon(){}, sayStack:[],   /* 一句話被蓋掉放回去（STUCK-HARDEN-1027）在 tests/say_cover_unit.js 測；這裡只抽選單 */
   document:{createElement:()=>{ const x=el('btn'); x.onclick=null; return x; }}, console:{warn(){ ctx.warns.push([...arguments]); },log:console.log}, warns:[] };
 vm.createContext(ctx);
 vm.runInContext(SRC.slice(a,b)+'\n  GM.choose=choose;\n'+sb[0]+se[0]+'\nGM.sceneBegin=sceneBegin; GM.sceneEnd=sceneEnd;',ctx,{filename:'game3d.js(抽出)'});

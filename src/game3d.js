@@ -88,14 +88,23 @@ const GAME = (function(){
   GM.D=D;
   function subst(t){ return t.replace(/\{name\}/g,G.name); }
   const overFade=el=>{ el.style.zIndex=$('fade').classList.contains('on')?'10':''; };   /* 黑幕（#fade，z-index 9、會攔點擊）還開著就說話／出選項：對話框放到黑幕上面，不然玩家只看到全黑、點不下去（2026-10-17 經濟系 8/29 轉法律系卡死）。劇情本身照舊應該先拿掉黑幕，這裡只是保險 */
-  function say(who,text,opts){ opts=opts||{}; uncover(); if(typeof ADV!=='undefined'&&ADV.active&&ADV.narrate) ADV.narrate(!who);   /* 旁白：手機直向台上的人變暗（adv3d.js solo）*/ return new Promise(res=>{ D.active=true; D.resolve=res; const box=$('dlg'); box.classList.remove('hide'); overFade(box); $('dlgName').textContent=who?(who.name||who):''; $('dlgName').style.display=who?'block':'none'; D.full=subst(text); D.shown=0; D.typing=true; $('dlgText').textContent=''; $('dlgNext').style.visibility='hidden'; const spd=S.textSpeed>=9?9999:(S.textSpeed===1?18:(S.textSpeed===2?32:60)); D.cps=spd; // 說話者姿態與表情
+  /* 一句話還在等點擊、另一段的話蓋上來（STUCK-HARDEN-1027；BUG-AN-NOODLE-STUCK-1027 的保底）：D.resolve 只留得下一個，原本先開始的那一段永遠等不到＝停在那一句的畫面。
+     改成同選單（X81 chooseStack）的做法：舊的那一句先收起來，新的那一段演完（劇情層數回到舊那一句那一層：sceneEnd；或點完一句、選完一個選項以後新的那一段沒有接著說）再放回去，玩家點了舊的那一段接著演；誰蓋的記在 D.coverWho */
+  const sayStack=[];
+  function say(who,text,opts){ opts=opts||{}; uncover(); if(typeof ADV!=='undefined'&&ADV.active&&ADV.narrate) ADV.narrate(!who);   /* 旁白：手機直向台上的人變暗（adv3d.js solo）*/
+    const by=((new Error().stack||'').split('\n')[2]||'?').trim().replace(/^at /,'').slice(0,140);
+    return new Promise(res=>{ if(D.active&&D.resolve){ sayStack.push({who:D.who,text:D.sayText,opts:D.sayOpts||{},res:D.resolve,depth:D.sayDepth|0,by:D.sayBy}); D.coverWho=by; console.warn('一句話還沒點，另一段的話蓋上來，演完會放回去',{under:D.sayBy,over:by}); }
+      showLine(who,text,opts,res,false,by); }); }
+  function showLine(who,text,opts,res,restored,by){ D.active=true; D.resolve=res; D.sayText=text; D.sayOpts=opts; D.sayDepth=D.busyDepth; D.sayBy=by; const box=$('dlg'); box.classList.remove('hide'); overFade(box); $('dlgName').textContent=who?(who.name||who):''; $('dlgName').style.display=who?'block':'none'; D.full=subst(text); D.shown=restored?D.full.length:0; D.typing=!restored; $('dlgText').textContent=restored?D.full:''; $('dlgNext').style.visibility=restored?'visible':'hidden'; const spd=S.textSpeed>=9?9999:(S.textSpeed===1?18:(S.textSpeed===2?32:60)); D.cps=spd; // 說話者姿態與表情
       if(who&&who.obj){ if(opts.expr) CHAR.setExpr(who.obj,opts.expr); if(who.pose!=='sit'&&who.pose!=='read'&&!opts.keepPose){ who.pose='talk'; who._talkPose=true; } if(E.player&&who.obj!==E.player.obj){ who.lookAt=E.player.obj.position; who._sayLook=true; } }
       if(opts.me&&E.player){ E.player.pose='talk'; }
-      if(typeof ADV!=='undefined'&&ADV.active){ const EXPR={normal:'neutral',smile:'smile',laugh:'laugh',surprise:'surprised',worried:'sad',shy:'embarrassed'}; if(who&&who.charId) ADV.speaker(who.charId,opts.expression||(opts.expr?EXPR[opts.expr]:undefined));   /* opts.expression：立繪表情檔名（閒聊階梯的 e）*/ else ADV.speaker(who?'player':null); ADV.log(who?(who.name||''):'',D.full); }
-      D.who=who; if(typeof ADV!=='undefined'&&ADV.active&&ADV.skip) setTimeout(()=>{ if(D.resolve===res){ D.typing=false; dlgAdvance(); } },40); }); }   /* 略過對話（ADV.skip）：一路翻到下一個選項 */
+      if(typeof ADV!=='undefined'&&ADV.active){ const EXPR={normal:'neutral',smile:'smile',laugh:'laugh',surprise:'surprised',worried:'sad',shy:'embarrassed'}; if(who&&who.charId) ADV.speaker(who.charId,opts.expression||(opts.expr?EXPR[opts.expr]:undefined));   /* opts.expression：立繪表情檔名（閒聊階梯的 e）*/ else ADV.speaker(who?'player':null); if(!restored) ADV.log(who?(who.name||''):'',D.full); }
+      D.who=who; if(typeof ADV!=='undefined'&&ADV.active&&ADV.skip) setTimeout(()=>{ if(D.resolve===res){ D.typing=false; dlgAdvance(); } },40); }   /* 略過對話（ADV.skip）：一路翻到下一個選項；放回去的那一句（restored）已經整句顯示 */
+  function sayRestore(){ if(D.active||chooseCur||!sayStack.length||sayStack[sayStack.length-1].depth<D.busyDepth) return; const q=sayStack.pop(); if(typeof ADV!=='undefined'&&ADV.active&&ADV.narrate) ADV.narrate(!q.who); showLine(q.who,q.text,q.opts,q.res,true,q.by); }
+  const sayRestoreSoon=()=>{ if(sayStack.length) setTimeout(sayRestore,0); };   /* 點完一句、選完一個選項：等接著跑的那一段（microtask）先說下一句，沒有說才放回去 */
   GM.say=say;
   function dlgTick(dt){ if(!D.active||!D.typing) return; D.shown+=dt*D.cps; const n=Math.min(D.full.length,Math.floor(D.shown)); $('dlgText').textContent=D.full.slice(0,n); if(n>=D.full.length){ D.typing=false; $('dlgNext').style.visibility='visible'; } }
-  function dlgAdvance(){ if(!D.active) return false; if(D.typing){ D.typing=false; $('dlgText').textContent=D.full; $('dlgNext').style.visibility='visible'; return true; } const r=D.resolve; D.resolve=null; D.active=false; D.endedAt=performance.now(); $('dlg').classList.add('hide'); const who=D.who; if(who&&who.obj&&who._talkPose){ who.pose=who.idlePose||'idle'; who._talkPose=false; } if(E.player&&E.player.pose==='talk') E.player.pose='idle'; A3.blip('page'); if(r) r(); return true; }
+  function dlgAdvance(){ if(!D.active) return false; if(D.typing){ D.typing=false; $('dlgText').textContent=D.full; $('dlgNext').style.visibility='visible'; return true; } const r=D.resolve; D.resolve=null; D.active=false; D.endedAt=performance.now(); $('dlg').classList.add('hide'); const who=D.who; if(who&&who.obj&&who._talkPose){ who.pose=who.idlePose||'idle'; who._talkPose=false; } if(E.player&&E.player.pose==='talk') E.player.pose='idle'; A3.blip('page'); if(r) r(); sayRestoreSoon(); return true; }
   GM.dlgAdvance=dlgAdvance;
   // 選項出現時，把上一句對話（通常就是問題）留在畫面上，選項排在對話框上方
   /* 選單疊在另一個還沒選的選單上（X81 BUG-E37-MOVEIN-1020：使用者 v9.10.2 的 _stuck＝8/30 18:01 宿舍、bedScene 的選單沒結束、畫面上什麼都沒有——
@@ -106,19 +115,19 @@ const GAME = (function(){
     return new Promise(res=>{ if(chooseCur){ chooseStack.push(chooseCur); D.coverWho=who; console.warn('選單蓋在另一個還沒選的選單上，選完會放回去',{under:chooseCur.who,over:who}); }
       chooseCur={options,opt,res,who,depth:D.busyDepth}; renderChoose(chooseCur); }); }
   function chooseRestore(){ if(chooseCur||!chooseStack.length||chooseStack[chooseStack.length-1].depth<D.busyDepth) return; chooseCur=chooseStack.pop(); renderChoose(chooseCur); }
-  GM.chooseReset=()=>{ chooseCur=null; chooseStack.length=0; D.coverWho=null; };   /* 讀檔、新遊戲：還沒選的選單都不要了 */
+  GM.chooseReset=()=>{ chooseCur=null; chooseStack.length=0; D.coverWho=null; sayStack.length=0; };   /* 讀檔、新遊戲：還沒選的選單都不要了 */
   function renderChoose(c){ const {options,opt,res}=c;
     { const box=$('choices'); box.innerHTML=''; box.classList.remove('hide'); overFade(box); const dlg=$('dlg'); overFade(dlg); const keep=!(opt&&opt.menu)&&!!D.full&&!D.active&&(performance.now()-(D.endedAt||0))<1500; if(opt&&opt.menu&&!D.active){ dlg.classList.add('hide'); dlg.classList.remove('static'); }   /* 系統選單（家裡、快轉）：不留上一句（BB-C BB_218 第 4 節：媽媽「洗衣籃在後陽台」留在畫面上，橫向時蓋住第四個選項）*/
     if(keep){ dlg.classList.remove('hide'); $('dlgText').textContent=D.full; $('dlgNext').style.visibility='hidden'; dlg.classList.add('static'); box.style.bottom='calc(max(14px,env(safe-area-inset-bottom)) + '+(dlg.offsetHeight+22)+'px)'; box.style.maxHeight='calc(100% - 58px - env(safe-area-inset-top) - '+(dlg.offsetHeight+22)+'px)'; }   /* 上面留 58 px 給「紀錄」按鈕（BB_218：最上面一格壓到「紀錄」）*/
     const more=()=>box.classList.toggle('more',box.scrollTop+box.clientHeight<box.scrollHeight-4); box.onscroll=more;   /* 選單墊高到對話框上面時，最大高度也要扣掉墊高的部分（v9.7 回歸 flow_clubs C：橫向 844×390、社團博覽會 6 個選項，選單上緣在畫面外 76 px，第一個「吉他社」看不到也捲不到）；太長就在選單裡捲動 */
-    const done=(i)=>{ box.classList.add('hide'); box.classList.remove('more'); box.onscroll=null; box.innerHTML=''; box.style.bottom=''; box.style.maxHeight=''; if(keep){ dlg.classList.add('hide'); dlg.classList.remove('static'); } A3.blip('ok'); if(chooseCur===c) chooseCur=null; res(i); chooseRestore(); };
+    const done=(i)=>{ box.classList.add('hide'); box.classList.remove('more'); box.onscroll=null; box.innerHTML=''; box.style.bottom=''; box.style.maxHeight=''; if(keep){ dlg.classList.add('hide'); dlg.classList.remove('static'); } A3.blip('ok'); if(chooseCur===c) chooseCur=null; res(i); chooseRestore(); sayRestoreSoon(); };
     options.forEach((o,i)=>{ if(o.hidden) return; const b=document.createElement('button'); b.innerHTML=subst(o.t)+(o.hint?'<div class="hint">'+o.hint+'</div>':''); if(o.dim) b.classList.add('dim'); b.onclick=()=>done(i); box.appendChild(b); }); box.scrollTop=0; requestAnimationFrame(()=>{ if(keep&&chooseCur===c&&box.scrollHeight>box.clientHeight+4){ dlg.classList.add('hide'); dlg.classList.remove('static'); box.style.bottom=''; box.style.maxHeight=''; } more(); }); } }   /* 留著上一句、選項又放不下（BB-B 10-23 SQ08：橫向、熟客店員先說一句再出六個選項，「不用了」在框外點不到）：收掉那一句，選單用整個高度（那一句在「紀錄」裡）*/   /* 放不下時底部淡出，提示下面還有（BB_218：五個只看得到三個、沒有捲動提示）*/
   GM.choose=choose;
   function caption(who,text,ms){ const el=$('caption'); el.innerHTML=(who?'<b>'+who+'</b>':'')+subst(text); el.classList.remove('hide'); el.style.opacity=1; clearTimeout(caption.t); caption.t=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.classList.add('hide'),300); },ms||3200); }
   GM.caption=caption;
   // 場景開始／結束：鎖住玩家
   function sceneBegin(opts){ if(D.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL.feel){ SOCIAL.feel={}; SOCIAL.feelOn=true; }   /* 關係有前進的提示：這一段對話裡加的才算（SOCIAL.takeFeel）*/ D.busyDepth++; D.busyWho.push(((new Error().stack||'').split('\n')[2]||'?').trim().replace(/^at /,'').slice(0,140));   /* 誰開的這一段（BUG-BOWL-STUCK-1018：卡住時除錯面板看得到是哪一段沒有結束）*/ E.player.busy=true; E.player.path=null; E.player.target=null; hideHUD(true); $('interact').classList.add('hide'); if(opts&&opts.adv&&typeof ADV!=='undefined'){ ADV.begin({background:opts.background||'blur',right:opts.adv,left:opts.advLeft}); } }
-  function sceneEnd(){ D.busyDepth=Math.max(0,D.busyDepth-1); D.busyWho.pop(); if(D.busyDepth===0) D.busyWho.length=0; chooseRestore(); if(D.busyDepth===0){ if(typeof SOCIAL!=='undefined'&&SOCIAL.takeFeel){ SOCIAL.feelOn=false; const L=SOCIAL.takeFeel(2); if(L.length) setTimeout(()=>toast(L.join('　'),3200),350); } E.player.busy=false; hideHUD(false); E.endCinematic(); letterbox(false); if(E.player.pose==='talk') E.player.pose='idle'; for(const n of E.npcs){ if(n._sayLook){ if(n.lookAt===E.player.obj.position) n.lookAt=null; n._sayLook=false; } }   /* 講完話就不再一直盯著玩家轉頭（2026-10-11：室友講完話後頭一直跟著玩家轉）*/ if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); } }
+  function sceneEnd(){ D.busyDepth=Math.max(0,D.busyDepth-1); D.busyWho.pop(); if(D.busyDepth===0) D.busyWho.length=0; chooseRestore(); sayRestore(); if(D.busyDepth===0){ if(typeof SOCIAL!=='undefined'&&SOCIAL.takeFeel){ SOCIAL.feelOn=false; const L=SOCIAL.takeFeel(2); if(L.length) setTimeout(()=>toast(L.join('　'),3200),350); } E.player.busy=false; hideHUD(false); E.endCinematic(); letterbox(false); if(E.player.pose==='talk') E.player.pose='idle'; for(const n of E.npcs){ if(n._sayLook){ if(n.lookAt===E.player.obj.position) n.lookAt=null; n._sayLook=false; } }   /* 講完話就不再一直盯著玩家轉頭（2026-10-11：室友講完話後頭一直跟著玩家轉）*/ if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); } }
   GM.sceneBegin=sceneBegin; GM.sceneEnd=sceneEnd;
   // ---------- 運鏡 ----------
   const V=(x,y,z)=>new THREE.Vector3(x,y,z);
@@ -423,9 +432,11 @@ const GAME = (function(){
      不自己解鎖、不跳過劇情：只放開讀檔／回標題，並把是哪一段沒結束寫進 console 和除錯面板 */
   let staleT=0;
   function staleCheck(rdt){ const P=E.player; if(!P||GM.titleIdle||!(D.busyDepth>0||P.busy)){ staleT=0; if(D.stale) D.stale=false; return; }
-    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
+    const tc=$('title3'), live=D.active||!$('choices').classList.contains('hide')||(typeof EVENTS!=='undefined'&&!!EVENTS.running)||(typeof BADCLIP!=='undefined'&&BADCLIP.busy)||phoneOpen||menuOpen||$('fade').classList.contains('on')||(tc&&+tc.style.opacity>0)||walks.size>0||!!(P.path&&P.path.length);
     if(live){ staleT=0; if(D.stale) D.stale=false; return; }
-    staleT+=Math.min(rdt,0.5); if(staleT<10||D.stale) return; D.stale=true;
+    /* 只剩 2D 畫面（ADV）開著、沒有對話、選項、事件……：原本一直算「還在演」，劇情停在一半（例：一句話被另一段蓋掉、那一段出錯沒收）就永遠不放開讀檔、也不記 _stuck（STUCK-HARDEN-1027）。
+       ADV 自己沒有等點擊的東西（等點擊都是 say／choose），換圖、淡入是幾秒的事：只剩 ADV 開著放寬到 30 秒才算停住 */
+    staleT+=Math.min(rdt,0.5); if(staleT<((typeof ADV!=='undefined'&&ADV.active)?30:10)||D.stale) return; D.stale=true;
     console.warn('劇情鎖住沒有結束（BUG-BOWL-STUCK-1018）',{depth:D.busyDepth,busy:P.busy,cam:E.cam.mode,by:D.busyWho.slice(),zone:G&&G.zone,day:G&&G.day,hour:G&&G.hour});
     stuckLog(true); hideHUD(false); toast('畫面好像停住了。可以打開選單讀檔，或回標題。',6000); }
   /* 卡住的紀錄（BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018：瀏覽器照劇情重演都沒卡住，要使用者那一局的線索）：存在瀏覽器（最近 5 筆，讀檔也不會不見），

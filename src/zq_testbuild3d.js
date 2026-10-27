@@ -69,7 +69,7 @@ const ZQTB=(function(){
       {set:{ZQ_TESTBUILD:true,ZQ_TB_FROM:'lib'}},{mem:[{npc:ZQ,tag:'ZQ_TESTBUILD',note:''}]},{consequences:{rel:{[ZQ]:{fam:2,trust:2}}}} ] };
   let busy=false;
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!S.cafeDue(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false; busy=true;
-    Promise.resolve().then(()=>EVENTS.run(S.CAFE_EV)).catch(e=>console.warn('ZQTB',e)).finally(()=>{ busy=false; }); return true; };
+    if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(S.CAFE_EV)).catch(e=>console.warn('ZQTB',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   if(typeof STORY_EVENTS!=='undefined') for(const e of [S.EVENT,S.CAFE_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lr)=>{ if(!G||!G.flags||!G.flags.ZQ_TESTBUILD) return; if(S.canPlay(G)) Lr.push(['玩子晴的測試版（60 分）',[],GM=>S.play(GM)]); Lr.push(['子晴的測試版（貓貼紙的隨身碟）','（貓貼紙有一角翹起來了。）']); }); }

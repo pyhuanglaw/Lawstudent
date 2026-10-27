@@ -599,7 +599,7 @@ const SIDEQ=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false;
     let ev=null; if(S.signDue(GM)) ev=S.SIGN_EV; else if(S.catNightDue(GM)){ ev=S.CAT_EV; const L0=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null, pav=L0&&L0.items&&L0.items.find(i=>i.kind==='pavilion'); if(pav) ev.spawn.at={x:pav.x+1.1,z:pav.z+0.6}; }   /* 她蹲在涼亭的石桌前面 */
     else if(S.sisDue(GM)) ev=S.SIS_EV;
-    if(!ev) return false; busy=true; Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('SIDEQ',e)).finally(()=>{ busy=false; }); return true; };
+    if(!ev) return false; busy=true; if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('SIDEQ',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   if(typeof STORY_EVENTS!=='undefined') for(const e of [S.FAFU_EV,S.POLICE_EV,S.CLUB_EV,S.SIS_EV,S.CAT_EV,S.VISIT_EV,S.SIGN_EV,S.HWAXIN_EV,S.PASTA_EV,S.VET_EV,S.PARK18_EV,S.XC_EV,S.BRUNCH1_EV,S.BRUNCH2_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.room15(G,Lst)); }   /* SQ15：學姊大一的民法總則 */

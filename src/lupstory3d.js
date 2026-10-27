@@ -52,7 +52,7 @@ const LUPS=(function(){
     if(STORY.populate&&!STORY._lupsPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments);
         try{ if(GM&&GM.E&&GM.G){ const G=GM.G;
             if(zoneId==='library_carrels'){ S.placeSis(GM); for(const it of GM.E.interactables) if(it&&it.id==='door03') it.lupKnock=true;
-              if(S.booked(G)&&G.flags.CARREL_QUIET!==(G.day|0)){ G.flags.CARREL_QUIET=G.day|0; if(GM.say) Promise.resolve().then(()=>{ GM.sceneBegin(); return GM.say(null,S.LINES.quiet).finally(()=>GM.sceneEnd()); }).catch(e=>console.warn('LUPS.quiet',e)); } }
+              if(S.booked(G)&&G.flags.CARREL_QUIET!==(G.day|0)){ G.flags.CARREL_QUIET=G.day|0; if(GM.say){ GM.sceneBegin(); Promise.resolve().then(()=>GM.say(null,S.LINES.quiet)).catch(e=>console.warn('LUPS.quiet',e)).finally(()=>{ if(GM.G===G){ GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); } } }   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
             if(zoneId==='library_stacks') S.placeFang(GM); } }catch(e){ console.warn('LUPS.populate',e); }
         return r; }; STORY._lupsPopulate=true; }
     if(STORY.interact&&!STORY._lupsInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ const G=GM&&GM.G;

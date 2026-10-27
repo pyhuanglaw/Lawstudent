@@ -122,7 +122,7 @@ const US208=(function(){
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||G.zone!=='us_shared'||!free(GM)) return false; const s=S.due(G); if(!s||typeof EVENTS==='undefined') return false;
     const e=STORY_EVENTS.find(x=>x.id===s.ev); if(!e) return false; G.flags.US208_WK=S.wk(G); S.dmDone(G);
-    busy=true; Promise.resolve().then(()=>EVENTS.run(e,{noTitle:true})).catch(x=>console.warn('US208',x)).finally(()=>{ busy=false; }); return true; };
+    busy=true; if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(e,{noTitle:true})).catch(x=>console.warn('US208',x)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   S.isBusy=()=>busy;
   if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt));
 
