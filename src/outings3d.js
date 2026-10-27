@@ -101,7 +101,7 @@ const OUT=(function(){
     if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
     if(o&&o.fromHome) S.fromHome=true;   /* 從家裡出發的 2D 出遊：途中 3D 一直藏著（home3d.js backdrop），演完不會露出最後一個 3D 區域（使用者 10-18：「跨年的劇情結束之後居然是跳回醉月湖」）*/
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
-    await GM.fade(true); { const cd=o&&o.card?o.card:(o&&o.noCard?null:[S.tt(q.title),tr.travel]); if(GM.titleCard&&cd) await GM.titleCard(cd[0],cd[1]||'',2400); }   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
+    await GM.fade(true); if(GM.titleCard&&o&&o.card) await GM.titleCard(o.card[0],o.card[1]||'',2400); else if(GM.titleCard&&!(o&&o.noCard)) await GM.titleCard(S.tt(q.title),tr.travel,2400);   /* o.noCard：已經到了、字卡出過了（寒暑假出國在 3D 出境大廳「登機」以後接著演，E08 vac3d.js）；o.card＝[標題, 小字]：換成這一張（登機以後的「飛往〇〇」，AA_478 第 1 節）*/
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.syncWeekday) GM.syncWeekday(); if(GM.updateHUD) GM.updateHUD();
     const h0=G.hour, fill=()=>{ if(typeof CLS!=='undefined'&&CLS.slotFillSpan) CLS.slotFillSpan(G,h0,G.day*24+G.hour-Math.floor(arrive/24)*24); };   /* 出遊、校外約會＝到了那裡起的時段都算一件主要的事（DEC-SLOTS-1018 ③；約好的照樣能去）*/
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/

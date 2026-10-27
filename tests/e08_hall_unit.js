@@ -35,7 +35,7 @@ const J=x=>JSON.stringify(x);
 (async()=>{
   check('0. 接線：S.AIR.vac 有 hall（進大廳就演）；EXCH.airStand、AIR_SPOT.checkinA；VAC.flyCard、hallKeys；OUT.go 認得 o.card、OUT.STAGE 的 bg',
     typeof EXCH!=='undefined'&&!!(EXCH.AIR&&EXCH.AIR.vac&&typeof EXCH.AIR.vac.hall==='function')&&typeof EXCH.airStand==='function'&&!!(EXCH.AIR_SPOT&&EXCH.AIR_SPOT.checkinA)&&typeof VAC.flyCard==='function'&&typeof VAC.hallKeys==='function'
-    &&/o&&o\.card\?o\.card/.test(fs.readFileSync(path.join(H.ROOT,'src/outings3d.js'),'utf8'))&&/stg\.bg\|\|'blur'/.test(fs.readFileSync(path.join(H.ROOT,'src/outings3d.js'),'utf8')));
+    &&/o&&o\.card\) await GM\.titleCard\(o\.card\[0\]/.test(fs.readFileSync(path.join(H.ROOT,'src/outings3d.js'),'utf8'))&&/stg\.bg\|\|'blur'/.test(fs.readFileSync(path.join(H.ROOT,'src/outings3d.js'),'utf8')));
 
   /* ===================== F1 出國活動的「飛往〇〇」 ===================== */
   const FLY={ 'C05@Y1':['2026-08-24',['飛往日本','東京'+W+'約 3 小時']], 'T02@Y2':['2027-08-01',['飛往日本','約 3 小時']], 'T03@Y3':['2028-07-03',['飛往泰國','曼谷'+W+'約 4 小時']], 'C08@Y1':['2026-07-13',['飛往韓國','首爾'+W+'約 2 小時半']],
