@@ -1848,7 +1848,7 @@
    "note": "LAWWW-B 10-23 17:2x 派工第 1 項（USER_WANTS C15）"
   },
   {
-   "task": "US-GAP-AUDIT-1023",
+   "task": "US-AA412-1023",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "1f2c3b8b7",
    "files": [
@@ -1860,10 +1860,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 17:2x 派工第 2 項（D99 第三項；US-20W-SPEC、V4-R-US、F08、X35）"
+   "note": "LAWWW-B 10-23 17:2x 派工第 2 項（D99 第三項；US-20W-SPEC、V4-R-US、F08、X35）；原本的工作項名稱：US-GAP-AUDIT-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "B09-WZ-SHOPS-1023",
+   "task": "WZ-AA413-1023",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "9f6a848c9",
    "files": [
@@ -1875,10 +1875,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW, LAWWW2",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 17:2x 派工第 4 項（USER_WANTS B09）；AA_364 以外的三家"
+   "note": "LAWWW-B 10-23 17:2x 派工第 4 項（USER_WANTS B09）；AA_364 以外的三家；原本的工作項名稱：B09-WZ-SHOPS-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "AN-YT-HOLIDAYS-1-1023",
+   "task": "D14-T11",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "f2a897701",
    "files": [
@@ -1890,7 +1890,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW, BB",
    "ack": "DELIVERED",
-   "note": "BACKLOG-SWEEP-AA-1021 B 表 D14-T11（以安、語彤交往中的節日一場都沒有）"
+   "note": "BACKLOG-SWEEP-AA-1021 B 表 D14-T11（以安、語彤交往中的節日一場都沒有）；原本的工作項名稱：AN-YT-HOLIDAYS-1-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "D14-T9",
@@ -1924,7 +1924,7 @@
    "note": "LAWWW-B 10-23 17:4x 第 7 項（USER_WANTS D38）"
   },
   {
-   "task": "D40-FITNESS-LINES",
+   "task": "D14-T10",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "99710a908",
    "files": [
@@ -1936,10 +1936,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 18:0x 第 8 項（USER_WANTS D40）"
+   "note": "LAWWW-B 10-23 18:0x 第 8 項（USER_WANTS D40）；原本的工作項名稱：D40-FITNESS-LINES（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "D43-ATTEND-LINES",
+   "task": "D14-T4",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "2e90719ce",
    "files": [
@@ -1951,10 +1951,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 18:0x 第 9 項（USER_WANTS D43）"
+   "note": "LAWWW-B 10-23 18:0x 第 9 項（USER_WANTS D43）；原本的工作項名稱：D43-ATTEND-LINES（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "E07-ZR-UK-VIDEO",
+   "task": "VAC-ZR-UK-1017",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "e37d98ed2",
    "files": [
@@ -1966,10 +1966,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 18:0x 第 10 項（USER_WANTS E07）"
+   "note": "LAWWW-B 10-23 18:0x 第 10 項（USER_WANTS E07）；原本的工作項名稱：E07-ZR-UK-VIDEO（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "B05-B06-WZ-CURRENT",
+   "task": "DL-11",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "7a6469099",
    "files": [
@@ -1981,10 +1981,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 18:0x 第 11 項。照現行設定重整 B05／B06：打工補四條規則、四條線的時程與人物對齊（學姊不在法服、美國／日本路線、沛珊消失期、16 週制）、BB_148 台詞由 AA 定稿。"
+   "note": "LAWWW-B 10-23 18:0x 第 11 項。照現行設定重整 B05／B06：打工補四條規則、四條線的時程與人物對齊（學姊不在法服、美國／日本路線、沛珊消失期、16 週制）、BB_148 台詞由 AA 定稿。；原本的工作項名稱：B05-B06-WZ-CURRENT；也涵蓋 DL-10（打工）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "BACKLOG-SWEEP-AA-1021-Q2",
+   "task": "D14-T5B",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "42c87f4fa",
    "files": [
@@ -1996,10 +1996,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "LAWWW-B 10-23 第 5 項的兩題：(a) 大四下被當延畢沿用大五上、6/2 照一般畢業生、6/18 成績公布才變延畢，交換才有的十二處換掉、新句子九句、重修期末改報告；(b) AA_227 328 句找到 10、AA_228 146 句找到 3，場景沒進遊戲，分兩批定稿。"
+   "note": "LAWWW-B 10-23 第 5 項的兩題：(a) 大四下被當延畢沿用大五上、6/2 照一般畢業生、6/18 成績公布才變延畢，交換才有的十二處換掉、新句子九句、重修期末改報告；(b) AA_227 328 句找到 10、AA_228 146 句找到 3，場景沒進遊戲，分兩批定稿。；原本的工作項名稱：BACKLOG-SWEEP-AA-1021-Q2；第 2 節（AA_227／228 還沒做的）屬 EVPKG-AA227-228-KNOW（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "EVPKG-AA227-228-KNOW-B1",
+   "task": "EVPKG-AA227-228-KNOW",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "5156f1435",
    "files": [
@@ -2011,10 +2011,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "USER_WANTS D35★ 第一批：七位的第一次約會問句（ASKED_GF）、知情版心意邀約（照 BB_203 C10／5-3，承諾沒做到的第二次）、發現（含子晴、芷若一個人的版本，國外改視訊）；原文一字不改。"
+   "note": "USER_WANTS D35★ 第一批：七位的第一次約會問句（ASKED_GF）、知情版心意邀約（照 BB_203 C10／5-3，承諾沒做到的第二次）、發現（含子晴、芷若一個人的版本，國外改視訊）；原文一字不改。；原本的工作項名稱：EVPKG-AA227-228-KNOW-B1（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "EVPKG-AA227-228-KNOW-B2",
+   "task": "EVPKG-AA227-228-KNOW",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "26357a440",
    "files": [
@@ -2026,7 +2026,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "USER_WANTS D35★ 第二批：七位挽回、結果、第二次冷靜；補子晴、芷若一個人被發現以後的挽回；沛珊交往中的放榜電話。"
+   "note": "USER_WANTS D35★ 第二批：七位挽回、結果、第二次冷靜；補子晴、芷若一個人被發現以後的挽回；沛珊交往中的放榜電話。；原本的工作項名稱：EVPKG-AA227-228-KNOW-B2（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "US-AA412-1023",
@@ -2243,7 +2243,7 @@
    "note": "回 LAWWW-B 20:44 第 7～9 題＋V6 前任版缺字；AA_221 U7 照使用者 10-14 規則解決（可以重新開始）。"
   },
   {
-   "task": "JP-BLANK-1023",
+   "task": "AA435-JP-BLANK-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "0bb6e2fe6",
    "files": [
@@ -2256,7 +2256,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "回 BB-B 10-23 21:0x BB_302（日本路線空白日）。美國篇不答應邀約的空白是玩家選擇，不補。"
+   "note": "回 BB-B 10-23 21:0x BB_302（日本路線空白日）。美國篇不答應邀約的空白是玩家選擇，不補。；原本的工作項名稱：JP-BLANK-1023（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "EVPKG-AA227-228-KNOW",
@@ -2293,7 +2293,7 @@
    "note": "回 LAWWW-B 10-24 03:42。"
   },
   {
-   "task": "V5-ZR-HIS-ORDER",
+   "task": "PLAN-1016-ROM",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "605902fc6",
    "files": [
@@ -2306,10 +2306,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "回 LAWWW-B 10-24 03:55 三題。"
+   "note": "回 LAWWW-B 10-24 03:55 三題。；原本的工作項名稱：V5-ZR-HIS-ORDER（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "DIALOGUE-BAN-SWEEP-1024",
+   "task": "AA439-LINT-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "a5b936a69",
    "files": [
@@ -2323,10 +2323,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "AA 自己對開發分支 83134ddf3 掃口氣表禁用句；停用事件不算。"
+   "note": "AA 自己對開發分支 83134ddf3 掃口氣表禁用句；停用事件不算。；原本的工作項名稱：DIALOGUE-BAN-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "DIALOGUE-BAN-SWEEP-1024",
+   "task": "AA439-LINT-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "cbdbc69bf",
    "files": [
@@ -2341,10 +2341,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "第二次掃：手機、閒聊階梯、偶遇、同行。"
+   "note": "第二次掃：手機、閒聊階梯、偶遇、同行。；原本的工作項名稱：DIALOGUE-BAN-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "VAC-BLANK-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "718c06a30",
    "files": [
@@ -2356,7 +2356,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "回 BB-B 10-24 05:59 BB_303（D99 第二優先：寒暑假）。"
+   "note": "回 BB-B 10-24 05:59 BB_303（D99 第二優先：寒暑假）。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "COURSE-PRACTICE-Y4-1024",
@@ -2374,7 +2374,7 @@
    "note": "回 LAWWW-B 10-24 06:01（P3，可選）。"
   },
   {
-   "task": "ABROAD-SWEEP-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "d94d259ec",
    "files": [
@@ -2387,10 +2387,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "10-24 04:30 答應 LAWWW-B 的國外學期盤點（D99）。美國 4 種存檔、日本當地 2 種都是 0 天空白。"
+   "note": "10-24 04:30 答應 LAWWW-B 的國外學期盤點（D99）。美國 4 種存檔、日本當地 2 種都是 0 天空白。；原本的工作項名稱：ABROAD-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "DATEWORD-SWEEP-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "de83f9af2",
    "files": [
@@ -2404,10 +2404,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "AA_442 第 4 節；另回 LAWWW-B 06:51 兩題（9a033f397：C10 改 14:00、SQ02 店員女生）。"
+   "note": "AA_442 第 4 節；另回 LAWWW-B 06:51 兩題（9a033f397：C10 改 14:00、SQ02 店員女生）。；原本的工作項名稱：DATEWORD-SWEEP-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "VAC-BLANK-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "edae49ca6",
    "files": [
@@ -2419,7 +2419,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "回 LAWWW-B 07:08 三處。"
+   "note": "回 LAWWW-B 07:08 三處。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "CLOSED-SPACES-1023",
@@ -2452,7 +2452,7 @@
    "note": "回 LAWWW-B 08:11。另：AA_440 3-3 學姊改回碩二下（0ebe162f9，07:2x 誤改）。"
   },
   {
-   "task": "VAC-BLANK-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "ca16c073d",
    "files": [
@@ -2464,10 +2464,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "回 BB-B BB_303 第 6 節：經濟系暑假 7/28～8/03 連 7 天空白。"
+   "note": "回 BB-B BB_303 第 6 節：經濟系暑假 7/28～8/03 連 7 天空白。；原本的工作項名稱：VAC-BLANK-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "US-READ-1024",
+   "task": "VAC-FILL-AA440-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "03b7e6dff",
    "files": [
@@ -2480,7 +2480,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "回 LAWWW-B 08:32（D99 美國交換）。"
+   "note": "回 LAWWW-B 08:32（D99 美國交換）。；原本的工作項名稱：US-READ-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "CLOSED-SPACES-1023",
@@ -2500,7 +2500,7 @@
    "note": "回 LAWWW-B 08:37 兩件。"
   },
   {
-   "task": "VAC-READ-1024",
+   "task": "RELEASE-9109-TEST",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "fd200c2c6",
    "files": [
@@ -2514,10 +2514,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "回 LAWWW-B 13:50（D99 寒暑假讀者那一輪）。"
+   "note": "回 LAWWW-B 13:50（D99 寒暑假讀者那一輪）。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（76fd3ce8b）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "VAC-READ-1024",
+   "task": "RELEASE-9109-TEST",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "443360cc0",
    "files": [
@@ -2529,10 +2529,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "接 AA_445；讀大一暑假時發現。"
+   "note": "接 AA_445；讀大一暑假時發現。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（6759ffce6）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "VAC-READ-1024",
+   "task": "RELEASE-9109-TEST",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "5c139cc49",
    "files": [
@@ -2548,10 +2548,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "接 AA_445，寒暑假讀者那一輪讀完剩下四個假期。"
+   "note": "接 AA_445，寒暑假讀者那一輪讀完剩下四個假期。；原本的工作項名稱：VAC-READ-1024；實作記在 RELEASE-9109-TEST ⑨（6759ffce6）（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "DUP-LINES-1024",
+   "task": "AA447-DUPLINES-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "a1bc53f4c",
    "files": [
@@ -2566,10 +2566,10 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "寒暑假讀完以後自排：全遊戲重複台詞＋「是A，不是B」補掃。"
+   "note": "寒暑假讀完以後自排：全遊戲重複台詞＋「是A，不是B」補掃。；原本的工作項名稱：DUP-LINES-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
-   "task": "US-TEXT-AUDIT-1024",
+   "task": "QA-TRANSCRIPT-US-1024",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "b7c25dd14",
    "files": [
@@ -2582,7 +2582,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B、BB-B",
    "ack": "DELIVERED",
-   "note": "回 LAWWW-B 14:48（D99 美國交換）。"
+   "note": "回 LAWWW-B 14:48（D99 美國交換）。；原本的工作項名稱：US-TEXT-AUDIT-1024；第 2 節四張背景屬 BG-US-SEASON-1024（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "ECON-READ-1024",
@@ -2691,7 +2691,7 @@
    "note": "回 LAWWW-B 10-25 05:1x（C25、D109）。"
   },
   {
-   "task": "US-READ-REPAIR2-1025",
+   "task": "US-READ-REPAIR-1025",
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "2c75de1bc",
    "files": [
@@ -2703,7 +2703,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "DELIVERED",
-   "note": "讀 BB-B b28d82e70（候選 ad5251364，補 met_sis，REPAIR 到 3 重新開始那一條）。"
+   "note": "讀 BB-B b28d82e70（候選 ad5251364，補 met_sis，REPAIR 到 3 重新開始那一條）。；原本的工作項名稱：US-READ-REPAIR2-1025（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
   },
   {
    "task": "VAC-READ2-1025",
@@ -2919,22 +2919,22 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(本次 commit)",
+   "sha": "7db64468a",
    "files": [
     "docs/story_planning/AA_交接紀錄.md"
    ],
-   "state": "AA 這邊可以結案",
+   "state": "已交付",
    "remaining": "大五（交換延畢）、畢業以後篇的讀後：另開 TERM-READ-Y5-1025、PG-READ-1025，排在 SIS-LEAD-1021 之後",
    "next": "LAWWW-B：BACKLOG-SWEEP-AA-1021 改結案（AA 交接紀錄該節 E 表）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW-B",
    "ack": "SENT",
-   "note": "D99 經濟系→寒暑假→美國三段讀完（AA_449、AA_440/445/446/456/457、AA_450～454），另讀法律系八學期 AA_458～465、日本 AA_466、全文掃描 AA_467～469。"
+   "note": "D99 經濟系→寒暑假→美國三段讀完（AA_449、AA_440/445/446/456/457、AA_450～454），另讀法律系八學期 AA_458～465、日本 AA_466、全文掃描 AA_467～469。；原本的 state 寫「AA 這邊可以結案」（2026-10-27 AA-C 改成合格式）"
   },
   {
    "task": "SIS-B12-1025",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(本次 commit)",
+   "sha": "5f54b6545",
    "files": [
     "docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"
    ],
@@ -2949,7 +2949,7 @@
   {
    "task": "TERM-READ-Y5-1025",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(本次 commit)",
+   "sha": "763993620",
    "files": [
     "docs/story_planning/AA_471_大五讀一遍_日本路線家人群組不停_學期判斷過了220天_放榜四次.md"
    ],
@@ -2964,7 +2964,7 @@
   {
    "task": "PG-READ-1025",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(本次 commit)",
+   "sha": "1ebcf530e",
    "files": [
     "docs/story_planning/AA_472_畢業以後讀一遍_臺灣路線八種存檔_讀書計畫誰排_可昕第六年.md",
     "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md"
@@ -2978,9 +2978,9 @@
    "note": "pg_read 臺灣路線八種；大四下先記全部通過（前置）。"
   },
   {
-   "task": "PG-EX-1025",
+   "task": "PG-READ-1025",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "(本次 commit)",
+   "sha": "66393bb91",
    "files": [
     "docs/story_planning/AA_473_前任的畢業以後_學姊恭喜兩次_以安不打給前男友.md"
    ],
@@ -2990,7 +2990,45 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW-B",
    "ack": "SENT",
-   "note": "pg_read 前任三種。"
+   "note": "pg_read 前任三種。；原本的工作項名稱：PG-EX-1025（2026-10-27 AA-C 改成總表 ID，LAWWW-C 17:08 要求）"
+  },
+  {
+   "task": "ACCEPTSOPEN-C-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "020f695a3",
+   "files": [
+    "docs/story_planning/AA_474_acceptsOpen使用者回答C_七位各自的條件.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：照第二版（7e3f8ed4c）＋3b 通則（020f695a3）實作，PG-FIX-471-473 合進來以後開工；BB：第 3 節可昕收回的口氣、第 6 節兩條",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "ACK",
+   "note": "使用者 10-27 回答 C（UA-AA-1027-49）；第一版 d03d5da1a、更正 314c61ce4、第 5 節 fc961b2c5 都被第二版取代"
+  },
+  {
+   "task": "AA439-LINT-1024",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e089e8788",
+   "files": [
+    "docs/story_planning/AA_475_禁用句第五輪_AA439以後新增的三句.md",
+    "docs/story_planning/date_system/lines/D09.json",
+    "docs/story_planning/date_system/lines/D10.json",
+    "docs/story_planning/date_system/lines/D11.json",
+    "docs/story_planning/date_system/lines/D14.json",
+    "docs/story_planning/date_system/lines/D20.json",
+    "docs/story_planning/ladder/ladder_bb_y3s2.json",
+    "docs/story_planning/date_system/wish/wish_aa.json",
+    "docs/story_planning/date_system/wish/wish_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：白名單換到 e089e8788、重跑 import_date_lines／import_ladder／import_wish；開發分支 cracktalk_lines.js 沛珊一句、invites.js 子晴羽球一句＋tests/aa417_sport_invite_unit.js 第 97 行",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_475＝AA_439 的後續（禁用句第五輪＋AA_362 漏掉的句號版「不是X。是Y。」）；總表還沒有自己的任務，先掛這裡，LAWWW 另開任務的話 AA 改這一筆"
   }
  ],
  "items": [
