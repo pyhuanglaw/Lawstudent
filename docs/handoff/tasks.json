@@ -32666,7 +32666,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:0x UTC】子代理在獨立工作目錄做（分支 pgfix-471-473＝開發分支 129540766＋AA_470 合併 06242745e）；開工檢查點 243db0938 已備份 wip_backup/pgfix_471_473_1027.bundle（D113，每 15～20 分鐘更新）；v9.10.11 發布後合 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】D113 第二次備份：pgfix-471-473 到 5f83d3bf5（AA_471 第 3 節國考放榜四次各一版 684549a77、第 4 節畢業以後中秋家人群組 5f83d3bf5），bundle wip_backup/pgfix_471_473_1027.bundle（前提 129540766）；子代理還在做第 5～7 節＋AA_472＋AA_473 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】子代理在獨立工作目錄做（分支 pgfix-471-473＝開發分支 129540766＋AA_470 合併 06242745e）；開工檢查點 243db0938 已備份 wip_backup/pgfix_471_473_1027.bundle（D113，每 15～20 分鐘更新）；v9.10.11 發布後合 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】照 B 的安排接在學姊第十二批（wip_backup/aa470_1025.bundle db4b71150）和 f54a35ec4 的兩個修正後面做（避免衝突），v9.10.11 發布後合；帳號 B 回來時不要合它本機留著的版本"
   },
   {
    "id": "RELEASE-91011",
@@ -32686,7 +32686,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 17:1x UTC】BB-C 更正（17:0x 訊息）：trx_dating8 沒有通過紀錄，要在 f54a35ec4 重跑。BB 要跑的完整清單：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_dating8、trx_alone8，兩份 transcript 都要過 stops_check 再判定；不重跑：R40、R41、單面三份、窗景黃昏（含 9b3185665）、flow_soclib。BB-C 合併 elegant-brown＋duty register 等使用者點頭 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
+   "next": "【LAWWW-C 2026-10-27 17:1x UTC】LAWWW 的發布前檢查（乾淨 worktree f54a35ec4）做完：全部 Node 643 支 0 失敗（17:0x）；HV-15：題目漏收 0（從 AA 企劃線 claude/magical-albattani-bk7b4n 62729e77b 重新匯出 399 題，除了 source 那一欄以外 JSON 完全相同）、check_orphans 程式沒提到的素材 88（和 v9.10.10 一樣）、看板停住 27、白名單核准但程式沒提到 21。剩 BB 的瀏覽器（R42 兩版、relsuite＋savecompat、trx_dating8、trx_alone8）→ GO 以後 PR ｜ 【LAWWW-C 2026-10-27 17:1x UTC】BB-C 更正（17:0x 訊息）：trx_dating8 沒有通過紀錄，要在 f54a35ec4 重跑。BB 要跑的完整清單：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_dating8、trx_alone8，兩份 transcript 都要過 stops_check 再判定；不重跑：R40、R41、單面三份、窗景黃昏（含 9b3185665）、flow_soclib。BB-C 合併 elegant-brown＋duty register 等使用者點頭 ｜ 【LAWWW-C 2026-10-27 17:0x UTC】乾淨工作目錄跑 f54a35ec4 全部 Node 單元測試：643 支、0 失敗、7 分鐘（date_t7a 最後一行印「全部通過」、結束碼 0）——B 說的那份補了紀錄；等 BB-C 接班跑瀏覽器 ｜ 【LAWWW-C 2026-10-27 16:4x UTC】BB 照 BB_218 最後一節「v9.10.11 候選改 f54a35ec4」把沒記錄結果的跑完：R42 兩版（1dacc06af 應 FAIL、f54a35ec4 應 PASS）、發布前清單（relsuite＋savecompat）、trx_alone8；R40、R41、單面三份、窗景黃昏、flow_soclib、trx_dating8 已通過不重跑。BB 判定 GO 以後 LAWWW 跑 Node 全部（B 說 643 支 0 失敗但沒留紀錄）＋TESTING 第五節 → PR → RELEASES → 驗 Pages；之後合學姊第十二批、PG-FIX-471-473-1027"
   },
   {
    "id": "AA435-JP-BLANK-1024",
