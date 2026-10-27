@@ -5,7 +5,7 @@
 const PG_DATES={
  "source": {
   "AA_366": "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md@e6d4a198",
-  "AA_367": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md@e6d4a198"
+  "AA_367": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md@1ebcf530"
  },
  "kexin": {
   "segs": {
@@ -679,7 +679,7 @@ const PG_DATES={
    },
    {
     "ym": "2030-06",
-    "line": "下學期就大四了，我開始寫教檢的考古題。你以前也是這樣嗎？",
+    "line": "說好的，運河一圈。……下學期就大四了，我開始寫教檢的考古題。你以前也是這樣嗎？",
     "note": "台南"
    },
    {

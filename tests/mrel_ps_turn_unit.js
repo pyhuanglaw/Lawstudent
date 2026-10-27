@@ -4,7 +4,7 @@
 //   3 台南那幾年：祐廷先坦白在去找她的那一次、視訊裡（AA_425 第 1 節）；挽回在去找她的那一次，那學期沒去才打電話（AA_423 6-1）
 //   4 麵店團說溜嘴的群聚：K12（ev_kexin_two_circles）、二十三週年（ev_noodle_23rd）、大二／大四中秋
 //   5 BB194-YTFLAGS（BB_194 §24 @1769c7ce）：劇本照實的那一句記 YT_HONEST；學姊「說我也喜歡妳。」、以安「還有誰？」（照實說）＝honest；可昕「沒有，那是誤會。」＝claimEnded（比事實＝YT_LIED.kexin[Y]）
-//   6 接受同時交往照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；現在都是 false）；YT_INTENT、AN_TALKED／SIS_TALKED／KX_TALKED
+//   6 接受同時交往照 ROM.PARAMS.acceptsOpen（AA_423 第 0 節；使用者 10-27 回答 C：七位都打開，AA_474；關著的那一格把那一位改回 false 測）；YT_INTENT、AN_TALKED／SIS_TALKED／KX_TALKED
 //   7 舊存檔
 // 修改前（開發分支 dd96391c2）：沒有 MREL.ycSupper、MREL.hvMeet、MULTIREL_LINES.PS_TURN——FAIL。用法：node tests/mrel_ps_turn_unit.js
 const H=require('./pg_harness.js');
@@ -186,14 +186,20 @@ await sec(5,async()=>{
 
 /* ---------------- 6. acceptsOpen、YT_INTENT ---------------- */
 await sec(6,async()=>{
-  check('6. 遊戲裡現在七位 acceptsOpen 都是 false',Object.values(ROM.PARAMS.acceptsOpen).every(v=>v===false));
-  fresh('2027-03-01',12); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.dating_kexin=true; SOCIAL.rel(SIS).npcRom=90;
-  const st=X().startStrain(H.G,SIS,KX,{ver:'base'}); st.phase='talked'; st.intent='both'; st.meets=2; st.lies0=0;
-  const a=X().FLOW.heroine_05.meet(H.G,st,'talk'); clr(); await a.run(GM);
-  check('6. 學姊：還想兩個都要、戀愛 90，但 acceptsOpen false＝「不接受」那一格（Bno＝BB_194 13-4 的 D：分開）',H.has('我沒辦法。我會一直在想你現在在哪裡。')&&!H.has('我還是喜歡你。這個我不想騙自己。')&&!H.G.flags.dating_heroine_05&&!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
-  fresh('2027-03-01',12); datePS(); H.G.flags.dating_kexin=true; const s2=X().startStrain(H.G,PS,KX,{ver:'base'}); s2.phase='psA'; s2.aDay=H.G.day-8; s2.talkAt=H.G.day;
-  const b=X().FLOW.classmate_peishan.meet(H.G,s2,'talk'); clr(); if(b) await b.run(GM);
-  check('6. 沛珊「可以。我們可以慢慢談。」之後：acceptsOpen false＝不談界線、停在 C「上次那件事我還在想喔。」，沒有 PS_MUTUAL／OPEN_OK',s2.phase==='distant'&&H.has('上次那件事我還在想喔。')&&!H.has('我想了幾件事。')&&!H.G.flags.PS_MUTUAL&&!((H.G.flags.OPEN_OK||{})[PS]||{})[KX]);
+  check('6. 遊戲裡七位 acceptsOpen 都是 true（使用者 10-27 回答 C，AA_474 第 4 節第 1 點）',Object.keys(ROM.PARAMS.acceptsOpen).length===7&&Object.values(ROM.PARAMS.acceptsOpen).every(v=>v===true));
+  const sisB=async()=>{ fresh('2027-03-01',12); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.dating_kexin=true; SOCIAL.rel(SIS).npcRom=90;
+    const st=X().startStrain(H.G,SIS,KX,{ver:'base'}); st.phase='talked'; st.intent='both'; st.meets=2; st.lies0=0;
+    const a=X().FLOW.heroine_05.meet(H.G,st,'talk'); clr(); await a.run(GM); };
+  await sisB();
+  check('6. 學姊：還想兩個都要、戀愛 90、沒說謊＝接受（BB_194 4-6；第三句 AA_474 第 5 節改）＝OPEN_OK',H.has('我還是喜歡你。這個我不想騙自己。')&&H.has('……你去見她那天，出門前傳一句給我就好。')&&H.G.flags.dating_heroine_05===true&&!!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
+  ROM.PARAMS.acceptsOpen[SIS]=false; await sisB(); ROM.PARAMS.acceptsOpen[SIS]=true;
+  check('6. 學姊的開關改回 false（AA_474 第 0 節：使用者之後想讓某一位永遠不接受）＝「不接受」那一格（Bno＝BB_194 13-4 的 D：分開）',H.has('我沒辦法。我會一直在想你現在在哪裡。')&&!H.has('我還是喜歡你。這個我不想騙自己。')&&!H.G.flags.dating_heroine_05&&!((H.G.flags.OPEN_OK||{})[SIS]||{})[KX]);
+  const psA=async()=>{ fresh('2027-03-01',12); datePS(); H.G.flags.dating_kexin=true; const s2=X().startStrain(H.G,PS,KX,{ver:'base'}); s2.phase='psA'; s2.aDay=H.G.day-8; s2.talkAt=H.G.day;
+    const b=X().FLOW.classmate_peishan.meet(H.G,s2,'talk'); clr(); if(b) await b.run(GM); return s2; };
+  let s2=await psA();
+  check('6. 沛珊「可以。我們可以慢慢談。」7 天以後：談界線（雙向協議）＝PS_MUTUAL、OPEN_OK（開關打開以後才走得到，AA_474 1-7）',H.has('我想了幾件事。')&&!!H.G.flags.PS_MUTUAL&&!!((H.G.flags.OPEN_OK||{})[PS]||{})[KX]&&s2.result==='B');
+  ROM.PARAMS.acceptsOpen[PS]=false; s2=await psA(); ROM.PARAMS.acceptsOpen[PS]=true;
+  check('6. 沛珊的開關改回 false：不談界線、停在 C「上次那件事我還在想喔。」，沒有 PS_MUTUAL／OPEN_OK',s2.phase==='distant'&&H.has('上次那件事我還在想喔。')&&!H.has('我想了幾件事。')&&!H.G.flags.PS_MUTUAL&&!((H.G.flags.OPEN_OK||{})[PS]||{})[KX]);
   fresh('2027-03-01',12); H.CLOSE(SIS); ROM.start(H.G,SIS); H.G.flags.dating_kexin=true; const s3=X().startStrain(H.G,SIS,KX,{ver:'base'}); clr(); H.picks=[1]; await X().sisDinner(GM,s3);
   check('6. 書瑀的晚餐選「我還是想跟她在一起，也想跟妳。」＝YT_INTENT.heroine_05＝both、SIS_TALKED',H.G.flags.YT_INTENT[SIS]==='both'&&H.G.flags.SIS_TALKED===H.G.day);
 });

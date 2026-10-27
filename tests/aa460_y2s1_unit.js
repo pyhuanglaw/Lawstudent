@@ -154,7 +154,7 @@ await sec(6,()=>{
   const I=(DATE_WISH.events[ZR]||{}).herInvite||{}, all=J(DATE_WISH.events[ZR]);
   check('6. 邀約第三句「'+T6[0][2]+'」（原本「'+T6[0][1]+'」）',(I.lines||[]).some(x=>x.text===T6[0][2])&&!all.includes(T6[0][1]),J((I.lines||[]).map(x=>x.text)));
   check('6. 回「好」之後「'+T6[1][2]+'」（原本「'+T6[1][1]+'」）',(I.accept||[]).some(x=>x.text===T6[1][2])&&!all.includes(T6[1][1]),J((I.accept||[]).map(x=>x.text)));
-  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65）：DATE_WISH 來源是 cb5caad6、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@cb5caad6/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
+  check('6. 兩句已經改進原稿（AA_460 第 9 節，wish_bb.json@cb5caad65；10-27 AA_475 換到 ab9d70fe0）：DATE_WISH 來源是 ab9d70fe、沒有暫代換字、原稿對不到 0 句',/wish_bb\.json@ab9d70fe/.test(DATE_WISH.source)&&!(DATE_WISH.verify.replaced||[]).length&&(DATE_WISH.verify.miss||[]).length===0,J([DATE_WISH.source,DATE_WISH.verify.replaced]));
 });
 H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

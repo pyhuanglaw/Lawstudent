@@ -34,10 +34,10 @@ await sec(0,()=>{ const B=P('gym_badminton'), R=P('run_avenue');
   check('0. INV.sportLines、INV.sportAfter；SOCIAL.ACT.sport；記憶名稱',typeof INV.sportLines==='function'&&typeof INV.sportAfter==='function'&&!!SOCIAL.ACT.sport&&SOCIAL.MEMORY_LABEL.SPORT_BADMINTON==='一起打羽球'&&SOCIAL.MEMORY_LABEL.SPORT_RUN==='一起晨跑');
   check('0. 學姊筆試前的邀約上限包含羽球、晨跑（AA_417 3-3 照現有的 rule）',ok&&SISG.CAP_PLACES.includes('gym_badminton')&&SISG.CAP_PLACES.includes('run_avenue'),err);
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC);
-  check('0. 白名單：AA_417@99710a908 approved（AA-B 2026-10-23 18:2x 定稿（D109））',A.length===1&&A[0].sha==='99710a908'&&A[0].status==='approved'&&A[0].approvedBy==='AA-B 2026-10-23 18:2x 定稿（D109）'&&A[0].kind==='text',J(A)); });
+  check('0. 白名單：AA_417@ab9d70fe0 approved（AA-C 2026-10-27 AA_475 第 3 節；原本 AA-B 10-23 定稿 99710a908）',A.length===1&&A[0].sha==='ab9d70fe0'&&A[0].status==='approved'&&A[0].approvedBy==='AA-C 2026-10-27 AA_475 第 3 節改羽球「結束」句（D109；原本 AA-B 2026-10-23 18:2x 定稿 99710a908）'&&A[0].kind==='text',J(A)); });
 
-await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show 99710a908:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
-  check('1. 讀得到企劃線 99710a908 的 AA_417',md.includes('### 3-1. 子晴')&&md.includes('### 3-3. 其他人'));
+await sec(1,()=>{ let md=''; try{ md=cp.execSync('git -C "'+H.ROOT+'" show ab9d70fe0:"'+SPEC+'"',{encoding:'utf8'}); }catch(e){ md=''; }
+  check('1. 讀得到企劃線 ab9d70fe0 的 AA_417',md.includes('### 3-1. 子晴')&&md.includes('### 3-3. 其他人'));
   const s3=md.slice(md.indexOf('## 3. 一起運動'),md.indexOf('## 4.'));
   const all=[], add=(who,ls)=>{ for(const x of [].concat(ls||[])){ if(Array.isArray(x)) add(who,x); else if(x) all.push([who,typeof x==='string'?x:x.me]); } };
   const lawG={stage:'law'};
@@ -94,7 +94,7 @@ await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','
   check('3. 柏翰：個人規則照舊先跑（「我要念書。」）',/我要念書/.test(txt(bh.lines)),bh.res+' '+txt(bh.lines)); });
 
 await sec(4,async()=>{ fresh('2026-03-11','heroine_04',3); const m1=await meet('heroine_04','gym_badminton',15.5), m2=await meet('heroine_04','gym_badminton',16.5), m3=await meet('heroine_04','gym_badminton',17.5), m4=await meet('heroine_04','gym_badminton',18.5);
-  const FA=['（她借了一支拍子，握的方向是反的。）','「這樣握比較帥。……不是嗎？」'], END='「下次我會進步。不是因為你。是因為我不想輸給一顆球。」';
+  const FA=['（她借了一支拍子，握的方向是反的。）','「這樣握比較帥。……不是嗎？」'], END='「下次我會進步。……我不想輸給一顆球。」';
   const i0=m1.indexOf(FA[0]);
   check('4. 子晴第一次打羽球：先說 first（借拍子、握反）、再「一起的時候」①、最後一句是「結束」',i0>=0&&m1[i0+1]===FA[1]&&m1.indexOf(ZQ_B[0][0])>i0&&m1[m1.length-1]===END,J(m1));
   check('4. 第二、三、四次：沒有 first；一起的時候 ② → ③ → ①（輪流、不連續重複）',!m2.includes(FA[0])&&!m3.includes(FA[0])&&!m4.includes(FA[0])&&m2.includes(ZQ_B[1][0])&&m3.includes(ZQ_B[2][0])&&m4.includes(ZQ_B[0][0])&&m2[m2.length-1]===END,J([m2,m3,m4].map(m=>m.filter(t=>/^「/.test(t)))));

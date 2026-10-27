@@ -26,7 +26,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h, lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='e6d4a198';   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
+const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='1ebcf530';   /* AA_472 第 6 節：沛珊 2030-06 前面加「說好的，運河一圈。」，白名單改成 1ebcf530（原本 e6d4a198）*/   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
 const SIX=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];
 check('0. 載入 pg_dates.js、pgdates3d.js；102 個事件（每一格一個）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===102&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
 /* ---------- 稿（從 git 讀；測試自己的讀法）---------- */

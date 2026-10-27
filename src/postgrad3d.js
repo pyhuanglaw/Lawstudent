@@ -10,7 +10,8 @@
    - 一試 20 題：期末考的題庫（EXAM_BANK）＋刑訴 QBANK 一起隨機抽、不重複，第二年換一組；題目、答案照題庫，不改。答對題數只在 9/7 放榜看得到。
    - 1A-12（主線 12 畢業典禮的家人，別一批）有 ev_grad_family 的話，拍照等那一段演完；沒有的話 6/2 早上直接帶到 12:00。
    - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_REG_2030（交換延畢 2030 的報名，AA_357 1-6）、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
-     GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE）。
+     GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE；
+     SIS_STORE_2029＝2029 一試那天學姊有沒有說「我在對面的便利商店等」，AA_472 第 5 節）。
    - 開發分支還沒有的旗標（Y4_PATH、GRAD_ADMIT、ZQ_CONTRACT、KAI_STAYED_UP…）一律當作沒有。
    - 掛勾：S.MSGS／S.STEPS／S.stops／S.RULES（別的模組加訊息、場景、停點、每一次的規則；訊息的 win＝過了幾小時不補）。交往中的固定格（可昕「我們的日子」AA_366、六位每月一格 AA_367）在 src/pgdates3d.js。
    測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js、tests/pg_cardline_unit.js */
@@ -126,11 +127,11 @@ const PG=(function(){
     {tag:'pg_go_'+y,at:[K.exam,7.5],cond:G=>S.sits(G,y)&&inNoodle(G),items:G=>grp(L().EXAM.go)},
     {tag:'pg_none_'+y,at:[K.exam,17.5],cond:G=>y===2029&&!S.sits(G,2029)&&inNoodle(G),items:G=>grp(L().EXAM.none)},
     {tag:'pg_kxnone_'+y,at:[K.exam,17.5+2/60],cond:G=>y===2029&&!S.sits(G,2029)&&S.dating(G,'kexin'),items:G=>L().EXAM.kexinNone.concat(S.delayed(G)?[L().EXAM.kexinLate]:[]).map(t=>P_('kexin',t))},
-    {tag:'pg_r1g_'+y,at:[K.r1,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(L().R1.group)},
+    {tag:'pg_r1g_'+y,at:[K.r1,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R1.group2030||L().R1.group)},   /* AA_471 第 3 節：四次放榜各一版（2029-09-07 原句）*/
     {tag:'pg_r1f_'+y,at:[K.r1,15+6/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&inNoodle(G),items:G=>grp(L().R1.friends.concat(S.stage(G,2029)==='none'?L().R1.low:[]))},
     {tag:'pg_r1kx_'+y,at:[K.r1,15+8/60],cond:G=>y===2029&&S.dating(G,'kexin'),items:G=>[P_('kexin',L().R1.kexin)].concat(S.stage2(G,2029)?[P_('kexin',L().R1.kexinBoth)]:[])},
     {tag:'pg_r1sis_'+y,at:[K.r1,15+20/60],cond:G=>y===2029&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none'&&S.sisOk(G),items:G=>L().R1.sisLow.map(t=>P_('heroine_05',t))},
-    {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(L().R2.group)},
+    {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(y===2030&&L().R2.group2030||L().R2.group)},
     {tag:'pg_r2f_'+y,at:[K.r2,15+6/60],cond:G=>y===2029&&S.stage2(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().R2.zhe)].concat(L().R2.bohan.map(t=>GR('classmate_bohan',t)))},
     {tag:'pg_r2late_'+y,at:[K.r2,15+5/60],cond:G=>y===2029&&S.delayed(G),items:G=>[P_('zhe',L().R2.zheLate)]},
     /* 可昕考上律師（交往中、沒報 2029 國考）：原本 15:05 兩則私訊（pg_r2kx_2029），AA_296 2-3-1 ③ 起改成她打來的電話＝場景 kx_bar_2029（S.STEPS）；沒接＝那兩則（S.kxBarMissed）*/
@@ -155,7 +156,8 @@ const PG=(function(){
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
     {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
-    {tag:'pg_an_group',at:['2030-01-25',21],cond:G=>!S.at(G,'heroine_01','FRIEND')&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）*/
+    {tag:'pg_an_group',at:['2030-01-25',21],cond:G=>(!S.at(G,'heroine_01','FRIEND')||(S.isEx(G,'heroine_01')&&S.rec(G).done.an2!==1))&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）；前任也是這一則（AA_473 第 2 節；舊版本已經演過電話 an2 的存檔不再發）*/
+    {tag:'pg_an_ex1',at:['2029-12-14',21],cond:G=>S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')&&inNoodle(G)&&S.rec(G).done.an1!==1,items:G=>[GR('heroine_01',L().AN.exGroup1)]},   /* 舊版本已經演過電話 an1 的存檔不再發（不重演）*/   /* AA_473 第 2 節：前任（FRIEND 以上，原本會打電話的）二試放榜改成麵店團一則，不演電話、不講美國那份申請 */
     {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
     {tag:'pg_yu_2030_r2',at:['2030-12-13',15+8/60],cond:G=>inNoodle(G),items:G=>[GR('yu',L().Y2030.yu)]},
@@ -193,7 +195,7 @@ const PG=(function(){
     if(F.PG_SIS_SEA==='yes'&&S.seaOk(G)&&typeof OUT!=='undefined'&&!OUT.get(G,'pg_sis_sea')) S.planSea(G);   /* 6/1 21:00 回了「好。」*/
     if(F.SIS_BDAY_Y5==null&&typeof PHONE!=='undefined'&&PHONE.sent(G,'pg_sis_sea_ask')&&now>=T('2030-06-03',0)) F.SIS_BDAY_Y5='alone';   /* 15:00 那則沒送到（那時已經分手）也記一次 */
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
-    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY; PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of DLY(G,'bdayEx',B.exReply)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }
+    if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY, R=DLY(G,'bdayEx',B.exReply), noon=PHONE.sent(G,'pg_sis_ex'); PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of (noon?R.slice(0,1):R)) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }   /* AA_473 第 1 節（企劃線 66393bb91）：中午她已經私訊恭喜過（pg_sis_ex）＝只回「謝謝。」；中午那一則沒送到的（那時候還不是前任）照原本兩句 */
     if(F.PG_SIS_EX_BDAY==='no'&&F.SIS_BDAY_Y4==null) F.SIS_BDAY_Y4='none';
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
@@ -234,7 +236,7 @@ const PG=(function(){
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?DLY(G,'yt17Other',Y17.other):DLY(G,'yt17Friend',Y17.friend)));
     if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
-  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多 */
+  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多（AA_476 A-1：視訊不搬到 12:00，句子照原句）*/
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
   S.partnerBeat=async function(GM,id){ const G=GM.G, P=L().PARTNER;
     if(id==='kexin') return S.play(GM,G.flags.GIRAFFE_KEYCHAIN?P.kexin.key:P.kexin.noKey);
@@ -312,9 +314,13 @@ const PG=(function(){
   async function b1Scene2030(GM){ const G=GM.G, A=adv(); GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T('2030-07-11',20)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'總圖 B1',2000);
       if(A) A.begin({background:BG('ntu_lib_b1')}); await GM.fade(false); await S.play(GM,S.b1Lines2030(G)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,T('2030-07-11',22)); await GM.fade(false); }
-  S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05');
+  S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05'), d=S.dating(G,'heroine_05');
     if(y===2030&&S.retaker(G)) await GM.say(null,N.retake.note); else await S.play(GM,N.lines);
-    if(S.dating(G,'heroine_05')) await GM.say(sis,N.lover); };   /* 戀人版當面給：最後多一句 */
+    if(d) await GM.say(sis,y===2030&&N.lover2030&&S.sisWaited2029(G)?N.lover2030:N.lover);   /* 戀人版當面給：最後多一句；AA_472 第 5 節：2030 第二次考、去年她也在便利商店等＝換句 */
+    if(y===2029) G.flags.SIS_STORE_2029=d; };   /* 2029 那一次她有沒有說「我在對面的便利商店等」（AA_472 第 5 節）*/
+  /* 2029 一試那天她在對面的便利商店等過（戀人版當面給便條）：記 SIS_STORE_2029；舊存檔沒有＝2029 有考、現在這一段交往在 2029-08-04 以前就開始 */
+  S.sisWaited2029=G=>{ const F=G.flags||{}; if(F.SIS_STORE_2029!=null) return F.SIS_STORE_2029===true; if(F.BAR_SIT_2029!==true||!S.dating(G,'heroine_05')) return false;
+    const R=F.romance&&F.romance.heroine_05, e=S.DK(Y[2029].exam); if(!R) return false; if(typeof R.sinceDay==='number') return R.sinceDay<=e; const m=/^D(-?\d+)$/.exec(String(R.since||'')); return m?+m[1]<=e:!!R.since; };
   async function examDay(GM,y){ const G=GM.G, F=G.flags, Lx=L(), d=S.DK(Y[y].exam), A=adv();
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,d*24+8);
       if(S.noteInPerson(G,y)){ if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1600); if(A) A.begin({background:BG('ntu_avenue'),right:{charId:'heroine_05',expression:'smile'}}); await GM.fade(false); await S.noteScene(GM,y); await GM.fade(true); if(A&&A.active) A.end(); }
@@ -464,8 +470,8 @@ const PG=(function(){
     {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},
     {id:'b1_2030',at:G=>T('2030-07-11',20),until:G=>T('2030-07-11',27),cond:G=>S.sits(G,2030)&&!!L().B1_2030,run:b1Scene2030},   /* AA_331 2a */   /* b6757852：20:00（和國考讀書會同一個時間）*/
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
-    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）*/
-    {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,2)},
+    {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）；前任不打給前男友（AA_473 第 2 節：改麵店團 pg_an_ex1、pg_an_group）*/
+    {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND')&&!S.isEx(G,'heroine_01'),run:GM=>anCall(GM,2)},
     {id:'kx_bar_2029',at:G=>T(Y[2029].r2,S.KX_BAR.at),until:G=>T(Y[2029].r2,S.KX_BAR.until),cond:G=>S.kxBarOk(G),run:GM=>kxBarCall(GM),onMiss:G=>S.kxBarMissed(G)},   /* AA_296 2-3-1 ③ 可昕考上律師：她打來 */
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},
     {id:'epi',at:G=>T('2034-06-03',19),until:G=>Infinity,cond:G=>!!G.flags.FIRST_DAY_SEEN&&!G.flags.EPILOGUE_DONE&&!S.pendingExam(G),run:epilogue} ].concat(yStep(2029),yStep(2030));
@@ -483,7 +489,7 @@ const PG=(function(){
     if(GM.autosave) GM.autosave(); return true; };
   /* ---------- 跳到下一件事 ---------- */
   S.SOFT=[['2029-06-02',22],['2029-06-28',10]];   /* 別一批的固定時間（1A-12 晚上大伯的信封、1A-15 宿舍期滿）：停一下，讓那邊的程式有機會演 */
-  S.stops=[];   /* 其他模組可以加：G=>絕對時間（小時）或 null */
+  S.stops=[G=>typeof STORY!=='undefined'&&STORY.kxAnniv6Stop?STORY.kxAnniv6Stop(G):null];   /* 其他模組可以加：G=>絕對時間（小時）或 null。第一個：可昕第六年的週年還沒排的時候，停在該問「出發」的時間（AA_472 第 3 節，story3d.js）*/
   S.RULES=[];   /* 其他模組可以加：(G, GM)=>{}，S.rules 每一次最後跑（src/pgdates3d.js：固定格到了就排成出遊、不再交往就改 skipped）*/
   S.EPI_AFTER_CG=[]; S.EPI_AFTER_ITEMS=[];   /* 尾聲的掛勾（async GM=>…）：③ CG-10 之後、⑥ 桌上的東西之後（⑦ 最後畫面之前）*/
   S.nextStop=function(G){ const now=NOW(G); let best=Infinity; const cand=t=>{ if(t!=null&&t>now+1e-6&&t<best) best=t; };
@@ -510,8 +516,8 @@ const PG=(function(){
      每一列：[起 MM-DD, 迄 MM-DD（含）, 條件 (G, 年), 句子]。有沒有考一試看 BAR_SIT_<年>；一試過了＝考二試（S.stage2：BAR_STAGE_<年> 是 both／lawyer）*/
   const sat=(G,y)=>!!(G.flags&&G.flags['BAR_SIT_'+y]===true), two=(G,y)=>sat(G,y)&&S.stage2(G,y);
   S.CARDS_2029=[
-    ['06-03','06-27',(G,y)=>S.sits(G,y),'（畢業以後，你還是每天八點起床。不用上課，就去總圖。）'],
-    ['06-03','06-27',(G,y)=>!S.sits(G,y),'（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）'],
+    ['06-03','06-27',(G,y)=>S.sits(G,y)&&!fdLate(G),'（畢業以後，你還是每天八點起床。不用上課，就去總圖。）'],
+    ['06-03','06-27',(G,y)=>!S.sits(G,y)&&!fdLate(G),'（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）'],   /* AA_476 A-2（企劃線 6ad997806）：FAIL_DELAY_CERT 有值的（被當延畢、證書延到六月）不出——他的「畢業以後」從 6/17 領證書才開始，6/18 起接「你媽這次把框裝上了」。上一列（報了 2030 國考的那一版）同一段、同一個理由，一起擋 */
     ['06-29','07-11',(G,y)=>S.sits(G,y),'（七月。總圖 B1 的長桌，每天早上都是同一群人。）'],
     ['07-15','08-02',(G,y)=>S.sits(G,y),'（考前三個禮拜。讀書計畫表的格子一格一格劃掉，剩下的比劃掉的少了。）'],
     ['08-05','09-06',(G,y)=>sat(G,y),'（一試考完，離放榜還有一個月。你把法典放在書架最上面。）'],
@@ -532,6 +538,9 @@ const PG=(function(){
      每一列：[起 YYYY-MM-DD, 迄 YYYY-MM-DD（含）, 條件 G, 句子, {first}] */
   const dl=G=>S.delayed(G), ex=G=>S.exchDelayed(G), fd=G=>dl(G)&&!ex(G), fdc=G=>fd(G)&&!(typeof FD!=='undefined'&&FD.certLate&&FD.certLate(G)), fdLate=G=>fd(G)&&typeof FD!=='undefined'&&!!FD.certLate&&FD.certLate(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   S.reg2030=G=>{ const F=G.flags||{}; return F.BAR_REG_2030!=null?F.BAR_REG_2030===true:F.Y4_PATH==='bar'; };
+  /* AA_471 第 7 節：2029 跨年（延畢那一年）交往中、那天沒有另外排她的跨年場次（12/31～1/1 的出遊：id 有 nye 或約的是她；現在遊戲裡 2029 沒有這種場次）＝「你沒有在家」那一句 */
+  S.nyeOut=G=>{ if(typeof OUT==='undefined'||!OUT.rec) return false; const a=S.DK('2029-12-31'), P=S.partners(G); return OUT.rec(G).some(q=>q&&(q.day===a||q.day===a+1)&&q.state!=='cancelled'&&(/nye/i.test(q.id||'')||(!!q.who&&P.includes(q.who)))); };
+  S.nyeAway=G=>S.partners(G).length>0&&!S.nyeOut(G);
   S.CARDS_DELAY=[
     ['2029-06-03','2029-06-27',G=>ex(G)&&!y5us(G),'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
     ['2029-06-18','2029-06-27',fd,'（同屆的人都畢業了。你還差{課名}，九月再回學校。）'],   /* 被當延畢（AA_421 1-4）：6/18 成績單以後；6/3～6/17 照一般畢業生（那時候還不是延畢）*/
@@ -559,12 +568,13 @@ const PG=(function(){
     ['2029-11-21','2029-12-17',G=>y5d(G,'bar'),'（考古題寫到第三年。錯的題目，越來越常是同一種。）'],
     ['2029-12-19','2029-12-23',ex,'（大五上結束了。這一次，沒有期末考。）',{common:true}],
     ['2029-12-19','2029-12-23',fd,'（大五上結束了。重修的報告，交出去了。）',{common:true}],   /* 共通（這一段沒有三選一：照現在，AA_363 T3）*/
-    ['2029-12-24','2030-01-20',dl,'（跨年那天晚上，你在家。煙火是從電視上看的。）'],
+    ['2030-01-01','2030-01-20',G=>dl(G)&&!S.nyeAway(G),'（跨年那天晚上，你在家。煙火是從電視上看的。）'],   /* AA_477 第 2 節（企劃線 0fae57ee2）：開始日 12-24→01-01——被當延畢 12/26 那一停（AA_471 §5）會讓它在跨年以前出現；下一列同理 */
+    ['2030-01-01','2030-01-20',G=>dl(G)&&S.nyeAway(G),'（跨年那天晚上，你沒有在家。煙火很遠，她說這樣剛好。）'],   /* AA_471 第 7 節（企劃線 763993620）：交往中、那天另外沒有排她的跨年場次的；沒在交往的照上面原句 */
     ['2030-01-22','2030-02-01',G=>ex(G)||fdc(G),'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
     ['2030-02-02','2030-02-10',G=>ex(G)||fdc(G),'（過年。親戚問你什麼時候畢業。你說上個月。）'],
     ['2030-02-11','2030-03-14',G=>ex(G)||fdc(G),'（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'],
     ['2030-02-18','2030-03-15',fdLate,'（二月。又一個學期。這次你每一堂都去了。）'],   /* 重修不到三堂、證書延到 2030-06（AA_421 1-5）；上面三張（證書、上個月畢業、開學跟你沒關係）不出（LAWWW-B 解讀：和證書還沒拿到矛盾）*/
-    ['2030-06-01','2030-06-30',fdLate,'（證書放在書桌上。你媽這次把框裝上了。）',{first:true}],   /* 先出（同一段的「畢業以後的第一個禮拜」排在它後面）*/
+    ['2030-06-18','2030-06-30',fdLate,'（證書放在書桌上。你媽這次把框裝上了。）',{first:true}],   /* 先出（同一段的「畢業以後的第一個禮拜」排在它後面）；AA_471 第 5 節：06-18 起，排在 6/17 系辦領證書之後（src/faildelay3d.js，原本 06-01）*/
     ['2030-03-16','2030-04-30',G=>dl(G)&&S.reg2030(G),'（四月。你每天早上九點到總圖。這次是為了國考。）'],
     ['2030-03-16','2030-04-30',G=>ex(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'],
     ['2030-03-16','2030-04-30',G=>fd(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到畢業那一欄，停了一下。）'],

@@ -53,8 +53,8 @@ const SISB9_EVENTS=(function(){
         {label:'nov'},SIS('這本我高中就開始看。一直沒看完。'),SIS('……每次都說等考完。'),SIS('好。帶這本。在那邊看完。'),{set:{SIS_BOOK:'novel'}},{goto:'end'},
         {label:'both'},SIS('寄到美國很貴。'),SIS('……你真的會寄？'),{set:{SIS_BOOK:'both'}},
         {label:'end'},N('（十點，她把兩本書收進包包。）'),
-        {if:{custom:G=>!!X()&&X().dating(G)&&G.flags.SIS_BOOK!=='both'},speaker:ID,text:'另外一本，放你那邊。……回來跟你拿。'},
-        {unless:{custom:G=>!!X()&&X().dating(G)&&G.flags.SIS_BOOK!=='both'},speaker:ID,text:'另外一本，回來再看。'},
+        {if:{custom:G=>!!X()&&X().dating(G)&&G.flags.SIS_BOOK!=='both'},speaker:ID,text:'另外一本，放你那邊。……回來跟你拿。',set:{SIS_BOOK_WITH_YOU:true}},   /* SIS_BOOK_WITH_YOU：AA_470 4-2 交往版接 12/24 那一頓（termend_lines.js lastByTerm）*/
+        {unless:{custom:G=>!!X()&&X().dating(G)&&G.flags.SIS_BOOK!=='both'},speaker:ID,text:'另外一本，回來再看。',set:{SIS_BOOK_WITH_YOU:false}},   /* 朋友版接 12-7 空白的一月（sis_b12_events.js）*/
         rel({fam:1,comf:2}) ] },
     /* ---------- 1-3 both：8/14～8/20 公館郵局寄書（30 分、郵資 900 元）---------- */
     { id:'ev_sis_book_mail', title:'寄書', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

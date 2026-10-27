@@ -51,10 +51,12 @@ const US3=(function(){
   // =================== 公寓室內 us_apartment ===================
   const APT=()=>US_APARTMENT_LAYOUT;
   const APT_CLOSED=new Set(['bath','closet','coat','storage','laundry']);   /* 門關著的房間：不打開導航（衛浴從臥室進，這一版門關著；之後要開再打開這兩間＋家具阻擋）。配置裡 walk:false 的房間也一樣 */
+  /* 配置的房間寫 open:true 就打開（祐廷單人戶 v3，使用者 2026-10-27「有一個小的 WALKIN CLOSET 不是衣櫃」：衣物間、衛浴走得進去；合租戶照舊關著）*/
+  const aptClosed=r=>r.walk===false||(APT_CLOSED.has(r.id)&&!r.open);
   const APT_BOX={x0:-5.4,z0:-5.4,w:11.6,d:11.2};                /* 導航格：x −5.4～6.2、z −5.4～5.8（格子中心 −5.2、−4.8、…＝0.4 的整數倍）*/
   function aptNav(L){ const nav=new E3.NavGrid(APT_BOX.w,APT_BOX.d,0.4,APT_BOX.x0,APT_BOX.z0); nav.fillBlocked();
     const band=(x0,x1,z0,z1)=>{ if(x1-x0>0.01&&z1-z0>0.01) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0); };
-    for(const r of L.rooms) if(r.walk!==false&&!APT_CLOSED.has(r.id)) nav.freeRect(r.x0,r.z0,r.x1,r.z1);
+    for(const r of L.rooms) if(!aptClosed(r)) nav.freeRect(r.x0,r.z0,r.x1,r.z1);
     const B=L.balcony, BW=L.breezeway; nav.freeRect(B.x0,B.z0,B.x1,B.z1); nav.freeRect(BW.x0,BW.z0,BW.x1,BW.z1);
     /* 兩個打開的區域中間的牆：擋一排格子，門留空。門 0.8 m＝兩格，但人物的碰撞半徑 0.32 m：要剛好走在門的正中間 ±8 cm 才過得去，
        路線走在格子中心（偏 20 cm）就卡在門框（第一次測試：大門、臥室門都卡住）→ 能開的門在導航上多開一格（人的身體約 0.22 m 寬，畫面上不會穿門框）*/
@@ -64,6 +66,8 @@ const US3=(function(){
     band(BW.x0,-1.4,3.0,3.4); band(-0.2,BW.x1,3.0,3.4);         // 南牆：走道、廚房｜樓梯平台（大門 x −1.4～−0.6，導航開到 −0.2）
     band(B.x0,-1.4,-3.4,-3.0); band(-0.2,B.x1,-3.4,-3.0);       // 北牆：客廳｜陽台（陽台門 x −1.4～−0.6，導航開到 −0.2）
     for(const [px,pz] of BW.posts) nav.blockCircle(px,pz,0.36);
+    /* 配置另外給的（v3）：navBands＝打開的房間中間的牆（衣物間、衛浴的北牆、兩間的隔間）；navBlocks＝吊衣桿區、浴缸、馬桶、洗手台、衛浴門板 */
+    for(const b of (L.navBands||[])) band(b[0],b[1],b[2],b[3]); for(const b of (L.navBlocks||[])) band(b[0],b[1],b[2],b[3]);
     // 家具
     const rect=(x,z,w,d,ry,pad)=>nav.blockRect(x,z,w,d,-(ry||0),pad||0);
     for(const f of L.furniture){ const t=f.type;
@@ -94,7 +98,7 @@ const US3=(function(){
     for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), pass=[], Hw=/^[NSEW]$/.test(w.id||'')?H+0.4:H;
       for(const o of (w.open||[])){ const a=Math.min(o[0],o[1]), b=Math.max(o[0],o[1]), kind=o[2]||'', d=doorIn(w,a,b);
         if(kind==='passThrough') pass.push({a,b,y0:w.sill||0,y1:w.head||2.05});
-        else if(d?!d.closed:!/window/i.test(kind)) pass.push({a,b,y0:0,y1:w.head||2.05}); }
+        else if(d?(!d.closed||d.openDoor):!/window/i.test(kind)) pass.push({a,b,y0:0,y1:w.head||2.05}); }   /* openDoor＋closed（v3 衣物間、衛浴）：門開著、closed 只是站在門口「看」的字 */
       pass.sort((p,q)=>p.a-q.a); let a=lo;
       for(const p of pass){ box(w.axis,w.at,a,p.a,0,Hw); box(w.axis,w.at,p.a,p.b,0,p.y0); box(w.axis,w.at,p.a,p.b,p.y1,Hw); a=p.b; }
       box(w.axis,w.at,a,hi,0,Hw); }
@@ -149,14 +153,14 @@ const US3=(function(){
      o：id、name、layout()、glb、exitSpawn()（「出門」到社區的哪裡）、look（冰箱、爐子的字）、tag（給交換系統的互動 id）。
      家具的互動點只做在走得進去的房間（合租戶的臥室 A、B 門關著：床、書桌不能用）*/
   function aptZone(o){ return { id:o.id, name:o.name, indoor:true, camDist:3.6, seeThru:true, build(E){ const L=o.layout(), H=L.ceilY||2.6;
-    const openRoom=id=>{ const r=L.rooms.find(q=>q.id===id); return !r||(r.walk!==false&&!APT_CLOSED.has(r.id)); };
+    const openRoom=id=>{ const r=L.rooms.find(q=>q.id===id); return !r||!aptClosed(r); };
     const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#cfb796'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
     for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
     z.nav=aptNav(L); aptFallback(L,fb);
     z.camCols=[aptCamCols(L,g0,H)];   /* 跟隨鏡頭撞到牆就拉近、轉開（BUG-CAM-C208-1021）*/
     // 燈：客廳吊扇的燈、臥室吸頂燈、廚房（白天弱、晚上亮）
-    const lamps=[]; for(const [x,zz] of [[-1.6,-1.0],[3.2,-1.0],[-3.2,2.0],[-1.0,2.0],[0,4.0]]){ const l=new THREE.PointLight(0xffe2bc,2,7,2); l.position.set(x,H-0.35,zz); l.userData.on=9; l.userData.off=2; g0.add(l); lamps.push(l); }
+    const lamps=[]; for(const [x,zz] of [[-1.6,-1.0],[3.2,-1.0],[-3.2,2.0],[-1.0,2.0],[0,4.0]].concat(L.lamps||[])){   /* L.lamps：配置另外的燈（v3：走得進去的衣物間、衛浴）*/ const l=new THREE.PointLight(0xffe2bc,2,7,2); l.position.set(x,H-0.35,zz); l.userData.on=9; l.userData.off=2; g0.add(l); lamps.push(l); }
     let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
     let views=[]; const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.15); viewTint(views,h); };
     // 互動點
@@ -168,7 +172,7 @@ const US3=(function(){
          所以都指定走近點 ap（和 Café 的沙發同一個做法），互動點也放在那裡 */
       else if(t==='sofa'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-3.8,f.z]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在沙發上',seat:s}); }
       else if(t==='armchair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-2.2,-2.2]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在單人沙發上',seat:s}); }
-      else if(t==='deskChair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[2.55,-2.0]}; z.seats.push(s); IT.push({x:f.x,z:f.z,radius:0.8,lv:0,label:'坐在書桌前',seat:s,deskStudy:true}); }
+      else if(t==='deskChair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:f.ap||[2.55,-2.0]};   /* ap：配置有寫就用配置的（v3 書桌搬到床邊）*/ z.seats.push(s); IT.push({x:f.x,z:f.z,radius:0.8,lv:0,label:'坐在書桌前',seat:s,deskStudy:true}); }
       else if(t==='bed') IT.push({x:f.x-f.d/2-0.45,z:f.z,radius:0.9,lv:0,label:'睡覺',sleep:true});   /* 床尾朝西（x 2.93）：站在床尾 */
       /* 冰箱、爐子（ART-US2-FIX-1018，BB-C 10-18：站在冰箱前出「看爐子」）：窄廚房站得住的只有 z 1.8～2.2 一條（0.4 m），爐子就在冰箱旁邊——
          冰箱的點放在廚房西端（冰箱門前 x+0.7）、爐子的點放在爐子東緣、水槽旁（x+0.75, z−0.65）：分界在 x≈−3.05，冰箱門前站得住的位置都出冰箱（tests/nav_us_unit.js）*/

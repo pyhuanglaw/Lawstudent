@@ -39,5 +39,5 @@ let G7={day:40,flags:{dating_kexin:true,dating_heroine_02:true,romance:{heroine_
 check('13. 舊欄位 romance[X].knows 第一次讀檔搬到 knowsRel（source legacy）',ROM.knows(G7,'heroine_03')[0]==='heroine_02'&&G7.flags.knowsRel.heroine_03.heroine_02.source==='legacy'&&G7.flags.knowsRel_V===1);
 check('13. 懷疑值不再累積：ROM.suspect、ROM.weekly 拿掉（BB_191 第 1 節）',typeof ROM.suspect==='undefined'&&typeof ROM.weekly==='undefined');
 delete global.STORY;
-check('14. acceptsOpen 預設 false（七位，0-3 P2）',Object.values(ROM.PARAMS.acceptsOpen).length===7&&Object.values(ROM.PARAMS.acceptsOpen).every(v=>v===false));
+check('14. acceptsOpen 七位都是 true（使用者 2026-10-27 回答 C＝每個人不同、各人的條件另外看；AA_474 第 4 節第 1 點。原本 0-3 P2 的預設 false 是回答以前的狀態）',Object.values(ROM.PARAMS.acceptsOpen).length===7&&Object.values(ROM.PARAMS.acceptsOpen).every(v=>v===true));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

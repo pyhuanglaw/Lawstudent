@@ -15,7 +15,7 @@
          日本路線＝台灣 18:00（當地 19:00）視訊（AA_337 第 7 節）。SIS_BDAY_Y3（msg／invited／late_ask／next_cafe／video_set → cafe／video／missed）。
    1B-18＋22 學姊出發 8/2：7/26 21:00 家族群組（台灣路線才有按鈕）→ 家族共乘／兩個人 → 8/2 08:00 出遊（車上＋機場）；沒說要送＝8/2 09:00 客運照片、之後麵店語彤轉交便條；
          美國路線＝一起出發（exchange3d.js 的 3D 機場：進到機場演前三列，「登機」時演登機口那一列）；8/3 09:00 US0（台灣、日本路線）；
-         M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
+         M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉；AA_470 4-1：大三上 11/17 聽過「每天傳一張照片給你」的 SIS_PHOTO_TO_YOU＝平日的照片改私訊、第一張多「說好的。」）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
    1B-19 以安新 18：10/19（四）21:30 萬才館（讀書會散會；讀書會去過 3 次以上或那天在場）＝走廊；其他 22:00 麵店團群組；美國路線照當地時間。AN_CHOICE_TOLD。
          美國路線、和以安交往中＝臺灣 22:00（當地 10:00）她打來的視訊（AA_296 2-3-1 ①，AN_CHOICE video，讀 AN_CHOICE 的地方當成 here 那一類）；沒接＝原本那兩則私訊（dm）。
    1B-20 二十三週年：12/11 讀書會群組、12/11～12/13 麵店團群組的倒數、12/12 語彤的班那一句、12/14 19:00 麵店（18:45～19:15；19:30 還沒到＝電話帶到場，睡著也會醒來）；CG-8；強制下雨；
@@ -79,20 +79,52 @@ const Y34B=(function(){
     if(sent(G,'y3_an_farewell_ask')&&F.AN_FAREWELL==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_farewell')&&G.day===d24&&G.hour<19.25&&G.zone!=='noodle')
       OUT.plan(G,{id:'y3_an_farewell',goto:{zone:'noodle',x:0,z:3.4,yaw:Math.PI},day:d24,h:19,late:0.25,place:'公館',title:'阿鳳麵店',travelH:1/6});
     if(F.AN_FAREWELL==null&&NOW(G)>=T(d24,19.25)) F.AN_FAREWELL='missed';
-    if(!JP(G)){ if(th&&NOW(G)>=T(d24,21)&&NOW(G)<T(d25,9)) at(G,d24,G.day===d24?Math.max(21,G.hour):G.hour,[Z('明天以安的飛機。早上十點，桃園機場。要去的舉手。')],'y3_an_sendoff_ask');   /* AA_201 */
+    if(!JP(G)){ if(th&&NOW(G)>=T(d24,21)&&NOW(G)<T(d25,9)) at(G,d24,G.day===d24?Math.max(21,G.hour):G.hour,[Z('明天以安的飛機 早上十點，桃園機場 要去的舉手')],'y3_an_sendoff_ask');   /* AA_201 */
       if(sent(G,'y3_an_sendoff_ask')&&F.AN_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_an_sendoff')&&NOW(G)<T(d25,10.5))
         OUT.plan(G,{id:'y3_an_sendoff',ev:'ev_an_sendoff',day:d25,h:10,late:0.5,place:'桃園機場第二航廈',title:'桃園機場',travel:'機場捷運 約 1 小時',travelH:1,hours:1.5,alarm:true,back:'回到台北。'});
       if(F.AN_SENDOFF==null&&NOW(G)>=T(d25,11+40/60)){ F.AN_SENDOFF='missed';   /* 11:40（AA_180 2-6）*/
         const L=[DM('heroine_01','（照片：登機證）'),DM('heroine_01','要登機了'),DM('heroine_01','到了再傳')]; if(F.HOOK_AN_SENDOFF!=null) L.push(DM('heroine_01','……你說你會來的。沒關係。'));
         at(G,d25,11+40/60,L,'y3_an_sendoff_miss'); } } };
-  /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。日本的 3D、2D 生活還沒有＝抵達以後留在原地（MISSING） */
-  S.departJP=async function(GM){ const G=GM.G, F=G.flags; if(!S.sendoffJPDue(G)) return false; F.AN_SENDOFF='together';
-    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day); if(GM.titleCard) await GM.titleCard(x.y+' 年 '+x.m+' 月 '+x.d+' 日','出發｜桃園機場第二航廈',2400);
-      if(G.hour<9){ G.hour=9; if(GM.E) GM.E.hour=G.hour; } await GM.fade(false); } finally { GM.sceneEnd(); }
-    const ev=evOf('ev_an_depart_jp'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev);
+  /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。
+     E08（使用者 10-16 21:49「3d做機場…」、10-17 00:0x「機場的也是阿」；2026-10-27）：機場改成 3D 的出境大廳（EXCH.airGo，同美國那一趟）——
+       字卡「出發｜桃園機場第二航廈」→ 出境大廳（交往中以安跟在旁邊）→ 報到櫃台那一段（ev_an_depart_jp 登機口以前的台詞，2D 疊在模糊的大廳上；第一個地點字幕不換 2D 背景）
+       → 自由走動（挽回中：以安不跟著，站在大廳另一頭另一排報到櫃台前、不能搭話，AA_478 第 4 節）→ 安檢入口「登機」（或一小時以後自動登機）→ S.departFly：登機口那一段（照舊 2D 機場圖＋CG-22）→ 字卡「飛往日本」→ 抵達（jp3d.js 包住 departFly，進日本的據點）。
+       台詞一字沒改，只是切成兩段演。沒有 3D 機場（EXCH 沒載入）＝照原本一口氣演完。存檔：G.flags.AIR_DEP（k:'jp'）；AN_SENDOFF 'together' 進大廳就記（同原本）*/
+  const JP_GATE=()=>{ const i=DEPART_JP.findIndex(l=>l&&l.scene==='登機口'); return i<0?DEPART_JP.length:i; };
+  S.JP_HALL=()=>DEPART_JP.slice(0,JP_GATE()).map(l=>l&&l.scene!==undefined&&l.bg==='airport_departure'?Object.assign({},l,{bg:false}):l);   /* bg:false＝只出地點字幕，背景是 3D 的大廳（events3d.js）*/
+  S.JP_GATE_LINES=()=>DEPART_JP.slice(JP_GATE());
+  const flyJP=async function(GM){ const G=GM.G, F=G.flags;
     GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('飛往日本','關西　約 3 小時',2400); F.JP_DEPARTED=G.day; if(G.hour<16){ G.hour=16; if(GM.E) GM.E.hour=G.hour; }   /* 10:00 報到、起飛約 12:00、當地 16:00 左右 */
       if(GM.titleCard) await GM.titleCard('抵達',(STORY.ROUTE_DATES&&STORY.ROUTE_DATES.JP&&STORY.ROUTE_DATES.JP.place)||'日本',2200); await GM.fade(false); } finally { GM.sceneEnd(); }
-    if(GM.autosave) GM.autosave(); return true; };
+    if(GM.autosave) GM.autosave(); };
+  S.departJP=async function(GM){ const G=GM.G, F=G.flags; if(!S.sendoffJPDue(G)) return false; F.AN_SENDOFF='together';
+    const air=typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM.enter;   /* E08：3D 的出境大廳 */
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day); if(GM.titleCard) await GM.titleCard(x.y+' 年 '+x.m+' 月 '+x.d+' 日','出發｜桃園機場第二航廈',2400);
+      if(G.hour<9){ G.hour=9; if(GM.E) GM.E.hour=G.hour; } if(!air) await GM.fade(false); } finally { GM.sceneEnd(); }
+    const ev=evOf('ev_an_depart_jp');
+    if(air){ leaveHome(G); if(EXCH.AIR&&!EXCH.AIR.jp) EXCH.AIR.jp={board:GM2=>S.departFly(GM2),resume:GM2=>S.departResumeTick(GM2)};
+      await EXCH.airGo(GM,{k:'jp',with:dAn(G)&&met('heroine_01')?['heroine_01']:[],noSave:true});   /* 字卡上面出過了；報到櫃台那一段演完才存（EVENTS.run 存）*/
+      if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(Object.assign({},ev,{background:'blur',dialogue:S.JP_HALL()}));
+      if(!dAn(G)&&met('heroine_01')&&EXCH.airStand&&EXCH.airStand(GM,[{id:'heroine_01',spot:'checkinA'}])&&GM.autosave) GM.autosave();   /* AA_478 第 4 節：挽回中＝以安不跟著走，站在大廳另一頭（另一排報到櫃台前）、不能搭話；演完那一段才放（EVENTS 會把鏡頭對著她）。站不到＝照原本不在 */
+      return true; }   /* 人在出境大廳等登機（jp3d.js 包的 S.arrive 這時候還沒出發、不做事）*/
+    if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev);
+    await flyJP(GM); return true; };
+  /* 出境大廳「登機」以後（EXCH.AIR.jp）：登機口那一段 → 飛往日本 → 抵達。jp3d.js 包住這個函式，演完進日本的據點 */
+  S.departFly=async function(GM){ const G=GM.G, F=G.flags; if(F.JP_DEPARTED!=null||F.AN_SENDOFF!=='together') return false;
+    const ev=evOf('ev_an_depart_jp'); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(Object.assign({},ev,{id:'ev_an_depart_jp_gate',dialogue:S.JP_GATE_LINES()}));   /* 同美國的 ev_sis_gate_us（登機口那一列）*/
+      const M=G.memo; if(Array.isArray(M)&&M.length>=2){ const a=M[M.length-1], b=M[M.length-2]; if(a&&b&&a.day===b.day&&a.t===b.t) M.pop(); } }   /* 同一件事切成兩段演：當天的紀錄只留一筆「一起出發」*/
+    await flyJP(GM); return true; };
+  /* 登機口那一段演完（EVENTS.run 自己存一次檔）到「飛往日本」記下 JP_DEPARTED 中間那幾秒關掉遊戲：讀回來 AN_SENDOFF＝together、JP_DEPARTED 還沒記、也沒有在大廳等登機（EXCH.AIR_DEP）——
+     原本永遠出發不了（D36：不能永久卡住；E08 以前沒有 3D 機場的版本也一樣：整段演完存檔、接著才飛）。
+     接著從「飛往日本」演、記 JP_DEPARTED、進日本的據點（jp3d.js 包住 S.departResume）；登機口那一段已經演過了，不重演。
+     在 3D 的區域＝EXCH.tick 每一格先問（EXCH.AIR.jp.resume）；在臺北的家＝home3d.js 的 loop 問 STORY.y4HomeDue（S.homeDue／homeScene）。同一個存檔只接一次（演到一半出錯不會每一格重來）*/
+  S.departResumeDue=G=>{ const F=G&&G.flags; return law(G)&&JP(G)&&!!F&&F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)); };
+  S.departResume=async function(GM){ if(!S.departResumeDue(GM.G)) return false; await flyJP(GM); return true; };
+  const resumed=new WeakSet(); let resuming=false;
+  const resumeOk=G=>!resuming&&!!G&&!resumed.has(G)&&S.departResumeDue(G);
+  S.departResumeTick=function(GM){ const G=GM&&GM.G; if(!resumeOk(G)) return false; resumed.add(G); resuming=true;
+    Promise.resolve().then(()=>S.departResume(GM)).catch(e=>console.warn('Y34B.departResume',e)).finally(()=>{ resuming=false; }); return true; };
+  if(typeof EXCH!=='undefined'&&EXCH.AIR) EXCH.AIR.jp={board:GM=>S.departFly(GM),resume:GM=>S.departResumeTick(GM)};   /* S.departFly、S.departResume 照呼叫當下的（jp3d.js 包過的那一個）*/
   /* ================= 1B-13 語彤 T1 ================= */
   const NOODLE_DOOR={x:-63,z:21};   /* 公館店面街第一間（zones3d.js：阿鳳麵店的門，互動點 FZ+2）*/
   const nearDoor=(G,E)=>{ if(G.zone==='noodle') return true; if(G.zone!=='gongguan'||!E||!E.player) return false; const p=E.player.obj.position; return Math.hypot(p.x-NOODLE_DOOR.x,p.z-NOODLE_DOOR.z)<6; };
@@ -207,9 +239,10 @@ const Y34B=(function(){
     if(F.SIS_BDAY_Y3==='late_ask'&&nd!=null&&NOW(G)>T(nd,15)) F.SIS_BDAY_Y3='missed';   /* 22:30 那則一直沒回（AA_392 第 9 節確認：不另外傳）*/
     if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&NOW(G)>=T(nd,15.5)) F.SIS_BDAY_Y3='missed';   /* 答應了 15:00 卻沒到（AA_392 第 9 節確認：不另外傳）*/
     if(F.SIS_BDAY_Y3==='video_set'&&G.day>d) F.SIS_BDAY_Y3='missed';   /* 視訊那天沒演到（AA_392 第 9 節確認）*/
-    if(G.day<d||G.day>d+2||!law(G)||!met('heroine_05')) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
+    if(G.day<d||G.day>d+2||!law(G)) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
+    { const h12=tzH(G,d,12); if(inGrp(G,'family_law')&&NOW(G)>=T(d,h12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(h12,G.hour):h12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday'); }   /* 人在日本＝當地 13:00（台灣 12:00；AA_341 J-S13）。AA_470 5-2：在家族群組就收得到（不看認不認識她、交情）*/
+    if(!met('heroine_05')) return;
     const ok=dating(G,'heroine_05')||exOf(G,'heroine_05')||fri('heroine_05'); if(!ok) return;
-    { const h12=tzH(G,d,12); if(inGrp(G,'family_law')&&NOW(G)>=T(d,h12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(h12,G.hour):h12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday'); }   /* 人在日本＝當地 13:00（台灣 12:00；AA_341 J-S13）*/
     if(F.SIS_BDAY_Y3==='invited'&&(F.SIS_BDAY_Y3_AT==null||NOW(G)>=F.SIS_BDAY_Y3_AT)&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday')&&NOW(G)<T(d,18.5)&&G.zone!=='cafe'&&!(STORY.abroad&&STORY.abroad(G)))
       OUT.plan(G,{id:'y3_sis_bday',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d,h:18,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6});   /* 她的回覆到了才排（人在日本的不排；舊存檔的群組選項是馬上回的，沒有 SIS_BDAY_Y3_AT）*/
     if(F.SIS_BDAY_Y3==='invited'&&NOW(G)>=T(d,21)){ F.SIS_BDAY_Y3='missed'; at(G,d,21,[DM('heroine_05',BDAY_REPLY.missed[0])],'y3_sis_bday_miss'); }
@@ -281,8 +314,10 @@ const Y34B=(function(){
       else at(G,d,hh,[GSIS('（照片）'),GSIS(S.M6_QUIET[wi-M6_Q.length]||S.M6_QUIET[0])],tag);   /* 第幾個「不吵」的週日（AA_464 第 2 節；超過十四個照原句）*/
       return; }
     const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
-    at(G,d,h9,[GSIS(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])],tag);   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
-    const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')); if(old.length>6){ const cut=old.slice(0,old.length-6); G.msgs=G.msgs.filter(m=>!cut.includes(m)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）*/
+    const F=G.flags, mine=!!F.SIS_PHOTO_TO_YOU, P=mine?(t=>DM('heroine_05',t)):GSIS, L=[P(S.m6Wed(d)||M6_PHOTO[(d-D('us0'))%3])];   /* 週三照那個月的那一張（AA_464 第 1 節）；其他天三張照日子輪＝不跟前一天同一張 */
+    if(mine&&F.SIS_PHOTO_SAID==null){ F.SIS_PHOTO_SAID=d; L.push(DM('heroine_05','說好的。')); }   /* AA_470 4-1：大三上 11/17 雙方單身那一句（SIS_PHOTO_TO_YOU）＝平日的照片改傳私訊（週日照舊在家族群組）；第一張（8/3）多一句 */
+    at(G,d,h9,L,tag);
+    const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')), days=[...new Set(old.map(m=>m.tag))]; if(days.length>6){ const cut=new Set(days.slice(0,days.length-6)); G.msgs=G.msgs.filter(m=>!cut.has(m.tag)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）；私訊也照用，一天算一張（第一張的「說好的。」跟著那一張）*/
   /* 美國路線：一起出發（exchange3d.js 的 3D 機場；進到機場演前三列、登機前演登機口那一列）*/
   S.usDepartDue=G=>law(G)&&US(G)&&G.zone==='airport_dep'&&!!G.flags.US_DEPARTED&&!G.flags.US_ARRIVED&&G.flags.SIS_SENDOFF==null&&(dating(G,'heroine_05')||exOf(G,'heroine_05'));
   S.usGate=async function(GM){ const G=GM.G, F=G.flags; if(!US(G)||F.SIS_SENDOFF!=='together'||F.SIS_GATE) return false; F.SIS_GATE=true; const ev=evOf('ev_sis_gate_us'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
@@ -358,10 +393,13 @@ const Y34B=(function(){
     return S.an20Mode(G)==='cafe'?G.hour>=17.25&&G.hour<23:G.hour>=18.5&&G.hour<23; };
   /* ================= 1B-25 學姊 M9 ================= */
   S.m9Phone=function(G){ const F=G.flags, a=D('m9ask'), d=D('m9'); if(a==null||G.day<a||G.day>d+1||!law(G)) return; const dt=dating(G,'heroine_05');
-    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05'))) return;
-    if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)){ if(inGrp(G,'family_law')) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[GKEV('學姊明天下午四點口試！大家去門口等！'),GSIS('……不用來。')],'y4_m9_grp');
-      if(dt) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_05','明天四點口試。……你坐在外面就好。')],'y4_m9_dm'); }
-    if(F.SIS_DEFENSE==null&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dt)&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9')&&(sent(G,'y4_m9_grp')||sent(G,'y4_m9_dm'))&&NOW(G)<T(d,17.5))
+    /* AA_470 5-2：家族群組那兩則，在群組的人都收得到（不看認不認識她、交情）；出遊、私訊、SIS_DEFENSE 只管下面這幾種 */
+    if(inGrp(G,'family_law')&&NOW(G)>=T(a,21)&&NOW(G)<T(d,16)) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[GKEV('學姊明天下午四點口試！大家去門口等！'),GSIS('……不用來。')],'y4_m9_grp');
+    /* AA_470 第 8 節②（企劃線 110a5b55c）：認識她（met_sis）、熟悉以上、在家族群組、不是前任＝也排門口那一趟（Kevin 叫的是「大家」）；朋友以上、交往中、前任照舊；沒認識的只看得到群組 */
+    const famIn=!!F.met_sis&&fam('heroine_05')&&inGrp(G,'family_law')&&!exOf(G,'heroine_05');
+    if(!(fri('heroine_05')||dt||exOf(G,'heroine_05')||famIn)){ if(inGrp(G,'family_law')&&F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after'); return; }
+    if(NOW(G)>=T(a,21)&&NOW(G)<T(d,16)){ if(dt) at(G,a,G.day===a?Math.max(21,G.hour):G.hour,[DM('heroine_05','明天四點口試。……你坐在外面就好。')],'y4_m9_dm'); }
+    if(F.SIS_DEFENSE==null&&!exOf(G,'heroine_05')&&(fri('heroine_05')||dt||famIn)&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_m9')&&(sent(G,'y4_m9_grp')||sent(G,'y4_m9_dm'))&&NOW(G)<T(d,17.5))
       OUT.plan(G,{id:'y4_m9',ev:'ev_sis_defense',day:d,h:16,late:2,place:'霖澤館・研究室的走廊',title:'學姊的口試',travel:'',travelH:1/6,hours:1});   /* 5/29 16:00～18:00 走廊的窗口 */
     if(F.SIS_DEFENSE==null&&NOW(G)>=T(d,18.5)){ F.SIS_DEFENSE='missed';
       if(inGrp(G,'family_law')) at(G,d,18.5,[GKEV('學姊過了！！（一張研究室門口的照片）'),GSIS('過了。謝謝大家。')],'y4_m9_grp_after');
@@ -408,8 +446,8 @@ const Y34B=(function(){
       await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }
     G.flags.AN20_LATE=cafe; const ev=evOf(cafe?'ev_an_your_turn':'ev_an_your_turn_noodle'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ---------------- 在家（home3d.js 的 loop 已經在問 STORY.y4HomeDue）---------------- */
-  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
-  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(S.zqCallDue(G)) return S.zqCall(GM); if(S.bdayVideoDue(G)) return play('ev_sis_birthday_video_y3')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
+  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(resumeOk(G)) return 'stay';   /* 登機口那一段演完就關掉的存檔（上面 S.departResume）*/ if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
+  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(resumeOk(G)){ resumed.add(G); resuming=true; try{ return await S.departResume(GM); } finally{ resuming=false; } } if(S.zqCallDue(G)) return S.zqCall(GM); if(S.bdayVideoDue(G)) return play('ev_sis_birthday_video_y3')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
   { const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;
     STORY.y4HomeDue=function(G){ const r=hd0?hd0.apply(this,arguments):null; return r||S.homeDue(G); };
     STORY.y4HomeScene=function(GM){ const k=S.homeDue(GM.G); if(k==='stay'&&!(hd0&&hd0(GM.G))) return S.homeScene(GM); return hs0?hs0.apply(this,arguments):null; };

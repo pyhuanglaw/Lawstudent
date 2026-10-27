@@ -592,7 +592,7 @@ const Y2R2=(function(){
         if(!F.ZR_ADMIT_CALL_GO&&!F.ZR_ADMIT_CALL&&win(G,m,23.5,2)&&sent(G,'y2r2_zr_admit')&&!sent(G,'y2r2_zr_none')){ F.ZR_ADMIT_CALL='none'; at(G,m,23.5,[Z('……沒事。明天再說。')],'y2r2_zr_none'); } } }
     /* --- 2-Y2-18 明軒：阿哲那則（和明軒不熟、和阿哲朋友以上）；三對三 --- */
     { const m=d('zm'); if(m!=null&&law(G)&&win(G,m,22,2)&&!sent(G,'y2r2_mx_zhe')&&!(dating(G,'heroine_01')&&knowsOf(G,'classmate_mingxuan','heroine_01'))&&!mxFriend(G)&&['FRIEND','CLOSE_FRIEND'].includes(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel('zhe'):'')){
-        F.MX_HEARD=true; at(G,m,22,[{th:'p:zhe',from:'zhe',text:'明軒最近怪怪的。你不要問，問了他會請你吃東西。'}],'y2r2_mx_zhe'); }
+        F.MX_HEARD=true; at(G,m,22,[{th:'p:zhe',from:'zhe',text:'明軒最近怪怪的 你不要問，問了他會請你吃東西'}],'y2r2_mx_zhe'); }
       const e=d('m3'); if(e!=null&&F.MX_3ON3_ASKED){
         if(win(G,e-1,21,1)&&!sent(G,'y2r2_3on3_ask')) at(G,e-1,21,[{th:'p:zhe',from:'zhe',text:'明天九點 三對三 起得來嗎',ask:{id:'y2r2_3on3_ask',until:abs(e,8.5),opts:[{t:'起得來。',say:[{from:'zhe',text:'最好是'}]},{t:'不一定。',say:[{from:'zhe',text:'那我八點半打給你'}]}]}}],'y2r2_3on3_ask');
         if(sent(G,'y2r2_3on3_ask')&&!outGet(G,'y2r2_3on3')&&now(G)<abs(e,9.25)) plan(G,{id:'y2r2_3on3',ev:'ev_mx_3on3',day:e,h:9,late:0.25,place:'新體育館 1F 球場',title:'三對三（新體育館）',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true}); } }
@@ -603,7 +603,7 @@ const Y2R2=(function(){
           at(G,m,21.5,q5Went(G)?[Z('📷（謝幕，台上六個人鞠躬）'),Z('今年沒有人拍太大聲'),Z('……拍給你看')]:[Z('📷（謝幕）'),Z('第二次也沒來'),Z('……好啦 第三次再說')],'y2r2_q9_photo'); } } }
     /* --- 2-Y2-20 系籃（大二下）--- */
     { const a=d('show'), m=d('ball'); if(a!=null&&m!=null&&law(G)&&knows('zhe',G)){ const th=inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe', Z=t=>({th,from:'zhe',text:t});
-        if(win(G,a,21,1)&&!sent(G,'y2r2_ball_inv')){ at(G,a,21,[Z('明天下午兩點，系籃，新體育館。這學期最後一場。')],'y2r2_ball_inv'); }
+        if(win(G,a,21,1)&&!sent(G,'y2r2_ball_inv')){ at(G,a,21,[Z('明天下午兩點，系籃，新體育館 這學期最後一場')],'y2r2_ball_inv'); }
         if(sent(G,'y2r2_ball_inv')&&!outGet(G,'y2r2_ball')&&now(G)<abs(m,14.25)) plan(G,{id:'y2r2_ball',ev:'ev_zhe_game_y2s2',day:m,h:14,late:0.25,place:'新體育館',title:'系籃比賽（大二下）',travel:'走過去約 10 分鐘',travelH:1/6});
         const q=outGet(G,'y2r2_ball'); if(q&&q.state==='missed'&&!done(G,'ev_zhe_game_y2s2')&&win(G,m,21.5,2)&&!sent(G,'y2r2_ball_photo')) at(G,m,21.5,[Z('📷（記分板前面，阿哲和明軒蹲著比 YA。分數被阿哲的頭擋住了。）'),Z('贏了 分數不重要')],'y2r2_ball_photo'); } }
     /* --- 2-Y2-21 K14 --- */

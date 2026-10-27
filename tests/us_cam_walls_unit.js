@@ -25,7 +25,7 @@ function solidParts(L,H){ const out=[]; const seg=(w,a,b,y0,y1)=>{ if(b-a<0.01||
   for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), open=[], Hw=/^[NSEW]$/.test(w.id||'')?H+0.4:H;
     for(const o of (w.open||[])){ const a=Math.min(o[0],o[1]), b=Math.max(o[0],o[1]), kind=o[2]||'';
       const d=L.doors.find(q=>{ const u=w.axis==='x'?q.x:q.z, c=w.axis==='x'?q.z:q.x; return Math.abs(c-w.at)<0.15&&u>a-0.05&&u<b+0.05; });
-      const thru=kind==='passThrough'||(d?!d.closed:!/window/i.test(kind));   /* 關著的門、窗：牆 */
+      const thru=kind==='passThrough'||(d?(!d.closed||d.openDoor):!/window/i.test(kind));   /* 關著的門、窗：牆（openDoor＋closed＝門開著、closed 只是門口「看」的字：祐廷單人戶 v3 的衣物間、衛浴）*/
       if(thru) open.push({a,b,y0:kind==='passThrough'?(w.sill||0):0,y1:w.head||2.05}); }
     open.sort((p,q)=>p.a-q.a); let a=lo; for(const p of open){ seg(w,a,p.a,0,Hw); seg(w,p.a,p.b,0,p.y0); seg(w,p.a,p.b,p.y1,Hw); a=p.b; } seg(w,a,hi,0,Hw); }
   const BW=L.breezeway; if(BW) out.push({p:[BW.x0,BW.z0,BW.x0,BW.z1],y0:0,y1:2.85});
