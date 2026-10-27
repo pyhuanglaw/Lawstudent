@@ -85,14 +85,35 @@ const Y34B=(function(){
       if(F.AN_SENDOFF==null&&NOW(G)>=T(d25,11+40/60)){ F.AN_SENDOFF='missed';   /* 11:40（AA_180 2-6）*/
         const L=[DM('heroine_01','（照片：登機證）'),DM('heroine_01','要登機了'),DM('heroine_01','到了再傳')]; if(F.HOOK_AN_SENDOFF!=null) L.push(DM('heroine_01','……你說你會來的。沒關係。'));
         at(G,d25,11+40/60,L,'y3_an_sendoff_miss'); } } };
-  /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。日本的 3D、2D 生活還沒有＝抵達以後留在原地（MISSING） */
-  S.departJP=async function(GM){ const G=GM.G, F=G.flags; if(!S.sendoffJPDue(G)) return false; F.AN_SENDOFF='together';
-    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day); if(GM.titleCard) await GM.titleCard(x.y+' 年 '+x.m+' 月 '+x.d+' 日','出發｜桃園機場第二航廈',2400);
-      if(G.hour<9){ G.hour=9; if(GM.E) GM.E.hour=G.hour; } await GM.fade(false); } finally { GM.sceneEnd(); }
-    const ev=evOf('ev_an_depart_jp'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev);
+  /* 日本路線 3/25 一起出發（AA_253 9-1；exchange3d.js 的美國那一套照樣做一份：機場 → 登機 → 字卡「飛往日本」→ 抵達）。
+     E08（使用者 10-16 21:49「3d做機場…」、10-17 00:0x「機場的也是阿」；2026-10-27）：機場改成 3D 的出境大廳（EXCH.airGo，同美國那一趟）——
+       字卡「出發｜桃園機場第二航廈」→ 出境大廳（交往中以安跟在旁邊）→ 報到櫃台那一段（ev_an_depart_jp 登機口以前的台詞，2D 疊在模糊的大廳上；第一個地點字幕不換 2D 背景）
+       → 自由走動 → 安檢入口「登機」（或一小時以後自動登機）→ S.departFly：登機口那一段（照舊 2D 機場圖＋CG-22）→ 字卡「飛往日本」→ 抵達（jp3d.js 包住 departFly，進日本的據點）。
+       台詞一字沒改，只是切成兩段演。沒有 3D 機場（EXCH 沒載入）＝照原本一口氣演完。存檔：G.flags.AIR_DEP（k:'jp'）；AN_SENDOFF 'together' 進大廳就記（同原本）*/
+  const JP_GATE=()=>{ const i=DEPART_JP.findIndex(l=>l&&l.scene==='登機口'); return i<0?DEPART_JP.length:i; };
+  S.JP_HALL=()=>DEPART_JP.slice(0,JP_GATE()).map(l=>l&&l.scene!==undefined&&l.bg==='airport_departure'?Object.assign({},l,{bg:false}):l);   /* bg:false＝只出地點字幕，背景是 3D 的大廳（events3d.js）*/
+  S.JP_GATE_LINES=()=>DEPART_JP.slice(JP_GATE());
+  const flyJP=async function(GM){ const G=GM.G, F=G.flags;
     GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('飛往日本','關西　約 3 小時',2400); F.JP_DEPARTED=G.day; if(G.hour<16){ G.hour=16; if(GM.E) GM.E.hour=G.hour; }   /* 10:00 報到、起飛約 12:00、當地 16:00 左右 */
       if(GM.titleCard) await GM.titleCard('抵達',(STORY.ROUTE_DATES&&STORY.ROUTE_DATES.JP&&STORY.ROUTE_DATES.JP.place)||'日本',2200); await GM.fade(false); } finally { GM.sceneEnd(); }
-    if(GM.autosave) GM.autosave(); return true; };
+    if(GM.autosave) GM.autosave(); };
+  S.departJP=async function(GM){ const G=GM.G, F=G.flags; if(!S.sendoffJPDue(G)) return false; F.AN_SENDOFF='together';
+    const air=typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM.enter;   /* E08：3D 的出境大廳 */
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day); if(GM.titleCard) await GM.titleCard(x.y+' 年 '+x.m+' 月 '+x.d+' 日','出發｜桃園機場第二航廈',2400);
+      if(G.hour<9){ G.hour=9; if(GM.E) GM.E.hour=G.hour; } if(!air) await GM.fade(false); } finally { GM.sceneEnd(); }
+    const ev=evOf('ev_an_depart_jp');
+    if(air){ leaveHome(G); if(EXCH.AIR&&!EXCH.AIR.jp) EXCH.AIR.jp={board:GM2=>S.departFly(GM2)};
+      await EXCH.airGo(GM,{k:'jp',with:dAn(G)&&met('heroine_01')?['heroine_01']:[],noSave:true});   /* 字卡上面出過了；報到櫃台那一段演完才存（EVENTS.run 存）*/
+      if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(Object.assign({},ev,{background:'blur',dialogue:S.JP_HALL()}));
+      return true; }   /* 人在出境大廳等登機（jp3d.js 包的 S.arrive 這時候還沒出發、不做事）*/
+    if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev);
+    await flyJP(GM); return true; };
+  /* 出境大廳「登機」以後（EXCH.AIR.jp）：登機口那一段 → 飛往日本 → 抵達。jp3d.js 包住這個函式，演完進日本的據點 */
+  S.departFly=async function(GM){ const G=GM.G, F=G.flags; if(F.JP_DEPARTED!=null||F.AN_SENDOFF!=='together') return false;
+    const ev=evOf('ev_an_depart_jp'); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(Object.assign({},ev,{id:'ev_an_depart_jp_gate',dialogue:S.JP_GATE_LINES()}));   /* 同美國的 ev_sis_gate_us（登機口那一列）*/
+      const M=G.memo; if(Array.isArray(M)&&M.length>=2){ const a=M[M.length-1], b=M[M.length-2]; if(a&&b&&a.day===b.day&&a.t===b.t) M.pop(); } }   /* 同一件事切成兩段演：當天的紀錄只留一筆「一起出發」*/
+    await flyJP(GM); return true; };
+  if(typeof EXCH!=='undefined'&&EXCH.AIR) EXCH.AIR.jp={board:GM=>S.departFly(GM)};   /* S.departFly 照呼叫當下的（jp3d.js 包過的那一個）*/
   /* ================= 1B-13 語彤 T1 ================= */
   const NOODLE_DOOR={x:-63,z:21};   /* 公館店面街第一間（zones3d.js：阿鳳麵店的門，互動點 FZ+2）*/
   const nearDoor=(G,E)=>{ if(G.zone==='noodle') return true; if(G.zone!=='gongguan'||!E||!E.player) return false; const p=E.player.obj.position; return Math.hypot(p.x-NOODLE_DOOR.x,p.z-NOODLE_DOOR.z)<6; };

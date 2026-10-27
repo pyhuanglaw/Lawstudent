@@ -10,6 +10,7 @@
 //   1B-15 阿凱私訊回了「去。」卻沒到＝16:30 阿凱三則。
 //   AA_363（2026-10-21）：R1 阿凱 16:30 的照片換《九點以後》（舊存檔 ZQ_Q12 cat 照舊）、R8 名單的配樂每個玩家都有——在開發分支 6a47ff46 上 5 項 FAIL，改完 PASS。
 //   AA_296 2-3-1 ①（2026-10-22，企劃線 3f406dbc）改了 1B-19 美國路線交往中的期待值：當地 10:00 她打來的視訊，那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）。
+// E08（2026-10-27）：日本路線 3/25 出發先到 3D 出境大廳，玩家按「登機」才演登機口、飛往日本——A3、挽回中在 S.departJP 後面加 EXCH.airBoard。
 // 修改前：沒有 src/y34b3d.js（第 0 項 FAIL）。用法：node tests/y34b_events_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -60,9 +61,9 @@ const date=id=>H.date(id);
   { fresh('2028-03-25',7,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); H.FAMILIAR('zhe'); PHONE.join(H.G,'noodle_team','麵店團');
     check('1B-12 日本路線 3/25：前一晚的鬧鐘 07:30', S.alarms(H.G,D('2028-03-25')).some(a=>a.h===7.5)); at('2028-03-25',8);
     check('1B-12 日本路線 3/25 08:00 以後：一起出發到期（在家也是：STORY.y4HomeDue＝stay）', S.sendoffJPDue(H.G)&&(()=>{ const old=HOME.at; HOME.at=()=>true; const r=STORY.y4HomeDue(H.G); HOME.at=old; return r==='stay'; })());
-    H.said=[]; H.cgs=[]; H.cards=[]; await S.departJP(GM);
+    H.said=[]; H.cgs=[]; H.cards=[]; await S.departJP(GM); await EXCH.airBoard(GM);   /* E08（10-27）：先到 3D 出境大廳，玩家按「登機」才演登機口、飛往日本 */
     check('A3 日本路線、交往中：報到櫃台「二十二公斤」、媽媽「你們互相」、麵店團、「好。走吧。」、登機口 CG-22、字卡「飛往日本」「抵達」；AN_SENDOFF together', has('行李我量過了，二十二公斤。……你的呢？')&&has('她就交給你了。……你們互相照顧。')&&has('兩個人都要傳照片')&&has('好。走吧。')&&H.cgs.includes('cg_depart_together_heroine01')&&has('（她靠著窗，把手帳翻到四月那一頁。）')&&H.cards.some(c=>c[0]==='飛往日本')&&H.cards.some(c=>c[0]==='抵達')&&H.G.flags.AN_SENDOFF==='together'&&!S.sendoffJPDue(H.G)); }
-  { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); ROM.end(H.G,'heroine_01','test'); H.said=[]; await S.departJP(GM);
+  { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); ROM.end(H.G,'heroine_01','test'); H.said=[]; await S.departJP(GM); await EXCH.airBoard(GM);   /* E08：出境大廳 →「登機」*/
     check('1B-12 日本路線、挽回中：只有「到了再說。」「（座位分開。）」', has('到了再說。')&&has('（座位分開。）')&&!has('行李我量過了，二十二公斤。……你的呢？')&&!has('好。走吧。')); }
   { fresh('2028-03-25',8,'dorm',{},'JP'); H.FAMILIAR('heroine_01'); date('heroine_01'); date('kexin'); H.said=[]; await S.departJP(GM);
     check('1B-12 9-1b 也和可昕交往、她不知道：媽媽換中性的那句、可昕「時差一個小時，不要算錯。」', has('到了打電話回來。……你們兩個都是。')&&!has('她就交給你了。……你們互相照顧。')&&has('到了傳訊息。……時差一個小時，不要算錯。'));

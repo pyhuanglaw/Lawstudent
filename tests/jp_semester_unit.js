@@ -12,6 +12,7 @@
 //   R6 每天的手機小事；R7 holff 朋友回老家的訊息；R8 子晴遊戲展的照片；R9 可昕 K19、學姊 M6 的照片；R10 REPAIR 和 r2y3b 町公所那一步同一個；J-S3／H2 快轉停在要回的訊息、打開手機再接著跳；D103 選單前先開手機。
 // AA_355 1-1（2026-10-21）：G7 以安約的那一頓改成 6/9 私訊、6/10 出遊（6 項；修改前 6 項都 FAIL：6/9 沒有私訊、6/16 自動演）。
 // jp_room 6（2026-10-22，BB 12:5x）：人在 3D 房間時必接的電話到了要回據點；修改前（開發分支 522dbf6a）FAIL。
+// E08（2026-10-27）：3/25 出發先到 3D 出境大廳（airport_dep），玩家按「登機」才演登機口、飛往日本——J-S12、J-S10 在 Y34B.departJP 後面加 EXCH.airBoard（大廳那一段在 tests/e08_airport_unit.js）。
 // 用法：node tests/jp_semester_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -44,13 +45,13 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { fresh('2028-03-25',7,'dorm','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); date('heroine_01'); ROM.get(H.G,'heroine_01').status='paused'; H.G.flags.dating_heroine_01=false;
     const a=Y34B.alarms(H.G,D('2028-03-25')).some(x=>x.h===7.5); at('2028-03-25',8); const b=Y34B.sendoffJPDue(H.G); at('2028-03-26',9); const c=Y34B.sendoffJPDue(H.G); at('2028-08-05',9); const d=Y34B.sendoffJPDue(H.G);
     check('J-S12 日本路線 paused（等你說清楚，不是交往中也不是前任）：3/25 一樣出發、前一晚的鬧鐘；3/25 睡過頭＝3/26 醒來也出發；8/5 以後不出發', a&&b&&c&&!d, [a,b,c,d].join()); }
-  { fresh('2028-03-25',8,'dorm','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); H.said=[]; await Y34B.departJP(GM);
+  { fresh('2028-03-25',8,'dorm','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); H.said=[]; await Y34B.departJP(GM); await EXCH.airBoard(GM);   /* E08（10-27）：先到 3D 出境大廳，玩家按「登機」才演登機口、飛往日本 */
     check('J-S12 挽回中（REL_STATE 不是交往中）：「到了再說。」「（座位分開。）」；沒有交往版的句子', has('到了再說。')&&has('（座位分開。）')&&!has('好。走吧。')); }
   /* ===================== J-S10 出發以後進日本的據點 ===================== */
   { const G=fresh('2028-03-25',8,'gongguan','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); date('heroine_01'); H.FAMILIAR('zhe');
     OUT.plan(G,{id:'tw_x',ev:'ev_an_farewell_dinner',day:D('2028-04-02'),h:18,place:'公館',title:'臺灣的約'}); OUT.plan(G,{id:'tw_v',ev:'ev_an_farewell_dinner',day:D('2028-04-02'),h:21,place:'視訊',verb:'接起來',title:'視訊'});
     G.invites=[{id:'iv1',who:'zhe',place:'noodle',day:D('2028-04-01'),h:18,state:'accepted'}]; HOME.rec(G).at=true;
-    H.said=[]; H.entered=[]; await Y34B.departJP(GM);
+    H.said=[]; H.entered=[]; await Y34B.departJP(GM); await EXCH.airBoard(GM);   /* E08：出境大廳 →「登機」*/
     check('J-S10 出發演完：進日本的據點（jp_hub）、人在日本（STORY.inJapan）、不在臺北的家；JP_DEPARTED、AN_JP_DEPARTED',
       H.entered.includes('jp_hub')&&G.zone==='jp_hub'&&STORY.inJapan(G)&&!HOME.at(G)&&G.flags.JP_DEPARTED===D('2028-03-25')&&G.flags.AN_JP_DEPARTED===G.flags.JP_DEPARTED, JSON.stringify(H.entered));
     check('J-S10 出發以後臺灣的約：出遊不去了（視訊照留）、當面約延後（不算爽約）', OUT.get(G,'tw_x').state==='missed'&&OUT.get(G,'tw_v').state==='planned'&&G.invites[0].state==='postponed');

@@ -412,7 +412,7 @@ const JP=(function(){
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return H.at; }
     if(o.k==='out'){ const call=S.callLike(o.q); H.at=false; if(A&&A.end) A.end(); const ok=await OUT.go(GM,o.q,{fromHome:true});
       if(ok&&!o.q.goto){ if(!call){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(A&&A.begin) A.begin({background:bg()}); if(!call) await GM.fade(false); return true; }   /* 同 home3d.js 的 breakRound */
-      if(!ok){ H.at=true; if(A&&A.begin) A.begin({background:bg()}); return true; }
+      if(!ok&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G))){ H.at=true; if(A&&A.begin) A.begin({background:bg()}); return true; }   /* 去了出境大廳等登機（E08，寒暑假出國）不算沒出門 */
       if(o.q.goto&&GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; }
     if(o.k==='inv'){ await HOME.leaveTo(GM,o.P); return false; }
     if(o.k==='go'){ const L=S.goList(G), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) return H.at; await HOME.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]||undefined}); return false; }
@@ -437,10 +437,11 @@ const JP=(function(){
     const lines=S.CLASSES.filter(c=>c.credit).map(c=>c.name+'：'+(g[c.id]||CLS.gradeOf(0)));
     if(!opts.inScene) GM.sceneBegin(); try{ await GM.say(null,CLS.termName('Y3S2')+'的成績出來了。'); await GM.say(null,lines.join('　')); } finally{ if(!opts.inScene) GM.sceneEnd(); } return true; };
   /* ---------------- 包住別的系統（只在日本路線的條件成立時改結果）---------------- */
-  if(typeof Y34B!=='undefined'&&Y34B.departJP){ const dep0=Y34B.departJP; Y34B.departJP=async function(GM){ const r=await dep0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* J-S10：出發以後進日本的據點 */
+  if(typeof Y34B!=='undefined'&&Y34B.departJP){ const dep0=Y34B.departJP; Y34B.departJP=async function(GM){ const r=await dep0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* J-S10：出發以後進日本的據點（E08 起 3D 出境大廳要先登機：這裡還沒出發＝S.arrive 不做事，登機以後在下面 departFly）*/
+  if(typeof Y34B!=='undefined'&&Y34B.departFly){ const fly0=Y34B.departFly; Y34B.departFly=async function(GM){ const r=await fly0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* E08：出境大廳「登機」→ 登機口、飛往日本、抵達 → 日本的據點 */
   if(typeof HOME!=='undefined'){ const live0=HOME.livesHome, can0=HOME.canGo;
     if(live0) HOME.livesHome=function(G){ return S.homeOn(G)||live0.apply(this,arguments); };   /* 從家裡出發、出遊演完回家 */
-    if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 人在日本：手機沒有「回臺北的家」；住家裡：隨時可以回家 */
+    if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 在出境大廳等登機（E08）：不能回家 */   /* 人在日本：手機沒有「回臺北的家」；住家裡：隨時可以回家 */
   if(STORY.forceHome){ const f0=STORY.forceHome; let forcing=false;
     STORY.forceHome=async function(GM){ const G=GM.G; if(S.inJapan(G)) return;   /* 據點自己處理凌晨（JP.loop）*/
       if(S.homeOn(G)&&typeof HOME!=='undefined'&&!HOME.at(G)){ if(forcing) return; forcing=true; try{ GM.sceneBegin(); try{ await GM.say(null,'已經凌晨了。'); } finally{ GM.sceneEnd(); } G.flags.companion=null; HOME.rec(G).at=false; await HOME.go(GM); } finally{ forcing=false; } return; }   /* 住家裡（退宿以後）：凌晨了＝回家（不回宿舍）*/

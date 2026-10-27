@@ -21,7 +21,7 @@ const HOME=(function(){
   S.suite=G=>S.movedOut(G)&&G.flags.HOME_AFTER==='gongguan';   /* 公館的套房（台灣路線準備國考，1A-15）：晚上回套房、在套房醒來，不回宿舍（AA_363 T7-2；套房沒有 3D＝公館捷運站旁，story3d.js 的 Y4_GG）*/
   S.GO_OUT=['校門口','公館商圈','溫州街'];   /* 照手機「地點」的名字（PLACES.quickList）*/
   S.goList=()=>{ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[]; return S.GO_OUT.map(n=>L.find(p=>p&&p[1]===n)).filter(Boolean); };
-  S.canGo=G=>{ if(S.baseMode(G)||S.breakMode(G)||S.pgHome(G)) return true;   /* 放假模式（AA_183）：出門赴約以後隨時可以回家 */ { const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)) return true; }   /* 16 週制寒暑假（AA_197 1-3）：隨時可以回家住、再回宿舍 */ const h=G.hour; if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return false;   /* 颱風假不能回家（AA_160 3-4 D）*/ if(typeof STORY!=='undefined'&&STORY.homeHold&&STORY.homeHold(G)) return false;   /* 經濟系 9/20 E05 演完以前（story3d.js）*/ return (G.weekday===5&&h>=17)||G.weekday===6||(G.weekday===0&&h<21.5); };
+  S.canGo=G=>{ if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false;   /* 在出境大廳等登機（E08，exchange3d.js）：不能回家 */ if(S.baseMode(G)||S.breakMode(G)||S.pgHome(G)) return true;   /* 放假模式（AA_183）：出門赴約以後隨時可以回家 */ { const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)) return true; }   /* 16 週制寒暑假（AA_197 1-3）：隨時可以回家住、再回宿舍 */ const h=G.hour; if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return false;   /* 颱風假不能回家（AA_160 3-4 D）*/ if(typeof STORY!=='undefined'&&STORY.homeHold&&STORY.homeHold(G)) return false;   /* 經濟系 9/20 E05 演完以前（story3d.js）*/ return (G.weekday===5&&h>=17)||G.weekday===6||(G.weekday===0&&h<21.5); };
   S.at=G=>!!(G.home&&G.home.at);
   const MOM={name:'媽媽'}, DAD={name:'爸爸'}, SIS={name:'宜蓁'};
   /* 池裡挑一句：不連續重複（最近用過的 2 句不選）*/
@@ -148,7 +148,7 @@ const HOME=(function(){
   S.goOut=async function(GM,q){ const G=GM.G, H=S.rec(G); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const ok=await OUT.go(GM,q,{fromHome:true});
     if(ok&&q.camp) return backQuiet(GM);
     if(ok&&!q.goto&&S.baseMode(G)){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false); return true; }
-    if(!ok&&!S.at(G)){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }
+    if(!ok&&!S.at(G)&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G))){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }   /* 去了出境大廳等登機（E08）不算沒出門 */
     return false; };
   async function baseRound(GM){ const G=GM.G, H=S.rec(G); const ev=S.homeEvent(G); if(ev){ await EVENTS.run(ev); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); return H.at; }
     { const c=typeof STORY!=='undefined'&&STORY.homeCall?STORY.homeCall(G):null; if(c&&c.q){ if(c.line) await GM.say({name:c.who},c.line); if(c.line2) await GM.say({name:c.who},c.line2); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); c.q.state='planned';   /* 固定核心的電話（例：E37 14:15 可昕）→ 直接出發；宿營（line 空）不打電話 */
@@ -509,8 +509,8 @@ const HOME=(function(){
   /* 退宿以後住家裡（AA_357 1-5）：出遊從家裡出發、演完回家（照 breakRound；視訊、電話不用出門）。回傳 true＝回到家的選單，false＝人留在外面（goto 的出遊）*/
   S.pgOut=async function(GM,q){ const G=GM.G, H=S.rec(G); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const video=q.verb==='接起來'||q.place==='視訊'||!!q.call; const ok=await OUT.go(GM,q,{fromHome:true});
     if(ok&&!q.goto){ if(!video){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); if(!video) await GM.fade(false); return true; }
-    if(!ok){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }
-    if(GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; };
+    if(!ok&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G))){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }   /* 去了出境大廳等登機（E08）不算沒出門 */
+    if(!ok) return false; if(GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; };
   /* 從家裡去當面約的地方（G48）：轉場（捷運＋公車）→ 那個地方；見面照 INV 原本的流程 */
   S.leaveTo=async function(GM,P){ const G=GM.G, H=S.rec(G), base=S.livesHome(G); await GM.fade(true); if(GM.titleCard) await GM.titleCard(P.name||'出發',base?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘',2000); GM.advance(base?0.5:0.7);   /* 休學以後住家裡＝30 分鐘（AA_154 1-3b、A46 ②）*/ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
     await GM.enter(P.zone||'campus',P.spawn||undefined); };

@@ -442,5 +442,47 @@ const VAC=(function(){
     for(const r of (V.t13||[])){ const De=TV()&&TV().dest[r.dest]; if(!De) continue; rows.push('<div class="item phrow"><div>出國旅遊：'+esc(De.name)+(r.with?'（和'+esc(nm(r.with))+'）':'')+'<div class="muted">'+esc(dl(r.from)+'～'+dl(r.to))+(r.done?'・去過':'')+'</div></div></div>'); }
     if(TV()&&S.nextBreak(G)) rows.push('<div class="item phrow"><div>出國旅遊<div class="muted">自己排：目的地、和誰、幾天</div></div><button class="btn" data-vac13="1">安排</button></div>');
     return rows.length?'<div class="item"><b>假期行事曆</b></div>'+rows.join(''):''; };
+  /* ===== E08：寒暑假出國從 3D 的出境大廳出發（使用者 10-16 21:49「3d做機場 旅館 街景 這種都我給妳CG」、10-17 00:0x「機場的也是阿」；src/exchange3d.js 的 EXCH.airGo）=====
+     出國的那一趟（出國活動 trip：C05、T02、T03、C08～C12、C18／C18W；C13 自己排的出國旅遊 T13#；VA10 麵店團香港）時間到了「出發」（3D 的出發選單、放假住家裡的「出發」）：
+     原本那一張字卡（標題＋「去機場 約 1 小時」）→ 3D 出境大廳（一起出發的人跟在旁邊）→ 走到安檢入口「登機」（或進大廳一小時以後自動登機）
+     → 原本的整趟照舊演（OUT.go：中間的日子 S.jump、關鍵事件、台詞都沒改）→ 演完回到出發前的地方（宿舍等；放假住家裡的＝回臺北的家）。
+     存檔：那一趟出遊 q.state＝'airport'（在大廳等登機：OUT 不會再問「出發」、不會算沒去）、q.airFrom（出發前在哪裡）、q.airHome（從家裡出發）、q.airDone（登機了）；G.flags.AIR_DEP（EXCH）。舊存檔都沒有＝照舊。
+     台詞：沒有新寫的。登機以後到第一張日期卡中間沒有「飛往〇〇」的字卡（美國那一趟有）；C05、T02、C08、C10 的「出發」那一幕（機場）照舊在登機以後演——要不要改問 AA */
+  S.abroadTrip=function(q){ const v=q&&q.vac; if(!v||typeof v.key!=='string') return false; if(/^T13#/.test(v.key)||v.key==='VA10') return true;
+    if(v.k!=='trip'||!/@/.test(v.key)) return false; const [id,yk]=v.key.split('@'), I=S.inst(id,yk); return !!I&&!!I.A.place&&I.A.place.kind==='abroad'; };
+  /* 一起出發的人（在大廳跟著你，最多三個、認識的）：活動卡 mates 是陣列的那幾團（C05 阿凱、T02 方奕廷、T03 子晴和阿凱）、VA10 麵店團、C13 和誰去；
+     C11、C12 的以安（mates 照年份）是到了那邊才遇到，不算 */
+  S.airWith=function(G,q){ const v=q.vac; let L=[];
+    if(/^T13#/.test(v.key)){ const r=(S.rec(G).t13||[]).find(x=>'T13#'+x.n===v.key); if(r&&r.with) L=[r.with]; }
+    else if(v.key==='VA10'){ const C=Dt()&&Dt().VA10; L=(C&&C.mates)||[]; }
+    else { const [id,yk]=v.key.split('@'), I=S.inst(id,yk), m=I&&I.A.mates; if(Array.isArray(m)) L=m.slice(); }
+    return L.filter(id=>typeof CHARACTERS!=='undefined'&&!!CHARACTERS[id]&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')).slice(0,3); };
+  S.airOk=(GM,q)=>!!q&&q.state==='planned'&&!q.airDone&&S.abroadTrip(q)&&typeof EXCH!=='undefined'&&!!EXCH.airGo&&!!EXCH.airZoneOk&&EXCH.airZoneOk()&&!!GM&&!!GM.enter;
+  /* 出發：到出境大廳。回傳 false＝人在機場等登機、沒有回家（家裡的選單照「出門了」收起來；jp3d.js、home3d.js 的 !ok 先看 EXCH.airPending）*/
+  const airReg=()=>{ if(typeof EXCH!=='undefined'&&EXCH.AIR&&!EXCH.AIR.vac) EXCH.AIR.vac={board:(GM,rec)=>S.airBoardTrip(GM,rec)}; };   /* 登記登機以後接著演什麼（exchange3d.js 照 index.html 在前面；單元測試載入順序不一定，出發時再補一次）*/
+  S.toAirport=async function(GM,q,o){ airReg(); const G=GM.G, P=GM.E&&GM.E.player, home=!!(o&&o.fromHome)||(typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G)), tr=OUT.trip(G,q,home);
+    q.airHome=home; q.airFrom=home||!P?null:{zone:G.zone,x:+P.obj.position.x.toFixed(2),z:+P.obj.position.z.toFixed(2),yaw:+((P.obj.rotation&&P.obj.rotation.y)||0).toFixed(3),lv:P.lv|0}; q.state='airport';
+    await EXCH.airGo(GM,{k:'vac',q:q.id,with:S.airWith(G,q),card:[OUT.tt?OUT.tt(q.title):q.title,tr.travel],arrive:Math.max(T(G.day,G.hour)+(tr.travelH||0),T(q.day,q.h))});
+    return false; };
+  /* 登機：原本的整趟（OUT.go；已經到了、字卡出過了）。從家裡出發的演完回臺北的家（同 home3d.js breakRound「出遊演完回家」）*/
+  S.airBoardTrip=async function(GM,rec){ const G=GM.G, q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,rec.q):null;
+    if(!q||q.state!=='airport'){ await S.airBack(GM,q,false); return false; }   /* 找不到那一趟（不該發生）：回到出發前的地方 */
+    q.state='planned'; q.arrived=true; q.airDone=true;
+    const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true});
+    if(G.zone==='airport_dep') await S.airBack(GM,q,false);   /* 從家裡出發的（OUT.go 不換區域）＝回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
+    return ok; };
+  /* 回到出發前的地方：放假住家裡＝回臺北的家（字卡「回臺北的家」；inFade＝在 OUT.go 結尾的黑幕裡，不出字卡）；其他＝出發前站的地方（找不到＝宿舍房間）*/
+  S.airBack=async function(GM,q,inFade){ const G=GM.G; if(G.zone!=='airport_dep') return false;
+    if(q&&q.airHome&&typeof HOME!=='undefined'&&HOME.livesHome&&HOME.livesHome(G)){ const H=HOME.rec(G);
+      if(!inFade){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); }
+      H.at=true; H.day=G.day; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); if(!inFade) await GM.fade(false); return true; }   /* 家裡的選單：story3d.js 的 HOME.tick 接著 */
+    const f0=q&&q.airFrom, fine=!!f0&&!!f0.zone&&f0.zone!=='airport_dep'&&(typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES[f0.zone]), f=fine?f0:{zone:'dorm',x:0,z:2.4,yaw:Math.PI,lv:0};
+    if(GM.enter) await GM.enter(f.zone,{x:f.x,z:f.z,yaw:f.yaw||0,lv:f.lv|0},inFade?{noFade:true,deferStory:true,noAutosave:true}:{}); return true; };
+  /* OUT.go 結尾的黑幕裡換回出發前的地方（OUT.STAGE：演之前不換區域、畫面是模糊的出境大廳，回傳 restore）：登機以後才演的那一趟（q.airDone）、人還在出境大廳 */
+  S.airStage=async function(GM,q){ const G=GM&&GM.G; if(!G||!q||!q.airDone||G.zone!=='airport_dep') return null; return {restore:()=>S.airBack(GM,q,true)}; };
+  if(typeof OUT!=='undefined'){
+    if(Array.isArray(OUT.STAGE)&&!OUT._vacAirStage){ OUT.STAGE.push(S.airStage); OUT._vacAirStage=true; }
+    if(OUT.go&&!OUT._vacAir){ const go0=OUT.go; OUT.go=async function(GM,q,o){ if(S.airOk(GM,q)) return S.toAirport(GM,q,o); return go0.apply(this,arguments); }; OUT._vacAir=true; } }
+  S.airReg=airReg; airReg();
   return S;
 })();
