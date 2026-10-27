@@ -1080,6 +1080,7 @@ const STORY = (function(){
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E; S._resume=null;   /* 玩家自己去做別的事：睡著被叫醒以後不再自動問床的選單（S.resumeSleepTick）*/
     if(it.exchFly&&typeof EXCH!=='undefined'){ await EXCH.interact(GM,it); return true; }   /* 登機（src/exchange3d.js）；宿舍的交換申請選單拿掉了（1A-02） */
+    if(it.airportBoard&&typeof EXCH!=='undefined'&&EXCH.interact&&await EXCH.interact(GM,it)) return true;   /* 出境大廳安檢入口「登機」：寒暑假出國、日本路線等登機的時候（E08，exchange3d.js S.airBoard）；沒有要搭的飛機＝照舊看告示「今天沒有要搭的飛機。」*/
     if(it.teaTable){ if(GM.G.flags.TEA_STEP>=3) await S.teaKevin(GM); else await S.teaTable(GM); return true; }   /* 9/2 新生茶會：窗邊家族那一桌（學姊那段以後：Kevin 一句）*/
     if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; } if(it.wzShop&&typeof WZS!=='undefined'){ await WZS.interact(GM,it); return true; }   /* 溫州街三家店的選單（AA_172）*/   /* 溫州街小公園（AA_171）*/
     if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/

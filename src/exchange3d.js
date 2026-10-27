@@ -7,7 +7,8 @@
    - 場景：LAWWW2-C 的正式區域（src/us3d.js：airport_dep、airport_arr、us_outside、us_apartment、us_shared、us_market、us_asian_market；2026-10-17 3bff5ef4 接進來）載入後同名蓋過這裡的臨時場景（這個檔先載入，正式的後載入）。
      還沒接的互動（現在照區域自己的預設：進門、看告示）：usShared（US2 的爐子、冰箱、高腳椅）、usClub（會所）、usMarket（採買）、airportBoard（寒暑假出國）。
    - 返台（1A-09，AA_318；AA-C bf349b96 更正；AA_340 S10）：當地 12/21 23:55 起飛（平常由 r2y4a3d.js 12/16 離開那一週帶過來；人在美國、過了這個時間＝保底）→ 字卡（舊金山起飛約 14 小時）→ 臺灣 12/23 清晨 05:40 落地、桃園入境大廳（airport_arr）→ 上午回家睡到下午 → 傍晚 STORY.roomY4FromAirport（從家裡出發，19:00 到 409、拆箱）。
-   - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物。測試：node tests/exch_min_unit.js、tests/room_y4_unit.js */
+   - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物。測試：node tests/exch_min_unit.js、tests/room_y4_unit.js
+   - E08（2026-10-27）：寒暑假出國、日本路線出發也走這個出境大廳（下面 S.airGo／S.airBoard；src/vac3d.js、src/y34b3d.js 登記 S.AIR）。測試：node tests/e08_airport_unit.js */
 'use strict';
 const EXCH=(function(){
   const S={};
@@ -50,9 +51,46 @@ const EXCH=(function(){
     finally{ GM.sceneEnd(); }
     if(STORY.roomY4FromAirport) return STORY.roomY4FromAirport(GM);
     await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; };
+  /* ---------- 寒暑假出國、日本路線出發也從 3D 的出境大廳走（E08；使用者 10-16 21:49「3d做機場 旅館 街景 這種都我給妳CG」、10-17 00:0x「機場的也是阿」）----------
+     美國那一趟（上面 S.depart／S.fly）的做法給別的系統用：
+       S.airGo(GM,rec)：（字卡：rec.card＝[標題, 小字]，沒有就不出）→ 出境大廳 airport_dep（同行的人 rec.with 跟在旁邊）→ G.flags.AIR_DEP＝{k, at:進大廳的時間, with, q…}；
+       「登機」（us3d.js 出境大廳安檢入口的 airportBoard）或進大廳一個小時以後自動登機（同美國，AA_370 H2）→ S.airBoard → S.AIR[k].board(GM,rec)＝原本的流程接著演（2D）。
+       S.AIR 由各系統登記：'vac'＝寒暑假出國（src/vac3d.js）、'jp'＝日本路線和以安一起出發（src/y34b3d.js）。
+     等登機的時候：大廳的「搭車離開（回台北）」拿掉、不能用手機回臺北的家（同美國那一趟出發以後一定飛）；人不在大廳了（手機「地點」、讀到別的區域）＝直接登機。
+     存檔：G.flags.AIR_DEP（沒有＝沒有要搭的飛機；舊存檔都沒有）。測試：node tests/e08_airport_unit.js */
+  S.AIR={};
+  S.airPending=G=>!!(G&&G.flags&&G.flags.AIR_DEP&&typeof G.flags.AIR_DEP==='object');
+  S.airZoneOk=()=>typeof Z3==='undefined'||!Z3.ZONES||!!Z3.ZONES.airport_dep;   /* 沒有 Z3（單元測試）照 3D 的流程走；遊戲裡 us3d.js／上面的臨時場景一定有 */
+  /* 同行的人在大廳跟著你（不能搭話、不揮手；換區域就沒了，讀檔回到大廳再放一次）*/
+  S.airMates=function(GM){ const G=GM.G, E=GM.E, rec=G.flags.AIR_DEP; if(!rec||!Array.isArray(rec.with)||!rec.with.length||!GM.spawnCharacter||!E||!E.player) return 0; if(S._airMatesN===GM.enterN) return 0; S._airMatesN=GM.enterN;
+    const P=E.player.obj.position, OFF=[[1.2,0.8],[-1.2,0.8],[0,1.6],[1.6,-0.4]]; let k=0;
+    rec.with.forEach((id,i)=>{ if(GM.npc&&GM.npc[id]) return; for(const [dx,dz] of OFF.slice(i)){ const x=P.x+dx, z=P.z+dz; if(E.canStand&&!E.canStand(x,z,0.3,0)) continue; const n=GM.spawnCharacter(id,x,z,{yaw:E.player.obj.rotation.y,talk:null,talkLabel:null,greet:false,beh:'follow',extra:{followOff:1.1+0.6*Math.floor(i/2),side:i%2?-1:1}}); if(n){ n.frozen=false; k++; } break; } });   /* 跟在旁邊（engine3d.js followStep）：第一個在右邊、第二個在左邊、第三個右邊遠一點 */
+    return k; };
+  /* 等登機：「搭車離開」拿掉（同美國那一趟，us3d.js 只在 US_DEPARTED 的時候不放）*/
+  S.airHall=function(GM){ const E=GM.E; if(!E||!Array.isArray(E.interactables)) return; for(let i=E.interactables.length-1;i>=0;i--){ const it=E.interactables[i]; if(it&&it.exit&&!it.airportBoard&&!it.exchFly) E.interactables.splice(i,1); } S.airMates(GM); };
+  S.airGo=async function(GM,rec){ const G=GM.G, F=G.flags; S._busy=true;
+    try{ GM.sceneBegin();
+      try{ if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) HOME.rec(G).at=false; if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end();
+        await GM.fade(true); if(rec.card&&GM.titleCard) await GM.titleCard(rec.card[0],rec.card[1]||'',2400);
+        if(rec.arrive!=null&&rec.arrive>T(G.day,G.hour)+1e-6){ const d=Math.floor(rec.arrive/24+1e-9); if(d>G.day){ G.day=d; if(GM.syncWeekday) GM.syncWeekday(); } G.hour=rec.arrive-G.day*24; if(GM.E) GM.E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); } }   /* 到機場的時間（同 OUT.go：出發的時間＋車程，不早於約好的時間）*/
+      finally{ GM.sceneEnd(); }
+      const r=Object.assign({},rec,{at:T(G.day,G.hour)}); delete r.card; delete r.arrive; delete r.noSave; F.AIR_DEP=r; S._airMatesN=null;
+      await GM.enter('airport_dep',Object.assign({},S.SPAWN.airport_dep),{noAutosave:!!rec.noSave}); S.airHall(GM); }   /* noSave：進大廳以後馬上要演的（日本路線的報到櫃台那一段，演完 EVENTS.run 自己存）*/
+    finally{ S._busy=false; }
+    return true; };
+  S.airBoard=async function(GM){ const G=GM.G, F=G.flags, rec=F.AIR_DEP; if(!S.airPending(G)||S._busy) return false; const A=S.AIR[rec.k]; F.AIR_DEP=null;   /* 先清掉：演到一半存檔、讀檔也不會再登機一次 */
+    if(!A||typeof A.board!=='function'){ console.warn('EXCH.airBoard：沒有登記',rec.k); return false; }
+    S._busy=true; try{ await A.board(GM,rec); } catch(e){ console.warn('EXCH.airBoard',rec.k,e); } finally{ S._busy=false; } return true; };
+  S.airTick=function(GM){ const G=GM.G; if(!S.airPending(G)||S._busy||(GM.isEntering&&GM.isEntering())) return false;
+    if(G.zone!=='airport_dep'||(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.airBoard(GM); return true; }   /* 人不在大廳了：直接登機（同美國那一趟的舊存檔）*/
+    S.airHall(GM);
+    if(T(G.day,G.hour)>=(+G.flags.AIR_DEP.at||0)+1){ void S.airBoard(GM); return true; }   /* 進大廳一個小時以後自動登機（AA_370 H2 同一個做法）*/
+    return false; };
   /* ---------- 互動、每幀 ---------- */
-  S.interact=async function(GM,it){ if(it.exchFly){ await S.fly(GM); return true; } return false; };
+  S.interact=async function(GM,it){ if((it.exchFly||it.airportBoard)&&S.airPending(GM.G)){ await S.airBoard(GM); return true; }   /* 寒暑假出國、日本路線：安檢入口「登機」（E08）*/
+    if(it.exchFly){ await S.fly(GM); return true; } return false; };
   S.tick=function(GM){ const G=GM.G, E=GM.E; if(!G||!G.flags) return false;
+    if(S.airTick(GM)) return true;   /* 寒暑假出國、日本路線在出境大廳等登機（E08）*/
     if(S.departDue(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.depart(GM); return true; }   /* 在家的在 home3d.js 的 loop 裡 */
     if(S.returnDue(G)){ void S.returnHome(GM); return true; }   /* 美國路線返台（1A-09）*/
     { const F=G.flags; if(!S._busy&&F.US_DEPARTED&&!F.US_ARRIVED&&STORY.route(G)==='US'){   /* AA_370 H2：出發以後一定飛美國——原本出境大廳還有「搭車離開（回台北）」，搭了就永遠不會 US_ARRIVED（整學期人在臺北、系統當他在美國）*/
