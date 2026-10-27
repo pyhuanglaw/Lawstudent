@@ -12,7 +12,7 @@
 //   7  H7 巷口家常菜 × 芯慈（每次的招呼；第三次吃完多一句；下一次選單多「她今天要換。」，只有那一次）
 //   8  H8 滇香小館 × 語彤（大二上起一起吃過以後、別天自己來；AA_410 老闆娘說她點法的那兩句排在之後、不同一天）
 //   9  H9 Pasta 118（平日中午、只和交往中的那一位：招呼、吃完的旁白；一次）【前置／捷徑】遊戲裡還沒有和交往對象一起去 118 巷吃午餐的路（只能用約好午餐的資料放她進來）
-// 修改前（開發分支 d5ce20a40）：L118 沒有 STAFF、REG、H2～H9——各節丟例外中斷，FAILED（見提交說明）。用法：node tests/aa311_l118_unit.js
+// 修改前（開發分支 d5ce20a40）：L118 沒有 STAFF、REG、H2～H9——第 0～6、8、9 節丟例外中斷、第 7 節 4 項 FAIL，FAILED 13。用法：node tests/aa311_l118_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -204,7 +204,11 @@ await sec(8,async()=>{ const H8=L().H8, mon=td('Y2S1',3,1), know=FOOD_FAV_LINES[
   check('8. 選「她是社會系的。」→「難怪。她問的我都沒想過。」',seq([H8.lines[1][1],'難怪。她問的我都沒想過。']),J(said()));
   fresh(mon+1,12.5,'l118_dian'); met(YT); await order('dian',['椒麻雞飯']); const n1=!has(H8.lines[0][1]);
   fresh(mon,12.5,'l118_dian'); met(YT); here(YT); await order('dian',['椒麻雞飯','（就這樣）']); await order('dian',['椒麻雞飯','（就這樣）'],mon+7,12.5); const n2=!has(H8.lines[0][1]);
-  check('8. H8 不演：沒和她一起吃過；和她一起來（不是自己來）',n1&&n2); });
+  check('8. H8 不演：沒和她一起吃過；和她一起來（不是自己來）',n1&&n2);
+  /* 舊存檔：只有 AA_410 記的 ytWith（沒有一起吃的次數）；老闆娘說她點法那兩句已經演過、而且是今天＝H8 等到別天 */
+  fresh(mon+2,12.5,'l118_dian'); met(YT); H.G.fav={know:{[YT]:mon+2},right:{},ytWith:mon}; SOCIAL.remember(YT,'KNOW_FAV_YT',''); await order('dian',['椒麻雞飯']); const o1=!has(H8.lines[0][1]);
+  await order('dian',['椒麻雞飯'],mon+3,12.5); const o2=has(H8.lines[0][1])&&!said().some(t=>t.endsWith(know));
+  check('8. 舊存檔（只有 AA_410 的 ytWith）：老闆娘說她點法的那一天不演 H8，別天自己來演 H8',o1&&o2,J(said())); });
 
 /* ---- 9 H9 ---- */
 await sec(9,async()=>{ const H9=L().H9, tue=td('Y2S1',4,2);
