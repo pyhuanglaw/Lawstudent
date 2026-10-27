@@ -3407,6 +3407,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_490"
+  },
+  {
+   "task": "CLUBFAIR-REAL-1027",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9544aaf7f",
+   "files": [
+    "docs/story_planning/AA_491_回LAWWW_社博合進來以後的七件與四件.md",
+    "docs/story_planning/AA_170_大二_社團博覽會招生與大二暑假.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：公告欄後半句、嘉義校友會、大二第 4 則加週次條件＋換第一句、yu_expo 改週四 21:00、AA_170 開場沒去社博的版本、系籃場邊",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "AA_491"
   }
  ],
  "items": [
