@@ -32775,6 +32775,26 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "USER-WANTS-AUDIT-C-1027",
+   "title": "USER_WANTS 第 1 節（不在遊戲裡的）逐列重查：帳號 B 停住期間 10-21～10-26 的下次檢查日都過了；對 main v9.10.10、候選 f54a35ec4 查實際狀態，更新狀態欄、負責人、下次檢查日，做發布報告「使用者要過、這版還沒有的」",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "HV-15（D101）第 3、5 點：接班、發布前把暫停的、停住的全部看一遍，發布前告訴使用者這版沒有的；使用者 10-27 17:2x「你負責統籌工作…不要停下來等我」",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "發布 v9.10.11 前",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-27 17:3x UTC】子代理唯讀查證中，報告逐批寫進 docs/handoff/USER_WANTS_AUDIT_1027.md（LAWWW 每 15～20 分鐘 commit＋push，D113）；查完 LAWWW 改 USER_WANTS、各列派給負責職位"
   }
  ]
 }
