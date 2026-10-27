@@ -137,7 +137,7 @@ const HOME=(function(){
   S.backdrop=function(G){ if(typeof document==='undefined') return; const c=document.getElementById('c'); if(!c) return; const at=!!(G&&S.at(G)), n=(typeof GAME!=='undefined'&&GAME.enterN)|0;
     if(prevAt&&!at) leftAt=n; prevAt=at; const lives=!!G&&(S.livesHome?S.livesHome(G):(S.baseMode&&S.baseMode(G)));
     const jp=!!(G&&typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G));   /* 人在日本（src/jp3d.js）：據點是 2D，3D 的空區域一樣藏著 */
-    const on=at||jp||(typeof OUT!=='undefined'&&OUT.fromHome)||(lives&&leftAt===n);
+    const on=at||jp||(typeof OUT!=='undefined'&&OUT.fromHome)||(lives&&leftAt===n)||(typeof VAC!=='undefined'&&!!VAC.away);   /* VAC.away：出國、營隊跳過途中打開手機的那一下（X58，src/vac3d.js S.msgStop）——人在首爾，不露出出發前的宿舍、機場 */
     /* 底下鋪的圖跟著 2D 現在的背景（BUG-KH-HOMEFLASH-1018，使用者 10-18：「我在高雄走了一整天……轉場中間又跑出台北的家」）：7/25 客運版從家裡出發、整天演完才回家，
        演的時候還算「在家」，換場景（新圖還在載入、2D 淡出淡入）那一下露出家裡。2D 正在顯示別的圖就鋪同一張、深色底就鋪深色；2D 沒開或是透明的（模糊）而且人真的在家，才鋪家裡 */
     const am=typeof ADV!=='undefined'&&ADV.active?ADV.bgMode:null, aImg=am&&typeof am==='object'&&am.image?am.image:null;
@@ -300,7 +300,7 @@ const HOME=(function(){
       if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; got+=S.recvN(out); }); }catch(e){ console.warn('HOME breakJump phone',e); } }
       const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
       if(w0){ const why=S.waitNew(G,w0); if(why){ o.why=why; t=tt; break; } }   /* H2：要回的訊息不會被一次跳過（例：C05 阿凱、VA10 香港、C01 海邊的邀約）*/
-      if(got){ o.why='msg'; t=tt; break; } }   /* X58：不用回的訊息也停（快轉、睡覺都一樣；事件照上面先算）*/
+      if(got&&GM.phoneThread){ o.why='msg'; t=tt; break; } }   /* X58：不用回的訊息也停（快轉、睡覺都一樣；事件照上面先算）。停下來是為了打開手機：沒有手機畫面（GM.phoneThread）就不停 */
     setTime(G,E,t); repPass(t); if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD(); { const cl=S.cardLine(G,t,o); if(GM.titleCard) await GM.titleCard(dateLabel(t),cl||(o.dorm?'宿舍':'臺北的家'),cl?3200:2200); } if(!o.dorm&&typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false);   /* o.dorm：宿舍的床快轉（AA_197 1-2）*/
     if(mo&&GM.toast) GM.toast(mo.text,3800); /* 收到 N 則：改成途中一則一則停下來看（上面 o.why＝'msg'），跳完不再統計（X58）*/ if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return t; };
   /* 跳到 to、途中收到訊息就停下來打開手機，按「跳過」接著跳（X58；S.ffMenu 的迴圈的簡單版：睡覺經過要停的時間用）。回傳最後一次 breakJump 的 o */
@@ -361,7 +361,7 @@ const HOME=(function(){
   S.ffMenu=async function(GM,where){ const G=GM.G; if(S.eveDue(G)){ await S.eveGo(GM); return true; }   /* HOLFF-EVE-SKIP：除夕 17:00 以後還在宿舍＝先回家吃年夜飯，不快轉 */ if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return true; const O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null||o.to<=T(G.day,G.hour)) return false;
       const d0=G.day, t0=T(G.day,G.hour); let t1=t0, rl=null;
-      for(let k=0;k<S.FF_MAX;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=rl||G.flags._repSkipLine; G.flags._repSkipLine=null;
+      for(let k=0;k<S.FF_MAX;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=G.flags._repSkipLine||rl; G.flags._repSkipLine=null;   /* 停在訊息分成好幾段跳（X58）：旁白照舊是「最後跳過的那一天」那一句（AA_275 第 1 節）*/
         if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,o.to)) break; }   /* H2（AA_340 6-1；D103）：跳的途中收到要回的訊息＝停在那一刻、打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子；X58 起不用回的訊息也停（原本 40 次的上限一週停不完，改 S.FF_MAX）*/
       { const l=rl||(S.cardLine(G,t1,{dorm})?null:S.breakSkipLine(G,t0,t1,{dorm})); if(l) await GM.say(null,l); }   /* AA_350 O1：停的那一站日期卡有專用句（2/5、8/25 等摘要日）＝一張卡一句，不再接輪替句 */   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */

@@ -251,13 +251,31 @@ const VAC=(function(){
   S.key=async function(GM,k,I){ const G=GM.G; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:k.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(k.bg):'dark'});
     await run(GM,k.lines); if(k.choice&&k.choice.length&&(!k.choiceIf||k.choiceIf(G))){ const i=await GM.choose(k.choice.map(c=>({t:c.t}))), c=k.choice[i]||k.choice[0]; await run(GM,c.say); if(c.set) Object.assign(G.flags,c.set); if(c.rel&&typeof SOCIAL!=='undefined') for(const id in c.rel) SOCIAL.adjust(id,c.rel[id]); }
     if(k.after) await run(GM,k.after); if(k.set) Object.assign(G.flags,k.set); };
-  S.jump=async function(GM,t,place,o){ const G=GM.G, E=GM.E; if(t<=T(G.day,G.hour)) return;   /* o.quiet：不出日期卡（同一天下班，C16、C17）*/ await GM.fade(true); let tt=T(G.day,G.hour), n=0;
-    while(tt+1<t-1e-6){ tt+=1; const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:(G.weekday+1)%7; G.energy=100; G.flags.companion=null; } G.hour=tt-G.day*24; if(E) E.hour=G.hour;
+  /* 跳到 t（出國、營隊、上班的那幾天：中間的日子不演，手機照時間收）。
+     X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻——
+     日期卡（月/日（星期）時:分＋地點；o.quiet 不出、同一天一小時內不再出）→ 打開手機的對話列表（「收起來」寫「跳過」，同 home3d.js 的 ffPhone）→ 關掉以後接著跳到 t；
+     跳完不再說「這幾天收到 N 則」。手機開著的時候 2D 先收起來（S.away：home3d.js 的 backdrop 照樣把 3D 藏著，不露出出發前的宿舍、機場）*/
+  const dayCard=G=>{ const x=CALENDAR.dateOf(G.day); return x.m+'/'+x.d+'（'+WDN[x.wd%7]+'）'; };   /* WDN：上面 C01 那一段的「日一二三四五六」*/
+  const hhmm=h=>{ const m=Math.round((((h%24)+24)%24)*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
+  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
+  S.MSG_STOPS=200;   /* 一次跳過最多停幾次（每一次都要玩家按「跳過」；只是防呆：超過就照舊一路跳到 t）*/
+  S.away=false;   /* 跳過途中打開手機的那一下（2D 收起來）：home3d.js 的 S.backdrop 照這個把 3D 藏著 */
+  S.msgStop=async function(GM,place,o,card){ const G=GM.G;
+    if(card&&!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined') await GM.titleCard(dayCard(G)+hhmm(G.hour),place||'',2000);
+    await GM.fade(false); const A=typeof ADV!=='undefined'?ADV:null, on=!!(A&&A.active), bgm=on?A.bgMode:null;
+    S.away=true; if(typeof HOME!=='undefined'&&HOME.backdrop){ try{ HOME.backdrop(G); }catch(e){} } if(on&&A.end) A.end();
+    try{ const P=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G):[], m=P[P.length-1]; if(typeof HOME!=='undefined'&&HOME.askSeen) HOME.askSeen(G,P);   /* 要回的：記成打開過（3D 的 STORY.phoneAuto 不再開同一則）*/
+      await GM.phoneThread(m&&PHONE.th?PHONE.th(m):null,{skip:true}); }
+    finally{ S.away=false; if(on&&A.begin) A.begin({background:bgm||'dark'}); }
+    await GM.fade(true); };
+  S.jump=async function(GM,t,place,o){ const G=GM.G, E=GM.E; if(t<=T(G.day,G.hour)) return;   /* o.quiet：不出日期卡（同一天下班，C16、C17）*/ await GM.fade(true); let tt=T(G.day,G.hour), stops=0, tc=tt;
+    while(tt+1<t-1e-6){ tt+=1; let got=0; const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:(G.weekday+1)%7; G.energy=100; G.flags.companion=null; } G.hour=tt-G.day*24; if(E) E.hour=G.hour;
       if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f&&GM.money) GM.money(f.amount); }
-      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('VAC jump phone',e); } } }
+      if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ got+=recvN(out); }); }catch(e){ console.warn('VAC jump phone',e); } }
+      if(got){ if(GM.phoneBadge) GM.phoneBadge(); if(GM.phoneThread&&stops<S.MSG_STOPS){ stops++; if(GM.updateHUD) GM.updateHUD(); const card=Math.floor(tc/24)!==G.day||tt-tc>=1; await S.msgStop(GM,place,o,card); tc=tt; } } }   /* X58：停在收到的那一刻，「跳過」接著跳 */
     const d=Math.floor(t/24); if(d>G.day){ G.day=d; G.weekday=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:G.weekday; } G.hour=t-G.day*24; if(E) E.hour=G.hour; if(GM.updateHUD) GM.updateHUD();
-    if(!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined'){ const x=CALENDAR.dateOf(G.day); await GM.titleCard(x.m+'/'+x.d+'（'+['日','一','二','三','四','五','六'][x.wd%7]+'）',place||'',2000); }
-    await GM.fade(false); if(n&&GM.toast) GM.toast('手機｜這幾天收到 '+n+' 則訊息',3600); };
+    if(!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined') await GM.titleCard(dayCard(G),place||'',2000);
+    await GM.fade(false); /* 「這幾天收到 N 則」：改成途中一則一則停下來看（X58）*/ };
   /* ---- 出國期間的訊息（AA_242 第 6、8 節；BB_200 第 2～3 節）：出發的時候一次排好（交往中、熟不熟照出發那一刻）----
      交往中：出發那天一則、每天輪播池（學姊兩天一則；第二圈只用前半）、中間那天換成「中間」那則、回來那天一則；池子的每一則有兩個回覆（她不再回，沒回不扣分）。
      朋友（FAMILIAR 以上）：整趟一兩則。柬埔寨：晚上（臺灣 22:00）以後才收得到；停電那晚（8/2）不收，隔天早上一次收到＋交往中的「怎麼沒回？」。加州：第 3 週多一次「想念」。 */

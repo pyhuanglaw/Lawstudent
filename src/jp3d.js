@@ -9,6 +9,7 @@
    - 一鍵上課（J-S2，AA_185 1-5）：日本語（中級）週一、三、五 09:00；日本法入門 週二 10:40；比較行政法 週四 13:00。2D（借台灣的小教室＋字幕），每門兩句輪流；4/10 第一堂（G2）、5/18（G5）換。
    - 快轉、睡覺（J-S3）：到下一個有事的日子／過三天／過一週；停在 JP.SCH、開發分支其他事件包在日本那幾個月的時間（JP.KNOWN、JP.STOPS、STORY.WAKE_AT）、約好的出遊（AA_326 大三後半在日本的事件都是出遊）、特別的課、回程。
      日期卡寫「宿舍」，手機規則每小時跑一次。玩家選的快轉：途中收到要回的訊息就停、打開手機（「跳過」接著跳；AA_340 6-1 H2，同 home3d.js）；選單前有沒開過的要回的訊息也先打開手機（D103）。
+     X58（使用者 10-18 15:4x）：快轉、睡覺的途中收到任何一則訊息（不用回的也算）都停、打開手機，「跳過」接著跳；跳完不再說「收到 N 則」。
    - 住臺北的家（J-S11）：2/20 退宿（r2y3a3d.js 2-Y3-25）以後到 3/25 出發、8/5 回來以後到 9/3 搬進 409：home3d.js 的 loop 交給 JP.homeRound——沒有「回宿舍」，有「出門」、快轉（摘要日 G0）；
      宿舍進不去（story3d.js populate、game3d.js 的手機「地點」）。
    - 8/5 回程（J-S9、J-S19）：入境大廳（AA_253 9-2）→ 回臺北的家（AA_144 X2）→ 當晚 1A-08（story3d.js，在家的版本）；大三暑假三選一不演（裁定 10）。時間換回臺灣時間。
@@ -254,21 +255,26 @@ const JP=(function(){
     else if(typeof HOME!=='undefined'){ if(HOME.dueInvites&&HOME.dueInvites(G).length) return 'stop'; const be=HOME.breakEvent||HOME.homeEvent; if(be&&be(G)) return 'stop'; if(STORY.y4HomeDue&&STORY.y4HomeDue(G)) return 'stop'; }
     return null; };
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24+1e-9); if(d>G.day){ G.day=d; G.weekday=wdOf(d); if(G.flags) G.flags.companion=null; G.weather=Math.random()<0.7?'clear':'cloudy'; } G.hour=tt-d*24; if(E) E.hour=G.hour; };   /* 同 home3d.js 的快轉 */
-  /* 跳到 t（where＝'jp'：日本的據點；'home'：臺北的家）：每 15 分鐘看要不要停；整點跑手機規則、生活費 */
+  /* 跳到 t（where＝'jp'：日本的據點；'home'：臺北的家）：每 15 分鐘看要不要停；整點跑手機規則、生活費。
+     X58（使用者 10-18 15:4x「跳過途中收到訊息就跳出來、按了繼續跳；不要跳完才說「收到 N 則」」）：途中收到任何一則別人傳的訊息（不用回的也算）就停在那一刻（回傳 'msg'）——
+     呼叫的人打開手機（S.ffPhone，「跳過」）、關掉以後接著跳（S.ff 快轉、S.sleep 睡覺）；跳完不再說「收到 N 則」（同 home3d.js 的 breakJump、經濟系 y0Jump）*/
+  const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
+  S.FF_MAX=200;   /* 一次快轉、睡覺最多停幾次（每一次都要玩家按「跳過」；只是防呆）*/
   S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/
     { const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
-    while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
+    while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt); let got=0;
       if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
-        if(P){ try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('JP.jump phone',e); } } }
+        if(P){ try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; got+=recvN(out); }); }catch(e){ console.warn('JP.jump phone',e); } } }
       { const s=S.stopNow(G,where,w0); if(s){ why=s; break; } }
+      if(got&&GM.phoneThread){ why='msg'; break; }   /* X58：不用回的訊息也停（該演的、該出發的照上面先算）。停下來是為了打開手機：沒有手機畫面（GM.phoneThread）就不停 */
       const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     if(!why&&NOW(G)<t-1e-6) setTime(G,E,t);
     if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD();
     const brief=G.day===d0&&NOW(G)-t0<1; if(GM.titleCard&&!brief) await GM.titleCard(dateLabel(NOW(G)),where==='jp'?'宿舍':'臺北的家',2200);   /* J-S3：日期卡寫「宿舍」*/
     const A=A_(); if(A&&A.begin) A.begin({background:where==='jp'?S.bgNow(G):(typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark')}); await GM.fade(false);
-    if(mo&&GM.toast) GM.toast(mo.text,3800); if(n&&GM.toast) GM.toast('手機｜跳過的日子收到 '+n+' 則訊息',3800); if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return why||'end'; };
-  /* 玩家選的快轉：停在要回的訊息＝打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子（同 home3d.js 的 S.ffMenu；AA_340 6-1 H2、D103）*/
-  S.ff=async function(GM,to,where){ const G=GM.G; for(let k=0;k<40;k++){ const why=await S.jump(GM,to,where,{ff:true}); if(why!=='msg'||!(await S.ffPhone(GM,where))||!S.ffGoOn(G,to,where)) break; } return true; };
+    if(mo&&GM.toast) GM.toast(mo.text,3800); /* 收到 N 則：改成途中一則一則停下來看（上面 why＝'msg'），跳完不再統計（X58）*/ if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return why||'end'; };
+  /* 玩家選的快轉：停在要回的訊息＝打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子（同 home3d.js 的 S.ffMenu；AA_340 6-1 H2、D103）；X58 起不用回的也停 */
+  S.ff=async function(GM,to,where){ const G=GM.G; for(let k=0;k<S.FF_MAX;k++){ const why=await S.jump(GM,to,where,{ff:true}); if(why!=='msg'||!(await S.ffPhone(GM,where))||!S.ffGoOn(G,to,where)) break; } return true; };
   S.ffGoOn=(G,to,where)=>NOW(G)<to-1e-6&&(where==='jp'?S.inJapan(G):S.homeOn(G))&&!S.stopNow(G,where,null);
   const askKey=x=>x.id||x.key||x.text;
   S.askSeen=function(G,L){ const F=G.flags||(G.flags={}), seen=F._autoAsk||(F._autoAsk=[]); for(const x of L){ const k=askKey(x); if(!seen.includes(k)) seen.push(k); } if(seen.length>200) seen.splice(0,seen.length-200); };   /* 同 home3d.js 的 S.askSeen（同一張 G.flags._autoAsk）*/
@@ -283,7 +289,9 @@ const JP=(function(){
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };   /* 同 home3d.js 的快轉選單 */
   S.wakeH=function(G,day){ if(day===D('ret')) return 8; const it=S.firstClass(G,day); return it?Math.max(6.5,it.t0-1):8.5; };   /* 有課＝第一堂前 1 小時 */
   S.sleep=async function(GM){ const G=GM.G, early=G.hour<5, nd=early?G.day:G.day+1; let to=T(nd,S.wakeH(G,nd));   /* early：快轉過半夜（setTime 換日、G.hour 0.x）以後才睡＝醒來是同一天（原本一律 G.day+1，多睡一整天；BUG-JP-SLEEP-MIDNIGHT-1022）*/ const lw=STORY.lawWakeAt?STORY.lawWakeAt(G):null; if(lw!=null&&T(G.day,lw)>NOW(G)) to=Math.min(to,T(G.day,lw));   /* 事件包的「睡著也會醒來」（STORY.WAKE_AT）*/
-    if(G.hour>=25||(early&&G.hour>=1)) (G.daily||(G.daily={})).lateNight=nd; await S.jump(GM,to,'jp'); return true; };
+    if(G.hour>=25||(early&&G.hour>=1)) (G.daily||(G.daily={})).lateNight=nd;
+    for(let k=0;k<S.FF_MAX;k++){ const why=await S.jump(GM,to,'jp'); if(why!=='msg'||!(await S.ffPhone(GM,'jp'))||!S.ffGoOn(G,to,'jp')) break; }   /* X58：睡著的途中收到訊息也停、打開手機，「跳過」接著睡到原本醒來的時間 */
+    return true; };
   S.confirmMiss=async function(GM,toH){ const M=typeof HOME!=='undefined'&&HOME.wouldMiss?HOME.wouldMiss(GM.G,toH):[]; if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };   /* 同 home3d.js */
   /* ---------------- 據點的選單（J-S5）---------------- */
   S.callLike=q=>!!q&&(q.verb==='接起來'||q.place==='視訊'||!!q.call);
