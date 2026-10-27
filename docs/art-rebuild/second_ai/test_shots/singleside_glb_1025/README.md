@@ -292,3 +292,46 @@ LAWWW-B 15:0x 決定：①主球場用交出去的那一版（+6～10%）；②1
   - 同一棵＋新 GLB，其他 18 支 ALL PASS：`nav_us_unit`、`room_ceiling_unit`、`us_bed_c_unit`、`us_cam_walls_unit`、`us_lawlib_2f_unit`、`us_lawlib_sky_unit`、`us_life_unit`、`us_season_unit`、`us_market_cam_unit`、`us_ms_seethru_unit`、`us_lamp_pools_unit`、`aa370_us_unit`、`aa412_us_unit`、`aa424_us_blank_unit`、`exch_min_unit`、`us_jp_nextclass_unit`、`us_wknd_stop_unit`、`singleside_interiors_unit`。
 - 沒跑：美國區域的瀏覽器流程測試（BB 測）、整套回歸、手機實機。fps 是上一班量的（上面的表），接班以後沒有重量。
 
+
+## 第五份：美國大超市（LAWWW2-C 10-27）
+
+上限（表裡那一列）+33～56%。這一份只有大超市；機場出境大廳、美國校園先量上限再決定（工具 `tools/shots/singleside_upper.py`）。
+
+檔案（我的分支）：
+- GLB：`assets/models/env/second_ai/us_market.glb`（＋`.json`）；腳本 `us_market.py` 匯出前呼叫 `single_side`；
+- 測試：`patches/singleside_us_market_1027.patch`（新 `tests/singleside_us_market_unit.js`；對開發 `5b6737cd3`、`830fd3d11` 都 `git apply --check` 過）；
+- 截圖工具：`tools/shots/singleside_us_market_ab.py`。
+
+### 以哪一份腳本為底
+- 三個分支（我的、`adoring-meitner`、`modest-rubin`）的 `us_market.glb` 一樣；開發分支的 `us_market.py` 少了 10-22「天花板單面朝下」那兩行（GLB 已經是那一版）。所以用我分支的腳本。
+- 先用沒改的腳本重匯一次對照：物件 46、三角形 98,732、材質 42、檔案大小和開發的 GLB 都一樣（位元組不同只在貼圖編碼）。
+
+### 做法
+- `single_side(root, keep=r'glass', nodup=r'^usm_fruit_', skip=…FACE…)`：玻璃照舊雙面；
+- 水果堆（一片高低起伏的面）**不補反面**：只從上面、外面看。第一次全補是 134,626 個三角形（+36%，水果占 1.9 萬），不補是 115,382（+17%）。
+- **第一次不補反面時，有幾箱水果整箱不見、後面的冷藏蔬菜牆變黑**（31，中間那張）：`fruit_bin` 的面方向照兩個邊的方向（s×t），有一半的箱子是朝下的，雙面材質看不出來。
+  - 改成建面時朝下的那幾箱把頂點順序反過來（腳本 `fruit_bin` 的 `down`）；三角形數不變。修好以後和改前一樣（31，右邊）。
+  - 新測試第 2 項守這件事：開發的 GLB 水果面有 13,182 個朝下（FAIL），交件版本 0 個（靠牆冷藏櫃最上緣幾乎直立、面朝走道，往下偏 1～2° 的 30 個算朝上）。
+
+![水果第一次（左＝改前、中＝第一次單面：幾箱不見、後牆變黑、右＝修好）](31_us_market_fruit_first_try.jpg)
+
+### fps（路人藏起來；每格 4×5 秒；開發 `5b6737cd3` 對 同一棵＋交件 GLB）
+
+| 地點 | 改前 | **改後** | 再量一次改前 | 改後比兩次改前 |
+|---|---|---|---|---|
+| 入口往北 | 3.85 | **5.09** | 3.88 | +31～32% |
+| 第 1 走道往北 | 1.50 | **2.16** | 1.51 | +43～44% |
+
+- draw call 一樣（81、72）；畫面上的三角形 17.5 → 19.1 萬、15.5 → 17.2 萬（桁架、商品頂點色零件補了反面）。
+- 第一次單面（水果有 bug）量到 5.07、2.18，和交件版本差不多。
+
+### 改前改後同角度（左＝改前、右＝改後；15:00；路人藏起來）
+- 位置照順序：入口往北、蔬果區往東、往西、第 1 走道往北、第 2 走道往南、冷凍櫃之間往北、熟食往北、結帳區往北、往南、乳品牆、肉品櫃。
+- 11 格兩版一樣。
+
+![美國大超市（左改前、右改後）](32_us_market_sheet.jpg)
+
+### 測試（開發 `5b6737cd3`＋交件 GLB）
+- `singleside_us_market_unit.js`（新）：開發 FAILED 3、交件 ALL PASS；
+- `us_market_cam_unit`、`us_market_street_unit`、`us_ms_seethru_unit`、`us_traffic_unit`、`us_life_unit`、`us_season_unit`、`nav_us_unit`、`room_ceiling_unit`、`singleside_us_unit`：ALL PASS。
+- 沒跑：瀏覽器流程測試（BB 測）、整套回歸、手機實機。

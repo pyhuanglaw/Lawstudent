@@ -313,6 +313,7 @@ def fruit_bin(c, s_dir, t_dir, ls, lt, kind, lift=0.0):
     if n_.y < 0: n_ = -n_
     res = 0.06; ns, nt_ = max(2, int(ls / res)), max(2, int(lt / res)); amp = min(0.1, 0.24 * min(ls, lt))
     du, dv = rng.uniform(0, 1), rng.uniform(0, 1); V = {}
+    down = s_dir.cross(t_dir).y < 0   # 面的方向照 s_dir×t_dir：朝下的那幾箱把頂點順序反過來（單面化以後從上面看才不會整箱不見；PERF-SINGLESIDE 第五份）
     for i in range(ns + 1):
         for k in range(nt_ + 1):
             s, t = ls * i / ns, lt * k / nt_
@@ -322,6 +323,7 @@ def fruit_bin(c, s_dir, t_dir, ls, lt, kind, lift=0.0):
     for i in range(ns):
         for k in range(nt_):
             vs = [V[i, k], V[i + 1, k], V[i + 1, k + 1], V[i, k + 1]]
+            if down: vs = vs[::-1]
             f = bm.faces.new([v[0] for v in vs])
             for lp, v in zip(f.loops, vs): lp[uvl].uv = v[1]
 for t_ in J['produce_tables']:
