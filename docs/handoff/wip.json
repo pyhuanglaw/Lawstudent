@@ -664,11 +664,13 @@
    "files": [
     "wip_backup/x58_e08_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "X58（法律系寒暑假、日本、寒暑假出遊快轉途中收到訊息就停）、E08（寒暑假出國、日本送機走 3D 機場）子代理做中；bundle 到 f0cff6fd5（3 個 commit），前提 7dacc9463",
    "next": "子代理做；每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
-   "source": "USER_WANTS_AUDIT_1027 第 3 節第 5 點；VAC-A2"
+   "source": "USER_WANTS_AUDIT_1027 第 3 節第 5 點；VAC-A2",
+   "closedBy": "c4581469a",
+   "note": "19:1x 子代理做完（005358306），合進開發分支 c4581469a。"
   },
   {
    "id": "WIP-LAWWW-UW-1027",
@@ -679,11 +681,13 @@
    "files": [
     "wip_backup/uw_refresh_1027.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "照 USER_WANTS_AUDIT_1027 改 USER_WANTS.md（在遊戲裡的搬出第 1 節、暫停列補五欄、C26 撞號）子代理做中；bundle 到 7f579f81a，前提 d049a52ac",
    "next": "子代理做；LAWWW 看 diff、跑 check_handoff asks 再合",
    "noDirectIntegrate": true,
-   "source": "HV-15；USER-WANTS-AUDIT-C-1027"
+   "source": "HV-15；USER-WANTS-AUDIT-C-1027",
+   "closedBy": "cf7f969b4",
+   "note": "18:3x 子代理做完（7c1d961bd），合進開發分支 cf7f969b4。"
   }
  ]
 }

@@ -15012,9 +15012,9 @@
    "title": "3D 機場（桃園機場出境大廳／報到櫃台／出境安檢前；交換出發、送機、寒暑假出國共用）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】查核（USER_WANTS_AUDIT_1027）：寒暑假出國、日本送機還是 2D 機場圖（3D airport_dep 只有美國交換出發和回國）→ E08 交子代理（和 X58 同一個，wt_x58）照 exchange3d.js 接 3D 出境大廳 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】機場模型已接（4782cc29，美國交換出發用 airport_dep／airport_arr）；寒暑假出國（C13 等）、日本送機還沒接 3D 機場（grep：vac3d.js、jp3d.js 沒有 airport_dep）——D99 第二項寒暑假裡的出國照 2D 能玩，接 3D 排在美國交換後面 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
+   "next": "【LAWWW-C 2026-10-27 19:1x UTC】E08 合進開發分支 c4581469a：寒暑假出國（C05、T02、T03、C08～C12、C13、C18／C18W、VA10）、日本路線 3/25 出發走 3D airport_dep（EXCH.airGo／airBoard／airTick；安檢入口登機或一小時後自動登機；同行的人跟著走、不能搭話；等登機不能回家；舊存檔照舊；沒有 3D 機場時照 2D）；新測試 e08_airport_unit（改前 FAIL 22）。還是 2D：其他送機（以安非日本 ev_an_sendoff、學姊 ev_sis_airport／_wait、芷若 zr_sendoff3d、明軒）、所有回程入境——五題問 AA（要不要補飛往字卡、出發那幕在大廳演、大廳一句話、以安挽回中、其他送機改 3D）｜【LAWWW-C 2026-10-27 18:0x UTC】查核（USER_WANTS_AUDIT_1027）：寒暑假出國、日本送機還是 2D 機場圖（3D airport_dep 只有美國交換出發和回國）→ E08 交子代理（和 X58 同一個，wt_x58）照 exchange3d.js 接 3D 出境大廳 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】機場模型已接（4782cc29，美國交換出發用 airport_dep／airport_arr）；寒暑假出國（C13 等）、日本送機還沒接 3D 機場（grep：vac3d.js、jp3d.js 沒有 airport_dep）——D99 第二項寒暑假裡的出國照 2D 能玩，接 3D 排在美國交換後面 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
    "first": {
     "term": "Y3S2",
     "week": 6,
@@ -32936,7 +32936,7 @@
    "title": "USER_WANTS 第 1 節（不在遊戲裡的）逐列重查：帳號 B 停住期間 10-21～10-26 的下次檢查日都過了；對 main v9.10.10、候選 f54a35ec4 查實際狀態，更新狀態欄、負責人、下次檢查日，做發布報告「使用者要過、這版還沒有的」",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "source": "HV-15（D101）第 3、5 點：接班、發布前把暫停的、停住的全部看一遍，發布前告訴使用者這版沒有的；使用者 10-27 17:2x「你負責統籌工作…不要停下來等我」",
    "first": {
@@ -32949,7 +32949,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】報告完成（docs/handoff/USER_WANTS_AUDIT_1027.md，181 列：在遊戲裡 125（其中 45 列總表寫錯）、部分 21、還沒做 6、暫停 8（下次檢查日全部過期）、取消 6、規則 15）；第 3 節 12 點缺口已派：X58／E08 → LAWWW 子代理、X79／X14／J13／B08／D40／A21 → LAWWW2、I10／C11 → AA、積壓測試與要圖 → BB。還差：照報告改 USER_WANTS 狀態欄、看板狀態過時的任務 ｜ 【LAWWW-C 2026-10-27 17:3x UTC】子代理唯讀查證中，報告逐批寫進 docs/handoff/USER_WANTS_AUDIT_1027.md（LAWWW 每 15～20 分鐘 commit＋push，D113）；查完 LAWWW 改 USER_WANTS、各列派給負責職位"
+   "next": "【LAWWW-C 2026-10-27 19:1x UTC】結案｜【LAWWW-C 2026-10-27 18:0x UTC】報告完成（docs/handoff/USER_WANTS_AUDIT_1027.md，181 列：在遊戲裡 125（其中 45 列總表寫錯）、部分 21、還沒做 6、暫停 8（下次檢查日全部過期）、取消 6、規則 15）；第 3 節 12 點缺口已派：X58／E08 → LAWWW 子代理、X79／X14／J13／B08／D40／A21 → LAWWW2、I10／C11 → AA、積壓測試與要圖 → BB。還差：照報告改 USER_WANTS 狀態欄、看板狀態過時的任務 ｜ 【LAWWW-C 2026-10-27 17:3x UTC】子代理唯讀查證中，報告逐批寫進 docs/handoff/USER_WANTS_AUDIT_1027.md（LAWWW 每 15～20 分鐘 commit＋push，D113）；查完 LAWWW 改 USER_WANTS、各列派給負責職位",
+   "evidence": "USER_WANTS.md 更新合進開發分支 cf7f969b4（子代理 uw-refresh-1027 7c1d961bd）：第 1 節 181→50、ID 一個都沒少（新增 C29＝原 C26 撞號）；check_handoff asks OK（四職位要求檔都對齊，LAWWW2 e7a47555、AA d5dd90f51、BB 5309a1c21）；X103 新增"
   },
   {
    "id": "AA475-BAN5-1027",
@@ -32977,7 +32978,7 @@
    "title": "寒暑假快轉途中收到訊息就停（X58 剩下的）：法律系寒暑假（home3d.js:300）、日本（jp3d.js:269）、寒暑假出遊多天跳過（vac3d.js:264）還是跳完才說「收到 N 則」；經濟系已改（SKIP-MSG-POP-1018）",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-18 15:4x（USER_WANTS X58）；USER_WANTS_AUDIT_1027 第 3 節第 5 點；D99 第二優先（寒暑假）",
    "first": {
@@ -32990,7 +32991,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:0x UTC】子代理在 worktree wt_x58（分支 x58-e08-1027，基底 7dacc9463）做，和 E08 一起；D113 每 15～20 分鐘 bundle"
+   "next": "【LAWWW-C 2026-10-27 19:1x UTC】子代理做完、合進開發分支 c4581469a：HOME.breakJump、JP.jump、VAC.jump 收到任何訊息就停（日期卡→手機對話列表→「跳過」接著跳），三處「收到 N 則」拿掉；S.FF_MAX 40→200；新測試 x58_skip_msg_unit（改前 FAIL 13）；BB 步驟在 BB_TEST_QUEUE_1027 第 5 節。沒改：學期中快轉 semff3d.js、美國公寓 us_life3d.js（本來就沒有「收到 N 則」，只在要回的停）｜【LAWWW-C 2026-10-27 18:0x UTC】子代理在 worktree wt_x58（分支 x58-e08-1027，基底 7dacc9463）做，和 E08 一起；D113 每 15～20 分鐘 bundle"
   },
   {
    "id": "PERF-CAMPUS-DAY-1027",
