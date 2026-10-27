@@ -73,10 +73,10 @@ index 0ea4d6999..b5b61c44d 100644
           冰箱的點放在廚房西端（冰箱門前 x+0.7）、爐子的點放在爐子東緣、水槽旁（x+0.75, z−0.65）：分界在 x≈−3.05，冰箱門前站得住的位置都出冰箱（tests/nav_us_unit.js）*/
 diff --git a/tests/us_apt_closet_unit.js b/tests/us_apt_closet_unit.js
 new file mode 100644
-index 000000000..fb189c1f5
+index 000000000..cfed58174
 --- /dev/null
 +++ b/tests/us_apt_closet_unit.js
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,83 @@
 +// 美國公寓 v3（使用者 2026-10-27「美國交換學生我租的地方 有一個小的WALKIN CLOSET 不是衣櫃 然後床旁邊是書桌再旁邊是洗手間 洗手間有浴缸」，LAWWW2-C）——不需要瀏覽器。
 +// 在 Node 裡建出遊戲真正的 us_apartment（src/data/us_layouts.js＋src/us3d.js），用引擎真正的找路＋移動碰撞（E.simWalk）：
 +//   1. 衣物間是走得進去的小房間（walk-in closet）：從臥室走得進去、站得住；不是一個關著的門（衣櫃）；裡面有吊衣桿區（配置 closetRods）；
@@ -85,6 +85,7 @@ index 000000000..fb189c1f5
 +//   4. 坐書桌、睡覺、看衣物間、看衛浴的互動點都走得到（「看」的字照舊是 AA 寫的那幾句：us_life3d.js 照門的 label 找）；
 +//   5. 學姊的 C 棟合租戶（us_shared）不動：衛浴、衣物間照舊關著。正式模型（GLB）：衣物間的衣服、浴缸在對的房間裡。
 +//   6. 別的檔案寫死的公寓座標（us_life3d.js、r2y4a3d.js 的出生點、「去上課」）站得住、走得到床邊和書桌。
++//   7. 舊存檔剛好站在公寓裡讀檔：落在擋住的地方（書桌、浴缸、吊衣桿…）會被 E.unstick 移出來，站得住、走得到床邊。
 +// 修改前（配置 v2）FAIL。用法：node tests/us_apt_closet_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -150,6 +151,14 @@ index 000000000..fb189c1f5
 +  for(const [nm,x,z] of hard){ const p=stand(x,z)?[x,z]:(spotsOf({x,z,radius:0.8})[0]||null);
 +    const a=p&&bedIt?firstReach(p,spotsOf(bedIt)):null, b=p&&deskIt?firstReach(p,apsOf(deskIt.seat).filter(q=>stand(q[0],q[1]))):null;
 +    check('6. '+nm+'（'+x+','+z+'）站得住，走得到床邊、書桌',!!p&&stand(p[0],p[1])&&!!a&&a.ok&&!!b&&b.ok,fmt([p,a&&a.ok,b&&b.ok])); } }
++/* 7. 舊存檔剛好站在公寓裡讀檔（v2 的存檔位置現在可能是書桌、浴缸、吊衣桿）：E.loadZone 對讀檔的出生點也做 E.unstick（engine3d.js），
++      臥室、衣物間、衛浴每 0.2 m 放一個位置，移出來以後要站得住、走得到床邊 */
++loadZone('us_apartment');
++{ const bedIt=find('睡覺'), bedSp=bedIt?spotsOf(bedIt):[]; let n=0, moved=0; const bad=[];
++  for(let x=1.5;x<=4.9;x+=0.2) for(let z=-2.9;z<=2.9;z+=0.2){ const ent={lv:0,obj:{position:new THREE.Vector3(x,0,z)}}; n++; if(!E.canStand(x,z,0.3,0)){ E.unstick(ent,16); moved++; }   /* 和 engine3d.js 一樣用 0.3 */
++    const p=[ent.obj.position.x,ent.obj.position.z]; if(!E.canStand(p[0],p[1],0.3,0)){ bad.push(x.toFixed(1)+','+z.toFixed(1)+'→站不住'); continue; }
++    if(!(n%3)){ const r=firstReach(p,bedSp); if(!r.ok) bad.push(x.toFixed(1)+','+z.toFixed(1)+'→'+p.map(v=>v.toFixed(2))+' 走不到床邊'); } }
++  check('7. 舊存檔站在公寓裡（臥室、衣物間、衛浴每 0.2 m）：讀檔移出來以後站得住、走得到床邊',!bad.length,n+' 個位置、'+moved+' 個要移；'+bad.slice(0,6).join('；')); }
 +console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 diff --git a/tests/us_cam_walls_unit.js b/tests/us_cam_walls_unit.js
 index 99df4002a..413ab25f9 100644

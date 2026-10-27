@@ -51,11 +51,12 @@
 | `src/r2y4a3d.js` SPAWN0.us_apartment、`us_life3d.js`「去上課」 | (0.4, 4) 門口 | **不用改**（門口沒動）；新測試第 6 項檢查 |
 | `src/r2y4a3d.js` pc2Place（第二輪明信片） | 放在書桌椅旁邊、自己找走得到的點 | **不用改**（照「坐在書桌前」的位置算）；`postcard_reach_unit` 過 |
 | `src/exchange3d.js` SPAWN.us_apartment | (0, 2) | 被 `us3d.js` 用配置的 `spawns` 蓋掉，不影響 |
+| 走道旁的「衣帽櫃」 | 三句照日期換（AA） | **留著**（x −0.2～0.6、z 1.0～1.8，位置、門、互動點都沒動） |
 | 劇情文字 | `us_life_events.js` 的 closet、bath「看」的字；「（你把公寓的書桌擦了兩次…）」 | 不動；**沒找到**寫「書桌在窗下」「浴室在…」的句子——AA-C 也在查美國稿 |
 
 ## 測試
 
-- 新 `tests/us_apt_closet_unit.js`（Node，建出遊戲真正的 `us_apartment`，用引擎的找路＋移動碰撞 `E.simWalk`）：**改前（v2）FAILED 11、改後 ALL PASS（22 項）**——衣物間站得住、從床尾走得進去、門開著、有吊衣桿；床頭和書桌同一面東牆、書桌貼著床、洗手間門在書桌旁邊；浴缸在衛浴裡、門開著、門口站得住、走得到、站在門口看得到浴缸；坐書桌、睡覺、看衣物間、看衛浴的互動點走得到；合租戶照舊關著；GLB 的衣服在衣物間裡；別的檔案寫死的公寓座標站得住、走得到床邊和書桌。
+- 新 `tests/us_apt_closet_unit.js`（Node，建出遊戲真正的 `us_apartment`，用引擎的找路＋移動碰撞 `E.simWalk`）：**改前（v2）FAILED 11、改後 ALL PASS（23 項）**——衣物間站得住、從床尾走得進去、門開著、有吊衣桿；床頭和書桌同一面東牆、書桌貼著床、洗手間門在書桌旁邊；浴缸在衛浴裡、門開著、門口站得住、走得到、站在門口看得到浴缸；坐書桌、睡覺、看衣物間、看衛浴的互動點走得到；合租戶照舊關著；GLB 的衣服在衣物間裡；別的檔案寫死的公寓座標站得住、走得到床邊和書桌；第 7 項（LAWWW-C 20:05Z 要的）：舊存檔剛好站在公寓裡讀檔——臥室、衣物間、衛浴每 0.2 m 放一個位置（493 個，350 個落在家具或牆裡），`E.loadZone` 的 `E.unstick` 移出來以後都站得住、走得到床邊。
 - 最新開發 `0969b1028`＋patch＋新 GLB：`us_apt_closet_unit`、`nav_us_unit`、`us_cam_walls_unit`、`singleside_us_unit`、`room_ceiling_unit`、`us_life_unit`、`us_season_unit`、`exch_min_unit`、`postcard_reach_unit`、`jetlag_unit`、`r2y4a_events_unit`、`aa424_us_blank_unit`、`placemap_unit` **ALL PASS**。
 - 開發 `ff6f10d1e`＋patch：會載入美國公寓的 26 支 Node 測試，25 支 ALL PASS；`aa388_sis_qixi_unit` 1 項沒過，是我這個 clone 沒有企劃線的 commit（`02428913b`，`fatal: invalid object name`），**沒改過的開發版一樣失敗**，和這次無關。
 - 瀏覽器 `tests/reachability_all.py --zones us_apartment,us_shared`（最新開發＋patch）：**ALL PASS**（公寓 14 個、合租戶 12 個互動點都站得到、按鈕會出現、走得到；坐下的走近點走得到；沒有 JS 例外）。
@@ -66,5 +67,5 @@
 - 衣服是「帶衣架的平板」：遠看是一排吊著的衣服，**走進衣物間近看偏平、沒有袖子和肩線**。下一輪可以改成有肩線、袖子的輪廓（同一支 Blender 腳本，不動導航）。
 - 開著的門板（衣物間、洗手間）往臥室開、貼著牆站著；從臥室西邊往東看時，衣物間的門板在畫面前面，有一點擋。
 - 洗手間門口往南看，浴缸被浴簾擋住一半（要走進去才看到整個）；`bath_in` 那張是走進去的樣子。
-- 舊存檔：v2 的衛浴、衣物間是關著的（站不進去），所以舊存檔不會存在那兩間裡；臥室裡舊的書桌位置現在是空地，站得住。**沒有實際用舊存檔讀過**（BB 會測）。
+- 舊存檔：v2 的衛浴、衣物間是關著的（站不進去），所以舊存檔不會存在那兩間裡；臥室裡舊的書桌位置現在是空地，站得住。Node 測試第 7 項模擬了讀檔時的 `E.unstick`，**沒有在瀏覽器實際讀舊存檔**（BB 會測）。
 - 美術狀態：`READY_FOR_ART_REVIEW`（建築、室內要使用者看過才能標 ART_APPROVED）。
