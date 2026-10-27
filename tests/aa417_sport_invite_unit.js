@@ -94,7 +94,7 @@ await sec(3,()=>{ fresh('2026-03-11','heroine_04',2); const a=ask('heroine_04','
   check('3. 柏翰：個人規則照舊先跑（「我要念書。」）',/我要念書/.test(txt(bh.lines)),bh.res+' '+txt(bh.lines)); });
 
 await sec(4,async()=>{ fresh('2026-03-11','heroine_04',3); const m1=await meet('heroine_04','gym_badminton',15.5), m2=await meet('heroine_04','gym_badminton',16.5), m3=await meet('heroine_04','gym_badminton',17.5), m4=await meet('heroine_04','gym_badminton',18.5);
-  const FA=['（她借了一支拍子，握的方向是反的。）','「這樣握比較帥。……不是嗎？」'], END='「下次我會進步。不是因為你。是因為我不想輸給一顆球。」';
+  const FA=['（她借了一支拍子，握的方向是反的。）','「這樣握比較帥。……不是嗎？」'], END='「下次我會進步。……我不想輸給一顆球。」';
   const i0=m1.indexOf(FA[0]);
   check('4. 子晴第一次打羽球：先說 first（借拍子、握反）、再「一起的時候」①、最後一句是「結束」',i0>=0&&m1[i0+1]===FA[1]&&m1.indexOf(ZQ_B[0][0])>i0&&m1[m1.length-1]===END,J(m1));
   check('4. 第二、三、四次：沒有 first；一起的時候 ② → ③ → ①（輪流、不連續重複）',!m2.includes(FA[0])&&!m3.includes(FA[0])&&!m4.includes(FA[0])&&m2.includes(ZQ_B[1][0])&&m3.includes(ZQ_B[2][0])&&m4.includes(ZQ_B[0][0])&&m2[m2.length-1]===END,J([m2,m3,m4].map(m=>m.filter(t=>/^「/.test(t)))));
