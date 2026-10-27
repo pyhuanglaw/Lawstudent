@@ -14996,8 +14996,8 @@
    "what": "AA_488 答應媽媽回家：記下約定（G.home.promise）、週末提醒、撞約三選一、沒回去媽媽與姊姊的反應、舊存檔不補",
    "task": "HOME-PROMISE-1027",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "【LAWWW-C 2026-10-27 20:4x UTC】LAWWW 等 an-stuck-1027（invites／outings 同一帶）合進來以後做；outbox 2d335d88b｜【LAWWW-C 2026-10-27 22:2x UTC】第 1、2、3、5 節 22049eb3f；第 4 節、第 2 節撞約那一版還沒"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-27 20:4x UTC】LAWWW 等 an-stuck-1027（invites／outings 同一帶）合進來以後做；outbox 2d335d88b｜【LAWWW-C 2026-10-27 22:2x UTC】第 1、2、3、5 節 22049eb3f；第 4 節、第 2 節撞約那一版還沒｜【LAWWW-C 2026-10-27 22:4x UTC】全部：22049eb3f、e5449dae7、4ee1cb13d"
   },
   {
    "id": "DL-AA-489",
