@@ -3691,7 +3691,7 @@
   {
    "task": "WZ-CAT-LIFE-1023（J13 貓會走動）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "(本 commit)",
+   "sha": "0610ceeb1",
    "files": [
     "docs/art-rebuild/second_ai/patches/wz_cat_walk_1027.patch",
     "assets/models/env/second_ai/aa_support/wz_cat.glb",
@@ -3709,6 +3709,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "白天 07:00～17:30 不下雨：貓在小公園七個點之間走（坐 25～70 秒→站起來看→走 0.32 m/s→坐）；玩家 1.6 m 內停下看玩家；劇情時坐著；摸摸的互動點跟著貓。晚上、下雨、寒流、走失、收養照舊。Blender：CAT_walk 改成站姿＋24 根骨頭＋四段動畫（走、站、坐下、坐著）。wz_cat_walk_unit 改前 FAILED 6、改後 ALL PASS 23；溫州街 40 支 Node 測試、reachability_all wenzhou ALL PASS；patch 對 d874aa740 apply --check 過"
+  },
+  {
+   "task": "FAIR-PERF-1027（社博那天校園效能）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/fair_perf_1027/README.md",
+    "tools/shots/fair_perf.py",
+    "tools/shots/fair_perf_staff.py"
+   ],
+   "state": "已交付",
+   "remaining": "手機實機沒量",
+   "next": "LAWWW 決定：顧攤的人照距離藏（中 35 m、高 55 m）；要 patch 告訴我",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "479e35f11、舊局社博 9/30 vs 平常 10/02、11:00、大道往西：中畫質 draw call 382→503（+32%）、三角形 72→106 萬（+48%）、畫面裡的人 10→32、SwiftShader fps −29%；高 +44%／+69%／−38%。舞台前往北兩天差不多。顧攤的人只留 35 m 內：畫面裡 15→4、fps +27%。判斷超標，建議照距離藏、不減人數"
   }
  ]
 }
