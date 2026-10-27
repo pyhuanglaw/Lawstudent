@@ -440,6 +440,7 @@ const JP=(function(){
   /* ---------------- 包住別的系統（只在日本路線的條件成立時改結果）---------------- */
   if(typeof Y34B!=='undefined'&&Y34B.departJP){ const dep0=Y34B.departJP; Y34B.departJP=async function(GM){ const r=await dep0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* J-S10：出發以後進日本的據點（E08 起 3D 出境大廳要先登機：這裡還沒出發＝S.arrive 不做事，登機以後在下面 departFly）*/
   if(typeof Y34B!=='undefined'&&Y34B.departFly){ const fly0=Y34B.departFly; Y34B.departFly=async function(GM){ const r=await fly0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* E08：出境大廳「登機」→ 登機口、飛往日本、抵達 → 日本的據點 */
+  if(typeof Y34B!=='undefined'&&Y34B.departResume){ const rs0=Y34B.departResume; Y34B.departResume=async function(GM){ const r=await rs0.apply(this,arguments); if(r) await S.arrive(GM); return r; }; }   /* 登機口那一段演完就關掉的存檔：接著飛往日本 → 日本的據點（y34b3d.js S.departResume）*/
   if(typeof HOME!=='undefined'){ const live0=HOME.livesHome, can0=HOME.canGo;
     if(live0) HOME.livesHome=function(G){ return S.homeOn(G)||live0.apply(this,arguments); };   /* 從家裡出發、出遊演完回家 */
     if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 在出境大廳等登機（E08）：不能回家 */   /* 人在日本：手機沒有「回臺北的家」；住家裡：隨時可以回家 */

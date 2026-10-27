@@ -102,7 +102,7 @@ const Y34B=(function(){
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); const x=CALENDAR.dateOf(G.day); if(GM.titleCard) await GM.titleCard(x.y+' 年 '+x.m+' 月 '+x.d+' 日','出發｜桃園機場第二航廈',2400);
       if(G.hour<9){ G.hour=9; if(GM.E) GM.E.hour=G.hour; } if(!air) await GM.fade(false); } finally { GM.sceneEnd(); }
     const ev=evOf('ev_an_depart_jp');
-    if(air){ leaveHome(G); if(EXCH.AIR&&!EXCH.AIR.jp) EXCH.AIR.jp={board:GM2=>S.departFly(GM2)};
+    if(air){ leaveHome(G); if(EXCH.AIR&&!EXCH.AIR.jp) EXCH.AIR.jp={board:GM2=>S.departFly(GM2),resume:GM2=>S.departResumeTick(GM2)};
       await EXCH.airGo(GM,{k:'jp',with:dAn(G)&&met('heroine_01')?['heroine_01']:[],noSave:true});   /* 字卡上面出過了；報到櫃台那一段演完才存（EVENTS.run 存）*/
       if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(Object.assign({},ev,{background:'blur',dialogue:S.JP_HALL()}));
       if(!dAn(G)&&met('heroine_01')&&EXCH.airStand&&EXCH.airStand(GM,[{id:'heroine_01',spot:'checkinA'}])&&GM.autosave) GM.autosave();   /* AA_478 第 4 節：挽回中＝以安不跟著走，站在大廳另一頭（另一排報到櫃台前）、不能搭話；演完那一段才放（EVENTS 會把鏡頭對著她）。站不到＝照原本不在 */
@@ -114,7 +114,17 @@ const Y34B=(function(){
     const ev=evOf('ev_an_depart_jp'); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(Object.assign({},ev,{id:'ev_an_depart_jp_gate',dialogue:S.JP_GATE_LINES()}));   /* 同美國的 ev_sis_gate_us（登機口那一列）*/
       const M=G.memo; if(Array.isArray(M)&&M.length>=2){ const a=M[M.length-1], b=M[M.length-2]; if(a&&b&&a.day===b.day&&a.t===b.t) M.pop(); } }   /* 同一件事切成兩段演：當天的紀錄只留一筆「一起出發」*/
     await flyJP(GM); return true; };
-  if(typeof EXCH!=='undefined'&&EXCH.AIR) EXCH.AIR.jp={board:GM=>S.departFly(GM)};   /* S.departFly 照呼叫當下的（jp3d.js 包過的那一個）*/
+  /* 登機口那一段演完（EVENTS.run 自己存一次檔）到「飛往日本」記下 JP_DEPARTED 中間那幾秒關掉遊戲：讀回來 AN_SENDOFF＝together、JP_DEPARTED 還沒記、也沒有在大廳等登機（EXCH.AIR_DEP）——
+     原本永遠出發不了（D36：不能永久卡住；E08 以前沒有 3D 機場的版本也一樣：整段演完存檔、接著才飛）。
+     接著從「飛往日本」演、記 JP_DEPARTED、進日本的據點（jp3d.js 包住 S.departResume）；登機口那一段已經演過了，不重演。
+     在 3D 的區域＝EXCH.tick 每一格先問（EXCH.AIR.jp.resume）；在臺北的家＝home3d.js 的 loop 問 STORY.y4HomeDue（S.homeDue／homeScene）。同一個存檔只接一次（演到一半出錯不會每一格重來）*/
+  S.departResumeDue=G=>{ const F=G&&G.flags; return law(G)&&JP(G)&&!!F&&F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)); };
+  S.departResume=async function(GM){ if(!S.departResumeDue(GM.G)) return false; await flyJP(GM); return true; };
+  const resumed=new WeakSet(); let resuming=false;
+  const resumeOk=G=>!resuming&&!!G&&!resumed.has(G)&&S.departResumeDue(G);
+  S.departResumeTick=function(GM){ const G=GM&&GM.G; if(!resumeOk(G)) return false; resumed.add(G); resuming=true;
+    Promise.resolve().then(()=>S.departResume(GM)).catch(e=>console.warn('Y34B.departResume',e)).finally(()=>{ resuming=false; }); return true; };
+  if(typeof EXCH!=='undefined'&&EXCH.AIR) EXCH.AIR.jp={board:GM=>S.departFly(GM),resume:GM=>S.departResumeTick(GM)};   /* S.departFly、S.departResume 照呼叫當下的（jp3d.js 包過的那一個）*/
   /* ================= 1B-13 語彤 T1 ================= */
   const NOODLE_DOOR={x:-63,z:21};   /* 公館店面街第一間（zones3d.js：阿鳳麵店的門，互動點 FZ+2）*/
   const nearDoor=(G,E)=>{ if(G.zone==='noodle') return true; if(G.zone!=='gongguan'||!E||!E.player) return false; const p=E.player.obj.position; return Math.hypot(p.x-NOODLE_DOOR.x,p.z-NOODLE_DOOR.z)<6; };
@@ -436,8 +446,8 @@ const Y34B=(function(){
       await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }
     G.flags.AN20_LATE=cafe; const ev=evOf(cafe?'ev_an_your_turn':'ev_an_your_turn_noodle'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ---------------- 在家（home3d.js 的 loop 已經在問 STORY.y4HomeDue）---------------- */
-  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
-  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(S.zqCallDue(G)) return S.zqCall(GM); if(S.bdayVideoDue(G)) return play('ev_sis_birthday_video_y3')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
+  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(resumeOk(G)) return 'stay';   /* 登機口那一段演完就關掉的存檔（上面 S.departResume）*/ if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
+  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(resumeOk(G)){ resumed.add(G); resuming=true; try{ return await S.departResume(GM); } finally{ resuming=false; } } if(S.zqCallDue(G)) return S.zqCall(GM); if(S.bdayVideoDue(G)) return play('ev_sis_birthday_video_y3')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
   { const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;
     STORY.y4HomeDue=function(G){ const r=hd0?hd0.apply(this,arguments):null; return r||S.homeDue(G); };
     STORY.y4HomeScene=function(GM){ const k=S.homeDue(GM.G); if(k==='stay'&&!(hd0&&hd0(GM.G))) return S.homeScene(GM); return hs0?hs0.apply(this,arguments):null; };
