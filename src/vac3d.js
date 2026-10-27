@@ -541,8 +541,8 @@ const VAC=(function(){
   S.tzAt=function(G,day){ const C=clk(G); if(!C) return null; if(day!=null&&day>Math.floor((C.end+Math.min(C.tz,0))/24+1e-9)) return 0; return C.tz; };   /* STORY.tzOffset 先問這裡（story3d.js）：沒有在國外＝null（照原本）；回國以後的日子＝0 */
   /* 讀檔回來、那一趟還在途中（flying；第一、二輪的存檔：planned＋登機了＋到了）：接著演（一次）。沒有在途中的那一趟、時鐘卻還是當地的（不該發生）：換回臺灣時間 */
   const tried=new WeakMap();
-  S.airResume=function(GM){ const G=GM&&GM.G; if(!G||S._fly.size||!Array.isArray(G.outings)) return false;
-    const q=G.outings.find(x=>x&&x.vac&&(x.state==='flying'||(x.state==='planned'&&x.airDone&&x.arrived)));
+  S.airResume=function(GM){ const G=GM&&GM.G; if(!G||S._fly.size) return false;
+    const q=(Array.isArray(G.outings)?G.outings:[]).find(x=>x&&x.vac&&(x.state==='flying'||(x.state==='planned'&&x.airDone&&x.arrived)));
     if(!q){ if(clk(G)) S.clockBack(GM); return false; }
     let D=tried.get(G); if(!D){ D=new Set(); tried.set(G,D); } if(D.has(q.id)) return false; D.add(q.id);
     q.state='flying'; q.arrived=true; void S.airFly(GM,q,null).catch(e=>console.warn('VAC.airResume',e)); return true; };
