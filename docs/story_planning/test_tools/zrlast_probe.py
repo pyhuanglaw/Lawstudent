@@ -3559,13 +3559,22 @@ R44 = [
        wantMsg=LASTASK + ['對齁 學弟在日本', '題目傳給你。'], msgAt={'題目我出好了。': ('2028-07-10', 22.0, 0.15)}, jsok=[('不排出遊', OUTQ('sisb12_famstudy_last'), None)]),
   dict(id='R44_C6B_NONE', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3, **NOF), js=SNONE + FAMJ, steps=[JD('2028-07-10', 20.9), ('until', 21.3)], pref=[], nothree=True,
        wantMsg=LASTASK, jsok=[('沒認識：沒有選項', TAGASK('sisb12_last_ask'), False)]),
-  dict(id='R44_C6B_C10_KNOWN', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " VAC.rec(G).reg['C10@Y3']='yes';", steps=[JD('2028-07-10', 20.9), ('until', 21.3)], pref=[], nothree=True,   # LAWWW-C ②：出國中＝三則照收、沒有選項、不排
-       wantMsg=LASTASK, jsok=[('前置：7/13 在加州（VAC.abroadOn）', "VAC.abroadOn(GAME.G,STORY.dayOfKey('2028-07-13'))", True), ('出國中：沒有「我去。／這週不行。」', TAGASK('sisb12_last_ask'), False), ('不排出遊', OUTQ('sisb12_famstudy_last'), None)]),
+  # BB-C 10-27 23:0x：AA_492 第 1 節（1c4223a30，開發分支 48e997635）改了——出國中也給一個替代選項「我在{國}。」→ Kevin「對齁 學弟在{國}」→ 學姊「題目傳給你。」（{國}＝VAC.abroadDest）；仍然不排出遊
+  dict(id='R44_C6B_C10_KNOWN', key='2028-07-09', h=12.0, zone='dorm', flags=dict(TW3), js=SFRI + FAMJ + " VAC.rec(G).reg['C10@Y3']='yes';", steps=[JD('2028-07-10', 20.9), ('until', 21.3)], asks={'sisb12_last_ask': '我在'}, pref=[], nothree=True,
+       wantMsg=LASTASK + ['題目傳給你。'], jsok=[('前置：7/13 在加州（VAC.abroadOn）', "VAC.abroadOn(GAME.G,STORY.dayOfKey('2028-07-13'))", True),
+             ('VAC.abroadDest（7/13）＝那一趟的目的地（不是「國外」）', "typeof VAC!=='undefined'&&VAC.abroadDest?VAC.abroadDest(GAME.G,STORY.dayOfKey('2028-07-13')):null", lambda x: isinstance(x, str) and x not in ('', '國外')),
+             ('選項只有「我在{國}。」（沒有「我去。／這週不行。」）', "(GAME.G.msgs||[]).filter(m=>m.ask&&m.ask.id==='sisb12_last_ask').map(m=>(m.ask.opts||[]).map(o=>o.t)).flat()", lambda x: isinstance(x, list) and len(x) == 1 and x[0].startswith('我在') and x[0].endswith('。')),
+             ('Kevin「對齁 學弟在{國}」', "(GAME.G.msgs||[]).filter(m=>/^對齁 學弟在/.test(m.text||'')).map(m=>m.text)", lambda x: isinstance(x, list) and len(x) == 1 and x[0] != '對齁 學弟在日本'),
+             ('不排出遊', OUTQ('sisb12_famstudy_last'), None)]),
   # ---- 12-7 空白的一月（2029-01-02～02-08 週一、二、四 19～21:30 兩點半 Café；朋友版、沒在交往）----
   dict(id='R44_C7_JAN', key='2029-01-08', h=19.4, zone='cafe', flags=dict(TW3, SIS_PLAN_POSTED=True, SIS_BOOK='law'), js=SFRI, steps=[('talksis',)], pref=['「每一天都照做。」', '「我幫妳寫一格？」'], nothree=True,
        want=[JAN0, '。坐。', '十月那份讀書計畫。後來照著做了多少？', '……休息日呢。', '（你沒有回答。）', '那就是沒有。', '（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）', '在美國，最後一格寫的是回臺灣。', '回來以後，這本一直空著。',
              '（看了你一眼）……寫什麼。', '（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）', '（計畫本旁邊是那本小說。書籤還在快一半的地方。）', '回來以後開始看。……還沒看完。', '下學期要的書，開學以前跟我說。法圖寒假開得很短。', '（她把計畫本收起來。那一格「休息」還在上面。）'],
        none=['學弟。坐。', '寒假你怎麼排的？'], eqflags={'SIS_BLANK_JAN_REST': True}, jsok=[('記憶 SIS_BLANK_JAN', MEMQ('heroine_05', 'SIS_BLANK_JAN'), True), SP_NAR(JAN0), SP_SIS('那就是沒有。')]),
+  # BB-C 10-27 23:0x：AA_492 第 2 節（1c4223a30）——考研究所的玩家（R3.gradExam：TW、Y4_PATH grad、沒推甄上）不問選項一：「{稱呼}。坐。」之後直接接她翻開計畫本
+  dict(id='R44_C7_GRAD', key='2029-01-08', h=19.4, zone='cafe', flags=dict(TW3, SIS_PLAN_POSTED=True, SIS_BOOK='law', Y4_PATH='grad'), js=SFRI, steps=[('talksis',)], pref=['「我幫妳寫一格？」'], nothree=True,
+       want=[JAN0, '。坐。', '（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）', '（她把計畫本收起來。那一格「休息」還在上面。）'],
+       none=['十月那份讀書計畫。後來照著做了多少？', '……休息日呢。', '那就是沒有。', '學弟。坐。'], jsok=[('前置：R3.gradExam＝true', "typeof R3!=='undefined'&&R3.gradExam?R3.gradExam(GAME.G):null", True), ('演完記 SIS_BOOK_BACK', "!!GAME.G.flags.SIS_BOOK_BACK", True)]),
   dict(id='R44_C7_FAM_NOVEL', key='2029-02-08', h=20.9, zone='cafe', flags=dict(TW3, SIS_BOOK='novel'), js=SFAM, steps=[('talksis',)], pref=['「大概一半。」', '「美國好玩嗎？」'], nothree=True,
        want=[JAN0, '學弟。坐。', '寒假你怎麼排的？', '一半很多了。', '好玩。……照片你都看過了。', '（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）', '回來第一個禮拜翻完了。問號少了一點。'],
        none=['十月那份讀書計畫。後來照著做了多少？', '（她把計畫本收起來。那一格「休息」還在上面。）']),
