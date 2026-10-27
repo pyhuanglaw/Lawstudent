@@ -55,8 +55,9 @@ async def main():
                   const b=document.getElementById('interact'), l=(document.getElementById('interactLabel').textContent||''), an=GAME.E.npcs.find(m=>m.charId==='heroine_01');
                   const k=[b&&b.classList.contains('hide')?'hide':'show', l, 'busy='+!!GAME.E.player.busy, 'depth='+GAME.D.busyDepth, 'dlg='+!!GAME.D.active, 'an='+(an?an.beh:'-')].join(' ');
                   if(k!==last){ last=k; window.__bbSeen.push(Math.round(now-window.__bbT0)+'ms '+k); }
-                  if(b&&!b.classList.contains('hide')&&/沈以安/.test(l)){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:l,depth:GAME.D.busyDepth}; b.click(); clearInterval(iv); } }catch(e){} },20); })()""")
-                run.setup('[捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）')
+                  if(window.__bbFcall&&an&&an.talk&&!GAME.E.player.busy){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:'(an.talk 直接呼叫) '+l,depth:GAME.D.busyDepth}; an.talk(an); clearInterval(iv); return; }
+                  if(b&&!b.classList.contains('hide')&&/沈以安/.test(l)){ window.__bbTalk={ms:Math.round(now-window.__bbT0),label:l,depth:GAME.D.busyDepth}; b.click(); clearInterval(iv); } }catch(e){} },20); })()""".replace('window.__bbTalk=null;', 'window.__bbTalk=null; window.__bbFcall=%s;' % ('true' if os.environ.get('FCALL') else 'false')))
+                run.setup('[捷徑] 進門後互動鍵一出現「和沈以安說話」就由頁面內 click（20 ms 檢查一次）' + ('；FCALL＝不等互動鍵，玩家空著就直接呼叫 an.talk（同 LAWWW-C 子代理 probe_arrive.py）' if os.environ.get('FCALL') else ''))
             run.note('互動按鈕：%s' % s['it']); await L.tap(pg, cdp, '#interact'); t_in = None
             for k in range(60):
                 s = await pg.evaluate(DBG)
