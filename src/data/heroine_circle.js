@@ -1,6 +1,8 @@
 /* ===== 女主角的圈子在 3D：資料（HEROINE-CIRCLE3D-1028；USER_WANTS X122★，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」）=====
-   來源（企劃線 claude/magical-albattani-bk7b4n，劇情匯入白名單 docs/handoff/story_import_allow.json 同一個 commit）：
+   來源（企劃線 claude/magical-albattani-bk7b4n；這次照的版本＝SRC）：
      AA_503 @ d13ab3ab7（大一上）、AA_504 @ 62849944b（大一下＋暑假）、AA_505 @ 795fbecfd（大二上＋寒假）、AA_506／AA_507／AA_508 @ 31a4c4002——各位那一節的「x-1 圈子」表。
+     tests/heroine_circle3d_unit.js 照劇情匯入白名單 docs/handoff/story_import_allow.json 上「現在」的那一版對稿：白名單換到 AA 更正以後的 commit、圈子表有改＝測試失敗（照新版改這裡）。
+     （2026-10-28 開發分支 946fb1787 的白名單：AA_506 691a26400、AA_507 3120ac77a、AA_508 28f981438，三份的圈子表和 31a4c4002 一字不差）
    ROWS 一列＝表上的一列（id：c＋稿號＋節＋第幾列；n1＝表下面的說明句、b＝說明裡「換成」的那幾句）：
      heard＝「走近時聽到」那一格，照稿一字不差原樣存（「A：…／B：…」載入時拆開，NAMES 對到說話的人；整格是（…）＝旁白）。tests/heroine_circle3d_unit.js 用 git show 雙向對稿。
      ref＝那一格是「照現有」「照現有讀書會」「照 2-1」「照 AA_506 4-1」：沒有新句子（有 with 的照樣同框；heardFrom＝那一列的句子）。

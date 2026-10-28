@@ -22,8 +22,8 @@ const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
 /* 這次照的版本（任務指定、src/data/heroine_circle.js 的 SRC）；對稿用劇情匯入白名單上「現在」的版本——白名單換到 AA 更正以後的 commit 時，
-   圈子表有改就會在這裡失敗（要照新版改資料），沒改就照樣過（2026-10-28 實測：開發分支 b31c58d18 的白名單 AA_506 691a26400、AA_507 3120ac77a、
-   AA_508 4c3dc1491，三份的圈子表和 31a4c4002 一字不差，改的是動態、她自己的事、第 0 節）。 */
+   圈子表有改就會在這裡失敗（要照新版改資料），沒改就照樣過（2026-10-28 實測：開發分支 946fb1787 的白名單 AA_506 691a26400、AA_507 3120ac77a、
+   AA_508 28f981438（＝4c3dc1491 那一版），三份的圈子表和 31a4c4002 一字不差，改的是動態、她自己的事、第 0 節；把這支測試放進那一版的試合併實際跑過 ALL PASS）。 */
 const DOCS0={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md','d13ab3ab7'],AA_504:['docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md','62849944b'],
   AA_505:['docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md','795fbecfd'],AA_506:['docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md','31a4c4002'],
   AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002'],AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','31a4c4002']};
