@@ -1138,7 +1138,7 @@
    "id": "WIP-LAWWW-AA497B-1028",
    "role": "LAWWW",
    "task": "NPC-STORY-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "8e50a4fc9、417129b1f",
    "branch": "worktree-agent-afa95ee54a355c76f（AA_497 子代理續做；D113 備份 wip_backup/aa497b_1028.bundle）",
    "files": [
@@ -1147,7 +1147,8 @@
    "todo": "AA_497 第 8 節（60fc3b9a3）：2-1 認識以安前不叫名字、芯慈追劇八處換句、明軒滷蛋、學妹改名佳穎（只換學妹）",
    "next": "子代理做完回報 → LAWWW 合併、白名單 AA_497 改 60fc3b9a3、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 06:43（AA_497 第 8 節）；使用者 10-28 X119"
+   "source": "AA-C 2026-10-28 06:43（AA_497 第 8 節）；使用者 10-28 X119",
+   "closedBy": "622d3a269（合併子代理 417129b1f；tests/aa497_supporting_unit.js 284 項 ALL PASS，子代理在 a8cba7618 跑 FAIL 24）"
   }
  ]
 }
