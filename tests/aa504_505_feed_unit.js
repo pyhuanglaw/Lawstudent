@@ -22,7 +22,7 @@ const DOC={Y1S2:{spec:'docs/story_planning/AA_504_女主角自己的生活_大�
 const OLD505='62849944b';   /* AA_505 第一版（e05e87992 改了以安 1/27、010515370 改了四處）*/
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
-for(const [f,n] of [['src/data/feed_y1s1.js',['FEED_Y1S1']],['src/data/feed_y1s2.js',['FEED_Y1S2']],['src/data/feed_y2s1.js',['FEED_Y2S1']],['src/feed3d.js',['FEED']],['src/data/heard_lines.js',['HEARD_LINES']],['src/heard3d.js',['HEARD']]]){
+for(const [f,n] of [['src/data/needed_msgs.js',['NEEDED_MSGS']],['src/data/feed_y1s1.js',['FEED_Y1S1']],['src/data/feed_y1s2.js',['FEED_Y1S2']],['src/data/feed_y2s1.js',['FEED_Y2S1']],['src/feed3d.js',['FEED']],['src/data/heard_lines.js',['HEARD_LINES']],['src/heard3d.js',['HEARD']]]){
   try{ if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); else errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const SET={Y1S2:typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null,Y2S1:typeof FEED_Y2S1!=='undefined'?FEED_Y2S1:null};
 const sec=(name,fn)=>{ try{ fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.message||e).slice(0,200)); } };
@@ -244,6 +244,11 @@ sec('4c',()=>{ if(!HAS()||!SET.Y2S1) return;
   const W10=TDt('Y2S1',10,6); fresh(W10,17); who('heroine_01','FRIEND'); walk(W10,18.5); FEED.respond(H.G,'an3c','dm'); const no=th('heroine_01').slice(-2).map(m=>m.text);
   fresh(W10,17); who('heroine_01','FRIEND'); H.G.invites=[{who:'heroine_01',place:'cafe',state:'done',day:W10-20}]; walk(W10,18.5); const h=HT(); FEED.respond(H.G,'an3c','dm'); const yes=th('heroine_01').slice(-2).map(m=>m.text);
   fresh(W10,17); who('heroine_01','FRIEND'); H.G.dateLog={heroine_01:{count:1,byLoc:{},cancels:[]}}; walk(W10,18.5); FEED.respond(H.G,'an3c','dm'); const yes2=th('heroine_01').slice(-2).map(m=>m.text);
+  /* AA_505 第 0 節第 3 點：needed_msgs 第 2 週「第一次去上課」在閒聊「民法我坐最後一排」（語彤 Y3-L2）之前——閒聊那一層第 6 週才開，程式本來就是這個順序（沒改，這裡釘住）*/
+  { const nm=typeof NEEDED_MSGS!=='undefined'?NEEDED_MSGS.list.find(e=>e.id==='yt_fafu'):null, st=(LADDER.byTerm.Y2S1.heroine_03.steps||[]).find(x=>x.id==='Y3-L2'), SUN=TDt('Y2S1',2,7);
+    fresh(SUN,21.5); who('heroine_03','FRIEND'); const pick=STORY.neededPick(H.G,SUN).map(e=>e.id); const so=H.G.social||(H.G.social={}); so.ladder=Object.assign({},so.ladder,{'heroine_03@Y2S1':1}); const lad=STORY.ladNext(H.G,'heroine_03');
+    fresh(TDt('Y2S1',6,2),15); who('heroine_03','FRIEND'); const so2=H.G.social||(H.G.social={}); so2.ladder=Object.assign({},so2.ladder,{'heroine_03@Y2S1':1}); const lad6=STORY.ladNext(H.G,'heroine_03');
+    check('4. AA_505 第 0 節：語彤 needed_msgs 第 2 週「法律系的課，我上禮拜第一次去上。」（週日 21:00 挑得到）在閒聊「這學期開始修法律系的課。民法我坐最後一排。」（Y3-L2，第 6 週才開）之前',!!nm&&nm.term==='Y2S1'&&J(nm.w)===J([2,2])&&!!st&&J(st.week)===J([6,18])&&st.lines[0]==='這學期開始修法律系的課。民法我坐最後一排。'&&pick.includes('yt_fafu')&&!lad&&!!lad6&&lad6.id==='Y3-L2',J({pick,lad:lad&&lad.id,lad6:lad6&&lad6.id})); }
   check('4. AA_505：以安第 3 則私訊問「有我嗎？」——沒一起去過＝「……還沒。」；一起去過（INV 見到了）＝「有。」；校外約會過也算',J(no)===J(['有我嗎？','……還沒。'])&&J(yes)===J(['有我嗎？','有。'])&&J(yes2)===J(['有我嗎？','有。'])&&h.includes('有我嗎？'),J({no,yes,yes2})); });
 console.log('（修改前 a57127ab4 的紀錄見檔頭）');
 H.done();
