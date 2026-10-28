@@ -1,0 +1,40 @@
+PASS 遊戲載入完成（載入畫面消失）
+PASS 標題畫面顯示
+PASS 標題畫面有版本字樣（預期含「v9.10.12」）  版本 v9.10.12（2026-10-28）
+PASS 230 個 script 都帶版本號 ?v=  []
+PASS 進入 campus  {"ok": true, "player": "vrm", "npc": {"vrm": 23, "proc": 3}}
+PASS 玩家是正式 VRM（不是 placeholder）  vrm
+PASS 進入 gongguan  {"ok": true, "player": "vrm", "npc": {"vrm": 10, "proc": 2}}
+PASS 進入 wenzhou  {"ok": true, "player": "vrm", "npc": {"vrm": 7}}
+PASS 進入 classroom  {"ok": true, "player": "vrm", "npc": {"vrm": 25, "proc": 4}}
+PASS 進入 wancai  {"ok": true, "player": "vrm", "npc": {"vrm": 2}}
+PASS 進入 library_hall  {"ok": true, "player": "vrm", "npc": {"vrm": 7}}
+PASS 進入 library  {"ok": true, "player": "vrm", "npc": {"vrm": 8}}
+PASS 進入 cafe  {"ok": true, "player": "vrm", "npc": {"vrm": 6}}
+PASS 進入 cvs  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 進入 noodle  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 進入 bookstore  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 進入 dorm  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 lawlib  {"ok": true, "player": "vrm", "npc": {"vrm": 7, "proc": 1}}
+PASS 進入 gongtong  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 boya  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 putong  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 soclib  {"ok": true, "player": "vrm", "npc": {"vrm": 8, "proc": 2}}
+PASS 進入 dorm_hall  {"ok": true, "player": "vrm", "npc": {"vrm": 3}}
+PASS 進入 linze  {"ok": true, "player": "vrm", "npc": {"vrm": 6}}
+PASS 進入 gym  {"ok": true, "player": "vrm", "npc": {"vrm": 4}}
+PASS 進入 gym_b1  {"ok": true, "player": "vrm", "npc": {"vrm": 4}}
+PASS 進入 lane118  {"ok": true, "player": "vrm", "npc": {"vrm": 3}}
+PASS 進入 airport_dep  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 airport_arr  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_apartment  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_shared  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_outside  {"ok": true, "player": "vrm", "npc": {}}
+PASS 進入 us_market  {"ok": true, "player": "vrm", "npc": {"vrm": 2}}
+PASS 進入 us_asian_market  {"ok": true, "player": "vrm", "npc": {"vrm": 1}}
+PASS 沒有退回 placeholder 的人物模型（CHAR.failures）  []
+PASS 所有資源都載得到（共 2808 個網址）  
+      
+PASS 沒有 JS 例外  []
+console error（只列出，不算失敗）：無
+ALL PASS
