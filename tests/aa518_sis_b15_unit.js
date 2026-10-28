@@ -10,7 +10,9 @@
 //   4  第 4 節十五處（逐處）
 //   5  BB 測試六項
 //   6  舊存檔：沒有新旗標照常跑、不丟例外；不撞（日子的星期）
-// 修改前（開發分支 64e12da0e：那一版的 index.html、src/、tests/、lib/、tools/ 放進這支測試真的跑過，白名單用新的，稿從這個 repo 讀：AA518_DOCREPO）：（見下面「修改前」那一行）
+// 修改前（開發分支 64e12da0e：git archive 那一版的 index.html、src/、tests/、lib/、tools/ 放進這支測試真的跑過，白名單用新的，稿從這個 repo 讀：AA518_DOCREPO）：FAILED 30、PASS 9
+//   （PASS＝讀稿、白名單、1-1 作息（她本來就在總圖）、3-1 日子、6/3 13:00 那則照舊、沒回不排、BB 六項讀得到、新的一局沒有 SIS15_ 旗標、不撞；
+//    第 1～4 節找不到新事件、SISB15／FEED.WENT.sisS4Lx 不存在＝丟例外中斷）。修改後 ALL PASS（173 項）。
 // 用法：node tests/aa518_sis_b15_unit.js（在沒有 .git 的目錄跑，設環境變數 AA518_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');

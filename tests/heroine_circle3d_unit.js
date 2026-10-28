@@ -28,6 +28,7 @@
 //   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 5、PASS 58
 //   （FAIL＝6 的 story3d.js 掛勾、7 的學姊 12/29、8 的第 2、4、5 點；PASS＝8 的對稿、第 3 點照現在，其他原本的）。修改後 ALL PASS（63 項）。
 // 用法：node tests/heroine_circle3d_unit.js
+// 2026-10-28 AA_518 第 4-13 改的（企劃線 973dd1b74，SIS-B15-1028）：c504_5_1 從 3/23 起、c505_5_1 從第 4 週起、c506_5_1 到 5/3；5/4 起換新的一列 c506_5_1b（doc AA_518）——那一列不對 AA_503～510 的稿（tests/aa518_sis_b15_unit.js 對）。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -111,11 +112,11 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iS=sc('src
   check('0. 照現有、照 2-1、照 AA_506 4-1 那幾格＝ref（沒有新句子），其他的不是 ref',!badRef.length&&TABLE.every(t=>byPos[t.doc+' '+t.sec+' '+t.k]),J(badRef));
   /* 遊戲→稿：每一列的格子在那一份稿的那個位置（不是表上的列：n1、b＝說明裡的句子；derived＝「暑假照舊」）*/
   const tpos=new Set(TABLE.map(t=>t.doc+' '+t.sec+' '+t.k)), extra=[];
-  for(const r of D.ROWS){ if(r.derived) continue; if(typeof r.k==='number'){ if(!tpos.has(r.doc+' '+r.sec+' '+r.k)) extra.push(r.id); continue; }
+  for(const r of D.ROWS){ if(r.derived||r.doc==='AA_518') continue; if(typeof r.k==='number'){   /* AA_518 4-13 新加的那一列（c506_5_1b）對 AA_518 的稿（tests/aa518_sis_b15_unit.js）*/ if(!tpos.has(r.doc+' '+r.sec+' '+r.k)) extra.push(r.id); continue; }
     const notes=(NOTES[r.doc+' '+r.sec]||[]).join('\n'); if(!r.heard||notes.indexOf('「'+r.heard+'」')<0) extra.push(r.id+'（說明裡沒有）'); }
   check('0. 遊戲→稿：每一列都對得到稿的那一格（表下面說明的三句也在說明裡：以安 Café 旁白、阿凱「所以妳回絕了」、陳助教「送出去了？」）',!extra.length&&['c503_4_n1','c505_4_3b','c507_5_1b'].every(id=>D.ROWS.some(r=>r.id===id)),J(extra));
   if(!HAS()) return;
-  const lines=[]; for(const r of rows()) for(const l of r.lines) lines.push([r,l]);
+  const lines=[]; for(const r of rows()) if(r.doc!=='AA_518') for(const l of r.lines) lines.push([r,l]);   /* AA_518 4-13 那一列另外對 AA_518 的稿 */
   const docOf=r=>DOC[(r.heardFrom?R(r.heardFrom):r).doc];   /* heardFrom（照 AA_506 4-1、暑假照舊）：句子在那一列的稿裡 */
   const badLine=lines.filter(([r,l])=>docOf(r).indexOf(l.t)<0), badWho=lines.filter(([r,l])=>l.label&&!l.id);
   check('0. 遊戲裡的每一句都在它那一份稿裡（'+lines.length+' 句）',lines.length>=200&&!badLine.length,J(badLine.slice(0,4).map(([r,l])=>r.id+':'+l.t)));
