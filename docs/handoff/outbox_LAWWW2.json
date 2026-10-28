@@ -3860,6 +3860,41 @@
    "remaining": "等使用者回答（BB 照 D97 一起整理）",
    "next": "BB 併進給使用者的問題；使用者選 B／C 才開工（D111、D99）",
    "note": "四題：要不要變、幾階開始、會不會退、要不要先看三欄並排預覽圖；附各答案的做法"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "984f24dc1",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "task": "WZ-SHRINE-TRAP-1028（P1，v9.10.12 擋發布）：溫州街公園土地公走不到＋涼亭西側死角",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/wz_shrine_trap_1028.patch",
+    "docs/art-rebuild/second_ai/test_shots/wz_shrine_trap_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "完整 relsuite 沒跑；iPhone 實機沒測",
+   "next": "LAWWW-C 套進 562a5ead9（rc2）、BB-C 驗收",
+   "note": "只改導航：遊戲場阻擋只擋有遊具的南邊 2.9 m、土地公供桌＋F1 牆邊小角落擋起來；shrine_pocket_check TRAP=1 0 死角、② 23/23、reachability_all 溫州街 ALL PASS；wz_park_unit 加 2b（修改前 3 FAIL）；nav_islands 舊的 SUSPECT (20.9,5.9) 沒動"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2fb76710c",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "INTERIOR-AAA-REVIEW-1028 示範：霖澤館 201 v2（使用者 P0 UA-LAWWW2-1028-01）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/interior_201_v2_1028.patch",
+    "assets/models/env/classroom_201.glb",
+    "assets/models/env/classroom_201_lm_day.webp",
+    "assets/models/env/classroom_201_lm_night.webp",
+    "docs/art-rebuild/second_ai/test_shots/interior_201_v2_1028/README.md"
+   ],
+   "state": "已交付（READY_FOR_ART_REVIEW，等使用者看）",
+   "remaining": "人物沒吃烘焙的光；白天光照貼圖是固定下午光；draw call +40（可再合併純色零件）；iPhone 實機沒測",
+   "next": "LAWWW-C 套 patch＋checkout 三個二進位檔、跑回歸；使用者看過才推到其他室內",
+   "note": "seat_fold_unit、nav_buildings_unit、door_open_unit ALL PASS；reachability_all classroom ALL PASS；flow_class_real 見交件訊息"
   }
  ]
 }

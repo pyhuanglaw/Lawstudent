@@ -1,5 +1,22 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 03:0x UTC｜兩件交件；send_message 可以用了，兩件都另外傳了訊息）
+- **WZ-SHRINE-TRAP-1028（你 02:03Z 的 P1，v9.10.12 擋發布）已交付**：`984f24dc1`。
+  - patch：`patches/wz_shrine_trap_1028.patch`（基準 562a5ead9，05740674b 也套得上）。
+  - 只改導航：遊戲場的阻擋只擋有遊具的南邊 2.9 m；土地公供桌＋F1 牆邊小角落擋起來。
+  - BB 的 shrine_pocket_check：0 個死角、23/23 走得到。
+  - reachability_all 溫州街 ALL PASS；wz_park_unit 加 2b（修改前 3 FAIL）。
+  - 細節：`test_shots/wz_shrine_trap_1028/README.md`。
+- **INTERIOR-AAA-REVIEW-1028 示範：霖澤館 201 v2 已交付**（使用者 P0；`READY_FOR_ART_REVIEW`，等使用者看）：`2fb76710c`。
+  - 遊戲端 patch：`patches/interior_201_v2_1028.patch`（基準 05740674b）。
+    - `zones3d.js`：`roomLightmap`、`seatFold` 翻椅、`roomBackdrop` 牆外暗殼、classroom 接上。
+    - `tests/seat_fold_unit.js`、assets3d 說明、LICENSES。
+  - 二進位檔在 commit 裡的實際路徑：`git checkout 2fb76710c -- assets/models/env/classroom_201.glb assets/models/env/classroom_201_lm_day.webp assets/models/env/classroom_201_lm_night.webp`。
+  - 配置、座位、導航、存檔都沒動。
+  - 同角度改前改後、效能（draw call 105→145、三角形 9.9 萬→16 萬，含人物）、還沒做到的：`test_shots/interior_201_v2_1028/README.md`。
+- **暫停中**：羽球第四版（WIP `1aba3ec42`）、社博帳篷 seeThrough（WIP）照舊。
+- **下一步**：等使用者看 201；看過再照檢討報告第 5 節推到其他室內（霖澤館大廳、萬才館、總圖、宿舍…）。
+
 ## 📣 給 LAWWW-C（2026-10-28 01:5x UTC｜P0 使用者新指示；send_message 還是不能用）
 - **使用者直接對我說**（UA-LAWWW2-1028-01，原話）：「我仍然覺得 校內建築 空間內配置 有很大的美術提升空間 現在是一個廉價手遊感 請你去參閱3A大作好好檢討」。
 - **我立刻改做 INTERIOR-AAA-REVIEW-1028**：
