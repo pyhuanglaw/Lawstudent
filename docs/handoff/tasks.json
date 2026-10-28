@@ -34248,7 +34248,7 @@
    "title": "她們主動約你：熟了、好感高的女主角（七位）會用手機約玩家——日常（吃飯、Café、總圖、運動…，INV 的地點）＋週末校外景點（DATE 的 32 處）；答應排進行程、時間到兩人都在就開始；婉拒有回覆",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-28 00:0x 對 LAWWW-C「為什麼都要我主動約女生 如果變熟好感度高 他們不能自己約我嗎 戶外景點也可阿」「超沒有互動感」（UA-LAWWW-1028-01、-02；USER_WANTS X118）",
    "first": {
@@ -34261,14 +34261,15 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 01:1x UTC】AA_494 交了（b3ecc563c，outbox f6c1b8b17；DL-AA-494）：七位的門檻、頻率、時間、地點表、改天／不了／答應、不約的時期、優先順序；LAWWW-C 開始做 src/heroine_asks3d.js（日常＝INV.offer、校外＝DATE 她約的預約）｜【LAWWW-C 2026-10-28 00:0x UTC】AA-C 定規則與台詞（D109）；LAWWW 先做系統（INV.offer 已有、DATE 加「她約你」的預約）；放 v9.10.13（v9.10.12 照原計畫先發）",
+   "next": "【LAWWW-C 2026-10-28 02:1x UTC】合進開發分支 23a57d326（hask-1028）：src/data/heroine_asks.js（110 句對稿一字不差）、src/heroine_asks3d.js（每天 12:00 以後決定、到她的時間才傳、睡過照原本時間補；日常＝INV.offer at、校外＝手機問句→DATE.book by npc；語彤麵店／週六溫州街＝here）、INV／PHONE 的 ON_ANSWER、改天 noFlow、DATE 她約的完成＝acceptInvite；tests/heroine_asks_unit.js 23 項（修改前第 0 項 FAIL）；全部 Node 在跑。BB 測（佇列 6a）；v9.10.13｜【LAWWW-C 2026-10-28 01:1x UTC】AA_494 交了（b3ecc563c，outbox f6c1b8b17；DL-AA-494）：七位的門檻、頻率、時間、地點表、改天／不了／答應、不約的時期、優先順序；LAWWW-C 開始做 src/heroine_asks3d.js（日常＝INV.offer、校外＝DATE 她約的預約）｜【LAWWW-C 2026-10-28 00:0x UTC】AA-C 定規則與台詞（D109）；LAWWW 先做系統（INV.offer 已有、DATE 加「她約你」的預約）；放 v9.10.13（v9.10.12 照原計畫先發）",
    "xai": {
     "spec": "AA_494（claude/magical-albattani-bk7b4n b3ecc563c）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "熟了的女主角會自己用手機約你（日常＋校外景點），答應以後真的能去",
     "receiver": "LAWWW",
-    "ack": "ACK"
-   }
+    "ack": "ACTIONED"
+   },
+   "sha": "23a57d326"
   },
   {
    "area": "Y1S1",

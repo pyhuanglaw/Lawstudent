@@ -935,11 +935,12 @@
     "tests/heroine_asks_unit.js",
     "wip_backup/hask_1028.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "她們主動約你（AA_494）：tests/heroine_asks_unit.js 23 項 ALL PASS（修改前第 0 項 FAIL）；全部 Node 測試在跑（hask worktree），過了就合進開發分支",
    "next": "tests/heroine_asks_unit.js 結果→修→相關測試（invites、date、phone、termend…）→合併；bundle 每 15～20 分鐘更新（D113）",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 00:0x（X118★）"
+   "source": "使用者 10-28 00:0x（X118★）",
+   "closedBy": "23a57d326"
   },
   {
    "id": "WIP-LAWWW-DORM203-1028",
