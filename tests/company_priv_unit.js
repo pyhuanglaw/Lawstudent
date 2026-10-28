@@ -10,22 +10,36 @@
 //   6  一般閒聊照常：旁邊有人時一般的階梯照播、照常前進；被擋下的那一層隔天她一個人時播
 // 修改前（開發分支 c701f8b5e：git archive 那一版的 src、tests、index.html、白名單，放進這支測試實際跑，2026-10-28）：FAILED 19、PASS 7
 //   （沒有 PRIVTALK，清單那 4 項沒跑；PASS＝原本就有的「約她去…」與兩個 priv 選項 4 項、學姊正常見面照記、事件期限的圈子資料、一般的那一層照播）。修改後 ALL PASS（30 項）。
-// 用法：node tests/company_priv_unit.js
+// 第三輪（PRIV-AAFIX-1028：AA_503 第 14 節，企劃線 6bc3cd784——第一輪問的 12 項＋共同的保底）：
+//   0  對稿（git show 劇情匯入白名單上 AA_503 那一版）：保底的旁白、第 9 項的旁白、第 10 項的兩句一字不差；S.DECIDED 12 項；呼叫的地方（offerInvite 每個選項問自己那一筆、選了 privLead）
+//   7  共同的保底：沒有期限的（閒聊階梯 Y-L7、坦白的選項、知情的發現、1A-02 那一句、分開以後子晴那一句、傅鐘的選項、Y4-L6 的選項）第 1 天擋→第 7 天還擋→第 8 天照演＋旁白、
+//      她一個人＝沒有旁白、演了就清掉等待；有期限的（P3 我要重考、Z7 她交件了、沒回的那一句）不照 7 天、到期那天照演＋旁白；沒有要演的時候不記（知情、1A-02）；舊存檔沒有 PRIVWAIT
+//   8  第 1～12 項：1 芷若×子晴自己說（旁邊只有對方本人照演）、2 分開以後（子晴「嗨。」、吧檯的芷若）、3 學姊美國交換（11/9）、4 沛珊和柏翰分開（第 6 週週五）、5 明軒的事（9/5）、
+//      6 語彤租約的選項不擋、7 交往中那一版改說一般版（階梯 extraIf／linesIf、招呼、回覆、沒回那一句；沒有一般版照演；不記等待）、8 子晴爸爸的階梯不擋、9 Q7 兩場開頭的旁白、
+//      10 前任那兩句擋（其他招呼不擋）、11 到場就演的不改、12 例外只限三組（假的圈子＋真的圈子：麵店的阿姨）
+//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：見 PRIV-AAFIX-1028 的 commit 訊息
+// 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
-const fs=require('fs'), vm=require('vm'), path=require('path');
+const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
-for(const [f,n] of [['src/sideq3d.js',['SIDEQ']],['src/data/needed_msgs.js',['NEEDED_MSGS']],['src/data/y2b_events.js',['Y2B_EVENTS']],['src/data/r2y3a_events.js',['R2Y3A_EVENTS']],
-  ['src/data/multirel_lines.js',['MULTIREL_LINES']],['src/multirel3d.js',['MREL']],['src/data/pool_story.js',['POOL_STORY']],['src/pool3d.js',['POOL']],
+for(const [f,n] of [['src/sideq3d.js',['SIDEQ']],['src/data/needed_msgs.js',['NEEDED_MSGS']],['src/data/y2b_events.js',['Y2B_EVENTS']],['src/y2r2_3d.js',['Y2R2']],['src/data/r2y3a_events.js',['R2Y3A_EVENTS']],
+  ['src/data/zrzq_events.js',['ZRZQ_LINES','ZRZQ_FILM','ZRZQ_TOLINES','ZRZQ_EVENTS']],['src/zrzq3d.js',['ZRZQ']],['src/data/sis_y2y3_events.js',['SISY23_LINES','SISY23_EVENTS']],['src/sis_y2y3_3d.js',['SISY23']],
+  ['src/data/multirel_lines.js',['MULTIREL_LINES']],['src/multirel3d.js',['MREL']],['src/data/v6ex_lines.js',['V6EX_LINES']],['src/v6ex3d.js',['V6EX']],['src/data/pool_story.js',['POOL_STORY']],['src/pool3d.js',['POOL']],
   ['src/data/heroine_circle.js',['HCIRCLE_DATA']],['src/hcircle3d.js',['HCIRCLE']],['src/privtalk3d.js',['PRIVTALK']]]){
   try{ if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); else errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const HAS=()=>typeof PRIVTALK!=='undefined'&&!!PRIVTALK.LIST;
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ').slice(0,300)); } };
-/* 測試用的「旁邊有人」：COMPANY 多一個看 FORCE 的（真的圈子另外測）*/
-const FORCE={}; if(typeof STORY!=='undefined'&&Array.isArray(STORY.COMPANY)) STORY.COMPANY.push((G,id)=>!!FORCE[id]);
-const crowd=(id,on)=>{ FORCE[id]=!!on; };
+/* 測試用的「旁邊有人」：COMPANY 多一個看 FORCE 的（真的圈子另外測）——true＝有人（不知道是誰）、陣列＝旁邊那幾個人的 id */
+const FORCE={}; if(typeof STORY!=='undefined'&&Array.isArray(STORY.COMPANY)) STORY.COMPANY.push((G,id)=>Array.isArray(FORCE[id])?FORCE[id].slice():!!FORCE[id]);
+const crowd=(id,on)=>{ FORCE[id]=Array.isArray(on)?on.slice():!!on; };
+/* 對稿：劇情匯入白名單上 AA_503 那一版（第 14 節）*/
+const SPEC503='docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md';
+const SHA503=(()=>{ try{ const e=(JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]).find(q=>q.path===SPEC503); return e&&e.status==='approved'?String(e.sha):''; }catch(e){ return ''; } })();
+const DOC503=(()=>{ try{ return cp.execSync('git show '+SHA503+':"'+SPEC503+'"',{cwd:process.env.PRIV_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<24}); }catch(e){ return ''; } })();
+const NARR='（她跟旁邊的人說了一聲，走到你這邊。）', Q7NARR='（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）';
 const DK=k=>STORY.dayOfKey(k), wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const TD=(t,w,wd)=>STORY.termDay(t,w,wd===0?7:wd);
 const fresh=(d,h,zone,flags)=>{ if(typeof d==='string') d=DK(d); const G=H.fresh(CALENDAR.dateOf(d).key,h,zone||'campus',Object.assign({EXCHANGE_ROUTE:'TW',afternoonDone:true},flags||{})); G.weekday=wdOf(d); G.hour=h;
@@ -53,10 +67,18 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   const cats=new Set(L.map(e=>e.cat)), topics=new Set(L.map(e=>e.topic).filter(Boolean));
   const needC=['告白','心意邀約','約會','交往中才有的互動','坦白有別人','分開談話（AA_346）','她知情以後','還沒公開'], needT=['子晴爸爸','沛珊重考','芷若交換申請','語彤媽媽回診','學姊口試結果'];
   check('0. 清單涵蓋 AA 的每一類（告白、心意邀約、約會、交往中、坦白有別人、AA_346、她知情以後、還沒公開的五件）',needC.every(c=>cats.has(c))&&needT.every(t=>topics.has(t)),J({cats:[...cats],topics:[...topics]}));
-  const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8');
-  check('0. 呼叫的地方：story3d.js offerInvite 問 privNow、priv 的選項旁邊有人不出；multirel3d.js PRE_TALK 問 PRIVTALK.ok（zq_dad_pre、ps_bterm）；告白（坦白）兩個選項標 priv',
-    /const crowd=!S\.privNow\(G,id,n,GM\)/.test(st)&&/!\(crowd&&o\.priv\)/.test(st)&&/privOk\(G,ZQ,GM,'zq_dad_pre'\)/.test(mr)&&/privOk\(G,PS,GM,'ps_bterm'\)/.test(mr)&&/PRIVTALK\.ok\(G,x,k,GM\)/.test(mr)&&(mr.match(/priv:true,run:/g)||[]).length===2);
-  check('0. 清單外、判斷不了的列給 AA（PRIVTALK.ASK_AA，不擋）',Array.isArray(PRIVTALK.ASK_AA)&&PRIVTALK.ASK_AA.length>=8&&PRIVTALK.ASK_AA.every(x=>x.desc&&x.note)); });
+  const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8'), y2=fs.readFileSync(path.join(H.ROOT,'src/y2r2_3d.js'),'utf8');
+  check('0. 呼叫的地方：story3d.js offerInvite 每個選項問自己那一筆（invite、privKey）、選了先 privLead；multirel3d.js 問 PRIVTALK.ok（zq_dad_pre、ps_bterm、zz_after）再 privLead；坦白的兩個選項標 priv＋privKey；以安「明軒的事……」標 priv（an_mx）',
+    /S\.privOk\(G,id,'invite',GM,n\)/.test(st)&&/!\(pk\(o\)&&!S\.privOk\(G,id,pk\(o\),GM,n\)\)/.test(st)&&/await S\.privLead\(GM,'invite',id\)/.test(st)&&/if\(o\.pk\) await S\.privLead\(GM,o\.pk,id\)/.test(st)
+    &&/privOk\(G,ZQ,GM,'zq_dad_pre'\)\)\{ await privLead\(GM,'zq_dad_pre',ZQ\)/.test(mr)&&/privOk\(G,PS,GM,'ps_bterm'\)\)\{[^\n]*await privLead\(GM,'ps_bterm',PS\)/.test(mr)&&/PRIVTALK\.ok\(G,x,k,GM,sub\)/.test(mr)&&/privOk\(G,id,GM,'zz_after',k\)/.test(mr)
+    &&(mr.match(/priv:true,run:/g)||[]).length===2&&/privKey:'tell_later'/.test(mr)&&/privKey:'tell_now'/.test(mr)&&/priv:true,privKey:'an_mx'/.test(y2));
+  const D=PRIVTALK.DECIDED||[];
+  check('0. 第一輪問 AA 的 12 項改成定案紀錄（PRIVTALK.DECIDED：第 1～12 項各一筆，問的、AA 定的、怎麼做；S.REF＝AA_503 第 14 節 6bc3cd784；ASK_AA 拿掉）',
+    D.length===12&&D.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/6bc3cd784/.test(PRIVTALK.REF||'')&&!('ASK_AA' in PRIVTALK),J(D.map(x=>x.n)));
+  check('0. 對稿（git show 白名單上的 AA_503 '+SHA503+'）：保底的旁白、第 9 項的旁白、第 10 項的兩句、第 12 項三組都在第 14 節；遊戲裡一字不差',
+    DOC503.indexOf('## 14. 私密的再補 12 項')>0&&DOC503.includes('> '+NARR)&&DOC503.includes(Q7NARR)&&DOC503.includes('`anOther`「理由我懂。不用解釋。」')&&DOC503.includes('`ytAfterAn`「嗯。……她會讓你說理由的。」')
+    &&DOC503.includes('・語彤和阿姨（媽媽的事）')&&DOC503.includes('・芷若和子晴（交換申請）')&&PRIVTALK.NARR===NARR&&(PRIVTALK.SCENE_LEAD||[]).length===2&&PRIVTALK.SCENE_LEAD.every(q=>q.text===Q7NARR)
+    &&V6EX_LINES.EX.anOther==='理由我懂。不用解釋。'&&V6EX_LINES.EX.ytAfterAn==='嗯。……她會讓你說理由的。'&&PRIVTALK.WAIT===7,'長度 '+DOC503.length); });
 
 /* ---------- 1 約會、priv 的一次性選項 ---------- */
 await sec('1',async()=>{ fresh('2025-10-09',15,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');
