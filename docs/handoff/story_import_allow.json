@@ -3373,11 +3373,11 @@
   },
   {
    "path": "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md",
-   "sha": "fcc93126e",
+   "sha": "f36dfe3cf",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
-   "note": "子代理登記（NPC-STORY2-1028 第四部分）：第 1 節周教授（閒聊「週四下課以後我都在」限大一上、大一下、大二上、大四下，其他學期聊天氣；ev_prof_zhou_office 照學期換題、每題一次、問完不觸發——大一上加越權代理、大一下價目表／無因管理、大二上債務不履行／時效，新的四題標 LEGAL_REVIEW_REQUIRED；大四下第 11 週週一專題下課後的研究室一次，記 ZHOU_Y4）；第 2 節許教授照年級（自我介紹、招呼、題目，每年問完不觸發；記 XU_ASKED）；第 3 節林教授（ev_prof_lin_after 開頭照次數輪四種、第二次起「下週見。」；新事件 ev_prof_lin_office 大三上週二 14:00～16:30 萬才館、最多三次、題庫抽題、三句收尾，她週二下午在萬才館＝story3d.js schedFor；選了刑事判決研討的大四上第一次上課旁白一句 ev_prof_lin_nod）；第 4 節陳教授閒聊換句、黃教授只改註解；D100e 兩支舊測試照新稿改（aa195_411 第 3 項、aa130_curriculum 第 9 項）；記憶 ZHOU_Y4 的面板名稱用稿上那一句（social3d.js）；aa350_r R7-2 的表加 ev_prof_xu_office（對許教授說「溫書瑀學姊」，等 AA）；周、林研究室的 2D 背景共用 prof_door（第 7 節）；tests/aa522_prof_office_unit.js 逐字對稿"
+   "note": "子代理登記（NPC-STORY2-1028 第四部分）：第 1 節周教授（閒聊「週四下課以後我都在」限大一上、大一下、大二上、大四下，其他學期聊天氣；ev_prof_zhou_office 照學期換題、每題一次、問完不觸發——大一上加越權代理、大一下價目表／無因管理、大二上債務不履行／時效，新的四題標 LEGAL_REVIEW_REQUIRED；大四下第 11 週週一專題下課後的研究室一次，記 ZHOU_Y4）；第 2 節許教授照年級（自我介紹、招呼、題目，每年問完不觸發；記 XU_ASKED）；第 3 節林教授（ev_prof_lin_after 開頭照次數輪四種、第二次起「下週見。」；新事件 ev_prof_lin_office 大三上週二 14:00～16:30 萬才館、最多三次、題庫抽題、三句收尾，她週二下午在萬才館＝story3d.js schedFor；選了刑事判決研討的大四上第一次上課旁白一句 ev_prof_lin_nod）；第 4 節陳教授閒聊換句、黃教授只改註解；D100e 兩支舊測試照新稿改（aa195_411 第 3 項、aa130_curriculum 第 9 項）；記憶 ZHOU_Y4 的面板名稱用稿上那一句（social3d.js）；aa350_r R7-2 的表加 ev_prof_xu_office（對許教授說「溫書瑀學姊」，等 AA）；周、林研究室的 2D 背景共用 prof_door（第 7 節）；tests/aa522_prof_office_unit.js 逐字對稿；10-28 改 f36dfe3cf（AA 加第 8 節，回 LAWWW-C 13:37 的問題；第 1～7 節台詞沒改）：①許教授每週一 14:00～16:00 在萬才館，四個年級都在（story3d.js S.PROF_OFFICE；大二上週一行政法下課後一路待到 16:00，同林教授），冷卻照舊 3 天；②和學姊交往中（dating_heroine_05），大三那一題換「學姊的論文，老師覺得怎麼樣？」（兩句），沒交往照原本那一題，同一題只問一次；③talkProf 答得好／沒讀那兩句只在民總第一堂課那一週說，之後照 1-1；④1-3：第 10 週專題下課周教授一句「{name}，下課來研究室一趟。」（ev_prof_zhou_y4_call），研究室那一場改成第 10～13 週週一 15:12～16:30 去都演、一次"
   },
   {
    "path": "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md",
