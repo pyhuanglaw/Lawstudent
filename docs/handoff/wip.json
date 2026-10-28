@@ -1429,7 +1429,7 @@
    "id": "WIP-LAWWW-SISB16-1028",
    "role": "LAWWW",
    "task": "SIS-B16-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "7eedab1ea、8b2ed5f28",
    "branch": "worktree-agent-a5d933637500b697e（子代理；D113 備份 wip_backup/sisb16_1028.bundle，基準 f07dfb683）",
    "files": [
@@ -1438,7 +1438,8 @@
    "todo": "AA_523 學姊第十六批：新檔 sis_b16_events.js／sis_b16_3d.js、第 1 節書桌夜、第 2、3 節作息、第 5、6 節改字改條件（做中；還沒有測試）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 13:40（AA_523 0d7b5388b，DL-AA-523）"
+   "source": "AA-C 2026-10-28 13:40（AA_523 0d7b5388b，DL-AA-523）",
+   "closedBy": "22d47ffc8（合併子代理 1aa06d05f；aa523 138 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-PROF522B-1028",
