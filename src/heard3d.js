@@ -1,4 +1,4 @@
-/* ===== 別人說起她（AA_503～505 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
+/* ===== 別人說起她（AA_503～507 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
    台詞在 src/data/heard_lines.js（HEARD_LINES，照稿一字不差；寫法見那個檔的開頭）。接在現有的系統上，不改那些系統的資料：
    ■ talk → STORY.PRE_TALK（talkCharacter 在閒聊前面先問：照作息出現的人；舊的固定時段 talkYu／talkKai 不經過這裡，同其他 PRE_TALK）。
    ■ kai203 → 包住 DORM203.kaiTalk（talkKai 在原本的房間句之前問；和 AA_502 的三句共用「一天最多一句新的」：DORM203.rec 的 tday.kai）。
@@ -41,7 +41,12 @@ const HEARD=(function(){
     famGroup:G=>inGrp(G,'family_law'),
     econGroup:G=>inGrp(G,'econ_friends')&&hasContact(G,'kexin'),
     /* 予樂（只有立繪的人物，沒有 contacts 那一筆）：手機裡已經有她（kxdrift3d.js 的 yuleContact 同一個認法），或去過予樂的宵夜（見過她：ev_kexin_yule_pass）*/
-    yule:G=>{ const F=G.flags||{}, D=(G.events&&G.events.done)||{}; return F.yulePassDay!=null||!!D.ev_kexin_yule_pass||(typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,'yule'))||(G.msgs||[]).some(m=>m&&m.th==='p:yule'); }
+    yule:G=>{ const F=G.flags||{}, D=(G.events&&G.events.done)||{}; return F.yulePassDay!=null||!!D.ev_kexin_yule_pass||(typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,'yule'))||(G.msgs||[]).some(m=>m&&m.th==='p:yule'); },
+    /* 沒報 C12 京都語言課（AA_506 1-4 Alison 那句「7 月，沒報 C12 的玩家」）：VAC 的報名不是 yes／done */
+    noC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return !(st==='yes'||st==='done'); },
+    /* 芯慈和以安和好以後（AA_507 1-4「第 13 週以後，和好以後」）：慈 5「對答案」演過（近、遠兩版都記 XC5_RECONCILE，r2y3a_events.js），
+       或第 13 週已經過了（她們那一週在總圖三樓和好，玩家不在場也一樣）*/
+    xcMade:G=>{ if(G.flags&&G.flags.XC5_RECONCILE) return true; const w=S.when('Y3S1:W14一'); return !!w&&G.day>=w.day; }
   };
   const condOk=(G,c)=>!c||!!(S.COND[c]&&S.COND[c](G));
   /* ---------- talk：閒聊前面先說一句 ---------- */

@@ -21,7 +21,7 @@
    ■ 分開以後一學期（INV.cool 那段：分開那天到下一個學期第 1 週）：可昕把你設成不看動態——她的動態不出、私訊不傳；之後照朋友的階段再出現。
      V6EX.COOL_IDS 沒有可昕（照 AA_351，INV.cool 對她永遠是 false），所以這裡自己用同一段期間算（ROM 的分開那天＋V6EX.coolUntil）。
      其他六位在 INV.cool 期間：動態照常（稿只寫可昕），私訊照 V6EX 每兩則送一則（'dp' 那一類）。
-   ■ 大二下、大三上（AA_506、AA_507，e4fbd0192）加的：
+   ■ 大二下、大三上（AA_506、AA_507，企劃線 31a4c4002）加的：
      - 照片裡的 {name}＝玩家的名字（G.name；以安大二下第 7 則「京都：{name}」，S.pic）。
      - 去沒去 WENT：anC12（報了 C12 京都語言課、和以安 FAMILIAR 以上＝同班那一版，同 vac_activities.js 的 AN_C12）、
        zqNamed（回過 needed_msgs zq_name「『存檔點』。」：包住 STORY.neededAnswered 記 ZQ_NAME_REPLIED；舊存檔看訊息）、anJP（日本路線，STORY.route）。
