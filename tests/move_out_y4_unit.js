@@ -3,7 +3,11 @@
 //   2. M1 Y4_PATH bar、有麵店工讀（JOB_NOODLE）：阿姨「暑假你還要來的話，週二一樣。」二選一；公館的套房（2D home_room_night＋字卡）；「兵役的時間，你排在考試之後」；
 //   3. M2 日本路線（交換延畢）：一律回臺北的家；M3 沒有麵店工讀＝沒有阿姨那段；
 //   4. 旗標：HOME_AFTER gongguan／home、JOB_NOODLE_SUMMER true／false、MOVED_OUT＝那天；之後在公館（3D）或家裡（home3d.js 的選單）。
-// 修改前全部 FAIL。用法：node tests/move_out_y4_unit.js
+// 修改前全部 FAIL。
+// AA_519 1-5（NPC-STORY2-1028，企劃線 d75cd0228：「JOB_NOODLE：遊戲沒有麵店打工。story3d.js:4186-4188、r2y3a_events.js:510 那幾句刪掉，不做打工。」）改的期待值：
+//   第 2 點的麵店那一段（阿姨「暑假你還要來的話，週二一樣。」二選一、JOB_NOODLE_SUMMER）刪掉——有 JOB_NOODLE 的舊存檔也不去麵店、沒有阿姨、沒有二選一、不寫 JOB_NOODLE_SUMMER，
+//   兩個選法（好。／暑假我要讀書。）和沒有 JOB_NOODLE 的一字不差；公館的套房那一句往前兩句（T[3]）。
+// 用法：node tests/move_out_y4_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -34,15 +38,16 @@ const KEY=['（宿舍期滿。舍監在門口收鑰匙。）','（409 的鑰匙�
   // 2. M1
   fresh(dm,10,'dorm',{JOB_NOODLE:true}); picks=['好。']; await STORY.moveOutY4(GM); let T=lines();
   check('2. M1 宿舍一樓門口（3D dorm_hall）：收鑰匙兩句＋「冬天的衣服」那一箱', entered[0]==='dorm_hall'&&JSON.stringify(T.slice(0,3))===JSON.stringify(KEY)&&!cards.some(c=>/^回宿舍/.test(c)), JSON.stringify(T.slice(0,3)));
-  check('2. M1 麵店工讀：中午麵店（3D noodle）阿姨「暑假你還要來的話，週二一樣。」二選一；「好。」＝阿姨「好。」、JOB_NOODLE_SUMMER true', entered.includes('noodle')&&T[3]==='阿姨：暑假你還要來的話，週二一樣。'&&JSON.stringify(opts[0])===JSON.stringify(['「好。」','「暑假我要讀書。」'])&&T[4]==='阿姨：好。'&&G.flags.JOB_NOODLE_SUMMER===true, JSON.stringify(T.slice(3,5)));
-  check('2. M1 bar：「（你租的套房在公館，走路到總圖十分鐘。）」→ 字卡「公館的套房」（2D home_room_night）→「（兵役的時間，你排在考試之後。）」', T[5]==='（你租的套房在公館，走路到總圖十分鐘。）'&&cards.includes('公館的套房／')&&JSON.stringify(bgs).includes('home_room_night')&&T[T.length-1]==='（兵役的時間，你排在考試之後。）', JSON.stringify({T,cards}));
+  check('2. M1 有 JOB_NOODLE 的舊存檔（AA_519 1-5：遊戲沒有麵店打工，那一段刪掉）：不去麵店（3D noodle）、沒有阿姨「暑假你還要來的話，週二一樣。」、沒有二選一、不寫 JOB_NOODLE_SUMMER', !entered.includes('noodle')&&!T.some(t=>/阿姨|週二一樣/.test(t))&&!opts.length&&!('JOB_NOODLE_SUMMER' in G.flags)&&T[3]==='（你租的套房在公館，走路到總圖十分鐘。）', JSON.stringify({T:T.slice(3,5),opts}));
+  check('2. M1 bar：「（你租的套房在公館，走路到總圖十分鐘。）」→ 字卡「公館的套房」（2D home_room_night）→「（兵役的時間，你排在考試之後。）」', T[3]==='（你租的套房在公館，走路到總圖十分鐘。）'&&cards.includes('公館的套房／')&&JSON.stringify(bgs).includes('home_room_night')&&T[T.length-1]==='（兵役的時間，你排在考試之後。）', JSON.stringify({T,cards}));
   check('2. 旗標 HOME_AFTER gongguan、MOVED_OUT＝那天；之後在公館', G.flags.HOME_AFTER==='gongguan'&&G.flags.MOVED_OUT===dm&&G.zone==='gongguan');
   check('2. 搬過了：不再演', !STORY.moveOutDue(G));
-  fresh(dm,10,'dorm',{JOB_NOODLE:true}); picks=['讀書']; await STORY.moveOutY4(GM); T=lines(); check('2. 麵店「暑假我要讀書。」：阿姨「好。讀完再來吃。」、JOB_NOODLE_SUMMER false', T[4]==='阿姨：好。讀完再來吃。'&&G.flags.JOB_NOODLE_SUMMER===false);
+  { const T1=T; fresh(dm,10,'dorm',{JOB_NOODLE:true}); picks=['讀書']; await STORY.moveOutY4(GM); T=lines(); const T2=T; fresh(dm,10,'dorm'); await STORY.moveOutY4(GM); const T0=lines();
+    check('2. 有 JOB_NOODLE 選「暑假我要讀書。」那一邊（AA_519 1-5）：一樣沒有阿姨「好。讀完再來吃。」、不寫 JOB_NOODLE_SUMMER；兩個選法都和沒有 JOB_NOODLE 的一字不差', !T2.some(t=>/阿姨/.test(t))&&!('JOB_NOODLE_SUMMER' in G.flags)&&JSON.stringify(T1)===JSON.stringify(T0)&&JSON.stringify(T2)===JSON.stringify(T0), JSON.stringify({T0,T2})); }
   // 3. M2、M3
   fresh(dm,10,'dorm',{EXCHANGE_ROUTE:'JP'}); await STORY.moveOutY4(GM); T=lines();
   check('3. M2 日本路線（Y4_PATH bar，交換延畢）：回臺北的家「（車開回臺北的家。你的房間，媽媽又打掃過了。）」、HOME_AFTER home、之後在家', T.includes('（車開回臺北的家。你的房間，媽媽又打掃過了。）')&&!T.some(t=>/套房/.test(t))&&G.flags.HOME_AFTER==='home'&&HOME.at(G)&&T[T.length-1]==='（兵役的時間，你排在考試之後。）');
-  check('3. M3 沒有麵店工讀：沒有阿姨那段、JOB_NOODLE_SUMMER false', !T.some(t=>/阿姨/.test(t))&&G.flags.JOB_NOODLE_SUMMER===false&&!entered.includes('noodle'));
+  check('3. M3 沒有麵店工讀：沒有阿姨那段、不寫 JOB_NOODLE_SUMMER（AA_519 1-5：原本寫 false，這個旗標整個不用了）', !T.some(t=>/阿姨/.test(t))&&!('JOB_NOODLE_SUMMER' in G.flags)&&!entered.includes('noodle'));
   for(const [p,line] of [['grad','（兵役的時間，你排在考試之後。）'],['other','（兵役的時間，你排好了。）'],['undecided','（兵役的時間，你排好了。）']]){ fresh(dm,10,'dorm',{Y4_PATH:p}); await STORY.moveOutY4(GM); T=lines();
     check('3. Y4_PATH '+p+'：回家、兵役「'+line+'」', G.flags.HOME_AFTER==='home'&&T[T.length-1]===line&&T.includes('（車開回臺北的家。你的房間，媽媽又打掃過了。）')); }
   // 1. 其他
