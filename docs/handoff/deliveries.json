@@ -19889,6 +19889,13 @@
    "kind": "wip",
    "task": "WANCAI-LM-1028",
    "reason": "LAWWW2 萬才館光照烘焙的 WIP（README 骨架、改前截圖、烘焙在跑），還沒交件（LAWWW-C 10-28 09:4x 分類）"
+  },
+  {
+   "sha": "e7f1f0363",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-WANCAILM",
+   "reason": "LAWWW2 記帳 commit（WANCAI-LM-1028 交件 69bf6b2e4 的 HANDOFF、outbox；LOBBY-CEIL 已 ACK），交付本身是 DL-LW2-WANCAILM（LAWWW-C 10-28 10:2x 分類）"
   }
  ]
 }
