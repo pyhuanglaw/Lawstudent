@@ -3227,11 +3227,11 @@
   },
   {
    "path": "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md",
-   "sha": "7a38216ca",
+   "sha": "60fc3b9a3",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）；第 8 節 AA-C 10-28 回 LAWWW-C（7bd68b7cf）的問題",
    "task": "NPC-STORY-1028",
-   "note": "LAWWW-C 10-28 登記：第 1-2 節宥辰的出席表先接（合併 bfe8dfad6；當時用 ad67d327b，那一節兩版一字不差）。10-28 子代理接其餘各節（宥辰、芯慈、Alison、明軒、Kevin：src/data/sup497_lines.js＋src/sup497_3d.js＋各檔的改句），改用更正版 7a38216ca（唱法條的是詹立群、宥辰負責錄；閒聊兩句）；地下室那一場照 BB_70 7b、大四兩則照 BB_113 原句（AA_497 指定）；tests/aa497_supporting_unit.js 讀 7a38216ca 雙向逐字對"
+   "note": "LAWWW-C 10-28 登記：第 1-2 節宥辰的出席表先接（合併 bfe8dfad6；當時用 ad67d327b，那一節兩版一字不差）。10-28 子代理接其餘各節（宥辰、芯慈、Alison、明軒、Kevin：src/data/sup497_lines.js＋src/sup497_3d.js＋各檔的改句），用更正版 7a38216ca（唱法條的是詹立群、宥辰負責錄；閒聊兩句）；地下室那一場照 BB_70 7b、大四兩則照 BB_113 原句（AA_497 指定）。10-28 改用 60fc3b9a3（7a38216ca＋第 8 節，前七節一字不差）：2-1 還沒認識以安＝旁白「（第一排。一個坐得很直的女生轉過頭，……）」、名字「坐第一排的女生」；芯慈追劇八處換句（聖誕劇單、needed xc_drama、noodle_table、msg_pool（tools/msg/build_pool.py 的 FIX 重產）、松菸 D02、九份 D18、eat_lines（tools/eat/import_eat_lines.py 的 FIX 重匯）、wz_jobs）；明軒的滷蛋（冠軍那一串一碗大的／大碗、日本直播、msg_pool 一碗湯、公館一百元清單的滷蛋改豆干）；學妹 family_junior 改名佳穎（讀檔換字 SUP497.migrate；姊姊宜蓁不動）；tests/aa497_supporting_unit.js 讀 60fc3b9a3 雙向逐字對（5-2、5-3 稿上的「宜蓁」照第 8 節第 5 點讀成「佳穎」）"
   },
   {
    "path": "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",

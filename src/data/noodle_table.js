@@ -11,7 +11,7 @@ const NOODLE_TABLE={
     {who:['zhe','classmate_bohan'],dialogue:[{speaker:null,text:'長桌已經坐了一半。阿哲把菜單推給你，雖然大家都只點那幾樣。'},{speaker:'zhe',text:'民總的作業誰寫完了？'},{speaker:'classmate_bohan',text:'寫完了。……不給抄。'}]},
     {who:['yu','zhe'],dialogue:[{speaker:null,text:'Alison 把滷蛋切成四份，分給整桌。'},{speaker:'yu',text:'阿姨今天心情很好！！滷蛋多一顆！'},{speaker:'zhe',text:'那是因為我昨天幫她搬瓦斯。'}]},
     {who:['classmate_bohan'],dialogue:[{speaker:'classmate_bohan',text:'期中考範圍我整理成一張表了。'},{speaker:null,text:'他把表放在桌子中間。三個人同時拿出手機拍。'}]},
-    {who:['classmate_xinci'],dialogue:[{speaker:null,text:'芯慈一坐下就趴在桌上。'},{speaker:'classmate_xinci',text:'昨天追劇追到兩點。……麵來了再叫我。'}]},
+    {who:['classmate_xinci'],dialogue:[{speaker:null,text:'芯慈一坐下就趴在桌上。'},{speaker:'classmate_xinci',text:'昨天讀書讀到兩點。……麵來了再叫我。'}]},
     /* 第 5 則：沒有 ZHE_CALLS_GE＝「欸，」那一句；玩家不一定加入系籃，只寫記事本，不排活動 */
     {who:['zhe'],dialogue:[{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'哥，下禮拜系籃練球，你來不來？'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',text:'欸，下禮拜系籃練球，你來不來？'},{speaker:null,text:'你還沒回答，他已經在記事本上寫了你的名字。'}]},
     {who:['heroine_03','zhe'],if:{ytShift:true},dialogue:[{speaker:null,text:'語彤從櫃台後面走過來，放下一盤燙青菜。'},{speaker:'heroine_03',text:'阿姨說你們都不吃菜。這盤不用錢。'},{speaker:'zhe',text:'阿姨萬歲。'}]},

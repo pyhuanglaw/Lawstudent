@@ -149,7 +149,7 @@ const GROUP_EVENTS=(function(){
       {speaker:'classmate_mingxuan',text:'你看到了喔。我今天很用力。'},
       {choice:[{text:'「我陪你走到公車站。」',goto:'m1'},{text:'「冠軍耶，明天請客。」',consequences:{stamp:['MX_EGG_DAY']},goto:'m2'},{text:'「那出國呢？」',mem:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY',note:''}],goto:'m3'}]},
       {label:'m1'},{speaker:null,text:'（路上他爸傳來一則：「那顆傳得好」。他看了很久，沒有回。）'},{goto:'dad'},
-      {label:'m2'},{speaker:'classmate_mingxuan',text:'好。請你吃滷蛋。一顆。'},{goto:'dad'},
+      {label:'m2'},{speaker:'classmate_mingxuan',text:'好。請你吃一碗大的。'},{goto:'dad'},
       {label:'m3'},{speaker:'classmate_mingxuan',text:'……交換那個，我放棄了。畢業以後自己存錢去。'},
       {label:'dad'},{speaker:null,text:'（阿哲的爸爸在場邊沒有說話，只拍了五十張照片。）'},
       {advance:G=>Math.max(0,20+40/60-G.hour)},
@@ -163,7 +163,7 @@ const GROUP_EVENTS=(function(){
   /* 選「冠軍耶，明天請客。」：隔週第一次在麵店遇到明軒（npcNear，BB_98 5-2）；日本路線看直播回「恭喜！」的：回國後第一次在麵店遇到才補。沒遇到就不補 */
   { id:'ev_mx_egg_y3', title:'冠軍那天欠的', participants:['classmate_mingxuan'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'classmate_mingxuan',
     prereq:{custom:G=>{ const g=G1(); return !!g&&g.eggDue(G); }},
-    dialogue:[ {speaker:null,text:'（他把一顆滷蛋夾到你碗裡。）'},{speaker:'classmate_mingxuan',text:'冠軍那天欠的。一顆。'} ],
+    dialogue:[ {speaker:null,text:'（他把一碗大碗的乾麵推到你面前。）'},{speaker:'classmate_mingxuan',text:'冠軍那天欠的。大碗。'} ],
     consequences:{flags:{MX_EGG_PAID:true}} },
   /* ---------- 1C-05 G5 子晴、芷若同一天畢業（2028-06-03；高子晴_角色企劃 Q13＋AA_13 G5）。上午椰林大道（6/2 21:00 子晴邀約回了「去。」）；和子晴交往中先演 BB_119 1c-2 ---------- */
   { id:'ev_zq_zr_graduation', title:'子晴、芷若的畢業典禮', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,

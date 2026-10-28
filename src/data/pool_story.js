@@ -180,7 +180,7 @@ const POOL_STORY=(function(){
         {choice:[{text:'「要背。背完還要會用。」',goto:'a'},{text:'「不用怕，大家都背不完。」',goto:'a'},{text:'「問旁邊那個班代。」',goto:'b'}]},
         L('a'), N('（那個新生點點頭，拿了名牌走了。）'), GO('e'), L('b'), y('（頭也沒抬）要背。我數過，比高中多。'), L('e'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Z)},speaker:null,text:'（七點半，靖雯提著一袋早餐來，放在報到桌上：「早安。給工作人員的。」）'},
-        {if:{flags:['KV_HANDOVER']},speaker:null,text:'（排在隊伍中間的，是宜蓁。她看到你，比你還緊張。）'},   /* AA_497 5-2 的 KV_HANDOVER（Kevin 交棒）：旁白，宜蓁不說話 */
+        {if:{flags:['KV_HANDOVER']},speaker:null,text:'（排在隊伍中間的，是佳穎。她看到你，比你還緊張。）'},   /* AA_497 5-2 的 KV_HANDOVER（Kevin 交棒）：旁白，佳穎不說話（AA_497 第 8 節第 5 點：學妹改名，原本叫宜蓁）*/
         y('我數一下。……少一個。我去打電話。') ],
       /* 5-4 她的線 */
       y3:'我把活動組交出去了。從下禮拜開始，週四晚上我都在總圖 B1。',
