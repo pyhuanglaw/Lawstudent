@@ -3771,7 +3771,7 @@
   {
    "task": "SIS-LEAD-1021",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "c444f0757",
+   "sha": "0e02591e4",
    "files": [
     "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
    ],
@@ -3781,7 +3781,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACK",
-   "note": "學姊第十三批（C25，D111）；盤點 scratchpad/inv8；朋友版大四、美國挽回中、她自己的事第一次當面；574720913 加第 5 節回 LAWWW-C 伴手禮那句；c444f0757 加第 6 節；DL-AA-512 已 ACK，第 5、6 節（574720913、c444f0757）LAWWW-C 07:20 回已轉給學姊第十三批的子代理"
+   "note": "學姊第十三批（C25，D111）；盤點 scratchpad/inv8；朋友版大四、美國挽回中、她自己的事第一次當面；574720913 加第 5 節回 LAWWW-C 伴手禮那句；c444f0757 加第 6 節；DL-AA-512 已 ACK，第 5、6 節（574720913、c444f0757）LAWWW-C 07:20 回已轉給學姊第十三批的子代理；0e02591e4 第 7 節（回 LAWWW-C 8da7af594：2-1 改 5/20、2-4 改句、2-5 旁白、私密三場）"
   },
   {
    "task": "HEROINE-LIFE-1028",
