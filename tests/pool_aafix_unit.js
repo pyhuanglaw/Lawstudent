@@ -114,6 +114,14 @@ await sec('5 晨希',async()=>{
   fresh(r3,18.8,'wancai'); meet(LY); rel(LY,25,3); spawn(LY); await talk(LY,['我也怕']); const cx0=H.G.flags.LYR_CX; meet(CX);
   set(r3+1,12,'campus'); GM.npc={}; E.npcs=[]; spawn(CX); await talk(CX,[]);
   check('5. 那時還不認識晨希＝沒有 LYR_CX、之後和晨希說話不換',!cx0&&H.G.flags.LYR_ROACH===true&&!has('社辦那隻，我用衛生紙包起來丟了。'),J(said())); });
+await sec('6 晨希大四的錄音',async()=>{   /* AA_514 第 4 節第 4 點（9bca0f407）：她 2028-06 畢業、3D 沒有她——AA_509、AA_510 那兩句改成她的錄音私訊；有聯絡方式、認識子晴；不用回 */
+  const rec=(o,key,h)=>{ o=o||{}; fresh(D(key)-1,20,'campus'); if(!o.noMeetZq) meet('heroine_04'); meet(CX); if(!o.noC) INV.addContact(H.G,CX); phAt(D(key),h); return (H.G.msgs||[]).filter(m=>m.th==='p:'+CX); };
+  const a=rec({},'2028-11-15',22.2), ja=JSON.stringify(a);
+  check('6. 2028-11-15（三）22:00「（錄音 0:40）」，點開＝「（社課的聲音。…——是子晴。）」；不用回',a.some(m=>m.text==='（錄音 0:40）')&&ja.includes('（社課的聲音。最後一首彈完，椅子一張一張收起來。有人在收導線，一邊收一邊哼——是子晴。）')&&!a.some(m=>m.ask),ja.slice(0,300));
+  const b=rec({},'2029-05-13',22.2), jb=JSON.stringify(b);
+  check('6. 2029-05-13（日）22:00「（錄音 1:10）」，點開＝「（一個學妹在台上彈，…——是子晴的聲音。）」',b.some(m=>m.text==='（錄音 1:10）')&&jb.includes('（一個學妹在台上彈，中間停了一拍，又接上。台下有人說：「沒停就好。」——是子晴的聲音。）'),jb.slice(0,300));
+  const n1=rec({noC:true},'2028-11-15',22.2), n2=rec({noMeetZq:true},'2028-11-15',22.2), early=rec({},'2028-11-15',21.5);
+  check('6. 沒有她的聯絡方式、不認識子晴＝不送；21:30 還沒有',!n1.some(m=>m.text==='（錄音 0:40）')&&!n2.some(m=>m.text==='（錄音 0:40）')&&!early.some(m=>m.text==='（錄音 0:40）'),JSON.stringify([n1.length,n2.length,early.length])); });
 H.done();
 }
 main();

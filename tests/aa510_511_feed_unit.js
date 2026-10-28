@@ -120,7 +120,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
   check('0. 大四下＋暑假：動態 33 則（以安 6、芷若 5、語彤 5、子晴 5、學姊 4、沛珊 4、可昕 4）、沒有私訊；畢業以後：動態 26 則（4、4、4、3、4、4、3）、沒有私訊',
     !!SET.Y4S2&&!!SET.PG&&J(cnt(SET.Y4S2))===J([6,5,5,5,4,4,4])&&SET.Y4S2.dms.length===0&&J(cnt(SET.PG))===J([4,4,4,3,4,4,3])&&SET.PG.dms.length===0,J([cnt(SET.Y4S2),cnt(SET.PG)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 九份的 id 都不重複（動態 283＋33＋26、私訊 23）',ids.length===365&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 九份的 id 都不重複（動態 284＋33＋26、私訊 23；前七份 284＝多 AA_514 加的 kx4bc）',ids.length===366&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   for(const term of ['Y4S2','PG']){ const S=SET[term], md=doc[term], sha=term==='Y4S2'?SHA510:SHA511;
     if(!S||!md){ check('0. '+term+' 對稿（'+sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     const L=strs(S), bad=L.filter(t=>!md.includes(t));
@@ -328,7 +328,7 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   const mine=all.filter(x=>x[0]==='AA_510'), md=doc.Y4S2||'';
   check('8. AA_510 的句子（'+mine.length+' 句：閒聊前一句 6、手機 5）都在稿裡（28f981438，一字不差）',mine.length===11&&mine.every(x=>md.includes(x[1])),J(mine.filter(x=>!md.includes(x[1]))));
   const got=new Set(all.map(x=>x[1])), heard=heardOf(md);
-  const NOT_DONE={'子晴學姊當評審，給我的學妹最高分。學妹按錯 C，她說沒關係，沒停就好。':'葉晨希 pool_11（等 AA_500）'};
+  const NOT_DONE={'子晴學姊當評審，給我的學妹最高分。學妹按錯 C，她說沒關係，沒停就好。':'改錄音私訊，AA_514 第 4 節第 4 點（2029-05-13 22:00，src/pool_more3d.js）'};
   const miss=heard.filter(([w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[1]===t)||got.has(t));
   check('8. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[1])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（葉晨希 pool_11 等 AA_500），沒有漏掉',heard.length===12&&!miss.length&&!extra.length,J({miss,extra}));
   /* 閒聊前一句：from 那天有、前一天沒有、until 那天有、隔天沒有（AA_510 六句＋第五輪補的曾靖雯四句）*/

@@ -34798,7 +34798,7 @@
    "title": "書店門口按互動鍵出的是櫃台買書選單、不是「離開書店」：櫃台互動點 {x:0,z:4.05,r:1.1} 蓋住出口 (0,4.6) r1.5；出口點走不到（卡在 z 4.07）、進門落腳點 (0,4) 在櫃台範圍裡；出口範圍 56 個站得住的點只有 14 個出「離開書店」",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "source": "BB-C 2026-10-28 06:58（door_anim_probe ONLY=book；v9.10.11 c8b9659e5 和 v9.10.12 一樣，不是回歸）",
    "first": {
@@ -34812,7 +34812,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 06:5x UTC】D108 區域配置歸 LAWWW2：櫃台互動點移到桌子前（BB 建議 (0,2.2)）或縮半徑、或落腳點往裡退；改完跑 tests/reachability_all.py 書店那一段的 Node 版（或請 BB 跑），BB 在 v9.10.13 的 6a 驗",
-   "note": "｜【BB-C 07:06 door_book2】工具找到出口範圍裡 (-1.15,4.05)（最近的互動＝離開書店），點地面走過去停在 (-1.01,4.05)，差 0.14 m 按鈕又變回櫃台＝「離開書店」只有門口左右離中心超過 1.1 m 的窄帶按得到；BB 5u 12b 記「被 BOOKSTORE-EXIT-SHOP 擋住」，改好後 v9.10.13 6a 一起驗｜【LAWWW-C 08:0x】LAWWW2 4e0b212f8 整合進開發分支 60805aa78（櫃台互動點移到桌子東端 (1.8,3.2) r0.9；tests/bookstore_exit_unit.js）；BB v9.10.13 6a 驗",
+   "note": "｜【BB-C 07:06 door_book2】工具找到出口範圍裡 (-1.15,4.05)（最近的互動＝離開書店），點地面走過去停在 (-1.01,4.05)，差 0.14 m 按鈕又變回櫃台＝「離開書店」只有門口左右離中心超過 1.1 m 的窄帶按得到；BB 5u 12b 記「被 BOOKSTORE-EXIT-SHOP 擋住」，改好後 v9.10.13 6a 一起驗｜【LAWWW-C 08:0x】LAWWW2 4e0b212f8 整合進開發分支 60805aa78（櫃台互動點移到桌子東端 (1.8,3.2) r0.9；tests/bookstore_exit_unit.js）；BB v9.10.13 6a 驗｜【BB-C 08:16 驗收】Node 出口 56/56＝離開書店（改前 14/56）、櫃台 119/119＝買書；瀏覽器 door_book_fix 12a、12b 全過；12c 連按兩下 FAIL＝沙盒 1 fps 造成（實機第二下落在推門 0.45 秒裡、互動鍵藏著）。P3 觀察：很慢的手機進門多按一下會馬上出去（進門 0.5 秒內不接受出口互動），不擋、不另開任務",
    "xai": {
     "spec": "BB-C 06:58 訊息（數字、座標）；zones3d.js 書店區域",
     "branch": "claude/focused-cray-c9uwvw",
@@ -34826,7 +34826,7 @@
    "title": "學姊第十三批（AA_512）接進遊戲：她自己的事當面演八場（交棒那晚、家族咖哩、論文卡住走椰林、6/2 公館蛋糕、日本路線 6/2 視訊、美國挽回中洗衣間、12/28 歡迎回來家聚、大四下新體育館門口）＋說了沒發生九件＋feed_y3s1 學姊第 1 則「又煮了。」",
    "area": "Y2S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "AA_512（企劃線 574720913；outbox 94540f5a6、ab66e46b1（第 5 節伴手禮兌現））；使用者 10-21／10-23 C25「學姊才是真正的女主角」「學校裡和交換學生期間的學姊劇情都要充實」",
    "first": {
@@ -34840,14 +34840,14 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:2x UTC】子代理開工（worktree，基準 86986abdf；稿 c444f0757（含第 5 節伴手禮、第 6 節日本視訊三句／前任／禁用句型））；做完合併、全部 Node、BB 看畫面；私密場景接 COMPANY-PRIV-1028 的機制",
-   "note": ""
+   "note": "｜【LAWWW-C 08:4x】子代理 65fe4ec93 合併 8da7af594（aa512 129 項 ALL PASS，修改前 FAIL 83）；BB 瀏覽器（3D 觸發：霖澤館門口、公館走近她、新體育館門口、美國社區 21～22 點、研究室晚上、視訊）；14 項實作時定的給 AA；背景圖兩張（學姊新家白天、C 棟洗衣間）BB 要"
   },
   {
    "id": "KX-MOOT3-1028",
    "title": "可昕最後一場模擬法庭（AA_514 第 1 節：KX_WATCH 旗標補記、11/28 私訊約、12/4 政大 2D 場、沒來的兩則）＋嘉義予樂家動態（第 2 節：AA_505 7-3 第 4、5 則中間加 1/29 那則）",
    "area": "Y3S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_514（企劃線 964d01175；outbox 3621b61ad）；AA 自查今天新稿「下次」「再告訴你」沒有下文的（同 AA_356 做法）",
    "first": {
@@ -34861,7 +34861,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:5x UTC】子代理開工（worktree，基準 6f0612275，稿 964d01175）；做完合併、全部 Node、BB 看畫面",
-   "note": ""
+   "note": "｜【LAWWW-C 08:3x】子代理 1ea07386e 合併 2f2ffe3eb（aa514 ALL PASS 56 項，修改前 FAILED 47）；BB 瀏覽器"
   },
   {
    "id": "LOAD-GEN-ABORT-1028",
@@ -34889,7 +34889,7 @@
    "title": "「別人說起她」說話的人是法律系同學的句子接進閒聊前一句（AA_499～501 合併後說話的人都在遊戲裡）：靖雯（AA_504 1-4、AA_506 1-4／3-4、AA_508 1-4 其中還沒做的）、晏如（AA_504 4-4）、芸萱（AA_503 10-4、AA_504 6-4、AA_505 6-4、AA_506 6-4）、晨希（AA_505／506／507／508／509 4-4）共約 14 句",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
    "first": {
@@ -34903,7 +34903,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
-   "note": ""
+   "note": "｜【LAWWW-C 08:2x】f28069a63：9 句（晨希 AA_505～508 四句、晏如一句、芸萱四句）；晨希 AA_509、AA_510 兩句她已畢業（2028-06）——問 AA"
   },
   {
    "id": "POOL-AAFIX-1028",
@@ -34957,6 +34957,90 @@
     "spec": "AA_503 第 14 節、AA_509 最後一節（企劃線 6bc3cd784）",
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "18 項照稿；7 天保底、到期那天照演、旁白；測試涵蓋",
+    "receiver": "AA",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "LOADGEN-LOCKS-1028",
+   "title": "讀檔以後，凍住的舊劇情佔著的鎖要放開：各模組 busy（約 37 個檔，.finally 才放開）、EVENTS.running（讀檔沒清＝新的一局劇情事件全部不演）、walks、ADV 等",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "BB-C 2026-10-28 07:31（5q sh_reload：【捷徑】對話框開著時 GAME.applySave，阿姨諮詢在新的一局接著演；正常 UI 走不到——loadFrom 在 busy 時擋、stale 排除對話框開著；剩下 stale 讀檔時舊劇情卡在 await 的風險）；STUCK-HARDEN-1027 的後續",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "劇情卡住 30 秒、讀檔救回來的時候",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
+   "note": "【LAWWW-C 2026-10-28 08:1x】BB-C 08:08 回報（sh_reload_lg3，d41f5025b：阿姨諮詢讀檔以後再也不演；closed2_3d.js busy 只在 finally 放開）；LAWWW-C 讀程式另外找到 applySave 沒清 EVENTS.running。LOAD-GEN-ABORT-1028 的副作用，擋 v9.10.13 發布。子代理（worktree）；BB 的 stuck_harden_probe MODE=reload 第二段＝回歸｜【BB-C 08:23 瀏覽器重現】reload_event_probe（60805aa78）：讀檔後 EVENTS.running 一直是 ev_bike_flat，新的一局 EVENTS.run 直接 return；v9.10.12 照演（舊對話框點掉、舊事件跑完才清）。修好給 BB SHA，用 reload_event_probe＋stuck_harden_probe MODE=reload 第二段重跑",
+   "xai": {
+    "spec": "BB-C 08:08 訊息；src/game3d.js applySave、src/events3d.js X.run",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "讀檔以後同一個模組的劇情能再演、新的劇情事件照常；舊劇情照樣不往下跑、不寫旗標；沒讀檔＝行為不變；靜態檢查防止新模組再犯",
+    "receiver": "BB",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "PRIV-SIS13-1028",
+   "title": "學姊第十三批接 STORY.COMPANY：ev_sis13_lab_eve＋研究室晚上那一筆作息（交往中才有＝私密）；13-3 走一圈、13-8 游完泳、13-6 洗衣間與三句短招呼算不算私密問 AA",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
+   "first": {
+    "term": "Y1S1",
+    "week": 10,
+    "earliest": "大一上和沛珊的朋友芸萱說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "note": "【LAWWW-C 08:4x】SIS-B13 子代理回報的私密場景清單；等 PRIV-AAFIX-1028 合併後一起接｜【AA-C 08:29 定】擋：研究室晚上、13-3 走一圈（期限 12/7，到期照 AA_503 第 14 節保底）、13-6 洗衣間；不擋：13-8 游完泳、13-6 三句短招呼",
+   "xai": {
+    "spec": "子代理 65fe4ec93 回報第 5 節「私密場景清單」；AA_503 第 13、14 節",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "交往中才有的研究室晚上旁邊有人不演；其他照 AA 定",
+    "receiver": "AA",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS13-AAFIX-1028",
+   "title": "AA_512 第 7 節（0e02591e4）：2-1 筆記改 5/20 佳穎私訊＋學姊兩則 5/21；2-4 改字；2-5 研究室 21:30 一學期一次旁白",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
+   "first": {
+    "term": "Y1S1",
+    "week": 10,
+    "earliest": "大一上和沛珊的朋友芸萱說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "note": "【LAWWW-C 08:3x】AA-C 08:29；LAWWW-C 自己做（完整 Node 跑完以後）｜【LAWWW-C 08:4x】7fd3c7f06（aa512 ALL PASS：5/20 佳穎、5/21 學姊、晚回 5/23、研究室旁白一學期一次）；BB 瀏覽器",
+   "xai": {
+    "spec": "AA_512 第 7 節（企劃線 0e02591e4）",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "三件照稿；測試涵蓋",
     "receiver": "AA",
     "ack": "ACK"
    }

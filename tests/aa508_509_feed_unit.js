@@ -125,7 +125,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   check('0. 大三下：動態 41 則（以安 7、芷若 7、語彤 7、子晴 7、學姊 4、沛珊 5、可昕 4）、私訊 1 則、2D 短場 1 場；大四上：動態 33 則（6、5、5、5、4、4、4）、沒有私訊',
     HAS2()&&J(cnt(SET.Y3S2))===J([7,7,7,7,4,5,4])&&SET.Y3S2.dms.length===1&&(SET.Y3S2.events||[]).length===1&&J(cnt(SET.Y4S1))===J([6,5,5,5,4,4,4])&&SET.Y4S1.dms.length===0,J([cnt(SET.Y3S2),cnt(SET.Y4S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 七個學期的 id 都不重複（動態 44＋47＋37＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0）',ids.length===306&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 七個學期的 id 都不重複（動態 44＋47＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）',ids.length===307&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
@@ -352,10 +352,11 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
       else if((m=/^\s*> ([^：]+)：(.+)$/.exec(l))) heard.push([k,m[1],m[2].trim()]);
       else if((m=/^\s*- ([^：「]+)：\s*$/.exec(l))) last=m[1]; } }
   /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）AA_508 那一句已經接進遊戲（talk），從這裡拿掉；其他照舊（原因照新規則寫）*/
-  const NOT_DONE={'學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'改私訊，AA_513 第 1 節','子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'葉晨希 pool_11（等 AA_500）',
+  const NOT_DONE={'子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'改字（不叫學姊），AA_514 第 4 節第 3 點',
+    '學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
+    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'改私訊，AA_513 第 1 節',
     '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'改私訊，AA_513 第 1 節','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'葉晨希 pool_11（等 AA_500）'};
+    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'改私訊，AA_513 第 1 節','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'改錄音私訊，AA_514 第 4 節第 4 點（2028-11-15 22:00，src/pool_more3d.js）'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟；阿凱兩句改私訊，AA_513 第 1 節），沒有漏掉',
     heard.filter(x=>x[0]==='AA_508').length===13&&heard.filter(x=>x[0]==='AA_509').length===17&&!miss.length&&!extra.length,J({miss,extra}));

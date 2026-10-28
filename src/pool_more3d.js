@@ -428,6 +428,7 @@ const POOL_MORE=(function(){
     /* 葉晨希：偶爾一段錄音（閒聊型：一個月最多一次；YCX_BEAT 以後、她畢業以前；週一、三練習的晚上 22:00）*/
     if(F.YCX_BEAT&&R.ycxBeat!=null&&[1,3].includes(G.weekday)&&hr(G)>=21&&hr(G)<22){ const gd=termEnd('Y3S2'); if(gd==null||G.day<=gd){ const k=(G.day*7+3)%5; if(k<2) P.chat(G,CX,L[CX].rec,'pool_ycx_rec_'+G.day,22); } }
     gradJP(G,CX,L[CX].gradJP,'pool_ycx_gradjp');
+    if(P.met(G,'heroine_04')&&L[CX].recY4a){ story(G,CX,DK('2028-11-15'),22,[L[CX].recY4a],'pool_ycx_y4a'); story(G,CX,DK('2029-05-13'),22,[L[CX].recY4b],'pool_ycx_y4b'); }   /* AA_514 第 4 節第 4 點（AA 9bca0f407）：晨希大四那兩句改成她的錄音私訊（畢業以後、3D 沒有她）；有她的聯絡方式（story 會查）、認識子晴；不用回 */
     /* 游振宇 */
     if(contact(G,ZY)&&S.rideDue(G)&&R.yzyFace!==G.day&&dateOf(G.day).wd===4){   /* 5-3：週四 21:00 私訊（有聯絡方式）*/
       const tag='pool_yzy_ride_'+(R.yzyRe!=null?'re':'1'); if(!sent(G,tag)&&story(G,ZY,G.day,21,L[ZY].ride,tag,{ask:askOf(tag,[{t:L[ZY].rideOpts[0]},{t:L[ZY].rideOpts[1],say:[{from:ZY,text:L[ZY].rideNo}]}],{until:(G.day+2)*24+18.5})})){ if(R.yzyRe!=null) R.yzyRe2=G.day; else R.yzyRide=G.day; } }

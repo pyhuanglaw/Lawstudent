@@ -43,7 +43,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   /* ---- 4 3-2 出國前最後一個週六 ---- */
   { const L=SISY23_LINES;
     check('4. 私訊、選項、沒來的照片都在稿裡',['明天下午有空嗎。','我要去買行李箱的鎖。……順便走一走。','明天下午不行。','好。我自己去。','買好了。'].every(t=>inDoc('「'+t+'」'))&&J(L.preAsk)===J(['明天下午有空嗎。','我要去買行李箱的鎖。……順便走一走。'])&&J(L.preMissed)===J(['📷（一個普通的行李箱鎖）','買好了。']));
-    const lines=(ev('ev_sis_predepart')||{dialogue:[]}).dialogue.filter(n=>n.text).map(n=>n.text);
+    const lines=(ev('ev_sis_predepart')||{dialogue:[]}).dialogue.filter(n=>n.text&&!n.aa512).map(n=>n.text);   /* 2026-10-28 AA_512 第 2 節第 4 點（企劃線 c444f0757）加的那一段（SIS_US_CELEB，帶 aa512）對 AA_512 的稿：tests/aa512_sis_b13_unit.js */
     check('4. 公館那場每一句都在稿裡',lines.length>=10&&lines.every(t=>inDoc(t)),J(lines.filter(t=>!inDoc(t))));
     setup('2028-07-28',20,'dorm','FAMILIAR'); rules(); at('2028-07-28',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_pre_ask');
     check('4. 臺灣路線、熟悉：7/28（五）21:00 私訊兩則、選項「好。」「明天下午不行。」',J(dms())===J(L.preAsk)&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['好。','明天下午不行。']),J(dms()));

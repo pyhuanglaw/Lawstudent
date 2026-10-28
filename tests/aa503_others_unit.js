@@ -37,7 +37,8 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   /* 第五輪（AA_510 @ 28f981438）：heard_lines.js 加了那一份的句子，對稿要有那一份；那一份的「沒有漏掉」、時間、條件在 tests/aa510_511_feed_unit.js */
   AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438'],
   /* AA_513（a2e4bf196）：阿凱說子晴四句改私訊（heard_lines.js phone 的 1-1、1-2、1-4）；以安窗邊的字幕（pass）在 tests/aa513_unit.js 對稿 */
-  AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196']};
+  AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196'],
+  AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407']};   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -65,7 +66,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   for(const k in L.noodle) for(const e of L.noodle[k]) for(const d of e.dialogue) all.push([srcOf(e),d.text,e.once]);
   for(const e of L.phone) for(const it of e.items) all.push([srcOf(e),it[2],e.id]);
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196，一字不差；'+all.length+' 句）',all.length===112&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196，一字不差；'+all.length+' 句）',all.length===121&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -76,19 +77,14 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）的三句（AA_504 一句、AA_506 兩句）已經接進遊戲（talk），從這裡拿掉；
      其他 pool_* 等 AA_499～501、阿凱那兩段時間 3D 裡沒有他（2029-06-28 起才在週五公館）、小婷／工讀生／學妹等 3D 標籤人物 */
   const NOT_DONE={
+    '子晴學姊回來看社課，第一件事是去數導線。':'改字（不叫學姊），AA_514 第 4 節第 3 點',
     '以安每次都比我早到一點點。我開始懷疑她住在教室裡。':'曾靖雯（AA_498 已有）','語彤在社工系的課坐第一排。':'蘇承恩（已有）','子晴說我彈得太快。我說她講話太快。':'劉晏如（已有）',
-    '沛珊交了一份她沒修的課的報告。老師在最後問她為什麼不修。我覺得那是今年最好的問題。':'廖芸萱 pool_15（等 AA_501）',
     '學姊說我的比較好。她自己的那杯，冬天一直有人點。……沒有在菜單上的那杯。':'小婷（不是 3D 人物）',
-    '子晴叫晨希站她旁邊。晨希緊張到一直喝水。':'劉晏如 pool_5（等 AA_500）','沛珊這學期沒來旁聽。她說週二、四要去教小朋友。……她說教小朋友也是在問『為什麼』。':'廖芸萱 pool_15（等 AA_501）',
-    '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷（不是 3D 人物）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）',
-    '我按不出 C，子晴來教。她教了十分鐘，學妹就會了。我學了一學期。':'葉晨希 pool_11（等 AA_500）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',
-    '沛珊這學期都沒來旁聽。她說要念書。……她以前念書也會來的。':'廖芸萱 pool_15（等 AA_501）',
+    '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷（不是 3D 人物）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',
     /* 第三輪：AA_506、AA_507 */
     '學姊把吧檯的抽屜整理好了。她排錯的那張班表，她帶走了。':'小婷（不是 3D 人物）',
     '學姊現在來當客人。她都坐窗邊，可是我一忙，她就一直看吧檯。':'新來的工讀生（3D 標籤人物）',
-    '子晴當器材長以後，社辦的導線都貼了名字。我借走的那條，標籤寫『晨希 還來』。':'葉晨希 pool_11（等 AA_500）','沛珊這學期沒有來。她的位子我幫她留到期中。':'廖芸萱 pool_15（等 AA_501）',
-    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（3D 標籤人物）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節',
-    '子晴學姊回來看社課，第一件事是去數導線。':'葉晨希 pool_11（等 AA_500）'};
+    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（3D 標籤人物）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('0. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、小婷、大一的學妹、新來的工讀生、本來就有的；阿凱大二上和大三上改私訊，AA_513 第 1 節），沒有漏掉',heard.length>=74&&!miss.length&&!extra.length,J({miss,extra}));
   /* 「改私訊，AA_513 第 1 節」的那幾句：AA_513 稿的那一塊（標題寫的是哪一份的 4-4、哪一天幾點；「> 阿凱：…」那幾行）真的在遊戲裡（heard_lines.js phone） */
@@ -115,7 +111,7 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HEARD',false,'沒有 HEARD'); ret
     setup(e,w.a.day-1,23.9); const before=HEARD.talkDue(H.G,e.who); const beforeOk=!before||before.id!==e.id;
     let afterOk=true; if(w.b){ setup(e,w.b.day,12); const last=HEARD.talkDue(H.G,e.who); setup(e,w.b.day+1,12); const after=HEARD.talkDue(H.G,e.who); afterOk=!!last&&last.id===e.id&&(!after||after.id!==e.id); }
     if(!(inOk&&beforeOk&&afterOk)) bad.push(e.id+' '+J({inOk,beforeOk,afterOk,from:e.from,until:e.until,day:D(w.a.day)})); }
-  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===48&&!bad.length,J(bad.slice(0,6)));
+  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===57&&!bad.length,J(bad.slice(0,6)));
   /* 要認識她、一句一次、一天一句 */
   const ps=HL().talk.find(e=>e.id==='h503_ps_an'); const d=TDt('Y1S1',8,2);
   fresh(d,12,{}); meet('classmate_peishan'); check('1. 沛珊說以安：玩家還不認識以安＝不說',!HEARD.talkDue(H.G,'classmate_peishan'));

@@ -16,12 +16,15 @@
 //   kx2_late、kx2_azalea 還在手機小事那一項由 tests/v2_b9_unit.js 第 10 項查。修改後 ALL PASS。用法：node tests/aa504_505_feed_unit.js
 // 第三輪（AA_505 第 9 節，企劃線 795fbecfd：芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改）修改前（開發分支 5df39fd7d 的 src、index.html 實際跑過）：FAILED 5——
 //   第 0 段 3 項（Y2S1 ① 牛皮紙信封那三句不在 795fbecfd、② zr4c、舊句子那一項）、第 4 段 2 項（12/11 動態第 4 則、私訊問「哪裡？」→「英國。這次真的按了。」）。修改後 ALL PASS
+// AA_514（企劃線 964d01175；任務 KX-MOOT3-1028）：大二上多一則 kx4bc（可昕 1/29 嘉義予樂家，第 4、5 則中間）——大二上則數 37→38、三個學期的 id 148→149；
+//   ①②對稿不算它（ADD514；它的稿是 AA_514，tests/aa514_kx_moot3_unit.js 逐字對）；可昕第 11 週「下次我去看。」的選項多 set KX_WATCH（這裡不比 set）。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
 const DOC={Y1S2:{spec:'docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md',sha:'62849944b',suf:'b',yHi:2026,yLo:2026},
            Y2S1:{spec:'docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md',sha:'795fbecfd',suf:'c',yHi:2026,yLo:2027}};
+const ADD514=['kx4bc'];   /* AA_514 第 2 節（964d01175）加在 AA_505 7-3 第 4、5 則中間的第 4b 則（1/29 嘉義予樂家）：①②對稿不算它（它的稿是 AA_514，tests/aa514_kx_moot3_unit.js 逐字對）；則數、id、走一遍照算 */
 const OLD505='62849944b';   /* AA_505 第一版（e05e87992 改了以安 1/27、010515370 改了四處、795fbecfd 第 9 節改了芷若第 4 則和子晴那一句）*/
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
@@ -87,11 +90,11 @@ const strs=S=>{ const L=[]; const add=x=>{ if(x==null||x==='') return; if(typeof
 sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_y1s1.js'), i2=sc('src/data/feed_y1s2.js'), i3=sc('src/data/feed_y2s1.js'), iF=sc('src/feed3d.js'), iB=sc('src/data/bbpack_events.js');
   check('0. 載得到；index.html：feed_y1s1.js → feed_y1s2.js → feed_y2s1.js → feed3d.js（在 bbpack_events.js 前面）',!errs.filter(e=>!/heard/.test(e)).length&&i1>0&&i2>i1&&i3>i2&&iF>i3&&iB>iF,J(errs));
   check('0. FEED 三個學期都接上（SETS）',HAS()&&J(FEED.SETS().map(s=>s.term))===J(['Y1S1','Y1S2','Y2S1']),HAS()?J(FEED.SETS().map(s=>s.term)):'沒有 FEED');
-  check('0. 大一下：動態 47 則（以安 7、芷若 6、語彤 6、子晴 8、學姊 5、沛珊 8、可昕 7）、私訊 7 則；大二上：動態 37 則（6、6、4、6、5、5、5）、私訊 3 則',!!SET.Y1S2&&!!SET.Y2S1&&SET.Y1S2.posts.length===47&&SET.Y1S2.dms.length===7&&SET.Y2S1.posts.length===37&&SET.Y2S1.dms.length===3,
+  check('0. 大一下：動態 47 則（以安 7、芷若 6、語彤 6、子晴 8、學姊 5、沛珊 8、可昕 7）、私訊 7 則；大二上：動態 38 則（6、6、4、6、5、5、6——可昕多 AA_514 第 2 節的第 4b 則）、私訊 3 則',!!SET.Y1S2&&!!SET.Y2S1&&SET.Y1S2.posts.length===47&&SET.Y1S2.dms.length===7&&SET.Y2S1.posts.length===38&&SET.Y2S1.dms.length===3,
     J([SET.Y1S2&&SET.Y1S2.posts.length,SET.Y1S2&&SET.Y1S2.dms.length,SET.Y2S1&&SET.Y2S1.posts.length,SET.Y2S1&&SET.Y2S1.dms.length]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 三個學期的 id 都不重複（動態 44＋47＋37、私訊 10＋7＋3）',ids.length===148&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
-  for(const term of ['Y1S2','Y2S1']){ const S=SET[term], md=doc[term], D=DOC[term];
+  check('0. 三個學期的 id 都不重複（動態 44＋47＋38、私訊 10＋7＋3）',ids.length===149&&new Set(ids).size===ids.length,J(ids.filter((x,i)=>ids.indexOf(x)!==i)));
+  for(const term of ['Y1S2','Y2S1']){ const S0=SET[term], S=S0&&Object.assign({},S0,{posts:S0.posts.filter(p=>!ADD514.includes(p.id))}), md=doc[term], D=DOC[term];   /* AA_514 加的那一則不在 AA_505 的表裡（tests/aa514_kx_moot3_unit.js 對 AA_514）*/
     if(!S||!md){ check('0. '+term+' 對稿（'+D.sha+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const L=strs(S), bad=L.filter(t=>!md.includes(t));
@@ -144,7 +147,7 @@ sec('2',()=>{ if(!HAS()||!SET.Y1S2||!SET.Y2S1){ check('2. 走一遍',false,'沒�
   check('2. 大一下＋暑假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
   r=runAll(DK('2026-09-07'),DK('2027-02-21'));
   miss=SET.Y2S1.posts.map(p=>p.id).filter(id=>!r.log.has(id));
-  check('2. 大二上＋寒假走一遍：37 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
+  check('2. 大二上＋寒假走一遍：38 則都出',!miss.length,J({miss,done:miss.map(id=>R().done[id])}));
   check('2. 大二上＋寒假：一天不超過四則（最多 '+r.maxDay+'）、每位連續七天不超過兩則（最多 '+r.worst+'）',r.maxDay<=4&&r.worst<=2,r.wid);
   r=runAll(DK('2026-01-05'),DK('2026-03-08'));
   const want=FEED.SETS().flatMap(S=>S.posts).filter(p=>{ const w=FEED.when(H.G,p.t,FEED.SETS().find(S=>S.posts.includes(p)).term); return w&&w.day>=DK('2026-01-05')&&w.day<=DK('2026-03-08'); }).map(p=>p.id);

@@ -1156,7 +1156,7 @@
    "id": "WIP-LAWWW-SISB13-1028",
    "role": "LAWWW",
    "task": "SIS-B13-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "9bdb1c0d3、8455a44fc",
    "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
    "files": [
@@ -1166,7 +1166,8 @@
    "todo": "AA_512（c444f0757）學姊第十三批八場＋說了沒發生九件＋第 5 節伴手禮＋第 6 節日本視訊三句／前任／禁用句型",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28（AA_512）；使用者 C25"
+   "source": "AA-C 2026-10-28（AA_512）；使用者 C25",
+   "closedBy": "8da7af594（合併子代理 65fe4ec93；aa512 129 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-AA513-1028",
@@ -1188,7 +1189,7 @@
    "id": "WIP-LAWWW-KXMOOT3-1028",
    "role": "LAWWW",
    "task": "KX-MOOT3-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "9bdb1c0d3、294b36bdb",
    "branch": "worktree-agent-a3622cfa154c43e9a（子代理；D113 備份 wip_backup/kxmoot3_1028.bundle）",
    "files": [
@@ -1197,7 +1198,23 @@
    "todo": "AA_514（964d01175）可昕最後一場模擬法庭（KX_WATCH：11/28 約 → 12/4 14:00 政大 → came／missed）＋AA_505 7-3 嘉義予樂家動態（1/29）",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28（AA_514）；使用者 X122★"
+   "source": "AA-C 2026-10-28（AA_514）；使用者 X122★",
+   "closedBy": "2f2ffe3eb（合併子代理 1ea07386e；aa514 56 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVFIX-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AAFIX-1028",
+   "state": "WIP",
+   "sha": "13a981d0b、01e8c052b",
+   "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix_1028.bundle）",
+   "files": [
+    "wip_backup/privfix_1028.bundle"
+   ],
+   "todo": "AA 6bc3cd784 定的 18 項：私密 12 項＋共同保底（沒有期限的 7 天、有期限的到期那天照演加旁白）、大四圈子 B2～B5",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 07:54（AA_503 第 14 節、AA_509 最後一節）"
   }
  ]
 }

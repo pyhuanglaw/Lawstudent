@@ -18,7 +18,10 @@ const LAB5=(function(){
     if(STORY.presence){ const p=STORY.presence(SIS,G); if(p&&p.here===false) return false; }   /* 美國、在家（寒暑假）*/
     const ent=STORY.schedEnt(c,G); return !!ent&&ent.zone===Z; };
   const contact=G=>(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,SIS))&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(SIS,'FIRST_MET'));   /* 直屬學姊一開始就有聯絡方式（invites.js contacts0）：還要見過她 */
-  S.canKnock=G=>S.labNow(G)&&contact(G)&&G.flags.LAB5_DOOR!==G.day;
+  /* AA_512 第 2 節第 5 點（企劃線 c444f0757）：交往中週一、三 19:00～21:30 她也在研究室（characters.js；src/sis_b13_3d.js S.labEve）——晚上那一段另外算一次（LAB5_DOOR_EVE），
+     進去記 LAB5_IN_EVE；她的作息離開研究室（21:30）就一起出去回到 4F（稿沒有晚上收東西的那一句：不說話）。白天照舊 */
+  const eve=G=>hr(G)>=19;
+  S.canKnock=G=>S.labNow(G)&&contact(G)&&(eve(G)?G.flags.LAB5_DOOR_EVE!==G.day:G.flags.LAB5_DOOR!==G.day);
   const tier=G=>{ if(dating(G)) return 'lover'; if(typeof SOCIAL==='undefined') return 'low'; const st=SOCIAL.STAGES.indexOf(SOCIAL.stage(SIS)); return st>=SOCIAL.STAGES.indexOf('FRIEND')?'friend':'low'; };
   const who=()=>({name:typeof SOCIAL!=='undefined'?(SOCIAL.npcName?SOCIAL.npcName(SIS):SOCIAL.displayName(SIS)):'學姊',charId:SIS});
   const say=async(GM,line)=>{ if(/^（/.test(line)) await GM.say(null,line); else await GM.say(who(),line); };
@@ -28,14 +31,17 @@ const LAB5=(function(){
     if(!S.canKnock(G)){ if(GM.caption) GM.caption('',closed,4600); return true; }
     let k=1; GM.sceneBegin(); try{ if(GM.caption) GM.caption('',closed,3000); k=await GM.choose([{t:'傳訊息給學姊'},{t:'算了'}]); } finally { GM.sceneEnd(); }
     if(k!==0) return true;
-    F.LAB5_DOOR=G.day; GM.sceneBegin();
+    const ev=eve(G); if(ev) F.LAB5_DOOR_EVE=G.day; else F.LAB5_DOOR=G.day; GM.sceneBegin();
     try{ GM.advance(2/60); await say(GM,S.LINES.open[tier(G)]); } finally { GM.sceneEnd(); }
-    const L=L5(); if(!L) return true; F.LAB5_IN=G.day; await GM.enter(Z,Object.assign({},L.stairs.spawn)); return true; };
-  /* 14:00：她收東西，祐廷跟著出去 */
+    const L=L5(); if(!L) return true; if(ev) F.LAB5_IN_EVE=G.day; else F.LAB5_IN=G.day; await GM.enter(Z,Object.assign({},L.stairs.spawn)); return true; };
+  /* 14:00：她收東西，祐廷跟著出去；晚上那一段（AA_512）：她的作息不在研究室了（21:30）、或已經過了那一天＝一起出去，不說話 */
   let leaving=false;
-  S.leaveDue=G=>!!G&&G.zone===Z&&G.flags.LAB5_IN===G.day&&hr(G)>=14&&!S.staged;
+  S.eveTerm=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return t?t.id:null; };   /* 一學期一次：記學期（G.flags.LAB5_EVE_OUT）*/
+  S.eveOutLine=()=>typeof SISB13_LINES!=='undefined'&&SISB13_LINES.labEveOut||null;
+  S.leaveDue=G=>!!G&&G.zone===Z&&!S.staged&&((G.flags.LAB5_IN===G.day&&hr(G)>=14)||(G.flags.LAB5_IN_EVE!=null&&(G.flags.LAB5_IN_EVE!==G.day||!S.labNow(G))));
   S.tick=function(GM){ const G=GM&&GM.G; if(leaving||!S.leaveDue(G)) return false; if(GM.D&&GM.D.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false; if(typeof ADV!=='undefined'&&ADV.active) return false;
-    leaving=true; (async()=>{ try{ G.flags.LAB5_IN=null; if(GM.npc&&GM.npc[SIS]){ GM.sceneBegin(); try{ await say(GM,S.leaveLine(G)); } finally { GM.sceneEnd(); } }
+    leaving=true; (async()=>{ try{ const evIn=G.flags.LAB5_IN_EVE!=null; G.flags.LAB5_IN=null; G.flags.LAB5_IN_EVE=null; if(!evIn&&GM.npc&&GM.npc[SIS]){ GM.sceneBegin(); try{ await say(GM,S.leaveLine(G)); } finally { GM.sceneEnd(); } }
+      if(evIn){ const tk=S.eveTerm(G), t=S.eveOutLine(); if(t&&tk&&G.flags.LAB5_EVE_OUT!==tk){ G.flags.LAB5_EVE_OUT=tk; GM.sceneBegin(); try{ await say(GM,t); } finally { GM.sceneEnd(); } } }   /* AA_512 第 7 節第 12 點：晚上 21:30 一起出去，一學期一次那一句旁白 */
       const L=L4(); if(L) await GM.enter('linze_4f',Object.assign({},L.stairs.spawn)); } catch(e){ console.warn('LAB5.leave',e); } finally { leaving=false; } })(); return true; };
   /* 出遊換到 5F 演（AA_399 1-2 的表）：me＝祐廷站的位置 [x,z,yaw]；sis＝她在哪個 spot（sit＝坐著）；lights、exam 照 LZUP */
   const DESK_ME='me_desk';   /* 主角站著和她說話的位置：配置的 spots.me_desk（10-23 AA_399 1-1 更正：她的桌子在門邊；原本寫死在靠窗那張旁邊 [-4.75,4.55,-0.55]）*/
