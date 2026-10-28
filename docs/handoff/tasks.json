@@ -34316,17 +34316,18 @@
    "id": "CROWD-DEPTS-1028",
    "title": "路人分科系：通識課、椰林大道、體育館、圖書館的人各系都有，講話說自己是哪一系、聽到的對話照系別；法律系必修課才全是法律系",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-28 00:5x 對 LAWWW-C（UA-LAWWW-1028-03；USER_WANTS X120）",
-   "next": "【LAWWW-C 2026-10-28 01:3x UTC】AA_495 交了（5d7bd4040，DL-AA-495）；LAWWW 接（v9.10.13）；第 5 節外觀建議轉 LAWWW2｜【LAWWW-C 2026-10-28 01:0x UTC】AA-C 寫各系路人的講話句、聽到的對話；LAWWW 改 crowd3d.js、課堂的同學名單（通識課混系）；LAWWW2 看外觀要不要分（實驗衣、球衣…）",
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】合進開發分支 eeedfcace：src/data/crowd_depts.js（AA_495 逐字）、crowd3d.js 照地點抽系（椰＝校園、圖＝總圖社科圖、體＝體育館、館＝公館）、「X系的學生」聽一句（時段欄、輪法照 AA_489）、走過聽到的對話（一組一天一次）、通識門口混系、法律系必修門口全是法律系、體育館 16 句；engine3d.js 路人的「聽一句」不蓋掉出口、座位、有名字的人。沒做：外觀（給 LAWWW2，任務 CROWD-DEPTS-LOOK-1028）、霖澤館 201／萬才館門口等候人群（場景配置）。BB 測（佇列 6a）｜【LAWWW-C 2026-10-28 01:3x UTC】AA_495 交了（5d7bd4040，DL-AA-495）；LAWWW 接（v9.10.13）；第 5 節外觀建議轉 LAWWW2｜【LAWWW-C 2026-10-28 01:0x UTC】AA-C 寫各系路人的講話句、聽到的對話；LAWWW 改 crowd3d.js、課堂的同學名單（通識課混系）；LAWWW2 看外觀要不要分（實驗衣、球衣…）",
    "xai": {
     "spec": "AA_495（claude/magical-albattani-bk7b4n 5d7bd4040）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "校園、通識課、體育館看得出各系的學生",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "eeedfcace"
   },
   {
    "id": "NPC-STORY-1028",
@@ -34346,7 +34347,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:2x UTC】AA_496 第 9 節（斷線四旗標 BH4_DONE／XC1_STICKY／XC5_RECONCILE／ZHE4_FINAL、尾聲阿哲＋Alison 各一句、麵店團補救 ev_zhe_group_late(_talk)、宥辰上午必修出席、「法服的社長」等全名）合進開發分支 bfe8dfad6；BB 測（佇列 6a）；下一步：AA_498 改名表＋二十位共同做法｜【LAWWW-C 2026-10-28 01:5x UTC】AA 交：AA_496 盤點（第 9 節子代理做中）、AA_497 五位配角（更正 7a38216ca）、AA_498 二十位共同做法＋改名六個＋第一批五位、AA_499 第二批五位；下一批大二六位。LAWWW 照 X118 以後的順序分批接（共同做法先做一套，再一位一位接）｜【LAWWW-C 2026-10-28 01:3x UTC】AA-C：pool 20 位盤點回來、其他三份還在跑；發現的程式問題（外觀描述和出現地點對不上、廖芸萱／嚴子安／馬佳蓉永遠輪不到、ev_pool_greet「在教室看過」但沒進過教室）和第一批規格一起交｜【LAWWW-C 2026-10-28 01:3x UTC】使用者 01:3x「203 四人宿舍……我室友根本只有阿凱 第一天之後」（X123）：第一批請 AA 先寫阿哲、柏翰當室友的 203 日常（早上誰在、週末、房間閒聊、四個人的小事）；LAWWW 的「時間到自己進門」在 DORM203-MATES-1028｜【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：20 人分批（每批幾人、玩家最早遇到的先寫，D81）；每人：個性與外觀關鍵字、和誰熟、一條小故事（幾場、哪一學期）、主動訊息、閒聊；LAWWW 照稿接（characters.js、事件、手機訊息）；LAWWW2 看外觀要不要配合個性調（D59 角色美術由 LAWWW 驗收）",
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】AA_498（共同做法、改名六位、二十位地點表、第一批五位）派子代理做（WIP-LAWWW-POOL498-1028）；AA_499～501 等 AA_498 合進來以後照同一套接；AA_497 五位配角等 203 子代理做完再派｜【LAWWW-C 2026-10-28 02:2x UTC】AA_496 第 9 節（斷線四旗標 BH4_DONE／XC1_STICKY／XC5_RECONCILE／ZHE4_FINAL、尾聲阿哲＋Alison 各一句、麵店團補救 ev_zhe_group_late(_talk)、宥辰上午必修出席、「法服的社長」等全名）合進開發分支 bfe8dfad6；BB 測（佇列 6a）；下一步：AA_498 改名表＋二十位共同做法｜【LAWWW-C 2026-10-28 01:5x UTC】AA 交：AA_496 盤點（第 9 節子代理做中）、AA_497 五位配角（更正 7a38216ca）、AA_498 二十位共同做法＋改名六個＋第一批五位、AA_499 第二批五位；下一批大二六位。LAWWW 照 X118 以後的順序分批接（共同做法先做一套，再一位一位接）｜【LAWWW-C 2026-10-28 01:3x UTC】AA-C：pool 20 位盤點回來、其他三份還在跑；發現的程式問題（外觀描述和出現地點對不上、廖芸萱／嚴子安／馬佳蓉永遠輪不到、ev_pool_greet「在教室看過」但沒進過教室）和第一批規格一起交｜【LAWWW-C 2026-10-28 01:3x UTC】使用者 01:3x「203 四人宿舍……我室友根本只有阿凱 第一天之後」（X123）：第一批請 AA 先寫阿哲、柏翰當室友的 203 日常（早上誰在、週末、房間閒聊、四個人的小事）；LAWWW 的「時間到自己進門」在 DORM203-MATES-1028｜【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：20 人分批（每批幾人、玩家最早遇到的先寫，D81）；每人：個性與外觀關鍵字、和誰熟、一條小故事（幾場、哪一學期）、主動訊息、閒聊；LAWWW 照稿接（characters.js、事件、手機訊息）；LAWWW2 看外觀要不要配合個性調（D59 角色美術由 LAWWW 驗收）",
    "xai": {
     "spec": "使用者原話＋選擇題答案",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -34524,6 +34525,81 @@
     "acceptance": "五位有固定外觀（底模＋道具或專屬模型），在遊戲裡和女主角同框看得出是誰",
     "receiver": "LAWWW",
     "ack": "未派"
+   }
+  },
+  {
+   "id": "CROWD-DEPTS-LOOK-1028",
+   "title": "各系路人的外觀（AA_495 第 5 節）：土木的測量腳架（兩人一組）、化學醫學折在手臂上的實驗衣、圖資的工讀證和書車、系隊外套或系服背後印系名（化學、電機、土木）、農藝的小推車、物理化學共撐一把傘；另外霖澤館 2F（201）、萬才館教室門口的等候點（法律系必修門口的對話）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "AA_495 第 5 節；CROWD-DEPTS-1028 子代理回報（沒做的）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "走在校園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 修完溫州街公園、做完女主角圈子的 3D 人物以後；外觀先用道具（CHAR.setProp），不換底模",
+   "xai": {
+    "spec": "AA_495 第 5 節",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "校園上看得出幾個系（腳架、實驗衣、系服）；201 門口有等候的人",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "PHONE-AUTO-ENTER-1028",
+   "title": "換區域途中（推門演完到新區域換好、變黑、載入）不自動打開手機",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "BB-C 2026-10-28 02:2x relsuite_562 touch_flow_wenzhou「進入 Café」FAIL 的可能原因之二（推門 A21 演完把 busy 還原、接著換區域，那幾秒 phoneAuto 只看 busy／paused）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "有待回覆的訊息時走進有門的地方",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】a13d98eaa：S.phoneAuto 多看 GM.isEntering()；tests/phone_auto_unit.js 加一項；放進 v9.10.12 rc2；BB 的 tfw_timeline 會分出 FAIL 真正的原因（測試時間差或這個）",
+   "sha": "a13d98eaa"
+  },
+  {
+   "id": "INTERIOR-AAA-REVIEW-1028",
+   "title": "校內建築室內美術全面提升：參閱 3A 大作檢討（現況、做法、差距、改善計畫），照計畫分批改（光照烘焙、配置、家具、材質），先做 201 教室示範",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 01:5x 對 LAWWW2-C「我仍然覺得 校內建築 空間內配置 有很大的美術提升空間 現在是一個廉價手遊感 請你去參閱3A大作好好檢討」（UA-LAWWW2-1028-01；USER_WANTS X125）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一天走進霖澤館 201",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
+   "xai": {
+    "spec": "使用者原話；LAWWW2 的檢討文件 038fe55b1（INTERIOR-AAA-REVIEW-1028）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "校內室內（先 201 教室）遊戲畫面和改前同角度比較，看得出光照、配置、家具、材質的提升；效能數字附上；使用者看過",
+    "receiver": "LAWWW",
+    "ack": "自領"
    }
   }
  ]
