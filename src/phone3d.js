@@ -30,6 +30,7 @@ const PHONE=(function(){
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
+    if(it.play) m.play=true;   /* play：錄音（宥辰的週五的歌，AA_497 1-4）——折起來的是點開聽到的那一句旁白，手機上寫「（點開聽）」*/
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); }
     if(it.cg){ m.cg=it.cg; G.cg=G.cg||{unlocked:[]}; G.cg.unlocked=G.cg.unlocked||[]; if(!G.cg.unlocked.includes(it.cg)) G.cg.unlocked.push(it.cg); }   /* 照片是一張 CG（例：CG-2b Alison 傳的讀書會白板，AA_343 E2）：訊息下面顯示那張圖（game3d.js threadHTML），送出就收進相簿 */
     return m; };

@@ -389,7 +389,8 @@ const PG=(function(){
     switch(id){
       case 'zhe': { let t=E.zhe.base; if(has('zhe','LENT_NOTES_Y2')) t=E.zhe.notes; if(has('zhe','STUDIED_WITH_ZHE')) t=E.zhe.studied; if(yes(F.ZHE4_FINAL)) t=E.zhe.final;
         if(S.atTable(G,'yu')) return E.zhe.withYu.concat(t!==E.zhe.base?[[id,t]]:[]); return [[id,t]]; }   /* 和 Alison 同一桌＝兩人那一組照演，接著阿哲自己的回收句（筆記／陪念／哲 4，照他那張表取最下面一列）一句；只有預設句的不加（AA_496 第 9 節第 2 點：原本兩人那一組蓋掉各自的回收句）*/
-      case 'yu': { if(S.atTable(G,'zhe')) return yes(F.YU4_ALONE)?[[id,E.yu.alone]]:null; return [[id,yes(F.YU4_ALONE)?E.yu.alone:E.yu.base]]; }   /* 和阿哲同一桌：她那一句已經在兩人那一組；YU4_ALONE 的回收句接在阿哲的回收句後面（同上）*/
+      case 'yu': { const lib=typeof SUP497!=='undefined'&&SUP497.epiYuLib&&yes(F.YU4_ALONE)?SUP497.epiYuLib(G):[];   /* AA_497 3-7：「一個人吃滷肉飯」那一段之後，有 YU_Y4_LIB（大四法圖坐她對面）多一句 */
+        if(S.atTable(G,'zhe')) return yes(F.YU4_ALONE)?[[id,E.yu.alone]].concat(lib):null; return [[id,yes(F.YU4_ALONE)?E.yu.alone:E.yu.base]].concat(lib); }   /* 和阿哲同一桌：她那一句已經在兩人那一組；YU4_ALONE 的回收句接在阿哲的回收句後面（同上）*/
       case 'classmate_bohan': { let t=E.bohan.base; if(yes(F.BH4_DONE)) t=E.bohan.bh4; if(S.gradAdmit(G)) t=E.bohan.bh5; return [[id,t]]; }   /* 翰 5 兩人同一組＝GRAD_ADMIT 有值（AA_327 2-Y4-06）*/
       case 'classmate_xinci': { if(yes(F.XC1_STICKY)) return [[id,E.xinci.sticky]]; if(yes(F.XC5_RECONCILE)&&S.atTable(G,'heroine_01')) return S.dating(G,'heroine_01')?[E.xinci.reconcile[0]]:E.xinci.reconcile; return [[id,E.xinci.base]]; }
       case 'heroine_01': { if(S.dating(G,'heroine_01')) return me(E.an.partner); if(yes(F.XC5_RECONCILE)&&S.atTable(G,'classmate_xinci')&&!yes(F.XC1_STICKY)) return null; return [[id,E.an.friend]]; }   /* 慈 5 那一組裡以安那句就是她的一句 */
@@ -401,9 +402,10 @@ const PG=(function(){
       case 'classmate_mingxuan': { const M=E.mx; let t=M.base; if(S.gradAdmit(G)) t=M.grad; if(F.BAR_YEAR===2029) t=M.bar2029; if(F.BAR_YEAR===2030) t=M.bar2030; if(has('classmate_mingxuan','SAW_HIM_STUDY')) t=M.saw; return me(t); }
       case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=S.delayed(G)?[DLY(G,'psCard',P.card[0])].concat(P.card.slice(1)):P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=yes(F.PS_WAITED)&&P.waited?P.lover.concat([P.waited]):P.lover; return me(t); }   /* PS_WAITED（BB_165 5-1，台南那一天等你問完）：和祐廷那一版多一句 */
       case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if(!S.delayed(G)&&F.BAR_YEAR===2030) t=Fy.y2030;   /* AA_331 1b：交換路線 2031 拿掉（交換延畢的 2030 也不再擋，沒有 2031 國考；AI解讀、待使用者確認）*/ if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
+      case 'classmate_youchen': return typeof SUP497!=='undefined'&&SUP497.epiYc?SUP497.epiYc(G):null;   /* AA_497 1-6（BB_70 7b）：五年後「法條我還是背得很熟。只是現在背的是著作權法。」；地下室那場去了（YC_GIG）多一句 */
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };
-  S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_peishan','npc_fangyt','kexin'];
+  S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_youchen','classmate_peishan','npc_fangyt','kexin'];   /* 宥辰：AA_497 1-6 五年後那一句（有點熟以上才在桌上，同其他人）*/
   S.epiPresent=(G,id)=>id==='kai'||(id==='kexin'?S.dating(G,'kexin'):S.atTable(G,id));   /* 只有認識的人在場；阿凱是室友 */
   S.econLine=function(G){ const F=G.flags, E=L().EPI.econ; if(!(F.PLAYED_Y0||F.MET_XUN||has('econ_zhengxun','FIRST_MET'))) return null;
     if(F.ECON_PAST_SHARED==='full'||F.ECON_PAST_SHARED==='half'){ const nights=!!(G.events&&G.events.done&&Object.keys(G.events.done).some(k=>/^ev_sk05_vending/.test(k))); return {line:nights?E.full:E.noNights,far:false}; }   /* 那幾個晚上＝SK05 三閃，販賣機見 */

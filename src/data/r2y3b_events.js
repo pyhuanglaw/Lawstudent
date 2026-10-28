@@ -139,19 +139,23 @@ const R2Y3B_EVENTS=(function(){
     {speaker:'yu',text:'所以我跟阿哲說，我想每週留一個晚上給自己。'},
     {speaker:'yu',text:'他說好。然後他問我要不要他幫我找好看的電影。'},
     {speaker:'yu',expression:'laugh',text:'（笑出來）我說，你幫我找，那就不是一個人了啊。'} ];
+  /* AA_497 3-3：大二下「一個人的早餐」選了什麼（YU_BKF；src/sup497_3d.js），語 4 在她第一句前面多一句（當面、電話、視訊都一樣；沒演過＝照舊）*/
+  const YU4_BKF=[ {if:{flagIs:{YU_BKF:'STAY'}},speaker:'yu',text:'你大二陪我吃過一次早餐。我那時候就在想，不能一直等別人來。'},
+    {if:{flagIs:{YU_BKF:'WAKE'}},speaker:'yu',text:'阿哲現在起得來了。……可是我還是想要一個晚上，只有我。'},
+    {if:{flagIs:{YU_BKF:'ALONE'}},speaker:'yu',text:'你大二說一個人吃也不錯。我那時候覺得你很怪。'} ];
   const YU4_W=[ {label:'w'},{speaker:'yu',text:'對。'},{speaker:null,text:'（她笑。）'},{speaker:'yu',text:'他昨天傳了十二部電影給我。……我一部都不要看他選的。'},{goto:'end'},
     {label:'q'},{speaker:'yu',text:'……還不知道。'},{speaker:null,text:'（她看著傅鐘。）'},{speaker:'yu',text:'所以才要留一個晚上。'},{goto:'end'} ];   /* 檔尾裁定 #17 */
   const YU4={ id:'ev_yu_alone_breakfast', title:'一個人的晚上', participants:['yu'], location:'campus', trigger:'auto', once:true, term:['Y3S2'], weeks:[3,4,5,6], weekday:[1,2,3,4,5], time:[9.5,12], npcNear:'yu', background:'blur',
     prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&!x.inJP(G); }},
-    dialogue:[ {speaker:null,text:'（她一個人在吃早餐。這次她沒有戴耳機。）'},
-      {speaker:'yu',text:'欸，我在練習。一個人吃早餐。'} ].concat(YU4_TAIL,[
+    dialogue:[ {speaker:null,text:'（她一個人在吃早餐。這次她沒有戴耳機。）'} ].concat(YU4_BKF,[
+      {speaker:'yu',text:'欸，我在練習。一個人吃早餐。'} ],YU4_TAIL,[
       {choice:[{text:'「他很怕妳無聊。」',set:{YU4:'worry'},goto:'w'},{text:'「妳一個人的晚上要做什麼？」',set:{YU4:'what'},goto:'q'},{text:'（坐下來，一起吃，不說話）',set:{YU4:'sat',YU4_ALONE:true},mem:[{npc:'yu',tag:'YU4_SAT',note:'她練習一個人吃早餐，你坐下來一起吃'}],goto:'s'}]}],
       YU4_W,[
       {label:'s'},{speaker:null,text:'（兩個人把早餐吃完。她站起來。）'},{speaker:'yu',text:'欸，你剛剛都沒講話。'},{speaker:'yu',text:'……我也沒有。'},{speaker:null,text:'（她把早餐的紙袋摺成一小塊。）'},   /* 檔尾裁定 #17 */
       {label:'end'} ]) };   /* YU4_ALONE：尾聲 Alison 那一句「語 4 坐下來一起吃」（postgrad3d.js 讀，AA_319 1A-20）*/
   const YU4_CALL={ id:'ev_yu_alone_call', title:'Alison', participants:['yu'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {if:JP,scene:'視訊',bg:'video'},{unless:JP,scene:'電話'},
-      {speaker:'yu',text:'欸，我在練習。今天早上一個人吃早餐。'} ].concat(YU4_TAIL,[
+    dialogue:[ {if:JP,scene:'視訊',bg:'video'},{unless:JP,scene:'電話'} ].concat(YU4_BKF,[
+      {speaker:'yu',text:'欸，我在練習。今天早上一個人吃早餐。'} ],YU4_TAIL,[
       {choice:[{text:'「他很怕妳無聊。」',goto:'w'},{text:'「妳一個人的晚上要做什麼？」',goto:'q'},{text:'（聽她講完）',goto:'l'}]}],
       YU4_W,[
       {label:'l'},{speaker:null,text:'（她又講了五分鐘社團的事，才說要去念書了。）'},
@@ -315,6 +319,11 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
   const XC_LINES=[ {speaker:'classmate_xinci',text:'以安不在的這學期，我第一次考第一。'},
     {speaker:'classmate_xinci',text:'一點都不好玩。'},
+    /* AA_497 2-5：照記憶多一句，可以疊（影印機猜拳 XC_RPS、她爸爸那一場選的 XC_DAD_*；src/sup497_3d.js）；沒演到慈 6 的＝隔天 12:00 私訊 */
+    {if:{flags:['XC_RPS']},speaker:'classmate_xinci',text:'我上一次贏她，是大一在影印機前面猜拳。'},
+    {if:{flags:['XC_DAD_AN']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他問：那沈以安第幾？'},
+    {if:{flags:['XC_DAD_XC']},speaker:'classmate_xinci',text:'我打電話跟我爸說了。他說，你那個同學早就說了。'},
+    {if:{flags:['XC_DAD_NO']},speaker:null,text:'（她看著手機很久，最後沒有打給任何人。）'},
     {speaker:'classmate_xinci',text:'我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。'},
     {speaker:'classmate_xinci',text:'昨天晚上追劇追到兩點。……那部劇真的很好看。'},
     {choice:[{text:'「恭喜。」',goto:'a'},{text:'「哪一部劇？」',goto:'b'}]},

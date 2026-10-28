@@ -3227,11 +3227,11 @@
   },
   {
    "path": "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md",
-   "sha": "ad67d327b",
+   "sha": "7a38216ca",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）",
    "task": "NPC-STORY-1028",
-   "note": "LAWWW-C 10-28 登記：目前只用第 1-2 節宥辰的出席表（合併 bfe8dfad6）；其他部分接的時候改用更正版 7a38216ca"
+   "note": "LAWWW-C 10-28 登記：第 1-2 節宥辰的出席表先接（合併 bfe8dfad6；當時用 ad67d327b，那一節兩版一字不差）。10-28 子代理接其餘各節（宥辰、芯慈、Alison、明軒、Kevin：src/data/sup497_lines.js＋src/sup497_3d.js＋各檔的改句），改用更正版 7a38216ca（唱法條的是詹立群、宥辰負責錄；閒聊兩句）；地下室那一場照 BB_70 7b、大四兩則照 BB_113 原句（AA_497 指定）；tests/aa497_supporting_unit.js 讀 7a38216ca 雙向逐字對"
   },
   {
    "path": "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md",
