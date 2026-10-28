@@ -1,0 +1,15 @@
+--- a/tests/flow_main_day12.py	2026-10-28 04:01:30.080727103 +0000
++++ b/tests/flow_main_day12.py	2026-10-28 04:01:30.095328400 +0000
+@@ -116,6 +116,12 @@
+         run.check('走到床邊（點地面／搖桿）', ok)
+         if ok:
+             await pg.wait_for_timeout(800)
++            # 床底下的紙箱（y1fill3d.js S.boxSpot：書桌和梯子中間，離床的互動點 0.54 m，半徑 0.45）在床的互動範圍裡比較近的那一塊（約兩成的站位）會搶走按鈕：
++            # 停在那裡的玩家會看到「床底下的紙箱」，再往床走近一點就是「睡覺」。像玩家一樣走近（v9.10.11 就這樣；BB-C 10-28 v9.10.12 rc3：停在離床 0.57 m）
++            lab = (await L.state(pg))['interact']
++            if lab and not lab.startswith('睡覺'):
++                run.note(f'[玩家操作] 床邊的按鈕是「{lab}」→ 再往床走近一點')
++                await L.go_to(pg, cdp, run, bed['x'], bed['z'], 0.25, '床（走近）', max_s=S_(240)); await pg.wait_for_timeout(800)
+             run.check('床邊出現「睡覺」', await use_interact(pg, cdp, run, '睡覺'))
+             s = await wait_story(pg, cdp, run, "GAME.G.zone==='campus'&&!!GAME.G.flags.campusIntro")   # 第二天霖澤館前（campusMorning：阿哲）演完
+         # ---- 第二天：霖澤館前 ----
