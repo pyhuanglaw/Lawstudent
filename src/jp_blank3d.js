@@ -69,7 +69,9 @@ const JPB=(function(){
     return false; };
   S.poolDue=(G,day)=>inJP(G)&&G.day===day&&!S.dayHas(G,day);
   S.poolLine=function(G){ const v=dat(G)?'dating':'repair', P=X.POOL[v], R=S.rec(G), i=(R.pool[v]|0)%P.length; R.pool[v]=(R.pool[v]|0)+1; const t=P[i];
-    return (!(G.flags&&G.flags.JP_BIKE)&&X.POOL_WALK&&X.POOL_WALK[t])||t; };   /* 腳踏車還沒買（挽回中 4/8 才買）＝騎腳踏車那一句換走路（AA_519 第 9 節第 2 點；jp_blank_lines.js POOL_WALK）*/
+    return (S.noBikeYet(G)&&X.POOL_WALK&&X.POOL_WALK[t])||t; };   /* 腳踏車還沒買＝騎腳踏車那一句換走路（AA_519 第 9 節第 2 點；jp_blank_lines.js POOL_WALK）*/
+  /* 腳踏車還沒買：還沒有 JP_BIKE、而且還沒到買腳踏車那一格（交往中 jpb_1_2 3/31 15:00、挽回中 jpb_1_2r 4/8 15:00）。過了那一格照舊當作有腳踏車（同 5/13 二手店那一句）*/
+  S.noBikeYet=function(G){ if(!G||(G.flags&&G.flags.JP_BIKE)) return false; const r=S.SCH.find(s=>s.k===(dat(G)?'jpb_1_2':'jpb_1_2r')), d=r?DK(r.d):null; return d!=null&&NOW(G)<T(d,r.h); };
   S.POOL_SCH=S.weekendDays().map(d=>{ const x=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d):null, key=x?x.key:String(d);
     return {k:'jpb_pool_'+key,d:key,h:18.5,w:'jp',if:G=>S.poolDue(G,d),sum:G=>S.poolLine(G)}; });
   for(const s of S.SCH.concat(S.POOL_SCH)) if(!JP.SCH.some(q=>q.k===s.k)) JP.SCH.push(s);

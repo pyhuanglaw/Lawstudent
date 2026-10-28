@@ -3,6 +3,8 @@
 //   修改前（沒有 src/data/r2y3a_events.js、src/r2y3a3d.js，index.html 沒有接）：第 0 項全部 FAIL。用法：node tests/r2y3a_events_unit.js
 //   AA_519（NPC-STORY2-1028，企劃線 d75cd0228）改的期待值：9 颱風夜第一句旁白照 5-3 換（兩杯熱豆漿），另外加大二颱風那晚有來的（TYPHOON_Y2_KAI）＝第二句多「（阿凱說：「去年也是我。」）」（5-4）；
 //   20 有 JOB_NOODLE 的那一句「……你週二來切蔥，週四來陪我發呆。很忙喔。」照 1-5 刪掉（遊戲沒有麵店打工）＝有 JOB_NOODLE 也不出、其他逐字照舊
+//   AA_519 第 9 節第 1 點（企劃線 169130daf，颱風夜同一場其他的泡麵一起換：大三是兩杯熱豆漿）改的期待值：9 「（舉起泡麵）」兩句→「（舉起豆漿）」、選項「吃掉阿凱的泡麵」→「喝掉阿凱的豆漿」（照稿）；
+//   子代理照同樣的意思改的：19:30 那則「所以我帶泡麵過去」→「所以我帶豆漿過去」、子晴「我也去泡一碗」→「我也去泡一杯」、只有阿凱那一版「（他拆了第一包。）」→「（他把吸管插進第一杯。）」（檢查照留，只換字）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -256,19 +258,19 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 
   // ===== 9. 2-Y3-09 颱風假 T3a、T3b =====
   fresh('2027-10-12',19,'dorm'); STORY.y3Facts(G); to('2027-10-12',20.1); PHONE.tick(G); check('9. 10/12 20:00 停課新聞「明天停止上班上課。」（story3d.js S.y3Facts）',txt('sys').includes(':明天停止上班上課。'));
-  fresh('2027-10-13',19,'dorm'); R('kai','FAM'); run('2027-10-13',19.25,19.75); check('9. T3a 10/13 19:30 阿凱兩則',JSON.stringify(txt('p:kai'))===JSON.stringify(['kai:明天也停課吧','kai:所以我帶泡麵過去']));
+  fresh('2027-10-13',19,'dorm'); R('kai','FAM'); run('2027-10-13',19.25,19.75); check('9. T3a 10/13 19:30 阿凱兩則',JSON.stringify(txt('p:kai'))===JSON.stringify(['kai:明天也停課吧','kai:所以我帶豆漿過去']));   /* AA_519 第 9 節第 1 點：大三帶豆漿 */
   { const T=ev('ev_typhoon_y3_noodle'); to('2027-10-13',20.1); check('9. 20:00 人在宿舍房間就演；19:50 不演；23:00 以後不演；不在宿舍不演（回宿舍才演）',EVENTS.check(T)&&(()=>{ to('2027-10-13',19.8); const a=!EVENTS.check(T); to('2027-10-13',23.1); const b=!EVENTS.check(T); to('2027-10-13',21); G.zone='cafe'; const c=!EVENTS.check(T); G.zone='dorm'; return a&&b&&c; })()); }
   R('heroine_04','FAM'); G.flags.TESTER=true; await play('ev_typhoon_y3_noodle',[1]);
-  { const W=['（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）','（阿凱把筆電架在你的書桌上，打視訊給子晴。）','颱風天最適合修 bug。沒人會來吵我。','我們在吵妳。','你們不算人。你們是測試員。','我說過的。測試員。','（舉起泡麵）測試員需要補給。','……好啦。我也去泡一碗。','……好，十二點。'];
-    check('9. T1 子晴 FAMILIAR、有 TESTER：「你們是測試員。」「我說過的。測試員。」；選「颱風天也要睡覺。」→「……好，十二點。」（逐字）；TYPHOON_Y3',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['陪她修到半夜（視訊開著，各做各的）','「颱風天也要睡覺。」','吃掉阿凱的泡麵'])&&G.flags.TYPHOON_Y3===true,JSON.stringify(all()));
+  { const W=['（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）','（阿凱把筆電架在你的書桌上，打視訊給子晴。）','颱風天最適合修 bug。沒人會來吵我。','我們在吵妳。','你們不算人。你們是測試員。','我說過的。測試員。','（舉起豆漿）測試員需要補給。','……好啦。我也去泡一杯。','……好，十二點。'];   /* AA_519 第 9 節第 1 點 */
+    check('9. T1 子晴 FAMILIAR、有 TESTER：「你們是測試員。」「我說過的。測試員。」；選「颱風天也要睡覺。」→「……好，十二點。」（逐字）；TYPHOON_Y3',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['陪她修到半夜（視訊開著，各做各的）','「颱風天也要睡覺。」','喝掉阿凱的豆漿'])&&G.flags.TYPHOON_Y3===true,JSON.stringify(all()));
     check('9. 子晴（視訊）的名字框；T4 沒有「欸不是」「這不是問句」',said[2].who==='子晴（視訊）'&&!any(/欸不是|不是問句/));
     const W0=all(), y2=!!G.flags.TYPHOON_Y2_KAI; G.flags.TYPHOON_Y2_KAI=true; G.flags.TESTER=true; await play('ev_typhoon_y3_noodle',[1]); const W2=all();
     check('9. AA_519 5-3、5-4：第一句旁白換成兩杯熱豆漿（不再是「抱著一箱泡麵」）；大二颱風那晚有來的（TYPHOON_Y2_KAI）＝第二句多「（阿凱說：「去年也是我。」）」，其他逐字一樣；沒有的＝沒有這一句',
       !y2&&!W0.some(t=>/去年也是我/.test(t))&&!W0.some(t=>/抱著一箱泡麵/.test(t))&&W2[1]==='（阿凱說：「去年也是我。」）'&&JSON.stringify([W2[0]].concat(W2.slice(2)))===JSON.stringify(W0),JSON.stringify(W2.slice(0,3))); }
   fresh('2027-10-13',20.5,'dorm'); R('kai','FAM'); R('heroine_04','FAM'); await play('ev_typhoon_y3_noodle',[2]);
-  check('9. T2 沒有 TESTER：「你們是背景音。」「（舉起泡麵）背景音需要補給。」；吃掉泡麵：「這是不可抗力嗎？」祐廷「這是看情況。」',has('你們不算人。你們是背景音。')&&has('（舉起泡麵）背景音需要補給。')&&!has('我說過的。測試員。')&&has('這是不可抗力嗎？')&&has('這是看情況。'));
+  check('9. T2 沒有 TESTER：「你們是背景音。」「（舉起豆漿）背景音需要補給。」（AA_519 第 9 節第 1 點）；喝掉豆漿：「這是不可抗力嗎？」祐廷「這是看情況。」',has('你們不算人。你們是背景音。')&&has('（舉起豆漿）背景音需要補給。')&&!has('我說過的。測試員。')&&has('這是不可抗力嗎？')&&has('這是看情況。'));
   fresh('2027-10-13',20.5,'dorm'); R('kai','FAM'); await play('ev_typhoon_y3_noodle',[1]);
-  check('9. 和子晴不到 FAMILIAR：沒有視訊，只有阿凱（「那棟」照 AA_376 第 8 項）；「你可以待到幾點？」→「十二點。我知道規定。」',!any(/視訊|修 bug/)&&has('我們那棟停電了。你們這棟還有電。')&&has('（他拆了第一包。）')&&has('十二點。我知道規定。'));
+  check('9. 和子晴不到 FAMILIAR：沒有視訊，只有阿凱（「那棟」照 AA_376 第 8 項）；「你可以待到幾點？」→「十二點。我知道規定。」',!any(/視訊|修 bug/)&&has('我們那棟停電了。你們這棟還有電。')&&has('（他把吸管插進第一杯。）')&&has('十二點。我知道規定。'));   /* AA_519 第 9 節第 1 點：原本「（他拆了第一包。）」 */
   fresh('2027-10-13',20.5,'dorm'); R('kai','FAM'); R('heroine_04','FAM'); await play('ev_typhoon_y3_noodle',[0]); check('9. 陪她修到半夜：時間到 24:00',G.day===D('2027-10-14')&&G.hour<0.01);
   fresh('2027-10-13',20,'dorm'); join('family_law'); run('2027-10-13',20.75,21.25);
   check('9. T3b 10/13 21:00 家族群組三則（Kevin、溫學姊、學妹）＋三個回覆',JSON.stringify(TH('g:family_law').map(m=>(m.name||m.from)+':'+m.text))===JSON.stringify(['Kevin:明天家族讀書會還要嗎 颱風欸 @學姊','溫學姊:線上。想來的再來。','學妹:……我已經把書收起來了。'])&&JSON.stringify(PHONE.byAsk(G,'y3_t3b').ask.opts.map(o=>o.t))===JSON.stringify(['明天可以休息嗎？','我會上線。','（貼一張鞠躬的企鵝）']));
