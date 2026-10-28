@@ -34,7 +34,7 @@ const JPB=(function(){
     {k:'jpb_1_1r',d:'2028-03-29',h:11,w:'jp',if:rep,ev:'ev_jpb_100yen_alone'},
     {k:'jpb_1_1n',d:'2028-03-29',h:12,w:'jp',if:G=>dat(G)&&G.flags.JPB_YEN==='no',sum:X.SUM.d0329},   /* 交往中回「我想睡。」（AA_437 第 7 節第 3 點）*/
     {k:'jpb_1_2',d:'2028-03-31',h:15,w:'jp',if:dat,ev:'ev_jpb_bike'},
-    {k:'jpb_1_2r',d:'2028-03-31',h:15,w:'jp',if:rep,ev:'ev_jpb_bike_repair'},
+    {k:'jpb_1_2r',d:'2028-04-07',h:15,w:'jp',if:rep,ev:'ev_jpb_bike_repair'},   /* AA_519 第 6 節：挽回中的腳踏車移到 4/7（原本 3/31：立衡版要先遇過立衡，可是重逢在 4/2，到不了）；字不改 */
     {k:'jpb_1_3r',d:'2028-04-01',h:18.5,w:'jp',if:rep,sum:X.SUM.r0401},
     {k:'jpb_1_4',d:'2028-04-04',h:20,w:'jp',if:dat,ev:'ev_jpb_courses'},
     {k:'jpb_1_4r',d:'2028-04-04',h:18.5,w:'jp',if:rep,sum:X.SUM.r0404},
