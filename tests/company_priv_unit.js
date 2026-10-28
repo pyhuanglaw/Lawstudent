@@ -59,6 +59,7 @@
 //   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/hcircle3d.js、src/data/heroine_circle.js、src/eat3d.js、src/story3d.js、src/multirel3d.js、
 //   src/data/multirel_lines.js、src/privtalk3d.js 換回開發分支 0c10b1b43，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 6、PASS 72
 //   （FAIL＝9 對稿〔LATER 7 項〕、10 (B) 18:12 那一場〔舊的有最後那三句〕、11 對稿、11 ①〔沒有 c503_14_5〕、11 ②〔沒有 HCIRCLE.auntOut〕、11 ③；PASS＝原本的 71 項、11 ③ 2029-09 以後沒有）。修改後 ALL PASS（78 項）
+//   全部 Node 單元測試（tests/*_unit.js，1d9b43913，2026-10-28）：725 支、失敗 0
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
