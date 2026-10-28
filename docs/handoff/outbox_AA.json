@@ -3767,6 +3767,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "系列最後一份；沒有新的 3D、事件"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d5d9e1ae4",
+   "files": [
+    "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
+   ],
+   "state": "已交付",
+   "remaining": "日本路線視訊三句、前任「想好了告訴你」、伴手禮那句（等 LAWWW 告訴是誰）留下一批",
+   "next": "LAWWW：AA_512 八場（13-1 改 AA_497 5-2 加學姊、13-2 新家咖哩、13-3 椰林大道、13-4 公館蛋糕、13-5 日本視訊、13-6 美國洗衣間、13-7 歡迎回來家聚、13-8 游完泳的早上）＋第 2 節說了沒發生九件＋feed_y3s1 學姊「第二次。」改「又煮了。」",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "學姊第十三批（C25，D111）；盤點 scratchpad/inv8；朋友版大四、美國挽回中、她自己的事第一次當面"
   }
  ],
  "items": [
