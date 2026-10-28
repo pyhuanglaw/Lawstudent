@@ -232,7 +232,7 @@ const CROWD=(function(){
        這些人在按鈕上最後才算（yieldIt，engine3d.js nearestInteractable）：旁邊有別的互動點（出口、座位、公告欄）或別的人（有名字的同學）時不擋——路人很多，不能讓「進入○○」「和小安說話」變成「聽一句」。
      - 兩個人的對話（第 2 節）：一個地點同時只放一組、一段一天聽一次（G.flags.deptTalkDay）；點了照順序出整段，說話的人是那一個。
        椰、館＝兩個走路的人一起走（第二個人跟著第一個：beh buddy）；圖＝相鄰的兩個空位一起坐（總圖大廳 2F、3F 閱覽區、社科圖，開館時；第 15 組：工讀的人站在座位旁邊）；
-       體＝1F 場邊的長椅一起坐（開館時、不是典禮的日子）。
+       體＝1F 場邊的長椅一起坐（開館時、不是典禮的日子、一層 16 個人放得下）。
        那個時段沒有對話的地點用「平常」那幾段（寒暑假除外）。
      - 教學館教室門口（第 3、4 節；indoorSpots 的 pre|、post|）：通識（courses.js kind:'general'）各系混著，法律系必修（kind:'required'，經濟系那一年的必修除外）都是法律系；
        最後走進教室的兩個（三個）人出那一段（等的人照順序走進去：S.goTime）。霖澤館 201、萬才館的教室門口沒有等的人（indoorSpots 只有共同、博雅、普通），那裡的第 4 節還沒有。
@@ -318,7 +318,7 @@ const CROWD=(function(){
   /* 進區域（S.enter 的最後；story3d.js 的路人都生好了）：兩個人的對話、走路的人一人一句 */
   S.deptEnter=function(GM,zone){ const D=DP(), E=GM&&GM.E, G=GM&&GM.G; if(!D||!E||!G||!E.npcs) return; const pl=D.ZONES[zone]; if(!pl) return; const h=hr(G);
     const walkers=E.npcs.filter(n=>n&&n.isExtra&&n.beh==='route'&&!n.crowd&&!n.name&&!n.talk&&!n.clerk&&!n.fairCrowd);   /* GM.spawnExtra 的走路的人（社博的新生、店員、有名字的人不算）*/
-    let used=[]; const open=pl==='圖'?(!!S.DEPT_SIT[zone]&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(zone,h,G.day))):(pl==='體'?(zone==='gym'&&(()=>{ const H=S.gymHours(G); return !!H&&h>=H[0]&&h<H[1]&&!(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)); })()):true);
+    let used=[]; const open=pl==='圖'?(!!S.DEPT_SIT[zone]&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(zone,h,G.day))):(pl==='體'?(zone==='gym'&&E.npcs.length+2<=16&&(()=>{ const H=S.gymHours(G); return !!H&&h>=H[0]&&h<H[1]&&!(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)); })()):true);   /* 體育館一層最多 16 個完整人物（手機效能，gym_crowd_unit）：放不下兩個人就不放 */
     const conv=open?S.deptTalkPick(GM,pl,S.deptTalksAt(G,pl,zone),'t'):null;
     if(conv){ const id='t'+conv.n, names=conv.who.map(S.deptName);
       if(pl==='椰'||pl==='館'){ const ppl=S.deptWalkPair(GM,walkers,conv.who.length); if(ppl){ used=ppl; ppl.forEach(m=>{ m.yieldIt=true; }); S.deptPairTalk(GM,ppl,conv,id,names); } }
