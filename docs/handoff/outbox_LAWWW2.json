@@ -4051,7 +4051,7 @@
    "sha": "e29fde3c5",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED",
+   "ack": "ACTIONED",
    "task": "LOBBY-CEIL-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/lobby_ceil_1028.patch",
@@ -4060,9 +4060,9 @@
     "assets/models/env/linze_interior_lm_night.webp",
     "docs/art-rebuild/second_ai/test_shots/linze_lobby_v2_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "iPhone 實機沒測；萬才館的吊燈同一段程式已一起改（WANCAI-LM-1028 還沒交）",
-   "next": "LAWWW-C 10:07Z ACK：放進 v9.10.13 候選 rc1（開發分支 3dbe4ad2e＋patch＋三個二進位檔），跑 room_ceiling＋全部 Node 後交 BB 發布門檻；開發分支也套",
+   "next": "LAWWW-C 已整合（v9.10.13 候選 rc1、開發分支 bbed51f0c）；BB 發布門檻",
    "note": "中庭六盞吊燈的發光條（light_panel，5 mm 方盒）拿掉朝上那一面（open_top；頂面貼在燈體底下看不到）；重烘光照貼圖值不變；開發分支 116d70325＋patch＋二進位檔 room_ceiling、linze_lightmap、nav_buildings、company_priv ALL PASS，全部 Node 721 支都過（劇情稿比對 17 支要先抓企劃線的 commit）；二樓迴廊平視同角度截圖吊燈亮線一樣"
   },
   {
@@ -4070,7 +4070,7 @@
    "sha": "69bf6b2e4",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "WANCAI-LM-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/wancai_lm_1028.patch",
@@ -4081,7 +4081,7 @@
    ],
    "state": "已交付",
    "remaining": "iPhone 實機沒測；西南角、樓梯那一側在樓板下面，比改前暗（BB 覺得太暗再加崁燈重烘）；填滿率 42.1%；陽光位置固定",
-   "next": "LAWWW-C：git apply docs/art-rebuild/second_ai/patches/wancai_lm_1028.patch（478890c97 上 apply --check 通過，和 lobby_ceil_1028.patch 一起也通過）＋ git checkout 69bf6b2e4 -- 三個二進位檔；BB 看萬才館畫面、使用者美術驗收",
+   "next": "LAWWW-C 10:26Z ACK：全部 Node 跑完後套 patch＋三個二進位檔，下一版 v9.10.14；BB 測萬才館時一起看西南角、樓梯側亮度",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）第五包：萬才館一樓大廳擺設（展示櫃、飲水機、回收桶、消防栓箱、滅火器、出口燈、長椅、傘架、小圓桌、盆栽、中庭吊燈；wancai_layout.js 九筆、wancai3d.js 多 prop 類型）＋光照烘焙；116d70325＋patch：wancai_lightmap_unit（新，拿掉 wancai3d.js 改動 FAIL）、room_ceiling、nav_buildings、wancai_semb、nav_lawlib 等 ALL PASS；draw call 多 7～10%；scan_floors 只標盆栽土和二樓長椅椅面（都不是地板）"
   }
  ]
