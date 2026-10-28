@@ -1206,7 +1206,7 @@
    "role": "LAWWW",
    "task": "PRIV-AAFIX-1028",
    "state": "WIP",
-   "sha": "13a981d0b、01e8c052b",
+   "sha": "e0267df43、686863145",
    "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix_1028.bundle）",
    "files": [
     "wip_backup/privfix_1028.bundle"
@@ -1215,6 +1215,21 @@
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 07:54（AA_503 第 14 節、AA_509 最後一節）"
+  },
+  {
+   "id": "WIP-LAWWW-LOADLOCK-1028",
+   "role": "LAWWW",
+   "task": "LOADGEN-LOCKS-1028",
+   "state": "WIP",
+   "sha": "e0267df43、7a70f09ee",
+   "branch": "worktree-agent-a16de5b29bd38efbe（子代理；D113 備份 wip_backup/loadlock_1028.bundle）",
+   "files": [
+    "wip_backup/loadlock_1028.bundle"
+   ],
+   "todo": "讀檔以後凍住的舊劇情佔著的鎖要放開：各模組 LOADLOCKS 登記＋applySave 的 loadRelease（EVENTS.running、ADV、walks…）；靜態檢查",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "BB-C 08:08、08:23（瀏覽器重現）；LAWWW-C EVENTS.running"
   }
  ]
 }
