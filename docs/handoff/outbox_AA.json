@@ -3685,6 +3685,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大二下＋暑假（2027-02～09）；沛珊消失期間沒有動態、9/4 台南一則；可昕非交往也看得到模擬法庭與高雄實習"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e4fbd0192",
+   "files": [
+    "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
+    "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+    "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三下起照路線分（日本：以安和玩家同去；美國：大四上）",
+   "next": "LAWWW：AA_507 第 0-1 節（AA_506 五處）、第 0-2 節八件（子晴 zq_name、學姊 1/15 面試＋heardUS 算 S5-L1、北投 13:00、法圖寒假那句、芷若 UK_WEEK 1～2 月、語彤刑總、以安週四讀書會、過時註解）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大三上＋寒假（2027-09～2028-02）；芷若在英國的動態照當地 22:07（臺灣 05:07／06:07）；沛珊一個月最多一則"
   }
  ],
  "items": [
