@@ -12,6 +12,10 @@
 
 ![202](cmp_202_v2.webp)
 
+近一點看（v2，下午 2 點）：模壓課椅、C 形鋼腳的長桌、桌上的電源盒、天花板的輕鋼架和格柵燈具、淺色的講台地板：
+
+![202 近拍](close_202_v2.webp)
+
 ## 玩家會看到什麼不同
 
 | 檢討報告的問題 | v1 | v2 |
@@ -61,7 +65,7 @@
 
 - 在開發分支最新的 `923e81d20`（已經有 201 v2、上一包的 patch）上，只換這一包的二進位檔：
   - Node（11 支）：`seat_fold_unit`、`rooms_glb_unit`、`x78_rooms_unit`、`door_open_unit`、`room_ceiling_unit`、`windowless_night_unit`、`class_teacher_unit`、`boya_203_unit`、`dorm_205_unit`、`nav_buildings_unit`、`singleside_interiors_unit`：全部 ALL PASS。
-  - 瀏覽器 `tests/reachability_all.py --zones linze_202,wancai_multi,classroom`：（待補）
+  - 瀏覽器 `tests/reachability_all.py --zones linze_202,wancai_multi,classroom`：ALL PASS（3 個區域、127 個互動點：201 49、202 43、多功能教室 35；坐下走得到、劇情自動走路的目的地、出入口；沒有 JS 例外）。
 - `flat_classroom.py` 自己的座位檢查：40 個座位、40 個走近點，problems 0。
 - 配置 JSON 逐欄比對：和原本一樣。
 - `scan_floors.py`：三間沒有深色木地板（202 的 `linze_202_desk` 在 0.75 m，是桌面不是地板）。
@@ -69,7 +73,7 @@
 ## 效能
 
 - 房間模型：三角形 16,311 → 41,791（椅子、桌腳、天花板格子）；GLB 1.3 MB → 2.5 MB；光照貼圖兩張 WebP 約 70 KB。
-- 整個畫面（含人物）：（待補）
+- 整個畫面（含人物，同一個鏡頭）：進門 81 個 draw call／11.9 萬個三角形、講台 92／12.2 萬、走道 88／12.2 萬、窗邊 92／12.3 萬。窗邊那個鏡頭 v1 是 86 個 draw call（上一包量的）。
 - **手機實機的 fps 沒有量**（SwiftShader 的 fps 沒有意義）。
 
 ## 還沒做到、缺點（誠實列）
