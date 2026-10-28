@@ -15,10 +15,10 @@
 //   4  第 4 節：陳教授的閒聊換句（不說來研究室聊）、黃教授那句照舊、過時的註解拿掉
 //   5  舊存檔：沒有 notes、沒有新旗標、旗標壞掉都不丟例外；大一上原本兩題有筆記＝問過；許教授大一兩題有 GRAD_SCHOOL_DISCUSSION／book_xu＝問過；法律題庫沒有改
 // 修改前（只拿掉這次 src 的改動：src/data/events.js、src/story3d.js 回到開發分支 ccf06cc69；白名單、這支測試用新的；git archive 那一版放進暫存目錄真的跑過，稿從這個 repo 讀：AA522_DOCREPO）：
-//   FAILED 65、PASS 20（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
+//   FAILED 66、PASS 20（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
 //   大二下到大四上週四不演、新五題沒有條號、許教授地點冷卻、暑假大一的題、林教授 3-1 題庫照舊、大四上的旁白「沒有」兩項、舊存檔不丟例外、法律題庫沒改；
 //   FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、林教授 3-1 開頭不換、週二下午不在萬才館、陳教授舊句）；
-//   修改後 ALL PASS（85 項）。
+//   修改後 ALL PASS（86 項）。
 // 用法：node tests/aa522_prof_office_unit.js（在沒有 .git 的目錄跑，設環境變數 AA522_DOCREPO＝這個 repo 的目錄）
 'use strict';
 const H=require('./pg_harness.js');
@@ -269,8 +269,10 @@ await sec('3-2',async()=>{
   check('3-2. 冷卻 7 天；第二次「你來了。」→ 題 → 第二句；第三次 → 第三句；最多三次',c6===false&&J(s2)===J([D32.q[0],D32.last[1]])&&J(s3)===J([D32.q[0],D32.last[2]])&&c21===false&&SOCIAL.prof('prof_lin').office===6,J([c6,s2,s3,c21]));
   /* 她週二下午在萬才館 */
   const here=(d,h)=>{ fresh(d,h); return enter('wancai').ids.includes('prof_lin'); };
-  const P=[[D,14.5],[D,16.4],[D,16.6],[D,13.9],[STORY.dayOfKey('2027-09-28'),14.5],[TD('Y3S2',3,2),14.5],[D+1,14.5]].map(([d,h])=>here(d,h));
-  check('3-2. 她大三上週二 14:00～16:30 在萬才館（16:36、13:54 不在；教師節 9/28 週二、大三下、週三不在）',J(P)===J([true,true,false,false,false,false,false]),J(P));
+  const P=[[D,14.5],[D,16.4],[D,16.6],[STORY.dayOfKey('2027-09-28'),14.5],[TD('Y3S2',3,2),14.5],[D+1,14.5],[D,11]].map(([d,h])=>here(d,h));
+  check('3-2. 她大三上週二下午（研究室事件 14:00～16:30）在萬才館；16:36 不在；教師節 9/28 週二、大三下、週三不在；上午在上課（不在萬才館）',J(P)===J([true,true,false,false,false,false,false]),J(P));
+  const gap=[12.5,13.5,13.75,13.9].map(h=>here(D,h));
+  check('3-2. 刑訴下課（12:10）到 16:30 一直在：下課後那 1.5 小時之後（13:40～14:00）不先走開再出現',J(gap)===J([true,true,true,true]),J(gap));
   fresh(D,14.5); base(H.G); const r=enter('wancai'); const t=r.ids.includes('prof_lin')&&await r.talk('prof_lin'); const s=said();
   check('3-2. 走過去和她說話就是研究室這一場',t&&s[0]===D32.q[0]&&s.includes(D32.last[0]),J(s));
   /* 大四上的旁白 */

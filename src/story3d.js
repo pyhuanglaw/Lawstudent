@@ -437,8 +437,9 @@ const STORY = (function(){
   S.profLobby=function(c,G){ if(!c||!c.lobby||!c.time||!(c.time[1]>c.time[0])||c.weekday!==G.weekday) return false; const hr=h(G); if(hr<c.time[0]||hr>=c.time[1]) return false;
     if(typeof CALENDAR==='undefined') return false; const T=CALENDAR.termOf(G.day); return !!T&&!CALENDAR.holiday(G.day); };
   /* 教授的研究室時間（AA_522 3-2）：不在上課、也不是下課後那 1.5 小時的時候，照這張表在萬才館（和下課後同一個位子）；國定假日、寒暑假不在。
-     林教授：大三上週二 14:00～16:30（3-1 她說「來研究室也可以。週二下午。」；研究室事件 ev_prof_lin_office）*/
-  S.PROF_OFFICE={prof_lin:{terms:['Y3S1'],weekday:2,time:[14,16.5]}};
+     林教授：大三上週二下午（3-1 她說「來研究室也可以。週二下午。」；研究室事件 ev_prof_lin_office 是 14:00～16:30）——從刑訴下課（12:10，下課後本來就在萬才館）一直到 16:30，
+     中間 13:40～14:00 不先走開再出現 */
+  S.PROF_OFFICE={prof_lin:{terms:['Y3S1'],weekday:2,time:[12,16.5]}};
   S.profOffice=function(id,G){ const o=S.PROF_OFFICE[id]; if(!o||!G||G.weekday!==o.weekday||typeof CALENDAR==='undefined') return false; const hr=h(G); if(hr<o.time[0]||hr>=o.time[1]) return false;
     const T=CALENDAR.termOf(G.day); return !!T&&o.terms.includes(T.id)&&!CALENDAR.holiday(G.day); };
   /* AA_195 4-8：阿哲在 8/29～9/3 照常上課（9/1 憲法、9/3 刑總）；LEGACY_IDS 的「afternoonDone 以後才照作息出現」只對新局、只對上課時間放寬（已經認識他以後） */
