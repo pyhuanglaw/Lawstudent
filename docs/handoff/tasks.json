@@ -34345,7 +34345,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：20 人分批（每批幾人、玩家最早遇到的先寫，D81）；每人：個性與外觀關鍵字、和誰熟、一條小故事（幾場、哪一學期）、主動訊息、閒聊；LAWWW 照稿接（characters.js、事件、手機訊息）；LAWWW2 看外觀要不要配合個性調（D59 角色美術由 LAWWW 驗收）",
+   "next": "【LAWWW-C 2026-10-28 01:3x UTC】使用者 01:3x「203 四人宿舍……我室友根本只有阿凱 第一天之後」（X123）：第一批請 AA 先寫阿哲、柏翰當室友的 203 日常（早上誰在、週末、房間閒聊、四個人的小事）；LAWWW 的「時間到自己進門」在 DORM203-MATES-1028｜【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：20 人分批（每批幾人、玩家最早遇到的先寫，D81）；每人：個性與外觀關鍵字、和誰熟、一條小故事（幾場、哪一學期）、主動訊息、閒聊；LAWWW 照稿接（characters.js、事件、手機訊息）；LAWWW2 看外觀要不要配合個性調（D59 角色美術由 LAWWW 驗收）",
    "xai": {
     "spec": "使用者原話＋選擇題答案",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -34398,6 +34398,33 @@
     "spec": "使用者原話",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "玩家看得到女主角不只繞著自己轉：有朋友、有自己的事、會講自己的生活",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "DORM203-MATES-1028",
+   "title": "203 四人房的室友要像室友：人在房間裡時間到了阿哲、柏翰、阿凱自己開門進來、23:30 爬上舖（不用出去再進來）；之後照 AA 的 203 日常（早上、週末、房間閒聊、四個人的小事）接",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 01:3x 對 LAWWW-C「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」（UA-LAWWW-1028-09；USER_WANTS X123）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一天晚上以後回宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:3x UTC】查到：阿哲 22:00～23:30、柏翰 22:30～23:30（AA_208 2-4），只在進房間那一刻判斷（story3d.js zone build）；阿凱 18:00～8:00。LAWWW 先做「時間到自己進門、上床」；AA 的 203 日常併進 NPC-STORY-1028 第一批（阿哲、柏翰先）；放 v9.10.13",
+   "xai": {
+    "spec": "AA_208 第 2 節；使用者原話；AA 補的 203 日常（NPC-STORY-1028 第一批）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "大一住 203 的晚上回房間看得到阿哲、柏翰（在房間等也會進門），早上、週末照 AA 的表；在房間跟他們講話有內容",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
