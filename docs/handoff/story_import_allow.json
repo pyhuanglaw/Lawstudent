@@ -3240,6 +3240,14 @@
    "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；62849944b＝AA 更正後的版本（74916d73b 三處：芷若冬季菜單、語彤當筱涵的受試者、子晴系上的練習賽；62849944b：可昕第 5 則予樂寫的期末倒數），舊版 c6c93432d 的句子不放進遊戲",
    "task": "HEROINE-LIFE-1028",
    "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 1 節動態頁、第 4～10 節每位的動態表與「她自己的事」的私訊（src/data/feed_y1s1.js、src/feed3d.js）；tests/aa503_feed_unit.js 用 git show 62849944b 逐字對。第 2 節 3D 圈子、「別人說起她」的閒聊、203 阿凱那一句不在這一筆的實作裡"
+  },
+  {
+   "path": "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+   "sha": "ae50b8d5a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-28 定稿（D109：AA 的稿就是定稿；HEROINE-LIFE-1028）；第 0 節第 1 點子晴 Q4-L1（第二句、第一個選項）由 tools/ladder/import_ladder.py 疊在大二下的階梯上匯入；第 0 節第 2、3 點手動放進 characters.js、vac_activities.js（tests/aa506_s0_unit.js）；第 1～7 節之後照稿接",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "text"
   }
  ]
 }
