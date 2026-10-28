@@ -11,7 +11,8 @@
    - 路人沒有名字，不會是有名字的角色（有名字的人只照作息出現，見 story3d.js）。
    - 教學館室內：時段照那一間教室今天的課（CLS.dayItems）和演講（ACTIVITIES）。上課前 20 分鐘在門口等，開始時走進教室、找空位坐下
      （變成那堂課的同學，下課時和大家一起走出去，classes3d.js syncRooms）；下課後 10 分鐘有人從教室出來、在門口聊一下，再走向出口。
-   - 溫州街小公園（AA_283，S.parkSpots）：每個人各自的位置、坐的位子、繞圈的路線（spot.people）；點了說一句（PARK.bindTap）。測試：node tests/wz_park_people_unit.js */
+   - 溫州街小公園（AA_283，S.parkSpots）：每個人各自的位置、坐的位子、繞圈的路線（spot.people）；點了說一句（PARK.bindTap）。測試：node tests/wz_park_people_unit.js
+   - 路人分科系（AA_495，CROWD-DEPTS-1028）：校園、總圖、社科圖、體育館、公館的路人是「X系的學生」、點了聽一句；兩個人的對話；教學館門口通識、必修的對話（下面 S.dept…，句子在 src/data/crowd_depts.js）。測試：node tests/crowd_depts_unit.js */
 'use strict';
 const CROWD=(function(){
   const S={};
@@ -228,7 +229,7 @@ const CROWD=(function(){
        輪法照 AA_489 第 4 節（體育館）：同一次進來（GM.enterN＋區域）同一個系同一欄的句子不重複、用完了其他人就不說；下一次進來從下一句開始（G.flags.deptHear）。
        旁白寫「他」「她」的句子只給男生、女生（extraSpec：偶數＝女生）。旁白先出、再出那一句（第 0-3 節）。走路的人點了先停下來、面向你，說完再繼續走（第 5 節）。
        誰：story3d.js 用 GM.spawnExtra 生的走路的人（進區域時，S.enter 的最後）、共同教學館門口（校園）的人、體育館大廳散步的人和長椅上的人。
-       這些人旁邊有別的互動點（出口、座位、公告欄）時不擋（yieldIt，engine3d.js nearestInteractable）：路人很多，不能讓「進入○○」變成「聽一句」。
+       這些人在按鈕上最後才算（yieldIt，engine3d.js nearestInteractable）：旁邊有別的互動點（出口、座位、公告欄）或別的人（有名字的同學）時不擋——路人很多，不能讓「進入○○」「和小安說話」變成「聽一句」。
      - 兩個人的對話（第 2 節）：一個地點同時只放一組、一段一天聽一次（G.flags.deptTalkDay）；點了照順序出整段，說話的人是那一個。
        椰、館＝兩個走路的人一起走（第二個人跟著第一個：beh buddy）；圖＝相鄰的兩個空位一起坐（第 15 組：工讀的人站在座位旁邊）；體＝1F 場邊的長椅一起坐（開館時、不是典禮的日子）。
        那個時段沒有對話的地點用「平常」那幾段（寒暑假除外）。
