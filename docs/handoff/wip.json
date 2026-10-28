@@ -1064,12 +1064,27 @@
    "sha": "3c83e6583、6eaac8008",
    "branch": "worktree-agent-afa95ee54a355c76f（子代理；D113 備份 wip_backup/aa497_1028.bundle）",
    "files": [
-    "wip_backup/aa497_1028.bundle"
+    "wip_backup/aa497_1028.bundle",
+    "wip_backup/aa497_1028_untracked.tar.gz"
    ],
-   "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）",
+   "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）；05:3x 子代理還沒 commit 新的，未追蹤的兩個新檔（src/data/sup497_lines.js、src/sup497_3d.js）另外打包 aa497_1028_untracked.tar.gz",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
    "role": "LAWWW"
+  },
+  {
+   "id": "WIP-LAWWW-FEED4-1028",
+   "task": "HEROINE-LIFE-1028",
+   "role": "LAWWW",
+   "state": "WIP",
+   "sha": "PENDING、a2b2ae1ea",
+   "branch": "worktree-agent-aeda78924a70beebf（子代理第四輪；D113 備份 wip_backup/feed4_1028.bundle）",
+   "files": [
+    "wip_backup/feed4_1028.bundle"
+   ],
+   "todo": "AA_508＋AA_509 手機動態、私訊、別人說起她、2D 短場；AA_506 第 9 節出遊途中貼的動態保留規則",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true
   }
  ]
 }
