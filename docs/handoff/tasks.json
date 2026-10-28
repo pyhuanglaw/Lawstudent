@@ -34817,6 +34817,27 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "SIS-B13-1028",
+   "title": "學姊第十三批（AA_512）接進遊戲：她自己的事當面演八場（交棒那晚、家族咖哩、論文卡住走椰林、6/2 公館蛋糕、日本路線 6/2 視訊、美國挽回中洗衣間、12/28 歡迎回來家聚、大四下新體育館門口）＋說了沒發生九件＋feed_y3s1 學姊第 1 則「又煮了。」",
+   "area": "Y2S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA_512（企劃線 d5d9e1ae4；outbox 94540f5a6）；使用者 10-21／10-23 C25「學姊才是真正的女主角」「學校裡和交換學生期間的學姊劇情都要充實」",
+   "first": {
+    "term": "Y2S1",
+    "week": 3,
+    "earliest": "大二上 9/17 Kevin 交棒那晚（AA_497 5-2）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:0x UTC】等手機第五輪／同學第二～四批／私密選項／AA_497 續做其中一個交件，空出位置派子代理；白名單加 AA_512 d5d9e1ae4",
+   "note": ""
   }
  ]
 }
