@@ -1,11 +1,11 @@
-/* ===== 別人說起她（AA_503～507 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
+/* ===== 別人說起她（AA_503～509 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
    台詞在 src/data/heard_lines.js（HEARD_LINES，照稿一字不差；寫法見那個檔的開頭）。接在現有的系統上，不改那些系統的資料：
    ■ talk → STORY.PRE_TALK（talkCharacter 在閒聊前面先問：照作息出現的人；舊的固定時段 talkYu／talkKai 不經過這裡，同其他 PRE_TALK）。
    ■ kai203 → 包住 DORM203.kaiTalk（talkKai 在原本的房間句之前問；和 AA_502 的三句共用「一天最多一句新的」：DORM203.rec 的 tday.kai）。
    ■ noodle → 載入時加進 NOODLE_TABLE（once／pri 的挑法在 story3d.js S.ndlTalkPick）。
-   ■ phone → STORY.PHONE_RULES：到了時間 PHONE.at（照原本的時間補；晚三天以上不補）。
+   ■ phone → STORY.PHONE_RULES：到了時間 PHONE.at（照原本的時間補；晚三天以上不補）。時間是臺灣時間；人在國外（日本、美國路線、寒暑假出國途中）照 STORY.tzOffset 換成當地時間（S.loc，第四輪加）。
    存檔：G.flags.HEARD＝{said:{句子 id:第幾天}, day:{人物:那一天說過}, ph:{訊息 id:'sent'|'x:原因'}}；舊存檔沒有＝從那時起。
-   測試：node tests/aa503_others_unit.js */
+   測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她） */
 'use strict';
 const HEARD=(function(){
   const S={};
@@ -46,7 +46,11 @@ const HEARD=(function(){
     noC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return !(st==='yes'||st==='done'); },
     /* 芯慈和以安和好以後（AA_507 1-4「第 13 週以後，和好以後」）：慈 5「對答案」演過（近、遠兩版都記 XC5_RECONCILE，r2y3a_events.js），
        或第 13 週已經過了（她們那一週在總圖三樓和好，玩家不在場也一樣）*/
-    xcMade:G=>{ if(G.flags&&G.flags.XC5_RECONCILE) return true; const w=S.when('Y3S1:W14一'); return !!w&&G.day>=w.day; }
+    xcMade:G=>{ if(G.flags&&G.flags.XC5_RECONCILE) return true; const w=S.when('Y3S1:W14一'); return !!w&&G.day>=w.day; },
+    /* 麵店團群組（AA_508、AA_509 的 Alison「麵店團群組或麵店」：照品妤「群組或偶遇」的做法放群組）*/
+    noodleGroup:G=>inGrp(G,'noodle_team'),
+    /* 子晴的私訊說芷若（AA_508、AA_509 2-4「私訊或公館」：放私訊）：有子晴的聯絡方式、認識芷若 */
+    zqZr:G=>hasContact(G,'heroine_04')&&knows('heroine_02')
   };
   const condOk=(G,c)=>!c||!!(S.COND[c]&&S.COND[c](G));
   /* ---------- talk：閒聊前面先說一句 ---------- */
@@ -65,8 +69,10 @@ const HEARD=(function(){
     await GM.say(n,e.t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity('kai','chat'); SOCIAL.activity('kai','chatNew'); } return true; };
   /* ---------- phone：群組、私訊 ---------- */
   S.LATE=72;   /* 晚三天以上（存檔停在很久以前、讀檔跳過）就不補 */
+  /* 臺灣時間 → 遊戲時鐘（人在國外的時鐘是當地時間：日本、美國路線、寒暑假出國途中；同 FEED.loc、r2y4a3d.js 的 loc）。在臺灣＝不變 */
+  S.loc=function(G,w){ const z=typeof STORY!=='undefined'&&STORY.tzOffset?(+STORY.tzOffset(G,w.day)||0):0; if(!z) return w; const t=abs(w.day,w.h)+z, d=Math.floor(t/24+1e-9); return {day:d,h:+(t-d*24).toFixed(4)}; };
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return 0; const R=S.rec(G), t=now(G); let n=0;
-    for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w=S.when(e.at); if(!w||w.h==null) continue; const t0=abs(w.day,w.h); if(t<t0) continue;
+    for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null||abs(w0.day,w0.h)>t+24) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;   /* 一天以後的先不算時差 */
       if(t-t0>S.LATE){ R.ph[e.id]='x:late'; continue; } if(!condOk(G,e.cond)){ R.ph[e.id]='x:'+e.cond; continue; }
       PHONE.at(G,w.day,w.h,e.items.map(([from,name,text])=>({th:e.th,from,name,text})),'heard_'+e.id); R.ph[e.id]='sent'; n++; }
     return n; };

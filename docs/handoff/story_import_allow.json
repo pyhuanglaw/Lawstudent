@@ -3285,19 +3285,19 @@
   },
   {
    "path": "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
-   "sha": "4c3dc1491",
+   "sha": "28f981438",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
-   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯學姊招呼週次走 import_ladder.py 的 _fix_greet）；手機動態、同框接的時候另外登記；10-28 05:1x 改 4c3dc1491（AA_509 第 0-1 節更正／AA_506 第 9 節出遊途中貼的動態／AA_508 子晴第 5 則 6/25）"
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯學姊招呼週次走 import_ladder.py 的 _fix_greet）；手機動態、同框接的時候另外登記；10-28 05:1x 改 4c3dc1491（AA_509 第 0-1 節更正／AA_506 第 9 節出遊途中貼的動態／AA_508 子晴第 5 則 6/25）；10-28 05:3x 改 28f981438（AA_510 第 0-1 節更正 AA_509 三處；AA_508 這一份和 4c3dc1491 一樣）。第四輪子代理（手機）：第 1～7 節每位的動態表與私訊（src/data/feed_y3s2.js、src/feed3d.js：以安在日本照當地 21:00、日本路線兩則、子晴第 3 則兩個版本、語彤 8/21 私訊與 8/22 麵店的 2D 短場、沛珊一個月一則）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；曾靖雯、葉晨希、新來的工讀生、阿凱不在）；tests/aa508_509_feed_unit.js、tests/aa503_others_unit.js 照 28f981438 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡"
   },
   {
    "path": "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md",
-   "sha": "691a26400",
+   "sha": "28f981438",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
-   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊九件（學姊論文、語彤訪談數、以安週四、語彤法律課、子晴休假、溫州街學姊日期、D09 改 11/12）；手機動態、同框另外接"
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊九件（學姊論文、語彤訪談數、以安週四、語彤法律課、子晴休假、溫州街學姊日期、D09 改 11/12）；手機動態、同框另外接；10-28 05:3x 改 28f981438（AA_510 第 0-1 節更正三處：可昕第 1 則「第四年」還在山上、晨希那句、芷若倫敦的貓叫「房東」）。第四輪子代理（手機）：第 1～7 節每位的動態表（src/data/feed_y4s1.js、src/feed3d.js：芷若在英國照當地 22:07、學姊在美國第 1～3 則美國路線照片加「你」、沛珊一個月一則）、「別人說起她」（src/data/heard_lines.js、src/heard3d.js；讀書會的學弟、新來的工讀生、葉晨希、阿凱不在）；tests/aa508_509_feed_unit.js、tests/aa503_others_unit.js 照 28f981438 逐字對。3D 圈子、3D 新人物不在這一筆的實作裡"
   },
   {
    "path": "docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md",

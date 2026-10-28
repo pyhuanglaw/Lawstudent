@@ -14,12 +14,18 @@
 //   稿上 54 句沒有一句在遊戲裡、203 阿凱那一句）、第 1～4 段各 1 項（沒有 HEARD 就停）。修改後 ALL PASS。用法：node tests/aa503_others_unit.js
 // 第三輪修改前（開發分支 5df39fd7d：heard_lines.js 只有 AA_503～505；src、index.html 換回 5df39fd7d 實際跑過）：FAILED 15——第 0 段 2 項（42 句、子晴說芷若那句還是 795fbecfd
 //   以前的「芷若寄出去了。……」；稿上 87 句有 25 句沒有）、第 1 段 1 項（20 句）、第 5 段 12 項（AA_506、AA_507 的都沒有）。修改後 ALL PASS
+// 第四輪（AA_508、AA_509 @ 28f981438，HEROINE-LIFE-1028）改的：heard_lines.js 多了那兩份的閒聊前一句 7 句、手機 15 句——第 0 段的句數 66→88、SPEC 加 AA_508／AA_509（對稿要有那兩份）；
+//   第 1 段的句數 31→38（新的 7 句一樣照 from／until 逐句查，都過）。那兩份的「沒有漏掉」、手機的時間與條件在 tests/aa508_509_feed_unit.js 第 6 段。
+//   第四輪加句子以後、這裡還沒改的時候實際跑：FAILED 2（第 0 段：SPEC 沒有 AA_508／AA_509、88 句；第 1 段：38 句）。改了以後 ALL PASS。
+//   改過的這一份對開發分支 76a171c87 的 src（第三輪，66 句、閒聊前一句 31 句）實際跑：FAILED 2（第 0 段 66 句、第 1 段 31 句）
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
 const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md','d13ab3ab7'],AA_504:['docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md','62849944b'],AA_505:['docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md','795fbecfd'],
-  AA_506:['docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md','31a4c4002'],AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002']};
+  AA_506:['docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md','31a4c4002'],AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002'],
+  /* 第四輪（AA_508、AA_509 @ 28f981438）：heard_lines.js 加了那兩份的句子，對稿要有那兩份；那兩份的「沒有漏掉」、時間、條件在 tests/aa508_509_feed_unit.js 第 6 段 */
+  AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','28f981438'],AA_509:['docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md','28f981438']};
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -47,7 +53,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   for(const k in L.noodle) for(const e of L.noodle[k]) for(const d of e.dialogue) all.push([srcOf(e),d.text,e.once]);
   for(const e of L.phone) for(const it of e.items) all.push([srcOf(e),it[2],e.id]);
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002，一字不差；'+all.length+' 句）',all.length===66&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509 28f981438，一字不差；'+all.length+' 句）',all.length===88&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -88,7 +94,7 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HEARD',false,'沒有 HEARD'); ret
     setup(e,w.a.day-1,23.9); const before=HEARD.talkDue(H.G,e.who); const beforeOk=!before||before.id!==e.id;
     let afterOk=true; if(w.b){ setup(e,w.b.day,12); const last=HEARD.talkDue(H.G,e.who); setup(e,w.b.day+1,12); const after=HEARD.talkDue(H.G,e.who); afterOk=!!last&&last.id===e.id&&(!after||after.id!==e.id); }
     if(!(inOk&&beforeOk&&afterOk)) bad.push(e.id+' '+J({inOk,beforeOk,afterOk,from:e.from,until:e.until,day:D(w.a.day)})); }
-  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===31&&!bad.length,J(bad.slice(0,6)));
+  check('1. 每一句（'+HL().talk.length+' 句）在它的那幾天才說：from 那天有、前一天沒有、until 那天有、隔天沒有',HL().talk.length===38&&!bad.length,J(bad.slice(0,6)));
   /* 要認識她、一句一次、一天一句 */
   const ps=HL().talk.find(e=>e.id==='h503_ps_an'); const d=TDt('Y1S1',8,2);
   fresh(d,12,{}); meet('classmate_peishan'); check('1. 沛珊說以安：玩家還不認識以安＝不說',!HEARD.talkDue(H.G,'classmate_peishan'));

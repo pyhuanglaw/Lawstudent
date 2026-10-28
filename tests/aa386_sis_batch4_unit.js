@@ -120,7 +120,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   const go=async(setupF,picks)=>{ setup('2027-11-03',19.5,'lawlib','FAMILIAR'); if(setupF) setupF(H.G); H.said=[]; H.picks=(picks||[0]).slice(); await SISY23.preTalk(GM); return said(); };
   const a=await go(), b=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:3}; }), c=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:2}; }), d=await go(()=>SOCIAL.remember(ID,'SIS5_EXCHANGE_APP','')),
     e=await go(G=>{ G.flags.SIS_ADV_EXCH='go'; }), f=await go(G=>{ G.flags.SIS_ADV_EXCH='same'; }), g=await go(G=>{ G.social.ladder={[ID+'@Y2S2']:3}; dateSis(); });
-  const hasNew=L=>{ const i=L.indexOf(N1); return i>0&&L[i+1]===N2&&L[i-1]==='八月走，十二月回來。論文的第三章，要在那邊寫。'&&!L.includes(OLD); }, hasOld=L=>L.includes(OLD)&&!L.includes(N1)&&!L.includes(N2);
+  const hasNew=L=>{ const i=L.indexOf(N1); return i>0&&L[i+1]===N2&&L[i-1]==='八月走，十二月回來。論文的第四章，要在那邊寫。'&&!L.includes(OLD); }, hasOld=L=>L.includes(OLD)&&!L.includes(N1)&&!L.includes(N2);   /* 前一句「第四章」：AA_509 0-2 第 4 點（28f981438）改的，原本「第三章」（tests/aa379_sis_y2y3_unit.js 對稿）*/
   check('2. 都沒聽過（沒有階梯進度、記憶、1-2 的 go）：照原句「計畫本上寫了很久。今天才決定要跟人說。」',hasOld(a),J(a));
   check('2. 大二下階梯已經過了 S4-Lx（進度 3）：換成「之前跟你提過。」「……申請送出去了。今天才覺得是真的。」；進度 2（S4-Lx 還沒說）照原句',hasNew(b)&&hasOld(c),J({b,c}));
   check('2. 有記憶 SIS5_EXCHANGE_APP（大三上 S5-L1）、1-2 選了「學姊現在還可以去啊。」（go）＝換兩句；1-2 選另一個（same）照原句',hasNew(d)&&hasNew(e)&&hasOld(f),J({d,e,f}));
