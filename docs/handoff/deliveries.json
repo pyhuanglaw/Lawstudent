@@ -19705,6 +19705,13 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-NPCPOOLART",
    "reason": "LAWWW2 NPC-POOL-ART-1028 的 Blender 腳本 prop_pool.py＋量身資料 WIP，交件 35b26938c 的祖先（LAWWW-C 10-28 07:2x 分類）"
+  },
+  {
+   "sha": "236abecf",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "LAWWW2 霖澤館大廳第二版（LINZE-LOBBY-V2-1028：樓梯側面木條牆、北牆角落法學院展示櫃）的 WIP，X125 室內檢討的下一間，還沒交件（LAWWW-C 10-28 08:1x 分類）"
   }
  ]
 }
