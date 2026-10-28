@@ -59,6 +59,7 @@ const linesOf=(d,col)=>{ const x=byId(d); return x?(x.L[col]||x.L['平常']||[])
 const tap=async n=>{ said=[]; if(n&&typeof n.talk==='function') await n.talk(n); return said.map(s=>({who:s.who,t:s.t})); };
 const conv=(sec,n)=>D&&D[sec].find(c=>c.n===n);
 const stepsOf=(c,names)=>c.d.split('／').map(s=>{ const m=s.match(/^([ABC])：(.*)$/); return {who:names['ABC'.indexOf(m[1])],t:m[2]}; });
+const blk=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'：執行到一半出錯（'+String(e&&e.message||e).slice(0,120)+'）',false); } };   /* 一段出錯＝那一段 FAIL，其他段照樣跑（修改前的程式沒有 CROWD.dept…）*/
 const pairOf=()=>{ const ppl=E.npcs.filter(n=>n.deptTalk&&n.talk); const ids=[...new Set(ppl.map(n=>n.deptTalk))]; return {ppl,ids}; };
 (async()=>{
 // ---------- 0. 對稿 ----------
@@ -84,10 +85,10 @@ if(MD){ const md=MD.split('\n'), sec=t=>{ const i=md.findIndex(l=>l.startsWith(t
   check('0. 第 3 節：11 組（上課前／下課後、週次、課、誰、對話）和稿一樣',r3.length===11&&t3.length===11&&!b3.length,J(b3));
   const r4=rows('## 4.'), t4=D?D.LAW:[], b4=r4.filter(r=>{ const y=t4.find(q=>q.n===+r[0]), [ph,w]=r[1].split('、'); return !y||y.ph!==(ph==='上課前'?'pre':'post')||y.when!==w||y.d!==r[2]; }).map(r=>r[0]);
   check('0. 第 4 節：5 組和稿一樣',r4.length===5&&t4.length===5&&!b4.length,J(b4)); }
-if(!D||!C||!C.deptPool){ console.log('FAILED '+(fails+9)+'（沒有 crowd_depts.js 或 CROWD.dept…：第 1～9 項都沒有）'); process.exit(1); }
 // ---------- 1. 抽系照地點 ----------
 const W5=termDay('Y1S1',5,2), W1=termDay('Y1S1',1,2), W8=termDay('Y1S1',8,2), W16=termDay('Y1S1',16,2), BRK=dayOf('2026-01-20'), Y0W4=termDay('Y0S1',4,2);   /* 經濟系那一年第 3 週的週二是中秋：用第 4 週 */
 check('1. 測試用的日子都找得到（大一上第 1、5、8、16 週的週二、寒假、經濟系那一年第 4 週的週二）',[W1,W5,W8,W16,Y0W4].every(d=>d!=null)&&CALENDAR.termOf(Y0W4).id==='Y0S1'&&!CALENDAR.termOf(BRK),J([W1,W5,W8,W16,BRK,Y0W4]));
+await blk('1. 抽系照地點',async()=>{
 { const ids=(day,z)=>C.deptPool(mkG(day,14,z),z).map(d=>d.id), want=pl=>D.DEPTS.filter(d=>d.at.includes(pl)).map(d=>d.id);
   check('1. 椰（校園）、館（公館）、體（體育館三層）、圖（社科圖）：照「在哪裡」那一欄',J(ids(W5,'campus'))===J(want('椰'))&&J(ids(W5,'gongguan'))===J(want('館'))&&['gym','gym_b1','gym_arena'].every(z=>J(ids(W5,z))===J(['電機','醫學']))&&J(ids(W5,'soclib'))===J(want('圖').filter(i=>i!=='圖資')),J([ids(W5,'campus'),ids(W5,'gongguan'),ids(W5,'gym'),ids(W5,'soclib')]));
   check('1. 圖資只在總圖（總圖大廳、3F 閱覽區有；社科圖沒有）；不在表上的地方（溫州街、霖澤館、法圖）沒有系',ids(W5,'library_hall').includes('圖資')&&ids(W5,'library').includes('圖資')&&!ids(W5,'soclib').includes('圖資')&&!ids(W5,'wenzhou').length&&!ids(W5,'linze').length&&!ids(W5,'lawlib').length);
@@ -95,7 +96,9 @@ check('1. 測試用的日子都找得到（大一上第 1、5、8、16 週的週
   const G=mkG(W5,14,'campus'), n=C.deptPool(G,'campus').length, a=[...Array(n)].map((_,k)=>C.deptPick(G,'campus','walk',k).id), b=[...Array(n)].map((_,k)=>C.deptPick(G,'campus','walk',k).id);
   const days=[1,2,3].map(k=>J([...Array(n)].map((_,i)=>C.deptPick(mkG(W5+k,14),'campus','walk',i).id)));
   check('1. 同一群人：前 '+n+' 個人各是不同的系（先輪一遍）、第 '+(n+1)+' 個人從頭；同一天算兩次一樣；別天換順序',uniq(a)&&a.length===n&&C.deptPick(G,'campus','walk',n).id===a[0]&&J(a)===J(b)&&days.some(x=>x!==J(a)),a.slice(0,6).join('、')); }
+});
 // ---------- 2. 時段欄、旁白、性別 ----------
+await blk('2. 時段欄、旁白、性別',async()=>{
 { const col=(d,h)=>C.deptCol(mkG(d,h));
   check('2. 時段：開學第 1 週 14:00／20:00＝開學、第 5 週 14:00＝平常、20:00 和凌晨 3:00＝晚上、期中第 8 週＝考試（晚上也是）、期末第 16 週＝考試、寒假 14:00／20:00＝寒暑假',
     col(W1,14)==='開學'&&col(W1,20)==='開學'&&col(W5,14)==='平常'&&col(W5,20)==='晚上'&&col(W5,27)==='晚上'&&col(W8,14)==='考試'&&col(W8,20)==='考試'&&col(W16,10)==='考試'&&col(BRK,14)==='寒暑假'&&col(BRK,20)==='寒暑假',
@@ -107,14 +110,18 @@ check('1. 測試用的日子都找得到（大一上第 1、5、8、16 週的週
   const got={m:new Set(),f:new Set()}; for(let v=0;v<6;v++){ const g=mkGM(mkG(W5,14)); g.G.flags={deptHear:{'電機:平常':v%2}}; for(const sx of ['m','f']){ const x=C.deptLine(g,byId('電機'),sx); if(x) got[sx].add(x); } }
   const sw=['社工','心理'].every(id=>{ const L=linesOf(id,'平常'), she=L.find(t=>/^（她/.test(t)); const g=mkGM(mkG(W5,14)); g.G.flags={deptHear:{[id+':平常']:L.indexOf(she)}}; return C.deptLine(g,byId(id),'m')!==she&&C.deptLine(g,byId(id),'f')===she; });
   check('2. 旁白寫「他」的只給男生（電機的講電話那句女生不會拿到）、寫「她」的只給女生（社工、心理）',got.m.has(linesOf('電機','平常')[1])&&!got.f.has(linesOf('電機','平常')[1])&&got.f.size===1&&sw,J([[...got.m],[...got.f]])); }
+});
 // ---------- 3. 輪法 ----------
+await blk('3. 輪法',async()=>{
 { const G=mkG(W5,14), L=linesOf('電機','平常'), K=linesOf('電機','考試'), visit=()=>{ const g=mkGM(G); return [C.deptLine(g,byId('電機'),'m'),C.deptLine(g,byId('電機'),'m'),C.deptLine(g,byId('電機'),'m')]; };
   const v1=visit(), v2=visit(), v3=visit();
   check('3. 同一次進來不重複、句子用完了其他人不說（電機平常兩句：第三個人沒有）',v1[0]&&v1[1]&&v1[0]!==v1[1]&&v1[2]===null&&L.includes(v1[0])&&L.includes(v1[1]),J(v1));
   check('3. 下一次進來從下一句開始（第二次第一個人說第二句、第三次輪回第一句；G.flags.deptHear）',v2[0]===v1[1]&&v3[0]===v1[0]&&!!G.flags.deptHear&&G.flags.deptHear['電機:平常']!=null,J([v1[0],v2[0],v3[0]]));
   const g=mkGM(mkG(W8,14)); check('3. 考試週：電機考試那一欄只有一句＝一個人說，下一個電機系的不說',C.deptLine(g,byId('電機'),'m')===K[0]&&C.deptLine(g,byId('電機'),'f')===null); }
+});
 // ---------- 4. 校園 ----------
 check('4. story3d.js 的 walkRoutes 讀得到（校園、公館）',!!WR&&!!WR.campus&&!!WR.gongguan);
+await blk('4. 校園',async()=>{
 { const G=mkG(W5,14,'campus'), GM=enter('campus',G,16), pool=C.deptPool(G,'campus').map(d=>d.id), all=E.npcs.filter(n=>n.isExtra&&!n.crowd);
   const named=all.filter(n=>deptOf(n)), {ppl,ids}=pairOf();
   check('4. 校園 16 個走路的人：每個人都有系（名字＝X系的學生，系在「椰」那一欄）',all.length===16&&named.length===16&&named.every(n=>pool.includes(deptOf(n))&&n.dept===deptOf(n)),all.length+' 人：'+named.slice(0,6).map(n=>n.name).join('、'));
@@ -143,12 +150,16 @@ check('4. story3d.js 的 walkRoutes 讀得到（校園、公館）',!!WR&&!!WR.c
     let far=null; for(let k=0;k<400&&!far;k++){ const x=-110+k*0.5, z=-7; E.player.obj.position.set(x,0,z); if(E.interactables.some(it=>!it.hidden&&Math.hypot(it.x-x,it.z-z)<(it.radius||1.8)+0.1)) continue; one.obj.position.set(x+0.5,0,z); const r=E.nearestInteractable(); if(r&&r.npc===one) far=r; }
     check('4. 走路的人走到出口旁邊：按鈕還是「'+exit.label+'」（不擋）；旁邊沒有互動點時才是「聽一句」',!!near&&near===exit&&!!far&&far.label==='聽一句',J([near&&near.label,far&&far.label])); }
   else check('4. 校園有出口、有點得到的走路的人',false); }
+});
 // ---------- 5. 公館 ----------
+await blk('5. 公館',async()=>{
 { const G=mkG(W5,14,'gongguan'); enter('gongguan',G,12); const pool=C.deptPool(G,'gongguan').map(d=>d.id), all=E.npcs.filter(n=>n.isExtra&&!n.crowd&&n.beh!=='idle'), {ids}=pairOf();
   check('5. 公館的走路的人：都是「館」的系（資工、外文、經濟、社工、獸醫、戲劇、會計）；兩個人的對話是館的平常那幾組（9、12）',all.length===12&&all.every(n=>pool.includes(deptOf(n)))&&ids.length===1&&['t9','t12'].includes(ids[0]),J([all.map(deptOf).join('、'),ids]));
   const at=(d,h)=>C.deptTalksAt(mkG(d,h),'館','gongguan').map(x=>x.n);
   check('5. 公館晚上＝第 8 組；考試週的晚上＝第 16 組（宵夜滷味）；考試週白天（沒寫）用平常那幾組；寒假沒有',J(at(W5,20))===J([8])&&J(at(W8,20))===J([16])&&J(at(W8,14))===J([9,12])&&J(at(BRK,14))==='[]',J([at(W5,20),at(W8,20),at(W8,14),at(BRK,14)])); }
+});
 // ---------- 6. 圖書館 ----------
+await blk('6. 圖書館',async()=>{
 { const G=mkG(W5,14,'library_hall'), GM=enter('library_hall',G,0), {ppl,ids}=pairOf(), c=ids.length?conv('TALKS',+ids[0].slice(1)):null;
   const sat=ppl.every(n=>n.seat&&(n.pose==='read'||n.pose==='sit')), dx=ppl.length===2?Math.hypot(ppl[0].seat.x-ppl[1].seat.x,ppl[0].seat.z-ppl[1].seat.z):0;
   check('6. 總圖大廳平日下午：兩個人一起坐在相鄰的空位（同一排、隔 0.8～1.75 m），第 5 組（歷史、歷史，小聲）',!!c&&c.n===5&&ppl.length===2&&sat&&dx>0.8&&dx<1.75&&ppl.every(n=>n.name==='歷史系的學生'),J({ids,dx:+dx.toFixed(2)}));
@@ -159,10 +170,12 @@ check('4. story3d.js 的 walkRoutes 讀得到（校園、公館）',!!WR&&!!WR.c
   if(c2){ const h=await tap(B); check('6. 點了：「同學，要閉館了。」那一段，A＝圖資系的學生、B＝經濟系的學生',J(h)===J(stepsOf(c2,['圖資系的學生','經濟系的學生'])),J(h)); }
   const L=C.deptTalksAt(mkG(W5,21+40/60),'圖','soclib').map(x=>x.n), G4=mkG(W5,14,'soclib'); enter('soclib',G4,0); const p4=pairOf();
   check('6. 社科圖：沒有第 15 組（圖資只在總圖），閉館前用平常那一組；平日下午也有兩個人一起坐的對話',!L.includes(15)&&J(L)===J([5])&&p4.ids.length===1&&p4.ppl.every(n=>n.seat),J([L,p4.ids])); }
+});
 // ---------- 7. 教學館門口 ----------
 const findCls=(term,id,week)=>{ for(let d=-420;d<1700;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term||t.week!==week) continue; const G=mkG(d,12,'campus',term[1]==='0'?{stage:'econ'}:{}); const it=CLS.dayItems(G).find(q=>q.c.id===id); if(it) return {day:d,it}; } return null; };
 const door=async(term,id,week,ph,o)=>{ const f=findCls(term,id,week); if(!f) return null; const zone=f.it.room.zone, G=mkG(f.day,ph==='pre'?f.it.t0-0.3:f.it.t1+0.05,zone,Object.assign(term[1]==='0'?{stage:'econ'}:{},o||{}));
   enter(zone,G,0); const spot=zone+'_'+f.it.room.room, grp=E.npcs.filter(n=>n.crowd===spot), {ppl,ids}=pairOf(); return {f,G,grp,ppl,ids,spot}; };
+await blk('7. 教學館門口',async()=>{
 { const r=await door('Y1S1','ge_film_y1s1',3,'pre'), names=r?r.grp.map(n=>n.name):[];
   check('7. 通識（電影與敘事，普通 101）上課前第 3 週：門口的人都有系、各系混著（不是都同一系、沒有圖資）',!!r&&r.grp.length>=3&&names.every(x=>/系的學生$/.test(x))&&new Set(names).size>=2&&!names.includes('圖資系的學生'),J(names));
   const c=r&&r.ids.length?conv('GE',+r.ids[0].slice(1)):null, last=r?r.grp.slice(-2):[];
@@ -177,7 +190,9 @@ const door=async(term,id,week,ph,o)=>{ const f=findCls(term,id,week); if(!f) ret
   const L1=await door('Y1S1','econ_principles_1',1,'pre'), L7=await door('Y1S1','econ_principles_1',7,'pre'), Lp=await door('Y1S1','econ_principles_1',3,'post');
   check('7. 法律系必修：第 1 週＝第 1 組、考試前一週（第 7 週）＝第 4 組（法典）、下課後＝第 3、5 組',!!L1&&J(L1.ids)==='["l1"]'&&!!L7&&J(L7.ids)==='["l4"]'&&!!Lp&&['l3','l5'].includes(Lp.ids[0]),J([L1&&L1.ids,L7&&L7.ids,Lp&&Lp.ids]));
   const jp=await door('Y2S1','japanese_1',3,'pre'); check('7. 選修（日文，共同 102）門口照舊：沒有系、不能點',!!jp&&jp.grp.length>=2&&jp.grp.every(n=>!n.name&&!n.talk),jp?jp.grp.length+' 人':'找不到日文課'); }
+});
 // ---------- 8. 體育館 ----------
+await blk('8. 體育館',async()=>{
 { const TUE=termDay('Y1S1',4,2), SAT=termDay('Y1S1',4,6), H=C.GYM_HEAR, role=r=>E.npcs.filter(n=>n.crowd&&/^gym_/.test(n.crowd)&&n.crowdRole===r);
   let gotW=null; const seenB=[], GB=mkG(TUE,12.6,'gym'); for(let v=0;v<3;v++){ enter('gym',GB);   /* 同一局（同一個 G）進來三次 */ const b=role('badminton').filter(n=>n.hear); seenB.push(b.map(n=>n.hear.t)); const w=b.find(n=>n.hear.t===H.badminton.L[2]); if(w) gotW=w; }
   check('8. 1F 羽球場：三句一起輪（每次進來第一句換下一句）；說「剛剛那顆，我們系的規則是界內。」的人＝外文系的學生（名字、說話的人）',new Set(seenB.map(s=>s[0])).size===Math.min(3,seenB.length)&&!!gotW&&gotW.name==='外文系的學生'&&gotW.hear.who==='外文系的學生'&&(await tap(gotW))[0].who==='外文系的學生',J(seenB));
@@ -190,10 +205,13 @@ const door=async(term,id,week,ph,o)=>{ const f=findCls(term,id,week); if(!f) ret
   if(c){ const h=await tap(sp[0]); check('8. 點了：整段',J(h)===J(stepsOf(c,c.who.map(x=>x+'系的學生'))),J(h)); }
   enter('gym',mkG(BRK,14,'gym')); const lb=role('walker').concat(role('bench'));
   check('8. 寒假：體育館大廳的人沒有系（寒暑假只出寫了寒暑假的系，「體」沒有）、場邊沒有對話',lb.every(n=>!n.name&&!n.talk)&&!E.npcs.some(n=>n.deptTalk),String(lb.length)); }
+});
 // ---------- 9. 經濟系那一年 ----------
+await blk('9. 經濟系那一年',async()=>{
 { const G=mkG(Y0W4,14,'campus',{stage:'econ'}); enter('campus',G,10); const all=E.npcs.filter(n=>n.isExtra&&!n.crowd), pool=C.deptPool(G,'campus').map(d=>d.id);
   check('9. 經濟系那一年（大一上第 4 週）：校園的走路的人一樣有系（有經濟系的人可以出現）、有句子',all.length===10&&all.every(n=>pool.includes(deptOf(n)))&&pool.includes('經濟')&&all.filter(n=>n.talk).length>=6,all.map(deptOf).join('、'));
   const g=await door('Y0S1','chinese_y0',4,'pre'), e=await door('Y0S1','econ_principles_y0',4,'pre');
   check('9. 經濟系那一年：通識（大一國文，博雅 101）門口照第 3 節（各系混著、有對話）；經濟系必修（經濟學原理）門口照舊（沒有系、不能點）',!!g&&g.ids.length===1&&/^g/.test(g.ids[0])&&g.grp.every(n=>/系的學生$/.test(n.name))&&!!e&&e.grp.length>=2&&e.grp.every(n=>!n.name&&!n.talk),J([g&&g.ids,e&&e.grp.length])); }
+});
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
