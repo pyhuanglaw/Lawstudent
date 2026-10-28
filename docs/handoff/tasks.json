@@ -34809,7 +34809,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 06:5x UTC】D108 區域配置歸 LAWWW2：櫃台互動點移到桌子前（BB 建議 (0,2.2)）或縮半徑、或落腳點往裡退；改完跑 tests/reachability_all.py 書店那一段的 Node 版（或請 BB 跑），BB 在 v9.10.13 的 6a 驗",
-   "note": "",
+   "note": "｜【BB-C 07:06 door_book2】工具找到出口範圍裡 (-1.15,4.05)（最近的互動＝離開書店），點地面走過去停在 (-1.01,4.05)，差 0.14 m 按鈕又變回櫃台＝「離開書店」只有門口左右離中心超過 1.1 m 的窄帶按得到；BB 5u 12b 記「被 BOOKSTORE-EXIT-SHOP 擋住」，改好後 v9.10.13 6a 一起驗",
    "xai": {
     "spec": "BB-C 06:58 訊息（數字、座標）；zones3d.js 書店區域",
     "branch": "claude/focused-cray-c9uwvw",
