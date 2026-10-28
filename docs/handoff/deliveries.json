@@ -15321,8 +15321,8 @@
    "msg": "ACK",
    "what": "AA_499 法律系同學第二批：何宇軒、徐靜儀、詹立群、蘇承恩、馬佳蓉；社會圖 heroine_03—pool_20 改 referral；要加的關係（第 6 節）",
    "task": "NPC-STORY-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox c0317c8a3"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox c0317c8a3；【LAWWW-C 10-28 07:5x】合進開發分支 49e6b3e8d（子代理 053f7d99a；pool_story_b2／b3／b4.js、pool_more3d.js）；白名單 approved；自己定的轉 AA；六張 2D 背景 BB 跟使用者要"
   },
   {
    "id": "DL-AA-497B",
@@ -15347,8 +15347,8 @@
    "msg": "ACK",
    "what": "AA_500 法律系同學第三批（大二六位，2028-06 畢業；日本路線那一場改私訊）：蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文（筆記被網拍，著作權 LEGAL_REVIEW_REQUIRED）",
    "task": "NPC-STORY-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3；【LAWWW-C 10-28 07:5x】合進開發分支 49e6b3e8d（子代理 053f7d99a；pool_story_b2／b3／b4.js、pool_more3d.js）；白名單 approved；自己定的轉 AA；六張 2D 背景 BB 跟使用者要"
   },
   {
    "id": "DL-AA-501",
@@ -15360,8 +15360,8 @@
    "msg": "ACK",
    "what": "AA_501 法律系同學第四批（大三四位，2027-06 畢業）：洪珮瑜、施孟儒（系籃三選一終於有人回應、畢業交記分板）、廖芸萱、嚴守誠；第 5 節十五位的 personality 表補進 characters.js",
    "task": "NPC-STORY-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3；二十位全部寫完（AA_498～501）"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3；二十位全部寫完（AA_498～501）；【LAWWW-C 10-28 07:5x】合進開發分支 49e6b3e8d（子代理 053f7d99a；pool_story_b2／b3／b4.js、pool_more3d.js）；白名單 approved；自己定的轉 AA；六張 2D 背景 BB 跟使用者要"
   },
   {
    "id": "DL-AA-502",
