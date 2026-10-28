@@ -328,7 +328,7 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   const mine=all.filter(x=>x[0]==='AA_510'), md=doc.Y4S2||'';
   check('8. AA_510 的句子（'+mine.length+' 句：閒聊前一句 6、手機 5）都在稿裡（28f981438，一字不差）',mine.length===11&&mine.every(x=>md.includes(x[1])),J(mine.filter(x=>!md.includes(x[1]))));
   const got=new Set(all.map(x=>x[1])), heard=heardOf(md);
-  const NOT_DONE={'子晴學姊當評審，給我的學妹最高分。學妹按錯 C，她說沒關係，沒停就好。':'葉晨希 pool_11（等 AA_500）'};
+  const NOT_DONE={'子晴學姊當評審，給我的學妹最高分。學妹按錯 C，她說沒關係，沒停就好。':'葉晨希 pool_11（2028-06 畢業，大四下 3D 裡沒有她；問 AA）'};
   const miss=heard.filter(([w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[1]===t)||got.has(t));
   check('8. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[1])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（葉晨希 pool_11 等 AA_500），沒有漏掉',heard.length===12&&!miss.length&&!extra.length,J({miss,extra}));
   /* 閒聊前一句：from 那天有、前一天沒有、until 那天有、隔天沒有（AA_510 六句＋第五輪補的曾靖雯四句）*/
