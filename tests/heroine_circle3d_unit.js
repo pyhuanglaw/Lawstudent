@@ -88,7 +88,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iS=sc('src
   const miss=[], badRef=[]; for(const t of TABLE){ const r=byPos[t.doc+' '+t.sec+' '+t.k]; if(!r||r.heard!==t.heard) miss.push(t.doc+' '+t.sec+' 第'+t.k+'列：'+t.heard.slice(0,20)+(r?' ≠ '+String(r.heard).slice(0,20):'（沒有）'));
     else if(REF.has(t.heard)!==!!r.ref) badRef.push(r.id); }
   check('0. 稿→遊戲：每一列都在遊戲資料裡（同一節、同一列，「走近時聽到」一字不差）',!miss.length,J(miss.slice(0,5)));
-  check('0. 照現有、照 2-1、照 AA_506 4-1 那幾格＝ref（沒有新句子），其他的不是 ref',!badRef.length,J(badRef));
+  check('0. 照現有、照 2-1、照 AA_506 4-1 那幾格＝ref（沒有新句子），其他的不是 ref',!badRef.length&&TABLE.every(t=>byPos[t.doc+' '+t.sec+' '+t.k]),J(badRef));
   /* 遊戲→稿：每一列的格子在那一份稿的那個位置（不是表上的列：n1、b＝說明裡的句子；derived＝「暑假照舊」）*/
   const tpos=new Set(TABLE.map(t=>t.doc+' '+t.sec+' '+t.k)), extra=[];
   for(const r of D.ROWS){ if(r.derived) continue; if(typeof r.k==='number'){ if(!tpos.has(r.doc+' '+r.sec+' '+r.k)) extra.push(r.id); continue; }
@@ -121,6 +121,8 @@ await sec('1',async()=>{ if(!HAS()){ check('1. HCIRCLE',false,'沒有 HCIRCLE');
   const chk=(rid,c,flags)=>{ const r=R(rid), f=findOn(r,flags); if(!f) return null; const e=ent(c); return e?{zone:e.zone,act:e.act,hc:e.hc,with:e.with}:null; };
   const a=chk('c506_3_1','pool_7'), b=chk('c503_7_2','kai'), c=chk('c503_7_1','pool_11'), d=chk('c503_7_1','pool_5');
   check('1. 不在那一區的同伴：回傳跟著她的那一筆（hc＝那一列、with＝她）——靖雯、阿凱、晨希、晏如',!!a&&a.zone==='campus'&&a.act==='linger'&&a.hc==='c506_3_1'&&a.with==='heroine_03'&&!!b&&b.zone==='campus'&&b.hc==='c503_7_2'&&!!c&&c.zone==='wancai'&&c.hc==='c503_7_1'&&!!d&&d.zone==='wancai',J({a,b,c,d}));
+  { const r=R('c506_3_1'), f=findOn(r); fresh(f.d,f.h,'campus'); const on0=HCIRCLE.on(r,H.G); H.G.invites=[{id:'iv1',who:'heroine_03',place:'wenzhou',state:'going',zone:'wenzhou',day:f.d,h:f.h}]; const on1=HCIRCLE.on(r,H.G), zj=ent('pool_7');
+    check('1. 她和玩家一起走過去（邀約 going，INV.entryFor）的時候：那一列不成立、靖雯不跟過去',on0===true&&on1===false&&!(zj&&zj.hc),J({on0,on1,zj:zj&&zj.zone})); }
   const e1=chk('c503_6_1','npc_huangxh'), e2=chk('c504_6_1','classmate_bohan');
   check('1. 本來就在那一區的同伴照他自己的（筱涵在校園、柏翰在總圖：沒有 hc）',!!e1&&e1.zone==='campus'&&!e1.hc&&!!e2&&e2.zone==='library'&&!e2.hc,J({e1,e2}));
   /* 一定同框＝每一天；其他＝約 70%、同一天一樣 */
@@ -265,7 +267,10 @@ await sec('6',async()=>{ const D=HD(), P=D.PEOPLE, A=fs.readFileSync(path.join(H
   check('6. 標籤同伴（'+Object.keys(P).length+' 位）：底模在 ASSETS、性別對、不和二十位同學撞、彼此不重複',Object.keys(P).length>=17&&!bad.length,J(bad));
   const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8');
   check('6. story3d.js：schedEnt 問 SCHED_WITH（pri 之後）、populateSchedule 在 pairUp 之前跑 PRE_PAIR、pairUp 跳過 noPair、offerInvite 問 COMPANY',/ent\.pri&&hit\(ent\)\) return actEnt\(ent\);[^\n]*\n\s*if\(S\.SCHED_WITH/.test(st)&&/S\.PRE_PAIR\)\{[^\n]*\n\s*pairUp\(zoneId,GM\); \}/.test(st)&&/!n\.paired&&!n\.noPair&&/.test(st)&&/const crowd=S\.COMPANY\.some/.test(st)&&/!\(crowd&&o\.priv\)/.test(st));
-  check('6. multirel3d.js：告白的兩個一次性選項標 priv',(mr.match(/priv:true,run:/g)||[]).length===2); });
+  check('6. multirel3d.js：告白的兩個一次性選項標 priv',(mr.match(/priv:true,run:/g)||[]).length===2);
+  const AL=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[];
+  const badA=Object.keys(DOCS).filter(k=>{ const e=AL.find(q=>q.path===DOCS[k][0]); return !e||String(e.sha)!==DOCS[k][1]||e.status!=='approved'||!e.approvedBy||!/HEROINE-CIRCLE3D-1028/.test(e.note||''); });
+  check('6. 劇情匯入白名單：AA_503～508 是對稿的那一版（sha 相同）、approved、有 approvedBy，note 寫了 3D 圈子',!badA.length,J(badA)); });
 
 H.done();
 })();

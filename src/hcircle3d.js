@@ -72,7 +72,7 @@ const HCIRCLE=(function(){
   /* 她（或他）照作息現在那一筆（schedEnt；自己在算的時候不再進來）*/
   S.entOf=function(id,G){ if(guard.has(id)||typeof STORY==='undefined'||!STORY.schedEnt||!isChar(id)) return null; guard.add(id); try{ return STORY.schedEnt(CHARACTERS[id],G); } finally { guard.delete(id); } };
   /* 她照作息在那一區、那個動作，而且照進區域生成的規則該出現（schedFor：presence、舊劇情人物的 afternoonDone、跟著玩家走的不算）*/
-  S.heroEnt=function(r,G){ const e=S.entOf(r.who,G); if(!e||e.zone==null) return null; if(r.zone&&e.zone!==r.zone) return null; if(r.act&&e.act!==r.act) return null;
+  S.heroEnt=function(r,G){ const e=S.entOf(r.who,G); if(!e||e.zone==null||e.invite) return null; if(r.zone&&e.zone!==r.zone) return null; if(r.act&&e.act!==r.act) return null;   /* invite：和玩家約好、一起走過去的那一段（src/invites3d.js INV.entryFor）＝她在陪你，不是她自己的生活 */
     if(typeof STORY!=='undefined'&&STORY.schedInZone){ if(guard.has(r.who)) return null; guard.add(r.who); try{ if(!STORY.schedInZone(r.who,e.zone,G)) return null; } finally { guard.delete(r.who); } }
     return e; };
   /* 必修課上課前（cls）：她那一堂（classmateClass：from＝上課前 15 分鐘）上課前 10 分鐘到下課；pm＝下午的課；wkFrom＝第幾週起 */
@@ -109,7 +109,8 @@ const HCIRCLE=(function(){
     let at=null; if(act==='linger'){ const ca=r.compAt&&r.compAt[ix]; if(ca) at=[ca[0],ca[1],ca[2]||0,0]; else if(e.at){ const y=e.at[2]||0, a=ix%2?-1:1; at=[+(e.at[0]+Math.cos(y)*0.95*a).toFixed(2),+(e.at[1]-Math.sin(y)*0.95*a).toFixed(2),y+Math.PI*(a>0?-0.5:0.5),e.at[3]|0]; } else if(e.act==='club'){ const q=CLUB_AT[ix%CLUB_AT.length]; at=[q[0],q[1],0,0]; } }
     const from=r.cls?e.from:Math.max(r.from!=null?r.from:e.from,e.from), to=r.cls?e.to:Math.min(r.to!=null?r.to:e.to,e.to);
     const c=isChar(id)?CHARACTERS[id]:null, desc=c&&(c.poolClass&&c.poolClass.desc||((c.daily_schedule||[]).find(q=>q&&q.desc)||{}).desc)||null;
-    const m={days:[G.weekday],from,to,zone:e.zone,act,hc:r.id,with:r.who,label:'和'+S.nameOf(r.who)+'在一起'};
+    const m={days:[G.weekday],from,to,zone:e.zone,act,hc:r.id,with:r.who};
+    if(e.label) m.label=e.label;   /* 手機「現在大概在」（STORY.whereIs）：照她那一筆的地點說法（萬才館門口、霖澤館門口…），不寫和誰（還沒認識她的玩家不露名字）*/
     if(at) m.at=at; if(e.room&&act!=='linger') m.room=e.room; if(desc) m.desc=desc; if(act==='linger'&&!at){ m.act='circle'; }   /* 沒有位置可寫：先照路線生，S.arrange 再站好 */
     MIR.set(k,m); if(MIR.size>400) MIR.clear(); return m; };
   S.nameOf=id=>{ if(isLabel(id)) return PEOPLE[id].label; return typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id; };
