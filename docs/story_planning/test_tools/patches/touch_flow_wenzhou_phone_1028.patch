@@ -1,0 +1,25 @@
+--- a/tests/touch_flow_wenzhou.py	2026-10-28 02:27:10.187761090 +0000
++++ b/tests/touch_flow_wenzhou.py	2026-10-28 02:27:10.210887002 +0000
+@@ -137,11 +137,17 @@
+         check('走到 Café 門口出現「進入兩點半 Café」', '兩點半' in st['interact'], st)
+         ov = await pg.evaluate("(()=>{ const a=document.getElementById('interact').getBoundingClientRect(), j=document.getElementById('joy').getBoundingClientRect(); return !(a.right<j.left||a.left>j.right||a.bottom<j.top||a.top>j.bottom); })()")
+         check('互動按鈕不會蓋住搖桿', not ov)
+-        await t.tap_el('#interact')
+-        # 換區域要載入 Café：機器忙的時候（SwiftShader 1～4 fps）5 秒不一定換完，等到換區域或出現對話（最多 20 秒），不是固定等 5 秒（LAWWW-B 10-24：release_suite 在忙的機器上 FAIL、BB 那台 PASS）
+-        for i in range(40):
+-            await pg.wait_for_timeout(500)
+-            if await pg.evaluate("(GAME.G&&GAME.G.zone==='cafe')||!document.getElementById('dlg').classList.contains('hide')"): break
++        # 要回的訊息（D103）在門口站滿 1.5 秒以後、下一次 STORY.tick 自己打開手機：可能剛好在 tap_el 檢查完、按下去之前打開，按到手機上（BB-C 10-28 v9.10.12 relsuite：flow_03 停在手機訊息頁）。
++        # 像玩家一樣：按了沒進去、手機開著、人還在門口沒在換區域 → 收起來再按一次（最多 3 次）
++        for attempt in range(3):
++            await t.tap_el('#interact')
++            # 換區域要載入 Café：機器忙的時候（SwiftShader 1～4 fps）5 秒不一定換完，等到換區域或出現對話（最多 20 秒），不是固定等 5 秒（LAWWW-B 10-24：release_suite 在忙的機器上 FAIL、BB 那台 PASS）
++            for i in range(40):
++                await pg.wait_for_timeout(500)
++                if await pg.evaluate("(GAME.G&&GAME.G.zone==='cafe')||!document.getElementById('dlg').classList.contains('hide')||(!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())&&!document.getElementById('fade').classList.contains('on')&&!GAME.E.player.busy)"): break
++            if await pg.evaluate("GAME.G.zone==='cafe'||!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
++            print('  [玩家操作] 按門的時候手機自己打開了（要回的訊息）→ 收起來、再按一次「進入兩點半 Café」')
++            await t.phone_away(); await pg.wait_for_timeout(500)
+         await advance_dialogue(pg, t)
+         st = await state(pg); check('進入 Café', st['zone'] == 'cafe', st)
+         await pg.screenshot(path=SHOTS+'/flow_03_cafe_inside.png')
