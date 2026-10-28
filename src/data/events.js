@@ -484,7 +484,8 @@ const STORY_EVENTS=[
   // ────────────────────────────────────────── 許教授：研究所的種子（辦公時間）
   /* AA_522 第 2 節（企劃線 fcc93126e，AA-C 定稿；NPC-STORY2-1028）：照祐廷的年級（SOCIAL.playerYear，放假照上一個學期；大五算大四）——第一次見面的自我介紹、之後的招呼、題目都照年級。
      每題問一次（記 XU_ASKED＝{年級:[題]}；舊存檔：大一那兩題有 prof_xu 的 GRAD_SCHOOL_DISCUSSION／book_xu 筆記＝問過），那一年的問題問完就不觸發，下一年有新的。
-     地點、冷卻照舊（萬才館，3 天）。大三「溫書瑀學姊是老師的學生？」要認識學姊。許教授只講讀法、比較法、研究所，不講實體法。新題目的教授紀錄照現有的辦公時間題（office +2）*/
+     地點、冷卻照舊（萬才館，3 天）。大三「溫書瑀學姊是老師的學生？」要認識學姊。許教授只講讀法、比較法、研究所，不講實體法。新題目的教授紀錄照現有的辦公時間題（office +2）。
+     第 8 節（f36dfe3cf）：他每週一 14:00～16:00 在萬才館，四個年級都在（story3d.js 的 S.PROF_OFFICE；上他課的那幾天下課後照現有）；和學姊交往中，大三那一題換「學姊的論文，老師覺得怎麼樣？」*/
   ...(()=>{ const XY=G=>Math.max(1,Math.min(4,typeof SOCIAL!=='undefined'&&SOCIAL.playerYear?SOCIAL.playerYear()|0:1)),
       XQ={1:['grad','book'],2:['germany','long'],3:['grad3','sis'],4:['judg']},
       xAsked=(G,y,k)=>{ const A=G.flags&&G.flags.XU_ASKED, L=A&&typeof A==='object'&&Array.isArray(A[y])?A[y]:[]; if(L.includes(k)) return true;
@@ -501,13 +502,15 @@ const STORY_EVENTS=[
       {if:MET(1),speaker:'prof_xu',expression:'neutral',text:'又是你。有問題？'},{if:MET(2),speaker:'prof_xu',expression:'neutral',text:'行政法的學生。有問題？'},{if:MET(3),speaker:'prof_xu',expression:'neutral',text:'大三了，民訴、刑訴都很重。還來？'},{if:MET(4),speaker:'prof_xu',expression:'neutral',text:'快畢業了。有問題？'},
       {choice:[{text:'「老師，法研所是在做什麼的？」',if:CU(G=>xCan(G,'grad')),consequences:{grad:{bump:'問許教授法研所'},prof:{prof_xu:{kind:'office',delta:2,note:'問法研所'}},mem:[{npc:'prof_xu',tag:'GRAD_SCHOOL_DISCUSSION'}]},goto:'grad'},{text:'「老師推薦一本一年級可以讀的書嗎？」',if:CU(G=>xCan(G,'book')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問推薦書'}},note:{id:'book_xu',title:'許教授推薦的書','body':'《法學方法論》入門——「先學會問問題，再學答案」。'}},goto:'book'},
         {text:'「老師上課一直講德國，為什麼？」',if:CU(G=>xCan(G,'germany')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問比較法'}}},goto:'germany'},{text:'「行政法的考試為什麼那麼長？」',if:CU(G=>xCan(G,'long')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問考試'}}},goto:'long'},
-        {text:'「大三要開始想研究所了嗎？」',if:CU(G=>xCan(G,'grad3')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問研究所'}}},goto:'grad3'},{text:'「溫書瑀學姊是老師的學生？」',if:CU(G=>xCan(G,'sis')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問學姊'}}},goto:'sis'},
+        {text:'「大三要開始想研究所了嗎？」',if:CU(G=>xCan(G,'grad3')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問研究所'}}},goto:'grad3'},{text:'「溫書瑀學姊是老師的學生？」',if:CU(G=>xCan(G,'sis')),unless:{flags:['dating_heroine_05']},consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問學姊'}}},goto:'sis'},
+        {text:'「學姊的論文，老師覺得怎麼樣？」',if:{flags:['dating_heroine_05'],custom:G=>xCan(G,'sis')},consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問學姊的論文'}}},goto:'sisd'},   /* AA_522 第 8 節第 2 點（f36dfe3cf）：和學姊交往中，大三那一題換這個問法（同一題：記 sis，問過一種就不再出另一種）；沒交往、認識她的照上一個 */
         {text:'「判決要從哪裡開始讀？」',if:CU(G=>xCan(G,'judg')),consequences:{prof:{prof_xu:{kind:'office',delta:2,note:'問判決'}}},goto:'judg'},{text:'「沒事，路過。」',end:true}]},
       {label:'grad'},{call:G=>xMark(G,'grad')},{speaker:'prof_xu',expression:'thinking',text:'「讀一個問題讀兩年。大部分人以為是讀更多條文，其實是讀更少、讀更深。」'},{speaker:'prof_xu',expression:'smile',text:'「你才一年級。先把民總讀好——但如果哪堂課讓你下課還在想，記得那是什麼課。」'},{goto:'end'},{label:'book'},{call:G=>xMark(G,'book')},{speaker:'prof_xu',expression:'neutral',text:'「先不要讀教科書以外的東西。真的要讀，就讀『怎麼問問題』的書。」'},{goto:'end'},
       {label:'germany'},{call:G=>xMark(G,'germany')},{speaker:'prof_xu',expression:'neutral',text:'我們很多制度是從那邊學來的。'},{speaker:'prof_xu',expression:'thinking',text:'看別人怎麼想同一個問題，比較看得出自己的問題在哪。'},{goto:'end'},
       {label:'long'},{call:G=>xMark(G,'long')},{speaker:'prof_xu',expression:'neutral',text:'因為行政法本來就長。'},{speaker:'prof_xu',expression:'smile',text:'……我出題目的時候，也覺得太長。'},{goto:'end'},
       {label:'grad3'},{call:G=>xMark(G,'grad3')},{speaker:'prof_xu',expression:'thinking',text:'想，但不要急著決定。'},{if:GSD,speaker:'prof_xu',expression:'neutral',text:'你大一來的時候，我說過：哪堂課讓你下課還在想，記得那是什麼課。……現在是哪一門？'},{unless:GSD,speaker:'prof_xu',expression:'neutral',text:'哪堂課讓你下課還在想，記得那是什麼課。……現在是哪一門？'},{speaker:null,text:'（你想了一下，說了一門課。他點點頭，沒有追問。）'},{goto:'end'},
       {label:'sis'},{call:G=>xMark(G,'sis')},{speaker:'prof_xu',expression:'neutral',text:'她是我指導的。'},{speaker:'prof_xu',expression:'neutral',text:'她的題目，讓她自己跟你說。'},{goto:'end'},
+      {label:'sisd'},{call:G=>xMark(G,'sis')},{speaker:'prof_xu',expression:'neutral',text:'這個問題，你應該問她。'},{speaker:'prof_xu',expression:'neutral',text:'……她自己知道寫得好不好。'},{goto:'end'},
       {label:'judg'},{call:G=>xMark(G,'judg')},{speaker:'prof_xu',expression:'neutral',text:'從事實。很多人跳過事實，直接讀理由。'},{speaker:'prof_xu',expression:'neutral',text:'那樣讀，看不懂法官為什麼那樣寫。'},
       {label:'end'} ] } ]; })(),
   // ────────────────────────────────────────── 熟同學：小事件
@@ -4487,7 +4490,9 @@ const STORY_EVENTS_V11=[
      第 1 節周教授（ev_prof_zhou_office）：萬才館週四 15:12～16:30、冷卻 6 天照舊；大一上、大一下、大二上（AA_376 #19：大三不演）。每學期的題目各問一次（記 ZHOU_ASKED＝{學期:[題]}；
        舊存檔：大一上原本的兩題有 zhou_88／zhou_book 筆記＝問過），那學期問完就不觸發（不留只剩「沒事。」的選單）；推薦書只有大一上。招呼一次一句，上面的先（1-2 的表）。
        新的民法五題（表見代理、價目表、無因管理、債務不履行三種、消滅時效）都是 LEGAL_REVIEW_REQUIRED，審過才算定稿；筆記內文稿上只寫了 zhou_169，其他四則用周教授那兩句原文。
-       1-3 大四下：第 10 週專題「回顧大一的案例」以後的第一個週一（第 11 週，2029-04-30）專題下課後 15:12～16:30，一次（ZHOU_ASKED.Y4S2）；記 mem ZHOU_Y4。他週一下課後在萬才館＝課表（CLS.profWhere）。
+       1-3 大四下：專題下課後 15:12～16:30 去萬才館研究室，一次（ZHOU_ASKED.Y4S2）；記 mem ZHOU_Y4。他週一下課後在萬才館＝課表（CLS.profWhere）。
+         第 8 節第 4 點（f36dfe3cf）：第 10 週專題（「回顧大一的案例」）下課的時候他說一句「{name}，下課來研究室一趟。」（ev_prof_zhou_y4_call）；那天 15:12～16:30 去就演，
+         沒去的，第 11～13 週的週一同一時段去也演（原本只有第 11 週週一那一天、沒有提示）。
      第 3 節林教授：3-1 下課後（ev_prof_lin_after）開頭照第幾次輪四種（第五次起從頭）、最後一句第一次照舊、之後「下週見。」（第幾次＝G.events.done，演到第 n 次時是 n−1）；
        3-2 研究室（ev_prof_lin_office，新）：大三上週二 14:00～16:30 萬才館、冷卻 7 天、最多三次、要先演過 3-1；她那個時間在萬才館＝story3d.js 的 S.PROF_OFFICE；題庫抽題照 3-1（使用者提供的刑訴題庫）；
        最後一句照第幾次；第三句以後選了刑事判決研討的，大四上第一次上那堂課旁白一句（ev_prof_lin_nod）。新題目、研究室的教授紀錄照現有的辦公時間題（office +2）*/
@@ -4507,7 +4512,7 @@ const STORY_EVENTS_V11=[
       BGD=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('prof_door'):'blur';   /* AA_522 第 7 節：周教授、林教授研究室的 2D 背景共用 prof_door（研究室門口；getter：圖後來才登錄也拿得到）*/
     return [
     { id:'ev_prof_zhou_office', title:'周教授的研究室', participants:['prof_zhou'], location:'wancai', trigger:'interact', priority:6, cooldown_days:6, weekday:[1,4], time:[15.2,16.5], get background(){ return BGD(); }, term:['Y1S1','Y1S2','Y2S1','Y4S2'],   /* AA_376 #19：大三不演；大四下只有 1-3 那一次（週一）*/
-      prereq:CU(G=>zY4(G)?(G.weekday===1&&WK(G)===11&&zLeft(G)>0):(G.weekday===4&&zLeft(G)>0)),
+      prereq:CU(G=>zY4(G)?(G.weekday===1&&WK(G)>=10&&WK(G)<=13&&zLeft(G)>0):(G.weekday===4&&zLeft(G)>0)),   /* 1-3：第 10～13 週的週一（第 8 節第 4 點）*/
       dialogue:[ {if:CU(zY4),goto:'y4'},
         Object.assign({if:CU(G=>zGreet(G)==='plus')},Z('「你上次答得不錯。有問題？」')),Object.assign({if:CU(G=>zGreet(G)==='y1s2')},Z('債總了。民總讀完了嗎？')),Object.assign({if:CU(G=>zGreet(G)==='y2s1')},Z('債總二上完，你們大四才會再遇到我。有問題？')),Object.assign({if:CU(G=>zGreet(G)==='else')},Z('「有問題就問。沒問題就回去讀。」')),
         {choice:[{text:'「老師，錯誤的『無過失』要怎麼判斷？」',if:CU(G=>zCan(G,'q88')),consequences:{prof:{prof_zhou:{kind:'office',delta:3,note:'問無過失'}},note:{id:'zhou_88',title:'周教授：無過失的判斷','body':'看表意人有沒有「合理的注意可能」：能不能發現、有沒有時間改、金額落差多大。'},knowledge:{qid:null}},goto:'q'},{text:'「老師推薦一本書？」',if:CU(G=>zCan(G,'book')),consequences:{prof:{prof_zhou:{kind:'office',delta:2,note:'問推薦書'}},note:{id:'zhou_book',title:'周教授推薦','body':'老師推薦的那本民法總則教科書——「先讀例題，再讀本文」。'}},goto:'book'},
@@ -4536,6 +4541,10 @@ const STORY_EVENTS_V11=[
         {label:'y4a'},Z('對。你那時候是用問的。','smile'),{goto:'y4z'},{label:'y4b'},Z('……法律系四年，你學會了這三個字。'),{goto:'y4z'},{label:'y4c'},Z('很好。不確定的人比較會去查。','smile'),
         {label:'y4z'},Z('專題的題目，挑一個你大一就想不通的。'),Z('想不通，才寫得下去。'),{consequences:ZOFF('大四去研究室'),mem:[{npc:'prof_zhou',tag:'ZHOU_Y4'}]},   /* 人物面板的名稱「大四去了周教授的研究室」在 social3d.js MEMORY_LABEL（不另寫備註，免得重複）*/
         {label:'end'} ] },
+    /* 1-3 的提示（AA_522 第 8 節第 4 點，f36dfe3cf）：大四下第 10 週專題（「回顧大一的案例」）真的上完、下課的時候周教授一句（classes3d.js afterClassEvent；翹課沒有）。
+       研究室那一場還沒演才說（同一學期只有這一堂；一次）*/
+    { id:'ev_prof_zhou_y4_call', title:'專題下課', participants:['prof_zhou'], location:'any', trigger:'class', afterClass:'legal_research', term:['Y4S2'], weeks:[10], once:true, background:'blur', prereq:CU(G=>zY4(G)&&zLeft(G)>0),
+      dialogue:[ Z('{name}，下課來研究室一趟。') ] },
     { id:'ev_prof_lin_after', term:['Y3S1'], title:'下課後', participants:['prof_lin'], location:'classroom', trigger:'interact', priority:6, cooldown_days:6, weekday:[2], time:[11.8,12.6], background:'blur',
       dialogue:[ Object.assign({if:CU(G=>LA(G)%4===0)},L('「你剛剛那題——」','smile')),Object.assign({if:CU(G=>LA(G)%4===1)},L('你上課皺眉頭的那一題——','smile')),Object.assign({if:CU(G=>LA(G)%4===2)},L('剛剛那個證人的例子——','smile')),Object.assign({if:CU(G=>LA(G)%4===3)},L('你筆記抄到一半停下來的地方——','smile')),
         {if:{knowledge:[{qid:'Q001',min:'confused'}]},speaker:'prof_lin',expression:'neutral',text:'「很多人第一年都以為刑訴只是抓壞人。等你看過一個無罪判決，就會懂。」'},{legal:{context:'classmate',by:'prof_lin',pick:{prefer:'confused'},quiet:false}},

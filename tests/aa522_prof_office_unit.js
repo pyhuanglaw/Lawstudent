@@ -1,11 +1,11 @@
-// AA_522 教授的研究室：周、許、林照學期換（企劃線 fcc93126e，AA-C 定稿，D109；任務 NPC-STORY2-1028，USER_WANTS X119）——不需要瀏覽器。
-// 台詞逐字對稿（git show fcc93126e，兩個方向）：稿上每一句、每個選項、筆記的標題與內文、閒聊兩句都在遊戲裡；五個事件（周、許、林下課後、林研究室、大四上的旁白）裡的每一句、每個選項
+// AA_522 教授的研究室：周、許、林照學期換（企劃線 f36dfe3cf＝fcc93126e 的第 1～7 節＋AA 加的第 8 節；AA-C 定稿，D109；任務 NPC-STORY2-1028，USER_WANTS X119）——不需要瀏覽器。
+// 台詞逐字對稿（git show f36dfe3cf，兩個方向）：稿上每一句、每個選項、筆記的標題與內文、閒聊兩句都在遊戲裡；六個事件（周、許、林下課後、林研究室、大四上的旁白、1-3 的提示）裡的每一句、每個選項
 //   都在稿上，或是修改前就有的「現有」句（稿寫「照舊」的那幾句：周教授大一上兩題、許教授大一兩題、林教授 Q001 那句；修改前的 events.js 一字不差）。遊戲的句子外面的「」不算字（現有的句子本來就有）。
-//   0  讀稿、白名單、五個事件；稿 → 遊戲、遊戲 → 稿；換掉的舊句（週三下午、來研究室聊）不在遊戲裡；研究室的 2D 背景共用 prof_door（第 7 節）
+//   0  讀稿、白名單、六個事件；稿 → 遊戲、遊戲 → 稿；換掉的舊句（週三下午、來研究室聊）不在遊戲裡；研究室的 2D 背景共用 prof_door（第 7 節）
 //   1  第 1 節周教授：1-1 閒聊（SMALLTALK、talkProf）只在大一上、大一下、大二上、大四下說「週四下課以後我都在」，其他學期、寒暑假聊兩句天氣；
 //      1-2 研究室週四 15:12～16:30、冷卻 6 天；大一上三題（加越權代理）、大一下兩題、大二上兩題，每題一次、問完不觸發（不留只剩「沒事。」）、推薦書只有大一上；
 //          招呼一次一句（classAnswerPlus → 大一下第一次 → 大二上第一次 → 其他）；「沒事。」也算來過；筆記五則（標題照稿、zhou_169 內文照稿）；新五題 LEGAL_REVIEW_REQUIRED、沒有條號；大二下、大三、大四上不演
-//      1-3 大四下第 11 週週一（第 10 週專題回顧大一的案例以後的第一個週一）專題下課後一次：有 zhou_88＝三個選項三種回答；一則 zhou_* 都沒有＝「四年了」；只有別的 zhou_*＝兩句都不說；記 ZHOU_Y4；
+//      1-3 大四下專題下課後一次（時段照第 8 節第 4 點，見下面 8-4）：有 zhou_88＝三個選項三種回答；一則 zhou_* 都沒有＝「四年了」；只有別的 zhou_*＝兩句都不說；記 ZHOU_Y4；
 //          那時候他照課表在萬才館、走過去和他說話就是這一場（STORY.populate＋talkCharacter）
 //   2  第 2 節許教授：第一次見面的自我介紹照年級（大一以外不說「一年級的？」）、招呼照年級、題目照年級（大三學姊那題要認識學姊、大三研究所那題 GRAD_SCHOOL_DISCUSSION 兩版＋旁白）；
 //      每題一次、那一年問完不觸發、下一年有新的；寒暑假照上一個學期的年級；地點、冷卻照舊；大二上週一下課後在萬才館、說話就是這一場
@@ -15,12 +15,28 @@
 //          第三句以後選了刑事判決研討的，大四上第一次上課前旁白一句（公法判決研討、沒聽過第三句的沒有；一次）
 //   4  第 4 節：陳教授的閒聊換句（不說來研究室聊）、黃教授那句照舊、過時的註解拿掉
 //   5  舊存檔：沒有 notes、沒有新旗標、旗標壞掉都不丟例外；大一上原本兩題有筆記＝問過；許教授大一兩題有 GRAD_SCHOOL_DISCUSSION／book_xu＝問過
+//   8  第 8 節（AA-C 2026-10-28 回 LAWWW-C 13:37 的問題，f36dfe3cf）：
+//      8-1 許教授每週一 14:00～16:00 在萬才館，大一～大四八個學期都在（國定假日、寒暑假、別天、時段外不在）；冷卻照舊 3 天；上他課的那幾天下課後照現有
+//          （大二上週一行政法 12:10 下課一路待到 16:00，13:40～14:00 不先走開，同林教授；大二下週三、大四上週五下課後照舊）；週一下午走過去和他說話就是這一場（大一、大三的自我介紹碰得到）；
+//          大四下週一他和周教授（專題）同時在萬才館：兩個人站在不同的位子（不疊在一起）
+//      8-2 和學姊交往中（dating_heroine_05），大三那一題換「學姊的論文，老師覺得怎麼樣？」＋兩句（逐字）；沒交往照原本那一題；同一題，問過一種就不再出另一種；
+//          原本那一題寫 unless 交往中（tests/aa350_r_unit.js R7-2 認得的寫法）
+//      8-3 talkProf 答得好／沒讀那兩句只在民總第一堂課（主線第二天）那一週說（舊存檔 9/18、新局 9/4）；下一週起照 1-1（有課的學期「週四下課以後我都在」、其他學期聊天氣）
+//      8-4 1-3：第 10 週專題（「回顧大一的案例」）真的上完、下課的時候周教授一句「{name}，下課來研究室一趟。」（classes3d.js afterClassEvent；一次、第 11 週那堂沒有）；
+//          研究室那一場第 10 週那天、第 11～13 週的週一 15:12～16:30 去都演（第 9、14 週、週四、上課中、16:30 不演）；一次；提示以後走進萬才館和他說話就是這一場
 //   （法律題庫 legal_qbank.js、exam_bank.js 這一批沒有動：交付時用 git diff 核對，不寫成這裡的檢查——之後題庫照正常程序更新時這支測試不該失敗）
-// 修改前（只拿掉這次 src 的改動：src/data/events.js、src/story3d.js、src/social3d.js 回到開發分支 ccf06cc69；白名單、這支測試用新的；git archive 那一版放進暫存目錄真的跑過，稿從這個 repo 讀：AA522_DOCREPO）：
-//   FAILED 66、PASS 19（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
-//   大二下到大四上週四不演、新五題沒有條號、許教授地點冷卻、暑假大一的題、林教授 3-1 題庫照舊、大四上的旁白「沒有」兩項、舊存檔不丟例外；
-//   FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、林教授 3-1 開頭不換、週二下午不在萬才館、陳教授舊句）；
-//   修改後 ALL PASS（85 項）。
+// 第一批（fcc93126e 第 1～7 節）修改前（只拿掉那一批 src 的改動：src/data/events.js、src/story3d.js、src/social3d.js 回到開發分支 ccf06cc69；白名單、這支測試用那時候的；git archive 那一版放進暫存目錄真的跑過，
+//   稿從這個 repo 讀：AA522_DOCREPO）：FAILED 66、PASS 19（FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、
+//   林教授 3-1 開頭不換、週二下午不在萬才館、陳教授舊句）；修改後 ALL PASS（85 項）。
+// 第二批（f36dfe3cf 第 8 節）修改前（只拿掉這一批 src 的改動：src/data/events.js、src/story3d.js 回到開發分支 1ca8d402f；白名單、這支測試用新的；同樣 git archive 到暫存目錄跑，AA522_DOCREPO）：
+//   FAILED 19、PASS 95（FAIL＝沒有 ev_prof_zhou_y4_call（0 的事件數、8-4 提示兩項）、0 的「稿 → 遊戲」句子（交往中兩句、提示一句）和選項、交往中那一題（8-2 四項）、
+//   1-3 只有第 11 週週一（1-3、8-4 的時段、提示以後走進萬才館）、許教授週一下午不在萬才館（8-1 四項：八個學期、大二上一路待著、走過去說話、和周教授不疊在一起）、
+//   talkProf 下一週還說「下週…」（8-3 兩項）、沒有 STORY.civ1Week（8-3 一項）；
+//   PASS＝第 1～7 節原本的 85 項裡沒改期待值的那些，和第 8 節「照舊／不該有」那一類：14:00 以前、國定假日、寒暑假、別天不在，下課後照現有、冷卻 3 天，
+//   沒交往照原本那一題、大二大四不換，第一週那兩句照說、一次的檢查）
+//   修改後 ALL PASS（114 項）。
+//   第一批的檢查因為第 8 節改的期待值（照新稿，檢查留著）：1-3 的時段那一項（原本「只有第 11 週週一」→ 第 10、11、12 週的週一都演；完整的時段、一次在 8-4）；
+//   0 的事件五個 → 六個、選項 13 → 14 個、讀稿第 1～7 節 → 第 1～8 節、白名單 fcc93126e → f36dfe3cf。
 // 用法：node tests/aa522_prof_office_unit.js（在沒有 .git 的目錄跑，設環境變數 AA522_DOCREPO＝這個 repo 的目錄）
 'use strict';
 const H=require('./pg_harness.js');
@@ -37,7 +53,7 @@ const git=args=>cp.execSync('git -c core.quotepath=false '+args,{cwd:DOCREPO,enc
 const BASE='ccf06cc69';   /* 修改前（開發分支 HEAD，這一批開工的地方）*/
 
 /* ---------- 讀稿 ---------- */
-const SHA='fcc93126e', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';
+const SHA='f36dfe3cf', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';
 let DOC=''; try{ DOC=git('show '+SHA+':"'+DOCF+'"'); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const S11=part('### 1-1','### 1-2'), S12=part('### 1-2','### 1-3'), S13=part('### 1-3','## 2.'), S2=part('## 2.','## 3.'), S31=part('### 3-1','### 3-2'), S32=part('### 3-2','## 4.'), S4=part('## 4.','## 5.');
@@ -75,6 +91,12 @@ const D32=(()=>{ const q=[], last=[]; for(const raw of lines(S32)){ const l=raw.
   const nod=(/旁白一句：「(（[^」]+）)」/.exec(S32)||[])[1]||null; const tm=/週二 (\d+):(\d+)～(\d+):(\d+)，冷卻 (\d+) 天，最多(三)次/.exec(S32);
   return {q,last,legal:lg?{context:lg[1],by:lg[2],pick:{prefer:lg[3]},quiet:lg[4]==='true'}:null,nod,win:tm?[+tm[1]+tm[2]/60,+tm[3]+tm[4]/60]:null,cool:tm?+tm[5]:null}; })();
 const D4=(()=>{ const l=lines(S4).find(x=>x.includes('→'))||''; const q=qs(l); return {old:q[0]||null,now:q[1]||null}; })();
+/* 第 8 節（f36dfe3cf）：1 許教授的時間；2 交往中那一題（選項、許的兩句）；3 talkProf 那兩句（稿上的引文）；4 1-3 的提示那一句、第幾週 */
+const S8=part('## 8.',null);
+const D8=(()=>{ const it=n=>{ const a=S8.indexOf('\n'+n+'. **'), b=S8.indexOf('\n'+(n+1)+'. **',a+1); return a<0?'':S8.slice(a,b<0?S8.length:b); };
+  const p1=it(1), p2=it(2), p3=it(3), p4=it(4), tm=/每週一 (\d+):(\d+)～(\d+):(\d+)/.exec(p1), op=(/選項：「([^」]+)」/.exec(p2)||[])[1]||null, tw=/第 (\d+) 週專題課/.exec(p4), wk=/第 (\d+)～(\d+) 週/.exec(p4), tt=/那天 (\d+):(\d+)～(\d+):(\d+)/.exec(p4);
+  return {win:tm?[+tm[1]+tm[2]/60,+tm[3]+tm[4]/60]:null, cool:(/冷卻照舊 (\d+) 天/.exec(p1)||[])[1]|0, opt:op?'「'+op+'」':null, xu:[...p2.matchAll(/許：「([^」]+)」/g)].map(m=>m[1]),
+    w1:[...p3.matchAll(/「([^」]+)」/g)].map(m=>m[1]), call:((/>\s*周：(.+)/.exec(p4)||[])[1]||'').trim()||null, week:tw?+tw[1]:null, later:wk?[+wk[1],+wk[2]]:null, time:tt?[+tt[1]+tt[2]/60,+tt[3]+tt[4]/60]:null}; })();
 
 /* ---------- 小工具 ---------- */
 const keyOf=d=>CALENDAR.dateOf(d).key, TD=(t,w,wd)=>STORY.termDay(t,w,wd);   /* wd：1＝週一 … 7＝週日 */
@@ -96,22 +118,23 @@ const enter=(zone)=>{ const G=H.G; G.zone=zone; G.social=G.social||{}; G.goal=''
 (async()=>{
 /* ======================= 0 讀稿、白名單、逐字 ======================= */
 await sec('0',async()=>{
-  check('0. 讀得到稿（git show '+SHA+'）：第 1～7 節都在',!!DOC&&['## 1. 周教授','### 1-3','## 2. 許教授','### 3-2','## 4. ','## 7. 給 LAWWW'].every(s=>DOC.includes(s)),DOC?'':'讀不到：沒有 .git 時設 AA522_DOCREPO');
+  check('0. 讀得到稿（git show '+SHA+'）：第 1～8 節都在',!!DOC&&['## 1. 周教授','### 1-3','## 2. 許教授','### 3-2','## 4. ','## 7. 給 LAWWW','## 8. 實作時定的'].every(s=>DOC.includes(s)),DOC?'':'讀不到：沒有 .git 時設 AA522_DOCREPO');
+  check('0. 讀稿第 8 節：許教授週一的時間與冷卻、交往中那一題（選項＋兩句）、talkProf 三句引文、1-3 的提示（第幾週、那天的時段、之後第幾週）',J(D8.win)===J([14,16])&&D8.cool===3&&!!D8.opt&&D8.xu.length===2&&D8.w1.length===3&&D8.call==='{name}，下課來研究室一趟。'&&D8.week===10&&J(D8.later)===J([11,13])&&J(D8.time)===J([15.2,16.5]),J(D8));
   check('0. 讀稿：1-2 五題、招呼四列、1-3 三個選項、許教授四列自我介紹、四句招呼、五題、林教授四種開頭、三句收尾',D12.qs.length===5&&D12.greet.length===4&&D13.opts.length===3&&Object.keys(D2.intro).length===4&&Object.keys(D2.greet).length===4&&D2.qrows.length===5&&D31.open.length===4&&D32.last.length===3,J({q:D12.qs.length,g:D12.greet.length,o13:D13.opts.length,in:Object.keys(D2.intro).length,gr:Object.keys(D2.greet).length,x:D2.qrows.length,o:D31.open.length,l:D32.last.length}));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), hit=(A.files||[]).filter(e=>e.path===DOCF);
   check('0. 劇情匯入白名單：'+DOCF+' @'+SHA+'、approved、approvedBy、task NPC-STORY2-1028（只有一筆）',hit.length===1&&String(hit[0].sha).startsWith(SHA)&&hit[0].status==='approved'&&!!hit[0].approvedBy&&hit[0].task==='NPC-STORY2-1028',J(hit.map(e=>[e.sha,e.status,e.task])));
-  const IDS=['ev_prof_zhou_office','ev_prof_xu_office','ev_prof_lin_after','ev_prof_lin_office','ev_prof_lin_nod'];
-  check('0. 五個事件都在、id 不重複（新事件 ev_prof_lin_office；大四上的旁白 ev_prof_lin_nod）',IDS.every(id=>STORY_EVENTS.filter(e=>e.id===id).length===1),J(IDS.map(id=>STORY_EVENTS.filter(e=>e.id===id).length)));
-  /* 遊戲的句子：五個事件的每一句、每個選項；閒聊兩位 */
+  const IDS=['ev_prof_zhou_office','ev_prof_xu_office','ev_prof_lin_after','ev_prof_lin_office','ev_prof_lin_nod','ev_prof_zhou_y4_call'];
+  check('0. 六個事件都在、id 不重複（新事件 ev_prof_lin_office；大四上的旁白 ev_prof_lin_nod；第 8 節第 4 點 1-3 的提示 ev_prof_zhou_y4_call）',IDS.every(id=>STORY_EVENTS.filter(e=>e.id===id).length===1),J(IDS.map(id=>STORY_EVENTS.filter(e=>e.id===id).length)));
+  /* 遊戲的句子：六個事件的每一句、每個選項；閒聊兩位 */
   const GAME=[], OPTS=[]; for(const id of IDS){ const e=ev(id); if(!e) continue; for(const l of e.dialogue||[]){ if(l.text!==undefined) GAME.push(unq(l.text)); if(l.choice) for(const c of l.choice) OPTS.push(c.text); } }
   const ST=[].concat(SMALLTALK.prof_zhou||[],SMALLTALK.prof_chen||[]).map(e=>unq(typeof e==='string'?e:e.t));
   const NOTES=[]; for(const e of [ev('ev_prof_zhou_office')].filter(Boolean)) for(const l of e.dialogue) if(l.choice) for(const c of l.choice) if(c.consequences&&c.consequences.note) NOTES.push(c.consequences.note);
   /* 稿 → 遊戲 */
-  const want=[].concat(D12.greet,...D12.qs.map(q=>q.say),D13.q,D13.opts.map(o=>o.r),Object.values(D2.intro),Object.values(D2.greet),...D2.qrows.map(r=>r.say),[XU_NO_GSD,D2.narr],D31.open,[D31.first,D31.later],D32.q,D32.last,[D32.nod]).filter(x=>x!=null);
-  const wantOpt=[].concat(D12.qs.map(q=>q.opt),D13.opts.map(o=>o.o),D2.qrows.map(r=>r.opt));
+  const want=[].concat(D12.greet,...D12.qs.map(q=>q.say),D13.q,D13.opts.map(o=>o.r),Object.values(D2.intro),Object.values(D2.greet),...D2.qrows.map(r=>r.say),[XU_NO_GSD,D2.narr],D31.open,[D31.first,D31.later],D32.q,D32.last,[D32.nod],D8.xu,[D8.call]).filter(x=>x!=null);
+  const wantOpt=[].concat(D12.qs.map(q=>q.opt),D13.opts.map(o=>o.o),D2.qrows.map(r=>r.opt),[D8.opt]).filter(x=>x!=null);
   const miss=want.filter(t=>!GAME.includes(t)), missO=wantOpt.filter(o=>!OPTS.includes(o));
-  check('0. 稿 → 遊戲：每一句（'+want.length+' 句）都在五個事件裡（逐字）',want.length>=50&&!miss.length,miss.join(' / '));
-  check('0. 稿 → 遊戲：每個選項（'+wantOpt.length+' 個）逐字',wantOpt.length===13&&!missO.length,missO.join(' / '));
+  check('0. 稿 → 遊戲：每一句（'+want.length+' 句）都在六個事件裡（逐字）',want.length>=50&&!miss.length,miss.join(' / '));
+  check('0. 稿 → 遊戲：每個選項（'+wantOpt.length+' 個）逐字（第 8 節交往中那一題也是）',wantOpt.length===14&&!missO.length,missO.join(' / '));
   check('0. 稿 → 遊戲：閒聊（1-1 周教授、第 4 節陳教授）換成新句',!!D11.now&&!!D4.now&&ST.includes(D11.now)&&ST.includes(D4.now),J(ST));
   const nWant=D12.qs.map(q=>q.note).filter(Boolean), nBad=nWant.filter(n=>{ const g=NOTES.find(x=>x.id===n.id); return !g||g.title!==n.title||(n.body&&g.body!==n.body); });
   check('0. 稿 → 遊戲：筆記五則（id、標題逐字；zhou_169 內文逐字）',nWant.length===5&&!nBad.length,J(nBad));
@@ -119,7 +142,7 @@ await sec('0',async()=>{
   const EXIST=['好問題。看他有沒有『合理注意的可能』。網頁掛三天沒改，跟掛三分鐘，不一樣。','一年級不用讀太多。一本，讀三遍。','讀一個問題讀兩年。大部分人以為是讀更多條文，其實是讀更少、讀更深。','你才一年級。先把民總讀好——但如果哪堂課讓你下課還在想，記得那是什麼課。','先不要讀教科書以外的東西。真的要讀，就讀『怎麼問問題』的書。','很多人第一年都以為刑訴只是抓壞人。等你看過一個無罪判決，就會懂。'];
   const EXIST_O=['「老師，錯誤的『無過失』要怎麼判斷？」','「老師推薦一本書？」','「沒事。」','「老師，法研所是在做什麼的？」','「老師推薦一本一年級可以讀的書嗎？」','「沒事，路過。」'];
   const extra=GAME.filter(t=>!want.includes(t)&&!EXIST.includes(t)), extraO=OPTS.filter(o=>!wantOpt.includes(o)&&!EXIST_O.includes(o));
-  check('0. 遊戲 → 稿：五個事件的每一句都在稿上或是「現有」句（'+GAME.length+' 句）',GAME.length>=50&&!extra.length,extra.join(' / '));
+  check('0. 遊戲 → 稿：六個事件的每一句都在稿上或是「現有」句（'+GAME.length+' 句）',GAME.length>=50&&!extra.length,extra.join(' / '));
   check('0. 遊戲 → 稿：每個選項都在稿上或是「現有」選項（'+OPTS.length+' 個）',!extraO.length,extraO.join(' / '));
   let base=''; try{ base=git('show '+BASE+':src/data/events.js'); }catch(e){ base=''; }
   const notBase=[...EXIST.map(t=>[t,['「'+t+'」',t]]),...EXIST_O.map(o=>[o,[o]])].filter(([t,v])=>!v.some(x=>base.includes("text:'"+x+"'"))).map(x=>x[0]);
@@ -192,9 +215,10 @@ await sec('1-2',async()=>{
 
 await sec('1-3',async()=>{
   const Z='ev_prof_zhou_office', D=TD('Y4S2',11,1);
-  check('1-3. 第 11 週週一是 2029-04-30（第 10 週週一 2029-04-23 專題「回顧大一的案例」以後的第一個週一）',keyOf(D)==='2029-04-30'&&keyOf(TD('Y4S2',10,1))==='2029-04-23'&&(COURSES.list.find(c=>c.id==='legal_research').specials||[]).some(s=>s.w===10&&/回顧大一的案例/.test(s.title)),keyOf(D));
+  check('1-3. 第 10 週週一 2029-04-23 是專題「回顧大一的案例」（週一下午一）；第 11 週週一是 2029-04-30',keyOf(D)==='2029-04-30'&&keyOf(TD('Y4S2',10,1))==='2029-04-23'&&(COURSES.list.find(c=>c.id==='legal_research').specials||[]).some(s=>s.w===10&&/回顧大一的案例/.test(s.title))&&J(COURSES.list.find(c=>c.id==='legal_research').slots)===J([{wd:1,block:'pm1'}]),keyOf(D));
+  /* 第 8 節第 4 點改了這一項的期待值：原本「只有第 11 週週一」→ 第 10 週那天＋第 11～13 週的週一（詳細在 8-4）*/
   const w=[]; for(const [d,h] of [[D,15.5],[TD('Y4S2',10,1),15.5],[TD('Y4S2',12,1),15.5],[TD('Y4S2',11,4),15.5],[D,14.9],[D,16.5]]){ fresh(d,h); w.push(ok(Z)); }
-  check('1-3. 只有那個週一的 15:12～16:30（第 10、12 週的週一、同一週的週四、上課中、16:30 都不演）',J(w)===J([true,false,false,false,false,false]),J(w));
+  check('1-3. （第 8 節第 4 點）第 10～13 週週一的 15:12～16:30 演（第 10、11、12 週的週一都演；同一週的週四、上課中、16:30 不演）',J(w)===J([true,true,true,false,false,false]),J(w));
   const r={}; for(const [k,o] of D13.opts.entries()){ fresh(D,15.5); H.G.notes=[{id:'zhou_88'},{id:'zhou_book'}]; r[k]=await run(Z,[o.o]); r['o'+k]=H.opts[0]; }
   const want=k=>[D13.q[0],D13.q[1],D13.opts[k].r,D13.q[3],D13.q[4]];
   check('1-3. 有 zhou_88：（翻大綱）→「你大一問過我…現在你會怎麼答？」→ 三個選項逐字',J(r.o0)===J(D13.opts.map(o=>o.o)),J(r.o0));
@@ -298,9 +322,9 @@ await sec('4',async()=>{
 
 /* ======================= 5 舊存檔 ======================= */
 await sec('5',async()=>{
-  const Z='ev_prof_zhou_office', X='ev_prof_xu_office', T1=TD('Y1S1',4,4), IDS=['ev_prof_zhou_office','ev_prof_xu_office','ev_prof_lin_after','ev_prof_lin_office','ev_prof_lin_nod'];
-  let err=null; try{ for(const [d,h,z] of [[T1,15.5,'wancai'],[TD('Y3S1',3,2),14.5,'wancai'],[TD('Y3S1',3,2),11.9,'classroom'],[TD('Y4S2',11,1),15.5,'wancai']]){ fresh(d,h,z); delete H.G.notes; for(const id of IDS) ok(id,{chain:true}); } }catch(e){ err=String(e&&e.message||e); }
-  check('5. 舊存檔沒有 notes、沒有 ZHOU_ASKED／XU_ASKED：五個事件的條件都算得出來、不丟例外',!err,err);
+  const Z='ev_prof_zhou_office', X='ev_prof_xu_office', T1=TD('Y1S1',4,4), IDS=['ev_prof_zhou_office','ev_prof_xu_office','ev_prof_lin_after','ev_prof_lin_office','ev_prof_lin_nod','ev_prof_zhou_y4_call'];
+  let err=null; try{ for(const [d,h,z] of [[T1,15.5,'wancai'],[TD('Y3S1',3,2),14.5,'wancai'],[TD('Y3S1',3,2),11.9,'classroom'],[TD('Y4S2',11,1),15.5,'wancai'],[TD('Y4S2',10,1),15.15,'wancai']]){ fresh(d,h,z); delete H.G.notes; for(const id of IDS) ok(id,{chain:true}); } }catch(e){ err=String(e&&e.message||e); }
+  check('5. 舊存檔沒有 notes、沒有 ZHOU_ASKED／XU_ASKED：六個事件的條件都算得出來、不丟例外',!err,err);
   fresh(T1,15.5); delete H.G.notes; let e2=null; try{ await run(Z,['越權']); }catch(e){ e2=String(e&&e.message||e); }
   check('5. 沒有 notes 的舊存檔照常演、記得下來（ZHOU_ASKED 第一次才建）',!e2&&J(H.G.flags.ZHOU_ASKED)===J({Y1S1:['agency']}),e2||J(H.G.flags.ZHOU_ASKED));
   fresh(T1,15.5,'wancai',{ZHOU_ASKED:'壞掉',XU_ASKED:7}); let e3=null, c3=null; try{ c3=[ok(Z),ok(X)]; await run(Z,['越權']); }catch(e){ e3=String(e&&e.message||e); }
@@ -313,6 +337,86 @@ await sec('5',async()=>{
   check('5. 許教授：舊存檔問過法研所（GRAD_SCHOOL_DISCUSSION）只剩推薦書；推薦書也有筆記＝不觸發',J(xo)===J(['「老師推薦一本一年級可以讀的書嗎？」','「沒事，路過。」'])&&xc===false,J([xo,xc]));
   fresh(T1,15.5); await run(Z,['越權']); const back=JSON.parse(J(H.G.flags));
   check('5. 存檔來回（JSON）：ZHOU_ASKED 照存',J(back.ZHOU_ASKED)===J({Y1S1:['agency']}));
+});
+
+/* ======================= 8 第 8 節（f36dfe3cf：AA-C 回 LAWWW-C 13:37 的問題）======================= */
+const monOf=t=>{ for(let w=4;w<=7;w++){ const d=TD(t,w,1); if(d!=null&&!CALENDAR.holiday(d)) return d; } return null; };   /* 那學期第 4 週起第一個不放假的週一（期中考前）*/
+const here=(d,h,id)=>{ fresh(d,h); return enter('wancai').ids.includes(id||'prof_xu'); };
+await sec('8-1',async()=>{
+  const X='ev_prof_xu_office', TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'], A=(D8.win||[14,16])[0], B=(D8.win||[14,16])[1];
+  const P=TERMS.map(t=>{ const d=monOf(t); return [t,keyOf(d),here(d,A),here(d,(A+B)/2),here(d,B-0.03),here(d,B)]; });
+  check('8-1. 許教授每週一 14:00～16:00 在萬才館：大一上～大四下八個學期都在（14:00、15:00、15:58 在；16:00 不在）',P.every(x=>x[2]&&x[3]&&x[4]&&!x[5]),J(P));
+  const pre=TERMS.filter(t=>t!=='Y2S1').map(t=>[t,here(monOf(t),A-0.1)]);
+  check('8-1. 週一 14:00 以前不在（13:54；大二上週一上午有他的課，見下面）',pre.every(x=>!x[1]),J(pre));
+  const off=[[STORY.dayOfKey('2025-09-29'),'國定假日的週一（9/29 教師節補假）'],[STORY.dayOfKey('2026-07-13'),'暑假的週一'],[STORY.dayOfKey('2027-01-25'),'寒假的週一'],[TD('Y1S1',4,2),'大一上週二'],[TD('Y3S1',5,4),'大三上週四']].map(([d,n])=>[n,keyOf(d),here(d,15)]);
+  check('8-1. 國定假日的週一、寒暑假的週一、其他天的下午不在',off.every(x=>!x[2]),J(off));
+  const y2=monOf('Y2S1'), g=[12.5,13.5,13.75,13.9,14.5,15.9,16].map(h=>here(y2,h));
+  check('8-1. 上他課的那天照現有：大二上週一行政法（上午）12:10 下課以後在萬才館，一路待到 16:00（13:40～14:00 不先走開再出現，同林教授）',J(g)===J([true,true,true,true,true,true,false]),J([keyOf(y2),g]));
+  const wed=here(TD('Y2S2',4,3),12.5), wed2=here(TD('Y2S2',4,3),14.5), fri=(fresh(TD('Y4S1',4,5),12.5),CLS.rec(H.G).electives.Y4S1_sem='public_judgment_sem',enter('wancai').ids.includes('prof_xu'));   /* 公法判決研討是選修（同組預設刑事判決研討）：選了才是你的課 */
+  check('8-1. 大二下週三行政救濟法、大四上週五公法判決研討（選了的）：下課後那 1.5 小時在萬才館照現有；週三下午不加研究室時間',wed&&fri&&!wed2,J([wed,fri,wed2]));
+  check('8-1. 冷卻照舊（稿：「冷卻照舊 '+D8.cool+' 天」）、地點萬才館',!!ev(X)&&ev(X).cooldown_days===D8.cool&&ev(X).location==='wancai');
+  const intro={}; for(const [y,t] of [[1,'Y1S1'],[3,'Y3S1'],[4,'Y4S2']]){ fresh(monOf(t),14.5); const r=enter('wancai'); const t1=r.ids.includes('prof_xu')&&await r.talk('prof_xu'); intro[y]=[!!t1,said()[0]||null]; }
+  check('8-1. 週一下午走過去和他說話就是這一場：大一第一次見面「一年級的？…」、大三、大四「許志遠。教公法的。你們這屆我教過。」',[1,3,4].every(y=>intro[y][0]&&intro[y][1]===D2.intro[y]),J(intro));
+  fresh(monOf('Y1S1'),14.5); SOCIAL.remember('prof_xu','FIRST_MET',''); await run(X,['法研所']); at(H.G.day+1,14.5); const c1=ok(X); at(H.G.day+6,14.5); const c7=ok(X);
+  check('8-1. 冷卻 3 天照舊：隔天不演、下週一照常（題目還沒問完）',c1===false&&c7===true,J([c1,c7]));
+  fresh(monOf('Y4S2'),14.5); const rr=enter('wancai'), pz=GM.npc.prof_zhou, px=GM.npc.prof_xu, dd=pz&&px?Math.hypot(pz.obj.position.x-px.obj.position.x,pz.obj.position.z-px.obj.position.z):null;
+  check('8-1. 大四下週一他和周教授（專題，週一下午一）同時在萬才館：兩個人站在不同的位子（相距 1 m 以上，不疊在一起）',!!pz&&!!px&&dd>=1,J([rr.ids,dd]));
+});
+
+await sec('8-2',async()=>{
+  const X='ev_prof_xu_office', Y3=TD('Y3S1',6,3), r3=D2.qrows.find(r=>/研究所/.test(r.opt)), rs=D2.qrows.find(r=>/學姊/.test(r.opt)), NO='「沒事，路過。」';
+  const met=()=>{ SOCIAL.remember('prof_xu','FIRST_MET',''); SOCIAL.remember('heroine_05','FIRST_MET',''); };
+  fresh(Y3,13,'wancai',{dating_heroine_05:true}); met(); await run(X,['沒事']); const o=H.opts[0];
+  check('8-2. 和學姊交往中、大三：選項＝研究所、「學姊的論文，老師覺得怎麼樣？」（換掉「溫書瑀學姊是老師的學生？」）、沒事',!!D8.opt&&J(o)===J([r3.opt,D8.opt,NO]),J(o));
+  fresh(Y3,13,'wancai',{dating_heroine_05:true}); met(); const s=await run(X,[D8.opt||'論文']);
+  check('8-2. 許教授兩句逐字（「／」分開的兩句）；記成大三那一題（XU_ASKED 3：sis）；教授紀錄 office +2',D8.xu.length===2&&J(s.slice(1))===J(D8.xu)&&J(H.G.flags.XU_ASKED)===J({3:['sis']})&&SOCIAL.prof('prof_xu').office===2,J([s,H.G.flags.XU_ASKED,SOCIAL.prof('prof_xu')]));
+  delete H.G.flags.dating_heroine_05; at(Y3+3,13); await run(X,['沒事']); const o2=H.opts[0];
+  check('8-2. 同一題：問過交往中那一種，之後不在交往中也不再出原本那一題（只剩研究所）',J(o2)===J([r3.opt,NO]),J(o2));
+  fresh(Y3,13); met(); await run(X,[rs.opt]); H.G.flags.dating_heroine_05=true; at(Y3+3,13); await run(X,['沒事']); const o3=H.opts[0];
+  check('8-2. 反過來：沒交往時問過原本那一題，交往以後不再出交往中那一種',J(o3)===J([r3.opt,NO]),J(o3));
+  fresh(Y3,13); met(); await run(X,['沒事']); const o4=H.opts[0];
+  check('8-2. 沒交往、認識她：照第 2 節原本那一題',J(o4)===J([r3.opt,rs.opt,NO]),J(o4));
+  fresh(TD('Y4S1',6,3),13,'wancai',{dating_heroine_05:true}); met(); await run(X,['沒事']); const o5=H.opts[0]; fresh(TD('Y2S1',6,3),13,'wancai',{dating_heroine_05:true}); met(); await run(X,['沒事']); const o6=H.opts[0];
+  check('8-2. 只換大三那一題：大二、大四交往中照第 2 節',J(o5)===J(D2.qrows.filter(r=>r.y===4).map(r=>r.opt).concat([NO]))&&J(o6)===J(D2.qrows.filter(r=>r.y===2).map(r=>r.opt).concat([NO])),J([o5,o6]));
+  const ch=((ev(X)||{}).dialogue||[]).find(l=>l.choice), orig=ch&&ch.choice.find(c=>c.text===rs.opt), dd=ch&&ch.choice.find(c=>c.text===D8.opt);
+  check('8-2. 寫法：原本那一題 unless 交往中（{flags:[dating_heroine_05]}，tests/aa350_r_unit.js R7-2 認得的寫法）；交往中那一題 if 交往中',!!orig&&J(orig.unless)===J({flags:['dating_heroine_05']})&&!!dd&&!!dd.if&&J(dd.if.flags)===J(['dating_heroine_05']),J([orig&&orig.unless,dd&&dd.if]));
+});
+
+await sec('8-3',async()=>{
+  const DONE={ZHOU_ASKED:{Y1S1:['q88','book','agency'],Y1S2:['offer','gestio'],Y2S1:['types','prescr']}}, NEW={LAW_START_DAY:-18,MAIN_D1:-13}, WX='（周教授跟你打了個招呼，聊了兩句天氣。）';   /* DONE：研究室那一場先不演（題目都問過），和他說話就是 talkProf 那一句 */
+  const tp=async(d,flags)=>{ fresh(d,15.5,'wancai',Object.assign({},DONE,flags)); const r=enter('wancai'); if(!r.ids.includes('prof')) return ['不在']; await r.talk('prof'); return said(); };
+  const oldD2=STORY.dayOfKey('2025-09-18'), newD2=STORY.dayOfKey('2025-09-04');
+  const f1=(fresh(oldD2,15.5),STORY.mainD1(H.G)+1), f2=(fresh(newD2,15.5,'wancai',NEW),STORY.mainD1(H.G)+1);
+  check('8-3. 民總第一堂（主線第二天的劇情課）：舊存檔 2025-09-18、新局 2025-09-04，都是週四',f1===oldD2&&f2===newD2&&CALENDAR.dateOf(oldD2).wd===4&&CALENDAR.dateOf(newD2).wd===4,J([f1,f2,oldD2,newD2]));
+  const W1=D8.w1, good=W1[0]?W1[0].replace(/…+$/,''):'(稿)', none=W1[1]||'(稿)', NOW=W1[2]||'(稿)';
+  const a=await tp(oldD2,{classAnswer:'good'}), b=await tp(oldD2,{classAnswer:'none'}), c=await tp(newD2,Object.assign({classAnswer:'good'},NEW)), d=await tp(newD2,Object.assign({classAnswer:'none'},NEW));
+  check('8-3. 民總第一堂那一週（那天下午在萬才館）：答得好「祐廷。今天回答得不錯。下週…」（舊存檔「'+good+'」那一版、新局「下週從第一條開始」那一版）、沒讀「祐廷。'+none+'」',
+    a.length===1&&a[0].startsWith('祐廷。今天回答得不錯。')&&a[0].includes(good)&&c.length===1&&c[0]==='祐廷。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。'&&J(b)===J(['祐廷。'+none])&&J(d)===J(['祐廷。'+none]),J([a,b,c,d]));
+  const a2=await tp(oldD2+7,{classAnswer:'good'}), b2=await tp(oldD2+7,{classAnswer:'none'}), c2=await tp(newD2+7,Object.assign({classAnswer:'good'},NEW)), d2=await tp(newD2+7,Object.assign({classAnswer:'none'},NEW)), e2=await tp(TD('Y1S2',5,4),{classAnswer:'good'});
+  check('8-3. 下一週起照 1-1：他有課的學期（大一上、大一下）說「'+NOW+'」，答得好、沒讀都一樣',[a2,b2,c2,d2,e2].every(x=>J(x)===J([NOW])),J([a2,b2,c2,d2,e2]));
+  const g2=await tp(TD('Y2S2',5,4),{classAnswer:'good'}), h2=await tp(TD('Y3S1',5,4),{classAnswer:'none'});
+  check('8-3. 他沒有課的學期（大二下、大三上）：聊兩句天氣（不再說「下週…」）',J(g2)===J([WX])&&J(h2)===J([WX]),J([g2,h2]));
+  const wk=[oldD2-3,oldD2-4,oldD2+3,oldD2+4].map(x=>{ fresh(x,12); return typeof STORY.civ1Week==='function'?STORY.civ1Week(H.G):null; });
+  check('8-3. 「那一週」＝週一～週日（舊存檔 9/15～9/21 算；9/14、9/22 不算）',J(wk)===J([true,false,true,false]),J(wk));
+});
+
+await sec('8-4',async()=>{
+  const C='ev_prof_zhou_y4_call', Z='ev_prof_zhou_office', c=ev(C), WK=D8.week||10, D10=TD('Y4S2',WK,1), T=D8.time||[15.2,16.5], L=D8.later||[11,13];
+  check('8-4. 提示是專題（legal_research）下課的事件：afterClass、大四下、第 '+WK+' 週、一次；周教授一句，台詞照稿「'+D8.call+'」（{name} 照現有的寫法換成名字）',
+    !!c&&c.trigger==='class'&&c.afterClass==='legal_research'&&J(c.term)===J(['Y4S2'])&&J(c.weeks)===J([WK])&&c.once===true&&(c.dialogue||[]).length===1&&c.dialogue[0].speaker==='prof_zhou'&&c.dialogue[0].text===D8.call,J(c&&[c.trigger,c.afterClass,c.term,c.weeks,c.once,c.dialogue]));
+  const item=d=>CLS.dayItems(H.G,d).find(x=>x.c.id==='legal_research')||null;
+  fresh(D10,15.15); const it=item(D10); H.said=[]; const r1=await CLS.afterClassEvent(GM,it); const s1=H.said.map(x=>[x.who,x.t]);
+  check('8-4. 第 10 週專題（「回顧大一的案例」）真的上完、下課的時候：周教授一句「祐廷，下課來研究室一趟。」',!!it&&it.week===WK&&r1===true&&s1.length===1&&s1[0][0]===CHARACTERS.prof_zhou.name&&s1[0][1]===String(D8.call).replace('{name}','祐廷'),J([it&&it.week,r1,s1]));
+  const r2=await CLS.afterClassEvent(GM,it); const D11=TD('Y4S2',L[0],1); fresh(D11,15.15); const r3=await CLS.afterClassEvent(GM,item(D11));
+  check('8-4. 一次（同一堂再下課一次不說）；第 11 週那堂下課沒有',r2===false&&r3===false,J([r2,r3]));
+  const W=[]; for(const [d,h] of [[D10,T[0]+0.05],[TD('Y4S2',L[0],1),15.5],[TD('Y4S2',12,1),15.5],[TD('Y4S2',L[1],1),T[1]-0.1],[TD('Y4S2',WK-1,1),15.5],[TD('Y4S2',L[1]+1,1),15.5],[TD('Y4S2',L[1],4),15.5],[D10,15.1],[TD('Y4S2',L[1],1),T[1]]]){ fresh(d,h); W.push(ok(Z)); }
+  check('8-4. 研究室那一場：第 10 週那天＋第 11～13 週的週一 15:12～16:30 去都演；第 9、14 週的週一、第 13 週的週四、下課那兩分鐘（15:06）、16:30 不演',J(W)===J([true,true,true,true,false,false,false,false,false]),J(W));
+  fresh(D10,15.5); await run(Z); const once=[L[0],12,L[1]].map(w=>{ at(TD('Y4S2',w,1),15.5); return ok(Z); });
+  check('8-4. 一次：第 10 週那天演過，第 11～13 週的週一不再演（ZHOU_ASKED.Y4S2）',once.every(x=>x===false)&&J(H.G.flags.ZHOU_ASKED)===J({Y4S2:['y4']}),J([once,H.G.flags.ZHOU_ASKED]));
+  fresh(TD('Y4S2',L[1],1),15.5); const s13=await run(Z);
+  check('8-4. 一直沒去，第 13 週的週一去也演（一則 zhou_* 筆記都沒有＝「四年了」那一版）',s13[0]===D13.q[0]&&s13.includes(D13.q[2])&&s13.includes(D13.q[4]),J(s13));
+  fresh(D10,15.15); await CLS.afterClassEvent(GM,item(D10)); at(D10,15.25); const rr=enter('wancai'); const t=rr.ids.includes('prof_zhou')&&await rr.talk('prof_zhou'); const s=said();
+  check('8-4. 提示以後走進萬才館（15:15），周教授在，和他說話就是研究室那一場',!!t&&s[0]===D13.q[0]&&s.includes(D13.q[3]),J([rr.ids,s]));
 });
 
 H.done();
