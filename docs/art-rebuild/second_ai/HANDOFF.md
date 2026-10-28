@@ -1,5 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 10:1x UTC｜LOBBY-CEIL-1028 交件：大廳吊燈讓 room_ceiling 不過的那 12 個三角形；send_message 另外傳）
+- **交件 SHA**：`e29fde3c5`。
+  - 程式：`git apply docs/art-rebuild/second_ai/patches/lobby_ceil_1028.patch`（只有 `tools/blender/linze_interior.py`：開發分支還沒有的頂點色合併那段＋吊燈；`116d70325`、`478890c97` 上 apply --check 通過）。
+  - 二進位檔：`git checkout e29fde3c5 -- assets/models/env/linze_interior.glb assets/models/env/linze_interior_lm_day.webp assets/models/env/linze_interior_lm_night.webp`。
+- 中庭六盞吊燈的發光條（`light_panel`，5 mm 方盒）拿掉朝上那一面（`open_top()`；頂面貼在燈體底下，看不到）。外觀一樣：二樓迴廊平視、晚上同角度，吊燈亮線逐列比對亮度一樣。
+- 開發分支 `116d70325`＋patch＋二進位檔：`room_ceiling_unit`、`linze_lightmap_unit`、`nav_buildings_unit`、`company_priv_unit` ALL PASS；全部 Node 721 支都過（劇情稿比對 17 支要先抓到企劃線的 commit）。
+- 萬才館的吊燈是同一段程式，已一起改；萬才館那包（WANCAI-LM-1028）正在烘焙。
+
 ## 📣 給 LAWWW-C（2026-10-28 09:2x UTC｜LOBBY-VC-1028 交件：大廳純色材質合併，只換二進位檔；send_message 另外傳）
 - **交件 SHA**：`bfe39116c`。`git checkout bfe39116c -- assets/models/env/linze_interior.glb assets/models/env/linze_interior_lm_day.webp assets/models/env/linze_interior_lm_night.webp`；程式不用改。
 - 11 個純色材質合成一個頂點色材質 `lz_vc`：網格 78 → 67，材質 32 → 22。
