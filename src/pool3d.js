@@ -8,7 +8,8 @@
        地點：每人照第 3 節的表（作息 daily_schedule＋必修課 poolClass），取代 story3d.js 原本「五組、每組取前幾位」（i%5 的 pick）。
    2-2 認識之前「和〈外觀描述〉說話」：SOCIAL.displayName 問 S.descNow（這個人現在這一筆作息的 desc）；認識以後「和〈名字〉說話」。
        人物頁：S.pageDesc（人物頁一句話；升到朋友＝personality）＋做過的事一行一行（S.deedsHTML）。「看過三次就進朋友頁」拿掉（game3d.js knownIds：說過話的才算）。
-   2-3 第一次說話＝認識的那一場（第一批五位：S.meet；story3d.js talkCharacter 的 first）。其他十五位還沒寫：照舊的自我介紹，拿掉沒有選項的「……你呢？」。
+   2-3 第一次說話＝認識的那一場（第一批五位：S.meet；story3d.js talkCharacter 的 first）。第二～四批十五位（AA_499～501）也是 S.meet（版本 S.MEETV，src/pool_more3d.js）；
+       沒有載入第二批以後的資料時照舊的自我介紹（拿掉沒有選項的「……你呢？」）。
    2-4 閒聊：每人 8～10 句照學期、熟悉度、做過的事解鎖，每句一次、一天一句；說完以後三句「之後的招呼」輪流（開學、期中、期末的短招呼照舊穿插：STORY.greetB）。
        記號和舊的三句同一個（G.social.small[id].once＝句子本身）：舊存檔說過的舊三句照算說過（2-10）。
    2-5 秘密（SHARED_SECRET）加三個選項，選了什麼記在各人的旗標（ZJW_HELP、YT_*、YS_*…），改他之後的一句話或一場戲。
@@ -19,15 +20,19 @@
    2-9 ev_pool_greet：「你確定在教室看過」只給在教室出現的人，其他人「在〈他的地點〉看過」（S.greetPlace）；pool_greeted 用完就清掉（events.js）。
    2-10 舊存檔：讀檔換名（S.migrate；game3d.js migrate 叫）；說過秘密的不重問、記成「沒選」；過去的場景不補（各訊息只在那一天前後一天內排）。
    第 9 節第 4 點的互動點：男一舍門廳「領包裹」、交誼廳的冰箱與桌上的紙條、霖澤館一樓「補給的桌子」、霖澤館穿堂的展覽（只有旁白）——都只有互動點，實體物件列給 LAWWW2。
-   測試：node tests/aa498_pool_unit.js */
+   第二～四批（AA_499～501，十五位）：台詞在 src/data/pool_story_b2.js、b3.js、b4.js，各人的流程在 src/pool_more3d.js；用 POOL.extend 接進來（認識的那一場 MEETV、流程 FLOW、
+   之後自己的手機、互動點、自動的場景、房間物品都從這裡的共用做法走）。這一份只補共用的掛勾（OWN＝有自己那一套的同學；extend、MEETV、AFTER_MEET、TALK_OTHER、AUTO、POP、ACTS、ANSWER）。
+   測試：node tests/aa498_pool_unit.js、node tests/aa499_501_pool_unit.js */
 'use strict';
 const POOL=(function(){
   const S={};
   const D=typeof POOL_STORY!=='undefined'?POOL_STORY:{PEOPLE:{},LINES:{},RENAME:{},BATCH1:[]};
-  const L=D.LINES, Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';
+  const L=Object.assign({},D.LINES), Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';   /* 各批的台詞（第二批以後由 S.extend 加進來）*/
   const IDS=Object.keys(D.PEOPLE), B1=new Set(D.BATCH1||[]);
+  const OWN=new Set(B1);   /* 有自己那一套（認識的那一場、流程、閒聊表）的同學：第一批＋S.extend 加進來的 */
+  const PERS={};   /* personality 補表（AA_501 第 5 節第 5 點：第 3 節表上「之後的批次寫」的十五位）*/
   const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
-  S.IDS=IDS; S.BATCH1=D.BATCH1||[];
+  S.IDS=IDS; S.BATCH1=D.BATCH1||[]; S.LINES=L; S.WHERE_MORE={};
   let GMr=null;
   S.bind=gm=>{ if(gm) GMr=gm; return GMr; };
   const curG=()=>(GMr&&GMr.G)||(typeof GAME!=='undefined'&&GAME&&GAME.G)||null;
@@ -52,10 +57,12 @@ const POOL=(function(){
   const stageAt=(id,st)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st);
   const fam=id=>stageAt(id,'FAMILIAR');
   S.py=G=>typeof SOCIAL!=='undefined'&&SOCIAL.playerYear?SOCIAL.playerYear():1;
+  /* 小工具給第二批以後用（src/pool_more3d.js）*/
+  Object.assign(S,{law,DK,dateOf,md,wdTxt,hr,termOf:T_,termDay,ti,tid,inTerm,week,has,contact,stageAt,fam});
   /* 認識了沒（主要人物照各自的規則：阿哲、Alison＝STORY.knows；阿凱＝法律系一開始就認識；女主角舊的 met_ 旗標）*/
   S.met=function(G,id){ if(has(id,'FIRST_MET')) return true; if((id==='zhe'||id==='yu')&&typeof STORY!=='undefined'&&STORY.knows) return !!STORY.knows(id,G); if(id==='kai') return law(G);
     const F=(G&&G.flags)||{}; return !!(F['met_'+id]||(id==='heroine_01'&&F.met_an)||(id==='heroine_05'&&F.met_sis)); };
-  S.rec=function(G){ if(!G.pool||typeof G.pool!=='object'||Array.isArray(G.pool)) G.pool={}; const R=G.pool; for(const k of ['deeds','did','seg','secret']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.chat)) R.chat=[]; R.v=1; return R; };
+  S.rec=function(G){ if(!G.pool||typeof G.pool!=='object'||Array.isArray(G.pool)) G.pool={}; const R=G.pool; for(const k of ['deeds','did','seg','secret','mv']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.chat)) R.chat=[]; R.v=1; return R; };   /* mv：認識的版本（第二批以後）；舊存檔沒有＝空的 */
   S.did=(G,k)=>S.rec(G).did[k]!=null;
   S.mark=(G,k)=>{ S.rec(G).did[k]=G.day; };
   const small=(G,id)=>{ const R=G.social.small||(G.social.small={}); return R[id]||(R[id]={day:0,used:[],last:null}); };
@@ -81,13 +88,20 @@ const POOL=(function(){
   /* ---------- 第 3 節：二十位的地點、樣子、一句話接到 CHARACTERS（載入時一次）---------- */
   S.apply=function(){ if(typeof CHARACTERS==='undefined') return 0; let n=0;
     for(const id of IDS){ const c=CHARACTERS[id], p=D.PEOPLE[id]; if(!c||!p) continue;
-      c.daily_schedule=(p.where||[]).map(e=>Object.assign({},e)); if(p.cls) c.poolClass=Object.assign({},p.cls); else delete c.poolClass;
-      c.card=p.card||''; if(p.before) c.cardBefore=p.before; if(p.personality) c.personality=p.personality; c.poolPlace=p.place||'';   /* before：心事說出來以前人物頁用的中性一句（AA_498「實作時定的」第 4 點，照 AA_120）*/
+      c.daily_schedule=(S.WHERE_MORE[id]||[]).concat(p.where||[]).map(e=>Object.assign({},e)); if(p.cls) c.poolClass=Object.assign({},p.cls); else delete c.poolClass;   /* WHERE_MORE：各人那條線要的時段（第二批以後，src/pool_more3d.js；放前面）*/
+      const pe=PERS[id]||p.personality;
+      c.card=p.card||''; if(p.before) c.cardBefore=p.before; if(pe) c.personality=pe; c.poolPlace=p.place||'';   /* before：心事說出來以前人物頁用的中性一句（AA_498「實作時定的」第 4 點，照 AA_120）*/
       const ex=c.char3d&&c.char3d.extra!=null?c.char3d.extra:IDS.indexOf(id);
       const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(ex+40):{sex:c.gender==='f'?'f':'m'};
       c.char3d={extra:ex,spec:Object.assign(base,{id,sex:c.gender==='f'?'f':'m',model:p.model,props:(p.props||[]).slice()})}; n++; }
     return n; };
   S.modelOf=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return c&&c.char3d&&c.char3d.spec?c.char3d.spec.model:null; };
+  /* 第二批以後（AA_499～501）：M＝{IDS, LINES, PERSONALITY?}（src/data/pool_story_b2.js…）；where＝{id:[作息…]}（各人那條線要的時段）。載入時一次（src/pool_more3d.js 叫）*/
+  S.MORE=[];
+  S.extend=function(M,where){ if(!M||!Array.isArray(M.IDS)||S.MORE.includes(M)) return false; S.MORE.push(M);
+    for(const id of M.IDS) OWN.add(id); Object.assign(L,M.LINES||{}); if(M.PERSONALITY) Object.assign(PERS,M.PERSONALITY);
+    if(where) for(const id in where) S.WHERE_MORE[id]=(S.WHERE_MORE[id]||[]).concat(where[id]);
+    S.apply(); return true; };
 
   /* 必修課（story3d.js S.classmateClass 叫）：base＝那一堂的作息；靖雯第一排正中間、采潔第三排（霖澤館 201 有排）、郁婷上課前 10 分鐘在門口 */
   S.DOOR={classroom:[1.2,6.9,-1.2,0]};   /* 霖澤館 201 的後門口（門 (0,7.9)、玩家從 (0,7.4) 進來）：站在門邊、面向門 */
@@ -116,7 +130,7 @@ const POOL=(function(){
       if(typeof ASSETS!=='undefined'&&ASSETS.loadOne&&!ASSETS.has(want)&&!S._loading[want]){ S._loading[want]=true; ASSETS.loadOne(want).catch(e=>{ S._failed[want]=true; console.warn('POOL model',want,e&&e.message); }).finally(()=>{ delete S._loading[want]; }); } }
     else if(n._poolWait){ n.hidden=false; n._poolWait=false; } };
   /* 還不能認識的地方（第一批：那裡沒有寫認識的那一場）先不給按鈕（不出一個按了沒反應的「說話」）；認識以後都可以說話 */
-  S.syncTalk=function(G,id,n){ if(!B1.has(id)) return; const ok=has(id,'FIRST_MET')||!!S.meetVersion(G,id);
+  S.syncTalk=function(G,id,n){ if(!OWN.has(id)) return; const ok=has(id,'FIRST_MET')||!!S.meetVersion(G,id);
     if(!ok&&n.talk){ n._poolTalk=n.talk; n.talk=null; n.talkLabel=null; }
     else if(ok&&!n.talk&&n._poolTalk){ n.talk=n._poolTalk; n._poolTalk=null; n.talkLabel='和'+(typeof SOCIAL!=='undefined'&&SOCIAL.npcName?SOCIAL.npcName(id):id)+'說話'; } };
   /* 這一區有作息的同學的底模（無名路人不拿）*/
@@ -133,18 +147,22 @@ const POOL=(function(){
 
   /* ---------- 2-3 認識的那一場（第一批五位）---------- */
   /* 這一區、這個時間有沒有寫好的認識版本（沒有＝先不能說話）*/
-  S.meetVersion=function(G,id){ if(!B1.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
+  S.MEETV={};   /* 第二批以後：id → (G,e)⇒這一區、這個時間的認識版本（LINES[id] 的鍵）或 null（src/pool_more3d.js）*/
+  S.meetVersion=function(G,id){ if(!OWN.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
+    if(!B1.has(id)) return S.MEETV[id]?(S.MEETV[id](G,e)||null):null;
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
     if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
     if(id===C){ if(z==='bookstore') return 'meetBook'; if(e.act==='class'&&(ti(G)>0||week(G)>=6)) return 'meetClass'; return null; }   /* 6-6：大一上第 6 週起，必修課第三排 */
     if(id===YS) return z==='campus'&&!e.terms&&S.py(G)===1?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一 */
     if(id===Q) return z==='dorm_hall'&&S.py(G)===1?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一 */
     return null; };
-  S.owns=id=>B1.has(id);
+  S.owns=id=>OWN.has(id);
   S.meet=async function(GM,who,id,n){ const G=GM.G; S.bind(GM); const v=S.meetVersion(G,id); const lines=v&&L[id]&&L[id][v]; if(!lines) return false;
-    await run(GM,id,lines); if(!has(id,'FIRST_MET')&&typeof SOCIAL!=='undefined') SOCIAL.meet(id,G.zone); S.afterMeet(G,id); small(G,id).day=G.day; return true; };
+    await run(GM,id,lines); if(!has(id,'FIRST_MET')&&typeof SOCIAL!=='undefined') SOCIAL.meet(id,G.zone); S.rec(G).mv[id]=v; S.afterMeet(G,id); small(G,id).day=G.day; return true; };   /* mv：用哪一個版本認識的（劉晏如的閒聊照這個，AA_500 2-2）*/
+  S.AFTER_MEET={};   /* 第二批以後：認識以後各人要記的（G,id）；認識的那一場、女主角的圈子介紹（src/hcircle3d.js）都走這裡 */
   S.afterMeet=function(G,id){ S.seg(G,id,'meet');
-    if(id===Y&&G.flags&&G.flags.YT_FEE_LATER&&S.rec(G).feeDay==null){ let d=G.day+1; while(dateOf(d).wd!==1) d++; S.rec(G).feeDay=d; } };   /* 5-1「下禮拜給。」：下週一 21:00 她私訊 */
+    if(id===Y&&G.flags&&G.flags.YT_FEE_LATER&&S.rec(G).feeDay==null){ let d=G.day+1; while(dateOf(d).wd!==1) d++; S.rec(G).feeDay=d; }   /* 5-1「下禮拜給。」：下週一 21:00 她私訊 */
+    if(S.AFTER_MEET[id]){ try{ S.AFTER_MEET[id](G,id); }catch(e){ console.warn('POOL.AFTER_MEET',id,e); } } };
   /* 林采潔 新生導覽版（lib_tour_y1s1）：導覽走完、還沒認識她＝那一場（2D）*/
   S.TOUR_EV={ id:'ev_pool_cj_tour', title:'推理小說那一排', participants:[C], noMeet:[C], location:'library', trigger:'manual', background:'blur', dialogue:L[C]?L[C].meetTour:[],
     after:G=>{ if(!has(C,'FIRST_MET')&&typeof SOCIAL!=='undefined') SOCIAL.meet(C,'library'); S.afterMeet(G,C); small(G,C).day=G.day; } };
@@ -159,7 +177,7 @@ const POOL=(function(){
     Y3secret:G=>/^Y3/.test(tid(G)||'')&&has(Y,'SHARED_SECRET'), Y4metCJ:G=>/^Y4/.test(tid(G)||'')&&has(C,'FIRST_MET'), Y4metYT:G=>/^Y4/.test(tid(G)||'')&&has(Y,'FIRST_MET'),
     qjqNo:G=>S.qState(G,'PQ_QJQ')==='declined' };
   S.WHEN=WHEN;
-  S.nextLine=function(G,id){ const r=small(G,id), once=r.once||{}; for(const e of ((L[id]&&L[id].talk)||[])){ if(once[e.t]) continue; const w=e.when==='secret'?has(id,'SHARED_SECRET'):(WHEN[e.when]?WHEN[e.when](G):false); if(w) return e; } return null; };
+  S.nextLine=function(G,id){ const r=small(G,id), once=r.once||{}; for(const e of ((L[id]&&L[id].talk)||[])){ if(once[e.t]||(e.old&&once[e.old])) continue;   /* old：稿改過的原句（舊存檔說過舊的那一句＝照算說過，第二批以後）*/ const w=e.when==='secret'?has(id,'SHARED_SECRET'):(WHEN[e.when]?WHEN[e.when](G):false); if(w) return e; } return null; };
   const sayAny=async(GM,who,t)=>{ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t,{expr:'smile'}); };
   S.smallTalk=async function(GM,who,id){ const G=GM.G, r=small(G,id), T=T_(G), tid0=T?T.id:'none', nm=typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id;
     const act=fresh=>{ if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(fresh) SOCIAL.activity(id,'chatNew'); } };
@@ -173,6 +191,7 @@ const POOL=(function(){
   S.secretMark=function(G,id){ if(has(id,'SHARED_SECRET')||typeof SOCIAL==='undefined') return false; const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id];
     SOCIAL.remember(id,'SHARED_SECRET',(c&&c.facts&&c.facts[1])||''); SOCIAL.adjust(id,{fam:4,trust:4}); S.seg(G,id,'secret'); return true; };   /* 照舊：熟悉＋4、信任＋4（AA_120）；也是他那條線的一段（2-8）*/
   const secretScene=async(GM,id,lines)=>{ await run(GM,id,lines); S.secretMark(GM.G,id); small(GM.G,id).day=GM.G.day; };
+  S.secretScene=secretScene;
 
   /* ---------- 2-6 順手的事（SIDEQ 登記）---------- */
   S.QUEST={ PQ_ZJW:{who:Z,title:'陪靖雯去旁聽'}, PQ_YT1:{who:Y,title:'黃郁婷：考前補給包'}, PQ_YT2:{who:Y,title:'黃郁婷：迎新報到桌'},
@@ -181,6 +200,7 @@ const POOL=(function(){
     PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到霖澤館一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
     PQ_YS:{shoot:r=>md(r.outDay)+'（六）07:00 起當「法律系的一天」的主角'}, PQ_QJQ:{pick:r=>md(r.satDay)+'（六）10:00～18:00 到男一舍門廳領包裹',fridge:()=>'把箱子放進男一舍交誼廳的冰箱'} };
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
+  S.HINT=HINT;   /* 第二批以後的順手的事在 src/pool_more3d.js 加進來（S.QUEST、S.HINT，再叫一次 S.register）*/
   S.qRec=(G,qid)=>typeof SIDEQ!=='undefined'&&SIDEQ.get?SIDEQ.get(G,qid):null;
   S.qState=(G,qid)=>{ const r=S.qRec(G,qid); return r?r.state:null; };
   S.canOpen=G=>typeof SIDEQ==='undefined'||!SIDEQ.openIds||SIDEQ.openIds(G).length<SIDEQ.MAX;   /* 同時最多兩則（店員的一起算）*/
@@ -196,9 +216,10 @@ const POOL=(function(){
     for(let d=G.day+1;d<=last;d++){ const w=dateOf(d).wd; if(w<1||w>5||(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d))) continue; const items=typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,d):[]; if(items.some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)) continue; return d; } return null; };
   S.nextSat=G=>{ let d=G.day+1; while(dateOf(d).wd!==6) d++; return d; };
   const plan=(G,o)=>typeof OUT!=='undefined'&&OUT.plan?OUT.plan(G,o):false;
-  async function offer(GM,who,id,qid,o){ const G=GM.G, Lx=L[id]; await run(GM,id,Lx[o.ask]); const k=await GM.choose(Lx[o.opts].map(t=>({t})));
-    if(k===0){ if(o.yes) await run(GM,id,Lx[o.yes]); await o.accept(GM); } else { S.declineQ(G,qid); if(o.no) await run(GM,id,Lx[o.no]); }
+  async function offer(GM,who,id,qid,o){ const G=GM.G, Lx=L[id]; await run(GM,id,Lx[o.ask]); if(o.afterAsk) o.afterAsk(GM); const k=await GM.choose(Lx[o.opts].map(t=>({t})));   /* afterAsk：開口那幾句裡就說了秘密的（AA_500 3-3、AA_501 1-3…）*/
+    if(k===0){ if(o.yes) await run(GM,id,Lx[o.yes]); await o.accept(GM); } else { S.declineQ(G,qid); if(o.no) await run(GM,id,Lx[o.no]); if(o.declined) await o.declined(GM); }
     small(G,id).day=G.day; return k===0; }
+  Object.assign(S,{run,plan,offer,lapseQ});
   /* 4-3 靖雯：陪她去旁聽 */
   S.acceptZjw=function(GM){ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,Z); const d=S.courtDay(G); S.openQ(GM,'PQ_ZJW','court',{outDay:d,by:d});
     if(d!=null) plan(G,{id:'pool_court_'+d,ev:'ev_pool_zjw_court',day:d,h:14,late:0.5,place:'臺北地方法院',title:'陪靖雯去旁聽（臺北地方法院 14:00）',travel:'捷運 約 20 分鐘',travelH:1/3}); };
@@ -279,7 +300,10 @@ const POOL=(function(){
         await offer(GM,who,Q,'PQ_QJQ',{ask:'ask',opts:'askOpts',no:'askNo',accept:S.acceptQjq}); if(S.qState(G,'PQ_QJQ')==='declined') G.flags.QJQ_ASKED_YS=true; return true; } ] };
   S.FLOW=FLOW;
   /* 說過話以後（story3d.js talkCharacter：認識以後、閒聊之前問這裡）：第一批五位自己處理（場景或閒聊）＝true；其他十五位照舊＝false */
-  S.talk=async function(GM,who,id,n){ if(!B1.has(id)||!law(GM.G)) return false; S.bind(GM); for(const f of (FLOW[id]||[])){ if(await f(GM,who,n)) return true; } await S.smallTalk(GM,who,id); return true; };
+  S.TALK_OTHER=[];   /* 不是同學的人（例：柏翰）因為同學的事多一句閒聊：fn(GM,who,id,n)→true＝這一次說了（src/pool_more3d.js）*/
+  S.talk=async function(GM,who,id,n){ if(!law(GM.G)) return false; S.bind(GM);
+    if(!OWN.has(id)){ for(const f of S.TALK_OTHER){ try{ if(await f(GM,who,id,n)) return true; }catch(e){ console.warn('POOL.TALK_OTHER',e); } } return false; }
+    for(const f of (FLOW[id]||[])){ if(await f(GM,who,n)) return true; } await S.smallTalk(GM,who,id); return true; };
 
   /* 4-5「好。」：下一個值班的週六 9:00 到萬才館一樓（在旁邊看法服值班，照現有的流程）*/
   S.planWatch=function(G){ const s=typeof STORY!=='undefined'&&STORY.fafuSat?STORY.fafuSat(G.day):null; if(!s) return false;
@@ -311,7 +335,9 @@ const POOL=(function(){
     if(zoneId==='linze'){ add({x:4.6,z:2.05,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
       if(S.ytTableDue(g())) S.prop(E,'bldg.linze_supply_table',4.6,1.05,0,0,1.9,0.7); }   /* 那一天才擺：玻璃電梯南邊，長邊沿 x（3.7～5.5）；發的人站電梯那一側、拿的人從南邊來，互動點在桌子南邊（原本 z 0.6 會被桌子蓋住）（NPC-POOL-ART-1028，LAWWW2-C）*/
     if(zoneId==='campus') add({x:33,z:-110,radius:2.2,lv:0,label:'看穿堂的照片',poolAct:'ysExpo',get hidden(){ return !S.expoDue(g()); }});   /* 霖澤館一樓的穿堂（地坪 0.9 m）*/
+    for(const f of S.POP){ try{ f(zoneId,GM,add,g); }catch(e){ console.warn('POOL.POP',e); } }   /* 第二批以後的互動點（src/pool_more3d.js；按下去 S.ACTS[poolAct]）*/
     S.afterSpawn(GM); S.dedupe(GM); };
+  S.POP=[]; S.ACTS={};
   S.interact=async function(it,GM){ const G=GM.G; S.bind(GM); GM.sceneBegin(); try{
       if(it.poolAct==='qjqPick'){ const r=S.qRec(G,'PQ_QJQ'); if(S.qjqPickDue(G)){ r.step='fridge'; r.picked=G.day; r.by=r.satDay+1; if(GM.toast) GM.toast(S.UI.picked,2600); } }
       else if(it.poolAct==='qjqFridge'){ const r=S.qRec(G,'PQ_QJQ'); if(S.qjqFridgeDue(G)){ G.flags.QJQ_HELP=true; S.addDeed(G,Q,L[Q].deedBox); S.finishQ(GM,'PQ_QJQ',r); } }
@@ -319,6 +345,7 @@ const POOL=(function(){
       else if(it.poolAct==='qjqNote'){ await GM.say(null,L[Q].note); S.mark(G,'qjqNote'); }
       else if(it.poolAct==='ytTable'){ await GM.say(null,S.ytTableLine(G)); S.mark(G,'ytTable'); }
       else if(it.poolAct==='ysExpo'){ await run(GM,YS,L[YS].expo); S.mark(G,'ysExpo'); S.seg(G,YS,'expo'); }
+      else if(S.ACTS[it.poolAct]) await S.ACTS[it.poolAct](GM,it);
     } finally { GM.sceneEnd(); } return true; };
 
   /* ---------- 每 0.5 秒（STORY.TICKS）：樣子、按鈕、郁婷從門口進教室坐下、自動的場景 ---------- */
@@ -328,16 +355,19 @@ const POOL=(function(){
     n.frozen=false; n.beh='idle'; n.waypoints=null; n.seatTarget=st; const sit=()=>{ n.seatTarget=null; if(busy(st)){ n.pose=n.idlePose='idle'; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='sit'; };
     const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)) sit(); return true; };
   let busy=false;
+  S.AUTO=[];   /* fn(GM)→要演的事件或 null（第二批以後）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)) return false; S.bind(GM); try{ S.afterSpawn(GM); S.doorToSeat(GM); }catch(e){ console.warn('POOL.afterSpawn',e); }
     if(busy||typeof EVENTS==='undefined'||!EVENTS.run||(GM.E&&GM.E.player&&GM.E.player.busy)) return false;
     let ev=null; if(S.packDue(GM)) ev=S.PACK_EV; else if(S.pomeloDue(GM)) ev=S.POMELO_EV; else if(S.dutyListDue(GM)) ev=S.DUTY_EV;
+    else for(const f of S.AUTO){ try{ ev=f(GM)||null; }catch(e){ console.warn('POOL.AUTO',e); ev=null; } if(ev) break; }   /* 第二批以後的自動場景（src/pool_more3d.js）*/
     if(!ev) return false; busy=true; if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('POOL',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };
 
   /* ---------- 2-7 手機 ---------- */
   const tz=(G,d)=>typeof STORY!=='undefined'&&STORY.tzOffset?(+STORY.tzOffset(G,d)||0):0;
   const loc=(G,d,h)=>{ const t=d*24+h+tz(G,d), dd=Math.floor(t/24); return {day:dd,h:t-dd*24}; };   /* 臺灣時間 → 玩家的當地時間（國外照時差）*/
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
-  const dm=(id,t)=>({th:'p:'+id,from:id,text:t});
+  const dm=(id,t)=>t&&typeof t==='object'?(t.n!=null?{th:'p:'+id,who:null,text:t.n}:Object.assign({th:'p:'+id,from:id},t)):({th:'p:'+id,from:id,text:t});   /* {text,fold}＝錄音、語音（點開看旁白）；{n}＝對話串裡的旁白（第二批以後）*/
+  S.dm=dm;
   /* 劇情的訊息（各人的表，不算在上限裡）：d、h＝臺灣時間；那一天的前一天到後一天之間才排（過了就不補，2-10）；沒有聯絡方式不送（noContact：全班都會收到的那種）*/
   S.story=function(G,id,d,h,texts,tag,o){ o=o||{}; if(d==null||typeof PHONE==='undefined'||sent(G,tag)) return false; if(!o.noContact&&!contact(G,id)) return false; const l=loc(G,d,h); if(G.day<l.day-1||G.day>l.day+1) return false;
     const items=[].concat(texts).map(t=>dm(id,t)); if(o.ask) items[items.length-1].ask=o.ask; return PHONE.at(G,l.day,l.h,items,tag); };
@@ -381,7 +411,9 @@ const POOL=(function(){
     S.story(G,Q,DK('2027-09-15'),21,L[Q].moon,'pool_qjq_moon'); S.segSent(G,Q,'moon','pool_qjq_moon');   /* 祐廷大三上中秋 */
     { const T=CALENDAR.termDays('Y2S2'); if(T&&G.day>T.to&&!sent(G,'pool_qjq_tainan')&&Array.isArray(G.outings)&&G.outings.some(q=>q&&q.day===G.day&&q.state!=='missed'&&/台南/.test(String(q.place||'')+String(q.title||'')))) S.story(G,Q,G.day,7,L[Q].tainan,'pool_qjq_tainan'); } };   /* 之後真的人在台南（去台南找沛珊…）：當天 07:00 */
   /* 5-5 的私訊回了「好。」＝掛事、排報到桌；「那天早上我有課。」＝婉拒 */
-  S.onAnswer=function(G,m,o,k){ if(!m||!m.ask||m.ask.id!=='pool_yt2_ask'||S.qState(G,'PQ_YT2')) return; const gm={G,toast:typeof GAME!=='undefined'&&GAME&&GAME.toast?GAME.toast:null}; if(k===0) S.acceptYt2(gm); else S.declineQ(G,'PQ_YT2'); };
+  S.ANSWER={};   /* 第二批以後：手機回覆的 ask id → fn(G,m,o,k)（src/pool_more3d.js）*/
+  S.onAnswer=function(G,m,o,k){ if(m&&m.ask&&S.ANSWER[m.ask.id]){ try{ S.ANSWER[m.ask.id](G,m,o,k); }catch(e){ console.warn('POOL.ANSWER',e); } return; }
+    if(!m||!m.ask||m.ask.id!=='pool_yt2_ask'||S.qState(G,'PQ_YT2')) return; const gm={G,toast:typeof GAME!=='undefined'&&GAME&&GAME.toast?GAME.toast:null}; if(k===0) S.acceptYt2(gm); else S.declineQ(G,'PQ_YT2'); };
 
   /* ---------- 房間物品 ---------- */
   S.room=function(G,Lst){ const F=G.flags||{};
@@ -406,7 +438,7 @@ const POOL=(function(){
     if(Array.isArray(s.memo)) for(const m of s.memo) fx(m,'t'); if(Array.isArray(s.notes)) for(const m of s.notes){ fx(m,'title'); fx(m,'body'); } fx(s,'goal');
     /* 說過秘密（舊的「其實……」）的第一批：不重問，選項記成「沒選」（後面照「沒選」那一版）*/
     if(mem&&typeof mem==='object'&&s.flags&&typeof s.flags==='object'){ if(!s.pool||typeof s.pool!=='object'||Array.isArray(s.pool)) s.pool={}; if(!s.pool.secret||typeof s.pool.secret!=='object') s.pool.secret={};
-      for(const id of (D.BATCH1||[])){ const M=mem[id]; if(!Array.isArray(M)||!M.some(m=>m&&m.tag==='SHARED_SECRET')) continue; if(s.pool.secret[id]==null){ s.pool.secret[id]='none'; n++; } if(id===Z&&s.flags.ZJW_HELP==null){ s.flags.ZJW_HELP='none'; } } }
+      for(const id of OWN){ const M=mem[id]; if(!Array.isArray(M)||!M.some(m=>m&&m.tag==='SHARED_SECRET')) continue;   /* 第一批＋第二批以後（S.extend）一樣：選項記成「沒選」*/ if(s.pool.secret[id]==null){ s.pool.secret[id]='none'; n++; } if(id===Z&&s.flags.ZJW_HELP==null){ s.flags.ZJW_HELP='none'; } } }
     return n; };
 
   /* ---------- 接線（載入時一次）---------- */

@@ -3284,6 +3284,30 @@
    "note": "LAWWW-C 10-28 登記：法律系同學二十位共同做法＋第一批五位（子代理 e21e3f37c，合併時登記）；10-28 改 56ed354e9（AA 加「實作時定的」一節：靖雯旁聽改下午、四人人物頁的中性一句）"
   },
   {
+   "path": "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
+   "sha": "4545c239e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第二批五位（何宇軒、徐靜儀、詹立群、蘇承恩、馬佳蓉）——台詞 src/data/pool_story_b2.js；流程 src/pool_more3d.js（POOL.extend：認識的那一場、閒聊、秘密、順手的事 PQ_HYX1／PQ_HYX2／PQ_JY／PQ_LQ／PQ_SCE／PQ_JR、廣播社錄音、手機各則、社會圖第 6 節第 2 點、柏翰推甄那一天、法律實習三次、法服值班旁白、柏翰與靖雯各一句、班級群組）；第 4-5 節實習說明會那一句旁白：遊戲裡沒有那一場（沒有接）；tests/aa499_501_pool_unit.js 用 git show 4545c239e 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md",
+   "sha": "d043110ae",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第三批六位（蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文）——台詞 src/data/pool_story_b3.js；流程 src/pool_more3d.js（認識的那一場〔晏如 Café／吉他社兩版、振宇騎車／沒騎車〕、閒聊、秘密、順手的事 PQ_TZL／PQ_LYR／PQ_YSH／PQ_YCX／PQ_YZY、河堤夜騎、乃文借筆記與網拍、手機各則、兩次成發的旁白、畢業〔日本路線改私訊、乃文回國的 B1 櫃台〕）；第 2-3 節「我也怕蟑螂」以後晨希多一句：稿第 4 節沒有那一句（只記 LYR_CX）；tests/aa499_501_pool_unit.js 用 git show d043110ae 逐字雙向對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_501_法律系同學第四批_大三四位_洪珮瑜_施孟儒_廖芸萱_嚴守誠.md",
+   "sha": "17d57eff3",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；NPC-STORY-1028，USER_WANTS X119）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第四批四位（洪珮瑜、施孟儒、廖芸萱、嚴守誠）＋第 5 節第 5 點十五位的 personality——台詞 src/data/pool_story_b4.js；流程 src/pool_more3d.js（認識的那一場〔芸萱沛珊介紹／自己兩版〕、閒聊、秘密、順手的事 PQ_HPY／PQ_SMR、哲學咖啡館、半夜的刑法讀書會兩場、手機各則、系籃三場與大四下那一場、哲 3 阿哲一句、麵店團阿哲轉貼、畢業與房間物品、總圖三樓的紙條）；tests/aa499_501_pool_unit.js 用 git show 17d57eff3 逐字雙向對稿"
+  },
+  {
    "path": "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
    "sha": "ce6e87a99",
    "status": "approved",
