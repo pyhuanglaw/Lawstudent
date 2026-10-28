@@ -45,7 +45,9 @@
 //          真的圈子（BB 那一天 2025-09-09 18:12，HCIRCLE.arrange 生出阿姨）：companyOf＝["hc_ayi"]，選單有「約她去…」和 tell_later，選了不加旁白；旁邊多一個同伴＝兩個都不出
 //      (B) auntIn＝HCIRCLE.labelIn：2025-09-09 18:12 在（c503_6_2 那一天擲到）、2025-09-16 18:12 不在（那一天沒擲到，語彤照樣顧店）、17:00 和 20:30 以後不在；
 //          發現那一場（MREL.dueAuto）：3D 的阿姨在（GM.npc.hc_ayi）＝沒有「阿姨呢？」，有「阿姨，我等一下自己收。」「好啦，你們年輕人。」；3D 的阿姨不在＝「阿姨呢？」「去買東西。」
-//   修改前（只拿掉這一次 src 的改動：src/privtalk3d.js、src/hcircle3d.js、src/multirel3d.js、src/data/multirel_lines.js 換回開發分支 1db6e495c，白名單、測試用新的，2026-10-28）：FAILED 0；修改後 ALL PASS（0 項）
+//   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/privtalk3d.js、src/hcircle3d.js、src/multirel3d.js、src/data/multirel_lines.js 換回開發分支 1db6e495c，
+//   對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 8、PASS 65（FAIL＝8 第 12 項真的圈子〔「約她去…」被阿姨擋〕、9 對稿〔LATER 5 項〕、10 的 6 項〔對稿、(A) 強制、(A) 第 7 項、(A) 真的圈子、
+//   (B) auntIn〔沒有 HCIRCLE.labelIn〕、(B) 3D 的阿姨在那一場〔舊的 19:00 規則 18:12 問「阿姨呢？」＝BB 測出的〕〕；PASS＝原本的 64 項、10 (B) 阿姨不在那一場）。修改後 ALL PASS（73 項）
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');

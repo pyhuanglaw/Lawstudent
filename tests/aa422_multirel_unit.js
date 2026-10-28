@@ -9,7 +9,7 @@
 // 修改前（開發分支 8cfc1b7de）：沒有 src/multirel3d.js——FAIL。用法：node tests/aa422_multirel_unit.js
 // AA_503 第 14 節後補第 7 點（PRIV-AUNT-1028，企劃線 5ec2fe771）：語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn 原本 19:00 以後＝阿姨在，改看 3D 的阿姨在不在麵店
 //   （MREL.auntIn → HCIRCLE.labelIn）：第 3 段語彤那三項用假的 HCIRCLE 指定在不在（18:00 不在＝「阿姨呢？」、18:30 在＝「好啦，你們年輕人。」、19:30 不在＝照樣「阿姨呢？」）；
-//   修改前（只拿掉這一次 src 的改動）：FAILED 0；修改後 ALL PASS
+//   修改前（只拿掉這一次 src 的改動：src/multirel3d.js 等換回開發分支 1db6e495c，2026-10-28 實際跑）：FAILED 2（18:30 阿姨在、19:30 阿姨不在）、PASS 174；修改後 ALL PASS（176 項）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;

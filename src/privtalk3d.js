@@ -177,7 +177,7 @@ const PRIVTALK=(function(){
       impl:'S.PLACE_EXCEPT（S.crowd 依人物＋區域：語彤、G.zone noodle、阿姨 hc_ayi，和清單那一筆的 except 合起來，S.exceptAt）——清單每一筆、開頭的旁白（S.lead）、第 7 項交往中那一版（S.wireDating）都走 S.crowd；麵店以外照舊'},
     {n:7,desc:'multirel_lines.js 語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn（原本 19:00 以後＝阿姨在，AA_425 第 1 節）：3D 的阿姨 17:30～20:30 站在店裡（圈子表 c503_6_2 那幾列），週二、四 18:00～19:00 那一場她問「阿姨呢？」「去買東西。」，阿姨就站在旁邊（BB-C 11:41）',
       decided:'auntIn 改看阿姨的 3D 人物現在在不在麵店（圈子表 c503_6_2 那幾列）：在＝不問「阿姨呢？」；不在＝「阿姨呢？」「去買東西。」。3D 的時間不改。',
-      impl:'src/multirel3d.js C.auntIn＝S.auntIn：HCIRCLE.labelIn(G,\'hc_ayi\',\'noodle\')＝她那幾列現在成立（3D 生不生阿姨的同一套 HCIRCLE.rowsIn；沒寫一定同框的列照那一天擲的 70%）；阿姨後面那一句「好啦，你們年輕人。」也看同一個；圈子表、3D 的時間不改'}];
+      impl:'src/multirel3d.js C.auntIn＝S.auntIn：HCIRCLE.labelIn(G,\'hc_ayi\',\'noodle\')＝她那幾列現在成立（HCIRCLE.on，和 3D 生不生阿姨〔S.arrange 照 S.rowsIn〕同一套；沒寫一定同框的列照那一天擲的 70%）；阿姨後面那一句「好啦，你們年輕人。」也看同一個；圈子表、3D 的時間不改'}];
   /* 第 9 項：不擋，對話最前面加一句旁白（載入時接上，不管旁邊有沒有人）*/
   S.SCENE_LEAD=[{ev:'ev_ziqing_lab_letter',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'},{ev:'ev_ziqing_dad_sorry',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'}];
 
