@@ -4070,7 +4070,7 @@
    "sha": "69bf6b2e4",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACK",
+   "ack": "ACTIONED",
    "task": "WANCAI-LM-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/wancai_lm_1028.patch",
@@ -4079,9 +4079,9 @@
     "assets/models/env/wancai_interior_lm_night.webp",
     "docs/art-rebuild/second_ai/test_shots/wancai_lm_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "iPhone 實機沒測；西南角、樓梯那一側在樓板下面，比改前暗（BB 覺得太暗再加崁燈重烘）；填滿率 42.1%；陽光位置固定",
-   "next": "LAWWW-C 10:26Z ACK：全部 Node 跑完後套 patch＋三個二進位檔，下一版 v9.10.14；BB 測萬才館時一起看西南角、樓梯側亮度",
+   "next": "LAWWW-C 10:3x 已整合（開發分支 e1bc114e7：patch＋三個二進位檔；wancai_lightmap 等 60 支 ALL PASS）；下一版 v9.10.14；BB：萬才館進兩次、白天晚上看擺設與西南角亮度",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）第五包：萬才館一樓大廳擺設（展示櫃、飲水機、回收桶、消防栓箱、滅火器、出口燈、長椅、傘架、小圓桌、盆栽、中庭吊燈；wancai_layout.js 九筆、wancai3d.js 多 prop 類型）＋光照烘焙；116d70325＋patch：wancai_lightmap_unit（新，拿掉 wancai3d.js 改動 FAIL）、room_ceiling、nav_buildings、wancai_semb、nav_lawlib 等 ALL PASS；draw call 多 7～10%；scan_floors 只標盆栽土和二樓長椅椅面（都不是地板）"
   }
  ]
