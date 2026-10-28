@@ -24,7 +24,11 @@
     牆邊疊起來的椅子（三疊）、北牆的吸音板、護牆條（兩色牆）、沒有人坐的椅子上放書包和外套。
   兩間共同：立體掛鐘、公告欄（傳單、圖釘；字是虛構的、小字看不清楚）、滅火器、門口地墊、兩個垃圾桶、桌上的筆記本講義課本水壺（約三分之一的座位）。
   掛在牆上、放在置物櫃或窗台上的東西都在那一面牆的群組（牆淡出時一起淡出，不會飄在半空中：照 LAWWW2 75ef4ae3 的做法）；
-  桌上、地上、椅子上的東西不在牆的群組。"""
+  桌上、地上、椅子上的東西不在牆的群組。
+2026-10-28 202 v2（INTERIOR-AAA-REVIEW-1028，LAWWW2-C；使用者「廉價手遊感」，和 201 v2 同一棟要一樣）：
+  課椅＝模壓夾板（ply_shell：椅面微凹、前緣往下彎，椅背弧形往後仰）＋鐵管椅腳、橡膠腳套；長桌＝C 形鋼腳（原本整片 4 cm 鐵板）＋腳墊＋桌上電源盒；
+  天花板＝0.6 m 輕鋼架格子＋T5 格柵燈具（WALL_ceil_*，dir 朝下：鏡頭在天花板上面時藏起來）。座位、碰撞框、配置 JSON 都不變。
+  光照貼圖：tools/blender/env_second/lightbake/bake_flat_rooms.sh（燈的位置照這裡的燈具）。"""
 import json, math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..'))
