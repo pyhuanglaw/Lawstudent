@@ -34753,7 +34753,7 @@
    "title": "旁邊有她的人（3D 圈子同伴在 3.2 m 內）時，私密的選項與場景不出、等她一個人再說：告白（已做）、心意邀約與約會、交往中才有的互動、坦白有別人（ROM.tellBy）、多段感情的分開談話（AA_346）與她知情以後那幾場、問她還沒公開的事（子晴爸爸 Q8 一類、沛珊重考 AA_281、芷若交換申請 5/11 錄取以前、語彤媽媽回診、學姊口試結果 5/29 當天）；一般閒聊、課業、讀書會、群組不算",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "AA-C 2026-10-28 06:14 回 555186796 第 11 點（AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」）；HEROINE-CIRCLE3D-1028 目前只標了告白兩個選項 priv",
    "first": {
@@ -34766,7 +34766,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 06:1x UTC】等手機第五輪或 AA_497 子代理合併、空出一個位置再派子代理（會碰 story3d.js、multirel3d.js、閒聊階梯、PRE_TALK）；做法：STORY.COMPANY 成立時 priv 選項不出、私密的說話前場景（preTalk）與階梯步驟延到她一個人",
+   "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
    "note": ""
   },
   {
@@ -34774,7 +34774,7 @@
    "title": "AA_509（大四上＋寒假）、AA_510（大四下＋畢業那年夏天）各節 x-1 圈子接進 3D（含 AA_510 第 8 節第 3 點：以安、語彤週四總圖三樓；語彤暑假週四麵店；子晴 6/28 起週五公館和阿凱；學姊 5/29 以後週五公館和陳助教）",
    "area": "Y4S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "AA_509 28f981438、AA_510 28f981438 各節 x-1；HEROINE-CIRCLE3D-1028 的下一輪",
    "first": {
@@ -34787,7 +34787,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 06:1x UTC】照 src/data/heroine_circle.js 的格式加列；等 COMPANY-PRIV-1028 或同一個子代理一起做",
+   "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
    "note": ""
   }
  ]
