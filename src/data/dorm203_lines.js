@@ -1,5 +1,6 @@
 /* ===== 203 室友日常的台詞（AA_502，AA-C 2026-10-28，第②級；DORM203-MATES-1028 第二部分、USER_WANTS X123）=====
-   稿：企劃線 claude/magical-albattani-bk7b4n 4071fdb9a docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md。台詞一字照稿。
+   稿：企劃線 claude/magical-albattani-bk7b4n d13ab3ab7 docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md。台詞一字照稿。
+   （2026-10-28 第二輪：AA_502 第 6 節「實作時定的」——3-2 柏翰「明天考試」、3-5 柏翰不在（阿哲自己答）、3-6 暑假只剩祐廷和阿凱、群組「203（舊生）」改到大二 9/6 晚上）
    ・當面說的話：對話框寫是誰說的，稿表格裡的外層引號「」拿掉（和閒聊階梯、阿凱房間句一樣）；旁白照稿的（）。選項照稿（含「」）。
    ・手機訊息：稿的「／」是兩則；阿凱「（門開了）」是他傳的一句話（稿第 4 節最後一點），照訊息顯示。
    時間、條件、事件、群組在 src/dorm203_3d.js（DORM203）；作息（誰幾點在房間）在 src/story3d.js 的 S.r203Plan。
@@ -9,7 +10,7 @@ const DORM203_LINES=(function(){
   const nar=t=>({speaker:null,text:t}), say=(s,t)=>({speaker:s,text:t});
   const BH='classmate_bohan';
   return {
-    source:'claude/magical-albattani-bk7b4n 4071fdb9a AA_502',
+    source:'claude/magical-albattani-bk7b4n d13ab3ab7 AA_502',
     /* 第 1 節：走進來時的一句旁白（每人輪流，同一天不重複）*/
     walkIn:{
       classmate_bohan:['（柏翰進門，先把耳塞放在桌上，再放書包。）','（柏翰進門，看了一眼時間，點點頭，好像在確認自己準時。）'],
@@ -54,7 +55,7 @@ const DORM203_LINES=(function(){
         {label:'a25'},say(BH,'好。'),nar('（阿哲和阿凱同時說「……好啦」。）'),
         {label:'end'} ],
       light:[ nar('（23:30。柏翰站在燈的開關旁邊。）'),
-        say(BH,'我要睡了。明天八點考試。'),
+        say(BH,'我要睡了。明天考試。'),   /* 第 6 節第 5 點：民總 13:20 考 */
         nar('（阿哲還坐在書桌前，桌上攤著柏翰的筆記。阿凱戴著耳機在打字。）'),
         say('zhe','再十分鐘！我還差兩頁！'),
         {choice:[{text:'「關吧，阿哲用我的檯燈。」',set:{R203_LIGHT:'lamp'},goto:'lamp'},{text:'「再給他十分鐘。」',set:{R203_LIGHT:'wait'},goto:'wait'},{text:'「我也要睡了，關。」',set:{R203_LIGHT:'off'},goto:'off'}]},
@@ -92,14 +93,14 @@ const DORM203_LINES=(function(){
         say('zhe','……今天晚上有事。沒事啦，就是有事。'),
         {choice:[{text:'「拿去。」',goto:'lend'},{text:'「去哪？」',goto:'where'},{text:'「你穿你的球衣就好。」',goto:'jersey'}]},
         {label:'where'},say('zhe','麵店團啦！……還有 Alison。好，你知道就好。'),   /* 稿：然後一樣借 → 接「拿去。」那一段 */
-        {label:'lend'},{set:{R203_SHIRT:true}},nar('（他穿上，在鏡子前面站了很久。）'),say('zhe','會不會太正式？'),say(BH,'（沒有抬頭）會。'),say('zhe','……好。（他沒有脫下來。）'),{goto:'end'},
+        {label:'lend'},{set:{R203_SHIRT:true}},nar('（他穿上，在鏡子前面站了很久。）'),say('zhe','會不會太正式？'),nar('（他看著鏡子，自己點了點頭。）'),say('zhe','……會。（他沒有脫下來。）'),{goto:'end'},   /* 第 6 節第 7 點：柏翰週六在總圖，阿哲自己回答 */
         {label:'jersey'},say('zhe','……也對。（他換了三件，最後穿了球衣出門。）'),
         {label:'end'} ],
-      last:[ nar('（紙箱疊到天花板。阿凱在撕書桌底下那一截國界膠帶。）'),
-        say('kai','這個要撕乾淨，不然扣押金。'),
+      last:[ nar('（紙箱疊到天花板，都是阿哲和柏翰的。阿凱蹲在地上，在撕書桌底下那一截國界膠帶。）'),   /* 第 6 節第 1 點：暑假 203 只剩祐廷和阿凱（阿凱 9/6 才搬去別棟）*/
+        say('kai','暑假只剩我們兩個。用不到了。'),
         say('zhe','（躺在床上）阿凱，下學期你在別棟，我們打電動要打給誰？'),
         say('kai','打給我啊。我又沒有不見。'),
-        nar('（他把撕下來的膠帶捲成一團，沒有丟，放進自己的紙箱。）'),
+        nar('（他把撕下來的膠帶捲成一團，沒有丟，放進自己的抽屜。）'),
         {choice:[{text:'「週日宵夜照舊？」',goto:'sup'},{text:'「國界那段膠帶，你留著？」',goto:'tape'},{text:'（幫他一起撕）',goto:'help'}]},
         {label:'sup'},say('kai','……好。滷味。我幫你夾。'),{goto:'end'},
         {label:'tape'},say('kai','留著。……之後換室友，可以再貼。'),{goto:'end'},
@@ -124,8 +125,8 @@ const DORM203_LINES=(function(){
       trash:[{at:20,from:'kai',text:'所以垃圾今天誰倒'},{at:20.5,from:'kai',text:'我倒了'}],
       y1s2:[{from:'zhe',text:'明天大家幾點到'},{from:'zhe',text:'我帶雞腳'}],
       mid2:[{at:22,from:BH,text:'今天晚上十一點熄燈。期中。'},{at:23+1/60,from:'zhe',text:'（照片：黑暗中一支手機的燈照著筆記）'}],
-      out:[{from:'zhe',text:'203 解散'},{from:'zhe',text:'（貼圖）'}],
-      outRename:{text:'阿凱 把群組名稱改成「203（舊生）」'},
+      out:[{from:'zhe',text:'203 解散'},{from:'zhe',text:'（貼圖）'}],   /* 搬出 203 那天（6/15，阿哲、柏翰搬出）*/
+      oldRename:{at:21,text:'阿凱 把群組名稱改成「203（舊生）」'},   /* 第 6 節第 1 點：改到大二 9/6 晚上（阿凱搬去別棟那天）；稿寫「晚上」，21:00 */
       accident:[{at:23,from:'kai',text:'所以阿哲還好嗎'},{at:23,from:BH,text:'還好。我在旁邊。'}],
       grad:[{from:'zhe',text:'203 的人'},{from:'zhe',text:'畢業了'},{from:'zhe',text:'出來吃宵夜'},{from:'kai',text:'我在了'},{from:BH,text:'我也在。'}] } };
 })();

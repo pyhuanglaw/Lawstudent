@@ -2902,19 +2902,22 @@ const STORY = (function(){
      S.r203Plan(G,id,d)＝第 d 天的區段 [從, 到, 怎麼來, 怎麼走]（小時；24 以上＝隔天凌晨）：怎麼來 'bed' 從上舖下來、'door' 開門進來；怎麼走 'bed' 爬上舖、'door' 出門。在上舖睡覺＝看不到（不生人物）。
        柏翰：平日 06:40 起、07:20 出門；週六日 08:00 出門（週日的早上稿沒寫，照週六）；週日 13:00～17:00 書桌；晚上 22:30 回來、23:30 上床。
        阿哲：平日 08:30 起、08:40 出門；晚上 22:00 回來（週五 23:00）、23:30 上床；週六 11:00 起、12:00 去球場、17:00 回來（晚上在房間）；週日 11:00 起、下午在房間、17:30 去麵店、22:00 回來。
-       阿凱：上課的平日第一節有課＝07:00～08:00 在書桌前（AA 沒寫阿凱的課表：暫定週二、週四第一節有課 R203_KAI_FIRST）、沒有＝睡到 10:00、10:30 出門；晚上 18:00～02:00；
+       阿凱：上課的平日第一節有課＝07:00～08:00 在書桌前（AA_502 第 6 節第 2 點：週二、週四第一節有課 R203_KAI_FIRST）、沒有＝睡到 10:00、10:30 出門；晚上 18:00～02:00；
              週六 10:00～13:00、晚上 18:00～02:00；週日 10:00～02:00；寒暑假照原本（18:00～08:00，稿「照現有」）。
-       考試週（日曆的考試週、後面還有必修的考試）：柏翰 06:00 起、00:30 才回來、01:00 上床——隔天就要考的那一晚照平常 22:30 回來（AA_502 3-2：期中考前一晚 23:30 他在房間「我要睡了。明天八點考試。」）；
+       考試週（日曆的考試週、後面還有必修的考試）：柏翰 06:00 起、00:30 才回來、01:00 上床——隔天就要考的那一晚照平常 22:30 回來（AA_502 3-2：期中考前一晚 23:30 他在房間「我要睡了。明天考試。」）；
              阿哲 21:00 就回來、00:00 上床；阿凱照常（國界膠帶是現有的事件）。颱風天（停課）大家整天在房間。
        大一上第 5 週 10/1（三）阿哲忘記帶鑰匙（AA_502 第 4 節的群組）：22:11 阿凱開門才進來（S.R203_KEY_DAY）。
      寒暑假：照週間、週末的作息，回老家的日子（presence 的 absentDates；柏翰寒假週四搭客運上來總圖也不算住宿舍）不在。
-     照作息該在房間、作息表（daily_schedule、邀約、上課）寫他在別的地方（例：阿凱週日 21～22 在洗衣間、阿哲週日中午 118 巷）＝那段時間不在房間 */
+     照作息該在房間、作息表（daily_schedule、邀約、上課）寫他在別的地方（例：阿凱週日 21～22 在洗衣間、阿哲週日中午 118 巷）＝那段時間不在房間。
+     AA_502 第 6 節（AA-C 2026-10-28 回 LAWWW-C 的 8 點）：上面阿凱的課表、柏翰週日早上、阿哲週末、考試週、2/22 群組都照這一份；暑假 203 只剩祐廷和阿凱（6/15 阿哲、柏翰搬出），阿凱 9/6 才搬去別棟。
+       兩個例外在 DORM203.planFix（src/dorm203_3d.js）：ev_kai_late_screen 演的那一晚阿凱到 03:30；3-5 借襯衫演完阿哲就出門、22:00 回來 */
   const R203_KAI_FIRST=[2,4];
   S.R203_KEY_DAY='2025-10-01';
   S.R203_SEAT={kai:'R2',zhe:'L1',classmate_bohan:'R1'};
   S.r203On=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||!F.DORM_FOUR||F.ROOM_Y2||typeof CALENDAR==='undefined') return false; const a=S.dayOfKey('2025-08-29'); return a!=null&&G.day>=a&&S.kaiRoommate(G); };
   const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required'&&e.kind===t.exam).map(e=>e.day); }catch(e){ return []; } };   /* 這一次考試週（期中或期末）的必修考試日 */
-  S.r203Plan=function(G,id,d){ if(typeof CALENDAR==='undefined') return []; const wd=CALENDAR.dateOf(d).wd, t=CALENDAR.termOf(d), hol=!!CALENDAR.holiday(d), ty=!!(CALENDAR.typhoon&&CALENDAR.typhoon(d));
+  S.r203Plan=function(G,id,d){ const L=r203Base(G,id,d); if(typeof DORM203!=='undefined'&&DORM203.planFix){ try{ return DORM203.planFix(G,id,d,L)||L; }catch(e){ console.warn('DORM203.planFix',e); } } return L; };
+  const r203Base=function(G,id,d){ if(typeof CALENDAR==='undefined') return []; const wd=CALENDAR.dateOf(d).wd, t=CALENDAR.termOf(d), hol=!!CALENDAR.holiday(d), ty=!!(CALENDAR.typhoon&&CALENDAR.typhoon(d));
     const ex=r203Exams(G,t), exAM=ex.some(e=>e>=d), exPM=ex.some(e=>e>d), pre=ex.includes(d+1);
     if(id==='kai'){ if(!t) return [[18,32,'door','door']]; if(ty||wd===7) return [[10,26,'bed','bed']]; const eve=[18,26,'door','bed'];
       if(wd===6) return [[10,13,'bed','door'],eve]; return [!hol&&R203_KAI_FIRST.includes(wd)?[7,8,'bed','door']:[10,10.5,'bed','door'],eve]; }
@@ -2939,6 +2942,18 @@ const STORY = (function(){
   S.r203Gone=function(G,id){ const t=G.day*24+(+G.hour||0), hr=h(G); if(r203Iv(G,id,t)) return {bed:false,at:hr}; let best=null;
     for(const d of [Math.floor(t/24),Math.floor(t/24)-1]){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const b=d*24+p[1]; if(b<=t+1e-9&&t-b<12&&(!best||b>best.b)) best={b,bed:p[3]==='bed'}; } }
     return best?{bed:best.bed,at:((best.b%24)+24)%24}:{bed:false,at:hr}; };
+  /* 現在在上舖睡覺：不在作息的那一段裡、上一段（12 小時內）是爬上舖結束的（回老家、出門的不算）*/
+  S.r203InBed=function(G,id){ if(!S.r203On(G)) return false; const t=G.day*24+(+G.hour||0); return !r203Iv(G,id,t)&&S.r203Gone(G,id).bed; };
+  /* ev_dorm_late_kai 四人房那一行（AA_502 第 6 節第 8 點）：'both' 阿哲、柏翰都上床了／'zhe' 只有阿哲（考試週柏翰還沒回來）／'bohan' 只有柏翰／'none' 都不在；不是 203 四人房的時期＝null */
+  S.r203Beds=function(G){ if(!S.r203On(G)) return null; const z=S.r203InBed(G,'zhe'), b=S.r203InBed(G,'classmate_bohan'); return z&&b?'both':z?'zhe':b?'bohan':'none'; };
+  /* 手機「朋友」、大地圖的人物線索（S.whereIs）：203 四人房的時期，室友在房間（書桌前、或在上舖睡覺）照上面的作息——AA_502 第 6 節第 8 點「手機朋友頁的阿凱：照新作息（週二、四到 08:00，其他天到 10:30）」。
+     「到」＝他走出宿舍的時間（往後找第一段「出門」結束的）；在上舖睡覺寫「睡覺」（原本整晚寫「在書桌前，到 08:00」）。不在房間＝null（照原本的作息表）*/
+  S.r203Where=function(G,id){ if(!S.r203On(G)||!S.R203_SEAT[id]) return null; const t=G.day*24+(+G.hour||0), iv=r203Iv(G,id,t); let act=null;
+    if(iv){ if(iv.ty||!r203Away(G,id)) act=ACT.desk; } else if(S.r203Gone(G,id).bed) act='睡覺';
+    if(!act) return null; let end=null;
+    for(let d=Math.floor(t/24)-1;d<=Math.floor(t/24)+3&&end==null;d++){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const b=d*24+p[1]; if(p[3]==='door'&&b>t+1e-9){ end=b; break; } } }
+    if(end==null) return null; const e=((end%24)+24)%24, eh=Math.floor(e+1e-9), em=Math.round((e-eh)*60);
+    return {zone:'dorm',room:null,act,until:String(eh).padStart(2,'0')+':'+String(em).padStart(2,'0')}; };
   /* 生一個室友（n.dorm＝他的座位，S.dormLive 才會管他）：walk＝走到自己的書桌前坐下（from 'bed'＝從自己的梯子下來，否則從門口進來）；不 walk＝直接坐好。
      從門口進來的那一刻，203 四人房多一句旁白（AA_502 第 1 節，DORM203.walkIn）*/
   S.dormSpawn=function(GM,id,u,walk,from){ const E=GM.E; if(GM.npc[id]) return GM.npc[id]; const st=dormSeat(u), U=typeof DORM_ROOM!=='undefined'&&DORM_ROOM.units.find(q=>q.id===u);
@@ -4282,6 +4297,7 @@ const STORY = (function(){
     const pr0=S.presence(id,G); if(!pr0.here&&pr0.kind!=='taipei') return pr0.away?{zone:null,act:'',away:pr0.away}:null;
     if(LEGACY_IDS.includes(id)&&(!legacyOk(id,c,G)||F.classNow)) return null;
     const ent=schedEnt(c,G); const school=(id==='kexin'&&S.isEcon(G))?(G.day<S.dayOfKey('2025-02-01')?'台大':'家裡'):c.school;   /* 經濟系那一年可昕是台大經濟系（2025-02 起休學在家），不是政大（2026-10-18 使用者：「杜可昕顯示在政大」）*/
+    if(id==='kai'&&(!ent||ent.zone==='dorm')){ const w=S.r203Where(G,id); if(w) return w; }   /* 大一 203 四人房：阿凱照 AA_502 的作息（週二、四到 08:00，其他天到 10:30；上舖睡覺寫「睡覺」）；作息表寫他在別的地方（洗衣間、約好的）照作息表 */
     if(!ent) return pr0.kind==='taipei'?(pr0.away?{zone:null,act:'',away:pr0.away}:null):(school?{zone:null,act:'',away:'在'+school}:null); const end=ent.to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60), until=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
     if(ent.zone==null) return ent.away?{zone:null,act:ACT[ent.act]||'',away:ent.away,until}:null;   /* 不在遊戲的場景裡（例：在小福吃午餐）*/
     return {zone:ent.zone, room:ent.room||null, act:ent.label||ACT[ent.act]||'', until}; };   /* label：這一筆自己的說法（芷若：「剛下課，在 101 門口」）*/
