@@ -34353,6 +34353,54 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "PHONE-PENDING-STALE-1028",
+   "title": "手機對話串的「待回覆」只算還回得了的問句（過期、回過、群組次數用完不算）",
+   "area": "META",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "使用者 10-28 01:1x「爸爸訊息一直有待回復 也沒有回復的選項」（UA-LAWWW-1028-07；USER_WANTS X121）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:2x UTC】eb483dfa3：PHONE.threads 的 pending 改照 PHONE.askOpen；tests/phone_pending_stale_unit.js（修改前 FAIL）；放 v9.10.12；BB：週四 20:00 家人群組不回，過 22:00 看列表沒有「待回覆」",
+   "sha": "eb483dfa3"
+  },
+  {
+   "id": "HEROINE-LIFE-1028",
+   "title": "女主角有自己的生活（看得見）：校園裡和自己的朋友、社團、打工在一起；她的事自己往前走（比賽、考試、家裡、打工、吵架），從她的動態、別人的閒聊、她的私訊知道；訊息講她自己的事",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」（UA-LAWWW-1028-08；USER_WANTS X122）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "玩家看得到女主角不只繞著自己轉：有朋友、有自己的事、會講自己的生活",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

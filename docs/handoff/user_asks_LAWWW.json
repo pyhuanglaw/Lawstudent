@@ -1394,6 +1394,24 @@
    "status": "進行中",
    "wants": "X119",
    "task": "NPC-STORY-1028"
+  },
+  {
+   "id": "UA-LAWWW-1028-07",
+   "at": "2026-10-28T01:1x",
+   "quote": "爸爸訊息一直有待回復 也沒有回復的選項",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X121",
+   "task": "PHONE-PENDING-STALE-1028"
+  },
+  {
+   "id": "UA-LAWWW-1028-08",
+   "at": "2026-10-28T01:2x",
+   "quote": "可攻略女主角 感覺都沒有自己的生活",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X122",
+   "task": "HEROINE-LIFE-1028"
   }
  ]
 }
