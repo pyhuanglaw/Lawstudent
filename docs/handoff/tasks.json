@@ -34269,6 +34269,60 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "area": "Y1S1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一週上課、走在校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "NPC-PRUNE-1028",
+   "title": "法律系的名字同學少而有記憶點：20 個沒故事的（UNFAMILIAR_POOL pool_1～20）拿掉名字變路人；AA 挑少數幾個補成有個性、有小故事、會主動傳訊息的配角；已有劇情的配角無聊的重寫；舊存檔怎麼淡出",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 00:5x 對 LAWWW-C（UA-LAWWW-1028-03；USER_WANTS X119）",
+   "next": "【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：名單（留誰、拿掉誰）、留下來的每人一條小故事＋主動訊息、舊存檔淡出；LAWWW 照名單改 characters.js、課堂與偶遇的名單、舊存檔遷移",
+   "xai": {
+    "spec": "使用者原話＋LAWWW 做法（UA-LAWWW-1028-04，待使用者確認）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "玩家記得住遇到的每一個有名字的同學；沒故事的不再有名字",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "area": "Y1S1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一週上課、走在校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "id": "CROWD-DEPTS-1028",
+   "title": "路人分科系：通識課、椰林大道、體育館、圖書館的人各系都有，講話說自己是哪一系、聽到的對話照系別；法律系必修課才全是法律系",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 00:5x 對 LAWWW-C（UA-LAWWW-1028-03；USER_WANTS X120）",
+   "next": "【LAWWW-C 2026-10-28 01:0x UTC】AA-C 寫各系路人的講話句、聽到的對話；LAWWW 改 crowd3d.js、課堂的同學名單（通識課混系）；LAWWW2 看外觀要不要分（實驗衣、球衣…）",
+   "xai": {
+    "spec": "使用者原話",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "校園、通識課、體育館看得出各系的學生",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
