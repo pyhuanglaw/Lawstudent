@@ -98,7 +98,7 @@ const expectRow=(term,r)=>{ const [pre,id]=WHO[r.sec]; return {id:pre+r.n+(term=
 const C=x=>JSON.stringify(x);
 const strs=S=>{ const L=[]; const add=x=>{ if(x!=null&&x!=='') L.push(x); }; for(const p of S.posts){ add(p.pic); add(p.say); for(const x of p.cm||[]) add(x); for(const x of p.dm||[]) add(x); } return L; };
 /* AA_510 x-2「她自己的事」：「N. **…**（什麼時候）：動態第 K 則…」*/
-const x2Of=md=>{ const out=[]; let sc=null; for(const l of md.split('\n')){ let m; if((m=/^### (\d)-(\d)\. /.exec(l))){ sc=m[2]==='2'?m[1]:null; continue; } if(/^##? /.test(l)){ sc=null; continue; } if(!sc) continue;
+const x2Of=md=>{ const out=[]; let sc=null; for(const l of md.split('\n')){ let m; if((m=/^### (\d)-(\d)\. /.exec(l))){ sc=m[2]==='2'&&WHO[m[1]]?m[1]:null; continue; }   /* 1～7 節（0-2 是給 LAWWW 的）*/ if(/^##? /.test(l)){ sc=null; continue; } if(!sc) continue;
     if((m=/^(\d+)\. \*\*(.+?)\*\*（([^）]*)）：(.*)$/.exec(l))) out.push({sec:sc,n:+m[1],what:m[2],when:m[3],rest:m[4]}); else if(/^\d+\. /.test(l)) out.push({sec:sc,bad:l}); } return out; };
 /* 「別人說起她」（x-4）：「- 名字（…）：「句子」」、「> 名字：句子」*/
 const heardOf=md=>{ const out=[]; let on=false; for(const l of md.split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -236,7 +236,7 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 畢業以後篇跳時間',false,
     want.length===42&&!missOf(tw).length&&tw.stops.length>=5,J({miss:missOf(tw),stops:tw.stops}));
   const y5=SET.PG.posts.filter(p=>{ const w=twOf(p.id); return w.day>=DK('2029-09-03')&&w.day<=DK('2029-12-23'); }).map(p=>p.id);
   check('5. 交換延畢（日本路線，2029-09-03～12-23 是大五上 CALENDAR.termOfDelayed；也是畢業以後篇的跳時間）：每一則都看得到，大五上那 '+y5.length+' 則也是',
-    !missOf(jp).length&&y5.length===8&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
+    !missOf(jp).length&&y5.length===9&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
   check('5. 在麵店團、「走啦」、家族群組（停點多）：每一則都看得到',!missOf(gp).length,J({miss:missOf(gp),n:gp.stops.length}));
   check('5. 最後一站是最後一則動態（2030-12-22 22:07 芷若的存摺）以後一分鐘，接著就是尾聲（2034-06-03 19:00）',[tw,jp,gp].every(w=>w.stops[w.stops.length-1].at==='2030-12-22 22:08'&&w.next===EPI()),J([tw,jp,gp].map(w=>[w.stops[w.stops.length-1],w.next])));
   /* 反例：拿掉保留規則（FEED.pgJumping 壓成負的＝跳的途中不記）同一條路，跳過的期間就過期 */
@@ -286,7 +286,8 @@ await sec('6',async()=>{ if(!HAS2()){ check('6. 保留規則',false,'沒有資�
   check('6. 落地的是出遊（10/20 19:00，停在 18:45 問「出發」）：問的時候、演的途中都不記 back；演完（21:00）才記，從那一刻起七天',
     Math.abs(tf-T(D1020,18.75))<1e-6&&f1==null&&f2==null&&f3===T(D1020,21)&&HT().includes('吧檯後面的掛鉤'),J({tf:tf-T(D1020,0),rf,f1,f2,f3}));
   /* G 真的 PG.advance：第一份工作（2030-10-01）以後、尾聲以前停在最後一則動態 */
-  const D1001=DK('2030-10-01'); pgGrad(D1001,21.5,{}); PG.rec(H.G).done.first=1; H.G.flags.FIRST_DAY_SEEN=true; who('heroine_01','FRIEND'); who('heroine_05','FRIEND'); tickF();
+  const D1001=DK('2030-10-01'), Y4F={GRADUATED:DK('2029-06-02'),GRAD_DONE:true,MOVED_OUT:DK('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true};   /* [前置] 6/28 退宿過（同 tests/y5_delay_unit.js 的 grad）*/
+  pgGrad(D1001,21.5,Y4F); PG.rec(H.G).done.first=1; H.G.flags.FIRST_DAY_SEEN=true; who('heroine_01','FRIEND'); who('heroine_05','FRIEND'); tickF();
   const st=PG.nextStop(H.G); H.cards=[]; PG.busy=true; let adv; try{ adv=await PG.advance(GM); } finally { PG.busy=false; } tickF(); const gv=visIds(), card=H.cards.map(c=>c[0]);
   check('6. 真的 PG.advance（2030-10-01 21:30，以安、學姊都是朋友）：下一站是學姊 12/22 21:00 那則以後一分鐘（不是 2034 的尾聲）；落地以後以安 11/11、學姊 12/22 都看得到',
     Math.abs(st-T(DK('2030-12-22'),21+1/60))<1e-6&&adv===true&&key(H.G.day)==='2030-12-22'&&gv.includes('an4i')&&gv.includes('sis4i')&&card.some(c=>/^12\/22/.test(c))&&PG.nextStop(H.G)===EPI(),J({st:st-T(DK('2030-12-22'),0),gv,card,next:PG.nextStop(H.G)}));
