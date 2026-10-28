@@ -152,6 +152,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_us_first_snow', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
       {if:{flags:['US_SNOW_LATE']},speaker:null,text:'（你還是去了。雪下得很小，她坐在台階最上面一階。）'},   /* 20:30 以後、21:30 還沒到＝帶到場 */
+      {if:{flags:['SIS14_COAT']},speaker:null,text:'（你穿著那件外套。她也是。）',aa516:true},   /* AA_516 4-3（企劃線 a9b87c588）：SU-L7「好。週六。」那一趟買了外套（src/sis_b14_3d.js）＝開頭多一句 */
       nar('（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'),
       sis('剛買的。……還燙。'),
       nar('（雪開始下。一開始很小，落在杯蓋上就化了。）'),
@@ -203,7 +204,8 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-22 離開、舊金山、12/23 回臺灣（AA_291 2-2、第 5 節；BB_183 第 5 節；AA_253 9-2；AA_144 X2）---- */
   EV.push({ id:'ev_us_leave', title:'離開', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ {unless:{custom:LONG},goto:'n'},
+    dialogue:[ {if:{flags:['SIS14_BOOK4']},speaker:null,text:'（你的背包裡多了一本她的書。比你自己的三本都重。）',aa516:true},   /* AA_516 4-5（企劃線 a9b87c588）：SU-L8 選「那這次超重什麼？」（她回「第四本你幫我拿。」，src/sis_b14_3d.js 記 SIS14_BOOK4）＝開頭多一句 */
+      {unless:{custom:LONG},goto:'n'},
       nar('（天還沒亮。何俊朗拖著兩個行李箱，背包上的奶茶杯鑰匙圈在晃。）'),
       {speaker:'何俊朗',text:'我的飛機比你早。……香港見？'},
       {choice:[{text:'「香港見。」',goto:'a'},{text:'「還好。」',goto:'b'}]},
