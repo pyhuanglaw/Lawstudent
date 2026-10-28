@@ -35385,7 +35385,7 @@
    "title": "AA_518 學姊第十五批：學校裡的平常日子（大一～大三在臺灣）——寒暑假補九場（認識以上，總圖／法圖位置觸發接 2D）、家族讀書會四次（大三週四 19～21 法圖討論室，Kevin 前一天揪，D 也能認識她）、說了沒發生十件、前後對不上十五處",
    "area": "Y1S2",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "AA-C 973dd1b74（AA_518，SIS-LEAD-1021，USER_WANTS C25）",
    "first": {
@@ -35405,7 +35405,7 @@
     "receiver": "BB",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
+   "next": "【LAWWW-C 2026-10-28 12:5x UTC】合進開發分支 6f3897984（子代理 e52d23bd8；新檔 sis_b15_events.js、sis_b15_3d.js；characters.js 作息、closed3d、termend、feed、privtalk「學姊美國交換」pub、events C1／研究所說明會要 met_sis、heroine_circle 4-13、vac3d、game3d 一行、ladder _fix S4-L7／L8）；aa518 174 項 ALL PASS（修改前 FAILED 30）、改 10 支舊測試期待值、相關 26 支 0 失敗、子代理分支全部 Node 726 支 0 失敗；子代理解讀 26 點（最重要：3-8 和期末飯原有「第三次他說可以。這一頓我請。」矛盾）轉 AA；沒做到：3/16 便當用 2D 出遊（不是 3D 走去 5F）、3-2 期中考那場和其他說話前場景只單向互斥；BB 照第 5 節六項（排在 v9.10.13 發布以後）｜【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
   },
   {
    "id": "NPC-STORY2-1028",

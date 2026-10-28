@@ -1333,7 +1333,7 @@
    "id": "WIP-LAWWW-SISB15-1028",
    "role": "LAWWW",
    "task": "SIS-B15-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "9b56bc2aa、d878000c7",
    "branch": "worktree-agent-a24dd2e4efb2c0c15（子代理；D113 備份 wip_backup/sisb15_1028.bundle）",
    "files": [
@@ -1342,7 +1342,8 @@
    "todo": "AA_518 學姊第十五批：第 1～4 節接線初版、tests/aa518 173 項 ALL PASS；修改前的數字、舊測試、全部 Node 還沒跑（做中）",
    "next": "子代理做完回報 → LAWWW 合併（heroine_circle.js、privtalk3d.js 和別的子代理同時改）、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 11:54（AA_518 973dd1b74，DL-AA-518）"
+   "source": "AA-C 2026-10-28 11:54（AA_518 973dd1b74，DL-AA-518）",
+   "closedBy": "6f3897984（合併子代理 e52d23bd8；aa518 174 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-PRIVAUNT2-1028",
