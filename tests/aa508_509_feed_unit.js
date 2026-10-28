@@ -25,6 +25,8 @@
 //   第 1～5、8 段各 1 項（沒有資料就停）、第 6 段 4 項（第四輪的句子 0 句、稿上 22 句沒有、閒聊前一句 0 句、例外）、
 //   第 7 段 4 項（京都那一則照臺灣 21:00 出、沒有記是哪一趟；回來沒有記 back；回來以後已經不在動態裡、不能回；途中貼的二十天後不在）。
 //   修改後 ALL PASS（99 項）。用法：node tests/aa508_509_feed_unit.js
+// 第五輪（AA-C 10-28 06:03「說話的人不在遊戲裡沒做的，照新規則補」）改的只有第 6 段：曾靖雯（pool_7）AA_508 那一句接進遊戲——第四輪的句子 22→23、閒聊前一句 7→8、
+//   「沒做」拿掉那一句（其他照舊，原因照新規則寫）。加句子以後、這裡還沒改的時候實際跑：FAILED 3（這三項）；改了以後 ALL PASS。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -341,16 +343,17 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
 await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,'沒有 HEARD'); return; }
   const HL=HEARD_LINES, all=[]; for(const e of HL.talk) all.push([e.src&&e.src.split(' ')[0],e.t,e.id]); for(const e of HL.phone) for(const it of e.items) all.push([e.src&&e.src.split(' ')[0],it[2],e.id]);
   const mine=all.filter(x=>x[0]==='AA_508'||x[0]==='AA_509'), DOCS={AA_508:doc.Y3S2,AA_509:doc.Y4S1};
-  check('6. 第四輪的句子（'+mine.length+' 句）都在它那一份稿裡（28f981438，一字不差）；HEARD_LINES.src 記 AA_508／AA_509＝28f981438',mine.length===22&&mine.every(([s,t])=>DOCS[s]&&DOCS[s].includes(t))&&HL.src.AA_508===SHA&&HL.src.AA_509===SHA,J(mine.filter(([s,t])=>!(DOCS[s]&&DOCS[s].includes(t)))));
+  check('6. 第四輪的句子（'+mine.length+' 句；第五輪補了曾靖雯 AA_508 那一句）都在它那一份稿裡（28f981438，一字不差）；HEARD_LINES.src 記 AA_508／AA_509＝28f981438',mine.length===23&&mine.every(([s,t])=>DOCS[s]&&DOCS[s].includes(t))&&HL.src.AA_508===SHA&&HL.src.AA_509===SHA,J(mine.filter(([s,t])=>!(DOCS[s]&&DOCS[s].includes(t)))));
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_508','AA_509']){ let on=false, last=''; for(const l of (DOCS[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
       if((m=/^\s*- (.+?)：「([^」]*)」/.exec(l))){ last=m[1]; heard.push([k,m[1],m[2]]); }
       else if((m=/^\s*> ([^：]+)：(.+)$/.exec(l))) heard.push([k,m[1],m[2].trim()]);
       else if((m=/^\s*- ([^：「]+)：\s*$/.exec(l))) last=m[1]; } }
-  const NOT_DONE={'以安在日本也坐第一排。她傳了一張照片給我，就是教室的第一排。':'曾靖雯 pool_7','學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'阿凱（大二起住別棟，3D 裡沒有他）','子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'葉晨希 pool_11',
+  /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）AA_508 那一句已經接進遊戲（talk），從這裡拿掉；其他照舊（原因照新規則寫）*/
+  const NOT_DONE={'學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
+    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'阿凱（大二起住別棟，那段時間 3D 裡沒有他）','子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'葉晨希 pool_11（等 AA_500）',
     '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'阿凱（3D 裡沒有他）','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'葉晨希 pool_11'};
+    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'阿凱（那段時間 3D 裡沒有他）','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'葉晨希 pool_11（等 AA_500）'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟、阿凱），沒有漏掉',
     heard.filter(x=>x[0]==='AA_508').length===13&&heard.filter(x=>x[0]==='AA_509').length===17&&!miss.length&&!extra.length,J({miss,extra}));
@@ -362,7 +365,7 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
     setupT(e,a.day,a.h!=null?a.h+0.01:12); const i1=HEARD.talkDue(H.G,e.who); setupT(e,a.day-1,23.9); const i0=HEARD.talkDue(H.G,e.who);
     let ok=!!i1&&i1.id===e.id&&(!i0||i0.id!==e.id); if(b){ setupT(e,b.day,12); const l=HEARD.talkDue(H.G,e.who); setupT(e,b.day+1,12); const n=HEARD.talkDue(H.G,e.who); ok=ok&&!!l&&l.id===e.id&&(!n||n.id!==e.id); }
     if(!ok) bad.push(e.id); }
-  check('6. 閒聊前一句 '+T4.length+' 句（筱涵兩句、陳助教兩句、柏翰兩句、以安說語彤）在它的那幾天才說',T4.length===7&&!bad.length,J(bad));
+  check('6. 閒聊前一句 '+T4.length+' 句（筱涵兩句、陳助教兩句、柏翰兩句、以安說語彤、第五輪補的曾靖雯一句）在它的那幾天才說',T4.length===8&&!bad.length,J(bad));
   const W=k=>CALENDAR.dateOf(HEARD.when(k).day).key;
   check('6. 時間照稿：筱涵大三下第 3 週起、大四上第 7 週起；陳助教 6/23 21:00 以後（暑假也說）、1/1 起；柏翰大三下第 8 週起、大四上第 11 週週日 19:30 起；以安 11/30 交棒以後',
     W('Y3S2:W3一')==='2028-03-06'&&W('Y4S1:W7一')==='2028-10-16'&&W('Y3S2:W8一')==='2028-04-10'&&W('Y4S1:W11日 19:30')==='2028-11-19'&&W('Y3S2:end')==='2028-09-03'&&W('Y4S1:end')==='2029-02-18'
