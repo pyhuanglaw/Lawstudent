@@ -1285,7 +1285,7 @@
    "id": "WIP-LAWWW-SISB14-1028",
    "role": "LAWWW",
    "task": "SIS-B14-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "7af601fa0、1acd3321d",
    "branch": "worktree-agent-ac1c5efa9256fe619（子代理；D113 備份 wip_backup/sisb14_1028.bundle）",
    "files": [
@@ -1294,7 +1294,8 @@
    "todo": "AA_516 學姊第十四批：新檔 sis_b14（第 2、4 節）、第 1 節十二處修正、舊測試照改（做中）",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 09:52（AA_516 a9b87c588，DL-AA-516）"
+   "source": "AA-C 2026-10-28 09:52（AA_516 a9b87c588，DL-AA-516）",
+   "closedBy": "a436323c2（合併子代理 c1f8c776a；aa516 105 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-DORMY24FIX-1028",
