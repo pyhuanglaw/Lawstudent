@@ -35284,6 +35284,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 10:2x UTC】開發分支 0d00c28b5（zones3d.js lmWired：接過的材質不再包，只換貼圖、更新同一組 uniform）；tests/linze_lightmap_unit.js 第 4 段（改前 FAIL 1、改後 ALL PASS）；v9.10.13 rc2 da50fbdc1；BB 重拍大廳（進兩次、白天晚上）、201／202／多功能教室；請 LAWWW2 看改法（D108）"
+  },
+  {
+   "id": "DORM-Y24-AAFIX-1028",
+   "title": "AA_517 第 5 節（4e703821a，回 LAWWW-C 四問）：①2-3 第 3 列＝ev_cold_week_night 而且那晚阿凱有來（COLD_WEEK_PRESENT 有阿凱），沒來不出 ②沛珊分開那一列：沛珊和柏翰交往過、到了分開那一週以後、祐廷沒和沛珊交往就出（不看玩家知不知道）③美國路線 2-4 第 1 列從大四下開學 2029-02-19 起算四週 ④三件小事那晚玩家不在：3-1 隔天第一次進 312 補一句旁白、3-2 23:50 群組換兩則、3-3 23:40 群組換三則（旗標都不記）",
+   "area": "Y2S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_517 第 5 節（企劃線 4e703821a；outbox c8f794db5）",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上回到宿舍房間",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 10:2x UTC】派子代理（dorm_y24_3d.js、dorm_y24_lines.js、tests/aa517 逐字對稿；白名單 AA_517 → 4e703821a）；下一版"
   }
  ]
 }
