@@ -34868,7 +34868,7 @@
    "title": "讀檔時收掉舊劇情：applySave 時 resolve 掉開著的對話框和選項、清 sayStack，加讀檔世代號（say／choose／sceneEnd 看到世代不同就不演、不寫旗標）——避免卡住讀檔（stale）以後，舊劇情從 GM.sleep、走路到達這類 await 醒來，在新的一局接著演、把旗標寫進新存檔",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 2026-10-28 07:31（5q sh_reload：【捷徑】對話框開著時 GAME.applySave，阿姨諮詢在新的一局接著演；正常 UI 走不到——loadFrom 在 busy 時擋、stale 排除對話框開著；剩下 stale 讀檔時舊劇情卡在 await 的風險）；STUCK-HARDEN-1027 的後續",
    "first": {
@@ -34882,7 +34882,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
-   "note": ""
+   "note": "｜【LAWWW-C 07:4x】做進 c1e7a32d7（GM.loadGen、sleep／walkTo 世代不同不醒、applySave 收掉對話框和選項）；tests/load_gen_abort_unit.js 改前 FAILED 5、改後 ALL PASS；BB 照 sh_reload 驗"
   }
  ]
 }
