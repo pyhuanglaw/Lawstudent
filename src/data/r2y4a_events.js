@@ -63,6 +63,11 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-17 US2 退回的報告（C 棟 208 廚房；溫書瑀_角色企劃 US2、BB_98 2-8、BB_217）：交往中＝9/13 18:30～19:30 坐到窗口外側的高腳椅（usShared:'bar'）就開始 ---- */
   const US2_DAY=G=>{ const d=D('2028-09-13'), hh=((G.hour%24)+24)%24; return d!=null&&G.day===d&&hh>=18.5&&hh<19.5; };
   const onBar=GM=>{ const P=GM&&GM.E&&GM.E.player; return !!(P&&P.seat&&P.seat.lift>0); };   /* 高腳椅（us3d.js：椅面 0.76，seat.lift＝0.31；合租戶只有吧台的高腳椅有 lift）*/
+  /* AA_516 第 8 節第 1 點、第 3 點（企劃線 3cd10909b → d6f8621ac；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
+     之後第一次「有吃東西的」208 場景多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue）。先算這一場（9/13 US2）：選「那就寫妳。」那一支接在「（她把麵分到兩個碗。）」後面（第 3 點）；
+     另外兩支（「先吃麵。」「書瑀，休息一下。」）沒有分碗那一句、稿沒給位置＝這一場不放、還沒演到，順延到 3-2 滷肉（src/us208_3d.js 的 BOWL，接在第一句旁白後面）。
+     字和 us208_3d.js 那一行相同（這個檔先載入，引用不到那邊）；aa516：tests/aa516_sis_b14_unit.js 逐句對稿用 */
+  const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
   EV.push({ id:'ev_us2_kitchen', title:'退回的報告', participants:[S5], location:'us_shared', trigger:'seat', once:true, background:'blur',
     prereq:{custom:(G,GM)=>typeof STORY!=='undefined'&&STORY.route(G)==='US'&&dating(G,S5)&&!G.flags.US2&&US2_DAY(G)&&onBar(GM)},
     dialogue:[ nar('（她在煮泡麵，兩包。）'),
@@ -73,7 +78,7 @@ const R2Y4A_EVENTS=(function(){
       sis('不過這次我知道要怎麼改了。'),
       sis('泡麵要不要。我煮了兩包。本來想說吃兩包，現在剛好一人一包。'),
       {choice:[{text:'「那就寫妳。」',goto:'a'},{text:'「先吃麵。」',goto:'b'},{text:'「書瑀，休息一下。」',goto:'c'}]},   /* 第三個照使用者 10-17「交往當天起叫書瑀」（AA_243 第 5 節第 6 題）*/
-      {label:'a'},sis('對。'),nar('（她把麵分到兩個碗。）'),sis('我要寫法服那兩年遇到的人。週六早上，那些拿著存證信函來問的阿伯阿姨。'),nar('（她拿出手機記下來。）'),sis('第一段有了。'),{goto:'end'},
+      {label:'a'},sis('對。'),nar('（她把麵分到兩個碗。）'),BOWL,sis('我要寫法服那兩年遇到的人。週六早上，那些拿著存證信函來問的阿伯阿姨。'),nar('（她拿出手機記下來。）'),sis('第一段有了。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 3 點（上面）*/
       {label:'b'},sis('……好。'),nar('（你們隔著窗口吃完泡麵。）'),sis('評價？'),me('很鹹。'),sis('我也覺得。這是我在美國學會的第一道菜。'),{goto:'end'},
       {label:'c'},sis('……休息完再改。先吃麵。'),
       {label:'end'},{set:{US2:'there'}} ] });

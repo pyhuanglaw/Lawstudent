@@ -14,7 +14,8 @@
           AA_453 1-2：8/26 早上學姊的七夕（sis_qixi3d.js 的週六市集 sisqx_2028）排了或演了＝8/25 21:00 那一則換句（S.qxOn）；七夕演過的，圖書館的第一句換句（us_blank_lines.js 的 QX）。
           9/9 上午（08:00～12:00）在公寓「洗衣機」那裡選「洗衣服」才演（社區的洗衣間）；快轉停在 9/9 11:00。
           「洗衣服」平常也可以做（40 分鐘、不加數值，同宿舍洗衣間 closed3d.js）；「只看看」＝原本「看」的字（AA_287）。
-          AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）。
+          AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）；
+          AA_516 第 8 節第 3 點的碗那一句（us208_3d.js 的 BOWL）也接在第一句旁白後面＝碗那一句在前、這一句在後。
    第 4 節 8/15 迎新週第二天的摘要（每個人都有）：那天第一次出門（人在美國、不在公寓）就演；快轉跳過 8/15 18:00 的，跳完演（包住 USL.jump）；還沒演就又快轉的，那一次快轉以前先演（AA_450 1-3）。
    第 5 節 11/11 交往中、沒有去芝加哥（US_CHICAGO 'missed'：「這週不行。」、沒回、沒趕上巴士）：日期卡＋21:00 私訊（兩個回覆，她已讀不回）。
    存檔：G.flags.USB_*（群組回法 USB_GRP_<月日>、約的回覆 USB_SAT_<月日>、迎新摘要 USB_ORIENT）、G.flags.USB_REC={grp:{月日:回的那天}}（REPAIR 算過了）；舊存檔沒有＝空的。
@@ -176,8 +177,9 @@ const US_BLANK=(function(){
 
   /* ======================= AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的開頭多一句旁白 ======================= */
   S.patchLurou=function(){ const e=evOf('ev_us208_lurou'); if(!e||!Array.isArray(e.dialogue)||e.usbPatched) return false;
-    const i=e.dialogue.findIndex(l=>!!l&&l.speaker===null&&typeof l.text==='string'&&!l.if&&!l.unless);   /* 第一句沒有條件的旁白：前面那一句有條件的（us208_3d.js 七場共用的 BOWL，AA_516 第 8 節第 1 點）不算 */
-    e.dialogue.splice(i<0?1:i+1,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」的下一句 */
+    const i=e.dialogue.findIndex(l=>!!l&&l.speaker===null&&typeof l.text==='string'&&!l.if&&!l.unless);   /* 第一句沒有條件的旁白「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」*/
+    let k=i<0?1:i+1; if(typeof US208!=='undefined'&&US208.BOWL&&e.dialogue[k]===US208.BOWL) k++;   /* AA_516 第 8 節第 3 點（d6f8621ac）：碗那一句（us208_3d.js 的 BOWL，有條件）「接在第一句旁白後面」＝它在前，這一句接在它後面（直接接她那句「亞洲超市買得到八角。」）*/
+    e.dialogue.splice(k,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句的下一句（有碗那一句＝再下一句）*/
   S.patchLurou();
 
   /* ======================= 每 0.5 秒（STORY.TICKS）：8/15 的摘要 ======================= */
