@@ -4,6 +4,7 @@
 //   R7 交往當天起祐廷說出口的「學姊」換句（兩點半 Café 選一個「書瑀。」）；掃全部事件，交往中可能播到的「學姊」都要有交往中的版本
 // 修改前（開發分支 10dc79b1）：R2 七項 FAIL 4（R2-0、R2-4、R2-5 是前提和防回歸）；R5 三項 FAIL 1（R5-1；R5-0、R5-2 是前提和防回歸）；R7 兩項都 FAIL。
 // R7-2 的表加一筆（AA_522 第 2 節，企劃線 fcc93126e；NPC-STORY2-1028）：ev_prof_xu_office 大三的選項「溫書瑀學姊是老師的學生？」是對許教授說的，和 ev_sis_office_together 同一類（對第三人說，R7 沒有寫法）：等 AA。
+//   AA 定了（AA_522 第 8 節第 2 點，f36dfe3cf）：交往中那一題換「學姊的論文，老師覺得怎麼樣？」（對許教授說，稿上就是「學姊」）；原本那一題加 unless 交往中。表上那一筆的原因照改（檢查本身沒變）。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -68,7 +69,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { /* 防回歸：祐廷說出口的「學姊」（選項、speaker player），沒有「交往中換句」的事件只能是下面這幾場（交往以前一定已經過了的；或待 AA 定的）。新加的要照 R7 換句或加進這張表並寫原因 */
     const OK={ev_sis_w1:'大一上認識她',ev_sis_fam_hall:'大一上第 2 週',ev_sis_fam_hall2:'大一上第 2 週',ev_sis_fam_dinner:'大一上家聚',ev_sis_club_expo:'大一上社團博覽會',ev_sis_festival_booth:'大一上第 11 週',ev_sis_family_dinner:'大一上第 14 週',ev_sis_empty_flask:'大一上第 8、9 週',ev_sis_canyon:'告白那一場（還沒交往）',ev_sis_w1_late:'第一次認識她的晚到版（AA_379 §3：大一下以後才第一次在 Café、法圖遇到）',
       ev_sis_office_together:'「學姊叫我來的。」是對許教授說的，R7 沒有對第三人說的寫法：等 AA',
-      ev_prof_xu_office:'大三「溫書瑀學姊是老師的學生？」是對許教授說的（AA_522 第 2 節），R7 沒有對第三人說的寫法：等 AA',
+      ev_prof_xu_office:'大三交往中那一題「學姊的論文，老師覺得怎麼樣？」是 AA 定的交往中版本（AA_522 第 8 節第 2 點，f36dfe3cf；對許教授說，稿上就是「學姊」）；沒交往的「溫書瑀學姊是老師的學生？」有 unless 交往中',
       ev_family_dinner:'大一下 3/20 咖哩；「學姊好，我是…」只在還沒認識她（沒有 SIS_W1）時說（AA_470 5-1）',ev_family_xmas_y1:'大一上 12/22 家族聖誕；同上（AA_470 5-1）',ev_sis_results_dinner_y1:'大一下 3/27 上榜聚餐；同上（AA_470 5-1）',ev_sis_fam_study:'大三上 9/16 家族讀書會；同上（AA_470 12-4）'};
     const src=v=>typeof v==='function'?String(v):JSON.stringify(v,(k,x)=>typeof x==='function'?String(x):x)||'';
     const guarded=l=>!!l.unless&&/heroine_05/.test(src(l.unless))&&/dating/.test(src(l.unless));
