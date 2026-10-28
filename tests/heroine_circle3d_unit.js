@@ -27,6 +27,14 @@
 //   7 的學姊那一項改成 12/29、1/5 不成立；6 的 story3d.js 掛勾改成 offerInvite 問 S.privOk、COMPANY 回傳 id（S.companyOf）
 //   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 5、PASS 58
 //   （FAIL＝6 的 story3d.js 掛勾、7 的學姊 12/29、8 的第 2、4、5 點；PASS＝8 的對稿、第 3 點照現在，其他原本的）。修改後 ALL PASS（63 項）。
+// 第四輪（PRIV-AUNT-1028 第二輪：AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d——白名單上 AA_503 那一版）：
+//   0  對稿多讀第 14 節後補第 9 點的表（| 學期 | 走近時聽到 |，五列：sec '14-後補9'）＝一共 107 列，雙向照舊
+//   9  大二下以後每學期阿姨那一列（c503_14_1～5）：句子逐字、做法同 c503_6_2；每一學期週二 18:30（大二下、大三上週四也是）擲到＝成立、沒擲到＝不成立（她照樣顧店）、大三下起週四不成立；
+//      大三上第 15 週週四（12/16 以後）不成立；寒暑假、畢業那年夏天、大五上下、大四下 4/24（阿姨第一次出國，dates 跳過 4/19～4/25）沒有；
+//      廚房那位就是阿姨（3D）：語彤顧店、阿姨沒擲到＝店員也不在（auntOut）；擲到＝阿姨換掉店員；語彤不在、走開、約來吃的客人、17:00、20:36＝店員在；待在店裡時間跨過、語彤進出跟著變；店員先藏、阿姨後到＝交給阿姨
+//   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/hcircle3d.js、src/data/heroine_circle.js、src/eat3d.js、src/story3d.js、src/multirel3d.js、
+//   src/data/multirel_lines.js、src/privtalk3d.js 換回開發分支 0c10b1b43，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 5、PASS 61
+//   （FAIL＝0 稿→遊戲、ref〔後補第 9 點五列沒有〕、9 對稿、9 每一學期、9 例外〔沒有 c503_14_1〕；PASS＝原本的 61 項）。修改後 ALL PASS（69 項）
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -50,6 +58,10 @@ for(const k in DOC){ let sec=null, on=false, n=0; for(const l of DOC[k].split('\
     if((m=/^### (\d+)-1\. 圈子/.exec(l))){ on=true; sec=m[1]+'-1'; n=0; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue;
     if(/^\|/.test(l)&&!/^\|---/.test(l)&&!/^\| 什麼時候/.test(l)){ const c=l.trim().replace(/^\||\|$/g,'').split('|').map(s=>s.trim()); n++; TABLE.push({doc:k,sec,k:n,when:c[0],who:c[1],where:c[2],heard:c[3]}); }
     else if(/^\s*-/.test(l)) (NOTES[k+' '+sec]||(NOTES[k+' '+sec]=[])).push(l.trim()); } }
+/* AA_503 第 14 節後補第 9 點（企劃線 f6069e42d；PRIV-AUNT-1028 第二輪）：大二下以後阿姨那幾列的「走近時聽到」（| 學期 | 走近時聽到 |，一學期一組）＝sec '14-後補9'、k＝第幾列；term＝那一學期 */
+const B9TERM={'大二下':'Y2S2','大三上':'Y3S1','大三下':'Y3S2','大四上':'Y4S1','大四下':'Y4S2'};
+{ let on=false, n=0; for(const l of (DOC.AA_503||'').split('\n')){ if(/^9\. \*\*第 8 點的範圍和走近聽到的句子\*\*/.test(l)){ on=true; continue; } if(!on) continue; if(/^(### |## |---|\d+\. )/.test(l)){ on=false; continue; }
+    if(/^\|/.test(l)&&!/^\|---/.test(l)&&!/^\| 學期/.test(l)){ const c=l.trim().replace(/^\||\|$/g,'').split('|').map(s=>s.trim()); n++; TABLE.push({doc:'AA_503',sec:'14-後補9',k:n,when:c[0],who:'阿姨',where:'麵店',heard:c[1],term:B9TERM[c[0]]||null}); } } }
 const REF=new Set(['照現有','照現有讀書會','照 2-1','照 `AA_506` 4-1','照 1-1 第二列','照 1-1']);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
@@ -103,7 +115,7 @@ const dist=(a,b)=>Math.hypot(a.obj.position.x-b.obj.position.x,a.obj.position.z-
 await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iS=sc('src/story3d.js'), iP=sc('src/pool3d.js'), iM=sc('src/multirel3d.js'), iHe=sc('src/heard3d.js'), iD=sc('src/data/heroine_circle.js'), iC=sc('src/hcircle3d.js'), iB=sc('src/data/bbpack_events.js');
   check('0. 載得到；index.html：heroine_circle.js → hcircle3d.js 在 story3d.js、multirel3d.js、pool3d.js、heard3d.js 以後，bbpack_events.js 前面',!errs.length&&HAS()&&iD>iHe&&iC>iD&&iC>iS&&iC>iP&&iC>iM&&iB>iC&&iS>0,J(errs));
   check('0. 八份稿都讀得到（git show 劇情匯入白名單上的那一版；AA_503～510）',Object.keys(DOC).length===8&&Object.values(DOC).every(d=>d.length>3000),J(Object.keys(DOC).map(k=>[k,DOCS[k][1],DOC[k].length])));
-  check('0. 稿上的圈子表一共 102 列（AA_509 七列、AA_510 五列）',TABLE.length===102&&TABLE.filter(t=>t.doc==='AA_509').length===7&&TABLE.filter(t=>t.doc==='AA_510').length===5,TABLE.length+' 列');
+  check('0. 稿上的圈子表一共 107 列（AA_509 七列、AA_510 五列、AA_503 第 14 節後補第 9 點五列）',TABLE.length===107&&TABLE.filter(t=>t.doc==='AA_509').length===7&&TABLE.filter(t=>t.doc==='AA_510').length===5&&TABLE.filter(t=>t.sec==='14-後補9').length===5,TABLE.length+' 列');
   const D=HD(), byPos={}; for(const r of D.ROWS) byPos[r.doc+' '+r.sec+' '+r.k]=r;
   const miss=[], badRef=[]; for(const t of TABLE){ const r=byPos[t.doc+' '+t.sec+' '+t.k]; if(!r||r.heard!==t.heard) miss.push(t.doc+' '+t.sec+' 第'+t.k+'列：'+t.heard.slice(0,20)+(r?' ≠ '+String(r.heard).slice(0,20):'（沒有）'));
     else if(REF.has(t.heard)!==!!r.ref) badRef.push(r.id); }
@@ -369,6 +381,52 @@ await sec('8',async()=>{ if(!HAS()){ check('8. HCIRCLE',false); return; }
     check('8. 第 5 點：語彤暑假週四在麵店（c510_3_2）：進門那一刻坐在長桌最裡面、靠廚房的位子（x=3、z=−0.3）讀書；客人（剛進門還站著的玩家、走進來的客人）＝站在長桌那一頭、門口那一側（x 4.15、z 1.1，面向門口）；客人都坐下＝坐回去；20:30 那一列結束照作息走開',
       on&&!!s0&&s0.x===3&&Math.abs(s0.z+0.3)<1e-9&&p0==='read'&&!s1&&Math.abs(at1.x-4.15)<0.01&&Math.abs(at1.z-1.1)<0.01&&Math.abs(y1-Math.atan2(0-4.15,3.5-1.1))<0.01&&!!s2&&s2.x===3&&Math.abs(s2.z+0.3)<1e-9&&!s3&&s4&&away,
       J({on,s0,p0,s1,at1,y1,s2,s3,s4,away})); } });
+
+/* ---------- 9 第四輪（PRIV-AUNT-1028 第二輪：AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d）：大二下以後每學期阿姨那一列、廚房那位就是阿姨 ---------- */
+await sec('9',async()=>{ if(!HAS()){ check('9. HCIRCLE',false); return; }
+  const IDS=['c503_14_1','c503_14_2','c503_14_3','c503_14_4','c503_14_5'], rows9=IDS.map(id=>R(id)), B9=TABLE.filter(t=>t.sec==='14-後補9'), base=R('c503_6_2');
+  /* (a) 對稿＋做法同 c503_6_2 */
+  const badA=[]; B9.forEach((t,i)=>{ const r=rows9[i]; if(!r||r.heard!==t.heard||!t.term||J(r.terms)!==J([t.term])) badA.push((r&&r.id)+':'+t.when); });
+  const same=r=>!!r&&J(r.with)===J(base.with)&&J(r.days)===J(base.days)&&r.from===base.from&&r.to===base.to&&r.zone===base.zone&&r.act===base.act&&J(r.comp)===J(base.comp)&&!r.always&&!r.once&&r.doc==='AA_503';
+  check('9. 對稿（AA_503 '+DOCS.AA_503[1]+' 第 14 節後補第 9 點的表）：c503_14_1～5＝大二下、大三上、大三下、大四上、大四下各一列，「走近時聽到」逐字＝那一學期那一格；做法同 c503_6_2（阿姨、週二四 17:30～20:30、麵店顧店、阿姨站店員的位置、沒寫一定同框）',
+    B9.length===5&&!badA.length&&rows9.every(same)&&J(B9.map(t=>t.term))===J(['Y2S2','Y3S1','Y3S2','Y4S1','Y4S2']),J({n:B9.length,badA,terms:B9.map(t=>t.term)}));
+  /* (b) 每一學期 18:30：她照作息在麵店顧店的週二（週四）＝擲到那一天成立（labelIn）、沒擲到那一天不成立；週四照作息不在店裡的學期週四都不成立 */
+  const yt=()=>{ const e=ent('heroine_03'); return !!e&&e.zone==='noodle'&&e.act==='help'; };
+  const per={}; for(const r of rows9){ if(!r) continue; const T=r.terms[0], q=CALENDAR.termDays(T), o=per[T]={tueOn:0,tueOff:0,thuOn:0,thuOff:0,thuYt:0,bad:0};
+    for(let d=q.from;d<=q.to;d++){ const wd=wdOf(d); if(wd!==2&&wd!==4) continue; fresh(d,18.5,'noodle'); const m=yt(), on=HCIRCLE.on(r,H.G), li=HCIRCLE.labelIn(H.G,'hc_ayi','noodle');
+      if(on!==li||(on&&!m)) o.bad++; const k=wd===2?'tue':'thu'; if(m){ if(k==='thu') o.thuYt++; o[k+(on?'On':'Off')]++; } } }
+  const P=per, ok=['Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'].every(T=>P[T]&&!P[T].bad&&P[T].tueOn>0&&P[T].tueOff>0)&&P.Y2S2.thuOn>0&&P.Y3S1.thuOn>0&&['Y3S2','Y4S1','Y4S2'].every(T=>P[T].thuYt===0&&P[T].thuOn===0);
+  check('9. 每一學期週二 18:30（大二下、大三上週四也是）：她照作息在麵店顧店、那一天擲到＝阿姨那一列成立（HCIRCLE.labelIn＝在），沒擲到＝不在（語彤照樣顧店）；大三下起週四她不在店裡（田野、總圖）＝週四都不成立',ok,J(per));
+  { const r=R('c503_14_2'), t15=TD('Y3S1',15,4), t14=TD('Y3S1',14,4); fresh(t15,18.5,'noodle'); const a=yt(), b=HCIRCLE.on(r,H.G); fresh(t14,18.5,'noodle'); const c=yt();
+    check('9. 大三上：週四到事件 13（12/16）以前在店裡；第 15 週週四（12/16 以後）她在總圖＝不成立',c===true&&a===false&&b===false,J({t14:c,t15:a,on15:b})); }
+  /* (c) 2029-09 畢業以後篇以前：寒暑假、大五上、大四下 4/24（阿姨第一次出國、店休那一週）都沒有阿姨（她照作息週二照樣顧店）*/
+  const out=[]; const at=(k,lab)=>{ fresh(DK(k),18.5,'noodle'); out.push([lab+' '+k,yt(),HCIRCLE.labelIn(H.G,'hc_ayi','noodle')]); };
+  at('2027-07-06','大二暑假'); at('2028-01-25','大三寒假'); at('2028-07-04','大三暑假'); at('2029-04-24','大四下 4/24 店休'); at('2029-06-05','畢業那年夏天'); at('2029-09-04','大五上'); at('2029-10-16','大五上'); at('2030-03-05','大五下');
+  check('9. 寒暑假（大二暑假、大三寒暑假）、畢業那年夏天、大五上下沒有阿姨那一列（同 c503_6_2 只在上課期間；到 2029-09 畢業以後篇以前）；大四下 4/24（AA_510 阿姨第一次出國、店休一週）不成立',
+    out.every(x=>x[2]===false)&&out.filter(x=>/2029-04-24|2027-07-06|2029-09-04/.test(x[0])).every(x=>x[1]===true),J(out));
+  { const r=R('c503_14_5'), tk=k=>{ fresh(DK(k),18.5,'noodle'); return HCIRCLE.timeOk(r,H.G); }, a=tk('2029-04-17'), b=tk('2029-04-24'), c=tk('2029-05-01');
+    check('9. 大四下那一列跳過 4/19～4/25（dates：阿姨在日本）：4/24 的時間條件不成立，前一週 4/17、後一週 5/1 成立',a===true&&b===false&&c===true,J({a,b,c})); }
+  /* (d) 廚房那位就是阿姨（3D）：麵店原本那位無名的店員 */
+  const ndlDay=(r,want)=>{ for(let w=2;w<=15;w++) for(const wd of [2,4]){ const x=TD(r.terms[0],w,wd); fresh(x,18,'noodle'); if(yt()&&HCIRCLE.on(r,H.G)===want) return x; } return null; };
+  const r1=R('c503_6_2'), dOff=ndlDay(r1,false), dOn=ndlDay(r1,true);
+  const shop=(d,h,withYt)=>{ fresh(d,h,'noodle'); stage('noodle'); E.player.obj.position={x:0,y:0,z:3.4}; STORY._bindGM(GM); HCIRCLE.bind(GM); const ck=clerk(-2.0,-2.75); let y=null; if(withYt){ y=GM.spawnCharacter('heroine_03',2.6,-3.6,{yaw:-Math.PI/2}); y.frozen=true; } HCIRCLE.arrange(GM,false); return {ck,y}; };
+  const vis=ck=>ck.hidden!==true&&ck.obj.visible!==false, ayN=()=>{ const a=GM.npc.hc_ayi; return !!a&&!a.leaving&&!a.hidden; };
+  const K=[];
+  { const s=shop(dOff,18,true); K.push(['沒擲到 18:00 語彤顧店＝店員不在、阿姨不在（廚房沒有人）；auntOut',!vis(s.ck)&&!ayN()&&HCIRCLE.auntOut(GM)===true&&HCIRCLE.kitchen(GM,new Set())==='away']); }
+  { const s=shop(dOn,18,true); K.push(['擲到 18:00＝阿姨在、店員藏起來（只有一個）；不是 auntOut',!vis(s.ck)&&ayN()&&HCIRCLE.auntOut(GM)===false]); }
+  { const s=shop(dOff,18,false); K.push(['語彤不在麵店（她的人不在這一區）＝店員照常在',vis(s.ck)&&!ayN()&&HCIRCLE.auntOut(GM)===false]); }
+  { const s=shop(dOff,17.2,false); const a=vis(s.ck); set(dOff,17.6,'noodle'); const y=GM.spawnCharacter('heroine_03',0,3.4,{}); HCIRCLE.arrange(GM,true); const b=vis(s.ck); set(dOff,20.6,'noodle'); y.leaving=true; HCIRCLE.arrange(GM,true); const c=vis(s.ck);
+    K.push(['沒擲到那一天待在店裡：17:12 店員在 → 17:36 語彤進來＝店員不見 → 20:36 語彤走開＝店員回來',a&&!b&&c,J({a,b,c})]); }
+  { const s=shop(dOn,17.2,false); const a=vis(s.ck)&&!GM.npc.hc_ayi; set(dOn,17.6,'noodle'); const y=GM.spawnCharacter('heroine_03',0,3.4,{}); HCIRCLE.arrange(GM,true); const b=!vis(s.ck)&&ayN(); set(dOn,20.6,'noodle'); y.leaving=true; HCIRCLE.arrange(GM,true); const c=vis(s.ck)&&!ayN();
+    K.push(['擲到那一天待在店裡：17:12 店員在（沒有阿姨）→ 17:36 語彤進來＝阿姨來、店員藏起來 → 20:36＝阿姨走、店員回來',a&&b&&c,J({a,b,c})]); }
+  { const s=shop(dOff,20.6,true); K.push(['20:36 語彤還沒走開（她的作息已經不是顧店）＝店員在',vis(s.ck)]); }
+  { fresh(dOff,18,'noodle'); H.G.invites=[{id:'iv1',who:'heroine_03',place:'noodle',state:'going',zone:'noodle',day:dOff,h:18}]; const e=ent('heroine_03'), inv=!!(e&&e.invite);
+    stage('noodle'); E.player.obj.position={x:0,y:0,z:3.4}; STORY._bindGM(GM); HCIRCLE.bind(GM); const ck=clerk(-2.0,-2.75); const y=GM.spawnCharacter('heroine_03',2.6,-3.6,{}); HCIRCLE.arrange(GM,false);
+    K.push(['跟你約來吃（邀約 going）的語彤是客人＝店員照常在',inv&&vis(ck)&&HCIRCLE.auntOut(GM)===false,J({inv})]); H.G.invites=[]; }
+  { const s=shop(dOn,18,true); s.ck.hidden=true; s.ck.obj.visible=false; s.ck._hcKit=true; delete GM.npc.hc_ayi; E.npcs=E.npcs.filter(n=>!n.hcLabel); HCIRCLE.arrange(GM,true); const a=!vis(s.ck)&&ayN()&&GM.npc.hc_ayi._hcHid===s.ck&&!s.ck._hcKit;
+    set(dOn,20.6,'noodle'); s.y.leaving=true; HCIRCLE.arrange(GM,true); K.push(['店員先因為廚房沒人藏起來、阿姨後來才到＝交給阿姨（她走的時候店員回來）',a&&vis(s.ck),J({a})]); }
+  check('9. 廚房那位就是阿姨（第 8 點）：語彤在麵店顧店、阿姨不在（沒擲到、17:30 以前、20:30 以後）＝麵店原本的店員也不出現；阿姨在＝阿姨換掉店員（不會兩個都在）；語彤不在（沒顧店、走了、約來吃的客人）＝店員照常在；待在店裡時間跨過、語彤進出都跟著變',
+    dOff!=null&&dOn!=null&&K.every(x=>x[1]),J(K.filter(x=>!x[1]))); });
 
 H.done();
 })();

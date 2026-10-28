@@ -142,6 +142,21 @@ const HCIRCLE_DATA={
     {id:'c505_3_2',doc:'AA_505',sec:'3-1',k:2,who:'heroine_03',with:['npc_huangxh'],always:true,days:[2,4],from:12,to:13,terms:['Y2S1'],zone:'campus',heard:'筱涵：法律系的課怎樣？／語彤：大家講話都很快。／筱涵：妳也可以很快。／語彤：我不要。'},
     {id:'c505_3_3',doc:'AA_505',sec:'3-1',k:3,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y2S1'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：法律系的課，聽得懂嗎？／語彤：一半。／阿姨：一半很多了。'},
     {id:'c505_3_4',doc:'AA_505',sec:'3-1',k:4,who:'heroine_03',with:['hc_ayi'],days:[6],from:9,to:12,terms:['Y2S1'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：蒜頭剝好了嗎？／語彤：還有一盆。'},
+    /* ===================== AA_503 第 14 節後補第 8、9 點（企劃線 f6069e42d；PRIV-AUNT-1028 第二輪）：大二下以後每學期阿姨那一列 =====================
+       第 8 點「大二下以後也要有阿姨那一列：週二、四 17:30～20:30 在麵店，同 c503_6_2 的做法，每學期都有（到 2029-09 畢業以後篇以前）」；走近時聽到＝第 9 點的表（一學期一組，照抄）。
+       同 c503_6_2：terms＝那一學期上課期間（寒暑假、大五上不排）、她照作息在麵店顧店（noodle／help）才成立、沒寫一定同框＝那一天擲 70%（S.P）。
+       她照作息週二、四晚上在不在麵店（src/data/characters.js heroine_03，2026-10-28 逐週查）：大二下 週二、四（第 8～9 週期中在總圖，AA_375 第 16 項）；
+       大三上 週二（第 2 週 9/14 18:30 起）、週四到事件 13（12/16）以前；大三下 只有週二（週四做田野 T1）；大四上、大四下 只有週二（週四總圖三樓）。週四不在的學期 days 照樣寫 [2,4]（同 c503_6_2，週四照作息不成立）。 */
+    {id:'c503_14_1',doc:'AA_503',sec:'14-後補9',k:1,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y2S2'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：語彤，報告寫完了沒？／語彤：……寫完一半。／阿姨：一半就是還沒。',
+      place:'大二下：週二、四都在店裡（第 8～9 週她在總圖＝不成立）'},
+    {id:'c503_14_2',doc:'AA_503',sec:'14-後補9',k:2,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y3S1'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：妳在訪問別人喔？／語彤：嗯。／阿姨：我就不用了。我沒有故事。',
+      place:'大三上：週二（第 2 週 9/14 她 17:30～18:30 在總圖門口，18:30 起）；週四到事件 13（12/16，STORY.ytThuFree）以前。這一句接 AA_508 Y6-L8「她上次說，她沒有故事。」和 8/22 第二十三個訪談（阿姨）'},
+    {id:'c503_14_3',doc:'AA_503',sec:'14-後補9',k:3,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y3S2'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：桌子擦兩次。／語彤：擦過了。／阿姨：那再一次。',
+      place:'大三下：只有週二（週四 17:00～20:00 她在做田野訪談，AA_260、AA_376 #1）'},
+    {id:'c503_14_4',doc:'AA_503',sec:'14-後補9',k:4,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y4S1'],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：（看著牆上的照片）妳的學士照，以後要掛哪裡？／語彤：……還沒畢業。',
+      place:'大四上：只有週二（週四 17:00 起她在總圖三樓，AA_381 第 2 項）'},
+    {id:'c503_14_5',doc:'AA_503',sec:'14-後補9',k:5,who:'heroine_03',with:['hc_ayi'],days:[2,4],from:17.5,to:20.5,terms:['Y4S2'],dates:[['2029-02-19','2029-04-18'],['2029-04-26','2029-06-03']],zone:'noodle',act:'help',comp:{hc_ayi:{at:[1.8,-2.75],clerk:'noodle'}},heard:'阿姨：明年才畢業喔？／語彤：雙主修，多一年。／阿姨：多一年好。多一年在這裡。',
+      place:'大四下：只有週二（週四總圖三樓）；4/19～4/25 阿姨第一次出國、店休一週（AA_510 第 3 節、動態第 2 則 4/25「阿姨去哪？」「日本。第一次出國。」）＝那一週不排（dates 跳過）。這一句接 AA_510 第 3 節（延畢一年）'},
     {id:'c505_4_1',doc:'AA_505',sec:'4-1',k:1,who:'heroine_04',with:['pool_11','hc_nm'],days:[1,3],from:19,to:21,terms:['Y2S1'],weeks:[3,4,5,6,7,10,11,12,13,14,15],zone:'wancai',act:'club',heard:'晨希：她按不出 C。／子晴：我來。……手指不要躺下去。',place:'作息從第 5 週改成第 3 週（SCHED 補第 3、4 週）'},
     {id:'c505_4_2',doc:'AA_505',sec:'4-1',k:2,who:'heroine_04',ref:true,heard:'照現有',place:'＝c505_2_3'},
     {id:'c505_4_3',doc:'AA_505',sec:'4-1',k:3,who:'heroine_04',with:['kai'],days:[5],from:17,to:17+20/60,terms:['Y2S1'],wk:[3,12],zone:'campus',heard:'阿凱：所以實驗室妳要去嗎。／子晴：不要問。／阿凱：好。',
