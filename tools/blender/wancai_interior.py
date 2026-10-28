@@ -464,11 +464,16 @@ for x_ in (d_['x'] for d_ in L['doors'] if d_['lv'] == 0):
 _EX = L['entrance']['x']
 box('L0_exit_entr', MAT['exitg'], _EX - 0.3, _EX + 0.3, 2.68, 2.86, D / 2 - 0.3, D / 2 - 0.22, L0, props=FS)
 box('L0_exit_entr_g', MAT['exitglow'], _EX - 0.27, _EX + 0.27, 2.70, 2.84, D / 2 - 0.305, D / 2 - 0.3, L0, props=FS)
+def open_top(ob):
+    """方塊拿掉朝上的那一面：吊燈的發光條上面有燈體蓋著，朝上的面看不到；天花板、燈板不能有朝上的面（tests/room_ceiling_unit.js，LOBBY-CEIL-1028）"""
+    bm = bmesh.new(); bm.from_mesh(ob.data)
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.normal.z > 0.9], context='FACES_ONLY')
+    bm.to_mesh(ob.data); bm.free(); return ob
 # 中庭兩排線型吊燈（6.4 m 高，三段一排；吊線到天花板）
 for zr in (1.2, 4.4):
     for (xa, xb) in ((-3.4, -0.6), (-0.2, 2.6), (3.0, 5.8)):
         box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
-        quad(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], [(xa + 0.03, 6.375, zr - 0.035), (xb - 0.03, 6.375, zr - 0.035), (xb - 0.03, 6.375, zr + 0.035), (xa + 0.03, 6.375, zr + 0.035)], L1)   # 一片朝下的單面（上面有燈體蓋著；天花板、燈板單面朝下的規定，room_ceiling_unit.js）
+        open_top(box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1))   # 發光條沒有頂面（上面有燈體蓋著）
         for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
 
 # 純色擺設合成一個頂點色材質（和霖澤館大廳 LOBBY-VC-1028 一樣：每個純色材質各畫一次；金、黃銅、出口燈的發光面照舊）
