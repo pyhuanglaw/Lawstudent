@@ -27,9 +27,9 @@ function child(){
   const {ROOT,preload}=require('../tools/dev_scratch/spring_sim/harness.js');
   const ld=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|POOL|POOL_STORY)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); };
   const out={}; const M=ASSETS.manifest;
-  try{ ld('src/data/characters.js'); }catch(e){ out.err='characters '+e; }
-  /* STORY.extraSpec 的樣子（備用的程序化人物要用到頭髮、衣服）*/
-  global.STORY={extraSpec:i=>{ const f=(i%2===0); return {id:'x'+i,name:'',height:f?1.6:1.72,build:'slim',sex:f?'f':'m',skin:'#efd0b3',hair:{color:'#2a1d16',style:f?'softMid':'shortClean'},face:{iris:'#3a2a22',brow:'soft',lash:f},outfit:{top:{type:'tee',color:'#123456',inner:'#ffffff'},bottom:{type:'jeans',color:'#4a5a78'},shoes:{type:'sneaker',color:'#f4f1ea',sole:'#ffffff'}},posture:{sway:0.02}}; }};
+  if(typeof CHARACTERS==='undefined') try{ ld('src/data/characters.js'); }catch(e){ out.err='characters '+e; }   /* pg_harness（檔頭 require）已經載過就不再載 */
+  /* STORY.extraSpec 的樣子（備用的程序化人物要用到頭髮、衣服）：pg_harness 載過 story3d.js 就用真的 */
+  if(!(typeof STORY!=='undefined'&&STORY.extraSpec)) global.STORY={extraSpec:i=>{ const f=(i%2===0); return {id:'x'+i,name:'',height:f?1.6:1.72,build:'slim',sex:f?'f':'m',skin:'#efd0b3',hair:{color:'#2a1d16',style:f?'softMid':'shortClean'},face:{iris:'#3a2a22',brow:'soft',lash:f},outfit:{top:{type:'tee',color:'#123456',inner:'#ffffff'},bottom:{type:'jeans',color:'#4a5a78'},shoes:{type:'sneaker',color:'#f4f1ea',sole:'#ffffff'}},posture:{sway:0.02}}; }};
   try{ ld('src/data/pool_story.js'); ld('src/pool3d.js'); }catch(e){ out.err=(out.err||'')+' pool '+e; }
   const hasPool=typeof POOL!=='undefined';
   const OLD=['char.npc_m1','char.npc_m2','char.npc_f1','char.npc_f2'], ANON=Object.keys(M).filter(k=>M[k].anon);
@@ -61,6 +61,7 @@ const P=()=>typeof POOL!=='undefined'?POOL:null, PS=()=>typeof POOL_STORY!=='und
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const D=k=>STORY.dayOfKey(k), keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const TD=(t,w,wd)=>STORY.termDay(t,w,wd);
+const onDay=(a,from)=>{ for(let x=from;x<from+120;x++) if(ACTIVITIES.on(a,x,H.G)) return x; return null; };   /* 這一局那個活動的第一天（照 ACTIVITIES.on，新局、舊局日子不同）*/
 const set=(day,h,zone)=>{ H.G.day=day; H.G.hour=h; H.G.weekday=wdOf(day); if(zone) H.G.zone=zone; };
 const fresh=(day,h,zone,flags)=>{ const G=H.fresh(keyOf(day),h,zone||'campus',Object.assign({EXCHANGE_ROUTE:'TW',afternoonDone:true},flags||{})); G.outings=[]; set(day,h,zone||'campus'); G.weather='clear'; GM.npc={}; E.npcs=[]; E.interactables=[]; if(typeof SIDEQ!=='undefined') SIDEQ.roll=()=>0.99; if(P()) P().bind(GM); STORY._bindGM(GM); return G; };
 const spawn=id=>{ const n={name:SOCIAL.npcName(id),charId:id,obj:{position:{x:0,y:0,z:0}},pose:'idle'}; n.talk=nn=>STORY.talkCharacter(id,nn); GM.npc[id]=n; E.npcs.push(n); return n; };
@@ -88,7 +89,7 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
   check('0. personality：第一批五位＋蔡宗霖照表；寫「之後的批次寫」的先不填',[C,'pool_2',Q,Y,YS,Z].every(id=>P3[id].personality&&CHARACTERS[id].personality===P3[id].personality)&&ids.filter(id=>![C,'pool_2',Q,Y,YS,Z].includes(id)).every(id=>!P3[id].personality&&!CHARACTERS[id].personality)); });
 
 /* ---------- 1 改名 ---------- */
-const OLDN=['邱柏勳','鄭凱文','施冠宇','詹哲瑋','嚴子安','杜宇恆'];
+const OLDN=['\u90b1\u67cf\u52f3','\u912d\u51f1\u6587','\u65bd\u51a0\u5b87','\u8a79\u54f2\u744b','\u56b4\u5b50\u5b89','\u675c\u5b87\u6046'];   /* 六個舊名（pool_3、6、12、16、18、19）：寫成 \u 跳脫，grep 舊名不會找到這個測試 */
 await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施孟儒',pool_16:'詹立群',pool_18:'嚴守誠',pool_19:'蘇承恩'};
   check('1. 六位改名（第 1 節）',Object.keys(NEW).every(id=>CHARACTERS[id].name===NEW[id]),J(Object.keys(NEW).map(id=>CHARACTERS[id].name)));
   check('1. 輪轉單車（SQ16）的借車名單：黃惠玲、鄭文彬（和 pool 撞名的兩個）',J(SIDEQ.LINES.SQ16.names)===J(['陳品叡','黃惠玲','張宇翔','劉思妤','鄭文彬']),J(SIDEQ.LINES.SQ16.names));
@@ -122,17 +123,17 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
   const sat=(()=>{ for(let d=TD('Y1S1',3,6);d<TD('Y1S1',16,6);d+=7){ H.G.day=d; if(STORY.fafuDuty(H.G)) return d; } return null; })();
   s=at(sat,10,'wancai');
   check('2. 馬佳蓉（原本永遠不出現）：法服值班的週六 9～12 在萬才館一樓',!!sat&&s.some(q=>q[0]==='pool_20'&&q[2]===1.9),keyOf(sat)+' '+J(s));
-  { fresh(TD('Y1S1',3,6),10,'campus'); const a=ACTIVITIES.list.find(x=>x.id==='club_expo_y1s1'); const d=a&&[].concat(a.dates||[],a.datesW1||[]).map(D).filter(x=>x!=null).sort((p,q)=>p-q)[0];
-    s=d!=null?at(d,(a.t0+a.t1)/2,'campus',camSeats):[]; check('2. 馬佳蓉：社團博覽會那幾天在法服的攤位',s.some(q=>q[0]==='pool_20'&&q[2]===-50),J(s)); }
-  s=at(TD('Y1S1',5,1),6.75,'campus',camSeats); const zz=s.find(q=>q[0]===Z);
+  { fresh(TD('Y1S1',1,1),10,'campus'); const a=ACTIVITIES.list.find(x=>x.id==='club_expo_y1s1'); const d=a?onDay(a,TD('Y1S1',1,1)-14):null;   /* 這一局的社博那一天（ACTIVITIES.on：新局 9/6、舊局 9/30）*/
+    s=d!=null?at(d,(a.t0+a.t1)/2,'campus',camSeats):[]; check('2. 馬佳蓉：社團博覽會那幾天在法服的攤位',s.some(q=>q[0]==='pool_20'&&q[2]===-50),(d!=null?keyOf(d):'')+' '+J(s)); }
+  s=at(TD('Y1S1',4,1),6.75,'campus',camSeats); const zz=s.find(q=>q[0]===Z);
   check('2. 曾靖雯：平日 06:30～07:40 在傅鐘旁的長椅',!!zz&&zz[2]===-30&&zz[3]===20.94,J(s));
-  s=at(TD('Y1S1',5,1),9.5,'classroom',[0,1,2,3,4,5].flatMap(r=>[0,1,2,3,4,5,6,7].map(c=>({x:-5.25+c*1.5,z:-3.45+r*2.1,yaw:Math.PI,row:r,col:c}))));
+  s=at(TD('Y1S1',4,1),9.5,'classroom',[0,1,2,3,4,5].flatMap(r=>[0,1,2,3,4,5,6,7].map(c=>({x:-5.25+c*1.5,z:-3.45+r*2.1,yaw:Math.PI,row:r,col:c}))));
   check('2. 必修課（大一上週一憲法，霖澤館 201）：曾靖雯第一排正中間、林采潔第三排、黃郁婷上課時坐最後一排',(s.find(q=>q[0]===Z)||[])[3]===-3.45&&(s.find(q=>q[0]===C)||[])[3]===0.75&&!!s.find(q=>q[0]===Y),J(s));
-  { const G=fresh(TD('Y1S1',5,1),9+10/60-0.1,'classroom'); const e=STORY.schedEnt(CHARACTERS[Y],G); check('2. 黃郁婷：上課前 10 分鐘在教室門口（站著）',!!e&&e.act==='linger'&&e.door&&J(e.at)===J(P().DOOR.classroom),J(e)); }
-  { const G=fresh(TD('Y1S1',5,1),14,'campus'); SOCIAL.meet(Q,'dorm_hall');
+  { const G=fresh(TD('Y1S1',4,1),9+10/60-0.1,'classroom'); const e=STORY.schedEnt(CHARACTERS[Y],G); check('2. 黃郁婷：上課前 10 分鐘在教室門口（站著）',!!e&&e.act==='linger'&&e.door&&J(e.at)===J(P().DOOR.classroom),J(e)); }
+  { const G=fresh(TD('Y1S1',4,1),14,'campus'); SOCIAL.meet(Q,'dorm_hall');
     const c0=[...new Set(Object.keys(CHARACTERS).filter(k=>/^pool_/.test(k)).map(id=>{ const w=STORY.whereIs(GM,id); return w&&w.zone; }).filter(Boolean))];
-    check('2. 人物線索（STORY.whereIs）照新的作息：認識的邱家齊 21～23 在交誼廳',(()=>{ G.weekday=0; G.day=TD('Y1S1',5,7); G.hour=21.5; const w=STORY.whereIs(GM,Q); return !!w&&w.zone==='dorm_hall'; })()); }
-  { const G=fresh(TD('Y1S1',5,1),6.75,'campus'); spawn(Z); const a=SOCIAL.displayName(Z); set(TD('Y1S1',5,4),14,'classroom'); GM.npc={}; spawn(Z); const b=SOCIAL.displayName(Z);
+    check('2. 人物線索（STORY.whereIs）照新的作息：認識的邱家齊 21～23 在交誼廳',(()=>{ G.weekday=0; G.day=TD('Y1S1',4,7)+7; G.hour=21.5; const w=STORY.whereIs(GM,Q); return !!w&&w.zone==='dorm_hall'; })()); }
+  { const G=fresh(TD('Y1S1',4,1),6.75,'campus'); spawn(Z); const a=SOCIAL.displayName(Z); set(TD('Y1S1',4,1),9.5,'classroom'); GM.npc={}; spawn(Z); const b=SOCIAL.displayName(Z);
     check('2. 外觀描述和地點對得上（2-2）：傅鐘「傅鐘旁邊吃早餐的人」、教室「坐第一排正中間的女生」',a==='傅鐘旁邊吃早餐的人'&&b==='坐第一排正中間的女生',a+' / '+b); } });
 
 /* ---------- 3 樣子 ---------- */
@@ -170,7 +171,7 @@ await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campu
   set(gd,8.2); ph(); check('4. 曾靖雯：去了傅鐘就沒有 08:00 那張空長椅的照片',!msgs(Z).includes('（照片：空的長椅）')); });
 
 /* 黃郁婷：補給包答應、隔天霖澤館那一句；秘密選「不考司法官嗎？」、2029-10 那則多出來的一句 */
-await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',3,1); fresh(d0,9+10/60-0.1,'classroom'); spawn(Y);
+await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1,'classroom'); spawn(Y);
   check('4. 黃郁婷：上課前在教室門口，認識前「和總是最後進教室的人說話」',GM.npc[Y].name==='總是最後進教室的人');
   await talk(Y,['下禮拜給']);
   check('4. 黃郁婷 認識：班費、選「下禮拜給。」→「大家都說下禮拜。我會再提醒你一次，就一次。」',has('我是黃郁婷，班代。下禮拜要收班費，一學期兩百。')&&has('大家都說下禮拜。我會再提醒你一次，就一次。'),J(said()));
@@ -190,7 +191,7 @@ await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',3,1); fresh(d0,9+10/60-0.1
   check('4. 黃郁婷 5-6（2029-10 司法特考放榜，有聯絡方式）：「上了。四等書記官。」「榜單我數了三次。」＋多出來的一句（YT_JUDGE 版）',J(msgs(Y).slice(-3))===J(['上了。四等書記官。','榜單我數了三次。','你大一問我為什麼不考司法官。現在可以回答你了：我想坐的就是這個位子。']),J(msgs(Y).slice(-4))); });
 
 /* 林采潔：導覽認識；第三章選「不能用」、大二下文學獎那則是 law 版；大四下印好的書 */
-await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); const d=D('2025-09-19'); fresh(d,15.5,'library_hall'); H.said=[]; H.picks=['法律系的課本']; await CLS.attendActivity(GM,a);
+await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); fresh(TD('Y1S1',1,1),15.5,'library_hall'); const d=onDay(a,TD('Y1S1',1,1)); set(d,15.5,'library_hall'); H.said=[]; H.picks=['法律系的課本']; await CLS.attendActivity(GM,a);
   check('4. 林采潔：總圖新生導覽走完 → 導覽版認識（「……這本的兇手，我猜到了。可是我還是要借。」…），選「法律系的課本算嗎？」',has('……這本的兇手，我猜到了。可是我還是要借。')&&has('算。兇手都寫在條文裡，只是要自己找。')&&SOCIAL.has(C,'FIRST_MET')&&whoOf('我叫林采潔。你看推理小說嗎？')==='林采潔',J(said()));
   const s0=TD('Y1S1',12,2); set(s0,14,'bookstore'); rel(C,25,6); GM.npc={}; spawn(C); await talk(C,[]);
   check('4. 林采潔 秘密（大一上第 12 週起、有點熟）：「其實……我在寫一篇推理小說。」接「我寫的那篇卡在第三章…」；不加選項；這時還不開口（第三章在大一下）',has('其實……我在寫一篇推理小說。')&&has('「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」')&&!H.opts.length&&!SIDEQ.get(H.G,'PQ_CJ'),J(said()));
@@ -216,16 +217,18 @@ await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'
   check('4. 鄭元碩 7-4 展覽（大二下第 15 週週一，霖澤館穿堂「看穿堂的照片」）：你的版本＋最後一張大一的背影＋他在場的那一句',!!it&&has('（照片裡的人是你：傅鐘的早上、穿堂的中午、麵店的傍晚、總圖的晚上。每一張都只拍到你的背影或側臉。）')&&!has('（照片裡的人是邱家齊。每一張，他都在看鏡頭。）')&&has('（最後一張是大一那年，椰林大道下午四點，一個走進鏡頭的背影。）')&&has('展覽的照片，還是沒有我。……這樣剛好。'),J(said())); });
 
 /* 邱家齊：魚丸；答應代收但週六沒去領 → 週日那一則、人物頁沒有那一行 */
-await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',4,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);
+await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_hall'); spawn(Q); await talk(Q,[1]);
   check('4. 邱家齊 認識（男一舍交誼廳，週日 21～23）：魚丸、QJQ_FISH、房間的冰箱多一包',has('學弟，你那層的冰箱還有位子嗎？……我媽又寄了。')&&has('虱目魚丸。我們台南的。……你沒吃過？那你今天先拿一包。')&&H.G.flags.QJQ_FISH===true&&STORY.roomItemList(H.G).some(x=>x[1]==='（虱目魚丸。袋子上用麥克筆寫著「家齊」。）'),J(said()));
-  const th=TD('Y1S2',4,4); set(th,21.5,'dorm_hall'); rel(Q,25,3); GM.npc={}; spawn(Q); await talk(Q,[0]); const r=SIDEQ.get(H.G,'PQ_QJQ');
+  const th=TD('Y1S2',4,4); set(th-2,21.5,'dorm_hall'); rel(Q,25,3); GM.npc={}; spawn(Q); await talk(Q,[0]);
+  check('4. 邱家齊 秘密（大一上第 10 週起、交誼廳、有點熟）：週二先聽秘密「其實……我很想家。」；同一場不開口代收',has('其實……我很想家。')&&SOCIAL.has(Q,'SHARED_SECRET')&&!SIDEQ.get(H.G,'PQ_QJQ'),J(said()));
+  set(th,21.5,'dorm_hall'); GM.npc={}; spawn(Q); await talk(Q,[0]); const r=SIDEQ.get(H.G,'PQ_QJQ');
   check('4. 邱家齊 8-3（大一下第 4～10 週，交誼廳，週四晚上）：「我幫你領。」＝加好友、掛「代收媽媽的箱子」（週六 10～18 門廳）',has('這禮拜六我媽寄的箱子會到，可是我要回台南看阿公。')&&!!r&&r.state==='open'&&r.satDay===th+2&&INV.hasContact(H.G,Q),J(said()));
   set(th+2,11,'dorm_hall'); E.interactables=[]; P().populate('dorm_hall',GM); const pick=E.interactables.find(x=>x.poolAct==='qjqPick');
   check('4. 邱家齊：週六 10～18 男一舍門廳有「領包裹」（新的互動點）',!!pick&&!pick.hidden);
   set(th+3,21.3,'dorm_hall'); SIDEQ.lapse(H.G); ph();
-  check('4. 邱家齊：答應了週六沒去領 → 過期（不扣數值）、週日 21:00「箱子退回去了。沒關係，我媽說下禮拜再寄。」、人物頁沒有「幫他領過媽媽寄的箱子」',r.state==='lapsed'&&msgs(Q).includes('箱子退回去了。沒關係，我媽說下禮拜再寄。')&&!msgs(Q).includes(L()[Q].sat)&&!P().deeds(H.G,Q).includes('幫他領過媽媽寄的箱子')&&!pick.hidden===false,J(msgs(Q)));
+  check('4. 邱家齊：答應了週六沒去領 → 過期（不扣數值）、週日 21:00「箱子退回去了。沒關係，我媽說下禮拜再寄。」、人物頁沒有「幫他領過媽媽寄的箱子」',r.state==='lapsed'&&msgs(Q).includes('箱子退回去了。沒關係，我媽說下禮拜再寄。')&&!msgs(Q).includes(L()[Q].sat)&&!P().deeds(H.G,Q).includes('幫他領過媽媽寄的箱子')&&pick.hidden===true,J(msgs(Q)));
   /* 領了的那一路（對照）：週六 20:00 那一則、週日桌上的紙條、人物頁那一行 */
-  fresh(th,21.5,'dorm_hall'); SOCIAL.meet(Q,'dorm_hall'); rel(Q,25,3); spawn(Q); await talk(Q,[0]); const r2=SIDEQ.get(H.G,'PQ_QJQ'); set(th+2,11,'dorm_hall'); E.interactables=[]; P().populate('dorm_hall',GM);
+  fresh(th,21.5,'dorm_hall'); SOCIAL.meet(Q,'dorm_hall'); rel(Q,25,3); SOCIAL.remember(Q,'SHARED_SECRET','我很想家'); spawn(Q); await talk(Q,[0]); const r2=SIDEQ.get(H.G,'PQ_QJQ'); set(th+2,11,'dorm_hall'); E.interactables=[]; P().populate('dorm_hall',GM);
   for(const k of ['qjqPick','qjqFridge']){ const x=E.interactables.find(q=>q.poolAct===k); if(x&&!x.hidden) await STORY.interact(x,GM); }
   phAt(th+2,20.2); set(th+3,18,'dorm_hall'); const note=E.interactables.find(x=>x.poolAct==='qjqNote'); H.said=[]; if(note&&!note.hidden) await STORY.interact(note,GM);
   check('4. 邱家齊（對照）：門廳「領包裹」→ 交誼廳「把箱子放進交誼廳的冰箱」＝做完；週六 20:00 他私訊；週日晚上桌上的紙條；人物頁「幫他領過媽媽寄的箱子」',r2.state==='done'&&msgs(Q).includes(L()[Q].sat)&&has('（「魚丸分你兩包。阿公好多了。——家齊」）')&&P().deeds(H.G,Q).includes('幫他領過媽媽寄的箱子'),J([r2,msgs(Q),said()])); });
@@ -246,10 +249,12 @@ await sec(5,()=>{ const d=TD('Y2S1',3,2); fresh(d,12,'campus'); const A='pool_9'
   INV.addContact(H.G,A); INV.addContact(H.G,B); INV.addContact(H.G,Z);
   const a1=P().chat(H.G,A,['（測試一）'],'t_a1'); set(d+3,12); const b1=P().chat(H.G,B,['（測試二）'],'t_b1'); set(d+7,12); const b2=P().chat(H.G,B,['（測試三）'],'t_b2'); set(d+20,12); const a2=P().chat(H.G,A,['（測試四）'],'t_a2'); set(d+31,12); const a3=P().chat(H.G,A,['（測試五）'],'t_a3');
   check('5. 閒聊型：二十位加起來一週一則（第 3 天別人的不送、第 7 天可以）；同一個人一個月一則（第 20 天不送、第 31 天可以）',a1&&!b1&&b2&&!a2&&a3,J([a1,b1,b2,a2,a3]));
-  const ex=(()=>{ for(let x=d;x<d+120;x++){ const t=CALENDAR.termOf(x); if(t&&t.exam) return x; } return null; })(); set(ex+40,12); const okBefore=P().chatOK(H.G,B); set(ex,12);
-  check('5. 考試週（期中、期末）不送閒聊型的',!P().chatOK(H.G,B)&&okBefore!==undefined,keyOf(ex));
-  set(d+60,12); P().chat(H.G,A,['（測試六）'],'t_a4'); const dd=d+61; const n0=P().rec(H.G).chat.length; set(dd-1,22); const s1=P().story(H.G,Z,dd,8,'（劇情）','t_story');
-  check('5. 劇情那幾則（各人的表）不算在上限裡：前一天別人才傳過閒聊，劇情照送、也不記進上限',s1&&P().rec(H.G).chat.length===n0&&!P().chatOK(H.G,B));
+  INV.addContact(H.G,'pool_2'); set(d+50,12); const c1=P().chat(H.G,'pool_2',['（測試六）'],'t_c1'); const n0=P().rec(H.G).chat.length; const s1=P().story(H.G,Z,d+51,8,'（劇情）','t_story');
+  check('5. 劇情那幾則（各人的表）不算在上限裡：今天別人才傳過閒聊，劇情照送、也不記進上限',c1&&s1&&P().rec(H.G).chat.length===n0&&!P().chatOK(H.G,B)&&(H.G.phone&&H.G.phone.q||[]).some(q=>q.tag==='t_story'));
+  /* 考試週：另開一局（沒有傳過任何閒聊＝只剩考試週這個理由）*/
+  fresh(d,12,'campus'); INV.addContact(H.G,B); const ex=(()=>{ for(let x=d;x<d+120;x++){ const t=CALENDAR.termOf(x); if(t&&t.exam) return x; } return null; })();
+  set(ex-7,12); const okBefore=P().chatOK(H.G,B); set(ex,12); const okExam=P().chatOK(H.G,B); const sx=P().chat(H.G,B,['（考試週）'],'t_ex');
+  check('5. 考試週（期中、期末）不送閒聊型的（前一週可以）',okBefore===true&&okExam===false&&!sx,keyOf(ex)+' '+J([okBefore,okExam,sx]));
   /* 第一批五位四年下來的手機：全部是劇情的（各人的表），沒有閒聊型 */
   check('5. 第一批五位的訊息都在各人的表（劇情），pool3d.js 沒有用 S.chat 送第一批的訊息',!/S\.chat\(G,/.test(fs.readFileSync(path.join(H.ROOT,'src/pool3d.js'),'utf8'))); });
 
@@ -257,7 +262,7 @@ await sec(5,()=>{ const d=TD('Y2S1',3,2); fresh(d,12,'campus'); const A='pool_9'
 await sec(6,async()=>{ const d=TD('Y1S1',4,2); fresh(d,6.75,'campus'); spawn(Z); await talk(Z,[0]);
   for(let k=1;k<=16;k++){ set(d+k,6.75,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]); }   /* 閒聊照舊（一天熟悉＋2）*/
   const d2=TD('Y1S2',3,2); set(d2,6.75,'campus'); GM.npc={}; spawn(Z); await talk(Z,[0]); const q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_zjw_court'); H.picks=[0]; set(q.day,9.2); await OUT.go(GM,q);
-  const before=SOCIAL.stage(Z); for(const [k,h] of [[TD('Y2S1',1,1),6.5],[TD('Y3S1',10,3),21.2],[D('2029-06-02')-1,6.4]]){ set(k-1,22); ph(); set(k,h); ph(); }
+  const before=SOCIAL.stage(Z); for(const [k,h] of [[TD('Y2S1',1,1),6.5],[TD('Y3S1',10,3),21.2],[D('2029-06-02')-1,6.4]]){ set(k-1,22); ph(); set(k,h); ph(); set(k,h+0.2); ph(); }
   const yq=(H.G.msgs||[]).find(m=>m.tag==='pool_zjw_y3'); if(yq) PHONE.answer(H.G,yq.ask.id,0);
   set(D('2029-06-02'),6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]); SOCIAL.talkedTo(Z);
   const r=SOCIAL.rel(Z);

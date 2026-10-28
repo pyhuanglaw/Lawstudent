@@ -187,8 +187,10 @@ const POOL=(function(){
   const lapseQ=qid=>G=>{ const r=S.qRec(G,qid); if(r&&r.state==='open'){ r.state='lapsed'; r.lapseDay=G.day; } };
   S.register=function(){ if(typeof SIDEQ==='undefined'||!SIDEQ.Q) return false; for(const qid in S.QUEST){ if(!SIDEQ.Q[qid]) SIDEQ.Q[qid]={shop:'pool:'+S.QUEST[qid].who,title:S.QUEST[qid].title,pool:S.QUEST[qid].who,avail:()=>false,accept:async()=>{}}; }
     if(!SIDEQ.hint._pool){ const h0=SIDEQ.hint; SIDEQ.hint=Object.assign((id,r)=>S.QUEST[id]?S.hint(id,r):h0(id,r),{_pool:true}); } return true; };
-  /* 下一個上午沒課的平日（4-3 旁聽）*/
-  S.courtDay=function(G){ for(let d=G.day+1;d<=G.day+30;d++){ const w=dateOf(d).wd; if(w<1||w>5||(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d))) continue; const items=typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,d):[]; if(items.some(it=>it.t0<12)) continue; return d; } return null; };
+  /* 下一個上午沒課的平日（4-3 旁聽；放假法院沒開）。大一下的課表是固定的，平日每天早上都有課（一憲法、二國文、三刑總、四英文、五經濟），
+     照稿的字「下一個上午沒課的平日」多半落在期中考那一週（只考一堂、其他早上沒課，例：大一下第 9 週）——所以找到這學期結束；找不到就不開口（S.FLOW 的條件）*/
+  S.courtDay=function(G){ const T=T_(G), R=T&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays(T.id):null, last=R&&R.to!=null?R.to:G.day+60;
+    for(let d=G.day+1;d<=last;d++){ const w=dateOf(d).wd; if(w<1||w>5||(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d))) continue; const items=typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,d):[]; if(items.some(it=>it.t0<12)) continue; return d; } return null; };
   S.nextSat=G=>{ let d=G.day+1; while(dateOf(d).wd!==6) d++; return d; };
   const plan=(G,o)=>typeof OUT!=='undefined'&&OUT.plan?OUT.plan(G,o):false;
   async function offer(GM,who,id,qid,o){ const G=GM.G, Lx=L[id]; await run(GM,id,Lx[o.ask]); const k=await GM.choose(Lx[o.opts].map(t=>({t})));
@@ -237,7 +239,7 @@ const POOL=(function(){
       async(GM,who)=>{ const G=GM.G; if(has(Z,'SHARED_SECRET')||!atBell(G,Z)||!fam(Z)||small(G,Z).day===G.day) return false;   /* 沒去旁聽的：大一下第 12 週起，在傅鐘 */
         if(!(ti(G)>1||(tid(G)==='Y1S2'&&week(G)>=12))) return false; const st=S.qState(G,'PQ_ZJW'); if(st==='open'||st==='done') return false;
         await secretScene(GM,Z,L[Z].secret); return true; },
-      async(GM,who)=>{ const G=GM.G; if(S.qState(G,'PQ_ZJW')||!inTerm(G,'Y1S2')||week(G)<3||week(G)>10||!fam(Z)||!atBell(G,Z)||hr(G)>=12||!S.canOpen(G)) return false;   /* 4-3：大一下第 3～10 週，平日早上在傅鐘 */
+      async(GM,who)=>{ const G=GM.G; if(S.qState(G,'PQ_ZJW')||!inTerm(G,'Y1S2')||week(G)<3||week(G)>10||!fam(Z)||!atBell(G,Z)||hr(G)>=12||!S.canOpen(G)||S.courtDay(G)==null) return false;   /* 4-3：大一下第 3～10 週，平日早上在傅鐘（這學期還找得到上午沒課的平日）*/
         await offer(GM,who,Z,'PQ_ZJW',{ask:'ask',opts:'askOpts',yes:'askYes',no:'askNo',accept:S.acceptZjw}); return true; },
       async(GM,who)=>{ const G=GM.G; if(!inTerm(G,'Y3S1')||week(G)<10||contact(G,Z)||S.did(G,'zjwY3')||!atClass(G,Z)) return false;   /* 沒有聯絡方式：大三上那一題在必修課當面問 */
         await GM.say(who,L[Z].y3q); const O=L[Z].y3Opts, k=await GM.choose(O.map(o=>({t:'「'+o[0]+'」'}))); await GM.say(who,(O[k]||O[0])[1]); S.mark(G,'zjwY3'); S.seg(G,Z,'y3'); small(G,Z).day=G.day; return true; },
