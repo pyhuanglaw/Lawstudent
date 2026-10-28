@@ -1,4 +1,4 @@
-/* ===== 予樂自己的線：辦活動的人不在照片裡（AA_520，企劃線 481dd8238；AA-C 定稿 D109；任務 NPC-STORY2-1028、USER_WANTS X119）：接線 =====
+/* ===== 予樂自己的線：辦活動的人不在照片裡（AA_520，企劃線 481dd8238 → c884a12ca 第 10 節；AA-C 定稿 D109；任務 NPC-STORY2-1028、USER_WANTS X119）：接線 =====
    台詞、事件在 src/data/yule_lines.js（YULE_LINES、YULE_EVENTS，照稿一字不差）。第 2 節（原有八則）照舊在 src/data/heard_lines.js 由 HEARD 送：
      h503_yule 後面兩句（同一組、同樣的條件）；h509_yule 第二則的選項（heard3d.js 的 ask；選項只給 S.kxOk 的玩家：HEARD.COND.yuleOwn）。
    ■ 第 1 節 誰收得到（第 3～6 節新的都照這個；原有八則照原本的 HEARD.COND.yule）：S.ownOk＝法律系、HEARD.COND.yule（見過她或手機裡有她）＋S.kxOk（和可昕沒有鬧翻）：
@@ -10,7 +10,7 @@
    ■ 第 3 節 她自己的事（YULE_LINES.own，十三則＋第 5 節 1/12 的報告）：到了時間（臺灣時間；人在國外換當地時間，HEARD.loc）就送一次；晚三天以上不補（同 HEARD.LATE）；
        到的時候條件不成立＝這一則不送（記 x:原因，之後條件成立也不補）。{if:鍵} 那幾則照 S.IF。
    ■ 第 4 節 演講那一晚：10/14（四）22:00 邀請（回覆期限 10/20 18:00；記 YL_LEC）→ ①'listen' 10/20（三）18:50 霖澤館 201、②'eat' 20:15 阿鳳麵店（OUT.plan，出遊 ADV
-       ev_yule_lecture；演完記 YL_ROOM、記憶 YL_LECTURE）；③、沒回（期限過了記 'no'）＝10/20 21:40 私訊四則；①②沒到（OUT 的 missed、21:40 還沒出發）＝同一則、第一則換掉。
+       ev_yule_lecture；演完記 YL_ROOM、記憶 YL_LECTURE）；③、沒回（期限過了記 'no'）＝10/20 21:40 私訊四則；①②沒到（OUT 的 missed、21:40 還沒出發）＝同一個時間、那一版的四則（第 10 節第 7 點，c884a12ca）。
        那之前和可昕鬧翻了＝排好的出遊取消、21:40 那一則不送。見面要人在臺灣：大三上三條路線都在臺灣（稿第 1 節），不另外擋。
    ■ 第 5 節 11/7：h509_yule 的選項記 YL_RPT（'ask'／'up'／'night'，期限 23:54）；23:55 三則（有選項的那一版才有，不管回了沒有；'up' 多一則）；'ask' 的 2029-01-12 22:00 報告（第 3 節 yl_report）。
    ■ 第 7 節：YL_LEC、YL_ROOM、YL_RPT、記憶 YL_LECTURE（SOCIAL.remember('yule',…)；記憶簿文字 SOCIAL.MEMORY_LABEL，YULE_LINES.mem）。另外兩個記帳用的：G.flags.YL_PH＝{訊息 id:'sent'|'x:原因'}；
@@ -94,13 +94,13 @@ const YULE=(function(){
     if(q&&q.state==='planned'&&!S.kxOk(G)) q.state='cancelled';   /* 那之前和可昕鬧翻了＝不演（見過她：邀請送出的時候已經成立，之後不再看）*/
     /* 4-4 21:40 */
     if(R[B.id]) return; const w=S.due(G,B.at); if(!w) return; if(w==='late'){ R[B.id]='x:late'; return; }
-    let first=B.t[0];
+    let lines=B.t;
     if(o){ if(q&&q.state==='done'){ R[B.id]='x:went'; return; } if(q&&q.state==='cancelled'){ R[B.id]='x:cancelled'; return; }
       if(q&&q.state==='planned') q.state='missed';   /* 21:40 還沒出發（人在家 OUT.tick 不跑的時候）＝沒到 */
-      first=B.miss[F.YL_LEC]; }
+      lines=B.miss[F.YL_LEC]; }   /* ①、②沒到：那一版的四則（第 10 節第 7 點）*/
     else if(F.YL_LEC!=='no') return;
     if(!S.kxOk(G,w.tw)){ R[B.id]='x:cond'; return; }
-    PHONE.at(G,w.day,w.h,[first].concat(B.t.slice(1)).map(YM),B.id); R[B.id]='sent'; };
+    PHONE.at(G,w.day,w.h,lines.map(YM),B.id); R[B.id]='sent'; };
 
   /* ---------------- 第 5 節 11/7 23:55 ---------------- */
   S.askSent=(G,id)=>(G.msgs||[]).some(m=>m&&m.ask&&m.ask.id===id)||(typeof PHONE!=='undefined'&&PHONE.rec(G).q.some(q=>(q.items||[]).some(it=>it&&it.ask&&it.ask.id===id)));
