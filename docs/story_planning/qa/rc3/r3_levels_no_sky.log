@@ -1,0 +1,32 @@
+  [前置／捷徑] 讀檔：第三天 10:00 霖澤館大廳（事件關閉）
+renderer/render available: True
+f1_mid sky=0.000 {"py": 1.12, "lv": 0, "cy": 4.41, "vis": [true, true]}
+landing sky=0.000 {"py": 2.18, "lv": 0, "cy": 5.47, "vis": [true, true]}
+f2_low sky=0.000 {"py": 2.66, "lv": 0, "cy": 5.94, "vis": [true, true]}
+f2_mid sky=0.000 {"py": 3.22, "lv": 0, "cy": 6.51, "vis": [true, true]}
+f2_high sky=0.000 {"py": 3.85, "lv": 1, "cy": 7.13, "vis": [true, true]}
+top sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+f2_down_view sky=0.000 {"py": 3.22, "lv": 0, "cy": 6.51, "vis": [true, true]}
+  [前置／捷徑] 一樓電梯：走到叫車點、按互動、選 2F
+interact: 搭電梯
+choices: ['1F 大廳現在在這一層', '2F 201、202 教室', '3F 討論區、301、302', '4F 自習討論區、401、402', '5F–8F 研究室（教職員）研究室樓層（教職員）', '不搭了，出去']
+elev 0 sky=0.000 {"py": 0, "lv": 0, "cy": 2.6, "vis": [true, true]}
+elev 1 sky=0.000 {"py": 0.31, "lv": 0, "cy": 2.69, "vis": [true, true]}
+elev 2 sky=0.000 {"py": 1.76, "lv": 0, "cy": 3.69, "vis": [true, true]}
+elev 3 sky=0.000 {"py": 4.2, "lv": 1, "cy": 6.74, "vis": [true, true]}
+elev 4 sky=0.000 {"py": 4.2, "lv": 1, "cy": 6.8, "vis": [true, true]}
+elev 5 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 6 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 7 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 8 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 9 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 10 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 11 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 12 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 13 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 14 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+elev 15 sky=0.000 {"py": 4.2, "lv": 1, "cy": 7.48, "vis": [true, true]}
+PASS 上下樓梯、搭電梯每一個位置的天空像素都 < 3%  worst=f1_mid 0.000
+PASS 有量到電梯途中
+errors: []
+ALL PASS

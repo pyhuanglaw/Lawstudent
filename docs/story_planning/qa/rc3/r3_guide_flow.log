@@ -1,0 +1,25 @@
+  [前置／捷徑] 讀檔：第二天 15:30 校園霖澤館前，舊存檔格式（只有目標文字、沒有 goalDest）
+{"dest": {"zone": "cafe", "name": "兩點半 Café"}, "tgt": {"x": -125.5, "z": -5.27, "text": "走出校門", "via": "gongguan"}, "route": 10, "bar": true, "txt": "走出校門（往兩點半 Café） · 約 200 m", "arrow": "rotate(-134.3deg)", "markers": 15}
+PASS 舊存檔推算出目的地＝兩點半 Café
+PASS 校園裡指向「走出校門」  {'x': -125.5, 'z': -5.27, 'text': '走出校門', 'via': 'gongguan'}
+PASS 有路線  10
+PASS 導航條顯示  走出校門（往兩點半 Café） · 約 200 m
+PASS 點小地圖打開大地圖
+PASS 關閉大地圖、遊戲繼續
+  [前置／捷徑] 瞬移到校門內側 (-108,2)，面向西
+[{"t": "大一女舍 A 棟（傳達室）", "s": "", "g": false, "v": false}, {"t": "大一女舍 B 棟", "s": "", "g": false, "v": false}, {"t": "校門・往公館", "s": "", "g": false, "v": true}, {"t": "校門・往公館", "s": "", "g": true, "v": true}, {"t": "從後門出去（118 巷）", "s": "", "g": false, "v": false}, {"t": "霖澤館", "s": "", "g": false, "v": false}, {"t": "萬才館", "s": "", "g": false, "v": false}, {"t": "總圖書館", "s": "開放 08:00–22:00", "g": false, "v": false}, {"t": "男生宿舍", "s": "", "g": false, "v": false}, {"t": "社科院圖書館", "s": "開放・今天 08:20–22:00", "g": false, "v": false}, {"t": "萬才館（二樓）", "s": "", "g": false, "v": false}, {"t": "共同教學館", "s": "", "g": false, "v": false}, {"t": "普通教學館", "s": "", "g": false, "v": false}, {"t": "博雅教學館", "s": "", "g": false, "v": false}, {"t": "體育館", "s": "", "g": false, "v": false}]
+PASS 校門的入口標記是金色
+  [前置／捷徑] 進入公館（GAME.enter）
+{"tgt": "往溫州街", "txt": "往溫州街（往兩點半 Café） · 約 85 m", "mk": ["阿鳳麵店||false", "舊路書房||false", "便利商店|24 小時|false", "往溫州街||true", "台大校門||false", "台大校門||false"]}
+PASS 公館指向「往溫州街」  往溫州街
+{"tgt": "進入兩點半 Café", "txt": "進入兩點半 Café · 約 10 m"}
+PASS 溫州街指向 Café 的門  進入兩點半 Café
+  [前置／捷徑] 回校園總圖門口、時間 07:12
+interact: 進入總圖書館
+toast/dlg:   總圖書館 開放時間 08:00–22:00。現在沒有開，今天 08:00 開館。
+PASS 閉館訊息寫開放時間與幾點開    總圖書館 開放時間 08:00–22:00。現在沒有開，今天 08:00 開館。
+PASS 直向：點小地圖打開大地圖
+PASS 直向：導航條不和體力列、小地圖重疊  {'hudR': False, 'minimap': False}
+page errors: []
+PASS 沒有 JS 錯誤  []
+ALL PASS

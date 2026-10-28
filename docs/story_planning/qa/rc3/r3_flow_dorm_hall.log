@@ -1,0 +1,40 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：星期六 8:30（第 8 天）、宿舍房間裡（房門內側 (0,2.4)）、晴天
+  [  42.8s] 「房門」途中：phone 開著（遊戲暫停），先關掉
+  [  54.2s] 到達「房門」附近（0.25 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+PASS 房間的門口出現「走出房間」
+PASS 「走出房間」→ 宿舍走廊
+PASS 站在二樓走廊、自己的房門前（第 1 層、3.6 m）、站得住；不會一出來就跳出「回房間」  {"zone": "dorm_hall", "x": 5.5, "z": 0.4, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "207 寢室", "hour": 8.53, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 3.6, "lv": 1, "frame": 73, "paused": false}
+  [ 116.5s] 到達「204 寢室門口」附近（0.17 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，46 秒
+PASS 走到 204 寢室門口（二樓走廊）、門關著有說明  「204 寢室。門關著，裡面有人在講電話。」
+  [ 278.8s] 到達「門廳的舍監室窗口（走樓梯下來）」附近（0.14 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，156 秒
+PASS 從二樓走樓梯下一樓（經過平台 1.8 m）、走到門廳（第 0 層、地面）  平台取樣 16；{"zone": "dorm_hall", "x": -1.74, "z": 3.06, "ry": 6.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "舍監室窗口", "hour": 8.74, "stand": true, "camYaw": 1.854, "fallbacks": 0, "y": 0, "lv": 0, "frame": 416, "paused": false}
+PASS 舍監室窗口：看得懂的說明（門禁）  「舍監室窗口：簽收包裹、借鑰匙、訪客登記。值班的工讀生抬頭看了你一眼：「同學，晚上十二點門禁喔。」」
+  [ 303.5s] 到達「信箱」附近（0.07 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，15 秒
+PASS 信箱：走得到、有說明  「你的信箱裡只有一張披薩店的傳單，和宿舍會費的繳費通知。」
+  [ 323.4s] 到達「大門」附近（0.19 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，13 秒
+PASS 走到大門、出現「離開宿舍」
+PASS 「離開宿舍」→ 校園
+PASS 回到校園：宿舍門廊前面 (20,54)、站得住  {"zone": "campus", "x": 20, "z": 54, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 8.8, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 504, "paused": false}
+  [ 404.5s] 到達「宿舍門口」附近（0.08 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，64 秒
+PASS 「回宿舍」→ 宿舍門廳
+PASS 在宿舍門廳（第 0 層、地面）、站得住；不會一進來就跳出「離開宿舍」  {"zone": "dorm_hall", "x": 0, "z": 5.6, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 8.88, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 627, "paused": false}
+  [ 467.9s] 到達「交誼廳的沙發」附近（0.16 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，56 秒
+PASS 走到交誼廳的沙發（出現「坐在沙發上」）
+PASS 坐在交誼廳的沙發上（坐姿）  {"zone": "dorm_hall", "x": 9, "z": 3.35, "ry": 1.57, "busy": true, "pose": "sit", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 8.96, "stand": false, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 764, "paused": false}
+PASS 站起來、站得住（還在一樓）  {"zone": "dorm_hall", "x": 9.75, "z": 3.35, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐在沙發上", "hour": 9.3, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 780, "paused": false}
+  [ 589.8s] 到達「自己的房門（走樓梯上二樓）」附近（0.22 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，113 秒
+PASS 走樓梯上二樓（經過平台 1.8 m）、走到自己的房門（第 1 層、3.6 m、出現「回房間」）  平台取樣 14；{"zone": "dorm_hall", "x": 5.28, "z": -0.67, "ry": 1.49, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "回房間（203）", "hour": 9.43, "stand": true, "camYaw": 4.632, "fallbacks": 0, "y": 3.6, "lv": 1, "frame": 990, "paused": false}
+PASS 「回房間（203）」→ 房間
+PASS 回到房間：房門內側 (0,2.4)、站得住；書桌「坐在書桌前」還在  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": true, "pose": "idle", "path": 0, "dlg": true, "dtext": "選課結", "choices": 0, "interact": "", "hour": 9.44, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1000, "paused": false}
+  [ 626.1s] 到達「房門」附近（0.27 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，24 秒
+PASS 再走出房間 → 二樓走廊
+PASS 在宿舍二樓走廊存檔：存檔記錄區域、樓層（lv=1）、位置與高度  {"k": "fatiao3d_slot_3", "pos": {"x": 5.5, "z": 0.4, "yaw": 0, "lv": 1, "y": 3.6}}
+PASS 重新整理
+PASS 讀檔：回到宿舍二樓走廊（第 1 層、3.6 m）  {"zone": "dorm_hall", "x": 5.5, "z": 0.4, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "207 寢室", "hour": 9.47, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 3.6, "lv": 1, "frame": 29, "paused": false}
+  [ 782.7s] 到達「二樓走廊西端」附近（0.11 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，86 秒
+PASS 讀檔之後走得動（走到二樓走廊西端，還在二樓）  {"zone": "dorm_hall", "x": -8.89, "z": 0, "ry": -1.6, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 9.55, "stand": true, "camYaw": 1.543, "fallbacks": 0, "y": 3.6, "lv": 1, "frame": 166, "paused": false}
+PASS 路人走樓梯上下樓（240 秒內高度變化 ≥ 1.5 m）  [[0.9818181818181818, 2.7818181818181817], [0, 0]]  18 秒
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+PASS 沒有 JS 例外  []
+ALL PASS
