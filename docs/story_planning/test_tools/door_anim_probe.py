@@ -59,6 +59,10 @@ async def quick(pg, cdp, run, zone, name):
 
 async def door(pg, cdp, run, to, pre, expect, tag, double=False):
     """走到通往 to 的出入口（label 開頭 pre），等互動鍵是它，按下去；回傳這一次的紀錄"""
+    s = await L.state(pg)
+    if s['dlg'] or s['choices'] or s['busy']:   # BB-C 10-28：進 Café 會先演一句旁白（「你點了拿鐵，拿到的是手沖…」），第一輪沒點掉就去找門＝07 整段卡在對話框（工具錯，不是遊戲）
+        run.note('%s：前一段還有對話「%s」→ 像玩家一樣點完再走' % (tag, (s.get('dtext') or '')[:30]))
+        await L.advance_dialogs(pg, cdp, run, lambda s: not s['dlg'] and not s['choices'] and not s['busy'], max_steps=40)
     it = await pg.evaluate(FIND_JS + "(%s)" % json.dumps([to, pre]))
     if not it:
         run.check('%s：找得到出入口（→%s %s）' % (tag, to, pre or ''), False, await pg.evaluate("GAME.G.zone")); return None
@@ -102,6 +106,10 @@ async def door(pg, cdp, run, to, pre, expect, tag, double=False):
 
 
 async def can_walk(pg, cdp, run, tag):
+    s = await L.state(pg)
+    if s['dlg'] or s['choices'] or s['busy']:
+        run.note('%s：還有對話「%s」→ 點完再推搖桿' % (tag, (s.get('dtext') or '')[:30]))
+        await L.advance_dialogs(pg, cdp, run, lambda s: not s['dlg'] and not s['choices'] and not s['busy'], max_steps=40)
     moved, n, s = await L.push_until(pg, cdp, 0, -60, 0.3, max_pushes=3, ms=1200)
     run.check('%s：推搖桿走得動' % tag, moved >= 0.3, '%.2f m／%d 次 %s' % (moved, n, s['zone']))
 
