@@ -19751,6 +19751,20 @@
    "kind": "wip",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "reason": "LAWWW2 霖澤館大廳第二版（LINZE-LOBBY-V2-1028：樓梯側面木條牆、北牆角落法學院展示櫃）的 WIP，X125 室內檢討的下一間，還沒交件（LAWWW-C 10-28 08:1x 分類）"
+  },
+  {
+   "sha": "31ced4d4",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-LOBBY2",
+   "reason": "LAWWW2 LINZE-LOBBY-V2-1028 交件準備：最終 GLB＋白天／晚上光照貼圖（重烘）的 WIP，交件 98b90c9c5 的祖先（LAWWW-C 10-28 09:2x 分類）"
+  },
+  {
+   "sha": "a5fe246c",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-LOBBY2",
+   "reason": "LAWWW2 LINZE-LOBBY-V2-1028 README 截圖一節、檢討報告第 6 節記第四包的 WIP，交件 98b90c9c5 的祖先（LAWWW-C 10-28 09:2x 分類）"
   }
  ]
 }
