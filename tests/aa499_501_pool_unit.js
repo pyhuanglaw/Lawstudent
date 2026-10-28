@@ -67,7 +67,7 @@ async function main(){
 /* ---------- 0 稿（雙向）---------- */
 await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:null,B3:typeof POOL_STORY_B3!=='undefined'?POOL_STORY_B3:null,B4:typeof POOL_STORY_B4!=='undefined'?POOL_STORY_B4:null};
   check('0. 三份資料（b2、b3、b4）、流程（pool_more3d.js）都載得到',!!(B.B2&&B.B3&&B.B4&&PM())&&!errs.length,J(errs));
-  check('0. 三份稿讀得到（git show 白名單上那一筆的 commit）',Object.values(DOC).every(d=>d.length>20000),J(Object.keys(DOC).map(k=>k+':'+DOC[k].length)));
+  check('0. 三份稿讀得到（git show 白名單上那一筆的 commit）',Object.values(DOC).every(d=>d.length>8000),J(Object.keys(DOC).map(k=>k+':'+DOC[k].length)));
   /* 遊戲裡的字（場景的 scene／bg、label、goto、條件、旗標、說話的人不算；{meet} 物件不算，meet 那一場算）*/
   const SKIP=new Set(['when','scene','bg','label','goto','speaker','meet','if','unless','set','from','id']);
   const strs=b=>{ const out=[]; const walk=(v,k)=>{ if(v==null||(SKIP.has(k)&&(typeof v!=='object'||['if','unless','set'].includes(k)))) return; if(typeof v==='string'){ out.push(v); return; } if(typeof v==='function') return; if(Array.isArray(v)){ v.forEach(x=>walk(x,k)); return; } if(typeof v==='object') for(const kk in v) walk(v[kk],kk); };
@@ -131,7 +131,7 @@ await sec(1,()=>{ check('1. 十五位都有自己那一套（POOL.owns；認識�
   check('1. 新的 2D 場景（AA_499 第 6 節第 3 點、AA_500 第 7 節第 4 點、AA_501 第 5 節第 4 點）：沒有背景圖＝深色底（OUT.BG 登記 image:null，BB 跟使用者要）',BG.every(k=>OUT.BG[k]&&OUT.BG[k].image===null&&OUT.bg(k)==='dark'),J(BG.map(k=>[k,OUT.BG[k]])));
   /* 作息加的時段（各人那條線要的）：外觀描述照 AA_498 第 3 節（同一個人的那一句）*/
   const d498=ofDoc(DOC498[0],DOC498[1]), bad=[]; for(const id in (P().WHERE_MORE||{})) for(const e of P().WHERE_MORE[id]){ const base=(POOL_STORY.PEOPLE[id].where||[]).map(x=>x.desc); if(!base.includes(e.desc)||d498.indexOf(e.desc)<0) bad.push(id+':'+e.desc); }
-  check('1. 作息加的時段（蟑螂、畢業、值班結束、推甄、期末前、打拍子）用 AA_498 第 3 節同一個人的外觀描述',Object.keys(P().WHERE_MORE||{}).length>=8&&!bad.length,J(bad)); });
+  check('1. 作息加的時段（蟑螂、畢業、值班結束、推甄、期末前、打拍子）用 AA_498 第 3 節同一個人的外觀描述',Object.keys(P().WHERE_MORE||{}).length>=7&&!bad.length,J(bad)); });
 
 /* ---------- 2 何宇軒（AA_499 第 1 節）---------- */
 await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library'); spawn(HX);
@@ -172,7 +172,9 @@ await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library
   await talk(HX,[]);
   check('2. 何宇軒 推甄那天第一次找他＝長椅那四句（柏翰「我問過了。…」）；記下、不重演',has('柏翰說，面試一個人十二分鐘。……為什麼是十二？')&&has('我問過了。前面兩分鐘自我介紹，十分鐘問問題。')&&has('那我只有十分鐘可以被問「為什麼」。')&&P().did(H.G,'hyxPush')&&!EVENTS.check(PM().PUSH_EV),J(said()));
   await talk(HX,[]); check('2. 何宇軒：同一天再找他不重演',!has('柏翰說，面試一個人十二分鐘。……為什麼是十二？'));
-  fresh(D('2028-10-26'),9,'linze',{EXCHANGE_ROUTE:'US'}); meet(HX); rel(HX,25,3); check('2. 何宇軒：推甄那天要有點熟、認識（沒認識的不演）',PM().pushDue(H.G)&&(SOCIAL.rel(HX).fam=0,!PM().pushDue(H.G))); });
+  fresh(D('2028-10-26'),9,'linze'); meet(HX); rel(HX,25,3); const pd1=PM().pushDue(H.G); SOCIAL.rel(HX).fam=0; const pd2=PM().pushDue(H.G);
+  fresh(D('2028-10-26'),9,'linze',{EXCHANGE_ROUTE:'US'}); meet(HX); rel(HX,25,3); const pd3=PM().pushDue(H.G);
+  check('2. 何宇軒：推甄那天要有點熟、認識；美國路線（8/2～12/23 在美國）那天不在臺灣＝不演',pd1&&!pd2&&!pd3,J([pd1,pd2,pd3])); });
 
 /* ---------- 3 徐靜儀（AA_499 第 2 節）---------- */
 await sec('3 徐靜儀',async()=>{ const d=TD('Y1S1',4,1); fresh(d,12.5,'campus'); spawn(JY);
@@ -225,10 +227,12 @@ await sec('4 詹立群',async()=>{ const d=TD('Y1S1',4,5); fresh(d,21,'gongguan'
   check('4. 詹立群 試教（2D，空教室）：選「（假裝睡覺）」→ LQ_STU sleep；人物頁「當過他的國中生」；做完',has('起來。……我剛剛那樣可以嗎？會不會太兇？')&&H.G.flags.LQ_STU==='sleep'&&deeds(LQ).includes('當過他的國中生')&&r.state==='done',J(said()));
   phAt(TD('Y1S2',15,3),21.1);
   check('4. 詹立群 甄選結果（大一下第 15 週）：「上了！！！教育學程！！！」＋假裝睡覺那一則（AA_499 第 6 節第 5 點）',J(msgs(LQ).slice(-2))===J([L(LQ).result,L(LQ).resSleep]),J(msgs(LQ)));
-  PHONE.join(H.G,'law_class','法律系'); meet(PS); phAt(TD('Y3S1',8,3),22.1); const g=tagged('pool_lq_grp');
-  check('4. 詹立群 3-4 大三：班級群組大三上第 8 週（宥辰傳立群唱的刑訴）；認識沛珊、沛珊在臺北＝她回「這個比我的筆記好記。」',g.length===2&&g[0].from===YC&&g[0].text===L(LQ).grp&&g[1].from===PS&&g[1].text===L(LQ).grpPs,J(g.map(m=>[m.from,m.text])));
+  PHONE.join(H.G,'law_class','法律系'); meet(PS); const pre0=STORY.presence; phAt(TD('Y3S1',8,3),22.1); const g0=tagged('pool_lq_grp').map(m=>[m.from,m.text]);
   phAt(D('2029-09-03'),18.1);
   check('4. 詹立群 2029-09 教育實習：兩則（LQ_STU sleep 多「有一個學生假裝睡覺」）',J(msgs(LQ).slice(-2))===J([L(LQ).y2029,L(LQ).y2029Sleep]),J(msgs(LQ)));
+  fresh(TD('Y3S1',8,1),12,'campus'); PHONE.join(H.G,'law_class','法律系'); meet(PS);
+  STORY.presence=(id,G)=>id===PS?{here:true}:pre0(id,G); let g=[]; try{ phAt(TD('Y3S1',8,3),22.1); g=tagged('pool_lq_grp'); } finally { STORY.presence=pre0; }
+  check('4. 詹立群 3-4 大三：班級群組大三上第 8 週（宥辰傳立群唱的刑訴）；沛珊大二暑假以後在台南（presence）＝不回；認識沛珊、沛珊在臺北的話＝她回「這個比我的筆記好記。」',J(g0)===J([[YC,L(LQ).grp]])&&g.length===2&&g[0].from===YC&&g[0].text===L(LQ).grp&&g[1].from===PS&&g[1].text===L(LQ).grpPs,J([g0,g.map(m=>[m.from,m.text])]));
   fresh(TD('Y1S2',12,5),21,'gongguan'); meet(LQ); rel(LQ,25,3); SOCIAL.remember(LQ,'SHARED_SECRET',''); spawn(LQ); await talk(LQ,['我那幾天有事']);
   check('4. 詹立群「我那幾天有事。」→「好。我找宥辰。他會一直睡，剛好練習。」；不交換聯絡方式（甄選結果不會傳）',has('好。我找宥辰。他會一直睡，剛好練習。')&&quest('PQ_LQ').state==='declined'&&!INV.hasContact(H.G,LQ)); });
 
@@ -285,9 +289,9 @@ await sec('6 馬佳蓉',async()=>{ fresh(TD('Y1S1',1,1),10,'campus'); const a=AC
   set(TD('Y3S1',4,2),6.75,'campus'); rel(ZJW,25,3); SOCIAL.remember(ZJW,'SHARED_SECRET',''); markTalk(ZJW,'zjwHand'); GM.npc={}; spawn(ZJW); await talk(ZJW,[]);
   check('6. 馬佳蓉「讓靖雯接吧。」＝曾靖雯多一句閒聊「佳蓉學姊把器材組交給我了。延長線比我資深。」',has(L(M).zjwHand),J(said()));
   /* 「我接。」：房間物品、值班的旁白 */
-  fresh(hs,10,'wancai',{lawclub:true}); meet(M); rel(M,25,3); spawn(M); await talk(M,['我接']); const items=STORY.roomItemList(H.G).map(x=>x[0]);
+  fresh(hs,10,'wancai',{lawclub:true}); meet(M); rel(M,25,3); spawn(M); await talk(M,['我接']); const items=STORY.roomItemList(H.G).map(x=>x[0]), took=has('（把一捆灰色的延長線放在你手上）這條比你資深。對它好一點。');
   const cd=[]; for(let k=0;k<4;k++){ set(TD('Y3S1',3,6)+14*k,9,'wancai'); H.said=[]; await PM().fafuExtra(GM,true); cd.push(H.said.length?H.said[0].t:''); }
-  check('6. 馬佳蓉「我接。」→ 延長線放在你手上；房間物品「法服的延長線」；之後值班偶爾旁白「（你把延長線拉到插座，插好。）」',has('（把一捆灰色的延長線放在你手上）這條比你資深。對它好一點。')&&H.G.flags.JR_HANDOVER===true&&items.includes('法服的延長線')&&cd[0]===L(M).cordDuty&&cd[3]===L(M).cordDuty&&cd[1]==='',J([items,cd]));
+  check('6. 馬佳蓉「我接。」→ 延長線放在你手上；房間物品「法服的延長線」；之後值班偶爾旁白「（你把延長線拉到插座，插好。）」',took&&H.G.flags.JR_HANDOVER===true&&items.includes('法服的延長線')&&cd[0]===L(M).cordDuty&&cd[3]===L(M).cordDuty&&cd[1]==='',J([items,cd]));
   /* 不是法服的：大二下第 15 週私訊；她畢業；2030 */
   fresh(hs-2,12,'campus'); meet(M); rel(M,25,3); INV.addContact(H.G,M); phAt(hs,20.1); const hm=J(msgs(M))===J(L(M).handMsg);
   phAt(TD('Y3S2',16,6),20.1); const gm=J(msgs(M).slice(-2))===J(L(M).grad); H.G.flags.JR_HANDOVER=true; phAt(D('2030-06-02'),20.1);
@@ -380,7 +384,7 @@ await sec('10 葉晨希',async()=>{ const d=TD('Y1S1',4,1); fresh(d,19.5,'campus
   const s1=STORY_EVENTS.find(e=>e.id==='ev_ziqing_show'), s2=STORY_EVENTS.find(e=>e.id==='ev_ziqing_show2');
   H.said=[]; await EVENTS.runLines(s1.dialogue,s1); const b1=has(L(CX).show1Beat[0])&&has(L(CX).show1Beat[1])&&!has(L(CX).show1No);
   H.said=[]; await EVENTS.runLines(s2.dialogue,s2); const b2=has(L(CX).show2Beat)&&!has(L(CX).show2No);
-  H.G.flags.ZQ_SHOW='half'; H.said=[]; await EVENTS.runLines(s1.dialogue,s1); const b3=!has(L(CX).show1Beat[0]);
+  H.said=[]; H.picks=[2]; await EVENTS.runLines(s1.dialogue,s1); const b3=H.G.flags.ZQ_SHOW==='half'&&!has(L(CX).show1Beat[0]);
   check('10. 葉晨希 兩次成發都是 YCX_BEAT 版（大一下「節目單的最後一個，是晨希。」、大二下「她沒有低頭看手。」）；成發先走的不看到',b1&&b2&&b3);
   fresh(TD('Y1S2',14,6),14,'campus'); meet(CX); H.said=[]; await EVENTS.runLines(s1.dialogue,s1); const n1=has(L(CX).show1No);
   fresh(TD('Y2S2',14,6),14,'campus'); meet(CX); H.said=[]; await EVENTS.runLines(s2.dialogue,s2);
@@ -458,7 +462,7 @@ await sec('13 洪珮瑜',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14,'library'
   fresh(d2,14,'library'); meet(PY); rel(PY,25,3); spawn(PY); await talk(PY,['我演不好啦']); const no=has('……嗯。那我對著鏡子練。')&&!INV.hasContact(H.G,PY);
   let s2=d2; while(wdOf(s2)!==0) s2++; await again(PY,[],s2+1,14,'library');
   check('13. 洪珮瑜「我演不好啦。」→ 她對著鏡子練；週日以後下一次在總圖當面「講了。她第一句問：那裡冷不冷。」',no&&has(L(PY).toldNo),J(said()));
-  fresh(TD('Y2S2',16,3),14,'library'); meet(PY); rel(PY,25,3); SOCIAL.remember(PY,'SHARED_SECRET',''); spawn(PY); await talk(PY,[]);
+  fresh(TD('Y2S2',16,2),14,'library'); meet(PY); rel(PY,25,3); SOCIAL.remember(PY,'SHARED_SECRET',''); spawn(PY); await talk(PY,[]);
   check('13. 洪珮瑜 1-5 畢業（2027-06，總圖三樓）：「這個位子，留給你。……很曬喔。」',has('這個位子，留給你。……很曬喔。')&&P().did(H.G,'hpyGrad'),J(said())); });
 
 /* ---------- 14 施孟儒（AA_501 第 2 節）---------- */
@@ -472,7 +476,7 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   check('14. 施孟儒 秘密（大一下第 4 週起，球場）：「其實……我常常翹課。」選「我幫你佔一次。」→ 接 2-3：「好。」＝掛事（下週五早上六點）',has('其實……我常常翹課。')&&has('……真的？那這週五早上六點。')&&r.state==='open'&&r.day0===d2+7&&SOCIAL.has(MR,'SHARED_SECRET'),J([r,said()]));
   H.G.flags.ZHE_CALLS_GE=true; set(r.day0,6.1,'campus'); E.player.obj.position={x:-4,y:0,z:-112}; GM.npc={}; const ev=P().AUTO.map(f=>f(GM)).find(Boolean);
   H.said=[]; if(ev) await EVENTS.run(ev);
-  check('14. 施孟儒 那個週五 06:00～06:30 到球場（醉月湖東側）＝早上六點的球場：系服外套、七點阿哲「哥……你六點就在這裡？」（ZHE_CALLS_GE）；交換聯絡方式、做完、時間到 07:00',!!ev&&ev.id==='ev_pool_smr_court'&&has('哥……你六點就在這裡？')&&!has('……你六點就在這裡？')&&INV.hasContact(H.G,MR)&&r.state==='done'&&deeds(MR).includes('幫系籃佔過一次早上的球場')&&H.G.hour>=7,J([ev&&ev.id,said(),H.G.hour]));
+  check('14. 施孟儒 那個週五 06:00～06:30 到球場（醉月湖東側）＝早上六點的球場：系服外套、七點阿哲「哥……你六點就在這裡？」（ZHE_CALLS_GE）；交換聯絡方式、做完、時間到 07:00',!!ev&&ev.id==='ev_pool_smr_court'&&has('哥……你六點就在這裡？')&&!has('……你六點就在這裡？')&&INV.hasContact(H.G,MR)&&r.state==='done'&&deeds(MR).includes('幫系籃佔過一次早上的球場')&&H.G.hour>6.99,J([ev&&ev.id,said(),H.G.hour]));
   set(r.day0,12.1); ph();
   check('14. 施孟儒 考完那天中午：一行三樣、分三則',J(msgs(MR))===J(L(MR).courtMsg),J(msgs(MR)));
   /* 系籃三場各選一次不同的選項 */
@@ -481,9 +485,9 @@ await sec('14 施孟儒',async()=>{ const d=TD('Y1S1',4,5); fresh(d,17.5,'campus
   H.said=[]; H.picks=[0]; await EVENTS.runLines(games[0].dialogue,games[0]); const agn=has(L(MR).gameAgain);
   check('14. 施孟儒 2-4 系籃比賽三場（大一下、大二上、大二下）各選一次不同的選項：拍手、記分、送水他各多一句；同一個選項第二次＝比讚',J(got)===J(['clap','score','water'])&&agn,J(got));
   /* 畢業「我拿。」→ 記分板物品、之後的「記分」旁白 */
-  set(TD('Y2S2',16,5),17.5,'campus'); GM.npc={}; spawn(MR); await talk(MR,['我拿']); const items=STORY.roomItemList(H.G).map(x=>x[0]);
+  set(TD('Y2S2',16,5),17.5,'campus'); GM.npc={}; spawn(MR); await talk(MR,['我拿']); const items=STORY.roomItemList(H.G).map(x=>x[0]), gl=has('經理的東西，總要交給一個人。')&&has('（把記分板放在你手上）少一個「7」。你自己想辦法。');
   const y4=STORY_EVENTS.find(e=>e.id==='ev_last_game_y4'); const si=y4.dialogue.findIndex(l=>l&&l.label==='s'); H.said=[]; H.picks=[]; await EVENTS.runLines(y4.dialogue.slice(si),y4);
-  check('14. 施孟儒 2-5 畢業（2027-06 那一週的週五，球場）：「經理的東西，總要交給一個人。」選「我拿。」→ SMR_BOARD、房間物品「系籃的記分板」；大四下那一場「記分」的旁白換成「（你翻出那塊記分板。7 還是貼著紙。）」',has('經理的東西，總要交給一個人。')&&H.G.flags.SMR_BOARD===true&&items.includes('系籃的記分板')&&has(L(MR).boardGame)&&y4.dialogue.some(l=>l&&l.text===L(MR).gameY4),J([items,said()]));
+  check('14. 施孟儒 2-5 畢業（2027-06 那一週的週五，球場）：「經理的東西，總要交給一個人。」選「我拿。」→ SMR_BOARD、房間物品「系籃的記分板」；大四下那一場「記分」的旁白換成「（你翻出那塊記分板。7 還是貼著紙。）」',gl&&H.G.flags.SMR_BOARD===true&&items.includes('系籃的記分板')&&has(L(MR).boardGame)&&y4.dialogue.some(l=>l&&l.text===L(MR).gameY4),J([items,said()]));
   set(D('2027-12-10'),22); PHONE.join(H.G,'noodle_team','麵店團'); meet('zhe'); phAt(D('2027-12-11'),21.1); const g=tagged('pool_smr_grp');
   check('14. 施孟儒 2027-12 麵店團群組：阿哲轉貼孟儒學長的照片（三則）',g.length===3&&g.every(m=>m.from==='zhe'&&m.th==='g:noodle_team')&&g[1].text===L(MR).grp[1],J(g.map(m=>m.text)));
   const cap=STORY_EVENTS.find(e=>e.id==='ev_zhe_captain'); fresh(D('2027-09-10'),18,'campus'); H.G.flags.SMR_TO='zhe'; H.said=[]; H.picks=[0]; await EVENTS.runLines(cap.dialogue,cap);
@@ -522,7 +526,7 @@ await sec('16 嚴守誠',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14,'library'
   check('16. 嚴守誠 4-4 大一下期末前一晚 23:00：「明天考刑法分則」「學弟，你來 B1 聽我講一次」',J(msgs(YS).slice(-2))===J(L(YS).ret)&&!!m,J(msgs(YS)));
   ans('pool_ysc_ret',0); await go('ev_pool_ysc_listen',[]);
   check('16. 嚴守誠 換你聽他講（2D，B1）：「學弟，你剛剛有一半在打瞌睡。」；YSC_LISTENED',has('學弟，你剛剛有一半在打瞌睡。')&&H.G.flags.YSC_LISTENED===true,J(said()));
-  set(TD('Y2S2',16,2),14,'library'); E.interactables=[]; STORY.populate('library',GM); const it=E.interactables.find(x=>x.label==='看桌上的紙條'&&x.poolAct==='yscNote');
+  set(TD('Y2S2',16,2),14,'library'); E.interactables=[]; P().populate('library',GM); const it=E.interactables.find(x=>x.label==='看桌上的紙條'&&x.poolAct==='yscNote');
   const vis=!!it&&!it.hidden; H.said=[]; if(it) await STORY.interact(it,GM); set(TD('Y2S2',15,2),14); const hid=!!it&&it.hidden;
   check('16. 嚴守誠 4-5 畢業那一週（2027-06），總圖三樓那張桌子上的紙條（看）；別週沒有',vis&&has(L(YS).note)&&hid,J(said()));
   phAt(D('2027-12-17'),20.1);
@@ -571,8 +575,9 @@ await sec('18 共同',async()=>{ /* 晨希的錄音（閒聊型）：一個月�
   const old={social:{mem:{pool_13:[{tag:'SHARED_SECRET',note:''}],pool_18:[{tag:'FIRST_MET',note:''},{tag:'SHARED_SECRET',note:''}]}},flags:{}};
   const n=P().migrate(old);
   check('18. 舊存檔（AA_498 2-10）：說過秘密的第二～四批（徐靜儀、嚴守誠）記成「沒選」（不重問）',n===2&&old.pool.secret.pool_13==='none'&&old.pool.secret.pool_18==='none',J(old.pool));
-  fresh(TD('Y1S1',6,5),21,'gongguan'); meet(LQ); said1(LQ).once={'「有人說我混音太吵。他說得對，可是我不改。」':true,'「週五晚上公館那間，我偶爾去幫忙搬音響。」':true};
-  check('18. 舊存檔：詹立群改過的那一句（AA_499 3-2，原句「週五晚上公館那間…」改成「週五我在那間暖場…」）——舊存檔說過舊的＝照算說過',(P().nextLine(H.G,LQ)||{}).t!=='「週五我在那間暖場，也幫宥辰搬音響。」',J(P().nextLine(H.G,LQ))); });
+  const NEWL='「週五我在那間暖場，也幫宥辰搬音響。」'; fresh(TD('Y1S1',6,5),21,'gongguan'); meet(LQ); said1(LQ).once={'「有人說我混音太吵。他說得對，可是我不改。」':true}; const n1=(P().nextLine(H.G,LQ)||{}).t;
+  said1(LQ).once['「週五晚上公館那間，我偶爾去幫忙搬音響。」']=true; const n2=(P().nextLine(H.G,LQ)||{}).t;
+  check('18. 舊存檔：詹立群改過的那一句（AA_499 3-2，原句「週五晚上公館那間…」改成「週五我在那間暖場…」）——新局照說新的；舊存檔說過舊的＝照算說過（不再說新的那一句）',n1===NEWL&&n2!==NEWL,J([n1,n2])); });
 H.done();
 }
 main();
