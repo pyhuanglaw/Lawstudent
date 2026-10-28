@@ -1124,7 +1124,7 @@
    "id": "WIP-LAWWW-PRIV-1028",
    "role": "LAWWW",
    "task": "COMPANY-PRIV-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "4eccd41a0、a32da74ed",
    "branch": "worktree-agent-aa2ffe70a7b9a0623（子代理；D113 備份 wip_backup/priv_y4circle_1028.bundle）",
    "files": [
@@ -1133,7 +1133,8 @@
    "todo": "A：旁邊有她的人時私密選項／場景／階梯步驟不出、等她一個人（AA 06:14 清單）；B：AA_509、AA_510 x-1 圈子加列（CIRCLE3D-Y4-1028）",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 06:14（AA_503 第 2 節）；使用者 10-28 01:2x（X122★）"
+   "source": "AA-C 2026-10-28 06:14（AA_503 第 2 節）；使用者 10-28 01:2x（X122★）",
+   "closedBy": "d55f3aff1（合併子代理 a32da74ed；company_priv 30 項、heroine_circle3d 58 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-AA497B-1028",
