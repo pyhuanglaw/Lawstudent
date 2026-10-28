@@ -70,9 +70,9 @@ async def main():
         seen = False
         for _ in range(60):
             s = await pg.evaluate(ST)
-            if s['dlg'] or s['running'] == EV: seen = True; break
+            if s['dlg'] or s['depth'] > 0 or s['ch']: seen = True; break   # 要真的開演（對話框／鎖／選項）；只看 running＝EV 會被讀檔前留下來的同一個 id 騙過（BB-C 10-28 rel_ev_dev6）
             await pg.wait_for_timeout(500)
-        run.check('新的一局劇情事件演得出來（30 秒內對話框出現、EVENTS.running＝%s）' % EV, seen, json.dumps(s, ensure_ascii=False))
+        run.check('新的一局劇情事件演得出來（30 秒內對話框／選項出現或進劇情）', seen, json.dumps(s, ensure_ascii=False))
         a2 = await click_through(pg, cdp, 180)
         lines = await pg.evaluate("window.__rl.slice(%d)" % n1)
         run.note('新的一局這個事件的句子：%s' % json.dumps(lines[:12], ensure_ascii=False))

@@ -1,0 +1,19 @@
+PASS 遊戲載入
+  [前置／捷徑] [前置] 使用者存檔（day 14）改到 13:24 霖澤館前；關掉條件事件、要回覆的訊息自動開手機
+PASS 前置：有這個事件（ev_bike_flat）
+  [前置／捷徑] [捷徑] void EVENTS.run(ev_bike_flat)，點到第 2 句
+PASS 前置：事件演到一半（EVENTS.running＝ev_bike_flat、對話框開著）  {"running": "ev_bike_flat", "depth": 1, "dlg": true, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": true, "zone": "campus", "day": 14, "hour": 13.4, "loadGen": 1}
+  [前置／捷徑] [捷徑] 對話中 GAME.applySave（同一份使用者存檔改到 21:00 宿舍）
+  [  68.3s] 讀檔 3 秒後 {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21, "loadGen": 2}（loadGen 1 → 2）
+PASS 讀進來是另一份（宿舍、21:00）  {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21, "loadGen": 2}
+  [ 128.6s] 讀檔以後點過的句子：[]
+FAIL 讀檔以後 EVENTS.running 清掉了（照玩家點掉還開著的對話框以後）  {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21.06, "loadGen": 2}
+PASS 讀檔以後不忙、鎖 0 層  {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21.06, "loadGen": 2}
+  [前置／捷徑] [捷徑] 新的一局 void EVENTS.run(ev_bike_flat)
+PASS 新的一局劇情事件演得出來（30 秒內對話框出現、EVENTS.running＝ev_bike_flat）  {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21.06, "loadGen": 2}
+  [ 309.0s] 新的一局這個事件的句子：[]
+FAIL 演完以後 EVENTS.running 清掉、不忙  {"running": "ev_bike_flat", "depth": 0, "dlg": false, "txt": "｜腳踏車架旁邊有人蹲著看自己的後輪。沒氣。他抬頭看你，像在問你有沒有打氣筒。", "ch": [], "busy": false, "zone": "dorm", "day": 14, "hour": 21.24, "loadGen": 2}
+PASS 推搖桿走得動  2.48 m
+PASS 沒有 JS 例外  []
+SHA 60805aa78 EV ev_bike_flat
+FAILED: 讀檔以後 EVENTS.running 清掉了（照玩家點掉還開著的對話框以後）, 演完以後 EVENTS.running 清掉、不忙
