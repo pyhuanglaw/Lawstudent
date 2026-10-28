@@ -246,7 +246,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "R", "variant": "閒聊版", "msgs": ["剛收東西，要去捷運站。"], "tags": ["在臺灣，17:05 那次回覆"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "R", "variant": "閒聊版", "msgs": ["在讀判決。第三份了，眼睛有點酸。"], "tags": [], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在法圖。這裡比研究室安靜。"], "tags": ["在臺灣"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
-   {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在改論文的第二章。", "第四版了。"], "tags": ["大四"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
+   {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在改論文的第四章。", "第四版了。"], "tags": ["大四"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在研究室。", "茶泡了兩杯，才發現只有我一個人。"], "tags": ["祐廷大二起，在臺灣；帶感情的那一句"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版", "affection": true},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["題目拍給我。", "先找條文，再對要件。你先寫，寫完再拍給我。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["這段我以前也沒抄到。去問老師，有人問他會很高興。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},

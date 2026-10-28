@@ -797,8 +797,11 @@ def note_tag(s):
 FILM = [('《東京物語》', '《進城的那一週》'), ('《晚春》', '《父親的午後》')]   # AA_313 6-2（AA-C 定）：真實片名改虛構；tests/msg_chat_unit.js 第 F 項比對前也照這張表換
 
 
+FIX = [('在改論文的第二章。', '在改論文的第四章。')]   # AA_509 0-2 第 1 點（企劃線 691a26400，AA-C 定）：學姊大四上回覆池「第二章」改「第四章」（AA_262 附錄 B C13：大四上第三章寫完、第四章在寫）；tests/msg_chat_unit.js 第 F 項比對前也照這張表換
+
+
 def film(t):
-    for a, b in FILM:
+    for a, b in FILM + FIX:
         t = t.replace(a, b)
     return t
 

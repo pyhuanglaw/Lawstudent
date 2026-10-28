@@ -55,7 +55,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 
 **LAWWW 發布前檢查**：候選 562a5ead9 乾淨 worktree 全部 Node 689 支 0 失敗（10-28 01:1x）；rc3 全部 Node 689 支 0 失敗；HV-15（rc2／rc3，10-28 02:5x）：題目漏收 0（企劃線 8e35600c3 重新匯出 399 題，只有來源那一行不同）、check_orphans 沒用到的素材 88（和 v9.10.11 一樣）、看板停住 115（沒寫恢復條件 0）、check_lines 可能抄錯 506（v9.10.11 504，多的是標題、地點名稱的寫法，不擋發布）；shrine_pocket_check（LAWWW 重跑 rc3）公園 1239 點 0 個死角、土地公站位 23/23 走得到。發布樹（rc3b＋版本字樣）乾淨 worktree 全部 Node 單元測試 689 支 0 失敗（10-28 04:3x）。
 
-**發布後**：BB-C 在 main `d5ca27b89` 跑 deploy_check、門檻以外的 relsuite 剩下項目（萬才館室內、總圖 ×2、課表、教學館、guide、levels_no_sky、宿舍走廊）——結果回來補在這裡。
+**發布後**：deploy_check：BB-C 在 main `d5ca27b89` 的乾淨 checkout（本機 http.server）ALL PASS——標題「版本 v9.10.12（2026-10-28）」、230 個 script 都帶 `?v=`、30 個區域都進得去、玩家正式 VRM、CHAR.failures 空的、2808 個資源網址都載得到、沒有 JS 例外（10-28 04:56）；線上 github.io 沙盒連不到（proxy 403），**線上字樣未由 AI 確認**。BB 核對 main 和 rc3b 的 src、tests、assets 一樣，只差 index.html 的版本字樣。發布後 relsuite 補跑：flow_wancai_floors ✔、flow_library_floors ✔；flow_library_scene、classes、teaching、guide、levels_no_sky、dorm_hall 跑中。
 
 **這版有的（v9.10.11 以後，玩家玩得到的）**：
 - 使用者 10-27 晚上回報的：

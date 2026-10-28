@@ -57,7 +57,7 @@ const SISY23_EVENTS=(function(){
     return i>=0&&!!P&&(P[ID+'@Y2S2']|0)>i; };   /* 階梯的進度＝G.social.ladder['heroine_05@Y2S2']（下一層的位置；story3d.js ladData 的 key）*/
   /* 2-6 的台詞（說話前接演、台階那一版共用）*/
   const US=[ SIS('明年夏天，我想去美國待一個學期。研究交換。'),
-    SIS('八月走，十二月回來。論文的第三章，要在那邊寫。'),
+    SIS('八月走，十二月回來。論文的第四章，要在那邊寫。'),   /* AA_509 0-2 第 1 點（691a26400）：她上飛機前看完第三章（r2y4a_events）*/
     {unless:{custom:G=>dating(G)||heardUS(G)},speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'之前跟你提過。'},
     {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'……申請送出去了。今天才覺得是真的。'},

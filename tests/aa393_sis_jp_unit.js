@@ -29,7 +29,8 @@ let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_393
 try{ doc+='\n'+cp.execSync('git show d94d259ec:"docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_442 第 3 節改了提示那一句（「你禮拜六走，對吧。」）*/
 try{ doc+='\n'+cp.execSync('git show 5f54b6545:"docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_470 4-5 加了 7/10 那一則 */
 try{ doc+='\n'+cp.execSync('git show a4f530c11:"docs/story_planning/AA_490_回LAWWW_學姊第十二批三件_法圖午休改週五_書推過去_讀書會撞期.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_490 4-2 換了 5/29 的第二句（SIS-B12-FIX-1027）*/
-try{ doc+='\n'+cp.execSync('git show 31a4c4002:"docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_508 0-2 第 3 點：4/17 改第三章第一頁、7/10 改第三章寫到一半 */
+try{ doc+='\n'+cp.execSync('git show 31a4c4002:"docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+try{ doc+='\n'+cp.execSync('git show 691a26400:"docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_509 0-2 第 1 點：道別「我四月中寫到第三章」、j2「第三章被教授退回來一半」*/   /* AA_508 0-2 第 3 點：4/17 改第三章第一頁、7/10 改第三章寫到一半 */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
@@ -44,7 +45,7 @@ await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
   const sch=CHARACTERS.heroine_05.daily_schedule.find(r=>J(r.days)===J([1,2,4])&&r.zone==='cafe');
   check('1. 3/23（四）19:30～21:30 在 Café 才演（19:24 不演、不在 Café 不演）；她週四晚上本來就在 Café（作息）',!a&&b&&!c&&!!sch&&sch.from<=19.5&&sch.to>=21.5,J([a,b,c]));
   const r0=Object.assign({},SOCIAL.rel(ID)); H.said=[]; H.picks=[0]; const ran=await SISY23.preTalk(GM); const r1=SOCIAL.rel(ID);
-  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','……我四月中寫完第四章，拍給你看。這是我自己要做到的。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
+  const F1=['（她坐在窗邊的老位子。桌上除了筆電，還有一張已經寫好的便條。）','明天是以安的餞行，我知道。所以今天。','（她把便條推過來。）','（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）','到了在群組說一聲。','……我四月中寫到第三章，拍給你看。這是我自己要做到的。','寫不完你會知道，因為我不會拍。','（九點半，她把筆電闔上。）','走吧。我也要回去了。'];
   check('1. 說話前接演（SISY23.preTalk）：朋友版照稿；「寫不完呢？」→「寫不完你會知道，因為我不會拍。」',ran===true&&F1.every((t,i)=>idx(t)>=0&&(i===0||idx(t)>idx(F1[i-1])))&&!has('（走到路口，她把你的圍巾拉好，才轉身走。）'),J(H.said.map(x=>x.t)));
   check('1. 記 SIS_JP_NOTE true；熟悉 +2、自在 +2；3/24 不再傳照片',H.G.flags.SIS_JP_NOTE===true&&r1.fam-r0.fam===2&&r1.comf-r0.comf===2&&(H.at('2028-03-24',9.5),ph(),!th().some(m=>/便條/.test(m.text))),J([r1.fam-r0.fam,r1.comf-r0.comf]));
   fresh('2028-03-23',19.5); H.date(ID); H.G.zone='cafe'; H.said=[]; H.picks=[1]; await SISY23.preTalk(GM);

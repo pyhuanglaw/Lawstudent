@@ -439,7 +439,7 @@ const R2Y3B=(function(){
   S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
   /* 7/9（日）12:00 語彤生日：照大一的寫法（home3d.js 2026 那一則）——麵店團群組 Alison＋按鈕「傳一句生日快樂」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放同一個按鈕。日本路線也是同一則 */
   S.ytBdayPhone=function(G){ const d=D('2028-07-09'); if(d==null||now(G)<T(d,lt(G,d,12))||now(G)>=T(d+1,lt(G,d+1,0))||PHONE.sent(G,'yt_bday_y3')) return;
-    const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十三個了。'}, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
+    const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十二個了。'}   /* AA_509 0-2 第 2 點：8/22 問阿姨才是第二十三個（9/7「阿姨是第二十三個」）；宜蘭的田野課不算 */, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
     if(grp(G)) PHONE.at(G,d,lt(G,d,12),[{th:NG,from:'yu',text:'今天語彤生日！',ask:{id:'yt_bday_y3',until:T(d+1,lt(G,d+1,0)),opts:[Object.assign({},opt,{say:[Object.assign({th:NG},reply)]})]}}],'yt_bday_y3');
     else if(met(G,'heroine_03','FAMILIAR')) PHONE.at(G,d,lt(G,d,12),[{th:'p:heroine_03',text:'今天是語彤的生日。',ask:{id:'yt_bday_y3',until:T(d+1,lt(G,d+1,0)),opts:[opt]}}],'yt_bday_y3'); };
   /* 芷若「十二張點單」（BB_165 3-2 照 10-18 加註＝AA_343 D8；AA_326 2-Y3-54）：和芷若交往中。台灣路線 8/4（五）21:00 私訊（不用回）→ 8/5（六）14:00 兩點半（店休）；

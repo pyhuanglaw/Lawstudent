@@ -33,7 +33,7 @@ const SISJP_EVENTS=(function(){
         {unless:dt,speaker:null,text:'（便條只有一句：「那邊三月還冷。外套不要收進行李箱最下面。」）'},
         {if:dt,speaker:null,text:'（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）'},
         SIS('到了在群組說一聲。'),
-        SIS('……我四月中寫完第四章，拍給你看。這是我自己要做到的。'),
+        SIS('……我四月中寫到第三章，拍給你看。這是我自己要做到的。'),   /* AA_509 0-2 第 1 點（691a26400）：大三下在寫第三章（4/17 照片第三章第一頁）*/
         {choice:[{text:'「寫不完呢？」',goto:'a'},{text:'「妳也要照顧自己。」',goto:'b'}]},
         {label:'a'},SIS('寫不完你會知道，因為我不會拍。'),{goto:'c'},
         {label:'b'},SIS('我在臺灣。……要照顧自己的是你。'),
@@ -68,7 +68,7 @@ const SISJP_EVENTS=(function(){
         {choice:[{text:'「剛整理過。」',goto:'j1a'},{text:'「日本的房間都這樣。」',goto:'j1b'}]},
         {label:'j1a'},SIS('為了視訊整理的。我看得出來。'),{goto:'end'},
         {label:'j1b'},SIS('那我也想住日本的房間。'),{goto:'end'},
-        {label:'j2'},SIS('第四章被教授退回來一半。'),SIS('我沒有難過。……有一點。'),
+        {label:'j2'},SIS('第三章被教授退回來一半。'),SIS('我沒有難過。……有一點。'),
         {choice:[{text:'「哪一半？」',goto:'j2a'},{text:'（陪她安靜一下）',goto:'j2b'}]},
         {label:'j2a'},SIS('後半。他說太像在說服自己。……他說得對。'),{goto:'end'},
         {label:'j2b'},N('（你們都沒有說話。她那邊的電風扇在轉。）'),SIS('好了。我去改。'),{goto:'end'},

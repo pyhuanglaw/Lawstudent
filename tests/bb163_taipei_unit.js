@@ -40,7 +40,7 @@ GM.money=function(n){ G.money+=n; };
   const ent=(id)=>STORY.schedEnt(CHARACTERS[id],G);
   const ask=(id,pid,day,hh)=>INV.personal(G,id,INV.place(pid),day,hh,INV.decide(G,id,pid,day,hh));
   const L=r=>(r.lines||[]).join('｜');
-  const Y2S2SAT=termDay('Y2S2',5,6), Y2S2SUN=termDay('Y2S2',5,7), Y2S2TUE=termDay('Y2S2',5,2), Y3TUE=termDay('Y3S1',5,2), Y3SAT=termDay('Y3S1',5,6), Y3SUN=termDay('Y3S1',5,7), Y4TUE=termDay('Y4S1',5,2), Y4SAT=termDay('Y4S1',5,6);
+  const Y2S2SAT=termDay('Y2S2',5,6), Y2S2SUN=termDay('Y2S2',5,7), Y2S2TUE=termDay('Y2S2',5,2), Y3TUE=termDay('Y3S1',5,2), Y3SAT=termDay('Y3S1',5,6), Y3SUN=termDay('Y3S1',5,7), Y4TUE=termDay('Y4S1',7,2),   /* AA_509 0-2 第 6 點：子晴國定假日休——第 5 週週二是 2028 中秋（10/3），改第 7 週週二 */ Y4SAT=termDay('Y4S1',5,6);
   const setup=(day,hour,flags)=>{ fresh(day,hour,'campus',flags||{}); for(const id of [PS,ZQ,'heroine_02','heroine_05']){ R(id,...LV.CLO); meet(id); G.contacts[id]=1; } };
   // 1～3. 大二下＝沛珊的重考消失期（BB_205 第 3 節 64aaaa82：2026-12-18～2027-08-06 聯絡不到；BB_163 1-1 的大二下作息、句子不再用）
   setup(Y2S2SAT,9); at(Y2S2SAT,10); let e=ent(PS), r=ask(PS,'library',Y2S2SAT,10);
