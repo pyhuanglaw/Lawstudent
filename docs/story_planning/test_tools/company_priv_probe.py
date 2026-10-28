@@ -198,7 +198,10 @@ async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=420
         if not g['ok']:
             n += 1
             await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：她旁邊（第 %d 輪）' % (tag, n), max_s=100, stop=lambda s, w=g['want']: s['interact'].startswith(w))
-            await pg.wait_for_timeout(500); continue
+            await pg.wait_for_timeout(500)
+            g2 = await pg.evaluate("([a,b])=>__CPF.target(a,b)", [who, avoid])
+            if g2 and not g2['ok']: run.note('%s：到了以後按鈕是「%s」（要「%s」），離她 %s m、她 %s' % (tag, g2['lab'], g2['want'], g2['d'], g2['beh']))   # BB-C 10-28 priv_event 一個人那段 9 輪都沒說到話：記下來看是她走開了還是按鈕被別的東西搶走
+            continue
         tries += 1
         r = await talk(pg, cdp, run, who, rid, tag, pick)
         if r is None: run.note('%s：按了「%s」沒有開始說話，再走近一次' % (tag, g['want'])); continue
