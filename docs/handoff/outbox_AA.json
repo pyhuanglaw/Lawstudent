@@ -3514,6 +3514,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "pool 第一批：曾靖雯、黃郁婷、林采潔、鄭元碩（原鄭凱文）、邱家齊（原邱柏勳）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4545c239e",
+   "files": [
+    "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
+    "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡還有十位：大二的蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文；大三的洪珮瑜、施孟儒、廖芸萱、嚴守誠",
+   "next": "LAWWW：AA_499 五位；社會圖 heroine_03—pool_20 改 referral；AA_497 第 1-10 節宥辰大三兩句更正（唱法條的是立群）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第二批（同屆四位＋馬佳蓉）"
   }
  ],
  "items": [
