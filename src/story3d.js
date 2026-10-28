@@ -438,10 +438,13 @@ const STORY = (function(){
     if(typeof CALENDAR==='undefined') return false; const T=CALENDAR.termOf(G.day); return !!T&&!CALENDAR.holiday(G.day); };
   /* 教授的研究室時間（AA_522 3-2）：不在上課、也不是下課後那 1.5 小時的時候，照這張表在萬才館（和下課後同一個位子）；國定假日、寒暑假不在。
      林教授：大三上週二下午（3-1 她說「來研究室也可以。週二下午。」；研究室事件 ev_prof_lin_office 是 14:00～16:30）——從刑訴下課（12:10，下課後本來就在萬才館）一直到 16:30，
-     中間 13:40～14:00 不先走開再出現 */
-  S.PROF_OFFICE={prof_lin:{terms:['Y3S1'],weekday:2,time:[12,16.5]}};
-  S.profOffice=function(id,G){ const o=S.PROF_OFFICE[id]; if(!o||!G||G.weekday!==o.weekday||typeof CALENDAR==='undefined') return false; const hr=h(G); if(hr<o.time[0]||hr>=o.time[1]) return false;
-    const T=CALENDAR.termOf(G.day); return !!T&&o.terms.includes(T.id)&&!CALENDAR.holiday(G.day); };
+     中間 13:40～14:00 不先走開再出現。
+     許教授（AA_522 第 8 節第 1 點，f36dfe3cf）：每週一 14:00～16:00，四個年級都在（ev_prof_xu_office 照年級，大一、大三也碰得到）；上他課的那幾天下課後照現有（課表優先）。
+     大二上週一上午是他的行政法（12:10 下課，下課後本來就在萬才館）：同林教授，一直待到 16:00，13:40～14:00 不先走開再出現。一位教授可以有幾筆（陣列）*/
+  S.PROF_OFFICE={prof_lin:{terms:['Y3S1'],weekday:2,time:[12,16.5]},
+    prof_xu:[{terms:['Y2S1'],weekday:1,time:[12,16]},{terms:['Y1S1','Y1S2','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weekday:1,time:[14,16]}]};
+  S.profOffice=function(id,G){ if(!G||typeof CALENDAR==='undefined') return false; const hr=h(G), T=CALENDAR.termOf(G.day); if(!T||CALENDAR.holiday(G.day)) return false;
+    return [].concat(S.PROF_OFFICE[id]||[]).some(o=>!!o&&G.weekday===o.weekday&&hr>=o.time[0]&&hr<o.time[1]&&o.terms.includes(T.id)); };
   /* AA_195 4-8：阿哲在 8/29～9/3 照常上課（9/1 憲法、9/3 刑總）；LEGACY_IDS 的「afternoonDone 以後才照作息出現」只對新局、只對上課時間放寬（已經認識他以後） */
   const zheClassOk=(id,c,G)=>{ if(id!=='zhe'||!S.week1Start(G)||!G.flags.MET_ZHE) return false; const e=schedEnt(c,G); return !!(e&&e.act==='class'); };
   /* AA_379 1-4（企劃線 19a4414e；BUG-SIS-PRE94-PRESENCE-1022）：學姊開學（新局 9/1）起照作息出現，不等第二天下午的劇情（afternoonDone）——她的第一次見面是玩家自己去找；9/4 以前找她只有 SIS_PRE_W1 那一句。以安、阿哲、Alison、阿凱、周教授照舊（第一次見面在主線裡）*/
@@ -489,7 +492,8 @@ const STORY = (function(){
         if(from&&E.moveTo){ n=GM.spawnCharacter(id,from.x,from.z,{lv:from.lv|0,pose:'idle'}); if(n){ const stand=()=>{ n.path=null; if(E.placeAt) E.placeAt(n,ts.x,ts.z,ts.lv|0); n.obj.rotation.y=ts.yaw||0; n.faceYaw=null; n.pose=n.idlePose='idle'; n.frozen=true; };
             n.frozen=false; n.tSpot=ts; if(!E.moveTo(n,ts.x,ts.z,stand,ts.lv|0)) stand(); } }
         else { n=GM.spawnCharacter(id,ts.x,ts.z,{yaw:ts.yaw||0,lv:ts.lv|0,pose:'idle'}); if(n){ n.frozen=true; n.tSpot=ts; } } }   /* tSpot：測試、快轉前到位（CLS.settleRoom）用 */
-      else if(ent.prof==='wancai'){ n=GM.spawnCharacter(id,-5,1.2,{yaw:0,pose:'idle'}); if(n) n.frozen=true; }
+      else if(ent.prof==='wancai'){ const sp=[[-5,1.2],[-3.6,1.2]].find(([x,z])=>!E.npcs.some(m=>m&&m.obj&&(m.lv|0)===0&&Math.hypot(m.obj.position.x-x,m.obj.position.z-z)<0.5)&&(!E.canStand||E.canStand(x,z,0.32,0)))||[-5,1.2];
+        n=GM.spawnCharacter(id,sp[0],sp[1],{yaw:0,pose:'idle'}); if(n) n.frozen=true; }   /* 兩位教授同時在萬才館（例：大四下週一許教授的研究室時間＋周教授的專題，AA_522 第 8 節）：第二位站在同一張沙發前、往東 1.4 m，不疊在同一個位子 */
       else if(ent.prof==='lobby'){ const cand=[].concat(E.zone.profSpot?[E.zone.profSpot]:[],[{x:-0.6,z:-5.4,yaw:0},{x:2.6,z:2.2,yaw:Math.PI},{x:-2.4,z:1.6,yaw:Math.PI/2}]);   /* 霖澤館一樓大廳：樓層簡介前、沙發旁 */
         const sp=cand.find(q=>!E.canStand||E.canStand(q.x,q.z,0.32,0))||(E.zone.spawn||{x:0,z:0}); n=GM.spawnCharacter(id,sp.x,sp.z,{yaw:sp.yaw||0,pose:'idle',lv:0}); if(n) n.frozen=true; }
       else n=spawnAt(id,ent);
@@ -3571,9 +3575,12 @@ const STORY = (function(){
   async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('talk',E.player.obj,n.obj); if(F.met_yu&&await relUp(GM,'yu',n)){ GM.sceneEnd(); return; } if(!F.met_yu){ F.met_yu=true; F.metYuDay=G.day; if(Array.isArray(F.CAMP_SEEN)&&F.CAMP_SEEN.includes('yu')) await GM.say(null,S.YU_INTRO.camp);   /* 宿營見過（CAMP_SEEN，AA_205 第 4 節）：第一次正式見面多一句旁白，初遇照舊 */ await GM.say(n,S.YU_INTRO.lines[0],{expr:'smile'}); await GM.say(n,S.YU_INTRO.lines[1]);   /* AA_156 1-3：AA_40 的設定（法服是學姊的讀書會，Alison 不在裡面）*/ GM.rel('yu',2); } else { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=((G.hour%24)+24)%24; if(hh>=8+20/60&&hh<9+5/60&&SOCIAL.has('yu','BREAKFAST_YU')&&F.yuBellDay!==G.day&&T&&(T.id==='Y1S1'||T.id==='Y1S2')){ F.yuBellDay=G.day; await GM.say(n,'欸，今天也經過！',{expr:'smile'}); }   /* AA_156 第 2、4 節：BREAKFAST_YU、大一、早上 08:20～09:05（原 9:30～12:00、當天第一次（AA_118 2-2）*/
       const l=[G.zone==='campus'&&hh<12?'傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。':'我今天早上吃了兩份早餐，好撐。',(d=>d!=null&&G.day>=d)(termDay('Y2S2',1,1))?'我這禮拜兩個社團都要開會，快死了。':'我這禮拜辯論社都要開會，快死了。','溫州街的貓你有看到嗎？咖啡廳門口那隻。'];   /* AA_209 附錄A §2：傅鐘那句只在校園早上（12 點以前）說，其他時候換早餐那句；「辯論社下週」那句換掉。AA_313 5-4：大二下她退了辯論社（AA_497 3-4 的私訊）以後是「兩個社團」。
      AA_497 3-8：「三個社團」只留人物頁、第一次自我介紹、迎新旁白、語 1「她講了十五分鐘」、聖誕禮物那一句；這一句拿掉「三個社團」四個字換成辯論社（列給 AA 看）*/ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'yu',n); GM.sceneEnd(); }
-  async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('talk',E.player.obj,n.obj); if(F.classAnswer==='good') await GM.say(n,G.name+(S.week1Start(G)?'。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。':'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。')); else if(F.classAnswer==='none') await GM.say(n,G.name+'。案例要讀。下週我還會點人。'); else if(S.zhouTalkTerm(G)) await GM.say(n,'有問題可以來研究室。週四下課以後我都在。'); else await GM.say(null,'（'+SOCIAL.displayName('prof_zhou')+'跟你打了個招呼，聊了兩句天氣。）');   /* AA_195 4-11：新局的民總第一堂之後下週從第一條開始；另外兩句去掉「不是 X，是 Y」和格言收尾（新舊局都改）。AA_522 1-1：「週四下課以後」只在他有課的學期說，其他學期聊兩句天氣（同 events.js SMALLTALK.prof_zhou）*/ GM.sceneEnd(); }
+  async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('talk',E.player.obj,n.obj); if(F.classAnswer==='good'&&S.civ1Week(G)) await GM.say(n,G.name+(S.week1Start(G)?'。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。':'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。')); else if(F.classAnswer==='none'&&S.civ1Week(G)) await GM.say(n,G.name+'。案例要讀。下週我還會點人。'); else if(S.zhouTalkTerm(G)) await GM.say(n,'有問題可以來研究室。週四下課以後我都在。'); else await GM.say(null,'（'+SOCIAL.displayName('prof_zhou')+'跟你打了個招呼，聊了兩句天氣。）');   /* AA_195 4-11：新局的民總第一堂之後下週從第一條開始；另外兩句去掉「不是 X，是 Y」和格言收尾（新舊局都改）。AA_522 1-1：「週四下課以後」只在他有課的學期說，其他學期聊兩句天氣（同 events.js SMALLTALK.prof_zhou）*/ GM.sceneEnd(); }
   S.ZHOU_TALK_TERMS=['Y1S1','Y1S2','Y2S1','Y4S2'];   /* AA_522 1-1：周教授有課的學期（民總、債總一、債總二、專題）；events.js SMALLTALK.prof_zhou 的 term 同一份 */
   S.zhouTalkTerm=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return !!t&&S.ZHOU_TALK_TERMS.includes(t.id); };
+  /* AA_522 第 8 節第 3 點（f36dfe3cf）：talkProf 答得好、沒讀那兩句（「下週……」）只在民總第一堂課（主線第二天的劇情課，CLS.storyClass）那一週（週一～週日）說；
+     之後照 1-1（有課的學期「週四下課以後我都在」，其他學期聊天氣）*/
+  S.civ1Week=G=>{ const d0=S.mainD1(G)+1, wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(d0).wd:0; if(!wd) return G.day===d0; const mon=d0-(wd-1); return G.day>=mon&&G.day<mon+7; };
   // ---------- 認識的人現在大概在哪（2026-10-11 使用者：「自由那天根本不知道其他 NPC 在哪，至少給我線索吧」）----------
   // 用角色資料的 daily_schedule——和 populateSchedule 生人物用的是同一份，地圖上寫的和走過去看到的一致。
   // 第一二天主線還在安排的人（LEGACY_IDS，下午的劇情結束前、上課中）不猜：那時候劇情會帶玩家去找他們。
