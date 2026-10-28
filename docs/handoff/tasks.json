@@ -34478,7 +34478,7 @@
    "title": "溫州街小公園：遊戲場往北 1.5 m（B08 公園 v3）以後，涼亭西側到土地公的通道只剩 0.55 m，小角落變成走不出來的陷阱；reachability_all「拜土地公」v9.10.11 PASS、562a5ead9 FAIL",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "source": "BB-C 2026-10-28 02:0x relsuite_562（v9.10.12 候選）；shrine_pocket_check.py（BB 分支 test_tools）",
    "first": {
@@ -34491,14 +34491,17 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:0x UTC】擋 v9.10.12：派 LAWWW2-C 在 562a5ead9 上修（傾向遊戲場往南退、留 ≥0.7 m 通道；做不到才封角落；不改測試）；修好＝rc2，BB 重跑 shrine_pocket_check、reachability wenzhou、溫州街流程",
+   "next": "【LAWWW-C 2026-10-28 02:4x UTC】LAWWW2 交 984f24dc1（WZ-SHRINE-TRAP-1028）：只改導航（遊戲場阻擋只擋南邊 2.9 m、供桌與小角落擋起來），原本的路恢復、0 個死角；v9.10.12 rc2＝ed777ba38（562a5ead9＋這個＋a13d98eaa＋05740674b，bundle wip_backup/rel91012_rc2.bundle）；開發分支 67cda65aa；BB 重跑受影響的｜【LAWWW-C 2026-10-28 02:0x UTC】擋 v9.10.12：派 LAWWW2-C 在 562a5ead9 上修（傾向遊戲場往南退、留 ≥0.7 m 通道；做不到才封角落；不改測試）；修好＝rc2，BB 重跑 shrine_pocket_check、reachability wenzhou、溫州街流程",
    "xai": {
     "spec": "BB-C 02:03 的分析；shrine_pocket_check.py",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "土地公從出生點走得到（v9.10.11 的路恢復或另一條 ≥0.7 m）、小角落不再是陷阱；shrine_pocket_check、wz_park*、nav_islands、reachability wenzhou PASS",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "aliases": [
+    "WZ-SHRINE-TRAP-1028"
+   ]
   },
   {
    "id": "HEROINE-LIFE-NPC3D-1028",

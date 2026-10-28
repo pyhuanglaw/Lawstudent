@@ -15427,6 +15427,19 @@
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 02:4x UTC】等 AA_503 手機子代理合進來以後用同一套接；AA_503 更正 74916d73b 已轉子代理｜【LAWWW-C 2026-10-28 02:4x UTC】AA 定予樂老家改嘉義（ef783aa61，outbox 64e675764），接的時候用 ef783aa61"
+  },
+  {
+   "id": "DL-LW2-SHRINE-TRAP",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "984f24dc1",
+   "msg": "ACK",
+   "what": "WZ-SHRINE-TRAP-1028：溫州街小公園土地公旁的陷阱（B08 v3 造成）——遊戲場導航阻擋只擋南邊有遊具的 2.9 m、土地公供桌與小角落擋起來；shrine_pocket_check TRAP=1 0 個死角、reachability wenzhou ALL PASS（LAWWW2 瀏覽器）、wz_park_unit 2b 修改前 3 FAIL",
+   "task": "WZ-PARK-POCKET-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 02:4x UTC】v9.10.12 rc2 7af7223ce（rc2 頂端 ed777ba38）＋開發分支 67cda65aa；LAWWW 重跑 shrine_pocket_check TRAP=1：⑤ 1253 點 0 個死角、② 23/23；wz_park／wz_park_people／wz_cat_walk／phone_auto ALL PASS；BB 重跑受影響的"
   }
  ],
  "ignored": [
