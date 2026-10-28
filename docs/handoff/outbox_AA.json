@@ -3933,6 +3933,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "X119 配角第二批的下一位（AA_519 第 6 節留的）；可以和 AA_519 一起排"
+  },
+  {
+   "task": "NPC-STORY2-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0f4b48f20",
+   "files": [
+    "docs/story_planning/AA_521_經濟系的朋友_法律系那三年_何俊朗_日文班.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_521——第 1 節 D2 照學期換句（韋綸／唐睿／阿勳每學期 a、b 兩句，大一下～大三下；品妤新增 ev_b106d2_pinyu 週五 12:05 普通教學館每學期一句；S.b106d2Key 照學期取鍵）、第 2 節「走啦」群組五則（2026-05-13、2027-04-14、2027-05-24、2027-11-30、2028-06-03）、第 3 節何俊朗 longGreet 加日期範圍六句、第 4 節日文班三則（采蓁、宇恆；4-3 日本路線有回覆 CZ_VET_PHOTO）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 inv11 第六～八節；去向照 BB_106 第 405～412 行；可以和 AA_519、AA_520 一起排"
   }
  ],
  "items": [
