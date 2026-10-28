@@ -1017,11 +1017,12 @@
     "src/data/dorm203_lines.js",
     "tests/aa502_dorm203_unit.js"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_502 第 6 節（d13ab3ab7）：3-6 新句、群組改名移到 9/6、3-2 柏翰那句、3-5 柏翰拿掉、ev_dorm_late_kai 23:30 以後看誰在床上、ev_kai_late_screen 那一晚 03:30、朋友頁阿凱的位置",
    "next": "子代理 03:1x 開工；每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 01:3x（X123）；AA 03:10 回覆"
+   "source": "使用者 10-28 01:3x（X123）；AA 03:10 回覆",
+   "closedBy": "e80d21f6b（合併 6c1f46220）"
   }
  ]
 }
