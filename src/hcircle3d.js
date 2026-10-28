@@ -18,6 +18,11 @@
    ■ 旁邊有人的時候（STORY.COMPANY，story3d.js offerInvite 問）：同伴在她 3.2 m 內＝「約她去…」和 priv 的一次性選項（告白：multirel3d.js）不出；交換聯絡方式、閒聊照常。
    存檔：G.flags.HCIRCLE＝{heard:{列:那一天}, once:{列:那一天}, intro:{同伴:那一天}}；舊存檔沒有＝從那時起。
    測試：node tests/heroine_circle3d_unit.js */
+/* ■ 第二輪（2026-10-28）：
+     CIRCLE3D-Y4-1028（AA_509、AA_510）：只有旁白的同框列（以安和語彤週四總圖三樓）＝同伴也要在她旁邊才聽到（S.together）；
+       spot 的列（AA_509 3-1 總圖門口的媽媽，只有旁白）＝走到那個地點 5 m 內就出旁白（S.SPOTS、S.hearDue；不生人物、不在她旁邊聽、不配對）；
+       comp 的 behind（anchor 'with'）＝她坐到同伴背後那一桌（S.behindOf、S.seatNear；「以安坐在語彤後面那桌」）。
+     COMPANY-PRIV-1028：旁邊有人（S.company → STORY.COMPANY）＝私密的不出、不演、不前進，等她一個人；各入口問 STORY.privNow，清單在 src/privtalk3d.js（PRIVTALK.LIST）。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};
@@ -47,6 +52,9 @@ const HCIRCLE=(function(){
   const BY_WHO={}, BY_COMP={};
   for(const r of ROWS){ if(!live(r)) continue; (BY_WHO[r.who]||(BY_WHO[r.who]=[])).push(r); for(const c of (r.with||[])) if(!isLabel(c)) (BY_COMP[c]||(BY_COMP[c]=[])).push(r); }
   S.BY_WHO=BY_WHO; S.BY_COMP=BY_COMP;
+  /* spot＝只有旁白、在某個地點聽到的列（AA_509 3-1 第二列：總圖門口的媽媽，不生 3D 人物）：[[區域,x,z,層],…]；她照作息在 zone（不在她旁邊聽，不配對、不進 BY_WHO）*/
+  const SPOTS=ROWS.filter(r=>r.spot&&r.spot.length);
+  S.SPOTS=SPOTS;
   S.row=id=>ROWS.find(r=>r.id===id)||null;
 
   /* ---------- 條件 ---------- */
@@ -81,12 +89,12 @@ const HCIRCLE=(function(){
     if(r.cond&&!(S.COND[r.cond]&&S.COND[r.cond](G))) return false; return true; };
   S.clsT0=e=>e?e.from+0.25:null;
   S.roll=(r,G)=>((hash(r.id+'|'+G.day)%1000)/1000)<S.P;
-  S.on=function(r,G,zone){ if(!law(G)||!live(r)) return false;
+  S.on=function(r,G,zone){ if(!law(G)||!(live(r)||r.spot)) return false;
     if(r.once){ const R=S.rec(G); if(R.once[r.id]!=null&&R.once[r.id]!==G.day) return false; }   /* once：聽過的那一天以後就沒有這一列 */
     if(!r.cls&&!S.timeOk(r,G)) return false;
     const e=S.heroEnt(r,G); if(!e) return false; if(zone&&e.zone!==zone) return false;
     if(r.cls&&!S.clsOk(r,G,e)) return false;
-    if(!r.alone&&!r.always&&!S.roll(r,G)) return false;
+    if(!r.alone&&!r.spot&&!r.always&&!S.roll(r,G)) return false;
     return true; };
   S.rowsIn=function(G,zone){ const out=[]; for(const who in BY_WHO) for(const r of BY_WHO[who]) if(S.on(r,G,zone)) out.push(r); return out; };
 
@@ -140,10 +148,13 @@ const HCIRCLE=(function(){
     return null; };
   const seatBusy=(E,st,except)=>!!st.taken||(E.npcs||[]).some(m=>m&&!except.includes(m)&&(near(m.seat,st)||near(m.seatTarget,st)))||!!(E.player&&near(E.player.seat,st));
   /* 離 a 最近的空位（3.5 m 內；同一排隔壁、同一桌優先）*/
-  S.seatNear=function(E,a,except){ const seats=(E.zone&&E.zone.seats)||[]; let best=null, bd=1e9;
+  S.seatNear=function(E,a,except,behind){ const seats=(E.zone&&E.zone.seats)||[]; let best=null, bd=1e9;
     for(const st of seats){ if((st.lv|0)!==(a.lv|0)||near(st,a)||seatBusy(E,st,except)) continue; let d=Math.hypot(st.x-a.x,st.z-a.z); if(d>3.5) continue;
+      if(behind&&S.behindOf(st,a)) d-=20;   /* behind：她背後那一桌優先（AA_509 1-1「以安坐在語彤後面那桌」）*/
       if(a.row!=null&&st.row===a.row&&Math.abs((st.col|0)-(a.col|0))===1) d-=10; else if(a.table&&st.table===a.table) d-=5; if(d<bd){ bd=d; best=st; } }
     return best; };
+  /* st 在 a 的背後（a 坐的方向往後 0.5 m 以上；座位的 yaw＝面向）*/
+  S.behindOf=(st,a)=>{ const y=a.yaw||0; return (st.x-a.x)*Math.sin(y)+(st.z-a.z)*Math.cos(y)<-0.5; };
   const sitMove=(GM,n,st,pose,quiet)=>{ const E=GM.E; if(quiet||!E.moveTo){ if(n.seat&&GM.standUp) GM.standUp(n); n.seatTarget=null; n.path=null; if(GM.sitAt) GM.sitAt(n,st); else { putAt(E,n,st.x,st.z,st.lv); n.seat=st; } n.pose=n.idlePose=pose; return; }
     if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.waypoints=null; n.seatTarget=st;
     const sit=()=>{ n.seatTarget=null; if(seatBusy(E,st,[n])){ n.pose=n.idlePose='idle'; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose=pose; };
@@ -165,8 +176,8 @@ const HCIRCLE=(function(){
   S.place=function(GM,r,hn,cn,cid,k,refresh){ const E=GM.E, opt=(r.comp&&r.comp[cid])||{}, quiet=quietFor(GM,cn,refresh)&&quietFor(GM,hn,refresh), hp=P(hn); if(!hp||!P(cn)) return;
     cn._hcWith=r.who; cn._hcRow=r.id; hn._hcRow=r.id; if(cn.leaving) return;
     if(r.anchor==='with'){   /* 她坐到他旁邊（必修課上課前和曾靖雯，第一排）*/
-      const a=cn.seat||cn.seatTarget, hs=hn.seat||hn.seatTarget; if(!a) return; if(hs&&Math.hypot(hs.x-a.x,hs.z-a.z)<1.7&&(a.row==null||hs.row===a.row)) return; if(hn._hcSeatTry===r.id+G0(GM)) return;
-      hn._hcSeatTry=r.id+G0(GM); const st=S.seatNear(E,a,[hn,cn]); if(st) sitMove(GM,hn,st,hn.idlePose==='read'?'read':'sit',quiet); return; }
+      const a=cn.seat||cn.seatTarget, hs=hn.seat||hn.seatTarget; if(!a) return; if(hs&&(opt.behind?S.behindOf(hs,a)&&Math.hypot(hs.x-a.x,hs.z-a.z)<3.6:Math.hypot(hs.x-a.x,hs.z-a.z)<1.7&&(a.row==null||hs.row===a.row))) return; if(hn._hcSeatTry===r.id+G0(GM)) return;
+      hn._hcSeatTry=r.id+G0(GM); const st=S.seatNear(E,a,[hn,cn],!!opt.behind); if(st) sitMove(GM,hn,st,hn.idlePose==='read'?'read':'sit',quiet); return; }
     if(opt.clerk||opt.at){   /* 店員的位置、指定的位置 */
       const c=opt.at?{x:opt.at[0],z:opt.at[1],yaw:null}:S.CLERK[opt.clerk]; if(!c) return; if(near(P(cn),c,0.4)&&cn.frozen) return;
       standMove(GM,cn,{x:c.x,z:c.z,lv:hn.lv|0},hp,quiet||!!opt.clerk,opt.at?null:c.yaw); if(opt.at) face(cn,hp); return; }
@@ -242,13 +253,15 @@ const HCIRCLE=(function(){
   /* ---------- 走近時聽到 ---------- */
   const sameSpace=(E,a,b,la,lb)=>{ const Z=E.zone, sp=Z&&(Z.spaceAt||Z.roomAt); if(!sp) return true; try{ return sp.call(Z,a.x,a.z,la|0)===sp.call(Z,b.x,b.z,lb|0); }catch(e){ return true; } };
   S.speakers=r=>[...new Set(r.lines.map(l=>l.id).filter(id=>id&&id!==r.who))];
-  S.together=function(GM,r,hn){ const hp=P(hn); for(const id of S.speakers(r)){ const cn=isLabel(id)?GM.npc[id]:S.npcOf(GM,id), cp=P(cn); if(!cp||cn.leaving||cn.hidden||Math.hypot(cp.x-hp.x,cp.z-hp.z)>=S.NEAR_R) return false; } return true; };
+  S.together=function(GM,r,hn){ const hp=P(hn), sp=S.speakers(r); for(const id of (sp.length?sp:(r.with||[]))){   /* 只有旁白的同框列（AA_509、AA_510 以安和語彤）：同伴要在旁邊 */ const cn=isLabel(id)?GM.npc[id]:S.npcOf(GM,id), cp=P(cn); if(!cp||cn.leaving||cn.hidden||Math.hypot(cp.x-hp.x,cp.z-hp.z)>=S.NEAR_R) return false; } return true; };
   S.hearable=function(GM,r,hn){ const G=GM.G, R=S.rec(G); if(!r.lines.length||R.heard[r.id]===G.day||(r.once&&R.once[r.id]!=null)) return false;
     if(r.cls){ const e=S.heroEnt(r,G); if(!e||hr(G)>=S.clsT0(e)) return false; }   /* 必修課：只在上課以前 */
     if(!hn||hn.leaving||hn.hidden||!P(hn)) return false; return r.alone||S.together(GM,r,hn); };
   S.hearDue=function(GM){ const G=GM.G, E=GM.E, pl=E&&E.player, pp=P(pl); if(!pp) return null;
     for(const r of S.rowsIn(G,G.zone)){ const hn=S.npcOf(GM,r.who), hp=P(hn); if(!hp||(hn.lv|0)!==(pl.lv|0)) continue; if(Math.hypot(hp.x-pp.x,hp.z-pp.z)>S.HEAR_R) continue;
       if(!sameSpace(E,hp,pp,hn.lv,pl.lv)) continue; if(S.hearable(GM,r,hn)) return {r,hn}; }
+    const R=S.rec(G); for(const r of SPOTS){ if(!r.lines.length||R.heard[r.id]===G.day||(r.once&&R.once[r.id]!=null)||!S.on(r,G)) continue;   /* spot：走到那個地點 5 m 內（同一區、同一層）*/
+      for(const sp of r.spot){ if(sp[0]===G.zone&&(sp[3]|0)===(pl.lv|0)&&Math.hypot(sp[1]-pp.x,sp[2]-pp.z)<=S.HEAR_R) return {r,hn:null}; } }
     return null; };
   S.who=function(GM,l){ if(!l.id) return null; if(isLabel(l.id)) return l.label||PEOPLE[l.id].label; const n=S.npcOf(GM,l.id); return (n&&n.name)||S.nameOf(l.id); };
   S.markHeard=function(G,r){ const R=S.rec(G); R.heard[r.id]=G.day; if(r.once) R.once[r.id]=G.day; };

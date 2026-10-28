@@ -905,8 +905,10 @@ const MREL=(function(){
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(S.tick);
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(S.phone);
-    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(async(GM,who,id)=>{ const G=GM.G; if(!law(G)) return; if(id===ZQ&&S.zqDadDue(G)) await S.zqDadSay(GM,who);
-      const st=S.st(G,id); if(st&&id===PS&&st.result==='B'&&st.bTerm&&typeof CALENDAR!=='undefined'){ const T0=CALENDAR.termOf(G.day); if(T0&&T0.week===1&&!st.bTerm[T0.id]){ st.bTerm[T0.id]=G.day; await S.run(GM,PS,RL(PS).result.Bterm,{}); } }   /* 每學期第一週她提一次「對一次」*/ });
+    /* 旁邊有她的人（COMPANY-PRIV-1028，清單 src/privtalk3d.js）：子晴爸爸那一句、沛珊「對一次」這一次不說，等她一個人 */
+    const privOk=(G,x,GM,k)=>typeof PRIVTALK==='undefined'||!PRIVTALK.ok||PRIVTALK.ok(G,x,k,GM);
+    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(async(GM,who,id)=>{ const G=GM.G; if(!law(G)) return; if(id===ZQ&&S.zqDadDue(G)&&privOk(G,ZQ,GM,'zq_dad_pre')) await S.zqDadSay(GM,who);
+      const st=S.st(G,id); if(st&&id===PS&&st.result==='B'&&st.bTerm&&typeof CALENDAR!=='undefined'){ const T0=CALENDAR.termOf(G.day); if(T0&&T0.week===1&&!st.bTerm[T0.id]&&privOk(G,PS,GM,'ps_bterm')){ st.bTerm[T0.id]=G.day; await S.run(GM,PS,RL(PS).result.Bterm,{}); } }   /* 每學期第一週她提一次「對一次」*/ });
     if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confLaterFor(G,id); if(!y) return []; return [{t:S.confLaterOpt(G,id,y),priv:true,run:async()=>S.confLater(G,id,y)}]; });   /* AA_429：系統選項，下次見面演 */
     if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confessAny(G,id); if(!y) return []; const p=pres(G,id); if(!p.here) return []; return [{t:S.CONFESS_OPT[id],priv:true,run:async(GM)=>S.confess(GM,id,y)}]; });   /* priv：私密的話題——她旁邊有她的人時不出（女主角的圈子，AA_503 第 2 節；story3d.js offerInvite、src/hcircle3d.js）*/
     if(!STORY._mrelTalk&&STORY.talkCharacter){ const t0=STORY.talkCharacter; STORY.talkCharacter=async function(id,n){ const GM=S._gm, G=GM&&GM.G;

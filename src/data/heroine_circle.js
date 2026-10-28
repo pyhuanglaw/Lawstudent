@@ -3,6 +3,8 @@
      AA_503 @ d13ab3ab7（大一上）、AA_504 @ 62849944b（大一下＋暑假）、AA_505 @ 795fbecfd（大二上＋寒假）、AA_506／AA_507／AA_508 @ 31a4c4002——各位那一節的「x-1 圈子」表。
      tests/heroine_circle3d_unit.js 照劇情匯入白名單 docs/handoff/story_import_allow.json 上「現在」的那一版對稿：白名單換到 AA 更正以後的 commit、圈子表有改＝測試失敗（照新版改這裡）。
      （2026-10-28 開發分支 946fb1787 的白名單：AA_506 691a26400、AA_507 3120ac77a、AA_508 28f981438，三份的圈子表和 31a4c4002 一字不差）
+     大四（CIRCLE3D-Y4-1028）：AA_509 @ 28f981438（大四上＋寒假）、AA_510 @ 28f981438（大四下＋畢業那年夏天；6/4 起是畢業以後篇，3D 的圈子照現有做法：站著兩秒就跳過的不演，AA_510 第 8 節第 4 點）。
+     ref 多兩種寫法：「照 1-1 第二列」「照 1-1」（同一段同框，句子＝heardFrom 那一列）；spot＝只有旁白、在地點聽到（AA_509 3-1 第二列：總圖門口的媽媽）。
    ROWS 一列＝表上的一列（id：c＋稿號＋節＋第幾列；n1＝表下面的說明句、b＝說明裡「換成」的那幾句）：
      heard＝「走近時聽到」那一格，照稿一字不差原樣存（「A：…／B：…」載入時拆開，NAMES 對到說話的人；整格是（…）＝旁白）。tests/heroine_circle3d_unit.js 用 git show 雙向對稿。
      ref＝那一格是「照現有」「照現有讀書會」「照 2-1」「照 AA_506 4-1」：沒有新句子（有 with 的照樣同框；heardFrom＝那一列的句子）。
@@ -10,7 +12,8 @@
      什麼時候：days（0＝週日）、from／to（時）、terms（只在那幾個學期的上課期間）、wk（第幾週到第幾週，含頭尾）、weeks（週次清單）、dates（日期區間，含頭尾）、cond（hcircle3d.js 的 S.COND）。
        cls＝必修課上課前（她照課表在教室的那一堂，同 story3d.js classmateClass：上課前 10 分鐘到下課；聽到的句子只在上課以前）、pm＝只算下午的課、wkFrom＝第幾週起。
      zone、act＝她照作息在哪一區、在做什麼（對不上＝這一列不成立）。always＝表上寫「一定同框」（不用 pairUp 的 70%）；once＝整個存檔聽一次。
-     comp＝同伴怎麼站：clerk＝站在那一間店店員的位置（原本那位無名店員先藏起來）、at＝[x,z]、stand＝站在她的座位旁邊（她坐著、同伴不坐）。
+     comp＝同伴怎麼站：clerk＝站在那一間店店員的位置（原本那位無名店員先藏起來）、at＝[x,z]、stand＝站在她的座位旁邊（她坐著、同伴不坐）、behind（anchor 'with'）＝她坐到同伴背後那一桌。
+     spot＝[[區域,x,z,層],…]：只有旁白、玩家走到那個地點 5 m 內聽到（她照作息在 zone；不在她旁邊聽、不配對）。
      place＝對不到遊戲現有地點時放哪裡（給 AA、LAWWW2 看）。
    SCHED＝她要「補一筆」的作息（hcircle3d.js 載入時放進 CHARACTERS[她].daily_schedule 最前面＝越前面越優先，帶 with、hc）。
    PEOPLE＝「和誰」不是現有人物的：標籤＋固定的路人底模（LAWWW2 正式人物做好以後只改 model；HEROINE-LIFE-NPC3D-1028）。底模挑二十位同學（pool_story.js）沒用的。 */
@@ -18,7 +21,8 @@
 const HCIRCLE_DATA={
   SRC:{AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md','d13ab3ab7'],AA_504:['docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md','62849944b'],
     AA_505:['docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md','795fbecfd'],AA_506:['docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md','31a4c4002'],
-    AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002'],AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','31a4c4002']},
+    AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002'],AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','31a4c4002'],
+    AA_509:['docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md','28f981438'],AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438']},
   /* 表上說話的人 → 人物 id（多人的標籤＝第一個人說）*/
   NAMES:{'以安':'heroine_01','芷若':'heroine_02','語彤':'heroine_03','子晴':'heroine_04','學姊':'heroine_05','沛珊':'classmate_peishan','Alison':'yu','柏翰':'classmate_bohan',
     '阿凱':'kai','陳助教':'npc_ta_chen','筱涵':'npc_huangxh','方奕廷':'npc_fangyt','曾靖雯':'pool_7','晏如':'pool_5','晨希':'pool_11','芸萱':'pool_15',
@@ -63,7 +67,8 @@ const HCIRCLE_DATA={
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y2S2'],weeks:[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],label:'公館騎樓（插座旁邊）'}},
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],dates:[['2027-06-14','2027-09-05']],label:'公館騎樓（插座旁邊）'}},
     {hc:'c507_3_1',who:'heroine_03',e:{days:[1,5],from:17+20/60,to:17+50/60,zone:'campus',act:'linger',at:[19.5,-86.8,Math.PI/2,0],terms:['Y3S1','Y3S2'],noHoliday:true,label:'社科院門口（社會系館旁）'}},
-    {hc:'c507_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y3S1'],label:'公館騎樓（插座旁邊）'}}],
+    {hc:'c507_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y3S1'],label:'公館騎樓（插座旁邊）'}},
+    {hc:'c509_4_1',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y4S1'],taipei:'both',label:'公館騎樓（插座旁邊）',note:'她 2028-06 畢業、在工作室上班（presence 是 taipei）：作息只看標 taipei 的那幾筆，所以這一筆也標（同她現有那一筆 taipei both）'}}],
   ROWS:[
     /* ===================== AA_503 大一上 ===================== */
     {id:'c503_4_1',doc:'AA_503',sec:'4-1',k:1,who:'heroine_01',with:['pool_7'],cls:true,pm:true,wkFrom:2,terms:['Y1S1'],cond:'metZjw',anchor:'with',heard:'曾靖雯：早安。／以安：……現在下午兩點。／曾靖雯：我知道。',
@@ -192,6 +197,35 @@ const HCIRCLE_DATA={
     {id:'c508_4_1',doc:'AA_508',sec:'4-1',k:1,who:'heroine_04',ref:true,heard:'照 2-1',place:'＝c508_2_3'},
     {id:'c508_4_2',doc:'AA_508',sec:'4-1',k:2,who:'heroine_04',with:['hc_gtr'],days:[1,3],from:19,to:21,terms:['Y3S2'],zone:'wancai',act:'club',heard:'吉他社的學弟：學姊，畢業以後還會回來聽嗎？／子晴：……下班以後。／吉他社的學弟：那都九點以後了。／子晴：對。'},
     {id:'c508_5_1',doc:'AA_508',sec:'5-1',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[1,3],zone:'gongguan',heard:'陳助教：結果出來了沒？／學姊：還沒。／陳助教：……妳今天一直看手機。／學姊：沒有一直。'},
-    {id:'c508_5_2',doc:'AA_508',sec:'5-1',k:2,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[4,16],zone:'gongguan',heard:'陳助教：美國的宿舍排到了沒？／學姊：還沒。每天看信箱。／陳助教：妳以前等成績也這樣。／學姊：……我現在比較會等了。'}]
+    {id:'c508_5_2',doc:'AA_508',sec:'5-1',k:2,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[4,16],zone:'gongguan',heard:'陳助教：美國的宿舍排到了沒？／學姊：還沒。每天看信箱。／陳助教：妳以前等成績也這樣。／學姊：……我現在比較會等了。'},
+    /* ===================== AA_509 大四上＋寒假（CIRCLE3D-Y4-1028）===================== */
+    {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的麵？」以安：「沒有這種的。」阿姨：「那就好。」）',
+      place:'麵店長桌＝她的作息（characters.js 週四 18:30～19:30 麵店，AA_509 0-2 第 3 點，現有）；阿姨在廚房＝旁白，不生阿姨'},
+    {id:'c509_1_2',doc:'AA_509',sec:'1-1',k:2,who:'heroine_01',with:['heroine_03'],always:true,anchor:'with',comp:{heroine_03:{behind:true}},days:[4],from:20,to:21.5,dates:[['2028-11-30','2029-02-18']],zone:'library',
+      heard:'（以安坐在語彤後面那桌。九點半語彤先走，經過她旁邊，敲了一下桌子。）',
+      place:'總圖三樓＝閱覽區（library）；兩個人的作息都在（characters.js 12/7～1/20 週四 20:00～21:30，AA_509 0-2 第 3 點、語彤延到 21:30）＝照作息一定同框（同學姊和陳助教）；以安坐到語彤背後那一桌（comp behind）'},
+    {id:'c509_3_1',doc:'AA_509',sec:'3-1',k:1,who:'heroine_03',ref:true,heardFrom:'c509_1_2',heard:'照 1-1 第二列',
+      place:'語彤週四 17:00～20:00 總圖三樓一個人＝現有作息；11/30 以後以安坐她後面＝c509_1_2 那一段（同一段同框，句子同那一列，不另外排）'},
+    {id:'c509_3_2',doc:'AA_509',sec:'3-1',k:2,who:'heroine_03',spot:[['library_hall',0,7.6,0],['campus',86.4,0,0]],days:[4],from:17+50/60,to:18+10/60,terms:['Y4S1'],wk:[10,16],zone:'library',
+      heard:'（總圖門口站著一個中年女人，往裡面看了一會兒，就走了。）',
+      place:'總圖門口＝總圖大廳的門廳（library_hall）和校園的總圖門口：走到那裡 5 m 內出旁白（spot）；語彤照作息在總圖三樓讀書；媽媽只有旁白、不生 3D 人物（表下面的說明）；「18:00 前後」＝17:50～18:10'},
+    {id:'c509_3_3',doc:'AA_509',sec:'3-1',k:3,who:'heroine_03',alone:true,days:[1,4],from:8.9,to:15.2,terms:['Y4S1'],zone:'classroom',act:'class',heard:'（她坐第二排，前面的人回頭問她考古題。她說：「我也是第一次修。」）',
+      place:'法律課＝她的作息（characters.js 週一上午憲法（上）、週四下午民法總則，霖澤館 201 第二排，AA_509 0-2 第 5 點）；前面的人＝那一堂課的同學（不另外生）'},
+    {id:'c509_4_1',doc:'AA_509',sec:'4-1',k:1,who:'heroine_04',alone:true,days:[1,2,3,4,5],from:22,to:24,terms:['Y4S1'],zone:'gongguan',heard:'（她坐在騎樓下的插座旁邊，筆電開著。螢幕上的貓走路會跳一下。）',
+      place:'公館騎樓（插座旁邊；作息補，SCHED，同 c507_4_2）'},
+    {id:'c509_5_1',doc:'AA_509',sec:'5-1',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-12-23','2029-02-18']],zone:'gongguan',
+      heard:'陳助教：美國怎麼樣？／學姊：游泳池很長。／陳助教：……我問的是論文。／學姊：論文也很長。',place:'12/23 回臺灣以後的週五（寒假，照日期）；照作息 18:30～20:30（同 c503_8_1）'},
+    /* ===================== AA_510 大四下＋畢業那年夏天（CIRCLE3D-Y4-1028；6/4 起畢業以後篇照現有做法）===================== */
+    {id:'c510_1_1',doc:'AA_510',sec:'1-1',k:1,who:'heroine_01',with:['heroine_03'],always:true,anchor:'with',comp:{heroine_03:{behind:true}},days:[4],from:20,to:21.5,terms:['Y4S2'],wk:[1,15],zone:'library',
+      heard:'（語彤抬頭看你一眼，指了指以安，比了一個「噓」。以安沒有抬頭。）',
+      place:'總圖三樓（library）；兩個人的作息都在（characters.js 大四下第 1～15 週週四 20:00～21:30，AA_510 0-2 第 1 點）＝照作息一定同框；以安坐語彤背後那一桌（同 c509_1_2）'},
+    {id:'c510_3_1',doc:'AA_510',sec:'3-1',k:1,who:'heroine_03',ref:true,heardFrom:'c510_1_1',heard:'照 1-1',place:'＝c510_1_1（同一段同框，句子同那一列，不另外排）'},
+    {id:'c510_3_2',doc:'AA_510',sec:'3-1',k:2,who:'heroine_03',alone:true,days:[4],from:17.5,to:20.5,dates:[['2029-06-04','2029-09-02']],zone:'noodle',heard:'（她坐在長桌最裡面，課本攤開。客人進來，她把書闔上，站起來。）',
+      place:'麵店長桌＝她的作息（characters.js 暑假週四 17:30～20:30 麵店顧店，AA_510 0-2 第 2 點，現有，act help）；6/4 起畢業以後篇，照現有做法'},
+    {id:'c510_4_1',doc:'AA_510',sec:'4-1',k:1,who:'heroine_04',with:['kai'],always:true,days:[5],from:22,to:24,dates:[['2029-06-28','2029-09-02']],zone:'gongguan',
+      heard:'阿凱：所以妳的遊戲什麼時候給我玩。／子晴：你在名單上。／阿凱：……第幾個？／子晴：不要問。',
+      place:'公館（她平日 22～24 點、阿凱 6/28 起週五 22～24 點都在公館，characters.js 現有）＝照作息一定同框、一起走；畢業以後篇照現有做法'},
+    {id:'c510_5_1',doc:'AA_510',sec:'5-1',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2029-05-29','2029-09-02']],zone:'gongguan',
+      heard:'陳助教：口試委員記得妳嗎？／學姊：他叫我「第一排那個」。／陳助教：……那是記得。／學姊：嗯。',place:'5/29 口試以後的週五（6/1 起）；照作息 18:30～20:30（同 c503_8_1）；6/4 起畢業以後篇，照現有做法'}]
 };
 if(typeof window!=='undefined') window.HCIRCLE_DATA=HCIRCLE_DATA;

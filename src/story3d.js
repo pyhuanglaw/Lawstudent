@@ -832,7 +832,7 @@ const STORY = (function(){
     if(!L.length) return SOCIAL.rel(id).talked>=3; return !!(r&&r.once)&&L.every(e=>r.once[e.t]); };
   /* 當面約、交換聯絡方式（talkCharacter 和舊的 talkAn／talkZhe／talkSis／talkKai／talkYu 共用；使用者 2026-10-15：「有手機可以約人，見到本人反而不能約？」——以安、阿哲等走舊的對話，原本沒有這個選單）*/
   S.offerInvite=async function(GM,id,n,who){ const G=GM.G, c=CHARACTERS[id]; if(!c||typeof INV==='undefined') return; who=who||{name:SOCIAL.npcName(id),obj:n&&n.obj,charId:id}; { const her=c.gender==='f'?'她':'他', O=[];   /* 當面約（使用者第 3 點；src/invites3d.js）：「認識」就可以，不用聯絡方式（AA_124 1-7）*/
-      const crowd=S.COMPANY.some(f=>{ try{ return !!f(G,id,n,GM); }catch(e){ console.warn('STORY.COMPANY',e); return false; } });   /* 旁邊有她的人（女主角的圈子，AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」；src/hcircle3d.js）：不出「約她去…」、priv 的一次性選項（告白）；交換聯絡方式照常 */
+      const crowd=!S.privNow(G,id,n,GM);   /* 旁邊有她的人（女主角的圈子，AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」；src/hcircle3d.js）：不出「約她去…」、priv 的一次性選項（告白）；交換聯絡方式照常 */
       if(!crowd&&INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')) O.push({t:'約'+her+'去…',hint:INV.kxGF&&INV.kxGF(G,id)?'約會：選地點、日期、時間':'Café、總圖、吃飯、散步',k:'inv'});
       /* 保底的「交換聯絡方式」（AA_124 1-7 第 2 點）：到「有點熟」以後還沒有聯絡方式的人；對方的一句照 INVITE_DATA.exchange（還沒寫的人用旁白）*/
       if(INV.canInvite(G,id)&&!INV.hasContact(G,id)&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR')) O.push({t:'交換聯絡方式',k:'ex'});
@@ -1078,6 +1078,10 @@ const STORY = (function(){
   /* 事件包的掛勾（10-20 起，1B／1C／第 2、3 輪各自一個檔案，不必每一批都改 story3d.js）：TICKS＝每 0.5 秒（S.tick，在 1A-05 之後、在家判斷之前）、PHONE_RULES＝手機規則、
      WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
   S.COMPANY=[];   /* fn(G,id,n,GM)→true＝她旁邊有她的人（S.offerInvite 不出邀約、priv 選項；src/hcircle3d.js）*/
+  /* 私密的東西現在可以出嗎（COMPANY-PRIV-1028；AA 2026-10-28 06:14 定案，AA_503 第 13 節第 3 點）：她旁邊有她的人（S.COMPANY 任一個說是）＝false，這一次不出、不演、不前進，等她一個人。
+     各入口都問這一個（清單：src/privtalk3d.js 的 PRIVTALK.LIST）；GM 不給＝現在綁的那一個 */
+  S.crowdNow=function(G,id,n,GM){ GM=GM||GM_ref; return S.COMPANY.some(f=>{ try{ return !!f(G,id,n,GM); }catch(e){ console.warn('STORY.COMPANY',e); return false; } }); };
+  S.privNow=(G,id,n,GM)=>!S.crowdNow(G,id,n,GM);
   S.schedInZone=schedFor; S.walkRoutesOf=z=>walkRoutes[z]||[];   /* src/hcircle3d.js：她現在該不該在這一區（schedFor(id,區域,G)，同進區域生成那一套）、同伴配對結束以後回去走的路線（不叫 schedFor：tests/v3_p4_han3_unit.js 用 STORY.schedFor&&… 判斷沒有這個函式）*/
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[]; S.PRE_TALK=[];   /* PRE_TALK：認識的人說話前先說一句（fn(GM,who,id)，例：書卷獎公告以後以安「名單上有你。理由？」，src/honor3d.js）*/
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
