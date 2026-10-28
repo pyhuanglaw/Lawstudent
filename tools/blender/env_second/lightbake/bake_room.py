@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素] [--uvonly（只排 UV、不烘焙）]
+   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -186,6 +186,29 @@ for spec in (arg('--lights', '') or '').split(';'):
             lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y - 0.01)); AREAS.append(lo)   # 朝下（Blender 的面光源朝 −Z）
 print('area lights', len(AREAS), flush=True)
 
+# 房間外殼（--shell 開著的方向，用逗號分開：N＝遊戲 −z、S＝+z、E＝+x、W＝−x，例：S＝窗在 +z 那一面）：烘焙時才有、不輸出的黑色厚板，
+# 把房間其他幾面（含天花板上面、地板下面）包起來。為什麼：烘焙的場景房間外面就是天空，門縫、牆角的縫會漏進天光
+# （10-28 202：門板底下、門前的地板 1.4，平常的地板 0.4～0.6；牆淡出時看得到一條亮邊）。真的房間外面是走廊、隔壁教室，不是天空。窗那一面不包（天光、太陽從窗戶進來）
+SHELL = []
+if arg('--shell'):
+    opn = set(arg('--shell').upper().split(','))
+    mn = Vector((1e9, 1e9, 1e9)); mx = Vector((-1e9, -1e9, -1e9))
+    for o in objs:
+        for v in o.bound_box:
+            w = o.matrix_world @ Vector(v); mn = Vector([min(a, b) for a, b in zip(mn, w)]); mx = Vector([max(a, b) for a, b in zip(mx, w)])
+    g, t, e = 0.05, 0.5, 1.0   # 離房間 5 cm、厚 50 cm、四邊多 1 m（角落不留縫）；Blender 座標：x＝遊戲 x、y＝−遊戲 z、z＝遊戲 y
+    boxes = {'E': ((mx.x + g, mx.x + g + t), (mn.y - e, mx.y + e), (mn.z - e, mx.z + e)), 'W': ((mn.x - g - t, mn.x - g), (mn.y - e, mx.y + e), (mn.z - e, mx.z + e)),
+             'N': ((mn.x - e, mx.x + e), (mx.y + g, mx.y + g + t), (mn.z - e, mx.z + e)), 'S': ((mn.x - e, mx.x + e), (mn.y - g - t, mn.y - g), (mn.z - e, mx.z + e)),
+             'UP': ((mn.x - e, mx.x + e), (mn.y - e, mx.y + e), (mx.z + g, mx.z + g + t)), 'DOWN': ((mn.x - e, mx.x + e), (mn.y - e, mx.y + e), (mn.z - g - t, mn.z - g))}
+    blk = bpy.data.materials.new('SHELL_black'); blk.use_nodes = True
+    next(x for x in blk.node_tree.nodes if x.type == 'BSDF_PRINCIPLED').inputs['Base Color'].default_value = (0.02, 0.02, 0.02, 1.0)
+    for k, (xs, ys, zs) in boxes.items():
+        if k in opn: continue
+        me = bpy.data.meshes.new('SHELL_' + k); bm = bmesh.new(); bmesh.ops.create_cube(bm, size=1.0); bm.to_mesh(me); bm.free(); me.materials.append(blk)
+        ob = bpy.data.objects.new('SHELL_' + k, me); sc.collection.objects.link(ob); SHELL.append(ob)
+        ob.location = ((xs[0] + xs[1]) / 2, (ys[0] + ys[1]) / 2, (zs[0] + zs[1]) / 2); ob.scale = (xs[1] - xs[0], ys[1] - ys[0], zs[1] - zs[0])
+    print('shell', [o.name for o in SHELL], 'room bbox', [round(v, 2) for v in (*mn, *mx)], flush=True)
+
 def bake(tag, sky_strength, sun_energy, emit_scale):
     bg.inputs['Strength'].default_value = sky_strength; sd.energy = sun_energy
     for o in objs:
@@ -247,7 +270,8 @@ for o in bpy.data.objects:
         uv = o.data.uv_layers
         if len(uv) and uv[0].name != 'LM': uv.active = uv[0]; uv[0].active_render = True
 bpy.data.objects.remove(so)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY,
+for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'),
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL: sc['lightmap'] = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}

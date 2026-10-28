@@ -13,7 +13,7 @@ TMP=$(mktemp -d)
 /opt/blenv/bin/python tools/blender/classroom_201.py -- --out "$TMP/classroom_201_plain.glb"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/classroom_201_plain.glb" --out assets/models/env/classroom_201.glb \
   --lm "$TMP/c201" --url assets/models/env/classroom_201_lm --res 1024 --samples "$SAMPLES" --emit cls_light=2 --hide glass --nolm "$NOLM" \
-  --sun 250,35,2.0 --lights -7.2,7.2,-9,9,5.555,4,6,30,1.14,0.54 --smooth 2
+  --sun 250,35,2.0 --lights -7.2,7.2,-9,9,5.555,4,6,30,1.14,0.54 --smooth 2 --shell W
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/c201" assets/models/env/classroom_201_lm 90
 cp "$TMP/c201.json" tools/blender/env_second/lightbake/classroom_201_lm.json
 rm -rf "$TMP"

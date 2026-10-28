@@ -16,7 +16,7 @@ for R in linze_202 wancai_multi; do
   if [ $R = linze_202 ]; then LIGHTS=-6.4,5.6,-5.4,5.4,3.345,5,2,30,1.14,0.54; NOLM='tubes|glow|screens|light|metal|props|trim|frame|louvre|grid'; else LIGHTS=-5.6,5.6,-5.1,5.1,3.30,4,2,30,1.2,0.5; NOLM='tubes|glow|screens|metal|props|trim|frame'; fi
   /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/$R.glb" --out assets/models/env/second_ai/$R.glb \
     --lm "$TMP/$R" --url assets/models/env/second_ai/${R}_lm --res 1024 --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
-    --sun 160,35,2.0 --lights $LIGHTS --smooth 2
+    --sun 160,35,2.0 --lights $LIGHTS --smooth 2 --shell S
   python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/$R" assets/models/env/second_ai/${R}_lm 90
   cp "$TMP/$R.json" tools/blender/env_second/lightbake/${R}_lm.json
 done
