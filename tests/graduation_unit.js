@@ -69,7 +69,8 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- ⑦ 手機 ----
   { const G=H.fresh('2029-06-02',11.6,'campus',{PS_RECONNECT:true}); H.FAMILIAR('classmate_peishan'); H.FAMILIAR('npc_fangyt'); H.FAMILIAR('heroine_02'); H.FRIEND('kexin'); H.date('kexin'); ROM.end(G,'kexin');
     await H.run('grad'); for(const h of [12.1,12.6,13.1,21.1]){ H.at('2029-06-02',h); PG.rules(GM); PHONE.tick(G); }
-    check('8. ⑦ 可昕分開了 12:00「恭喜。」、沛珊 12:30 卡片（記 PS_GRAD_CARD）、方奕廷 13:00 山上、芷若 21:00 票根',H.msgs('p:kexin').includes('恭喜。')&&H.msgs('p:classmate_peishan').includes('我學生說要送畢業的人卡片。……我拍給你。')&&G.flags.PS_GRAD_CARD===true&&H.msgs('p:npc_fangyt').includes('這裡沒訊號。下山才傳。恭喜。')&&H.msgs('p:heroine_02').includes('畢業快樂。今天下午替你看了一部。'),JSON.stringify((G.msgs||[]).map(m=>m.text))); }
+    H.at('2029-06-03',5.2); PG.rules(GM); PHONE.tick(G);   /* 芷若的票根：AA_510 0-2 第 4 點改 6/3 05:07（英國 6/2 22:07）*/
+    check('8. ⑦ 可昕分開了 12:00「恭喜。」、沛珊 12:30 卡片（記 PS_GRAD_CARD）、方奕廷 13:00 山上、芷若 6/3 05:07 票根（英國 6/2 22:07）',H.msgs('p:kexin').includes('恭喜。')&&H.msgs('p:classmate_peishan').includes('我學生說要送畢業的人卡片。……我拍給你。')&&G.flags.PS_GRAD_CARD===true&&H.msgs('p:npc_fangyt').includes('這裡沒訊號。下山才傳。恭喜。')&&H.msgs('p:heroine_02').includes('畢業快樂。今天下午替你看了一部。'),JSON.stringify((G.msgs||[]).map(m=>m.text))); }
   // ---- E1：學姊條件到齊、單身 → 飯 → 椰林大道告白 → 20:30 研究室戀人版 ----
   { const G=H.fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_05'); heart('heroine_05'); H.picks=['好。'];
     await H.run('grad');

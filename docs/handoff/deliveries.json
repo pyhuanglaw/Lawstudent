@@ -19580,6 +19580,20 @@
    "kind": "wip",
    "task": "INTERIOR-202-1028",
    "reason": "LAWWW2 202 v2 README 的 WIP（光照貼圖四個錯和改法），還沒交件（LAWWW-C 10-28 05:0x 分類）"
+  },
+  {
+   "sha": "be70f1386",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "NPC-POOL-ART-1028",
+   "reason": "LAWWW2 男一舍交誼廳公用冰箱（dorm_hall.py fridge）的 WIP，還沒交件（LAWWW-C 10-28 06:0x 分類）"
+  },
+  {
+   "sha": "8835f75fc",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "NPC-POOL-ART-1028",
+   "reason": "LAWWW2 霖澤館一樓「考前補給包」桌子（supply_table.py → linze_supply_table.glb；pool3d.js 只在劇情那一天擺）的 WIP，還沒交件（LAWWW-C 10-28 06:0x 分類）"
   }
  ]
 }
