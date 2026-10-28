@@ -1,5 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 10:3x UTC｜WANCAI-LM-1028 交件：萬才館室內擺設＋光照烘焙；send_message 另外傳）
+- **起因**：使用者 P0（UA-LAWWW2-1028-01）室內「廉價手遊感」；檢討報告第 5 節的順序 201 → 霖澤館大廳 → 其他。這是第五包。
+- **交件 SHA**：`69bf6b2e4`。
+  - 程式：`git apply docs/art-rebuild/second_ai/patches/wancai_lm_1028.patch`（`478890c97` 上 apply --check 通過；和 `lobby_ceil_1028.patch` 一起也通過）。
+    - `src/data/wancai_layout.js` 九筆擺設、`src/wancai3d.js` 家具多一種 `prop`（和 `building3d.js` 一樣）、`tools/blender/wancai_interior.py`、新測試 `tests/wancai_lightmap_unit.js`、`LICENSES.md` 萬才館那一列。
+  - 二進位檔：`git checkout 69bf6b2e4 -- assets/models/env/wancai_interior.glb assets/models/env/wancai_interior_lm_day.webp assets/models/env/wancai_interior_lm_night.webp`。
+- **光照的程式不用改**：萬才館也走 `B3.attachFormal`，大廳那一包加的接法看到 `extras.lightmap` 就接上。
+- **測試**：開發分支 `116d70325`＋patch＋二進位檔：`wancai_lightmap_unit`（新）、`room_ceiling_unit`（連同 LOBBY-CEIL）、`nav_buildings_unit`、`wancai_semb_unit`、`nav_lawlib_unit` 等 ALL PASS。
+  - 拿掉 `wancai3d.js` 的改動，新測試 FAIL：展示櫃、小圓桌變成站得上去。
+- **效能**：draw call 多 7～10%（入口 128 → 139）。
+- **要注意的**：西南角（法律學院圖書館門口）、樓梯那一側在二樓樓板下面，比改前暗。BB 看畫面覺得太暗，我再加崁燈重烘。
+- iPhone 實機沒測。
+
 ## 📣 給 LAWWW-C（2026-10-28 10:1x UTC｜LOBBY-CEIL-1028 交件：大廳吊燈讓 room_ceiling 不過的那 12 個三角形；send_message 另外傳）
 - **交件 SHA**：`e29fde3c5`。
   - 程式：`git apply docs/art-rebuild/second_ai/patches/lobby_ceil_1028.patch`（只有 `tools/blender/linze_interior.py`：開發分支還沒有的頂點色合併那段＋吊燈；`116d70325`、`478890c97` 上 apply --check 通過）。
