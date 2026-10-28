@@ -240,8 +240,11 @@ await sec('3',async()=>{ if(!HAS2()){ check('3. 時差',false,'沒有資料'); r
   fresh(D416,19.5); who('heroine_01','ACQ'); walk(D416,20.01); check('3. 臺灣路線同一則：臺灣 20:00 出（不變）',!!item('an2f')&&Math.abs(item('an2f').h-20)<0.01,J(item('an2f')));
   const D509=DK('2028-05-09'); fresh(D509,20.5,{EXCHANGE_ROUTE:'JP'}); who('heroine_03','FRIEND'); walk(D509,21.5); const y0=item('yt3f'); walk(D509,22.01);
   check('3. 日本路線、人在日本：在臺灣的語彤 5/9 21:00 貼的，當地 22:00 收到',!y0&&!!item('yt3f')&&Math.abs(item('yt3f').h-22)<0.01,J(item('yt3f')));
-  const D914=DK('2028-09-14'); fresh(D914,8,{EXCHANGE_ROUTE:'US'}); who('heroine_05','FRIEND'); walk(D914,9.1); const u0=item('sis1g'); walk(D914,9.2); const u1=item('sis1g'), hu=HT();
-  check('3. 美國路線、人在美國（時鐘是美東時間）：學姊 9/14 第 1 則（臺灣 21:10）在當地 09:10 出、照片是美國路線那一版（池邊多一雙拖鞋——是你的）',!u0&&!!u1&&u1.day===D914&&Math.abs(u1.h-(9+10/60))<0.01&&u1.v==='yes'&&hu.includes('池邊多一雙拖鞋——是你的'),J(u1));
+  /* AA_516 第 1 節 1-4（企劃線 a9b87c588）：美國路線「而且交往中」才是「你的」那一版；挽回中、挽回不成看一般版 */
+  const D914=DK('2028-09-14'); fresh(D914,8,{EXCHANGE_ROUTE:'US',dating_heroine_05:true}); who('heroine_05','FRIEND'); walk(D914,9.1); const u0=item('sis1g'); walk(D914,9.2); const u1=item('sis1g'), hu=HT();
+  check('3. 美國路線交往中、人在美國（時鐘是美東時間）：學姊 9/14 第 1 則（臺灣 21:10）在當地 09:10 出、照片是美國路線那一版（池邊多一雙拖鞋——是你的）',!u0&&!!u1&&u1.day===D914&&Math.abs(u1.h-(9+10/60))<0.01&&u1.v==='yes'&&hu.includes('池邊多一雙拖鞋——是你的'),J(u1));
+  fresh(D914,8,{EXCHANGE_ROUTE:'US'}); who('heroine_05','FRIEND'); walk(D914,9.2); const u2=item('sis1g'), hu2=HT();
+  check('3. 美國路線沒交往（挽回中）：同一則照當地 09:10 出、一般那張（AA_516 1-4）',!!u2&&u2.day===D914&&Math.abs(u2.h-(9+10/60))<0.01&&u2.v==='no'&&!hu2.includes('是你的')&&hu2.includes('美國學校的室內游泳池，很長'),J(u2));
   const D1109=DK('2028-11-09'); fresh(D1109,7.5,{EXCHANGE_ROUTE:'US'}); who('heroine_05','FRIEND'); walk(D1109,8.2);
   check('3. 美國路線 11/9（11/5 起冬令 −13）：第 2 則在當地 08:10 出',!!item('sis2g')&&item('sis2g').day===D1109&&Math.abs(item('sis2g').h-(8+10/60))<0.01,J(item('sis2g')));
   const D916=DK('2028-09-16'); fresh(D916,16,{EXCHANGE_ROUTE:'US'}); who('heroine_02','ACQ'); walk(D916,17.2);
@@ -333,9 +336,10 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
   fresh(DK('2028-12-26'),22); who('heroine_04','ACQ'); walk(DK('2028-12-26'),23.6); FEED.respond(H.G,'zq4g','cm'); const zq4=th('heroine_04').slice(-3).map(x=>x.text);
   check('5. 子晴第 4 則（12/26，12/14 帶回家以後）「牠不走了」：留言「公園的貓？」→「嗯」「醫生說冬天不要待在外面」',J(zq4)===J(['公園的貓？','嗯','醫生說冬天不要待在外面']),J(zq4));
   /* 學姊美國路線三張照片 */
-  const sisV=(route,id,d,h)=>{ fresh(d,h-1.5,route?{EXCHANGE_ROUTE:route}:{}); who('heroine_05','CLOSE'); walk(d,h+0.2); return {v:item(id)&&item(id).v,h:HT()}; };
-  const s2u=sisV('US','sis2g',DK('2028-11-09'),8+10/60), s3u=sisV('US','sis3g',DK('2028-12-03'),8+10/60), s3t=sisV(null,'sis3g',DK('2028-12-03'),21+10/60);
-  check('5. 學姊美國路線：第 2 則「多一個碗——是你的」、第 3 則「對面多一台筆電——是你的」；臺灣路線一般那張',s2u.v==='yes'&&s2u.h.includes('多一個碗——是你的')&&s3u.v==='yes'&&s3u.h.includes('對面多一台筆電——是你的')&&s3t.v==='no'&&!s3t.h.includes('是你的')&&s3t.h.includes('標題「第四章」'),J({s2u:s2u.v,s3u:s3u.v,s3t:s3t.v}));
+  const sisV=(route,id,d,h,dt)=>{ fresh(d,h-1.5,Object.assign(route?{EXCHANGE_ROUTE:route}:{},dt?{dating_heroine_05:true}:{})); who('heroine_05','CLOSE'); walk(d,h+0.2); return {v:item(id)&&item(id).v,h:HT()}; };
+  const s2u=sisV('US','sis2g',DK('2028-11-09'),8+10/60,true), s3u=sisV('US','sis3g',DK('2028-12-03'),8+10/60,true), s3t=sisV(null,'sis3g',DK('2028-12-03'),21+10/60);
+  const s2r=sisV('US','sis2g',DK('2028-11-09'),8+10/60), s3r=sisV('US','sis3g',DK('2028-12-03'),8+10/60);   /* AA_516 1-4：美國路線沒交往（挽回中）＝一般那張 */
+  check('5. 學姊美國路線交往中：第 2 則「多一個碗——是你的」、第 3 則「對面多一台筆電——是你的」；美國路線沒交往（AA_516 1-4）、臺灣路線一般那張',s2u.v==='yes'&&s2u.h.includes('多一個碗——是你的')&&s3u.v==='yes'&&s3u.h.includes('對面多一台筆電——是你的')&&s3t.v==='no'&&!s3t.h.includes('是你的')&&s3t.h.includes('標題「第四章」')&&s2r.v==='no'&&s3r.v==='no'&&!s2r.h.includes('是你的')&&!s3r.h.includes('是你的'),J({s2u:s2u.v,s3u:s3u.v,s3t:s3t.v,s2r:s2r.v,s3r:s3r.v}));
   /* 沛珊寒假代課再回早餐店；可昕第 2 則在 10/20 以後 */
   fresh(DK('2029-01-14'),20); who('classmate_peishan','FRIEND'); walk(DK('2029-01-14'),21.1); FEED.respond(H.G,'ps4g','cm'); const ps4=th('classmate_peishan').slice(-2).map(x=>x.text);
   check('5. 沛珊 1/14（台中）「代課第二週～」：留言「代課？」→「兩週！然後回早餐店～」',J(ps4)===J(['代課？','兩週！然後回早餐店～']),J(ps4));
