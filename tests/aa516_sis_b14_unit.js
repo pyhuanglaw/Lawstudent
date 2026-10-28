@@ -11,7 +11,11 @@
 //   白名單、測試用新的；那時 US2 只有「那就寫妳。」那一支有、3-2 在剛進門那一句後面）：FAILED 10、PASS 116
 //   （FAIL＝第 10 段第 3、4 點十項：放的地方、US2「先吃麵。」、US2「書瑀，休息一下。」、沒去 US2、七場各自當第一場、4-2 煎蛋不算、舊存檔、滷肉的順序、US2 私訊「我過去。」的出遊、3-2 私訊「我過去。」的出遊；
 //    PASS＝第 0～9 段、讀稿、稿 → 遊戲、七場的 id、US2「那就寫妳。」、沒吃過咖哩、第 2 點五項）；修改後 ALL PASS（126 項）。
-// 台詞逐字對稿（git show 913802344，第 1～7 節和 a9b87c588／cf7d5fa94 相同、第 8 節第 1～2 點和 3cd10909b 相同、第 3 點和 d6f8621ac 相同：第 2～5 節的「>」、選項、說明裡的「」；第 1 節表格「改成」那一欄；第 8 節兩句；兩個方向）。
+// 第 8 節第 5 點（ca08e848c，SIS-B14-AAFIX-1028 第四輪，LAWWW-C 改：3-2 滷肉那一行移到兩支選項會合的地方 {label:'e'} 後面、mem 前面）修改前（只拿掉這次 src 的改動：us208_3d.js 和幾個檔的註解；
+//   白名單、測試用新的；那時 3-2 在她說「亞洲超市買得到八角。」那句後面）：FAILED 8、PASS 119
+//   （FAIL＝第 10 段八項：放的地方、沒去 US2、七場各自當第一場、煎蛋以後的 3-2、舊存檔、滷肉的順序、選「下次放冰糖。」那一支、回週末私訊的出遊；
+//    PASS＝第 0～9 段、讀稿（含第 5 點）、稿 → 遊戲、七場的 id、US2 三支、沒吃過咖哩、第 2 點五項）；修改後 ALL PASS（127 項）。
+// 台詞逐字對稿（git show ca08e848c，第 8 節第 1～4 點和 913802344 相同；第 1～7 節和 a9b87c588／cf7d5fa94 相同、第 8 節第 1～2 點和 3cd10909b 相同、第 3 點和 d6f8621ac 相同：第 2～5 節的「>」、選項、說明裡的「」；第 1 節表格「改成」那一欄；第 8 節兩句；兩個方向）。
 // 玩家：A 臺灣交往中、B 日本交往中、C 臺灣朋友（T3）、D 沒見過她（1-6）、E 美國交往中、F 美國沒交往（挽回中）。
 //   0  讀稿、新檔載得到、index.html 順序；稿 → 遊戲（每一句、每個選項、說明裡的「」、第 1 節改成的字）、遊戲 → 稿（新檔每一句＋各檔帶 aa516 的行＋改字）；第 1 節換掉的舊句不在遊戲裡
 //   1  第 1 節：1-1 g6、1-2 12/20 截圖在前、1-3 大峽谷才交往（10/22 開頭那一句一次、h5 不是 g1）、1-4 動態、1-5 13-7 20:30 和跨年私訊 21:00 錯開、1-6 接機按鈕要見過她、
@@ -92,7 +96,7 @@ const stepOf=id=>{ const L=LADDER&&LADDER.byTerm&&LADDER.byTerm.Y4S1&&LADDER.byT
 const lad=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const st=stepOf(id); if(!st) throw new Error('沒有閒聊階梯 '+id); await STORY.ladPlay(GM,ID,ID,st); };
 
 /* ---------- 讀稿 ---------- */
-const SHA='913802344', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
+const SHA='ca08e848c', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA516_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S1=part('## 1. 修正','## 2. '), BODY=part('## 2. ','## 6. ');   /* 第 1 節（表）、第 2～5 節（台詞）*/
@@ -113,8 +117,8 @@ const unq=t=>String(t).replace(/^「|」$/g,'');
 /* 第 1 節的表：| 1-x | 哪裡 | 現在 | 改成 | */
 const ROW={}; for(const l of S1.split('\n')){ const c=l.split('|').map(x=>x.trim()); if(/^1-\d+$/.test(c[1]||'')) ROW[c[1]]={now:inl(c[3]).filter(x=>!/^（/.test(x)||/^（照片/.test(x)),to:inl(c[4]).filter(x=>!/^（/.test(x)||/^（照片/.test(x))}; }
 
-/* 第 8 節（3cd10909b）：懸著的承諾，兩句（第 1 點 4-1 碗、第 2 點 h9 右邊）；第 3 點（d6f8621ac）：碗那一句放哪一場、放在哪裡；第 4 點（913802344）：碗那一句的細位置 */
-const S8=part('## 8. ',null), S8B1=part('1. **4-1','2. **h9',S8), S8B2=part('2. **h9','3. **第 1 點',S8), S8B3=part('3. **第 1 點','4. **碗那一句的細位置',S8), S8B4=part('4. **碗那一句的細位置',null,S8);
+/* 第 8 節（3cd10909b）：懸著的承諾，兩句（第 1 點 4-1 碗、第 2 點 h9 右邊）；第 3 點（d6f8621ac）：碗那一句放哪一場、放在哪裡；第 4 點（913802344）：碗那一句的細位置；第 5 點（ca08e848c）：3-2 滷肉那一行再往後移（兩支選項會合的地方）*/
+const S8=part('## 8. ',null), S8B1=part('1. **4-1','2. **h9',S8), S8B2=part('2. **h9','3. **第 1 點',S8), S8B3=part('3. **第 1 點','4. **碗那一句的細位置',S8), S8B4=part('4. **碗那一句的細位置','5. **3-2 滷肉碗那一句再往後移',S8), S8B5=part('5. **3-2 滷肉碗那一句再往後移',null,S8);
 /* 稿裡寫在說明句、手機訊息裡的（從稿讀；測試拿這些比遊戲，不拿遊戲的 SISB14_LINES 比遊戲）*/
 const one=(re,src)=>{ const m=re.exec(src==null?BODY:src); return m?m.slice(1):[]; };
 const quotesOf=t=>String(t).split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
@@ -374,17 +378,21 @@ await sec(9,async()=>{ let ok=true, err='';
 await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
   const SPLIT=one(/`ev_us2_kitchen` 有「(（[^」]+）)」那一支的，接在那一句後面/,S8B3)[0]||null;   /* 第 3 點寫的 US2 那一句（分碗）：從稿讀 */
   const [B_OPT,B_NEXT]=one(/「([^」]+)」那一支：放在「([^」]+)」前面/,S8B4), [C_OPT,C_PREV]=one(/「([^」]+)」那一支：放在「([^」]+)」後面/,S8B4);   /* 第 4 點：US2 另外兩支各放在哪一句前面／後面（從稿讀）*/
-  const LU_AFTER=one(/3-2 滷肉：碗那句移到她說「([^」]+)」後面/,S8B4)[0]||null;   /* 第 4 點：3-2 她說的那一句（從稿讀）*/
+  const LU_AFTER=one(/3-2 滷肉：碗那句移到她說「([^」]+)」後面/,S8B4)[0]||null;   /* 第 4 點：3-2 她說的那一句（從稿讀；第 5 點改掉了）*/
+  const LU_A=one(/「很香。」那一支：「([^」]+)」→ 碗那一句/,S8B5)[0]||null, LU_B=one(/「下次放冰糖。」那一支：「([^」]+)」→ 碗那一句/,S8B5)[0]||null;   /* 第 5 點（ca08e848c）：3-2 兩支各自接在哪一句後面（從稿讀；計畫本那句稿裡有省略號）*/
+  const LU_BF=t=>{ if(!t||!LU_B) return false; const p=LU_B.split('……'); return p.length===2&&t.indexOf(p[0])===0&&t.slice(-p[1].length)===p[1]; };   /* 遊戲裡計畫本那一句＝稿的頭和尾 */
   check('10. 稿第 8 節讀得到：兩句「>」；第 1 點（4-1、SIS14_US_CURRY、一次）、第 2 點（h9「我會去接妳。」記 SIS14_RIGHT、ev_sis_pickup、「她一出來就看到你。」照舊）、'
     +'第 3 點（只放有吃東西的 208 場景：先算 9/13 US2 ev_us2_kitchen、沒演到放 3-2 ev_us208_lurou、3-1 看作業那一類不放；接在第一句旁白後面、ev_us2_kitchen 有「'+SPLIT+'」那一支接在那一句後面；字照第 1 點、沒有新的「>」）、'
-    +'第 4 點（US2 另外兩支都要出：「'+B_OPT+'」放在「'+B_NEXT+'」前面、「'+C_OPT+'」放在「'+C_PREV+'」後面；3-2 移到她說「'+LU_AFTER+'」後面、不放在剛進門；4-2 煎蛋不算；US2、3-2 都沒演到的沒有；沒有新的「>」）',
+    +'第 4 點（US2 另外兩支都要出：「'+B_OPT+'」放在「'+B_NEXT+'」前面、「'+C_OPT+'」放在「'+C_PREV+'」後面；3-2 移到她說「'+LU_AFTER+'」後面、不放在剛進門；4-2 煎蛋不算；US2、3-2 都沒演到的沒有；沒有新的「>」）、'
+    +'第 5 點（3-2 再往後移到 {label:\'e\'} 後面、mem 前面，兩支都出：「很香。」那一支「'+LU_A+'」→ 碗那一句、「下次放冰糖。」那一支「'+LU_B+'」→ 碗那一句；字不改；US2 三個位置照第 4 點；沒有新的「>」）',
     S8Q.length===2&&J(S8Q)===J([DX.bowl,DX.right])&&S8B1.indexOf('「……下次你用我的碗。」')>0&&S8B1.indexOf('`SIS14_US_CURRY`')>0&&S8B1.indexOf('- 一次。')>0
     &&S8B2.indexOf('h9 選「我會去接妳。」的，記 `SIS14_RIGHT`')>0&&S8B2.indexOf('`ev_sis_pickup`')>0&&S8B2.indexOf('後面「她一出來就看到你。」照舊')>0
     &&S8B3.indexOf('只放在有吃東西的 208 場景')>0&&S8B3.indexOf('先算 9/13 的 US2（`ev_us2_kitchen`）')>0&&S8B3.indexOf('沒演到的話，放 3-2 滷肉（`ev_us208_lurou`）')>0&&S8B3.indexOf('3-1 看作業那一類不放')>0
     &&S8B3.indexOf('**放在哪裡**：接在第一句旁白後面')>0&&!!SPLIT&&S8B3.indexOf('字照第 1 點')>0&&quotesOf(S8B3).length===0
     &&S8B4.indexOf('US2 另外兩支都要出')>0&&B_OPT==='先吃麵。'&&B_NEXT==='（你們隔著窗口吃完泡麵。）'&&C_OPT==='書瑀，休息一下。'&&C_PREV==='……休息完再改。先吃麵。'
-    &&LU_AFTER==='亞洲超市買得到八角。'&&S8B4.indexOf('不放在剛進門')>0&&S8B4.indexOf('4-2 煎蛋不算')>0&&S8B4.indexOf('US2、3-2 都沒演到的玩家沒有這一句')>0&&quotesOf(S8B4).length===0,
-    J({S8Q,b1:S8B1.length,b2:S8B2.length,b3:S8B3.length,b4:S8B4.length,SPLIT,B_OPT,B_NEXT,C_OPT,C_PREV,LU_AFTER}));
+    &&LU_AFTER==='亞洲超市買得到八角。'&&S8B4.indexOf('不放在剛進門')>0&&S8B4.indexOf('4-2 煎蛋不算')>0&&S8B4.indexOf('US2、3-2 都沒演到的玩家沒有這一句')>0&&quotesOf(S8B4).length===0
+    &&S8B5.indexOf("移到 `{label:'e'}` 後面、`mem('US208_LUROU')` 前面；兩支都會出")>0&&LU_A==='香是香。吃了再說。'&&LU_B==='（她翻開計畫本……冰糖。）'&&S8B5.indexOf('字照第 1 點，不改。US2 的三個位置照第 4 點，不動')>0&&quotesOf(S8B5).length===0,
+    J({S8Q,b1:S8B1.length,b2:S8B2.length,b3:S8B3.length,b4:S8B4.length,b5:S8B5.length,SPLIT,B_OPT,B_NEXT,C_OPT,C_PREV,LU_AFTER,LU_A,LU_B}));
   check('10. 稿 → 遊戲：第 8 節兩句都在遊戲裡',S8Q.length===2&&S8Q.every(t=>GS.has(t)),J(S8Q.filter(t=>!GS.has(t))));
 
   /* ---------- 第 1 點＋第 3、4 點：4-1「……下次你用我的碗。」→ 之後第一次有吃東西的 208 場景（先 9/13 US2，三支都有；沒演到＝3-2 滷肉她說「亞洲超市買得到八角。」後面；其他六場、4-2 煎蛋不放）---------- */
@@ -407,15 +415,15 @@ await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
     const nx=l=>!l?null:l.text!=null?l.text:l.label?'label:'+l.label:null, br={}; for(const i of kb) br[lab(KD,i)]={prev:nx(KD[i-1]),next:nx(KD[i+1])};
     const gA=kA>=0?CH[kA].goto:null, gB=kB>=0?CH[kB].goto:null, gC=kC>=0?CH[kC].goto:null;
     check('10. 第 3、4 點 放的地方（事件的台詞）：US2 ev_us2_kitchen 三支各一行——「那就寫妳。」在「'+SPLIT+'」下一行、「'+B_OPT+'」在「'+B_NEXT+'」上一行、「'+C_OPT+'」在「'+C_PREV+'」下一行；'
-      +'七場只有 3-2 滷肉一行，在她說「'+LU_AFTER+'」那句的下一行（「'+MK+'」照 AA_424 在第一句旁白的下一行）；每一行都有條件、記 SIS14_BOWL；其他事件（4-2 煎蛋 ev_sis14_eggs 等）都沒有',
+      +'七場只有 3-2 滷肉一行，在兩支選項會合的地方（{label:\'e\'} 的下一行、mem 前面；第 5 點，不在她說「'+LU_AFTER+'」那句後面）（「'+MK+'」照 AA_424 在第一句旁白的下一行）；每一行都有條件、記 SIS14_BOWL；其他事件（4-2 煎蛋 ev_sis14_eggs 等）都沒有',
       J(withBowl)===J(['ev_us208_lurou','ev_us2_kitchen'])&&!!ev('ev_sis14_eggs')&&!(ev('ev_sis14_eggs').dialogue||[]).some(isBowl)
       &&kA>=0&&kB>=0&&kC>=0&&kb.length===3&&J(Object.keys(br).sort())===J(['a','b','c'])&&J([gA,gB,gC].sort())===J(['a','b','c'])
       &&!!br[gA]&&br[gA].prev===SPLIT&&br[gA].next===A2&&cnt(KD.map(l=>l&&l.text),SPLIT)===1
       &&!!br[gB]&&br[gB].prev===B1&&br[gB].next===B_NEXT&&!!br[gC]&&br[gC].prev===C_PREV&&br[gC].next==='label:end'
       &&lb.length===1&&LD[0].speaker===null&&!LD[0].if&&LD[0].text===first('3-2')&&!!LD[1]&&LD[1].text===MK&&!!LD[1].if
-      &&LD[lb[0]-1].text===LU2&&LU2.indexOf(LU_AFTER)===0&&nx(LD[lb[0]+1])===LU3
+      &&!!LD[lb[0]-1]&&LD[lb[0]-1].label==='e'&&!!LD[lb[0]+1]&&!!LD[lb[0]+1].mem&&lb[0]===LD.length-2&&LU2.indexOf(LU_AFTER)===0&&LD.some(l=>!!l&&l.text===LU_A)&&LD.some(l=>!!l&&LU_BF(l.text))
       &&kb.map(i=>KD[i]).concat(lb.map(i=>LD[i])).every(l=>!!l&&!!l.if&&l.speaker===null&&!!l.set&&l.set.SIS14_BOWL===true),
-      J({withBowl,k:[kA,kB,kC],g:[gA,gB,gC],br,lb,around:lb.length?[LD[lb[0]-1]&&LD[lb[0]-1].text,nx(LD[lb[0]+1])]:null,l1:LD[1]&&LD[1].text})); }
+      J({withBowl,k:[kA,kB,kC],g:[gA,gB,gC],br,lb,around:lb.length?[nx(LD[lb[0]-1]),!!(LD[lb[0]+1]&&LD[lb[0]+1].mem),lb[0],LD.length]:null,l1:LD[1]&&LD[1].text})); }
   /* US2 三支（坐高腳椅）：各自的位置、一次、記 SIS14_BOWL；之後 3-2 滷肉沒有（只一次）*/
   for(const [k,name,want,last] of [[kA,'那就寫妳。',[A1,SPLIT,DX.bowl,A2],false],[kB,B_OPT,[B1,DX.bowl,B_NEXT,B3],false],[kC,C_OPT,[C_PREV,DX.bowl],true]]){
     const u=await us2([k],{SIS14_US_CURRY:true}); const b=H.G.flags.SIS14_BOWL, u2=H.G.flags.US2; at('2028-09-30',15); const d=US208.due(H.G); await play208([0]); const l=said();
@@ -425,19 +433,19 @@ await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
       J({k,r:u.r,s:u.s.slice(-6),b,u2,d:d&&d.n,l:l.slice(0,3)})); }
   /* 沒去 US2：3-1 看作業先演＝不算；3-2 她說「亞洲超市買得到八角。」那句後面；之後 3-3 沒有 */
   { s208('2028-09-16',15,{SIS14_US_CURRY:true,US2:'missed'}); await play208([0]); const m1=said(), mb=H.G.flags.SIS14_BOWL; at('2028-09-30',15); await play208([0]); const m2=said(), m2b=H.G.flags.SIS14_BOWL; at('2028-10-14',15); await play208([0]); const m3=said();
-    check('10. 第 3、4 點 沒去 9/13 US2（US2 missed）：3-1 看作業先演＝沒有、不記；3-2 滷肉「'+first('3-2')+'」→「'+LU2.slice(0,10)+'……」→「'+DX.bowl+'」→「'+LU3+'」（不在剛進門）、記 SIS14_BOWL；之後 3-3 沒有',
-      m1[0]===first('3-1')&&!m1.includes(DX.bowl)&&mb==null&&J(m2.slice(0,4))===J([first('3-2'),LU2,DX.bowl,LU3])&&cnt(m2,DX.bowl)===1&&m2b===true&&m3[0]===first('3-3')&&!m3.includes(DX.bowl),
-      J({m1:m1.slice(0,2),mb,m2:m2.slice(0,4),m2b,m3:m3.slice(0,2)})); }
+    check('10. 第 3、4 點 沒去 9/13 US2（US2 missed）：3-1 看作業先演＝沒有、不記；3-2 滷肉「'+first('3-2')+'」→「'+LU2.slice(0,10)+'……」→「'+LU3+'」……選「很香。」→「'+LU_A+'」→「'+DX.bowl+'」（兩支選項會合的地方；第 5 點）、記 SIS14_BOWL；之後 3-3 沒有',
+      m1[0]===first('3-1')&&!m1.includes(DX.bowl)&&mb==null&&J(m2.slice(0,3))===J([first('3-2'),LU2,LU3])&&seq(m2,[LU_A,DX.bowl])&&m2[m2.length-1]===DX.bowl&&cnt(m2,DX.bowl)===1&&m2b===true&&m3[0]===first('3-3')&&!m3.includes(DX.bowl),
+      J({m1:m1.slice(0,2),mb,m2:m2.slice(0,3).concat(m2.slice(-2)),m2b,m3:m3.slice(0,2)})); }
   /* 七場各自當第一場：只有 3-2 有；US2、3-2 都沒演到（3-3～3-7 先演）＝沒有 */
   { const got=[]; for(const [n,id,k] of SC){ s208(k,15,{SIS14_US_CURRY:true,US2:'missed'}); const due=US208.due(H.G); const r=await play208([0]); const s=said();
       got.push({n,due:due&&due.n,r,s0:s[0],first:first(n),at:s.indexOf(DX.bowl),prev:s[s.indexOf(DX.bowl)-1]||null,bowl:H.G.flags.SIS14_BOWL,done:!!H.G.events.done[id]}); }
-    check('10. 第 3、4 點 七場各自當第一場（吃過咖哩、沒去 US2、還沒演過那一句）：只有 3-2 滷肉有（她說「'+LU_AFTER+'」那句後面＝第 3 句、記 SIS14_BOWL）；其他六場（3-1 看作業那一類；3-3～3-7＝US2、3-2 都沒演到）第一句照舊、沒有、不記',
-      got.length===7&&got.every((g,i)=>g.due===SC[i][0]&&g.r===true&&!!g.first&&g.s0===g.first&&g.done&&(g.n==='3-2'?g.at===2&&g.prev===LU2&&g.bowl===true:g.at<0&&g.bowl==null)),J(got)); }
+    check('10. 第 3、4 點 七場各自當第一場（吃過咖哩、沒去 US2、還沒演過那一句）：只有 3-2 滷肉有（兩支選項會合的地方：選「很香。」＝「'+LU_A+'」的下一句、記 SIS14_BOWL）；其他六場（3-1 看作業那一類；3-3～3-7＝US2、3-2 都沒演到）第一句照舊、沒有、不記',
+      got.length===7&&got.every((g,i)=>g.due===SC[i][0]&&g.r===true&&!!g.first&&g.s0===g.first&&g.done&&(g.n==='3-2'?g.at>2&&g.prev===LU_A&&g.bowl===true:g.at<0&&g.bowl==null)),J(got)); }
   /* 4-2 煎蛋不算（盤子，不是碗）：不放、也不算演過 */
   { const d0=D('2028-09-24'); us(d0,19,'dating',{SIS14_US_CURRY:true,US2:'missed'}); await lad('SU-L6',[0]); const q=OUT.get(H.G,'sisb14_eggs'); at(d0+1,6.8); await goOut('sisb14_eggs',[0]); const e1=said(), eb=H.G.flags.SIS14_BOWL, ee=H.G.flags.SIS14_EGGS;
     H.G.zone='us_shared'; E.player.busy=false; E.paused=false; ADV.active=false; at('2028-09-30',15); await play208([0]); const e2=said();
-    check('10. 第 4 點 4-2 煎蛋不算：吃過咖哩、沒去 US2，9/24 選 SU-L6「明天早上我來煮。」→ 9/25 07:00 煎蛋（C 棟 208）沒有那一句、不記 SIS14_BOWL；9/30 3-2 滷肉照樣有（她說「'+LU_AFTER+'」那句後面）',
-      !!q&&q.day===d0+1&&ee===true&&e1.length>0&&!e1.includes(DX.bowl)&&eb==null&&J(e2.slice(0,4))===J([first('3-2'),LU2,DX.bowl,LU3])&&H.G.flags.SIS14_BOWL===true,J({q:!!q,ee,e1:e1.slice(0,2),eb,e2:e2.slice(0,4)})); }
+    check('10. 第 4 點 4-2 煎蛋不算：吃過咖哩、沒去 US2，9/24 選 SU-L6「明天早上我來煮。」→ 9/25 07:00 煎蛋（C 棟 208）沒有那一句、不記 SIS14_BOWL；9/30 3-2 滷肉照樣有（兩支選項會合的地方）',
+      !!q&&q.day===d0+1&&ee===true&&e1.length>0&&!e1.includes(DX.bowl)&&eb==null&&J(e2.slice(0,3))===J([first('3-2'),LU2,LU3])&&seq(e2,[LU_A,DX.bowl])&&H.G.flags.SIS14_BOWL===true,J({q:!!q,ee,e1:e1.slice(0,2),eb,e2:e2.slice(0,3).concat(e2.slice(-2))})); }
   /* 沒吃過 4-1 的咖哩 */
   { const n=[]; for(const k of [kA,kB,kC]){ const u=await us2([k]); n.push({k,r:u.r,has:u.s.includes(DX.bowl),b:H.G.flags.SIS14_BOWL}); }
     const n1=await us2([kA]); at('2028-09-30',15); await play208([0]); const n2=said();
@@ -448,14 +456,18 @@ await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
     s208('2028-09-30',15,{SIS14_US_CURRY:true,SIS14_BOWL:true}); H.G.events.done.ev_us208_memo=1; await play208([0]); const o1=said();
     s208('2028-09-30',15,{SIS14_US_CURRY:true}); H.G.events.done.ev_us208_memo=1; H.G.events.done.ev_us2_kitchen=1; await play208([0]); const o2=said();
     check('10. 第 3、4 點 舊存檔：已經演過那一句的（SIS14_BOWL：3cd10909b 那一版 3-1 先演、d6f8621ac 那一版 3-2 剛進門）＝US2 三支、3-2 都不再出；'
-      +'US2 演過、還沒演過那一句（d6f8621ac 那一版選了另外兩支）＝3-2 照樣有（她說「'+LU_AFTER+'」那句後面）、記 SIS14_BOWL',
-      o.length===3&&o.every(x=>x.k>=0&&x.r===true&&!x.has)&&J(o1.slice(0,3))===J([first('3-2'),LU2,LU3])&&!o1.includes(DX.bowl)&&J(o2.slice(0,4))===J([first('3-2'),LU2,DX.bowl,LU3])&&H.G.flags.SIS14_BOWL===true,
-      J({o,o1:o1.slice(0,3),o2:o2.slice(0,4)})); }
-  /* 滷肉的順序：「（你認得那包八角。）」回到第一句旁白後面（AA_424）、碗那一句在她說「亞洲超市買得到八角。」後面 */
-  { s208('2028-09-30',15,{SIS14_US_CURRY:true,US2:'missed'}); SOCIAL.remember(ID,'US_ASIAN_MARKET',''); await play208([0]); const l1=said().slice(0,5);
+      +'US2 演過、還沒演過那一句（d6f8621ac 那一版選了另外兩支）＝3-2 照樣有（兩支選項會合的地方）、記 SIS14_BOWL',
+      o.length===3&&o.every(x=>x.k>=0&&x.r===true&&!x.has)&&J(o1.slice(0,3))===J([first('3-2'),LU2,LU3])&&!o1.includes(DX.bowl)&&J(o2.slice(0,3))===J([first('3-2'),LU2,LU3])&&seq(o2,[LU_A,DX.bowl])&&H.G.flags.SIS14_BOWL===true,
+      J({o,o1:o1.slice(0,3),o2:o2.slice(0,3).concat(o2.slice(-2))})); }
+  /* 滷肉的順序：「（你認得那包八角。）」回到第一句旁白後面（AA_424）、碗那一句在兩支選項會合的地方（第 5 點）*/
+  { s208('2028-09-30',15,{SIS14_US_CURRY:true,US2:'missed'}); SOCIAL.remember(ID,'US_ASIAN_MARKET',''); await play208([0]); const L1=said(), l1=L1.slice(0,4);
     s208('2028-09-30',15); SOCIAL.remember(ID,'US_ASIAN_MARKET',''); await play208([0]); const l0=said().slice(0,4);
-    check('10. 第 4 點 3-2 滷肉、去過竹葉亞洲超市（US_ASIAN_MARKET）：「（還沒進門就聞到了……）」→「'+MK+'」（照 AA_424，第一句旁白後面）→「'+LU2.slice(0,10)+'……」→「'+DX.bowl+'」→「'+LU3+'」；沒吃過咖哩照舊四句（AA_412 3-2＋AA_424）',
-      J(l1)===J([first('3-2'),MK,LU2,DX.bowl,LU3])&&J(l0)===J([first('3-2'),MK,LU2,LU3]),J({l1,l0})); }
+    check('10. 第 4、5 點 3-2 滷肉、去過竹葉亞洲超市（US_ASIAN_MARKET）：「（還沒進門就聞到了……）」→「'+MK+'」（照 AA_424，第一句旁白後面）→「'+LU2.slice(0,10)+'……」→「'+LU3+'」……「很香。」→「'+LU_A+'」→「'+DX.bowl+'」（最後一句）；沒吃過咖哩照舊四句開頭（AA_412 3-2＋AA_424）',
+      J(l1)===J([first('3-2'),MK,LU2,LU3])&&seq(L1,[LU_A,DX.bowl])&&L1[L1.length-1]===DX.bowl&&cnt(L1,DX.bowl)===1&&J(l0)===J([first('3-2'),MK,LU2,LU3]),J({l1,end:L1.slice(-2),l0})); }
+  /* 第 5 點：3-2 選「下次放冰糖。」那一支＝計畫本那一句後面 */
+  { s208('2028-09-30',15,{SIS14_US_CURRY:true,US2:'missed'}); await play208([1]); const L=said(), i=L.indexOf(DX.bowl);
+    check('10. 第 5 點 3-2 滷肉選「下次放冰糖。」：「這裡買不到。」→「'+LU_B+'」→「'+DX.bowl+'」（最後一句）、記 SIS14_BOWL',
+      i>1&&L[i-2]==='這裡買不到。'&&LU_BF(L[i-1])&&i===L.length-1&&cnt(L,DX.bowl)===1&&!L.includes(LU_A)&&H.G.flags.SIS14_BOWL===true,J({end:L.slice(-3)})); }
   /* 回私訊「我過去。」的出遊：US2（9/13 18:00 那一則，AA_453 1-3）、3-2（週末 14:00 那一則，AA_454 1）*/
   { fresh('2028-09-13',17.9,'dating',{US_ARRIVED:true,US1:'together',SIS14_US_CURRY:true},{route:'US',zone:'us_apartment'}); phAt('2028-09-13',18.05); const m=PHONE.byAsk(H.G,'us2_ask'); if(m) answer('us2_ask',0); ph(); const q=OUT.get(H.G,'us2_kitchen');
     if(q) at('2028-09-13',q.h-0.1); await goOut('us2_kitchen',[kB]); const s=said();
@@ -463,8 +475,8 @@ await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
       kB>=0&&!!m&&!!q&&q.ev==='ev_us2_kitchen'&&s[0]===K0&&seq(s,[B1,DX.bowl,B_NEXT])&&cnt(s,DX.bowl)===1&&H.G.flags.SIS14_BOWL===true,J({m:!!m,q:q&&{ev:q.ev,h:q.h},s:s.slice(-7)})); }
   { const d=D('2028-09-30'); s208(d,13.9,{SIS14_US_CURRY:true,US2:'missed'},{zone:'us_apartment'}); phAt(d,14.05); const m=PHONE.byAsk(H.G,'us208_ask_0930'); if(m) answer('us208_ask_0930',0); ph(); const q=OUT.get(H.G,'us208_0930');
     if(q) at(d,q.h-0.1); await goOut('us208_0930',[0]); const s=said();
-    check('10. 第 4 點 回她週末 14:00 私訊「我過去。」的出遊（AA_454 1，不是自己走進 208）：3-2 滷肉一樣在她說「'+LU_AFTER+'」那句後面、記 SIS14_BOWL',
-      !!m&&!!q&&q.ev==='ev_us208_lurou'&&J(s.slice(0,4))===J([first('3-2'),LU2,DX.bowl,LU3])&&H.G.flags.SIS14_BOWL===true,J({m:!!m,q:q&&{ev:q.ev,h:q.h},s:s.slice(0,4)})); }
+    check('10. 第 4 點 回她週末 14:00 私訊「我過去。」的出遊（AA_454 1，不是自己走進 208）：3-2 滷肉一樣在兩支選項會合的地方、記 SIS14_BOWL',
+      !!m&&!!q&&q.ev==='ev_us208_lurou'&&J(s.slice(0,3))===J([first('3-2'),LU2,LU3])&&seq(s,[LU_A,DX.bowl])&&H.G.flags.SIS14_BOWL===true,J({m:!!m,q:q&&{ev:q.ev,h:q.h},s:s.slice(0,3).concat(s.slice(-2))})); }
 
   /* ---------- 第 2 點：h9「出口那邊，你站右邊。我出來先看右邊。」→ 12/23 接機戀人版 ---------- */
   await vidGf('2028-12-17',15,[0]); const r0=H.G.flags.SIS14_RIGHT, h0=said(); await vidGf('2028-12-17',15,[1]); const r1=H.G.flags.SIS14_RIGHT;

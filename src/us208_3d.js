@@ -14,8 +14,8 @@
      「我過去。」＝出遊「C 棟 208」，出發就換到 208 演那一場（OUT.STAGE，S.stage）；「今天不行。」＝她「好。」，週日 14:00 再一次「今天也在 208。」；週日也說不行＝這個週末不演；沒回＝照現在。
      存檔 G.flags.US208_DM＝這個週末傳過了（那個週六）、US208_NO＝週日說不行的那個週末（那個週六；只是紀錄：AA-B 04:12「這個週末就不演」＝不再傳私訊，自己走過去照演）；舊存檔沒有＝沒傳過。測試：node tests/aa454_us_unit.js
    BUG-US-WKND-EMPTYSTOP-1025：USL.nextStop 的週末 14:00 停點問 S.stopAt（只停在她那天會傳私訊的時候）。測試：node tests/us_wknd_stop_unit.js
-   AA_516 第 8 節第 1 點、第 3 點、第 4 點（企劃線 3cd10909b → d6f8621ac → 913802344 第 8 節第 4 點，SIS-B14-AAFIX-1028）：4-1 9/2 吃過她的咖哩（SIS14_US_CURRY）的，「之後第一次有吃東西的 208 場景」多一句旁白、一次（BOWL，SIS14_BOWL）：
-     先算 9/13 US2（r2y4a_events.js ev_us2_kitchen，三支都有）；沒演到＝這裡 3-2 滷肉，她說「亞洲超市買得到八角。」那句後面（坐下來吃的時候，不放剛進門）；七場的其他六場（沒吃東西）不放。測試：node tests/aa516_sis_b14_unit.js */
+   AA_516 第 8 節第 1 點、第 3～5 點（企劃線 3cd10909b → d6f8621ac → 913802344 → ca08e848c 第 8 節第 5 點，SIS-B14-AAFIX-1028）：4-1 9/2 吃過她的咖哩（SIS14_US_CURRY）的，「之後第一次有吃東西的 208 場景」多一句旁白、一次（BOWL，SIS14_BOWL）：
+     先算 9/13 US2（r2y4a_events.js ev_us2_kitchen，三支都有）；沒演到＝這裡 3-2 滷肉，兩支選項會合的地方（{label:'e'} 後面＝盛出來吃的時候；第 5 點）；七場的其他六場（沒吃東西）不放。測試：node tests/aa516_sis_b14_unit.js */
 'use strict';
 const US208=(function(){
   const S={}, S5='heroine_05';
@@ -28,10 +28,10 @@ const US208=(function(){
   const sis=t=>({speaker:S5,text:t}), nar=t=>({speaker:null,text:t});
   const IF=(fn,l)=>Object.assign({if:{custom:fn}},l);
   const mem=tag=>({mem:[{npc:S5,tag,note:''}]});
-  /* AA_516 第 8 節第 1 點、第 3 點、第 4 點（企劃線 3cd10909b → d6f8621ac → 913802344 第 8 節第 4 點；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
+  /* AA_516 第 8 節第 1 點、第 3～5 點（企劃線 3cd10909b → d6f8621ac → 913802344 → ca08e848c 第 8 節第 5 點；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
      之後第一次有吃東西的 208 場景多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue：吃過咖哩、還沒演過這一句）。第 3 點：只放有吃東西的——
      先算 9/13 US2（r2y4a_events.js ev_us2_kitchen：三支都有，同一句另一行；第 4 點）；沒演到（沒去 US2）＝3-2 滷肉；3-1 看作業那一類（其他六場）不放；4-2 煎蛋（sis_b14_events.js）不算（盤子，不是碗）。
-     第 4 點：3-2 放在她說「亞洲超市買得到八角。冰糖沒有，我用一般的糖。」那句後面（坐下來吃的時候），不放剛進門；
+     第 5 點（ca08e848c，改第 4 點的 3-2）：她說「亞洲超市買得到八角。」的時候鍋子還在煮，3-2 放在兩支選項會合的地方（{label:'e'} 後面、mem 前面），兩支都出——「很香。」接「香是香。吃了再說。」、「下次放冰糖。」接計畫本那一句；不放剛進門；
      us_blank3d.js 的「（你認得那包八角。）」（patchLurou）回到 AA_424 原本的位置（第一句旁白後面）*/
   const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
   /* 3-3：聽過她大一下那一層（閒聊階梯 S2-L5「她爸把剪報放在她書桌上」，記憶 SIS4_CLIPPINGS；過場演過的 ladSeen 也算）*/
@@ -52,7 +52,7 @@ const US208=(function(){
       {label:'e'},mem('US208_MEMO') ]},
     {n:'3-2',ev:'ev_us208_lurou',from:'2028-09-23',to:'2028-10-01',tag:'US208_LUROU',label:'書瑀煮了有一點焦的滷肉',dm:'我在煮東西。……第一次煮這個。',dialogue:[
       nar('（還沒進門就聞到了。醬油、八角，還有一點焦味。）'),
-      sis('亞洲超市買得到八角。冰糖沒有，我用一般的糖。'),BOWL,   /* AA_516 第 8 節第 4 點（913802344）：碗那一句在她說「亞洲超市買得到八角。」後面（坐下來吃的時候；不放剛進門）*/
+      sis('亞洲超市買得到八角。冰糖沒有，我用一般的糖。'),
       sis('……所以有一點焦。'),
       nar('（她的小鍋子在爐子上，蓋子一直被頂起來。室友從房間探出頭，用英文問這是什麼味道，可不可以吃一碗。）'),
       sis('（對室友）It\'s my mom\'s recipe.'),
@@ -60,7 +60,7 @@ const US208=(function(){
       {choice:[{text:'「很香。」',goto:'a'},{text:'「下次放冰糖。」',goto:'b'}]},
       {label:'a'},sis('香是香。吃了再說。'),{goto:'e'},
       {label:'b'},sis('這裡買不到。'),nar('（她翻開計畫本，在十二月底的格子裡寫了兩個字：冰糖。）'),
-      {label:'e'},mem('US208_LUROU') ]},
+      {label:'e'},BOWL,mem('US208_LUROU') ]},   /* AA_516 第 8 節第 5 點（ca08e848c）：碗那一句在兩支選項會合的地方（盛出來吃的時候），兩支都出 */
     {n:'3-3',ev:'ev_us208_clipping',from:'2028-10-14',to:'2028-10-22',tag:'US208_CLIPPING',label:'書瑀的爸爸寄了一張剪報到美國',dm:'臺灣寄來的東西到了。',dialogue:[
       nar('（沙發上放著一個從臺灣寄來的牛皮紙信封，郵票貼了一整排。）'),
       sis('我爸寄的。'),
