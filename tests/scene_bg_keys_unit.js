@@ -18,7 +18,9 @@ const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3
   law_courtyard:'BB 要圖（AA_499 5-3 馬佳蓉：搬影印機，法學院前庭）', boya_201:'BB 要圖（AA_500 3-3 楊書豪：博雅 201 社內賽）', phil_cafe:'BB 要圖（AA_501 3-3 廖芸萱：文學院的教室，哲學咖啡館）',
   us_c_laundry:'BB 要圖（AA_512 13-6 美國 C 棟地下室的洗衣間；稿寫「沒有洗衣間場景就用 2D 背景」，src/sis_b13_3d.js 執行時登記 OUT.BG.us_c_laundry image:null）',
   /* AA_516 4-3、4-4（SIS-B14-1028）：稿寫 2D；沒有圖＝深色底＋地點字幕，src/sis_b14_3d.js 執行時登記 image:null */
-  us_coat_shop:'BB 要圖（AA_516 4-3 美國：草原超市旁邊那家店，挑外套）', us_c_door:'BB 要圖（AA_516 4-4 美國：C 棟門口，下雨的晚上）' };
+  us_coat_shop:'BB 要圖（AA_516 4-3 美國：草原超市旁邊那家店，挑外套）', us_c_door:'BB 要圖（AA_516 4-4 美國：C 棟門口，下雨的晚上）',
+  /* AA_519 4-2（NPC-STORY2-1028）：稿寫 2D；沒有圖＝深色底＋地點字幕，src/sup519_3d.js 執行時登記 OUT.BG.psy_lab image:null */
+  psy_lab:'BB 要圖（AA_519 4-2 黃筱涵：心理系的實驗室，一間很小的房間、一台螢幕、一個按鈕）' };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
 const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
 for(const f of walk('src').concat(walk('src/data'))){ if(OTHER_FILES.has(f)) continue; const s=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); for(const m of s.matchAll(/\bbg:'([a-z0-9_]+)'/g)) (used[m[1]]=used[m[1]]||new Set()).add(f); }
