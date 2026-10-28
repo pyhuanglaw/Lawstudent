@@ -515,6 +515,87 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('3-8. 「三個社團」只留：人物頁、第一次自我介紹、語 1「她講了十五分鐘」、迎新那一句旁白、聖誕禮物那一句',J([...new Set(strs)].sort())===J(KEEP.slice().sort()),J(strs));
     check('3-8. 換掉的兩處：語 1 的選項「「辯論社不會累嗎？」」、平常閒聊「我這禮拜辯論社都要開會，快死了。」',SRC.includes("'「辯論社不會累嗎？」'")&&SRC.includes("'我這禮拜辯論社都要開會，快死了。'")); });
 
+  /* ===================== 4 明軒 ===================== */
+  const metMX=()=>SOCIAL.remember(MX,'FIRST_MET','');
+  await sec('4-1',async()=>{ const M=L().mx, B=ev('ev_mingxuan_notes_b1'), O=ev('ev_mingxuan_notes');
+    check('4-1. B1 的入口：總圖 B1、週二、四 22:00～23:30、大一上～大一下、點明軒（同 M1，interact）',!!B&&B.location==='library_b1'&&B.trigger==='interact'&&J(B.weekday)===J([2,4])&&J(B.time)===J([22,23.5])&&J(B.term)===J(['Y1S1','Y1S2'])&&B.participants[0]===MX);
+    const bt=B.dialogue.filter(l=>l.text!=null).map(l=>l.text), ot=O.dialogue.filter(l=>l.text!=null).map(l=>l.text);
+    check('4-1. 前兩句換成「（B1 自習室最角落。……）」「（他看到你，把筆記蓋起來。）」；「走到校門口。」改「走出總圖。」；其他照 M1',bt[0]===M.b1[0]&&bt[1]===M.b1[1]&&!bt.includes('走到校門口。')&&bt.includes(M.b1Out)&&J(bt.slice(2).map(t=>t===M.b1Out?'走到校門口。':t))===J(ot.slice(2)),J(bt.slice(0,3)));
+    check('4-1. 後果同 M1（SAW_HIM_STUDY、聯絡方式、MX_M1_DAY），日誌寫 B1',J(B.consequences.mem)===J(O.consequences.mem)&&B.consequences.contact===O.consequences.contact&&J(B.consequences.stamp)===J(O.consequences.stamp)&&B.consequences.memo==='在總圖 B1 的自習室遇到明軒');
+    const ok=(t,w,wd,h,o)=>{ o=o||{}; fresh(TD(t,w,wd),h,'library_b1'); if(o.acq!==false) acq(MX); if(o.done) H.G.events.done[o.done]=1; return EVENTS.check(B); };
+    check('4-1. 大一上第 7 週～大一下第 16 週，週二、四 22:00～23:30、認識他＝點得到',ok('Y1S1',7,2,22.5)&&ok('Y1S2',16,4,23)&&ok('Y1S1',16,4,22.1));
+    const no=[]; if(ok('Y1S1',6,2,22.5)) no.push('大一上第 6 週'); if(ok('Y1S1',8,3,22.5)) no.push('週三'); if(ok('Y1S1',8,2,21.5)) no.push('22:00 以前'); if(ok('Y2S1',3,2,22.5)) no.push('大二');
+    if(ok('Y1S1',8,2,22.5,{done:'ev_mingxuan_notes'})) no.push('公車站那一場演過'); if(ok('Y1S1',8,2,22.5,{acq:false})) no.push('不認識');
+    { fresh(TD('Y1S1',8,2),21.5,'gongguan'); acq(MX); H.G.events.done.ev_mingxuan_notes_b1=1; if(EVENTS.check(O)) no.push('B1 演過以後公車站還演'); }
+    check('4-1. 不演：第 6 週、週三、22:00 以前、大二、公車站那一場演過、不認識；B1 演過以後公車站也不演（同一場只演一次）',!no.length,J(no));
+    { fresh(TD('Y1S1',8,2),22.5,'library_b1'); const x=sched(MX); fresh(TD('Y1S1',6,2),22.5,'library_b1'); const y=sched(MX);
+      check('4-1. 明軒的作息：那幾週週二、四 22:00～23:30 在 B1 自習室最角落（北牆那一排最東邊）',!!x&&x.zone==='library_b1'&&J(x.seatAt)===J([6.6,-7.77])&&!(y&&y.zone==='library_b1')); }
+    fresh(TD('Y1S1',8,2),22.5,'library_b1'); acq(MX); await play('ev_mingxuan_notes_b1',[0]);
+    check('4-1. 演完：SAW_HIM_STUDY、交換聯絡方式',SOCIAL.has(MX,'SAW_HIM_STUDY')&&INV.hasContact(H.G,MX)&&H.said.some(x=>x.t===M.b1Out));
+    { const d=TD('Y1S1',9,2); const run=o=>{ o=o||{}; fresh(d,20,'dorm'); if(o.grp!==false) PHONE.join(H.G,'noodle_team','麵店團'); if(o.saw) SOCIAL.remember(MX,'SAW_HIM_STUDY',''); ruleAt(d,22); ruleAt(d,23.5); return thread('g:noodle_team').filter(m=>m.tag==='mx_b1_hint'); };
+      const m=run(); check('4-1. 提示：大一上第 9 週週二 23:30 麵店團，阿哲「明軒說他今天很早睡」「結果我剛剛在總圖門口看到他的腳踏車」',J(m.map(x=>[x.from,x.text]))===J(M.hint.map(t=>[ZHE,t]))&&Math.abs(m[0].h-23.5)<0.02);
+      check('4-1. 已經看過他念書（SAW_HIM_STUDY）、不在麵店團：沒有提示',!run({saw:true}).length&&!run({grp:false}).length); } });
+
+  await sec('4-2',async()=>{ const M=L().mx;
+    /* (a) 傘：大一下第 6～10 週、下雨的平日、霖澤館 201 的必修下課 15 分鐘內、在穿堂 */
+    const dayWith=(t,w)=>{ for(let wd=1;wd<=5;wd++){ const d=TD(t,w,wd); fresh(d,8,'campus'); const it=CLS.dayItems(H.G).find(q=>q.c.kind==='required'&&!q.exam&&q.room&&q.room.zone==='classroom'); if(it) return {d,it}; } return null; };
+    const u=dayWith('Y1S2',6);
+    const setup=(o)=>{ o=o||{}; const x=o.at||u; fresh(x.d,8,'campus'); H.G.weather=o.weather||'rain'; metAN(); if(o.mx!==false) metMX(); at(x.d,x.it.t1+(o.dh!=null?o.dh:0.1)); pos(33,-110,0); return H.G; };
+    setup(); check('4-2. (a) 傘：大一下第 6 週下雨的平日、201 的必修剛下課（15 分鐘內）、在霖澤館的穿堂＝演',!!u&&ready('ev_mx_umbrella'),J(u&&[keyOf(u.d),u.it.c.id,u.it.t1]));
+    const no=[]; setup({weather:'clear'}); if(ready('ev_mx_umbrella')) no.push('沒下雨'); setup({dh:0.4}); if(ready('ev_mx_umbrella')) no.push('下課 24 分鐘'); setup({mx:false}); if(ready('ev_mx_umbrella')) no.push('不認識明軒');
+    { const u5=dayWith('Y1S2',5); setup({at:u5}); if(ready('ev_mx_umbrella')) no.push('第 5 週'); const u11=dayWith('Y1S2',11); if(u11){ setup({at:u11}); if(ready('ev_mx_umbrella')) no.push('第 11 週'); } }
+    check('4-2. (a) 不演：沒下雨、下課超過 15 分鐘、不認識明軒、第 5／11 週',!no.length,J(no));
+    const run=async k=>{ setup(); await play('ev_mx_umbrella',[k]); return H.said.map(x=>x.t); };
+    let r=await run(0); check('4-2. (a) 開場三行；「明軒的。」→「（往雨裡看了一眼）……嗯。」「（她撐開傘走了。）」，記 MX_UMB_TOLD',J(r)===J(lt(M.umb.open).concat(lt(M.umb.r[0])))&&J(H.opts[0])===J(M.umb.opts)&&H.G.flags.MX_UMB_TOLD===true&&H.G.flags.MX_UMB==='TOLD');
+    const s1=await run(1), f1=H.G.flags.MX_UMB_SILENT, s2=await run(2), f2=H.G.flags.MX_UMB_SILENT;
+    check('4-2. (a) 「不知道。」或（不說話）→「（她等了一下，最後撐開傘走了。）」，記 MX_UMB_SILENT',J(s1.slice(3))===J(lt(M.umb.r[1]))&&J(s2.slice(3))===J(lt(M.umb.r[1]))&&f1===true&&f2===true);
+    /* (b) 咖啡 */
+    const cf=(w,o)=>{ o=o||{}; fresh(TD('Y2S1',w,3),15,'library'); metAN(); if(o.mx!==false) metMX(); spawnAt(AN,2,2,0); pos(2,3.2,0); return ready('ev_mx_coffee'); };
+    check('4-2. (b) 咖啡：大二上第 8 週（期中考週）、總圖三樓、走到以安旁邊＝演；第 9 週、不認識明軒＝不演',cf(8)&&!cf(9)&&!cf(8,{mx:false}));
+    { fresh(TD('Y2S1',8,3),15,'library'); const a=sched(AN); check('4-2. (b) 以安的作息：期中考週（週一、三、四、五）下午在總圖三樓',!!a&&a.zone==='library',J(a&&a.zone)); }
+    fresh(TD('Y2S1',8,3),15,'library'); metAN(); metMX(); await play('ev_mx_coffee'); check('4-2. (b) 兩句旁白、沒有選項',J(H.said.map(x=>x.t))===J(lt(M.coffee))&&!H.opts.length);
+    /* (c) 位子 */
+    const st=(w,o)=>{ o=o||{}; for(let wd=1;wd<=5;wd++){ fresh(TD('Y2S2',w,wd),8,'classroom'); if(o.an!==false) metAN(); metMX(); const it=CLS.dayItems(H.G).find(q=>q.c.id==='oblig_spec'||q.c.id==='family_law'); if(it) return it; } return null; };
+    let it=st(3); check('4-2. (c) 位子：大二下第 3～8 週，民法課（債各、身分法）上課前＝演（CLS.beforeClassEvent 挑到它）',!!it&&S().SEAT.beforeClass(it)&&(await (async()=>{ at(it.day,it.t0-0.1); H.said=[]; await CLS.beforeClassEvent(GM,it); return !!H.G.events.done.ev_mx_seat; })()),J(it&&it.c.id));
+    check('4-2. (c) 旁白＋明軒「（對你，小聲）你什麼都沒看到。」',J(H.said.map(x=>x.t))===J(lt(M.seat))&&H.said[1].who===NM(MX));
+    it=st(10); check('4-2. (c) 第 10 週不演（第 8～9 週是期中考）',!!it&&!S().SEAT.beforeClass(it));
+    /* M2 */
+    const m2=async v=>{ fresh(TD('Y2S2',15,1),21.5,'dorm_hall',v?{MX_UMB:v}:{}); await play('ev_mx_m2_walk',[0]); const t=H.said.map(x=>x.t); return t[t.indexOf('……她講得很清楚。我只回了一句「好」。')+1]; };
+    check('4-2. M2：他說完（「……她講得很清楚。我只回了一句「好」。」）以後，TOLD／SILENT 各多一句；沒看到傘＝照舊',(await m2('TOLD'))===M.m2.TOLD&&(await m2('SILENT'))===M.m2.SILENT&&(await m2(null))==='還好。你看，我還吃得下滷蛋。'); });
+
+  await sec('4-3',async()=>{ const G3=L().mx.german, d=TD('Y3S1',12,1);
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'campus'); if(o.fam!==false) fam(MX); else acq(MX); spawnAt(MX,10,10,0); pos(10,11.5,0); contact(MX); return H.G; };
+    setup(d,16); check('4-3. 大三上第 12 週、校園、走到明軒旁邊（有點熟以上）＝演',ready('ev_mx_german_ask'));
+    { fresh(d,16,'campus'); const x=sched(MX); check('4-3. 那一週下午明軒的作息在校園',!!x&&x.zone==='campus'); }
+    const no=[]; setup(d,16,{fam:false}); if(ready('ev_mx_german_ask')) no.push('不熟'); setup(TD('Y3S1',11,1),16); if(ready('ev_mx_german_ask')) no.push('第 11 週'); setup(TD('Y3S1',12,4),20.5); if(ready('ev_mx_german_ask')) no.push('週四 20:00 以後（約不到當天 21:00）'); setup(TD('Y3S1',12,5),16); if(ready('ev_mx_german_ask')) no.push('週五');
+    check('4-3. 不演：不熟、第 11 週、週四晚上、週五',!no.length,J(no));
+    setup(d,16); await play('ev_mx_german_ask',[0]); const iv=(H.G.invites||[]).find(q=>q.who===MX);
+    check('4-3. 兩句（「欸，我德文要考口說。……」「紙條上是德文，我有寫注音。」）；「好。」＝約好這一週週四 21:00 總圖 B1 討論室（INV）',J(H.said.map(x=>x.t))===J(lt(G3.ask))&&J(H.opts[0])===J(G3.opts)&&!!iv&&iv.state==='accepted'&&iv.place==='lib_b1'&&iv.day===TD('Y3S1',12,4)&&iv.h===21&&iv.ev==='ev_mx_german',J(iv));
+    at(iv.day,21); H.G.zone='library_b1'; await meetIv(iv);
+    check('4-3. 見面：「（你照著紙條上的注音念：「古騰塔格。」）」……「好，下禮拜考。過了請你。……不是滷蛋。」；記 MX_GERMAN',J(H.said.map(x=>x.t))===J(lt(G3.scene))&&H.G.flags.MX_GERMAN===true);
+    const w13=TD('Y3S1',13,3); ruleAt(w13-1,22); ruleAt(w13,21); check('4-3. 第 13 週（週三 21:00）私訊「德文口說過了」「考官說我的對話對象發音很有特色 哈哈」',J(byTag('mx_german_after').map(m=>m.text))===J(G3.passed));
+    setup(d,16); await play('ev_mx_german_ask',[1]); check('4-3. 「我念不出來。」→「好啦。我去找阿哲。」；沒有約',H.said.slice(-1)[0].t===G3.no[0][1]&&!(H.G.invites||[]).some(q=>q.who===MX));
+    ruleAt(w13-1,22); ruleAt(w13,21); check('4-3. 第 13 週：「德文口說過了 阿哲念得比你想的還爛 哈哈」',J(byTag('mx_german_after').map(m=>m.text))===J(G3.zhe)); });
+
+  await sec('4-4',async()=>{ const B=L().mx.bank, d=TD('Y4S1',10,3);
+    const run=(k,o)=>{ o=o||{}; fresh(d,20,'dorm'); if(o.fam!==false) fam(MX); contact(MX); ruleAt(d,21); ruleAt(d,22); if(k!=null) answer('mx_bank',k); };
+    run(); const m=byTag('mx_bank');
+    check('4-4. 大四上第 10 週 22:00 私訊「（照片：一本存摺，數字被手指擋住）」「還差一點」；三個回覆',J(m.map(x=>x.text))===J(B.msg)&&Math.abs(m[0].h-22)<0.02&&J(askOpts('mx_bank'))===J(B.opts.map(o=>o[0])));
+    const reps=[]; for(let k=0;k<3;k++){ run(k); reps.push(texts('p:'+MX).slice(-1)[0]); } check('4-4. 「差多少？」→「不講 哈哈」／「加油。」→「嗯」／「要不要我幫你介紹家教？」→「不用 我自己來」',J(reps)===J(B.opts.map(o=>o[1])),J(reps));
+    run(null,{fam:false}); check('4-4. 不到有點熟：不發',!byTag('mx_bank').length); });
+
+  await sec('4-5',async()=>{ const M=L().mx;
+    const run=(term,w,o)=>{ o=o||{}; const out=[]; const d0=TD(term,w,2); fresh(d0,14,'campus'); fam(MX); for(let i=0;i<(o.n||12);i++){ at(d0+i,14); const r=STORY.smallTalk(H.G,MX); out.push(r.say||r.narr); } return out; };
+    const res=[]; for(const T of M.talk){ if(T.m3) continue; const o=run(T.term,3); res.push([T.term,o.filter(t=>t===T.t).length===1,o.slice(-1)[0]===M.after]); }
+    check('4-5. 每學期一句（大一下～大四下），每句一次；說完＝「（明軒比了一下手上的綠色螢光筆。）」',res.every(r=>r[1]&&r[2]),J(res));
+    { const T=M.talk.find(q=>q.m3), a=run('Y3S2',3), b=run('Y3S2',12); check('4-5. 大三下「冠軍賽那天，……」在 M3（2028-04-29 冠軍賽）以後',!a.includes(T.t)&&b.includes(T.t)); }
+    { const a=run('Y1S1',8), b=run('Y2S1',3); check('4-5. 「阿哲說週五練球。」只限大一（原句）',a.filter(t=>t==='「阿哲說週五練球。」').length===1&&!b.includes('「阿哲說週五練球。」')); } });
+
+  await sec('4-6',async()=>{ const fit=fs.readFileSync(path.join(H.ROOT,'src/fit3d.js'),'utf8'), rl=fs.readFileSync(path.join(H.ROOT,'src/data/rel_lines.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');   /* 註解拿掉（註解裡寫了拿掉的那一句）*/
+    const mx=[...fit.matchAll(/\['classmate_mingxuan','([^']*)'\]/g)].map(m=>m[1]);
+    check('4-6. fit3d.js 明軒當面的「哈哈」拿掉（口氣表：「哈哈」只在訊息裡）',mx.length>=3&&!mx.some(t=>/哈哈/.test(t))&&mx.includes('健身房？學校的？學生月票很便宜吧？CP 值很高。')&&mx.includes('系籃缺人。你不要拒絕。')&&mx.includes('最近有在動喔？學校的球場不用錢吧？CP 值最高。'),J(mx));
+    check('4-6. 滷蛋：朋友階道別「下次我請。……一顆滷蛋。」拿掉；德文「……不是滷蛋。」、M2「我還吃得下滷蛋」照舊',!rl.includes('下次我請。……一顆滷蛋。')&&L().mx.german.scene.some(x=>x[1].endsWith('不是滷蛋。'))&&JSON.stringify(ev('ev_mx_m2_walk').dialogue).includes('我還吃得下滷蛋')); });
+
   check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();
