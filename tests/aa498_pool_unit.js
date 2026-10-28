@@ -121,7 +121,7 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
   const spawned=[]; GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const n={charId:id,name:SOCIAL.npcName(id),obj:{position:{x,y:0,z}},seat:o&&o.seat,pose:o&&o.pose,lv:o&&o.lv}; GM.npc[id]=n; E.npcs.push(n); spawned.push([id,H.G.zone,+x.toFixed(2),+z.toFixed(2)]); return n; };
   GM.removeNPC=id=>{ const n=GM.npc[id]; delete GM.npc[id]; const k=E.npcs.indexOf(n); if(k>=0) E.npcs.splice(k,1); }; E.removeNPC=n=>{ for(const k in GM.npc) if(GM.npc[k]===n) delete GM.npc[k]; const i=E.npcs.indexOf(n); if(i>=0) E.npcs.splice(i,1); };
   const camSeats=[{x:-25,z:-12.94+0.0,yaw:0},{x:-50,z:-12.94,yaw:0},{x:-30,z:20.94,yaw:Math.PI}];
-  const at=(day,h,zone,seats)=>{ fresh(day,h,zone); spawned.length=0; E.zone={seats:(seats||[]).map(s=>Object.assign({},s)),spawn:{x:0,z:0}}; E.player.obj.position={x:500,y:0,z:500}; STORY.refreshSchedule(GM); return spawned.slice(); };
+  const at=(day,h,zone,seats,wx)=>{ fresh(day,h,zone); if(wx) H.G.weather=wx; spawned.length=0; E.zone={seats:(seats||[]).map(s=>Object.assign({},s)),spawn:{x:0,z:0}}; E.player.obj.position={x:500,y:0,z:500}; STORY.refreshSchedule(GM); return spawned.slice(); };
   const wd=TD('Y1S1',5,2);   /* 大一上第 5 週週二 */
   let s=at(wd,14,'campus',camSeats); const lyx=s.find(q=>q[0]==='pool_15');
   check('2. 廖芸萱（原本永遠不出現）：平日 13～16 在文學院前的長椅（seatAt (−25,−12.94)）',!!lyx&&lyx[2]===-25&&Math.abs(lyx[3]+12.94)<0.01,J(s));
@@ -134,6 +134,8 @@ await sec(2,async()=>{ const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js
     s=d!=null?at(d,(a.t0+a.t1)/2,'campus',camSeats):[]; check('2. 馬佳蓉：社團博覽會那幾天在法服的攤位',s.some(q=>q[0]==='pool_20'&&q[2]===-50),(d!=null?keyOf(d):'')+' '+J(s)); }
   s=at(TD('Y1S1',4,1),6.75,'campus',camSeats); const zz=s.find(q=>q[0]===Z);
   check('2. 曾靖雯：平日 06:30～07:40 在傅鐘旁的長椅',!!zz&&zz[2]===-30&&zz[3]===20.94,J(s));
+  { const a=at(TD('Y1S1',4,2),16.5,'campus',camSeats), b=at(TD('Y1S1',4,2),16.5,'campus',camSeats,'cloudy'), c=at(TD('Y1S1',4,2),16.5,'campus',camSeats,'rain');
+    check('2. 鄭元碩：晴天 16:00～17:30 在椰林大道（虛線旁 (−10,0.8)）；陰天、雨天不在',a.some(q=>q[0]===YS&&q[2]===-10)&&!b.some(q=>q[0]===YS)&&!c.some(q=>q[0]===YS),J([a,b,c].map(x=>x.map(q=>q[0])))); }
   s=at(TD('Y1S1',4,1),9.5,'classroom',[0,1,2,3,4,5].flatMap(r=>[0,1,2,3,4,5,6,7].map(c=>({x:-5.25+c*1.5,z:-3.45+r*2.1,yaw:Math.PI,row:r,col:c}))));
   check('2. 必修課（大一上週一憲法，霖澤館 201）：曾靖雯第一排正中間、林采潔第三排、黃郁婷上課時坐最後一排',(s.find(q=>q[0]===Z)||[])[3]===-3.45&&(s.find(q=>q[0]===C)||[])[3]===0.75&&!!s.find(q=>q[0]===Y),J(s));
   { const G=fresh(TD('Y1S1',4,1),9+10/60-0.1,'classroom'); const e=STORY.schedEnt(CHARACTERS[Y],G); check('2. 黃郁婷：上課前 10 分鐘在教室門口（站著）',!!e&&e.act==='linger'&&e.door&&J(e.at)===J(P().DOOR.classroom),J(e)); }

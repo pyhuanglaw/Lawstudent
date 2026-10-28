@@ -17,8 +17,8 @@ const POOL_STORY=(function(){
   const Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';
   const z=by(Z), y=by(Y), c=by(C), ys=by(YS), q=by(Q);
   const P=Math.PI;
-  /* 作息的共用條件（EVENTS.cond 的 custom）：晴天（不下雨、不颱風）、法服值班的週六（STORY.fafuDuty） */
-  const SUNNY={custom:G=>G.weather!=='rain'&&G.weather!=='typhoon'};
+  /* 作息的共用條件（EVENTS.cond 的 custom）：晴天（G.weather 'clear'；陰天 cloudy、雨天、颱風都不算）、法服值班的週六（STORY.fafuDuty） */
+  const SUNNY={custom:G=>!G.weather||G.weather==='clear'};
   const FAFU={custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuDuty&&STORY.fafuDuty(G)};
   const WD=[1,2,3,4,5], ALL=[0,1,2,3,4,5,6];
 
