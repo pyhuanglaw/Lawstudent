@@ -1945,7 +1945,7 @@ const STORY = (function(){
         for(const q of (PHONE.rec(G).q||[])) if(q.tag==='bbq_ask'||q.tag==='kx_bbq_ask') (q.items||[]).forEach(fix); }
       if(wed&&sat&&!PHONE.sent(G,'bbq_ask')&&G.day<=sat){ const th=PHONE.inGroup(G,'noodle_team')?'g:noodle_team':'p:zhe'; PHONE.at(G,wed,21,[{th,from:'zhe',text:'週六中秋烤肉 河濱 下午三點',ask:{until:sat*24+15,opts:[{t:'去。',set:{BBQ_YES:true}},{t:'這次不行。',set:{BBQ_NO:true}}]}}],'bbq_ask'); }   /* until：週六 15:00 開始以後不能再回（BB-C 10-21 P3：原本到隔年一月還是「待回覆」）*/
       if(F.BBQ_YES&&typeof OUT!=='undefined'&&!OUT.get(G,'bbq')&&sat&&G.day<=sat) OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:sat,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25});
-      /* 可昕 K3（BB_95 9-4）：前一天（週五）20:00 她問；回「來我們這邊」她就來；「妳去妳們系的」她傳烤玉米的照片（週六 20:30）*/
+      /* 可昕 K3（BB_95 9-4）：前一天（週五）20:00 她問；回「來我們這邊」她就來；「妳去妳們系的」她去她們系的（烤玉米的照片 AA_503 改成動態第 2 則，去沒去都出）*/
       if(sat&&F.dating_kexin&&(F.BBQ_YES||!F.BBQ_NO)&&!PHONE.sent(G,'kx_bbq_ask')&&G.day>=sat-1&&G.day<=sat){ const K=t=>({from:'kexin',text:t});
         PHONE.at(G,sat-1,20,[{th:'p:kexin',from:'kexin',text:'我們系也有烤肉。……你們的比較好玩嗎？',ask:{until:sat*24+15,opts:[{t:'來我們這邊。',set:{KX_BBQ_COME:true}},{t:'妳去妳們系的。',set:{KX_BBQ_NO:true}}]}}],'kx_bbq_ask'); }
       /* 烤玉米的照片「我們的玉米比較好。」：原本「妳去妳們系的。」才私訊（kx_bbq_corn）；AA_503 9-2、9-3 改成可昕的動態第 2 則，一定出（她來了＝照片裡有你的手，src/data/feed_y1s1.js kx2）*/ }
@@ -1970,7 +1970,7 @@ const STORY = (function(){
       if(fri&&F.dating_kexin&&G.day>=fri&&G.day<=fri+1&&PHONE.sent(G,'kx_ntu_ask')&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_ntu'))
         OUT.plan(G,{id:'kx_ntu',ev:'ev_kexin_visits_ntu',day:fri+1,h:16,place:'社科院門口',title:'可昕來台大：去社科院門口',travel:'走過去約 10 分鐘',travelH:1/6,back:'回到台大。'}); }
     /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（期末前；回覆到 21:45 為止）。「好，九點開。」＝當天 21:00 視訊（ev_kexin_video_study，出遊）；
-       「今天不行。」或沒回＝23:00 她傳書桌的照片（沒接也是，ev_kexin_video_study 的 outingMissed）*/
+       「今天不行。」或沒回＝23:00 她傳「我自己讀了。你欠我一次。」（沒接也是，ev_kexin_video_study 的 outingMissed；書桌的照片 AA_503 改成動態第 8 則，1/24 一定出）*/
     /* K5「我們的日子」（BB_96 9-3）：大一下第 2 週週一 21:00 她傳；玩家選哪一天（回她的那一句裡接著選方式）。兩樣都選了＝KX_OUR_DAY {day, mode}，排同一週那一天的「第一次」（出遊）；
        那一週那天已經過了＝下週同一天。時間、地點是 AA-B 確認前的提案值（週五 19:00、週六 14:00、週日 14:00；政大小吃街／社科院門口／公館／視訊）。大二以後的固定格：src/kxod3d.js（AA_354）*/
     { const m2=termDay('Y1S2',2,1); if(m2&&F.dating_kexin&&G.day>=m2-1&&G.day<=m2+13){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});

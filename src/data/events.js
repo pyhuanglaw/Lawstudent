@@ -145,7 +145,7 @@ const XMAS_HERE=G=>typeof STORY==='undefined'||!STORY.knows?[]:XMAS_WHO.filter(i
 /* 明軒抽到 Alison 的玩偶（AA 的「和祐廷無關的一句」）＝明軒和 Alison 都在、抽到祐廷禮物的不是明軒（是明軒的話，他抽到的是祐廷的，Alison 的玩偶祐廷也抽得到）*/
 const XMAS_MX_YU=G=>{ const h=XMAS_HERE(G); return h.includes('classmate_mingxuan')&&h.includes('yu')&&G.flags.XMAS_TO!=='classmate_mingxuan'; };
 const XMAS_FROM_POOL=G=>{ const h=XMAS_HERE(G); const p=h.filter(id=>!(id==='yu'&&XMAS_MX_YU(G))); const q=p.filter(id=>id!==G.flags.XMAS_TO); return q.length?q:p; };
-/* 可昕自己讀書時傳的書桌照片（BB_95 9-5：婉拒、沒回、沒接）*/
+/* 可昕自己讀書以後傳的那一句（BB_95 9-5：婉拒、沒回、沒接；原本還有一張書桌的照片，AA_503 改成動態第 8 則）*/
 const KX_DESK_PHOTO=[{th:'p:kexin',from:'kexin',text:'我自己讀了。你欠我一次。'}];   /* 書桌的照片：AA_503 9-3「書桌照（現有）＝第 8 則」改成可昕的動態（1/24，一定出；src/data/feed_y1s1.js kx8），私訊這一句照舊 */
 /* 學姊的熱水（AA_261 第 3 節 16919f86）：兩次共用的場面，first＝她的第一句 */
 function SIS_STUDY_OK(G){ return !!(G.flags&&G.flags.SIS_STUDY); }   /* 一起念書解鎖了（ev_sis_study_invite 記 SIS_STUDY，src/sis_grad3d.js）：不用數值門檻（AA_284 2-3 最後一行；原本熟悉 ≥40、信任 ≥25＋SIS_W1）*/
@@ -731,7 +731,7 @@ const STORY_EVENTS=[
   /* 可昕 K1b 予樂說：及格（BB_95 9-2）：K1 之後第 6～8 週，她在平日下午傳「明天晚上有空嗎？……」（story3d.js 的 phoneRules）；答應＝隔天 19:30、晚一點＝21:00 去政大（出遊）。
      流程照 AA_112 第 12 節：校門 → 山下的小吃街（予樂先到；予樂的第一句三選一＝YL_IMPRESSION）→ 可昕到了 → 河堤（假設題，玩笑、不給結論）→ 圖書館 → 停車場（約下一次）；
      （2026-10-16 AA_137 7-1：政大只做主要校園＋宿舍——河堤→校園裡的路、圖書館→自強十舍樓下、停車場→校門；台詞不改）
-     隔天中午她傳予樂的紙條照片「及格。」（phoneRules）。「這週不行」：她自己去，隔天傳予樂戴紙巾皇冠的照片，予樂的第一句延到第一次見面。
+     隔天中午她傳予樂的紙條照片「及格。」（phoneRules）。「這週不行」：她自己去，予樂的第一句延到第一次見面（予樂戴紙巾皇冠的照片 AA_503 改成可昕的動態第 3 則，去沒去都出，src/feed3d.js）。
      旁白「可昕到了……」「她在桌下踢你一下……」、圖書館那一句、停車場的兩個選項之後沒有回應，是照 BB 的流程寫成的；BB-B 看過（e0e7a359，第①級）：小吃街加予樂口頭禪那句、宿舍樓下改成讀自己的書、校門加兩句 */
   { id:'ev_kexin_yule_pass', title:'予樂說：及格', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},
@@ -1894,7 +1894,7 @@ const STORY_EVENTS=[
     consequences:{flags:{MET_PINYU:true},memo:'可昕來台大找你'} },   /* AA_372 第 6 節第 9 題：日誌和標題一樣（原本「可昕第一次來台大」）*/
   /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（story3d.js 的 phoneRules）；「好，九點開。」＝當天 21:00 視訊（出遊：接起來）。
      開始前先選讀哪一科（和自學一樣算進期末準備：兩個小時＝兩次）；每半小時她出一題假設題（照順序，玩笑，不給結論），回她＝「你分心了。很好。」、
-     不回＝「你今天好認真。我有點寂寞。……繼續。」（各自第一次才說，不重複）。沒接、今天先不要＝23:00 她傳書桌的照片（outingMissed）。記 VIDEO_STUDY（AA_112 第 6 節：和見面一樣算數）*/
+     不回＝「你今天好認真。我有點寂寞。……繼續。」（各自第一次才說，不重複）。沒接、今天先不要＝23:00 她傳「我自己讀了。你欠我一次。」（outingMissed；書桌的照片 AA_503 改成動態第 8 則）。記 VIDEO_STUDY（AA_112 第 6 節：和見面一樣算數）*/
   { id:'ev_kexin_video_study', title:'視訊一起讀書', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     beforeOuting:async(G,GM)=>{ G.flags.kxVideoCourse=null; if(typeof CLS==='undefined'||!CLS.studyPick) return; await GM.say(null,'今天讀哪一科？'); const r=await CLS.studyPick(GM); if(r&&r.course) G.flags.kxVideoCourse=r.course.id; },
     afterOuting:async(G,GM)=>{ const c=G.flags.kxVideoCourse; if(c&&typeof CLS!=='undefined'){ const R=CLS.rec(G); R.prep[c]=(R.prep[c]||0)+1; }   /* 第二個小時（studyPick 已經算了第一個小時）*/

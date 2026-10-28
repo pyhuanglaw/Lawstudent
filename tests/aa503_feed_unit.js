@@ -1,6 +1,6 @@
-// 手機「動態」與「她講自己的事」的私訊（AA_503 大一上，企劃線 74916d73b 更正版；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）——不需要瀏覽器。
+// 手機「動態」與「她講自己的事」的私訊（AA_503 大一上，企劃線 62849944b 更正版（含 74916d73b 的三處）；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）——不需要瀏覽器。
 //   src/data/feed_y1s1.js（台詞）、src/feed3d.js（FEED）；game3d.js 的「動態」頁籤；可昕原本「拒絕或沒去才出」的四則照片改成動態。
-//   0  載得到、index.html 順序、「動態」頁籤在「訊息」旁邊；每一句都在 AA_503 稿裡（git show 74916d73b，一字不差）；更正前（c6c93432d）的舊句子不在遊戲裡
+//   0  載得到、index.html 順序、「動態」頁籤在「訊息」旁邊；每一句都在 AA_503 稿裡（git show 62849944b，一字不差）；更正前（c6c93432d）的舊句子不在遊戲裡
 //   1  階段沒到的那一則就是沒有（不顯示鎖住）；沒有聯絡方式不出；時間到了才出；睡過、跳時間照原本的時間補；舊存檔從讀檔那一天開始
 //   2  回應三選：按愛心不回；留言她回（進私訊）；私訊問一句她答；一則只回一次；熟悉 +1 同一個人一天一次；以安第 2 則的私訊問要 Alison 爆料以後
 //   3  頻率：女主角每人連續七天最多兩則、配角十四天一則、一天最多四則（加假的動態測上限）；大一上走一遍（七位都很熟）：44 則都出、一天不超過四則、每位一週不超過兩則
@@ -18,7 +18,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SPEC='docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md', SHA='74916d73b', OLD='c6c93432d';
+const SPEC='docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md', SHA='62849944b', OLD='c6c93432d';   /* 62849944b 含 74916d73b 的三處更正 */
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 try{ for(const [f,n] of [['src/data/msg_pool.js',['MSG_POOL']],['src/data/msg2_pool.js',['MSG2_POOL']],['src/msg3d.js',['MSG']]]) if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); }catch(e){ console.log('（msg3d.js 載不到：'+(e&&e.message)+'）'); }
 let ok=true, err='';
@@ -37,10 +37,11 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   const bad=L.filter(([w,t])=>!doc.includes(t));
   check('0. 每一句都在 AA_503 稿裡（'+SHA+'，一字不差；'+L.length+' 句）',doc.length>1000&&L.length>=250&&!bad.length,doc?J(bad.slice(0,8)):'git fetch origin claude/magical-albattani-bk7b4n');
   check('0. 動態 44 則（以安 8、芷若 6、語彤 6、子晴 7、學姊 3、可昕 8、沛珊 6）、私訊 10 則',FEED_Y1S1.posts.length===44&&FEED_Y1S1.dms.length===10,J([FEED_Y1S1.posts.length,FEED_Y1S1.dms.length]));
-  /* AA 更正（74916d73b）：芷若的拉花比賽、語彤的訪問作業不放進遊戲 */
-  const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。'];
+  /* AA 更正：74916d73b 芷若的拉花比賽、語彤的訪問作業；62849944b 可昕第 5 則的予樂生日——都不放進遊戲 */
+  const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。',
+    '宿舍走廊，一個蛋糕，蠟燭被風吹斜了','予樂生日。','我幫你轉達。她說：你誰？','一個鬧鐘。她每天遲到。'];
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y1s1.js'),'utf8')+fs.readFileSync(path.join(H.ROOT,'src/feed3d.js'),'utf8');
-  check('0. 更正前（'+OLD+'）的舊句子不在遊戲裡（拉花比賽、訪問伯伯）',old.length>1000&&GONE.every(t=>old.includes(t)&&!doc.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
+  check('0. 更正前（'+OLD+'）的舊句子不在遊戲裡（拉花比賽、訪問伯伯、予樂生日）',old.length>1000&&GONE.every(t=>old.includes(t)&&!doc.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
 if(!ok){ /* 修改前：沒有 FEED，下面每一段都會記 FAIL */ }
 
 /* ---------- 共用 ---------- */
