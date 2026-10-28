@@ -11,14 +11,16 @@
 //      每題一次、那一年問完不觸發、下一年有新的；寒暑假照上一個學期的年級；地點、冷卻照舊；大二上週一下課後在萬才館、說話就是這一場
 //   3  第 3 節林教授：3-1 開頭照第幾次輪四種（第五次起從頭）、最後一句第一次照舊之後「下週見。」、題庫抽題照舊；
 //      3-2 研究室：大三上週二 14:00～16:30 萬才館、冷卻 7 天、最多三次、要先演過 3-1；第一次多一句、三次三句收尾；題庫抽題照稿（office）；教授紀錄 office +2；
-//          她那時在萬才館（S.PROF_OFFICE：國定假日、別的學期、時段外不在）、說話就是這一場；第三句以後選了刑事判決研討的，大四上第一次上課前旁白一句（公法判決研討、沒聽過第三句的沒有；一次）
+//          她週二刑訴下課（12:10）到 16:30 在萬才館、中間不先走開（S.PROF_OFFICE：國定假日、別的學期、時段外不在）、說話就是這一場；
+//          第三句以後選了刑事判決研討的，大四上第一次上課前旁白一句（公法判決研討、沒聽過第三句的沒有；一次）
 //   4  第 4 節：陳教授的閒聊換句（不說來研究室聊）、黃教授那句照舊、過時的註解拿掉
-//   5  舊存檔：沒有 notes、沒有新旗標、旗標壞掉都不丟例外；大一上原本兩題有筆記＝問過；許教授大一兩題有 GRAD_SCHOOL_DISCUSSION／book_xu＝問過；法律題庫沒有改
+//   5  舊存檔：沒有 notes、沒有新旗標、旗標壞掉都不丟例外；大一上原本兩題有筆記＝問過；許教授大一兩題有 GRAD_SCHOOL_DISCUSSION／book_xu＝問過
+//   （法律題庫 legal_qbank.js、exam_bank.js 這一批沒有動：交付時用 git diff 核對，不寫成這裡的檢查——之後題庫照正常程序更新時這支測試不該失敗）
 // 修改前（只拿掉這次 src 的改動：src/data/events.js、src/story3d.js 回到開發分支 ccf06cc69；白名單、這支測試用新的；git archive 那一版放進暫存目錄真的跑過，稿從這個 repo 讀：AA522_DOCREPO）：
-//   FAILED 66、PASS 20（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
-//   大二下到大四上週四不演、新五題沒有條號、許教授地點冷卻、暑假大一的題、林教授 3-1 題庫照舊、大四上的旁白「沒有」兩項、舊存檔不丟例外、法律題庫沒改；
+//   FAILED 66、PASS 19（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
+//   大二下到大四上週四不演、新五題沒有條號、許教授地點冷卻、暑假大一的題、林教授 3-1 題庫照舊、大四上的旁白「沒有」兩項、舊存檔不丟例外；
 //   FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、林教授 3-1 開頭不換、週二下午不在萬才館、陳教授舊句）；
-//   修改後 ALL PASS（86 項）。
+//   修改後 ALL PASS（85 項）。
 // 用法：node tests/aa522_prof_office_unit.js（在沒有 .git 的目錄跑，設環境變數 AA522_DOCREPO＝這個 repo 的目錄）
 'use strict';
 const H=require('./pg_harness.js');
@@ -310,8 +312,6 @@ await sec('5',async()=>{
   check('5. 許教授：舊存檔問過法研所（GRAD_SCHOOL_DISCUSSION）只剩推薦書；推薦書也有筆記＝不觸發',J(xo)===J(['「老師推薦一本一年級可以讀的書嗎？」','「沒事，路過。」'])&&xc===false,J([xo,xc]));
   fresh(T1,15.5); await run(Z,['越權']); const back=JSON.parse(J(H.G.flags));
   check('5. 存檔來回（JSON）：ZHOU_ASKED 照存',J(back.ZHOU_ASKED)===J({Y1S1:['agency']}));
-  let same=null; try{ same=[git('diff --quiet '+BASE+' -- src/data/legal_qbank.js src/data/exam_bank.js')===''].every(Boolean); }catch(e){ same=false; }
-  check('5. 法律題庫沒有改（legal_qbank.js、exam_bank.js 和修改前一樣）',same===true);
 });
 
 H.done();
