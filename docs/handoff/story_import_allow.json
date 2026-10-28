@@ -3389,11 +3389,11 @@
   },
   {
    "path": "docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md",
-   "sha": "973dd1b74",
+   "sha": "0e21cccde",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
    "task": "SIS-B15-1028",
-   "note": "子代理登記（SIS-B15-1028，10-28）：學姊第十五批（學校裡的平常日子）。新檔 src/data/sis_b15_events.js、src/sis_b15_3d.js（index.html 接在 sis_b14 後面）。第 1 節寒暑假補九場（3D 走近她、認識以上、那一天一次；作息 characters.js 加 1-3 總圖門口台階、1-8 法圖討論室 A、1-9 研究室三天，交往中週三晚上 1-5／1-6／1-7 和 3-7 讓給法圖＝包 SISB13.labYield；1-9 記 SIS15_BOOKS3、房間物件）；第 2 節家族讀書會（大三那一年週四 19～21 法圖討論室 A、21～22 Café，Café 還有她沒演的戲那晚照舊；白板三句輪流；四次前一天 21:00 家族群組 Kevin 揪＋「去。」→ 出遊、D 也能來記 met_sis、沒在群組 FAMILIAR 以上私訊「明天讀書會。」；2-3 Kevin 21:00 群組）；第 3 節十件（6/1 揪 → 6/3 霖澤館門口合照 SIS15_KV_GRAD、8/26 國考集氣、11/16 起說話前接演（sis_b8 記 SIS15_ALLOK）、3/15 21:30 群組、3/16 12:20 研究室便當（sis_y2y3 記 SIS15_LUNCH_GO）、9/10／11/12 私訊對話框「（傳一張照片給她）」（PHONE.GROUP_ACTS；game3d.js 一對一對話串也讀）、兩把傘、兩件外套、大二上期末飯收尾兩行（termend_lines.js lastByTerm.Y2S1）、6/19 火鍋照片、7/26 21:10 送機私訊）；第 4 節十五處（feed_y2s2／feed3d WENT、privtalk3d.js pub、ladder S4-L7／S4-L8＝import_ladder.py _fix 重新產生、vac3d.js、characters.js、feed_y3s1／y3s2、sis_y2y3_events.js、termend_lines.js、events.js、heroine_circle.js、closed3d.js）。tests/aa518_sis_b15_unit.js 雙向逐字對稿（修改前 FAILED 30、PASS 9；修改後 ALL PASS 174 項）"
+   "note": "子代理登記（SIS-B15-1028，10-28）：學姊第十五批（學校裡的平常日子）。新檔 src/data/sis_b15_events.js、src/sis_b15_3d.js（index.html 接在 sis_b14 後面）。第 1 節寒暑假補九場（3D 走近她、認識以上、那一天一次；作息 characters.js 加 1-3 總圖門口台階、1-8 法圖討論室 A、1-9 研究室三天，交往中週三晚上 1-5／1-6／1-7 和 3-7 讓給法圖＝包 SISB13.labYield；1-9 記 SIS15_BOOKS3、房間物件）；第 2 節家族讀書會（大三那一年週四 19～21 法圖討論室 A、21～22 Café，Café 還有她沒演的戲那晚照舊；白板三句輪流；四次前一天 21:00 家族群組 Kevin 揪＋「去。」→ 出遊、D 也能來記 met_sis、沒在群組 FAMILIAR 以上私訊「明天讀書會。」；2-3 Kevin 21:00 群組）；第 3 節十件（6/1 揪 → 6/3 霖澤館門口合照 SIS15_KV_GRAD、8/26 國考集氣、11/16 起說話前接演（sis_b8 記 SIS15_ALLOK）、3/15 21:30 群組、3/16 12:20 研究室便當（sis_y2y3 記 SIS15_LUNCH_GO）、9/10／11/12 私訊對話框「（傳一張照片給她）」（PHONE.GROUP_ACTS；game3d.js 一對一對話串也讀）、兩把傘、兩件外套、大二上期末飯收尾兩行（termend_lines.js lastByTerm.Y2S1）、6/19 火鍋照片、7/26 21:10 送機私訊）；第 4 節十五處（feed_y2s2／feed3d WENT、privtalk3d.js pub、ladder S4-L7／S4-L8＝import_ladder.py _fix 重新產生、vac3d.js、characters.js、feed_y3s1／y3s2、sis_y2y3_events.js、termend_lines.js、events.js、heroine_circle.js、closed3d.js）。tests/aa518_sis_b15_unit.js 雙向逐字對稿（修改前 FAILED 30、PASS 9；修改後 ALL PASS 174 項）；10-28 12:5x 改 0e21cccde（AA 第 6 節：★17 有 YOUPAY 的大二上邀約拿掉「我請你」、飯桌第二句拿掉「這一頓我請」、大二下邀約「這次我請」；22 大三上朋友版飯桌第一句換「面試的事，今天不講。」；其他子代理解讀照現在；LAWWW-C 改）"
   }
  ]
 }
