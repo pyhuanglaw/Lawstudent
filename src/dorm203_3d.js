@@ -6,7 +6,8 @@
    ■ 第 2 節 在房間講話（S.roomTalk：talkCharacter 在閒聊階梯之前問；S.kaiTalk：talkKai 原本的房間句之前問）：每句一次，照稿的順序、學期、條件解鎖；
        一天最多一句新的，其他時候是稿「之後」那兩句輪流（阿凱：說完三句就是他原本的房間句）。房間外照各人原本的閒聊。
        「大一上」＝大一上起；「第 1～4 週」「期中前（第 1～7 週）」「期末前（第 10～15 週）」只在那一學期那幾週；「期中後」＝第 10 週起（之後的學期也算）。
-       沛珊那一列：認識沛珊、而且她和柏翰在交往（STORY.partnerOn，玩家和沛珊交往＝沒有）。阿凱「上次宵夜是我下去拿的」：KAI_COUNTED 以後不出現，換成「上次宵夜，你說了謝謝」（3-3）。
+       沛珊那一列：認識沛珊、而且她和柏翰在交往（STORY.partnerOn，玩家和沛珊交往＝沒有）。阿凱「上次宵夜是我下去拿的」：3-3 宵夜那晚算到他（R203_SUPPER_KAI）以後不出現，換成「上次宵夜，你說了謝謝」
+       （只看宵夜那一晚，不看 KAI_COUNTED：練習賽也會記 KAI_COUNTED，AA_502 第 6 節第 9 點）。
    ■ 第 3 節 六件小事（STORY_EVENTS，trigger auto，location dorm，一次）：條件＝祐廷在房間、那個時間該在的人照作息都在（STORY.dormWho；正在走進來的等他坐下）。
        3-1 冷氣幾度：大一上第 3 週週二（9/16）22:30～23:30。之後這一學期，晚上（18:00～09:00）走進房間一週一次一句旁白；大一下第 1 週阿哲一句（字幕）。
        3-2 誰關燈：民法總則期中考前一晚（大一上第 8 週週三 10/22）23:00～23:30，開演時鐘到 23:30（稿「23:30。柏翰站在燈的開關旁邊。」）。隔天 ev_midterm_walkout 最後阿哲一句。
@@ -63,11 +64,15 @@ const DORM203=(function(){
     if(ci<0||ri<0||ci<ri) return false;
     if(r.weeks&&(!T||cur!==r.term||wk<r.weeks[0]||wk>r.weeks[1])) return false;
     if(r.after&&ci===ri&&wk<r.after) return false;
-    if(r.counted&&F.KAI_COUNTED) return false; if(r.needFlag&&!F[r.needFlag]) return false;
+    if(r.counted&&S.supperKai(G)) return false; if(r.needFlag&&!F[r.needFlag]) return false; if(r.need==='supper'&&!S.supperKai(G)) return false;
     if(r.need==='kai'&&!(knows('kai')||F.MET_KAI)) return false;
     if(r.need==='ge'&&!F.ZHE_CALLS_GE) return false;
     if(r.need==='ps'){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[PS]; if(!knows(PS)||!c||!c.partner||!STORY.partnerOn||!STORY.partnerOn(G,c.partner)) return false; }
     return true; };
+  /* 3-3 宵夜那一晚有沒有算到阿凱（選「謝謝阿凱。」或「阿凱，你的肩膀濕了。」＝R203_SUPPER_KAI true；（吃）＝false）：2-3 阿凱「上次宵夜……」那一句只看這個，不看 KAI_COUNTED
+     （KAI_COUNTED 有兩個來源：宵夜、AA_503 7-2 子晴練習賽；照舊兩邊都記，給之後讀——AA_502 第 6 節第 9 點，795fbecfd）。
+     舊存檔（宵夜演過、還沒有這個記號）：KAI_COUNTED 是宵夜記的才算——練習賽選「他沒講。」（ZQ_PRACTICE tell）的分不出來，照沒算到 */
+  S.supperKai=G=>{ const F=(G&&G.flags)||{}; if(F.R203_SUPPER_KAI!=null) return F.R203_SUPPER_KAI===true; return !!F.KAI_COUNTED&&F.ZQ_PRACTICE!=='tell'; };
   S.nextRow=function(G,id){ const R=S.rec(G,true), T=L.room[id]; if(!R||!T) return null; const said=R.talk[id]||[]; return T.rows.find(r=>!said.includes(r.k)&&S.rowOpen(G,id,r))||null; };
   const sayRow=async(GM,who,id,r)=>{ const R=S.rec(GM.G,true); (R.talk[id]||(R.talk[id]=[])).push(r.k); R.tday[id]=GM.G.day; await GM.say(who,r.t);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); SOCIAL.activity(id,'chatNew'); } };

@@ -15,6 +15,8 @@
 //   9  第二輪（稿第 6 節，2026-10-28 AA-C 定）：3-2 柏翰「明天考試」；3-5 柏翰不在、阿哲自己答、借完就出門（22:00 回來）；3-6 暑假只剩祐廷和阿凱的新旁白、阿凱那句、膠帶放進抽屜；
 //      暑假 203 只剩阿凱、9/6 才搬；群組 6/15 不改名、9/6 21:00 改「203（舊生）」（第一輪 6/15 就改過的存檔不再改）；ev_dorm_late_kai 23:30 以後、四人房那一行照誰在床上；
 //      ev_kai_late_screen 台詞不動、演的那一晚阿凱到 03:30（演之前今晚會演＝也到 03:30；演過以後只有那一晚）；手機朋友頁的阿凱照新作息（週二、四到 08:00，其他天到 10:30、上舖寫睡覺）
+//   10 （HEROINE-LIFE-1028 第三輪，AA_502 第 6 節第 9 點，企劃線 795fbecfd）2-3 阿凱「上次宵夜……」那一句只看 3-3 宵夜那晚有沒有算到他（R203_SUPPER_KAI），
+//      不看 KAI_COUNTED（AA_503 7-2 練習賽也會記）；舊存檔沒有這個記號：KAI_COUNTED 而且不是練習賽「他沒講。」的才算——第 5 段 ③b 四項
 // 第一輪修改前（開發分支 2de1047e1：把第一輪的這個檔放進那一版的程式跑過，AA502_GIT_DIR 指到這個 repo 對稿 4071fdb9a）：FAILED 37、PASS 18、結束碼 1——
 //   第 0 項新檔、index.html、對稿（兩個方向）3 項 FAIL；
 //   第 1 項作息 13 項 FAIL（平日 07:00 柏翰、06:45 起床、08:35 阿哲、週五 22:30 阿哲、平日 02:00 阿凱上床、阿凱第一節、週六、週日、考試週兩項、颱風天、寒假、鑰匙那天）；
@@ -261,6 +263,13 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     check('5③. 對照：選（吃）＝原本那一句「上次宵夜是我下去拿的」，沒有換的那句',kb[1]===KR[1].t&&!kb.includes(KR[2].t),J(kb));
     room('2025-11-03',19); knowAll(); await talkKai(); at('2025-11-04',19); const kc0=(await talkKai())[0]; at('2025-11-27',23.1); await runEv('ev_r203_supper',['謝謝阿凱']); at('2025-11-28',19); const kc1=(await talkKai())[0]; at('2025-11-29',19); const kc2=(await talkKai())[0];
     check('5③. 宵夜以前已經聽過原本那句：KAI_COUNTED 以後還會聽到換的那句（一次）',kc0===KR[1].t&&kc1===KR[2].t&&!KR.some(r=>r.t===kc2),J([kc0,kc1,kc2]));
+    /* ③b AA_502 第 6 節第 9 點（企劃線 795fbecfd）：KAI_COUNTED 有兩個來源（3-3 宵夜、AA_503 7-2 子晴練習賽選「他沒講。」）；2-3 那一句只看宵夜那晚有沒有算到他（R203_SUPPER_KAI）*/
+    room('2025-11-27',23.1,{KAI_COUNTED:true,ZQ_PRACTICE:'tell'}); knowAll(); await runEv('ev_r203_supper',['（吃）']); const kd=[]; for(const d of ['2025-11-28','2025-11-29','2025-11-30']){ at(d,19); kd.push((await talkKai())[0]); }
+    check('5③b. 練習賽已經記了 KAI_COUNTED、宵夜選（吃）（R203_SUPPER_KAI false）＝原句「上次宵夜是我下去拿的」，沒有換的那句；KAI_COUNTED 照舊在',kd[1]===KR[1].t&&!kd.includes(KR[2].t)&&H.G.flags.KAI_COUNTED===true&&H.G.flags.R203_SUPPER_KAI===false,J(kd));
+    room('2025-11-27',23.1,{KAI_COUNTED:true,ZQ_PRACTICE:'tell'}); knowAll(); await runEv('ev_r203_supper',['肩膀濕了']); const kf=[]; for(const d of ['2025-11-28','2025-11-29']){ at(d,19); kf.push((await talkKai())[0]); }
+    check('5③b. 練習賽記過、宵夜也算到他（「阿凱，你的肩膀濕了。」）＝換的那句「上次宵夜，你說了謝謝。……」',H.G.flags.R203_SUPPER_KAI===true&&kf[1]===KR[2].t,J(kf));
+    for(const [fl,want,why] of [[{KAI_COUNTED:true},KR[2].t,'宵夜記的'],[{KAI_COUNTED:true,ZQ_PRACTICE:'tell'},KR[1].t,'分不出是不是練習賽記的：照沒算到']]){ room('2025-11-28',19,fl); knowAll(); const kg=[]; for(const d of ['2025-11-28','2025-11-29']){ at(d,19); kg.push((await talkKai())[0]); }
+      check('5③b. 舊存檔（宵夜演過、還沒有 R203_SUPPER_KAI）'+J(fl)+'＝'+why,kg[1]===want,J(kg)); }
     /* ④ 借襯衫 → 12/19 Alison 那一句 */
     room('2026-05-23',17.1); knowAll(); H.rel('yu',30,10,10); H.G.flags.met_yu=true; await runEv('ev_r203_shirt',['拿去']);
     check('5④. 借襯衫選「拿去。」：R203_SHIRT',H.G.flags.R203_SHIRT===true);

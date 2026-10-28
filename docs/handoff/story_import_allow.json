@@ -3267,11 +3267,11 @@
   },
   {
    "path": "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md",
-   "sha": "010515370",
+   "sha": "795fbecfd",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；010515370＝AA 更正後的版本（e05e87992：以安 1/27「一半是漢字。」；010515370 四處：子晴 2/1 換成期末作業的小遊戲、芷若「五月」、語彤阿姨在沙灘上坐了很久、3-4 改由大一的學妹說），62849944b 的舊句子不放進遊戲",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 01:2x 對 LAWWW-C「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）；795fbecfd＝AA 更正後的版本（e05e87992：以安 1/27「一半是漢字。」；010515370 四處：子晴 2/1 換成期末作業的小遊戲、芷若「五月」、語彤阿姨在沙灘上坐了很久、3-4 改由大一的學妹說；c7c97b862／e4fbd0192：第 0 節第 4 點、5-1 陳助教時間（不是手機）；795fbecfd 第 9 節：以安 2/8 改週一、芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改），62849944b 的舊句子不放進遊戲",
    "task": "HEROINE-LIFE-1028",
-   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y2s1.js、src/feed3d.js）、「別人說起她」（src/data/heard_lines.js；pool_*、小婷、大一的學妹、阿凱大二上不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 010515370 逐字對。第 0 節的 3D 部分（語彤排課、沛珊書店班、子晴閒聊「只有一關」那一層）、3D 圈子不在這一筆的實作裡"
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：手機的部分——第 1～7 節每位的動態表與「她自己的事」的私訊（src/data/feed_y2s1.js、src/feed3d.js）、「別人說起她」（src/data/heard_lines.js；pool_*、小婷、大一的學妹、阿凱大二上不在）；tests/aa504_505_feed_unit.js、tests/aa503_others_unit.js 用 git show 795fbecfd 逐字對。第 0 節的 3D 部分（語彤排課、沛珊書店班）、3D 圈子不在這一筆的實作裡"
   }
  ]
 }

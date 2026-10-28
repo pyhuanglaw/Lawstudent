@@ -1,6 +1,6 @@
 /* ===== 別人說起她（AA_503 4-4～10-4、AA_504 1-4～7-4、AA_505 1-4～7-4，每一節最後那一段；HEROINE-LIFE-1028，
    使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
-   台詞照稿一字不差（企劃線 claude/magical-albattani-bk7b4n：AA_503 @ d13ab3ab7、AA_504 @ 62849944b、AA_505 @ 010515370；tests/aa503_others_unit.js 逐句對）。
+   台詞照稿一字不差（企劃線 claude/magical-albattani-bk7b4n：AA_503 @ d13ab3ab7、AA_504 @ 62849944b、AA_505 @ 795fbecfd；tests/aa503_others_unit.js 逐句對）。
    系統在 src/heard3d.js（HEARD）：
    ■ talk：那個人的閒聊前面先說一句（STORY.PRE_TALK；talkCharacter 照作息出現的人）。一句只說一次；同一個人一天最多一句；
      from／until＝什麼時候可以說（含頭尾）：'YYYY-MM-DD'、'Y1S1:W7三'（那一學期第 7 週週三）、'Y1S1:end'（那一學期加上後面的寒暑假，到下一學期開學前一天）；
@@ -12,7 +12,7 @@
    沒做（列在 HEROINE-LIFE-1028 子代理第二輪的回報）：說話的人是二十位法律系同學 pool_*（曾靖雯、劉晏如、廖芸萱、葉晨希、蘇承恩：AA_498 那個子代理在重做他們的閒聊）、
      小婷（Café 點餐時；她不是 3D 人物）、大一的學妹（AA_505 3-4，3D 標籤人物）、阿凱大二上那一句（AA_505 4-4：大二起他住別棟，3D 裡沒有他）。 */
 const HEARD_LINES={
-  src:{AA_503:'d13ab3ab7',AA_504:'62849944b',AA_505:'010515370'},
+  src:{AA_503:'d13ab3ab7',AA_504:'62849944b',AA_505:'795fbecfd'},
   talk:[
     /* ---------- AA_503（大一上）---------- */
     {id:'h503_ps_an',who:'classmate_peishan',about:'heroine_01',t:'以安寫的宿舍規則，我只看得懂兩頁。第三頁都是條文。',from:'Y1S1:W7三',until:'Y1S1:end',src:'AA_503 4-4'},   /* 宿舍規則第 7 週週二才有（A14 an_rules_grp）*/
@@ -33,7 +33,7 @@ const HEARD_LINES={
     /* ---------- AA_505（大二上＋寒假）---------- */
     {id:'h505_yu_an',who:'yu',about:'heroine_01',t:'以安的十二條規則，我撕了一半。她把另一半貼在手帳裡了。',from:'Y2S1:W7五',until:'Y2S1:end',src:'AA_505 1-4'},   /* 第 7 週週四 ev_plg_rules 以後（玩家在不在場都一樣）*/
     {id:'h505_xc_an',who:'classmate_xinci',about:'heroine_01',t:'以安寒假要去東京。她說是去看書店。……她說的是真的，她只去書店。',from:'Y2S1:W1一',until:'2027-01-16',src:'AA_505 1-4'},   /* 她 1/17 出發以前 */
-    {id:'h505_zq_zr',who:'heroine_04',about:'heroine_02',t:'芷若寄出去了。她寄完回來拿了一杯熱可可，自己加了濃縮。',from:'2026-12-11',until:'Y2S1:end',src:'AA_505 2-4'},   /* 12/10 寄出以後 */
+    {id:'h505_zq_zr',who:'heroine_04',about:'heroine_02',t:'芷若的申請送出去了。她說十一點五十九分才按。……她前一天就寫好了。',from:'2026-12-11',until:'Y2S1:end',src:'AA_505 2-4'},   /* 12/11 以後（AA_505 第 9 節第 2 點，795fbecfd）*/
     {id:'h505_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'語彤帶她阿姨去看海。她說她阿姨在車上睡著，她一路都沒有開音樂。',from:'2027-02-09',until:'Y2S2:W2日',src:'AA_505 3-4'},   /* 2/9 開店以後 */
     {id:'h505_ta_sis',who:'npc_ta_chen',about:'heroine_05',t:'書瑀第一次帶演習課，前一晚把要講的寫了三遍。上課的時候一張都沒看。',from:'Y2S1:W4三',until:'Y2S1:end',src:'AA_505 5-4'},   /* 第 4 週週二第一次帶以後 */
     {id:'h505_bh_ps',who:'classmate_bohan',about:'classmate_peishan',t:'沛珊把題目整理交給我了。她說這樣比較好。',from:'Y2S1:W7一',until:'Y2S1:end',cond:'bhAfterSplit',src:'AA_505 6-4'}   /* 他和沛珊分開（第 6 週）以後；現有「沛珊在群組說了。」那兩句（story3d.js bhSplitHeard）先說、不同一天 */
