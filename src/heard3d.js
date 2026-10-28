@@ -1,11 +1,13 @@
-/* ===== 別人說起她（AA_503～509 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
+/* ===== 別人說起她（AA_503～510 每位女主角那一節最後；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
    台詞在 src/data/heard_lines.js（HEARD_LINES，照稿一字不差；寫法見那個檔的開頭）。接在現有的系統上，不改那些系統的資料：
    ■ talk → STORY.PRE_TALK（talkCharacter 在閒聊前面先問：照作息出現的人；舊的固定時段 talkYu／talkKai 不經過這裡，同其他 PRE_TALK）。
    ■ kai203 → 包住 DORM203.kaiTalk（talkKai 在原本的房間句之前問；和 AA_502 的三句共用「一天最多一句新的」：DORM203.rec 的 tday.kai）。
    ■ noodle → 載入時加進 NOODLE_TABLE（once／pri 的挑法在 story3d.js S.ndlTalkPick）。
    ■ phone → STORY.PHONE_RULES：到了時間 PHONE.at（照原本的時間補；晚三天以上不補）。時間是臺灣時間；人在國外（日本、美國路線、寒暑假出國途中）照 STORY.tzOffset 換成當地時間（S.loc，第四輪加）。
    存檔：G.flags.HEARD＝{said:{句子 id:第幾天}, day:{人物:那一天說過}, ph:{訊息 id:'sent'|'x:原因'}}；舊存檔沒有＝從那時起。
-   測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她） */
+   ■ 第五輪：說話的人是 pool_* 同學（AA_498 第一批，src/pool3d.js）、阿凱（2029-06-28 起週五公館）也走 talk（talkCharacter 照作息出現的人；認識以後）。
+     大四下（Y4S2）後面沒有學期：'Y4S2:end'＝6/3（這一學期最後一天），要到暑假結束的寫日期（AA_510 那幾句寫 2029-09-02）。
+   測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她）、node tests/aa510_511_feed_unit.js（AA_510 的別人說起她、第五輪補的曾靖雯、阿凱） */
 'use strict';
 const HEARD=(function(){
   const S={};
