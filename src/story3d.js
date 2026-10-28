@@ -852,6 +852,7 @@ const STORY = (function(){
     else { await S.contestHeard(GM,who,id);   /* 子晴 Q4 錯過的玩家：開頭多她一句（AA_360 第 4 節）*/ await S.neededMiss(GM,who,id);   /* 主線 4：上週的訊息沒回，這次見面帶過一句（AA_179 第 4 節）*/ for(const f of S.PRE_TALK){ try{ await f(GM,who,id); }catch(e){ console.warn('STORY.PRE_TALK',e); } } await S.bhSplitHeard(GM,who,id); if(typeof VAC!=='undefined'&&VAC.backGreet) await VAC.backGreet(GM,who,id); if(typeof TERMEND!=='undefined'&&TERMEND.meetLine) await TERMEND.meetLine(GM,who,id);   /* 沒去芯慈的事務所參觀：下次見面一句（AA_251 第 1 節）*/   /* 出國回來第一次遇到：閒聊前多一句（AA_242 8-7）*/ const rv=SOCIAL.reveal(id); if(SOCIAL.playUp&&await SOCIAL.playUp(GM,who,id)){ if(SOCIAL.activity) SOCIAL.activity(id,'chat'); }   /* 升到有點熟／朋友／好朋友以後的下一次見面：先說門檻台詞（AA_124 1-6、BB_120 第 1 節），這次就不閒聊 */
       else if(c.social_layer==='B'&&rv==='ACQUAINTANCE'&&c.facts&&c.facts[1]&&S.secretReady(G,id)&&!SOCIAL.has(id,'SHARED_SECRET')){ await GM.say(who,'「其實……'+String(c.facts[1]).replace(/^其實/,'')+'。沒跟很多人講過。」'); SOCIAL.remember(id,'SHARED_SECRET',c.facts[1]); SOCIAL.adjust(id,{fam:4,trust:4}); const SM=G.social.small||(G.social.small={}); (SM[id]||(SM[id]={day:0,used:[],last:null})).day=G.day; }
       else if(typeof ENC!=='undefined'&&ENC.schoolTalk&&await ENC.schoolTalk(GM,who,id)){}   /* 自由出行遇到以後，下一次聊天說一句（DL-07；AA_162、BB_144 第 4 節）*/
+      else if(typeof DORM203!=='undefined'&&DORM203.roomTalk&&await DORM203.roomTalk(GM,who,id)){}   /* 在 203 房間跟阿哲、柏翰講話（AA_502 第 2 節；房間外照原本的閒聊）*/
       else if(await S.ladderTalk(GM,who,id)){}   /* 閒聊階梯（大一上的七位＋之後的）：有資料的人走階梯，沒有的照舊閒聊 */
       else { const L=S.smallTalk(G,id); if(L.say) await GM.say(who,L.say,{expr:'smile'}); else await GM.say(null,L.narr); if(SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(L.fresh) SOCIAL.activity(id,'chatNew'); } else if(L.fresh) SOCIAL.adjust(id,{fam:1}); } }   /* AA_124 1-2：今天第一次聊天熟悉 +2、聽到新的一句自在 +1（一天一次、有上限）*/
     if(!first) await S.offerInvite(GM,id,n,who);
@@ -2881,29 +2882,75 @@ const STORY = (function(){
      法律系大一＝阿凱 18:00～08:00（大一同房 S.kaiRoommate；回宜蘭過年的晚上不在）＋S.dormMates（阿哲、柏翰晚上回來，23:30 以後在上舖）*/
   S.dormWho=function(G){ const F=(G&&G.flags)||{}, hr=h(G), L=[];
     if(S.isEcon(G)){ if(F.E01_DONE&&(hr>=18||hr<8||(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)))) L.push([XUN,'R2',18]); return L; }
+    if(S.r203On(G)) return S.r203Who(G);   /* 大一 203 四人房：照 AA_502 第 1 節的作息（下面 S.r203Plan）*/
     if((hr>=18||hr<8)&&S.kaiRoommate(G)&&!S.awayOnDate('kai',G)) L.push(['kai','R2',18]);
     if(hr<23.5) for(const [id,u,from] of S.dormMates(G)) if(hr>=from&&CHARACTERS[id]&&!S.awayOnDate(id,G)) L.push([id,u,from]);
     return L; };
-  /* 生一個室友（n.dorm＝他的座位，S.dormLive 才會管他）：walk＝從門口走進來、坐到自己的書桌前；否則直接坐好 */
-  S.dormSpawn=function(GM,id,u,walk){ const E=GM.E; if(GM.npc[id]) return GM.npc[id]; const st=dormSeat(u), U=typeof DORM_ROOM!=='undefined'&&DORM_ROOM.units.find(q=>q.id===u);
-    let at=null; if(walk&&E.canStand) for(const p of [[0,3.0],[0,2.7],[0,2.4]]) if(E.canStand(p[0],p[1],0.3,0)){ at=p; break; }
+  /* ===== 203 四人房的作息（AA_502 第 1 節，AA-C 2026-10-28；DORM203-MATES-1028 第二部分）=====
+     只在法律系、四人房（DORM_FOUR）、還沒搬去 312（ROOM_Y2）、8/29 搬進 203 到大二上開學以前；阿哲、柏翰到大一下最後一天（6/14，期末以後那晚是 AA_502 3-6 的最後一晚，6/15 搬出 203）。
+     大二以後、兩人房（沒有 DORM_FOUR 的舊存檔）照上面原本的做法。
+     S.r203Plan(G,id,d)＝第 d 天的區段 [從, 到, 怎麼來, 怎麼走]（小時；24 以上＝隔天凌晨）：怎麼來 'bed' 從上舖下來、'door' 開門進來；怎麼走 'bed' 爬上舖、'door' 出門。在上舖睡覺＝看不到（不生人物）。
+       柏翰：平日 06:40 起、07:20 出門；週六日 08:00 出門（週日的早上稿沒寫，照週六）；週日 13:00～17:00 書桌；晚上 22:30 回來、23:30 上床。
+       阿哲：平日 08:30 起、08:40 出門；晚上 22:00 回來（週五 23:00）、23:30 上床；週六 11:00 起、12:00 去球場、17:00 回來（晚上在房間）；週日 11:00 起、下午在房間、17:30 去麵店、22:00 回來。
+       阿凱：上課的平日第一節有課＝07:00～08:00 在書桌前（AA 沒寫阿凱的課表：暫定週二、週四第一節有課 R203_KAI_FIRST）、沒有＝睡到 10:00、10:30 出門；晚上 18:00～02:00；
+             週六 10:00～13:00、晚上 18:00～02:00；週日 10:00～02:00；寒暑假照原本（18:00～08:00，稿「照現有」）。
+       考試週（日曆的考試週、後面還有必修的考試）：柏翰 06:00 起、00:30 才回來、01:00 上床——隔天就要考的那一晚照平常 22:30 回來（AA_502 3-2：期中考前一晚 23:30 他在房間「我要睡了。明天八點考試。」）；
+             阿哲 21:00 就回來、00:00 上床；阿凱照常（國界膠帶是現有的事件）。颱風天（停課）大家整天在房間。
+       大一上第 5 週 10/1（三）阿哲忘記帶鑰匙（AA_502 第 4 節的群組）：22:11 阿凱開門才進來（S.R203_KEY_DAY）。
+     寒暑假：照週間、週末的作息，回老家的日子（presence 的 absentDates；柏翰寒假週四搭客運上來總圖也不算住宿舍）不在。
+     照作息該在房間、作息表（daily_schedule、邀約、上課）寫他在別的地方（例：阿凱週日 21～22 在洗衣間、阿哲週日中午 118 巷）＝那段時間不在房間 */
+  const R203_KAI_FIRST=[2,4];
+  S.R203_KEY_DAY='2025-10-01';
+  S.R203_SEAT={kai:'R2',zhe:'L1',classmate_bohan:'R1'};
+  S.r203On=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||!F.DORM_FOUR||F.ROOM_Y2||typeof CALENDAR==='undefined') return false; const a=S.dayOfKey('2025-08-29'); return a!=null&&G.day>=a&&S.kaiRoommate(G); };
+  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required').map(e=>e.day); }catch(e){ return []; } };
+  S.r203Plan=function(G,id,d){ if(typeof CALENDAR==='undefined') return []; const wd=CALENDAR.dateOf(d).wd, t=CALENDAR.termOf(d), hol=!!CALENDAR.holiday(d), ty=!!(CALENDAR.typhoon&&CALENDAR.typhoon(d));
+    const ex=r203Exams(G,t), exAM=ex.some(e=>e>=d), exPM=ex.some(e=>e>d), pre=ex.includes(d+1);
+    if(id==='kai'){ if(!t) return [[18,32,'door','door']]; if(ty||wd===7) return [[10,26,'bed','bed']]; const eve=[18,26,'door','bed'];
+      if(wd===6) return [[10,13,'bed','door'],eve]; return [!hol&&R203_KAI_FIRST.includes(wd)?[7,8,'bed','door']:[10,10.5,'bed','door'],eve]; }
+    if(id==='classmate_bohan'){ const wake=exAM?6:6+40/60; if(ty) return [[wake,23.5,'bed','bed']];
+      const L=[[wake,wd>=6?8:7+20/60,'bed','door']]; if(wd===7) L.push([13,17,'door','door']); L.push(exPM&&!pre?[24.5,25,'door','bed']:[22.5,23.5,'door','bed']); return L; }
+    if(id==='zhe'){ if(ty) return [[11,23.5,'bed','bed']]; const key=d===S.dayOfKey(S.R203_KEY_DAY), eve=exPM?[21,24,'door','bed']:[key?22+11/60:(wd===5?23:22),23.5,'door','bed'];
+      if(wd===6) return [[11,12,'bed','door'],[17,exPM?24:23.5,'door','bed']]; if(wd===7) return [[11,17.5,'bed','door'],eve]; return [[8.5,8+40/60,'bed','door'],eve]; }
+    return []; };
+  /* 第 d 天他住不住 203：阿哲、柏翰 8/29～6/14（6/15 搬出 203）、阿凱到大二上開學以前；回老家、出門的日子（absentDates，含柏翰寒假的週四）不在 */
+  const r203Lives=(G,id,d)=>{ const a=S.dayOfKey('2025-08-29'), b=S.dayOfKey('2026-06-15'); if(a==null||d<a||(id!=='kai'&&b!=null&&d>=b)||!CHARACTERS[id]) return false;
+    const G2=d===G.day?G:Object.assign({},G,{day:d}); if(S.awayOnDate(id,G2)) return false; const P=CHARACTERS[id].presence;
+    for(const x of (P&&P.absentDates)||[]){ const d0=S.dayOfKey(x[0]), d1=S.dayOfKey(x[1]); if(d0!=null&&d1!=null&&d>=d0&&d<d1) return false; } return true; };
+  /* 現在照作息表（daily_schedule、邀約、上課）在別的地方 */
+  const r203Away=(G,id,hour)=>{ const c=CHARACTERS[id]; if(!c) return true; const G2=hour==null||hour===G.hour?G:Object.assign({},G,{hour}); const e=schedEnt(c,G2); return !!e&&e.zone!=='dorm'; };
+  const r203Iv=(G,id,t)=>{ const d0=Math.floor(t/24); for(const d of [d0,d0-1]){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const a=d*24+p[0], b=d*24+p[1]; if(t>=a-1e-9&&t<b-1e-9) return {d,a,b,p}; } } return null; };
+  S.r203Who=function(G){ const t=G.day*24+(+G.hour||0), L=[];
+    for(const id of ['kai','zhe','classmate_bohan']){ const iv=r203Iv(G,id,t); if(!iv||r203Away(G,id)) continue; let t0=iv.a, how=iv.p[2];
+      for(const s of [0.05,0.1,0.15,0.2,0.25]){ if(t-s<iv.a-1e-9||(+G.hour||0)-s<0) break; if(r203Away(G,id,(+G.hour||0)-s)){ t0=t-s+0.05; how='door'; break; } }   /* 剛從別的地方回來（洗衣間、118 巷）：開門進來 */
+      L.push([id,S.R203_SEAT[id],((t0%24)+24)%24,how]); }
+    return L; };
+  /* 不在房間的室友怎麼走的：照作息剛結束的那一段（12 小時內）＝{bed, at}；作息上還該在（臨時出門、約好的、回家）＝現在出門 */
+  S.r203Gone=function(G,id){ const t=G.day*24+(+G.hour||0), hr=h(G); if(r203Iv(G,id,t)) return {bed:false,at:hr}; let best=null;
+    for(const d of [Math.floor(t/24),Math.floor(t/24)-1]){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const b=d*24+p[1]; if(b<=t+1e-9&&t-b<12&&(!best||b>best.b)) best={b,bed:p[3]==='bed'}; } }
+    return best?{bed:best.bed,at:((best.b%24)+24)%24}:{bed:false,at:hr}; };
+  /* 生一個室友（n.dorm＝他的座位，S.dormLive 才會管他）：walk＝走到自己的書桌前坐下（from 'bed'＝從自己的梯子下來，否則從門口進來）；不 walk＝直接坐好。
+     從門口進來的那一刻，203 四人房多一句旁白（AA_502 第 1 節，DORM203.walkIn）*/
+  S.dormSpawn=function(GM,id,u,walk,from){ const E=GM.E; if(GM.npc[id]) return GM.npc[id]; const st=dormSeat(u), U=typeof DORM_ROOM!=='undefined'&&DORM_ROOM.units.find(q=>q.id===u);
+    const bed=from==='bed'&&!!(U&&U.sleep); let at=null; if(walk&&E.canStand) for(const p of bed?[U.sleep]:[[0,3.0],[0,2.7],[0,2.4]]) if(E.canStand(p[0],p[1],0.3,0)){ at=p; break; }
     let n=null; if(id==='kai') n=GM.spawnNPC('kai',C.kai,at?at[0]:0,at?at[1]:0,Object.assign({talk:nn=>talkKai(GM,nn),yaw:Math.PI},at?{}:{seat:st}));
     else if(CHARACTERS[id]) n=GM.spawnCharacter(id,at?at[0]:st.x,at?at[1]:st.z,Object.assign({yaw:Math.PI},at?{}:{seat:st,pose:'sit'}));
     if(!n) return null; n.dorm=u; if(!at) return n;
     const sit=()=>{ n.dormGo=null; if(GM.npc[id]!==n) return; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='sit'; };
     const ap=(U&&U.seat_approach)||(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; n.dormGo=h(GM.G);
+    if(!bed&&typeof DORM203!=='undefined'&&DORM203.walkIn){ try{ DORM203.walkIn(GM,id,n); }catch(e){ console.warn('DORM203.walkIn',e); } }
     if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,0))) sit(); return n; };
   /* 待在房間裡：時間到了室友開門走進來坐下；阿哲、柏翰 23:30 走到自己的梯子爬上舖；阿凱（經濟系那一年阿勳）早上 8:00 出門；臨時不在的（約會、回家）也出門。
      時間已經過了 15 分鐘以上（坐在書桌前讀書、跳時間）＝已經進來／已經睡了／已經出門：直接坐好、直接拿掉，不演走路。走路卡住 6 分鐘（遊戲時間）＝直接到 */
   S.dormLive=function(GM){ const E=GM.E, G=GM.G; if(G.zone!=='dorm'||!E.zone||!E.player||typeof DORM_ROOM==='undefined') return 0; const hr=h(G); let k=0;
     const since=t0=>{ let d=hr-t0; if(d<0) d+=24; return d; };
-    const want=S.dormWho(G), ids=new Set(want.map(w=>w[0]));
-    for(const [id,u,t0] of want){ const n=GM.npc[id]; if(n){ if(n.dormGo!=null&&since(n.dormGo)>0.1){ n.dormGo=null; if(GM.sitAt) GM.sitAt(n,dormSeat(u)); n.pose=n.idlePose='sit'; } continue; }
-      if(S.dormSpawn(GM,id,u,since(t0)<=0.25)) k++; }
+    const want=S.dormWho(G), ids=new Set(want.map(w=>w[0])), r203=S.r203On(G);
+    for(const [id,u,t0,how] of want){ const n=GM.npc[id]; if(n){ if(n.dormGo!=null&&since(n.dormGo)>0.1){ n.dormGo=null; if(GM.sitAt) GM.sitAt(n,dormSeat(u)); n.pose=n.idlePose='sit'; } continue; }
+      if(S.dormSpawn(GM,id,u,since(t0)<=0.25,how)) k++; }   /* how：'bed' 起床（從自己的梯子下來）、其他＝開門進來（203 四人房，S.r203Who）*/
     for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n||!n.dorm||ids.has(id)) continue;
       if(n.dormBye!=null){ if(since(n.dormBye)>0.1){ GM.removeNPC(id); k++; } continue; }
-      const U=DORM_ROOM.units.find(q=>q.id===n.dorm), bed=hr>=23.5||hr<6;   /* 23:30 以後＝上床；其他（早上 8:00、臨時不在）＝出門 */
-      if(since(bed?23.5:8)>0.25&&since(bed?23.5:8)<12||!U){ GM.removeNPC(id); k++; continue; }
+      const g=r203?S.r203Gone(G,id):null, U=DORM_ROOM.units.find(q=>q.id===n.dorm), bed=g?g.bed:(hr>=23.5||hr<6), t1=g?g.at:(bed?23.5:8);   /* 23:30 以後＝上床；其他（早上 8:00、臨時不在）＝出門。203 四人房照 AA_502 的作息：哪一段結束、幾點（S.r203Gone）*/
+      if(since(t1)>0.25&&since(t1)<12||!U){ GM.removeNPC(id); k++; continue; }
       const bye=()=>{ if(GM.npc[id]===n) GM.removeNPC(id); };
       n.dormBye=hr; n.dormGo=null; if(n.seat&&GM.standUp) GM.standUp(n); n.beh='idle'; n.frozen=false; n.waypoints=null; k++;
       const to=bed?U.sleep:[DORM_ROOM.room.exit[0],DORM_ROOM.room.exit[1]-0.4]; if(!(E.moveTo&&E.moveTo(n,to[0],to[1],bye,0))) bye(); }
@@ -3441,7 +3488,7 @@ const STORY = (function(){
     const d3=KD('K-D3'), t3=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(d3&&kdIn(G,d3)&&!(t3&&t3.id==='Y1S1'&&t3.week<2)&&R.d3Roll!==G.day&&GM.npc.kai&&!F.KAI_FIGHT&&!SOCIAL.has('kai','KAI_QUIET_KEYBOARD')&&!SOCIAL.has('kai','KAI_ROOM_RULES')&&R.lastGameDay!==G.day-1){
       const early=typeof CLS!=='undefined'&&CLS.dayItems&&CLS.dayItems(G).some(it=>it.t0<=9.25); R.d3Roll=G.day; if(!early||Math.random()>=0.3) return;   /* 今天有早上的第一堂課、昨晚沒一起打：30%。BB 寫「早八」；遊戲的大一必修最早是 09:10（第 2 節），只算 08:10 的話這個事件永遠不會發生——早上 9:10 以前的課都算 */
       run(async()=>{ const n=kaiWho(GM); if(d3.narr) await GM.say(null,d3.narr); const r=await kdChoice(GM,n,d3); if(r.ch.goto==='K-D4'||(+F.KAI_FRICTION||0)>=3) await kdFight(GM,n); }); } };
-  async function talkKai(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('kai')) return; GM.sceneBegin({adv:'kai'}); SOCIAL.talkedTo('kai'); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'kai',n)){ GM.sceneEnd(); return; } if(await S.kaiDormTalk(GM,n)){ GM.sceneEnd(); return; } if(S.mainDay(G)===1){ await GM.say(n,'案例讀了沒？我戴耳機了，你讀你的。',{expr:'smile'}); } else if(F.afternoonDone&&!F.kaiAsked){ F.kaiAsked=true; await GM.say(n,'下午去哪了？'); const w1=S.week1Start(G), i=await GM.choose([{t:w1?'同學。去咖啡廳念書。':'同學。寫報告。'},{t:'沒有啊。'}]); await GM.say(n,i===0?(w1?'（笑）念書喔。好喔。':'「寫報告」。好，你們法律系的都很會用這個詞。'):'喔。',{expr:'laugh'});   /* 開學改 9/1 的局沒有報告（AA_195 4-11）*/ } else { const l=['我明天早八，你走的時候小聲一點。','宿舍網路又斷了，我要去投訴。你們有教這個嗎？']; if(F.introDone) l.unshift('所以那個賣家可以告嗎？……不能？那法律系在幹嘛。');   /* BB_170 第 4 列：相機案例 9/3 晚上才有 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'kai',n); GM.sceneEnd(); }
+  async function talkKai(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('kai')) return; GM.sceneBegin({adv:'kai'}); SOCIAL.talkedTo('kai'); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'kai',n)){ GM.sceneEnd(); return; } if(await S.kaiDormTalk(GM,n)){ GM.sceneEnd(); return; } if(S.mainDay(G)===1){ await GM.say(n,'案例讀了沒？我戴耳機了，你讀你的。',{expr:'smile'}); } else if(F.afternoonDone&&!F.kaiAsked){ F.kaiAsked=true; await GM.say(n,'下午去哪了？'); const w1=S.week1Start(G), i=await GM.choose([{t:w1?'同學。去咖啡廳念書。':'同學。寫報告。'},{t:'沒有啊。'}]); await GM.say(n,i===0?(w1?'（笑）念書喔。好喔。':'「寫報告」。好，你們法律系的都很會用這個詞。'):'喔。',{expr:'laugh'});   /* 開學改 9/1 的局沒有報告（AA_195 4-11）*/ } else if(typeof DORM203!=='undefined'&&DORM203.kaiTalk&&await DORM203.kaiTalk(GM,n)){   /* 203 房間補的三句（AA_502 2-3；說過了照原本的房間句）*/ } else { const l=['我明天早八，你走的時候小聲一點。','宿舍網路又斷了，我要去投訴。你們有教這個嗎？']; if(F.introDone) l.unshift('所以那個賣家可以告嗎？……不能？那法律系在幹嘛。');   /* BB_170 第 4 列：相機案例 9/3 晚上才有 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'kai',n); GM.sceneEnd(); }
   async function talkYu(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('yu')) return; GM.sceneBegin({adv:'yu'}); SOCIAL.talkedTo('yu'); GM.cine('talk',E.player.obj,n.obj); if(F.met_yu&&await relUp(GM,'yu',n)){ GM.sceneEnd(); return; } if(!F.met_yu){ F.met_yu=true; F.metYuDay=G.day; if(Array.isArray(F.CAMP_SEEN)&&F.CAMP_SEEN.includes('yu')) await GM.say(null,'（宿營時隔壁隊帶隊呼的那個女生。）');   /* 宿營見過（CAMP_SEEN，AA_205 第 4 節）：第一次正式見面多一句旁白，初遇照舊 */ await GM.say(n,'你是周老師點的那個！我是 Alison，坐你前面右邊。',{expr:'smile'}); await GM.say(n,'我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。');   /* AA_156 1-3：AA_40 的設定（法服是學姊的讀書會，Alison 不在裡面）*/ GM.rel('yu',2); } else { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=((G.hour%24)+24)%24; if(hh>=8+20/60&&hh<9+5/60&&SOCIAL.has('yu','BREAKFAST_YU')&&F.yuBellDay!==G.day&&T&&(T.id==='Y1S1'||T.id==='Y1S2')){ F.yuBellDay=G.day; await GM.say(n,'欸，今天也經過！',{expr:'smile'}); }   /* AA_156 第 2、4 節：BREAKFAST_YU、大一、早上 08:20～09:05（原 9:30～12:00、當天第一次（AA_118 2-2）*/
       const l=[G.zone==='campus'&&hh<12?'傅鐘旁邊這張椅子早上曬不到太陽，是全校最好的位子。':'我今天早上吃了兩份早餐，好撐。',(d=>d!=null&&G.day>=d)(termDay('Y2S2',1,1))?'我這禮拜兩個社團都要開會，快死了。':'我這禮拜三個社團都要開會，快死了。','溫州街的貓你有看到嗎？咖啡廳門口那隻。'];   /* AA_209 附錄A §2：傅鐘那句只在校園早上（12 點以前）說，其他時候換早餐那句；「辯論社下週」那句換掉。AA_313 5-4：大二下她退了辯論社（yu_clubs）以後是「兩個社團」 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'yu',n); GM.sceneEnd(); }
   async function talkProf(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('prof_zhou')) return; GM.sceneBegin({adv:'prof_zhou'}); SOCIAL.talkedTo('prof_zhou'); GM.cine('talk',E.player.obj,n.obj); if(F.classAnswer==='good') await GM.say(n,G.name+(S.week1Start(G)?'。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。':'。今天回答得不錯。下週的錯誤與撤銷，先看八十八和九十一。')); else if(F.classAnswer==='none') await GM.say(n,G.name+'。案例要讀。下週我還會點人。'); else await GM.say(n,'有問題可以來研究室。週三下午我都在。');   /* AA_195 4-11：新局的民總第一堂之後下週從第一條開始；另外兩句去掉「不是 X，是 Y」和格言收尾（新舊局都改）*/ GM.sceneEnd(); }
