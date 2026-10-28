@@ -175,17 +175,25 @@ const Y34B=(function(){
   S.kaiPhoto=G=>G&&G.flags&&G.flags.ZQ_Q12==='cat'?S.KAI_PHOTO.cat:S.KAI_PHOTO.nine;
   S.kaiPhotoFix=function(G){ const P=P_(); if(!P||!P.rec) return; const want=S.kaiPhoto(G), both=[S.KAI_PHOTO.cat,S.KAI_PHOTO.nine];
     for(const q of P.rec(G).q) if(q.tag==='y3_zq_kai_photo'||q.tag==='y3_zq_kai_noshow') for(const it of q.items) if(it&&both.includes(it.text)) it.text=want; };
+  /* AA_513 第 1 節 1-3（AA-C 2026-10-28，a2e4bf196；AA_508 4-4「別人說起她」改阿凱的私訊）：16:30 那兩組（「不了。」的照片、回了「去。」卻沒到的三則）照片後面再兩則。
+     有到場的（ZQ_Q12_SEEN came）不加；日本路線本來就不走這裡（當晚電話＋製作名單那一則）。照片那一組回「不了。」就排進手機佇列，到場沒有要發表會以後才知道：
+     每次跑手機規則對一次還沒送出的那兩組（S.kaiRowFix：舊版本排好、沒有這兩則的補上；到場了拿掉）。照片的換字（S.kaiPhotoFix）只認照片那兩種字，不動這兩則 */
+  S.KAI_ROW=['所以我坐第一排','她叫我不要坐第一排'];
+  const kaiRow=G=>G.flags.ZQ_Q12_SEEN==='came'?[]:S.KAI_ROW.map(t=>DM('kai',t));
+  S.kaiRowFix=function(G){ const P=P_(); if(!P||!P.rec) return; const came=G.flags.ZQ_Q12_SEEN==='came', row=it=>!!it&&S.KAI_ROW.includes(it.text);
+    for(const q of P.rec(G).q) if((q.tag==='y3_zq_kai_photo'||q.tag==='y3_zq_kai_noshow')&&Array.isArray(q.items)){ const has=q.items.some(row);
+      if(came&&has) q.items=q.items.filter(it=>!row(it)); else if(!came&&!has) q.items.push(...kaiRow(G)); } };
   S.zqKaiPhone=function(G){ const F=G.flags, k=D('zqKai'), d20=D('zq'); if(k==null||d20==null||G.day<k||G.day>d20+1||!law(G)||JP(G)) return;
-    S.kaiPhotoFix(G);
+    S.kaiPhotoFix(G); S.kaiRowFix(G);
     if(!sent(G,'y3_zq_kai_ask')){ if(NOW(G)<T(k,21)||NOW(G)>=T(d20,13.75)||!fam('kai')||!met('heroine_04')||fam('heroine_04')) return;
       const L=[DM('kai','週六下午兩點，子晴學姊的發表會。資工系館一樓。'),DM('kai','我要去占位子。你要不要？')];
       L[1].ask={id:'y3_zq_kai',until:T(d20,13.75),opts:[{t:'去。',set:{ZQ_KAI_GO:true}},{t:'不了。',set:{ZQ_KAI_GO:false},say:[{from:'kai',text:'好。我幫你拍。'}]}]};
       at(G,k,G.day===k?Math.max(21,G.hour):G.hour,L,'y3_zq_kai_ask'); return; }
     if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_zq_q12_kai')&&NOW(G)<T(d20,14.75))
       OUT.plan(G,{id:'y3_zq_q12_kai',ev:'ev_ziqing_q12',day:d20,h:13.75,late:1,place:'資工系館一樓展示廳',title:'子晴的發表會',travel:'走路 約 10 分鐘',travelH:1/6,hours:2});   /* 占位子＝13:45；晚到的窗口和子晴那一版一樣到 14:45 */
-    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai',S.kaiPhoto(G))],'y3_zq_kai_photo');   /* AA_363 R1 */
+    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai',S.kaiPhoto(G))].concat(kaiRow(G)),'y3_zq_kai_photo');   /* AA_363 R1；照片後面兩則：AA_513 1-3 */
     if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN!=='came'){ const q=typeof OUT!=='undefined'?OUT.get(G,'y3_zq_q12_kai'):null;   /* 回了「去。」卻沒到（出遊過了時間、說了不去了，或根本沒排到）：16:30 阿凱三則（AA_337 第 7 節）*/
-      if((q&&q.state==='missed')||NOW(G)>=T(d20,16.5)) at(G,d20,16.5,[DM('kai','你說要來的。'),DM('kai','……我幫你拍了。'),DM('kai',S.kaiPhoto(G))],'y3_zq_kai_noshow'); } };   /* 照片：AA_363 R1 */
+      if((q&&q.state==='missed')||NOW(G)>=T(d20,16.5)) at(G,d20,16.5,[DM('kai','你說要來的。'),DM('kai','……我幫你拍了。'),DM('kai',S.kaiPhoto(G))].concat(kaiRow(G)),'y3_zq_kai_noshow'); } };   /* 照片：AA_363 R1；照片後面兩則：AA_513 1-3 */
   /* ================= 1B-16 可昕 K19 ================= */
   S.kx19Phone=function(G){ const F=G.flags, a=D('kx19ask'), d=D('kx19'); if(a==null||G.day<a||G.day>d+1||!dating(G,'kexin')) return; const K=t=>DM('kexin',t);
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];

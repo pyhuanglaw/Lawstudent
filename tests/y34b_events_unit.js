@@ -11,6 +11,8 @@
 //   AA_363（2026-10-21）：R1 阿凱 16:30 的照片換《九點以後》（舊存檔 ZQ_Q12 cat 照舊）、R8 名單的配樂每個玩家都有——在開發分支 6a47ff46 上 5 項 FAIL，改完 PASS。
 //   AA_296 2-3-1 ①（2026-10-22，企劃線 3f406dbc）改了 1B-19 美國路線交往中的期待值：當地 10:00 她打來的視訊，那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）。
 // E08（2026-10-27）：日本路線 3/25 出發先到 3D 出境大廳，玩家按「登機」才演登機口、飛往日本——A3、挽回中在 S.departJP 後面加 EXCH.airBoard。
+// AA_513 1-3（2026-10-28，a2e4bf196）：1B-15 阿凱 16:30 那兩組照片後面再兩則「所以我坐第一排」「她叫我不要坐第一排」——五項（「去。」卻沒到兩項、「不了。」、舊存檔貓兩項）
+//   原本查「照片是最後一則」，改查照片＋那兩則（ROW）；開發分支 44e8ff8b7 的 y34b3d.js 跑這五項 FAIL（沒有那兩則），改完 PASS。到場、日本路線不加在 tests/aa513_unit.js。
 // 修改前：沒有 src/y34b3d.js（第 0 項 FAIL）。用法：node tests/y34b_events_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -24,6 +26,7 @@ check('0. src/y34b3d.js 載入、事件登記、掛勾登記、index.html 有載
 if(H.fails){ H.done(); }
 const S=Y34B, D=k=>STORY.dayOfKey(k);
 const CAT='📷（投影幕上一隻在找插座的貓）', NINE='📷（投影幕上，一個小孩坐在玄關，腿上放著兩支搖桿。標題：《九點以後》）';   /* 阿凱 5/20 16:30 的照片：AA_363 R1 起＝NINE（舊存檔 ZQ_Q12 cat＝CAT）*/
+const ROW=['所以我坐第一排','她叫我不要坐第一排'];   /* AA_513 1-3（2026-10-28，a2e4bf196）：照片後面阿凱再兩則（AA_508 4-4 改私訊；逐字對稿、到場的不加在 tests/aa513_unit.js）*/
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const fresh=(key,h,zone,flags,route)=>{ const G=H.fresh(key,h,zone,Object.assign({EXCHANGE_ROUTE:route||'TW',EXCH_RULE:1},flags||{})); G.acts={att:{}}; G.outings=[]; H.at(key,h); G.zone=zone||'dorm'; GM.npc={}; E.player.obj.position.x=0; E.player.obj.position.z=0; return G; };
 const at=(key,h)=>{ H.at(key,h); };
@@ -144,20 +147,21 @@ const date=id=>H.date(id);
   /* AA_337 第 7 節（修改前 FAIL）：回了「去。」卻沒到發表會＝16:30 阿凱三則 */
   { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); const q=OUT.get(H.G,'y3_zq_q12_kai');
     at('2028-05-20',15); OUT.tick(GM); phone(); const a=th('p:kai').length; at('2028-05-20',16.4); phone(); const b=th('p:kai').length; at('2028-05-20',16.5); phone(); const L=th('p:kai');
-    check('AA_337 第 7 節＋AA_363 R1 「去。」卻沒到（出遊過了時間＝missed）：16:30 阿凱「你說要來的。」「……我幫你拍了。」＋《九點以後》的照片（修改前是貓）；16:30 以前沒有；沒有「好。我幫你拍。」',
-      !!q&&q.state==='missed'&&a===b&&L.length===b+3&&JSON.stringify(L.slice(-3))===JSON.stringify(['你說要來的。','……我幫你拍了。',NINE])&&!L.includes('好。我幫你拍。'), JSON.stringify(L)); }
+    check('AA_337 第 7 節＋AA_363 R1＋AA_513 1-3 「去。」卻沒到（出遊過了時間＝missed）：16:30 阿凱「你說要來的。」「……我幫你拍了。」＋《九點以後》的照片（修改前是貓）＋「所以我坐第一排」「她叫我不要坐第一排」；16:30 以前沒有；沒有「好。我幫你拍。」',
+      !!q&&q.state==='missed'&&a===b&&L.length===b+5&&JSON.stringify(L.slice(-5))===JSON.stringify(['你說要來的。','……我幫你拍了。',NINE].concat(ROW))&&!L.includes('好。我幫你拍。'), JSON.stringify(L)); }
   { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); at('2028-05-20',13.75); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'y3_zq_q12_kai')); at('2028-05-20',16.5); phone();
-    check('AA_337 第 7 節＋AA_363 R1 「去。」到了出發又選「不去了」：16:30 同樣是阿凱三則（照片是《九點以後》）', JSON.stringify(th('p:kai').slice(-3))===JSON.stringify(['你說要來的。','……我幫你拍了。',NINE]), JSON.stringify(th('p:kai'))); }
+    check('AA_337 第 7 節＋AA_363 R1＋AA_513 1-3 「去。」到了出發又選「不去了」：16:30 同樣是阿凱三則（照片是《九點以後》）＋照片後面兩則', JSON.stringify(th('p:kai').slice(-5))===JSON.stringify(['你說要來的。','……我幫你拍了。',NINE].concat(ROW)), JSON.stringify(th('p:kai'))); }
   { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); phone(); const n=th('p:kai').length; at('2028-05-20',16.4); phone(); const b=th('p:kai').length; at('2028-05-20',16.5); phone();
-    check('AA_337 第 5 節＋AA_363 R1 「不了。」→ 阿凱「好。我幫你拍。」→ 5/20 16:30「📷（投影幕上，一個小孩坐在玄關，腿上放著兩支搖桿。標題：《九點以後》）」（修改前是貓）；不排出遊', th('p:kai').includes('好。我幫你拍。')&&b===n&&th('p:kai').slice(-1)[0]===NINE&&!th('p:kai').includes(CAT)&&!OUT.get(H.G,'y3_zq_q12_kai')&&!th('p:kai').includes('你說要來的。'), JSON.stringify(th('p:kai'))); }
+    check('AA_337 第 5 節＋AA_363 R1＋AA_513 1-3 「不了。」→ 阿凱「好。我幫你拍。」→ 5/20 16:30「📷（投影幕上，一個小孩坐在玄關，腿上放著兩支搖桿。標題：《九點以後》）」（修改前是貓）＋「所以我坐第一排」「她叫我不要坐第一排」；不排出遊', th('p:kai').includes('好。我幫你拍。')&&b===n&&JSON.stringify(th('p:kai').slice(-3))===JSON.stringify([NINE].concat(ROW))&&!th('p:kai').includes(CAT)&&!OUT.get(H.G,'y3_zq_q12_kai')&&!th('p:kai').includes('你說要來的。'), JSON.stringify(th('p:kai'))); }
   /* AA_363 R1：舊存檔已經演過貓那一版（ZQ_Q12 'cat'）照舊用貓的照片（兩種都是）；舊版本已經排進手機佇列、還沒送出的貓（ZQ_Q12 不是 cat）16:30 送出的是《九點以後》*/
-  { fresh('2028-05-18',21,'dorm',{ZQ_Q12:'cat'}); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); phone(); at('2028-05-20',16.5); phone(); const a=th('p:kai').slice(-1)[0];
-    fresh('2028-05-18',21,'dorm',{ZQ_Q12:'cat'}); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); at('2028-05-20',15); OUT.tick(GM); phone(); at('2028-05-20',16.5); phone(); const b=th('p:kai').slice(-1)[0];
-    check('AA_363 R1 舊存檔 ZQ_Q12 cat：「不了。」和「去。」卻沒到的照片都照舊是貓', a===CAT&&b===CAT, JSON.stringify([a,b])); }
+  { fresh('2028-05-18',21,'dorm',{ZQ_Q12:'cat'}); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); phone(); at('2028-05-20',16.5); phone(); const a=th('p:kai').slice(-3);
+    fresh('2028-05-18',21,'dorm',{ZQ_Q12:'cat'}); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); at('2028-05-20',15); OUT.tick(GM); phone(); at('2028-05-20',16.5); phone(); const b=th('p:kai').slice(-3);
+    check('AA_363 R1 舊存檔 ZQ_Q12 cat：「不了。」和「去。」卻沒到的照片都照舊是貓（後面照樣是 AA_513 1-3 那兩則）', JSON.stringify(a)===JSON.stringify([CAT].concat(ROW))&&JSON.stringify(b)===JSON.stringify([CAT].concat(ROW)), JSON.stringify([a,b])); }
   { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); PHONE.at(H.G,D('2028-05-20'),16.5,[{th:'p:kai',from:'kai',text:CAT}],'y3_zq_kai_photo');   /* 舊版本在回「不了。」的時候就排好的那一則 */
     at('2028-05-19',12); phone(); at('2028-05-20',16.5); phone(); const L=th('p:kai');
     fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); PHONE.at(H.G,D('2028-05-20'),16.5,[{th:'p:kai',from:'kai',text:CAT}],'y3_zq_kai_photo'); H.G.flags.ZQ_Q12='cat'; at('2028-05-20',16.5); phone(); const L2=th('p:kai');
-    check('AA_363 R1 舊存檔已經排好、還沒送出的貓：送出的是《九點以後》（只一則）；ZQ_Q12 cat 的照舊是貓', L.filter(t=>t===NINE).length===1&&!L.includes(CAT)&&L2.slice(-1)[0]===CAT&&!L2.includes(NINE), JSON.stringify([L,L2])); }
+    check('AA_363 R1 舊存檔已經排好、還沒送出的貓：送出的是《九點以後》（只一則）；ZQ_Q12 cat 的照舊是貓；舊版本排好的那一組沒有 AA_513 1-3 那兩則＝送出前補在照片後面（各一次）',
+      L.filter(t=>t===NINE).length===1&&!L.includes(CAT)&&JSON.stringify(L.slice(-3))===JSON.stringify([NINE].concat(ROW))&&L.filter(t=>t===ROW[0]).length===1&&JSON.stringify(L2.slice(-3))===JSON.stringify([CAT].concat(ROW))&&!L2.includes(NINE), JSON.stringify([L,L2])); }
   { const none=(fl,route,setup)=>{ fresh('2028-05-18',21,'dorm',fl,route); setup(); phone(); return !th('p:kai').length; };
     check('AA_337 第 5 節 跟阿凱不熟、和子晴 FAMILIAR 以上、日本路線：都沒有阿凱那則', none({},null,()=>{ H.rel('heroine_04',10,0,0); })&&none({},null,()=>{ H.FAMILIAR('kai'); H.FAMILIAR('heroine_04'); })&&none({},'JP',()=>{ H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); })); }
   /* ===== 1B-16 ===== */
