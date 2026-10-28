@@ -1109,11 +1109,10 @@
    "role": "LAWWW",
    "task": "NPC-STORY-1028",
    "state": "WIP",
-   "sha": "275a15957、2812a7e98",
+   "sha": "4eccd41a0、053f7d99a",
    "branch": "worktree-agent-a7a772c76176b37dd（子代理；D113 備份 wip_backup/pool499_1028.bundle）",
    "files": [
-    "wip_backup/pool499_1028.bundle",
-    "wip_backup/wip_dirty_pool499_0723.tar.gz"
+    "wip_backup/pool499_1028.bundle"
    ],
    "todo": "AA_499（4545c239e）、AA_500（d043110ae）、AA_501（17d57eff3）法律系同學第二～四批十五位：認識、作息、支線任務；3D 圈子介紹走認識流程",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
@@ -1125,7 +1124,7 @@
    "role": "LAWWW",
    "task": "COMPANY-PRIV-1028",
    "state": "WIP",
-   "sha": "275a15957、930e77fb8",
+   "sha": "4eccd41a0、a32da74ed",
    "branch": "worktree-agent-aa2ffe70a7b9a0623（子代理；D113 備份 wip_backup/priv_y4circle_1028.bundle）",
    "files": [
     "wip_backup/priv_y4circle_1028.bundle"
@@ -1156,10 +1155,11 @@
    "role": "LAWWW",
    "task": "SIS-B13-1028",
    "state": "WIP",
-   "sha": "275a15957、99fcd52bc",
+   "sha": "4eccd41a0、99fcd52bc",
    "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
    "files": [
-    "wip_backup/sisb13_1028.bundle"
+    "wip_backup/sisb13_1028.bundle",
+    "wip_backup/wip_untracked_sisb13_0743.tar.gz"
    ],
    "todo": "AA_512（c444f0757）學姊第十三批八場＋說了沒發生九件＋第 5 節伴手禮＋第 6 節日本視訊三句／前任／禁用句型",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
@@ -1171,7 +1171,7 @@
    "role": "LAWWW",
    "task": "HEROINE-LIFE-1028",
    "state": "WIP",
-   "sha": "275a15957、ae47aefb3",
+   "sha": "4eccd41a0、6027802c8",
    "branch": "worktree-agent-a977d867acf4da7c2（子代理；D113 備份 wip_backup/aa513_1028.bundle）",
    "files": [
     "wip_backup/aa513_1028.bundle"
