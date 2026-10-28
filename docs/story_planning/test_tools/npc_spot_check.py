@@ -12,7 +12,7 @@ head = src[:src.index("check('1.")].replace("path.resolve(__dirname,'..')", repr
 tail = r"""
 const DUMP=!!process.env.DUMP; const P=()=>E.player.obj.position;
 const CASES=[
-  {zone:'library_hall', lv:0, name:'總圖一樓影印機前', npcs:[['以安',10.35,2.35],['芯慈',10.35,2.95]], targets:/服務|館員|電梯|影印|閘/},
+  {zone:'library_hall', lv:0, name:'總圖一樓影印機前', npcs:[['以安',10.35,2.35],['芯慈',10.35,1.75]], targets:/服務|館員|電梯|影印|閘/},
   {zone:'linze', lv:0, name:'霖澤館一樓電梯前（新）', npcs:[['宥辰',3.2,-4.1]], targets:/電梯/},
   {zone:'linze', lv:0, name:'霖澤館一樓電梯前（舊 4.6,-4.3 對照）', npcs:[['宥辰',4.6,-4.3]], targets:/電梯/},
 ];

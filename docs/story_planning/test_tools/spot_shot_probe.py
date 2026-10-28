@@ -18,8 +18,8 @@ SAVE = json.load(open(SAVEF, encoding='utf-8')); SAVE = SAVE.get('G', SAVE)
 J = lambda o: json.dumps(o, ensure_ascii=False)
 CFG = {
   'copier': dict(term='Y1S2', wk=7, wd=1, hour=12.2, zone='library_hall', ev='ev_xc_copy',
-                 who=[('heroine_01', '以安', 10.35, 2.35), ('classmate_xinci', '芯慈', 10.35, 2.95)],
-                 views=[(0, 6.6, None), (7.2, 1.2, 0.9), (9.0, 1.4, 0.6)], look=(10.35, 2.65),
+                 who=[('heroine_01', '以安', 10.35, 2.35), ('classmate_xinci', '芯慈', 10.35, 1.75)],
+                 views=[(0, 6.6, None), (7.2, 1.2, 0.9), (9.0, 1.4, 0.6)], look=(10.35, 2.05),
                  targets=[('服務台', 7.8, 3.25, 1.0), ('搭電梯', 10.4, -3.6, 0.8)], away=(3.0, 1.0),
                  prep="""()=>{ const G=GAME.G; for(const id of ['heroine_01','classmate_xinci']) if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'campus');
                    return {due:!!SUP497.copyDue(G), anMet:!!STORY.knows('heroine_01',G), xcMet:SOCIAL.has('classmate_xinci','FIRST_MET')}; }"""),
@@ -88,7 +88,7 @@ async def main():
             if not n['here']: run.check('①%s 在場' % nm, False, J(n)); continue
             dd = math.hypot(n['x'] - x, n['z'] - z)
             run.check('①%s 站在 (%.2f,%.2f)（差 %.2f m）' % (nm, x, z, dd), dd < 0.35, J(n))
-            face = abs(((n['ry'] - math.pi / 2) + math.pi) % (2 * math.pi) - math.pi)
+            face = abs(((n['ry'] - math.pi / 2) + math.pi) % (2 * math.pi) - math.pi)   # 芯慈 d88c874ad 起 yaw 1.2（斜著看影印機）：差 0.37 也算朝 +x
             run.check('①%s 朝 +x（看著機器／電梯；rotation.y≈1.57，差 %.2f rad）' % (nm, face), face < 0.6, J(n))
             cl = await pg.evaluate(CLEAR, [n['x'], n['z'], n['lv']])
             run.check('①%s 身體離家具的阻擋 %.2f m（> 0.25＝不穿模）' % (nm, cl), cl > 0.25, str(cl))
