@@ -1,5 +1,6 @@
 // AA_517 宿舍大二到大四：312、507、409 的房間日常（DORM-Y24-1028；DORM203-MATES-1028 延伸、USER_WANTS X123）——不需要瀏覽器。
-//   稿：企劃線 ced552c17 docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md（git show 對稿；拿不到＝第 0 項 FAIL；劇情匯入白名單 story_import_allow.json 同一個 sha）
+//   稿：企劃線 ced552c17 → 4e703821a（AA 加第 5 節「實作時定的」）docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md（git show 4e703821a 對稿；拿不到＝第 0 項 FAIL；
+//      劇情匯入白名單 story_import_allow.json 同一個 sha）
 //   0  新檔載得到；index.html：dorm203_3d.js → … → data/dorm_y24_lines.js → dorm_y24_3d.js（兩個新檔相鄰）→ bbpack_events.js，在 story3d.js、postgrad3d.js 以後；story3d.js 四個掛勾；
 //      遊戲裡的每一句（走進房間的旁白、房間的話、三件小事的旁白／台詞／選項、群組訊息）都在稿裡、一字不差、說話的人對、順序對；反過來，稿第 1～3 節的每一句遊戲裡都有；
 //      三件小事的日子與時間、群組的時間照稿（3-3＝story3d.js 的宿舍退宿日 Y4K.out 前一晚）
@@ -11,11 +12,18 @@
 //   4  三件小事：日子、時間、該在的人（正在走進來的等坐下；3-2 柏翰 23:30 以後在上舖也算在）、日本路線不演、只演一次、選項、旗標；群組訊息的時間、不在群組不傳；
 //      409 最後一晚＝退宿日 2029-06-28 的前一晚、那一晚柏翰在、「（去關燈）」看 2-4「最後一晚，燈你關」說過沒有；畢業後篇（PG.stops）停在那一晚 23:00
 //   5  存檔：舊存檔（沒有 RY24、只有一部分）照常；存讀檔以後說過的不再說、輪到哪一句照舊；JSON 存得下
+//   6  （DORM-Y24-AAFIX-1028，AA_517 第 5 節，企劃線 4e703821a）四件——
+//      ①2-3 第 3 列「你感冒那晚」：ev_cold_week_night 演過、而且那一晚阿凱有來（COLD_WEEK_PRESENT 有阿凱；真的跑 STORY.coldWeekNight：有 SUNDAY_SUPPER＝阿凱來，沒有＝不出）
+//      ②沛珊分開那兩列（2-1、2-2 第 3 列）不看玩家知不知道：沛珊和柏翰交往過（分開那一週的週一沒有在和她交往，ROMANCE_HISTORY）、大二上第 6 週（10/12）起、現在沒有和她交往
+//      ③美國路線 409 第 1 列：大四下開學（2029-02-19）起四週＝大四下第 1～4 週；第 2 列照日期不出、第 3 列照出
+//      ④三件小事那一晚祐廷不在房間：3-1 隔天第一次走進 312 一句旁白、3-2 23:50 群組換成兩雙拖鞋、3-3 23:40 群組換成「最後一晚／（哥）你人咧／所以又少一個」；旗標都不記
+//      第 0 項的對稿兩個方向也對第 5 節第 4 點（不在房間補的那一句、那幾則群組）
 // 修改前（開發分支 82c3c998e＝這個任務開工那一版：git archive 出 src、tests、index.html＋那一版的白名單，把這支測試放進去、AA517_GIT_DIR 指到這個 repo 對稿，真的跑過）：FAILED 13、PASS 8、結束碼 1——
 //   第 0 項 6 項 FAIL（新檔與 index.html、story3d.js 掛勾、白名單對台詞檔的來源、對稿兩個方向、日子與時間）；第 1、2、3、5 項各 1 項 FAIL（沒有 DORMY24 丟例外，整節中斷）；
 //   第 4 項 3 項 FAIL（3-1「演」兩項：事件不存在；跑事件丟例外，整節中斷）。舊程式剛好也對的 8 項：拿得到稿、第 4 項 3-1 那七項「不演」（事件不存在本來就不演）。
 // 修改後：ALL PASS（104 項）
-// 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 ced552c17；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
+// AA_517 第 5 節（DORM-Y24-AAFIX-1028，白名單 ced552c17 → 4e703821a）：修改前＝MODBEFORE；修改後＝MODAFTER
+// 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 4e703821a；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
 require('./alison.js');   /* AA_380：讀稿時 Alison 的舊叫法照匯入工具同一套換成 Alison（稿 2-1 第 4 列）*/
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -27,7 +35,7 @@ try{ load('src/data/dorm203_lines.js','DORM203_LINES'); load('src/dorm203_3d.js'
 try{ ok=load('src/data/dorm_y24_lines.js','DORMY24_LINES')&&load('src/dorm_y24_3d.js','DORMY24'); }catch(e){ err+=' '+String(e); }
 const X=()=>typeof DORMY24!=='undefined'&&DORMY24.room?DORMY24:null, LL=()=>typeof DORMY24_LINES!=='undefined'?DORMY24_LINES:null;
 let DOC='';
-try{ DOC=cp.execSync('git show ced552c17:"docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md"',{cwd:process.env.AA517_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+try{ DOC=cp.execSync('git show 4e703821a:"docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md"',{cwd:process.env.AA517_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 const NAME={kai:'阿凱',zhe:'阿哲',classmate_bohan:'柏翰'}, BH='classmate_bohan';
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. （丟例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 /* 假的生人物、坐下、走路（同 tests/aa502_dorm203_unit.js；E.moveTo 先記下來，測試決定走到了沒有）*/
@@ -60,6 +68,8 @@ const talk=async id=>{ H.said=[]; H.picks=['就這樣']; const n=GM.npc[id]||mkN
 const enterRoom=()=>{ caps=[]; X().entered(GM,{}); X().tick(GM); return caps.map(c=>c[1]); };   /* 從門口走進房間（S.onEnter → entered）、玩家空下來（S.WAIT_MS 測試設 0）*/
 const grp=()=>(H.G.msgs||[]).filter(m=>m.th==='g:r203');
 const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*24+h1; for(let t=a;t<=b+1e-9;t+=step){ const d=Math.floor(t/24); H.G.day=d; H.G.weekday=wdOf(d); H.G.hour=+(t-d*24).toFixed(4); PHONE.tick(H.G); } };
+/* 同 sweep，每一步先跑遊戲的手機規則（STORY.phoneRules：STORY.PHONE_RULES，含 DORMY24.phone 第 5 節不在房間那一晚的群組）*/
+const sweepR=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*24+h1; for(let t=a;t<=b+1e-9;t+=step){ const d=Math.floor(t/24); H.G.day=d; H.G.weekday=wdOf(d); H.G.hour=+(t-d*24).toFixed(4); STORY.phoneRules(GM); PHONE.tick(H.G); } };
 
 (async()=>{
   const L=LL();
@@ -75,8 +85,8 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
       &&/S\.dormMates=function[^\n]*\n[^\n]*if\(F\.ROOM_Y3\|\|F\.ROOM_Y4\) return \/\^Y\[34\]\/\.test\(t\)\|\|\(typeof DORMY24!=='undefined'&&DORMY24\.lastNight&&DORMY24\.lastNight\(G\)\)\?/.test(st)
       &&/S\.Y4K=Y4K;/.test(st)); });
   await sec(0,()=>{ const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_517_/.test(e.path)), L0=LL();
-    check('0. 劇情匯入白名單有 AA_517（sha ced552c17、approved、任務 DORM-Y24-1028）；台詞檔寫的來源同一個 sha',A.length===1&&A[0].sha==='ced552c17'&&A[0].status==='approved'&&A[0].task==='DORM-Y24-1028'&&!!L0&&/^ced552c17 AA_517$/.test(L0.source),J(A)); });
-  await sec(0,()=>{ check('0. 拿得到稿（git show ced552c17）',DOC.length>2000&&DOC.indexOf('## 1. 走進房間的旁白')>0&&DOC.indexOf('## 3. 三件小事')>0,'長度 '+DOC.length);
+    check('0. 劇情匯入白名單有 AA_517（sha 4e703821a＝AA 加了第 5 節那一版、approved、任務 DORM-Y24-1028）；台詞檔寫的來源同一個 sha',A.length===1&&A[0].sha==='4e703821a'&&A[0].status==='approved'&&A[0].task==='DORM-Y24-1028'&&!!L0&&/^4e703821a AA_517$/.test(L0.source),J(A)); });
+  await sec(0,()=>{ check('0. 拿得到稿（git show 4e703821a；有第 5 節「實作時定的」）',DOC.length>2000&&DOC.indexOf('## 1. 走進房間的旁白')>0&&DOC.indexOf('## 3. 三件小事')>0&&DOC.indexOf('## 5. 實作時定的')>0,'長度 '+DOC.length);
     if(!L||!DOC){ for(const n of ['0. 遊戲 → 稿','0. 稿 → 遊戲']) check(n,false,!L?'沒有 DORMY24_LINES':'拿不到稿'); return; }
     const bad=[], miss=[], sl=(a,b)=>{ const i=DOC.indexOf(a), j=b?DOC.indexOf(b,i+1):DOC.length; return i<0?'':DOC.slice(i,j<0?DOC.length:j); };
     /* 第 1 節：每一間的句子照順序；「——阿哲在房間才說。」＝zhe */
@@ -123,6 +133,17 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     check('0. 日曆對得上：2026-11-19＝大二上第 11 週週四、2028-05-30＝大三下第 15 週週二',T&&T.id==='Y2S1'&&T.week===11&&CALENDAR.dateOf(D('2026-11-19')).wd===4&&T2&&T2.id==='Y3S2'&&T2.week===15&&CALENDAR.dateOf(D('2028-05-30')).wd===2,J([T,T2]));
     const gt=k=>(L.group[k]||[]).map(m=>m.at);
     check('0. 群組的時間照稿：3-2 之後 23:50、3-3 23:40',DOC.indexOf('之後 23:50「203（舊生）」群組')>0&&DOC.indexOf('23:40「203（舊生）」群組')>0&&gt('zhe507').every(a=>Math.abs(a-(23+50/60))<1e-9)&&gt('last409').every(a=>Math.abs(a-(23+40/60))<1e-9)&&gt('zhe507').length===2&&gt('last409').length===3); });
+  /* 第 5 節第 4 點：那一晚不在房間補的那一句（3-1 旁白）、那幾則群組（3-2、3-3）；兩個方向、一字不差。「〔`ZHE_CALLS_GE`〕哥你人咧／〔沒有〕你人咧」＝ge true／false 兩則 */
+  await sec(0,()=>{ if(!L||!DOC){ check('0. 第 5 節第 4 點「小事那晚玩家不在房間」：遊戲 ↔ 稿',false,!L?'沒有 DORMY24_LINES':'拿不到稿'); return; }
+    const i5=DOC.indexOf('## 5.'), s5=i5<0?'':DOC.slice(i5), M5={}; let k5=null;
+    for(const ln of s5.split('\n')){ if(/^\d+\. /.test(ln)) k5=null; const hd=ln.match(/^\s+- \*\*3-([123]) /); if(hd){ k5=['sup312','zhe507','last409'][+hd[1]-1]; M5[k5]=[]; continue; } const q=ln.match(/^\s+> (.+)$/); if(q&&k5) M5[k5].push(q[1].trim()); }
+    const gl=items=>{ const o=[]; for(let i=0;i<(items||[]).length;i++){ const a=items[i], b=items[i+1]; if(a.ge===true&&b&&b.ge===false&&b.from===a.from&&b.at===a.at){ o.push(NAME[a.from]+'：〔`ZHE_CALLS_GE`〕'+a.text+'／〔沒有〕'+b.text); i++; } else o.push(NAME[a.from]+'：'+a.text); } return o; };
+    const G5={sup312:L.miss&&L.miss.sup312!=null?[L.miss.sup312]:[]}; for(const k in (L.missGroup||{})) G5[k]=gl(L.missGroup[k]);
+    const bad=[]; for(const k of new Set([...Object.keys(G5),...Object.keys(M5)])) if(J(G5[k]||[])!==J(M5[k]||[])) bad.push(k+' '+J({遊戲:G5[k],稿:M5[k]}));
+    check('0. 第 5 節第 4 點「小事那晚玩家不在房間」：遊戲 ↔ 稿兩個方向一字不差（3-1 隔天走進 312 的旁白；3-2 群組兩則；3-3 群組三則，阿哲那一則照 ZHE_CALLS_GE 兩版）、說話的人對、順序對',
+      !bad.length&&J(Object.keys(M5).sort())===J(['last409','sup312','zhe507'])&&Object.keys(L.miss||{}).length===1&&J(Object.keys(L.missGroup||{}).sort())===J(['last409','zhe507']),J(bad.slice(0,3)));
+    const at=k=>((L.missGroup||{})[k]||[]).map(m=>m.at);
+    check('0. 第 5 節第 4 點的群組時間照稿：3-2「照樣 23:50 傳」、3-3「23:40 群組換成」',DOC.indexOf('照樣 23:50 傳「203（舊生）」群組')>0&&DOC.indexOf('23:40 群組換成')>0&&at('zhe507').length===2&&at('zhe507').every(a=>Math.abs(a-(23+50/60))<1e-9)&&at('last409').length===4&&at('last409').every(a=>Math.abs(a-(23+40/60))<1e-9)); });
 
   /* ================= 1 住哪一間、作息 ================= */
   await sec(1,()=>{ const x=X(), R=(k,f)=>{ room(k,22,f); return x.room(H.G); };
@@ -191,17 +212,18 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     check('3. 和沛珊交往中的玩家：沒有「柏翰這禮拜都很早上床」',!said('r312','zhe').includes('z3')&&said('r312','zhe').includes('z2'),J(said('r312','zhe')));
     room('2026-10-14',22.6,Y2()); knowAll(); H.G.events.done.ev_peishan_bohan_split=1; await days('zhe',[['2026-10-14',22.6],['2026-10-15',22.6]]);
     check('3. 舊存檔演的是合併前的 ev_peishan_bohan_split（msg3d.js 同）：也算分開',said('r312','zhe').includes('z3'),J(said('r312','zhe')));
-    room('2026-10-14',22.6,Y2()); knowAll(); await days('zhe',[['2026-10-14',22.6],['2026-10-15',22.6]]);
-    check('3. 沒有演過分開（只在群組看到、或沒有）：沒有那一句（稿「ev_peishan_split 演過」）',!said('r312','zhe').includes('z3'),J(said('r312','zhe')));
-    room('2026-09-08',22.6,Y2()); knowAll(); H.G.events.done.ev_peishan_split=1; const b=await days(BH,[['2026-09-08',22.6],['2026-09-09',22.6],['2026-09-10',22.6],['2027-02-23',22.6],['2027-04-27',22.6],['2027-04-28',22.6]]);
-    check('3. 312 柏翰：鬧鐘、檯燈、（分開以後）旁白＋「……沒事。在念書。」、大二下「阿哲最近十一點才回來」、期末前「推甄的事」、之後',
-      J(b[0])===J([BN()+B.rows[0].t])&&J(b[1])===J([BN()+B.rows[1].t])&&J(b[2])===J([B.rows[2].pre,BN()+B.rows[2].t])&&J(b[3])===J([BN()+B.rows[3].t])&&J(b[4])===J([BN()+B.rows[4].t])&&isAfter(b[5],B),J(b));
+    room('2026-10-05',22.6,Y2()); knowAll(); const sp=await days('zhe',[['2026-10-05',22.6],['2026-10-11',22.6],['2026-10-12',22.6]]);
+    check('3. 沒有演過分開、也沒在群組看到（玩家不知道）：第 5 週（10/5～10/11）還沒有；分開那一週（第 6 週週一 10/12）起「柏翰這禮拜都很早上床。……你有發現嗎？」（第 5 節第 2 點：不看玩家知不知道）',
+      J(sp[0])===J([ZN+Z.rows[1].t])&&isAfter(sp[1],Z)&&J(sp[2])===J([ZN+Z.rows[2].t]),J(sp));
+    room('2026-09-08',22.6,Y2()); knowAll(); const b=await days(BH,[['2026-09-08',22.6],['2026-09-09',22.6],['2026-09-10',22.6],['2026-10-12',22.6],['2027-02-23',22.6],['2027-04-27',22.6],['2027-04-28',22.6]]);
+    check('3. 312 柏翰：鬧鐘、檯燈、（第 1 週還沒分開＝之後）、第 6 週起（分開以後，沒演那一件也算）旁白＋「……沒事。在念書。」、大二下「阿哲最近十一點才回來」、期末前「推甄的事」、之後',
+      J(b[0])===J([BN()+B.rows[0].t])&&J(b[1])===J([BN()+B.rows[1].t])&&isAfter(b[2],B)&&J(b[3])===J([B.rows[2].pre,BN()+B.rows[2].t])&&J(b[4])===J([BN()+B.rows[3].t])&&J(b[5])===J([BN()+B.rows[4].t])&&isAfter(b[6],B),J(b));
     room('2026-10-05',22.6,Y2()); knowAll(); const f1=await talk('zhe'); check('3. 第一次在 312 講話已經是第 5 週（10/5）：第 1～4 週那句過了不補（從「這間窗戶」開始）',J(f1)===J([ZN+Z.rows[1].t]),J(f1));
     room('2026-10-04',22.6,Y2()); knowAll(); const f2=await talk('zhe'); check('3. 第 4 週最後一天（10/4）還有「學弟問我浴室……」',J(f2)===J([ZN+Z.rows[0].t]),J(f2));
     room('2027-10-06',22.6,Y3()); knowAll(); const c=await days(BH,[['2027-10-06',22.6],['2027-10-07',22.6],['2027-10-08',22.6]]);
     check('3. 507 柏翰：大三上第 5 週第一次講＝「阿哲每天晚上上來借東西……」（第 1～4 週那句過了）；感冒那晚沒演＝沒有那一句',J(c[0])===J([BN()+C.rows[1].t])&&isAfter(c[1],C)&&isAfter(c[2],C),J(c));
-    room('2027-09-07',22.6,Y3()); knowAll(); const c1=await talk(BH); H.G.events.done.ev_cold_week_night=1; H.G.flags.COLD_WEEK_NIGHT=D('2027-10-24'); const c2=await days(BH,[['2027-09-08',22.6],['2027-10-25',22.6],['2028-02-22',22.6],['2028-04-25',22.6],['2028-04-26',22.6]]);
-    check('3. 507：第 1 週「五樓。我第一天數了樓梯……」→「阿哲每天晚上」→ 感冒那晚演過「你感冒那晚，是我傳訊息給阿凱的……」→ 大三下「推甄要的書單」→ 期末前「冷氣我調二十五。……這次不用投票。」',
+    room('2027-09-07',22.6,Y3()); knowAll(); const c1=await talk(BH); H.G.events.done.ev_cold_week_night=1; H.G.flags.COLD_WEEK_NIGHT=D('2027-10-24'); H.G.flags.COLD_WEEK_PRESENT=['zhe','kai']; const c2=await days(BH,[['2027-09-08',22.6],['2027-10-25',22.6],['2028-02-22',22.6],['2028-04-25',22.6],['2028-04-26',22.6]]);
+    check('3. 507：第 1 週「五樓。我第一天數了樓梯……」→「阿哲每天晚上」→ 感冒那晚演過（阿凱有來）「你感冒那晚，是我傳訊息給阿凱的……」→ 大三下「推甄要的書單」→ 期末前「冷氣我調二十五。……這次不用投票。」',
       J(c1)===J([BN()+C.rows[0].t])&&J(c2[0])===J([BN()+C.rows[1].t])&&J(c2[1])===J([BN()+C.rows[2].t])&&J(c2[2])===J([BN()+C.rows[3].t])&&J(c2[3])===J([BN()+C.rows[4].t])&&isAfter(c2[4],C),J([c1,c2]));
     room('2028-02-15',22.6,Object.assign(Y3(),{EXCHANGE_ROUTE:'JP'})); knowAll(); { const x=X(); check('3. 日本路線：大三下那兩句不出（稿：2/20 退宿，不出）',!x.rowOpen(Object.assign({},H.G,{day:D('2028-02-22')}),C.rows[3])&&!x.rowOpen(Object.assign({},H.G,{day:D('2028-04-25')}),C.rows[4])&&x.rowOpen(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:'US'}),day:D('2028-02-22')}),C.rows[3])); }
     room('2028-09-05',22.6,Y4()); knowAll(); const q=await days(BH,[['2028-09-05',22.6],['2028-09-06',22.6],['2028-09-07',22.6],['2028-11-21',22.6],['2029-02-20',22.6],['2029-05-22',22.6],['2029-05-23',22.6]]);
@@ -210,11 +232,14 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     { const x=X(), G0=H.G, o=(k,r)=>x.rowOpen(Object.assign({},G0,{day:D(k)}),r);
       check('3. 「期末前」：大二下第 10～15 週（第 16 週期末考、第 9 週都不算）；大四下 15 週＝第 10～14 週（第 15 週是期末考週）',o('2027-04-26',Z.rows[5])&&o('2027-06-06',Z.rows[5])&&!o('2027-06-07',Z.rows[5])&&!o('2027-04-25',Z.rows[5])&&o('2029-04-23',Q.rows[4])&&o('2029-05-27',Q.rows[4])&&!o('2029-05-28',Q.rows[4])&&!o('2029-04-22',Q.rows[4]));
       check('3. 409 第 2 列「第 1～12 週」第 12 週還在、第 13 週沒有；第 3 列「第 12 週以後」第 11 週沒有、第 12 週起有（大四下也算）',o('2028-11-26',Q.rows[1])&&!o('2028-11-27',Q.rows[1])&&!o('2028-11-19',Q.rows[2])&&o('2028-11-20',Q.rows[2])&&o('2029-03-01',Q.rows[2])); }
-    room('2028-12-23',22.6,Object.assign(Y4(),{EXCHANGE_ROUTE:'US',ROOM_Y4:D('2028-12-23')})); knowAll(); const u=await days(BH,[['2028-12-23',22.6],['2028-12-24',22.6]]);
-    { const x=X(), G0=H.G, o=(k,r)=>x.rowOpen(Object.assign({},G0,{day:D(k)}),r);
-      check('3. 美國路線：12/23 返台當晚「最後一次搬……」（第 1 列照回來以後的日子算）、隔天第 3 列（看日期，放榜以後）；第 2 列「放榜以前」不出',J(u[0])===J([BN()+Q.rows[0].t])&&J(u[1])===J([Q.rows[2].pre,BN()+Q.rows[2].t])&&!X().rec(H.G).talk['r409:'+BH].includes('d2'),J(u));
-      check('3. 美國路線第 1 列：返台起四週（12/23～1/19）、之後沒有；返台以前（在美國）沒有；臺灣路線第 1 列只在大四上第 1～4 週',o('2029-01-19',Q.rows[0])&&!o('2029-01-20',Q.rows[0])&&!o('2028-12-22',Q.rows[0])&&!o('2029-02-20',Q.rows[1])
-        &&!X().rowOpen(Object.assign({},G0,{day:D('2028-12-23'),flags:Object.assign({},G0.flags,{EXCHANGE_ROUTE:'TW'})}),Q.rows[0])&&X().rowOpen(Object.assign({},G0,{day:D('2028-09-26'),flags:Object.assign({},G0.flags,{EXCHANGE_ROUTE:'TW'})}),Q.rows[0])); }
+    room('2028-12-23',22.6,Object.assign(Y4(),{EXCHANGE_ROUTE:'US',ROOM_Y4:D('2028-12-23')})); knowAll(); const u=await days(BH,[['2028-12-23',22.6],['2028-12-24',22.6],['2029-02-18',22.6],['2029-02-19',22.6],['2029-02-20',22.6]]);
+    { const x=X(), G0=H.G, o=(k,r,rt)=>x.rowOpen(Object.assign({},G0,{day:D(k)},rt?{flags:Object.assign({},G0.flags,{EXCHANGE_ROUTE:rt})}:{}),r);
+      check('3. 美國路線（12/23 返台、搬進 409）：當晚第 3 列旁白＋「……用不到了。給學弟。」（看日期，放榜以後）；之後到 2/18 沒有新的（第 1 列還沒到、第 2 列「放榜以前」不出）；大四下開學 2/19「最後一次搬……」、隔天「大一到現在，四間房間。你都在。」（第 5 節第 3 點）',
+        J(u[0])===J([Q.rows[2].pre,BN()+Q.rows[2].t])&&isAfter(u[1],Q)&&isAfter(u[2],Q)&&J(u[3])===J([BN()+Q.rows[0].t])&&J(u[4])===J([BN()+Q.rows[3].t])&&!X().rec(H.G).talk['r409:'+BH].includes('d2'),J(u));
+      check('3. 美國路線第 1 列：大四下開學（2029-02-19）起四週＝2/19～3/18 有、3/19（第 5 週）起沒有；返台以後到開學前（12/23～2/18）、返台以前都沒有；第 2 列大四下也沒有',
+        o('2029-02-19',Q.rows[0])&&o('2029-03-18',Q.rows[0])&&!o('2029-03-19',Q.rows[0])&&!o('2029-02-18',Q.rows[0])&&!o('2028-12-23',Q.rows[0])&&!o('2029-01-10',Q.rows[0])&&!o('2028-12-22',Q.rows[0])&&!o('2029-02-20',Q.rows[1])
+        &&J(Q.rows[0].us)===J({term:'Y4S2',weeks:[1,4]})&&K(STORY.termDayIn('Y4S2',1,1))==='2029-02-19'&&DOC.indexOf('改成從大四下開學（2029-02-19）起算四週')>0);
+      check('3. 臺灣、日本路線第 1 列照舊只在大四上第 1～4 週（9/26 有、大四下 2/19 沒有）',o('2028-09-26',Q.rows[0],'TW')&&!o('2029-02-19',Q.rows[0],'TW')&&!o('2028-12-23',Q.rows[0],'TW')&&o('2028-09-26',Q.rows[0],'JP')&&!o('2029-02-19',Q.rows[0],'JP')); }
     room('2026-09-08',22.6,Y2(),'campus'); knowAll(); const o1=await talk('zhe'); check('3. 房間外（校園）照原本的閒聊（不是房間的話）',o1.length>0&&!o1.some(t=>Z.rows.some(r=>t.endsWith(r.t)))&&!isAfter(o1,Z),J(o1));
     room('2026-09-06',22.6,Y2()); knowAll(); const o2=await talk('zhe'); check('3. 9/6 剛搬進 312（還沒開學）：這一間還沒有能說的＝照原本的閒聊',o2.length>0&&!o2.some(t=>Z.rows.some(r=>t.endsWith(r.t)))&&!isAfter(o2,Z),J(o2));
     room('2027-10-06',22.6,Y3()); knowAll(); const o3=await talk('zhe'); check('3. 507 跟阿哲講話（他不是這一間的室友）：照原本的閒聊',o3.length>0&&!o3.some(t=>Z.rows.some(r=>t.endsWith(r.t)))&&!isAfter(o3,Z),J(o3));
@@ -249,8 +274,8 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     check('4. 3-2 之後 23:50「203（舊生）」群組：阿哲「（照片：507 的地板，三雙拖鞋）」、阿凱「所以少我一雙」（23:45 還沒有）；tag rt_ 開頭、不用回',g0===0&&J(g1.map(m=>[m[0],m[1]]))===J([['zhe','（照片：507 的地板，三雙拖鞋）'],['kai','所以少我一雙']])&&g1.every(m=>Math.abs(m[2]-23.83)<0.03)&&grp().every(m=>/^rt_r203_y24_/.test(m.tag||'')&&!m.ask),J(g1));
     room('2028-05-30',23.6,Y3()); knowAll(); await runEv('ev_r507_zhe'); sweep('2028-05-30',23.6,'2028-05-31',1,0.1);
     check('4. 不在 203 群組（沒有 203 四人房的舊存檔）：不傳',grp().length===0&&x.rec(H.G).g.zhe507==='nogroup');
-    room('2028-05-30',22,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweep('2028-05-30',22,'2028-05-31',2,0.1);
-    check('4. 那一晚不在房間：沒有演、沒有群組、沒有旗標（稿沒寫補的做法）',!H.G.events.done.ev_r507_zhe&&grp().length===0&&!H.G.flags.R507_ZHE);
+    room('2028-05-30',22,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2028-05-30',22,'2028-05-31',2,0.1);
+    check('4. 那一晚不在房間：沒有演、沒有旗標、原本那兩則（三雙拖鞋）不傳（換成第 5 節第 4 點那兩則，見第 6 項）',!H.G.events.done.ev_r507_zhe&&!H.G.flags.R507_ZHE&&!grp().some(m=>m.text==='（照片：507 的地板，三雙拖鞋）'||m.text==='所以少我一雙'),J(grp().map(m=>m.text)));
     /* 3-3 */
     room('2029-06-27',22.9,Y4()); knowAll(); check('4. 3-3 最後一晚：2029-06-27（退宿日 6/28 的前一晚）22:54 還不演',!evCheck('ev_r409_last'));
     H.G.hour=23.1; check('4. 23:06 柏翰在（這一晚的例外）、祐廷在 409：演',evCheck('ev_r409_last'),J(who()));
@@ -279,7 +304,95 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     room('2026-09-09',22.6,Object.assign(Y2(),{RY24:{talk:{'r312:zhe':['z1']}}})); knowAll(); const s2=await talk('zhe');
     check('5. 只有一部分的紀錄（talk 有、其他沒有）：補齊照常',s2.length===1&&s2[0].endsWith(Z.rows[1].t)&&typeof H.G.flags.RY24.tday==='object'&&typeof H.G.flags.RY24.walk==='object',J(s2));
     room('2026-09-09',21,Object.assign(Y2(),{RY24:{walk:{r312:{i:1,day:null,used:'x'}}}})); const w2=enterRoom(); check('5. 壞掉的紀錄（used 不是陣列）：照常',J(w2)===J([L.walkIn.r312[1].t]),J(w2));
-    room('2026-11-19',23.1,Y2()); knowAll(); await runEv('ev_r312_supper',['（吃）']); let okJ=true; try{ JSON.stringify(H.G); }catch(e){ okJ=false; } check('5. 演過以後 G 存得成 JSON（RY24 只有數字、字串、陣列）',okJ&&J(H.G.flags.RY24.ev)===J({sup312:D('2026-11-19')})); });
+    room('2026-11-19',23.1,Y2()); knowAll(); await runEv('ev_r312_supper',['（吃）']); let okJ=true; try{ JSON.stringify(H.G); }catch(e){ okJ=false; } check('5. 演過以後 G 存得成 JSON（RY24 只有數字、字串、陣列）',okJ&&J(H.G.flags.RY24.ev)===J({sup312:D('2026-11-19')}));
+    room('2026-11-20',9,Object.assign(Y2(),{RY24:{talk:{},ev:{}}})); knowAll(); const s3=enterRoom(); H.G=JSON.parse(JSON.stringify(H.G)); SOCIAL.bind(H.G); EVENTS.bind(GM); const s4=enterRoom();
+    check('5. 第 5 節：舊的 RY24（沒有 miss 那一格）照常——3-1 隔天那一句說了記 miss（那一天）；存讀檔以後同一天不再說',J(s3)===J([L.miss&&L.miss.sup312])&&!!H.G.flags.RY24.miss&&H.G.flags.RY24.miss.sup312===D('2026-11-20')&&J(s4)===J([L.walkIn.r312[0].t]),J([s3,s4])); });
+
+  /* ================= 6 AA_517 第 5 節（DORM-Y24-AAFIX-1028，企劃線 4e703821a）================= */
+  const s5=DOC.indexOf('## 5.')>0?DOC.slice(DOC.indexOf('## 5.')):'';
+  /* ① 2-3 第 3 列「你感冒那晚」：ev_cold_week_night、那一晚阿凱有來 */
+  await sec(6,async()=>{ const x=X(), c3=L.room.r507[BH].rows[2];
+    check('6. ① 稿第 5 節第 1 點：就是 ev_cold_week_night、條件再加那一晚阿凱有來（COLD_WEEK_PRESENT 有阿凱）、阿凱沒來的不出',s5.indexOf('就是 `ev_cold_week_night`')>0&&s5.indexOf('`COLD_WEEK_PRESENT` 有阿凱')>0&&s5.indexOf('阿凱沒來的，這一列不出')>0);
+    const o=(f,dn)=>{ room('2027-10-25',22.6,Object.assign(Y3(),f)); if(dn) H.G.events.done.ev_cold_week_night=1; return x.rowOpen(H.G,c3); };
+    check('6. ① 2-3 第 3 列：演過、阿凱有來＝有；演過、那晚來的是別人（語彤、阿哲）＝沒有；整晚不在（missed）＝沒有；沒演＝沒有',
+      o({COLD_WEEK:'night',COLD_WEEK_NIGHT:D('2027-10-24'),COLD_WEEK_PRESENT:['kai']},true)&&o({COLD_WEEK:'night',COLD_WEEK_NIGHT:D('2027-10-24'),COLD_WEEK_PRESENT:['heroine_03','zhe','kai']},true)
+      &&!o({COLD_WEEK:'night',COLD_WEEK_NIGHT:D('2027-10-24'),COLD_WEEK_PRESENT:['heroine_03','zhe']},true)&&!o({COLD_WEEK:'night',COLD_WEEK_NIGHT:'missed',COLD_WEEK_PRESENT:[]})&&!o({}));
+    /* 真的跑 STORY.coldWeekNight（10/24 21:30，story3d.js）：阿凱有 SUNDAY_SUPPER＝他來（AA_315 3-2 阿凱那一列）；沒有＝阿哲（好朋友）來、阿凱沒來 */
+    const night=async kai=>{ room('2027-10-24',21.5,Object.assign(Y3(),{COLD_WEEK:'night',COLD_WEEK_TOLD:'none',COLD_WEEK_CALLS:[]})); knowAll(); if(kai) SOCIAL.remember('kai','SUNDAY_SUPPER',''); else H.CLOSE('zhe');
+      H.said=[]; H.picks=[]; const ok=await STORY.coldWeekNight(GM); const heard=H.said.some(q=>q.t==='你室友傳訊息給我說你要死了。我帶泡麵。'), pres=(H.G.flags.COLD_WEEK_PRESENT||[]).slice();
+      x.rec(H.G,true).talk['r507:'+BH]=['c1','c2']; at('2027-10-25',22.6); H.G.zone='dorm'; const t=await talk(BH); return {ok,heard,pres,t}; };
+    const k1=await night(true), k0=await night(false);
+    check('6. ① 真的跑感冒那一晚：阿凱來了（說了「你室友傳訊息給我說你要死了。我帶泡麵。」）＝隔天柏翰「你感冒那晚，是我傳訊息給阿凱的。……」；阿凱沒來（阿哲來）＝沒有那一句',
+      !!k1.ok&&k1.heard&&k1.pres.includes('kai')&&J(k1.t)===J([SOCIAL.displayName(BH)+'：'+c3.t])&&!!k0.ok&&!k0.heard&&!k0.pres.includes('kai')&&k0.pres.length>0&&!k0.t.some(q=>q.endsWith(c3.t)),J([k1,k0])); });
+  /* ② 沛珊分開那兩列（2-1、2-2 第 3 列）：不看玩家知不知道 */
+  await sec(6,async()=>{ const x=X(), Z=L.room.r312.zhe, B=L.room.r312[BH];
+    const PSH=(f,k,ev)=>{ room(k||'2026-10-14',22.6,Object.assign(Y2(),f)); if(ev) ev(); const a=x.rowOpen(H.G,Z.rows[2]), b=x.rowOpen(H.G,B.rows[2]); return a&&b?true:(!a&&!b?false:'不一致'); };
+    check('6. ② 稿第 5 節第 2 點：不看玩家知不知道；沛珊和柏翰交往過、到了分開那一週（大二上第 6 週）以後、祐廷沒有和沛珊交往，就出',s5.indexOf('不看玩家知不知道')>0&&s5.indexOf('沛珊和柏翰交往過、到了分開那一週（大二上第 6 週）以後、祐廷沒有和沛珊交往，就出')>0);
+    check('6. ② 分開那一週＝大二上第 6 週週一 2026-10-12（events.js ev_peishan_split 的 weeks、characters.js 沛珊 partner 的 untilWeek 也是第 6 週）',K(x.splitDay())==='2026-10-12'&&J(EV('ev_peishan_split').weeks)===J([6])&&CHARACTERS.classmate_peishan.partner.untilWeek.week===6);
+    check('6. ② 沒和沛珊交往過、什麼都沒看到（玩家不知道）：10/11（第 5 週週日）沒有、10/12 起有、大二下也有（阿哲、柏翰兩列一樣）',PSH({},'2026-10-11')===false&&PSH({},'2026-10-12')===true&&PSH({},'2027-03-01')===true);
+    check('6. ② 現在和沛珊交往中＝沒有（演過分開也一樣）',PSH({dating_classmate_peishan:true})===false&&PSH({dating_classmate_peishan:true},null,()=>{ H.G.events.done.ev_peishan_split=1; })===false);
+    const HI=(from,to)=>({EX_classmate_peishan:true,ROMANCE_HISTORY:[{id:'classmate_peishan',from,to,how:'apart_talk'}]});
+    check('6. ② 和沛珊交往到分開那一週以後才分（大一上第 12 週～大二上第 8 週；第 6 週當中才分；暑假開始、10/20 才分）＝她沒有和柏翰交往過：分開以後也沒有',
+      PSH(HI('Y1S1W12','Y2S1W8'),'2026-10-26')===false&&PSH(HI('Y1S1W12','Y2S1W6'),'2026-10-26')===false&&PSH(HI('D'+D('2026-08-01'),'D'+D('2026-10-20')),'2026-10-26')===false);
+    check('6. ② 和沛珊交往過、在 4/6 以前（大一下第 3 週）或第 6 週以前（大二上第 3 週）分了＝她後來和柏翰交往過：有；分開以後才和沛珊交往、後來又分了（第 8～12 週）＝有',
+      PSH(HI('Y1S1W12','Y1S2W3'))===true&&PSH(HI('Y1S1W12','Y2S1W3'))===true&&PSH(HI('Y2S1W8','Y2S1W12'),'2026-12-01')===true);
+    check('6. ② 交往紀錄寫分開那一週在交往，但演過她說分開的那一件、或群組看過 ps_split_group（只在那時候沒和她交往才有）＝有',
+      PSH(HI('Y1S1W12','Y2S1W8'),'2026-10-26',()=>{ H.G.events.done.ev_peishan_split=1; })===true
+      &&PSH(HI('Y1S1W12','Y2S1W8'),'2026-10-26',()=>{ PHONE.at(H.G,D('2026-10-16'),21,[{th:'g:noodle_team',from:'classmate_peishan',text:'說一件事，說完就好。'}],'ps_split_group'); })===true); });
+  /* ④ 三件小事那一晚祐廷不在房間 */
+  await sec(6,async()=>{ const x=X(), A=L.walkIn, MS=L.miss&&L.miss.sup312; let t;
+    check('6. ④ 稿第 5 節第 4 點：小事那晚玩家不在房間：補一句，旗標不記；3-1 隔天第一次走進 312，一句旁白',s5.indexOf('**小事那晚玩家不在房間**：補一句，旗標不記。')>0&&s5.indexOf('隔天第一次走進 312，一句旁白')>0);
+    /* 3-1 */
+    room('2026-11-19',22,Y2(),'campus'); knowAll(); sweepR('2026-11-19',22,'2026-11-20',1,0.5); H.G.zone='dorm'; at('2026-11-20',9); const m1=enterRoom(), m2=enterRoom();
+    check('6. ④ 3-1 11/19 晚上在外面（23:00～23:30 不在 312）：沒有演、R312_SUPPER 不記；11/20 第一次走進 312＝「（垃圾桶裡有四個滷味的袋子。學弟的桌上，多了一雙沒拆的免洗筷。）」（這一次背景室友那一句讓它）；再走進來＝背景室友照順序的第一句',
+      !!MS&&J(m1)===J([MS])&&J(m2)===J([A.r312[0].t])&&!H.G.flags.R312_SUPPER&&!H.G.events.done.ev_r312_supper&&x.rec(H.G).miss.sup312===D('2026-11-20'),J([m1,m2]));
+    at('2026-11-21',9); const m3=enterRoom(); check('6. ④ 3-1 只有隔天：11/21 再走進來沒有那一句',J(m3)===J([A.r312[1].t]),J(m3));
+    room('2026-11-21',9,Y2()); knowAll(); const m4=enterRoom(); check('6. ④ 3-1 隔天（11/20）沒走進 312、11/21 才走進來：沒有那一句（稿「隔天第一次走進 312」）',J(m4)===J([A.r312[0].t]),J(m4));
+    room('2026-11-19',23.75,Y2()); knowAll(); const m5=enterRoom(); at('2026-11-20',9); const m6=enterRoom();
+    check('6. ④ 3-1 同一晚 23:45 才回到 312（演出的時間過了）：當晚不說；隔天第一次走進來才說',m5.length===0&&!!MS&&J(m6)===J([MS]),J([m5,m6]));
+    room('2026-11-20',7,Y2()); knowAll(); STORY._sleeping=true; x.entered(GM,{}); STORY._sleeping=false; x.tick(GM); const w0=caps.length; const m7=enterRoom();
+    check('6. ④ 3-1 前一晚睡著了、11/20 在 312 醒來：醒來不說（同第 1 節，起床不算走進來）；之後第一次走進來才說',w0===0&&!!MS&&J(m7)===J([MS]),J(m7));
+    room('2026-11-20',9,Y2()); knowAll(); x.entered(GM,{}); H.G.events.count++; x.tick(GM); const w1=caps.length; const m8=enterRoom();
+    check('6. ④ 3-1 隔天第一次走進來先演了別的事件（這一次沒說）：同一天下一次走進來說',w1===0&&!!MS&&J(m8)===J([MS]),J(m8));
+    room('2026-11-19',23.1,Y2()); knowAll(); await runEv('ev_r312_supper',['（吃）']); at('2026-11-20',9); const m9=enterRoom();
+    check('6. ④ 3-1 那一晚演了：隔天沒有那一句（照常背景室友）',J(m9)===J([A.r312[0].t]),J(m9));
+    { const aw=STORY.awayOnDate; STORY.awayOnDate=(id,G)=>id===BH&&G.day===D('2026-11-19')?true:aw(id,G); try{ room('2026-11-20',9,Y2()); knowAll(); const m10=enterRoom();
+      check('6. ④ 3-1 柏翰那天不在（他們自己不在＝那一件沒有發生）：隔天沒有那一句',J(m10)===J([A.r312[0].t]),J(m10)); } finally { STORY.awayOnDate=aw; } }
+    /* 3-2 */
+    room('2028-05-30',22,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2028-05-30',22,'2028-05-30',23.75,0.25); const g0=grp().length; sweepR('2028-05-30',23.85,'2028-05-31',1,0.25);
+    const g2=grp().map(m=>[K(m.day),m.from,m.text,+m.h.toFixed(2),m.tag]);
+    check('6. ④ 3-2 5/30 晚上在外面（23:30～24:00 不在 507）：沒有演、R507_ZHE 不記；23:50 群組照樣傳，換成阿哲「（照片：507 的地板，兩雙拖鞋）」、阿凱「所以少兩雙」（23:45 還沒有）；tag rt_ 開頭',
+      g0===0&&J(g2.map(m=>[m[0],m[1],m[2]]))===J([['2028-05-30','zhe','（照片：507 的地板，兩雙拖鞋）'],['2028-05-30','kai','所以少兩雙']])&&g2.every(m=>Math.abs(m[3]-23.85)<0.03&&/^rt_r203_y24_/.test(m[4]))&&!H.G.flags.R507_ZHE&&!H.G.events.done.ev_r507_zhe,J(g2));
+    H.G.zone='dorm'; at('2028-05-30',23.92); check('6. ④ 3-2 群組傳了以後 23:55 才回到 507：不演了',!evCheck('ev_r507_zhe'));
+    room('2028-05-30',23.6,Y3()); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); at('2028-05-30',23.85); STORY.phoneRules(GM); const p0=grp().length+PHONE.rec(H.G).q.length; at('2028-05-30',23.92); t=await runEv('ev_r507_zhe'); sweepR('2028-05-30',23.92,'2028-05-31',0.5,0.05);
+    check('6. ④ 3-2 23:50 人在 507、還沒演（例：還在別的劇情裡）：先不傳；23:55 演了＝原本那兩則（三雙拖鞋），沒有兩雙那兩則',p0===0&&H.G.flags.R507_ZHE===true&&J(grp().map(m=>m.text))===J(['（照片：507 的地板，三雙拖鞋）','所以少我一雙']),J(grp().map(m=>m.text)));
+    room('2028-05-30',23.6,Y3()); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2028-05-30',23.6,'2028-05-31',0.5,0.1);
+    check('6. ④ 3-2 人在 507 但一直沒演到 24:00（演出的時間過了）：算不在，照樣傳兩雙拖鞋那兩則、旗標不記',J(grp().map(m=>m.text))===J(['（照片：507 的地板，兩雙拖鞋）','所以少兩雙'])&&!H.G.flags.R507_ZHE,J(grp().map(m=>[K(m.day),m.h,m.text])));
+    room('2028-05-30',22,Y3()); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); at('2028-05-31',7.5); STORY.phoneRules(GM); PHONE.tick(H.G); const g3=grp().map(m=>[K(m.day),+m.h.toFixed(2),m.text]);
+    check('6. ④ 3-2 22:00 在 507 就睡了、5/31 07:30 醒來：兩雙拖鞋那兩則補在 5/30 23:50（照原本的時間）',J(g3.map(m=>[m[0],m[2]]))===J([['2028-05-30','（照片：507 的地板，兩雙拖鞋）'],['2028-05-30','所以少兩雙']])&&g3.every(m=>Math.abs(m[1]-23.83)<0.02),J(g3));
+    { const aw=STORY.awayOnDate; STORY.awayOnDate=(id,G)=>id===BH&&G.day===D('2028-05-30')?true:aw(id,G); try{ room('2028-05-30',22,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2028-05-30',23.5,'2028-05-31',1,0.25);
+      check('6. ④ 3-2 柏翰那天不在：那一件沒有發生，群組也沒有',grp().length===0&&!((x.rec(H.G)||{miss:{}}).miss||{}).zhe507); } finally { STORY.awayOnDate=aw; } }
+    room('2028-05-30',22,Object.assign(Y3(),{EXCHANGE_ROUTE:'JP',X1_JP:D('2028-02-20')}),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2028-05-30',23.5,'2028-05-31',1,0.25);
+    check('6. ④ 3-2 日本路線：什麼都沒有（照舊不演、也不補）',grp().length===0);
+    room('2028-05-30',22,Y3(),'campus'); knowAll(); sweepR('2028-05-30',23.5,'2028-05-31',1,0.25);
+    check('6. ④ 3-2 不在 203 群組（沒有 203 四人房的舊存檔）：不傳、旗標不記',grp().length===0&&!!x.rec(H.G)&&x.rec(H.G).g.zhe507==='nogroup'&&x.rec(H.G).miss.zhe507===D('2028-05-30')&&!H.G.flags.R507_ZHE);
+    room('2028-06-03',12,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); STORY.phoneRules(GM); PHONE.tick(H.G); const late4=grp().length; room('2028-06-02',12,Y3(),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); STORY.phoneRules(GM); PHONE.tick(H.G);
+    check('6. ④ 3-2 晚三天以上不補（舊存檔讀進來已經 6/3＝晚四天）；6/2（晚三天）還補',late4===0&&grp().length===2,J([late4,grp().length]));
+    /* 3-3 */
+    const last=ge=>{ room('2029-06-27',22,Object.assign(Y4(),ge?{ZHE_CALLS_GE:true}:{}),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); sweepR('2029-06-27',22,'2029-06-28',1,0.25); return grp().map(m=>[K(m.day),m.from,m.text,+m.h.toFixed(2)]); };
+    const l1=last(true), r1=!!H.G.flags.R409_LAST||!!H.G.events.done.ev_r409_last, l0=last(false);
+    check('6. ④ 3-3 6/27 晚上在外面（23:00～23:30 不在 409）：沒有演、R409_LAST 不記；23:40 群組換成阿哲「最後一晚」「哥你人咧」（ZHE_CALLS_GE）、阿凱「所以又少一個」',
+      J(l1.map(m=>[m[0],m[1],m[2]]))===J([['2029-06-27','zhe','最後一晚'],['2029-06-27','zhe','哥你人咧'],['2029-06-27','kai','所以又少一個']])&&l1.every(m=>Math.abs(m[3]-23.67)<0.1)&&!r1,J(l1));
+    check('6. ④ 3-3 沒有 ZHE_CALLS_GE：「你人咧」',J(l0.map(m=>[m[1],m[2]]))===J([['zhe','最後一晚'],['zhe','你人咧'],['kai','所以又少一個']]),J(l0));
+    room('2029-06-28',12,Object.assign(Y4(),{MOVED_OUT:D('2029-06-28')}),'campus'); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); STORY.phoneRules(GM); PHONE.tick(H.G); const l2=grp().map(m=>[K(m.day),+m.h.toFixed(2),m.text]);
+    check('6. ④ 3-3 6/28 搬走以後才跑到手機規則：照樣補在 6/27 23:40（那一晚還住 409、柏翰在）',J(l2.map(m=>[m[0],m[2]]))===J([['2029-06-27','最後一晚'],['2029-06-27','你人咧'],['2029-06-27','所以又少一個']])&&l2.length>0&&Math.abs(l2[0][1]-23.67)<0.02,J(l2));
+    room('2029-06-27',23.1,Y4()); knowAll(); PHONE.join(H.G,'r203','203（舊生）'); await runEv('ev_r409_last',['再聊一下']); sweepR('2029-06-27',23.1,'2029-06-28',0.5,0.25);
+    check('6. ④ 3-3 那一晚演了：原本那三則（所以我又不在、別棟房間的照片），沒有「所以又少一個」',J(grp().map(m=>m.text))===J(['最後一晚','所以我又不在','（照片：別棟的房間，紙箱也封好了）']),J(grp().map(m=>m.text)));
+    { room('2029-06-27',14,Object.assign(Y4(),{Y4_PATH:'bar',PACKED_Y4:D('2029-06-01'),GRAD_DONE:true,EXCHANGE_ROUTE:'TW',ZHE_CALLS_GE:true}),'campus'); knowAll(); H.G.flags.GRADUATED=PG.gradDay(); PG.rec(H.G).done.grad=1; PHONE.join(H.G,'r203','203（舊生）');
+      PG.on(H.G); let n=0; while(n++<6&&!grp().length) await PG.advance(GM); const l3=grp().map(m=>[K(m.day),+m.h.toFixed(2),m.text]);
+      check('6. ④ 3-3 畢業後篇真的跳（PG.advance，6/27 14:00 在校園站著不動）：最後一晚沒演、群組補在 6/27 23:40「最後一晚」「哥你人咧」「所以又少一個」；R409_LAST 不記',
+        J(l3.map(m=>[m[0],m[2]]))===J([['2029-06-27','最後一晚'],['2029-06-27','哥你人咧'],['2029-06-27','所以又少一個']])&&l3.every(m=>Math.abs(m[1]-23.67)<0.05)&&!H.G.flags.R409_LAST&&!H.G.events.done.ev_r409_last,J([l3,K(H.G.day),H.G.hour])); }
+    check('6. ④ STORY.PHONE_RULES 有這一套（每一輪問 DORMY24.phone）',STORY.PHONE_RULES.some(f=>/DORMY24\.phone/.test(String(f)))); });
 
   H.done();
 })();
