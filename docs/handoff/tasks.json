@@ -35008,13 +35008,41 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
-   "note": "【LAWWW-C 08:4x】SIS-B13 子代理回報的私密場景清單；等 PRIV-AAFIX-1028 合併後一起接",
+   "note": "【LAWWW-C 08:4x】SIS-B13 子代理回報的私密場景清單；等 PRIV-AAFIX-1028 合併後一起接｜【AA-C 08:29 定】擋：研究室晚上、13-3 走一圈（期限 12/7，到期照 AA_503 第 14 節保底）、13-6 洗衣間；不擋：13-8 游完泳、13-6 三句短招呼",
    "xai": {
     "spec": "子代理 65fe4ec93 回報第 5 節「私密場景清單」；AA_503 第 13、14 節",
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "交往中才有的研究室晚上旁邊有人不演；其他照 AA 定",
     "receiver": "AA",
-    "ack": "SENT"
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS13-AAFIX-1028",
+   "title": "AA_512 第 7 節（0e02591e4）：2-1 筆記改 5/20 佳穎私訊＋學姊兩則 5/21；2-4 改字；2-5 研究室 21:30 一學期一次旁白",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
+   "first": {
+    "term": "Y1S1",
+    "week": 10,
+    "earliest": "大一上和沛珊的朋友芸萱說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "note": "【LAWWW-C 08:3x】AA-C 08:29；LAWWW-C 自己做（完整 Node 跑完以後）",
+   "xai": {
+    "spec": "AA_512 第 7 節（企劃線 0e02591e4）",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "三件照稿；測試涵蓋",
+    "receiver": "AA",
+    "ack": "ACK"
    }
   }
  ]
