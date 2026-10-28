@@ -34574,6 +34574,33 @@
    },
    "next": "【LAWWW-C 2026-10-28 02:3x UTC】a13d98eaa：S.phoneAuto 多看 GM.isEntering()；tests/phone_auto_unit.js 加一項；放進 v9.10.12 rc2；BB 的 tfw_timeline 會分出 FAIL 真正的原因（測試時間差或這個）",
    "sha": "a13d98eaa"
+  },
+  {
+   "id": "INTERIOR-AAA-REVIEW-1028",
+   "title": "校內建築室內美術全面提升：參閱 3A 大作檢討（現況、做法、差距、改善計畫），照計畫分批改（光照烘焙、配置、家具、材質），先做 201 教室示範",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 01:5x 對 LAWWW2-C「我仍然覺得 校內建築 空間內配置 有很大的美術提升空間 現在是一個廉價手遊感 請你去參閱3A大作好好檢討」（UA-LAWWW2-1028-01；USER_WANTS X125）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一天走進霖澤館 201",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
+   "xai": {
+    "spec": "使用者原話；LAWWW2 的檢討文件 038fe55b1（INTERIOR-AAA-REVIEW-1028）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "校內室內（先 201 教室）遊戲畫面和改前同角度比較，看得出光照、配置、家具、材質的提升；效能數字附上；使用者看過",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   }
   }
  ]
 }
