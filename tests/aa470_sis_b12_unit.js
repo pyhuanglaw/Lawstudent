@@ -115,7 +115,7 @@ await sec(2,()=>{ const want=[['2026-09-07',['新學期！！下禮拜新的學�
   fresh('2026-09-06',20,'none'); for(const [k] of want){ at(k,20.5); ph(); at(k,21.2); ph(); at(k,22); ph(); }
   const got=want.map(([k],i)=>byTag('sisb12_fam2_'+i));
   check('2. 沒認識學姊、在家族群組：三則（AA_497 拿掉 2027-03-08 那一則）照稿、照日子 21:00、在「法律系直屬家族」群組',got.every((M,i)=>J(M.map(m=>m.text))===J(want[i][1])&&M.every(m=>m.th==='g:family_law'&&keyOf(m.day)===want[i][0]&&m.h>=21&&m.h<21.25&&!m.ask)),J(got.map(M=>M.map(m=>keyOf(m.day)+' '+m.h+' '+m.text))));
-  check('2. 說話的人：Kevin／溫學姊／家族的學妹（family_junior，第一次出現在 9/14；AA_497 5-2 起叫「宜蓁」）',got[1][2].from==='family_junior'&&got[1][2].name==='宜蓁'&&got[0][0].from==='kevin'&&got[0][0].name==='Kevin'&&got[0][2].from===ID,J(got[1].map(m=>[m.from,m.name])));
+  check('2. 說話的人：Kevin／溫學姊／家族的學妹（family_junior，第一次出現在 9/14；AA_497 5-2 起有名字，第 8 節第 5 點改叫「佳穎」——「宜蓁」是祐廷的姊姊）',got[1][2].from==='family_junior'&&got[1][2].name==='佳穎'&&got[0][0].from==='kevin'&&got[0][0].name==='Kevin'&&got[0][2].from===ID,J(got[1].map(m=>[m.from,m.name])));
   const n0=(H.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length; at('2026-10-26',23); ph(); ph();
   check('2. 不重傳',(H.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length===n0&&n0===11);
   fresh('2026-09-06',20,'friend',{},{grp:false}); for(const [k] of want){ at(k,21.5); ph(); }

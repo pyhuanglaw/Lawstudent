@@ -1,4 +1,4 @@
-// AA_497 五位配角改稿（企劃線 7a38216ca；任務 NPC-STORY-1028、USER_WANTS X119）：宥辰、芯慈、Alison、明軒、Kevin——不需要瀏覽器。
+// AA_497 五位配角改稿（企劃線 60fc3b9a3＝7a38216ca＋第 8 節；任務 NPC-STORY-1028、USER_WANTS X119）：宥辰、芯慈、Alison、明軒、Kevin——不需要瀏覽器。
 //   0  稿：src/data/sup497_lines.js 每一句、改在各檔的句子都在稿裡（一字不差；地下室照 BB_70 7b、大四兩則照 BB_113）；稿的每一句（> 那幾行、表格）都在遊戲裡
 //   1  宥辰：1-1 personality；1-3 認識（課堂那一句後面＋下課；晚十分鐘到）；1-4 週五的歌 13 則（日子、私訊／班群、回覆、輪流、曾靖雯那一句、第 13 則）；
 //      1-5 電梯（順手的事：開口、期限、12:10 做完、婉拒、過期那一則）；1-6 地下室（邀請、出發、站哪裡、電梯那一句、立群、散場三個回答、沒去的錄影、五年後）；
@@ -9,12 +9,16 @@
 //   4  明軒：4-1 B1 版 M1、作息、提示；4-2 傘、咖啡、位子、M2；4-3 德文（INV 約 B1 討論室）；4-4 存摺；4-5 閒聊；4-6 梗（哈哈、滷蛋、CP 值）
 //   5  Kevin：5-2 交棒（9/14 揪、回「去。」、9/17 家聚、KV_HANDOVER、沒去 9/18、宜蓁私訊、群組那一段拿掉、宜蓁改名＋讀檔）；5-3 國考、錯題本、事務所；5-4 梗
 //   6  陳助教；7 舊存檔（過了的不補、沒有記號照「沒選」）
-// 修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 的 git 讀）：PASS 2、FAIL 46——
+//   8  第 8 節（AA-C 回 LAWWW-C 7bd68b7cf 的問題）：2-1 還沒認識以安的旁白與名字（在 2-1 節）；芯慈追劇八處換句、照留五處；明軒的滷蛋；學妹改名佳穎、姊姊宜蓁不動
+// 第一輪修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 的 git 讀）：PASS 2、FAIL 46——
 //   36 節沒有 SUP497／SUP497_LINES，丟例外中斷（0a、0b、1-3～1-11、2-1～2-9、3-1～3-7、4-1～4-5、5-2～5-4、7）；
 //   直接 FAIL 的 10 項：新檔、index.html 沒有；稿的 195 行「>」遊戲都沒有；1-1 personality 沒有「在錄音室待過一年」；1-5 沒有兩場；3-8「三個社團」（兩項）；
 //   4-6 fit3d 當面的「哈哈」、明軒朋友階道別的滷蛋；6 陳助教大一、大二週二上午還在教室。
 //   本來就對的 2 項：0 讀得到稿；6 三個社團的社長標籤已經是全名（AA_496 時改的）。
-// 修改後：ALL PASS。用法：node tests/aa497_supporting_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 AA497_DOCREPO＝這個 repo 的目錄）
+// 第二輪（第 8 節）修改前（開發分支 a8cba7618＝已經有第一輪；同樣 git archive 那一版放進這支測試真的跑過）：PASS 259、FAIL 24——
+//   0a 遊戲的句子不在新稿（第一輪的句子在；新稿的「佳穎」遊戲裡沒有）、0b 稿的「佳穎」遊戲裡沒有；2-1 還沒認識以安的旁白與名字兩項＋一節丟例外（沒有 day1Pre）；
+//   5-2 六項、5-3 兩項、7 一項（學妹還叫宜蓁）；8 十項（追劇八處、滷蛋、清單、佳穎都還是舊的）。本來就對的：照留的五處追劇、M1／M2／德文的滷蛋、姊姊叫宜蓁。
+// 修改後：ALL PASS（284 項）。用法：node tests/aa497_supporting_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 AA497_DOCREPO＝這個 repo 的目錄）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -86,7 +90,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
-    check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 7a38216ca／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
+    check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
     const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
     check('0a. 推導的句子都真的用到（沒有多餘的例外）',!dv.length,J(dv));
     check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','萬才館太安靜。我要錄的是吵。','那首用霖澤館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(t)));

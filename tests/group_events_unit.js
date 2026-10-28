@@ -181,8 +181,9 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(f29,19,'gym'); team(); F1=await play('ev_final_game_y3');
   check('4. 和明軒不熟：沒有「你看到了喔」、沒有選項', !F1.some(t=>/你看到了喔/.test(t))&&opts.length===0&&has('（阿哲的爸爸在場邊沒有說話，只拍了五十張照片。）'));
   fresh(f29,19,'gym'); team(); R('classmate_mingxuan','FAM'); await play('ev_final_game_y3',['請客']);
-  check('4. 選「冠軍耶，明天請客。」：「好。請你吃滷蛋。一顆。」、記欠的滷蛋（當週不補、下週一起補）', has('好。請你吃滷蛋。一顆。')&&G.flags.MX_EGG_DAY===f29&&(G.day=f29+1,!GROUP.eggDue(G))&&(G.day=f29+2,GROUP.eggDue(G)));
-  { const e=ev('ev_mx_egg_y3'); check('4. 補滷蛋：在麵店、明軒在旁邊（npcNear）才演；「冠軍那天欠的。一顆。」', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[1].text==='冠軍那天欠的。一顆。'); }
+  /* 2026-10-28 改：AA_497 第 8 節第 4 點（企劃線 60fc3b9a3）明軒的滷蛋只留 M1、M2、德文三處——冠軍那一串改「一碗大的／大碗」（旗標名 MX_EGG* 不改；tests/aa497_supporting_unit.js 第 8 節）*/
+  check('4. 選「冠軍耶，明天請客。」：「好。請你吃一碗大的。」（AA_497 第 8 節）、記欠的那一碗（MX_EGG_DAY；當週不補、下週一起補）', has('好。請你吃一碗大的。')&&!has('好。請你吃滷蛋。一顆。')&&G.flags.MX_EGG_DAY===f29&&(G.day=f29+1,!GROUP.eggDue(G))&&(G.day=f29+2,GROUP.eggDue(G)));
+  { const e=ev('ev_mx_egg_y3'); check('4. 補那一碗（ev_mx_egg_y3）：在麵店、明軒在旁邊（npcNear）才演；「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」（AA_497 第 8 節）', e.trigger==='auto'&&e.location==='noodle'&&e.npcNear==='classmate_mingxuan'&&e.dialogue[0].text==='（他把一碗大碗的乾麵推到你面前。）'&&e.dialogue[1].text==='冠軍那天欠的。大碗。'); }
   fresh(f29,19.5,'dorm'); team(); ev('ev_final_game_y3').outingMissed(G,GM,{}); run(f29,21.5,21.75);
   check('4. 沒去：FINAL_GAME_Y3 missed、21:30 群組照片', G.flags.FINAL_GAME_Y3==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（獎盃在明軒手上。阿哲在旁邊比讚。）');
   // 日本路線
@@ -195,7 +196,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('4. Z3 直播：FINAL_GAME_Y3 stream；賽後明軒兩則（台灣 20:40＝當地 21:40，AA_341 J-S13）＋「恭喜！」「那出國呢？」', G.flags.FINAL_GAME_Y3==='stream'&&JSON.stringify(txt('p:classmate_mingxuan').slice(-2))===JSON.stringify(['classmate_mingxuan:冠軍。我九點家教，先走了。','classmate_mingxuan:……你看到了喔。我今天很用力。'])&&JSON.stringify((PHONE.byAsk(G,'y3_mx_stream')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))==='["恭喜！","那出國呢？"]');
   { said=[]; G.hour=21; const st=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r)); const n1=said.length; const st2=GROUP.tick(GM);
     check('4. C11 日本路線看直播：一句旁白「（日本晚上八點。你在宿舍的書桌前開著系上的直播，畫面一直卡。最後一顆，阿哲傳給明軒。他們贏了。）」（只演一次）', st===true&&n1===1&&said[0].who===null&&said[0].t==='（日本晚上八點。你在宿舍的書桌前開著系上的直播，畫面一直卡。最後一顆，阿哲傳給明軒。他們贏了。）'&&st2===false&&G.flags.FINAL_STREAM_SEEN===true, JSON.stringify([st,st2,said])); }
-  G.hour=21.75; PHONE.answer(G,'y3_mx_stream',0); check('4. 回「恭喜！」：「回來請你吃滷蛋。一顆。」、回國以前不補、8/5 回國以後補', txt('p:classmate_mingxuan').slice(-1)[0]==='classmate_mingxuan:回來請你吃滷蛋。一顆。'&&!GROUP.eggDue(G)&&(G.day=D('2028-08-06'),GROUP.eggDue(G)));
+  G.hour=21.75; PHONE.answer(G,'y3_mx_stream',0); check('4. 回「恭喜！」：「回來請你吃一碗大的。」（AA_497 第 8 節）、回國以前不補、8/5 回國以後補', txt('p:classmate_mingxuan').slice(-1)[0]==='classmate_mingxuan:回來請你吃一碗大的。'&&!GROUP.eggDue(G)&&(G.day=D('2028-08-06'),GROUP.eggDue(G)));
   check('4. 人物面板：ZHE_SAID_IT、SAW_HIM_TRY 有名字；SAW_HIM_TRY＝「聽他說交換放棄了，畢業以後自己存錢去」（AA_336 C13）', !!SOCIAL.MEMORY_LABEL.ZHE_SAID_IT&&SOCIAL.MEMORY_LABEL.SAW_HIM_TRY==='聽他說交換放棄了，畢業以後自己存錢去');
   fresh(f29,19,'gym'); team(); run(f29,19,20); check('4. C11 台灣路線（去冠軍賽的）：沒有直播的旁白', !GROUP.streamDue(G));
 

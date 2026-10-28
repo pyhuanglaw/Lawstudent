@@ -88,7 +88,8 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
   walk(PS().LINES,'');
   const DERIVED={'明天晚上交誼廳。我媽寄了文旦。你來吃。':['明天晚上交誼廳。我媽寄了文旦。你跟阿凱來吃。','跟阿凱'],'（文旦剝了一整桌。）':['（文旦剝了一整桌。阿凱把文旦皮戴在頭上。）','阿凱把文旦皮戴在頭上。']};   /* 8-5：阿凱大二不住男一舍的話拿掉的兩句 */
   const COMPOSED={'印了五本。我媽、書房老闆、你，還有兩本我自己留著。':['印了五本。','我媽、書房老闆、你，還有兩本我自己留著。']};   /* 6-5 沒認識郁婷：「那句換成」列名字的那一句（兩段都一字不差在稿裡）*/
-  const bad=[...new Set(out)].filter(t=>doc.indexOf(t)<0&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
+  const JY=t=>t.indexOf('佳穎')>=0&&doc.indexOf(t.split('佳穎').join('宜蓁'))>=0;   /* 2026-10-28：AA_497 第 8 節第 5 點（企劃線 60fc3b9a3）Kevin 的學妹改名「佳穎」（「宜蓁」是祐廷的姊姊）——報到桌那句旁白，稿上寫宜蓁 */
+  const bad=[...new Set(out)].filter(t=>doc.indexOf(t)<0&&!JY(t)&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
   check('0. 每一句台詞、旁白、選項、手機訊息、人物頁一行都在 AA_498 稿裡（'+SRC+'，一字不差）',!!doc&&out.length>250&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
   const P3=PS().PEOPLE, ids=Object.keys(P3), rows=ids.map(id=>{ const p=P3[id]; return [id,p.card,p.personality].concat(p.where.map(e=>e.desc)).concat(p.cls?[p.cls.desc]:[]); });
   const badT=[]; for(const r of rows){ const id=r[0]; for(const t of r.slice(1)){ if(t&&doc.indexOf(t)<0) badT.push(id+':'+t); } }
@@ -215,7 +216,7 @@ await sec('4 黃郁婷 報到桌',async()=>{ const d1=TD('Y2S1',1,1); fresh(d1-2
   if(m) PHONE.answer(H.G,m.ask.id,0); const r=SIDEQ.get(H.G,'PQ_YT2'), q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_yt_desk');
   check('4. 黃郁婷 5-5：回「好。」＝掛「迎新報到桌」、排大二上第 1 週週三 08:30 霖澤館一樓',!!r&&r.state==='open'&&!!q&&q.day===TD('Y2S1',1,3)&&q.h===8.5&&/迎新報到桌/.test(SIDEQ.todayHTML(H.G)),J([r,q]));
   H.said=[]; H.picks=['問旁邊那個班代']; set(q.day,8.3,'campus'); await OUT.go(GM,q);
-  check('4. 黃郁婷 報到桌（2D）：選「問旁邊那個班代。」→「（頭也沒抬）要背。…」；認識靖雯＝七點半那句旁白；沒有 KV_HANDOVER＝沒有宜蓁；結尾「我數一下。……少一個。我去打電話。」；做完',has('（頭也沒抬）要背。我數過，比高中多。')&&has('（七點半，靖雯提著一袋早餐來，放在報到桌上：「早安。給工作人員的。」）')&&!has('（排在隊伍中間的，是宜蓁。她看到你，比你還緊張。）')&&has('我數一下。……少一個。我去打電話。')&&r.state==='done',J(said()));
+  check('4. 黃郁婷 報到桌（2D）：選「問旁邊那個班代。」→「（頭也沒抬）要背。…」；認識靖雯＝七點半那句旁白；沒有 KV_HANDOVER＝沒有佳穎（AA_497 第 8 節第 5 點改名）；結尾「我數一下。……少一個。我去打電話。」；做完',has('（頭也沒抬）要背。我數過，比高中多。')&&has('（七點半，靖雯提著一袋早餐來，放在報到桌上：「早安。給工作人員的。」）')&&!has('（排在隊伍中間的，是佳穎。她看到你，比你還緊張。）')&&has('我數一下。……少一個。我去打電話。')&&r.state==='done',J(said()));
   fresh(d1,10,'linze'); meet(Y); spawn(Y); await talk(Y,[1]); const r2=SIDEQ.get(H.G,'PQ_YT2');
   check('4. 黃郁婷 5-5 沒有聯絡方式：大二上第 1 週週一在霖澤館一樓當面問；「那天早上我有課。」→「好。我自己來。」＝婉拒（不扣數值）',has(L()[Y].ask2)&&has('好。我自己來。')&&!!r2&&r2.state==='declined'&&!(H.G.msgs||[]).some(x=>x.tag==='pool_yt2_ask'),J(said())); });
 
