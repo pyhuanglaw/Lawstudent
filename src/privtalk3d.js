@@ -3,24 +3,29 @@
      告白；心意邀約、約會（「約她去…」）；交往中才有的互動；坦白有別人（ROM.tellBy）、多段感情的分開談話（AA_346）、她知情以後那幾場；
      問她自己還沒公開的事：子晴爸爸的事（Q8 一類）、沛珊重考（AA_281，她什麼都不說那段）、芷若交換申請（5/11 錄取以前）、語彤媽媽回診、學姊口試結果（5/29 當天）。
      一般閒聊、課業、讀書會、群組裡的事，不算私密。
-   第三輪：AA 2026-10-28 定第一輪問的 12 項＋共同的保底（AA_503 第 14 節，企劃線 6bc3cd784；記錄在 S.DECIDED）。原則：她不會當著別人說的才擋——
+   第三輪：AA 2026-10-28 定第一輪問的 12 項＋共同的保底（AA_503 第 14 節，企劃線 6bc3cd784；記錄在 S.DECIDED）；後補 4 點（第 14 節後補，企劃線 0e46fdc7e；記錄在 S.LATER）。原則：她不會當著別人說的才擋——
      感情、她自己還沒說出去的事、講到祐廷現在和誰在一起；場景本來就排在有那個人的地方、那個人就是當事人或已經知道的，不擋；她自己隨口講的，不擋。
    「旁邊有人」＝STORY.COMPANY（女主角的圈子：她那一列的同伴在她 3.2 m 內，src/hcircle3d.js HCIRCLE.withNow 回傳旁邊那幾個人的 id）。
    ■ 共用的判斷：各入口一律走 PRIVTALK.ok(G,id,清單的 key,GM,sub)：查這份清單（from／until：那段以外不算私密；except：不算「旁邊有人」的人），再問 STORY.crowdNow。
-   ■ 共同的保底（AA_503 第 14 節；第 13 節第 3 點的清單也適用）：
+   ■ 共同的保底（AA_503 第 14 節；第 13 節第 3 點的清單也適用；第 14 節後補第 3、4 項，企劃線 0e46fdc7e，S.LATER）：
        沒有期限的：等了 7 天（遊戲日）還等不到她一個人，第 8 天起照演，開頭一句旁白 S.NARR「（她跟旁邊的人說了一聲，走到你這邊。）」；
        有期限的（清單的 due：日期、'ev'＝那個事件自己的學期週次星期算出來的最後一天、或函式）：到期那天照這樣演。她一個人＝照常，沒有旁白。
      怎麼記（存檔 G.flags.PRIVWAIT＝{'key|她|sub': 第一次因為旁邊有人擋下來的那一天}；舊存檔沒有＝第一次擋下來才建）：
        S.ok 擋下來（旁邊有人、還沒到）的那一刻記第一天（已經有就不動）；第一天＋7 天（due 有寫的：到 due 那天）起 S.ok 放行（旁邊還有人也一樣）。
        那一段真的開始演＝S.lead(GM,key,她,sub)：旁邊還有人（例外的人不算）＝先說旁白，然後清掉等待（下一次再擋從頭算）。
+       只有真的演了才清（後補第 4 項）：選項出來了、玩家沒選，下次又被擋＝不重新算——照舊從這一項第一次被擋那天算，第 8 天照出。
        各入口只在那一段真的要演的時候問 S.ok（事件：其他條件都過了、prereq 的 custom 最後問；閒聊階梯：情境對了〔story3d.js ladNext 先看情境再問 LADDER_HOLD〕；
-       知情那幾場：MREL 先算出這一次要演的，有才問；1A-02 那一句：STORY.twoHeartsEchoDue）——擋下來的那一天才是「第一天」。
+       知情那幾場：MREL 先算出這一次要演的、要算的次數，有才問；1A-02 那一句：STORY.twoHeartsEchoDue）——擋下來的那一天才是「第一天」。
      每一種入口怎麼接旁白、什麼時候清：
-       offerInvite／priv（選單的選項）：選項出來了＝照演（S.ok 放行時清掉等待；她一個人時出來也清）；選了那一個＝S.lead（story3d.js S.privLead）再演；
+       offerInvite／priv（選單的選項）：S.ok 放行＝選項出來（不清）；選了那一個＝S.lead（story3d.js S.privLead）再演（清掉）；
        wrap：知情那幾場（MREL.meetAction、FLOW.heroine_02.meet）＝回傳的 run 包一層先 S.lead；1A-02 那一句、沒回訊息那一句、前任那兩句＝S.leadGM（第一次說話以前先 S.lead）；
+         知情那幾場的次數（後補第 3 項：擋下來沒演的不算，只有真的演出來的才算一次）：MREL 算的時候動到的她那一段流程（MREL.st：學姊一般見面 meets、語彤被打擾 dist／distant、
+           語彤的結果 C、可昕收回以後的 w…）和學姊一般見面的紀錄（MREL.sm，sisMet）——擋下來＝還原成算以前（S.mrelSnap／S.mrelBack）；
+           只有次數、沒有場景的那一次（學姊一般見面、語彤第一次被打擾）也是知情的一次見面：旁邊有人＝擋（不算、記等待），她一個人＝算；等了 7 天＝算，開頭旁白（回傳只有旁白的 run，abort false，接著照常說話）；
+           只動到學姊一般見面那一筆（她沒有知情的流程要動）：旁邊有人＝不記，不擋、不記等待（沒有要演的）；
          芷若×子晴自己告訴祐廷、學姊的美國交換＝ZRZQ.preTalk、SISY23.preTalkEv 擋，那一場的第一句前面接一行 call（S.wireLead）；
        edit：那個檔自己問 PRIVTALK.ok、演之前叫 PRIVTALK.lead（multirel3d.js：子晴爸爸那一句、沛珊「對一次」、分開以後那幾段）；
-       hold：閒聊階梯那一層（STORY.LADDER_HOLD 擋；STORY.ladPlay 包一層，播之前 S.lead，sub＝那一層的 id）；choiceIf：階梯那一層的一個選項（選了那一個才 S.lead）；
+       hold：閒聊階梯那一層（STORY.LADDER_HOLD 擋；STORY.ladPlay 包一層，播之前 S.lead，sub＝那一層的 id）；choiceIf：階梯那一層的一個選項（出來了不清，選了那一個才 S.lead）；
        prereq：事件（STORY_EVENTS 的 prereq.custom 擋；dialogue 第一行接 call＝S.lead）；evChoice：事件裡的一個選項（那個選項要跳去的 label 後面接 call＝S.lead）。
    ■ 不擋、換一般版的（第 7 項）：閒聊階梯、沒回訊息那一句的交往中那一版——旁邊有她的人時說一般版（STORY.DATING_QUIET，S.dateVar）；沒有一般版的照說；不等、不記。
    ■ 不擋、開頭加旁白的（第 9 項）：S.SCENE_LEAD（子晴 Q7 兩場，載入時接在對話最前面，不管旁邊有沒有人）。
@@ -29,6 +34,7 @@
        wrap＝這個檔包一層；edit＝那個檔自己呼叫 PRIVTALK.ok；hold＝閒聊階梯那一層（STORY.LADDER_HOLD；alt＝只有 linesIf／extraIf 換進私密那一版的句子時才擋）；
        choiceIf＝階梯那一層的一個選項（STORY.LADDER_CHOICE_IF）；prereq＝事件（STORY_EVENTS 的 prereq.custom）；evChoice＝事件裡的一個選項（那個選項的 if.custom）；none＝3D 說話裡沒有入口（寫明在哪裡）。
      每一筆：desc＝入口在哪；note＝旁邊有人時怎麼辦、期限（desc、note 是給人看的說明，不進遊戲）；due＝期限（有寫的照到期那天，沒寫的照 7 天）；except＝本來就知道的人（第 12 項、第 1 項）。
+     選項的「等了 7 天照出」都從這一項第一次被擋那天算：出來了玩家沒選、下次又被擋，不重新算（後補第 4 項）。
    ■ S.held、S.passed、S.narrated：最近幾次擋下來、放行、說了旁白的（除錯、測試用，不存檔）。測試：node tests/company_priv_unit.js */
 'use strict';
 const PRIVTALK=(function(){
@@ -59,7 +65,7 @@ const PRIVTALK=(function(){
       note:'選項不出；沒有期限'},
     /* ---- 她知情以後那幾場 ---- */
     {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
-      note:'這一次不演、不前進（學姊「正常見面」的紀錄 MREL.sisMet 照記），照常說話；流程沒有期限，下次她一個人時演；等了 7 天照演'},
+      note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）'},
     {key:'knows_cafe',cat:'她知情以後',who:'heroine_02',kind:'pre',gate:'wrap',desc:'src/multirel3d.js：吧檯的芷若（MREL.FLOW.heroine_02.meet kind cafe）',
       note:'這一次不演（照常點餐）；冷靜期一天一次，下一次她一個人時演；等了 7 天照演'},
     {key:'knows_echo',cat:'她知情以後',who:['heroine_01','heroine_05'],kind:'pre',gate:'wrap',desc:'src/story3d.js S.twoHeartsEcho（1A-02 攤牌以後第一次說話那一句；只在 S.twoHeartsEchoDue 的時候問）',
@@ -152,6 +158,14 @@ const PRIVTALK=(function(){
     {n:11,desc:'到場就演的知情場景（MREL.dueAuto）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',decided:'不改。地點本來就排在有阿姨、同事的地方。',impl:'不改'},
     {n:12,desc:'旁邊的人本來就知道的（語彤和阿姨談媽媽、芷若和子晴談交換申請）',decided:'例外，照出。只限這幾組：語彤和阿姨（媽媽的事）、芷若和子晴（交換申請）、第 1 項的對方本人。',
       impl:'清單的 except：yt_mom_lad、yt_mom_ask＝阿姨（hc_ayi）；zr_exch_ev、zr_exch_applied、zr_exch_ask、zr_exch_lad＝子晴；zz_told_*、zz_f3_told＝對方本人（STORY.COMPANY 回傳旁邊那幾個人的 id：HCIRCLE.withNow）'}];
+  /* 第 14 節後補（AA 2026-10-28 09:03 回 LAWWW-C 問的 4 點，企劃線 0e46fdc7e）：1、2 照現在；3、4 改 */
+  S.REF2='AA_503 第 14 節後補（企劃線 claude/magical-albattani-bk7b4n 0e46fdc7e，AA-C 2026-10-28）';
+  S.LATER=[
+    {n:1,desc:'第 7 項：交往中版本的「沒回訊息那一句」（missDating）只在當面說',decided:'旁邊有人時改說一般版，照 LAWWW 現在的做法；「手機不受影響」那半句可以忽略。',impl:'不改（STORY.DATING_QUIET）'},
+    {n:2,desc:'第 2 項：芷若在 Café 櫃台的第一句「你要點什麼？」',decided:'一起擋，照 LAWWW；旁邊有人，這次照常點餐，不演。',impl:'不改（清單 zz_after，sub first）'},
+    {n:3,desc:'知情場景的次數（學姊一般見面、語彤被打擾）',decided:'擋下來沒演的不算。只有真的演出來的才算一次。',
+      impl:'清單 knows_talk、knows_cafe：擋下來＝MREL 算的時候動到的她那一段流程（MREL.st）、學姊一般見面的紀錄（MREL.sm）還原（S.mrelSnap／S.mrelBack）；只有次數的那一次也算知情的見面（旁邊有人＝擋、記等待，等了 7 天照算＋開頭旁白）；只動到學姊一般見面那一筆＝旁邊有人不記'},
+    {n:4,desc:'選項出現了玩家沒選，下次又被擋',decided:'不重新算。7 天從這一項第一次被擋那天起算，到第 8 天照演。',impl:'S.ok 放行時不清等待（選項出來了不算演）；只有 S.lead（選了那一個、那一段開始演）才清'}];
   /* 第 9 項：不擋，對話最前面加一句旁白（載入時接上，不管旁邊有沒有人）*/
   S.SCENE_LEAD=[{ev:'ev_ziqing_lab_letter',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'},{ev:'ev_ziqing_dad_sorry',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'}];
 
@@ -163,7 +177,6 @@ const PRIVTALK=(function(){
   S.waitOf=(G,key,id,sub)=>{ const W=G&&G.flags&&G.flags.PRIVWAIT; const v=W&&W[S.wk(key,id,sub)]; return typeof v==='number'?v:null; };
   S.clear=function(G,key,id,sub){ const W=G&&G.flags&&G.flags.PRIVWAIT; if(W&&typeof W==='object') delete W[S.wk(key,id,sub)]; };
   const prune=(W,G)=>{ for(const k in W){ if(typeof W[k]!=='number'||G.day-W[k]>400) delete W[k]; } };   /* 太舊的（沒演到就過了期限的）拿掉 */
-  S.isOpt=e=>!!e&&['offerInvite','priv','choiceIf','evChoice'].includes(e.gate);   /* 選項：出來了＝照演 */
   /* 那一段算不算私密（清單上的 from／until）*/
   S.privAt=function(G,e){ if(!e) return true; if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
   /* 旁邊有她的人（except 的人不算）*/
@@ -183,10 +196,10 @@ const PRIVTALK=(function(){
   S.ok=function(G,id,key,GM,sub){ const e=S.byKey[key]; if(!e) console.warn('PRIVTALK 清單沒有',key);
     if(!G||!id) return true;
     if(e&&!S.privAt(G,e)) return true;   /* from／until 以外不算私密 */
-    if(!S.crowd(G,id,e,GM)){ if(S.isOpt(e)) S.clear(G,key,id,sub); return true; }   /* 她一個人（或旁邊只有本來就知道的人）：照常；選項出來了＝等待清掉 */
+    if(!S.crowd(G,id,e,GM)) return true;   /* 她一個人（或旁邊只有本來就知道的人）：照常（等待不清：選項出來了玩家沒選＝不算演，後補第 4 項）*/
     const W=S.rec(G), k=S.wk(key,id,sub); if(typeof W[k]!=='number'){ W[k]=G.day; prune(W,G); }
     const due=e?S.dueOf(G,e,id):null, pass=due!=null?G.day>=due:G.day-W[k]>=S.WAIT;
-    if(pass){ note(S.passed,{key,id,sub:sub||null,day:G.day,from:W[k],due}); if(S.isOpt(e)) S.clear(G,key,id,sub); return true; }   /* 等了 7 天／到期那天：照演（開頭的旁白在 S.lead）*/
+    if(pass){ note(S.passed,{key,id,sub:sub||null,day:G.day,from:W[k],due}); return true; }   /* 等了 7 天／到期那天：照演（開頭的旁白、清掉等待都在 S.lead＝真的演了才清；選項出來了沒選、下次又被擋＝照舊從第一天算，後補第 4 項）*/
     note(S.held,{key,id,sub:sub||null,day:G.day,h:G.hour,from:W[k],due}); return false; };
   /* 那一段開始演：旁邊還有她的人＝先一句旁白；清掉等待（下一次再擋從頭算）*/
   S.lead=async function(GM,key,id,sub){ const G=GM&&GM.G; if(!G||!id) return false; const e=S.byKey[key]; S.clear(G,key,id,sub);
@@ -244,15 +257,34 @@ const PRIVTALK=(function(){
       if(!(D[i+1]&&D[i+1]._privKey===e.key)) D.splice(i+1,0,{call:async(G,GM)=>{ await S.lead(GM,e.key,e.who); },_privKey:e.key}); return true; }
     return false; };
 
+  /* ---------- 知情那幾場的次數（後補第 3 項：擋下來沒演的不算）----------
+     S.mrelSnap：MREL 算以前，她那一段流程（G.flags.MREL.st[她]：學姊 meets、語彤 dist／distant、結果 C、可昕的 w…）和學姊一般見面的紀錄（.sm[學姊]，sisMet）；只讀，不建 MREL。
+     S.mrelBack：擋下來＝還原成算以前（st 照原本那個物件改回去，別的地方拿著的參考照樣有效；本來沒有的拿掉）*/
+  const MSIS='heroine_05';
+  const mraw=G=>{ const M=G&&G.flags&&G.flags.MREL; return M&&typeof M==='object'?M:null; };
+  const js=v=>v===undefined||v===null?null:JSON.stringify(v);
+  S.mrelSnap=function(G,x){ const M=mraw(G); return {st:js(M&&M.st&&M.st[x]),sm:x===MSIS?js(M&&M.sm&&M.sm[x]):undefined,smObj:!!(M&&M.sm)}; };
+  S.mrelMoved=(G,x,s)=>{ const M=mraw(G); return js(M&&M.st&&M.st[x])!==s.st; };   /* 她那一段流程（次數、階段）動了 */
+  S.mrelMet=(G,x,s)=>{ if(s.sm===undefined) return false; const M=mraw(G); return js(M&&M.sm&&M.sm[x])!==s.sm; };   /* 學姊一般見面那一筆記了 */
+  S.mrelBack=function(G,x,s){ const M=mraw(G); if(!M) return;
+    if(s.st==null){ if(M.st) delete M.st[x]; } else { const cur=M.st&&M.st[x], o=JSON.parse(s.st); if(cur&&typeof cur==='object'){ for(const k of Object.keys(cur)) delete cur[k]; Object.assign(cur,o); } else (M.st||(M.st={}))[x]=o; }
+    if(s.sm!==undefined){ if(s.sm==null){ if(M.sm){ delete M.sm[x]; if(!s.smObj&&!Object.keys(M.sm).length) delete M.sm; } } else (M.sm||(M.sm={}))[x]=JSON.parse(s.sm); } };
+
   /* ---------- 包一層的（gate:'wrap'）---------- */
   S.wireWrap=function(e){
     if(e.key==='knows_talk'){ if(typeof MREL==='undefined'||!MREL.meetAction) return false; if(MREL._privMeet) return true; const m0=MREL.meetAction;
-      MREL.meetAction=function(G,x,kind){ const a=m0.apply(this,arguments); if(!a||!G||!(kind==='talk'||kind==='noodle')) return a;   /* 先算出這一次要演的：有才問旁邊有沒有人（擋下來的那一天才記）*/
-        if(!S.ok(G,x,e.key)){ if(x==='heroine_05'&&kind==='talk'&&MREL.sisMet&&!(MREL.rec(G).pend||{})[x]) MREL.sisMet(G); return null; }   /* 學姊的「正常見面」照記（AA_474 1-2，知情版第二次的條件；有還沒演的發現就不算，同原本）*/
-        return S.leadRun(a,e.key,x); };
+      MREL.meetAction=function(G,x,kind){ if(!G||!(kind==='talk'||kind==='noodle')) return m0.apply(this,arguments);
+        const s=S.mrelSnap(G,x), a=m0.apply(this,arguments), moved=S.mrelMoved(G,x,s);   /* 先算出這一次要演的、要算的次數：有才問旁邊有沒有人（擋下來的那一天才記）*/
+        if(!a&&!moved){ if(S.mrelMet(G,x,s)&&S.crowd(G,x,e)) S.mrelBack(G,x,s); return a; }   /* 只動到學姊一般見面那一筆（她沒有知情的流程要動）：旁邊有人＝不記；不擋、不記等待（後補第 3 項）*/
+        if(!S.ok(G,x,e.key)){ S.mrelBack(G,x,s); return null; }   /* 擋下來：不演、不算次數（學姊一般見面、語彤被打擾…都還原，後補第 3 項）*/
+        if(a) return S.leadRun(a,e.key,x);
+        if(S.crowd(G,x,e)) return {abort:false,run:async GM2=>{ await S.lead(GM2,e.key,x); }};   /* 只有次數、等了 7 天照算：開頭旁白，接著照常說話 */
+        S.clear(G,e.key,x); return null; };   /* 只有次數、她一個人：照算（等待清掉）*/
       MREL._privMeet=true; return true; }
     if(e.key==='knows_cafe'){ const F=typeof MREL!=='undefined'&&MREL.FLOW&&MREL.FLOW.heroine_02; if(!F||!F.meet) return false; if(F._priv) return true; const f0=F.meet;
-      F.meet=function(G,st,kind){ const a=f0.apply(this,arguments); if(!a||kind!=='cafe'||!G) return a; if(!S.ok(G,'heroine_02',e.key)) return null; return S.leadRun(a,e.key,'heroine_02'); }; F._priv=true; return true; }
+      F.meet=function(G,st,kind){ if(kind!=='cafe'||!G) return f0.apply(this,arguments); const s=S.mrelSnap(G,'heroine_02'), a=f0.apply(this,arguments); if(!a) return a;
+        if(!S.ok(G,'heroine_02',e.key)){ S.mrelBack(G,'heroine_02',s); return null; }   /* 擋下來：不演、她的流程不動（後補第 3 項）*/
+        return S.leadRun(a,e.key,'heroine_02'); }; F._priv=true; return true; }
     if(e.key==='knows_echo'){ if(typeof STORY==='undefined'||!STORY.twoHeartsEcho) return false; if(STORY._privEcho) return true; const f0=STORY.twoHeartsEcho;
       STORY.twoHeartsEcho=async function(GM,id){ const G=GM&&GM.G; if(G){ const due=STORY.twoHeartsEchoDue?STORY.twoHeartsEchoDue(G,id):true; if(due){ if(!S.ok(G,id,e.key,GM)) return false; if(STORY.twoHeartsEchoDue) await S.lead(GM,e.key,id); } } return f0.apply(this,arguments); }; STORY._privEcho=true; return true; }
     if(e.msg){ if(typeof STORY==='undefined'||!STORY.neededMissFor) return false; S.MISS=S.MISS||{}; S.MISS[e.msg]=e;

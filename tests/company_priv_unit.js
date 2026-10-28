@@ -20,6 +20,15 @@
 //   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 29、PASS 30
 //   （FAIL＝第 0 段改寫的 3 項〔呼叫的地方、定案紀錄、對稿：舊白名單 d13ab3ab7 沒有第 14 節〕、第 7 段 14 項、第 8 段 12 項；PASS＝第 0～6 段原本的 28 項、第 8 段「不擋」的第 6、8 項）。修改後 ALL PASS（59 項）。
 //   全部 Node 單元測試（tests/*_unit.js，686863145，2026-10-28）：714 支、失敗 0（第一次跑 two_hearts_unit 失敗＝1A-02 那一句的判斷取名 S.twoHeartsDue 蓋掉 11/10 法圖相遇那一個，改名 S.twoHeartsEchoDue 以後通過）。
+// 第 14 節後補（PRIV-AAFIX-1028 後補：AA_503 第 14 節後補，企劃線 0e46fdc7e——AA 回 LAWWW-C 09:03 問的 4 點，1、2 照現在，3、4 改）：
+//   3  學姊（沒有知情的流程要動）一般見面那一筆：旁邊有人＝不記（原本照記 sisMet）
+//   7  (e) 選項出來了、玩家沒選＝不重新算：照舊從第一次擋下來那天算，第 4 天還擋、第 8 天旁邊有人也出（「我有件事要跟妳講。」、「約她去…」）
+//   9  對稿（白名單上 AA_503 那一版的第 14 節後補）、PRIVTALK.LATER；第 3 項擋下來沒演的不算知情的次數：學姊一般見面（meets、sisMet）、兩次以後的結果（擋下來不記 sisMet）、
+//      語彤被打擾（dist／distant：第一次、第二次旁邊有人都不算）、只有次數的那一次等了 7 天（STORY.talkCharacter：第一句旁白、照常說話、算一次）、類似的（可昕收回以後的 w）
+//   修改前（開發分支 6d1863024＝上一輪合併以後：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 8、PASS 57
+//   （FAIL＝3 的學姊一般見面、7 (e) 不重算、9 的 6 項〔對稿：舊白名單 6bc3cd784 沒有後補〕；PASS＝其他原本的 57 項）。修改後 ALL PASS（65 項）。
+//   全部 Node 單元測試（15fca7b48＝合併開發分支 8a62128a5 以後，2026-10-28）：721 支、失敗 1——room_ceiling_unit（linze_interior.glb 的 ceiling、light_panel 有 12／70 個三角形不是單面朝下：
+//   開發分支 ac2ab0ae9 霖澤館大廳第二版的 GLB，這一輪沒有動；只讀 GLB，不載 src）。
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
@@ -109,8 +118,10 @@ await sec('3',async()=>{ if(typeof MREL==='undefined'){ check('3. MREL',false); 
     crowd('heroine_01',true); const a1=MREL.meetAction(H.G,'heroine_01','talk'), keep=!!MREL.rec(H.G).pend.heroine_01, a2=MREL.meetAction(H.G,'heroine_01','date');
     crowd('heroine_01',false); const a3=MREL.meetAction(H.G,'heroine_01','talk');
     check('3. 以安的發現（和她說話就演）：旁邊有人＝不演、pend 留著；正式約會（2D）不擋；她一個人＝演',a1===null&&keep&&!!a2&&a2.disc===true&&!!a3&&a3.disc===true,J({a1,keep,a2:!!a2,a3:!!a3}));
-    const sm0=J((MREL.rec(H.G).sm||{}).heroine_05||null); crowd('heroine_05',true); const b1=MREL.meetAction(H.G,'heroine_05','talk'), sm1=(MREL.rec(H.G).sm||{}).heroine_05;
-    check('3. 學姊：旁邊有人＝知情的流程不演，但「正常見面」照記（MREL.sisMet，AA_474 1-2）',b1===null&&Array.isArray(sm1)&&sm1.includes(H.G.day),J({sm0,sm1})); }
+    const sm0=J((MREL.rec(H.G).sm||{}).heroine_05||null); crowd('heroine_05',true); const b1=MREL.meetAction(H.G,'heroine_05','talk'), sm1=(MREL.rec(H.G).sm||{}).heroine_05, w1=HAS()&&PRIVTALK.waitOf?PRIVTALK.waitOf(H.G,'knows_talk','heroine_05'):'no';
+    crowd('heroine_05',false); const b2=MREL.meetAction(H.G,'heroine_05','talk'), sm2=(MREL.rec(H.G).sm||{}).heroine_05;
+    check('3. 學姊（沒有知情的流程要動，只有一般見面那一筆 MREL.sisMet，AA_474 1-2）：旁邊有人＝不記（AA_503 第 14 節後補第 3 項：擋下來沒演的不算）、不記等待；她一個人＝記',
+      b1===null&&sm1===undefined&&w1===null&&b2===null&&Array.isArray(sm2)&&sm2.includes(H.G.day),J({sm0,sm1,w1,sm2})); }
   /* (b) 吧檯的芷若（冷靜期：她上班時去 Café）*/
   { fresh('2026-10-14',20,'cafe'); for(const id of ['heroine_02','heroine_04']){ H.CLOSE(id); SOCIAL.meet(id,'cafe'); H.date(id); }
     const st=MREL.rec(H.G).st.heroine_02={y:'heroine_04',n:1,day:H.G.day-1,phase:'cool'};
@@ -258,11 +269,13 @@ await sec('7. (d) 有期限的不照 7 天：Z7 她交件了（期限＝大',asy
 await sec('7. (e) 選項：以安「我有件事要跟妳講。」（沒有期限）',async()=>{ const T='「我有件事要跟妳講。」'; fresh('2026-10-14',16,'campus'); for(const id of ['heroine_01','heroine_05']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); } const d0=H.G.day; crowd('heroine_01',['yu']);
     const o1=await optsOf('heroine_01'), w1=W('tell_now','heroine_01'); day(d0+6); const o7=await optsOf('heroine_01'); day(d0+7);
     H.opts=[]; H.said=[]; H.picks=['我有件事要跟妳講']; await STORY.offerInvite(GM,'heroine_01',npc('heroine_01')); const o8=H.opts[0]||[], nf=narrFirst(), w8=W('tell_now','heroine_01');
-    check('7. 選項（以安「我有件事要跟妳講。」，沒有期限）：第 1 天、第 7 天不出；第 8 天旁邊有人也出（出來了＝等待清掉）；選了＝先一句旁白再講',
+    check('7. 選項（以安「我有件事要跟妳講。」，沒有期限）：第 1 天、第 7 天不出；第 8 天旁邊有人也出；選了＝先一句旁白再講，清掉等待',
       !o1.includes(T)&&w1===d0&&!o7.includes(T)&&o8.includes(T)&&nf&&H.said.length>1&&w8===null,J({o1,w1,o7,o8,s:said().slice(0,2)}));
-    fresh('2026-10-14',16,'campus'); for(const id of ['heroine_01','heroine_05']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); } const e0=H.G.day; crowd('heroine_01',['yu']);
-    const p1=await optsOf('heroine_01'); day(e0+1); crowd('heroine_01',false); const p2=await optsOf('heroine_01'), x2=W('tell_now','heroine_01'); day(e0+8); crowd('heroine_01',['yu']); const p3=await optsOf('heroine_01'), x3=W('tell_now','heroine_01');
-    check('7. 選項：她一個人時出來過＝等待清掉；之後旁邊又有人＝從那天重新等',!p1.includes(T)&&p2.includes(T)&&x2===null&&!p3.includes(T)&&x3===e0+8,J({p1,p2,x2,p3,x3})); });
+    fresh('2026-10-14',16,'campus'); for(const id of ['heroine_01','heroine_05']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); } const e0=H.G.day, I='約她去…'; crowd('heroine_01',['yu']);
+    const p1=await optsOf('heroine_01'); day(e0+1); crowd('heroine_01',false); const p2=await optsOf('heroine_01'), x2=W('tell_now','heroine_01'), v2=W('invite','heroine_01');
+    day(e0+3); crowd('heroine_01',['yu']); const p3=await optsOf('heroine_01'), x3=W('tell_now','heroine_01'); day(e0+7); const p4=await optsOf('heroine_01'), x4=W('tell_now','heroine_01'), v4=W('invite','heroine_01');
+    check('7. 選項：她一個人時出來過、玩家沒選＝不重新算（AA_503 第 14 節後補第 4 項）——照舊從第一次擋下來那天算：第 4 天旁邊有人還不出；第 8 天旁邊有人也出（「約她去…」也一樣）',
+      !p1.includes(T)&&!p1.includes(I)&&p2.includes(T)&&p2.includes(I)&&x2===e0&&v2===e0&&!p3.includes(T)&&!p3.includes(I)&&x3===e0&&p4.includes(T)&&p4.includes(I)&&x4===e0&&v4===e0,J({p1,p2,x2,v2,p3,x3,p4,x4,v4})); });
 /* (f) 知情的發現（以安，沒有期限）：沒有要演的時候不記 */
 await sec('7. (f) 知情的發現（以安，沒有期限）：沒有要演的時候不',async()=>{ fresh('2026-10-14',16,'campus'); for(const id of ['heroine_01','heroine_05']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); } const d0=H.G.day; crowd('heroine_01',['yu']);
     const a0=MREL.meetAction(H.G,'heroine_01','talk'), w0=W('knows_talk','heroine_01'); MREL.rec(H.G).pend.heroine_01={y:'heroine_05',day:d0-1,h:20};
@@ -399,6 +412,45 @@ await sec('8. 第 12 項 真的圈子：麵店的阿姨（HCIRCLE.w',async()=>{ 
     const a=PRIVTALK.ok(H.G,'heroine_03','yt_mom_ask',GM), b=PRIVTALK.ok(H.G,'heroine_03','invite',GM);
     try{ delete GM.spawnNPC; delete GM.removeNPC; }catch(e){}
     check('8. 第 12 項 真的圈子（語彤顧店、阿姨在旁邊，HCIRCLE）：STORY.companyOf＝["hc_ayi"]；媽媽的事（Y4-L6 的選項）照出、「約她去…」照擋',d!=null&&J(who)===J(['hc_ayi'])&&a===true&&b===false,J({d,who,a,b})); });
+
+/* ===================== 第 14 節後補（AA_503 第 14 節後補，企劃線 0e46fdc7e）：第 3 項擋下來沒演的不算知情的次數（第 4 項不重算＝第 7 段 (e)）===================== */
+await sec('9. 對稿：第 14 節後補',async()=>{ const L=(HAS()&&PRIVTALK.LATER)||[];
+  check('9. 對稿（白名單上 AA_503 那一版有第 14 節後補）：第 3 項「擋下來沒演的不算」「只有真的演出來的才算一次」、第 4 項「不重新算」「7 天從這一項第一次被擋那天起算，到第 8 天照演」；PRIVTALK.LATER 4 項、REF2＝0e46fdc7e',
+    /### 14-後補/.test(DOC503)&&DOC503.includes('**擋下來沒演的不算**')&&DOC503.includes('只有真的演出來的才算一次')&&DOC503.includes('**不重新算**')&&DOC503.includes('7 天從這一項第一次被擋那天起算，到第 8 天照演')
+    &&L.length===4&&L.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/0e46fdc7e/.test(PRIVTALK.REF2||''),J({sha:SHA503,n:L.length})); });
+/* 學姊：知情對話以後（phase talked），一般見面的次數 meets（兩次以後，下一次見面演結果）*/
+const sisTalked=(d,meets)=>{ fresh(d,16,'lawlib'); E.zone={roomAt:()=>null,seats:[]}; for(const id of ['heroine_05','heroine_01']){ H.CLOSE(id); SOCIAL.meet(id,'lawlib'); H.date(id); }
+  return (MREL.rec(H.G).st.heroine_05={y:'heroine_01',n:1,day:H.G.day-20,phase:'talked',meets:meets|0,intent:'unsure',talkDay:H.G.day-10}); };
+const sm5=()=>((MREL.rec(H.G).sm||{}).heroine_05||null);
+await sec('9. 第 3 項 學姊一般見面（meets）',async()=>{ const st=sisTalked('2027-10-12',0), d0=H.G.day; crowd('heroine_05',['npc_ta_chen']);
+  const a1=MREL.meetAction(H.G,'heroine_05','talk'), m1=st.meets, s1=sm5(), w1=W('knows_talk','heroine_05');
+  day(d0+1); crowd('heroine_05',false); const a2=MREL.meetAction(H.G,'heroine_05','talk'), m2=st.meets, s2=sm5(), w2=W('knows_talk','heroine_05');
+  check('9. 第 3 項（學姊一般見面）：知情對話以後和她說話，旁邊有陳助教＝擋下來，不算一次（meets 不加、一般見面 MREL.sisMet 不記）、記等待；她一個人＝算一次、記一般見面、清掉等待',
+    a1===null&&m1===0&&s1===null&&w1===d0&&a2===null&&m2===1&&J(s2)===J([d0+1])&&w2===null,J({a1,m1,s1,w1,a2,m2,s2,w2})); });
+await sec('9. 第 3 項 學姊的結果（兩次一般見面以後）',async()=>{ const st=sisTalked('2027-10-12',2), d0=H.G.day; crowd('heroine_05',['npc_ta_chen']); const b0=J(st);
+  const a1=MREL.meetAction(H.G,'heroine_05','talk'), s1=sm5(), same=J(st)===b0; day(d0+7); const a8=MREL.meetAction(H.G,'heroine_05','talk'); H.said=[]; H.picks=[]; if(a8) await a8.run(GM); const nf=narrFirst();
+  check('9. 第 3 項（學姊，兩次一般見面以後演結果）：旁邊有人＝擋下來，她那一段流程不動、一般見面不記（原本擋下來也記 sisMet）；第 8 天照演，第一句旁白',a1===null&&s1===null&&same&&!!a8&&a8.abort===true&&nf&&H.said.length>1,J({a1,s1,same,a8:!!a8,s:said().slice(0,2)})); });
+/* 語彤：她說要時間（talk1 的 disturb）以後 14 天內和她說話＝打擾（dist；第一次疏遠，第二次演結果 D）*/
+const ytWaiting=d=>{ fresh(d,16,'campus'); E.zone={roomAt:()=>null,seats:[]}; for(const id of ['heroine_03','heroine_01']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); }
+  return (MREL.rec(H.G).st.heroine_03={y:'heroine_01',n:1,day:H.G.day-3,phase:'waiting',disturb:true,talk1Day:H.G.day-1}); };
+await sec('9. 第 3 項 語彤被打擾（dist）',async()=>{ const st=ytWaiting('2027-10-12'), d0=H.G.day, P=()=>[st.dist|0,!!st.distant]; crowd('heroine_03',['npc_huangxh']);
+  const a1=MREL.meetAction(H.G,'heroine_03','talk'), t1=P(), w1=W('knows_talk','heroine_03');
+  day(d0+1); crowd('heroine_03',false); const a2=MREL.meetAction(H.G,'heroine_03','talk'), t2=P(), w2=W('knows_talk','heroine_03');
+  day(d0+2); crowd('heroine_03',['npc_huangxh']); const a3=MREL.meetAction(H.G,'heroine_03','talk'), t3=P(), w3=W('knows_talk','heroine_03');
+  day(d0+3); crowd('heroine_03',false); const a4=MREL.meetAction(H.G,'heroine_03','talk'), t4=st.dist|0;
+  check('9. 第 3 項（語彤被打擾）：旁邊有人＝擋下來，不算打擾（dist、distant 不動）、記等待；她一個人＝算第一次（疏遠）、清掉；第二次旁邊有人＝還是不算（不會變 2、不演結果 D）；她一個人＝第二次，演結果 D',
+    a1===null&&J(t1)===J([0,false])&&w1===d0&&a2===null&&J(t2)===J([1,true])&&w2===null&&a3===null&&J(t3)===J([1,true])&&w3===d0+2&&!!a4&&a4.abort===true&&t4===2,J({a1,t1,w1,a2,t2,w2,a3,t3,w3,a4:!!a4,t4})); });
+/* 只有次數的那一次，等了 7 天：照算，第一句旁白，接著照常說話（STORY.talkCharacter 整段）*/
+await sec('9. 第 3 項 只有次數的那一次，等了 7 天',async()=>{ const st=sisTalked('2027-10-12',0), d0=H.G.day, n=npc('heroine_05'); crowd('heroine_05',['npc_ta_chen']);
+  H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m1=st.meets, w1=W('knows_talk','heroine_05'), nn1=noNarr();
+  day(d0+7); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m8=st.meets, nf=narrFirst(), w8=W('knows_talk','heroine_05'), s8=said();
+  check('9. 第 3 項（只有次數的那一次，和學姊說話）：第 1 天陳助教在旁邊＝不算、記等待、沒有旁白；第 8 天旁邊有人也算一次：第一句旁白，接著照常說話，清掉等待',
+    m1===0&&w1===d0&&nn1&&m8===1&&nf&&s8.length>1&&w8===null,J({m1,w1,nn1,m8,nf,s8:s8.slice(0,3),w8})); });
+/* 類似的：可昕收回以後（thinking）第一次見面的紀錄 w（隔天以後見面她說那一段）*/
+await sec('9. 第 3 項 可昕收回以後第一次見面（w）',async()=>{ fresh('2027-10-12',16,'campus'); for(const id of ['kexin','heroine_01']){ H.CLOSE(id); SOCIAL.meet(id,'campus'); H.date(id); } const d0=H.G.day;
+  const st=MREL.rec(H.G).st.kexin={y:'heroine_01',n:1,day:d0-5,phase:'thinking'}; crowd('kexin',['npc_huangxh']);
+  const a1=MREL.meetAction(H.G,'kexin','talk'), w1=!!st.w; day(d0+1); crowd('kexin',false); const a2=MREL.meetAction(H.G,'kexin','talk'), wd=st.w&&st.w.day;
+  check('9. 第 3 項（類似的：可昕收回以後第一次見面的紀錄 w）：旁邊有人＝不記（她那一段流程不動）；她一個人那天才記',a1===null&&!w1&&a2===null&&wd===d0+1,J({a1,w1,a2,wd})); });
 
 H.done();
 })();
