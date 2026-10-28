@@ -34960,6 +34960,34 @@
     "receiver": "AA",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "LOADGEN-LOCKS-1028",
+   "title": "讀檔以後，凍住的舊劇情佔著的鎖要放開：各模組 busy（約 37 個檔，.finally 才放開）、EVENTS.running（讀檔沒清＝新的一局劇情事件全部不演）、walks、ADV 等",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "BB-C 2026-10-28 07:31（5q sh_reload：【捷徑】對話框開著時 GAME.applySave，阿姨諮詢在新的一局接著演；正常 UI 走不到——loadFrom 在 busy 時擋、stale 排除對話框開著；剩下 stale 讀檔時舊劇情卡在 await 的風險）；STUCK-HARDEN-1027 的後續",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "劇情卡住 30 秒、讀檔救回來的時候",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
+   "note": "【LAWWW-C 2026-10-28 08:1x】BB-C 08:08 回報（sh_reload_lg3，d41f5025b：阿姨諮詢讀檔以後再也不演；closed2_3d.js busy 只在 finally 放開）；LAWWW-C 讀程式另外找到 applySave 沒清 EVENTS.running。LOAD-GEN-ABORT-1028 的副作用，擋 v9.10.13 發布。子代理（worktree）；BB 的 stuck_harden_probe MODE=reload 第二段＝回歸",
+   "xai": {
+    "spec": "BB-C 08:08 訊息；src/game3d.js applySave、src/events3d.js X.run",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "讀檔以後同一個模組的劇情能再演、新的劇情事件照常；舊劇情照樣不往下跑、不寫旗標；沒讀檔＝行為不變；靜態檢查防止新模組再犯",
+    "receiver": "BB",
+    "ack": "ACK"
+   }
   }
  ]
 }
