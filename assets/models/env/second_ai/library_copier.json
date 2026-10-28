@@ -1,0 +1,13 @@
+{
+ "glb": "assets/models/env/second_ai/library_copier.glb",
+ "bytes": 130712,
+ "tris": 1660,
+ "size_m": [
+  0.92,
+  1.18,
+  0.66
+ ],
+ "origin": "機身底部中心；正面朝 −z",
+ "nav": "寬 0.98（x）× 深 0.7（z）",
+ "note": "NPC-STORY-1028；沒有牌子、型號（D77）"
+}

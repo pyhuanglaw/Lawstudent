@@ -1,0 +1,166 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 2fe876dec..1fdc1014a 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -201,6 +201,7 @@
+ | 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
+ | 霖澤館 202 教室、萬才館多功能教室室內 `assets/models/env/second_ai/linze_202.glb`、`wancai_multi.glb`（＋`.layout.json`；光照貼圖 `linze_202_lm_day／night.webp`、`wancai_multi_lm_day／night.webp`＝`tools/blender/env_second/lightbake/bake_room.py` 用 Cycles 烘焙，INTERIOR-AAA-REVIEW-1028） | 本作 Blender 腳本 `tools/blender/env_second/flat_classroom.py`（LAWWW2-C 0a5cc70a／75ef4ae3；2026-10-20 美術子代理改 ART-ROOM-MULTI-1020／ART-ROOM-LIFE-1020；共用零件 `lane118_shops.py`、`lib2.py`）；黑板白板、公告欄傳單、門牌、時鐘、講桌筆電的投影片是本作程式畫的 `textures/gen/linze_202_print.png`、`wancai_multi_print.png`（字是虛構的）；貼圖 Poly Haven（**CC0**）：`large_floor_tiles_02`、`laminate_floor_02`、`dirty_carpet`、`painted_plaster_wall`、`walnut_veneer`、`fine_grained_wood`、`wood_table_001`、`ceiling_interior`、`rough_linen` | 本作（模型、印刷品貼圖）＋CC0（貼圖） | `linze_202`、`wancai_multi` 室內區域（`src/rooms_glb3d.js`） |
+ | 霖澤館一樓「考前補給包」的桌子 `assets/models/env/second_ai/linze_supply_table.glb`（NPC-POOL-ART-1028；摺疊桌、布條、補給包、紙箱、立牌、膠帶、筆筒、摺疊椅與外套；只有劇情那一天擺出來） | 本作 Blender 腳本 `tools/blender/env_second/supply_table.py`（LAWWW2-C 2026-10-28；共用 `lib2.py`）；布條、立牌、小卡的字是本作用 PIL 畫的 `textures/gen/supply_table_print.png`（字是虛構的，沒有真的社團名字，D77；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；其他是純色與頂點色，沒有外部素材 | 本作 | 霖澤館一樓（`src/pool3d.js` 的 `S.prop`） |
++| 總圖一樓的影印機 `assets/models/env/second_ai/library_copier.glb`（LAWWW2-C 2026-10-28，NPC-STORY-1028：米白機身、送紙器、觸控面板、紙匣、出紙盤、投幣刷卡盒） | 本作 Blender 腳本 `tools/blender/env_second/library_copier.py`（共用 `lib2.py`）；純色與頂點色，沒有貼圖、沒有外部素材；沒有牌子、型號（D77） | 本作 | 總圖大廳一樓（`src/library3d.js` 的 copier，配置 `src/data/library_layout.js`） |
+ 
+ | 吳芯慈（`classmate_xinci`）Blender 版 `assets/models/char/second_ai/bl_classmate_xinci.vrm`（D59：照 BB 通過的參考圖 `classmate_xinci.webp`——整齊的低髮髻、空氣瀏海、淺紫開襟衫＋白 T、深藍及膝 A 字裙、棕色樂福鞋） | 本作 Blender 腳本 `tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`；沿用 LAWWW 的人物生產線 `tools/blender/char/` 的 `common.py`、`h01_*`、`p00_*`、`vrm_finish.py`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；取得：`tools/fetch_vroid_src.sh`，原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） | 還沒接進遊戲（LAWWW 接進 `ASSETS.manifest` 後拍遊戲內截圖給 BB 驗收） |
+ | 林芷若的眼鏡 `assets/models/char/second_ai/glasses_zhiruo.glb`（D59：參考圖 06 的淺色細金屬圓框，霧面玫瑰金 #a68b80） | 本作 Blender 腳本 `tools/blender/char_second/glasses_zhiruo.py` | 本作 | `src/props3d.js` 的 `glasses()`：載好後換掉程式產生的眼鏡（接法 `docs/art-rebuild/second_ai/patches/glasses_zhiruo_97f4abc.patch`，由 LAWWW 整合） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index aa4da7ff2..f370212d4 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -136,6 +136,7 @@ const ASSETS = (function(){
+     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
+     'prop.bag_yu':{url:'assets/models/char/second_ai/bag_yu.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_yu.py（LAWWW2-C 2026-10-18：Alison 的黑色尼龍側背包、背帶、登山扣＋三個社團吊飾——天秤、麥克風、吉他；沒有牌子）', license:'本作'},
+     'bldg.linze_supply_table':{url:'assets/models/env/second_ai/linze_supply_table.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/supply_table.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：霖澤館一樓「考前補給包」的摺疊桌、手寫布條、補給包、紙箱、摺疊椅；只有 AA_498 5-3 那一天由 pool3d.js 擺出來）', license:'本作'},
++    'bldg.library_copier':{url:'assets/models/env/second_ai/library_copier.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_copier.py（LAWWW2-C 2026-10-28，NPC-STORY-1028：總圖一樓的影印機——米白機身、送紙器、觸控面板、四個紙匣、出紙盤、投幣刷卡盒；沒有牌子、型號）', license:'本作'},
+     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
+     'prop.camera_film':{url:'assets/models/char/second_ai/camera_film.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：元碩的底片相機＋背帶（背帶照 char.npc_nm9 量過）；沒有牌子）', license:'本作'},
+     'prop.lanyard_tag':{url:'assets/models/char/second_ai/lanyard_tag.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：佳蓉的法服值班名牌＋掛繩（掛繩照 char.npc_nf18 量過）；圖示是自己畫的天秤）', license:'本作'},
+diff --git a/src/data/library_layout.js b/src/data/library_layout.js
+index 977e9c4fc..9caf75465 100644
+--- a/src/data/library_layout.js
++++ b/src/data/library_layout.js
+@@ -60,6 +60,7 @@ const LIBRARY_LAYOUT={
+     {"type":"returnBox","lv":0,"x":4.75,"z":7.6,"ry":-1.5708},
+     {"type":"notice","lv":0,"x":5.08,"z":6.2,"ry":-1.5708},
+     {"type":"desk","lv":0,"x":7.8,"z":4.4,"w":3.6,"d":0.8},
++    {"type":"copier","lv":0,"x":11.4,"z":2.6,"ry":1.5708,"nav":[11.32,2.635,0.78,1.07],"note":"影印機（NPC-STORY-1028，AA_497 芯慈 2-2；LAWWW2-C）：靠東牆、正面朝西；nav＝世界座標的擋住範圍 [中心 x, 中心 z, 寬 x, 深 z]（含正面的觸控面板、南邊的投幣盒、北邊的出紙盤）。站在影印機前：(10.35, 2.35)、(10.35, 2.95) 朝 +x"},
+     {"type":"partition","lv":0,"x":5.8,"z":4.9,"w":0.1,"d":1.8},
+     {"type":"partition","lv":0,"x":9.8,"z":4.9,"w":0.1,"d":1.8},
+     {"type":"officeWall","lv":0,"x0":5.3,"x1":11.9,"z":5.8},
+diff --git a/src/library3d.js b/src/library3d.js
+index 5f4d36786..c8262f944 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -147,6 +147,9 @@ const LB3=(function(){
+       else if(f.type==='notice'){ const bb=W3.bulletin(); bb.position.set(f.x,y,f.z); bb.rotation.y=ry; fb.add(bb); nav.blockRect(f.x,f.z,2.4,0.4,ry,0); IT.push({x:f.x+Math.sin(ry)*1.0,z:f.z+Math.cos(ry)*1.0,radius:1.4,lv:f.lv,label:'看公告',look:'公告：開放時間 8:00–22:00，期中考週延長到 24:00。一樓西側有新書展「城市與記憶」。二樓自習區請保持安靜。'}); }
+       else if(f.type==='desk'){ b.add(MAT.wood(),TK.boxG(f.w,1.05,f.d),f.x,y+0.525,f.z); b.add(MAT.granite(),TK.boxG(f.w+0.1,0.05,f.d+0.1),f.x,y+1.07,f.z); b.add(MAT.woodD(),TK.boxG(f.w,0.8,0.5),f.x,y+0.4,f.z+f.d/2+0.45);
+         nav.blockRect(f.x-0.2,f.z+0.5,f.w+1.4,1.8,0,0); IT.push({x:f.x,z:f.z-f.d/2-0.75,radius:1.3,lv:f.lv,label:'服務台',look:'服務台：借書、還書、預約、館際合作都在這裡辦。館員抬頭看了你一眼，又低頭繼續處理一疊還回來的書。'}); }
++      else if(f.type==='copier'){ const n=f.nav; nav.blockRect(n[0],n[1],n[2],n[3],0,0.05);   /* 影印機（NPC-STORY-1028，LAWWW2-C）：導航一直擋；畫面先放一個方塊（不放在 fb：正式大廳模型載好會藏 fb），影印機的正式模型 ASSETS 'bldg.library_copier' 載好換掉 */
++        const host=f.lv?lv1:lv0, cb=new THREE.Mesh(new THREE.BoxGeometry(0.6,1.0,0.62),M('#e3e0d6',{rough:0.5})); cb.position.set(f.x,y+0.5,f.z); cb.rotation.y=ry; cb.castShadow=cb.receiveShadow=true; host.add(cb);
++        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_copier']) ASSETS.loadOne('bldg.library_copier').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.position.set(f.x,y,f.z); r.rotation.y=ry; r.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); host.add(r); cb.visible=false; }).catch(e=>console.warn('影印機正式模型載入失敗，用方塊',e)); }
+       else if(f.type==='partition'){ b.add(MAT.woodD(),TK.boxG(f.w+0.05,1.2,f.d),f.x,y+0.6,f.z); }
+       else if(f.type==='officeWall'){ const w=f.x1-f.x0; b.add(MAT.plaster(),TK.boxG(w,Y1-L.slabT,0.2,1.2),(f.x0+f.x1)/2,y+(Y1-L.slabT)/2,f.z); nav.blockRect((f.x0+f.x1)/2,(f.z+L.D/2)/2,w+0.1,L.D/2-f.z+0.1,0,0); }
+       else if(f.type==='display'){ b.add(MAT.woodD(),TK.boxG(f.w,0.8,f.d),f.x,y+0.4,f.z); for(let i=0;i<5;i++) b.add(M(['#c46a4a','#4a6c8c','#e0b95b','#2f5d50','#d9d3c6'][i]),TK.boxG(0.22,0.03,0.3),f.x-f.w/2+0.3+i*0.45,y+0.82,f.z+(i%2?0.15:-0.15),0.2*(i-2));
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 24be29f85..16295eda6 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1609,7 +1609,7 @@ const Z3 = (function(){
+   const bookstore={ id:'bookstore', name:'舊路書房', indoor:true, camDist:4.0, build(E){ const z=room(E,{view:'bookstore',viewDepth:17,w:12,d:10,h:3.4,wallColor:'#efe6d6',floorTex:W3.canvasTex('woodfloor_lt',256,256,(x,w,h)=>{ x.fillStyle='#cbb390'; x.fillRect(0,0,w,h); x.strokeStyle='rgba(90,60,30,0.22)'; x.lineWidth=2; for(let j=0;j<h;j+=32){ x.beginPath(); x.moveTo(0,j); x.lineTo(w,j); x.stroke(); } }),spawn:{x:0,z:4,yaw:Math.PI},winWall:'front',winXs:[-3.5,3.5]}); /* 窗在店面那一面（後牆是書架）*/ const g0=z.group, nav=z.nav;
+     // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.bookstore_interior'，第二個 AI）載入後整組藏起來；導航、互動點、出口都不受影響
+     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+-    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:0,z:4.05,radius:1.1,label:'看看法律書與文具',shop:'book'});   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
++    shelfWall(g,nav,0,-4.7,0,11); shelfWall(g,nav,-5.7,0,Math.PI/2,8); shelfWall(g,nav,5.7,0,Math.PI/2,8); shelfWall(g,nav,-2,0,Math.PI/2,5); shelfWall(g,nav,2,0,Math.PI/2,5); const table=new THREE.Mesh(new THREE.BoxGeometry(2.4,0.8,1.2),M('#8b5e3c')); table.position.set(0,0.4,3); g.add(table); nav.blockRect(0,3,2.4,1.2,0,0.1); E.interactables.push({x:1.8,z:3.2,radius:0.9,label:'看看法律書與文具',shop:'book'})   /* 櫃台桌的東端、收銀機那一頭（BOOKSTORE-EXIT-SHOP-1028，LAWWW2-C）：原本 (0,4.05) 半徑 1.1 就在門口——桌子前緣到門口站得到的地方只有 0.37 m，進門落腳點 (0,4) 也在範圍裡，門口按下去是買書選單。店員站桌子北側 (0.55,1.95) 面向門口，所以不移到桌子後面 */;   /* v9.3 第二十五批：原本在桌子和書架之間 (0,2)，那裡比人還窄、走不進去（tests/reachability_all.py 抓到），買不到教科書；改成桌子靠門口那一側（像櫃台）*/ E.interactables.push({x:0,z:4.6,radius:1.5,label:'離開書店',exit:{to:'gongguan',spawn:{x:-42,z:18,yaw:Math.PI}}});
+     P3.mergeStatic(g);   /* 備用模型自己合併（外層合併會跳過它，正式模型載入後要能整組藏起來）*/
+     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.bookstore_interior']) ASSETS.loadOne('bldg.bookstore_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachBookstoreInterior(z,g0,root); }).catch(e=>console.warn('書店室內正式模型載入失敗，用程序化備用模型',e));
+     return z; } };
+diff --git a/tests/bookstore_exit_unit.js b/tests/bookstore_exit_unit.js
+new file mode 100644
+index 000000000..86d515630
+--- /dev/null
++++ b/tests/bookstore_exit_unit.js
+@@ -0,0 +1,44 @@
++// 多樓層建築的導航（第一層＋第二層，不需要瀏覽器；v9.4 第一批，D36）：在 Node 裡建出遊戲真正的區域（校園、霖澤館、201 階梯教室），
++// 用引擎真正的找路（E.pathTo）＋移動碰撞（stepEntity，模擬時間 dt=1/30 與 0.1，人物半徑 0.32 m）走每一段路：
++//   校園：廣場 → 前台階 → 穿堂 → 大廳門口；穿堂 → 後台階 → 後面的小廣場；穿堂裡站得住、高度 0.9
++//   霖澤館：入口 → 大廳 → 樓梯 → 二樓 → 201 教室門；二樓 → 樓梯 → 入口；電梯門關著不能走進車廂、門開著可以
++//   201 教室：門口（最上面）→ 每一個座位（48 個）「坐下」走到的位置（GAME.seatApproach 的規則：椅子後面 0.6 m、同一排的平台）→ 回到門口
++//   萬才館室內（第三階段，D42）：一樓大廳的舊座標（劇情、社團、助教、舊存檔）站得住、走得到；入口 → 樓梯（往南爬）→ 二樓門廳；二樓 → 一樓；電梯；二樓的邊不能跳下去
++//   總圖大廳（D43）：入口 → 閘門 → 帝國式大樓梯 → 二樓自習區／東側；二樓 → 一樓；跑步＋低幀率；電梯（含往閱覽室的樓層）；座位、劇情座位；閱覽室的電梯與樓梯間
++// 這是模擬（證明路走得通、高度對），不是真實玩家流程；真實流程在 tests/flow_linze_floors.py。
++// 用法：node tests/nav_buildings_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++const sim=(a,b,dt)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt:dt||1/30});
++const both=(a,b)=>{ const r1=sim(a,b,1/30); if(!r1.ok) return r1; const r2=sim(a,b,0.1); return r2.ok?r1:Object.assign({lowfps:true},r2); };
++// 跑步（點的地方超過 16 m 時玩家用跑的，4.1 m/s）＋低幀率（dt 0.1，手機或模擬器卡的時候）：一步 0.41 m。2026-10-11 萬才館大樓梯真實流程：走下樓梯停在最下面一兩階
++//（轉折點前後來回跳、換層時拿畫面上一階一階的高度比，跨一大步就換不回地面那一層）。走路速度、30 fps 都抓不到
++const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt,speed:4.1}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3)},r); } return {ok:true}; };
++const fmt=(r)=>JSON.stringify(r).slice(0,220);
++
++{ const z=loadZone('bookstore'); const sp=z.spawn||{x:0,z:4};
++  const pick=(x,zz)=>{ E.player={obj:{position:new THREE.Vector3(x,0,zz)},lv:0,radius:0.32}; E.npcs=[]; const it=E.nearestInteractable(); return it?it.label:'（沒有）'; };
++  const exitIt=E.interactables.find(i=>i.exit||/離開/.test(i.label||'')), shop=E.interactables.find(i=>i.shop==='book');
++  check('出口、櫃台都在', !!exitIt&&!!shop, JSON.stringify({exit:exitIt&&[exitIt.x,exitIt.z,exitIt.radius], shop:shop&&[shop.x,shop.z,shop.radius]}));
++  check('落腳點站得住', E.canStand(sp.x,sp.z,0.32,0), JSON.stringify(sp));
++  // 門口一整條（站得住的點）：都是「離開書店」
++  let bad=[], n=0; for(let x=-2.2;x<=2.2+1e-9;x+=0.1) for(let zz=3.6;zz<=4.2;zz+=0.05){ if(!E.canStand(x,zz,0.32,0)) continue; if(Math.hypot(x-exitIt.x,zz-exitIt.z)>=exitIt.radius) continue; n++; const l=pick(x,zz); if(l!==exitIt.label) bad.push([+x.toFixed(2),+zz.toFixed(2),l]); }
++  check('出口範圍裡站得住的點（門口那一條）都是「'+exitIt.label+'」', bad.length===0&&n>0, n+' 點；不是的：'+JSON.stringify(bad.slice(0,6)));
++  check('落腳點 (0,4) 是「'+exitIt.label+'」', pick(sp.x,sp.z)===exitIt.label, pick(sp.x,sp.z));
++  // 櫃台：桌子東端站得住、走得到、按鈕是買書
++  check('櫃台的點站得住', E.canStand(shop.x,shop.z,0.32,0));
++  const r=both([sp.x,sp.z],[shop.x,shop.z]); check('從門口走到櫃台（模擬走路，30 fps＋低幀率）', r.ok, fmt(r));
++  check('站在櫃台的點：「'+shop.label+'」', pick(shop.x,shop.z)===shop.label, pick(shop.x,shop.z));
++  let m=0, good=0; for(let x=1.4;x<=2.4;x+=0.05) for(let zz=2.6;zz<=3.9;zz+=0.05){ if(!E.canStand(x,zz,0.32,0)) continue; if(Math.hypot(x-shop.x,zz-shop.z)>=shop.radius) continue; m++; if(pick(x,zz)===shop.label) good++; }
++  check('櫃台範圍裡站得住的點都是買書', m>0&&good===m, good+'／'+m);
++}
++console.log(fails?('FAILED '+fails):'ALL PASS');
+\ No newline at end of file
+diff --git a/tests/library_copier_unit.js b/tests/library_copier_unit.js
+new file mode 100644
+index 000000000..627450650
+--- /dev/null
++++ b/tests/library_copier_unit.js
+@@ -0,0 +1,45 @@
++// 多樓層建築的導航（第一層＋第二層，不需要瀏覽器；v9.4 第一批，D36）：在 Node 裡建出遊戲真正的區域（校園、霖澤館、201 階梯教室），
++// 用引擎真正的找路（E.pathTo）＋移動碰撞（stepEntity，模擬時間 dt=1/30 與 0.1，人物半徑 0.32 m）走每一段路：
++//   校園：廣場 → 前台階 → 穿堂 → 大廳門口；穿堂 → 後台階 → 後面的小廣場；穿堂裡站得住、高度 0.9
++//   霖澤館：入口 → 大廳 → 樓梯 → 二樓 → 201 教室門；二樓 → 樓梯 → 入口；電梯門關著不能走進車廂、門開著可以
++//   201 教室：門口（最上面）→ 每一個座位（48 個）「坐下」走到的位置（GAME.seatApproach 的規則：椅子後面 0.6 m、同一排的平台）→ 回到門口
++//   萬才館室內（第三階段，D42）：一樓大廳的舊座標（劇情、社團、助教、舊存檔）站得住、走得到；入口 → 樓梯（往南爬）→ 二樓門廳；二樓 → 一樓；電梯；二樓的邊不能跳下去
++//   總圖大廳（D43）：入口 → 閘門 → 帝國式大樓梯 → 二樓自習區／東側；二樓 → 一樓；跑步＋低幀率；電梯（含往閱覽室的樓層）；座位、劇情座位；閱覽室的電梯與樓梯間
++// 這是模擬（證明路走得通、高度對），不是真實玩家流程；真實流程在 tests/flow_linze_floors.py。
++// 用法：node tests/nav_buildings_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
++const sim=(a,b,dt)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt:dt||1/30});
++const both=(a,b)=>{ const r1=sim(a,b,1/30); if(!r1.ok) return r1; const r2=sim(a,b,0.1); return r2.ok?r1:Object.assign({lowfps:true},r2); };
++// 跑步（點的地方超過 16 m 時玩家用跑的，4.1 m/s）＋低幀率（dt 0.1，手機或模擬器卡的時候）：一步 0.41 m。2026-10-11 萬才館大樓梯真實流程：走下樓梯停在最下面一兩階
++//（轉折點前後來回跳、換層時拿畫面上一階一階的高度比，跨一大步就換不回地面那一層）。走路速度、30 fps 都抓不到
++const run=(a,b)=>{ for(const dt of [1/30,0.1]){ const r=E.simWalk(a[0],a[1],b[0],b[1],{lv0:a[2]|0,lv1:b[2]|0,dt,speed:4.1}); if(!r.ok) return Object.assign({dt:+dt.toFixed(3)},r); } return {ok:true}; };
++const fmt=(r)=>JSON.stringify(r).slice(0,220);
++
++function islands(n,lv){ const a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1); const minx=Math.min(a[0],b[0]), maxx=Math.max(a[0],b[0]), minz=Math.min(a[1],b[1]), maxz=Math.max(a[1],b[1]);
++  const h=0.1, W=Math.floor((maxx-minx)/h)+1, H=Math.floor((maxz-minz)/h)+1; const S=new Uint8Array(W*H);
++  for(let j=0;j<H;j++) for(let i=0;i<W;i++) S[j*W+i]=E.canStand(minx+i*h,minz+j*h,0.3,lv)?1:0;
++  const lab=new Int32Array(W*H).fill(-1), q=new Int32Array(W*H), comps=[];
++  for(let s=0;s<W*H;s++){ if(!S[s]||lab[s]>=0) continue; let qh=0,qt=0; q[qt++]=s; lab[s]=comps.length; let cnt=0,sx=0,sz=0;
++    while(qh<qt){ const c=q[qh++]; cnt++; const ci=c%W, cj=(c/W)|0; sx+=ci; sz+=cj; for(const [di,dj] of [[1,0],[-1,0],[0,1],[0,-1]]){ const ni=ci+di,nj=cj+dj; if(ni<0||nj<0||ni>=W||nj>=H) continue; const t=nj*W+ni; if(S[t]&&lab[t]<0){ lab[t]=comps.length; q[qt++]=t; } } }
++    comps.push({n:cnt,x:+(minx+sx/cnt*h).toFixed(2),z:+(minz+sz/cnt*h).toFixed(2)}); }
++  comps.sort((p,q)=>q.n-p.n); return comps; }
++{ const z=loadZone('library_hall'); const sp=z.spawn||{x:0,z:6.6};
++  const F=LIBRARY_LAYOUT.furniture.find(f=>f.type==='copier'); check('配置有影印機', !!F, JSON.stringify(F&&[F.x,F.z,F.ry,F.nav]));
++  check('影印機的位置擋住（中心）', !E.canStand(F.x,F.z,0.05,0));
++  for(const p of [[10.35,2.35],[10.35,2.95]]) check('影印機前的站位站得住 '+JSON.stringify(p), E.canStand(p[0],p[1],0.32,0));
++  for(const p of [[10.35,2.35],[10.35,2.95]]){ const r=both([sp.x,sp.z,0],[p[0],p[1],0]); check('從入口走到影印機前 '+JSON.stringify(p), r.ok, fmt(r)); }
++  const desk=E.interactables.find(i=>i.label==='服務台'); const r2=both([sp.x,sp.z,0],[desk.x,desk.z,0]); check('服務台的點照樣走得到', r2.ok, fmt(r2));
++  const ev=E.interactables.find(i=>i.elevator&&(i.lv|0)===0); const r3=both([sp.x,sp.z,0],[ev.x,ev.z,0]); check('一樓電梯的點照樣走得到', r3.ok, fmt(r3));
++  const c=islands(E.levels?E.levels[0]:E.nav,0); check('一樓沒有小孤島（只有一塊可站的地方，或其他塊都很大）', c.slice(1).every(q=>q.n>200), '區塊 '+c.length+'：'+JSON.stringify(c.slice(0,4)));
++}
++console.log(fails?('FAILED '+fails):'ALL PASS');
+\ No newline at end of file
