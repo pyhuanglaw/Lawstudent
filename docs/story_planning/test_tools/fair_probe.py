@@ -252,7 +252,7 @@ async def m_fair(c):
     sis = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n&&(n.charId==='heroine_05'||n.id==='sis')&&n.obj); return n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2),vis:!n.hidden}:null; })()")
     run.check('2. 法服帳篷前站著學姊（activities.js 學姊社博那一筆 (-48.75, 11.25)）', bool(sis) and math.hypot(sis['x'] + 48.75, sis['z'] - 11.25) < 2.5, json.dumps(sis))
     LP = await pg.evaluate("CLUB_FAIR.POS.lawclub"); await walk(c, LP['x'], LP['z'] - 3.0, '法服帳篷南邊（拍學姊）', near=1.0)
-    await yaw(c, 0, '面向北邊的法服帳篷和學姊'); await run.shot(pg, 'fair_C_lawclub_sis')
+    await yaw(c, math.pi, '面向南邊的法服帳篷和學姊（帳篷在大道南側 z +11.25；鏡頭在玩家的 (sin yaw, cos yaw) 那一側＝yaw π 鏡頭在北邊）'); await run.shot(pg, 'fair_C_lawclub_sis')
     lab, sy, cp, _ = await booth(c, 'lawclub', None, pref=['好', '聽'])
     run.check('2. 法服第一次：學姊那一段（「（椰林大道上一整排帳篷。你走到法服的攤位前。）」…）、記 SIS_CLUB_EXPO', bool(lab) and '（椰林大道上一整排帳篷。你走到法服的攤位前。）' in sy and await pg.evaluate("GAME.G.flags.SIS_CLUB_EXPO===true"), json.dumps(sy[:6], ensure_ascii=False))
     sis2 = await pg.evaluate("(()=>{ const n=GAME.E.npcs.find(n=>n&&(n.charId==='heroine_05'||n.id==='sis')&&n.obj); return n?{x:+n.obj.position.x.toFixed(2),z:+n.obj.position.z.toFixed(2)}:null; })()")
