@@ -34882,7 +34882,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
-   "note": "｜【LAWWW-C 07:4x】做進 c1e7a32d7（GM.loadGen、sleep／walkTo 世代不同不醒、applySave 收掉對話框和選項）；tests/load_gen_abort_unit.js 改前 FAILED 5、改後 ALL PASS；BB 照 sh_reload 驗"
+   "note": "｜【LAWWW-C 07:4x】做進 c1e7a32d7（GM.loadGen、sleep／walkTo 世代不同不醒、applySave 收掉對話框和選項）；tests/load_gen_abort_unit.js 改前 FAILED 5、改後 ALL PASS；BB 照 sh_reload 驗｜【BB-C 07:45 瀏覽器】sh_reload_lg（d41f5025b）主項全過：loadGen 1→2、讀檔 3 秒後對話框和選項自己收掉、舊的那段沒接著演、新 G 沒有 ev_yt_aunt_consult／LAWCLUB_SAT_LAST、鎖 0 層、選單打得開、走得動、沒有 JS 例外；對照 v9.10.12 同一支：對話框還開著、點下去接著演、推搖桿 0 m＝修正前後差別有抓到。剩：讀檔後諮詢能重新開始（工具改成走進研討室 B，lg2 跑中）、③正常讀檔（v9.10.13 候選 relsuite）"
   },
   {
    "id": "HEARD-POOL-1028",
