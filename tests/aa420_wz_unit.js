@@ -4,7 +4,7 @@
 //      1-5 最早大二上第 13 週（留下來的四句 AA_420 3-3）；沒參與的玩家大二下第 1 週店搬走；語彤的租約多一句（WZ_COPY_LEASE≥2）；1-6、阿芃的年級；1-7 日本路線沒有
 //   2  線二：沒有打工、週六下午第 2 次喝茶遇得到呂老師（2-1）；2-4 在萬才館研討室 A（讀書會那一晚；Alison 三句）；美國路線 2-6 在大四下、多兩句；日本路線照大四上
 //   3  線三：週六班的玩家選「法服」小米姐多一句；3-5 小米姐那一句；沒幫忙的那一條第 10 班先生回來
-//   4  線四：大三上第 10 週才有走失單（第 9 週沒有）；22:00 以後子晴陪找（週三不行）；以安的第一句；找到的那幾句（AA_420 6-3）；4-4
+//   4  線四：大三上第 10 週才有走失單（第 9 週沒有）；22:00 以後子晴陪找（週三不行）；以安的第一句；找到的那幾句（AA_420 6-3）；4-4（原句，演的時候 WZCAT.hold('lie')、演完 release）
 //   5  學姊：不講數字、不數數；朋友以上叫名字；WZ-T4 祐廷大四上沒有；WZ-B4 只有大二；WZ-C5 只有大四下第 13～14 週
 //   6  子晴：這裡沒有「欸不是」；WZ-C4 只在大一下第 12～13 週的週二、四
 //   7  沛珊：WZ-P4 2026-12-17 以後不演；6/18 的私訊只給 6/18 以前演過的玩家；法律小教室
@@ -123,8 +123,12 @@ await sec(4,async()=>{ const w9=TD('Y3S1',9,2), w10=TD('Y3S1',10,2); fresh(key(w
   at(w10+1,10); check('4. 隔天：公布欄換成「已找到」',PARK.catFound(H.G)&&!PARK.notices(H.G).some(q=>q[0]==='走失的貓'));
   check('4. 找到的那幾句（AA_420 6-3）：Alison、子晴；沒有「欸不是」、沒有 NPC 那句',lines('ev_wz_p_found').some(l=>l.text==='欸牠好胖！所以牠是受傷，還是太胖跳不上牆？')&&lines('ev_wz_p_found').some(l=>l.text==='受傷。')&&lines('ev_wz_p_found').some(l=>l.text==='牠在這裡度假。比我們會過日子。')&&WZL.FU.heroine_04==='我昨天繞去公園。牠在巡邏，走路已經不跛了。');
   /* 4-4 */
-  fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：第 11 週第一次進公園 4-4（白天貓醒著在走：AA_493 第 3 節「坐在樹下的圓椅前面」）',said('所長回來了，前腳纏著一圈繃帶，坐在樹下的圓椅前面，和平常一樣不理人。')&&!said('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'));
-  fresh(key(TD('Y3S1',11,2)),19); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：晚上（17:30 以後）照原句「躺在樹下的圓椅上」',said('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'));
+  { const BACK='所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。', log=[]; global.WZCAT={hold:p=>log.push(['hold',p,WZL.playing]),release:()=>log.push(['release',WZL.playing])};
+    fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil();
+    check('4. 沒找：第 11 週第一次進公園 4-4，白天 10:00 也照原句「躺在樹下的圓椅上」（AA_493 第 3 節：句子不改）',said(BACK)&&!H.said.some(s=>/坐在樹下的圓椅前面/.test(s.t)));
+    check('4. 演這一場時貓固定趴著：開演前 WZCAT.hold(\'lie\')、演完 release（LAWWW2 ccc329672）',J(log)===J([['hold','lie',false],['release',false]])&&said(BACK),J(log));
+    log.length=0; fresh(key(TD('Y3S1',11,2)),19); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒找：晚上（17:30 以後）照原句、一樣 hold／release',said(BACK)&&J(log)===J([['hold','lie',false],['release',false]]),J(log));
+    log.length=0; delete global.WZCAT; fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:4}}; inPark(); H.said=[]; await tickUntil(); check('4. 沒有 3D 的貓（WZCAT 沒載入）：照樣演原句、不出錯',said(BACK)); }
   fresh(key(TD('Y3S1',11,2)),10); H.G.daily={park:{feedN:2}}; check('4. 餵不到三次：沒有這條線',!WZL.backDue(H.G)); });
 
 await sec(5,async()=>{ const SIS=['ev_wz_b4','ev_wz_c5','ev_wz_t4'].flatMap(id=>lines(id).filter(l=>l.speaker==='heroine_05').map(l=>l.text)).concat([WZL.TEA_GIFT.heroine_05,'週六早上的蛋，今天也是半熟嗎？','茶屋那壺水，我後來查了。……原來不能用滾的。']);

@@ -203,8 +203,7 @@ const WZ_EVENTS=(function(){
     {if:C((w,G)=>w.zrPhoto(G)),choice:[{text:'（拍一張照片傳給芷若）',goto:'zr'},{text:'（不傳）',goto:'end'}]},{goto:'end'},
     {label:'zr'},{phoneMe:ZR,text:'📷（緣側下面，一團橘白色）'},{phone:ZR,text:'常客瘦了。……幫我跟牠說，我下學期回去。'},{set:{CAT_SEARCH_WITH_heroine_02:true},rel:{[ZR]:{fam:1,comf:1}}},
     {label:'end'},{stamp:['WZ_CAT_FOUND']} ] }));
-  const catDay={custom:G=>typeof PARK!=='undefined'&&!!PARK.catAwake&&PARK.catAwake(G)};   /* AA_493 第 3 節：白天貓醒著在走（J13）——固定成趴著的姿勢還沒做，白天換 AA 給的那一句 */
-  L.push(ev('ev_wz_p_back','所長回來了',{ dialogue:[ Object.assign({unless:catDay},N('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。')),Object.assign({if:catDay},N('所長回來了，前腳纏著一圈繃帶，坐在樹下的圓椅前面，和平常一樣不理人。')),{stamp:['WZ_CAT_BACK']} ] }));
+  L.push(ev('ev_wz_p_back','所長回來了',{ dialogue:[ N('所長回來了，前腳纏著一圈繃帶，躺在樹下的圓椅上，和平常一樣不理人。'),{stamp:['WZ_CAT_BACK']} ] }));   /* AA_493 第 3 節：句子不改，演這一場時貓固定趴在圓椅上（wzlines3d.js 呼叫 WZCAT.hold('lie')，不管幾點）*/
 
   /* ========== 第 5 節的單一事件 ========== */
   /* WZ-B3 麵店團來看他穿圍裙（AA_420 7-1）*/

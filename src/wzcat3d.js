@@ -6,7 +6,8 @@
    - 「摸摸」的互動點（buildWzPark 推進 E.interactables、park:'cat' 那一個）跟著貓走。
    - 找路用公園的導航格（E.pathTo）；幾個點在 attach 時用 E.canStand 檢查，站不住的不用。
    - 舊的 GLB（沒有骨架、沒有動畫）：attach 回傳 false，照舊放趴著的貓。
-   - 存檔不動（貓的位置不存）。*/
+   - 存檔不動（貓的位置不存）。
+   - 劇情要貓趴在圓椅上（AA_493「所長回來」那一場，不管幾點；LAWWW-C 10-27 23:08Z）：演之前 WZCAT.hold('lie')，演完 WZCAT.release()（請放在 finally）。見下面 S.hold。*/
 const WZCAT=(function(){
   const S={};
   /* 貓會去的地方（溫州街區域座標；x 往東、z 往南）：老樹圓椅前（兩個點，最常回來）、涼亭東邊台階下、路燈下、土地公旁邊、東邊路燈和鞦韆之間、前面草地的步道邊 */
@@ -14,9 +15,9 @@ const WZCAT=(function(){
   S.SPEED=0.32;   /* m/s：cat_walk 一步一秒、步幅約 0.32 m（腳不滑）*/
   S.AWAKE=[7,17.5];
   S.NEAR=1.6; S.FAR=2.8;
-  let cat=null;
+  let cat=null, held=null;
   const P=()=>typeof PARK!=='undefined'?PARK:null;
-  S.awake=function(G){ if(!G) return false; const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
+  S.awake=function(G){ if(!G||held) return false;   /* hold 期間＝趴著（取名、環境句照「趴在圓椅上」那一版：PARK.catAwake 照這個）*/ const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
     if(K&&((K.rainy&&K.rainy(G))||(K.catCold&&K.catCold(G))||(K.catLost&&K.catLost(G))||(K.catAdopted&&K.catAdopted(G)))) return false; return true; };
   const pick=(not,rnd)=>{ const L=cat.spots.filter(s=>s!==not); let t=L.reduce((a,s)=>a+s.w,0)*rnd(); for(const s of L){ t-=s.w; if(t<=0) return s; } return L[L.length-1]; };
   /* 接手：opts={G, rnd}；成功回傳 true（呼叫的地方就不要再放趴著的貓）*/
@@ -35,7 +36,7 @@ const WZCAT=(function(){
     const blob=shadowBlob(); m.add(blob);
     const s0=spots[0]; m.position.set(s0.x,0,s0.z); m.rotation.y=Math.PI; parent.add(m);
     const it=(E.interactables||[]).find(q=>q&&q.park==='cat')||null;
-    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:15+rnd()*30,cur:null,rnd,it,yaw:Math.PI};
+    cat={E,obj:m,mixer,act,spots,at:s0,next:null,path:null,state:'sit',t:15+rnd()*30,cur:null,rnd,it,yaw:Math.PI,glb,parent,G,lie:opts.lie||null,it0:it&&{x:it.x,z:it.z},lieObj:null};   /* lie：趴在圓椅上的位置（zones3d.js 晚上放趴著的貓的同一個位置）、it0：互動點原本的位置（圓椅）*/
     play('cat_sit_idle',0); return true; };
   function shadowBlob(){ if(typeof document==='undefined'||!document.createElement) return new THREE.Object3D(); const cv=document.createElement('canvas'); cv.width=cv.height=64; const c=cv.getContext('2d'), g=c.createRadialGradient(32,32,2,32,32,31);
     g.addColorStop(0,'rgba(0,0,0,0.42)'); g.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=g; c.fillRect(0,0,64,64);
@@ -48,6 +49,7 @@ const WZCAT=(function(){
   const busy=()=>{ const GM=typeof GAME!=='undefined'?GAME:null; return !!(GM&&GM.E&&GM.E.player&&GM.E.player.busy); };
   /* 每一格（溫州街區域的 update 呼叫）*/
   S.update=function(dt,E){ if(!cat||cat.E!==E) return; if(!inScene(cat.obj)){ cat=null; return; }
+    if(held&&cat.lieObj){ if(cat.it&&cat.it0){ cat.it.x=cat.it0.x; cat.it.z=cat.it0.z; } return; }   /* 趴在圓椅上：不走、不更新動畫 */
     dt=Math.min(dt,0.25); const c=cat, o=c.obj, pl=E.player&&E.player.obj, G=typeof GAME!=='undefined'&&GAME.G;
     const dp=pl?Math.hypot(pl.position.x-o.position.x,pl.position.z-o.position.z):99;
     const turnTo=(yaw,k)=>{ let d=yaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,k*dt); };
@@ -70,5 +72,14 @@ const WZCAT=(function(){
     c.mixer.update(dt); };
   S.state=()=>cat?{state:cat.state,t:+cat.t.toFixed(1),busy:busy(),x:+cat.obj.position.x.toFixed(2),z:+cat.obj.position.z.toFixed(2),yaw:+cat.obj.rotation.y.toFixed(2),clip:cat.cur,at:cat.at&&[cat.at.x,cat.at.z],path:cat.path?cat.path.length:0}:null;
   S._cat=()=>cat;   /* 測試用 */
+  /* 劇情要貓固定趴在圓椅上（不管幾點）：hold('lie')。
+     - 貓正在公園裡走（白天）：藏起走路的貓，圓椅上放趴著的貓（和晚上同一個模型、同一個位置），「摸摸」的互動點回到圓椅。
+     - 還沒進公園、或晚上：進公園時 attach 不接手（awake＝false），zones3d.js 照晚上放趴著的貓。下雨照舊在石桌底下（AA_493 第 5 節）。
+     - release()：拿掉趴著的貓，走路的貓從剛才的位置接著走（hold 的時候沒有走路的貓：下次進公園才會走）。hold 不存檔（讀檔以後沒有）。*/
+  S.hold=function(mode){ held=mode||'lie'; if(!cat||cat.lieObj||!cat.lie||typeof Z3==='undefined'||!Z3.wzCatModel) return true;
+    const m=Z3.wzCatModel(cat.glb.scene.clone(true),cat.G,'lie'); if(!m) return true; const L=cat.lie; m.position.set(L.x,L.y||0,L.z); m.rotation.y=L.yaw||0; cat.parent.add(m); cat.lieObj=m; cat.obj.visible=false;
+    if(cat.it&&cat.it0){ cat.it.x=cat.it0.x; cat.it.z=cat.it0.z; } return true; };
+  S.release=function(){ held=null; if(!cat) return; if(cat.lieObj){ if(cat.lieObj.parent) cat.lieObj.parent.remove(cat.lieObj); cat.lieObj=null; } cat.obj.visible=true; };
+  S.held=()=>held;
   return S;
 })();
