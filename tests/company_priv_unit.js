@@ -48,7 +48,7 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   let a=null, b=null; if(fn){ fresh('2025-10-07',12.5,'campus'); a=STORY.privNow(H.G,'heroine_03'); crowd('heroine_03',true); b=STORY.privNow(H.G,'heroine_03'); }
   check('0. STORY.privNow(G,id,n,GM)：COMPANY 任一個說旁邊有人＝false（crowdNow 是反面）',fn&&a===true&&b===false&&STORY.crowdNow(H.G,'heroine_03')===true,J({fn,a,b}));
   if(!HAS()) return;
-  const L=PRIVTALK.LIST, keys=L.map(e=>e.key), bad=L.filter(e=>!e._wired||!e.cat||!e.at||(e.gate!=='none'&&!e.defer));
+  const L=PRIVTALK.LIST, keys=L.map(e=>e.key), bad=L.filter(e=>!e._wired||!e.cat||!e.desc||(e.gate!=='none'&&!e.note));   /* desc＝入口在哪、note＝旁邊有人時怎麼辦（給人看的說明欄，tests/sis_no_three_unit.js 不掃）*/
   check('0. 清單（'+L.length+' 筆）每一筆都接上、key 不重複、寫了類別／在哪／旁邊有人時怎麼辦（沒有入口的寫在哪裡）',!bad.length&&new Set(keys).size===keys.length&&L.length>=20,J(bad.map(e=>e.key)));
   const cats=new Set(L.map(e=>e.cat)), topics=new Set(L.map(e=>e.topic).filter(Boolean));
   const needC=['告白','心意邀約','約會','交往中才有的互動','坦白有別人','分開談話（AA_346）','她知情以後','還沒公開'], needT=['子晴爸爸','沛珊重考','芷若交換申請','語彤媽媽回診','學姊口試結果'];
@@ -56,7 +56,7 @@ await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html
   const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8');
   check('0. 呼叫的地方：story3d.js offerInvite 問 privNow、priv 的選項旁邊有人不出；multirel3d.js PRE_TALK 問 PRIVTALK.ok（zq_dad_pre、ps_bterm）；告白（坦白）兩個選項標 priv',
     /const crowd=!S\.privNow\(G,id,n,GM\)/.test(st)&&/!\(crowd&&o\.priv\)/.test(st)&&/privOk\(G,ZQ,GM,'zq_dad_pre'\)/.test(mr)&&/privOk\(G,PS,GM,'ps_bterm'\)/.test(mr)&&/PRIVTALK\.ok\(G,x,k,GM\)/.test(mr)&&(mr.match(/priv:true,run:/g)||[]).length===2);
-  check('0. 清單外、判斷不了的列給 AA（PRIVTALK.ASK_AA，不擋）',Array.isArray(PRIVTALK.ASK_AA)&&PRIVTALK.ASK_AA.length>=8&&PRIVTALK.ASK_AA.every(x=>x.what&&x.q)); });
+  check('0. 清單外、判斷不了的列給 AA（PRIVTALK.ASK_AA，不擋）',Array.isArray(PRIVTALK.ASK_AA)&&PRIVTALK.ASK_AA.length>=8&&PRIVTALK.ASK_AA.every(x=>x.desc&&x.note)); });
 
 /* ---------- 1 約會、priv 的一次性選項 ---------- */
 await sec('1',async()=>{ fresh('2025-10-09',15,'campus'); H.FAMILIAR('heroine_03'); SOCIAL.meet('heroine_03','campus'); const n=npc('heroine_03');
