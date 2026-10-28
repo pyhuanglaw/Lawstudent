@@ -34420,7 +34420,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 01:3x UTC】查到：阿哲 22:00～23:30、柏翰 22:30～23:30（AA_208 2-4），只在進房間那一刻判斷（story3d.js zone build）；阿凱 18:00～8:00。LAWWW 先做「時間到自己進門、上床」；AA 的 203 日常併進 NPC-STORY-1028 第一批（阿哲、柏翰先）；放 v9.10.13",
+   "next": "【LAWWW-C 2026-10-28 01:5x UTC】第一部分做好（本 commit）：story3d.js S.dormWho（誰、幾點，進房間和待在房間裡同一份）、S.dormSpawn、S.dormLive（refreshSchedule 每 3 秒）——人在房間裡時間到了阿哲 22:00、柏翰 22:30 從門口走進來坐下，23:30 走到自己的梯子（爬上舖），阿凱 8:00 出門；跳時間超過 15 分鐘直接坐好／拿掉；經濟系阿勳一樣。tests/dorm_mates_live_unit.js（改前第 0 項 FAIL、丟例外；改後 ALL PASS），相關 20 支 ALL PASS。不在 v9.10.12（候選 562a5ead9），下一版。第二部分等 AA 的 203 日常（NPC-STORY-1028 第一批）｜【LAWWW-C 2026-10-28 01:3x UTC】查到：阿哲 22:00～23:30、柏翰 22:30～23:30（AA_208 2-4），只在進房間那一刻判斷（story3d.js zone build）；阿凱 18:00～8:00。LAWWW 先做「時間到自己進門、上床」；AA 的 203 日常併進 NPC-STORY-1028 第一批（阿哲、柏翰先）；放 v9.10.13",
    "xai": {
     "spec": "AA_208 第 2 節；使用者原話；AA 補的 203 日常（NPC-STORY-1028 第一批）",
     "branch": "claude/magical-albattani-bk7b4n",
