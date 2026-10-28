@@ -34316,17 +34316,18 @@
    "id": "CROWD-DEPTS-1028",
    "title": "路人分科系：通識課、椰林大道、體育館、圖書館的人各系都有，講話說自己是哪一系、聽到的對話照系別；法律系必修課才全是法律系",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-28 00:5x 對 LAWWW-C（UA-LAWWW-1028-03；USER_WANTS X120）",
-   "next": "【LAWWW-C 2026-10-28 01:3x UTC】AA_495 交了（5d7bd4040，DL-AA-495）；LAWWW 接（v9.10.13）；第 5 節外觀建議轉 LAWWW2｜【LAWWW-C 2026-10-28 01:0x UTC】AA-C 寫各系路人的講話句、聽到的對話；LAWWW 改 crowd3d.js、課堂的同學名單（通識課混系）；LAWWW2 看外觀要不要分（實驗衣、球衣…）",
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】合進開發分支 eeedfcace：src/data/crowd_depts.js（AA_495 逐字）、crowd3d.js 照地點抽系（椰＝校園、圖＝總圖社科圖、體＝體育館、館＝公館）、「X系的學生」聽一句（時段欄、輪法照 AA_489）、走過聽到的對話（一組一天一次）、通識門口混系、法律系必修門口全是法律系、體育館 16 句；engine3d.js 路人的「聽一句」不蓋掉出口、座位、有名字的人。沒做：外觀（給 LAWWW2，任務 CROWD-DEPTS-LOOK-1028）、霖澤館 201／萬才館門口等候人群（場景配置）。BB 測（佇列 6a）｜【LAWWW-C 2026-10-28 01:3x UTC】AA_495 交了（5d7bd4040，DL-AA-495）；LAWWW 接（v9.10.13）；第 5 節外觀建議轉 LAWWW2｜【LAWWW-C 2026-10-28 01:0x UTC】AA-C 寫各系路人的講話句、聽到的對話；LAWWW 改 crowd3d.js、課堂的同學名單（通識課混系）；LAWWW2 看外觀要不要分（實驗衣、球衣…）",
    "xai": {
     "spec": "AA_495（claude/magical-albattani-bk7b4n 5d7bd4040）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "校園、通識課、體育館看得出各系的學生",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "eeedfcace"
   },
   {
    "id": "NPC-STORY-1028",
@@ -34522,6 +34523,33 @@
     "spec": "AA_503 第 2 節（圈子）、外觀描述",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "五位有固定外觀（底模＋道具或專屬模型），在遊戲裡和女主角同框看得出是誰",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "CROWD-DEPTS-LOOK-1028",
+   "title": "各系路人的外觀（AA_495 第 5 節）：土木的測量腳架（兩人一組）、化學醫學折在手臂上的實驗衣、圖資的工讀證和書車、系隊外套或系服背後印系名（化學、電機、土木）、農藝的小推車、物理化學共撐一把傘；另外霖澤館 2F（201）、萬才館教室門口的等候點（法律系必修門口的對話）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "AA_495 第 5 節；CROWD-DEPTS-1028 子代理回報（沒做的）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "走在校園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 修完溫州街公園、做完女主角圈子的 3D 人物以後；外觀先用道具（CHAR.setProp），不換底模",
+   "xai": {
+    "spec": "AA_495 第 5 節",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "校園上看得出幾個系（腳架、實驗衣、系服）；201 門口有等候的人",
     "receiver": "LAWWW",
     "ack": "未派"
    }

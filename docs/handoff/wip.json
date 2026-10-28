@@ -892,16 +892,17 @@
    "role": "LAWWW",
    "task": "CROWD-DEPTS-1028",
    "branch": "worktree-agent-a4a4118e152011f58（子代理 worktree；D113 備份 wip_backup/crowd_depts_1028.bundle）",
-   "sha": "279647e95",
+   "sha": "b4884f1da",
    "files": [
     "src/crowd3d.js",
     "tests/crowd_depts_unit.js"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_495 路人分科系接進遊戲（子代理做中，基準 095cf15ae）",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 00:5x（X120）"
+   "source": "使用者 10-28 00:5x（X120）",
+   "closedBy": "eeedfcace"
   },
   {
    "id": "WIP-LAWWW-AA496-1028",
