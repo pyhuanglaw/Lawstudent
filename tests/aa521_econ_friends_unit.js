@@ -12,7 +12,10 @@
 //   5  日文班：4-1、4-2 在群組裡才有；4-3 只有日本路線、人在日本（日本 22:00）、兩個回覆（期限 4/20）：「好。」＝4/22 白天旁白一句、當晚采蓁兩則，
 //      「這週沒空。」＝她回「好，不急！」、沒有後續，不回＝沒有後續；記 CZ_VET_PHOTO
 //   6  舊存檔：沒有 EF_PH、B106D2_SAID、msgs 照常跑、不丟例外；新的局沒有預先寫 CZ_VET_PHOTO、EF_PH
-// 修改前、修改後的數字見下面。用法：node tests/aa521_econ_friends_unit.js（在沒有 .git 的目錄跑，設環境變數 AA521_DOCREPO＝這個 repo 的目錄）
+// 修改前（只拿掉這次 src 的改動：git archive 出 b73f6745c〔AA_520 第 10 節做完、AA_521 還沒動〕的 src、tests、lib、index.html，白名單、這支測試用新的；AA521_DOCREPO 指這個 repo 實際跑過）：
+//   FAILED 15、PASS 7（PASS＝讀稿、白名單、日子對星期、大一上照現有、何俊朗「範圍外沒有」〔沒有新句子＝一句都沒有〕、新的局沒有 CZ_VET_PHOTO、經濟系不傳；
+//   第 0～5 段找不到 ECONFR／ECONFR_LINES 丟例外中斷、第 6 段舊存檔丟例外）。修改後 ALL PASS（45 項）。
+// 用法：node tests/aa521_econ_friends_unit.js（在沒有 .git 的目錄跑，設環境變數 AA521_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
 const H=require('./pg_harness.js');
