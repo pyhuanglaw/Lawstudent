@@ -5,6 +5,7 @@
   AA_366 第 1 節「五段」（每一段的開頭那一則＝日子＋「」裡的句子；哪幾天＝那一段的日子、時間）、第 2 節「每一格她說的一句」（段、日子、她說）。
   AA_367 第 1～6 節每一位的月份表（月、她說；句子後面的（視訊）（打烊後）（電影）（台南）照抄在 note）。第 8 節（盤點）不讀。
 時間、地點、哪幾個月不排是規則，寫在 src/pgdates3d.js（照稿的條文，註解寫出處）。
+AA_523（學姊第十六批）第 6 節 6-5：學姊 2029-06 那一句換成「修正本改完了。這禮拜印，下禮拜交。」（白名單上有 AA_523 才換；整句相同才換）。
 用法：python3 tools/story/import_pg_dates.py"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -94,7 +95,22 @@ for line in t367.split('\n'):
     six.setdefault(who, []).append({'ym': m.group(1), 'line': line_, 'note': note.strip('（）')})
 if list(six) != ORDER or sum(len(v) for v in six.values()) != 102: sys.exit(f'AA_367：{ {k: len(v) for k, v in six.items()} }（應該是六位、102 句）')
 
+# ---------- AA_523（學姊第十六批，SIS-B16-1028；白名單上的 commit，AA-C 定稿）第 6 節 6-5：學姊 2029-06 那一格「論文送進圖書館了。……」早於 6/20「交了。」（修正本）——
+#      換成「修正本改完了。這禮拜印，下禮拜交。」（送圖書館的事放在 7 月以後，這一批不寫）。整句相同才換；已經是新句就跳過，都不是＝停下來（同 tools/ladder/import_ladder.py 的 _fix）----------
+P523 = 'docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md'
+src523 = None
+if P523 in APPROVED:
+    t523, s523 = read(P523)
+    OLD523, NEW523 = '論文送進圖書館了。櫃台的人蓋了章，說『好，下一位』。……就這樣。', '修正本改完了。這禮拜印，下禮拜交。'
+    if '「' + NEW523 + '」' not in t523: sys.exit(f'AA_523@{s523} 裡找不到 6-5 的「改成」：{NEW523}')
+    cell = next((x for x in six.get('heroine_05', []) if x['ym'] == '2029-06'), None)
+    if cell is None: sys.exit('AA_367：學姊沒有 2029-06 那一格')
+    if cell['line'] == OLD523: cell['line'] = NEW523
+    elif cell['line'] != NEW523: sys.exit(f'AA_523 6-5：學姊 2029-06 那一格是 {cell["line"]}（應該是舊句或新句）')
+    src523 = f'{P523}@{s523}（6-5 學姊 2029-06 那一格）'
+
 out = {'source': {'AA_366': f'{P366}@{s366}', 'AA_367': f'{P367}@{s367}'}, 'kexin': {'segs': segs, 'slots': slots}, 'six': six}
+if src523: out['source']['AA_523'] = src523
 js = ('/* 自動產生：tools/story/import_pg_dates.py（AA_366 第二版、AA_367；企劃線照白名單的 commit；台詞一字不改）。不要手改：改企劃、白名單以後重跑。\n'
       '   kexin.segs＝五段（open 開頭那一則的日子、lines 那兩則、h 時間；p3 照 KX_OUR_DAY.day）；kexin.slots＝每一格（seg、key 稿上的日子、week＝那一週、line 她說）；\n'
       '   six＝六位每一個月（ym、line、note 稿上句子後面的註）。規則在 src/pgdates3d.js */\n'
