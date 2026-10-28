@@ -9,7 +9,7 @@
 //   6  關係上限（2-8）：做完順手的事、走完線到得了「朋友」，npcRom 沒加
 //   7  2-9 兩個問題：ev_pool_greet 的地點、pool_greeted 用完清掉（「假裝看手機」不加熟悉）
 //   8  其他：認識前「和〈外觀描述〉說話」、認識後名字；沒說過話的不進朋友頁；人物頁一句話／做過的事／personality；順手的事和店員的一起算 SIDEQ.MAX；新的互動點
-// 修改前（開發分支 9b3a1f10a，2026-10-28 開工時；git archive 那一版、把這支測試放進去真的跑過）：PASS 2、FAIL 61（其中 12 節沒有 POOL、丟例外中斷）——
+// 修改前（開發分支 9b3a1f10a，2026-10-28 開工時；git archive 那一版、把這支測試放進去真的跑過）：PASS 2、FAIL 62（其中 12 節沒有 POOL、丟例外中斷）——
 //   0 稿：沒有 src/data/pool_story.js、src/pool3d.js（FAIL）。
 //   1 改名：六個舊名、SQ16 舊名單（第 2、5 個和 pool 撞名）都還在，沒有 POOL.migrate（FAIL）。
 //   2 地點：i%5 的 pick 還在、二十位沒有作息；廖芸萱、嚴守誠、馬佳蓉都沒生出來；傅鐘、教室門口沒人；認識前叫「法律系一年級的女生」（FAIL）。
@@ -17,7 +17,7 @@
 //   4 第一批五位：認識是舊的自我介紹＋沒有選項的「……你呢？」；沒有順手的事、訊息、房間物品（FAIL；七節丟例外）。
 //   5、6、8 沒有 POOL（FAIL）。
 //   7 2-9：曾靖雯的「你確定在教室看過」原句本來就對（PASS）；廖芸萱、邱家齊也說「教室」；pool_greeted 沒清，下一個人選「假裝看手機」也熟悉＋3（FAIL）。
-// 修改後：ALL PASS（91 項）。
+// 修改後：ALL PASS（92 項）。
 // 用法：node tests/aa498_pool_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');

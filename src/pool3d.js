@@ -119,8 +119,10 @@ const POOL=(function(){
     if(!ok&&n.talk){ n._poolTalk=n.talk; n.talk=null; n.talkLabel=null; }
     else if(ok&&!n.talk&&n._poolTalk){ n.talk=n._poolTalk; n._poolTalk=null; n.talkLabel='和'+(typeof SOCIAL!=='undefined'&&SOCIAL.npcName?SOCIAL.npcName(id):id)+'說話'; } };
   /* 這一區有作息的同學的底模（無名路人不拿）*/
+  let classZones=null;   /* 必修課的教室在哪幾區（COURSES 的 required 課 → rooms 的 zone；第一次用到時算）*/
+  const isClassZone=z=>{ if(!classZones){ classZones=new Set(['classroom']); try{ if(typeof COURSES!=='undefined'&&Array.isArray(COURSES.list)&&COURSES.rooms) for(const c of COURSES.list){ const r=c&&c.kind==='required'&&COURSES.rooms[c.room]; if(r&&r.zone) classZones.add(r.zone); } }catch(e){} } return classZones.has(z); };
   S.reserved=function(G){ G=G||curG(); const out=new Set(); if(!G||typeof CHARACTERS==='undefined') return out;
-    for(const id of IDS){ const c=CHARACTERS[id], m=S.modelOf(id); if(!c||!m) continue; if((c.daily_schedule||[]).some(e=>e.zone===G.zone)||(c.poolClass&&/^(classroom|wancai_multi|putong|wancai)$/.test(G.zone))) out.add(m); } return out; };
+    for(const id of IDS){ const c=CHARACTERS[id], m=S.modelOf(id); if(!c||!m) continue; if((c.daily_schedule||[]).some(e=>e.zone===G.zone)||(c.poolClass&&isClassZone(G.zone))) out.add(m); } return out; };
   S.dedupe=function(GM){ if(!GM||!GM.E||typeof CHAR==='undefined'||!CHAR.anonKeyOf||!CHAR.reAnon||!CHAR.anonPool||!CHAR.anonPool.alt) return 0; const used=new Set(); for(const id in GM.npc) if(/^pool_/.test(id)){ const m=S.modelOf(id); if(m) used.add(m); } if(!used.size) return 0; let k=0;
     for(const x of GM.E.npcs||[]){ if(!x||!x.isExtra||!x.obj) continue; const key=CHAR.anonKeyOf(x.obj); if(!key||!used.has(key)) continue; const alt=CHAR.anonPool.alt(x.obj,used); if(!alt) continue; const nh=CHAR.reAnon(x.obj,alt); if(nh){ x.obj=nh; k++; } } return k; };
   S.wrapAnon=function(){ if(typeof CHAR==='undefined'||!CHAR.anonPool||CHAR.anonPool._poolKeep||typeof ASSETS==='undefined') return false; const P=CHAR.anonPool, ch0=P.choose;
