@@ -1157,7 +1157,7 @@
    "role": "LAWWW",
    "task": "SIS-B13-1028",
    "state": "WIP",
-   "sha": "4eccd41a0、8455a44fc",
+   "sha": "9bdb1c0d3、8455a44fc",
    "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
    "files": [
     "wip_backup/sisb13_1028.bundle",
@@ -1189,7 +1189,7 @@
    "role": "LAWWW",
    "task": "KX-MOOT3-1028",
    "state": "WIP",
-   "sha": "4eccd41a0、294b36bdb",
+   "sha": "9bdb1c0d3、294b36bdb",
    "branch": "worktree-agent-a3622cfa154c43e9a（子代理；D113 備份 wip_backup/kxmoot3_1028.bundle）",
    "files": [
     "wip_backup/kxmoot3_1028.bundle"
