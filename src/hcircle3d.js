@@ -30,6 +30,10 @@
 /* ■ 第四輪（PRIV-AUNT-1028，2026-10-28；AA_503 第 14 節後補第 6、7 點，企劃線 5ec2fe771）：S.labelIn（標籤同伴現在在不在那一區，同 3D 生不生他那一套）——
      語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn 看 3D 的阿姨（src/multirel3d.js S.auntIn）；3D 的時間、圈子表不改。
      麵店只有阿姨在，語彤所有私密的照出：src/privtalk3d.js S.PLACE_EXCEPT（STORY.COMPANY 照舊回傳阿姨，例外在 PRIVTALK 那邊）。 */
+/* ■ 第五輪（PRIV-AUNT-1028 第二輪，2026-10-28；AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d）：
+     廚房那位就是阿姨（S.KITCHEN、S.kitchen）：語彤在麵店顧店、阿姨不在店裡（那幾列這時候不成立：那天沒擲到的三成、17:30 以前、20:30 以後）＝原本那位無名的店員也不出現；
+       語彤不在店裡（沒顧店、走了、跟你約來吃的客人身分）＝店員照常在。阿姨不在店裡的時候，點餐那幾句阿姨說的話不說（S.auntOut：src/eat3d.js 老樣子那一句、src/story3d.js noodleScene 阿姨請的那一碗）。
+     大二下以後每學期補阿姨那一列（src/data/heroine_circle.js c503_14_1～5，句子＝後補第 9 點的表；週二、四 17:30～20:30，同 c503_6_2；週四她照作息不在店裡的學期只有週二成立）。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};
@@ -255,6 +259,7 @@ const HCIRCLE=(function(){
         const ck=(r.comp&&r.comp[cid]&&r.comp[cid].clerk)||null; if(ck&&isLabel(cid)&&!cn._hcHid){ const c=clerkNpc(E,ck); if(c&&!c.hidden){ c.hidden=true; if(c.obj) c.obj.visible=false; cn._hcHid=c; } } } }
     for(const key of Object.keys(GM.npc)){ const n=GM.npc[key]; if(!n||!n.hcLabel) continue; if(want.has(n.hcLabel)){ S.modelWait(n); continue; } S.dropLabel(GM,key,n,refresh); }
     S.release(GM,act,heroes);
+    S.kitchen(GM,want);   /* 廚房那位就是阿姨（第五輪）：語彤在顧店、阿姨不在＝店員也不出現 */
     return act; };
   /* 那一列不成立了：她回去照原本的（站好的走開、一個人的可以配對），一起走的人回去照路線走 */
   S.release=function(GM,act,heroes){ const ids=new Set(act.map(r=>r.id)), G=GM.G;
@@ -276,6 +281,30 @@ const HCIRCLE=(function(){
      with 有他的那幾列（阿姨＝語彤的 c503_6_2、c504_3_2、c504_3_3、c505_3_3、c505_3_4）現在成立、她照作息在那一區＝3D 生不生他的同一套（S.arrange 生的是 S.rowsIn 那幾列：S.on，沒寫「一定同框」的列照那一天擲的 70%）。
      src/multirel3d.js S.auntIn（「今天很忙喔？」那一段的 auntIn）問這個；只讀：不生人物，也只問 with 有他的那幾列（once 的列會建 G.flags.HCIRCLE，不經過）*/
   S.labelIn=function(G,cid,zone){ if(!G) return false; for(const who in BY_WHO) for(const r of BY_WHO[who]) if((r.with||[]).includes(cid)&&S.on(r,G,zone)) return true; return false; };
+
+  /* ---------- 廚房那位就是阿姨（PRIV-AUNT-1028 第二輪；AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d）----------
+     麵店原本那位無名的店員（story3d.js S.populate 的 clerk，站廚房工作台前）就是阿姨：
+     ・語彤在店裡顧店（她的 3D 人物在這一區、沒有在走開，照作息 noodle／help；跟你約來吃的〔邀約那一筆 invite〕是客人，不算）、
+       阿姨不在店裡（這一區阿姨那幾列這時候不成立＝S.labelIn：那天沒擲到的三成、17:30 以前、20:30 以後）＝店員也不出現（照阿姨來的時候藏店員的做法：hidden、看不見），
+       這樣她問「阿姨呢？」「去買東西。」才對得上；
+     ・語彤不在店裡（沒顧店、走了）＝店員照常在，玩家照常吃麵（點餐、「坐下吃麵」綁在桌子上，不綁店員）；
+     ・阿姨在＝阿姨站語彤旁邊、店員藏起來（S.arrange 原本的做法），兩個不會同時出現。
+     範圍只在語彤人在麵店的時候（後補第 9 點：語彤不在的平常時段店員照常在）。進區域（PRE_PAIR）、待在區域裡每秒（TICKS）都照 S.arrange 重算：語彤進來、走開、時間跨過 17:30／20:30、那一天擲到沒有都跟著變。
+     阿姨不在店裡的時候，阿姨說的話不說：S.auntOut（src/eat3d.js 老樣子那一句；src/story3d.js noodleScene 阿姨請的那一碗等阿姨在店裡的那一次）。*/
+  S.KITCHEN={noodle:{who:'heroine_03',act:'help',label:'hc_ayi'}};
+  /* 語彤（KITCHEN 的 who）現在在這一區顧店：回傳她的 3D 人物，不是＝null */
+  S.minding=function(GM,zone){ const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!G||G.zone!==zone||!GM.npc) return null; const n=S.npcOf(GM,k.who); if(!n||n.leaving||!P(n)) return null;
+    const e=S.entOf(k.who,G); return e&&e.zone===zone&&e.act===k.act&&!e.invite?n:null; };
+  /* 阿姨不在店裡、語彤在顧店（廚房沒有人）：阿姨說的話不說 */
+  S.auntOut=function(GM,zone){ GM=GM||GMr; zone=zone||'noodle'; const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!law(G)) return false; return !!S.minding(GM,zone)&&!S.labelIn(G,k.label,zone); };
+  /* S.arrange 最後問（want＝這一區現在成立的列要的標籤同伴）：'away'＝店員藏起來（廚房沒有人）、'aunt'＝阿姨在、'clerk'＝店員照常；這一區沒有廚房或沒有店員＝null */
+  S.kitchen=function(GM,want){ const E=GM.E, G=GM.G, k=S.KITCHEN[G.zone]; if(!k) return null; const c=clerkNpc(E,G.zone); if(!c) return null;
+    const ay=!!(want&&want.has(k.label));
+    if(!ay&&S.minding(GM,G.zone)){ if(!c.hidden){ c.hidden=true; if(c.obj) c.obj.visible=false; c._hcKit=true; } return 'away'; }
+    if(c._hcKit){ c._hcKit=false; const an=GM.npc[k.label];
+      if(ay&&an&&!an.leaving){ if(!an._hcHid) an._hcHid=c; }   /* 店員先因為廚房沒人藏起來、阿姨後來才到：交給阿姨（她走的時候 S.dropLabel 讓店員回來）*/
+      else { c.hidden=false; if(c.obj) c.obj.visible=true; } }
+    return ay?'aunt':'clerk'; };
 
   /* ---------- 走近時聽到 ---------- */
   const sameSpace=(E,a,b,la,lb)=>{ const Z=E.zone, sp=Z&&(Z.spaceAt||Z.roomAt); if(!sp) return true; try{ return sp.call(Z,a.x,a.z,la|0)===sp.call(Z,b.x,b.z,lb|0); }catch(e){ return true; } };

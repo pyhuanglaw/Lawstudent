@@ -45,6 +45,9 @@ const EAT=(function(){
   const who=(t,G,key)=>({name:S.staffName(G,key,t)});
   /* 阿鳳麵店：語彤在顧店（作息 act:'help'）＝第 5 次那一句換她說 */
   S.yutongMinding=function(GM){ const G=GM.G, n=GM.npc&&GM.npc.heroine_03; if(!n||n.leaving||G.zone!=='noodle'||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS.heroine_03,G); return !!(e&&e.zone==='noodle'&&e.act==='help'); };
+  /* 店員（阿姨）現在不在店裡：阿鳳麵店語彤在顧店、阿姨不在（廚房那位就是阿姨，PRIV-AUNT-1028 第二輪；AA_503 第 14 節後補第 8 點，企劃線 f6069e42d：src/hcircle3d.js HCIRCLE.auntOut）——
+     阿姨說的那幾句不說（老樣子那一句；第 5 次那一句語彤在顧店本來就換她說）。沒有 HCIRCLE＝照舊 */
+  S.staffAway=function(GM,key){ return key==='阿鳳麵店'&&typeof HCIRCLE!=='undefined'&&!!HCIRCLE&&typeof HCIRCLE.auntOut==='function'&&!!HCIRCLE.auntOut(GM,'noodle'); };
   const HEAT=item=>/微波/.test(item);   /* 便利商店要加熱的（現在只有微波義大利麵）*/
   S.ALT_TEST={'沒加熱':item=>!HEAT(item)};   /* 表上的「點全熟」「點小碗」不做（AA_336 A1：沒有大碗小碗、全熟半熟的點餐步驟，老樣子用主句）*/
   S.sameLine=function(T,last){ const a=T.alt, f=a&&S.ALT_TEST[a.when]; return f&&f(String(last||''))?a.t:T.same; };
@@ -58,7 +61,7 @@ const EAT=(function(){
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
-    if(k===names.length){ const t=S.sameLine(T,last); if(t) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說 */
+    if(k===names.length){ const t=S.sameLine(T,last); if(t&&!S.staffAway(GM,key)) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說；阿姨不在店裡（麵店語彤在顧店、阿姨去買東西）＝不說 */
     return k>names.length?k-1:k; };
   /* 沒有經過 S.choose 就點了（118 巷熟客「老樣子」選「好」，lane118.js）：點餐那一刻照樣記下來，「一起吃」照那一刻判斷 */
   S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };
