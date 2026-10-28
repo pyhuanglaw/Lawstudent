@@ -1,8 +1,8 @@
-// AA_522 教授的研究室：周、許、林照學期換（企劃線 f36dfe3cf＝fcc93126e 的第 1～7 節＋AA 加的第 8 節；AA-C 定稿，D109；任務 NPC-STORY2-1028，USER_WANTS X119）——不需要瀏覽器。
-// 台詞逐字對稿（git show f36dfe3cf，兩個方向）：稿上每一句、每個選項、筆記的標題與內文、閒聊兩句都在遊戲裡；六個事件（周、許、林下課後、林研究室、大四上的旁白、1-3 的提示）裡的每一句、每個選項
+// AA_522 教授的研究室：周、許、林照學期換（企劃線 a3ea3918e＝fcc93126e 的第 1～7 節＋AA 加的第 8 節（f36dfe3cf）、第 9 節；AA-C 定稿，D109；任務 NPC-STORY2-1028，USER_WANTS X119）——不需要瀏覽器。
+// 台詞逐字對稿（git show a3ea3918e，兩個方向）：稿上每一句、每個選項、筆記的標題與內文、閒聊兩句都在遊戲裡；六個事件（周、許、林下課後、林研究室、大四上的旁白、1-3 的提示）裡的每一句、每個選項
 //   都在稿上，或是修改前就有的「現有」句（稿寫「照舊」的那幾句：周教授大一上兩題、許教授大一兩題、林教授 Q001 那句；修改前的 events.js 一字不差）。遊戲的句子外面的「」不算字（現有的句子本來就有）。
 //   0  讀稿、白名單、六個事件；稿 → 遊戲、遊戲 → 稿；換掉的舊句（週三下午、來研究室聊）不在遊戲裡；研究室的 2D 背景共用 prof_door（第 7 節）
-//   1  第 1 節周教授：1-1 閒聊（SMALLTALK、talkProf）只在大一上、大一下、大二上、大四下說「週四下課以後我都在」，其他學期、寒暑假聊兩句天氣；
+//   1  第 1 節周教授：1-1 閒聊（SMALLTALK、talkProf）只在大一上、大一下、大二上說「週四下課以後我都在」、大四下換第 9 節那一句（見下面 9），其他學期、寒暑假聊兩句天氣；
 //      1-2 研究室週四 15:12～16:30、冷卻 6 天；大一上三題（加越權代理）、大一下兩題、大二上兩題，每題一次、問完不觸發（不留只剩「沒事。」）、推薦書只有大一上；
 //          招呼一次一句（classAnswerPlus → 大一下第一次 → 大二上第一次 → 其他）；「沒事。」也算來過；筆記五則（標題照稿、zhou_169 內文照稿）；新五題 LEGAL_REVIEW_REQUIRED、沒有條號；大二下、大三、大四上不演
 //      1-3 大四下專題下課後一次（時段照第 8 節第 4 點，見下面 8-4）：有 zhou_88＝三個選項三種回答；一則 zhou_* 都沒有＝「四年了」；只有別的 zhou_*＝兩句都不說；記 ZHOU_Y4；
@@ -22,8 +22,12 @@
 //      8-2 和學姊交往中（dating_heroine_05），大三那一題換「學姊的論文，老師覺得怎麼樣？」＋兩句（逐字）；沒交往照原本那一題；同一題，問過一種就不再出另一種；
 //          原本那一題寫 unless 交往中（tests/aa350_r_unit.js R7-2 認得的寫法）
 //      8-3 talkProf 答得好／沒讀那兩句只在民總第一堂課（主線第二天）那一週說（舊存檔 9/18、新局 9/4）；下一週起照 1-1（有課的學期「週四下課以後我都在」、其他學期聊天氣）
+//          第 9 節第 1 點：那天下課後和他說話先說這兩句（題目都還沒問也是）；研究室（ev_prof_zhou_office）那一週不演（翹課、答一半的也一樣），下一個週四開始（舊存檔 9/25、新局 9/11）
 //      8-4 1-3：第 10 週專題（「回顧大一的案例」）真的上完、下課的時候周教授一句「{name}，下課來研究室一趟。」（classes3d.js afterClassEvent；一次、第 11 週那堂沒有）；
 //          研究室那一場第 10 週那天、第 11～13 週的週一 15:12～16:30 去都演（第 9、14 週、週四、上課中、16:30 不演）；一次；提示以後走進萬才館和他說話就是這一場
+//   9  第 9 節（AA-C 2026-10-28 回 LAWWW-C 14:12 的問題，a3ea3918e）對稿：第 1 點兩句引文（答得好「今天回答得不錯。下週……」兩版的開頭、沒讀逐字）是 talkProf 說的、研究室從下一個週四開始（行為在 8-3）；
+//      第 2 點大四下的閒聊 talkProf、SMALLTALK.prof_zhou 都換「大四了。你們這一屆，我從民總教到專題。」（逐字）、不說「週四下課以後我都在」、不提研究室；SMALLTALK.prof_zhou 的每一句都在稿上（遊戲 → 稿）；
+//      第 3 點「照現在」的那幾項在 8-1（許教授待到 16:00、兩位教授不疊在一起）、8-2（同一題）、8-3（週一～週日）、8-4（第 10～13 週週一、提示）
 //   （法律題庫 legal_qbank.js、exam_bank.js 這一批沒有動：交付時用 git diff 核對，不寫成這裡的檢查——之後題庫照正常程序更新時這支測試不該失敗）
 // 第一批（fcc93126e 第 1～7 節）修改前（只拿掉那一批 src 的改動：src/data/events.js、src/story3d.js、src/social3d.js 回到開發分支 ccf06cc69；白名單、這支測試用那時候的；git archive 那一版放進暫存目錄真的跑過，
 //   稿從這個 repo 讀：AA522_DOCREPO）：FAILED 66、PASS 19（FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、
@@ -53,7 +57,7 @@ const git=args=>cp.execSync('git -c core.quotepath=false '+args,{cwd:DOCREPO,enc
 const BASE='ccf06cc69';   /* 修改前（開發分支 HEAD，這一批開工的地方）*/
 
 /* ---------- 讀稿 ---------- */
-const SHA='f36dfe3cf', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';
+const SHA='a3ea3918e', DOCF='docs/story_planning/AA_522_教授的研究室_周許林照學期換.md';
 let DOC=''; try{ DOC=git('show '+SHA+':"'+DOCF+'"'); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
 const S11=part('### 1-1','### 1-2'), S12=part('### 1-2','### 1-3'), S13=part('### 1-3','## 2.'), S2=part('## 2.','## 3.'), S31=part('### 3-1','### 3-2'), S32=part('### 3-2','## 4.'), S4=part('## 4.','## 5.');
@@ -92,11 +96,16 @@ const D32=(()=>{ const q=[], last=[]; for(const raw of lines(S32)){ const l=raw.
   return {q,last,legal:lg?{context:lg[1],by:lg[2],pick:{prefer:lg[3]},quiet:lg[4]==='true'}:null,nod,win:tm?[+tm[1]+tm[2]/60,+tm[3]+tm[4]/60]:null,cool:tm?+tm[5]:null}; })();
 const D4=(()=>{ const l=lines(S4).find(x=>x.includes('→'))||''; const q=qs(l); return {old:q[0]||null,now:q[1]||null}; })();
 /* 第 8 節（f36dfe3cf）：1 許教授的時間；2 交往中那一題（選項、許的兩句）；3 talkProf 那兩句（稿上的引文）；4 1-3 的提示那一句、第幾週 */
-const S8=part('## 8.',null);
+const S8=part('## 8.','## 9.');
 const D8=(()=>{ const it=n=>{ const a=S8.indexOf('\n'+n+'. **'), b=S8.indexOf('\n'+(n+1)+'. **',a+1); return a<0?'':S8.slice(a,b<0?S8.length:b); };
   const p1=it(1), p2=it(2), p3=it(3), p4=it(4), tm=/每週一 (\d+):(\d+)～(\d+):(\d+)/.exec(p1), op=(/選項：「([^」]+)」/.exec(p2)||[])[1]||null, tw=/第 (\d+) 週專題課/.exec(p4), wk=/第 (\d+)～(\d+) 週/.exec(p4), tt=/那天 (\d+):(\d+)～(\d+):(\d+)/.exec(p4);
   return {win:tm?[+tm[1]+tm[2]/60,+tm[3]+tm[4]/60]:null, cool:(/冷卻照舊 (\d+) 天/.exec(p1)||[])[1]|0, opt:op?'「'+op+'」':null, xu:[...p2.matchAll(/許：「([^」]+)」/g)].map(m=>m[1]),
     w1:[...p3.matchAll(/「([^」]+)」/g)].map(m=>m[1]), call:((/>\s*周：(.+)/.exec(p4)||[])[1]||'').trim()||null, week:tw?+tw[1]:null, later:wk?[+wk[1],+wk[2]]:null, time:tt?[+tt[1]+tt[2]/60,+tt[3]+tt[4]/60]:null}; })();
+/* 第 9 節（a3ea3918e）：1 第一週那兩句先說（答得好、沒讀的引文；研究室從下一個週四開始）；2 大四下換的那一句、不再說的那一句 */
+const S9=part('## 9.',null);
+const D9=(()=>{ const it=n=>{ const a=S9.indexOf('\n'+n+'. **'), b=S9.indexOf('\n'+(n+1)+'. **',a+1); return a<0?'':S9.slice(a,b<0?S9.length:b); }; const p1=it(1), p2=it(2);
+  return {good:(/答得好：「([^」]+)」/.exec(p1)||[])[1]||null, none:(/沒讀：「([^」]+)」/.exec(p1)||[])[1]||null, next:/研究室事件從下一次（下一個週四）開始/.test(p1),
+    term:TERMZH[(/\*\*(大[一二三四][上下])換一句\*\*/.exec(p2)||[])[1]]||null, y4:((/>\s*周：(.+)/.exec(p2)||[])[1]||'').trim()||null, not:(/不說「([^」]+)」/.exec(p2)||[])[1]||null}; })();
 
 /* ---------- 小工具 ---------- */
 const keyOf=d=>CALENDAR.dateOf(d).key, TD=(t,w,wd)=>STORY.termDay(t,w,wd);   /* wd：1＝週一 … 7＝週日 */
@@ -118,7 +127,7 @@ const enter=(zone)=>{ const G=H.G; G.zone=zone; G.social=G.social||{}; G.goal=''
 (async()=>{
 /* ======================= 0 讀稿、白名單、逐字 ======================= */
 await sec('0',async()=>{
-  check('0. 讀得到稿（git show '+SHA+'）：第 1～8 節都在',!!DOC&&['## 1. 周教授','### 1-3','## 2. 許教授','### 3-2','## 4. ','## 7. 給 LAWWW','## 8. 實作時定的'].every(s=>DOC.includes(s)),DOC?'':'讀不到：沒有 .git 時設 AA522_DOCREPO');
+  check('0. 讀得到稿（git show '+SHA+'）：第 1～9 節都在',!!DOC&&['## 1. 周教授','### 1-3','## 2. 許教授','### 3-2','## 4. ','## 7. 給 LAWWW','## 8. 實作時定的','## 9. 實作時定的'].every(s=>DOC.includes(s)),DOC?'':'讀不到：沒有 .git 時設 AA522_DOCREPO');
   check('0. 讀稿第 8 節：許教授週一的時間與冷卻、交往中那一題（選項＋兩句）、talkProf 三句引文、1-3 的提示（第幾週、那天的時段、之後第幾週）',J(D8.win)===J([14,16])&&D8.cool===3&&!!D8.opt&&D8.xu.length===2&&D8.w1.length===3&&D8.call==='{name}，下課來研究室一趟。'&&D8.week===10&&J(D8.later)===J([11,13])&&J(D8.time)===J([15.2,16.5]),J(D8));
   check('0. 讀稿：1-2 五題、招呼四列、1-3 三個選項、許教授四列自我介紹、四句招呼、五題、林教授四種開頭、三句收尾',D12.qs.length===5&&D12.greet.length===4&&D13.opts.length===3&&Object.keys(D2.intro).length===4&&Object.keys(D2.greet).length===4&&D2.qrows.length===5&&D31.open.length===4&&D32.last.length===3,J({q:D12.qs.length,g:D12.greet.length,o13:D13.opts.length,in:Object.keys(D2.intro).length,gr:Object.keys(D2.greet).length,x:D2.qrows.length,o:D31.open.length,l:D32.last.length}));
   const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')), hit=(A.files||[]).filter(e=>e.path===DOCF);
@@ -156,16 +165,19 @@ await sec('0',async()=>{
 /* ======================= 1 周教授 ======================= */
 await sec('1-1',async()=>{
   const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'], NOW='「'+D11.now+'」', WX='（周教授跟你打了個招呼，聊了兩句天氣。）';
-  check('1-1. 稿上的學期＝大一上、大一下、大二上、大四下；遊戲 SMALLTALK 和 talkProf 用同一份',J(D11.terms)===J(['Y1S1','Y1S2','Y2S1','Y4S2'])&&J(((SMALLTALK.prof_zhou||[])[0]||{}).term)===J(D11.terms)&&J(STORY.ZHOU_TALK_TERMS)===J(D11.terms),J([D11.terms,(SMALLTALK.prof_zhou||[])[0],STORY.ZHOU_TALK_TERMS]));
+  /* 第 9 節第 2 點改了下面三項的期待值（照新稿，檢查留著）：原本四個學期都說「週四下課以後我都在」（SMALLTALK 一筆）→ 大四下換「大四了……」（SMALLTALK 兩筆，學期合起來照舊是那四個學期）*/
+  const Y4L='「'+D9.y4+'」', ZST=SMALLTALK.prof_zhou||[], ZTH=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D11.now)||null, ZY4=ZST.find(e=>e&&typeof e==='object'&&unq(e.t)===D9.y4)||null;
+  check('1-1. 稿上的學期＝大一上、大一下、大二上、大四下（STORY.ZHOU_TALK_TERMS 同一份）；SMALLTALK 兩筆：「週四下課以後」大一上、大一下、大二上，大四下換第 9 節第 2 點那一句（兩筆的學期合起來＝那四個學期）',
+    J(D11.terms)===J(['Y1S1','Y1S2','Y2S1','Y4S2'])&&D9.term==='Y4S2'&&!!D9.y4&&J(STORY.ZHOU_TALK_TERMS)===J(D11.terms)&&ZST.length===2&&!!ZTH&&J(ZTH.term)===J(D11.terms.filter(t=>t!==D9.term))&&!!ZY4&&J(ZY4.term)===J([D9.term]),J([D11.terms,D9.term,ZST,STORY.ZHOU_TALK_TERMS]));
   const out=TERMS.map(t=>{ fresh(TD(t,5,3),12,'campus'); const r=STORY.smallTalk(H.G,'prof_zhou'); return [t,r.say||r.narr]; });
-  check('1-1. 閒聊（照作息遇到他）：有課的四個學期說「週四下課以後我都在」，其他學期聊兩句天氣',out.every(([t,s])=>D11.terms.includes(t)?s===NOW:s===WX),J(out));
+  check('1-1. 閒聊（照作息遇到他）：大一上、大一下、大二上說「週四下課以後我都在」，大四下說「'+D9.y4+'」（第 9 節第 2 點），其他學期聊兩句天氣',!!D9.y4&&out.every(([t,s])=>t===D9.term?s===Y4L:(D11.terms.includes(t)?s===NOW:s===WX)),J(out));
   fresh('2026-07-15',12,'campus'); const sm=STORY.smallTalk(H.G,'prof_zhou');
   check('1-1. 暑假（不在學期裡）：聊兩句天氣',sm.narr===WX,J(sm));
   /* 週四 15:12～16:12 萬才館的周教授（talkProf）：事件不觸發時的那一句 */
   const tp=async(t,setup)=>{ fresh(TD(t,5,4),15.5,'wancai'); if(setup) setup(H.G); const r=enter('wancai'); if(!r.ids.includes('prof')) return ['不在']; await r.talk('prof'); return said(); };
   const done3=G=>{ G.flags.ZHOU_ASKED={Y1S1:['q88','book','agency'],Y1S2:['offer','gestio'],Y2S1:['types','prescr']}; };
   const a=await tp('Y1S1',done3), b=await tp('Y2S2'), c=await tp('Y3S1'), d=await tp('Y4S2'), e=await tp('Y4S1');
-  check('1-1. 週四萬才館的他（talkProf）：大一上（題目都問過了）、大四下說「有問題可以來研究室。週四下課以後我都在。」',J(a)===J([D11.now])&&J(d)===J([D11.now]),J([a,d]));
+  check('1-1. 週四萬才館的他（talkProf）：大一上（題目都問過了）說「有問題可以來研究室。週四下課以後我都在。」；大四下說「'+D9.y4+'」（第 9 節第 2 點：不邀研究室）',!!D9.y4&&J(a)===J([D11.now])&&J(d)===J([D9.y4]),J([a,d]));
   check('1-1. 週四萬才館的他：大二下、大三上、大四上聊兩句天氣',[b,c,e].every(x=>J(x)===J([WX])),J([b,c,e]));
 });
 
@@ -389,9 +401,18 @@ await sec('8-3',async()=>{
   const f1=(fresh(oldD2,15.5),STORY.mainD1(H.G)+1), f2=(fresh(newD2,15.5,'wancai',NEW),STORY.mainD1(H.G)+1);
   check('8-3. 民總第一堂（主線第二天的劇情課）：舊存檔 2025-09-18、新局 2025-09-04，都是週四',f1===oldD2&&f2===newD2&&CALENDAR.dateOf(oldD2).wd===4&&CALENDAR.dateOf(newD2).wd===4,J([f1,f2,oldD2,newD2]));
   const W1=D8.w1, good=W1[0]?W1[0].replace(/…+$/,''):'(稿)', none=W1[1]||'(稿)', NOW=W1[2]||'(稿)';
-  const a=await tp(oldD2,{classAnswer:'good'}), b=await tp(oldD2,{classAnswer:'none'}), c=await tp(newD2,Object.assign({classAnswer:'good'},NEW)), d=await tp(newD2,Object.assign({classAnswer:'none'},NEW));
-  check('8-3. 民總第一堂那一週（那天下午在萬才館）：答得好「祐廷。今天回答得不錯。下週…」（舊存檔「'+good+'」那一版、新局「下週從第一條開始」那一版）、沒讀「祐廷。'+none+'」',
+  /* 第 9 節第 1 點改了這一項：原本先把題目都設成問過（DONE）才聽得到這兩句（不然研究室那一場先演）→ 題目都還沒問（tq）：那一週研究室本來就不演，下課後和他說話就是這兩句 */
+  const tq=async(d,flags)=>{ fresh(d,15.5,'wancai',flags); const r=enter('wancai'); if(!r.ids.includes('prof')) return ['不在']; await r.talk('prof'); return said(); };
+  const a=await tq(oldD2,{classAnswer:'good'}), b=await tq(oldD2,{classAnswer:'none'}), c=await tq(newD2,Object.assign({classAnswer:'good'},NEW)), d=await tq(newD2,Object.assign({classAnswer:'none'},NEW));
+  check('8-3. 民總第一堂那一週（那天下午在萬才館；第 9 節第 1 點：研究室的題目都還沒問也先說這兩句）：答得好「祐廷。今天回答得不錯。下週…」（舊存檔「'+good+'」那一版、新局「下週從第一條開始」那一版）、沒讀「祐廷。'+none+'」',
     a.length===1&&a[0].startsWith('祐廷。今天回答得不錯。')&&a[0].includes(good)&&c.length===1&&c[0]==='祐廷。今天回答得不錯。下週從第一條開始，先把總則的目錄看過。'&&J(b)===J(['祐廷。'+none])&&J(d)===J(['祐廷。'+none]),J([a,b,c,d]));
+  /* 第 9 節第 1 點：研究室（ev_prof_zhou_office）那一週不演、下一個週四開始 */
+  const Z='ev_prof_zhou_office', w1=[[oldD2,15.25,{}],[oldD2,15.5,{classAnswer:'good',classAnswerPlus:true}],[oldD2,16.4,{classAnswer:'absent'}],[newD2,15.25,NEW],[newD2,15.5,Object.assign({classAnswer:'half'},NEW)],[newD2,16.4,Object.assign({classAnswer:'bold'},NEW)]].map(([d,h,f])=>{ fresh(d,h,'wancai',f); return [keyOf(d),h,ok(Z)]; });
+  check('8-3. （第 9 節第 1 點）民總第一堂那一週研究室不演：舊存檔 9/18、新局 9/4 的 15:15～16:24 在萬才館（題目都還沒問；答得好、翹課、答一半、敢答都一樣）',w1.every(x=>x[2]===false),J(w1));
+  const nx=[]; for(const [d,f] of [[oldD2,{classAnswer:'good'}],[newD2,Object.assign({classAnswer:'none'},NEW)]]){ fresh(d,15.5,'wancai',f); let r=enter('wancai'); await r.talk('prof'); const s0=said(), o0=ok(Z);
+    at(d+7,15.5); const o7=ok(Z); r=enter('wancai'); await r.talk('prof'); nx.push({d:keyOf(d),d7:keyOf(d+7),s0,o0,o7,s7:said(),op7:H.opts[0]||null}); }
+  check('8-3. （第 9 節第 1 點）那天下課後先說那兩句、研究室不演；下一個週四（舊存檔 9/25、新局 9/11）研究室開始：和他說話＝研究室那一場（招呼「'+D12.greet[3]+'」＋大一上的三題）',
+    nx.length===2&&nx.every(x=>x.s0.length===1&&/^祐廷。(今天回答得不錯。下週|案例要讀。下週我還會點人。)/.test(x.s0[0])&&x.o0===false&&x.o7===true&&J(U([x.s7[0]]))===J([D12.greet[3]])&&J(x.op7)===J(['「老師，錯誤的『無過失』要怎麼判斷？」','「老師推薦一本書？」',D12.qs[0].opt,'「沒事。」'])),J(nx));
   const a2=await tp(oldD2+7,{classAnswer:'good'}), b2=await tp(oldD2+7,{classAnswer:'none'}), c2=await tp(newD2+7,Object.assign({classAnswer:'good'},NEW)), d2=await tp(newD2+7,Object.assign({classAnswer:'none'},NEW)), e2=await tp(TD('Y1S2',5,4),{classAnswer:'good'});
   check('8-3. 下一週起照 1-1：他有課的學期（大一上、大一下）說「'+NOW+'」，答得好、沒讀都一樣',[a2,b2,c2,d2,e2].every(x=>J(x)===J([NOW])),J([a2,b2,c2,d2,e2]));
   const g2=await tp(TD('Y2S2',5,4),{classAnswer:'good'}), h2=await tp(TD('Y3S1',5,4),{classAnswer:'none'});
@@ -417,6 +438,22 @@ await sec('8-4',async()=>{
   check('8-4. 一直沒去，第 13 週的週一去也演（一則 zhou_* 筆記都沒有＝「四年了」那一版）',s13[0]===D13.q[0]&&s13.includes(D13.q[2])&&s13.includes(D13.q[4]),J(s13));
   fresh(D10,15.15); await CLS.afterClassEvent(GM,item(D10)); at(D10,15.25); const rr=enter('wancai'); const t=rr.ids.includes('prof_zhou')&&await rr.talk('prof_zhou'); const s=said();
   check('8-4. 提示以後走進萬才館（15:15），周教授在，和他說話就是研究室那一場',!!t&&s[0]===D13.q[0]&&s.includes(D13.q[3]),J([rr.ids,s]));
+});
+
+/* ======================= 9 第 9 節（a3ea3918e：AA-C 回 LAWWW-C 14:12 的問題）對稿 ======================= */
+await sec('9',async()=>{
+  check('9. 讀稿第 9 節：第 1 點答得好、沒讀兩句引文、「研究室事件從下一次（下一個週四）開始」；第 2 點大四下換的那一句、不說「週四下課以後我都在」',
+    D9.good==='今天回答得不錯。下週……'&&D9.none==='案例要讀。下週我還會點人。'&&D9.next===true&&D9.term==='Y4S2'&&D9.y4==='大四了。你們這一屆，我從民總教到專題。'&&D9.not==='週四下課以後我都在',J(D9));
+  const NEW={LAW_START_DAY:-18,MAIN_D1:-13}, oldD2=STORY.dayOfKey('2025-09-18'), newD2=STORY.dayOfKey('2025-09-04'), g0=D9.good?D9.good.replace(/…+$/,''):'(稿)';
+  const tq=async(d,h,flags)=>{ fresh(d,h,'wancai',flags); const r=enter('wancai'); if(!r.ids.includes('prof')) return ['不在']; await r.talk('prof'); return said(); };
+  const g=[await tq(oldD2,15.5,{classAnswer:'good'}),await tq(newD2,15.5,Object.assign({classAnswer:'good'},NEW))], n=[await tq(oldD2,15.5,{classAnswer:'none'}),await tq(newD2,15.5,Object.assign({classAnswer:'none'},NEW))];
+  check('9. 稿 → 遊戲（第 1 點）：民總第一堂那天下課後（研究室的題目都還沒問）和他說話，答得好「'+g0+'……」（舊局、新局兩版都是這個開頭）、沒讀「'+D9.none+'」（逐字，前面是名字）',
+    !!D9.good&&!!D9.none&&g.every(x=>x.length===1&&x[0].startsWith('祐廷。'+g0))&&n.every(x=>J(x)===J(['祐廷。'+D9.none])),J([g,n]));
+  fresh(TD('Y4S2',5,3),12,'campus'); const sm=STORY.smallTalk(H.G,'prof_zhou'); const tk=await tq(TD('Y4S2',5,4),15.5,{});
+  check('9. 稿 → 遊戲（第 2 點）：大四下照作息遇到他（SMALLTALK.prof_zhou）、週四萬才館的他（talkProf）都是「'+D9.y4+'」（逐字）',!!D9.y4&&sm.say==='「'+D9.y4+'」'&&J(tk)===J([D9.y4]),J([sm,tk]));
+  check('9. 第 2 點：大四下不邀研究室（兩句都不說「'+D9.not+'」、不提研究室）',!!D9.not&&[sm.say||sm.narr].concat(tk).every(t=>!String(t).includes(D9.not)&&!String(t).includes('研究室')),J([sm,tk]));
+  const ZST=(SMALLTALK.prof_zhou||[]).map(e=>typeof e==='string'?e:e.t);
+  check('9. 遊戲 → 稿：SMALLTALK.prof_zhou 的每一句都在稿上（1-1 那一句、第 9 節第 2 點那一句；外面的「」不算字）',ZST.length===2&&ZST.every(t=>[D11.now,D9.y4].includes(unq(t))),J(ZST));
 });
 
 H.done();
