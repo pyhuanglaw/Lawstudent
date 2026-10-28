@@ -381,7 +381,8 @@ const POOL=(function(){
 
   /* ---------- 2-9 ev_pool_greet ---------- */
   S.greetTarget=function(G,GM){ GM=GM||GMr; if(!GM||!GM.npc) return null; for(const id in GM.npc){ if(/^pool_/.test(id)&&typeof SOCIAL!=='undefined'&&SOCIAL.reveal(id)==='RECOGNIZABLE'&&!(G.flags&&G.flags['greet_'+id])) return id; } return null; };
-  S.greetPlace=function(G,GM){ const id=S.greetTarget(G,GM); const c=id&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '教室'; return c.poolClass?'教室':(c.poolPlace||'教室'); };
+  S.greetPlace=function(G,GM){ const id=S.greetTarget(G,GM); const c=id&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '教室'; if(c.poolClass) return '教室';   /* 在教室出現的人（必修課）：原句 */
+    const e=ent(G,id); return (e&&e.greetAt)||c.poolPlace||'教室'; };   /* 表上的地點；有兩個地點的人照現在這一筆（邱家齊在校園＝總圖門口、馬佳蓉在社博＝社團博覽會）*/
 
   /* ---------- 2-10 舊存檔：讀檔換名、說過秘密的記成「沒選」---------- */
   S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };

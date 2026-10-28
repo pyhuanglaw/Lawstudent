@@ -2,7 +2,7 @@
    AA-C 2026-10-28 定稿（D109，第②級）。台詞、旁白、選項、手機訊息照稿一字不差；系統（地點、時段、條件、數值、手機上限）在 src/pool3d.js。
    - PEOPLE：第 3 節的表（二十位）：常在哪裡、幾點（作息 where，格式同 characters.js 的 daily_schedule）、認識前的外觀描述（desc）、人物頁一句話（card）、personality、
      固定的路人底模（model：LAWWW2 的路人底模，每人一個、二十位不重複；照第 3 節的外觀挑最接近的，LAWWW2 之後可以換）、現成的道具（props：character3d.js 的 PROPS，沒有的列給 LAWWW2）、
-     ev_pool_greet 的「在〈他的地點〉看過」（place）。
+     ev_pool_greet 的「在〈他的地點〉看過」（place；有兩個地點的人，在那一筆作息寫 greetAt：邱家齊的總圖門口、馬佳蓉的社團博覽會）。
      地點對不到一模一樣的，用最近、走得到的位置（Node 建區域量過 E.canStand＋從出生點走得到；見各列的註解）。
    - LINES：第 4～8 節第一批五位（曾靖雯 pool_7、黃郁婷 pool_4、林采潔 pool_1、鄭元碩 pool_6、邱家齊 pool_3）：
      認識、閒聊（talk：{t,when}）、之後的招呼（greet）、秘密、順手的事、他的線、邀你、結局、錯過和不在。
@@ -33,7 +33,7 @@ const POOL_STORY=(function(){
   const PEOPLE={
     pool_1:{ card:'在寫一篇兇手是律師的推理小說', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'舊路書房',
       model:'char.npc_nf17', props:['tote'],   /* 布書袋＝tote；鯊魚夾、封面朝內的推理小說沒有 */
-      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'舊路書房（找書）'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
+      where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'舊路書房，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
       cls:{seat:[2,1],desc:'坐第三排的人'} },
     pool_2:{ card:'雙主修財金，在學日文', personality:'修太多學分的人', place:'總圖',
       model:'char.npc_nm11', props:['calc'],   /* 計算機＝calc；一疊財金的講義沒有 */
@@ -41,34 +41,34 @@ const POOL_STORY=(function(){
     pool_3:{ card:'台南人，媽媽常寄虱目魚丸', personality:'什麼都拿來跟台南比，其實很想家', place:'宿舍的交誼廳',
       model:'char.npc_nm7', props:[],   /* 保冷袋、藍白拖沒有 */
       where:[ {days:[0,2,4],from:21,to:23,zone:'dorm_hall',act:'linger',at:[6.9,6.3,0,0],noHoliday:true,desc:'把冰箱塞滿的學長',label:'男一舍交誼廳'},   /* 週日最多：週日、週二、週四（8-3 的開口在週四晚上）。交誼廳沒有冰箱：站在販賣機、飲水機那一角（冰箱的實體物件列給 LAWWW2）*/
-        {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[79,-4.5,P/2,0],noHoliday:true,desc:'在總圖門口講電話的男生',label:'總圖門口（講電話）'} ] },   /* 校園的總圖門口（「進入總圖書館」(86.4,0) 西南邊）*/
+        {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[79,-4.5,P/2,0],noHoliday:true,desc:'在總圖門口講電話的男生',label:'總圖門口，講電話',greetAt:'總圖門口'} ] },   /* 校園的總圖門口（「進入總圖書館」(86.4,0) 西南邊）*/
     pool_4:{ card:'班代，系學會活動組', personality:'什麼都要數一遍，數完才放心', place:'教室門口',
       model:'char.npc_nf15', props:['folder'],   /* 夾板＝folder（手上的資料夾）；系學會外套沒有 */
       where:[ {days:[3],from:12+10/60,to:12+40/60,zone:'classroom',act:'linger',at:[1.2,6.9,-1.2,0],terms:['Y1S1'],weeks:[7],noHoliday:true,pri:true,door:true,desc:'總是最後進教室的人',label:'教室門口'},   /* 5-3：期中考前一週的週三下課（大一上第 7 週週三，刑總 9:10～12:10 在霖澤館 201）在教室門口 */
-        {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'霖澤館一樓（迎新）'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
+        {days:[1],from:8,to:18,zone:'linze',act:'linger',at:[4.4,1.6,P/2,0],terms:['Y2S1'],weeks:[1],noHoliday:true,desc:'拿著點名板的女生',label:'霖澤館一樓，迎新'} ],   /* 5-5：大二上第 1 週週一在霖澤館一樓（沒有聯絡方式的當面問）*/
       cls:{door:true,seat:[5,0],desc:'總是最後進教室的人'} },   /* 上課前 10 分鐘在教室門口（霖澤館 201 的後門口；其他教室沒有門口的站位＝直接坐）、上課時坐最後一排（表上只寫門口：她是同班同學，上課照樣在）*/
     pool_5:{ card:'吉他社，怕蟑螂', personality:'', place:'兩點半 Café',
       model:'char.npc_nf9', props:['folder'],   /* 抱著一疊講義＝folder；撥片鑰匙圈沒有 */
       where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'兩點半 Café'} ] },
     pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰林大道',
       model:'char.npc_nm9', props:[],   /* 底片相機、格子襯衫沒有 */
-      where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'霖澤館穿堂（展覽）'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
-        {days:ALL,from:16,to:17.5,zone:'campus',act:'linger',at:[-10,0.8,P/2,0],noHoliday:true,if:SUNNY,desc:'脖子上掛相機的學長',label:'椰林大道（拍照）'} ] },   /* 椰林大道中間的黃色虛線旁邊 */
+      where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'霖澤館穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
+        {days:ALL,from:16,to:17.5,zone:'campus',act:'linger',at:[-10,0.8,P/2,0],noHoliday:true,if:SUNNY,desc:'脖子上掛相機的學長',label:'椰林大道，拍照'} ] },   /* 椰林大道中間的黃色虛線旁邊 */
     pool_7:{ card:'每天六點在傅鐘旁邊吃早餐的同學', personality:'想當律師，還不知道要幫誰', place:'傅鐘旁邊',
       model:'char.npc_nf2', props:['tote'],   /* 短髮＝黑色鮑伯頭的底模；帆布包＝tote；銀色保溫瓶沒有（現成的 thermos 是黑色、拿在手上）*/
-      where:[ {days:ALL,from:6,to:7.5,zone:'campus',act:'sit',seat:'bell',dates:[['2029-06-02','2029-06-02']],pri:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊（最後一次）'},   /* 4-4、4-6：畢業典禮當天 06:00～07:30 */
-        {days:WD,from:6.5,to:7+40/60,zone:'campus',act:'sit',seat:'bell',noHoliday:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊（吃早餐）'},   /* 傅鐘旁的長椅（和 Alison 9:30 以後坐的同一張，時間不重疊）*/
-        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[-2.0,1.8,P/2,0],terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],if:FAFU,desc:'坐第一排正中間的女生',label:'萬才館一樓（法服值班）'} ],   /* 4-4：大二起隔週六 9～12 法服值班（和馬佳蓉；STORY.fafuDuty 的週六），圓桌旁 */
+      where:[ {days:ALL,from:6,to:7.5,zone:'campus',act:'sit',seat:'bell',dates:[['2029-06-02','2029-06-02']],pri:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，最後一次'},   /* 4-4、4-6：畢業典禮當天 06:00～07:30 */
+        {days:WD,from:6.5,to:7+40/60,zone:'campus',act:'sit',seat:'bell',noHoliday:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，吃早餐'},   /* 傅鐘旁的長椅（和 Alison 9:30 以後坐的同一張，時間不重疊）*/
+        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[-2.0,1.8,P/2,0],terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],if:FAFU,desc:'坐第一排正中間的女生',label:'萬才館一樓，法服值班'} ],   /* 4-4：大二起隔週六 9～12 法服值班（和馬佳蓉；STORY.fafuDuty 的週六），圓桌旁 */
       cls:{seat:[0,4],desc:'坐第一排正中間的女生'} },
     pool_8:{ card:'辯論社，永遠當計時', personality:'', place:'椰林大道',
       model:'char.npc_nm13', props:['backpack'],   /* 計時器掛在背包上：背包有，計時器沒有 */
       where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-40,0],noHoliday:true,desc:'走路很快的男生',label:'椰林大道'} ] },
     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
-      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓（窗邊）'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
+      where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
     pool_10:{ card:'助教的學弟，想做研究', personality:'', place:'總圖',
       model:'char.npc_nm1', props:[],   /* 寫滿問題的筆記本沒有（現成的 foodmap 是美食地圖本）*/
-      where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖（陳助教旁邊那一桌）'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
+      where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
     pool_11:{ card:'吉他社，和弦換不過去', personality:'', place:'萬才館旁邊',
       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
       where:[ {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },
@@ -77,16 +77,16 @@ const POOL_STORY=(function(){
       where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'醉月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */
     pool_13:{ card:'廣播社', personality:'', place:'椰林大道',
       model:'char.npc_nf10', props:[],   /* 錄音筆沒有 */
-      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-60,0],noHoliday:true,desc:'聲音很好聽的女生',label:'椰林大道（找人訪問）'} ] },
+      where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-60,0],noHoliday:true,desc:'聲音很好聽的女生',label:'椰林大道，找人訪問'} ] },
     pool_14:{ card:'腳踏車社', personality:'', place:'校園',
       model:'char.npc_nm17', props:['helmet'],   /* 安全帽＝helmet；公路車（騎士）沒有接：遊戲裡騎車的路人（GM.extras 的騎士）不能說話，先站在總圖東側的停車架旁 */
-      where:[ {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[47.5,-14.4,0,0],noHoliday:true,desc:'騎腳踏車超快的男生',label:'校園（停車架旁）'} ] },   /* 表上沒寫時間：照上課時間 */
+      where:[ {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[47.5,-14.4,0,0],noHoliday:true,desc:'騎腳踏車超快的男生',label:'校園，停車架旁'} ] },   /* 表上沒寫時間：照上課時間 */
     pool_15:{ card:'在哲學系旁聽，和沛珊同一堂', personality:'', place:'文學院',
       model:'char.npc_nf16', props:['folder'],   /* 哲學系的講義＝folder */
       where:[ {days:WD,from:13,to:16,zone:'campus',act:'sit',seatAt:[-25,-12.94],noHoliday:true,desc:'很會問問題的女生',label:'文學院前的長椅'} ] },   /* 文學院（大道北側 −38,−34）前面、大道上的長椅 */
     pool_16:{ card:'宥辰的朋友，背法條用唱的', personality:'', place:'公館',
       model:'char.npc_nm14', props:[],   /* 音源線沒有 */
-      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館（二手唱片行的騎樓）'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
+      where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，二手唱片行的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
     pool_17:{ card:'筆記王', personality:'', place:'總圖',
       model:'char.npc_nf5', props:['folder'],   /* 一疊用迴紋針夾好的筆記＝folder */
       where:[ {days:WD,from:19,to:22,zone:'library_b1',act:'read',noHoliday:true,desc:'筆記借人看的人',label:'總圖 B1'} ] },
@@ -98,8 +98,8 @@ const POOL_STORY=(function(){
       where:[ {days:WD,from:10,to:12,zone:'soclib',act:'read',noHoliday:true,desc:'講話很小聲的男生',label:'社科院'} ] },   /* 社會科學院一樓遊戲裡沒有室內：社科院圖書館（社科院裡面的區域）*/
     pool_20:{ card:'法服幹部，管器材', personality:'', place:'萬才館一樓',
       model:'char.npc_nf18', props:[],   /* 法服的名牌、延長線沒有 */
-      where:[ {days:ALL,from:0,to:24,zone:'campus',act:'linger',at:[-50,11.25,P,0],activity:'club_expo_y1s1',actHours:true,pri:true,desc:'法服攤位那個人',label:'椰林大道（社團博覽會，法服的攤位）'},   /* 法服帳篷（−47.5,13.5）前，學姊的西邊 */
-        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,desc:'法服攤位那個人',label:'萬才館一樓（法服值班）'} ] }   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
+      where:[ {days:ALL,from:0,to:24,zone:'campus',act:'linger',at:[-50,11.25,P,0],activity:'club_expo_y1s1',actHours:true,pri:true,desc:'法服攤位那個人',label:'社團博覽會，法服的攤位',greetAt:'社團博覽會'},   /* 法服帳篷（−47.5,13.5）前，學姊的西邊 */
+        {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,desc:'法服攤位那個人',label:'萬才館一樓，法服值班'} ] }   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
   };
 
   /* ---------- 第 4～8 節 第一批五位 ---------- */

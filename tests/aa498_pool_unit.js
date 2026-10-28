@@ -197,6 +197,17 @@ await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1
   const pd=D('2029-10-19'); phAt(pd,18.2);
   check('4. 黃郁婷 5-6（2029-10 司法特考放榜，有聯絡方式）：「上了。四等書記官。」「榜單我數了三次。」＋多出來的一句（YT_JUDGE 版）',J(msgs(Y).slice(-3))===J(['上了。四等書記官。','榜單我數了三次。','你大一問我為什麼不考司法官。現在可以回答你了：我想坐的就是這個位子。']),J(msgs(Y).slice(-4))); });
 
+/* 黃郁婷 5-5 報到桌（第 9 節第 5 點以外，順手的事 2 兩條路：有聯絡方式＝私訊、沒有＝霖澤館一樓當面）*/
+await sec('4 黃郁婷 報到桌',async()=>{ const d1=TD('Y2S1',1,1); fresh(d1-2,12,'campus'); meet(Y); meet(Z); INV.addContact(H.G,Y);
+  phAt(d1-1,21.1); const m=(H.G.msgs||[]).find(x=>x.tag==='pool_yt2_ask');
+  check('4. 黃郁婷 5-5：有聯絡方式＝大二上第 1 週前一個週日 21:00 私訊「禮拜三早上迎新的報到桌缺一個人。…」，兩個回覆',!!m&&m.text===L()[Y].ask2&&!!m.ask&&m.ask.opts.length===2&&keyOf(m.day)===keyOf(d1-1),J(msgs(Y)));
+  if(m) PHONE.answer(H.G,m.ask.id,0); const r=SIDEQ.get(H.G,'PQ_YT2'), q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_yt_desk');
+  check('4. 黃郁婷 5-5：回「好。」＝掛「迎新報到桌」、排大二上第 1 週週三 08:30 霖澤館一樓',!!r&&r.state==='open'&&!!q&&q.day===TD('Y2S1',1,3)&&q.h===8.5&&/迎新報到桌/.test(SIDEQ.todayHTML(H.G)),J([r,q]));
+  H.said=[]; H.picks=['問旁邊那個班代']; set(q.day,8.3,'campus'); await OUT.go(GM,q);
+  check('4. 黃郁婷 報到桌（2D）：選「問旁邊那個班代。」→「（頭也沒抬）要背。…」；認識靖雯＝七點半那句旁白；沒有 KV_HANDOVER＝沒有宜蓁；結尾「我數一下。……少一個。我去打電話。」；做完',has('（頭也沒抬）要背。我數過，比高中多。')&&has('（七點半，靖雯提著一袋早餐來，放在報到桌上：「早安。給工作人員的。」）')&&!has('（排在隊伍中間的，是宜蓁。她看到你，比你還緊張。）')&&has('我數一下。……少一個。我去打電話。')&&r.state==='done',J(said()));
+  fresh(d1,10,'linze'); meet(Y); spawn(Y); await talk(Y,[1]); const r2=SIDEQ.get(H.G,'PQ_YT2');
+  check('4. 黃郁婷 5-5 沒有聯絡方式：大二上第 1 週週一在霖澤館一樓當面問；「那天早上我有課。」→「好。我自己來。」＝婉拒（不扣數值）',has(L()[Y].ask2)&&has('好。我自己來。')&&!!r2&&r2.state==='declined'&&!(H.G.msgs||[]).some(x=>x.tag==='pool_yt2_ask'),J(said())); });
+
 /* 林采潔：導覽認識；第三章選「不能用」、大二下文學獎那則是 law 版；大四下印好的書 */
 await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_tour_y1s1'); fresh(TD('Y1S1',1,1),15.5,'library_hall'); const d=onDay(a,TD('Y1S1',1,1)); set(d,15.5,'library_hall'); H.said=[]; H.picks=['法律系的課本']; await CLS.attendActivity(GM,a);
   check('4. 林采潔：總圖新生導覽走完 → 導覽版認識（「……這本的兇手，我猜到了。可是我還是要借。」…），選「法律系的課本算嗎？」',has('……這本的兇手，我猜到了。可是我還是要借。')&&has('算。兇手都寫在條文裡，只是要自己找。')&&SOCIAL.has(C,'FIRST_MET')&&whoOf('我叫林采潔。你看推理小說嗎？')==='林采潔',J(said()));
@@ -286,9 +297,10 @@ await sec(6,async()=>{ const d=TD('Y1S1',4,2); fresh(d,6.75,'campus'); spawn(Z);
 
 /* ---------- 7 2-9 ---------- */
 await sec(7,async()=>{ const ev=STORY_EVENTS.find(e=>e.id==='ev_pool_greet');
-  const run=async(id,pick,zone)=>{ fresh(TD('Y1S1',6,2),14,zone||'campus'); GM.npc={}; const n=spawn(id); for(let i=0;i<3;i++) SOCIAL.noticed(id); H.said=[]; H.picks=[pick]; const f0=SOCIAL.rel(id).fam; await EVENTS.run(ev); return {f:SOCIAL.rel(id).fam-f0,t:H.said[0]&&H.said[0].t}; };
+  const run=async(id,pick,zone,hr)=>{ fresh(TD('Y1S1',6,2),hr||14,zone||'campus'); GM.npc={}; const n=spawn(id); for(let i=0;i<3;i++) SOCIAL.noticed(id); H.said=[]; H.picks=[pick]; const f0=SOCIAL.rel(id).fam; await EVENTS.run(ev); return {f:SOCIAL.rel(id).fam-f0,t:H.said[0]&&H.said[0].t}; };
   let a=await run(Z,0); check('7. 在教室出現的人（曾靖雯）：「迎面走來一個人，你確定在教室看過。對方也放慢了一步。」（原句）',a.t==='迎面走來一個人，你確定在教室看過。對方也放慢了一步。',a.t);
   a=await run('pool_15',0); check('7. 不在教室出現的人（廖芸萱）：換成「在〈他的地點〉看過」＝「…你確定在文學院看過。…」',a.t==='迎面走來一個人，你確定在文學院看過。對方也放慢了一步。',a.t);
+  a=await run(Q,0,'campus',12.5); check('7. 有兩個地點的人照現在那一筆（邱家齊平日中午在校園＝「…你確定在總圖門口看過。…」，不是交誼廳）',a.t==='迎面走來一個人，你確定在總圖門口看過。對方也放慢了一步。',a.t);
   fresh(TD('Y1S1',6,2),14,'campus'); GM.npc={}; spawn('pool_8'); for(let i=0;i<3;i++) SOCIAL.noticed('pool_8'); H.picks=[0]; await EVENTS.run(ev); const f1=H.G.flags.pool_greeted;
   GM.npc={}; spawn('pool_13'); for(let i=0;i<3;i++) SOCIAL.noticed('pool_13'); const f0=SOCIAL.rel('pool_13').fam; H.picks=[1]; H.G.events.last={}; await EVENTS.run(ev);
   check('7. pool_greeted 一次見面用完就清掉：上一個人點了頭，下一個人選「假裝看手機」不加熟悉',f1===undefined&&SOCIAL.rel('pool_13').fam===f0&&H.G.flags.greet_pool_13===true,J([f1,SOCIAL.rel('pool_13').fam,f0])); });
