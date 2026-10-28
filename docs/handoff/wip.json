@@ -1348,7 +1348,7 @@
    "id": "WIP-LAWWW-PRIVAUNT2-1028",
    "role": "LAWWW",
    "task": "PRIV-AUNT-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "57cc0f633、3617da98f",
    "branch": "worktree-agent-abdf948cfaf87793b（子代理；D113 備份 wip_backup/privaunt2_1028.bundle）",
    "files": [
@@ -1357,7 +1357,8 @@
    "todo": "AA_503 後補第 8、9 點：廚房那位就是阿姨（語彤顧店、阿姨不在＝店員也不出現）、大二下以後每學期阿姨那一列 c503_14_1～5 做了；測試接著改",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 12:02／12:07（AA_503 38a74680d、f6069e42d，DL-AA-PRIVQ5、Q6）"
+   "source": "AA-C 2026-10-28 12:02／12:07（AA_503 38a74680d、f6069e42d，DL-AA-PRIVQ5、Q6）",
+   "closedBy": "e4552c35e（合併子代理 e779fad44；company_priv 78、heroine_circle3d 69、aa422 177 ALL PASS）"
   }
  ]
 }
