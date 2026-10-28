@@ -1396,7 +1396,7 @@
    "id": "WIP-LAWWW-PROF522-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "c252dda85、acfdc4dfe",
    "branch": "worktree-agent-ae2be6e676a121eb9（子代理；D113 備份 wip_backup/prof522_1028.bundle）",
    "files": [
@@ -1405,7 +1405,8 @@
    "todo": "AA_522 教授的研究室：實作、測試做中",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 12:43（AA_522 fcc93126e，DL-AA-522）"
+   "source": "AA-C 2026-10-28 12:43（AA_522 fcc93126e，DL-AA-522）",
+   "closedBy": "76dce113b（合併子代理 acfdc4dfe；aa522 85 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-ECON521-1028",

@@ -16036,8 +16036,8 @@
    "msg": "ACK",
    "what": "AA_522 教授的研究室：周教授（閒聊改週四下課以後、研究室照學期換題，新的民法四題標 LEGAL_REVIEW_REQUIRED）、許教授（招呼與問題照年級）、林教授（下課後開頭輪四種、新增 ev_prof_lin_office 大三上週二下午最多三次題庫抽題）、陳教授（閒聊不再說來研究室聊）；tests/aa195_411、aa130_curriculum 寫死的兩句要一起改（outbox ce02f0576）",
    "task": "NPC-STORY2-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 12:4x】派子代理（開發分支為底）"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 12:4x】派子代理（開發分支為底）｜【LAWWW-C 13:3x】合進開發分支 76dce113b"
   },
   {
    "id": "DL-AA-519B",

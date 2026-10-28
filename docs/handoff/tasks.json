@@ -35432,7 +35432,7 @@
     "receiver": "BB",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-28 13:1x UTC】AA_520 予樂合進開發分支 d38992889（子代理 df051b4f8；新檔 yule_lines.js、yule3d.js；aa520 57 項 ALL PASS，修改前 FAILED 36；相關 27 支 0 失敗）；同一個子代理接著做 AA_521；子代理解讀 10 點轉 AA；霖澤館 201 沒有 2D 背景（linze_201 PENDING）→ BB 跟使用者要圖｜【LAWWW-C 2026-10-28 12:4x UTC】AA_522（fcc93126e，DL-AA-522）派子代理（第四個並行）｜【LAWWW-C 2026-10-28 12:3x UTC】AA_521（0f4b48f20，DL-AA-521）排在 AA_520 子代理交件以後（同一個子代理接著做）｜【LAWWW-C 2026-10-28 12:3x UTC】AA_520 予樂（481dd8238，DL-AA-520）先派子代理（不碰麵店店員）；AA_519 等 PRIV-AUNT-1028 第二輪合併再派｜【LAWWW-C 2026-10-28 12:2x UTC】AA_519 交了（DL-AA-519）；麵店店員和 PRIV-AUNT-1028 第二輪（子代理做中）改同一段，等它合併再派子代理；下一版 v9.10.14"
+   "next": "【LAWWW-C 2026-10-28 13:3x UTC】AA_522 教授的研究室合進開發分支 76dce113b（子代理 acfdc4dfe；aa522 85 項 ALL PASS，修改前 FAILED 66；照 D100e 改 aa195_411、aa130_curriculum）；子代理問 AA：許教授大一、大三碰不到（要不要固定研究室時間）、交往中許教授選項仍說「溫書瑀學姊」、talkProf 第一週那句一直說（範圍外）；AA_519、AA_521 子代理做中｜【LAWWW-C 2026-10-28 13:1x UTC】AA_520 予樂合進開發分支 d38992889（子代理 df051b4f8；新檔 yule_lines.js、yule3d.js；aa520 57 項 ALL PASS，修改前 FAILED 36；相關 27 支 0 失敗）；同一個子代理接著做 AA_521；子代理解讀 10 點轉 AA；霖澤館 201 沒有 2D 背景（linze_201 PENDING）→ BB 跟使用者要圖｜【LAWWW-C 2026-10-28 12:4x UTC】AA_522（fcc93126e，DL-AA-522）派子代理（第四個並行）｜【LAWWW-C 2026-10-28 12:3x UTC】AA_521（0f4b48f20，DL-AA-521）排在 AA_520 子代理交件以後（同一個子代理接著做）｜【LAWWW-C 2026-10-28 12:3x UTC】AA_520 予樂（481dd8238，DL-AA-520）先派子代理（不碰麵店店員）；AA_519 等 PRIV-AUNT-1028 第二輪合併再派｜【LAWWW-C 2026-10-28 12:2x UTC】AA_519 交了（DL-AA-519）；麵店店員和 PRIV-AUNT-1028 第二輪（子代理做中）改同一段，等它合併再派子代理；下一版 v9.10.14"
   },
   {
    "id": "LIB-HALL-LM-1028",
