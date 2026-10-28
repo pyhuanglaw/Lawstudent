@@ -15622,6 +15622,19 @@
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 07:2x UTC】派子代理（worktree）做第 1、2 節，heard_lines／heard3d／y34b3d.zqKaiPhone＋三支測試的「沒做」對照表"
+  },
+  {
+   "id": "DL-LW2-NPCPOOLART",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "35b26938c",
+   "msg": "ACK",
+   "what": "NPC-POOL-ART-1028：二十位同學十一位的配件（12 個 GLB）、props3d sit 規則、靖雯保溫瓶放長椅、振宇後背包、男一舍公用冰箱（dorm_hall.glb）、霖澤館考前補給桌（linze_supply_table.glb，互動點南移）；patch npc_pool_art_1028.patch；記帳 ac6653068；截圖 test_shots/npc_pool_art_1028/README.md",
+   "task": "NPC-POOL-ART-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 07:2x UTC】整合進開發分支 971db04b9（patch＋GLB）；相關 Node 全過、全部 Node 在跑；BB 看畫面；要我接的：heroine_circle.js PEOPLE[] 傳 props（麵店阿姨 apron／ladle／bandage）——等私密選項＋大四圈子子代理合併後做（它在改 heroine_circle.js）"
   }
  ],
  "ignored": [

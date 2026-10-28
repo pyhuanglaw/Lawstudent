@@ -34529,7 +34529,8 @@
     "acceptance": "每一位有固定外觀（固定路人底模＋道具），在遊戲裡和女主角同框看得出是誰；不新增人物模型（D99）",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "note": "｜【LAWWW-C 07:2x】LAWWW2 要 heroine_circle.js PEOPLE[] 能傳 props（麵店阿姨 [{name:\"apron\",show:true},\"ladle\",\"bandage\"]）：LAWWW 等 CIRCLE3D-Y4／COMPANY-PRIV 子代理合併後接"
   },
   {
    "id": "CROWD-DEPTS-LOOK-1028",
@@ -34652,7 +34653,7 @@
    "title": "法律系同學二十位的美術：每人固定路人底模（對照表在 LAWWW-C 10-28 04:5x 訊息）可以換、缺的道具與外觀（鯊魚夾、保冷袋、底片相機、保溫瓶、公路車、趴睡動作…）、三個只有互動點的實體物件（男一舍交誼廳冰箱 (7.3,6.7)、霖澤館一樓補給桌 (4.6,0.6)、選做穿堂照片展 (33,-110)）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_498（56ed354e9）子代理 e21e3f37c 的「給 LAWWW2」清單；LAWWW-C 10-28 04:5x 派",
    "first": {
@@ -34672,7 +34673,8 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-28 04:5x UTC】已傳 LAWWW2-C；排在 X125 室內檢討之後或並行由 LAWWW2 決定"
+   "next": "【LAWWW-C 2026-10-28 04:5x UTC】已傳 LAWWW2-C；排在 X125 室內檢討之後或並行由 LAWWW2 決定",
+   "note": "｜【LAWWW-C 07:2x】LAWWW2 35b26938c 整合進 971db04b9；BB 看畫面（配件、冰箱、補給桌那一天）"
   },
   {
    "area": "Y1S1",
