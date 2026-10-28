@@ -1,5 +1,6 @@
-// AA_516 學姊第十四批：她在美國的五個月（企劃線 a9b87c588 → cf7d5fa94 第 7 節：4-3 結帳那句改「……我的也舊了。順便。」、日本路線沒有 2-3；AA-C 2026-10-28；任務 SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
+// AA_516 學姊第十四批：她在美國的五個月（企劃線 a9b87c588 → cf7d5fa94 第 7 節：4-3 結帳那句改「……我的也舊了。順便。」、日本路線沒有 2-3 → 3cd10909b 第 8 節：懸著的承諾補兩句（下次你用我的碗、你站右邊）；AA-C 2026-10-28；任務 SIS-B14-1028、SIS-B14-AAFIX-1028、SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
 // 第 7 節（cf7d5fa94）修改前（只拿掉 sis_b14_events.js 那一句的改動，白名單、測試用新的）：FAILED 3（第 0 段雙向對稿兩項、第 7 段 4-3 逐字）；修改後 ALL PASS。
+// 第 8 節（3cd10909b，SIS-B14-AAFIX-1028）修改前（只拿掉這次 src 的改動：us208_3d.js、us_blank3d.js、sis_b14_3d.js、data/sis_b14_events.js、data/r2y4a_events.js、data/r2y4b_events.js；白名單、測試用新的）：@@BEFORE@@；修改後 ALL PASS。
 // 台詞逐字對稿（git show a9b87c588：第 2～5 節的「>」、選項、說明裡的「」；第 1 節表格「改成」那一欄；兩個方向）。
 // 玩家：A 臺灣交往中、B 日本交往中、C 臺灣朋友（T3）、D 沒見過她（1-6）、E 美國交往中、F 美國沒交往（挽回中）。
 //   0  讀稿、新檔載得到、index.html 順序；稿 → 遊戲（每一句、每個選項、說明裡的「」、第 1 節改成的字）、遊戲 → 稿（新檔每一句＋各檔帶 aa516 的行＋改字）；第 1 節換掉的舊句不在遊戲裡
@@ -14,6 +15,9 @@
 //      4-3 SU-L7「好。週六。」→ 那個週六 10:00（芝加哥那個週六順延）、12/2 初雪開頭那一句；4-4 第四十天「我過去。」→ 當晚 22:30；4-5 SU-L8 → 12/16 離開那天那一句
 //   8  第 5 節挽回中：9/2 10:00 交換生群組一則、回「收到。」REPAIR +1（同一週其他來源不再加）；交往中沒有
 //   9  舊存檔：沒有新旗標照常跑、不丟例外；這一批沒有 3D 當面的入口（全部是出遊、電話、視訊、私訊；PRIVTALK 不用登記）
+//   10 第 8 節（3cd10909b）懸著的承諾兩句：稿 → 遊戲（兩句「>」）；第 1 點 4-1 吃過咖哩（SIS14_US_CURRY）＝之後第一次 208 的場景開頭那一句——七場各自當第一場都有（哪一場先演就哪一場；走進 208、回「我過去。」的出遊兩條路）、
+//      只一次（SIS14_BOWL；下一場沒有）、沒有 SIS14_US_CURRY 沒有、舊存檔已經演過一場的不補、滷肉那一場「（你認得那包八角。）」照舊接在「（還沒進門就聞到了……）」後面；
+//      第 2 點 h9「我會去接妳。」記 SIS14_RIGHT（另一個不記）＝12/23 接機戀人版第一句旁白前面那一句（CG 冬天版通過沒通過都接「她一出來就看到你。」）、日本路線一樣；沒有 SIS14_RIGHT、兩個人版、家族共乘沒有
 // 修改前（開發分支 67a602cd0：那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA516_DOCREPO）：FAILED 81、PASS 13
 //   （PASS＝讀稿、日子、「不該有／照舊」那一類：2-1 沒交往等都沒有、舊的旁白、自己先傳過、4-2 另一個選項、交往中沒有群組那一則、新的局沒有 SIS14_*；
 //    第 5 節、第 7 節 4-3 找不到新事件、丟例外中斷）。修改後 ALL PASS（105 項）。
@@ -73,7 +77,7 @@ const stepOf=id=>{ const L=LADDER&&LADDER.byTerm&&LADDER.byTerm.Y4S1&&LADDER.byT
 const lad=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const st=stepOf(id); if(!st) throw new Error('沒有閒聊階梯 '+id); await STORY.ladPlay(GM,ID,ID,st); };
 
 /* ---------- 讀稿 ---------- */
-const SHA='cf7d5fa94', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
+const SHA='3cd10909b', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA516_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S1=part('## 1. 修正','## 2. '), BODY=part('## 2. ','## 6. ');   /* 第 1 節（表）、第 2～5 節（台詞）*/
@@ -94,6 +98,8 @@ const unq=t=>String(t).replace(/^「|」$/g,'');
 /* 第 1 節的表：| 1-x | 哪裡 | 現在 | 改成 | */
 const ROW={}; for(const l of S1.split('\n')){ const c=l.split('|').map(x=>x.trim()); if(/^1-\d+$/.test(c[1]||'')) ROW[c[1]]={now:inl(c[3]).filter(x=>!/^（/.test(x)||/^（照片/.test(x)),to:inl(c[4]).filter(x=>!/^（/.test(x)||/^（照片/.test(x))}; }
 
+/* 第 8 節（3cd10909b）：懸著的承諾，兩句（第 1 點 4-1 碗、第 2 點 h9 右邊）*/
+const S8=part('## 8. ',null), S8B1=part('1. **4-1','2. **h9',S8), S8B2=part('2. **h9',null,S8);
 /* 稿裡寫在說明句、手機訊息裡的（從稿讀；測試拿這些比遊戲，不拿遊戲的 SISB14_LINES 比遊戲）*/
 const one=(re,src)=>{ const m=re.exec(src==null?BODY:src); return m?m.slice(1):[]; };
 const quotesOf=t=>String(t).split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
@@ -106,7 +112,8 @@ const DX={
   usCurry:quotesOf(part('- 9/1（五）21:00','- 「好。」',part('### 4-1','### 4-2'))),
   eggsMiss:one(/07:15 私訊「([^」]+)」「([^」]+)」/),
   snowCoat:one(/開頭多一句旁白：「([^」]+)」/,part('### 4-3','### 4-4'))[0],
-  leaveBook:quotesOf(part('### 4-5','## 5.'))[0] };
+  leaveBook:quotesOf(part('### 4-5','## 5.'))[0],
+  bowl:quotesOf(S8B1)[0], right:quotesOf(S8B2)[0] };
 /* 遊戲這一批的字：新檔（SISB14_LINES、SISB14_EVENTS）＋各檔帶 aa516 的行（事件的台詞、選項）＋改字（12/20 的截圖、家族群組三句、9/2 交換生群組）*/
 const strDeep=(v,out)=>{ if(v==null) return out; if(typeof v==='string'){ out.push(v); return out; } if(Array.isArray(v)){ v.forEach(x=>strDeep(x,out)); return out; } if(typeof v==='object') for(const k in v) strDeep(v[k],out); return out; };
 const evTexts=(L,pick)=>{ const A=[]; for(const l of (L||[])){ if(typeof l.text==='string'&&pick(l)) A.push(l.text); if(l.choice) for(const c of l.choice) if(pick(c)||pick(l)) A.push(c.text); } return A; };
@@ -124,6 +131,8 @@ const allTexts=()=>{ const A=mineTexts(); for(const e of STORY_EVENTS) A.push(..
 /* ---- 0 ---- */
 await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 讀得到稿（AA_516 '+SHA+'：第 1 節的表、2-1～2-5、第 3 節 t4～t7、4-1～4-5、第 5 節）',DOC.length>6000&&!!S1&&BODY.indexOf('**h9（12/17 起）')>0&&BODY.indexOf('**t7（12/17 起）')>0&&BODY.indexOf('### 4-5')>0&&Object.keys(ROW).length===12,J({len:DOC.length,rows:Object.keys(ROW)}));
+  { const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_516_/.test(e.path));
+    check('0. 劇情匯入白名單有 AA_516（sha '+SHA+'＝AA 加了第 8 節那一版、approved、任務 SIS-B14-1028）；這支測試對同一版的稿',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].task==='SIS-B14-1028',J(A.map(e=>({sha:e.sha,status:e.status,task:e.task})))); }
   check('0. 新檔載得到（SISB14、SISB14_LINES、SISB14_EVENTS）；全部的檔載入沒有錯誤',!loadErr.length&&!!X()&&typeof SISB14_LINES!=='undefined'&&Array.isArray(typeof SISB14_EVENTS!=='undefined'?SISB14_EVENTS:null),J(loadErr));
   check('0. index.html：sis_b13_3d.js → data/sis_b14_events.js → sis_b14_3d.js；在 GAME.boot() 前面',
     /src\/sis_b13_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b14_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b14_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sis_b14_3d.js')<a('<script>GAME.boot();</script>'));
@@ -345,6 +354,59 @@ await sec(9,async()=>{ let ok=true, err='';
   catch(e){ ok=false; err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
   check('9. 舊存檔（沒有 SIS14_*、沒有 msgChat、SIS_AB 沒有 gh／t3）照常跑、不丟例外',ok,err);
   const F=fresh('2028-08-05',20,'dating').flags; check('9. 新的局沒有預先寫進任何 SIS14_* 旗標（都是用到才寫）',!Object.keys(F).some(k=>/^SIS14_/.test(k)),J(Object.keys(F).filter(k=>/^SIS14_/.test(k)))); });
+
+/* ---- 10 第 8 節（3cd10909b，SIS-B14-AAFIX-1028）懸著的承諾：兩句 ---- */
+await sec(10,async()=>{ const S8Q=quotesOf(S8), GS=allTexts();
+  check('10. 稿第 8 節讀得到：兩句「>」；第 1 點（4-1、SIS14_US_CURRY、ev_us208_memo～ev_us208_lastweek、哪一場先演就哪一場、一次）、第 2 點（h9「我會去接妳。」記 SIS14_RIGHT、ev_sis_pickup、「她一出來就看到你。」照舊）',
+    S8Q.length===2&&J(S8Q)===J([DX.bowl,DX.right])&&S8B1.indexOf('「……下次你用我的碗。」')>0&&S8B1.indexOf('`SIS14_US_CURRY`')>0&&S8B1.indexOf('`ev_us208_memo`～`ev_us208_lastweek`')>0&&S8B1.indexOf('哪一場先演就哪一場')>0&&S8B1.indexOf('- 一次。')>0
+    &&S8B2.indexOf('h9 選「我會去接妳。」的，記 `SIS14_RIGHT`')>0&&S8B2.indexOf('`ev_sis_pickup`')>0&&S8B2.indexOf('後面「她一出來就看到你。」照舊')>0,J({S8Q,b1:S8B1.length,b2:S8B2.length}));
+  check('10. 稿 → 遊戲：第 8 節兩句都在遊戲裡',S8Q.length===2&&S8Q.every(t=>GS.has(t)),J(S8Q.filter(t=>!GS.has(t))));
+
+  /* ---------- 第 1 點：4-1「……下次你用我的碗。」→ 之後第一次 208 的場景開頭（us208_3d.js 七場）---------- */
+  const s208=(key,h,fl,o)=>fresh(key,h,'dating',Object.assign({US_ARRIVED:true,US1:'together',US2:'there'},fl||{}),Object.assign({route:'US',zone:'us_shared'},o||{}));
+  const play208=async picks=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const r=US208.tick(GM,0.5); for(let i=0;i<400&&US208.isBusy();i++) await wait(); return r; };   /* 走進 208（同 tests/aa412_us_unit.js）*/
+  const first=n=>{ const s=US208.SCENES.find(x=>x.n===n), l=s&&s.dialogue.find(x=>!!x&&typeof x.text==='string'&&!x.if&&!x.unless); return l?l.text:null; };   /* 那一場原本的第一句（沒有條件的）*/
+  const SC=[['3-1','ev_us208_memo','2028-09-16'],['3-2','ev_us208_lurou','2028-09-30'],['3-3','ev_us208_clipping','2028-10-14'],['3-4','ev_us208_rehearsal','2028-10-28'],['3-5','ev_us208_extra_hour','2028-11-05'],['3-6','ev_us208_plant','2028-11-18'],['3-7','ev_us208_lastweek','2028-12-09']];   /* 每一場自己當第一場的那一天（前面的都過了範圍）*/
+  check('10. 第 1 點 208 的場景＝us208_3d.js 七場 ev_us208_memo～ev_us208_lastweek',typeof US208!=='undefined'&&J(US208.SCENES.map(s=>[s.n,s.ev]))===J(SC.map(x=>[x[0],x[1]])),J(typeof US208!=='undefined'&&US208.SCENES.map(s=>[s.n,s.ev])));
+  const got=[]; for(const [n,id,k] of SC){ s208(k,15,{SIS14_US_CURRY:true}); const due=US208.due(H.G); const r=await play208([0]); const s=said();
+    got.push({n,due:due&&due.n,r,s0:s[0],s1:s[1],first:first(n),bowl:H.G.flags.SIS14_BOWL,done:!!H.G.events.done[id]}); }
+  check('10. 第 1 點 吃過 4-1 的咖哩（SIS14_US_CURRY）：七場哪一場先演，那一場開頭就是「'+DX.bowl+'」，再接那一場原本的第一句；記 SIS14_BOWL',
+    got.length===7&&got.every((g,i)=>g.due===SC[i][0]&&g.r===true&&g.s0===DX.bowl&&!!g.first&&g.s1===g.first&&g.bowl===true&&g.done),J(got));
+  s208('2028-09-16',15,{SIS14_US_CURRY:true}); await play208([0]); const a1=said(); at('2028-09-30',15); const d2=US208.due(H.G); await play208([1]); const a2=said(); at('2028-10-14',15); await play208([0]); const a3=said();
+  check('10. 第 1 點 只一次：3-1 有，之後的 3-2、3-3 沒有（開頭照原本的第一句）',a1[0]===DX.bowl&&a1.filter(t=>t===DX.bowl).length===1&&!!d2&&d2.n==='3-2'&&a2[0]===first('3-2')&&!a2.includes(DX.bowl)&&a3[0]===first('3-3')&&!a3.includes(DX.bowl)&&H.G.flags.SIS14_BOWL===true,J({a1:a1.slice(0,2),a2:a2.slice(0,2),a3:a3.slice(0,2)}));
+  s208('2028-09-16',15); await play208([0]); const n0=said();
+  check('10. 第 1 點 沒有 SIS14_US_CURRY（沒吃過 4-1 的咖哩）：沒有那一句、不記 SIS14_BOWL',n0[0]===first('3-1')&&!n0.includes(DX.bowl)&&H.G.flags.SIS14_BOWL==null,J(n0.slice(0,2)));
+  s208('2028-09-30',15,{SIS14_US_CURRY:true}); H.G.events.done.ev_us208_memo=1; await play208([0]); const o1=said();
+  check('10. 第 1 點 舊存檔：吃過咖哩、更新以前已經演過一場（3-1）＝「之後第一次」已經過了，3-2 不補、不記 SIS14_BOWL',o1[0]===first('3-2')&&!o1.includes(DX.bowl)&&H.G.flags.SIS14_BOWL==null,J(o1.slice(0,2)));
+  { const LU=['（還沒進門就聞到了。醬油、八角，還有一點焦味。）','（你認得那包八角。）','亞洲超市買得到八角。冰糖沒有，我用一般的糖。'];
+    s208('2028-09-30',15,{SIS14_US_CURRY:true}); SOCIAL.remember(ID,'US_ASIAN_MARKET',''); await play208([0]); const l1=said().slice(0,4);
+    s208('2028-09-30',15); SOCIAL.remember(ID,'US_ASIAN_MARKET',''); await play208([0]); const l0=said().slice(0,3);
+    check('10. 第 1 點 3-2 滷肉先演、去過竹葉亞洲超市（US_ASIAN_MARKET）：那一句 →「（還沒進門就聞到了……）」→「（你認得那包八角。）」（AA_412 3-2：接在第一句旁白後面，照舊）；沒吃過咖哩照舊三句',
+      J(l1)===J([DX.bowl].concat(LU))&&J(l0)===J(LU),J({l1,l0})); }
+  { const d=D('2028-09-16'); s208(d,13.9,{SIS14_US_CURRY:true},{zone:'us_apartment'}); phAt(d,14.05); const m=PHONE.byAsk(H.G,'us208_ask_0916'); if(m) answer('us208_ask_0916',0); ph(); const q=OUT.get(H.G,'us208_0916');
+    if(q) at(d,q.h-0.1); await goOut('us208_0916',[0]); const s=said();
+    check('10. 第 1 點 回她週末 14:00 私訊「我過去。」的出遊（AA_454 1，不是自己走進 208）也一樣：3-1 開頭那一句、記 SIS14_BOWL',!!m&&!!q&&q.ev==='ev_us208_memo'&&s[0]===DX.bowl&&s[1]===first('3-1')&&H.G.flags.SIS14_BOWL===true,J({m:!!m,q:q&&{ev:q.ev,h:q.h},s:s.slice(0,2)})); }
+
+  /* ---------- 第 2 點：h9「出口那邊，你站右邊。我出來先看右邊。」→ 12/23 接機戀人版 ---------- */
+  await vidGf('2028-12-17',15,[0]); const r0=H.G.flags.SIS14_RIGHT, h0=said(); await vidGf('2028-12-17',15,[1]); const r1=H.G.flags.SIS14_RIGHT;
+  check('10. 第 2 點 h9 選「我會去接妳。」記 SIS14_RIGHT（她回「嗯。……出口那邊，你站右邊。我出來先看右邊。」照舊）；選「還是開一下。」不記',r0===true&&h0.includes('嗯。……出口那邊，你站右邊。我出來先看右邊。')&&r1==null,J({r0,r1,h0}));
+  const pk=async(kind,fl,o,pre)=>{ fresh('2028-12-20',21.1,kind,fl,o); if(pre) pre(); ph(); if(PHONE.byAsk(H.G,'y4_pickup_two')) answer('y4_pickup_two',0); else if(PHONE.byAsk(H.G,'y4_pickup')) answer('y4_pickup',0); ph();
+    const q=OUT.get(H.G,'y4_sis_pickup'); if(!q) return {v:H.G.flags.SIS_PICKUP_V||null,s:[]}; at('2028-12-23',19.6); await goOut('y4_sis_pickup',[0]); return {v:H.G.flags.SIS_PICKUP_V,s:said()}; };   /* 12/20 21:00 → 12/23 20:30 入境大廳 */
+  const LOVE1='（她一出來就看到你。推車停在原地，她走過來，抱住你。）';
+  const p1=await pk('dating',{SIS14_RIGHT:true}), p0=await pk('dating');
+  check('10. 第 2 點 12/23 接機戀人版、有 SIS14_RIGHT：第一句旁白前面「'+DX.right+'」，接「（她一出來就看到你。……抱住你。）」「（很久，她才放開。）」；沒有 SIS14_RIGHT 照舊',
+    p1.v==='lover'&&J(p1.s.slice(0,3))===J([DX.right,LOVE1,'（很久，她才放開。）'])&&p1.s.filter(t=>t===DX.right).length===1&&p0.v==='lover'&&p0.s[0]===LOVE1&&!p0.s.includes(DX.right),J({p1:p1.s.slice(0,3),p0:p0.s.slice(0,2)}));
+  { const cg0=ADV.cg, had=CG_REGISTRY.cg_airport_pickup_heroine05, rd=had?had.redrawn:undefined; let pc=null;
+    try{ ADV.cg=function(id){ const r=cg0.apply(this,arguments); H.said.push({who:'CG',t:id}); return r; }; if(had) had.redrawn=true; else CG_REGISTRY.cg_airport_pickup_heroine05={file:'(測試)',redrawn:true};
+      pc=await pk('dating',{SIS14_RIGHT:true}); }
+    finally{ ADV.cg=cg0; if(had){ if(rd===undefined) delete had.redrawn; else had.redrawn=rd; } else delete CG_REGISTRY.cg_airport_pickup_heroine05; }
+    check('10. 第 2 點 冬天版 CG 通過以後（戀人版第一句拆成兩句、CG 夾在中間）：一樣先「'+DX.right+'」，再「（她一出來就看到你。推車停在原地。）」→ CG →「（她走過來，抱住你。）」',
+      !!pc&&J(pc.s.slice(0,4))===J([DX.right,'（她一出來就看到你。推車停在原地。）','cg_airport_pickup_heroine05','（她走過來，抱住你。）']),J(pc&&pc.s.slice(0,4))); }
+  const pj=await pk('dating',{SIS14_RIGHT:true,JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05')},{route:'JP'});
+  check('10. 第 2 點 日本路線交往中（h9 照臺灣，稿 2-4）：一樣',pj.v==='lover'&&J(pj.s.slice(0,2))===J([DX.right,LOVE1]),J(pj));
+  const pt=await pk('friend',{SIS14_RIGHT:true},null,()=>SOCIAL.remember(ID,'DROVE_HER','')), pf=await pk('fam',{SIS14_RIGHT:true});
+  check('10. 第 2 點 只有戀人版：兩個人版、家族共乘就算有 SIS14_RIGHT（後來分開了）也沒有那一句',pt.v==='two'&&pt.s[0]==='（她推著行李推車走出來。看到你，停了一下。）'&&!pt.s.includes(DX.right)&&pf.v==='family'&&pf.s.length>0&&!pf.s.includes(DX.right),J({pt:[pt.v,pt.s.slice(0,1)],pf:[pf.v,pf.s.slice(0,1)]}));
+});
 
 H.done();
 })();
