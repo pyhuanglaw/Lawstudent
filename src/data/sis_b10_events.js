@@ -26,7 +26,7 @@ const SISB10_EVENTS=(function(){
       dialogue:[ {scene:'醉月湖',bg:'zuiyue_night'},
         N('（湖邊沒有幾個人。遠遠的，聽得到椰林大道那邊有人在倒數。）'),
         SIS('我每年這時候都在家，寫明年的計畫本。'),SIS('今年寫到一半就出來了。'),
-        {choice:[{text:'「寫到哪裡？」',goto:'a'},{text:'（陪她看湖）',goto:'b'}]},
+        {choice:[{text:'「寫到哪裡？」',set:{SIS_NYE_PLAN_Q:true},goto:'a'},{text:'（陪她看湖）',goto:'b'}]},   /* AA_512 第 2 節第 8 點：記 SIS_NYE_PLAN_Q（2029-01-31「明天二月了。」兌現，src/sis_b13_3d.js S.feb）*/
         {label:'a'},SIS('一月。……二月以後，等你一起排。'),{goto:'c'},
         {label:'b'},N('（湖心亭的燈映在水上。她把手放進你外套的口袋。）'),
         {label:'c'},N('（遠處有人在喊「新年快樂」。她看了一下手機的時間，才開口。）'),SIS('新年快樂。'),
@@ -75,7 +75,7 @@ const SISB10_EVENTS=(function(){
         {label:'b27'},SIS('還沒到十二點。'),SIS('……好，新年快樂。'),
         {label:'e27'},SIS('我進去了。我媽在叫。'),{goto:'end'},
         {label:'y28'},SIS('我媽問我，如果去交換，過年回不回來。'),SIS('我說十二月就回來了。她算了一下，說那就好。'),   /* 3/15 才放榜，這時候說的是「如果」（AA_396 2-2）*/
-        {choice:[{text:'「我也算過了。」',goto:'a28'},{text:'「妳會想家嗎？」',goto:'b28'}]},
+        {choice:[{text:'「我也算過了。」',goto:'a28'},{text:'「妳會想家嗎？」',set:{SIS_ASKED_HOME_CNY:true},goto:'b28'}]},   /* AA_512 第 2 節第 6 點（稿寫「醉月湖那場」，這一句實際在 2028 除夕的電話）：記 SIS_ASKED_HOME_CNY，第四十天那一週的視訊開頭兌現（r2y4b_events.js）*/
         {label:'a28'},SIS('……你算了什麼。'),ME('十二月二十三號。'),SIS('嗯。我也是算這一天。'),{goto:'end'},
         {label:'b28'},SIS('不知道。我沒有離開這麼久過。'),SIS('……到時候再告訴你。'),{goto:'end'},
         {label:'y29'},SIS('（照片：一盤水餃）'),SIS('我包的。'),SIS('……最醜的那顆是我包的。不用找，你看得出來。'),

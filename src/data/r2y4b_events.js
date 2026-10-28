@@ -398,6 +398,13 @@ const R2Y4B_EVENTS=(function(){
      沒到那一組的週次、用完以後只有一行旁白；沒接＝outingMissed「你在忙。下週。」（連兩週沒接，第三週她不打，r2y4b3d.js saGf）---------- */
   { id:'ev_sis_video_gf', title:'視訊', participants:['heroine_05'], location:'any', trigger:'outing', background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
+      /* AA_512 第 2 節第 6、9 點（企劃線 c444f0757）：開頭多的話（條件在 src/sis_b13_3d.js；aa512：tests/aa512_sis_b13_unit.js 對稿）——
+         除夕電話問過「妳會想家嗎？」的，第四十天那一週（9/10）的視訊；上一次 g3 選「我這邊也還沒吃。」、g2 選「那是好問題的意思嗎？」的，下一次視訊 */
+      {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.day40Video(G)},speaker:'heroine_05',text:'你之前問我會不會想家。……會。今天第四十天。',set:{SIS13_DAY40:'video'},aa512:true},
+      {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.g3Due(G)},speaker:null,text:'（她把另一半月餅拿到鏡頭前。）',aa512:true},
+      {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.g3Due(G)},speaker:'heroine_05',text:'說好的。……你的呢？',set:{SIS13_G3_SAID:true},aa512:true},
+      {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.g2Due(G)},speaker:'heroine_05',text:'我又舉手了。……教授說「下課來找我」。',aa512:true},
+      {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.g2Due(G)},speaker:'heroine_05',text:'我去了。聊了半小時。……原來那真的是好問題。',set:{SIS13_G2_SAID:true},aa512:true},
       {if:{custom:G=>R().sisGfSet(G)===0},goto:'g1'},{if:{custom:G=>R().sisGfSet(G)===1},goto:'g2'},{if:{custom:G=>R().sisGfSet(G)===2},goto:'g3'},
       {if:{custom:G=>R().sisGfSet(G)===3},goto:'g4'},{if:{custom:G=>R().sisGfSet(G)===4},goto:'g5'},{if:{custom:G=>R().sisGfSet(G)===5},goto:'g6'},
       {speaker:null,text:'（視訊。她那邊是週六晚上。你們講到她那邊快十二點，她說要睡了，鏡頭又開了三分鐘才關。）'},{end:true},   /* R().SA_VG_NARR */
@@ -406,12 +413,12 @@ const R2Y4B_EVENTS=(function(){
       {label:'g1a'},{speaker:null,text:'（她把鏡頭轉過去：一張桌子，上面已經疊了三本書。）'},{speaker:'heroine_05',text:'三本是今天借的。'},{end:true},
       {label:'g1b'},{speaker:'heroine_05',text:'吃了。三明治。這邊的三明治都很大，我吃一半，另一半當明天早餐。'},{end:true},
       {label:'g2'},{speaker:'heroine_05',text:'這邊上課，大家一直舉手。'},{speaker:'heroine_05',text:'我今天舉了一次。……講完教授說「好問題」，然後就換下一個人了。'},
-      {choice:[{text:'「那是好問題的意思嗎？」',goto:'g2a'},{text:'「妳問了什麼？」',goto:'g2b'}]},
+      {choice:[{text:'「那是好問題的意思嗎？」',consequences:{stamp:['SIS13_G2_DAY']},goto:'g2a'},{text:'「妳問了什麼？」',goto:'g2b'}]},   /* AA_512 第 2 節第 9 點：記那一天（SIS13_G2_DAY），下一次視訊開頭兌現 */
       {label:'g2a'},{speaker:'heroine_05',text:'我也在想。……下禮拜再舉一次，看他怎麼說。'},{end:true},
       {label:'g2b'},{speaker:'heroine_05',text:'臺灣的法律扶助要等多久。他們那邊等更久。'},{end:true},
       {label:'g3'},{speaker:'heroine_05',text:'這邊沒有中秋。'},{speaker:null,text:'（她把一個小紙盒舉到鏡頭前，裡面是一顆月餅。）'},
       {speaker:'heroine_05',text:'亞洲超市買的。一顆就要五塊美金。'},{speaker:'heroine_05',text:'……我切一半給你看。另一半留到星期二。'},
-      {choice:[{text:'「我這邊也還沒吃。」',goto:'g3a'},{text:'（把你桌上的柚子拿起來給她看）',goto:'g3b'}]},
+      {choice:[{text:'「我這邊也還沒吃。」',consequences:{stamp:['SIS13_G3_DAY']},goto:'g3a'},{text:'（把你桌上的柚子拿起來給她看）',goto:'g3b'}]},   /* AA_512 第 2 節第 9 點：記那一天（SIS13_G3_DAY），下一次視訊開頭兌現 */
       {label:'g3a'},{speaker:'heroine_05',text:'那星期二一起吃。你那邊早上，我這邊晚上。'},{end:true},
       {label:'g3b'},{speaker:'heroine_05',text:'……不公平。'},{end:true},
       {label:'g4'},{speaker:'heroine_05',text:'這邊五點就天黑了。'},{speaker:'heroine_05',text:'從圖書館走回來，路上都沒有人。'},{speaker:null,text:'（她停了一下。）'},
