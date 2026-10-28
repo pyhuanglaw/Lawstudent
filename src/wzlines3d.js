@@ -62,7 +62,7 @@ const WZL=(function(){
       try{ await EVENTS.runLines(e.dialogue||[],e); if(EVENTS.applyConsequences) EVENTS.applyConsequences(e.consequences); G.events.done[id]=(G.events.done[id]||0)+1; G.events.last[id]=G.day; } finally { if(own&&ADV.active) ADV.end(); }
       return true; }
     await EVENTS.run(e,o); return !!done(GM.G,id); };
-  const fire=(GM,id,after)=>{ S.playing=true; S.run(GM,id).then(r=>after&&after(r)).catch(e=>console.warn('WZL',id,e)).finally(()=>{ S.playing=false; }); return true; };
+  const fire=(GM,id,after,always)=>{ S.playing=true; S.run(GM,id).then(r=>after&&after(r)).catch(e=>console.warn('WZL',id,e)).finally(()=>{ S.playing=false; if(always) always(); }); return true; };   /* always：演完一定跑（出錯也跑），例：放開 WZCAT.hold */
 
   // ================= 線一、線三：法服值班的週六（AA_420 3-1 最後的規則）=================
   S.LINE={lease2:{ev:'ev_wz_c_lease2',title:'法服值班（今天陪阿德）'},lease3:{ev:'ev_wz_c_lease3',title:'法服值班（今天陪阿德）'},ins2:{ev:'ev_wz_b_ins2',title:'法服值班（今天陪林太太）'}};
@@ -181,7 +181,7 @@ const WZL=(function(){
     if(F.WZ_CAT_FOUND==null) F.WZ_CAT_FOUND=G.day; return true; };
   S.parkTick=function(GM){ const G=GM.G; if(!parkIn(GM)) return false;
     if(S.lostDue(G)) return fire(GM,'ev_wz_p_lost');
-    if(S.backDue(G)) return fire(GM,'ev_wz_p_back');
+    if(S.backDue(G)){ const W=typeof WZCAT!=='undefined'&&WZCAT.hold?WZCAT:null; if(W) W.hold('lie'); return fire(GM,'ev_wz_p_back',null,()=>{ if(W) W.release(); }); }   /* 所長回來：演這一場時貓固定趴在圓椅上、不管幾點（AA_493 第 3 節；LAWWW2 WZCAT.hold／release，ccc329672）；演完放開 */
     if(S.p4Due(G)) return fire(GM,'ev_wz_p4');
     if(S.classDue(G)) return fire(GM,'ev_wz_p4_class');
     if(S.p5Due(G)){ const F=G.flags, t=S.term(G), R=F.WZ_P5=Object.assign({},F.WZ_P5); R[t.id]=(R[t.id]|0)+1; R.last=G.day; return fire(GM,'ev_wz_p5',()=>{ if(!F.ENC_PARK_ZQ_SEEN){ F.ENC_PARK_ZQ_SEEN=G.day; F.WZ_ZQ_P5_FU=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.remember('heroine_04','ENC_PARK_ZQ',''); SOCIAL.adjust('heroine_04',{fam:1}); } } }); }

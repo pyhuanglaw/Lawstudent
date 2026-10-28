@@ -5,7 +5,7 @@
 //      下雨（第 5 節，94398e7e9）＝「縮在涼亭的石桌底下躲雨。你蹲下來，牠沒有逃走。」；第二句「你要叫牠什麼？」、三個名字照舊
 //   2  有 3D 的貓（WZCAT 載入）照它的 awake 判斷（同一個時段、天氣規則，3D 和句子不會對不上）
 //   3  環境句（story3d.js，16:00～21:00）：17:30 以前白天版「…在老樹下面走來走去。」、以後原句（tests/wz_park_talk_unit.js 第 8 項也查）
-//   4  所長回來（wz_events.js ev_wz_p_back）：白天「坐在樹下的圓椅前面」、晚上原句（tests/aa420_wz_unit.js 第 4 項演一次）
+//   4  所長回來（wz_events.js ev_wz_p_back）：句子不改（AA_493 第 3 節第一選擇）；演的時候貓固定趴在圓椅上（WZCAT.hold('lie')／release，LAWWW2 ccc329672；tests/aa420_wz_unit.js 第 4 項演一次）
 // 修改前（開發分支 62d05a94c）：0、1、3、4 FAIL。用法：node tests/aa493_cat_lines_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -18,7 +18,7 @@ const mkGM=(G,ans)=>{ const q=(ans||[]).slice(); const L={says:[],menus:[]}; ret
   advance(h){ G.hour+=h; },toast(){},say:async(w,t)=>{ L.says.push(t); },choose:async o=>{ L.menus.push(o.map(x=>x.t)); const a=q.shift(); return a==null?0:a; }}; };
 const CAT={park:'cat'};
 const DAYL='一隻橘白色的胖貓，坐在圓椅前面看你。你蹲下來，牠沒有逃走。', LIE='一隻橘白色的胖貓，趴在圓椅上。牠沒有逃走。', RAIN='一隻橘白色的胖貓，縮在涼亭的石桌底下躲雨。你蹲下來，牠沒有逃走。';
-const AMB_DAY='有隻貓在老樹下面走來走去。有人蹲在旁邊拍照。', BACK_DAY='所長回來了，前腳纏著一圈繃帶，坐在樹下的圓椅前面，和平常一樣不理人。';
+const AMB_DAY='有隻貓在老樹下面走來走去。有人蹲在旁邊拍照。', BACK_DAY='所長回來了，前腳纏著一圈繃帶，坐在樹下的圓椅前面，和平常一樣不理人。';   /* 稿裡的備用句（做不到固定姿勢才用）*/
 (async()=>{
   let doc=''; try{ doc=cp.execSync('git show 94398e7e9:"docs/story_planning/AA_493_回LAWWW_溫州街的貓會走動以後的四句.md"',{cwd:ROOT,encoding:'utf8'}); }catch(e){}
   check('0. 讀得到 AA_493（AA 分支 94398e7e9，含第 5 節）',doc.length>300,'git fetch origin claude/magical-albattani-bk7b4n');
@@ -43,6 +43,8 @@ const AMB_DAY='有隻貓在老樹下面走來走去。有人蹲在旁邊拍照�
     const r=h=>fn&&fn(mk(dayOf('2025-10-08'),h)); check('3. 環境句：16:30 白天版、17:30 以後原句、下雨不播',!!fn&&r(16.5)[0]===AMB_DAY&&/^老樹下的圓椅上有隻貓在睡覺/.test(r(17.5)[0])&&fn(mk(dayOf('2025-10-08'),16.5,{weather:'rain'}))===null,m?J([r(16.5),r(17.5)]):'找不到'); }
   // 4 所長回來
   { const s=fs.readFileSync(path.join(ROOT,'src/data/wz_events.js'),'utf8'); const i=s.indexOf("ev('ev_wz_p_back'"), ln=i>=0?s.slice(i,s.indexOf('\n',i)):'';
-    check('4. 所長回來：白天版（if 貓醒著）、晚上原句（unless）兩行都在、看 PARK.catAwake',ln.includes(BACK_DAY)&&ln.includes('躺在樹下的圓椅上')&&/catDay/.test(ln)&&/PARK\.catAwake/.test(s),ln.slice(0,120)); }
+    const wl=fs.readFileSync(path.join(ROOT,'src/wzlines3d.js'),'utf8').replace(/\/\*[\s\S]*?\*\//g,''), bk=(wl.match(/if\(S\.backDue\(G\)\)[^\n]*/)||[''])[0];
+    check('4. 所長回來：句子不改（只有原句「躺在樹下的圓椅上」、沒有白天的備用句）',ln.includes('躺在樹下的圓椅上')&&!ln.includes(BACK_DAY)&&!/catDay/.test(ln),ln.slice(0,120));
+    check('4. 演這一場時把貓固定趴著：wzlines3d.js 開演前 WZCAT.hold(\'lie\')、演完（always）release（tests/aa420_wz_unit.js 第 4 項演一次）',/hold\('lie'\)/.test(bk)&&/release\(\)/.test(bk)&&/fire\(GM,'ev_wz_p_back',null,/.test(bk),bk.slice(0,160)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
