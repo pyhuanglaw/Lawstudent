@@ -34770,7 +34770,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
-   "note": "｜【LAWWW-C 07:5x】合進開發分支 d55f3aff1（子代理 a32da74ed）；私密入口 22 筆擋住、4 筆 3D 沒有入口、12 項問 AA（PRIVTALK.ASK_AA）；BB 看畫面｜【LAWWW-C 07:5x】AA 6bc3cd784 定了 ASK_AA 12 項／圈子 6 項＝PRIV-AAFIX-1028"
+   "note": "｜【LAWWW-C 07:5x】合進開發分支 d55f3aff1（子代理 a32da74ed）；私密入口 22 筆擋住、4 筆 3D 沒有入口、12 項問 AA（PRIVTALK.ASK_AA（10-28 09:0x 起改成 S.DECIDED，AA 6bc3cd784 定了））；BB 看畫面｜【LAWWW-C 07:5x】AA 6bc3cd784 定了 ASK_AA 12 項／圈子 6 項＝PRIV-AAFIX-1028"
   },
   {
    "id": "CIRCLE3D-Y4-1028",
@@ -34938,7 +34938,7 @@
    "title": "AA 定的 18 項（6bc3cd784）：私密 12 項＋共同保底（7 天／到期那天照演加旁白）、大四圈子 B2～B5",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
    "first": {
@@ -34952,7 +34952,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
-   "note": "【LAWWW-C 2026-10-28 07:5x】子代理（worktree）；檔案 src/privtalk3d.js、src/story3d.js、src/data/heroine_circle.js、tests/company_priv_unit.js、tests/heroine_circle3d_unit.js",
+   "note": "【LAWWW-C 2026-10-28 07:5x】子代理（worktree）；檔案 src/privtalk3d.js、src/story3d.js、src/data/heroine_circle.js、tests/company_priv_unit.js、tests/heroine_circle3d_unit.js｜【LAWWW-C 09:0x】子代理 ed686822f 合併 e324ccc5e（company_priv 59 項、heroine_circle3d 63 項；相關 13 支 ALL PASS）；4 項請 AA 確認（missDating 只在當面、Café 第一句、擋下的次數也算、選項等待重算）；BB 瀏覽器",
    "xai": {
     "spec": "AA_503 第 14 節、AA_509 最後一節（企劃線 6bc3cd784）",
     "branch": "claude/adoring-meitner-mqzst8",

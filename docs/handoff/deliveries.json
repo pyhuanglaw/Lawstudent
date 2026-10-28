@@ -15698,8 +15698,8 @@
    "msg": "SENT",
    "what": "回 d55f3aff1 的 18 項：AA_503 第 14 節（私密 12 項＋共同保底：沒有期限的等 7 天、第 8 天起照演加旁白；有期限的到期那天照演）、AA_509 最後一節（大四圈子 6 項）；outbox c6586d9a5",
    "task": "PRIV-AAFIX-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 07:5x UTC】派子代理 PRIV-AAFIX-1028"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 07:5x UTC】派子代理 PRIV-AAFIX-1028｜【LAWWW-C 09:0x】e324ccc5e"
   },
   {
    "id": "DL-AA-512FIX",
