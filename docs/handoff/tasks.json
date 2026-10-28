@@ -35163,7 +35163,7 @@
    "title": "萬才館室內照霖澤館大廳的做法做光照烘焙（樓梯只做看得到的面、止滑條自己的材質、lm 分組；bake_wancai.sh）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P2",
    "source": "LAWWW2-C 自領（X125 室內提升的下一間；WIP 5ae9e8559）",
    "first": {
@@ -35176,7 +35176,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 09:3x UTC】LAWWW2 做中；排在 LOBBY-CEIL-1028 後面（v9.10.13 擋件先修）",
+   "next": "【LAWWW-C 2026-10-28 10:2x UTC】LAWWW2 交件 69bf6b2e4（patch wancai_lm_1028：wancai_layout 九筆擺設、wancai3d.js 家具 prop、wancai_interior.py、tests/wancai_lightmap_unit.js、LICENSES；二進位 wancai_interior.glb＋兩張光照貼圖；萬才館 draw call +7～10%；西南角、樓梯側比改前暗）；開發分支全部 Node 跑完再套；下一版 v9.10.14；BB 進兩次白天晚上看｜【LAWWW-C 2026-10-28 09:3x UTC】LAWWW2 做中；排在 LOBBY-CEIL-1028 後面（v9.10.13 擋件先修）",
    "xai": {
     "spec": "X125 室內檢討（038fe55b1）＋大廳第二版的做法",
     "branch": "claude/focused-cray-c9uwvw",
