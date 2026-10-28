@@ -401,7 +401,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'t6a'},{speaker:null,text:'（她說了一次。很標準。）',aa516:true},{speaker:'heroine_05',text:'……這樣可以嗎。',aa516:true},{goto:'inv'},
       {label:'t6b'},{speaker:'heroine_05',text:'中文的才是。',aa516:true},{goto:'inv'},
       {label:'t7'},{speaker:'heroine_05',text:'最後一通。下週六回去。',aa516:true},{speaker:'heroine_05',text:'回去以後，這個時間我應該在睡覺。',aa516:true},
-      {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',goto:'t7b',aa516:true}]},
+      {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',set:{SIS16_T7B:true},goto:'t7b',aa516:true}]},   /* AA_523 2-5（企劃線 0d7b5388b）：選 t7b 記 SIS16_T7B＝12/25 14:00「白天了。」（src/sis_b16_3d.js）*/
       {label:'t7a'},{speaker:'heroine_05',text:'嗯。回去見。',aa516:true},{goto:'inv'},
       {label:'t7b'},{speaker:'heroine_05',text:'……白天打。我會醒著。',aa516:true},{goto:'inv'},
       {label:'vn'},{speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR */
@@ -456,7 +456,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'g5a'},{speaker:'heroine_05',text:'說了三次。第三次她抱了我一下。'},{end:true},
       {label:'g5b'},{speaker:'heroine_05',text:'是電鍋煮的。……我差點哭。沒有，沒哭。'},{end:true},
       {label:'g6'},{speaker:'heroine_05',text:'二十三號晚上八點落地。',aa516:true},{speaker:'heroine_05',text:'班次，回去前傳給你。',aa516:true},   /* AA_516 1-1（企劃線 a9b87c588）：原本「二十三號早上到。」「機場的班次我傳給你了。」和接機（12/23 20:30 入境大廳、12/20 那一則）對不上 */
-      {choice:[{text:'「我去接妳。」',goto:'g6a'},{text:'「要我帶什麼？」',goto:'g6b'}]},
+      {choice:[{text:'「我去接妳。」',goto:'g6a'},{text:'「要我帶什麼？」',set:{SIS16_G6B:true},goto:'g6b'}]},   /* AA_523 5-1：選 g6b 記 SIS16_G6B＝12/23 接機帶外套給她（r2y4a_events.js ev_sis_pickup）*/
       {label:'g6a'},{speaker:'heroine_05',text:'好。……我會在出口那邊找你。'},{end:true},
       {label:'g6b'},{speaker:'heroine_05',text:'外套。我的那件在行李最下面。'},{end:true},
       /* ---- AA_516 2-2 h1～h9（台詞照稿；h5 選「好吃嗎？」記 SIS14_CURRY_PROMISE＝2-5 12/31 她家的咖哩）---- */
@@ -469,7 +469,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'h2a'},{speaker:'heroine_05',text:'嗯。救生員已經記得我了。……他說我每天都是第一個。',aa516:true},{end:true},
       {label:'h2b'},{speaker:'heroine_05',text:'……好。停一次，不算輸。',aa516:true},{end:true},
       {label:'h3'},{speaker:'heroine_05',text:'研討課的同學，都叫我 Shu。',aa516:true},{speaker:'heroine_05',text:'書瑀太難念了。他們念了三次，我說 Shu 就好。',aa516:true},
-      {choice:[{text:'「那我也叫妳 Shu？」',goto:'h3a',aa516:true},{text:'「Shu 很好聽。」',goto:'h3b',aa516:true}]},
+      {choice:[{text:'「那我也叫妳 Shu？」',goto:'h3a',aa516:true},{text:'「Shu 很好聽。」',set:{SIS16_H3B:true},goto:'h3b',aa516:true}]},   /* AA_523 1-2：選 h3b 記 SIS16_H3B＝1/20 拆箱多一個選項「Shu，謝謝。」*/
       {label:'h3a'},{speaker:'heroine_05',text:'不要。……你叫原本那個。',aa516:true},{end:true},
       {label:'h3b'},{speaker:'heroine_05',text:'嗯。可是回去以後，就沒有人這樣叫了。',aa516:true},{end:true},
       {label:'h4'},{speaker:'heroine_05',text:'這邊的葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'我寄了一個東西回去。……不要問，到了就知道。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
@@ -493,7 +493,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'h8a'},{speaker:'heroine_05',text:'那我拍給你。……有腳印的那種。',aa516:true},{end:true},   /* 家族群組 12/6（三）的照片就是 1-9 那一張（不另外送）*/
       {label:'h8b'},{speaker:'heroine_05',text:'……那不一樣。這邊是一整片。',aa516:true},{end:true},
       {label:'h9'},{speaker:'heroine_05',text:'最後一通了。',aa516:true},{speaker:'heroine_05',text:'下禮拜六，就不用開鏡頭了。',aa516:true},
-      {choice:[{text:'「我會去接妳。」',set:{SIS14_RIGHT:true},goto:'h9a',aa516:true},{text:'「還是開一下。」',goto:'h9b',aa516:true}]},   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：記 SIS14_RIGHT＝12/23 接機戀人版第一句旁白前面多一句「（你站在出口的右邊。）」（r2y4a_events.js ev_sis_pickup）*/
+      {choice:[{text:'「我會去接妳。」',set:{SIS14_RIGHT:true},goto:'h9a',aa516:true},{text:'「還是開一下。」',set:{SIS16_H9B:true},goto:'h9b',aa516:true}]},   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：記 SIS14_RIGHT＝12/23 接機戀人版第一句旁白前面多一句「（你站在出口的右邊。）」（r2y4a_events.js ev_sis_pickup）。AA_523 5-2：選 h9b 記 SIS16_H9B＝接機戀人版回程車上多一句旁白 */
       {label:'h9a'},{speaker:'heroine_05',text:'嗯。……出口那邊，你站右邊。我出來先看右邊。',aa516:true},{end:true},
       {label:'h9b'},{speaker:'heroine_05',text:'……好。在車上開。你開車，我拍你。',aa516:true} ],
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
