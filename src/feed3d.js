@@ -83,7 +83,7 @@ const FEED=(function(){
   S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆 */
   S.line=(G,l)=>l&&typeof l==='object'&&l.if?((S.COND[l.if]&&S.COND[l.if](G))?l.yes:l.no):l;
   /* ---------- 動態：這一則出不出（空字串＝出）---------- */
-  S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(!S.stageOk(G,p.who,p.st)) return 'stage'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool';
+  S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool'; if(!S.stageOk(G,p.who,p.st)) return 'stage';
     const R=S.rec(G), t=abs(w.day,w.h), hero=S.isHeroine(p.who), C=hero?S.CAP.heroine:S.CAP.other;
     if(R.items.filter(i=>i.who===p.who&&abs(i.day,i.h)<=t&&t-abs(i.day,i.h)<C.days*24).length>=C.n) return 'week';
     if(R.items.filter(i=>i.day===w.day).length>=S.CAP.day) return 'day';
@@ -92,10 +92,9 @@ const FEED=(function(){
     const why=S.blocked(G,p,w); if(why){ R.done[p.id]='x:'+why; return false; }
     const it={id:p.id,who:p.who,day:w.day,h:+w.h.toFixed(3)}; if(p.went&&S.WENT[p.went]) it.v=S.WENT[p.went](G)?'yes':'no'; R.items.push(it); R.done[p.id]='p'; return true; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
-  S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage';
-    if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
-    if(q.who==='kexin'){ if(S.kxCool(G)) return 'cool'; }
-    else if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,q.who)&&typeof V6EX!=='undefined'&&V6EX.coolSkip&&V6EX.coolSkip(G,q.who,'dp','aa503_'+q.id)) return 'cool';
+  S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
+    if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
+    if(q.who!=='kexin'&&typeof INV!=='undefined'&&INV.cool&&INV.cool(G,q.who)&&typeof V6EX!=='undefined'&&V6EX.coolSkip&&V6EX.coolSkip(G,q.who,'dp','aa503_'+q.id)) return 'cool';   /* 其他六位分開以後一學期：她先傳的每兩則送一則（同手機小事）*/
     return ''; };
   S.dmItems=function(G,q,term){ const th='p:'+q.who, items=q.lines.map(l=>({th,from:q.who,text:S.line(G,l)}));
     if(q.ask){ const A=q.ask, opts=A.opts.map(o=>{ const x={t:o.t,fk:o.k,set:Object.assign({[A.flag]:o.k},o.set||{}),say:(o.r||[]).map(r=>r&&typeof r==='object'&&r.nar?{text:r.nar}:{from:q.who,text:r})};
