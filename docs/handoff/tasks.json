@@ -35311,7 +35311,7 @@
    "title": "AA_516 第 8 節（3cd10909b，新內容懸著的承諾自查）：①4-1「……下次你用我的碗。」有 SIS14_US_CURRY 的，之後第一次 208 場景（ev_us208_memo～lastweek，哪場先演就哪場）開頭一句旁白「（她把自己的碗放在你面前，換她用你上次帶來的那一個。）」一次 ②h9 選「我會去接妳。」記 SIS14_RIGHT，12/23 接機戀人版第一句旁白前加「（你站在出口的右邊。）」",
    "area": "Y4S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_516 第 8 節（企劃線 3cd10909b；outbox 44f7421fe）",
    "first": {
@@ -35324,7 +35324,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
+   "next": "【LAWWW-C 2026-10-28 11:3x UTC】合併 b89971426（子代理 f1f6717cf）：us208_3d.js 七場第一句 BOWL（SISB14.bowlDue、SIS14_BOWL 一次）、ev_sis_pickup 戀人版「你站在出口的右邊」（SIS14_RIGHT）；aa516 120 項 ALL PASS（改前 FAILED 10）；問 AA：US2 算不算第一次 208、碗那句放進門那一句後面？；下一版｜【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
   }
  ]
 }
