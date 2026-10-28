@@ -69,7 +69,7 @@ const FEED_Y3S2={
   ],
   dms:[
     /* 3-2 第 7 點：語彤 8/21（一）20:00（朋友以上；閒聊 Y6-L8 選過「我可以陪妳問。」；8/22 人在臺灣）。回覆到 8/22 21:00（短場開始）*/
-    {id:'yt_aunt',who:'heroine_03',t:'2028-08-21 20:00',st:'朋友',need:'YT6_WITH',if:'ytAuntHere',lines:['明天晚上，打烊以後。','要問阿姨。','你說要坐旁邊。'],
+    {id:'yt_ask_aunt',who:'heroine_03',t:'2028-08-21 20:00',st:'朋友',need:'YT6_WITH',if:'ytAuntHere',lines:['明天晚上，打烊以後。','要問阿姨。','你說要坐旁邊。'],
       ask:{flag:'YT_AUNT_DM',until:'2028-08-22 21:00',opts:[
         {t:'好。',k:'ok',r:['九點。不要說話。'],out:{id:'aa508_yt_aunt',ev:'ev_aa508_yt_aunt',at:'2028-08-22 21:00',place:'麵店',title:'麵店：陪語彤問阿姨',travel:'走過去約 10 分鐘',travelH:1/6}},
         {t:'我那天不行。',k:'cant',r:['嗯。我自己問。']},
