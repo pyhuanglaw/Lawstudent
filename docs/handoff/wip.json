@@ -1382,12 +1382,12 @@
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
    "state": "WIP",
-   "sha": "0ba34bc27、a104c54e2",
+   "sha": "c252dda85、8e8b07c1d",
    "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
    "files": [
     "wip_backup/support519_1028.bundle"
    ],
-   "todo": "AA_519 配角第二批（＋第 8 節麵店四件 d75cd0228）：白名單登記，實作做中（做中）",
+   "todo": "AA_519 配角第二批（＋第 8 節麵店四件）：做到第 6 節順手修的（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:20／12:44（AA_519 873b670c0、d75cd0228，DL-AA-519、519B）"
@@ -1397,15 +1397,30 @@
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
    "state": "WIP",
-   "sha": "0ba34bc27、11c7dde44",
+   "sha": "c252dda85、acfdc4dfe",
    "branch": "worktree-agent-ae2be6e676a121eb9（子代理；D113 備份 wip_backup/prof522_1028.bundle）",
    "files": [
     "wip_backup/prof522_1028.bundle"
    ],
-   "todo": "AA_522 教授的研究室：白名單登記，實作做中（做中）",
+   "todo": "AA_522 教授的研究室：實作、測試做中",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:43（AA_522 fcc93126e，DL-AA-522）"
+  },
+  {
+   "id": "WIP-LAWWW-ECON521-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "WIP",
+   "sha": "c252dda85、b73f6745c",
+   "branch": "worktree-agent-ae63bec8a13035b99（同一個子代理接著做；D113 備份 wip_backup/econ521_1028.bundle，基準 d38992889）",
+   "files": [
+    "wip_backup/econ521_1028.bundle"
+   ],
+   "todo": "AA_520 第 10 節（c884a12ca）做了；AA_521 經濟系的朋友＋何俊朗＋日文班做中",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）"
   }
  ]
 }
