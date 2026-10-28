@@ -1,6 +1,6 @@
-/* ===== 手機「動態」：交往中約會後的動態（AA_515，企劃線 aa9bbc46f；HEROINE-LIFE-1028，X122；FEED-DATES-1028）=====
+/* ===== 手機「動態」：交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 第 6 節；HEROINE-LIFE-1028，X122；FEED-DATES-1028）=====
    補 AA_503 第 0 節那一句：「交往中：約會之後，她自己貼一則有祐廷的（照片的描述裡有『你』）。這一種由約會系統產生」。
-   台詞照 AA_515 一字不差（tests/aa515_feed_dates_unit.js 用 git show aa9bbc46f 雙向逐句對）。系統在 src/feed3d.js（FEED 的「約會後的動態」一段），
+   台詞照 AA_515 一字不差（tests/aa515_feed_dates_unit.js 用 git show 白名單那一版（aec3d3d67）雙向逐句對）。系統在 src/feed3d.js（FEED 的「約會後的動態」一段），
    由 src/date3d.js 約會演完（S.settle、S.settleOvernight 算一次正式校外約會以後）叫 FEED.dateDone 排一則。不排日期、不加 3D。
    ■ at：她平常貼的時間（第 1 節表格；臺灣時間，約會都在臺灣）。'00:30'＝隔天凌晨（子晴；12:00 以前的都當隔天，FEED.dtHour）。
      約會結束、兩個人分開的時候已經過了這個時間＝回到家 30 分鐘後貼（FEED.dtWhen）。
@@ -11,7 +11,7 @@
      cm＝留言兩組 [[你留的那一句, 她回…], …]、dm＝私訊兩組 [[你問的那一句, 她答…], …]：她第幾則約會動態單數用第 1 組、雙數用第 2 組。
      語彤的一句都空著（say:''，只有照片；「又來」也一樣）；子晴回的拆成兩則（陣列裡兩句＝兩則訊息）。 */
 const FEED_DATES={
-  src:'AA_515 @ aa9bbc46f',
+  src:'AA_515 @ aec3d3d67',   /* aa9bbc46f → aec3d3d67：第 6 節（同一天每人各算…），台詞沒改 */
   at:{heroine_01:'21:30',heroine_02:'22:07',heroine_03:'23:00',heroine_04:'00:30',heroine_05:'22:00',kexin:'23:30',classmate_peishan:'23:10'},
   late:0.5,   /* 分開的時候已經過了她的時間：回到家 30 分鐘後 */
   pic:{

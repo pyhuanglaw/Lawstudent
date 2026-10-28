@@ -3365,11 +3365,11 @@
   },
   {
    "path": "docs/story_planning/AA_515_交往中約會後的動態.md",
-   "sha": "aa9bbc46f",
+   "sha": "aec3d3d67",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "FEED-DATES-1028",
-   "note": "LAWWW-C 10-28 09:3x 登記：交往中約會後的動態（照片表、七位一句／留言／私訊）；src/data/feed_dates.js＋date3d 掛勾；tests/aa515_feed_dates_unit.js 逐字對稿"
+   "note": "LAWWW-C 10-28 09:3x 登記：交往中約會後的動態（照片表、七位一句／留言／私訊）；src/data/feed_dates.js＋date3d 掛勾；tests/aa515_feed_dates_unit.js 逐字對稿；10-28 10:1x 改 aec3d3d67（AA 加第 6 節：同一天每人各算、擠掉的不挪、畢業以後不開放、照稿以外先定的照用；第 4 節畢業以後那點劃掉；台詞沒改）"
   },
   {
    "path": "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md",

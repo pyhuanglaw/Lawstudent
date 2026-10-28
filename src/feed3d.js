@@ -48,7 +48,7 @@
        （那一刻還有聯絡方式、階段夠）的一分鐘以後——不然那幾則（以安紐約、語彤紅紙、芷若存摺、學姊計畫本……）永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。
        後面還有別的停點的時候不停（跳到那裡看得到）。
      - 可昕分開以後一學期（AA_503 9-3，AA_510 7-3、AA_511 第 7 節照用）：大四下以後沒有下一個學期（V6EX.coolUntil＝null），照分開那天起 18 週（S.COOL_LAST）。
-   ■ 交往中約會後的動態（AA_515，企劃線 aa9bbc46f；資料 src/data/feed_dates.js，不在 SETS 裡、不排日期）：和她的正式校外約會（date3d.js，D01～D32）演完、那時候交往中，
+   ■ 交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 第 6 節；資料 src/data/feed_dates.js，不在 SETS 裡、不排日期）：和她的正式校外約會（date3d.js，D01～D32）演完、那時候交往中，
      date3d.js 的 S.settle、S.settleOvernight 叫 S.dateDone 排一則，當晚照她的時間貼（照片裡有「你」）。細節在下面「交往中約會後的動態」那一段。
    ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r, tr, back}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天,
      dq:[排好還沒貼的約會動態], dt:{約會動態 id:{who, loc, s, g, trip, b}}, dtTrip:{行程 id:約會動態 id|'x:原因'}}；舊存檔沒有＝從那一天開始（dq、dt、dtTrip 沒有＝空的，S.rec 補）。
@@ -198,7 +198,7 @@ const FEED=(function(){
     const ep=PG.byId?PG.byId('epi'):null, te=ep&&ep.at?ep.at(G):null;
     if(next!=null&&!(te!=null&&Math.abs(next-te)<1e-6)) return null;
     R.pgStopAt=best+1/60; return R.pgStopAt; };   /* pgStopAt：落地時日期卡那一句用（S.PG_STOP_LINE）*/
-  /* ---------- 交往中約會後的動態（AA_515，企劃線 aa9bbc46f；資料 src/data/feed_dates.js；FEED-DATES-1028）----------
+  /* ---------- 交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 第 6 節；資料 src/data/feed_dates.js；FEED-DATES-1028）----------
      和她的正式校外約會（date3d.js，D01～D32；算一次正式校外約會的那幾趟，心願那一趟也是）演完、那時候和她交往中（dating_<id>）：當晚照她的時間在動態頁貼一則（照片裡有「你」）。
      不排日期：date3d.js 的 S.settle、S.settleOvernight 算完次數以後叫 S.dateDone（帶分開的那一刻＝DATE.backAt：OUT.go 演完照最後一個地點的單程時間回到臺北）排進 R.dq；
      時間到了 S.tick 照時間的先後和其他動態、私訊一起處理（S.datePost）。
@@ -206,13 +206,13 @@ const FEED=(function(){
        D07 不貼（地點表本來就寫「不放合照的互動點」；FEED_DATES.pic.D07＝null）。只有臺灣的 D01～D32（出國路線的出遊不是 date3d 的正式校外約會，本來就不會進來）。
      - 幾點（S.dtWhen）：她平常的時間（FEED_DATES.at；子晴 00:30＝隔天凌晨）。約會結束、兩個人分開（回到臺北）的時候已經過了那個時間＝回到家 30 分鐘後（分開那一刻＋30 分鐘）。
      - 上限：不算在女主角七天最多兩則裡（S.blocked 的 week 不數 dt_ 開頭的；她自己的不因為約會那一則少出）；
-       同一天最多一則約會動態（七位合起來；「同一天」照約會的那一天＝base：當天來回＝那一趟的日子、兩天一夜＝回到臺北那一天——子晴的 00:30、晚回來過了午夜才貼的，
-       算前一天的那一場，不擋隔天另一場約會的那一則；同一天約兩場的，先排的那一則出、後面的 'x:dateday'）；
+       她同一天最多一則約會動態（每人各算：AA_515 第 6 節第 1 點，同時交往兩位、同一天各約一場＝兩則都出；「同一天」照約會的那一天＝base：當天來回＝那一趟的日子、兩天一夜＝回到臺北那一天——子晴的 00:30、晚回來過了午夜才貼的，
+       算前一天的那一場，不擋隔天另一場約會的那一則；同一位同一天約兩場的，先排的那一則出、後面的 'x:dateday'）；
        「全部一天最多四則」照算（照貼出來的那一天）：這一則自己不看一天四則（優先，前面已經出滿四則照樣貼）；排好以後、貼出來以前，那一天別人的動態先把這一則的位子算進去（S.dtHold），超過的照舊不出（往後擠）。
      - 她的一句：照她第幾次「不是又來」的約會動態輪第 1～6 句（第 7 次回到第 1 句）；同一個地點和她去第二次以上（G.dateLog 的 byLoc：DATE.complete 算完這一趟以後 ≥2）＝「又來」那一句，不佔順序。
        留言、私訊：這一則是她第幾則約會動態（id 的序號，又來也算）——單數用第 1 組、雙數用第 2 組。回應照 S.respond 三選一（按愛心她不回；熟悉 +1 照舊）。
      - 那時候沒交往不排；排好以後、貼出來以前分開了也不貼（'x:dating'：稿第 4 節「分開那天以後的約會不是交往中」，分開以後不會貼有你的照片）。
-       只在法律系（FEED.tick 只在法律系跑）；畢業以後篇照樣有，跳時間的途中貼的照 AA_511 的七天規則（同 S.decide 記 tr）。舊存檔從讀檔以後的約會開始（R.dq、R.dt 預設空的）。
+       只在法律系（FEED.tick 只在法律系跑）；畢業以後約會系統不能預約（AA_128 11-1；AA_515 第 6 節第 3 點：不開放），跳時間的途中貼的照 AA_511 的七天規則（同 S.decide 記 tr；程式照留）。舊存檔從讀檔以後的約會開始（R.dq、R.dt 預設空的）。
      - 存檔：R.dq＝[{trip, who, loc, again, part, base, day, h}]（排好還沒到時間；base＝約會的那一天，day、h＝要貼的時間）；R.dt＝{dt_an_1:{who, loc, s（第幾句 0～5；-1＝又來）, g（第幾組 1／2）, trip, b（約會的那一天）}}
        （貼出來的，不刪：序號、輪替、私訊對話串的「動態「…」」都靠它；動態頁的 items 照舊只留十五天）；R.dtTrip＝{行程 id:'dt_…'|'x:原因'}。 */
   S.DT=()=>typeof FEED_DATES!=='undefined'?FEED_DATES:null;
@@ -227,14 +227,14 @@ const FEED=(function(){
     const p0=part!=null&&isFinite(+part)?+part:nowOf(G), base=(typeof t.day==='number'?t.day:G.day)+(t.kind==='overnight'?(t.nights||1):0), w=S.dtWhen(who,base,p0); if(!w) return null;
     const L=G.dateLog&&G.dateLog[who], again=!!(L&&L.byLoc&&(L.byLoc[loc]|0)>=2);   /* 又來：這個地點（照片的那一個）連這一趟和她去第二次以上 */
     const e={trip:t.trip,who,loc,again,part:p0,base,day:w.day,h:w.h}; R.dq.push(e); return e; };
-  S.dtBaseDone=(R,b)=>Object.keys(R.dt).some(k=>R.dt[k]&&R.dt[k].b===b);   /* 約會的那一天已經貼過約會動態 */
-  /* 那一天（貼出來的那一天）排好、還沒貼的約會動態先佔位子：會貼的（約會的那一天還沒貼過的，同一天約兩場只算一個）有幾個 */
-  S.dtHold=function(G,day){ const R=S.rec(G), B=new Set(); for(const e of R.dq) if(e.day===day&&!S.dtBaseDone(R,e.base)) B.add(e.base); return B.size; };
+  S.dtBaseDone=(R,b,who)=>Object.keys(R.dt).some(k=>R.dt[k]&&R.dt[k].b===b&&R.dt[k].who===who);   /* 她在約會的那一天已經貼過約會動態（每人各算，AA_515 第 6 節第 1 點）*/
+  /* 那一天（貼出來的那一天）排好、還沒貼的約會動態先佔位子：會貼的（她在約會的那一天還沒貼過的，同一位同一天約兩場只算一個）有幾個 */
+  S.dtHold=function(G,day){ const R=S.rec(G), B=new Set(); for(const e of R.dq) if(e.day===day&&!S.dtBaseDone(R,e.base,e.who)) B.add(e.who+'@'+e.base); return B.size; };
   /* 時間到了（S.tick）：貼不貼、貼哪一句。不看七天兩則、不看一天四則（優先）*/
   S.datePost=function(G,e,w){ const R=S.rec(G), i0=R.dq.indexOf(e); if(i0>=0) R.dq.splice(i0,1); const D=S.DT(), W=D&&D.who&&D.who[e.who], no=why=>{ R.dtTrip[e.trip]='x:'+why; return false; };
     if(!W) return no('data'); if(abs(w.day,w.h)<nowOf(G)-S.KEEP*24) return no('old');   /* 睡過、跳時間超過七天（同 S.decide）*/
     if(!hasContact(G,e.who)) return no('contact'); if(!dating(G,e.who)) return no('dating');   /* 貼出來以前分開了 */
-    if(S.dtBaseDone(R,e.base)) return no('dateday');   /* 同一天（約會的那一天）最多一則約會動態 */
+    if(S.dtBaseDone(R,e.base,e.who)) return no('dateday');   /* 她同一天（約會的那一天）最多一則約會動態（每人各算，AA_515 第 6 節第 1 點）*/
     const mine=Object.keys(R.dt).filter(k=>R.dt[k]&&R.dt[k].who===e.who), n=mine.length+1, k=mine.filter(x=>+R.dt[x].s>=0).length;   /* n＝她第幾則約會動態；k＝前面用了幾次輪替（又來不算）*/
     const id='dt_'+W.pre+'_'+n, s=e.again?-1:k%W.say.length, g=n%2?1:2;
     const it={id,who:e.who,day:w.day,h:+w.h.toFixed(3)}; { const q=S.tripNow(G); if(q) it.tr=q.id; else if(S.pgJumping>0) it.tr=S.PG_TR; }   /* 同 S.decide：出遊途中、畢業以後篇跳時間的途中貼的照那兩種留法 */

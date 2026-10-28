@@ -1,4 +1,4 @@
-// 交往中約會後的動態（AA_515，企劃線 aa9bbc46f；FEED-DATES-1028，HEROINE-LIFE-1028，X122）——不需要瀏覽器。
+// 交往中約會後的動態（AA_515，企劃線 aa9bbc46f → aec3d3d67 加第 6 節；FEED-DATES-1028，HEROINE-LIFE-1028，X122）——不需要瀏覽器。
 //   src/data/feed_dates.js（照片、七位的一句、留言、私訊）、src/feed3d.js（FEED.dateDone／datePost：排、貼、上限）、src/date3d.js（S.settle、S.settleOvernight 算完次數以後叫 FEED.dateDone，帶 DATE.backAt）。
 //   約會都是真的走一趟：DATE.book → OUT.prompt「出發」→ OUT.go → DATE.scene（心願那一趟是 WISH.scene）→ 結算 → 回程（回到臺北）；動態照時間跑 FEED.tick。
 //   0  載得到、index.html（feed_pg.js → feed_dates.js → feed3d.js）、白名單 AA_515＝aa9bbc46f；對稿兩個方向——①遊戲裡每一句都在稿裡（一字不差）②稿的時間表 7 列、照片 32 列（D07 不貼）、
@@ -19,13 +19,15 @@
 // 修改前（開發分支 53c13dcc0：沒有 src/data/feed_dates.js、FEED.dateDone，date3d.js 結算不叫 FEED；src、tests、index.html、白名單用 git archive 53c13dcc0 拿出來，
 //   把這支測試放進去、SPEC_GIT_DIR 指這個 repo 實際跑過）：FAILED 15、PASS 2——第 0 段「載得到、index.html 順序」「?v=」2 項，第 0～12 段各 1 項（沒有 FEED.dateDone／FEED_DATES 就停）；
 //   當時就過的 2 項是白名單 AA_515（LAWWW-C 53c13dcc0 已登記）、讀得到稿。修改後 ALL PASS（88 項，約 1 秒）。
+// AA_515 第 6 節（aec3d3d67，AA 10:01 回 LAWWW-C 398e1bd5f）：第 8 段改成每人各算——同一天兩位交往中各約一趟＝兩則都出（dt_an_1、dt_zr_1）；同一位同一天兩趟照舊一則；第 6 節對稿。
+//   修改前（398e1bd5f 的 feed3d.js＝七位合算，白名單、測試用新的，2026-10-28 10:1x）：FAILED 3（第 0 段 FEED_DATES.src 稿的版本、第 8 段兩則都出、R.dt 芷若那一則）；修改後 ALL PASS（89 項）。
 //   另外在同一份程式上各拿掉一條規則實際跑過（測試抓得到）：七天兩則照數 dt_ → 第 4 段 1 項 FAIL；一天四則不先佔位子（S.dtHold）→ 第 9 段 1 項 FAIL；同一天不擋第二則 → 第 8 段 5 項 FAIL。
 // 用法：node tests/aa515_feed_dates_unit.js（證明修改前會失敗時，舊程式放在別的資料夾，SPEC_GIT_DIR＝這個 repo）
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const GIT=process.env.SPEC_GIT_DIR||H.ROOT, SHA='aa9bbc46f', SPEC='docs/story_planning/AA_515_交往中約會後的動態.md';
+const GIT=process.env.SPEC_GIT_DIR||H.ROOT, SHA='aec3d3d67', SPEC='docs/story_planning/AA_515_交往中約會後的動態.md';
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let s=fs.readFileSync(p,'utf8'); s=s.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); return true; };
 const errs=[]; for(const f of ['src/data/date_wish.js','src/wish3d.js','src/data/feed_dates.js','src/feed3d.js']){ try{ if(!load(f)) errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,260)); } };
@@ -236,10 +238,11 @@ await sec('8',async()=>{ need(); setup('2025-10-04',8,[AN,ZR,ZQ]); const d=H.G.d
   const a=await goDate(AN,['D02'],d,9), b=await goDate(ZR,['D03'],d,15);
   check('8. 同一天兩位交往中各約一趟：兩則都排了（以安 21:30、芷若 22:07）',!!dq(a.trip)&&!!dq(b.trip),J(R().dq));
   tickAt(d,23.9);
-  check('8. 同一天最多一則：以安那一則出、芷若那一則不出（x:dateday）',!!item('dt_an_1')&&!item('dt_zr_1')&&R().dtTrip[b.trip]==='x:dateday'&&dts().filter(i=>i.day===d).length===1,J([R().dtTrip,dts()]));
+  check('8. 同一天每人各算（AA_515 第 6 節第 1 點）：以安、芷若兩則都出（誰的約會誰貼）',!!item('dt_an_1')&&!!item('dt_zr_1')&&R().dtTrip[b.trip]==='dt_zr_1'&&dts().filter(i=>i.day===d).length===2,J([R().dtTrip,dts()]));
   const c=await goDate(AN,['D04'],d+2,9), e=await goDate(AN,['D06'],d+2,15); tickAt(d+2,23.9);
   check('8. 同一位同一天兩趟：一則（第一趟），第二趟 x:dateday',!!item('dt_an_2')&&R().dtTrip[c.trip]==='dt_an_2'&&R().dtTrip[e.trip]==='x:dateday'&&dts().filter(i=>i.day===d+2).length===1,J(R().dtTrip));
-  check('8. 沒貼出來的不記（R.dt 以安只有兩則）',Object.keys(R().dt).filter(k=>R().dt[k].who===AN).length===2&&!R().dt.dt_zr_1,J(R().dt));
+  check('8. 沒貼出來的不記（R.dt 以安只有兩則；芷若那一則有）',Object.keys(R().dt).filter(k=>R().dt[k].who===AN).length===2&&!!R().dt.dt_zr_1,J(R().dt));
+  check('8. 對稿：第 6 節（同一天每人各算、擠掉的不挪、畢業以後不開放、照稿以外先定的照用）',/## 6\. 實作時定的/.test(doc)&&doc.includes('「同一天最多一則約會動態」改成每人各算')&&doc.includes('同時交往兩位、同一天各約一場，兩則都出（誰的約會誰貼）。')&&doc.includes('不開放正式校外約會的預約，照 `AA_128` 11-1。'),J({sha:SHA}));
   const f=await goDate(ZQ,['D02'],d+4,15), g=await goDate(AN,['D03'],d+5,9); tickAt(d+5,23.9);
   check('8. 「同一天」照約會的那一天：子晴 00:30 那一則是前一天那一場的；隔天和以安的約會照出（dt_an_3、第 3 句：前面沒貼出來的不佔序號、輪替）',
     !!item('dt_zq_1')&&item('dt_zq_1').day===d+5&&R().dtTrip[f.trip]==='dt_zq_1'&&R().dtTrip[g.trip]==='dt_an_3'&&R().dt.dt_an_3.s===2&&R().dt.dt_zq_1.b===d+4&&R().dt.dt_an_3.b===d+5,J([R().dtTrip,R().dt.dt_an_3]));
