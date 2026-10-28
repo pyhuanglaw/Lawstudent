@@ -93,6 +93,7 @@ MAT = {
     'plant':   pbr('plant', None, tint=srgb('#4f7a46'), rough=0.85),
     'soil':    pbr('soil', None, tint=srgb('#4a3a2c'), rough=0.95),
 }
+MAT['nosing'] = pbr('lz_nosing', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35)   # 樓梯止滑條（顏色和 frame 一樣）
 MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
 MAT['light'].use_backface_culling = True     # 嵌在天花板的燈板、崁燈也單面（四邊形本來就朝下）：鏡頭在天花板上面時不會浮著一塊塊亮的（LAWWW2 10-22 第二版）
 
@@ -154,14 +155,14 @@ root = group('LinzeInterior')
 L0 = group('L0_root', root); L1 = group('L1_root', root)
 
 # ---------------- 地板、樓板、天花板 ----------------
-box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
+box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0, props={'lm': 1.6})   # lm：光照貼圖分給它的比例（lightbake/bake_room.py；地板最常看到、天花板 8.4 m 高很少看到）
 gz0, gz1 = -D / 2, G['z1']
 WI0, WI1, ZI0 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2   # 牆的內面：樓板、地板停在牆的內面（原本伸進牆裡，和牆的端面同平面）
-box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1)            # 二樓樓板（下面是一樓北側的天花板）
-box('L1_floor', MAT['floor'], WI0, WI1, Y1 - 0.02, Y1, ZI0, gz1, L1)
+box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1, props={'lmhide': [0, 1, 0]})            # 二樓樓板（下面是一樓北側的天花板）
+box('L1_floor', MAT['floor'], WI0, WI1, Y1 - 0.02, Y1, ZI0, gz1, L1, props={'lm': 1.3})
 box('L1_slab_edge', MAT['granite'], WI0, WI1, Y1 - G['slabT'] - 0.05, Y1 + 0.02, gz1 - 0.02, gz1 + 0.06, L1, bevel=0.01)   # 樓板邊緣的石材收邊
 # 天花板（中庭頂、二樓天花板）：單面朝下＋燈板
-quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
+quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)['lm'] = 0.3
 for i in range(4):
     for j in range(3):
         cx, cz = -6 + i * 4, -4 + j * 4.6
@@ -184,9 +185,9 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
     for k, (a, b) in enumerate(segs):
         if b - a < 0.05: continue
         obs.append(box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, wy0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
-        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0}))   # 二樓的上半段（高 5.4～8.4 m）光照貼圖少分一點
     for dx in xs:   # 門楣
-        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0}))
         FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 門框、門板、門把跟著北牆淡出（鏡頭在牆外時；2026-10-10 #16）
         box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
         box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
@@ -198,9 +199,9 @@ YJ = Y1 - 0.03                    # 一樓、二樓的牆在這裡接（藏在�
 wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0, yhi=YJ)
 wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1, ylo=YJ)
 box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, YJ, -D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [1, 0, 0]})
-box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0]})
+box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0], 'lm': 0.8})
 box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2 + T / 2, D / 2 - 0.08, L0)
-box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0]})
+box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0], 'lm': 0.8})
 # 東面一樓：玻璃門面（直櫺每 1.75 m）、入口自動門（兩扇玻璃）
 gh = Y1 - 0.3
 GXE = W / 2 - 0.05                # 玻璃放在直櫺深度的中間（原本和直櫺外面同一個平面，玻璃和框會閃）
@@ -232,14 +233,41 @@ for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
 box('L0_glass_top_S', MAT['granite'], -W / 2 + T / 2, W / 2 - T / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)   # 夾在東西牆中間（東西牆往南多 5 cm 包住牆角）
 
 # ---------------- 樓梯：每一階一塊石材（實心到地面）、平台、第二跑；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
-def flight(prefix, zb, base, n):
+# LINZE-LOBBY-V2-1028：樓梯從「每一階一個從地面長上來的方塊」改成只有看得到的面（踏面、踢面、側面的鋸齒形、第二跑的背面）。
+# 原本二十五個方塊互相重疊，光照貼圖量到 294 m² 裡看得到的不到 70 m²（lightbake/uv_fill.py），地板、牆分到的像素被擠掉。外觀一樣（每一階的止滑條照舊）。
+def stair_faces(prefix, zb, base, n, front_from):
+    """一跑：踏面、踢面（第一階的踢面從 front_from 起：第一跑從地面、第二跑從平台面）＋兩側的鋸齒形側面（到地面；第二跑東側被木條牆擋住、西側貼著西牆，所以光照貼圖分少一點）。
+    第一跑的背面貼著平台、底面貼地，不做；第二跑的背面（z＝flight2.z0，朝 −z）在二樓迴廊下面看得到"""
+    R, Tr, x0, x1 = S['rise'], S['tread'], S['x0'], S['x1']
+    prof = [(zb, front_from)]                          # (z, y)：前緣 → 鋸齒往上 → 最上面一階的後緣
     for k in range(n):
-        top = base + (k + 1) * S['rise']; z1 = zb - k * S['tread']; z0 = z1 - S['tread']
-        box(f'{prefix}_step_{k}', MAT['step'], S['x0'], S['x1'], 0, top, z0, z1, L0, bevel=0.012)
-        box(f'{prefix}_nosing_{k}', MAT['frame'], S['x0'], S['x1'], top - 0.012, top + 0.003, z1 - 0.045, z1, L0)   # 止滑條
-flight('L0_f1', S['flight1']['z1'], 0.0, S['flight1']['risers'])
-box('L0_landing', MAT['step'], S['x0'], S['x1'], 0, S['landing']['y'], S['landing']['z0'], S['landing']['z1'], L0, bevel=0.012)
-flight('L0_f2', S['flight2']['z1'], S['landing']['y'], S['flight2']['risers'])
+        z1 = zb - k * Tr; top = base + (k + 1) * R
+        prof += [(z1, top), (z1 - Tr, top)]
+        box(f'{prefix}_nosing_{k}', MAT['nosing'], x0, x1, top - 0.012, top + 0.003, z1 - 0.045, z1, L0)   # 止滑條（自己的材質：只有 1.5 cm 高，光照貼圖分不到一個像素，不烘、照舊即時光；和 201 一樣）
+    bm = bmesh.new()
+    for (za, ya), (zb_, yb) in zip(prof[:-1], prof[1:]):
+        f = bm.faces.new([bm.verts.new(g2b(x, y, z)) for (x, y, z) in ((x0, ya, za), (x1, ya, za), (x1, yb, zb_), (x0, yb, zb_))]); f.normal_update()
+        if abs(za - zb_) < 1e-6:                        # 踢面：朝 +遊戲 z（往下走的方向）＝Blender −y
+            if f.normal.y > 0: f.normal_flip()
+        elif f.normal.z < 0: f.normal_flip()           # 踏面：朝上
+    zt, yt = prof[-1]
+    if base > 0:                                       # 第二跑的背面（地面到二樓，朝 −遊戲 z＝Blender +y）
+        f = bm.faces.new([bm.verts.new(g2b(*p)) for p in ((x0, 0, zt), (x0, yt, zt), (x1, yt, zt), (x1, 0, zt))]); f.normal_update()
+        if f.normal.y < 0: f.normal_flip()
+    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5); bm.normal_update(); box_uv(bm, MAT['step']['tile'])
+    mesh_obj(f'{prefix}_steps', bm, MAT['step'], L0)
+    side = prof + [(zt, 0.0)] + ([(zb, 0.0)] if front_from > 0 else [])   # 側面：鋸齒往下接到地面（第一跑的起點本來就在地面）
+    for xs, nx in ((x1, 1), (x0, -1)):
+        bm = bmesh.new(); f = bm.faces.new([bm.verts.new(g2b(xs, y, z)) for (z, y) in side]); f.normal_update()
+        if f.normal.x * nx < 0: f.normal_flip()
+        bm.normal_update(); box_uv(bm, MAT['step']['tile'])
+        mesh_obj(f'{prefix}_side_{"E" if nx > 0 else "W"}', bm, MAT['step'], L0, props=None if (nx > 0 and base == 0) else {'lm': 0.4})   # 第一跑東側從大廳看得到；其他三面幾乎看不到
+stair_faces('L0_f1', S['flight1']['z1'], 0.0, S['flight1']['risers'], 0.0)
+# 平台：上面（看得到）＋西側（貼西牆，光照貼圖少分）；東側在木條牆後面、南北兩面貼著兩跑，不做
+_ld = S['landing']
+quad('L0_landing_top', MAT['step'], [(S['x0'], _ld['y'], _ld['z1']), (S['x1'], _ld['y'], _ld['z1']), (S['x1'], _ld['y'], _ld['z0']), (S['x0'], _ld['y'], _ld['z0'])], L0)
+quad('L0_landing_W', MAT['step'], [(S['x0'], 0, _ld['z1']), (S['x0'], _ld['y'], _ld['z1']), (S['x0'], _ld['y'], _ld['z0']), (S['x0'], 0, _ld['z0'])], L0)['lm'] = 0.4
+stair_faces('L0_f2', S['flight2']['z1'], _ld['y'], S['flight2']['risers'], _ld['y'])
 rx = S['railX'] + 0.02
 pts = [(S['flight1']['z1'], 0.0), (S['flight1']['z0'], S['landing']['y']), (S['landing']['z0'], S['landing']['y']), (S['flight2']['z0'], Y1)]
 for i in range(len(pts) - 1):
@@ -423,15 +451,16 @@ def join_by_material(level_root, prefix):
     groups = {}
     for ob in list(level_root.children):
         if ob.type != 'MESH' or 'WALL_' in ob.name: continue
-        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name), []).append(ob)
-    for (fg, mname), obs in groups.items():
+        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name, ob.get('lm')), []).append(ob)   # lm（光照貼圖的比例）不同的分開合併，才不會丟掉
+    for (fg, mname, lm), obs in groups.items():
         if len(obs) < 2 and not fg: continue
         dirv = list(obs[0]['fadedir']) if fg else None
         bm = bmesh.new()
         for ob in obs: bm.from_mesh(ob.data)
         mat = obs[0].data.materials[0]
         for ob in obs: bpy.data.meshes.remove(ob.data)
-        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
+        pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}))
+        mesh_obj((f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else ''), bm, mat, level_root, props=pr or None)
 for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 
 # ---------------- 匯出 ----------------

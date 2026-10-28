@@ -10,8 +10,8 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）]
-物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）。
+   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）]
+物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
 實例化的網格（EXT_mesh_gpu_instancing，例如 201 的 48 張椅子）：每一張的光不一樣，烘焙前展開成各自的網格（同一個材質的合併成一個）。
@@ -109,10 +109,11 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
 # 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
 def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
+    h = o.get('lmhide'); hv = Vector((h[0], -h[2], h[1])) if h is not None and len(h) == 3 else None   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）
     nm = o.name.lower(); mw = o.matrix_world.to_3x3(); hs = set()
     for f in o.data.polygons:
         nrm = (mw @ f.normal).normalized()
-        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5): hs.add(f.index)
+        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5) or (hv is not None and nrm.dot(hv) > 0.5): hs.add(f.index)
     return hs if len(hs) < len(o.data.polygons) else set()
 HID = {o.name: hidden_faces(o) for o in objs}
 print('hidden faces', sum(len(v) for v in HID.values()), flush=True)
@@ -214,8 +215,11 @@ if arg('--shell'):
         ob.location = ((xs[0] + xs[1]) / 2, (ys[0] + ys[1]) / 2, (zs[0] + zs[1]) / 2); ob.scale = (xs[1] - xs[0], ys[1] - ys[0], zs[1] - zs[0])
     print('shell', [o.name for o in SHELL], 'room bbox', [round(v, 2) for v in (*mn, *mx)], flush=True)
 
-def bake(tag, sky_strength, sun_energy, emit_scale):
+DAYL = float(arg('--daylights', '1.0'))   # 白天那一張的燈（--lights）乘多少（霖澤館大廳 10-28：玻璃中庭白天燈和天光一樣亮，整片平均、看不出陽光從哪裡來）
+for lo in AREAS: lo['W0'] = lo.data.energy
+def bake(tag, sky_strength, sun_energy, emit_scale, lamp_scale=1.0):
     bg.inputs['Strength'].default_value = sky_strength; sd.energy = sun_energy
+    for lo in AREAS: lo.data.energy = lo['W0'] * lamp_scale
     for o in objs:
         for s in o.material_slots:
             m = s.material
@@ -257,9 +261,13 @@ def save(px, path):
     out.pixels[:] = rgba.ravel(); out.filepath_raw = path; out.file_format = 'PNG'; out.save(); bpy.data.images.remove(out)
     print('saved', path, flush=True)
 
+# 白平衡（--daywb r,g,b、--nightwb r,g,b：烘焙結果每個顏色乘多少，像相機的白平衡＋曝光）。霖澤館大廳 10-28：南面整片玻璃的天光（Nishita）偏藍，
+# 地板比原本的即時光冷、亮兩成；遊戲的室內白天是暖灰（engine3d.js 的室內半球光 0xf4f1ea）
+WB = {k: [float(t) for t in arg('--' + k + 'wb').split(',')] if arg('--' + k + 'wb') else None for k in ('day', 'night')}
+def wb(px, k): return px * np.array(WB[k], dtype=np.float32)[None, None, :] if WB[k] else px
 os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
-day = bake('day', SKY, SUN[2], 1.0); save(day, LM + '_day.png')
-night = bake('night', NIGHTSKY, 0.0, 1.0); save(night, LM + '_night.png')
+day = bake('day', SKY, SUN[2], 1.0, DAYL); save(wb(day, 'day'), LM + '_day.png')
+night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 
 # ---- 6. 清掉烘焙用的節點、UV：LM 排第二（TEXCOORD_1）、原本的 UV 當作用中 ----
 for m in bpy.data.materials:
@@ -276,7 +284,7 @@ for o in bpy.data.objects:
         if len(uv) and uv[0].name != 'LM': uv.active = uv[0]; uv[0].active_render = True
 bpy.data.objects.remove(so)
 for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'),
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL: sc['lightmap'] = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}
