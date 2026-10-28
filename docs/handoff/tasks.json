@@ -35100,7 +35100,8 @@
     "acceptance": "node tests/room_ceiling_unit.js ALL PASS；全部 Node 0 失敗",
     "receiver": "LAWWW",
     "ack": "DELIVERED"
-   }
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（09:3x，DELIVERED）：吊燈換材質名字或讓 room_ceiling 分出吊燈，和 LOBBY-VC 一起交；LAWWW 合併後跑 room_ceiling＋全部 Node，綠了才凍結 v9.10.13 候選"
   },
   {
    "id": "ZQ-ARCADE-SEAT-1028",
@@ -35127,7 +35128,8 @@
     "acceptance": "BB 瀏覽器：22:31 走過去，子晴坐著、有筆電，和字幕一致",
     "receiver": "LAWWW",
     "ack": "DELIVERED"
-   }
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
   }
  ]
 }
