@@ -34394,9 +34394,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
+   "next": "【LAWWW-C 2026-10-28 02:2x UTC】AA_503 大一上交了（c6c93432d，DL-AA-503）：動態頁、圈子同框、七位各自的事；LAWWW 接（v9.10.13 以後分批）；3D 人物派 LAWWW2（HEROINE-LIFE-NPC3D-1028）｜【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
    "xai": {
-    "spec": "使用者原話",
+    "spec": "AA_503（c6c93432d）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "玩家看得到女主角不只繞著自己轉：有朋友、有自己的事、會講自己的生活",
     "receiver": "LAWWW",
@@ -34497,6 +34497,33 @@
     "acceptance": "土地公從出生點走得到（v9.10.11 的路恢復或另一條 ≥0.7 m）、小角落不再是陷阱；shrine_pocket_check、wz_park*、nav_islands、reachability wenzhou PASS",
     "receiver": "LAWWW",
     "ack": "SENT"
+   }
+  },
+  {
+   "id": "HEROINE-LIFE-NPC3D-1028",
+   "title": "女主角圈子裡的人的 3D：麵店的阿姨、Café 的小婷和老闆、學姊的兩個備考同學（AA_503 第 2、11 節；先用固定路人底模也可以）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "AA_503（HEROINE-LIFE-1028，USER_WANTS X122）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上在麵店、Café、總圖看到她們和朋友同框",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:2x UTC】LAWWW2 修完溫州街公園（WZ-PARK-POCKET-1028，擋 v9.10.12）以後做；角色美術由 LAWWW 驗收（D100a）",
+   "xai": {
+    "spec": "AA_503 第 2 節（圈子）、外觀描述",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "五位有固定外觀（底模＋道具或專屬模型），在遊戲裡和女主角同框看得出是誰",
+    "receiver": "LAWWW",
+    "ack": "未派"
    }
   }
  ]
