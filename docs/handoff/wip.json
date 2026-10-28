@@ -1248,6 +1248,21 @@
    "noDirectIntegrate": true,
    "source": "AA-C 09:1x（AA_503 第 14 節後補，DL-AA-PRIVQ2）",
    "closedBy": "eadb542e5（合併子代理 20cbaaba6；company_priv 65 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-FEEDDATES-1028",
+   "role": "LAWWW",
+   "task": "FEED-DATES-1028",
+   "state": "WIP",
+   "sha": "79a094634、b45b02605",
+   "branch": "worktree-agent-ab645f464f54b8a63（子代理；D113 備份 wip_backup/feeddates_1028.bundle）",
+   "files": [
+    "wip_backup/feeddates_1028.bundle"
+   ],
+   "todo": "AA_515 交往中約會後的動態：src/data/feed_dates.js（已有）、feed3d.js 排程與上限（做中）、date3d 掛勾、tests/aa515_feed_dates_unit.js 逐字對稿＋行為",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 09:26（AA_515 aa9bbc46f，DL-AA-515）"
   }
  ]
 }
