@@ -28,7 +28,10 @@ STATE = """(id)=>{ const G=GAME.G, D=STORY.ladData(G,id), k=D?D.key:id; return {
 # 【前置】站到她走路方向前面 ahead m（站得住的地方；她在走＝迎面走過來）。10-28 11:1x：rc2_priv2_wait7 三天都追不上（她和筱涵邊走邊聊，1 fps 追 15 輪始終差 6～9 m）
 AHEAD = """([id,ahead])=>{ const E=GAME.E, P=E.player, n=__BBF.npc(id); if(!n||!n.obj) return null; const h=n.obj.position, lv=n.lv|0; let yaw=n.obj.rotation.y;
   if(n.path&&n.path.length){ const q=n.path[0]; if(q){ const dx=q[0]-h.x, dz=q[1]-h.z; if(Math.hypot(dx,dz)>0.2) yaw=Math.atan2(dx,dz); } }   /* engine3d.js：path＝[[x,z],…]，path[0]＝下一個點 */
-  for(const da of [0,0.4,-0.4,0.8,-0.8,1.6,-1.6,3.14]){ const a=yaw+da, x=h.x+Math.sin(a)*ahead, z=h.z+Math.cos(a)*ahead; if(E.canStand&&!E.canStand(x,z,0.33,lv)) continue;
+  /* 10-28 11:4x r3：兩人站著不動時「前面」剛好比較靠近筱涵＝按鈕變「和黃筱涵說話」——只選離她最近、別人都至少遠 0.8 m 的位置 */
+  const others=E.npcs.filter(m=>m!==n&&m.obj&&!m.hidden).map(m=>m.obj.position), far=(x,z)=>others.every(q=>Math.hypot(q.x-x,q.z-z)>=ahead+0.8);
+  const das=[0,0.4,-0.4,0.8,-0.8,1.2,-1.2,1.6,-1.6,2.0,-2.0,2.4,-2.4,2.8,-2.8,3.14];
+  for(const da of das){ const a=yaw+da, x=h.x+Math.sin(a)*ahead, z=h.z+Math.cos(a)*ahead; if(E.canStand&&!E.canStand(x,z,0.33,lv)) continue; if(!far(x,z)) continue;
     E.placeAt(P,x,z,lv); P.path=null; P.obj.rotation.y=Math.atan2(h.x-x,h.z-z); return {x:+x.toFixed(2),z:+z.toFixed(2),hx:+h.x.toFixed(2),hz:+h.z.toFixed(2),da,beh:n.beh||null}; }
   return null; }"""
 
