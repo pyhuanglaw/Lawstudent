@@ -17,7 +17,7 @@ const {check,GM}=H, J=JSON.stringify;
 let ok=true, err='';
 try{ for(const [f,n] of [['src/data/heroine_asks.js','HASK_DATA'],['src/heroine_asks3d.js','HASK']]){ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); } }catch(e){ ok=false; err=String(e&&e.message||e); }
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js 在 story3d.js 以後、事件包（bbpack）前面',ok&&typeof HASK!=='undefined'&&/<script src="src\/data\/heroine_asks\.js\?v=[^"]+"><\/script>\n<script src="src\/heroine_asks3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/bbpack_events\.js/.test(html)&&html.indexOf('src/story3d.js')<html.indexOf('src/heroine_asks3d.js'),err);
+check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js（相鄰）在 story3d.js 以後、事件包（bbpack）前面（中間可以有別的新模組，例 dorm203）',ok&&typeof HASK!=='undefined'&&/<script src="src\/data\/heroine_asks\.js\?v=[^"]+"><\/script>\n<script src="src\/heroine_asks3d\.js\?v=[^"]+"><\/script>\n/.test(html)&&html.indexOf('src/heroine_asks3d.js')<html.indexOf('src/data/bbpack_events.js')&&html.indexOf('src/story3d.js')<html.indexOf('src/heroine_asks3d.js'),err);
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
