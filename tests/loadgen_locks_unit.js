@@ -14,7 +14,8 @@
 //   5 每一個登記的放開都跑得動、真的放開（載得到的模組全部跑一次）
 // 修改前（開發分支 390f87357，git archive 那一版、把這支測試放進去真的跑過）：FAILED 13——第 1、2、5 節沒有登記、沒有 loadRelease、phoneThread／saveMenu 讀檔以後照樣醒；
 //   第 3 節「再讀一次阿姨還能開始」FAIL（CLOSED2 的 busy 卡著、staged 還在）；第 4 節 EVENTS.running 留著、EVENTS.run 直接 return、POOL.tick 回 false。
-//   第 3、4 節「舊的不接著演、不寫」本來就 PASS（LOAD-GEN-ABORT 照舊）。修改後：ALL PASS。
+//   第 3、4 節「舊的不接著演、不寫」本來就 PASS（LOAD-GEN-ABORT 照舊）。修改後：ALL PASS；全套 Node 測試 720 支、失敗 0（合併開發分支 c84f75b7d 以後，f029eb727）。
+//   新增模組的鎖：宣告的下一行照抄一行登記（鍵寫「檔名:鎖」，全 src/ 不重複）；同步的 try／finally（中間沒有 await）不必登記，寫進上面的 ALLOW 並寫原因。
 // 用法：node tests/loadgen_locks_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
