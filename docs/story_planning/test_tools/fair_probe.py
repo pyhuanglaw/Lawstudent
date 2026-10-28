@@ -69,7 +69,7 @@ async def drain(c, pref=None, secs=120):
     while time.time() - t0 < secs:
         s = await L.state(pg)
         if s['choices']:
-            r = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null; for(const x of w){ e=bs.find(b=>b.textContent.trim().includes(x)); if(e) break; } e=e||bs[0]; try{ e.scrollIntoView({block:'nearest'}); }catch(_){} const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim(),bs.map(b=>b.textContent.trim())]; })(%s)" % json.dumps(pref))
+            r = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null; for(const x of w){ e=bs.find(b=>b.textContent.trim().includes(x)); if(e) break; } const ok=b=>!b.classList.contains('dim')&&!b.disabled; e=e||bs.find(b=>ok(b)&&/^(算了|不用了|先這樣|就這樣|沒事|先不)/.test(b.textContent.trim()))||bs.find(ok)||bs[0];   /* 沒有偏好：不選灰掉的（BB-C 10-28 gymline：一直點「去一盞喝茶（你們只打過招呼…）」灰的選項，繞了 15 次）、先選收掉的 */ try{ e.scrollIntoView({block:'nearest'}); }catch(_){} const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim(),bs.map(b=>b.textContent.trim())]; })(%s)" % json.dumps(pref))
             c.run.note('▶ 選「%s」（選項：%s）' % (r[2], ' / '.join(r[3]))); await L.touch_tap(cdp, r[0], r[1]); await pg.wait_for_timeout(900); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
         if await phone_open(pg): await close_phone(pg); continue
