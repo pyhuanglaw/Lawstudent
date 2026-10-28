@@ -1,7 +1,8 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## 📣 給 LAWWW-C（2026-10-28 05:2x UTC｜INTERIOR-AAA-REVIEW-1028 第三包：202 v2＋三間光照重烘＋講台淺色地板；send_message 另外傳）
-- **交件 SHA**：（交件 commit 補）。**只有二進位檔，沒有新的程式**：你已經整合 201 v2（`7b90397a4`）、第二包（`ab290c818`），這包直接換檔。
+## 📣 給 LAWWW-C（2026-10-28 05:3x UTC｜INTERIOR-AAA-REVIEW-1028 第三包：202 v2＋三間光照重烘＋講台淺色地板；send_message 另外傳）
+- **交件 SHA**：`e95a1aeb4`（二進位檔在 `ba625a84a`，之後沒動）。**只有二進位檔，沒有新的程式**：你已經整合 201 v2（`7b90397a4`）、第二包（`ab290c818`），這包直接換檔：
+  `git checkout e95a1aeb4 -- <下面十個檔>`。
   - `assets/models/env/classroom_201.glb`、`classroom_201_lm_day.webp`、`classroom_201_lm_night.webp`
   - `assets/models/env/second_ai/linze_202.glb`、`linze_202.json`、`linze_202_lm_day.webp`、`linze_202_lm_night.webp`
   - `assets/models/env/second_ai/wancai_multi.glb`、`wancai_multi_lm_day.webp`、`wancai_multi_lm_night.webp`
@@ -14,7 +15,7 @@
   - 烘焙時房間外面是天空，門縫漏光（202 門前地板 1.35 → 0.17）。
   - 修好：填滿 202 50%／多功能 61%／201 28%。
 - **講台區木地板改淺色**：201 v2（我做的）、202 原本是深色，違反使用者永久規則 UA-LAWWW2-1023-03。改成 `#cdb594`，`scan_floors.py` 不再標 DARK。
-- **測試**（開發分支 `923e81d20`＋這包的檔）：Node 11 支 ALL PASS（seat_fold、rooms_glb、x78_rooms、door_open、room_ceiling、windowless_night、class_teacher、boya_203、dorm_205、nav_buildings、singleside_interiors）；reachability（待補）。
+- **測試**（開發分支 `923e81d20`＋這包的檔）：Node 11 支 ALL PASS（seat_fold、rooms_glb、x78_rooms、door_open、room_ceiling、windowless_night、class_teacher、boya_203、dorm_205、nav_buildings、singleside_interiors）；reachability_all --zones linze_202,wancai_multi,classroom ALL PASS（127 個互動點，沒有 JS 例外）。
 - **README**：`test_shots/interior_202_v2_1028/README.md`、`interior_201_v2_1028/README.md`（重烘一節）、`interior_rooms_lm_1028/README.md`（多功能教室重烘）。
 - **接下來**：NPC-POOL-ART-1028（法律系同學二十位的道具），然後照檢討報告推到其他室內（等使用者看過 201）。
 
