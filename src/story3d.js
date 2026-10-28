@@ -2877,7 +2877,7 @@ const STORY = (function(){
     if(F.ROOM_Y3||F.ROOM_Y4) return /^Y[34]/.test(t)?[['classmate_bohan','R1',22.5]]:[];
     if(F.ROOM_Y2) return /^Y2/.test(t)?[['zhe','L1',G.day>=S.dayOfKey('2026-12-19')?23:22],['classmate_bohan','R1',22.5]]:[];
     return F.DORM_FOUR&&/^Y1/.test(t)?[['zhe','L1',22],['classmate_bohan','R1',22.5]]:[]; };
-  /* 現在坐在房間書桌前的室友：[[人物, 座位, 從幾點開始]]（DORM203-MATES-1028；使用者 2026-10-28 01:3x「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」）——
+  /* 現在坐在房間書桌前的室友：[[人物, 座位, 從幾點開始, 怎麼來（203 四人房才有：'bed' 起床／'door' 開門進來）]]（DORM203-MATES-1028；使用者 2026-10-28 01:3x「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」）——
      進房間（populate）和待在房間裡（S.dormLive，refreshSchedule 每 3 秒）都照這一份。經濟系那一年＝阿勳 18:00～08:00（颱風天整天；E01 演完以後，AA_168 第 5 節）；
      法律系大一＝阿凱 18:00～08:00（大一同房 S.kaiRoommate；回宜蘭過年的晚上不在）＋S.dormMates（阿哲、柏翰晚上回來，23:30 以後在上舖）*/
   S.dormWho=function(G){ const F=(G&&G.flags)||{}, hr=h(G), L=[];

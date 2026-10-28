@@ -65,7 +65,8 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
   /* ================= 0 載入、index.html、對稿 ================= */
   await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/rom1016_3d.js'), b=html.indexOf('src/data/dorm203_lines.js'), c=html.indexOf('src/dorm203_3d.js'), d=html.indexOf('src/data/bbpack_events.js');
     check('0. 新檔載得到（DORM203_LINES、DORM203）；index.html：rom1016_3d.js → data/dorm203_lines.js → dorm203_3d.js → bbpack_events.js（緊接著）',ok&&!!X()&&!!L&&a>0&&b>a&&c>b&&d>c&&html.slice(a,d).split('<script').length===4,err); });
-  await sec(0,()=>{ check('0. 拿得到稿（git show 4071fdb9a）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0,'長度 '+DOC.length); if(!L||!DOC) return;
+  await sec(0,()=>{ check('0. 拿得到稿（git show 4071fdb9a）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0,'長度 '+DOC.length);
+    if(!L||!DOC){ for(const n of ['0. 遊戲裡的每一句都在稿裡','0. 反過來：稿第 1～4 節的每一句遊戲裡都有']) check(n,false,!L?'沒有 DORM203_LINES':'拿不到稿'); return; }
     const bad=[], inDoc=t=>DOC.indexOf(t)>=0;
     /* 遊戲 → 稿：每一句都在稿裡；說話的人對（「名字：」接在前面，或在那個人的表裡）*/
     for(const id in L.walkIn) for(const t of L.walkIn[id]) if(!inDoc('- '+t)) bad.push('walkIn '+t);
