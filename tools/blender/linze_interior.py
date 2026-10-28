@@ -461,6 +461,12 @@ def join_by_material(level_root, prefix):
         for ob in obs: bpy.data.meshes.remove(ob.data)
         pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}))
         mesh_obj((f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else ''), bm, mat, level_root, props=pr or None)
+# 大廳第二版的純色擺設合成一個頂點色材質（LOBBY-VC-1028，LAWWW2-C 10-28）：15 個純色材質每個各畫一次，大廳本身 draw call 多了 22～34%。
+# 不發光、不是金屬的（粗糙度都是 0.6）換成同一個 lz_vc，顏色寫進頂點色；金、黃銅（金屬）、出口燈的發光面照舊。之後 join_by_material 照（淡出群組, 材質）合併
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'blender', 'env_second'))
+import lib2 as L2   # noqa: E402
+_VC = L2.vc_material('lz_vc', rough=0.6)
+L2.vc_consolidate(root, {MAT[k].name: _VC for k in ('red', 'exitg', 'black', 'white', 'mat', 'binB', 'binG', 'binK', 'cream', 'navy', 'umbR', 'paper')})
 for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 
 # ---------------- 匯出 ----------------
