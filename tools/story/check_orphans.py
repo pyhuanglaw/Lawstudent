@@ -38,11 +38,40 @@ def code_text():
     return '\n'.join(parts)
 
 
+def glb_extras_text():
+    """GLB 的 JSON 區段裡 extras 底下的字串：室內光照貼圖 extras.lightmap＝{day,night}（zones3d.js roomLightmap 執行時讀），
+    檔名只寫在 GLB 裡、程式碼沒有，不算「沒用到」（v9.10.13 發布前 201、202、多功能教室的 5 張被誤報）。只收 extras，不收內嵌貼圖的名字。"""
+    out = []
+
+    def walk(o, inx):
+        if isinstance(o, dict):
+            for k, v in o.items():
+                walk(v, inx or k == 'extras')
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, inx)
+        elif inx and isinstance(o, str):
+            out.append(o)
+    for base, _, files in os.walk(os.path.join(ROOT, 'assets')):
+        for f in files:
+            if not f.lower().endswith('.glb'):
+                continue
+            try:
+                with open(os.path.join(base, f), 'rb') as fh:
+                    h = fh.read(20)
+                    if len(h) < 20 or h[:4] != b'glTF':
+                        continue
+                    walk(json.loads(fh.read(int.from_bytes(h[12:16], 'little')).decode('utf-8', 'ignore')), False)
+            except (OSError, ValueError):
+                continue
+    return '\n'.join(out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--out', default='')
     a = ap.parse_args()
-    code = code_text()
+    code = code_text() + '\n' + glb_extras_text()
     L = ['# 做好但遊戲沒用到的東西（check_orphans）', '']
 
     # 1. 沒被提到的素材
