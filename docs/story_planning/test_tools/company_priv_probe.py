@@ -189,7 +189,7 @@ async def talk(pg, cdp, run, who, rid, tag, pick=None, max_s=300):
     return r
 
 
-async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=420):
+async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=420, redo=None):
     """像玩家一樣走到她旁邊（她可能在走動：每一輪重新看她在哪）到按鈕變成「和她說話」再按；按了沒反應、或先演了別的事件就再說一次（最多三次）"""
     t0 = time.time(); n = 0; tries = 0
     while time.time() - t0 < max_s and tries < 3:
@@ -203,7 +203,10 @@ async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=420
         r = await talk(pg, cdp, run, who, rid, tag, pick)
         if r is None: run.note('%s：按了「%s」沒有開始說話，再走近一次' % (tag, g['want'])); continue
         if r['post']['ev'] and r['menu'] is None:
-            run.note('%s：先演了事件 %s（不是這次要看的），再說一次' % (tag, J(r['post']['ev']))); await pg.wait_for_timeout(1500); continue
+            run.note('%s：先演了事件 %s（不是這次要看的），再說一次' % (tag, J(r['post']['ev'])))
+            if redo:   # BB-C 10-28 priv_menu：先演的 ev_an_report_feedback 把以安的聯絡方式加回來＝第二次說話「交換聯絡方式」不出、整個選單沒有（不是 PRIV 的問題）
+                r0 = await pg.evaluate(redo); run.setup('【捷徑】先演的事件改了前置，改回來：%s' % J(r0))
+            await pg.wait_for_timeout(1500); continue
         return r
     run.note('%s：%d 秒內沒有和她說到話' % (tag, time.time() - t0)); return None
 
@@ -229,6 +232,7 @@ async def wait_alone(pg, cdp, run, who, rid, until_h, max_s=900):
 async def mode_menu(pg, cdp, run, save, event=False):
     who, rid, avoid = 'heroine_01', 'c503_4_2', ['yu']; A = 'A3' if event else 'A1'
     st = await base(pg, save, '2025-10-06', 18.02, 'campus'); st.get('contacts', {}).pop(who, None)
+    redo = "()=>{ const G=GAME.G, id='heroine_01', had=!!(G.contacts&&G.contacts[id]); if(G.contacts) delete G.contacts[id]; return {had, now:!!INV.hasContact(G,id)}; }"
     run.setup('[前置] 使用者存檔 day 14 → 2025-10-06（星期一，大一上第 6 週）18:01 校園；拿掉以安的聯絡方式（「交換聯絡方式」才會出現）')
     y = None
     if event:
@@ -239,12 +243,12 @@ async def mode_menu(pg, cdp, run, save, event=False):
     i0 = await info(pg, who, rid); run.note('開始：%s' % J(i0))
     run.check('前置：c503_4_2 成立、以安和 Alison 都在校園', bool(i0['on'] and i0['her'] and i0['comp'] and i0['comp'][0]['pos']), J(i0))
     await place(pg, cdp, run, who); await run.shot(pg, 'crowd_view')
-    r1 = await approach_talk(pg, cdp, run, who, rid, avoid, 'crowd')
+    r1 = await approach_talk(pg, cdp, run, who, rid, avoid, 'crowd', redo=redo)
     run.check('前置：說話時 Alison 在她 3.2 m 內（選單問 privNow＝旁邊有人）', crowd_of(r1), J(r1 and [r1['at_tap']['withNow'], r1['priv_menu']]))
     m1 = r1 and r1['menu']
     run.check('前置：她本來可以約（INV.canInvite）', bool(r1 and r1['at_tap']['canInv']), J(r1 and r1['at_tap']['canInv']))
     if not event:
-        run.check('A1 旁邊有人：選單沒有「約她去…」', m1 is not None and not has(m1, '約她去'), J(m1))
+        run.check('A1 旁邊有人：選單沒有「約她去…」（整個選單沒出＝也沒有）', bool(r1) and not has(m1, '約她去'), J(m1))
         run.check('A1 旁邊有人：「交換聯絡方式」照常', has(m1, '交換聯絡方式'), J(m1))
     else:
         c1 = await pg.evaluate(CONF_JS, [who, y])
@@ -254,10 +258,12 @@ async def mode_menu(pg, cdp, run, save, event=False):
     if WAIT and await wait_alone(pg, cdp, run, who, rid, 18.84): run.note('同一天站著等到 Alison 走了（沒有跳時間）')
     else:
         await jump(pg, cdp, run, '2025-10-06', 18.9, 'campus'); run.setup('【捷徑】同一天跳到 18:54（c503_4_2 18:50 結束，Alison 不在）')
+    r0 = await pg.evaluate(redo)
+    if r0['had']: run.setup('【捷徑】跳時間以後以安的聯絡方式還在（前一段說話時加的），拿掉＝「交換聯絡方式」才會出現：%s' % J(r0))
     i1 = await info(pg, who, rid); run.note('一個人：%s' % J(i1))
     run.check('前置：她還在校園、旁邊沒有她的人', bool(i1['her']) and not i1['withNow'], J(i1))
     await place(pg, cdp, run, who); await run.shot(pg, 'alone_view')
-    r2 = await approach_talk(pg, cdp, run, who, rid, avoid, 'alone', pick=CONF if event else None)
+    r2 = await approach_talk(pg, cdp, run, who, rid, avoid, 'alone', pick=CONF if event else None, redo=redo)
     m2 = r2 and r2['menu']
     run.check('前置：說話時旁邊沒有人（privNow＝true）', bool(r2) and not crowd_of(r2) and not r2['at_tap']['withNow'], J(r2 and [r2['at_tap']['withNow'], r2['priv_menu']]))
     if not event:
