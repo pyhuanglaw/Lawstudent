@@ -164,7 +164,7 @@ const SISY23_EVENTS=(function(){
         Object.assign(SIS('三月你說要慶祝。……我排完了。'),{aa512:true}), Object.assign(SIS('今天這樣，算嗎？'),{aa512:true}),
         {choice:[{text:'「算。」',goto:'cel_a',aa512:true},{text:'「不算，要吃飯。」',goto:'cel_b',aa512:true}]},
         {label:'cel_a'}, Object.assign(SIS('好。……那我請你喝一杯。'),{aa512:true}), {goto:'cel_e'},
-        {label:'cel_b'}, Object.assign(SIS('……那買完鎖去吃。你選。'),{aa512:true}),
+        {label:'cel_b'}, Object.assign(SIS('……那現在去吃。你選。'),{aa512:true}),   /* AA_512 第 7 節第 11 點：鎖已經買了 */
         {label:'cel_e'},
         SIS('那邊沒有騎樓。下雨要自己撐傘。'), SIS('……我傘帶了兩把。一把會忘在某個地方。'),
         {choice:[{text:'「四個多月很快。」',goto:'pa'},{text:'「會想回來嗎？」',goto:'pb'}]},

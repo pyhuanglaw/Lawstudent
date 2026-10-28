@@ -354,7 +354,7 @@ const SUP497=(function(){
   S.kvPhone=function(G){ const F=G.flags, A=L.kv; if(!law(G)) return; const fam_=inGrp(G,'family_law');
     { const d=DK('2026-09-14'), h=DK(S.HAND); if(d!=null&&h!=null&&fam_&&!F.KV_HAND_ASKED&&G.day>=d-1&&G.day<=h){ if(PHONE.at(G,d,21+10/60,[KVg(A.invite)].map((x,i,a)=>i===a.length-1?Object.assign(x,{ask:askOf('kv_hand',[{t:A.go,hand:true}],{until:T(h,18)})}):x),'kv_hand_ask')) F.KV_HAND_ASKED=G.day; } }
     { const h=DK(S.HAND); if(h!=null&&fam_&&!F.KV_HANDOVER&&now(G)>=T(h+1,21)&&G.day<=h+2&&!sent(G,'kv_hand_missed')) PHONE.at(G,h+1,21,[KVg(A.missed)],'kv_hand_missed'); }   /* 沒去 */
-    { const d=DK('2027-03-08'), old=(G.msgs||[]).some(m=>m&&m.th==='g:family_law'&&m.from===YZ&&/考古題在哪裡/.test(m.text||'')); if(d!=null&&fam_&&!old) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}].concat(typeof SISB13!=='undefined'&&SISB13.yzOpts?SISB13.yzOpts(G):[]))})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（佳穎從家族群組拿到你的帳號）；舊存檔已經在群組問過（舊的那一段）＝不再私訊。
+    { const d=DK('2027-03-08'), old=(G.msgs||[]).some(m=>m&&m.th==='g:family_law'&&m.from===YZ&&/考古題在哪裡/.test(m.text||'')); if(d!=null&&fam_&&!old) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}])})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（佳穎從家族群組拿到你的帳號）；舊存檔已經在群組問過（舊的那一段）＝不再私訊。
        AA_512 第 2 節第 1 點（企劃線 c444f0757）：有 SIS_OLD_NOTES（學姊大二的筆記）的多一個選項「（把學姊的筆記傳給她）」（src/sis_b13_3d.js S.yzOpts；之後才拿到筆記的，那則還沒回就補上）*/
     /* 5-3 國考（日期照考選部當年公告的月份；LAWWW 排：一試放榜 9 月、二試放榜 12 月）*/
     if(fam_){ S.at(G,KV,DK('2028-09-22'),21,A.bar1.map(KVg),'kv_bar1',{noContact:true});

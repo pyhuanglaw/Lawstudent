@@ -8,7 +8,7 @@
    - 13-5 日本路線的生日：玩家 6/2 傳「生日快樂」（MSG-2，y34b3d.js 的朋友版回「謝謝。研究室的人買了一個小蛋糕。」）＝那一句先不回，
      臺灣 21:00（日本 22:00）她打視訊來（出遊「接起來」）；沒接、先不接＝照現有那一句。22:00 以後才傳的照舊。
    - 13-6 挽回中的短招呼：三句放進 SMALLTALK（美國、挽回中、各一次、照順序先說）。
-   - 第 2 節：1 佳穎 3/8 私訊多一個選項（src/sup497_3d.js kvPhone 問 S.yzOpts；之後才拿到筆記、那則還沒回的也補上）→ 隔天 21:00 學姊兩則；
+   - 第 2 節：1 佳穎 2027-05-20 21:00 私訊（AA_512 第 7 節第 9 點；3/8 那則不加選項）→ 5/21 21:00 學姊兩則；
      3 修正本 2029-07-15 21:00 → 7/20 18:30 公館；4 慶祝（sis_y2y3_events.js）；5 研究室的晚上（characters.js 作息 S.labEve、lab5f3d.js 晚上開門、ev_sis13_lab_eve 一次）；
      6 第四十天（美國路線 9/11 22:00 私訊；臺灣、日本路線 r2y4b_events.js 那一週的視訊開頭 S.day40Video）；7 報告完了（彩排後的下一個週三 21:00）；
      8 二月那一頁（2029-01-31 21:00 → 2/1 15:00 Café）；9 每週視訊 g3、g2 的下一次開頭（r2y4b_events.js，S.g3Due／S.g2Due）。
@@ -95,12 +95,16 @@ const SISB13=(function(){
   S.POOL={from:'2029-05-07',to:'2029-05-10'};
   S.poolOk=G=>law(G)&&!!G.flags.met_sis&&!S.dating(G)&&!S.isEx(G)&&stageOk('FRIEND')&&inDays(G,S.POOL.from,S.POOL.to)&&here(G)&&!abroad(G);
 
-  /* ---------------- 第 2 節第 1 點：「不用還。……傳給你下一個直屬。」---------------- */
-  S.yzOpts=G=>G&&G.flags&&G.flags.SIS_OLD_NOTES?[{t:L.notesOpt,say:[{from:'family_junior',text:L.notesRep}],sisNotes:true}]:[];   /* src/sup497_3d.js kvPhone 排 3/8 那一則時接在「（傳給她）」後面 */
+  /* ---------------- 第 2 節第 1 點：「不用還。……傳給你下一個直屬。」----------------
+     AA_512 第 7 節第 9 點（企劃線 0e02591e4）：3/8 那則照舊不加選項（筆記大二下第 7～9 週才拿到）；改成 2027-05-20（四）21:00 佳穎私訊（有 SIS_OLD_NOTES、在家族群組＝有直屬學妹；
+     佳穎從家族群組拿到你的帳號＝不看聯絡方式）。「（把學姊的筆記傳給她）」→ SIS_NOTES_PASSED → 學姊兩則 5/21（五）21:00（晚回的＝回了的隔天 21:00，5/22 避開＝5/23）；「先把考古題做完。」→「好！！」 */
+  S.YZ_NOTES='2027-05-20'; S.NOTES_BACK='2027-05-21';
+  S.yzNotesAsk=G=>({th:'p:family_junior',from:'family_junior',text:L.yzNotesAsk,ask:{id:'sis13_yz_notes',opts:[{t:L.notesOpt,say:[{from:'family_junior',text:L.notesRep}],sisNotes:true},{t:L.yzNotesNo,say:[{from:'family_junior',text:L.yzNotesNoRep}]}]}});
   S.notes=function(G){ const F=G.flags;
-    if(F.SIS_OLD_NOTES&&typeof PHONE!=='undefined'&&PHONE.byAsk){ const m=PHONE.byAsk(G,'kv_yz'); if(m&&m.ans==null&&m.ask&&Array.isArray(m.ask.opts)&&!m.ask.opts.some(o=>o&&o.sisNotes)) m.ask.opts.push(...S.yzOpts(G)); }   /* 筆記是大二下第 7～9 週才拿到（4/7 起）：3/8 那則還沒回的，拿到以後補上這個選項 */
-    if(F.SIS_NOTES_PASSED===true&&F.SIS_NOTES_DAY!=null&&contact(G)){ const d=F.SIS_NOTES_DAY+1; if(G.day>=d-1&&G.day<=d+1&&!sent(G,'sisb13_notes_back')) PHONE.at(G,d,21,(L.notesBack||[]).map(dm),'sisb13_notes_back'); } };   /* 隔天 21:00（不用回）*/
-  S.onAnswer=function(G,m,o){ if(!m||!m.ask||m.ask.id!=='kv_yz'||!o||!o.sisNotes) return; G.flags.SIS_NOTES_PASSED=true; G.flags.SIS_NOTES_DAY=G.day; };
+    if(F.SIS_OLD_NOTES&&inGrp(G)){ const d=D(S.YZ_NOTES); if(d!=null&&G.day>=d-1&&G.day<=d+1&&!sent(G,'sisb13_yz_notes')) PHONE.at(G,d,21,[S.yzNotesAsk(G)],'sisb13_yz_notes'); }
+    if(F.SIS_NOTES_PASSED===true&&F.SIS_NOTES_DAY!=null&&contact(G)){ const d21=D(S.NOTES_BACK), d22=d21+1; let d=Math.max(d21,F.SIS_NOTES_DAY+1); if(d===d22) d=d22+1;
+      if(G.day>=d-1&&G.day<=d+1&&!sent(G,'sisb13_notes_back')) PHONE.at(G,d,21,(L.notesBack||[]).map(dm),'sisb13_notes_back'); } };   /* 不用回 */
+  S.onAnswer=function(G,m,o){ if(!m||!m.ask||m.ask.id!=='sis13_yz_notes'||!o||!o.sisNotes) return; G.flags.SIS_NOTES_PASSED=true; G.flags.SIS_NOTES_DAY=G.day; };
 
   /* ---------------- 第 2 節第 3 點：修正本的第二本 ---------------- */
   S.THESIS={ask:'2029-07-15',day:'2029-07-20'};
