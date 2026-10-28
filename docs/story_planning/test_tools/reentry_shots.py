@@ -25,7 +25,8 @@ async def enter(pg, z, h):
     await pg.evaluate("(async([z,h])=>{ GAME.G.hour=h; GAME.E.hour=h; await GAME.enter(z); })", [z, h])
     ok = False
     for _ in range(90):
-        ok = await pg.evaluate("(z=>!!(GAME.E.zone&&GAME.E.zone.id===z&&GAME.E.zone.formal))", z) if z in OUTER else await pg.evaluate("(z=>!!(GAME.E.zone&&GAME.E.zone.id===z))", z)
+        # 10-28 10:5x 修：原本比 GAME.E.zone.id（不是區域名稱）→ 一直 false、每次白等 90 秒；改看 GAME.G.zone
+        ok = await pg.evaluate("(z=>!!(GAME.G.zone===z&&GAME.E.zone&&GAME.E.zone.formal))", z) if z in OUTER else await pg.evaluate("(z=>GAME.G.zone===z)", z)
         if ok: break
         await pg.wait_for_timeout(1000)
     await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })", h)
