@@ -1,5 +1,5 @@
 """光照貼圖的後處理，不用重烘（LM-SEAM-1028，LAWWW2-C 2026-10-28）：
-看不到、不分像素的面（bake_room.py 把它們的光照座標收成一點：面積 0），和夾在零件中間、烘成全黑的面（白天、晚上兩張都 < --thr），
+看不到、不分像素的面（bake_room.py 把它們的光照座標收成一點：面積 0），和夾在零件中間、烘成全黑的面（白天、晚上兩張、整面每一處都 < --thr），
 改接到別的面的光。貼圖不動，只改 GLB 裡第二套 UV（TEXCOORD_1）；其他照原樣匯出（節點、名字、自訂屬性、場景的 extras.lightmap）。
 為什麼：
   - 方塊拼的牆段在接縫是 T 形接頭（一邊有頂點、一邊沒有），畫的時候露出一點一點的縫，看到的就是這些面。
@@ -14,9 +14,11 @@
      不接鄰面：鄰面和它垂直（樓梯間開口的側面朝走廊，鄰面朝樓梯井，走廊的燈照不到）。
      附近沒有同方向的面：烘成全黑的不動（很深的縫本來就是暗的）；沒分像素的照 1 的做法。
   3. 都找不到：最近一個看得到的面中間的光。
+「整面每一處」：面中心、角和邊的中點（往中心縮 20%），大的面再加一張格子，取最亮的。只看中心會錯：
+  202 東牆一整面（11.5 m² 的三角形）的中心剛好在「教室使用須知」那塊板子後面（被板子擋住的影子），整面被當成全黑改掉，牆上抹出一塊暗影。
 用法：/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in 房間.glb --out 輸出.glb --lm 光照貼圖前綴（不含 _day.webp） [--thr 0.004] [--report 每個物件改了幾個面.json]
 """
-import bpy, bmesh, sys, os, json
+import bpy, bmesh, sys, os, json, math
 import numpy as np
 from mathutils import Vector
 from mathutils.kdtree import KDTree
@@ -41,6 +43,19 @@ def uvarea(f, uv):
     for i in range(1, len(p) - 1): a += abs((p[i].x - p[0].x) * (p[i + 1].y - p[0].y) - (p[i + 1].x - p[0].x) * (p[i].y - p[0].y)) / 2
     return a
 def uvc(f, uv): return sum((l[uv].uv for l in f.loops), Vector((0, 0))) / len(f.loops)
+def lmmax(f, uv):
+    """這一面在光照貼圖上最亮的地方（白天、晚上取大的）：中心、角、邊的中點（往中心縮 20%）；面積超過 8 個像素的再加一張格子（往中心縮 10%）"""
+    pts = [l[uv].uv.copy() for l in f.loops]; c = sum(pts, Vector((0, 0))) / len(pts); n_ = len(pts)
+    smp = [c] + [p.lerp(c, 0.2) for p in pts] + [((pts[i] + pts[(i + 1) % n_]) / 2).lerp(c, 0.2) for i in range(n_)]
+    apx = uvarea(f, uv) * W * H
+    if apx > 8:
+        k = min(32, int(math.sqrt(apx)) + 1)
+        for i in range(1, n_ - 1):
+            p0, p1, p2 = pts[0], pts[i], pts[i + 1]
+            for a in range(k + 1):
+                for b_ in range(k + 1 - a):
+                    q = p0 + (p1 - p0) * (a / k) + (p2 - p0) * (b_ / k); smp.append(c + (q - c) * 0.9)
+    return max(lmval(q) for q in smp)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=os.path.abspath(IN))
@@ -74,7 +89,7 @@ for o in [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.uv_laye
     bad = {}
     for f in bm.faces:
         if uvarea(f, uv) < 1e-12: bad[f.index] = 'collapsed'; st['collapsed'] += 1
-        elif lmval(uvc(f, uv)) < THR: bad[f.index] = 'black'; st['black'] += 1
+        elif lmmax(f, uv) < THR: bad[f.index] = 'black'; st['black'] += 1
         else: REC.append(([mw @ l.vert.co for l in f.loops], [l[uv].uv.copy() for l in f.loops], (mn @ f.normal).normalized(), mw @ f.calc_center_median(), o.name))
     OBJ.append((o, bm, uv, bad, mw, mn))
 KD = KDTree(max(1, len(REC)))
