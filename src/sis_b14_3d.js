@@ -35,6 +35,7 @@ const SISB14=(function(){
   const dm=t=>({th:'p:'+ID,from:ID,text:t});
   const reply=o=>({t:o.t,say:[{from:ID,text:o.r}]});
   const leaveDay=()=>D(typeof USL!=='undefined'&&USL.CAL&&USL.CAL.leave?USL.CAL.leave:'2028-12-16');   /* 12/16 離開社區（us_life3d.js S.CAL.leave）*/
+  const away=(d,h)=>typeof USL!=='undefined'&&!!USL.sisAwayAt&&!!USL.sisAwayAt(T(d,h));   /* 她不在社區（芝加哥 11/11 07:00～11/12 21:45；us_life3d.js S.SIS_AWAY）*/
 
   /* ---------------- 1-3 大峽谷才交往的第一次女朋友視訊（一次）---------------- */
   S.canyonOpenDue=G=>law(G)&&route(G)!=='US'&&S.dating(G)&&!!G.flags&&G.flags.SIS_GF_CANYON!=null&&!G.flags.SIS14_CANYON_OPEN;
@@ -86,11 +87,12 @@ const SISB14=(function(){
     if(st.id==='SU-L6') S.eggsPlan(G); if(st.id==='SU-L7') S.coatPlan(G); return true; };
   /* 4-2 隔天 07:00（她 12/16 離開以前）*/
   S.EGGS_OUT={id:'sisb14_eggs',ev:'ev_sis14_eggs',h:7,late:10/60,place:'C 棟 208',title:'C 棟 208（早上七點，煮蛋）',travel:'走路 約 5 分鐘',travelH:1/12,hours:1,back:'回到社區。'};
-  S.eggsPlan=function(G){ const d0=G.flags.SIS14_EGGS_DAY, lv=leaveDay(); if(d0==null) return; const d=d0+1; if(lv!=null&&d>=lv) return; plan(G,Object.assign({},S.EGGS_OUT,{day:d})); };
+  S.eggsPlan=function(G){ const d0=G.flags.SIS14_EGGS_DAY, lv=leaveDay(); if(d0==null) return; const d=d0+1; if((lv!=null&&d>=lv)||away(d,S.EGGS_OUT.h)) return; plan(G,Object.assign({},S.EGGS_OUT,{day:d})); };   /* 隔天她不在（12/16 離開、11/11 一早去芝加哥）＝不排（稿寫「隔天」，不往後挪）*/
   S.eggsMissed=function(G,q){ const F=G.flags; if(F.SIS14_EGGS!=null||typeof PHONE==='undefined') return; F.SIS14_EGGS='missed'; const d=q&&q.day!=null?q.day:(F.SIS14_EGGS_DAY|0)+1; PHONE.at(G,d,7.25,(L.eggsMiss||[]).map(dm),'sisb14_eggs_miss'); };   /* 07:15 */
   /* 4-3 那一週的週六 10:00（「早上去。下午人很多。」）*/
   S.COAT_OUT={id:'sisb14_coat',ev:'ev_sis14_coat',h:10,late:0.5,place:'草原超市旁邊那家店',title:'草原超市旁邊那家店（挑外套）',travel:'公車 約 20 分鐘',travelH:1/3,hours:1.5,back:'回到社區。'};   /* 車程同竹葉亞洲超市（就在草原超市對面，us_blank_lines.js）*/
-  S.coatDay=G=>{ const d0=G.flags.SIS14_COAT_DAY; if(d0==null) return null; let n=(6-wd(d0)+7)%7; if(n===0&&(d0<G.day||(+G.hour||0)>=S.COAT_OUT.h-S.COAT_OUT.travelH)) n=7; return d0+n; };   /* 選的那天是週六、還來得及＝當天；其他＝下一個週六 */
+  S.coatDay=G=>{ const d0=G.flags.SIS14_COAT_DAY; if(d0==null) return null; let n=(6-wd(d0)+7)%7; if(n===0&&(d0<G.day||(+G.hour||0)>=S.COAT_OUT.h-S.COAT_OUT.travelH)) n=7; let d=d0+n;
+    while(away(d,S.COAT_OUT.h)) d+=7; return d; };   /* 選的那天是週六、還來得及＝當天；其他＝下一個週六；那個週六她在芝加哥（11/11）＝再下一個週六 */
   S.coatPlan=function(G){ const d=S.coatDay(G), lv=leaveDay(); if(d==null||(lv!=null&&d>=lv)) return; plan(G,Object.assign({},S.COAT_OUT,{day:d})); };
 
   /* ---------------- 4-4 第四十天「我過去。」---------------- */
