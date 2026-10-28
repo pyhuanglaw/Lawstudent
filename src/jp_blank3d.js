@@ -34,7 +34,8 @@ const JPB=(function(){
     {k:'jpb_1_1r',d:'2028-03-29',h:11,w:'jp',if:rep,ev:'ev_jpb_100yen_alone'},
     {k:'jpb_1_1n',d:'2028-03-29',h:12,w:'jp',if:G=>dat(G)&&G.flags.JPB_YEN==='no',sum:X.SUM.d0329},   /* 交往中回「我想睡。」（AA_437 第 7 節第 3 點）*/
     {k:'jpb_1_2',d:'2028-03-31',h:15,w:'jp',if:dat,ev:'ev_jpb_bike'},
-    {k:'jpb_1_2r',d:'2028-04-07',h:15,w:'jp',if:rep,ev:'ev_jpb_bike_repair'},   /* AA_519 第 6 節：挽回中的腳踏車移到 4/7（原本 3/31：立衡版要先遇過立衡，可是重逢在 4/2，到不了）；字不改 */
+    {k:'jpb_1_2r',d:'2028-04-08',h:15,w:'jp',if:rep,ev:'ev_jpb_bike_repair'},   /* AA_519 第 6 節：挽回中的腳踏車移到重逢（4/2）以後第一個週六（原本 3/31：立衡版要先遇過立衡，可是重逢在 4/2，到不了）；字不改。
+                                                                                    第 9 節第 2 點（企劃線 169130daf）：日子是 4/8（六）——第 6 節寫的 4/7 是週五（AA 寫錯）。同一天 13:00 交換生的花見（出遊兩小時）回來以後接著演，不撞 */
     {k:'jpb_1_3r',d:'2028-04-01',h:18.5,w:'jp',if:rep,sum:X.SUM.r0401},
     {k:'jpb_1_4',d:'2028-04-04',h:20,w:'jp',if:dat,ev:'ev_jpb_courses'},
     {k:'jpb_1_4r',d:'2028-04-04',h:18.5,w:'jp',if:rep,sum:X.SUM.r0404},
@@ -67,7 +68,8 @@ const JPB=(function(){
     const now=NOW(G); for(const s of JP.SCH){ if(s.w!=='jp'||/^jpb_pool_/.test(s.k)||R.done[s.k]!=null||DK(s.d)!==day) continue; if(s.if&&!s.if(G)) continue; if(T(day,s.h)>=now) return true; }
     return false; };
   S.poolDue=(G,day)=>inJP(G)&&G.day===day&&!S.dayHas(G,day);
-  S.poolLine=function(G){ const v=dat(G)?'dating':'repair', P=X.POOL[v], R=S.rec(G), i=(R.pool[v]|0)%P.length; R.pool[v]=(R.pool[v]|0)+1; return P[i]; };
+  S.poolLine=function(G){ const v=dat(G)?'dating':'repair', P=X.POOL[v], R=S.rec(G), i=(R.pool[v]|0)%P.length; R.pool[v]=(R.pool[v]|0)+1; const t=P[i];
+    return (!(G.flags&&G.flags.JP_BIKE)&&X.POOL_WALK&&X.POOL_WALK[t])||t; };   /* 腳踏車還沒買（挽回中 4/8 才買）＝騎腳踏車那一句換走路（AA_519 第 9 節第 2 點；jp_blank_lines.js POOL_WALK）*/
   S.POOL_SCH=S.weekendDays().map(d=>{ const x=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d):null, key=x?x.key:String(d);
     return {k:'jpb_pool_'+key,d:key,h:18.5,w:'jp',if:G=>S.poolDue(G,d),sum:G=>S.poolLine(G)}; });
   for(const s of S.SCH.concat(S.POOL_SCH)) if(!JP.SCH.some(q=>q.k===s.k)) JP.SCH.push(s);

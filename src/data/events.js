@@ -4068,7 +4068,9 @@ const STORY_EVENTS=[
     consequences:{flags:{PLG_RULES:true},memo:'公法讀書會的週六補讀：人回來了'} },
   /* 颱風假 T2（BB_110，法律系大二上第 7 週週一 2026-10-19；calendar.js TYPHOON）：前一晚 20:30 新聞（story3d.js phoneRules，照大一的做法）。
      T2b 照常上課的喜劇（行政法）：當天早上九點線上會議的通知——9:00～12:00 人醒著時演（在哪裡都可以，手機＋線上）；三個選項；進去聽＝許教授 XU_TYPHOON（兩週內的行政法課前一句，ev_y2_xu_typhoon_front）。
-     T2a 泡麵之夜（第二個房間）：當天 21:00 以後人在宿舍房間（宿舍之間的訪客規定需查證，BB 寫「不行的話改在交誼廳」，先照房間）；阿凱的訊息、祐廷的回覆照 BB 的稿；三個選項（拍照傳給方奕廷要認識他）*/
+     T2a 泡麵之夜（第二個房間）：當天 21:00 以後人在宿舍房間（宿舍之間的訪客規定需查證，BB 寫「不行的話改在交誼廳」，先照房間）；阿凱的訊息、祐廷的回覆照 BB 的稿；三個選項（拍照傳給方奕廷要認識他）。
+     2026-10-28 AA_519 第 9 節第 1 點（企劃線 169130daf）：這一場阿凱帶的換成一袋滷味——標題「滷味之夜」、訊息、遞毛巾那一句、方奕廷的照片、記憶簿一起換；最後一句旁白「各分到一包」子代理照同樣的意思改「各分到一些」（一袋滷味分不出包）；
+     開頭「阿哲已經在煮第二包了」是阿哲自己的（AA_313 5-3），照留 */
   { id:'ev_y2_typhoon_xu', title:'照常上課的喜劇', participants:['prof_xu'], location:'any', trigger:'auto', term:['Y2S1'], time:[9,12], once:true, background:'dark',
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&(G.stage||'law')==='law'},
     dialogue:[ {scene:'視訊',bg:'video'},
@@ -4085,17 +4087,20 @@ const STORY_EVENTS=[
   { id:'ev_y2_xu_typhoon_front', title:'', participants:['prof_xu'], location:'any', trigger:'class', beforeClass:'admin_law', term:['Y2S1'], once:true, background:'blur',
     prereq:{memory:[{npc:'prof_xu',tag:'XU_TYPHOON'}],custom:G=>typeof STORY!=='undefined'&&G.day>=STORY.dayOfKey('2026-11-09')&&G.day<=STORY.dayOfKey('2026-11-15')},   /* AA_374 第 13 項：期中考後第一堂（11/2 期中考；第 10 週 11/9 那一堂）；原本 10/20～11/2，只會在期中考那天出 */
     dialogue:[ {speaker:'prof_xu',expression:'serious',text:'颱風那天來討論的同學，今天坐前面。'} ] },
-  { id:'ev_y2_typhoon_kai', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', term:['Y2S1'], time:[21,24], once:true, background:'blur',
+  { id:'ev_y2_typhoon_kai', title:'滷味之夜', participants:['kai'], location:'dorm', trigger:'auto', term:['Y2S1'], time:[21,24], once:true, background:'blur',   /* AA_519 第 9 節第 1 點：標題「泡麵之夜」→「滷味之夜」（id 不改：舊存檔的 events.done）*/
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&!!G.flags.ROOM_Y2},
     dialogue:[ {speaker:null,text:'（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）'},   /* AA_313 5-3：大二阿哲、柏翰是 312 的室友，颱風天也在房間 */
-      {phone:'kai',text:'我要過去'},{phoneMe:'kai',text:'外面在下雨'},{phone:'kai',text:'下雨又怎樣 泡麵我都買了'},{phone:'kai',text:'就當這週的宵夜提早'},{phoneMe:'kai',text:'今天是週一'},{phone:'kai',text:'所以咧 颱風天誰管星期幾'},
+      {phone:'kai',text:'我要過去'},{phoneMe:'kai',text:'外面在下雨'},
+      {phone:'kai',text:'下雨又怎樣 滷味我都買了'},   /* AA_519 第 9 節第 1 點（原本「下雨又怎樣 泡麵我都買了」）*/
+      {phone:'kai',text:'就當這週的宵夜提早'},{phoneMe:'kai',text:'今天是週一'},{phone:'kai',text:'所以咧 颱風天誰管星期幾'},
       {advance:1/3},{speaker:null,text:'（二十分鐘後，阿凱全身濕，站在門口，手上這次是一袋滷味。）'},   /* AA_519 5-3：颱風夜不要三年同一個畫面（大一照原句；大三 r2y3a_events.js 是兩杯熱豆漿）*/
       {choice:[{text:'（遞毛巾）',goto:'a'},{text:'「你可以傳訊息就好。」',goto:'b'},{text:'（拍照傳給方奕廷）',if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},goto:'c'}]},
-      {label:'a'},{speaker:'kai',text:'先擦箱子啦，泡麵濕掉就完了。'},{goto:'end'},
+      {label:'a'},{speaker:'kai',text:'先擦頭啦，滷味又不會跑。'},{goto:'end'},   /* AA_519 第 9 節第 1 點（原本「先擦箱子啦，泡麵濕掉就完了。」）*/
       {label:'b'},{speaker:'kai',text:'傳訊息你又不會下來。'},{goto:'end'},
-      {label:'c'},{phoneMe:'npc_fangyt',text:'📷（全身濕的阿凱，抱著一箱泡麵）'},{phone:'npc_fangyt',text:'他真的出門了？'},{phone:'npc_fangyt',text:'颱風天欸'},
-      {label:'end'},{speaker:null,text:'（阿哲和柏翰也各分到一包。學弟說他不吃辣。）'} ],   /* AB65-3（AA_211 第 2 節【室友】）*/
-    consequences:{flags:{TYPHOON_Y2_KAI:true},memo:'颱風假，阿凱抱著一箱泡麵來'} },
+      {label:'c'},{phoneMe:'npc_fangyt',text:'📷（全身濕的阿凱，手上一袋滷味）'},   /* AA_519 第 9 節第 1 點：方奕廷的照片（原本「抱著一箱泡麵」）*/
+      {phone:'npc_fangyt',text:'他真的出門了？'},{phone:'npc_fangyt',text:'颱風天欸'},
+      {label:'end'},{speaker:null,text:'（阿哲和柏翰也各分到一些。學弟說他不吃辣。）'} ],   /* AB65-3（AA_211 第 2 節【室友】）；AA_519 第 9 節第 1 點「其他泡麵照同樣的意思改」：原本「各分到一包」，一袋滷味分不出包＝子代理改「各分到一些」 */
+    consequences:{flags:{TYPHOON_Y2_KAI:true},memo:'颱風假，阿凱帶了一袋滷味來'} },   /* AA_519 第 9 節第 1 點：記憶簿（原本「颱風假，阿凱抱著一箱泡麵來」）*/
   /* 阿凱 K3 的週日宵夜（BB_97 4-1 場面，BB-B 2026-10-16）：宿舍旁的滷味攤（晚上、騎樓下、折疊桌；背景和公館滷味攤共用、字幕換掉）。
      第一次＝夾好的三樣＋三個選項＋「下週日一樣喔。」（AA_428 §2 第 8 點）；第二次以後＝一句旁白＋阿凱輪流一句（筆電那句只在大二上第 13 週 F2 之後）；時間快轉到 00:00。
      story3d.js 的 phoneRules 'kai_sup_<day>' 出發選單。記 habit kai_supper，365 天內 3 次以上＝阿凱 SUNDAY_SUPPER */
