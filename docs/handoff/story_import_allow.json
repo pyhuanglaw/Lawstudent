@@ -3281,7 +3281,7 @@
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "KX-MOOT3-1028",
-   "note": "LAWWW-C 10-28 指示子代理登記（手抄；WIP）：第 1 節可昕最後一場模擬法庭（大三上 2027-12-04）、第 2 節予樂家嘉義動態（1/29）。實作中"
+   "note": "LAWWW-C 10-28 指示子代理登記（手抄）：第 1 節可昕最後一場模擬法庭——AA_505、AA_506 7-2「下次我去看。」補記 KX_WATCH（src/data/feed_y2s1.js kx_moot、feed_y2s2.js kx_win 的選項 set；這一版以前選過的舊存檔看 KX_MOOT_DM／KX_WIN_DM＝watch）；11/28（日）21:00 私訊三則、回覆鍵「去。」「那天不行。」開到 12/4 12:00；「去。」＝12/4（六）14:00 政大出遊（開車約 40 分鐘、2.5 小時、晚 30 分鐘以內還能出發、alarm），2D 底圖先用 classroom_small＋地點字幕「政大・模擬法庭教室」、三選一、KX_MOOT3 came、人物頁 KX_MOOT3_CAME；沒來（「那天不行。」、沒回、回了「去。」卻沒到）＝12/4 21:30 兩則（說去沒到的前面多「你說要來的。」）、KX_MOOT3 missed；交往中或朋友以上、分開以後一學期不約（FEED.kxCool）；11/28 21:00 判斷一次（src/data/kx_moot3_lines.js、src/kx_moot3_3d.js）。第 2 節予樂家：可昕大二上第 4、5 則中間加第 4b 則 kx4bc 1/29（五）19:30 嘉義（src/data/feed_y2s1.js）。tests/aa514_kx_moot3_unit.js 照 964d01175 逐字對（雙向）、稿第 3 節的測試建議"
   },
   {
    "path": "docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md",
