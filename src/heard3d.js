@@ -72,7 +72,7 @@ const HEARD=(function(){
   /* 臺灣時間 → 遊戲時鐘（人在國外的時鐘是當地時間：日本、美國路線、寒暑假出國途中；同 FEED.loc、r2y4a3d.js 的 loc）。在臺灣＝不變 */
   S.loc=function(G,w){ const z=typeof STORY!=='undefined'&&STORY.tzOffset?(+STORY.tzOffset(G,w.day)||0):0; if(!z) return w; const t=abs(w.day,w.h)+z, d=Math.floor(t/24+1e-9); return {day:d,h:+(t-d*24).toFixed(4)}; };
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return 0; const R=S.rec(G), t=now(G); let n=0;
-    for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;
+    for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null||abs(w0.day,w0.h)>t+24) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;   /* 一天以後的先不算時差 */
       if(t-t0>S.LATE){ R.ph[e.id]='x:late'; continue; } if(!condOk(G,e.cond)){ R.ph[e.id]='x:'+e.cond; continue; }
       PHONE.at(G,w.day,w.h,e.items.map(([from,name,text])=>({th:e.th,from,name,text})),'heard_'+e.id); R.ph[e.id]='sent'; n++; }
     return n; };

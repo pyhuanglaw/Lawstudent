@@ -153,9 +153,9 @@ const FEED=(function(){
      途中＝G.outings 裡到了（arrived，OUT.go 演之前記、演完刪）、還沒演完（planned，出國的那一段是 flying）的那一趟——寒暑假的整趟（出國、營隊）、校外的約會。
      回來＝那一趟演完以後第一次 tick（S.tick 記 back＝那一刻）；從那一刻起七天（同一般的七天：7×24 小時）。還在途中的照留；卡住沒演完的最多留 S.TRIP_MAX 天 */
   S.TRIP_MAX=60;
-  const going=q=>!!q&&q.arrived===true&&(q.state==='planned'||q.state==='flying');
-  S.tripNow=G=>(Array.isArray(G&&G.outings)?G.outings:[]).find(going)||null;
-  S.tripOn=(G,id)=>(Array.isArray(G&&G.outings)?G.outings:[]).some(q=>q&&q.id===id&&going(q));
+  const going=(G,q)=>!!q&&q.arrived===true&&(q.state==='planned'||q.state==='flying')&&!(typeof q.day==='number'&&G.day-q.day>S.TRIP_MAX);   /* 出發那天起 60 天以上還「在途中」＝卡住的紀錄，不算 */
+  S.tripNow=G=>(Array.isArray(G&&G.outings)?G.outings:[]).find(q=>going(G,q))||null;
+  S.tripOn=(G,id)=>(Array.isArray(G&&G.outings)?G.outings:[]).some(q=>q&&q.id===id&&going(G,q));
   S.live=function(G,it,now){ if(now==null) now=nowOf(G); const t=abs(it.day,it.h); if(t>now) return false; if(now-t<S.KEEP*24) return true; if(it.tr==null) return false;
     if(it.back==null) return now-t<S.TRIP_MAX*24&&S.tripOn(G,it.tr); return now-it.back<S.KEEP*24; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
@@ -173,8 +173,9 @@ const FEED=(function(){
     if(typeof PHONE==='undefined') return false; PHONE.at(G,w.day,w.h,S.dmItems(G,q,term),'aa503_'+q.id); R.dm[q.id]='sent'; return true; };
   /* ---------- 每次手機規則（STORY.PHONE_RULES）：時間到了的動態、私訊 ---------- */
   S.tick=function(G){ if(!G||!G.flags||typeof CALENDAR==='undefined'||(G.stage||'law')!=='law') return 0; const R=S.rec(G), now=nowOf(G), due=[];
-    for(const s of SETS()){ for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=S.whenLoc(G,p.t,s.term); if(!w||abs(w.day,w.h)>now) continue; due.push({p,w}); }   /* whenLoc：人在國外照時差換成當地時間（S.loc）*/
-      for(const q of s.dms||[]){ if(R.dm[q.id]) continue; const w=S.whenLoc(G,q.t,s.term); if(!w||abs(w.day,w.h)>now) continue; due.push({q,w,term:s.term}); } }
+    const dueAt=(t,term)=>{ const w0=S.when(G,t,term); if(!w0||abs(w0.day,w0.h)>now+24) return null; const w=S.loc(G,w0); return abs(w.day,w.h)>now?null:w; };   /* 人在國外照時差換成當地時間（S.loc）；一天以後的先不算時差 */
+    for(const s of SETS()){ for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=dueAt(p.t,s.term); if(w) due.push({p,w}); }
+      for(const q of s.dms||[]){ if(R.dm[q.id]) continue; const w=dueAt(q.t,s.term); if(w) due.push({q,w,term:s.term}); } }
     due.sort((a,b)=>abs(a.w.day,a.w.h)-abs(b.w.day,b.w.h)); let n=0;
     for(const x of due){ if(x.p){ if(S.decide(G,x.p,x.w)) n++; } else S.sendDm(G,x.q,x.w,x.term); }   /* 照時間的先後：一天四則、每人一週兩則照先貼的算 */
     S.ytBdayTick(G);

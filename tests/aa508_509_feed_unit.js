@@ -411,6 +411,8 @@ await sec('7',async()=>{ if(!HAS()){ check('7. 出遊途中',false,'沒有 FEED'
   /* 在途中的那幾天：超過七天也還在（還沒回來）；卡住沒演完的那一趟最多留 60 天 */
   fresh(D0730,19.5); who('heroine_01','FRIEND'); H.G.outings.push({id:'t_trip',state:'planned',arrived:true}); walk(D0730,20.1); const s0=item('an6d'); jump(D0730+20,12); const s1=HT().includes('三副碗筷'); jump(D0730+61,12); const s2=HT().includes('三副碗筷');
   check('7. 途中（那一趟還沒演完）貼的：二十天後還在；卡住、六十天以上就不在',!!s0&&s0.tr==='t_trip'&&s1&&!s2,J(s0));
+  fresh(D0730,19.5); who('heroine_01','FRIEND'); H.G.outings.push({id:'t_old',day:D0730-70,state:'planned',arrived:true}); walk(D0730,20.1); const s3=item('an6d');
+  check('7. 出發那天起七十天還記著「在途中」的那一趟（卡住的紀錄）：不算途中，照七天',!!s3&&s3.tr==null,J(s3));
   /* 舊存檔：items 沒有 tr／back＝照七天 */
   fresh(D0730+3,12); who('heroine_01','FRIEND'); H.G.flags.FEED={start:DK('2025-09-01'),items:[{id:'an6d',who:'heroine_01',day:D0730,h:20}],done:{an6d:'p'},dm:{},seen:-1e9}; jump(D0730+3,12); const o1=HT().includes('三副碗筷'); jump(D0730+8,12); const o2=HT().includes('三副碗筷');
   check('7. 舊存檔（items 沒有 tr）：照七天',o1&&!o2); });
