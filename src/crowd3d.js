@@ -299,12 +299,15 @@ const CROWD=(function(){
     for(let i=1;i<k;i++){ const s=1+0.5*(i-1); let p=null; for(const [dx,dz] of [[0.85,0],[-0.85,0],[0,0.85],[0,-0.85],[0.6,0.6],[-0.6,-0.6],[0.6,-0.6],[-0.6,0.6]]){ const x=+(P.x+dx*s).toFixed(2), z=+(P.z+dz*s).toFixed(2); if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue; p=[x,z]; break; } if(!p) return null; spots.push(p); }
     const out=walkers.slice(0,k); out.slice(1).forEach((f,i)=>{ const p=spots[i]; if(E.placeAt) E.placeAt(f,p[0],p[1],lv); else f.obj.position.set(p[0],f.obj.position.y,p[1]);
       f.beh='buddy'; f.buddy=L; f.side=i%2?-1:1; f.followOff=0.85+0.45*Math.floor(i/2); f.waypoints=null; f.path=null; f.onArrive=null; f.frozen=false; f.pose=f.idlePose='idle'; }); return out; };
-  /* 圖、體：相鄰的兩個空位（同一排、同一個方向、隔 0.8～1.75 m）；stand＝一個位子＋旁邊站的地方（第 15 組）。體育館只用 1F 球場這邊的位子（大廳的長椅留給玩家）*/
-  S.deptSeatPair=function(GM,zone,stand){ const E=GM.E, G=GM.G, seats=(E.zone&&E.zone.seats)||[]; if(!seats.length) return null; const near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z);
+  /* 圖、體：相鄰的兩個空位（同一排、同一個方向、隔 0.8～1.75 m）；stand＝一個位子＋旁邊站的地方（第 15 組）。體育館只用 1F 球場這邊的位子（大廳的長椅留給玩家）。
+     從座位表後面往前找（劇情用的固定位子都在前面）；劇情寫死的位子不坐（DEPT_KEEP：總圖大廳 0、1＝小安「總圖的下午」，library3d.js；社科圖 16＝r3_3d.js SK12）；
+     坐下的人有 seat：作息（populateSchedule）、約出去（INV.pairSeats）、樓上的自習區都會避開 */
+  S.DEPT_KEEP={library_hall:[0,1],soclib:[16]};
+  S.deptSeatPair=function(GM,zone,stand){ const E=GM.E, G=GM.G, seats=(E.zone&&E.zone.seats)||[], N=seats.length; if(!N) return null; const near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z), keep=(S.DEPT_KEEP[zone]||[]).map(i=>seats[i]);
     const busy=st=>!!st.taken||E.npcs.some(n=>{ const q=n.seat||n.seatTarget||(n.obj&&n.obj.position); return !!q&&(n.lv|0)===(st.lv|0)&&near(q,st)<0.45; })||!!(E.player&&E.player.seat&&near(E.player.seat,st)<0.45);
-    const ok=st=>(zone!=='gym'||st.z<11)&&!busy(st)&&!!S.seatSide(E,st), yd=(a,b)=>Math.abs(Math.atan2(Math.sin((b.yaw||0)-(a.yaw||0)),Math.cos((b.yaw||0)-(a.yaw||0))));
-    const o=Math.floor(prng(hash('dseat|'+zone+'|'+G.day))()*seats.length);
-    for(let u=0;u<seats.length;u++){ const a=seats[(o+u)%seats.length]; if(!ok(a)) continue; if(stand) return [a,S.seatSide(E,a)];
+    const ok=st=>(zone!=='gym'||st.z<11)&&!keep.includes(st)&&!st.label&&!busy(st)&&!!S.seatSide(E,st), yd=(a,b)=>Math.abs(Math.atan2(Math.sin((b.yaw||0)-(a.yaw||0)),Math.cos((b.yaw||0)-(a.yaw||0))));
+    const o=Math.floor(prng(hash('dseat|'+zone+'|'+G.day))()*Math.max(1,Math.floor(N/2)));   /* 照日期換一點位置（都在後半段開始找）*/
+    for(let u=0;u<N;u++){ const a=seats[((N-1-o-u)%N+N)%N]; if(!ok(a)) continue; if(stand) return [a,S.seatSide(E,a)];
       const fx=Math.sin(a.yaw||0), fz=Math.cos(a.yaw||0), b=seats.find(b=>b!==a&&(b.lv|0)===(a.lv|0)&&yd(a,b)<0.1&&near(a,b)>0.8&&near(a,b)<1.75&&Math.abs((b.x-a.x)*fx+(b.z-a.z)*fz)<0.15&&ok(b)); if(b) return [a,b]; }
     return null; };
   S.deptSpawn=function(GM,spec,x,z,lv,yaw,pose,seat){ const E=GM.E; if(typeof CHAR==='undefined'||typeof STORY==='undefined'||!STORY.extraSpec||!E.addNPC) return null; const o=CHAR.build(STORY.extraSpec(spec)); o.position.set(x,0,z); o.rotation.y=yaw||0;

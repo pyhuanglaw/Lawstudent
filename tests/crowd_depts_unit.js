@@ -171,7 +171,10 @@ await blk('6. 圖書館',async()=>{
   check('6. 總圖閉館前 30 分鐘（21:40）：第 15 組——圖資系的學生（工讀）站在座位旁邊、面向坐著的經濟系的學生',!!c2&&c2.n===15&&!!A&&!!B&&!A.seat&&!!B.seat&&Math.hypot(A.obj.position.x-B.seat.x,A.obj.position.z-B.seat.z)<1.2&&Math.cos(A.obj.rotation.y-Math.atan2(B.seat.x-A.obj.position.x,B.seat.z-A.obj.position.z))>0.95&&E.canStand(A.obj.position.x,A.obj.position.z,0.3,A.lv|0),J(p2.ids));
   if(c2){ const h=await tap(B); check('6. 點了：「同學，要閉館了。」那一段，A＝圖資系的學生、B＝經濟系的學生',J(h)===J(stepsOf(c2,['圖資系的學生','經濟系的學生'])),J(h)); }
   const L=C.deptTalksAt(mkG(W5,21+40/60),'圖','soclib').map(x=>x.n), G4=mkG(W5,14,'soclib'); enter('soclib',G4,0); const p4=pairOf();
-  check('6. 社科圖：沒有第 15 組（圖資只在總圖），閉館前用平常那一組；平日下午也有兩個人一起坐的對話',!L.includes(15)&&J(L)===J([5])&&p4.ids.length===1&&p4.ppl.every(n=>n.seat),J([L,p4.ids])); }
+  check('6. 社科圖：沒有第 15 組（圖資只在總圖），閉館前用平常那一組；平日下午也有兩個人一起坐的對話',!L.includes(15)&&J(L)===J([5])&&p4.ids.length===1&&p4.ppl.every(n=>n.seat),J([L,p4.ids]));
+  /* 劇情寫死的位子：總圖大廳 seats[0]、[1]（小安「總圖的下午」）、社科圖 seats[16]（r3_3d.js SK12）——一個月裡每天都不會被坐走 */
+  const hit=[]; for(const [z,keep] of [['library_hall',[0,1]],['soclib',[16]]]){ build(z); const seats=E.zone.seats; for(let d=W5;d<W5+30;d++){ const GM=mkGM(mkG(d,14,z)); for(const st of [false,true]){ const r=C.deptSeatPair(GM,z,st)||[]; for(const s of r) if(s&&keep.some(i=>seats[i]===s)) hit.push(z+'@'+d); } } }
+  check('6. 劇情寫死的位子（總圖大廳 0、1 號＝小安「總圖的下午」；社科圖 16 號）不會被兩個人的對話坐走',!hit.length,J(hit.slice(0,4))); }
 });
 // ---------- 7. 教學館門口 ----------
 const findCls=(term,id,week)=>{ for(let d=-420;d<1700;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term||t.week!==week) continue; const G=mkG(d,12,'campus',term[1]==='0'?{stage:'econ'}:{}); const it=CLS.dayItems(G).find(q=>q.c.id===id); if(it) return {day:d,it}; } return null; };
