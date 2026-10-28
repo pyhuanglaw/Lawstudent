@@ -12,8 +12,9 @@
 //   3 阿姨諮詢（BB 的 sh_reload_lg3）：演到一半（對話框開著）讀別的檔——舊的不接著演、點了也不演、不寫旗標（LOAD-GEN 照舊）；再讀阿姨到期的檔——CLOSED2.tick 重新開始、演完
 //   4 EVENTS.run 開場的 sleep 中間讀檔（pool3d.js S.AUTO 包著＝模組鎖＋EVENTS.running 都佔著）：讀檔以後 EVENTS.run 別的事件照演、POOL.tick 重新開始；舊的那一次永遠不寫
 //   5 每一個登記的放開都跑得動、真的放開（載得到的模組全部跑一次）
-// 修改前（開發分支 cabc279f1）：第 1、2、5 節沒有登記、沒有 loadRelease（FAIL）；第 3 節「再讀一次阿姨還能開始」FAIL（CLOSED2 的 busy 卡著）；
-//   第 4 節 EVENTS.run 直接 return、POOL.tick 回 false（FAIL）。第 3 節前半「舊的不接著演」本來就 PASS（LOAD-GEN-ABORT 照舊）。
+// 修改前（開發分支 390f87357，git archive 那一版、把這支測試放進去真的跑過）：FAILED 13——第 1、2、5 節沒有登記、沒有 loadRelease、phoneThread／saveMenu 讀檔以後照樣醒；
+//   第 3 節「再讀一次阿姨還能開始」FAIL（CLOSED2 的 busy 卡著、staged 還在）；第 4 節 EVENTS.running 留著、EVENTS.run 直接 return、POOL.tick 回 false。
+//   第 3、4 節「舊的不接著演、不寫」本來就 PASS（LOAD-GEN-ABORT 照舊）。修改後：ALL PASS。
 // 用法：node tests/loadgen_locks_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
