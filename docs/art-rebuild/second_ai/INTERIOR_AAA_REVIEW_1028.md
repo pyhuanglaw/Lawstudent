@@ -186,6 +186,12 @@
 - 同角度前後截圖、測試、效能、還沒做到的：`docs/art-rebuild/second_ai/test_shots/interior_201_v2_1028/README.md`。
 - 配置、座位、導航、存檔都沒有動。
 - 下一步：等使用者看過再推到其他室內，順序照第 5 節。
+- **10-28 03:4x 自己查到的問題（LIGHTBAKE-UV-FIX-1028）**：做 202 v2 時看到窗簾有一條一條的暗紋，追下去發現烘焙工具有兩個錯，201 v2 交出去的那一版也有：
+  1. 光照貼圖排得很鬆：整張 1024 的貼圖，201 只用了 8.5%、202 9.3%。牆、地板每公尺只分到 2～14 個像素，光的細節（桌下的暗、燈下的亮）被糊掉。
+     原因：排版的間隔照 UV 的大小放大（Blender 預設）；而且幾千個小零件（鐵腳、書包、收邊條）每個都要自己的一小塊和間隔。
+  2. 沒有貼圖座標的零件（頂點色的鐵腳、收邊、格柵）光照座標放錯欄位：遊戲裡根本沒吃到光照貼圖，還佔了位置。
+  - 改法：間隔固定 4 個像素；細小零件不烘（照舊即時光）；看不到的面不參加排版。202 每公尺 34 個像素、多功能教室 46 個、201 12～17 個。
+  - 以後每間烘完都用 `tools/blender/env_second/lightbake/uv_fill.py` 量填滿率和每公尺像素（驗收項目，第 7 節）。
 
 ## 7. 驗收方式改成什麼
 
@@ -198,6 +204,7 @@
    - 有沒有「人用過」的痕跡？
    - 一樣的東西有沒有一直複製？
 3. **和參考照片並排**（真實的台大教室、走廊；使用者給過的照片優先）。
+4. **光照貼圖要量**：`uv_fill.py` 的填滿率 50% 以上、主要的面每公尺 12 個像素以上；沒有 uv1 的網格要是故意的（發光面、細小零件）。
 
 ## 8. 出處
 
@@ -206,7 +213,7 @@
 - [Polycount：The Last of Us 2 environments（業界討論，非官方）](https://polycount.com/discussion/220739/the-last-of-us-2-environments)
 - [Android Developers：Lighting for mobile games with Unity](https://developer.android.com/games/optimize/lighting-for-mobile-games-with-unity)
 - [three.js 論壇：Blender 烘焙光照貼圖接到 three.js](https://discourse.threejs.org/t/apply-uv-coordinates-and-lightmaps-baked-from-blender-to-mesh/63910)、[How to setup lightmap bake from Blender to glTF](https://discourse.threejs.org/t/how-to-setup-lightmap-bake-from-blender-to-gltf/34924)
-- [The Level Design Book：構圖](https://https-book_leveldesignbook_com.proxy.bugsmash.io/process/blockout/massing/composition)、[D6 打光](https://https-book_leveldesignbook_com.proxy.bugsmash.io/process/lighting/d6-lighting)（鏡像站）
+- [The Level Design Book：構圖](https://book.leveldesignbook.com/process/blockout/massing/composition)、[D6 打光](https://book.leveldesignbook.com/process/lighting/d6-lighting)（10-28 查資料時是從鏡像站讀的，這裡改回原站的網址）
 - [What Makes an Environment Believable: Non-Obvious Principles](https://ar.linkedin.com/in/francogamarra)
 - [80 Level：John Doe's Bathroom Breakdown](https://80.lv/articles/john-doe-s-bathroom-breakdown)
 - [Roblox Creator Docs：Develop polished assets（可重複貼圖、飾條貼圖）](https://create.roblox.com/docs/tutorials/curriculums/environmental-art/develop-polished-assets)、[Polycount：打破重複、污垢遮罩](https://polycount.com/discussion/comment/2620875)
