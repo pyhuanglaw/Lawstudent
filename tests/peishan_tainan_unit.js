@@ -255,8 +255,10 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     const TC=[ID+':好久不見。……我現在在台中，開學以後在台南。',ID+':你要來的話，跟我說。'], TN=[ID+':好久不見。……我現在在台南。',ID+':你要來的話，跟我說。'];
     const w=first('2028-01-10');
     check('8. P1 大三寒假（2028-01-10，她在台中）才第一次傳：回台中那一句「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」', !!w.r&&w.r.ok&&JSON.stringify(w.ps)===JSON.stringify(TC), JSON.stringify(w.ps));
-    const s=first('2028-07-20');
-    check('8. P1 大三暑假（2028-07-20）才第一次傳：也是台中那一句', !!s.r&&s.r.ok&&JSON.stringify(s.ps)===JSON.stringify(TC), JSON.stringify(s.ps));
+    const s=first('2028-08-10');   /* AA_508 0-2 第 5 點：7/17～7/30 她在山上的營隊（原本用 7/20），改營隊以後的 8/10 */
+    check('8. P1 大三暑假（2028-08-10）才第一次傳：也是台中那一句', !!s.r&&s.r.ok&&JSON.stringify(s.ps)===JSON.stringify(TC), JSON.stringify(s.ps));
+    const sc=first('2028-07-20');
+    check('8. P1 營隊那幾天（2028-07-20）第一次傳：不會回「我現在在台南」（她在山上）', !sc.ps.some(t=>t.includes('我現在在台南')), JSON.stringify(sc));
     const t=first('2028-03-15');
     check('8. P1 大三下學期中（2028-03-15，她在台南）才第一次傳：照原文「好久不見。……我現在在台南。」', !!t.r&&t.r.ok&&JSON.stringify(t.ps)===JSON.stringify(TN), JSON.stringify(t.ps));
     const K={PS_BACK_FIRST:1}, at=k=>P(D(k),K), w30=at('2030-02-01'), s30=at('2030-07-15'), t30=at('2030-04-15');
