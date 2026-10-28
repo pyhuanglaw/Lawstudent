@@ -2903,7 +2903,7 @@ const STORY = (function(){
   S.R203_KEY_DAY='2025-10-01';
   S.R203_SEAT={kai:'R2',zhe:'L1',classmate_bohan:'R1'};
   S.r203On=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||!F.DORM_FOUR||F.ROOM_Y2||typeof CALENDAR==='undefined') return false; const a=S.dayOfKey('2025-08-29'); return a!=null&&G.day>=a&&S.kaiRoommate(G); };
-  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required').map(e=>e.day); }catch(e){ return []; } };
+  const r203Exams=(G,t)=>{ if(!t||!t.exam||typeof CLS==='undefined'||!CLS.examList) return []; try{ return CLS.examList(G,t.id).filter(e=>e&&e.c&&e.c.kind==='required'&&e.kind===t.exam).map(e=>e.day); }catch(e){ return []; } };   /* 這一次考試週（期中或期末）的必修考試日 */
   S.r203Plan=function(G,id,d){ if(typeof CALENDAR==='undefined') return []; const wd=CALENDAR.dateOf(d).wd, t=CALENDAR.termOf(d), hol=!!CALENDAR.holiday(d), ty=!!(CALENDAR.typhoon&&CALENDAR.typhoon(d));
     const ex=r203Exams(G,t), exAM=ex.some(e=>e>=d), exPM=ex.some(e=>e>d), pre=ex.includes(d+1);
     if(id==='kai'){ if(!t) return [[18,32,'door','door']]; if(ty||wd===7) return [[10,26,'bed','bed']]; const eve=[18,26,'door','bed'];
@@ -2919,10 +2919,10 @@ const STORY = (function(){
     for(const x of (P&&P.absentDates)||[]){ const d0=S.dayOfKey(x[0]), d1=S.dayOfKey(x[1]); if(d0!=null&&d1!=null&&d>=d0&&d<d1) return false; } return true; };
   /* 現在照作息表（daily_schedule、邀約、上課）在別的地方 */
   const r203Away=(G,id,hour)=>{ const c=CHARACTERS[id]; if(!c) return true; const G2=hour==null||hour===G.hour?G:Object.assign({},G,{hour}); const e=schedEnt(c,G2); return !!e&&e.zone!=='dorm'; };
-  const r203Iv=(G,id,t)=>{ const d0=Math.floor(t/24); for(const d of [d0,d0-1]){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const a=d*24+p[0], b=d*24+p[1]; if(t>=a-1e-9&&t<b-1e-9) return {d,a,b,p}; } } return null; };
+  const r203Iv=(G,id,t)=>{ const d0=Math.floor(t/24); for(const d of [d0,d0-1]){ if(!r203Lives(G,id,d)) continue; for(const p of S.r203Plan(G,id,d)){ const a=d*24+p[0], b=d*24+p[1]; if(t>=a-1e-9&&t<b-1e-9) return {d,a,b,p,ty:!!(CALENDAR.typhoon&&CALENDAR.typhoon(d))}; } } return null; };
   S.r203Who=function(G){ const t=G.day*24+(+G.hour||0), L=[];
-    for(const id of ['kai','zhe','classmate_bohan']){ const iv=r203Iv(G,id,t); if(!iv||r203Away(G,id)) continue; let t0=iv.a, how=iv.p[2];
-      for(const s of [0.05,0.1,0.15,0.2,0.25]){ if(t-s<iv.a-1e-9||(+G.hour||0)-s<0) break; if(r203Away(G,id,(+G.hour||0)-s)){ t0=t-s+0.05; how='door'; break; } }   /* 剛從別的地方回來（洗衣間、118 巷）：開門進來 */
+    for(const id of ['kai','zhe','classmate_bohan']){ const iv=r203Iv(G,id,t); if(!iv||(!iv.ty&&r203Away(G,id))) continue; let t0=iv.a, how=iv.p[2];   /* 颱風天大家整天在房間（作息表的公館、總圖不算）*/
+      if(!iv.ty) for(const s of [0.05,0.1,0.15,0.2,0.25]){ if(t-s<iv.a-1e-9||(+G.hour||0)-s<0) break; if(r203Away(G,id,(+G.hour||0)-s)){ t0=t-s+0.05; how='door'; break; } }   /* 剛從別的地方回來（洗衣間、118 巷）：開門進來 */
       L.push([id,S.R203_SEAT[id],((t0%24)+24)%24,how]); }
     return L; };
   /* 不在房間的室友怎麼走的：照作息剛結束的那一段（12 小時內）＝{bed, at}；作息上還該在（臨時出門、約好的、回家）＝現在出門 */
