@@ -16150,11 +16150,11 @@
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
    "sha": "169130daf",
-   "msg": "ACK",
+   "msg": "ACTIONED",
    "what": "AA_519 第 9 節（回 LAWWW-C 14:31 子代理四題）：颱風夜大二換一袋滷味、大三換兩杯熱豆漿（同一場其他泡麵一起換，「……泡麵，他說他不想再吃了。」照留）；日本路線腳踏車改 4/8（六），挽回中 4/1 摘要改走路、3/31～4/7 別處提到腳踏車改走路；2027-06-04 起 Café 櫃台照班表（芷若原本的班＝小婷 3D＋3-3 的字，其他時間＝老闆 3D＋6/4 以前老闆版的字）；privtalk3d 註解 LAWWW 改",
    "task": "NPC-STORY2-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 14:3x】派子代理（基準開發分支 b47cac716，白名單 AA_519 改 169130daf）"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 14:3x】派子代理（基準開發分支 b47cac716，白名單 AA_519 改 169130daf）；【LAWWW-C 15:2x】合進開發分支 da137d89e（子代理 27ecf0a2d，aa519_support2 118 項 ALL PASS），下一版 v9.10.14 給 BB"
   },
   {
    "id": "DL-AA-523B",
@@ -20325,6 +20325,20 @@
    "kind": "covered",
    "reason": "LAWWW2 記帳 commit（DORM-HALL-LM-1028 交件 4d89f42fe 的 outbox、HANDOFF），交付本身是 DL-LW2-DORMHALL（LAWWW-C 10-28 14:0x 分類）",
    "coveredBy": "DL-LW2-DORMHALL"
+  },
+  {
+   "sha": "0bfd39187",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "LIB-HALL-LM-1028",
+   "reason": "LAWWW2 LIB-HALL-LM-1028 的 WIP（總圖大廳正式烘焙 512 取樣、1024＋patch；截圖、README 還在做），還沒交件（LAWWW-C 10-28 15:2x 分類）"
+  },
+  {
+   "sha": "0ad9b00cd",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "LIB-HALL-LM-1028",
+   "reason": "LAWWW2 LIB-HALL-LM-1028／RT-NIGHT-1028 的 WIP（天窗白天才發光、門廳筒燈、校正後的燈），還沒交件（LAWWW-C 10-28 15:2x 分類）"
   }
  ]
 }
