@@ -35406,6 +35406,33 @@
     "ack": "未派"
    },
    "next": "【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
+  },
+  {
+   "id": "NPC-STORY2-1028",
+   "title": "AA_519 配角第二批（X119）：麵店阿姨阿鳳、陳助教、兩點半 Café（老闆、打工、小婷、小禾）、黃筱涵、阿凱大二以後、順手六件——讓玩家親眼看到、自己跟他們說，閒聊照學年換",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA-C 873b670c0（AA_519，NPC-STORY-1028 後續，USER_WANTS X119）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次走進麵店（櫃台是阿姨，能說話）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md @ 873b670c0",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "台詞逐字對稿、第 7 節 BB 六項、舊存檔不壞、全部 Node 0 失敗",
+    "receiver": "BB",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-28 12:2x UTC】AA_519 交了（DL-AA-519）；麵店店員和 PRIV-AUNT-1028 第二輪（子代理做中）改同一段，等它合併再派子代理；下一版 v9.10.14"
   }
  ]
 }
