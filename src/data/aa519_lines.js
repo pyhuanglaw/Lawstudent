@@ -1,12 +1,13 @@
-/* ===== AA_519 配角第二批：麵店阿姨、陳助教、兩點半 Café、黃筱涵、阿凱（企劃線 873b670c0 → d75cd0228 第 8 節；AA-C 定稿 D109；任務 NPC-STORY2-1028、USER_WANTS X119）=====
+/* ===== AA_519 配角第二批：麵店阿姨、陳助教、兩點半 Café、黃筱涵、阿凱（企劃線 873b670c0 → d75cd0228 第 8 節 → 169130daf 第 9 節；AA-C 定稿 D109；任務 NPC-STORY2-1028、USER_WANTS X119）=====
    這裡是程式（src/sup519_3d.js，SUP519）執行時用的台詞，照稿一字不差（含標點、「……」；阿哲、Alison、語彤的群組訊息照稿）。
    改在現有事件、資料裡的句子寫在各自的檔（各處註解寫 AA_519 第幾節）：麵店的旁白與小菜（events.js、y34b3d.js、vacfill_events.js、r2y4a_events.js、story3d.js）、
+   第 9 節（169130daf）：颱風夜大二滷味（events.js）、大三豆漿（r2y3a_events.js、r2y3a3d.js）、日本路線腳踏車 4/8（jp_blank3d.js、jp_blank_lines.js）、Café 櫃台照班表（eat3d.js EAT.cafeXt、src/sup519_3d.js）。
    門口那張紙（r2y4b3d.js）、Café 打工（wz_jobs.js）、阿凱的宵夜與颱風（events.js、r2y3a_events.js、termend_lines.js、story3d.js）、方奕廷（events.js）、予樂（y2b_events.js）、陳助教 6/16（heroine_circle.js）。
    格式：一句＝[說話的人, 字]（null＝旁白；人物 id 或名字）；表＝[{k:鍵, t:字}]（照稿的順序），什麼時候成立寫在 src/sup519_3d.js（照稿那一欄的時期）。
    測試：node tests/aa519_support2_unit.js（雙向逐字對稿）*/
 'use strict';
 const AA519_LINES={
-  src:{AA_519:'d75cd0228'},
+  src:{AA_519:'169130daf'},
   /* ---------- 第 1 節 麵店阿姨（阿鳳）---------- */
   aunt:{
     /* 1-2：一天一句新的，照時期（表的順序）；說完那一句以後，當天換短句輪流 */

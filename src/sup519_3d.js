@@ -1,4 +1,4 @@
-/* ===== 配角第二批（AA_519，企劃線 873b670c0 → d75cd0228 第 8 節；任務 NPC-STORY2-1028、USER_WANTS X119）=====
+/* ===== 配角第二批（AA_519，企劃線 873b670c0 → d75cd0228 第 8 節 → 169130daf 第 9 節；任務 NPC-STORY2-1028、USER_WANTS X119）=====
    使用者 X119「已有劇情的配角無聊的重寫」：麵店阿姨、陳助教、兩點半 Café、黃筱涵、阿凱。台詞在 src/data/aa519_lines.js（一字不差）；改在現有事件裡的句子寫在各自的檔（各處註解寫 AA_519 第幾節）。
    ■ 共用：S.daily＝「一天一句新的（照時期，表的順序）、之後短句輪流」（阿姨 1-2、老闆 3-1、阿凱 5-1；陳助教 2-2、筱涵 4-1 用 alt：一年兩句用完＝和「聊了兩句天氣」交替）。
      「過了那個時期沒說到的就不說」：每一列只在自己的時期成立時才會被挑。存檔 G.flags.AA519.talk[誰]＝{said:{列:那一天}, nd:說新句的那一天, si:短句輪到第幾句, ai:交替輪到第幾句, w:上一次是不是天氣}。
@@ -13,6 +13,12 @@
      8-3 麵店的 2D 事件（阿姨在場或說話：S.auntEvs，載入後掃 STORY_EVENTS 在麵店、台詞提到阿姨的）那一天，圈子表阿姨那幾列一定成立（HCIRCLE.roll 包一層：擲骰當成功）。
      8-4 2029-04-19～25 阿姨出國：門口那張紙 r2y4b3d.js；語彤那一週在總圖（作息補兩筆，S.applySched）；那一週不排新的麵店出遊（OUT.plan 包一層）、邀約（INVITE_DATA 的 noodle 加 avail）；
          麵店團那一週沒有麵店日（STORY.noodleDay 包一層：阿哲不揪、長桌不演），4/23（一）21:00 群組四則（那一週本來有麵店日才發）。
+   ■ 第 9 節（169130daf）：
+     9-1 颱風夜：大二換一袋滷味（src/data/events.js ev_y2_typhoon_kai）、大三換兩杯熱豆漿（src/data/r2y3a_events.js ev_typhoon_y3_noodle、src/r2y3a3d.js 19:30 那則）。
+     9-2 日本路線挽回中的腳踏車 4/8（六）（src/jp_blank3d.js jpb_1_2r、立衡那則），4/1 摘要改走路、還沒買腳踏車輪到騎腳踏車那一句換走路（src/data/jp_blank_lines.js）。
+     9-3 2027-06-04 起 Café 櫃台照班表：芷若原本的班站櫃台的是小婷（3D、點餐那兩句 3-3 的字），其他時間是老闆（3D、6/4 以前老闆版的字）——
+         誰站櫃台由 src/eat3d.js EAT.cafeXt 決定（EAT.staffName、S.staffOnX、S.clerkSpec 讀同一個）；待在店裡跨過班表、點餐那一刻＝S.cafeCounterSync 當場換人。
+     9-4 src/privtalk3d.js 清單第 7 項的說明字照現在的做法（S.auntIn＝labelIn 或店開著）。
    存檔：G.flags.AA519＝{talk:{…}, nar:那一天, …}；新旗標 AUNT_NAME、CAFE_LATTE_TRY、HXH_SUBJECT；舊存檔沒有＝從那時起（過了的不補）。
    測試：node tests/aa519_support2_unit.js */
 'use strict';
@@ -94,17 +100,35 @@ const SUP519=(function(){
 
   /* ---------- 1-1 店員的外觀、說話（3-1：Café 芷若不在班時櫃台是老闆）---------- */
   S.CLERK_LABEL={noodle:'hc_ayi',cafe:'hc_boss'};
-  S.clerkSpec=function(kind){ const cid=S.CLERK_LABEL[kind]; if(!cid||typeof HCIRCLE==='undefined'||!HCIRCLE||!HCIRCLE.specOf) return null; const sp=HCIRCLE.specOf(cid); if(!sp) return null;
-    sp.id='clerk_'+kind; if(sp.model&&typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(sp.model)){ try{ ASSETS.loadOne(sp.model).catch(()=>{}); }catch(e){} }   /* 模型還沒下載：先載（到了由 game3d.js upgradeModels 換上）*/
+  /* 第 9 節第 3 點（企劃線 169130daf）：2027-06-04 起 Café 櫃台照班表——芷若原本的班（src/eat3d.js EAT.cafeXt：她作息裡 barista 那幾格）站櫃台的是小婷（3D，hc_xt 的外觀），
+     其他時間是老闆（3D）；點餐那兩句誰站櫃台誰說（EAT.staffName、S.staffOnX 讀同一個 EAT.cafeXt）。待在店裡跨過班表的時間＝當場換人（S.cafeCounterSync：STORY.TICKS、點餐那一刻）*/
+  S.cafeCounter=G=>!!G&&typeof EAT!=='undefined'&&!!EAT&&typeof EAT.cafeXt==='function'&&!!EAT.cafeXt(G)?'hc_xt':'hc_boss';
+  S.clerkLabel=(kind,G)=>kind==='cafe'?S.cafeCounter(G||curG()):S.CLERK_LABEL[kind];
+  S.clerkSpec=function(kind,G){ const cid=S.clerkLabel(kind,G); if(!cid||typeof HCIRCLE==='undefined'||!HCIRCLE||!HCIRCLE.specOf) return null; const sp=HCIRCLE.specOf(cid); if(!sp) return null;
+    sp.id='clerk_'+kind; sp.aa519Who=cid; if(sp.model&&typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(sp.model)){ try{ ASSETS.loadOne(sp.model).catch(()=>{}); }catch(e){} }   /* 模型還沒下載：先載（到了由 game3d.js upgradeModels 換上）*/
     return sp; };
   S.TALK={noodle:{name:'阿姨',fn:(GM,n)=>S.auntTalk(GM,n)},cafe:{name:'老闆',fn:(GM,n)=>S.bossTalk(GM,n)}};
-  S.clerkWire=function(GM,n,kind){ const w=S.TALK[kind]; if(!n||!w) return n; S.bind(GM); n.name=w.name; n.talkLabel='和'+w.name+'說話'; n.talk=nn=>w.fn(GM,nn||n); n.aa519Staff=kind;
+  S.XT_NAME='小婷';
+  /* who：站在那裡的是誰（hc_ayi／hc_boss／hc_xt）；沒寫＝照現在（Café 照班表）*/
+  S.clerkWire=function(GM,n,kind,who){ const w=S.TALK[kind]; if(!n||!w) return n; S.bind(GM); who=who||(kind==='cafe'?S.cafeCounter(GM&&GM.G):S.CLERK_LABEL[kind]); n.aa519Staff=kind; n.aa519Who=who;
+    if(who==='hc_xt'){ n.name=S.XT_NAME; n.talk=null; n.talkLabel=null; return n; }   /* 第 9 節第 3 點：小婷站櫃台。稿沒有她在櫃台的閒聊＝不能說話（同其他店的店員）；點餐那兩句在 EAT */
+    n.name=w.name; n.talkLabel='和'+w.name+'說話'; n.talk=nn=>w.fn(GM,nn||n);
     n.yieldIt=true;   /* 按鈕最後才算（engine3d.js nearestInteractable，同路人）：旁邊有「到吧檯點餐」「坐下吃麵」、出口或別的人（站在旁邊的語彤、吧檯的芷若）時不擋——
                          圈子表的老闆是 Café 的 staff，原本會比吧檯的點餐點優先（staff 的加權）；阿姨那幾列站在語彤旁邊 1.2 m，走過去找語彤會先碰到阿姨 */
     return n; };
+  /* 第 9 節第 3 點：待在 Café 裡時間跨過班表（例：週一 19:00 小婷接班、22:00 換回老闆）＝店員當場換人（同 HCIRCLE 標籤同伴到櫃台的做法：當場換）。
+     被圈子表的同伴藏起來的（_hcHid：小禾站櫃台那幾列）照樣藏著，同伴走的時候放出來的是換好的那一位 */
+  S.cafeClerk=function(GM){ const E=GM&&GM.E; if(!E||!Array.isArray(E.npcs)) return null; return E.npcs.find(n=>n&&n.clerk&&n.aa519Staff==='cafe'&&!n.hcLabel)||null; };
+  S.cafeCounterSync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||G.zone!=='cafe'||!E||typeof E.addNPC!=='function'||typeof E.removeNPC!=='function'||typeof CHAR==='undefined'||!CHAR||!CHAR.build) return false;
+    const c=S.cafeClerk(GM); if(!c||!c.obj) return false; const want=S.cafeCounter(G); if(c.aa519Who===want) return false;
+    const sp=S.clerkSpec('cafe',G); if(!sp) return false; const o=CHAR.build(sp), p=c.obj.position||{x:0,z:0}; if(!o) return false;
+    if(o.position&&o.position.set) o.position.set(p.x,0,p.z); if(o.rotation&&c.obj.rotation) o.rotation.y=c.obj.rotation.y;
+    const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true,lv:c.lv|0}); if(!n) return false; S.clerkWire(GM,n,'cafe',sp.aa519Who);
+    if(c.hidden){ n.hidden=true; if(n.obj) n.obj.visible=false; for(const k in (GM.npc||{})){ const m=GM.npc[k]; if(m&&m._hcHid===c) m._hcHid=n; } }
+    E.removeNPC(c); return true; };
   /* 圈子表的標籤同伴（HCIRCLE.spawnLabel）：阿姨、老闆能說話（同一個人、同一份紀錄）；新來的工讀生 2027-06-04 起叫小禾（3-4）*/
   S.LABEL_WIRE={hc_ayi:'noodle',hc_boss:'cafe'};
-  S.afterSpawnLabel=function(GM,cid,n){ if(!n) return n; const k=S.LABEL_WIRE[cid]; if(k) S.clerkWire(GM,n,k); if(cid==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) n.name=CF.np; return n; };
+  S.afterSpawnLabel=function(GM,cid,n){ if(!n) return n; const k=S.LABEL_WIRE[cid]; if(k) S.clerkWire(GM,n,k,cid); if(cid==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) n.name=CF.np; return n; };
 
   /* ---------- 1-1 旁白第一次寫「阿姨（阿鳳）」 ---------- */
   let NOODLE_EVS=null;
@@ -137,8 +161,9 @@ const SUP519=(function(){
     if(E&&E.at===n&&Array.isArray(E.done)&&E.done.length){ const X=typeof WZ_JOBS_DATA!=='undefined'&&WZ_JOBS_DATA.x&&WZ_JOBS_DATA.x.cafe, last=E.done[E.done.length-1], ev=X&&(X.ev||[]).find(e=>e.id===last); if(ev&&ev.at!=='start') return false; }
     return true; };
   S.latte=async function(GM,k,n){ const G=GM.G; if(k!=='cafe'||!S.latteDue(G,n)) return false; G.flags.CAFE_LATTE_TRY=G.day; await S.playLines(GM,CF.latte||[],null,'老闆'); return true; };
-  /* 3-3 點餐那兩句：2027-06-04 起名字是小婷（照現有），字換成她自己的 */
-  S.staffOnX=function(T,GM,key){ if(!T||key!=='兩點半 Café'||!GM||!GM.G||!after(GM.G,NP_FROM)||!CF.xt) return T; return Object.assign({},T,{line5:CF.xt.line5,same:CF.xt.same}); };
+  /* 3-3 點餐那兩句：2027-06-04 起小婷說的時候（名字 EAT.staffName），字換成她自己的。
+     第 9 節第 3 點：照班表——芷若原本的班（站櫃台的是小婷）＝3-3 的字；其他時間站櫃台的是老闆＝老闆說，照 2027-06-04 以前老闆版的字（eat_lines.js 那兩句，不換）*/
+  S.staffOnX=function(T,GM,key){ if(!T||key!=='兩點半 Café'||!GM||!GM.G||!after(GM.G,NP_FROM)||!CF.xt) return T; if(S.cafeCounter(GM.G)!=='hc_xt') return T; return Object.assign({},T,{line5:CF.xt.line5,same:CF.xt.same}); };
   /* 3-3、3-4 Café 點餐以後（EAT.after 包一層）：芷若走以後第一次在 Café 點餐＝小婷「她叫小禾。……」；其他時候＝小婷、小禾說芷若的一句（原本 heard_lines.js 擋住的那七句；一天一句、每句一次）*/
   S.heardDue=function(GM){ const G=GM.G, R=S.rec(G); if(!law(G)||!met('heroine_02')||R.hday===G.day) return null; const H=R.heard&&typeof R.heard==='object'?R.heard:(R.heard={});
     for(const e of (CF.heard||[])){ if(H[e.id]!=null) continue; if(!(typeof HEARD!=='undefined'&&HEARD.inWin?HEARD.inWin(G,e):false)) continue; if(!S.onDuty(GM,e.who)) continue; return e; } return null; };
@@ -247,7 +272,8 @@ const SUP519=(function(){
       if(HCIRCLE.spawnLabel&&!HCIRCLE._aa519){ const sp0=HCIRCLE.spawnLabel; HCIRCLE.spawnLabel=function(GM,cid){ const n=sp0.apply(this,arguments); try{ S.afterSpawnLabel(GM,cid,n); }catch(e){ console.warn('SUP519.spawnLabel',e); } return n; };
         const r0=HCIRCLE.roll; HCIRCLE.roll=function(r,G){ try{ if(S.auntRow(r)&&S.auntEvDay(G)) return true; }catch(e){} return r0.apply(this,arguments); };   /* 8-3 */
         if(HCIRCLE.who){ const w0=HCIRCLE.who; HCIRCLE.who=function(GM,l){ if(l&&l.id==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) return CF.np; return w0.apply(this,arguments); }; }   /* 3-4：字幕、對話框的說話人（2027-06-04 起小禾）*/
-        if(HCIRCLE.reservedModels){ const rm0=HCIRCLE.reservedModels; HCIRCLE.reservedModels=function(G){ const out=rm0.apply(this,arguments); try{ const cid=G&&S.CLERK_LABEL[G.zone], p=cid&&HCIRCLE.PEOPLE&&HCIRCLE.PEOPLE[cid]; if(p&&p.model) out.add(p.model); }catch(e){} return out; }; }   /* 店員的底模不給無名路人（店裡不會有第二個阿姨）*/
+        if(HCIRCLE.reservedModels){ const rm0=HCIRCLE.reservedModels; HCIRCLE.reservedModels=function(G){ const out=rm0.apply(this,arguments);
+          try{ const ids=G?[S.CLERK_LABEL[G.zone]].concat(G.zone==='cafe'&&after(G,NP_FROM)?['hc_xt']:[]):[]; for(const cid of ids){ const p=cid&&HCIRCLE.PEOPLE&&HCIRCLE.PEOPLE[cid]; if(p&&p.model) out.add(p.model); } }catch(e){} return out; }; }   /* 店員的底模不給無名路人（店裡不會有第二個阿姨）；第 9 節第 3 點：2027-06-04 起 Café 的店員可能是小婷，兩位都留 */
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
       if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週麵店團不排 */
@@ -255,10 +281,11 @@ const SUP519=(function(){
         STORY.SMALL_DAILY.kai=(G,id,r,nm)=>S.kaiTalk(G,id,r,nm); }   /* 5-1：週五資工系館前那一個小時 */
       if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('SUP519.phone',e); } });
       if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); });
-      if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); return false; }); }
+      if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); try{ S.cafeCounterSync(GM); }catch(e){ console.warn('SUP519.cafeCounter',e); } return false; }); }   /* 第 9 節第 3 點：待在 Café 裡跨過班表＝換人 */
     if(typeof OUT!=='undefined'&&OUT.plan&&!OUT._aa519){ const pl0=OUT.plan; OUT.plan=function(G,o){ if(S.tripBlocks(G,o)) return false; return pl0.apply(this,arguments); }; OUT._aa519=true; }   /* 8-4：那一週不排新的麵店出遊（舊存檔已經排好的照 storyDue 照演）*/
     if(typeof EAT!=='undefined'&&EAT&&!EAT._aa519){ EAT._aa519=true;
       if(EAT.staffOn){ const so0=EAT.staffOn; EAT.staffOn=function(GM,key){ return S.staffOnX(so0.apply(this,arguments),GM,key); }; }   /* 3-3 */
+      if(EAT.choose){ const ch0=EAT.choose; EAT.choose=function(GM,key){ if(key==='兩點半 Café'){ try{ S.cafeCounterSync(GM); }catch(e){ console.warn('SUP519.cafeCounter',e); } } return ch0.apply(this,arguments); }; }   /* 第 9 節第 3 點：點餐那一刻櫃台的人先照班表站好（誰站櫃台誰說那兩句）*/
       if(EAT.after){ const af0=EAT.after; EAT.after=async function(GM,key){ const r=await af0.apply(this,arguments); if(key==='兩點半 Café'){ try{ await S.cafeAfterOrder(GM); }catch(e){ console.warn('SUP519.cafe',e); } } return r; }; } }   /* 3-3、3-4 */
     if(typeof JOBS!=='undefined'&&JOBS&&Array.isArray(JOBS.SHIFT_EV)&&!JOBS._aa519){ JOBS._aa519=true; JOBS.SHIFT_EV.push(async(GM,k,n)=>{ await S.latte(GM,k,n); }); }   /* 3-2 拉花 */
     if(typeof INVITE_DATA!=='undefined'&&INVITE_DATA&&Array.isArray(INVITE_DATA.places)){ const P=INVITE_DATA.places.find(p=>p&&p.id==='noodle'); if(P&&!P._aa519){ const av0=P.avail; P.avail=(G,day)=>!S.tripDay(day)&&(!av0||av0(G,day)); P._aa519=true; } }   /* 8-4：那一週不排新的麵店邀約（INV：「阿鳳麵店那個時間沒開。」改天）*/
