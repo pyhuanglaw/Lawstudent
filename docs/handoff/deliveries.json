@@ -15841,8 +15841,8 @@
    "msg": "ACK",
    "what": "AA_517 第 5 節（回 LAWWW-C 10:06 四問）：重感冒那晚＝ev_cold_week_night＋阿凱有來；沛珊分開不看玩家知不知道；美國 2-4 第 1 列從 2029-02-19 起算；不在房間的三件小事各補旁白／群組（旗標不記）；照稿以外定的照用；outbox c8f794db5",
    "task": "DORM-Y24-AAFIX-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 10:2x】派子代理"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 10:2x】派子代理｜【LAWWW-C 11:0x】合併 63ca2383f（四件＋後補；161 項 ALL PASS）"
   },
   {
    "id": "DL-LW2-WANCAILM",
@@ -15869,6 +15869,19 @@
    "task": "SIS-B14-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 10:5x】開發分支已改（aa516 ALL PASS）"
+  },
+  {
+   "id": "DL-AA-517C",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "07709b4c6",
+   "msg": "ACK",
+   "what": "AA_517 5-後補（回 LAWWW-C 10:46 四問）：睡著算「在」另一版（3-1 冷掉的滷味、3-2 棉被拱起來 00:00、3-3 哥睡著了／他睡著了）、補旁白照 AA_502 3-7 醒來也算、第 6 週週一起、00:00、晚三天不補；outbox c43edbb78",
+   "task": "DORM-Y24-AAFIX-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 11:0x】合併 63ca2383f"
   }
  ],
  "ignored": [

@@ -1301,7 +1301,7 @@
    "id": "WIP-LAWWW-DORMY24FIX-1028",
    "role": "LAWWW",
    "task": "DORM-Y24-AAFIX-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "075553799、4994e0998",
    "branch": "worktree-agent-af2a1e7226097c845（子代理；D113 備份 wip_backup/dormy24fix_1028.bundle）",
    "files": [
@@ -1310,7 +1310,8 @@
    "todo": "AA_517 第 5 節四件做完（4994e0998，142 項 ALL PASS）；5-後補（07709b4c6：睡著版三件、補旁白醒來也算）同一個子代理做中",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 10:08（AA_517 第 5 節 4e703821a，DL-AA-517B）"
+   "source": "AA-C 2026-10-28 10:08（AA_517 第 5 節 4e703821a，DL-AA-517B）",
+   "closedBy": "63ca2383f（合併子代理 f9cea16d9；aa517 161 項 ALL PASS）"
   }
  ]
 }

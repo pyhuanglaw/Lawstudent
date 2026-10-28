@@ -35290,7 +35290,7 @@
    "title": "AA_517 第 5 節（4e703821a，回 LAWWW-C 四問）：①2-3 第 3 列＝ev_cold_week_night 而且那晚阿凱有來（COLD_WEEK_PRESENT 有阿凱），沒來不出 ②沛珊分開那一列：沛珊和柏翰交往過、到了分開那一週以後、祐廷沒和沛珊交往就出（不看玩家知不知道）③美國路線 2-4 第 1 列從大四下開學 2029-02-19 起算四週 ④三件小事那晚玩家不在：3-1 隔天第一次進 312 補一句旁白、3-2 23:50 群組換兩則、3-3 23:40 群組換三則（旗標都不記）",
    "area": "Y2S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_517 第 5 節（企劃線 4e703821a；outbox c8f794db5）",
    "first": {
@@ -35303,7 +35303,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 10:2x UTC】派子代理（dorm_y24_3d.js、dorm_y24_lines.js、tests/aa517 逐字對稿；白名單 AA_517 → 4e703821a）；下一版"
+   "next": "【LAWWW-C 2026-10-28 11:0x UTC】合併 63ca2383f（子代理 f9cea16d9）：第 5 節四件＋5-後補（07709b4c6：睡著算「在」另一版、補旁白醒來也算）；aa517 161 項 ALL PASS；dorm、cold_week、peishan、alison、sleep 相關 ALL PASS；3-2 群組照第 4 點 00:00（AA 要 23:50 改台詞檔 at）；下一版；BB 瀏覽器｜【LAWWW-C 2026-10-28 10:2x UTC】派子代理（dorm_y24_3d.js、dorm_y24_lines.js、tests/aa517 逐字對稿；白名單 AA_517 → 4e703821a）；下一版"
   }
  ]
 }
