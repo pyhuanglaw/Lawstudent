@@ -40,13 +40,14 @@ async def main():
     run = L.Run('reentry_' + TAG, OUT); os.makedirs(OUT, exist_ok=True); res = {}
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-        await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
-        st = copy.deepcopy(SAVE); st.pop('_stuck', None); st.update(zone='campus', pos=None, hour=13.0)
-        st['invites'] = [v for v in st.get('invites', []) if v.get('state') != 'going']
-        await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(5000)
-        await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
-        run.setup('[前置] 使用者存檔（校園）；關掉條件事件；之後用 GAME.enter 進出')
         for hn, hh in (('day', 13.0), ('night', 20.5)):
+            # 10-28 11:0x：白天、晚上各自重新載入頁面——不然晚上的「第 1 次」其實是這個工作階段第 3 次進去（rc1 晚上兩張都壞＝誤判 PASS）
+            await pg.goto(URL); run.check('%s：遊戲載入（新的頁面＝這一組的第 1 次真的是第一次進去）' % hn, await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
+            st = copy.deepcopy(SAVE); st.pop('_stuck', None); st.update(zone='campus', pos=None, hour=hh)
+            st['invites'] = [v for v in st.get('invites', []) if v.get('state') != 'going']
+            await L.load_state(pg, st, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(5000)
+            await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
+            run.setup('[前置] 使用者存檔（校園，%.1f 時）；關掉條件事件；之後用 GAME.enter 進出' % hh)
             for z in ZONES:
                 for k in (1, 2):
                     ok = await enter(pg, z, hh)
