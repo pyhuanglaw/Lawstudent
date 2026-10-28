@@ -75,11 +75,11 @@ async def door(pg, cdp, run, to, pre, expect, tag, double=False):
     if not s['interact'].startswith(it['label'][:6]):
         # 像玩家一樣：互動鍵不是它（例：舊路書房門口被「看看法律書與文具」搶走），在出入口範圍裡找一個「最近的互動＝它」的站位走過去（BB-C 10-28 door_book）
         alt = await pg.evaluate("""(([to,pre])=>{ const E=GAME.E, P=E.player.obj.position, it=E.interactables.find(i=>i.exit&&i.exit.to===to&&(!pre||(i.label||'').startsWith(pre))); if(!it) return null;
-          const x0=P.x, z0=P.z, R=(it.radius||1.5)-0.05; let best=null; for(let dx=-R;dx<=R+1e-6;dx+=0.1) for(let dz=-R;dz<=R+1e-6;dz+=0.1){ if(dx*dx+dz*dz>R*R) continue; const x=it.x+dx,z=it.z+dz; if(!E.canStand(x,z,0.32,E.player.lv|0)) continue; P.set(x,P.y,z); const n=E.nearestInteractable(); if(n===it){ const d=Math.hypot(x-x0,z-z0); if(!best||d<best[2]) best=[x,z,d]; } }
+          const x0=P.x, z0=P.z, R=(it.radius||1.5)-0.05; let best=null; for(let dx=-R;dx<=R+1e-6;dx+=0.1) for(let dz=-R;dz<=R+1e-6;dz+=0.1){ if(dx*dx+dz*dz>R*R) continue; const x=it.x+dx,z=it.z+dz; if(!E.canStand(x,z,0.32,E.player.lv|0)) continue; let ok=true; for(const [ax,az] of [[0,0],[0.2,0],[-0.2,0],[0,0.2],[0,-0.2]]){ P.set(x+ax,P.y,z+az); if(E.nearestInteractable()!==it){ ok=false; break; } } if(ok){ const d=Math.hypot(x-x0,z-z0); if(!best||d<best[2]) best=[x,z,d]; } }   /* 前後左右 0.2 m 也都是它才算（BB-C 10-28 door_book2：(-1.15,4.05) 走到差 0.14 m 的 (-1.01,4.05) 又變回櫃台）*/
           P.set(x0,P.y,z0); return best; })(%s)""" % json.dumps([to, pre]))
         run.note('%s：互動鍵是「%s」不是「%s」→ 在出入口範圍裡找按得到它的站位：%s' % (tag, s['interact'], it['label'], alt))
         if alt:
-            await L.go_to(pg, cdp, run, alt[0], alt[1], 0.15, it['label'] + '（換站位）', max_s=120, lv=it['lv'])
+            await L.go_to(pg, cdp, run, alt[0], alt[1], 0.12, it['label'] + '（換站位）', max_s=120, lv=it['lv'])
             for _ in range(8):
                 s = await L.state(pg)
                 if s['interact'].startswith(it['label'][:6]): break
