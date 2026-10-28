@@ -3782,6 +3782,21 @@
    "receiver": "LAWWW",
    "ack": "ACKNOWLEDGED（DL-AA-512）；第 5、6 節 SENT",
    "note": "學姊第十三批（C25，D111）；盤點 scratchpad/inv8；朋友版大四、美國挽回中、她自己的事第一次當面；574720913 加第 5 節回 LAWWW-C 伴手禮那句；c444f0757 加第 6 節"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a2e4bf196",
+   "files": [
+    "docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_513 第 1 節阿凱四則私訊（11/27、10/27、5/20 16:30 照片後、12/15）＋第 2 節以安和媽媽公館窗邊字幕旁白（AN_MOM_SEEN）；heard_lines.js「沒做」阿凱那幾行改註",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "逐句對照 AA_497/498/502～509 稿和開發分支 e89f2a537：497、498、502 全部在；503～509 少的都在 heard_lines.js 的沒做清單，只有阿凱四句（3D 沒有他）和以安窗邊旁白要 AA 定"
   }
  ],
  "items": [
