@@ -19428,6 +19428,13 @@
    "kind": "covered",
    "coveredBy": "README-1028",
    "reason": "README 照 v9.10.11 改寫；同內容由 AA-C 經使用者授權推上 main 9227bf81e、開發分支 e9e7758b0 合併回來（README.md 和開發分支一字不差）（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "31d3a0167",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-201V2",
+   "reason": "霖澤館 201 v2 模型的 WIP 檢查點，最後交件 2fb76710c（LAWWW-C 10-28 03:1x 分類）"
   }
  ]
 }
