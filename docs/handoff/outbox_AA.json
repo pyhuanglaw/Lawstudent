@@ -3948,6 +3948,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "X119 inv11 第六～八節；去向照 BB_106 第 405～412 行；可以和 AA_519、AA_520 一起排"
+  },
+  {
+   "task": "NPC-STORY2-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "fcc93126e",
+   "files": [
+    "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md"
+   ],
+   "state": "已交付",
+   "remaining": "周教授四題民法 LEGAL_REVIEW_REQUIRED（審過才定稿）",
+   "next": "LAWWW：AA_522——周教授閒聊「週四下課以後」（改 tests/aa195_411_unit.js 第 3 項）、研究室照學期（大一上加一題、大一下兩題、大二上兩題、大四下一次）問完就不觸發；許教授招呼與問題照年級；林教授下課後開頭照次數＋新 ev_prof_lin_office；陳教授閒聊改字（改 tests/aa130_curriculum_unit.js 第 9 項）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 inv11 第十一節；可以和 AA_519～521 一起排"
   }
  ],
  "items": [
