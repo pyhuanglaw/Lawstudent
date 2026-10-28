@@ -78,7 +78,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外',fals
     setDay(TD('Y1S2',7,6),9.5); G.zone='wancai';
     check('3. 第 7 週週六 9:00～12:00 走進萬才館',EVENTS.check(ev('ev_kai_keyboard_fafu')));
     L=await run('ev_kai_keyboard_fafu');
-    check('3. 法服：三件事（BB_154 2-3 的字；說話的人換成社長）、「……三分鐘。」、手機筆記那一行；記 KAI_KEYBOARD',L.includes('二，賣家如果是店家，網購收到七天內，可以直接退。')&&L.includes('……三分鐘。')&&L[L.length-1]==='下次我要自己講得出來。'&&H.said.find(s=>s.t==='三件事。').who==='社長'&&SOCIAL.has('kai','KAI_KEYBOARD'),J(who()));
+    check('3. 法服：三件事（BB_154 2-3 的字；說話的人換成社長）、「……三分鐘。」、手機筆記那一行；記 KAI_KEYBOARD',L.includes('二，賣家如果是店家，網購收到七天內，可以直接退。')&&L.includes('……三分鐘。')&&L[L.length-1]==='下次我要自己講得出來。'&&H.said.find(s=>s.t==='三件事。').who==='法服的社長'&&SOCIAL.has('kai','KAI_KEYBOARD'),J(who()));   /* 標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點，2026-10-28；原本「社長」）*/
     G=fresh(TD('Y1S2',7,1),22.5,'dorm',{LAWCLUB_SAT_VISITS:1}); await run('ev_kai_keyboard',[0]); setDay(TD('Y1S2',7,6),12.6); X().phone(G); PHONE.tick(G);
     check('3. 選了週六法服沒去：12:30 阿凱私訊兩句、也記 KAI_KEYBOARD',J(msgs('p:kai'))===J(['你沒來 我自己去了 社長講了三分鐘','你們法律系的人原來要查這麼久'])&&SOCIAL.has('kai','KAI_KEYBOARD'),J(msgs('p:kai')));
     G=fresh(TD('Y1S2',8,1),22.5,'dorm',{}); X().phone(G); check('3. 錯過（第 7 週週四以前沒在房間）：不發生、不記 KAI_KEYBOARD',!EVENTS.check(ev('ev_kai_keyboard'))&&!SOCIAL.has('kai','KAI_KEYBOARD'));

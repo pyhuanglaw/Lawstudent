@@ -34,7 +34,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('3. 第一次（AA_238 2-1：學姊換社長）：阿伯押金、社長先問三件事、阿伯「我是不是很麻煩？」、研究所學長、社長「第一次來？站這邊聽就好。」「不要插話，也先不要給意見。……」；沒有學姊',L[0]==='圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。'&&L.includes('社長沒有馬上回答。他先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。')&&L.includes('不會。您慢慢說，我們先把事情弄清楚。')&&L.includes('第一次來？站這邊聽就好。')&&L[L.length-1]==='不要插話，也先不要給意見。看我們怎麼問。……問題問對了，事情就清楚一半。'&&!said.some(x=>x.who==='溫學姊'||/學姊/.test(x.t)),JSON.stringify(L.slice(-3)));
   check('3. 記 LAWCLUB_SAT_FIRST、LAWCLUB_SAT_VISITS＝1；時間 +30 分鐘',G.flags.LAWCLUB_SAT_FIRST===true&&G.flags.LAWCLUB_SAT_VISITS===1&&Math.abs(G.hour-10)<0.01);
   said=[]; await STORY.fafuWatch(GM); L=said.map(x=>x.t); check('4. 同一個週六再看：池的第一句（媽媽、打工扣薪水）＋社長點頭；次數不加',L[0].startsWith('今天來的是一位媽媽')&&L[1]==='（社長點頭，回到圓桌。）'&&G.flags.LAWCLUB_SAT_VISITS===1,JSON.stringify(L));
-  said=[]; await STORY.fafuWatch(GM); check('4. 下一次是社長的第一句（輪流；AA_238 2-3）',said[0].t==='又來了？站那邊，看得比較清楚。'&&said[0].who==='社長',JSON.stringify(said[0]));
+  said=[]; await STORY.fafuWatch(GM); check('4. 下一次是社長的第一句（輪流；AA_238 2-3）',said[0].t==='又來了？站那邊，看得比較清楚。'&&said[0].who==='法服的社長',JSON.stringify(said[0]));   /* 說話人標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點，2026-10-28；原本「社長」）*/
   G.hour=12; check('4. 12:00 以後不能看',!(await STORY.fafuWatch(GM)));
   // 七句用完再重來、五次那句
   const duty=[]; for(let d=s5;d<s5+400&&duty.length<8;d++){ G.day=d; G.hour=10; if(STORY.fafuWatchable(G)) duty.push(d); } const seen=new Set(); for(let i=0;i<7;i++){ G.day=duty[i]; G.hour=9.5; G.weekday=6; said=[]; await STORY.fafuWatch(GM); if(said[0]) seen.add(said[0].t); }
