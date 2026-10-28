@@ -25,7 +25,37 @@ STATE = """(id)=>{ const G=GAME.G, D=STORY.ladData(G,id), k=D?D.key:id; return {
   withNow:(typeof HCIRCLE!=='undefined'&&HCIRCLE.withNow)?HCIRCLE.withNow(GAME,id):null, held:(typeof PRIVTALK!=='undefined'?PRIVTALK.held.slice(-4):[]), narrated:(typeof PRIVTALK!=='undefined'&&PRIVTALK.narrated)?PRIVTALK.narrated.slice(-3):null}; }"""
 
 
+# 【前置】站到她走路方向前面 ahead m（站得住的地方；她在走＝迎面走過來）。10-28 11:1x：rc2_priv2_wait7 三天都追不上（她和筱涵邊走邊聊，1 fps 追 15 輪始終差 6～9 m）
+AHEAD = """([id,ahead])=>{ const E=GAME.E, P=E.player, n=__BBF.npc(id); if(!n||!n.obj) return null; const h=n.obj.position, lv=n.lv|0; let yaw=n.obj.rotation.y;
+  if(n.path&&n.path.length){ const q=n.path[0]; if(q){ const dx=q[0]-h.x, dz=q[1]-h.z; if(Math.hypot(dx,dz)>0.2) yaw=Math.atan2(dx,dz); } }   /* engine3d.js：path＝[[x,z],…]，path[0]＝下一個點 */
+  for(const da of [0,0.4,-0.4,0.8,-0.8,1.6,-1.6,3.14]){ const a=yaw+da, x=h.x+Math.sin(a)*ahead, z=h.z+Math.cos(a)*ahead; if(E.canStand&&!E.canStand(x,z,0.33,lv)) continue;
+    E.placeAt(P,x,z,lv); P.path=null; P.obj.rotation.y=Math.atan2(h.x-x,h.z-z); return {x:+x.toFixed(2),z:+z.toFixed(2),hx:+h.x.toFixed(2),hz:+h.z.toFixed(2),da,beh:n.beh||null}; }
+  return null; }"""
+
+
+async def talk_ahead(pg, cdp, run, tag, picks=(), tries=8):
+    for k in range(tries):
+        p = await pg.evaluate(AHEAD, [YT, 1.2]); run.setup('[前置] %s 第 %d 次：站到語彤走路方向前面 1.2 m %s' % (tag, k + 1, J(p)))
+        if not p: await pg.wait_for_timeout(3000); continue
+        for _ in range(12):   # 最多 6 秒等按鈕變成「和她說話」
+            g = await pg.evaluate("id=>__BBF.target(id)", YT)
+            if g and g['ok']: break
+            await pg.wait_for_timeout(500)
+        if not (g and g['ok']): run.note('%s：按鈕是「%s」（要「%s」）、離她 %s m' % (tag, g and g['lab'], g and g['want'], g and g['d'])); continue
+        await L.tap(pg, cdp, '#interact')   # 照玩家：按「和她說話」
+        r = await P.dialog(pg, cdp, run, picks, max_s=120, tag=tag)
+        if r['started']: r['label'] = g['want']; return r
+        run.note('%s：按了沒有開始說話，再站一次' % tag)
+    run.note('%s：%d 次都沒說到話' % (tag, tries)); return None
+
+
 async def talk(pg, cdp, run, tag, picks=()):
+    n0 = await pg.evaluate("window.__DL.length")
+    if MODE == 'wait7':
+        r = await talk_ahead(pg, cdp, run, tag, picks=picks)
+        dl = await pg.evaluate("n=>window.__DL.slice(n)", n0)
+        run.note('%s：50 ms 記錄的句子 %s' % (tag, J(dl[:10])))
+        return r, dl
     h = await P.who(pg, YT)
     if h and h.get('x') is not None: await P.place_near(pg, run, h['x'], h['z'], R=6.0, what='語彤')   # 【前置】站到她 6 m 外（1 fps 從出生點走 40 m 她早就走開了）
     n0 = await pg.evaluate("window.__DL.length")
