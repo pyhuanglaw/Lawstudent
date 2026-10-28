@@ -3338,6 +3338,14 @@
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "HEROINE-LIFE-1028",
    "note": "第五輪子代理（手機）登記：第 1～7 節每位三～四則動態 26 則（src/data/feed_pg.js；含留言、私訊問答；以安第 4 則紐約 2030-11-10 20:00＝臺灣 11/11 09:00）；第 0 節第 1 點畢業以後篇（src/postgrad3d.js）跳時間動態不過期——跳的途中貼的、跳之前還看得到的，從停下來（下一件事演完、回到可以操作）那一刻起留七天（src/feed3d.js 包住 PG.jumpTo、tr＝'pg'）；最後一個停點以後直接進尾聲的，先停在還沒出的最後一則動態（FEED.pgStop 掛在 PG.stops）；交換延畢的大五上一樣；可昕分開以後一學期＝分開那天起 18 週（畢業以後沒有下一個學期）。現有的電話、Café、尾聲不動。tests/aa510_511_feed_unit.js 照 c9899bed9 逐字對、第 8 節第 4 點的測試清單；10-28 07:3x 改 b70bed855（第 9 節：手機第五輪實作時定的七件，第 6 點尾聲前多停那一次落地時日期卡下面「（十二月底。這一年快過完了。）」，LAWWW-C 實作 src/feed3d.js PG.cardLine）"
+  },
+  {
+   "path": "docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md",
+   "sha": "a2e4bf196",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 指示子代理登記：第 1 節阿凱說子晴四句（AA_505、AA_507、AA_508、AA_509 各 4-4）改阿凱的私訊——1-1（2026-11-27 23:20）、1-2（2027-10-27 23:20）、1-4（2028-12-15 23:20）在 src/data/heard_lines.js phone（p:kai；src/heard3d.js COND.kaiZq：認識子晴、手機裡有阿凱；不用回、晚三天以上不補、人在國外照當地時間）；1-3（2028-05-20）加在 src/y34b3d.js S.zqKaiPhone 16:30 兩組照片後面（到場的、日本路線不加；佇列裡舊版本排好的補上）。第 2 節以安和媽媽在公館窗邊：src/data/heard_lines.js pass、src/heard3d.js S.pass（STORY.TICKS；大一上、大一下第 10 週週五 18:00～21:00、公館南側店面街店門口 5 m 內、一學期一次、認識以安、大一下那句要大一上那句出現過；G.flags.AN_MOM_SEEN）。heard_lines.js 開頭「沒做」的阿凱四句改「改私訊，AA_513 第 1 節」。tests/aa513_unit.js 照 a2e4bf196 逐字對"
   }
  ]
 }

@@ -22,6 +22,10 @@
 //   和補上的曾靖雯（pool_7，AA_498 第一批）4 句（AA_504、AA_506 兩句、AA_508）——第 0 段的句數 88→103、SPEC 加 AA_510；「沒做」拿掉曾靖雯 AA_504、AA_506 那三句（其他照舊，原因照新規則寫）；
 //   第 1 段的句數 38→48（新的 10 句一樣照 from／until 逐句查，都過）。AA_510 的「沒有漏掉」、時間、條件，曾靖雯、阿凱的閒聊前一句在 tests/aa510_511_feed_unit.js。
 //   第五輪加句子以後、這裡還沒改的時候實際跑：FAILED 3（第 0 段：SPEC 沒有 AA_510、「沒做」裡的曾靖雯三句已經在遊戲裡；第 1 段：48 句）。改了以後 ALL PASS。
+// AA_513（AA-C 2026-10-28，a2e4bf196）改的：阿凱說子晴那四句改成他的私訊——heard_lines.js 多了手機 3 組 9 則（src 'AA_513 1-1／1-2／1-4'）：第 0 段 SPEC 加 AA_513、句數 103→112；
+//   「沒做」裡阿凱大二上（AA_505）、大三上（AA_507）兩句的原因改「改私訊，AA_513 第 1 節」，並查稿上 1-1、1-2 那兩組私訊真的在遊戲裡（時間、p:kai、kaiZq、一字不差）。
+//   加句子以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段：AA_513 的 9 句找不到稿、112 句）；改過的這一份對開發分支 44e8ff8b7 的 src 實際跑：FAILED 2（103 句、改私訊那一項）；
+//   改了以後 ALL PASS。功能（送到、條件、時差）在 tests/aa513_unit.js。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -31,7 +35,9 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   /* 第四輪（AA_508、AA_509 @ 28f981438）：heard_lines.js 加了那兩份的句子，對稿要有那兩份；那兩份的「沒有漏掉」、時間、條件在 tests/aa508_509_feed_unit.js 第 6 段 */
   AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','28f981438'],AA_509:['docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md','28f981438'],
   /* 第五輪（AA_510 @ 28f981438）：heard_lines.js 加了那一份的句子，對稿要有那一份；那一份的「沒有漏掉」、時間、條件在 tests/aa510_511_feed_unit.js */
-  AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438']};
+  AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438'],
+  /* AA_513（a2e4bf196）：阿凱說子晴四句改私訊（heard_lines.js phone 的 1-1、1-2、1-4）；以安窗邊的字幕（pass）在 tests/aa513_unit.js 對稿 */
+  AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196']};
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -59,7 +65,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   for(const k in L.noodle) for(const e of L.noodle[k]) for(const d of e.dialogue) all.push([srcOf(e),d.text,e.once]);
   for(const e of L.phone) for(const it of e.items) all.push([srcOf(e),it[2],e.id]);
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438，一字不差；'+all.length+' 句）',all.length===103&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196，一字不差；'+all.length+' 句）',all.length===112&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -75,16 +81,23 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
     '學姊說我的比較好。她自己的那杯，冬天一直有人點。……沒有在菜單上的那杯。':'小婷（不是 3D 人物）',
     '子晴叫晨希站她旁邊。晨希緊張到一直喝水。':'劉晏如 pool_5（等 AA_500）','沛珊這學期沒來旁聽。她說週二、四要去教小朋友。……她說教小朋友也是在問『為什麼』。':'廖芸萱 pool_15（等 AA_501）',
     '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷（不是 3D 人物）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）',
-    '我按不出 C，子晴來教。她教了十分鐘，學妹就會了。我學了一學期。':'葉晨希 pool_11（等 AA_500）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'阿凱大二上（那段時間 3D 裡沒有他）',
+    '我按不出 C，子晴來教。她教了十分鐘，學妹就會了。我學了一學期。':'葉晨希 pool_11（等 AA_500）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',
     '沛珊這學期都沒來旁聽。她說要念書。……她以前念書也會來的。':'廖芸萱 pool_15（等 AA_501）',
     /* 第三輪：AA_506、AA_507 */
     '學姊把吧檯的抽屜整理好了。她排錯的那張班表，她帶走了。':'小婷（不是 3D 人物）',
     '學姊現在來當客人。她都坐窗邊，可是我一忙，她就一直看吧檯。':'新來的工讀生（3D 標籤人物）',
     '子晴當器材長以後，社辦的導線都貼了名字。我借走的那條，標籤寫『晨希 還來』。':'葉晨希 pool_11（等 AA_500）','沛珊這學期沒有來。她的位子我幫她留到期中。':'廖芸萱 pool_15（等 AA_501）',
-    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（3D 標籤人物）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'阿凱大三上（那段時間 3D 裡沒有他）',
+    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（3D 標籤人物）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節',
     '子晴學姊回來看社課，第一件事是去數導線。':'葉晨希 pool_11（等 AA_500）'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
-  check('0. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、小婷、大一的學妹、新來的工讀生、阿凱大二上和大三上、本來就有的），沒有漏掉',heard.length>=74&&!miss.length&&!extra.length,J({miss,extra}));
+  check('0. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、小婷、大一的學妹、新來的工讀生、本來就有的；阿凱大二上和大三上改私訊，AA_513 第 1 節），沒有漏掉',heard.length>=74&&!miss.length&&!extra.length,J({miss,extra}));
+  /* 「改私訊，AA_513 第 1 節」的那幾句：AA_513 稿的那一塊（標題寫的是哪一份的 4-4、哪一天幾點；「> 阿凱：…」那幾行）真的在遊戲裡（heard_lines.js phone） */
+  const K513={}; { let cur=null; for(const l of (DOC.AA_513||'').split('\n')){ let m; if((m=/^### (1-\d)\s+[^（]*（`(AA_5\d\d)` 4-4）：(\d{4}-\d\d-\d\d)（.）(\d\d:\d\d)?/.exec(l))){ cur=K513[m[1]]={ref:m[2],date:m[3],hm:m[4]||null,lines:[]}; continue; }
+    if(/^(### |## |---)/.test(l)){ cur=null; continue; } let q; if(cur&&(q=/^> 阿凱：(.+)$/.exec(l))) cur.lines.push(q[1].trim()); } }
+  const moved=heard.filter(([k,w,t])=>NOT_DONE[t]==='改私訊，AA_513 第 1 節'), mbad=[];
+  for(const [k,w,t] of moved){ const id=Object.keys(K513).find(i=>K513[i].ref===k), b=K513[id], e=id&&HL().phone.find(x=>x.src==='AA_513 '+id);
+    if(!b||!e||!b.lines.length||e.at!==b.date+' '+b.hm||e.th!=='p:kai'||e.cond!=='kaiZq'||J(e.items)!==J(b.lines.map(s=>['kai','阿凱',s]))) mbad.push(k+' '+t); }
+  check('0. 改私訊（AA_513 第 1 節）的 '+moved.length+' 句（阿凱大二上 AA_505、大三上 AA_507）：稿上 1-1、1-2 那兩組（2026-11-27 23:20、2027-10-27 23:20，各三則）在遊戲裡——p:kai、kaiZq、一字不差',moved.length===2&&!mbad.length&&Object.keys(K513).length===4,J({mbad,K513:Object.keys(K513)}));
   const prac=(DOC.AA_503.match(/> 阿凱：(子晴叫你恭喜我？[^\n]*)/)||[])[1];
   check('0. AA_503 7-2 阿凱那一句（練習賽「他沒講。」之後）在遊戲裡',!!prac&&HL().kai203.some(e=>e.t===prac),J(prac)); });
 
