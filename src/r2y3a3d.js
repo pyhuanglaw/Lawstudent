@@ -353,6 +353,7 @@ const R2Y3A=(function(){
     S.callPhone(G); S.crPhone(G); S.ci4Phone(G); S.an14Phone(G); S.bohanPhone(G); S.fairPhone(G); S.c4Phone(G); S.leasePhone(G); S.k17Phone(G); S.yt13Phone(G); S.xmasPhone(G);
     S.knPhone(G); S.vdayPhone(G); S.x1Phone(G); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3a3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; if(atHome(G)) return false;
     if(out()&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */
     if(S.x1Due(G)&&G.zone==='dorm'){ busy=true; S.x1Jp(GM).catch(e=>console.warn('R2Y3A x1',e)).finally(()=>{ busy=false; }); return true; }

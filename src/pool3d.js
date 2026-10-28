@@ -355,6 +355,7 @@ const POOL=(function(){
     n.frozen=false; n.beh='idle'; n.waypoints=null; n.seatTarget=st; const sit=()=>{ n.seatTarget=null; if(busy(st)){ n.pose=n.idlePose='idle'; return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='sit'; };
     const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!E.moveTo(n,ap[0],ap[1],sit,st.lv|0)) sit(); return true; };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['pool3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.AUTO=[];   /* fn(GM)→要演的事件或 null（第二批以後）*/
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!law(G)) return false; S.bind(GM); try{ S.afterSpawn(GM); S.doorToSeat(GM); }catch(e){ console.warn('POOL.afterSpawn',e); }
     if(busy||typeof EVENTS==='undefined'||!EVENTS.run||(GM.E&&GM.E.player&&GM.E.player.busy)) return false;

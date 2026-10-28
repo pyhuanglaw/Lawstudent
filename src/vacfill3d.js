@@ -180,6 +180,7 @@ const VACFILL=(function(){
       if((G.msgs||[]).some(m=>m&&m.from!=='player'&&T(m.day,m.h)>=a&&T(m.day,m.h)<b)) return 'msg'; }
     return null; };
   let ffDepth=0;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vacfill3d:ffDepth']=()=>{ ffDepth=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.wakePool=async function(GM){ const G=GM&&GM.G; if(!G||!G.flags||ffDepth>0) return null; const B=brk(G); if(!B) return null;
     const home=!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)); if(!home&&G.zone!=='dorm') return null;   /* 家裡的床、宿舍的床（美國的公寓、公館的套房不算）*/
     if(abroadOn(G,G.day)||(typeof JP!=='undefined'&&((JP.inJapan&&JP.inJapan(G))||(JP.homeOn&&JP.homeOn(G))))) return null;   /* 日本路線住臺北的家那幾週是 jp3d.js 自己的快轉、摘要（同 holff3d.js 的 noJP）*/

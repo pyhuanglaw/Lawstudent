@@ -109,6 +109,7 @@ const Y1FILL=(function(){
     for(const id of ['ev_kai_tape','ev_kai_tape2']){ const ev=STORY_EVENTS.find(e=>e.id===id); if(!ev||(G.events&&G.events.done&&G.events.done[id])) continue; let ok=false; try{ ok=EVENTS.check(ev); }catch(e){ ok=false; } if(ok) return ev; }
     return null; };
   let tapeT=0, busy=false, dormT=0;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y1fill3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   /* ev_kai_tape2 等膠帶的模型載好才演（BB 10-21 21:4x：讀檔後第一次進 203，進門那一刻 dorm_y1_items.glb 還沒載到——鏡頭拿不到膠帶、地上照「還沒演」顯示「國界」，旁白卻說「法律系免簽」）：
      進門那一刻的 enter 不演，交給下面 S.tick 的「進房間 2.5 秒」；模型一直載不到（沒有這個檔、載入失敗）待滿 12 秒就照原本的鏡頭演 */
   S.tapeReady=function(){ const E=typeof GAME!=='undefined'&&GAME?GAME.E:null, sc=E&&E.scene; if(sc&&sc.getObjectByName&&sc.getObjectByName('Y1_KAI_TAPE_TEXT')) return true; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest['bldg.dorm_y1_items']) return true; return dormT>12; };

@@ -68,6 +68,7 @@ const ZQTB=(function(){
       {if:{custom:G=>S.dating(G)},speaker:null,text:'（她把隨身碟放進你手心，手指在你掌心停了一下才收回去。）'},
       {set:{ZQ_TESTBUILD:true,ZQ_TB_FROM:'lib'}},{mem:[{npc:ZQ,tag:'ZQ_TESTBUILD',note:''}]},{consequences:{rel:{[ZQ]:{fam:2,trust:2}}}} ] };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['zq_testbuild3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!S.cafeDue(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false; busy=true;
     if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(S.CAFE_EV)).catch(e=>console.warn('ZQTB',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   if(typeof STORY_EVENTS!=='undefined') for(const e of [S.EVENT,S.CAFE_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);

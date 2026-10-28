@@ -81,6 +81,7 @@ const OUT=(function(){
   S.onMissed=function(GM,q){ const ev=evOf(q.ev); if(ev&&typeof ev.outingMissed==='function'){ try{ ev.outingMissed(GM.G,GM,q); }catch(e){ console.warn('outingMissed',q.id,e); } } };
   /* 每 0.5 秒（story3d.js 的 S.tick；劇情、對話進行中 S.tick 不會呼叫）*/
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['outings3d:busy']=()=>{ busy=false; running.clear(); afterDone.clear(); S.fromHome=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; if(typeof DATE!=='undefined'&&DATE.tick){ try{ const p=DATE.tick(GM); if(p&&p.then){ busy=true; return p.catch(e=>console.warn('DATE.early',e)).finally(()=>{ busy=false; }); } }catch(e){ console.warn('DATE.tick',e); } }   /* 校外約會：一天一次的 daily、出發前 60 分鐘提醒（可以提早出發：DATE.early）*/ for(const q of S.expire(G)) S.onMissed(GM,q);
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);

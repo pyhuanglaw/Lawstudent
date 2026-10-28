@@ -369,6 +369,7 @@ const KXDRIFT=(function(){
       if(/^kx_drift_r2/.test(id)&&R.r2) R.r2.st='void'; if(id==='kx_drift_r3'&&R.r3) R.r3.st='pending'; if(id==='kx_drift_r4'&&R.r4) R.r4.st='pending'; if(id==='kx_drift_r5'&&R.r5) R.r5.st='pending'; } };
   /* 到家以後：手機自動打開她那一段，祐廷傳「到了。」，她回「嗯。」（STORY.TICKS：出遊演完、空下來的第一格）*/
   let homeBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['kxdrift3d:homeBusy']=()=>{ homeBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G, R=G&&G.flags&&G.flags.KX_DRIFT; if(homeBusy||!R||!R.r5||!R.r5.home||typeof PHONE==='undefined') return false; R.r5.home=false; homeBusy=true;
     S.homePhone(GM).catch(e=>console.warn('KXDRIFT.homePhone',e)).finally(()=>{ homeBusy=false; }); return true; };
   S.homePhone=async function(GM){ const G=GM.G; PHONE.post(G,{th:TH,from:'player',who:null,text:S.L.r5.home[0]}); PHONE.post(G,Object.assign(K(S.L.r5.home[1]),{tag:'kx_drift_r5_home'}));

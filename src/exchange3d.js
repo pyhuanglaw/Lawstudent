@@ -12,6 +12,7 @@
 'use strict';
 const EXCH=(function(){
   const S={};
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['exchange3d:_busy']=()=>{ S._busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h;
   const US_ZONES=['us_apartment','us_outside','us_shared','us_market','us_asian_market','us_campus','us_lawlib','us_market_street','us_lawlib_2f','us_bed_c'];   /* 法圖 2F 書庫、學姊的房間（臥室 C）也算在美國（LAWWW2-B 10-24）*/   /* 超市街（LAWWW2 US-MARKET-STREET 2026-10-21）也算在美國 */   /* 美國校園、法學院圖書館（LAWWW2-C US-CAMPUS-WIRE-1018）也算在美國 */   /* LAWWW2-C 的正式區域（src/us3d.js 3bff5ef4）：C 棟 208、大超市、對面的亞洲超市也算在美國 */

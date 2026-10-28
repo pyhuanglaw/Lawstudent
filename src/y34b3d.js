@@ -121,6 +121,7 @@ const Y34B=(function(){
   S.departResumeDue=G=>{ const F=G&&G.flags; return law(G)&&JP(G)&&!!F&&F.AN_SENDOFF==='together'&&F.JP_DEPARTED==null&&!(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)); };
   S.departResume=async function(GM){ if(!S.departResumeDue(GM.G)) return false; await flyJP(GM); return true; };
   const resumed=new WeakSet(); let resuming=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y34b3d:resuming']=()=>{ resuming=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const resumeOk=G=>!resuming&&!!G&&!resumed.has(G)&&S.departResumeDue(G);
   S.departResumeTick=function(GM){ const G=GM&&GM.G; if(!resumeOk(G)) return false; resumed.add(G); resuming=true;
     Promise.resolve().then(()=>S.departResume(GM)).catch(e=>console.warn('Y34B.departResume',e)).finally(()=>{ resuming=false; }); return true; };
@@ -418,6 +419,7 @@ const Y34B=(function(){
       if(me||NOW(G)<T(d,21.75)) OUT.plan(G,{id:'y4_m9_call',ev:'ev_sis_defense_call',day:d,h:me?G.hour:21,late:me?0.5:0.75,place:'電話',verb:me?'打過去':'接起來',no:'先不接',title:me?'打給書瑀':'書瑀打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'}); } };
   /* ---------------- 每 0.5 秒（STORY.TICKS）---------------- */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y34b3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('Y34B',e)).finally(()=>{ busy=false; }); return true; };
   const play=id=>GM=>{ const ev=evOf(id); return ev&&typeof EVENTS!=='undefined'?EVENTS.run(ev):null; };
   const failed=id=>typeof EVENTS!=='undefined'&&!!EVENTS.failed&&!!EVENTS.failed[id];   /* 演到一半出錯的事件不再自動開（不然每 0.5 秒都在重開，後面的 S.tick 全部被擋住）*/

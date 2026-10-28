@@ -49,6 +49,7 @@ const USL=(function(){
   S.here=G=>!!G&&S.usDay(G,G.day);
   S.rec=G=>{ if(!G.usLife||typeof G.usLife!=='object') G.usLife={}; const R=G.usLife; for(const k of ['cls','att','sum','greet','asia']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };   /* 存檔欄位（舊存檔沒有＝空的）：上過的課、每門上過幾次、出過的摘要日、何俊朗招呼輪到哪、去過亞洲超市的日子 */
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('USL',e)).finally(()=>{ busy=false; }); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us_life3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.isBusy=()=>busy;
 
   /* ======================= S1 美國的學期日曆（AA_340 S1、AA_291 第 1 節）======================= */

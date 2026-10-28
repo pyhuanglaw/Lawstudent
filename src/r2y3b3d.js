@@ -625,6 +625,7 @@ const R2Y3B=(function(){
     S.whitePhone(G); S.farVideoPhone(G); S.abPhone(G); S.anBackPhone(G);
     S.summerPlanPhone(G); S.ytBdayPhone(G); S.slipsPhone(G); S.z13Phone(G); S.q15Phone(G); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y3b3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=(p,tag)=>{ busy=true; Promise.resolve(p).catch(e=>console.warn('R2Y3B '+tag,e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; if(atHome(G)) return false;
     if(out()&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */

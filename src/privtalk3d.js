@@ -261,6 +261,7 @@ const PRIVTALK=(function(){
     if(e.flag){ if(typeof V6EX==='undefined'||!V6EX.preLine||!V6EX.preTalk) return false; S.EX=S.EX||{}; S.EX[e.flag]=e; if(V6EX._priv) return true; const p0=V6EX.preLine, t0=V6EX.preTalk;
       V6EX.preLine=function(G,id){ const p=p0.apply(this,arguments); const q=p&&S.EX[p[0]]; if(q&&G){ if(!S.ok(G,id,q.key)) return null; S._ex={key:q.key,id}; } return p; };
       V6EX.preTalk=async function(GM,who,id){ S._ex=null; try{ return await t0.call(this,S.leadGM(GM,()=>S._ex&&S._ex.id===id?S._ex:null),who,id); } finally{ S._ex=null; } };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['privtalk3d:_miss']=()=>{ S._miss=null; S._ex=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：沒回訊息那一句、前任那兩句的「這一次是誰」只在 finally 清；讀檔凍住的舊劇情走不到，只把它設回 null */
       V6EX._priv=true; return true; }
     return false; };
 

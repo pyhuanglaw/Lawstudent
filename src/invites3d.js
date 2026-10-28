@@ -358,6 +358,7 @@ const INV=(function(){
      約好的時間前 30 分鐘到約好的時間後 15 分鐘、人不在那一區、空下來＝問一次「直接過去」（照手機的快速前往：花路程時間、落點照 PLACES.quickList 那一區的；沒去過也可以）；
      手機「今天約好的」每一筆也有「前往」（S.goNow）。該出發的出遊（OUT）先問，這裡不搶。系統字，不是台詞 */
   let goBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['invites3d:goBusy']=()=>{ goBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.goTarget=function(G,iv){ const P=S.place(iv.place)||{}, QL=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[], Q=QL.find(p=>p&&p[0]===P.zone&&P.meetAt&&P.name&&String(p[1]).includes(P.name))||QL.find(p=>p&&p[0]===P.zone); return {zone:P.zone,name:P.name||'',spawn:Q&&Q[2]?Q[2]:null}; };   /* 晨跑：落在「椰林大道・傅鐘」（不是校園的第一個落點霖澤館前）*/
   S.canGo=function(G,iv){ if(!iv||iv.state!=='accepted'||iv.day!==G.day) return false; const h=G.hour%24, P=S.place(iv.place)||{}; return !!P.zone&&G.zone!==P.zone&&h<iv.h+S.WAIT_H; };
   S.goDue=function(G){ if(!G||!Array.isArray(G.invites)) return null; const h=G.hour%24; return G.invites.find(iv=>S.canGo(G,iv)&&!iv.goAsked&&h>=iv.h-0.5&&h<iv.h+0.25)||null; };
@@ -370,6 +371,7 @@ const INV=(function(){
   /* 約好的事：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）。
      她從約好的時間前 15 分鐘就在那裡（S.entryFor）；你進那個區域、她也生出來了＝開始。有座位的地方兩個人一起坐下（淡出淡入），接著照 S.meet。STORY.tick 只在玩家空下來的時候跑 */
   let autoBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['invites3d:autoBusy']=()=>{ autoBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   /* 開演當下就鎖住（BUG-AN-NOODLE-STUCK-1027，使用者 10-27 20:3x「跟沈以安吃完飯卡住在她說話的畫面」）：S.arrive 走進門以後先等 0.9 秒、S.autoStart 用 Promise.then 延後，
      原本都沒有先 sceneBegin——這段空檔玩家按「和她說話」、同一格的 EVENTS.tick（自動事件）都會另外開一段；GM.say 只留一個等點擊的 resolve（game3d.js），
      先開始的那一段被蓋掉、永遠等不到＝停在她說話的畫面（ADV 還開著，staleCheck 不放開讀檔）。例：day 14 走進麵店馬上和以安說話；10-23 day 9 麵店的 _stuck（X.run 阿哲長桌＋以安的見面）。

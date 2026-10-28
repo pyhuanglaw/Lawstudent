@@ -360,11 +360,23 @@ const GAME = (function(){
     const bk=KEY_BACKUP+'_fm120_'+((raw&&raw.savedAt)||'unknown'); const ok=(!!read(bk)||write(bk,raw))&&write(KEY_BACKUP,raw);
     if(!ok){ console.warn('舊存檔初遇修正：備份寫不進去，這次先不改（下次讀檔再試）'); return s; } return s2; }
   GM.firstMetMigrate=firstMetMigrate;
+  /* LOADGEN-LOCKS-1028（BB-C 10-28 08:08 sh_reload_lg3：讀檔以後阿姨諮詢再也不開始；reload_event_probe：EVENTS.running 一直留著＝新的一局劇情事件全不跑）：
+     讀檔時舊的劇情流程凍住（applySave 的 LOAD-GEN-ABORT），永遠走不到自己的 finally——finally 才放開的鎖、進行中的標記都在這裡放開，新的一局才開得了同一段；舊流程照舊不 resolve（不在新的一局接著演、寫旗標）。
+     模組的鎖：各模組宣告鎖的下一行登記 globalThis.LOADLOCKS['模組:鎖']＝只把旗標設回初始值的函式（不叫遊戲邏輯、不碰舊流程；同一個鍵＝同一個檔載兩次只留一個；不靠 game3d.js 先載入，Node 測試一樣）；
+     tests/loadgen_locks_unit.js 掃 src/，finally 才放開、沒登記的會 FAIL。
+     這裡另外放開：劇情走路（walks）、EVENTS.run 的 running／_playerSeated／_preMet、ADV（開著＝EVENTS.tick 不跑、2D 蓋在畫面上；ADV.end 只收畫面，沒有接續的回呼）、黑邊、日期卡（titleCard 的 sleep 不醒＝一直亮著）、關係提示（sceneBegin 開的 SOCIAL.feelOn）。
+     只有 applySave 叫（換 G 之前；busyDepth、busyWho 在換 G 那一行歸零）：沒有讀檔＝什麼都不變 */
+  function loadRelease(){ for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ console.warn('LOADLOCKS',e); } }
+    walks.clear(); if(typeof EVENTS!=='undefined'){ EVENTS.running=null; EVENTS._playerSeated=false; EVENTS._preMet=null; }
+    if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); letterbox(false); { const tc=$('title3'); if(tc) tc.style.opacity=0; }
+    if(typeof SOCIAL!=='undefined'){ SOCIAL.feelOn=false; SOCIAL.feel={}; SOCIAL.feelStage={}; SOCIAL.capNotes=[]; } }
+  GM.loadRelease=loadRelease;
   async function applySave(s){ const err=validate(s); if(err) throw new Error(err); const raw=s; s=migrate(JSON.parse(JSON.stringify(s)));
     s=firstMetMigrate(s,raw);   /* 舊存檔的女主角初遇：先備份再改（AA_120 7-4 第 7 點、D61）*/
     /* 換區域的淡出淡入還沒結束時 enter() 會直接略過：先等它結束再讀檔，否則存檔內容換掉了、人卻沒移過去（下次自動存檔會把這一區的座標記在另一區名下）*/
     for(let i=0;i<200&&entering;i++) await new Promise(r=>setTimeout(r,50)); if(entering) throw new Error('正在切換場景，請稍後再讀取');
     GM.loadGen=(GM.loadGen|0)+1; if(D.active||D.resolve){ D.active=false; D.resolve=null; D.typing=false; const db=$('dlg'); if(db) db.classList.add('hide'); } { const cb=$('choices'); if(cb){ cb.classList.add('hide'); cb.innerHTML=''; } }   /* LOAD-GEN-ABORT-1028：舊的對話框、選項收掉（舊劇情等的那一句、那個選單永遠不 resolve＝不會在新的一局接著演）；世代加一＝舊流程的 sleep、走路到達不再醒 */
+    loadRelease();   /* LOADGEN-LOCKS-1028：凍住的舊流程佔著的鎖（模組的 busy、EVENTS.running、ADV…）放開——在換 G 之前 */
     G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; D.busyWho.length=0; GM.chooseReset(); if(typeof STORY!=='undefined'){ STORY._sleeping=false; STORY._resume=null; } D.stale=false; staleT=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw,lv:G.pos.lv|0}:undefined;   /* 多樓層（v9.4）：舊存檔沒有 lv＝一樓 */ await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—',G.goalDest); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); if(G.flags.CAMP_Y1_ON&&!G.flags.CAMP_Y1&&STORY.campY1) void STORY.campY1(GM,{resume:true}); else if(G.zone==='dorm'&&G.flags.LAW_MOVEIN_DAY!=null&&G.day===G.flags.LAW_MOVEIN_DAY&&!G.flags.KAI_MOVEIN&&STORY.lawMoveIn) void STORY.lawMoveIn(GM,{resume:true}); }   /* 宿營中途存的檔：從下一段接著演（CAMP-L1）*/
   GM.applySave=applySave;
   function exportText(){ return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot())))); }
@@ -379,7 +391,7 @@ const GAME = (function(){
     menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
   function closeMenu(){ menuOpen=false; E.paused=false; $('menu').classList.add('hide'); }
   GM.openMenu=openMenu; GM.closeMenu=closeMenu;
-  GM.saveMenu=()=>new Promise(res=>{ openMenu('save'); const iv=setInterval(()=>{ if(!menuOpen){ clearInterval(iv); res(); } },200); });   /* 在家的選單「存檔」：打開存檔分頁，關掉以後回到家裡的選單（home3d.js）*/
+  GM.saveMenu=()=>new Promise(res=>{ const g=GM.loadGen; openMenu('save'); const iv=setInterval(()=>{ if(!menuOpen){ clearInterval(iv); if(GM.loadGen===g) res(); } },200); });   /* 在家的選單「存檔」：打開存檔分頁，關掉以後回到家裡的選單（home3d.js）；從這裡讀檔（世代換了）＝舊的家裡選單不醒（LOADGEN-LOCKS-1028）*/
   GM.openMenu=t=>openMenu(t);
   function switchTab(t){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.id==='tab-'+t)); $('menuTitle').textContent={notes:'筆記本',people:'人物',legal:'法律',map:'地圖',save:'存檔',settings:'設定',help:'說明'}[t]; }
   const GRAD_LABEL={NONE:null,CURIOUS:'有點好奇',CONSIDERING:'認真考慮中',PREPARING:'準備中',APPLYING:'報名了',ADMITTED:'錄取'};
@@ -613,7 +625,7 @@ const GAME = (function(){
   function closePhone(){ if($('btnPhoneClose')) $('btnPhoneClose').textContent='收起來'; phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); if(typeof STORY!=='undefined'&&STORY.afterPhoneClose&&!D.active) STORY.afterPhoneClose(GM).catch(e=>console.warn('afterPhoneClose',e)); }   /* 看完手機以後的旁白（學姊 A5-1 B：按讚、加好友）*/
   GM.openPhone=openPhone; GM.closePhone=closePhone;
   /* 劇情打開手機的某一段對話（第一天可昕的訊息）：玩家關掉手機才繼續 */
-  GM.phoneThread=(th,o)=>new Promise(res=>{ phoneWaiters.push(res); openPhone('msg',o&&o.skip?null:th);   /* o.skip（事件接事件跳的途中）：先停在對話列表、最新的在最上面（使用者 22:4x 選 B）*/ if(o&&o.skip&&$('btnPhoneClose')) $('btnPhoneClose').textContent='跳過'; });   /* o.skip：事件接事件跳的途中打開的，「收起來」寫「跳過」（AA_300 第 6 節）*/
+  GM.phoneThread=(th,o)=>new Promise(res=>{ const g=GM.loadGen; phoneWaiters.push(()=>{ if(GM.loadGen===g) res(); }); openPhone('msg',o&&o.skip?null:th);   /* o.skip（事件接事件跳的途中）：先停在對話列表、最新的在最上面（使用者 22:4x 選 B）*/ if(o&&o.skip&&$('btnPhoneClose')) $('btnPhoneClose').textContent='跳過'; });   /* o.skip：事件接事件跳的途中打開的，「收起來」寫「跳過」（AA_300 第 6 節）；手機開著的時候讀檔（世代換了）＝之後收起手機，舊劇情也不醒（LOADGEN-LOCKS-1028，同 sleep、walkTo）*/
   /* 手機按鈕上的未讀數字（別人傳來、還沒打開那一段對話看過的）*/
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;

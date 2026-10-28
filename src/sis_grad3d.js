@@ -276,6 +276,7 @@ const SISG=(function(){
 
   /* ---------- 每 0.5 秒（STORY.TICKS：在 1A-05 之後、在家判斷之前；劇情、對話進行中不會叫）----------*/
   let busy=false; S._p=null;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sis_grad3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; S._p=Promise.resolve().then(f).catch(e=>console.warn('SISG',e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)) return false;
     S.lowMark(G);   /* 2-5：1/24～1/27 晚上人在總圖＝記下那一晚（AA_360 2-1）*/

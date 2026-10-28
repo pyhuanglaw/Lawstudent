@@ -703,6 +703,7 @@ const R2Y4B=(function(){
 
   /* ===================== 每 0.5 秒（STORY.TICKS）：要開演的場面 ===================== */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y4b3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; S.trackLib(G);
     if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false; if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */
     const E=GM.E, P=E&&E.player; if(P&&(P.busy||(P.path&&P.path.length))) return false; if(GM.D&&GM.D.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false;

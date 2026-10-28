@@ -177,6 +177,7 @@ const GROUP=(function(){
   S.phone=function(G,GM){ if(!G||!G.flags||(G.stage||'law')!=='law'||typeof PHONE==='undefined') return;
     S.springPhone(G,GM); S.midautumnPhone(G); S.xmasBoxPhone(G); S.finalPhone(G); S.gradPhone(G); S.lastTermPhone(G); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['group3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||(G.stage||'law')!=='law'||typeof PHONE==='undefined') return false; if(atHome(G)) return false;
     if(out()&&OUT.due&&OUT.due(G)) return false;   /* 出遊的「出發」先問 */
     if(S.streamDue(G)){ busy=true; S.streamScene(GM).catch(e=>console.warn('GROUP stream',e)).finally(()=>{ busy=false; }); return true; }   /* 日本路線的直播（AA_336 C11）*/

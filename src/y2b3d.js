@@ -219,6 +219,7 @@ const Y2B=(function(){
     const q=OUT.get(G,'y3_zr_bday_call'); if(q&&q.state==='planned') await OUT.go(GM,q);   /* 自己打過去：不再問「接起來」，直接到 22:00 演 */
     return true; };
   let bdayBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y2b3d:bdayBusy']=()=>{ bdayBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
 
   /* ===================== 每 0.5 秒（STORY.TICKS；只有芷若生日那一通會開劇情＝回傳 true，其他回傳 false）===================== */
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false;

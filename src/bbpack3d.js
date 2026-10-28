@@ -157,6 +157,7 @@ const BBPACK=(function(){
   const evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
   const lateAbs=(G,it)=>!!(typeof CLS!=='undefined'&&CLS.isLateAbsent&&CLS.isLateAbsent(G,it));
   S._g1w1=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['bbpack3d:_g1w1']=()=>{ S._g1w1=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   /* G1：第一次去上日文（日文上；沒上過日文上的，日文下第一次去）。第 1 週那一堂的點名（課表的自我介紹選項）換成 G1 */
   const g1=async function(GM,it,prof,ct){ const G=GM.G; if(!g1.due(G,it)||lateAbs(G,it)) return false; const ev=evOf('ev_jp_g1'); if(!ev||typeof EVENTS==='undefined') return false;
     const w1=it.c.id==='japanese_1'&&it.week===1; S._g1w1=w1; try{ await EVENTS.run(ev); } finally { S._g1w1=false; }
