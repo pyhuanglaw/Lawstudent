@@ -1,0 +1,412 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index dabd5d714..795295707 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -105,7 +105,7 @@
+ 
+ | 模型 | 腳本 | 說明 |
+ |---|---|---|
+-| 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
++| 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊；第二版 2026-10-28 LINZE-LOBBY-V2-1028：樓梯側面木條牆、法學院展示櫃、飲水機、回收桶、傘架、腳踏墊、消防栓箱、滅火器、出口燈、長椅、小圓桌、中庭吊燈、光照貼圖） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb`；光照貼圖 `tools/blender/env_second/lightbake/bake_linze_lobby.sh`（`bake_room.py`，Cycles 烘焙）→ `assets/models/env/linze_interior_lm_day.webp`、`linze_interior_lm_night.webp` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0）；展示櫃的獎盃、獎牌、照片沒有字和校徽（D77） |
+ | 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
+ | 萬才館外觀（九層樓：一二樓花崗石、三樓橫向長窗、四～八樓紅磚＋凸出的混凝土窗框、頂樓石材帶、屋頂鏤空框架；正面的弧形量體、往下張開的弧形大樓梯＋兩側石牆與扶手、樓梯頂端平台、弧形陽台、二樓玻璃、陽台下的一樓入口、凸出量體） | `tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；量體與大樓梯每一階的外緣同 `src/campuskit3d.js` 的 `CK.lawhall`（遊戲導航用同一組外緣，`tools/blender/wancai_ck_dump.js` 匯出、`--check` 比對）；外觀照使用者提供的萬才館照片與法律學院配置圖概略重建（D28、D31），沒有照片的背面、側面、屋頂是推測；貼圖見上表（CC0） |
+ | 萬才館室內兩層樓（一樓大廳＋二樓北側走廊、西側迴廊、西南門廳；直跑樓梯、柱子、外牆、南面兩層樓高的玻璃帷幕、二樓通到外面平台的玻璃門、沙發、圓桌、長椅、花台；萬才館第三階段 D42） | `tools/blender/wancai_interior.py` → `assets/models/env/wancai_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/wancai_layout.js`（**遊戲化設計，不是實測**：一樓沿用 v9.3 大廳的配置）；電梯、門牌與樓層簡介的字、公告欄是遊戲裡的程序化物件；貼圖見上表與下面的 Poly Haven 列（CC0） |
+diff --git a/src/building3d.js b/src/building3d.js
+index ca8419bd7..0ebb33825 100644
+--- a/src/building3d.js
++++ b/src/building3d.js
+@@ -93,6 +93,7 @@ const B3=(function(){
+       else if(f.type==='sofa'){ const c=Math.cos(ry), s=Math.sin(ry); b.add(MAT.sofa(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z,ry); b.add(MAT.sofa(),TK.boxG(f.w,0.45,0.18),f.x-s*(f.d/2-0.09),y+0.6,f.z-c*(f.d/2-0.09),ry); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05); }
+       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
+       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
++      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); }   /* 大廳第二版的擺設（展示櫃、飲水機、回收桶、傘架、小圓桌；LINZE-LOBBY-V2-1028，LAWWW2-C）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
+       else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室',24,146); x.fillText('3F 討論區｜4F 自習討論區｜5F–8F 研究室',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
+         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); keep0.add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
+     b0.build(lv0); b1.build(lv1); }
+@@ -175,7 +176,8 @@ const B3=(function(){
+     return zone; } };
+   // 正式模型：節點名稱的約定（tools/blender/linze_interior.py）——L0_*（一樓）、L1_*（二樓）、WALK_L0／WALK_L1（點地面的面，不畫）、WALL_*（會淡出的外牆）
+   function attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes){ const r0=root.getObjectByName('L0_root'), r1=root.getObjectByName('L1_root'); if(!r0||!r1) throw new Error('GLB 少了 L0_root／L1_root');
+-    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined') TK.bounce(o.material,0.5,0.5); } });   /* 天花板：地面反射上來的光 */
++    const LMS=root.userData&&root.userData.lightmap;   /* 光照貼圖（GLB 的 extras.lightmap；霖澤館大廳 tools/blender/env_second/lightbake/bake_linze_lobby.sh，LINZE-LOBBY-V2-1028）*/
++    root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&typeof TK!=='undefined'&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 天花板：地面反射上來的光（有光照貼圖時已經烘焙進去，不另外加）*/
+     lv0.add(r0); lv1.add(r1); r0.updateMatrixWorld(true); r1.updateMatrixWorld(true);
+     const nw=[]; for(const r of [r0,r1]) r.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[0,0,1]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); nw.push(o); } });
+     /* 點地面用的地板照樣用程序化的（同一份配置），但要先搬出備用模型的群組：E.screenToFloor 只打「整條父節點都看得到」的地板，
+@@ -184,7 +186,9 @@ const B3=(function(){
+     const hid=new THREE.MeshBasicMaterial({visible:false});
+     for(const m of walkMeshes){ let p=m.parent; while(p&&p!==fb0&&p!==fb1) p=p.parent; if(!p) continue; if(!m.material||m.material.visible!==false) m.material=hid; m.userData.dyn=true; (p===fb0?lv0:lv1).attach(m); }
+     fb0.visible=false; fb1.visible=false; walls.length=0; for(const w of nw) walls.push(w);
+-    zone.formal=true; zone.formalInfo={walls:nw.length}; }
++    zone.formal=true; zone.formalInfo={walls:nw.length};
++    /* 光照貼圖最後才接：外牆的材質上面才複製過（clone 不會帶 onBeforeCompile）；兩層樓已經搬出 root，所以兩層一起走 */
++    if(LMS&&typeof Z3!=='undefined'&&Z3.roomLightmap) zone.formalInfo.lightmapped=Z3.roomLightmap(zone,{traverse:f=>{ r0.traverse(f); r1.traverse(f); }},LMS); }
+   /* 給鏡頭用的樓板範圍（engine3d.js 的 slabClip）：一塊長方形扣掉電梯井（電梯車廂穿過樓板，鏡頭看車廂裡的人時不能把井當成樓板）。只是資料，畫面不變 */
+   function slabPieces(r,holes,extra){ let parts=[{x0:r.x0,x1:r.x1,z0:r.z0,z1:r.z1}]; for(const h of holes||[]){ if(!h) continue; const next=[]; for(const q of parts){ if(h.x1<=q.x0||h.x0>=q.x1||h.z1<=q.z0||h.z0>=q.z1){ next.push(q); continue; }
+       if(h.z0>q.z0) next.push({x0:q.x0,x1:q.x1,z0:q.z0,z1:h.z0}); if(h.z1<q.z1) next.push({x0:q.x0,x1:q.x1,z0:h.z1,z1:q.z1}); const z0=Math.max(q.z0,h.z0), z1=Math.min(q.z1,h.z1); if(h.x0>q.x0) next.push({x0:q.x0,x1:h.x0,z0,z1}); if(h.x1<q.x1) next.push({x0:h.x1,x1:q.x1,z0,z1}); } parts=next; }
+diff --git a/src/data/linze_layout.js b/src/data/linze_layout.js
+index cbf862d0d..e9f457552 100644
+--- a/src/data/linze_layout.js
++++ b/src/data/linze_layout.js
+@@ -36,6 +36,12 @@ const LINZE_LAYOUT={
+     {"type":"sofa","lv":0,"x":3.6,"z":3.6,"w":2.2,"d":0.8,"ry":3.1416},
+     {"type":"planter","lv":0,"x":-3.6,"z":5.6,"r":0.55},
+     {"type":"planter","lv":0,"x":6.8,"z":6.2,"r":0.45},
+-    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5}
++    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5},
++    {"type":"prop","kind":"display","lv":0,"x":-5.45,"z":-6.6,"w":2.4,"d":0.5,"h":2.08,"note":"大廳第二版（LINZE-LOBBY-V2-1028，LAWWW2-C）：北牆、二樓迴廊下面的角落（101 門口西邊 0.5 m）：法學院的展示櫃"},
++    {"type":"prop","kind":"water","lv":0,"x":7.45,"z":-2.6,"w":0.4,"d":0.4,"h":1.25,"note":"電梯東邊、東面玻璃前：飲水機（朝 −x）"},
++    {"type":"prop","kind":"bins","lv":0,"x":7.45,"z":-1.2,"w":1.35,"d":0.42,"h":0.78,"nav":[7.45,-1.2,0.42,1.35],"note":"飲水機旁邊三個回收桶（沿 z 排；nav＝世界座標 [x, z, 寬 x, 深 z]）"},
++    {"type":"bench","lv":0,"x":0.6,"z":6.35,"w":2.4,"d":0.5},
++    {"type":"prop","kind":"umbrella","lv":0,"x":7.45,"z":6.6,"w":0.45,"d":0.45,"h":0.9,"note":"入口南邊的傘架（花台東邊）"},
++    {"type":"prop","kind":"sidetable","lv":0,"x":2.1,"z":3.65,"w":0.56,"d":0.56,"h":0.55,"note":"兩張沙發中間的小圓桌（原本 0.8 m 的縫本來就過不去）"}
+   ]
+ };
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 24be29f85..c5d964a8e 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1968,5 +1968,5 @@ const Z3 = (function(){
+         if(!mobile) for(const t of texs(o)){ if(px>=4e6) break; const im=t.image; try{ R.initTexture(t); out.textures++; const a=im&&im.width&&im.height?im.width*im.height:0; px+=a; out.mpix+=a/1e6; } catch(e){} } }
+       const d=nprog()-p0; out.programs+=d; if(out.done) out.later=(out.later|0)+d; setTimeout(step,gap); };   /* later＝做完以後才看到、才編的（之後才載完的路人底模…）*/
+     setTimeout(step,opts.delay!=null?opts.delay:1000); return out; }
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）*/
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,roomLightmap,seatFold,roomBackdrop,attachDormInterior,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,fairExpoFront,isExpoDay,EXPO_DAYS,pothosSize,prewarm,prefetchNext,warmup,PROP_BLOCKS:{wenzhou:WZ_PROP_BLOCKS,gongguan:GG_PROP_BLOCKS},propBlocks};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 ；attachDormInterior：宿舍 205（rooms_glb3d.js 的 dorm_interior，和祐廷的房間同一型）；roomLightmap：霖澤館大廳（src/building3d.js 的 attachFormal）也用 */
+ })();
+diff --git a/tests/linze_lightmap_unit.js b/tests/linze_lightmap_unit.js
+new file mode 100644
+index 000000000..85998f4c8
+--- /dev/null
++++ b/tests/linze_lightmap_unit.js
+@@ -0,0 +1,72 @@
++// 霖澤館大廳的光照貼圖（LINZE-LOBBY-V2-1028，LAWWW2-C 2026-10-28；不需要瀏覽器）：
++//   1. 正式模型（assets/models/env/linze_interior.glb）的內容：場景 extras.lightmap 指到的兩張貼圖在 repo 裡、L0_root／L1_root 在、地板和牆有第二套 UV（TEXCOORD_1）、發光的燈面沒有（照舊即時光）。
++//   2. src/building3d.js 的 attachFormal 接光照貼圖（Z3.roomLightmap）：用假的 GLB（ASSETS.loadOne 換掉）走遊戲真正的 B3.linze 建區域流程——
++//      有第二套 UV 的材質接 lightMap、外牆的材質是複製以後才接（clone 不會帶 onBeforeCompile）、天花板不再加 TK.bounce（亮度已經烘焙進去）、
++//      沒有第二套 UV 的不動、zone.update 照時段換白天／晚上那張（12 點 0、20 點 1、17:48 一半）。
++//   3. 沒有 extras.lightmap 的 GLB（萬才館室內也走 attachFormal）：照舊——天花板 TK.bounce、沒有 lightMap。
++// 用法：node tests/linze_lightmap_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{},addEventListener(){},removeEventListener(){}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++
++// ---- 1. 正式模型的內容（只讀 GLB 的 JSON，不解貼圖）----
++const GLB='assets/models/env/linze_interior.glb';
++{ const b=fs.readFileSync(path.join(ROOT,GLB)); const jl=b.readUInt32LE(12); const J=JSON.parse(b.slice(20,20+jl).toString('utf8'));
++  const lm=J.scenes&&J.scenes[J.scene|0]&&J.scenes[J.scene|0].extras&&J.scenes[J.scene|0].extras.lightmap;
++  check('GLB 場景有 extras.lightmap', !!(lm&&lm.day&&lm.night&&lm.intensity>0), JSON.stringify(lm));
++  if(lm) for(const k of ['day','night']) check('光照貼圖檔案在 repo 裡：'+lm[k], fs.existsSync(path.join(ROOT,lm[k])), fs.existsSync(path.join(ROOT,lm[k]))?(fs.statSync(path.join(ROOT,lm[k])).size+' bytes'):'');
++  const names=J.nodes.map(n=>n.name);
++  check('L0_root、L1_root 在', names.includes('L0_root')&&names.includes('L1_root'));
++  const uv1=n=>{ const m=J.meshes[n.mesh]; return m.primitives.every(p=>'TEXCOORD_1' in p.attributes); };
++  const node=nm=>J.nodes.find(n=>n.name===nm&&'mesh' in n);
++  for(const nm of ['L0_floor','L1_floor','L0_WALL_W','L1_WALL_W','L1_ceiling','L0_granite_step']){ const n=node(nm); check('有第二套 UV：'+nm, !!(n&&uv1(n))); }
++  for(const nm of ['L1_light_panel','L0_lz_leaf_dark']){ const n=node(nm); check('沒有第二套 UV（照舊即時光）：'+nm, !!(n&&!uv1(n))); }
++  const withUv1=J.nodes.filter(n=>'mesh' in n&&uv1(n)).length; check('有第二套 UV 的網格不少於 40 個', withUv1>=40, withUv1+' 個');
++}
++
++// ---- 2.／3. attachFormal 接光照貼圖（假的 GLB，走遊戲真正的建區域流程）----
++function fakeGLB(withLM){
++  const root=new THREE.Group(); root.name='LinzeInterior';
++  if(withLM) root.userData.lightmap={day:'assets/models/env/linze_interior_lm_day.webp',night:'assets/models/env/linze_interior_lm_night.webp',intensity:Math.PI*2};
++  const r0=new THREE.Group(); r0.name='L0_root'; const r1=new THREE.Group(); r1.name='L1_root'; root.add(r0); root.add(r1);
++  const geo=(uv1)=>{ const g=new THREE.PlaneGeometry(2,2); if(uv1) g.setAttribute('uv1',g.attributes.uv.clone()); return g; };
++  const mesh=(name,matName,uv1,parent,ud)=>{ const m=new THREE.Mesh(geo(uv1),new THREE.MeshStandardMaterial({name:matName})); m.name=name; Object.assign(m.userData,ud||{}); parent.add(m); return m; };
++  mesh('L0_floor','stone_floor',true,r0); mesh('L0_WALL_W','plaster',true,r0,{dir:[1,0,0]}); mesh('L1_ceiling','ceiling',true,r1); mesh('L1_light_panel','light_panel',false,r1); mesh('L1_floor','stone_floor2',true,r1);
++  return root; }
++async function build(withLM){
++  const orig=ASSETS.loadOne; const root=fakeGLB(withLM);
++  ASSETS.loadOne=(k)=>k==='bldg.linze_interior'?Promise.resolve({scene:root}):orig.call(ASSETS,k);
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES.linze.build(E); E.zone=z; await new Promise(r=>setTimeout(r,0)); ASSETS.loadOne=orig; return z; }
++const find=(z,nm)=>{ let o=null; z.group.traverse(c=>{ if(!o&&c.name===nm&&c.isMesh) o=c; }); return o; };
++(async()=>{
++  check('Z3.roomLightmap 有匯出（building3d.js 用）', typeof Z3.roomLightmap==='function');
++  { const z=await build(true);
++    check('正式模型接上（zone.formal）', z.formal===true);
++    check('接光照貼圖的材質數（地板兩個、外牆、天花板＝4）', z.formalInfo&&z.formalInfo.lightmapped===4, JSON.stringify(z.formalInfo));
++    const fl=find(z,'L0_floor'), w=find(z,'L0_WALL_W'), c=find(z,'L1_ceiling'), lp=find(z,'L1_light_panel');
++    check('地板：lightMap、強度 2π、第二套 UV 的通道', !!(fl&&fl.material.lightMap&&Math.abs(fl.material.lightMapIntensity-Math.PI*2)<1e-6&&fl.material.lightMap.channel===1));
++    check('外牆：材質複製過（淡出用）而且接上 lightMap（複製以後才接）', !!(w&&w.material.transparent&&w.material.lightMap&&/roomLM/.test(w.material.customProgramCacheKey())));
++    check('天花板：接上 lightMap、沒有另外加 TK.bounce', !!(c&&c.material.lightMap&&!c.material.userData.bounce));
++    check('燈面（沒有第二套 UV）：不接', !!(lp&&!lp.material.lightMap));
++    // 時段：拿 onBeforeCompile 放進 shader 的 uniform，看 zone.update 照時間改
++    const sh={uniforms:{},fragmentShader:'#include <lights_fragment_begin>\n#include <lights_fragment_maps>\n'}; fl.material.onBeforeCompile(sh,null);
++    check('shader：晚上那張、混合比例、方向光倍率三個 uniform', !!(sh.uniforms.lmNight&&sh.uniforms.lmMix&&sh.uniforms.lmDirK)&&/lmMix/.test(sh.fragmentShader));
++    const at=h=>{ z.update(1/30,{hour:h}); return +sh.uniforms.lmMix.value.toFixed(3); };
++    check('12:00 用白天那張（0）', at(12)===0, ''+at(12)); check('20:00 用晚上那張（1）', at(20)===1, ''+at(20)); check('17:48 一半', at(17.8)===0.5, ''+at(17.8));
++    check('zone.update 照舊更新電梯（原本的 update 有接著呼叫）', (()=>{ let called=false; const u=z.elev.update; z.elev.update=function(dt){ called=true; return u.call(this,dt); }; z.update(1/30,{hour:12}); z.elev.update=u; return called; })());
++  }
++  { const z=await build(false);
++    const c=find(z,'L1_ceiling'), fl=find(z,'L0_floor');
++    check('沒有 extras.lightmap：天花板照舊 TK.bounce', !!(c&&c.material.userData.bounce));
++    check('沒有 extras.lightmap：地板沒有 lightMap、formalInfo 沒有 lightmapped', !!(fl&&!fl.material.lightMap&&z.formalInfo&&z.formalInfo.lightmapped===undefined));
++  }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
+diff --git a/tools/blender/linze_interior.py b/tools/blender/linze_interior.py
+index e5eefa6c8..1cc4c8b9c 100644
+--- a/tools/blender/linze_interior.py
++++ b/tools/blender/linze_interior.py
+@@ -93,6 +93,7 @@ MAT = {
+     'plant':   pbr('plant', None, tint=srgb('#4f7a46'), rough=0.85),
+     'soil':    pbr('soil', None, tint=srgb('#4a3a2c'), rough=0.95),
+ }
++MAT['nosing'] = pbr('lz_nosing', None, tint=srgb('#3a3d40'), rough=0.45, metal=0.35)   # 樓梯止滑條（顏色和 frame 一樣）
+ MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
+ MAT['light'].use_backface_culling = True     # 嵌在天花板的燈板、崁燈也單面（四邊形本來就朝下）：鏡頭在天花板上面時不會浮著一塊塊亮的（LAWWW2 10-22 第二版）
+ 
+@@ -154,14 +155,14 @@ root = group('LinzeInterior')
+ L0 = group('L0_root', root); L1 = group('L1_root', root)
+ 
+ # ---------------- 地板、樓板、天花板 ----------------
+-box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
++box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0, props={'lm': 1.6, 'lmhide': 'side'})   # lm：光照貼圖分給它的比例（lightbake/bake_room.py；地板最常看到、天花板 8.4 m 高很少看到）；lmhide 'side'：四邊的側面不分像素（東邊、南邊在玻璃外面，烘出來是天空的顏色：晚上鏡頭在門外時看到一條深藍色）
+ gz0, gz1 = -D / 2, G['z1']
+ WI0, WI1, ZI0 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2   # 牆的內面：樓板、地板停在牆的內面（原本伸進牆裡，和牆的端面同平面）
+-box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1)            # 二樓樓板（下面是一樓北側的天花板）
+-box('L1_floor', MAT['floor'], WI0, WI1, Y1 - 0.02, Y1, ZI0, gz1, L1)
++box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1, props={'lmhide': [0, 1, 0]})            # 二樓樓板（下面是一樓北側的天花板）
++box('L1_floor', MAT['floor'], WI0, WI1, Y1 - 0.02, Y1, ZI0, gz1, L1, props={'lm': 1.3})
+ box('L1_slab_edge', MAT['granite'], WI0, WI1, Y1 - G['slabT'] - 0.05, Y1 + 0.02, gz1 - 0.02, gz1 + 0.06, L1, bevel=0.01)   # 樓板邊緣的石材收邊
+ # 天花板（中庭頂、二樓天花板）：單面朝下＋燈板
+-quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
++quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)['lm'] = 0.3
+ for i in range(4):
+     for j in range(3):
+         cx, cz = -6 + i * 4, -4 + j * 4.6
+@@ -184,9 +185,9 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
+     for k, (a, b) in enumerate(segs):
+         if b - a < 0.05: continue
+         obs.append(box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, wy0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
+-        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
++        obs.append(box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0}))   # 二樓的上半段（高 5.4～8.4 m）光照貼圖少分一點
+     for dx in xs:   # 門楣
+-        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]}))
++        obs.append(box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1], 'lm': 0.7 if lvl else 1.0}))
+         FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 門框、門板、門把跟著北牆淡出（鏡頭在牆外時；2026-10-10 #16）
+         box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
+         box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
+@@ -198,9 +199,9 @@ YJ = Y1 - 0.03                    # 一樓、二樓的牆在這裡接（藏在
+ wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0, yhi=YJ)
+ wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1, ylo=YJ)
+ box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, YJ, -D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [1, 0, 0]})
+-box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0]})
++box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0], 'lm': 0.8})
+ box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2 + T / 2, D / 2 - 0.08, L0)
+-box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0]})
++box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0], 'lm': 0.8})
+ # 東面一樓：玻璃門面（直櫺每 1.75 m）、入口自動門（兩扇玻璃）
+ gh = Y1 - 0.3
+ GXE = W / 2 - 0.05                # 玻璃放在直櫺深度的中間（原本和直櫺外面同一個平面，玻璃和框會閃）
+@@ -232,14 +233,41 @@ for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
+ box('L0_glass_top_S', MAT['granite'], -W / 2 + T / 2, W / 2 - T / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)   # 夾在東西牆中間（東西牆往南多 5 cm 包住牆角）
+ 
+ # ---------------- 樓梯：每一階一塊石材（實心到地面）、平台、第二跑；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
+-def flight(prefix, zb, base, n):
++# LINZE-LOBBY-V2-1028：樓梯從「每一階一個從地面長上來的方塊」改成只有看得到的面（踏面、踢面、側面的鋸齒形、第二跑的背面）。
++# 原本二十五個方塊互相重疊，光照貼圖量到 294 m² 裡看得到的不到 70 m²（lightbake/uv_fill.py），地板、牆分到的像素被擠掉。外觀一樣（每一階的止滑條照舊）。
++def stair_faces(prefix, zb, base, n, front_from):
++    """一跑：踏面、踢面（第一階的踢面從 front_from 起：第一跑從地面、第二跑從平台面）＋兩側的鋸齒形側面（到地面；第二跑東側被木條牆擋住、西側貼著西牆，所以光照貼圖分少一點）。
++    第一跑的背面貼著平台、底面貼地，不做；第二跑的背面（z＝flight2.z0，朝 −z）在二樓迴廊下面看得到"""
++    R, Tr, x0, x1 = S['rise'], S['tread'], S['x0'], S['x1']
++    prof = [(zb, front_from)]                          # (z, y)：前緣 → 鋸齒往上 → 最上面一階的後緣
+     for k in range(n):
+-        top = base + (k + 1) * S['rise']; z1 = zb - k * S['tread']; z0 = z1 - S['tread']
+-        box(f'{prefix}_step_{k}', MAT['step'], S['x0'], S['x1'], 0, top, z0, z1, L0, bevel=0.012)
+-        box(f'{prefix}_nosing_{k}', MAT['frame'], S['x0'], S['x1'], top - 0.012, top + 0.003, z1 - 0.045, z1, L0)   # 止滑條
+-flight('L0_f1', S['flight1']['z1'], 0.0, S['flight1']['risers'])
+-box('L0_landing', MAT['step'], S['x0'], S['x1'], 0, S['landing']['y'], S['landing']['z0'], S['landing']['z1'], L0, bevel=0.012)
+-flight('L0_f2', S['flight2']['z1'], S['landing']['y'], S['flight2']['risers'])
++        z1 = zb - k * Tr; top = base + (k + 1) * R
++        prof += [(z1, top), (z1 - Tr, top)]
++        box(f'{prefix}_nosing_{k}', MAT['nosing'], x0, x1, top - 0.012, top + 0.003, z1 - 0.045, z1, L0)   # 止滑條（自己的材質：只有 1.5 cm 高，光照貼圖分不到一個像素，不烘、照舊即時光；和 201 一樣）
++    bm = bmesh.new()
++    for (za, ya), (zb_, yb) in zip(prof[:-1], prof[1:]):
++        f = bm.faces.new([bm.verts.new(g2b(x, y, z)) for (x, y, z) in ((x0, ya, za), (x1, ya, za), (x1, yb, zb_), (x0, yb, zb_))]); f.normal_update()
++        if abs(za - zb_) < 1e-6:                        # 踢面：朝 +遊戲 z（往下走的方向）＝Blender −y
++            if f.normal.y > 0: f.normal_flip()
++        elif f.normal.z < 0: f.normal_flip()           # 踏面：朝上
++    zt, yt = prof[-1]
++    if base > 0:                                       # 第二跑的背面（地面到二樓，朝 −遊戲 z＝Blender +y）
++        f = bm.faces.new([bm.verts.new(g2b(*p)) for p in ((x0, 0, zt), (x0, yt, zt), (x1, yt, zt), (x1, 0, zt))]); f.normal_update()
++        if f.normal.y < 0: f.normal_flip()
++    bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=1e-5); bm.normal_update(); box_uv(bm, MAT['step']['tile'])
++    mesh_obj(f'{prefix}_steps', bm, MAT['step'], L0)
++    side = prof + [(zt, 0.0)] + ([(zb, 0.0)] if front_from > 0 else [])   # 側面：鋸齒往下接到地面（第一跑的起點本來就在地面）
++    for xs, nx in ((x1, 1), (x0, -1)):
++        bm = bmesh.new(); f = bm.faces.new([bm.verts.new(g2b(xs, y, z)) for (z, y) in side]); f.normal_update()
++        if f.normal.x * nx < 0: f.normal_flip()
++        bm.normal_update(); box_uv(bm, MAT['step']['tile'])
++        mesh_obj(f'{prefix}_side_{"E" if nx > 0 else "W"}', bm, MAT['step'], L0, props=None if (nx > 0 and base == 0) else {'lm': 0.4})   # 第一跑東側從大廳看得到；其他三面幾乎看不到
++stair_faces('L0_f1', S['flight1']['z1'], 0.0, S['flight1']['risers'], 0.0)
++# 平台：上面（看得到）＋西側（貼西牆，光照貼圖少分）；東側在木條牆後面、南北兩面貼著兩跑，不做
++_ld = S['landing']
++quad('L0_landing_top', MAT['step'], [(S['x0'], _ld['y'], _ld['z1']), (S['x1'], _ld['y'], _ld['z1']), (S['x1'], _ld['y'], _ld['z0']), (S['x0'], _ld['y'], _ld['z0'])], L0)
++quad('L0_landing_W', MAT['step'], [(S['x0'], 0, _ld['z1']), (S['x0'], _ld['y'], _ld['z1']), (S['x0'], _ld['y'], _ld['z0']), (S['x0'], 0, _ld['z0'])], L0)['lm'] = 0.4
++stair_faces('L0_f2', S['flight2']['z1'], _ld['y'], S['flight2']['risers'], _ld['y'])
+ rx = S['railX'] + 0.02
+ pts = [(S['flight1']['z1'], 0.0), (S['flight1']['z0'], S['landing']['y']), (S['landing']['z0'], S['landing']['y']), (S['flight2']['z0'], Y1)]
+ for i in range(len(pts) - 1):
+@@ -248,7 +276,15 @@ for i in range(len(pts) - 1):
+     cyl(f'L0_stair_rail_{i}', MAT['steel'], (rx, ya + 1.02, za), (rx, yb + 1.02, zb), 0.03, L0)
+     cyl(f'L0_wall_rail_{i}', MAT['steel'], (S['x0'] - 0.06, ya + 0.9, za), (S['x0'] - 0.06, yb + 0.9, zb), 0.022, L0)
+ # 第二跑下面（一樓）：封起來的牆（一樓看到的樓梯側面）
+-quad('L0_stair_side', MAT['plaster'], [(S['x1'] + 0.01, 0, S['landing']['z1']), (S['x1'] + 0.01, 0, S['flight2']['z0']), (S['x1'] + 0.01, Y1 - 0.3, S['flight2']['z0']), (S['x1'] + 0.01, S['landing']['y'] - 0.2, S['landing']['z1'])], L0)
++quad('L0_stair_side', MAT['woodD'], [(S['x1'] + 0.01, 0, S['landing']['z1']), (S['x1'] + 0.01, 0, S['flight2']['z0']), (S['x1'] + 0.01, Y1 - 0.3, S['flight2']['z0']), (S['x1'] + 0.01, S['landing']['y'] - 0.2, S['landing']['z1'])], L0)
++# 大廳第二版（LINZE-LOBBY-V2-1028）：樓梯側面從一整面素牆改成木條牆（深色底板＋直的淺色木條每 12 cm、頂端照斜的樓梯底、下面踢腳板）——從入口一進來就看到的那一面
++_za, _zb = S['flight2']['z0'] + 0.08, S['landing']['z1'] - 0.08
++_top = lambda zz: (Y1 - 0.3) + ((S['landing']['y'] - 0.2) - (Y1 - 0.3)) * (zz - S['flight2']['z0']) / (S['landing']['z1'] - S['flight2']['z0'])
++_zz = _za
++while _zz <= _zb:
++    box(f'L0_slat_{_zz:.2f}', MAT['wood'], S['x1'] + 0.01, S['x1'] + 0.045, 0.12, _top(_zz + 0.025) - 0.06, _zz, _zz + 0.05, L0)
++    _zz += 0.12
++box('L0_slat_base', MAT['frame'], S['x1'] + 0.01, S['x1'] + 0.05, 0.0, 0.12, S['flight2']['z0'], S['landing']['z1'], L0)
+ 
+ # ---------------- 二樓迴廊的玻璃欄杆（樓梯頂與電梯門口留開）----------------
+ for k, (x0, x1) in enumerate(((S['x1'] + 0.1, EL['x0'] - 0.05), (EL['x1'] + 0.05, W / 2))):
+@@ -257,6 +293,81 @@ for k, (x0, x1) in enumerate(((S['x1'] + 0.1, EL['x0'] - 0.05), (EL['x1'] + 0.05
+     cyl(f'L1_gallery_rail_{k}', MAT['steel'], (x0, Y1 + 1.04, G['railZ']), (x1, Y1 + 1.04, G['railZ']), 0.03, L1)
+     box(f'L1_gallery_shoe_{k}', MAT['steel'], x0, x1, Y1, Y1 + 0.1, G['railZ'] - 0.04, G['railZ'] + 0.04, L1)
+ 
++# ---------------- 大廳第二版的擺設（LINZE-LOBBY-V2-1028，LAWWW2-C 2026-10-28；使用者 10-28「廉價手遊感」，INTERIOR_AAA_REVIEW_1028 第 5 節 P4～P6）----------------
++# 每一件都有理由：法學院的展示櫃（模擬法庭、辯論的獎盃）、飲水機與回收桶（每棟系館都有）、入口的傘架與腳踏墊（台北常下雨）、
++# 消防栓箱與出口燈、樓梯側面的木條牆（原本一整面素牆）、中庭吊燈。放在牆邊、劇情站位與路人路線以外（linze_layout.js 的 furniture 註解）。
++for k_, h_ in (('red', '#b3261e'), ('exitg', '#1f9d55'), ('black', '#1d1f22'), ('white', '#f2f1ec'), ('mat', '#3b3d40'), ('binB', '#2f6db3'), ('binG', '#3f8f4f'), ('binK', '#6b7076'),
++               ('gold', '#c9a24a'), ('brass', '#b08a4a'), ('cream', '#e6e2d6'), ('navy', '#2b3a55'), ('umbR', '#a8343a'), ('paper', '#efe9dc')):
++    MAT[k_] = pbr('lz_' + k_, None, tint=srgb(h_), rough=0.35 if k_ in ('gold', 'brass') else 0.6, metal=0.4 if k_ in ('gold', 'brass') else 0.0)
++MAT['exitglow'] = pbr('lz_exitglow', None, tint=srgb('#3fdc84'), rough=0.9, emit=srgb('#3fdc84'))
++
++def lobby_prop(f, P, pre, y, i):
++    kind, x, z, w, d = f['kind'], f['x'], f['z'], f['w'], f['d']
++    n = f'{pre}_{kind}_{i}'
++    if kind == 'display':      # 靠北牆的展示櫃（朝 +z）：下面木櫃、上面玻璃櫃＋兩層玻璃板、獎盃、獎牌、照片框、頂燈
++        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
++        box(n + '_base', MAT['woodD'], x0, x1, y, y + 0.9, z0, z1, P, bevel=0.01)
++        box(n + '_top', MAT['woodD'], x0, x1, y + 2.0, y + 2.08, z0, z1, P, bevel=0.008)
++        box(n + '_back', MAT['plaster'], x0 + 0.02, x1 - 0.02, y + 0.9, y + 2.0, z0, z0 + 0.03, P)
++        for px in (x0 + 0.015, x1 - 0.015):
++            for pz in (z0 + 0.04, z1 - 0.015): box(f'{n}_post_{px:.2f}_{pz:.2f}', MAT['steel'], px - 0.012, px + 0.012, y + 0.9, y + 2.0, pz - 0.012, pz + 0.012, P)
++        quad(n + '_glass_f', MAT['glass'], [(x0 + 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 2.0, z1 - 0.01), (x0 + 0.02, y + 2.0, z1 - 0.01)], P, tile=1.0)
++        for sx in (x0 + 0.01, x1 - 0.01): quad(f'{n}_glass_s{sx:.2f}', MAT['glass'], [(sx, y + 0.9, z0 + 0.03), (sx, y + 0.9, z1 - 0.01), (sx, y + 2.0, z1 - 0.01), (sx, y + 2.0, z0 + 0.03)], P, tile=1.0)
++        for sy in (1.27, 1.63): box(f'{n}_shelf_{sy}', MAT['glass'], x0 + 0.03, x1 - 0.03, y + sy, y + sy + 0.012, z0 + 0.04, z1 - 0.03, P)
++        box(n + '_lightbar', MAT['light'], x0 + 0.1, x1 - 0.1, y + 1.97, y + 1.99, z0 + 0.15, z0 + 0.2, P)
++        for k, (ox, sy, kind2) in enumerate(((-0.85, 0.9, 'cup'), (-0.45, 0.9, 'plaque'), (0.0, 0.9, 'cup2'), (0.45, 0.9, 'photo'), (0.85, 0.9, 'cup'),
++                                              (-0.7, 1.282, 'photo'), (-0.25, 1.282, 'plaque'), (0.25, 1.282, 'cup'), (0.7, 1.282, 'gavel'),
++                                              (-0.6, 1.642, 'plaque'), (0.0, 1.642, 'cup2'), (0.6, 1.642, 'photo'))):
++            cx, cy, cz = x + ox * w / 2.4, y + sy, z - 0.02
++            if kind2 in ('cup', 'cup2'):     # 獎盃：底座、杯腳、杯身、兩個耳朵
++                hh = 0.24 if kind2 == 'cup2' else 0.18
++                box(f'{n}_tb_{k}', MAT['woodD'], cx - 0.045, cx + 0.045, cy, cy + 0.04, cz - 0.045, cz + 0.045, P)
++                cyl(f'{n}_ts_{k}', MAT['gold'], (cx, cy + 0.04, cz), (cx, cy + hh * 0.55, cz), 0.012, P, seg=8)
++                cyl(f'{n}_tc_{k}', MAT['gold'], (cx, cy + hh * 0.55, cz), (cx, cy + hh, cz), 0.045, P, seg=12)
++                for sx in (-1, 1): cyl(f'{n}_te_{k}_{sx}', MAT['gold'], (cx + sx * 0.045, cy + hh * 0.9, cz), (cx + sx * 0.07, cy + hh * 0.7, cz), 0.007, P, seg=6)
++            elif kind2 == 'plaque':          # 獎牌（木板＋銅片，斜靠）
++                box(f'{n}_pq_{k}', MAT['woodD'], cx - 0.11, cx + 0.11, cy, cy + 0.28, cz - 0.03, cz - 0.01, P)
++                box(f'{n}_pqb_{k}', MAT['brass'], cx - 0.08, cx + 0.08, cy + 0.06, cy + 0.22, cz - 0.01, cz - 0.005, P)
++            elif kind2 == 'photo':           # 照片框（黑框、白邊、照片是深淺兩塊：合照的樣子）
++                box(f'{n}_pf_{k}', MAT['black'], cx - 0.12, cx + 0.12, cy, cy + 0.2, cz - 0.02, cz, P)
++                box(f'{n}_pp_{k}', MAT['white'], cx - 0.105, cx + 0.105, cy + 0.015, cy + 0.185, cz, cz + 0.002, P)
++                box(f'{n}_pi_{k}', MAT['navy'], cx - 0.09, cx + 0.09, cy + 0.03, cy + 0.11, cz + 0.002, cz + 0.003, P)
++            elif kind2 == 'gavel':           # 法槌（木頭）
++                box(f'{n}_gb_{k}', MAT['woodD'], cx - 0.07, cx + 0.07, cy, cy + 0.025, cz - 0.05, cz + 0.05, P)
++                cyl(f'{n}_gh_{k}', MAT['wood'], (cx - 0.07, cy + 0.06, cz), (cx + 0.07, cy + 0.06, cz), 0.028, P, seg=10)
++                cyl(f'{n}_gs_{k}', MAT['wood'], (cx, cy + 0.06, cz), (cx + 0.02, cy + 0.03, cz + 0.16), 0.008, P, seg=6)
++    elif kind == 'water':      # 飲水機（白鐵、三個出水口：紅熱水、白溫水、藍冰水；下面接水盤；旁邊紙杯架）；朝 −x
++        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
++        box(n + '_body', MAT['steel'], x0, x1, y, y + 1.25, z0, z1, P, bevel=0.012)
++        box(n + '_panel', MAT['black'], x0 - 0.005, x0, y + 0.95, y + 1.12, z0 + 0.06, z1 - 0.06, P)
++        box(n + '_niche', MAT['frame'], x0 - 0.003, x0 + 0.06, y + 0.55, y + 0.9, z0 + 0.05, z1 - 0.05, P)
++        box(n + '_tray', MAT['steel'], x0 - 0.08, x0 + 0.02, y + 0.55, y + 0.58, z0 + 0.06, z1 - 0.06, P)
++        for k, (oz, mk) in enumerate(((-0.11, 'red'), (0.0, 'white'), (0.11, 'binB'))):
++            box(f'{n}_tap_{k}', MAT[mk], x0 - 0.05, x0 + 0.01, y + 0.84, y + 0.88, z + oz - 0.02, z + oz + 0.02, P)
++        cyl(n + '_cups', MAT['white'], (x0 - 0.05, y + 0.62, z1 + 0.05), (x0 - 0.05, y + 0.95, z1 + 0.05), 0.04, P, seg=10)   # 紙杯架（一疊紙杯）
++        box(n + '_sign', MAT['white'], x0 - 0.006, x0 - 0.001, y + 1.15, y + 1.22, z0 + 0.08, z1 - 0.08, P)
++    elif kind == 'bins':       # 三個資源回收桶（藍：一般垃圾？不寫字；綠：回收；灰：紙類）；沿 z 排、朝 −x
++        z0 = z - w / 2; bw = w / 3
++        for k, mk in enumerate(('binB', 'binG', 'binK')):
++            za, zb = z0 + k * bw + 0.02, z0 + (k + 1) * bw - 0.02
++            box(f'{n}_b{k}', MAT[mk], x - d / 2, x + d / 2, y, y + 0.72, za, zb, P, bevel=0.015)
++            box(f'{n}_l{k}', MAT[mk], x - d / 2 - 0.01, x + d / 2 + 0.01, y + 0.72, y + 0.78, za - 0.01, zb + 0.01, P, bevel=0.01)
++            box(f'{n}_o{k}', MAT['black'], x - d / 2 - 0.012, x - d / 2 + 0.03, y + 0.735, y + 0.765, za + 0.06, zb - 0.06, P)   # 投入口
++            box(f'{n}_t{k}', MAT['white'], x - d / 2 - 0.004, x - d / 2, y + 0.45, y + 0.6, za + 0.05, zb - 0.05, P)            # 標籤（不寫字）
++    elif kind == 'umbrella':   # 傘架：白鐵桶＋三把傘（深藍、紅、透明灰）
++        cyl(n + '_bucket', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.2, P, seg=16)
++        for k, (ox, oz, mk, tilt) in enumerate(((-0.06, -0.05, 'navy', 0.12), (0.07, 0.0, 'umbR', -0.1), (-0.02, 0.08, 'binK', 0.05))):
++            cyl(f'{n}_u{k}', MAT[mk], (x + ox, y + 0.05, z + oz), (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), 0.035, P, seg=8)
++            cyl(f'{n}_h{k}', MAT['black'], (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), (x + ox + tilt * 0.62, y + 0.92, z + oz + tilt * 0.3), 0.01, P, seg=6)
++    elif kind == 'sidetable':  # 沙發中間的小圓桌：木頭桌面、白鐵腳、一盆小盆栽、兩本雜誌
++        cyl(n + '_top', MAT['wood'], (x, y + 0.5, z), (x, y + 0.53, z), w / 2, P, seg=20)
++        cyl(n + '_leg', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.025, P, seg=8)
++        cyl(n + '_foot', MAT['steel'], (x, y, z), (x, y + 0.02, z), w / 2 * 0.7, P, seg=16)
++        box(n + '_mag1', MAT['navy'], x - 0.12, x + 0.06, y + 0.53, y + 0.54, z - 0.02, z + 0.11, P)
++        box(n + '_mag2', MAT['white'], x - 0.1, x + 0.08, y + 0.54, y + 0.548, z - 0.0, z + 0.13, P)
++        cyl(n + '_pot', MAT['cream'], (x + 0.1, y + 0.53, z - 0.08), (x + 0.1, y + 0.65, z - 0.08), 0.05, P, seg=12)
++        PL.potted(mesh_obj, PM, n + '_plant', P, x + 0.1, y + 0.65, z - 0.08, 0.07, seed=911 + i)
++
+ # ---------------- 家具：服務台、沙發、花台、二樓長椅 ----------------
+ for i, f in enumerate(L['furniture']):
+     P = L1 if f['lv'] else L0; y = Y1 if f['lv'] else 0.0; pre = 'L1' if f['lv'] else 'L0'
+@@ -280,6 +391,35 @@ for i, f in enumerate(L['furniture']):
+         for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
+     elif f['type'] == 'board':
+         box(f'{pre}_board_frame', MAT['frame'], f['x'] - f['w'] / 2 - 0.05, f['x'] + f['w'] / 2 + 0.05, y + 1.65 - f['w'] / 4 - 0.05, y + 1.65 + f['w'] / 4 + 0.05, f['z'] - 0.05, f['z'] - 0.01, P)
++    elif f['type'] == 'prop':
++        lobby_prop(f, P, pre, y, i)
++
++# ---------------- 大廳第二版：不擋路的細部（LINZE-LOBBY-V2-1028）----------------
++# 入口的腳踏墊（深灰、淺一點的邊；平貼地面，不擋導航）
++EN_ = L['entrance']
++box('L0_doormat', MAT['mat'], 6.95, 7.85, 0.0, 0.008, EN_['z0'] + 0.1, EN_['z1'] - 0.1, L0)
++for (xa, xb, za, zb) in ((6.95, 7.85, EN_['z0'] + 0.1, EN_['z0'] + 0.16), (6.95, 7.85, EN_['z1'] - 0.16, EN_['z1'] - 0.1), (6.95, 7.01, EN_['z0'] + 0.1, EN_['z1'] - 0.1)):
++    box(f'L0_doormat_edge_{za:.2f}_{xa:.2f}', MAT['frame'], xa, xb, 0.0, 0.01, za, zb, L0)
++# 消防栓箱（紅色，北牆、法學院辦公室門的東邊）＋上面的紅燈；滅火器（紅瓶）立在下面
++_zf = -D / 2 + T / 2
++box('L0_hydrant_box', MAT['red'], 2.75, 3.35, 0.75, 1.55, _zf, _zf + 0.16, L0, bevel=0.01, props={'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]})
++box('L0_hydrant_door', MAT['white'], 2.83, 3.27, 0.95, 1.35, _zf + 0.16, _zf + 0.165, L0, props={'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]})
++cyl('L0_hydrant_lamp', MAT['red'], (3.05, 1.6, _zf + 0.02), (3.05, 1.6, _zf + 0.1), 0.05, L0, seg=12)
++cyl('L0_extinguisher', MAT['red'], (3.55, 0.0, _zf + 0.15), (3.55, 0.48, _zf + 0.15), 0.08, L0, seg=12)
++cyl('L0_extinguisher_top', MAT['black'], (3.55, 0.48, _zf + 0.15), (3.55, 0.56, _zf + 0.15), 0.025, L0, seg=8)
++# 緊急出口燈（綠色、會亮）：入口自動門上面（貼在橫櫺上）；北牆兩扇門上面各一盞小的
++box('L0_exit_sign', MAT['exitg'], 7.74, 7.86, 2.62, 2.84, 3.6, 4.4, L0, props=FE)       # 貼在自動門上方的橫櫺（x 7.91 起）；跟著東面淡出（鏡頭在門外時不擋人）
++box('L0_exit_glow', MAT['exitglow'], 7.73, 7.74, 2.65, 2.81, 3.65, 4.35, L0, props=FE)
++_FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 北牆上的東西跟著北牆的門一起淡出
++for x_ in (1.6, -3.0):   # 門牌（遊戲畫的，y 2.68～3.03）上面
++    box(f'L0_exit_sm_{x_}', MAT['exitg'], x_ - 0.2, x_ + 0.2, 3.1, 3.26, _zf + 0.16, _zf + 0.2, L0, props=_FN)
++    box(f'L0_exit_smg_{x_}', MAT['exitglow'], x_ - 0.17, x_ + 0.17, 3.12, 3.24, _zf + 0.2, _zf + 0.205, L0, props=_FN)
++# 中庭的吊燈：兩排細長的線型燈（深灰燈體、下面一條亮的），從屋頂吊兩條細線下來；在二樓視線（5.9 m）上面
++for zr in (0.6, 3.8):
++    for (xa, xb) in ((-4.6, -1.7), (-1.45, 1.45), (1.7, 4.6)):
++        box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
++        box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1)
++        for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
+ 
+ # ---------------- 入口東牆的公布欄（LAWWW2-B 10-24；LAWWW-B 03:53：互動點搬到 (7.2, 1.2)，那裡沒有公布欄）----------------
+ # 一樓東面是玻璃帷幕：立在玻璃前面的獨立公布欄（白鐵框、兩根腳，淺色軟木板），面向大廳（−x）；腳在導航格的牆邊（x 7.6）外面，不用改導航。
+@@ -311,15 +451,16 @@ def join_by_material(level_root, prefix):
+     groups = {}
+     for ob in list(level_root.children):
+         if ob.type != 'MESH' or 'WALL_' in ob.name: continue
+-        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name), []).append(ob)
+-    for (fg, mname), obs in groups.items():
++        groups.setdefault((ob.get('fadegrp'), ob.data.materials[0].name, ob.get('lm')), []).append(ob)   # lm（光照貼圖的比例）不同的分開合併，才不會丟掉
++    for (fg, mname, lm), obs in groups.items():
+         if len(obs) < 2 and not fg: continue
+         dirv = list(obs[0]['fadedir']) if fg else None
+         bm = bmesh.new()
+         for ob in obs: bm.from_mesh(ob.data)
+         mat = obs[0].data.materials[0]
+         for ob in obs: bpy.data.meshes.remove(ob.data)
+-        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
++        pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}))
++        mesh_obj((f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else ''), bm, mat, level_root, props=pr or None)
+ for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
+ 
+ # ---------------- 匯出 ----------------
