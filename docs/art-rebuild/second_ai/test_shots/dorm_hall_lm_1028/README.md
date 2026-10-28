@@ -11,7 +11,9 @@
 - **怎麼套**：
   1. 程式：`git apply docs/art-rebuild/second_ai/patches/dorm_hall_lm_1028.patch`：
      - `src/data/dorm_layout.js`：八筆擺設。
-     - `src/dorm3d.js`：家具多一種 `prop`（備用方塊＋導航阻擋），和 `building3d.js`、`wancai3d.js` 一樣。
+     - `src/dorm3d.js`：
+       - 家具多一種 `prop`（備用方塊＋導航阻擋），和 `building3d.js`、`wancai3d.js` 一樣。
+       - 正式模型接上以後，自己住的那一扇門（`HOMES` 的 `rep`）上別人的東西藏起來：大四住 409，用的是 202 那扇門，202 的社團貼紙那一年不顯示。
      - `tools/blender/dorm_hall.py`：模型。開發分支的這支腳本還沒有公用冰箱那段（NPC-POOL-ART-1028 當時只換了二進位檔），這個 patch 一起補上。
      - `tests/dorm_hall_lightmap_unit.js`：新的測試。
      - `LICENSES.md`：男生宿舍室內那一列。
@@ -34,6 +36,7 @@ SHOTS_PLACEHOLDER
   - 207「門縫傳出吉他的聲音」：吉他社的傳單；門口一雙拖鞋。
   - 洗衣間：使用須知；門口一個洗衣籃。舍監室：值班時間。
   - 自己的房門（203）不加：大二起換到別的門（`dorm3d.js` 的 `HOMES`），203 變成一般關著的門。
+  - 大二 312、大三 507、大四 409 分別用 204、201、202 那扇門。204、201 門上沒有東西；202 的貼紙在模型裡單獨一塊（`L1_deco_r202_…`），大四那一年遊戲把它藏起來。
 - **公共設施**：
   - 一、二樓走廊：內嵌的消防栓箱（門板只凸出 3 cm）、緊急照明各兩個。
   - 滅火器四支，靠牆、有導航阻擋。

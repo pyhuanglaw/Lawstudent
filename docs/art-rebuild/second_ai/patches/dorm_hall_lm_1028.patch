@@ -33,7 +33,7 @@ index 6de9d23fa..28303b6f2 100644
    "signs":[
      {"lv":0,"text":"男生宿舍","x":0,"z":1.5,"y":2.75,"ry":3.1416,"w":2.2},
 diff --git a/src/dorm3d.js b/src/dorm3d.js
-index 61ed16dba..8d23cc186 100644
+index 61ed16dba..703bcbcf3 100644
 --- a/src/dorm3d.js
 +++ b/src/dorm3d.js
 @@ -162,7 +162,8 @@ const DM3=(function(){
@@ -46,12 +46,24 @@ index 61ed16dba..8d23cc186 100644
      b0.build(fb0); b1.build(fb1);
      // 指標（中文字一直顯示：正式模型沒有字）。一樓樓梯口的「2F」寫自己住的那一樓（樓上那一層的門牌整排照房號排：312 → 3F、409 → 4F、507 → 5F、經濟系 412 → 4F）
      const HF=homeOf(typeof GAME!=='undefined'&&GAME.G), upF=HF.lv?HF.floor:2;
+@@ -195,7 +196,10 @@ const DM3=(function(){
+     IT.push({x:EN.x,z:EN.exitZ,radius:1.3,lv:0,label:'離開宿舍',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});
+     IT.push({x:H.x,z:L.corridor.z0+0.45,radius:0.75,lv:H.lv,label:H.label,exit:{to:'dorm',spawn:Object.assign({},ROOM)}});
+     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點、鏡頭碰撞不變）
+-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
++    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes);
++      /* 某一扇門上的東西（正式模型的 L1_deco_<門的 id>_…；DORM-HALL-LM-1028，LAWWW2-C）：那一扇換成自己的房門的那一年藏起來——大四 409 用 202 那扇（HOMES.y4.rep），202 的社團貼紙不留在自己的門上 */
++      if(H.rep) lv1.traverse(o=>{ if(o.name.indexOf('L1_deco_'+H.rep+'_')===0) o.visible=false; });
++      for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
+     return zone; } };
+ 
+   return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf,homeOf,fixRoomExit,HOMES,Y3_UP};
 diff --git a/tests/dorm_hall_lightmap_unit.js b/tests/dorm_hall_lightmap_unit.js
 new file mode 100644
-index 000000000..6f4e98e07
+index 000000000..0c2395aa7
 --- /dev/null
 +++ b/tests/dorm_hall_lightmap_unit.js
-@@ -0,0 +1,72 @@
+@@ -0,0 +1,83 @@
 +// 男一舍門廳的光照貼圖與擺設（DORM-HALL-LM-1028，LAWWW2-C 2026-10-28；不需要瀏覽器）：
 +//   1. 正式模型（assets/models/env/dorm_hall.glb）：場景 extras.lightmap 指到的兩張貼圖在 repo 裡、L0_root／L1_root 在、地板和牆有第二套 UV（TEXCOORD_1）、日光燈沒有；
 +//      只在烘焙時擋光的板子（BAKEONLY_）沒有留在模型裡。
@@ -59,6 +71,7 @@ index 000000000..6f4e98e07
 +//      有第二套 UV 的材質接上 lightMap、zone.update 照時段換白天／晚上那張。
 +//   3. 地上的新擺設（dorm_layout.js 的 prop：包裹架、傘架、滅火器、洗衣籃）擋住導航；出生點、交誼廳的劇情站位、走樓梯路人的路線、每一扇門口照舊站得住，
 +//      而且從大門（一樓）、從自己的房門（二樓）走得到每一扇門口。
++//   4. 202 門上的社團貼紙（模型裡單獨一塊 L1_deco_r202_…）：大一看得到；大四住 409、用的是 202 那扇門（DM3.HOMES.y4.rep），那一年藏起來。
 +// 用法：node tests/dorm_hall_lightmap_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -113,7 +126,8 @@ index 000000000..6f4e98e07
 +  check('地上的新擺設擋住導航（包裹架、傘架、滅火器、洗衣籃）', props.length>=7&&stand.length===0, props.length+' 筆'+(stand.length?'；站得上去的：'+stand.map(f=>f.kind+'('+f.x+','+f.z+')').join('、'):''));
 +  const CO=L.corridor, front=d=>d.side==='N'?[d.x,CO.z0+0.75]:d.side==='S'?[d.x,CO.z1-0.75]:[CO.x1-0.75,0];
 +  const spots=[['出生點',0,0,5.6],['交誼廳劇情站位 CW_LOUNGE',0,7.6,4.6],['走樓梯路人 門廳',0,0,4.6],['走樓梯路人 樓梯口',0,-0.8,0],['一樓走廊西端',0,-12.4,0],['一樓走廊東端',0,12.4,0],['自己房門前（二樓）',1,L.home.x,0.4],['二樓走廊西端',1,-9.5,0.2],['二樓走廊東端',1,9.5,-0.2]]
-+    .concat(L.doors.map(d=>['門口 '+d.id,d.lv|0].concat(front(d))));
++    .concat(L.doors.map(d=>['門口 '+d.id,d.lv|0].concat(front(d))))
++    .concat(Object.entries(DM3.HOMES).map(([k,h])=>['自己的房門前 '+k+'（'+h.plate+'）',h.lv|0,h.x,0.4]));
 +  const bad=spots.filter(([n,lv,x,zz])=>!nav[lv].free(x,zz));
 +  check('出生點、劇情站位、路人路線、每一扇門口照舊站得住', bad.length===0, bad.length?bad.map(s=>s[0]).join('、'):spots.length+' 個');
 +  const reach=(n,x0,z0)=>{ const [c0,r0]=n.toCell(x0,z0), seen=new Uint8Array(n.cols*n.rows), q=[[c0,r0]]; seen[r0*n.cols+c0]=1;
@@ -122,10 +136,19 @@ index 000000000..6f4e98e07
 +  const R=[reach(nav[0],0,5.6), reach(nav[1],L.home.x,0.4)];
 +  const cut=spots.filter(([n,lv,x,zz])=>!R[lv](x,zz));
 +  check('從大門（一樓）、自己的房門（二樓）走得到每一扇門口和站位', cut.length===0, cut.length?cut.map(s=>s[0]).join('、'):'全部');
++
++  // ---- 4. 202 門上的社團貼紙：大四那一年（住 409＝202 那扇門）藏起來 ----
++  check('模型裡 202 門上的貼紙單獨一塊（L1_deco_r202_…）', names.some(n=>/^L1_deco_r202_/.test(n)), names.filter(n=>/deco/.test(n)).join('、'));
++  const deco=zz=>{ let d=null; zz.group.traverse(o=>{ if(!d&&/^L1_deco_r202_/.test(o.name)) d=o; }); return d; };
++  const d1=deco(z); check('大一（住 203）：202 門上的貼紙看得到', !!(d1&&d1.visible), d1?d1.name:'找不到');
++  ASSETS.loadOne=(k)=>k==='bldg.dorm_hall'?Promise.resolve({scene:root}):orig.call(ASSETS,k);
++  global.GAME={G:{flags:{ROOM_Y4:true}}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z4=Z3.ZONES.dorm_hall.build(E); E.zone=z4; await new Promise(r=>setTimeout(r,0)); ASSETS.loadOne=orig; delete global.GAME;
++  const d4=deco(z4); check('大四（住 409，用 202 那扇門）：202 門上的貼紙藏起來', z4.formal===true&&!!d4&&d4.visible===false, (d4?d4.name+' visible='+d4.visible:'找不到')+'；HOMES.y4.rep='+DM3.HOMES.y4.rep);
 +  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 +})();
 diff --git a/tools/blender/dorm_hall.py b/tools/blender/dorm_hall.py
-index bc785d1f4..ad8e120df 100644
+index bc785d1f4..73a09c7e7 100644
 --- a/tools/blender/dorm_hall.py
 +++ b/tools/blender/dorm_hall.py
 @@ -226,11 +226,12 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
@@ -178,7 +201,7 @@ index bc785d1f4..ad8e120df 100644
  def tube(prefix, parent, x, y, z, along='x'):
      w, d = (1.25, 0.16) if along == 'x' else (0.16, 1.25)
      # 吸頂日光燈（燈座 6 cm、燈管）：名字含 WALL_、dir 朝下——鏡頭雙指拉到最遠、往上拖到最陡、比燈高的時候和牆一樣藏起來（從上面看是浮著的白條）；
-@@ -300,23 +302,24 @@ tube('L1_tw', L1, 0.0, RY, (WL['z0'] + WL['z1']) / 2, 'z')
+@@ -300,23 +302,27 @@ tube('L1_tw', L1, 0.0, RY, (WL['z0'] + WL['z1']) / 2, 'z')
  
  # ================================================================ 2. 牆（走廊兩側＝內牆；兩端、門廳正面、樓梯間北牆＝外牆，淡出）
  # 一樓
@@ -186,10 +209,13 @@ index bc785d1f4..ad8e120df 100644
 -dado_wall('L0_N_e', L0, 'x', CO['z0'] - T / 2, MW['x0'], CO['x1'], 0, H0, door_holes(0, 'N', 0))
 -dado_wall('L0_S_w', L0, 'x', CO['z1'] + T / 2, CO['x0'], LB['x0'], 0, H0, door_holes(0, 'S', 0))
 -dado_wall('L0_lobbyW', L0, 'z', LB['x0'] - T / 2, CO['z1'], LB['z1'], 0, H0, [(2.4, 4.0, 1.05, 2.05)])          # 門廳西牆（舍監室窗口）
-+dado_wall('L0_N_w', L0, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], 0, H0, door_holes(0, 'N', 0), lmh='N,up')
-+dado_wall('L0_N_e', L0, 'x', CO['z0'] - T / 2, MW['x0'], CO['x1'], 0, H0, door_holes(0, 'N', 0), lmh='N,up')
++# 走廊北牆在樓梯間兩側牆、兩跑中間的牆那幾段斷開（DORM-HALL-LM-1028）：原本一路穿過去，和那三道牆的南端疊在同一個平面（z −1.4），
++# 烘焙時互相擋住、牆上一條黑線，遊戲裡也會閃；現在那幾段就是那三道牆自己的端面
++dado_wall('L0_N_w', L0, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'] - T, 0, H0, door_holes(0, 'N', 0), lmh='N,up')
++dado_wall('L0_N_m', L0, 'x', CO['z0'] - T / 2, MW['x1'], WL['x1'], 0, H0, [], lmh='N,up')   # 兩跑中間的牆和樓梯間東牆之間（B 跑下面的儲藏室）
++dado_wall('L0_N_e', L0, 'x', CO['z0'] - T / 2, WL['x1'] + T, CO['x1'], 0, H0, door_holes(0, 'N', 0), lmh='N,up')
 +dado_wall('L0_S_w', L0, 'x', CO['z1'] + T / 2, CO['x0'], LB['x0'], 0, H0, door_holes(0, 'S', 0), lmh='S,up')
-+dado_wall('L0_lobbyW', L0, 'z', LB['x0'] - T / 2, CO['z1'], LB['z1'], 0, H0, [(2.4, 4.0, 1.05, 2.05)], lmh='W,up')          # 門廳西牆（舍監室窗口）
++dado_wall('L0_lobbyW', L0, 'z', LB['x0'] - T / 2, CO['z1'] + T, LB['z1'], 0, H0, [(2.4, 4.0, 1.05, 2.05)], lmh='W,up')   # 從走廊南牆後面開始（原本和南牆的西段疊在轉角）          # 門廳西牆（舍監室窗口）
  dado_wall('L0_front', L0, 'x', LB['z1'] + T / 2, LB['x0'], LG['x1'], 0, H0, [(-1.0, 1.0, 0, 2.5), (7.4, 9.4, 1.0, 2.5), (10.4, 12.4, 1.0, 2.5)], dirv=[0, 0, -1])
  dado_wall('L0_endW', L0, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], 0, H0, [(-0.8, 0.8, 1.0, 2.5)], dirv=[1, 0, 0])
  dado_wall('L0_endE', L0, 'z', CO['x1'] + T / 2, CO['z0'], LB['z1'], 0, H0, [(-0.5, 0.5, 0, DOOR_H + 0.05)], dirv=[-1, 0, 0])
@@ -212,7 +238,7 @@ index bc785d1f4..ad8e120df 100644
  dado_wall('L1_endW', L1, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[1, 0, 0])
  dado_wall('L1_endE', L1, 'z', CO['x1'] + T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[-1, 0, 0])
  # 二樓走廊北邊、樓梯間上方的樑（A 跑上方是欄杆）
-@@ -359,16 +362,33 @@ for i, (x, lv, side) in enumerate(((-5.25, 1, 'N'), (11.05, 1, 'S'), (-10.9, 0,
+@@ -359,16 +365,33 @@ for i, (x, lv, side) in enumerate(((-5.25, 1, 'N'), (11.05, 1, 'S'), (-10.9, 0,
  
  # ================================================================ 5. 樓梯（A 跑實心、平台實心、B 跑懸在儲藏室上面、兩跑中間的牆、扶手、二樓欄杆）
  AX0, AX1, BX0, BX1 = WL['x0'], MW['x0'], MW['x1'], WL['x1']   # 畫面上的踏階寬到牆邊（導航的 A、B 範圍窄一點：x 0.2 m 對齊格子）
@@ -250,7 +276,7 @@ index bc785d1f4..ad8e120df 100644
  # 兩跑中間的實心牆（到二樓地板再高 1 m）＋牆頂收邊
  mh = Y1 + 1.0
  wall_cut('L0_mid_lo', L0, 'z', (MW['x0'] + MW['x1']) / 2, A['z0'], A['z1'], 0.0, 1.1, [], MAT['dado'], th=MW['x1'] - MW['x0'])
-@@ -408,6 +428,60 @@ def chair(prefix, parent, x, y, z, yaw):
+@@ -408,6 +431,60 @@ def chair(prefix, parent, x, y, z, yaw):
          cyl(f'{prefix}_lr_{sx}', MAT['steel'], (sx, 0.425, 0.17), (sx, 0.425, -0.2), 0.009, g, seg=6)
      return g
  
@@ -311,7 +337,7 @@ index bc785d1f4..ad8e120df 100644
  for i, f in enumerate(L['furniture']):
      y = Y1 if f['lv'] else 0.0; P = L1 if f['lv'] else L0; pre = ('L1_' if f['lv'] else 'L0_') + f['type'] + f'_{i}'; ry = f.get('ry', 0.0)
      t = f['type']
-@@ -501,6 +575,25 @@ for i, f in enumerate(L['furniture']):
+@@ -501,6 +578,25 @@ for i, f in enumerate(L['furniture']):
          for k, c in enumerate(('red', 'green')): rbox(f'{pre}_led_{k}', MAT[c], (0.11 + k * 0.035, 1.17, 0.201), (0.015, 0.015, 0.004), g)
          dw = abs((LB['z1'] if f['lv'] == 0 else CO['z0']) - f['z'])   # 到背後那面牆的距離
          wquad(pre + '_cups', 'cups', (0, 1.52, -dw + 0.012), 0.42, 0.42 * (590 - 482) / 424, '+z', g)
@@ -337,7 +363,7 @@ index bc785d1f4..ad8e120df 100644
      elif t == 'longTable':   # 長桌（木桌面、鐵腳、橫桿）＋塑膠椅；桌上疊著的書、攤開的筆記本和筆、筆袋、保溫瓶（有人在這裡讀書）
          x, z, w, dd = f['x'], f['z'], f['w'], f['d']
          rbox(pre + '_top', MAT['wood'], (x, y + 0.74, z), (w, 0.04, dd), P, bevel=0.01, seg=2)
-@@ -535,6 +628,8 @@ for i, f in enumerate(L['furniture']):
+@@ -535,6 +631,8 @@ for i, f in enumerate(L['furniture']):
          g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
          box(pre + '_seat', MAT['wood'], -f['w'] / 2, f['w'] / 2, 0.42, 0.46, -f['d'] / 2, f['d'] / 2, g, bevel=0.01)
          for sx in (-1, 1): box(f'{pre}_leg_{sx}', MAT['steel'], sx * (f['w'] / 2 - 0.12) - 0.025, sx * (f['w'] / 2 - 0.12) + 0.025, 0.0, 0.42, -f['d'] * 0.45, f['d'] * 0.45, g)
@@ -346,7 +372,7 @@ index bc785d1f4..ad8e120df 100644
  
  # ================================================================ 6b. 交誼廳的牆上、天花板、地毯（ART-DORM-LOUNGE-1021；都不在走路的地方，不動導航）
  LZ = LB['z1']; EX = CO['x1']   # 南牆（窗、販賣機那一面）、東牆（電視那一面）的牆面
-@@ -590,6 +685,95 @@ for nm, (cx_, cz_, sx_, sz_) in (('n', ((rx0 + rx1) / 2, rz0 + rb / 2, rx1 - rx0
+@@ -590,6 +688,95 @@ for nm, (cx_, cz_, sx_, sz_) in (('n', ((rx0 + rx1) / 2, rz0 + rb / 2, rx1 - rx0
                                   ('w', (rx0 + rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb)), ('e', (rx1 - rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb))):
      rbox(f'L0_rug_edge_{nm}', MAT['paper'], (cx_, 0.0075, cz_), (sx_, 0.015, sz_), L0)
  
@@ -442,7 +468,7 @@ index bc785d1f4..ad8e120df 100644
  # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆照方向分組：一起淡出）----------------
  def flatten(level_root):
      for g in [o for o in level_root.children if o.type == 'EMPTY']:
-@@ -602,23 +786,33 @@ def flatten(level_root):
+@@ -602,23 +789,33 @@ def flatten(level_root):
          if ch.type == 'MESH' and (ch.location.length > 1e-6 or any(abs(v) > 1e-6 for v in ch.rotation_euler)):
              ch.data.transform(ch.matrix_basis); ch.matrix_basis.identity()
  

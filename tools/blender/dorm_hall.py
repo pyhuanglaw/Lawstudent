@@ -718,10 +718,10 @@ for k, dx in enumerate((-0.055, 0.055)):
     rbox(f'L0_d104_shoe_{k}', MAT['white'], (cx, y0 + 0.8, kz + s * 0.02), (0.09, 0.26, 0.1), P, rot=rt, bevel=0.025)
     rbox(f'L0_d104_sole_{k}', MAT['rubber'], (cx, y0 + 0.8, kz - s * 0.035), (0.1, 0.28, 0.025), P, rot=rt, bevel=0.008)
     cyl(f'L0_d104_lace_{k}', MAT['white'], (kx, y0 + 1.0, kz), (cx, y0 + 0.93, kz), 0.004, P, seg=4)
-x, y0, zs, s, P = dface('r202')   # 202：社團的貼紙（大小、顏色不一）
+x, y0, zs, s, P = dface('r202')   # 202：社團的貼紙（大小、顏色不一）。單獨一塊 L1_deco_r202（join_by_material 不和別的合）：大四住 409＝這一扇門（dorm3d.js 的 HOMES.y4.rep），遊戲那一年把它藏起來，自己的門上不留別人的貼紙
 for k, (dx, dy, w_, h_, m, t_) in enumerate(((-0.18, 1.5, 0.1, 0.1, 'red', 0.2), (0.05, 1.62, 0.14, 0.07, 'yellow', -0.1), (0.2, 1.38, 0.08, 0.08, 'green', 0.0),
                                              (-0.05, 1.25, 0.12, 0.05, 'blue', 0.15), (0.12, 1.12, 0.07, 0.07, 'white', -0.3), (-0.22, 1.08, 0.09, 0.06, 'paper2', 0.05))):
-    sheet(f'L1_d202_st_{k}', m, x + dx, y0 + dy, zs, s, w_, h_, P, t_)
+    sheet(f'L1_deco_r202_st_{k}', m, x + dx, y0 + dy, zs, s, w_, h_, P, t_)
 x, y0, zs, s, P = dface('r206')   # 206：門上掛著「今天不在」的牌子（木牌、兩條掛繩、一個掛勾）
 rbox('L1_d206_board', MAT['wood'], (x, y0 + 1.42, zs + s * 0.012), (0.26, 0.12, 0.012), P, rot=(0, 0, 0.03))
 for k, dx in enumerate((-0.1, 0.1)): cyl(f'L1_d206_cord_{k}', MAT['black'], (x + dx, y0 + 1.48, zs + s * 0.012), (x, y0 + 1.6, zs + s * 0.008), 0.003, P, seg=4)
@@ -791,24 +791,29 @@ def flatten(level_root):
 
 _HN = {(0, 0, -1): 'N', (0, 0, 1): 'S', (1, 0, 0): 'E', (-1, 0, 0): 'W', (0, 1, 0): 'U', (0, -1, 0): 'D'}
 def join_by_material(level_root, prefix):
-    """同一層、同材質合成一個網格；光照烘焙的 lm（光照貼圖分多少）、lmhide（哪個方向的面看不到）不同的分開合，合完照樣帶著（DORM-HALL-LM-1028）"""
+    """同一層、同材質合成一個網格；光照烘焙的 lm（光照貼圖分多少）、lmhide（哪個方向的面看不到）不同的分開合，合完照樣帶著（DORM-HALL-LM-1028）。
+    {prefix}_deco_<門的 id>_ 開頭的（某一扇門上的東西）自己合成一塊 {prefix}_deco_<id>_<材質>：遊戲照年級藏起來（dorm3d.js）"""
     groups = {}
     for ob in list(level_root.children):
         if ob.type != 'MESH': continue
         lm = ob.get('lm'); lh = ob.get('lmhide'); lh = None if lh is None else (lh if isinstance(lh, str) else tuple(int(round(v)) for v in lh))
+        dm = re.match(prefix + r'_deco_([A-Za-z0-9]+)_', ob.name)
+        if dm:
+            groups.setdefault(('deco_' + dm.group(1), ob.data.materials[0].name, lm, lh), []).append(ob); continue
         if 'WALL_' in ob.name:
             dv = ob.get('dir'); dv = list(dv) if dv is not None else [0, 0, 1]
             groups.setdefault(('wall' + ''.join('%+d' % round(v) for v in dv), ob.data.materials[0].name, lm, lh), []).append(ob); ob['fadedir'] = dv; continue
         groups.setdefault((None, ob.data.materials[0].name, lm, lh), []).append(ob)
     for (fg, mname, lm, lh), obs in groups.items():
         if len(obs) < 2 and not fg: continue
-        dirv = list(obs[0]['fadedir']) if fg else None
+        wall = bool(fg) and fg.startswith('wall')
+        dirv = list(obs[0]['fadedir']) if wall else None
         bm = bmesh.new()
         for ob in obs: bm.from_mesh(ob.data)
         mat = obs[0].data.materials[0]
         for ob in obs: bpy.data.meshes.remove(ob.data)
-        pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}), **({'lmhide': lh if isinstance(lh, str) else list(lh)} if lh is not None else {}))
-        nm = (f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh.replace(",", "") if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
+        pr = dict({'dir': dirv} if wall else {}, **({'lm': lm} if lm is not None else {}), **({'lmhide': lh if isinstance(lh, str) else list(lh)} if lh is not None else {}))
+        nm = (f'{prefix}_WALL_{fg}_{mname}' if wall else f'{prefix}_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh.replace(",", "") if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
         mesh_obj(nm, bm, mat, level_root, props=pr or None)
 bpy.context.view_layer.update()
 # 純色的小東西合成一個頂點色材質（和霖澤館大廳 LOBBY-VC-1028 一樣：每個材質各畫一次；發光、金屬、有貼圖的照舊）
