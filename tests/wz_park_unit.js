@@ -29,6 +29,13 @@ check('2. 入口段步道 (26,8)、主園區環狀步道 (26,17.6)、往入口 B
 { const r=walk([5.75,15],[23.6,18.4]); check('2. 從北巷經入口 B 走到老樹的環狀步道（B08：原本遊戲場的導航阻擋把 B 步道整段擋住，只走得到入口 B 裡面那一小塊）',r.ok,r.reason||'');
   const p=E.pathTo(5.75,15,0,23.6,18.4,0)||[]; let len=0, a=[5.75,15]; for(const q of p){ len+=Math.hypot(q[0]-a[0],q[1]-a[1]); a=q; }
   check('2. 入口 B 到老樹走 B 步道（不繞北巷、主巷：路線 30 m 以內）',p.length>0&&len<30,len.toFixed(1)+' m'); }
+/* 2b. 土地公（WZ-SHRINE-TRAP-1028，BB-C relsuite 562a5ead9、LAWWW-C P1）：v3 遊戲場的導航阻擋整塊 3.6 m（北緣 22.7），和涼亭西南柱子之間只剩一排站得住——
+   原本經遊戲場北邊、涼亭西側到土地公的路斷了，涼亭西側那條變成死角（站進去自己走不出來）。修好：遊戲場只擋有遊具的南邊 2.9 m（北緣 22.0），供桌和 F1 牆之間那一小塊擋起來。
+   修改前：涼亭西側 (12.65,26.65) 走不到、走不出來，死角 2 個 */
+{ const r=walk(LANE,[12.65,26.65]); check('2b. 從主巷經遊戲場北邊、涼亭西側走到土地公前面 (12.65,26.65)（reachability_all 選的站位）',r.ok,r.reason?r.reason+'@'+r.x+','+r.z:''); }
+check('2b. 遊戲場北邊的通道（z 22.75）站得住、供桌（12.8,27.45）擋住',E.canStand(15.0,22.75,0.32,0)&&E.canStand(13.6,22.9,0.32,0)&&!E.canStand(12.8,27.45,0.1,0));
+{ const bad=[]; for(let x=11.5;x<=18.01;x+=0.5) for(let q=21.5;q<=28.51;q+=0.5){ if(!E.canStand(x,q,0.32,0)) continue; const r=walk([x,q],[26,17.6]); if(!r.ok) bad.push(x+','+q); }
+  check('2b. 涼亭、土地公、遊戲場北邊一帶（x 11.5～18、z 21.5～28.5 每 0.5 m）站得住的點都走得回老樹前（沒有死角）',!bad.length,bad.join(' ')); }
 check('3. 擋住的：樹圍座椅中心、涼亭、遊戲場、北側花籬、入口兩側花籬',!E.canStand(26,21.2,0.1,0)&&!E.canStand(14.6,25.2,0.1,0)&&!E.canStand(15.2,19.4,0.1,0)&&!E.canStand(24,28.7,0.1,0)&&!E.canStand(21.4,5.4,0.1,0)&&!E.canStand(30.6,5.4,0.1,0));
 check('3. 西北角（巷底那棟 F1，x<11.8、z>21）不能走；公園外面（z 30、x 37）不能走',!E.canStand(10,24,0.1,0)&&!E.canStand(26,30.5,0.1,0)&&!E.canStand(37,22,0.1,0));
 { const seats=E.interactables.filter(i=>i.seat&&i.x>8&&i.x<37&&i.z>5&&i.z<30); const want=L.seats;
