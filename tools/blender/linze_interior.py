@@ -248,7 +248,15 @@ for i in range(len(pts) - 1):
     cyl(f'L0_stair_rail_{i}', MAT['steel'], (rx, ya + 1.02, za), (rx, yb + 1.02, zb), 0.03, L0)
     cyl(f'L0_wall_rail_{i}', MAT['steel'], (S['x0'] - 0.06, ya + 0.9, za), (S['x0'] - 0.06, yb + 0.9, zb), 0.022, L0)
 # 第二跑下面（一樓）：封起來的牆（一樓看到的樓梯側面）
-quad('L0_stair_side', MAT['plaster'], [(S['x1'] + 0.01, 0, S['landing']['z1']), (S['x1'] + 0.01, 0, S['flight2']['z0']), (S['x1'] + 0.01, Y1 - 0.3, S['flight2']['z0']), (S['x1'] + 0.01, S['landing']['y'] - 0.2, S['landing']['z1'])], L0)
+quad('L0_stair_side', MAT['woodD'], [(S['x1'] + 0.01, 0, S['landing']['z1']), (S['x1'] + 0.01, 0, S['flight2']['z0']), (S['x1'] + 0.01, Y1 - 0.3, S['flight2']['z0']), (S['x1'] + 0.01, S['landing']['y'] - 0.2, S['landing']['z1'])], L0)
+# 大廳第二版（LINZE-LOBBY-V2-1028）：樓梯側面從一整面素牆改成木條牆（深色底板＋直的淺色木條每 12 cm、頂端照斜的樓梯底、下面踢腳板）——從入口一進來就看到的那一面
+_za, _zb = S['flight2']['z0'] + 0.08, S['landing']['z1'] - 0.08
+_top = lambda zz: (Y1 - 0.3) + ((S['landing']['y'] - 0.2) - (Y1 - 0.3)) * (zz - S['flight2']['z0']) / (S['landing']['z1'] - S['flight2']['z0'])
+_zz = _za
+while _zz <= _zb:
+    box(f'L0_slat_{_zz:.2f}', MAT['wood'], S['x1'] + 0.01, S['x1'] + 0.045, 0.12, _top(_zz + 0.025) - 0.06, _zz, _zz + 0.05, L0)
+    _zz += 0.12
+box('L0_slat_base', MAT['frame'], S['x1'] + 0.01, S['x1'] + 0.05, 0.0, 0.12, S['flight2']['z0'], S['landing']['z1'], L0)
 
 # ---------------- 二樓迴廊的玻璃欄杆（樓梯頂與電梯門口留開）----------------
 for k, (x0, x1) in enumerate(((S['x1'] + 0.1, EL['x0'] - 0.05), (EL['x1'] + 0.05, W / 2))):
@@ -256,6 +264,81 @@ for k, (x0, x1) in enumerate(((S['x1'] + 0.1, EL['x0'] - 0.05), (EL['x1'] + 0.05
     quad(f'L1_gallery_glass_{k}', MAT['glass'], [(x0, Y1 + 0.05, G['railZ']), (x1, Y1 + 0.05, G['railZ']), (x1, Y1 + 1.0, G['railZ']), (x0, Y1 + 1.0, G['railZ'])], L1, tile=1.0)
     cyl(f'L1_gallery_rail_{k}', MAT['steel'], (x0, Y1 + 1.04, G['railZ']), (x1, Y1 + 1.04, G['railZ']), 0.03, L1)
     box(f'L1_gallery_shoe_{k}', MAT['steel'], x0, x1, Y1, Y1 + 0.1, G['railZ'] - 0.04, G['railZ'] + 0.04, L1)
+
+# ---------------- 大廳第二版的擺設（LINZE-LOBBY-V2-1028，LAWWW2-C 2026-10-28；使用者 10-28「廉價手遊感」，INTERIOR_AAA_REVIEW_1028 第 5 節 P4～P6）----------------
+# 每一件都有理由：法學院的展示櫃（模擬法庭、辯論的獎盃）、飲水機與回收桶（每棟系館都有）、入口的傘架與腳踏墊（台北常下雨）、
+# 消防栓箱與出口燈、樓梯側面的木條牆（原本一整面素牆）、中庭吊燈。放在牆邊、劇情站位與路人路線以外（linze_layout.js 的 furniture 註解）。
+for k_, h_ in (('red', '#b3261e'), ('exitg', '#1f9d55'), ('black', '#1d1f22'), ('white', '#f2f1ec'), ('mat', '#3b3d40'), ('binB', '#2f6db3'), ('binG', '#3f8f4f'), ('binK', '#6b7076'),
+               ('gold', '#c9a24a'), ('brass', '#b08a4a'), ('cream', '#e6e2d6'), ('navy', '#2b3a55'), ('umbR', '#a8343a'), ('paper', '#efe9dc')):
+    MAT[k_] = pbr('lz_' + k_, None, tint=srgb(h_), rough=0.35 if k_ in ('gold', 'brass') else 0.6, metal=0.4 if k_ in ('gold', 'brass') else 0.0)
+MAT['exitglow'] = pbr('lz_exitglow', None, tint=srgb('#3fdc84'), rough=0.9, emit=srgb('#3fdc84'))
+
+def lobby_prop(f, P, pre, y, i):
+    kind, x, z, w, d = f['kind'], f['x'], f['z'], f['w'], f['d']
+    n = f'{pre}_{kind}_{i}'
+    if kind == 'display':      # 靠北牆的展示櫃（朝 +z）：下面木櫃、上面玻璃櫃＋兩層玻璃板、獎盃、獎牌、照片框、頂燈
+        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
+        box(n + '_base', MAT['woodD'], x0, x1, y, y + 0.9, z0, z1, P, bevel=0.01)
+        box(n + '_top', MAT['woodD'], x0, x1, y + 2.0, y + 2.08, z0, z1, P, bevel=0.008)
+        box(n + '_back', MAT['plaster'], x0 + 0.02, x1 - 0.02, y + 0.9, y + 2.0, z0, z0 + 0.03, P)
+        for px in (x0 + 0.015, x1 - 0.015):
+            for pz in (z0 + 0.04, z1 - 0.015): box(f'{n}_post_{px:.2f}_{pz:.2f}', MAT['steel'], px - 0.012, px + 0.012, y + 0.9, y + 2.0, pz - 0.012, pz + 0.012, P)
+        quad(n + '_glass_f', MAT['glass'], [(x0 + 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 0.9, z1 - 0.01), (x1 - 0.02, y + 2.0, z1 - 0.01), (x0 + 0.02, y + 2.0, z1 - 0.01)], P, tile=1.0)
+        for sx in (x0 + 0.01, x1 - 0.01): quad(f'{n}_glass_s{sx:.2f}', MAT['glass'], [(sx, y + 0.9, z0 + 0.03), (sx, y + 0.9, z1 - 0.01), (sx, y + 2.0, z1 - 0.01), (sx, y + 2.0, z0 + 0.03)], P, tile=1.0)
+        for sy in (1.27, 1.63): box(f'{n}_shelf_{sy}', MAT['glass'], x0 + 0.03, x1 - 0.03, y + sy, y + sy + 0.012, z0 + 0.04, z1 - 0.03, P)
+        box(n + '_lightbar', MAT['light'], x0 + 0.1, x1 - 0.1, y + 1.97, y + 1.99, z0 + 0.15, z0 + 0.2, P)
+        for k, (ox, sy, kind2) in enumerate(((-0.85, 0.9, 'cup'), (-0.45, 0.9, 'plaque'), (0.0, 0.9, 'cup2'), (0.45, 0.9, 'photo'), (0.85, 0.9, 'cup'),
+                                              (-0.7, 1.282, 'photo'), (-0.25, 1.282, 'plaque'), (0.25, 1.282, 'cup'), (0.7, 1.282, 'gavel'),
+                                              (-0.6, 1.642, 'plaque'), (0.0, 1.642, 'cup2'), (0.6, 1.642, 'photo'))):
+            cx, cy, cz = x + ox * w / 2.4, y + sy, z - 0.02
+            if kind2 in ('cup', 'cup2'):     # 獎盃：底座、杯腳、杯身、兩個耳朵
+                hh = 0.24 if kind2 == 'cup2' else 0.18
+                box(f'{n}_tb_{k}', MAT['woodD'], cx - 0.045, cx + 0.045, cy, cy + 0.04, cz - 0.045, cz + 0.045, P)
+                cyl(f'{n}_ts_{k}', MAT['gold'], (cx, cy + 0.04, cz), (cx, cy + hh * 0.55, cz), 0.012, P, seg=8)
+                cyl(f'{n}_tc_{k}', MAT['gold'], (cx, cy + hh * 0.55, cz), (cx, cy + hh, cz), 0.045, P, seg=12)
+                for sx in (-1, 1): cyl(f'{n}_te_{k}_{sx}', MAT['gold'], (cx + sx * 0.045, cy + hh * 0.9, cz), (cx + sx * 0.07, cy + hh * 0.7, cz), 0.007, P, seg=6)
+            elif kind2 == 'plaque':          # 獎牌（木板＋銅片，斜靠）
+                box(f'{n}_pq_{k}', MAT['woodD'], cx - 0.11, cx + 0.11, cy, cy + 0.28, cz - 0.03, cz - 0.01, P)
+                box(f'{n}_pqb_{k}', MAT['brass'], cx - 0.08, cx + 0.08, cy + 0.06, cy + 0.22, cz - 0.01, cz - 0.005, P)
+            elif kind2 == 'photo':           # 照片框（黑框、白邊、照片是深淺兩塊：合照的樣子）
+                box(f'{n}_pf_{k}', MAT['black'], cx - 0.12, cx + 0.12, cy, cy + 0.2, cz - 0.02, cz, P)
+                box(f'{n}_pp_{k}', MAT['white'], cx - 0.105, cx + 0.105, cy + 0.015, cy + 0.185, cz, cz + 0.002, P)
+                box(f'{n}_pi_{k}', MAT['navy'], cx - 0.09, cx + 0.09, cy + 0.03, cy + 0.11, cz + 0.002, cz + 0.003, P)
+            elif kind2 == 'gavel':           # 法槌（木頭）
+                box(f'{n}_gb_{k}', MAT['woodD'], cx - 0.07, cx + 0.07, cy, cy + 0.025, cz - 0.05, cz + 0.05, P)
+                cyl(f'{n}_gh_{k}', MAT['wood'], (cx - 0.07, cy + 0.06, cz), (cx + 0.07, cy + 0.06, cz), 0.028, P, seg=10)
+                cyl(f'{n}_gs_{k}', MAT['wood'], (cx, cy + 0.06, cz), (cx + 0.02, cy + 0.03, cz + 0.16), 0.008, P, seg=6)
+    elif kind == 'water':      # 飲水機（白鐵、三個出水口：紅熱水、白溫水、藍冰水；下面接水盤；旁邊紙杯架）；朝 −x
+        x0, x1, z0, z1 = x - w / 2, x + w / 2, z - d / 2, z + d / 2
+        box(n + '_body', MAT['steel'], x0, x1, y, y + 1.25, z0, z1, P, bevel=0.012)
+        box(n + '_panel', MAT['black'], x0 - 0.005, x0, y + 0.95, y + 1.12, z0 + 0.06, z1 - 0.06, P)
+        box(n + '_niche', MAT['frame'], x0 - 0.003, x0 + 0.06, y + 0.55, y + 0.9, z0 + 0.05, z1 - 0.05, P)
+        box(n + '_tray', MAT['steel'], x0 - 0.08, x0 + 0.02, y + 0.55, y + 0.58, z0 + 0.06, z1 - 0.06, P)
+        for k, (oz, mk) in enumerate(((-0.11, 'red'), (0.0, 'white'), (0.11, 'binB'))):
+            box(f'{n}_tap_{k}', MAT[mk], x0 - 0.05, x0 + 0.01, y + 0.84, y + 0.88, z + oz - 0.02, z + oz + 0.02, P)
+        cyl(n + '_cups', MAT['white'], (x0 - 0.05, y + 0.62, z1 + 0.05), (x0 - 0.05, y + 0.95, z1 + 0.05), 0.04, P, seg=10)   # 紙杯架（一疊紙杯）
+        box(n + '_sign', MAT['white'], x0 - 0.006, x0 - 0.001, y + 1.15, y + 1.22, z0 + 0.08, z1 - 0.08, P)
+    elif kind == 'bins':       # 三個資源回收桶（藍：一般垃圾？不寫字；綠：回收；灰：紙類）；沿 z 排、朝 −x
+        z0 = z - w / 2; bw = w / 3
+        for k, mk in enumerate(('binB', 'binG', 'binK')):
+            za, zb = z0 + k * bw + 0.02, z0 + (k + 1) * bw - 0.02
+            box(f'{n}_b{k}', MAT[mk], x - d / 2, x + d / 2, y, y + 0.72, za, zb, P, bevel=0.015)
+            box(f'{n}_l{k}', MAT[mk], x - d / 2 - 0.01, x + d / 2 + 0.01, y + 0.72, y + 0.78, za - 0.01, zb + 0.01, P, bevel=0.01)
+            box(f'{n}_o{k}', MAT['black'], x - d / 2 - 0.012, x - d / 2 + 0.03, y + 0.735, y + 0.765, za + 0.06, zb - 0.06, P)   # 投入口
+            box(f'{n}_t{k}', MAT['white'], x - d / 2 - 0.004, x - d / 2, y + 0.45, y + 0.6, za + 0.05, zb - 0.05, P)            # 標籤（不寫字）
+    elif kind == 'umbrella':   # 傘架：白鐵桶＋三把傘（深藍、紅、透明灰）
+        cyl(n + '_bucket', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.2, P, seg=16)
+        for k, (ox, oz, mk, tilt) in enumerate(((-0.06, -0.05, 'navy', 0.12), (0.07, 0.0, 'umbR', -0.1), (-0.02, 0.08, 'binK', 0.05))):
+            cyl(f'{n}_u{k}', MAT[mk], (x + ox, y + 0.05, z + oz), (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), 0.035, P, seg=8)
+            cyl(f'{n}_h{k}', MAT['black'], (x + ox + tilt * 0.6, y + 0.82, z + oz + tilt * 0.3), (x + ox + tilt * 0.62, y + 0.92, z + oz + tilt * 0.3), 0.01, P, seg=6)
+    elif kind == 'sidetable':  # 沙發中間的小圓桌：木頭桌面、白鐵腳、一盆小盆栽、兩本雜誌
+        cyl(n + '_top', MAT['wood'], (x, y + 0.5, z), (x, y + 0.53, z), w / 2, P, seg=20)
+        cyl(n + '_leg', MAT['steel'], (x, y, z), (x, y + 0.5, z), 0.025, P, seg=8)
+        cyl(n + '_foot', MAT['steel'], (x, y, z), (x, y + 0.02, z), w / 2 * 0.7, P, seg=16)
+        box(n + '_mag1', MAT['navy'], x - 0.12, x + 0.06, y + 0.53, y + 0.54, z - 0.02, z + 0.11, P)
+        box(n + '_mag2', MAT['white'], x - 0.1, x + 0.08, y + 0.54, y + 0.548, z - 0.0, z + 0.13, P)
+        cyl(n + '_pot', MAT['cream'], (x + 0.1, y + 0.53, z - 0.08), (x + 0.1, y + 0.65, z - 0.08), 0.05, P, seg=12)
+        PL.potted(mesh_obj, PM, n + '_plant', P, x + 0.1, y + 0.65, z - 0.08, 0.07, seed=911 + i)
 
 # ---------------- 家具：服務台、沙發、花台、二樓長椅 ----------------
 for i, f in enumerate(L['furniture']):
@@ -280,6 +363,35 @@ for i, f in enumerate(L['furniture']):
         for sx in (-1, 1): box(f'{pre}_bench_leg_{i}_{sx}', MAT['steel'], f['x'] + sx * (f['w'] / 2 - 0.12) - 0.03, f['x'] + sx * (f['w'] / 2 - 0.12) + 0.03, y, y + 0.42, f['z'] - f['d'] * 0.45, f['z'] + f['d'] * 0.45, P)
     elif f['type'] == 'board':
         box(f'{pre}_board_frame', MAT['frame'], f['x'] - f['w'] / 2 - 0.05, f['x'] + f['w'] / 2 + 0.05, y + 1.65 - f['w'] / 4 - 0.05, y + 1.65 + f['w'] / 4 + 0.05, f['z'] - 0.05, f['z'] - 0.01, P)
+    elif f['type'] == 'prop':
+        lobby_prop(f, P, pre, y, i)
+
+# ---------------- 大廳第二版：不擋路的細部（LINZE-LOBBY-V2-1028）----------------
+# 入口的腳踏墊（深灰、淺一點的邊；平貼地面，不擋導航）
+EN_ = L['entrance']
+box('L0_doormat', MAT['mat'], 6.95, 7.85, 0.0, 0.008, EN_['z0'] + 0.1, EN_['z1'] - 0.1, L0)
+for (xa, xb, za, zb) in ((6.95, 7.85, EN_['z0'] + 0.1, EN_['z0'] + 0.16), (6.95, 7.85, EN_['z1'] - 0.16, EN_['z1'] - 0.1), (6.95, 7.01, EN_['z0'] + 0.1, EN_['z1'] - 0.1)):
+    box(f'L0_doormat_edge_{za:.2f}_{xa:.2f}', MAT['frame'], xa, xb, 0.0, 0.01, za, zb, L0)
+# 消防栓箱（紅色，北牆、法學院辦公室門的東邊）＋上面的紅燈；滅火器（紅瓶）立在下面
+_zf = -D / 2 + T / 2
+box('L0_hydrant_box', MAT['red'], 2.75, 3.35, 0.75, 1.55, _zf, _zf + 0.16, L0, bevel=0.01, props={'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]})
+box('L0_hydrant_door', MAT['white'], 2.83, 3.27, 0.95, 1.35, _zf + 0.16, _zf + 0.165, L0, props={'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]})
+cyl('L0_hydrant_lamp', MAT['red'], (3.05, 1.6, _zf + 0.02), (3.05, 1.6, _zf + 0.1), 0.05, L0, seg=12)
+cyl('L0_extinguisher', MAT['red'], (3.55, 0.0, _zf + 0.15), (3.55, 0.48, _zf + 0.15), 0.08, L0, seg=12)
+cyl('L0_extinguisher_top', MAT['black'], (3.55, 0.48, _zf + 0.15), (3.55, 0.56, _zf + 0.15), 0.025, L0, seg=8)
+# 緊急出口燈（綠色、會亮）：入口自動門上面（貼在橫櫺上）；北牆兩扇門上面各一盞小的
+box('L0_exit_sign', MAT['exitg'], 7.74, 7.86, 2.62, 2.84, 3.6, 4.4, L0, props=FE)       # 貼在自動門上方的橫櫺（x 7.91 起）；跟著東面淡出（鏡頭在門外時不擋人）
+box('L0_exit_glow', MAT['exitglow'], 7.73, 7.74, 2.65, 2.81, 3.65, 4.35, L0, props=FE)
+_FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 北牆上的東西跟著北牆的門一起淡出
+for x_ in (1.6, -3.0):   # 門牌（遊戲畫的，y 2.68～3.03）上面
+    box(f'L0_exit_sm_{x_}', MAT['exitg'], x_ - 0.2, x_ + 0.2, 3.1, 3.26, _zf + 0.16, _zf + 0.2, L0, props=_FN)
+    box(f'L0_exit_smg_{x_}', MAT['exitglow'], x_ - 0.17, x_ + 0.17, 3.12, 3.24, _zf + 0.2, _zf + 0.205, L0, props=_FN)
+# 中庭的吊燈：兩排細長的線型燈（深灰燈體、下面一條亮的），從屋頂吊兩條細線下來；在二樓視線（5.9 m）上面
+for zr in (0.6, 3.8):
+    for (xa, xb) in ((-4.6, -1.7), (-1.45, 1.45), (1.7, 4.6)):
+        box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
+        box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1)
+        for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
 
 # ---------------- 入口東牆的公布欄（LAWWW2-B 10-24；LAWWW-B 03:53：互動點搬到 (7.2, 1.2)，那裡沒有公布欄）----------------
 # 一樓東面是玻璃帷幕：立在玻璃前面的獨立公布欄（白鐵框、兩根腳，淺色軟木板），面向大廳（−x）；腳在導航格的牆邊（x 7.6）外面，不用改導航。

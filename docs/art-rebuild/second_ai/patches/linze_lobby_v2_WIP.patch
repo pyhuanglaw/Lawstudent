@@ -1,0 +1,30 @@
+diff --git a/src/building3d.js b/src/building3d.js
+index ca8419bd7..0d44a27c3 100644
+--- a/src/building3d.js
++++ b/src/building3d.js
+@@ -93,6 +93,7 @@ const B3=(function(){
+       else if(f.type==='sofa'){ const c=Math.cos(ry), s=Math.sin(ry); b.add(MAT.sofa(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z,ry); b.add(MAT.sofa(),TK.boxG(f.w,0.45,0.18),f.x-s*(f.d/2-0.09),y+0.6,f.z-c*(f.d/2-0.09),ry); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05); }
+       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
+       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
++      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); }   /* 大廳第二版的擺設（展示櫃、飲水機、回收桶、傘架、小圓桌；LINZE-LOBBY-V2-1028，LAWWW2-C）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
+       else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室',24,146); x.fillText('3F 討論區｜4F 自習討論區｜5F–8F 研究室',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
+         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); keep0.add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
+     b0.build(lv0); b1.build(lv1); }
+diff --git a/src/data/linze_layout.js b/src/data/linze_layout.js
+index cbf862d0d..e9f457552 100644
+--- a/src/data/linze_layout.js
++++ b/src/data/linze_layout.js
+@@ -36,6 +36,12 @@ const LINZE_LAYOUT={
+     {"type":"sofa","lv":0,"x":3.6,"z":3.6,"w":2.2,"d":0.8,"ry":3.1416},
+     {"type":"planter","lv":0,"x":-3.6,"z":5.6,"r":0.55},
+     {"type":"planter","lv":0,"x":6.8,"z":6.2,"r":0.45},
+-    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5}
++    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5},
++    {"type":"prop","kind":"display","lv":0,"x":-5.45,"z":-6.6,"w":2.4,"d":0.5,"h":2.08,"note":"大廳第二版（LINZE-LOBBY-V2-1028，LAWWW2-C）：北牆、二樓迴廊下面的角落（101 門口西邊 0.5 m）：法學院的展示櫃"},
++    {"type":"prop","kind":"water","lv":0,"x":7.45,"z":-2.6,"w":0.4,"d":0.4,"h":1.25,"note":"電梯東邊、東面玻璃前：飲水機（朝 −x）"},
++    {"type":"prop","kind":"bins","lv":0,"x":7.45,"z":-1.2,"w":1.35,"d":0.42,"h":0.78,"nav":[7.45,-1.2,0.42,1.35],"note":"飲水機旁邊三個回收桶（沿 z 排；nav＝世界座標 [x, z, 寬 x, 深 z]）"},
++    {"type":"bench","lv":0,"x":0.6,"z":6.35,"w":2.4,"d":0.5},
++    {"type":"prop","kind":"umbrella","lv":0,"x":7.45,"z":6.6,"w":0.45,"d":0.45,"h":0.9,"note":"入口南邊的傘架（花台東邊）"},
++    {"type":"prop","kind":"sidetable","lv":0,"x":2.1,"z":3.65,"w":0.56,"d":0.56,"h":0.55,"note":"兩張沙發中間的小圓桌（原本 0.8 m 的縫本來就過不去）"}
+   ]
+ };

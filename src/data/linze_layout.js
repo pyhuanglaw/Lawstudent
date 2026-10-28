@@ -18,13 +18,14 @@ const LINZE_LAYOUT={
   "gallery":{ "z0":-6.6, "z1":-3.4, "x0":-7.6, "x1":7.6, "slabT":0.32, "railZ":-3.4 },
   "elevator":{ "x0":3.6, "x1":5.6, "z0":-3.2, "z1":-0.8, "doorX0":4.0, "doorX1":5.2, "doorZ":-3.2,
     "callZ":-3.9, "floors":[ {"label":"1F 大廳","lv":0,"open":true}, {"label":"2F 201、202 教室","lv":1,"open":true},
-      {"label":"3F（整修中）","open":false}, {"label":"4F（整修中）","open":false}, {"label":"5F–8F（整修中）","open":false} ] },
+      {"label":"3F 討論區、301、302","zone":"linze_3f","open":true,"num":3,"spawn":{"x":4.6,"z":-4.9,"yaw":3.1416}}, {"label":"4F 自習討論區、401、402","zone":"linze_4f","open":true,"num":4,"spawn":{"x":4.6,"z":-4.9,"yaw":3.1416}},
+      {"label":"5F–8F 研究室（教職員）","open":false,"why":"研究室樓層（教職員）","toast":"研究室樓層。電梯要刷教職員證才會停。"} ] },
   "entrance":{ "x":8.0, "z0":2.6, "z1":5.4, "exitX":7.3, "exitZ":4.0, "spawn":{"x":6.6,"z":4.0,"lv":0,"yaw":-1.5708} },
   "frontGlass":{ "z":7.0 },
   "doors":[
     {"id":"c201","lv":1,"x":-2.0,"label":"201 階梯教室","to":"classroom","spawnBack":{"x":-2.0,"z":-6.0,"lv":1,"yaw":0}},
     {"id":"c202","lv":1,"x":3.0,"label":"202 教室","closed":"門鎖著。門上貼著：「本學期整修，暫停使用。」"},
-    {"id":"stairs3f","lv":1,"x":7.0,"label":"樓梯間（往 3F 以上）","closed":"安全梯。3 樓以上這學期在整修，暫時不開放。"},
+    {"id":"stairs3f","lv":1,"x":7.0,"label":"樓梯間（往 3F、4F）","to":"linze_3f","spawn":{"x":7.0,"z":-5.5,"yaw":0}},
     {"id":"c101","lv":0,"x":-3.0,"label":"101 教室","closed":"101 教室。今天這個時段沒有課，門鎖著。"},
     {"id":"office","lv":0,"x":1.6,"label":"法律學院辦公室","closed":"學院辦公室。玻璃門上貼著辦公時間：週一至週五 9:00–17:00。"}
   ],
@@ -35,6 +36,12 @@ const LINZE_LAYOUT={
     {"type":"sofa","lv":0,"x":3.6,"z":3.6,"w":2.2,"d":0.8,"ry":3.1416},
     {"type":"planter","lv":0,"x":-3.6,"z":5.6,"r":0.55},
     {"type":"planter","lv":0,"x":6.8,"z":6.2,"r":0.45},
-    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5}
+    {"type":"bench","lv":1,"x":-4.2,"z":-6.15,"w":1.6,"d":0.5},
+    {"type":"prop","kind":"display","lv":0,"x":-5.45,"z":-6.6,"w":2.4,"d":0.5,"h":2.08,"note":"大廳第二版（LINZE-LOBBY-V2-1028，LAWWW2-C）：北牆、二樓迴廊下面的角落（101 門口西邊 0.5 m）：法學院的展示櫃"},
+    {"type":"prop","kind":"water","lv":0,"x":7.45,"z":-2.6,"w":0.4,"d":0.4,"h":1.25,"note":"電梯東邊、東面玻璃前：飲水機（朝 −x）"},
+    {"type":"prop","kind":"bins","lv":0,"x":7.45,"z":-1.2,"w":1.35,"d":0.42,"h":0.78,"nav":[7.45,-1.2,0.42,1.35],"note":"飲水機旁邊三個回收桶（沿 z 排；nav＝世界座標 [x, z, 寬 x, 深 z]）"},
+    {"type":"bench","lv":0,"x":0.6,"z":6.35,"w":2.4,"d":0.5},
+    {"type":"prop","kind":"umbrella","lv":0,"x":7.45,"z":6.6,"w":0.45,"d":0.45,"h":0.9,"note":"入口南邊的傘架（花台東邊）"},
+    {"type":"prop","kind":"sidetable","lv":0,"x":2.1,"z":3.65,"w":0.56,"d":0.56,"h":0.55,"note":"兩張沙發中間的小圓桌（原本 0.8 m 的縫本來就過不去）"}
   ]
 };
