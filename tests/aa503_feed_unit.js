@@ -1,6 +1,6 @@
-// 手機「動態」與「她講自己的事」的私訊（AA_503 大一上，企劃線 62849944b 更正版（含 74916d73b 的三處）；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）——不需要瀏覽器。
+// 手機「動態」與「她講自己的事」的私訊（AA_503 大一上，企劃線 d13ab3ab7 更正版（含 74916d73b 的三處、62849944b、d13ab3ab7 第 12 節）；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）——不需要瀏覽器。
 //   src/data/feed_y1s1.js（台詞）、src/feed3d.js（FEED）；game3d.js 的「動態」頁籤；可昕原本「拒絕或沒去才出」的四則照片改成動態。
-//   0  載得到、index.html 順序、「動態」頁籤在「訊息」旁邊；每一句都在 AA_503 稿裡（git show 62849944b，一字不差）；更正前（c6c93432d）的舊句子不在遊戲裡
+//   0  載得到、index.html 順序、「動態」頁籤在「訊息」旁邊；每一句都在 AA_503 稿裡（git show d13ab3ab7，一字不差）；更正前（c6c93432d）的舊句子不在遊戲裡
 //   1  階段沒到的那一則就是沒有（不顯示鎖住）；沒有聯絡方式不出；時間到了才出；睡過、跳時間照原本的時間補；舊存檔從讀檔那一天開始
 //   2  回應三選：按愛心不回；留言她回（進私訊）；私訊問一句她答；一則只回一次；熟悉 +1 同一個人一天一次；以安第 2 則的私訊問要 Alison 爆料以後
 //   3  頻率：女主角每人連續七天最多兩則、配角十四天一則、一天最多四則（加假的動態測上限）；大一上走一遍（七位都很熟）：44 則都出、一天不超過四則、每位一週不超過兩則
@@ -9,16 +9,19 @@
 //   6  可昕第 11 週報告：三個選項各一次（熬夜＝排視訊 00:00、事件兩句台詞；他人呢；先睡＝已讀的旁白、隔天中午以前傳訊息她中午才回）；週四 18:00 三個都有；朋友也有、只認識沒有
 //   7  沛珊第 10 週那一則（有點熟以上）；芷若冬季菜單（問過她自己喝什麼的第三則換句）、交換說明會；語彤受試者；學姊 1/18（很熟）
 //   8  分開以後一學期，可昕的動態不出現、私訊不傳；之後照朋友再出現
-//   9  可昕的四則改成動態、一定出：玉米（去了＝照片裡有你的手）、紙皇冠（去過／沒去的回覆）、酸辣湯餃、書桌照；原本的私訊照片不再傳
+//   9  可昕的四則改成動態、一定出：玉米（去了＝照片裡有你的手）、紙皇冠（去過／沒去的回覆）、酸辣湯餃（第 6 則 12/3 交完報告那晚，分沒去／去了兩個版本）、書桌照（第 8 則）；
+//      玉米、紙皇冠的私訊整則不再傳、酸辣湯餃的私訊只拿掉照片；12/16 書桌的照片照舊私訊（d13ab3ab7 第 12 節）；第 4 則私訊問「為什麼爬好幾趟？」
 //   10 畫面：最新的在上面、只顯示七天、小點（新的動態）、看過就熄；動態不算未讀
 // 修改前（開發分支 a1f0566c6：沒有 src/feed3d.js、src/data/feed_y1s1.js，可昕四則照舊「拒絕或沒去才私訊」；src、index.html 換回 a1f0566c6 實際跑過）：
 //   FAILED 55、PASS 2（「動態不在 G.msgs」「答應了還沒去＝先等」兩項本來就成立）——第 0～8、10 段全部 FAIL（沒有 FEED、沒有動態頁籤、沒有私訊）；
 //   第 9 段：玉米、紙皇冠照舊私訊（kx_bbq_corn、kx_yule_crown）、酸辣湯餃、書桌照的私訊還帶照片、四則都沒有動態＝FAIL。修改後 ALL PASS。用法：node tests/aa503_feed_unit.js
+// 第二輪（d13ab3ab7 第 12 節；修改前＝開發分支 a57127ab4，src、index.html 換回 a57127ab4 實際跑過）：FAILED 11——台詞對稿（kx4、kx6 的舊句不在 d13ab3ab7）、
+//   d13ab3ab7 改掉的舊句還在、第 6 則沒去／去了兩個版本（照片、一句、留言回、私訊問與回：7 項）、12/16 書桌的照片（a57127ab4 只剩那一句）、第 4 則私訊問。修改後 ALL PASS。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SPEC='docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md', SHA='62849944b', OLD='c6c93432d';   /* 62849944b 含 74916d73b 的三處更正 */
+const SPEC='docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md', SHA='d13ab3ab7', OLD='c6c93432d';   /* d13ab3ab7 含 74916d73b 的三處、62849944b 可昕第 5 則、d13ab3ab7 第 12 節（可昕第 4、6 則、12/16 書桌照片）*/
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 try{ for(const [f,n] of [['src/data/msg_pool.js',['MSG_POOL']],['src/data/msg2_pool.js',['MSG2_POOL']],['src/msg3d.js',['MSG']]]) if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); }catch(e){ console.log('（msg3d.js 載不到：'+(e&&e.message)+'）'); }
 let ok=true, err='';
@@ -41,7 +44,10 @@ sec('0. 台詞對稿',()=>{ const L=[]; const add=(x,w)=>{ if(x==null||x==='') r
   const GONE=['比完了。','小婷贏。','我的那一杯老闆喝掉了，他說歪的比較好喝。','作業交了。','我訪問了每天來吃乾麵的那個伯伯。','他講了一個小時。他太太的事。','寫他每天點一樣的。……其他的我沒寫。那是他的。','嗯。他今天也來了。一樣不要蔥。','一杯拉花，愛心歪到右邊','兩杯拉花並排，左邊那杯明顯比較好看','一本筆記本，寫滿了字，最上面寫著「伯伯」','小婷很厲害。我教的。',
     '宿舍走廊，一個蛋糕，蠟燭被風吹斜了','予樂生日。','我幫你轉達。她說：你誰？','一個鬧鐘。她每天遲到。'];
   const src=fs.readFileSync(path.join(H.ROOT,'src/data/feed_y1s1.js'),'utf8')+fs.readFileSync(path.join(H.ROOT,'src/feed3d.js'),'utf8');
-  check('0. 更正前（'+OLD+'）的舊句子不在遊戲裡（拉花比賽、訪問伯伯、予樂生日）',old.length>1000&&GONE.every(t=>old.includes(t)&&!doc.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
+  check('0. 更正前（'+OLD+'）的舊句子不在遊戲裡（拉花比賽、訪問伯伯、予樂生日）',old.length>1000&&GONE.every(t=>old.includes(t)&&!doc.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t))));
+  /* d13ab3ab7 第 12 節：可昕第 4 則私訊問、第 6 則改成交完報告那晚 */
+  const GONE2=['為什麼爬五次？','一碗酸辣湯餃，旁邊一疊印好的報告','第一份期末報告。','還沒交。明天才交。','予樂先睡了。……有點悲壯。'];
+  check('0. d13ab3ab7 改掉的句子不在遊戲裡（「為什麼爬五次？」、第 6 則「第一份期末報告。」那一版）',old.length>1000&&GONE2.every(t=>old.includes(t)&&!doc.includes(t)&&!src.includes(t)),J(GONE2.filter(t=>src.includes(t)))); });
 if(!ok){ /* 修改前：沒有 FEED，下面每一段都會記 FAIL */ }
 
 /* ---------- 共用 ---------- */
@@ -228,11 +234,23 @@ sec('9',()=>{ const SAT=TD(5,6);
   check('9. 紙皇冠：答應了、還沒去＝先等（不先貼沒去的版本）',!item('kx3')&&!R().done.kx3);
   /* 酸辣湯餃（12/3）*/
   const BD=DK('2025-12-03'); fresh(BD,6,{dating_kexin:true}); walk(BD,23.95,{rules:true,step:0.5}); const none=(H.G.msgs||[]).filter(x=>x.tag==='kx_dec3_none').map(x=>x.text);
-  check('9. 酸辣湯餃：什麼都沒做＝22:30 私訊只剩「一個人吃了。很好吃。下次你要來。」（照片改成動態）；23:30 動態第 6 則',J(none)===J(['一個人吃了。很好吃。下次你要來。'])&&!!item('kx6')&&Math.abs(item('kx6').h-23.5)<0.01&&HT().includes('（照片：一碗酸辣湯餃，旁邊一疊印好的報告）'),J(none));
-  fresh(BD,6,{dating_kexin:true,KX_DEC3_VISIT:true}); walk(BD,23.95,{rules:true,step:0.5}); check('9. 酸辣湯餃：有去政大也一定出',!!item('kx6')&&!(H.G.msgs||[]).some(x=>x.tag==='kx_dec3_none'));
+  let h6=HT();
+  check('9. 酸辣湯餃：什麼都沒做＝22:30 私訊只剩「一個人吃了。很好吃。下次你要來。」（照片改成動態）；23:30 動態第 6 則（交完報告那晚，沒去的版本：一碗、空的資料夾、「交了。」）',J(none)===J(['一個人吃了。很好吃。下次你要來。'])&&!!item('kx6')&&Math.abs(item('kx6').h-23.5)<0.01&&item('kx6').v==='no'&&h6.includes('（照片：一碗酸辣湯餃，旁邊一個空的資料夾）')&&h6.includes('<div>交了。</div>'),J([none,item('kx6')]));
+  check('9. 第 6 則沒去的版本：留言「辛苦了。」、私訊問「一個人吃？」',h6.includes('data-fd="kx6|cm">辛苦了。<')&&h6.includes('一個人吃？')&&!h6.includes('好吃嗎？'));
+  if(HAS()) FEED.respond(H.G,'kx6','cm'); check('9. 第 6 則沒去：留言「辛苦了。」→「下一份下禮拜。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['辛苦了。','下一份下禮拜。']),J(th('kexin').slice(-2).map(x=>x.text)));
+  fresh(BD,6,{}); who('kexin','ACQ'); walk(BD,23.95,{rules:true,step:0.5});
+  if(HAS()) FEED.respond(H.G,'kx6','dm'); check('9. 第 6 則沒去（沒有在交往、只認識也有）：私訊問「一個人吃？」→「予樂在趕她的報告。……有點悲壯。」',!!item('kx6')&&J(th('kexin').slice(-2).map(x=>x.text))===J(['一個人吃？','予樂在趕她的報告。……有點悲壯。']),J(th('kexin').slice(-2).map(x=>x.text)));
+  fresh(BD,6,{dating_kexin:true,KX_DEC3_VISIT:true}); walk(BD,23.95,{rules:true,step:0.5}); h6=HT();
+  check('9. 酸辣湯餃：那晚開車去政大（KX_DEC3_VISIT）也一定出，去了的版本：兩碗、你的湯喝光了；私訊問「好吃嗎？」',!!item('kx6')&&item('kx6').v==='yes'&&!(H.G.msgs||[]).some(x=>x.tag==='kx_dec3_none')&&h6.includes('（照片：兩碗酸辣湯餃，對面那一碗的湯喝光了——是你的）')&&h6.includes('好吃嗎？')&&!h6.includes('一個人吃？'),J(item('kx6')));
+  if(HAS()) FEED.respond(H.G,'kx6','dm'); check('9. 第 6 則去了：私訊問「好吃嗎？」→「你把湯喝光了。我就當你說好吃。」',J(th('kexin').slice(-2).map(x=>x.text))===J(['好吃嗎？','你把湯喝光了。我就當你說好吃。']),J(th('kexin').slice(-2).map(x=>x.text)));
+  fresh(BD,6,{dating_kexin:true,KX_DEC3_VISIT:true}); walk(BD,23.95,{rules:true,step:0.5});
+  if(HAS()) FEED.respond(H.G,'kx6','cm'); h6=HT(); check('9. 第 6 則去了：留言「辛苦了。」→「你也是。開車上山。」；動態頁上回過的那一則照去了的版本',J(th('kexin').slice(-2).map(x=>x.text))===J(['辛苦了。','你也是。開車上山。'])&&h6.includes('你也是。開車上山。'),J(th('kexin').slice(-2).map(x=>x.text)));
+  fresh(BD,6,{dating_kexin:true,KX_DEC3:{1:'visit'}}); walk(BD,23.95,{step:0.5}); check('9. 第 6 則：只記了 KX_DEC3 {1:"visit"}（phoneRules 換過的）也算去了',!!item('kx6')&&item('kx6').v==='yes',J(item('kx6')));
   /* 書桌照 */
   const VD=TD(16,2); fresh(VD,19,{dating_kexin:true,KX_VIDEO:'no'}); walk(VD,23.5,{rules:true,step:0.5}); const ph=(H.G.msgs||[]).filter(x=>x.tag==='kx_video_photo').map(x=>x.text);
-  check('9. 書桌照：視訊「今天不行。」＝23:00 私訊只剩「我自己讀了。你欠我一次。」（照片改成動態第 8 則）',J(ph)===J(['我自己讀了。你欠我一次。']),J(ph));
+  check('9. 書桌照：視訊「今天不行。」＝23:00 私訊照舊「📷（她的書桌）」「我自己讀了。你欠我一次。」（她說了讀完傳照片給你；d13ab3ab7 第 12 節第 2 點）',J(ph)===J(['📷（她的書桌）','我自己讀了。你欠我一次。']),J(ph));
+  { const W9W=TD(9,3); fresh(W9W,20,{}); who('kexin','FRIEND'); walk(W9W,23); const h4=HT(); if(HAS()) FEED.respond(H.G,'kx4','dm');
+    check('9. 第 4 則（第 9 週週三 22:40）：私訊問「為什麼爬好幾趟？」→「一直忘東西。」',h4.includes('為什麼爬好幾趟？')&&!h4.includes('為什麼爬五次？')&&J(th('kexin').slice(-2).map(x=>x.text))===J(['為什麼爬好幾趟？','一直忘東西。']),J(th('kexin').slice(-2).map(x=>x.text))); }
   for(const v of ['no','yes']){ fresh(DK('2026-01-24'),12,{dating_kexin:true,KX_VIDEO:v}); walk(DK('2026-01-24'),20); check('9. 書桌照＝第 8 則 1/24 19:30（KX_VIDEO '+v+' 都出）',!!item('kx8')&&Math.abs(item('kx8').h-19.5)<0.01&&HT().includes('（照片：一張書桌，一本民法，旁邊一杯手搖飲）')); } });
 
 /* ---------- 10 畫面 ---------- */

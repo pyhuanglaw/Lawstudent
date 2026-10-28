@@ -127,8 +127,11 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('9. 「我也是這學期才發現。」→「那我們發現得一樣晚。」（AA_335 T1b：拿掉「很好，沒有人贏。」）',JSON.stringify((P[1].ask.opts[1].say||[]).map(m=>m.text))==='["那我們發現得一樣晚。"]',JSON.stringify(P[1].ask.opts[1].say));
     PHONE.answer(G,P[1].ask.id,2); run(21.1,21.2); check('9. 「四頁？」→「老師說兩頁就夠。我停不下來。」',TH('p:kexin').some(m=>m.text==='老師說兩頁就夠。我停不下來。')); }
   // ---- 9-8 手機小事 ----
-  { const D=STORY.DAILY_PHONE, ids=['kx2_late','kx2_azalea','kx2_steps','kx2_yule_hand','kx2_example','kx2_apology','kx2_dumpling','kx2_coffee'];
-    check('10. 9-8 八則都在每天的手機小事裡（交往中、照週次）',ids.every(id=>D.some(d=>d.id===id)),ids.filter(id=>!D.some(d=>d.id===id)).join(','));
+  { const D=STORY.DAILY_PHONE, ids=['kx2_steps','kx2_yule_hand','kx2_example','kx2_apology','kx2_dumpling','kx2_coffee'];
+    check('10. 9-8 六則在每天的手機小事裡（交往中、照週次）',ids.every(id=>D.some(d=>d.id===id)),ids.filter(id=>!D.some(d=>d.id===id)).join(','));
+    /* AA_504 第 0 節第 1 點：kx2_late（第 1～2 週）、kx2_azalea（第 3 週）在手機小事永遠不出（第 4 週才開始），改成可昕的動態第 1、2 則（src/data/feed_y1s2.js kx1b、kx2b，原句照用；tests/aa504_505_feed_unit.js）*/
+    const FS=fs.readFileSync(path.join(ROOT,'src/data/feed_y1s2.js'),'utf8');
+    check('10. kx2_late、kx2_azalea 不在手機小事，原句搬到可昕大一下的動態第 1、2 則（AA_504 第 0 節）',!D.some(d=>d.id==='kx2_late'||d.id==='kx2_azalea')&&FS.includes("id:'kx1b',who:'kexin',t:'W1三 08:40',st:'認識',pic:'政大宿舍的走廊，予樂的房門關著',say:'開學了。予樂說這學期要每天早到。今天她遲到。'")&&FS.includes("id:'kx2b',who:'kexin',t:'W3六 10:30',st:'認識',pic:'政大山上的杜鵑花，霧很重',say:'政大也有杜鵑花。可是開在山上，要爬上去才看得到。'"));
     const ex=D.find(d=>d.id==='kx2_example'); fresh(termDay('Y1S2',10,2),10,'dorm',{dating_kexin:true}); const T=CALENDAR.termOf(G.day);
     check('10. 「答案被拿去當範例」：K6b 之後才成立',ex.term(T)&&!ex.ok(G,G.day)&&(G.flags.KX_DIR={Y1:'reasons'},ex.ok(G,G.day))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

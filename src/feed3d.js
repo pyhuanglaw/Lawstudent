@@ -1,5 +1,6 @@
-/* ===== 手機「動態」（AA_503 第 1 節，企劃線 62849944b；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
-   她貼自己的事（照片＋一句），像限時動態；加上她私訊你講她自己的事（不約你、不回你，只是跟你說）。資料在 src/data/feed_y1s1.js（大一上；之後每學期一份，加進 SETS）。
+/* ===== 手機「動態」（AA_503 第 1 節，企劃線 d13ab3ab7；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
+   她貼自己的事（照片＋一句），像限時動態；加上她私訊你講她自己的事（不約你、不回你，只是跟你說）。資料一學期一份，加進 SETS：
+     src/data/feed_y1s1.js（大一上，AA_503）、feed_y1s2.js（大一下＋暑假，AA_504）、feed_y2s1.js（大二上＋寒假，AA_505）。id 全部不重複（大一下的加 b、大二上的加 c）。
    ■ 動態頁（手機「訊息」旁邊那一頁，game3d.js 的 renderPhone 叫 FEED.html）：
      - 誰：有聯絡方式的人（INV.hasContact）。保留七天（S.KEEP），最新的在上面。
      - 提示：新的只在「動態」頁籤上亮一個小點（S.newCount）；不跳通知、不算未讀、不算在私訊的頻率上限裡（動態不在 G.msgs）。
@@ -13,17 +14,18 @@
      - 時間到了才出（S.tick，STORY.PHONE_RULES 每次呼叫）；睡過、跳時間的，照原本的時間補在動態裡（超過七天的就不補）。
      - 舊存檔：從讀檔那一天開始有，以前的不補（G.flags.FEED.start＝第一次建立那一天；新遊戲一開始就建立）。
    ■ 私訊（dms）：時間到了用 PHONE.at 傳（照原本的時間補；回覆照 PHONE.answer），選項的記號寫進 G.flags（資料檔開頭）。
-     那一則的時間到了才判斷（階段、聯絡方式、need、after）；判斷過就不再判斷（G.flags.FEED.dm）。
+     那一則的時間到了才判斷（階段、聯絡方式、need、after）；判斷過就不再判斷（G.flags.FEED.dm）。私訊的 tag、選項的 ask id 一律「aa503_」＋id（大一上起用的前綴，之後的學期照用）。
+     動態的 if：那一則要的條件（FEED.COND；沛珊大一下第 3 則＝沒有和沛珊交往）。語彤雙主修放榜（AA_504）之後第一次在麵店點餐，阿姨請（S.ytTreat，story3d.js 的 noodleScene）。
      可昕「我陪妳熬夜。」＝排出遊（視訊，ev_kexin_video_report，照現有視訊讀書：讀哪一科、兩個小時）；「妳先睡，明天再做。」＝隔天中午以前你傳訊息給她，她中午才回（包住 MSG.replyAt）。
    ■ 分開以後一學期（INV.cool 那段：分開那天到下一個學期第 1 週）：可昕把你設成不看動態——她的動態不出、私訊不傳；之後照朋友的階段再出現。
      V6EX.COOL_IDS 沒有可昕（照 AA_351，INV.cool 對她永遠是 false），所以這裡自己用同一段期間算（ROM 的分開那天＋V6EX.coolUntil）。
      其他六位在 INV.cool 期間：動態照常（稿只寫可昕），私訊照 V6EX 每兩則送一則（'dp' 那一類）。
-   ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}}；舊存檔沒有＝從那一天開始。
-   測試：node tests/aa503_feed_unit.js */
+   ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天}；舊存檔沒有＝從那一天開始。
+   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js */
 'use strict';
 const FEED=(function(){
   const S={};
-  const SETS=()=>[typeof FEED_Y1S1!=='undefined'?FEED_Y1S1:null].filter(Boolean);
+  const SETS=()=>[typeof FEED_Y1S1!=='undefined'?FEED_Y1S1:null,typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null,typeof FEED_Y2S1!=='undefined'?FEED_Y2S1:null].filter(Boolean);
   S.SETS=SETS;
   S.KEEP=7;
   S.CAP={heroine:{n:2,days:7},other:{n:1,days:14},day:4};
@@ -58,11 +60,15 @@ const FEED=(function(){
   /* 去沒去（照片、回覆的兩個版本）*/
   S.WENT={
     kxBbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME&&G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq!=null),   /* K3「來我們這邊。」而且中秋烤肉有去（她在你旁邊）*/
-    kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null)   /* 予樂的宵夜你有去 */
+    kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null),   /* 予樂的宵夜你有去 */
+    kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); },   /* 12/3 交完報告那晚開車去政大（ev_kexin_birthday_y1；AA_503 d13ab3ab7 第 12 節第 3 點）*/
+    anWent:G=>(G.invites||[]).some(iv=>iv&&iv.who==='heroine_01'&&iv.state==='done')||!!(G.dateLog&&G.dateLog.heroine_01&&(G.dateLog.heroine_01.count|0)>0)   /* 和以安一起去過：INV 任一地點見到了，或校外約會（AA_505 1-3 第 3 則）*/
   };
   S.COND={
     anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在麵店團群組爆料（story3d.js an_rules_grp）*/
-    zrAskedDrink:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','ASKED_HER_DRINK')   /* 問過她自己喝什麼（events.js Z3：熱可可加一份濃縮）*/
+    zrAskedDrink:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','ASKED_HER_DRINK'),   /* 問過她自己喝什麼（events.js Z3：熱可可加一份濃縮）*/
+    /* 沛珊和柏翰那一段在（characters.js 沛珊的 partner：2026-04-06 起、玩家和沛珊交往＝沒有；STORY.partnerOn）。AA_504 6-3 第 3 則「只有玩家沒有和沛珊交往的才出」*/
+    psBohan:G=>{ const c=typeof CHARACTERS!=='undefined'?CHARACTERS.classmate_peishan:null; if(c&&c.partner&&typeof STORY!=='undefined'&&STORY.partnerOn) return !!STORY.partnerOn(G,c.partner); return !dating(G,'classmate_peishan'); }
   };
   /* ---------- 階段 ---------- */
   S.rank=function(G,id){ if(dating(G,id)) return 5; if(typeof SOCIAL==='undefined') return 0; const f=SOCIAL.friendLevel?SOCIAL.friendLevel(id):(SOCIAL.stage?SOCIAL.stage(id):'STRANGER'); return {ACQUAINTANCE:1,FAMILIAR:2,FRIEND:3,CLOSE_FRIEND:4}[f]||0; };
@@ -81,10 +87,11 @@ const FEED=(function(){
     if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9; return R; };
   S.post=id=>{ for(const s of SETS()) for(const p of s.posts||[]) if(p.id===id) return p; return null; };
   S.dmOf=id=>{ for(const s of SETS()) for(const q of s.dms||[]) if(q.id===id) return {q,term:s.term}; return null; };
-  S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆 */
+  S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆／私訊問的那一句（可昕第 6 則）*/
   S.line=(G,l)=>l&&typeof l==='object'&&l.if?((S.COND[l.if]&&S.COND[l.if](G))?l.yes:l.no):l;
   /* ---------- 動態：這一則出不出（空字串＝出）---------- */
   S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool'; if(!S.stageOk(G,p.who,p.st)) return 'stage';
+    if(p.if&&!(S.COND[p.if]&&S.COND[p.if](G))) return 'if';
     const R=S.rec(G), t=abs(w.day,w.h), hero=S.isHeroine(p.who), C=hero?S.CAP.heroine:S.CAP.other;
     if(R.items.filter(i=>i.who===p.who&&abs(i.day,i.h)<=t&&t-abs(i.day,i.h)<C.days*24).length>=C.n) return 'week';
     if(R.items.filter(i=>i.day===w.day).length>=S.CAP.day) return 'day';
@@ -124,11 +131,11 @@ const FEED=(function(){
   S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.txt(p.pic,it.v);
     let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(p.say)+'</div>':'');
     if(!it.r){ const B=['<button class="btn" data-fd="'+esc(it.id+'|heart')+'">（按愛心）</button>'];
-      if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(p.cm[0])+'</button>');
-      if(S.dmOk(G,p)) B.push('<button class="btn" data-fd="'+esc(it.id+'|dm')+'">（私訊問一句）'+HINT+esc(p.dm[0])+'</div></button>');
+      if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(S.txt(p.cm[0],it.v))+'</button>');
+      if(S.dmOk(G,p)) B.push('<button class="btn" data-fd="'+esc(it.id+'|dm')+'">（私訊問一句）'+HINT+esc(S.txt(p.dm[0],it.v))+'</div></button>');
       h+='<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+B.join('')+'</div>'; }
     else if(it.r==='heart') h+='<div class="muted" style="margin-top:6px">♥ 你按了愛心。</div>';
-    else { const L=it.r==='cm'?p.cm:p.dm; h+='<div style="margin-top:6px"><div class="muted">'+(it.r==='cm'?'你留言：':'你私訊問：')+esc(L[0])+'</div>'+L.slice(1).map(r=>'<div><b>'+esc(nm)+'</b>：'+esc(S.txt(r,it.v))+'</div>').join('')
+    else { const L=it.r==='cm'?p.cm:p.dm; h+='<div style="margin-top:6px"><div class="muted">'+(it.r==='cm'?'你留言：':'你私訊問：')+esc(S.txt(L[0],it.v))+'</div>'+L.slice(1).map(r=>'<div><b>'+esc(nm)+'</b>：'+esc(S.txt(r,it.v))+'</div>').join('')
       +'<button class="btn" style="margin-top:6px" data-msg="'+esc(p.who)+'">看私訊</button></div>'; }
     return h+'</div>'; };
   S.html=function(G){ if(!G) return ''; S.rec(G); const L=S.visible(G); S.markSeen(G);
@@ -142,7 +149,7 @@ const FEED=(function(){
   S.respond=function(G,id,kind){ if(!G||!['heart','cm','dm'].includes(kind)) return null; const R=S.rec(G), it=R.items.find(i=>i.id===id), p=S.post(id); if(!it||!p||it.r) return null;
     const now=nowOf(G), t=abs(it.day,it.h); if(t>now||now-t>=S.KEEP*24) return null; if(kind==='cm'&&!p.cm) return null; if(kind==='dm'&&!S.dmOk(G,p)) return null;
     it.r=kind; const out=[];
-    if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:L[0]}); m.fd=id; m.fk=kind; out.push(m);
+    if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:S.txt(L[0],it.v)}); m.fd=id; m.fk=kind; out.push(m);
       for(const r of L.slice(1)){ const tx=S.txt(r,it.v); if(tx) out.push(PHONE.post(G,{th,from:p.who,text:tx})); }
       if(PHONE.markSeen) PHONE.markSeen(G,th); }   /* 她的回覆動態頁上就看得到：不再算未讀 */
     S.fam(G,p.who); return {item:it,out}; };
@@ -150,6 +157,10 @@ const FEED=(function(){
   S.onAnswer=function(G,m,o){ const id=m&&m.ask&&m.ask.id; if(!id||id.indexOf('aa503_')!==0||!o) return; const d=S.dmOf(id.slice(6)); if(!d) return; const R=S.rec(G);
     if(o.video&&typeof OUT!=='undefined'&&OUT.plan){ const w=S.when(G,o.video,d.term); if(w) OUT.plan(G,{id:'aa503_kx_video',ev:'ev_kexin_video_report',day:w.day,h:w.h,place:'視訊',title:'可昕的視訊：熬夜做報告',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'}); }
     if(o.hold){ const w=S.when(G,o.hold,d.term); if(w) (R.hold||(R.hold={}))[d.q.who]=abs(w.day,w.h); } };
+  /* 語彤雙主修放榜（AA_504 3-2）：7/3 那則私訊傳了以後，第一次在麵店點餐——阿姨一句、那一碗不用錢（story3d.js 的 noodleScene 問 S.ytTreatDue、說完叫 S.ytTreatDone）*/
+  S.ytTreatOf=()=>{ for(const s of SETS()) if(s.ytTreat) return s.ytTreat; return null; };
+  S.ytTreatDue=function(G){ const T=S.ytTreatOf(), R=G&&G.flags&&G.flags.FEED; return !!(T&&R&&R.dm&&R.dm[T.after]==='sent'&&!R.ytTreat); };
+  S.ytTreatDone=function(G){ const R=S.rec(G); R.ytTreat=G.day; };
   S.holdAt=(G,id)=>{ const R=G&&G.flags&&G.flags.FEED, hd=R&&R.hold&&R.hold[id]; return hd!=null&&nowOf(G)<hd?hd:null; };
   /* 可昕的視訊（9-2 第 3 點）：照現有視訊讀書（ev_kexin_video_study）那一套——讀哪一科、兩個小時算兩次自學；台詞只有開頭、結尾那兩句 */
   S.VIDEO_EV=(function(){ const V=(typeof FEED_Y1S1!=='undefined'&&FEED_Y1S1.video)||{}; const base=()=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_kexin_video_study')||null:null;
