@@ -116,7 +116,7 @@ const MSG_POOL={
   "classmate_xinci":{"name":"吳芯慈","rules":{"replyFree": [10, 30], "noReplyText": "00:30 以後反而秒回（在追劇）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "句子完整、客氣；00:30 以後變很多話", "wakeLine": [], "otherText": ["芯慈：追劇和經濟學；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在家，剛吃完飯。"], "tags": ["晚上"], "ask": null, "src": "AA_202 6-7 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在排下禮拜的讀書計畫。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-7 在幹嘛"},
-   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在追劇，這集好扯。"], "tags": [], "ask": null, "src": "AA_202 6-7 在幹嘛"},
+   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在讀書。等我一章。"], "tags": [], "ask": null, "src": "AA_202 6-7 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在算經濟學的作業。"], "tags": ["學期中"], "ask": null, "src": "AA_202 6-7 在幹嘛"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["我有，等一下拍給你。"], "tags": [], "ask": null, "src": "AA_202 6-7 問課"},
    {"topic": "course", "tier": "R", "variant": null, "msgs": ["我有做成表格。", "（照片：一張表格）"], "tags": [], "ask": null, "src": "AA_202 6-7 問課"},
@@ -381,7 +381,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在圖書館 假裝很認真 😎"], "tags": [], "ask": null, "src": "BB_178 7 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在公車上 讀一點書 🚌", "你呢"], "tags": ["`SAW_HIM_STUDY`"], "ask": {"opts": [{"t": "在念書。", "r": ["一起加油 💪"]}, {"t": "在打電動。", "r": ["好羨慕"]}]}, "src": "BB_178 7 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在公車上 🚌", "看窗外"], "tags": ["沒有 `SAW_HIM_STUDY`"], "ask": null, "src": "BB_178 7 在幹嘛"},
-   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在比兩家便當", "一家多一顆滷蛋 哈哈"], "tags": [], "ask": null, "src": "BB_178 7 在幹嘛"},
+   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在比兩家便當", "一家多送一碗湯 哈哈"], "tags": [], "ask": null, "src": "BB_178 7 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在宿舍 洗衣服 等它轉完"], "tags": [], "ask": null, "src": "BB_178 7 在幹嘛"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["（筆記的照片）", "拍歪了 將就一下"], "tags": [], "ask": null, "src": "BB_178 7 問課"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["這題我想了一下 想不出來 哈哈"], "tags": [], "ask": null, "src": "BB_178 7 問課"},

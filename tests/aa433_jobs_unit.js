@@ -38,7 +38,8 @@ await sec(1,async()=>{ fresh(key(TD('Y1S2',2,3)),15,'cvs'); H.E.interactables=[]
   const fri=TD('Y1S2',3,5); fresh(key(fri),20,'dorm'); hire('cvs',[2,5]); JOBS.plan(H.G); const q=OUT.get(H.G,'job_cvs_'+fri); check('1. 週五夜班的出門提醒 22:00「便利商店的班（22:00～02:00）」、帶到便利商店',!!q&&q.h===22&&q.title==='便利商店的班（22:00～02:00）'&&q.goto.zone==='cvs',J(q));
   sleeps.length=0; H.entered=[]; const pay=await shift('cvs',fri,['「先補冷藏櫃。」','「說歡迎光臨。」','「拖地。」']);
   check('1. 夜班：三段（新手）＋選了的那一句',said('（一車的飲料，你不知道哪一排先補。）')&&said('（冷藏櫃的門一開一關，手凍到發麻。）')&&said('（客人點了一下頭。）')&&said('（地板乾得很快，鞋印還是一直出現。）'),J(L()));
-  check('1. 第一班＝夜班：「熟客」（凌晨十二點半芯慈……）',said('凌晨十二點半芯慈來買咖啡：「……你在這裡打工？」她手機在放劇：「這是一部很重要的劇。」'));
+  /* 2026-10-28 改：AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）芯慈追劇減量——「她手機在放劇：「這是一部很重要的劇。」」換成「她把耳機拿下來：「我在等永和的末班車。……沒等到。」」（tests/aa497_supporting_unit.js 第 8 節）*/
+  check('1. 第一班＝夜班：「熟客」（凌晨十二點半芯慈……；AA_497 第 8 節換句）',said('凌晨十二點半芯慈來買咖啡：「……你在這裡打工？」她把耳機拿下來：「我在等永和的末班車。……沒等到。」'));
   check('1. 夜班最後一句「（兩點，換班的人來了。外面的路燈下沒有人。）」、784、toast「便利商店 薪水 784 元」',said('（兩點，換班的人來了。外面的路燈下沒有人。）')&&pay===784&&toasts.includes('便利商店 薪水 784 元')&&Math.abs(H.G.hour-26)<1e-6,pay+' '+H.G.hour);
   check('1. 下班回宿舍睡到隔天 10:00；週五晚上的時段算一件',H.entered.includes('dorm')&&sleeps.includes(10)&&CLS.slotRec(H.G).used.ev>0,J(H.entered)+J(sleeps));
   at(fri+1,7); hire('brunch',[6]); check('1. 隔天週六早上 07:30 的早午餐班：自動請假（夜班）',JOBS.excused(H.G,'brunch',fri+1)==='night');

@@ -327,7 +327,7 @@ const GAME = (function(){
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     if(typeof POOL!=='undefined'&&POOL.migrate){ try{ POOL.migrate(s); }catch(e){ console.warn('POOL.migrate',e); } }
-    if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2：家族的學妹統一叫宜蓁（舊存檔存下的「家族的學妹」「學妹」帳號名稱換字；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
+    if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }

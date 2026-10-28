@@ -103,7 +103,8 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try
   if(src&&realPool.source.AA_393){ try{ src+=cp.execSync('git show '+realPool.source.AA_393+':"docs/story_planning/AA_393_學姊第七批_日本路線.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){} }   /* AA_393 第 4 節：學姊「祐廷在日本」 */
   src=src.replace(/《東京物語》/g,'《進城的那一週》').replace(/《晚春》/g,'《父親的午後》');   /* AA_313 6-2：真實片名改虛構的（AA 定，原文之後照這張表讀）*/
   src=src.replace(/今天的課講小津。我有舉手。/g,'今天的課講一個日本的老導演。他的鏡頭幾乎都不動。');
-  src=src.replace(/在改論文的第二章。/g,'在改論文的第四章。');   /* AA_509 0-2 第 1 點（企劃線 691a26400）：學姊大四上回覆池第二章改第四章（產生器 tools/msg/build_pool.py 的 FIX）*/   /* AA_350 R6（企劃線 cae5cc76）：真實的導演名字不寫，1-E 第 5 則換這一句 */
+  src=src.replace(/在改論文的第二章。/g,'在改論文的第四章。');   /* AA_509 0-2 第 1 點（企劃線 691a26400）：學姊大四上回覆池第二章改第四章（產生器 tools/msg/build_pool.py 的 FIX）*/
+  src=src.replace(/在追劇，這集好扯。/g,'在讀書。等我一章。').replace(/一家多一顆滷蛋 哈哈/g,'一家多送一碗湯 哈哈');   /* AA_497 第 8 節第 3、4 點（企劃線 60fc3b9a3；2026-10-28 加）：芯慈追劇減量、明軒的滷蛋（同產生器的 FIX）*/   /* AA_350 R6（企劃線 cae5cc76）：真實的導演名字不寫，1-E 第 5 則換這一句 */
   if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if(src.indexOf(t)<0) miss.push(id+':'+t);
     check('F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）',!miss.length,miss.slice(0,8).join(' ｜ ')+(miss.length>8?' …共 '+miss.length:'')); }
   const n=Object.values(P).reduce((a,p)=>a+(p.replies||[]).length,0); check('F2. 十五位都有回覆池',Object.keys(P).length>=15&&n>200,Object.keys(P).length+' 人、'+n+' 則'); }
