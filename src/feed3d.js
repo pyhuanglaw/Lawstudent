@@ -180,12 +180,13 @@ const FEED=(function(){
     if(it.back==null) return now-t<S.holdMax(it)*24&&S.tripOn(G,it.tr); return now-it.back<S.KEEP*24; };
   /* 畢業以後篇的停點（檔尾掛在 PG.stops；PG.nextStop 取所有停點最早的那一個）：還沒出、到時候會出的最後一則動態（現在有聯絡方式、階段夠、條件成立）。
      中間還有別的停點時不影響；只有最後一個停點（2030-10-01 第一份工作、12/13 麵店團…）以後接著就是尾聲（2034，PG.advance 直接演）的時候，先停在這裡——
-     不然那幾則永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。停下來看得到跳的途中貼的那幾則（七天）*/
+     不然那幾則永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。停下來看得到跳的途中貼的那幾則（七天）。
+     停在那一則貼出來的一分鐘以後（items 的時間存到小數三位，22:07＝22.117 小時，剛好停在 22:07 會晚一秒才算貼出來）*/
   S.pgStop=function(G){ if(!G||!G.flags||typeof PG==='undefined'||!PG.on||!PG.on(G)||typeof CALENDAR==='undefined') return null; const R=S.rec(G), now=nowOf(G); let best=null;
     for(const s of SETS()) for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=S.when(G,p.t,s.term); if(!w) continue; const t=abs(w.day,w.h); if(t<=now+1e-6) continue;
       if(!hasContact(G,p.who)||!(S.stageOk(G,p.who,p.st)||(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G)))||(p.if&&!(S.COND[p.if]&&S.COND[p.if](G)))) continue;
       if(best==null||t>best) best=t; }
-    return best; };
+    return best==null?null:best+1/60; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
   S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
