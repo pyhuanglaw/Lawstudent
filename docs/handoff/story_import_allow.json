@@ -3410,6 +3410,14 @@
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
    "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028）：予樂自己的線全部九節——第 2 節 h503_yule 後面兩句（heard_lines.js items 第 4 欄 'AA_520 2'）、h509_yule 第二則加三個選項（heard3d.js 的 ask、COND.yuleOwn；記 YL_RPT）；第 3 節 p:yule 她自己的事十三則＋1/12 報告（src/data/yule_lines.js YULE_LINES.own、src/yule3d.js）；第 4 節演講那一晚（10/14 22:00 邀請、10/20 18:50 霖澤館 201／20:15 阿鳳麵店的出遊 ADV ev_yule_lecture，記 YL_LEC、YL_ROOM、記憶 YL_LECTURE；③沒回沒到＝21:40 私訊）；第 5 節 23:55 三則；第 6 節可昕 9/16 21:10 兩句；第 1 節收件條件加「和可昕沒有鬧翻」（YULE.kxOk：被抓包一律不傳、分開了從那天起不傳、慢慢分手照朋友下一學期起照傳）；霖澤館 201 的 2D 背景沒有圖＝深色底（scene_bg_keys PENDING，BB 要圖）；tests/aa520_yule_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 36、修改後 ALL PASS 57 項）"
+  },
+  {
+   "path": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md",
+   "sha": "0d7b5388b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
+   "task": "SIS-B16-1028",
+   "note": "子代理登記（SIS-B16-1028，10-28）：學姊第十六批（回臺灣以後的最後半年，2028-12-24～2029-06-30）。施工中，完成後補寫做了什麼。"
   }
  ]
 }
