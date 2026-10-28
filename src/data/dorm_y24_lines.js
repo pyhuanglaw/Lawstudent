@@ -1,8 +1,9 @@
 /* ===== 宿舍大二到大四：312、507、409 房間日常的台詞（AA_517，AA-C 2026-10-28，第②級；DORM-Y24-1028、DORM203-MATES-1028 延伸、USER_WANTS X123）=====
-   稿：企劃線 ced552c17 → 4e703821a（AA 加第 5 節「實作時定的」，回 LAWWW-C 10:06；第 1～3 節沒改）docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md
-     （劇情匯入白名單 docs/handoff/story_import_allow.json，sha 4e703821a）。台詞一字照稿。
+   稿：企劃線 ced552c17 → 4e703821a（AA 加第 5 節「實作時定的」，回 LAWWW-C 10:06；第 1～3 節沒改）→ 07709b4c6（AA 加 5-後補，回 LAWWW-C 10:46）
+     docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md（劇情匯入白名單 docs/handoff/story_import_allow.json，sha 07709b4c6）。台詞一字照稿。
    ・第 5 節（DORM-Y24-AAFIX-1028）：2-3 第 3 列要阿凱那晚有來（need:'cold'）、沛珊分開那兩列不看玩家知不知道（need:'split'）、美國路線 409 第 1 列從大四下開學起算四週（us）、
      三件小事那一晚祐廷不在房間各補一句（miss、missGroup；旗標不記）。
+   ・5-後補（DORM-Y24-AAFIX-1028 後補）：在房間睡著算「在」、另外一版（sleep、sleepGroup；旗標不記）；3-1 補的旁白（兩版）隔天醒來也算。
    ・寫法照 src/data/dorm203_lines.js（AA_502）：當面說的話，對話框寫是誰說的，稿表格裡的外層引號「」拿掉；旁白照稿的（）；選項照稿（含「」，例「（去關燈）」）。
    ・表格一格裡「（旁白）「台詞」」（2-2 第 3 列、2-4 第 3 列）＝pre 先一句旁白、t 再一句他說的。
    ・手機訊息：稿一行一則；「（照片：…）」照訊息顯示。
@@ -15,7 +16,7 @@ const DORMY24_LINES=(function(){
   const nar=t=>({speaker:null,text:t}), say=(s,t)=>({speaker:s,text:t});
   const BH='classmate_bohan';
   return {
-    source:'4e703821a AA_517',
+    source:'07709b4c6 AA_517',
     /* 第 1 節：走進房間的旁白（背景室友）。每一間一串，照順序輪流（312 一個學弟三句；507、409 兩個人各一句＝兩個人輪流）；同一天同一句不說第二次。
        who：y1＝大一學弟、y2＝大二學弟、mate＝別系的同屆；zhe：阿哲在房間才說 */
     walkIn:{
@@ -101,5 +102,12 @@ const DORMY24_LINES=(function(){
     miss:{ sup312:'（垃圾桶裡有四個滷味的袋子。學弟的桌上，多了一雙沒拆的免洗筷。）' },
     missGroup:{
       zhe507:[{at:23+50/60,from:'zhe',text:'（照片：507 的地板，兩雙拖鞋）'},{at:23+50/60,from:'kai',text:'所以少兩雙'}],
-      last409:[{at:23+40/60,from:'zhe',text:'最後一晚'},{at:23+40/60,from:'zhe',ge:true,text:'哥你人咧'},{at:23+40/60,from:'zhe',ge:false,text:'你人咧'},{at:23+40/60,from:'kai',text:'所以又少一個'}] } };
+      last409:[{at:23+40/60,from:'zhe',text:'最後一晚'},{at:23+40/60,from:'zhe',ge:true,text:'哥你人咧'},{at:23+40/60,from:'zhe',ge:false,text:'你人咧'},{at:23+40/60,from:'kai',text:'所以又少一個'}] },
+    /* 5-後補第 1 點：那一晚在房間睡著（在床上、沒醒）算「在」，另外一版（旗標不記）：
+       3-1＝隔天醒來或走進來的旁白（sleep）；3-2、3-3＝群組（sleepGroup）。ge 同上。
+       3-2 的時間：稿第 1 點寫「23:50 群組」、第 4 點寫「睡著的那一版也一樣：00:00 才傳」——照第 4 點（at 24＝隔天 00:00；睡著的那一晚要到演出的時間過了、醒來才知道）*/
+    sleep:{ sup312:'（你的書桌上放著一份滷味，已經冷了。學弟的那份吃完了。）' },
+    sleepGroup:{
+      zhe507:[{at:24,from:'zhe',text:'（照片：507，你的床，棉被拱起來一團）'},{at:24,from:'zhe',text:'睡死了'},{at:24,from:'kai',text:'所以還是三個'}],
+      last409:[{at:23+40/60,from:'zhe',text:'最後一晚'},{at:23+40/60,from:'zhe',ge:true,text:'哥睡著了'},{at:23+40/60,from:'zhe',ge:false,text:'他睡著了'},{at:23+40/60,from:'kai',text:'所以還是算在'}] } };
 })();

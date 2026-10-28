@@ -2,6 +2,7 @@
    照 AA_502（大一 203，src/dorm203_3d.js）的做法往後延伸。台詞在 src/data/dorm_y24_lines.js（DORMY24_LINES，一字照稿）。
    AA_517 第 5 節「實作時定的」（企劃線 4e703821a，AA-C 回 LAWWW-C 10:06；DORM-Y24-AAFIX-1028）：感冒那晚要阿凱有來、沛珊分開不看玩家知不知道、
      美國路線 409 第 1 列從大四下開學起算四週、三件小事那一晚祐廷不在房間各補一句（下面各節標「第 5 節」的地方）。
+   AA_517 5-後補（企劃線 07709b4c6，AA-C 回 LAWWW-C 10:46；DORM-Y24-AAFIX-1028 後補）：在房間睡著算「在」、另外一版；3-1 補的旁白隔天醒來也算（下面標「5-後補」的地方）。
    誰幾點在房間照舊 story3d.js 的 S.dormMates（AA_208 第 7、8 節，稿第 4 節「作息不改」）：大二 312（ROOM_Y2）阿哲 L1 22:00（12/19 起 23:00）、柏翰 R1 22:30；
      大三 507（ROOM_Y3）、大四 409（ROOM_Y4）柏翰 R1 22:30；23:30 以後在上舖（看不到）；只在上課的學期。例外只有一個：3-3 那一晚柏翰在（S.lastNight，見下面）。
    ■ 第 1 節 走進房間的旁白（背景室友，沒有 3D、沒有名字）：玩家從門口走進房間（GM.enter → story3d.js 的 S.onEnter 叫 S.entered）才說——
@@ -29,19 +30,25 @@
          那一晚已經放暑假（大四下 6/3 結束），S.dormMates 原本沒有柏翰：只有這一晚 22:30～23:30 他在書桌前（S.lastNight，story3d.js S.dormMates 問）。
          畢業後篇（postgrad3d.js）睡覺、站著不動＝跳到下一件事：人在 409、這一晚還沒演＝停在 23:00（S.pgStop，PG.stops），不然會直接跳到 6/28 10:00 的宿舍期滿。
          「（去關燈）」：2-4「最後一晚，燈你關」說過的，旁白多一句「（柏翰點了一下頭。）」。R409_LAST；23:40「203（舊生）」群組三則。
-       那一晚祐廷不在房間（第 5 節第 4 點）：不補演、旗標不記（R312_SUPPER、R507_ZHE、R409_LAST 都不記），補一句——
-         「不在」＝那一件演出的時間過了（或群組的時間到了、人不在那一間）還沒演、作息上該在的人那時候在（S.missedNight；睡著、整晚在外面、在房間一直在別的劇情裡都算）；
-         他們自己不在（照作息、那天不在臺北）＝那一件沒有發生，什麼都沒有；日本路線 3-2 照舊什麼都沒有。
-         3-1：隔天（11/20）第一次從門口走進 312、空下來的時候，一句旁白（L.miss；走進房間那一句背景室友的旁白這一次讓它，輪到哪一句照舊）；起床、讀檔不算（同第 1 節）；隔天沒走進去就沒有。
+       那一晚祐廷沒有演到（第 5 節第 4 點、5-後補）：不補演、旗標不記（R312_SUPPER、R507_ZHE、R409_LAST 都不記），補一句——兩版：
+         「睡著」（5-後補第 1 點：在房間睡著，在床上、沒醒）＝在房間醒來（sleepNow 換房間那一次，S.entered 看到 STORY._sleeping → S.woke）的這一覺睡過了那一件：
+           演出的時間在醒來以前已經過了，而且睡著以前最後醒著的時候（S._awake：空下來 STORY.TICKS 跑到、從門口走進房間）在房間、在演出的時間結束以前。記 RY24.sleep。
+         「不在」（第 5 節第 4 點：在別的地方、一直在別的劇情裡）＝其他沒演到的：演出的時間過了（或群組的時間到了、人不在那一間）還沒演。記 RY24.miss。
+         兩版都要那一晚作息上該在的人那時候在（S.missedNight）；他們自己不在（照作息、那天不在臺北）＝那一件沒有發生，什麼都沒有；日本路線 3-2 照舊什麼都沒有。
+         3-1：隔天（11/20）在 312 醒來、或第一次從門口走進 312，空下來的時候一句旁白（5-後補第 2 點，照 AA_502 3-7：醒來也算）——
+           睡著那一版 L.sleep「（你的書桌上放著一份滷味，已經冷了。學弟的那份吃完了。）」、不在那一版 L.miss「（垃圾桶裡有四個滷味的袋子。……）」；記 RY24.nar（說的那一天）。
+           走進來的那一次背景室友那一句讓它（輪到哪一句照舊）；第 1 節背景室友那幾句醒來照舊不說（兩種用途不同，不統一）；讀檔不算；隔天沒醒在 312、也沒走進去就沒有。
          3-2：照樣 23:50 傳「203（舊生）」群組，換成「（照片：507 的地板，兩雙拖鞋）」「所以少兩雙」（L.missGroup）——23:50 人不在 507 就傳（那一件之後不再演）；
            23:50 還在 507、那一件還沒演（在別的劇情裡）＝等它演；到 24:00 演出的時間過了還沒演＝算不在，這時候才傳（訊息時間是 24:00，PHONE.tick 晚 15 分鐘以內照現在的時間）。
          3-3：23:40 群組換成「最後一晚」「哥你人咧（ZHE_CALLS_GE）／你人咧」「所以又少一個」。畢業後篇跳時間：整點跑手機規則（postgrad3d.js），6/28 00:00 那一次補在 23:40。
+         睡著那一版的群組（L.sleepGroup，醒來以後 S.phone 傳）：3-2「（照片：507，你的床，棉被拱起來一團）」「睡死了」「所以還是三個」——00:00（5-後補第 4 點「睡著的那一版也一樣：00:00 才傳」；
+           第 1 點寫 23:50，照第 4 點）；3-3「最後一晚」「哥睡著了（ZHE_CALLS_GE）／他睡著了」「所以還是算在」23:40。畢業後篇睡覺＝跳到下一件事，人在 409 停在 23:00（S.pgStop）照演，不會睡過去。
          群組都照原本的時間（睡過、跳過時間的照原本的時間補，PHONE.tick）；晚三天以上不補（舊存檔讀進來已經過了很久的那一晚）；不在 203 群組不傳。STORY.PHONE_RULES 每一輪問（S.phone）。
    ■ 群組（AA_502 第 4 節的 g:r203；名稱照 AA_502 第 6 節＝「203（舊生）」）：那一件演過才傳；不在群組（沒有 203 四人房的舊存檔）不傳。tag rt_ 開頭（例行訊息，不算手機的頻率上限）。
    存檔：G.flags.RY24＝{walk:{房間:{i,day,used}}, talk:{'房間:人物':[說過的鍵]}, tday:{'房間:人物':第幾天}, after:{'房間:人物':第幾次}, ev:{鍵:演的那一天}, g:{鍵:排進手機的那一天},
-     miss:{鍵:不在房間的那一晚／3-1 旁白說了的那一天}（第 5 節）}；
+     miss:{鍵:算成不在的那一晚}（第 5 節）, sleep:{鍵:算成睡著的那一晚}（5-後補）, nar:{鍵:3-1 補的旁白說了的那一天}}；
      第一次用到才建（舊存檔沒有＝照常，每一格缺的補 {}）。旗標照稿：R312_SUPPER、R507_ZHE、R409_LAST（true）。沒有新的鎖（不需要 LOADLOCKS）。
-   測試：node tests/aa517_dorm_y24_unit.js（第 6 項＝AA_517 第 5 節的四件；第 0 項對稿兩個方向含第 5 節第 4 點）*/
+   測試：node tests/aa517_dorm_y24_unit.js（第 6 項＝AA_517 第 5 節的四件、第 7 項＝5-後補；第 0 項對稿兩個方向含第 5 節第 4 點、5-後補第 1 點）*/
 'use strict';
 const DORMY24=(function(){
   const S={};
@@ -64,7 +71,7 @@ const DORMY24=(function(){
     return F.ROOM_Y4?'r409':F.ROOM_Y3?'r507':F.ROOM_Y2?'r312':null; };
   /* 紀錄：make＝沒有就建（舊存檔照常）；每一格缺的補 {} */
   S.rec=function(G,make){ const F=G&&G.flags; if(!F) return null; let R=F.RY24; if(!R||typeof R!=='object'){ if(!make) return null; R=F.RY24={}; }
-    for(const k of ['walk','talk','tday','after','ev','g','miss']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+    for(const k of ['walk','talk','tday','after','ev','g','miss','sleep','nar']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
 
   /* ======================= 第 1 節：走進房間的旁白 ======================= */
   S.mates=function(G,room){ const T=term(G.day), x=hh(G); return !!T&&!!room&&T.id.slice(0,2)===ROOM_TERM[room]&&x>=7&&x<23.5; };   /* 背景室友在：那一間的上課學期、07:00～23:30 */
@@ -75,11 +82,18 @@ const DORMY24=(function(){
     return null; };
   S._walk=null;   /* 走進房間的那一次（不存檔）：{k:'區域|第幾天', t:遊戲時間, ms:真實時間, n:那時候演過幾件事件} */
   S.WAIT_MS=1500;   /* 走進來、淡入以後等一下（進門的事件 EVENTS.onEnter 600 ms、HOME.back 的「回到宿舍。」字幕先）*/
-  S.entered=function(GM,opts){ const G=GM&&GM.G; S._walk=null; opts=opts||{}; if(!G||G.zone!=='dorm'||!S.room(G)) return false; const F=G.flags||{};
+  S._wake=null;   /* 在房間醒來的那一次（不存檔）：{k:'區域|第幾天', ms:真實時間}——5-後補第 2 點：3-1 補的旁白醒來也算（第 1 節那幾句醒來不說）*/
+  S._awake=null;   /* 最後一次看到祐廷醒著（不存檔）：{t:遊戲時間, zone}——S.tick（空下來）、從門口走進房間記；在房間醒來時，這一覺從這時候算（S.woke）*/
+  S.entered=function(GM,opts){ const G=GM&&GM.G; S._walk=null; S._wake=null; opts=opts||{}; if(!G||G.zone!=='dorm'||!S.room(G)) return false; const F=G.flags||{};
+    if(STORY._sleeping&&!opts.fromLoad){ try{ S.woke(G); }catch(e){ console.warn('DORMY24.woke',e); } S._wake={k:G.zone+'|'+G.day,ms:Date.now()}; return false; }   /* 在房間醒來（sleepNow 換房間那一次）：第 1 節不說；這一覺睡過的小事＝睡著那一版（5-後補）*/
+    S._awake={t:now(G),zone:G.zone};   /* 進房間的時候醒著（讀檔、劇情帶進來也是）*/
     if(opts.fromLoad||STORY._sleeping||F.ROOM_Y2_MOVING||F.ROOM_Y3_MOVING||F.ROOM_Y4_MOVING||busy(GM)) return false;   /* 讀檔、睡覺醒來、搬進新房間、劇情帶進來的不算 */
     S._walk={k:G.zone+'|'+G.day,t:now(G),ms:Date.now(),n:(G.events&&G.events.count)|0}; return true; };
   /* 每一輪（STORY.TICKS；玩家空下來才會跑到）：走進來的那一句。字幕，不擋路，回傳 false */
-  S.tick=function(GM){ const G=GM&&GM.G, w=S._walk; if(!w||!G) return false;
+  S.tick=function(GM){ const G=GM&&GM.G; if(!G) return false; S._awake={t:now(G),zone:G.zone};   /* 5-後補：空下來（STORY.TICKS 跑得到）＝醒著 */
+    if(S._wake){ const v=S._wake; if(G.zone!=='dorm'||v.k!==G.zone+'|'+G.day) S._wake=null;   /* 醒來以後走出房間、換一天：不說了（那一天再走進來照樣說）*/
+      else if(!busy(GM)&&Date.now()-v.ms>=S.WAIT_MS){ S._wake=null; const t=S.missLine(G); if(t&&GM.caption) GM.caption('',t,4200); return false; } }   /* 在房間醒來、空下來：只有 3-1 補的旁白 */
+    const w=S._walk; if(!w) return false;
     if(G.zone!=='dorm'||w.k!==G.zone+'|'+G.day||now(G)<w.t||now(G)-w.t>0.25||((G.events&&G.events.count)|0)!==w.n){ S._walk=null; return false; }   /* 走出房間、換一天、過了 15 分鐘、中間演了事件：不說了 */
     if(busy(GM)||Date.now()-w.ms<S.WAIT_MS) return false;
     S._walk=null; const t=S.missLine(G)||S.walkLine(G); if(t&&GM.caption) GM.caption('',t,4200); return false; };   /* 3-1 那一晚不在房間：隔天第一次走進來是那一句（第 5 節第 4 點）*/
@@ -138,17 +152,18 @@ const DORMY24=(function(){
   S.ev=k=>S.EVS.find(e=>e.k===k)||null;
   /* 照作息，第 d 天 h 點，need 的人都在房間（不看玩家在哪；STORY.dormWho）*/
   S.allIn=function(G,need,d,h){ const G2=(d===G.day&&h===G.hour)?G:Object.assign({},G,{day:d,hour:h,weekday:typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:G.weekday}); let W=[]; try{ W=STORY.dormWho(G2)||[]; }catch(e){ return false; } return need.every(id=>W.some(w=>w[0]===id)); };
-  S.evDue=function(G,GM,e){ if(!G||G.zone!=='dorm'||S.room(G)!==e.room) return false; if(e.noJP&&route(G)==='JP') return false; const R=S.rec(G); if(R&&(R.ev[e.k]!=null||R.miss[e.k]!=null)) return false;   /* miss：已經算成祐廷不在（3-2 群組 23:50 傳了），之後回來也不演 */
+  S.evDue=function(G,GM,e){ if(!G||G.zone!=='dorm'||S.room(G)!==e.room) return false; if(e.noJP&&route(G)==='JP') return false; const R=S.rec(G); if(R&&(R.ev[e.k]!=null||R.miss[e.k]!=null||R.sleep[e.k]!=null)) return false;   /* miss、sleep：已經算成祐廷不在（3-2 群組 23:50 傳了）、睡著，之後回來也不演 */
     if(!e.days(G).includes(G.day)) return false; const x=hh(G); if(x<e.t[0]||x>=e.t[1]) return false;
     if(!S.allIn(G,e.need,G.day,e.probe!=null?Math.min(+G.hour||0,e.probe):G.hour)) return false;
     for(const id of e.need){ const n=GM&&GM.npc&&GM.npc[id]; if(n&&n.dormGo!=null) return false; }   /* 正在走進來（S.dormSpawn）：等他坐下 */
     return true; };
   S.nodDue=G=>S.said(G,'r409',BH,'d5');   /* 3-3「（去關燈）」：2-4「最後一晚，燈你關。……之前都是我。」說過的 */
-  /* 群組（那一件演過才傳；第 5 節：祐廷不在房間的那一晚換成 L.missGroup，tag 多一個 m）：items 照 at 分批排進手機；ge＝阿哲叫「哥」的那一版才傳（true 要有 ZHE_CALLS_GE、false 要沒有）*/
-  S.post=function(G,k,d,items,miss){ const ph=typeof PHONE!=='undefined'?PHONE:null; items=items||L.group[k]; if(!ph||!items||d==null) return false; const R=S.rec(G,true); if(R.g[k]!=null) return false;
+  /* 群組（那一件演過才傳；第 5 節：祐廷不在房間的那一晚換成 L.missGroup，tag 多一個 m；5-後補：睡著那一版 L.sleepGroup，tag 多一個 s）：items 照 at 分批排進手機（at 24 以上＝隔天凌晨）；
+     ge＝阿哲叫「哥」的那一版才傳（true 要有 ZHE_CALLS_GE、false 要沒有）*/
+  S.post=function(G,k,d,items,sfx){ const ph=typeof PHONE!=='undefined'?PHONE:null; items=items||L.group[k]; if(!ph||!items||d==null) return false; const R=S.rec(G,true); if(R.g[k]!=null) return false;
     if(!ph.inGroup(G,GID)){ R.g[k]='nogroup'; return false; }   /* 沒有 203 四人房的舊存檔：沒有這個群組 */
     const ge=!!(G.flags&&G.flags.ZHE_CALLS_GE), by={}; for(const it of items){ if(it.ge!=null&&it.ge!==ge) continue; (by[it.at]||(by[it.at]=[])).push({th:TH,from:it.from,text:it.text}); }
-    let i=0; for(const h of Object.keys(by).map(Number).sort((a,b)=>a-b)) ph.at(G,d,h,by[h],'rt_r203_y24_'+k+(miss?'m':'')+'_'+(i++));
+    let i=0; for(const h of Object.keys(by).map(Number).sort((a,b)=>a-b)) ph.at(G,d,h,by[h],'rt_r203_y24_'+k+(sfx||'')+'_'+(i++));
     R.g[k]=d; return true; };
   for(const e of S.EVS){ if(STORY_EVENTS.some(x=>x.id===e.id)) continue;
     const lines=L.ev[e.k].map(l=>l&&l.lightNod?{if:{custom:G=>S.nodDue(G)},speaker:null,text:l.text}:l);   /* 「（柏翰點了一下頭。）」：2-4 那一句說過才有 */
@@ -163,21 +178,38 @@ const DORMY24=(function(){
   S.missedNight=function(G,e){ if(!law(G)) return null; const d=e.days(G)[0]; if(d==null) return null; const R=S.rec(G); if((R&&R.ev[e.k]!=null)||done(G,e.id)) return null;
     if(e.noJP&&route(G)==='JP') return null; if(S.roomAt(G,d)!==e.room) return null;
     return S.allIn(G,e.need,d,e.probe!=null?e.probe:e.t[0]+0.01)?d:null; };
-  /* 3-1：隔天第一次從門口走進 312（S.tick，空下來才說）一句旁白；說了記 miss（第幾天）。隔天沒走進去＝沒有 */
-  S.missLine=function(G){ const room=S.room(G); for(const e of S.EVS){ const t=L.miss&&L.miss[e.k]; if(!t||e.room!==room) continue;
-      const R=S.rec(G,true); if(R.miss[e.k]!=null) continue; const d=S.missedNight(G,e); if(d==null||G.day!==d+1) continue; R.miss[e.k]=G.day; return t; }
+  /* 3-1：隔天在 312 醒來、或第一次從門口走進 312（S.tick，空下來才說）一句旁白——睡著那一版（S.woke 記的 sleep）、不然是不在那一版（那一晚沒演、作息上他們在：這時候記 miss）；
+     說了記 nar（那一天）。隔天沒醒在 312、也沒走進去＝沒有 */
+  S.missLine=function(G){ const room=S.room(G); for(const e of S.EVS){ if(e.room!==room||!((L.miss&&L.miss[e.k])||(L.sleep&&L.sleep[e.k]))) continue;
+      const d=e.days(G)[0]; if(d==null||G.day!==d+1) continue; const R=S.rec(G,true); if(R.nar[e.k]!=null) continue; let t=null;
+      if(R.sleep[e.k]===d) t=L.sleep&&L.sleep[e.k];
+      else if(R.sleep[e.k]==null&&(R.miss[e.k]===d||(R.miss[e.k]==null&&S.missedNight(G,e)===d))){ R.miss[e.k]=d; t=L.miss&&L.miss[e.k]; }
+      if(!t) continue; R.nar[e.k]=G.day; return t; }
     return null; };
-  /* 3-2、3-3：群組的時間到了、還沒演——人不在那一間（或還在那一間、演出的時間也過了）＝那一晚不在：照原本的時間傳 L.missGroup，記 miss（那一晚）；晚三天以上不補 */
+  /* 5-後補第 1 點：在房間醒來（S.entered 看到 STORY._sleeping）——這一覺睡過去的小事＝睡著那一版（記 sleep：那一晚；旗標不記）。
+     條件：那一晚該演、沒演、作息上該在的人在（S.missedNight）；醒來的時候演出的時間已經過了；還沒算成不在（miss：3-2 群組的時間人在外面，已經傳了）；
+     睡著以前最後醒著的時候（S._awake）在房間、而且在演出的時間結束以前——之後才睡（那時候醒著：在外面、一直在別的劇情裡）＝不在那一版（照第 5 節第 4 點）。
+     S._awake 不知道（讀檔以後沒看過）＝在房間醒來，算睡著。晚三天以上不算（同 S.phone）*/
+  S.woke=function(G){ if(!law(G)) return; const t=now(G), a=S._awake, room=S.room(G);
+    for(const e of S.EVS){ if(e.room!==room||!((L.sleep&&L.sleep[e.k])||(L.sleepGroup&&L.sleepGroup[e.k]))) continue; const d=e.days(G)[0];
+      if(d==null||t<d*24+e.t[1]||G.day>d+S.MISS_LATE) continue; const R0=S.rec(G); if(R0&&(R0.miss[e.k]!=null||R0.sleep[e.k]!=null)) continue;
+      if(a&&(a.zone!=='dorm'||a.t>=d*24+e.t[1])) continue;
+      if(S.missedNight(G,e)!==d) continue;
+      S.rec(G,true).sleep[e.k]=d; } };
+  /* 3-2、3-3 的群組：睡著那一版（S.woke 醒來時記的 sleep）＝照那一版的時間傳 L.sleepGroup；
+     不然群組的時間到了、還沒演——人不在那一間（或還在那一間、演出的時間也過了）＝那一晚不在：照原本的時間傳 L.missGroup，記 miss（那一晚）。晚三天以上不補 */
   S.MISS_LATE=3;
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; const t=now(G);
-    for(const e of S.EVS){ const items=L.missGroup&&L.missGroup[e.k]; if(!items||!items.length) continue; const d=e.days(G)[0]; if(d==null||t<d*24+items[0].at||G.day>d+S.MISS_LATE) continue;
-      const R0=S.rec(G); if(R0&&(R0.miss[e.k]!=null||R0.g[e.k]!=null)) continue;
+    for(const e of S.EVS){ const d=e.days(G)[0]; if(d==null||G.day>d+S.MISS_LATE) continue; const R0=S.rec(G);
+      if(R0&&R0.sleep[e.k]===d){ const sg=L.sleepGroup&&L.sleepGroup[e.k]; if(sg&&sg.length&&R0.g[e.k]==null) S.post(G,e.k,d,sg,'s'); continue; }
+      const items=L.missGroup&&L.missGroup[e.k]; if(!items||!items.length||t<d*24+items[0].at) continue;
+      if(R0&&(R0.miss[e.k]!=null||R0.sleep[e.k]!=null||R0.g[e.k]!=null)) continue;
       if(t<d*24+e.t[1]&&G.zone==='dorm'&&S.room(G)===e.room) continue;   /* 人在那一間、演出的時間還沒過（在別的劇情裡）：等它演 */
       if(S.missedNight(G,e)!==d) continue;
-      const R=S.rec(G,true); R.miss[e.k]=d; S.post(G,e.k,d,items,true); } };
+      const R=S.rec(G,true); R.miss[e.k]=d; S.post(G,e.k,d,items,'m'); } };
   /* 畢業後篇（postgrad3d.js）的「跳到下一件事」：人在 409 房間、最後一晚還沒演＝停在那一晚 23:00 */
   S.pgStop=function(G){ if(!G||G.zone!=='dorm'||S.room(G)!=='r409') return null; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return null;
-    const R=S.rec(G); if((R&&(R.ev.last409!=null||R.miss.last409!=null))||done(G,'ev_r409_last')) return null; const d=S.lastDay(); return d!=null?d*24+23:null; };
+    const R=S.rec(G); if((R&&(R.ev.last409!=null||R.miss.last409!=null||R.sleep.last409!=null))||done(G,'ev_r409_last')) return null; const d=S.lastDay(); return d!=null?d*24+23:null; };
 
   if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>{ try{ return S.tick(GM); }catch(e){ console.warn('DORMY24.tick',e); return false; } });
   if(typeof PG!=='undefined'&&Array.isArray(PG.stops)) PG.stops.push(G=>S.pgStop(G));
