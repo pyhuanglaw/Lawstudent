@@ -34981,7 +34981,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】BB-C 09:27 瀏覽器（8de0993cd）：sh_reload_lk ALL PASS（阿姨諮詢第 3 句讀檔 → loadGen 1→2、對話框選項收掉、busyDepth 0、EVENTS.running null、走得動；第二段讀「到期」→ 重新開始）、rel_ev_lk ALL PASS（ev_bike_flat 對話中讀檔 → running 馬上 null、新的一局照演；對照 60805aa78 running 卡住）＝擋件解除；還沒驗：第 4 點（家裡存檔選單、手機開著讀檔）、b727fb570 回標題按新遊戲（newGameAbort）→ 放進 v9.10.13 發布門檻｜【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
    "note": "【LAWWW-C 2026-10-28 08:1x】BB-C 08:08 回報（sh_reload_lg3，d41f5025b：阿姨諮詢讀檔以後再也不演；closed2_3d.js busy 只在 finally 放開）；LAWWW-C 讀程式另外找到 applySave 沒清 EVENTS.running。LOAD-GEN-ABORT-1028 的副作用，擋 v9.10.13 發布。子代理（worktree）；BB 的 stuck_harden_probe MODE=reload 第二段＝回歸｜【BB-C 08:23 瀏覽器重現】reload_event_probe（60805aa78）：讀檔後 EVENTS.running 一直是 ev_bike_flat，新的一局 EVENTS.run 直接 return；v9.10.12 照演（舊對話框點掉、舊事件跑完才清）。修好給 BB SHA，用 reload_event_probe＋stuck_harden_probe MODE=reload 第二段重跑｜【LAWWW-C 09:1x】子代理 7e94e383c 合併 8de0993cd（loadgen_locks 新測試：修改前 FAILED 13、修改後 ALL PASS；合併時補 privtalk3d S._miss／S._ex 登記）＋b727fb570 回標題「新遊戲」newGameAbort；BB 瀏覽器：stuck_harden_probe MODE=reload 第二段、reload_event_probe",
    "xai": {
     "spec": "BB-C 08:08 訊息；src/game3d.js applySave、src/events3d.js X.run",
@@ -35204,6 +35204,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（feed_dates.js＋date3d 掛勾＋tests/aa515_feed_dates_unit.js 逐字對稿）；合併後全部 Node、BB 瀏覽器照 AA_515 第 5 節"
+  },
+  {
+   "id": "DORM-Y24-1028",
+   "title": "宿舍大二到大四的房間日常（AA_517）：312／507／409 背景室友走進來的旁白（每人輪流、同一天不重複，不加 3D 人物）；房間閒聊（阿哲 6 句＋之後、柏翰三間各 5 句＋之後，一天一句新的）；三件小事（312 四份滷味 大二上 11/19 23:00、507 阿哲上來借筆記 大三下 5/30 23:30＋舊生群組、409 最後一晚 退宿前一晚 23:00＋舊生群組）；旗標 R312_SUPPER、R507_ZHE、R409_LAST",
+   "area": "Y2S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_517（企劃線 ced552c17；outbox 31192a44c）；X123 203 室友的日常延伸到大二以後（AA_502 只有大一）",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上第一次回到宿舍房間",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（照 AA_502 的做法、S.dormMates）；409 最後一晚的日期照宿舍退宿日；合併後全部 Node、BB 瀏覽器"
   }
  ]
 }

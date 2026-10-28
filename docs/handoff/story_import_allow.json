@@ -3370,6 +3370,14 @@
    "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
    "task": "FEED-DATES-1028",
    "note": "LAWWW-C 10-28 09:3x 登記：交往中約會後的動態（照片表、七位一句／留言／私訊）；src/data/feed_dates.js＋date3d 掛勾；tests/aa515_feed_dates_unit.js 逐字對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md",
+   "sha": "ced552c17",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；DORM203-MATES-1028，USER_WANTS X123）",
+   "task": "DORM-Y24-1028",
+   "note": "LAWWW-C 10-28 09:3x 登記：大二～大四房間日常（旁白、閒聊、三件小事）；tests 逐字對稿"
   }
  ]
 }
