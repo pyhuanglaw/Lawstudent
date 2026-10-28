@@ -21,6 +21,7 @@
 //   （PASS＝讀稿、白名單、日子對星期、「不該有／照舊」那一類：被抓包不傳、原有八則照原本的條件、八則都在、3/27 在 kx_yule 後面、23:54 以後不能回、新的局沒有 YL_*、經濟系不傳；
 //    第 0 段、第 4 段找不到 YULE_LINES 丟例外中斷、第 7 段舊存檔丟例外（沒有 YULE））。修改後 ALL PASS（57 項）。
 // 照 AA_520 改的舊測試：tests/aa503_others_unit.js（h503_yule 三則、items 第 4 欄的稿、句數 121→123）、tests/scene_bg_keys_unit.js（PENDING 加 linze_201）。
+// 全部 Node 單元測試（tests/*_unit.js，這一批的成果 a302ab1cd，2026-10-28）：726 支、結束碼不是 0 的 0 支。
 // 用法：node tests/aa520_yule_unit.js（在沒有 .git 的目錄跑，設環境變數 AA520_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
