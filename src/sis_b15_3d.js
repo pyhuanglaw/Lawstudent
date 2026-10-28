@@ -78,7 +78,8 @@ const SISB15=(function(){
   S.STUDY=[{n:1,day:'2027-10-21'},{n:2,day:'2027-12-09'},{n:3,day:'2028-03-16'},{n:4,day:'2028-05-11'}];
   S.studyOut=n=>({id:'sisb15_study_'+n,ev:'ev_sis15_study_'+n,h:19,late:0.25,place:'法圖・討論室',title:'法圖・討論室（家族讀書會）',travel:'走路 約 10 分鐘',travelH:1/6,hours:2,back:'回到住的地方。'});
   S.study=function(G){ const F=G.flags; for(const x of S.STUDY){ const d=D(x.day); if(d==null||G.day<d-1||G.day>d+1) continue; const tag='sisb15_study'+x.n, go='SIS15_STUDY'+x.n+'_GO';
-      if(!sent(G,tag)&&now(G)<T(d,19)){ const ask=S.awayOn(G,d)?null:{id:tag,until:T(d,19),opts:[{t:L.go,set:{[go]:true}}]};   /* 那天人在國外＝訊息照收、沒有「去。」*/
+      if(!sent(G,tag)&&now(G)<T(d,19)){ const hint=typeof SISB12!=='undefined'&&!!SISB12.plgTerm&&SISB12.plgTerm(G,d)&&typeof SISB12_LINES!=='undefined'&&SISB12_LINES.studyHint;   /* 以安的公法讀書會（週四 20:00）同一晚：照 AA_490 第 3 節同一個讀書會的做法——照撞期處理、「去。」帶小字（那一學期去過公法讀書會的）*/
+        const ask=S.awayOn(G,d)?null:{id:tag,until:T(d,19),opts:[Object.assign({t:L.go,set:{[go]:true}},hint?{hint}:{})]};   /* 那天人在國外＝訊息照收、沒有「去。」*/
         if(inGrp(G)){ const m=g(['k',L.studyAsk]); if(ask) m.ask=ask; PHONE.at(G,d-1,tzH(G,d-1,21),[m],tag); }   /* 家族群組：所有人（D 也收得到）*/
         else if(G.flags.met_sis&&(S.dating(G)||stageOk('FAMILIAR'))&&contact(G)){ const m=dm(L.studyDm); if(ask) m.ask=ask; PHONE.at(G,d-1,tzH(G,d-1,21),[m],tag); } }   /* 沒在家族群組、FAMILIAR 以上：她私訊 */
       if(F[go]===true&&F['SIS15_STUDY_'+x.n]==null&&!S.awayOn(G,d)&&now(G)<T(d,19.25)) plan(G,Object.assign(S.studyOut(x.n),{day:d})); } };
@@ -124,8 +125,8 @@ const SISB15=(function(){
     if(G.flags[x.f]!=null) return false; G.flags[x.f]=p.k;
     PHONE.post(G,{th:'p:'+ID,from:'player',who:null,text:p.t});
     const at=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,ID):{day:G.day,h:(+G.hour||0)+5/60};   /* 她照 MSG 的時間回（同 sis_b9 的楓葉書籤）*/
-    PHONE.at(G,at.day,at.h,[dm(S.photoReply(x,p))],'sisb15_photo_'+x.f.slice(-2).replace('_',''));
-    if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(ID,'msg'); return true; };
+    PHONE.at(G,at.day,at.h,[dm(S.photoReply(x,p))],'sisb15_photo_'+x.f.slice(-2).replace('_',''));   /* 不加數值（稿沒寫；同 sis_b9 楓葉書籤的回覆）*/
+    return true; };
 
   /* ---------------- 第 3 節第 6、7 點 兩把傘、兩件外套 ---------------- */
   S.umbrellaOk=G=>{ const F=G.flags; if(!law(G)||!F.met_sis||S.isEx(G)||F.SIS_Y3S2_RAIN!=='buy'||!here(G)||abroad(G)) return false; const rd=last(G,'ev_sis_y3s2_rain'); return rd==null||G.day>rd; };

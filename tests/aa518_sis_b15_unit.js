@@ -12,7 +12,7 @@
 //   6  舊存檔：沒有新旗標照常跑、不丟例外；不撞（日子的星期）
 // 修改前（開發分支 64e12da0e：git archive 那一版的 index.html、src/、tests/、lib/、tools/ 放進這支測試真的跑過，白名單用新的，稿從這個 repo 讀：AA518_DOCREPO）：FAILED 30、PASS 9
 //   （PASS＝讀稿、白名單、1-1 作息（她本來就在總圖）、3-1 日子、6/3 13:00 那則照舊、沒回不排、BB 六項讀得到、新的一局沒有 SIS15_ 旗標、不撞；
-//    第 1～4 節找不到新事件、SISB15／FEED.WENT.sisS4Lx 不存在＝丟例外中斷）。修改後 ALL PASS（173 項）。
+//    第 1～4 節找不到新事件、SISB15／FEED.WENT.sisS4Lx 不存在＝丟例外中斷）。修改後 ALL PASS（174 項）。
 // 用法：node tests/aa518_sis_b15_unit.js（在沒有 .git 的目錄跑，設環境變數 AA518_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -208,6 +208,10 @@ await sec(2,async()=>{
   { const d=D('2027-10-21'); fresh(d-1,21.2,'fam',{},{grp:false}); ph(); const M=byTag('sisb15_study1');
     check('2. 沒在家族群組、和她 FAMILIAR 以上：她私訊「明天讀書會。」（回覆「去。」；子代理解讀）→ 回了一樣排出遊',M.length===1&&M[0].th==='p:'+ID&&M[0].text==='明天讀書會。'&&J(askOpts('sisb15_study1'))===J(['去。'])&&(answer('sisb15_study1',0),ph(),!!OUT.get(H.G,'sisb15_study_1')),J(M));
     fresh(d-1,21.2,'none',{},{grp:false}); ph(); check('2. 沒在家族群組、沒見過她：沒有',!byTag('sisb15_study1').length); }
+  /* 以安的公法讀書會同一晚（週四 20:00）：照 AA_490 第 3 節同一個讀書會的做法——那一學期去過的「去。」帶小字 */
+  { const d=D('2027-10-21'); fresh(d-1,21.3,'fam'); H.G.acts.att['public_law_group@'+D('2027-10-14')]={h:20,end:'full'}; ph(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb15_study1');
+    fresh(d-1,21.3,'fam'); ph(); const m0=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='sisb15_study1');
+    check('2. 同一晚有以安的公法讀書會（那一學期去過）：「去。」帶小字「那天晚上也是公法讀書會」（AA_490 第 3 節照撞期處理，子代理解讀）；沒去過的沒有小字',!!m&&m.ask.opts[0].hint==='那天晚上也是公法讀書會'&&!!m0&&!m0.ask.opts[0].hint,J([m&&m.ask.opts,m0&&m0.ask.opts])); }
   /* 人在日本（日本路線 3/25 出發）：5/11 那一次訊息照收、沒有「去。」*/
   { const d=D('2028-05-11'); fresh(d-1,22.5,'fam',{JP_DEPARTED:D('2028-03-25')},{route:'JP'}); ph(); const M=byTag('sisb15_study4');
     check('2. 日本路線 5/11（人在日本）：群組那一則照收（日本 22:00）、沒有「去。」、不排',M.length===1&&!M[0].ask&&!OUT.get(H.G,'sisb15_study_4')&&Math.abs(M[0].h-22)<0.02,J(M)); }
