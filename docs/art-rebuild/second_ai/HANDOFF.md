@@ -1,5 +1,25 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 07:3x UTC｜NPC-POOL-ART-1028 交件：同學的隨身道具＋冰箱＋補給桌；send_message 另外傳）
+- **交件 SHA**：`35b26938c`。
+- **程式**：`git apply docs/art-rebuild/second_ai/patches/npc_pool_art_1028.patch`。開發分支 `44e8ff8b7` 上 `apply --check` 通過。
+- **二進位檔**：`git checkout 35b26938c -- <檔案>`。
+  - `assets/models/env/dorm_hall.glb`、`assets/models/env/second_ai/linze_supply_table.glb`；
+  - `assets/models/char/second_ai/` 的十二個道具 GLB：camera_film、lanyard_tag、thermos_silver、sports_drink、recorder、cooler_bag、novel、notebook_q、handouts、audio_cable、ladle、bandage。
+- **內容**：
+  - 十一位同學的配件。相機背帶、名牌掛繩照底模身體量過。
+  - props3d 的 DEF 可以寫 `sit:'hide'`（坐下藏）／`'only'`（坐下而且開了才看得到）。
+  - 靖雯坐在傅鐘長椅時保溫瓶放在身旁（AA_498 旁白）。
+  - 振宇補後背包：安全帽本來浮在背後。
+  - 男一舍交誼廳冰箱、霖澤館一樓補給桌（只有那一天、GLB 載好才擋路；互動點南移 (4.6,2.05)）。
+- **要你接的**：`heroine_circle.js` 的 PEOPLE[] 要能傳 props。阿姨建議 `[{name:'apron',show:true},'ladle','bandage']`。
+- **測試**：`44e8ff8b7`＋patch，Node 5 支 ALL PASS；aa497、aa498、aa502 的讀稿檢查 FAIL 數和沒有 patch 時一樣。
+- **細節**：截圖、同角度改前改後、效能、沒做的清單都在 `test_shots/npc_pool_art_1028/README.md`。
+- **D99 不做**：衣服類、趴著睡、鯊魚夾。
+- **下一步（LAWWW2-C）**：
+  - HEROINE-LIFE-NPC3D-1028：標籤同伴的配件，小婷、老闆、麵店阿姨、學姊的兩個同學先做。
+  - NPC-STORY-1028：總圖一樓影印機 (8.0,2.6)，順便看六個站位。
+
 ## 📣 給 LAWWW-C（2026-10-28 05:3x UTC｜INTERIOR-AAA-REVIEW-1028 第三包：202 v2＋三間光照重烘＋講台淺色地板；send_message 另外傳）
 - **交件 SHA**：`e95a1aeb4`（二進位檔在 `ba625a84a`，之後沒動）。**只有二進位檔，沒有新的程式**：你已經整合 201 v2（`7b90397a4`）、第二包（`ab290c818`），這包直接換檔：
   `git checkout e95a1aeb4 -- <下面十個檔>`。

@@ -3942,6 +3942,36 @@
    "remaining": "人物沒吃到烘焙的光；不烘的小零件（鐵腳、桌上的東西、天花板格柵）照即時光；白天光照貼圖固定下午；202 的窗、講台還沒照 201 做；iPhone 實機沒測",
    "next": "LAWWW-C 換十個二進位檔（沒有新程式）、跑回歸；LAWWW2-C 接著 NPC-POOL-ART-1028",
    "note": "第三包：202 v2 家具與天花板＋LIGHTBAKE-UV-FIX（bake_room.py：光照貼圖只用 6～9%、頂點色零件的 LM 進 TEXCOORD_0、門縫漏光）三間重烘（填滿 202 50%／多功能 61%／201 28%）＋201／202 講台木地板改淺（UA-LAWWW2-1023-03，scan_floors 不再 DARK）；READY_FOR_ART_REVIEW；開發分支 923e81d20 上 Node 11 支、reachability 三區 127 點 ALL PASS｜LAWWW-C 05:31Z ACK：開發分支 ca50d6ab5 整合，Node 11 支 ALL PASS；BB 排 v9.10.13 看畫面"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "35b26938c",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NPC-POOL-ART-1028",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/npc_pool_art_1028.patch",
+    "assets/models/env/dorm_hall.glb",
+    "assets/models/env/second_ai/linze_supply_table.glb",
+    "assets/models/char/second_ai/camera_film.glb",
+    "assets/models/char/second_ai/lanyard_tag.glb",
+    "assets/models/char/second_ai/thermos_silver.glb",
+    "assets/models/char/second_ai/sports_drink.glb",
+    "assets/models/char/second_ai/recorder.glb",
+    "assets/models/char/second_ai/cooler_bag.glb",
+    "assets/models/char/second_ai/novel.glb",
+    "assets/models/char/second_ai/notebook_q.glb",
+    "assets/models/char/second_ai/handouts.glb",
+    "assets/models/char/second_ai/audio_cable.glb",
+    "assets/models/char/second_ai/ladle.glb",
+    "assets/models/char/second_ai/bandage.glb",
+    "docs/art-rebuild/second_ai/test_shots/npc_pool_art_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "衣服類（格子襯衫、系服、系學會外套、藍白拖）、趴著睡、鯊魚夾：D99 不做；計時器、耳機、撥片鑰匙圈、延長線、公路車、飯糰包裝紙、穿堂照片展還沒做；heroine_circle.js 的 PEOPLE[] 要支援 props，阿姨的圍裙＋湯杓＋繃帶才看得到；iPhone 實機沒測",
+   "next": "LAWWW-C：git apply patch（44e8ff8b7 上 apply --check 通過）＋git checkout 35b26938c -- 二進位檔；跑回歸。LAWWW2-C 接著 HEROINE-LIFE-NPC3D-1028（標籤同伴的配件）、NPC-STORY-1028（總圖影印機、站位檢查）",
+   "note": "十二個道具 GLB（相機、法服名牌照底模身體量過）＋props3d DEF 的 sit（hide／only）＋pool_story 十一位的 props＋靖雯傅鐘長椅的保溫瓶＋男一舍冰箱＋霖澤館一樓補給桌（互動點南移 (4.6,2.05)）；READY_FOR_ART_REVIEW（配件 BB、場景使用者）；開發分支 44e8ff8b7＋patch：Node 5 支 ALL PASS，aa497／aa498／aa502 的讀稿檢查 FAIL 數和沒有 patch 時一樣"
   }
  ]
 }
