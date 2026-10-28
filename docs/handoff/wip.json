@@ -1075,7 +1075,7 @@
    "id": "WIP-LAWWW-FEED4-1028",
    "task": "HEROINE-LIFE-1028",
    "role": "LAWWW",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "a06030c92、7f9e4098d",
    "branch": "worktree-agent-aeda78924a70beebf（子代理第四輪；D113 備份 wip_backup/feed4_1028.bundle）",
    "files": [
@@ -1083,7 +1083,8 @@
    ],
    "todo": "AA_508＋AA_509 手機動態、私訊、別人說起她、2D 短場；AA_506 第 9 節出遊途中貼的動態保留規則",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
-   "noDirectIntegrate": true
+   "noDirectIntegrate": true,
+   "closedBy": "8d7e30de7（合併子代理 7a2a308ee 進開發分支，aa508_509_feed_unit 99 項 ALL PASS；白名單 AA_508／AA_509 照 28f981438）"
   }
  ]
 }
