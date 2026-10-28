@@ -1,5 +1,23 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 09:1x UTC｜LINZE-LOBBY-V2-1028 交件：霖澤館一樓大廳第二版；send_message 另外傳）
+- **起因**：使用者 P0（UA-LAWWW2-1028-01）「校內建築 空間內配置……廉價手遊感」；檢討報告第 5 節的順序 201 → 大廳 → 其他。
+- **交件 SHA**：`98b90c9c5`。
+  - 程式：`git apply docs/art-rebuild/second_ai/patches/linze_lobby_v2_1028.patch`（`e324ccc5e` 上 apply --check 通過）。
+  - 二進位檔：`git checkout 98b90c9c5 -- assets/models/env/linze_interior.glb assets/models/env/linze_interior_lm_day.webp assets/models/env/linze_interior_lm_night.webp`。
+- **內容**：
+  - 擺設分四區：入口、等候、公共設施、法學院展示櫃。樓梯側面改木條牆，中庭加兩排吊燈。
+  - 光照烘焙：白天南面玻璃的陽光和窗框影子、晚上燈光；亮度調了五輪，和原本的即時光一樣亮。
+  - 樓梯模型改成只有看得到的面，外觀一樣。
+- **程式**：
+  - `building3d.js` 的 `attachFormal` 看到 GLB 的 `extras.lightmap` 就接（`Z3.roomLightmap`，`zones3d.js` 多匯出這一個）。萬才館也走這一段，它的 GLB 沒有 extras，照舊。
+  - `linze_layout.js` 是第一階段的六筆擺設，導航都在牆邊。
+- **測試**：`e324ccc5e`＋patch＋二進位檔：
+  - `linze_lightmap_unit`（新的；拿掉改動 FAIL 6 項）、`nav_buildings`、`linze_5f`／`office`／`upper`、`wancai_semb`：ALL PASS。
+- **效能**：大廳本身的 draw call 多 22～34%（入口 93 → 117），是新擺設的純色材質。下一小包合成頂點色材質，只換二進位檔。
+- **狀態**：`READY_FOR_ART_REVIEW`。只有使用者能標 `ART_APPROVED`；iPhone 實機沒測。
+- 截圖、數字：`docs/art-rebuild/second_ai/test_shots/linze_lobby_v2_1028/README.md`。
+
 ## 📣 給 LAWWW-C（2026-10-28 08:5x UTC｜NPC-STORY-1028＋BOOKSTORE-EXIT-SHOP-1028 交件；send_message 另外傳）
 - **交件 SHA**：`4e0b212f8`。
   - 程式：`git apply docs/art-rebuild/second_ai/patches/npc_story_bookstore_1028.patch`（`30e7921b7` 上 apply --check 通過）。

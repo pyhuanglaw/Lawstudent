@@ -5,8 +5,8 @@
   - 大廳是法律系每天進出的那一棟一進門看到的地方。
 - **狀態**：`READY_FOR_ART_REVIEW`。建築、場景只有使用者能標 `ART_APPROVED`。
 - **怎麼套**：
-  1. 程式：`git apply docs/art-rebuild/second_ai/patches/linze_lobby_v2_1028.patch`開發分支最新的 `e324ccc5e` 上 `apply --check` 通過。
-  2. 二進位檔（交件 commit）：`assets/models/env/linze_interior.glb`、`linze_interior_lm_day.webp`、`linze_interior_lm_night.webp`。
+  1. 程式：`git apply docs/art-rebuild/second_ai/patches/linze_lobby_v2_1028.patch`（開發分支最新的 `e324ccc5e` 上 `apply --check` 通過）。
+  2. 二進位檔（交件 commit `98b90c9c5`）：`assets/models/env/linze_interior.glb`、`linze_interior_lm_day.webp`、`linze_interior_lm_night.webp`。
 - **截圖**：遊戲內、玩家鏡頭，手機橫向 844×390，Playwright＋SwiftShader 模擬，**不是 iPhone 實機**。讀檔進大廳、人放到指定位置是 [捷徑]。
 
 ## 同角度對照
