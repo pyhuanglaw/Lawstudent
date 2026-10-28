@@ -33,7 +33,8 @@ Y4 = {'c509_4_1': dict(key='2028-09-19', h=22.5, zone='gongguan', who='heroine_0
 
 # 只記錄、不改行為：STORY.privNow 每次被問的答案（offerInvite、PRIVTALK.ok 都問它）、字幕（#caption）
 HELPERS = r"""(()=>{ if(window.__CPF) return 'again';
-  const W=window.__CP={priv:[],cap:[]};
+  const W=window.__CP={priv:[],cap:[],dl:[]};
+  { let last=''; setInterval(()=>{ try{ const D=GAME.D; const k=D&&D.active?String(D.full||''):''; if(k&&k!==last){ W.dl.push(k); if(W.dl.length>400) W.dl.splice(0,200); } last=k; }catch(e){} },50); }   /* BB-C 10-28 priv_ladder：只有一句的閒聊在兩次讀取之間開了又關（1 fps），對話記錄改成 50 ms 看一次 D.full */
   const p0=STORY.privNow; STORY.privNow=function(G,id,n,GM){ const r=p0.apply(this,arguments);
     try{ W.priv.push({id,r:!!r,w:HCIRCLE.withNow(GM||GAME,id),d:G&&G.day,h:G?+(+G.hour).toFixed(2):null}); if(W.priv.length>300) W.priv.splice(0,150); }catch(e){} return r; };
   const el=document.getElementById('caption'); if(el){ let last=''; new MutationObserver(()=>{ const t=(el.textContent||'').trim(); if(t&&t!==last){ last=t; W.cap.push({t,h:+(+GAME.G.hour).toFixed(2),d:GAME.G.day}); if(W.cap.length>200) W.cap.splice(0,100); } }).observe(el,{childList:true,subtree:true,characterData:true}); }
@@ -70,7 +71,7 @@ HELPERS = r"""(()=>{ if(window.__CPF) return 'again';
       busy:!!GAME.E.player.busy,depth:(D&&D.busyDepth)|0,phone:!!(GAME.phoneIsOpen&&GAME.phoneIsOpen()),h:+(+GAME.G.hour).toFixed(2)}; };
   F.ladKey=id=>{ const D=STORY.ladData&&STORY.ladData(GAME.G,id); return D?D.key:id; };
   F.pre=function(id){ const G=GAME.G, so=G.social||{}, k=F.ladKey(id); if(typeof PRIVTALK!=='undefined') PRIVTALK.held.length=0;
-    return {priv:W.priv.length,cap:W.cap.length,done:Object.keys((G.events&&G.events.done)||{}),lad:(so.ladder||{})[k],ladDay:(so.ladderDay||{})[id]}; };
+    return {priv:W.priv.length,cap:W.cap.length,dl:W.dl.length,done:Object.keys((G.events&&G.events.done)||{}),lad:(so.ladder||{})[k],ladDay:(so.ladderDay||{})[id]}; };
   F.post=function(id,p){ const G=GAME.G, so=G.social||{}, k=F.ladKey(id), dn=(G.events&&G.events.done)||{};
     return {priv:W.priv.slice(p.priv).filter(x=>x.id===id),held:typeof PRIVTALK!=='undefined'?PRIVTALK.held.slice():[],ev:Object.keys(dn).filter(e=>!p.done.includes(e)),
       lad:(so.ladder||{})[k],ladDay:(so.ladderDay||{})[id],day:G.day}; };
@@ -181,7 +182,10 @@ async def talk(pg, cdp, run, who, rid, tag, pick=None, max_s=300):
             if time.time() - idle > 4: break
         await pg.wait_for_timeout(400)
     post = await pg.evaluate("([a,b])=>__CPF.post(a,b)", [who, pre])
-    r = dict(menu=menu, picked=picked, lines=clean(seen), at_tap=at_tap, at_menu=at_menu, priv_menu=priv_menu, pre=pre, post=post)
+    dl = await pg.evaluate("p=>window.__CP.dl.slice(p)", pre.get('dl', 0))
+    lines = clean(seen)
+    if len(dl) > len(lines): lines = dl   # 50 ms 的對話記錄比較完整（一句的閒聊不會漏）
+    r = dict(menu=menu, picked=picked, lines=lines, at_tap=at_tap, at_menu=at_menu, priv_menu=priv_menu, pre=pre, post=post)
     run.note('%s：選單 %s；選了 %s；台詞 %s' % (tag, J(menu), J(picked), J(r['lines'][-8:])))
     run.note('%s：說話時 withNow %s；選單時 %s；privNow 記錄 %s；PRIVTALK.held %s；新演的事件 %s；階梯 %s → %s' % (
         tag, J(at_tap['withNow']), J(at_menu and at_menu['withNow']), J((priv_menu if priv_menu is not None else post['priv'])[-3:]),
