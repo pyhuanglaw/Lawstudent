@@ -9,8 +9,12 @@
 //   4  明軒：4-1 B1 版 M1、作息、提示；4-2 傘、咖啡、位子、M2；4-3 德文（INV 約 B1 討論室）；4-4 存摺；4-5 閒聊；4-6 梗（哈哈、滷蛋、CP 值）
 //   5  Kevin：5-2 交棒（9/14 揪、回「去。」、9/17 家聚、KV_HANDOVER、沒去 9/18、宜蓁私訊、群組那一段拿掉、宜蓁改名＋讀檔）；5-3 國考、錯題本、事務所；5-4 梗
 //   6  陳助教；7 舊存檔（過了的不補、沒有記號照「沒選」）
-// 修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版放進這支測試真的跑過）：見檔尾的「修改前」一行（跑完填）。
-// 修改後：ALL PASS。用法：node tests/aa497_supporting_unit.js
+// 修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 的 git 讀）：PASS 2、FAIL 46——
+//   36 節沒有 SUP497／SUP497_LINES，丟例外中斷（0a、0b、1-3～1-11、2-1～2-9、3-1～3-7、4-1～4-5、5-2～5-4、7）；
+//   直接 FAIL 的 10 項：新檔、index.html 沒有；稿的 195 行「>」遊戲都沒有；1-1 personality 沒有「在錄音室待過一年」；1-5 沒有兩場；3-8「三個社團」（兩項）；
+//   4-6 fit3d 當面的「哈哈」、明軒朋友階道別的滷蛋；6 陳助教大一、大二週二上午還在教室。
+//   本來就對的 2 項：0 讀得到稿；6 三個社團的社長標籤已經是全名（AA_496 時改的）。
+// 修改後：ALL PASS。用法：node tests/aa497_supporting_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 AA497_DOCREPO＝這個 repo 的目錄）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -50,7 +54,7 @@ const wait=()=>new Promise(r=>setTimeout(r,0));
 const NM=id=>SOCIAL.displayName(id);
 
 /* ---------- 讀稿 ---------- */
-const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
+const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:process.env.AA497_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
 const DOC=git('7a38216ca','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'), BB70=git('7a38216ca','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('7a38216ca','BB_113_BB角色的同行聊天與手機小事池.md');
 const part=(doc,a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const B7B=part(BB70,'## 7b.','## 7c.');
@@ -684,6 +688,5 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); const s={msgs:[{from:YZID,name:'家族的學妹',text:'學姊好🙏'}]}; const n1=S().migrate(s), n2=S().migrate(s);
       check('7. 宜蓁改名：game3d.js 讀檔（migrate）叫 SUP497.migrate；換一次就好（第二次 0 筆）',/SUP497\.migrate\(s\)/.test(g)&&n1===1&&n2===0&&s.msgs[0].name==='宜蓁'); } });
 
-  check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();

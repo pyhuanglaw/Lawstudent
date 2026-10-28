@@ -233,7 +233,8 @@ const date=id=>H.date(id);
     check('W2 交往中（別人）、說過要送：群組沒有按鈕；私訊回「我開車去載妳。」→「我也要去！我坐後面！」學妹「我也要！」', !(gb&&gb.ask)&&th('p:heroine_05').slice(0,2).join('|')==='八月二號早上八點，我家樓下。|你說要送我。'&&th('g:family_law').includes('我也要去！我坐後面！')&&th('g:family_law').includes('我也要！'), JSON.stringify(th('p:heroine_05')));
     at('2028-08-02',7.9); await goOut('y4_sis_airport');
     check('W2 家族共乘：「Kevin，看前面的是司機，不是你。」、說過要送＝「……你說你會來。」、「回到家在群組說一聲」', has('Kevin，看前面的是司機，不是你。')&&has('……你說你會來。')&&has('……回到家，在群組說一聲。')&&H.G.flags.SIS_SENDOFF==='family');
-    at('2028-08-03',9); phone(); check('1B-18 家族共乘：US0 在家族群組「這裡的天空很大，大家保重。」', th('g:family_law').includes('這裡的天空很大，大家保重。')); }
+    /* 2026-10-28 改：AA_497 5-4（企劃線 7a38216ca）「學姊多講兩個字」只留第一次——US0 第 2、3 則換成 Kevin「天空有多大 拍給我們看啦」、學姊「（照片：停車場上面的天空）」「大家保重。」（tests/aa497_supporting_unit.js 5-4）*/
+    at('2028-08-03',9); phone(); { const T=th('g:family_law'), i=T.indexOf('到了。天空很大。'); check('1B-18 家族共乘：US0 在家族群組「到了。天空很大。」「天空有多大 拍給我們看啦」「（照片：停車場上面的天空）」「大家保重。」（AA_497 5-4）', i>=0&&JSON.stringify(T.slice(i,i+4))===JSON.stringify(['到了。天空很大。','天空有多大 拍給我們看啦','（照片：停車場上面的天空）','大家保重。'])&&!T.includes('學姊妳可以多講兩個字'), JSON.stringify(T.slice(-6))); } }
   { fresh('2028-07-26',21,'dorm',{},'JP'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const early=(H.G.msgs||[]).some(x=>x.text==='我搭客運去機場。大家不用送。');
     at('2028-07-26',22); phone(); const m=(H.G.msgs||[]).find(x=>x.text==='我搭客運去機場。大家不用送。');
     at('2028-08-03',9.9); phone(); const early2=th('g:family_law').includes('到了。天空很大。'); at('2028-08-03',10); phone();
@@ -245,7 +246,7 @@ const date=id=>H.date(id);
   /* M6 */
   { fresh('2028-08-04',8,'dorm',{SIS_SENDOFF:'bus'}); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族');
     for(let d=D('2028-08-04');d<D('2028-08-06');d++){ H.G.day=d; H.G.hour=9.5; phone(); }
-    check('M6 每天一張照片（沒有字）', th('g:family_law').filter(t=>/^（照片：/.test(t)).length===2);
+    check('M6 每天一張照片（沒有字；8/3 抵達那則 US0 裡的照片不算，AA_497 5-4）', (H.G.msgs||[]).filter(m=>m.th==='g:family_law'&&/^（照片：/.test(m.text)&&m.tag!=='y4_us0').length===2);
     at('2028-08-06',18.9); phone(); const n0=th('g:family_law').length; at('2028-08-06',19); phone(); const q1=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_m6_q1');
     check('M6 週日 19:00 第一題：「（照片）」「今天的爭論題：這裡的學生直接叫教授的名字。要不要學？」「你們先講。我這裡早上七點。」三選一（19:00 以前不發）', th('g:family_law').length===n0+3&&th('g:family_law').includes('今天的爭論題：這裡的學生直接叫教授的名字。要不要學？')&&!!q1&&q1.ask.opts.length===3);
     answer('y4_m6_q1',2); check('M6 選一個立場：她回一句、Kevin「我去睡了」；ARGUED_GOOD', th('g:family_law').includes('那要先知道對方喜歡怎麼被叫。我還不知道。')&&th('g:family_law').slice(-1)[0]==='我去睡了'&&SOCIAL.has('heroine_05','ARGUED_GOOD'));

@@ -264,7 +264,8 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('11. S1 10/21 20:30 家族群組 Kevin「大四的各位 讀書計畫貼上來」「學姊說她可以幫忙看」＋貼／不貼', JSON.stringify(GT())===JSON.stringify(['Kevin:大四的各位 讀書計畫貼上來','Kevin:學姊說她可以幫忙看'])&&JSON.stringify(askOpts('r3_sis_plan_a'))===JSON.stringify(['（貼上自己的讀書計畫）','（不貼）']), JSON.stringify(GT()));
     ans('r3_sis_plan_a',0); run(a21,20.5,20.75);
     check('11. C5 群組裡玩家那一則是照片「📷（讀書計畫表，一週七欄。週日那一欄只寫了「休息」。）」，選項的字「（貼上自己的讀書計畫）」不進群組（AA_343 C5）', TH('g:family_law').some(m=>m.from==='player'&&m.text==='📷（讀書計畫表，一週七欄。週日那一欄只寫了「休息」。）')&&!TH('g:family_law').some(m=>m.text==='（貼上自己的讀書計畫）'), JSON.stringify(GT()));
-    check('11. S1 貼了：20:40「祐廷的讀書計畫我看了。……」（叫名字，不是「學弟的」）、家族的學妹、「以前是以前。」；SIS_PLAN_POSTED', JSON.stringify(GT().slice(-3))===JSON.stringify(['溫學姊:祐廷的讀書計畫我看了。有休息日，有吃飯，有睡覺。','家族的學妹:學姊，妳以前不是這樣說的。','溫學姊:以前是以前。'])&&G.flags.SIS_PLAN_POSTED===true&&Math.abs(at('g:family_law','以前是以前。')-(a21*24+20+40/60))<0.26, JSON.stringify(GT()));
+    /* 2026-10-28 改：AA_497 5-2 家族的學妹（family_junior）統一叫「宜蓁」（tests/aa497_supporting_unit.js 5-2）*/
+    check('11. S1 貼了：20:40「祐廷的讀書計畫我看了。……」（叫名字，不是「學弟的」）、家族的學妹（宜蓁）、「以前是以前。」；SIS_PLAN_POSTED', JSON.stringify(GT().slice(-3))===JSON.stringify(['溫學姊:祐廷的讀書計畫我看了。有休息日，有吃飯，有睡覺。','宜蓁:學姊，妳以前不是這樣說的。','溫學姊:以前是以前。'])&&G.flags.SIS_PLAN_POSTED===true&&Math.abs(at('g:family_law','以前是以前。')-(a21*24+20+40/60))<0.26, JSON.stringify(GT()));
     fresh(a21,20,'dorm'); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,20.5); ans('r3_sis_plan_a',1); run(a21,20.5,21.5);
     check('11. 「（不貼）」：沒有後續（也不替你傳字）', GT().length===2&&!G.flags.SIS_PLAN_POSTED);
     fresh(a21,20,'us_apartment',{EXCHANGE_ROUTE:'US'}); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,21); check('11. 美國路線：沒有 A', !PHONE.sent(G,'r3_sis_plan_a'));

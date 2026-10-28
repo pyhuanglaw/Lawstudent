@@ -52,8 +52,9 @@ const W4MON=termDay(4,1), W5MON=termDay(5,1), W5TUE=termDay(5,2);
   /* ---------- Kevin 的四支影片（BB 2026-10-14）：照順序、第四支 Kevin 多問一句 ---------- */
   { const only=(n)=>{ fresh(W4MON+n,7.5,'campus',{dpN:{kevin_video:n}}); PHONE.join(G,'family_law','法律系直屬家族'); const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(d=>d.id==='kevin_video'));
       try{ run(7.5,26); } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); } return txt(dp()); };
-    check('Kevin 第三支：煎荷包蛋（「第三次了」）',JSON.stringify(only(2))===JSON.stringify(['Kevin｜📹（Kevin 自己煎荷包蛋，蛋黃破了。「第三次了」）','溫學姊｜收到。']));
-    const v4=only(3); check('Kevin 第四支：塞車空拍＋「學姊妳到底有沒有看」「有。三分十二秒。」',JSON.stringify(v4)===JSON.stringify(['Kevin｜📹（高速公路塞車的空拍，配樂很激昂）','溫學姊｜收到。','Kevin｜學姊妳到底有沒有看','溫學姊｜有。三分十二秒。']),JSON.stringify(v4));
+    /* 2026-10-28 改：AA_497 5-4（企劃線 7a38216ca）Kevin 的動物影片保留前 2 則，第 3、4 支照原本的日期換成他自己的事；跟著影片的「學姊妳到底有沒有看」「有。三分十二秒。」拿掉（tests/aa497_supporting_unit.js 5-4）*/
+    check('Kevin 第三支（AA_497 5-4 換）：「補習班的學生問我律師是不是很賺 我說等我考上再告訴你」',JSON.stringify(only(2))===JSON.stringify(['Kevin｜補習班的學生問我律師是不是很賺 我說等我考上再告訴你','溫學姊｜收到。']),JSON.stringify(only(2)));
+    const v4=only(3); check('Kevin 第四支（AA_497 5-4 換）：「今天在法圖趴著睡 醒來臉上印著考古題 民法第一百八十四條」；「學姊妳到底有沒有看」「有。三分十二秒。」拿掉',JSON.stringify(v4)===JSON.stringify(['Kevin｜今天在法圖趴著睡 醒來臉上印著考古題 民法第一百八十四條','溫學姊｜收到。']),JSON.stringify(v4));
     check('Kevin 最多四次：第五次不送',only(4).length===0); }
   /* ---------- 一天最多一則、輪流 ---------- */
   { const flags={ZIQING_MAKING_SOMETHING:true,POTHOS:true}; fresh(W5MON,7.5,'campus',flags);

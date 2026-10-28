@@ -90,12 +90,13 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('C1. 有 U_ASSOC：「先照社團的規則」那個選項；選了＝「對！我們社團有規則！……我去找出來。」', opts[0].length===3&&/先照社團的規則/.test(opts[0][2])&&has('對！我們社團有規則！……我去找出來。'), JSON.stringify(opts));
   check('C2. 「妳真正想要的是什麼？」→「這個不用去法服。」', has('妳真正想要的是什麼？')&&has('……我想要帳對得起來，學弟也還會來社課。')&&has('那先找社團的指導老師。這個不用去法服。')&&G.flags.YU_C6==='rule'&&G.flags.YU_C6_DAY===D('2028-03-16'));
   at('2028-03-23',21.7); rules();
-  check('C2. 3/23 21:40 鞠躬的熊；記 YU_CLUB_BEAR', txt('p:yu').includes('yu:（貼圖：一隻鞠躬的熊）')&&txt('p:yu').includes('yu:少的三千是場地押金 忘了報 還在')&&SOCIAL.has('yu','YU_CLUB_BEAR'));
+  /* 2026-10-28 改：AA_497 3-6（企劃線 7a38216ca）——3/23 那則不管選什麼都一樣的熊拿掉，改成照走的那一路、C6 之後第 14 天 21:00 她私訊三則（tests/aa497_supporting_unit.js 3-6）*/
+  check('C2. 3/23 21:40 那則熊拿掉了（AA_497 3-6）；不記 YU_CLUB_BEAR', !txt('p:yu').includes('yu:（貼圖：一隻鞠躬的熊）')&&!txt('p:yu').includes('yu:少的三千是場地押金 忘了報 還在')&&!SOCIAL.has('yu','YU_CLUB_BEAR'));
   fresh('2028-03-15',21.1,'dorm'); grpJoin(); R('yu','FAM'); rules(); answer('y3_yu_c6',1);
   { const L=txt('p:yu'); const m=nested('y3_yu_c6_phone');
     check('C3. 選「現在說？」：手機版照 Alison 的習慣拆開（不打句號）；沒有 U_ASSOC＝兩個選項', L.includes('player:現在說？')&&L.includes('yu:欸 成發的錢對不起來')&&L.includes('yu:可是三千塊')&&!L.some(t=>/^yu:.*。$/.test(t))&&!!m&&m.ask.opts.length===2, JSON.stringify(L)); }
   answer('y3_yu_c6_phone',0); rules(); at('2028-03-23',21.7); rules();
-  check('C3. 手機版也有「這個不用去法服。」、3/23 那則', txt('p:yu').includes('player:那先找社團的指導老師。這個不用去法服。')&&txt('p:yu').includes('yu:……他是學弟耶')&&txt('p:yu').includes('yu:找到了！！'));
+  check('C3. 手機版也有「這個不用去法服。」；3/23 那則拿掉了（AA_497 3-6）', txt('p:yu').includes('player:那先找社團的指導老師。這個不用去法服。')&&txt('p:yu').includes('yu:……他是學弟耶')&&!txt('p:yu').includes('yu:找到了！！'));
   fresh('2028-03-16',12.6,'linze'); R('yu','FAM'); check('C. 沒回「有。」：3/16 Alison 不在那裡、不演', !R2Y3B.c6MeetDue(G));
 
   // ---------- 2-Y3-30 可昕 K18 ----------

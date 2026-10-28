@@ -4,6 +4,7 @@
 //       黃教授那句只在上過她的課以後、是書不是電影；Alison 的引號、第 4～6 週。
 //   7-2 20 人各三句、每句只說一次、第 3 句要 SHARED_SECRET；心事（facts[1]）說出來以前不出現在任何閒聊、旁白、手機的人物說明；心事在兩句說完以後、一天一句。
 //   7-3 年級跟著遊戲走（大四封頂）、pool_3 的外觀、學長姊照年級畢業（presence）。
+// 2026-10-28 改：AA_497 2-9 芯慈大三上的新閒聊「這學期雙主修的課沒有撞堂。……」也含「雙主修」，篩三個版本的時候排除（tests/aa497_supporting_unit.js 2-9 測那一句）。
 //   7-4 舊存檔：一般自我介紹留下的女主角 FIRST_MET、相遇事件沒播過 → 標成一般招呼（GREETED），先備份；正常相遇過的、有別的紀錄的不動；只做一次。
 //   7-5 雨天的總圖門口只在還沒見過語彤時；經原分組在大一上週五經原下課後的普通教學館、第 4 週起；傅鐘的改字（BB）與芷若作息的備註。
 // 用法：node tests/aa120_s7_unit.js
@@ -30,7 +31,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
   check('只在 7～14 天前說，句子裡的天數是那一天算出來的（中文數字）',said.length>0&&said.every(t=>{ const n=+t.split(':')[0]; return n>=7&&n<=14&&t.includes('還有'+STORY.zhNum(n)+'天'); }),said.slice(0,3).join(' / '));
   fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) again=true; }
   check('同一學期說過就不再說（once:term）',!again); }
-{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t));
+{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t)&&e.t!=='「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」');   /* AA_497 2-9（2026-10-28）大三上新閒聊也有「雙主修」三個字，不是這三個版本 */
   check('芯慈：「經濟系那邊的課比較輕鬆」拿掉，換成三個版本（大一上、下；雙主修事件以後不說）',L.length===3&&L.every(e=>JSON.stringify(e.term)==='["Y1S1","Y1S2"]'&&e.if&&JSON.stringify(e.if.notEvents)==='["ev_xinci_double"]')&&!ST('classmate_xinci').some(q=>/比較輕鬆/.test(typeof q==='string'?q:q.t)));
   const pick=v=>{ fresh(dOf('Y1S1',6,3)); if(v) G.flags.ECON_PAST_SHARED=v; const out=[]; for(const e of L){ const ok=(!e.if||EVENTS.cond(e.if))&&(!e.unless||!EVENTS.cond(e.unless)); if(ok) out.push(e.t.slice(1,10)); } return out.join('|'); };
   check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過經濟系那句（AA_224 第 2 組）',pick(null)==='雙主修要多修好多學'&&pick('none')==='雙主修要多修好多學'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過經濟系，我只',[pick(null),pick('half'),pick('full')].join(' / ')); }

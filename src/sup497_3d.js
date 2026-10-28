@@ -384,7 +384,9 @@ const SUP497=(function(){
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){
     if(typeof PORTRAIT_ONLY!=='undefined'){ if(!PORTRAIT_ONLY[KV]) PORTRAIT_ONLY[KV]={id:KV,name:'Kevin',alias:[],gender:'m'}; if(!PORTRAIT_ONLY[YZ]) PORTRAIT_ONLY[YZ]={id:YZ,name:L.kv.junior,alias:[],gender:'f'}; }   /* 手機的對話串名字（不在 CHARACTERS；同 sideq3d.js 的一一八茶飲）；沒有 alias：家裡的姊姊也叫宜蓁，不能把 speaker '宜蓁' 對到學妹 */
-    /* 1-1 personality「在錄音室待過一年」、3-7 Alison 法圖二樓、4-1 明軒 B1 自習室、第 6 節陳助教：寫在 src/data/characters.js */
+    /* 寫在 src/data/characters.js 的（note 都寫 AA_497 第幾節）：1-1 personality「在錄音室待過一年」、第 6 節陳助教；
+       演這幾場時人在那裡的作息（看得到人、人物線索對得上；演過就不來）：1-5 宥辰在霖澤館一樓電梯前、2-2 以安和芯慈在總圖一樓影印機前、2-3 芯慈 00:00～00:15 在 B1、
+       2-4 芯慈那天在霖澤館門口、3-3 Alison 在傅鐘旁的長椅（118 巷作息後面）、3-7 Alison 在法圖二樓（118 巷作息後面）、4-1 明軒在 B1、4-2 (b) 以安期中考週下午在總圖三樓 */
     if(typeof INVITE_DATA!=='undefined'&&Array.isArray(INVITE_DATA.places)&&!INVITE_DATA.places.some(p=>p.id==='lib_b1'))
       INVITE_DATA.places.push({id:'lib_b1',zone:'library_b1',name:'總圖 B1 討論室',verb:'去總圖 B1 討論室',kind:'reason',minStage:'FAMILIAR',stay:1,memory:'STUDIED_TOGETHER',sitAct:'read',show:()=>false});   /* 她（他）約的 B1 討論室（2-7、4-3）：自己約的清單不列 */
     if(typeof STORY_EVENTS!=='undefined'){ const second=S.buildSecond(), day=S.buildDay(), m1=S.buildM1B1();
