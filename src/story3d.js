@@ -3684,8 +3684,8 @@ const STORY = (function(){
   S.twoHeartsPick=function(G){ const F=G.flags, pick=F.TWO_HEARTS_PICK; if(!pick) return; const other=pick==='heroine_05'?'heroine_01':'heroine_05'; F.TWO_HEARTS_DAY=G.day;
     if(typeof ROM!=='undefined'&&ROM.end(G,other,'two_hearts')){ const R=ROM.get(G,other); R.by='her'; R.endedDay=G.day; R.discovered=G.day; } };   /* BB_204 第 3 節：ended、by her、DISCOVERED、ENDED_DAY */
   S.TWO_HEARTS_ECHO={heroine_05:'那天的事，我不會再提。可是我記得。',heroine_01:'那天的事，我不會再問了。'};
-  S.twoHeartsDue=(G,id)=>{ const F=(G&&G.flags)||{}; return F.TWO_HEARTS_PICK===id&&!F.TWO_HEARTS_ECHO&&F.TWO_HEARTS_DAY!=null&&G.day>F.TWO_HEARTS_DAY&&F['dating_'+id]===true; };   /* 這一次說話要說那一句嗎（只讀；src/privtalk3d.js 只在要說的時候問旁邊有沒有人）*/
-  S.twoHeartsEcho=async function(GM,id,who){ const G=GM.G, F=G.flags; if(!S.twoHeartsDue(G,id)) return false;
+  S.twoHeartsEchoDue=(G,id)=>{ const F=(G&&G.flags)||{}; return F.TWO_HEARTS_PICK===id&&!F.TWO_HEARTS_ECHO&&F.TWO_HEARTS_DAY!=null&&G.day>F.TWO_HEARTS_DAY&&F['dating_'+id]===true; };   /* 這一次說話要說那一句嗎（只讀；src/privtalk3d.js 只在要說的時候問旁邊有沒有人）。S.twoHeartsDue 是 11/10 法圖相遇那一場，不一樣 */
+  S.twoHeartsEcho=async function(GM,id,who){ const G=GM.G, F=G.flags; if(!S.twoHeartsEchoDue(G,id)) return false;
     F.TWO_HEARTS_ECHO=true; await GM.say(who,S.TWO_HEARTS_ECHO[id],{expr:'neutral'}); return true; };   /* 之後第一次說話（攤牌那天以後），只一次；後來分手了就不說 */
   /* ---------- 1A-04 主線 6　感冒的那一週（AA_315；AA_12 主線 6、AA_180 2-5、BB_98 2-4／9-4、AA_121 CG-5；台詞照 AA_315 第 3 節，不改字）----------
      第 2 節：10/23 起床那一刻判斷——交往中（可昕也算）、語彤／阿哲／以安／子晴／學姊／（有 SUNDAY_SUPPER 的）阿凱好朋友以上、在麵店團而且阿哲／Alison／柏翰好朋友以上，任一項＝一般版：

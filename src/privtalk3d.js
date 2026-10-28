@@ -14,7 +14,7 @@
        S.ok 擋下來（旁邊有人、還沒到）的那一刻記第一天（已經有就不動）；第一天＋7 天（due 有寫的：到 due 那天）起 S.ok 放行（旁邊還有人也一樣）。
        那一段真的開始演＝S.lead(GM,key,她,sub)：旁邊還有人（例外的人不算）＝先說旁白，然後清掉等待（下一次再擋從頭算）。
        各入口只在那一段真的要演的時候問 S.ok（事件：其他條件都過了、prereq 的 custom 最後問；閒聊階梯：情境對了〔story3d.js ladNext 先看情境再問 LADDER_HOLD〕；
-       知情那幾場：MREL 先算出這一次要演的，有才問；1A-02 那一句：STORY.twoHeartsDue）——擋下來的那一天才是「第一天」。
+       知情那幾場：MREL 先算出這一次要演的，有才問；1A-02 那一句：STORY.twoHeartsEchoDue）——擋下來的那一天才是「第一天」。
      每一種入口怎麼接旁白、什麼時候清：
        offerInvite／priv（選單的選項）：選項出來了＝照演（S.ok 放行時清掉等待；她一個人時出來也清）；選了那一個＝S.lead（story3d.js S.privLead）再演；
        wrap：知情那幾場（MREL.meetAction、FLOW.heroine_02.meet）＝回傳的 run 包一層先 S.lead；1A-02 那一句、沒回訊息那一句、前任那兩句＝S.leadGM（第一次說話以前先 S.lead）；
@@ -62,7 +62,7 @@ const PRIVTALK=(function(){
       note:'這一次不演、不前進（學姊「正常見面」的紀錄 MREL.sisMet 照記），照常說話；流程沒有期限，下次她一個人時演；等了 7 天照演'},
     {key:'knows_cafe',cat:'她知情以後',who:'heroine_02',kind:'pre',gate:'wrap',desc:'src/multirel3d.js：吧檯的芷若（MREL.FLOW.heroine_02.meet kind cafe）',
       note:'這一次不演（照常點餐）；冷靜期一天一次，下一次她一個人時演；等了 7 天照演'},
-    {key:'knows_echo',cat:'她知情以後',who:['heroine_01','heroine_05'],kind:'pre',gate:'wrap',desc:'src/story3d.js S.twoHeartsEcho（1A-02 攤牌以後第一次說話那一句；只在 S.twoHeartsDue 的時候問）',
+    {key:'knows_echo',cat:'她知情以後',who:['heroine_01','heroine_05'],kind:'pre',gate:'wrap',desc:'src/story3d.js S.twoHeartsEcho（1A-02 攤牌以後第一次說話那一句；只在 S.twoHeartsEchoDue 的時候問）',
       note:'這一次不說；只要還在交往，下次她一個人時說；等了 7 天照說'},
     {key:'ps_bterm',cat:'她知情以後',who:'classmate_peishan',kind:'pre',gate:'edit',due:btermDue,desc:'src/multirel3d.js STORY.PRE_TALK（沛珊結果 B：每學期第一週「這學期還可以嗎？我們講好的那些。」）',
       note:'有期限：那學期第一週；第一週裡她一個人時才問，第一週每次都有人＝第一週的最後一天照問（開頭一句旁白）'},
@@ -247,7 +247,7 @@ const PRIVTALK=(function(){
     if(e.key==='knows_cafe'){ const F=typeof MREL!=='undefined'&&MREL.FLOW&&MREL.FLOW.heroine_02; if(!F||!F.meet) return false; if(F._priv) return true; const f0=F.meet;
       F.meet=function(G,st,kind){ const a=f0.apply(this,arguments); if(!a||kind!=='cafe'||!G) return a; if(!S.ok(G,'heroine_02',e.key)) return null; return S.leadRun(a,e.key,'heroine_02'); }; F._priv=true; return true; }
     if(e.key==='knows_echo'){ if(typeof STORY==='undefined'||!STORY.twoHeartsEcho) return false; if(STORY._privEcho) return true; const f0=STORY.twoHeartsEcho;
-      STORY.twoHeartsEcho=async function(GM,id){ const G=GM&&GM.G; if(G){ const due=STORY.twoHeartsDue?STORY.twoHeartsDue(G,id):true; if(due){ if(!S.ok(G,id,e.key,GM)) return false; if(STORY.twoHeartsDue) await S.lead(GM,e.key,id); } } return f0.apply(this,arguments); }; STORY._privEcho=true; return true; }
+      STORY.twoHeartsEcho=async function(GM,id){ const G=GM&&GM.G; if(G){ const due=STORY.twoHeartsEchoDue?STORY.twoHeartsEchoDue(G,id):true; if(due){ if(!S.ok(G,id,e.key,GM)) return false; if(STORY.twoHeartsEchoDue) await S.lead(GM,e.key,id); } } return f0.apply(this,arguments); }; STORY._privEcho=true; return true; }
     if(e.msg){ if(typeof STORY==='undefined'||!STORY.neededMissFor) return false; S.MISS=S.MISS||{}; S.MISS[e.msg]=e;
       if(!STORY._privMiss){ const f0=STORY.neededMissFor; STORY.neededMissFor=function(G,m,who){ const r=f0.apply(this,arguments); const q=r&&m&&S.MISS[m.id]; if(q){ if(!S.ok(G,who,q.key)) return null; S._miss={key:q.key,id:who}; } return r; };   /* null＝這一次不說、不記說過（neededMissLine 照原本往下找）*/
         const n0=STORY.neededMiss; if(n0) STORY.neededMiss=async function(GM,who,id){ S._miss=null; try{ return await n0.call(this,S.leadGM(GM,()=>S._miss&&S._miss.id===id?S._miss:null),who,id); } finally{ S._miss=null; } };
