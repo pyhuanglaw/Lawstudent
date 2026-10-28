@@ -303,7 +303,10 @@ async def m_fair(c):
 # =====================================================================================================
 async def m_missed(c):
     pg, run = c.pg, c.run
-    k = await pg.evaluate("CALENDAR.dateOf(STORY.termDay('Y1S1',5,1)).key")
+    # BB-C 01:4x：第一版用「第 5 週週一」＝2025-09-29——那天是教師節補假（10/6 中秋也是），社課停＝門口直接進教室（工具選錯日子，不是遊戲問題）。
+    # 改成在新局裡從第 5 週週一往後找第一個 ACTIVITIES.on(吉他社) 的日子（Node 算出來是 2025-10-01（三））
+    k = await pg.evaluate("""(()=>{ const G=JSON.parse(JSON.stringify(GAME.G||{})); G.flags=Object.assign({},G.flags,{LAW_START_DAY:STORY.dayOfKey('2025-08-29'),MAIN_D1:(STORY.MAIN_D1_NEW!=null?STORY.MAIN_D1_NEW:STORY.dayOfKey('2025-09-04'))}); G.stage='law';
+      const g=ACTIVITIES.list.find(a=>a.id==='club_guitar'), d0=STORY.termDay('Y1S1',5,1); for(let d=d0; d<d0+21; d++){ G.day=d; if(ACTIVITIES.on(g,d,G)) return CALENDAR.dateOf(d).key; } return CALENDAR.dateOf(d0).key; })()""")
     A = await pg.evaluate("(()=>{ const a=ACTIVITIES.list.find(a=>a.id==='club_guitar'); return a?{zone:a.zone,room:a.room,roomName:a.roomName,t0:a.t0,title:a.title,door:!!a.door}:null; })()")
     run.note('吉他社社課：%s；第 5 週週一＝%s' % (json.dumps(A, ensure_ascii=False), k))
     if not A: run.check('3. 找得到吉他社社課（activities.js club_guitar）', False); return
