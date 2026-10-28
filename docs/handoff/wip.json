@@ -1200,6 +1200,21 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28（AA_514）；使用者 X122★",
    "closedBy": "2f2ffe3eb（合併子代理 1ea07386e；aa514 56 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVFIX-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AAFIX-1028",
+   "state": "WIP",
+   "sha": "13a981d0b、01e8c052b",
+   "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix_1028.bundle）",
+   "files": [
+    "wip_backup/privfix_1028.bundle"
+   ],
+   "todo": "AA 6bc3cd784 定的 18 項：私密 12 項＋共同保底（沒有期限的 7 天、有期限的到期那天照演加旁白）、大四圈子 B2～B5",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 07:54（AA_503 第 14 節、AA_509 最後一節）"
   }
  ]
 }
