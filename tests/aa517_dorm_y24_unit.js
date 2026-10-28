@@ -14,7 +14,7 @@
 // 修改前（開發分支 82c3c998e＝這個任務開工那一版：git archive 出 src、tests、index.html＋那一版的白名單，把這支測試放進去、AA517_GIT_DIR 指到這個 repo 對稿，真的跑過）：FAILED 13、PASS 8、結束碼 1——
 //   第 0 項 6 項 FAIL（新檔與 index.html、story3d.js 掛勾、白名單對台詞檔的來源、對稿兩個方向、日子與時間）；第 1、2、3、5 項各 1 項 FAIL（沒有 DORMY24 丟例外，整節中斷）；
 //   第 4 項 3 項 FAIL（3-1「演」兩項：事件不存在；跑事件丟例外，整節中斷）。舊程式剛好也對的 8 項：拿得到稿、第 4 項 3-1 那七項「不演」（事件不存在本來就不演）。
-// 修改後：ALL PASS（103 項）
+// 修改後：ALL PASS（104 項）
 // 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 ced552c17；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
 require('./alison.js');   /* AA_380：讀稿時 Alison 的舊叫法照匯入工具同一套換成 Alison（稿 2-1 第 4 列）*/
 const H=require('./pg_harness.js');
@@ -265,7 +265,11 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     room('2029-06-27',23.1,Y4()); knowAll(); t=await runEv('ev_r409_last',['再聊一下']); check('4. 選「再聊一下。」：柏翰「好。……十分鐘。」、「（聊了半個小時。最後是柏翰去關的燈。）」',t.includes('好。……十分鐘。')&&t[t.length-1]==='（聊了半個小時。最後是柏翰去關的燈。）'&&H.G.flags.R409_LAST===true);
     { room('2029-06-20',22,Y4()); const s=x.pgStop(H.G), want=D('2029-06-27')*24+23; H.G.zone='campus'; const s2=x.pgStop(H.G); H.G.zone='dorm'; x.rec(H.G,true).ev.last409=D('2029-06-27'); const s3=x.pgStop(H.G);
       check('4. 畢業後篇的「跳到下一件事」：人在 409、最後一晚還沒演＝停在 6/27 23:00；不在房間、演過了＝不停；登記在 PG.stops',s===want&&s2===null&&s3===null&&PG.stops.some(f=>{ room('2029-06-20',22,Y4()); return f(H.G)===want; }),J([s,s2,s3,want])); }
-    { room('2029-06-27',22.5,Y4()); const n=PG.nextStop(H.G), want=D('2029-06-27')*24+23; check('4. PG.nextStop：6/27 22:30 在 409＝下一站就是 23:00（不會直接跳到 6/28 10:00 宿舍期滿）',n!=null&&Math.abs(n-want)<1e-6,J([n,want])); } });
+    { room('2029-06-27',22.5,Y4()); const n=PG.nextStop(H.G), want=D('2029-06-27')*24+23; check('4. PG.nextStop：6/27 22:30 在 409＝下一站就是 23:00（不會直接跳到 6/28 10:00 宿舍期滿）',n!=null&&Math.abs(n-want)<1e-6,J([n,want])); }
+    { const pg=async zone=>{ room('2029-06-27',14,Object.assign(Y4(),{Y4_PATH:'bar',PACKED_Y4:D('2029-06-01'),GRAD_DONE:true,EXCHANGE_ROUTE:'TW'}),zone); knowAll(); H.G.flags.GRADUATED=PG.gradDay(); PG.rec(H.G).done.grad=1;
+        const on=PG.on(H.G); await PG.advance(GM); return {on,day:K(H.G.day),h:+H.G.hour.toFixed(2),ev:evCheck('ev_r409_last')}; };
+      const a=await pg('dorm'), b=await pg('campus');
+      check('4. 畢業後篇真的跳（PG.advance，6/27 14:00 站著不動）：在 409＝停在 6/27 23:00、最後一晚演得了；在校園＝不停在那一晚（稿：祐廷在房間才演，不補）',a.on&&a.day==='2029-06-27'&&a.h===23&&a.ev&&b.on&&!(b.day==='2029-06-27'&&b.h===23)&&!b.ev,J([a,b])); } });
 
   /* ================= 5 存檔 ================= */
   await sec(5,async()=>{ const x=X(), Z=L.room.r312.zhe;
