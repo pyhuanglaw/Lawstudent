@@ -34491,7 +34491,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:4x UTC】LAWWW2 交 984f24dc1（WZ-SHRINE-TRAP-1028）：只改導航（遊戲場阻擋只擋南邊 2.9 m、供桌與小角落擋起來），原本的路恢復、0 個死角；v9.10.12 rc2＝ed777ba38（562a5ead9＋這個＋a13d98eaa＋05740674b，bundle wip_backup/rel91012_rc2.bundle）；開發分支 67cda65aa；BB 重跑受影響的｜【LAWWW-C 2026-10-28 02:0x UTC】擋 v9.10.12：派 LAWWW2-C 在 562a5ead9 上修（傾向遊戲場往南退、留 ≥0.7 m 通道；做不到才封角落；不改測試）；修好＝rc2，BB 重跑 shrine_pocket_check、reachability wenzhou、溫州街流程",
+   "next": "【LAWWW-C 2026-10-28 02:5x UTC】rc2 作廢（patch 的 // 註解吃掉直飲台、腳踏車架兩個阻擋，BB 抓到）；LAWWW 移回＋wz_park_unit 2c → v9.10.12 rc3＝49284c621（bundle wip_backup/rel91012_rc3.bundle）、開發分支 f7c89a7c0；BB 重跑受影響的｜【LAWWW-C 2026-10-28 02:4x UTC】LAWWW2 交 984f24dc1（WZ-SHRINE-TRAP-1028）：只改導航（遊戲場阻擋只擋南邊 2.9 m、供桌與小角落擋起來），原本的路恢復、0 個死角；v9.10.12 rc2＝ed777ba38（562a5ead9＋這個＋a13d98eaa＋05740674b，bundle wip_backup/rel91012_rc2.bundle）；開發分支 67cda65aa；BB 重跑受影響的｜【LAWWW-C 2026-10-28 02:0x UTC】擋 v9.10.12：派 LAWWW2-C 在 562a5ead9 上修（傾向遊戲場往南退、留 ≥0.7 m 通道；做不到才封角落；不改測試）；修好＝rc2，BB 重跑 shrine_pocket_check、reachability wenzhou、溫州街流程",
    "xai": {
     "spec": "BB-C 02:03 的分析；shrine_pocket_check.py",
     "branch": "claude/focused-cray-c9uwvw",
