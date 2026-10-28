@@ -3872,6 +3872,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "X123 延伸：AA_502 只有大一 203，大二以後房間有人但沒有房間裡的話"
+  },
+  {
+   "task": "SIS-LEAD-1021",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a9b87c588",
+   "files": [
+    "docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md",
+    "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_516 第 1 節修正十二處（g6 班次、12/20 截圖、大峽谷才交往跳過 g1～h3、sisUS 要交往中、13-7 改 20:30、接機按鈕要 met、saOn 要聯絡方式、雪兩句、感恩節一句、usFall 改 10/9～10、美國路線不送書照片）＋第 2 節 A/B（8/3 電話、h1～h9、10/26 等你考完、12/31 鍋子）＋第 3 節 C（t4～t7）＋第 4 節 E（9/2 咖哩、SU-L6 07:00、SU-L7 週六外套、第四十天傘、SU-L8 旁白）＋第 5 節 F（9/2 群組）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "C25 學姊第十四批；盤點 scratchpad/inv9（8a62128a5）；AA_512 13-7 家聚邀約改 20:30"
   }
  ],
  "items": [
