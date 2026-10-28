@@ -1157,7 +1157,7 @@
    "role": "LAWWW",
    "task": "SIS-B13-1028",
    "state": "WIP",
-   "sha": "4eccd41a0、99fcd52bc",
+   "sha": "4eccd41a0、8455a44fc",
    "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
    "files": [
     "wip_backup/sisb13_1028.bundle",
@@ -1183,6 +1183,21 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28（AA_513）；使用者 X122★",
    "closedBy": "bb87d2f7b（合併子代理 925c0f2ee；aa513 等相關 10 支 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-KXMOOT3-1028",
+   "role": "LAWWW",
+   "task": "KX-MOOT3-1028",
+   "state": "WIP",
+   "sha": "4eccd41a0、294b36bdb",
+   "branch": "worktree-agent-a3622cfa154c43e9a（子代理；D113 備份 wip_backup/kxmoot3_1028.bundle）",
+   "files": [
+    "wip_backup/kxmoot3_1028.bundle"
+   ],
+   "todo": "AA_514（964d01175）可昕最後一場模擬法庭（KX_WATCH：11/28 約 → 12/4 14:00 政大 → came／missed）＋AA_505 7-3 嘉義予樂家動態（1/29）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28（AA_514）；使用者 X122★"
   }
  ]
 }
