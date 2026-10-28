@@ -10,6 +10,8 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
+   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素]
+物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
 實例化的網格（EXT_mesh_gpu_instancing，例如 201 的 48 張椅子）：每一張的光不一樣，烘焙前展開成各自的網格（同一個材質的合併成一個）。
@@ -26,6 +28,7 @@ EMIT = {}
 for kv in (arg('--emit', '') or '').split(','):
     if '=' in kv: k, v = kv.split('='); EMIT[k] = float(v)
 HIDE = re.compile(arg('--hide', r'glass')) if arg('--hide', 'glass') else None
+NOLM = re.compile(arg('--nolm', r'ceil_light')) if arg('--nolm', 'ceil_light') else None
 SKY = float(arg('--sky', '1.0')); NIGHTSKY = float(arg('--nightsky', '0.03'))
 SUN = [float(v) for v in arg('--sun', '250,30,3.0').split(',')]
 
@@ -63,7 +66,7 @@ realize()
 # ---- 2. 烘焙的物件：網格、不是玻璃（HIDE）、有面 ----
 def mats(o): return [s.material.name for s in o.material_slots if s.material]
 def hidden(o): return bool(HIDE and (HIDE.search(o.name) or any(HIDE.search(m) for m in mats(o))))
-objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o)]
+objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and not hidden(o) and not (NOLM and NOLM.search(o.name))]
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
@@ -82,13 +85,17 @@ bpy.ops.uv.smart_project(angle_limit=math.radians(60), island_margin=0.0, area_w
 try: bpy.ops.uv.average_islands_scale()
 except Exception as e: print('average_islands_scale', e)
 bpy.ops.object.mode_set(mode='OBJECT')
-# 看不到的面少分像素：牆（WALL_，自訂屬性 dir＝往室內）背對室內的面、地板／平台朝下的面、天花板朝上的面——島縮到 5%（照樣有 UV，只是很小）
+for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一起排，比例保留）
+    k = float(o.get('lm', 1.0))
+    if abs(k - 1.0) > 1e-3:
+        uvd = o.data.uv_layers['LM'].data; buf = np.empty(len(uvd) * 2, dtype=np.float32); uvd.foreach_get('uv', buf); uvd.foreach_set('uv', buf * k)
+# 看不到的面少分像素：牆（WALL_，自訂屬性 dir＝往室內）背對室內的面（和 dir 反方向；側面不算：窗洞的側邊、柱子的側面看得到）、地板／平台朝下的面、天花板朝上的面——島縮到 5%（照樣有 UV，只是很小）
 def shrink_hidden(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
     nm = o.name.lower(); bm = bmesh.new(); bm.from_mesh(o.data); uvl = bm.loops.layers.uv['LM']; mw = o.matrix_world.to_3x3(); n_sh = 0
     for f in bm.faces:
         nrm = (mw @ f.normal).normalized(); hide = False
-        if dv is not None and nrm.dot(dv) < 0.3 and not ('ceil' in nm and nrm.z < -0.5): hide = True
+        if dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5): hide = True
         if ('floor' in nm or 'plat' in nm) and nrm.z < -0.5: hide = True
         if 'ceil' in nm and nrm.z > 0.5: hide = True
         if hide:
