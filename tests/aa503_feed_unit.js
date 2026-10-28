@@ -15,8 +15,8 @@
 // 修改前（開發分支 a1f0566c6：沒有 src/feed3d.js、src/data/feed_y1s1.js，可昕四則照舊「拒絕或沒去才私訊」；src、index.html 換回 a1f0566c6 實際跑過）：
 //   FAILED 55、PASS 2（「動態不在 G.msgs」「答應了還沒去＝先等」兩項本來就成立）——第 0～8、10 段全部 FAIL（沒有 FEED、沒有動態頁籤、沒有私訊）；
 //   第 9 段：玉米、紙皇冠照舊私訊（kx_bbq_corn、kx_yule_crown）、酸辣湯餃、書桌照的私訊還帶照片、四則都沒有動態＝FAIL。修改後 ALL PASS。用法：node tests/aa503_feed_unit.js
-// 第二輪（d13ab3ab7 第 12 節；修改前＝開發分支 a57127ab4，src 換回 a57127ab4 實際跑過）：FAILED 7——台詞對稿（kx4、kx6 的舊句不在 d13ab3ab7）、d13ab3ab7 改掉的舊句還在、
-//   第 4 則私訊問、第 6 則沒去／去了兩個版本（照片、留言回、私訊問與回）、12/16 書桌的照片（a57127ab4 只剩那一句）。修改後 ALL PASS。
+// 第二輪（d13ab3ab7 第 12 節；修改前＝開發分支 a57127ab4，src、index.html 換回 a57127ab4 實際跑過）：FAILED 11——台詞對稿（kx4、kx6 的舊句不在 d13ab3ab7）、
+//   d13ab3ab7 改掉的舊句還在、第 6 則沒去／去了兩個版本（照片、一句、留言回、私訊問與回：7 項）、12/16 書桌的照片（a57127ab4 只剩那一句）、第 4 則私訊問。修改後 ALL PASS。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');

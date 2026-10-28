@@ -12,7 +12,8 @@
 //      可昕第 11 週三個選項；以安第 3 則「有我嗎？」兩個版本；分開以後一學期可昕的動態不出現（大一下）
 //   （3D 的建議——以安一個人散步、學姊在游泳池——不在這一輪，見回報的「沒做」）
 // 修改前（開發分支 a57127ab4：沒有 feed_y1s2.js、feed_y2s1.js，kx2_late、kx2_azalea 還在手機小事；src、index.html 換回 a57127ab4 實際跑過）：
-//   FAILED 見檔尾「修改前」那一行的紀錄。修改後 ALL PASS。用法：node tests/aa504_505_feed_unit.js
+//   FAILED 15——第 0 段 7 項（載入與順序、SETS 只有大一上、則數、id、兩份對稿、AA_505 舊句）、第 1 段 5 項（那幾則都沒有）、第 2、3、4 段各 1 項（沒有資料就停）；
+//   kx2_late、kx2_azalea 還在手機小事那一項由 tests/v2_b9_unit.js 第 10 項查。修改後 ALL PASS。用法：node tests/aa504_505_feed_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -250,6 +251,5 @@ sec('4c',()=>{ if(!HAS()||!SET.Y2S1) return;
     fresh(TDt('Y2S1',6,2),15); who('heroine_03','FRIEND'); const so2=H.G.social||(H.G.social={}); so2.ladder=Object.assign({},so2.ladder,{'heroine_03@Y2S1':1}); const lad6=STORY.ladNext(H.G,'heroine_03');
     check('4. AA_505 第 0 節：語彤 needed_msgs 第 2 週「法律系的課，我上禮拜第一次去上。」（週日 21:00 挑得到）在閒聊「這學期開始修法律系的課。民法我坐最後一排。」（Y3-L2，第 6 週才開）之前',!!nm&&nm.term==='Y2S1'&&J(nm.w)===J([2,2])&&!!st&&J(st.week)===J([6,18])&&st.lines[0]==='這學期開始修法律系的課。民法我坐最後一排。'&&pick.includes('yt_fafu')&&!lad&&!!lad6&&lad6.id==='Y3-L2',J({pick,lad:lad&&lad.id,lad6:lad6&&lad6.id})); }
   check('4. AA_505：以安第 3 則私訊問「有我嗎？」——沒一起去過＝「……還沒。」；一起去過（INV 見到了）＝「有。」；校外約會過也算',J(no)===J(['有我嗎？','……還沒。'])&&J(yes)===J(['有我嗎？','有。'])&&J(yes2)===J(['有我嗎？','有。'])&&h.includes('有我嗎？'),J({no,yes,yes2})); });
-console.log('（修改前 a57127ab4 的紀錄見檔頭）');
 H.done();
 })();

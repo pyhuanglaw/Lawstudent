@@ -8,7 +8,8 @@
 //      選別的沒有；「系上那個練習賽，子晴第三。……」第 11 週週六以後；「子晴那場比賽沒去。……」大一下第 9 週；和 AA_502 的三句共用一天一句
 //   3  麵店長桌：阿哲兩則（大一上輪到才演、只演一次；大一下第 9 週先挑、只演一次、不動輪到第幾則）
 //   4  手機：Kevin 家族群組三次（12/15 在聖誕那幾則之前、6/20、1/23）、予樂三次（見過予樂才有）、品妤「走啦」群組兩次；條件不對不傳、晚三天以上不補
-// 修改前（開發分支 a57127ab4：沒有 heard_lines.js、heard3d.js；src、index.html 換回 a57127ab4 實際跑過）：FAILED 見回報。修改後 ALL PASS。用法：node tests/aa503_others_unit.js
+// 修改前（開發分支 a57127ab4：沒有 heard_lines.js、heard3d.js；src、index.html 換回 a57127ab4 實際跑過）：FAILED 8——第 0 段 4 項（載入與順序、對稿 0 句、
+//   稿上 54 句沒有一句在遊戲裡、203 阿凱那一句）、第 1～4 段各 1 項（沒有 HEARD 就停）。修改後 ALL PASS。用法：node tests/aa503_others_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
