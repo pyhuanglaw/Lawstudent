@@ -217,14 +217,14 @@ const FEED=(function(){
   S.isDt=i=>!!i&&/^dt_/.test(i.id||'');
   S.dtHour=who=>{ const D=S.DT(), m=D&&/^(\d\d):(\d\d)$/.exec((D.at||{})[who]||''); if(!m) return null; const h=+m[1]+(+m[2])/60; return h<12?h+24:h; };   /* 12:00 以前的＝隔天凌晨（子晴 00:30）*/
   /* 要貼的時間：base＝約會的那一晚（當天來回＝那一趟的日子；兩天一夜＝回到臺北那一天），part＝分開的那一刻（絕對時間）。過了她的時間＝回到家 30 分鐘後 */
-  S.dtWhen=function(who,base,part){ const H=S.dtHour(who); if(H==null||base==null) return null; const D=S.DT(), her=abs(base,H), t=part!=null&&part>her+1e-6?part+(D&&D.late!=null?D.late:0.5):her, d=Math.floor(t/24+1e-9); return {day:d,h:+(t-d*24).toFixed(4)}; };
+  S.dtWhen=function(who,base,part){ const H=S.dtHour(who); if(H==null||base==null) return null; const D=S.DT(), her=abs(base,H), t=part!=null&&part>her+1e-6?part+(D&&D.late!=null?D.late:0.5):her, d=Math.floor(t/24+1e-9); return {day:d,h:Math.max(0,t-d*24)}; };   /* h 不四捨五入（22:07＝22.1166…，進位會晚一點才出）*/
   /* 約會演完（date3d.js 算一次正式校外約會以後叫）：t＝那一趟（DATE.trip），part＝分開的那一刻（DATE.backAt；沒給＝現在）。排好回傳那一筆，不排回傳 null */
   S.dateDone=function(G,t,part){ if(!G||!G.flags||!t||!t.trip||(G.stage||'law')!=='law') return null; const D=S.DT(), who=t.who, W=D&&D.who&&D.who[who]; if(!W||!dating(G,who)) return null;   /* 那時候和她交往中 */
     const locs=(t.locs||[]).filter(Boolean), loc=locs[locs.length-1]; if(!/^D\d\d$/.test(loc||'')||!D.pic[loc]) return null;   /* 臺灣 D01～D32、最後一個地點；D07 不貼（pic null）*/
     const R=S.rec(G); if(R.dtTrip[t.trip]!=null||R.dq.some(x=>x.trip===t.trip)) return null;   /* 一趟一則 */
     const p0=part!=null&&isFinite(+part)?+part:nowOf(G), base=(typeof t.day==='number'?t.day:G.day)+(t.kind==='overnight'?(t.nights||1):0), w=S.dtWhen(who,base,p0); if(!w) return null;
     const L=G.dateLog&&G.dateLog[who], again=!!(L&&L.byLoc&&(L.byLoc[loc]|0)>=2);   /* 又來：這個地點（照片的那一個）連這一趟和她去第二次以上 */
-    const e={trip:t.trip,who,loc,again,part:+p0.toFixed(4),day:w.day,h:w.h}; R.dq.push(e); return e; };
+    const e={trip:t.trip,who,loc,again,part:p0,day:w.day,h:w.h}; R.dq.push(e); return e; };
   /* 那一天排好、還沒貼的約會動態先佔一個位子（一天最多一則：那一天已經貼了約會動態的，位子已經在 items 裡）*/
   S.dtHold=function(G,day){ const R=S.rec(G); if(!R.dq.some(e=>e.day===day)) return 0; return R.items.some(i=>S.isDt(i)&&i.day===day)?0:1; };
   /* 時間到了（S.tick）：貼不貼、貼哪一句。不看七天兩則、不看一天四則（優先）*/
