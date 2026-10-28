@@ -3876,7 +3876,7 @@
   {
    "task": "SIS-LEAD-1021",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "3cd10909b",
+   "sha": "ca08e848c",
    "files": [
     "docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md",
     "docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"
@@ -3887,7 +3887,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "C25 學姊第十四批；盤點 scratchpad/inv9（8a62128a5）；AA_512 13-7 家聚邀約改 20:30；cf7d5fa94 第 7 節（回 LAWWW-C a436323c2）；3cd10909b 第 8 節（AA_515～517 懸著的承諾自查，補兩句）"
+   "note": "C25 學姊第十四批；盤點 scratchpad/inv9（8a62128a5）；AA_512 13-7 家聚邀約改 20:30；cf7d5fa94 第 7 節（回 LAWWW-C a436323c2）；3cd10909b 第 8 節（AA_515～517 懸著的承諾自查，補兩句）；d6f8621ac、913802344 第 8 節第 3、4 點（碗那一句放哪一場、細位置）；ca08e848c 第 8 節第 5 點（回 LAWWW-C 12:19：3-2 滷肉碗那一句移到 label e 後、mem 前，兩支都出）"
   },
   {
    "task": "SIS-LEAD-1021",
