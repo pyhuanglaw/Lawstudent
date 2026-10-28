@@ -189,20 +189,20 @@ async def main():
             await L.load_state(pg, st2, quiet_phone=True); await pg.wait_for_timeout(4000); await pg.evaluate(REL)
             run.setup('[捷徑] 再讀一次「2027-05-22 09:05 萬才館、阿姨諮詢到期」→ GAME.enter(\'wancai_semb\')')
             await pg.evaluate("void GAME.enter('wancai_semb')")
-            n1 = await pg.evaluate("window.__bbLog.length"); again = False
-            for _ in range(80):
+            n1 = await pg.evaluate("window.__bbLog.length"); again = False; walked = False; asked = False
+            for it_n in range(200):
                 lg = await pg.evaluate("window.__bbLog.slice(%d).map(x=>x.k)" % n1)
                 if any(AUNT0 in k for k in lg): again = True; break
                 # 09:04 法服值班的出發提醒（outings S.prompt：出發／晚一點／這週請假）先跳出來＝照玩家選「出發」（BB-C 10-28 sh_reload：沒回答它，諮詢就一直等著）
                 pk = await pg.evaluate("(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return null; const bs=[...ch.querySelectorAll('button')]; const b=bs.find(x=>/^出發/.test(x.textContent)); if(!b) return null; b.click(); return b.textContent; })()")
-                if pk:
-                    run.note('[玩家操作] 值班提醒選「%s」' % pk[:30]); await pg.wait_for_timeout(3000)
-                    # 選「出發」＝被帶到萬才館一樓值班（不在研討室 B）：照玩家走上二樓、進研討室 B，諮詢才會開始（BB-C 10-28 sh_reload_r2：停在一樓大廳）
-                    z = await pg.evaluate("GAME.G.zone")
-                    if z != 'wancai_semb':
-                        await L.advance_dialogs(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=30)
-                        if not await door_and_walk(pg, cdp, run, 'wancai_semb', 1):
-                            run.setup('[捷徑] 研討室 B 的門找不到：GAME.enter(\'wancai_semb\')'); await pg.evaluate("void GAME.enter('wancai_semb')")
+                if pk: run.note('[玩家操作] 值班提醒選「%s」' % pk[:30]); asked = True
+                # 選「出發」＝被帶到萬才館一樓值班（不在研討室 B）：等換區域完、空下來以後照玩家走上二樓、進研討室 B，諮詢才會開始
+                # （BB-C 10-28 sh_reload_r2／lg2：停在一樓大廳 (0,5)；lg2 只等 3 秒就看區域，那時還沒換過去）
+                q = await pg.evaluate(DBG)
+                if not walked and (asked or it_n >= 20) and q['zone'] != 'wancai_semb' and not q['busy'] and not q['dlg'] and not q['ch'] and not q['fade']:
+                    walked = True; run.note('不在研討室 B（%s (%s,%s)）→ 照玩家走過去' % (q['zone'], q['x'], q['z']))
+                    if not await door_and_walk(pg, cdp, run, 'wancai_semb', 1):
+                        run.setup('[捷徑] 研討室 B 的門找不到：GAME.enter(\'wancai_semb\')'); await pg.evaluate("void GAME.enter('wancai_semb')")
                 await pg.wait_for_timeout(500)
             run.check('讀檔以後阿姨諮詢還能重新開始（CLOSED2 的 busy 沒有一直卡著）', again, json.dumps(await pg.evaluate(DBG), ensure_ascii=False))
             if again: await drive(pg, cdp, run, 240)
