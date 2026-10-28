@@ -3901,7 +3901,7 @@
    "sha": "e5d8cd6f3",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/interior_rooms_lm_1028.patch",
@@ -3913,17 +3913,17 @@
     "assets/models/env/second_ai/wancai_multi_lm_night.webp",
     "docs/art-rebuild/second_ai/test_shots/interior_rooms_lm_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "家具、細部還沒照 201 v2 做（等使用者看 201 的方向）；白牆偏亮可再調；iPhone 實機沒測",
    "next": "LAWWW-C 套在 201 v2 之後（patch＋六個二進位檔）、跑回歸",
-   "note": "霖澤館 202、萬才館多功能教室：只加烘焙光照＋牆外暗殼，模型不動；READY_FOR_ART_REVIEW；rooms_glb_unit 等 9 個 Node 測試、reachability_all（202 43、多功能 35 個互動點）ALL PASS"
+   "note": "霖澤館 202、萬才館多功能教室：只加烘焙光照＋牆外暗殼，模型不動；READY_FOR_ART_REVIEW；rooms_glb_unit 等 9 個 Node 測試、reachability_all（202 43、多功能 35 個互動點）ALL PASS｜開發分支 ab290c818 已整合（10-28）；GLB、光照貼圖之後被第三包 e95a1aeb4 取代"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "e95a1aeb4",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "files": [
     "assets/models/env/classroom_201.glb",
@@ -3938,10 +3938,10 @@
     "assets/models/env/second_ai/wancai_multi_lm_night.webp",
     "docs/art-rebuild/second_ai/test_shots/interior_202_v2_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "人物沒吃到烘焙的光；不烘的小零件（鐵腳、桌上的東西、天花板格柵）照即時光；白天光照貼圖固定下午；202 的窗、講台還沒照 201 做；iPhone 實機沒測",
    "next": "LAWWW-C 換十個二進位檔（沒有新程式）、跑回歸；LAWWW2-C 接著 NPC-POOL-ART-1028",
-   "note": "第三包：202 v2 家具與天花板＋LIGHTBAKE-UV-FIX（bake_room.py：光照貼圖只用 6～9%、頂點色零件的 LM 進 TEXCOORD_0、門縫漏光）三間重烘（填滿 202 50%／多功能 61%／201 28%）＋201／202 講台木地板改淺（UA-LAWWW2-1023-03，scan_floors 不再 DARK）；READY_FOR_ART_REVIEW；開發分支 923e81d20 上 Node 11 支、reachability 三區 127 點 ALL PASS"
+   "note": "第三包：202 v2 家具與天花板＋LIGHTBAKE-UV-FIX（bake_room.py：光照貼圖只用 6～9%、頂點色零件的 LM 進 TEXCOORD_0、門縫漏光）三間重烘（填滿 202 50%／多功能 61%／201 28%）＋201／202 講台木地板改淺（UA-LAWWW2-1023-03，scan_floors 不再 DARK）；READY_FOR_ART_REVIEW；開發分支 923e81d20 上 Node 11 支、reachability 三區 127 點 ALL PASS｜LAWWW-C 05:31Z ACK：開發分支 ca50d6ab5 整合，Node 11 支 ALL PASS；BB 排 v9.10.13 看畫面"
   }
  ]
 }
