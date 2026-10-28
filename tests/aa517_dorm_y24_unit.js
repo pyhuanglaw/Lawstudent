@@ -11,10 +11,10 @@
 //   4  三件小事：日子、時間、該在的人（正在走進來的等坐下；3-2 柏翰 23:30 以後在上舖也算在）、日本路線不演、只演一次、選項、旗標；群組訊息的時間、不在群組不傳；
 //      409 最後一晚＝退宿日 2029-06-28 的前一晚、那一晚柏翰在、「（去關燈）」看 2-4「最後一晚，燈你關」說過沒有；畢業後篇（PG.stops）停在那一晚 23:00
 //   5  存檔：舊存檔（沒有 RY24、只有一部分）照常；存讀檔以後說過的不再說、輪到哪一句照舊；JSON 存得下
-// 修改前（開發分支 82c3c998e＝這個任務開工那一版：git archive 出 src、tests、index.html，把這支測試放進去、AA517_GIT_DIR 指到這個 repo 對稿，真的跑過）：FAILED 12、PASS 8、結束碼 1——
-//   第 0 項 5 項 FAIL（新檔與 index.html、story3d.js 掛勾、對稿兩個方向、日子與時間）；第 1、2、3、5 項各 1 項 FAIL（沒有 DORMY24 丟例外，整節中斷）；
+// 修改前（開發分支 82c3c998e＝這個任務開工那一版：git archive 出 src、tests、index.html＋那一版的白名單，把這支測試放進去、AA517_GIT_DIR 指到這個 repo 對稿，真的跑過）：FAILED 13、PASS 8、結束碼 1——
+//   第 0 項 6 項 FAIL（新檔與 index.html、story3d.js 掛勾、白名單對台詞檔的來源、對稿兩個方向、日子與時間）；第 1、2、3、5 項各 1 項 FAIL（沒有 DORMY24 丟例外，整節中斷）；
 //   第 4 項 3 項 FAIL（3-1「演」兩項：事件不存在；跑事件丟例外，整節中斷）。舊程式剛好也對的 8 項：拿得到稿、第 4 項 3-1 那七項「不演」（事件不存在本來就不演）。
-// 修改後：ALL PASS（102 項）
+// 修改後：ALL PASS（103 項）
 // 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 ced552c17；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
 require('./alison.js');   /* AA_380：讀稿時 Alison 的舊叫法照匯入工具同一套換成 Alison（稿 2-1 第 4 列）*/
 const H=require('./pg_harness.js');
@@ -74,6 +74,8 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
       &&/DORM203\.roomTalk\(GM,who,id\)\)\{\}[^\n]*DORMY24\.roomTalk\(GM,who,id\)\)\{\}[^\n]*\n\s*else if\(await S\.ladderTalk/.test(st)
       &&/S\.dormMates=function[^\n]*\n[^\n]*if\(F\.ROOM_Y3\|\|F\.ROOM_Y4\) return \/\^Y\[34\]\/\.test\(t\)\|\|\(typeof DORMY24!=='undefined'&&DORMY24\.lastNight&&DORMY24\.lastNight\(G\)\)\?/.test(st)
       &&/S\.Y4K=Y4K;/.test(st)); });
+  await sec(0,()=>{ const A=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_517_/.test(e.path)), L0=LL();
+    check('0. 劇情匯入白名單有 AA_517（sha ced552c17、approved、任務 DORM-Y24-1028）；台詞檔寫的來源同一個 sha',A.length===1&&A[0].sha==='ced552c17'&&A[0].status==='approved'&&A[0].task==='DORM-Y24-1028'&&!!L0&&/^ced552c17 AA_517$/.test(L0.source),J(A)); });
   await sec(0,()=>{ check('0. 拿得到稿（git show ced552c17）',DOC.length>2000&&DOC.indexOf('## 1. 走進房間的旁白')>0&&DOC.indexOf('## 3. 三件小事')>0,'長度 '+DOC.length);
     if(!L||!DOC){ for(const n of ['0. 遊戲 → 稿','0. 稿 → 遊戲']) check(n,false,!L?'沒有 DORMY24_LINES':'拿不到稿'); return; }
     const bad=[], miss=[], sl=(a,b)=>{ const i=DOC.indexOf(a), j=b?DOC.indexOf(b,i+1):DOC.length; return i<0?'':DOC.slice(i,j<0?DOC.length:j); };
