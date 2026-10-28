@@ -1328,6 +1328,36 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 11:41（AA_503 5ec2fe771，DL-AA-PRIVQ4）",
    "closedBy": "e3de7d021（合併子代理 025574629；company_priv 73 項、aa422 176 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB15-1028",
+   "role": "LAWWW",
+   "task": "SIS-B15-1028",
+   "state": "WIP",
+   "sha": "57cc0f633、bb8768ece",
+   "branch": "worktree-agent-a24dd2e4efb2c0c15（子代理；D113 備份 wip_backup/sisb15_1028.bundle）",
+   "files": [
+    "wip_backup/sisb15_1028.bundle"
+   ],
+   "todo": "AA_518 學姊第十五批：白名單登記了，第 1～4 節實作、tests/aa518 做中",
+   "next": "子代理做完回報 → LAWWW 合併（heroine_circle.js、privtalk3d.js 和別的子代理同時改）、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 11:54（AA_518 973dd1b74，DL-AA-518）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVAUNT2-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AUNT-1028",
+   "state": "WIP",
+   "sha": "57cc0f633、3617da98f",
+   "branch": "worktree-agent-abdf948cfaf87793b（子代理；D113 備份 wip_backup/privaunt2_1028.bundle）",
+   "files": [
+    "wip_backup/privaunt2_1028.bundle"
+   ],
+   "todo": "AA_503 後補第 8、9 點：廚房那位就是阿姨（語彤顧店、阿姨不在＝店員也不出現）、大二下以後每學期阿姨那一列 c503_14_1～5 做了；測試接著改",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:02／12:07（AA_503 38a74680d、f6069e42d，DL-AA-PRIVQ5、Q6）"
   }
  ]
 }
