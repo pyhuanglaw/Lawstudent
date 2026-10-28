@@ -298,13 +298,13 @@ async def mode_ladder(pg, cdp, run, save, normal=False):
     r1 = await approach_talk(pg, cdp, run, who, rid, avoid, 'crowd')
     run.check('前置：說話時筱涵在她 3.2 m 內', bool(r1) and bool(r1['at_tap']['withNow']), J(r1 and r1['at_tap']['withNow']))
     said1 = bool(r1) and any(priv_line[:10] in t for t in r1['lines'])
-    held1 = [h for h in (r1['post']['held'] if r1 else []) if h.get('id') == who]
+    held1 = [h for h in (r1['post']['held'] if r1 else []) if h.get('id') == who and h.get('key') != 'knows_talk']   # knows_talk：privtalk3d.js 包 MREL.meetAction 那一層每次說話都先問 privNow，沒有要演的也記一筆（只是除錯紀錄，BB-C 10-28 priv_normal）
     if normal:
         run.check('A4 旁邊有人：一般那一層（Y-L6「%s」）照演' % priv_line, said1, J(r1 and r1['lines']))
         run.check('A4 階梯照常前進（%d → %d）' % (ptr, ptr + 1), bool(r1) and r1['post']['lad'] == ptr + 1, J(r1 and [r1['pre']['lad'], r1['post']['lad']]))
         run.check('A4 PRIVTALK 沒有擋語彤', not held1, J(held1))
         r2 = await approach_talk(pg, cdp, run, who, rid, avoid, 'crowd2')
-        run.check('A4 同一天再說一次：一般招呼／閒聊照常（有台詞、沒有被擋）', bool(r2) and bool(r2['lines']) and not [h for h in r2['post']['held'] if h.get('id') == who], J(r2 and [r2['lines'], r2['post']['held']]))
+        run.check('A4 同一天再說一次：一般招呼／閒聊照常（有台詞、沒有被擋）', bool(r2) and bool(r2['lines']) and not [h for h in r2['post']['held'] if h.get('id') == who and h.get('key') != 'knows_talk'], J(r2 and [r2['lines'], r2['post']['held']]))
         return
     run.check('A2 旁邊有人：Y-L7「%s」沒有出現' % priv_line, bool(r1) and not said1, J(r1 and r1['lines']))
     run.check('A2 旁邊有人：照常閒聊（有說話）', bool(r1) and bool(r1['lines']), J(r1 and r1['lines']))
