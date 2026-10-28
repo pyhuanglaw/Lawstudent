@@ -104,7 +104,7 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   check('0. 大二下：動態 40 則（以安 8、芷若 8、語彤 7、子晴 7、學姊 5、沛珊 1、可昕 4）、私訊 1 則；大三上：動態 41 則（7、8、6、7、5、4、4）、私訊 1 則',
     !!SET.Y2S2&&!!SET.Y3S1&&J(cnt(SET.Y2S2))===J([8,8,7,7,5,1,4])&&SET.Y2S2.dms.length===1&&J(cnt(SET.Y3S1))===J([7,8,6,7,5,4,4])&&SET.Y3S1.dms.length===1,J([cnt(SET.Y2S2),cnt(SET.Y3S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
-  check('0. 五個學期的 id 都不重複（動態 44＋47＋37＋40＋41、私訊 10＋7＋3＋1＋1）',ids.length===231&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  check('0. 五個學期的 id 都不重複（動態 44＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）',ids.length===232&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
