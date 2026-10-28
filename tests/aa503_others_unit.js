@@ -24,7 +24,8 @@
 //   第五輪加句子以後、這裡還沒改的時候實際跑：FAILED 3（第 0 段：SPEC 沒有 AA_510、「沒做」裡的曾靖雯三句已經在遊戲裡；第 1 段：48 句）。改了以後 ALL PASS。
 // AA_513（AA-C 2026-10-28，a2e4bf196）改的：阿凱說子晴那四句改成他的私訊——heard_lines.js 多了手機 3 組 9 則（src 'AA_513 1-1／1-2／1-4'）：第 0 段 SPEC 加 AA_513、句數 103→112；
 //   「沒做」裡阿凱大二上（AA_505）、大三上（AA_507）兩句的原因改「改私訊，AA_513 第 1 節」，並查稿上 1-1、1-2 那兩組私訊真的在遊戲裡（時間、p:kai、kaiZq、一字不差）。
-//   加句子以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段：AA_513 的 9 句找不到稿、112 句）；改了以後 ALL PASS。功能（送到、條件、時差）在 tests/aa513_unit.js。
+//   加句子以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段：AA_513 的 9 句找不到稿、112 句）；改過的這一份對開發分支 44e8ff8b7 的 src 實際跑：FAILED 2（103 句、改私訊那一項）；
+//   改了以後 ALL PASS。功能（送到、條件、時差）在 tests/aa513_unit.js。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');

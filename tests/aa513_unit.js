@@ -11,7 +11,10 @@
 //      時段外（17:59、21:00）不出、別天不出、不認識以安不出、不在公館不出、對話進行中／劇情中不出、經濟系不出；大一下兩版的選法（大一上看過＝第二句，沒看過＝第一句）；
 //      AN_MOM_SEEN（學期 → 那一天；舊存檔沒有、不是物件都從那時起）；接在 STORY.TICKS、回傳 false；圈子的字幕（HCIRCLE._capBusy）在出就等、出這一句的時候圈子也等
 //   4  店門口的清單（heard3d.js S.GG_DOORS）和 src/zones3d.js 公館店面街（shops、FZ、x 起點、前 8 間的 1.2 m、ix、互動點 z）重算一致；麵店、輪轉單車的互動點、y34b3d.js NOODLE_DOOR 對得上
-// 修改前（開發分支 44e8ff8b7：src/data/heard_lines.js、src/heard3d.js、src/y34b3d.js、docs/handoff/story_import_allow.json 換回 44e8ff8b7 實際跑過）：見最後一段註解。用法：node tests/aa513_unit.js
+// 修改前（開發分支 44e8ff8b7：src/data/heard_lines.js、src/heard3d.js、src/y34b3d.js、docs/handoff/story_import_allow.json 換回 44e8ff8b7 實際跑過）：FAILED 19——
+//   第 0 段 5 項（遊戲裡沒有 AA_513、兩個方向 0 句、HEARD_LINES.src、白名單、「沒做」還寫先空著）、第 1 段 7 項（三組私訊、條件、晚三天、PHONE_RULES、美國路線）、
+//   第 2 段 5 項（「不了。」、「去。」卻沒到、從子晴那邊到場、舊存檔貓、舊版本排好的）、第 3、4 段各 1 項（沒有 HEARD.pass、HEARD.GG_DOORS 就停）；
+//   當時就過的 5 項是現狀的保護（載得到、稿四塊、隔天的私訊、去了沒有照片、日本路線）。修改後 ALL PASS（33 項）。用法：node tests/aa513_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
