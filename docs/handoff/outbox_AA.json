@@ -3530,6 +3530,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "pool 第二批（同屆四位＋馬佳蓉）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d043110ae",
+   "files": [
+    "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡還有四位：大三的洪珮瑜、施孟儒、廖芸萱、嚴守誠",
+   "next": "LAWWW：AA_500 六位；2028-06 畢業，日本路線改私訊；吉他社兩次成發、以安日本加旁白",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第三批（大二的六位）"
   }
  ],
  "items": [
