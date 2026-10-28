@@ -122,6 +122,13 @@ const PROPS = (function(){
       g.add(n); }).catch(e=>console.warn(name+' glb',e));
     return g; }; }
   const bagYu=boneGlb('prop.bag_yu','bag_yu');
+  /* 法律系同學二十位的隨身道具（NPC-POOL-ART-1028，LAWWW2-C 2026-10-28；tools/blender/char_second/prop_pool.py）＋麵店阿姨的湯杓、繃帶（HEROINE-LIFE-NPC3D-1028）。
+     sit：'hide'＝坐下（sit、read）時藏起來（垂著拿的東西會穿進椅子）；'only'＝只有坐下、而且 CHAR.setProp 開了才看得到（hidden 預設藏）。camera_film、lanyard_tag 的帶子照那一位的底模量過（元碩 npc_nm9、佳蓉 npc_nf18），別的底模會浮起來或陷進去 */
+  const cameraFilm=boneGlb('prop.camera_film','camera_film'), lanyardTag=boneGlb('prop.lanyard_tag','lanyard_tag'), bandageGlb=boneGlb('prop.bandage','bandage');
+  const thermosSilver=heldGlb('prop.thermos_silver','thermos_silver',0.21,-0.022,[0,0,Math.PI/2]), sportsDrink=heldGlb('prop.sports_drink','sports_drink',0.18,-0.02,[0,0,Math.PI/2]);
+  const recorderGlb=heldGlb('prop.recorder','recorder',0.06,-0.014), coolerBag=heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2]);
+  const novelGlb=heldGlb('prop.novel','novel',0.055,-0.03), notebookQ=heldGlb('prop.notebook_q','notebook_q',0.07,-0.024), handoutsGlb=heldGlb('prop.handouts','handouts',0.09,-0.018);
+  const audioCable=heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2]), ladleGlb=heldGlb('prop.ladle','ladle',0.075,-0.01,[0,0,Math.PI/2]);
   const DEF={
     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
@@ -136,6 +143,19 @@ const PROPS = (function(){
     calc:{bone:'leftLowerArm',make:calc},
     thermos:{bone:'rightLowerArm',make:thermos},
     bag_yu:{bone:'upperChest',make:bagYu,pos:[0,0,0]},
+    camera_film:{bone:'upperChest',make:cameraFilm,pos:[0,0,0]},
+    lanyard_tag:{bone:'upperChest',make:lanyardTag,pos:[0,0,0]},
+    thermos_silver:{bone:'leftLowerArm',make:thermosSilver,sit:'hide'},
+    thermos_bench:{bone:'hips',make:boneGlb('prop.thermos_silver','thermos_bench'),pos:[-0.27,0.045,0.03],sit:'only',hidden:true},   /* 同一支保溫瓶放在身旁的長椅上（坐下、而且 CHAR.setProp 開了才看得到：pool3d 只在傅鐘長椅開；上課坐著不放）*/
+    sports_drink:{bone:'rightLowerArm',make:sportsDrink,sit:'hide'},
+    recorder:{bone:'rightLowerArm',make:recorderGlb},
+    cooler_bag:{bone:'rightLowerArm',make:coolerBag,sit:'hide'},
+    novel:{bone:'leftLowerArm',make:novelGlb},
+    notebook_q:{bone:'leftLowerArm',make:notebookQ},
+    handouts:{bone:'rightLowerArm',make:handoutsGlb},
+    audio_cable:{bone:'leftLowerArm',make:audioCable,sit:'hide'},
+    ladle:{bone:'rightLowerArm',make:ladleGlb,sit:'hide'},
+    bandage:{bone:'leftHand',make:bandageGlb,pos:[0,0,0]},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

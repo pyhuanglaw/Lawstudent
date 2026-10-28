@@ -107,7 +107,8 @@ const POOL=(function(){
   S.afterSpawn=function(GM){ if(!GM||!GM.npc||!GM.G) return; const G=GM.G;
     for(const id in GM.npc){ if(!/^pool_/.test(id)) continue; const n=GM.npc[id]; if(!n||n.charId!==id) continue;
       if(!n._pool){ n._pool=true; const e=ent(G,id); n.poolDesc=e&&e.desc||null; if(e&&e.act==='linger'){ n.frozen=true; } if(typeof SOCIAL!=='undefined'&&SOCIAL.npcName){ n.name=SOCIAL.npcName(id); if(n.talk) n.talkLabel='和'+n.name+'說話'; } }   /* 站著的人不被 pairUp 帶走（固定在一個地方）*/
-      S.modelWait(n,id); S.syncTalk(G,id,n); } };
+      S.modelWait(n,id); S.syncTalk(G,id,n);
+      if(id==='pool_7'&&typeof CHAR!=='undefined'&&CHAR.setProp&&n.obj){ const e=ent(G,id), on=!!(e&&e.seat==='bell'); if(n._bench!==on){ n._bench=on; CHAR.setProp(n.obj,'thermos_bench',on); } } } };   /* 靖雯坐在傅鐘長椅（AA_498：「旁邊一個銀色的保溫瓶」）：保溫瓶放在身旁；上課、法服值班不放（NPC-POOL-ART-1028）*/
   S.modelWait=function(n,id){ if(typeof CHAR==='undefined'||!CHAR.isDegraded||!n.obj) return; const want=S.modelOf(id); if(!want) return;
     if(CHAR.isDegraded(n.obj)){
       if(S._failed[want]){ const u=n.obj.userData; u.wantModel=null; if(u.degradedHidden){ for(const ch of n.obj.children) ch.visible=true; u.degradedHidden=false; } n.hidden=false; n._poolWait=false; return; }   /* 下載失敗：用備用的人（同一個人的顏色），不要一直隱形 */
@@ -294,6 +295,12 @@ const POOL=(function(){
   /* 7-4 展覽（大二下第 15 週，週一～週三，霖澤館一樓穿堂；只有旁白）*/
   S.expoDue=G=>{ const w=dateOf(G.day).wd; return G.zone==='campus'&&inTerm(G,'Y2S2')&&week(G)===15&&w>=1&&w<=3; };
 
+  /* 劇情那一天才擺出來的實體物件（NPC-POOL-ART-1028，LAWWW2-C 2026-10-28）：GLB 載好才加進這一區、才擋導航（載不到就什麼都沒有，不會有看不見的牆）；
+     換區域時跟著這一區一起丟掉（加在 zone.group 底下）。key＝ASSETS.manifest 的 bldg.*；(x, z, ry)＝擺放、lv＝哪一層的導航；w、d＝擋住的長寬（公尺，沿模型自己的 x、z）*/
+  S.prop=function(E,key,x,z,ry,lv,w,d){ const zone=E&&E.zone; if(!zone||typeof ASSETS==='undefined'||!ASSETS.manifest[key]) return;
+    ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name=key; r.position.set(x,0,z); r.rotation.y=ry||0;
+      r.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); (zone.group||E.scene).add(r);
+      const nav=E.levels?E.levels[lv|0]:E.nav; if(nav&&w&&d){ nav.blockRect(x,z,w,d,ry||0,0.05); nav._cm=null; } }).catch(e=>console.warn(key,e)); };
   /* ---------- 互動點（第 9 節第 4 點）：只有互動點，實體物件列給 LAWWW2 ---------- */
   S.populate=function(zoneId,GM){ S.bind(GM); const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)) return; const add=it=>E.interactables.push(it), g=()=>GM.G;
     if(zoneId==='dorm_hall'){
@@ -301,7 +308,8 @@ const POOL=(function(){
       add({x:7.3,z:6.7,radius:1.0,prio:0.4,lv:0,label:'把箱子放進交誼廳的冰箱',poolAct:'qjqFridge',get hidden(){ return !S.qjqFridgeDue(g()); }});   /* 交誼廳販賣機、飲水機那一角（冰箱的實體物件：LAWWW2）*/
       add({x:7.3,z:6.7,radius:1.0,prio:0.3,lv:0,label:'看交誼廳的冰箱',poolAct:'qjqFridgeNote',get hidden(){ return !S.fridgeNoteDue(g()); }});
       add({x:5.4,z:5.3,radius:0.9,prio:0.4,lv:0,label:'看桌上的紙條',poolAct:'qjqNote',get hidden(){ return !S.qjqNoteDue(g()); }}); }   /* 交誼廳的長桌 */
-    if(zoneId==='linze') add({x:4.6,z:0.6,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
+    if(zoneId==='linze'){ add({x:4.6,z:2.05,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
+      if(S.ytTableDue(g())) S.prop(E,'bldg.linze_supply_table',4.6,1.05,0,0,1.9,0.7); }   /* 那一天才擺：玻璃電梯南邊，長邊沿 x（3.7～5.5）；發的人站電梯那一側、拿的人從南邊來，互動點在桌子南邊（原本 z 0.6 會被桌子蓋住）（NPC-POOL-ART-1028，LAWWW2-C）*/
     if(zoneId==='campus') add({x:33,z:-110,radius:2.2,lv:0,label:'看穿堂的照片',poolAct:'ysExpo',get hidden(){ return !S.expoDue(g()); }});   /* 霖澤館一樓的穿堂（地坪 0.9 m）*/
     S.afterSpawn(GM); S.dedupe(GM); };
   S.interact=async function(it,GM){ const G=GM.G; S.bind(GM); GM.sceneBegin(); try{
