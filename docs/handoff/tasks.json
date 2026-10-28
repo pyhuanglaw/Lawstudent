@@ -35074,6 +35074,60 @@
     "receiver": "BB",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "LOBBY-CEIL-1028",
+   "title": "霖澤館大廳第二版（LINZE-LOBBY-V2-1028）讓 tests/room_ceiling_unit.js 失敗：6 盞中庭吊燈 light_panel 頂面朝上（節點 L1_light_panel，y=6.38，12／70 個三角形）——吊燈頂面朝上本身合理，是材質名字被當成吸頂燈板；換名字或讓測試分出吊燈，LAWWW2 定（D108）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "LAWWW-C 2026-10-28 09:3x 全部 Node（4763a6973：721 支、失敗 1 支）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進霖澤館一樓大廳",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "note": "擋 v9.10.13（發布前全部 Node 要綠）；LAWWW2 正在做 LOBBY-VC-1028（材質合成頂點色）會換材質，一起處理",
+   "xai": {
+    "spec": "tests/room_ceiling_unit.js 規則（天花板與吸頂燈單面朝下）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "node tests/room_ceiling_unit.js ALL PASS；全部 Node 0 失敗",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "ZQ-ARCADE-SEAT-1028",
+   "title": "子晴一個人在公館騎樓（heroine_circle c506_4_2／c507_4_2／c509_4_1，站位 (16,20.6)）：字幕「她坐在騎樓下的插座旁邊，筆電開著」，3D 是站著、沒有筆電、背後投幣洗衣店——給能坐的地方＋筆電道具，或換站位（LAWWW2 定）",
+   "area": "Y2S2",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "BB-C 2026-10-28 09:19 瀏覽器 priv_y4（BB_218 cf7530010）",
+   "first": {
+    "term": "Y2S2",
+    "week": 2,
+    "earliest": "大二下週二、四 21:00 以後走到公館騎樓",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "note": "不擋發布；排在室內 X125 後面（X122 女主角的生活看得見）",
+   "xai": {
+    "spec": "src/data/heroine_circle.js c506_4_2 heard、place（AA_506 4-1）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "BB 瀏覽器：22:31 走過去，子晴坐著、有筆電，和字幕一致",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
