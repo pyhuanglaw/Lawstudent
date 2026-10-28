@@ -892,7 +892,7 @@
    "role": "LAWWW",
    "task": "CROWD-DEPTS-1028",
    "branch": "worktree-agent-a4a4118e152011f58（子代理 worktree；D113 備份 wip_backup/crowd_depts_1028.bundle）",
-   "sha": "84b47d666",
+   "sha": "279647e95",
    "files": [
     "src/crowd3d.js",
     "tests/crowd_depts_unit.js"
@@ -908,7 +908,7 @@
    "role": "LAWWW",
    "task": "NPC-STORY-1028",
    "branch": "worktree-agent-a33958931414f6a65（子代理 worktree；D113 備份 wip_backup/aa496_fixes_1028.bundle）",
-   "sha": "095cf15ae",
+   "sha": "eb441d10d",
    "files": [
     "tests/aa496_fixes_unit.js"
    ],
@@ -923,7 +923,7 @@
    "role": "LAWWW",
    "task": "HEROINE-ASKS-1028",
    "branch": "hask-1028（本機分支；wip_backup/hask_1028.bundle）",
-   "sha": "4cb30667c",
+   "sha": "32024ec13",
    "files": [
     "src/heroine_asks3d.js",
     "src/data/heroine_asks.js",
@@ -940,6 +940,23 @@
    "next": "tests/heroine_asks_unit.js 結果→修→相關測試（invites、date、phone、termend…）→合併；bundle 每 15～20 分鐘更新（D113）",
    "noDirectIntegrate": true,
    "source": "使用者 10-28 00:0x（X118★）"
+  },
+  {
+   "id": "WIP-LAWWW-DORM203-1028",
+   "role": "LAWWW",
+   "task": "DORM203-MATES-1028",
+   "branch": "worktree-agent-a5cfdbee05c9d4a53（子代理 worktree；D113 備份 wip_backup/dorm203_1028.bundle）",
+   "sha": "9227bf81e",
+   "files": [
+    "src/dorm203_3d.js",
+    "src/data/dorm203_lines.js",
+    "tests/aa502_dorm203_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_502 203 室友日常（作息、閒聊、六件小事、群組）；子代理做中，開工要先快轉到開發分支",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:3x（X123）"
   }
  ]
 }
