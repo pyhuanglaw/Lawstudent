@@ -102,7 +102,11 @@ async def main():
             run.check('前置：第 8 天筱涵還在她旁邊', bool(s8a['withNow']), J(s8a))
             r8, dl8 = await talk(pg, cdp, run, 'day8')
             s8 = await pg.evaluate(STATE, YT); w8 = [v for k, v in s8['wait'].items() if k.startswith('yt_mom_lad|')]
-            run.check('第 8 天：第一句是旁白「%s」' % NARR, bool(dl8) and NARR in dl8[0], J(dl8[:3]))
+            # 10-28 11:3x：她和筱涵「走近時聽到」的那幾句（c503_6_1）玩家沒先聽到＝說話前先在對話框演（hcircle3d.js 第 14 行 S.before）——第 1 天也一樣；
+            # 「第一句是旁白」＝她對玩家說的第一句（跳過那幾句以後的第一句），不是整段對話的第一句（rc2_priv2_wait7_r2 原本的判斷寫錯）
+            CIRC = ('妳又沒睡？', '睡了。四個小時。', '那叫沒睡。')
+            own8 = [t for t in dl8 if t not in CIRC]
+            run.check('第 8 天：她對你說的第一句是旁白「%s」（前面先演她和筱涵原本的 %d 句）' % (NARR, len(dl8) - len(own8)), bool(own8) and NARR in own8[0], J(dl8[:5]))
             run.check('第 8 天：接著 Y-L7「我媽每個月要回診一次…」照演、階梯前進 6→7、等待清掉', any('回診' in t for t in dl8) and s8['lad'] == 7 and not w8, J(s8))
             await run.shot(pg, 'day8_end')
         elif MODE == 'aunt':
