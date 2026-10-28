@@ -103,7 +103,7 @@ const md2key=(md,y)=>{ const [m,d]=md.split('/').map(Number); return y+'-'+Strin
 const HL=()=>typeof HEARD_LINES!=='undefined'?HEARD_LINES:{phone:[]};
 const h509=()=>HL().phone.find(e=>e.id==='h509_yule')||null, h503=()=>HL().phone.find(e=>e.id==='h503_yule')||null;
 const lineT=x=>typeof x==='string'?x:(x&&x.t);
-const mineTexts=()=>{ const A=[], L=YLX(); if(L){ for(const e of L.own||[]) A.push(...e.t.map(lineT)); A.push(...L.lecture.t,...L.lecture.opts.map(o=>o.t),...L.lecture.opts.flatMap(o=>o.r),...L.lectureAfter.t,...Object.values(L.lectureAfter.miss),...L.rptAfter.t.map(lineT),...L.kexin.t); }
+const mineTexts=()=>{ const A=[], L=YLX(); if(L){ for(const e of L.own||[]) A.push(...e.t.map(lineT)); A.push(...L.lecture.t,...L.lecture.opts.map(o=>o.t),...L.lecture.opts.flatMap(o=>o.r),...L.lectureAfter.t,...Object.values(L.lectureAfter.miss),...L.rptAfter.t.map(lineT),...L.kexin.t,L.mem); }
   const e3=h503(); if(e3) for(const it of e3.items) if(it[3]) A.push(it[2]);
   const e9=h509(); if(e9&&e9.ask) for(const o of e9.ask.opts) A.push(o.t,...o.r);
   const E1=ev('ev_yule_lecture'); if(E1) for(const l of E1.dialogue){ if(typeof l.text==='string') A.push(l.text); if(l.choice) for(const c of l.choice) A.push(c.text); }
@@ -142,7 +142,8 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   /* 第 2 節原本那一句還在 h503 第一則；h509 原本兩則照舊（稿第 5 節「原本兩則照舊」）*/
   const e3=h503(), e9=h509();
   check('0. 第 2 節：h503_yule 第一則是原本那一句（AA_503），後面兩句照稿；h509_yule 兩則照舊（稿第 5 節）',!!e3&&J(e3.items.map(i=>i[2]))===J(S2_Q.map(q=>q.t))&&e3.items.slice(1).every(i=>i[3]==='AA_520 2')&&!e3.items[0][3]&&!!e9&&J(e9.items.map(i=>i[2]))===J(S5_ORIG),J({e3:e3&&e3.items,S2:S2_Q,e9:e9&&e9.items}));
-  check('0. 記憶簿文字照稿（第 7 節）',!!MEMNOTE&&evLines().some(l=>Array.isArray(l.mem)&&l.mem.some(m=>m.npc==='yule'&&m.tag==='YL_LECTURE'&&m.note===MEMNOTE)),J(MEMNOTE)); });
+  check('0. 記憶 YL_LECTURE（予樂）的記憶簿文字照稿（第 7 節「'+MEMNOTE+'」：SOCIAL.MEMORY_LABEL；記憶本身 note 空的，同現有 mem() 的寫法）',!!MEMNOTE&&YLX().mem===MEMNOTE&&SOCIAL.MEMORY_LABEL.YL_LECTURE===MEMNOTE&&
+    evLines().some(l=>Array.isArray(l.mem)&&l.mem.some(m=>m.npc==='yule'&&m.tag==='YL_LECTURE'&&m.note==='')),J({MEMNOTE,label:SOCIAL.MEMORY_LABEL.YL_LECTURE})); });
 
 /* ---------- 1 第 1 節 誰收得到 ---------- */
 await sec(1,async()=>{ const b=S3B['3-4'], d=D(b.date), h=hOf(b.hm), n=b.base.length;   /* 用 3-4（大二上 9/19 22:30）*/

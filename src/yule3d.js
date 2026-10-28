@@ -13,7 +13,7 @@
        ev_yule_lecture；演完記 YL_ROOM、記憶 YL_LECTURE）；③、沒回（期限過了記 'no'）＝10/20 21:40 私訊四則；①②沒到（OUT 的 missed、21:40 還沒出發）＝同一則、第一則換掉。
        那之前和可昕鬧翻了＝排好的出遊取消、21:40 那一則不送。見面要人在臺灣：大三上三條路線都在臺灣（稿第 1 節），不另外擋。
    ■ 第 5 節 11/7：h509_yule 的選項記 YL_RPT（'ask'／'up'／'night'，期限 23:54）；23:55 三則（有選項的那一版才有，不管回了沒有；'up' 多一則）；'ask' 的 2029-01-12 22:00 報告（第 3 節 yl_report）。
-   ■ 第 7 節：YL_LEC、YL_ROOM、YL_RPT、記憶 YL_LECTURE（SOCIAL.remember('yule',…)）。另外兩個記帳用的：G.flags.YL_PH＝{訊息 id:'sent'|'x:原因'}；
+   ■ 第 7 節：YL_LEC、YL_ROOM、YL_RPT、記憶 YL_LECTURE（SOCIAL.remember('yule',…)；記憶簿文字 SOCIAL.MEMORY_LABEL，YULE_LINES.mem）。另外兩個記帳用的：G.flags.YL_PH＝{訊息 id:'sent'|'x:原因'}；
        KX_YULE_REPLIED＝回過 needed_msgs.js kx_yule（PHONE.ON_ANSWER 記；舊存檔沒有＝看手機裡那一則、STORY 的 needed 紀錄）。舊存檔沒有這些＝從那時起照常。
    不用 3D（予樂沒有 3D 模型）；這一批沒有 3D 當面的入口（全部是私訊、私訊約好的 2D 出遊），PRIVTALK 不用登記。
    2D 背景：霖澤館 201 沒有圖＝深色底（這裡登記 OUT.BG.linze_201 image:null；tests/scene_bg_keys_unit.js 的 PENDING，BB 要圖）；阿鳳麵店用現有的 noodle_table。
@@ -118,6 +118,8 @@ const YULE=(function(){
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)&&!STORY._yule){ STORY.PHONE_RULES.push(G=>S.phone(G)); STORY._yule=true; }
   /* 回過 kx_yule（大二下第 2～4 週「這週的訊息」，可昕：予樂的生日要辦驚喜……）：3/27 生日那則後面三則 */
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)&&!PHONE.ON_ANSWER._yule){ PHONE.ON_ANSWER.push((G,m,o)=>{ if(o&&o.need==='kx_yule'&&G&&G.flags) G.flags.KX_YULE_REPLIED=true; }); PHONE.ON_ANSWER._yule=true; }
+  /* 記憶簿文字（AA_520 第 7 節：記憶 YL_LECTURE＝「和予樂聽了一場家事的演講」；記憶本身 note 空的）*/
+  if(L.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL&&!SOCIAL.MEMORY_LABEL.YL_LECTURE) SOCIAL.MEMORY_LABEL.YL_LECTURE=L.mem;
   /* 2D 背景：霖澤館 201 沒有圖＝深色底（BB 要圖；tests/scene_bg_keys_unit.js 的 PENDING）*/
   if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.linze_201) OUT.BG.linze_201={label:'霖澤館 201',image:null};
   return S;

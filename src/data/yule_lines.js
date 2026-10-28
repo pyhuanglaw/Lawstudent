@@ -42,7 +42,9 @@ const YULE_LINES={
   /* ---------- 第 5 節 大四上 11/7（h509_yule 的選項在 heard_lines.js）：23:55，不管回了沒有都傳（有選項的那一版）；選②「貼高一點。」的多一則 ---------- */
   rptAfter:{id:'yl_rpt_after',at:'2028-11-07 23:55',src:'AA_520 5',t:['可昕剛剛爬起來','把我的報告往上移了一點 跟她的一樣高','然後回去睡了',{if:'up',t:'你們是不是有講好'}]},
   /* ---------- 第 6 節 可昕那一則：2028-09-16（六）21:10，p:kexin（BB_107 第 207 行；手機小事的慣例時間）---------- */
-  kexin:{id:'yl_kx_family',at:'2028-09-16 21:10',src:'AA_520 6',t:['予樂說她要走家事法。','她說完就哭了，然後點了雞排。']}
+  kexin:{id:'yl_kx_family',at:'2028-09-16 21:10',src:'AA_520 6',t:['予樂說她要走家事法。','她說完就哭了，然後點了雞排。']},
+  /* ---------- 第 7 節 記憶 YL_LECTURE 的記憶簿文字（SOCIAL.MEMORY_LABEL，yule3d.js 登記；記憶本身 note 空的，同 kx_moot3 的寫法）---------- */
+  mem:'和予樂聽了一場家事的演講'
 };
 
 /* ---------- 第 4 節的出遊：ev_yule_lecture（①霖澤館 201 聽演講→阿鳳麵店；②阿鳳麵店；共同的部分在麵店）----------
@@ -83,6 +85,6 @@ const YULE_EVENTS=(function(){
         {label:'q3'},N('（她喝了半碗，又推回來。）'),YL('你很適合當調查官。都不講話。'),
         {label:'e'},N('（她把最後一顆滷蛋夾走，聲音又變回平常那麼大。）'),
         {speaker:'yule',expression:'smile',text:'這頓我請。我點太多了。'},
-        Object.assign({set:{YL_ROOM:true}},mem('yule','YL_LECTURE','和予樂聽了一場家事的演講')) ] } ];   /* 記 YL_ROOM（聽她講過八歲那個房間）、記憶 YL_LECTURE（AA_520 第 7 節）*/
+        Object.assign({set:{YL_ROOM:true}},mem('yule','YL_LECTURE')) ] } ];   /* 記 YL_ROOM（聽她講過八歲那個房間）、記憶 YL_LECTURE（AA_520 第 7 節；記憶簿文字 YULE_LINES.mem）*/
 })();
 for(const e of YULE_EVENTS){ if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }
