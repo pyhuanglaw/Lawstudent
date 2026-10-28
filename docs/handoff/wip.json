@@ -1443,7 +1443,7 @@
    "id": "WIP-LAWWW-PROF522B-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "83e9c6560、e60aa30ba",
    "branch": "worktree-agent-a2a151b1e75317df2（子代理；D113 備份 wip_backup/prof522b_1028.bundle，基準 1ca8d402f）",
    "files": [
@@ -1452,7 +1452,8 @@
    "todo": "AA_522 第 8 節：許教授週一研究室、交往中那一題、第一週那句、1-3 提示補演（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 13:40（AA_522 f36dfe3cf，DL-AA-522B）"
+   "source": "AA-C 2026-10-28 13:40（AA_522 f36dfe3cf，DL-AA-522B）",
+   "closedBy": "24aaaad13（合併子代理 585c38936；aa522 114 項 ALL PASS）"
   }
  ]
 }
