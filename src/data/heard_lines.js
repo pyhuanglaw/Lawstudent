@@ -1,0 +1,72 @@
+/* ===== 別人說起她（AA_503 4-4～10-4、AA_504 1-4～7-4、AA_505 1-4～7-4，每一節最後那一段；HEROINE-LIFE-1028，
+   使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
+   台詞照稿一字不差（企劃線 claude/magical-albattani-bk7b4n：AA_503 @ d13ab3ab7、AA_504 @ 62849944b、AA_505 @ 010515370；tests/aa503_others_unit.js 逐句對）。
+   系統在 src/heard3d.js（HEARD）：
+   ■ talk：那個人的閒聊前面先說一句（STORY.PRE_TALK；talkCharacter 照作息出現的人）。一句只說一次；同一個人一天最多一句；
+     from／until＝什麼時候可以說（含頭尾）：'YYYY-MM-DD'、'Y1S1:W7三'（那一學期第 7 週週三）、'Y1S1:end'（那一學期加上後面的寒暑假，到下一學期開學前一天）；
+     about＝說的是誰（玩家要認識她：FIRST_MET）；after＝那一句說過了才說；cond＝HEARD.COND 的條件。
+     稿上寫的時間只有起點的（「第 9 週以後」），這裡到那一學期（含寒暑假）結束；「寒假前」＝第 14～16 週；跨到下一學期的（2/9 開店以後）到下一學期第 2 週。
+   ■ kai203：203 房間裡阿凱（DORM203.kaiTalk 前面先問；和 AA_502 的三句一樣「一天最多一句新的」）。flag＝要那個旗標是那個值；set＝說完寫進 G.flags。
+   ■ noodle：麵店長桌（NOODLE_TABLE 那一年的組，加在後面）。once＝只演一次；pri＝條件成立的那幾天先挑（story3d.js S.ndlTalkPick）。
+   ■ phone：群組、私訊（STORY.PHONE_RULES 到了時間 PHONE.at；晚三天以上就不補）。at＝時間（同 from 的寫法加 HH:MM）；稿沒寫幾點的，這裡取（註解寫明）。
+   沒做（列在 HEROINE-LIFE-1028 子代理第二輪的回報）：說話的人是二十位法律系同學 pool_*（曾靖雯、劉晏如、廖芸萱、葉晨希、蘇承恩：AA_498 那個子代理在重做他們的閒聊）、
+     小婷（Café 點餐時；她不是 3D 人物）、大一的學妹（AA_505 3-4，3D 標籤人物）、阿凱大二上那一句（AA_505 4-4：大二起他住別棟，3D 裡沒有他）。 */
+const HEARD_LINES={
+  src:{AA_503:'d13ab3ab7',AA_504:'62849944b',AA_505:'010515370'},
+  talk:[
+    /* ---------- AA_503（大一上）---------- */
+    {id:'h503_ps_an',who:'classmate_peishan',about:'heroine_01',t:'以安寫的宿舍規則，我只看得懂兩頁。第三頁都是條文。',from:'Y1S1:W7三',until:'Y1S1:end',src:'AA_503 4-4'},   /* 宿舍規則第 7 週週二才有（A14 an_rules_grp）*/
+    {id:'h503_yu_an',who:'yu',about:'heroine_01',t:'以安寒假一個人去吃那些店。她說一個人比較好排隊。',from:'2026-01-18',until:'Y1S1:end',src:'AA_503 4-4'},   /* 「寒假」：她寒假去了三家（1/18 以安那則私訊、AA_504 第 1 節）以後 */
+    {id:'h503_fy_zr',who:'npc_fangyt',about:'heroine_02',t:'芷若高中的時候也這樣，一直幫別人。她自己的作業最後寫。',from:'Y1S1:W1一',until:'Y1S1:end',src:'AA_503 5-4'},
+    {id:'h503_zq_zr',who:'heroine_04',about:'heroine_02',t:'芷若的冬天飲料被老闆說太苦。她說是老闆不會喝。……我喝過，真的很苦。',from:'Y1S1:W14一',until:'Y1S1:end',src:'AA_503 5-4'},   /* 冬季菜單（第 13 週週日）以後 */
+    {id:'h503_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'語彤來當我的受試者。她按太快了，那一份不能用。她說抱歉。我說妳慢一點就好，她說她不會。',from:'Y1S1:W9五',until:'Y1S1:end',src:'AA_503 6-4'},   /* 「第 9 週以後」：受試者是第 9 週週四 */
+    {id:'h503_yu_zq',who:'yu',about:'heroine_04',t:'子晴寒假不回家。她說要寫東西。',from:'Y1S1:W14一',until:'Y1S1:W16日',src:'AA_503 7-4'},   /* 「寒假前」 */
+    {id:'h503_ta_sis1',who:'npc_ta_chen',about:'heroine_05',t:'書瑀每天坐同一個位子。我叫她起來走走，她說走走會忘記第三章。',from:'Y1S1:W1一',until:'2026-02-01',src:'AA_503 8-4'},   /* 「閒聊加兩句」：她 2/2 考試以前 */
+    {id:'h503_ta_sis2',who:'npc_ta_chen',about:'heroine_05',t:'她說考完要睡三天。我賭她只能睡一天。',from:'Y1S1:W1一',until:'2026-02-01',after:'h503_ta_sis1',src:'AA_503 8-4'},
+    {id:'h503_an_ps',who:'heroine_01',about:'classmate_peishan',t:'沛珊每次讀書會都多印一份講義。她說給會遲到的人。從來沒有人遲到。',from:'Y1S1:W11五',until:'Y1S1:end',src:'AA_503 10-4'},   /* 公法讀書會大一上第 10 週起（activities.js），「每次」＝去過兩次以後 */
+    /* ---------- AA_504（大一下＋暑假）---------- */
+    {id:'h504_yu_an',who:'yu',about:'heroine_01',t:'以安最近都一個人散步。……我知道是因為我。',from:'2026-05-14',until:'Y1S2:W13日',src:'AA_504 1-4'},   /* 「第 12～13 週」：5/14（第 12 週週四）吵架以後 */
+    {id:'h504_fy_zr',who:'npc_fangyt',about:'heroine_02',t:'芷若暑假要回台中。她說七月、八月。她高中暑假也都在店裡。',from:'Y1S2:W13一',until:'2026-06-30',src:'AA_504 2-4'},   /* 她 7/1 回台中以前 */
+    {id:'h504_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'語彤雙主修上了。她跟我說的時候，在剝蒜頭。',from:'2026-07-04',until:'Y1S2:end',src:'AA_504 3-4'},   /* 7/3 20:40 放榜以後 */
+    {id:'h504_ta_sis',who:'npc_ta_chen',about:'heroine_05',t:'書瑀上榜以後，第一件事是去 Café 看小說。她說等了一年。',from:'Y1S2:W6一',until:'Y1S2:end',src:'AA_504 5-4'},
+    {id:'h504_an_ps',who:'heroine_01',about:'classmate_peishan',t:'沛珊上禮拜跟我說的。柏翰以外，我大概是最早知道的。',from:'2026-04-15',until:'2026-04-26',cond:'psBohan',src:'AA_504 6-4'},   /* 「4/15 以後」＋「上禮拜」：4/15～第 9 週；沛珊和柏翰那一段在 */
+    /* ---------- AA_505（大二上＋寒假）---------- */
+    {id:'h505_yu_an',who:'yu',about:'heroine_01',t:'以安的十二條規則，我撕了一半。她把另一半貼在手帳裡了。',from:'Y2S1:W7五',until:'Y2S1:end',src:'AA_505 1-4'},   /* 第 7 週週四 ev_plg_rules 以後（玩家在不在場都一樣）*/
+    {id:'h505_xc_an',who:'classmate_xinci',about:'heroine_01',t:'以安寒假要去東京。她說是去看書店。……她說的是真的，她只去書店。',from:'Y2S1:W1一',until:'2027-01-16',src:'AA_505 1-4'},   /* 她 1/17 出發以前 */
+    {id:'h505_zq_zr',who:'heroine_04',about:'heroine_02',t:'芷若寄出去了。她寄完回來拿了一杯熱可可，自己加了濃縮。',from:'2026-12-11',until:'Y2S1:end',src:'AA_505 2-4'},   /* 12/10 寄出以後 */
+    {id:'h505_xh_yt',who:'npc_huangxh',about:'heroine_03',t:'語彤帶她阿姨去看海。她說她阿姨在車上睡著，她一路都沒有開音樂。',from:'2027-02-09',until:'Y2S2:W2日',src:'AA_505 3-4'},   /* 2/9 開店以後 */
+    {id:'h505_ta_sis',who:'npc_ta_chen',about:'heroine_05',t:'書瑀第一次帶演習課，前一晚把要講的寫了三遍。上課的時候一張都沒看。',from:'Y2S1:W4三',until:'Y2S1:end',src:'AA_505 5-4'},   /* 第 4 週週二第一次帶以後 */
+    {id:'h505_bh_ps',who:'classmate_bohan',about:'classmate_peishan',t:'沛珊把題目整理交給我了。她說這樣比較好。',from:'Y2S1:W7一',until:'Y2S1:end',cond:'bhAfterSplit',src:'AA_505 6-4'}   /* 他和沛珊分開（第 6 週）以後；現有「沛珊在群組說了。」那兩句（story3d.js bhSplitHeard）先說、不同一天 */
+  ],
+  kai203:[
+    /* AA_503 7-2：子晴練習賽的私訊選「他沒講。」（ZQ_PRACTICE 'tell'）→ 下一次在 203 阿凱這一句，算 KAI_COUNTED（AA_502 3-3）*/
+    {id:'h503_kai_tell',t:'子晴叫你恭喜我？……喔。好。謝謝。',flag:{ZQ_PRACTICE:'tell'},set:{KAI_COUNTED:true},src:'AA_503 7-2'},
+    {id:'h503_kai_third',t:'系上那個練習賽，子晴第三。她一直說下次要贏我。',about:'heroine_04',from:'Y1S1:W11六 18:00',src:'AA_503 7-4'},   /* 第 11 週週六練習賽以後 */
+    {id:'h504_kai_contest',t:'子晴那場比賽沒去。……我也沒問。',about:'heroine_04',from:'Y1S2:W9一',until:'Y1S2:W9日',src:'AA_504 4-4'}   /* 「第 9 週」：4/18（第 8 週週六）她沒去的那場以後那一週 */
+  ],
+  noodle:{
+    Y1:[
+      /* AA_503 6-4（大一上加一則）：輪到才演、只演一次 */
+      {who:['zhe'],know:['heroine_03'],once:'h503_zhe_garlic',if:{term:['Y1S1']},dialogue:[{speaker:'zhe',text:'語彤今天又在剝蒜頭。我去幫忙，被阿姨趕出來。'}]},
+      /* AA_504 3-4（第 9 週，阿姨扭到手那兩週）：那一週先挑、只演一次 */
+      {who:['zhe'],know:['heroine_03'],once:'h504_zhe_hand',pri:true,if:{term:['Y1S2'],weeks:[9]},dialogue:[{speaker:'zhe',text:'阿姨的手包起來了。語彤一個人顧店。我去幫忙收碗，她說你坐著。'}]} ]
+  },
+  phone:[
+    /* AA_503 8-4：Kevin 在家族群組，12/15 現有聖誕那幾則（21:00，family_xmas3d.js）之前 */
+    {id:'h503_kevin',at:'2025-12-15 20:50',th:'g:family_law',cond:'famGroup',items:[['kevin','Kevin','學姊最近都在總圖 大家不要吵她喔'],['kevin','Kevin','有事找我 我比較閒']],src:'AA_503 8-4'},
+    /* AA_503 9-4：品妤（群組或偶遇，大一上加一句）——「走啦」群組；「上禮拜」＝可昕第 2 則（第 5 週週六）的下一週。幾點稿沒寫，取 21:20 */
+    {id:'h503_pinyu',at:'Y1S1:W6二 21:20',th:'g:econ_friends',cond:'econGroup',items:[['econ_pinyu','品妤','可昕上禮拜貼她們系的烤肉。她烤的玉米全部是焦的。']],src:'AA_503 9-4'},
+    /* AA_503 9-4：予樂（p:yule，有的話；予樂宵夜之後）——可昕的報告被誇（第 11 週週四 18:00 kx_rpt2）那晚。幾點稿沒寫，取 23:40 */
+    {id:'h503_yule',at:'Y1S1:W11四 23:40',th:'p:yule',cond:'yule',items:[['yule','予樂','可昕的報告被誇了 她嘴上說還好 其實開心到睡不著']],src:'AA_503 9-4'},
+    /* AA_504 5-4：Kevin 家族群組 6/20（學姊學游泳）。幾點稿沒寫，取 21:00 */
+    {id:'h504_kevin',at:'2026-06-20 21:00',th:'g:family_law',cond:'famGroup',items:[['kevin','Kevin','學姊說她在學游泳'],['kevin','Kevin','學姊妳下次游泳可以約家族一起去啊'],['heroine_05','溫學姊','早上七點。'],['kevin','Kevin','……那算了']],src:'AA_504 5-4'},
+    /* AA_504 7-4：予樂（p:yule，7/22 以後，有的話）——她 7/22 18:30 搭高鐵走（可昕第 6 則）那晚。幾點稿沒寫，取 22:00 */
+    {id:'h504_yule',at:'2026-07-22 22:00',th:'p:yule',cond:'yule',items:[['yule','予樂','可昕的媽媽煮了一桌 可昕一直叫她不要再煮了'],['yule','予樂','她在家跟在學校差好多']],src:'AA_504 7-4'},
+    /* AA_505 5-4：Kevin 家族群組 1/23（學姊去池上）。幾點稿沒寫，取 21:00 */
+    {id:'h505_kevin',at:'2027-01-23 21:00',th:'g:family_law',cond:'famGroup',items:[['kevin','Kevin','學姊去池上了'],['kevin','Kevin','她只傳了一張照片給我 稻田 沒有稻子'],['kevin','Kevin','學姊妳要不要說明一下'],['heroine_05','溫學姊','冬天。']],src:'AA_505 5-4'},
+    /* AA_505 7-4：予樂（p:yule，第 11 週，有的話）——可昕「輸了。」（第 11 週週六 22:30）那晚。幾點稿沒寫，取 23:50 */
+    {id:'h505_yule',at:'Y2S1:W11六 23:50',th:'p:yule',cond:'yule',items:[['yule','予樂','可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份'],['yule','予樂','我好怕她']],src:'AA_505 7-4'},
+    /* AA_505 7-4：品妤（經濟系老朋友，第 12 週）——和大一上那句一樣放「走啦」群組。幾點稿沒寫，取第 12 週週二 21:20 */
+    {id:'h505_pinyu',at:'Y2S1:W12二 21:20',th:'g:econ_friends',cond:'econGroup',items:[['econ_pinyu','品妤','可昕說她模擬法庭輸給一個大三的。她講的時候一直在笑，你知道那代表她很生氣。']],src:'AA_505 7-4'}
+  ]
+};
