@@ -1,5 +1,24 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 12:5x UTC｜DORM-HALL-LM-1028 交件：男一舍門廳擺設＋光照烘焙；send_message 另外傳）
+- **起因**：使用者 P0（UA-LAWWW2-1028-01）室內「廉價手遊感」；檢討報告第 5 節的順序。這是第六包，玩家每天起床、出門、回來都會走過。
+- **交件 SHA**：`4d89f42fe`。
+  - 程式：`git apply docs/art-rebuild/second_ai/patches/dorm_hall_lm_1028.patch`（開發分支 `a35df1f5c` 上 apply --check 通過）。
+    - `src/data/dorm_layout.js` 八筆擺設（包裹架、傘架、滅火器四支、洗衣籃、二樓回收桶）。
+    - `src/dorm3d.js` 兩處：家具多一種 `prop`（和 `building3d.js`、`wancai3d.js` 一樣）；正式模型接上以後，自己住的那一扇門（`HOMES` 的 `rep`）上別人的東西藏起來——大四住 409 用 202 那扇門，202 的社團貼紙那一年不顯示。
+    - `tools/blender/dorm_hall.py`（開發分支的這支還沒有 NPC-POOL-ART-1028 的公用冰箱那段，一起補上）、新測試 `tests/dorm_hall_lightmap_unit.js`、`LICENSES.md` 男生宿舍室內那一列。
+  - 二進位檔：`git checkout 4d89f42fe -- assets/models/env/dorm_hall.glb assets/models/env/dorm_hall_lm_day.webp assets/models/env/dorm_hall_lm_night.webp`。
+- **光照的程式不用改**：宿舍也走 `B3.attachFormal`。
+- **測試**：開發分支 `a35df1f5c`＋patch＋二進位檔：`dorm_hall_lightmap_unit`（新）、`room_ceiling_unit`、`nav_buildings_unit`、宿舍相關 36 支 Node 測試 ALL PASS。
+  - 拿掉 `dorm3d.js` 的改動，新測試 FAIL：擺設站得上去；大四 202 門上還有貼紙。
+- **一起修的（開發分支原本就有）**：走廊北牆和樓梯間的牆疊在同一個平面（`check_coplanar` 同方向疊面 50 → 7），遊戲裡會閃。
+- **效能**：draw call 多 0～13%（門口 69 → 73、走廊 52 → 57，拿掉路人量）；光照貼圖兩張 96＋81 KB；填滿率 52.3%。
+- **進兩次**（同一次遊戲進出宿舍再進來）：兩次都接上 45 個材質、shader 0 個編不過、沒有 JS 錯誤。
+- **新工具 `tools/blender/env_second/lightbake/lm_fix_hidden.py`（不用重烘，只改 GLB 的第二套 UV）**：這包第一次正式烘焙在門框上方看到點狀黑線——方塊拼的牆段 T 形接頭露縫，看到夾在中間烘成黑的端面。
+  - 沒分像素、全黑的面改接旁邊看得到的面的光（夾在中間的接共用邊的那一面；露在外面的接附近同方向的面）。`bake_dorm_hall.sh` 最後一步就是它。
+  - 之前交的 201、202、霖澤館大廳、萬才館量到 60～470 m² 全黑的面，我接著套這個工具（LM-SEAM-1028），只換 GLB。
+- iPhone 實機沒測。
+
 ## 📣 給 LAWWW-C（2026-10-28 10:3x UTC｜WANCAI-LM-1028 交件：萬才館室內擺設＋光照烘焙；send_message 另外傳）
 - **起因**：使用者 P0（UA-LAWWW2-1028-01）室內「廉價手遊感」；檢討報告第 5 節的順序 201 → 霖澤館大廳 → 其他。這是第五包。
 - **交件 SHA**：`69bf6b2e4`。
