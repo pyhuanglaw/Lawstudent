@@ -7,6 +7,7 @@ AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單�
 AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（週次、句子、選項）用 _fix 疊在 ladder_*_y2s1／y2s2.json 上。
 AA_376（大三上修正稿）第 9 項以安三句、第 18 項日本路線兩個選項疊在大三上的階梯上（byTerm.Y3S1）；條件、週次在 src/y3fill3d.js。
 AA_377（大三下修正稿）第 4 項以安 A6-L2 一句、第 6 項語彤 Y6-L3 杜鵑花（linesIf、選項）、第 15、16 項語彤 Y6-L1、Y6-L4 的 linesIf 疊在大三下的階梯上（byTerm.Y3S2）；A6 挽回中略過在 src/story3d.js 的 LADDER_SKIP。
+AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註解、S4-L8 的 linesIf 用 _fix 疊在大二下的階梯上（byTerm.Y2S2）。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -253,6 +254,16 @@ def _fix_greet(prefix, label, patches):
 #      AA_508（HEROINE-LIFE-1028；AA-C 10-28 31a4c4002 定稿）第 0-2 節第 2 點：學姊日本路線招呼「你先去。我的結果還沒出來。」第 1～5 週改第 1～3 週（第 4 週週三 3/15 她已經上了）
 _fix_greet('docs/story_planning/AA_508_', '學姊日本路線招呼週次', [
     ('第 0-2 節第 2 點', 'Y3S2', 'heroine_05', '你先去。我的結果還沒出來。', 'week', [1, 5], [1, 3], '的週次從第 1～5 週改第 1～3 週')])
+#      AA_518（SIS-B15-1028；AA-C 10-28 973dd1b74 定稿）第 4 節：4-2 兩次搬家定了（2026-07 全家搬家、2027-03-20 她自己搬出來一個人住）——學姊 S4-L7 第一句改「搬出來以後，我到法學院要多坐四站。」、註解改綁 2027-03-20；
+#      4-15 S4-L8（第 13～16 週）：大二下唯一的家聚是 5/9 在她新家（AA_512 13-2 ev_sis13_curry）——演過的換兩句（放在 linesIf 第一個），沒演過的照原句（原本那一套 ev_family_dinner_y2s2 照留）
+_S4L8_OLD = [{'if': {'events': ['ev_family_dinner_y2s2']}, 'lines': ['家族聚餐那天，大一的學弟妹看到我全部站起來。', '我坐下來，他們又站一次。……你也看到了。']}]
+_fix('docs/story_planning/AA_518_', '學姊 S4-L7、S4-L8', [
+    ('4-2', 'Y2S2', 'heroine_05', 'S4-L7', 'lines', ['搬家以後，我從家裡到法學院要多坐四站。', '多出來那四站，我在讀德文的文章。一站讀一段。'],
+     ['搬出來以後，我到法學院要多坐四站。', '多出來那四站，我在讀德文的文章。一站讀一段。'], '改「搬出來以後，我到法學院要多坐四站。」'),
+    ('4-2', 'Y2S2', 'heroine_05', 'S4-L7', 'note', 'AA_231：她家 2026-07-11 搬家（AA_218 15-6）；2026-10-17 使用者意見改德文（AA）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 AA_231#2',
+     'AA_231；AA_518 4-2：2027-03-20 她自己搬出來、一個人住（AA_512 13-2 的新家；2026-07 是全家搬家，AA_218 15-6）；2026-10-17 使用者意見改德文（AA）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 AA_231#2', '註解改綁 2027-03-20'),
+    ('4-15', 'Y2S2', 'heroine_05', 'S4-L8', 'linesIf', _S4L8_OLD,
+     [{'if': {'events': ['ev_sis13_curry']}, 'lines': ['上次在我家，大一的學弟妹一進門就全部站起來。', '……我說坐。他們站得更直。']}] + _S4L8_OLD, '「上次在我家，大一的學弟妹一進門就全部站起來。」')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')
