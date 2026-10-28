@@ -105,7 +105,7 @@
 
 | 模型 | 腳本 | 說明 |
 |---|---|---|
-| 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0） |
+| 霖澤館室內（一樓大廳、直跑樓梯、二樓迴廊；第二版 2026-10-28 LINZE-LOBBY-V2-1028：樓梯側面木條牆、法學院展示櫃、飲水機、回收桶、傘架、腳踏墊、消防栓箱、滅火器、出口燈、長椅、小圓桌、中庭吊燈、光照貼圖） | `tools/blender/linze_interior.py` → `assets/models/env/linze_interior.glb`；光照貼圖 `tools/blender/env_second/lightbake/bake_linze_lobby.sh`（`bake_room.py`，Cycles 烘焙）→ `assets/models/env/linze_interior_lm_day.webp`、`linze_interior_lm_night.webp` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/linze_layout.js`（遊戲化設計，D37）；貼圖見上表（CC0）；展示櫃的獎盃、獎牌、照片沒有字和校徽（D77） |
 | 霖澤館外觀（十層樓：花崗石基座＋三層樓高穿堂、灰色帶窗層、紅磚窗格＋窗楣遮陽盒、頂樓開放層＋大屋頂板、二樓天橋、玻璃大廳） | `tools/blender/linze_exterior.py` → `assets/models/env/linze_exterior.glb` | 本作自己寫的 Blender Python 腳本建模；量體與導航同 `src/campuskit3d.js` 的 `CK.lawhall`；外觀照使用者提供的霖澤館照片概略重建（照片本身沒有放進 repo；不是精確複製）；館名與「法律學院」招牌由遊戲用 Canvas 字畫（沒有把字型做進模型）；貼圖見上表（CC0） |
 | 萬才館外觀（九層樓：一二樓花崗石、三樓橫向長窗、四～八樓紅磚＋凸出的混凝土窗框、頂樓石材帶、屋頂鏤空框架；正面的弧形量體、往下張開的弧形大樓梯＋兩側石牆與扶手、樓梯頂端平台、弧形陽台、二樓玻璃、陽台下的一樓入口、凸出量體） | `tools/blender/wancai_exterior.py` → `assets/models/env/wancai_exterior.glb` | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`）；量體與大樓梯每一階的外緣同 `src/campuskit3d.js` 的 `CK.lawhall`（遊戲導航用同一組外緣，`tools/blender/wancai_ck_dump.js` 匯出、`--check` 比對）；外觀照使用者提供的萬才館照片與法律學院配置圖概略重建（D28、D31），沒有照片的背面、側面、屋頂是推測；貼圖見上表（CC0） |
 | 萬才館室內兩層樓（一樓大廳＋二樓北側走廊、西側迴廊、西南門廳；直跑樓梯、柱子、外牆、南面兩層樓高的玻璃帷幕、二樓通到外面平台的玻璃門、沙發、圓桌、長椅、花台；萬才館第三階段 D42） | `tools/blender/wancai_interior.py` → `assets/models/env/wancai_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/wancai_layout.js`（**遊戲化設計，不是實測**：一樓沿用 v9.3 大廳的配置）；電梯、門牌與樓層簡介的字、公告欄是遊戲裡的程序化物件；貼圖見上表與下面的 Poly Haven 列（CC0） |
