@@ -59,12 +59,23 @@
 
 ## 測試
 
-（待補）
+- 在開發分支最新的 `923e81d20`（已經有 201 v2、上一包的 patch）上，只換這一包的二進位檔：
+  - Node（11 支）：`seat_fold_unit`、`rooms_glb_unit`、`x78_rooms_unit`、`door_open_unit`、`room_ceiling_unit`、`windowless_night_unit`、`class_teacher_unit`、`boya_203_unit`、`dorm_205_unit`、`nav_buildings_unit`、`singleside_interiors_unit`：全部 ALL PASS。
+  - 瀏覽器 `tests/reachability_all.py --zones linze_202,wancai_multi,classroom`：（待補）
+- `flat_classroom.py` 自己的座位檢查：40 個座位、40 個走近點，problems 0。
+- 配置 JSON 逐欄比對：和原本一樣。
+- `scan_floors.py`：三間沒有深色木地板（202 的 `linze_202_desk` 在 0.75 m，是桌面不是地板）。
 
 ## 效能
 
-（待補）
+- 房間模型：三角形 16,311 → 41,791（椅子、桌腳、天花板格子）；GLB 1.3 MB → 2.5 MB；光照貼圖兩張 WebP 約 70 KB。
+- 整個畫面（含人物）：（待補）
+- **手機實機的 fps 沒有量**（SwiftShader 的 fps 沒有意義）。
 
 ## 還沒做到、缺點（誠實列）
 
-（待補）
+- 人物沒有吃到烘焙的光（和 201 一樣）。
+- 不烘的零件（鐵腳、桌上的小東西、天花板的輕鋼架和格柵）照即時光，和烘焙的光不完全一樣。
+- 白天的光照貼圖是固定的下午光（太陽方位 160°）。
+- 窗戶只有鋁框和中間一根直框，沒有 201 的推拉窗、石材窗台；講台還是方塊加木頭桌面。
+- 202 之前做的時候，講台區用了深色木地板，違反使用者 10-23 的規則，這次才改掉。我做 201 v2 時也犯了同一個錯（見 201 的 README）。

@@ -1,5 +1,23 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 05:2x UTC｜INTERIOR-AAA-REVIEW-1028 第三包：202 v2＋三間光照重烘＋講台淺色地板；send_message 另外傳）
+- **交件 SHA**：（交件 commit 補）。**只有二進位檔，沒有新的程式**：你已經整合 201 v2（`7b90397a4`）、第二包（`ab290c818`），這包直接換檔。
+  - `assets/models/env/classroom_201.glb`、`classroom_201_lm_day.webp`、`classroom_201_lm_night.webp`
+  - `assets/models/env/second_ai/linze_202.glb`、`linze_202.json`、`linze_202_lm_day.webp`、`linze_202_lm_night.webp`
+  - `assets/models/env/second_ai/wancai_multi.glb`、`wancai_multi_lm_day.webp`、`wancai_multi_lm_night.webp`
+- **202 v2**（使用者「廉價手遊感」、和 201 同一棟）：
+  - 模壓夾板課椅；長桌改 C 形鋼腳（原本整片 4 cm 鐵板）、加電源盒；天花板改 0.6 m 輕鋼架＋格柵燈具。
+  - 配置 JSON 和原本一模一樣（座位、碰撞、互動點、門）。
+- **LIGHTBAKE-UV-FIX-1028**（烘焙工具，我自己查到的；201 v2 和第二包都有）：
+  - 光照貼圖只用了整張的 6～9%，主要的面每公尺 2～14 個像素。
+  - 頂點色零件的光照 UV 進了 TEXCOORD_0，遊戲沒吃到。
+  - 烘焙時房間外面是天空，門縫漏光（202 門前地板 1.35 → 0.17）。
+  - 修好：填滿 202 50%／多功能 61%／201 28%。
+- **講台區木地板改淺色**：201 v2（我做的）、202 原本是深色，違反使用者永久規則 UA-LAWWW2-1023-03。改成 `#cdb594`，`scan_floors.py` 不再標 DARK。
+- **測試**（開發分支 `923e81d20`＋這包的檔）：Node 11 支 ALL PASS（seat_fold、rooms_glb、x78_rooms、door_open、room_ceiling、windowless_night、class_teacher、boya_203、dorm_205、nav_buildings、singleside_interiors）；reachability（待補）。
+- **README**：`test_shots/interior_202_v2_1028/README.md`、`interior_201_v2_1028/README.md`（重烘一節）、`interior_rooms_lm_1028/README.md`（多功能教室重烘）。
+- **接下來**：NPC-POOL-ART-1028（法律系同學二十位的道具），然後照檢討報告推到其他室內（等使用者看過 201）。
+
 ## 📣 給 LAWWW-C（2026-10-28 03:0x UTC｜兩件交件；send_message 可以用了，兩件都另外傳了訊息）
 - **WZ-SHRINE-TRAP-1028（你 02:03Z 的 P1，v9.10.12 擋發布）已交付**：`984f24dc1`。
   - patch：`patches/wz_shrine_trap_1028.patch`（基準 562a5ead9，05740674b 也套得上）。
