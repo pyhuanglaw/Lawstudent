@@ -1,4 +1,4 @@
-/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588 → cf7d5fa94 第 7 節；SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）：接線 =====
+/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588 → cf7d5fa94 第 7 節 → 3cd10909b 第 8 節；SIS-B14-1028、SIS-B14-AAFIX-1028、SIS-LEAD-1021、D111、USER_WANTS C25）：接線 =====
    台詞、事件在 src/data/sis_b14_events.js（照稿不改字）。第 1 節的十二處改在各自的檔（寫在 sis_b14_events.js 開頭）。這個檔：
    - 2-1 臺灣路線交往中、8/2 送機或在機場等她（y34b3d.js SIS_SENDOFF family／two／airport：交往中那兩場才有「到了先在群組說，再打給你。」）：
        8/3（四）22:00 她打來（出遊「接起來」；前 2 小時才排、不跳「排進行程」，同 y34b3d.js 以安 AN18 的視訊）；22:30 還沒接＝22:40 私訊；記 SIS14_CALL0803（沒接＝'missed'）。
@@ -13,6 +13,10 @@
        SU-L8「那這次超重什麼？」（她回「書。三本。第四本你幫我拿。」）＝記 SIS14_BOOK4，12/16 離開那天（ev_us_leave）開頭多一句旁白。
    - 4-4 第四十天的私訊（src/sis_b13_3d.js sisb13_day40）選「我過去。」＝當晚 22:30（當地）C 棟門口（出遊 0.5 小時，不用移動）。
    - 1-3 大峽谷才交往的（SIS_GF_CANYON）第一次女朋友視訊開頭那一句：S.canyonOpenDue（r2y4b_events.js 問）。
+  - 第 8 節懸著的承諾（3cd10909b，SIS-B14-AAFIX-1028）：
+      第 1 點 4-1「……下次你用我的碗。」：有 SIS14_US_CURRY 的，之後第一次 208 的場景（us208_3d.js 七場，哪一場先演就哪一場）開頭多一句旁白、一次——S.bowlDue（us208_3d.js 七場共用的 BOWL 問；演了記 SIS14_BOWL）；
+        七場都還沒演過才算「之後第一次」（4-1 是 9/2，七場最早 9/16：演過的一定在 4-1 以後；舊存檔已經演過一場的不補）。
+      第 2 點 h9 選「我會去接妳。」記 SIS14_RIGHT（r2y4b_events.js ev_sis_video_gf）＝12/23 接機戀人版第一句旁白前面多一句（r2y4a_events.js ev_sis_pickup）。
    - 2D 背景：草原超市旁邊那家店、C 棟門口都沒有圖＝深色底＋地點字幕（在這裡登記 image:null；tests/scene_bg_keys_unit.js 的 PENDING）。
    旁邊有人時私密的不演（src/privtalk3d.js）：這一批新的都是電話、視訊、私訊約好的出遊（2D），沒有 3D 當面的入口，不用登記。
    測試：node tests/aa516_sis_b14_unit.js */
@@ -39,6 +43,10 @@ const SISB14=(function(){
 
   /* ---------------- 1-3 大峽谷才交往的第一次女朋友視訊（一次）---------------- */
   S.canyonOpenDue=G=>law(G)&&route(G)!=='US'&&S.dating(G)&&!!G.flags&&G.flags.SIS_GF_CANYON!=null&&!G.flags.SIS14_CANYON_OPEN;
+
+  /* ---------------- 第 8 節第 1 點：4-1 之後第一次 208 的場景開頭那一句（一次；us208_3d.js 的 BOWL 問）---------------- */
+  S.played208=G=>typeof US208!=='undefined'&&Array.isArray(US208.SCENES)&&US208.SCENES.some(s=>!!(G&&G.events&&G.events.done&&G.events.done[s.ev]));   /* 七場演過任何一場（EVENTS.run 演完才記 done：演的那一場自己不算）*/
+  S.bowlDue=G=>law(G)&&G.flags.SIS14_US_CURRY===true&&!G.flags.SIS14_BOWL&&!S.played208(G);
 
   /* ---------------- 2-1 8/3 那一通電話 ---------------- */
   S.CALL={day:'2028-08-03',h:22,late:0.5,lead:2,miss:22+40/60};

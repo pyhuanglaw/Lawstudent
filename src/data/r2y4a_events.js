@@ -593,6 +593,7 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
       IF(PV('two'),nar('（她推著行李推車走出來。看到你，停了一下。）')),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS14_RIGHT,Object.assign(nar('（你站在出口的右邊。）'),{aa516:true})),   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：12/17 最後一通視訊 h9 選「我會去接妳。」（她「出口那邊，你站右邊。我出來先看右邊。」，SIS14_RIGHT）＝戀人版第一句旁白前面多一句，接「她一出來就看到你。」（CG 通過沒通過都一樣）*/
       IF(G=>PV('lover')(G)&&!cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),   /* 冬天版還沒通過：照一句、不放 CG（AA_350 N4）*/
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地。）')),   /* 冬天版通過：第一句拆成兩句，CG 夾在中間（AA_350 N4）*/
       {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */

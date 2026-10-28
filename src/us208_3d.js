@@ -13,7 +13,8 @@
    AA_454 第 1 節（AA-B 2026-10-25 03:5x，企劃線 eaa98aaa7）：快轉在週末 14:00 有停、畫面上什麼都沒有，一路快轉七場全部錯過——週末 14:00 她私訊一則要回的（S.dmPhone，每一場的那一句＝SCENES 的 dm）：
      「我過去。」＝出遊「C 棟 208」，出發就換到 208 演那一場（OUT.STAGE，S.stage）；「今天不行。」＝她「好。」，週日 14:00 再一次「今天也在 208。」；週日也說不行＝這個週末不演；沒回＝照現在。
      存檔 G.flags.US208_DM＝這個週末傳過了（那個週六）、US208_NO＝週日說不行的那個週末（那個週六；只是紀錄：AA-B 04:12「這個週末就不演」＝不再傳私訊，自己走過去照演）；舊存檔沒有＝沒傳過。測試：node tests/aa454_us_unit.js
-   BUG-US-WKND-EMPTYSTOP-1025：USL.nextStop 的週末 14:00 停點問 S.stopAt（只停在她那天會傳私訊的時候）。測試：node tests/us_wknd_stop_unit.js */
+   BUG-US-WKND-EMPTYSTOP-1025：USL.nextStop 的週末 14:00 停點問 S.stopAt（只停在她那天會傳私訊的時候）。測試：node tests/us_wknd_stop_unit.js
+   AA_516 第 8 節第 1 點（企劃線 3cd10909b，SIS-B14-AAFIX-1028）：4-1 9/2 吃過她的咖哩（SIS14_US_CURRY）的，七場裡先演的那一場開頭多一句旁白、一次（BOWL，SIS14_BOWL）。測試：node tests/aa516_sis_b14_unit.js */
 'use strict';
 const US208=(function(){
   const S={}, S5='heroine_05';
@@ -26,13 +27,17 @@ const US208=(function(){
   const sis=t=>({speaker:S5,text:t}), nar=t=>({speaker:null,text:t});
   const IF=(fn,l)=>Object.assign({if:{custom:fn}},l);
   const mem=tag=>({mem:[{npc:S5,tag,note:''}]});
+  /* AA_516 第 8 節第 1 點（企劃線 3cd10909b；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
+     之後第一次 208 的場景（下面七場，哪一場先演就哪一場）開頭多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue：七場都還沒演過——舊存檔已經演過一場的不補）。七場共用這一行；
+     放在每一場的第一句，us_blank3d.js 的滷肉那一句（patchLurou）照舊接在第一句沒有條件的旁白後面 */
+  const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
   /* 3-3：聽過她大一下那一層（閒聊階梯 S2-L5「她爸把剪報放在她書桌上」，記憶 SIS4_CLIPPINGS；過場演過的 ladSeen 也算）*/
   S.heardClip=G=>(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(S5,'SIS4_CLIPPINGS'))||!!(G&&G.social&&G.social.ladSeen&&G.social.ladSeen['S2-L5']!=null);
 
   /* ---------------- 七場（第 3-1～3-7 節）；dm＝AA_454 第 1 節週末 14:00 她私訊的那一句（照稿的表；不搶那一場的第一句）---------------- */
   S.SCENES=[
     {n:'3-1',ev:'ev_us208_memo',from:'2028-09-16',to:'2028-09-24',tag:'US208_MEMO',label:'書瑀幫你看 Legal Writing 的作業',dm:'我在 208。門沒鎖。',dialogue:[
-      nar('（門沒鎖。她坐在沙發上，腿上放著筆電。）'),
+      BOWL,nar('（門沒鎖。她坐在沙發上，腿上放著筆電。）'),
       sis('Legal Writing 的作業寫完了嗎？'),
       sis('拿來。我看一下。'),
       nar('（她拿鉛筆在你印出來的那兩頁上畫線。畫得很輕，擦得掉。）'),
@@ -43,7 +48,7 @@ const US208=(function(){
       {label:'b'},sis('沒有。我只是被退過。'),nar('（她看了一眼桌上那份被退回的報告。上面的紅字比你的多。）'),
       {label:'e'},mem('US208_MEMO') ]},
     {n:'3-2',ev:'ev_us208_lurou',from:'2028-09-23',to:'2028-10-01',tag:'US208_LUROU',label:'書瑀煮了有一點焦的滷肉',dm:'我在煮東西。……第一次煮這個。',dialogue:[
-      nar('（還沒進門就聞到了。醬油、八角，還有一點焦味。）'),
+      BOWL,nar('（還沒進門就聞到了。醬油、八角，還有一點焦味。）'),
       sis('亞洲超市買得到八角。冰糖沒有，我用一般的糖。'),
       sis('……所以有一點焦。'),
       nar('（她的小鍋子在爐子上，蓋子一直被頂起來。室友從房間探出頭，用英文問這是什麼味道，可不可以吃一碗。）'),
@@ -54,7 +59,7 @@ const US208=(function(){
       {label:'b'},sis('這裡買不到。'),nar('（她翻開計畫本，在十二月底的格子裡寫了兩個字：冰糖。）'),
       {label:'e'},mem('US208_LUROU') ]},
     {n:'3-3',ev:'ev_us208_clipping',from:'2028-10-14',to:'2028-10-22',tag:'US208_CLIPPING',label:'書瑀的爸爸寄了一張剪報到美國',dm:'臺灣寄來的東西到了。',dialogue:[
-      nar('（沙發上放著一個從臺灣寄來的牛皮紙信封，郵票貼了一整排。）'),
+      BOWL,nar('（沙發上放著一個從臺灣寄來的牛皮紙信封，郵票貼了一整排。）'),
       sis('我爸寄的。'),
       sis('一張剪報。法律扶助的新聞。……郵資比報紙貴。'),
       nar('（信封裡只有那一張剪報，沒有信。剪報的邊剪得很整齊。）'),
@@ -65,7 +70,7 @@ const US208=(function(){
       {label:'b'},sis('……嗯。'),nar('（她把剪報夾進那本從臺灣帶來的、大一的民總。）'),
       {label:'e'},mem('US208_CLIPPING') ]},
     {n:'3-4',ev:'ev_us208_rehearsal',from:'2028-10-21',to:'2028-10-29',tag:'US208_REHEARSAL',label:'聽書瑀練習英文報告',dm:'下午在 208。你來的時候先敲門。',dialogue:[
-      nar('（她站在客廳中間，手上拿著幾張小卡。看到你進來，把卡片翻過去。）'),
+      BOWL,nar('（她站在客廳中間，手上拿著幾張小卡。看到你進來，把卡片翻過去。）'),
       sis('下禮拜三研討課，我要報告。二十分鐘，英文。'),
       sis('你坐那裡。哪裡聽不懂就舉手。'),
       nar('（她開始講。你在第二句就舉手了。）'),
@@ -75,7 +80,7 @@ const US208=(function(){
       {label:'b'},sis('……真的？'),nar('（她在卡片上那個字的旁邊畫了一條線。之後每講到那個字，她都慢一點。）'),
       {label:'e'},sis('好。這樣可以。'),sis('冰箱裡有飲料。你自己拿。'),mem('US208_REHEARSAL') ]},
     {n:'3-5',ev:'ev_us208_extra_hour',from:'2028-11-05',to:'2028-11-05',tag:'US208_EXTRA_HOUR',label:'冬令時間那天，計畫本空了一格',dm:'冬令時間。手機自己改了。……你過來嗎。',dialogue:[   /* 只有這一天；11/5 沒去 208 就不演 */
-      nar('（今天開始冬令時間。手機自己把時間往回撥了一個小時。）'),
+      BOWL,nar('（今天開始冬令時間。手機自己把時間往回撥了一個小時。）'),
       sis('今天多一個小時。'),
       nar('（她的計畫本攤在桌上。今天那一格，什麼都沒寫。）'),
       sis('本來想拿來寫論文。……後來沒有寫上去。'),
@@ -84,7 +89,7 @@ const US208=(function(){
       {label:'b'},sis('……也可以。'),nar('（她真的靠在沙發上睡著了。毯子是你幫她蓋的。）'),
       {label:'e'},mem('US208_EXTRA_HOUR') ]},
     {n:'3-6',ev:'ev_us208_plant',from:'2028-11-18',to:'2028-12-03',tag:'US208_PLANT',label:'書瑀在救客廳那盆植物',dm:'客廳那盆植物，我在救它。',dialogue:[
-      nar('（客廳那盆快乾掉的植物，被搬到了窗邊。旁邊放著一個量杯。）'),
+      BOWL,nar('（客廳那盆快乾掉的植物，被搬到了窗邊。旁邊放著一個量杯。）'),
       sis('室友說它九月就這樣了。'),
       sis('我查了。是水澆太多。'),
       nar('（她把量杯裡的水倒掉一半，才澆下去。）'),
@@ -93,7 +98,7 @@ const US208=(function(){
       {label:'b'},sis('沒有排。'),sis('……好，有排。星期六。'),
       {label:'e'},mem('US208_PLANT') ]},
     {n:'3-7',ev:'ev_us208_lastweek',from:'2028-12-09',to:'2028-12-10',tag:'US208_LASTWEEK',label:'期末那個週末，坐在 208 的沙發上讀書',dm:'我在寫報告。你要來的話，帶你自己的書。',dialogue:[
-      nar('（客廳的桌上堆滿了影印的資料。她在寫期末的報告，沒有抬頭。）'),
+      BOWL,nar('（客廳的桌上堆滿了影印的資料。她在寫期末的報告，沒有抬頭。）'),
       sis('你坐那裡就好。'),
       sis('……有人在，我寫得比較快。'),
       nar('（你在沙發上讀你的期末。兩個小時，她只說了一句話。）'),

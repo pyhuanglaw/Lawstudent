@@ -493,7 +493,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'h8a'},{speaker:'heroine_05',text:'那我拍給你。……有腳印的那種。',aa516:true},{end:true},   /* 家族群組 12/6（三）的照片就是 1-9 那一張（不另外送）*/
       {label:'h8b'},{speaker:'heroine_05',text:'……那不一樣。這邊是一整片。',aa516:true},{end:true},
       {label:'h9'},{speaker:'heroine_05',text:'最後一通了。',aa516:true},{speaker:'heroine_05',text:'下禮拜六，就不用開鏡頭了。',aa516:true},
-      {choice:[{text:'「我會去接妳。」',goto:'h9a',aa516:true},{text:'「還是開一下。」',goto:'h9b',aa516:true}]},
+      {choice:[{text:'「我會去接妳。」',set:{SIS14_RIGHT:true},goto:'h9a',aa516:true},{text:'「還是開一下。」',goto:'h9b',aa516:true}]},   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：記 SIS14_RIGHT＝12/23 接機戀人版第一句旁白前面多一句「（你站在出口的右邊。）」（r2y4a_events.js ev_sis_pickup）*/
       {label:'h9a'},{speaker:'heroine_05',text:'嗯。……出口那邊，你站右邊。我出來先看右邊。',aa516:true},{end:true},
       {label:'h9b'},{speaker:'heroine_05',text:'……好。在車上開。你開車，我拍你。',aa516:true} ],
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
