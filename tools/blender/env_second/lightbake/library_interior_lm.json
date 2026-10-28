@@ -5,7 +5,7 @@
  "samples": 512,
  "emit": {},
  "dayemit": {
-  "lb_skylight": 1.5
+  "lb_skylight": 1.0
  },
  "sun": [
   200.0,
