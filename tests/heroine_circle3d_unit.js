@@ -21,9 +21,15 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const DOCS={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md','d13ab3ab7'],AA_504:['docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md','62849944b'],
+/* 這次照的版本（任務指定、src/data/heroine_circle.js 的 SRC）；對稿用劇情匯入白名單上「現在」的版本——白名單換到 AA 更正以後的 commit 時，
+   圈子表有改就會在這裡失敗（要照新版改資料），沒改就照樣過（2026-10-28 實測：開發分支 b31c58d18 的白名單 AA_506 691a26400、AA_507 3120ac77a、
+   AA_508 4c3dc1491，三份的圈子表和 31a4c4002 一字不差，改的是動態、她自己的事、第 0 節）。 */
+const DOCS0={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md','d13ab3ab7'],AA_504:['docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md','62849944b'],
   AA_505:['docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md','795fbecfd'],AA_506:['docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md','31a4c4002'],
   AA_507:['docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md','31a4c4002'],AA_508:['docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md','31a4c4002']};
+const ALLOW=(()=>{ try{ return JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]; }catch(e){ return []; } })();
+const allowOf=k=>ALLOW.find(q=>q.path===DOCS0[k][0]);
+const DOCS={}; for(const k in DOCS0){ const e=allowOf(k); DOCS[k]=[DOCS0[k][0],(e&&e.status==='approved'&&e.sha)?String(e.sha):DOCS0[k][1]]; }
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in DOCS) DOC[k]=show(DOCS[k][1],DOCS[k][0]);
 /* 稿上的圈子表：{doc,sec:'4-1',k,heard,when,who,where}；說明（- 開頭）另外收 */
@@ -84,7 +90,7 @@ const dist=(a,b)=>Math.hypot(a.obj.position.x-b.obj.position.x,a.obj.position.z-
 /* ---------- 0 載入、對稿 ---------- */
 await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iS=sc('src/story3d.js'), iP=sc('src/pool3d.js'), iM=sc('src/multirel3d.js'), iHe=sc('src/heard3d.js'), iD=sc('src/data/heroine_circle.js'), iC=sc('src/hcircle3d.js'), iB=sc('src/data/bbpack_events.js');
   check('0. 載得到；index.html：heroine_circle.js → hcircle3d.js 在 story3d.js、multirel3d.js、pool3d.js、heard3d.js 以後，bbpack_events.js 前面',!errs.length&&HAS()&&iD>iHe&&iC>iD&&iC>iS&&iC>iP&&iC>iM&&iB>iC&&iS>0,J(errs));
-  check('0. 六份稿都讀得到（git show 對的 commit）',Object.values(DOC).every(d=>d.length>3000),J(Object.keys(DOC).map(k=>[k,DOC[k].length])));
+  check('0. 六份稿都讀得到（git show 劇情匯入白名單上的那一版）',Object.values(DOC).every(d=>d.length>3000),J(Object.keys(DOC).map(k=>[k,DOCS[k][1],DOC[k].length])));
   check('0. 稿上的圈子表一共 90 列',TABLE.length===90,TABLE.length+' 列');
   const D=HD(), byPos={}; for(const r of D.ROWS) byPos[r.doc+' '+r.sec+' '+r.k]=r;
   const miss=[], badRef=[]; for(const t of TABLE){ const r=byPos[t.doc+' '+t.sec+' '+t.k]; if(!r||r.heard!==t.heard) miss.push(t.doc+' '+t.sec+' 第'+t.k+'列：'+t.heard.slice(0,20)+(r?' ≠ '+String(r.heard).slice(0,20):'（沒有）'));
@@ -272,7 +278,7 @@ await sec('6',async()=>{ const D=HD(), P=D.PEOPLE, A=fs.readFileSync(path.join(H
   check('6. multirel3d.js：告白的兩個一次性選項標 priv',(mr.match(/priv:true,run:/g)||[]).length===2);
   const AL=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[];
   const badA=Object.keys(DOCS).filter(k=>{ const e=AL.find(q=>q.path===DOCS[k][0]); return !e||String(e.sha)!==DOCS[k][1]||e.status!=='approved'||!e.approvedBy||!/HEROINE-CIRCLE3D-1028/.test(e.note||''); });
-  check('6. 劇情匯入白名單：AA_503～508 是對稿的那一版（sha 相同）、approved、有 approvedBy，note 寫了 3D 圈子',!badA.length,J(badA)); });
+  check('6. 劇情匯入白名單：AA_503～508 approved、有 approvedBy、對稿用的就是那一版（sha 相同），note 寫了 3D 圈子',!badA.length,J(badA)+' '+J(Object.keys(DOCS).map(k=>k+'@'+DOCS[k][1]))); });
 
 H.done();
 })();
