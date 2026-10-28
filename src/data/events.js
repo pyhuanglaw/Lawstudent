@@ -159,6 +159,11 @@ function SIS_HOT_WATER(first){ return [
   {speaker:'heroine_05',text:'謝謝。明天八點，一樣的位子。'},{goto:'end'},
   {label:'can'},{speaker:null,text:'（她看了一下販賣機，按了最便宜的那一罐。）'},{speaker:'heroine_05',text:'……不用。我自己來。'},{speaker:null,text:'（她投了硬幣。罐子掉下來的聲音，在走廊很響。）'},{speaker:'heroine_05',text:'明天八點。'},
   {label:'end'} ]; }
+/* 麵店團群組的補救（AA_496 第 9 節第 3 點；第 4 節「只在大一上 ev_zhe_long_table 建立，錯過的人到 2030 年才被加進去」）：大一上錯過哲 1、還不在麵店團的人，
+   大一下第 2 週起（之後的學期也算）。兩個入口（ev_zhe_group_late、ev_zhe_group_late_talk）共用這個條件，演過其中一個（記 noodleTableDay）兩個都關 */
+const ZHE_GROUP_LATE=G=>{ const F=G.flags||{}, DN=(G.events&&G.events.done)||{}; if((G.stage||'law')!=='law'||F.noodleTableDay!=null||DN.ev_zhe_long_table||DN.ev_zhe_group_late||DN.ev_zhe_group_late_talk) return false;
+  if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')) return false;
+  const d=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',2,1):null; return d!=null&&G.day>=d; };
 const STORY_EVENTS=[
   // ────────────────────────────────────────── 語彤：雨天圖書館門口（Vertical Slice）
   /* AA_140 G06（2026-10-16）：週二、週四 17:30～20:30 語彤在麵店（AA_110 6-3），這個時段不觸發；台詞不改 */
@@ -625,6 +630,17 @@ const STORY_EVENTS=[
     dialogue:[ {speaker:'zhe',expression:'smile',text:'（把兩張桌子併起來）阿姨，我們以後週二週四都來。'},{speaker:'阿姨',text:'你們？你們是誰？'},
       {speaker:'zhe',expression:'laugh',text:'法律系一年級。現在是四個，之後會更多。'},{speaker:'zhe',expression:'smile',text:'（對你）規矩很簡單：週二週四，麵店。不用約，來就有人。'} ],
     consequences:{stamp:['noodleTableDay']} },
+  /* 麵店團群組的補救（AA_496 第 9 節第 3 點，NPC-STORY-1028）：錯過哲 1 的人（ZHE_GROUP_LATE），大一下第 2 週起第一次在麵店遇到阿哲（同哲 1：麵店、阿哲在旁邊 6 m 內），
+     或和阿哲說話、有點熟以上（下一個事件）：阿哲當面一句（當面說的，有標點：口氣表），然後照長桌那一場的做法加進麵店團——記 noodleTableDay（story3d.js 的 phoneRules 加群組、
+     阿哲兩則規矩、之後的揪、期末最後一頓都照它）；NDL_LATE_ADD＝群組早就有了，系統訊息寫「把你加進了」，不寫「建立了」。只一次 */
+  { id:'ev_zhe_group_late', title:'麵店團', participants:['zhe'], location:'noodle', trigger:'auto', near:{npc:'zhe',r:6}, once:true, background:'blur',
+    prereq:{custom:G=>ZHE_GROUP_LATE(G)},
+    dialogue:[ {speaker:'zhe',text:'欸，你還沒進群組？我拉你。'} ],
+    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true}} },
+  { id:'ev_zhe_group_late_talk', title:'麵店團', participants:['zhe'], location:'any', trigger:'interact', priority:6, once:true, background:'blur',
+    prereq:{stage:{npc:'zhe',min:'FAMILIAR'},custom:G=>ZHE_GROUP_LATE(G)},   /* 有點熟以上＝SOCIAL.STAGES 的 FAMILIAR 起算（AA_497 開頭）*/
+    dialogue:[ {speaker:'zhe',text:'欸，你還沒進群組？我拉你。'} ],
+    consequences:{stamp:['noodleTableDay'],flags:{NDL_LATE_ADD:true}} },
   /* 語 1：傅鐘旁邊的早餐（AA_40 語 1；交付清單 A10）：大一上第 3～5 週的早上，Alison 坐在傅鐘旁邊的長椅（她的日程：平日上課前 08:20～09:05，AA_156 第 4 節；原本 9:30–12:00），找她說話時；
      要先認識她（第一次說話是 talkYu 的自我介紹），而且不是認識的同一天（自我介紹已經講過三個社團）；只一次。
      「坐下來一起吃」記憶 BREAKFAST_YU（之後早上經過傅鐘她會先揮手：AA_118，之後再做）。吉他社的入口之一（另一個是阿凱）*/
@@ -2918,10 +2934,11 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(G.flags.B2_PICK==='chat'?2/3:1/6); } },
   /* C1 即興劇社的熱身（BB_110 第 3 節；AA_154 第 113 行）：Y0S1 第 6 週晚上（10/10 除外），可昕邀（story3d.js：17:30 私訊，回好＝出遊 19:00 博雅借用的教室）。不管 E07 選了什麼都可以去。
-     記 IMPROV_LINE＝祐廷接的那一句（E18 小公演可昕接住它）。沒去：22:00 可昕「今天唐睿演了一隻企鵝。大家笑到練不下去。」（BB_179 段 E M4）*/
+     記 IMPROV_LINE＝祐廷接的那一句（E18 小公演可昕接住它）。沒去：22:00 可昕「今天唐睿演了一隻企鵝。大家笑到練不下去。」（BB_179 段 E M4）
+     說話人標籤「即興劇社社長」、下面吉他社那一場「吉他社社長」：原本都寫「社長」，和法服共用（AA_496 第 9 節第 6 點：寫全名）*/
   { id:'ev_y0_c1', retired:'AA_293 第 1 節（使用者 10-18 選擇題：可昕不加社團、劇社的戲拿掉），定義留給已經演過的舊存檔', stage:'econ', title:'即興劇社的熱身', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'博雅・借用的教室',bg:'classroom_small'},
-      {speaker:'社長',text:'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'},
+      {speaker:'即興劇社社長',text:'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'},
       {speaker:'唐睿',text:'（對{name}）我是一隻迷路的企鵝。'},
       {speaker:'player',text:'對，而且……'},
       {choice:[{text:'「而且你迷路的地方是公館。」',set:{IMPROV_LINE:'而且你迷路的地方是公館。'},goto:'a'},{text:'「而且我是來接你的計程車。」',set:{IMPROV_LINE:'而且我是來接你的計程車。'},goto:'b'},{text:'「而且……你欠我錢。」',set:{IMPROV_LINE:'而且……你欠我錢。'},goto:'c'}]},
@@ -2929,7 +2946,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'唐睿',text:'對，而且我沒帶錢——等一下。'},{goto:'end'},
       {label:'c'},{speaker:'唐睿',text:'對，而且——（停住）——等一下，我欠你多少？'},{speaker:null,text:'全場笑。'},
       {label:'end'},{speaker:'kexin',expression:'smile',text:'（小聲）你接得比我想的好。'},
-      {speaker:'社長',text:'新來的，下次練習是週四晚上，可昕知道在哪。'} ] },
+      {speaker:'即興劇社社長',text:'新來的，下次練習是週四晚上，可昕知道在哪。'} ] },
   /* 10/15（二）的群組聚會（AA_154 2-1b，AA-B 3828a4dd；第②級、送 BB-B 審）：17:30 群組兩則（story3d.js），17:30～19:15 出發選單「公館 19:00：經濟系的聚會」；去了＝出遊 19:00→22:20。
      不重演 P2（地點固定公館）；先桌遊（19:00～22:00）後夜市（到 22:20），BB-B 審稿後的順序（AA_154 92e541a9）。寫 E10_EVE:'went'（E10 第一句讀它）；兩個選項都只有可昕熟悉度 +1；夜市 −100（桌遊錢唐睿出）*/
   { id:'ev_y0_gather', stage:'econ', title:'經濟系的聚會', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:3+1/3,
@@ -3151,16 +3168,16 @@ const STORY_EVENTS=[
      「不參加」＝11/5 21:00 唐睿私訊問要不要當臨時演員（Y0_EXTRA，E18 讀它）。15 分鐘沒到＝沒去，沒有沒去版 */
   { id:'ev_y0_c2_guitar', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，C2 刪除（不提前到 10/17 以前，AA_355 第 3 節）。定義留給已經演過的舊存檔', stage:'econ', title:'吉他社的第一堂', participants:[], location:'wancai', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[1], time:[18.75,19.25], once:true, background:'blur',
     prereq:{custom:G=>G.flags.Y0_CLUB==='guitar'},
-    dialogue:[ {speaker:'社長',text:'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。'},
+    dialogue:[ {speaker:'吉他社社長',text:'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。'},
       {speaker:'player',text:'（彈）……'},
-      {speaker:'社長',text:'很好。這是 C 和弦的遠房親戚。'},
+      {speaker:'吉他社社長',text:'很好。這是 C 和弦的遠房親戚。'},
       {speaker:'韋綸',text:'（從門口探頭）吉他社！走啦，騎腳踏車！'},
-      {speaker:'社長',text:'他是誰？'},
+      {speaker:'吉他社社長',text:'他是誰？'},
       {speaker:'player',text:'……我們系的。'},
       {choice:[{text:'留下來練到按出來',set:{Y0_GUITAR_C:true},goto:'a'},{text:'跟韋綸去騎腳踏車',goto:'b'},{text:'問社長：「怎麼知道自己適不適合？」',goto:'c'}]},
-      {label:'a'},{speaker:'社長',text:'好。你是今天最晚走的人。'},{goto:'end'},
-      {label:'b'},{speaker:'社長',text:'下次再來。C 和弦不會跑。'},{goto:'end'},
-      {label:'c'},{speaker:'社長',text:'按三個月就知道了。我按了三年，還不知道。'},
+      {label:'a'},{speaker:'吉他社社長',text:'好。你是今天最晚走的人。'},{goto:'end'},
+      {label:'b'},{speaker:'吉他社社長',text:'下次再來。C 和弦不會跑。'},{goto:'end'},
+      {label:'c'},{speaker:'吉他社社長',text:'按三個月就知道了。我按了三年，還不知道。'},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(1.5); } },
   { id:'ev_y0_c2_hiking', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，C2 刪除（不提前到 10/17 以前，AA_355 第 3 節）。定義留給已經演過的舊存檔', stage:'econ', title:'登山社的行前會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
