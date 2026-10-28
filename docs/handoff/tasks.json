@@ -34826,7 +34826,7 @@
    "title": "學姊第十三批（AA_512）接進遊戲：她自己的事當面演八場（交棒那晚、家族咖哩、論文卡住走椰林、6/2 公館蛋糕、日本路線 6/2 視訊、美國挽回中洗衣間、12/28 歡迎回來家聚、大四下新體育館門口）＋說了沒發生九件＋feed_y3s1 學姊第 1 則「又煮了。」",
    "area": "Y2S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "AA_512（企劃線 574720913；outbox 94540f5a6、ab66e46b1（第 5 節伴手禮兌現））；使用者 10-21／10-23 C25「學姊才是真正的女主角」「學校裡和交換學生期間的學姊劇情都要充實」",
    "first": {
@@ -34840,7 +34840,7 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 07:2x UTC】子代理開工（worktree，基準 86986abdf；稿 c444f0757（含第 5 節伴手禮、第 6 節日本視訊三句／前任／禁用句型））；做完合併、全部 Node、BB 看畫面；私密場景接 COMPANY-PRIV-1028 的機制",
-   "note": ""
+   "note": "｜【LAWWW-C 08:4x】子代理 65fe4ec93 合併 8da7af594（aa512 129 項 ALL PASS，修改前 FAIL 83）；BB 瀏覽器（3D 觸發：霖澤館門口、公館走近她、新體育館門口、美國社區 21～22 點、研究室晚上、視訊）；14 項實作時定的給 AA；背景圖兩張（學姊新家白天、C 棟洗衣間）BB 要"
   },
   {
    "id": "KX-MOOT3-1028",
@@ -34987,6 +34987,34 @@
     "acceptance": "讀檔以後同一個模組的劇情能再演、新的劇情事件照常；舊劇情照樣不往下跑、不寫旗標；沒讀檔＝行為不變；靜態檢查防止新模組再犯",
     "receiver": "BB",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "PRIV-SIS13-1028",
+   "title": "學姊第十三批接 STORY.COMPANY：ev_sis13_lab_eve＋研究室晚上那一筆作息（交往中才有＝私密）；13-3 走一圈、13-8 游完泳、13-6 洗衣間與三句短招呼算不算私密問 AA",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
+   "first": {
+    "term": "Y1S1",
+    "week": 10,
+    "earliest": "大一上和沛珊的朋友芸萱說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "note": "【LAWWW-C 08:4x】SIS-B13 子代理回報的私密場景清單；等 PRIV-AAFIX-1028 合併後一起接",
+   "xai": {
+    "spec": "子代理 65fe4ec93 回報第 5 節「私密場景清單」；AA_503 第 13、14 節",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "交往中才有的研究室晚上旁邊有人不演；其他照 AA 定",
+    "receiver": "AA",
+    "ack": "SENT"
    }
   }
  ]

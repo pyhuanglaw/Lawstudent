@@ -1156,7 +1156,7 @@
    "id": "WIP-LAWWW-SISB13-1028",
    "role": "LAWWW",
    "task": "SIS-B13-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "9bdb1c0d3、8455a44fc",
    "branch": "worktree-agent-ad1f7063c51269675（子代理；D113 備份 wip_backup/sisb13_1028.bundle）",
    "files": [
@@ -1166,7 +1166,8 @@
    "todo": "AA_512（c444f0757）學姊第十三批八場＋說了沒發生九件＋第 5 節伴手禮＋第 6 節日本視訊三句／前任／禁用句型",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28（AA_512）；使用者 C25"
+   "source": "AA-C 2026-10-28（AA_512）；使用者 C25",
+   "closedBy": "8da7af594（合併子代理 65fe4ec93；aa512 129 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-AA513-1028",
