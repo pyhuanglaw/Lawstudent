@@ -67,7 +67,7 @@
 | `node tests/door_open_unit.js` | ALL PASS |
 | `tests/reachability_all.py --zones classroom`（瀏覽器） | ALL PASS（49 個互動點、坐下走得到、劇情自動走路 3 個目的地） |
 | 推門（遊戲內） | 找到 `WALL_S_door_L`，門板＋小窗＋門把一起轉，另一扇不動 |
-| `tests/flow_class_real.py`（真實玩家流程，不用 turbo） | 見交件訊息（跑完才寫） |
+| `tests/flow_class_real.py`（真實玩家流程，不用 turbo） | ALL PASS（9 項：門口按鈕、劇情自動走到座位且 fallbacks=0、坐下、下課恢復控制、走到後門、回霖澤館二樓走得動、沒有 JS 例外） |
 
 ## 效能（同一個出生點鏡頭，整個畫面含人物）
 
