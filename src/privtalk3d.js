@@ -59,7 +59,7 @@ const PRIVTALK=(function(){
     {key:'zr_exch_ev',cat:'還沒公開',topic:'芷若交換申請',who:'heroine_02',kind:'event',gate:'prereq',ev:'ev_zhiruo_secret',until:'2027-05-11',at:'src/data/events.js Z4「十點的電話」（溫州街，和她說話觸發）',
       defer:'有期限（大一下第 11～15 週週六 14～18 點）：有人＝這一次照常說話，下次她一個人時演'},
     {key:'zr_exch_applied',cat:'還沒公開',topic:'芷若交換申請',who:'heroine_02',kind:'event',gate:'prereq',ev:'ev_zhiruo_applied',until:'2027-05-11',at:'src/data/events.js Z7「她交件了」（Café，看到你就說）',
-      defer:'大二上整學期 11～22 點都可以：有人（吧檯旁邊的同事）＝等；都沒演照原本寒假的私訊、Z7b'},
+      defer:'有期限（2026-12-11 以後到大二上結束 12/27，11～22 點，Café）：有人（吧檯旁邊的同事）＝等；都沒演照原本寒假第一天的私訊、Z7b（events.js）'},
     {key:'zr_exch_ask',cat:'還沒公開',topic:'芷若交換申請',who:'heroine_02',kind:'evChoice',gate:'evChoice',ev:'ev_zhiruo_bell',choice:'「妳的交換申請交了嗎？」',until:'2027-05-11',at:'src/data/events.js 傅鐘旁邊的那一個選項',
       defer:'這一次選項不出（其他兩個照常）'},
     {key:'zr_exch_lad',cat:'還沒公開',topic:'芷若交換申請',who:'heroine_02',kind:'ladder',gate:'hold',until:'2027-05-11',steps:{'Z2-L6':['extraIf',0],'Z2-L8':['linesIf',0],'Z3-L6':['linesIf',0],'Z4-L4':['linesIf',0]},
@@ -72,6 +72,8 @@ const PRIVTALK=(function(){
     /* ---- 3D 說話裡沒有入口的（寫明在哪裡；之後加入口就用這個 key 問 PRIVTALK.ok）---- */
     {key:'sis_oral',cat:'還沒公開',topic:'學姊口試結果',who:'heroine_05',kind:'none',gate:'none',from:'2029-05-29',until:'2029-05-30',
       at:'沒有 3D 入口：結果在 5/29 16:00～18:00 研究室走廊的出遊（y34b3d.js M9，2D）、家族群組、電話（ev_sis_defense_call）；她 5/29 08～18 點不在 3D（characters.js）'},
+    {key:'dating',cat:'交往中才有的互動',who:'*',kind:'none',gate:'none',
+      at:'3D 說話裡交往中才有的都在上面各筆：「（下次見面，自己跟她講…的事）」（tell_later）、知情以後那幾場（knows_talk、knows_cafe、knows_echo、ps_bterm）、交往中的可昕「約會：選地點、日期、時間」（invite）；閒聊、沒回訊息那一句的「交往中版本」列給 AA（ASK_AA）'},
     {key:'confess',cat:'告白',who:'*',kind:'none',gate:'none',at:'沒有 3D 入口：告白在學期末的飯回家的路上（termend3d.js）、正式校外約會的結尾（date3d.js，現在只有學姊重新開始那一次）、特別場景（出遊），都是 2D'},
     {key:'heart',cat:'心意邀約',who:'*',kind:'none',gate:'none',at:'沒有 3D 入口：心意邀約是手機（termend3d.js，時段第一天 20:30 起），飯和回家的路是出遊（2D）'},
     {key:'apart',cat:'分開談話（AA_346）',who:'*',kind:'none',gate:'none',at:'沒有 3D 入口：選一個人以後的分開談話是出遊（r2y4b3d.js OUT.plan，2D，旁白「只剩你們兩個」）和電話'}];
