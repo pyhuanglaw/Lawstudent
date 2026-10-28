@@ -34862,6 +34862,27 @@
    },
    "next": "【LAWWW-C 2026-10-28 07:2x UTC】等手上四個子代理其中一個交件再派；改 feed_y2s1／y2s2 的 KX_WATCH set、新增 12/4 出遊＋2D 場；白名單加 AA_514 964d01175",
    "note": ""
+  },
+  {
+   "id": "LOAD-GEN-ABORT-1028",
+   "title": "讀檔時收掉舊劇情：applySave 時 resolve 掉開著的對話框和選項、清 sayStack，加讀檔世代號（say／choose／sceneEnd 看到世代不同就不演、不寫旗標）——避免卡住讀檔（stale）以後，舊劇情從 GM.sleep、走路到達這類 await 醒來，在新的一局接著演、把旗標寫進新存檔",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 2026-10-28 07:31（5q sh_reload：【捷徑】對話框開著時 GAME.applySave，阿姨諮詢在新的一局接著演；正常 UI 走不到——loadFrom 在 busy 時擋、stale 排除對話框開著；剩下 stale 讀檔時舊劇情卡在 await 的風險）；STUCK-HARDEN-1027 的後續",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "劇情卡住 30 秒、讀檔救回來的時候",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:3x UTC】LAWWW 做（game3d.js 讀檔、say／choose、EVENTS.run 的收尾）；先寫 Node 測試重現（舊劇情在 GM.sleep 醒來後寫旗標進新 G），再改；BB 照 sh_reload 驗",
+   "note": ""
   }
  ]
 }
