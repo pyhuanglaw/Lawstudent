@@ -34505,7 +34505,7 @@
   },
   {
    "id": "HEROINE-LIFE-NPC3D-1028",
-   "title": "女主角圈子裡的人的 3D：麵店的阿姨、Café 的小婷和老闆、學姊的兩個備考同學（AA_503 第 2、11 節；先用固定路人底模也可以）",
+   "title": "女主角圈子裡的標籤同伴 3D（heroine_circle.js PEOPLE[] 17 位：麵店阿姨、Café 小婷和老闆、新來的工讀生、學姊的兩個同學…）：固定路人底模＋道具（D99 人物美術凍結，不做新的人物模型）",
    "area": "Y1S1",
    "owner": "LAWWW2",
    "status": "待開工",
@@ -34521,13 +34521,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:2x UTC】LAWWW2 修完溫州街公園（WZ-PARK-POCKET-1028，擋 v9.10.12）以後做；角色美術由 LAWWW 驗收（D100a）",
+   "next": "【LAWWW-C 2026-10-28 06:2x UTC】555186796 起 17 位已用固定路人底模在遊戲裡（不和二十位同學撞、彼此不重複）；D99 照舊：不做新的人物模型，照驗收標準走「底模＋道具」（圍裙、名牌、阿姨的繃帶…＝配件），排在 NPC-POOL-ART-1028 之後（P2，大一上先遇到的先做）；角色美術由 LAWWW 驗收（D100a）",
    "xai": {
-    "spec": "AA_503 第 2 節（圈子）、外觀描述",
+    "spec": "AA_503～508 各節 x-1（src/data/heroine_circle.js PEOPLE[]：每一位的外觀描述、底模）；繃帶併進 NPC-POOL-ART-1028",
     "branch": "claude/focused-cray-c9uwvw",
-    "acceptance": "五位有固定外觀（底模＋道具或專屬模型），在遊戲裡和女主角同框看得出是誰",
+    "acceptance": "每一位有固定外觀（固定路人底模＋道具），在遊戲裡和女主角同框看得出是誰；不新增人物模型（D99）",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "ACK"
    }
   },
   {
