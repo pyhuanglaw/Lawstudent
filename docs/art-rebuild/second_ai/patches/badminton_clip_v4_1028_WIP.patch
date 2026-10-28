@@ -1,0 +1,226 @@
+diff --git a/src/badminton_clip3d.js b/src/badminton_clip3d.js
+index 43ddf8322..b36bf96ec 100644
+--- a/src/badminton_clip3d.js
++++ b/src/badminton_clip3d.js
+@@ -75,45 +75,107 @@ const BADCLIP=(function(){
+     const go=e=>{ if(e){ e.preventDefault&&e.preventDefault(); e.stopPropagation&&e.stopPropagation(); } onSkip(); }; b.addEventListener('click',go); b.addEventListener('touchend',go); document.body.appendChild(b);
+     const tap=e=>{ if(e.target===b) return; onSkip(); }; const c=document.getElementById&&document.getElementById('c'); setTimeout(()=>{ if(c) c.addEventListener('pointerdown',tap); },400);
+     return ()=>{ b.remove(); if(c) c.removeEventListener('pointerdown',tap); }; }
++  // ---- 放在場邊的包（BB 建議，BADCLIP-BAG-1027 之後）：開演時從身上拿下來的包（後背包、托特包、吉他），複製一份立在場邊地板上（看起來是放下了）；演完整組拿掉 ----
++  const HOP={clear:1,smash:1,drive:1,drop:1,whiff:1,reach:1};
++  const BAG_KEYS=['backpack','tote','bag_yu','guitar'];
++  function bagClones(e){ const u=e&&e.obj&&e.obj.userData, out=[]; if(!u||!u.props) return out; e.obj.updateMatrixWorld(true); const qInv=e.obj.getWorldQuaternion(new THREE.Quaternion()).invert();
++    for(const k of BAG_KEYS){ const o=u.props[k]; if(!o) continue; let vis=true; for(let p=o;p&&p!==e.obj;p=p.parent) if(p.visible===false){ vis=false; break; } if(!vis) continue;
++      const c=o.clone(true), q=o.getWorldQuaternion(new THREE.Quaternion()), sc=o.getWorldScale(new THREE.Vector3()); c.quaternion.copy(qInv.clone().multiply(q)); c.scale.copy(sc); c.position.set(0,0,0);   /* 背著的方向（直立）、去掉人轉的角度 */
++      const h=new THREE.Group(); h.name='badclip_bag_'+k; h.add(c); h.updateMatrixWorld(true); const bb=new THREE.Box3().setFromObject(c); c.position.set(-(bb.min.x+bb.max.x)/2,-bb.min.y,-(bb.min.z+bb.max.z)/2);   /* 底貼地、中心在原點 */
++      c.traverse(m=>{ if(m.isMesh){ m.castShadow=true; m.frustumCulled=false; } }); out.push(h); }
++    return out; }
++  S._bagClones=bagClones; S._HOP=HOP;   /* 測試用 */
++  // ---- 腳（第四版）：character3d.js 的 u.overlay.feet（兩段式 IK 把腳踝放到地上指定的位置）----
++  //   每個人兩隻腳踩在地上的位置（世界 x、z）——踩著的時候不動（不滑步）；身體照「移位」走過去，每一步一隻腳抬起 7 cm 移到新的站位（往哪邊移就哪隻腳先）。
++  //   準備姿勢：兩腳比肩寬、右腳（拿拍那一側）稍微在後、膝蓋彎（身體下沉 7 cm）。伸拍：右腳往右前方跨一大步、身體跟過去 30 cm、下沉 17 cm，之後收回來。
++  S.SHUTTLE_SCALE=2.0;
++  S.STANCE={w:0.23,stag:0.05,drop:0.07}; S.LUNGE={body:0.3,front:0.45,drop:0.17,dir:[-0.6,0.8]}; S.LIFT=0.07; S.STEP=0.32;
++  const toW=(x,z,ry,lx,lz)=>({x:x+lx*Math.cos(ry)+lz*Math.sin(ry),z:z-lx*Math.sin(ry)+lz*Math.cos(ry)});   /* 人物座標（+x＝人物的左邊、+z＝前面）→ 世界 */
++  const toL=(x,z,ry,wx,wz)=>{ const dx=wx-x, dz=wz-z; return {x:dx*Math.cos(ry)-dz*Math.sin(ry),z:dx*Math.sin(ry)+dz*Math.cos(ry)}; };
++  function spot(ry,side,x,z){ const s=side==='L'?1:-1; return toW(x,z,ry,s*S.STANCE.w,s*S.STANCE.stag); }
++  /* 開演時：量腳踝離控制器原點的高度（待機）、兩隻腳放到準備姿勢的站位；沒有 VRM（備用的人物）就不做 */
++  function fwNew(e){ const o=e.obj, u=o.userData, H=u&&u.vrm&&u.vrm.humanoid; if(!H||!H.getRawBoneNode||!H.getRawBoneNode('leftFoot')||!H.getRawBoneNode('rightFoot')) return null; o.updateMatrixWorld(true);
++    const ank=n=>o.worldToLocal(H.getRawBoneNode(n).getWorldPosition(new THREE.Vector3())).y, ry=o.rotation.y, x=o.position.x, z=o.position.z;
++    return {ank:{L:ank('leftFoot'),R:ank('rightFoot')},L:spot(ry,'L',x,z),R:spot(ry,'R',x,z),lift:{L:0,R:0},drop:S.STANCE.drop,moves:[]}; }
++  /* 移位：t0 開始、dur 秒，身體走到 (x,z)；lunge＝伸拍（右腳一步）。每一格 fwTick 照時間算身體、腳、下沉 */
++  function fwMove(fw,m){ if(fw) fw.moves.push(Object.assign({done:false},m)); }
++  function fwTick(e,fw,t){ if(!fw||e.pose==='sit') return; const o=e.obj, ry=o.rotation.y; fw.lift.L=fw.lift.R=0; fw.air={L:false,R:false};   /* air：這一格這隻腳在跨步（包括落地那一格）*/
++    for(const m of fw.moves){ if(m.done||t<m.t0) continue;
++      if(!m.st){ const x0=o.position.x, z0=o.position.z, d=Math.hypot(m.x-x0,m.z-z0), lx=toL(x0,z0,ry,m.x,m.z).x, lead=m.lunge?'R':(m.back?'R':(lx>0?'L':'R')), n=m.lunge||m.back?1:Math.max(1,Math.ceil(d/S.STEP));
++        const bodyAt=k=>({x:x0+(m.x-x0)*k,z:z0+(m.z-z0)*k}), steps=[];
++        for(let i=0;i<n;i++){ const side=i%2?(lead==='L'?'R':'L'):lead, b=bodyAt((i+1)/n); let to=spot(ry,side,b.x,b.z);
++          if(m.lunge){ const dw=toW(0,0,ry,S.LUNGE.dir[0],S.LUNGE.dir[1]), dl=Math.hypot(dw.x,dw.z); to={x:to.x+dw.x/dl*S.LUNGE.front,z:to.z+dw.z/dl*S.LUNGE.front}; }
++          steps.push({side,a:i/n,b:(i+1)/n,from:null,to}); }
++        if(n>1&&!m.lunge&&!m.back){ const b=bodyAt(1), last=steps[n-1].side==='L'?'R':'L'; steps.push({side:last,a:(n-0.5)/n,b:1,from:null,to:spot(ry,last,b.x,b.z)}); }   /* 最後另一隻腳也收到站位 */
++        m.st={x0,z0,drop0:fw.drop,steps}; }
++      const s=Math.min(1,Math.max(0,(t-m.t0)/m.dur)), k=sm(s); o.position.x=m.st.x0+(m.x-m.st.x0)*k; o.position.z=m.st.z0+(m.z-m.st.z0)*k; fw.drop=m.st.drop0+((m.drop==null?S.STANCE.drop:m.drop)-m.st.drop0)*k;
++      for(const q of m.st.steps){ if(s<=q.a||q.landed) continue; fw.air[q.side]=true; if(s>=q.b) q.landed=true; if(!q.from) q.from={x:fw[q.side].x,z:fw[q.side].z}; const v=Math.min(1,(s-q.a)/(q.b-q.a)), w=sm(v);
++        fw[q.side]={x:q.from.x+(q.to.x-q.from.x)*w,z:q.from.z+(q.to.z-q.from.z)*w}; if(v<1) fw.lift[q.side]=Math.max(fw.lift[q.side],S.LIFT*Math.sin(PI*v)); }
++      if(s>=1) m.done=true; }
++    const u=o.userData, ov=u.overlay; if(!ov) return; const x=o.position.x, z=o.position.z, a=toL(x,z,ry,fw.L.x,fw.L.z), b=toL(x,z,ry,fw.R.x,fw.R.z);
++    ov.feet={L:[a.x,fw.ank.L+fw.lift.L,a.z],R:[b.x,fw.ank.R+fw.lift.R,b.z],drop:fw.drop}; }
++  S._fwNew=fwNew; S._fwMove=fwMove; S._fwTick=fwTick; S._spot=spot;   /* 測試用 */
++  /* 球的殘影：飛行中最近 0.1 秒的位置，6 個淡淡的白點（羽球本身放大 2 倍以後側面中景還是小，殘影讓眼睛跟得到）*/
++  function trailNew(grp){ try{ return trailMake(grp); }catch(e){ return null; } }   /* 殘影只是裝飾：做不出來（沒有 canvas）就不要 */
++  function trailMake(grp){ if(typeof document==='undefined'||!document.createElement) return null; const cv=document.createElement('canvas'); if(!cv||!cv.getContext) return null; cv.width=cv.height=32; const g=cv.getContext('2d'); if(!g) return null; const gr=g.createRadialGradient(16,16,1,16,16,15);
++    gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=gr; g.fillRect(0,0,32,32); const tex=new THREE.CanvasTexture(cv), L=[];
++    for(let i=0;i<6;i++){ const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthWrite:false,opacity:0.32*(1-i/6)})); m.scale.setScalar(0.09*(1-i*0.1)); m.visible=false; m.name='badclip_trail'; grp.add(m); L.push(m); }
++    return {L,hist:[]}; }
++  function trailTick(tr,t,p,on){ if(!tr) return; if(!on){ tr.hist.length=0; for(const m of tr.L) m.visible=false; return; } tr.hist.unshift({t,x:p.x,y:p.y,z:p.z}); while(tr.hist.length>40) tr.hist.pop();
++    tr.L.forEach((m,i)=>{ const want=t-0.017*(i+1); const q=tr.hist.find(h=>h.t<=want); if(!q){ m.visible=false; return; } m.position.set(q.x,q.y,q.z); m.visible=true; }); }
+   // ---- 主流程 ----
+   S.busy=false;
+   S.play=async function(GM,opts){ opts=opts||{}; const E=GM&&GM.E; if(!E||!E.player||S.busy) return false; S.busy=true; let skipped=false; const id=opts.who;
+     const C=court(), half=4.4, P1=E.player, keep=[]; let partner=GM.npc&&GM.npc[id], spawned=false;
+     if(!partner&&GM.spawnCharacter&&id){ partner=GM.spawnCharacter(id,C.x,C.z-half,{yaw:0}); spawned=!!partner; }
+     if(!partner){ S.busy=false; return false; }
++    const dropped=[]; for(const e of [P1,partner]){ dropped.push(bagClones(e)); }
+     for(const e of [P1,partner]) keep.push({e,x:e.obj.position.x,z:e.obj.position.z,y:e.obj.position.y,ry:e.obj.rotation.y,pose:e.pose,frozen:e.frozen,path:e.path,
+       bags:typeof CHAR!=='undefined'&&CHAR.carryOff?CHAR.carryOff(e.obj):null});   /* 打球不背包：後背包、托特包、吉他、資料夾…先拿下來，演完（含跳過、出錯）照原本還原（BADCLIP-BAG-1027，使用者 10-27 22:4x）*/
+     const grp=new THREE.Group(); grp.name='badclip'; E.scene.add(grp);
++    dropped.forEach((L,i)=>L.forEach((h,j)=>{ h.position.set(C.x+3.9+j*0.55,keep[i].y,C.z+(i?-1.6:1.6)); h.rotation.y=-PI/2+(i?0.35:-0.25); grp.add(h); }));   /* 兩個人的包放在場邊（東側、網子兩邊；隔壁場的邊線在 5.55 m）*/
+     let props={}; try{ if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.badminton_props']) props=propsFrom(await ASSETS.loadOne('bldg.badminton_props')); }catch(e){ console.warn('羽球道具載入失敗，用簡單的',e); }
+     const rA=attachRacket(P1,props.racketA||simpleRacket(0x1d2b57)), rB=attachRacket(partner,props.racketB||simpleRacket(0xeef1f4));
+-    const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); sh.scale.multiplyScalar(1.5); grp.add(sh);   /* 放大 1.5 倍：側面中景裡真實大小只有幾個像素（v1）*/
++    const sh=(props.shuttle||simpleShuttle()).clone(true); sh.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.frustumCulled=false; } }); sh.scale.multiplyScalar(S.SHUTTLE_SCALE); grp.add(sh);   /* 放大（v2 1.5 倍、v4 2 倍）：側面中景裡真實大小只有幾個像素 */ const trail=trailNew(grp);
+     // 站位：玩家在南半場（面向北）、她在北半場（面向南）
+     const place=(e,x,z,yaw)=>{ e.path=null; e.frozen=true; e.pose='idle'; e.speed=0; e.obj.position.set(x,e.obj.position.y,z); e.obj.rotation.y=yaw; };
+     place(P1,C.x+0.4,C.z+half,PI); place(partner,C.x-0.4,C.z-half,0);
+     const ov=(e,bones,k)=>{ e.obj.userData.overlay={bones,k:k==null?1:k}; };
+     ov(P1,still('ready')); ov(partner,still('ready'));
++    const FW=new Map([[P1,fwNew(P1)],[partner,fwNew(partner)]]); for(const [e,fw] of FW) fwTick(e,fw,0);   /* 腳：準備姿勢（v4）*/
+     const undo=skipUI(()=>{ skipped=true; });
+     const cam=E.camera, cut=(p,l)=>{ E.cinematic(p,l); cam.position.copy(p); if(E.cam.look) E.cam.look.copy(l); };
+     const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+     // 一段時間軸：acts＝[{who:e, sw:'clear', t0:秒}]、fly＝[{from:e|Vector3, to:Vector3, top, t0, dur}]、camf(t)
+     const run=(dur,acts,fly,camf)=>new Promise(res=>{ let t=0, last=performance.now(); const tmp=new THREE.Vector3();
+-      const f=now=>{ if(skipped){ res(); return; } const dt=Math.min(0.25,(now-last)/1000); last=now; t+=dt;
+-        for(const a of acts){ const s=SW[a.sw]; const u=(t-a.t0)/s.dur; if(u<0||u>1){ if(u>1&&!a.end){ a.end=true; ov(a.who,still(a.after||'ready')); } continue; } ov(a.who,pose(a.sw,u)); }
++      const f=now=>{ if(skipped){ fin(); res(); return; } const dt=Math.min(0.25,(now-last)/1000); last=now; t+=dt;
++        for(const a of acts){ const s=SW[a.sw]; const u=(t-a.t0)/s.dur; if(a.sw==='reach'&&!a.fw&&u>=0){ a.fw=true; const e=a.who, fw=FW.get(e), o=e.obj, dw=toW(0,0,o.rotation.y,S.LUNGE.dir[0],S.LUNGE.dir[1]), dl=Math.hypot(dw.x,dw.z), x0=o.position.x, z0=o.position.z;
++            fwMove(fw,{x:x0+dw.x/dl*S.LUNGE.body,z:z0+dw.z/dl*S.LUNGE.body,t0:t,dur:0.3,lunge:true,drop:S.LUNGE.drop}); fwMove(fw,{x:x0,z:z0,t0:t+s.dur+0.35,dur:0.45,back:true}); }   /* 伸拍：右腳往右前方跨一步、之後收回來（v4）*/
++          if(u<0||u>1){ if(u>1&&!a.end){ a.end=true; ov(a.who,still(a.after||'ready')); } continue; } ov(a.who,pose(a.sw,u)); }
++        for(const [e,fw] of FW) fwTick(e,fw,t);   /* 腳（v4）：移位、踩地 */
++        for(const k of keep){ let hy=0; for(const a of acts){ if(a.who!==k.e||!HOP[a.sw]) continue; const u=(t-(a.t0-0.3))/0.28; if(u>0&&u<1) hy=Math.max(hy,0.05*Math.sin(PI*u)); }   /* 小跳步（split step）：每一拍（發球除外）之前 0.3 秒原地彈一下 5 cm */
++          if(hy>0||k.hop){ k.e.obj.position.y=k.y+hy; k.hop=hy>0; } }
+         let shown=false; for(const q of fly){ const u=(t-q.t0)/q.dur; if(u<0||u>1+1e-6){ if(u>1&&q.land){ sh.position.copy(q.to); sh.position.y=0.012; sh.rotation.set(PI/2-0.25,0,0.6); shown=true; } continue; }
+           if(!q.A) q.A=q.from.isVector3?q.from.clone():racketHead(q.from===P1?rA:rB); const p=flightPos(q.A,q.to,q.top,Math.min(1,u),tmp); const v=flightPos(q.A,q.to,q.top,Math.min(1,u+0.02),new THREE.Vector3()).sub(p);
+           sh.position.copy(p); if(v.lengthSq()>1e-8) sh.quaternion.setFromUnitVectors(V(0,-1,0),v.normalize()); shown=true; }
+-        sh.visible=shown; if(camf) camf(t,sh.position);
+-        if(t>=dur){ res(); return; } requestAnimationFrame(f); }; requestAnimationFrame(f); });
++        sh.visible=shown; trailTick(trail,t,sh.position,shown&&fly.some(q=>{ const u=(t-q.t0)/q.dur; return u>=0&&u<=1; })); if(camf) camf(t,sh.position);
++        if(t>=dur){ fin(); res(); return; } requestAnimationFrame(f); }; const fin=()=>{ for(const [e,fw] of FW){ fwTick(e,fw,1e9); if(fw) fw.moves.length=0; } }; requestAnimationFrame(f); });   /* 鏡頭切換前：沒走完的移位直接走完 */
+     const hitP=(e,y)=>{ const p=e.obj.position; const fz=Math.cos(e.obj.rotation.y); return V(p.x-0.25*Math.cos(e.obj.rotation.y),y||2.45,p.z+fz*0.45); };   /* 這個人頭頂右前方的擊球點 */
++    const hitAt=(e,q,y)=>{ const ry=e.obj.rotation.y; return V(q.x-0.25*Math.cos(ry),y||2.45,q.z+Math.cos(ry)*0.45); };
++    /* 接球的人在球飛過來的時候移到擊球的位置（lat：往人物的左邊、dep：往後退，公尺）；沒有 VRM 的人不移（球打到原地）。回傳要打的位置 */
++    const shift=(e,lat,dep,t0,dur)=>{ const fw=FW.get(e), o=e.obj, q=toW(o.position.x,o.position.z,o.rotation.y,lat,-dep); if(!fw) return {x:o.position.x,z:o.position.z}; const last=fw.moves.length?fw.moves[fw.moves.length-1]:null, from=last?{x:last.x,z:last.z}:{x:o.position.x,z:o.position.z};
++      const tgt=toW(from.x,from.z,o.rotation.y,lat,-dep); fwMove(fw,{x:tgt.x,z:tgt.z,t0,dur}); return tgt; };
+     try{ if(GM.sceneBegin) GM.sceneBegin();
+       const A=P1, Bn=partner;
+       if(opts.full!==false&&!skipped){   // 鏡頭 1：遠景，她發球
+         cut(V(C.x+5.5,5.8,C.z+12.5),V(C.x,0.9,C.z-0.5));   /* 場地南邊、兩面場地之間的上方：看得到旁邊的場地 */ const T=SW.serve.dur*SW.serve.hit;
+-        await run(3.0,[{who:Bn,sw:'serve',t0:0.3},{who:A,sw:'clear',t0:0.3+T+1.25-SW.clear.dur*SW.clear.hit}],[{from:Bn,to:hitP(A),top:3.6,t0:0.3+T,dur:1.25}],null); }
++        const qa=shift(A,0.15,0.35,0.3+T+0.1,0.6);   /* 接發球：往後退一步 */
++        await run(3.0,[{who:Bn,sw:'serve',t0:0.3},{who:A,sw:'clear',t0:0.3+T+1.25-SW.clear.dur*SW.clear.hit}],[{from:Bn,to:hitAt(A,qa),top:3.6,t0:0.3+T,dur:1.25}],null); }
+       if(!skipped){   // 鏡頭 2：側面中景，四拍高遠球，鏡頭跟著球
+         const side=V(C.x+8.2,2.2,C.z), seq=[A,Bn,A,Bn]; const acts=[], fly=[]; let t=0.2; const D=1.35, sw=SW.clear;
+         cut(side,V(C.x,1.8,C.z+half*0.6));
+-        for(let i=0;i<4;i++){ const h=seq[i], o=h===A?Bn:A; acts.push({who:h,sw:'clear',t0:t}); const th=t+sw.dur*sw.hit; fly.push({from:h,to:hitP(o),top:6.2,t0:th,dur:D}); t=th+D-sw.dur*sw.hit; }
++        const OFF=[[0.42,0.4],[-0.4,0.45],[-0.35,0.25],[0.3,0.3]];   /* 每一球接球的人往哪裡移（左右、往後）：高遠球打到後場、左右換邊 */
++        for(let i=0;i<4;i++){ const h=seq[i], o=h===A?Bn:A; acts.push({who:h,sw:'clear',t0:t}); const th=t+sw.dur*sw.hit; const q=shift(o,OFF[i][0],OFF[i][1],th+0.12,D-sw.dur*sw.hit-0.17); fly.push({from:h,to:hitAt(o,q),top:6.2,t0:th,dur:D}); t=th+D-sw.dur*sw.hit; }
+         await run(t+0.6,acts,fly,(tt,p)=>{ if(E.cam.cine){ E.cam.cine.look.set(C.x,Math.max(1.4,p.y*0.6+0.6),p.z); E.cam.cine.pos.set(C.x+8.2,2.2,C.z+(p.z-C.z)*0.35); } }); }
+       if(opts.full!==false&&!skipped){ await ending(ENDINGS[id]||'youSmashHeMisses'); }
+     } catch(e){ console.warn('羽球短片',e); }
+diff --git a/src/character3d.js b/src/character3d.js
+index 66aee3e3f..a0f975893 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -237,6 +237,14 @@ const CHAR = (function(){
+     for(const [i,side] of [[0,1],[1,-1]]){ const L=ARMS[i], g=u.ride.grips&&u.ride.grips[i]; const T=h.localToWorld(g?new THREE.Vector3(g[0],g[1],g[2]):new THREE.Vector3(side*BIKE_G.grip[0]*k,(BIKE_G.grip[1]+0.01)*k,(BIKE_G.grip[2]-0.03)*k));   /* 把手轉了：bike3d.js 給轉過的握點（已經含車的尺寸）*/
+       const sh=R[L[0]].getWorldPosition(new THREE.Vector3()); const pole=h.localToWorld(h.worldToLocal(sh.clone()).add(new THREE.Vector3(side*0.6,-0.5,-0.2)));
+       ik2(R[L[0]],R[L[1]],R[L[2]],T,pole); } }
++  /* 疊加姿勢的腳（羽球短片的步伐：站穩、移位、跨步，src/badminton_clip3d.js）：u.overlay.feet={L:[x,y,z],R:[x,y,z],drop}——腳踝要到的位置（人物控制器的座標：+x＝人物的左邊、+z＝前面、y＝離控制器原點的高度），
++     drop＝身體往下沉多少（膝蓋彎）。兩段式 IK（ik2，膝蓋往前），腳掌照動畫原本的方向（踩平）。拿掉 feet 以後身體回到原本的高度 */
++  function overlayFeet(h,u){ const F=u.overlay&&u.overlay.feet, w=u.model, base=w.userData.baseY||0; if(!F){ if(u.ovDrop){ u.ovDrop=0; w.position.y=base; } return; }
++    const hm=u.vrm.humanoid, B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })()); if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
++    u.ovDrop=F.drop||0; w.position.y=base-u.ovDrop; h.updateWorldMatrix(true,true); const fwd=new THREE.Vector3(0,0,1).applyQuaternion(h.getWorldQuaternion(IKQ[1]));
++    for(const [i,key] of [[0,'L'],[1,'R']]){ const t=F[key]; if(!t) continue; const L=LEGS[i], T=h.localToWorld(new THREE.Vector3(t[0],t[1],t[2])), pole=B[L[0]].getWorldPosition(new THREE.Vector3()).addScaledVector(fwd,1.0);
++      B[L[2]].getWorldQuaternion(IKQ[3]); ik2(B[L[0]],B[L[1]],B[L[2]],T,pole); B[L[2]].parent.getWorldQuaternion(IKQ[0]); B[L[2]].quaternion.copy(IKQ[0].invert().multiply(IKQ[3])); B[L[2]].updateWorldMatrix(false,true); } }
++  C._overlayFeet=overlayFeet;   // 單元測試用
+   const RA={}, SFV=[new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()];
+   function sitFeet(h,u){ const hm=u.vrm.humanoid; const B=u.rawLegs||(u.rawLegs=(()=>{ const o={}; for(const L of LEGS) for(const n of L) o[n]=hm.getRawBoneNode(n); return o; })());
+     if(LEGS.some(L=>L.slice(0,3).some(n=>!B[n]))) return;
+@@ -291,7 +299,7 @@ const CHAR = (function(){
+     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
+     // 表情：眨眼、嘴型
+     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
+-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.drive) skirtDrive(u.drive); },u.isFar); }
++    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if((u.overlay&&u.overlay.feet)||u.ovDrop) overlayFeet(h,u); if(u.drive) skirtDrive(u.drive); },u.isFar); }
+   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
+   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
+   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）
+diff --git a/tests/badminton_clip_unit.js b/tests/badminton_clip_unit.js
+index 2838a1bb3..8bc699ce5 100644
+--- a/tests/badminton_clip_unit.js
++++ b/tests/badminton_clip_unit.js
+@@ -36,4 +36,39 @@ check('① BADCLIP 存在（play、LINES、揮拍資料）',typeof BADCLIP!=='un
+   check('⑤ badminton_props.glb 有兩支球拍、羽球、球網',['badminton_racket','badminton_racket_b','badminton_shuttle','badminton_net'].every(n=>names.includes(n)),names.slice(0,8).join(' ')); }
+ { const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), m=g.match(/function staleCheck[\s\S]*?live=([^;]*);/);
+   check('⑥ 卡住偵測（game3d.js staleCheck）：羽球短片在演的時候算「有東西在演」——短片約 13 秒、沒有對話，超過 10 秒會跳「畫面好像停住了」（真機也會）',!!m&&/BADCLIP\.busy/.test(m[1]),m?'':'找不到 staleCheck'); }
++{ const mk=yaw=>{ const e={obj:new THREE.Group()}; e.obj.rotation.y=yaw; const bone=new THREE.Group(); bone.position.set(0,1.3,-0.15); bone.rotation.x=0.2; e.obj.add(bone);
++    const bp=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.42,0.15)); bone.add(bp); const gt=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1)); gt.visible=false; bone.add(gt); const fd=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.3,0.02)); bone.add(fd);
++    e.obj.userData.props={backpack:bp,guitar:gt,folder:fd}; return e; };
++  const ok=typeof BADCLIP._bagClones==='function'; check('⑦ 場邊的包：BADCLIP._bagClones 存在',ok);
++  if(ok){ const A=BADCLIP._bagClones(mk(0)), B=BADCLIP._bagClones(mk(1.2)); const box=L=>{ const h=L[0]; h.updateMatrixWorld(true); return new THREE.Box3().setFromObject(h); };
++    check('⑦ 只複製身上看得到的包（後背包；藏起來的吉他、資料夾不算）',A.length===1&&/backpack/.test(A[0].name),A.map(h=>h.name).join(' '));
++    const a=box(A), b=box(B); check('⑦ 包的底貼地（y＝0）、中心在原點；和人轉的角度無關（轉 1.2 rad 一樣）',Math.abs(a.min.y)<1e-6&&Math.abs(a.min.x+a.max.x)<1e-6&&Math.abs(a.min.z+a.max.z)<1e-6&&a.min.distanceTo(b.min)<1e-6&&a.max.distanceTo(b.max)<1e-6,J([a.min,a.max]));
++    check('⑦ 包是立著的（背著的方向：高 0.42 m 左右，不是躺平）',a.max.y>0.4&&a.max.y<0.5,a.max.y.toFixed(3)); }
++  const src=fs.readFileSync(path.join(ROOT,'src/badminton_clip3d.js'),'utf8');
++  check('⑦ 開演時先複製包、再 CHAR.carryOff 拿下來（順序反了就複製不到）；放進短片的群組（演完整組拿掉）',src.indexOf('dropped.push(bagClones(e))')>0&&src.indexOf('dropped.push(bagClones(e))')<src.indexOf('CHAR.carryOff(e.obj)')&&/dropped\.forEach\([^\n]*grp\.add\(h\)/.test(src));
++  const H=BADCLIP._HOP||{}; check('⑧ 小跳步：高遠球、殺球、平抽、放小球、揮空、伸拍之前跳；發球不跳',['clear','smash','drive','drop','whiff','reach'].every(k=>H[k])&&!H.serve); }
++/* ⑨ 腳（第四版）：準備姿勢兩腳比肩寬、膝蓋彎；移位時踩著的腳不動（不滑步）、每一步一隻腳抬起來；伸拍＝右腳往右前方跨一大步、身體下沉；坐在地上（沛珊）的時候不管腳 */
++{ const ok=typeof BADCLIP._fwNew==='function'&&typeof BADCLIP._fwTick==='function'&&typeof BADCLIP._fwMove==='function'; check('⑨ 腳：BADCLIP 有步伐（fwNew、fwMove、fwTick）',ok);
++  if(ok){ const mk=(x,z,ry)=>{ const o=new THREE.Object3D(); o.position.set(x,0,z); o.rotation.y=ry; const lf=new THREE.Object3D(), rf=new THREE.Object3D(); lf.position.set(0.17,0.11,-0.02); rf.position.set(-0.17,0.11,-0.02); o.add(lf,rf);
++      o.userData.vrm={humanoid:{getRawBoneNode:n=>n==='leftFoot'?lf:(n==='rightFoot'?rf:null)}}; o.userData.overlay={bones:{},k:1}; o.updateMatrixWorld(true); return {obj:o,pose:'idle'}; };
++    const e=mk(0.4,-6.8,Math.PI), fw=BADCLIP._fwNew(e); BADCLIP._fwTick(e,fw,0); const F=e.obj.userData.overlay.feet;
++    check('⑨ 準備姿勢：左腳在人物的左邊（+x）、右腳在右邊，兩腳距離 46 cm（比肩寬）、右腳稍微在後；腳踝高度照模型量的；身體下沉 7 cm',!!F&&F.L[0]>0.2&&F.R[0]<-0.2&&Math.abs(F.L[0]-F.R[0]-0.46)<1e-6&&F.R[2]<F.L[2]&&Math.abs(F.L[1]-0.11)<1e-6&&Math.abs(F.drop-0.07)<1e-9,J(F));
++    const sp=BADCLIP._spot(e.obj.rotation.y,'L',e.obj.position.x,e.obj.position.z); check('⑨ 站位換算（人物座標 → 世界 → 人物座標）一致',Math.abs(fw.L.x-sp.x)<1e-9&&Math.abs(fw.L.z-sp.z)<1e-9);
++    /* 移位：往人物的左後方 0.6 m（0.25 秒～1 秒） */
++    const tx=e.obj.position.x+0.42, tz=e.obj.position.z+0.4; BADCLIP._fwMove(fw,{x:tx,z:tz,t0:0.25,dur:0.75}); let slide=0, maxLift=0, steps=new Set(), prev={L:{...fw.L},R:{...fw.R}};
++    for(let t=0;t<=1.3;t+=1/60){ BADCLIP._fwTick(e,fw,t); for(const s of ['L','R']){ const moved=Math.hypot(fw[s].x-prev[s].x,fw[s].z-prev[s].z); if(!fw.air[s]&&moved>1e-6) slide=Math.max(slide,moved); if(fw.lift[s]>0) steps.add(s); maxLift=Math.max(maxLift,fw.lift[s]); prev[s]={...fw[s]}; } }
++    const o=e.obj.position, sL=BADCLIP._spot(e.obj.rotation.y,'L',o.x,o.z), sR=BADCLIP._spot(e.obj.rotation.y,'R',o.x,o.z);
++    check('⑨ 移位：身體走到擊球的位置',Math.hypot(o.x-tx,o.z-tz)<1e-6,J({x:o.x,z:o.z}));
++    check('⑨ 移位：踩在地上的腳不動（不滑步）、兩隻腳都有抬起來走、抬起最高 7 cm',slide<1e-6&&steps.size===2&&Math.abs(maxLift-0.07)<0.003,J({slide,steps:[...steps],maxLift:+maxLift.toFixed(3)}));
++    check('⑨ 移位完：兩隻腳回到新位置的準備站位',Math.hypot(fw.L.x-sL.x,fw.L.z-sL.z)<1e-6&&Math.hypot(fw.R.x-sR.x,fw.R.z-sR.z)<1e-6);
++    /* 伸拍 */
++    const x0=o.x, z0=o.z, R0={...fw.R}, L0={...fw.L}; BADCLIP._fwMove(fw,{x:x0-0.18,z:z0-0.24,t0:2,dur:0.3,lunge:true,drop:0.17}); BADCLIP._fwTick(e,fw,2.4); const Fl=e.obj.userData.overlay.feet;
++    const rFwd=-((fw.R.z-R0.z)), lStay=Math.hypot(fw.L.x-L0.x,fw.L.z-L0.z);
++    check('⑨ 伸拍：右腳往前跨（人物朝北：世界 −z）超過 50 cm、左腳不動、身體下沉 17 cm',rFwd>0.5&&lStay<1e-9&&Math.abs(Fl.drop-0.17)<1e-9,J({rFwd:+rFwd.toFixed(2),lStay,drop:Fl.drop}));
++    BADCLIP._fwMove(fw,{x:x0,z:z0,t0:3,dur:0.45,back:true}); BADCLIP._fwTick(e,fw,3.6); check('⑨ 伸拍完收回來：身體回原位、下沉回 7 cm',Math.hypot(e.obj.position.x-x0,e.obj.position.z-z0)<1e-9&&Math.abs(e.obj.userData.overlay.feet.drop-0.07)<1e-9);
++    e.pose='sit'; const before=J(e.obj.userData.overlay.feet); BADCLIP._fwMove(fw,{x:x0+1,z:z0,t0:4,dur:0.2}); BADCLIP._fwTick(e,fw,4.5); check('⑨ 坐在地上（沛珊）：不動腳、不移身體',J(e.obj.userData.overlay.feet)===before&&Math.abs(e.obj.position.x-x0)<1e-9); }
++  const src=fs.readFileSync(path.join(ROOT,'src/badminton_clip3d.js'),'utf8'), ch=fs.readFileSync(path.join(ROOT,'src/character3d.js'),'utf8');
++  check('⑨ 羽球放大 2 倍、有殘影（飛行中最近 0.1 秒）',BADCLIP.SHUTTLE_SCALE===2&&/sh\.scale\.multiplyScalar\(S\.SHUTTLE_SCALE\)/.test(src)&&/trailNew\(grp\)/.test(src)&&/trailTick\(trail,t,sh\.position/.test(src));
++  check('⑨ 接球的人移到擊球的位置、球打到那裡（hitAt）；伸拍自動跨步',/to:hitAt\(o,q\)/.test(src)&&/to:hitAt\(A,qa\)/.test(src)&&/a\.sw==='reach'&&!a\.fw/.test(src));
++  check('⑨ character3d.js：疊加姿勢的腳（overlayFeet）在動畫算完以後、腳步貼合之後',/if\(\(u\.overlay&&u\.overlay\.feet\)\|\|u\.ovDrop\) overlayFeet\(h,u\);/.test(ch)); }
+ console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/overlay_feet_unit.js b/tests/overlay_feet_unit.js
+new file mode 100644
+index 000000000..9eb032025
+--- /dev/null
++++ b/tests/overlay_feet_unit.js
+@@ -0,0 +1,29 @@
++// 疊加姿勢的腳（character3d.js 的 overlayFeet；羽球短片第四版的步伐，LAWWW2-C 2026-10-28）：u.overlay.feet={L:[x,y,z],R:[x,y,z],drop} 用兩段式 IK 把腳踝放到指定位置、身體下沉 drop。
++// 真的載入祐廷、以安的 VRM：① 腳踝到目標（準備姿勢、側跨、抬腳、伸拍）② 身體照 drop 下沉、膝蓋往前彎 ③ 腳掌踩平（腳尖和腳跟高度差不變）④ 拿掉 feet 回到原樣 ⑤ 只有 bones 沒有 feet 時不動腿。不需要瀏覽器。
++// 用法：node tests/overlay_feet_unit.js
++const {preload}=require('../tools/dev_scratch/spring_sim/harness.js');
++let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
++(async()=>{
++  check('（前提）CHAR._overlayFeet 存在',typeof CHAR!=='undefined'&&typeof CHAR._overlayFeet==='function');
++  if(typeof CHAR._overlayFeet!=='function'){ console.log('FAILED '+fails); process.exit(1); }
++  await preload(['char.yuting','char.heroine_01']);
++  for(const [id,hh] of [['char.yuting',1.75],['char.heroine_01',1.66]]){
++    const h=CHAR.build({id:'p',model:id,height:hh,sex:'m'}); const u=h.userData; h.position.set(3,0,-2); h.rotation.y=Math.PI*0.7;
++    if(u.driver!=='vrm'){ check(id+'：VRM 載得到',false,u.driver); continue; }
++    const step=n=>{ for(let i=0;i<n;i++) CHAR.animate(h,1/30,{pose:'idle',speed:0}); h.updateMatrixWorld(true); };
++    const H=u.vrm.humanoid, g=n=>new THREE.Vector3().setFromMatrixPosition(H.getRawBoneNode(n).matrixWorld), L=v=>h.worldToLocal(v.clone());
++    const at=(ov)=>{ u.overlay=ov; u.anim.t=0; step(1); return {L:L(g('leftFoot')),R:L(g('rightFoot')),hip:L(g('hips')),lt:L(g('leftToes')),rt:L(g('rightToes')),lk:L(g('leftLowerLeg')),lh:L(g('leftUpperLeg'))}; };
++    const r=at(null), ank=r.L.y, nm=id.replace('char.','');
++    const C={stance:{L:[0.23,ank,0.05],R:[-0.23,r.R.y,-0.05],drop:0.07},side:{L:[0.4,ank,0],R:[-0.2,r.R.y,0],drop:0.05},lift:{L:[0.2,ank+0.07,0.1],R:[-0.2,r.R.y,0],drop:0.07},lunge:{L:[0.2,ank,-0.35],R:[-0.1,r.R.y,0.5],drop:0.17}};
++    const err=(p,t)=>Math.hypot(p.x-t[0],p.y-t[1],p.z-t[2]);
++    const res={}; for(const k in C) res[k]=at({bones:{},k:1,feet:C[k]});
++    const bad=Object.keys(C).filter(k=>err(res[k].L,C[k].L)>0.01||err(res[k].R,C[k].R)>0.01);
++    check('① '+nm+'：腳踝到目標（準備姿勢、側跨、抬腳 7 cm、伸拍）誤差 ≤ 1 cm',!bad.length,Object.keys(C).map(k=>k+' '+(Math.max(err(res[k].L,C[k].L),err(res[k].R,C[k].R))*100).toFixed(1)+'cm').join('、'));
++    check('② '+nm+'：身體照 drop 下沉（屁股低 7 cm／17 cm）',Math.abs(r.hip.y-res.stance.hip.y-0.07)<0.01&&Math.abs(r.hip.y-res.lunge.hip.y-0.17)<0.01,((r.hip.y-res.stance.hip.y)*100).toFixed(1)+'／'+((r.hip.y-res.lunge.hip.y)*100).toFixed(1)+' cm');
++    { const s=res.stance, kneeF=s.lk.z-(s.lh.z+s.L.z)/2; check('② '+nm+'：膝蓋往前彎（不是往後折）',kneeF>0.02,(kneeF*100).toFixed(1)+' cm'); }
++    { const d0=r.lt.y-r.L.y, ds=res.stance.lt.y-res.stance.L.y, dl=res.lunge.rt.y-res.lunge.R.y; check('③ '+nm+'：腳掌踩平（腳尖比腳踝低的量和站著一樣）',Math.abs(ds-d0)<0.01&&Math.abs(dl-(r.rt.y-r.R.y))<0.01,(d0*100).toFixed(1)+' '+(ds*100).toFixed(1)+' '+(dl*100).toFixed(1)); }
++    { const back=at(null); step(2); const b2=at(null); check('④ '+nm+'：拿掉 feet 以後回到原樣（屁股、腳踝）',Math.abs(b2.hip.y-r.hip.y)<0.002&&b2.L.distanceTo(r.L)<0.002&&!u.ovDrop,((b2.hip.y-r.hip.y)*100).toFixed(2)+' cm'); }
++    { const o=at({bones:{RightArm:[0,1.2,0]},k:1}); check('⑤ '+nm+'：只有手（開門、揮拍）沒有 feet：腿不動、身體不沉',o.L.distanceTo(r.L)<0.002&&Math.abs(o.hip.y-r.hip.y)<0.002); }
++  }
++  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
++})();
