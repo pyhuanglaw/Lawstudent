@@ -14,7 +14,8 @@
 // 修改前（開發分支 44e8ff8b7：src/data/heard_lines.js、src/heard3d.js、src/y34b3d.js、docs/handoff/story_import_allow.json 換回 44e8ff8b7 實際跑過）：FAILED 19——
 //   第 0 段 5 項（遊戲裡沒有 AA_513、兩個方向 0 句、HEARD_LINES.src、白名單、「沒做」還寫先空著）、第 1 段 7 項（三組私訊、條件、晚三天、PHONE_RULES、美國路線）、
 //   第 2 段 5 項（「不了。」、「去。」卻沒到、從子晴那邊到場、舊存檔貓、舊版本排好的）、第 3、4 段各 1 項（沒有 HEARD.pass、HEARD.GG_DOORS 就停）；
-//   當時就過的 5 項是現狀的保護（載得到、稿四塊、隔天的私訊、去了沒有照片、日本路線）。修改後 ALL PASS（33 項）。用法：node tests/aa513_unit.js
+//   當時就過的 5 項是現狀的保護（載得到、稿四塊、隔天的私訊、去了沒有照片、日本路線）。修改後 ALL PASS（34 項）。
+//   第 3 段「那兩個週五以安的作息」：只把 src/data/characters.js 換回改之前（大一下沒有「和媽媽吃晚餐」）實際跑 FAIL 1（大一下 19:00、20:45 在校園 wander），改完 PASS。用法：node tests/aa513_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -140,6 +141,11 @@ await sec('3',async()=>{ if(!HAS()||!HEARD.pass){ check('3. 窗邊字幕',false,
   const seen=()=>H.G.flags.AN_MOM_SEEN;
   const d1=W10F('Y1S1'), d2=W10F('Y1S2');
   check('3. 大一上第 10 週週五＝2025-11-07、大一下＝2026-05-01（星期五）',key(d1)==='2025-11-07'&&key(d2)==='2026-05-01'&&CALENDAR.dateOf(d1).wd===5&&CALENDAR.dateOf(d2).wd===5);
+  /* 那段時間以安不在 3D 裡（字幕說她在店裡）：characters.js「和媽媽吃晚餐」那一筆（以安新 4）大一下也是——原本大一下 18:00～20:30 她在校園 wander */
+  const whereAn=(d,h)=>{ fresh(d,h,{},'gongguan'); const e=STORY.schedEnt(CHARACTERS.heroine_01,H.G); return e?[e.zone,e.act,e.away||null]:null; };
+  const wa=[whereAn(d1,19),whereAn(d2,19),whereAn(d2,20.75),whereAn(d2+7,19),whereAn(d2-7,19)];
+  check('3. 那兩個週五 18:00～21:30 以安的作息是「和媽媽吃晚餐」（不在 3D 裡；大一下原本在校園 wander）；大一下第 11、9 週週五照舊在校園',
+    J(wa)===J([[null,'out','和媽媽吃晚餐'],[null,'out','和媽媽吃晚餐'],[null,'out','和媽媽吃晚餐'],['campus','wander',null],['campus','wander',null]]),J(wa));
   wf('Y1S1',19); const r1=tick(); const c1=caps.slice(), s1=J(seen());
   stand(9.9,21); const r2=tick(); const c2=caps.length;
   check('3. 大一上第 10 週週五 19:00 走到公館店門口（麵店 −63,21）：畫面下方字幕一次（GM.caption 旁白、6 秒）、記 AN_MOM_SEEN {Y1S1:那一天}；接在 STORY.TICKS、回傳 false（不擋後面的）',
