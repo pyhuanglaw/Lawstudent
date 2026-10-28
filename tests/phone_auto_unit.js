@@ -12,6 +12,7 @@ S.phoneAuto(GM); check('同一則只自動開一次',opened.length===1);
 pend.push({id:'y0_e12_ask',th:'p:kexin'}); GM.D.active=true; S.phoneAuto(GM); check('對話中：不開',opened.length===1); GM.D.active=false;
 ctx.EVENTS.running='ev_x'; S.phoneAuto(GM); check('劇情事件中：不開',opened.length===1); ctx.EVENTS.running=null;
 home=true; S.phoneAuto(GM); check('在家（2D 畫面，家裡那一輪自己會打開）：不開',opened.length===1); home=false;
+GM.isEntering=()=>true; S.phoneAuto(GM); check('換區域途中（推門以後變黑、載入）：不開（PHONE-AUTO-ENTER-1028）',opened.length===1); GM.isEntering=()=>false;
 phoneOpen=true; S.phoneAuto(GM); check('手機已經開著：不再開',opened.length===1); phoneOpen=false;
 S.phoneAuto(GM); check('空下來：開第二則',opened.length===2);
 // 2026-10-21（v9.10.3 發布前 smoke_release：新遊戲收起手機以後搖桿只走 0.33 m）：同時有兩三則要回的，打開一次就把當下所有待回的都記成開過——列表上本來就都看得到；原本一次只記一則，收起來下一格又自己打開（一則跳一次）

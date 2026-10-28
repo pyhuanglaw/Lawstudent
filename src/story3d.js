@@ -531,7 +531,7 @@ const STORY = (function(){
      不在家裡的 2D 畫面）就打開那個對話；同一則只自動開一次（G.flags._autoAsk 記 id），玩家關掉就不再跳 */
   S.PHONE_AUTO_STILL=1.5;
   S.phoneAuto=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(typeof PHONE==='undefined'||!PHONE.pending||!GM.openPhone||GM.titleIdle) return; if(GM.phoneIsOpen&&GM.phoneIsOpen()) return;
-    const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof HOME!=='undefined'&&HOME.at(G)); if(!free) return;
+    const free=!!P&&!E.paused&&!P.busy&&!(GM.isEntering&&GM.isEntering())&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof HOME!=='undefined'&&HOME.at(G)); if(!free) return;   /* 換區域途中（變黑、載入新區域；推門演完到換好那幾秒）不開：BB-C relsuite_562 touch_flow_wenzhou 進 Café 時手機蓋上來（PHONE-AUTO-ENTER-1028）*/
     if((P.path&&P.path.length)||(E.input&&E.input.joy&&E.input.joy.active)||(typeof E.time==='number'&&P.lastMoveT!=null&&E.time-P.lastMoveT<S.PHONE_AUTO_STILL)) return;   /* 走路中（推搖桿、點地面）不跳出來，停下來 1.5 秒再開（UX-PHONE-AUTO-WALK-1021：原本推搖桿走到一半手機跳出來、遊戲暫停）*/
     const F=G.flags, seen=F._autoAsk||(F._autoAsk=[]); const PL=PHONE.pending(G), m=PL.find(x=>!seen.includes(x.id||x.key||x.text)); if(!m) return; for(const x of PL){ const k=x.id||x.key||x.text; if(!seen.includes(k)) seen.push(k); } if(seen.length>200) seen.splice(0,seen.length-200);   /* 當下所有待回的一起記成開過（列表上都看得到；同 home3d.js 的 S.askSeen）：原本一次只記一則，同時有三則就收起來又自己打開三次（2026-10-21 v9.10.3 發布前 smoke_release 查到）*/
     GM.openPhone('msg'); };   /* 使用者 22:4x 選 B：先停在對話列表（那一列看得到她最新的一句、標「待回覆」），點進去從最新的一句開始 */
