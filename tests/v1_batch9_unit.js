@@ -5,7 +5,7 @@
 //   麵店團（AA 2026-10-14）：上一個麵店日沒來，阿哲才在群組揪（17:30，四句輪流）；一直有來＝安靜；考試週、國定假日不是麵店日；舊存檔（開始記以前）當作有來。
 //   校慶攤：學姊「那是物權。你們大二才上。」（v1_batch4_unit 檢查）。
 //   A13 中秋烤肉（AA 2026-10-14）：沒有麵店團群組＝「大家借了一個烤肉架」；「你被分到顧火。火一直熄。」；只記 MIDAUTUMN_Y1，關係數值不變、沒有 SHARED_MEAL。
-//   A15 考完的宵夜（AA 2026-10-14）：民總期中考那天 20:30 公館滷味攤（出遊）；有麵店團群組＝考完阿哲在群組「考完了。滷味。」；沒有＝G1 最後阿哲當面問「晚上滷味，來不來？」；
+//   A15 考完的宵夜（AA 2026-10-14）：民總期中考那天 20:30 公館滷味攤（出遊）；有麵店團群組＝考完阿哲在群組「考完了 滷味」；沒有＝G1 最後阿哲當面問「晚上滷味，來不來？」；
 //     明軒認識才有「明軒從來不念書，成績出來一定比我高。我恨他。」；SAW_HIM_STUDY 多一個選項「……他有念啦。」→ 瞪一眼、請一顆滷蛋；柏翰、芯慈、Alison 都認識才有吵第三題；不去不扣分。
 //   A16 翰 1（AA 2026-10-14）：第 10 週民總下課（第 10 週沒去的話第 11 週）；三個選項；「（告訴他分數）」只有旁白「你說了分數。」（畫面上沒有數字），
 //     比他高／低照民總準備程度（很好＝高）；TOLD_SCORE、ASKED_BACK、BOHAN_SCORE；沒見過他先自我介紹；只一次。
@@ -97,7 +97,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     /* 有群組 */
     fresh(midDay,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,midIt.t1-0.05,0.05); const before=G.msgs.filter(m=>m.tag==='zhe_supper_mid1').length; run(midIt.t1,midIt.t1+0.3,0.05);
     const gm=G.msgs.filter(m=>m.tag==='zhe_supper_mid1'), o=OUT.get(G,'supper_mid1');
-    check('A15 有麵店團群組：考完以後阿哲在群組「考完了。滷味。」（考完以前沒有）；排 20:30 公館滷味攤',before===0&&gm.length===1&&gm[0].th==='g:noodle_team'&&gm[0].from==='zhe'&&gm[0].text==='考完了。滷味。'&&!!o&&o.day===midDay&&o.h===20.5&&o.place==='公館滷味攤'&&o.ev==='ev_midterm_supper',JSON.stringify({gm:gm.map(m=>[m.h,m.text]),o}));
+    check('A15 有麵店團群組：考完以後阿哲在群組「考完了 滷味」（考完以前沒有）；排 20:30 公館滷味攤',before===0&&gm.length===1&&gm[0].th==='g:noodle_team'&&gm[0].from==='zhe'&&gm[0].text==='考完了 滷味'&&!!o&&o.day===midDay&&o.h===20.5&&o.place==='公館滷味攤'&&o.ev==='ev_midterm_supper',JSON.stringify({gm:gm.map(m=>[m.h,m.text]),o}));
     /* 沒有群組：G1 最後當面問 */
     const g1=async(flags,group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',Object.assign({readCase:'full'},flags||{})); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=pk||[]; await CLS.attend(GM,midIt); return lines(); };
     let L=await g1({},false,['去吃飯','「去。」']);

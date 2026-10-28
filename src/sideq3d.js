@@ -98,8 +98,8 @@ const SIDEQ=(function(){
       thanks:'（兩個禮拜後，一個很瘦的男生來店裡道謝。他是國考生，那天胃出血被送急診，住院兩週。筆電裡是他三年的筆記。）',after:'（他每天來同一個插座位子讀書，店長幫他留。）',
       card:'（那個插座位子的桌上，多了一張手寫的小卡「謝謝」。）',pass:'（牆上多了一張剪報大小的紙：「榜單影本」。）',lapse:'那台筆電，我送去派出所了。'},
     SQ05:{open:['膝蓋要開刀。要休兩個禮拜。','……公休的紙，你幫我寫，寫得好看一點。'],notes:['老闆去修膝蓋，兩週後見。','本店公休至○月○日。','休息一下，大碗加蛋等你。'],
-      zheCard:[['zhe','六張犁的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午霖澤館一樓，大家來簽。'],['yu','我帶彩色筆']],sign:'（你下課經過霖澤館一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 麵店團群組 */
-      photo:[['zhe','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）'],['zhe','老闆說，這個沒有他煮的好吃。']],reopen:'大碗加蛋。……今天不收錢。',card:'（卡片貼在煮麵台旁邊的牆上。）',lapse:'公休的紙我自己寫了。『休息兩週』。……四個字。'},
+      zheCard:[['zhe','六張犁的老闆要去開膝蓋！'],['zhe','我買了一張卡片，明天中午霖澤館一樓，大家來簽'],['yu','我帶彩色筆']],sign:'（你下課經過霖澤館一樓，阿哲把卡片塞給你。）',   /* AA_408 2：答應那天 21:00 麵店團群組 */
+      photo:[['zhe','（照片：病床旁的小桌，卡片立著，旁邊一碗醫院的稀飯）'],['zhe','老闆說，這個沒有他煮的好吃']],reopen:'大碗加蛋。……今天不收錢。',card:'（卡片貼在煮麵台旁邊的牆上。）',lapse:'公休的紙我自己寫了。『休息兩週』。……四個字。'},
     SQ06:{open:['我孫子國二，數學不及格。','你們有沒有同學在當家教？'],askTutor:{[MX]:['國二數學，可以。週幾？','我本來就在那附近教，順路。這個 CP 值很高。'],[AN]:['國二數學。好。週四以外都可以。']},   /* AA_408 2（明軒的「CP 值」這一場算一次）*/
       report:'他上課一直在桌子底下彈手指。',selfReport:['（第一次上課。他的數學課本很新，手指一直在桌子底下彈。）','（你看了一下：他彈的是吉他的和弦。）'],
       twist:'（孫子想學的是吉他，不是數學。他在網路上看了吉他社成發的影片。）',zq:'……國二？我國二的時候也只會 C。',noZq:'（家教跟阿姨說了，阿姨買了一把二手吉他。）',
@@ -599,7 +599,7 @@ const SIDEQ=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false;
     let ev=null; if(S.signDue(GM)) ev=S.SIGN_EV; else if(S.catNightDue(GM)){ ev=S.CAT_EV; const L0=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null, pav=L0&&L0.items&&L0.items.find(i=>i.kind==='pavilion'); if(pav) ev.spawn.at={x:pav.x+1.1,z:pav.z+0.6}; }   /* 她蹲在涼亭的石桌前面 */
     else if(S.sisDue(GM)) ev=S.SIS_EV;
-    if(!ev) return false; busy=true; Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('SIDEQ',e)).finally(()=>{ busy=false; }); return true; };
+    if(!ev) return false; busy=true; if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(ev)).catch(e=>console.warn('SIDEQ',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   if(typeof STORY_EVENTS!=='undefined') for(const e of [S.FAFU_EV,S.POLICE_EV,S.CLUB_EV,S.SIS_EV,S.CAT_EV,S.VISIT_EV,S.SIGN_EV,S.HWAXIN_EV,S.PASTA_EV,S.VET_EV,S.PARK18_EV,S.XC_EV,S.BRUNCH1_EV,S.BRUNCH2_EV]) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(GM=>S.tick(GM));
     if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.room15(G,Lst)); }   /* SQ15：學姊大一的民法總則 */

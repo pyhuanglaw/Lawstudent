@@ -338,6 +338,14 @@ def check(args):
     except FileNotFoundError:
         A(9, f'{MATRIX} 不存在')
 
+    # 分支定期唯讀稽核（BRANCH-AUDIT-1028，使用者 2026-10-28 01:4x）：只提醒、不算異常；超過 24 小時沒做就寫出來
+    try:
+        import branch_audit
+        d, msg = branch_audit.due(args.root)
+        info.append(('該做分支唯讀稽核了（python3 tools/handoff/branch_audit.py --write，結果 commit＋push）：' if d else '分支唯讀稽核：') + msg)
+    except Exception as e:
+        info.append(f'分支唯讀稽核：讀不到紀錄（{e}）')
+
     # 報告
     open_ = [t for t in tasks if t.get('status') not in CLOSED]
     cnt = {}

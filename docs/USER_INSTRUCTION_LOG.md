@@ -1166,3 +1166,11 @@
 - 原因（LAWWW-C 回報）：AA 有寫但寫成段落引述，roles 工具讀不到；只有值班 LAWWW 能寫總表，LAWWW 在忙就沒搬；LAWWW-C 回 LAWWW2「不排」沒登記暫停；HV-15 第 6 點 12:5x 才加。
 - 處理：`.claude/settings.json` UserPromptSubmit 提醒 hook（`tools/handoff/user_ask_reminder.py`）；四職位 `docs/handoff/user_asks_<職位>.json`（種子 20 筆，依 USER-WANTS-AUDIT-1018）；`check_handoff.py asks`；CLAUDE.md P0 HV-15 第 7 點、AI_SESSION_HANDOFF 第 13 節 HV-18、第 4 節第 9 步；PROJECT_DECISIONS D106；任務 USER-ASKS-HV18-1018、USER_WANTS X42。
 - 通知：其他三個職位都已交班（D75 不叫醒）；回來接班合併 RULE_SOURCE 就拿得到。
+
+## 2026-10-28 01:4x UTC｜分支定期唯讀稽核（D114／HV-21；LAWWW-C 收到）
+- 使用者原話：「定期做一次唯讀稽核，再由開發 AI 整理：保留目前四個崗位正在使用的分支。保留尚未整合完成的 WIP 分支。將確認已完成、完全併入主線的舊分支列入清理候選。」
+- 取代／補充：D88 的「換班、發布、大型任務結案時盤點」改成工具＋固定時機（發布前後、換班、每天至少一次）；D85 第 3、8 點（刪前記 SHA、刪不了只標記）照舊。
+- 處理：`tools/handoff/branch_audit.py`（只讀、淺層 clone 報錯）、`tests/branch_audit_unit.py`、`check_handoff.py check` 24 小時提醒、BRANCH_INVENTORY.md「定期唯讀稽核」一節與整理紀錄、CLAUDE.md D114＋D88 第 7 點、AI_SESSION_HANDOFF HV-21、任務 BRANCH-AUDIT-1028、USER_WANTS X124。
+- 第一次稽核（01:2x）：25 條＝主線 1、崗位在用 4、main 沒有的內容 6、清理候選 14（帳號 A、B 的 LAWWW 交接分支、friendly-brahmagupta、四條 release、七條 LAWWW2 舊 WIP；全部整條在 main）。沒有刪：雲端工作階段刪不了別的分支。
+- 通知：只有值班 LAWWW 做；其他職位不受影響（不用通知）。
+

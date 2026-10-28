@@ -121,6 +121,10 @@ async function inviteOpts(n){ const k0=log.opts.length; const p=STORY.offerInvit
     check('5. 還沒到麵店：照舊一起走（going、跟著），不會在公館就開始',iv.state==='going'&&an.beh==='follow'&&D.busyDepth===0,JSON.stringify({st:iv.state,beh:an.beh}));
     G.zone='noodle'; const p=STORY.onEnter('noodle',GM,{}); await play(400); await Promise.race([p,turn()]);
     check('5. 走進麵店：照常見面（done、「和沈以安在阿鳳麵店。」）、沒有停住',iv.state==='done'&&metMsg(G)&&D.busyDepth===0&&!log.orphans.length,st()); }
+  /* AA_489 第 5 節：這一趟已經和以安在麵店吃過（約的那一筆 done、同一天、兩小時內）＝她那句換成「你吃完了？我才剛到。……還在看菜單。」*/
+  { const g=h=>({day:14,hour:h,invites:[{id:'iv13',who:'heroine_01',place:'noodle',state:'done',day:14,h:16.8}]});
+    check('6. AA_489：吃過以後兩小時內＝換句；之前、兩小時以後、別天、沒去成（going）＝照原句',typeof STORY.anAteNoodle==='function'&&STORY.anAteNoodle(g(17.9))&&!STORY.anAteNoodle(g(19.2))&&!STORY.anAteNoodle(g(16.5))&&!STORY.anAteNoodle(Object.assign(g(17.5),{day:15}))&&!STORY.anAteNoodle({day:14,hour:17.5,invites:[{who:'heroine_01',place:'noodle',state:'going',day:14,h:16.8}]})&&STORY.AN_MENU_AFTER==='你吃完了？我才剛到。……還在看菜單。'
+      &&/if\(id==='heroine_01'&&g===S\.AN_MENU&&S\.anAteNoodle\(G\)\) g=S\.AN_MENU_AFTER;/.test(require('fs').readFileSync(require('path').join(__dirname,'../src/story3d.js'),'utf8'))); }
   console.warn=warn0;
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.warn=warn0; console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

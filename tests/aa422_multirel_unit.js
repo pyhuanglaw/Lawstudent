@@ -1,7 +1,7 @@
 // 多線交往第一批（AA_422 @5156f143；台詞照 AA_227／AA_228 原句）——不需要瀏覽器。src/multirel3d.js、src/data/multirel_lines.js
 //   0  載入、接線（index.html 在 GAME.boot 前、資料檔在前；TERMEND／DATE／ROM／EVENTS／STORY 都包上）
 //   1  第一次正式校外約會的問句（0-1）：六位的台詞與記錄（照實＝YT_HONEST、閃避＝YT_DODGED）、一位一次、不知道就不問、交往中不問、這一趟沒有快速約會；學姊三個時期、芷若「她知道。」只在 Y 真的知道
-//   2  知情版心意邀約（0-2）：六位兩條路、承諾（exclusive／handle）、讓我想想；acceptsOpen true＝交往＋OPEN_OK；第二次沒做到＝BROKE＋之後不發；做到了＝照原本的第二次；芷若三問；可昕沒有心意邀約＝不演
+//   2  知情版心意邀約（0-2）：六位兩條路、承諾（exclusive／handle）、讓我想想；acceptsOpen true＝交往＋OPEN_OK（使用者 10-27 回答 C：遊戲裡七位都打開，關著的情形把那一位改回 false 測；學姊第一次一律讓我想想，AA_474 1-2）；第二次沒做到＝BROKE＋之後不發；做到了＝照原本的第二次；芷若三問；可昕沒有心意邀約＝不演
 //   3  發現（0-3）：七位的台詞、時機（以安說話／讀書會散會、子晴 22:00、芷若打烊、語彤顧店、可昕當晚、沛珊散會）、變體（未滿 7 天、曾說謊、比她早、坦白、違約、還有誰、國外視訊、李冠宏、說溜嘴）
 //   4  子晴芷若兩個人一起（4-4）、《同一頁》（1-4）、子晴 Q8 下一次見面（4-5）、傳開（以安→沛珊）
 //   5  沒有和別人交往＝什麼都沒有；沛珊 2026-12-16 以後不會有「她後來才發現」；舊存檔的預設值
@@ -113,11 +113,11 @@ await sec(2,async()=>{
   check('2. 以安「先不說」那條：她的「她說」演完接「你們現在還在一起？」，沒有「你先講完。」；「跟她說我也喜歡妳。」→「那你先跟她說。」（AA_425）＝handle:kexin',
     H.has('你不說的話，我寫了。')&&seq(['你們現在還在一起？','那你先跟她說。'])&&!H.has('你先講完。')&&!T().some(t=>/再來問我/.test(t))&&H.G.flags.YT_PROMISED[A1]==='handle:kexin');
   check('2. 先不說那條沒有「好。／讓我想想。」那兩個選項',!H.opts.some(o=>J(o)===J(['「好。」','「讓我想想。」'])));
-  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); await walk(A1,'Y2S1',['我喜歡妳。','我還是跟她在一起']);
-  check('2. 以安「我還是跟她在一起。」→「……所以你要我跟她一起。」「你知道你在說什麼嗎？」→ acceptsOpen false：「我現在不要。」「我不想當那個不知道自己在幹嘛的人。」（沒有「不是因為我不喜歡你」）',
+  ROM.PARAMS.acceptsOpen[A1]=false; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); await walk(A1,'Y2S1',['我喜歡妳。','我還是跟她在一起']); ROM.PARAMS.acceptsOpen[A1]=true;
+  check('2. 以安「我還是跟她在一起。」→「……所以你要我跟她一起。」「你知道你在說什麼嗎？」→ 開關關著（AA_474 第 0 節：使用者之後可以把某一位改回 false）：「我現在不要。」「我不想當那個不知道自己在幹嘛的人。」（沒有「不是因為我不喜歡你」）',
     seq(['……所以你要我跟她一起。','你知道你在說什麼嗎？','我現在不要。','我不想當那個不知道自己在幹嘛的人。'])&&!T().some(t=>/不是因為我不喜歡你/.test(t))&&!H.G.flags.dating_heroine_01);
-  ROM.PARAMS.acceptsOpen[A1]=true; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); r=await walk(A1,'Y2S1',['我喜歡妳。','我還是跟她在一起']); ROM.PARAMS.acceptsOpen[A1]=false;
-  check('2. acceptsOpen true：「我不知道我為什麼會答應。」「……可是我想答應。」＝交往、OPEN_OK.heroine_01.kexin',seq(['我不知道我為什麼會答應。','……可是我想答應。'])&&r==='yes'&&H.G.flags.dating_heroine_01===true&&H.G.flags.OPEN_OK[A1].kexin===true);
+  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); r=await walk(A1,'Y2S1',['我喜歡妳。','我還是跟她在一起']);
+  check('2. acceptsOpen true（使用者 10-27 回答 C：遊戲裡七位都打開）：「我不知道我為什麼會答應。」「……可是我想答應。」＝交往、OPEN_OK.heroine_01.kexin',seq(['我不知道我為什麼會答應。','……可是我想答應。'])&&r==='yes'&&H.G.flags.dating_heroine_01===true&&H.G.flags.OPEN_OK[A1].kexin===true);
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); await walk(A1,'Y2S1',['我喜歡妳。','我不知道']);
   check('2. 以安「說出來」那條「我不知道。」→「那你不要現在講。」「你想清楚再來。」',seq(['那你不要現在講。','你想清楚再來。'])&&H.G.termend.think[A1]==='Y2S1');
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(A1); learn(A1,KX); await walk(A1,'Y2S1',['先不說','我不知道']);
@@ -139,12 +139,12 @@ await sec(2,async()=>{
   setT('2027-06-20',21); clr(); await walk(SIS,'Y2S2',['我喜歡妳。']);
   check('2. 學姊第二次沒做到：「你上次說會跟她說。」「……你沒有。」「那我們先這樣。」',seq(['你上次說會跟她說。','……你沒有。','那我們先這樣。']));
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); await walk(SIS,'Y2S1',['我喜歡妳。','她知道','她說可以']);
-  check('2. 學姊「她知道。」（可昕真的知道）→「……她怎麼說？」→「她說可以。」→「……好。我想一下。」→「我還沒準備好。」（AA_425 2-1）',seq(['……她怎麼說？','……好。我想一下。','我還沒準備好。'])&&J(H.opts[2])===J(['「她說可以。」','「她不太高興。」']),J(H.opts));
-  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); ROM.PARAMS.acceptsOpen[SIS]=true; await walk(SIS,'Y2S1',['我喜歡妳。','她知道','她不太高興']); ROM.PARAMS.acceptsOpen[SIS]=false;
+  check('2. 學姊「她知道。」（可昕真的知道）→「……她怎麼說？」→「她說可以。」→「……好。我想一下。」＝第一次一律讓我想想（AA_474 1-2：開關打開也不接「我們試試看」）',seq(['……她怎麼說？','……好。我想一下。'])&&!H.has('我們試試看。')&&!H.has('我還沒準備好。')&&!H.G.flags.dating_heroine_05&&H.G.termend.think[SIS]==='Y2S1'&&J(H.opts[2])===J(['「她說可以。」','「她不太高興。」']),J(H.opts));
+  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(SIS); learn(SIS,KX); learn(KX,SIS); await walk(SIS,'Y2S1',['我喜歡妳。','她知道','她不太高興']);
   check('2. 學姊「她不太高興。」→「嗯。那我更要想一下。」＝這學期讓我想想（acceptsOpen true 也不答應）',H.has('嗯。那我更要想一下。')&&!H.G.flags.dating_heroine_05&&H.G.termend.think[SIS]==='Y2S1');
-  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['我喜歡妳。','對。']);
-  check('2. 子晴「說出來」：「所以你是認真的喔？」「可昕呢？」「你現在是想同時跟我們兩個在一起？」→「對。」→「……我做不到啦。」「你先跟她講清楚。講完再說。」（沒有「靠北」）',seq(['所以你是認真的喔？','可昕呢？','你現在是想同時跟我們兩個在一起？','……我做不到啦。','你先跟她講清楚。講完再說。'])&&!T().some(t=>/靠北/.test(t)));
-  ROM.PARAMS.acceptsOpen[ZQ]=true; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['先不說','對。']); ROM.PARAMS.acceptsOpen[ZQ]=false;
+  ROM.PARAMS.acceptsOpen[ZQ]=false; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['我喜歡妳。','對。']); ROM.PARAMS.acceptsOpen[ZQ]=true;
+  check('2. 子晴「說出來」：「所以你是認真的喔？」「可昕呢？」「你現在是想同時跟我們兩個在一起？」→「對。」→（開關關著）「……我做不到啦。」「你先跟她講清楚。講完再說。」（沒有「靠北」）',seq(['所以你是認真的喔？','可昕呢？','你現在是想同時跟我們兩個在一起？','……我做不到啦。','你先跟她講清楚。講完再說。'])&&!T().some(t=>/靠北/.test(t)));
+  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['先不說','對。']);
   check('2. 子晴「先不說」：沒有「所以你是認真的喔？」；接受＝「……我居然在考慮。」「好。可是你不准瞞我任何事。」',!H.has('所以你是認真的喔？')&&seq(['可昕呢？','……我居然在考慮。','好。可是你不准瞞我任何事。'])&&H.G.flags.dating_heroine_04===true);
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZQ); learn(ZQ,KX); await walk(ZQ,'Y2S1',['我喜歡妳。','我會跟她分']);
   check('2. 子晴「我會跟她分。」→「那你去分。」（AA_425）',H.has('那你去分。')&&H.G.flags.YT_PROMISED[ZQ]==='exclusive');
@@ -161,16 +161,17 @@ await sec(2,async()=>{
   check('2. 語彤第二次（說會分卻沒分）：「……你們還在一起。」（你沒有回答。她點了一下頭，先走了。）',seq(['……你們還在一起。','（你沒有回答。她點了一下頭，先走了。）']));
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(YT); learn(YT,KX); await walk(YT,'Y2S1',['先不說','我會跟她分開']);
   check('2. 語彤「先不說」：「……可是你有女朋友。」「我講了。你要怎麼辦？」；「我會跟她分開。」→「你不用為了我。」「……你要是真的想分，那是你們的事。不要跟我說是為了我。」',seq(['……可是你有女朋友。','我講了。你要怎麼辦？','你不用為了我。','……你要是真的想分，那是你們的事。不要跟我說是為了我。']));
-  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(PS); learn(PS,KX); await walk(PS,'Y2S1',['先不說','都在一起']);
-  check('2. 沛珊「欸，那可昕呢？」→「我想跟妳們都在一起。」→「……喔。」「我想一下。我會很認真想。」→「我沒辦法耶。我會一直想她。」',seq(['欸，那可昕呢？','……喔。','我想一下。我會很認真想。','我沒辦法耶。我會一直想她。']));
+  ROM.PARAMS.acceptsOpen[PS]=false; fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(PS); learn(PS,KX); await walk(PS,'Y2S1',['先不說','都在一起']); ROM.PARAMS.acceptsOpen[PS]=true;
+  check('2. 沛珊「欸，那可昕呢？」→「我想跟妳們都在一起。」→「……喔。」「我想一下。我會很認真想。」→（開關關著）「我沒辦法耶。我會一直想她。」',seq(['欸，那可昕呢？','……喔。','我想一下。我會很認真想。','我沒辦法耶。我會一直想她。']));
+  fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(PS); learn(PS,KX); r=await walk(PS,'Y2S1',['先不說','都在一起']);
+  check('2. 沛珊開關打開（使用者 10-27 回答 C）：接受＝「好。可是她那邊也要知道喔。兩邊都不要偷偷的。」（AA_474 第 5 節改）＝交往、OPEN_OK',seq(['我想一下。我會很認真想。','好。可是她那邊也要知道喔。兩邊都不要偷偷的。'])&&!H.has('好。可是你要跟我講。什麼都要講。')&&r==='yes'&&H.G.flags.dating_classmate_peishan===true&&H.G.flags.OPEN_OK[PS].kexin===true);
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(PS); learn(PS,KX); await walk(PS,'Y2S1',['我喜歡妳。','我會跟她分開']);
   setT('2027-06-20',21); clr(); await walk(PS,'Y2S2',['我喜歡妳。']);
   check('2. 沛珊第二次（說會分卻沒分）：「你們還在一起喔？」「……沒關係啦。我們先不要這樣。」（AA_425 2-3）',seq(['你們還在一起喔？','……沒關係啦。我們先不要這樣。']));
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(PS); learn(PS,KX); await walk(PS,'Y2S1',['我喜歡妳。','還沒跟她講']); setT('2027-06-20',21); clr(); await walk(PS,'Y2S2',['我喜歡妳。']);
   check('2. 沛珊第二次（說會講卻沒講）：「……她知道我嗎？」「還不知道。」「嗯。……那我們先不要這樣。」',seq(['……她知道我嗎？','還不知道。','嗯。……那我們先不要這樣。']));
   check('2. 「承諾沒做到」七個人說法都不同（AA_425 第 4 節；可昕沒有心意邀約）',(()=>{ const B=MULTIREL_LINES.BROKE, all=[]; for(const x in B){ const v=B[x]; for(const L0 of (Array.isArray(v)?[v]:Object.values(v))) all.push(JSON.stringify(L0)); } return new Set(all).size===all.length&&Object.keys(B).length===6; })());
-  /* 芷若三問 */
-  ROM.PARAMS.acceptsOpen[ZR]=true;
+  /* 芷若三問（遊戲裡開關已經打開）*/
   fresh('2027-01-10',21,'campus',{dating_kexin:true,ZR_ASKED_GF:1}); H.CLOSE(ZR); learn(ZR,KX); await walk(ZR,'Y2S1',['先不說','兩個都在一起']);
   check('2. 芷若第一問「那你打算怎麼辦？」→「我想跟妳們兩個都在一起。」→（她停下腳步。）「……我要想很久。」（AA_425；讓我想想）',seq(['那你打算怎麼辦？','（她停下腳步。）','……我要想很久。'])&&H.G.termend.think[ZR]==='Y2S1'&&!!X().rec(H.G).zr.q1);
   setT('2027-03-01',14); clr(); H.picks=['不知道']; await X().dateOpen(GM,{who:ZR});
@@ -182,7 +183,6 @@ await sec(2,async()=>{
   check('2. 芷若第二問說謊「知道。」＝YT_LIED.heroine_02.kexin',!!(H.G.flags.YT_LIED[ZR]&&H.G.flags.YT_LIED[ZR].kexin));
   setT('2027-06-20',21); clr(); r3=await walk(ZR,'Y2S2',['先不說','是。']);
   check('2. 芷若第三問：有一次不是照實＝「……我沒辦法。」「我們先這樣就好。」，之後那一段還在的學期不發',seq(['……我沒辦法。','我們先這樣就好。'])&&!H.G.flags.dating_heroine_02&&X().blocked(H.G,ZR));
-  ROM.PARAMS.acceptsOpen[ZR]=false;
   fresh('2027-01-10',21,'campus',{dating_kexin:true}); H.CLOSE(ZR); learn(ZR,KX); await walk(ZR,'Y2S1',['先不說','我會跟她講']);
   check('2. 芷若「我會跟她講。」→「……好。」（她低頭看了一下手機，又放回口袋。）（AA_425）＝handle',seq(['……好。','（她低頭看了一下手機，又放回口袋。）'])&&H.G.flags.YT_PROMISED[ZR]==='handle:kexin');
   setT('2027-06-20',21); clr(); await walk(ZR,'Y2S2',['先不說']);

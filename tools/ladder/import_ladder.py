@@ -219,6 +219,34 @@ _fix('docs/story_planning/AA_375_', '語彤 Y4-L7、可昕 K4-L2、芷若 Z4-L4'
     ('第 11 項', 'Y2S2', 'kexin', 'K4-L2', 'week', [3, 16], [5, 16], '週次改**第 5 週起**'),
     ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'week', [3, 16], [3, 11], '第 11 週以後跳過（同子晴 Q4-L4）'),
     ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'skipAfterWeek', None, 11, '第 11 週以後跳過（同子晴 Q4-L4）')])
+#      AA_506（HEROINE-LIFE-1028；AA-C 10-28 ae50b8d5a 定稿）第 0 節第 1 點：子晴 Q4-L1 第二句「……然後手癢，加了第二關。」和 7/31「第二關做好了」撞——改「想把它做大」；
+#      第一個選項「第二關是什麼？」換成「做多大？」（第二個選項、extraIf、記號 ZQ4_SECOND_LEVEL 照舊，AA 03:23 回 LAWWW）
+_fix('docs/story_planning/AA_506_', '子晴 Q4-L1', [
+    ('第 0 節第 1 點', 'Y2S2', 'heroine_04', 'Q4-L1', 'lines', ['上學期期末交的那個小遊戲，寒假我又弄了一下。', '……然後手癢，加了第二關。'],
+     ['上學期期末交的那個小遊戲，寒假我又弄了一下。', '……然後手癢，想把它做大。'], '「……然後手癢，想把它做大。」'),
+    ('第 0 節第 1 點', 'Y2S2', 'heroine_04', 'Q4-L1', 'choices', [{'t': '「第二關是什麼？」', 'reply': '是第一關倒過來。我懶得想新的。'}, {'t': '「第一關好玩嗎？」', 'reply': '阿凱玩了二十次。他說好玩。他的話不能信，他很閒。'}],
+     [{'t': '「做多大？」', 'reply': '還不知道。先做到我自己想玩為止。'}, {'t': '「第一關好玩嗎？」', 'reply': '阿凱玩了二十次。他說好玩。他的話不能信，他很閒。'}], '她回「還不知道。先做到我自己想玩為止。」')])
+#      招呼（greet.when）的一個欄位：用句子 t 找那一筆，整個欄位相同才換；已經是新值就跳過，都不是＝停下來（同 _fix）
+def _fix_greet(prefix, label, patches):
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return
+    P, SHA = next(iter(A.items()))
+    ok, why = G.allowed(P, SHA, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
+    for item, term, cid, t, field, old, new, quote in patches:
+        if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        when = ((((out['byTerm'].get(term) or {}).get(cid) or {}).get('greet') or {}).get('when')) or []
+        e = next((x for x in when if x.get('t') == t), None)
+        if e is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 的招呼沒有「{t}」')
+        cur = e.get(field)
+        if cur == new: continue
+        if cur != old: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 招呼「{t}」的 {field} 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        e[field] = new
+    out['source'] += f'＋{os.path.basename(P)[:6]}@{SHA}（{label}）'
+#      AA_508（HEROINE-LIFE-1028；AA-C 10-28 31a4c4002 定稿）第 0-2 節第 2 點：學姊日本路線招呼「你先去。我的結果還沒出來。」第 1～5 週改第 1～3 週（第 4 週週三 3/15 她已經上了）
+_fix_greet('docs/story_planning/AA_508_', '學姊日本路線招呼週次', [
+    ('第 0-2 節第 2 點', 'Y3S2', 'heroine_05', '你先去。我的結果還沒出來。', 'week', [1, 5], [1, 3], '的週次從第 1～5 週改第 1～3 週')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

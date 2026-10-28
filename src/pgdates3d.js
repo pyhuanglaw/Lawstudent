@@ -51,7 +51,7 @@ const PGDATE=(function(){
     kxDefs=K.slots.map(s=>{ const call=!!(K.segs[s.seg]&&K.segs[s.seg].call), P=call?S.KX_CALL:S.KX_PLACES[(n++)%S.KX_PLACES.length];   /* 輪流：見面的格子照稿的順序（P4 電話不算）*/
       return Object.assign({who:'kexin',seg:s.seg,key:s.key,week:!!s.week,line:s.line,kind:call?'call':'meet',ev:'ev_kx_od_pg_'+s.key,hours:call?1:2},P); });
     return kxDefs; };
-  S.kxOn=G=>S.on(G)&&S.wants(G,'kexin')&&!!G.flags.KX_OUR_DAY&&typeof G.flags.KX_OUR_DAY==='object';   /* 第 3 節觸發：法律系、交往中、KX_OUR_DAY 有值 */
+  S.kxOn=G=>S.on(G)&&S.wants(G,'kexin')&&!!G.flags.KX_OUR_DAY&&typeof G.flags.KX_OUR_DAY==='object'&&!(typeof MREL!=='undefined'&&MREL.kxOdPaused&&MREL.kxOdPaused(G));   /* 第 3 節觸發：法律系、交往中、KX_OUR_DAY 有值；可昕收回以後回 B＝暫停（AA_474 第 3 節）*/
   /* 那一段整段不排：讀書小組有她的玩家沒有 P1（7/29 以前每週已經有兩三次視訊和讀書）；P3 要知道是星期幾 */
   S.kxSegOff=function(G,seg){ const sg=typeof PG!=='undefined'&&PG.studyGroup?PG.studyGroup(G):null; if(seg==='p1'&&(sg==='kexin'||sg==='three')) return true;
     if(seg==='p3'){ const OD=G.flags.KX_OUR_DAY; if(!OD||S.KX_DAY[OD.day]==null) return true; } return false; };

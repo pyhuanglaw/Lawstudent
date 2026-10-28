@@ -2,7 +2,7 @@
 // 使用者 2026-10-13 試玩：「沒事做的時間太長了」——AA：空的是下課以後；6-8 回答 LAWWW 問的四件事。
 // 檢查：日期、星期、週次（考試週、放假不辦）；萬才館多功能教室、研討室 A 的門口參加（還沒開始寫幾點、參加過寫參加過、平常照舊是門鎖著）；
 //   同一場社課只播一個：吉他社還沒認識子晴的第一次自動播 ev_ziqing_club 的初遇，之後播旁白；法服讀書會第一次播 ev_studygroup_wed 整段、之後旁白＋題庫兩三題（學姊問）；
-//   旁白同一學期照順序、每句最多一次，用完只顯示「社課結束了。」；週三晚上兩個只能選一個；博覽會（9/30、10/1 11:00–17:00）選社團就加入、已加入的寫已加入；
+//   旁白同一學期照順序、每句最多一次，用完只顯示「社課結束了。」；週三晚上兩個只能選一個；博覽會（舊局 9/30、10/1；新局 9/6，10:00–16:00，CLUBFAIR-REAL-1027）服務台的選單＝十五攤，能加入的填表就加入、已加入的寫已加入；
 //   系籃在球場（醉月湖東側，2026-10-14 從體育館門口搬過去）「去練球」→ 轉暗 → 19:00 → 旁白；子晴的作息只有第 5～7、10～16 週的週一、三 19–21 在萬才館；
 //   ev_ziqing_club 冷卻 7 天、「為什麼不去比賽？」整個存檔只出現一次（BB_95 2-6 改了選項文字）；ev_studygroup_wed 不會因為走進萬才館就自己開始（trigger 'activity'）。
 // 用法：node tests/clubs_aa110_unit.js
@@ -10,8 +10,8 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.P3={CAST:{}}; global.THREE={Vector3:function(){}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|COURSES|CLS|ACTIVITIES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/story3d.js','src/classes3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|COURSES|CLS|ACTIVITIES|CLUB_FAIR|CLUBFAIR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/social3d.js','src/events3d.js','src/story3d.js','src/classes3d.js','src/data/club_fair.js','src/clubfair3d.js']) load(f);   /* 博覽會的攤位（CLUBFAIR-REAL-1027）：classes3d.js 的 fairMenu 交給 clubfair3d.js */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
 /* 換掉會碰到 3D／ADV 的部分：人物事件、人物記憶、題庫只記下有沒有被叫到 */
@@ -33,7 +33,7 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   /* A：資料 */
   const g=A('club_guitar'), l=A('lawclub_study'), x=A('club_expo_y1s1'), b=A('dept_basketball');
   check('四筆都在、story:false：吉他社（萬才館多功能教室，門口）、法服讀書會（研討室 A，門口）、博覽會（椰林大道）、系籃（體育館門口）',!!(g&&l&&x&&b)&&[g,l,x,b].every(a=>a.story===false)&&g.zone==='wancai'&&g.room==='multi'&&g.door&&l.room==='seminarA'&&l.door&&x.zone==='campus'&&x.spot&&b.zone==='campus'&&b.spot);
-  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會 9/30、10/1 11–17；社團都在第 5～7、10～15 週（16 週制：第 16 週期末考，社課停，AA_197 1-1）',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-30","2025-10-01"]'&&x.t0===11&&x.t1===17&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
+  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會新局 9/6、舊局 9/30、10/1，10–16（CLUBFAIR-REAL-1027，AA_485 3-2）；社團都在第 5～7、10～15 週（16 週制：第 16 週期末考，社課停，AA_197 1-1）',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-06"]'&&JSON.stringify(x.datesOld)==='["2025-09-30","2025-10-01"]'&&x.t0===10&&x.t1===16&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
   check('旁白：吉他社 6、法服 5、辯論社 6、登山社 5、系籃 5 句（AA 6-8 (d) 的表），都沒有人物的名字',[[g,6],[l,5],[A('club_debate'),6],[A('club_hiking'),5],[b,5]].every(([a,n])=>(a.narr||[]).length===n)&&[g,l,b,A('club_debate'),A('club_hiking')].every(a=>a.narr.every(t=>!Object.values(CHARACTERS).some(c=>c.name&&t.includes(c.name)))));
   const mon5=dOf(5,1), wed5=dOf(5,3), tue5=dOf(5,2), mon4=dOf(4,1), mon8=dOf(8,1), fri5=dOf(5,5);
   const monOK=W.map(w=>dOf(w,1)).find(d=>d&&!CALENDAR.holiday(d)), wedOK=W.map(w=>dOf(w,3)).find(d=>d&&!CALENDAR.holiday(d)), friOK=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d));
@@ -79,15 +79,18 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   /* G：社團博覽會 */
   const e930=dayOf('2025-09-30');
   check('博覽會的集合點只在 9/30、10/1 的校園',(()=>{ fresh(e930,12); G.zone='campus'; const its=[]; CLS.addActSpots({E:{interactables:its},G},'campus'); const ok1=its.some(i=>i.actSpot==='club_expo_y1s1'&&i.label==='社團博覽會'); const its2=[]; G.day=e930+2; CLS.addActSpots({E:{interactables:its2},G},'campus'); return ok1&&!its2.some(i=>i.actSpot==='club_expo_y1s1'); })());
-  fresh(e930,10.5); await CLS.spotInteract(GM,x); check('10:30：「今天 11:00 開始」',!chose.length&&/今天 11:00 開始/.test(caps[0]||''),caps[0]);
-  fresh(e930,17.2); await CLS.spotInteract(GM,x); check('17:12：「今天的攤位收了」',/攤位收了/.test(caps[0]||''),caps[0]);
-  fresh(e930,12); answers=[0,0,1,5]; await CLS.spotInteract(GM,x);
-  check('12:00：選單列五個社團（吉他社、法服、辯論社、登山社、系籃）＋逛完了',chose[0]&&chose[0].length===6&&/吉他社/.test(chose[0][0])&&/法服/.test(chose[0][1])&&/辯論社/.test(chose[0][2])&&/登山社/.test(chose[0][3])&&/系籃/.test(chose[0][4])&&chose[0][5]==='逛完了',JSON.stringify(chose[0]));
-  check('選了就加入（CLUB_club_guitar）；再看一次寫「已加入」、再選一次說填過了；選法服＝離開選單、演法服攤位那一段（AA_218 17-3：學姊、寫報名表）（ev_sis_club_expo；加入法服由那一段記，這裡的 EVENTS.run 是替身）',G.flags.CLUB_club_guitar===true&&log.includes('〔事件 ev_sis_club_expo〕')&&/已加入/.test(chose[1][0])&&log.some(t=>/表你已經填過了/.test(t))&&chose.length===3&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose.map(c=>c[0]+'/'+c[1])));
+  /* 舊局（9/17 開始）照舊 9/30、10/1；新局 9/6（六）10:00～16:00、選單＝十五攤（CLUBFAIR-REAL-1027，AA_485 3-2、3-3；細節在 tests/clubfair_1027_unit.js）*/
+  fresh(e930,9.5); await CLS.spotInteract(GM,x); check('09:30：「今天 10:00 開始」（AA_485 3-2：10:00～16:00；原本 11:00～17:00）',!chose.length&&/今天 10:00 開始/.test(caps[0]||''),caps[0]);
+  fresh(e930,16.2); await CLS.spotInteract(GM,x); check('16:12：「今天的攤位收了」',/攤位收了/.test(caps[0]||''),caps[0]);
+  fresh(e930,12); answers=[1,0]; await CLS.spotInteract(GM,x);
+  check('12:00：服務台的選單列十五攤（能加入的五攤在前面）＋逛完了',chose[0]&&chose[0].length===16&&/法律服務社/.test(chose[0][0])&&/吉他社/.test(chose[0][1])&&/辯論社/.test(chose[0][2])&&/登山社/.test(chose[0][3])&&/系籃/.test(chose[0][4])&&chose[0][15]==='逛完了',JSON.stringify(chose[0]));
+  check('選吉他社＝那一攤：顧攤的人兩句 → 填表 → 加入（CLUB_club_guitar）；出席紀錄',G.flags.CLUB_club_guitar===true&&JSON.stringify(chose[1])===JSON.stringify(['填表','先不要'])&&log.includes('會不會彈都沒關係，我們從 C 和弦教起。')&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose));
+  chose=[]; log=[]; answers=[1]; await CLS.spotInteract(GM,x); check('再看一次：吉他社寫「已加入」、再選一次說填過了',/已加入/.test(chose[0][1])&&log.some(t=>/表你已經填過了/.test(t)),JSON.stringify([chose,log]));
+  chose=[]; log=[]; answers=[0]; G.zone='campus'; await CLS.spotInteract(GM,x); check('選法服＝演法服攤位那一段（AA_218 17-3：學姊、寫報名表）（ev_sis_club_expo；加入法服由那一段記，這裡的 EVENTS.run 是替身）',log.includes('〔事件 ev_sis_club_expo〕'),JSON.stringify(log));
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
-    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&iF===0&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
+    check('系籃：球場（醉月湖東側）「去練球：系籃練球」→ 沒去社博、第一次去＝「（你在場邊填了表。）」（AA_485 3-4；AA_491 C：系籃在球場、沒有門口）→ 沒有入座的句子、直接轉暗 → 19:00 → 旁白 → 社課結束了',(chose[0]||[])[0]==='去練球：系籃練球'&&log[0]==='（你在場邊填了表。）'&&iF===1&&iN>iF&&Math.abs(G.hour-19)<0.01&&caps[caps.length-1]==='社課結束了。'&&G.flags.CLUB_dept_basketball===true,JSON.stringify(log)); }
   /* I：事件的條件 */
   const ez=STORY_EVENTS.find(e=>e.id==='ev_ziqing_club'), es=STORY_EVENTS.find(e=>e.id==='ev_studygroup_wed');
   const why=ez.dialogue.find(d=>d.choice).choice.find(c=>/程式比賽/.test(c.text));

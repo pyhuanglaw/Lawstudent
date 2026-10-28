@@ -28,6 +28,7 @@ const ZRLAST_EVENTS=(function(){
   const X=()=>typeof ZRLAST!=='undefined'?ZRLAST:null;
   const ASKED={memory:[{npc:ZR,tag:'ASKED_HER_DRINK'}]};   /* 問過她喝什麼（Z3）*/
   const Y=t=>({speaker:'player',text:t}), A=ZRLAST_LINES.again, OK={custom:G=>{ const x=X(); return !!x&&x.againOk(G); }};   /* 第 10 節 A1：第 1 節第 3、5、6 點照當時算 */
+  const ZR_KNOWS={custom:G=>{ const x=X(); return !!x&&!!x.knowsOther&&x.knowsOther(G); }};   /* AA_474 3b：她知道祐廷正在和別人交往（MREL.knownOthers，沒有 OPEN_OK）*/
   return [
     /* ---------- 第 3、4 節：8/26（六）19:30 公館二輪戲院（2D 底圖 gongguan_cinema；散場的騎樓同一張底圖）---------- */
     { id:'ev_zhiruo_last_screening', title:'出國前的最後一場', participants:[ZR], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -50,6 +51,8 @@ const ZRLAST_EVENTS=(function(){
         Object.assign(N('（是她的點法。她在吧檯後面做給自己喝的那一杯。）'),{unless:ASKED}),   /* 沒問過的 */
         N('（你抬頭的時候，她看著騎樓外面，沒有看你。）'),
         Z('……一年。'),
+        {if:ZR_KNOWS,call:async(G,GM)=>{ const x=X(); if(x) await x.knowBefore(GM); }},   /* AA_474 3b：她知道祐廷正在和別人交往＝「我等妳回來。」之前先演她的知情對話（三問）；交往＝wait、其他＝keep */
+        {goto:'w',if:{custom:G=>(G.flags||{}).ZR_LAST_KNOW==='yes'}},{goto:'k',if:{custom:G=>{ const v=(G.flags||{}).ZR_LAST_KNOW; return !!v&&v!=='yes'; }}},
         {choice:[{text:'「我等妳回來。」',set:{ZR_LAST:'wait'},goto:'w'},{text:'「我先收著。」',set:{ZR_LAST:'keep'},goto:'k'}]},   /* 沒有「還沒」*/
         {label:'w'},N('（她轉過來，把口袋裡那一張票根拿出來，和你那張對在一起。）'),Z('一年。……你說的喔。'),{goto:'end'},   /* 交往（她 9/2 出發，直接開始遠距）：ZRLAST.result */
         {label:'k'},Z('好。……那就先收著。'),N('（她笑了一下，把自己那一張放回口袋。）'),   /* 朋友＝學期末心意邀約的「讓我想想」：ZRLAST.result */

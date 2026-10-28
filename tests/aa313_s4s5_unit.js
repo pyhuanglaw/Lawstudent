@@ -98,7 +98,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
     check('5-4. 社團博覽會吉他社 Alison：「欸{name}你負責發傳單！對了你會彈哪首？……三個和弦也行啦。」（不寫死「祐廷」、沒有「……好啦我知道」）',!!gt&&gt.text==='欸{name}你負責發傳單！對了你會彈哪首？……三個和弦也行啦。',gt&&gt.text); }
   // 大二初一：阿哲的「哥」照 ZHE_CALLS_GE（5-1 第 2 點）
   { const ny=D('2027-02-06'), NG='g:noodle_team', cny=(flags,k)=>{ fresh(ny,10.9,'home',flags); R('heroine_01','FAM'); R('yu','FAM'); PHONE.join(G,'noodle_team','麵店團'); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',k); return txt(NG).filter(t=>/太多菜|懂我/.test(t)); };
-    check('5-1 第 2 點. 大二初一：有 ZHE_CALLS_GE「哥，你家也太多菜！」「哥懂我。」；沒有的「你家也太多菜！」「懂我。」',J(cny({ZHE_CALLS_GE:true},0))===J(['哥，你家也太多菜！'])&&J(cny({ZHE_CALLS_GE:true},1))===J(['哥懂我。'])&&J(cny({},0))===J(['你家也太多菜！'])&&J(cny({},1))===J(['懂我。']),J([cny({ZHE_CALLS_GE:true},0),cny({},1)])); }
+    check('5-1 第 2 點. 大二初一：有 ZHE_CALLS_GE「哥，你家也太多菜！」「哥懂我」；沒有的「你家也太多菜！」「懂我」',J(cny({ZHE_CALLS_GE:true},0))===J(['哥，你家也太多菜！'])&&J(cny({ZHE_CALLS_GE:true},1))===J(['哥懂我'])&&J(cny({},0))===J(['你家也太多菜！'])&&J(cny({},1))===J(['懂我']),J([cny({ZHE_CALLS_GE:true},0),cny({},1)])); }
   // 大一的晚餐、練球、宵夜（5-1 第 3 點、5-3）
   { const zd=ev('ev_zhe_dinner'), zb=ev('ev_zhe_ball'), ms=ev('ev_midnight_snack');
     check('5-3. ev_zhe_dinner：只在大一上、只一次（原本四年天天同一句）',J(zd.term)===J(['Y1S1'])&&zd.once===true,J([zd.term,zd.once]));

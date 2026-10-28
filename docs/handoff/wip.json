@@ -760,7 +760,7 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "branch": "aopen-1027 第二輪（wip_backup/aopen_r2_1027.bundle）",
-   "sha": "f642d440f",
+   "sha": "6c65b866f、f642d440f",
    "files": [
     "wip_backup/aopen_r2_1027.bundle"
    ],
@@ -792,7 +792,7 @@
    "role": "LAWWW",
    "task": "JP-AIR-RESUME-1027",
    "branch": "x58-e08-1027 第四輪（wip_backup/x58_jpresume_1027.bundle）",
-   "sha": "673e13527",
+   "sha": "6c65b866f、673e13527",
    "files": [
     "wip_backup/x58_jpresume_1027.bundle"
    ],
@@ -860,7 +860,7 @@
    "role": "LAWWW",
    "task": "CLUBFAIR-REAL-1027",
    "branch": "y1fb-1027（wip_backup/y1fb_1027.bundle）",
-   "sha": "6c65b866f",
+   "sha": "5cf5f5cd6、6c65b866f",
    "files": [
     "wip_backup/y1fb_1027.bundle"
    ],
@@ -876,16 +876,170 @@
    "role": "LAWWW",
    "task": "HOME-PROMISE-1027",
    "branch": "homepromise-1027（wip_backup/homepromise_1027.bundle）",
-   "sha": "d874aa740",
+   "sha": "5cf5f5cd6、d874aa740",
    "files": [
     "wip_backup/homepromise_1027.bundle"
    ],
-   "state": "已取消",
+   "state": "取消",
    "remaining": "答應媽媽回家（AA_488 961a3a8a0）：記約定、週末提醒、撞約三選一、沒回去的反應；子代理做中，前提 d874aa740（還沒有新 commit 時 bundle 不存在）",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
    "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488",
    "closedBy": "子代理被使用者停掉（2026-10-27 21:3x），只有開工檢查點 5ec254b3a（沒有修改，bundle wip_backup/homepromise_1027.bundle 留著）；HOME-PROMISE-1027 改 LAWWW 自己做"
+  },
+  {
+   "id": "WIP-LAWWW-CROWD-1028",
+   "role": "LAWWW",
+   "task": "CROWD-DEPTS-1028",
+   "branch": "worktree-agent-a4a4118e152011f58（子代理 worktree；D113 備份 wip_backup/crowd_depts_1028.bundle）",
+   "sha": "b4884f1da",
+   "files": [
+    "src/crowd3d.js",
+    "tests/crowd_depts_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "AA_495 路人分科系接進遊戲（子代理做中，基準 095cf15ae）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 00:5x（X120）",
+   "closedBy": "eeedfcace"
+  },
+  {
+   "id": "WIP-LAWWW-AA496-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "branch": "worktree-agent-a33958931414f6a65（子代理 worktree；D113 備份 wip_backup/aa496_fixes_1028.bundle）",
+   "sha": "838d78c29",
+   "files": [
+    "tests/aa496_fixes_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "AA_496 第 9 節第 1～4、6 點（子代理做中；開工時基準誤在 main，已請它快轉到開發分支 095cf15ae）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28（X119）",
+   "closedBy": "bfe8dfad6"
+  },
+  {
+   "id": "WIP-LAWWW-HASK-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-ASKS-1028",
+   "branch": "hask-1028（本機分支；wip_backup/hask_1028.bundle）",
+   "sha": "23a57d326、32024ec13",
+   "files": [
+    "src/heroine_asks3d.js",
+    "src/data/heroine_asks.js",
+    "src/invites3d.js",
+    "src/phone3d.js",
+    "src/game3d.js",
+    "src/date3d.js",
+    "index.html",
+    "tests/heroine_asks_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "她們主動約你（AA_494）：tests/heroine_asks_unit.js 23 項 ALL PASS（修改前第 0 項 FAIL）；全部 Node 測試在跑（hask worktree），過了就合進開發分支",
+   "next": "tests/heroine_asks_unit.js 結果→修→相關測試（invites、date、phone、termend…）→合併；bundle 每 15～20 分鐘更新（D113）",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 00:0x（X118★）",
+   "closedBy": "23a57d326"
+  },
+  {
+   "id": "WIP-LAWWW-DORM203-1028",
+   "role": "LAWWW",
+   "task": "DORM203-MATES-1028",
+   "branch": "worktree-agent-a5cfdbee05c9d4a53（子代理 worktree；D113 備份 wip_backup/dorm203_1028.bundle）",
+   "sha": "a1f0566c6、3b1a96854",
+   "files": [
+    "wip_backup/dorm203_1028.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "AA_502 203 室友日常（作息、閒聊、六件小事、群組）；子代理做中，開工要先快轉到開發分支",
+   "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 3b1a96854，子代理另有 story3d.js、dorm203_lines.js 未 commit，已提醒 commit）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:3x（X123）",
+   "closedBy": "f26164cea（合併 276474dea）"
+  },
+  {
+   "id": "WIP-LAWWW-FEED-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-LIFE-1028",
+   "branch": "worktree-agent-a6a20749aede20b50（子代理 worktree；D113 備份 wip_backup/feed_1028.bundle）",
+   "sha": "a1f0566c6、12ea31123",
+   "files": [
+    "wip_backup/feed_1028.bundle"
+   ],
+   "state": "已整合",
+   "remaining": "AA_503 手機的部分：動態頁、七位大一上的動態、講自己的事的私訊、可昕四則改動態（子代理做中）；3D 圈子、別人說起她另外做",
+   "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 12ea31123）；AA 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉給子代理；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:2x（X122★）",
+   "closedBy": "481c039c7（合併 a962ff0a6）"
+  },
+  {
+   "id": "WIP-LAWWW-POOL498-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "branch": "worktree-agent-af513e95a1675ca1c（子代理 worktree；D113 備份 wip_backup/pool498_1028.bundle）",
+   "sha": "04abd01ef、f5dddfb4e",
+   "files": [
+    "wip_backup/pool498_1028.bundle"
+   ],
+   "state": "WIP",
+   "remaining": "AA_498 法律系同學二十位：改名六位＋借車名單兩個、共同做法 2-1～2-10、二十位地點表（修三位永遠不出現）、第一批五位（曾靖雯、黃郁婷、林采潔、鄭元碩、邱家齊）；子代理 02:3x 開工",
+   "next": "bundle 04:1x 更新到 e21e3f37c（正式 commit，子代理收尾中）；做完跑相關 Node 再合；之後 AA_499～501、AA_497",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28（X119：「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）"
+  },
+  {
+   "id": "WIP-LAWWW-FEED2-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-LIFE-1028",
+   "branch": "worktree-agent-a6a20749aede20b50（子代理第二輪；D113 備份 wip_backup/feed2_1028.bundle）",
+   "sha": "481c039c7",
+   "files": [
+    "src/feed3d.js",
+    "src/data/feed_y1s1.js"
+   ],
+   "state": "已整合",
+   "remaining": "AA_504（62849944b）、AA_505（e05e87992）的動態和私訊、兩份第 0 節和手機有關的先修、AA_503～505 的「別人說起她」（Kevin 12/15 群組、予樂私訊、203 阿凱那一句；pool 同學那幾句等 AA_498）；3D 圈子不在這一輪",
+   "next": "bundle 03:4x 更新到 d32d33183（AA_504／505 資料、別人說起她、新測試）；每 15～20 分鐘更新（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:2x（X122★）",
+   "closedBy": "1ac24cb11（合併 d3ace2663）"
+  },
+  {
+   "id": "WIP-LAWWW-DORM203B-1028",
+   "role": "LAWWW",
+   "task": "DORM203-MATES-1028",
+   "branch": "worktree-agent-a5cfdbee05c9d4a53（子代理第二輪；D113 備份 wip_backup/dorm203b_1028.bundle）",
+   "sha": "f26164cea",
+   "files": [
+    "src/dorm203_3d.js",
+    "src/data/dorm203_lines.js",
+    "tests/aa502_dorm203_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "AA_502 第 6 節（d13ab3ab7）：3-6 新句、群組改名移到 9/6、3-2 柏翰那句、3-5 柏翰拿掉、ev_dorm_late_kai 23:30 以後看誰在床上、ev_kai_late_screen 那一晚 03:30、朋友頁阿凱的位置",
+   "next": "子代理 03:1x 開工；每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:3x（X123）；AA 03:10 回覆",
+   "closedBy": "e80d21f6b（合併 6c1f46220）"
+  },
+  {
+   "id": "WIP-LAWWW-FEED3-1028",
+   "role": "LAWWW",
+   "task": "HEROINE-LIFE-1028",
+   "branch": "worktree-agent-a6a20749aede20b50（子代理第三輪；D113 備份 wip_backup/feed3_1028.bundle）",
+   "sha": "1ac24cb11",
+   "files": [
+    "src/feed3d.js",
+    "src/heard3d.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_506、AA_507（e4fbd0192）的動態、私訊、別人說起她；AA_505 e4fbd0192 的更正；3D 不在這一輪",
+   "next": "bundle 04:1x 更新到 1a134d6df（第三輪開工＋AA 795fbecfd 回饋）；每 15～20 分鐘更新（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 01:2x（X122★）"
   }
  ]
 }

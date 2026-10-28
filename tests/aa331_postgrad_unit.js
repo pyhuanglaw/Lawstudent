@@ -25,9 +25,9 @@ const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
     const N=PG.noodle2030Lines(G).map(x=>x[1]); check('麵店：和可昕交往中，最後多「（可昕最後到，外套還沒脫。）」「我在事務所就查了。……這次也先查了你的。」',N[N.length-2]==='（可昕最後到，外套還沒脫。）'&&N[N.length-1]==='我在事務所就查了。……這次也先查了你的。',JSON.stringify(N)); }
   // 17:00 私訊、2029 已考上的沒有
   { const G=H.fresh('2030-07-11',17.1,'dorm',{EXCHANGE_ROUTE:'JP',BAR_REG_2030:true}); graduated(G); H.tick();
-    check('7/11 17:00 阿哲私訊「今天滷味我帶。」（私訊，不是群組）',H.msgs('p:zhe').includes('今天滷味我帶。')&&!H.msgs('g:noodle_team').includes('今天滷味我帶。'),JSON.stringify(H.msgs('p:zhe')));
+    check('7/11 17:00 阿哲私訊「今天滷味我帶」（私訊，不是群組）',H.msgs('p:zhe').includes('今天滷味我帶')&&!H.msgs('g:noodle_team').includes('今天滷味我帶'),JSON.stringify(H.msgs('p:zhe')));
     const G2=H.fresh('2030-07-11',17.1,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:15,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029}); graduated(G2); H.tick();
-    check('2029 已經考上：沒有 2030 的 B1、沒有阿哲私訊',PG.sits(G2,2030)===false&&!H.msgs('p:zhe').includes('今天滷味我帶。')); }
+    check('2029 已經考上：沒有 2030 的 B1、沒有阿哲私訊',PG.sits(G2,2030)===false&&!H.msgs('p:zhe').includes('今天滷味我帶')); }
   // B1 2030 step runs
   { const G=H.fresh('2030-07-11',20,'dorm',{EXCHANGE_ROUTE:'JP',BAR_REG_2030:true}); graduated(G); H.said=[]; await H.run('b1_2030');
     check('7/11 20:00 B1 那一段真的演（字卡「總圖 B1」、背景 ntu_lib_b1）',H.has('（總圖 B1。長桌只坐了一半，考古題疊得一樣高。）')&&H.cards.some(c=>c[1]==='總圖 B1')); }

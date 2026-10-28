@@ -68,7 +68,7 @@ const PHONE=(function(){
   S.UNREAD_DAYS=14;
   S.threads=function(G,o){ const P=S.rec(G); const by=new Map(), old=G.day!=null?abs(G.day,G.hour||0)-S.UNREAD_DAYS*24:-1e9;   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/
     for(const m of G.msgs){ const th=S.th(m); if(th==='sys'&&!(o&&o.sys)) continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
-      if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&abs(m.day,m.h)>old&&!m.pin) r.unread++; if(m.ask&&m.ans==null) r.pending++; }
+      if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&abs(m.day,m.h)>old&&!m.pin) r.unread++; if(S.askOpen(G,m)) r.pending++; }   /* 待回覆＝還回得了的（askOpen：沒回、沒過期、群組次數沒用完）。原本只看「有 ask、沒回」：過期的（例：週四家人群組 22:00 過了，爸爸「？」）一直掛著「待回覆」、點進去沒有選項（使用者 10-28 01:1x，PHONE-PENDING-STALE-1028）*/
     return [...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); };
   S.thread=(G,th)=>{ S.rec(G); return G.msgs.filter(m=>S.th(m)===th); };
   S.markSeen=function(G,th){ const P=S.rec(G); const L=S.thread(G,th); if(L.length){ const m=L[L.length-1]; P.seen[th]=abs(m.day,m.h); } };

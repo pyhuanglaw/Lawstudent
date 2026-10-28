@@ -3,6 +3,7 @@
 //       起床的目標導航指到「看看共同 101 教室」（館裡找得到這個互動點）；
 //       上課時 101 坐了一部分同學（位子照課程與日期固定，再算一次一樣；坐在那一排的高度）、102 沒有；下課後同學離開；
 //       校園上共同教學館的門：課在館內的教室 → 按門就進館（不上門口的 2D 課），提示教室在哪。
+// AA_489 第 3 節（8f3d4d2f9）：提早坐下、轉暗時多一句「（你在座位上等。教室慢慢坐滿了。）」（同學在這句以後坐好）——「上課時」從這句以後的第一句算。
 // 用法：node tests/teach_class_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -48,7 +49,7 @@ const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102')
     E.npcs=[]; G2.hour=9.2; CLS.syncRooms(GM2); G2.hour=12.4; CLS.syncRooms(GM2); check('跳過時間（不是坐著上完課）：照舊直接移除，不從遠處走回來',!E.npcs.length,E.npcs.length+' 人'); }
   /* 提早坐下上課（2026-10-18 BB-C：經濟系共同教學館的課整堂只有祐廷一個人）：開始前 30 分鐘就能坐下、課馬上開始，同學 10 分鐘前才陸續進來。
      修改前：08:42 坐下，上課的對話裡 0 個同學 */
-  { E.npcs=[]; const G3=mkG(8.7); let seen=null; const GM3={G:G3,E,say:async()=>{ if(seen==null) seen=E.npcs.filter(n=>n.clsStudent).length; },choose:async()=>0,fade:async()=>{},advance:h=>{ G3.hour+=h; },energy(){},caption(){},sceneBegin(){},sceneEnd(){},autosave(){},setGoal(){},toast(){}};
+  { E.npcs=[]; const G3=mkG(8.7); let seen=null; const GM3={G:G3,E,say:async(w,t)=>{ if(seen==null&&!/教室慢慢坐滿了/.test(t||'')) seen=E.npcs.filter(n=>n.clsStudent).length; },choose:async()=>0,fade:async()=>{},advance:h=>{ G3.hour+=h; },energy(){},caption(){},sceneBegin(){},sceneEnd(){},autosave(){},setGoal(){},toast(){}};
     CLS.syncRooms(GM3); const n0=E.npcs.filter(n=>n.clsStudent).length; const it=CLS.dayItems(G3).find(q=>q.c.id==='chinese_y1');
     await CLS.attend(GM3,it,{inScene:true}); check('08:42（開始前 28 分鐘）坐下上大一國文：上課的時候同學都坐好了（不是只有祐廷一個人）',n0===0&&seen>=5,`坐下時 ${n0} 人、上課時 ${seen} 人`); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

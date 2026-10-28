@@ -359,7 +359,7 @@ const K=t=>'kexin:'+t;
   await go('y2r2_3on3',8.5); check('16. 三對三逐字；MX_3ON3 went',has('（早上九點。三對三：阿哲、明軒、你一隊。）')&&has('你真的起來了。')&&has('八月我回彰化一週。其他時間都在家教。有球就叫我。')&&G.flags.MX_3ON3==='went');
   fresh('2027-05-31',21.5,'dorm_hall'); R('classmate_mingxuan','FRI'); date('heroine_01'); ROM.learn(G,'classmate_mingxuan','heroine_01','test'); await play('ev_mx_m2_walk'); run('2027-06-11',20.75,21.25); miss('y2r2_3on3'); run('2027-06-12',11.75,12.25);
   check('16. 三對三沒去：6/12 12:00 阿哲三則',JSON.stringify(txt('p:zhe').slice(-3))===JSON.stringify(['zhe:三對三我們兩個打對面三個','zhe:輸了','zhe:你欠我們一次'])&&G.flags.MX_3ON3==='missed',JSON.stringify(txt('p:zhe')));
-  fresh('2027-05-26',21,'dorm'); R('zhe','FRI'); R('classmate_mingxuan','FAM'); run('2027-05-26',21.75,22.25); check('16. 和明軒不熟、阿哲朋友以上：5/26 22:00 阿哲「明軒最近怪怪的。……」、MX_HEARD',txt('p:zhe').slice(-1)[0]==='zhe:明軒最近怪怪的。你不要問，問了他會請你吃東西。'&&G.flags.MX_HEARD===true);
+  fresh('2027-05-26',21,'dorm'); R('zhe','FRI'); R('classmate_mingxuan','FAM'); run('2027-05-26',21.75,22.25); check('16. 和明軒不熟、阿哲朋友以上：5/26 22:00 阿哲「明軒最近怪怪的。……」、MX_HEARD',txt('p:zhe').slice(-1)[0]==='zhe:明軒最近怪怪的 你不要問，問了他會請你吃東西'&&G.flags.MX_HEARD===true);
 
   // 17. 2-Y2-19 子晴 Q9
   { const a=ACTIVITIES.list.find(x=>x.id==='guitar_show_y2s2'); check('17. 活動 guitar_show_y2s2：5/28（五）19:00 萬才館、事件 ev_ziqing_show2',!!a&&a.event==='ev_ziqing_show2'&&a.zone==='wancai'&&ACTIVITIES.on(a,D('2027-05-28'),{flags:{}})&&!ACTIVITIES.on(a,D('2027-05-26'),{flags:{}})); }
@@ -381,7 +381,7 @@ const K=t=>'kexin:'+t;
 
   // 18. 2-Y2-20 系籃
   fresh('2027-05-28',20,'dorm',{met_yu:true,Y2_BALL_SEEN:true}); PHONE.join(G,'noodle_team','麵店團'); run('2027-05-28',20.75,21.25);
-  check('18. 5/28 21:00 麵店團群組：阿哲邀約 → 5/29 14:00 新體育館',txt('g:noodle_team').slice(-1)[0]==='zhe:明天下午兩點，系籃，新體育館。這學期最後一場。'&&(q=>!!q&&q.day===D('2027-05-29')&&q.h===14)(OUT.get(G,'y2r2_ball')));
+  check('18. 5/28 21:00 麵店團群組：阿哲邀約 → 5/29 14:00 新體育館',txt('g:noodle_team').slice(-1)[0]==='zhe:明天下午兩點，系籃，新體育館 這學期最後一場'&&(q=>!!q&&q.day===D('2027-05-29')&&q.h===14)(OUT.get(G,'y2r2_ball')));
   await go('y2r2_ball',13.5); picks=[];
   check('18. B1 看過大二上、認識 Alison：「17 號，可以犯規一次。」；結尾阿哲和 Alison 兩句；WATCHED_GAME_Y2B、Y2B_BALL_SEEN',has('（Alison 的加油板換了一面：「17 號，可以犯規一次。」）')&&has('妳的板子寫錯字了。')&&has('那是故意的。')&&SOCIAL.has('zhe','WATCHED_GAME_Y2B')&&G.flags.Y2B_BALL_SEEN===true);
   fresh('2027-05-28',20,'dorm'); run('2027-05-28',20.75,21.25); miss('y2r2_ball'); run('2027-05-29',21.25,21.75);

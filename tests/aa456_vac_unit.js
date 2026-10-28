@@ -43,6 +43,7 @@ const X15=[]; { let cur=null; for(const r of rows(part('### 1-5','### 1-6'))){ i
   X15.push({who:cur,term:'Y'+YN[m[1]]+(m[2]==='上'?'S1':'S2'),line:orig(r[2]),orig:ORIG.test(r[2])}); } }
 const X16=[]; for(const r of rows(part('### 1-6','## 2.'))) if(/^\d$/.test(r[0])) X16[+r[0]-1]=cut(r[1]);
 const OLD11='宿委會今年也開頂樓。訪客一樓登記，十二點半前要走。';
+const ZP=t=>t.replace(/。(?=……)/g,'').replace(/。$/,'').replace(/。/g,' ');   /* AA_477 第 3 節：阿哲的手機訊息不加句號（口氣表 2-1）——稿（AA_456）的字照 AA_477 的規則轉成遊戲裡的字：結尾的句號拿掉、中間的換一個空格、接「……」的直接接上 */
 
 (async()=>{
 /* ---- 0 ---- */
@@ -61,14 +62,14 @@ await sec('1-1',()=>{
   for(const y of [1,2,3,4]) for(const g of [true,false]){ fresh(Y[y].day,20.9); meet('zhe','yu','classmate_bohan','classmate_xinci'); H.FAMILIAR('zhe'); if(g) grp(); run(20.9,21.3);
     const th=g?'g:noodle_team':'p:zhe', z=byTag(Y[y].tag).filter(m=>m.from==='zhe'&&m.th===th).map(m=>m.text); got[y+(g?'g':'p')]=z; all[y+(g?'g':'p')]=(H.G.msgs||[]).map(m=>m.text); }
   const has=(k,t)=>(got[k]||[]).includes(t);
-  check('1-1. 大一 12/26 21:00（群組、私訊）：阿哲「'+X11[1]+'」（稿：大一那一年說「今年也」怪）；tag nye_y1_ask',has('1g',X11[1])&&has('1p',X11[1]),J({g:got['1g'],p:got['1p']}));
-  check('1-1. 大二 12/31 21:00（群組、私訊）：原句「'+OLD11+'」；tag nye_y2_ask',has('2g',OLD11)&&has('2p',OLD11),J({g:got['2g'],p:got['2p']}));
-  check('1-1. 大三 12/31 21:00（群組、私訊）：「'+X11[3]+'」；tag nye_y3_ask',has('3g',X11[3])&&has('3p',X11[3]),J({g:got['3g'],p:got['3p']}));
-  check('1-1. 大四 12/31 21:00（群組、私訊）：「'+X11[4]+'」；tag nye_y4_ask',has('4g',X11[4])&&has('4p',X11[4]),J({g:got['4g'],p:got['4p']}));
-  const leak=Object.keys(all).filter(k=>!/^2/.test(k)&&all[k].includes(OLD11));
+  check('1-1. 大一 12/26 21:00（群組、私訊）：阿哲「'+X11[1]+'」（稿：大一那一年說「今年也」怪）；tag nye_y1_ask',has('1g',ZP(X11[1]))&&has('1p',ZP(X11[1])),J({g:got['1g'],p:got['1p']}));
+  check('1-1. 大二 12/31 21:00（群組、私訊）：原句「'+OLD11+'」；tag nye_y2_ask',has('2g',ZP(OLD11))&&has('2p',ZP(OLD11)),J({g:got['2g'],p:got['2p']}));
+  check('1-1. 大三 12/31 21:00（群組、私訊）：「'+X11[3]+'」；tag nye_y3_ask',has('3g',ZP(X11[3]))&&has('3p',ZP(X11[3])),J({g:got['3g'],p:got['3p']}));
+  check('1-1. 大四 12/31 21:00（群組、私訊）：「'+X11[4]+'」；tag nye_y4_ask',has('4g',ZP(X11[4]))&&has('4p',ZP(X11[4])),J({g:got['4g'],p:got['4p']}));
+  const leak=Object.keys(all).filter(k=>!/^2/.test(k)&&all[k].includes(ZP(OLD11)));
   check('1-1. 原句只留在大二（大一、大三、大四的群組、私訊都沒有「宿委會今年也開頂樓…」）',!leak.length,J(leak));
   fresh(Y[3].day,21.2); meet('zhe'); H.FAMILIAR('zhe'); grp(); oldMsg('nye_y3_ask','g:noodle_team','zhe',OLD11,D(Y[3].day),21); run(21.2,21.6);
-  check('1-1. 舊存檔大三那一則已經收過（舊的字）：不重發、沒有新的那一句',byTag('nye_y3_ask').length===1&&!(H.G.msgs||[]).some(m=>m.text===X11[3]),J(tx('nye_y3_ask')));
+  check('1-1. 舊存檔大三那一則已經收過（舊的字）：不重發、沒有新的那一句',byTag('nye_y3_ask').length===1&&!(H.G.msgs||[]).some(m=>m.text===ZP(X11[3])),J(tx('nye_y3_ask')));
 });
 /* ---- 1-2 麵店過年店休 ---- */
 await sec('1-2',()=>{

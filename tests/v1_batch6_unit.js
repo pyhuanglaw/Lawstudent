@@ -56,7 +56,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 記下哪一天（noodleTableDay）、只一次',G.flags.noodleTableDay===W4THU&&!EVENTS.check(e));
     /* 麵店團群組 */
     run(18.2,20); const gm=G.msgs.filter(m=>m.th==='g:noodle_team');
-    check('A9 之後：加入「麵店團」群組，一則系統訊息（阿哲建立了群組），哲 1 那天沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='麵店團'&&gm.length===1&&gm[0].text==='阿哲建立了群組「麵店團」，把你加了進來。'&&!gm[0].from,JSON.stringify(gm.map(m=>m.text)));
+    check('A9 之後：加入「麵店團」群組，一則系統訊息（阿哲建立了群組）＋阿哲兩則「以後週二週四 麵店長桌」「有空就來 沒空不用講」（NOODLE-TEAM-WHY-1027，AA_486 1-3），哲 1 那天沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='麵店團'&&gm.length===3&&gm[0].text==='阿哲建立了群組「麵店團」，把你加了進來。'&&!gm[0].from&&gm[1].from==='zhe'&&gm[1].text==='以後週二週四 麵店長桌'&&gm[2].from==='zhe'&&gm[2].text==='有空就來 沒空不用講'&&!gm.some(m=>m.tag&&m.tag.startsWith('rt_zhe_ndl_')),JSON.stringify(gm.map(m=>m.text)));
     const pings=[]; let day=W4THU+1;
     for(;day<=W4THU+14;day++){ keepOn(day,7.5,'campus'); run(7.5,23.5,0.1); }
     const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/

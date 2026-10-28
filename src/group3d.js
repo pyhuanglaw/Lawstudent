@@ -5,7 +5,7 @@
    1C-02 中秋＝以安的生日：2027-09-14 21:00 阿哲在群組、9/15 18:00 公館的河濱；沒去＝以安的照片兩則
    1C-03 寄到英國的那一箱：2027-12-25 21:00 阿哲在群組（兩則）、12/26 18:30 麵店；沒去＝22:00 群組照片、XMAS_Y3_BOX 'missed'；
          這學期接了阿哲的期末飯（TERMEND）＝這一場就算那一頓（AA_180）
-   1C-04 2028-04-28 21:00 群組「明天晚上七點，冠軍賽。來喊。」；23:00 哲 4（和阿哲 FRIEND 以上）：在宿舍＝回「（下樓）」十分鐘後宿舍樓下的便利商店外、
+   1C-04 2028-04-28 21:00 群組「明天晚上七點，冠軍賽 來喊」；23:00 哲 4（和阿哲 FRIEND 以上）：在宿舍＝回「（下樓）」十分鐘後宿舍樓下的便利商店外、
          在臺北的外面＝回「我在外面。二十分鐘回宿舍。」二十分鐘後同一個地方（AA_336 C10）、在家＝回「我在家。」視訊、人不在臺北、日本路線＝視訊；不回＝沒有。
          4/29 19:00 冠軍賽（日本路線＝直播 FINAL_GAME_Y3 'stream'＋一句旁白（AA_336 C11），賽後明軒傳訊息）；沒去＝21:30 群組照片
    1C-05 2028-06-02 21:00 子晴私訊（台灣、美國路線；和她 FRIEND 以上；交往中四句）；回「去。」＝6/3 09:00～11:00 椰林大道；沒去上午＝12:30 自拍三則；
@@ -95,7 +95,7 @@ const GROUP=(function(){
   /* 知道她生日（AA_336 C9：三種有一種就算）：她的閒聊階梯 AN5_BIRTHDAY、交往中、2026 年傳過她生日快樂（MSG.rec(G).bday['heroine_01:2026']，src/msg3d.js 傳 bday 時記）*/
   S.knowsAnBday=G=>(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','AN5_BIRTHDAY'))||dating(G,'heroine_01')||(typeof MSG!=='undefined'&&!!MSG.rec&&MSG.rec(G).bday['heroine_01:2026']!=null);
   S.midautumnPhone=function(G){ const di=DK(MA.inv), d=DK(MA.d); if(di==null||!grp(G)||G.day<di||G.day>d) return; if(T(G.day,G.hour)<T(di,21)) return;
-    PHONE.at(G,di,atH(G,di,21),[Z('明天中秋，河濱，六點。')],'y3_midautumn_ask');
+    PHONE.at(G,di,atH(G,di,21),[Z('明天中秋，河濱，六點')],'y3_midautumn_ask');
     if(!outGet(G,'y3_midautumn')&&(G.day<d||G.hour<18.25)) plan(G,{id:'y3_midautumn',ev:'ev_midautumn_y3',day:d,h:18,late:0.25,place:'公館的河濱',title:'中秋（河濱）',travel:'走過去約 15 分鐘',travelH:0.25}); };
   S.midautumnPhoto=G=>{ const d=DK(MA.d), A=msg(NG,'heroine_01'); if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[A('（照片：柚子上插著蠟燭）'),A('謝謝。柚子也可以。')],'y3_midautumn_photo'); };
 
@@ -117,13 +117,13 @@ const GROUP=(function(){
   S.planFinal=G=>{ const g=DK(FG.g); if(g==null||inJP(G,g)||outGet(G,'y3_final')||!(G.day<g||(G.day===g&&G.hour<19.25))) return false;
     return plan(G,{id:'y3_final',ev:'ev_final_game_y3',day:g,h:19,late:0.25,place:'新體育館',title:'系籃冠軍賽',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.finalPhone=function(G){ const F=G.flags, {d,g}=S.finalDays(); if(d==null||G.day<d||G.day>g+1) return; const now=T(G.day,G.hour), jp=inJP(G,g);
-    if(grp(G)&&G.day<=g&&now>=T(d,tw(G,d,21))){ PHONE.at(G,d,atH(G,d,tw(G,d,21)),[Z('明天晚上七點，冠軍賽。來喊。')],'y3_final_ask'); S.planFinal(G); }
+    if(grp(G)&&G.day<=g&&now>=T(d,tw(G,d,21))){ PHONE.at(G,d,atH(G,d,tw(G,d,21)),[Z('明天晚上七點，冠軍賽 來喊')],'y3_final_ask'); S.planFinal(G); }
     /* 23:00 哲 4（AA_40；AA_324 第 6 節：ask 下樓／我在家／不回）：日本路線＝阿哲打視訊（台灣 23:00＝日本 0:00）*/
     if((jp?(now>=T(d,24)&&now<T(d,26)):(G.day===d&&now>=T(d,23)))&&F.ZHE4_ASKED==null&&met(G,'zhe','FRIEND')){ F.ZHE4_ASKED=d; const away=!jp&&S.awayFromTaipei(G);   /* 日本路線：台灣 23:00＝日本 0:00（AA_341 J-S13）*/
       if(jp||away){ F.ZHE4_REPLY=jp?'jp':'away'; plan(G,{id:'y3_zhe4',ev:'ev_zhe_said_it',day:d,h:Math.max(jp?24:23,now-T(d,0)),late:1,place:'視訊',title:'阿哲的視訊',verb:'接起來',must:true,travel:'',travelH:0,back:'視訊結束。'}); }   /* 人不在臺北＝在家的視訊版（AA_336 C10）；祐廷這時候不回話，照日本路線：阿哲直接打視訊（AA_355 第 2 節：AA 看過、照用）*/
       else { const home=atHome(G), dorm=['dorm','dorm_hall'].includes(G.zone);
-        const opts=home?[{t:'我在家。',set:{ZHE4_REPLY:'home'}}]:dorm?[{t:'（下樓）',post:false,set:{ZHE4_REPLY:'down'}}]:[{t:'我在外面。二十分鐘回宿舍。',set:{ZHE4_REPLY:'out'},say:[{from:'zhe',text:'好。我在樓下。'}]}];   /* 不在宿舍、也不在家（在臺北的外面，AA_336 C10）*/
-        PHONE.at(G,d,atH(G,d,23),[{th:'p:zhe',from:'zhe',text:'你在宿舍嗎。',ask:{id:'y3_zhe4',until:T(d,24),opts}}],'y3_zhe4'); } }
+        const opts=home?[{t:'我在家。',set:{ZHE4_REPLY:'home'}}]:dorm?[{t:'（下樓）',post:false,set:{ZHE4_REPLY:'down'}}]:[{t:'我在外面。二十分鐘回宿舍。',set:{ZHE4_REPLY:'out'},say:[{from:'zhe',text:'好 我在樓下'}]}];   /* 不在宿舍、也不在家（在臺北的外面，AA_336 C10）*/
+        PHONE.at(G,d,atH(G,d,23),[{th:'p:zhe',from:'zhe',text:'你在宿舍嗎',ask:{id:'y3_zhe4',until:T(d,24),opts}}],'y3_zhe4'); } }
     if(['down','home','out'].includes(F.ZHE4_REPLY)&&!outGet(G,'y3_zhe4')&&now<T(d,24.5)){ const R=F.ZHE4_REPLY;
       plan(G,R==='down'?{id:'y3_zhe4',ev:'ev_zhe_said_it',day:G.day,h:G.hour+1/6,late:0.5,place:'宿舍樓下的便利商店外',title:'阿哲（宿舍樓下）',must:true,travel:'走下樓',travelH:1/6,back:'回到房間。'}
              :R==='out'?{id:'y3_zhe4',ev:'ev_zhe_said_it',day:G.day,h:G.hour+1/3,late:0.5,place:'宿舍樓下的便利商店外',title:'阿哲（宿舍樓下）',must:true,travel:'走回宿舍 約 20 分鐘',travelH:1/3,back:'回到房間。'}   /* 二十分鐘後（回的時間 23:00＝23:20），照當面版；演完回到房間（group_events.js afterOuting）*/
@@ -167,7 +167,7 @@ const GROUP=(function(){
   const rename=(G,name)=>{ const P=PHONE.rec(G), g=P.groups&&P.groups.noodle_team; if(g) g.name=name; };
   S.lastTermPhone=function(G){ const F=G.flags, d=DK(LT.d), b=DK(LT.back); if(d==null||!grp(G)||G.day<d||G.day>b+1) return; const now=T(G.day,G.hour);
     if(G.day<=d&&now>=T(d,17)&&!PHONE.sent(G,'y4_last_term_ask')){ rename(G,'最後一學期'); F.LAST_TERM_RENAMED=true;
-      PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓。七點，長桌。')],'y4_last_term_ask');
+      PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓 七點，長桌')],'y4_last_term_ask');
       if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
     if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'麵店團'); F.LAST_TERM_RENAMED=false;
       PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「麵店團」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };

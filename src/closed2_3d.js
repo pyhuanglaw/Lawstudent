@@ -232,7 +232,7 @@ const CLOSED2=(function(){
   /* 人在研討室 B、阿姨那天的值班時間（09:00 起，和大廳圓桌的按鈕一樣；12:00 以後 auntDue 就不成立）：自動開始（在大廳圓桌按「坐到圓桌」的照舊從 STORY.fafuShift 進來）*/
   let busy=false; S.pending=null;
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!law(G)||G.zone!=='wancai_semb') return false;
-    if(hr(G)>=9&&typeof Y2B!=='undefined'&&Y2B.auntDue&&Y2B.auntDue(G)&&S.auntOk(GM)){ busy=true; S.pending=Promise.resolve().then(()=>Y2B.auntConsult(GM)).catch(e=>console.warn('CLOSED2.aunt',e)).finally(()=>{ busy=false; }); return true; }
+    if(hr(G)>=9&&typeof Y2B!=='undefined'&&Y2B.auntDue&&Y2B.auntDue(G)&&S.auntOk(GM)){ busy=true; if(GM.sceneBegin) GM.sceneBegin(); S.pending=Promise.resolve().then(()=>Y2B.auntConsult(GM)).catch(e=>console.warn('CLOSED2.aunt',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; }   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
     return false; };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.TICKS)&&!STORY._rab3Tick){ STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); STORY._rab3Tick=true; }
   /* ===== 總圖 2F 多媒體中心（AA_443 第 1 節，企劃線 f93fa3eda；LAWWW2 a8c448288）=====

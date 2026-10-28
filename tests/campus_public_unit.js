@@ -59,12 +59,12 @@ check('大一女舍：A、B 兩棟之間（2 樓天橋下）走得過去',stand(
   r=walk(LINZE,S); check('系籃球場：活動點從霖澤館前走得到',r.ok,JSON.stringify(r).slice(0,180));
   r=walk(S,[-4,-117]); check('系籃球場：從活動點走到籃框前（場內走得通）',r.ok,JSON.stringify(r).slice(0,180));
   const lamps=(z.lamps||[]).filter(l=>Math.abs(l.position.x+4)<9.5&&Math.abs(l.position.z+113)<9.5); check('系籃球場：四個角各一盞路燈（晚上練球）',lamps.length===4,String(lamps.length)); }
-// 社團博覽會（LAWWW2 479b7fc，九頂帳篷；2026-10-14）：只有 9/30、10/1 擺；那兩天公告欄、招生攤位收起來；帳篷擋住、前面站得住、博覽會的互動點走得到
+// 社團博覽會（LAWWW2 479b7fc，九頂帳篷；2026-10-14）：只有社博那天擺（CLUBFAIR-REAL-1027：新局 9/6；這裡沒有載入 STORY＝照 activities 的 dates）；那天公告欄、招生攤位收起來；帳篷擋住、前面站得住、博覽會的互動點走得到
 { const DAY=(k)=>{ const [y,m,d]=k.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/86400000)+1; };
   const build=day=>{ global.GAME={G:{day}}; E.interactables=[]; const zz=Z3.ZONES.campus.build(E); E.zone=zz; E.levels=zz.levels||null; E.nav=zz.nav; if(E.levels) for(const n of E.levels) n._cm=null; delete global.GAME; return zz; };
-  const fz=build(DAY('2025-09-30')); const tentsF=fz.group.children.find(o=>o.name==='fair_fallback');
+  const fz=build(DAY('2025-09-06')); const tentsF=fz.group.children.find(o=>o.name==='fair_fallback');
   const booth=E.interactables.find(i=>/招生攤位/.test(i.label||''));
-  check('博覽會那天（9/30）：九頂帳篷擺出來、招生攤位收起來',!!tentsF&&tentsF.children.length===9&&!booth,JSON.stringify({tents:tentsF&&tentsF.children.length,booth:!!booth}));
+  check('博覽會那天（9/6）：九頂帳篷擺出來、招生攤位收起來',!!tentsF&&tentsF.children.length===9&&!booth,JSON.stringify({tents:tentsF&&tentsF.children.length,booth:!!booth}));
   check('博覽會那天：帳篷擋住（站不進帳篷裡）、帳篷前面 z 13 站得住',![-21.3,-13.5,3.4,14.8].some(x=>stand(x,15.1))&&[-21.3,-13.5,-9.7,3.4].every(x=>stand(x,13.0)));
   const r=walk(GATE,[-13.5,13.0]); check('博覽會那天：服務台前（博覽會的互動點 (-13.5,13.6) 旁邊）從校門走得到',r.ok,JSON.stringify(r).slice(0,160));
   check('博覽會那天：傅鐘廣場、長椅前留空（(-25,12)、(0,12) 站得住）',stand(-25,12)&&stand(0,12));

@@ -62,7 +62,7 @@ const WZL=(function(){
       try{ await EVENTS.runLines(e.dialogue||[],e); if(EVENTS.applyConsequences) EVENTS.applyConsequences(e.consequences); G.events.done[id]=(G.events.done[id]||0)+1; G.events.last[id]=G.day; } finally { if(own&&ADV.active) ADV.end(); }
       return true; }
     await EVENTS.run(e,o); return !!done(GM.G,id); };
-  const fire=(GM,id,after)=>{ S.playing=true; S.run(GM,id).then(r=>after&&after(r)).catch(e=>console.warn('WZL',id,e)).finally(()=>{ S.playing=false; }); return true; };
+  const fire=(GM,id,after,always)=>{ S.playing=true; S.run(GM,id).then(r=>after&&after(r)).catch(e=>console.warn('WZL',id,e)).finally(()=>{ S.playing=false; if(always) always(); }); return true; };   /* always：演完一定跑（出錯也跑），例：放開 WZCAT.hold */
 
   // ================= 線一、線三：法服值班的週六（AA_420 3-1 最後的規則）=================
   S.LINE={lease2:{ev:'ev_wz_c_lease2',title:'法服值班（今天陪阿德）'},lease3:{ev:'ev_wz_c_lease3',title:'法服值班（今天陪阿德）'},ins2:{ev:'ev_wz_b_ins2',title:'法服值班（今天陪林太太）'}};
@@ -109,7 +109,7 @@ const WZL=(function(){
       {id:'ev_wz_b_home',due:(G,n)=>{ const F=G.flags; return n>=10&&done(G,'ev_wz_b2')&&!F.WZ_BRUNCH_BACK&&(!F.WZ_BRUNCH_HELP||!!F.WZ_INS_STOP); }},
       {id:'ev_wz_b2',due:(G,n)=>n>=7&&!done(G,'ev_wz_b2')},
       {id:'ev_wz_b4',due:G=>{ const t=tid(G); if(!(t==='Y2S1'||t==='Y2S2')||!sat(G)||!S.met('heroine_05')) return false; const R=G.flags.WZ_B4||{}; return !R[t]; },pre:G=>{ const R=G.flags.WZ_B4=Object.assign({},G.flags.WZ_B4); R[tid(G)]=G.day; }},
-      {id:'ev_wz_b3',due:(G,n)=>n>=3&&!done(G,'ev_wz_b3')&&S.atLeast('zhe','FAMILIAR'),post:(G,GM)=>{ if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'wz_b3_photo')) PHONE.at(G,G.day,Math.max(G.hour,11.5),[{th:'g:noodle_team',from:'zhe',text:'📷（你端著三個盤子的背影）'},{th:'g:noodle_team',from:'zhe',text:'麵店團週末分部成立。'}],'wz_b3_photo'); }} ],
+      {id:'ev_wz_b3',due:(G,n)=>n>=3&&!done(G,'ev_wz_b3')&&S.atLeast('zhe','FAMILIAR'),post:(G,GM)=>{ if(typeof PHONE!=='undefined'&&PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'wz_b3_photo')) PHONE.at(G,G.day,Math.max(G.hour,11.5),[{th:'g:noodle_team',from:'zhe',text:'📷（你端著三個盤子的背影）'},{th:'g:noodle_team',from:'zhe',text:'麵店團週末分部成立'}],'wz_b3_photo'); }} ],
     copy:[
       {id:'@lease4',due:G=>!!S.lease4(G)},
       {id:'ev_wz_c_lease1',due:G=>{ const t=S.term(G); return !!t&&t.id==='Y2S1'&&t.week>=6&&t.week<=10&&!G.flags.WZ_C_L1; }},
@@ -181,7 +181,7 @@ const WZL=(function(){
     if(F.WZ_CAT_FOUND==null) F.WZ_CAT_FOUND=G.day; return true; };
   S.parkTick=function(GM){ const G=GM.G; if(!parkIn(GM)) return false;
     if(S.lostDue(G)) return fire(GM,'ev_wz_p_lost');
-    if(S.backDue(G)) return fire(GM,'ev_wz_p_back');
+    if(S.backDue(G)){ const W=typeof WZCAT!=='undefined'&&WZCAT.hold?WZCAT:null; if(W) W.hold('lie'); return fire(GM,'ev_wz_p_back',null,()=>{ if(W) W.release(); }); }   /* 所長回來：演這一場時貓固定趴在圓椅上、不管幾點（AA_493 第 3 節；LAWWW2 WZCAT.hold／release，ccc329672）；演完放開 */
     if(S.p4Due(G)) return fire(GM,'ev_wz_p4');
     if(S.classDue(G)) return fire(GM,'ev_wz_p4_class');
     if(S.p5Due(G)){ const F=G.flags, t=S.term(G), R=F.WZ_P5=Object.assign({},F.WZ_P5); R[t.id]=(R[t.id]|0)+1; R.last=G.day; return fire(GM,'ev_wz_p5',()=>{ if(!F.ENC_PARK_ZQ_SEEN){ F.ENC_PARK_ZQ_SEEN=G.day; F.WZ_ZQ_P5_FU=true; if(typeof SOCIAL!=='undefined'){ SOCIAL.remember('heroine_04','ENC_PARK_ZQ',''); SOCIAL.adjust('heroine_04',{fam:1}); } } }); }

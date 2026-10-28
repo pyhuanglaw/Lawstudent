@@ -86,7 +86,7 @@ const US208=(function(){
     {n:'3-6',ev:'ev_us208_plant',from:'2028-11-18',to:'2028-12-03',tag:'US208_PLANT',label:'書瑀在救客廳那盆植物',dm:'客廳那盆植物，我在救它。',dialogue:[
       nar('（客廳那盆快乾掉的植物，被搬到了窗邊。旁邊放著一個量杯。）'),
       sis('室友說它九月就這樣了。'),
-      sis('我查了。是水澆太多，不是太少。'),
+      sis('我查了。是水澆太多。'),
       nar('（她把量杯裡的水倒掉一半，才澆下去。）'),
       {choice:[{text:'「救得回來嗎？」',goto:'a'},{text:'「妳連植物都排時間。」',goto:'b'}]},
       {label:'a'},sis('不知道。我只顧到十二月。'),sis('之後交給室友。我寫在冰箱上了。'),{goto:'e'},
@@ -122,7 +122,7 @@ const US208=(function(){
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||G.zone!=='us_shared'||!free(GM)) return false; const s=S.due(G); if(!s||typeof EVENTS==='undefined') return false;
     const e=STORY_EVENTS.find(x=>x.id===s.ev); if(!e) return false; G.flags.US208_WK=S.wk(G); S.dmDone(G);
-    busy=true; Promise.resolve().then(()=>EVENTS.run(e,{noTitle:true})).catch(x=>console.warn('US208',x)).finally(()=>{ busy=false; }); return true; };
+    busy=true; if(GM.sceneBegin) GM.sceneBegin(); Promise.resolve().then(()=>EVENTS.run(e,{noTitle:true})).catch(x=>console.warn('US208',x)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; };   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
   S.isBusy=()=>busy;
   if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt));
 

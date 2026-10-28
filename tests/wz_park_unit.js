@@ -16,7 +16,7 @@ for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=sr
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
-check('1. 配置檔載入（WZ_PARK_LAYOUT v2）',typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.version===2);
+check('1. 配置檔載入（WZ_PARK_LAYOUT v3：B08 遊戲場往北、入口 B 步道改走遊戲場南邊）',typeof WZ_PARK_LAYOUT!=='undefined'&&WZ_PARK_LAYOUT.version===3);
 const z=loadZone('wenzhou'); const L=WZ_PARK_LAYOUT;
 const walk=(a,b)=>E.simWalk(a[0],a[1],b[0],b[1],{lv0:0,lv1:0,dt:0.1,speed:4.1});
 const nearStand=(x,z,R)=>{ for(let rr=0;rr<=R;rr+=0.1) for(let a=0;a<24;a++){ const tx=x+Math.cos(a/24*Math.PI*2)*rr, tz=z+Math.sin(a/24*Math.PI*2)*rr; if(E.canStand(tx,tz,0.32,0)) return [tx,tz]; } return null; };
@@ -26,6 +26,23 @@ check('2. 入口段步道 (26,8)、主園區環狀步道 (26,17.6)、往入口 B
 { const r=walk(LANE,[33.4,23.0]); check('2. 走得到鞦韆旁邊（主園區東邊）',r.ok,r.reason||''); }
 { const r=walk(LANE,[14.6,22.8]); check('2. 走得到涼亭前面（主園區西邊）',r.ok,r.reason||''); }
 { const r=walk([5.75,15],[10,19]); check('2. 從北巷經入口 B 走進主園區',r.ok,r.reason||''); }
+{ const r=walk([5.75,15],[23.6,18.4]); check('2. 從北巷經入口 B 走到老樹的環狀步道（B08：原本遊戲場的導航阻擋把 B 步道整段擋住，只走得到入口 B 裡面那一小塊）',r.ok,r.reason||'');
+  const p=E.pathTo(5.75,15,0,23.6,18.4,0)||[]; let len=0, a=[5.75,15]; for(const q of p){ len+=Math.hypot(q[0]-a[0],q[1]-a[1]); a=q; }
+  check('2. 入口 B 到老樹走 B 步道（不繞北巷、主巷：路線 30 m 以內）',p.length>0&&len<30,len.toFixed(1)+' m'); }
+/* 2b. 土地公（WZ-SHRINE-TRAP-1028，BB-C relsuite 562a5ead9、LAWWW-C P1）：v3 遊戲場的導航阻擋整塊 3.6 m（北緣 22.7），和涼亭西南柱子之間只剩一排站得住——
+   原本經遊戲場北邊、涼亭西側到土地公的路斷了，涼亭西側那條變成死角（站進去自己走不出來）。修好：遊戲場只擋有遊具的南邊 2.9 m（北緣 22.0），供桌和 F1 牆之間那一小塊擋起來。
+   修改前：涼亭西側 (12.65,26.65) 走不到、走不出來，死角 2 個 */
+{ const r=walk(LANE,[12.65,26.65]); check('2b. 從主巷經遊戲場北邊、涼亭西側走到土地公前面 (12.65,26.65)（reachability_all 選的站位）',r.ok,r.reason?r.reason+'@'+r.x+','+r.z:''); }
+check('2b. 遊戲場北邊的通道（z 22.75）站得住、供桌（12.8,27.45）擋住',E.canStand(15.0,22.75,0.32,0)&&E.canStand(13.6,22.9,0.32,0)&&!E.canStand(12.8,27.45,0.1,0));
+{ const bad=[]; for(let x=11.5;x<=18.01;x+=0.5) for(let q=21.5;q<=28.51;q+=0.5){ if(!E.canStand(x,q,0.32,0)) continue; const r=walk([x,q],[26,17.6]); if(!r.ok) bad.push(x+','+q); }
+  check('2b. 涼亭、土地公、遊戲場北邊一帶（x 11.5～18、z 21.5～28.5 每 0.5 m）站得住的點都走得回老樹前（沒有死角）',!bad.length,bad.join(' ')); }
+/* 2c. rc2 回歸（BB-C 02:4x）：WZ-SHRINE-TRAP-1028 第一版在阻擋那一行加的 // 註解把同一行後面的直飲台 [29.9,6.3]、腳踏車架 [31.0,9.6] 吃掉，
+   入口 A 東側的腳踏車架穿得過去。修改前（ed777ba38）：(31.0,8.6)、(31.0,9.6)、(31.0,10.6) 站得住、配置檔少兩個阻擋、註解裡有阻擋陣列 */
+{ const B=(WZ_PARK_LAYOUT.blocks||[]).filter(Array.isArray).map(b=>b.join(',')), src=fs.readFileSync(path.join(ROOT,'src/data/wz_park_layout.js'),'utf8');
+  check('2c. 入口 A 東側的腳踏車架擋住（(31.0,8.6)、(31.0,9.6)、(31.0,10.6) 站不住）',!E.canStand(31.0,8.6,0.1,0)&&!E.canStand(31.0,9.6,0.1,0)&&!E.canStand(31.0,10.6,0.1,0));
+  check('2c. 配置檔的阻擋有直飲台 [29.9,6.3,0.6,0.6]、腳踏車架 [31.0,9.6,0.7,2.6]',B.includes('29.9,6.3,0.6,0.6')&&B.includes('31,9.6,0.7,2.6'),B.length+' 個');
+  const eaten=src.split('\n').filter(l=>/\/\/.*\[\s*-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?\s*,\s*\d+(\.\d+)?\s*,\s*\d+(\.\d+)?\s*\]/.test(l));
+  check('2c. 配置檔沒有寫在 // 註解裡的阻擋陣列（註解要放在一行最後）',!eaten.length,eaten.map(l=>l.trim().slice(0,80)).join('｜')); }
 check('3. 擋住的：樹圍座椅中心、涼亭、遊戲場、北側花籬、入口兩側花籬',!E.canStand(26,21.2,0.1,0)&&!E.canStand(14.6,25.2,0.1,0)&&!E.canStand(15.2,19.4,0.1,0)&&!E.canStand(24,28.7,0.1,0)&&!E.canStand(21.4,5.4,0.1,0)&&!E.canStand(30.6,5.4,0.1,0));
 check('3. 西北角（巷底那棟 F1，x<11.8、z>21）不能走；公園外面（z 30、x 37）不能走',!E.canStand(10,24,0.1,0)&&!E.canStand(26,30.5,0.1,0)&&!E.canStand(37,22,0.1,0));
 { const seats=E.interactables.filter(i=>i.seat&&i.x>8&&i.x<37&&i.z>5&&i.z<30); const want=L.seats;

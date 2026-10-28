@@ -6,7 +6,7 @@
    - 只點品項（小選項選另一個）：那一句；點錯品項：那一句。不扣分、不加分，下次還可以再點。錢照那一樣的價錢扣（Café 照拿鐵 120，和芷若那一杯一樣）。
    - 小選項對的那個放在第一個（照芷若：「加一份濃縮」「不加」），品項選了哪一樣、小選項的畫面都一樣。
    - 第一次知道（知道以前照樣可以點，只是要靠猜）：以安、沛珊＝在蛋包飯研究所一起吃、她說了現有那句（AA_280 第 3 節，L118.order 的常客那一句）；
-     語彤＝大二上起和她在滇香一起吃過一次以後，玩家下一次（別天）自己來，老闆娘兩句（KNOW_FAV_YT；稿上說排在 AA_311 H8 之後，H8 還沒做）；
+     語彤＝大二上起和她在滇香一起吃過一次以後，玩家下一次（別天）自己來，老闆娘兩句（KNOW_FAV_YT；排在 AA_311 H8 之後、不同一天：lane118.js 的 L118.ytHold）；
      子晴＝12～2 月在 Café、她在店裡，點餐的時候「看」到她的杯子（一句旁白，KNOW_FAV_ZQ）；學姊＝AA_311 H1 店員那兩句（SIS_TEA_ORDER）；
      芷若＝Z3（ASKED_HER_DRINK）；可昕＝第一次帶了有糖的青茶（她那兩句，KNOW_FAV_KX）。知道了（或選對了）＝筆記本記第 1 節那一行（GM.addNote，id fav_<人>）。
    - 在哪裡問：以安、沛珊、語彤、學姊＝118 巷那間店門口的常客一起進來吃（L118.order 的 companions：以安週五、沛珊週三到 2026-12-16 在蛋包飯研究所；語彤大二上起週一在滇香；
@@ -84,6 +84,7 @@ const FAV=(function(){
     for(const id of comp){ const C=S.CFG[id]; if(!C||C.shop!==shopId||S.right(G,id)) continue; if(await S.treat(GM,id)==='right') out.add(id); }
     return out; };
   S.ytKnow=async function(GM,shopId){ const G=GM.G, R=S.rec(G), id='heroine_03'; if(shopId!=='dian'||(G.stage||'law')!=='law'||S.know(G,id)||R.ytWith==null||R.ytWith>=G.day) return false;
+    if(typeof L118!=='undefined'&&L118.ytHold&&L118.ytHold(G)) return false;   /* 排在 AA_311 H8（老闆娘說語彤問開店的事）之後、不同一天（AA_410 第 2 節、4-1）：H8 還沒演或今天剛演 */
     await S.play(GM,S.lines(id).know); S.learn(GM,id); return true; };
   /* 常客吃完的那一句說了（lane118.js）：以安、沛珊在蛋包飯研究所的那一句就是「知道」*/
   S.heard=function(GM,id,shopId){ if(shopId!=='omu'||(id!=='heroine_01'&&id!=='classmate_peishan')) return false; const G=GM.G, R=S.rec(G); if(R.know[id]!=null) return false; S.learn(GM,id); return true; };

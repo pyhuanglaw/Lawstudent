@@ -154,6 +154,12 @@ const CHAR = (function(){
     'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]}],'char.heroine_05':['folder','hairtie']};
   // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
+  /* 身上帶著的東西（包、吉他、資料夾、圍裙、安全帽…；眼鏡、耳環、髮圈不算）先拿下來，回傳還原的函式（BADCLIP-BAG-1027：使用者 10-27 22:4x「打羽球男主角還背著背包什麼意思」）。
+     還原照原本的開關：原本沒設過的（propOn 沒有這一項）拿掉設定、照原本看不看得到；還原時傳現在的人物（中途換過模型 C.upgrade 的話是新的那一個）*/
+  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos'];
+  C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
+    for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
+    return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
   C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
@@ -191,6 +197,7 @@ const CHAR = (function(){
   const BIKE_G={saddle:[0,0.935,-0.31], grip:[0.29,1.06,0.083], bb:[0,0.285,-0.045], crank:0.165, pedalX:0.115};
   const ARMS=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']];
   const ARMQ=new THREE.Quaternion(), ARMZ=new THREE.Vector3(0,0,1), ARMX=new THREE.Vector3(1,0,0), ARMV=new THREE.Vector3();
+  const OVQ=new THREE.Quaternion(), OVE=new THREE.Euler();   /* 疊加姿勢 u.overlay（羽球揮拍，src/badminton_clip3d.js）*/
   /* 裙子的輔助骨頭（見建立 VRM 的地方）：在腳步貼合之後（真實骨架的腿已經是最後的角度） */
   const SKQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()], SKV=new THREE.Vector3();
   function skirtLift(b,q0,d){ SKQ[2].copy(b.quaternion).multiply(q0); SKV.copy(d.dn).applyQuaternion(SKQ[2]); return Math.atan2(SKV.dot(d.fw),SKV.dot(d.dn)); }
@@ -275,6 +282,10 @@ const CHAR = (function(){
           ARMQ.setFromAxisAngle(ARMZ,s_*u.armOut*sx); b.quaternion.premultiply(ARMQ); } }
       if(pose==='wave'&&B.RightArm){ const g=Math.sin(a.t*7); B.RightArm.rotation.set(0,0,-0.9*sx); if(B.RightForeArm) B.RightForeArm.rotation.set(0,0,(-1.6+g*0.25)*sx); if(B.Head) B.Head.rotation.z+=0.08*sx; }
       if(pose==='talk'&&B.Head){ B.Head.rotation.x+=Math.sin(a.t*1.4)*0.05*sx; B.Head.rotation.y+=Math.sin(a.t*0.8)*0.08; if(B.Spine1) B.Spine1.rotation.y+=Math.sin(a.t*0.6)*0.03; }
+      if(u.overlay&&u.overlay.bones){ const o=u.overlay, k=o.k==null?1:Math.max(0,Math.min(1,o.k)); for(const n in o.bones){ const bn=B[n]; if(!bn) continue; const r=o.bones[n]; OVE.set(r[0]*sx,r[1],r[2]*sx); OVQ.setFromEuler(OVE); bn.quaternion.slerp(OVQ,k); } }   /* 疊加姿勢（羽球揮拍 BADMINTON-CLIP-1027，src/badminton_clip3d.js）：片段算完以後把幾根骨頭轉到指定角度（和 SIT_VRM 同一套角度：x、z 乘 sx），k＝比例；坐下、騎車不受影響 */
+      if(u.posture||u.postQ){ const on=!(u.overlay&&u.overlay.bones)&&!!u.posture&&(pose==='idle'||pose==='walk'||pose==='run'||pose==='talk'), PQ=u.postQ||{};   /* 體態（D40 健身，src/fit3d.js 設 u.posture）：小角度疊在動作上（挺胸、肩膀往後）；坐、騎車、疊加姿勢（羽球、開門）的時候不加 */
+        for(const n in PQ){ const bn=B[n], q=PQ[n]; if(bn&&bn.quaternion.equals(q.after)) bn.quaternion.multiply(q.inv); }   /* 這一格動畫沒蓋過的骨頭：先撤掉上一格加的（不然會一格一格累加）*/
+        u.postQ=on?{}:null; if(on) for(const n in u.posture){ const bn=B[n]; if(!bn) continue; const r=u.posture[n]; OVE.set(r[0]*sx,r[1],r[2]*sx); const q=new THREE.Quaternion().setFromEuler(OVE); bn.quaternion.multiply(q); u.postQ[n]={after:bn.quaternion.clone(),inv:q.invert()}; } }
       u.ikSt=st; }  // VRM 的前臂軸向和程序化人物不同，說話時不轉前臂（舊版會把手舉到頭上）
     // 注視（眼睛＋頭）
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
