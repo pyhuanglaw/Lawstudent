@@ -7,7 +7,6 @@
 //   4 4-1 12/11 麵店團群組阿哲「週四 麵店二十三週年 倒數三天」；4-2 沛珊同一天（12/24 聖誕開車下去、學期末的飯也在 12/24）＝「學期結束了！今天就是學期末的那一頓。」、不排出遊
 //     （第 7 節，企劃線 7fa83ebc9：等聖誕那一場演完才傳；沒去的照平常約、18:30 的飯照排——細項在 aa462_y3s1_unit 第 6 節）
 // 修改前（0b474c8b4）：1～4 每一節至少一項 FAIL。用法：node tests/aa464_y4s1_unit.js
-// AA_516 第 1 節 1-8～1-10（企劃線 a9b87c588；SIS-B14-1028）：表裡三句改了——12/3「雪積起來了。」、12 月第一張「積雪的步道，上面一排腳印」、11/19「這禮拜四感恩節」；讀稿以後照 AA_516 換掉再比（A516）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -34,12 +33,8 @@ const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.ind
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const quotes=t=>t.split('\n').map(l=>l.trim().match(/^> (\S+?)：(.+)$/)).filter(Boolean).map(m=>({who:m[1],t:m[2]}));
 const strip=s=>String(s||'').replace(/（原句）$/,'').trim();
-/* AA_516 第 1 節 1-8～1-10（企劃線 a9b87c588）改了 AA_464 表裡的三句（對齊美國路線 12/2 的雪、感恩節 11/23）：讀出來的表照 AA_516 換掉再比 */
-const A516={'（照片：第一場雪，落地就化了）':'（照片：積雪的步道，上面一排腳印）','今天不吵。下禮拜感恩節，大家都要回家。':'今天不吵。這禮拜四感恩節，大家都要回家。','今天不吵。下了一點雪，沒有積。':'今天不吵。雪積起來了。'};
-const A516_HIT=new Set();
-const a516=t=>{ if(A516[t]){ A516_HIT.add(t); return A516[t]; } return t; };
-const WED=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({m:+r[0],p:a516(r[1])}));
-const QUIET=rows(part('## 2.','## 3.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+r[0],day:r[1],t:a516(strip(r[2]))}));
+const WED=rows(part('## 1.','## 2.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({m:+r[0],p:r[1]}));
+const QUIET=rows(part('## 2.','## 3.')).filter(r=>/^\d+$/.test(r[0])).map(r=>({n:+r[0],day:r[1],t:strip(r[2])}));
 const ZQR=rows(part('## 3.','## 4.')).filter(r=>/／/.test(r[0])).map(r=>({msgs:r[0].split('／'),o1:strip(r[1]).replace(/（加裂縫）$/,''),o2:strip(r[2]).split('／')}));
 const A23=(quotes(part('### 4-1.','### 4-2.')).find(q=>q.who==='阿哲')||{}).t, PS_SAME=(quotes(part('### 4-2.','## 5.')).find(q=>q.who==='沛珊')||{}).t;
 const OLD_PHOTO=['（照片：一片沒有雲的天空）','（照片：一張空的桌子）','（照片：一杯熱水）'];
@@ -50,8 +45,7 @@ await sec(0,()=>{
   check('0. 讀得到稿、檔都載得到（Y34B、CRACKTALK、FEST、TERMEND）',!!doc&&!loadErr.length&&['Y34B','CRACKTALK','CRACKTALK_LINES','FEST','TERMEND'].every(n=>typeof globalThis[n]!=='undefined'),J(loadErr));
   check('0. 稿裡讀得到：第 1 節二十張（8～12 月）、第 2 節十四句、第 3 節四列、4-1 阿哲、4-2 沛珊',WED.length===20&&WED.every(x=>/^（照片：/.test(x.p))&&QUIET.length===14&&QUIET.every(x=>/^今天不吵。/.test(x.t))&&ZQR.length===4&&ZQR.every(x=>x.msgs.length===2&&!!x.o1&&x.o2.length>=1)&&!!A23&&!!PS_SAME,J({WED,QUIET,ZQR,A23,PS_SAME}));
   const W={}; for(const x of WED) (W[x.m]||(W[x.m]=[])).push(x.p);
-  check('0. AA_516 1-8～1-10 換掉的三句原本都在 AA_464 的表裡（換的是對的那三格）',A516_HIT.size===3,J([...A516_HIT]));
-  check('0. Y34B.M6_WED＝第 1 節的表（照月份、照順序；12 月第一張照 AA_516 1-9）',J(Y34B.M6_WED)===J(W),J(Y34B.M6_WED));
+  check('0. Y34B.M6_WED＝第 1 節的表（照月份、照順序）',J(Y34B.M6_WED)===J(W),J(Y34B.M6_WED));
   check('0. Y34B.M6_QUIET＝第 2 節十四句（第一句是原句）',J(Y34B.M6_QUIET)===J(QUIET.map(x=>x.t))&&Y34B.M6_QUIET[0]==='今天不吵。今天只放空白。',J(Y34B.M6_QUIET));
   const Z=CRACKTALK_LINES.SRC2.zq2;
   check('0. zq2 的四組照第 3 節（msgs 照舊；optsBy 的回覆照表，選項的字、加裂縫照 opts）',J(Z.msgs)===J(ZQR.map(x=>x.msgs))&&ZQR.every((x,i)=>{ const O=(Z.optsBy&&Z.optsBy[i])||Z.opts; return J(O[0][1])===J([x.o1])&&J(O[1][1])===J(x.o2)&&O[0][0]==='妳要不要先休息？'&&O[1][0]==='要我過去陪妳加班嗎？'&&O[0][2]===1&&O[1][2]===0; }),J(Z.optsBy));

@@ -5,8 +5,7 @@
 //   E4 第一次去好家自助餐：點餐那句 → 第一次的旁白 → 店裡吃完的旁白；筆記本「吃過的」多一筆
 //   E5 同一間第二次點別的：沒有第一次的旁白（吃過的照樣記新的品項）
 //   E6 六張犁麵舖第 5 次：老闆那一句（只說一次）、選單多「老樣子」＝上一次那一樣、回那一句、扣那一樣的錢
-//   E7 阿鳳麵店第 5 次、語彤在顧店：那一句換她說（2026-10-28 AA_519 第 8 節第 2 點改：一個人吃麵的旁白「乾麵很燙。阿姨多給了一匙肉燥。」，不再寫「老闆娘」；
-//      第 1 點：語彤顧店的時段阿姨一定在廚房，老樣子那一句阿姨照說）
+//   E7 阿鳳麵店第 5 次、語彤在顧店：那一句換她說
 //   E8 可昕分開、不到朋友：她那一組（她先走）、不加關係、沒有一起收盤子那句、時間 +30 分鐘
 //   其他：老樣子的換句（便利商店加熱／不用加熱）、Café 芷若在班或沒見過芷若＝不演、阿德影印不算吃過的、舊存檔沒有 G.eat、
 //         Café 芷若在班時點過（CAFE_VISITS）＝記進吃過的、之後不再演第一次、宵夜滷味攤第一次的旁白（outings3d.js）、溫州街半熟、接線
@@ -91,7 +90,7 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   const tueY=td('Y1S2',4,2); fresh(tueY,18,'noodle'); npcAt('heroine_03'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}};
   { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤在阿鳳麵店顧店（act help）', !!e&&e.zone==='noodle'&&e.act==='help', JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   picks=['老樣子']; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); const Y=EL.staffYutong||[], T7=EL.staff['阿鳳麵店']||{};
-  check('E7 第 5 次、語彤在顧店：那一句換她說（不是阿姨那句）；老樣子＝乾麵', Y[1]&&said.some(s=>s.who===SOCIAL.displayName('heroine_03')&&s.t===Y[1])&&!has(T7.line5)&&has(T7.same)&&has('乾麵很燙。阿姨多給了一匙肉燥。'), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  check('E7 第 5 次、語彤在顧店：那一句換她說（不是阿姨那句）；老樣子＝乾麵', Y[1]&&said.some(s=>s.who===SOCIAL.displayName('heroine_03')&&s.t===Y[1])&&!has(T7.line5)&&has(T7.same)&&has('乾麵很燙。老闆娘多給了一匙肉燥。'), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   fresh(tueY,13,'noodle'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}}; picks=[1]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM);
   check('E7 語彤不在：阿姨那一句', has(T7.line5)&&said.some(s=>s.who===T7.who&&s.t===T7.line5));
   // ---------- E8 ----------

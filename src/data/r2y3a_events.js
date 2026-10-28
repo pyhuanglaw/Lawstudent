@@ -244,35 +244,29 @@ const R2Y3A_EVENTS=(function(){
       {label:'end'},(mem('heroine_04','DAD_PLAYS')) ] };
 
   /* ---------- 2-Y3-09 颱風假（10/13）T3a「泡麵之夜」：20:00～23:00 人在宿舍房間（不在的，回宿舍時演）。和子晴 FAMILIAR 以上＝視訊版（TESTER 分兩種）；不到＝只有阿凱 ---------- */
-  /* 2026-10-28 AA_519 第 9 節第 1 點（企劃線 169130daf）：這一場阿凱帶的是兩杯熱豆漿——「（舉起豆漿）」兩句、選項「喝掉阿凱的豆漿」照稿；旁白「……泡麵，他說他不想再吃了。」照留（講前兩年）。
-     稿說「這兩場裡其他泡麵也照這個換」，子代理照同樣的意思改的：標題「豆漿之夜」、19:30 那則「所以我帶豆漿過去」（src/r2y3a3d.js）、子晴「我也去泡一杯」、
-     只有阿凱那一版「（他把吸管插進第一杯。）」「一人一杯。」「兩杯。颱風天。」（原本拆第一包、一人一包、兩包） */
   const ZQF=fam('heroine_04'), nZQF={custom:G=>!stAt(G,'heroine_04','FAMILIAR')};
   const TST={custom:G=>!!(G.flags&&G.flags.TESTER)}, nTST={custom:G=>!(G.flags&&G.flags.TESTER)};
   const and=(...cs)=>({custom:(G,GM)=>cs.every(c=>typeof EVENTS==='undefined'||EVENTS.cond(c))});
-  const TY_NOODLE={ id:'ev_typhoon_y3_noodle', title:'豆漿之夜', participants:['kai'], location:'dorm', trigger:'auto', once:true, background:'blur',   /* AA_519 第 9 節第 1 點：子代理照大二「滷味之夜」的意思改（原本「泡麵之夜」；id 不改：舊存檔的 events.done）*/
+  const TY_NOODLE={ id:'ev_typhoon_y3_noodle', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>on(G,'2027-10-13',20,23)&&stAt(G,'kai','FAMILIAR')&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(G.day)},
-    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},   /* AA_519 5-3：颱風夜不要三年同一個畫面 */
-      {if:{flags:['TYPHOON_Y2_KAI']},speaker:null,text:'（阿凱說：「去年也是我。」）'},   /* AA_519 5-3：大二颱風那晚有來的（events.js ev_y2_typhoon_kai 記 TYPHOON_Y2_KAI）＝開頭多一句 */
+    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱抱著一箱泡麵站在門口，雨衣在滴水。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},
       {if:ZQF,speaker:null,text:'（阿凱把筆電架在你的書桌上，打視訊給子晴。）'},
       {if:ZQF,speaker:'heroine_04',name:'子晴（視訊）',text:'颱風天最適合修 bug。沒人會來吵我。'},
       {if:ZQF,speaker:'kai',text:'我們在吵妳。'},
       {if:and(ZQF,TST),speaker:'heroine_04',text:'你們不算人。你們是測試員。'},
       {if:and(ZQF,TST),speaker:'heroine_04',text:'我說過的。測試員。'},
       {if:and(ZQF,nTST),speaker:'heroine_04',text:'你們不算人。你們是背景音。'},
-      {if:and(ZQF,TST),speaker:'kai',text:'（舉起豆漿）測試員需要補給。'},   /* AA_519 第 9 節第 1 點（原本「（舉起泡麵）」）*/
-      {if:and(ZQF,nTST),speaker:'kai',text:'（舉起豆漿）背景音需要補給。'},   /* AA_519 第 9 節第 1 點（原本「（舉起泡麵）」）*/
-      {if:ZQF,speaker:'heroine_04',text:'……好啦。我也去泡一杯。'},   /* AA_519 第 9 節第 1 點「其他泡麵照同樣的意思改」：原本「泡一碗」（泡麵），子代理改「泡一杯」 */
-      {if:ZQF,choice:[{text:'陪她修到半夜（視訊開著，各做各的）',goto:'v1'},{text:'「颱風天也要睡覺。」',goto:'v2'},
-        {text:'喝掉阿凱的豆漿',goto:'v3'}]},   /* AA_519 第 9 節第 1 點：第三個選項（原本「吃掉阿凱的泡麵」）；前兩個照舊 */
+      {if:and(ZQF,TST),speaker:'kai',text:'（舉起泡麵）測試員需要補給。'},
+      {if:and(ZQF,nTST),speaker:'kai',text:'（舉起泡麵）背景音需要補給。'},
+      {if:ZQF,speaker:'heroine_04',text:'……好啦。我也去泡一碗。'},
+      {if:ZQF,choice:[{text:'陪她修到半夜（視訊開著，各做各的）',goto:'v1'},{text:'「颱風天也要睡覺。」',goto:'v2'},{text:'吃掉阿凱的泡麵',goto:'v3'}]},
       {if:nZQF,speaker:'kai',text:'我們那棟停電了。你們這棟還有電。'},   /* AA_376 #8：大二起他住別棟 */
-      {if:nZQF,speaker:null,text:'（他把吸管插進第一杯。）'},   /* AA_519 第 9 節第 1 點「其他泡麵照同樣的意思改」：原本「（他拆了第一包。）」，子代理改 */
-      {if:nZQF,choice:[{text:'「一人一杯。」',goto:'k1'},   /* AA_519 第 9 節第 1 點：原本「一人一包。」，子代理改；第二個選項照舊 */
-        {text:'「你可以待到幾點？」',goto:'k2'}]},
+      {if:nZQF,speaker:null,text:'（他拆了第一包。）'},
+      {if:nZQF,choice:[{text:'「一人一包。」',goto:'k1'},{text:'「你可以待到幾點？」',goto:'k2'}]},
       {label:'v1'},{advance:toH(24)},{goto:'end'},   /* 訪客規定：同性訪客可以進房間到 24:00（AA_185 1-8）*/
       {label:'v2'},{speaker:'heroine_04',text:'……好，十二點。'},{goto:'end'},
       {label:'v3'},{speaker:'kai',text:'這是不可抗力嗎？'},{speaker:'player',text:'這是看情況。'},{goto:'end'},
-      {label:'k1'},{speaker:'kai',text:'兩杯。颱風天。'},{goto:'end'},   /* AA_519 第 9 節第 1 點：原本「兩包。颱風天。」，子代理照同樣的意思改（兩杯都要） */
+      {label:'k1'},{speaker:'kai',text:'兩包。颱風天。'},{goto:'end'},
       {label:'k2'},{speaker:'kai',text:'十二點。我知道規定。'},
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y3:true}} };
@@ -513,6 +507,7 @@ const R2Y3A_EVENTS=(function(){
       {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
       {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},
       {if:GF_YT,speaker:'heroine_03',text:'所以我先來這裡坐。等你下課。'},
+      {if:{flags:['JOB_NOODLE']},speaker:'heroine_03',text:'……你週二來切蔥，週四來陪我發呆。很忙喔。'},
       {choice:[{text:'「那就坐著。我陪妳。」',set:{YT_EV13_SEEN:'sat'},goto:'y1'},{text:'「去溫州街走走？」',set:{YT_EV13_SEEN:'walk'},goto:'y2'},{text:'「妳要不要寫點什麼？」',set:{YT_EV13_SEEN:'write'},goto:'y3'}]},
       {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）'},{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
         {if:GF_YT,speaker:'heroine_03',text:'下禮拜四也這樣。'},{goto:'end'},

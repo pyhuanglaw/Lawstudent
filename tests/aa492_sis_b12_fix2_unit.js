@@ -12,7 +12,6 @@
 //        沒交往、前任、交往版（SIS_BOOK_WITH_YOU）、both、12-7 演過、記過 SIS_BOOK_BACK、她回來以前、畢業典禮那天以後、和別人約會：不演；
 //        舊存檔（沒有 SIS_BOOK_WITH_YOU）：選書那天以後才交往＝朋友版（演），選書那天已經在交往＝交往版（不演）
 // 修改前（開發分支 de75d3106）：1、2、3、4 各至少一項 FAIL（0 也有：遊戲裡還沒有這幾句）。用法：node tests/aa492_sis_b12_fix2_unit.js
-// 2026-10-28 AA_523 第 6-12 點改的（企劃線 0d7b5388b，SIS-B16-1028）：12-7 選項二的第三個「美國好玩嗎？」換成「回來以後，習慣嗎？」——第 3 項的選項二照新的寫（新句子在 tests/aa523_sis_b16_unit.js、tests/aa470_sis_b12_unit.js 對 AA_523 的稿）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -100,7 +99,7 @@ await sec(3,async()=>{ const Q1=['十月那份讀書計畫。後來照著做了�
   const g=await run({Y4_PATH:'grad'});
   const i0=g.L.findIndex(t=>/。坐。$/.test(t)), i1=g.L.indexOf(OPEN);
   check('3. 前提：R3.gradExam（臺灣路線、Y4_PATH grad、推甄沒上）＝考研究所',typeof R3!=='undefined'&&R3.gradExam(H.G)===true);
-  check('3. 考研究所的玩家：「{稱呼}。坐。」之後直接「她把自己的計畫本翻開」，沒有「十月那份讀書計畫」「寒假你怎麼排的？」、沒有選項一',i0>=0&&i1===i0+1&&!Q1.some(q=>g.L.includes(q))&&!g.O.some(o=>o.some(t=>/大概一半/.test(t)))&&J(g.O[0])===J(['「空著不好嗎？」','「我幫妳寫一格？」','「回來以後，習慣嗎？」']),J({L:g.L.slice(0,4),O:g.O}));
+  check('3. 考研究所的玩家：「{稱呼}。坐。」之後直接「她把自己的計畫本翻開」，沒有「十月那份讀書計畫」「寒假你怎麼排的？」、沒有選項一',i0>=0&&i1===i0+1&&!Q1.some(q=>g.L.includes(q))&&!g.O.some(o=>o.some(t=>/大概一半/.test(t)))&&J(g.O[0])===J(['「空著不好嗎？」','「我幫妳寫一格？」','「美國好玩嗎？」']),J({L:g.L.slice(0,4),O:g.O}));
   check('3. 考研究所的玩家：選項二以後、結尾照舊（「下學期要的書…」、記憶 SIS_BLANK_JAN）',g.L.includes('下學期要的書，開學以前跟我說。法圖寒假開得很短。')&&SOCIAL.has(ID,'SIS_BLANK_JAN'));
   const cases=[['Y4_PATH 不是 grad',{Y4_PATH:'job'}],['推甄上了',{Y4_PATH:'grad',Y4_PUSH:'pass'}],['沒有 Y4_PATH',{}]], bad=[];
   for(const [n,f] of cases){ const r=await run(f); if(!r.L.includes(Q1[0])||J(r.O[0])!==J(['「大概一半。」','「每一天都照做。」','「沒照做。」'])) bad.push(n+'：'+J(r.O[0])); }

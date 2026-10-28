@@ -322,9 +322,6 @@ const R2Y4A=(function(){
     const two=!partners(G).length&&stageAt(S5,'FRIEND')&&(has(S5,'DROVE_HER')||done(G,'ev_sis_graduation'));   /* 雙方都單身、FRIEND 以上、送過她（DROVE_HER）或去過她的畢業典禮 G4 */
     return two?'two':'family'; };
   const GS=t=>({th:'g:family_law',from:S5,name:'溫學姊',text:t}), GK=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t});
-  /* AA_516 1-2（企劃線 a9b87c588）：戀人版 12/20 私訊前面的班機截圖（兌現 12/10 視訊 g6「班次，回去前傳給你。」）；1-6：見過她＝FIRST_MET 或舊存檔的 met_sis（SOCIAL.metD）*/
-  S.PICKUP_SHOT='📷（截圖：班機時間，桃園 20:05 抵達）';
-  S.metSis=G=>(typeof SOCIAL!=='undefined'&&!!SOCIAL.metD&&SOCIAL.metD(S5))||!!(G&&G.flags&&G.flags.met_sis);
   S.pickupMissed=function(G){ const F=G.flags, v=F.SIS_PICKUP_V, d=D('2028-12-23'); if(F.SIS_PICKUP) return; F.SIS_PICKUP='mrt'; if(d==null||typeof PHONE==='undefined') return;   /* 答應了、20:45 還沒到：不記 PICKED_HER_UP */
     if(v==='two'){ PHONE.at(G,d,20.75,[P5('……沒關係。我搭捷運。')],'y4_pickup_late'); PHONE.at(G,d,21.5,[P5('到了。捷運很快。')],'y4_pickup_late2'); }
     else if(v==='lover'){ PHONE.at(G,d,20.75,[P5('……你沒來。我搭捷運。')],'y4_pickup_late'); PHONE.at(G,d,21.5,[P5('到家再說。')],'y4_pickup_late2'); }
@@ -358,9 +355,9 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-23 學姊 M7 接機（台灣、日本路線；家族群組）：12/20 21:00 → 12/23（六）20:30 入境大廳；沒有人說要去＝21:30「到了。捷運很快。」---- */
     { const a=D('2028-12-20'), d=D('2028-12-23'); if(a!=null&&d!=null&&!us&&PHONE.inGroup(G,'family_law')&&G.day>=a&&G.day<=d+2){
         if(past(G,a,21)&&now(G)<T(d,20)&&!PHONE.sent(G,'y4_pickup_ask')){ const v=S.pickupVer(G), h=G.day===a?Math.max(21,G.hour):21;
-          if(v==='lover'){ PHONE.at(G,a,h,[GS('這週六回來。')],'y4_pickup_ask'); PHONE.at(G,a,h,[P5(S.PICKUP_SHOT),P5('這週六，晚上八點。你來。')],'y4_pickup_dm'); F.SIS_PICKUP_V='lover'; }   /* 戀人版：家族群組只說「這週六回來。」；私訊前面多一張班機截圖（AA_516 1-2，兌現 12/10 視訊「班次，回去前傳給你。」）*/
+          if(v==='lover'){ PHONE.at(G,a,h,[GS('這週六回來。')],'y4_pickup_ask'); PHONE.at(G,a,h,[P5('這週六，晚上八點。你來。')],'y4_pickup_dm'); F.SIS_PICKUP_V='lover'; }   /* 戀人版：家族群組只說「這週六回來。」*/
           else { const L=[GS('這週六晚上八點落地。'),GS('……有人有空嗎。')]; if(done(G,'ev_sis_graduation')) L.push(GS('我畢業那天，謝謝你來。'));   /* 去過她的畢業典禮 G4 */
-            if(v==='family'&&S.metSis(G)) L[L.length-1].ask={id:'y4_pickup',until:T(d,20),opts:[{t:'我去接。我有車。',set:{SIS_PICKUP_GO:'family'}}]};   /* 另一個是不回；AA_516 1-6：要見過她（met）才有按鈕，沒見過的照樣看到群組那兩句 */
+            if(v==='family') L[L.length-1].ask={id:'y4_pickup',until:T(d,20),opts:[{t:'我去接。我有車。',set:{SIS_PICKUP_GO:'family'}}]};   /* 另一個是不回 */
             PHONE.at(G,a,h,L,'y4_pickup_ask');
             if(v==='two'){ const m=P5('……你有空嗎。'); m.ask={id:'y4_pickup_two',until:T(d,20),opts:[{t:'有。',set:{SIS_PICKUP_GO:'two'}},{t:'那天不行。',set:{SIS_PICKUP_NO:true}}]}; PHONE.at(G,a,h,[m],'y4_pickup_dm'); } } }   /* 兩個人：她私訊多一句 */
         if(!F.SIS_PICKUP_V&&F.SIS_PICKUP_GO) F.SIS_PICKUP_V=F.SIS_PICKUP_GO;

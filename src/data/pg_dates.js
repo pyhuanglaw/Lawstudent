@@ -5,8 +5,7 @@
 const PG_DATES={
  "source": {
   "AA_366": "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md@e6d4a198",
-  "AA_367": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md@1ebcf530",
-  "AA_523": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md@0d7b5388b（6-5 學姊 2029-06 那一格）"
+  "AA_367": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md@1ebcf530"
  },
  "kexin": {
   "segs": {
@@ -533,7 +532,7 @@ const PG_DATES={
   "heroine_05": [
    {
     "ym": "2029-06",
-    "line": "修正本改完了。這禮拜印，下禮拜交。",
+    "line": "論文送進圖書館了。櫃台的人蓋了章，說『好，下一位』。……就這樣。",
     "note": ""
    },
    {

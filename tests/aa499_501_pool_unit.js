@@ -1,5 +1,4 @@
 // 法律系同學第二～四批十五位（AA_499、AA_500、AA_501，企劃線 4545c239e、d043110ae、17d57eff3；任務 NPC-STORY-1028、USER_WANTS X119）——不需要瀏覽器。
-//   （2026-10-28 AA_519 2-1 改：何宇軒「冠廷學長在寫論文的第三章。他說不要問第四章。」→第五章、第六章；對稿兩個方向都認這一組舊字／新字）
 //   0  稿（雙向、一字不差）：src/data/pool_story_b2.js、b3.js、b4.js 的每一句台詞、旁白、選項、手機訊息、人物頁一行、personality 都在稿裡；
 //      稿上的每一句（對話、旁白、選項、閒聊表、之後的招呼、他的線表上的訊息、「」引的句子）都在遊戲裡——例外逐條寫原因（EXC）
 //   1  接線：十五位都有自己那一套（POOL.owns）、載入順序、社會圖（AA_499 第 6 節第 2 點）、personality（AA_501 第 5 節第 5 點的表）、新的 2D 場景沒有圖＝深色底、
@@ -86,10 +85,8 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   const OTHERDOC={'（社課的聲音。最後一首彈完，椅子一張一張收起來。有人在收導線，一邊收一邊哼——是子晴。）':'AA_514 4-4 大四上','（一個學妹在台上彈，中間停了一拍，又接上。台下有人說：「沒停就好。」——是子晴的聲音。）':'AA_514 4-4 大四下','（錄音 1:10）':'AA_514 4-4 大四下'};
   const DERIVED={'「這條比你資深。對它好一點。」':'AA_499 5-4 房間物品「法服的延長線」：稿沒有寫「看」的句子，用她交給你時說的那一句',
     '「週五以前還我。」':'AA_500 6-1 房間物品「乃文學姊的民總筆記」：稿沒有寫「看」的句子，用她借你時說的那一句'};
-  /* AA_519 2-1（企劃線 d75cd0228，2026-10-28 NPC-STORY2-1028）：陳助教的論文卡在第五章（不再用第三章，和學姊的第三章分開）——何宇軒那一句跟著換（遊戲是新的字，這份稿是舊的字；tests/aa519_support2_unit.js 也查）*/
-  const AA519={'「冠廷學長在寫論文的第五章。他說不要問第六章。」':'「冠廷學長在寫論文的第三章。他說不要問第四章。」'}, AA519R={}; for(const a in AA519) AA519R[AA519[a]]=a;
   for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k];
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0));
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0));
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;
@@ -119,7 +116,6 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   for(const k of ['B2','B3','B4']){ if(!B[k]) continue; const G=strs(B[k]), all=G.concat(MORE).join('\n'), S1=new Set(G), SN=new Set(G.map(norm)); const U=units(DOC[k]); const miss=[], used=new Set();
     for(const u of U){ let ok;
       if(EXC[u.t]){ used.add(u.t); continue; }
-      if(AA519R[u.t]){ if(!S1.has(AA519R[u.t])) miss.push((u.i+1)+' ['+u.k+'] '+u.t+'（AA_519 換成 '+AA519R[u.t]+'）'); continue; }   /* AA_519 2-1：換成新的字 */
       if(u.k==='q') ok=all.indexOf(u.t)>=0||SRCALL.indexOf(u.t)>=0;   /* 段落裡「」引的：遊戲裡哪裡都可以（人物頁、房間物品、引別的事件的題目）*/
       else if(u.k==='opt'||u.k==='greet'||u.k==='rowq') ok=S1.has(u.t)||SN.has(norm(u.t));   /* 選項：手機的回覆沒有引號 */
       else if(u.k==='pers') ok=S1.has(u.t);

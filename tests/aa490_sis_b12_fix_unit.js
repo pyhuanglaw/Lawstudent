@@ -13,7 +13,6 @@
 //        曼谷 7/3～7/7 回來了、沒報出國：照舊有「我去。」／「這週不行。」、回了照排；
 //        舊存檔（改之前已經收到有選項的那一則）：出國中回「我去。」不排；已經排好的取消（cancelled，同 VAC.drop），過了時間也不變 missed
 // 修改前（int-usapt-1027 b49841b83）：1、2、3、4、5、6 各至少一項 FAIL（0 也有：遊戲裡還沒有兩句小字、5/29 還是舊句）。用法：node tests/aa490_sis_b12_fix_unit.js
-// 2026-10-28 AA_518 第 1-9 改的（企劃線 973dd1b74，SIS-B15-1028）：2028-06-28 那一晚清研究室多一筆 linze_5f（note 開頭 AA_518）——第 1 節「不改的兩筆」不算它。
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -62,7 +61,7 @@ await sec(0,()=>{
   check('0. 日本路線 5/29：稿「學姊：讀書會還在。Kevin 說考完國考才算結束。」＝遊戲第二句；照片那一則照舊',doc.includes('> 學姊：讀書會還在。Kevin 說考完國考才算結束。')&&!!m&&J(m.L)===J(JP0529),J(m)); });
 
 /* ---- 1 12-5 法圖的午休：週五 ---- */
-await sec(1,async()=>{ const c=CHARACTERS[ID], L5=(c.daily_schedule||[]).filter(e=>e.zone==='linze_5f'&&!/^AA_51[28]/.test(e.note||''));   /* 2026-10-28 AA_518 1-9（企劃線 973dd1b74）：2028-06-28 那一晚清研究室的一筆也不算（tests/aa518_sis_b15_unit.js）*/   /* 2026-10-28 AA_512（企劃線 c444f0757）另外加的兩筆 linze_5f（13-3 兩天傍晚、交往中週一三晚上）不算在「不改」的這兩筆裡（tests/aa512_sis_b13_unit.js）*/
+await sec(1,async()=>{ const c=CHARACTERS[ID], L5=(c.daily_schedule||[]).filter(e=>e.zone==='linze_5f'&&!/^AA_512/.test(e.note||''));   /* 2026-10-28 AA_512（企劃線 c444f0757）另外加的兩筆 linze_5f（13-3 兩天傍晚、交往中週一三晚上）不算在「不改」的這兩筆裡（tests/aa512_sis_b13_unit.js）*/
   check('1. 她的作息不改：兩筆 linze_5f（週一～週四）結束日照舊 2029-05-31',L5.length===2&&L5.every(e=>J(e.days)===J([1,2,3,4])&&Array.isArray(e.dates)&&e.dates.length===1&&e.dates[0][1]==='2029-05-31'),J(L5.map(e=>[e.from,e.to,e.dates])));
   const where=(key,h)=>{ fresh(key,h,'fam'); const e=STORY.schedEnt(c,H.G); return e?e.zone:null; };
   const wk=['2028-03-06','2028-03-07','2028-03-08','2028-03-09','2028-04-17','2028-04-20'].map(k=>where(k,12.5)), fr=['2028-03-03','2028-03-31','2028-04-21'].map(k=>where(k,12));

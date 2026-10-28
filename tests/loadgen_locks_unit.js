@@ -74,7 +74,6 @@ const ALLOW={
   'src/hcircle3d.js guard':'同步的遞迴防護',
   'src/invites3d.js arrivingIv':'WeakSet，裝的是舊 G 的邀約物件：讀進來的新 G 是新的物件，對不到',
   'src/msg3d.js S._herOf':'同步：S.pick 不 await',
-  'src/sup519_3d.js E0.tags':'同步：MSG.pick 不 await（AA_519 5-4 阿凱畢業以後那一則暫時拿掉「學期中」，挑完就還原）',
   'src/us_blank3d.js USL.SUM':'同步：USL.tick 回傳就還原（不等 Promise）',
   'src/zones3d.js E.renderSkip':'換區域的預熱（enter 裡；applySave 先等換區域結束，不照世代、一定走完 finally）',
   'src/zr_uk3d.js S._t2':'同步：MSG.send 不 await'

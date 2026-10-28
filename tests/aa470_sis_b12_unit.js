@@ -1,7 +1,5 @@
 // AA_470 學姊第十二批：三種玩家總檢查，大一暑假到大四寒假補七場（企劃線 5f54b6545，AA-B 2026-10-25 18:1x；SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
 // 2026-10-28 改（AA_497 第 5 節，企劃線 7a38216ca）：Kevin 動物影片第 6 則（10/26）換成他自己的事、2027-03-08 學妹在群組問考古題那一段拿掉（改宜蓁私訊）、gradPost「學姊多講兩個字」換掉、家族的學妹叫宜蓁——第 0、2、6 項照新的寫（新句子在 tests/aa497_supporting_unit.js 對 AA_497 的稿）。
-// 2026-10-28 AA_523 第 6-12 點改的（企劃線 0d7b5388b，SIS-B16-1028）：12-7 空白的一月，選項「美國好玩嗎？」→「回來以後，習慣嗎？」、學姊「好玩。……照片你都看過了。」→「……法圖的椅子比較矮。」——
-//   第 0 項：換掉的兩句要真的不在遊戲裡、新的兩句對 AA_523 第 6 節 6-12 那一列（一字不差）；第 7 項的選項、順序照新的寫。
 // 台詞逐字對 AA_470（從企劃線 git show 讀稿、解析「誰：台詞」與選項）。三種存檔：交往中、朋友（認識、熟悉／朋友以上、沒交往）、沒認識（沒有 met_sis）。
 //   0  讀稿；新檔載得到、index.html 接在 sis_b11_3d.js 後面；第 3 節每一句、每個選項都在遊戲裡（{稱呼}＝學弟／名字兩版），遊戲裡每一句都在稿裡；人物頁七個記憶
 //   1  12-1 學生證：7/6～7/31 平日 9～17 總圖閱覽區找她說話先演（SISY23.preTalk 鏈）；稱呼兩版；選項；熟悉 +1、信任 +1、SIS_BORROWED_CARD；窗口外、沒認識、前任、不熟不演；第 21 天 21:00 私訊兩則
@@ -58,8 +56,6 @@ const nm=()=>H.G.name||'祐廷';
 
 (async()=>{
 let doc=''; try{ doc=cp.execSync('git show 5f54b6545:"docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-let doc523=''; try{ doc523=cp.execSync('git show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8'}); }catch(e){ doc523=''; }
-const row612=(doc523.split('\n').find(l=>l.startsWith('| 6-12 |'))||'');   /* AA_523 第 6 節 6-12 那一列 */
 const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const NAMES='學姊|旁白|Kevin|家族的學妹|書瑀|\\{name\\}', QRE=new RegExp('(?:^|[\\s>→|])('+NAMES+')：(.+)$');
 const quotes=t=>{ const out=[]; for(let line of t.split('\n')){ line=line.replace(/\s*\|\s*$/,''); for(const p of line.split('／')){ const m=p.match(QRE); if(m) out.push({who:m[1],t:m[2].trim()}); } } return out; };
@@ -80,16 +76,13 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   const lost=Q.filter(q=>q.t.indexOf('{稱呼}')>=0?!(mine.has(q.t.replace('{稱呼}','學弟'))&&mine.has(q.t.replace('{稱呼}','{name}'))):!mine.has(q.t)).map(q=>q.who+'：'+q.t);
   /* 2026-10-28 改：AA_497 第 5 節（企劃線 7a38216ca；tests/aa497_supporting_unit.js 5-2、5-4）換掉、拿掉的 AA_470 句子：Kevin 動物影片第 6 則（10/26）、2027-03-08 學妹在群組問考古題那一段（改成宜蓁私訊）、gradPost「學姊多講兩個字」 */
   const AA497_OUT=new Set(['Kevin：📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）','Kevin：學姊這次有看完嗎','學姊：有。牠到最後都沒醒。','家族的學妹：請問民總的考古題在哪裡🙏','學姊：置頂第二個資料夾。去年的我也放進去了。','Kevin：學姊回得比我快','Kevin：我還在找置頂在哪','Kevin：學姊多講兩個字','學姊：恭喜畢業。']);
-  const AA523_OUT=new Set(['學姊：好玩。……照片你都看過了。']), AA523_OUT_O=new Set(['「美國好玩嗎？」']);   /* AA_523 6-12 換掉的（12/28、12-7 兩週問兩次）*/
-  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句、AA_523 6-12 換掉的 '+AA523_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x)).length&&[...AA497_OUT,...AA523_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x)&&!AA523_OUT.has(x))));
+  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)).length&&[...AA497_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x))));
   const O=optsOf(S3), G0=new Set(gameTexts().map(t=>String(t))), lostO=O.filter(o=>!G0.has(o)&&!G0.has(o.replace(/^「|」$/g,'')));
-  check('0. 第 3 節每個選項（'+O.length+' 個）都在遊戲裡（AA_523 6-12 換掉的「美國好玩嗎？」除外、而且真的不在遊戲裡）',O.length>=25&&!lostO.filter(o=>!AA523_OUT_O.has(o)).length&&[...AA523_OUT_O].every(o=>lostO.includes(o)),J(lostO.filter(o=>!AA523_OUT_O.has(o))));
+  check('0. 第 3 節每個選項（'+O.length+' 個）都在遊戲裡',O.length>=25&&!lostO.length,J(lostO));
   const EXTRA=['「妳大一的時候呢？」','「妳以前不睡覺？」',   /* 交往中祐廷的選項用「妳」（AA_470 第 2 節稱呼）*/
     '家聚吃什麼 不要再吃咖哩了','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'];   /* AA_497 5-4 換上的句子（對 AA_497 的稿：tests/aa497_supporting_unit.js）*/
-  const AA523_IN=['「回來以後，習慣嗎？」','……法圖的椅子比較矮。'];   /* AA_523 6-12 換上的句子：下一項對 AA_523 第 6 節 6-12 那一列 */
-  const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&!AA523_IN.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
+  const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
   check('0. 遊戲裡這一批的每一句、選項、群組句都在稿裡（一字不差；交往中「妳」兩個選項除外）',!!doc&&!notIn.length,J(notIn));
-  check('0. AA_523 6-12 換上的選項、回覆在遊戲裡，而且一字不差在 AA_523 第 6 節 6-12 那一列（企劃線 0d7b5388b）',!!row612&&AA523_IN.every(t=>G0.has(t)&&row612.includes(t)),J(AA523_IN.filter(t=>!G0.has(t)||!row612.includes(t))));
   const ML=SOCIAL.MEMORY_LABEL||{};
   check('0. 人物頁：七個記憶的名稱照稿括號（SIS_BORROWED_CARD…SIS_BLANK_JAN）',ML.SIS_BORROWED_CARD==='暑假她用你的學生證借書'&&ML.SIS_HOTPOT_Y2==='寒假一起幫 Kevin 吃了一份'&&ML.SIS_FAM_STUDY==='去了家族讀書會的第一次'&&ML.SIS_LAWLIB_KEVIN==='法圖午休，看她把 Kevin 叫醒'&&ML.SIS_FAM_STUDY_LAST==='家族讀書會的最後一次'&&ML.SIS_STUDY_ROOM==='說要幫忙訂討論室'&&ML.SIS_BLANK_JAN==='她給你看過空白的一月'); });
 
@@ -220,10 +213,10 @@ await sec(7,async()=>{
   fresh('2029-01-08',19.5,'friend',{SIS_PLAN_POSTED:true,SIS_BOOK:'law'}); const r0=relNow(); const ran=await talk('cafe',[1,1]); const r1=relNow(), d=dRel(r0,r1);
   check('7. 1/8（一）19:30 朋友、Café 找她說話：先演「空白的一月」；叫名字；貼過讀書計畫＝「十月那份讀書計畫。後來照著做了多少？」',ran===true&&seq(['（兩點半 Café。她坐在老位子，桌上一杯熱水、一本新的計畫本。）',nm()+'。坐。','十月那份讀書計畫。後來照著做了多少？'])&&!has('寒假你怎麼排的？'),J(said()));
   check('7. 「每一天都照做。」→「……休息日呢。」（你沒有回答。）「那就是沒有。」；空白的一月；「我幫妳寫一格？」→「（看了你一眼）……寫什麼。」寫了「休息」；law＝小說那兩句；結尾＋「休息」還在上面',
-    J(H.opts[0])===J(['「大概一半。」','「每一天都照做。」','「沒照做。」'])&&J(H.opts[1])===J(['「空著不好嗎？」','「我幫妳寫一格？」','「回來以後，習慣嗎？」'])&&seq(['……休息日呢。','（你沒有回答。）','那就是沒有。','（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）','在美國，最後一格寫的是回臺灣。','回來以後，這本一直空著。','（看了你一眼）……寫什麼。','（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）','（計畫本旁邊是那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。','下學期要的書，開學以前跟我說。法圖寒假開得很短。','（她把計畫本收起來。那一格「休息」還在上面。）'])&&!has('回來第一個禮拜翻完了。問號少了一點。'),J({o:H.opts,s:said()}));
+    J(H.opts[0])===J(['「大概一半。」','「每一天都照做。」','「沒照做。」'])&&J(H.opts[1])===J(['「空著不好嗎？」','「我幫妳寫一格？」','「美國好玩嗎？」'])&&seq(['……休息日呢。','（你沒有回答。）','那就是沒有。','（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）','在美國，最後一格寫的是回臺灣。','回來以後，這本一直空著。','（看了你一眼）……寫什麼。','（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）','（計畫本旁邊是那本小說。書籤還在快一半的地方。）','回來以後開始看。……還沒看完。','下學期要的書，開學以前跟我說。法圖寒假開得很短。','（她把計畫本收起來。那一格「休息」還在上面。）'])&&!has('回來第一個禮拜翻完了。問號少了一點。'),J({o:H.opts,s:said()}));
   check('7. 自在 +2、信任 +1；記憶 SIS_BLANK_JAN；只演一次',d.comf===2&&d.trust===1&&SOCIAL.has(ID,'SIS_BLANK_JAN')&&evDone('ev_sis_blank_jan')&&(at('2029-01-09',19.5),X().preTalkEv(H.G)==null),J(d));
   fresh('2029-02-08',21,'fam',{SIS_BOOK:'novel'}); await talk('cafe',[0,2]);
-  check('7. 熟悉叫「學弟。坐。」；沒貼讀書計畫＝「寒假你怎麼排的？」；novel＝刑訴那兩句；「回來以後，習慣嗎？」→「……法圖的椅子比較矮。」（AA_523 6-12）；沒寫一格就沒有最後那句',seq(['學弟。坐。','寒假你怎麼排的？','一半很多了。','……法圖的椅子比較矮。','（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。','下學期要的書，開學以前跟我說。法圖寒假開得很短。'])&&!has('（她把計畫本收起來。那一格「休息」還在上面。）'),J(said()));
+  check('7. 熟悉叫「學弟。坐。」；沒貼讀書計畫＝「寒假你怎麼排的？」；novel＝刑訴那兩句；「美國好玩嗎？」→「好玩。……照片你都看過了。」；沒寫一格就沒有最後那句',seq(['學弟。坐。','寒假你怎麼排的？','一半很多了。','好玩。……照片你都看過了。','（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）','回來第一個禮拜翻完了。問號少了一點。','下學期要的書，開學以前跟我說。法圖寒假開得很短。'])&&!has('（她把計畫本收起來。那一格「休息」還在上面。）'),J(said()));
   for(const bk of ['both',undefined]){ fresh('2029-01-02',19,'friend',bk?{SIS_BOOK:bk}:{}); await talk('cafe',[2,0]);
     check('7. SIS_BOOK '+(bk||'沒演過 1-2')+'：沒有「另外一本」那段；「嗯。至少你說實話。」「……我還在習慣。」',has('嗯。至少你說實話。')&&has('……我還在習慣。')&&!said().some(t=>/計畫本旁邊/.test(t)),J(said())); }
   const no=[]; for(const [n,key,h,kind,zone] of [['交往中','2029-01-08',19.5,'dating'],['前任','2029-01-08',19.5,'ex'],['不熟','2029-01-08',19.5,'acq'],['沒認識','2029-01-08',19.5,'none'],['週三 1/10','2029-01-10',19.5,'friend'],['週五 1/12','2029-01-12',19.5,'friend'],['21:30','2029-01-08',21.5,'friend'],['18:55','2029-01-08',18.92,'friend'],['2/12（窗口後）','2029-02-12',19.5,'friend'],['12/28（窗口前）','2028-12-28',19.5,'friend'],['在法圖','2029-01-08',19.5,'friend','lawlib']]){

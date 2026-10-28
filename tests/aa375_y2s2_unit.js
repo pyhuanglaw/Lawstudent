@@ -58,11 +58,9 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   check('1. 對照：大二上 10/7（三）12:00 在班；2028-03-01（三）20:00 從英國回來以後照現有設定在班',!!zrA&&zrA.act==='barista'&&!!zrB&&zrB.act==='barista',J([zrA&&zrA.act,zrB&&zrB.act]));
   check('1. STORY.zrNoShift：6/3 否、6/4 是、9/2 是、9/3 否',typeof STORY.zrNoShift==='function'&&!STORY.zrNoShift(G,D('2027-06-03'))&&STORY.zrNoShift(G,D('2027-06-04'))&&STORY.zrNoShift(G,D('2027-09-02'))&&!STORY.zrNoShift(G,D('2027-09-03')));
   // 吧檯點餐（BB 測試）：6/4 以後是學妹小婷
-  // AA_519 第 9 節第 3 點（企劃線 169130daf，2026-10-28）：6/4 起照班表——芷若原本的班（週一三五 11:00～15:00、週一到週五 19:00～22:00）是小婷，其他時間是老闆。
-  //   原本查 6/7（一）15:00＝小婷；15:00 已經不是芷若的班＝老闆。改成 6/7 12:00 查小婷（原本的意思：吧檯不是芷若）、15:00 查老闆
-  { fresh('2027-06-07',12,'cafe'); SOCIAL.remember('heroine_02','FIRST_MET',''); const T=EAT_LINES.staff['兩點半 Café'];
-    const a=typeof EAT.staffName==='function'?EAT.staffName(G,'兩點半 Café',T):null; to('2027-06-07',15); const c=typeof EAT.staffName==='function'?EAT.staffName(G,'兩點半 Café',T):null; to('2027-05-31',16); const b=typeof EAT.staffName==='function'?EAT.staffName(G,'兩點半 Café',T):null;
-    check('1. 吧檯點餐 6/4 起是學妹小婷（BB 測試：吧檯不是芷若；AA_519 第 9 節第 3 點起是芷若原本的班：6/7 週一 12:00）、6/7 15:00 不是她的班＝老闆；5/31 芷若不在班的時候照舊「老闆」',a==='小婷'&&c==='老闆'&&b==='老闆',J([a,c,b])); }
+  { fresh('2027-06-07',15,'cafe'); SOCIAL.remember('heroine_02','FIRST_MET',''); const T=EAT_LINES.staff['兩點半 Café'];
+    const a=typeof EAT.staffName==='function'?EAT.staffName(G,'兩點半 Café',T):null; to('2027-05-31',16); const b=typeof EAT.staffName==='function'?EAT.staffName(G,'兩點半 Café',T):null;
+    check('1. 吧檯點餐 6/4 起是學妹小婷（BB 測試：吧檯不是芷若）；5/31 芷若不在班的時候照舊「老闆」',a==='小婷'&&b==='老闆',J([a,b])); }
   { const e=ev('ev_cafe_barista_zhiruo'), pq=k=>{ fresh(k[0],k[1],'cafe'); SOCIAL.remember('heroine_02','FIRST_MET',''); return !e.prereq||!e.prereq.custom||!!e.prereq.custom(G); };
     check('1. 6/7 她在 Café 當客人：和她說話不是點餐（「兩點半的店員」不演）；對照 5/31 她在班照演',!pq(['2027-06-07',15])&&pq(['2027-05-31',12])); }
   // 約她（BB 測試）：6/4 起「我在 Café，今天是客人。你要來嗎？」

@@ -89,8 +89,7 @@ const WC3=(function(){
         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); (f.lv?lv1:lv0).add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03);
         IT.push({x:f.x,z:f.z+0.9,radius:1.0,lv:f.lv,label:'看樓層簡介',look:'萬才館 樓層簡介：1F 大廳、演講廳、多功能教室，西南角（進門左手邊）是法律學院圖書館；2F 研討室 A、B，西南角的門通到外面大樓梯頂端的平台；3F–9F 研究室（要刷學院識別證）。樓梯在大廳西側，電梯在大廳東側。'}); }
       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
-      else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
-      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); } }   /* 大廳的擺設（展示櫃、飲水機、回收桶、傘架、小圓桌；WANCAI-DRESS-1028，LAWWW2-C，和霖澤館大廳 building3d.js 的 prop 一樣）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
+      else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); } }
     b0.build(fb0); b1.build(fb1);
     const sp=W3.signPlane('演講廳 →',2.2,0.5,{color:'#3b2a1e'}); sp.position.set(-7,2.6,-L.D/2+0.15); lv0.add(sp); }   /* v9.3 的指標（演講廳的門在東邊 x=-2.5）*/
 

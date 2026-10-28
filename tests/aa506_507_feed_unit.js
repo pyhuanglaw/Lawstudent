@@ -18,7 +18,6 @@
 //   第 0 段 10 項（載入與順序、SETS 只有三個學期、則數、id 148 個、兩份對稿沒有資料、語彤 2027 生日、學姊 2/7、可昕 4/10、作廢句子那一項沒有檔可查）、
 //   第 1～5 段各 1 項（沒有資料就停）。
 // 修改後 ALL PASS。用法：node tests/aa506_507_feed_unit.js
-// 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028）：sis4d 私訊回兩版（went sisS4Lx）、sis2e 留言回「最近加得比較快。」——第 0 節對稿時照 AA_518 換（AA518_ROW）。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -110,21 +109,19 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
     !!SET.Y2S2&&!!SET.Y3S1&&J(cnt(SET.Y2S2))===J([8,8,7,7,5,1,4])&&SET.Y2S2.dms.length===1&&J(cnt(SET.Y3S1))===J([7,8,6,7,5,4,4])&&SET.Y3S1.dms.length===1,J([cnt(SET.Y2S2),cnt(SET.Y3S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
   check('0. 五個學期的 id 都不重複（動態 44＋47＋38＋40＋41、私訊 10＋7＋3＋1＋1；大二上 38＝AA_514 加的 kx4bc）',ids.length===232&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
-  /* 2026-10-28 AA_518 第 4-1、4-5 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4d 私訊回兩版（聽過 S4-Lx＝「你知道的。……美國那邊的書。」，went sisS4Lx）、sis2e 留言回「最近加得比較快。」*/
-  const AA518_T=new Set(['你知道的。……美國那邊的書。','最近加得比較快。']), AA518_ROW={sis4d:e=>{ e.dm=[e.dm[0],{no:e.dm[1],yes:'你知道的。……美國那邊的書。'}]; e.went='sisS4Lx'; },sis2e:e=>{ e.cm=[e.cm[0],'最近加得比較快。']; }};
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
+    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+SHA+'，一字不差；'+L.length+' 句；兩個版本的照片 '+(vp.join('、')||'沒有')+' 在 ② 對）',L.length>=(term==='Y2S2'?200:190)&&!bad.length&&J(vp)===J(term==='Y2S2'?['an7d']:[]),J({bad:bad.slice(0,8),vp}));
     /* ② 稿 → 遊戲：動態表每一列 */
     const rows=rowsOf(md), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */ if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(e.went) went[e.id]=e.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(p.pic)===C(e.pic)&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')); }
-    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+(J(went)||'')+'）',rows.length===S.posts.length&&!wrong.length&&J(went)===J(term==='Y2S2'?{an7d:'anC12',zq6d:'zqNamed',sis4d:'sisS4Lx'}:{an7e:'anJP'}),J(wrong.slice(0,10)));
+    check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差；兩個版本的列：'+(J(went)||'')+'）',rows.length===S.posts.length&&!wrong.length&&J(went)===J(term==='Y2S2'?{an7d:'anC12',zq6d:'zqNamed'}:{an7e:'anJP'}),J(wrong.slice(0,10)));
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列）',!wd.length,J(wd));
     /* ② 稿 → 遊戲：私訊 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);

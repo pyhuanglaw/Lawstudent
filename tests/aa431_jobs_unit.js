@@ -5,7 +5,6 @@
 //   4  小事件：第一班演第一件，之後每上兩班一件；要的人不在＝等（芷若在英國）；沛珊 2026-12-16 以後＝藍色的書跳過；Café 掃地那一句在「忘記的筆」以後換掉；
 //      2026-12-17 以後第一個週六的書店班：老闆「那個女生這學期沒來排班。」（和她一起上過週六班的玩家）
 //   5  撞時段：Café 週四＋公法讀書會、書店週六＋法服值班（兩個出門提醒）；放假沒有私訊＝先停；辭職「有空回來看看」
-//      （2026-10-28 AA_519 3-2 改：Café 的辭職換成「好。……告示我再貼回去。」，書店照舊；Café 放假多一則私訊、這個假照舊先停——tests/aa519_support2_unit.js 查）
 // 修改前（開發分支 HEAD）：JOBS 只有溫州街三家——FAIL。用法：node tests/aa431_jobs_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -91,7 +90,7 @@ await sec(5,async()=>{ const thu=TD('Y1S2',4,4); fresh(key(thu),17,'dorm'); hire
   const sat=TD('Y1S2',4,6); fresh(key(sat),8.5,'dorm',{lawclub:true}); hire('books',[6]); OUT.plan(H.G,{id:'fafu_'+sat,day:sat,h:9,place:'萬才館',title:'法服值班'}); JOBS.plan(H.G);
   const pr=JOBS.partner(H.G,OUT.get(H.G,'job_books_'+sat)); check('5. 書店週六＋法服值班：兩個出門提醒一起列',!!pr&&pr.q&&pr.q.id==='fafu_'+sat,J(pr));
   const s2=DK('2026-07-11'); fresh(key(s2),12,'dorm'); hire('books',[6]); JOBS.phone(H.G); check('5. 暑假：老闆沒有私訊、這個假先停（不排班）',!JOBS.scheduled(H.G,'books',s2)&&Object.values(JOBS.job(H.G,'books').brk).includes('stop')&&!(H.G.msgs||[]).some(m=>m.th==='p:books_boss'));
-  fresh(key(TD('Y1S2',5,3)),15,'cafe'); hire('cafe',[6]); H.said=[]; H.picks=['（辭職）']; await JOBS.desk(GM,'cafe'); check('5. 辭職：老闆「好。……告示我再貼回去。」（AA_519 3-2 的 Café 離職那一句，原本「有空回來看看」；沒有離開的時候那一段）',saidBy('老闆','好。……告示我再貼回去。')&&!saidBy('老闆','有空回來看看')&&JOBS.job(H.G,'cafe').gone==='quit',J(L()));
+  fresh(key(TD('Y1S2',5,3)),15,'cafe'); hire('cafe',[6]); H.said=[]; H.picks=['（辭職）']; await JOBS.desk(GM,'cafe'); check('5. 辭職：老闆「有空回來看看」（沒有離開的時候那一段）',saidBy('老闆','有空回來看看')&&JOBS.job(H.G,'cafe').gone==='quit',J(L()));
   check('5. 手機上的名字：兩點半的老闆、舊路書房的老闆',typeof PORTRAIT_ONLY==='undefined'||(PORTRAIT_ONLY.cafe_boss&&PORTRAIT_ONLY.cafe_boss.name==='兩點半的老闆'&&PORTRAIT_ONLY.books_boss.name==='舊路書房的老闆')); });
 
 H.done();

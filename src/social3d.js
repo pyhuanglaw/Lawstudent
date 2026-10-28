@@ -65,8 +65,7 @@ const SOCIAL = (function(){
   S.PG_TAG={ heroine_01:[['2029-09-01','台大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
     heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','研究單位']], kexin:[['2029-09-01','政大法律系畢業'],['2029-12-14','律師（職前訓練）']],
     zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','台大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國']],
-    yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']],
-    npc_ta_chen:[['2029-09-01','法研所博士班']], npc_huangxh:[['2029-09-01','臨床心理所']] };   /* AA_519 2-1：陳助教畢業以後（2028-09 起博士班）；4-1：筱涵 2029-09 起臨床心理所 */
+    yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']] };
   const dkS=k=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.tOf) return null; const p=String(k).split('-').map(Number); return Math.round((Date.UTC(p[0],p[1]-1,p[2])-CALENDAR.tOf(1))/86400000)+1; };
   S.pgTag=function(id){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law'||!F.GRADUATED) return null; const L=S.PG_TAG[id]; if(!L) return null; let v;
     for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d&&t!=null) v=t; } return v==null?null:v; };   /* null 的那一列不蓋掉前一列（AA_363 T4：沿用最後一列，不退回學年的規則）*/
@@ -194,14 +193,12 @@ const SOCIAL = (function(){
   MEMORY_LABEL.ZR_LAST_SCREENING='出國前的最後一場，二輪戲院';   /* 芷若：出國前的最後一場（AA_387 第 4 節，企劃線 608b9adc；src/zr_last3d.js）*/
   Object.assign(MEMORY_LABEL,{SIS5_NOT_BUSY:'學姊說碩士生不閒',SAW_HER_OFF:'她出發那天，你在機場等她',SIS_OLD_NOTES:'她把大二債各的筆記給你',SIS_XMAS_PENCIL:'她送了你一支刻了名字的鉛筆',W3_TAUGHT:'她要你把那一段講給她聽',ZQ_TESTBUILD:'她給了你遊戲的測試版'});   /* AA_398 第 50 列（使用者 10-23：學姊不數件數）：原本 ladder 匯入的「學姊的第三件事「還在想」」，這裡有就不從階梯文件拿 */
   MEMORY_LABEL.ZR_SAW_OFF='她出發那天，你去了機場';   /* 芷若 2027-09-02 送機（AA_390 第 3 節，企劃線 5f4b9c7b；src/zr_sendoff3d.js）*/
-  MEMORY_LABEL.ZHOU_Y4='大四去了周教授的研究室';   /* 周教授大四下專題的研究室（AA_522 1-3、第 5 節，企劃線 fcc93126e；名稱就是稿上那一句，記的時候不另外寫備註）*/
   Object.assign(MEMORY_LABEL,{SIS_SAW_BRUNCH:'她在早午餐店看到你在打工',ENC_PARK_ZQ:'夜裡在公園的鞦韆遇到她',TEA_CEREMONY:'一起去過茶席'});   /* 面板名稱：溫州街（AA_420 第 8、10 節，BB_148 8b；茶席 AA_167；src/data/wz_events.js、src/wzlines3d.js）*/
   Object.assign(MEMORY_LABEL,{SIS_BORROWED_CARD:'暑假她用你的學生證借書',SIS_HOTPOT_Y2:'寒假一起幫 Kevin 吃了一份',SIS_FAM_STUDY:'去了家族讀書會的第一次',SIS_LAWLIB_KEVIN:'法圖午休，看她把 Kevin 叫醒',SIS_FAM_STUDY_LAST:'家族讀書會的最後一次',SIS_STUDY_ROOM:'說要幫忙訂討論室',SIS_BLANK_JAN:'她給你看過空白的一月'});   /* 面板名稱：學姊第十二批（AA_470 第 3 節括號裡的字，企劃線 5f54b6545；src/data/sis_b12_events.js）*/
   MEMORY_LABEL.SIS_ABSTRACT='她給你看過論文摘要'; MEMORY_LABEL.SIS_DEFENSE_DATE='她告訴你口試的日子';   /* SIS_DEFENSE_DATE：AA_455 3-1 節②（企劃線 0c5afca90）*/   /* 學姊第十一批 11-1（AA_455 第 1 節，企劃線 2de70709f；src/data/sis_b11_events.js）。11-2 的 SIS_DEFENSE_DATE 稿沒寫面板名稱，沒加 */
   /* 面板名稱：以安、語彤交往中的節日・第一批（AA_414，企劃線 b1fc4bf30；src/an_yt_hol3d.js）*/ Object.assign(MEMORY_LABEL,{AN_VDAY_TC:'情人節去台中找她',AN_VDAY_OMAMORI:'她從東京帶回來一個學業御守',AN_VDAY_PEN:'送她一支鋼筆',AN_VDAY_CHOCO:'送她一盒巧克力',AN_VDAY_CALL:'初二那天，她躲到陽台打給你',YT_VDAY_RIVER:'店休那天，阿姨叫你們去別的地方',YT_VDAY_SHOP:'阿姨在門口貼了情人節的紅紙',YT_VDAY_FIELD:'她帶你去看她做田野的地方',YT_VDAY_NIANGAO:'阿姨叫她拿年糕給你',YT_MOON:'中秋在麵店門口剝柚子'});
   /* 面板名稱：節日（AA_416 1-7，企劃線 ed80edb71；src/fest3d.js）：HOL_<節日>_<年>＝「<年> 的情人節，和她一起過」，照節日換字 */ for(const [k,t] of [['VDAY','情人節'],['WHITE','白色情人節'],['QIXI','七夕'],['BDAY','生日'],['XMAS','聖誕節'],['NYE','跨年']]) for(let y=2025;y<=2029;y++) MEMORY_LABEL['HOL_'+k+'_'+y]=y+' 的'+t+'，和她一起過';
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
-  MEMORY_LABEL.HXH_SUBJECT='當過她的受試者';   /* 面板名稱：黃筱涵 4-2 當受試者（AA_519，企劃線 d75cd0228；src/sup519_3d.js）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
 })();

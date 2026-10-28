@@ -1,6 +1,5 @@
 // AA_379 第 2 節（企劃線 30ab5142；任務 AA379-SIS-Y2Y3-1021）：學姊大二到大三的空窗補八場——不需要瀏覽器。
 // 使用者 10-21 22:5x（經 AA）：「為什麼都只寫可昕　學姊才是真正的女主角!!!!!!」
-// 2026-10-28 AA_518 第 4-6 改的（企劃線 973dd1b74，SIS-B15-1028）：2026 生日那一場「下禮拜畢業。……」→「這禮拜六畢業。……」——這一句對 AA_518 的稿（tests/aa518_sis_b15_unit.js），第 0、4 節照新句。
 // 檢查：0 讀稿（台詞逐字在稿裡）、index.html 接線、talkSis／talkCharacter 呼叫 SISY23.preTalk
 //   1 2-1 9/21 21:00 私訊→「好。」排 9/22 12:20 研究室、演出、交往中多一段；回「明天中午有課。」→「好。我自己搬兩趟。」、18:00 照片「搬完了。」
 //   2 2-2 11/17→11/18 19:00 法圖討論室；問「妳為什麼選這個題目？」記 asked；交往中「你坐第一排」在「好。我回去改。」之前；沒來 22:00「講完了。牆沒有意見。」
@@ -39,8 +38,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   const allTxt=J(SISY23_LINES)+J(SISY23_EVENTS), quoted=[...allTxt.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISY23_LINES).flat().filter(x=>typeof x==='string'));
   /* 2026-10-28 AA_512 第 2 節第 4 點（企劃線 c444f0757）：ev_sis_predepart 加的那一段（帶 aa512 的行、選項）對 AA_512 的稿（tests/aa512_sis_b13_unit.js），這裡不算 */
   const AA512T=new Set(); for(const e of SISY23_EVENTS) for(const l of (e.dialogue||[])){ if(l&&l.aa512&&l.text) AA512T.add(l.text); if(l&&l.choice) for(const c of l.choice) if(c&&c.aa512) AA512T.add(c.text); }
-  const AA518T=new Set(['這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。']);   /* AA_518 4-6 改的那一句（對 AA_518 的稿，tests/aa518_sis_b15_unit.js）*/
-  const notIn=quoted.filter(t=>!AA512T.has(t)&&!AA518T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
+  const notIn=quoted.filter(t=>!AA512T.has(t)&&!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t)&&!LATER.includes(t)&&!(doc392&&doc392.indexOf(t)>=0)&&!['社區活動中心・小房間','社區活動中心門口'].includes(t)&&!(t===CH4&&doc509.indexOf(CH4_SRC)>=0));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
   /* ---- 1 2-1 研究室 ---- */
   { setup('2026-09-21',20,'dorm','FAMILIAR'); rules(); const a=dms().length; at('2026-09-21',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_lab_ask');
@@ -84,7 +82,7 @@ const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating
   { setup('2026-06-02',9,'dorm','FAMILIAR'); PHONE.join(H.G,'family_law','法律系直屬家族'); rules(); at('2026-06-02',12.2); rules();
     check('4. 6/2 12:10 家族群組 Kevin「今天溫學姊生日🎂」',H.msgs('g:family_law').includes('今天溫學姊生日🎂'),J(H.msgs('g:family_law')));
     at('2026-06-02',19.5); H.G.zone='cafe'; const due=X().bdayTalkDue(H.G,'y1'), ck=EVENTS.check(ev('ev_sis_bday_y1')); const L=await play('ev_sis_bday_y1',[1]);
-    check('4. 2026 晚上在 Café 找她說話：蛋糕、「群組那則看到了吧。Kevin 每年都發。」「這禮拜六畢業。……」（AA_518 4-6）；茶葉→「妳保溫瓶的味道。」→「……好。」；SIS_BDAY_Y1 tea',due&&ck&&L[0]==='（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）'&&L.includes('這禮拜六畢業。……之後還是在這裡讀書，只是換一張學生證。')&&L.includes('妳保溫瓶的味道。')&&L.includes('（她收進包包）')&&H.G.flags.SIS_BDAY_Y1==='tea',J(L)); }
+    check('4. 2026 晚上在 Café 找她說話：蛋糕、「群組那則看到了吧。Kevin 每年都發。」「下禮拜畢業。……」；茶葉→「妳保溫瓶的味道。」→「……好。」；SIS_BDAY_Y1 tea',due&&ck&&L[0]==='（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）'&&L.includes('下禮拜畢業。……之後還是在這裡讀書，只是換一張學生證。')&&L.includes('妳保溫瓶的味道。')&&L.includes('（她收進包包）')&&H.G.flags.SIS_BDAY_Y1==='tea',J(L)); }
   { setup('2027-06-02',19.5,'lawlib','FAMILIAR',{SIS_LAB_DESK:'went'}); const due=X().bdayTalkDue(H.G,'y2'), wrong=(H.G.zone='cafe',X().bdayTalkDue(H.G,'y2')); H.G.zone='lawlib'; const L=await play('ev_sis_bday_y2',[0]);
     check('4. 2027（週三法圖）：研究室去過的「碩一過完一年了。……我換了一個坐墊。」；「生日快樂。」→「謝謝。……蛋糕分你一半，我吃不完。」；在 Café 不算',due&&!wrong&&L.includes('碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。')&&L.includes('謝謝。……蛋糕分你一半，我吃不完。')&&H.G.flags.SIS_BDAY_Y2==='there',J(L)); }
   { setup('2027-06-01',18,'dorm','FAMILIAR'); dateSis(); rules(); at('2027-06-01',21.05); rules(); const m=dms().slice(-2); rules(); const q=OUT.get(H.G,'sisy23_bday_y2');

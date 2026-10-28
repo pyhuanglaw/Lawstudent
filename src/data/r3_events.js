@@ -163,17 +163,10 @@ const R3_EVENTS=(function(){
       {label:'d2'},{speaker:null,text:'（她喝了一口，沒有停下來打字。）'},SIS('……謝謝。'),{goto:'end'},
       {label:'d3'},{advance:toH(24)},{speaker:null,text:'（十二點，她先收。）'},SIS('你今天比我晚。燈你關。'),{goto:'end'},
       {label:'again'},
-      {if:{custom:G=>typeof SISB16!=='undefined'&&SISB16.jobDue(G)},goto:'job'},   /* AA_523 1-3（企劃線 0d7b5388b）：3/28～4/11 第一個有去的週三，輪流旁白換成研究單位的回信（src/sis_b16_3d.js S.jobDesk 演 ev_sis16_job，一次）*/
-      /* AA_523 第 6 節（書桌夜三句旁白輪十三次）：加四句，七句照順序輪流（前三句和原本一樣在第 1～3 次）*/
-      {if:{custom:G=>deskN(G)%7===1},speaker:null,text:'（十一點。她的螢幕上還是第四章。你的筆記寫到第三頁。）'},
-      {if:{custom:G=>deskN(G)%7===2},speaker:null,text:'（她起來倒水，順便把你的杯子也加滿，沒說話。）'},
-      {if:{custom:G=>deskN(G)%7===3},speaker:null,text:'（十一點半，她伸了一個懶腰。「今天到這裡。」）'},
-      {if:{custom:G=>deskN(G)%7===4},speaker:null,text:'（她把頭髮夾起來，又放下來。）',aa523:true},
-      {if:{custom:G=>deskN(G)%7===5},speaker:null,text:'（她的筆電沒電了，借你的充電線。）',aa523:true},
-      {if:{custom:G=>deskN(G)%7===6},speaker:null,text:'（十一點。她唸了一句論文給自己聽，又刪掉。）',aa523:true},
-      {if:{custom:G=>deskN(G)%7===0},speaker:null,text:'（窗外下雨。她起來關窗，順便把你的窗也關了。）',aa523:true},
-      {advance:toH(23.5)},{goto:'end'},
-      {label:'job'},{call:async(G,GM,ev)=>{ if(typeof SISB16!=='undefined') await SISB16.jobDesk(GM,ev); }},{advance:toH(23.5)},
+      {if:{custom:G=>deskN(G)%3===1},speaker:null,text:'（十一點。她的螢幕上還是第四章。你的筆記寫到第三頁。）'},
+      {if:{custom:G=>deskN(G)%3===2},speaker:null,text:'（她起來倒水，順便把你的杯子也加滿，沒說話。）'},
+      {if:{custom:G=>deskN(G)%3===0},speaker:null,text:'（十一點半，她伸了一個懶腰。「今天到這裡。」）'},
+      {advance:toH(23.5)},
       {label:'end'},{inc:{SIS_DESK_NIGHTS:1}} ],
     outingMissed:(G,GM,q)=>{ if(typeof R3!=='undefined') R3.deskMissed(G,q); } };   /* 第一次沒去的那一週：23:10 照片 */
   /* 2-7b 她爸爸的晚餐：3/17（六）18:30 公館的餐廳（出遊）。照實說大四選擇（Y4_PATH；兩次都「還沒決定」的沒有這個選項）*/

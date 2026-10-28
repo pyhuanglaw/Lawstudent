@@ -63,12 +63,6 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-17 US2 退回的報告（C 棟 208 廚房；溫書瑀_角色企劃 US2、BB_98 2-8、BB_217）：交往中＝9/13 18:30～19:30 坐到窗口外側的高腳椅（usShared:'bar'）就開始 ---- */
   const US2_DAY=G=>{ const d=D('2028-09-13'), hh=((G.hour%24)+24)%24; return d!=null&&G.day===d&&hh>=18.5&&hh<19.5; };
   const onBar=GM=>{ const P=GM&&GM.E&&GM.E.player; return !!(P&&P.seat&&P.seat.lift>0); };   /* 高腳椅（us3d.js：椅面 0.76，seat.lift＝0.31；合租戶只有吧台的高腳椅有 lift）*/
-  /* AA_516 第 8 節第 1 點、第 3 點、第 4 點（企劃線 3cd10909b → d6f8621ac → 913802344 第 8 節第 4 點；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
-     之後第一次「有吃東西的」208 場景多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue）。先算這一場（9/13 US2），三支都出（第 4 點）：
-     「那就寫妳。」接在「（她把麵分到兩個碗。）」後面（第 3 點）；「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面；「書瑀，休息一下。」在「……休息完再改。先吃麵。」後面。
-     沒演到 US2 才是 3-2 滷肉（src/us208_3d.js 的 BOWL，兩支選項會合的地方（label e 後面，盛出來吃的時候；第 5 點 ca08e848c））；4-2 煎蛋不算（盤子，不是碗）。
-     字和 us208_3d.js 那一行相同（這個檔先載入，引用不到那邊）；aa516：tests/aa516_sis_b14_unit.js 逐句對稿用 */
-  const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
   EV.push({ id:'ev_us2_kitchen', title:'退回的報告', participants:[S5], location:'us_shared', trigger:'seat', once:true, background:'blur',
     prereq:{custom:(G,GM)=>typeof STORY!=='undefined'&&STORY.route(G)==='US'&&dating(G,S5)&&!G.flags.US2&&US2_DAY(G)&&onBar(GM)},
     dialogue:[ nar('（她在煮泡麵，兩包。）'),
@@ -79,9 +73,9 @@ const R2Y4A_EVENTS=(function(){
       sis('不過這次我知道要怎麼改了。'),
       sis('泡麵要不要。我煮了兩包。本來想說吃兩包，現在剛好一人一包。'),
       {choice:[{text:'「那就寫妳。」',goto:'a'},{text:'「先吃麵。」',goto:'b'},{text:'「書瑀，休息一下。」',goto:'c'}]},   /* 第三個照使用者 10-17「交往當天起叫書瑀」（AA_243 第 5 節第 6 題）*/
-      {label:'a'},sis('對。'),nar('（她把麵分到兩個碗。）'),BOWL,sis('我要寫法服那兩年遇到的人。週六早上，那些拿著存證信函來問的阿伯阿姨。'),nar('（她拿出手機記下來。）'),sis('第一段有了。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 3 點（上面）*/
-      {label:'b'},sis('……好。'),BOWL,nar('（你們隔著窗口吃完泡麵。）'),sis('評價？'),me('很鹹。'),sis('我也覺得。這是我在美國學會的第一道菜。'),{goto:'end'},   /* BOWL：AA_516 第 8 節第 4 點，「（你們隔著窗口吃完泡麵。）」前面 */
-      {label:'c'},sis('……休息完再改。先吃麵。'),BOWL,   /* BOWL：AA_516 第 8 節第 4 點，「……休息完再改。先吃麵。」後面 */
+      {label:'a'},sis('對。'),nar('（她把麵分到兩個碗。）'),sis('我要寫法服那兩年遇到的人。週六早上，那些拿著存證信函來問的阿伯阿姨。'),nar('（她拿出手機記下來。）'),sis('第一段有了。'),{goto:'end'},
+      {label:'b'},sis('……好。'),nar('（你們隔著窗口吃完泡麵。）'),sis('評價？'),me('很鹹。'),sis('我也覺得。這是我在美國學會的第一道菜。'),{goto:'end'},
+      {label:'c'},sis('……休息完再改。先吃麵。'),
       {label:'end'},{set:{US2:'there'}} ] });
   /* 挽回中（AA_253 §6 第 2 步原句）：她沒有約他；19:00 前後他去 C 棟還向她室友借的鍋子（r2y4a3d.js：人在社區就帶到 C 棟）。選「還沒。」＝REPAIR +1（after）*/
   EV.push({ id:'ev_us2_repair', title:'退回的報告', participants:[S5], location:'any', trigger:'manual', once:true, background:'blur',
@@ -158,7 +152,6 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_us_first_snow', title:'初雪', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'小教堂前的台階',bg:'dark'},
       {if:{flags:['US_SNOW_LATE']},speaker:null,text:'（你還是去了。雪下得很小，她坐在台階最上面一階。）'},   /* 20:30 以後、21:30 還沒到＝帶到場 */
-      {if:{flags:['SIS14_COAT']},speaker:null,text:'（你穿著那件外套。她也是。）',aa516:true},   /* AA_516 4-3（企劃線 a9b87c588）：SU-L7「好。週六。」那一趟買了外套（src/sis_b14_3d.js）＝開頭多一句 */
       nar('（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'),
       sis('剛買的。……還燙。'),
       nar('（雪開始下。一開始很小，落在杯蓋上就化了。）'),
@@ -210,8 +203,7 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-22 離開、舊金山、12/23 回臺灣（AA_291 2-2、第 5 節；BB_183 第 5 節；AA_253 9-2；AA_144 X2）---- */
   EV.push({ id:'ev_us_leave', title:'離開', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ {if:{flags:['SIS14_BOOK4']},speaker:null,text:'（你的背包裡多了一本她的書。比你自己的三本都重。）',aa516:true},   /* AA_516 4-5（企劃線 a9b87c588）：SU-L8 選「那這次超重什麼？」（她回「第四本你幫我拿。」，src/sis_b14_3d.js 記 SIS14_BOOK4）＝開頭多一句 */
-      {unless:{custom:LONG},goto:'n'},
+    dialogue:[ {unless:{custom:LONG},goto:'n'},
       nar('（天還沒亮。何俊朗拖著兩個行李箱，背包上的奶茶杯鑰匙圈在晃。）'),
       {speaker:'何俊朗',text:'我的飛機比你早。……香港見？'},
       {choice:[{text:'「香港見。」',goto:'a'},{text:'「還好。」',goto:'b'}]},
@@ -317,8 +309,7 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「兩碗不夠。我去便利商店。」',goto:'a'},{text:'「我打給阿凱。」',goto:'b'},{text:'（坐下來吃）',goto:'c'}]},
       {label:'a'},{if:{flags:['JOB_CVS']},goto:'a2'},nar('（貨架上只剩海鮮口味。）'),{goto:'e'},   /* 做過便利商店夜班（AA_289 3-4；打工系統還沒有：JOB_CVS 先當作沒有）*/
       {label:'a2'},nar('（店長在櫃台下面留了三碗。）'),{speaker:'店長',text:'今年要三碗吧？'},{goto:'e'},
-      /* 下一行第二句：AA_519 第 10 節第 2 點（企劃線 e5835610d），接大三「……泡麵，他說他不想再吃了。」——這一箱是還你的（tests/aa519_support2_unit.js 第 0 段查）*/
-      {label:'b'},{speaker:'阿凱（電話）',text:'我還有二十包。你大一吃掉的那些，我補回來了。'},{speaker:'阿凱（電話）',text:'……我自己不吃。去年就不吃了。'},nar('（十分鐘後，他抱著一箱泡麵上樓。）'),{goto:'e'},
+      {label:'b'},{speaker:'阿凱（電話）',text:'我還有二十包。你大一吃掉的那些，我補回來了。'},nar('（十分鐘後，他抱著一箱泡麵上樓。）'),{goto:'e'},
       {label:'c'},nar('（你們各吃一碗。十點，燈真的熄了。柏翰把手機的手電筒對著天花板。）'),
       {label:'e'},{set:{TYPHOON_Y4:'noodle'}} ] });
 
@@ -389,8 +380,8 @@ const R2Y4A_EVENTS=(function(){
       IF(Y1G,{pick:{flag:'XMAS_Y4_SAME',from:G=>[ITEM[G.flags.XMAS_GIFT]]}}),
       IF(Y1G,nar('（你抽到的是{flag:XMAS_Y4_SAME}。和你三年前帶來的那一個，幾乎一樣。）')),
       UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨的。……不要一次吃完。'})),
-      nar('（阿姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
-      {speaker:'阿姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_519 1-3：「吃好一點」只留大一上那一次 */
+      nar('（阿姨把剩下的小菜全部端過來。）'),
+      {speaker:'阿姨',text:'考完了，吃好一點。'},
       {set:{XMAS_Y4:'went'}} ] });
 
   /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */
@@ -600,18 +591,11 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
       IF(PV('two'),nar('（她推著行李推車走出來。看到你，停了一下。）')),
-      /* AA_523 5-1（企劃線 0d7b5388b）：12/9 視訊 g6b「要我帶什麼？」→「外套。」（r2y4b_events.js 記 SIS16_G6B）——兩個人版、戀人版第一句旁白後面多兩句、記 SIS16_COAT（1/20 拆箱那天還外套，src/sis_b16_3d.js）；
-         戀人版的第一句旁白＝出來、抱住到「（很久，她才放開。）」那一段（拆開會變成抱著遞外套；放在放開以後、日本路線外套那四句以前，子代理解讀）*/
-      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),
-      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
-      IF(G=>PV('lover')(G)&&!!G.flags.SIS14_RIGHT,Object.assign(nar('（你站在出口的右邊。）'),{aa516:true})),   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：12/17 最後一通視訊 h9 選「我會去接妳。」（她「出口那邊，你站右邊。我出來先看右邊。」，SIS14_RIGHT）＝戀人版第一句旁白前面多一句，接「她一出來就看到你。」（CG 通過沒通過都一樣）*/
       IF(G=>PV('lover')(G)&&!cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),   /* 冬天版還沒通過：照一句、不放 CG（AA_350 N4）*/
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地。）')),   /* 冬天版通過：第一句拆成兩句，CG 夾在中間（AA_350 N4）*/
       {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她走過來，抱住你。）')),
       IF(PV('lover'),nar('（很久，她才放開。）')),
-      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),   /* AA_523 5-1 */
-      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
       /* AA_512 6-1（企劃線 c444f0757）：日本路線視訊的三句在戀人版兌現（ev_sis_jp_video 選的時候記 SIS_JP_COAT、SIS_JP_FIRST；兩個人版、家族共乘、那一通沒接的都不加）。
          (a) 外套：J3「咬了一口外套。」＋交往版的便條（SIS_JP_NOTE_GF）；aa512：tests/aa512_sis_b13_unit.js 對稿 */
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（你穿的是三月她塞進你背包的那件外套。）'),{aa512:true})),
@@ -619,7 +603,6 @@ const R2Y4A_EVENTS=(function(){
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(sis('……鹿咬的是這裡。'),{aa512:true})),
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（袖口內側，一排很淡的齒痕。你自己都忘了是哪一邊。）'),{aa512:true})),
       {scene:'車上',bg:'car_night'},
-      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_H9B,Object.assign(nar('（回程的高速公路上，她舉起手機，對著開車的你拍了一張。沒有開閃光燈。）'),{aa523:true})),   /* AA_523 5-2：h9b「……好。在車上開。你開車，我拍你。」（r2y4b_events.js 記 SIS16_H9B）＝戀人版回程車上多一句旁白（稿沒寫位置：車上那一段的第一句，子代理解讀）*/
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
       {unless:{custom:G=>!!G.flags.SIS_MAPLE&&G.flags.SIS_MAPLE_MSG==='got'},goto:'mp_e'},   /* AA_395 2-2：有書籤、傳過「書籤收到了。」的才有下面這一段 */
       sis('書籤，你有用嗎。'),{choice:[{text:'「有。」',goto:'mp_e'},{text:'「捨不得用。」',goto:'mp_b'}]},

@@ -1,6 +1,5 @@
 // 阿凱 K3 週日宵夜（BB_97 4-1）：搬完房間以後大二上每週日、大二下每月第一個週日 23:00；去＝滷味攤（第一次三選一、之後輪流一句、快轉到 00:00）；這週不行；連續三週沒回多一句；3 次＝SUNDAY_SUPPER——不需要瀏覽器。
 // 修改前沒有 ev_kai_sunday_supper（全部失敗）。用法：node tests/v3_kai_k3_unit.js
-// （2026-10-28 AA_519 5-4（企劃線 d75cd0228，NPC-STORY2-1028）：第一則第二句「我這棟樓下的滷味比較好吃」改「宿舍旁邊那攤滷味比較好吃」，後半照舊——第 2 項照新字查）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -35,7 +34,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const ask=d=>(G.msgs||[]).find(m=>m.ask&&m.ask.id==='kai_sup_'+d);
   fresh(s1,22,'dorm',{}); G.stage='law'; run(22,23.5); check('1. 還沒搬房間（沒有 ROOM_Y2）＝週日不問',!K().some(t=>/宵夜/.test(t)));
   fresh(s1,22,'dorm',{ROOM_Y2:d6}); G.stage='law'; run(22,22.95); check('1. 23:00 以前不問',!K().some(t=>/宵夜/.test(t)));
-  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜」＋「宿舍旁邊那攤滷味比較好吃 老闆會多給豆干」（AA_519 5-4；AA_428 §2 第 8 點：SC4 #13，阿凱的訊息不打標點；原本 AA_335 T2 有標點）＋兩個回覆',T[T.length-2]==='kai:宵夜'&&T[T.length-1]==='kai:宿舍旁邊那攤滷味比較好吃 老闆會多給豆干'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
+  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜」＋「我這棟樓下的滷味比較好吃 老闆會多給豆干」（AA_428 §2 第 8 點：SC4 #13，阿凱的訊息不打標點；原本 AA_335 T2 有標點）＋兩個回覆',T[T.length-2]==='kai:宵夜'&&T[T.length-1]==='kai:我這棟樓下的滷味比較好吃 老闆會多給豆干'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
   PHONE.answer(G,'kai_sup_'+s1,0); run(23.1,23.2); check('2. 回「去。」＝出發選單（宿舍旁的滷味攤）',G.flags.KAI_SUP_GO===s1&&!!OUT.get(G,'kai_sup_'+s1)&&OUT.get(G,'kai_sup_'+s1).place==='宿舍旁的滷味攤');
   picks=['新室友']; said=[]; await EVENTS.run(ev('ev_kai_sunday_supper')); let L=lines();
   const want=['（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）','你的我幫你夾了。豆干、海帶、王子麵。','你大一每次都點這三樣，對吧？'/* AB65-3：AA_211 附錄 B E8（原本「…我記得。」）*/,'十點就睡。','……我還不習慣有人那麼早關燈。','下週日一樣喔。'];   /* 收尾 AA_428 §2 第 8 點：照 SC4 #13（原本 AA_335 T3「下週日，同一時間。我先去排。」）*/

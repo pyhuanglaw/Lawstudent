@@ -2,7 +2,7 @@
    台詞、事件在 src/data/sis_b13_events.js（照稿不改字）。這個檔：
    - 家族群組（STORY.PHONE_RULES；在家族群組 family_law 的人都收得到，回「去。」才演——同 AA_497 5-2 的做法）：
      13-2 2027-05-06（四）21:00 三則 →「去。」→ 5/9（日）12:00 出遊「學姊的新家」；有 SIS4_CURRY（閒聊 S4-L3）的，21:05 學姊私訊「你說過要來吃。」（時間稿沒寫，LAWWW 排）；
-     13-7 2028-12-26（二）20:30 兩則 →「去。」→ 12/28（四）18:30 出遊「118 巷・定食店」（AA_516 1-5，企劃線 a9b87c588：原本 21:00，和交往中的跨年私訊 21:00 錯開）。
+     13-7 2028-12-26（二）21:00 兩則 →「去。」→ 12/28（四）18:30 出遊「118 巷・定食店」。
    - 3D 位置觸發（src/data/sis_b13_events.js 的 trigger:'auto'）：13-3 霖澤館門口（2027-12-06～07 17:00～18:00）、13-4 公館她們那桌（2028-06-02 18:30～20:30，走近她）、
      13-6 美國社區（2028-10-08～10-20 21:00～22:00，挽回中）、13-8 新體育館門口（2029-05-07～10 週一～四 08:00～08:40）。條件在下面 walkOk／cakeOk／laundryOk／poolOk。
    - 13-5 日本路線的生日：玩家 6/2 傳「生日快樂」（MSG-2，y34b3d.js 的朋友版回「謝謝。研究室的人買了一個小蛋糕。」）＝那一句先不回，
@@ -85,10 +85,10 @@ const SISB13=(function(){
   if(typeof SMALLTALK!=='undefined'){ const A=SMALLTALK[ID]||(SMALLTALK[ID]=[]); for(const t of S.greetTexts()) if(!A.some(e=>e&&e.t===t)) A.push({t,once:true,prio:1,if:{custom:G=>S.repairGreetOk(G)},aa512:true}); }   /* 輪流（一天一句）、各一次（once）；prio：比「……我沒事。只是沒睡。」先說 */
 
   /* ---------------- 13-7「歡迎回來」家聚 ---------------- */
-  S.WELCOME={ask:'2028-12-26',day:'2028-12-28',h:20.5};   /* AA_516 1-5：家族群組 20:30（原本 21:00）*/
+  S.WELCOME={ask:'2028-12-26',day:'2028-12-28'};
   S.WELCOME_OUT={id:'sisb13_welcome',ev:'ev_sis13_welcome',h:18.5,late:0.5,place:'118 巷・定食店',title:'家聚：歡迎回來（118 巷的定食店 18:30）',travel:'走過去約 10 分鐘',travelH:1/6,hours:1.5,back:'家聚散了。'};
   S.welcome=function(G){ const F=G.flags, a=D(S.WELCOME.ask), d=D(S.WELCOME.day), tag='sisb13_welcome_ask'; if(a==null||d==null||G.day<a||G.day>d+1) return;
-    if(!sent(G,tag)&&inGrp(G)&&now(G)<T(d,18)){ const M=(L.welcomeAsk||[]).map(g); M[M.length-1].ask={id:tag,until:T(d,18),opts:[{t:L.welcomeGo,set:{SIS13_WELCOME_GO:true}}]}; PHONE.at(G,a,S.WELCOME.h,M,tag); }   /* 所有家族的人（臺灣、日本、美國路線）*/
+    if(!sent(G,tag)&&inGrp(G)&&now(G)<T(d,18)){ const M=(L.welcomeAsk||[]).map(g); M[M.length-1].ask={id:tag,until:T(d,18),opts:[{t:L.welcomeGo,set:{SIS13_WELCOME_GO:true}}]}; PHONE.at(G,a,21,M,tag); }   /* 所有家族的人（臺灣、日本、美國路線）*/
     if(F.SIS13_WELCOME_GO===true&&F.SIS13_WELCOME==null&&now(G)<T(d,S.WELCOME_OUT.h+S.WELCOME_OUT.late)) plan(G,Object.assign({},S.WELCOME_OUT,{day:d})); };
 
   /* ---------------- 13-8 游完泳的早上：朋友以上、沒交往、不是前任 ---------------- */

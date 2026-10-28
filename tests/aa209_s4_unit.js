@@ -1,5 +1,4 @@
 // AA_209 第 4 節（大一下改稿）剩下的程式點：期中宵夜四人房旁白、阿哲叫「哥」看 ZHE_CALLS_GE、SMALLTALK 方奕廷條件、阿凱半夜 bug 只播一次。用法：node tests/aa209_s4_unit.js
-// （2026-10-28 AA_519 第 6 節：方奕廷的閒聊前面換成照學年的三句，「芷若跟你講過我嗎？」那一句從第 2 筆變第 4 筆——第 3 項改成照字找那一筆，條件照舊查）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -41,7 +40,7 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
   const sup=ev('ev_midterm_supper_y1s2'); const nar=sup.dialogue.find(l=>l.text==='（你想起柏翰這幾週都比較晚回 203。）');
   check('2. 期中宵夜有四人房旁白、條件 DORM_FOUR、在 ps 段開頭（柏翰幫沛珊切滷蛋之前）',!!nar&&nar.if&&nar.if.flags[0]==='DORM_FOUR'&&sup.dialogue.indexOf(nar)===sup.dialogue.findIndex(l=>l.label==='ps')+1&&sup.dialogue.indexOf(nar)<sup.dialogue.findIndex(l=>l.text==='柏翰幫沛珊把滷蛋切成兩半。'));
   // SMALLTALK 方奕廷
-  const ft=SMALLTALK.npc_fangyt, fh=ft.find(e=>e&&e.t==='「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」')||{}; check('3. 方奕廷「芷若跟你講過我嗎？」那一句的條件改成 ev_fangyt_hint（事件存在）',!!fh.if&&!!fh.if.events&&fh.if.events[0]==='ev_fangyt_hint'&&!!ev('ev_fangyt_hint')&&!JSON.stringify(ft).includes('ev_fangyt_z6'),JSON.stringify(fh.if));
+  const ft=SMALLTALK.npc_fangyt; check('3. 方奕廷第二句的條件改成 ev_fangyt_hint（事件存在）',ft[1].if&&ft[1].if.events[0]==='ev_fangyt_hint'&&!!ev('ev_fangyt_hint')&&!JSON.stringify(ft).includes('ev_fangyt_z6'),JSON.stringify(ft[1].if));
   // 阿凱半夜：bug 只播一次
   const lk=ev('ev_dorm_late_kai'); fresh(termDay('Y1S2',5,2),23.5,'dorm',{introDone:true}); picks=['什麼 bug']; await EVENTS.run(lk);
   check('4. 第一次可以選「什麼 bug？」、聽到 undefined',opts[0].some(t=>t.includes('什麼 bug'))&&said.some(s=>/undefined/.test(s.t))&&G.flags.KAI_BUG_TOLD===true,JSON.stringify(opts[0]));

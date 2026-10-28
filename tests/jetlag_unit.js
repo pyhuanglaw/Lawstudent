@@ -5,7 +5,6 @@
 //   4. 到場的人熟悉度 +1、R1_SEEN 'table'；19:30 沒到＝手機版（一定要回、R1_SEEN 'phone'；私訊版沒有 Alison 那句）；
 //   5. R3 美國路線：當地 07:30（台灣 19:30）手機照片＋「你們在美國吃什麼」，一定要回、R1_SEEN 'us'。
 // 修改前全部 FAIL。用法：node tests/jetlag_unit.js
-// （2026-10-28 AA_519 1-3（企劃線 d75cd0228，NPC-STORY2-1028）：收尾的送小菜旁白是第五處——「（九點。阿姨把最後一盤小菜放在長桌中間，說是送的。）」拆成「（九點。）」＋第 4 句「（阿姨把滷蛋切成兩半，一人一半。）」）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -54,7 +53,7 @@ const run=(day,h0,h1,st)=>{ st=st||0.25; G.day=day; G.weekday=wdOf(day); for(let
   const half=opts.find(o=>o.includes('「（先聽大家講）」'))||[];
   check('2. R1「這半年」：Alison 問、四選一只出經歷過的（田野、Q12、芷若熟、先聽）', R.T.includes('Alison：欸，你一直在臺灣。這半年發生什麼事？')&&JSON.stringify(half)===JSON.stringify(['「語彤每個禮拜四都去市場訪問。我跟過幾次。」','「子晴的發表會，最後一關有人打過了。」','「芷若回來半年，九月又去英國了。這次是念研究所。」','「（先聽大家講）」'])&&R.T.includes('（你把筷子拿起來，讓別人先說。）'), JSON.stringify(half));
   check('2. 子晴晚到（以安、子晴都熟）、芷若那句「英國在下雨」（芷若也熟）', R.T.join('|').includes('（長桌還有一個空位。過了半小時，門口有人喘著氣。）|高子晴：欸不是，我下班了。（坐下，第一句就問以安）日本的貓胖嗎？|沈以安：……胖。|高子晴：（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'));
-  check('2. 收尾：「（九點。）」「（阿姨把滷蛋切成兩半，一人一半。）」（AA_519 1-3 送小菜第五處）「下禮拜四，一樣。」；21:00；背景 noodle_table', R.T.slice(-3).join('|')==='（九點。）|（阿姨把滷蛋切成兩半，一人一半。）|阿哲：下禮拜四，一樣。'&&!R.T.some(t=>/最後一盤小菜/.test(t))&&Math.abs(G.hour-21)<0.01&&JSON.stringify(bgs[0]||'').includes('noodle_table'), G.hour);
+  check('2. 收尾：「（九點。阿姨把最後一盤小菜放在長桌中間，說是送的。）」「下禮拜四，一樣。」；21:00；背景 noodle_table', R.T.slice(-2).join('|')==='（九點。阿姨把最後一盤小菜放在長桌中間，說是送的。）|阿哲：下禮拜四，一樣。'&&Math.abs(G.hour-21)<0.01&&JSON.stringify(bgs[0]||'').includes('noodle_table'), G.hour);
   check('2. 到場的人熟悉度 +1（阿哲、以安、Alison、語彤、子晴）', ['zhe','heroine_01','yu','heroine_03','heroine_04'].every(id=>SOCIAL.rel(id).fam>R.fam0[id]), JSON.stringify(['zhe','heroine_01','yu','heroine_03','heroine_04'].map(id=>[R.fam0[id],SOCIAL.rel(id).fam])));
   check('2. 芯慈：XINCI_FIRST 沒有（慈 6 還沒做）＝沒有那兩句', !R.T.some(t=>/我跟妳說一部劇/.test(t)));
   R=await table('TW',ALL,{},['語彤']); check('2. 「這半年」沒有田野、沒有 Q12：只有芷若、先聽兩個', JSON.stringify((opts.find(o=>o.includes('「（先聽大家講）」'))||[]))===JSON.stringify(['「芷若回來半年，九月又去英國了。這次是念研究所。」','「（先聽大家講）」']));

@@ -7,7 +7,6 @@
 //      從家裡出發、騎車、2030 年的分開談話照舊 2D
 //   5  研究室的便條照 AA_392 甲案原句（「中午十二點二十以後，我在這裡。」）
 // 修改前（開發分支 6de9a0705）：沒有 src/lab5f3d.js、作息沒有研究室、OUT 沒有 STAGE——全部 FAIL。用法：node tests/lab5f_unit.js
-// 2026-10-28 AA_518 第 1-9 改的（企劃線 973dd1b74，SIS-B15-1028）：2028-06-28 那一晚清研究室多一筆 linze_5f（note 開頭 AA_518）——第 0 節看 AA_399 那一筆時不算它。
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -30,7 +29,7 @@ const door=()=>({label:LINZE_UPPER_LAYOUTS['4f'].stairs.up.label,look:LINZE_UPPE
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. src/lab5f3d.js 載得到、index.html 有接（在 loans3d.js 前面）',ok&&!!X()&&html.indexOf('src/lab5f3d.js')>0&&html.indexOf('src/lab5f3d.js')<html.indexOf('src/loans3d.js'),err);
-  const e=(CHARACTERS[SIS].daily_schedule||[]).find(q=>q.zone==='linze_5f'&&!/^AA_51[28]/.test(q.note||''));   /* 2026-10-28 AA_518 1-9（企劃線 973dd1b74）：2028-06-28 清研究室那一晚的一筆也不看 */   /* 2026-10-28 AA_512（企劃線 c444f0757）多兩筆 linze_5f：13-3 那兩天 17:00～18:00、交往中週一三晚上（tests/aa512_sis_b13_unit.js）；這裡看 AA_399 那一筆 */
+  const e=(CHARACTERS[SIS].daily_schedule||[]).find(q=>q.zone==='linze_5f'&&!/^AA_512/.test(q.note||''));   /* 2026-10-28 AA_512（企劃線 c444f0757）多兩筆 linze_5f：13-3 那兩天 17:00～18:00、交往中週一三晚上（tests/aa512_sis_b13_unit.js）；這裡看 AA_399 那一筆 */
   check('0. 學姊的作息：週一～週四 12:20～14:00 研究室（spot sis_desk、2026-09-01～2029-05-31）',!!e&&J(e.days)==='[1,2,3,4]'&&Math.abs(e.from-(12+20/60))<1e-9&&e.to===14&&e.spot==='sis_desk'&&J(e.dates)===J([['2026-09-01','2029-05-31']]),J(e));
   check('0. OUT.STAGE 有 LAB5 的換場；OUT.bg 包了一層',!!X()&&Array.isArray(OUT.STAGE)&&OUT.STAGE.includes(X().outingStage)&&OUT._lab5Bg===true);
   const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');

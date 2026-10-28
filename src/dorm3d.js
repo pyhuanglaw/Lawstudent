@@ -162,8 +162,7 @@ const DM3=(function(){
       else if(f.type==='planter'){ b.add(M('#8c7f6e',{rough:0.8}),new THREE.CylinderGeometry(f.r,f.r*0.85,0.5,14),f.x,y+0.25,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.3,1),f.x,y+0.95,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='bins'){ const g=new THREE.Group(); g.position.set(f.x,y,f.z); g.rotation.y=ry; const sb=new TK.Bin(), bw=(f.w-0.08)/3; ['#3a3f46','#2f8a4e','#2e6fb0'].forEach((c,k)=>sb.add(M(c,{rough:0.6}),TK.boxG(bw,0.82,0.42),-f.w/2+bw/2+k*(bw+0.04),0.41,0)); sb.build(g); fb.add(g); nav.blockRect(f.x,f.z,f.w,0.45,ry,0.05); }   /* 資源回收桶三個（一般、紙類、寶特瓶・鐵鋁罐；ART-DORM-LOUNGE-1021）：備用模型是三個色塊，正式模型 tools/blender/dorm_hall.py */
       else if(f.type==='bench'){ const sg=new THREE.Group(); sg.position.set(f.x,y,f.z); sg.rotation.y=ry; fb.add(sg); const sb=new TK.Bin(); sb.add(MAT.wood(),TK.boxG(f.w,0.05,f.d),0,0.45,0); for(const sx of [-1,1]) sb.add(MAT.steel(),TK.boxG(0.05,0.43,f.d*0.9),sx*(f.w/2-0.12),0.215,0); sb.build(sg); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05);
-        if(f.seat) IT.push({x:f.x+fx*0.65,z:f.z+fz*0.65,radius:0.9,lv:f.lv,label:'坐在長椅上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); }
-      else if(f.type==='prop'){ const n=f.nav||[f.x,f.z,f.w,f.d], h=f.h||1; b.add(MAT.wood(),TK.boxG(n[2],h,n[3]),n[0],y+h/2,n[1]); nav.blockRect(n[0],n[1],n[2],n[3],0,0.05); } }   /* 地上的小擺設（包裹架、傘架、滅火器、洗衣籃；DORM-HALL-LM-1028，LAWWW2-C，和 building3d.js、wancai3d.js 的 prop 一樣）：備用模型一個方塊、導航擋 nav（或 w×d）；正式模型照 kind 做 */
+        if(f.seat) IT.push({x:f.x+fx*0.65,z:f.z+fz*0.65,radius:0.9,lv:f.lv,label:'坐在長椅上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); } }
     b0.build(fb0); b1.build(fb1);
     // 指標（中文字一直顯示：正式模型沒有字）。一樓樓梯口的「2F」寫自己住的那一樓（樓上那一層的門牌整排照房號排：312 → 3F、409 → 4F、507 → 5F、經濟系 412 → 4F）
     const HF=homeOf(typeof GAME!=='undefined'&&GAME.G), upF=HF.lv?HF.floor:2;
@@ -196,10 +195,7 @@ const DM3=(function(){
     IT.push({x:EN.x,z:EN.exitZ,radius:1.3,lv:0,label:'離開宿舍',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});
     IT.push({x:H.x,z:L.corridor.z0+0.45,radius:0.75,lv:H.lv,label:H.label,exit:{to:'dorm',spawn:Object.assign({},ROOM)}});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點、鏡頭碰撞不變）
-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes);
-      /* 某一扇門上的東西（正式模型的 L1_deco_<門的 id>_…；DORM-HALL-LM-1028，LAWWW2-C）：那一扇換成自己的房門的那一年藏起來——大四 409 用 202 那扇（HOMES.y4.rep），202 的社團貼紙不留在自己的門上 */
-      if(H.rep) lv1.traverse(o=>{ if(o.name.indexOf('L1_deco_'+H.rep+'_')===0) o.visible=false; });
-      for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
+    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
     return zone; } };
 
   return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf,homeOf,fixRoomExit,HOMES,Y3_UP};

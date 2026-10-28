@@ -7,11 +7,6 @@
 //   5  沒有和別人交往＝什麼都沒有；沛珊 2026-12-16 以後不會有「她後來才發現」；舊存檔的預設值
 //   台詞照 AA_425 審稿更正（@310d6cc67）換過的版本（不同人說同一句、所在地、問句的回答；可昕知情版心意邀約刪）
 // 修改前（開發分支 8cfc1b7de）：沒有 src/multirel3d.js——FAIL。用法：node tests/aa422_multirel_unit.js
-// AA_503 第 14 節後補第 7 點（PRIV-AUNT-1028，企劃線 5ec2fe771）：語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn 原本 19:00 以後＝阿姨在，改看 3D 的阿姨在不在麵店
-//   （MREL.auntIn → HCIRCLE.labelIn）：第 3 段語彤那三項用假的 HCIRCLE 指定在不在（18:00 不在＝「阿姨呢？」、18:30 在＝「好啦，你們年輕人。」、19:30 不在＝照樣「阿姨呢？」）；
-//   修改前（只拿掉這一次 src 的改動：src/multirel3d.js 等換回開發分支 1db6e495c，2026-10-28 實際跑）：FAILED 2（18:30 阿姨在、19:30 阿姨不在）、PASS 174；修改後 ALL PASS（176 項）
-// AA_503 第 14 節後補第 8 點（PRIV-AUNT-1028 第二輪，企劃線 f6069e42d）：最後那三句「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）照原本 19:00 以後出（auntLate）——
-//   18:30 阿姨在＝沒有「阿姨呢？」、也還沒有那三句；19:30 阿姨在＝有。修改前（src 換回開發分支 0c10b1b43，2026-10-28 實際跑）：FAILED 1（18:30 阿姨在）、PASS 176；修改後 ALL PASS（177 項）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM}=H, J=JSON.stringify;
@@ -30,9 +25,6 @@ const walk=async(who,term,picks)=>{ H.picks=picks.slice(); return TERMEND.walkHo
 const clr=()=>{ H.said=[]; H.opts=[]; };
 const pend=x=>{ X().scan(H.G); return X().rec(H.G).pend[x]||null; };
 const play=async a=>{ if(a) await X().play(GM,a); return a; };
-/* 3D 的阿姨在不在麵店（AA_503 第 14 節後補第 7 點，PRIV-AUNT-1028：auntIn 看 HCIRCLE.labelIn）——這支測試沒有載圈子（src/hcircle3d.js），用假的 HCIRCLE 指定在不在；
-   true／false＝在／不在、null＝拿掉（沒有 HCIRCLE＝不在）。真的圈子表（c503_6_2 那幾列）在 tests/company_priv_unit.js 第 10 段 (B) */
-const ayi=on=>{ if(on==null) delete globalThis.HCIRCLE; else globalThis.HCIRCLE={labelIn:(G,cid,zone)=>!!on&&cid==='hc_ayi'&&zone==='noodle'}; };
 
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
@@ -330,18 +322,11 @@ await sec(3,async()=>{
   /* 語彤 */
   fresh('2026-10-01',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2026-10-19',12); learn(YT,KX);
   setT('2026-10-20',18); H.G.zone='noodle'; d=X().dueAuto(H.G); check('3. 語彤：她顧店的晚上來麵店＝演（照她的作息，不綁星期幾）',!!d&&d.x===YT);
-  ayi(false); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤《等我下班一下》（原文；3D 的阿姨不在麵店＝阿姨去買東西，AA_503 第 14 節後補第 7 點）',seq(['今天很忙喔？','還好。','阿姨呢？','去買東西。','（她把桌子擦乾淨。）','你等一下有事嗎？','沒有啊。','那等我收完。','怎麼了？','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）','我聽說你跟可昕也在一起。','……嗯。','多久了？','一年多。','喔。','（她把抹布擰乾。）','所以你一直都沒跟我講。','對不起。','嗯。','（她停了一會兒。）','我今天有點不想跟你講話。','好。','你先回去吧。']),J(T()));
-  const ytZq=h=>{ fresh('2026-10-01',12,'campus',{}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2026-10-20',12); H.G.flags.dating_heroine_04=true; ROM.get(H.G,ZQ).sinceDay=H.G.day-2; learn(YT,ZQ); setT('2026-10-22',h); H.G.zone='noodle'; return X().dueAuto(H.G); };
-  d=ytZq(18.5); ayi(true); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：3D 的阿姨在麵店（圈子表 c503_6_2 那幾列）、18:30：沒有「阿姨呢？」；最後那三句照原本 19:00 以後（AA_503 第 14 節後補第 8 點，f6069e42d）＝還沒有「阿姨，我等一下自己收。」；未滿 7 天＝「你這禮拜才開始的？」「……那你為什麼還來找我吃麵？」',
-    !!d&&d.x===YT&&seq(['今天很忙喔？','還好。','（她把桌子擦乾淨。）','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）','你這禮拜才開始的？','……那你為什麼還來找我吃麵？'])&&!H.has('阿姨呢？')&&!H.has('去買東西。')&&!H.has('阿姨，我等一下自己收。')&&!H.said.some(s=>s.who==='阿姨'),J(H.lines()));
-  d=ytZq(19.5); ayi(true); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：3D 的阿姨在麵店、19:30（19:00 以後）：沒有「阿姨呢？」，「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）',
-    !!d&&d.x===YT&&seq(['有事問你。','阿姨，我等一下自己收。','好啦，你們年輕人。','（阿姨先上樓）','（打烊。鐵門拉下一半，只剩一盞燈。）','你這禮拜才開始的？'])&&!H.has('阿姨呢？')&&!H.has('去買東西。')&&H.said.some(s=>s.who==='阿姨'),J(H.lines()));
-  d=ytZq(19.5); ayi(false); try{ await play(d); } finally { ayi(null); }
-  check('3. 語彤：19:30 來、3D 的阿姨不在麵店＝照樣「阿姨呢？」「去買東西。」，沒有「阿姨，我等一下自己收。」（不再看幾點）',
-    !!d&&d.x===YT&&seq(['今天很忙喔？','還好。','阿姨呢？','去買東西。','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）'])&&!H.has('阿姨，我等一下自己收。')&&!H.said.some(s=>s.who==='阿姨'),J(H.lines()));
+  await play(d);
+  check('3. 語彤《等我下班一下》（原文；19:00 以前來＝阿姨去買東西）',seq(['今天很忙喔？','還好。','阿姨呢？','去買東西。','（她把桌子擦乾淨。）','你等一下有事嗎？','沒有啊。','那等我收完。','怎麼了？','有事問你。','（打烊。鐵門拉下一半，只剩一盞燈。）','我聽說你跟可昕也在一起。','……嗯。','多久了？','一年多。','喔。','（她把抹布擰乾。）','所以你一直都沒跟我講。','對不起。','嗯。','（她停了一會兒。）','我今天有點不想跟你講話。','好。','你先回去吧。']),J(T()));
+  fresh('2026-10-01',12,'campus',{}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2026-10-20',12); H.G.flags.dating_heroine_04=true; ROM.get(H.G,ZQ).sinceDay=H.G.day-2; learn(YT,ZQ); setT('2026-10-22',19.5); H.G.zone='noodle'; await play(X().dueAuto(H.G));
+  check('3. 語彤 19:00 以後來（阿姨在店裡）：沒有「阿姨呢？」，「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）；未滿 7 天＝「你這禮拜才開始的？」「……那你為什麼還來找我吃麵？」',
+    seq(['有事問你。','阿姨，我等一下自己收。','好啦，你們年輕人。','（阿姨先上樓）','（打烊。鐵門拉下一半，只剩一盞燈。）','你這禮拜才開始的？','……那你為什麼還來找我吃麵？'])&&!H.has('阿姨呢？')&&H.said.some(s=>s.who==='阿姨'),J(H.lines()));
   fresh('2027-12-10',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); setT('2027-12-20',12); learn(YT,KX); setT('2027-12-23',18); H.G.zone='noodle';
   check('3. 語彤大三上 12/16 續約以後：週四不顧店＝週四來麵店不演、照作息其他晚上',(()=>{ const thu=!X().dueAuto(H.G); setT('2027-12-21',18); return thu&&!!X().dueAuto(H.G); })());
   fresh('2026-10-01',12,'campus',{dating_kexin:true}); H.CLOSE(YT); ROM.start(H.G,YT); H.G.flags.YT_PROMISED={heroine_03:'handle:kexin'}; X().rec(H.G).prom[YT]={ys:[KX],day:H.G.day}; setT('2026-10-19',12); learn(YT,KX); setT('2026-10-20',18); H.G.zone='noodle'; await play(X().dueAuto(H.G));

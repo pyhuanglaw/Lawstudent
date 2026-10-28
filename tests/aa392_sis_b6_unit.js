@@ -1,7 +1,7 @@
 // AA_392 學姊第六批（企劃線 e81a1afe1；任務 SIS-B6-L-1023；D111「學姊才是真正的女主角」）——不需要瀏覽器。
 //   1  第 1 節：交往中（臺灣、日本路線，她在美國）每週日 10:00 視訊（ev_sis_video_gf）：六組照順序、各一次，還沒到那一組的週次只有旁白；T1、SA_X 照片照收，T2 不收；
 //      逐字對稿（六組、旁白）；沒接＝「你在忙。下週。」；連兩週沒接，第三週她不打「這週我先不打了。你有空打給我。」，下一週照常；
-//      臺灣路線大峽谷才交往：大峽谷那一週不排、中秋那組不演（AA_516 第 1 節 1-3 改：V1～V3 都算演過，10/22 是 2-2 的 h5）
+//      臺灣路線大峽谷才交往：大峽谷那一週不排、下一個週日從第一組開始、中秋那組不演
 //   3  第 3 節：交往中口試沒到——21:00 她打來（21:00 以前自己打也一樣），兩個選項；5/30 12:20～13:00 研究室的蛋糕
 //   4  第 4 節：研究室走不到——便條改乙（總圖三樓）
 //   5  第 5 節：第一次訪談選「下次還要記嗎？」→ 11/24 私訊、11/27 第二次訪談；不行／沒到 13:00「記完了。」
@@ -39,9 +39,7 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   const ev=STORY_EVENTS.find(e=>e.id==='ev_sis_video_gf'), txt=ev?ev.dialogue.filter(n=>n.text).map(n=>n.text):[];
   const sec13=(doc.split('### 1-3.')[1]||'').split('### 1-4.')[0], lines=[...sec13.matchAll(/^書瑀：(.+)$/mg)].map(m=>m[1]).concat([...sec13.matchAll(/書瑀：「(.+?)」/g)].map(m=>m[1]));
   const narr=(doc.match(/用完以後每週一行旁白：「(.+?)」/)||[])[1];
-  const A516={'二十三號早上到。':'二十三號晚上八點落地。','機場的班次我傳給你了。':'班次，回去前傳給你。'};   /* AA_516 第 1 節 1-1（企劃線 a9b87c588）：g6 這兩句改了（和 12/23 20:30 的接機對齊）*/
-  const lines2=lines.map(l=>A516[l]||l);
-  check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在（g6 兩句照 AA_516 1-1 改過的）',lines2.length>=20&&lines2.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。')))&&Object.keys(A516).every(l=>lines.includes(l)&&!txt.includes(l)),J(lines2.filter(l=>!txt.includes(l))));
+  check('1. 六組視訊的台詞（書瑀說的）和稿一字不差都在',lines.length>=20&&lines.every(l=>txt.includes(l)||txt.includes(l.replace(/^照片你看到了吧。$/,'照片你看到了吧。'))),J(lines.filter(l=>!txt.includes(l))));
   check('1. 用完以後的旁白和稿一字不差',!!narr&&txt.includes(narr)&&S.SA_VG_NARR===narr,narr);
   /* 臺灣路線、7/29 就交往：8/6～12/17 每週日 10:00 */
   fresh('2028-08-02',20,'TW'); H.G.flags.dating_heroine_05=true; H.FRIEND('heroine_05'); walk(D('2028-08-03'),D('2028-12-20'));
@@ -74,9 +72,8 @@ await sec(1,async()=>{ check('1. 讀得到稿（企劃線 e81a1afe1 的 AA_392�
   fresh('2028-08-02',20,'TW'); H.rel('heroine_05',60,45,40); walk(D('2028-08-03'),D('2028-10-06'));
   OUT.plan(H.G,{id:'y4_sis_canyon',ev:'ev_sis_canyon',day:D('2028-10-07'),h:7,place:'桃園機場',title:'秋假',travel:'',travelH:1}); OUT.get(H.G,'y4_sis_canyon').state='done';
   H.at('2028-10-13',18); S.canyonAfter(H.G,'tw'); H.at('2028-10-15',21); S.phone(H.G,GM); walk(D('2028-10-15'),D('2028-11-07'));
-  const C=gv().map(q=>keyOf(q.day)+':'+(q.sa.gset<6?'V'+(q.sa.gset+1):(q.sa.gset>6?'H'+(q.sa.gset-6):'旁白')));
-  /* AA_516 第 1 節 1-3（企劃線 a9b87c588）：開始交往以前的 g1、g2、g3（和 2-2 的 h1～h3）都算演過；h4 那一週她在峽谷也不演——10/22 是 h5（開頭多一句「峽谷回來以後……」，tests/aa516_sis_b14_unit.js 驗），10/29 旁白，11/5 V4 */
-  check('1. 大峽谷才交往：大峽谷那一週（10/8、10/15）不排；10/22 不從第一組開始（AA_516 1-3：V1～V3 算演過）＝H5，10/29 旁白，11/5 V4',!!H.G.flags.dating_heroine_05&&J(C)===J(['2028-10-22:H5','2028-10-29:旁白','2028-11-05:V4']),J(C)); });
+  const C=gv().map(q=>keyOf(q.day)+':'+(q.sa.gset<6?'V'+(q.sa.gset+1):'旁白'));
+  check('1. 大峽谷才交往：大峽谷那一週（10/8、10/15）不排；10/22 起從第一組開始（V1、V2），中秋 V3 不演，11/5 V4',!!H.G.flags.dating_heroine_05&&J(C)===J(['2028-10-22:V1','2028-10-29:V2','2028-11-05:V4']),J(C)); });
 /* ---- 2 ---- */
 await sec(2,async()=>{ const hk=TERMEND_LINES.HOOK.Y3S2.heroine_05, fl=r=>({flags:{EXCHANGE_ROUTE:r}});
   check('2. 期末聚餐「那天我去送學姊。」：臺灣路線才有（日本、美國路線不出）',hk.if(fl('TW'))&&!hk.if(fl('JP'))&&!hk.if(fl('US')));

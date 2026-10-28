@@ -4,7 +4,6 @@
 //   C1：3/23 放榜以後，4/8（三）16:30 校內自動演（不在校內延下一個週三、跳過第 8～9 週、最晚第 15 週）；祐廷說「高二校慶好像被問過」以後插播回想 A
 //   C2：交往中＋C1 演過：7/11 已交往＝當天 15:00 房間、16:00 私訊；之後才交往＝隔 3 天以上的第一個週六（第一句換「搬家後還有幾箱沒拆。」）；沒交往不演
 // 修改前：沒有這些群組、訊息和事件（全部失敗）
-// 2026-10-28 AA_518 第 4-12 改的（企劃線 973dd1b74，SIS-B15-1028）：C1 要見過她（met_sis）——第 4 節的前置多 met_sis；沒見過的不演在 tests/aa518_sis_b15_unit.js。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -65,7 +64,7 @@ GM.money=function(n){ G.money+=n; };
   fresh(r23-1,23,'dorm',{SIS_CONTACTED:true}); G.stage='law'; STORY.phoneRules(GM); check('3. 3/22 還沒放榜',!G.flags.SIS_RESULT_OUT);
   G.day=r23; G.hour=8; STORY.phoneRules(GM); check('3. 3/23 放榜（SIS_RESULT_OUT）',G.flags.SIS_RESULT_OUT===true);
   // C1
-  const c1=ev('ev_sis_c1_festival'); const at=(day,h,zone,fl)=>{ fresh(day,h,zone,Object.assign({SIS_CONTACTED:true,SIS_RESULT_OUT:true,met_sis:true},fl||{})); G.stage='law'; };   /* 2026-10-28 AA_518 第 4-12 改的（企劃線 973dd1b74）：C1 要見過她（met_sis）；沒見過的不演在 tests/aa518_sis_b15_unit.js */
+  const c1=ev('ev_sis_c1_festival'); const at=(day,h,zone,fl)=>{ fresh(day,h,zone,Object.assign({SIS_CONTACTED:true,SIS_RESULT_OUT:true},fl||{})); G.stage='law'; };
   at(a8,16.5,'campus'); check('4. 4/8（三）16:30 在校園：演',EVENTS.check(c1));
   at(a8,16.5,'wancai'); check('4. 在萬才館也演',EVENTS.check(c1));
   at(a8,16.4,'campus'); check('4. 16:30 以前不演',!EVENTS.check(c1));

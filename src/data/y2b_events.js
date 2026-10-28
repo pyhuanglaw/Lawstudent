@@ -149,7 +149,9 @@ const Y2B_EVENTS=(function(){
       {label:'ig'},{speaker:'zhe',text:'……喔。'},{if:{custom:G=>knows('yu',G)},speaker:'yu',text:'你都不講！'},{goto:'yl'},
       {label:'is'},{speaker:null,text:'（可昕看了你一眼，沒說什麼。）'},
       {label:'yl'},
-      {if:{flagIs:{YL_IMPRESSION:['funny','honest','polite']}},speaker:'予樂',text:'司機你們都認識了。……今天換他當客人。'},   /* AA_519 第 6 節：「這是很好笑／老實／客氣的司機。」和電影夜（y2r2_3d.js，2026-12-11）重複，第二場改這一句 */
+      {if:{flagIs:{YL_IMPRESSION:'funny'}},speaker:'予樂',text:'這是很好笑的司機。'},
+      {if:{flagIs:{YL_IMPRESSION:'honest'}},speaker:'予樂',text:'這是很老實的司機。'},
+      {if:{flagIs:{YL_IMPRESSION:'polite'}},speaker:'予樂',text:'這是很客氣的司機。'},
       {unless:{flagIs:{YL_IMPRESSION:['funny','honest','polite']}},speaker:'kexin',expression:'teasing',text:'這是我的司機。'},
       {speaker:'予樂',text:'你就是阿哲？可昕說你的民法筆記是借來的。'},
       {speaker:'zhe',text:'……誰說的。是「暫時保管」。'},

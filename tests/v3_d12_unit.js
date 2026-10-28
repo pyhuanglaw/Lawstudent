@@ -1,5 +1,4 @@
 // 交接包 v3 D12：大二的聖誕交換禮物、跨年、期末最後一頓（AA_143 1-6～1-8、AA_177 第 6 節）——不需要瀏覽器。
-// （2026-10-28 AA_519 1-3（企劃線 d75cd0228，NPC-STORY2-1028）：期末那一頓大二版的阿姨「吃好一點。」換成「吃完再走。」（下雨「吃完再走。外面在下雨。」）、送小菜第四處「（桌上多了一碟小黃瓜。沒有人點。）」——第 4 項照新字查、「吃好一點」不在）
 // 檢查：邀約時間與字（12/16 21:00、12/31 21:00、最後一科考完那天 17:00；聖誕交換改 12/17，AA_313 第 4-1 節第 8 點）、出發選單時間（12:20、23:50）、沒去的照片（21:30／跨年 00:05 照片＋阿哲）；聖誕兩個保溫杯、抽到誰的禮物；跨年大二版那兩句；期末那一頓的大二版。用法：node tests/v3_d12_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -116,7 +115,6 @@ GM.money=function(n){ G.money+=n; };
   if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了 七點，麵店」',txt('g:noodle_team').includes('zhe:考完了 七點，麵店'),JSON.stringify(txt('g:noodle_team')));
     run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));
     const M=ev('ev_term_last_meal_y2s1'); fresh(e.day,19,'noodle',{noodleTableDay:3,YU_ZHE_TOLD:'msg'}); G.hour=Math.max(19,e.h+0.1); const ok=EVENTS.check(M); meet('heroine_01'); meet('heroine_03'); const k1=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id); said=[]; await EVENTS.run(M); STORY.knows=k1; L=lines();
-    const W519=(G.weather==='rain'||G.weather==='typhoon')?'阿姨：吃完再走。外面在下雨。':'阿姨：吃完再走。';
-    check('4. 期末最後一頓（大二上）：（桌上多了一碟小黃瓜。沒有人點。）阿姨「吃完再走。」（AA_519 1-3；AA_467 第 1 節原本換成「吃好一點。」）；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「今天阿姨叫我坐下來吃。」（AB65-3：AA_211 附錄 A 語彤一列）',ok&&L.includes('（桌上多了一碟小黃瓜。沒有人點。）')&&L.includes(W519)&&!L.some(t=>/吃好一點/.test(t))&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/語彤：今天阿姨叫我坐下來吃。$/.test(t))&&!L.some(t=>/不用端/.test(t)),JSON.stringify(L)); }
+    check('4. 期末最後一頓（大二上）：阿姨「吃好一點。」（AA_467 第 1 節換字，原本「考完了，吃好一點。」）；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「今天阿姨叫我坐下來吃。」（AB65-3：AA_211 附錄 A 語彤一列）',ok&&L.includes('阿姨：吃好一點。')&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/語彤：今天阿姨叫我坐下來吃。$/.test(t))&&!L.some(t=>/不用端/.test(t)),JSON.stringify(L)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

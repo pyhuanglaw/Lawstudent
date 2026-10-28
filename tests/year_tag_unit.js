@@ -1,5 +1,4 @@
 // 資料頁、朋友列表的「科系・年級」跟著祐廷的學年（SIS-GRADE-1017；00_現行設定總表第 2-1 節，AA-C c70dc425）——不需要瀏覽器。用法：node tests/year_tag_unit.js
-// （2026-10-28 AA_519 2-1（企劃線 d75cd0228，NPC-STORY2-1028）：陳助教那一列大三「法研所（刑事法組）・碩四」、大四「法研所博士班」——表照新的改）
 // 修改前：沒有 SOCIAL.yearTag，game3d.js 直接用 c.year（學姊四年都是「法律系・四年級」、以安大四還是一年級、經濟系那一年顯示法律大一時的年級）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -24,7 +23,7 @@ const ROWS=[ // [人物, 經濟系那一年, 大一, 大二, 大三, 大四]（�
   ['econ_zhengxun','經濟系・一年級','經濟系・二年級','經濟系・三年級','經濟系・四年級','經濟系'],
   ['econ_pinyu','經濟系・一年級','經濟系・二年級','經濟系・三年級','經濟系・四年級','經濟系'],
   ['econ_jiahao','經濟系・二年級','經濟系・三年級','經濟系・四年級','經濟系','經濟系'],
-  ['npc_ta_chen',null,'法研所（刑事法組）・碩二','法研所（刑事法組）・碩三','法研所（刑事法組）・碩四','法研所博士班'] ];   /* AA_519 2-1（企劃線 d75cd0228，2026-10-28 NPC-STORY2-1028）：2025 碩二、2026 碩三、2027 碩四，2028-09 起法研所博士班（原本大三、大四都寫「法研所（刑事法組）」）*/
+  ['npc_ta_chen',null,'法研所（刑事法組）・碩二','法研所（刑事法組）・碩三','法研所（刑事法組）','法研所（刑事法組）'] ];
 const WHEN=[['2024-10-01','econ'],['2025-10-01'],['2026-10-01'],['2027-10-01'],['2028-10-01']];
 for(const r of ROWS){ const bad=[]; WHEN.forEach(([k,st],i)=>{ if(r[i+1]==null) return; at(k,st); const t=SOCIAL.yearTag(r[0]); if(t!==r[i+1]) bad.push(k+'：'+t+' ≠ '+r[i+1]); }); check(r[0]+' 五個學年照表', !bad.length, bad.join(' | ')); }
 at('2027-10-01','law',{dating_classmate_peishan:true}); check('沛珊大三：交往中＝教育系・一年級', SOCIAL.yearTag('classmate_peishan')==='教育系・一年級', SOCIAL.yearTag('classmate_peishan'));
