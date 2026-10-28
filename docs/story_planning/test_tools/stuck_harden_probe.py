@@ -159,8 +159,15 @@ async def main():
             run.check('阿姨諮詢演到一半（第 3 句、對話框開著）', res == 'paused', json.dumps(s, ensure_ascii=False))
             other = copy.deepcopy(SAVE); other.pop('_stuck', None)
             run.setup('[捷徑] 劇情中途 GAME.applySave(使用者原本的存檔：day 14 麵店)——選單「讀取」在劇情中會擋，卡住（stale）或回標題以後讀檔走的也是 applySave')
+            lg0 = await pg.evaluate("(typeof GAME.loadGen==='number')?GAME.loadGen:null")
             await L.load_state(pg, other, quiet_phone=True); await pg.wait_for_timeout(3000)
             a0 = await pg.evaluate(DBG); run.note('讀檔 3 秒後 %s' % json.dumps(a0, ensure_ascii=False))
+            lg1 = await pg.evaluate("(typeof GAME.loadGen==='number')?GAME.loadGen:null")
+            if lg0 is not None or lg1 is not None:   # LOAD-GEN-ABORT-1028（LAWWW-C c1e7a32d7）以後才有
+                run.check('LOAD-GEN：讀檔前後 GAME.loadGen 加一（%s → %s）' % (lg0, lg1), lg0 is not None and lg1 is not None and lg1 >= lg0 + 1)
+                run.check('LOAD-GEN：讀進來以後舊的對話框、選項收掉了（不用點）', not a0['dlg'] and not a0['ch'], json.dumps(a0, ensure_ascii=False))
+            else:
+                run.note('這一版沒有 GAME.loadGen（LOAD-GEN-ABORT-1028 以前）')
             n0 = await pg.evaluate("window.__bbLog.length")
             res2, s2 = await drive(pg, cdp, run, 60)
             after = await pg.evaluate("window.__bbLog.slice(%d)" % n0)
