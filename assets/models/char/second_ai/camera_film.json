@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/camera_film.glb",
+ "owner": "pool_6（元碩，char.npc_nm9）",
+ "bytes": 159656,
+ "tris": 2178,
+ "hold": {
+  "bone": "upperChest",
+  "make": "boneGlb('prop.camera_film','camera_film')",
+  "note": "背帶照 char.npc_nm9 量的（prop_pool_fit.json）；別的底模要重量"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/handouts.glb",
+ "owner": "pool_2（宗霖）",
+ "bytes": 17460,
+ "tris": 146,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.handouts','handouts',0.09,-0.018)",
+  "note": "一疊財金的講義（長尾夾）；計算機在左前臂，所以拿右手"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

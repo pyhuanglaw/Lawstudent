@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/thermos_silver.glb",
+ "owner": "pool_7（靖雯）",
+ "bytes": 34892,
+ "tris": 850,
+ "hold": {
+  "bone": "leftLowerArm",
+  "make": "heldGlb('prop.thermos_silver','thermos_silver',0.21,-0.022,[0,0,Math.PI/2])",
+  "note": "提環勾在手指上（同品妤）；托特包在右肩，所以拿左手；坐下時藏起來"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

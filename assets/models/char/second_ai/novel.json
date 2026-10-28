@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/novel.glb",
+ "owner": "pool_1（采潔）",
+ "bytes": 16204,
+ "tris": 148,
+ "hold": {
+  "bone": "leftLowerArm",
+  "make": "heldGlb('prop.novel','novel',0.055,-0.03)",
+  "note": "推理小說，封面朝內（朝身體）：外面只看到封底"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

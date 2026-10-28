@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/ladle.glb",
+ "owner": "hc_ayi（麵店阿姨）",
+ "bytes": 13520,
+ "tris": 300,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.ladle','ladle',0.075,-0.01,[0,0,Math.PI/2])",
+  "note": "握柄、杓子朝下（手放下來時）"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

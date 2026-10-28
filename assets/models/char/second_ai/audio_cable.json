@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/audio_cable.glb",
+ "owner": "pool_16（立群）",
+ "bytes": 94036,
+ "tris": 2184,
+ "hold": {
+  "bone": "leftLowerArm",
+  "make": "heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2])",
+  "note": "一捲線垂在手下面；坐下時藏起來"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/sports_drink.glb",
+ "owner": "pool_12（孟儒）",
+ "bytes": 33136,
+ "tris": 1020,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.sports_drink','sports_drink',0.18,-0.02,[0,0,Math.PI/2])",
+  "note": "手指夾著瓶頸、瓶子垂下來；坐下時藏起來"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

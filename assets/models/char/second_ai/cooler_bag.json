@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/cooler_bag.glb",
+ "owner": "pool_3（家齊）",
+ "bytes": 21324,
+ "tris": 508,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2])",
+  "note": "原點＝手握提把的地方；包身垂在手下面；坐下時藏起來"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/lanyard_tag.glb",
+ "owner": "pool_20（佳蓉，char.npc_nf18）",
+ "bytes": 101196,
+ "tris": 1214,
+ "hold": {
+  "bone": "upperChest",
+  "make": "boneGlb('prop.lanyard_tag','lanyard_tag')",
+  "note": "掛繩照 char.npc_nf18 量的；別的底模要重量"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

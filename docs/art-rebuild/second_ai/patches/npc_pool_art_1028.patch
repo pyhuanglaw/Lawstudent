@@ -1,0 +1,254 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 0057c7831..2fe876dec 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -111,7 +111,7 @@
+ | 萬才館室內兩層樓（一樓大廳＋二樓北側走廊、西側迴廊、西南門廳；直跑樓梯、柱子、外牆、南面兩層樓高的玻璃帷幕、二樓通到外面平台的玻璃門、沙發、圓桌、長椅、花台；萬才館第三階段 D42） | `tools/blender/wancai_interior.py` → `assets/models/env/wancai_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/wancai_layout.js`（**遊戲化設計，不是實測**：一樓沿用 v9.3 大廳的配置）；電梯、門牌與樓層簡介的字、公告欄是遊戲裡的程序化物件；貼圖見上表與下面的 Poly Haven 列（CC0） |
+ | 總圖書館大廳（一樓大廳：門廳、入口閘門、服務台、置物櫃、還書箱、期刊報紙架、新書展示、沙發；帝國式中央大樓梯（中間一跑、平台、兩側兩跑）與玻璃欄板；二樓自習區長桌＋檯燈＋椅子、書架與書；挑高中庭的天窗、正面兩層樓高的玻璃帷幕、窗；總圖第一階段 D43） | `tools/blender/library_interior.py` → `assets/models/env/library_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/library_layout.js`（遊戲化設計，D43）；貼圖 Poly Haven CC0（見上表與下表的 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer`）；書是一本一個方塊（顏色、高矮隨機，固定亂數種子）；植物：室內樹與花台的蕨類是葉片卡，葉片貼圖用第二個 AI 的 `tools/blender/env_second/gen_leaves.py` 程式產生的 `olive_leaves.png`、`fern_leaves.png`（本作，不是外部素材）；大葉盆栽是一片一片的模型葉子（腳本產生，沒有貼圖） |
+ | 總圖大廳窗外的景（正面玻璃帷幕：椰林大道；側窗、樓梯平台後面的大窗：總圖南側的草地與系館；白天、晚上各一張） | `tools/shots/library_views.py` → `assets/models/env/library_view_{avenue,lawn}_{day,night}.webp` | 本作：在遊戲裡的校園拍的畫面（Playwright 截圖，1024×512），不是照片、不是外部素材 |
+-| 男生宿舍室內（一樓門廳、交誼廳、走廊；雙跑樓梯；二樓走廊；鐵門、日光燈、信箱、公告欄、沙發、電視、販賣機、飲水機、長桌與椅子、鞋架；D44。交誼廳 2026-10-22 LAWWW2 升級（ART-DORM-LOUNGE-1021）：皮沙發、電視櫃、兩台販賣機、飲水機、塑膠椅、資源回收桶、吊扇、冷氣、時鐘、公告欄、窗簾、地毯、盆栽） | `tools/blender/dorm_hall.py` → `assets/models/env/dorm_hall.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/dorm_layout.js`（遊戲化設計，D44）；貼圖 Poly Haven CC0（`terrazzo_tiles`、`granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`、`rough_linen`（窗簾）、`dirty_carpet`（地毯），見上表）；交誼廳的公告、時鐘錶面、「請自備杯子」、回收桶標籤、販賣機展示窗 `tools/blender/env_second/textures/gen/dorm_lounge_atlas.png`、`dorm_vend_panel.png` 是本作用 PIL 畫的（`dorm_lounge_tex.py`；文字虛構，不寫真實宿舍名稱；沒有真實商品、商標；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；盆栽用 `tools/blender/plants.py`（模型葉子，沒有貼圖） |
++| 男生宿舍室內（一樓門廳、交誼廳、走廊；雙跑樓梯；二樓走廊；鐵門、日光燈、信箱、公告欄、沙發、電視、販賣機、飲水機、長桌與椅子、鞋架；D44。交誼廳 2026-10-22 LAWWW2 升級（ART-DORM-LOUNGE-1021）：皮沙發、電視櫃、兩台販賣機、飲水機、塑膠椅、資源回收桶、吊扇、冷氣、時鐘、公告欄、窗簾、地毯、盆栽；2026-10-28 LAWWW2-C 加公用冰箱（NPC-POOL-ART-1028：飲水機移到販賣機西邊）） | `tools/blender/dorm_hall.py` → `assets/models/env/dorm_hall.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/dorm_layout.js`（遊戲化設計，D44）；貼圖 Poly Haven CC0（`terrazzo_tiles`、`granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`、`rough_linen`（窗簾）、`dirty_carpet`（地毯），見上表）；交誼廳的公告、時鐘錶面、「請自備杯子」、回收桶標籤、販賣機展示窗 `tools/blender/env_second/textures/gen/dorm_lounge_atlas.png`、`dorm_vend_panel.png` 是本作用 PIL 畫的（`dorm_lounge_tex.py`；文字虛構，不寫真實宿舍名稱；沒有真實商品、商標；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；盆栽用 `tools/blender/plants.py`（模型葉子，沒有貼圖） |
+ | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗；v2 2026-10-28 INTERIOR-AAA-REVIEW-1028：翻椅、分段長桌、木腰牆、柱子、捲簾、雙開門、燈具冷氣投影機、公告欄、生活感小物、光照貼圖） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb`；光照貼圖 `tools/blender/env_second/lightbake/bake_room.py`（Cycles 烘焙）→ `assets/models/env/classroom_201_lm_day.webp`、`classroom_201_lm_night.webp`；公告、標示、黑板粉筆痕 `tools/blender/env_second/textures/gen/cls201_print.png`、`cls201_board.png`（腳本用 PIL 畫的，字是虛構的；WenQuanYi Zen Hei 只畫進貼圖） | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`、`tools/blender/env_second/lib2.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖 Poly Haven CC0：`large_floor_tiles_02`、`painted_plaster_wall`、`ceiling_interior`、`walnut_veneer`（長桌、翻椅、木腰牆、講桌、門）、`laminate_floor_02`（講台區木地板） |
+ | 祐廷 Blender 版（v9.4 人物生產線第二位：臉、新的層次短髮、圓領毛衣、直筒寬褲、球鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/player.py`（`p00_face.py`、`p00_clothes.py`、`p00_hair.py`，沿用 `h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_yuting.vrm`；Blender 工作檔 `assets/blender/yuting_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「HairSample_Male」（pixiv，CC0）；毛衣的骨頭權重參考同一樣本原本的連帽上衣（CC0，只用權重，網格是本作腳本產生）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） |
+ | 溫書瑀 Blender 版（v9.4 人物生產線第六位：臉、深棕低馬尾＋中分長瀏海、白襯衫（反摺領、門襟與扣子、捲起的袖口）、卡其直筒褲＋深棕皮帶、深棕樂福鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/heroine_05.py`（`p05_face.py`、`p05_clothes.py`、`p05_hair.py`，沿用 `p00_face.py`、`h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_heroine_05.vrm`；Blender 工作檔 `assets/blender/heroine_05_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「Sendagaya Shino」（pixiv，CC0；身體貼圖在原本衣服蓋住的透明區域用本作程式補上皮膚色）；頭髮、衣服、領子、門襟、袖口、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；判決節錄資料夾是遊戲內配件（`src/props3d.js`）；VRM 匯出用 VRM Add-on for Blender（MIT） |
+@@ -200,6 +200,7 @@
+ | 農業陳列館（洞洞館）外觀 `assets/models/env/second_ai/campus_pavilion.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_pavilion.py`（位置、尺寸、樓層照套件 `CK.pavilion`；鏤空牆的透明貼圖 `textures/gen/pav_screen.png` 本作程式產生（Poly Haven `painted_plaster_wall` 的顏色＋程式挖的圓洞）；匾額「農業陳列館」是遊戲裡的 canvas 字） | 本作 | 校園洞洞館（取代套件 `CK.pavilion` 的外觀）。貼圖：`painted_plaster_wall`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用，Poly Haven CC0） |
+ | 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
+ | 霖澤館 202 教室、萬才館多功能教室室內 `assets/models/env/second_ai/linze_202.glb`、`wancai_multi.glb`（＋`.layout.json`；光照貼圖 `linze_202_lm_day／night.webp`、`wancai_multi_lm_day／night.webp`＝`tools/blender/env_second/lightbake/bake_room.py` 用 Cycles 烘焙，INTERIOR-AAA-REVIEW-1028） | 本作 Blender 腳本 `tools/blender/env_second/flat_classroom.py`（LAWWW2-C 0a5cc70a／75ef4ae3；2026-10-20 美術子代理改 ART-ROOM-MULTI-1020／ART-ROOM-LIFE-1020；共用零件 `lane118_shops.py`、`lib2.py`）；黑板白板、公告欄傳單、門牌、時鐘、講桌筆電的投影片是本作程式畫的 `textures/gen/linze_202_print.png`、`wancai_multi_print.png`（字是虛構的）；貼圖 Poly Haven（**CC0**）：`large_floor_tiles_02`、`laminate_floor_02`、`dirty_carpet`、`painted_plaster_wall`、`walnut_veneer`、`fine_grained_wood`、`wood_table_001`、`ceiling_interior`、`rough_linen` | 本作（模型、印刷品貼圖）＋CC0（貼圖） | `linze_202`、`wancai_multi` 室內區域（`src/rooms_glb3d.js`） |
++| 霖澤館一樓「考前補給包」的桌子 `assets/models/env/second_ai/linze_supply_table.glb`（NPC-POOL-ART-1028；摺疊桌、布條、補給包、紙箱、立牌、膠帶、筆筒、摺疊椅與外套；只有劇情那一天擺出來） | 本作 Blender 腳本 `tools/blender/env_second/supply_table.py`（LAWWW2-C 2026-10-28；共用 `lib2.py`）；布條、立牌、小卡的字是本作用 PIL 畫的 `textures/gen/supply_table_print.png`（字是虛構的，沒有真的社團名字，D77；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；其他是純色與頂點色，沒有外部素材 | 本作 | 霖澤館一樓（`src/pool3d.js` 的 `S.prop`） |
+ 
+ | 吳芯慈（`classmate_xinci`）Blender 版 `assets/models/char/second_ai/bl_classmate_xinci.vrm`（D59：照 BB 通過的參考圖 `classmate_xinci.webp`——整齊的低髮髻、空氣瀏海、淺紫開襟衫＋白 T、深藍及膝 A 字裙、棕色樂福鞋） | 本作 Blender 腳本 `tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`；沿用 LAWWW 的人物生產線 `tools/blender/char/` 的 `common.py`、`h01_*`、`p00_*`、`vrm_finish.py`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；取得：`tools/fetch_vroid_src.sh`，原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） | 還沒接進遊戲（LAWWW 接進 `ASSETS.manifest` 後拍遊戲內截圖給 BB 驗收） |
+ | 林芷若的眼鏡 `assets/models/char/second_ai/glasses_zhiruo.glb`（D59：參考圖 06 的淺色細金屬圓框，霧面玫瑰金 #a68b80） | 本作 Blender 腳本 `tools/blender/char_second/glasses_zhiruo.py` | 本作 | `src/props3d.js` 的 `glasses()`：載好後換掉程式產生的眼鏡（接法 `docs/art-rebuild/second_ai/patches/glasses_zhiruo_97f4abc.patch`，由 LAWWW 整合） |
+@@ -220,6 +221,7 @@
+ | 邱韋綸（`econ_weilun`）`assets/models/char/second_ai/bl_econ_weilun.vrm` 第十二版＋腳踏車安全帽 `helmet_bike.glb`；宋家豪（`econ_jiahao`）`bl_econ_jiahao.vrm` 第十版（LAWWW2-C 03179efb；照 BB 通過的參考圖） | 本作 Blender 腳本 `tools/blender/char_second/weilun*.py`、`jiahao*.py`、`helmet_bike.py`；底模 VRoid β 版 CC0 樣本「Sakurada Fumiriya」（pixiv） | CC0 底模＋本作 | BB-C 2026-10-17 驗收通過（BB_201 第 1、3、7 節） |
+ | 宋家豪的「公館美食地圖」筆記本 `assets/models/char/second_ai/notebook_foodmap.glb`（LAWWW2-C 2026-10-17） | 本作 Blender 腳本 `tools/blender/char_second/prop_foodmap_notebook.py`；封面圖 `tools/blender/env_second/textures/gen/foodmap_cover.png` 是本作用 PIL 畫的（手畫地圖、紙膠帶標籤；字用系統字型文泉驛正黑畫成點陣圖，沒有附字型檔；**沒有真實店名、商標**） | 本作 | 家豪掛在左前臂（src/props3d.js 的 foodmap；2026-10-17 LAWWW-C 接進遊戲，0e191286） |
+ | 曾品妤的工程計算機、黑色保溫瓶 `assets/models/char/second_ai/calc_engineering.glb`、`thermos_black.glb`（LAWWW2-C 2026-10-17） | 本作 Blender 腳本 `tools/blender/char_second/prop_pinyu.py`（幾何＋純色材質，沒有貼圖；**沒有牌子、型號**） | 本作 | 品妤平常拿保溫瓶、計算機給事件用（src/props3d.js 的 thermos、calc；2026-10-17 LAWWW-C 接進遊戲，2ef1ca4b） |
++| 法律系同學二十位、麵店阿姨的隨身道具 `assets/models/char/second_ai/camera_film.glb`、`lanyard_tag.glb`、`thermos_silver.glb`、`sports_drink.glb`、`recorder.glb`、`cooler_bag.glb`、`novel.glb`、`notebook_q.glb`、`handouts.glb`、`audio_cable.glb`、`ladle.glb`、`bandage.glb`（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028） | 本作 Blender 腳本 `tools/blender/char_second/prop_pool.py`（共用 `env_second/lib2.py`）；相機背帶、名牌掛繩照底模的身體量過（`prop_pool_fit.json`，讀本作的 `bl_npc_nm9.vrm`、`bl_npc_nf18.vrm`）；名牌的卡面、小說封面封底、筆記本封面、講義是本作用 PIL 畫的 `textures/gen/pool_lanyard_card.png`、`pool_novel.png`、`pool_notebook_q.png`、`pool_handouts.png`（字、圖示是虛構的：天秤是自己畫的，不是真的社團標誌；沒有牌子、商標，D77；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；其他是純色與頂點色，沒有外部素材 | 本作 | `src/props3d.js` 的 PROPS.DEF（`src/data/pool_story.js` 的 props） |
+ | 曾品妤（`econ_pinyu`）Blender 版 `assets/models/char/second_ai/bl_econ_pinyu.vrm`（ART-CH-PINYU；D59：照 BB_131 通過的標準圖 `pinyu.webp`——黑色高丸子頭＋空氣瀏海＋臉旁碎髮、灰色 oversize 連帽上衣、黑色寬直筒長褲、灰白老爹鞋、158 cm） | 本作 Blender 腳本 `tools/blender/char_second/pinyu.py`（`pinyu_face.py`、`pinyu_clothes.py`、`pinyu_hair.py`〔從 `x_xinci_hair.py` 改〕、`vrm_finish2.py`；帽子用 `tools/blender/char/p04_clothes.py` 的 `build_hood`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生；VRM 匯出用 VRM Add-on for Blender（MIT） | 2026-10-17 接進遊戲（LAWWW-C）；等 BB 遊戲內截圖驗收（D59） |
+ | 2D 背景 `assets/bg/gongguan_cinema.webp`（公館・二輪戲院大廳，虛構）、`assets/bg/yongkang_curry.webp`（永康街・咖哩店，虛構）（LAWWW2-C 0100994c，ART-17 最後兩張） | 本作 Blender 腳本 `tools/blender/env_second/bg_cinema.py`、`bg_curry.py` | 本作 | READY_FOR_ART_REVIEW（場景美術要使用者看過）；店名、海報都是虛構的（D77） |
+ | 唐睿（`econ_tangrui`）`assets/models/char/second_ai/bl_econ_tangrui.vrm` 第二十版；邱韋綸換第十三版（只改髮色）（LAWWW2-C 60dc7908） | 本作 Blender 腳本 `tools/blender/char_second/tangrui*.py`；底模 VRoid β 版 CC0 樣本「HairSample_Male」（pixiv） | CC0 底模＋本作 | BB-C 2026-10-17 驗收通過（BB_201 第 9～11 節） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index dab2e17c1..aa4da7ff2 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -135,7 +135,20 @@ const ASSETS = (function(){
+     'prop.notebook_foodmap':{url:'assets/models/char/second_ai/notebook_foodmap.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_foodmap_notebook.py（LAWWW2-C 0e191286：宋家豪的「公館美食地圖」筆記本——牛皮紙封面、手畫地圖、紙膠帶標籤、索引貼、鬆緊帶；圖是 PIL 畫的，沒有店名、商標）', license:'本作'},
+     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
+     'prop.bag_yu':{url:'assets/models/char/second_ai/bag_yu.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_yu.py（LAWWW2-C 2026-10-18：Alison 的黑色尼龍側背包、背帶、登山扣＋三個社團吊飾——天秤、麥克風、吉他；沒有牌子）', license:'本作'},
++    'bldg.linze_supply_table':{url:'assets/models/env/second_ai/linze_supply_table.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/supply_table.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：霖澤館一樓「考前補給包」的摺疊桌、手寫布條、補給包、紙箱、摺疊椅；只有 AA_498 5-3 那一天由 pool3d.js 擺出來）', license:'本作'},
+     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
++    'prop.camera_film':{url:'assets/models/char/second_ai/camera_film.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：元碩的底片相機＋背帶（背帶照 char.npc_nm9 量過）；沒有牌子）', license:'本作'},
++    'prop.lanyard_tag':{url:'assets/models/char/second_ai/lanyard_tag.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：佳蓉的法服值班名牌＋掛繩（掛繩照 char.npc_nf18 量過）；圖示是自己畫的天秤）', license:'本作'},
++    'prop.thermos_silver':{url:'assets/models/char/second_ai/thermos_silver.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：靖雯的銀色保溫瓶）', license:'本作'},
++    'prop.sports_drink':{url:'assets/models/char/second_ai/sports_drink.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：孟儒的運動飲料（寶特瓶，沒有牌子））', license:'本作'},
++    'prop.recorder':{url:'assets/models/char/second_ai/recorder.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：靜儀的錄音筆）', license:'本作'},
++    'prop.cooler_bag':{url:'assets/models/char/second_ai/cooler_bag.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：家齊的保冷袋）', license:'本作'},
++    'prop.novel':{url:'assets/models/char/second_ai/novel.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：采潔封面朝內的推理小說）', license:'本作'},
++    'prop.notebook_q':{url:'assets/models/char/second_ai/notebook_q.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：宇軒寫滿問題的筆記本）', license:'本作'},
++    'prop.handouts':{url:'assets/models/char/second_ai/handouts.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：宗霖的財金講義）', license:'本作'},
++    'prop.audio_cable':{url:'assets/models/char/second_ai/audio_cable.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：立群的音源線）', license:'本作'},
++    'prop.ladle':{url:'assets/models/char/second_ai/ladle.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：麵店阿姨的湯杓）', license:'本作'},
++    'prop.bandage':{url:'assets/models/char/second_ai/bandage.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：麵店阿姨手上的繃帶）', license:'本作'},
+     'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
+     /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
+     'bldg.us_apartment':{url:'assets/models/env/second_ai/us_apartment.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py（美國交換：公寓單人戶 1x1＋門外的戶外樓梯平台；配置 src/data/us_apartment_layout.js；家具 ART-US1～US4；LAWWW2-B／LAWWW2-C；區域 src/us3d.js）', license:'本作；貼圖 CC0'},
+diff --git a/src/character3d.js b/src/character3d.js
+index 66aee3e3f..b1a87d8ff 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -156,7 +156,7 @@ const CHAR = (function(){
+   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
+   /* 身上帶著的東西（包、吉他、資料夾、圍裙、安全帽…；眼鏡、耳環、髮圈不算）先拿下來，回傳還原的函式（BADCLIP-BAG-1027：使用者 10-27 22:4x「打羽球男主角還背著背包什麼意思」）。
+      還原照原本的開關：原本沒設過的（propOn 沒有這一項）拿掉設定、照原本看不看得到；還原時傳現在的人物（中途換過模型 C.upgrade 的話是新的那一個）*/
+-  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos'];
++  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos','camera_film','thermos_silver','sports_drink','recorder','cooler_bag','novel','notebook_q','handouts','audio_cable','ladle'];   /* 後面十個：同學、麵店阿姨的隨身道具（NPC-POOL-ART-1028）*/
+   C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
+     for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
+     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
+@@ -269,7 +269,7 @@ const CHAR = (function(){
+     for(const L of LEGS) for(const n of L){ if(!B[n]||n===L[0]) continue; lo=Math.min(lo,B[n].getWorldPosition(SFV[1]).y); }
+     if(!isFinite(lo)) return; const sc=h.getWorldScale(SFV[2]).y||1; u.model.position.y+=(gy+u.sitFloor+0.05-lo)/sc; u.model.updateWorldMatrix(false,true); }
+   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
+-    if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k of ['backpack','guitar','bag_yu']){ const o=u.props[k]; if(o) o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }
++    if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k in u.props){ const d=typeof PROPS!=='undefined'&&PROPS.DEF[k]; const o=u.props[k]; if(!o) continue; if(d&&d.sit==='only'){ o.visible=sitting&&!!(u.propOn&&u.propOn[k]===true); continue; } if(!(k==='backpack'||k==='guitar'||k==='bag_yu'||(d&&d.sit==='hide'))) continue; o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }   /* 坐下時藏：後背包、吉他、側背包＋PROPS.DEF 的 sit:'hide'（垂著拿的東西）；sit:'only'＝坐下而且開了才看得到（NPC-POOL-ART-1028）*/
+     u.ride=pose==='ride'?(st.ride||{crank:0}):null;
+     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
+     else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
+diff --git a/src/data/dorm_layout.js b/src/data/dorm_layout.js
+index d5af4b10a..6de9d23fa 100644
+--- a/src/data/dorm_layout.js
++++ b/src/data/dorm_layout.js
+@@ -54,8 +54,9 @@ const DORM_LAYOUT={
+     {"type":"tv","lv":0,"x":13.62,"z":4.6,"w":1.6,"ry":-1.5708},
+     {"type":"vending","lv":0,"x":4.0,"z":7.35,"ry":3.1416},
+     {"type":"vending","lv":0,"x":5.2,"z":7.35,"ry":3.1416},
+-    {"type":"water","lv":0,"x":6.5,"z":7.45,"ry":3.1416},
++    {"type":"water","lv":0,"x":3.0,"z":7.45,"ry":3.1416},
+     {"type":"bins","lv":0,"x":7.45,"z":7.55,"w":1.1,"ry":3.1416},
++    {"type":"fridge","lv":0,"x":6.52,"z":7.43,"ry":3.1416},
+     {"type":"planter","lv":0,"x":13.35,"z":7.4,"r":0.3},
+     {"type":"longTable","lv":0,"x":5.4,"z":4.2,"w":2.4,"d":0.8,"seats":2},
+     {"type":"planter","lv":0,"x":-2.0,"z":7.2,"r":0.3},
+diff --git a/src/data/pool_story.js b/src/data/pool_story.js
+index 72785c411..8096ce9ac 100644
+--- a/src/data/pool_story.js
++++ b/src/data/pool_story.js
+@@ -32,14 +32,14 @@ const POOL_STORY=(function(){
+      model：路人底模（ASSETS 的 char.npc_nf*／nm*，第 3 節的外觀挑最接近的）；props：現成的道具（props3d.js；沒有的列在回報「給 LAWWW2」）。*/
+   const PEOPLE={
+     pool_1:{ card:'在寫一篇兇手是律師的推理小說', before:'常在舊路書房看推理小說的同學', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'舊路書房',
+-      model:'char.npc_nf17', props:['tote'],   /* 布書袋＝tote；鯊魚夾、封面朝內的推理小說沒有 */
++      model:'char.npc_nf17', props:['tote','novel'],   /* 布書袋＝tote；封面朝內的推理小說＝novel（NPC-POOL-ART-1028）；鯊魚夾沒有（髮型配件，D99）*/
+       where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'舊路書房，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
+       cls:{seat:[2,1],desc:'坐第三排的人'} },
+     pool_2:{ card:'雙主修財金，在學日文', personality:'修太多學分的人', place:'總圖',
+-      model:'char.npc_nm11', props:['calc'],   /* 計算機＝calc；一疊財金的講義沒有 */
++      model:'char.npc_nm11', props:['calc','handouts'],   /* 計算機＝calc（左手）；一疊財金的講義＝handouts（右手，NPC-POOL-ART-1028）*/
+       where:[ {days:WD,from:10,to:17,zone:'library_hall',act:'read',noHoliday:true,desc:'常在圖書館的男生',label:'總圖二樓自習區'} ] },
+     pool_3:{ card:'台南人，媽媽常寄虱目魚丸', personality:'什麼都拿來跟台南比，其實很想家', place:'宿舍的交誼廳',
+-      model:'char.npc_nm7', props:[],   /* 保冷袋、藍白拖沒有 */
++      model:'char.npc_nm7', props:['cooler_bag'],   /* 保冷袋＝cooler_bag（NPC-POOL-ART-1028；坐下時藏）；藍白拖沒有（鞋子＝衣服，D99）*/
+       where:[ {days:[0,2,4],from:21,to:23,zone:'dorm_hall',act:'linger',at:[6.9,6.3,0,0],noHoliday:true,desc:'把冰箱塞滿的學長',label:'男一舍交誼廳'},   /* 週日最多：週日、週二、週四（8-3 的開口在週四晚上）。交誼廳沒有冰箱：站在販賣機、飲水機那一角（冰箱的實體物件列給 LAWWW2）*/
+         {days:WD,from:12,to:13,zone:'campus',act:'linger',at:[79,-4.5,P/2,0],noHoliday:true,desc:'在總圖門口講電話的男生',label:'總圖門口，講電話',greetAt:'總圖門口'} ] },   /* 校園的總圖門口（「進入總圖書館」(86.4,0) 西南邊）*/
+     pool_4:{ card:'班代，系學會活動組', personality:'什麼都要數一遍，數完才放心', place:'教室門口',
+@@ -51,11 +51,11 @@ const POOL_STORY=(function(){
+       model:'char.npc_nf9', props:['folder'],   /* 抱著一疊講義＝folder；撥片鑰匙圈沒有 */
+       where:[ {days:ALL,from:11,to:17,zone:'cafe',act:'read',noHoliday:true,desc:'抱著一疊講義的女生',label:'兩點半 Café'} ] },
+     pool_6:{ card:'系上活動的照片都是他拍的', personality:'照片裡從來沒有他自己', place:'椰林大道',
+-      model:'char.npc_nm9', props:[],   /* 底片相機、格子襯衫沒有 */
++      model:'char.npc_nm9', props:['camera_film'],   /* 底片相機＝camera_film（背帶照這個底模量過，換底模要重量；NPC-POOL-ART-1028）；格子襯衫沒有（衣服，D99）*/
+       where:[ {days:[1,2,3],from:12,to:13,zone:'campus',act:'linger',at:[33,-112,0,0],terms:['Y2S2'],weeks:[15],noHoliday:true,pri:true,desc:'脖子上掛相機的學長',label:'霖澤館穿堂，展覽'},   /* 7-4 展覽那三天 12～13 點在霖澤館一樓穿堂（校園的穿堂，地坪 0.9 m）*/
+         {days:ALL,from:16,to:17.5,zone:'campus',act:'linger',at:[-10,0.8,P/2,0],noHoliday:true,if:SUNNY,desc:'脖子上掛相機的學長',label:'椰林大道，拍照'} ] },   /* 椰林大道中間的黃色虛線旁邊 */
+     pool_7:{ card:'每天六點在傅鐘旁邊吃早餐的同學', personality:'想當律師，還不知道要幫誰', place:'傅鐘旁邊',
+-      model:'char.npc_nf2', props:['tote'],   /* 短髮＝黑色鮑伯頭的底模；帆布包＝tote；銀色保溫瓶沒有（現成的 thermos 是黑色、拿在手上）*/
++      model:'char.npc_nf2', props:['tote','thermos_silver','thermos_bench'],   /* 短髮＝黑色鮑伯頭的底模；帆布包＝tote（右肩）；銀色保溫瓶＝thermos_silver（左手，坐下時藏）；坐在傅鐘長椅時放在身旁＝thermos_bench（pool3d.js afterSpawn 開，NPC-POOL-ART-1028）*/
+       where:[ {days:ALL,from:6,to:7.5,zone:'campus',act:'sit',seat:'bell',dates:[['2029-06-02','2029-06-02']],pri:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，最後一次'},   /* 4-4、4-6：畢業典禮當天 06:00～07:30 */
+         {days:WD,from:6.5,to:7+40/60,zone:'campus',act:'sit',seat:'bell',noHoliday:true,desc:'傅鐘旁邊吃早餐的人',label:'傅鐘旁邊，吃早餐'},   /* 傅鐘旁的長椅（和 Alison 9:30 以後坐的同一張，時間不重疊）*/
+         {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[-2.0,1.8,P/2,0],terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],if:FAFU,desc:'坐第一排正中間的女生',label:'萬才館一樓，法服值班'} ],   /* 4-4：大二起隔週六 9～12 法服值班（和馬佳蓉；STORY.fafuDuty 的週六），圓桌旁 */
+@@ -67,25 +67,25 @@ const POOL_STORY=(function(){
+       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
+       where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
+     pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
+-      model:'char.npc_nm1', props:[],   /* 寫滿問題的筆記本沒有（現成的 foodmap 是美食地圖本）*/
++      model:'char.npc_nm1', props:['notebook_q'],   /* 寫滿問題的筆記本＝notebook_q（NPC-POOL-ART-1028）*/
+       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
+     pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學妹', personality:'', place:'萬才館旁邊',
+       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
+       where:[ {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },
+     pool_12:{ card:'系籃經理', personality:'', place:'籃球場',
+-      model:'char.npc_nm5', props:[],   /* 系服、運動飲料沒有 */
++      model:'char.npc_nm5', props:['sports_drink'],   /* 運動飲料＝sports_drink（坐下時藏，NPC-POOL-ART-1028）；系服沒有（衣服，D99）*/
+       where:[ {days:[5],from:17,to:19,zone:'campus',act:'linger',at:[2.6,-114.5,-P/2,0],noHoliday:true,desc:'總是穿系服的人',label:'醉月湖東側的籃球場'} ] },   /* 系籃球場 (−4,−113) 東邊的長椅旁，面向場內 */
+     pool_13:{ card:'廣播社', personality:'', place:'椰林大道',
+-      model:'char.npc_nf10', props:[],   /* 錄音筆沒有 */
++      model:'char.npc_nf10', props:['recorder'],   /* 錄音筆＝recorder（NPC-POOL-ART-1028）*/
+       where:[ {days:WD,from:12,to:13,zone:'campus',act:'wander',near:[-60,0],noHoliday:true,desc:'聲音很好聽的女生',label:'椰林大道，找人訪問'} ] },
+     pool_14:{ card:'腳踏車社', personality:'', place:'校園',
+-      model:'char.npc_nm17', props:['helmet'],   /* 安全帽＝helmet；公路車（騎士）沒有接：遊戲裡騎車的路人（GM.extras 的騎士）不能說話，先站在總圖東側的停車架旁 */
++      model:'char.npc_nm17', props:['backpack','helmet'],   /* 安全帽＝helmet（掛在後背包右側：沒有後背包時會浮在背後，NPC-POOL-ART-1028 補 backpack）；公路車（騎士）沒有接：遊戲裡騎車的路人（GM.extras 的騎士）不能說話，先站在總圖東側的停車架旁 */
+       where:[ {days:WD,from:8,to:18,zone:'campus',act:'linger',at:[47.5,-14.4,0,0],noHoliday:true,desc:'騎腳踏車超快的男生',label:'校園，停車架旁'} ] },   /* 表上沒寫時間：照上課時間 */
+     pool_15:{ card:'在哲學系旁聽，和沛珊同一堂', personality:'', place:'文學院',
+       model:'char.npc_nf16', props:['folder'],   /* 哲學系的講義＝folder */
+       where:[ {days:WD,from:13,to:16,zone:'campus',act:'sit',seatAt:[-25,-12.94],noHoliday:true,desc:'很會問問題的女生',label:'文學院前的長椅'} ] },   /* 文學院（大道北側 −38,−34）前面、大道上的長椅 */
+     pool_16:{ card:'宥辰的朋友，背法條用唱的', before:'常幫人搬音響的同學', personality:'', place:'公館',
+-      model:'char.npc_nm14', props:[],   /* 音源線沒有 */
++      model:'char.npc_nm14', props:['audio_cable'],   /* 音源線＝audio_cable（坐下時藏，NPC-POOL-ART-1028）*/
+       where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，二手唱片行的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
+     pool_17:{ card:'筆記王', personality:'', place:'總圖',
+       model:'char.npc_nf5', props:['folder'],   /* 一疊用迴紋針夾好的筆記＝folder */
+@@ -97,7 +97,7 @@ const POOL_STORY=(function(){
+       model:'char.npc_nm8', props:['folder'],   /* 社工系的講義＝folder */
+       where:[ {days:WD,from:10,to:12,zone:'soclib',act:'read',noHoliday:true,desc:'講話很小聲的男生',label:'社科院'} ] },   /* 社會科學院一樓遊戲裡沒有室內：社科院圖書館（社科院裡面的區域）*/
+     pool_20:{ card:'法服幹部，管器材', personality:'', place:'萬才館一樓',
+-      model:'char.npc_nf18', props:[],   /* 法服的名牌、延長線沒有 */
++      model:'char.npc_nf18', props:['lanyard_tag'],   /* 法服的名牌＝lanyard_tag（掛繩照這個底模量過，NPC-POOL-ART-1028）；延長線沒有 */
+       where:[ {days:ALL,from:0,to:24,zone:'campus',act:'linger',at:[-50,11.25,P,0],activity:'club_expo_y1s1',actHours:true,pri:true,desc:'法服攤位那個人',label:'社團博覽會，法服的攤位',greetAt:'社團博覽會'},   /* 法服帳篷（−47.5,13.5）前，學姊的西邊 */
+         {days:[6],from:9,to:12,zone:'wancai',act:'linger',at:[1.9,1.6,-P/2,0],if:FAFU,desc:'法服攤位那個人',label:'萬才館一樓，法服值班'} ] }   /* 隔週六 9～12（STORY.fafuDuty）：圓桌旁 */
+   };
+diff --git a/src/dorm3d.js b/src/dorm3d.js
+index 6e3434235..61ed16dba 100644
+--- a/src/dorm3d.js
++++ b/src/dorm3d.js
+@@ -156,6 +156,7 @@ const DM3=(function(){
+         IT.push({x:f.x+fx*0.9,z:f.z+fz*0.9,radius:1.0,lv:f.lv,label:'看自動販賣機',look:'自動販賣機：茶、咖啡、運動飲料，一罐 25 元。最上面一排的奶茶已經賣完了。'}); }
+       else if(f.type==='water'){ b.add(M('#e4e6e8',{rough:0.4}),TK.boxG(0.4,1.25,0.4),f.x,y+0.625,f.z); b.add(M('#3a6ea5',{rough:0.3}),TK.boxG(0.3,0.06,0.02),f.x,y+1.0,f.z+(f.z<0?0.21:-0.21)); nav.blockRect(f.x,f.z,0.45,0.45,0,0.05);
+         IT.push({x:f.x+fx*0.8,z:f.z+fz*0.8,radius:0.9,lv:f.lv,label:'看飲水機',look:'飲水機：熱水、溫水、冰水。旁邊貼著「請自備杯子」。'}); }
++      else if(f.type==='fridge'){ b.add(M('#e9e7e2',{rough:0.5}),TK.boxG(0.66,1.72,0.66),f.x,y+0.86,f.z); b.add(M('#8a9096',{rough:0.38}),TK.boxG(0.03,0.34,0.03),f.x-0.27,y+1.35,f.z+(f.z<0?0.36:-0.36)); nav.blockRect(f.x,f.z,0.72,0.72,0,0.05); }   /* 交誼廳的公用冰箱（NPC-POOL-ART-1028，LAWWW2-C 10-28；正式模型 tools/blender/dorm_hall.py 的 fridge）：pool3d.js 家齊「把箱子放進交誼廳的冰箱」(7.3, 6.7) 的實體 */
+       else if(f.type==='longTable'){ const n=f.seats||2; b.add(MAT.wood(),TK.boxG(f.w,0.05,f.d),f.x,y+0.74,f.z); for(const [lx,lz] of [[-1,-1],[1,-1],[-1,1],[1,1]]) b.add(MAT.frame(),TK.boxG(0.05,0.72,0.05),f.x+lx*(f.w/2-0.1),y+0.36,f.z+lz*(f.d/2-0.1)); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05);
+         for(let i=0;i<n;i++){ const sx=f.x-f.w/2+f.w*(i+0.5)/n; for(const s of [-1,1]){ const cz=f.z+s*(f.d/2+0.38), yaw=s>0?Math.PI:0; Z3.chair(fb,sx,cz,yaw,'#3a3f46'); const seat={x:sx,z:cz,yaw,lv:f.lv}; seats.push(seat); IT.push({x:sx,z:cz,radius:0.8,lv:f.lv,label:'坐下',seat}); } } }
+       else if(f.type==='planter'){ b.add(M('#8c7f6e',{rough:0.8}),new THREE.CylinderGeometry(f.r,f.r*0.85,0.5,14),f.x,y+0.25,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.3,1),f.x,y+0.95,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
+diff --git a/src/pool3d.js b/src/pool3d.js
+index d028ced7e..3b98a378d 100644
+--- a/src/pool3d.js
++++ b/src/pool3d.js
+@@ -107,7 +107,8 @@ const POOL=(function(){
+   S.afterSpawn=function(GM){ if(!GM||!GM.npc||!GM.G) return; const G=GM.G;
+     for(const id in GM.npc){ if(!/^pool_/.test(id)) continue; const n=GM.npc[id]; if(!n||n.charId!==id) continue;
+       if(!n._pool){ n._pool=true; const e=ent(G,id); n.poolDesc=e&&e.desc||null; if(e&&e.act==='linger'){ n.frozen=true; } if(typeof SOCIAL!=='undefined'&&SOCIAL.npcName){ n.name=SOCIAL.npcName(id); if(n.talk) n.talkLabel='和'+n.name+'說話'; } }   /* 站著的人不被 pairUp 帶走（固定在一個地方）*/
+-      S.modelWait(n,id); S.syncTalk(G,id,n); } };
++      S.modelWait(n,id); S.syncTalk(G,id,n);
++      if(id==='pool_7'&&typeof CHAR!=='undefined'&&CHAR.setProp&&n.obj){ const e=ent(G,id), on=!!(e&&e.seat==='bell'); if(n._bench!==on){ n._bench=on; CHAR.setProp(n.obj,'thermos_bench',on); } } } };   /* 靖雯坐在傅鐘長椅（AA_498：「旁邊一個銀色的保溫瓶」）：保溫瓶放在身旁；上課、法服值班不放（NPC-POOL-ART-1028）*/
+   S.modelWait=function(n,id){ if(typeof CHAR==='undefined'||!CHAR.isDegraded||!n.obj) return; const want=S.modelOf(id); if(!want) return;
+     if(CHAR.isDegraded(n.obj)){
+       if(S._failed[want]){ const u=n.obj.userData; u.wantModel=null; if(u.degradedHidden){ for(const ch of n.obj.children) ch.visible=true; u.degradedHidden=false; } n.hidden=false; n._poolWait=false; return; }   /* 下載失敗：用備用的人（同一個人的顏色），不要一直隱形 */
+@@ -294,6 +295,12 @@ const POOL=(function(){
+   /* 7-4 展覽（大二下第 15 週，週一～週三，霖澤館一樓穿堂；只有旁白）*/
+   S.expoDue=G=>{ const w=dateOf(G.day).wd; return G.zone==='campus'&&inTerm(G,'Y2S2')&&week(G)===15&&w>=1&&w<=3; };
+ 
++  /* 劇情那一天才擺出來的實體物件（NPC-POOL-ART-1028，LAWWW2-C 2026-10-28）：GLB 載好才加進這一區、才擋導航（載不到就什麼都沒有，不會有看不見的牆）；
++     換區域時跟著這一區一起丟掉（加在 zone.group 底下）。key＝ASSETS.manifest 的 bldg.*；(x, z, ry)＝擺放、lv＝哪一層的導航；w、d＝擋住的長寬（公尺，沿模型自己的 x、z）*/
++  S.prop=function(E,key,x,z,ry,lv,w,d){ const zone=E&&E.zone; if(!zone||typeof ASSETS==='undefined'||!ASSETS.manifest[key]) return;
++    ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name=key; r.position.set(x,0,z); r.rotation.y=ry||0;
++      r.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); (zone.group||E.scene).add(r);
++      const nav=E.levels?E.levels[lv|0]:E.nav; if(nav&&w&&d){ nav.blockRect(x,z,w,d,ry||0,0.05); nav._cm=null; } }).catch(e=>console.warn(key,e)); };
+   /* ---------- 互動點（第 9 節第 4 點）：只有互動點，實體物件列給 LAWWW2 ---------- */
+   S.populate=function(zoneId,GM){ S.bind(GM); const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)) return; const add=it=>E.interactables.push(it), g=()=>GM.G;
+     if(zoneId==='dorm_hall'){
+@@ -301,7 +308,8 @@ const POOL=(function(){
+       add({x:7.3,z:6.7,radius:1.0,prio:0.4,lv:0,label:'把箱子放進交誼廳的冰箱',poolAct:'qjqFridge',get hidden(){ return !S.qjqFridgeDue(g()); }});   /* 交誼廳販賣機、飲水機那一角（冰箱的實體物件：LAWWW2）*/
+       add({x:7.3,z:6.7,radius:1.0,prio:0.3,lv:0,label:'看交誼廳的冰箱',poolAct:'qjqFridgeNote',get hidden(){ return !S.fridgeNoteDue(g()); }});
+       add({x:5.4,z:5.3,radius:0.9,prio:0.4,lv:0,label:'看桌上的紙條',poolAct:'qjqNote',get hidden(){ return !S.qjqNoteDue(g()); }}); }   /* 交誼廳的長桌 */
+-    if(zoneId==='linze') add({x:4.6,z:0.6,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
++    if(zoneId==='linze'){ add({x:4.6,z:2.05,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
++      if(S.ytTableDue(g())) S.prop(E,'bldg.linze_supply_table',4.6,1.05,0,0,1.9,0.7); }   /* 那一天才擺：玻璃電梯南邊，長邊沿 x（3.7～5.5）；發的人站電梯那一側、拿的人從南邊來，互動點在桌子南邊（原本 z 0.6 會被桌子蓋住）（NPC-POOL-ART-1028，LAWWW2-C）*/
+     if(zoneId==='campus') add({x:33,z:-110,radius:2.2,lv:0,label:'看穿堂的照片',poolAct:'ysExpo',get hidden(){ return !S.expoDue(g()); }});   /* 霖澤館一樓的穿堂（地坪 0.9 m）*/
+     S.afterSpawn(GM); S.dedupe(GM); };
+   S.interact=async function(it,GM){ const G=GM.G; S.bind(GM); GM.sceneBegin(); try{
+diff --git a/src/props3d.js b/src/props3d.js
+index 7cf936ddc..969c39e83 100644
+--- a/src/props3d.js
++++ b/src/props3d.js
+@@ -122,6 +122,13 @@ const PROPS = (function(){
+       g.add(n); }).catch(e=>console.warn(name+' glb',e));
+     return g; }; }
+   const bagYu=boneGlb('prop.bag_yu','bag_yu');
++  /* 法律系同學二十位的隨身道具（NPC-POOL-ART-1028，LAWWW2-C 2026-10-28；tools/blender/char_second/prop_pool.py）＋麵店阿姨的湯杓、繃帶（HEROINE-LIFE-NPC3D-1028）。
++     sit：'hide'＝坐下（sit、read）時藏起來（垂著拿的東西會穿進椅子）；'only'＝只有坐下、而且 CHAR.setProp 開了才看得到（hidden 預設藏）。camera_film、lanyard_tag 的帶子照那一位的底模量過（元碩 npc_nm9、佳蓉 npc_nf18），別的底模會浮起來或陷進去 */
++  const cameraFilm=boneGlb('prop.camera_film','camera_film'), lanyardTag=boneGlb('prop.lanyard_tag','lanyard_tag'), bandageGlb=boneGlb('prop.bandage','bandage');
++  const thermosSilver=heldGlb('prop.thermos_silver','thermos_silver',0.21,-0.022,[0,0,Math.PI/2]), sportsDrink=heldGlb('prop.sports_drink','sports_drink',0.18,-0.02,[0,0,Math.PI/2]);
++  const recorderGlb=heldGlb('prop.recorder','recorder',0.06,-0.014), coolerBag=heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2]);
++  const novelGlb=heldGlb('prop.novel','novel',0.055,-0.03), notebookQ=heldGlb('prop.notebook_q','notebook_q',0.07,-0.024), handoutsGlb=heldGlb('prop.handouts','handouts',0.09,-0.018);
++  const audioCable=heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2]), ladleGlb=heldGlb('prop.ladle','ladle',0.075,-0.01,[0,0,Math.PI/2]);
+   const DEF={
+     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
+     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
+@@ -136,6 +143,19 @@ const PROPS = (function(){
+     calc:{bone:'leftLowerArm',make:calc},
+     thermos:{bone:'rightLowerArm',make:thermos},
+     bag_yu:{bone:'upperChest',make:bagYu,pos:[0,0,0]},
++    camera_film:{bone:'upperChest',make:cameraFilm,pos:[0,0,0]},
++    lanyard_tag:{bone:'upperChest',make:lanyardTag,pos:[0,0,0]},
++    thermos_silver:{bone:'leftLowerArm',make:thermosSilver,sit:'hide'},
++    thermos_bench:{bone:'hips',make:boneGlb('prop.thermos_silver','thermos_bench'),pos:[-0.27,0.045,0.03],sit:'only',hidden:true},   /* 同一支保溫瓶放在身旁的長椅上（坐下、而且 CHAR.setProp 開了才看得到：pool3d 只在傅鐘長椅開；上課坐著不放）*/
++    sports_drink:{bone:'rightLowerArm',make:sportsDrink,sit:'hide'},
++    recorder:{bone:'rightLowerArm',make:recorderGlb},
++    cooler_bag:{bone:'rightLowerArm',make:coolerBag,sit:'hide'},
++    novel:{bone:'leftLowerArm',make:novelGlb},
++    notebook_q:{bone:'leftLowerArm',make:notebookQ},
++    handouts:{bone:'rightLowerArm',make:handoutsGlb},
++    audio_cable:{bone:'leftLowerArm',make:audioCable,sit:'hide'},
++    ladle:{bone:'rightLowerArm',make:ladleGlb,sit:'hide'},
++    bandage:{bone:'leftHand',make:bandageGlb,pos:[0,0,0]},
+   };
+   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
+   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/notebook_q.glb",
+ "owner": "pool_10（宇軒）",
+ "bytes": 51036,
+ "tris": 654,
+ "hold": {
+  "bone": "leftLowerArm",
+  "make": "heldGlb('prop.notebook_q','notebook_q',0.07,-0.024)",
+  "note": "寫滿問題的筆記本：螺旋線圈、便利貼"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

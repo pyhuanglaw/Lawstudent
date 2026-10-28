@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/recorder.glb",
+ "owner": "pool_13（靜儀）",
+ "bytes": 44976,
+ "tris": 584,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.recorder','recorder',0.06,-0.014)",
+  "note": "像拿手機：長邊沿手指、螢幕朝外"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

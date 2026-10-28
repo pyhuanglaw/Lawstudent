@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/bandage.glb",
+ "owner": "hc_ayi（麵店阿姨）",
+ "bytes": 5572,
+ "tris": 92,
+ "hold": {
+  "bone": "leftHand",
+  "make": "boneGlb('prop.bandage','bandage')（DEF 的 bone 用 leftHand）",
+  "note": "照阿姨的底模 bl_npc_nf3 的左手量的；別的底模要看一下有沒有浮起來或陷進去"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

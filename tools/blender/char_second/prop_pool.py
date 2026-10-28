@@ -192,6 +192,21 @@ def ccyl(cm, a, b, r, hexcol, seg=16, r2=None):
     before = set(cm.bm.faces); cm.cyl(a, b, r, seg=seg, r2=r2); cm.paint([f for f in cm.bm.faces if f not in before], hexcol)
 
 
+def ctube(cm, pts, r, hexcol, seg=6, closed=False):
+    """沿折線掃一條圓管（每一點一圈、相鄰的圈連起來；一整條只有一個網格，比一段一段的圓柱省很多三角形）"""
+    bm = cm.bm; P = [Vector(p) for p in pts]; rings = []; ref = Vector((0.0, 0.0, 1.0))
+    for i, p in enumerate(P):
+        T = (P[min(i + 1, len(P) - 1)] - P[max(i - 1, 0)]).normalized()
+        if abs(T.dot(ref)) > 0.95: ref = Vector((1.0, 0.0, 0.0))
+        n = (ref - T * ref.dot(T)).normalized(); bn = T.cross(n); ref = n
+        rings.append([bm.verts.new(g2b(*(p + (n * math.cos(2 * PI * k / seg) + bn * math.sin(2 * PI * k / seg)) * r))) for k in range(seg)])
+    fs = []
+    for a, b in zip(rings, rings[1:] + ([rings[0]] if closed else [])):
+        for k in range(seg): fs.append(bm.faces.new((a[k], a[(k + 1) % seg], b[(k + 1) % seg], b[k])))
+    if not closed: fs.append(bm.faces.new(list(reversed(rings[0])))); fs.append(bm.faces.new(rings[-1]))
+    cm.paint(fs, hexcol)
+
+
 def clathe(cm, prof, hexcols, seg=24, axis_pt=(0, 0, 0)):
     """旋轉體（沿 y 軸，遊戲座標）：prof＝[(半徑, y)]；hexcols＝每一段的顏色（len(prof)-1 個）"""
     import bmesh
@@ -302,8 +317,7 @@ def thermos_silver():
            ['#9da2a8', '#b8bcc1', '#c9cdd2', '#d3d7db', '#c9cdd2', '#b8bcc1'], seg=28)            # 霧面不鏽鋼（上下暗一點，看得出是圓的）
     clathe(cm, [(R - 0.0015, H1 - 0.001), (R + 0.0006, H1 - 0.001), (R + 0.0006, H1 + 0.004), (R - 0.0015, H1 + 0.004)], ['#7d8288'], seg=28)
     clathe(cm, [(0.0, H1 + 0.004), (R - 0.001, H1 + 0.004), (R - 0.001, H1 + 0.032), (R - 0.006, H1 + 0.038), (0.0, H1 + 0.038)], ['#2a2c30', '#2a2c30', '#2a2c30', '#2a2c30'], seg=28)
-    pts = [(0.016 * math.cos(a), H1 + 0.038 + 0.018 * max(0.0, math.sin(a)), 0.0) for a in [i * PI / 10 for i in range(11)]]
-    for a_, b_ in zip(pts[:-1], pts[1:]): ccyl(cm, a_, b_, 0.003, '#2a2c30', seg=6)
+    ctube(cm, [(0.016 * math.cos(a), H1 + 0.038 + 0.018 * max(0.0, math.sin(a)), 0.0) for a in [i * PI / 10 for i in range(11)]], 0.003, '#2a2c30', seg=6)
     cm.finish(root, uv=False, smooth=True)
     return save('thermos_silver', 'pool_7（靖雯）', {'bone': 'leftLowerArm', 'make': "heldGlb('prop.thermos_silver','thermos_silver',0.21,-0.022,[0,0,Math.PI/2])", 'note': '提環勾在手指上（同品妤）；托特包在右肩，所以拿左手；坐下時藏起來'})
 
@@ -334,8 +348,9 @@ def recorder():
     B.reset(texres=256); root = B.group('recorder', props={'kind': 'prop_recorder', 'owner': 'pool_13'})
     cm = CMesh('recorder_vc', L.vc_material('recorder_vc', rough=0.4))
     L_, T_, W_ = 0.055, 0.0075, 0.018   # 半長（x）、半厚（y）、半寬（z）
-    cm.crbox(-L_, L_, -T_, T_, -W_, W_, '#3a3d43', r=0.006)
-    cm.crbox(L_ - 0.026, L_ - 0.0005, -T_ - 0.0004, T_ + 0.0004, -W_ - 0.0004, W_ + 0.0004, '#a6abb1', r=0.006)   # 前端的麥克風網（銀）
+    cm.crbox(-L_, L_, -T_, T_, -W_, W_, '#b3b8be', r=0.006)                                              # 銀灰色機身（拿在黑色長裙前面也看得到）
+    cm.cbox(-L_ + 0.004, L_ - 0.028, T_ - 0.0002, T_ + 0.0002, -W_ + 0.003, W_ - 0.003, '#2e3136')          # 深色的前面板
+    cm.crbox(L_ - 0.026, L_ - 0.0005, -T_ - 0.0004, T_ + 0.0004, -W_ - 0.0004, W_ + 0.0004, '#d4d8dc', r=0.006)   # 前端的麥克風網
     for i in range(5):
         for j in range(3): cm.cbox(L_ - 0.023 + i * 0.0045, L_ - 0.0205 + i * 0.0045, T_ + 0.0004, T_ + 0.0008, -0.009 + j * 0.0075, -0.0065 + j * 0.0075, '#6d7278')
     cm.cbox(-0.006, 0.020, T_ + 0.0001, T_ + 0.0006, -0.012, 0.012, '#9cb0a2')                       # 小螢幕
@@ -364,8 +379,7 @@ def cooler_bag():
     cm.crbox(X0 - 0.004, X0 + 0.002, -0.24, -0.15, -0.06, 0.06, '#24355c', r=0.004)                         # 外側口袋
     # 兩條提把（從包口兩端拱上來，在手裡併在一起）
     for s in (-1, 1):
-        pts = [(0.0, Y1 + 0.002, s * 0.11), (0.0, Y1 + 0.04, s * 0.09), (0.0, -0.012, s * 0.035), (0.0, 0.0, s * 0.006)]
-        for a_, b_ in zip(pts[:-1], pts[1:]): ccyl(cm, a_, b_, 0.0065, '#1d2a48', seg=8)
+        ctube(cm, [(0.0, Y1 + 0.002, s * 0.11), (0.0, Y1 + 0.03, s * 0.1), (0.0, Y1 + 0.052, s * 0.075), (0.0, -0.012, s * 0.035), (0.0, 0.0, s * 0.006)], 0.0065, '#1d2a48', seg=8)
     ccyl(cm, (-0.012, 0.0, 0.0), (0.012, 0.0, 0.0), 0.009, '#1d2a48', seg=10)                              # 手握的地方（提把併在一起的套子）
     cm.finish(root, uv=False, smooth=True)
     return save('cooler_bag', 'pool_3（家齊）', {'bone': 'rightLowerArm', 'make': "heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2])", 'note': '原點＝手握提把的地方；包身垂在手下面；坐下時藏起來'})
@@ -448,13 +462,13 @@ def audio_cable():
     cm = CMesh('audio_cable_vc', L.vc_material('audio_cable_vc', rough=0.5)); rr = random.Random(16)
     for k in range(7):   # 七圈，每一圈半徑、角度差一點；手握在最上面
         R = 0.11 + rr.uniform(-0.012, 0.012); ph = rr.uniform(-0.15, 0.15); xo = (k - 3) * 0.0042; pts = []
-        for i in range(25):
+        for i in range(24):
             a = PI / 2 + ph + 2 * PI * i / 24; pts.append((xo + 0.003 * math.sin(a * 3 + k), -R + R * math.sin(a) - 0.004, R * math.cos(a) * 0.92))
-        for a_, b_ in zip(pts[:-1], pts[1:]): ccyl(cm, a_, b_, 0.0042, '#16171a', seg=6)
+        ctube(cm, pts, 0.0042, '#16171a', seg=6, closed=True)
     ccyl(cm, (-0.016, 0.0, 0.0), (0.016, 0.0, 0.0), 0.012, '#16171a', seg=10)                            # 手握的地方（線圈收在一起）
     # 垂下來的一段線＋接頭（銀色）
     tail = [(0.012, -0.21, 0.07), (0.016, -0.25, 0.085), (0.018, -0.29, 0.09)]
-    for a_, b_ in zip(tail[:-1], tail[1:]): ccyl(cm, a_, b_, 0.0042, '#16171a', seg=6)
+    ctube(cm, [(0.006, -0.17, 0.05)] + tail, 0.0042, '#16171a', seg=6)
     ccyl(cm, (0.018, -0.29, 0.09), (0.018, -0.34, 0.092), 0.0095, '#2a2b2e', seg=12); ccyl(cm, (0.018, -0.34, 0.092), (0.018, -0.36, 0.093), 0.0098, '#b9bec4', seg=12)
     cm.finish(root, uv=False, smooth=True)
     return save('audio_cable', 'pool_16（立群）', {'bone': 'leftLowerArm', 'make': "heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2])", 'note': '一捲線垂在手下面；坐下時藏起來'})
@@ -475,16 +489,17 @@ def ladle():
 def bandage():
     B.reset(texres=256); root = B.group('bandage', props={'kind': 'prop_bandage', 'owner': 'hc_ayi'})
     cm = CMesh('bandage_vc', L.vc_material('bandage_vc', rough=0.85))
-    # 手的骨頭座標（VRM 0.x 左手 T 字姿勢：手指往 −x、手掌朝 −y）：手掌、手腕各包一圈（扁的橢圓管）；照 VRoid 女性手（掌寬約 7.5 cm、厚 2.6 cm）
-    for (x0, x1, ry, rz, col) in ((-0.058, -0.026, 0.0145, 0.04, '#f6f4ef'), (-0.008, 0.02, 0.0175, 0.03, '#f1efe9')):
-        seg = 18; bm = cm.bm; rings = []
+    # 手的骨頭座標（VRM 0.x 左手 T 字姿勢：手指往 −x、手掌朝 −y、大拇指那一側 −z）：手掌、手腕各包一圈（扁的橢圓管）。
+    # 照阿姨的底模（bl_npc_nf3.vrm）量的手：手腕 y −0.02～0.015、z −0.03～0.025；手掌 y −0.026～0.015、z −0.06～0.03（含大拇指根部）
+    for (x0, x1, cy, cz, ry, rz, col) in ((-0.058, -0.024, -0.005, -0.013, 0.024, 0.05, '#f6f4ef'), (-0.006, 0.022, -0.001, 0.001, 0.0205, 0.031, '#f1efe9')):
+        seg = 20; bm = cm.bm; rings = []
         for x in (x0, x1):
-            rings.append([bm.verts.new(g2b(x, ry * math.sin(2 * PI * i / seg), rz * math.cos(2 * PI * i / seg))) for i in range(seg)])
+            rings.append([bm.verts.new(g2b(x, cy + ry * math.sin(2 * PI * i / seg), cz + rz * math.cos(2 * PI * i / seg))) for i in range(seg)])
         fs = [bm.faces.new((rings[0][i], rings[0][(i + 1) % seg], rings[1][(i + 1) % seg], rings[1][i])) for i in range(seg)]
         cm.paint(fs, col)
-    cm.cbox(-0.03, -0.004, 0.0158, 0.0172, -0.007, 0.007, '#e8e2d6')                                       # 膠帶（手背）
+    cm.cbox(-0.034, -0.012, 0.0178, 0.0194, -0.02, -0.006, '#e8e2d6')                                      # 膠帶（手背）
     cm.finish(root, uv=False, smooth=True)
-    return save('bandage', 'hc_ayi（麵店阿姨）', {'bone': 'leftHand', 'make': "boneGlb('prop.bandage','bandage')（DEF 的 bone 用 leftHand）", 'note': '照 VRoid 女性手的大小；遊戲裡要看一下有沒有浮起來或陷進去，可以用 pos 微調'})
+    return save('bandage', 'hc_ayi（麵店阿姨）', {'bone': 'leftHand', 'make': "boneGlb('prop.bandage','bandage')（DEF 的 bone 用 leftHand）", 'note': '照阿姨的底模 bl_npc_nf3 的左手量的；別的底模要看一下有沒有浮起來或陷進去'})
 
 
 BUILD = {'camera_film': camera_film, 'lanyard_tag': lanyard_tag, 'thermos_silver': thermos_silver, 'sports_drink': sports_drink, 'recorder': recorder,
