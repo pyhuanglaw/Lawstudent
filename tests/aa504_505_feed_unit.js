@@ -14,6 +14,8 @@
 // 修改前（開發分支 a57127ab4：沒有 feed_y1s2.js、feed_y2s1.js，kx2_late、kx2_azalea 還在手機小事；src、index.html 換回 a57127ab4 實際跑過）：
 //   FAILED 15——第 0 段 7 項（載入與順序、SETS 只有大一上、則數、id、兩份對稿、AA_505 舊句）、第 1 段 5 項（那幾則都沒有）、第 2、3、4 段各 1 項（沒有資料就停）；
 //   kx2_late、kx2_azalea 還在手機小事那一項由 tests/v2_b9_unit.js 第 10 項查。修改後 ALL PASS。用法：node tests/aa504_505_feed_unit.js
+// 第三輪（AA_505 第 9 節，企劃線 795fbecfd：芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改）修改前（開發分支 5df39fd7d 的 src、index.html 實際跑過）：FAILED 5——
+//   第 0 段 3 項（Y2S1 ① 牛皮紙信封那三句不在 795fbecfd、② zr4c、舊句子那一項）、第 4 段 2 項（12/11 動態第 4 則、私訊問「哪裡？」→「英國。這次真的按了。」）。修改後 ALL PASS
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');

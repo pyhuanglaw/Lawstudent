@@ -12,7 +12,8 @@
 //      手機 Kevin 兩次（3/20 學姊搬家、1/3 放一天假）、予樂兩次（4/10 贏了、大三上第 4 週讀書會）、品妤兩次（7/12 高雄實習、1/5 房東）
 // 修改前（開發分支 a57127ab4：沒有 heard_lines.js、heard3d.js；src、index.html 換回 a57127ab4 實際跑過）：FAILED 8——第 0 段 4 項（載入與順序、對稿 0 句、
 //   稿上 54 句沒有一句在遊戲裡、203 阿凱那一句）、第 1～4 段各 1 項（沒有 HEARD 就停）。修改後 ALL PASS。用法：node tests/aa503_others_unit.js
-// 第三輪修改前（開發分支 5df39fd7d：heard_lines.js 只有 AA_503～505；src、index.html 換回 5df39fd7d 實際跑過）：FAILED ??
+// 第三輪修改前（開發分支 5df39fd7d：heard_lines.js 只有 AA_503～505；src、index.html 換回 5df39fd7d 實際跑過）：FAILED 15——第 0 段 2 項（42 句、子晴說芷若那句還是 795fbecfd
+//   以前的「芷若寄出去了。……」；稿上 87 句有 25 句沒有）、第 1 段 1 項（20 句）、第 5 段 12 項（AA_506、AA_507 的都沒有）。修改後 ALL PASS
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
