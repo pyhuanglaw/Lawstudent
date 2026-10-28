@@ -3846,7 +3846,7 @@
   {
    "task": "HEROINE-LIFE-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "aa9bbc46f",
+   "sha": "aec3d3d67",
    "files": [
     "docs/story_planning/AA_515_交往中約會後的動態.md"
    ],
@@ -3856,7 +3856,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "補 AA_503 第 0 節「交往中約會後的動態，台詞之後的批次寫」——LAWWW 子代理 03:5x 記沒做的那一類"
+   "note": "補 AA_503 第 0 節「交往中約會後的動態，台詞之後的批次寫」——LAWWW 子代理 03:5x 記沒做的那一類；aec3d3d67 第 6 節（回 LAWWW-C 398e1bd5f）"
   },
   {
    "task": "DORM203-MATES-1028",
