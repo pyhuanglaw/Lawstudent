@@ -42,6 +42,7 @@ const R2Y4A=(function(){
   const XL=(G,t)=>LONG(G)?{th:EXTH,from:'npc_long',name:'何俊朗',text:t}:{th:EXTH,from:'us_isa',name:'國際學生會',text:t};
   const md=day=>{ if(typeof CALENDAR==='undefined') return ''; const d=CALENDAR.dateOf(day); return d.m+' 月 '+d.d+' 日'; };
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('R2Y4A',e)).finally(()=>{ busy=false; }); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['r2y4a3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.isBusy=()=>busy;
   const outNow=async(GM,o)=>{ if(typeof OUT==='undefined') return false; OUT.plan(GM.G,Object.assign({travel:'',travelH:0,late:1},o)); const q=OUT.get(GM.G,o.id); if(!q||q.state!=='planned') return false; return OUT.go(GM,q); };   /* 帶到場：馬上出發（不問）*/
 

@@ -322,6 +322,7 @@ const ZRZQ=(function(){
     mirror(G,R); };
   /* ---------- 每 0.5 秒（STORY.TICKS）：回傳 true＝開始演了 ---------- */
   let busy=false; S._fail={};
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['zrzq3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=(id,f)=>{ busy=true; S._p=Promise.resolve().then(f).catch(e=>{ console.warn('ZRZQ',id,e); S._fail[id]=true; }).finally(()=>{ busy=false; }); return true; };   /* S._p：測試等它演完；帶到場出錯＝這次遊戲不再試（不每 0.5 秒重來）*/
   const failed=id=>!!S._fail[id]||(typeof EVENTS!=='undefined'&&!!EVENTS.failed&&!!EVENTS.failed[id]);
   const evIdOf=n=>n.kind==='mind'?'ev_zz_zq_mind':(n.kind==='learn'?'ev_zz_yt_learns':S.SLOTS[n.key].ev);

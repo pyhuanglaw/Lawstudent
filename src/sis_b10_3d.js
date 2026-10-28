@@ -78,6 +78,7 @@ const SISB10=(function(){
     await EVENTS.runLines(ev.dialogue,ev); return true; };
 
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sis_b10_3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('SISB10',e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||!law(G)) return false; const id=S.exDue(GM); if(!id) return false; const ev=evOf(id); if(!ev) return false;
     G.flags.SIS_EX_SEEN=(G.flags.SIS_EX_SEEN|0)+1; G.flags.SIS_EX_LAST=G.day; return go(()=>EVENTS.run(ev)); };

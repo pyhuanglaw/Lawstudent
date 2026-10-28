@@ -63,6 +63,7 @@ const SISB11=(function(){
 
   /* ---------------- 每 0.5 秒、手機規則 ---------------- */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sis_b11_3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('SISB11',e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(busy||!G||!G.flags||!S.defDue(G,E)) return false; const ev=evOf('ev_sis_defense_date'); if(!ev||typeof EVENTS==='undefined') return false;
     G.flags.SIS_DEF_DATE='met';   /* 先記下（選項一會換成 congrats／nervous／wait）：演到一半出錯也不會每 0.5 秒重開 */

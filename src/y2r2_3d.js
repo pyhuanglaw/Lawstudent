@@ -503,6 +503,7 @@ const Y2R2=(function(){
   /* 摘要日的旁白（3/6（六）、5/20（四））：學期中沒有摘要日的停點——那一天（08:00 起）第一次空下來的時候說一句；在臺北的家不說，隔天還沒說到照說（STORY.TICKS）*/
   S.SUM_LINES=[['f306','（大二下的第二週。你終於記住了這學期的課表：週二要跑萬才館。）'],['f520','（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']];
   let sumBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['y2r2_3d:sumBusy']=()=>{ sumBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.fillTick=function(GM){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)||sumBusy) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false; const hh=((G.hour%24)+24)%24;
     for(const [k,t] of S.SUM_LINES){ const m=d(k), fk='Y2S2_SUM_'+k; if(m==null||G.flags[fk]!=null) continue; if(G.day<m||G.day>m+1||(G.day===m&&hh<8)) continue;
       G.flags[fk]=G.day; sumBusy=true; Promise.resolve(GM.say(null,t)).catch(e=>console.warn('Y2R2 摘要日',e)).finally(()=>{ sumBusy=false; }); return true; }

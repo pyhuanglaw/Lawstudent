@@ -331,6 +331,7 @@ const JP=(function(){
   /* 其他事件包（STORY.TICKS）：據點每一輪跑一次；回傳 true＝開演了 */
   S.othersTick=function(GM){ for(const f of (STORY.TICKS||[])){ let r=false; try{ r=f(GM,0.5); }catch(e){ console.warn('JP TICKS',e); } if(r) return true; } return false; };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['jp3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.loop=async function(GM){ const G=GM.G; if(busy) return; busy=true; let go=null; GM.sceneBegin();
     try{ S.adv(G);
       for(let guard=0;guard<40&&S.inJapan(G);guard++){
@@ -446,6 +447,7 @@ const JP=(function(){
     if(live0) HOME.livesHome=function(G){ return S.homeOn(G)||live0.apply(this,arguments); };   /* 從家裡出發、出遊演完回家 */
     if(can0) HOME.canGo=function(G){ if(S.inJapan(G)) return false; if(typeof EXCH!=='undefined'&&EXCH.airPending&&EXCH.airPending(G)) return false; if(S.homeOn(G)) return true; return can0.apply(this,arguments); }; }   /* 在出境大廳等登機（E08）：不能回家 */   /* 人在日本：手機沒有「回臺北的家」；住家裡：隨時可以回家 */
   if(STORY.forceHome){ const f0=STORY.forceHome; let forcing=false;
+    (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['jp3d:forcing']=()=>{ forcing=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
     STORY.forceHome=async function(GM){ const G=GM.G; if(S.inJapan(G)) return;   /* 據點自己處理凌晨（JP.loop）*/
       if(S.homeOn(G)&&typeof HOME!=='undefined'&&!HOME.at(G)){ if(forcing) return; forcing=true; try{ GM.sceneBegin(); try{ await GM.say(null,'已經凌晨了。'); } finally{ GM.sceneEnd(); } G.flags.companion=null; HOME.rec(G).at=false; await HOME.go(GM); } finally{ forcing=false; } return; }   /* 住家裡（退宿以後）：凌晨了＝回家（不回宿舍）*/
       return f0.apply(this,arguments); }; }

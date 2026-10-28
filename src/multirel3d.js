@@ -826,6 +826,7 @@ const MREL=(function(){
 
   /* =================== 每一格（STORY.TICKS）=================== */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['multirel3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.dueAuto=function(G){ if(!law(G)) return null; const R=S.rec(G), t=now(G), h=+G.hour||0; S.scan(G);
     /* 發現：國外／電話；子晴那晚；芷若打烊；語彤顧店；可昕當晚；以安、沛珊讀書會散會 */
     for(const x of S.IDS){ const p=R.pend[x]; if(!p) continue; if(G.day===p.day&&h<p.h) continue; let rm=S.REMOTE_OK[x]?S.remote(G,x):null;

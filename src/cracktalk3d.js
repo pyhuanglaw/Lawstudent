@@ -202,6 +202,7 @@ const CRACKTALK=(function(){
   S.EV.push({id:'ev_yt_drift_noodle',title:'麵店',participants:[YT],location:'noodle',trigger:'manual',background:'blur',dialogue:L.yt_noodle});
   for(const e of S.EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   let busy=false; const go=fn=>{ busy=true; Promise.resolve().then(fn).catch(e=>console.warn('CRACKTALK',e)).finally(()=>{ busy=false; }); return true; };
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['cracktalk3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.isBusy=()=>busy;
   S.runTalk=async function(GM,id,evId){ const G=GM.G, e=evOf(evId); if(!e||typeof EVENTS==='undefined') return false; S.prep(G,id); await EVENTS.run(e,{noTitle:true}); S.after(G,id); if(GM.autosave) GM.autosave(); return true; };
   S.letter=async function(GM){ const G=GM.G, r=S.pr(G,ZR), X=L.DRIFT[ZR].letter; r.letter=null; GM.sceneBegin();

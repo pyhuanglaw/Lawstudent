@@ -860,6 +860,7 @@ const CLS=(function(){
      還沒做（AA_160 第 3 節已交，AA_355 第 3 節：不用再等）：路上經過的區域有【固】【必】事件時停下來演（1-3 第 3 點）；翹課確認現在是一般的「這堂課裡的事你會錯過。」，不列事件名（1-5）。
      腳踏車：騎著才照騎車算（和手機快速前往一樣；車停到那棟門外由 bike3d.js 處理）；人在宿舍、車在宿舍門口還是照走路算（要先把車移過去，之後做）。 */
   let wakeP=null, afterP=null, contP=null, goBusy=false, freeSince=0, freeTicks=0;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['classes3d:goBusy']=()=>{ goBusy=false; freeSince=0; freeTicks=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const WAKE_GRACE=2500, FREE_MS=1500;
   S.wakeMenuOn=GM=>!(GM&&GM.S&&GM.S.wakeMenu===false);
   S.planSkip=(G,it)=>!!S.rec(G).note['plan_skip_'+it.key];

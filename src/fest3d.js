@@ -278,6 +278,7 @@ const FEST=(function(){
     if(!S.eligible(G,id,'white',y)) return null; const W=S.where(G,id,'white',y,d); if(!W||W.mode!=='abroad') return null; return {d,y}; };
   S.zrDm=function(G){ const z=S.zrCardDue(G); if(!z||G.day>z.d+1||now(G)<T(z.d,21)||!contact(G,'heroine_02',z.d)) return; PHONE.at(G,z.d,21,((X.PEOPLE.heroine_02.card||{}).dm||[]).map(dm('heroine_02')),'fest_zr_card_dm_2029'); };
   let cardBusy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['fest3d:cardBusy']=()=>{ cardBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.cardTick=function(GM){ const G=GM&&GM.G; if(cardBusy||!G||!G.flags) return false; const z=S.zrCardDue(G); if(!z||G.day!==z.d||(G.hour%24)<12) return false; const R=S.rec(G), key='heroine_02:white:2029'; if(R.done[key]) return false;
     cardBusy=true; (async()=>{ R.done[key]='card'; GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur',right:{charId:'heroine_02',expression:'neutral'}});
         const K=X.PEOPLE.heroine_02.card; await runLines([{speaker:null,text:K.narr}].concat(K.lines),'heroine_02'); S.reward(G,'heroine_02','white',2029,'video'); }

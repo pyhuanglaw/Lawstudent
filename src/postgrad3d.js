@@ -599,6 +599,7 @@ const PG=(function(){
       const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
     if(!best) return null; r.lines.push(best.t); return typeof FD!=='undefined'&&FD.fill?FD.fill(G,best.t):best.t; };   /* {課名}：被當延畢的那一門（FD.fill）*/
   S.busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['postgrad3d:busy']=()=>{ S.busy=false; running.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/
   S.advance=async function(GM,o){ const G=GM.G, E=GM.E; if(E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player);
     if(S.y4Due(G)) return false;

@@ -84,6 +84,7 @@ const TRIP=(function(){
     if((G.money|0)<(p.cost|0)) return '錢不夠'; if(h+(p.minutes||0)/60>s.open[1]+1e-6) return '快關門了，來不及'; return ''; };
   /* 景點的選單迴圈（4-4）*/
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['freetrip3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.loop=async function(GM){ const G=GM.G, T=G.trip; if(!T||busy) return; const s=S.spot(T.spot); if(!s){ G.trip=null; return; } busy=true; const P=S.rec(G);
     GM.sceneBegin();
     const setBg=()=>{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(S.bgOf(G,s)):'dark'}); };

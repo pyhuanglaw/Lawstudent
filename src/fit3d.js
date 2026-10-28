@@ -63,6 +63,7 @@ const FIT=(function(){
   S.idleDue=function(G){ const r=rec(G); if(!r.card) return false; const last=r.fitDay!=null?r.fitDay:(typeof r.card==='number'?r.card:null);   /* card＝辦卡那一天 */ if(last==null||G.day-last<56) return false;
     const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tid=t?t.id:'break'; if(r.idleT===tid) return false; const h=G.hour%24; return h>=7&&h<11&&(G.zone==='dorm'||G.zone==='dorm_hall'||(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['fit3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ S.sync(GM); const G=GM&&GM.G; if(busy||!G||!S.idleDue(G)) return false; if(GM.D&&GM.D.active) return false; if(typeof EVENTS!=='undefined'&&EVENTS.running) return false;
     const r=rec(G), t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; r.idleT=t?t.id:'break'; busy=true;
     (async()=>{ try{ GM.sceneBegin(); try{ await GM.say(null,S.LINES.idle); } finally { GM.sceneEnd(); } } catch(e){ console.warn('FIT.idle',e); } finally { busy=false; } })(); return true; };

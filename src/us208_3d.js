@@ -119,6 +119,7 @@ const US208=(function(){
     if(G.flags.US208_WK===S.wk(G)) return null;   /* 這個週末演過一場了 */
     return S.SCENES.find(s=>!done(G,s.ev)&&G.day>=D(s.from)&&G.day<=D(s.to))||null; };   /* 還沒演過、今天在範圍裡的第一場 */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['us208_3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const free=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof ADV!=='undefined'&&ADV.active)&&!GM.titleIdle; };
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!G.flags||G.zone!=='us_shared'||!free(GM)) return false; const s=S.due(G); if(!s||typeof EVENTS==='undefined') return false;
     const e=STORY_EVENTS.find(x=>x.id===s.ev); if(!e) return false; G.flags.US208_WK=S.wk(G); S.dmDone(G);

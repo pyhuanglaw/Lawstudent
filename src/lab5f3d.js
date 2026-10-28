@@ -36,6 +36,7 @@ const LAB5=(function(){
     const L=L5(); if(!L) return true; if(ev) F.LAB5_IN_EVE=G.day; else F.LAB5_IN=G.day; await GM.enter(Z,Object.assign({},L.stairs.spawn)); return true; };
   /* 14:00：她收東西，祐廷跟著出去；晚上那一段（AA_512）：她的作息不在研究室了（21:30）、或已經過了那一天＝一起出去，不說話 */
   let leaving=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['lab5f3d:leaving']=()=>{ leaving=false; S.staged=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.eveTerm=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return t?t.id:null; };   /* 一學期一次：記學期（G.flags.LAB5_EVE_OUT）*/
   S.eveOutLine=()=>typeof SISB13_LINES!=='undefined'&&SISB13_LINES.labEveOut||null;
   S.leaveDue=G=>!!G&&G.zone===Z&&!S.staged&&((G.flags.LAB5_IN===G.day&&hr(G)>=14)||(G.flags.LAB5_IN_EVE!=null&&(G.flags.LAB5_IN_EVE!==G.day||!S.labNow(G))));
