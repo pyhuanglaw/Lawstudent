@@ -190,7 +190,7 @@ const SISB4_EVENTS=(function(){
         {if:{flagIs:{SIS_VDAY_Y3:'went'}},speaker:ID,text:'……想不起來那一站叫什麼。'},
         SIS('今年的二月十四號，我什麼都沒排。'),
         SIS('……過年，一直在吃。'),
-        {choice:[{text:'「開學以後，我們再補一天。」',goto:'p_a'},{text:'（陪她在電話裡待著）',goto:'p_b'}]},
+        {choice:[{text:'「開學以後，我們再補一天。」',set:{SIS_VDAY_MAKEUP:true},goto:'p_a',aa523:true},{text:'（陪她在電話裡待著）',goto:'p_b'}]},   /* AA_523 5-3（企劃線 0d7b5388b）：選「再補一天」記 SIS_VDAY_MAKEUP＝4/27 21:00 她放假那則換成她寫好的那一天（src/sis_b16_3d.js S.dayOffMakeup）*/
         {label:'p_a'},SIS('嗯。……那一天我來寫。'),{goto:'p_c'},
         {label:'p_b'},N('（她沒有掛。你聽著她那邊的風聲，和客廳沒關的電視。過了五分鐘，她才說：）'),SIS('好。我進去了。'),
         {label:'p_c'},Object.assign({set:{SIS_VDAY_Y4:'call'}},mem('SIS_VDAY_Y4',CALL)) ],

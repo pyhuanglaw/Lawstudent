@@ -8,6 +8,7 @@ AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（�
 AA_376（大三上修正稿）第 9 項以安三句、第 18 項日本路線兩個選項疊在大三上的階梯上（byTerm.Y3S1）；條件、週次在 src/y3fill3d.js。
 AA_377（大三下修正稿）第 4 項以安 A6-L2 一句、第 6 項語彤 Y6-L3 杜鵑花（linesIf、選項）、第 15、16 項語彤 Y6-L1、Y6-L4 的 linesIf 疊在大三下的階梯上（byTerm.Y3S2）；A6 挽回中略過在 src/story3d.js 的 LADDER_SKIP。
 AA_518（學姊第十五批）第 4 節 4-2、4-15：學姊 S4-L7 一句＋註解、S4-L8 的 linesIf 用 _fix 疊在大二下的階梯上（byTerm.Y2S2）。
+AA_523（學姊第十六批）第 6 節 6-1、6-2：學姊 S7-L3 週次、S7-L8 選項②的回覆用 _fix 疊在大四下的階梯上（byTerm.Y4S2）；6-10：大四上招呼的 base 加一句（_fix_greet_base，byTerm.Y4S1）。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -264,6 +265,33 @@ _fix('docs/story_planning/AA_518_', '學姊 S4-L7、S4-L8', [
      'AA_231；AA_518 4-2：2027-03-20 她自己搬出來、一個人住（AA_512 13-2 的新家；2026-07 是全家搬家，AA_218 15-6）；2026-10-17 使用者意見改德文（AA）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 AA_231#2', '註解改綁 2027-03-20'),
     ('4-15', 'Y2S2', 'heroine_05', 'S4-L8', 'linesIf', _S4L8_OLD,
      [{'if': {'events': ['ev_sis13_curry']}, 'lines': ['上次在我家，大一的學弟妹一進門就全部站起來。', '……我說坐。他們站得更直。']}] + _S4L8_OLD, '「上次在我家，大一的學弟妹一進門就全部站起來。」')])
+#      招呼的 base（不分條件的那幾句）整個欄位相同才換；已經是新值就跳過，都不是＝停下來（同 _fix）。哪一句什麼時候說的條件在程式（STORY.LADDER_GREET_IF）
+def _fix_greet_base(prefix, label, patches):
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return
+    P, SHA = next(iter(A.items()))
+    ok, why = G.allowed(P, SHA, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
+    for item, term, cid, old, new, quote in patches:
+        if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        gr = (((out['byTerm'].get(term) or {}).get(cid) or {}).get('greet'))
+        if gr is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有招呼')
+        cur = gr.get('base')
+        if cur == new: continue
+        if cur != old: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 招呼的 base 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        gr['base'] = new
+    out['source'] += f'＋{os.path.basename(P)[:6]}@{SHA}（{label}）'
+#      AA_523（SIS-B16-1028；AA-C 10-28 0d7b5388b 定稿）第 6 節：6-1 學姊 S7-L3「研究室有人在白板上幫我倒數口試」週次 [1,14]→[9,14]（口試日期 4/16 才下來）；
+#      6-2 S7-L8 選項②回覆「先把修正本交出去。之後……還沒想。」→「先把修正本交出去。七月，去上班。」（3/28 研究單位回信了；選項①記 SIS7_PHOTO 在程式 src/sis_b16_3d.js）；
+#      6-10 大四上的招呼：12/23 回來以後說「（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。」——base 加這一句（放在美國那一句後面）；兩句各在什麼時候說在 src/sis_b16_3d.js（STORY.LADDER_GREET_IF）
+_fix('docs/story_planning/AA_523_', '學姊 S7-L3 週次、S7-L8 選項②', [
+    ('6-1', 'Y4S2', 'heroine_05', 'S7-L3', 'week', [1, 14], [9, 14], '週次 [9,14]（4/16 起）'),
+    ('6-2', 'Y4S2', 'heroine_05', 'S7-L8', 'choices', [{'t': '「一起參加典禮。」', 'reply': '嗯。那天記得拍照。'}, {'t': '「畢業以後要做什麼？」', 'reply': '先把修正本交出去。之後……還沒想。', 'rel': {'trust': 1}}],
+     [{'t': '「一起參加典禮。」', 'reply': '嗯。那天記得拍照。'}, {'t': '「畢業以後要做什麼？」', 'reply': '先把修正本交出去。七月，去上班。', 'rel': {'trust': 1}}], '「先把修正本交出去。七月，去上班。」')])
+_SIS_Y4S1_BASE = ['吃了沒。', '（她把保溫瓶遞過來）熱水。這邊的飲水機只有冰的。', '我剛從圖書館回來。今天坐到靠窗的位子。', '（她手上拿著一本很厚的判例集）……嗯。', '你今天有課嗎？']
+_fix_greet_base('docs/story_planning/AA_523_', '學姊大四上回來以後的招呼', [
+    ('6-10', 'Y4S1', 'heroine_05', _SIS_Y4S1_BASE, _SIS_Y4S1_BASE[:2] + ['（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。'] + _SIS_Y4S1_BASE[2:], '「（她把保溫瓶遞過來）……回來了。這邊的飲水機有熱水。」')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

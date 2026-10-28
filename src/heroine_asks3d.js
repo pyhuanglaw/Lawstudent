@@ -26,13 +26,22 @@ const HASK=(function(){
   S.examish=function(day){ const T=termOf(day); if(!T) return false; const W=((typeof CALENDAR!=='undefined'&&CALENDAR.TERMS||[]).find(x=>x.id===T.id)||{}).weeks||16; return (T.week>=7&&T.week<=9)||T.week>=W-2; };
   /* 各人自己的期間（AA_494 第 1～7 節）：寫在日期上的；在國外、回老家、出隊照 STORY.presence（S.block）*/
   S.PERIOD={
-    heroine_05:(G,day)=>{ const a=dk('2026-02-02'), b=dk('2029-05-22'), c=dk('2029-05-29'); if(a!=null&&day<a) return 'sisExam'; if(b!=null&&c!=null&&day>=b&&day<=c) return 'sisOral'; return ''; },   /* 筆試以前只回事務（AA_284）、口試前一週 */
+    heroine_05:(G,day)=>{ const a=dk('2026-02-02'), b=dk('2029-05-22'), c=dk('2029-05-29'); if(a!=null&&day<a) return 'sisExam'; if(b!=null&&c!=null&&day>=b&&day<=c) return 'sisOral';   /* 筆試以前只回事務（AA_284）、口試前一週 */
+      { const n0=dk('2029-02-12'), n1=dk('2029-02-16'); if(n0!=null&&n1!=null&&day>=n0&&day<=n1) return 'sisCny'; }   /* AA_523 6-8（企劃線 0d7b5388b）：2029 春節 2/12～2/16 她在家，不主動約（原本除夕約初一）*/
+      if(typeof SISB4!=='undefined'&&SISB4.brokeUp&&SISB4.brokeUp(G)){ const rb=SISB4.rebuild?SISB4.rebuild(G):null; if(!(rb&&rb.done)) return 'sisEx'; }   /* AA_523 6-9：分開過的（前任、被發現退回朋友）不收，等「4-1 她要的時間」這一次分開演過（SISB4.rebuild().done）才收（原本照朋友版收）*/
+      return ''; },
     classmate_peishan:(G,day)=>{ const a=dk('2026-12-18'), b=dk('2027-08-06'); return a!=null&&b!=null&&day>=a&&day<=b?'psGone':''; }   /* 重考消失期 */
   };
   /* 那一週她已經有劇情的邀約（對方約你、不是這一份）：這一份那一週不發（AA_494 0-5）。以安的公法讀書會（INV.anAsk）只算她那一週的日常 */
   const weekStart=(G,day)=>day-((wdOf(G,day)+6)%7);
   const isAnAsk=iv=>iv.who==='heroine_01'&&typeof INV!=='undefined'&&!!INV.AN_ASK&&iv.place===INV.AN_ASK.place;
-  S.storyAsk=function(G,id,day,k){ const w=weekStart(G,day); return (G.invites||[]).some(iv=>iv.who===id&&iv.by==='npc'&&!iv.hask&&weekStart(G,iv.day)===w&&(k==='d'||!isAnAsk(iv))); };
+  /* AA_523 6-7（企劃線 0d7b5388b；技術修正）：也看 OUT 的出遊——那一週有她的劇情出遊（事件的 participants 有她；校外約會 dateTrip 不算，DATE 自己會擋），
+     或她已經排好、傳了要你回的劇情私訊（回覆期限在那一週；HASK 自己的不算）：例 美國路線交往中 1/3 21:00 伴手禮那則（1/6 11:30 家裡的中飯，sis_b13_3d.js）*/
+  const evHas=(evId,id)=>{ const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===evId):null; return !!ev&&Array.isArray(ev.participants)&&ev.participants.includes(id); };
+  S.storyOut=(G,id,w)=>(G.outings||[]).some(q=>q&&!q.dateTrip&&q.state!=='cancelled'&&q.day!=null&&weekStart(G,q.day)===w&&evHas(q.ev,id));
+  S.storyDm=(G,id,w)=>{ const ok=it=>!!it&&!!it.ask&&it.from===id&&it.th==='p:'+id&&String(it.ask.id||'').indexOf('hask_')!==0&&it.ask.until!=null&&weekStart(G,Math.floor((it.ask.until-0.01)/24))===w;
+    const P=typeof PHONE!=='undefined'&&PHONE.rec?PHONE.rec(G):null; if(P&&Array.isArray(P.q)&&P.q.some(q=>(q.items||[]).some(ok))) return true; return (G.msgs||[]).some(ok); };
+  S.storyAsk=function(G,id,day,k){ const w=weekStart(G,day); return (G.invites||[]).some(iv=>iv.who===id&&iv.by==='npc'&&!iv.hask&&weekStart(G,iv.day)===w&&(k==='d'||!isAnAsk(iv)))||S.storyOut(G,id,w)||S.storyDm(G,id,w); };
   /* 你約過她、見到面（INV 的 by:'player' done；DATE 的 by:'player' done）：交往前 5 天、交往中 3 天她不約 */
   S.lastMet=function(G,id){ let d=-1e9; for(const iv of (G.invites||[])) if(iv.who===id&&iv.by==='player'&&iv.state==='done') d=Math.max(d,iv.day); for(const t of (G.trips||[])) if(t.who===id&&(t.by||'player')==='player'&&t.status==='done') d=Math.max(d,t.day); return d; };
   /* 這一天整個不約的原因（空字串＝可以）*/
@@ -107,6 +116,7 @@ const HASK=(function(){
   S.entryOf=function(rec){ const p=P(rec.id); if(!p) return null; const list=rec.k==='o'?p.out:p.daily; const e=list.find(q=>(q.place||q.loc)===(rec.place||rec.loc)); return e?{e,v:e[rec.vk]}:null; };
   /* 到了她傳訊息的時間：真的傳（訊息時間＝原本排的時間；睡過、跳過也一樣）。那時候已經不行了（約的時間過了、有人先約了）＝這次不傳 */
   S.fire=function(G,rec){ const ev=S.entryOf(rec); if(!ev||!ev.v){ rec.state='dropped'; return false; } const at=rec.send, line=ev.v.line;
+    if(S.storyAsk(G,rec.id,rec.day,rec.k)){ rec.state='dropped'; return false; }   /* AA_523 6-7：排好以後那一週多了她的劇情出遊、私訊（例 1/3 中午排、21:00 伴手禮那則）＝這次不傳 */
     if(rec.k==='d'&&!rec.here){ if(abs(rec.day,rec.h)<=abs(G.day,G.hour%24)+0.25||!S.dailyOk(G,rec.id,ev.e,ev.v,rec.day,rec.h)){ rec.state='dropped'; return false; }
       const iv=INV.offer(G,rec.id,rec.place,rec.day,rec.h,line,at); if(!iv){ rec.state='dropped'; return false; } iv.hask=rec.sid; rec.iv=iv.id; rec.state='sent'; return true; }
     const until=rec.k==='o'?abs(rec.day-1,23.98):abs(rec.day,rec.h);

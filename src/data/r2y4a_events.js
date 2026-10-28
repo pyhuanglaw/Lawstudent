@@ -599,12 +599,18 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
       IF(PV('two'),nar('（她推著行李推車走出來。看到你，停了一下。）')),
+      /* AA_523 5-1（企劃線 0d7b5388b）：12/9 視訊 g6b「要我帶什麼？」→「外套。」（r2y4b_events.js 記 SIS16_G6B）——兩個人版、戀人版第一句旁白後面多兩句、記 SIS16_COAT（1/20 拆箱那天還外套，src/sis_b16_3d.js）；
+         戀人版的第一句旁白＝出來、抱住到「（很久，她才放開。）」那一段（拆開會變成抱著遞外套；放在放開以後、日本路線外套那四句以前，子代理解讀）*/
+      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),
+      IF(G=>PV('two')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
       IF(G=>PV('lover')(G)&&!!G.flags.SIS14_RIGHT,Object.assign(nar('（你站在出口的右邊。）'),{aa516:true})),   /* AA_516 第 8 節第 2 點（企劃線 3cd10909b）：12/17 最後一通視訊 h9 選「我會去接妳。」（她「出口那邊，你站右邊。我出來先看右邊。」，SIS14_RIGHT）＝戀人版第一句旁白前面多一句，接「她一出來就看到你。」（CG 通過沒通過都一樣）*/
       IF(G=>PV('lover')(G)&&!cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),   /* 冬天版還沒通過：照一句、不放 CG（AA_350 N4）*/
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地。）')),   /* 冬天版通過：第一句拆成兩句，CG 夾在中間（AA_350 N4）*/
       {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她走過來，抱住你。）')),
       IF(PV('lover'),nar('（很久，她才放開。）')),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(nar('（你把帶來的外套遞給她。她穿上，袖子長了一截。）'),{set:{SIS16_COAT:true},aa523:true})),   /* AA_523 5-1 */
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_G6B,Object.assign(sis('……剛好。'),{aa523:true})),
       /* AA_512 6-1（企劃線 c444f0757）：日本路線視訊的三句在戀人版兌現（ev_sis_jp_video 選的時候記 SIS_JP_COAT、SIS_JP_FIRST；兩個人版、家族共乘、那一通沒接的都不加）。
          (a) 外套：J3「咬了一口外套。」＋交往版的便條（SIS_JP_NOTE_GF）；aa512：tests/aa512_sis_b13_unit.js 對稿 */
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（你穿的是三月她塞進你背包的那件外套。）'),{aa512:true})),
@@ -612,6 +618,7 @@ const R2Y4A_EVENTS=(function(){
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(sis('……鹿咬的是這裡。'),{aa512:true})),
       IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（袖口內側，一排很淡的齒痕。你自己都忘了是哪一邊。）'),{aa512:true})),
       {scene:'車上',bg:'car_night'},
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS16_H9B,Object.assign(nar('（回程的高速公路上，她舉起手機，對著開車的你拍了一張。沒有開閃光燈。）'),{aa523:true})),   /* AA_523 5-2：h9b「……好。在車上開。你開車，我拍你。」（r2y4b_events.js 記 SIS16_H9B）＝戀人版回程車上多一句旁白（稿沒寫位置：車上那一段的第一句，子代理解讀）*/
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
       {unless:{custom:G=>!!G.flags.SIS_MAPLE&&G.flags.SIS_MAPLE_MSG==='got'},goto:'mp_e'},   /* AA_395 2-2：有書籤、傳過「書籤收到了。」的才有下面這一段 */
       sis('書籤，你有用嗎。'),{choice:[{text:'「有。」',goto:'mp_e'},{text:'「捨不得用。」',goto:'mp_b'}]},

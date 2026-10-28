@@ -246,7 +246,9 @@ const STORY_EVENTS=[
     after:(G,GM,npcs)=>{ if(GM.rel) GM.rel('sis',3); const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },
   /* W1 的晚到版（AA_379 第 4 節，企劃線 992b58da；AA 10-22 03:19 定，BB 03:16 讀碼：會記 met_sis 的 W1、家聚、社博都在大一，大一沒找過她的玩家永遠認識不到學姊）：
      大一下結束以後（暑假也算）到 2029-06-01，第一次在 Café、法圖、閱覽室、總圖大廳自習區找她說話。記號同 W1（met_sis、SIS_W1、FIRST_MET、+3），另外記 SIS_W1_LATE；演完她繼續讀書 */
-  { id:'ev_sis_w1_late', title:'直屬學姊（晚了一年）', participants:['heroine_05'], location:['cafe','lawlib','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
+  /* AA_523 6-6（企劃線 0d7b5388b）：照第一次見面那一年換（SOCIAL.playerYear：放假照上一個學期）——大二以前「大一太忙了。」（原本）、大三「之前一直沒遇到。」、大四「四年都沒遇到。」；
+     標題「晚了一年／兩年／三年」（title 用 getter，事件開演那一刻照那一年算）*/
+  { id:'ev_sis_w1_late', get title(){ let y=2; try{ if(typeof SOCIAL!=='undefined'&&SOCIAL.playerYear) y=SOCIAL.playerYear(); }catch(e){ y=2; } return '直屬學姊（晚了'+(y>=4?'三':(y===3?'兩':'一'))+'年）'; }, participants:['heroine_05'], location:['cafe','lawlib','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const F=G.flags; if(F.met_sis||F.SIS_W1||(G.stage||'law')!=='law'||typeof STORY==='undefined'||typeof CALENDAR==='undefined'||!CALENDAR.termDays) return false;
       const R=CALENDAR.termDays('Y1S2'), last=STORY.dayOfKey('2029-06-01'); return !!R&&last!=null&&G.day>R.to&&G.day<=last; }},
     dialogue:[ {if:{custom:G=>G.zone==='cafe'},speaker:null,text:'（她坐在靠窗的位子，計畫本攤開，旁邊一個保溫瓶。你認得她——家族群組大頭貼上那個學姊。）'},
@@ -257,8 +259,10 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'neutral',text:'（抬頭）……{name}。'},
       {speaker:'heroine_05',expression:'neutral',text:'家族群組裡的那個名字。家聚你一次都沒來。'},
       {speaker:'heroine_05',expression:'neutral',text:'我還以為，你是不需要學姊的那種人。'},
-      {choice:[{text:'「大一太忙了。」',goto:'w1l_a'},{text:'「我不知道去哪裡找學姊。」',goto:'w1l_b'}]},
+      {choice:[{text:'「大一太忙了。」',if:{custom:G=>(typeof SOCIAL!=='undefined'&&SOCIAL.playerYear?SOCIAL.playerYear():2)<=2},goto:'w1l_a'},{text:'「之前一直沒遇到。」',if:{custom:G=>(typeof SOCIAL!=='undefined'&&SOCIAL.playerYear?SOCIAL.playerYear():2)===3},goto:'w1l_a3',aa523:true},{text:'「四年都沒遇到。」',if:{custom:G=>(typeof SOCIAL!=='undefined'&&SOCIAL.playerYear?SOCIAL.playerYear():2)>=4},goto:'w1l_a4',aa523:true},{text:'「我不知道去哪裡找學姊。」',goto:'w1l_b'}]},
       {label:'w1l_a'},{speaker:'heroine_05',expression:'neutral',text:'嗯。大一都很忙。……我也是。'},{goto:'w1l_c'},
+      {label:'w1l_a3'},{speaker:'heroine_05',expression:'neutral',text:'嗯。……現在遇到了。',aa523:true},{goto:'w1l_c'},
+      {label:'w1l_a4'},{speaker:'heroine_05',expression:'neutral',text:'……那還來得及。我六月才畢業。',aa523:true},{goto:'w1l_c'},
       {label:'w1l_b'},{speaker:'heroine_05',expression:'neutral',text:'晚上我大多在 Café 或法圖。……不難找。'},
       {label:'w1l_c'},
       {speaker:'heroine_05',expression:'neutral',text:'溫書瑀。現在在念研究所。'},

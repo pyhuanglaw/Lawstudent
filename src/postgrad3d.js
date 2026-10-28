@@ -115,8 +115,10 @@ const PG=(function(){
     if(S.delayed(G)) inv=kind==='gf'?[].concat(DLY(G,'zqGf',inv)):[DLY(G,'zqFirst',inv[0])].concat(inv.slice(1));   /* 交換延畢：「欸 學士服很好看」（AA_381 第 1 節）*/
     const ask={id:'pg_zq_dm',until:T(GRAD,17.75),opts:[{t:'好。',set:{PG_TE_PICK:'heroine_04|'+kind}},{t:'今天晚上我有約了。',say:[{from:'heroine_04',text:dec}]}]};
     return inv.map((t,i)=>Object.assign(P_('heroine_04',t),i===inv.length-1?{ask}:{})); };   /* 16:30 私訊；手機的兩個回答照 termend3d.js（「好。」／TERMEND_LINES.AUTO_ME_GRAD）*/
-  S.bdayKnown=G=>graduated(G)&&inFam(G)&&(S.sisOk(G)||S.isEx(G,'heroine_05'));
-  S.kevinItems=function(G){ const B=L().BDAY, m=FAM('kevin',B.kevin); if(S.isEx(G,'heroine_05')) m.ask={id:'pg_sis_ex_bday',until:T(GRAD,27),opts:[{t:B.exOpts[0],post:false,set:{PG_SIS_EX_BDAY:'send'}},{t:B.exOpts[1],post:false,set:{PG_SIS_EX_BDAY:'no'}}]}; return [m]; };   /* 前任：沒有「去」，只有傳不傳 */
+  S.bdayKnown=G=>graduated(G)&&inFam(G);   /* AA_523 3-3（企劃線 0d7b5388b；AA_470 5-2：家族群組的貼文在群組的人都收得到）：原本只有朋友以上、前任；能不能去研究室照舊（S.planBday：朋友以上；前任只有傳不傳）*/
+  S.kevinItems=function(G){ const B=L().BDAY, m=FAM('kevin',B.kevin); if(S.isEx(G,'heroine_05')) m.ask={id:'pg_sis_ex_bday',until:T(GRAD,27),opts:[{t:B.exOpts[0],post:false,set:{PG_SIS_EX_BDAY:'send'}},{t:B.exOpts[1],post:false,set:{PG_SIS_EX_BDAY:'no'}}]};   /* 前任：沒有「去」，只有傳不傳 */
+    else if(!S.sisOk(G)){ const Y=typeof SISB16_LINES!=='undefined'&&SISB16_LINES.bdayCD; if(Y) m.ask={id:'pg_sis_bday_cd',until:T(GRAD,27),opts:[{t:Y.t,say:[FAM('heroine_05',Y.r)]}]}; }   /* AA_523 3-3：C、D（不到朋友）收到、沒有出遊，只能在群組回「生日快樂。」→ 她「謝謝。」*/
+    return [m]; };
   S.notePhoto=(G,y)=>S.sisOk(G)&&!S.noteInPerson(G,y);
   S.noteInPerson=(G,y)=>S.sisOk(G)&&(S.dating(G,'heroine_05')||(!(y===2030&&S.retaker(G))&&S.partners(G).length===0));   /* 交往中，或雙方都單身＝考場門口當面給；2030 重考的只有交往中當面（AA_327 2-Y4-51）*/
   S.noteItems=function(G,y){ const N=L().NOTE; if(y===2030&&S.retaker(G)) return [P_('heroine_05',N.retake.photo),{th:'p:heroine_05',who:null,text:N.retake.note}];
@@ -225,6 +227,7 @@ const PG=(function(){
   S.thermos=async function(GM){ const G=GM.G, F=G.flags, W=L().THERMOS, sis=S.who(G,'heroine_05'); if(S.fatherGradDue(G)) await S.fatherGrad(GM); await S.play(GM,W.lines.map(x=>Array.isArray(x)&&x[0]==='heroine_05'&&x[1]==='畢業快樂。'?[x[0],DLY(G,'thermos2',x[1])]:x));   /* 交換延畢：「學士服借的吧。……一月還要再穿一次。」*/
     if(F.HOT_WATER) await GM.say(sis,W.hotWater); else if(S.helpedCoffee(G)) await GM.say(sis,W.helped);
     if(F.MET_SIS_FATHER&&F.MET_SIS_FATHER!=='grad') await GM.say(sis,W.father);   /* 最後多一句（AA_319 5ae6a133；MET_SIS_FATHER＝AA_328 3-14，開發分支還沒有）*/
+    if(F.SIS7_PHOTO&&typeof SISB16_LINES!=='undefined'&&Array.isArray(SISB16_LINES.thermosPhoto)) await S.play(GM,SISB16_LINES.thermosPhoto);   /* AA_523 5-5（企劃線 0d7b5388b）：階梯 S7-L8 選「一起參加典禮。」（她回「嗯。那天記得拍照。」，記 SIS7_PHOTO）＝最後多兩句 */
     F.SIS_THERMOS=true; };
   S.helpedCoffee=G=>{ const M=G.social&&G.social.mem&&G.social.mem.heroine_05; return !!(M&&M.some(m=>m.tag==='HELPED'&&/黑咖啡/.test(m.note||''))); };   /* 只有 HELPED（空的保溫瓶那次選黑咖啡）*/
   S.mother=async function(GM,partner){ const G=GM.G, M=L().MOTHER, A=adv(); await S.play(GM,M.lines);
@@ -287,7 +290,7 @@ const PG=(function(){
     await S.play(GM,it.say.concat([gift.fit])); F.SIS_BDAY_GIFT_Y4=it.k; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust('heroine_05',{trust:3,npcRom:2}); return true; };
   S.bdayScene=async function(GM,mode){ const G=GM.G, F=G.flags, B=L().BDAY, A=adv(), lover=S.dating(G,'heroine_05');
     const bg=(typeof OUT!=='undefined'&&OUT.BG&&OUT.BG.ra_lab&&OUT.BG.ra_lab.image)?BG('ra_lab'):BG('linze_prof_hall');   /* AA_327：2D ra_lab（開發分支沒有→研究室的走廊）*/
-    const inner=async()=>{ if(lover){ await S.play(GM,[B.friend[0]]); await S.play(GM,B.loverKevin); await S.play(GM,B.lover); const k=await GM.choose(B.loverOpts.map(o=>({t:o.t}))); await S.play(GM,(B.loverOpts[k]||B.loverOpts[0]).say); F.SIS_BDAY_Y4='lover'; }
+    const inner=async()=>{ if(lover){ await S.play(GM,[B.friend[0]]); await S.play(GM,B.loverKevin); await S.play(GM,B.lover); const k=await GM.choose(B.loverOpts.map(o=>({t:o.t}))), lo=B.loverOpts[k]||B.loverOpts[0]; if(lo.set) Object.assign(F,lo.set); await S.play(GM,lo.say); F.SIS_BDAY_Y4='lover'; }   /* lo.set：AA_523 1-5「修正本我陪妳改。」記 SIS16_REV_PROMISE */
       else { await S.play(GM,B.friend); const FO=S.delayed(G)?B.friendOpts.map(o=>Object.assign({},o,{say:o.say.map(x=>x[1]==='今天你畢業，我生日。都沒排，結果還不錯。'?[x[0],DLY(G,'bdayFriend',x[1])]:x)})):B.friendOpts;   /* 交換延畢：「今天你穿學士服，我生日。」*/
         const gift=B.gift&&F.SIS_BDAY_GIFT_Y4==null?B.gift:null, O=FO.map(o=>({t:o.t})).concat(gift?[{t:gift.opt}]:[]);
         const k=await GM.choose(O); if(gift&&k===FO.length) await S.bdayGift(GM,gift); else await S.play(GM,(FO[k]||FO[0]).say); F.SIS_BDAY_Y4='there'; } };

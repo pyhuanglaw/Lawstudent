@@ -161,10 +161,10 @@ const SISB12_EVENTS=(function(){
         {label:'m'},N('（她把自己的計畫本翻開，推到你面前。一月那一頁，大部分格子是空的。）'),
         SIS('在美國，最後一格寫的是回臺灣。'),
         SIS('回來以後，這本一直空著。'),
-        {choice:[{text:'「空著不好嗎？」',goto:'p'},{text:'「我幫妳寫一格？」',set:{SIS_BLANK_JAN_REST:true},goto:'q'},{text:'「美國好玩嗎？」',goto:'r'}]},
+        {choice:[{text:'「空著不好嗎？」',goto:'p'},{text:'「我幫妳寫一格？」',set:{SIS_BLANK_JAN_REST:true},goto:'q'},{text:'「回來以後，習慣嗎？」',goto:'r',aa523:true}]},   /* AA_523 6-12（企劃線 0d7b5388b）：「美國好玩嗎？」12/28、12-7 兩週問兩次——選項換「回來以後，習慣嗎？」*/
         {label:'p'},SIS('……我還在習慣。'),{goto:'bk'},
         {label:'q'},SIS('（看了你一眼）……寫什麼。'),N('（你在下個禮拜那一格寫了「休息」。她看了一下，沒有擦掉。）'),{goto:'bk'},
-        {label:'r'},SIS('好玩。……照片你都看過了。'),
+        {label:'r'},Object.assign(SIS('……法圖的椅子比較矮。'),{aa523:true}),
         {label:'bk'},   /* 4-2「另外一本，回來再看。」朋友版（AA_395 1-2 的 SIS_BOOK；both、沒演過的沒有這段）*/
         {if:{flagIs:{SIS_BOOK:'law'}},speaker:null,text:'（計畫本旁邊是那本小說。書籤還在快一半的地方。）',set:{SIS_BOOK_BACK:true}},{if:{flagIs:{SIS_BOOK:'law'}},speaker:ID,text:'回來以後開始看。……還沒看完。'},
         {if:{flagIs:{SIS_BOOK:'novel'}},speaker:null,text:'（計畫本旁邊是那本舊的刑訴，書背的膠帶換了新的。）',set:{SIS_BOOK_BACK:true}},   /* SIS_BOOK_BACK：「另外一本」演過了（交往以後的約會補演同一個記號，sis_b12_3d.js S.bookLate）*/{if:{flagIs:{SIS_BOOK:'novel'}},speaker:ID,text:'回來第一個禮拜翻完了。問號少了一點。'},

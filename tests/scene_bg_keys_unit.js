@@ -22,7 +22,9 @@ const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3
   /* AA_520 4-2（NPC-STORY2-1028）：予樂那一場演講，霖澤館 201 的階梯教室（晚上，坐了一半）；src/yule3d.js 執行時登記 image:null */
   linze_201:'BB 要圖（AA_520 4-2 霖澤館 201：晚上的演講，階梯教室坐了一半）',
   /* AA_519 4-2（NPC-STORY2-1028）：稿寫 2D；沒有圖＝深色底＋地點字幕，src/sup519_3d.js 執行時登記 OUT.BG.psy_lab image:null */
-  psy_lab:'BB 要圖（AA_519 4-2 黃筱涵：心理系的實驗室，一間很小的房間、一台螢幕、一個按鈕）' };
+  psy_lab:'BB 要圖（AA_519 4-2 黃筱涵：心理系的實驗室，一間很小的房間、一台螢幕、一個按鈕）',
+  /* AA_523 1-4（SIS-B16-1028）：5/12 看她游泳，新體育館的游泳池（早上，看台只有你一個人）；src/sis_b16_3d.js 執行時登記 image:null */
+  gym_pool:'BB 要圖（AA_523 1-4 新體育館的游泳池：早上七點，看台上只有你一個人，她在第四水道）' };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
 const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
 for(const f of walk('src').concat(walk('src/data'))){ if(OTHER_FILES.has(f)) continue; const s=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); for(const m of s.matchAll(/\bbg:'([a-z0-9_]+)'/g)) (used[m[1]]=used[m[1]]||new Set()).add(f); }

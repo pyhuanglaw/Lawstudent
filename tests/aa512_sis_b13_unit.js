@@ -18,6 +18,10 @@
 //  15  舊存檔：沒有新旗標照常跑、不丟例外
 // 修改前（開發分支 86986abdf；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA512_DOCREPO）：第 0～15 節每一節都有 FAIL——83 項 FAIL、21 項 PASS（PASS 的都是「不該演／照舊」那一類；第 3、4、5、6、8、11、15 節找不到新事件、丟例外中斷）。修改後 129 項 ALL PASS。
 // 用法：node tests/aa512_sis_b13_unit.js（在沒有 .git 的目錄跑，設環境變數 AA512_DOCREPO＝這個 repo 的目錄）
+// 2026-10-28 AA_523 第 6-11 點改的（企劃線 0d7b5388b，SIS-B16-1028）：Kevin「學姊回來了」12/24、12/26 說兩次——13-7 群組 Kevin 兩則換成「禮拜四家聚！」「歡迎學姊回來 118 巷那家」。
+//   第 0 項：稿上舊的兩則列進 SUPER（原因寫 AA_523 6-11），多一項查舊的兩則真的不在遊戲裡、新的兩則一字不差在 AA_523 第 6 節 6-11 那一列；遊戲 → 稿那一項，新的兩則改對 AA_523；
+//   第 7 項：群組 Kevin 兩則照新的寫。
+//   改了以後、這裡還沒改的時候實際跑：FAILED 3（第 0 項兩個方向、第 7 項群組兩則）；改了以後 ALL PASS。
 'use strict';
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -101,14 +105,20 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
     /src\/sis_b12_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b13_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b13_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/sup497_3d.js')>a('src/sis_b13_3d.js')&&a('src/sis_b13_3d.js')<a('<script>GAME.boot();</script>'));
   const G0=gameTexts(), GS=new Set(G0.map(unq).concat(G0));
   /* 稿 → 遊戲 */
-  const SUPER={'……那買完鎖去吃。你選。':'第 7 節第 11 點改成「……那現在去吃。你選。」（鎖已經買了）'};   /* 第 7 節改掉的稿上舊句 */
+  const SUPER={'……那買完鎖去吃。你選。':'第 7 節第 11 點改成「……那現在去吃。你選。」（鎖已經買了）',   /* 第 7 節改掉的稿上舊句 */
+    '學姊回來了！！':'AA_523 第 6 節 6-11 換成「禮拜四家聚！」（12/24 已經說過學姊回來了）','禮拜四家聚 歡迎回來 118 巷那家':'AA_523 第 6 節 6-11 換成「歡迎學姊回來 118 巷那家」'};
+  /* AA_523 6-11（企劃線 0d7b5388b）：換掉的兩則不在遊戲裡；換上的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列 */
+  let D523=''; try{ D523=cp.execSync('git -c core.quotepath=false show 0d7b5388b:"docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md"',{cwd:process.env.AA523_DOCREPO||process.env.AA512_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ D523=''; }
+  const row611=D523.split('\n').find(l=>l.startsWith('| 6-11 |'))||'', NEW611=['禮拜四家聚！','歡迎學姊回來 118 巷那家'];
+  check('0. AA_523 6-11：Kevin 舊的兩則（「學姊回來了！！」「禮拜四家聚 歡迎回來 118 巷那家」）不在遊戲裡；新的兩則在遊戲裡、一字不差在 AA_523 第 6 節 6-11 那一列（0d7b5388b）',
+    !!row611&&['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'].every(t=>!GS.has(t)&&QUOTES.some(q=>q.t===t))&&NEW611.every(t=>GS.has(t)&&row611.includes('「'+t+'」')),J({row611:!!row611,miss:NEW611.filter(t=>!(GS.has(t)&&row611.includes('「'+t+'」')))}));
   const lostQ=QUOTES.filter(q=>!GS.has(q.t)&&!SUPER[q.t]).map(q=>q.who+'：'+q.t), lostO=OPTS.filter(o=>!GS.has(o)&&!GS.has(unq(o))), lostG=GREET.filter(t=>!GS.has(t));
   check('0. 稿 → 遊戲：第 1、2、5、6 節每一句（'+QUOTES.length+' 句「>」）都在遊戲裡',QUOTES.length>=150&&!lostQ.length,J(lostQ));
   check('0. 稿 → 遊戲：每個選項（'+OPTS.length+' 個）、13-6 三句短招呼都在遊戲裡',OPTS.length===37&&GREET.length===3&&!lostO.length&&!lostG.length,J({lostO,lostG}));
   const INLINE=['你說過要來吃。','（把學姊的筆記傳給她）','去。','好','（愛心貼圖）','麵店？說好的。'];   /* 稿寫在說明句裡的（「」括起來）：13-2 私訊、第 2 節第 1 點的選項、回「去。」、媽媽那則的回覆鍵、6-1 (c) 換上的選項 */
   check('0. 稿寫在說明裡的句子（13-2 私訊、佳穎那則的選項、回「去。」、回覆鍵「好」「（愛心貼圖）」）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
-  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0);
+  const notIn=[...new Set(G0)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0&&!NEW611.includes(t));   /* AA_523 6-11 換上的兩則：上面對 AA_523 */
   check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa512 的行、SMALLTALK 的三句（'+new Set(G0).size+' 句）都在稿裡（一字不差；SMALLTALK 說的話加「」、手機選項不加「」）',G0.length>=150&&!notIn.length,J(notIn));
   /* 改在現有檔的字 */
   const yes=(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES.heroine_05&&CONFESS_LINES.heroine_05.yes)||null, rs=SISB4.restartYes; SISB4.restartYes=()=>true; let yl=null; try{ yl=yes?yes({flags:{}}):null; } finally { SISB4.restartYes=rs; }
@@ -224,7 +234,7 @@ await sec(6,async()=>{ const e6=ev('ev_sis13_laundry'), d=D('2028-10-10');
 await sec(7,async()=>{ const a=D('2028-12-26'), d=D('2028-12-28');
   check('7. 日子：2028-12-26 週二、12-28 週四',CALENDAR.dateOf(a).wd===2&&CALENDAR.dateOf(d).wd===4);
   fresh(a,20,'none',{},{route:'JP'}); phAt(a,20.45); const M0=byTag('sisb13_welcome_ask').length; phAt(a,20.55); const M=byTag('sisb13_welcome_ask');
-  check('7. 12/26 20:30 家族群組（AA_516 1-5：20:29 還沒有）：Kevin 兩則（照稿）＋「去。」（沒認識、日本路線也有）',M0===0&&J(M.map(m=>m.text))===J(['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'])&&M.every(m=>m.from==='kevin'&&m.th==='g:family_law'&&m.h>=20.5&&m.h<20.75)&&J(askOpts('sisb13_welcome_ask'))===J(['去。'])&&/\*\*約\*\*：12\/26（二）\*\*20:30\*\* 家族群組/.test(DOC),J(M));
+  check('7. 12/26 20:30 家族群組（AA_516 1-5：20:29 還沒有）：Kevin 兩則（照稿；字照 AA_523 6-11）＋「去。」（沒認識、日本路線也有）',M0===0&&J(M.map(m=>m.text))===J(['禮拜四家聚！','歡迎學姊回來 118 巷那家'])&&M.every(m=>m.from==='kevin'&&m.th==='g:family_law'&&m.h>=20.5&&m.h<20.75)&&J(askOpts('sisb13_welcome_ask'))===J(['去。'])&&/\*\*約\*\*：12\/26（二）\*\*20:30\*\* 家族群組/.test(DOC),J(M));
   answer('sisb13_welcome_ask',0); ph(); const q=OUT.get(H.G,'sisb13_welcome');
   check('7. 回「去。」→ 排 12/28（四）18:30「118 巷・定食店」',!!q&&q.day===d&&q.h===18.5&&q.place==='118 巷・定食店'&&q.ev==='ev_sis13_welcome',J(q));
   at(d,18.4); await goOut('sisb13_welcome',[1]);
