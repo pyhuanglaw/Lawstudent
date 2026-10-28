@@ -27,6 +27,9 @@
      STORY.COMPANY 改回傳旁邊那幾個人的 id（S.withNow；HCIRCLE.company 照舊回傳 true／false）：本來就知道的那幾組（阿姨、子晴、第 1 項的對方本人）認得出是誰（PRIVTALK 清單的 except）。
      顧店的位子（S.shopSeat，列上的 seatAt／standAt；AA_509 實作時定的第 5 點）：語彤暑假週四在麵店坐長桌最裡面、靠廚房的位子；客人進來（玩家沒坐下、別人走進來還沒坐下）站到長桌那一頭、門口那一側，
        客人都坐好了坐回去；那一列結束走回原本的位置（照作息不在這一區＝走開）。 */
+/* ■ 第四輪（PRIV-AUNT-1028，2026-10-28；AA_503 第 14 節後補第 6、7 點，企劃線 5ec2fe771）：S.labelIn（標籤同伴現在在不在那一區，同 3D 生不生他那一套）——
+     語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn 看 3D 的阿姨（src/multirel3d.js S.auntIn）；3D 的時間、圈子表不改。
+     麵店只有阿姨在，語彤所有私密的照出：src/privtalk3d.js S.PLACE_EXCEPT（STORY.COMPANY 照舊回傳阿姨，例外在 PRIVTALK 那邊）。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};
@@ -269,6 +272,10 @@ const HCIRCLE=(function(){
     for(const r of (BY_WHO[id]||[])){ if(r.alone||!S.on(r,G,G.zone)) continue; for(const cid of r.with){ const cn=isLabel(cid)?GM.npc[cid]:S.npcOf(GM,cid), cp=P(cn); if(cp&&!cn.leaving&&(cn.lv|0)===(hn.lv|0)&&Math.hypot(cp.x-hp.x,cp.z-hp.z)<S.NEAR_R) out.push(cid); } }
     return out; };
   S.company=(G,id,n,GM)=>S.withNow(GM||GMr,id).length>0;
+  /* 標籤同伴現在在不在那一區（PRIV-AUNT-1028；AA_503 第 14 節後補第 7 點，企劃線 5ec2fe771：麵店的阿姨在不在店裡看 3D）：
+     with 有他的那幾列（阿姨＝語彤的 c503_6_2、c504_3_2、c504_3_3、c505_3_3、c505_3_4）現在成立、她照作息在那一區＝3D 生不生他的同一套（S.arrange 生的是 S.rowsIn 那幾列：S.on，沒寫「一定同框」的列照那一天擲的 70%）。
+     src/multirel3d.js S.auntIn（「今天很忙喔？」那一段的 auntIn）問這個；只讀：不生人物，也只問 with 有他的那幾列（once 的列會建 G.flags.HCIRCLE，不經過）*/
+  S.labelIn=function(G,cid,zone){ if(!G) return false; for(const who in BY_WHO) for(const r of BY_WHO[who]) if((r.with||[]).includes(cid)&&S.on(r,G,zone)) return true; return false; };
 
   /* ---------- 走近時聽到 ---------- */
   const sameSpace=(E,a,b,la,lb)=>{ const Z=E.zone, sp=Z&&(Z.spaceAt||Z.roomAt); if(!sp) return true; try{ return sp.call(Z,a.x,a.z,la|0)===sp.call(Z,b.x,b.z,lb|0); }catch(e){ return true; } };
