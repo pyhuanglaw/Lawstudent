@@ -2870,6 +2870,7 @@ const STORY = (function(){
   const KAI_SHEET='「紅燒牛肉 8.5」「蔥燒排骨 8」「麻辣 7.5（太辣扣分）」「海鮮 6（有一隻蝦）」';
   /* 宿舍房間晚上在的室友（AA_208 2-4、第 7、8 節；AA_374 第 1 項）：[人物, 座位, 幾點以後]；只在上課的學期（寒暑假各自回家，照 presence）、23:30 以後都在上舖（看不到）。
      大一 203（四人房 DORM_FOUR）：阿哲 L1 22:00 以後（練球、麵店之後）、柏翰 R1 22:30 以後（總圖閉館）——阿凱另外放（S.kaiRoommate）。
+       2026-10-28 起 203 四人房的時期改照 AA_502 的作息（S.dormWho 先問 S.r203On／S.r203Who，下面 S.r203Plan）；這一列只是備用（S.dormWho 不會走到）。
      大二 312（ROOM_Y2）：阿哲 L1、柏翰 R1 照大一的時段；阿哲 12/19 以後比較晚回來（送 Alison 去捷運站）＝23:00；R2 是大一學弟（背景、沒有名字，不放人）。
      大三 507、大四 409（ROOM_Y3、ROOM_Y4）：柏翰 R1（阿哲住別間，AA_208 第 8 節）。經濟系那一年照阿勳（S.populate）*/
   S.dormMates=function(G){ const F=(G&&G.flags)||{}; if(!G||S.isEcon(G)||typeof CALENDAR==='undefined') return []; const t=(CALENDAR.termOf(G.day)||{}).id||'';
