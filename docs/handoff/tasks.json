@@ -34355,7 +34355,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "note": "｜【LAWWW-C 07:2x】AA_497 五位配角 7bd68b7cf＋第 8 節 622d3a269 已整合待測試；AA_499～501 子代理在做｜【LAWWW-C 07:5x】AA_499～501 十五位 49e6b3e8d：二十位同學 AA_498＋499～501、五位配角 AA_497 都在開發分支；BB 瀏覽器；剩：「別人說起她」說話的人是同學的 14 句（HEARD-POOL-1028）"
+   "note": "｜【LAWWW-C 07:2x】AA_497 五位配角 7bd68b7cf＋第 8 節 622d3a269 已整合待測試；AA_499～501 子代理在做｜【LAWWW-C 07:5x】AA_499～501 十五位 49e6b3e8d：二十位同學 AA_498＋499～501、五位配角 AA_497 都在開發分支；BB 瀏覽器；剩：「別人說起她」說話的人是同學的 14 句（HEARD-POOL-1028）｜【LAWWW-C 08:0x】LAWWW2 影印機＋站位 60805aa78；AA 9f2e2506e 實作時定的五件＝POOL-AAFIX-1028"
   },
   {
    "id": "PHONE-PENDING-STALE-1028",
@@ -34798,7 +34798,7 @@
    "title": "書店門口按互動鍵出的是櫃台買書選單、不是「離開書店」：櫃台互動點 {x:0,z:4.05,r:1.1} 蓋住出口 (0,4.6) r1.5；出口點走不到（卡在 z 4.07）、進門落腳點 (0,4) 在櫃台範圍裡；出口範圍 56 個站得住的點只有 14 個出「離開書店」",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "BB-C 2026-10-28 06:58（door_anim_probe ONLY=book；v9.10.11 c8b9659e5 和 v9.10.12 一樣，不是回歸）",
    "first": {
@@ -34812,13 +34812,13 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 06:5x UTC】D108 區域配置歸 LAWWW2：櫃台互動點移到桌子前（BB 建議 (0,2.2)）或縮半徑、或落腳點往裡退；改完跑 tests/reachability_all.py 書店那一段的 Node 版（或請 BB 跑），BB 在 v9.10.13 的 6a 驗",
-   "note": "｜【BB-C 07:06 door_book2】工具找到出口範圍裡 (-1.15,4.05)（最近的互動＝離開書店），點地面走過去停在 (-1.01,4.05)，差 0.14 m 按鈕又變回櫃台＝「離開書店」只有門口左右離中心超過 1.1 m 的窄帶按得到；BB 5u 12b 記「被 BOOKSTORE-EXIT-SHOP 擋住」，改好後 v9.10.13 6a 一起驗",
+   "note": "｜【BB-C 07:06 door_book2】工具找到出口範圍裡 (-1.15,4.05)（最近的互動＝離開書店），點地面走過去停在 (-1.01,4.05)，差 0.14 m 按鈕又變回櫃台＝「離開書店」只有門口左右離中心超過 1.1 m 的窄帶按得到；BB 5u 12b 記「被 BOOKSTORE-EXIT-SHOP 擋住」，改好後 v9.10.13 6a 一起驗｜【LAWWW-C 08:0x】LAWWW2 4e0b212f8 整合進開發分支 60805aa78（櫃台互動點移到桌子東端 (1.8,3.2) r0.9；tests/bookstore_exit_unit.js）；BB v9.10.13 6a 驗",
    "xai": {
     "spec": "BB-C 06:58 訊息（數字、座標）；zones3d.js 書店區域",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "站在門口中間、推搖桿走到門口，互動鍵都是「離開書店」；櫃台在桌子前照常能買；進門落腳點不在櫃台範圍",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -34904,6 +34904,34 @@
    },
    "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
    "note": ""
+  },
+  {
+   "id": "POOL-AAFIX-1028",
+   "title": "AA_499／500 實作時定的五件（AA 9f2e2506e）：立群、書豪當場交換聯絡方式；承恩一起旁聽 2D；承恩法扶第四句；晏如蟑螂以後晨希第一句",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
+   "first": {
+    "term": "Y1S1",
+    "week": 10,
+    "earliest": "大一上和沛珊的朋友芸萱說話",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "note": "【LAWWW-C 2026-10-28 08:0x】AA-C 07:49 訊息＋9f2e2506e；檔案 src/pool_more3d.js、src/data/pool_story_b2.js、pool_story_b3.js",
+   "xai": {
+    "spec": "AA_499、AA_500「實作時定的」（企劃線 9f2e2506e）",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "五件照稿進遊戲；tests 涵蓋",
+    "receiver": "AA",
+    "ack": "ACK"
+   }
   }
  ]
 }

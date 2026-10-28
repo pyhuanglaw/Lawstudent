@@ -15661,6 +15661,32 @@
    "task": "HEROINE-LIFE-NPC3D-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-28 07:3x UTC】整合進開發分支 4ca1077aa；相關 Node 全過；BB 看畫面（同框時同伴的配件）"
+  },
+  {
+   "id": "DL-LW2-NSB1028",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "4e0b212f8",
+   "msg": "ACK",
+   "what": "BOOKSTORE-EXIT-SHOP-1028（書店櫃台互動點 (0,4.05) r1.1 → (1.8,3.2) r0.9）＋NPC-STORY-1028 美術（總圖一樓影印機 library_copier.glb，東牆邊 (11.4,2.6)）＋六個站位檢查；patch npc_story_bookstore_1028.patch；記帳 d78008278；畫面 test_shots/npc_story_bookstore_1028/README.md",
+   "task": "BOOKSTORE-EXIT-SHOP-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 08:0x UTC】整合進開發分支 60805aa78；站位照建議改（以安／芯慈影印機前 (10.35,2.35／2.95)、宥辰電梯前 (3.2,-4.1)；法圖本來就是二樓＝照舊）；相關 Node 全過；BB 驗（v9.10.13 6a 書店門口、影印機畫面）"
+  },
+  {
+   "id": "DL-AA-499FIX",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9f2e2506e",
+   "msg": "SENT",
+   "what": "AA_499、AA_500「實作時定的」：立群、書豪當場交換聯絡方式；承恩一起旁聽補一場 2D（SCE_AUDIT_WENT）；承恩法扶第四句（靖雯傳早安）；晏如蟑螂以後晨希第一句（一次）；outbox e79f3ad3d",
+   "task": "POOL-AAFIX-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 08:0x UTC】開 POOL-AAFIX-1028"
   }
  ],
  "ignored": [
