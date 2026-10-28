@@ -923,7 +923,7 @@
    "role": "LAWWW",
    "task": "HEROINE-ASKS-1028",
    "branch": "hask-1028（本機分支；wip_backup/hask_1028.bundle）",
-   "sha": "b72e393ec",
+   "sha": "4cb30667c",
    "files": [
     "src/heroine_asks3d.js",
     "src/data/heroine_asks.js",
@@ -936,7 +936,7 @@
     "wip_backup/hask_1028.bundle"
    ],
    "state": "WIP",
-   "remaining": "她們主動約你（AA_494）：程式和測試都寫好了，測試還在跑、未驗證；測試過了＋相關 Node 測試過了才合進開發分支",
+   "remaining": "她們主動約你（AA_494）：tests/heroine_asks_unit.js 23 項 ALL PASS（修改前第 0 項 FAIL）；全部 Node 測試在跑（hask worktree），過了就合進開發分支",
    "next": "tests/heroine_asks_unit.js 結果→修→相關測試（invites、date、phone、termend…）→合併；bundle 每 15～20 分鐘更新（D113）",
    "noDirectIntegrate": true,
    "source": "使用者 10-28 00:0x（X118★）"
