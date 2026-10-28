@@ -34242,6 +34242,33 @@
    },
    "next": "【LAWWW-C 2026-10-27 23:5x UTC】LAWWW 做好 96689752e（places.js quickList＋known0、placemap3d.js 宿舍・體育館；quick_travel、placemap 測試載入 gym）；BB 手機「地點」點宿舍・體育館 → 新體育館（大廳）",
    "sha": "96689752e"
+  },
+  {
+   "id": "HEROINE-ASKS-1028",
+   "title": "她們主動約你：熟了、好感高的女主角（七位）會用手機約玩家——日常（吃飯、Café、總圖、運動…，INV 的地點）＋週末校外景點（DATE 的 32 處）；答應排進行程、時間到兩人都在就開始；婉拒有回覆",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 00:0x 對 LAWWW-C「為什麼都要我主動約女生 如果變熟好感度高 他們不能自己約我嗎 戶外景點也可阿」「超沒有互動感」（UA-LAWWW-1028-01、-02；USER_WANTS X118）",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "大一上和某位女主角熟了以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 00:0x UTC】AA-C 定規則與台詞（D109）；LAWWW 先做系統（INV.offer 已有、DATE 加「她約你」的預約）；放 v9.10.13（v9.10.12 照原計畫先發）",
+   "xai": {
+    "spec": "使用者原話；AA 待交規格（每位：門檻、頻率、地點、時段、交往前後、婉拒回覆、不約的情況）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "熟了的女主角會自己用手機約你（日常＋校外景點），答應以後真的能去",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
