@@ -3483,6 +3483,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "二十個系、每系 1～4 句照時段；走過聽到的對話 18 組；通識課門口 11 組；法律系必修門口 5 組；體育館加 3 句"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ad67d327b",
+   "files": [
+    "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md",
+    "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位同學（pool）的共同做法＋第一批五位 AA_498 寫中；之後每批 4～5 位",
+   "next": "LAWWW：先修 AA_496 第 9 節的斷線（不用等台詞）；再接 AA_497 第 7 節清單（宥辰、芯慈、Alison、明軒、Kevin）；三個社團、CP 值、滷蛋改完列給 AA",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第 1 批＝使用者 10-28 直接要的「挑 3～5 位最缺存在感、最值得留的法律系配角直接改」；宥辰用 BB_70 7b、BB_113 原稿 AA 定稿"
   }
  ],
  "items": [
