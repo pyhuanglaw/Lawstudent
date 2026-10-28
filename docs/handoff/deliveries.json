@@ -20225,6 +20225,41 @@
    "kind": "wip",
    "task": "DORM-HALL-LM-1028",
    "reason": "LAWWW2 室內光照 WIP（男一舍門廳重烘中、README 三節；總圖大廳 bake_library_hall.sh），還沒交件（LAWWW-C 10-28 12:4x 分類）"
+  },
+  {
+   "sha": "3707bc609",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "reason": "LAWWW2 RT-NIGHT-1028 的 WIP（細小零件晚上跟著暗：zones3d.js roomLightmap 的 rtK＋測試），還沒交件（LAWWW-C 10-28 14:0x 分類）",
+   "task": "RT-NIGHT-1028"
+  },
+  {
+   "sha": "09e59dd57",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "LAWWW2 記帳 commit（LM-SEAM-1028 交件 d5e28e291 的 outbox、HANDOFF、README），交付本身是 DL-LW2-LMSEAM（LAWWW-C 10-28 14:0x 分類）",
+   "coveredBy": "DL-LW2-LMSEAM"
+  },
+  {
+   "sha": "7b0dfc069",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "LAWWW2 LM-SEAM-1028 的 WIP（README 補萬才館），交件 d5e28e291 的祖先（LAWWW-C 10-28 14:0x 分類）",
+   "coveredBy": "DL-LW2-LMSEAM"
+  },
+  {
+   "sha": "4c3561e73",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "LAWWW2 LM-SEAM-1028 的 WIP（README 草稿），交件 d5e28e291 的祖先（LAWWW-C 10-28 14:0x 分類）",
+   "coveredBy": "DL-LW2-LMSEAM"
+  },
+  {
+   "sha": "9676b87ee",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "LAWWW2 記帳 commit（DORM-HALL-LM-1028 交件 4d89f42fe 的 outbox、HANDOFF），交付本身是 DL-LW2-DORMHALL（LAWWW-C 10-28 14:0x 分類）",
+   "coveredBy": "DL-LW2-DORMHALL"
   }
  ]
 }
