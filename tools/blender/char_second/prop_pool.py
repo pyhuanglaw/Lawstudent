@@ -502,8 +502,51 @@ def bandage():
     return save('bandage', 'hc_ayi（麵店阿姨）', {'bone': 'leftHand', 'make': "boneGlb('prop.bandage','bandage')（DEF 的 bone 用 leftHand）", 'note': '照阿姨的底模 bl_npc_nf3 的左手量的；別的底模要看一下有沒有浮起來或陷進去'})
 
 
+# ---------------------------------------------------------------- 標籤同伴（HEROINE-LIFE-NPC3D-1028：固定路人底模＋配件，D99）
+def name_pin():
+    """Café 店員的名牌（小婷、新來的工讀生）：別在圍裙胸口的小牌子；原點＝牌子背面中心、正面朝 −z（人物前方）"""
+    B.reset(texres=256); root = B.group('name_pin', props={'kind': 'prop_pin', 'owner': 'hc_xt'})
+    cm = CMesh('name_pin_vc', L.vc_material('name_pin_vc', rough=0.35))
+    cm.crbox(-0.032, 0.032, -0.011, 0.011, -0.003, 0.0, '#c9a45c', r=0.0015)                       # 金色的框
+    cm.cbox(-0.029, 0.029, -0.008, 0.008, -0.0034, -0.0029, '#f7f3ea')                            # 白底
+    cm.cbox(-0.026, -0.016, -0.005, 0.005, -0.0038, -0.0033, '#6b4a34')                           # 咖啡色的杯子圖示（Café 的，沒有店名）
+    cm.cbox(-0.012, 0.024, -0.0015, 0.0015, -0.0038, -0.0033, '#3a3d43')                          # 名字（一條深色，看不出字）
+    cm.finish(root, uv=False)
+    return save('name_pin', 'hc_xt、hc_np（Café 店員）', {'bone': 'spine', 'make': "boneGlb('prop.name_pin','name_pin')", 'note': '別在圍裙（apron）胸口：位置照 props3d 的圍裙算（spine 座標）'})
+
+
+def mug():
+    """Café 老闆的馬克杯（白色、咖啡）：原點＝手握的杯耳；杯口朝 +y；杯身在杯耳的 −z（手放下來時在手的前面）"""
+    B.reset(texres=256); root = B.group('mug', props={'kind': 'prop_mug', 'owner': 'hc_boss', 'top': '+y'})
+    cm = CMesh('mug_vc', L.vc_material('mug_vc', rough=0.3))
+    R, H = 0.041, 0.095; cz = -0.052                                                                # 杯身中心在杯耳前面 5.2 cm
+    clathe(cm, [(0.0, -0.05), (R - 0.004, -0.05), (R, -0.046), (R, 0.04), (R - 0.004, 0.045), (R - 0.006, 0.04), (R - 0.006, -0.03), (0.0, -0.03)],
+           ['#e9e7e2', '#f4f2ee', '#f4f2ee', '#f4f2ee', '#e3e1dc', '#e3e1dc', '#e3e1dc'], seg=28, axis_pt=(0.0, 0.0, cz))
+    clathe(cm, [(0.0, 0.028), (R - 0.006, 0.028)], ['#4a2c1a'], seg=28, axis_pt=(0.0, 0.0, cz))         # 咖啡（杯口下面 1.7 cm）
+    ctube(cm, [(0.0, 0.03, cz + R - 0.004), (0.0, 0.032, cz + R + 0.014), (0.0, 0.012, cz + R + 0.022), (0.0, -0.012, cz + R + 0.022), (0.0, -0.03, cz + R + 0.012), (0.0, -0.032, cz + R - 0.004)], 0.006, '#f4f2ee', seg=8)
+    cm.finish(root, uv=False, smooth=True)
+    return save('mug', 'hc_boss（Café 老闆）', {'bone': 'rightLowerArm', 'make': "heldGlb('prop.mug','mug',0.07,-0.012,[0,0,Math.PI/2])", 'note': '握杯耳；坐下時藏起來'})
+
+
+def lawbook():
+    """學姊備考的同學：一本很厚的法典（精裝、暗紅封面、燙金的線；沒有書名、出版社，D77）；平拿，長邊沿 x、封面朝 +y"""
+    B.reset(texres=256); root = B.group('lawbook', props={'kind': 'prop_book', 'owner': 'hc_sf1'})
+    cm = CMesh('lawbook_vc', L.vc_material('lawbook_vc', rough=0.6))
+    Lx, T, Wz = 0.215, 0.052, 0.152
+    cm.cbox(-Lx / 2 + 0.004, Lx / 2 - 0.002, -T / 2 + 0.003, T / 2 - 0.003, -Wz / 2 + 0.003, Wz / 2 - 0.003, '#f0ebde')   # 書頁
+    for k in range(1, 6): cm.cbox(-Lx / 2 + 0.004, Lx / 2 - 0.0018, -T / 2 + 0.003 + k * (T - 0.006) / 6 - 0.0004, -T / 2 + 0.003 + k * (T - 0.006) / 6, Wz / 2 - 0.0029, Wz / 2 - 0.0026, '#d8d0bd')   # 書口的紙紋
+    for s_ in (-1, 1): cm.crbox(-Lx / 2, Lx / 2, s_ * (T / 2 - 0.003), s_ * T / 2, -Wz / 2, Wz / 2, '#6a1f22', r=0.0012)   # 封面、封底（硬殼）
+    cm.crbox(-Lx / 2 - 0.0005, -Lx / 2 + 0.005, -T / 2, T / 2, -Wz / 2, Wz / 2, '#5a1a1d', r=0.002)                     # 書背
+    for y in (-0.016, -0.012, 0.012, 0.016): cm.cbox(-Lx / 2 - 0.0012, -Lx / 2 - 0.0004, y - 0.0012, y + 0.0012, -Wz / 2 + 0.01, Wz / 2 - 0.01, '#c9a45c')   # 書背的燙金線
+    cm.cbox(-0.06, 0.06, T / 2 + 0.0001, T / 2 + 0.0005, -0.004, 0.004, '#c9a45c')                                     # 封面中間一條燙金
+    for k, col in enumerate(('#f7d64a', '#f59bb0', '#8fd3f4', '#f7d64a')):                                             # 書口冒出來的索引貼
+        x = -0.06 + k * 0.04; cm.cbox(x, x + 0.012, -0.004 + k * 0.006, -0.0035 + k * 0.006, Wz / 2 - 0.004, Wz / 2 + 0.008, col)
+    cm.finish(root, uv=False)
+    return save('lawbook', 'hc_sf1（學姊的同學）', {'bone': 'leftLowerArm', 'make': "heldGlb('prop.lawbook','lawbook',0.07,-0.046)", 'note': '很厚（5.2 cm）：側邊離手掌比較遠'})
+
+
 BUILD = {'camera_film': camera_film, 'lanyard_tag': lanyard_tag, 'thermos_silver': thermos_silver, 'sports_drink': sports_drink, 'recorder': recorder,
-         'cooler_bag': cooler_bag, 'novel': novel, 'notebook_q': notebook_q, 'handouts': handouts, 'audio_cable': audio_cable, 'ladle': ladle, 'bandage': bandage}
+         'cooler_bag': cooler_bag, 'novel': novel, 'notebook_q': notebook_q, 'handouts': handouts, 'audio_cable': audio_cable, 'ladle': ladle, 'bandage': bandage, 'name_pin': name_pin, 'mug': mug, 'lawbook': lawbook}
 os.makedirs(OUTDIR, exist_ok=True)
 for k, fn in BUILD.items():
     if ONLY and k not in ONLY: continue

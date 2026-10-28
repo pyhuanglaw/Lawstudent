@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/lawbook.glb",
+ "owner": "hc_sf1（學姊的同學）",
+ "bytes": 40596,
+ "tris": 504,
+ "hold": {
+  "bone": "leftLowerArm",
+  "make": "heldGlb('prop.lawbook','lawbook',0.07,-0.046)",
+  "note": "很厚（5.2 cm）：側邊離手掌比較遠"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

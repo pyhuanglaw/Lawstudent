@@ -2,7 +2,7 @@
 在椰林大道中間排一排，換姿勢（idle、walk、sit、read）拍。[捷徑] 讀檔進校園、其他人藏起來；這是看配件掛得對不對，不是玩家流程測試。
 用法：python3 tools/shots/pool_lineup.py URL 輸出資料夾 'pool_2,pool_4,...' 'idle,walk,sit,read' [front|side|back|close|each|each_side|each_back]
   人物也可以給 JSON：'[{"id":"ayi","model":"char.npc_nf3","props":[{"name":"apron","show":true},"ladle","bandage"]},"pool_13"]'
-  each＝每個人各拍一張近照（鏡頭直接放到位，不等運鏡）"""
+  each＝每個人各拍一張近照（鏡頭直接放到位，不等運鏡）；hc_*＝標籤同伴（HCIRCLE.specOf）"""
 import asyncio, json, sys, os
 from playwright.async_api import async_playwright
 URL, OUT, POSES = sys.argv[1], sys.argv[2], sys.argv[4].split(',')
@@ -23,10 +23,10 @@ async def main():
           s.flags=Object.assign(s.flags||{},{introDone:true,campusIntro:true,classDone:true,metAn:true}); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; STORY.phoneAuto=()=>{}; await GAME.applySave(s); })()""")
         await pg.wait_for_timeout(5000)
         n = len(IDS)
-        pre = await pg.evaluate("""(async a=>{ const keys=[...new Set(a.ids.map((id,k)=>a.specs[k]?a.specs[k].model:CHARACTERS[id].char3d.spec.model))]; const r=await Promise.allSettled(keys.map(k=>ASSETS.loadOne(k))); return keys.map((k,i)=>k+':'+r[i].status); })(%s)""" % json.dumps({'ids': IDS, 'specs': SPECS}))
+        pre = await pg.evaluate("""(async a=>{ const keys=[...new Set(a.ids.map((id,k)=>a.specs[k]?a.specs[k].model:(/^hc_/.test(id)&&typeof HCIRCLE!=='undefined'?HCIRCLE.specOf(id).model:CHARACTERS[id].char3d.spec.model)))]; const r=await Promise.allSettled(keys.map(k=>ASSETS.loadOne(k))); return keys.map((k,i)=>k+':'+r[i].status); })(%s)""" % json.dumps({'ids': IDS, 'specs': SPECS}))
         print('preload', pre, flush=True)
         info = await pg.evaluate("""(a=>{ const E=GAME.E, X0=-20, Z0=0; for(const x of E.npcs) x.obj.visible=false; E.player.obj.visible=false; const out=[]; window.__lu=[];
-          a.ids.forEach((id,k)=>{ const sp=a.specs[k]?Object.assign({sex:'f'},a.specs[k]):CHARACTERS[id].char3d.spec; const o=CHAR.build(sp); o.position.set(X0+(k-(a.ids.length-1)/2)*1.05,0,Z0); o.rotation.y=0; E.scene.add(o); window.__lu.push(o); out.push(id+' '+sp.model+' '+JSON.stringify(sp.props)); });
+          a.ids.forEach((id,k)=>{ const sp=a.specs[k]?Object.assign({sex:'f'},a.specs[k]):(/^hc_/.test(id)&&typeof HCIRCLE!=='undefined'?HCIRCLE.specOf(id):CHARACTERS[id].char3d.spec); const o=CHAR.build(sp); o.position.set(X0+(k-(a.ids.length-1)/2)*1.05,0,Z0); o.rotation.y=0; E.scene.add(o); window.__lu.push(o); out.push(id+' '+sp.model+' '+JSON.stringify(sp.props)); });
           window.__pose='idle'; let last=performance.now();
           const tick=()=>{ const now=performance.now(), dt=Math.min(0.05,(now-last)/1000); last=now; for(const h of window.__lu){ const cur=h; try{ CHAR.animate(cur,dt,{pose:window.__pose,speed:window.__pose==='walk'?1.4:0}); }catch(e){} } requestAnimationFrame(tick); }; requestAnimationFrame(tick);
           return out; })(%s)""" % json.dumps({'ids': IDS, 'specs': SPECS}))

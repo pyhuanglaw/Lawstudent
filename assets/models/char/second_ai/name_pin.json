@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/name_pin.glb",
+ "owner": "hc_xt、hc_np（Café 店員）",
+ "bytes": 12492,
+ "tris": 144,
+ "hold": {
+  "bone": "spine",
+  "make": "boneGlb('prop.name_pin','name_pin')",
+  "note": "別在圍裙（apron）胸口：位置照 props3d 的圍裙算（spine 座標）"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

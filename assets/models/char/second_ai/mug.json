@@ -1,0 +1,12 @@
+{
+ "glb": "assets/models/char/second_ai/mug.glb",
+ "owner": "hc_boss（Café 老闆）",
+ "bytes": 20400,
+ "tris": 482,
+ "hold": {
+  "bone": "rightLowerArm",
+  "make": "heldGlb('prop.mug','mug',0.07,-0.012,[0,0,Math.PI/2])",
+  "note": "握杯耳；坐下時藏起來"
+ },
+ "note": "沒有牌子、商標（D77）；NPC-POOL-ART-1028"
+}

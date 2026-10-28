@@ -1,0 +1,124 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 2fe876dec..dabd5d714 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -222,6 +222,7 @@
+ | 宋家豪的「公館美食地圖」筆記本 `assets/models/char/second_ai/notebook_foodmap.glb`（LAWWW2-C 2026-10-17） | 本作 Blender 腳本 `tools/blender/char_second/prop_foodmap_notebook.py`；封面圖 `tools/blender/env_second/textures/gen/foodmap_cover.png` 是本作用 PIL 畫的（手畫地圖、紙膠帶標籤；字用系統字型文泉驛正黑畫成點陣圖，沒有附字型檔；**沒有真實店名、商標**） | 本作 | 家豪掛在左前臂（src/props3d.js 的 foodmap；2026-10-17 LAWWW-C 接進遊戲，0e191286） |
+ | 曾品妤的工程計算機、黑色保溫瓶 `assets/models/char/second_ai/calc_engineering.glb`、`thermos_black.glb`（LAWWW2-C 2026-10-17） | 本作 Blender 腳本 `tools/blender/char_second/prop_pinyu.py`（幾何＋純色材質，沒有貼圖；**沒有牌子、型號**） | 本作 | 品妤平常拿保溫瓶、計算機給事件用（src/props3d.js 的 thermos、calc；2026-10-17 LAWWW-C 接進遊戲，2ef1ca4b） |
+ | 法律系同學二十位、麵店阿姨的隨身道具 `assets/models/char/second_ai/camera_film.glb`、`lanyard_tag.glb`、`thermos_silver.glb`、`sports_drink.glb`、`recorder.glb`、`cooler_bag.glb`、`novel.glb`、`notebook_q.glb`、`handouts.glb`、`audio_cable.glb`、`ladle.glb`、`bandage.glb`（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028） | 本作 Blender 腳本 `tools/blender/char_second/prop_pool.py`（共用 `env_second/lib2.py`）；相機背帶、名牌掛繩照底模的身體量過（`prop_pool_fit.json`，讀本作的 `bl_npc_nm9.vrm`、`bl_npc_nf18.vrm`）；名牌的卡面、小說封面封底、筆記本封面、講義是本作用 PIL 畫的 `textures/gen/pool_lanyard_card.png`、`pool_novel.png`、`pool_notebook_q.png`、`pool_handouts.png`（字、圖示是虛構的：天秤是自己畫的，不是真的社團標誌；沒有牌子、商標，D77；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；其他是純色與頂點色，沒有外部素材 | 本作 | `src/props3d.js` 的 PROPS.DEF（`src/data/pool_story.js` 的 props） |
++| 標籤同伴的配件 `assets/models/char/second_ai/name_pin.glb`（Café 店員的名牌）、`mug.glb`（Café 老闆的馬克杯）、`lawbook.glb`（學姊同學的厚法典）（LAWWW2-C 2026-10-28，HEROINE-LIFE-NPC3D-1028） | 本作 Blender 腳本 `tools/blender/char_second/prop_pool.py`；純色與頂點色，沒有貼圖、沒有外部素材；名牌沒有店名、法典沒有書名和出版社（D77） | 本作 | `src/props3d.js` 的 PROPS.DEF（`src/data/heroine_circle.js` 的 props） |
+ | 曾品妤（`econ_pinyu`）Blender 版 `assets/models/char/second_ai/bl_econ_pinyu.vrm`（ART-CH-PINYU；D59：照 BB_131 通過的標準圖 `pinyu.webp`——黑色高丸子頭＋空氣瀏海＋臉旁碎髮、灰色 oversize 連帽上衣、黑色寬直筒長褲、灰白老爹鞋、158 cm） | 本作 Blender 腳本 `tools/blender/char_second/pinyu.py`（`pinyu_face.py`、`pinyu_clothes.py`、`pinyu_hair.py`〔從 `x_xinci_hair.py` 改〕、`vrm_finish2.py`；帽子用 `tools/blender/char/p04_clothes.py` 的 `build_hood`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生；VRM 匯出用 VRM Add-on for Blender（MIT） | 2026-10-17 接進遊戲（LAWWW-C）；等 BB 遊戲內截圖驗收（D59） |
+ | 2D 背景 `assets/bg/gongguan_cinema.webp`（公館・二輪戲院大廳，虛構）、`assets/bg/yongkang_curry.webp`（永康街・咖哩店，虛構）（LAWWW2-C 0100994c，ART-17 最後兩張） | 本作 Blender 腳本 `tools/blender/env_second/bg_cinema.py`、`bg_curry.py` | 本作 | READY_FOR_ART_REVIEW（場景美術要使用者看過）；店名、海報都是虛構的（D77） |
+ | 唐睿（`econ_tangrui`）`assets/models/char/second_ai/bl_econ_tangrui.vrm` 第二十版；邱韋綸換第十三版（只改髮色）（LAWWW2-C 60dc7908） | 本作 Blender 腳本 `tools/blender/char_second/tangrui*.py`；底模 VRoid β 版 CC0 樣本「HairSample_Male」（pixiv） | CC0 底模＋本作 | BB-C 2026-10-17 驗收通過（BB_201 第 9～11 節） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index aa4da7ff2..8f582a97a 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -149,6 +149,9 @@ const ASSETS = (function(){
+     'prop.audio_cable':{url:'assets/models/char/second_ai/audio_cable.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：立群的音源線）', license:'本作'},
+     'prop.ladle':{url:'assets/models/char/second_ai/ladle.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：麵店阿姨的湯杓）', license:'本作'},
+     'prop.bandage':{url:'assets/models/char/second_ai/bandage.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：麵店阿姨手上的繃帶）', license:'本作'},
++    'prop.name_pin':{url:'assets/models/char/second_ai/name_pin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，HEROINE-LIFE-NPC3D-1028：Café 店員的名牌（小婷、新來的工讀生）；沒有店名）', license:'本作'},
++    'prop.mug':{url:'assets/models/char/second_ai/mug.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，HEROINE-LIFE-NPC3D-1028：Café 老闆的白色馬克杯）', license:'本作'},
++    'prop.lawbook':{url:'assets/models/char/second_ai/lawbook.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pool.py（LAWWW2-C 2026-10-28，HEROINE-LIFE-NPC3D-1028：學姊備考的同學的厚法典；沒有書名、出版社）', license:'本作'},
+     'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
+     /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
+     'bldg.us_apartment':{url:'assets/models/env/second_ai/us_apartment.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py（美國交換：公寓單人戶 1x1＋門外的戶外樓梯平台；配置 src/data/us_apartment_layout.js；家具 ART-US1～US4；LAWWW2-B／LAWWW2-C；區域 src/us3d.js）', license:'本作；貼圖 CC0'},
+diff --git a/src/character3d.js b/src/character3d.js
+index b1a87d8ff..a58eea4a7 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -156,7 +156,7 @@ const CHAR = (function(){
+   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
+   /* 身上帶著的東西（包、吉他、資料夾、圍裙、安全帽…；眼鏡、耳環、髮圈不算）先拿下來，回傳還原的函式（BADCLIP-BAG-1027：使用者 10-27 22:4x「打羽球男主角還背著背包什麼意思」）。
+      還原照原本的開關：原本沒設過的（propOn 沒有這一項）拿掉設定、照原本看不看得到；還原時傳現在的人物（中途換過模型 C.upgrade 的話是新的那一個）*/
+-  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos','camera_film','thermos_silver','sports_drink','recorder','cooler_bag','novel','notebook_q','handouts','audio_cable','ladle'];   /* 後面十個：同學、麵店阿姨的隨身道具（NPC-POOL-ART-1028）*/
++  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos','camera_film','thermos_silver','sports_drink','recorder','cooler_bag','novel','notebook_q','handouts','audio_cable','ladle','mug','lawbook'];   /* 後面十二個：同學、標籤同伴的隨身道具（NPC-POOL-ART-1028、HEROINE-LIFE-NPC3D-1028）*/
+   C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
+     for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
+     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
+diff --git a/src/data/heroine_circle.js b/src/data/heroine_circle.js
+index aef521261..863309ce1 100644
+--- a/src/data/heroine_circle.js
++++ b/src/data/heroine_circle.js
+@@ -24,25 +24,26 @@ const HCIRCLE_DATA={
+     '阿凱':'kai','陳助教':'npc_ta_chen','筱涵':'npc_huangxh','方奕廷':'npc_fangyt','曾靖雯':'pool_7','晏如':'pool_5','晨希':'pool_11','芸萱':'pool_15',
+     '小婷':'hc_xt','老闆':'hc_boss','阿姨':'hc_ayi','學姊的同學':'hc_sf1','新來的工讀生':'hc_np','大一的學妹':'hc_fr1','日文課的同學':'hc_jp','以安的室友':'hc_room',
+     '點乾麵的阿伯':'hc_uncle','讀書會的學妹':'hc_plg','社會系的學弟妹':'hc_soc1','吉他社的學弟':'hc_gtr','小朋友':'hc_kid'},
+-  /* 標籤同伴：label＝說話人、頭上的名字；sex；model＝固定的路人底模；height＝小朋友縮小（crowd3d.js 公園的孩子同一個做法）*/
++  /* 標籤同伴：label＝說話人、頭上的名字；sex；model＝固定的路人底模；height＝小朋友縮小（crowd3d.js 公園的孩子同一個做法）；
++     props＝看得出身分的配件（props3d.js；HEROINE-LIFE-NPC3D-1028，LAWWW2-C：D99 不換底模只加配件。托特包、後背包換顏色，不和以安的米白托特包、祐廷的深灰後背包撞；點乾麵的阿伯沒有配件）*/
+   PEOPLE:{
+-    hc_xt:{label:'小婷',sex:'f',model:'char.npc_nf6',note:'Café 同事，外文系大一的學妹（AA_503 5-1）'},
+-    hc_boss:{label:'老闆',sex:'m',model:'char.npc_nm6',note:'Café 老闆（AA_503 5-1）'},
+-    hc_ayi:{label:'阿姨',sex:'f',model:'char.npc_nf3',note:'麵店的阿姨（AA_503 6-1：LAWWW2 做中年女性、圍裙、湯杓；先用固定的路人底模）'},
+-    hc_sf1:{label:'學姊的同學',sex:'m',model:'char.npc_nm16',note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
+-    hc_sf2:{label:'學姊的同學',sex:'m',model:'char.npc_nm2',note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
+-    hc_np:{label:'新來的工讀生',sex:'f',model:'char.npc_nf11',note:'Café 新來的工讀生（AA_505 2-1）'},
+-    hc_fr1:{label:'大一的學妹',sex:'f',model:'char.npc_nf13',note:'民總的大一學妹（AA_505 3-1，兩個之一）'},
+-    hc_fr2:{label:'大一的學妹',sex:'f',model:'char.npc_nf14',note:'民總的大一學妹（AA_505 3-1，兩個之一）'},
+-    hc_nm:{label:'新社員',sex:'f',model:'char.npc_nf20',note:'吉他社的新社員（AA_505 4-1）'},
+-    hc_jp:{label:'日文課的同學',sex:'f',model:'char.npc_nf1',note:'以安日文課的同學（AA_506 1-1）'},
+-    hc_room:{label:'以安的室友',sex:'f',model:'char.npc_nf4',note:'以安的室友（AA_506 1-1）'},
++    hc_xt:{label:'小婷',sex:'f',model:'char.npc_nf6',props:[{name:'apron',show:true},'name_pin'],note:'Café 同事，外文系大一的學妹（AA_503 5-1）'},
++    hc_boss:{label:'老闆',sex:'m',model:'char.npc_nm6',props:[{name:'apron',show:true,color:'#2f3338'},'mug'],note:'Café 老闆（AA_503 5-1）'},
++    hc_ayi:{label:'阿姨',sex:'f',model:'char.npc_nf3',props:[{name:'apron',show:true,color:'#8a3a32'},'ladle','bandage'],note:'麵店的阿姨（AA_503 6-1：LAWWW2 做中年女性、圍裙、湯杓；先用固定的路人底模）'},
++    hc_sf1:{label:'學姊的同學',sex:'m',model:'char.npc_nm16',props:[{name:'backpack',color:'#3a3a3a'},'lawbook'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
++    hc_sf2:{label:'學姊的同學',sex:'m',model:'char.npc_nm2',props:[{name:'backpack',color:'#59463a'},'folder'],note:'學姊備考的同學（AA_503 8-1，兩個之一）'},
++    hc_np:{label:'新來的工讀生',sex:'f',model:'char.npc_nf11',props:[{name:'apron',show:true},'name_pin'],note:'Café 新來的工讀生（AA_505 2-1）'},
++    hc_fr1:{label:'大一的學妹',sex:'f',model:'char.npc_nf13',props:[{name:'tote',color:'#4a5a78'}],note:'民總的大一學妹（AA_505 3-1，兩個之一）'},
++    hc_fr2:{label:'大一的學妹',sex:'f',model:'char.npc_nf14',props:[{name:'backpack',color:'#7a6a58'}],note:'民總的大一學妹（AA_505 3-1，兩個之一）'},
++    hc_nm:{label:'新社員',sex:'f',model:'char.npc_nf20',props:['guitar'],note:'吉他社的新社員（AA_505 4-1）'},
++    hc_jp:{label:'日文課的同學',sex:'f',model:'char.npc_nf1',props:[{name:'backpack',color:'#3d4a3f'}],note:'以安日文課的同學（AA_506 1-1）'},
++    hc_room:{label:'以安的室友',sex:'f',model:'char.npc_nf4',props:[{name:'tote',color:'#b0745a'}],note:'以安的室友（AA_506 1-1）'},
+     hc_uncle:{label:'點乾麵的阿伯',sex:'m',model:'char.npc_nm3',note:'麵店的客人（AA_506 3-1）'},
+-    hc_plg:{label:'讀書會的學妹',sex:'f',model:'char.npc_nf12',note:'公法讀書會的學妹（AA_507 1-1）'},
+-    hc_soc1:{label:'社會系的學弟妹',sex:'f',model:'char.npc_nf19',note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
+-    hc_soc2:{label:'社會系的學弟妹',sex:'m',model:'char.npc_nm15',note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
+-    hc_gtr:{label:'吉他社的學弟',sex:'m',model:'char.npc_nm12',note:'吉他社新的器材長（AA_507 4-1）'},
+-    hc_kid:{label:'課輔班的小朋友',sex:'m',model:'char.npc_nm20',height:1.25,note:'沛珊課輔班的小朋友（AA_504 6-1）'}},
++    hc_plg:{label:'讀書會的學妹',sex:'f',model:'char.npc_nf12',props:[{name:'backpack',color:'#5b4b6b'},'folder'],note:'公法讀書會的學妹（AA_507 1-1）'},
++    hc_soc1:{label:'社會系的學弟妹',sex:'f',model:'char.npc_nf19',props:[{name:'tote',color:'#6f7d5c'}],note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
++    hc_soc2:{label:'社會系的學弟妹',sex:'m',model:'char.npc_nm15',props:[{name:'backpack',color:'#2f3a4a'}],note:'語彤當助教那門課的學弟妹（AA_507 3-1，兩個之一）'},
++    hc_gtr:{label:'吉他社的學弟',sex:'m',model:'char.npc_nm12',props:['guitar'],note:'吉他社新的器材長（AA_507 4-1）'},
++    hc_kid:{label:'課輔班的小朋友',sex:'m',model:'char.npc_nm20',height:1.25,props:[{name:'backpack',color:'#d9534f'}],note:'沛珊課輔班的小朋友（AA_504 6-1）'}},
+   /* 她要補的作息（放在她 daily_schedule 最前面；with、hc 由載入時從那一列帶進去）*/
+   SCHED:[
+     {hc:'c503_4_3',who:'heroine_01',e:{days:[4],from:19+40/60,to:20,zone:'campus',act:'linger',at:[93.8,-97.6,Math.PI/2,0],terms:['Y1S1'],weeks:[10,11,12,13,14,15],label:'萬才館門口（讀書會前）'}},
+diff --git a/src/hcircle3d.js b/src/hcircle3d.js
+index 31dcbc9ad..eb85a4aab 100644
+--- a/src/hcircle3d.js
++++ b/src/hcircle3d.js
+@@ -191,7 +191,7 @@ const HCIRCLE=(function(){
+     S.unpair(hn); standMove(GM,hn,spot,null,quietFor(GM,hn,refresh),at[2]||0); };
+   /* 標籤同伴：固定的路人底模（spec.id＝標籤 id，不進無名路人池；模型還沒下載完先藏起來）*/
+   S.specOf=function(cid){ const p=PEOPLE[cid]; if(!p) return null; const ix=Object.keys(PEOPLE).indexOf(cid); const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(900+ix*2+(p.sex==='m'?1:0)):{};
+-    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{}); };
++    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{},p.props?{props:p.props.map(q=>typeof q==='object'?Object.assign({},q):q)}:{}); };   /* props：配件（HEROINE-LIFE-NPC3D-1028，LAWWW2-C）*/
+   S._loading={}; S._failed={};
+   S.modelWait=function(n){ const m=n&&n.hcModel; if(!m||typeof CHAR==='undefined'||!CHAR.isDegraded||!n.obj) return;
+     if(CHAR.isDegraded(n.obj)){ if(S._failed[m]){ const u=n.obj.userData; u.wantModel=null; if(u.degradedHidden){ for(const ch of n.obj.children) ch.visible=true; u.degradedHidden=false; } n.hidden=false; n._hcWait=false; return; }
+diff --git a/src/props3d.js b/src/props3d.js
+index 969c39e83..40c93c6a6 100644
+--- a/src/props3d.js
++++ b/src/props3d.js
+@@ -129,6 +129,9 @@ const PROPS = (function(){
+   const recorderGlb=heldGlb('prop.recorder','recorder',0.06,-0.014), coolerBag=heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2]);
+   const novelGlb=heldGlb('prop.novel','novel',0.055,-0.03), notebookQ=heldGlb('prop.notebook_q','notebook_q',0.07,-0.024), handoutsGlb=heldGlb('prop.handouts','handouts',0.09,-0.018);
+   const audioCable=heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2]), ladleGlb=heldGlb('prop.ladle','ladle',0.075,-0.01,[0,0,Math.PI/2]);
++  /* 標籤同伴（HEROINE-LIFE-NPC3D-1028：固定路人底模＋配件）：Café 店員的名牌別在圍裙（apron）胸口——位置照下面 apron() 的胸片（spine 座標：中心 (0,0.2,0)、上半徑 0.14、下 0.16、高 0.24）算：
++     y 0.26、往人物左邊轉 0.3 rad，貼在胸片表面；老闆的馬克杯；學姊同學的厚法典 */
++  const namePin=boneGlb('prop.name_pin','name_pin'), mugGlb=heldGlb('prop.mug','mug',0.07,-0.012,[0,0,Math.PI/2]), lawbookGlb=heldGlb('prop.lawbook','lawbook',0.07,-0.046);
+   const DEF={
+     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
+     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
+@@ -156,6 +159,9 @@ const PROPS = (function(){
+     audio_cable:{bone:'leftLowerArm',make:audioCable,sit:'hide'},
+     ladle:{bone:'rightLowerArm',make:ladleGlb,sit:'hide'},
+     bandage:{bone:'leftHand',make:bandageGlb,pos:[0,0,0]},
++    name_pin:{bone:'spine',make:namePin,pos:[-0.0431,0.26,-0.1395],rot:[0.083,0.3,0]},
++    mug:{bone:'rightLowerArm',make:mugGlb,sit:'hide'},
++    lawbook:{bone:'leftLowerArm',make:lawbookGlb},
+   };
+   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
+   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });
