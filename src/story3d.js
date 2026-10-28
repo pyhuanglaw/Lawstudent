@@ -1425,6 +1425,7 @@ const STORY = (function(){
      每個人每天最多一句；同一句不重複出現兩次（AA_108）：韋綸「欸！……喔你現在是法律系的。那也走啦！」（第一次；和 BB_105 P5 共用 WL_SAID_LAW）→「走啦！」→ 有 WL_BIKE 才有「走啦！……這台是我自己的。有發票。」；
      唐睿 SOC_ROAD_PERSON「路人！」、SOC_WRONG_BUILDING「走錯棟的！」、都沒有「法律系的！」（照那時候的旗標，各一次）；阿勳「你們法律系的課表，是不是也很不合理？」一次；語彤一次（事件 once）。
      沒有台詞可以說的人就不站在那裡。說過的記在 B106D2_SAID（句子→第幾天）、B106D2_LAST（人→最後一次是第幾天）*/
+  /* AA_521（0f4b48f20）：大一下起照學期取鍵（每人每學期 a、b 兩句、品妤一學期一句）——src/econfr3d.js 包住下面的 S.b106d2Key（這裡留大一上的句子）*/
   S.B106D2_P=0.35;
   const d2rand=s=>{ let x=2166136261; for(let i=0;i<s.length;i++){ x^=s.charCodeAt(i); x=Math.imul(x,16777619); } x^=x>>>13; x=Math.imul(x,1274126177); x^=x>>>16; return (x>>>0)/4294967296; };
   S.b106d2Term=G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||!/^Y[123]S[12]$/.test(T.id)||T.exam) return null; if(T.id==='Y1S1'&&T.week<8) return null; if(CALENDAR.kind&&CALENDAR.kind(G.day)!=='term') return null; return T; };

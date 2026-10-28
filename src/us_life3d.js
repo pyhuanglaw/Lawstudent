@@ -206,8 +206,10 @@ const USL=(function(){
   S.longHere=G=>{ if(!LONG(G)||!S.here(G)) return false; const h=hh(G), w=G.weekday; if(G.day===D('2028-12-09')) return h>=19&&h<22; return w>=1&&w<=5&&h>=19&&h<22&&G.day<D(S.CAL.leave)&&!inR(G.day,S.CAL.thanks)&&!inR(G.day,S.CAL.fall); };   /* 平日 19～22；12/9（六）在（G7）；秋假 10/9～10/13 他在芝加哥找朋友（AA_291 2-1、AA_370 L4）*/
   /* 何俊朗的招呼（AA_291 3-1；一天一句輪流）＋G5、G7、4-1 的變化 */
   S.longGreet=function(G){ const R=S.rec(G), F=G.flags||{}; if(G.day===D('2028-12-09')) return [X.long1209];
-    const ok=X.longGreet.filter(q=>(!q.haihao||F.LONG_HAIHAO)&&(!q.thu||G.weekday===4)&&(!q.beforeDST||G.day<D('2028-11-05'))&&(!q.summer||G.day<D('2028-10-09')));   /* summer：夏末那一季（10/8 以前；十月中以後室內開暖氣，AA_448 1-2）*/
-    let g=R.greet; if(g.day!==G.day){ R.greet={day:G.day,n:((g.n|0)+(g.day!=null?1:0)),t:null}; g=R.greet; } if(!g.t) g.t=ok.length?ok[g.n%ok.length].t:X.longGreet[0].t;
+    const ok=X.longGreet.filter(q=>(!q.haihao||F.LONG_HAIHAO)&&(!q.thu||G.weekday===4)&&(!q.beforeDST||G.day<D('2028-11-05'))&&(!q.summer||G.day<D('2028-10-09'))
+      &&(!q.from||G.day>=D(q.from))&&(!q.to||G.day<=D(q.to)));   /* summer：夏末那一季（10/8 以前；十月中以後室內開暖氣，AA_448 1-2）；from／to：照月份的那幾句（AA_521 第 3 節）*/
+    const txt=q=>q.tail&&!F.LONG_HAIHAO&&q.t.endsWith(q.tail)?q.t.slice(0,q.t.length-q.tail.length):q.t;   /* tail：沒有 LONG_HAIHAO 的不說那個尾巴（AA_521 第 3 節）*/
+    let g=R.greet; if(g.day!==G.day){ R.greet={day:G.day,n:((g.n|0)+(g.day!=null?1:0)),t:null}; g=R.greet; } if(!g.t) g.t=ok.length?txt(ok[g.n%ok.length]):X.longGreet[0].t;
     const out=[g.t]; if(G.day>=D('2028-11-13')&&G.day<=D('2028-11-21')){ out.push(X.longThanks); if(F.LONG_HAIHAO) out.push(X.longHaihao); }
     if(S.sisClub(G)&&dating(G)) out.push(X.longSisThere); return out; };
   S.club=async function(GM){ const G=GM.G; const R=S.rec(G); let k=1; GM.sceneBegin();
