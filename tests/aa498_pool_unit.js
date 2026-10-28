@@ -177,6 +177,15 @@ await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campu
   check('4. 曾靖雯 4-6 畢業典禮早上（傅鐘）：depends 版「你說要看他做了什麼。…」，最後「好了。……再見。這次不說早安了。」',has('早安。……我多買了一個，猜你會來。')&&has('你說要看他做了什麼。我後來每一次旁聽，都先把那個人做了什麼聽完。……考上以後，我想去法扶。')&&!has('我還是不知道要幫誰。可是我會一直找下去。')&&has('好了。……再見。這次不說早安了。'),J(said()));
   set(gd,8.2); ph(); check('4. 曾靖雯：去了傅鐘就沒有 08:00 那張空長椅的照片',!msgs(Z).includes('（照片：空的長椅）')); });
 
+/* 曾靖雯 4-7 錯過、不在：國外（照時差）、延畢（大五上第 1 週 06:30）*/
+await sec('4 曾靖雯 不在',async()=>{ const RD=STORY.ROUTE_DATES.JP, dep=D(RD.dep); fresh(dep-3,12,'campus',{EXCHANGE_ROUTE:'JP'}); meet(Z); rel(Z,25,3); INV.addContact(H.G,Z);
+  let got=null, at=null; for(let d=dep;d<dep+30&&!got;d++) for(let h=0;h<24&&!got;h+=0.5){ set(d,h); ph(); const m=(H.G.msgs||[]).find(x=>x.tag==='pool_zjw_abroad'); if(m){ got=m; at=[keyOf(d),h]; } }
+  const tw=got?got.day*24+got.h-STORY.tzOffset(H.G,got.day):null;   /* 換回臺灣時間 */
+  check('4. 曾靖雯 4-7：祐廷在國外（日本）＝出發後第三週的週一、臺灣早上六點（日本七點）傳「早安。你那邊幾點？我這邊六點。傅鐘的長椅換新的了。」',!!got&&got.text===L()[Z].abroad&&wdOf(Math.floor(tw/24))===1&&Math.abs(tw%24-6)<0.01&&Math.floor(tw/24)>=dep+14&&Math.floor(tw/24)<dep+21,J([got&&got.text,at]));
+  const y5=CALENDAR.termDays('Y5S1'); fresh(y5.from-2,12,'campus',{FAIL_DELAY:true}); meet(Z); rel(Z,25,3); INV.addContact(H.G,Z); phAt(y5.from,6.6);
+  const a=msgs(Z).includes(L()[Z].y5); fresh(y5.from-2,12,'campus'); meet(Z); INV.addContact(H.G,Z); phAt(y5.from,6.6);
+  check('4. 曾靖雯 4-7：延畢（大四下被當）＝大五上第 1 週 06:30「早安。你今年還在學校，幫我看一下那張長椅還在不在。」；沒延畢不送',a&&!msgs(Z).includes(L()[Z].y5),keyOf(y5.from)); });
+
 /* 黃郁婷：補給包答應、隔天霖澤館那一句；秘密選「不考司法官嗎？」、2029-10 那則多出來的一句 */
 await sec('4 黃郁婷',async()=>{ const d0=TD('Y1S1',4,1); fresh(d0,9+10/60-0.1,'classroom'); spawn(Y);
   check('4. 黃郁婷：上課前在教室門口，認識前「和總是最後進教室的人說話」',GM.npc[Y].name==='總是最後進教室的人');

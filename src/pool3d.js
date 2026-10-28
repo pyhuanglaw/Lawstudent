@@ -353,7 +353,8 @@ const POOL=(function(){
         if(!S.did(G,'zjwLast')&&(G.day>gd||(G.day===gd&&hr(G)>=7.5))) S.story(G,Z,gd,8,L[Z].gradMiss,'pool_zjw_grad_miss'); } }   /* 典禮當天沒去傅鐘：08:00 */
     { const ab=typeof STORY!=='undefined'&&STORY.routeAbroadRoute?STORY.routeAbroadRoute(G):null, RD=ab&&STORY.ROUTE_DATES&&STORY.ROUTE_DATES[ab];   /* 4-7 國外：出發後第三週的週一，她的早上六點（照時差）*/
       if(RD&&fam(Z)){ let d=DK(RD.dep); if(d!=null){ d+=14; while(dateOf(d).wd!==1) d++; if(STORY.abroad(Object.assign({},G,{day:d}))) S.story(G,Z,d,6,L[Z].abroad,'pool_zjw_abroad'); } }
-      if(ab&&CALENDAR.termDays){ const y5=CALENDAR.termDays('Y5S1'); if(y5) S.story(G,Z,y5.from,6.5,L[Z].y5,'pool_zjw_y5'); } }   /* 延畢：大五上第 1 週 06:30 */
+      const dl=typeof PG!=='undefined'&&PG.delayed?PG.delayed(G):!!ab;   /* 延畢＝交換延畢（日本、美國路線）或大四下被當（FAIL_DELAY），同 src/postgrad3d.js 的 PG.delayed */
+      if(dl&&CALENDAR.termDays){ const y5=CALENDAR.termDays('Y5S1'); if(y5) S.story(G,Z,y5.from,6.5,L[Z].y5,'pool_zjw_y5'); } }   /* 延畢：大五上第 1 週 06:30 */
     /* 林采潔 */
     if(fam(C)) S.story(G,C,DK('2027-04-15'),25.5,L[C].night,'pool_cj_night'); S.segSent(G,C,'night','pool_cj_night');   /* 大二某一晚 01:30（文學獎截稿前：大二下 4 月）*/
     { const a=F.CJ_ADVICE==='law'?L[C].award.law:(F.CJ_ADVICE==='motive'?L[C].award.motive:L[C].award.other);   /* 大二下 5 月，校內文學獎放榜 */
