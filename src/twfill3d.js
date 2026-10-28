@@ -104,6 +104,7 @@ const TWFILL=(function(){
   const WD=['日','一','二','三','四','五','六'];
   S.cardTitle=G=>{ if(typeof CALENDAR==='undefined') return ''; const x=CALENDAR.dateOf(G.day), h=hh(G), m=Math.round((h-Math.floor(h))*60); return x.m+'/'+x.d+'（'+WD[x.wd%7]+'）'+String(Math.floor(h)).padStart(2,'0')+':'+String(m).padStart(2,'0'); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['twfill3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.sumShow=async function(GM,s){ const F=GM.G.flags; (F.TW_SUMS||(F.TW_SUMS={}))[s.date]=GM.G.day; if(GM.titleCard) await GM.titleCard(S.cardTitle(GM.G),s.line,3200); return true; };
   S.tick=function(GM){ const G=GM&&GM.G; if(!G||!G.flags||busy) return false;
     const free=typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy);

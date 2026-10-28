@@ -179,6 +179,7 @@ const ECONFF=(()=>{
   /* 跳的途中收到的訊息：最新那一則要回的（沒有就最新那一則）在哪一段對話（AA_300 第 6 節）*/
   S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const m=P.length?P[P.length-1]:((G.msgs||[]).filter(x=>x.from!=='player').slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };
   S.busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['econff3d:busy']=()=>{ S.busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;
     const day=DK(s.key); let h=s.cls?(t-day*24):s.h;
     if(t>now+0.05){ const d0=G.day; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/

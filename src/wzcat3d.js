@@ -16,6 +16,7 @@ const WZCAT=(function(){
   S.AWAKE=[7,17.5];
   S.NEAR=1.6; S.FAR=2.8;
   let cat=null, held=null;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzcat3d:held']=()=>{ held=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const P=()=>typeof PARK!=='undefined'?PARK:null;
   S.awake=function(G){ if(!G||held) return false;   /* hold 期間＝趴著（取名、環境句照「趴在圓椅上」那一版：PARK.catAwake 照這個）*/ const h=G.hour; if(!(h>=S.AWAKE[0]&&h<S.AWAKE[1])) return false; const K=P();
     if(K&&((K.rainy&&K.rainy(G))||(K.catCold&&K.catCold(G))||(K.catLost&&K.catLost(G))||(K.catAdopted&&K.catAdopted(G)))) return false; return true; };

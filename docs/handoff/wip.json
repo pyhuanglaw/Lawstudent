@@ -1221,7 +1221,7 @@
    "id": "WIP-LAWWW-LOADLOCK-1028",
    "role": "LAWWW",
    "task": "LOADGEN-LOCKS-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "e0267df43、7a70f09ee",
    "branch": "worktree-agent-a16de5b29bd38efbe（子代理；D113 備份 wip_backup/loadlock_1028.bundle）",
    "files": [
@@ -1230,7 +1230,23 @@
    "todo": "讀檔以後凍住的舊劇情佔著的鎖要放開：各模組 LOADLOCKS 登記＋applySave 的 loadRelease（EVENTS.running、ADV、walks…）；靜態檢查",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "BB-C 08:08、08:23（瀏覽器重現）；LAWWW-C EVENTS.running"
+   "source": "BB-C 08:08、08:23（瀏覽器重現）；LAWWW-C EVENTS.running",
+   "closedBy": "8de0993cd（合併子代理 7e94e383c；loadgen_locks ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVFIX2-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AAFIX-1028",
+   "state": "WIP",
+   "sha": "37f1416cb、ca07da63d",
+   "branch": "worktree-agent-a130a4011163817ef（子代理；D113 備份 wip_backup/privfix2_1028.bundle）",
+   "files": [
+    "wip_backup/privfix2_1028.bundle"
+   ],
+   "todo": "AA_503 第 14 節後補（0e46fdc7e）：3 擋下來沒演的不算知情次數（MREL、學姊一般見面還原）；4 選項出來了沒選不重算七天（從第一次被擋那天起）；tests/company_priv 第 9 段還在改",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA-C 09:1x（AA_503 第 14 節後補，DL-AA-PRIVQ2）"
   }
  ]
 }

@@ -74,6 +74,7 @@ const SISB9=(function(){
     return true; };
   /* ---------------- 每 0.5 秒、手機規則 ---------------- */
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sis_b9_3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   const go=f=>{ busy=true; Promise.resolve().then(f).catch(e=>console.warn('SISB9',e)).finally(()=>{ busy=false; }); return true; };
   S.tick=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(busy||!G||!G.flags||!law(G)) return false; try{ S.rainWatch(G,E); }catch(e){ console.warn('SISB9 rain',e); }
     if(S.rainDue(G,E)){ const ev=evOf('ev_sis_y3s2_rain'); if(ev) return go(()=>EVENTS.run(ev)); }

@@ -15713,6 +15713,32 @@
    "task": "SIS13-AAFIX-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 08:3x】開 SIS13-AAFIX-1028（9、11、12）；私密三項併進 PRIV-SIS13-1028｜【LAWWW-C 08:4x】7fd3c7f06"
+  },
+  {
+   "id": "DL-AA-PRIVQ2",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0e46fdc7e",
+   "msg": "ACK",
+   "what": "AA_503 第 14 節後補（回 LAWWW-C 09:03 私密四項）：1、2 照現在；3 擋下沒演的不算知情次數；4 不重新算 7 天（從第一次被擋那天起）；outbox fcb5f8bda",
+   "task": "PRIV-AAFIX-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 09:0x】3、4 交回原子代理改（SendMessage 續做）"
+  },
+  {
+   "id": "DL-LW2-LOBBY2",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "98b90c9c5",
+   "msg": "ACK",
+   "what": "LINZE-LOBBY-V2-1028 霖澤館一樓大廳第二版（使用者 P0 室內第四包）：擺設四區、木條牆、吊燈、光照烘焙白天／晚上；patch linze_lobby_v2_1028.patch＋linze_interior.glb＋兩張 lightmap",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 09:1x】整合 ac2ab0ae9；linze_lightmap、nav_buildings、linze_5f／office／upper、wancai_semb ALL PASS；BB 看畫面；ART_APPROVED 只有使用者"
   }
  ],
  "ignored": [
@@ -19725,6 +19751,20 @@
    "kind": "wip",
    "task": "INTERIOR-AAA-REVIEW-1028",
    "reason": "LAWWW2 霖澤館大廳第二版（LINZE-LOBBY-V2-1028：樓梯側面木條牆、北牆角落法學院展示櫃）的 WIP，X125 室內檢討的下一間，還沒交件（LAWWW-C 10-28 08:1x 分類）"
+  },
+  {
+   "sha": "31ced4d4",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-LOBBY2",
+   "reason": "LAWWW2 LINZE-LOBBY-V2-1028 交件準備：最終 GLB＋白天／晚上光照貼圖（重烘）的 WIP，交件 98b90c9c5 的祖先（LAWWW-C 10-28 09:2x 分類）"
+  },
+  {
+   "sha": "a5fe246c",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-LOBBY2",
+   "reason": "LAWWW2 LINZE-LOBBY-V2-1028 README 截圖一節、檢討報告第 6 節記第四包的 WIP，交件 98b90c9c5 的祖先（LAWWW-C 10-28 09:2x 分類）"
   }
  ]
 }

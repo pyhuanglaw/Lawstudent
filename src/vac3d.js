@@ -262,6 +262,7 @@ const VAC=(function(){
   const recvN=out=>(out||[]).filter(m=>m&&m.from!=='player').length;   /* 這一批裡別人傳的（祐廷自己那一句不算「收到」；同 HOME.recvN）*/
   S.MSG_STOPS=200;   /* 一次跳過最多停幾次（每一次都要玩家按「跳過」；只是防呆：超過就照舊一路跳到 t）*/
   S.away=false;   /* 跳過途中打開手機的那一下（2D 收起來）：home3d.js 的 S.backdrop 照這個把 3D 藏著 */
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:away']=()=>{ S.away=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.msgStop=async function(GM,place,o,card){ const G=GM.G;
     if(card&&!(o&&o.quiet)&&GM.titleCard&&typeof CALENDAR!=='undefined') await GM.titleCard(dayCard(G)+hhmm(G.hour),place||'',2000);
     await GM.fade(false); const A=typeof ADV!=='undefined'?ADV:null, on=!!(A&&A.active), bgm=on?A.bgMode:null;
@@ -503,6 +504,7 @@ const VAC=(function(){
     return S.airFly(GM,q,S.flyCard(G,q)); };   /* 「飛往〇〇」字卡（AA_478 第 1 節）*/
   /* 整趟（OUT.go；已經到了、去機場的字卡出過了）。從家裡出發的（OUT.go 不換區域）演完回臺北的家；3D 出發的在 OUT.go 結尾就換回去了（S.airStage）*/
   S._fly=new Set();   /* 正在演的那一趟（不存檔）*/
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['vac3d:_fly']=()=>{ S._fly.clear(); };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.airFly=async function(GM,q,card){ const G=GM.G; S._fly.add(q.id);
     try{ const ok=await OUT.go(GM,q,{fromHome:!!q.airHome,noCard:true,card:card||null}); if(G.zone==='airport_dep') await S.airBack(GM,q,false); return ok; }
     finally{ S._fly.delete(q.id); } };

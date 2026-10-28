@@ -231,6 +231,7 @@ const CLOSED2=(function(){
   if(typeof CLOSED!=='undefined'&&Array.isArray(CLOSED.WASH)&&!CLOSED._rab3Wash){ CLOSED.WASH.push((GM,ph,kai)=>S.wash(GM,ph,kai)); CLOSED._rab3Wash=true; }
   /* 人在研討室 B、阿姨那天的值班時間（09:00 起，和大廳圓桌的按鈕一樣；12:00 以後 auntDue 就不成立）：自動開始（在大廳圓桌按「坐到圓桌」的照舊從 STORY.fafuShift 進來）*/
   let busy=false; S.pending=null;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['closed2_3d:busy']=()=>{ busy=false; S.staged=null; S._iv=false; S._ex=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G||!law(G)||G.zone!=='wancai_semb') return false;
     if(hr(G)>=9&&typeof Y2B!=='undefined'&&Y2B.auntDue&&Y2B.auntDue(G)&&S.auntOk(GM)){ busy=true; if(GM.sceneBegin) GM.sceneBegin(); S.pending=Promise.resolve().then(()=>Y2B.auntConsult(GM)).catch(e=>console.warn('CLOSED2.aunt',e)).finally(()=>{ busy=false; if(GM.G===G){ if(GM.sceneEnd) GM.sceneEnd(); if(GM.autosave) GM.autosave(); } }); return true; }   /* 決定開演的那一刻就鎖住（STUCK-HARDEN-1027，同 invites3d.js S.autoStart）：延後開演的空檔裡，玩家按的「說話」、同一格的 EVENTS.tick 都進不來；演完放開再自動存檔 */
     return false; };

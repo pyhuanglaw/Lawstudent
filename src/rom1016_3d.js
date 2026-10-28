@@ -56,6 +56,7 @@ const ROM1016=(function(){
     if(ok){ const x=R2(), q=x&&x.z13Out?x.z13Out(G):null; if(q&&q.state==='planned'){ q.state='skipped'; q.arrived=true; } }   /* Z13 那頓飯已經排了：不再演（她已經知道了）*/
     return ok; };
   if(typeof EVENTS!=='undefined'&&EVENTS.onInteract&&!EVENTS._rom1016){ const oi=EVENTS.onInteract; S._oi=oi; let busy=false;
+    (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['rom1016_3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
     EVENTS.onInteract=function(charId){ try{ const GM=S.gm(); if(charId===ZR&&!busy&&GM&&GM.G&&S.hisOrderDue(GM.G,GM)){ busy=true; S.hisOrderOffer(GM).catch(e=>console.warn('ROM1016 hisOrder',e)).finally(()=>{ busy=false; }); return true; } }catch(e){ console.warn('ROM1016 onInteract',e); }
       return oi.apply(this,arguments); };
     EVENTS._rom1016=true; }

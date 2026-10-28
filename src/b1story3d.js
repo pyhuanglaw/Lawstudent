@@ -35,6 +35,7 @@ const B1S=(function(){
     const h=G.hour%24; if(!(h>=23.5&&h<24)) return false; const n=GM.npc&&GM.npc[BH]; if(!n||!n.b1Night) return false;
     const p=E.player.obj.position; return inStudy(p.x,p.z); };
   let playing=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['b1story3d:playing']=()=>{ playing=false; S.staged=null; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.playLine=async function(GM){ const G=GM.G, k=termKey(G); if(!k) return false; const R=G.flags.B1_NIGHT||(G.flags.B1_NIGHT={}); R[k]=G.day; playing=true;
     GM.sceneBegin(); try{ await GM.say({name:name(BH),charId:BH},S.LINE); } finally { GM.sceneEnd(); playing=false; } return true; };
 

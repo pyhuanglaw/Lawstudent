@@ -597,6 +597,7 @@ const SIDEQ=(function(){
     after:(G)=>{ const r=S.get(G,'SQ05'); if(r) r.signed=G.day; } };
   S.signDue=function(GM){ const G=GM&&GM.G, r=G&&S.get(G,'SQ05'); if(!r||!r.zhe||r.signed||r.closeFrom==null||G.day!==r.closeFrom||G.zone!=='linze') return false; const h=hr(G); return h>=12&&h<18&&!(GM.E&&GM.E.player&&GM.E.player.busy); };
   let busy=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['sideq3d:busy']=()=>{ busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!law(G)||typeof EVENTS==='undefined'||!EVENTS.run) return false;
     let ev=null; if(S.signDue(GM)) ev=S.SIGN_EV; else if(S.catNightDue(GM)){ ev=S.CAT_EV; const L0=typeof WZ_PARK_LAYOUT!=='undefined'?WZ_PARK_LAYOUT:null, pav=L0&&L0.items&&L0.items.find(i=>i.kind==='pavilion'); if(pav) ev.spawn.at={x:pav.x+1.1,z:pav.z+0.6}; }   /* 她蹲在涼亭的石桌前面 */
     else if(S.sisDue(GM)) ev=S.SIS_EV;

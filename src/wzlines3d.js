@@ -57,6 +57,7 @@ const WZL=(function(){
   S.hasNote=(G,id)=>Array.isArray(G.notes)&&G.notes.some(n=>n.id===id);
   const busy=GM=>(J()&&J().busy(GM))||S.playing;
   S.playing=false;
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['wzlines3d:playing']=()=>{ S.playing=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.run=async function(GM,id,o){ const e=evOf(id); if(!e||typeof EVENTS==='undefined') return false;
     if(EVENTS.running&&EVENTS.runLines){ const G=GM.G, own=typeof ADV!=='undefined'&&!ADV.active; if(own) ADV.begin({background:e.background||'blur'});   /* 在別的事件裡面（營隊：VAC 的行程本身是一個出遊事件）：直接演台詞、記成演過 */
       try{ await EVENTS.runLines(e.dialogue||[],e); if(EVENTS.applyConsequences) EVENTS.applyConsequences(e.consequences); G.events.done[id]=(G.events.done[id]||0)+1; G.events.last[id]=G.day; } finally { if(own&&ADV.active) ADV.end(); }
