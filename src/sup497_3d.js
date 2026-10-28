@@ -149,7 +149,8 @@ const SUP497=(function(){
   S.acceptElev=function(GM){ const G=GM.G; if(typeof SIDEQ==='undefined') return null; const by=S.fri(G.day);
     const r=SIDEQ.rec(G)[S.QID]={state:'open',step:'block',day:G.day,by,term:SIDEQ.termKey?SIDEQ.termKey(G):'Y2S1'}; if(GM.toast) GM.toast('📝 順手的事：'+L.yc.elev.title,2600); return r; };
   S.declineElev=G=>{ if(typeof SIDEQ!=='undefined') SIDEQ.rec(G)[S.QID]={state:'declined',term:SIDEQ.termKey?SIDEQ.termKey(G):'Y2S1',day:G.day}; };
-  S.elevDoneDue=function(G){ const r=S.qRec(G); if(!r||r.state!=='open'||r.step!=='block'||G.day>r.by||G.zone!=='linze') return false; const w=wdOf(G.day); if(w<1||w>5) return false; const h=hr(G); return h>=12+10/60&&h<12+20/60; };
+  S.elevOpen=G=>{ const r=S.qRec(G); return !!r&&r.state==='open'&&r.step==='block'&&G.day<=r.by; };   /* 答應了、還沒過期限（characters.js 宥辰 12:10～12:20 在電梯前的作息也讀這個）*/
+  S.elevDoneDue=function(G){ if(!S.elevOpen(G)||G.zone!=='linze') return false; const w=wdOf(G.day); if(w<1||w>5) return false; const h=hr(G); return h>=12+10/60&&h<12+20/60; };
   S.ELEV_DONE={ id:'ev_yc_elev_done', title:'霖澤館的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>S.elevDoneDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns((L.yc.elev||{}).done).concat([{set:{YC_ELEVATOR:true}}]),
@@ -213,14 +214,16 @@ const SUP497=(function(){
 
   /* ===================================================================== 2 芯慈 ===================================================================== */
   const xcMet=G=>has(XC,'FIRST_MET');
-  /* 2-1 開學那天（以安同框 1）：大一上第 1 週第一堂必修、上課前（課前事件）；認識以安以後才演（旁白寫了她的名字）。宿營已經認識芯慈的，「那個女生」改「芯慈」 */
+  /* 2-1 開學那天（以安同框 1）：大一上第 1 週第一堂必修、上課前（課前事件；新局＝9/1（一）的憲法，玩家沒去就是第 1 週下一堂去上的必修）。一次、只是看到（noMeet：不算認識兩個人）。
+     照稿：旁白直接寫「以安」（新局玩家 9/4 第二天才正式認識她；慈 3「開學第一天」、慈 5「開學那天」對得上）。宿營已經認識芯慈的，「那個女生」改「芯慈」。舊存檔（9/17 開局）沒有第 1 週＝不演 */
   const XCM={custom:G=>xcMet(G)}, swapGirl=t=>t.split('那個女生').join('芯慈');
   S.DAY1={ id:'ev_xc_day1', title:'第一排', participants:[AN,XC], noMeet:[AN,XC], location:'any', trigger:'class', once:true, background:'blur',
-    beforeClass:it=>{ const G=curG(); return !!G&&law(G)&&!!it&&!!it.c&&it.c.kind==='required'&&!it.exam&&it.term==='Y1S1'&&it.week===1&&met(G,AN); },
+    beforeClass:it=>{ const G=curG(); return !!G&&law(G)&&!!it&&!!it.c&&it.c.kind==='required'&&!it.exam&&it.term==='Y1S1'&&it.week===1; },
     dialogue:[].concat(...(L.xc.day1||[]).map(([w,t])=>w==null&&t.indexOf('那個女生')>=0?[ln(w,t,{unless:XCM}),ln(w,swapGirl(t),{if:XCM})]:[ln(w,t)])) };
-  /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、平日 12:10～13:20；兩個人都認識才演（旁白寫了名字）*/
+  /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、中午 12:10～13:00；兩個人都認識才演（旁白寫了名字）。
+     兩個人的作息（characters.js 最前面那一筆）：這三週的週一、三、四、五中午站在影印機前，演過就不來（週二中午以安在 118 巷＝不排、不演；週四 13:20 民總，13:05 起在教室）*/
   S.COPY_AT={x:8.0,z:2.6};   /* 總圖一樓服務台南邊（library_layout.js 的 desk (7.8,4.4)）；影印機的實體物件：LAWWW2 */
-  S.copyDue=G=>law(G)&&inTerm(G,'Y1S2')&&week(G)>=7&&week(G)<=9&&wdOf(G.day)>=1&&wdOf(G.day)<=5&&hr(G)>=12+10/60&&hr(G)<13+20/60&&met(G,AN)&&xcMet(G)&&!done(G,'ev_xc_copy');
+  S.copyDue=G=>law(G)&&inTerm(G,'Y1S2')&&week(G)>=7&&week(G)<=9&&[1,3,4,5].indexOf(wdOf(G.day))>=0&&!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day))&&hr(G)>=12+10/60&&hr(G)<13&&met(G,AN)&&xcMet(G)&&!done(G,'ev_xc_copy');
   S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:8.0,z:2.6,r:2.2},
     prereq:{custom:G=>S.copyDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns(L.xc.copy.open).concat([{choice:L.xc.copy.opts.map((t,k)=>({text:t,goto:'c'+(k+1)}))}],

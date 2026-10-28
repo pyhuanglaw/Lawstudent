@@ -282,6 +282,151 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('1-11. DJ 最後一句：第一次「考前我就會消失，別找我。」；第二次以後輪流「這週的歌比較慢。適合下雨。」「你又來了。阿姨說你是常客。」「明天早上的課，……」',J(last)===J(['考前我就會消失，別找我。'].concat(L().yc.djRot,[L().yc.djRot[0]])),J(last));
     fresh(TD('Y1S1',5,5),22,'gongguan'); await play('ev_youchen_dj',[0]); check('1-11. 第一次（還沒認識）照全文；「去。」＝交換聯絡方式（收得到週五的歌）',has('你……民總同班的？賴宥辰。你大概沒看過我，我通常在睡覺。')&&INV.hasContact(H.G,YC)); });
 
+  /* ===================== 2 芯慈 ===================== */
+  const NEWG={MAIN_D1:-13,LAW_START_DAY:-18};
+  const spawnAt=(id,x,z,lv)=>{ const n={name:NM(id),charId:id,obj:{position:{x,y:0,z}},pose:'idle',lv:lv|0}; GM.npc[id]=n; E.npcs.push(n); return n; };
+  const pos=(x,z,lv)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=lv|0; };
+  /* 自動觸發（EVENTS.tick 的判斷）：條件＋近不近 */
+  const ready=id=>{ const e=ev(id); if(!e||!EVENTS.check(e)) return false; if(e.near){ const P=E.player.obj.position; if(e.near.npc){ const n=EVENTS.npcOf(e.near.npc); if(!n||Math.hypot(n.obj.position.x-P.x,n.obj.position.z-P.z)>(e.near.r||4)) return false; } else if(Math.hypot(e.near.x-P.x,e.near.z-P.z)>(e.near.r||5)) return false; } return true; };
+  const sched=id=>STORY.schedEnt(CHARACTERS[id],H.G);
+  const meetIv=async(iv,pk)=>{ H.said=[]; H.opts=[]; H.picks=(pk||[]).slice(); return INV.meetEv(GM,iv,null); };
+  const metAN=()=>SOCIAL.remember(AN,'FIRST_MET',''), metXC=()=>SOCIAL.remember(XC,'FIRST_MET','');
+  const lt=a=>a.map(([w,t])=>t);   /* [誰, 字] 的字 */
+
+  await sec('2-1',async()=>{ const X=L().xc.day1, e=S().DAY1;
+    const first=(k,flags)=>{ fresh(D(k),8.9,'classroom',Object.assign({},NEWG,flags||{})); return CLS.dayItems(H.G).filter(q=>q.c.kind==='required'&&!q.exam)[0]||null; };
+    let it=first('2025-09-01');
+    check('2-1. 新局 9/1（一）第 1 週第一堂必修（憲法）上課前：演（課前事件，CLS.beforeClassEvent 真的挑到它）',!!it&&it.c.id==='const_1'&&e.beforeClass(it)&&(await (async()=>{ H.said=[]; await CLS.beforeClassEvent(GM,it); return !!H.G.events.done.ev_xc_day1; })()));
+    check('2-1. 旁白為主、沒有選項；照稿五行（以安「妳好，我是沈以安。」、芯慈「……吳芯慈。」）',J(H.said.map(x=>x.t))===J(lt(X))&&!H.opts.length,J(H.said.map(x=>x.t)));
+    check('2-1. 只是看到：不算認識以安、芯慈（noMeet）',!SOCIAL.has(AN,'FIRST_MET')&&!SOCIAL.has(XC,'FIRST_MET'));
+    it=first('2025-09-01',null); H.G.events.done.ev_xc_day1=1; check('2-1. 一次（演過不再演）',!EVENTS.check(e,{chain:true}));
+    { fresh(D('2025-09-08'),8.9,'classroom',NEWG); const x=CLS.dayItems(H.G).find(q=>q.c.kind==='required'); check('2-1. 第 2 週不演',!!x&&!e.beforeClass(x)); }
+    { fresh(D('2025-09-02'),13,'classroom',NEWG); const x=CLS.dayItems(H.G).find(q=>q.c.id==='ge_film_y1s1'); check('2-1. 通識（不是必修）不演',!!x&&!e.beforeClass(x)); }
+    { fresh(D('2025-09-17'),8,'classroom'); check('2-1. 舊存檔（9/17 開局）：第 1 週在開局以前，不演',!CLS.dayItems(H.G).some(q=>q.week===1)); }
+    /* 宿營已經認識芯慈：「那個女生」改「芯慈」 */
+    fresh(D('2025-09-01'),8.9,'classroom',NEWG); metXC(); await play('ev_xc_day1');
+    check('2-1. 宿營已經認識芯慈：「那個女生」改「芯慈」（兩句旁白）',J(H.said.map(x=>x.t))===J(lt(X).map(t=>t.split('那個女生').join('芯慈')))&&lt(X).filter(t=>t.indexOf('那個女生')>=0).length===2,J(H.said.map(x=>x.t))); });
+
+  await sec('2-2',async()=>{ const C=L().xc.copy, d=TD('Y1S2',7,3);
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'library_hall'); if(o.an!==false) metAN(); if(o.xc!==false) metXC(); pos(8.0,2.6,0); return H.G; };
+    setup(d,12.5); const a=sched(AN), x=sched(XC);
+    check('2-2. 大一下第 7～9 週週一、三、四、五中午：以安、芯慈的作息在總圖一樓的影印機前（看得到兩個人站在那裡）',!!a&&a.zone==='library_hall'&&!!x&&x.zone==='library_hall'&&Math.hypot(a.at[0]-8,a.at[1]-2.6)<1&&Math.hypot(x.at[0]-8,x.at[1]-2.6)<1,J([a,x].map(q=>q&&[q.zone,q.at])));
+    check('2-2. 走到影印機前（12:10～13:00、兩個人都認識）＝演',ready('ev_xc_copy'));
+    const no=[];
+    setup(TD('Y1S2',7,2),12.5); if(ready('ev_xc_copy')||(sched(AN)||{}).zone==='library_hall') no.push('週二（以安在 118 巷）');
+    setup(d,13.1); if(ready('ev_xc_copy')) no.push('13:00 以後');
+    setup(d,12.5); pos(0,6.6,0); if(ready('ev_xc_copy')) no.push('沒走近');
+    setup(TD('Y1S2',6,3),12.5); if(ready('ev_xc_copy')||(sched(AN)||{}).zone==='library_hall') no.push('第 6 週');
+    setup(TD('Y1S2',10,3),12.5); if(ready('ev_xc_copy')) no.push('第 10 週');
+    setup(d,12.5,{xc:false}); if(ready('ev_xc_copy')) no.push('不認識芯慈');
+    setup(d,12.5); H.G.events.done.ev_xc_copy=1; if(ready('ev_xc_copy')||(sched(AN)||{}).zone==='library_hall') no.push('演過還在');
+    setup(d,12.5); E.player.lv=1; if(ready('ev_xc_copy')) no.push('二樓');
+    check('2-2. 不演：週二、13:00 以後、沒走近、第 6／10 週、不認識芯慈、二樓；演過以後兩個人不再站在影印機前',!no.length,J(no));
+    const run=async k=>{ setup(d,12.5); await play('ev_xc_copy',[k]); return H.said.map(q=>q.t); };
+    let r=await run(0); check('2-2. 開場六行一字不差；三個選項',J(r.slice(0,6))===J(lt(C.open))&&J(H.opts[0])===J(C.opts),J(H.opts[0]));
+    check('2-2. 「我幫妳們一起印。」→ 旁白＋芯慈「……你很會處理這種事。」，記 XC_COPY',J(r.slice(6))===J(lt(C.r[0]))&&H.G.flags.XC_COPY===true&&!H.G.flags.XC_RPS);
+    r=await run(1); check('2-2. （排到她們後面）→ 一句旁白；沒有旗標',J(r.slice(6))===J(lt(C.r[1]))&&!H.G.flags.XC_COPY&&!H.G.flags.XC_RPS);
+    r=await run(2); check('2-2. 「猜拳？」→ 以安「（看了芯慈一眼）……好。」、芯慈出布、「……我贏了。」，記 XC_RPS',J(r.slice(6))===J(lt(C.r[2]))&&H.G.flags.XC_RPS===true); });
+
+  await sec('2-3',async()=>{ const B=ev('ev_xinci_second_b1'), O=ev('ev_xinci_second'), X=L().xc;
+    check('2-3. B1 的版本：總圖 B1、同一段時間的 00:00～00:15（大二上第 12～15 週、週一～四）、芯慈在旁邊',!!B&&B.location==='library_b1'&&J(B.time)===J([0,0.25])&&J(B.weeks)===J([12,13,14,15])&&J(B.weekday)===J([1,2,3,4])&&J(B.term)===J(['Y2S1'])&&B.near&&B.near.npc===XC);
+    const bt=B.dialogue.filter(l=>l.text).map(l=>l.text), ot=O.dialogue.filter(l=>l.text).map(l=>l.text);
+    check('2-3. B1 版：前兩句旁白換成「（B1 的自習室。……）」「（她背包背上了，看到你，停了一下。）」；後面照原文',bt[0]===X.secondB1[0]&&bt[1]===X.secondB1[1]&&J(bt.slice(2).filter(t=>t.indexOf('十二點')!==0))===J(ot.slice(2).filter(t=>t.indexOf('十二點')!==0)),J(bt.slice(0,3)));
+    check('2-3. B1 版的結尾「十二點四十了」改「十二點半了，我要回去了，明天早八。」；便利商店那一版照舊',bt.includes(X.secondB1End)&&!bt.some(t=>t.indexOf('十二點四十了')===0)&&ot.some(t=>t.indexOf('十二點四十了')===0)&&ot[0]==='（芯慈在買咖啡，手機在放韓劇，沒有關聲音。）');
+    { const d=TD('Y2S1',12,1); fresh(d,24.08,'library_b1'); const x=sched(XC); check('2-3. 芯慈的作息：週一～四深夜 00:00～00:15 在 B1 自習室、00:15 起在便利商店',!!x&&x.zone==='library_b1'&&(at(d,24.4),(sched(XC)||{}).zone==='cvs'),J(x&&[x.zone,x.seatAt]));
+      fresh(d,24.08,'library_b1'); metXC(); spawnAt(XC,-3.2,-7.77,0); pos(-3.2,-6.5,0); check('2-3. B1 走到她旁邊＝演 B1 版',ready('ev_xinci_second_b1')&&!ready('ev_xinci_second'));
+      H.G.events.done.ev_xinci_second_b1=1; at(d,24.4); H.G.zone='cvs'; check('2-3. 兩個版本只演一個（B1 演過＝便利商店不演；反過來也一樣）',!EVENTS.check(O)&&(H.G.events.done.ev_xinci_second_b1=0,H.G.events.done.ev_xinci_second=1,H.G.zone='library_b1',at(d,24.08),!EVENTS.check(B))); }
+    /* 提示：第 11 週週一 00:20（週一深夜）*/
+    { const d=TD('Y2S1',11,1); fresh(d,22,'dorm'); fam(XC); contact(XC); ruleAt(d,23); ruleAt(d,24+20/60); const m=byTag('xc_second_hint');
+      check('2-3. 提示：大二上第 11 週週一深夜 00:20 私訊兩則（「你還醒著嗎。不用回。」「我在溫州街的便利商店。……」）',J(m.map(q=>q.text))===J(X.hint)&&m[0].day===d+1&&Math.abs(m[0].h-(20/60))<0.02,J(m.map(q=>[q.day-d,q.h,q.text])));
+      fresh(d,22,'dorm'); contact(XC); ruleAt(d,24.4); check('2-3. 提示要有點熟以上＋聯絡方式',!byTag('xc_second_hint').length); }
+    /* 慈 3 當晚 01:05 */
+    { const d=TD('Y2S1',13,2); fresh(d,24.6,'cvs'); fam(XC); contact(XC); H.G.events.done.ev_xinci_second=1; H.G.events.last.ev_xinci_second=d; ruleAt(d,24.7); ruleAt(d,25.1);
+      check('2-6. 慈 3 當晚 01:05：「剛剛講的那些，你明天就忘了吧。……劇的部分可以記得。」（不用回）',J(byTag('xc_second_night').map(q=>q.text))===J(X.ask.night)&&!byTag('xc_second_night')[0].ask); }
+    /* 補救：大二下第 2 週週一 21:00 */
+    const fixSet=(o)=>{ o=o||{}; const mon=TD('Y2S2',2,1); fresh(mon,20,'dorm'); if(o.fam!==false) fam(XC); contact(XC); if(o.done) H.G.events.done.ev_xinci_second=1; ruleAt(mon,20.5); ruleAt(mon,21.05); return mon; };
+    let mon=fixSet(); let m=byTag('xc_fix')[0];
+    check('2-3. 補救：慈 3 沒演到、大二下第 2 週週一 21:00 她約「明天下午四點，你有空嗎。兩點半 Café。……」（「好。」「明天不行。」）',!!m&&m.text===X.fix.ask&&J(askOpts('xc_fix'))===J(X.fix.opts));
+    { fixSet({done:true}); const a=!byTag('xc_fix').length; fixSet({fam:false}); check('2-3. 慈 3 演過了、或不到有點熟＝不約',a&&!byTag('xc_fix').length); }
+    mon=fixSet(); answer('xc_fix',1); check('2-3. 「明天不行。」→「好。那就不說了。」；沒有約、之後不記 XINCI_SECOND',texts('p:'+XC).slice(-1)[0]===X.fix.no&&!(H.G.invites||[]).some(iv=>iv.who===XC)&&H.G.flags.XC_FIX==='no');
+    mon=fixSet(); answer('xc_fix',0); const iv=(H.G.invites||[]).find(q=>q.who===XC);
+    check('2-3. 「好。」→ 約好週二 16:00 兩點半 Café（INV，答應了），見面演白天版',!!iv&&iv.state==='accepted'&&iv.place==='cafe'&&iv.day===mon+1&&iv.h===16&&iv.ev==='ev_xinci_second_day',J(iv));
+    at(mon+1,16); H.G.zone='cafe'; await meetIv(iv,[1]); const dt=H.said.map(q=>q.t);
+    check('2-3. 白天版：前兩句換成「（芯慈坐在靠窗的位子，……）」、拿掉「（把手機轉靜音）……」、結尾「四點半了。我要去上經濟。」；記 XINCI_SECOND',dt[0]===X.fix.open&&!dt.some(t=>/^（把手機轉靜音）/.test(t))&&dt.includes(X.fix.end)&&!dt.some(t=>t.indexOf('十二點')===0)&&SOCIAL.has(XC,'XINCI_SECOND')&&!!H.G.events.done.ev_xinci_second_day,J(dt.slice(0,3).concat(dt.slice(-3))));
+    check('2-3. 白天版其他照原文（中間每一句都在便利商店版裡）',dt.slice(1).filter(t=>t!==X.fix.end).every(t=>ot.includes(t))); });
+
+  await sec('2-4',async()=>{ const A=L().xc.dad, d=D('2027-04-23');
+    check('2-4. 日子：2027-04-23 是週五、大二下第 9 週',CALENDAR.dateOf(d).wd===5&&CALENDAR.termOf(d).id==='Y2S2'&&CALENDAR.termOf(d).week===9);
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'campus'); if(o.fam!==false) fam(XC); pos(34,-109,0); return H.G; };
+    setup(d,17.75); const x=sched(XC); check('2-4. 那一天 17:30～18:00 芯慈的作息在霖澤館門口',!!x&&x.zone==='campus'&&Math.hypot(x.at[0]-34,x.at[1]+109)<2,J(x&&[x.zone,x.at]));
+    check('2-4. 17:30～18:00 霖澤館門口、有點熟以上＝演',ready('ev_xc_dad'));
+    const no=[]; setup(d,18.1); if(ready('ev_xc_dad')) no.push('18:00 以後'); setup(d-7,17.75); if(ready('ev_xc_dad')) no.push('別的週五'); setup(d,17.75,{fam:false}); if(ready('ev_xc_dad')) no.push('不熟');
+    check('2-4. 不演：18:00 以後、別的日子、不到有點熟',!no.length,J(no));
+    const run=async k=>{ setup(d,17.75); contact(XC); await play('ev_xc_dad',[k]); const r=H.said.map(q=>(q.who?q.who+'：':'')+q.t); ruleAt(d,21.5); ruleAt(d,22.05); return r; };
+    let r=await run(0);
+    check('2-4. 開場：銀色的車、「芯慈的爸爸：這是同學？」「芯慈：……嗯。祐廷。」「法律系的同學。你們系上誰最強？」；三個選項',J(r.slice(0,4))===J(A.open.map(([w,t])=>(w==='dad'?'芯慈的爸爸：':w==='xc'?NM(XC)+'：':'')+t.replace('{name}','祐廷')))&&J(H.opts[0])===J(A.opts),J(r.slice(0,4)));
+    const night=v=>J(byTag('xc_dad_night').map(q=>q.text))===J([A.night[v]]);
+    check('2-4. 「以安。」→「那妳要跟人家學。」，記 XC_DAD_AN；當晚 22:00「你答得很誠實。……」',J(r.slice(4).map(t=>t.replace(/^.*?：/,'')))===J(lt(A.r[0]))&&H.G.flags.XC_DAD_AN===true&&night('AN'),J(r.slice(4)));
+    r=await run(1); check('2-4. 「芯慈。」→「她？……好，好。」，記 XC_DAD_XC；當晚「你不用幫我講話。……」',r.some(t=>t.endsWith(A.r[1][1][1]))&&H.G.flags.XC_DAD_XC===true&&!H.G.flags.XC_DAD_AN&&night('XC'));
+    r=await run(2); check('2-4. 「不知道。我們不比這個。」→「不比，怎麼知道自己在哪裡。」，記 XC_DAD_NO；當晚「「我們不比這個」。……」',r.some(t=>t.endsWith(A.r[2][0][1]))&&H.G.flags.XC_DAD_NO===true&&night('NO'));
+    setup(d,17.75); await play('ev_xc_dad',[0]); ruleAt(d,22.05); check('2-4. 沒有聯絡方式：當晚不傳',!byTag('xc_dad_night').length); });
+
+  await sec('2-5',async()=>{ const F=L().xc.first, d=D('2028-05-04');
+    const run=async flags=>{ fresh(d,19.2,'noodle',flags); fam(XC); await play('ev_xinci_first_place',[0]); return H.said.map(q=>q.t); };
+    let r=await run({}); const i=r.indexOf('一點都不好玩。');
+    check('2-5. 沒有記號：「一點都不好玩。」後面直接接原文（雙主修改輔系）',i>0&&r[i+1]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。');
+    r=await run({XC_RPS:true,XC_DAD_AN:true}); const j=r.indexOf('一點都不好玩。');
+    check('2-5. XC_RPS＋XC_DAD_AN：照順序疊兩句（猜拳、「那沈以安第幾？」）',J(r.slice(j+1,j+3))===J([F.RPS[1],F.DAD_AN[1]])&&r[j+3]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。',J(r.slice(j,j+4)));
+    r=await run({XC_DAD_XC:true}); check('2-5. XC_DAD_XC：「我打電話跟我爸說了。他說，你那個同學早就說了。」',r[r.indexOf('一點都不好玩。')+1]===F.DAD_XC[1]);
+    r=await run({XC_DAD_NO:true}); check('2-5. XC_DAD_NO：旁白「（她看著手機很久，最後沒有打給任何人。）」',r[r.indexOf('一點都不好玩。')+1]===F.DAD_NO[1]&&H.said[r.indexOf('一點都不好玩。')+1].who===null);
+    { fresh(d,22,'dorm'); fam(XC); contact(XC); ruleAt(d,22); ruleAt(d+1,11); ruleAt(d+1,12); const m=byTag('xc_first_miss');
+      check('2-5. 沒演到慈 6：隔天 12:00「排名出來了。我第一。」「……一點都不好玩。」三個回覆',J(m.map(q=>q.text))===J(F.miss)&&Math.abs(m[0].h-12)<0.02&&J(askOpts('xc_first_miss'))===J(F.missOpts.map(o=>o[0])),J(m.map(q=>[q.h,q.text])));
+      const reps=[]; for(let k=0;k<3;k++){ fresh(d,22,'dorm'); fam(XC); contact(XC); ruleAt(d,22); ruleAt(d+1,12.05); answer('xc_first_miss',k); reps.push(texts('p:'+XC).slice(-1)[0]); }
+      check('2-5. 「恭喜。」「為什麼不好玩？」「以安知道嗎？」各自的回覆',J(reps)===J(F.missOpts.map(o=>o[1])),J(reps));
+      fresh(d,22,'dorm'); fam(XC); contact(XC); H.G.events.done.ev_xinci_first_place=1; ruleAt(d+1,12.05); const a=!byTag('xc_first_miss').length;
+      fresh(d,22,'dorm'); contact(XC); ruleAt(d+1,12.05); check('2-5. 演過慈 6、或不到有點熟：沒有那兩則',a&&!byTag('xc_first_miss').length); } });
+
+  await sec('2-6',async()=>{ const A=L().xc.ask;
+    { const d=TD('Y1S1',8,2); fresh(d,15,'library'); contact(XC); SOCIAL.remember(XC,'LENT_NOTES',''); H.G.events.done.ev_xinci_notes=1; H.G.events.last.ev_xinci_notes=d; ruleAt(d+1,20); ruleAt(d+1,21.05);
+      check('2-6. 大一上慈 1 隔天 21:00（借過筆記）：「筆記第 7 頁的圖畫反了。我改好了，拍給你。」「（照片）」，不用回',J(byTag('xc_notes_fix').map(m=>m.text))===J(A.notes)&&byTag('xc_notes_fix').every(m=>!m.ask)); }
+    const offerAt=(t,w,wd,o)=>{ o=o||{}; const d=TD(t,w,wd); fresh(d,20,'dorm',o.flags); if(o.fam!==false) fam(XC); if(o.contact!==false) contact(XC); if(o.pre) o.pre(); at(d,21.05); rules(); return {d,iv:(H.G.invites||[]).find(q=>q.who===XC)}; };
+    let r=offerAt('Y3S1',4,3);
+    check('2-6. 大三上第 4 週週三 21:00：「明天晚上要不要一起讀？我有兩章還沒看。」＝INV 約總圖、週四 19:00',!!r.iv&&r.iv.state==='offered'&&r.iv.place==='library'&&r.iv.day===r.d+1&&r.iv.h===19&&(H.G.msgs||[]).some(m=>m.text===A.read&&m.iv===r.iv.id),J(r.iv));
+    { const a=offerAt('Y3S1',4,3,{fam:false}), b=offerAt('Y3S1',4,3,{contact:false}); check('2-6. 不到有點熟、沒有聯絡方式：不約',!a.iv&&!b.iv); }
+    r=offerAt('Y3S1',15,7); const ex=CLS.lastExamEnd(H.G,'Y3S1','final');
+    check('2-6. 大三上第 15 週週日 21:00：「期末考完那天晚上有空嗎？……」＝INV 約麵店、考完那天 18:30',!!r.iv&&r.iv.place==='noodle'&&!!ex&&r.iv.day===ex.day&&r.iv.h===18.5&&(H.G.msgs||[]).some(m=>m.text===A.dinner),J([r.iv,ex]));
+    r=offerAt('Y3S1',15,7,{pre:()=>{ H.G.termend={Y3S1:{plan:{heart:[XC]}}}; }}); check('2-6. 現有的期末飯邀約已經是她：這則不發',!r.iv&&!(H.G.msgs||[]).some(m=>m.text===A.dinner));
+    r=offerAt('Y4S1',3,2);
+    check('2-6. 大四上第 3 週週二 21:00：「這學期的讀書會我來排。禮拜三晚上，總圖 B1。你要來嗎？」＝INV 約 B1 討論室、週三 19:00（見面演 2-7）',!!r.iv&&r.iv.place==='lib_b1'&&r.iv.day===r.d+1&&r.iv.h===19&&r.iv.ev==='ev_xc_y4_group'&&(H.G.msgs||[]).some(m=>m.text===A.group));
+    check('2-6. 「總圖 B1 討論室」是 INV 的地點（不在玩家自己約的清單）',!!INV.place('lib_b1')&&INV.place('lib_b1').zone==='library_b1'&&INVITE_DATA.places.find(p=>p.id==='lib_b1').show()===false);
+    { const d=D('2028-04-19'); fresh(d,20,'dorm',{EXCHANGE_ROUTE:'JP'}); fam(XC); contact(XC); const ab=STORY.abroad(H.G); ruleAt(d,21); ruleAt(d,23.1); const m=byTag('xc_jp')[0];
+      check('2-6. 大三下（日本路線、祐廷在日本）：「你那邊的筆記本長什麼樣子？……」；「（拍一頁給她）」→「……你在國外也畫得這麼歪。」',ab&&!!m&&m.text===A.jp&&J(askOpts('xc_jp'))===J([A.jpOpt])&&(answer('xc_jp',0),texts('p:'+XC).slice(-1)[0]===A.jpRep),J(m));
+      fresh(d,20,'dorm',{EXCHANGE_ROUTE:'TW'}); fam(XC); contact(XC); ruleAt(d,23.1); check('2-6. 臺灣路線沒有日本那一則',!byTag('xc_jp').length); } });
+
+  await sec('2-7',async()=>{ const G7=L().xc.group;
+    const run=async flags=>{ const d=TD('Y4S1',3,2); fresh(d,20,'dorm',flags); fam(XC); contact(XC); at(d,21.05); rules(); const iv=(H.G.invites||[]).find(q=>q.who===XC); INV.answer(H.G,iv.id,'yes'); at(d+1,19); H.G.zone='library_b1'; await meetIv(iv); return H.said.map(q=>q.t); };
+    let r=await run({}); check('2-7. 讀書會（B1 討論室）：白板上的表、「表是我做的。……習慣。」；記 XC_Y4_GROUP；沒有 XC5_RECONCILE＝沒有以安那一句',J(r)===J(lt(G7))&&H.G.flags.XC_Y4_GROUP===true,J(r));
+    r=await run({XC5_RECONCILE:true}); check('2-7. 有 XC5_RECONCILE、以安在臺灣：多一句「（以安在表上看到自己的名字排在芯慈旁邊，……）」',J(r)===J(lt(G7).concat([L().xc.groupAn[1]])),J(r)); });
+
+  await sec('2-8',async()=>{ const P=L().xc.pick, d=D('2029-05-27');
+    const run=(k,flags)=>{ fresh(d,20,'dorm',flags); fam(XC); contact(XC); ruleAt(d,20.5); ruleAt(d,21.05); const o=askOpts('xc_notes4'); if(k!=null) answer('xc_notes4',k); return o; };
+    let o=run(null);
+    check('2-8. 大四下畢業前一週（5/27 週日）21:00：「我把四年的筆記裝了三箱。……你要不要挑一本？」；沒有 XC5_RECONCILE＝兩個選項（沒有刑訴那本）',!!byTag('xc_notes4')[0]&&byTag('xc_notes4')[0].text===L().xc.ask.notes4&&J(o)===J([P.opts[0],P.opts[2]].map(t=>t.slice(1,-1))),J(o));
+    o=run(null,{XC5_RECONCILE:true}); check('2-8. 有 XC5_RECONCILE：三個選項',J(o)===J(P.opts.map(t=>t.slice(1,-1))),J(o));
+    run(0); check('2-8. 「民總那本。」→「那本第 7 頁的圖畫反了。……我後來改了。」；房間多「芯慈的民總筆記」',texts('p:'+XC).slice(-1)[0]===P.r[0]&&H.G.flags.XC_NOTE_PICK==='civ'&&STORY.roomItemList(H.G).some(x=>J(x)===J(P.room[0])));
+    run(1,{XC5_RECONCILE:true}); check('2-8. 「刑訴那本。」→「那本是我跟以安一起對過答案的。……好，給你。」；房間多「芯慈的刑訴筆記」',texts('p:'+XC).slice(-1)[0]===P.r[1]&&H.G.flags.XC_NOTE_PICK==='crimpro'&&STORY.roomItemList(H.G).some(x=>J(x)===J(P.room[1])));
+    run(1); check('2-8. 「都不用，留著吧。」→「好。那我留著。」；房間沒有筆記',texts('p:'+XC).slice(-1)[0]===P.r[2]&&H.G.flags.XC_NOTE_PICK==='keep'&&!STORY.roomItemList(H.G).some(x=>/芯慈的/.test(x[0]))); });
+
+  await sec('2-9',async()=>{ const X=L().xc;
+    const run=(term,w,flags,n)=>{ const out=[]; const d0=TD(term,w,2); fresh(d0,14,'library',flags); fam(XC); for(let i=0;i<(n||14);i++){ at(d0+i,14); const r=STORY.smallTalk(H.G,XC); out.push(r.say||r.narr); } return out; };
+    let o=run('Y2S2',3); check('2-9. 大二下：「永和到這裡要換一次車。……」一次；句子用完＝「（芯慈點了一下頭，筆沒有停。）」（不是「聊兩句天氣」）',o.filter(t=>t===X.talk[0].t).length===1&&o.slice(-1)[0]===X.after&&!o.some(t=>/天氣/.test(t||'')),J(o));
+    o=run('Y3S1',3); check('2-9. 大三上：「這學期雙主修的課沒有撞堂。……」',o.filter(t=>t===X.talk[1].t).length===1);
+    o=run('Y3S2',6); const o2=run('Y3S2',6,{XC5_RECONCILE:true});
+    check('2-9. 大三下：「以安的手帳跟我用的是同一款。……」只有 XC5_RECONCILE',!o.includes(X.talk[2].t)&&o2.includes(X.talk[2].t));
+    check('2-9. 大三下以安去日本以後：「以安不在，她的位子一直空著。我想把書放上去，又沒放。」（取代「以安不在，第一排的位子我坐了。」）',o.includes(X.emptySeat)&&!JSON.stringify(SMALLTALK[XC]).includes('第一排的位子我坐了'));
+    o=run('Y4S1',3); check('2-9. 大四上：「國考跟研究所，我兩個都報了。本來想先實習再說的。」（取代短的那一句）；追劇那一句拿掉',o.includes(X.talk[3].t)&&!SMALLTALK[XC].some(q=>q.t==='「國考跟研究所，我兩個都報了。」')&&!JSON.stringify(SMALLTALK[XC]).includes('我最近在追一部日劇'));
+    o=run('Y4S2',3,{XC5_RECONCILE:true}); check('2-9. 大四下有 XC5_RECONCILE：「最後一堂課，我坐第一排。以安坐我旁邊。」',o.includes(X.talk[4].t)&&!run('Y4S2',3).includes(X.talk[4].t)); });
+
   check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();
