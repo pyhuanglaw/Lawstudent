@@ -34675,7 +34675,7 @@
   {
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -34697,12 +34697,12 @@
    "id": "LIGHTBAKE-UV-FIX-1028",
    "title": "光照貼圖 UV 修正：bake_room.py 填滿率只有 6～9% 的問題（共用材質自動拆、--nolm 照物件挑小島多的零件），201、202、多功能教室重烘",
    "source": "LAWWW2 10-28 04:4x WIP 92a50811d、265b65f55、89a386c64（X125 室內檢討第 6 節）",
-   "next": "【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
+   "next": "【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
   },
   {
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -34724,7 +34724,7 @@
    "id": "INTERIOR-202-1028",
    "title": "霖澤館 202 v2：家具、天花板＋重烘光照（X125 室內檢討第二間）",
    "source": "LAWWW2 10-28 04:0x WIP 902a22af5、89a386c64",
-   "next": "【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
+   "next": "【LAWWW-C 2026-10-28 05:3x UTC】e95a1aeb4 的十個檔整合進開發分支 ca50d6ab5（Node 11 支 ALL PASS）；BB 看畫面｜【LAWWW-C 2026-10-28 04:5x UTC】check 第 6 項抓到 LAWWW2 的 WIP commit 用了這個任務 ID、總表還沒有＝補登（LAWWW2 自領，屬 INTERIOR-AAA-REVIEW-1028）；交件後 LAWWW 套 patch、BB 看畫面"
   },
   {
    "id": "HEROINE-CIRCLE3D-1028",
