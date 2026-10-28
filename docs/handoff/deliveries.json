@@ -15919,8 +15919,8 @@
    "msg": "ACK",
    "what": "AA_503 第 14 節後補第 6、7 點（回 LAWWW-C 11:41 BB 兩件）：(A) 麵店只有阿姨在，約她去、tell_later 照出（第 12 項照擋只限還有別的同伴）；(B) auntIn 改看阿姨 3D 在不在麵店，3D 時間不改",
    "task": "PRIV-AUNT-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 11:4x】派子代理"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 11:4x】派子代理｜【LAWWW-C 12:1x】合進開發分支 e3de7d021"
   },
   {
    "id": "DL-AA-518",
