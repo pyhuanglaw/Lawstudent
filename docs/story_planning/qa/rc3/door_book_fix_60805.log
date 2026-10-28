@@ -1,0 +1,37 @@
+PASS 遊戲載入
+PASS door3d.js 載入了（DOOR.open 包好記錄）
+  [前置／捷徑] [前置] 讀使用者存檔（day 14）：宿舍房間 14:00、晴天
+  [  69.6s] 快速前往 公館商圈 → {"zone": "gongguan", "x": 0, "z": -30, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 14.26, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 41, "paused": false}
+  [ 250.5s] 到達「進入舊路書房」附近（0.33 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，181 秒
+PASS 12a_進入舊路書房（按一下）：走到「進入舊路書房」、互動鍵是它  {"zone": "gongguan", "x": -41.43, "z": 20.72, "ry": 5.64, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入舊路書房", "hour": 14.4, "stand": true, "camYaw": 8.686, "fallbacks": 0, "y": 0, "lv": 0, "frame": 252, "paused": false}
+PASS 12a_進入舊路書房（按一下）：換到 bookstore  gongguan → bookstore
+  [ 260.8s] 12a_進入舊路書房（按一下） 紀錄：[{"label": "進入舊路書房", "to": "bookstore", "from": "gongguan", "kind": "push", "t0": 252908.6000000015, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 5, "tDone": 864, "res": "push", "ovOn": 4326, "ovLast": 4326, "zoneAt": 4326, "ovAtZone": true, "ovOff": 4357}]；推門以前／之後右上臂 {'q': [0.10358870903482345, 0.15975246546340902, -0.440372270272549, 0.8773943543816303], 'ovDoor': False, 'ov': False}／{'q': [0.017373826118526444, 0.04594051549429086, -0.5466446772262534, 0.835922972565252], 'ovDoor': False, 'ov': False}
+PASS 12a_進入舊路書房（按一下）：DOOR.kind＝push（預期 push）  {"label": "進入舊路書房", "to": "bookstore", "from": "gongguan", "kind": "push", "t0": 252908.6000000015, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 5, "tDone": 864, "res": "push", "ovOn": 4326, "ovLast": 4326, "zoneAt": 4326, "ovAtZone": true, "ovOff": 4357}
+PASS 12a_進入舊路書房（按一下）：有伸手推門（overlay.door 出現）  4326
+PASS 12a_進入舊路書房（按一下）：伸手到換區域約 0.45 秒（overlay 出現到最後一格 ≤ 換區域後 1.5 秒）  ovOn 4326 ovLast 4326 zoneAt 4326 tDone 864
+PASS 12a_進入舊路書房（按一下）：換區域 2.5 秒後手放下（沒有開門的 overlay；右上臂和推門以前差 < 0.6 rad）  ovDoor False ov False 角度差 0.37
+PASS 12a_進入舊路書房（按一下）：換區域以後玩家不忙  {"zone": "bookstore", "x": 0, "z": 4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "離開書店", "hour": 14.4, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 263, "paused": false}
+PASS 12a：推搖桿走得動  前 0.11 m、後 0.21 m、左 1.86 m（bookstore）
+  [ 298.5s] 12a：進門以後互動鍵「」（落腳點 (0,4) 在「看看法律書與文具」(0,4.05) 半徑 1.1 裡）
+  [ 353.6s] 到達「離開書店」附近（0.54 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，55 秒
+PASS 12b_離開舊路書房：走到「離開書店」、互動鍵是它  {"zone": "bookstore", "x": -0.1, "z": 4.07, "ry": 6.28, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "離開書店", "hour": 14.49, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 399, "paused": false}
+PASS 12b_離開舊路書房：換到 gongguan  bookstore → gongguan
+  [ 363.9s] 12b_離開舊路書房 紀錄：[{"label": "離開書店", "to": "gongguan", "from": "bookstore", "kind": "push", "t0": 355004, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 3, "tDone": 673, "res": "push", "ovOn": 5479, "ovLast": 5479, "zoneAt": 5479, "ovAtZone": true, "ovOff": 5506}]；推門以前／之後右上臂 {'q': [-0.032544044063405206, 0.035394929979447744, -0.5798155914797027, 0.8133277178951019], 'ovDoor': False, 'ov': False}／{'q': [0.01900091959884364, 0.04627903263834085, -0.5467410871702783, 0.835805838572763], 'ovDoor': False, 'ov': False}
+PASS 12b_離開舊路書房：DOOR.kind＝push（預期 push）  {"label": "離開書店", "to": "gongguan", "from": "bookstore", "kind": "push", "t0": 355004, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 3, "tDone": 673, "res": "push", "ovOn": 5479, "ovLast": 5479, "zoneAt": 5479, "ovAtZone": true, "ovOff": 5506}
+PASS 12b_離開舊路書房：有伸手推門（overlay.door 出現）  5479
+PASS 12b_離開舊路書房：伸手到換區域約 0.45 秒（overlay 出現到最後一格 ≤ 換區域後 1.5 秒）  ovOn 5479 ovLast 5479 zoneAt 5479 tDone 673
+PASS 12b_離開舊路書房：換區域 2.5 秒後手放下（沒有開門的 overlay；右上臂和推門以前差 < 0.6 rad）  ovDoor False ov False 角度差 0.13
+PASS 12b_離開舊路書房：換區域以後玩家不忙  {"zone": "gongguan", "x": -42, "z": 18, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 14.49, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 407, "paused": false}
+  [ 471.7s] 到達「進入舊路書房」附近（0.15 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，101 秒
+PASS 12c_進入舊路書房（連按兩下）：走到「進入舊路書房」、互動鍵是它  {"zone": "gongguan", "x": -41.62, "z": 20.85, "ry": 0.13, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "進入舊路書房", "hour": 14.57, "stand": true, "camYaw": 3.274, "fallbacks": 0, "y": 0, "lv": 0, "frame": 516, "paused": false}
+PASS 12c_進入舊路書房（連按兩下）：換到 bookstore  gongguan → bookstore
+  [ 481.1s] 12c_進入舊路書房（連按兩下） 紀錄：[{"label": "進入舊路書房", "to": "bookstore", "from": "gongguan", "kind": "push", "t0": 473668.40000000224, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 4, "tDone": 793, "res": "push", "ovOn": 3965, "ovLast": 3965, "zoneAt": 3965, "ovAtZone": true, "ovOff": 3977}, {"label": "離開書店", "to": "gongguan", "from": "bookstore", "kind": "push", "t0": 477659.40000000224, "arm0": [0.0195, 0.0462, -0.5469, 0.8357], "zone0": null, "ret": "promise", "frames": 1, "tDone": 2304, "res": "push"}]；推門以前／之後右上臂 {'q': [-0.07247855454396321, -0.09004195822072031, -0.582119883922236, 0.8048451776735986], 'ovDoor': False, 'ov': False}／{'q': [0.018491196510264155, 0.0458540508540964, -0.546861451175397, 0.8357619486972518], 'ovDoor': True, 'ov': True}
+PASS 12c_進入舊路書房（連按兩下）：DOOR.kind＝push（預期 push）  {"label": "進入舊路書房", "to": "bookstore", "from": "gongguan", "kind": "push", "t0": 473668.40000000224, "arm0": [0.0171, 0.0467, -0.546, 0.8363], "zone0": null, "ret": "promise", "frames": 4, "tDone": 793, "res": "push", "ovOn": 3965, "ovLast": 3965, "zoneAt": 3965, "ovAtZone": true, "ovOff": 3977}
+PASS 12c_進入舊路書房（連按兩下）：有伸手推門（overlay.door 出現）  3965
+PASS 12c_進入舊路書房（連按兩下）：伸手到換區域約 0.45 秒（overlay 出現到最後一格 ≤ 換區域後 1.5 秒）  ovOn 3965 ovLast 3965 zoneAt 3965 tDone 793
+FAIL 12c_進入舊路書房（連按兩下）：換區域 2.5 秒後手放下（沒有開門的 overlay；右上臂和推門以前差 < 0.6 rad）  ovDoor True ov True 角度差 0.34
+PASS 12c_進入舊路書房（連按兩下）：換區域以後玩家不忙  {"zone": "bookstore", "x": 0, "z": 4, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 14.57, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 526, "paused": false}
+FAIL 12c_進入舊路書房（連按兩下）：連按兩下只推一次門、只換一次區域（DOOR.open 次數）  2 次：["進入舊路書房", "離開書店"]
+PASS 12c：推搖桿走得動  前 2.48 m（gongguan）
+PASS 沒有 JS 例外  []
+FAILED: 12c_進入舊路書房（連按兩下）：換區域 2.5 秒後手放下（沒有開門的 overlay；右上臂和推門以前差 < 0.6 rad）, 12c_進入舊路書房（連按兩下）：連按兩下只推一次門、只換一次區域（DOOR.open 次數）
