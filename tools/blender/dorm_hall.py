@@ -501,6 +501,25 @@ for i, f in enumerate(L['furniture']):
         for k, c in enumerate(('red', 'green')): rbox(f'{pre}_led_{k}', MAT[c], (0.11 + k * 0.035, 1.17, 0.201), (0.015, 0.015, 0.004), g)
         dw = abs((LB['z1'] if f['lv'] == 0 else CO['z0']) - f['z'])   # 到背後那面牆的距離
         wquad(pre + '_cups', 'cups', (0, 1.52, -dw + 0.012), 0.42, 0.42 * (590 - 482) / 424, '+z', g)
+    elif t == 'fridge':   # 交誼廳的公用冰箱（NPC-POOL-ART-1028，LAWWW2-C 10-28：AA_498 8-3「把箱子放進交誼廳的冰箱」、8-6 冰箱門上的紙條；互動點 pool3d.js (7.3, 6.7)）
+        # 白色雙門（上冷凍、下冷藏）、門縫、右邊銀色直把手、底下黑色通風格柵、門上幾個磁鐵和一張使用登記表（字由遊戲畫，這裡只有紙）、上面一個紙箱
+        g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
+        FW, FD, FH = 0.66, 0.66, 1.72; fz = FD / 2
+        rbox(pre + '_body', MAT['white'], (0, 0.06 + (FH - 0.06) / 2, -0.01), (FW, FH - 0.06, FD - 0.02), g, bevel=0.02, seg=2)
+        rbox(pre + '_kick', MAT['black'], (0, 0.03, -0.01), (FW - 0.04, 0.06, FD - 0.06), g)
+        for k in range(6): rbox(f'{pre}_vent_{k}', MAT['frame'], (-0.2 + k * 0.08, 0.035, fz - 0.035), (0.05, 0.03, 0.004), g)
+        rbox(pre + '_dfr', MAT['white'], (0, 1.375, fz + 0.012), (FW - 0.012, 0.66, 0.035), g, bevel=0.012, seg=2)   # 冷凍庫的門
+        rbox(pre + '_dfz', MAT['white'], (0, 0.565, fz + 0.012), (FW - 0.012, 0.93, 0.035), g, bevel=0.012, seg=2)   # 冷藏室的門
+        rbox(pre + '_gap', MAT['black'], (0, 1.035, fz + 0.002), (FW - 0.03, 0.012, 0.02), g)
+        for (y0, y1) in ((1.18, 1.52), (0.66, 0.98)):
+            cyl(f'{pre}_hdl_{y0}', MAT['steel'], (0.27, y0, fz + 0.06), (0.27, y1, fz + 0.06), 0.011, g, seg=8)
+            for yy in (y0 + 0.02, y1 - 0.02): cyl(f'{pre}_hst_{yy:.2f}', MAT['steel'], (0.27, yy, fz + 0.03), (0.27, yy, fz + 0.062), 0.007, g, seg=6)
+        rbox(pre + '_sheet', MAT['paper'], (-0.1, 0.78, fz + 0.031), (0.21, 0.297, 0.002), g, rot=(0, 0, 0.03))     # 使用登記表（「請寫名字和日期」：字由遊戲畫）
+        rbox(pre + '_sheet2', MAT['paper2'], (0.05, 1.42, fz + 0.031), (0.15, 0.1, 0.002), g, rot=(0, 0, -0.08))    # 冷凍庫門上的便條
+        for k, (mx, my, m) in enumerate(((-0.17, 0.925, 'red'), (-0.03, 0.925, 'blue'), (0.05, 1.47, 'yellow'), (-0.2, 1.3, 'green'), (0.13, 0.62, 'yellow'))):
+            rbox(f'{pre}_mag_{k}', MAT[m], (mx, my, fz + 0.036), (0.035, 0.035, 0.012), g, bevel=0.005, seg=2)
+        rbox(pre + '_box', MAT['cork'], (-0.04, FH + 0.11, -0.04), (0.44, 0.22, 0.34), g, rot=(0, 0, 0.06), bevel=0.006)   # 上面的紙箱（誰寄來的沒拆完）
+        rbox(pre + '_tape', MAT['paper2'], (-0.04, FH + 0.222, -0.04), (0.06, 0.004, 0.345), g, rot=(0, 0, 0.06))
     elif t == 'longTable':   # 長桌（木桌面、鐵腳、橫桿）＋塑膠椅；桌上疊著的書、攤開的筆記本和筆、筆袋、保溫瓶（有人在這裡讀書）
         x, z, w, dd = f['x'], f['z'], f['w'], f['d']
         rbox(pre + '_top', MAT['wood'], (x, y + 0.74, z), (w, 0.04, dd), P, bevel=0.01, seg=2)
