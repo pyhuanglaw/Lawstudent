@@ -16,7 +16,7 @@
 //  13  第 5 節伴手禮：1/3 約、回了才演、1/6 中飯、當晚、1/7 媽媽；臺灣路線、沒回、1/6 不在交往都沒有
 //  14  第 6 節：J3／J4 記旗標、接機戀人版 (a)(b)(c)、兩個人版沒有；6-2 重新開始那一次四句、第一次照舊；6-3 改字
 //  15  舊存檔：沒有新旗標照常跑、不丟例外
-// 修改前（開發分支 86986abdf；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA512_DOCREPO）：每一節都 FAIL（見回報）。
+// 修改前（開發分支 86986abdf；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA512_DOCREPO）：第 0～15 節每一節都有 FAIL——83 項 FAIL、21 項 PASS（PASS 的都是「不該演／照舊」那一類；第 3、4、5、6、8、11、15 節找不到新事件、丟例外中斷）。修改後 128 項 ALL PASS。
 // 用法：node tests/aa512_sis_b13_unit.js（在沒有 .git 的目錄跑，設環境變數 AA512_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
