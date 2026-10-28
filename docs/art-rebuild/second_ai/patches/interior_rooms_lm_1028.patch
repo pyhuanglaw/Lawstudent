@@ -1,0 +1,46 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index deaa284be..0057c7831 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -199,7 +199,7 @@
+ | 文學院、校史館外觀 `assets/models/env/second_ai/campus_arts.glb`、`campus_hist.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_hall.py --set arts／hist`（和總圖、行政大樓同一支腳本；位置、尺寸、樓層、開間照套件 `CK.hall`；匾額「文學院」「校史館」是遊戲裡的 canvas 字） | 本作 | 校園椰林大道北側的文學院、校史館（取代套件 `CK.hall` 的外觀）。貼圖和總圖相同（上面列過的 Poly Haven CC0） |
+ | 農業陳列館（洞洞館）外觀 `assets/models/env/second_ai/campus_pavilion.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_pavilion.py`（位置、尺寸、樓層照套件 `CK.pavilion`；鏤空牆的透明貼圖 `textures/gen/pav_screen.png` 本作程式產生（Poly Haven `painted_plaster_wall` 的顏色＋程式挖的圓洞）；匾額「農業陳列館」是遊戲裡的 canvas 字） | 本作 | 校園洞洞館（取代套件 `CK.pavilion` 的外觀）。貼圖：`painted_plaster_wall`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用，Poly Haven CC0） |
+ | 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
+-| 霖澤館 202 教室、萬才館多功能教室室內 `assets/models/env/second_ai/linze_202.glb`、`wancai_multi.glb`（＋`.layout.json`） | 本作 Blender 腳本 `tools/blender/env_second/flat_classroom.py`（LAWWW2-C 0a5cc70a／75ef4ae3；2026-10-20 美術子代理改 ART-ROOM-MULTI-1020／ART-ROOM-LIFE-1020；共用零件 `lane118_shops.py`、`lib2.py`）；黑板白板、公告欄傳單、門牌、時鐘、講桌筆電的投影片是本作程式畫的 `textures/gen/linze_202_print.png`、`wancai_multi_print.png`（字是虛構的）；貼圖 Poly Haven（**CC0**）：`large_floor_tiles_02`、`laminate_floor_02`、`dirty_carpet`、`painted_plaster_wall`、`walnut_veneer`、`fine_grained_wood`、`wood_table_001`、`ceiling_interior`、`rough_linen` | 本作（模型、印刷品貼圖）＋CC0（貼圖） | `linze_202`、`wancai_multi` 室內區域（`src/rooms_glb3d.js`） |
++| 霖澤館 202 教室、萬才館多功能教室室內 `assets/models/env/second_ai/linze_202.glb`、`wancai_multi.glb`（＋`.layout.json`；光照貼圖 `linze_202_lm_day／night.webp`、`wancai_multi_lm_day／night.webp`＝`tools/blender/env_second/lightbake/bake_room.py` 用 Cycles 烘焙，INTERIOR-AAA-REVIEW-1028） | 本作 Blender 腳本 `tools/blender/env_second/flat_classroom.py`（LAWWW2-C 0a5cc70a／75ef4ae3；2026-10-20 美術子代理改 ART-ROOM-MULTI-1020／ART-ROOM-LIFE-1020；共用零件 `lane118_shops.py`、`lib2.py`）；黑板白板、公告欄傳單、門牌、時鐘、講桌筆電的投影片是本作程式畫的 `textures/gen/linze_202_print.png`、`wancai_multi_print.png`（字是虛構的）；貼圖 Poly Haven（**CC0**）：`large_floor_tiles_02`、`laminate_floor_02`、`dirty_carpet`、`painted_plaster_wall`、`walnut_veneer`、`fine_grained_wood`、`wood_table_001`、`ceiling_interior`、`rough_linen` | 本作（模型、印刷品貼圖）＋CC0（貼圖） | `linze_202`、`wancai_multi` 室內區域（`src/rooms_glb3d.js`） |
+ 
+ | 吳芯慈（`classmate_xinci`）Blender 版 `assets/models/char/second_ai/bl_classmate_xinci.vrm`（D59：照 BB 通過的參考圖 `classmate_xinci.webp`——整齊的低髮髻、空氣瀏海、淺紫開襟衫＋白 T、深藍及膝 A 字裙、棕色樂福鞋） | 本作 Blender 腳本 `tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`；沿用 LAWWW 的人物生產線 `tools/blender/char/` 的 `common.py`、`h01_*`、`p00_*`、`vrm_finish.py`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；取得：`tools/fetch_vroid_src.sh`，原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） | 還沒接進遊戲（LAWWW 接進 `ASSETS.manifest` 後拍遊戲內截圖給 BB 驗收） |
+ | 林芷若的眼鏡 `assets/models/char/second_ai/glasses_zhiruo.glb`（D59：參考圖 06 的淺色細金屬圓框，霧面玫瑰金 #a68b80） | 本作 Blender 腳本 `tools/blender/char_second/glasses_zhiruo.py` | 本作 | `src/props3d.js` 的 `glasses()`：載好後換掉程式產生的眼鏡（接法 `docs/art-rebuild/second_ai/patches/glasses_zhiruo_97f4abc.patch`，由 LAWWW 整合） |
+diff --git a/src/rooms_glb3d.js b/src/rooms_glb3d.js
+index 36a151022..770202ed4 100644
+--- a/src/rooms_glb3d.js
++++ b/src/rooms_glb3d.js
+@@ -41,6 +41,7 @@
+   /* 門的互動點照開放時段藏起來（wancai3d.js、building3d.js 的門）：shut＝false 是「進入…」（時段外藏起來）、true 是原本的門（時段內藏起來）；每一格問一次 */
+   function gateHide(it,shut){ Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=G_(), op=!!G&&openNow(ROOM_GLB_LAYOUTS[it.gate],G); return shut?op:!op; }}); return it; }
+   if(typeof Z3!=='undefined'){ Z3.roomGlbSet=(id,G)=>ROOM_GLB_LAYOUTS[id]?setOf(ROOM_GLB_LAYOUTS[id],G):null; Z3.roomGlbOpen=(id,G)=>openNow(ROOM_GLB_LAYOUTS[id],G); Z3.roomGlbGate=gateHide; }
++  const BACKDROP=new Set(['linze_202','wancai_multi']);   /* 牆外暗殼的房間（LAWWW2-C 10-28 逐間確認過：窗都有窗景板）*/
+   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
+     return { id, name:L.name, indoor:true, windowless:!(WIN&&WIN.xs&&WIN.xs.length), camDist:L.cam_dist||4.2, build(E){   /* windowless：沒有窗的房間（視聽室、美國法圖 2F）晚上和白天一樣亮（engine3d.js applyTime）*/ const sk=setOf(L,G_()), SET=sk?L.sets[sk]:null, BL=SET?SET.blocks:L.blocks, SE=SET?SET.seats:L.seats; const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
+       const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:(L.view_season==='us'&&typeof US3!=='undefined'&&US3.usSeasonKey?L.view+'_'+US3.usSeasonKey():L.view)||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* view_season:'us'：窗景照美國篇的季節換（us_bed_c_summer／autumn／bare／snow，us3d.js 的 usSeasonKey）*/
+@@ -59,6 +60,7 @@
+       for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});
+       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
+       z.teacherSpot=L.teacherSpot||L.clerk||null; if(L.spawn) z.spawn=Object.assign({},L.spawn); z.roomSet=sk; z.spots=(SET?SET.spots:L.spots)||null;   /* spots：人站／坐的位置（研討室 B：柏翰值班、志工、口試委員…；劇情放人用）*/   /* 直接進來（「直接去上課」GM.enter 沒給落點）：站在門口裡面 */
++      if(BACKDROP.has(id)&&Z3.roomBackdrop) Z3.roomBackdrop(g0,W,D,H,7,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2);   /* 牆外暗色的殼（INTERIOR-AAA-REVIEW-1028，見 zones3d.js roomBackdrop）：只給窗都有窗景板、沒有玻璃隔間的房間 */
+       if(L.cam_box) z.camBox=L.cam_box; if(L.see_thru) z.seeThru=true;   /* 宿舍 205（和祐廷的房間同一型）：運鏡只在中間走道、上鋪擋住時網點透空（同 zones3d.js 的 dorm）*/
+       /* glb：借另一個區域的正式模型（法圖 2F 書庫＝一樓那一個 us_lawlib.glb 往下 glb_y，glb_hide 的節點藏起來）；自己的 GLB（bldg.<id>）只放這一層才有的東西，另外加進來（LAWWW2-B 10-24）*/
+       z.formal=false; const key='bldg.'+(L.glb||id); if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(L.glb_y) root.position.y=L.glb_y;
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 2eb8caf41..c68d0dc92 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1418,7 +1418,7 @@ const Z3 = (function(){
+   /* 室內鏡頭在牆外時（牆淡出）看到的背景（INTERIOR-AAA-REVIEW-1028 P2，LAWWW2-C）：房間外 m 公尺一圈暗色的殼（只從裡面看得到、不受光、不吃霧），鏡頭在牆外也看不到天空
+      （v1：鏡頭從側面的走道往前看，牆淡出的那一邊整片淺藍色的天空，教室像飄在天上）。鏡頭最多在牆外 4.4 m（跟隨距離），殼在 7 m：永遠在鏡頭後面，不會擋住房間。
+      只給窗戶都有窗景板的房間用（窗景板在玻璃外 0.42 m，在殼的裡面）；玻璃帷幕直接看出去的房間不要用（2026-10-11 試過整個室內改深灰背景：萬才館東窗、霖澤館玻璃底下的縫變成深灰色，更假）。*/
+-  function roomBackdrop(g,W,D,H,m){ m=m||7; const geo=new THREE.BoxGeometry(W+2*m,H+2*m,D+2*m); geo.translate(0,H/2,0); const P=geo.attributes.position, c=new Float32Array(P.count*3), lo=new THREE.Color(0x3a3733), hi=new THREE.Color(0x1a1a1d), t=new THREE.Color();
++  function roomBackdrop(g,W,D,H,m,cx,cz){ m=m||7; const geo=new THREE.BoxGeometry(W+2*m,H+2*m,D+2*m); geo.translate(cx||0,H/2,cz||0);   /* cx、cz：房間中心（GLB 房間的 bounds 不一定以原點為中心）*/ const P=geo.attributes.position, c=new Float32Array(P.count*3), lo=new THREE.Color(0x3a3733), hi=new THREE.Color(0x1a1a1d), t=new THREE.Color();
+     for(let i=0;i<P.count;i++){ const k=Math.min(1,Math.max(0,(P.getY(i)+m)/(H+2*m))); t.copy(lo).lerp(hi,k); c[i*3]=t.r; c[i*3+1]=t.g; c[i*3+2]=t.b; } geo.setAttribute('color',new THREE.BufferAttribute(c,3));
+     const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide,fog:false})); mesh.name='room_backdrop'; mesh.userData.dyn=true; mesh.castShadow=false; mesh.receiveShadow=false; g.add(mesh); return mesh; }
+   /* SEATFOLD-BEGIN 階梯教室的翻椅（INTERIOR-AAA-REVIEW-1028，LAWWW2-C；tools/blender/classroom_201.py v2 的 SEATPANS 網格：48 張椅面一個網格）：
