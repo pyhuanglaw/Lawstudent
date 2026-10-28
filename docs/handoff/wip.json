@@ -1382,7 +1382,7 @@
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
    "state": "WIP",
-   "sha": "5abcf5cef、ba6990d00",
+   "sha": "83e9c6560、bf4fc17cb",
    "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
    "files": [
     "wip_backup/support519_1028.bundle"
@@ -1438,6 +1438,21 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 13:40（AA_523 0d7b5388b，DL-AA-523）"
+  },
+  {
+   "id": "WIP-LAWWW-PROF522B-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "WIP",
+   "sha": "83e9c6560、e60aa30ba",
+   "branch": "worktree-agent-a2a151b1e75317df2（子代理；D113 備份 wip_backup/prof522b_1028.bundle，基準 1ca8d402f）",
+   "files": [
+    "wip_backup/prof522b_1028.bundle"
+   ],
+   "todo": "AA_522 第 8 節：許教授週一研究室、交往中那一題、第一週那句、1-3 提示補演（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 13:40（AA_522 f36dfe3cf，DL-AA-522B）"
   }
  ]
 }
