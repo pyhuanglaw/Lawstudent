@@ -35243,7 +35243,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
+   "next": "【LAWWW-C 2026-10-28 10:2x UTC】rc1 NO-GO（BB 門檻 ③：大廳第二次進去壞＝LOBBY-REENTRY-1028）；rc2＝da50fbdc1＝rc1＋0d00c28b5（zones3d.js、tests/linze_lightmap_unit.js），bundle wip_backup/rel91013_rc2.bundle（17898179e）；BB 重拍 ③／③b；其他門檻：① 在家存檔選單 PASS、② newGameAbort PASS、relsuite 跑中；rc2 全部 Node 背景跑中｜【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
   },
   {
    "id": "SIS-B14-1028",
@@ -35264,6 +35264,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 10:0x UTC】派子代理實作（稿裡第 1 節有 file:line；測試寫死的句子一起改；白名單 AA_516、AA_512 → a9b87c588）；合併後全部 Node、BB 瀏覽器；下一版"
+  },
+  {
+   "id": "LOBBY-REENTRY-1028",
+   "title": "光照貼圖第二次進區域就壞：快取的 GLB 每次 clone(true) 共用材質，Z3.roomLightmap 每進一次把 onBeforeCompile 再包一層 → uniform 宣告兩次 → shader 編不過 → 網格不畫（霖澤館大廳地板沒紋理、沙發長椅不見、NPC 坐在空氣上；201、202、多功能教室同一段）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "BB-C 2026-10-28 10:08、10:12（v9.10.13 rc1 門檻 ③ NO-GO：lobby_shots 晚上那組；三版對照 v9.10.12 正常、ac2ab0ae9 起壞）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "同一個工作階段第二次進霖澤館一樓大廳",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 10:2x UTC】開發分支 0d00c28b5（zones3d.js lmWired：接過的材質不再包，只換貼圖、更新同一組 uniform）；tests/linze_lightmap_unit.js 第 4 段（改前 FAIL 1、改後 ALL PASS）；v9.10.13 rc2 da50fbdc1；BB 重拍大廳（進兩次、白天晚上）、201／202／多功能教室；請 LAWWW2 看改法（D108）"
   }
  ]
 }
