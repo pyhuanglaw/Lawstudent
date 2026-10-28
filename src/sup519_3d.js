@@ -85,23 +85,23 @@ const SUP519=(function(){
   S.auntNameDue=GM=>{ const G=GM.G, h=hr(G); return law(G)&&G.flags.AUNT_NAME==null&&S.yearOf(G)>=2&&h>=15&&h<17&&S.aloneIn(GM); };
   const sayAs=(GM,n,nm)=>({name:nm,obj:n&&n.obj});
   S.playLines=async function(GM,A,n,nm){ for(const [w,t] of A){ if(w==null) await GM.say(null,t); else await GM.say(w===nm?sayAs(GM,n,nm):{name:w},t); } };
-  S.auntTalk=async function(GM,n){ const G=GM&&GM.G; if(!law(G)) return false; S.bind(GM); const E=GM.E, P=E&&E.player, y0=n&&n.obj&&n.obj.rotation?n.obj.rotation.y:null;
+  S.auntTalk=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const E=GM.E, P=E&&E.player, y0=n&&n.obj&&n.obj.rotation?n.obj.rotation.y:null;
     if(GM.sceneBegin) GM.sceneBegin();
     try{ if(GM.face&&n&&P&&P.obj) GM.face(n,P.obj.position.x,P.obj.position.z); if(GM.cine&&n&&P&&P.obj) GM.cine('talk',P.obj,n.obj);
       if(S.auntNameDue(GM)){ G.flags.AUNT_NAME=G.day; const st=S.talkRec(G,'aunt'); st.nd=G.day; await S.playLines(GM,AY.nameScene||[],n,'阿姨'); return true; }   /* 店名由來算今天那一句 */
-      const o=S.daily(G,'aunt',S.AUNT_ROWS,AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }
+      const o=S.daily(G,'aunt',law(G)?S.AUNT_ROWS:[],AY.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'阿姨'),o.t); return true; }   /* 經濟系那一年：只有短句 */
     finally{ if(n&&n.obj&&n.obj.rotation&&y0!=null&&n.frozen) n.obj.rotation.y=y0; if(GM.sceneEnd) GM.sceneEnd(); } };   /* 說完轉回去顧鍋子 */
 
-  /* ---------- 1-1 店員的外觀、說話 ---------- */
-  S.CLERK_LABEL={noodle:'hc_ayi'};   /* 第 3 節加 Café 的老闆 */
+  /* ---------- 1-1 店員的外觀、說話（3-1：Café 芷若不在班時櫃台是老闆）---------- */
+  S.CLERK_LABEL={noodle:'hc_ayi',cafe:'hc_boss'};
   S.clerkSpec=function(kind){ const cid=S.CLERK_LABEL[kind]; if(!cid||typeof HCIRCLE==='undefined'||!HCIRCLE||!HCIRCLE.specOf) return null; const sp=HCIRCLE.specOf(cid); if(!sp) return null;
     sp.id='clerk_'+kind; if(sp.model&&typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(sp.model)){ try{ ASSETS.loadOne(sp.model).catch(()=>{}); }catch(e){} }   /* 模型還沒下載：先載（到了由 game3d.js upgradeModels 換上）*/
     return sp; };
-  S.TALK={noodle:{name:'阿姨',fn:(GM,n)=>S.auntTalk(GM,n)}};
+  S.TALK={noodle:{name:'阿姨',fn:(GM,n)=>S.auntTalk(GM,n)},cafe:{name:'老闆',fn:(GM,n)=>S.bossTalk(GM,n)}};
   S.clerkWire=function(GM,n,kind){ const w=S.TALK[kind]; if(!n||!w) return n; S.bind(GM); n.name=w.name; n.talkLabel='和'+w.name+'說話'; n.talk=nn=>w.fn(GM,nn||n); n.aa519Staff=kind; return n; };
-  /* 圈子表的標籤同伴（HCIRCLE.spawnLabel）：阿姨能說話（同一個人）；第 3 節：老闆、小禾 */
-  S.LABEL_WIRE={hc_ayi:'noodle'};
-  S.afterSpawnLabel=function(GM,cid,n){ if(!n) return n; const k=S.LABEL_WIRE[cid]; if(k) S.clerkWire(GM,n,k); return n; };
+  /* 圈子表的標籤同伴（HCIRCLE.spawnLabel）：阿姨、老闆能說話（同一個人、同一份紀錄）；新來的工讀生 2027-06-04 起叫小禾（3-4）*/
+  S.LABEL_WIRE={hc_ayi:'noodle',hc_boss:'cafe'};
+  S.afterSpawnLabel=function(GM,cid,n){ if(!n) return n; const k=S.LABEL_WIRE[cid]; if(k) S.clerkWire(GM,n,k); if(cid==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) n.name=CF.np; return n; };
 
   /* ---------- 1-1 旁白第一次寫「阿姨（阿鳳）」 ---------- */
   let NOODLE_EVS=null;
@@ -113,6 +113,38 @@ const SUP519=(function(){
   S.noodleCtx=G=>G.zone==='noodle'||(typeof EVENTS!=='undefined'&&!!EVENTS.running&&S.noodleEvs().has(EVENTS.running));
   S.narName=function(G,t){ if(!law(G)||typeof t!=='string'||t.indexOf('阿姨')<0||t.indexOf('阿鳳')>=0) return t; const R=S.rec(G); if(R.nar!=null||!S.noodleCtx(G)) return t; R.nar=G.day; return t.replace('阿姨','阿姨（阿鳳）'); };
   S.wrapSay=function(GM){ if(!GM||GM._aa519say||typeof GM.say!=='function') return; const s0=GM.say; GM.say=function(who,t){ if(who==null&&typeof t==='string'){ try{ arguments[1]=S.narName(GM.G,t); }catch(e){} } return s0.apply(this,arguments); }; GM._aa519say=true; };
+
+  /* ======================= 第 3 節 兩點半 Café：老闆、小婷、小禾 ======================= */
+  const CF=L.cafe||{};
+  const NP_FROM='2027-06-04';   /* 芷若去英國、小婷接晚班（6/3 是芷若最後一個班，AA_375 第 1 項；src/eat3d.js S.staffName 同一天）*/
+  S.npNamed=G=>after(G,NP_FROM)&&law(G);   /* 3-4：2026-09～2027-06 照舊叫「新來的工讀生」，2027-06-04 起叫小禾 */
+  /* 3-1 老闆的時期（照稿那一欄：大一、大一見過芷若以後、大二、大二下芷若去英國以後、大三、2029-09 芷若回來以後）*/
+  S.BOSS_ON={ y1:G=>S.yearOf(G)===1, y1_zr:G=>S.yearOf(G)===1&&met('heroine_02'), y2:G=>S.yearOf(G)===2, y2s2_uk:G=>S.yearOf(G)===2&&after(G,NP_FROM), y3:G=>S.yearOf(G)===3, pg_back:G=>after(G,'2029-09-01') };
+  S.BOSS_ROWS=(CF.rows||[]).map(r=>({k:r.k,on:S.BOSS_ON[r.k]||(()=>false),t:r.t}));
+  S.cafeCount=G=>typeof EAT!=='undefined'&&EAT.count?EAT.count(G,'兩點半 Café'):0;   /* 點餐的次數（EAT 的計數；芷若在班時點的 CAFE_VISITS 也算）*/
+  S.bossNameDue=G=>law(G)&&S.rec(G).cafeName==null&&S.cafeCount(G)>=3;   /* 點餐第 3 次以後，第一次和老闆說話 */
+  S.bossTalk=async function(GM,n){ const G=GM&&GM.G; if(!G) return false; S.bind(GM); const E=GM.E, P=E&&E.player, y0=n&&n.obj&&n.obj.rotation?n.obj.rotation.y:null;
+    if(GM.sceneBegin) GM.sceneBegin();
+    try{ if(GM.face&&n&&P&&P.obj) GM.face(n,P.obj.position.x,P.obj.position.z); if(GM.cine&&n&&P&&P.obj) GM.cine('talk',P.obj,n.obj);
+      if(S.bossNameDue(G)){ S.rec(G).cafeName=G.day; S.talkRec(G,'boss').nd=G.day; await S.playLines(GM,CF.nameScene||[],n,'老闆'); return true; }
+      const o=S.daily(G,'boss',law(G)?S.BOSS_ROWS:[],CF.shorts); if(o&&o.t) await GM.say(sayAs(GM,n,'老闆'),o.t); return true; }
+    finally{ if(n&&n.obj&&n.obj.rotation&&y0!=null&&n.frozen) n.obj.rotation.y=y0; if(GM.sceneEnd) GM.sceneEnd(); } };
+  /* 3-2 打工第 4 班以後，打烊時一次（不用芷若在班）：拉花（CAFE_LATTE_TRY）；那一班已經演了打烊的小事件（AA_289 cafe2、cafe3）＝下一班 */
+  S.latteDue=function(G,n){ if(!law(G)||G.flags.CAFE_LATTE_TRY!=null||(n|0)<4) return false; const j=typeof JOBS!=='undefined'&&JOBS.job?JOBS.job(G,'cafe'):null, E=j&&j.xev;
+    if(E&&E.at===n&&Array.isArray(E.done)&&E.done.length){ const X=typeof WZ_JOBS_DATA!=='undefined'&&WZ_JOBS_DATA.x&&WZ_JOBS_DATA.x.cafe, last=E.done[E.done.length-1], ev=X&&(X.ev||[]).find(e=>e.id===last); if(ev&&ev.at!=='start') return false; }
+    return true; };
+  S.latte=async function(GM,k,n){ const G=GM.G; if(k!=='cafe'||!S.latteDue(G,n)) return false; G.flags.CAFE_LATTE_TRY=G.day; await S.playLines(GM,CF.latte||[],null,'老闆'); return true; };
+  /* 3-3 點餐那兩句：2027-06-04 起名字是小婷（照現有），字換成她自己的 */
+  S.staffOnX=function(T,GM,key){ if(!T||key!=='兩點半 Café'||!GM||!GM.G||!after(GM.G,NP_FROM)||!CF.xt) return T; return Object.assign({},T,{line5:CF.xt.line5,same:CF.xt.same}); };
+  /* 3-3、3-4 Café 點餐以後（EAT.after 包一層）：芷若走以後第一次在 Café 點餐＝小婷「她叫小禾。……」；其他時候＝小婷、小禾說芷若的一句（原本 heard_lines.js 擋住的那七句；一天一句、每句一次）*/
+  S.heardDue=function(GM){ const G=GM.G, R=S.rec(G); if(!law(G)||!met('heroine_02')||R.hday===G.day) return null; const H=R.heard&&typeof R.heard==='object'?R.heard:(R.heard={});
+    for(const e of (CF.heard||[])){ if(H[e.id]!=null) continue; if(!(typeof HEARD!=='undefined'&&HEARD.inWin?HEARD.inWin(G,e):false)) continue; if(!S.onDuty(GM,e.who)) continue; return e; } return null; };
+  /* 說的人在不在：圈子表那一列的 3D 人物在店裡；2027-06-04 起小婷、小禾在店裡顧櫃台（芷若不在班的時候；點餐那兩句也是小婷）*/
+  S.onDuty=function(GM,who){ const G=GM.G, cid=who===CF.np?'hc_np':'hc_xt', n=GM.npc&&GM.npc[cid]; if(n&&!n.leaving&&!n.hidden) return true;
+    return after(G,NP_FROM)&&!(typeof EAT!=='undefined'&&EAT.zrOnShift&&EAT.zrOnShift(GM)); };
+  S.cafeAfterOrder=async function(GM){ const G=GM&&GM.G; if(!law(G)||G.zone!=='cafe') return false; const R=S.rec(G);
+    if(after(G,NP_FROM)&&R.npIntro==null&&CF.npIntro){ R.npIntro=G.day; R.hday=G.day; await GM.say({name:CF.npIntro[0]},CF.npIntro[1]); return true; }
+    const e=S.heardDue(GM); if(!e) return false; R.heard[e.id]=G.day; R.hday=G.day; const cid=e.who===CF.np?'hc_np':'hc_xt', n=GM.npc&&GM.npc[cid]; await GM.say({name:e.who,obj:n&&n.obj},e.t); return true; };
 
   /* ---------- 8-3 麵店的 2D 事件那一天：阿姨那幾列擲骰當成功 ---------- */
   let AUNT_EVS=null;
@@ -145,6 +177,7 @@ const SUP519=(function(){
     if(typeof HCIRCLE!=='undefined'&&HCIRCLE){
       if(HCIRCLE.spawnLabel&&!HCIRCLE._aa519){ const sp0=HCIRCLE.spawnLabel; HCIRCLE.spawnLabel=function(GM,cid){ const n=sp0.apply(this,arguments); try{ S.afterSpawnLabel(GM,cid,n); }catch(e){ console.warn('SUP519.spawnLabel',e); } return n; };
         const r0=HCIRCLE.roll; HCIRCLE.roll=function(r,G){ try{ if(S.auntRow(r)&&S.auntEvDay(G)) return true; }catch(e){} return r0.apply(this,arguments); };   /* 8-3 */
+        if(HCIRCLE.who){ const w0=HCIRCLE.who; HCIRCLE.who=function(GM,l){ if(l&&l.id==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) return CF.np; return w0.apply(this,arguments); }; }   /* 3-4：字幕、對話框的說話人（2027-06-04 起小禾）*/
         if(HCIRCLE.reservedModels){ const rm0=HCIRCLE.reservedModels; HCIRCLE.reservedModels=function(G){ const out=rm0.apply(this,arguments); try{ const cid=G&&S.CLERK_LABEL[G.zone], p=cid&&HCIRCLE.PEOPLE&&HCIRCLE.PEOPLE[cid]; if(p&&p.model) out.add(p.model); }catch(e){} return out; }; }   /* 店員的底模不給無名路人（店裡不會有第二個阿姨）*/
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
@@ -153,6 +186,10 @@ const SUP519=(function(){
       if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); });
       if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); return false; }); }
     if(typeof OUT!=='undefined'&&OUT.plan&&!OUT._aa519){ const pl0=OUT.plan; OUT.plan=function(G,o){ if(S.tripBlocks(G,o)) return false; return pl0.apply(this,arguments); }; OUT._aa519=true; }   /* 8-4：那一週不排新的麵店出遊（舊存檔已經排好的照 storyDue 照演）*/
+    if(typeof EAT!=='undefined'&&EAT&&!EAT._aa519){ EAT._aa519=true;
+      if(EAT.staffOn){ const so0=EAT.staffOn; EAT.staffOn=function(GM,key){ return S.staffOnX(so0.apply(this,arguments),GM,key); }; }   /* 3-3 */
+      if(EAT.after){ const af0=EAT.after; EAT.after=async function(GM,key){ const r=await af0.apply(this,arguments); if(key==='兩點半 Café'){ try{ await S.cafeAfterOrder(GM); }catch(e){ console.warn('SUP519.cafe',e); } } return r; }; } }   /* 3-3、3-4 */
+    if(typeof JOBS!=='undefined'&&JOBS&&Array.isArray(JOBS.SHIFT_EV)&&!JOBS._aa519){ JOBS._aa519=true; JOBS.SHIFT_EV.push(async(GM,k,n)=>{ await S.latte(GM,k,n); }); }   /* 3-2 拉花 */
     if(typeof INVITE_DATA!=='undefined'&&INVITE_DATA&&Array.isArray(INVITE_DATA.places)){ const P=INVITE_DATA.places.find(p=>p&&p.id==='noodle'); if(P&&!P._aa519){ const av0=P.avail; P.avail=(G,day)=>!S.tripDay(day)&&(!av0||av0(G,day)); P._aa519=true; } }   /* 8-4：那一週不排新的麵店邀約（INV：「阿鳳麵店那個時間沒開。」改天）*/
   };
   /* ---------- 手機（STORY.PHONE_RULES）---------- */

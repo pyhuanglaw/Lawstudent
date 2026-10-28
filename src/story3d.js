@@ -332,7 +332,7 @@ const STORY = (function(){
       if(zoneId==='noodle') clerk(-2.0,-2.75,Math.PI,40,'noodle');    // 廚房工作台前，面向湯鍋（AA_519 1-1：阿姨）
       if(zoneId==='bookstore') clerk(0.55,1.95,0,43);       // 門口那張桌子（像櫃台）後面，面向門口
       /* 2026-10-14 使用者試玩 v9.6：「有一些店面還是沒有店員」——兩點半在芷若沒班的時段吧檯沒人、總圖服務台沒有館員 */
-      if(zoneId==='cafe') clerk(-0.6,-5.25,0,44);           // 吧檯後面靠東邊（芷若上班時站中間 (-2.5,-5.15)，兩個人不重疊；咖啡機在西邊 (-4.5,-4.8)）
+      if(zoneId==='cafe') clerk(-0.6,-5.25,0,44,'cafe');           // 吧檯後面靠東邊（芷若上班時站中間 (-2.5,-5.15)，兩個人不重疊；咖啡機在西邊 (-4.5,-4.8)）。AA_519 3-1：老闆（男、中年、馬克杯）
       if(zoneId==='library_hall'&&typeof LIBRARY_LAYOUT!=='undefined'){ const d=(LIBRARY_LAYOUT.furniture||[]).find(f=>f.type==='desk'); if(d) clerk(d.x,d.z+d.d/2+0.45,Math.PI,45); }   // 服務台後面（兩片隔板中間），面向借書的人
       /* 2026-10-18 使用者：「一盞也沒有店員？任何一個店都要有店員」（BUG-NO-CLERK-1018）：溫州街三家照 WZ_SHOPS_LAYOUT 的打工位置 */
       if(zoneId==='wz_brunch') clerk(2.6,-2.05,-0.6,46);   // 結帳櫃台（(2.6,-1.1)，客人站西邊 (1.95,-1.1)）北端、廚房門口，面向結帳的客人
