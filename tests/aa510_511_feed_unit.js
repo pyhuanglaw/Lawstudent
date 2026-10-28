@@ -26,7 +26,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SHA510='28f981438', SHA511='c9899bed9';
+const SHA510='28f981438', SHA511='b70bed855';   /* AA_511：b70bed855＝c9899bed9＋第 9 節（實作時定的七件，第 1～8 節沒動）*/
 const SPEC510='docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md', SPEC511='docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md',
       SPEC509='docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md';
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -146,7 +146,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i7=sc('src
     &&!!P('zr3g').dm&&P('zr3g').dm[1]==='不知道。我叫牠房東。牠坐在長椅上的樣子，像長椅是牠的。'&&doc509.includes(newCx)&&!src.includes(newCx)&&!src.includes('社課一次都沒來')&&!src.includes('我叫牠所長'),
     J({kx1g:P('kx1g').say,zr3g:P('zr3g').dm}));
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, A=k=>allow.find(e=>e.path.indexOf('docs/story_planning/'+k+'_')===0)||{};
-  check('0. 白名單：AA_510＝28f981438（note 補第五輪）、AA_511＝c9899bed9（approved、approvedBy、HEROINE-LIFE-1028）',A('AA_510').sha===SHA510&&A('AA_510').status==='approved'&&/第五輪/.test(A('AA_510').note||'')
+  check('0. 白名單：AA_510＝28f981438（note 補第五輪）、AA_511＝b70bed855（approved、approvedBy、HEROINE-LIFE-1028）',A('AA_510').sha===SHA510&&A('AA_510').status==='approved'&&/第五輪/.test(A('AA_510').note||'')
     &&A('AA_511').path===SPEC511&&A('AA_511').sha===SHA511&&A('AA_511').status==='approved'&&!!A('AA_511').approvedBy&&A('AA_511').task==='HEROINE-LIFE-1028',J({AA_510:A('AA_510').sha,AA_511:A('AA_511')}));
   check('0. HEARD_LINES.src 記 AA_510＝28f981438',typeof HEARD_LINES!=='undefined'&&HEARD_LINES.src.AA_510===SHA510); });
 
@@ -244,6 +244,10 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 畢業以後篇跳時間',false,
     !missOf(jp).length&&y5.length===9&&y5.every(id=>jp.seen.has(id))&&!!CALENDAR.termOfDelayed&&(CALENDAR.termOfDelayed(DK('2029-09-17'))||{}).id==='Y5S1',J({miss:missOf(jp),stops:jp.stops}));
   check('5. 在麵店團、「走啦」、家族群組（停點多）：每一則都看得到',!missOf(gp).length,J({miss:missOf(gp),n:gp.stops.length}));
   check('5. 最後一站是最後一則動態（2030-12-22 22:07 芷若的存摺）以後一分鐘，接著就是尾聲（2034-06-03 19:00）',[tw,jp,gp].every(w=>w.stops[w.stops.length-1].at==='2030-12-22 22:08'&&w.next===EPI()),J([tw,jp,gp].map(w=>[w.stops[w.stops.length-1],w.next])));
+  /* AA_511 第 9 節第 6 點（b70bed855）：尾聲前多停的那一次，落地時日期卡下面那一句旁白，只出一次（src/feed3d.js 包 PG.cardLine）*/
+  { const d=H.G.day, l1=PG.cardLine(H.G,d-9,d), l2=PG.cardLine(H.G,d-9,d), D511=show(SHA511,'docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md');
+    check('5. 尾聲前多停的那一次落地（2030-12-22 22:08）：日期卡下面那一句「（十二月底。這一年快過完了。）」（AA_511 第 9 節第 6 點）；同一次存檔只出一次',
+      l1==='（十二月底。這一年快過完了。）'&&FEED.PG_STOP_LINE===l1&&l2!==l1&&D511.indexOf('> （十二月底。這一年快過完了。）')>=0,J({l1,l2})); }
   /* 反例：拿掉保留規則（FEED.pgJumping 壓成負的＝跳的途中不記）同一條路，跳過的期間就過期 */
   const keep=FEED.pgJumping; let off; FEED.pgJumping=-1e6; try{ off=pgWalk({EXCHANGE_ROUTE:'TW'}); } finally { FEED.pgJumping=keep; }
   const offMiss=missOf(off);

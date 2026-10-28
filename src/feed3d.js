@@ -191,7 +191,7 @@ const FEED=(function(){
     let next=null; S.pgStopIn=true; try{ next=PG.nextStop(G); } finally { S.pgStopIn=false; }   /* 不算這一個的下一站 */
     const ep=PG.byId?PG.byId('epi'):null, te=ep&&ep.at?ep.at(G):null;
     if(next!=null&&!(te!=null&&Math.abs(next-te)<1e-6)) return null;
-    return best+1/60; };
+    R.pgStopAt=best+1/60; return R.pgStopAt; };   /* pgStopAt：落地時日期卡那一句用（S.PG_STOP_LINE）*/
   /* ---------- 私訊：這一則傳不傳 ---------- */
   S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
@@ -297,6 +297,10 @@ const FEED=(function(){
      最後一則動態當停點（S.pgStop，PG.stops 是給其他模組加停點的掛勾）*/
   if(typeof PG!=='undefined'&&typeof PG.jumpTo==='function'&&!PG._feedJump){ const j0=PG.jumpTo; PG.jumpTo=function(){ S.pgJumping++; try{ return j0.apply(this,arguments); } finally { S.pgJumping--; } }; PG._feedJump=true; }
   if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._feed)){ const f=G=>S.pgStop(G); f._feed=true; PG.stops.push(f); }
+  /* 尾聲前多停的那一次（S.pgStop），落地時日期卡下面那一句旁白（AA_511 第 9 節第 6 點，企劃線 b70bed855）：只出一次，不排事件、不排邀約，看完手機照常跳到尾聲 */
+  S.PG_STOP_LINE='（十二月底。這一年快過完了。）';
+  if(typeof PG!=='undefined'&&typeof PG.cardLine==='function'&&!PG.cardLine._feed){ const c0=PG.cardLine; const f=function(G,d0,d1){ const R=G&&G.flags?S.rec(G):null;
+      if(R&&R.pgStopAt!=null&&!R.pgStopLine&&Math.abs(nowOf(G)-R.pgStopAt)<0.02){ R.pgStopLine=G.day; return S.PG_STOP_LINE; } return c0.apply(this,arguments); }; f._feed=true; PG.cardLine=f; }
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
   /* 子晴 zq_name 回了（phone3d.js 回 need 選項時叫 STORY.neededAnswered）：記 ZQ_NAME_REPLIED（大二下第 6 則兩個版本，S.WENT.zqNamed）*/
   if(typeof STORY!=='undefined'&&typeof STORY.neededAnswered==='function'&&!STORY._feedNeed){ const on=STORY.neededAnswered; STORY.neededAnswered=function(G,m,o){ if(o&&o.need==='zq_name'&&G&&G.flags) G.flags.ZQ_NAME_REPLIED=true; return on.apply(this,arguments); }; STORY._feedNeed=true; }

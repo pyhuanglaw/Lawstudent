@@ -53,7 +53,7 @@ const NEEDED_MSGS=(function(){
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S2',w:[8,10],   /* AA_313 5-6：和 Alison 的 yu_overtime（大二上第 6～8 週）幾乎同一則，兩則不要同一學期——搬到大二下第 8～10 週（xc_grade 第 5～7 週、xc_notes 第 11～13 週中間）*/msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
-    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'),msg:['永和的公車今天提早到了。……我多讀了一章。'],reply:'恭喜？',resp:['謝謝。很少發生。'],miss:null},   /* AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）：追劇減量，三句照稿換；沒回的那一句（原本「大結局那則你沒回。……很好，代表你沒爆雷。」）稿沒給新句＝先不說（miss:null），請 AA 補 */
+    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'),msg:['永和的公車今天提早到了。……我多讀了一章。'],reply:'恭喜？',resp:['謝謝。很少發生。'],miss:['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']},   /* AA_497 第 8 節後補（企劃線 b70bed855）：沒回的那一句，時機照原本 */   /* AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）：追劇減量，三句照稿換；沒回的那一句（原本「大結局那則你沒回。……很好，代表你沒爆雷。」）稿沒給新句＝先不說（miss:null），請 AA 補 */
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。'],reply:'好。',resp:['謝啦。不然我一定會去算差幾分。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
     {id:'xc_notes',who:'classmate_xinci',term:'Y2S2',w:[11,13],msg:['期末的筆記我想換個方式整理。你都怎麼記判決？'],reply:'我只抄爭點跟結論，其他的回去看全文。',resp:['好，我試試看。'],miss:['筆記那則你沒回。……我自己試了。']},   /* 原 xc_moot（模擬法庭刪除）*/
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）

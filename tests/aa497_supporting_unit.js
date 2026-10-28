@@ -59,7 +59,7 @@ const NM=id=>SOCIAL.displayName(id);
 
 /* ---------- 讀稿 ---------- */
 const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:process.env.AA497_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const DOC0=git('60fc3b9a3','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'), BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
+const DOC0=git('b70bed855','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'),   /* b70bed855＝60fc3b9a3＋第 8 節後補（芯慈公車沒回那一句、豆干量詞）*/ BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
 const DOC=DOC0.split('宜蓁').join('佳穎');   /* 第 8 節第 5 點：學妹改名「佳穎」（稿的 5-2、5-3 還寫宜蓁；整份稿只有學妹叫宜蓁）*/
 const S8=(()=>{ const i=DOC0.indexOf('## 8.'); return i<0?'':DOC0.slice(i); })();   /* 第 8 節原文（換句的新舊兩邊都要在這裡）*/
 const part=(doc,a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
@@ -108,7 +108,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('0a. 改在現有事件裡的句子（語 2、慈 6、語 4、M2、11/23、沛珊 n1、DJ、Kevin 的群組）都在遊戲裡、也都在稿裡（一字不差）',!mb.length,J(mb)); });
 
   /* ===== 0 稿 → 遊戲：稿的每一句（> 那幾行）都在遊戲裡 ===== */
-  await sec('0b',()=>{ const ALL=[L()?JSON.stringify(L()):''].concat(['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js','src/data/characters.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8'))).join('\n');
+  await sec('0b',()=>{ const ALL=[L()?JSON.stringify(L()):''].concat(['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js','src/data/characters.js','src/data/needed_msgs.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8'))).join('\n');   /* needed_msgs：第 8 節後補 xc_drama 沒回那兩句（b70bed855）*/
     const lines=[]; for(const raw of DOC.split('\n')){ const m=/^\s*>\s*(.+)$/.exec(raw); if(!m) continue; let t=m[1].trim(); if(/^（/.test(t)){ lines.push(t); continue; } const k=t.indexOf('：'); if(k>0&&k<10) lines.push(t.slice(k+1)); }
     const doc2=lines.filter(t=>!/^[-\s]*$/.test(t)&&!/^AA-C|^依據|^使用者|^寫「|^-/.test(t)&&t.length>1);
     /* 稿的 > 行有兩處是說明（不是台詞）：開頭的說明區塊 */
@@ -719,7 +719,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('8. 第 3、4 點換句（'+SW.length+' 句）：新舊兩邊都是第 8 節原文；遊戲裡只有新句（註解不算）',S8.length>0&&!bad.length,J(bad));
     /* 資料真的是新句（不是只有字串在檔裡）*/
     { const xd=NEEDED_MSGS.list.find(e=>e.id==='xc_drama'); fresh(TD('Y2S1',14,7),21,'dorm');
-      check('8. needed_msgs xc_drama：訊息、回覆、她回三句照稿換（「恭喜？」「謝謝。很少發生。」）；沒回的那一句稿沒給新句＝不說（miss:null）',J([xd.msg,xd.reply,xd.resp,xd.miss])===J([['永和的公車今天提早到了。……我多讀了一章。'],'恭喜？',['謝謝。很少發生。'],null])&&in8('「恭喜？」')&&in8('「謝謝。很少發生。」')&&STORY.neededMissFor(H.G,xd,XC)===null,J(xd)); }
+      check('8. needed_msgs xc_drama：訊息、回覆、她回三句照稿換（「恭喜？」「謝謝。很少發生。」）；沒回的那一句照第 8 節後補（b70bed855）「上次公車那則，你沒回。」「……沒關係。那班車隔天又誤點了。」',J([xd.msg,xd.reply,xd.resp,xd.miss])===J([['永和的公車今天提早到了。……我多讀了一章。'],'恭喜？',['謝謝。很少發生。'],['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']])&&in8('「恭喜？」')&&in8('「謝謝。很少發生。」')&&DOC0.indexOf('> 芯慈：上次公車那則，你沒回。')>=0&&DOC0.indexOf('> 芯慈：……沒關係。那班車隔天又誤點了。')>=0&&J(STORY.neededMissFor(H.G,xd,XC))===J(['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']),J(xd)); }
     { const P=MSG_POOL.people, xc=P[XC].replies.map(e=>J(e.msgs)), mx=P[MX].replies.map(e=>J(e.msgs));
       check('8. 回覆池（產生器重產）：芯慈「在讀書。等我一章。」、明軒「在比兩家便當」「一家多送一碗湯 哈哈」',xc.includes(J(['在讀書。等我一章。']))&&!xc.includes(J(['在追劇，這集好扯。']))&&mx.includes(J(['在比兩家便當','一家多送一碗湯 哈哈']))&&!mx.some(t=>t.includes('滷蛋'))); }
     check('8. 一起吃（產生器重匯）：芯慈朋友以上「剛好。我昨天把筆記重抄了一遍，沒有人可以講。」',(EAT_LINES.together[XC].FRI||[]).some(x=>x[1]==='剛好。我昨天把筆記重抄了一遍，沒有人可以講。')&&!JSON.stringify(EAT_LINES).includes('我昨天看了一部劇'));
@@ -732,7 +732,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       check('8. 追劇照留的五處：慈 3、慈 6、R1、尾聲、大一的 y1fill',!t.length,J(t)); }
     /* 明軒的滷蛋 */
     { await play('ev_mx_egg_y3'); check('8. ev_mx_egg_y3：「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」',J(H.said.map(x=>x.t))===J(['（他把一碗大碗的乾麵推到你面前。）','冠軍那天欠的。大碗。']),J(H.said.map(x=>x.t))); }
-    check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」；旗標名 MX_EGG* 不改',STORY.MX_FM1.rows[1][3]==='豆干另外算。阿姨有時候多給一顆，這個不能算進排名。'&&in8('「滷蛋」改「豆干」')&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
+    check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」、量詞「一塊」（第 8 節後補 b70bed855）；旗標名 MX_EGG* 不改',STORY.MX_FM1.rows[1][3]==='豆干另外算。阿姨有時候多給一塊，這個不能算進排名。'&&in8('「滷蛋」改「豆干」')&&DOC0.indexOf('「阿姨有時候多給一顆」改「阿姨有時候多給一塊」')>=0&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
     check('8. 明軒的滷蛋只留 M1「他有念啦」那一晚、M2 推滷蛋、德文「不是滷蛋」',noCmt('src/data/events.js').includes('然後請你一顆滷蛋。')&&noCmt('src/y2r2_3d.js').includes('（明軒把自己碗裡的滷蛋，推到你碗裡。）')&&L().mx.german.scene.some(x=>x[1].endsWith('……不是滷蛋。')));
     /* 學妹改名佳穎：family_junior 全部換；姊姊宜蓁不動 */
     { const files=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>'src/'+f).concat(fs.readdirSync(path.join(H.ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>'src/data/'+f));
