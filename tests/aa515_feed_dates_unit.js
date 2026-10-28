@@ -128,7 +128,7 @@ await sec('1',async()=>{ need(); setup('2025-10-04',8,[AN]); const d=H.G.day;
     h.includes('今天 21:30')&&h.includes('（照片：紅磚牆前，兩個人的影子並排）')&&h.includes('<div>手帳上劃掉一個。</div>')&&h.includes('data-fd="dt_an_1|heart"')&&h.includes('>今天很開心。</button>')&&h.includes('（私訊問一句）')&&h.includes('手帳上寫了什麼？'),h.slice(0,400));
   check('1. 看過就熄',FEED.newCount(H.G)===0);
   check('1. 約會動態不在 G.msgs（不是私訊、不算未讀）',!(H.G.msgs||[]).some(m=>m.fd==='dt_an_1'||/手帳上劃掉一個/.test(m.text||'')));
-  check('1. 存檔：R.dt 記第幾句、第幾組、地點、行程；R.dtTrip 那一趟＝dt_an_1；dq 清掉',J(R().dt.dt_an_1)===J({who:AN,loc:'D01',s:0,g:1,trip:r.trip})&&R().dtTrip[r.trip]==='dt_an_1'&&!R().dq.length,J([R().dt,R().dtTrip,R().dq]));
+  check('1. 存檔：R.dt 記第幾句、第幾組、地點、行程、約會的那一天；R.dtTrip 那一趟＝dt_an_1；dq 清掉',J(R().dt.dt_an_1)===J({who:AN,loc:'D01',s:0,g:1,trip:r.trip,b:d})&&R().dtTrip[r.trip]==='dt_an_1'&&!R().dq.length,J([R().dt,R().dtTrip,R().dq]));
 });
 
 /* ======================= 2 又來、輪替、單雙數（BB 第 2 條）======================= */
@@ -238,9 +238,12 @@ await sec('8',async()=>{ need(); setup('2025-10-04',8,[AN,ZR,ZQ]); const d=H.G.d
   check('8. 同一位同一天兩趟：一則（第一趟），第二趟 x:dateday',!!item('dt_an_2')&&R().dtTrip[c.trip]==='dt_an_2'&&R().dtTrip[e.trip]==='x:dateday'&&dts().filter(i=>i.day===d+2).length===1,J(R().dtTrip));
   check('8. 沒貼出來的不記（R.dt 以安只有兩則）',Object.keys(R().dt).filter(k=>R().dt[k].who===AN).length===2&&!R().dt.dt_zr_1,J(R().dt));
   const f=await goDate(ZQ,['D02'],d+4,15), g=await goDate(AN,['D03'],d+5,9); tickAt(d+5,23.9);
-  check('8. 子晴凌晨 00:30 那一則算在貼出來的那一天：同一天以安 21:30 那一則不出',!!item('dt_zq_1')&&item('dt_zq_1').day===d+5&&R().dtTrip[g.trip]==='x:dateday',J([R().dtTrip[f.trip],R().dtTrip[g.trip]]));
-  const h=await goDate(AN,['D05'],d+7,9); tickAt(d+7,23.9);
-  check('8. 隔天再約照出：dt_an_3、第 3 句（前面沒貼出來的不算）',!!item('dt_an_3')&&R().dtTrip[h.trip]==='dt_an_3'&&R().dt.dt_an_3.s===2,J(R().dt.dt_an_3));
+  check('8. 「同一天」照約會的那一天：子晴 00:30 那一則是前一天那一場的；隔天和以安的約會照出（dt_an_3、第 3 句：前面沒貼出來的不佔序號、輪替）',
+    !!item('dt_zq_1')&&item('dt_zq_1').day===d+5&&R().dtTrip[f.trip]==='dt_zq_1'&&R().dtTrip[g.trip]==='dt_an_3'&&R().dt.dt_an_3.s===2&&R().dt.dt_zq_1.b===d+4&&R().dt.dt_an_3.b===d+5,J([R().dtTrip,R().dt.dt_an_3]));
+  /* 晚上的約會過了午夜才回來（改時間「晚一個小時」最晚 24:30）：那一則貼在隔天凌晨，還是前一天的；隔天另一場照出 */
+  const tl={trip:'TL1',who:AN,locs:['D06'],day:d+7,depart:18,back:23.5,transport:'mrt',departed:true,status:'done',spots:['D06.lawn']};
+  DATE.complete(H.G,tl); const el=FEED.dateDone(H.G,DATE.trip(H.G,'TL1'),T(d+7,24.1)); const h=await goDate(AN,['D08'],d+8,13); tickAt(d+8,23.9);
+  check('8. 過了午夜才分開：那一則 00:36 貼在隔天、算前一天的；隔天下午的約會那一則 21:30 照出',!!el&&el.base===d+7&&el.day===d+8&&hh(el.h)===hh(0.6)&&R().dtTrip.TL1==='dt_an_4'&&R().dtTrip[h.trip]==='dt_an_5'&&dts().filter(i=>i.day===d+8).length===2,J([el,R().dtTrip]));
 });
 
 /* ======================= 9 一天四則：這一則優先，別人的往後擠 ======================= */
