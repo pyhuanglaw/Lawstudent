@@ -65,7 +65,8 @@ const SOCIAL = (function(){
   S.PG_TAG={ heroine_01:[['2029-09-01','台大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
     heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','研究單位']], kexin:[['2029-09-01','政大法律系畢業'],['2029-12-14','律師（職前訓練）']],
     zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','台大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國']],
-    yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']] };
+    yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']],
+    npc_ta_chen:[['2029-09-01','法研所博士班']] };   /* AA_519 2-1：陳助教畢業以後（2028-09 起博士班）*/
   const dkS=k=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.tOf) return null; const p=String(k).split('-').map(Number); return Math.round((Date.UTC(p[0],p[1]-1,p[2])-CALENDAR.tOf(1))/86400000)+1; };
   S.pgTag=function(id){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law'||!F.GRADUATED) return null; const L=S.PG_TAG[id]; if(!L) return null; let v;
     for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d&&t!=null) v=t; } return v==null?null:v; };   /* null 的那一列不蓋掉前一列（AA_363 T4：沿用最後一列，不退回學年的規則）*/

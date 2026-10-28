@@ -798,7 +798,9 @@ const STORY = (function(){
   /* 不坐後座的理由（上車前）：回傳字幕的文字；null＝可以上車 */
   S.rideBlock=function(GM,n){ const G=GM.G, id=n.charId||n.id; if(S.rideMode(n)==='ride') return null; const r=S.rideInfo(G,id), nm=SOCIAL.displayName(id); return r.decline?nm+'：「'+r.decline+'」':'（'+nm+'說她走路就好。）'; };
   S.SMALL_AFTER={};   /* 人物 id → 句子用完以後的那一句旁白（AA_497）*/
+  S.SMALL_DAILY={};   /* 人物 id → fn(G,id,r,nm)：自己的一天一句（AA_519：陳助教、筱涵照學年、阿凱週五資工系館前；src/sup519_3d.js 登記）；回傳 null＝照下面的規則 */
   S.smallTalk=function(G,id){ const c=CHARACTERS[id]||{}, nm=SOCIAL.displayName(id); const R=G.social.small||(G.social.small={}), r=R[id]||(R[id]={day:0,used:[],last:null});
+    if(S.SMALL_DAILY[id]){ const o=S.SMALL_DAILY[id](G,id,r,nm); if(o) return o; }
     if(r.day===G.day) return {narr:'（'+nm+'跟你打了個招呼，又忙自己的事。）',fresh:false};
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, tid=T?T.id:'none', hh=G.hour%24;
     const ok=e=>{ if(typeof e==='string') return true; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond;

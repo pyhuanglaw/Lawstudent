@@ -146,6 +146,19 @@ const SUP519=(function(){
     if(after(G,NP_FROM)&&R.npIntro==null&&CF.npIntro){ R.npIntro=G.day; R.hday=G.day; await GM.say({name:CF.npIntro[0]},CF.npIntro[1]); return true; }
     const e=S.heardDue(GM); if(!e) return false; R.heard[e.id]=G.day; R.hday=G.day; const cid=e.who===CF.np?'hc_np':'hc_xt', n=GM.npc&&GM.npc[cid]; await GM.say({name:e.who,obj:n&&n.obj},e.t); return true; };
 
+  /* ======================= 第 2 節 陳助教（陳冠廷）、第 4 節 黃筱涵：3D 閒聊照學年 ======================= */
+  /* 一年兩句（照順序，一天一句；STORY.smallTalk 的 SMALL_DAILY）：用完那一年＝和「聊了兩句天氣」交替；當天第二次照舊（「…跟你打了個招呼，又忙自己的事。」）*/
+  const yearRows=(Y,id,extra)=>{ const out=[]; for(const y of [1,2,3,4]) (Y[y]||[]).forEach((t,i)=>{ const x=extra&&extra(y,i,t); out.push({k:'y'+y+'_'+i,on:G=>S.yearOf(G)===y&&(!x||!x.on||x.on(G)),t:x&&x.t?x.t:t}); }); return out; };
+  const TA=L.ta||{};
+  /* 大四那一句「我口試那天，書瑀坐在最後一排。」要認識學姊；不認識的換一句（2-2）*/
+  S.TA_ROWS=yearRows(TA.years||{},'npc_ta_chen',(y,i)=>y===4&&i===1?{t:G=>met('heroine_05')?TA.years[4][1]:TA.noSis}:null);
+  S.smallYear=function(G,id,r,nm,rows){ if(!law(G)||r.day===G.day) return null; const o=S.daily(G,id,rows,null,{alt:true}); if(!o) return null; r.day=G.day;
+    if(o.weather){ r.last='__greet'; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; }
+    r.last=o.t; return {say:'「'+o.t+'」',fresh:true}; };
+  /* 2-3：2028-06-20（二）口試；21:00 認識他的人收到他的私訊（他第一次私訊玩家；不用回）*/
+  S.TA_PASS='2028-06-20';
+  S.taPhone=function(G){ if(!met('npc_ta_chen')) return; S.at(G,DK(S.TA_PASS),21,(TA.pass||[]).map(t=>({th:'p:npc_ta_chen',from:'npc_ta_chen',text:t})),'aa519_ta_pass'); };
+
   /* ---------- 8-3 麵店的 2D 事件那一天：阿姨那幾列擲骰當成功 ---------- */
   let AUNT_EVS=null;
   S.auntEvs=function(){ if(AUNT_EVS) return AUNT_EVS; const set=new Set(); if(typeof STORY_EVENTS==='undefined') return set; const N=S.noodleEvs();
@@ -182,6 +195,7 @@ const SUP519=(function(){
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
       if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週麵店團不排 */
+      if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); }   /* 2-2 */
       if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('SUP519.phone',e); } });
       if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); });
       if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); return false; }); }
@@ -193,7 +207,7 @@ const SUP519=(function(){
     if(typeof INVITE_DATA!=='undefined'&&INVITE_DATA&&Array.isArray(INVITE_DATA.places)){ const P=INVITE_DATA.places.find(p=>p&&p.id==='noodle'); if(P&&!P._aa519){ const av0=P.avail; P.avail=(G,day)=>!S.tripDay(day)&&(!av0||av0(G,day)); P._aa519=true; } }   /* 8-4：那一週不排新的麵店邀約（INV：「阿鳳麵店那個時間沒開。」改天）*/
   };
   /* ---------- 手機（STORY.PHONE_RULES）---------- */
-  S.phone=function(G){ if(!law(G)) return; S.tripPhone(G); };
+  S.phone=function(G){ if(!law(G)) return; S.tripPhone(G); S.taPhone(G); };
   S.wire();
   return S;
 })();
