@@ -35547,7 +35547,7 @@
    "title": "筆記頁「日誌」出現 ev_xxx 事件代號：沒有標題的事件演完，events3d.js 用 ev.id 當日誌（events.js 39 個標題空白的事件）",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_522 第 8 節子代理回報（10-28 14:1x）",
    "first": {
@@ -35567,7 +35567,8 @@
     "receiver": "BB",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-28 14:2x UTC】LAWWW-C 在 memoid-1028 512508b9e 改好（memo_no_evid 4 項 ALL PASS，修改前 FAILED 4）；開發分支這一輪全部 Node 跑完就合併"
+   "next": "【LAWWW-C 2026-10-28 14:2x UTC】合併進開發分支 1e75dde05（memoid-1028 512508b9e；memo_no_evid 4 項 ALL PASS，修改前 FAILED 4；合併後有提到 memo 的 279 支 0 失敗）；下一版 v9.10.14 給 BB 看筆記頁日誌",
+   "sha": "1e75dde05"
   }
  ]
 }
