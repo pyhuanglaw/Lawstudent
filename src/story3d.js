@@ -415,7 +415,7 @@ const STORY = (function(){
   /* 法律系同學二十位（pool，AA_498 第 3 節）：表上寫了「必修課」的同屆（poolClass：靖雯第一排正中間、采潔第三排、郁婷上課前 10 分鐘在教室門口）一樣照課表；
      座位、門口的站位由 POOL.classEnt 決定（src/pool3d.js）。其他 pool 同學（沒有 poolClass）照舊不在教室 */
   S.classmateClass=function(c,G){ const pc=!!(c&&c.social_layer==='B'&&c.poolClass&&typeof POOL!=='undefined'&&POOL.classEnt); if(!c||c.department!=='法律系'||c.year!==1||c.school||(c.social_layer==='B'&&!pc)||typeof CLS==='undefined'||!CLS.dayItems) return null;
-    for(const it of CLS.dayItems(G)){ if(it.c.kind!=='required'||!CLS.live(G,it)||(CLS.storyClass&&CLS.storyClass(G,it))) continue; if(c.id===S.YOUCHEN&&S.youchenAway(it)) continue; const base={zone:it.room.zone||'classroom',room:it.room.room,act:'class',days:[G.weekday],from:it.t0-0.25,to:it.t1,cls:it.key}; return pc?POOL.classEnt(c,G,it,base):base; }
+    for(const it of CLS.dayItems(G)){ if(it.c.kind!=='required'||!CLS.live(G,it)||(CLS.storyClass&&CLS.storyClass(G,it))) continue; if(c.id===S.YOUCHEN&&S.youchenAway(it)) continue; if(c.id==='heroine_01'&&it.c.redo) continue;   /* 日本路線大四下補修（courses.js redo）：以安不補修（jp3d.js、AA_510 0-2 第 6 點）*/ const base={zone:it.room.zone||'classroom',room:it.room.room,act:'class',days:[G.weekday],from:it.t0-0.25,to:it.t1,cls:it.key}; return pc?POOL.classEnt(c,G,it,base):base; }
     return null; };
   /* 宥辰的出席（AA_497 第 1-2 節；AA_496 第 6 節「設定考前才出現、白天起不來，程式讓他每一堂必修都坐在教室」）：12:00 以前的必修只在第 1 週、期中考前一週與考試週（第 7～9 週）、
      期末考前兩週與考試週（最後三週；大四下 15 週＝第 13～15 週），其他週座位空著（不來教室：作息也沒有那個時段＝人不在場景裡）；12:00 以後的必修照常在（「常常趴著」沒有趴桌的動作，照坐著）。
@@ -590,6 +590,7 @@ const STORY = (function(){
   /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
   S.LADDER_GREET_IF['這週讀書會在萬才館，有空可以來。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y2S2'&&[8,9,16].includes(T.week)); }};
   /* AA_378 #11（企劃線 5cd35678；源檔 6e0d1313）：以安大四上期末那句只在 12/18～12/21；讀書會那句跳過第 8～9 週（期中考週）*/
+  for(const k of ['學弟。……論文寫到第四章了。','{name}。……論文寫到第四章了。']) S.LADDER_GREET_IF[k]={test:G=>{ const d=S.dayOfKey('2029-05-29'); return d==null||G.day<d||(G.day===d&&(G.hour||0)<16); }};   /* AA_510 0-2 第 5 點：學姊 5/29 16:00 口試以後不說「論文寫到第四章了」*/
   S.LADDER_GREET_IF['期末考週。書還有一半沒背完。']={test:G=>G.day>=S.dayOfKey('2028-12-18')&&G.day<=S.dayOfKey('2028-12-21')};
   S.LADDER_GREET_IF['讀書會八點開始，我先來擦白板。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y4S1'&&[8,9].includes(T.week)); }};
   const ladGreetOk=(G,t)=>{ for(const k in S.LADDER_GREET_IF){ if(!t.startsWith(k)) continue; const R=S.LADDER_GREET_IF[k], so=ladRec(G); so.greetOnce=so.greetOnce||{}; if(R.once&&so.greetOnce[k]) return false; if(R.test&&!R.test(G)) return false; } return true; };
