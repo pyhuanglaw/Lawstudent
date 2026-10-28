@@ -35243,7 +35243,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 11:2x UTC】BB 門檻：①② PASS（rc1）、③ rc2 進兩次四區 ALL PASS（133ef256a）；④ 等 7 天（工具改前置站位）、麵店阿姨、relsuite 跑中｜【LAWWW-C 2026-10-28 10:2x UTC】rc2 da50fbdc1 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；HV-15：題目漏收 0（企劃線 c8f794db5 重新匯出 399 題只有來源那一行不同）、check_orphans 88、停住 115、白名單 24、check_lines 528；BB 跑 reentry_shots（rc2 四區＋rc1 對照）、relsuite、priv2｜【LAWWW-C 2026-10-28 10:2x UTC】rc1 NO-GO（BB 門檻 ③：大廳第二次進去壞＝LOBBY-REENTRY-1028）；rc2＝da50fbdc1＝rc1＋0d00c28b5（zones3d.js、tests/linze_lightmap_unit.js），bundle wip_backup/rel91013_rc2.bundle（17898179e）；BB 重拍 ③／③b；其他門檻：① 在家存檔選單 PASS、② newGameAbort PASS、relsuite 跑中；rc2 全部 Node 背景跑中｜【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
+   "next": "【LAWWW-C 2026-10-28 11:4x UTC】BB 門檻 ④ 等 7 天 PASS（第 1 天擋、第 3 天不重算、第 8 天旁白＋照演）、第 5 點麵店阿姨 PASS；兩件 P2（PRIV-AUNT-1028）不擋這一版；接著 r3 → relsuite（約 85 分鐘）→ GO／NO-GO｜【LAWWW-C 2026-10-28 11:2x UTC】BB 門檻：①② PASS（rc1）、③ rc2 進兩次四區 ALL PASS（133ef256a）；④ 等 7 天（工具改前置站位）、麵店阿姨、relsuite 跑中｜【LAWWW-C 2026-10-28 10:2x UTC】rc2 da50fbdc1 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；HV-15：題目漏收 0（企劃線 c8f794db5 重新匯出 399 題只有來源那一行不同）、check_orphans 88、停住 115、白名單 24、check_lines 528；BB 跑 reentry_shots（rc2 四區＋rc1 對照）、relsuite、priv2｜【LAWWW-C 2026-10-28 10:2x UTC】rc1 NO-GO（BB 門檻 ③：大廳第二次進去壞＝LOBBY-REENTRY-1028）；rc2＝da50fbdc1＝rc1＋0d00c28b5（zones3d.js、tests/linze_lightmap_unit.js），bundle wip_backup/rel91013_rc2.bundle（17898179e）；BB 重拍 ③／③b；其他門檻：① 在家存檔選單 PASS、② newGameAbort PASS、relsuite 跑中；rc2 全部 Node 背景跑中｜【LAWWW-C 2026-10-28 10:1x UTC】rc1＝12e6190dd（本機分支 rel-91013＝3dbe4ad2e＋LAWWW2 e29fde3c5 吊燈：tools/blender/linze_interior.py＋glb＋兩張光照貼圖）；room_ceiling、linze_lightmap、nav_buildings ALL PASS；bundle wip_backup/rel91013_rc1.bundle；rc1 全部 Node 背景跑中；BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）｜【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
   },
   {
    "id": "SIS-B14-1028",
@@ -35325,6 +35325,35 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 11:3x UTC】AA 第 8 節第 3 點（d6f8621ac）：碗那句只放有吃東西的 208 場景——先 9/13 ev_us2_kitchen、沒演到才 3-2 ev_us208_lurou，接在第一句旁白後面（分兩個碗那支接在那句後面）；派子代理改｜【LAWWW-C 2026-10-28 11:3x UTC】合併 b89971426（子代理 f1f6717cf）：us208_3d.js 七場第一句 BOWL（SISB14.bowlDue、SIS14_BOWL 一次）、ev_sis_pickup 戀人版「你站在出口的右邊」（SIS14_RIGHT）；aa516 120 項 ALL PASS（改前 FAILED 10）；問 AA：US2 算不算第一次 208、碗那句放進門那一句後面？；下一版｜【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
+  },
+  {
+   "id": "PRIV-AUNT-1028",
+   "title": "BB 測出兩件（麵店阿姨）：(A) 麵店只有阿姨在時「約她去…」、tell_later 被擋（第 12 項說約她去照擋；tell_later 沒定）；(B) 阿姨幾點在店裡對不上——auntIn 19:00（AA_425 第 1 節）vs 同框 c503_6_2 17:30～20:30，週二、四 18:00～19:00 她說「阿姨去買東西」阿姨卻站在旁邊",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "source": "BB-C 2026-10-28 11:41（v9.10.13 rc2 門檻 ④ 第 5 點，BB_218 c6e23925c）",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "大一上週二、四 18:00 走進麵店、語彤顧店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 11:4x UTC】不擋 v9.10.13（P2，不壞存檔不卡住）；已問 AA 兩件怎麼定；AA 定了 LAWWW 改（下一版）",
+   "pausedReason": "等 AA 決定（(A) 約她去／tell_later 阿姨算不算旁邊有人；(B) 阿姨 19:00 才來還是 17:30 就在）",
+   "resumeWhen": "AA 回覆",
+   "xai": {
+    "spec": "AA_503 第 14 節第 12 項、後補第 5 點；AA_425 第 1 節；heroine_circle c503_6_2",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 回一句怎麼定",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
