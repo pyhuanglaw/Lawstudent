@@ -16,6 +16,7 @@
 //   舊程式剛好也對的 19 項：拿得到稿、作息照舊（312、507、409 的平常日子）、走進房間不說／閒聊照原本的那些「沒有」的對照、409 最後一晚以外的日子不演之類。
 // 修改後：ALL PASS（數字見檔尾 H.done 的輸出）
 // 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 ced552c17；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
+require('./alison.js');   /* AA_380：讀稿時 Alison 的舊叫法照匯入工具同一套換成 Alison（稿 2-1 第 4 列）*/
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -180,7 +181,7 @@ const sweep=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)*
     check('3. 一天一句新的：「這間窗戶看得到樹……」；沒有沛珊分開、還沒 12/19＝隔天沒有新的（之後那兩句）',J(a4)===J([ZN+Z.rows[1].t])&&isAfter(a5,Z),J([a4,a5]));
     H.G.events.done.ev_peishan_split=1; at('2026-10-14',22.6); const a6=await talk('zhe');
     check('3. ev_peishan_split 演過、沒有和沛珊交往：「柏翰這禮拜都很早上床。……你有發現嗎？」',J(a6)===J([ZN+Z.rows[2].t]),J(a6));
-    const [a7,a8]=await days('zhe',[['2026-12-18',23.2],['2026-12-19',23.2]]); check('3. 12/18 沒有、12/19 起「我最近比較晚回來。……送小語去捷運站。」',isAfter(a7,Z)&&J(a8)===J([ZN+Z.rows[3].t]),J([a7,a8]));
+    const [a7,a8]=await days('zhe',[['2026-12-18',23.2],['2026-12-19',23.2]]); check('3. 12/18 沒有、12/19 起「我最近比較晚回來。……送 Alison 去捷運站。」（AA_380 改名）',isAfter(a7,Z)&&J(a8)===J([ZN+Z.rows[3].t]),J([a7,a8]));
     const [a9,a10,a11]=await days('zhe',[['2027-02-23',22.6],['2027-02-24',22.6],['2027-04-27',22.6]]);
     check('3. 大二下：「學弟期中考前問我民總怎麼讀。我說問柏翰。」；「期末前」那句第 1 週還沒有、第 10 週（4/27）說',J(a9)===J([ZN+Z.rows[4].t])&&isAfter(a10,Z)&&J(a11)===J([ZN+Z.rows[5].t]),J([a9,a10,a11]));
     check('3. 每句一次、照順序（z1～z6 各一次）',J(said('r312','zhe'))===J(['z1','z2','z3','z4','z5','z6']),J(said('r312','zhe')));

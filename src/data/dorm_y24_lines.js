@@ -4,6 +4,7 @@
    ・表格一格裡「（旁白）「台詞」」（2-2 第 3 列、2-4 第 3 列）＝pre 先一句旁白、t 再一句他說的。
    ・手機訊息：稿一行一則；「（照片：…）」照訊息顯示。
    ・背景室友（學弟、別系的同屆）沒有名字、沒有台詞、沒有 3D，只在旁白裡（稿開頭「口氣」第 3 點）。
+   ・稿裡 Alison 的舊叫法（AA_380 改名以前的）照 AA_380（使用者 2026-10-21「改成Alison」）換成 Alison（匯入工具 alison 的寫法：和中文字之間半形空格）；測試讀稿時同一套換（tests/alison.js）。
    時間、條件、事件、群組在 src/dorm_y24_3d.js（DORMY24）；作息（誰幾點在房間）照舊 src/story3d.js 的 S.dormMates（只多 409 最後一晚柏翰在，見 DORMY24.lastNight）。
    測試：node tests/aa517_dorm_y24_unit.js */
 'use strict';
@@ -29,7 +30,8 @@ const DORMY24_LINES=(function(){
             {k:'z1',term:'Y2S1',weeks:[1,4],t:'學弟問我浴室哪一間水比較熱。我教他了。……我現在是學長了欸。'},
             {k:'z2',term:'Y2S1',t:'這間窗戶看得到樹。203 只看得到對面的冷氣。'},
             {k:'z3',term:'Y2S1',need:'split',t:'柏翰這禮拜都很早上床。……你有發現嗎？'},
-            {k:'z4',term:'Y2S1',from:'2026-12-19',t:'我最近比較晚回來。……送小語去捷運站。'},   /* 稿「12/19 以後（ev_yu_together）」：看日期（S.dormMates 阿哲 12/19 起 23:00 才回來也是看日期）*/
+            {k:'z4',term:'Y2S1',from:'2026-12-19',t:'我最近比較晚回來。……送 Alison 去捷運站。'},   /* 稿寫的是 AA_380 改名以前的舊叫法：使用者 10-21「改成Alison」，遊戲裡一律 Alison，照匯入工具 alison 的寫法換（tools/story/import_guard.py、tests/alison.js）。
+                稿「12/19 以後（ev_yu_together）」：看日期（S.dormMates 阿哲 12/19 起 23:00 才回來也是看日期）*/
             {k:'z5',term:'Y2S2',t:'學弟期中考前問我民總怎麼讀。我說問柏翰。'},
             {k:'z6',term:'Y2S2',prefinal:true,t:'明年抽籤，我感覺我會輸。'} ],   /* 接 AA_208 第 9 節 2027-07-15「我二樓」*/
           after:[nar('（他在床上講電話，看到你，比了一下「等一下」。）'),{text:'欸，宵夜？……好啦，明天。'}] },
