@@ -8,6 +8,8 @@
 //      閒聊階梯（整層：Y-L7、Y7-L8；換進私密那一版才擋：Z3-L6、P3-L6、Z2-L6；原本那一版照播）、Y4-L6 的第二個選項、真的圈子（語彤和筱涵）、until／from
 //   5  不會永久卡住：有期限的那幾筆，期限內照圈子的資料都有她一個人的時候（事件、閒聊階梯那幾層）
 //   6  一般閒聊照常：旁邊有人時一般的階梯照播、照常前進；被擋下的那一層隔天她一個人時播
+// 修改前（開發分支 c701f8b5e：git archive 那一版的 src、tests、index.html、白名單，放進這支測試實際跑，2026-10-28）：FAILED 19、PASS 7
+//   （沒有 PRIVTALK，清單那 4 項沒跑；PASS＝原本就有的「約她去…」與兩個 priv 選項 4 項、學姊正常見面照記、事件期限的圈子資料、一般的那一層照播）。修改後 ALL PASS（30 項）。
 // 用法：node tests/company_priv_unit.js
 'use strict';
 const H=require('./pg_harness.js');

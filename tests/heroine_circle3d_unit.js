@@ -19,8 +19,8 @@
 // 第二輪（CIRCLE3D-Y4-1028）：大四 AA_509、AA_510 @ 28f981438（白名單上的那一版）加進對稿（八份、102 列）；
 //   7  大四：以安坐到語彤背後那一桌（comp behind）、只有旁白的同框列要同伴在旁邊、總圖門口的媽媽（spot：走到門口 5 m 內、第 10 週起週四 18:00 前後、一天一次）、
 //      語彤的法律課、子晴 6/28 起週五公館和阿凱一起走（畢業以後篇照樣成立）、學姊 12/23 以後（寒假）、5/29 以後週五和陳助教；story3d.js 的 offerInvite 問 STORY.privNow
-//   修改前（開發分支 c701f8b5e：git archive 那一版的 src、tests、index.html、白名單，放進這支測試、GIT_DIR 指到 repo 實際跑）：結果寫在下面一行
-//   CIRCLE3D-Y4 修改前：見 tests/company_priv_unit.js 同一段說明（回報）
+//   修改前（開發分支 c701f8b5e：git archive 那一版的 src、tests、index.html、白名單，放進這支測試實際跑，2026-10-28）：FAILED 7、PASS 46
+//   （FAIL＝稿→遊戲、ref、story3d.js 問 privNow、白名單 note、7 的兩列找不到成立的時候與例外）。修改後 ALL PASS（58 項）。
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
