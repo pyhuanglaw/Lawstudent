@@ -222,7 +222,7 @@ const POOL_STORY=(function(){
       /* 6-5 印好的書 */
       book:[ N('（她從布書袋裡拿出一本很薄的書，封面寫著《第三章》。）'),
         {if:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Y)},speaker:C,text:'印了五本。我媽、書房老闆、郁婷、你，最後一本我自己留著。'},
-        {unless:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Y)},speaker:C,text:'我媽、書房老闆、你，還有兩本我自己留著。'},
+        {unless:{custom:G=>typeof POOL!=='undefined'&&POOL.met(G,Y)},speaker:C,text:'印了五本。'+'我媽、書房老闆、你，還有兩本我自己留著。'},   /* 沒認識郁婷：「那句換成」＝列名字的那一句（「印了五本。」留著：媽、老闆、你＋兩本自己的＝五本）*/
         c('第一頁先不要看結局。') ],
       bookLook:'（你翻到最後一頁，又翻回來。）', bookLookLaw:'（第三章裡，警察讓兇手睡了一晚。）' },
 

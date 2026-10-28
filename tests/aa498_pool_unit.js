@@ -9,9 +9,15 @@
 //   6  關係上限（2-8）：做完順手的事、走完線到得了「朋友」，npcRom 沒加
 //   7  2-9 兩個問題：ev_pool_greet 的地點、pool_greeted 用完清掉（「假裝看手機」不加熟悉）
 //   8  其他：認識前「和〈外觀描述〉說話」、認識後名字；沒說過話的不進朋友頁；人物頁一句話／做過的事／personality；順手的事和店員的一起算 SIDEQ.MAX；新的互動點
-// 修改前（開發分支 9b3a1f10a，2026-10-28 開工時）：（在 9b3a1f10a 的程式上真的跑過，見回報）
-//   沒有 src/data/pool_story.js、src/pool3d.js（POOL）——第 0、2、3、4、5、6、8 節全部 FAIL；第 1 節：舊名還在、沒有 POOL.migrate（FAIL）；
-//   第 7 節：旁白一律「教室」、pool_greeted 不清（FAIL）。
+// 修改前（開發分支 9b3a1f10a，2026-10-28 開工時；git archive 那一版、把這支測試放進去真的跑過）：PASS 2、FAIL 54——
+//   0 稿：沒有 src/data/pool_story.js、src/pool3d.js（FAIL）。
+//   1 改名：六個舊名、SQ16 舊名單（第 2、5 個和 pool 撞名）都還在，沒有 POOL.migrate（FAIL）。
+//   2 地點：i%5 的 pick 還在、二十位沒有作息；廖芸萱、嚴守誠、馬佳蓉都沒生出來；傅鐘、教室門口沒人；認識前叫「法律系一年級的女生」（FAIL）。
+//   3 樣子：spec 沒有固定底模；同一個人換區域底模跟著輪換 npc_nf2 → nf3 → nf4 → nf5（FAIL）。只有「game3d.js 用 char3d.spec」本來就有（PASS）。
+//   4 第一批五位：認識是舊的自我介紹＋沒有選項的「……你呢？」；沒有順手的事、訊息、房間物品（FAIL；四節丟例外）。
+//   5、6、8 沒有 POOL（FAIL）。
+//   7 2-9：曾靖雯的「你確定在教室看過」原句本來就對（PASS）；廖芸萱也說「教室」；pool_greeted 沒清，下一個人選「假裝看手機」也熟悉＋3（FAIL）。
+// 修改後：ALL PASS（82 項）。
 // 用法：node tests/aa498_pool_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -81,7 +87,8 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
   const out=[]; const walk=(v,k)=>{ if(v==null||SKIP.has(k)) return; if(typeof v==='string'){ out.push(v); return; } if(Array.isArray(v)){ v.forEach(x=>walk(x,k)); return; } if(typeof v==='object') for(const kk in v) walk(v[kk],kk); };
   walk(PS().LINES,'');
   const DERIVED={'明天晚上交誼廳。我媽寄了文旦。你來吃。':['明天晚上交誼廳。我媽寄了文旦。你跟阿凱來吃。','跟阿凱'],'（文旦剝了一整桌。）':['（文旦剝了一整桌。阿凱把文旦皮戴在頭上。）','阿凱把文旦皮戴在頭上。']};   /* 8-5：阿凱大二不住男一舍的話拿掉的兩句 */
-  const bad=[...new Set(out)].filter(t=>doc.indexOf(t)<0&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t));
+  const COMPOSED={'印了五本。我媽、書房老闆、你，還有兩本我自己留著。':['印了五本。','我媽、書房老闆、你，還有兩本我自己留著。']};   /* 6-5 沒認識郁婷：「那句換成」列名字的那一句（兩段都一字不差在稿裡）*/
+  const bad=[...new Set(out)].filter(t=>doc.indexOf(t)<0&&!(DERIVED[t]&&doc.indexOf(DERIVED[t][0])>=0&&DERIVED[t][0].replace(DERIVED[t][1],'')===t)&&!(COMPOSED[t]&&COMPOSED[t].join('')===t&&COMPOSED[t].every(p=>doc.indexOf(p)>=0)));
   check('0. 每一句台詞、旁白、選項、手機訊息、人物頁一行都在 AA_498 稿裡（'+SRC+'，一字不差）',!!doc&&out.length>250&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
   const P3=PS().PEOPLE, ids=Object.keys(P3), rows=ids.map(id=>{ const p=P3[id]; return [id,p.card,p.personality].concat(p.where.map(e=>e.desc)).concat(p.cls?[p.cls.desc]:[]); });
   const badT=[]; for(const r of rows){ const id=r[0]; for(const t of r.slice(1)){ if(t&&doc.indexOf(t)<0) badT.push(id+':'+t); } }
@@ -202,7 +209,9 @@ await sec('4 林采潔',async()=>{ const a=ACTIVITIES.list.find(x=>x.id==='lib_t
   const aw=D('2027-05-21'); phAt(aw,22.2);
   check('4. 林采潔：大二下 5 月文學獎那則是 law 版（「法律細節很紮實…」「紮實的那一半，有你的份。」）',J(msgs(C).slice(-2))===J(['文學獎沒上。評審說「法律細節很紮實，可惜結局倉促」。','紮實的那一半，有你的份。']),J(msgs(C).slice(-3)));
   const b=TD('Y4S2',15,2); set(b,14,'bookstore'); GM.npc={}; spawn(C); SOCIAL.meet(Y,'classroom'); await talk(C,[]);
-  check('4. 林采潔 6-5 大四下第 15 週，舊路書房：印好的書（認識郁婷＝「印了五本。…郁婷、你…」）；房間物品「采潔的《第三章》」看＝law 版',has('（她從布書袋裡拿出一本很薄的書，封面寫著《第三章》。）')&&has('印了五本。我媽、書房老闆、郁婷、你，最後一本我自己留著。')&&has('第一頁先不要看結局。')&&STORY.roomItemList(H.G).some(x=>x[0]==='采潔的《第三章》'&&x[1]==='（第三章裡，警察讓兇手睡了一晚。）'),J(said())); });
+  check('4. 林采潔 6-5 大四下第 15 週，舊路書房：印好的書（認識郁婷＝「印了五本。…郁婷、你…」）；房間物品「采潔的《第三章》」看＝law 版',has('（她從布書袋裡拿出一本很薄的書，封面寫著《第三章》。）')&&has('印了五本。我媽、書房老闆、郁婷、你，最後一本我自己留著。')&&has('第一頁先不要看結局。')&&STORY.roomItemList(H.G).some(x=>x[0]==='采潔的《第三章》'&&x[1]==='（第三章裡，警察讓兇手睡了一晚。）'),J(said()));
+  fresh(b,14,'bookstore'); meet(C); rel(C,25,6); spawn(C); await talk(C,[]);
+  check('4. 林采潔 6-5 沒認識郁婷：列名字那一句換成「我媽、書房老闆、你，還有兩本我自己留著。」（「印了五本。」留著）；平常看房間物品＝「（你翻到最後一頁，又翻回來。）」',has('印了五本。我媽、書房老闆、你，還有兩本我自己留著。')&&!has('印了五本。我媽、書房老闆、郁婷、你，最後一本我自己留著。')&&STORY.roomItemList(H.G).some(x=>x[0]==='采潔的《第三章》'&&x[1]==='（你翻到最後一頁，又翻回來。）'),J(said())); });
 
 /* 鄭元碩：背影→秘密選「你拍的那張背影」；當主角→展覽的旁白是你的版本 */
 await sec('4 鄭元碩',async()=>{ const d=TD('Y1S1',6,3); fresh(d,16.5,'campus'); spawn(YS); await talk(YS,['可以給我看']);
@@ -231,7 +240,12 @@ await sec('4 邱家齊',async()=>{ const d=TD('Y1S1',5,7); fresh(d,21.5,'dorm_ha
   fresh(th,21.5,'dorm_hall'); SOCIAL.meet(Q,'dorm_hall'); rel(Q,25,3); SOCIAL.remember(Q,'SHARED_SECRET','我很想家'); spawn(Q); await talk(Q,[0]); const r2=SIDEQ.get(H.G,'PQ_QJQ'); set(th+2,11,'dorm_hall'); E.interactables=[]; P().populate('dorm_hall',GM);
   for(const k of ['qjqPick','qjqFridge']){ const x=E.interactables.find(q=>q.poolAct===k); if(x&&!x.hidden) await STORY.interact(x,GM); }
   phAt(th+2,20.2); set(th+3,18,'dorm_hall'); const note=E.interactables.find(x=>x.poolAct==='qjqNote'); H.said=[]; if(note&&!note.hidden) await STORY.interact(note,GM);
-  check('4. 邱家齊（對照）：門廳「領包裹」→ 交誼廳「把箱子放進交誼廳的冰箱」＝做完；週六 20:00 他私訊；週日晚上桌上的紙條；人物頁「幫他領過媽媽寄的箱子」',r2.state==='done'&&msgs(Q).includes(L()[Q].sat)&&has('（「魚丸分你兩包。阿公好多了。——家齊」）')&&P().deeds(H.G,Q).includes('幫他領過媽媽寄的箱子'),J([r2,msgs(Q),said()])); });
+  check('4. 邱家齊（對照）：門廳「領包裹」→ 交誼廳「把箱子放進交誼廳的冰箱」＝做完；週六 20:00 他私訊；週日晚上桌上的紙條；人物頁「幫他領過媽媽寄的箱子」',r2.state==='done'&&msgs(Q).includes(L()[Q].sat)&&has('（「魚丸分你兩包。阿公好多了。——家齊」）')&&P().deeds(H.G,Q).includes('幫他領過媽媽寄的箱子'),J([r2,msgs(Q),said()]));
+  /* 8-6 畢業那一週（大二下第 16 週）：週日 21～23 他在場＝那一場；週二不演；冰箱的紙條整週都看得到 */
+  fresh(TD('Y2S2',16,2),21.5,'dorm_hall'); meet(Q); rel(Q,25,6); SOCIAL.remember(Q,'SHARED_SECRET','我很想家'); spawn(Q); await talk(Q,[0]); const tue=has('學弟，我要回台南了。之後來台南，早餐我帶你去吃。');
+  E.interactables=[]; P().populate('dorm_hall',GM); const fr=E.interactables.find(x=>x.poolAct==='qjqFridgeNote'); const frOk=!!fr&&!fr.hidden;
+  set(TD('Y2S2',16,7),21.5,'dorm_hall'); GM.npc={}; spawn(Q); await talk(Q,[0]);
+  check('4. 邱家齊 8-6：畢業那一週的週日 21～23 在交誼廳＝「學弟，我要回台南了。…」→「一定去。」；週二不演；「看交誼廳的冰箱」那一週都在',!tue&&frOk&&has('學弟，我要回台南了。之後來台南，早餐我帶你去吃。')&&has('牛肉湯，五點半就開了。你起得來的話。'),J([tue,frOk,said()])); });
 
 /* 舊存檔：說過舊三句、說過秘密的，不重問，後面照「沒選」那一版 */
 await sec('4 舊存檔',async()=>{ const d=TD('Y1S2',12,2); fresh(d,6.75,'campus'); meet(Z); rel(Z,25,4);

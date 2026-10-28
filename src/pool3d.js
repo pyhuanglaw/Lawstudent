@@ -132,7 +132,7 @@ const POOL=(function(){
   /* 這一區、這個時間有沒有寫好的認識版本（沒有＝先不能說話）*/
   S.meetVersion=function(G,id){ if(!B1.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
-    if(id===Y) return e.door?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）*/
+    if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
     if(id===C){ if(z==='bookstore') return 'meetBook'; if(e.act==='class'&&(ti(G)>0||week(G)>=6)) return 'meetClass'; return null; }   /* 6-6：大一上第 6 週起，必修課第三排 */
     if(id===YS) return z==='campus'&&!e.terms&&S.py(G)===1?'meet':null;   /* 椰林大道那一筆；「你是大一的吧？」「大三」＝祐廷大一 */
     if(id===Q) return z==='dorm_hall'&&S.py(G)===1?'meet':null;   /* 交誼廳；「學弟」「大三」＝祐廷大一 */
@@ -268,7 +268,7 @@ const POOL=(function(){
       async(GM,who)=>{ const G=GM.G, e=ent(G,YS); if(S.qState(G,'PQ_YS')||!inTerm(G,'Y2S2')||week(G)<4||week(G)>10||!fam(YS)||!e||e.terms||!S.canOpen(G)) return false;   /* 7-3：大二下第 4～10 週，椰林大道 */
         await offer(GM,who,YS,'PQ_YS',{ask:'ask',opts:'askOpts',no:'askNo',accept:S.acceptYs}); return true; } ],
     [Q]:[
-      async(GM,who)=>{ const G=GM.G; if(S.did(G,'qjqBye')||!inTerm(G,'Y2S2')||week(G)!==16||G.zone!=='dorm_hall') return false;   /* 8-6：畢業那一週，他在場的話 */
+      async(GM,who)=>{ const G=GM.G; if(S.did(G,'qjqBye')||!inTerm(G,'Y2S2')||week(G)!==16||dateOf(G.day).wd!==7||G.zone!=='dorm_hall') return false;   /* 8-6：畢業那一週，他在場的話（那一週週日 21～23）*/
         await run(GM,Q,L[Q].bye); S.mark(G,'qjqBye'); S.seg(G,Q,'fridge'); small(G,Q).day=G.day; return true; },
       async(GM,who)=>{ const G=GM.G; if(has(Q,'SHARED_SECRET')||!fam(Q)||G.zone!=='dorm_hall'||small(G,Q).day===G.day) return false; if(!(ti(G)>0||(tid(G)==='Y1S1'&&week(G)>=10))) return false;   /* 秘密：大一上第 10 週起，交誼廳 */
         await secretScene(GM,Q,L[Q].secret); return true; },
