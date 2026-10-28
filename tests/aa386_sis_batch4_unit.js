@@ -18,7 +18,11 @@ let doc398=''; try{ doc398=cp.execSync('git show e81a1afe:"docs/story_planning/A
 let doc406=''; try{ doc406=cp.execSync('git show 895496a7:"docs/story_planning/AA_406_家族的聖誕交換禮物_直屬送直屬.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc406=''; }   /* AA_406 第 4 節：大二聖誕夜她先拿紙袋那一句 */
 let doc392=''; try{ doc392=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_392_學姊第六批_說了沒發生與每週視訊.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc392=''; }   /* AA_392 第 6 節荷花池也接在這兩個檔 */
 const SPLIT=['（她拿出一個紙袋。）','（她把螢光筆收進大衣口袋，沒有放進包包。）'];   /* AA_406 第 4 節「LAWWW 照這句調順序」：原本一行旁白拆成兩半 */
-const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0||doc392.indexOf(t)>=0||doc406.indexOf(t)>=0||SPLIT.includes(t);
+/* 2026-10-28 AA_512 第 6 節（企劃線 c444f0757）：6-3 4-1「還有，我要時間。不是一週，是我說好的那天。」改「還有，我要時間。等到我說好的那天。」（禁用句型）；6-2 重新開始那一次「……我也想好了。」後面多「其他的，想了很久。……沒有了。」——
+   新句子的稿是 AA_512（tests/aa512_sis_b13_unit.js 逐字對），這裡的 4-1、4-2 照新的寫 */
+let doc512=''; try{ doc512=cp.execSync('git show c444f0757:"docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc512=''; }
+const AA512_41='還有，我要時間。等到我說好的那天。';
+const inDoc=t=>doc.indexOf(t)>=0||doc398.indexOf(t)>=0||doc392.indexOf(t)>=0||doc406.indexOf(t)>=0||SPLIT.includes(t)||(t===AA512_41&&doc512.indexOf('→「'+t+'」')>=0);
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISB4!=='undefined'?SISB4:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
 const setup=(key,h,zone,lv,flags)=>{ const G=H.fresh(key,h,zone||'dorm',Object.assign({met_sis:true,SIS_W1:true},flags||{})); if(lv) H[lv](ID); G.contacts=G.contacts||{}; G.contacts[ID]=G.day-30; G.outings=[]; if(STORY._bindGM) STORY._bindGM(GM); return G; };
@@ -235,11 +239,11 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.opts=[]; return DATE.settle(GM,t,['D15.view'],[{id:'D15.view',name:'夜景'}],1,G.money|0); };
   { const d0=brk('ex'); at('2028-04-11',10); const a=ev1(); at('2028-04-12',10); const b=ev1(); const r0=relOf(); const {L,O}=await pre([1]); const r1=relOf(), c=ev1();
     check('4-1. 一般分開（前任）：滿 6 週前（41 天）找她不演；滿 6 週（42 天，閱覽室）演三件事',a===null&&b==='ev_sis_three_conditions',J({a,b}));
-    check('4-1. 「三件事。」「一，有事先跟我說。不要讓我自己猜。」「二，我要時間。不是一週，是我說好的那天。」「三，……三我還沒想好。想好了告訴你。」；「第三件，我等妳。」→「……不要說得那麼好聽。等就是了。」',
-      J(L)===J(['有事先跟我說。不要讓我自己猜。','還有，我要時間。不是一週，是我說好的那天。','……其他的，我還沒想好。想好了告訴你。','……不要說得那麼好聽。等就是了。'])&&J(O[0])===J(['「好。」','「我等妳。」']),J({L,O}));
+    check('4-1. 「三件事。」「一，有事先跟我說。不要讓我自己猜。」「二，我要時間。不是一週，是我說好的那天。」「三，……三我還沒想好。想好了告訴你。」；「第三件，我等妳。」→「……不要說得那麼好聽。等就是了。」（AA_512 6-3：第二句改「還有，我要時間。等到我說好的那天。」）',
+      J(L)===J(['有事先跟我說。不要讓我自己猜。',AA512_41,'……其他的，我還沒想好。想好了告訴你。','……不要說得那麼好聽。等就是了。'])&&J(O[0])===J(['「好。」','「我等妳。」']),J({L,O}));
     check('4-1. 記 SIS_REBUILD（那天）、記憶 SIS_REBUILD、不改關係數值；只演一次',H.G.flags.SIS_REBUILD===H.D('2028-04-12')&&SOCIAL.has(ID,'SIS_REBUILD')&&dRel(r0,r1)===J({})&&c===null&&d0===H.D('2028-03-01'),J({R:H.G.flags.SIS_REBUILD,d:dRel(r0,r1),c})); }
   { brk('catch'); at('2028-04-12',20); H.G.zone='cafe'; const {L}=await pre([0]);
-    check('4-1. 被發現退回朋友的：「一，我不要再從別人那裡聽到你的事。」；「好。」→「嗯。」',J(L)===J(['我不要再從別人那裡聽到你的事。','還有，我要時間。不是一週，是我說好的那天。','……其他的，我還沒想好。想好了告訴你。','嗯。']),J(L)); }
+    check('4-1. 被發現退回朋友的：「一，我不要再從別人那裡聽到你的事。」；「好。」→「嗯。」（第二句照 AA_512 6-3）',J(L)===J(['我不要再從別人那裡聽到你的事。',AA512_41,'……其他的，我還沒想好。想好了告訴你。','嗯。']),J(L)); }
   { const r=[];
     brk('ex'); at('2028-04-12',10); H.G.flags.dating_kexin=true; r.push(ev1());   /* 祐廷現在在和別人交往 */
     brk('ex'); at('2028-04-12',10); H.rel(ID,30,5,0); r.push(ev1());   /* 只有熟悉，不到朋友 */
@@ -253,8 +257,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     H.said=[]; await date(H.G); const O1=H.opts.flat(), c1=DATE.canConfess(H.G,ID);
     H.G.day+=3; H.said=[]; H.picks=[0,0]; await date(H.G); const O2=H.opts.flat(), L=said();
     check('4-2. 三件事以後：第一次正式校外約會的結尾沒有告白（不要求四次：次數從三件事那天起算）',c0.ok===false&&c0.why==='count'&&c0.count===0&&!O1.includes('（告訴她）')&&c1.why==='count'&&c1.count===1,J({c0,c1,O1}));
-    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應：「你做到了。」「……我也想好了。」「這次，我選你。」（AA_398 第 47 列）（不是第一次的「考試那時候就有一點了」）；交往中',
-      O2.includes('（告訴她）')&&L.includes('你做到了。')&&L[L.indexOf('你做到了。')+1]==='……我也想好了。'&&L[L.indexOf('你做到了。')+2]==='這次，我選你。'&&!L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
+    check('4-2. 第二次那一趟的結尾：「（告訴她）」→ 答應：「你做到了。」「……我也想好了。」「其他的，想了很久。……沒有了。」（AA_512 6-2 加的）「這次，我選你。」（AA_398 第 47 列）（不是第一次的「考試那時候就有一點了」）；交往中',
+      O2.includes('（告訴她）')&&L.includes('你做到了。')&&L[L.indexOf('你做到了。')+1]==='……我也想好了。'&&L[L.indexOf('你做到了。')+2]==='其他的，想了很久。……沒有了。'&&doc512.includes('> 學姊：其他的，想了很久。……沒有了。')&&L[L.indexOf('你做到了。')+3]==='這次，我選你。'&&!L.includes('其實我也是。考試那時候就有一點了，只是那時候不想想這個。')&&H.G.flags.dating_heroine_05===true&&ROM.get(H.G,ID).status==='dating',J({O2,L})); }
   { brk('ex'); at('2028-04-12',10); await pre([0]); stage6(); H.G.zone='dorm'; await date(H.G); H.G.day+=3; H.picks=[0,0]; await date(H.G); const back=H.G.flags.dating_heroine_05===true, dB=H.G.day;   /* 重新開始了 */
     ROM.end(H.G,ID,'apart_talk'); H.G.zone='library'; at(CALENDAR.dateOf(dB+41).key,10); const a=ev1(), rb=X()&&X().rebuild(H.G), c=DATE.canConfess(H.G,ID); at(CALENDAR.dateOf(dB+42).key,10); const b=ev1();
     check('4-1. 重新開始以後又分開：上一次的三件事不算這一次——沒有告白（why rebuild），滿 6 週再演一次三件事（BB_122 9-5：她永遠保留攻略可能）',back&&a===null&&!!rb&&rb.done===false&&c.why==='rebuild'&&b==='ev_sis_three_conditions',J({back,a,rb,c,b})); }
