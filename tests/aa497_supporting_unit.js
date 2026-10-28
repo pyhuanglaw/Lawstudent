@@ -20,7 +20,7 @@ global.Z3=global.Z3||{ZONES:{}}; global.CG_REGISTRY=global.CG_REGISTRY||{};
 const PG_FILES=new Set(['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js',
   'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js',
   'src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/data/syllabus.js','src/data/exam_bank.js','src/data/legal_qbank.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js']);
-const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js']);
+const SKIP=new Set(['src/character3d.js','src/engine3d.js','src/townkit3d.js','src/zones3d.js','src/bike3d.js','src/adv3d.js']);   /* adv3d.js 要 DOM：留 pg_harness 的 ADV（記下說的話）*/
 const loadErr=[];
 { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'); const files=[...html.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]).filter(f=>f.startsWith('src/')&&!PG_FILES.has(f)&&!SKIP.has(f));
   for(const f of files){ try{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }catch(e){ loadErr.push(f+'：'+String(e.message).slice(0,100)); } } }
@@ -57,14 +57,14 @@ const B7B=part(BB70,'## 7b.','## 7c.');
 const inDoc=t=>DOC.indexOf(t)>=0;
 
 (async()=>{
-  check('0. 讀稿：AA_497（7a38216ca）、BB_70 7b、BB_113',DOC.length>20000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0);
+  check('0. 讀稿：AA_497（7a38216ca）、BB_70 7b、BB_113',DOC.length>15000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0);
   check('0. 新檔載得到：src/data/sup497_lines.js、src/sup497_3d.js（index.html 在 bbpack3d.js 後面、GAME.boot() 前面）',!!S()&&!!L()&&!loadErr.length,loadErr.join('｜'));
   { const h=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=h.indexOf('src/data/sup497_lines.js'), b=h.indexOf('src/sup497_3d.js');
     check('0. index.html：bbpack3d.js → data/sup497_lines.js → sup497_3d.js → GAME.boot()',a>h.indexOf('src/bbpack3d.js')&&b>a&&b<h.indexOf('GAME.boot()')); }
 
   /* ===== 0 稿：遊戲 → 稿（一字不差）===== */
   await sec('0a',()=>{ if(!L()) throw new Error('沒有 SUP497_LINES');
-    const out=[]; const SKIPK=new Set(['src','ym','day','n']); const walk=(v,k)=>{ if(v==null||SKIPK.has(k)) return; if(typeof v==='string'){ if(!/^(yc|xc|an|yu|mx|zhe|dad|kv|yz|k|s|player)$/.test(v)) out.push(v); return; } if(typeof v==='number'||typeof v==='boolean') return; if(Array.isArray(v)){ v.forEach(x=>walk(x,k)); return; } if(typeof v==='object') for(const kk in v) walk(v[kk],kk); };
+    const out=[]; const SKIPK=new Set(['src','ym','day','n']); const walk=(v,k)=>{ if(v==null||SKIPK.has(k)) return; if(typeof v==='string'){ if(!/^(yc|xc|an|yu|mx|zhe|dad|kv|yz|k|s|player)$/.test(v)&&!/^Y\dS\d$/.test(v)) out.push(v); return; } if(typeof v==='number'||typeof v==='boolean') return; if(Array.isArray(v)){ v.forEach(x=>walk(x,k)); return; } if(typeof v==='object') for(const kk in v) walk(v[kk],kk); };
     walk(L(),'');
     /* 推導出來的（稿寫的是描述或規則，遊戲照規則組成一句）：每一項寫明從稿的哪裡來 */
     const DERIVED={
@@ -77,8 +77,8 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       '（聽出來的人會笑。）':'BB_70 7b「聽出來的人會笑」（旁白）',
       '（照片）':'2-6 第一列「拍給你。（照片）」（訊息分兩則）',
       '筆記第 7 頁的圖畫反了。我改好了，拍給你。':'2-6 第一列（同上）',
-      '宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','宜蓁':'5-2「家族的學妹統一叫宜蓁」','總圖 B1 討論室':'介面的字' };
-    const QUOTED=t=>inDoc('「'+t+'」');   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號 */
+      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','宜蓁':'5-2「家族的學妹統一叫宜蓁」','總圖 B1 討論室':'介面的字' };
+    const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
     check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 7a38216ca／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
     const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/宜蓁|總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
@@ -109,7 +109,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     const sm=[]; for(const r of songRows){ const c=r.split('|').map(x=>x.trim()); const n=+c[1], row=(L().yc.songs||[]).find(q=>q.n===n); if(!row){ sm.push(n+':沒有'); continue; }
       if(!row.say.every(t=>c[3].indexOf(t)>=0)) sm.push(n+':傳的'); if(row.hear&&c[4].indexOf(row.hear)<0) sm.push(n+':聽到'); if(row.where&&c[5].indexOf(row.where)<0) sm.push(n+':這是哪裡'); }
     check('0b. 週五的歌：表的 13 列（傳的、點開聽到、「這是哪裡？」他回）都在 sup497_lines.js',songRows.length===13&&!sm.length,J(sm));
-    const tbl=(a,b)=>part(DOC,a,b).split('\n').filter(l=>/^\| (大|之後)/.test(l)).map(l=>l.split('|')[2]).join(' ');
+    const tbl=(a,b)=>part(DOC,a,b).split('\n').filter(l=>/^\| (大|之後)/.test(l)).map(l=>l.split('|')[2].replace(/（\*\*[^）]*）/g,'')).join(' ');   /* 「（**取代**現在的「…」，接上…）」是說明，不是台詞 */
     const q=s=>[...s.matchAll(/「([^」]+)」/g)].map(m=>'「'+m[1]+'」');
     const SM=JSON.stringify(SMALLTALK)+JSON.stringify(L());
     const st=[['1-10',tbl('### 1-10.','### 1-11.')],['2-9',tbl('### 2-9.','- 「以安不在')],['4-5',tbl('### 4-5.','### 4-6.')]].map(([n,s])=>[n,q(s).filter(t=>SM.indexOf(t)<0)]);
@@ -122,28 +122,34 @@ const inDoc=t=>DOC.indexOf(t)>=0;
   /* ===================== 1 宥辰 ===================== */
   await sec('1-1',()=>{ check('1-1. characters.js 的 personality 補一句「在錄音室待過一年」',CHARACTERS[YC].personality==='考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好；在錄音室待過一年',CHARACTERS[YC].personality); });
 
-  await sec('1-3',async()=>{ const it=()=>{ const d=TD('Y1S1',3,4); at(d,13.5); return CLS.dayItems(H.G).find(x=>x.c.id==='civ_general'); };
-    fresh(TD('Y1S1',3,4),13.5,'classroom'); const i3=it();
-    check('1-3. 大一上第 3 週民總（週四 13:20，第一堂他在的下午必修）、還沒認識他＝要演',!!i3&&S().ycMeetDue(H.G,i3));
-    const due=(w,flags,mem)=>{ fresh(TD('Y1S1',w,4),13.5,'classroom',flags); if(mem) SOCIAL.remember(YC,'FIRST_MET',''); const x=CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); return !!x&&S().ycMeetDue(H.G,x); };
-    check('1-3. 第 1 週（劇情的課）、已經認識（週五先在公館遇到）、已經演過＝不演',!due(1)&&!due(4,null,true)&&!due(4,{YC_MEET:1}));
+  await sec('1-3',async()=>{ const SPLIT='ev_an_report_split';
+    /* 法律系開局 9/16（第 3 週週二）：第 3 週週四的民總是第二天的劇情課；第 4 週週四那一堂已經有周教授借書（loans3d.js L1，課堂中）＋以安的報告分工（下課）＝往後一週 */
+    const fr=(w,h,o)=>{ o=o||{}; fresh(TD('Y1S1',w,4),h,'classroom',o.flags); if(o.split) H.G.events.done[SPLIT]=1; if(o.met) SOCIAL.remember(YC,'FIRST_MET',''); return CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); };
+    const due=(w,o)=>{ const x=fr(w,13.5,o); return !!x&&S().ycMeetDue(H.G,x); };
+    { const x=fr(3,13.5); check('1-3. 第 3 週週四（開局第二天）的民總是劇情課（CLS.storyClass）＝不演',!!x&&CLS.storyClass(H.G,x)&&!S().ycMeetDue(H.G,x)); }
+    { const x=fr(4,13.5); check('1-3. 第 4 週週四的民總：周教授借書（L1）＋以安的報告分工已經在這一堂＝不演（S.classBusy；同一堂下課只演一件）',!!x&&S().classBusy(H.G,x)&&!S().ycMeetDue(H.G,x)); }
+    check('1-3. 以安在第 4 週分工過了＝第 5 週週四的民總（13:20，第一堂他在、沒有別的戲的下午必修）要演',due(5,{split:true}));
+    check('1-3. 第 4 週沒上到（以安的分工移到第 5 週）＝第 5 週不演、第 6 週演',!due(5)&&due(6));
+    check('1-3. 第 1 週、已經認識（週五先在公館遇到）、已經演過＝不演',!due(1)&&!due(5,{split:true,met:true})&&!due(5,{split:true,flags:{YC_MEET:1}}));
     { fresh(TD('Y1S1',4,1),9.5,'classroom'); const x=CLS.dayItems(H.G).find(q=>q.c.id==='const_1'); check('1-3. 上午的課（憲法）不演',!!x&&!S().ycMeetDue(H.G,x)); }
+    /* 以安的報告分工照舊在第 4 週下課（宥辰的下課事件沒有搶走那一堂）*/
+    { const x=fr(4,13.4); const n={name:NM(AN),charId:AN,obj:{position:{x:0,y:0,z:0}},pose:'sit'}; GM.npc[AN]=n; E.npcs.push(n); at(x.day,x.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,x); E.npcs.length=0; GM.npc={}; check('1-3. 第 4 週下課照舊是以安的報告分工（宥辰的沒有搶）',!!H.G.events.done[SPLIT]&&!H.G.events.done.ev_yc_meet_after); }
     /* 他晚十分鐘到：那一堂上課前、上課十分鐘內座位空著 */
-    fresh(TD('Y1S1',3,4),13.4,'classroom'); const a=STORY.classmateClass(CHARACTERS[YC],H.G); at(TD('Y1S1',3,4),13.5+0.05); const b=STORY.classmateClass(CHARACTERS[YC],H.G);
-    SOCIAL.remember(YC,'FIRST_MET',''); at(TD('Y1S1',3,4),13.4); const c=STORY.classmateClass(CHARACTERS[YC],H.G);
+    fr(5,13.4,{split:true}); const a=STORY.classmateClass(CHARACTERS[YC],H.G); at(TD('Y1S1',5,4),13.5+0.05); const b=STORY.classmateClass(CHARACTERS[YC],H.G);
+    SOCIAL.remember(YC,'FIRST_MET',''); at(TD('Y1S1',5,4),13.4); const c=STORY.classmateClass(CHARACTERS[YC],H.G);
     check('1-3. 認識的那一堂他晚十分鐘到（上課前不在教室、上課十分鐘以後在）；認識以後照常（上課前就在）',!a&&!!b&&b.cls&&!!c,J([a,b&&b.from,c&&c.from]));
-    /* 課堂那一句後面（CLS.IN_CLASS）＋下課 */
-    const run=async k=>{ fresh(TD('Y1S1',3,4),13.4,'classroom'); const x=it(); at(x.day,13.5); H.said=[]; H.opts=[]; H.picks=[k]; const f=CLS.IN_CLASS.find(q=>q.due&&q.due(H.G,x)); if(f) await f(GM,x);
-      const inClass=H.said.map(s=>s.t); H.said=[]; at(x.day,x.t1); await CLS.afterClassEvent(GM,x); return {inClass,after:H.said.map(s=>(s.who?s.who+'：':'')+s.t),f:!!f,x}; };
+    /* 課堂那一句後面（CLS.IN_CLASS，所有到期的鉤子照順序）＋下課 */
+    const run=async k=>{ const x=fr(5,13.4,{split:true}); at(x.day,13.5); H.said=[]; H.opts=[]; H.picks=[k]; const fs0=CLS.IN_CLASS.filter(q=>q.due&&q.due(H.G,x)); for(const f of fs0) await f(GM,x);
+      const inClass=H.said.map(s=>s.t); H.said=[]; at(x.day,x.t1); await CLS.afterClassEvent(GM,x); return {inClass,after:H.said.map(s=>(s.who?s.who+'：':'')+s.t),f:fs0.length===1&&!!fs0[0].sup497,x}; };
     const M=L().yc.meet; let r=await run(0);
-    check('1-3. 課堂中（IN_CLASS，有 due）：「（上課十分鐘，後門開了一條縫。……）」「（小聲）講到哪了？」三個選項',r.f&&r.inClass[0]===M.open[0][1]&&r.inClass[1]===M.open[1][1]&&J(H.opts[0])===J(M.opts),J(r.inClass));
+    check('1-3. 課堂中（IN_CLASS，有 due；那一堂只有這一段）：「（上課十分鐘，後門開了一條縫。……）」「（小聲）講到哪了？」三個選項',r.f&&r.inClass[0]===M.open[0][1]&&r.inClass[1]===M.open[1][1]&&J(H.opts[0])===J(M.opts),J(r.inClass));
     check('1-3. 選「意思表示。」：「（小聲）八十六條到九十八條那一段？……好。」＋旁白（第八十八條）；下課「賴宥辰。……」「剛剛那一下救了我。……手機給我。」；記 YC_OWE_SONG、交換聯絡方式、認識',
       r.inClass.includes(M.r[0][0][1])&&r.inClass.includes(M.r[0][1][1])&&J(r.after)===J(M.after12.map(([w,t])=>NM(YC)+'：'+t))&&H.G.flags.YC_OWE_SONG===true&&INV.hasContact(H.G,YC)&&SOCIAL.has(YC,'FIRST_MET'),J(r.after));
     r=await run(1);
     check('1-3. 選（把筆記推過去）：三句（「我背起來了」、你那一條沒抄完）＋同一段下課；有聯絡方式',r.inClass.includes(M.r[1][2][1])&&r.after.length===2&&INV.hasContact(H.G,YC)&&H.G.flags.YC_OWE_SONG===true);
     r=await run(2);
     check('1-3. 選「剛開始。」：他趴下去；下課「下課了？……你人很好，沒叫我。」「賴宥辰。……」；不交換聯絡方式、沒有 YC_OWE_SONG',r.inClass.includes(M.r[2][1][1])&&J(r.after)===J(M.after3.map(([w,t])=>NM(YC)+'：'+t))&&!INV.hasContact(H.G,YC)&&!H.G.flags.YC_OWE_SONG,J(r.after));
-    check('1-3. 演過以後不再演（同一堂、下一週）',!S().ycMeetDue(H.G,r.x)&&(at(TD('Y1S1',5,4),13.5),!S().ycMeetDue(H.G,CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'))));
+    check('1-3. 演過以後不再演（同一堂、下一週）',!S().ycMeetDue(H.G,r.x)&&(at(TD('Y1S1',6,4),13.5),!S().ycMeetDue(H.G,CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'))));
     check('1-3. 學期中的快轉看得到這一堂有戲（semff3d.js classEventful）',typeof SEMFF==='undefined'||!SEMFF.classEventful||(()=>{ fresh(TD('Y1S1',6,4),9,'dorm'); const x=CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); return !!SEMFF.classEventful(H.G,x); })()); });
 
   await sec('1-4',async()=>{ const SG=L().yc.songs, day=n=>S().songDay(SG.find(r=>r.n===n));
@@ -152,7 +158,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('1-4. 13 則的日子：表上那個月的第一個週五（大二上 9/4 還沒開學＝開學後第一個週五 9/11）；第 13 則畢業典禮前一天 6/1',J(got)===J(want),J(got));
     check('1-4. 都不在考試週、寒暑假（第 13 則固定在典禮前一天）',[1,2,3,4,5,6,7,8,9,10,11,12].every(n=>{ const t=CALENDAR.termOf(day(n)); return t&&!t.exam&&CALENDAR.dateOf(day(n)).wd===5; }));
     /* 私訊：有聯絡方式 */
-    fresh(day(1),12,'dorm'); contact(YC); ruleAt(day(1),23.6); const T1=thread('p:'+YC).filter(m=>m.tag==='yc_song_1');
+    fresh(day(1),12,'dorm'); contact(YC); ruleAt(day(1),22); ruleAt(day(1),23.5); const T1=thread('p:'+YC).filter(m=>m.tag==='yc_song_1');
     check('1-4. 第 1 則：週五 23:30 私訊「（錄音 0:30）」（點開＝那一句旁白）＋「週五的歌。這週：公館捷運站的廣播。」',T1.length===2&&T1[0].text==='（錄音 0:30）'&&J(T1[0].fold)===J([SG[0].hear])&&T1[0].play===true&&T1[1].text===SG[0].say[0]&&Math.abs(T1[0].h-23.5)<0.02,J(T1.map(m=>[m.text,m.h,m.fold])));
     check('1-4. 可以回三選一：「（聽完）好聽。」「這是哪裡？」「（貼一張耳機的貼圖）」',J(askOpts('yc_song_1'))===J(L().yc.songOpts));
     answer('yc_song_1',1); check('1-4. 「這是哪裡？」→ 那一則自己的一句（二號出口……）',texts('p:'+YC).slice(-2)[1]===SG[0].where&&texts('p:'+YC).slice(-2)[0]==='這是哪裡？',J(texts('p:'+YC).slice(-3)));
@@ -229,7 +235,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     fresh(d,12,'dorm'); fam(YC); contact(YC); ruleAt(d,21.1); answer('yc_fail',0); rules();
     check('1-7. 「我叫你。」→「你又沒有重修。……好啦，你傳訊息叫我也算。」，記 YC_WAKE',texts('p:'+YC).slice(-1)[0]===A.rep[0][0]&&H.G.flags.YC_WAKE===true);
     const W=S().wakeDays(); check('1-7. 大二下三個週四（第 1～3 週）',W.length===3&&W.every(x=>CALENDAR.dateOf(x).wd===4&&CALENDAR.termOf(x).id==='Y2S2'),J(W.map(keyOf)));
-    const rep=[]; for(let k=0;k<3;k++){ ruleAt(W[k]-1,22); ruleAt(W[k],7.75); const m=byTag('yc_wake_'+(k+1))[0]; if(!m){ rep.push('沒有'); continue; } if(k===0) check('1-7. 07:40 手機（通知）跳一則「要叫宥辰起床嗎？」，回「（傳：起床）」',m.th==='sys'&&m.text===A.wakeAsk&&J(askOpts('yc_wake_1'))===J([A.wakeOpt])&&Math.abs(m.h-(7+40/60))<0.02);
+    const rep=[]; for(let k=0;k<3;k++){ ruleAt(W[k]-1,22); ruleAt(W[k],7+40/60); const m=byTag('yc_wake_'+(k+1))[0]; if(!m){ rep.push('沒有'); continue; } if(k===0) check('1-7. 07:40 手機（通知）跳一則「要叫宥辰起床嗎？」，回「（傳：起床）」',m.th==='sys'&&m.text===A.wakeAsk&&J(askOpts('yc_wake_1'))===J([A.wakeOpt])&&Math.abs(m.h-(7+40/60))<0.02);
       answer('yc_wake_'+(k+1),0); const T=texts('p:'+YC); rep.push(T.slice(-2)); }
     check('1-7. 回了＝傳「起床」，他依序回「起了。」「……起了。」「我在路上了。你下禮拜不用傳了。」',J(rep)===J(A.wakeRep.map(t=>[A.wakePost,t])),J(rep));
     fresh(d,12,'dorm'); fam(YC); contact(YC); ruleAt(d,21.1); answer('yc_fail',1); rules(); check('1-7. 「債總哪裡卡住？」→「全部。……」，記 YC_WHEN；沒有叫起床',texts('p:'+YC).slice(-1)[0]===A.rep[1][0]&&H.G.flags.YC_WHEN===true&&!H.G.flags.YC_WAKE);

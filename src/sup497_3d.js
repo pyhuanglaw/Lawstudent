@@ -77,10 +77,21 @@ const SUP497=(function(){
   const liveIv=(G,id)=>(G.invites||[]).some(iv=>iv.who===id&&['offered','accepted','going','changed'].includes(iv.state));
 
   /* ===================================================================== 1 宥辰 ===================================================================== */
-  /* 1-3 認識：大一上第 2 週起、第一堂他在的下午必修（民總，週四 13:20；「意思表示」是民總）、還沒認識他（週五先在公館遇到＝FIRST_MET，不演）。
+  /* 1-3 認識：大一上第 2 週起、第一堂他在的下午必修（民總，週四 13:20；「意思表示」是民總；法律系開局第二天的民總是劇情課，所以是第 4 週週四）、還沒認識他（週五先在公館遇到＝FIRST_MET，不演）。
      課堂那一句後面（CLS.IN_CLASS）：他晚十分鐘從後門進來坐你旁邊；下課（afterClass）他說名字。一次（YC_MEET）。法律：民法第 86～98 條意思表示、第 88 條錯誤（LEGAL_REVIEW_REQUIRED，只有條號）*/
   S.ycMeetDue=function(G,it){ if(!law(G)||!it||!it.c||it.exam||it.c.kind!=='required'||!(it.t0>=12)) return false; if(it.term!=='Y1S1'||(it.week|0)<2||it.c.id!=='civ_general') return false;
-    const F=G.flags||{}; if(F.YC_MEET!=null||has(YC,'FIRST_MET')) return false; return !(typeof STORY!=='undefined'&&STORY.youchenAway&&STORY.youchenAway(it)); };
+    if(typeof CLS!=='undefined'&&CLS.storyClass&&CLS.storyClass(G,it)) return false;   /* 第二天的民總是劇情課（story3d.js，不走 CLS 的上課流程）：法律系開局＝下一週的民總才演 */
+    const F=G.flags||{}; if(F.YC_MEET!=null||has(YC,'FIRST_MET')) return false; if(typeof STORY!=='undefined'&&STORY.youchenAway&&STORY.youchenAway(it)) return false; return !S.classBusy(G,it); };
+  /* 這一堂已經有別的戲＝往後一週（自己排：同一堂下課只演一件，classes3d.js afterClassEvent；以安的主線先）。例：法律系開局第 4 週週四的民總＝周教授借書（loans3d.js L1，課堂中）
+     ＋以安的報告分工（ev_an_report_split 下課，第 4 週沒上到＝第 5 週）→ 宥辰在第 5 週（或第 6 週）。只看事件寫死的條件（課、考試、學期、週、星期、一次），不看當下誰在場 */
+  S.classBusy=function(G,it){ if(!G||!it||!it.c) return false; const safe=f=>{ try{ return !!f(); }catch(e){ return false; } };
+    if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)&&CLS.IN_CLASS.some(f=>f&&!f.sup497&&typeof f.due==='function'&&safe(()=>f.due(G,it)))) return true;
+    if(typeof STORY_EVENTS==='undefined') return false; const wd=wdOf(it.day);
+    return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;
+      if(!(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&safe(()=>e.afterClass(it))))) return false;
+      if(e.afterExam?e.afterExam!==it.exam:!!it.exam) return false; if(e.once&&done(G,e.id)) return false;
+      if(e.term&&[].concat(e.term).indexOf(it.term)<0) return false; if(e.weeks&&e.weeks.indexOf(it.week)<0) return false; if(e.weekday&&[].concat(e.weekday).indexOf(wd)<0) return false;
+      return true; }); };
   /* 那一堂他晚十分鐘到（story3d.js classmateClass：作息從上課十分鐘起）*/
   S.ycLate=(G,it)=>!!G&&!!it&&S.ycMeetDue(G,it);
   const MEET_IN={ id:'ev_yc_meet_in', participants:[], title:'', background:'blur', dialogue:[], noMeet:[YC] };
@@ -94,7 +105,7 @@ const SUP497=(function(){
       if(n.seat&&GM.standUp) GM.standUp(n); GM.sitAt(n,st); n.pose=n.idlePose='sit'; n.frozen=true; return true; }catch(e){ console.warn('SUP497.sitBeside',e); return false; } };
   S.meetIn=async function(GM,it){ const G=GM.G; if(!S.ycMeetDue(G,it)||typeof EVENTS==='undefined'||!EVENTS.runLines) return false; S.bind(GM);
     S.sitBeside(GM); await EVENTS.runLines(S.meetLines(),MEET_IN); if(G.flags.YC_MEET==null) G.flags.YC_MEET=1; G.flags.YC_MEET_KEY=it.key; G.flags.YC_MEET_DAY=G.day; return true; };
-  S.MEET_AFTER={ id:'ev_yc_meet_after', title:'賴宥辰', participants:[YC], location:'any', trigger:'class', once:true, background:'blur',
+  S.MEET_AFTER={ id:'ev_yc_meet_after', title:'賴宥辰', participants:[YC], location:'any', trigger:'class', once:true, classFirst:true, background:'blur',   /* classFirst：接著課堂中那一段（只在那一堂）*/
     afterClass:it=>{ const G=curG(); return !!G&&!!it&&G.flags&&G.flags.YC_MEET_KEY===it.key&&G.flags.YC_MEET!=null; },
     dialogue:[ {if:{flagIs:{YC_MEET:[1,2]}},goto:'a'},{goto:'c'},
       {label:'a'} ].concat(lns((L.yc.meet||{}).after12),[{set:{YC_OWE_SONG:true}},{goto:'end'},{label:'c'}],lns((L.yc.meet||{}).after3),[{label:'end'}]),
@@ -151,7 +162,7 @@ const SUP497=(function(){
   /* 1-6 地下室的第一場（BB_70 7b，AA 定稿；2026-11-14（六）20:00）：11/9（一）21:00 班級群組宥辰貼、麵店團阿哲再貼一次（看到的人排進行程；「出發」才去）*/
   S.GIG='2026-11-14'; S.GIG_ASK='2026-11-09';
   S.gigPhone=function(G){ const d=DK(S.GIG_ASK), g=DK(S.GIG); if(d==null||g==null||!law(G)) return;
-    if(G.day>=d-1&&G.day<=g&&!sent(G,'yc_gig_ask')&&(inGrp(G,'law_class')||inGrp(G,'noodle_team'))){ const it=[];   /* 班級群組（同班的人都看得到）＋阿哲在麵店團再貼一次 */
+    if(G.day>=d-1&&now(G)<T(g,20.5)&&!sent(G,'yc_gig_ask')&&(inGrp(G,'law_class')||inGrp(G,'noodle_team'))){ const it=[];   /* 班級群組（同班的人都看得到）＋阿哲在麵店團再貼一次（11/14 開場以後才進群組的不補）*/
       if(inGrp(G,'law_class')) it.push(gm('law_class',YC,'宥辰',L.yc.gig.invite)); if(inGrp(G,'noodle_team')) it.push({th:'g:noodle_team',from:ZHE,text:L.yc.gig.invite});
       if(PHONE.at(G,d,21,it,'yc_gig_ask')) G.flags.YC_GIG_INV=true; }
     if(G.flags.YC_GIG_INV&&now(G)>=T(d,21)&&now(G)<T(g,20.5)) plan(G,{id:'yc_gig',ev:'ev_yc_gig',day:g,h:20,late:0.5,place:'公館・地下室',title:'宥辰的第一場（公館的地下室 20:00）',travel:'走過去約 15 分鐘',travelH:0.25,hours:2.5,back:'散場了。'}); };   /* 看到的人排進行程；時間到「出發」才去（不去＝沒去的那一版）*/
@@ -378,7 +389,7 @@ const SUP497=(function(){
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)&&!PHONE.ON_ANSWER._sup497){ PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k)); PHONE.ON_ANSWER._sup497=true; }
     if(typeof STORY!=='undefined'){ if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G)); if(Array.isArray(STORY.ROOM_EXTRA)) STORY.ROOM_EXTRA.push((G,Lst)=>S.room(G,Lst));
       if(STORY.SMALL_AFTER){ STORY.SMALL_AFTER[YC]=L.yc.after; STORY.SMALL_AFTER[XC]=L.xc.after; STORY.SMALL_AFTER[MX]=L.mx.after; } }
-    if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it)=>S.meetIn(GM,it); f.due=(G,it)=>S.ycMeetDue(G,it); CLS.IN_CLASS.push(f); } };
+    if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)){ const f=(GM,it)=>S.meetIn(GM,it); f.due=(G,it)=>S.ycMeetDue(G,it); f.sup497=true; CLS.IN_CLASS.push(f); } };
   S.wire();
   return S;
 })();
