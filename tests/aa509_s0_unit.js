@@ -2,7 +2,7 @@
 //   1 學姊論文：sis_y2y3 大三上「第四章，要在那邊寫」、回覆池「在改論文的第四章」、日本路線道別「我四月中寫到第三章」、j2「第三章被教授退回來一半」
 //   2 語彤 2028-07-09 生日回覆「第二十二個」  3 以安週四麵店（第 2～13 週）、11/30 以後週四總圖三樓；語彤 11/30 以後週四到 21:30
 //   5 語彤大四上兩門法律課（憲法（上）週一上午、民法總則週四下午，第二排）  6 子晴國定假日、春節休（holOff）  7 溫州街學姊 12/23 回來
-//   9 以安 D09 貓空大四上改 11/12（週日，termDays）。（4、8 是動態與順序，不改開發分支；9 的「週五研討課」問 AA）
+//   9 以安 D09 貓空大四上改 11/12（週日，termDays）；以安大四上週五上午公法判決研討（萬才館）、研討下課以後總圖、週四財稅法（AA-C 10-28 05:06 回）。（4、8 是動態與順序，不改開發分支）
 // 修改前（開發分支 8c93228fb）：第 1～3、5～7、9 項 FAIL。用法：node tests/aa509_s0_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -57,4 +57,6 @@ const ent=(k,h,id)=>{ fresh(D(k),h,'campus',{}); const e=STORY.schedEnt(CHARACTE
   check('9. 以安 D09 貓空：大四上第 10 週週六 11/11 不是（星期），週日 11/12 星期對；大二上第 10 週週六照舊',/星期/.test(sat)&&!/星期/.test(sun)&&!/星期/.test(y2),J({sat,sun,y2}));
   const e=ent('2028-11-12',16,'heroine_01'), e2=ent('2028-11-11',16,'heroine_01');
   check('9. 作息同一筆：11/12 16:00「和讀書會在貓空」、11/11 不是',e&&e.away==='和讀書會在貓空'&&!(e2&&e2.away==='和讀書會在貓空'),J({e,e2})); }
+{ const sem=ent('2028-09-08',10,'heroine_01'), lib=ent('2028-09-08',13,'heroine_01'), tax=ent('2028-10-19',14,'heroine_01'), y3=ent('2027-09-10',10,'heroine_01');
+  check('9. 以安大四上週五 10:00 在萬才館上公法判決研討（act class）、13:00 在總圖；週四 14:00 在霖澤館 202 上財稅法；大三上週五 10:00 照舊不是研討',sem&&sem.zone==='wancai'&&sem.act==='class'&&lib&&lib.zone==='library'&&tax&&tax.zone==='linze_202'&&tax.act==='class'&&!(y3&&y3.zone==='wancai'&&y3.act==='class'),J({sem,lib,tax,y3})); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
