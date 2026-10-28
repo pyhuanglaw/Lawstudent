@@ -19896,6 +19896,13 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-WANCAILM",
    "reason": "LAWWW2 記帳 commit（WANCAI-LM-1028 交件 69bf6b2e4 的 HANDOFF、outbox；LOBBY-CEIL 已 ACK），交付本身是 DL-LW2-WANCAILM（LAWWW-C 10-28 10:2x 分類）"
+  },
+  {
+   "sha": "85bc418f",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-WANCAILM",
+   "reason": "LAWWW2 萬才館擺設＋光照的 WIP，交件 69bf6b2e4 的祖先（LAWWW-C 10-28 10:3x 分類）"
   }
  ]
 }
