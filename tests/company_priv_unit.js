@@ -19,6 +19,7 @@
 //      10 前任那兩句擋（其他招呼不擋）、11 到場就演的不改、12 例外只限三組（假的圈子＋真的圈子：麵店的阿姨）
 //   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 29、PASS 30
 //   （FAIL＝第 0 段改寫的 3 項〔呼叫的地方、定案紀錄、對稿：舊白名單 d13ab3ab7 沒有第 14 節〕、第 7 段 14 項、第 8 段 12 項；PASS＝第 0～6 段原本的 28 項、第 8 段「不擋」的第 6、8 項）。修改後 ALL PASS（59 項）。
+//   全部 Node 單元測試（tests/*_unit.js，686863145，2026-10-28）：714 支、失敗 0（第一次跑 two_hearts_unit 失敗＝1A-02 那一句的判斷取名 S.twoHeartsDue 蓋掉 11/10 法圖相遇那一個，改名 S.twoHeartsEchoDue 以後通過）。
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
