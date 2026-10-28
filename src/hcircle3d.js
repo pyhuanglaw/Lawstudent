@@ -273,9 +273,9 @@ const HCIRCLE=(function(){
     return out; };
   S.company=(G,id,n,GM)=>S.withNow(GM||GMr,id).length>0;
   /* 標籤同伴現在在不在那一區（PRIV-AUNT-1028；AA_503 第 14 節後補第 7 點，企劃線 5ec2fe771：麵店的阿姨在不在店裡看 3D）：
-     with 有他的那幾列（阿姨＝語彤的 c503_6_2、c504_3_2、c504_3_3、c505_3_3、c505_3_4）現在成立、她照作息在那一區＝3D 生不生他的同一套（S.rowsIn；沒寫「一定同框」的列照那一天擲的 70%）。
-     src/multirel3d.js S.auntIn（「今天很忙喔？」那一段的 auntIn）問這個；只讀，不生人物 */
-  S.labelIn=(G,cid,zone)=>!!G&&S.rowsIn(G,zone).some(r=>(r.with||[]).includes(cid));
+     with 有他的那幾列（阿姨＝語彤的 c503_6_2、c504_3_2、c504_3_3、c505_3_3、c505_3_4）現在成立、她照作息在那一區＝3D 生不生他的同一套（S.arrange 生的是 S.rowsIn 那幾列：S.on，沒寫「一定同框」的列照那一天擲的 70%）。
+     src/multirel3d.js S.auntIn（「今天很忙喔？」那一段的 auntIn）問這個；只讀：不生人物，也只問 with 有他的那幾列（once 的列會建 G.flags.HCIRCLE，不經過）*/
+  S.labelIn=function(G,cid,zone){ if(!G) return false; for(const who in BY_WHO) for(const r of BY_WHO[who]) if((r.with||[]).includes(cid)&&S.on(r,G,zone)) return true; return false; };
 
   /* ---------- 走近時聽到 ---------- */
   const sameSpace=(E,a,b,la,lb)=>{ const Z=E.zone, sp=Z&&(Z.spaceAt||Z.roomAt); if(!sp) return true; try{ return sp.call(Z,a.x,a.z,la|0)===sp.call(Z,b.x,b.z,lb|0); }catch(e){ return true; } };
