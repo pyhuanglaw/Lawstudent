@@ -1,7 +1,7 @@
 // AA_507 第 0-2 節（企劃線 e4fbd0192，AA-C 10-28）開發分支現有內容的八件小修——不需要瀏覽器。
 //   1 needed_msgs zq_name 沒收到那句「名字還沒取。我自己想。」  2 vacfill y3w_0115 美國面試＋選項「加油。」；heardUS 也算階梯 S5-L1（SIS5_EXCHANGE_APP）
 //   3 學姊北投偶遇大三上 13:00 起（10/16 上午法扶訪談）  4 y3_0212「法圖下週一恢復晚上開館。」＋旁白  5 芷若 UK_WEEK 第 1 年 1 月第二句、2 月第一句
-//   6 語彤大三上週三上午刑法總則（霖澤館 201 第二排）  7 以安週四 20:00 公法讀書會作息（萬才館研討室 A）  8 沛珊台南的過時註解
+//   6 語彤大三上週三上午刑法總則（霖澤館 201 第二排）  7 以安週四 20:00 公法讀書會作息（大二以後；萬才館，和大一的兩筆同一種寫法）  8 沛珊台南的過時註解
 // 修改前（開發分支 b0dcc95a6）：第 1～8 項 FAIL（第 2 項 heardUS 那一半本來就成立）。用法：node tests/aa507_s0_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -48,6 +48,6 @@ const rd=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   const wed=ent('2027-09-08',10,'heroine_03'), y2=ent('2026-09-09',10,'heroine_03');
   check('6. 語彤大三上週三 10:00：霖澤館 201（classroom）第二排 [1,4]；大二上週三 10:00 不是這一筆',!!wed&&wed.zone==='classroom'&&J(wed.seat)==='[1,4]'&&!(y2&&y2.zone==='classroom'&&J(y2.seat)==='[1,4]'),J({wed,y2}));
   const t1=ent('2026-11-12',20.5,'heroine_01'), t2=ent('2028-12-07',20.5,'heroine_01'), t3=ent('2026-11-13',20.5,'heroine_01');
-  check('7. 以安週四 20:30 讀書會的週（大二上第 10 週）在萬才館研討室 A；大四上第 14 週（交棒以後）、週五不是',!!t1&&t1.zone==='wancai_sema'&&!(t2&&t2.zone==='wancai_sema')&&!(t3&&t3.zone==='wancai_sema'),J({t1,t2,t3})); }
+  check('7. 以安週四 20:30 讀書會的週（大二上第 10 週）在萬才館（act club，和大一的兩筆同一種寫法）；大四上第 14 週（交棒以後）、週五不是',!!t1&&t1.zone==='wancai'&&!(t2&&t2.zone==='wancai')&&!(t3&&t3.zone==='wancai'),J({t1,t2,t3})); }
 { const a=rd('src/r3_3d.js'), b=rd('src/y2b3d.js'); check('8. 沛珊台南的過時註解改掉（不再寫「還沒做」「這一批還沒接」）',!a.includes('還沒做＝現在遊戲裡不會出現')&&!b.includes('這一批還沒接（LAWWW）')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
