@@ -67,7 +67,7 @@ const HCIRCLE_DATA={
     {hc:'c506_4_2',who:'heroine_04',e:{days:[2,4],from:21,to:23.5,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],dates:[['2027-06-14','2027-09-05']],label:'公館騎樓（插座旁邊）'}},
     {hc:'c507_3_1',who:'heroine_03',e:{days:[1,5],from:17+20/60,to:17+50/60,zone:'campus',act:'linger',at:[19.5,-86.8,Math.PI/2,0],terms:['Y3S1','Y3S2'],noHoliday:true,label:'社科院門口（社會系館旁）'}},
     {hc:'c507_4_2',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y3S1'],label:'公館騎樓（插座旁邊）'}},
-    {hc:'c509_4_1',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y4S1'],label:'公館騎樓（插座旁邊）'}}],
+    {hc:'c509_4_1',who:'heroine_04',e:{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'linger',at:[16,20.6,Math.PI,0],terms:['Y4S1'],taipei:'both',label:'公館騎樓（插座旁邊）',note:'她 2028-06 畢業、在工作室上班（presence 是 taipei）：作息只看標 taipei 的那幾筆，所以這一筆也標（同她現有那一筆 taipei both）'}}],
   ROWS:[
     /* ===================== AA_503 大一上 ===================== */
     {id:'c503_4_1',doc:'AA_503',sec:'4-1',k:1,who:'heroine_01',with:['pool_7'],cls:true,pm:true,wkFrom:2,terms:['Y1S1'],cond:'metZjw',anchor:'with',heard:'曾靖雯：早安。／以安：……現在下午兩點。／曾靖雯：我知道。',
