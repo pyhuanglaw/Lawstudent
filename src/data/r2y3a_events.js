@@ -249,7 +249,8 @@ const R2Y3A_EVENTS=(function(){
   const and=(...cs)=>({custom:(G,GM)=>cs.every(c=>typeof EVENTS==='undefined'||EVENTS.cond(c))});
   const TY_NOODLE={ id:'ev_typhoon_y3_noodle', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>on(G,'2027-10-13',20,23)&&stAt(G,'kai','FAMILIAR')&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(G.day)},
-    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱抱著一箱泡麵站在門口，雨衣在滴水。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},
+    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},   /* AA_519 5-3：颱風夜不要三年同一個畫面 */
+      {if:{flags:['TYPHOON_Y2_KAI']},speaker:null,text:'（阿凱說：「去年也是我。」）'},   /* AA_519 5-3：大二颱風那晚有來的（events.js ev_y2_typhoon_kai 記 TYPHOON_Y2_KAI）＝開頭多一句 */
       {if:ZQF,speaker:null,text:'（阿凱把筆電架在你的書桌上，打視訊給子晴。）'},
       {if:ZQF,speaker:'heroine_04',name:'子晴（視訊）',text:'颱風天最適合修 bug。沒人會來吵我。'},
       {if:ZQF,speaker:'kai',text:'我們在吵妳。'},
@@ -507,7 +508,6 @@ const R2Y3A_EVENTS=(function(){
       {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
       {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},
       {if:GF_YT,speaker:'heroine_03',text:'所以我先來這裡坐。等你下課。'},
-      {if:{flags:['JOB_NOODLE']},speaker:'heroine_03',text:'……你週二來切蔥，週四來陪我發呆。很忙喔。'},
       {choice:[{text:'「那就坐著。我陪妳。」',set:{YT_EV13_SEEN:'sat'},goto:'y1'},{text:'「去溫州街走走？」',set:{YT_EV13_SEEN:'walk'},goto:'y2'},{text:'「妳要不要寫點什麼？」',set:{YT_EV13_SEEN:'write'},goto:'y3'}]},
       {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）'},{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
         {if:GF_YT,speaker:'heroine_03',text:'下禮拜四也這樣。'},{goto:'end'},

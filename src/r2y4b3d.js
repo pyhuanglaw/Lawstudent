@@ -174,7 +174,7 @@ const R2Y4B=(function(){
     if(knowsOther(G,'heroine_03')){ if(grp(G)) PHONE.at(G,d,18,[GR('heroine_03',PH),GR('heroine_03','阿姨第一次出國'),GR('heroine_03','店休一個禮拜',{ask})],'y4_yt_aunt'); }   /* 她知道祐廷和別人交往：照片發在麵店團群組 */
     else if(contact(G,'heroine_03')) PHONE.at(G,d,18,[P_('heroine_03',PH,{ask})],'y4_yt_aunt'); };
   S.aunTrip=G=>{ const a=DK('2029-04-19'), b=DK('2029-04-25'); return law(G)&&a!=null&&G.day>=a&&G.day<=b; };
-  S.AUNT_DOOR='（麵店門口貼著「老闆出國，休息七天」。）';
+  S.AUNT_DOOR='（麵店門口貼著一張紙：「出國，休息七天。——阿鳳」）';   /* AA_519 1-1：阿姨的名字（原本「老闆出國，休息七天」）*/
 
   /* ===================== 2-Y4-38 可昕：生日「今年不要慶祝」（4/23 21:00、4/24）===================== */
   const KB={d23:'2029-04-23',d24:'2029-04-24',d25:'2029-04-25'};

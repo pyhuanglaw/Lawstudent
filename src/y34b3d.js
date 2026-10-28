@@ -484,7 +484,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'yu',text:'（把一個小紙袋塞給她）路上吃。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……好。'},
     {speaker:'heroine_01',text:'八月五號回來。位子幫我占著。'} ];
   const FAREWELL=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-    {speaker:null,text:'（麵店的長桌。阿姨多煮了一鍋湯，說是送的。）'},
+    {speaker:null,text:'（麵店的長桌。）'},{speaker:null,text:'（白飯是阿姨自己端過來的，堆得很高。）'},   /* AA_519 1-3：送小菜第六處＝第 5 句（「麵店的長桌。」照舊，拆成兩句）*/
     {speaker:'zhe',text:'（舉起麵店的塑膠杯）敬以安。半年。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
     {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/

@@ -30,6 +30,7 @@
 // AA_513（AA-C 2026-10-28，a2e4bf196）改的只有第 6 段：「沒做」裡阿凱 AA_508、AA_509 那兩句的原因改「改私訊，AA_513 第 1 節」，多一項查 1-3（y34b3d.js S.KAI_ROW）、1-4（heard_lines.js）真的在遊戲裡。
 //   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL（沒有 KAI_ROW、沒有 1-4 那一組），改完 ALL PASS。
 // 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028）：sis4f 留言回「他說要三匙。我沒給。」——第 0 節對稿時照 AA_518 換（AA518_ROW）。
+// （2026-10-28 AA_519 3-3（企劃線 d75cd0228，NPC-STORY2-1028）：「沒做」清單裡小婷、新來的工讀生（小禾）那幾句改成 Café 點餐以後一句接上（src/data/aa519_lines.js cafe.heard，不在 heard_lines.js）——這裡只改原因的字，查法照舊；那幾句在 tests/aa519_support2_unit.js 查）
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -360,9 +361,9 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
       else if((m=/^\s*- ([^：「]+)：\s*$/.exec(l))) last=m[1]; } }
   /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）AA_508 那一句已經接進遊戲（talk），從這裡拿掉；其他照舊（原因照新規則寫）*/
   const NOT_DONE={'子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'改字（不叫學姊），AA_514 第 4 節第 3 點',
-    '學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
+    '學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（小禾）：AA_519 3-3 接上（Café 點餐以後一句，src/data/aa519_lines.js cafe.heard；不在 heard_lines.js，tests/aa519_support2_unit.js 查）',
     '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'改私訊，AA_513 第 1 節',
-    '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（3D 標籤人物）',
+    '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（小禾）：AA_519 3-3 接上（同上）',
     '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'改私訊，AA_513 第 1 節','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'改錄音私訊，AA_514 第 4 節第 4 點（2028-11-15 22:00，src/pool_more3d.js）'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟；阿凱兩句改私訊，AA_513 第 1 節），沒有漏掉',

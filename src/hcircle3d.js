@@ -34,6 +34,10 @@
      廚房那位就是阿姨（S.KITCHEN、S.kitchen）：語彤在麵店顧店、阿姨不在店裡（那幾列這時候不成立：那天沒擲到的三成、17:30 以前、20:30 以後）＝原本那位無名的店員也不出現；
        語彤不在店裡（沒顧店、走了、跟你約來吃的客人身分）＝店員照常在。阿姨不在店裡的時候，點餐那幾句阿姨說的話不說（S.auntOut：src/eat3d.js 老樣子那一句、src/story3d.js noodleScene 阿姨請的那一碗）。
      大二下以後每學期補阿姨那一列（src/data/heroine_circle.js c503_14_1～5，句子＝後補第 9 點的表；週二、四 17:30～20:30，同 c503_6_2；週四她照作息不在店裡的學期只有週二成立）。 */
+/* ■ 第六輪（NPC-STORY2-1028，2026-10-28；AA_519 第 8 節第 1 點，企劃線 d75cd0228）：語彤顧店的時段，阿姨一定在廚房——寒暑假週二、四晚上、大二下起週六早上也一樣；
+     店開著（不是過年店休 NOODLE_CLOSED、不是 2029-04-19～25 阿姨出國 R2Y4B.aunTrip：S.auntAway）＝廚房那位（AA_519 1-1 換成阿姨的外觀，src/sup519_3d.js）照常在、不藏，
+     那幾列沒擲到的三成也一樣；「去買東西」（S.auntOut、S.kitchen 的 away）留著當備用，只剩阿姨真的不在的時候。出國那一週廚房那位也不在（語彤那一週在總圖）。
+     8-3（麵店的 2D 事件那一天，阿姨那幾列擲骰當成功）在 src/sup519_3d.js 包 S.roll。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};
@@ -295,12 +299,15 @@ const HCIRCLE=(function(){
   /* 語彤（KITCHEN 的 who）現在在這一區顧店：回傳她的 3D 人物，不是＝null */
   S.minding=function(GM,zone){ const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!G||G.zone!==zone||!GM.npc) return null; const n=S.npcOf(GM,k.who); if(!n||n.leaving||!P(n)) return null;
     const e=S.entOf(k.who,G); return e&&e.zone===zone&&e.act===k.act&&!e.invite?n:null; };
+  /* 阿姨真的不在店裡（AA_519 第 8 節第 1 點：過年店休、2029-04-19～25 出國；其他時候語彤顧店阿姨一定在廚房）*/
+  S.auntTrip=G=>!!G&&typeof R2Y4B!=='undefined'&&!!R2Y4B&&typeof R2Y4B.aunTrip==='function'&&!!R2Y4B.aunTrip(G);
+  S.auntAway=G=>!!G&&(S.auntTrip(G)||(typeof NOODLE_CLOSED!=='undefined'&&!!NOODLE_CLOSED&&!!NOODLE_CLOSED.closed&&!!NOODLE_CLOSED.closed(G)));
   /* 阿姨不在店裡、語彤在顧店（廚房沒有人）：阿姨說的話不說 */
-  S.auntOut=function(GM,zone){ GM=GM||GMr; zone=zone||'noodle'; const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!law(G)) return false; return !!S.minding(GM,zone)&&!S.labelIn(G,k.label,zone); };
+  S.auntOut=function(GM,zone){ GM=GM||GMr; zone=zone||'noodle'; const k=S.KITCHEN[zone], G=GM&&GM.G; if(!k||!law(G)) return false; return !!S.minding(GM,zone)&&!S.labelIn(G,k.label,zone)&&S.auntAway(G); };
   /* S.arrange 最後問（want＝這一區現在成立的列要的標籤同伴）：'away'＝店員藏起來（廚房沒有人）、'aunt'＝阿姨在、'clerk'＝店員照常；這一區沒有廚房或沒有店員＝null */
   S.kitchen=function(GM,want){ const E=GM.E, G=GM.G, k=S.KITCHEN[G.zone]; if(!k) return null; const c=clerkNpc(E,G.zone); if(!c) return null;
     const ay=!!(want&&want.has(k.label));
-    if(!ay&&S.minding(GM,G.zone)){ if(!c.hidden){ c.hidden=true; if(c.obj) c.obj.visible=false; c._hcKit=true; } return 'away'; }
+    if(!ay&&S.auntAway(G)&&(S.minding(GM,G.zone)||S.auntTrip(G))){ if(!c.hidden){ c.hidden=true; if(c.obj) c.obj.visible=false; c._hcKit=true; } return 'away'; }   /* AA_519 第 8 節第 1 點：阿姨真的不在（店休、出國）才藏；出國那一週不管語彤在不在 */
     if(c._hcKit){ c._hcKit=false; const an=GM.npc[k.label];
       if(ay&&an&&!an.leaving){ if(!an._hcHid) an._hcHid=c; }   /* 店員先因為廚房沒人藏起來、阿姨後來才到：交給阿姨（她走的時候 S.dropLabel 讓店員回來）*/
       else { c.hidden=false; if(c.obj) c.obj.visible=true; } }

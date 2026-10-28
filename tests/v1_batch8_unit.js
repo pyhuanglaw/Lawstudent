@@ -4,6 +4,7 @@
 //     沒有群組（或之後才加入）的玩家：第 7 週起找沛珊說話，她當面說同樣的內容；只一次；旗標 AN_DORM_RULES（group／peishan），不寫成玩家在場的記憶。
 //   A15 G1：民總期中考考完接著演（一般的課、別科的考試、翹課都不會）；只有認識的人在場（柏翰沒見過＝第一句變成旁白；芯慈和柏翰那段兩個都認識才有；Alison、明軒、以安各自）；
 //     第一個選項要第一天讀過案例；三個選項的反應；SHARED_CLASS 只記認識的人；只一次。
+// （2026-10-28 AA_519 1-3（企劃線 d75cd0228，NPC-STORY2-1028）：C19 大一下期末那三句的第二、三句再換——送小菜第三處「（每個人的湯碗裡，都多了兩顆餛飩。）」、阿姨「一年了。……今天的湯，算我的。」）
 // 用法：node tests/v1_batch8_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -128,7 +129,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{})};
     check('C19：大一下最後一科考完以後傍晚進麵店才有（之前、沒有麵店團：沒有）',r.after&&!r.before&&!r.noTeam,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); G.events.done.ev_term_last_meal=true; await EVENTS.run(e);
-    check('C19：大一上演過了，大一下照樣有一次（AA_467 第 1 節換字：兩句旁白＋阿姨「一年了。吃好一點。」）',JSON.stringify(lines())===JSON.stringify(['（大一最後一科考完。長桌又併起來了。）','（阿姨這次多送了兩盤小菜。）','一年了。吃好一點。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
+    check('C19：大一上演過了，大一下照樣有一次（AA_467 第 1 節換字、AA_519 1-3 再換：兩句旁白＋阿姨「一年了。……今天的湯，算我的。」）',JSON.stringify(lines())===JSON.stringify(['（大一最後一科考完。長桌又併起來了。）','（每個人的湯碗裡，都多了兩顆餛飩。）','一年了。……今天的湯，算我的。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
   /* ---------- 可昕：期末成績寒假第一天一起打開（BB_95 9-8）---------- */
   { const LAST=termDay(16,5), BRK=CALENDAR.gradeDay('Y1S1');   /* 16 週制（AA_198 第 2 節第 3 點）：12/19 期末最後一天約、1/5 成績公布那天一起看；變數名照舊。台詞「寒假第一天一起打開」要 AA 改（已通知） */
     check('期末成績：期末考週最後一天＝'+CALENDAR.dateOf(LAST).key+'、成績公布＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2025-12-19'&&CALENDAR.dateOf(BRK).key==='2026-01-05'&&!CALENDAR.termOf(BRK));

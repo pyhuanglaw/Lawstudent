@@ -3418,6 +3418,14 @@
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
    "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028 第三部分）：經濟系的朋友法律系那三年——第 1 節 D2 照學期取鍵（src/econfr3d.js 包住 STORY.b106d2Key：大一下起韋綸、唐睿、阿勳每學期 a、b，品妤一學期一句；大一上沒說到的大一下排前面；阿勳新句子要 MET_XUN、大三下 a／b 以 3/22 分；唐睿大三下 b 要 b106_42_photo；品妤要 MET_PINYU），句子在 src/data/econfr_lines.js、載入時接在 ev_b106d2_weilun／tang／xun 後面（events.js 阿勳那一場改照鍵演），品妤新增 ev_b106d2_pinyu（週五 12:05～12:25 普通教學館；大二上起加一格擲到才在的作息）；第 2 節「走啦」群組五則；第 3 節何俊朗 longGreet 加六句（from／to、tail）；第 4 節日文班三則（4-3 日本路線、記 CZ_VET_PHOTO、4/22 摘要一句、當晚采蓁兩則）；tests/aa521_econ_friends_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 15、修改後 ALL PASS 45 項）"
+  },
+  {
+   "path": "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md",
+   "sha": "d75cd0228",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
+   "task": "NPC-STORY2-1028",
+   "note": "子代理 10-28 實作（NPC-STORY2-1028，未合併、待 LAWWW-C 整合）：配角第二批——第 1 節麵店阿姨（阿鳳：3D 櫃台換阿姨外觀能說話、一天一句照時期、店名由來 AUNT_NAME、旁白第一次「阿姨（阿鳳）」、門口那張紙、不再寫老闆娘、吃好一點只留大一上、送小菜八處、二十三週年那一張讀 ANNIV23、沒有麵店打工、一百元清單）、第 2 節陳助教（年級、博士班、照學年閒聊、6/16 公館、6/20「過了。」）、第 3 節 Café（老闆在櫃台能說話、店名由來、打工五句＋拉花 CAFE_LATTE_TRY、小婷點餐兩句、別人說起芷若七句、小禾）、第 4 節黃筱涵（照學年、當受試者 HXH_SUBJECT、PG_TAG）、第 5 節阿凱（週五資工系館前、宵夜、颱風、期末、去年也是我、宿舍旁邊那攤、寫 code 好難）、第 6 節（立衡腳踏車 4/7、方奕廷、予樂）、第 8 節麵店四件（d75cd0228：語彤顧店阿姨一定在廚房、一個人吃麵的旁白、2D 事件那天阿姨在、出國那一週）；程式 src/sup519_3d.js、台詞 src/data/aa519_lines.js；tests/aa519_support2_unit.js 照 d75cd0228 雙向逐字對稿（95 項）"
   }
  ]
 }

@@ -3,6 +3,7 @@
 //   大四上：W 迎新、T 颱風、M 中秋、P 再問一次、E 語彤 15b、U／IV 推甄、F 校慶、H 交棒、S 語彤 16、X 聖誕、Z 芷若第二輪明信片、B 回來、K 可昕 K21／K22、I 可昕的實習。
 //   寒假：A 學姊接機、XK 可昕聖誕、GR 期末成績、KH 高雄、EX 以安考前一晚＋筆試、Y 除夕、V 情人節。
 // 修改前：沒有這些事件（第 0 項 FAIL，之後全部不跑）。用法：node tests/r2y4a_events_unit.js
+// AA_519 1-3（NPC-STORY2-1028，企劃線 d75cd0228）改了 X1：阿姨「考完了，吃好一點。」→「最後一個冬天的期末。……吃完再走。」、送小菜的旁白第八處＝「（阿姨多放了一碟燙青菜，說是煮多了。）」
 // AA_370（企劃線 a1dc3e61，2026-10-21）改了期待的三項：R1 回國入境大廳（M5：見過媽媽的版本、九點是旁白）、M3 中秋（M7：可昕沒見過麵店團改私訊）、Z2（M1：8/20 不再要地址）——細測在 tests/aa370_us_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -189,7 +190,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-21',21.1,'dorm',TWF({XMAS_GIFT:'notebook'})); join('noodle_team','麵店團'); R('yu','FAM'); rules(); const qx=OUT.get(G,'y4_xmas');
   check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 麵店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 麵店 一百五以內'&&!!qx&&qx.h===19);
   at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
-  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
+  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨（AA_519 1-3）「最後一個冬天的期末。……吃完再走。」（不再是「考完了，吃好一點。」）、送小菜的旁白「（阿姨多放了一碟燙青菜，說是煮多了。）」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('最後一個冬天的期末。……吃完再走。')&&!has('考完了，吃好一點。')&&has('（阿姨多放了一碟燙青菜，說是煮多了。）')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
   fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',21.6); rules();
   check('X2. 美國路線：沒有邀約；21:30 照片（AA_370 第 6 節第 8 題：照臺灣時間；那時人在回臺灣的路上，12/21 23:55 起飛）', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
 

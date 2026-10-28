@@ -256,8 +256,8 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_last_meal_y4', title:'期末最後一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:null,text:'（麵店的牆上貼滿了照片。四年來，大家在長桌拍的。）'},
-      {speaker:'阿姨',text:'照片我貼起來了。你們自己找，找不到的下次帶一張來。'},   /* 交接包_v5 3b */
-      {choice:[{text:'「大一第一次來的那一張。」',goto:'p1'},{text:'「二十三週年那一張。」',if:{flags:['ANNIVERSARY_23']},goto:'p2'},{text:'「找不到。」',goto:'p3'}]},
+      {speaker:'阿姨',text:'照片我貼起來了。你們自己找，找不到的下次帶一張來。'},   /* 交接包_v5 3b。AA_519 1-5：「二十三週年那一張。」原本讀 ANNIVERSARY_23（沒有人設），改讀 y34b3d.js 設的 ANNIV23（'there'＝那天在場；美國路線的遠端版 'remote' 不在照片裡）*/
+      {choice:[{text:'「大一第一次來的那一張。」',goto:'p1'},{text:'「二十三週年那一張。」',if:{flagIs:{ANNIV23:'there'}},goto:'p2'},{text:'「找不到。」',goto:'p3'}]},
       {label:'p1'},{speaker:null,text:'（照片裡的你，坐在最旁邊，筷子還沒拆。）'},{goto:'end'},
       {label:'p2'},{speaker:null,text:'（長桌坐滿，你被擠在角落，只照到半張臉。）'},{goto:'end'},
       {label:'p3'},{speaker:'阿姨',text:'找不到就下次帶一張來。'},

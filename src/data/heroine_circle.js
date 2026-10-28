@@ -29,7 +29,7 @@ const HCIRCLE_DATA={
   /* 表上說話的人 → 人物 id（多人的標籤＝第一個人說）*/
   NAMES:{'以安':'heroine_01','芷若':'heroine_02','語彤':'heroine_03','子晴':'heroine_04','學姊':'heroine_05','沛珊':'classmate_peishan','Alison':'yu','柏翰':'classmate_bohan',
     '阿凱':'kai','陳助教':'npc_ta_chen','筱涵':'npc_huangxh','方奕廷':'npc_fangyt','曾靖雯':'pool_7','晏如':'pool_5','晨希':'pool_11','芸萱':'pool_15',
-    '小婷':'hc_xt','老闆':'hc_boss','阿姨':'hc_ayi','學姊的同學':'hc_sf1','新來的工讀生':'hc_np','大一的學妹':'hc_fr1','日文課的同學':'hc_jp','以安的室友':'hc_room',
+    '小婷':'hc_xt','老闆':'hc_boss','阿姨':'hc_ayi','學姊的同學':'hc_sf1','新來的工讀生':'hc_np','小禾':'hc_np','大一的學妹':'hc_fr1','日文課的同學':'hc_jp','以安的室友':'hc_room',
     '點乾麵的阿伯':'hc_uncle','讀書會的學妹':'hc_plg','社會系的學弟妹':'hc_soc1','吉他社的學弟':'hc_gtr','小朋友':'hc_kid'},
   /* 標籤同伴：label＝說話人、頭上的名字；sex；model＝固定的路人底模；height＝小朋友縮小（crowd3d.js 公園的孩子同一個做法）；
      props＝看得出身分的配件（props3d.js；HEROINE-LIFE-NPC3D-1028，LAWWW2-C：D99 不換底模只加配件。托特包、後背包換顏色，不和以安的米白托特包、祐廷的深灰後背包撞；點乾麵的阿伯沒有配件）*/
@@ -211,8 +211,8 @@ const HCIRCLE_DATA={
     /* ===================== AA_508 大三下＋暑假 ===================== */
     {id:'c508_1_1',doc:'AA_508',sec:'1-1',k:1,who:'heroine_01',with:['yu'],always:true,days:[1,3],from:18,to:18+50/60,terms:['Y3S2'],wk:[1,5],zone:'campus',heard:'Alison：妳走了以後，讀書會誰叫大家安靜？／以安：妳。／Alison：……我？／以安：妳最大聲。'},
     {id:'c508_1_2',doc:'AA_508',sec:'1-1',k:2,who:'heroine_01',with:['hc_plg'],days:[4],from:20,to:21.5,terms:['Y3S2'],wk:[1,5],zone:'wancai',act:'club',heard:'讀書會的學妹：學姊，那條「遲到的人請喝飲料」，Alison 學姊已經請三次了。／以安：……她自己訂的時候就知道了。'},
-    {id:'c508_2_1',doc:'AA_508',sec:'2-1',k:1,who:'heroine_02',with:['hc_np'],days:[3,4],from:19,to:22,dates:[['2028-02-21','2028-06-30']],zone:'cafe',act:'barista',comp:{hc_np:{clerk:'cafe'}},heard:'新來的工讀生：學姊，三號桌說要「跟上次一樣」。／芷若：……上次是誰點的？／新來的工讀生：我。／芷若：那妳去。'},
-    {id:'c508_2_2',doc:'AA_508',sec:'2-1',k:2,who:'heroine_02',with:['hc_np'],days:[1,3],from:19,to:21.5,dates:[['2028-08-01','2028-09-01']],zone:'cafe',act:'read',comp:{hc_np:{stand:true}},heard:'新來的工讀生：學姊，一樣嗎？／芷若：一樣。……妳不用每次都問。／新來的工讀生：要問。學姊教的。',place:'窗邊的位子＝她當客人坐的位子（作息 19:00～21:30），工讀生站在桌邊'},
+    {id:'c508_2_1',doc:'AA_508',sec:'2-1',k:1,who:'heroine_02',with:['hc_np'],days:[3,4],from:19,to:22,dates:[['2028-02-21','2028-06-30']],zone:'cafe',act:'barista',comp:{hc_np:{clerk:'cafe'}},heard:'小禾：學姊，三號桌說要「跟上次一樣」。／芷若：……上次是誰點的？／小禾：我。／芷若：那妳去。'},   /* AA_519 3-4：2027-06-04 起新來的工讀生叫小禾（說話人改小禾；3D 名牌、字幕 src/sup519_3d.js）*/
+    {id:'c508_2_2',doc:'AA_508',sec:'2-1',k:2,who:'heroine_02',with:['hc_np'],days:[1,3],from:19,to:21.5,dates:[['2028-08-01','2028-09-01']],zone:'cafe',act:'read',comp:{hc_np:{stand:true}},heard:'小禾：學姊，一樣嗎？／芷若：一樣。……妳不用每次都問。／小禾：要問。學姊教的。',place:'窗邊的位子＝她當客人坐的位子（作息 19:00～21:30），工讀生站在桌邊（AA_519 3-4：說話人改小禾）'},
     {id:'c508_2_3',doc:'AA_508',sec:'2-1',k:3,who:'heroine_02',with:['heroine_04'],always:true,days:[5],from:14,to:16,terms:['Y3S2'],wk:[12,16],zone:'campus',heard:'芷若：妳畢業以後，週五下午要去哪？／子晴：上班。／芷若：……那我週五下午去哪？／子晴：妳也要出國了。'},
     {id:'c508_3_1',doc:'AA_508',sec:'3-1',k:1,who:'heroine_03',with:['hc_soc1','hc_soc2'],days:[1,5],from:17+20/60,to:17+50/60,terms:['Y3S2'],zone:'campus',heard:'社會系的學弟妹：學姊，田野要怎麼開始？／語彤：先去。坐著就好。／社會系的學弟妹：坐多久？／語彤：坐到他們先開口。',
       place:'社科院門口：現有那一筆（BB_106 D2）是擲到才在、說過就不排，所以大三另外補一筆（SCHED）'},
@@ -221,6 +221,8 @@ const HCIRCLE_DATA={
     {id:'c508_4_2',doc:'AA_508',sec:'4-1',k:2,who:'heroine_04',with:['hc_gtr'],days:[1,3],from:19,to:21,terms:['Y3S2'],zone:'wancai',act:'club',heard:'吉他社的學弟：學姊，畢業以後還會回來聽嗎？／子晴：……下班以後。／吉他社的學弟：那都九點以後了。／子晴：對。'},
     {id:'c508_5_1',doc:'AA_508',sec:'5-1',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[1,3],zone:'gongguan',heard:'陳助教：結果出來了沒？／學姊：還沒。／陳助教：……妳今天一直看手機。／學姊：沒有一直。'},
     {id:'c508_5_2',doc:'AA_508',sec:'5-1',k:2,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,terms:['Y3S2'],wk:[4,16],zone:'gongguan',heard:'陳助教：美國的宿舍排到了沒？／學姊：還沒。每天看信箱。／陳助教：妳以前等成績也這樣。／學姊：……我現在比較會等了。'},
+    {id:'c519_2_3',doc:'AA_519',sec:'2-3',k:1,who:'heroine_05',with:['npc_ta_chen'],always:true,days:[5],from:18.5,to:20.5,dates:[['2028-06-16','2028-06-16']],zone:'gongguan',heard:'陳助教：下禮拜二口試。／學姊：幾點。／陳助教：……妳要來？／學姊：最後一排。不講話。',
+      place:'AA_519 2-3：6/16（五）週五公館和學姊吃飯那一列（放暑假了，學期的列不成立；只有這一天）；口試 2028-06-20（二），學姊沒有別的事'},
     /* ===================== AA_509 大四上＋寒假（CIRCLE3D-Y4-1028）===================== */
     {id:'c509_1_1',doc:'AA_509',sec:'1-1',k:1,who:'heroine_01',alone:true,days:[4],from:18.5,to:19.5,terms:['Y4S1'],wk:[2,13],zone:'noodle',heard:'（阿姨在廚房喊：「日本有沒有好吃的麵？」以安：「沒有這種的。」阿姨：「那就好。」）',
       place:'麵店長桌＝她的作息（characters.js 週四 18:30～19:30 麵店，AA_509 0-2 第 3 點，現有）；阿姨在廚房＝旁白，不生阿姨'},

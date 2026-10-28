@@ -388,8 +388,8 @@ const R2Y4A_EVENTS=(function(){
       IF(Y1G,{pick:{flag:'XMAS_Y4_SAME',from:G=>[ITEM[G.flags.XMAS_GIFT]]}}),
       IF(Y1G,nar('（你抽到的是{flag:XMAS_Y4_SAME}。和你三年前帶來的那一個，幾乎一樣。）')),
       UN(Y1G,nar('（你抽到一罐辣椒醬。）')),UN(Y1G,IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨的。……不要一次吃完。'})),
-      nar('（阿姨把剩下的小菜全部端過來。）'),
-      {speaker:'阿姨',text:'考完了，吃好一點。'},
+      nar('（阿姨多放了一碟燙青菜，說是煮多了。）'),   /* AA_519 1-3：送小菜第八處＝回到第 1 句 */
+      {speaker:'阿姨',text:'最後一個冬天的期末。……吃完再走。'},   /* AA_519 1-3：「吃好一點」只留大一上那一次 */
       {set:{XMAS_Y4:'went'}} ] });
 
   /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */
