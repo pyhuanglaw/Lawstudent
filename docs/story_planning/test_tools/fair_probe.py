@@ -191,7 +191,8 @@ GEOM = r"""(()=>{ if(window.__FG) return; window.__FG={staffBad:{}, crowdBad:{},
       if(n.fairStaff){ const t=X.tents.find(q=>q.id===n.fairStaff); const off=!t||Math.abs(p.x-t.x)>half||Math.abs(p.z-t.z)>half, fl=Math.abs(p.y)>0.25;
         if(off||fl) R.staffBad[n.fairStaff]={x:+p.x.toFixed(2),z:+p.z.toFixed(2),y:+p.y.toFixed(2),off,fl};
         if(cam){ const cd=Math.hypot(cam.position.x-p.x,cam.position.z-p.z); if(n.obj.visible&&cd>lim+0.5) R.lodBad[n.fairStaff]={cd:+cd.toFixed(1),lim,lev}; if(n.obj.visible) R.lodN++; } }
-      else if(n.isExtra&&(n.fairCrowd||n.route||n.path)){ const k=(n.fairCrowd?'crowd':'walker')+'@'+(n.id||n.obj.uuid.slice(0,6)); if(inTent(p.x,p.z)||Math.abs(p.y)>0.25) R.crowdBad[k]={x:+p.x.toFixed(2),z:+p.z.toFixed(2),y:+p.y.toFixed(2)}; } } }catch(e){ window.__FG.err=String(e); } },500); })()"""
+      else if(n.isExtra&&(n.fairCrowd||n.route||n.path)){ if(!n.fairCrowd&&!(Math.abs(p.z)<16&&p.x>-100&&p.x<75)) continue; if((n.lv|0)>0) continue;   /* BB-C 00:3x：只看社博那一段（椰林大道）；萬才館大樓梯、陽台（校園第 1 層）上的路人 y>0 是走在樓梯上，不是浮起來（第一版誤判 walker y 0.33／3.3 @ x88） */
+        const k=(n.fairCrowd?'crowd':'walker')+'@'+(n.id||n.obj.uuid.slice(0,6)); if(inTent(p.x,p.z)||Math.abs(p.y)>0.25) R.crowdBad[k]={x:+p.x.toFixed(2),z:+p.z.toFixed(2),y:+p.y.toFixed(2),lv:n.lv|0}; } } }catch(e){ window.__FG.err=String(e); } },500); })()"""
 FAIRSTAT = """(()=>{ const E=GAME.E; const st=E.npcs.filter(n=>n&&n.fairStaff), cr=E.npcs.filter(n=>n&&n.fairCrowd), bo=E.interactables.filter(i=>i.fairBooth);
   return {q:E.q&&E.q.level, staff:st.length, staffVis:st.filter(n=>n.obj&&n.obj.visible).length, crowd:cr.length, booths:bo.length, boothsShown:bo.filter(i=>!i.hidden).length, open:CLUBFAIR.open(GAME.G),
     tents:typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO.tents.length:0, bg:typeof CLUB_FAIR_EXPO!=='undefined'?CLUB_FAIR_EXPO.tents.filter(t=>t.kind==='bg').length:0,
@@ -227,12 +228,20 @@ async def m_fair(c):
     n0 = await mark(c); await press(c, '吉他'); await drain(c, secs=60); sy2 = texts(await log_from(c, n0))
     run.check('2. 吉他社再按一次：「「吉他社」的表你已經填過了。」', sy2 == ['「吉他社」的表你已經填過了。'], json.dumps(sy2, ensure_ascii=False))
     # 攤位附近站著：喊話（大約每 18 秒一句）
-    n0 = await mark(c); SH = await pg.evaluate("CLUB_FAIR.SHOUTS"); t0 = time.time(); got = []
+    n0 = await mark(c); SH = await pg.evaluate("CLUB_FAIR.SHOUTS"); t0 = time.time(); got = []; f0 = await pg.evaluate("GAME.E.frame|0")
     while time.time() - t0 < 75:
         got = [t for t in texts(await log_from(c, n0), ('cap',)) if t in SH]
         if got: break
         await pg.wait_for_timeout(3000)
-    run.check('2. 在攤位附近站大約 20 秒：顧攤的人喊話（畫面上方小字）', bool(got), json.dumps(got, ensure_ascii=False) + ' %.0f 秒' % (time.time() - t0))
+    fr = (await pg.evaluate("GAME.E.frame|0")) - f0
+    # BB-C 00:3x：喊話是 STORY.tick 每 30 格畫面一次（game3d.js:456）、36 次一句＝真機 60 fps 約 18 秒；SwiftShader 1～4 fps 要好幾分鐘，75 秒等不到不是遊戲問題。
+    # 等不到而且 STORY.tick 不到 36 次：【捷徑】在攤位旁直接呼叫 CLUBFAIR.tick(GAME) 36 次（＝真機 18 秒裡會跑的那幾次），看喊話有沒有出
+    run.note('等了 %.0f 秒、畫面 %d 格＝STORY.tick 約 %d 次（36 次喊一句）' % (time.time() - t0, fr, fr // 30))
+    if not got and fr // 30 < 36:
+        run.setup('[捷徑] STORY.tick 不到 36 次（SwiftShader 太慢）：在攤位旁直接呼叫 CLUBFAIR.tick(GAME) 36 次')
+        await pg.evaluate("(()=>{ for(let i=0;i<36;i++) CLUBFAIR.tick(GAME); })()"); await pg.wait_for_timeout(1500)
+        got = [t for t in texts(await log_from(c, n0), ('cap',)) if t in SH]
+    run.check('2. 在攤位附近站著：顧攤的人喊話（畫面上方小字；真機約 18 秒一句）', bool(got), json.dumps(got, ensure_ascii=False) + ' %.0f 秒' % (time.time() - t0))
     # 攝影社、桌遊社：第一次演、第二次只出招牌
     for bid, sign, first in (('photo', '攝影社', '我們每個月辦一次外拍。手機也可以，不一定要相機。'), ('boardgame', '桌遊社', '規則五分鐘就會。來，坐。')):
         lab, sy, cp, _ = await booth(c, bid, None)
