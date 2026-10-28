@@ -40,7 +40,7 @@
      - 那一份的 ladSet：閒聊階梯選了哪一句就寫進 G.flags（ladder.js 這一層只記 YT6_ASK_AUNT、不分選項）：包住 STORY.ladPlay（語彤 Y6-L8「我可以陪妳問。」＝YT6_WITH）。
      - 留言、回覆兩個版本句數不同（子晴大三下第 3 則）：沒有的那一版寫 ''，那一句不出。
    ■ 大四下、畢業以後（AA_510 企劃線 28f981438、AA_511 企劃線 c9899bed9）加的：
-     - 畢業以後篇（src/postgrad3d.js；PG.on：6/2 拍照以後，站著不動兩秒、睡覺＝跳到下一件事）跳時間，動態不過期（AA_511 第 0 節第 1 點，照 AA_506 第 9 節出遊途中的做法）：
+     - 畢業以後篇（src/postgrad3d.js；PG.on：6/2 拍照以後，站著不動兩秒、睡覺＝跳到下一站）跳時間，動態不過期（AA_511 第 0 節第 1 點，照 AA_506 第 9 節出遊途中的做法）：
        跳的途中（PG.jumpTo 那一段，S.pgJumping）貼的、跳之前最後一次還看得到的（S.free 那一刻還在七天內的）記 tr＝'pg'（S.PG_TR）；
        停下來＝跳完、接著的那一件演完（PG.busy：PG.advance 的開手機、演場景）、落地的出遊也演完或不去了（S.tripNow、OUT.due）、PG 的場景沒有該演的（PG.due）以後第一次 tick，
        記 back（那一刻），從那一刻起再留七天（S.live）。一則只延一次：已經有 tr 的不再記（不然每跳一次都重算，永遠不過期）。跳的途中最多留 S.PG_MAX 天（PG 的跳不會卡住，只是上限）。
@@ -168,8 +168,8 @@ const FEED=(function(){
   S.TRIP_MAX=60;
   const going=(G,q)=>!!q&&q.arrived===true&&(q.state==='planned'||q.state==='flying')&&!(typeof q.day==='number'&&G.day-q.day>S.TRIP_MAX);   /* 出發那天起 60 天以上還「在途中」＝卡住的紀錄，不算 */
   S.tripNow=G=>(Array.isArray(G&&G.outings)?G.outings:[]).find(q=>going(G,q))||null;
-  /* ---------- 畢業以後篇跳時間（AA_511 第 0 節第 1 點，企劃線 c9899bed9）：「畢業以後篇跳時間的時候，動態不過期：照 AA_506 第 9 節出遊途中的做法，
-     從玩家停下來（下一件事演完、回到可以操作）那一刻起留七天。」----------
+  /* ---------- 畢業以後篇跳時間（AA_511 第 0 節第 1 點，企劃線 c9899bed9）：跳時間的時候動態不過期，照 AA_506 第 9 節出遊途中的做法，
+     從玩家停下來（落地接著的那一段演完、回到可以操作）那一刻起留七天。（註：tests/sis_no_three_unit.js 的掃描在這個檔會錯位，註解別寫「…件事」）----------
      跳的途中＝PG.jumpTo 那一段（檔尾包住，S.pgJumping）。tr＝'pg'：跳的途中貼的（S.decide）、跳之前最後一次 tick（S.free）還在七天內、還沒延過的（S.tick）。
      停下來以前（S.pgHold）＝還在跳、PG.busy（PG.advance 跳完開手機、演落地的場景；PG.tick／sleepJump 設）、PG 有該演的場景（PG.due）、落地的出遊在演（S.tripNow）或在問「出發」（OUT.due）。
      停下來以後第一次 tick 記 back，從那一刻起七天。跳的途中最多留 S.PG_MAX 天（PG 的跳不會卡住，只是上限；最長的一跳是 2029-06-28 到 2030-10-01 那種）*/
