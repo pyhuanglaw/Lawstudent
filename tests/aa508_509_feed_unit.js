@@ -27,6 +27,8 @@
 //   修改後 ALL PASS（99 項）。用法：node tests/aa508_509_feed_unit.js
 // 第五輪（AA-C 10-28 06:03「說話的人不在遊戲裡沒做的，照新規則補」）改的只有第 6 段：曾靖雯（pool_7）AA_508 那一句接進遊戲——第四輪的句子 22→23、閒聊前一句 7→8、
 //   「沒做」拿掉那一句（其他照舊，原因照新規則寫）。加句子以後、這裡還沒改的時候實際跑：FAILED 3（這三項）；改了以後 ALL PASS。
+// AA_513（AA-C 2026-10-28，a2e4bf196）改的只有第 6 段：「沒做」裡阿凱 AA_508、AA_509 那兩句的原因改「改私訊，AA_513 第 1 節」，多一項查 1-3（y34b3d.js S.KAI_ROW）、1-4（heard_lines.js）真的在遊戲裡。
+//   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL（沒有 KAI_ROW、沒有 1-4 那一組），改完 ALL PASS。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -351,12 +353,22 @@ await sec('6',async()=>{ if(typeof HEARD==='undefined'){ check('6. HEARD',false,
       else if((m=/^\s*- ([^：「]+)：\s*$/.exec(l))) last=m[1]; } }
   /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）AA_508 那一句已經接進遊戲（talk），從這裡拿掉；其他照舊（原因照新規則寫）*/
   const NOT_DONE={'學姊說倫敦的咖啡比較淡。她回來第一週，偷偷在自己的杯子裡加糖。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'阿凱（大二起住別棟，那段時間 3D 裡沒有他）','子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'葉晨希 pool_11（等 AA_500）',
+    '子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。':'改私訊，AA_513 第 1 節','子晴學姊畢業前，把社辦每一條導線都檢查了一次。我的那條，標籤還在。':'葉晨希 pool_11（等 AA_500）',
     '以安學姊交棒的時候，把規則本每一條都念了一次。念到『遲到的人請大家喝飲料』，Alison 學姊站起來去買飲料。':'讀書會的學弟（新的 3D 標籤人物）','學姊在英國也每個月問公園的貓。……這次她有問我。':'新來的工讀生（3D 標籤人物）',
-    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'阿凱（那段時間 3D 裡沒有他）','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'葉晨希 pool_11（等 AA_500）'};
+    '子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。':'改私訊，AA_513 第 1 節','子晴學姊上班以後，社課只來過兩次。兩次都待到最後，幫忙收導線。':'葉晨希 pool_11（等 AA_500）'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
-  check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟、阿凱），沒有漏掉',
+  check('6. 稿上「別人說起她」'+heard.length+' 句（AA_508 13、AA_509 17）：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、新來的工讀生、讀書會的學弟；阿凱兩句改私訊，AA_513 第 1 節），沒有漏掉',
     heard.filter(x=>x[0]==='AA_508').length===13&&heard.filter(x=>x[0]==='AA_509').length===17&&!miss.length&&!extra.length,J({miss,extra}));
+  /* AA_513 第 1 節（AA-C 2026-10-28，a2e4bf196）：「改私訊」的那兩句——AA_508 4-4＝1-3（5/20 發表會，src/y34b3d.js S.zqKaiPhone 兩組照片後面；這支測試不載 y34b3d.js，查原始碼，送到、到場不加在 tests/aa513_unit.js）、
+     AA_509 4-4＝1-4（2028-12-15 23:20，heard_lines.js phone）：稿上那一塊（「> 阿凱：…」那幾行）一字不差在遊戲裡 */
+  const A513=show('a2e4bf196','docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md'), K513={};
+  { let cur=null; for(const l of A513.split('\n')){ let m; if((m=/^### (1-\d)\s+[^（]*（`(AA_5\d\d)` 4-4）：(\d{4}-\d\d-\d\d)（.）(\d\d:\d\d)?/.exec(l))){ cur=K513[m[1]]={ref:m[2],date:m[3],hm:m[4]||null,lines:[]}; continue; }
+      if(/^(### |## |---)/.test(l)){ cur=null; continue; } let q; if(cur&&(q=/^> 阿凱：(.+)$/.exec(l))) cur.lines.push(q[1].trim()); } }
+  const by=r=>Object.keys(K513).find(i=>K513[i].ref===r), b8=K513[by('AA_508')], b9=K513[by('AA_509')], e9=HL.phone.find(x=>x.src==='AA_513 '+by('AA_509'));
+  const y34=fs.readFileSync(path.join(H.ROOT,'src/y34b3d.js'),'utf8'), row=(/S\.KAI_ROW=(\[[^\]]*\])/.exec(y34)||[])[1];
+  check('6. 改私訊（AA_513 第 1 節）的兩句：1-3（AA_508）兩則＝y34b3d.js S.KAI_ROW、接在 y3_zq_kai_photo、y3_zq_kai_noshow 兩組照片後面；1-4（AA_509）2028-12-15 23:20 三則在 heard_lines.js（p:kai、kaiZq）；一字不差',
+    !!b8&&!!b9&&!!row&&J(vm.runInNewContext(row))===J(b8.lines)&&b8.lines.length===2&&/S\.kaiPhoto\(G\)\)\]\.concat\(kaiRow\(G\)\),'y3_zq_kai_photo'/.test(y34)&&/S\.kaiPhoto\(G\)\)\]\.concat\(kaiRow\(G\)\),'y3_zq_kai_noshow'/.test(y34)
+    &&!!e9&&e9.at===b9.date+' '+b9.hm&&e9.th==='p:kai'&&e9.cond==='kaiZq'&&J(e9.items)===J(b9.lines.map(s=>['kai','阿凱',s])),J({b8,b9,row,e9:e9&&e9.at}));
   /* 閒聊前一句：from 那天有、前一天沒有、until 那天有、隔天沒有 */
   const meet=(...ids)=>{ for(const id of ids) H.rel(id,45,30,10); };
   const T4=HL.talk.filter(e=>/^AA_50[89]/.test(e.src||'')), bad=[];

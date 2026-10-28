@@ -21,6 +21,8 @@
 //   第 8 段 13 項（AA_510 的句子 0 句、稿上 12 句有 11 句沒有、閒聊前一句 0 句、時間、曾靖雯兩項、阿凱、手機五項（Alison 兩項、予樂、品妤、子晴）、跳的途中收到子晴私訊）；
 //   當時就過的 3 項是現狀的保護（AA_510 0-1 三處第四輪已做、曾靖雯在 AA_498 的資料、前幾輪阿凱那四句的時間 3D 裡沒有他）。
 //   修改後 ALL PASS（76 項，約 17 秒）。第 5 段的反例在同一份程式裡：FEED.pgJumping 壓成負的（＝沒有保留規則）同一條路有 34 則停下來看不到。
+// AA_513（AA-C 2026-10-28，a2e4bf196）：第 8 段「前幾輪阿凱那四句」改私訊——原句不在遊戲裡那一項照舊（名稱改寫），多一項查四塊私訊真的在遊戲裡（1-1、1-2、1-4 heard_lines.js，1-3 y34b3d.js）；
+//   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL，改完 ALL PASS。
 // 用法：node tests/aa510_511_feed_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -351,13 +353,24 @@ await sec('8',async()=>{ if(typeof HEARD==='undefined'){ check('8. HEARD',false,
   fresh(DK('2029-07-27'),22.5,{}); const k1=kaiAt(DK('2029-07-27'),22.5);
   fresh(DK('2029-07-27'),22.5,{}); meet('kai'); const kn=HEARD.talkDue(H.G,'kai'); meet('heroine_04'); const kd=HEARD.talkDue(H.G,'kai'); fresh(DK('2029-07-20'),22.5,{}); meet('kai','heroine_04'); const kb=HEARD.talkDue(H.G,'kai');
   check('8. 阿凱 2029-07-27（五）22:30 在公館（作息）；認識子晴才說「子晴學姊的 demo，我玩了三個小時。……」；7/20（demo 以前）不說',k1==='gongguan'&&!kn&&!!kd&&kd.id==='h510_kai_zq'&&(!kb||kb.id!=='h510_kai_zq'),J({k1,kn:kn&&kn.id,kd:kd&&kd.id,kb:kb&&kb.id}));
-  /* 前幾輪阿凱那四句：那幾段時間 3D 裡沒有他（作息 zone＝null「在他那棟宿舍」）＝先空著 */
+  /* 前幾輪阿凱那四句：那幾段時間 3D 裡沒有他（作息 zone＝null「在他那棟宿舍」）＝原句不在遊戲裡；AA_513 第 1 節（AA-C 2026-10-28，a2e4bf196）改成他的私訊（下一項查真的在遊戲裡）*/
   const KAI_OLD=[['AA_505','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。','Y2S1:W12一','Y2S1:end'],['AA_507','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。','Y3S1:W4一','Y3S1:end'],
     ['AA_508','子晴學姊的發表會，她叫我不要坐第一排。所以我坐第一排。','Y3S2:W14一','Y3S2:end'],['AA_509','子晴學姊把公園的貓帶回家了。她說是同事。……貓是同事。','2028-12-14','Y4S1:end']];
   const kaiBad=[]; let kaiDays=0; fresh(DK('2026-11-01'),12,{});
   for(const [k,t,a,b] of KAI_OLD){ if(got.has(t)) kaiBad.push(k+' 在遊戲裡'); const d0=HEARD.when(a).day, d1=HEARD.when(b).day; if(!(DK('2027-03-13')<d0||DK('2027-03-13')>d1)) kaiBad.push(k+' 包到 2027-03-13（r3 方奕廷六點那一次）');
     for(let d=d0;d<=d1;d++){ kaiDays++; for(const h of [8,12,18,21,22.5,23.5]){ const z=kaiAt(d,h); if(z) kaiBad.push(k+' '+key(d)+' '+h+' '+z); } } }
-  check('8. 前幾輪阿凱那四句（AA_505、AA_507、AA_508、AA_509 4-4）：那幾段時間（'+kaiDays+' 天）3D 裡都沒有他（作息「在他那棟宿舍」），先空著、不在遊戲裡',!kaiBad.length&&kaiDays>300,J(kaiBad.slice(0,6)));
+  check('8. 前幾輪阿凱那四句（AA_505、AA_507、AA_508、AA_509 4-4）：那幾段時間（'+kaiDays+' 天）3D 裡都沒有他（作息「在他那棟宿舍」），原句不在遊戲裡（改私訊，AA_513 第 1 節）',!kaiBad.length&&kaiDays>300,J(kaiBad.slice(0,6)));
+  /* AA_513 第 1 節：四塊（1-1～1-4，標題寫哪一份的 4-4、哪一天幾點；「> 阿凱：…」那幾行）——1-1、1-2、1-4 在 heard_lines.js phone（p:kai、kaiZq），1-3 在 src/y34b3d.js S.KAI_ROW（兩組照片後面；
+     這支測試不載 y34b3d.js，查原始碼）。送到、條件、時差、到場不加在 tests/aa513_unit.js */
+  const A513=show('a2e4bf196','docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md'), K513={};
+  { let cur=null; for(const l of A513.split('\n')){ let m; if((m=/^### (1-\d)\s+[^（]*（`(AA_5\d\d)` 4-4）：(\d{4}-\d\d-\d\d)（.）(\d\d:\d\d)?/.exec(l))){ cur=K513[m[1]]={ref:m[2],date:m[3],hm:m[4]||null,lines:[]}; continue; }
+      if(/^(### |## |---)/.test(l)){ cur=null; continue; } let q; if(cur&&(q=/^> 阿凱：(.+)$/.exec(l))) cur.lines.push(q[1].trim()); } }
+  const y34=fs.readFileSync(path.join(H.ROOT,'src/y34b3d.js'),'utf8'), row=(/S\.KAI_ROW=(\[[^\]]*\])/.exec(y34)||[])[1], k513=[];
+  for(const [k] of KAI_OLD){ const id=Object.keys(K513).find(i=>K513[i].ref===k), b=K513[id]; if(!b||!b.lines.length){ k513.push(k+' 稿'); continue; }
+    if(k==='AA_508'){ if(!row||J(vm.runInNewContext(row))!==J(b.lines)) k513.push(k+' KAI_ROW'); continue; }
+    const e=HL.phone.find(x=>x.src==='AA_513 '+id); if(!e||e.at!==b.date+' '+b.hm||e.th!=='p:kai'||e.cond!=='kaiZq'||J(e.items)!==J(b.lines.map(s=>['kai','阿凱',s]))) k513.push(k+' '+id); }
+  check('8. 那四句改成阿凱的私訊（AA_513 第 1 節，a2e4bf196）：1-1 2026-11-27、1-2 2027-10-27、1-4 2028-12-15 各 23:20 三則在 heard_lines.js（p:kai、kaiZq），1-3 5/20 兩則在 y34b3d.js S.KAI_ROW；一字不差',
+    Object.keys(K513).length===4&&!k513.length,J(k513));
   /* 手機 */
   const run=(d,h)=>{ at(d,h); HEARD.phone(H.G); PHONE.tick(H.G); };
   const msgs=tag=>(H.G.msgs||[]).filter(m=>m.tag==='heard_'+tag);
