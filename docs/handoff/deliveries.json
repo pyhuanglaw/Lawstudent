@@ -15503,8 +15503,8 @@
    "msg": "ACK",
    "what": "AA_506 女主角自己的生活（大二下＋暑假）；第 0 節先修（子晴兩個遊戲分清楚＋階梯 Q4-L1 第二句、學姊游泳只當作息與暑假週二四法圖、C17「全台灣」、沛珊 P4b 作廢不修、語彤 2027-07-09 生日）；AA_505 更正四處；新標籤「日文課的同學」「以安的室友」「點乾麵的阿伯」；outbox ebec0cde2",
    "task": "HEROINE-LIFE-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 03:2x UTC】第 0 節第 2、3 點做了（b748f2de4）；第 1 點階梯 Q4-L1 選項「第二關是什麼？」也要不要改問 AA；AA_505 更正轉手機子代理；AA_506 本體下一輪"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 03:2x UTC】第 0 節第 2、3 點做了（b748f2de4）；第 1 點階梯 Q4-L1 選項「第二關是什麼？」也要不要改問 AA；AA_505 更正轉手機子代理；AA_506 本體下一輪；【LAWWW-C 10-28 04:5x】AA_506 手機部分照 31a4c4002 合進 923e81d20"
   },
   {
    "id": "DL-AA-507",
@@ -15516,8 +15516,34 @@
    "msg": "ACK",
    "what": "AA_507 女主角自己的生活（大三上＋寒假）；0-1 AA_506 五處更正；0-2 開發分支現有的八件；新標籤「讀書會的學妹」「社會系的學弟妹」「吉他社的學弟」；outbox af159ee5b",
    "task": "HEROINE-LIFE-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 03:5x UTC】0-2 八件做了（36fa3b8be）；AA_506 本體用 e4fbd0192 的版本；AA_507 本體之後照稿接"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 03:5x UTC】0-2 八件做了（36fa3b8be）；AA_506 本體用 e4fbd0192 的版本；AA_507 本體之後照稿接；【LAWWW-C 10-28 04:5x】AA_507 手機部分照 31a4c4002 合進 923e81d20"
+  },
+  {
+   "id": "DL-AA-508",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "31a4c4002",
+   "msg": "ACK",
+   "what": "AA_508 女主角自己的生活（大三下＋暑假）；0-1 AA_506、AA_507 四處更正；0-2 開發分支現有的十一件；outbox a519c2944",
+   "task": "HEROINE-LIFE-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 04:5x UTC】0-2 十一件做了（1c1c569a1、aeba34286、5fe5dc2c0）；手機動態、同框、2D 短場下一輪"
+  },
+  {
+   "id": "DL-AA-498-FIX",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "56ed354e9",
+   "msg": "ACK",
+   "what": "AA_498 最後加「實作時定的」一節：子代理九組判斷照用、靖雯旁聽改下午、四人人物頁不先說出心事、KV_HANDOVER 在 AA_497 5-2",
+   "task": "NPC-STORY-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 04:5x UTC】第 3、4 點 5fe5dc2c0；白名單 AA_498 改 56ed354e9"
   }
  ],
  "ignored": [
@@ -19474,6 +19500,13 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-201V2",
    "reason": "霖澤館 201 v2 模型的 WIP 檢查點，最後交件 2fb76710c（LAWWW-C 10-28 03:1x 分類）"
+  },
+  {
+   "sha": "92a50811d",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "LIGHTBAKE-UV-FIX-1028",
+   "reason": "LAWWW2 光照貼圖 UV 修正的 WIP 檢查點（bake_classroom_201.sh --nolm、檢討報告第 6、7 節），還沒交件（LAWWW-C 10-28 04:5x 分類）"
   }
  ]
 }

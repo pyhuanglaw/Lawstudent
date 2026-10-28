@@ -45,13 +45,17 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.12（2026-10-28 發布中，PR 與部署結果發布後補上）——使用者 10-27 晚上回報的修正、學姊第十二批、溫州街的貓、開門動作、快速存檔
+## v9.10.12（2026-10-28 04:44 UTC 合併 `d5ca27b89`，PR #18；GitHub Pages 部署 run 40634003965 04:46:30 成功）——使用者 10-27 晚上回報的修正、學姊第十二批、溫州街的貓、開門動作、快速存檔
 
 **候選**：rc3b＝`d6694cad0`＝rc3 `49284c621`＋tests/p0_movement.py 等點地面走完再開事件（BB-C d88f9838a，只改測試）。rc3＝rc2 `ed777ba38`＋溫州街小公園直飲台、腳踏車架兩個阻擋移回 // 註解前面（rc2 的公園修正把它們寫進註解，BB-C 抓到入口 A 東側腳踏車架穿得過去；wz_park_unit 2c 修改前 3 FAIL）。rc2＝`562a5ead9`（開發分支 10-28 01:1x，LAWWW2 開門第二階段＋WZCAT.hold 合進來以後凍結）＋土地公旁的陷阱修正（LAWWW2 WZ-SHRINE-TRAP-1028 `984f24dc1`，`7af7223ce`：遊戲場導航阻擋只擋南邊有遊具的 2.9 m、供桌與小角落擋起來）＋換區域途中不自動打開手機（`3e3ccb073`）＋BB 的 touch_flow_wenzhou 修正（`ed777ba38`）。bundle `wip_backup/rel91012_rc3b.bundle`。開發分支在 562a5ead9 之後合進來的東西（她們主動約你、路人分科系、室友自己進門、法律系同學二十位、手機動態、X14 第二輪…）**都不在這一版**，下一版。回復目標＝v9.10.11 `c8b9659e5`。
 
+**發布**：main `d5ca27b89`（PR [pyhuanglaw/Lawstudent#18](https://github.com/pyhuanglaw/Lawstudent/pull/18) 的合併 commit，merge；PR 的 head＝發布樹 `96358789f`：遊戲檔案＝候選 rc3b `d6694cad0`＋版本字樣（index.html `?v=9.10.12` ×230、標題「版本 v9.10.12（2026-10-28）」）、劇情匯入白名單也用 rc3b 那一份）；回復目標＝v9.10.11 `c8b9659e5`。發布後開發分支 `4933cdf0f` 換回開發的遊戲檔案、`a89810165` 合併 main 回來（main 是開發分支的祖先）。線上版本字樣：LAWWW 的沙盒連不到 github.io，請 BB 跑 deploy_check（見發布後）。
+
 **BB 判定**：GO（BB-C 10-28 04:32，rc3b；rc3b 和 rc3 只差 tests/p0_movement.py，遊戲檔案一樣）——發布門檻七支：reachability_all --zones wenzhou ALL PASS（32 個互動點、坐下的點）；touch_flow_wenzhou 安靜時重跑 ALL PASS 33 項（第一次 walk_to 逾時是時間差，Node 走得到）；p0_movement 修正版 ALL PASS 34 項（原本那項記錄版證明事件中推搖桿 0.00 m，是測試時間差）；wz_street_integration ALL PASS；flow_main_day12 修正版 ALL PASS（第一天到第二天上下課、存讀檔，fallbacks 0、沒有 JS 例外）；save_compat v7（`385e19471`）ALL PASS（自動存檔、欄位 1、各區域 48 個位置）；save_compat LIVE（v9.10.11 `c8b9659e5` 的存檔）ALL PASS。另外 Node：shrine_pocket_check 0 個死角、實心物件阻擋 0 個不見；wz_park／people／talk／cat／cat_walk／phone_auto／aa413／aa420 ×2／aa427 全過。relsuite_562：單元測試 693 PASS；瀏覽器 deploy_check、model_upgrade、zone_transitions、campus／gongguan_layout_nav、indoor_cam、minimap、joystick、flow_class_real、flow_linze_floors、flow_wancai_stairs 都 PASS。已驗收（562a5ead9 以前的開發分支、改動不重疊）：X117 背包七種、X110 傳訊息給學姊、X113 麵店長桌閒聊、X114 烤肉語彤三行、X109 社博當天內容＋提示＋起床提示框。還沒驗：真機。
 
-**LAWWW 發布前檢查**：候選 562a5ead9 乾淨 worktree 全部 Node 689 支 0 失敗（10-28 01:1x）；rc3 全部 Node 689 支 0 失敗；HV-15（rc2／rc3，10-28 02:5x）：題目漏收 0（企劃線 8e35600c3 重新匯出 399 題，只有來源那一行不同）、check_orphans 沒用到的素材 88（和 v9.10.11 一樣）、看板停住 115（沒寫恢復條件 0）、check_lines 可能抄錯 506（v9.10.11 504，多的是標題、地點名稱的寫法，不擋發布）；shrine_pocket_check（LAWWW 重跑 rc3）公園 1239 點 0 個死角、土地公站位 23/23 走得到。發布樹（rc3b＋版本字樣）全部 Node：見發布後補記。
+**LAWWW 發布前檢查**：候選 562a5ead9 乾淨 worktree 全部 Node 689 支 0 失敗（10-28 01:1x）；rc3 全部 Node 689 支 0 失敗；HV-15（rc2／rc3，10-28 02:5x）：題目漏收 0（企劃線 8e35600c3 重新匯出 399 題，只有來源那一行不同）、check_orphans 沒用到的素材 88（和 v9.10.11 一樣）、看板停住 115（沒寫恢復條件 0）、check_lines 可能抄錯 506（v9.10.11 504，多的是標題、地點名稱的寫法，不擋發布）；shrine_pocket_check（LAWWW 重跑 rc3）公園 1239 點 0 個死角、土地公站位 23/23 走得到。發布樹（rc3b＋版本字樣）乾淨 worktree 全部 Node 單元測試 689 支 0 失敗（10-28 04:3x）。
+
+**發布後**：BB-C 在 main `d5ca27b89` 跑 deploy_check、門檻以外的 relsuite 剩下項目（萬才館室內、總圖 ×2、課表、教學館、guide、levels_no_sky、宿舍走廊）——結果回來補在這裡。
 
 **這版有的（v9.10.11 以後，玩家玩得到的）**：
 - 使用者 10-27 晚上回報的：
