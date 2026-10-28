@@ -3997,16 +3997,16 @@
    "sha": "4e0b212f8",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "NPC-STORY-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/npc_story_bookstore_1028.patch",
     "assets/models/env/second_ai/library_copier.glb",
     "docs/art-rebuild/second_ai/test_shots/npc_story_bookstore_1028/README.md"
    ],
-   "state": "已交付",
-   "remaining": "芯慈 2-2 的站位要 LAWWW-C 改成 (10.35,2.35／2.95)；法圖、霖澤館電梯前兩個站位的建議等 LAWWW-C 決定；iPhone 實機沒測",
-   "next": "LAWWW-C：git apply patch＋git checkout 這個 SHA -- library_copier.glb；改芯慈 2-2 站位；BB 在 v9.10.13 6a 驗書店門口",
+   "state": "已整合",
+   "remaining": "iPhone 實機沒測；芯慈 2-2 的站位：BB 看到去館員辦公室的路離她 0.45 m，10-28 08:4x 回 LAWWW-C 改 (10.35,1.75) yaw 1.2（以安不動），等 LAWWW-C 決定",
+   "next": "LAWWW-C 已整合（60805aa78，BB 驗過書店）；芯慈站位要不要再改由 LAWWW-C 決定",
    "note": "同一包也是 BOOKSTORE-EXIT-SHOP-1028（書店櫃台互動點移到桌子東端 (1.8,3.2) r0.9）；影印機靠東牆 (11.4,2.6) 正面朝西；新測試 bookstore_exit_unit（改前 FAIL 3）、library_copier_unit；nav_buildings、library_b1／media／upper、seat_reach、postcard_reach ALL PASS"
   }
  ]
