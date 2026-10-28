@@ -18,10 +18,12 @@ SHOTS = [('cafe_window', 'cafe', 15.0, (3.2, -2.5), {}), ('cafe_closed', 'cafe',
          # BB-C 10-28：BB_221 B 輪三張（putong_empty、boya_201、law_courtyard）＋D-2（us_c_door，AA_516 4-4 C 棟門口、下雨的晚上）
          ('putong_empty', 'putong', 19.0, (-5.4, -4.6), {}), ('boya_201', 'boya', 14.0, (-7.0, -4.8), {}),
          ('law_courtyard', 'campus', 12.0, (60.0, -88.0), {}),
-         ('us_c_door', 'us_outside', 22.5, (21.0, 8.0), {'US_DEPARTED': True, 'US_ARRIVED': True})]
+         ('us_c_door', 'us_outside', 22.5, (21.0, 8.0), {'US_DEPARTED': True, 'US_ARRIVED': True}),
+         # BB-C 10-28 13:2x：LAWWW-C P3 linze_201（AA_520 予樂「演講那一晚」10/20 19:00，霖澤館 201 階梯教室）：第 5 排後面往講台看
+         ('linze_201', 'classroom', 19.2, (0.0, 5.6), {})]
 # 有寫的才用：第幾層、第一張的鏡頭方向（鏡頭在玩家的 (sin yaw, cos yaw) 那一側；看西＝π/2、看北＝0、看東＝−π/2）、天氣（沒寫＝晴天）
 EXTRA = {'putong_empty': {'lv': 0, 'yaw': 1.5708}, 'boya_201': {'lv': 1, 'yaw': 1.5708}, 'law_courtyard': {'lv': 0, 'yaw': 0.0},
-         'us_c_door': {'lv': 0, 'yaw': -1.5708, 'wx': 'rain'}}
+         'us_c_door': {'lv': 0, 'yaw': -1.5708, 'wx': 'rain'}, 'linze_201': {'lv': 0, 'yaw': 0.0}}
 ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]
 CLEAN = """(on=>{ for(const el of document.body.children){ if(el.tagName==='CANVAS'||el.querySelector('canvas')) continue; if(on){ el.dataset.bbHide=el.style.visibility||'-'; el.style.visibility='hidden'; } else if(el.dataset.bbHide){ el.style.visibility=el.dataset.bbHide==='-'?'':el.dataset.bbHide; delete el.dataset.bbHide; } } const p=GAME.E.player&&GAME.E.player.obj; if(p) p.visible=!on; })"""
 async def closephone(pg):
