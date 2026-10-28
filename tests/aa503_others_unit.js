@@ -37,7 +37,8 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   /* 第五輪（AA_510 @ 28f981438）：heard_lines.js 加了那一份的句子，對稿要有那一份；那一份的「沒有漏掉」、時間、條件在 tests/aa510_511_feed_unit.js */
   AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438'],
   /* AA_513（a2e4bf196）：阿凱說子晴四句改私訊（heard_lines.js phone 的 1-1、1-2、1-4）；以安窗邊的字幕（pass）在 tests/aa513_unit.js 對稿 */
-  AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196']};
+  AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196'],
+  AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407']};   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -76,6 +77,7 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   /* 第五輪（AA-C 10-28 06:03 的規則）：曾靖雯（pool_7，AA_498 第一批）的三句（AA_504 一句、AA_506 兩句）已經接進遊戲（talk），從這裡拿掉；
      其他 pool_* 等 AA_499～501、阿凱那兩段時間 3D 裡沒有他（2029-06-28 起才在週五公館）、小婷／工讀生／學妹等 3D 標籤人物 */
   const NOT_DONE={
+    '子晴學姊回來看社課，第一件事是去數導線。':'改字（不叫學姊），AA_514 第 4 節第 3 點',
     '以安每次都比我早到一點點。我開始懷疑她住在教室裡。':'曾靖雯（AA_498 已有）','語彤在社工系的課坐第一排。':'蘇承恩（已有）','子晴說我彈得太快。我說她講話太快。':'劉晏如（已有）',
     '學姊說我的比較好。她自己的那杯，冬天一直有人點。……沒有在菜單上的那杯。':'小婷（不是 3D 人物）',
     '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷（不是 3D 人物）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',

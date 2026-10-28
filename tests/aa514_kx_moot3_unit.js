@@ -21,7 +21,8 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SHA='964d01175', SPEC='docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md';
+const SHA='9bca0f407',   /* 10-28 08:3x：AA 加第 4 節（麵店底圖 nccu_food、晨希兩件），前三節和 964d01175 一樣 */
+     SHA0='964d01175', SPEC='docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md';
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
 for(const [f,n] of [['src/data/feed_y1s1.js',['FEED_Y1S1']],['src/data/feed_y1s2.js',['FEED_Y1S2']],['src/data/feed_y2s1.js',['FEED_Y2S1']],['src/data/feed_y2s2.js',['FEED_Y2S2']],['src/feed3d.js',['FEED']],
@@ -79,13 +80,16 @@ await sec('0',async()=>{
   check('0. 劇情匯入白名單：AA_514 @ '+SHA+'、approved、approvedBy AA-C、任務 KX-MOOT3-1028',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&/AA-C/.test(A[0].approvedBy||'')&&A[0].task==='KX-MOOT3-1028',J(A));
   check('0. 人物頁記憶 KX_MOOT3_CAME「'+MEM_LABEL+'」（稿 1-2）',(SOCIAL.MEMORY_LABEL||{}).KX_MOOT3_CAME===MEM_LABEL&&inDoc('人物頁「'+MEM_LABEL+'」'));
   /* ① 遊戲 → 稿 */
+  const CAP_OK={'政大・山下的小吃街':'AA_514 第 4 節第 2 點：麵店那段換 nccu_food；地點字幕照 kxdrift3d.js OD_SCENE.nccu（稿沒寫字幕）'};
   const bad=[], Lx=L(), T_=t=>{ if(typeof t==='string'&&t!==''&&!inDoc(t)) bad.push(t); };
   if(!Lx||!ev(EV)) bad.push('沒有 KX_MOOT3_LINES／ev_kexin_moot3');
   else { for(const k in Lx){ const v=Lx[k]; if(Array.isArray(v)) v.forEach(x=>{ if(x&&typeof x==='object'){ T_(x.t); (x.r||[]).forEach(T_); } else T_(x); }); else T_(v); }
-    for(const l of ev(EV).dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined) T_(l.scene); for(const c of (l.choice||[])) T_(c.text); } }
+    for(const l of ev(EV).dialogue){ if(l.text!==undefined) T_(l.text); if(l.scene!==undefined&&!CAP_OK[l.scene]) T_(l.scene); for(const c of (l.choice||[])) T_(c.text); } }
   const P=typeof FEED_Y2S1!=='undefined'?FEED_Y2S1.posts.find(p=>p.id==='kx4bc'):null;
   if(!P) bad.push('沒有 kx4bc'); else [P.pic,P.say].concat(P.cm||[],P.dm||[]).forEach(T_);
   check('0. ① 遊戲裡每一句（私訊、回覆鍵、旁白、她的話、選項、地點字幕、人物頁、第 4b 則）都在稿裡（'+SHA+'，一字不差）',!bad.length,J(bad));
+  { const e=ev(EV), d=e?e.dialogue:[], i=d.findIndex(l=>l&&typeof l.text==='string'&&/^（政大後門的麵店/.test(l.text)), pre=i>0?d[i-1]:null, bgs=d.slice(0,i).filter(l=>l&&l.bg).map(l=>l.bg);
+    check('0. 第 4 節第 2 點：選「要不要去吃東西？」以後的麵店那段換底圖 nccu_food（那一句前面一行換）；教室那段照舊 classroom_small',i>0&&!!pre&&pre.bg==='nccu_food'&&bgs[0]==='classroom_small',J({i,pre,bgs})); }
   /* ② 稿 → 遊戲：第 1 節 */
   const s1=doc.slice(doc.indexOf('## 1. '),doc.indexOf('## 2. ')); const lines=[], nars=[], opts=[];
   for(const l of s1.split('\n')){ let m; if((m=/^\s*> 可昕：(.+)$/.exec(l))) lines.push(m[1].trim()); else if((m=/^\s*> (（.+）)\s*$/.exec(l))) nars.push(m[1]); else if((m=/^\s*- 「([^」]+)」→/.exec(l))) opts.push(m[1]); }

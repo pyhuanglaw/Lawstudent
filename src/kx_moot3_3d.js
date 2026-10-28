@@ -65,10 +65,11 @@ const KXMOOT3=(function(){
 
   /* ---------- 事件（1-2；trigger 'outing'，由上面排）---------- */
   const say=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:KX,expression:'neutral',text:t};
+  S.FOOD_RE=/^（政大後門的麵店/; S.FOOD_SCENE='政大・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
   S.EVENT=!L?null:{ id:S.EV, title:S.TITLE, participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:S.HOURS,
     dialogue:[{scene:L.scene,bg:'classroom_small'}].concat(L.nar.map(say),L.saw.map(say),
       [{choice:L.opts.map((o,i)=>({text:o.t,goto:'km3_'+i}))}],
-      ...L.opts.map((o,i)=>[{label:'km3_'+i}].concat(o.r.map(say),[{goto:'km3_end'}])),
+      ...L.opts.map((o,i)=>[{label:'km3_'+i}].concat(...o.r.map(t=>S.FOOD_RE.test(t)?[{scene:S.FOOD_SCENE,bg:'nccu_food'},say(t)]:[say(t)]),[{goto:'km3_end'}])),   /* 麵店那段換 nccu_food（AA_514 第 4 節第 2 點）*/
       [{label:'km3_end'}],L.close.map(say),
       [{set:{KX_MOOT3:'came'},mem:[{npc:KX,tag:S.MEM,note:''}]}]) };
 

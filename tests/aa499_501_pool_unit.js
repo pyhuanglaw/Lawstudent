@@ -80,10 +80,13 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
   const strs=b=>{ const out=[]; const walk=(v,k)=>{ if(v==null||(SKIP.has(k)&&(typeof v!=='object'||['if','unless','set'].includes(k)))) return; if(typeof v==='string'){ out.push(v); return; } if(typeof v==='function') return; if(Array.isArray(v)){ v.forEach(x=>walk(x,k)); return; } if(typeof v==='object') for(const kk in v) walk(v[kk],kk); };
     walk(b.LINES,''); if(b.PERSONALITY) walk(b.PERSONALITY,''); return out; };
   /* 遊戲 → 稿：每一句都在稿裡（一字不差）。DERIVED＝稿上沒有另外寫的房間物品「看」的句子：用那個人說過的那一句加引號（裡面那一句一字不差在稿裡）*/
+  /* 別份稿的句子：AA_514 第 4 節第 4 點（9bca0f407）晨希大四的兩則錄音私訊（她畢業以後、3D 沒有她；資料放在她那一份 pool_story_b3.js）——一字不差在 AA_514 */
+  const D514=ofDoc('9bca0f407','docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md');
+  const OTHERDOC={'（社課的聲音。最後一首彈完，椅子一張一張收起來。有人在收導線，一邊收一邊哼——是子晴。）':'AA_514 4-4 大四上','（一個學妹在台上彈，中間停了一拍，又接上。台下有人說：「沒停就好。」——是子晴的聲音。）':'AA_514 4-4 大四下','（錄音 1:10）':'AA_514 4-4 大四下'};
   const DERIVED={'「這條比你資深。對它好一點。」':'AA_499 5-4 房間物品「法服的延長線」：稿沒有寫「看」的句子，用她交給你時說的那一句',
     '「週五以前還我。」':'AA_500 6-1 房間物品「乃文學姊的民總筆記」：稿沒有寫「看」的句子，用她借你時說的那一句'};
   for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k];
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0));
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0));
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;
