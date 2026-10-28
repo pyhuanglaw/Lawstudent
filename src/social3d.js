@@ -193,6 +193,7 @@ const SOCIAL = (function(){
   MEMORY_LABEL.ZR_LAST_SCREENING='出國前的最後一場，二輪戲院';   /* 芷若：出國前的最後一場（AA_387 第 4 節，企劃線 608b9adc；src/zr_last3d.js）*/
   Object.assign(MEMORY_LABEL,{SIS5_NOT_BUSY:'學姊說碩士生不閒',SAW_HER_OFF:'她出發那天，你在機場等她',SIS_OLD_NOTES:'她把大二債各的筆記給你',SIS_XMAS_PENCIL:'她送了你一支刻了名字的鉛筆',W3_TAUGHT:'她要你把那一段講給她聽',ZQ_TESTBUILD:'她給了你遊戲的測試版'});   /* AA_398 第 50 列（使用者 10-23：學姊不數件數）：原本 ladder 匯入的「學姊的第三件事「還在想」」，這裡有就不從階梯文件拿 */
   MEMORY_LABEL.ZR_SAW_OFF='她出發那天，你去了機場';   /* 芷若 2027-09-02 送機（AA_390 第 3 節，企劃線 5f4b9c7b；src/zr_sendoff3d.js）*/
+  MEMORY_LABEL.ZHOU_Y4='大四去了周教授的研究室';   /* 周教授大四下專題的研究室（AA_522 1-3、第 5 節，企劃線 fcc93126e；名稱就是稿上那一句，記的時候不另外寫備註）*/
   Object.assign(MEMORY_LABEL,{SIS_SAW_BRUNCH:'她在早午餐店看到你在打工',ENC_PARK_ZQ:'夜裡在公園的鞦韆遇到她',TEA_CEREMONY:'一起去過茶席'});   /* 面板名稱：溫州街（AA_420 第 8、10 節，BB_148 8b；茶席 AA_167；src/data/wz_events.js、src/wzlines3d.js）*/
   Object.assign(MEMORY_LABEL,{SIS_BORROWED_CARD:'暑假她用你的學生證借書',SIS_HOTPOT_Y2:'寒假一起幫 Kevin 吃了一份',SIS_FAM_STUDY:'去了家族讀書會的第一次',SIS_LAWLIB_KEVIN:'法圖午休，看她把 Kevin 叫醒',SIS_FAM_STUDY_LAST:'家族讀書會的最後一次',SIS_STUDY_ROOM:'說要幫忙訂討論室',SIS_BLANK_JAN:'她給你看過空白的一月'});   /* 面板名稱：學姊第十二批（AA_470 第 3 節括號裡的字，企劃線 5f54b6545；src/data/sis_b12_events.js）*/
   MEMORY_LABEL.SIS_ABSTRACT='她給你看過論文摘要'; MEMORY_LABEL.SIS_DEFENSE_DATE='她告訴你口試的日子';   /* SIS_DEFENSE_DATE：AA_455 3-1 節②（企劃線 0c5afca90）*/   /* 學姊第十一批 11-1（AA_455 第 1 節，企劃線 2de70709f；src/data/sis_b11_events.js）。11-2 的 SIS_DEFENSE_DATE 稿沒寫面板名稱，沒加 */
