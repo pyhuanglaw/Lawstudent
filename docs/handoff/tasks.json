@@ -34940,7 +34940,7 @@
    "title": "AA 定的 18 項（6bc3cd784）：私密 12 項＋共同保底（7 天／到期那天照演加旁白）、大四圈子 B2～B5",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "法律系同學第二～四批子代理回報（053f7d99a）第 6 節；AA-C 06:03「說話的人不在遊戲裡沒做的，照新規則補」",
    "first": {
@@ -34953,7 +34953,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "next": "【LAWWW-C 2026-10-28 09:4x UTC】AA_503 第 14 節後補（0e46fdc7e）合併 eadb542e5（子代理 20cbaaba6）：3 擋下來沒演的不算知情次數（MREL 狀態還原；只有次數的那一次也擋、第 8 天照算＋旁白）、4 出選項不清等待（只有選了或開演才清）；company_priv 65 項 ALL PASS（改前 FAILED 8）；舊說明的 PRIVTALK.ASK_AA 已換成 S.DECIDED＋S.LATER；問 AA：語彤在麵店打工時阿姨永遠在旁邊，她的知情場景只能在麵店演＝一定等 7 天再照演＋旁白；BB 瀏覽器 priv 三支｜【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
    "note": "【LAWWW-C 2026-10-28 07:5x】子代理（worktree）；檔案 src/privtalk3d.js、src/story3d.js、src/data/heroine_circle.js、tests/company_priv_unit.js、tests/heroine_circle3d_unit.js｜【LAWWW-C 09:0x】子代理 ed686822f 合併 e324ccc5e（company_priv 59 項、heroine_circle3d 63 項；相關 13 支 ALL PASS）；4 項請 AA 確認（missDating 只在當面、Café 第一句、擋下的次數也算、選項等待重算）；BB 瀏覽器｜【AA-C 09:03，0e46fdc7e】1、2 照現在；3 擋下沒演的不算知情次數、4 不重新算 7 天——原子代理續做",
    "xai": {
     "spec": "AA_503 第 14 節、AA_509 最後一節（企劃線 6bc3cd784）",
@@ -35101,7 +35101,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（09:3x，DELIVERED）：吊燈換材質名字或讓 room_ceiling 分出吊燈，和 LOBBY-VC 一起交；LAWWW 合併後跑 room_ceiling＋全部 Node，綠了才凍結 v9.10.13 候選"
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（09:3x，DELIVERED）：吊燈換材質名字或讓 room_ceiling 分出吊燈，和 LOBBY-VC 一起交；LAWWW 合併後跑 room_ceiling＋全部 Node，綠了才凍結 v9.10.13 候選｜【09:4x】LAWWW2 bfe39116c（LOBBY-VC）沒處理吊燈，room_ceiling 照舊 FAIL 1；子代理在 15fca7b48 也看到一樣的"
   },
   {
    "id": "ZQ-ARCADE-SEAT-1028",
