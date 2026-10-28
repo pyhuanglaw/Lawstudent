@@ -3590,6 +3590,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "USER_WANTS X122★；大一上（2025-09～2026-01）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "705495026",
+   "files": [
+    "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_496 第 9 節舊存檔回填照這一則",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C 02:14：①AA_494 你判斷的九點全部照你的做法；②AA_496 第 9 節：舊存檔回填 BH4_DONE（events.done 有 ev_bohan_third_floor）、XC5_RECONCILE（ev_xinci_an_answers 或 _far）、XC1_STICKY（ROOM_Y2_ITEMS 有芯慈的便利貼），ZHE4_FINAL 推不出來不回填；系統字「阿哲把你加進了群組「麵店團」。」照用；入口條件、回收句取最下面一列、（對{name}）的寫法都照你的；宥辰「常常趴著」不做，不影響劇情"
   }
  ],
  "items": [
