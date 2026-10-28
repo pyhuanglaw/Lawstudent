@@ -12,14 +12,17 @@
      「一個人」的列＝她不和別人配對（noPair，pairUp 跳過）。她照作息要站在某一點（SCHED 的 at）、可是用舊的劇情人物生出來在別處走（大道上的以安）＝走過去站好，那一列結束再走開。
    ■ 走近時聽到（S.tick）：玩家走到她 5 m 內（同一層、同一間），同伴在她旁邊（3.2 m 內），那一列的句子一句一句出字幕（GM.caption），一列一天一次（once 的列整個存檔一次）；
      必修課那幾列只在上課以前。玩家沒聽到就直接找她說話＝先在對話框演那幾句（S.before，包在她的 talk 外面：talkCharacter、talkAn、talkSis 都一樣），再照常說話。
-     只有旁白的同框列（AA_509、AA_510 以安和語彤）＝同伴也要在她旁邊才聽到；spot 的列（AA_509 3-1 總圖門口的媽媽）＝走到那個地點 5 m 內就出旁白（不生人物、不在她旁邊聽）。
-     comp 的 behind（anchor 'with'）＝她坐到同伴背後那一桌（S.behindOf；AA_509 1-1「以安坐在語彤後面那桌」）。
    ■ 第一次介紹（AA_503 第 2 節）：稿沒寫介紹的句子＝不加台詞，用名牌：第一次在同伴旁邊找她說話，同伴如果是二十位同學（pool_*）還沒認識的，就在這裡認識
      （SOCIAL.meet；第一批五位照 POOL.afterMeet〔熟悉＋3 信任＋3，同他自己那一場〕，其他十五位同他們舊的自我介紹熟悉＋3）——之後不再演他自己的認識那一場，
      他頭上、字幕上的名字從外觀描述換成名字。其他人只記下介紹過（G.flags.HCIRCLE.intro）。
-   ■ 旁邊有人的時候（STORY.COMPANY → STORY.privNow；清單、各入口在 src/privtalk3d.js，COMPANY-PRIV-1028）：同伴在她 3.2 m 內＝私密的不出、不演，等她一個人；交換聯絡方式、閒聊照常。
+   ■ 旁邊有人的時候（STORY.COMPANY，story3d.js offerInvite 問）：同伴在她 3.2 m 內＝「約她去…」和 priv 的一次性選項（告白：multirel3d.js）不出；交換聯絡方式、閒聊照常。
    存檔：G.flags.HCIRCLE＝{heard:{列:那一天}, once:{列:那一天}, intro:{同伴:那一天}}；舊存檔沒有＝從那時起。
    測試：node tests/heroine_circle3d_unit.js */
+/* ■ 第二輪（2026-10-28）：
+     CIRCLE3D-Y4-1028（AA_509、AA_510）：只有旁白的同框列（以安和語彤週四總圖三樓）＝同伴也要在她旁邊才聽到（S.together）；
+       spot 的列（AA_509 3-1 總圖門口的媽媽，只有旁白）＝走到那個地點 5 m 內就出旁白（S.SPOTS、S.hearDue；不生人物、不在她旁邊聽、不配對）；
+       comp 的 behind（anchor 'with'）＝她坐到同伴背後那一桌（S.behindOf、S.seatNear；「以安坐在語彤後面那桌」）。
+     COMPANY-PRIV-1028：旁邊有人（S.company → STORY.COMPANY）＝私密的不出、不演、不前進，等她一個人；各入口問 STORY.privNow，清單在 src/privtalk3d.js（PRIVTALK.LIST）。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};

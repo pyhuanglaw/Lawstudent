@@ -1,5 +1,5 @@
 /* ===== 旁邊有她的人時，私密的東西不出、等她一個人（COMPANY-PRIV-1028）=====
-   AA（劇情總監）2026-10-28 06:14 定案（AA_503 第 13 節第 3 點；原文見任務）：旁邊有人時不出的「私密」——
+   AA（劇情總監）2026-10-28 06:14 定案（AA_503 第 13 節第 3 點，企劃線 b88b35db2）：旁邊有人時不出的「私密」——
      告白；心意邀約、約會（「約她去…」）；交往中才有的互動；坦白有別人（ROM.tellBy）、多段感情的分開談話（AA_346）、她知情以後那幾場；
      問她自己還沒公開的事：子晴爸爸的事（Q8 一類）、沛珊重考（AA_281，她什麼都不說那段）、芷若交換申請（5/11 錄取以前）、語彤媽媽回診、學姊口試結果（5/29 當天）。
      一般閒聊、課業、讀書會、群組裡的事，不算私密。
@@ -90,7 +90,8 @@ const PRIVTALK=(function(){
     {what:'子晴講爸爸的閒聊階梯（Q-L6、Q2-L1、Q2-L8、Q3-L1、Q3-L6、Q4-L6、Q5-L3、Q5-L8、Q6-L1…）',q:'她自己隨口提的，不是 Q8 那一類；要不要擋'},
     {what:'子晴 Q7「實驗室的信」（ev_ziqing_lab_letter，吉他社）、「那天」（ev_ziqing_dad_sorry，Q8 選「他一定會懂」以後兩週內的吉他社）',q:'場景本來就排在社課（旁邊有社員）；要不要等她一個人（社課以外沒有地方演）'},
     {what:'前任第一次見面那一句（src/v6ex3d.js preLine：以安、語彤知道你之後又和別人交往…）',q:'算不算「她知情以後」'},
-    {what:'到場就演的知情場景（MREL.dueAuto：語彤顧店時來麵店、芷若的班要結束時在 Café、以安／沛珊讀書會散會）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',q:'AA 原本就排在她工作、讀書會的地方（阿姨、同事在旁邊）；這一輪只擋「和她說話」那一條，到場就演的沒擋'}];
+    {what:'到場就演的知情場景（MREL.dueAuto：語彤顧店時來麵店、芷若的班要結束時在 Café、以安／沛珊讀書會散會）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',q:'AA 原本就排在她工作、讀書會的地方（阿姨、同事在旁邊）；這一輪只擋「和她說話」那一條，到場就演的沒擋'},
+    {what:'旁邊的人本來就知道的（語彤和阿姨談媽媽、芷若和子晴談交換申請）',q:'照規則一樣不出（凡是她圈子裡的人在 3.2 m 內都算「旁邊有人」）；要不要例外'}];
   S.held=[];
   const hold=(G,id,key)=>{ S.held.push({key,id,day:G&&G.day,h:G&&G.hour}); if(S.held.length>40) S.held.splice(0,S.held.length-40); };
   /* 共用：這一筆現在可以嗎（清單上的 from／until 以外不算私密）*/
@@ -125,7 +126,7 @@ const PRIVTALK=(function(){
   /* ---------- 包一層的（gate:'wrap'）---------- */
   S.wireWrap=function(e){
     if(e.key==='knows_talk'){ if(typeof MREL==='undefined'||!MREL.meetAction) return false; if(MREL._privMeet) return true; const m0=MREL.meetAction;
-      MREL.meetAction=function(G,x,kind){ if((kind==='talk'||kind==='noodle')&&G&&!S.ok(G,x,e.key)){ if(x==='heroine_05'&&kind==='talk'&&MREL.sisMet) MREL.sisMet(G); return null; } return m0.apply(this,arguments); };   /* 學姊的「正常見面」照記（AA_474 1-2，知情版第二次的條件）*/
+      MREL.meetAction=function(G,x,kind){ if((kind==='talk'||kind==='noodle')&&G&&!S.ok(G,x,e.key)){ if(x==='heroine_05'&&kind==='talk'&&MREL.sisMet&&!(MREL.rec(G).pend||{})[x]) MREL.sisMet(G); return null; } return m0.apply(this,arguments); };   /* 學姊的「正常見面」照記（AA_474 1-2，知情版第二次的條件；有還沒演的發現就不算，同原本）*/
       MREL._privMeet=true; return true; }
     if(e.key==='knows_cafe'){ const F=typeof MREL!=='undefined'&&MREL.FLOW&&MREL.FLOW.heroine_02; if(!F||!F.meet) return false; if(F._priv) return true; const f0=F.meet;
       F.meet=function(G,st,kind){ if(kind==='cafe'&&G&&!S.ok(G,'heroine_02',e.key)) return null; return f0.apply(this,arguments); }; F._priv=true; return true; }
