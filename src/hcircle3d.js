@@ -23,6 +23,10 @@
        spot 的列（AA_509 3-1 總圖門口的媽媽，只有旁白）＝走到那個地點 5 m 內就出旁白（S.SPOTS、S.hearDue；不生人物、不在她旁邊聽、不配對）；
        comp 的 behind（anchor 'with'）＝她坐到同伴背後那一桌（S.behindOf、S.seatNear；「以安坐在語彤後面那桌」）。
      COMPANY-PRIV-1028：旁邊有人（S.company → STORY.COMPANY）＝私密的不出、不演、不前進，等她一個人；各入口問 STORY.privNow，清單在 src/privtalk3d.js（PRIVTALK.LIST）。 */
+/* ■ 第三輪（PRIV-AAFIX-1028，2026-10-28；AA_503 第 14 節、AA_509 最後一節，企劃線 6bc3cd784）：
+     STORY.COMPANY 改回傳旁邊那幾個人的 id（S.withNow；HCIRCLE.company 照舊回傳 true／false）：本來就知道的那幾組（阿姨、子晴、第 1 項的對方本人）認得出是誰（PRIVTALK 清單的 except）。
+     顧店的位子（S.shopSeat，列上的 seatAt／standAt；AA_509 實作時定的第 5 點）：語彤暑假週四在麵店坐長桌最裡面、靠廚房的位子；客人進來（玩家沒坐下、別人走進來還沒坐下）站到長桌那一頭、門口那一側，
+       客人都坐好了坐回去；那一列結束走回原本的位置（照作息不在這一區＝走開）。 */
 'use strict';
 const HCIRCLE=(function(){
   const S={};
@@ -200,6 +204,21 @@ const HCIRCLE=(function(){
   S.holdHero=function(GM,hn,r,refresh){ const s=SCHED.find(q=>q.hc===r.id&&q.who===r.who&&q.e.act==='linger'&&q.e.at); if(!s) return; const at=s.e.at, spot={x:at[0],z:at[1],lv:at[3]|0};
     if(near(P(hn),spot,1.0)) return; if(!hn._hcPrev) hn._hcPrev={beh:hn.beh,waypoints:hn.waypoints,frozen:hn.frozen,pose:hn.idlePose};
     S.unpair(hn); standMove(GM,hn,spot,null,quietFor(GM,hn,refresh),at[2]||0); };
+  /* 顧店的位子（seatAt／standAt；AA_509 實作時定的第 5 點，企劃線 6bc3cd784：語彤暑假週四在麵店，c510_3_2）：
+     坐長桌最裡面、靠廚房的那個位子（她照作息 help 生在廚房旁邊，這一列成立就坐過去讀書）；客人進來＝站起來，站在長桌那一頭、門口那一側（面向門口）。
+     「客人」＝玩家沒有坐下（走進店裡、在店裡走動），或店裡有別人還沒坐下（店員、標籤同伴、她自己不算）；客人都坐好了＝她坐回去。
+     進區域那一刻（refresh false）先坐著：玩家進門看到她坐在那裡，下一次 arrange（約一秒）才站起來走過去。那一列結束＝S.release（站起來、走回原本的位置或照作息離開）*/
+  S.custIn=function(GM,hn){ const E=GM.E, pl=E&&E.player; if(pl&&pl.obj&&!pl.seat) return true;
+    return (E&&E.npcs||[]).some(m=>m&&m!==hn&&!m.clerk&&!m.hcLabel&&!m.hidden&&!m.leaving&&m.obj&&!m.seat&&(m.lv|0)===(hn.lv|0)); };
+  S.seatAtXZ=function(E,xz,hn){ const seats=(E.zone&&E.zone.seats)||[]; let best=null, bd=0.6; for(const st of seats){ const d=Math.hypot(st.x-xz[0],st.z-xz[1]); if(d<bd&&!seatBusy(E,st,[hn])){ bd=d; best=st; } } return best; };
+  S.shopSeat=function(GM,hn,r,refresh){ const E=GM.E, p=P(hn); if(!p) return null; const quiet=quietFor(GM,hn,refresh);
+    if(!hn._hcPrev) hn._hcPrev={beh:hn.beh,waypoints:hn.waypoints,frozen:hn.frozen,pose:hn.idlePose,at:{x:p.x,z:p.z,lv:hn.lv|0,yaw:(hn.obj.rotation&&hn.obj.rotation.y)||0}};
+    hn._hcShop=r.id;
+    if(refresh&&S.custIn(GM,hn)){ const sp={x:r.standAt[0],z:r.standAt[1],lv:hn.lv|0}; if(!hn.seat&&!hn.seatTarget&&near(p,sp,0.4)) return 'stand';
+      const at=canStand(E,sp.x,sp.z,sp.lv)?sp:S.beside(E,hn,0,[hn]); if(!at) return null; const dz=E.zone&&E.zone.spawn, yaw=dz?Math.atan2(dz.x-at.x,dz.z-at.z):0;   /* 面向門口 */
+      hn.seatTarget=null; standMove(GM,hn,at,null,quiet,yaw); return 'stand'; }
+    const st=S.seatAtXZ(E,r.seatAt,hn); if(!st) return null; const cur=hn.seat||hn.seatTarget; if(cur&&near(cur,st)) return 'sit';
+    hn._hcGo=false; sitMove(GM,hn,st,'read',quiet); return 'sit'; };
   /* 標籤同伴：固定的路人底模（spec.id＝標籤 id，不進無名路人池；模型還沒下載完先藏起來）*/
   S.specOf=function(cid){ const p=PEOPLE[cid]; if(!p) return null; const ix=Object.keys(PEOPLE).indexOf(cid); const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(900+ix*2+(p.sex==='m'?1:0)):{};
     return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{},p.props?{props:p.props.map(q=>typeof q==='object'?Object.assign({},q):q)}:{}); };   /* props：配件（HEROINE-LIFE-NPC3D-1028，LAWWW2-C）*/
@@ -223,7 +242,7 @@ const HCIRCLE=(function(){
     const act=S.rowsIn(G,G.zone), want=new Set(), slots={}, heroes=new Set();
     for(const r of act){ const hn=S.npcOf(GM,r.who); if(!hn||hn.leaving||!P(hn)) continue; heroes.add(hn); hn._hcRow=r.id; S.wrapTalk(GM,r.who,hn);
       S.holdHero(GM,hn,r,refresh);
-      if(r.alone){ hn.noPair=true; if(hn.paired) S.unpair(hn); continue; }
+      if(r.alone){ hn.noPair=true; if(hn.paired) S.unpair(hn); if(r.seatAt&&r.standAt) S.shopSeat(GM,hn,r,refresh); continue; }
       for(const cid of r.with){ let cn;
         if(isLabel(cid)){ want.add(cid); const o=(r.comp&&r.comp[cid])||{}, at=o.clerk&&!o.at?S.CLERK[o.clerk]:null;
           cn=GM.npc[cid]||S.spawnLabel(GM,cid,hn,refresh,at); if(cn&&cn.leaving){ cn.leaving=false; cn.arrived=false; cn.beh='idle'; cn.path=null; } }
@@ -238,8 +257,9 @@ const HCIRCLE=(function(){
   S.release=function(GM,act,heroes){ const ids=new Set(act.map(r=>r.id)), G=GM.G;
     for(const key of Object.keys(GM.npc)){ const n=GM.npc[key]; if(!n||n.hcLabel) continue;
       if(n._hcRow&&!ids.has(n._hcRow)&&!heroes.has(n)){ const was=n._hcRow; n._hcRow=null; n.noPair=false;
-        if(n._hcPrev){ const pv=n._hcPrev; n._hcPrev=null; const id=n.charId||key, e=S.entOf(id,G);
+        if(n._hcPrev){ const pv=n._hcPrev; n._hcPrev=null; const id=n.charId||key, e=S.entOf(id,G), shop=n._hcShop; n._hcShop=null;
           if((!e||e.zone!==G.zone)&&typeof STORY!=='undefined'&&STORY.walkAway){ n.frozen=false; STORY.walkAway(GM,n); }
+          else if(shop&&pv.at){ n.seatTarget=null; n._hcGo=false; standMove(GM,n,pv.at,null,quietFor(GM,n,true),pv.at.yaw); }   /* 顧店的位子（S.shopSeat）：站起來走回原本的位置 */
           else { n.frozen=!!pv.frozen; n.beh=pv.beh||'idle'; n.waypoints=pv.waypoints||null; n.pose=n.idlePose=pv.pose||'idle'; } }
         if(n._hcWith&&!n.leaving){ const r=S.row(was); n._hcWith=null; n.lookAt=null; if(n.beh==='buddy') S.toWander(n); else if(n.frozen&&!n.seat&&!(r&&r.comp&&r.comp[key])&&n.sched) { n.frozen=false; } } }
       else if(n._hcWith&&!heroes.has(S.npcOf(GM,n._hcWith))&&!n.leaving){ n._hcWith=null; n._hcRow=null; n.lookAt=null; if(n.beh==='buddy') S.toWander(n); } } };
