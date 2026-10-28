@@ -15854,8 +15854,8 @@
    "msg": "ACK",
    "what": "WANCAI-LM-1028 萬才館一樓大廳第五包（使用者 P0 室內）：照霖澤館大廳第二版加擺設（展示櫃、飲水機＋回收桶、消防栓箱、滅火器、出口燈、長椅、傘架、小圓桌、盆栽、中庭吊燈；離劇情、社團站位 1.2 m 以上）＋白天、晚上光照烘焙；patch wancai_lm_1028.patch（wancai_layout.js、wancai3d.js、wancai_interior.py、tests/wancai_lightmap_unit.js、LICENSES）＋wancai_interior.glb＋兩張光照貼圖；draw call +7～10%（入口 128→139）",
    "task": "WANCAI-LM-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 10:2x】收到；開發分支全部 Node 跑完再套；下一版"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 10:2x】收到；開發分支全部 Node 跑完再套；下一版｜【LAWWW-C 10:3x】整合 e1bc114e7（60 支 ALL PASS）"
   }
  ],
  "ignored": [
