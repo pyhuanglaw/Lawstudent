@@ -596,6 +596,63 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('4-6. fit3d.js 明軒當面的「哈哈」拿掉（口氣表：「哈哈」只在訊息裡）',mx.length>=3&&!mx.some(t=>/哈哈/.test(t))&&mx.includes('健身房？學校的？學生月票很便宜吧？CP 值很高。')&&mx.includes('系籃缺人。你不要拒絕。')&&mx.includes('最近有在動喔？學校的球場不用錢吧？CP 值最高。'),J(mx));
     check('4-6. 滷蛋：朋友階道別「下次我請。……一顆滷蛋。」拿掉；德文「……不是滷蛋。」、M2「我還吃得下滷蛋」照舊',!rl.includes('下次我請。……一顆滷蛋。')&&L().mx.german.scene.some(x=>x[1].endsWith('不是滷蛋。'))&&JSON.stringify(ev('ev_mx_m2_walk').dialogue).includes('我還吃得下滷蛋')); });
 
+  /* ===================== 5 Kevin ===================== */
+  const KVID='kevin', YZID='family_junior';   /* 手機上的 id（ADV 的立繪是 npc_kevin）*/
+  const joinFam=()=>PHONE.join(H.G,'family_law','法律直屬家族');
+  const noCmt=f=>fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+  await sec('5-2',async()=>{ const K=L().kv, ask=D('2026-09-14'), h=D(S().HAND);
+    check('5-2. 日子：2026-09-14（一）揪、2026-09-17（四）家聚（大二上第 2 週）',keyOf(h)==='2026-09-17'&&CALENDAR.dateOf(h).wd===4&&CALENDAR.dateOf(ask).wd===1&&CALENDAR.termOf(h).id==='Y2S1');
+    const setup=(o)=>{ o=o||{}; fresh(ask,20,'dorm'); if(o.fam!==false) joinFam(); ruleAt(ask,21+10/60); return byTag('kv_hand_ask'); };
+    let m=setup();
+    check('5-2. 9/14 21:10 家族群組 Kevin「禮拜四家聚！！新的學弟妹來報到」；回「去。」（9/17 18:00 前）',m.length===1&&m[0].th==='g:family_law'&&m[0].name==='Kevin'&&m[0].text===K.invite&&J(askOpts('kv_hand'))===J([K.go])&&!!H.G.flags.KV_HAND_ASKED,J(m));
+    check('5-2. 不在家族群組：沒有',!setup({fam:false}).length);
+    setup(); answer('kv_hand',0); const q=OUT.get(H.G,'kv_hand');
+    check('5-2. 回「去。」＝排進行程：9/17 18:30 118 巷的定食店（時間到問出發）',!!q&&q.day===h&&q.h===18.5&&q.ev==='ev_kv_handover'&&q.place==='118 巷・定食店',J(q));
+    const run=async k=>{ fresh(h,18.5,'l118'); joinFam(); await play('ev_kv_handover',[k]); return H.said.map(x=>(x.who?x.who+'：':'')+x.t); };
+    let r=await run(0);
+    check('5-2. 開場：定食店、Kevin「學弟，這是宜蓁。……」、宜蓁「學、學長好。」、Kevin「考古題的資料夾，……交給你。」；三個選項',J(r.slice(0,4))===J(K.hand.open.map(([w,t])=>(w==='kv'?'Kevin：':w==='yz'?'宜蓁：':'')+t))&&J(H.opts[0])===J(K.hand.opts),J(r.slice(0,4)));
+    const reps=[r.slice(4)]; for(const k of [1,2]){ reps.push((await run(k)).slice(4)); }
+    check('5-2. 三個回答各自 Kevin 的一句；記 KV_HANDOVER',J(reps)===J(K.hand.r.map(x=>x.map(t=>'Kevin：'+t)))&&H.G.flags.KV_HANDOVER===true,J(reps));
+    check('5-2. 背景 dark（118 巷的定食店在 2D）、宜蓁與 Kevin 用名字（PORTRAIT_ONLY：不是 CHARACTERS 的人物）',ev('ev_kv_handover').background==='dark'&&NM(KVID)==='Kevin'&&NM(YZID)==='宜蓁');
+    /* 沒去 */
+    { fresh(h,22,'dorm'); joinFam(); ruleAt(h+1,20); ruleAt(h+1,21.05); const a=byTag('kv_hand_missed'); fresh(h,22,'dorm',{KV_HANDOVER:true}); joinFam(); ruleAt(h+1,21.05);
+      check('5-2. 沒去：9/18 21:00 Kevin 在群組貼「考古題資料夾交給學弟了 有問題找他」；去了＝沒有',a.length===1&&a[0].text===K.missed&&a[0].th==='g:family_law'&&!byTag('kv_hand_missed').length); }
+    /* 宜蓁私訊（2027-03-08；去了、沒去都傳）*/
+    for(const went of [true,false]){ const d=D('2027-03-08'); fresh(d,20,'dorm',went?{KV_HANDOVER:true}:{}); joinFam(); ruleAt(d,20.5); ruleAt(d,21.05); const m2=byTag('kv_yz_ask');
+      check('5-2. 2027-03-08 宜蓁私訊祐廷「學長，民總的考古題在資料夾的哪裡？」（'+(went?'去了':'沒去')+'）；回「（傳給她）」→「謝謝學長！！」；對話框標題「宜蓁」',m2.length===1&&m2[0].th==='p:'+YZID&&m2[0].text===K.yz.ask&&J(askOpts('kv_yz'))===J([K.yz.opt])&&PHONE.title(H.G,'p:'+YZID)==='宜蓁'&&(answer('kv_yz',0),texts('p:'+YZID).slice(-1)[0]===K.yz.rep),J(m2)); }
+    { const d=D('2027-03-08'); fresh(d,20,'dorm'); ruleAt(d,21.05); check('5-2. 不在家族群組：宜蓁沒有你的帳號、不傳',!byTag('kv_yz_ask').length); }
+    check('5-2. 原本 2027-03-08 家族群組學妹問考古題那一段拿掉',!SISB12_LINES.fam2.some(x=>x.day==='2027-03-08')&&!noCmt('src/data/sis_b12_events.js').includes('請問民總的考古題在哪裡🙏'));
+    const NAMES=['src/sis_b12_3d.js','src/r3_3d.js','src/y34b3d.js'].map(noCmt).join('\n');
+    check('5-2. 家族的學妹（family_junior）全部叫宜蓁（不再有「家族的學妹」「學妹」）',!/from:'family_junior',name:'(家族的學妹|學妹)'/.test(NAMES)&&/from:'family_junior',name:'宜蓁'/.test(NAMES));
+    { const s={msgs:[{th:'g:family_law',from:YZID,name:'家族的學妹',text:'學姊好🙏'},{th:'g:family_law',from:KVID,name:'Kevin',text:'x'}],phone:{q:[{day:1,h:1,items:[{th:'g:family_law',from:YZID,name:'學妹',text:'我也要！'}]}]}};
+      const n=S().migrate(s); check('5-2. 讀舊存檔：手機裡的學妹（已經收到的、排著的）名字換成宜蓁',n===2&&s.msgs[0].name==='宜蓁'&&s.phone.q[0].items[0].name==='宜蓁'&&s.msgs[1].name==='Kevin'); } });
+
+  await sec('5-3',async()=>{ const K=L().kv;
+    const grp=(k,h)=>{ const d=D(k); fresh(d,h-1,'dorm'); joinFam(); ruleAt(d,h-0.5); ruleAt(d,h+0.05); return d; };
+    let d=grp('2028-09-22',21); let m=thread('g:family_law').filter(x=>x.tag==='kv_bar1');
+    check('5-3. 2028 年 9 月（一試放榜那一週）家族群組：「一試過了！！！」「二試十月 大家幫我集氣」',J(m.map(x=>[x.name,x.text]))===J(K.bar1.map(t=>['Kevin',t])));
+    d=grp('2028-12-15',21); m=thread('g:family_law').filter(x=>x.tag==='kv_bar2');
+    check('5-3. 2028 年 12 月（二試放榜）：Kevin 三則、學姊「明年。」、宜蓁「學長加油🙏」',J(m.map(x=>[x.name,x.text]))===J(K.bar2.map(t=>['Kevin',t]).concat([['溫學姊',K.bar2Sis],['宜蓁',K.bar2Yz]])),J(m.map(x=>[x.name,x.text])));
+    d=grp('2029-12-14',21); m=thread('g:family_law').filter(x=>x.tag==='kv_bar3'); check('5-3. 2029 年 12 月：「上了！！！！」「各位 我是律師了（還要受訓）」',J(m.map(x=>x.text))===J(K.bar3));
+    d=grp('2030-10-01',21); m=thread('g:family_law').filter(x=>x.tag==='kv_firm'); check('5-3. 2030-10-01（第一份工作那一天）：「各位 我們事務所在找實習生」「家族的人優先」「宜蓁 說妳」',J(m.map(x=>x.text))===J(K.firm));
+    { fresh(D('2028-09-22'),20,'dorm'); ruleAt(D('2028-09-22'),21.05); check('5-3. 不在家族群組：收不到',!byTag('kv_bar1').length); }
+    const book=flags=>{ const b=D('2029-03-11'); fresh(b,20,'dorm',flags); joinFam(); ruleAt(b,20.5); ruleAt(b,21.05); return byTag('kv_book'); };
+    m=book({Y4_PATH:'bar'});
+    check('5-3. 走國考的（Y4_PATH bar／both、報名了國考）：2029-03 第 2 週週日（3/11）21:00 Kevin 私訊三則',CALENDAR.dateOf(D('2029-03-11')).wd===7&&J(m.map(x=>x.text))===J(K.book)&&m[0].th==='p:'+KVID&&book({Y4_PATH:'both'}).length===3&&book({BAR_REG:true}).length===3);
+    book({Y4_PATH:'bar'}); check('5-3. 房間物品「Kevin 的錯題本」：「（每一頁的角落都寫著：『這題我錯過。』）」',STORY.roomItemList(H.G).some(x=>J(x)===J(K.bookRoom)));
+    check('5-3. 沒走國考（研究所）：沒有錯題本',!book({Y4_PATH:'grad'}).length&&!STORY.roomItemList(H.G).some(x=>x[0]==='Kevin 的錯題本')); });
+
+  await sec('5-4',async()=>{ const K=L().kv, src=noCmt('src/story3d.js');
+    check('5-4. 「學姊多講兩個字」：大四 gradPost 第 4、5 則換成「學姊 八月國考 妳幫我集氣一次就好」「好。日子跟我說。」',J(SISB12_LINES.gradPost.slice(3))===J(K.gradPost45)&&!JSON.stringify(SISB12_LINES.gradPost).includes('多講兩個字'));
+    { const y=noCmt('src/y34b3d.js'); check('5-4. 學姊到美國：第 2、3 則換成「天空有多大 拍給我們看啦」「（照片：停車場上面的天空）」「大家保重。」（第一則「到了。天空很大。」照舊）',y.includes("[GSIS('到了。天空很大。'),GKEV('天空有多大 拍給我們看啦'),GSIS('（照片：停車場上面的天空）'),GSIS('大家保重。')]")&&!y.includes('學姊妳可以多講兩個字')); }
+    { const sg=noCmt('src/sis_grad3d.js'); check('5-4. 第一次（2026-03 學姊上榜）的「多講兩個字」保留',/多講兩個字/.test(sg)); }
+    { const m=/const DAILY_KEVIN=\[([^\]]*)\]/.exec(src), arr=m?[...m[1].matchAll(/'([^']*)'/g)].map(x=>x[1]):[];
+      check('5-4. 動物影片：每日那四則保留前 2 則（貓、柯基），第 3、4 則換成他自己的事第 1、2 則',arr.length===4&&/^📹/.test(arr[0])&&/^📹/.test(arr[1])&&arr[2]===K.vids[0]&&arr[3]===K.vids[1],J(arr));
+      check('5-4. 跟著影片的「學姊妳到底有沒有看」「有。三分十二秒。」拿掉',!src.includes('學姊妳到底有沒有看')&&!src.includes('有。三分十二秒。')); }
+    check('5-4. 第 5 則（鸚鵡）換成「考古題資料夾我整理了一個晚上 ……已刪除」，學姊的「七八五十六。」拿掉',typeof Y1FILL_LINES!=='undefined'&&J(Y1FILL_LINES.dp.kevin_parrot)===J([['kevin',K.vids[2]]])&&!noCmt('src/data/y1fill_events.js').includes('七八五十六。'));
+    { const e=SISB12_LINES.fam2.find(x=>x.day==='2026-10-26'); check('5-4. 第 6 則（2026-10-26）換成「家聚吃什麼 不要再吃咖哩了」；「期中加油各位」「收到。」照留',!!e&&J(e.L)===J([['k',K.vids[3]],['k','期中加油各位'],['s','收到。']]),J(e&&e.L)); }
+    check('5-4. 民法第 184 條（侵權行為）的那一則條號照實',K.vids[1].includes('民法第一百八十四條')); });
+
   check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();
