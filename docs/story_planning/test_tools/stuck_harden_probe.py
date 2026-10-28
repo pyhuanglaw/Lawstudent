@@ -186,6 +186,9 @@ async def main():
             for _ in range(80):
                 lg = await pg.evaluate("window.__bbLog.slice(%d).map(x=>x.k)" % n1)
                 if any(AUNT0 in k for k in lg): again = True; break
+                # 09:04 法服值班的出發提醒（outings S.prompt：出發／晚一點／這週請假）先跳出來＝照玩家選「出發」（BB-C 10-28 sh_reload：沒回答它，諮詢就一直等著）
+                pk = await pg.evaluate("(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return null; const bs=[...ch.querySelectorAll('button')]; const b=bs.find(x=>/^出發/.test(x.textContent)); if(!b) return null; b.click(); return b.textContent; })()")
+                if pk: run.note('[玩家操作] 值班提醒選「%s」' % pk[:30])
                 await pg.wait_for_timeout(500)
             run.check('讀檔以後阿姨諮詢還能重新開始（CLOSED2 的 busy 沒有一直卡著）', again, json.dumps(await pg.evaluate(DBG), ensure_ascii=False))
             if again: await drive(pg, cdp, run, 240)
