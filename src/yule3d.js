@@ -36,8 +36,11 @@ const YULE=(function(){
 
   /* ---------------- 第 1 節 誰收得到 ---------------- */
   const romR=G=>{ const F=G.flags||{}; return (F.romance&&F.romance[KX])||null; };
+  S.CAUGHT_HOW=['two_hearts','mrel','zq_zr','caught','told'];   /* 被發現的那幾種分開（同 multirel3d.js MREL.CAUGHT_HOW；那邊有就用那邊的）*/
+  /* 被抓包過（同 MREL.caughtBefore，不叫 ROM.get：手機規則每 0.5 秒跑，不順手改存檔）：退回朋友／等你說清楚、或任何一次分開是被發現的；舊存檔 EX_kexin_REASON 'caught'（v6ex3d.js）。之後重新交往也算 */
   S.caught=function(G){ const F=G.flags||{}, R=romR(G); if(R&&(R.status==='friend_after_catch'||R.status==='paused')) return true;
-    if(typeof MREL!=='undefined'&&MREL.caughtBefore&&typeof ROM!=='undefined'){ try{ if(MREL.caughtBefore(G,KX)) return true; }catch(e){ console.warn('YULE caught',e); } }
+    const how=typeof MREL!=='undefined'&&Array.isArray(MREL.CAUGHT_HOW)?MREL.CAUGHT_HOW:S.CAUGHT_HOW;
+    if(R&&Array.isArray(R.history)&&R.history.some(e=>e&&e.ev==='end'&&how.includes(e.how))) return true;
     return F['EX_'+KX+'_REASON']==='caught'; };
   /* 慢慢分手以後照朋友的：照朋友的下一學期第一天（沒有＝null）*/
   S.frFrom=function(G){ if(typeof KXDRIFT==='undefined'||!KXDRIFT.frOn||!KXDRIFT.r7From||!Array.isArray(KXDRIFT.TERMS)||typeof CALENDAR==='undefined'||!CALENDAR.termDays) return null;
