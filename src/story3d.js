@@ -3521,6 +3521,7 @@ const STORY = (function(){
   /* 直屬公布了沒（AA_372 第 12 項）：9/4（四）21:00 Kevin 在家族群組說「上面那位是你的直屬學姊」以後才算知道——聯絡人的「（直屬）」、W1 祐廷的那一句照這個 */
   /* 日誌裡名字晚一點才寫的那一句（AA_372 第 4 項）：語彤雨天「便利商店應該有賣。」那一版她沒報名字＝「遇到一個借傘的女生」；之後拿到她的聯絡方式（報了名字）才顯示 named */
   S.memoText=(G,m)=>!m?'':(m.named&&m.who&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,m.who)?m.named:m.t);
+  S.memoShown=G=>((G&&G.memo)||[]).filter(m=>{ const t=S.memoText(G,m); return typeof t==='string'&&!!t&&!/^ev_[A-Za-z0-9_]+$/.test(t); });   /* MEMO-NO-EVID-1028：日誌顯示的那幾筆——舊存檔裡已經寫進去的事件代號（ev_xxx）不顯示 */
   S.sisZhishuOut=(G,day,hour)=>{ const d=S.dayOfKey('2025-09-04'), dd=day==null?G.day:day, hh=hour==null?G.hour:hour; return d==null||dd>d||(dd===d&&hh>=21); };
   async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'}); if(await S.twoHeartsEcho(GM,'heroine_05',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */
     if(!F.met_sis){ await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }   /* AA_379：閱覽室、大廳自習區 9/4 以後找她說話＝ev_sis_w1（上面 EVENTS.onInteract），原本那一行旁白（說這裡不能講話）拿掉 */
