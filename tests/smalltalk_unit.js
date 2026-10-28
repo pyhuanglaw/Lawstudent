@@ -84,8 +84,9 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
   const TIRED='「你看起來很累。睡飽比較重要。」'; const say=G2=>{ const keep=GG; GG=G2; try{ return txt(STORY.smallTalk(G2,'classmate_mingxuan')); } finally { GG=keep; } };   /* 替身 EVENTS.cond 讀 GG */
   const a=mk(W,false); check('明軒：前一晚正常睡，不說「你看起來很累」',say(a)!==TIRED,say(mk(W,false)));
   const G3=mk(W,true); { const r=say(G3); check('明軒：前一晚 01:00 以後才睡，當天第一次見到他就說「你看起來很累」',r===TIRED,r); }
-  G3.day=W+1; G3.weekday=CALENDAR.dateOf(W+1).wd%7; G3.daily.lateNight=W+1; { const r=say(G3); check('明軒：同一週第二次熬夜不再說（once:week）',r!==TIRED,r); }
-  G3.day=W+7; G3.daily.lateNight=W+7; G3.weekday=CALENDAR.dateOf(W+7).wd%7; { const r=say(G3); check('明軒：下一週熬夜又可以說一次',r===TIRED,r); } }
+  G3.day=W+1; G3.weekday=CALENDAR.dateOf(W+1).wd%7; G3.daily.lateNight=W+1; { const r=say(G3); check('明軒：同一週第二次熬夜不再說',r!==TIRED,r); }
+  /* 2026-10-28 改：AA_497 4-5（企劃線 7a38216ca）明軒的閒聊「取代兩句撐四年；每句一次」——「你看起來很累。」也只說一次（原本 once:week）；tests/aa497_supporting_unit.js 4-5 */
+  G3.day=W+7; G3.daily.lateNight=W+7; G3.weekday=CALENDAR.dateOf(W+7).wd%7; { const r=say(G3); check('明軒：說過以後，下一週熬夜也不再說（AA_497 4-5：每句一次）',r!==TIRED,r); } }
 // ---------- 舊存檔 ----------
 { const G2={day:W,hour:15,zone:'campus',weekday:3,energy:70,social:{rel:{},mem:{}},flags:{}}; const L=STORY.smallTalk(G2,'zhe');
   check('舊存檔沒有 G.social.small：照常，記下今天聊過',L.fresh&&G2.social.small&&G2.social.small.zhe&&G2.social.small.zhe.day===W,txt(L)); }

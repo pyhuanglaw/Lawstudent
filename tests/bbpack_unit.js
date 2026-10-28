@@ -51,7 +51,9 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
     check('0. 每一句台詞、旁白、選項都在稿裡（稿上的動作、說明改成旁白的照字比；補的 '+COMPOSED.size+' 句列在 COMPOSED）',bad.length===0,bad.slice(0,8).join('｜'));
     const used=[...COMPOSED].filter(t=>seen.has(t)); check('0. COMPOSED 每一句都真的用到（沒有多列）',used.length===COMPOSED.size,[...COMPOSED].filter(t=>!seen.has(t)).join('｜')); }
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/data/bbpack_events.js'), b=html.indexOf('src/bbpack3d.js'), c=html.indexOf('<script>GAME.boot();</script>');
-    check('0. index.html：bbpack_events.js、bbpack3d.js 接在 GAME.boot() 前面',a>0&&b>a&&c>b&&html.slice(b,c).split('<script').length===1); }
+    /* 2026-10-28 改：AA_497（tests/aa497_supporting_unit.js）的 data/sup497_lines.js、sup497_3d.js 接在 bbpack3d.js 後面、GAME.boot() 前面——中間只能是這兩支 */
+    const mid=[...html.slice(b,c).matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
+    check('0. index.html：bbpack_events.js、bbpack3d.js 接在 GAME.boot() 前面（中間只有 AA_497 的兩支）',a>0&&b>a&&c>b&&JSON.stringify(mid)===JSON.stringify(['src/data/sup497_lines.js','src/sup497_3d.js']),JSON.stringify(mid)); }
   { const src=fs.readFileSync(path.join(H.ROOT,'src/data/bbpack_events.js'),'utf8')+fs.readFileSync(path.join(H.ROOT,'src/bbpack3d.js'),'utf8');
     check('0. 沒有「小語」（改名 Alison）、學姊沒有「重點是」、可昕沒有「假設」',src.indexOf('小語')<0&&src.indexOf('重點是')<0&&!/kexin','[^']*假設/.test(src)); }
   check('0. 接線：STORY.PHONE_RULES、CLS.IN_CLASS（G1、G6，各有 due）',STORY.PHONE_RULES.length>0&&CLS.IN_CLASS.includes(X().inClass.g1)&&CLS.IN_CLASS.includes(X().inClass.g6)&&typeof X().inClass.g1.due==='function'&&typeof X().inClass.g6.due==='function');

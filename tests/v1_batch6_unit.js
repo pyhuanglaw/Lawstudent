@@ -80,7 +80,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','欸你有沒有群組？沒有？我拉你。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
       fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); const h0=G.hour; picks=[pick]; await EVENTS.run(e); const L=lines();
       check('A10 選「'+pick+'」：開場三句＋'+JSON.stringify(after)+(mem?'、記憶 BREAKFAST_YU、過了 15 分鐘':'、沒有 BREAKFAST_YU'),JSON.stringify(L)===JSON.stringify(intro.concat(after))&&SOCIAL.has('yu','BREAKFAST_YU')===mem&&(mem?Math.abs(G.hour-h0-0.25)<0.01:G.hour===h0),JSON.stringify({L,h:G.hour})); }
-    check('A10 三個選項（AA_40 原文；第二個 AA 2026-10-14 改成「我上課要遲到了。」）',JSON.stringify(opts[0])===JSON.stringify(['（坐下來一起吃）','「我上課要遲到了。」','「三個社團不會累嗎？」']),JSON.stringify(opts[0]));
+    /* 2026-10-28 改：AA_497 3-8（企劃線 7a38216ca）「三個社團」只留五處，這個選項換成具體的社團「辯論社」（tests/aa497_supporting_unit.js 3-8）*/
+    check('A10 三個選項（AA_40 原文；第二個 AA 2026-10-14 改成「我上課要遲到了。」；第三個 AA_497 3-8 改成「辯論社不會累嗎？」）',JSON.stringify(opts[0])===JSON.stringify(['（坐下來一起吃）','「我上課要遲到了。」','「辯論社不會累嗎？」']),JSON.stringify(opts[0]));
     check('A10 只一次',!EVENTS.check(e));
     /* AA_156（V1-A10）：吉他社入口、BREAKFAST_YU 的回聲、Alison 的社團 */
     { const notes=[]; const na=GM.addNote; GM.addNote=(id,t,b)=>notes.push([id,t,b]);

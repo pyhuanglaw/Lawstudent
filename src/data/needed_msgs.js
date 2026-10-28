@@ -42,7 +42,7 @@ const NEEDED_MSGS=(function(){
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[1,1],at:{day:'2026-09-10',h:21}/* AA_491 A：社博搬到 9/12（六），第 1 週週四 21:00 發、在社博以前 */,tie:true,   /* AA_374 第 3 項（AA_211 附錄 A 3-5）：原本最早 9/20 才發，博覽會已經過了 */msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。'],miss:['欸，博覽會那則你沒回。我自己找到你那攤了。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能判斷。叫她問法服或勞工局。',resp:['……你講話好像法服的學長。好，我叫她去。'],miss:['欸，加班費那則你沒回。我叫我同學去法服問了。']},
     {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,16],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。'],miss:['欸，你沒回我。所以你一定在笑。']},
-    {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['辯論社。比賽都在週末，我要念書了。'],miss:['欸，你都沒猜。是辯論社啦。']},
+    {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],cond:G=>false/* AA_497 3-4（企劃線 7a38216ca）：她退辯論社改成大二下第 3 週她自己傳的三則（src/sup497_3d.js yu_quit），這一則不再發（不留兩份）*/,msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['辯論社。比賽都在週末，我要念書了。'],miss:['欸，你都沒猜。是辯論社啦。']},
     {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……阿哲知道的話，會說我瘋了。'],miss:['欸，考古題那則你沒回。……我已經開始了。阿哲還不知道。']},
     // 柏翰（AA_179）
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。'],miss:['交接資料第一章，我自己看完了。……一百頁都看完了。']},
@@ -53,7 +53,7 @@ const NEEDED_MSGS=(function(){
     // 芯慈（AA_179）
     {id:'xc_econ',who:'classmate_xinci',term:'Y2S1',w:[2,4],tie:true,cond:G=>!!F(G).ECON_TOGETHER,msg:['經濟那邊，這學期你還陪我看嗎？'],reply:'好。',resp:['那週三總圖。'],miss:['經濟那邊，你沒回。……我自己去聽了。']},
     {id:'xc_contract',who:'classmate_xinci',term:'Y2S2',w:[8,10],   /* AA_313 5-6：和 Alison 的 yu_overtime（大二上第 6～8 週）幾乎同一則，兩則不要同一學期——搬到大二下第 8～10 週（xc_grade 第 5～7 週、xc_notes 第 11～13 週中間）*/msg:['幫我看一下這份打工的合約。我朋友要簽的。'],reply:'我只能說我看到什麼。要問的話去法服。',resp:['……好。我照你說的跟她講。'],miss:['合約那則你沒回。……我叫我朋友去法服了。']},
-    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。'],miss:['大結局那則你沒回。……很好，代表你沒爆雷。']},
+    {id:'xc_drama',who:'classmate_xinci',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'),msg:['那部劇大結局了。你不准爆雷。'],reply:'我沒看。',resp:['那最好。'],miss:['大結局那則你沒回。……很好，代表你沒爆雷。']},
     {id:'xc_grade',who:'classmate_xinci',term:'Y2S2',w:[5,7],msg:['期中成績出來，不要跟我說以安考幾分。'],reply:'好。',resp:['謝啦。不然我一定會去算差幾分。'],miss:['以安的分數那件，你沒回。……反正不要跟我說就好。']},
     {id:'xc_notes',who:'classmate_xinci',term:'Y2S2',w:[11,13],msg:['期末的筆記我想換個方式整理。你都怎麼記判決？'],reply:'我只抄爭點跟結論，其他的回去看全文。',resp:['好，我試試看。'],miss:['筆記那則你沒回。……我自己試了。']},   /* 原 xc_moot（模擬法庭刪除）*/
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）

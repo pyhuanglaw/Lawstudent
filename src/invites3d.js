@@ -290,7 +290,20 @@ const INV=(function(){
     const adv=typeof ADV!=='undefined'&&ADV.active; if(adv) ADV.end();
     let ok=false; try{ ok=await BADCLIP.play(GM,{who:iv.who,full}); } finally { if(adv) ADV.begin({background:'blur',right:iv.who}); }
     const L=full&&ok&&BADCLIP.LINES?BADCLIP.LINES[iv.who]:null; if(L) await GM.say(who,L); return ok; };
+  /* 約好的這一次有自己的一場（iv.ev＝STORY_EVENTS 的 id；AA_497：芯慈慈 3 的白天版、大四的讀書會、明軒的德文口說，src/sup497_3d.js）：
+     見面那一段演這一場（取代地點的一般旁白、第一次的那一句、道別句）；之後照舊時間往後、地點記憶、熟一點點、對方約的又赴約信任 +1。找不到那一場＝照一般的見面 */
+  S.meetEv=async function(GM,iv,n){ const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who), ev=iv.ev&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===iv.ev):null;
+    if(!P||!ev||typeof EVENTS==='undefined'||!EVENTS.runLines) return false;
+    iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await EVENTS.runLines(ev.dialogue||[],ev);
+      if(G.events){ G.events.done=G.events.done||{}; G.events.last=G.events.last||{}; G.events.done[ev.id]=(G.events.done[ev.id]||0)+1; G.events.last[ev.id]=G.day; }
+      if(typeof ev.after==='function'){ try{ ev.after(G,GM,iv); }catch(e){ console.warn('INV.meetEv after',e); } }
+      await GM.fade(true); GM.advance(P.stay); await GM.fade(false); GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);
+      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,{cafe:'cafe',library:'library',lib_b1:'library',noodle:'meal'}[P.id]||'cafe'); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
+      S.msg(G,iv.who,'和'+nm+'在'+P.name+'。',iv);
+    } finally { GM.sceneEnd(); }
+    if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return true; };
   S.meet=async function(GM,iv,n){ const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who); if(!P) return;
+    if(iv.ev&&await S.meetEv(GM,iv,n)) return;
     if(iv.te&&typeof TERMEND!=='undefined'&&TERMEND.dinner){ iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await TERMEND.dinner(GM,{te:{who:iv.who,kind:iv.te.kind,term:iv.te.term,place:iv.place,placeName:P.name}}); await GM.fade(true); GM.advance(P.stay); await GM.fade(false);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); } if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};

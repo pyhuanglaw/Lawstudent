@@ -410,6 +410,9 @@ const Y2R2=(function(){
       {speaker:'classmate_mingxuan',expression:'neutral',text:'我跟以安說了。'},
       {speaker:'classmate_mingxuan',expression:'neutral',text:'她說她想了三天。答案是沒有，理由是她對我沒有那種感覺。'},
       {speaker:'classmate_mingxuan',expression:'neutral',text:'……她講得很清楚。我只回了一句「好」。'},
+      /* AA_497 4-2 (a)：大一下下雨天的傘（MX_UMB；src/sup497_3d.js），他說完以後多一句；沒看到傘那一場＝照舊 */
+      {if:{flagIs:{MX_UMB:'TOLD'}},speaker:'classmate_mingxuan',expression:'neutral',text:'她說，那把傘，她一直知道是我的。'},
+      {if:{flagIs:{MX_UMB:'SILENT'}},speaker:'classmate_mingxuan',expression:'neutral',text:'她說，那把傘，她後來才知道是我的。'},
       {choice:[{text:'「你還好嗎？」',goto:'g1'},{text:'「她很像會這樣回答。」',goto:'g2'},{text:'（陪他走，不說話）',goto:'quiet'}]},
       {label:'g1'},{speaker:'classmate_mingxuan',expression:'smile',text:'還好。你看，我還吃得下滷蛋。'},{if:{flags:['MX_EGG']},speaker:null,text:'（他上週才把滷蛋給你。）'},{speaker:'classmate_mingxuan',expression:'smile',text:'……好啦，我明天再吃。'},{goto:'end'},
       {label:'g2'},{speaker:'classmate_mingxuan',expression:'laugh',text:'對吧。她連拒絕都講得很有條理。'},{speaker:null,text:'（他笑了。）'},{goto:'end'},

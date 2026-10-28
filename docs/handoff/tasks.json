@@ -34505,7 +34505,7 @@
   },
   {
    "id": "HEROINE-LIFE-NPC3D-1028",
-   "title": "女主角圈子裡的人的 3D：麵店的阿姨、Café 的小婷和老闆、學姊的兩個備考同學（AA_503 第 2、11 節；先用固定路人底模也可以）",
+   "title": "女主角圈子裡的標籤同伴 3D（heroine_circle.js PEOPLE[] 17 位：麵店阿姨、Café 小婷和老闆、新來的工讀生、學姊的兩個同學…）：固定路人底模＋道具（D99 人物美術凍結，不做新的人物模型）",
    "area": "Y1S1",
    "owner": "LAWWW2",
    "status": "待開工",
@@ -34521,13 +34521,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:2x UTC】LAWWW2 修完溫州街公園（WZ-PARK-POCKET-1028，擋 v9.10.12）以後做；角色美術由 LAWWW 驗收（D100a）",
+   "next": "【LAWWW-C 2026-10-28 06:2x UTC】555186796 起 17 位已用固定路人底模在遊戲裡（不和二十位同學撞、彼此不重複）；D99 照舊：不做新的人物模型，照驗收標準走「底模＋道具」（圍裙、名牌、阿姨的繃帶…＝配件），排在 NPC-POOL-ART-1028 之後（P2，大一上先遇到的先做）；角色美術由 LAWWW 驗收（D100a）",
    "xai": {
-    "spec": "AA_503 第 2 節（圈子）、外觀描述",
+    "spec": "AA_503～508 各節 x-1（src/data/heroine_circle.js PEOPLE[]：每一位的外觀描述、底模）；繃帶併進 NPC-POOL-ART-1028",
     "branch": "claude/focused-cray-c9uwvw",
-    "acceptance": "五位有固定外觀（底模＋道具或專屬模型），在遊戲裡和女主角同框看得出是誰",
+    "acceptance": "每一位有固定外觀（固定路人底模＋道具），在遊戲裡和女主角同框看得出是誰；不新增人物模型（D99）",
     "receiver": "LAWWW",
-    "ack": "未派"
+    "ack": "ACK"
    }
   },
   {
@@ -34732,7 +34732,7 @@
    "title": "女主角的圈子在 3D：作息加 with（她和自己的朋友同框）、一定同框不用 70% 機率、走近時先聽到她們講一句、第一次介紹、二十位同學在這裡認識、有第三人不出邀約和私密話題；AA_503～508 各節的「圈子」表全部接（大一上～大三下＋暑假）",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "AA_503 第 2、11 節（d13ab3ab7）＋AA_504～508 各節 x-1；使用者 10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」（X122★）",
    "first": {
@@ -34745,7 +34745,50 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 05:0x UTC】派子代理（worktree）；模型先用固定路人底模，正式人物 HEROINE-LIFE-NPC3D-1028（LAWWW2）"
+   "next": "【LAWWW-C 2026-10-28 05:0x UTC】派子代理（worktree）；模型先用固定路人底模，正式人物 HEROINE-LIFE-NPC3D-1028（LAWWW2）",
+   "note": "｜【LAWWW-C 2026-10-28 06:1x UTC】AA_503～508 各節 x-1 合進開發分支 555186796（子代理 305d154b3）：src/data/heroine_circle.js 94 列、src/hcircle3d.js；標籤同伴 17 位先用固定路人底模（LAWWW2 HEROINE-LIFE-NPC3D-1028 換 PEOPLE[].model）；12 件實作時定的轉 AA；BB 瀏覽器看同框、走近聽到、介紹；AA_509、AA_510 的 x-1 下一輪"
+  },
+  {
+   "id": "COMPANY-PRIV-1028",
+   "title": "旁邊有她的人（3D 圈子同伴在 3.2 m 內）時，私密的選項與場景不出、等她一個人再說：告白（已做）、心意邀約與約會、交往中才有的互動、坦白有別人（ROM.tellBy）、多段感情的分開談話（AA_346）與她知情以後那幾場、問她還沒公開的事（子晴爸爸 Q8 一類、沛珊重考 AA_281、芷若交換申請 5/11 錄取以前、語彤媽媽回診、學姊口試結果 5/29 當天）；一般閒聊、課業、讀書會、群組不算",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "AA-C 2026-10-28 06:14 回 555186796 第 11 點（AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」）；HEROINE-CIRCLE3D-1028 目前只標了告白兩個選項 priv",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上在校園遇到以安和 Alison 一起時找以安說話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
+   "note": ""
+  },
+  {
+   "id": "CIRCLE3D-Y4-1028",
+   "title": "AA_509（大四上＋寒假）、AA_510（大四下＋畢業那年夏天）各節 x-1 圈子接進 3D（含 AA_510 第 8 節第 3 點：以安、語彤週四總圖三樓；語彤暑假週四麵店；子晴 6/28 起週五公館和阿凱；學姊 5/29 以後週五公館和陳助教）",
+   "area": "Y4S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_509 28f981438、AA_510 28f981438 各節 x-1；HEROINE-CIRCLE3D-1028 的下一輪",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上在校園看到女主角和自己的朋友",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
+   "note": ""
   }
  ]
 }

@@ -138,7 +138,8 @@ const J=x=>JSON.stringify(x);
   const N=G.flags.dpN||{}, DAY=G.flags.dpDayOf||{};
   chk('6. Y1-D 大一下第 4 週起：八則都出現（阿凱的 App 兩次、其他各一次）',()=>[DPIDS.every(id=>(N[id]|0)===(id==='y1s2_kai_app'?2:1)),J(DPIDS.map(id=>id+':'+(N[id]|0)))]);
   const P=th=>TH(th).map(m=>m.text);
-  chk('6. 家族群組 21:18：Kevin「📹（一隻鸚鵡在背九九乘法，背到七就開始亂講）」、溫學姊「七八五十六。」',()=>{ const L=TH('g:family_law'), i=L.findIndex(m=>m.text==='📹（一隻鸚鵡在背九九乘法，背到七就開始亂講）'); return [i>=0&&L[i+1]&&L[i+1].text==='七八五十六。'&&L[i].name==='Kevin'&&L[i+1].from==='heroine_05'&&near(L[i].h,21.3),J(L.map(m=>m.text))]; });
+  /* 2026-10-28 改：AA_497 5-4（企劃線 7a38216ca）Kevin 的動物影片保留前 2 則，第 5 則（鸚鵡）照原本的日期換成「考古題資料夾我整理了一個晚上 ……已刪除」，跟著影片的學姊「七八五十六。」拿掉（tests/aa497_supporting_unit.js 5-4）*/
+  chk('6. 家族群組 21:18：Kevin「考古題資料夾我整理了一個晚上 發現有一份是我大一自己寫錯的答案 已刪除」（AA_497 5-4；原本的鸚鵡影片＋學姊「七八五十六。」換掉）',()=>{ const L=TH('g:family_law'), i=L.findIndex(m=>m.text==='考古題資料夾我整理了一個晚上 發現有一份是我大一自己寫錯的答案 已刪除'); return [i>=0&&L[i].name==='Kevin'&&!L.some(m=>m.text==='七八五十六。'||/鸚鵡/.test(m.text))&&near(L[i].h,21.3),J(L.map(m=>m.text))]; });
   chk('6. 麵店團 12:30 Alison 的咖哩飯「這個比例是違憲的」、柏翰「比例原則不是這樣用的。」、Alison「我知道 我在用」',()=>{ const L=TH('g:noodle_team'), i=L.findIndex(m=>m.text==='📷（學生餐廳的咖哩飯，飯比咖哩多很多）'); return [i>=0&&J(L.slice(i,i+4).map(m=>m.from+':'+m.text))===J(['yu:📷（學生餐廳的咖哩飯，飯比咖哩多很多）','yu:這個比例是違憲的','classmate_bohan:比例原則不是這樣用的。','yu:我知道 我在用'])&&near(L[i].h,12.5),J(L.slice(i,i+4).map(m=>m.text))]; });
   chk('6. 麵店團 22:40 阿哲「系籃練習 今天投進三顆」「三十顆裡面」、Alison「進步了」；22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」（AA_373 #19：原本 23:10「總圖今天十一點關。」）',()=>{ const L=TH('g:noodle_team'), a=L.findIndex(m=>m.text==='系籃練習 今天投進三顆'), b=L.findIndex(m=>m.text==='總圖十點關。');
     return [a>=0&&b>=0&&J(L.slice(a,a+3).map(m=>m.from+':'+m.text))===J(['zhe:系籃練習 今天投進三顆','zhe:三十顆裡面','yu:進步了'])&&J(L.slice(b,b+3).map(m=>m.from+':'+m.text))===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧'])&&near(L[a].h,22+40/60)&&near(L[b].h,22+10/60)]; });
