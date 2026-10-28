@@ -19646,6 +19646,13 @@
    "kind": "wip",
    "task": "NPC-POOL-ART-1028",
    "reason": "LAWWW2 霖澤館一樓「考前補給包」桌子（supply_table.py → linze_supply_table.glb；pool3d.js 只在劇情那一天擺）的 WIP，還沒交件（LAWWW-C 10-28 06:0x 分類）"
+  },
+  {
+   "sha": "3903df115",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPCPOOLART",
+   "reason": "LAWWW2 NPC-POOL-ART-1028 的 Blender 腳本 prop_pool.py＋量身資料 WIP，交件 35b26938c 的祖先（LAWWW-C 10-28 07:2x 分類）"
   }
  ]
 }
