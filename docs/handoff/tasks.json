@@ -35330,8 +35330,8 @@
    "id": "PRIV-AUNT-1028",
    "title": "BB 測出兩件（麵店阿姨）：(A) 麵店只有阿姨在時「約她去…」、tell_later 被擋（第 12 項說約她去照擋；tell_later 沒定）；(B) 阿姨幾點在店裡對不上——auntIn 19:00（AA_425 第 1 節）vs 同框 c503_6_2 17:30～20:30，週二、四 18:00～19:00 她說「阿姨去買東西」阿姨卻站在旁邊",
    "area": "Y1S1",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "進行中",
    "priority": "P2",
    "source": "BB-C 2026-10-28 11:41（v9.10.13 rc2 門檻 ④ 第 5 點，BB_218 c6e23925c）",
    "first": {
@@ -35344,15 +35344,13 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 11:4x UTC】不擋 v9.10.13（P2，不壞存檔不卡住）；已問 AA 兩件怎麼定；AA 定了 LAWWW 改（下一版）",
-   "pausedReason": "等 AA 決定（(A) 約她去／tell_later 阿姨算不算旁邊有人；(B) 阿姨 19:00 才來還是 17:30 就在）",
-   "resumeWhen": "AA 回覆",
+   "next": "【LAWWW-C 2026-10-28 11:4x UTC】AA 定了（AA_503 第 14 節後補第 6、7 點，5ec2fe771）：(A) 麵店只有阿姨在＝約她去、tell_later 都照出（第 5 點包含麵店所有私密選項；第 12 項照擋只限還有別的同伴）；(B) 改台詞那邊：「今天很忙喔？」的 auntIn 看阿姨 3D 人物在不在麵店（c503_6_2 那幾列），在＝不問「阿姨呢？」，3D 時間不改；派子代理；下一版｜【LAWWW-C 2026-10-28 11:4x UTC】不擋 v9.10.13（P2，不壞存檔不卡住）；已問 AA 兩件怎麼定；AA 定了 LAWWW 改（下一版）",
    "xai": {
     "spec": "AA_503 第 14 節第 12 項、後補第 5 點；AA_425 第 1 節；heroine_circle c503_6_2",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 回一句怎麼定",
     "receiver": "LAWWW",
-    "ack": "DELIVERED"
+    "ack": "ACTIONED"
    }
   }
  ]
