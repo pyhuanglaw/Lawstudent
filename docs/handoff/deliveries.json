@@ -19507,6 +19507,27 @@
    "kind": "wip",
    "task": "LIGHTBAKE-UV-FIX-1028",
    "reason": "LAWWW2 光照貼圖 UV 修正的 WIP 檢查點（bake_classroom_201.sh --nolm、檢討報告第 6、7 節），還沒交件（LAWWW-C 10-28 04:5x 分類）"
+  },
+  {
+   "sha": "e879ede3f",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-202-1028",
+   "reason": "LAWWW2 201、202 README 記講台木地板改淺（D112）的 WIP，還沒交件（LAWWW-C 10-28 05:0x 分類）"
+  },
+  {
+   "sha": "3269f9e7d",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-202-1028",
+   "reason": "LAWWW2 202 v2、多功能教室重烘的同角度對照圖 WIP，還沒交件（LAWWW-C 10-28 05:0x 分類）"
+  },
+  {
+   "sha": "902a22af5",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-202-1028",
+   "reason": "LAWWW2 202 v2 README 的 WIP（光照貼圖四個錯和改法），還沒交件（LAWWW-C 10-28 05:0x 分類）"
   }
  ]
 }
