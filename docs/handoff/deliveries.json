@@ -15271,6 +15271,32 @@
    "task": "CROWD-DEPTS-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 01:3x UTC】放 v9.10.13；LAWWW 接 crowd3d.js、課堂同學名單（通識課混系）；第 5 節外觀轉 LAWWW2"
+  },
+  {
+   "id": "DL-AA-496",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "dea54d89e",
+   "msg": "ACK",
+   "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、麵店團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；第 9 節第 1～4、6 點派子代理（worktree，D113 檢查點）；第 5 點等 AA_498"
+  },
+  {
+   "id": "DL-AA-497",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ad67d327b",
+   "msg": "ACK",
+   "what": "AA_497 五位配角改稿：宥辰（BB_70 7b 地下室、BB_113 週五的歌定稿、認識、電梯、重修、樂團合約）、芯慈（以安同框兩場、慈 3 B1 入口＋提示＋補救、她爸爸那一場接慈 6、主動約人照年份變多）、Alison（保證認識、YU2_PICK 後果、大二下早餐接語 4、C6 後果、阿哲車禍那晚、大四上法圖）、明軒（M1 B1 入口＋提示、喜歡以安三個徵兆接 M2、德文、存摺）、Kevin（大二上交棒、宜蓁、國考結局、錯題本、換掉「多講兩個字」和動物影片）；第 7 節接線清單與測試",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；女主角主動約（X118★）以後接；第 7 節三處（Alison「三個社團」約 9 處、明軒 CP 值、明軒滷蛋）改完列給 AA"
   }
  ],
  "ignored": [

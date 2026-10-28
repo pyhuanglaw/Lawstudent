@@ -886,6 +886,37 @@
    "noDirectIntegrate": true,
    "source": "使用者 10-27 20:5x（UA-LAWWW-1027-25）；AA_488",
    "closedBy": "子代理被使用者停掉（2026-10-27 21:3x），只有開工檢查點 5ec254b3a（沒有修改，bundle wip_backup/homepromise_1027.bundle 留著）；HOME-PROMISE-1027 改 LAWWW 自己做"
+  },
+  {
+   "id": "WIP-LAWWW-CROWD-1028",
+   "role": "LAWWW",
+   "task": "CROWD-DEPTS-1028",
+   "branch": "worktree-agent-a4a4118e152011f58（子代理 worktree；D113 備份 wip_backup/crowd_depts_1028.bundle）",
+   "sha": "84b47d666",
+   "files": [
+    "src/crowd3d.js",
+    "tests/crowd_depts_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_495 路人分科系接進遊戲（子代理做中，基準 095cf15ae）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28 00:5x（X120）"
+  },
+  {
+   "id": "WIP-LAWWW-AA496-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "branch": "worktree-agent-a33958931414f6a65（子代理 worktree；D113 備份 wip_backup/aa496_fixes_1028.bundle）",
+   "sha": "095cf15ae",
+   "files": [
+    "tests/aa496_fixes_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_496 第 9 節第 1～4、6 點（子代理做中；開工時基準誤在 main，已請它快轉到開發分支 095cf15ae）",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28（X119）"
   }
  ]
 }
