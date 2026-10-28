@@ -141,7 +141,7 @@ const DORM203=(function(){
     let i=0; for(const h of Object.keys(by).map(Number).sort((a,b)=>a-b)) ph.at(G,d,h,by[h],'rt_r203_'+k+'_'+(i++));
     R.g[k]=d; return true; };
   const rename=(G,name)=>{ const ph=P(); const g=ph&&ph.rec(G).groups[GID]; if(g) g.name=name; };
-  S.phone=function(G){ const ph=P(); if(!ph||!law(G)) return; const R=S.rec(G,true); if(!R) return; const t=now(G), Gr=L.group;
+  S.phone=function(G){ const ph=P(); if(!ph||!law(G)) return; const R=S.rec(G,true); if(!R) return; const t=now(G), Gr=L.group; S.resolve(G);   /* 3-1 隔天那一則看 3-1 的結果（人在外面、STORY.TICKS 還沒輪到也一樣）*/
     /* 9/1 21:00 阿哲建立；舊存檔：在這個存檔第一次跑到這裡的那一天建立（以前的訊息不補）*/
     { const d=DK('2025-09-01'); if(!ph.inGroup(G,GID)&&S.era(G)&&d!=null&&t>=d*24+21) ph.join(G,GID,Gr.name); }
     if(!ph.inGroup(G,GID)) return;
