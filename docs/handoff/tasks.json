@@ -34509,7 +34509,7 @@
    "title": "女主角圈子裡的標籤同伴 3D（heroine_circle.js PEOPLE[] 17 位：麵店阿姨、Café 小婷和老闆、新來的工讀生、學姊的兩個同學…）：固定路人底模＋道具（D99 人物美術凍結，不做新的人物模型）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_503（HEROINE-LIFE-1028，USER_WANTS X122）",
    "first": {
@@ -34530,7 +34530,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "note": "｜【LAWWW-C 07:2x】LAWWW2 要 heroine_circle.js PEOPLE[] 能傳 props（麵店阿姨 [{name:\"apron\",show:true},\"ladle\",\"bandage\"]）：LAWWW 等 CIRCLE3D-Y4／COMPANY-PRIV 子代理合併後接"
+   "note": "｜【LAWWW-C 07:2x】LAWWW2 要 heroine_circle.js PEOPLE[] 能傳 props（麵店阿姨 [{name:\"apron\",show:true},\"ladle\",\"bandage\"]）：LAWWW 等 CIRCLE3D-Y4／COMPANY-PRIV 子代理合併後接｜【LAWWW-C 07:3x】LAWWW2 73fbfc4ae 整合進 4ca1077aa（PEOPLE[] props LAWWW2 一起做了）；BB 看畫面"
   },
   {
    "id": "CROWD-DEPTS-LOOK-1028",

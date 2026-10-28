@@ -15648,6 +15648,19 @@
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 07:2x UTC】收到；排進下一個空出的子代理（KX-MOOT3-1028）"
+  },
+  {
+   "id": "DL-LW2-HLIFEPROPS",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "73fbfc4ae",
+   "msg": "ACK",
+   "what": "HEROINE-LIFE-NPC3D-1028：圈子標籤同伴十六位的配件（patch hlife_props_1028.patch：PEOPLE[] props、hcircle3d specOf 傳 props；GLB name_pin、mug、lawbook）；記帳 3df0554a7；畫面 test_shots/hlife_props_1028/README.md",
+   "task": "HEROINE-LIFE-NPC3D-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 07:3x UTC】整合進開發分支 4ca1077aa；相關 Node 全過；BB 看畫面（同框時同伴的配件）"
   }
  ],
  "ignored": [
