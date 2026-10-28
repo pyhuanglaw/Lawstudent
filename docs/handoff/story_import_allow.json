@@ -3405,11 +3405,19 @@
   },
   {
    "path": "docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md",
-   "sha": "481dd8238",
+   "sha": "c884a12ca",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
-   "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028）：予樂自己的線全部九節——第 2 節 h503_yule 後面兩句（heard_lines.js items 第 4 欄 'AA_520 2'）、h509_yule 第二則加三個選項（heard3d.js 的 ask、COND.yuleOwn；記 YL_RPT）；第 3 節 p:yule 她自己的事十三則＋1/12 報告（src/data/yule_lines.js YULE_LINES.own、src/yule3d.js）；第 4 節演講那一晚（10/14 22:00 邀請、10/20 18:50 霖澤館 201／20:15 阿鳳麵店的出遊 ADV ev_yule_lecture，記 YL_LEC、YL_ROOM、記憶 YL_LECTURE；③沒回沒到＝21:40 私訊）；第 5 節 23:55 三則；第 6 節可昕 9/16 21:10 兩句；第 1 節收件條件加「和可昕沒有鬧翻」（YULE.kxOk：被抓包一律不傳、分開了從那天起不傳、慢慢分手照朋友下一學期起照傳）；霖澤館 201 的 2D 背景沒有圖＝深色底（scene_bg_keys PENDING，BB 要圖）；tests/aa520_yule_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 36、修改後 ALL PASS 57 項）"
+   "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028）：予樂自己的線全部九節——第 2 節 h503_yule 後面兩句（heard_lines.js items 第 4 欄 'AA_520 2'）、h509_yule 第二則加三個選項（heard3d.js 的 ask、COND.yuleOwn；記 YL_RPT）；第 3 節 p:yule 她自己的事十三則＋1/12 報告（src/data/yule_lines.js YULE_LINES.own、src/yule3d.js）；第 4 節演講那一晚（10/14 22:00 邀請、10/20 18:50 霖澤館 201／20:15 阿鳳麵店的出遊 ADV ev_yule_lecture，記 YL_LEC、YL_ROOM、記憶 YL_LECTURE；③沒回沒到＝21:40 私訊）；第 5 節 23:55 三則；第 6 節可昕 9/16 21:10 兩句；第 1 節收件條件加「和可昕沒有鬧翻」（YULE.kxOk：被抓包一律不傳、分開了從那天起不傳、慢慢分手照朋友下一學期起照傳）；霖澤館 201 的 2D 背景沒有圖＝深色底（scene_bg_keys PENDING，BB 要圖）；tests/aa520_yule_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 36、修改後 ALL PASS 57 項）；10-28 改 c884a12ca（AA 加第 10 節，回 LAWWW-C 13:18：實作時定的第 1～6 點照現在；第 7 點 4-4 沒到的兩種版本改成——①沒到「你沒來 位子我放外套」「她講到一盒彩色筆」「我哭得很醜」「沒事 我去吃雞排了」、②沒到「你沒來 麵我都吃完了」「她講到一盒彩色筆」「我坐最後一排 哭得很醜」「沒事 我等一下再去吃雞排」，③、沒回照原本四則；第 1～9 節沒改）"
+  },
+  {
+   "path": "docs/story_planning/AA_521_經濟系的朋友_法律系那三年_何俊朗_日文班.md",
+   "sha": "0f4b48f20",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
+   "task": "NPC-STORY2-1028",
+   "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028 第三部分）：經濟系的朋友法律系那三年——第 1 節 D2 照學期取鍵（src/econfr3d.js 包住 STORY.b106d2Key：大一下起韋綸、唐睿、阿勳每學期 a、b，品妤一學期一句；大一上沒說到的大一下排前面；阿勳新句子要 MET_XUN、大三下 a／b 以 3/22 分；唐睿大三下 b 要 b106_42_photo；品妤要 MET_PINYU），句子在 src/data/econfr_lines.js、載入時接在 ev_b106d2_weilun／tang／xun 後面（events.js 阿勳那一場改照鍵演），品妤新增 ev_b106d2_pinyu（週五 12:05～12:25 普通教學館；大二上起加一格擲到才在的作息）；第 2 節「走啦」群組五則；第 3 節何俊朗 longGreet 加六句（from／to、tail）；第 4 節日文班三則（4-3 日本路線、記 CZ_VET_PHOTO、4/22 摘要一句、當晚采蓁兩則）；tests/aa521_econ_friends_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 15、修改後 ALL PASS 45 項）"
   }
  ]
 }

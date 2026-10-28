@@ -1185,7 +1185,8 @@ const STORY_EVENTS=[
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},
       {speaker:'品妤',text:'你又在等人？這次等誰？'} ] },
   /* BB_106 日常 D2 社科院—霖澤館—博雅的偶遇表（規則在 story3d.js S.b106d2Due）：擲到的人照作息站在那裡（characters.js 的 b106d2），走到旁邊（npcNear）才說一句；每人每天一句、同一句只說一次。
-     週五中午的活大＝SK03、期中期末前的博雅＝SK10、期末考週的販賣機＝SK05（各自的事件）；可昕和品妤在社科院門口那一列（交往中、她來台大的日子）還沒做：遊戲裡她來台大只有 2D 的出遊（給 AA 的問題）*/
+     週五中午的活大＝SK03、期中期末前的博雅＝SK10、期末考週的販賣機＝SK05（各自的事件）；可昕和品妤在社科院門口那一列（交往中、她來台大的日子）還沒做：遊戲裡她來台大只有 2D 的出遊（給 AA 的問題）
+     AA_521（0f4b48f20）：大一下起每人每學期 a、b 兩句（品妤 ev_b106d2_pinyu 一學期一句）——鍵、句子、品妤的事件在 src/econfr3d.js、src/data/econfr_lines.js（載入時接在這三個事件後面）*/
   { id:'ev_b106d2_weilun', title:'', participants:[], location:'campus', trigger:'auto', npcNear:'econ_weilun', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[12,12+25/60], background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'econ_weilun')},
     dialogue:[ {pick:{flag:'B106D2_K',from:G=>[STORY.b106d2Key(G,'econ_weilun')]}},
@@ -1204,9 +1205,10 @@ const STORY_EVENTS=[
     after:G=>{ STORY.b106d2Done(G,'econ_tangrui',G.flags.B106D2_K); delete G.flags.B106D2_K; } },
   { id:'ev_b106d2_xun', title:'', participants:[], location:'campus', trigger:'auto', npcNear:'econ_zhengxun', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[15+20/60,15.75], background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'econ_zhengxun')},
-    dialogue:[ {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},   /* 通則：阿勳用 BB_96 10-1 那句 */
-      {speaker:'阿勳',text:'你們法律系的課表，是不是也很不合理？'},{set:{MET_XUN:true}} ],
-    after:G=>STORY.b106d2Done(G,'econ_zhengxun','xun_sched') },
+    dialogue:[ {pick:{flag:'B106D2_K',from:G=>[STORY.b106d2Key(G,'econ_zhengxun')]}},   /* AA_521：照鍵演（同韋綸、唐睿）；大一下起每學期的句子 src/econfr3d.js 接在後面 */
+      {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},   /* 通則：阿勳用 BB_96 10-1 那句 */
+      {if:{flagIs:{B106D2_K:'xun_sched'}},speaker:'阿勳',text:'你們法律系的課表，是不是也很不合理？'},{set:{MET_XUN:true}} ],
+    after:G=>{ STORY.b106d2Done(G,'econ_zhengxun',G.flags.B106D2_K||'xun_sched'); delete G.flags.B106D2_K; } },
   /* 語彤（AA 的角色；AA 2026-10-13 同意）：週一、五 17:20 社會系下課（週三 17:40 她在 118 巷，AA_320），社科院門口（社會系館旁）。照 ECON_PAST_SHARED：full＝「又回來看舊系館？」；none（沒說過）＝她知道一半，記 YT_KNOWS_ECON；
      half（說過自學）＝玩家選「我以前常來這棟借書。」（維持原本的說法）或「……其實我念過一個多月。」（升成 full，之後麵店團也知道——稿寫「念過一年」，同一列已經更正「念了一年」是作廢的設定；給 AA 的問題）。一次 */
   { id:'ev_b106d2_yutong', title:'', participants:['heroine_03'], location:'campus', trigger:'auto', npcNear:'heroine_03', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,5], time:[17+20/60,17+50/60], once:true, background:'blur',

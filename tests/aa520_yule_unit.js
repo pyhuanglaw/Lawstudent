@@ -22,6 +22,9 @@
 //    第 0 段、第 4 段找不到 YULE_LINES 丟例外中斷、第 7 段舊存檔丟例外（沒有 YULE））。修改後 ALL PASS（57 項）。
 // 照 AA_520 改的舊測試：tests/aa503_others_unit.js（h503_yule 三則、items 第 4 欄的稿、句數 121→123）、tests/scene_bg_keys_unit.js（PENDING 加 linze_201）。
 // 全部 Node 單元測試（tests/*_unit.js，這一批的成果 a302ab1cd，2026-10-28）：726 支、結束碼不是 0 的 0 支。
+// 第 10 節（c884a12ca，AA-C 回 LAWWW-C 13:18：實作時定的第 1～6 點照現在；第 7 點 4-4 ①②沒到各四則）：稿改讀 c884a12ca（第 1～9 節和 481dd8238 一樣）、加第 10 節的對字與 ①②沒到 的檢查。
+//   修改前（只拿掉這次 src 的改動：src/data/yule_lines.js、src/yule3d.js 用開發分支 d38992889 那一版；白名單、測試用新的）：FAILED 2、PASS 56
+//   （FAIL＝第 0 段稿 → 遊戲少「我哭得很醜」「沒事 我等一下再去吃雞排」、第 4 段 ①②沒到那四則）；修改後 ALL PASS（58 項）。
 // 用法：node tests/aa520_yule_unit.js（在沒有 .git 的目錄跑，設環境變數 AA520_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -67,7 +70,7 @@ const fresh=(key,h,o)=>{ o=o||{}; const k=typeof key==='number'?keyOf(key):key;
 const friendOn=fd=>{ const R=KXDRIFT.rec(H.G); R.r6={st:'friend',friend:fd}; };
 
 /* ---------- 讀稿 ---------- */
-const SHA='481dd8238', DOCF='docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md';
+const SHA='c884a12ca', DOCF='docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md';   /* 第 1～9 節和 481dd8238 一樣；第 10 節（實作時定的、4-4 沒到的兩種版本）是 c884a12ca 加的 */
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA520_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 /* 「> 予樂：…」「> 予樂（smile）：…」「> （去了電影夜的才有）予樂：…」→ {who, pre, x, t}；「> （…）」→ 旁白整句 */
@@ -92,6 +95,8 @@ const blk=t=>{ const out={pre:[],opts:[],post:[]}; let cur=null, mode='pre';
 const B41=part('### 4-1','### 4-2｜'), B42=part('### 4-2｜','### 4-2b'), B42b=part('### 4-2b','### 4-3'), B43=blk(part('### 4-3','### 4-4')), B44=part('### 4-4','## 5. ');
 const LEC_ROWS=rows(B41), RPT_ROWS=rows(S5);
 const B44_DEF=qt(part('- 選③或沒回','- 選①沒到',B44)), B44_L=qt(part('- 選①沒到','- 選②沒到',B44)), B44_E=qt(part('- 選②沒到','- 這幾種',B44));
+/* 第 10 節（c884a12ca）：實作時定的；第 7 點 4-4 沒到的兩種版本（四則都寫出來，取代 4-4「把第一句換成」那兩行）*/
+const S10=part('## 10. ',null), S10_L=qt(part('- **①沒到**','- **②沒到**',S10)), S10_E=qt(part('- **②沒到**','- 她剛吃完麵',S10));
 const S5_ORIG=qt(part('原本兩則照舊','第二則加選項',S5)), S5_2355=qt(part('**23:55','- 選②的',S5)), S5_UP=qt(part('- 選②的','**2029-01-12',S5)),
   S5_0112=qt(part('**2029-01-12','- 再加一則',S5)), S5_NOROOM=qt(part('- 沒有：','- 有：',S5)), S5_ROOM=qt(part('- 有：','- 這一則兌現',S5));
 const S6_KX=quotes(S6), S2_Q=quotes(S2);
@@ -107,7 +112,7 @@ const md2key=(md,y)=>{ const [m,d]=md.split('/').map(Number); return y+'-'+Strin
 const HL=()=>typeof HEARD_LINES!=='undefined'?HEARD_LINES:{phone:[]};
 const h509=()=>HL().phone.find(e=>e.id==='h509_yule')||null, h503=()=>HL().phone.find(e=>e.id==='h503_yule')||null;
 const lineT=x=>typeof x==='string'?x:(x&&x.t);
-const mineTexts=()=>{ const A=[], L=YLX(); if(L){ for(const e of L.own||[]) A.push(...e.t.map(lineT)); A.push(...L.lecture.t,...L.lecture.opts.map(o=>o.t),...L.lecture.opts.flatMap(o=>o.r),...L.lectureAfter.t,...Object.values(L.lectureAfter.miss),...L.rptAfter.t.map(lineT),...L.kexin.t,L.mem); }
+const mineTexts=()=>{ const A=[], L=YLX(); if(L){ for(const e of L.own||[]) A.push(...e.t.map(lineT)); A.push(...L.lecture.t,...L.lecture.opts.map(o=>o.t),...L.lecture.opts.flatMap(o=>o.r),...L.lectureAfter.t,...Object.values(L.lectureAfter.miss).flat(),...L.rptAfter.t.map(lineT),...L.kexin.t,L.mem); }
   const e3=h503(); if(e3) for(const it of e3.items) if(it[3]) A.push(it[2]);
   const e9=h509(); if(e9&&e9.ask) for(const o of e9.ask.opts) A.push(o.t,...o.r);
   const E1=ev('ev_yule_lecture'); if(E1) for(const l of E1.dialogue){ if(typeof l.text==='string') A.push(l.text); if(l.choice) for(const c of l.choice) A.push(c.text); }
@@ -136,10 +141,12 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   const want=[]; for(const s of [S2_Q.slice(1),...Object.values(S3B).map(b=>b.base),S6_KX]) for(const q of s) want.push(q.t);
   for(const b of Object.values(S3B)) want.push(...b.plus);
   want.push(...qt(B41),...qt(B42),...qt(B42b),...B43.pre.map(q=>q.t),...B43.opts.map(o=>o.o),...B43.opts.flatMap(o=>o.r.map(q=>q.t)),...B43.post.map(q=>q.t),...B44_DEF,...B44_L,...B44_E,
-    ...S5_2355,...S5_UP,...S5_0112,...S5_NOROOM,...S5_ROOM);
+    ...S5_2355,...S5_UP,...S5_0112,...S5_NOROOM,...S5_ROOM,...S10_L,...S10_E);
   for(const r of LEC_ROWS.concat(RPT_ROWS)){ want.push(r.o,...r.r); }
   const lost=want.filter(t=>!GS.has(t));
-  check('0. 稿 → 遊戲：第 2～6 節每一句「>」、4-3 的三個選項、兩張表的選項與回覆（'+want.length+' 句）都在遊戲裡（一字不差）',want.length===115&&!lost.length,J({n:want.length,lost}));
+  check('0. 稿 → 遊戲：第 2～6 節、第 10 節每一句「>」、4-3 的三個選項、兩張表的選項與回覆（'+want.length+' 句）都在遊戲裡（一字不差）',want.length===123&&!lost.length,J({n:want.length,lost}));
+  check('0. 第 10 節（c884a12ca）讀得到：第 1～6 點照現在；第 7 點 ①沒到、②沒到各四則（第一則同 4-4，①沒有「坐最後一排」、②最後一則換掉）',
+    /第 1～6 點：全部照現在/.test(S10)&&S10_L.length===4&&S10_E.length===4&&S10_L[0]===B44_L[0]&&S10_E[0]===B44_E[0]&&S10_L[2]==='我哭得很醜'&&S10_E[3]!==B44_DEF[3]&&J(S10_E.slice(1,3))===J(B44_DEF.slice(1,3)),J({S10_L,S10_E}));
   /* 遊戲 → 稿 */
   const M=mineTexts(), notIn=[...new Set(M)].filter(t=>DOC.indexOf(t)<0);
   check('0. 遊戲 → 稿：新檔每一句、h503 兩句、h509 的選項與回覆、事件每一句與選項（'+new Set(M).size+' 句）都在稿裡（一字不差）',new Set(M).size>=100&&!notIn.length,J(notIn));
@@ -263,8 +270,8 @@ await sec(4,async()=>{ const L=YLX(), d0=D(LEC_DAY), h0=hOf(LEC_HM), d=D(md2key(
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',0); phAt(d,18.5); H.picks=[2]; const pr=await OUT.prompt(GM,OUT.get(H.G,'yl_lecture')); phAt(d,hA+0.05); const ML=txt('yl_lec_after');
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',1); phAt(d,19); at(d,21); expire(); const st=OUT.get(H.G,'yl_lecture').state; phAt(d,hA+0.05); const ME=txt('yl_lec_after');
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',1); phAt(d,19); phAt(d,hA+0.05); const MH=txt('yl_lec_after'), stH=OUT.get(H.G,'yl_lecture').state;   /* 人在家（OUT.tick 不跑）：21:40 還沒出發 */
-  check('4. ①沒到（問出發時選「不去了」）＝21:40 第一則換成「'+B44_L[0]+'」；②沒到（過了時間沒出發）＝「'+B44_E[0]+'」；21:40 還沒出發（OUT 沒跑）一樣；都不記 YL_ROOM',
-    pr==='no'&&J(ML)===J(B44_L.concat(B44_DEF.slice(1)))&&st==='missed'&&J(ME)===J(B44_E.concat(B44_DEF.slice(1)))&&J(MH)===J(ME)&&stH==='missed'&&H.G.flags.YL_ROOM==null&&B44_L.length===1&&B44_E.length===1,J({pr,ML,st,ME,MH}));
+  check('4. ①沒到（問出發時選「不去了」）＝21:40 第 10 節第 7 點①那四則（「'+S10_L.join('」「')+'」）；②沒到（過了時間沒出發）＝②那四則（最後一則「'+S10_E[3]+'」）；21:40 還沒出發（OUT 沒跑）同②；都不記 YL_ROOM',
+    pr==='no'&&J(ML)===J(S10_L)&&st==='missed'&&J(ME)===J(S10_E)&&J(MH)===J(ME)&&stH==='missed'&&H.G.flags.YL_ROOM==null&&S10_L.length===4&&S10_E.length===4,J({pr,ML,st,ME,MH}));
   /* 那之前和可昕分開；10/14 已經分開 */
   fresh(d0,h0+0.05,{kx:'dating'}); ph(); answer('yl_lec',0); phAt(d0+2,12); ROM.end(H.G,KX,'apart_talk'); phAt(d,17); const qc=OUT.get(H.G,'yl_lecture'), stc=qc&&qc.state; phAt(d,hA+0.05); const Mc=txt('yl_lec_after').length;
   fresh(d0,h0+0.05,{kx:'ex'}); ph(); const noInv=byTag('yl_lec_ask').length;
