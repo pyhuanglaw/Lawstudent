@@ -26,6 +26,8 @@ STATE = """(id)=>{ const G=GAME.G, D=STORY.ladData(G,id), k=D?D.key:id; return {
 
 
 async def talk(pg, cdp, run, tag, picks=()):
+    h = await P.who(pg, YT)
+    if h and h.get('x') is not None: await P.place_near(pg, run, h['x'], h['z'], R=6.0, what='語彤')   # 【前置】站到她 6 m 外（1 fps 從出生點走 40 m 她早就走開了）
     n0 = await pg.evaluate("window.__DL.length")
     r = await P.talk_to(pg, cdp, run, YT, tag, picks=picks)
     dl = await pg.evaluate("n=>window.__DL.slice(n)", n0)
@@ -50,7 +52,7 @@ async def main():
             run.check('前置：第 1 天筱涵在她旁邊（withNow）', bool(s0['withNow']), J(s0))
             r1, dl1 = await talk(pg, cdp, run, 'day1')
             s1 = await pg.evaluate(STATE, YT); run.note('第 1 天說完：%s' % J(s1))
-            w1 = [v for k, v in s1['wait'].items() if YT in k]
+            w1 = [v for k, v in s1['wait'].items() if k.startswith('yt_mom_lad|')]
             run.check('第 1 天：Y-L7 沒出（「我媽每個月要回診一次」沒有）', not any('回診' in t for t in dl1), J(dl1))
             run.check('第 1 天：記等待（PRIVWAIT 記成第 1 天）、階梯不前進', w1 == [s1['day']] and s1['lad'] == 6, J(s1))
             d1 = s1['day']
@@ -60,7 +62,7 @@ async def main():
             s2a = await pg.evaluate(STATE, YT)
             if s2a['withNow']:
                 r2, dl2 = await talk(pg, cdp, run, 'day3')
-                s2 = await pg.evaluate(STATE, YT); w2 = [v for k, v in s2['wait'].items() if YT in k]
+                s2 = await pg.evaluate(STATE, YT); w2 = [v for k, v in s2['wait'].items() if k.startswith('yt_mom_lad|')]
                 run.check('第 3 天又被擋：Y-L7 還是沒出、PRIVWAIT 還是第 1 天（不重算）', not any('回診' in t for t in dl2) and w2 == [d1] and s2['lad'] == 6, J(s2))
             else:
                 run.note('第 3 天筱涵不在她旁邊（%s），這一步跳過' % J(s2a))
@@ -69,7 +71,7 @@ async def main():
             s8a = await pg.evaluate(STATE, YT); run.note('第 8 天：%s' % J(s8a))
             run.check('前置：第 8 天筱涵還在她旁邊', bool(s8a['withNow']), J(s8a))
             r8, dl8 = await talk(pg, cdp, run, 'day8')
-            s8 = await pg.evaluate(STATE, YT); w8 = [v for k, v in s8['wait'].items() if YT in k]
+            s8 = await pg.evaluate(STATE, YT); w8 = [v for k, v in s8['wait'].items() if k.startswith('yt_mom_lad|')]
             run.check('第 8 天：第一句是旁白「%s」' % NARR, bool(dl8) and NARR in dl8[0], J(dl8[:3]))
             run.check('第 8 天：接著 Y-L7「我媽每個月要回診一次…」照演、階梯前進 6→7、等待清掉', any('回診' in t for t in dl8) and s8['lad'] == 7 and not w8, J(s8))
             await run.shot(pg, 'day8_end')

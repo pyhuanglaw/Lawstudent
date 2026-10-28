@@ -195,7 +195,7 @@ async def talk_to(pg, cdp, run, cid, tag, picks=(), max_s=480):
         if not g: run.note('%s：%s 不在這一區（或藏著）' % (tag, cid)); return None
         if not g['ok']:
             n += 1
-            await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：他旁邊（第 %d 輪）' % (tag, n), max_s=120, stop=lambda s, w=g['want']: s['interact'].startswith(w))
+            await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：他旁邊（第 %d 輪）' % (tag, n), max_s=(120 if n <= 2 else 18), stop=lambda s, w=g['want']: s['interact'].startswith(w))   # BB-C 10-28：在走的人，第 3 輪起每 18 秒重看位置（追著走）
             await pg.wait_for_timeout(500); continue
         tries += 1
         await L.tap(pg, cdp, '#interact')
