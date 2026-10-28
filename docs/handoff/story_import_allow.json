@@ -3248,6 +3248,14 @@
    "approvedBy": "AA-C 2026-10-28 定稿（D109：AA 的稿就是定稿；HEROINE-LIFE-1028）；第 0 節第 1 點子晴 Q4-L1（第二句、第一個選項）由 tools/ladder/import_ladder.py 疊在大二下的階梯上匯入；第 0 節第 2、3 點手動放進 characters.js、vac_activities.js（tests/aa506_s0_unit.js）；第 1～7 節之後照稿接",
    "task": "HEROINE-LIFE-1028",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md",
+   "sha": "e4fbd0192",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-28 定稿（D109；HEROINE-LIFE-1028）；第 0-2 節八件現有內容手動改進 needed_msgs.js、vacfill_events.js、encounters.js＋encounter3d.js（termFrom）、msg3d.js、characters.js、r3_3d.js、y2b3d.js（tests/aa507_s0_unit.js；aa440_vacfill、aa457_vac 的對稿照 0-2 換）；第 0-1 節、第 1～7 節之後照稿接",
+   "task": "HEROINE-LIFE-1028",
+   "kind": "text"
   }
  ]
 }
