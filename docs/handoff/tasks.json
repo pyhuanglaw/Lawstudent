@@ -35358,7 +35358,7 @@
    "title": "男一舍門廳（dorm_hall）照霖澤館大廳、萬才館的做法做擺設＋光照烘焙（dorm_hall.py、dorm_layout 擺設八筆、門上的東西照各扇門的旁白、bake_dorm_hall.sh；新測試 dorm_hall_lightmap_unit）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "LAWWW2-C 自領（X125 室內提升，萬才館之後的下一間；WIP 5a5c8b218）",
    "first": {
@@ -35376,9 +35376,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "同角度改前改後截圖、draw call 數字、dorm_hall_lightmap_unit 和相關 Node 通過、同一個工作階段進兩次畫面一樣",
     "receiver": "LAWWW",
-    "ack": "自領"
+    "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
+   "next": "【LAWWW-C 2026-10-28 13:0x UTC】LAWWW2 交件 4d89f42fe 合進開發分支 217e655bd（patch＋三個二進位檔）；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑；下一版 v9.10.14；BB：男一舍門廳白天晚上、進兩次、大四住 409 時 202 門上沒有社團貼紙、包裹架在舍監室窗口旁｜【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
   },
   {
    "id": "SIS-B15-1028",
@@ -35405,7 +35405,7 @@
     "receiver": "BB",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-28 12:5x UTC】合進開發分支 6f3897984（子代理 e52d23bd8；新檔 sis_b15_events.js、sis_b15_3d.js；characters.js 作息、closed3d、termend、feed、privtalk「學姊美國交換」pub、events C1／研究所說明會要 met_sis、heroine_circle 4-13、vac3d、game3d 一行、ladder _fix S4-L7／L8）；aa518 174 項 ALL PASS（修改前 FAILED 30）、改 10 支舊測試期待值、相關 26 支 0 失敗、子代理分支全部 Node 726 支 0 失敗；子代理解讀 26 點（最重要：3-8 和期末飯原有「第三次他說可以。這一頓我請。」矛盾）轉 AA；沒做到：3/16 便當用 2D 出遊（不是 3D 走去 5F）、3-2 期中考那場和其他說話前場景只單向互斥；BB 照第 5 節六項（排在 v9.10.13 發布以後）｜【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
+   "next": "【LAWWW-C 2026-10-28 12:5x UTC】AA 第 6 節（0e21cccde，DL-AA-518B）LAWWW-C 改、合進開發分支 48ebb61a4：★17 有 YOUPAY 的三句、22 大三上第一句；開發分支 c34dcc0e0（第十五批合併後）全部 Node 726 支 0 失敗｜【LAWWW-C 2026-10-28 12:5x UTC】合進開發分支 6f3897984（子代理 e52d23bd8；新檔 sis_b15_events.js、sis_b15_3d.js；characters.js 作息、closed3d、termend、feed、privtalk「學姊美國交換」pub、events C1／研究所說明會要 met_sis、heroine_circle 4-13、vac3d、game3d 一行、ladder _fix S4-L7／L8）；aa518 174 項 ALL PASS（修改前 FAILED 30）、改 10 支舊測試期待值、相關 26 支 0 失敗、子代理分支全部 Node 726 支 0 失敗；子代理解讀 26 點（最重要：3-8 和期末飯原有「第三次他說可以。這一頓我請。」矛盾）轉 AA；沒做到：3/16 便當用 2D 出遊（不是 3D 走去 5F）、3-2 期中考那場和其他說話前場景只單向互斥；BB 照第 5 節六項（排在 v9.10.13 發布以後）｜【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
   },
   {
    "id": "NPC-STORY2-1028",
@@ -35460,6 +35460,33 @@
     "ack": "自領"
    },
    "next": "【LAWWW-C 2026-10-28 12:4x UTC】登記（incr 看到 LAWWW2 的 WIP 9dad133ab、51be20cfe 寫了 LIB-HALL-LM-1028）；LAWWW2 交件後 LAWWW 合併、跑 nav_buildings、flow_library 相關 Node＋全部 Node；下一版"
+  },
+  {
+   "id": "LM-SEAM-1028",
+   "title": "之前交的 201、202、霖澤館大廳、萬才館的光照貼圖有 60～470 m² 全黑的面（牆段 T 形接頭露縫）：套 lm_fix_hidden.py 後處理，只換 GLB",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "LAWWW2-C DORM-HALL-LM-1028 交件訊息（12:55）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進霖澤館大廳／201／202／萬才館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "tools/blender/env_second/lightbake/lm_fix_hidden.py",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "門框上方點狀黑線消失、貼圖不變、相關 lightmap 測試通過",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "next": "【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node"
   }
  ]
 }
