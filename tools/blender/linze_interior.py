@@ -414,11 +414,16 @@ _FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}   # 北牆上的東西跟著北
 for x_ in (1.6, -3.0):   # 門牌（遊戲畫的，y 2.68～3.03）上面
     box(f'L0_exit_sm_{x_}', MAT['exitg'], x_ - 0.2, x_ + 0.2, 3.1, 3.26, _zf + 0.16, _zf + 0.2, L0, props=_FN)
     box(f'L0_exit_smg_{x_}', MAT['exitglow'], x_ - 0.17, x_ + 0.17, 3.12, 3.24, _zf + 0.2, _zf + 0.205, L0, props=_FN)
+def open_top(ob):
+    """方塊拿掉朝上的那一面：吊燈的發光條上面有燈體蓋著，朝上的面看不到；天花板、燈板不能有朝上的面（tests/room_ceiling_unit.js，LOBBY-CEIL-1028）"""
+    bm = bmesh.new(); bm.from_mesh(ob.data)
+    bmesh.ops.delete(bm, geom=[f for f in bm.faces if f.normal.z > 0.9], context='FACES_ONLY')
+    bm.to_mesh(ob.data); bm.free(); return ob
 # 中庭的吊燈：兩排細長的線型燈（深灰燈體、下面一條亮的），從屋頂吊兩條細線下來；在二樓視線（5.9 m）上面
 for zr in (0.6, 3.8):
     for (xa, xb) in ((-4.6, -1.7), (-1.45, 1.45), (1.7, 4.6)):
         box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
-        box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1)
+        open_top(box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1))   # 發光條沒有頂面（上面有燈體蓋著）
         for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
 
 # ---------------- 入口東牆的公布欄（LAWWW2-B 10-24；LAWWW-B 03:53：互動點搬到 (7.2, 1.2)，那裡沒有公布欄）----------------
@@ -461,6 +466,12 @@ def join_by_material(level_root, prefix):
         for ob in obs: bpy.data.meshes.remove(ob.data)
         pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}))
         mesh_obj((f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else ''), bm, mat, level_root, props=pr or None)
+# 大廳第二版的純色擺設合成一個頂點色材質（LOBBY-VC-1028，LAWWW2-C 10-28）：15 個純色材質每個各畫一次，大廳本身 draw call 多了 22～34%。
+# 不發光、不是金屬的（粗糙度都是 0.6）換成同一個 lz_vc，顏色寫進頂點色；金、黃銅（金屬）、出口燈的發光面照舊。之後 join_by_material 照（淡出群組, 材質）合併
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'blender', 'env_second'))
+import lib2 as L2   # noqa: E402
+_VC = L2.vc_material('lz_vc', rough=0.6)
+L2.vc_consolidate(root, {MAT[k].name: _VC for k in ('red', 'exitg', 'black', 'white', 'mat', 'binB', 'binG', 'binK', 'cream', 'navy', 'umbR', 'paper')})
 for r, pre in ((L0, 'L0'), (L1, 'L1')): join_by_material(r, pre)
 
 # ---------------- 匯出 ----------------
