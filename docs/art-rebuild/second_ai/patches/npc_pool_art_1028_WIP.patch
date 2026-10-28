@@ -1,3 +1,36 @@
+diff --git a/LICENSES.md b/LICENSES.md
+index 0057c7831..d87e8ee80 100644
+--- a/LICENSES.md
++++ b/LICENSES.md
+@@ -111,7 +111,7 @@
+ | 萬才館室內兩層樓（一樓大廳＋二樓北側走廊、西側迴廊、西南門廳；直跑樓梯、柱子、外牆、南面兩層樓高的玻璃帷幕、二樓通到外面平台的玻璃門、沙發、圓桌、長椅、花台；萬才館第三階段 D42） | `tools/blender/wancai_interior.py` → `assets/models/env/wancai_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/wancai_layout.js`（**遊戲化設計，不是實測**：一樓沿用 v9.3 大廳的配置）；電梯、門牌與樓層簡介的字、公告欄是遊戲裡的程序化物件；貼圖見上表與下面的 Poly Haven 列（CC0） |
+ | 總圖書館大廳（一樓大廳：門廳、入口閘門、服務台、置物櫃、還書箱、期刊報紙架、新書展示、沙發；帝國式中央大樓梯（中間一跑、平台、兩側兩跑）與玻璃欄板；二樓自習區長桌＋檯燈＋椅子、書架與書；挑高中庭的天窗、正面兩層樓高的玻璃帷幕、窗；總圖第一階段 D43） | `tools/blender/library_interior.py` → `assets/models/env/library_interior.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/library_layout.js`（遊戲化設計，D43）；貼圖 Poly Haven CC0（見上表與下表的 `terrazzo_tiles`、`herringbone_parquet`、`walnut_veneer`）；書是一本一個方塊（顏色、高矮隨機，固定亂數種子）；植物：室內樹與花台的蕨類是葉片卡，葉片貼圖用第二個 AI 的 `tools/blender/env_second/gen_leaves.py` 程式產生的 `olive_leaves.png`、`fern_leaves.png`（本作，不是外部素材）；大葉盆栽是一片一片的模型葉子（腳本產生，沒有貼圖） |
+ | 總圖大廳窗外的景（正面玻璃帷幕：椰林大道；側窗、樓梯平台後面的大窗：總圖南側的草地與系館；白天、晚上各一張） | `tools/shots/library_views.py` → `assets/models/env/library_view_{avenue,lawn}_{day,night}.webp` | 本作：在遊戲裡的校園拍的畫面（Playwright 截圖，1024×512），不是照片、不是外部素材 |
+-| 男生宿舍室內（一樓門廳、交誼廳、走廊；雙跑樓梯；二樓走廊；鐵門、日光燈、信箱、公告欄、沙發、電視、販賣機、飲水機、長桌與椅子、鞋架；D44。交誼廳 2026-10-22 LAWWW2 升級（ART-DORM-LOUNGE-1021）：皮沙發、電視櫃、兩台販賣機、飲水機、塑膠椅、資源回收桶、吊扇、冷氣、時鐘、公告欄、窗簾、地毯、盆栽） | `tools/blender/dorm_hall.py` → `assets/models/env/dorm_hall.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/dorm_layout.js`（遊戲化設計，D44）；貼圖 Poly Haven CC0（`terrazzo_tiles`、`granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`、`rough_linen`（窗簾）、`dirty_carpet`（地毯），見上表）；交誼廳的公告、時鐘錶面、「請自備杯子」、回收桶標籤、販賣機展示窗 `tools/blender/env_second/textures/gen/dorm_lounge_atlas.png`、`dorm_vend_panel.png` 是本作用 PIL 畫的（`dorm_lounge_tex.py`；文字虛構，不寫真實宿舍名稱；沒有真實商品、商標；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；盆栽用 `tools/blender/plants.py`（模型葉子，沒有貼圖） |
++| 男生宿舍室內（一樓門廳、交誼廳、走廊；雙跑樓梯；二樓走廊；鐵門、日光燈、信箱、公告欄、沙發、電視、販賣機、飲水機、長桌與椅子、鞋架；D44。交誼廳 2026-10-22 LAWWW2 升級（ART-DORM-LOUNGE-1021）：皮沙發、電視櫃、兩台販賣機、飲水機、塑膠椅、資源回收桶、吊扇、冷氣、時鐘、公告欄、窗簾、地毯、盆栽；2026-10-28 LAWWW2-C 加公用冰箱（NPC-POOL-ART-1028：飲水機移到販賣機西邊）） | `tools/blender/dorm_hall.py` → `assets/models/env/dorm_hall.glb` | 本作自己寫的 Blender Python 腳本建模；配置 `src/data/dorm_layout.js`（遊戲化設計，D44）；貼圖 Poly Haven CC0（`terrazzo_tiles`、`granite_tile_03`、`painted_plaster_wall`、`ceiling_interior`、`fine_grained_wood`、`fabric_leather_02`、`rough_linen`（窗簾）、`dirty_carpet`（地毯），見上表）；交誼廳的公告、時鐘錶面、「請自備杯子」、回收桶標籤、販賣機展示窗 `tools/blender/env_second/textures/gen/dorm_lounge_atlas.png`、`dorm_vend_panel.png` 是本作用 PIL 畫的（`dorm_lounge_tex.py`；文字虛構，不寫真實宿舍名稱；沒有真實商品、商標；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；盆栽用 `tools/blender/plants.py`（模型葉子，沒有貼圖） |
+ | 霖澤館 201 階梯教室（六排平台、兩側走道台階、深色長桌、木翻椅 ×48、講桌、黑板、投影幕、方格天花板＋日光燈、西牆三扇窗；v2 2026-10-28 INTERIOR-AAA-REVIEW-1028：翻椅、分段長桌、木腰牆、柱子、捲簾、雙開門、燈具冷氣投影機、公告欄、生活感小物、光照貼圖） | `tools/blender/classroom_201.py` → `assets/models/env/classroom_201.glb`；光照貼圖 `tools/blender/env_second/lightbake/bake_room.py`（Cycles 烘焙）→ `assets/models/env/classroom_201_lm_day.webp`、`classroom_201_lm_night.webp`；公告、標示、黑板粉筆痕 `tools/blender/env_second/textures/gen/cls201_print.png`、`cls201_board.png`（腳本用 PIL 畫的，字是虛構的；WenQuanYi Zen Hei 只畫進貼圖） | 本作自己寫的 Blender Python 腳本建模（共用工具 `tools/blender/b3lib.py`、`tools/blender/env_second/lib2.py`）；配置 `src/data/classroom_layout.js`；外觀參考使用者提供的教室照片（照片本身沒有放進 repo）；貼圖 Poly Haven CC0：`large_floor_tiles_02`、`painted_plaster_wall`、`ceiling_interior`、`walnut_veneer`（長桌、翻椅、木腰牆、講桌、門）、`laminate_floor_02`（講台區木地板） |
+ | 祐廷 Blender 版（v9.4 人物生產線第二位：臉、新的層次短髮、圓領毛衣、直筒寬褲、球鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/player.py`（`p00_face.py`、`p00_clothes.py`、`p00_hair.py`，沿用 `h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_yuting.vrm`；Blender 工作檔 `assets/blender/yuting_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「HairSample_Male」（pixiv，CC0）；毛衣的骨頭權重參考同一樣本原本的連帽上衣（CC0，只用權重，網格是本作腳本產生）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） |
+ | 溫書瑀 Blender 版（v9.4 人物生產線第六位：臉、深棕低馬尾＋中分長瀏海、白襯衫（反摺領、門襟與扣子、捲起的袖口）、卡其直筒褲＋深棕皮帶、深棕樂福鞋；網址加 `?blchar` 才使用，預設仍是 VRoid 加工版） | `tools/blender/char/heroine_05.py`（`p05_face.py`、`p05_clothes.py`、`p05_hair.py`，沿用 `p00_face.py`、`h01_*`、`common.py`、`vrm_finish.py`）→ `assets/models/char/bl_heroine_05.vrm`；Blender 工作檔 `assets/blender/heroine_05_work_v1.blend` | 身體、臉、表情、骨架的基底是 VRoid CC0 樣本「Sendagaya Shino」（pixiv，CC0；身體貼圖在原本衣服蓋住的透明區域用本作程式補上皮膚色）；頭髮、衣服、領子、門襟、袖口、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；判決節錄資料夾是遊戲內配件（`src/props3d.js`）；VRM 匯出用 VRM Add-on for Blender（MIT） |
+@@ -200,6 +200,7 @@
+ | 農業陳列館（洞洞館）外觀 `assets/models/env/second_ai/campus_pavilion.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_pavilion.py`（位置、尺寸、樓層照套件 `CK.pavilion`；鏤空牆的透明貼圖 `textures/gen/pav_screen.png` 本作程式產生（Poly Haven `painted_plaster_wall` 的顏色＋程式挖的圓洞）；匾額「農業陳列館」是遊戲裡的 canvas 字） | 本作 | 校園洞洞館（取代套件 `CK.pavilion` 的外觀）。貼圖：`painted_plaster_wall`（第一個 AI 已下載到 `tools/blender/textures/`，只讀使用，Poly Haven CC0） |
+ | 社會科學院外觀 `assets/models/env/second_ai/campus_modern.glb` | 本作 Blender 腳本 `tools/blender/env_second/campus_modern.py`（位置、尺寸、樓層、長窗照套件 `CK.modern`；匾額「社會科學院」是遊戲裡的 canvas 字） | 本作 | 校園社會科學院（取代套件 `CK.modern` 的外觀）。貼圖：`painted_plaster_wall`（同上，Poly Haven CC0） |
+ | 霖澤館 202 教室、萬才館多功能教室室內 `assets/models/env/second_ai/linze_202.glb`、`wancai_multi.glb`（＋`.layout.json`；光照貼圖 `linze_202_lm_day／night.webp`、`wancai_multi_lm_day／night.webp`＝`tools/blender/env_second/lightbake/bake_room.py` 用 Cycles 烘焙，INTERIOR-AAA-REVIEW-1028） | 本作 Blender 腳本 `tools/blender/env_second/flat_classroom.py`（LAWWW2-C 0a5cc70a／75ef4ae3；2026-10-20 美術子代理改 ART-ROOM-MULTI-1020／ART-ROOM-LIFE-1020；共用零件 `lane118_shops.py`、`lib2.py`）；黑板白板、公告欄傳單、門牌、時鐘、講桌筆電的投影片是本作程式畫的 `textures/gen/linze_202_print.png`、`wancai_multi_print.png`（字是虛構的）；貼圖 Poly Haven（**CC0**）：`large_floor_tiles_02`、`laminate_floor_02`、`dirty_carpet`、`painted_plaster_wall`、`walnut_veneer`、`fine_grained_wood`、`wood_table_001`、`ceiling_interior`、`rough_linen` | 本作（模型、印刷品貼圖）＋CC0（貼圖） | `linze_202`、`wancai_multi` 室內區域（`src/rooms_glb3d.js`） |
++| 霖澤館一樓「考前補給包」的桌子 `assets/models/env/second_ai/linze_supply_table.glb`（NPC-POOL-ART-1028；摺疊桌、布條、補給包、紙箱、立牌、膠帶、筆筒、摺疊椅與外套；只有劇情那一天擺出來） | 本作 Blender 腳本 `tools/blender/env_second/supply_table.py`（LAWWW2-C 2026-10-28；共用 `lib2.py`）；布條、立牌、小卡的字是本作用 PIL 畫的 `textures/gen/supply_table_print.png`（字是虛構的，沒有真的社團名字，D77；字用系統字型 **WenQuanYi Zen Hei**（GPL-2.0，附字型嵌入例外）畫成點陣圖，**沒有附字型檔**）；其他是純色與頂點色，沒有外部素材 | 本作 | 霖澤館一樓（`src/pool3d.js` 的 `S.prop`） |
+ 
+ | 吳芯慈（`classmate_xinci`）Blender 版 `assets/models/char/second_ai/bl_classmate_xinci.vrm`（D59：照 BB 通過的參考圖 `classmate_xinci.webp`——整齊的低髮髻、空氣瀏海、淺紫開襟衫＋白 T、深藍及膝 A 字裙、棕色樂福鞋） | 本作 Blender 腳本 `tools/blender/char_second/classmate_xinci.py`（`x_xinci_face.py`、`x_xinci_clothes.py`、`x_xinci_hair.py`；沿用 LAWWW 的人物生產線 `tools/blender/char/` 的 `common.py`、`h01_*`、`p00_*`、`vrm_finish.py`） | 身體、臉、表情、骨架的基底是 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv，VRM meta `licenseName: CC0`；取得：`tools/fetch_vroid_src.sh`，原始檔不放進 repo）；頭髮、衣服、鞋的網格與貼圖由本作腳本產生（numpy，沒有用外部素材）；VRM 匯出用 VRM Add-on for Blender（MIT） | 還沒接進遊戲（LAWWW 接進 `ASSETS.manifest` 後拍遊戲內截圖給 BB 驗收） |
+ | 林芷若的眼鏡 `assets/models/char/second_ai/glasses_zhiruo.glb`（D59：參考圖 06 的淺色細金屬圓框，霧面玫瑰金 #a68b80） | 本作 Blender 腳本 `tools/blender/char_second/glasses_zhiruo.py` | 本作 | `src/props3d.js` 的 `glasses()`：載好後換掉程式產生的眼鏡（接法 `docs/art-rebuild/second_ai/patches/glasses_zhiruo_97f4abc.patch`，由 LAWWW 整合） |
+diff --git a/src/assets3d.js b/src/assets3d.js
+index dab2e17c1..7b1d397d4 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -135,6 +135,7 @@ const ASSETS = (function(){
+     'prop.notebook_foodmap':{url:'assets/models/char/second_ai/notebook_foodmap.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_foodmap_notebook.py（LAWWW2-C 0e191286：宋家豪的「公館美食地圖」筆記本——牛皮紙封面、手畫地圖、紙膠帶標籤、索引貼、鬆緊帶；圖是 PIL 畫的，沒有店名、商標）', license:'本作'},
+     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
+     'prop.bag_yu':{url:'assets/models/char/second_ai/bag_yu.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_yu.py（LAWWW2-C 2026-10-18：Alison 的黑色尼龍側背包、背帶、登山扣＋三個社團吊飾——天秤、麥克風、吉他；沒有牌子）', license:'本作'},
++    'bldg.linze_supply_table':{url:'assets/models/env/second_ai/linze_supply_table.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/supply_table.py（LAWWW2-C 2026-10-28，NPC-POOL-ART-1028：霖澤館一樓「考前補給包」的摺疊桌、手寫布條、補給包、紙箱、摺疊椅；只有 AA_498 5-3 那一天由 pool3d.js 擺出來）', license:'本作'},
+     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
+     'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
+     /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
 diff --git a/src/data/dorm_layout.js b/src/data/dorm_layout.js
 index d5af4b10a..6de9d23fa 100644
 --- a/src/data/dorm_layout.js
@@ -25,3 +58,30 @@ index 6e3434235..61ed16dba 100644
        else if(f.type==='longTable'){ const n=f.seats||2; b.add(MAT.wood(),TK.boxG(f.w,0.05,f.d),f.x,y+0.74,f.z); for(const [lx,lz] of [[-1,-1],[1,-1],[-1,1],[1,1]]) b.add(MAT.frame(),TK.boxG(0.05,0.72,0.05),f.x+lx*(f.w/2-0.1),y+0.36,f.z+lz*(f.d/2-0.1)); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05);
          for(let i=0;i<n;i++){ const sx=f.x-f.w/2+f.w*(i+0.5)/n; for(const s of [-1,1]){ const cz=f.z+s*(f.d/2+0.38), yaw=s>0?Math.PI:0; Z3.chair(fb,sx,cz,yaw,'#3a3f46'); const seat={x:sx,z:cz,yaw,lv:f.lv}; seats.push(seat); IT.push({x:sx,z:cz,radius:0.8,lv:f.lv,label:'坐下',seat}); } } }
        else if(f.type==='planter'){ b.add(M('#8c7f6e',{rough:0.8}),new THREE.CylinderGeometry(f.r,f.r*0.85,0.5,14),f.x,y+0.25,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.3,1),f.x,y+0.95,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
+diff --git a/src/pool3d.js b/src/pool3d.js
+index d028ced7e..89ae04bef 100644
+--- a/src/pool3d.js
++++ b/src/pool3d.js
+@@ -294,6 +294,12 @@ const POOL=(function(){
+   /* 7-4 展覽（大二下第 15 週，週一～週三，霖澤館一樓穿堂；只有旁白）*/
+   S.expoDue=G=>{ const w=dateOf(G.day).wd; return G.zone==='campus'&&inTerm(G,'Y2S2')&&week(G)===15&&w>=1&&w<=3; };
+ 
++  /* 劇情那一天才擺出來的實體物件（NPC-POOL-ART-1028，LAWWW2-C 2026-10-28）：GLB 載好才加進這一區、才擋導航（載不到就什麼都沒有，不會有看不見的牆）；
++     換區域時跟著這一區一起丟掉（加在 zone.group 底下）。key＝ASSETS.manifest 的 bldg.*；(x, z, ry)＝擺放、lv＝哪一層的導航；w、d＝擋住的長寬（公尺，沿模型自己的 x、z）*/
++  S.prop=function(E,key,x,z,ry,lv,w,d){ const zone=E&&E.zone; if(!zone||typeof ASSETS==='undefined'||!ASSETS.manifest[key]) return;
++    ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name=key; r.position.set(x,0,z); r.rotation.y=ry||0;
++      r.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); (zone.group||E.scene).add(r);
++      const nav=E.levels?E.levels[lv|0]:E.nav; if(nav&&w&&d){ nav.blockRect(x,z,w,d,ry||0,0.05); nav._cm=null; } }).catch(e=>console.warn(key,e)); };
+   /* ---------- 互動點（第 9 節第 4 點）：只有互動點，實體物件列給 LAWWW2 ---------- */
+   S.populate=function(zoneId,GM){ S.bind(GM); const E=GM&&GM.E; if(!E||!Array.isArray(E.interactables)) return; const add=it=>E.interactables.push(it), g=()=>GM.G;
+     if(zoneId==='dorm_hall'){
+@@ -301,7 +307,8 @@ const POOL=(function(){
+       add({x:7.3,z:6.7,radius:1.0,prio:0.4,lv:0,label:'把箱子放進交誼廳的冰箱',poolAct:'qjqFridge',get hidden(){ return !S.qjqFridgeDue(g()); }});   /* 交誼廳販賣機、飲水機那一角（冰箱的實體物件：LAWWW2）*/
+       add({x:7.3,z:6.7,radius:1.0,prio:0.3,lv:0,label:'看交誼廳的冰箱',poolAct:'qjqFridgeNote',get hidden(){ return !S.fridgeNoteDue(g()); }});
+       add({x:5.4,z:5.3,radius:0.9,prio:0.4,lv:0,label:'看桌上的紙條',poolAct:'qjqNote',get hidden(){ return !S.qjqNoteDue(g()); }}); }   /* 交誼廳的長桌 */
+-    if(zoneId==='linze') add({x:4.6,z:0.6,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
++    if(zoneId==='linze'){ add({x:4.6,z:2.05,radius:1.4,lv:0,label:'看補給的桌子',poolAct:'ytTable',get hidden(){ return !S.ytTableDue(g()); }});   /* 霖澤館一樓入口內（補給的桌子：LAWWW2）*/
++      if(S.ytTableDue(g())) S.prop(E,'bldg.linze_supply_table',4.6,1.05,0,0,1.9,0.7); }   /* 那一天才擺：玻璃電梯南邊，長邊沿 x（3.7～5.5）；發的人站電梯那一側、拿的人從南邊來，互動點在桌子南邊（原本 z 0.6 會被桌子蓋住）（NPC-POOL-ART-1028，LAWWW2-C）*/
+     if(zoneId==='campus') add({x:33,z:-110,radius:2.2,lv:0,label:'看穿堂的照片',poolAct:'ysExpo',get hidden(){ return !S.expoDue(g()); }});   /* 霖澤館一樓的穿堂（地坪 0.9 m）*/
+     S.afterSpawn(GM); S.dedupe(GM); };
+   S.interact=async function(it,GM){ const G=GM.G; S.bind(GM); GM.sceneBegin(); try{
