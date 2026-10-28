@@ -3861,7 +3861,7 @@
   {
    "task": "DORM203-MATES-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "4e703821a",
+   "sha": "07709b4c6",
    "files": [
     "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md"
    ],
@@ -3871,7 +3871,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "X123 延伸：AA_502 只有大一 203，大二以後房間有人但沒有房間裡的話；4e703821a 第 5 節（回 LAWWW-C 10:06）"
+   "note": "X123 延伸：AA_502 只有大一 203，大二以後房間有人但沒有房間裡的話；4e703821a 第 5 節（回 LAWWW-C 10:06）；07709b4c6 5-後補（回 LAWWW-C 10:46）"
   },
   {
    "task": "SIS-LEAD-1021",
