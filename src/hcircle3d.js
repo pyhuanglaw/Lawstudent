@@ -296,7 +296,7 @@ const HCIRCLE=(function(){
   if(typeof STORY!=='undefined'){
     STORY.SCHED_WITH=(c,G,hit,L,T)=>S.mirror(c,G,hit,L,T);
     if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); S.arrange(GM,false); });
-    if(Array.isArray(STORY.COMPANY)) STORY.COMPANY.push((G,id,n,GM)=>S.company(G,id,n,GM));
+    if(Array.isArray(STORY.COMPANY)) STORY.COMPANY.push((G,id,n,GM)=>S.withNow(GM||GMr,id));   /* 回傳旁邊那幾個人的 id（空＝沒有）：本來就知道的那幾組認得出是誰（AA_503 第 14 節第 12 項、第 1 項，src/privtalk3d.js 的 except）*/
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM,dt)=>S.tick(GM,dt)); }
   if(typeof POOL!=='undefined'&&POOL.reserved&&!POOL._hc){ const r0=POOL.reserved; POOL.reserved=function(G){ const out=r0.apply(this,arguments); try{ for(const m of S.reservedModels(G||(GMr&&GMr.G))) out.add(m); }catch(e){} return out; }; POOL._hc=true; }
   return S;
