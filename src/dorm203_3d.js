@@ -49,7 +49,7 @@ const DORM203=(function(){
   /* ======================= 第 1 節：走進來的一句旁白 ======================= */
   S.walkInLine=function(G,id){ const R=S.rec(G,true), A=L.walkIn[id]; if(!R||!A||!A.length) return null; const w=R.walk[id]||(R.walk[id]={i:0,day:null,used:[]});
     if(w.day!==G.day){ w.day=G.day; w.used=[]; } const k=(w.i|0)%A.length; if(w.used.includes(k)) return null; w.used.push(k); w.i=(w.i|0)+1; return A[k]; };
-  S.walkIn=function(GM,id){ const G=GM.G; if(!S.era(G)&&!(id==='kai'&&S.on(G))) return null; const t=S.walkInLine(G,id); if(t&&GM.caption){ GM.caption('',t,3600); S._capT=now(G); } return t; };
+  S.walkIn=function(GM,id){ const G=GM.G; if(!S.era(G)) return null; const t=S.walkInLine(G,id); if(t&&GM.caption){ GM.caption('',t,3600); S._capT=now(G); } return t; };
 
   /* ======================= 第 2 節：在房間講話 ======================= */
   const TERMS=['Y1S1','Y1S2'];
@@ -70,7 +70,7 @@ const DORM203=(function(){
     if(!(R.talk[id]||[]).length) return false;   /* 一句都還沒說過、現在也沒有能說的（8/29～8/31）：照原本的閒聊 */
     const A=L.room[id].after, a=A[(R.after[id]|0)%A.length]; R.after[id]=(R.after[id]|0)+1; await GM.say(a.speaker===null?null:who,a.text);
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'chat'); return true; };
-  S.kaiTalk=async function(GM,n){ const G=GM.G; if(G.zone!=='dorm'||!S.on(G)) return false; const R=S.rec(G,true); if(!R||R.tday.kai===G.day) return false;
+  S.kaiTalk=async function(GM,n){ const G=GM.G; if(G.zone!=='dorm'||!S.era(G)) return false; const R=S.rec(G,true); if(!R||R.tday.kai===G.day) return false;
     const r=S.nextRow(G,'kai'); if(!r) return false; await sayRow(GM,n,'kai',r); return true; };
 
   /* ======================= 第 3 節：四個人的小事 ======================= */
@@ -114,7 +114,7 @@ const DORM203=(function(){
     if(G.zone!=='dorm'||!S.on(G)) return false; const R=S.rec(G,true), F=G.flags; if(!R) return false; const v=visit(G); if(busy(GM)||!capOK(G)) return false;
     for(const k in R.nar){ if(R.said[k]!=null||R.nar[k]!==G.day-1) continue; R.said[k]=G.day; cap(GM,'',L.miss[k]); return false; }   /* 只在隔天 */
     const T=term(G.day), x=hh(G);
-    if(F.R203_AC!=null&&L.acWeekly[F.R203_AC]&&T&&T.id==='Y1S1'&&R.acDay!=null&&G.day>R.acDay&&now(G)-v.t<0.25&&(x>=18||x<9)){ const wk=T.id+':'+T.week; if(R.acWeek!==wk){ R.acWeek=wk; cap(GM,'',L.acWeekly[F.R203_AC]); return false; } }
+    if(F.R203_AC!=null&&L.acWeekly[F.R203_AC]&&T&&T.id==='Y1S1'&&R.acDay!=null&&G.day>R.acDay&&R.said.ac!==G.day&&now(G)-v.t<0.25&&(x>=18||x<9)){   /* 3-7 那一句今天說過了＝這一週的從下一次開始 */ const wk=T.id+':'+T.week; if(R.acWeek!==wk){ R.acWeek=wk; cap(GM,'',L.acWeekly[F.R203_AC]); return false; } }
     if(F.R203_AC!=null&&!R.acNew&&T&&T.id==='Y1S2'&&T.week===1){ const z=GM.npc&&GM.npc.zhe; if(z&&z.dorm&&z.dormGo==null){ R.acNew=G.day; cap(GM,typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('zhe'):'阿哲',L.acNewTerm); return false; } }
     return false; };
 
@@ -133,8 +133,8 @@ const DORM203=(function(){
   const wk=d=>{ const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd:1; return d-(wd-1); };   /* 那一週的週一 */
   const awayAll=(G,d,ids)=>ids.some(id=>STORY.awayOnDate&&STORY.awayOnDate(id,Object.assign({},G,{day:d})));
   /* 一次（同一個日子、同一個 tag 開頭）：items 照 at 分批排進手機；同一週最多兩次 */
-  const post=(G,R,k,d,items,h0)=>{ const ph=P(); if(!ph||d==null||R.g[k]!=null) return false; const first=h0!=null?h0:(items[0].at!=null?items[0].at:21);
-    if(now(G)<d*24+first) return false; if(d*24+first<R.from){ R.g[k]='pre'; return false; }
+  const post=(G,R,k,d,items,h0,ok)=>{ const ph=P(); if(!ph||d==null||R.g[k]!=null) return false; const first=h0!=null?h0:(items[0].at!=null?items[0].at:21);
+    if(now(G)<d*24+first) return false; if(d*24+first<R.from){ R.g[k]='pre'; return false; } if(ok===false){ R.g[k]='skip'; return false; }   /* ok＝那件事發生了（人在臺北…）*/
     if(!ph.inGroup(G,GID)){ R.g[k]='nogroup'; return false; }
     if(Object.values(R.g).filter(x=>typeof x==='number'&&wk(x)===wk(d)).length>=2){ R.g[k]='cap'; return false; }
     const by={}; for(const it of items){ const h=it.at!=null?it.at:first; (by[h]||(by[h]=[])).push(it.from?{th:TH,from:it.from,text:it.text}:{th:TH,text:it.text}); }
@@ -146,11 +146,11 @@ const DORM203=(function(){
     { const d=DK('2025-09-01'); if(!ph.inGroup(G,GID)&&S.era(G)&&d!=null&&t>=d*24+21) ph.join(G,GID,Gr.name); }
     if(!ph.inGroup(G,GID)) return;
     post(G,R,'0901',DK('2025-09-01'),Gr.d0901);
-    { const d=DK(STORY.R203_KEY_DAY); if(d!=null&&!awayAll(G,d,['zhe','kai'])) post(G,R,'key',d,Gr.key);
+    { const d=DK(STORY.R203_KEY_DAY); if(d!=null) post(G,R,'key',d,Gr.key,null,!awayAll(G,d,['zhe','kai']));
       if(R.g.key===d&&!R.keyName&&t>=d*24+Gr.keyRename.at){ R.keyName=true; rename(G,Gr.nameKey); ph.at(G,d,Gr.keyRename.at,[{th:TH,text:Gr.keyRename.text}],'rt_r203_key_name'); } }
     { const st=R.ev.ac; if((st==='played'||st==='missed')&&R.acDay!=null) post(G,R,'ac',R.acDay+1,Gr.ac,7+25/60); }   /* 3-1 冷氣之後隔天（柏翰 07:20 出門）*/
-    { const d=TD('Y1S1',15,7); if(d!=null&&!awayAll(G,d,['kai'])) post(G,R,'trash',d,Gr.trash); }
-    { const d=TD('Y1S2',1,1); if(d!=null&&!awayAll(G,d-1,['zhe'])) post(G,R,'y1s2',d-1,Gr.y1s2,21); }   /* 開學前一天（「明天大家幾點到」）*/
+    { const d=TD('Y1S1',15,7); if(d!=null) post(G,R,'trash',d,Gr.trash,null,!awayAll(G,d,['kai'])); }
+    { const d=TD('Y1S2',1,1); if(d!=null) post(G,R,'y1s2',d-1,Gr.y1s2,21,!awayAll(G,d-1,['zhe'])); }   /* 開學前一天（「明天大家幾點到」）*/
     { const d=TD('Y1S2',9,1); if(d!=null) post(G,R,'mid2',d,Gr.mid2); }
     { const d=S.moveOut(); if(d!=null){ post(G,R,'out',d,Gr.out,18); if(R.g.out===d&&!R.outName&&t>=d*24+18){ R.outName=true; rename(G,Gr.nameOld); ph.at(G,d,18+1/60,[{th:TH,text:Gr.outRename.text}],'rt_r203_out_name'); } } }
     /* 大二以後：群組留著，只有兩則 */
