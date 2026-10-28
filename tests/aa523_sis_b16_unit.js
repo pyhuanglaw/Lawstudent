@@ -67,7 +67,7 @@ const relOf=()=>{ const r=SOCIAL.rel(ID); return {fam:r.fam,trust:r.trust,comf:r
 const L=()=>typeof SISB16_LINES!=='undefined'?SISB16_LINES:{};
 
 /* ---------- 讀稿 ---------- */
-const SHA='0d7b5388b', DOCF='docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md';
+const SHA='28c56dfdc', DOCF='docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA523_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S0=part('## 0. ','## 1. '), S1=part('## 1. A（交往中）','## 2. '), S2=part('## 2. B（朋友以上）','## 3. '), S3=part('## 3. 家族','## 4. '), S4=part('## 4. R','## 5. '), S5=part('## 5. 說了沒發生的','## 6. '), S6=part('## 6. 對不上的','## 7. '), S7=part('## 7. 新旗標','## 8. '), S9=part('## 9. 給 LAWWW、BB');
@@ -401,6 +401,9 @@ await sec(6,async()=>{
     fresh('2029-01-03',12,'dating',{},{route:'US'}); OUT.plan(H.G,{id:'t_dt',ev:'ev_sis16_box',day:dW,h:11.5,place:'x',title:'x',dateTrip:'tr1'}); const o2=HASK.storyAsk(H.G,ID,dW,'o');
     fresh('2029-01-03',12,'dating',{},{route:'US'}); PHONE.at(H.G,D('2029-01-03'),21,[{th:'p:'+ID,from:ID,text:'x',ask:{id:'t_gift',until:T(dW,10),opts:[{t:'好。'}]}}],'t_gift'); const o3=HASK.storyAsk(H.G,ID,dW,'o'); const o3b=HASK.storyAsk(H.G,ID,dW+7,'o');
     check('6. 6-7 HASK：那一週有她的劇情出遊（OUT，事件的 participants 有她）、或排好要傳的劇情私訊（回覆期限在那一週）＝不約；校外約會（dateTrip）照 DATE；別的週照舊',o0===false&&o1===true&&o2===false&&o3===true&&o3b===false,J([o0,o1,o2,o3,o3b]));
+    /* AA_523 第 10 節（28c56dfdc）：大四下每週三的書桌夜（ev_sis_y4_desks，r3_3d.js 排的 r3_desk_*）不算劇情出遊——那一週她照樣主動約 */
+    { const dd=D('2029-03-07'); fresh('2029-03-05',12,'dating',{},{route:'US'}); OUT.plan(H.G,{id:'r3_desk_t',ev:'ev_sis_y4_desks',day:dd,h:21,place:'x',title:'x'}); const o4=HASK.storyAsk(H.G,ID,dd,'o');
+      check('6. 6-7（第 10 節）：那一週只有書桌夜（ev_sis_y4_desks）＝不擋，她照樣主動約；排除名單只有書桌夜',o4===false&&HASK.OUT_SKIP instanceof Set&&HASK.OUT_SKIP.size===1&&HASK.OUT_SKIP.has('ev_sis_y4_desks'),J({o4,skip:HASK.OUT_SKIP?[...HASK.OUT_SKIP]:null})); }
     /* 傳的時候再看一次：中午排好的，晚上多了伴手禮那則＝這次不傳 */
     const p5=HASK_DATA.people[ID], e5=p5.out.find(x=>x.dat); fresh('2029-01-03',22.6,'dating',{},{route:'US'}); const rec={sid:901,id:ID,k:'o',vk:'dat',loc:e5.loc,day:dW,depart:e5.dat.depart,kind:'half',send:{day:D('2029-01-03'),h:22.5},state:'planned'};
     HASK.rec(H.G).sent.push(rec); OUT.plan(H.G,{id:'t_out2',ev:'ev_sis16_box',day:dW,h:11.5,place:'x',title:'x'}); const f1=HASK.fire(H.G,rec);

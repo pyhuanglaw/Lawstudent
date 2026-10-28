@@ -38,7 +38,8 @@ const HASK=(function(){
   /* AA_523 6-7（企劃線 0d7b5388b；技術修正）：也看 OUT 的出遊——那一週有她的劇情出遊（事件的 participants 有她；校外約會 dateTrip 不算，DATE 自己會擋），
      或她已經排好、傳了要你回的劇情私訊（回覆期限在那一週；HASK 自己的不算）：例 美國路線交往中 1/3 21:00 伴手禮那則（1/6 11:30 家裡的中飯，sis_b13_3d.js）*/
   const evHas=(evId,id)=>{ const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===evId):null; return !!ev&&Array.isArray(ev.participants)&&ev.participants.includes(id); };
-  S.storyOut=(G,id,w)=>(G.outings||[]).some(q=>q&&!q.dateTrip&&q.state!=='cancelled'&&q.day!=null&&weekStart(G,q.day)===w&&evHas(q.ev,id));
+  S.OUT_SKIP=new Set(['ev_sis_y4_desks']);   /* AA_523 第 10 節（企劃線 28c56dfdc）：大四下每週三的書桌夜（2/28～5/23，r3_3d.js r3_desk_*）每週固定、可以不去，不算——算進去的話她整整十三週都不主動約 */
+  S.storyOut=(G,id,w)=>(G.outings||[]).some(q=>q&&!q.dateTrip&&q.state!=='cancelled'&&q.day!=null&&weekStart(G,q.day)===w&&!S.OUT_SKIP.has(q.ev)&&evHas(q.ev,id));
   S.storyDm=(G,id,w)=>{ const ok=it=>!!it&&!!it.ask&&it.from===id&&it.th==='p:'+id&&String(it.ask.id||'').indexOf('hask_')!==0&&it.ask.until!=null&&weekStart(G,Math.floor((it.ask.until-0.01)/24))===w;
     const P=typeof PHONE!=='undefined'&&PHONE.rec?PHONE.rec(G):null; if(P&&Array.isArray(P.q)&&P.q.some(q=>(q.items||[]).some(ok))) return true; return (G.msgs||[]).some(ok); };
   S.storyAsk=function(G,id,day,k){ const w=weekStart(G,day); return (G.invites||[]).some(iv=>iv.who===id&&iv.by==='npc'&&!iv.hask&&weekStart(G,iv.day)===w&&(k==='d'||!isAnAsk(iv)))||S.storyOut(G,id,w)||S.storyDm(G,id,w); };
