@@ -15,20 +15,21 @@ TMP=$(mktemp -d)
 NOLM='light_panel|skylight|lampglow|exitglow|leaf|bark|soil|lb_vc|lb_frame|lb_brass|lb_steel|lb_screen|L1_lb_lampshade|L1_lb_wood_light'
 WARM='1.0,0.82,0.62'
 # 燈的高度：比發光面低 1～2 cm（bake_room.py 再往下 1 cm）——燈和發光面在同一個平面時，光被發光面自己擋住（第一次校正：二樓自習區的燈板放在 9.6＝屋頂，地板烘出來全黑）
-LIGHTS="5.6,12.0,-8.5,8.3,9.58,2,4,${PANEL:-22},1.2,0.6;-12.0,-5.6,-8.5,8.3,9.58,2,4,${PANEL:-22},1.2,0.6"
-LIGHTS="$LIGHTS;5.4,11.8,-9.0,9.0,4.69,2,5,${DOWN:-6},0.28,0.28;-11.8,-5.4,-9.0,9.0,4.69,2,5,${DOWN:-6},0.28,0.28;-4.8,4.8,0.4,0.4,4.69,4,1,${DOWN:-6},0.28,0.28"
-LIGHTS="$LIGHTS;-3.4,3.4,-8.2,-1.0,9.29,2,3,${CORE:-40},0.15,0.15"   # 中庭天窗兩側樑上的六盞筒燈（library_interior.py 的 L1_corespot）
+LIGHTS="5.6,12.0,-8.5,8.3,9.58,2,4,${PANEL:-20},1.2,0.6;-12.0,-5.6,-8.5,8.3,9.58,2,4,${PANEL:-20},1.2,0.6"
+LIGHTS="$LIGHTS;5.4,11.8,-9.0,9.0,4.69,2,5,${DOWN:-14},0.28,0.28;-11.8,-5.4,-9.0,9.0,4.69,2,5,${DOWN:-14},0.28,0.28;-4.8,4.8,0.4,0.4,4.69,4,1,${DOWN:-14},0.28,0.28"
+LIGHTS="$LIGHTS;-3.4,3.4,-8.2,-1.0,9.29,2,3,${CORE:-22},0.15,0.15"   # 中庭天窗兩側樑上的六盞筒燈（library_interior.py 的 L1_corespot）
+LIGHTS="$LIGHTS;-6.54,6.54,1.9,8.5,9.29,2,3,${LOBBY:-22},0.15,0.15"   # 門廳天窗最外側兩根樑上的六盞筒燈（L1_lobbyspot：x ±3.27、z 3.0／5.2／7.4）
 for T in "-8.2,-6.8" "-8.2,-3.8" "-8.6,3.0" "-8.6,6.6"; do x=${T%,*}; z=${T#*,}
   LIGHTS="$LIGHTS;$(python3 -c "print(f'{$x-2.1:.2f},{$x+2.1:.2f},$z,$z,6.115,4,1,${DESK:-3},0.2,0.2,$WARM')")"
 done
 POINTS=""
-for P in "-4.75,7.45,1.4" "4.75,7.45,1.4" "-4.75,7.45,5.4" "4.75,7.45,5.4"; do POINTS="$POINTS;$P,${SCONCE:-40},$WARM"; done
+for P in "-4.75,7.45,1.4" "4.75,7.45,1.4" "-4.75,7.45,5.4" "4.75,7.45,5.4"; do POINTS="$POINTS;$P,${SCONCE:-28},$WARM"; done
 for P in "-3.45,4.65,-8.77" "3.45,4.65,-8.77"; do POINTS="$POINTS;$P,${LAND:-15},$WARM"; done
 POINTS=${POINTS#;}
 /opt/blenv/bin/python tools/blender/library_interior.py -- --out "$TMP/library_plain.glb"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/library_plain.glb" --out "$OUTDIR/library_interior.glb" \
   --lm "$TMP/lb" --url assets/models/env/library_interior_lm --res "$RES" --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
-  --sun "${SUN:-200,45,2.2}" --sky "${SKY:-0.15}" --dayemit "lb_skylight=${SKYLIGHT:-3}" --daywb "${DAYWB:-0.85,0.8,0.72}" --lights "$LIGHTS" --points "$POINTS" --smooth 1 --shell S,W,N
+  --sun "${SUN:-200,45,2.2}" --sky "${SKY:-0.15}" --dayemit "lb_skylight=${SKYLIGHT:-1.5}" --daywb "${DAYWB:-0.85,0.8,0.72}" --nightwb "${NIGHTWB:-1.0,0.92,0.80}" --lights "$LIGHTS" --points "$POINTS" --smooth 1 --shell S,W,N
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lb" "$OUTDIR/library_interior_lm" 90
 # 後處理（LM-SEAM-1028，lm_fix_hidden.py）：沒分像素、夾在中間烘成全黑的面改接旁邊看得到的面的光——牆段 T 形接頭露縫時看不出來，門洞、樓梯間開口的側面也是牆的亮度
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/library_interior.glb" --out "$OUTDIR/library_interior.glb" --lm "$OUTDIR/library_interior_lm"

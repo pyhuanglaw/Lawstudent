@@ -347,6 +347,7 @@ quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (
 sx0, sx1, sz0, sz1 = V['x0'] + 0.3, V['x1'] - 0.3, U['band']['z1'] + 0.4, D / 2 - 0.4
 quad('L1_skylight', MAT['sky'], [(sx0, RY - 0.03, sz0), (sx1, RY - 0.03, sz0), (sx1, RY - 0.03, sz1), (sx0, RY - 0.03, sz1)], L1)
 for i in range(1, 6): xm = sx0 + (sx1 - sx0) * i / 6; box(f'L1_skybeam_{i}', MAT['frame'], xm - 0.05, xm + 0.05, RY - 0.12, RY - 0.02, sz0, sz1, L1)
+LOBBY_BEAMS = [sx0 + (sx1 - sx0) * i / 6 for i in (1, 5)]   # 門廳天窗最外側兩根樑：晚上的筒燈（下面「晚上的燈」）
 # 中庭（大樓梯上方）的天窗＋天窗樑上的筒燈（LIB-HALL-LM-1028）：原本只有門廳上方有天窗，大樓梯上方是整片屋頂，光照烘焙以後踏面幾乎全黑。
 # 白天天光從這裡下來；晚上天窗是暗的，靠兩側樑上的六盞筒燈往下照（下面「晚上的燈」）
 cx0, cx1, cz0, cz1 = -S['railX'] + 0.3, S['railX'] - 0.3, CO['z0'] + 0.5, CO['z1'] - 0.4
@@ -888,11 +889,13 @@ for k, x in enumerate((NW[0] - 0.15, NW[1] + 0.15)):   # 平台北牆、大窗�
     cyl(f'L0_landlamp_WALL_cup_{k}', MAT['brass'], (x, LD['y'] + 1.9, zw + 0.13), (x, LD['y'] + 2.12, zw + 0.13), 0.055, L0, seg=14, r2=0.1, props={'dir': [0, 0, 1]})
     cyl(f'L0_landlamp_WALL_glow_{k}', MAT['lampglow'], (x, LD['y'] + 2.12, zw + 0.13), (x, LD['y'] + 2.125, zw + 0.13), 0.09, L0, seg=14, props={'dir': [0, 0, 1]})
     cyl(f'L0_landlamp_WALL_arm_{k}', MAT['brass'], (x, LD['y'] + 2.0, zw + 0.02), (x, LD['y'] + 2.0, zw + 0.11), 0.012, L0, seg=8, props={'dir': [0, 0, 1]})
-for i in (0, 2):   # 中庭天窗兩側的樑上各三盞筒燈（往下照大樓梯、平台；燈裝在屋頂，不會擋到二樓連廊上的跟隨鏡頭）。位置和 bake_library_hall.sh 的 CORE 燈一致
-    xm = CORE_BEAMS[i]
-    for j, zc in enumerate((-7.0, -4.6, -2.2)):
-        cyl(f'L1_corespot_can_{i}_{j}', MAT['frame'], (xm, RY - 0.30, zc), (xm, RY - 0.12, zc), 0.09, L1, seg=12)
-        cyl(f'L1_corespot_glow_{i}_{j}', MAT['lampglow'], (xm, RY - 0.305, zc), (xm, RY - 0.30, zc), 0.075, L1, seg=12)
+# 天窗樑上的筒燈（往下照；燈裝在屋頂，不會擋到二樓連廊上的跟隨鏡頭）。位置和 bake_library_hall.sh 的 CORE、LOBBY 燈一致：
+# 中庭天窗兩側的樑各三盞（大樓梯、平台）；門廳天窗最外側兩根樑各三盞（閘門、門廳——晚上天窗是暗的，原本只有連廊樓板下的四盞崁燈）
+for tag, xs, zs in (('corespot', (CORE_BEAMS[0], CORE_BEAMS[2]), (-7.0, -4.6, -2.2)), ('lobbyspot', LOBBY_BEAMS, (3.0, 5.2, 7.4))):
+    for i, xm in enumerate(xs):
+        for j, zc in enumerate(zs):
+            cyl(f'L1_{tag}_can_{i}_{j}', MAT['frame'], (xm, RY - 0.30, zc), (xm, RY - 0.12, zc), 0.09, L1, seg=12)
+            cyl(f'L1_{tag}_glow_{i}_{j}', MAT['lampglow'], (xm, RY - 0.305, zc), (xm, RY - 0.30, zc), 0.075, L1, seg=12)
 for i in range(4):   # 連廊樓板底下（一樓大廳、閘門到大樓梯中間）的崁燈
     x = -3.6 + i * 2.4; zc = (U['band']['z0'] + U['band']['z1']) / 2; yb = Y1 - ST - 0.005
     quad(f'L0_banddown_{i}', MAT['light'], [(x - 0.14, yb, zc - 0.14), (x + 0.14, yb, zc - 0.14), (x + 0.14, yb, zc + 0.14), (x - 0.14, yb, zc + 0.14)], L0)

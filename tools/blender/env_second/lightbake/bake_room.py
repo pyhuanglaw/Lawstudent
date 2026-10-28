@@ -270,10 +270,12 @@ for lo in AREAS: lo['W0'] = lo.data.energy
 def bake(tag, sky_strength, sun_energy, emit_scale, lamp_scale=1.0):
     bg.inputs['Strength'].default_value = sky_strength; sd.energy = sun_energy
     for lo in AREAS: lo.data.energy = lo['W0'] * lamp_scale
-    for o in objs:
+    # 發光的強度（--emit、--dayemit）：所有網格的材質都要設，不是只有要烘的物件——發光面通常在 --nolm 裡（不烘、照樣發光）。
+    # 原本只設要烘的物件：總圖大廳的天窗（--nolm）白天沒有照 --dayemit 加強，晚上也沒有關掉，晚上的光照貼圖裡天窗照樣發光（LIB-HALL-LM-1028：二樓連廊晚上比大廳還亮）
+    for o in [x for x in bpy.data.objects if x.type == 'MESH']:
         for s in o.material_slots:
             m = s.material
-            if not m: continue
+            if not m or not m.node_tree: continue
             for k, v in EMIT.items():
                 if k in m.name:
                     b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
@@ -372,7 +374,10 @@ if arg('--drop'):
 json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
-if URL: sc['lightmap'] = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}
+if URL:
+    LMX = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}
+    if DAYEMIT: LMX['dayEmit'] = sorted(DAYEMIT)   # 只在白天那一張發光的材質（--dayemit：天窗）：遊戲的 Z3.roomLightmap 晚上把它們調暗（不然遊戲裡整晚照樣亮；RT-NIGHT-1028）
+    sc['lightmap'] = LMX
 bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
                           export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
 print('exported', OUT, flush=True)
