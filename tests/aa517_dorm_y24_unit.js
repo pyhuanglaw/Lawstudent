@@ -7,8 +7,8 @@
 //   1  住哪一間（312／507／409；203、搬出宿舍、日本路線退宿到搬進 409、美國路線在美國＝沒有）；作息照舊（S.dormMates），只多 409 最後一晚柏翰在
 //   2  走進房間的旁白：從門口走進來才說（睡覺醒來、讀檔、搬進新房間、劇情帶進來、待在房間跳時間不說）；每一間照順序輪流、同一天不重複；
 //      「學弟在問阿哲」阿哲在房間才說；寒暑假、23:30 以後沒有；過了 15 分鐘、走出去、中間演了事件＝不說
-//   3  房間閒聊：一天一句新的、每句一次、照順序；之後兩句輪流；學期、週次、期末前（大四下 15 週＝第 10～14 週）、沛珊分開（演過、沒有和她交往）、12/19 以後、
-//      感冒那晚演過、日本路線大三下不出、美國路線（第 1 列回來以後四週、第 2 列看日期不出、第 3 列照出）；旁白＋台詞那兩格；房間外照原本的閒聊
+//   3  房間閒聊：一天一句新的、每句一次、照順序；之後兩句輪流；學期、週次、期末前（大四下 15 週＝第 10～14 週）、沛珊分開（第 6 週起、沒有和她交往；第 5 節第 2 點）、12/19 以後、
+//      感冒那晚演過（阿凱有來）、日本路線大三下不出、美國路線（第 1 列大四下第 1～4 週、第 2 列看日期不出、第 3 列照出）；旁白＋台詞那兩格；房間外照原本的閒聊
 //   4  三件小事：日子、時間、該在的人（正在走進來的等坐下；3-2 柏翰 23:30 以後在上舖也算在）、日本路線不演、只演一次、選項、旗標；群組訊息的時間、不在群組不傳；
 //      409 最後一晚＝退宿日 2029-06-28 的前一晚、那一晚柏翰在、「（去關燈）」看 2-4「最後一晚，燈你關」說過沒有；畢業後篇（PG.stops）停在那一晚 23:00
 //   5  存檔：舊存檔（沒有 RY24、只有一部分）照常；存讀檔以後說過的不再說、輪到哪一句照舊；JSON 存得下
@@ -22,7 +22,14 @@
 //   第 0 項 6 項 FAIL（新檔與 index.html、story3d.js 掛勾、白名單對台詞檔的來源、對稿兩個方向、日子與時間）；第 1、2、3、5 項各 1 項 FAIL（沒有 DORMY24 丟例外，整節中斷）；
 //   第 4 項 3 項 FAIL（3-1「演」兩項：事件不存在；跑事件丟例外，整節中斷）。舊程式剛好也對的 8 項：拿得到稿、第 4 項 3-1 那七項「不演」（事件不存在本來就不演）。
 // 修改後：ALL PASS（104 項）
-// AA_517 第 5 節（DORM-Y24-AAFIX-1028，白名單 ced552c17 → 4e703821a）：修改前＝MODBEFORE；修改後＝MODAFTER
+// AA_517 第 5 節（DORM-Y24-AAFIX-1028，白名單 ced552c17 → 4e703821a，2026-10-28）：
+//   修改前（開發分支 c55e44202 的 src/dorm_y24_3d.js、src/data/dorm_y24_lines.js＝只拿掉這次 src 的改動；白名單、這支測試用新的；git archive 出 src、tests、index.html、白名單，
+//   AA517_GIT_DIR 指這個 repo 對稿，真的跑過）：FAILED 30、PASS 112、結束碼 1——第 0 項 3 項（白名單與台詞檔的 sha、第 5 節第 4 點對稿、群組時間）、
+//   第 3 項 4 項（沒演分開的第 6 週、312 柏翰那一串、美國路線兩項）、第 5 項 1 項（舊 RY24 的 miss）、第 6 項 22 項（①兩項、②四項、④十六項）。
+//   舊程式剛好也對的：②「交往到分開那一週以後才分＝沒有」「現在交往中＝沒有」（舊的要演過那一件才有）、④「那一晚演了」「柏翰那天不在」「日本路線」「隔天沒走進去」「23:50 人在 507 先不傳」那幾項（舊的本來就什麼都不補）。
+//   另外在現在的程式上一次拿掉一條規則各跑一次（測試都抓得到）：感冒那晚不看阿凱→第 6 項 2 項 FAIL；沛珊不看交往紀錄→1 項；不看第 6 週→第 3 項 4 項；
+//   3-2 人在 507 不等→1 項；晚三天以上照補→1 項；MOVED_OUT 不照那一天→1 項；群組傳了以後還演→1 項；3-1 旁白不只隔天→2 項；美國路線照舊→2 項；不看 ZHE_CALLS_GE→4 項；不在群組不記 miss→1 項。
+// 修改後：ALL PASS（142 項，約 0.7 秒）
 // 用法：node tests/aa517_dorm_y24_unit.js（對稿要 git 拿得到 4e703821a；在別的資料夾跑舊版：AA517_GIT_DIR=<有這個 commit 的 repo>）
 require('./alison.js');   /* AA_380：讀稿時 Alison 的舊叫法照匯入工具同一套換成 Alison（稿 2-1 第 4 列）*/
 const H=require('./pg_harness.js');
@@ -328,7 +335,7 @@ const sweepR=(k0,h0,k1,h1,step)=>{ step=step||0.25; const a=D(k0)*24+h0, b=D(k1)
   await sec(6,async()=>{ const x=X(), Z=L.room.r312.zhe, B=L.room.r312[BH];
     const PSH=(f,k,ev)=>{ room(k||'2026-10-14',22.6,Object.assign(Y2(),f)); if(ev) ev(); const a=x.rowOpen(H.G,Z.rows[2]), b=x.rowOpen(H.G,B.rows[2]); return a&&b?true:(!a&&!b?false:'不一致'); };
     check('6. ② 稿第 5 節第 2 點：不看玩家知不知道；沛珊和柏翰交往過、到了分開那一週（大二上第 6 週）以後、祐廷沒有和沛珊交往，就出',s5.indexOf('不看玩家知不知道')>0&&s5.indexOf('沛珊和柏翰交往過、到了分開那一週（大二上第 6 週）以後、祐廷沒有和沛珊交往，就出')>0);
-    check('6. ② 分開那一週＝大二上第 6 週週一 2026-10-12（events.js ev_peishan_split 的 weeks、characters.js 沛珊 partner 的 untilWeek 也是第 6 週）',K(x.splitDay())==='2026-10-12'&&J(EV('ev_peishan_split').weeks)===J([6])&&CHARACTERS.classmate_peishan.partner.untilWeek.week===6);
+    check('6. ② 分開那一週＝大二上第 6 週週一 2026-10-12（events.js ev_peishan_split 的 weeks、characters.js 沛珊 partner 的 untilWeek 也是第 6 週）',typeof x.splitDay==='function'&&x.splitDay()!=null&&K(x.splitDay())==='2026-10-12'&&J(EV('ev_peishan_split').weeks)===J([6])&&CHARACTERS.classmate_peishan.partner.untilWeek.week===6);
     check('6. ② 沒和沛珊交往過、什麼都沒看到（玩家不知道）：10/11（第 5 週週日）沒有、10/12 起有、大二下也有（阿哲、柏翰兩列一樣）',PSH({},'2026-10-11')===false&&PSH({},'2026-10-12')===true&&PSH({},'2027-03-01')===true);
     check('6. ② 現在和沛珊交往中＝沒有（演過分開也一樣）',PSH({dating_classmate_peishan:true})===false&&PSH({dating_classmate_peishan:true},null,()=>{ H.G.events.done.ev_peishan_split=1; })===false);
     const HI=(from,to)=>({EX_classmate_peishan:true,ROMANCE_HISTORY:[{id:'classmate_peishan',from,to,how:'apart_talk'}]});
