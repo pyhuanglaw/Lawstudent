@@ -226,9 +226,9 @@ const SUP497=(function(){
       :(w==null&&t.indexOf('那個女生')>=0?[ln(w,t,{unless:XCM}),ln(w,swapGirl(t),{if:XCM})]:[ln(w,t)])))) };
   /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、中午 12:10～13:00；兩個人都認識才演（旁白寫了名字）。
      兩個人的作息（characters.js 最前面那一筆）：這三週的週一、三、四、五中午站在影印機前，演過就不來（週二中午以安在 118 巷＝不排、不演；週四 13:20 民總，13:05 起在教室）*/
-  S.COPY_AT={x:10.35,z:2.65};   /* 總圖一樓東牆邊的影印機 (11.4,2.6) 前面（LAWWW2 4e0b212f8 library_layout.js copier；兩個人站 (10.35,2.35／2.95) 朝 +x；原本 (8.0,2.6) 擠到服務台客人站的地方）*/
+  S.COPY_AT={x:10.35,z:2.05};   /* 總圖一樓東牆邊的影印機 (11.4,2.6) 前面（LAWWW2 4e0b212f8 library_layout.js copier；以安 (10.35,2.35) 朝 +x 站面板前、芯慈 (10.35,1.75) yaw 1.2 看出紙盤——LAWWW2 08:40：BB 說館員辦公室那條窄道離芯慈 0.45 m，改了以後 1.65 m；原本 (8.0,2.6) 擠到服務台客人站的地方）*/
   S.copyDue=G=>law(G)&&inTerm(G,'Y1S2')&&week(G)>=7&&week(G)<=9&&[1,3,4,5].indexOf(wdOf(G.day))>=0&&!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day))&&hr(G)>=12+10/60&&hr(G)<13&&met(G,AN)&&xcMet(G)&&!done(G,'ev_xc_copy');
-  S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:10.35,z:2.65,r:2.2},
+  S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:10.35,z:2.05,r:2.2},
     prereq:{custom:G=>S.copyDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns(L.xc.copy.open).concat([{choice:L.xc.copy.opts.map((t,k)=>({text:t,goto:'c'+(k+1)}))}],
       ...L.xc.copy.r.map((R,k)=>[{label:'c'+(k+1)}].concat(lns(R),k===0?[{set:{XC_COPY:true}}]:(k===2?[{set:{XC_RPS:true}}]:[]),[{goto:'end'}])),[{label:'end'}]) };

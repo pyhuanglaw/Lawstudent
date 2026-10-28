@@ -557,10 +557,12 @@ const GAME = (function(){
     return row('友情',p.fr)+row('戀愛',p.rom); }
   function personHTML(id){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const c=CHARACTERS[id]; if(!c) return ''; const name=SOCIAL.displayName(id);
     const tag=SOCIAL.yearTag(id); const rv=SOCIAL.reveal(id);
-    const desc=(c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||''); const wt=whereText(id);
+    const poolPage=c.social_layer==='B'&&typeof POOL!=='undefined'&&!!POOL.pageDesc&&(c.card!=null||c.cardBefore!=null);   /* POOL-PAGE-PHONE-1028（BB-C 08:48）：同學二十位的人物頁一句話（AA_498 第 2 節 cardBefore／card、朋友＝personality）只接在舊的 renderPeople，手機人物頁沒接 */
+    const desc=poolPage?POOL.pageDesc(id):((c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||'')); const wt=whereText(id);
+    const deeds=typeof POOL!=='undefined'&&POOL.deedsHTML?POOL.deedsHTML(id,G):'';   /* 做過的事（POOL.addDeed：陪他旁聽過一堂社工系的課…）；沒有就是空的 */
     const hist=typeof DATE!=='undefined'&&DATE.historyText?DATE.historyText(G,id):[];   /* 一起去過的地方（DATE-S1；date3d.js historyText：一次約會一行）*/
     const mems=SOCIAL.memories(id).slice(-5).map(m=>'<div class="muted">· '+(SOCIAL.dayLabel?SOCIAL.dayLabel(m.day):'第 '+m.day+' 天')+' '+esc(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)+((SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)?'（'+esc(SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)+'）':'')+'</div>').join('');
-    return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b></div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+'<div>'+esc(desc)+'</div><div>'+SOCIAL.describe(id)+'</div>'+progHTML(id)+(hist.length?'<div style="margin-top:4px"><span class="muted">一起去過的地方</span>'+hist.map(x=>'<div class="muted">· '+esc(x)+'</div>').join('')+'</div>':'')+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }
+    return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b></div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+'<div>'+esc(desc)+'</div>'+deeds+'<div>'+SOCIAL.describe(id)+'</div>'+progHTML(id)+(hist.length?'<div style="margin-top:4px"><span class="muted">一起去過的地方</span>'+hist.map(x=>'<div class="muted">· '+esc(x)+'</div>').join('')+'</div>':'')+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
     if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>'; if(phonePerson&&ids.includes(phonePerson)) return personHTML(phonePerson);
