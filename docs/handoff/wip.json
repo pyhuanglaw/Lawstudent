@@ -1460,7 +1460,7 @@
    "id": "WIP-LAWWW-PROF522C-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "0f5e8dd95、92e896fc2",
    "branch": "worktree-agent-aa81d275149c81c7d（子代理；D113 備份 wip_backup/prof522c_1028.bundle，基準 cee42ec2f）",
    "files": [
@@ -1469,7 +1469,8 @@
    "todo": "AA_522 第 9 節（a3ea3918e）：民總第一堂那一週研究室不演、第一週那兩句先說、大四下周教授閒聊換句；白名單改 a3ea3918e（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 14:1x（AA_522 第 9 節 a3ea3918e，DL-AA-522C）"
+   "source": "AA-C 2026-10-28 14:1x（AA_522 第 9 節 a3ea3918e，DL-AA-522C）",
+   "closedBy": "554e6ecb8（合併子代理 a4bf4ca3c；aa522 121 項 ALL PASS）"
   }
  ]
 }
