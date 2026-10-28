@@ -12,7 +12,8 @@ const OTHER_FILES=new Set(['jp3d.js','data/jp_blank_lines.js','zq_testbuild3d.js
 const PENDING={   /* 鍵：任務（BG-DARK-SCENES-1024 第二批：LAWWW2 從 3D 拍；BB 向使用者要的另外寫）*/
   ntu_library_rain:'BG-DARK-SCENES-1024（BB 向使用者要）', community_room:'BG-DARK-SCENES-1024（BB 向使用者要）', us_club_lawn:'BG-DARK-SCENES-1024（BB 向使用者要）',
   botanical_lotus:'BB 要圖（AA_379）', vf_lantern:'BG-LANTERN-1024',
-  court_hall:'BB 要圖（AA_498 4-3 曾靖雯的旁聽：臺北地方法院；稿寫「沒有＝深色底」，src/pool3d.js 執行時登記 OUT.BG.court_hall image:null）' };
+  court_hall:'BB 要圖（AA_498 4-3 曾靖雯的旁聽：臺北地方法院；稿寫「沒有＝深色底」，src/pool3d.js 執行時登記 OUT.BG.court_hall image:null）',
+  us_c_laundry:'BB 要圖（AA_512 13-6 美國 C 棟地下室的洗衣間；稿寫「沒有洗衣間場景就用 2D 背景」，src/sis_b13_3d.js 執行時登記 OUT.BG.us_c_laundry image:null）' };
 const keys=new Set(Object.keys(OUT.BG||{})), used={};
 const walk=d=>fs.readdirSync(path.join(ROOT,d)).filter(x=>x.endsWith('.js')).map(x=>(d==='src'?'':'data/')+x);
 for(const f of walk('src').concat(walk('src/data'))){ if(OTHER_FILES.has(f)) continue; const s=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); for(const m of s.matchAll(/\bbg:'([a-z0-9_]+)'/g)) (used[m[1]]=used[m[1]]||new Set()).add(f); }

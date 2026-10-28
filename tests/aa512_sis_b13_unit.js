@@ -16,7 +16,7 @@
 //  13  第 5 節伴手禮：1/3 約、回了才演、1/6 中飯、當晚、1/7 媽媽；臺灣路線、沒回、1/6 不在交往都沒有
 //  14  第 6 節：J3／J4 記旗標、接機戀人版 (a)(b)(c)、兩個人版沒有；6-2 重新開始那一次四句、第一次照舊；6-3 改字
 //  15  舊存檔：沒有新旗標照常跑、不丟例外
-// 修改前（開發分支 86986abdf；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA512_DOCREPO）：第 0～15 節每一節都有 FAIL——83 項 FAIL、21 項 PASS（PASS 的都是「不該演／照舊」那一類；第 3、4、5、6、8、11、15 節找不到新事件、丟例外中斷）。修改後 128 項 ALL PASS。
+// 修改前（開發分支 86986abdf；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA512_DOCREPO）：第 0～15 節每一節都有 FAIL——83 項 FAIL、21 項 PASS（PASS 的都是「不該演／照舊」那一類；第 3、4、5、6、8、11、15 節找不到新事件、丟例外中斷）。修改後 129 項 ALL PASS。
 // 用法：node tests/aa512_sis_b13_unit.js（在沒有 .git 的目錄跑，設環境變數 AA512_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -160,8 +160,11 @@ await sec(3,async()=>{ const e3=ev('ev_sis13_walk'), d6=D('2027-12-06'), d7=D('2
     fresh(key,hh,kind,{},Object.assign({zone:'campus'},o||{})); if(EVENTS.check(e3)) no.push(n); }
   check('3. 交往中、前任、熟悉、沒認識、窗口外、時間外、不在校園：不演',!no.length,J(no));
   fresh(d6,17.2,'friend',{},{zone:'campus'}); place(0,0); check('3. 離霖澤館門口太遠：tick 不演',!(await tickOnly('ev_sis13_walk')));
-  fresh(d7,17.6,'friend'); const s7=STORY.schedEnt(CHARACTERS[ID],H.G); H.G.events.done.ev_sis13_walk=1; const s7b=STORY.schedEnt(CHARACTERS[ID],H.G);
-  check('3. 作息：12/7（二）17:36 她在研究室（linze_5f，蓋過週二 17:30 的 118 巷自助餐）；演過以後照平常（自助餐）',!!s7&&s7.zone==='linze_5f'&&!!s7b&&s7b.zone==='l118_self',J([s7&&s7.zone,s7b&&s7b.zone])); });
+  /* 作息：那兩天 17:00 起她在研究室那一層；週二 17:30 以後照 AA_320 L8 去 118 巷自助餐（tests/lane118_sched_unit.js：AA_320 那幾列不被蓋掉）——事件照稿到 18:00（上面 17:2x、下面 17:36 都演）*/
+  const sAt=(key,hh,done)=>{ fresh(key,hh,'friend'); if(done) H.G.events.done.ev_sis13_walk=1; const s=STORY.schedEnt(CHARACTERS[ID],H.G); return s&&s.zone; };
+  const z6=sAt(d6,17.6), z7a=sAt(d7,17.2), z7b=sAt(d7,17.6), z6d=sAt(d6,17.6,true);
+  check('3. 作息：12/6（一）17:36、12/7（二）17:12 她在研究室（linze_5f）；12/7 17:36 照 AA_320 在 118 巷自助餐（l118_self）；演過以後 12/6 不在研究室',z6==='linze_5f'&&z7a==='linze_5f'&&z7b==='l118_self'&&z6d!=='linze_5f',J([z6,z7a,z7b,z6d]));
+  fresh(d7,17.6,'friend',{},{zone:'campus'}); check('3. 12/7（二）17:36（她的作息已經去吃飯）走過霖澤館門口：照稿還是演（窗口 17:00～18:00）',EVENTS.check(e3)); });
 
 /* ---- 4 13-4 公館的蛋糕 ---- */
 await sec(4,async()=>{ const e4=ev('ev_sis13_cake'), d=D('2028-06-02');

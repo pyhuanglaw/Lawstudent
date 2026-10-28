@@ -13,7 +13,7 @@
      6 第四十天（美國路線 9/11 22:00 私訊；臺灣、日本路線 r2y4b_events.js 那一週的視訊開頭 S.day40Video）；7 報告完了（彩排後的下一個週三 21:00）；
      8 二月那一頁（2029-01-31 21:00 → 2/1 15:00 Café）；9 每週視訊 g3、g2 的下一次開頭（r2y4b_events.js，S.g3Due／S.g2Due）。
    - 第 5 節 伴手禮：2029-01-03 21:00 約（回了才演，回覆鍵開到 1/6 10:00）→ 1/6 11:30 出遊「家裡的中飯」→ 當晚 21:00 她、1/7 08:00 媽媽。
-   - 2D 背景：學姊的新家（沒有圖，先用公寓室內 tutor_home）、C 棟的洗衣間（沒有圖＝深色底＋地點字幕）。
+   - 2D 背景：學姊的新家（沒有圖，先用公寓室內 tutor_home；登記在 src/outings3d.js）、C 棟的洗衣間（沒有圖＝深色底＋地點字幕；在這裡登記）。
    測試：node tests/aa512_sis_b13_unit.js */
 'use strict';
 const SISB13=(function(){
@@ -156,7 +156,8 @@ const SISB13=(function(){
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.curry,S.welcome,S.notes,S.thesis,S.day40,S.report,S.feb,S.gift]){ try{ f(G); }catch(e){ console.warn('SISB13 phone',e); } } };
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)&&!PHONE.ON_ANSWER._sisb13){ PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k)); PHONE.ON_ANSWER._sisb13=true; }
-  /* 2D 背景：學姊的新家（還沒有圖＝先用公寓室內：學生家的客廳，窗外是晚上；BB 跟使用者要白天的圖）、C 棟地下室的洗衣間（沒有圖＝深色底＋地點字幕）*/
-  if(typeof OUT!=='undefined'&&OUT.BG){ if(!OUT.BG.sis_new_home) OUT.BG.sis_new_home={label:'學姊的新家',image:'assets/bg/tutor_home.webp'}; if(!OUT.BG.us_c_laundry) OUT.BG.us_c_laundry={label:'C 棟・地下室的洗衣間',image:null}; }
+  /* 2D 背景：學姊的新家在 src/outings3d.js（還沒有圖＝先用公寓室內：學生家的客廳，窗外是晚上；BB 跟使用者要白天的圖）；
+     C 棟地下室的洗衣間在這裡登記（沒有圖＝深色底＋地點字幕；tests/scene_bg_keys_unit.js 的 PENDING，同 pool3d.js 的 court_hall）*/
+  if(typeof OUT!=='undefined'&&OUT.BG){ if(!OUT.BG.us_c_laundry) OUT.BG.us_c_laundry={label:'C 棟・地下室的洗衣間',image:null}; }
   return S;
 })();
