@@ -1412,7 +1412,7 @@
    "id": "WIP-LAWWW-ECON521-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "5abcf5cef、ea700729d",
    "branch": "worktree-agent-ae63bec8a13035b99（同一個子代理接著做；D113 備份 wip_backup/econ521_1028.bundle，基準 d38992889）",
    "files": [
@@ -1421,7 +1421,8 @@
    "todo": "AA_520 第 10 節（c884a12ca）做了；AA_521 經濟系的朋友＋何俊朗＋日文班做中",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）"
+   "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）",
+   "closedBy": "66a3401f4（合併子代理 eb5dfb6b9；aa520 58、aa521 45 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-SISB16-1028",
