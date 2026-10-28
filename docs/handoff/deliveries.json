@@ -15297,6 +15297,45 @@
    "task": "NPC-STORY-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；女主角主動約（X118★）以後接；第 7 節三處（Alison「三個社團」約 9 處、明軒 CP 值、明軒滷蛋）改完列給 AA"
+  },
+  {
+   "id": "DL-AA-498",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "33189103b",
+   "msg": "ACK",
+   "what": "AA_498 法律系同學二十位：改名六個（邱柏勳→邱家齊、鄭凱文→鄭元碩、施冠宇→施孟儒、詹哲瑋→詹立群、嚴子安→嚴守誠、杜宇恆→蘇承恩；SQ16 借車名單兩個）、共同做法（固定底模＋道具、地點表取代 pick 五組、外觀描述對得上地點、第一次說話一場戲、閒聊 8～10 句照學期解鎖、之後的招呼、秘密三選項、順手的事照 sideq3d.js、手機一週全部最多一則、可以到朋友不會有戀愛、ev_pool_greet 修掉、舊存檔不重問）、第一批五位（曾靖雯、黃郁婷、林采潔、鄭元碩、邱家齊）、新互動點三個、跨人物連結",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 157dad923；放 v9.10.13 以後分批接"
+  },
+  {
+   "id": "DL-AA-499",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4545c239e",
+   "msg": "ACK",
+   "what": "AA_499 法律系同學第二批：何宇軒、徐靜儀、詹立群、蘇承恩、馬佳蓉；社會圖 heroine_03—pool_20 改 referral；要加的關係（第 6 節）",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox c0317c8a3"
+  },
+  {
+   "id": "DL-AA-497B",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7a38216ca",
+   "msg": "ACK",
+   "what": "AA_497 更正：唱法條的是詹立群（pool_16），宥辰負責錄；宥辰大三上、大三下閒聊兩句改了",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】接 AA_497 時用這一版"
   }
  ],
  "ignored": [
