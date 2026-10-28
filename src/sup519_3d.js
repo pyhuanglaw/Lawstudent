@@ -98,7 +98,10 @@ const SUP519=(function(){
     sp.id='clerk_'+kind; if(sp.model&&typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(sp.model)){ try{ ASSETS.loadOne(sp.model).catch(()=>{}); }catch(e){} }   /* 模型還沒下載：先載（到了由 game3d.js upgradeModels 換上）*/
     return sp; };
   S.TALK={noodle:{name:'阿姨',fn:(GM,n)=>S.auntTalk(GM,n)},cafe:{name:'老闆',fn:(GM,n)=>S.bossTalk(GM,n)}};
-  S.clerkWire=function(GM,n,kind){ const w=S.TALK[kind]; if(!n||!w) return n; S.bind(GM); n.name=w.name; n.talkLabel='和'+w.name+'說話'; n.talk=nn=>w.fn(GM,nn||n); n.aa519Staff=kind; return n; };
+  S.clerkWire=function(GM,n,kind){ const w=S.TALK[kind]; if(!n||!w) return n; S.bind(GM); n.name=w.name; n.talkLabel='和'+w.name+'說話'; n.talk=nn=>w.fn(GM,nn||n); n.aa519Staff=kind;
+    n.yieldIt=true;   /* 按鈕最後才算（engine3d.js nearestInteractable，同路人）：旁邊有「到吧檯點餐」「坐下吃麵」、出口或別的人（站在旁邊的語彤、吧檯的芷若）時不擋——
+                         圈子表的老闆是 Café 的 staff，原本會比吧檯的點餐點優先（staff 的加權）；阿姨那幾列站在語彤旁邊 1.2 m，走過去找語彤會先碰到阿姨 */
+    return n; };
   /* 圈子表的標籤同伴（HCIRCLE.spawnLabel）：阿姨、老闆能說話（同一個人、同一份紀錄）；新來的工讀生 2027-06-04 起叫小禾（3-4）*/
   S.LABEL_WIRE={hc_ayi:'noodle',hc_boss:'cafe'};
   S.afterSpawnLabel=function(GM,cid,n){ if(!n) return n; const k=S.LABEL_WIRE[cid]; if(k) S.clerkWire(GM,n,k); if(cid==='hc_np'&&GM&&GM.G&&S.npNamed(GM.G)) n.name=CF.np; return n; };

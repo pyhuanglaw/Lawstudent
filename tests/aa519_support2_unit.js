@@ -16,7 +16,7 @@
 //   9  舊存檔：沒有新旗標、舊的閒聊紀錄、存讀檔以後照樣接、壞掉的 AA519 紀錄
 //   10 遊戲 → 稿
 // 修改前（只拿掉這一次 src 的改動：git archive 開發分支 493bf3c4f 的 src、index.html，tests 和劇情匯入白名單用新的，稿從這個 repo 讀＝AA519_DOCREPO，2026-10-28 實際跑）：FAILED 45、PASS 4
-//   （PASS＝讀稿、白名單、第 7 節和第 8 節第 1 點的對稿——只看稿本身；FAIL＝其他全部：沒有 SUP519、AA519_LINES、HCIRCLE.auntAway，1-2 以後各段第一個檢查就丟出例外中斷）。修改後 ALL PASS（94 項）。
+//   （PASS＝讀稿、白名單、第 7 節和第 8 節第 1 點的對稿——只看稿本身；FAIL＝其他全部：沒有 SUP519、AA519_LINES、HCIRCLE.auntAway，1-2 以後各段第一個檢查就丟出例外中斷）。修改後 ALL PASS（95 項）。
 // 子代理解讀（AA 可以改）：測試名稱寫「子代理解讀」的那幾項——經濟系那一年阿姨只有短句；送小菜第八處「回到第一句」＝燙青菜；pool_story_b2 冠廷學長那一句跟著換第五章／第六章；
 //   日本路線腳踏車 4/7（稿寫「第一個週六」，4/7 是週五）；其他寫在交付報告。
 // 用法：node tests/aa519_support2_unit.js（在沒有 .git 的目錄跑，設環境變數 AA519_DOCREPO＝這個 repo 的目錄）
@@ -128,7 +128,12 @@ await sec('1-1',async()=>{
   fresh(TD('Y1S1',2,2),12,'noodle'); const ck=populate('noodle'), sp=built.find(s=>s&&s.id==='clerk_noodle')||null, P=HCIRCLE.PEOPLE.hc_ayi||{};
   const mdl=one(/中年底模 `(npc_\w+)`/,S11), t1=ck&&ck.talk?(H.said=[],await ck.talk(ck),said()):null;
   check('1-1 3D：麵店的店員＝阿姨（spec 用 hc_ayi：女、中年底模 '+mdl+'、圍裙；名字「阿姨」、「和阿姨說話」），不再用年輕女性路人；說得出話（大一上第 2 週＝表的第一句）',
-    !!ck&&!!sp&&sp.sex==='f'&&sp.model==='char.'+mdl&&P.model===sp.model&&(sp.props||[]).some(q=>q&&q.name==='apron')&&ck.name==='阿姨'&&ck.talkLabel==='和阿姨說話'&&J(t1)===J(['阿姨：坐。……你們法律系的，都坐長桌那邊。']),J({sp:sp&&{model:sp.model,sex:sp.sex},name:ck&&ck.name,t1}));
+    !!ck&&!!sp&&sp.sex==='f'&&sp.model==='char.'+mdl&&P.model===sp.model&&(sp.props||[]).some(q=>q&&q.name==='apron')&&ck.name==='阿姨'&&ck.talkLabel==='和阿姨說話'&&ck.yieldIt===true&&J(t1)===J(['阿姨：坐。……你們法律系的，都坐長桌那邊。']),J({sp:sp&&{model:sp.model,sex:sp.sex},name:ck&&ck.name,t1}));
+  /* 圈子表的阿姨、老闆（HCIRCLE.spawnLabel 生的）＝同一個人、同一份紀錄，也能說話；按鈕最後才算（yieldIt：不擋點餐、坐下、出口、旁邊的語彤；老闆是 Café 的 staff 也一樣）*/
+  fresh(TD('Y1S1',2,2),18,'noodle'); const la={id:'hc_ayi',name:'阿姨',obj:{position:{x:1.8,y:0,z:-2.75},rotation:{y:0}}}, lb={id:'hc_boss',name:'老闆',staff:'cafe',obj:{position:{x:-0.6,y:0,z:-5.25},rotation:{y:0}}};
+  X().afterSpawnLabel(GM,'hc_ayi',la); X().afterSpawnLabel(GM,'hc_boss',lb); H.said=[]; await la.talk(la); const tl=said();
+  check('1-1 圈子表的阿姨、老闆（3D 標籤人物）也能說話（同一份紀錄：大一上第 2 週＝表的第一句）；按鈕最後才算（yieldIt：旁邊有點餐、座位、出口、語彤或芷若時不擋，老闆是 staff 也不比吧檯優先）',
+    typeof la.talk==='function'&&la.talkLabel==='和阿姨說話'&&la.yieldIt===true&&typeof lb.talk==='function'&&lb.talkLabel==='和老闆說話'&&lb.yieldIt===true&&J(tl)===J(['阿姨：坐。……你們法律系的，都坐長桌那邊。']),J(tl));
   /* 旁白第一次「阿姨（阿鳳）」 */
   fresh(TD('Y1S1',2,2),18,'noodle',{},{nar:true}); H.said=[]; await GM.say(null,'（阿姨看了你一眼。）'); await GM.say(null,'（阿姨看了你一眼。）'); await GM.say({name:'阿姨'},'坐。'); const r1=said();
   fresh(TD('Y1S1',2,2),18,'campus',{},{nar:true}); H.said=[]; await GM.say(null,'（阿姨看了你一眼。）'); const r2=said();
@@ -239,7 +244,7 @@ await sec('3-1',async()=>{
   check('3-1 對稿：老闆的表六列（照順序）＝cafe.rows、短句三句、店名由來兩句；大一上「……我沒看白板。」（圈子表）照舊',T31.length===6&&J(docR)===J(LN().cafe.rows.map(r=>r.t))&&J(SH)===J(LN().cafe.shorts)&&J(NS)===J(LN().cafe.nameScene.map(([w,t])=>pairDoc(w,t)))&&/……我沒看白板。/.test((HCIRCLE.row('c503_5_2')||{}).heard||''),J({docR,SH,NS}));
   fresh('2025-10-07',15,'cafe'); const ck=populate('cafe'), sp=built.find(s=>s&&s.id==='clerk_cafe')||null;
   check('3-1 3D：Café 櫃台（芷若不在班）＝老闆（spec 用 hc_boss：男、'+((HCIRCLE.PEOPLE.hc_boss||{}).model)+'、馬克杯），不再用年輕女性路人；名字「老闆」、能說話',
-    !!ck&&!!sp&&sp.sex==='m'&&sp.model===HCIRCLE.PEOPLE.hc_boss.model&&(sp.props||[]).includes('mug')&&ck.name==='老闆'&&ck.talkLabel==='和老闆說話',J({sp:sp&&{sex:sp.sex,model:sp.model,props:sp.props}}));
+    !!ck&&!!sp&&sp.sex==='m'&&sp.model===HCIRCLE.PEOPLE.hc_boss.model&&(sp.props||[]).includes('mug')&&ck.name==='老闆'&&ck.talkLabel==='和老闆說話'&&ck.yieldIt===true,J({sp:sp&&{sex:sp.sex,model:sp.model,props:sp.props}}));
   const R=LN().cafe.rows, T=k=>'老闆：'+R.find(r=>r.k===k).t, s=[];
   fresh('2025-10-07',15,'cafe'); s.push((await boss())[0],(await boss())[0],(await boss())[0],(await boss())[0]); H.FAMILIAR('heroine_02'); at(D('2025-10-08'),15); s.push((await boss())[0]);
   check('3-1 大一：一天一句新的（「豆子我自己烘。…」）、之後短句輪流（今天的豆子比較酸。→坐窗邊…→……嗯。）；見過芷若以後隔天＝「芷若比我早記住客人的名字。…」',

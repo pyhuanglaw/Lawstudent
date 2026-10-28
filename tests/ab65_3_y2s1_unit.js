@@ -6,6 +6,7 @@
 // 修改前（開發分支 2a672d9a8）：新句都不在、舊句都在——FAIL。用法：node tests/ab65_3_y2s1_unit.js
 // AA_428 §2（企劃線 1b33efe8e，AA 回子代理問的九點）：第 1、2、4～8 點改句（開學第一頓旁白、中秋以安刪掉、期中柏翰、攤位「下週六」、芯慈 c、zq_game、FAFU_BH[0]、週日宵夜的訊息與收尾），
 //   第 3、9 點與第 2、8 點的「照現行」列在第 9 節。修改前（開發分支 f85417a0e）這些新斷言 FAIL。
+// AA_519 5-4（企劃線 d75cd0228，2026-10-28 NPC-STORY2-1028）：週日宵夜第一則的第二句「我這棟樓下的滷味比較好吃」改「宿舍旁邊那攤滷味比較好吃」（後半「 老闆會多給豆干」、不打標點照舊）——第 5 項照新字查、舊字不在
 const H=require('./pg_harness.js');
 const fs=require('fs'), path=require('path');
 const {check}=H, J=JSON.stringify;
@@ -116,8 +117,8 @@ await sec(5,async()=>{
   check('5. 週日宵夜第一次：「你大一每次都點這三樣，對吧？」（E8）；選「今天的滷味好吃嗎？」→「普通啦。」＋旁白「（他又從你籃子夾走一塊豆干）」（SC4 #13）',
     L.includes('你大一每次都點這三樣，對吧？')&&L.includes('普通啦。')&&L[L.indexOf('普通啦。')+1]==='（他又從你籃子夾走一塊豆干）'&&none(L,/我記得。$|你來比較好吃|這句不要記/),J(L));
   check('5. 週日宵夜第一次的收尾：「下週日一樣喔。」（AA_428 §2 第 8 點：照 SC4 #13；原本 AA_335 T3「下週日，同一時間。我先去排。」）',L[L.length-1]==='下週日一樣喔。'&&!SRC.includes("text:'下週日，同一時間。我先去排。'"),J(L));
-  check('5. 週日宵夜的手機（AA_428 §2 第 8 點：SC4 #13，阿凱的訊息不打標點）：第一則「宵夜」「我這棟樓下的滷味比較好吃 老闆會多給豆干」、之後每週「宵夜」',
-    ST.includes("first?[A('宵夜'),Object.assign(A('我這棟樓下的滷味比較好吃 老闆會多給豆干'),{ask})]:[Object.assign(A('宵夜'),{ask})]")&&!ST.includes("A('宵夜？'),Object.assign")&&!ST.includes('老闆會多給豆干。'));
+  check('5. 週日宵夜的手機（AA_428 §2 第 8 點：SC4 #13，阿凱的訊息不打標點）：第一則「宵夜」「宿舍旁邊那攤滷味比較好吃 老闆會多給豆干」（AA_519 5-4：原本「我這棟樓下的」）、之後每週「宵夜」',
+    ST.includes("first?[A('宵夜'),Object.assign(A('宿舍旁邊那攤滷味比較好吃 老闆會多給豆干'),{ask})]:[Object.assign(A('宵夜'),{ask})]")&&!ST.includes("A('我這棟樓下的滷味比較好吃")&&!ST.includes("A('宵夜？'),Object.assign")&&!ST.includes('老闆會多給豆干。'));
   const lines=[]; for(let n=1;n<=3;n++){ H.fresh('2026-09-27',23,'dorm',{KAI_SUP_N:n}); const x=await run('ev_kai_sunday_supper',[]); lines.push(x[1]); }
   check('5. 週日宵夜輪替：「新室友說我話很多。……真的很多嗎？」（SC4 #13）、「這週你們考什麼？……算了，先吃。」（E7）',lines.includes('新室友說我話很多。……真的很多嗎？')&&lines.includes('這週你們考什麼？……算了，先吃。')&&!/那你沒聽過我大一的室友|你們法律系今天念了什麼/.test(SRC),J(lines)); });
 
