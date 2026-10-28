@@ -3372,6 +3372,14 @@
    "note": "LAWWW-C 10-28 09:3x 登記：交往中約會後的動態（照片表、七位一句／留言／私訊）；src/data/feed_dates.js＋date3d 掛勾；tests/aa515_feed_dates_unit.js 逐字對稿；10-28 10:1x 改 aec3d3d67（AA 加第 6 節：同一天每人各算、擠掉的不挪、畢業以後不開放、照稿以外先定的照用；第 4 節畢業以後那點劃掉；台詞沒改）"
   },
   {
+   "path": "docs/story_planning/AA_522_教授的研究室_周許林照學期換.md",
+   "sha": "fcc93126e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
+   "task": "NPC-STORY2-1028",
+   "note": "子代理登記（NPC-STORY2-1028 第四部分）：第 1 節周教授（閒聊「週四下課以後我都在」限大一上、大一下、大二上、大四下，其他學期聊天氣；ev_prof_zhou_office 照學期換題、每題一次、問完不觸發——大一上加越權代理、大一下價目表／無因管理、大二上債務不履行／時效，新的四題標 LEGAL_REVIEW_REQUIRED；大四下第 11 週週一專題下課後的研究室一次，記 ZHOU_Y4）；第 2 節許教授照年級（自我介紹、招呼、題目，每年問完不觸發；記 XU_ASKED）；第 3 節林教授（ev_prof_lin_after 開頭照次數輪四種、第二次起「下週見。」；新事件 ev_prof_lin_office 大三上週二 14:00～16:30 萬才館、最多三次、題庫抽題、三句收尾，她週二下午在萬才館＝story3d.js schedFor；選了刑事判決研討的大四上第一次上課旁白一句 ev_prof_lin_nod）；第 4 節陳教授閒聊換句、黃教授只改註解；D100e 兩支舊測試照新稿改（aa195_411 第 3 項、aa130_curriculum 第 9 項）；tests/aa522_prof_office_unit.js 逐字對稿"
+  },
+  {
    "path": "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md",
    "sha": "07709b4c6",
    "status": "approved",
