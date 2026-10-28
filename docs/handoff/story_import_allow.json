@@ -3409,7 +3409,7 @@
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
-   "note": "LAWWW-C 子代理 10-28 登記（WIP）：經濟系的朋友法律系那三年——D2 照學期換句（韋綸、唐睿、阿勳每學期 a、b；品妤 ev_b106d2_pinyu 週五 12:05 普通教學館）、「走啦」群組五則、何俊朗 longGreet 加日期範圍六句、日文班三則（4-3 日本路線有回覆）"
+   "note": "LAWWW-C 子代理 10-28 登記（NPC-STORY2-1028 第三部分）：經濟系的朋友法律系那三年——第 1 節 D2 照學期取鍵（src/econfr3d.js 包住 STORY.b106d2Key：大一下起韋綸、唐睿、阿勳每學期 a、b，品妤一學期一句；大一上沒說到的大一下排前面；阿勳新句子要 MET_XUN、大三下 a／b 以 3/22 分；唐睿大三下 b 要 b106_42_photo；品妤要 MET_PINYU），句子在 src/data/econfr_lines.js、載入時接在 ev_b106d2_weilun／tang／xun 後面（events.js 阿勳那一場改照鍵演），品妤新增 ev_b106d2_pinyu（週五 12:05～12:25 普通教學館；大二上起加一格擲到才在的作息）；第 2 節「走啦」群組五則；第 3 節何俊朗 longGreet 加六句（from／to、tail）；第 4 節日文班三則（4-3 日本路線、記 CZ_VET_PHOTO、4/22 摘要一句、當晚采蓁兩則）；tests/aa521_econ_friends_unit.js 逐字雙向對稿＋邏輯（修改前 FAILED 15、修改後 ALL PASS 45 項）"
   }
  ]
 }
