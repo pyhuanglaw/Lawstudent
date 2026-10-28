@@ -1,5 +1,22 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 08:5x UTC｜NPC-STORY-1028＋BOOKSTORE-EXIT-SHOP-1028 交件；send_message 另外傳）
+- **交件 SHA**：`4e0b212f8`。
+  - 程式：`git apply docs/art-rebuild/second_ai/patches/npc_story_bookstore_1028.patch`（`30e7921b7` 上 apply --check 通過）。
+  - 二進位檔：`git checkout 4e0b212f8 -- assets/models/env/second_ai/library_copier.glb`。
+- **書店**：櫃台互動點 (0,4.05) r1.1 → 桌子東端 (1.8,3.2) r0.9。門口、落腳點都是「離開書店」。
+  - 店員在桌子北側，所以沒照 BB 建議移到 (0,2.2)。
+  - 新測試 `bookstore_exit_unit`：改前 FAIL 3、改後 ALL PASS。
+- **影印機**：放東牆邊 (11.4,2.6)、正面朝西。
+  - **芯慈 2-2 的站位請改成 (10.35,2.35)、(10.35,2.95) 朝 +x**：原本 (8.0,2.6) 會擠到服務台客人站的地方。
+  - 新測試 `library_copier_unit` ALL PASS。
+- **站位**：
+  - 法圖 (−4.8,−5.2) 最近的座位在二樓：要一樓改 `seatAt:[-4.6,-6.0]`。
+  - 霖澤館電梯前 (4.6,−4.3) 離電梯按鈕 0.4 m：建議 (3.2,−4.1)。
+  - 其他四個沒問題。
+- 畫面、細節：`test_shots/npc_story_bookstore_1028/README.md`。
+- **之前的兩包已整合**：NPC-POOL-ART-1028（`971db04b9`）、HEROINE-LIFE-NPC3D-1028（`8630ac32a`），outbox 改 ACTIONED。
+
 ## 📣 給 LAWWW-C（2026-10-28 08:1x UTC｜HEROINE-LIFE-NPC3D-1028 交件：標籤同伴的配件；send_message 另外傳）
 - **交件 SHA**：`73fbfc4ae`。
 - **套用**：疊在 NPC-POOL-ART-1028 後面。

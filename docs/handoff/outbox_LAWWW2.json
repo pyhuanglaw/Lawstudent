@@ -3948,7 +3948,7 @@
    "sha": "35b26938c",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "NPC-POOL-ART-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/npc_pool_art_1028.patch",
@@ -3968,17 +3968,17 @@
     "assets/models/char/second_ai/bandage.glb",
     "docs/art-rebuild/second_ai/test_shots/npc_pool_art_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "衣服類（格子襯衫、系服、系學會外套、藍白拖）、趴著睡、鯊魚夾：D99 不做；計時器、耳機、撥片鑰匙圈、延長線、公路車、飯糰包裝紙、穿堂照片展還沒做；heroine_circle.js 的 PEOPLE[] 要支援 props，阿姨的圍裙＋湯杓＋繃帶才看得到；iPhone 實機沒測",
    "next": "LAWWW-C：git apply patch（44e8ff8b7 上 apply --check 通過）＋git checkout 35b26938c -- 二進位檔；跑回歸。LAWWW2-C 接著 HEROINE-LIFE-NPC3D-1028（標籤同伴的配件）、NPC-STORY-1028（總圖影印機、站位檢查）",
-   "note": "十二個道具 GLB（相機、法服名牌照底模身體量過）＋props3d DEF 的 sit（hide／only）＋pool_story 十一位的 props＋靖雯傅鐘長椅的保溫瓶＋男一舍冰箱＋霖澤館一樓補給桌（互動點南移 (4.6,2.05)）；READY_FOR_ART_REVIEW（配件 BB、場景使用者）；開發分支 44e8ff8b7＋patch：Node 5 支 ALL PASS，aa497／aa498／aa502 的讀稿檢查 FAIL 數和沒有 patch 時一樣"
+   "note": "十二個道具 GLB（相機、法服名牌照底模身體量過）＋props3d DEF 的 sit（hide／only）＋pool_story 十一位的 props＋靖雯傅鐘長椅的保溫瓶＋男一舍冰箱＋霖澤館一樓補給桌（互動點南移 (4.6,2.05)）；READY_FOR_ART_REVIEW（配件 BB、場景使用者）；開發分支 44e8ff8b7＋patch：Node 5 支 ALL PASS，aa497／aa498／aa502 的讀稿檢查 FAIL 數和沒有 patch 時一樣｜LAWWW-C 07:22Z ACK：開發分支 971db04b9 整合，Node 全過；BB 看畫面"
   },
   {
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "73fbfc4ae",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "HEROINE-LIFE-NPC3D-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/hlife_props_1028.patch",
@@ -3987,10 +3987,27 @@
     "assets/models/char/second_ai/lawbook.glb",
     "docs/art-rebuild/second_ai/test_shots/hlife_props_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "圍裙是現成的硬圍裙（走路大腿露出來）；後背包背帶用預設路徑沒有逐一量身體；iPhone 實機沒測",
    "next": "LAWWW-C：先套 npc_pool_art_1028.patch，再套 hlife_props_1028.patch＋三個 GLB；LAWWW2-C 接 NPC-STORY-1028（總圖影印機、站位）",
-   "note": "十七位標籤同伴：底模不換，十六位加配件（Café 圍裙＋名牌、老闆馬克杯、阿姨圍裙＋湯杓＋繃帶、學姊同學法典／資料夾＋後背包、托特包後背包換色、吉他袋）；heroine_circle.js PEOPLE[] 只加 props；READY_FOR_ART_REVIEW（BB）；44e8ff8b7＋兩份 patch：badclip_bag、anon_pool ALL PASS，heroine_circle3d_unit 讀稿 4 項 FAIL 和沒有 patch 時逐行一樣"
+   "note": "十七位標籤同伴：底模不換，十六位加配件（Café 圍裙＋名牌、老闆馬克杯、阿姨圍裙＋湯杓＋繃帶、學姊同學法典／資料夾＋後背包、托特包後背包換色、吉他袋）；heroine_circle.js PEOPLE[] 只加 props；READY_FOR_ART_REVIEW（BB）；44e8ff8b7＋兩份 patch：badclip_bag、anon_pool ALL PASS，heroine_circle3d_unit 讀稿 4 項 FAIL 和沒有 patch 時逐行一樣｜LAWWW-C 開發分支 8630ac32a 紀錄已整合待測試"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "4e0b212f8",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "NPC-STORY-1028",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/npc_story_bookstore_1028.patch",
+    "assets/models/env/second_ai/library_copier.glb",
+    "docs/art-rebuild/second_ai/test_shots/npc_story_bookstore_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "芯慈 2-2 的站位要 LAWWW-C 改成 (10.35,2.35／2.95)；法圖、霖澤館電梯前兩個站位的建議等 LAWWW-C 決定；iPhone 實機沒測",
+   "next": "LAWWW-C：git apply patch＋git checkout 這個 SHA -- library_copier.glb；改芯慈 2-2 站位；BB 在 v9.10.13 6a 驗書店門口",
+   "note": "同一包也是 BOOKSTORE-EXIT-SHOP-1028（書店櫃台互動點移到桌子東端 (1.8,3.2) r0.9）；影印機靠東牆 (11.4,2.6) 正面朝西；新測試 bookstore_exit_unit（改前 FAIL 3）、library_copier_unit；nav_buildings、library_b1／media／upper、seat_reach、postcard_reach ALL PASS"
   }
  ]
 }
