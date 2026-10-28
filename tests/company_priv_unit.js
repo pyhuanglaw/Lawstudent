@@ -27,6 +27,8 @@
 //      語彤被打擾（dist／distant：第一次、第二次旁邊有人都不算）、只有次數的那一次等了 7 天（STORY.talkCharacter：第一句旁白、照常說話、算一次）、類似的（可昕收回以後的 w）
 //   修改前（開發分支 6d1863024＝上一輪合併以後：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 8、PASS 57
 //   （FAIL＝3 的學姊一般見面、7 (e) 不重算、9 的 6 項〔對稿：舊白名單 6bc3cd784 沒有後補〕；PASS＝其他原本的 57 項）。修改後 ALL PASS（65 項）。
+//   全部 Node 單元測試（15fca7b48＝合併開發分支 8a62128a5 以後，2026-10-28）：721 支、失敗 1——room_ceiling_unit（linze_interior.glb 的 ceiling、light_panel 有 12／70 個三角形不是單面朝下：
+//   開發分支 ac2ab0ae9 霖澤館大廳第二版的 GLB，這一輪沒有動；只讀 GLB，不載 src）。
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
