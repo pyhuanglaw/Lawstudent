@@ -1365,7 +1365,7 @@
    "id": "WIP-LAWWW-YULE520-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "0ba34bc27、42efe1bb4",
    "branch": "worktree-agent-ae63bec8a13035b99（子代理；D113 備份 wip_backup/yule520_1028.bundle）",
    "files": [
@@ -1374,7 +1374,8 @@
    "todo": "AA_520 予樂自己的線：白名單、實作、tests/aa520 做中（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 12:33（AA_520 481dd8238，DL-AA-520）"
+   "source": "AA-C 2026-10-28 12:33（AA_520 481dd8238，DL-AA-520）",
+   "closedBy": "d38992889（合併子代理 df051b4f8；aa520 57 項 ALL PASS）；同一個子代理接著做 AA_521（之後備份另開一筆）"
   },
   {
    "id": "WIP-LAWWW-SUPPORT519-1028",
