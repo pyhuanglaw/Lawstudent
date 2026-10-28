@@ -35378,7 +35378,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-28 13:0x UTC】LAWWW2 交件 4d89f42fe 合進開發分支 217e655bd（patch＋三個二進位檔）；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑；下一版 v9.10.14；BB：男一舍門廳白天晚上、進兩次、大四住 409 時 202 門上沒有社團貼紙、包裹架在舍監室窗口旁｜【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
+   "next": "【LAWWW-C 2026-10-28 13:0x UTC】開發分支 806d2691b（217e655bd 門廳整合＋第十五批第 6 節以後）全部 Node 727 支 0 失敗｜【LAWWW-C 2026-10-28 13:0x UTC】LAWWW2 交件 4d89f42fe 合進開發分支 217e655bd（patch＋三個二進位檔）；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗；全部 Node 背景跑；下一版 v9.10.14；BB：男一舍門廳白天晚上、進兩次、大四住 409 時 202 門上沒有社團貼紙、包裹架在舍監室窗口旁｜【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
   },
   {
    "id": "SIS-B15-1028",
