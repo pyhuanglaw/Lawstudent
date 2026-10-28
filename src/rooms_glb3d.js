@@ -41,6 +41,7 @@
   /* 門的互動點照開放時段藏起來（wancai3d.js、building3d.js 的門）：shut＝false 是「進入…」（時段外藏起來）、true 是原本的門（時段內藏起來）；每一格問一次 */
   function gateHide(it,shut){ Object.defineProperty(it,'hidden',{configurable:true,enumerable:true,get(){ const G=G_(), op=!!G&&openNow(ROOM_GLB_LAYOUTS[it.gate],G); return shut?op:!op; }}); return it; }
   if(typeof Z3!=='undefined'){ Z3.roomGlbSet=(id,G)=>ROOM_GLB_LAYOUTS[id]?setOf(ROOM_GLB_LAYOUTS[id],G):null; Z3.roomGlbOpen=(id,G)=>openNow(ROOM_GLB_LAYOUTS[id],G); Z3.roomGlbGate=gateHide; }
+  const BACKDROP=new Set(['linze_202','wancai_multi']);   /* 牆外暗殼的房間（LAWWW2-C 10-28 逐間確認過：窗都有窗景板）*/
   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
     return { id, name:L.name, indoor:true, windowless:!(WIN&&WIN.xs&&WIN.xs.length), camDist:L.cam_dist||4.2, build(E){   /* windowless：沒有窗的房間（視聽室、美國法圖 2F）晚上和白天一樣亮（engine3d.js applyTime）*/ const sk=setOf(L,G_()), SET=sk?L.sets[sk]:null, BL=SET?SET.blocks:L.blocks, SE=SET?SET.seats:L.seats; const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
       const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:(L.view_season==='us'&&typeof US3!=='undefined'&&US3.usSeasonKey?L.view+'_'+US3.usSeasonKey():L.view)||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#cdb594'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});   /* view_season:'us'：窗景照美國篇的季節換（us_bed_c_summer／autumn／bare／snow，us3d.js 的 usSeasonKey）*/
@@ -59,6 +60,7 @@
       for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});
       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
       z.teacherSpot=L.teacherSpot||L.clerk||null; if(L.spawn) z.spawn=Object.assign({},L.spawn); z.roomSet=sk; z.spots=(SET?SET.spots:L.spots)||null;   /* spots：人站／坐的位置（研討室 B：柏翰值班、志工、口試委員…；劇情放人用）*/   /* 直接進來（「直接去上課」GM.enter 沒給落點）：站在門口裡面 */
+      if(BACKDROP.has(id)&&Z3.roomBackdrop) Z3.roomBackdrop(g0,W,D,H,7,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2);   /* 牆外暗色的殼（INTERIOR-AAA-REVIEW-1028，見 zones3d.js roomBackdrop）：只給窗都有窗景板、沒有玻璃隔間的房間 */
       if(L.cam_box) z.camBox=L.cam_box; if(L.see_thru) z.seeThru=true;   /* 宿舍 205（和祐廷的房間同一型）：運鏡只在中間走道、上鋪擋住時網點透空（同 zones3d.js 的 dorm）*/
       /* glb：借另一個區域的正式模型（法圖 2F 書庫＝一樓那一個 us_lawlib.glb 往下 glb_y，glb_hide 的節點藏起來）；自己的 GLB（bldg.<id>）只放這一層才有的東西，另外加進來（LAWWW2-B 10-24）*/
       z.formal=false; const key='bldg.'+(L.glb||id); if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(L.glb_y) root.position.y=L.glb_y;

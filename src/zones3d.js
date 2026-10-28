@@ -1418,7 +1418,7 @@ const Z3 = (function(){
   /* 室內鏡頭在牆外時（牆淡出）看到的背景（INTERIOR-AAA-REVIEW-1028 P2，LAWWW2-C）：房間外 m 公尺一圈暗色的殼（只從裡面看得到、不受光、不吃霧），鏡頭在牆外也看不到天空
      （v1：鏡頭從側面的走道往前看，牆淡出的那一邊整片淺藍色的天空，教室像飄在天上）。鏡頭最多在牆外 4.4 m（跟隨距離），殼在 7 m：永遠在鏡頭後面，不會擋住房間。
      只給窗戶都有窗景板的房間用（窗景板在玻璃外 0.42 m，在殼的裡面）；玻璃帷幕直接看出去的房間不要用（2026-10-11 試過整個室內改深灰背景：萬才館東窗、霖澤館玻璃底下的縫變成深灰色，更假）。*/
-  function roomBackdrop(g,W,D,H,m){ m=m||7; const geo=new THREE.BoxGeometry(W+2*m,H+2*m,D+2*m); geo.translate(0,H/2,0); const P=geo.attributes.position, c=new Float32Array(P.count*3), lo=new THREE.Color(0x3a3733), hi=new THREE.Color(0x1a1a1d), t=new THREE.Color();
+  function roomBackdrop(g,W,D,H,m,cx,cz){ m=m||7; const geo=new THREE.BoxGeometry(W+2*m,H+2*m,D+2*m); geo.translate(cx||0,H/2,cz||0);   /* cx、cz：房間中心（GLB 房間的 bounds 不一定以原點為中心）*/ const P=geo.attributes.position, c=new Float32Array(P.count*3), lo=new THREE.Color(0x3a3733), hi=new THREE.Color(0x1a1a1d), t=new THREE.Color();
     for(let i=0;i<P.count;i++){ const k=Math.min(1,Math.max(0,(P.getY(i)+m)/(H+2*m))); t.copy(lo).lerp(hi,k); c[i*3]=t.r; c[i*3+1]=t.g; c[i*3+2]=t.b; } geo.setAttribute('color',new THREE.BufferAttribute(c,3));
     const mesh=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide,fog:false})); mesh.name='room_backdrop'; mesh.userData.dyn=true; mesh.castShadow=false; mesh.receiveShadow=false; g.add(mesh); return mesh; }
   /* SEATFOLD-BEGIN 階梯教室的翻椅（INTERIOR-AAA-REVIEW-1028，LAWWW2-C；tools/blender/classroom_201.py v2 的 SEATPANS 網格：48 張椅面一個網格）：
