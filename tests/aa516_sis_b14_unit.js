@@ -13,8 +13,9 @@
 //      4-3 SU-L7「好。週六。」→ 那個週六 10:00（芝加哥那個週六順延）、12/2 初雪開頭那一句；4-4 第四十天「我過去。」→ 當晚 22:30；4-5 SU-L8 → 12/16 離開那天那一句
 //   8  第 5 節挽回中：9/2 10:00 交換生群組一則、回「收到。」REPAIR +1（同一週其他來源不再加）；交往中沒有
 //   9  舊存檔：沒有新旗標照常跑、不丟例外；這一批沒有 3D 當面的入口（全部是出遊、電話、視訊、私訊；PRIVTALK 不用登記）
-// 修改前（開發分支 67a602cd0：git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA516_DOCREPO）：見下一行。
-// 修改前：FAILED 85、PASS 22（PASS 的都是「不該有／照舊」那一類；第 2、4、5 節的新電話、私訊、出遊都沒有，第 7 節找不到新事件）。修改後 ALL PASS（107 項）。
+// 修改前（開發分支 67a602cd0：那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA516_DOCREPO）：FAILED 81、PASS 13
+//   （PASS＝讀稿、日子、「不該有／照舊」那一類：2-1 沒交往等都沒有、舊的旁白、自己先傳過、4-2 另一個選項、交往中沒有群組那一則、新的局沒有 SIS14_*；
+//    第 5 節、第 7 節 4-3 找不到新事件、丟例外中斷）。修改後 ALL PASS（105 項）。
 // 用法：node tests/aa516_sis_b14_unit.js（在沒有 .git 的目錄跑，設環境變數 AA516_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -131,7 +132,7 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 稿寫在說明裡的句子（22:40 私訊、12/30 私訊與「好。」、07:15 兩則、初雪那一句、9/2 交換生群組與「收到。」、1-3 開頭那一句）都在稿裡、也在遊戲裡',INLINE.every(t=>DOC.indexOf('「'+t+'」')>=0&&GS.has(t)),J(INLINE.filter(t=>!(DOC.indexOf('「'+t+'」')>=0&&GS.has(t)))));
   /* 遊戲 → 稿 */
   const M=mineTexts(), notIn=[...new Set(M)].filter(t=>DOC.indexOf(t)<0&&DOC.indexOf(unq(t))<0);
-  check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa516 的行、改字（'+new Set(M).size+' 句）都在稿裡（一字不差）',new Set(M).size>=120&&!notIn.length,J(notIn));
+  check('0. 遊戲 → 稿：新檔的每一句、各檔帶 aa516 的行、改字（'+new Set(M).size+' 句）都在稿裡（一字不差）',new Set(M).size>=150&&!notIn.length,J(notIn));
   /* 第 1 節：改成的字在遊戲裡、換掉的不在 */
   const to=['1-1','1-2','1-3','1-8','1-9','1-10'].map(k=>ROW[k]&&ROW[k].to).flat().filter(Boolean);
   check('0. 第 1 節「改成」那一欄（1-1 兩句、1-2 截圖、1-3、1-8、1-9、1-10）都在遊戲裡',to.length===7&&to.every(t=>GS.has(t)),J(to.filter(t=>!GS.has(t))));
