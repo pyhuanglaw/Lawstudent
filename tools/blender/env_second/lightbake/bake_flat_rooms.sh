@@ -4,6 +4,8 @@
 # 先照舊用 flat_classroom.py 產生沒有光照貼圖的 GLB（會蓋掉 assets 裡的），再烘焙。每間 CPU 約 6 分鐘。
 # 燈：202 v2（10-28）是 0.6 m 輕鋼架天花板的 T5 格柵燈具（1.2×0.6，x −5.2～4.4 每 2.4 m 五盞、z ±2.7；面光源 1.14×0.54 放在格柵下緣）；
 #     多功能教室是兩排雙管日光燈（x −4.2～4.2 四組、z ±2.55）。每盞放一個 30 W 面光源；燈管、發光面不烘（--nolm）。
+# --nolm 也放細小的頂點色零件（鐵腳、書包、收邊條、窗框、格柵；同一個材質的要一起放）：幾千個小島會把貼圖擠掉，地板、牆、窗簾只剩每公尺 8～12 個像素
+#     （10-28 LIGHTBAKE-UV-FIX）。這些零件照舊吃即時光。現在 202 每公尺 34 個像素、多功能教室 46 個（tools/blender/env_second/lightbake/uv_fill.py 量）。
 # 白天：天空＋太陽（方位 160°、仰角 35°：窗在 +z 那一面）；晚上：只有燈。
 set -e
 SAMPLES=${1:-512}
@@ -11,7 +13,7 @@ TMP=$(mktemp -d)
 /opt/blenv/bin/python tools/blender/env_second/flat_classroom.py -- --room all
 for R in linze_202 wancai_multi; do
   cp assets/models/env/second_ai/$R.glb "$TMP/$R.glb"
-  if [ $R = linze_202 ]; then LIGHTS=-6.4,5.6,-5.4,5.4,3.345,5,2,30,1.14,0.54; NOLM='tubes|glow|screens|light'; else LIGHTS=-5.6,5.6,-5.1,5.1,3.30,4,2,30,1.2,0.5; NOLM='tubes|glow|screens'; fi
+  if [ $R = linze_202 ]; then LIGHTS=-6.4,5.6,-5.4,5.4,3.345,5,2,30,1.14,0.54; NOLM='tubes|glow|screens|light|metal|props|trim|frame|louvre|grid'; else LIGHTS=-5.6,5.6,-5.1,5.1,3.30,4,2,30,1.2,0.5; NOLM='tubes|glow|screens|metal|props|trim|frame'; fi
   /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/$R.glb" --out assets/models/env/second_ai/$R.glb \
     --lm "$TMP/$R" --url assets/models/env/second_ai/${R}_lm --res 1024 --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
     --sun 160,35,2.0 --lights $LIGHTS --smooth 2

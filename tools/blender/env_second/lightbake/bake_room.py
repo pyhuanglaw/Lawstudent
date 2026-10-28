@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素]
+   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--smooth 像素] [--uvonly（只排 UV、不烘焙）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -70,10 +70,20 @@ objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons)
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
+# 同一個材質不能一部分有光照貼圖、一部分沒有：遊戲的 roomLightmap 是照材質接 lightMap 的，沒有 uv1 的網格會整個取到貼圖 (0,0) 那一點（變暗）。
+# 例：202 的頂點色材質 vc 同時給收邊條、書包、天花板格子用——要嘛全部烘、要嘛全部放進 --nolm
+OBJS = set(objs); mine = {m for o in objs for m in mats(o)}
+shared = sorted({m for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and o not in OBJS and not hidden(o) for m in mats(o)} & mine)
+if shared:
+    print('ERROR 這些材質一部分物件有光照貼圖、一部分沒有（--nolm 要一起加或一起拿掉）：', shared,
+          [o.name for o in bpy.data.objects if o.type == 'MESH' and any(m in shared for m in mats(o))], flush=True); sys.exit(1)
 
 # ---- 3. 第二套 UV（LM）：智慧展開＋所有物件一起排進同一張貼圖 ----
 for o in objs:
     uv = o.data.uv_layers
+    # 沒有 UV 的網格（頂點色的零件：鐵腳、收邊、格柵；10-28 202 v2 查到）：先放一套空的 UVMap，LM 才會是第二套（glTF 的 TEXCOORD_1＝遊戲的 uv1）。
+    # 原本 LM 變成唯一的一套、匯出成 TEXCOORD_0：遊戲裡這些零件沒有吃到光照貼圖，還白白佔了貼圖的位置
+    if 'LM' not in uv and len(uv) == 0: uv.new(name='UVMap')
     if 'LM' not in uv: uv.new(name='LM')
     uv.active = uv['LM']
 bpy.ops.object.select_all(action='DESELECT')
@@ -89,24 +99,43 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
     k = float(o.get('lm', 1.0))
     if abs(k - 1.0) > 1e-3:
         uvd = o.data.uv_layers['LM'].data; buf = np.empty(len(uvd) * 2, dtype=np.float32); uvd.foreach_get('uv', buf); uvd.foreach_set('uv', buf * k)
-# 看不到的面少分像素：牆（WALL_，自訂屬性 dir＝往室內）背對室內的面（和 dir 反方向；側面不算：窗洞的側邊、柱子的側面看得到）、地板／平台朝下的面、天花板朝上的面——島縮到 5%（照樣有 UV，只是很小）
-def shrink_hidden(o):
+# 看不到的面不分像素：牆（WALL_，自訂屬性 dir＝往室內）背對室內的面（和 dir 反方向；側面不算：窗洞的側邊、柱子的側面看得到）、地板／平台朝下的面、天花板朝上的面。
+# 10-28 改：原本每一面縮到 5%，每一面就變成一個小島，每個島都要 4 個像素的間隔（201 有幾千面，貼圖被小島擠掉一大塊）。
+# 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
+def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
-    nm = o.name.lower(); bm = bmesh.new(); bm.from_mesh(o.data); uvl = bm.loops.layers.uv['LM']; mw = o.matrix_world.to_3x3(); n_sh = 0
-    for f in bm.faces:
-        nrm = (mw @ f.normal).normalized(); hide = False
-        if dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5): hide = True
-        if ('floor' in nm or 'plat' in nm) and nrm.z < -0.5: hide = True
-        if 'ceil' in nm and nrm.z > 0.5: hide = True
-        if hide:
-            cu = sum((l[uvl].uv for l in f.loops), Vector((0, 0))) / len(f.loops)
-            for l in f.loops: l[uvl].uv = cu + (l[uvl].uv - cu) * 0.05
-            n_sh += 1
-    bm.to_mesh(o.data); bm.free(); return n_sh
-print('shrunk hidden faces', sum(shrink_hidden(o) for o in objs), flush=True)
-bpy.ops.object.mode_set(mode='EDIT'); bpy.ops.mesh.select_all(action='SELECT')
-bpy.ops.uv.pack_islands(margin=4.0 / RES, rotate=True)
+    nm = o.name.lower(); mw = o.matrix_world.to_3x3(); hs = set()
+    for f in o.data.polygons:
+        nrm = (mw @ f.normal).normalized()
+        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5): hs.add(f.index)
+    return hs if len(hs) < len(o.data.polygons) else set()
+HID = {o.name: hidden_faces(o) for o in objs}
+print('hidden faces', sum(len(v) for v in HID.values()), flush=True)
+bpy.ops.object.mode_set(mode='EDIT')
+for o in objs:
+    bm = bmesh.from_edit_mesh(o.data); hs = HID[o.name]
+    for f in bm.faces: f.select_set(f.index not in hs)
+    bmesh.update_edit_mesh(o.data)
+# 間隔＝貼圖的 4 個像素（FRACTION：最後輸出的比例）。原本用預設的 SCALED（間隔乘上 UV 的大小）：average_islands_scale 之後 UV 是公尺的大小，
+# 間隔變成幾十個像素，島只佔整張貼圖的 6～9%（10-28 量的：202 每公尺 8～11 個像素、201 2～9 個）
+try: bpy.ops.uv.pack_islands(margin_method='FRACTION', margin=4.0 / RES, rotate=True)
+except TypeError: bpy.ops.uv.pack_islands(margin=4.0 / RES, rotate=True)
 bpy.ops.object.mode_set(mode='OBJECT')
+for o in objs:
+    hs = HID[o.name]
+    if not hs: continue
+    bm = bmesh.new(); bm.from_mesh(o.data); uvl = bm.loops.layers.uv['LM']; bm.faces.ensure_lookup_table()
+    big = max((f for f in bm.faces if f.index not in hs), key=lambda f: f.calc_area())
+    c = sum((l[uvl].uv for l in big.loops), Vector((0, 0))) / len(big.loops)
+    for i in hs:
+        for l in bm.faces[i].loops: l[uvl].uv = c
+    bm.to_mesh(o.data); bm.free()
+if '--uvonly' in A:   # 只看 UV 排版、不烘焙（幾十秒）：輸出加了 LM 的 GLB 就結束，用 lightbake/uv_fill.py 量填滿率、每公尺幾個像素
+    for o in bpy.data.objects:
+        if o.type == 'MESH' and len(o.data.uv_layers) and o.data.uv_layers[0].name != 'LM': o.data.uv_layers.active = o.data.uv_layers[0]; o.data.uv_layers[0].active_render = True
+    bpy.ops.export_scene.gltf(filepath=os.path.abspath(OUT), export_format='GLB', export_texcoords=True, export_normals=True, export_extras=True,
+                              export_yup=True, export_image_format='AUTO', export_lights=False, export_cameras=False)
+    print('uvonly exported', OUT, flush=True); sys.exit(0)
 
 # ---- 4. 貼圖＋每個材質裡一個「要寫進去」的貼圖節點（Cycles 烘焙寫到作用中的貼圖節點，用作用中的 UV）----
 img = bpy.data.images.new('LM_bake', RES, RES, alpha=False, float_buffer=True)
