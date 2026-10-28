@@ -949,7 +949,7 @@
    "role": "LAWWW",
    "task": "DORM203-MATES-1028",
    "branch": "worktree-agent-a5cfdbee05c9d4a53（子代理 worktree；D113 備份 wip_backup/dorm203_1028.bundle）",
-   "sha": "9227bf81e",
+   "sha": "3b1a96854",
    "files": [
     "src/dorm203_3d.js",
     "src/data/dorm203_lines.js",
@@ -957,7 +957,7 @@
    ],
    "state": "WIP",
    "remaining": "AA_502 203 室友日常（作息、閒聊、六件小事、群組）；子代理做中，開工要先快轉到開發分支",
-   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 3b1a96854，子代理另有 story3d.js、dorm203_lines.js 未 commit，已提醒 commit）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
    "source": "使用者 10-28 01:3x（X123）"
   },
@@ -966,7 +966,7 @@
    "role": "LAWWW",
    "task": "HEROINE-LIFE-1028",
    "branch": "worktree-agent-a6a20749aede20b50（子代理 worktree；D113 備份 wip_backup/feed_1028.bundle）",
-   "sha": "bfe8dfad6",
+   "sha": "12ea31123",
    "files": [
     "src/feed3d.js",
     "src/data/feed_y1s1.js",
@@ -974,9 +974,26 @@
    ],
    "state": "WIP",
    "remaining": "AA_503 手機的部分：動態頁、七位大一上的動態、講自己的事的私訊、可昕四則改動態（子代理做中）；3D 圈子、別人說起她另外做",
-   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
+   "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 12ea31123）；AA 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉給子代理；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
    "source": "使用者 10-28 01:2x（X122★）"
+  },
+  {
+   "id": "WIP-LAWWW-POOL498-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY-1028",
+   "branch": "worktree-agent-af513e95a1675ca1c（子代理 worktree；D113 備份 wip_backup/pool498_1028.bundle）",
+   "sha": "9b3a1f10a",
+   "files": [
+    "src/pool3d.js",
+    "src/data/pool_story.js",
+    "tests/aa498_pool_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_498 法律系同學二十位：改名六位＋借車名單兩個、共同做法 2-1～2-10、二十位地點表（修三位永遠不出現）、第一批五位（曾靖雯、黃郁婷、林采潔、鄭元碩、邱家齊）；子代理 02:3x 開工",
+   "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合；之後 AA_499～501、AA_497",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-28（X119：「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）"
   }
  ]
 }
