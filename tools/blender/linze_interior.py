@@ -418,7 +418,7 @@ for x_ in (1.6, -3.0):   # 門牌（遊戲畫的，y 2.68～3.03）上面
 for zr in (0.6, 3.8):
     for (xa, xb) in ((-4.6, -1.7), (-1.45, 1.45), (1.7, 4.6)):
         box(f'L1_pendant_{zr}_{xa}', MAT['frame'], xa, xb, 6.38, 6.46, zr - 0.05, zr + 0.05, L1)
-        box(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], xa + 0.03, xb - 0.03, 6.375, 6.38, zr - 0.035, zr + 0.035, L1)
+        quad(f'L1_pendant_glow_{zr}_{xa}', MAT['light'], [(xa + 0.03, 6.375, zr - 0.035), (xb - 0.03, 6.375, zr - 0.035), (xb - 0.03, 6.375, zr + 0.035), (xa + 0.03, 6.375, zr + 0.035)], L1)   # 一片朝下的單面（上面有燈體蓋著；天花板、燈板單面朝下的規定，room_ceiling_unit.js）
         for xc in (xa + 0.25, xb - 0.25): cyl(f'L1_pendant_wire_{zr}_{xc:.2f}', MAT['frame'], (xc, 6.46, zr), (xc, RY, zr), 0.004, L1, seg=4)
 
 # ---------------- 入口東牆的公布欄（LAWWW2-B 10-24；LAWWW-B 03:53：互動點搬到 (7.2, 1.2)，那裡沒有公布欄）----------------
