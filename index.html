@@ -99,6 +99,8 @@ button{font-family:var(--font);cursor:pointer}
 .tth,.ttb,.ttc{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:8px;padding:5px 4px;text-align:center;min-height:44px}
 .tth{min-height:0;font-weight:500}.ttc.on,.tth.on{background:rgba(233,185,106,.18);border-color:rgba(233,185,106,.6)}
 .tabs button:disabled{opacity:.4}
+.tabs button.dot{position:relative}.tabs button.dot::after{content:'';position:absolute;top:5px;right:6px;width:8px;height:8px;border-radius:50%;background:#d2463c;pointer-events:none}   /* 手機「動態」頁籤：有新的動態只亮一個小點（AA_503 第 1 節，src/feed3d.js）*/
+.phone .feedPic{margin:4px 0;color:#d8cfbf;font-size:14px}
 .muted{color:#b7b0a4;font-size:13px}
 .kv{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:6px 0;border-bottom:1px dashed var(--line)}
 textarea,input[type=text]{width:100%;font-family:ui-monospace,monospace;font-size:12px;background:#0d1016;color:#e8e2d6;border:1px solid var(--line);border-radius:10px;padding:8px}
@@ -149,7 +151,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   <div id="fps"></div><div id="mdbg"></div>
   <div id="phone" class="panel hide"><div class="card phone">
     <div class="row2" style="justify-content:space-between"><h2>手機</h2><button class="btn" id="btnPhoneClose">收起來</button></div>
-    <div class="tabs" id="phoneTabs"><button data-ptab="today" class="on">今天</button><button data-ptab="week">課表</button><button data-ptab="places">地點</button><button data-ptab="events">活動</button><button data-ptab="msg">訊息</button><button data-ptab="friends">朋友</button><button data-ptab="album">相簿</button></div>
+    <div class="tabs" id="phoneTabs"><button data-ptab="today" class="on">今天</button><button data-ptab="week">課表</button><button data-ptab="places">地點</button><button data-ptab="events">活動</button><button data-ptab="msg">訊息</button><button data-ptab="feed">動態</button><button data-ptab="friends">朋友</button><button data-ptab="album">相簿</button></div>
     <div class="list" id="phoneBody"></div>
   </div></div>
   <div id="menu" class="panel hide"><div class="card">
@@ -424,6 +426,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 <script src="src/jpprep3d.js?v=9.10.10"></script>
 <script src="src/data/rom1016_events.js?v=9.10.10"></script>
 <script src="src/rom1016_3d.js?v=9.10.10"></script>
+<script src="src/data/feed_y1s1.js?v=9.10.10"></script>
+<script src="src/feed3d.js?v=9.10.10"></script>
 <script src="src/data/heroine_asks.js?v=9.10.10"></script>
 <script src="src/heroine_asks3d.js?v=9.10.10"></script>
 <script src="src/data/dorm203_lines.js?v=9.10.10"></script>

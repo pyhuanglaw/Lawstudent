@@ -128,11 +128,11 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('K4：讀書時間算進期末準備（兩個小時＝那一科 +2）、時間往後兩小時、記 VIDEO_STUDY',(R1[c]||0)-(R0[c]||0)===2&&((G.stats&&G.stats.study)||0)-st0===2&&Math.abs(G.hour-23)<0.05&&SOCIAL.has('kexin','VIDEO_STUDY'),JSON.stringify({c,before:R0[c]||0,after:R1[c],hour:G.hour}));
     run(23,23.9); check('K4：去了就沒有書桌的照片',!G.msgs.some(x=>x.tag==='kx_video_photo'));
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,1); run(20.3,23.1);
-    const ph=G.msgs.filter(x=>x.tag==='kx_video_photo').map(x=>x.text); check('K4：「今天不行。」→「好。我自己讀，讀完傳照片給你。」、23:00 書桌的照片「我自己讀了。你欠我一次。」、沒有視訊',kx().some(x=>x.text==='好。我自己讀，讀完傳照片給你。')&&JSON.stringify(ph)===JSON.stringify(['📷（她的書桌）','我自己讀了。你欠我一次。'])&&!OUT.get(G,'kx_video'),JSON.stringify(ph));
+    const ph=G.msgs.filter(x=>x.tag==='kx_video_photo').map(x=>x.text); check('K4：「今天不行。」→「好。我自己讀，讀完傳照片給你。」、23:00「我自己讀了。你欠我一次。」（書桌的照片 AA_503 9-3 改成可昕的動態第 8 則，tests/aa503_feed_unit.js）、沒有視訊',kx().some(x=>x.text==='好。我自己讀，讀完傳照片給你。')&&JSON.stringify(ph)===JSON.stringify(['我自己讀了。你欠我一次。'])&&!OUT.get(G,'kx_video'),JSON.stringify(ph));
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,23.1); m=ask(); const exp=PHONE.answer(G,m.ask.id,0);
-    check('K4：沒回＝21:45 以後不能再回、23:00 一樣傳照片',exp===null&&G.msgs.filter(x=>x.tag==='kx_video_photo').length===2&&G.flags.KX_VIDEO==='none');
+    check('K4：沒回＝21:45 以後不能再回、23:00 一樣傳那一句（照片改成動態）',exp===null&&G.msgs.filter(x=>x.tag==='kx_video_photo').length===1&&G.flags.KX_VIDEO==='none');
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,0); run(20.3,20.4); const q2=OUT.get(G,'kx_video'); G.hour=21; q2.state='missed'; OUT.onMissed(GM,q2); run(21,23.1);
-    check('K4：答應了但沒接（今天先不要）＝23:00 一樣傳照片',G.msgs.filter(x=>x.tag==='kx_video_photo').length===2);
+    check('K4：答應了但沒接（今天先不要）＝23:00 一樣傳那一句（照片改成動態）',G.msgs.filter(x=>x.tag==='kx_video_photo').length===1);
     fresh(D,19.9,'dorm',{}); run(19.9,23.5); check('K4：沒有在交往（dating_kexin 沒設）＝沒有',!ask()); }
   /* ---------- 舊存檔：KX_BDAY[1] 搬到 KX_DEC3[1]（BB_95 9-6 改版的「影響」）---------- */
   { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const a=src.indexOf('  function migrate(s){'), b=src.indexOf('  function ls(){',a);
@@ -166,7 +166,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('只傳訊息 →「交出去了嗎？」＋她「交了。……今天可以早點睡了。」',JSON.stringify(rep)===JSON.stringify(['交出去了嗎？','交了。……今天可以早點睡了。']),JSON.stringify(rep));
     run(12,23); keepOn(BD+1,7.5); run(7.5,8.2); check('只傳訊息＝KX_DEC3 {1:"message"}、那晚沒有空椅子的照片、沒有 KX_BDAY',G.flags.KX_DEC3&&G.flags.KX_DEC3[1]==='message'&&!G.msgs.some(m=>m.tag==='kx_dec3_none')&&!G.flags.KX_BDAY);
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,23.95); const none=G.msgs.filter(m=>m.tag==='kx_dec3_none').map(m=>[m.day,m.h,m.text]); keepOn(BD+1,7); run(7,8.2);
-    check('什麼都沒做＝那晚 22:30 她傳一張照片＋「一個人吃了。很好吃。下次你要來。」、KX_DEC3 {1:"none"}；隔天沒有「我等了一天。」',none.length===2&&none[1][2]==='一個人吃了。很好吃。下次你要來。'&&none[0][1]===22.5&&G.flags.KX_DEC3[1]==='none'&&!G.msgs.some(m=>m.text==='我等了一天。'),JSON.stringify(none));
+    check('什麼都沒做＝那晚 22:30 她傳「一個人吃了。很好吃。下次你要來。」（酸辣湯餃的照片 AA_503 9-3 改成可昕的動態第 6 則，23:30 一定出）、KX_DEC3 {1:"none"}；隔天沒有「我等了一天。」',none.length===1&&none[0][2]==='一個人吃了。很好吃。下次你要來。'&&none[0][1]===22.5&&G.flags.KX_DEC3[1]==='none'&&!G.msgs.some(m=>m.text==='我等了一天。'),JSON.stringify(none));
     fresh(BD,6,'dorm',{dating_kexin:true}); run(6,6.2); d=draft(); keepOn(BD+1,0.2); const late=PHONE.answer(G,d.ask.id,0); check('草稿過了當天就不能傳',late===null);
     const go=async(flags,events,pick)=>{ fresh(BD,18.2,'dorm',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; run(18.2,18.3); const q3=OUT.get(G,'kx_bday'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q3); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「猜的。」');
