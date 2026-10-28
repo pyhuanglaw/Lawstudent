@@ -155,7 +155,7 @@ root = group('LinzeInterior')
 L0 = group('L0_root', root); L1 = group('L1_root', root)
 
 # ---------------- 地板、樓板、天花板 ----------------
-box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0, props={'lm': 1.6})   # lm：光照貼圖分給它的比例（lightbake/bake_room.py；地板最常看到、天花板 8.4 m 高很少看到）
+box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0, props={'lm': 1.6, 'lmhide': 'side'})   # lm：光照貼圖分給它的比例（lightbake/bake_room.py；地板最常看到、天花板 8.4 m 高很少看到）；lmhide 'side'：四邊的側面不分像素（東邊、南邊在玻璃外面，烘出來是天空的顏色：晚上鏡頭在門外時看到一條深藍色）
 gz0, gz1 = -D / 2, G['z1']
 WI0, WI1, ZI0 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2   # 牆的內面：樓板、地板停在牆的內面（原本伸進牆裡，和牆的端面同平面）
 box('L1_slab', MAT['plaster'], WI0, WI1, Y1 - G['slabT'], Y1 - 0.02, ZI0, gz1, L1, props={'lmhide': [0, 1, 0]})            # 二樓樓板（下面是一樓北側的天花板）

@@ -11,7 +11,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
    [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）]
-物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素。
+物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
 實例化的網格（EXT_mesh_gpu_instancing，例如 201 的 48 張椅子）：每一張的光不一樣，烘焙前展開成各自的網格（同一個材質的合併成一個）。
@@ -109,11 +109,12 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
 # 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
 def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
-    h = o.get('lmhide'); hv = Vector((h[0], -h[2], h[1])) if h is not None and len(h) == 3 else None   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）
+    h = o.get('lmhide'); hs_side = isinstance(h, str) and h == 'side'   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）；
+    hv = Vector((h[0], -h[2], h[1])) if h is not None and not isinstance(h, str) and len(h) == 3 else None   # 'side'＝所有側面（地板方塊的四邊：埋在牆裡或在玻璃外面，烘出來是天空的顏色）
     nm = o.name.lower(); mw = o.matrix_world.to_3x3(); hs = set()
     for f in o.data.polygons:
         nrm = (mw @ f.normal).normalized()
-        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5) or (hv is not None and nrm.dot(hv) > 0.5): hs.add(f.index)
+        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5) or (hv is not None and nrm.dot(hv) > 0.5) or (hs_side and abs(nrm.z) < 0.5): hs.add(f.index)
     return hs if len(hs) < len(o.data.polygons) else set()
 HID = {o.name: hidden_faces(o) for o in objs}
 print('hidden faces', sum(len(v) for v in HID.values()), flush=True)
