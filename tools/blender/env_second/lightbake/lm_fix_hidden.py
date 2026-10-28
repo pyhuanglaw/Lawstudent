@@ -6,8 +6,11 @@
   - 烘成全黑的：門框上方一條條點狀黑線（男一舍門廳第一次正式烘焙；之前交的 201、202、霖澤館大廳、萬才館也有 60～470 m² 全黑的面）。
   - 收成「整個物件最大那一面中間的光」的（bake_room.py 原本的做法）：門洞、樓梯間開口的側面看得到，變成別處的亮度（男一舍門廳：樓梯間開口旁兩條暗的直條）。
 怎麼接（從面的中心往外 2 mm 沿法線射一條線，先分三種）：
-  0. 朝建築外面的（什麼都沒碰到：外牆的外側、地板朝外的切邊、貼在牆上朝牆外的背面）：不動。
-     只在鏡頭跑到牆外、牆淡出的時候看得到；改了反而會變（霖澤館大廳地板朝外的切邊變黑、202 貼在牆上的背面和牆疊在一起露出一塊暗影）。
+  0. 朝建築外面的（什麼都沒碰到：外牆的外側、地板朝外的切邊、貼在牆上朝牆外的背面、從門口看出去的牆面）：
+     烘成全黑的不動。沒分像素的：接附近（60 cm 內）朝同一個方向、而且有亮（> --lit）的面；沒有就接共用一條邊、看得到的那一面（地板的上面）；
+     再沒有就接 4 m 內朝同一個方向、有亮的面；都沒有才不動。
+     附近朝外的面多半在外面暗的地方，暗的不接（第三版：霖澤館大廳地板朝外的切邊接到外面暗的面，變黑）。
+     沒分像素的面原本的光是隨便的，也不能整個不動（第五版：男一舍門口往裡看，門洞裡那面牆一塊暗的）。
   1. 夾在中間的（碰到別的面的背面＝在別的方塊裡面，或 5 mm 內就碰到東西＝貼著別的面）：
      接到共用一條邊、看得到的那一面（最大的那一面）——光照座標投影到共用的那條邊上，往那一面裡面縮 1.5 個像素。接縫兩邊的光一樣，露縫也看不出來。
   2. 露在外面的：接附近（60 cm 內）朝同一個方向、看得到的面上最近那一點的光（可以是別的物件：整間共用一張光照貼圖）。
@@ -16,7 +19,7 @@
   3. 都找不到：最近一個看得到的面中間的光。
 「整面每一處」：面中心、角和邊的中點（往中心縮 20%），大的面再加一張格子，取最亮的。只看中心會錯：
   202 東牆一整面（11.5 m² 的三角形）的中心剛好在「教室使用須知」那塊板子後面（被板子擋住的影子），整面被當成全黑改掉，牆上抹出一塊暗影。
-用法：/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in 房間.glb --out 輸出.glb --lm 光照貼圖前綴（不含 _day.webp） [--thr 0.004] [--report 每個物件改了幾個面.json]
+用法：/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in 房間.glb --out 輸出.glb --lm 光照貼圖前綴（不含 _day.webp） [--thr 0.004] [--lit 0.02] [--report 每個物件改了幾個面.json]
 """
 import bpy, bmesh, sys, os, json, math
 import numpy as np
@@ -28,7 +31,7 @@ from PIL import Image
 
 A = sys.argv[sys.argv.index('--') + 1:]
 def arg(k, d=None): return A[A.index(k) + 1] if k in A else d
-IN, OUT, LMP = arg('--in'), arg('--out'), arg('--lm'); THR = float(arg('--thr', '0.004')); REPORT = arg('--report'); DEBUG = arg('--debug')
+IN, OUT, LMP = arg('--in'), arg('--out'), arg('--lm'); THR = float(arg('--thr', '0.004')); LIT = float(arg('--lit', '0.02')); REPORT = arg('--report'); DEBUG = arg('--debug')
 
 def load(p):
     a = np.asarray(Image.open(p).convert('RGB')).astype(np.float32) / 255
@@ -59,7 +62,7 @@ def lmmax(f, uv):
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 bpy.ops.import_scene.gltf(filepath=os.path.abspath(IN))
-st = {'objects': 0, 'collapsed': 0, 'black': 0, 'outward_keep': 0, 'enclosed_edge': 0, 'same_dir': 0, 'dark_keep': 0, 'exposed_edge': 0, 'nearest': 0}
+st = {'objects': 0, 'collapsed': 0, 'black': 0, 'outward_keep': 0, 'outward_same': 0, 'outward_edge': 0, 'outward_far': 0, 'enclosed_edge': 0, 'same_dir': 0, 'dark_keep': 0, 'exposed_edge': 0, 'nearest': 0}
 REP = {}; DBG = []   # --report：物件 → {收成一點／全黑 × 怎麼接的: [面數, 面積 m²]}；--debug：每一個改了的面（開發時查用）
 def rep(o, kind, how, f, mw, src=None):
     r = REP.setdefault(o.name, {}).setdefault(kind + '/' + how, [0, 0.0]); r[0] += 1
@@ -127,7 +130,21 @@ for (o, bm, uv, bad, mw, mn) in OBJ:
     for fi in bad:
         f = bm.faces[fi]; cw = mw @ f.calc_center_median(); nw_ = (mn @ f.normal); nw_ = nw_.normalized() if nw_.length > 1e-9 else nw_
         where = 'in' if nw_.length < 0.5 else probe(cw, nw_)
-        if where == 'out': st['outward_keep'] += 1; rep(o, bad[fi], 'outward_keep', f, mw); continue
+        if where == 'out':
+            if bad[fi] == 'collapsed':
+                cand = [REC[i_] for (co_, i_, d_) in KD.find_range(cw, 4.0) if REC[i_][2].dot(nw_) > 0.8]
+                cand = [(fdist(r, cw), r) for r in cand]; cand = [t for t in cand if t[0] < 0.6 and lmval(uv_on(t[1], cw)) > LIT]
+                if cand:
+                    rec = min(cand, key=lambda t: t[0])[1]; new[fi] = [uv_on(rec, mw @ l.vert.co) for l in f.loops]; st['outward_same'] += 1
+                    rep(o, bad[fi], 'outward_same', f, mw, {'obj': rec[4], 'c': [round(v, 3) for v in rec[3]]}); continue
+                out = edge_proj(f, bad, uv)
+                if out: new[fi] = out; st['outward_edge'] += 1; rep(o, bad[fi], 'outward_edge', f, mw); continue
+                cand = [REC[i_] for (co_, i_, d_) in KD.find_range(cw, 4.0) if REC[i_][2].dot(nw_) > 0.8]   # 4 m 內朝同一個方向、有亮的面（男一舍門洞裡那面牆：附近 60 cm 沒有、共用邊的面也都看不到）
+                cand = [(fdist(r, cw), r) for r in cand]; cand = [t for t in cand if lmval(uv_on(t[1], cw)) > LIT]
+                if cand:
+                    rec = min(cand, key=lambda t: t[0])[1]; new[fi] = [uv_on(rec, mw @ l.vert.co) for l in f.loops]; st['outward_far'] += 1
+                    rep(o, bad[fi], 'outward_far', f, mw, {'obj': rec[4], 'c': [round(v, 3) for v in rec[3]]}); continue
+            st['outward_keep'] += 1; rep(o, bad[fi], 'outward_keep', f, mw); continue
         if where == 'in':
             out = edge_proj(f, bad, uv)
             if out: new[fi] = out; st['enclosed_edge'] += 1; rep(o, bad[fi], 'enclosed_edge', f, mw); continue
