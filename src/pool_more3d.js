@@ -376,11 +376,11 @@ const POOL_MORE=(function(){
   const gradJP=(G,id,texts,tag)=>{ const d=termDay('Y3S2',16,6); if(d!=null&&abroad(G,d)) story(G,id,d,20,texts,tag); };   /* 大二的六位畢業：日本路線（祐廷在日本）改私訊（那一週的週六 20:00）*/
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined'||typeof CALENDAR==='undefined') return; const F=G.flags||{}, R=R_(G);
     /* 何宇軒 */
-    { const d=termDay('Y3S1',3,1); if(d!=null&&!q(G,'PQ_HYX2')&&contact(G,H)&&P.canOpen(G)) story(G,H,d,21,L[H].y3,'pool_hyx_y3',{ask:askOf('pool_hyx_y3',[{t:L[H].y3Opts[0]},{t:L[H].y3Opts[1],say:[{from:H,text:L[H].y3No}]}])}); }   /* 1-4 大三上第 3 週 */
+    { const d=termDay('Y3S1',3,1); if(d!=null&&!q(G,'PQ_HYX2')&&contact(G,H)&&P.canOpen(G)) story(G,H,d,21,L[H].y3,'pool_hyx_y3',{ask:askOf('pool_hyx_y3',[{t:L[H].y3Opts[0]},{t:L[H].y3Opts[1],say:[{from:H,text:L[H].y3No}]}],{until:termDay('Y3S1',6,4)*24+18})}); }   /* 回到大三上第 6 週週四傍晚（1-5：第 3～6 週）*/   /* 1-4 大三上第 3 週 */
     { const extra=F.HYX_WHAT?L[H].passWhat:(F.HYX_EARLY?L[H].passEarly:(F.HYX_WAIT?L[H].passWait:null)); story(G,H,DK('2028-11-23'),16,[L[H].pass].concat(extra?[extra]:[]),'pool_hyx_pass'); segSent(G,H,'pass','pool_hyx_pass'); }   /* 1-6 放榜（柏翰放榜同一天）*/
     /* 徐靜儀 */
     if(F.JY_ANS&&R.jyMeet!=null&&!P.did(G,'jyAired')) story(G,J,R.jyMeet+7,21,F.JY_ANS==='no'?L[J].airedNo:L[J].aired,'pool_jy_aired');   /* 2-1 一週以後 */
-    { const d=termDay('Y2S1',10,1); if(d!=null&&!P.did(G,'jyInvite')&&story(G,J,d,21,L[J].invite,'pool_jy_invite',{ask:askOf('pool_jy_invite',[{t:L[J].inviteOpts[0]},{t:L[J].inviteOpts[1],say:[{from:J,text:L[J].inviteNo}]}])})) P.mark(G,'jyInvite'); }   /* 2-5 大二上第 10 週 */
+    { const d=termDay('Y2S1',10,1); if(d!=null&&!P.did(G,'jyInvite')&&story(G,J,d,21,L[J].invite,'pool_jy_invite',{ask:askOf('pool_jy_invite',[{t:L[J].inviteOpts[0]},{t:L[J].inviteOpts[1],say:[{from:J,text:L[J].inviteNo}]}],{until:termDay('Y2S1',10,4)*24+19.5})})) P.mark(G,'jyInvite'); }   /* 2-5 大二上第 10 週 */
     if(R.jyEp!=null) story(G,J,R.jyEp+7,21,L[J].episode,'pool_jy_episode');   /* 之後一週，她傳那一集 */
     if(knows(G,YC)){ story(G,J,DK('2026-11-20'),21,L[J].yc,'pool_jy_yc'); segSent(G,J,'yc','pool_jy_yc'); }   /* 2-6 宥辰地下室那場（11/14）之後一週的週五 */
     story(G,J,DK('2028-07-12'),21,L[J].court,'pool_jy_court'); segSent(G,J,'court','pool_jy_court');   /* 大三暑假 2028-07 */
@@ -420,7 +420,7 @@ const POOL_MORE=(function(){
     gradJP(G,CX,L[CX].gradJP,'pool_ycx_gradjp');
     /* 游振宇 */
     if(contact(G,ZY)&&S.rideDue(G)&&R.yzyFace!==G.day&&dateOf(G.day).wd===4){   /* 5-3：週四 21:00 私訊（有聯絡方式）*/
-      const tag='pool_yzy_ride_'+(R.yzyRe!=null?'re':'1'); if(!sent(G,tag)&&story(G,ZY,G.day,21,L[ZY].ride,tag,{ask:askOf(tag,[{t:L[ZY].rideOpts[0]},{t:L[ZY].rideOpts[1],say:[{from:ZY,text:L[ZY].rideNo}]}])})){ if(R.yzyRe!=null) R.yzyRe2=G.day; else R.yzyRide=G.day; } }
+      const tag='pool_yzy_ride_'+(R.yzyRe!=null?'re':'1'); if(!sent(G,tag)&&story(G,ZY,G.day,21,L[ZY].ride,tag,{ask:askOf(tag,[{t:L[ZY].rideOpts[0]},{t:L[ZY].rideOpts[1],say:[{from:ZY,text:L[ZY].rideNo}]}],{until:(G.day+2)*24+18.5})})){ if(R.yzyRe!=null) R.yzyRe2=G.day; else R.yzyRide=G.day; } }
     if(R.yzyQuiz!=null) story(G,ZY,R.yzyQuiz+1,21,L[ZY].quizMsg,'pool_yzy_quiz');   /* 考完那天晚上 */
     gradJP(G,ZY,L[ZY].gradJP,'pool_yzy_gradjp');
     /* 蕭乃文 */
@@ -442,12 +442,12 @@ const POOL_MORE=(function(){
     { const d=DK('2027-12-11'); if(d!=null&&PHONE.inGroup(G,'noodle_team')&&knows(G,'zhe')&&P.met(G,MR)) atTW(G,d,21,L[MR].grp.map(t=>({th:'g:noodle_team',from:'zhe',text:t})),'pool_smr_grp'); }   /* 2027-12 麵店團，阿哲轉貼 */
     /* 廖芸萱 */
     { if(inTerm(G,'Y1S2')&&week(G)>=12&&week(G)<=15&&dateOf(G.day).wd===3&&fam(YX)&&contact(G,YX)&&!P.did(G,'lyxInvite'))   /* 3-3 週三 21:00 私訊 */
-        if(story(G,YX,G.day,21,L[YX].invite,'pool_lyx_invite',{ask:askOf('pool_lyx_invite',[{t:L[YX].inviteOpts[0]},{t:L[YX].inviteOpts[1],say:[{from:YX,text:L[YX].inviteNo}]}])})) P.mark(G,'lyxInvite'); }
+        if(story(G,YX,G.day,21,L[YX].invite,'pool_lyx_invite',{ask:askOf('pool_lyx_invite',[{t:L[YX].inviteOpts[0]},{t:L[YX].inviteOpts[1],say:[{from:YX,text:L[YX].inviteNo}]}],{until:(G.day+1)*24+18.5})})) P.mark(G,'lyxInvite'); }
     story(G,YX,DK('2028-04-12'),21,L[YX].y2028,'pool_lyx_2028'); segSent(G,YX,'y2028','pool_lyx_2028');
     /* 嚴守誠 */
     { if(inTerm(G,'Y1S1')&&week(G)>=14&&dateOf(G.day).wd===1&&P.met(G,YS)&&contact(G,YS)&&!P.did(G,'yscInvite'))   /* 4-3 週一 23:00 私訊 */
-        if(story(G,YS,G.day,23,L[YS].invite,'pool_ysc_invite',{ask:askOf('pool_ysc_invite',[{t:L[YS].inviteOpts[0]},{t:L[YS].inviteOpts[1],say:[{from:YS,text:L[YS].inviteNo}]}])})) P.mark(G,'yscInvite'); }
-    { const d0=termDay('Y1S2',16,1); if(d0!=null&&F.YSC_RETURN) story(G,YS,d0-1,23,L[YS].ret,'pool_ysc_ret',{ask:askOf('pool_ysc_ret',[{t:L[YS].retOpts[0]},{t:L[YS].retOpts[1],say:[{from:YS,text:L[YS].retNo}]}])}); }   /* 4-4 大一下期末前一晚 */
+        if(story(G,YS,G.day,23,L[YS].invite,'pool_ysc_invite',{ask:askOf('pool_ysc_invite',[{t:L[YS].inviteOpts[0]},{t:L[YS].inviteOpts[1],say:[{from:YS,text:L[YS].inviteNo}]}],{until:G.day*24+23.75})})) P.mark(G,'yscInvite'); }
+    { const d0=termDay('Y1S2',16,1); if(d0!=null&&F.YSC_RETURN) story(G,YS,d0-1,23,L[YS].ret,'pool_ysc_ret',{ask:askOf('pool_ysc_ret',[{t:L[YS].retOpts[0]},{t:L[YS].retOpts[1],say:[{from:YS,text:L[YS].retNo}]}],{until:(d0-1)*24+23.75})}); }   /* 4-4 大一下期末前一晚 */
     { story(G,YS,DK('2027-12-17'),20,L[YS].exam.concat(F.YSC_LISTENED?[L[YS].examListened]:[]),'pool_ysc_exam'); segSent(G,YS,'exam','pool_ysc_exam'); } };
   /* 手機的回覆 */
   Object.assign(P.ANSWER,{

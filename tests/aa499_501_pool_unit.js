@@ -8,7 +8,14 @@
 //   17 女主角的圈子介紹（src/hcircle3d.js）：晏如、晨希（子晴的吉他社）、芸萱（沛珊）＝走同一套認識（FIRST_MET、他那條線「認識」那一段、名字換掉、
 //      說話按鈕回來、之後不再演他自己的認識那一場）
 //   18 共同的：晨希的錄音（閒聊型：一個月最多一則）、關係上限（朋友、沒有戀愛）、順手的事和店員的一起算、舊存檔（說過秘密的不重問、記成沒選；改過的原句照算說過）
-// 修改前（開發分支 e7614e335，2026-10-28 開工時；git archive 那一版、把這支測試放進去真的跑過）：見檔尾 RESULT_BEFORE。
+// 修改前（開發分支 e7614e335，2026-10-28 開工時；git archive 那一版放在 worktree 裡、把這支測試放進去真的跑過）：PASS 22、FAIL 61（其中 16 節丟例外中斷：沒有 POOL.LINES、POOL_MORE）——
+//   0 稿：沒有 src/data/pool_story_b2.js、b3、b4、src/pool_more3d.js（FAIL）；稿讀得到、例外還用得到（PASS）。
+//   1 接線：十五位都不是 POOL.owns、index.html 沒有那四個檔、社會圖少六條且兩條類型沒改、personality 只有蔡宗霖（舊的那一句）、沒有新的 2D 場景、作息沒有加的時段（FAIL）。
+//   2～16：認識是舊的自我介紹（「你是大一的吧？」「我是〇〇。」＋人物頁那一句）；沒有秘密的選項、順手的事、邀你、手機、畢業（FAIL）。
+//      本來就 PASS 的：認識前的外觀描述（AA_498 已經做的）、「沒有那裡的認識版本」（舊的 POOL 不管他們，meetVersion 一律 null）。
+//   17 圈子：第二批以後被介紹＝SOCIAL.meet＋熟悉＋3，他那條線沒有「認識」那一段（FAIL）；之後不演自我介紹（PASS）。
+//   18：晨希沒有錄音、宇軒走不到朋友（FAMILIAR，信任 4）（FAIL）。
+// 修改後：ALL PASS（172 項）。
 // 用法：node tests/aa499_501_pool_unit.js
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -160,6 +167,8 @@ await sec('2 何宇軒',async()=>{ const d=TD('Y1S1',4,2); fresh(d,14.5,'library
   check('2. 何宇軒 回「好。」＝順手的事 2：那個週四 19:00～21:00 總圖 B1 討論室',r2.state==='open'&&!!q2&&q2.day===TD('Y3S1',3,4)&&q2.h===19,J([r2,q2&&keyOf(q2.day)]));
   await go('ev_pool_hyx_cases',['法官看到的樣子']);
   check('2. 何宇軒 一百份判決（2D，B1）：「態度良好」那一題選「法官看到的樣子。」→ 那兩句；人物頁「幫他讀過判決」；做完',has('法官看到的樣子……那就不只是被告的事了。')&&has('（他在筆記本上寫了很長一段。）')&&deeds(HX).includes('幫他讀過判決')&&r2.state==='done',J(said()));
+  fresh(TD('Y3S1',3,1)-1,12,'campus'); meet(HX); INV.addContact(H.G,HX); phAt(TD('Y3S1',3,1),21.1); set(TD('Y3S1',6,4),18.5); const late=ans('pool_hyx_y3',0);
+  check('2. 何宇軒：大三上那一則要在第 6 週週四傍晚以前回（1-5 是第 3～6 週）；過了就不能回、不掛事',!late&&!quest('PQ_HYX2').state&&!outing('ev_pool_hyx_cases'),J(late&&late.o));
   /* 婉拒：大二上第 10 週以後多一句 */
   fresh(d3,14.5,'library'); meet(HX); rel(HX,25,3); SOCIAL.remember(HX,'SHARED_SECRET',''); spawn(HX); await talk(HX,['你自己去比較好']);
   const dec=has('……為什麼？')&&has('不用回答。我知道為什麼。')&&quest('PQ_HYX1').state==='declined'&&!INV.hasContact(H.G,HX);
@@ -414,6 +423,8 @@ await sec('11 游振宇',async()=>{ const d=TD('Y1S1',4,2); fresh(d,10,'campus')
   ans('pool_yzy_ride_1',1); const re=P().rec(H.G).yzyRe; let m2=null; for(let x=re;x<re+7&&!m2;x++){ if(wdOf(x)!==4) continue; phAt(x,21.1); m2=tagged('pool_yzy_ride_re').find(m=>m.ask); }
   ans('pool_yzy_ride_re',1); let m3=null; for(let x=re+7;x<re+40&&!m3;x++){ if(wdOf(x)!==4) continue; phAt(x,21.1); m3=(H.G.msgs||[]).filter(m=>/^pool_yzy_ride/.test(m.tag||'')).length>4; }
   check('11. 游振宇（有聯絡方式）週四 21:00 私訊邀；「這次不行。」→「好！下次！」；下個月再邀一次，只再邀一次',!!m1&&!!m2&&msgs(ZY).includes(L(ZY).rideNo)&&!m3,J(msgs(ZY)));
+  fresh(TD('Y1S1',8,2),10,'campus'); meet(ZY); INV.addContact(H.G,ZY); phAt(TD('Y1S1',8,4),21.1); set(TD('Y1S1',8,6),19); const lateR=ans('pool_yzy_ride_1',0);
+  check('11. 游振宇：週四的邀請要在週六 18:30 以前回（過了＝不能回、不排）',!!tagged('pool_yzy_ride_1').length&&!lateR&&!outing('ev_pool_yzy_river'),J(lateR&&lateR.o));
   fresh(TD('Y3S2',16,2),10,'campus'); meet(ZY); rel(ZY,25,3); SOCIAL.remember(ZY,'SHARED_SECRET',''); spawn(ZY); const e=P().ent(H.G,ZY); await talk(ZY,[]);
   check('11. 游振宇 5-5 畢業（2028-06，校門口，他牽著車）',!!e&&e.label==='校門口，牽著車'&&has('最後一次從校門騎到總圖。我沒有計時。')&&has('……好啦，我有計。比一分四十秒慢很多。我想慢慢騎。'),J(said())); });
 
