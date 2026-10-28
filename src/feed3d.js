@@ -1,8 +1,9 @@
 /* ===== 手機「動態」（AA_503 第 1 節，企劃線 d13ab3ab7；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
    她貼自己的事（照片＋一句），像限時動態；加上她私訊你講她自己的事（不約你、不回你，只是跟你說）。資料一學期一份，加進 SETS：
      src/data/feed_y1s1.js（大一上，AA_503）、feed_y1s2.js（大一下＋暑假，AA_504）、feed_y2s1.js（大二上＋寒假，AA_505）、
-     feed_y2s2.js（大二下＋暑假，AA_506）、feed_y3s1.js（大三上＋寒假，AA_507）、feed_y3s2.js（大三下＋暑假，AA_508）、feed_y4s1.js（大四上＋寒假，AA_509）。
-     id 全部不重複（大一下的加 b、大二上 c、大二下 d、大三上 e、大三下 f、大四上 g）。
+     feed_y2s2.js（大二下＋暑假，AA_506）、feed_y3s1.js（大三上＋寒假，AA_507）、feed_y3s2.js（大三下＋暑假，AA_508）、feed_y4s1.js（大四上＋寒假，AA_509）、
+     feed_y4s2.js（大四下＋畢業那年夏天，AA_510）、feed_pg.js（畢業以後 2029-09～2030-12，AA_511）。
+     id 全部不重複（大一下的加 b、大二上 c、大二下 d、大三上 e、大三下 f、大四上 g、大四下 h、畢業以後 i）。
    ■ 動態頁（手機「訊息」旁邊那一頁，game3d.js 的 renderPhone 叫 FEED.html）：
      - 誰：有聯絡方式的人（INV.hasContact）。保留七天（S.KEEP），最新的在上面。
      - 提示：新的只在「動態」頁籤上亮一個小點（S.newCount）；不跳通知、不算未讀、不算在私訊的頻率上限裡（動態不在 G.msgs）。
@@ -38,15 +39,25 @@
      - 選項的 out：排一趟出遊（at＝臺灣時間；語彤「好。」→ 8/22 21:00 麵店的短場）；那一份的 events 接進 STORY_EVENTS。
      - 那一份的 ladSet：閒聊階梯選了哪一句就寫進 G.flags（ladder.js 這一層只記 YT6_ASK_AUNT、不分選項）：包住 STORY.ladPlay（語彤 Y6-L8「我可以陪妳問。」＝YT6_WITH）。
      - 留言、回覆兩個版本句數不同（子晴大三下第 3 則）：沒有的那一版寫 ''，那一句不出。
+   ■ 大四下、畢業以後（AA_510 企劃線 28f981438、AA_511 企劃線 c9899bed9）加的：
+     - 畢業以後篇（src/postgrad3d.js；PG.on：6/2 拍照以後，站著不動兩秒、睡覺＝跳到下一站）跳時間，動態不過期（AA_511 第 0 節第 1 點，照 AA_506 第 9 節出遊途中的做法）：
+       跳的途中（PG.jumpTo 那一段，S.pgJumping）貼的、跳之前最後一次還看得到的（S.free 那一刻還在七天內的）記 tr＝'pg'（S.PG_TR）；
+       停下來＝跳完、接著的那一件演完（PG.busy：PG.advance 的開手機、演場景）、落地的出遊也演完或不去了（S.tripNow、OUT.due）、PG 的場景沒有該演的（PG.due）以後第一次 tick，
+       記 back（那一刻），從那一刻起再留七天（S.live）。一則只延一次：已經有 tr 的不再記（不然每跳一次都重算，永遠不過期）。跳的途中最多留 S.PG_MAX 天（PG 的跳不會卡住，只是上限）。
+     - 停點（PG.stops，S.pgStop）：其他的停點只剩尾聲（2034；最後一個停點是 2030-10-01 第一份工作、12/13 麵店團…）的時候，先停在還沒出、會出的最後一則動態
+       （那一刻還有聯絡方式、階段夠）的一分鐘以後——不然那幾則（以安紐約、語彤紅紙、芷若存摺、學姊計畫本……）永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。
+       後面還有別的停點的時候不停（跳到那裡看得到）。
+     - 可昕分開以後一學期（AA_503 9-3，AA_510 7-3、AA_511 第 7 節照用）：大四下以後沒有下一個學期（V6EX.coolUntil＝null），照分開那天起 18 週（S.COOL_LAST）。
    ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r, tr, back}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天}；舊存檔沒有＝從那一天開始。
+     tr：出遊途中貼的＝那一趟的 id；畢業以後篇跳時間＝'pg'。
      G.flags.ZQ_NAME_REPLIED（子晴 zq_name 回過）、YT_BDAY_Y2（2027 生日回了「生日快樂。」）、YT6_WITH（語彤 Y6-L8 選「我可以陪妳問。」）、YT_AUNT_DM（8/21 私訊選了哪一個）。
-   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js、node tests/aa508_509_feed_unit.js */
+   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js、node tests/aa508_509_feed_unit.js、node tests/aa510_511_feed_unit.js */
 'use strict';
 const FEED=(function(){
   const S={};
   const SETS=()=>[typeof FEED_Y1S1!=='undefined'?FEED_Y1S1:null,typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null,typeof FEED_Y2S1!=='undefined'?FEED_Y2S1:null,
     typeof FEED_Y2S2!=='undefined'?FEED_Y2S2:null,typeof FEED_Y3S1!=='undefined'?FEED_Y3S1:null,typeof FEED_Y3S2!=='undefined'?FEED_Y3S2:null,
-    typeof FEED_Y4S1!=='undefined'?FEED_Y4S1:null].filter(Boolean);
+    typeof FEED_Y4S1!=='undefined'?FEED_Y4S1:null,typeof FEED_Y4S2!=='undefined'?FEED_Y4S2:null,typeof FEED_PG!=='undefined'?FEED_PG:null].filter(Boolean);
   S.SETS=SETS;
   S.KEEP=7;
   S.CAP={heroine:{n:2,days:7},other:{n:1,days:14},day:4};
@@ -120,8 +131,9 @@ const FEED=(function(){
   /* 最近一次分開的那一天（ROM 的紀錄 history 的 end，同 V6EX.endDay；直接讀，不用 ROM.get——它會替沒有紀錄的人建一筆空的）*/
   S.endDay=function(G,id){ const F=G.flags||{}, R=F.romance&&F.romance[id], H=(R&&R.history)||[]; for(let i=H.length-1;i>=0;i--) if(H[i]&&H[i].ev==='end'&&H[i].day!=null) return H[i].day;
     return id==='kexin'&&typeof F.KX_ENDED_ON==='number'?F.KX_ENDED_ON:null; };
+  S.COOL_LAST=126;   /* 大四下以後分開（沒有下一個學期：V6EX.coolUntil＝null）：分開那天起 18 週（一學期）。AA_510 7-3、AA_511 第 7 節「分開以後一學期：照 AA_503 9-3」*/
   S.kxCool=function(G){ const F=G.flags||{}; if(dating(G,'kexin')||(!F.EX_kexin&&F.KX_ENDED_ON==null)) return false; if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,'kexin')) return true;
-    const d=S.endDay(G,'kexin'); if(d==null) return false; const u=nextTerm(d); return u!=null&&G.day>=d&&G.day<u; };
+    const d=S.endDay(G,'kexin'); if(d==null) return false; let u=nextTerm(d); if(u==null) u=d+S.COOL_LAST; return G.day>=d&&G.day<u; };
   /* ---------- 存檔 ---------- */
   S.rec=function(G){ const F=G.flags||(G.flags={}); let R=F.FEED; if(!R||typeof R!=='object') R=F.FEED={start:G.day,items:[],done:{},dm:{},seen:-1e9};
     if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9; return R; };
@@ -148,6 +160,7 @@ const FEED=(function(){
     const why=S.blocked(G,p,w); if(why){ R.done[p.id]='x:'+why; return false; }
     const it={id:p.id,who:p.who,day:w.day,h:+w.h.toFixed(3)}; if(p.went&&S.WENT[p.went]) it.v=S.WENT[p.went](G)?'yes':'no';
     const q=S.tripNow(G); if(q) it.tr=q.id;   /* 出遊途中貼的（AA_506 第 9 節）：回來以後再留七天 */
+    else if(S.pgJumping>0) it.tr=S.PG_TR;   /* 畢業以後篇跳時間的途中貼的（AA_511 第 0 節第 1 點）：停下來以後再留七天 */
     R.items.push(it); R.done[p.id]='p'; return true; };
   /* ---------- 出遊途中（AA_506 第 9 節，企劃線 691a26400）：「從玩家回來那一天起再留七天。之後別的出遊途中貼的照這個做。」----------
      途中＝G.outings 裡到了（arrived，OUT.go 演之前記、演完刪）、還沒演完（planned，出國的那一段是 flying）的那一趟——寒暑假的整趟（出國、營隊）、校外的約會。
@@ -155,9 +168,30 @@ const FEED=(function(){
   S.TRIP_MAX=60;
   const going=(G,q)=>!!q&&q.arrived===true&&(q.state==='planned'||q.state==='flying')&&!(typeof q.day==='number'&&G.day-q.day>S.TRIP_MAX);   /* 出發那天起 60 天以上還「在途中」＝卡住的紀錄，不算 */
   S.tripNow=G=>(Array.isArray(G&&G.outings)?G.outings:[]).find(q=>going(G,q))||null;
-  S.tripOn=(G,id)=>(Array.isArray(G&&G.outings)?G.outings:[]).some(q=>q&&q.id===id&&going(G,q));
+  /* ---------- 畢業以後篇跳時間（AA_511 第 0 節第 1 點，企劃線 c9899bed9）：跳時間的時候動態不過期，照 AA_506 第 9 節出遊途中的做法，
+     從玩家停下來（落地接著的那一段演完、回到可以操作）那一刻起留七天。（註：tests/sis_no_three_unit.js 的掃描在這個檔會錯位，註解別寫「…件事」）----------
+     跳的途中＝PG.jumpTo 那一段（檔尾包住，S.pgJumping）。tr＝'pg'：跳的途中貼的（S.decide）、跳之前最後一次 tick（S.free）還在七天內、還沒延過的（S.tick）。
+     停下來以前（S.pgHold）＝還在跳、PG.busy（PG.advance 跳完開手機、演落地的場景；PG.tick／sleepJump 設）、PG 有該演的場景（PG.due）、落地的出遊在演（S.tripNow）或在問「出發」（OUT.due）。
+     停下來以後第一次 tick 記 back，從那一刻起七天。跳的途中最多留 S.PG_MAX 天（PG 的跳不會卡住，只是上限；最長的一跳是 2029-06-28 到 2030-10-01 那種）*/
+  S.PG_TR='pg'; S.PG_MAX=800; S.pgJumping=0; S.free=null; S.pgStopIn=false;
+  S.pgHold=G=>S.pgJumping>0||(typeof PG!=='undefined'&&(!!PG.busy||(!!PG.due&&!!PG.due(G))))||!!S.tripNow(G)||!!(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G));
+  S.holdMax=it=>it&&it.tr===S.PG_TR?S.PG_MAX:S.TRIP_MAX;
+  S.tripOn=(G,id)=>id===S.PG_TR?S.pgHold(G):(Array.isArray(G&&G.outings)?G.outings:[]).some(q=>q&&q.id===id&&going(G,q));
   S.live=function(G,it,now){ if(now==null) now=nowOf(G); const t=abs(it.day,it.h); if(t>now) return false; if(now-t<S.KEEP*24) return true; if(it.tr==null) return false;
-    if(it.back==null) return now-t<S.TRIP_MAX*24&&S.tripOn(G,it.tr); return now-it.back<S.KEEP*24; };
+    if(it.back==null) return now-t<S.holdMax(it)*24&&S.tripOn(G,it.tr); return now-it.back<S.KEEP*24; };
+  /* 畢業以後篇的停點（檔尾掛在 PG.stops）：還沒出、到時候會出的最後一則動態（現在有聯絡方式、階段夠、條件成立）。
+     只有其他的停點只剩尾聲（2034，PG.advance 直接演、演完回標題）或沒有的時候才停在這裡——最後一個停點（2030-10-01 第一份工作、12/13 麵店團…）以後貼的，
+     不然永遠看不到（AA_511 第 8 節第 4 點「每一則都看得到」）。後面還有別的停點的不用停：跳到那裡的時候看得到（保留規則）。
+     停在那一則貼出來的一分鐘以後（items 的時間存到小數三位，22:07＝22.117 小時，剛好停在 22:07 會晚一秒才算貼出來）*/
+  S.pgStop=function(G){ if(S.pgStopIn||!G||!G.flags||typeof PG==='undefined'||!PG.on||!PG.on(G)||!PG.nextStop||typeof CALENDAR==='undefined') return null; const R=S.rec(G), now=nowOf(G); let best=null;
+    for(const s of SETS()) for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=S.when(G,p.t,s.term); if(!w) continue; const t=abs(w.day,w.h); if(t<=now+1e-6) continue;
+      if(!hasContact(G,p.who)||!(S.stageOk(G,p.who,p.st)||(p.stIf&&S.WENT[p.stIf]&&S.WENT[p.stIf](G)))||(p.if&&!(S.COND[p.if]&&S.COND[p.if](G)))) continue;
+      if(best==null||t>best) best=t; }
+    if(best==null) return null;
+    let next=null; S.pgStopIn=true; try{ next=PG.nextStop(G); } finally { S.pgStopIn=false; }   /* 不算這一個的下一站 */
+    const ep=PG.byId?PG.byId('epi'):null, te=ep&&ep.at?ep.at(G):null;
+    if(next!=null&&!(te!=null&&Math.abs(next-te)<1e-6)) return null;
+    return best+1/60; };
   /* ---------- 私訊：這一則傳不傳 ---------- */
   S.dmBlocked=function(G,q){ const F=G.flags||{}, R=S.rec(G); if(!hasContact(G,q.who)) return 'contact'; if(q.who==='kexin'&&S.kxCool(G)) return 'cool';
     if(q.st&&!S.stageOk(G,q.who,q.st)) return 'stage'; if(q.need&&!F[q.need]) return 'need'; if(q.after&&R.dm[q.after]!=='sent') return 'after';
@@ -173,14 +207,18 @@ const FEED=(function(){
     if(typeof PHONE==='undefined') return false; PHONE.at(G,w.day,w.h,S.dmItems(G,q,term),'aa503_'+q.id); R.dm[q.id]='sent'; return true; };
   /* ---------- 每次手機規則（STORY.PHONE_RULES）：時間到了的動態、私訊 ---------- */
   S.tick=function(G){ if(!G||!G.flags||typeof CALENDAR==='undefined'||(G.stage||'law')!=='law') return 0; const R=S.rec(G), now=nowOf(G), due=[];
+    /* 畢業以後篇跳時間（AA_511 第 0 節第 1 點）：跳之前最後一次 tick 還看得到、還沒延過的，記 tr＝'pg'（跳的途中不過期，停下來以後再留七天；一則只延一次）*/
+    if(S.pgJumping>0){ const t0=S.free&&S.free.G===G&&S.free.t<=now?S.free.t:now; for(const i of R.items) if(i.tr==null&&S.live(G,i,t0)) i.tr=S.PG_TR; }
+    else S.free={G,t:now};
     const dueAt=(t,term)=>{ const w0=S.when(G,t,term); if(!w0||abs(w0.day,w0.h)>now+24) return null; const w=S.loc(G,w0); return abs(w.day,w.h)>now?null:w; };   /* 人在國外照時差換成當地時間（S.loc）；一天以後的先不算時差 */
     for(const s of SETS()){ for(const p of s.posts||[]){ if(R.done[p.id]) continue; const w=dueAt(p.t,s.term); if(w) due.push({p,w}); }
       for(const q of s.dms||[]){ if(R.dm[q.id]) continue; const w=dueAt(q.t,s.term); if(w) due.push({q,w,term:s.term}); } }
     due.sort((a,b)=>abs(a.w.day,a.w.h)-abs(b.w.day,b.w.h)); let n=0;
     for(const x of due){ if(x.p){ if(S.decide(G,x.p,x.w)) n++; } else S.sendDm(G,x.q,x.w,x.term); }   /* 照時間的先後：一天四則、每人一週兩則照先貼的算 */
     S.ytBdayTick(G);
-    for(const i of R.items) if(i.tr!=null&&i.back==null&&!S.tripOn(G,i.tr)) i.back=now;   /* 出遊途中貼的：那一趟演完了＝記回來的那一刻（AA_506 第 9 節）*/
-    if(R.items.length) R.items=R.items.filter(i=>now-abs(i.day,i.h)<=15*24||(i.tr!=null&&(i.back==null?now-abs(i.day,i.h)<S.TRIP_MAX*24:now-i.back<=15*24)));   /* 只留十五天（配角十四天一則要看得到前一則；畫面只顯示七天）；出遊途中貼的從回來那一刻算 */
+    let hold;   /* 畢業以後篇還沒停下來（S.pgHold，一次 tick 只算一次）*/
+    for(const i of R.items){ if(i.tr==null||i.back!=null) continue; if(i.tr===S.PG_TR){ if(hold===undefined) hold=S.pgHold(G); if(!hold) i.back=now; } else if(!S.tripOn(G,i.tr)) i.back=now; }   /* 出遊途中貼的：那一趟演完了＝記回來的那一刻（AA_506 第 9 節）；畢業以後篇跳時間：停下來的那一刻（AA_511 第 0 節第 1 點）*/
+    if(R.items.length) R.items=R.items.filter(i=>now-abs(i.day,i.h)<=15*24||(i.tr!=null&&(i.back==null?now-abs(i.day,i.h)<S.holdMax(i)*24:now-i.back<=15*24)));   /* 只留十五天（配角十四天一則要看得到前一則；畫面只顯示七天）；出遊途中貼的從回來那一刻算、跳時間的從停下來那一刻算 */
     return n; };
   /* ---------- 畫面 ---------- */
   S.visible=function(G){ const R=S.rec(G), now=nowOf(G); return R.items.filter(i=>S.live(G,i,now)).sort((a,b)=>abs(b.day,b.h)-abs(a.day,a.h)); };   /* S.live：七天；出遊途中貼的從回來那一刻起七天 */
@@ -255,6 +293,10 @@ const FEED=(function(){
     STORY._feedLad=true; }
   if(typeof SOCIAL!=='undefined'&&SOCIAL.ACT&&!SOCIAL.ACT.feed) SOCIAL.ACT.feed={fam:1};   /* 回動態：熟悉 +1（同一個人一天一次）*/
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.tick(G));
+  /* 畢業以後篇跳時間（AA_511 第 0 節第 1 點）：PG.jumpTo 那一段＝跳的途中（PG.advance 叫的是 PG 自己的 S.jumpTo＝同一個屬性，包了也會經過這裡）；
+     最後一則動態當停點（S.pgStop，PG.stops 是給其他模組加停點的掛勾）*/
+  if(typeof PG!=='undefined'&&typeof PG.jumpTo==='function'&&!PG._feedJump){ const j0=PG.jumpTo; PG.jumpTo=function(){ S.pgJumping++; try{ return j0.apply(this,arguments); } finally { S.pgJumping--; } }; PG._feedJump=true; }
+  if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._feed)){ const f=G=>S.pgStop(G); f._feed=true; PG.stops.push(f); }
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
   /* 子晴 zq_name 回了（phone3d.js 回 need 選項時叫 STORY.neededAnswered）：記 ZQ_NAME_REPLIED（大二下第 6 則兩個版本，S.WENT.zqNamed）*/
   if(typeof STORY!=='undefined'&&typeof STORY.neededAnswered==='function'&&!STORY._feedNeed){ const on=STORY.neededAnswered; STORY.neededAnswered=function(G,m,o){ if(o&&o.need==='zq_name'&&G&&G.flags) G.flags.ZQ_NAME_REPLIED=true; return on.apply(this,arguments); }; STORY._feedNeed=true; }
