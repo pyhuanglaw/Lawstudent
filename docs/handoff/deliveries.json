@@ -20100,6 +20100,27 @@
    "kind": "wip",
    "task": "DORM-HALL-LM-1028",
    "reason": "LAWWW2 男一舍門廳光照的 WIP（走廊北牆和樓梯間的牆不疊在同一個平面、重烘），還沒交件（LAWWW-C 10-28 11:4x 分類）"
+  },
+  {
+   "sha": "f6922e1a2",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 室內光照 WIP（202 門上的社團貼紙大四 409 那年藏起來、patch 重產），還沒交件（LAWWW-C 10-28 12:4x 分類）"
+  },
+  {
+   "sha": "9dad133ab",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 室內光照 WIP（男一舍門廳遊戲內截圖查到兩件、重烘；LIB-HALL-LM-1028 開工），還沒交件（LAWWW-C 10-28 12:4x 分類）"
+  },
+  {
+   "sha": "51be20cfe",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 室內光照 WIP（男一舍門廳重烘中、README 三節；總圖大廳 bake_library_hall.sh），還沒交件（LAWWW-C 10-28 12:4x 分類）"
   }
  ]
 }

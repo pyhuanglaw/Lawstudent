@@ -35378,7 +35378,7 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
+   "next": "【LAWWW-C 2026-10-28 12:4x UTC】LAWWW2 WIP f6922e1a2（202 門上的社團貼紙大四 409 那年藏起來）、9dad133ab、51be20cfe（重烘：門框上方點狀黑線、貼紙不留影子）｜【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
   },
   {
    "id": "SIS-B15-1028",
@@ -35433,6 +35433,33 @@
     "ack": "未派"
    },
    "next": "【LAWWW-C 2026-10-28 12:3x UTC】AA_521（0f4b48f20，DL-AA-521）排在 AA_520 子代理交件以後（同一個子代理接著做）｜【LAWWW-C 2026-10-28 12:3x UTC】AA_520 予樂（481dd8238，DL-AA-520）先派子代理（不碰麵店店員）；AA_519 等 PRIV-AUNT-1028 第二輪合併再派｜【LAWWW-C 2026-10-28 12:2x UTC】AA_519 交了（DL-AA-519）；麵店店員和 PRIV-AUNT-1028 第二輪（子代理做中）改同一段，等它合併再派子代理；下一版 v9.10.14"
+  },
+  {
+   "id": "LIB-HALL-LM-1028",
+   "title": "總圖大廳（library_hall）照霖澤館大廳、萬才館、男一舍門廳的做法做光照烘焙（bake_library_hall.sh；天窗只在白天）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "LAWWW2-C 自領（X125 室內提升，男一舍門廳之後的下一間；WIP 9dad133ab）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次走進總圖大廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "X125 室內檢討（038fe55b1）＋大廳第二版、萬才館、男一舍門廳的做法",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "同角度改前改後截圖、draw call 數字、相關 Node 通過、同一個工作階段進兩次畫面一樣",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "next": "【LAWWW-C 2026-10-28 12:4x UTC】登記（incr 看到 LAWWW2 的 WIP 9dad133ab、51be20cfe 寫了 LIB-HALL-LM-1028）；LAWWW2 交件後 LAWWW 合併、跑 nav_buildings、flow_library 相關 Node＋全部 Node；下一版"
   }
  ]
 }
