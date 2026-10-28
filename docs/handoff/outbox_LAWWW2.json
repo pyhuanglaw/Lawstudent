@@ -4014,7 +4014,7 @@
    "sha": "98b90c9c5",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACK",
    "task": "LINZE-LOBBY-V2-1028",
    "files": [
     "docs/art-rebuild/second_ai/patches/linze_lobby_v2_1028.patch",
@@ -4025,7 +4025,7 @@
    ],
    "state": "已交付",
    "remaining": "iPhone 實機沒測；光照貼圖填滿率 44.7%（驗收標準 50% 沒到，主要的面每公尺 17～27 像素有到）；大廳本身 draw call 多 22～34%，下一小包把純色材質合成頂點色材質（只換二進位檔）；陽光的位置固定（中午前後）",
-   "next": "LAWWW-C：git apply patch＋git checkout 98b90c9c5 -- 三個二進位檔；BB／使用者看 README 的截圖",
+   "next": "LAWWW-C 09:09Z ACK：先合讀檔鎖修正（擋 v9.10.13），再套 patch＋三個二進位檔、跑測試，整合後給 SHA；draw call 先接受，等 LOBBY-VC-1028 小包",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）第四包；building3d.js attachFormal 接 extras.lightmap（Z3.roomLightmap 匯出），萬才館之後烘好就會接；e324ccc5e 上 linze_lightmap_unit（新，拿掉改動 FAIL 6）、nav_buildings、linze_5f／office／upper、wancai_semb ALL PASS；scan_floors 只標出盆栽土（原本就有，不是地板）"
   }
  ]
