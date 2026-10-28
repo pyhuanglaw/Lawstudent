@@ -314,6 +314,7 @@ const R2Y3B=(function(){
   const runL=async(L,ev)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(L,ev||{id:'r2y3b'}); };
   S.abRec=G=>{ const F=G.flags; if(!F.AN_ABROAD||typeof F.AN_ABROAD!=='object') F.AN_ABROAD={log:[],tier:1,wk:0,n1:0,n2:0,n3:0}; const R=F.AN_ABROAD; if(!Array.isArray(R.log)) R.log=[]; return R; };
   S.abOn=G=>!isJP(G)&&!dating(G,'heroine_01')&&romSt(G,'heroine_01')==='none'&&met(G,'heroine_01','ACQUAINTANCE')&&dmOk(G,'heroine_01');   /* 不到 ACQUAINTANCE、分手過（前任）＝沒有訊息池 */
+  S.abOnDating=G=>!isJP(G)&&dating(G,'heroine_01')&&dmOk(G,'heroine_01');   /* AA_508 0-2 第 1 點（31a4c4002）：交往中的臺灣、美國玩家也收 T1 那十則，每週一則（第 4 階的頻率），外加現有交往版的幾場（4/13 視訊、4/20、5/6）；十則傳完以後的週日照她的動態（手機動態那一輪接）*/
   const said=(G,th,t0,t1)=>(G.msgs||[]).some(m=>m.th===th&&m.from==='player'&&T(m.day,m.h)>=t0-1e-6&&T(m.day,m.h)<=t1+1e-6);
   S.abSettle=function(G){ for(const e of S.abRec(G).log){ if(e.replied!=null||e.kind!=='msg') continue; const t1=T(e.day+1,18); if(said(G,'p:heroine_01',T(e.day,e.h),t1)) e.replied=true; else if(now(G)>t1) e.replied=false; } };
   S.abSundays=function(){ const d0=D(AB_K.sun1), d1=D(AB_K.ret), L=[]; if(d0==null||d1==null) return L; for(let d=d0,wk=1;d<d1;d+=7,wk++) L.push({day:d,wk}); return L; };
@@ -335,8 +336,8 @@ const R2Y3B=(function(){
     2:(G,d)=>mdOf(d).slice(0,2)==='04', 7:(G,d)=>mdOf(d).slice(0,2)==='06', 9:(G,d)=>{ const m=mdOf(d); return m>='07-20'&&m<='07-31'; }};   /* 四月、六月、七月底 */
   S.AB_T1_OLD=[2,1,3,4];   /* 原本四則（櫻花、飯糰、洗衣機、號碼牌）在十則裡的位置 */
   S.abT1Sent=function(R){ if(!Array.isArray(R.t1s)){ const old=Array.isArray(R.n1s)?R.n1s:Array.from({length:Math.min(R.n1|0,S.AB_T1_OLD.length)},(_,k)=>k); R.t1s=[]; for(const i of old){ const j=S.AB_T1_OLD[i]; if(j!=null&&!R.t1s.includes(j)) R.t1s.push(j); } } return R.t1s; };
-  S.abPickT1=function(G,R,day,n){ const W=S.AB_T1_WHEN, sent=S.abT1Sent(R), ok=(i,d)=>!W[i]||!!W[i](G,d), un=[]; for(let i=0;i<n;i++) if(!sent.includes(i)) un.push(i);
-    const later=S.abSundays().filter(w=>w.wk%2===1&&w.day>day).map(w=>w.day);
+  S.abPickT1=function(G,R,day,n,weekly){ const W=S.AB_T1_WHEN, sent=S.abT1Sent(R), ok=(i,d)=>!W[i]||!!W[i](G,d), un=[]; for(let i=0;i<n;i++) if(!sent.includes(i)) un.push(i);
+    const later=S.abSundays().filter(w=>(weekly||w.wk%2===1)&&w.day>day).map(w=>w.day);   /* weekly：交往中每週一則（AA_508 0-2 第 1 點），之後的每個週日都算機會 */
     let i=un.find(k=>!!W[k]&&ok(k,day)&&!later.some(d=>ok(k,d)));   /* 有月份的：最後一次機會 */
     if(i==null) i=un.find(k=>!W[k]);   /* 其他照順序 */
     if(i==null) i=un.find(k=>!!W[k]&&ok(k,day));
@@ -346,9 +347,12 @@ const R2Y3B=(function(){
     let i=-1; for(let k=0;k<n;k++) if(ok(k)&&!R[sk].includes(k)){ i=k; break; }
     if(i<0) for(let k=0;k<n;k++){ const j=((R[key]|0)+k)%n; if(ok(j)){ i=j; break; } }
     if(i<0) return -1; R[key]=i+1; if(!R[sk].includes(i)) R[sk].push(i); return i; };
-  S.abPhone=function(G){ if(!S.abOn(G)) return; const R=S.abRec(G), X=ABE(), AB=X&&X.AB; if(!AB) return; const F=G.flags, A=M('p:heroine_01','heroine_01'); S.abSettle(G);
+  S.abPhone=function(G){ const dt=S.abOnDating(G); if(!S.abOn(G)&&!dt) return; const R=S.abRec(G), X=ABE(), AB=X&&X.AB; if(!AB) return; const F=G.flags, A=M('p:heroine_01','heroine_01'); S.abSettle(G);
     for(const w of S.abSundays()){ if(w.wk<=(R.wk|0)) continue; const t=T(w.day,S.jp(21)); if(now(G)<t) break; R.wk=w.wk;
       if(now(G)>T(w.day+1,18)) continue;   /* 隔天 18:00 以後才跑到這一週（很久沒跑手機規則、讀檔）：不補 */
+      if(dt){ const tag='y3_ab_w'+w.wk, i=S.abPickT1(G,R,w.day,AB.t1.length,true); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* 交往中：每週 T1 一則（照順序、有月份的照月份），兩個回覆按鈕她回一句；段（tier）不動 */
+        if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
+        PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier:1,dating:true}); continue; }
       const tier=S.abTier(G), tag='y3_ab_w'+w.wk; R.tier=tier; F.AN_ABROAD_TIER=tier;
       if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPickT1(G,R,w.day,AB.t1.length); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；十則照順序各一次、有月份的照月份（S.abPickT1，AA_463 第 1 節）*/
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
@@ -357,6 +361,7 @@ const R2Y3B=(function(){
       else { const grp=S.abPick(G,R,'n3',AB.t3.length,'t3',w.day); if(grp<0) continue; const e={day:w.day,h:S.jp(21),kind:'video',wk:w.wk,tier,replied:null}; R.log.push(e);
         if(now(G)<T(w.day,S.jp(21)+0.5)) plan(G,{id:'y3_ab_v'+w.wk,ev:'ev_an_abroad_video',day:w.day,h:S.jp(21),late:0.5,place:'視訊',title:'以安打視訊來（日本 21:00）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。',abv:{wk:w.wk,grp,day:w.day}});
         else e.replied=false; } }
+    if(dt) return;   /* 交往中只有每週那一則（再問、7/7 竹子的照片是還沒交往的流程）*/
     /* 「我再看看」：6/30（五）20:30（她那邊 21:30）再問一次（AA_343 D2）：「六月最後一天。」「七月七號。……你要不要來看？」；
        「我去。」→「好。機票你自己訂，行程我排。」（同第一次）→ 7/6～7/10；「這次不行。」→「好。我拍竹子給你看。」→ 7/7 照片；7/2（日）21:00 還沒回＝這次不行（沒有那句回話）*/
     { const dR=D(AB_K.re); if(dR!=null&&F.AN_JP_TRIP_ASK==='later'){

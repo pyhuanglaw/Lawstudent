@@ -395,6 +395,14 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-04-09',20.05,'dorm'); ct('heroine_01'); rules(); check('AB. 和以安不到 ACQUAINTANCE：沒有訊息', txt('p:heroine_01').length===0&&!G.flags.AN_ABROAD);
   fresh('2028-04-09',20.05,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FAM'); ct('heroine_01'); rules(); check('AB. 日本路線：沒有（她和你在日本）', !PHONE.sent(G,'y3_ab_w3'));
   fresh('2028-04-09',20.05,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); ROM.get(G,'heroine_01').status='ex'; rules(); check('AB. 和以安分手過：沒有訊息池', !PHONE.sent(G,'y3_ab_w3'));
+  /* AA_508 0-2 第 1 點（31a4c4002）：交往中的臺灣、美國玩家也收 T1 十則，每週日一則；有月份的照月份（四月、六月、七月底）——沒有能傳的那一週就空著（之後照她的動態）*/
+  { const J=x=>JSON.stringify(x); const runWeeks=(route)=>{ fresh('2028-03-26',20.05,'dorm',route?{EXCHANGE_ROUTE:route}:{}); R('heroine_01','CLO'); date('heroine_01'); ct('heroine_01'); const wk=[];
+      for(let k=0;k<19;k++){ const d=D('2028-03-26')+7*k; if(d>=D('2028-08-05')) break; at(CALENDAR.dateOf(d).key,20.05); rules(); if(PHONE.sent(G,'y3_ab_w'+(k+1))) wk.push(k+1); } return wk; };
+    const tw=runWeeks(null), t1=(G.flags.AN_ABROAD&&G.flags.AN_ABROAD.t1s)||[];
+    check('AB8. AA_508 0-2 第 1 點：交往中（臺灣路線）每週日一則 T1：十則都傳到、各一次；有月份的那三則等到那個月（第 1～8 週、六月第一個週日第 11 週、7/23 第 18 週）', J(tw)===J([1,2,3,4,5,6,7,8,11,18])&&t1.length===10&&new Set(t1).size===10, J({tw,t1}));
+    const m1=PHONE.byAsk(G,'y3_ab_w1'); check('AB8. 交往中的第一則也是「公寓房間，箱子還沒拆」、兩個回覆按鈕；段（AN_ABROAD_TIER）不動', !!m1&&m1.ask.opts.length===2&&G.flags.AN_ABROAD_TIER==null, J(m1&&m1.ask&&m1.ask.opts.map(o=>o.t)));
+    const us=runWeeks('US'), jp=runWeeks('JP');
+    check('AB8. 美國路線交往中一樣（8/2 才出發）；日本路線交往中沒有（她和你在日本）', J(us)===J(tw)&&jp.length===0, J({us,jp})); }
   /* 約：6/25 視訊（6/29 以前最後一次）→ 我去 → 7/6～7/10 → 8/5、8/6 */
   { fresh('2028-06-25',20.05,'dorm'); R('heroine_01','CLO'); Object.assign(SOCIAL.rel('heroine_01'),{npcRom:55,rom:30}); ct('heroine_01');
     G.trips=[{trip:'t1',who:'heroine_01',day:D('2028-02-01'),counted:true},{trip:'t2',who:'heroine_01',day:D('2028-03-01'),counted:true}];

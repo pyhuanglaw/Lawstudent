@@ -534,8 +534,8 @@ const STORY = (function(){
   S.ladMark=function(G,ids){ const so=ladRec(G); so.ladSeen=so.ladSeen||{}; for(const id of [].concat(ids)) so.ladSeen[id]=G.day; };   /* AA_293 第 2 節：過場演完把那一層記成推進過 */
   S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
   /* 芷若 2027-06-04～09-02 不上班（6/3 Z9 是她最後一個班、9/2 出發去英國；AA_369 第 8 節第 8 題、AA_375 第 1 項；作息 characters.js 的 barista 用 notDates 2027-06-04～09-02 停掉，6/4～8/20 週一、三下午當客人）。day 不給＝今天 */
-  S.ZR_NOSHIFT=['2027-06-04','2027-09-03'];
-  S.zrNoShift=(G,day)=>{ const d=day!=null?day:(G&&G.day), a=S.dayOfKey(S.ZR_NOSHIFT[0]), b=S.dayOfKey(S.ZR_NOSHIFT[1]); return d!=null&&a!=null&&b!=null&&d>=a&&d<b; };
+  S.ZR_NOSHIFT=['2027-06-04','2027-09-03']; S.ZR_NOSHIFT2=['2028-08-01','2028-09-02'];   /* 第二段：AA_508 0-2 第 9 點，2028-08-01～09-01 也不上班（週一、三晚上當客人；9/2 去英國）*/
+  S.zrNoShift=(G,day)=>{ const d=day!=null?day:(G&&G.day); if(d==null) return false; return [S.ZR_NOSHIFT,S.ZR_NOSHIFT2].some(R=>{ const a=S.dayOfKey(R[0]), b=S.dayOfKey(R[1]); return a!=null&&b!=null&&d>=a&&d<b; }); };
   /* 使用者拿掉的階梯層（直接算過、不播；企劃檔下一班 AA 刪，刪了以後這裡也可以拿掉）：K0-Lx2「搬回家以後，來學校要多久？」（2026-10-18 14:3x 使用者：「沒有必要」→ 選「整段拿掉」）*/
   S.LAD_CUT=new Set(['K0-Lx2']);
   /* 程式這邊的「條件不成立就跳過」（匯入的 ladder.js 不手改）：子晴 Q2-L4 講她的遊戲，沒看過 Q6（PLAYTESTED）的玩家跳過這一層（AA_313 6-5 第 1 點）*/

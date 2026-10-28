@@ -277,7 +277,7 @@ const norm=t=>String(t).replace(/\{name\}/g,'祐廷').replace(/^（[^）]*）(?=
   { const G=fresh('Y2S1',10,3,11,{know:[ZR]}); check('6. L4b 大二上、12/10 以前',chk('ev_l4b_poster')&&(()=>{ setDay(TD('Y2S1',15,3),11); const r=!chk('ev_l4b_poster'); setDay(TD('Y2S1',10,3),11); return r; })());
     const L=await run('ev_l4b_poster',['（站在旁邊一起看）']); check('6. L4b 一起看：「你也在看字體？」「嗯。」「……騙人。」',L.includes('你也在看字體？')&&L.includes('嗯。')&&L.includes('……騙人。'),J(L)); }
   { const G=fresh('Y3S2',10,3,11,{know:[ZR],flags:{EXCHANGE_ROUTE:'TW',L4A_SAT:true}}); G.events.done.ev_zhiruo_no_sugar=1;
-    check('6. L4c 大三下、台灣路線、Z11 以後',chk('ev_l4c_bench')&&(()=>{ G.flags.EXCHANGE_ROUTE='US'; const r=!chk('ev_l4c_bench'); G.flags.EXCHANGE_ROUTE='TW'; return r; })());
+    check('6. L4c 大三下、台灣路線和美國路線（美國 8/2 才出發，AA_508 0-2 第 11 點）、Z11 以後；日本路線不演',chk('ev_l4c_bench')&&(()=>{ G.flags.EXCHANGE_ROUTE='US'; const r=chk('ev_l4c_bench'); G.flags.EXCHANGE_ROUTE='JP'; const j=!chk('ev_l4c_bench'); G.flags.EXCHANGE_ROUTE='TW'; return r&&j; })());
     const L=await run('ev_l4c_bench'); check('6. L4c：回來第一天、椅子還是會晃（AA-C 改過的那句）、坐下來過的多一句',J(L)===J(['我回來第一天就來坐這裡。','……這張椅子還是會晃。','你那時候選的那個版本，我後來交出去了。老師說很像人講的話。']),J(L)); }
   });
   H.done();

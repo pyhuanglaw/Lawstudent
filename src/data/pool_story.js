@@ -31,7 +31,7 @@ const POOL_STORY=(function(){
      cls：必修課（story3d.js 的 S.classmateClass，和以安、阿哲同一套：祐廷那一堂必修正在上＝人在那間教室）——seat 第幾排第幾個（霖澤館 201 有排；其他教室沒有排＝一般座位）、door＝上課前 10 分鐘在門口。
      model：路人底模（ASSETS 的 char.npc_nf*／nm*，第 3 節的外觀挑最接近的）；props：現成的道具（props3d.js；沒有的列在回報「給 LAWWW2」）。*/
   const PEOPLE={
-    pool_1:{ card:'在寫一篇兇手是律師的推理小說', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'舊路書房',
+    pool_1:{ card:'在寫一篇兇手是律師的推理小說', before:'常在舊路書房看推理小說的同學', personality:'嘴上說「你不要猜」，其實很想有人看她寫的東西', place:'舊路書房',
       model:'char.npc_nf17', props:['tote'],   /* 布書袋＝tote；鯊魚夾、封面朝內的推理小說沒有 */
       where:[ {days:WD,from:13,to:17,zone:'bookstore',act:'linger',at:[-3.2,0.5,-P/2,0],noHoliday:true,desc:'蹲在書架前找書的女生',label:'舊路書房，找書'} ],   /* 稿寫「溫州街舊路書房」：遊戲裡舊路書房在公館（zones3d.js gongguan 的店面街 → bookstore）。西側兩排書架中間，面向牆邊的書架（蹲下的動作沒有，站著找）*/
       cls:{seat:[2,1],desc:'坐第三排的人'} },
@@ -66,10 +66,10 @@ const POOL_STORY=(function(){
     pool_9:{ card:'喜歡聽 podcast', personality:'', place:'總圖',
       model:'char.npc_nf7', props:[],   /* 耳機一邊戴一邊不戴沒有 */
       where:[ {days:WD,from:13,to:17,zone:'library',act:'read',seatAt:[5.6,-3.9],noHoliday:true,desc:'坐窗邊的人',label:'總圖三樓，窗邊'} ] },   /* 閱覽室（3F）的窗在後牆（z −8）：最靠窗那一排的位子 */
-    pool_10:{ card:'助教的學弟，想做研究', personality:'', place:'總圖',
+    pool_10:{ card:'助教的學弟，想做研究', before:'常在總圖問助教問題的同學', personality:'', place:'總圖',
       model:'char.npc_nm1', props:[],   /* 寫滿問題的筆記本沒有（現成的 foodmap 是美食地圖本）*/
       where:[ {days:WD,from:14,to:16,zone:'library',act:'read',noHoliday:true,desc:'常跟助教說話的男生',label:'總圖，陳助教旁邊那一桌'} ] },   /* 陳助教平日 14～18 在閱覽室（npc_ta_chen 的作息）；SOCIAL_GRAPH pool_10—npc_ta_chen＝坐她旁邊的位子（story3d.js 的 friendSeat）*/
-    pool_11:{ card:'吉他社，和弦換不過去', personality:'', place:'萬才館旁邊',
+    pool_11:{ card:'吉他社，和弦換不過去', before:'背吉他袋的學妹', personality:'', place:'萬才館旁邊',
       model:'char.npc_nf8', props:['guitar'],   /* 吉他袋＝guitar（掛法是子晴模型以外的預設值，還沒看畫面）*/
       where:[ {days:[1,3],from:19,to:21,zone:'campus',act:'linger',at:[97.5,-95,P,0],noHoliday:true,desc:'背吉他袋的女生',label:'萬才館旁邊'} ] },
     pool_12:{ card:'系籃經理', personality:'', place:'籃球場',
@@ -84,7 +84,7 @@ const POOL_STORY=(function(){
     pool_15:{ card:'在哲學系旁聽，和沛珊同一堂', personality:'', place:'文學院',
       model:'char.npc_nf16', props:['folder'],   /* 哲學系的講義＝folder */
       where:[ {days:WD,from:13,to:16,zone:'campus',act:'sit',seatAt:[-25,-12.94],noHoliday:true,desc:'很會問問題的女生',label:'文學院前的長椅'} ] },   /* 文學院（大道北側 −38,−34）前面、大道上的長椅 */
-    pool_16:{ card:'宥辰的朋友，背法條用唱的', personality:'', place:'公館',
+    pool_16:{ card:'宥辰的朋友，背法條用唱的', before:'常幫人搬音響的同學', personality:'', place:'公館',
       model:'char.npc_nm14', props:[],   /* 音源線沒有 */
       where:[ {days:[5],from:20,to:24,zone:'gongguan',act:'linger',at:[55.6,20.5,P,0],noHoliday:true,desc:'幫人搬音響的男生',label:'公館，二手唱片行的騎樓'} ] },   /* 宥辰放歌的那間 bar 遊戲裡沒有：店面街「二手唱片」的騎樓 */
     pool_17:{ card:'筆記王', personality:'', place:'總圖',
@@ -116,9 +116,9 @@ const POOL_STORY=(function(){
         {t:'「實習要填志願了。我把法扶寫第一個，寫完看了很久。」',when:'Y3S1'}, {t:'「傅鐘旁邊那家飯糰，四年漲了兩次。我都有發現。」',when:'Y4'} ],
       greet:['「早安。」','「今天的飯糰是鮪魚的。不好吃。」','（她舉了一下保溫瓶，算是打招呼。）'],
       /* 4-3 順手的事：陪她去旁聽 */
-      ask:[ z('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。'), z('你哪天早上沒課？') ],
+      ask:[ z('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。'), z('你哪天下午沒課？') ],   /* AA_498「實作時定的」第 3 點（56ed354e9）：大一下平日每天早上都有課，改下午 */
       askOpts:['「我跟妳去。」','「我那幾天都有事。」'], askYes:[ z('好。那我們加一下好友。') ], askNo:[ z('沒關係，我再找找看。') ],
-      courtEve:'明天九點半，法院門口。早安先說了，我明天會很緊張。',
+      courtEve:'明天兩點，法院門口。早安先說了，我明天會很緊張。',
       court:[ {scene:'臺北地方法院',bg:'court_hall'}, N('（法院的走廊很長，椅子上坐著等開庭的人。有個人拿著一疊資料，一直在看錶。）'), z('（小聲）我們進這一間。公告上寫的是竊盜。'),
         N('（法庭比你想的小。被告坐在左邊，旁邊沒有律師。）'), N('（法官問他還有沒有要說的。他想了很久，說：「我以後不會了。」）'), N('（走出法庭。）'), z('他旁邊沒有人。'),
         {unless:{custom:G=>!!(G.flags&&G.flags.ZJW_HELP)},goto:'ask'}, GO('end'),   /* 已經說過秘密（舊存檔「沒選」、或沒去旁聽那條路說過）：不重問（2-10）*/

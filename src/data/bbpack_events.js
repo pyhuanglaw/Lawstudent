@@ -521,9 +521,9 @@ const BBPACK_EVENTS=(function(){
       {label:'a'},say(ZR,'……我只是在看海報的字體。'),nar('（她看的是日期。）'),{goto:'end'},
       {label:'b'},nar('她過了一會兒才發現：'),say(ZR,'你也在看字體？'),me('嗯。'),say(ZR,'……騙人。'),
       {label:'end'} ] });
-  /* L4c 同一張長椅：大三下、台灣路線、Z11（她回來第一次點餐，ev_zhiruo_no_sugar）以後，平日 9:00～17:00 文學院門口；人物不宣告自己的改變（AA-C 改的那句）*/
+  /* L4c 同一張長椅：大三下、台灣路線和美國路線（美國 8/2 才出發，大三下在臺灣；AA_508 0-2 第 11 點）、Z11（她回來第一次點餐，ev_zhiruo_no_sugar）以後，平日 9:00～17:00 文學院門口；人物不宣告自己的改變（AA-C 改的那句）*/
   EV.push({ id:'ev_l4c_bench', title:'', participants:[ZR], location:'campus', trigger:'auto', near:ARTS, once:true, tier:'short', building:'arts', term:['Y3S2'], weekday:[1,2,3,4,5], time:[9,17], background:'blur',
-    prereq:{events:['ev_zhiruo_no_sugar'],custom:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='TW'},
+    prereq:{events:['ev_zhiruo_no_sugar'],custom:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)!=='JP'},
     dialogue:[ say(ZR,'我回來第一天就來坐這裡。'),
       say(ZR,'……這張椅子還是會晃。'),
       IF({flags:['L4A_SAT']},say(ZR,'你那時候選的那個版本，我後來交出去了。老師說很像人講的話。')) ] });

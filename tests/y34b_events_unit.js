@@ -106,7 +106,9 @@ const date=id=>H.date(id);
   const z=ev('ev_zhiruo_no_sugar');
   fresh('2028-03-01',15,'cafe'); H.FAMILIAR('heroine_02'); check('1B-14 大三下在 Café、FAMILIAR 以上＝可以演（interact，priority 比一般點餐高）', EVENTS.check(z)&&z.trigger==='interact'&&z.priority>(ev('ev_cafe_barista_zhiruo').priority||0));
   { fresh('2028-04-10',15,'cafe',{},'JP'); H.FAMILIAR('heroine_02'); const a=EVENTS.check(z); at('2028-08-10',15); H.G.zone='cafe'; const b=EVENTS.check(z); at('2028-08-27',15); H.G.zone='cafe'; const c=EVENTS.check(z);
-    check('1B-14 日本路線：在日本的時候不算、8/5 回來到 8/26 算、8/27 以後不算', !a&&b&&!c, [a,b,c].join()); }
+    check('1B-14 日本路線：在日本的時候不算；8/5 回來以後她 8/1～9/1 不上班（AA_508 0-2 第 9 點，在店裡是客人）也不算；8/27 以後不算', !a&&!b&&!c, [a,b,c].join());
+    fresh('2028-06-20',15,'cafe'); H.FAMILIAR('heroine_02'); const d=EVENTS.check(z); at('2028-08-10',15); H.G.zone='cafe'; const e=EVENTS.check(z);
+    check('1B-14 台灣路線：6/20 還在班＝算；8/10 不上班＝不算', d&&!e, [d,e].join()); }
   fresh('2028-03-01',15,'cafe',{CAFE_VISITS:4,ZR_CARDS_SENT:['film','cried']}); H.FAMILIAR('heroine_02'); H.picks=[0]; await run('ev_zhiruo_no_sugar');
   check('Z1 常客、回寄過（最後一張「第二次才哭」）：「老樣子？」「……不對。你最近不加糖了。」、唸回寄的那句、「寫這句話的人」', has('老樣子？')&&has('……不對。你最近不加糖了。')&&has('你寄來的那張明信片，我在倫敦看了三遍。')&&has('你說你第二次才哭。我第一次就哭了。我贏。')&&has('……我那時候就在想，寫這句話的人，是不是很累。')&&!has('我在倫敦的時候常常想，台灣這邊的大家是不是都很累。'));
   check('Z1 「有一點。」＝她的點法、ZR_GAVE_HER_ORDER；記憶 SHE_SAW_HIM', has('這杯我請。我的點法。小孩子的東西加大人的東西。你現在需要這個。')&&H.G.flags.ZR_GAVE_HER_ORDER===true&&SOCIAL.has('heroine_02','SHE_SAW_HIM'));

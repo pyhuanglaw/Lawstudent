@@ -4,7 +4,7 @@
    1B-13 語彤 T1：2/23 21:00 私訊 → 2/24（四）16:45～17:30 公館麵店門口（沒到＝之後的週四 17:00～17:30 照樣在門口演「第一次」，到第 15 週）→ 之後每週四 17:00～17:30「今天要去嗎？」
          「走吧。」＝旁白輪流、快轉 2 小時；「今天不行。」＝「好。下週四。」（AA_337 第 2 節）；3/23 那一次是田野的發現（那天沒去＝3/30）。
          日本路線：沒有 T1；2/24 起到第 15 週，每週四 21:00 她傳一張田野的照片（六張輪流、沒有字、不用回）。YT_T1、YT_T1_N、FIELD_FINDING。
-   1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算、8/26 以前都算）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
+   1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算；她 7 月回台中、8/1～9/1 不上班（AA_508 0-2 第 9 點），實際上 6/30 是最後一個班）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
    1B-15 子晴 Q12：5/19 21:00 私訊 → 5/20 14:00 出遊（資工系館展示廳，沒有背景＝社科院大講堂的圖＋字幕）；製作名單照旗標；阿凱 K4；沒去＝21:00 製作名單照片；
          收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊 → 去＝出遊 5/20 13:45；不了＝16:30 阿凱的照片（AA_337 第 5 節）；
          回了「去。」卻沒到＝16:30 阿凱三則「你說要來的。」「……我幫你拍了。」＋照片（AA_337 第 7 節）；
@@ -155,7 +155,7 @@ const Y34B=(function(){
     const s=String(v); if(ZR_READ[s]) return s; if(/落差|進城/.test(s)) return 'film'; if(/哭/.test(s)) return 'cried'; if(/吵/.test(s)) return 'noisy'; if(/安靜/.test(s)) return 'quiet'; if(/空白|blank/.test(s)) return 'blank';
     if(/film|gap/.test(s)) return 'film'; if(/cr(y|ied)|tear/.test(s)) return 'cried'; if(/nois|loud/.test(s)) return 'noisy'; if(/quiet/.test(s)) return 'quiet'; return null; };
   S.zrRead=function(G){ const L=Array.isArray(G.flags.ZR_CARDS_SENT)?G.flags.ZR_CARDS_SENT:[]; for(let i=L.length-1;i>=0;i--){ const k=S.zrCardKey(G,L[i]); if(k) return {k,line:ZR_READ[k]}; } return null; };   /* 寄過不只一張的，唸最後一張 */
-  S.zrWindow=G=>{ const a=D('zr0'), b=D('zrEnd'); if(a==null||G.day<a||G.day>b) return false; if(JP(G)&&STORY.abroad&&STORY.abroad(G)) return false; return true; };   /* 2/21～8/26（她最後一場放映以前）；日本路線在日本的那幾個月不算 */
+  S.zrWindow=G=>{ const a=D('zr0'), b=D('zrEnd'); if(a==null||G.day<a||G.day>b) return false; if(JP(G)&&STORY.abroad&&STORY.abroad(G)) return false; if(STORY.zrNoShift&&STORY.zrNoShift(G)) return false; return true; };   /* 2/21～8/26（她最後一場放映以前）；日本路線在日本的那幾個月不算；8/1～9/1 她不上班、在店裡是客人（STORY.zrNoShift，AA_508 0-2 第 9 點）不演點餐 */
   /* ================= 1B-15 子晴 Q12 ================= */
   S.zqGame=G=>'nine';   /* AA_360 第 1 節（使用者 2026-10-17「她自己決定」，BB_194 §17）：發表哪一個照她自己的進度——Q8b 爸爸那件事、學妹的配樂在程式裡都一定會發生，所以一律《九點以後》。
      不再讀祐廷 Q10 的選擇（ZQ_Q10 照樣記，只換她在 Q10 當場的反應）、不讀 PLAYTESTED（只影響製作名單）。貓那一版（Q12 的 q_cat、Q12_CALL 的貓那句、尾聲 zq.cat）留給舊存檔，新的不會播 */

@@ -23,7 +23,7 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const SRC='33189103b', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
+const SRC='56ed354e9', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
 const Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';
 if(process.argv[2]==='child'){ child(); }
 else main();
@@ -170,9 +170,9 @@ await sec('4 曾靖雯',async()=>{ const d1=TD('Y1S1',4,2); fresh(d1,6.75,'campu
   /* 旁聽 */
   const d2=TD('Y1S2',3,2); set(d2,6.75,'campus'); rel(Z,25,3); GM.npc={}; spawn(Z); await talk(Z,[0]);
   const r=SIDEQ.get(H.G,'PQ_ZJW'), q=(H.G.outings||[]).find(x=>x.ev==='ev_pool_zjw_court');
-  check('4. 曾靖雯 4-3：大一下第 3 週平日早上在傅鐘（有點熟）開口 →「我跟妳去。」＝加好友、掛「陪靖雯去旁聽」、排下一個上午沒課的平日 09:30 臺北地方法院',has('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。')&&has('好。那我們加一下好友。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,Z)&&!!q&&q.h===9.5&&q.place==='臺北地方法院'&&!CLS.dayItems(H.G,q.day).some(it=>it.t0<12)&&/陪靖雯去旁聽/.test(SIDEQ.todayHTML(H.G)),J([said(),q&&keyOf(q.day)]));
-  phAt(q.day-1,21.1); check('4. 曾靖雯：前一晚 21:00 她傳「明天九點半，法院門口。早安先說了，我明天會很緊張。」',msgs(Z).includes('明天九點半，法院門口。早安先說了，我明天會很緊張。'),J(msgs(Z)));
-  H.said=[]; H.picks=['要看他做了什麼']; set(q.day,9.2); await OUT.go(GM,q);
+  check('4. 曾靖雯 4-3：大一下第 3 週平日早上在傅鐘（有點熟）開口 →「我跟妳去。」＝加好友、掛「陪靖雯去旁聽」、排下一個下午沒課的平日 14:00 臺北地方法院（AA_498「實作時定的」第 3 點：大一下平日每天早上都有課）；她問「你哪天下午沒課？」',has('我想去地方法院旁聽。網站上說誰都可以進去，可是我一個人……有點不敢走進去。')&&has('好。那我們加一下好友。')&&!!r&&r.state==='open'&&INV.hasContact(H.G,Z)&&has('你哪天下午沒課？')&&!!q&&q.h===14&&q.place==='臺北地方法院'&&!CLS.dayItems(H.G,q.day).some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)&&q.day-d2<=7&&/陪靖雯去旁聽/.test(SIDEQ.todayHTML(H.G)),J([said(),q&&keyOf(q.day)]));
+  phAt(q.day-1,21.1); check('4. 曾靖雯：前一晚 21:00 她傳「明天兩點，法院門口。早安先說了，我明天會很緊張。」（她下午也說早安）',msgs(Z).includes('明天兩點，法院門口。早安先說了，我明天會很緊張。'),J(msgs(Z)));
+  H.said=[]; H.picks=['要看他做了什麼']; set(q.day,13.7); await OUT.go(GM,q);
   check('4. 曾靖雯 旁聽（2D，court_hall 沒有圖＝深色底）：選「要看他做了什麼」→ ZJW_HELP depends；記 SHARED_SECRET；人物頁「陪她去過地方法院旁聽」；做完',has('你講話好像法官。……可是你說得對，我們連他做了什麼都還沒聽完。')&&H.G.flags.ZJW_HELP==='depends'&&SOCIAL.has(Z,'SHARED_SECRET')&&P().deeds(H.G,Z).includes('陪她去過地方法院旁聽')&&r.state==='done'&&OUT.bg('court_hall')==='dark',J(said()));
   /* 畢業典禮早上 */
   const gd=D('2029-06-02'); set(gd,6.4,'campus'); GM.npc={}; spawn(Z); await talk(Z,[]);
@@ -320,7 +320,8 @@ await sec(7,async()=>{ const ev=STORY_EVENTS.find(e=>e.id==='ev_pool_greet');
 await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8');
   check('8. 沒說過話的人不進朋友頁（game3d.js knownIds：B 層＝ACQUAINTANCE／FRIEND；看過三次的 RECOGNIZABLE 不算）',/if\(c\.social_layer==='B'\) return \['ACQUAINTANCE','FRIEND'\]\.includes\(SOCIAL\.reveal\(id\)\);/.test(g));
   check('8. 人物頁：B 層用 POOL.pageDesc（一句話；朋友＝personality）＋做過的事（POOL.deedsHTML）',/POOL\.pageDesc\(id\)/.test(g)&&/POOL\.deedsHTML\(id,G\)/.test(g));
-  fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後）：「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='在寫一篇兇手是律師的推理小說');
+  fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後、心事說出來以前）：中性的一句「常在舊路書房看推理小說的同學」（AA_498「實作時定的」第 4 點，照 AA_120）；說出來以後換回「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='常在舊路書房看推理小說的同學'&&(SOCIAL.remember(C,'SHARED_SECRET',''),P().pageDesc(C)==='在寫一篇兇手是律師的推理小說'));
+  check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學妹」「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學妹|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
   check('8. 沒有回答選項的「……你呢？」不再出現（其他十五位照舊自我介紹）',!/。……你呢？」'\)/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8')));
   /* 順手的事和店員的一起算（SIDEQ.MAX）*/
   fresh(TD('Y1S2',3,2),6.75,'campus'); meet(Z); rel(Z,25,3); SIDEQ.rec(H.G).SQ01={state:'open',step:'wait',day:H.G.day,term:'Y1S2'}; SIDEQ.rec(H.G).SQ03={state:'open',step:'x',day:H.G.day,term:'Y1S2'}; spawn(Z); await talk(Z,[0]);

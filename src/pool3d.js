@@ -82,7 +82,7 @@ const POOL=(function(){
   S.apply=function(){ if(typeof CHARACTERS==='undefined') return 0; let n=0;
     for(const id of IDS){ const c=CHARACTERS[id], p=D.PEOPLE[id]; if(!c||!p) continue;
       c.daily_schedule=(p.where||[]).map(e=>Object.assign({},e)); if(p.cls) c.poolClass=Object.assign({},p.cls); else delete c.poolClass;
-      c.card=p.card||''; if(p.personality) c.personality=p.personality; c.poolPlace=p.place||'';
+      c.card=p.card||''; if(p.before) c.cardBefore=p.before; if(p.personality) c.personality=p.personality; c.poolPlace=p.place||'';   /* before：心事說出來以前人物頁用的中性一句（AA_498「實作時定的」第 4 點，照 AA_120）*/
       const ex=c.char3d&&c.char3d.extra!=null?c.char3d.extra:IDS.indexOf(id);
       const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(ex+40):{sex:c.gender==='f'?'f':'m'};
       c.char3d={extra:ex,spec:Object.assign(base,{id,sex:c.gender==='f'?'f':'m',model:p.model,props:(p.props||[]).slice()})}; n++; }
@@ -98,7 +98,7 @@ const POOL=(function(){
   /* 2-2 認識之前的外觀描述：這一筆作息的 desc（同一個人在兩個地方各有一句）；不在這一區＝null（SOCIAL 用 characters.js 的 descriptor）*/
   S.descNow=function(id,G){ G=G||curG(); if(!G||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return null; const n=GMr&&GMr.G===G&&GMr.npc&&GMr.npc[id]; if(n&&n.poolDesc) return n.poolDesc; const e=ent(G,id); return e&&e.desc||null; };
   /* 人物頁（2-2、2-8）：一句話；升到朋友（reveal FRIEND）＝personality（沒寫的照一句話）*/
-  S.pageDesc=function(id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return ''; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.reveal&&SOCIAL.reveal(id)==='FRIEND'; return fr&&c.personality?c.personality:(c.card||''); };
+  S.pageDesc=function(id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return ''; if(c.cardBefore&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,'SHARED_SECRET'))) return c.cardBefore; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.reveal&&SOCIAL.reveal(id)==='FRIEND'; return fr&&c.personality?c.personality:(c.card||''); };
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   S.deedsHTML=function(id,G){ G=G||curG(); if(!G) return ''; const A=S.deeds(G,id); return A.length?'<div style="margin-top:2px">'+A.map(t=>'<div class="muted">· '+esc(t)+'</div>').join('')+'</div>':''; };
 
@@ -176,7 +176,7 @@ const POOL=(function(){
   /* ---------- 2-6 順手的事（SIDEQ 登記）---------- */
   S.QUEST={ PQ_ZJW:{who:Z,title:'陪靖雯去旁聽'}, PQ_YT1:{who:Y,title:'黃郁婷：考前補給包'}, PQ_YT2:{who:Y,title:'黃郁婷：迎新報到桌'},
     PQ_CJ:{who:C,title:'林采潔：第三章'}, PQ_YS:{who:YS,title:'鄭元碩：法律系的一天'}, PQ_QJQ:{who:Q,title:'邱家齊：代收媽媽的箱子'} };
-  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）09:30 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到萬才館一樓幫忙包考前補給包'},
+  const HINT={ PQ_ZJW:{court:r=>md(r.outDay)+'（'+wdTxt(r.outDay)+'）14:00 陪靖雯去臺北地方法院旁聽'}, PQ_YT1:{pack:()=>'今天 19:00～21:00 到萬才館一樓幫忙包考前補給包'},
     PQ_YT2:{desk:r=>md(r.outDay)+'（三）08:30 到霖澤館一樓的迎新報到桌'}, PQ_CJ:{read:()=>'在舊路書房或教室找采潔，讀她的第三章'},
     PQ_YS:{shoot:r=>md(r.outDay)+'（六）07:00 起當「法律系的一天」的主角'}, PQ_QJQ:{pick:r=>md(r.satDay)+'（六）10:00～18:00 到男一舍門廳領包裹',fridge:()=>'把箱子放進男一舍交誼廳的冰箱'} };
   S.hint=(id,r)=>{ const h=HINT[id]&&HINT[id][r.step]; return typeof h==='function'?h(r):(h||''); };
@@ -189,10 +189,10 @@ const POOL=(function(){
   const lapseQ=qid=>G=>{ const r=S.qRec(G,qid); if(r&&r.state==='open'){ r.state='lapsed'; r.lapseDay=G.day; } };
   S.register=function(){ if(typeof SIDEQ==='undefined'||!SIDEQ.Q) return false; for(const qid in S.QUEST){ if(!SIDEQ.Q[qid]) SIDEQ.Q[qid]={shop:'pool:'+S.QUEST[qid].who,title:S.QUEST[qid].title,pool:S.QUEST[qid].who,avail:()=>false,accept:async()=>{}}; }
     if(!SIDEQ.hint._pool){ const h0=SIDEQ.hint; SIDEQ.hint=Object.assign((id,r)=>S.QUEST[id]?S.hint(id,r):h0(id,r),{_pool:true}); } return true; };
-  /* 下一個上午沒課的平日（4-3 旁聽；放假法院沒開）。大一下的課表是固定的，平日每天早上都有課（一憲法、二國文、三刑總、四英文、五經濟），
-     照稿的字「下一個上午沒課的平日」多半落在期中考那一週（只考一堂、其他早上沒課，例：大一下第 9 週）——所以找到這學期結束；找不到就不開口（S.FLOW 的條件）*/
+  /* 下一個下午沒課的平日 14:00（4-3 旁聽；放假法院沒開）。AA_498「實作時定的」第 3 點（56ed354e9）：原本「上午沒課」，大一下平日每天早上都有課找不到，改下午——
+     13:30～16:30 沒有課（14:00 開庭、捷運 20 分鐘、旁聽兩小時；上午的課 12:10 下課不算）；找到這學期結束，找不到就不開口（S.FLOW 的條件）*/
   S.courtDay=function(G){ const T=T_(G), R=T&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays(T.id):null, last=R&&R.to!=null?R.to:G.day+60;
-    for(let d=G.day+1;d<=last;d++){ const w=dateOf(d).wd; if(w<1||w>5||(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d))) continue; const items=typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,d):[]; if(items.some(it=>it.t0<12)) continue; return d; } return null; };
+    for(let d=G.day+1;d<=last;d++){ const w=dateOf(d).wd; if(w<1||w>5||(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(d))) continue; const items=typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,d):[]; if(items.some(it=>it.t0<16.5&&(it.t1==null?it.t0+2:it.t1)>13.5)) continue; return d; } return null; };
   S.nextSat=G=>{ let d=G.day+1; while(dateOf(d).wd!==6) d++; return d; };
   const plan=(G,o)=>typeof OUT!=='undefined'&&OUT.plan?OUT.plan(G,o):false;
   async function offer(GM,who,id,qid,o){ const G=GM.G, Lx=L[id]; await run(GM,id,Lx[o.ask]); const k=await GM.choose(Lx[o.opts].map(t=>({t})));
@@ -200,7 +200,7 @@ const POOL=(function(){
     small(G,id).day=G.day; return k===0; }
   /* 4-3 靖雯：陪她去旁聽 */
   S.acceptZjw=function(GM){ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,Z); const d=S.courtDay(G); S.openQ(GM,'PQ_ZJW','court',{outDay:d,by:d});
-    if(d!=null) plan(G,{id:'pool_court_'+d,ev:'ev_pool_zjw_court',day:d,h:9.5,late:0.5,place:'臺北地方法院',title:'陪靖雯去旁聽（臺北地方法院 9:30）',travel:'捷運 約 20 分鐘',travelH:1/3}); };
+    if(d!=null) plan(G,{id:'pool_court_'+d,ev:'ev_pool_zjw_court',day:d,h:14,late:0.5,place:'臺北地方法院',title:'陪靖雯去旁聽（臺北地方法院 14:00）',travel:'捷運 約 20 分鐘',travelH:1/3}); };
   S.COURT_EV={ id:'ev_pool_zjw_court', title:'陪靖雯去旁聽', participants:[Z], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:L[Z]?L[Z].court:[],
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_ZJW'); if(!r||r.state!=='open') return; S.secretMark(G,Z); S.addDeed(G,Z,L[Z].deedCourt); S.finishQ(GM&&GM.G===G?GM:{G},'PQ_ZJW',r,{away:true}); },
     outingMissed:lapseQ('PQ_ZJW') };
