@@ -427,6 +427,94 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     o=run('Y4S1',3); check('2-9. 大四上：「國考跟研究所，我兩個都報了。本來想先實習再說的。」（取代短的那一句）；追劇那一句拿掉',o.includes(X.talk[3].t)&&!SMALLTALK[XC].some(q=>q.t==='「國考跟研究所，我兩個都報了。」')&&!JSON.stringify(SMALLTALK[XC]).includes('我最近在追一部日劇'));
     o=run('Y4S2',3,{XC5_RECONCILE:true}); check('2-9. 大四下有 XC5_RECONCILE：「最後一堂課，我坐第一排。以安坐我旁邊。」',o.includes(X.talk[4].t)&&!run('Y4S2',3).includes(X.talk[4].t)); });
 
+  /* ===================== 3 Alison ===================== */
+  await sec('3-1',async()=>{ const e=ev('ev_yu_meet_w3'), I=STORY.YU_INTRO;
+    const setup=(w,wd,dh,o)=>{ o=o||{}; const d=TD('Y1S1',w,wd); fresh(d,8,'campus',Object.assign({},NEWG,o.flags||{})); const it=CLS.dayItems(H.G).find(q=>q.c.kind==='required'&&q.room&&q.room.zone==='classroom'); if(!it) return null;
+      if(o.done!==false) CLS.rec(H.G).done[it.key]=1; if(o.abs) CLS.rec(H.G).abs[it.key]=1; at(d,it.t1+dh); H.G.zone='campus'; return it; };
+    let it=setup(3,1,0.1); check('3-1. 第 3 週、還沒認識她：第一次上完霖澤館 201 的必修、走出來（進校園）自動演',!!it&&EVENTS.check(e),J(it&&[it.c.id,it.t1]));
+    const no=[]; it=setup(3,1,-0.5); if(EVENTS.check(e)) no.push('還沒下課'); it=setup(3,1,1); if(EVENTS.check(e)) no.push('下課一小時以後');
+    it=setup(3,1,0.1,{done:false}); if(EVENTS.check(e)) no.push('沒上那一堂'); it=setup(3,1,0.1,{flags:{met_yu:true}}); if(EVENTS.check(e)) no.push('已經認識');
+    it=setup(4,1,0.1); if(EVENTS.check(e)) no.push('第 4 週'); it=setup(2,1,0.1); if(EVENTS.check(e)) no.push('第 2 週');
+    check('3-1. 不演：還沒下課、下課一小時以後、沒上那一堂、已經認識、第 2／4 週',!no.length,J(no));
+    setup(3,1,0.1); await play('ev_yu_meet_w3');
+    check('3-1. 「（下課，有人從後面拍了你的肩膀。）」＋talkYu 的自我介紹原文（「你是周老師點的那個！我是 Alison……」）；記認識（met_yu）',J(H.said.map(x=>x.t))===J([L().yu.tap].concat(I.lines))&&H.said[1].who==='Alison'&&H.G.flags.met_yu===true&&H.G.flags.metYuDay===H.G.day&&STORY.knows(YU,H.G),J(H.said.map(x=>x.t)));
+    setup(3,1,0.1,{flags:{CAMP_SEEN:['yu']}}); await play('ev_yu_meet_w3'); check('3-1. 宿營見過：自我介紹前多一句旁白（同 talkYu）',!!H.said[1]&&H.said[1].t===I.camp&&H.said[2].t===I.lines[0]); });
+
+  await sec('3-2',async()=>{ const P=L().yu.pick, KEY='（看了一眼正在跟阿姨點菜的阿哲）他說「沒事啦，就在一起啊」。哪有人這樣告白的。', CALL='……跟你說一件事。我跟阿哲在一起了。';
+    const run=async(id,pick)=>{ fresh(D('2026-12-19'),19,'noodle',pick?{YU2_PICK:pick}:{}); await play(id,[0]); return H.said.map(x=>x.t); };
+    const rows=[]; for(const [k,t] of [['everyone',P.everyone],['you',P.you],['ask',P.ask]]){ const a=await run('ev_yu_together',k), b=await run('ev_yu_together_call',k); rows.push([a[a.indexOf(KEY)-1]===t,b[b.indexOf(CALL)+1]===t]); }
+    check('3-2. 語 2 的選擇（YU2_PICK）：當面版在「他說『沒事啦，就在一起啊』」前面、電話版在「我跟阿哲在一起了。」後面，各多一句',rows.every(r=>r[0]&&r[1]),J(rows));
+    const a=await run('ev_yu_together'), b=await run('ev_yu_together_call');
+    check('3-2. 沒有 YU2_PICK（舊存檔）：照舊',a[a.indexOf(KEY)-1]==='我跟阿哲在一起了。'&&b[b.indexOf(CALL)+1]==='你不要笑。我聽得到。'); });
+
+  await sec('3-3',async()=>{ const B=L().yu.bkf, d=TD('Y2S2',4,4);
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'campus'); if(o.zy!==false) H.G.events.done.ev_yu_together=1; if(o.fam!==false) fam(YU); spawnAt(YU,-30,20.94,0); pos(-30,19.6,0); return H.G; };
+    setup(d,8.6); const y=sched(YU); check('3-3. 大二下第 4～6 週週四、五 08:20～09:05：Alison 的作息在傅鐘旁的長椅（吃早餐）；和阿哲在一起以後',!!y&&y.zone==='campus'&&y.act==='eat'&&J(y.seatAt)===J([-30,21]),J(y&&[y.zone,y.act,y.seatAt]));
+    { setup(d,8.6,{zy:false}); const a=sched(YU); setup(TD('Y2S2',4,1),8.6); const b=sched(YU); check('3-3. 還沒在一起：不在長椅；週一早上她有課',!(a&&a.zone==='campus'&&a.act==='eat')&&!(b&&b.zone==='campus'&&b.act==='eat'),J([a&&a.zone,b&&b.zone])); }
+    setup(d,8.6); check('3-3. 走到長椅旁（有點熟以上、在一起以後）＝演',ready('ev_yu_bkf'));
+    const no=[]; setup(d,9.2); if(ready('ev_yu_bkf')) no.push('09:05 以後'); setup(d,8.6,{zy:false}); if(ready('ev_yu_bkf')) no.push('還沒在一起'); setup(d,8.6,{fam:false}); if(ready('ev_yu_bkf')) no.push('不熟'); setup(TD('Y2S2',7,4),8.6); if(ready('ev_yu_bkf')) no.push('第 7 週');
+    check('3-3. 不演：09:05 以後、還沒在一起、不熟、第 7 週',!no.length,J(no));
+    const run=async k=>{ setup(d,8.6); await play('ev_yu_bkf',[k]); return H.said.map(x=>x.t); };
+    let r=await run(0); check('3-3. 開場三行；「那我陪妳吃。」→「欸，你好好喔。」…「可是你不能每天都來。」，記 YU_BKF_STAY',J(r)===J(lt(B.open).concat(lt(B.r[0])))&&J(H.opts[0])===J(B.opts)&&H.G.flags.YU_BKF_STAY===true&&H.G.flags.YU_BKF==='STAY');
+    r=await run(1); check('3-3. 「妳可以叫他起來。」→「叫了。他說「五分鐘」。……」，記 YU_BKF_WAKE',J(r.slice(3))===J(lt(B.r[1]))&&H.G.flags.YU_BKF_WAKE===true);
+    r=await run(2); check('3-3. 「一個人吃也不錯吧。」→「（看了你一眼）……你很怪。」＋旁白，記 YU_BKF_ALONE',J(r.slice(3))===J(lt(B.r[2]))&&H.G.flags.YU_BKF_ALONE===true);
+    /* 語 4 的第一句前面 */
+    const y4=[]; for(const v of ['STAY','WAKE','ALONE']){ fresh(D('2028-03-08'),8.6,'campus',{YU_BKF:v}); await play('ev_yu_alone_breakfast',[0]); const a=H.said.map(x=>x.t); fresh(D('2028-03-08'),21,'dorm',{YU_BKF:v}); await play('ev_yu_alone_call',[0]); const b=H.said.map(x=>x.t); y4.push([a[1]===B.yu4[v],b[0]===B.yu4[v]&&b[1]==='欸，我在練習。今天早上一個人吃早餐。']); }
+    fresh(D('2028-03-08'),8.6,'campus'); await play('ev_yu_alone_breakfast',[0]); const a0=H.said.map(x=>x.t);
+    check('3-3. 語 4（當面、電話）她第一句前面照 YU_BKF 多一句；沒有＝照舊',y4.every(x=>x[0]&&x[1])&&!Object.values(B.yu4).some(t=>a0.includes(t)),J(y4)); });
+
+  await sec('3-4',async()=>{ const Q=L().yu.quit, d=TD('Y2S2',3,3);
+    const run=(k,o)=>{ o=o||{}; fresh(d,20,'dorm'); if(o.fam!==false) fam(YU); contact(YU); ruleAt(d,20.5); ruleAt(d,21); if(k!=null) answer('yu_quit',k); };
+    run(); const m=byTag('yu_quit');
+    check('3-4. 大二下第 3 週週三 21:00 私訊三則「我退辯論社了！！」「禮拜三晚上突然空下來」「好長喔」；三個回覆',J(m.map(x=>x.text))===J(Q.msg)&&Math.abs(m[0].h-21)<0.02&&J(askOpts('yu_quit'))===J(Q.opts.map(o=>o[0])));
+    const reps=[]; for(let k=0;k<3;k++){ run(k); reps.push(texts('p:'+YU).slice(-1)[0]); }
+    check('3-4. 「要不要去麵店？」→「好！！我叫阿哲」（不排約）／「好好休息。」→「我不會休息啦 我會去找事做」／「（貼圖）」→「（貼圖：熊拍熊）」',J(reps)===J(Q.opts.map(o=>o[1]))&&!(H.G.invites||[]).length,J(reps));
+    run(null,{fam:false}); check('3-4. 不到有點熟：不發',!byTag('yu_quit').length);
+    check('3-4. 舊的「這學期我只剩兩個社團了。你猜我退了哪一個？」（needed_msgs yu_clubs）不再發',NEEDED_MSGS.list.find(x=>x.id==='yu_clubs').cond(H.G)===false); });
+
+  await sec('3-5',async()=>{ const C=L().yu.c4, d=D('2027-11-19');
+    const run=(k,o)=>{ o=o||{}; fresh(d,22,'dorm'); if(o.fam!==false) fam(YU); contact(YU); if(o.c4!==false) H.G.msgs.push({th:'g:noodle_team',from:ZHE,text:'（阿哲的機車）',tag:'y3_c4',day:d,h:22}); ruleAt(d,23); ruleAt(d,23+40/60); if(k!=null) answer('yu_c4',k); };
+    run(); const m=byTag('yu_c4');
+    check('3-5. 2027-11-19 C4（阿哲的機車那則）之後，當晚 23:40 私訊四則；三個回覆',J(m.map(x=>x.text))===J(C.msg)&&Math.abs(m[0].h-(23+40/60))<0.02&&J(askOpts('yu_c4'))===J(C.opts.map(o=>o[0])));
+    const reps=[], fl=[]; for(let k=0;k<3;k++){ run(k); reps.push(texts('p:'+YU).slice(-C.opts[k][1].length)); fl.push(H.G.flags.YU_C4); }
+    check('3-5. 「我明天去看他。」→「好！！……他會假裝很煩」／「妳還好嗎？」→三則／「他說沒事就讓他沒事吧。」→「……好 那我再看看」；記 YU_C4',J(reps)===J(C.opts.map(o=>o[1]))&&J(fl)===J(['visit','her','leave']),J([reps,fl]));
+    { run(null,{c4:false}); const a=!byTag('yu_c4').length; run(null,{fam:false}); check('3-5. 沒有 C4 那則、或不到有點熟：不發',a&&!byTag('yu_c4').length); }
+    const sc=async v=>{ fresh(D('2027-11-23'),19,'noodle',v?{YU_C4:v}:{}); await play('ev_zhe_scooter',[0]); return H.said[0]&&H.said[0].t; };
+    check('3-5. 回「我明天去看他。」：11/23 ev_zhe_scooter 開頭多一句旁白「（Alison 坐在旁邊剝橘子，剝好了也沒有吃。）」；其他兩個回答沒有',(await sc('visit'))===C.scooter&&(await sc('her'))!==C.scooter&&(await sc(null))!==C.scooter); });
+
+  await sec('3-6',async()=>{ const C=L().yu.c6, d0=D('2028-03-16');
+    const run=(v,o)=>{ o=o||{}; fresh(d0,13,'linze',{YU_C6:v,YU_C6_DAY:d0}); fam(YU); contact(YU); if(o.bear) H.G.msgs.push({th:'p:'+YU,from:YU,text:'（熊）',tag:'y3_yu_c6_bear',day:d0+7,h:21}); ruleAt(d0+7,20); ruleAt(d0+7,21.5); const bear=(H.G.msgs||[]).filter(m=>m.tag==='y3_yu_c6_bear'&&m.text!=='（熊）').length; ruleAt(d0+14,20); ruleAt(d0+14,21); return {rows:byTag('yu_c6_after').map(m=>m.text),bear}; };
+    const a=run('pay'), b=run('open'), c=run('rule');
+    check('3-6. C6 之後第 14 天 21:00，一則一則：「要學弟賠」（我先不要這樣）、「把帳攤開」（不像在抓人）＝第 1 列；「社團的規則」＝第 2 列',J(a.rows)===J(C.soft)&&J(b.rows)===J(C.soft)&&J(c.rows)===J(C.rule),J([a.rows,c.rows]));
+    check('3-6. 第 7 天那一則熊（y3_yu_c6_bear）拿掉了',a.bear===0&&c.bear===0);
+    check('3-6. 舊存檔已經收過熊：不再收第 14 天那幾則（不留兩份）',!run('pay',{bear:true}).rows.length); });
+
+  await sec('3-7',async()=>{ const B=L().yu.lib, d=TD('Y4S1',5,1);
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'lawlib',o.flags); if(o.fam!==false) fam(YU); spawnAt(YU,-4.8,-5.2,0); pos(-4.8,-4.0,0); return H.G; };
+    setup(d,15); const y=sched(YU); check('3-7. 大四上第 5～8 週平日 14:00～17:00：Alison 的作息在法圖二樓最角落',!!y&&y.zone==='lawlib'&&J(y.seatAt)===J([-4.8,-5.2]));
+    setup(d,15); check('3-7. 走到她旁邊（有點熟以上、人在臺灣）＝演',ready('ev_yu_lawlib'));
+    const no=[]; setup(d,17.2); if(ready('ev_yu_lawlib')) no.push('17:00 以後'); setup(d,15,{fam:false}); if(ready('ev_yu_lawlib')) no.push('不熟'); setup(TD('Y4S1',9,1),15); if(ready('ev_yu_lawlib')) no.push('第 9 週');
+    setup(D('2028-10-02'),15,{fam:true,flags:{EXCHANGE_ROUTE:'US'}}); if(ready('ev_yu_lawlib')) no.push('在美國');
+    check('3-7. 不演：17:00 以後、不熟、第 9 週、人在美國',!no.length,J(no));
+    const run=async k=>{ setup(d,15); await play('ev_yu_lawlib',[k]); return H.said.map(x=>x.t); };
+    let r=await run(0); check('3-7. 開場三行；「練習得怎麼樣？」→「今天三個小時，沒有傳訊息給任何人。……我的紀錄。」',J(r)===J(lt(B.open).concat(lt(B.r[0])))&&J(H.opts[0])===J(B.opts)&&!H.G.flags.YU_Y4_LIB);
+    r=await run(1); check('3-7. 「要不要一起？」→「不要。（她笑了一下）我在練習。」',J(r.slice(3))===J(lt(B.r[1]))&&!H.G.flags.YU_Y4_LIB);
+    r=await run(2); check('3-7. （在她對面坐下，不說話）→ 旁白，記 YU_Y4_LIB',J(r.slice(3))===J(lt(B.r[2]))&&H.G.flags.YU_Y4_LIB===true);
+    { const u=D('2028-10-14'); fresh(u,10,'dorm',{EXCHANGE_ROUTE:'US'}); fam(YU); contact(YU); const ab=STORY.abroad(H.G); const l=CALENDAR.dateOf(u); ruleAt(u-1,20); for(const hh of [0.5,1,1.5,2,2.5,3,3.5]) ruleAt(u,hh); const m=byTag('yu_lib_us');
+      check('3-7. 美國路線：2028-10-14（六）臺灣時間 15:00 私訊三則（當地時間 15:00−12＝03:00）',ab&&J(m.map(x=>x.text))===J(B.us)&&m[0].day===u&&Math.abs(m[0].h-3)<0.6,J(m.map(x=>[x.day-u,x.h])));
+      fresh(u,10,'dorm',{EXCHANGE_ROUTE:'TW'}); fam(YU); contact(YU); ruleAt(u,15.1); check('3-7. 臺灣路線沒有那三則（當面演）',!byTag('yu_lib_us').length); }
+    { const w=TD('Y4S1',10,3); fresh(w,21,'dorm'); fam(YU); contact(YU); ruleAt(w,22); ruleAt(w,22.5); const m=byTag('yu_lib_w10');
+      check('3-7. 大四上第 10 週（週三）22:30 私訊「補習班的影片可以開兩倍速」「開兩倍速 老師講話就跟我一樣快了」',J(m.map(x=>x.text))===J(B.w10)&&Math.abs(m[0].h-22.5)<0.02); }
+    const epi=f=>{ const G=fresh('2034-06-03',19,'cafe',f); fam(YU); return PG.epiLine(G,YU); };
+    const e1=epi({YU4_ALONE:true,YU_Y4_LIB:true}), e2=epi({YU4_ALONE:true}), e3=epi({YU_Y4_LIB:true});
+    check('3-7. 尾聲：「一個人吃滷肉飯」那一段之後，有 YU_Y4_LIB 多一句「大四我在法圖練一個人念書。你坐對面那天，我念得最久。」',J(e1.slice(-1))===J([[YU,B.epi]])&&e1.length===e2.length+1&&!JSON.stringify(e3).includes(B.epi),J([e1,e3])); });
+
+  await sec('3-8',async()=>{ const SRC=['src/story3d.js','src/data/events.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8')).join('\n');
+    const strs=[...SRC.matchAll(/'([^'\n]*三個社團[^'\n]*)'/g)].map(m=>m[1]);
+    const KEEP=['參加了三個社團。常在傅鐘旁邊的長椅吃早餐。','我參加了三個社團，吉他社、辯論社，還有系學會。你要不要來吉他社？不用會彈。','她講了十五分鐘，關於三個社團。','Alison 自我介紹講了三分鐘她的三個社團。','我要拿來寫三個社團的行事曆！'];
+    check('3-8. 「三個社團」只留：人物頁、第一次自我介紹、語 1「她講了十五分鐘」、迎新那一句旁白、聖誕禮物那一句',J([...new Set(strs)].sort())===J(KEEP.slice().sort()),J(strs));
+    check('3-8. 換掉的兩處：語 1 的選項「「辯論社不會累嗎？」」、平常閒聊「我這禮拜辯論社都要開會，快死了。」',SRC.includes("'「辯論社不會累嗎？」'")&&SRC.includes("'我這禮拜辯論社都要開會，快死了。'")); });
+
   check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();
