@@ -11,8 +11,8 @@ MODE（環境變數）：
           對照（A1b）：重來一次、【捷徑】先有他的聯絡方式：只說「真的？…」、不說「手機給我。」、聯絡方式的日子不變。
   shuhao （A2）大一下第 9 週星期二 12:09 校園。【捷徑】認識楊書豪（pool_8）、熟悉 25、沒有聯絡方式。說話 → 順手的事選「那天我有事。」：
           「好。我自己去。」緊接「……手機給我。講完跟你說。」（書豪說）＋交換；→ 跳到那週六 20:56、等到 21:01：「講完了。超時半句。」
-  chengen（A3）大一上第 6 週星期一 10:24 社科院圖書館：第一次和蘇承恩（pool_19）說話＝認識那一場 → 選「我也想旁聽別的系。」→ 記下快照；
-          兩個選項各一次（同一個快照讀兩次）：跳到隔天星期二 14:03 校園、站到社科院正面的門（SL3.DOOR）8 m 外、打開條件事件、走過去 → 2D 旁聽
+  chengen（A3）大一上第 6 週星期二 10:24 社科院圖書館（星期一 10/6 是假日）：第一次和蘇承恩（pool_19）說話＝認識那一場 → 選「我也想旁聽別的系。」→ 記下快照；
+          兩個選項各一次（同一個快照讀兩次）：跳到同一天 14:03 校園、站到社科院正面的門（SL3.DOOR）8 m 外、打開條件事件、走過去 → 2D 旁聽
           （選「哪裡像？」／「（點頭）」）→ 演完 16:00 → 手機「朋友」→ 蘇承恩的人物頁有「陪他旁聽過一堂社工系的課」；
           第一個選項那一次再跳到下週二 14:03 走到門口：不再演。
   chenxi （A4）大一下第 5 週星期一（吉他社社課那天）18:46 萬才館。【捷徑】認識劉晏如（pool_5）熟悉 25、認識葉晨希（pool_11）。
@@ -149,9 +149,9 @@ async def door_walk(pg, cdp, run, tag):
 
 
 async def mode_chengen(pg, cdp, run, save):
-    st, d = await B.base(pg, save, ['Y1S1', 6, 1], 10.4, 'soclib')
+    st, d = await B.base(pg, save, ['Y1S1', 6, 2], 10.4, 'soclib')   # 第 6 週星期一 2025-10-06 是假日（承恩的作息 noHoliday），改星期二
     await B.load(pg, cdp, st)
-    run.setup('[前置] 使用者存檔 day 14 → %s（大一上第 6 週星期一）10:24 社科院圖書館' % d['key'])
+    run.setup('[前置] 使用者存檔 day 14 → %s（大一上第 6 週星期二）10:24 社科院圖書館' % d['key'])
     met = await pg.evaluate("id=>SOCIAL.has(id,'FIRST_MET')", SC)
     w = await B.wait_present(pg, SC)
     run.check('前置：蘇承恩在社科院圖書館、還不認識（第一次說話＝認識那一場）', bool(w and not w['hidden']) and not met, J({'who': w, 'met': met}))
@@ -163,7 +163,7 @@ async def mode_chengen(pg, cdp, run, save):
               has_line(lines, '我叫蘇承恩。我在看社工系有什麼課可以旁聽。……嗯，對，法律系的跑來旁聽社工。') and has_line(lines, '……那你可以先來這一堂。週二下午，老師人很好，不會趕人。'), J(lines[-5:]))
     S0 = await B.snapshot(pg)
     for k, (opt, resp) in enumerate(AUDIT_R.items()):
-        await B.jump(pg, cdp, run, ['Y1S1', 6, 2], 14.05, zone='campus', pos=None, snap=S0, note='認識那一場之後的快照（第 %d 次讀）' % (k + 1))
+        await B.jump(pg, cdp, run, ['Y1S1', 6, 2], 14.05, zone='campus', pos=None, snap=S0, note='同一天下午；認識那一場之後的快照（第 %d 次讀）' % (k + 1))
         n0 = await B.cap_n(pg)
         door = await door_walk(pg, cdp, run, 'A3-%d' % (k + 1))
         if not door: return
@@ -254,6 +254,7 @@ async def mode_aa513(pg, cdp, run, save):
     st, d = await B.base(pg, save, ['Y1S1', 10, 5], 18.55, 'gongguan', flags={'EXCHANGE_ROUTE': 'TW'})
     await B.load(pg, cdp, st)
     run.setup('[前置] 使用者存檔 day 14 → %s（大一上第 10 週星期五）18:33 公館；EXCHANGE_ROUTE＝TW' % d['key'])
+    run.note('大一下第 10 週星期五是 2026-05-01（勞動節，CALENDAR.holiday＝true）：照遊戲的日期跑，記一下')
     pre = await pg.evaluate("({an:STORY.knows?!!STORY.knows('heroine_01',GAME.G):null, seen:GAME.G.flags.AN_MOM_SEEN||null, row:(typeof HCIRCLE!=='undefined'&&HCIRCLE.row)?!!HCIRCLE.on(HCIRCLE.row('c503_8_1'),GAME.G,'gongguan'):null})")
     sis = await B.wait_present(pg, 'heroine_05', max_s=40)
     run.check('前置：認識以安、這學期還沒看過；學姊×陳助教的圈子 c503_8_1 在（學姊在公館）', bool(pre['an']) and not pre['seen'] and bool(sis), J({'pre': pre, 'sis': sis}))
