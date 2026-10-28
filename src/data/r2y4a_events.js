@@ -66,7 +66,7 @@ const R2Y4A_EVENTS=(function(){
   /* AA_516 第 8 節第 1 點、第 3 點、第 4 點（企劃線 3cd10909b → d6f8621ac → 913802344 第 8 節第 4 點；SIS-B14-AAFIX-1028）：4-1 9/2 208 的咖哩她說「……下次你用我的碗。」（SIS14_US_CURRY，src/sis_b14_3d.js）＝
      之後第一次「有吃東西的」208 場景多一句旁白，一次（記 SIS14_BOWL；條件 SISB14.bowlDue）。先算這一場（9/13 US2），三支都出（第 4 點）：
      「那就寫妳。」接在「（她把麵分到兩個碗。）」後面（第 3 點）；「先吃麵。」在「（你們隔著窗口吃完泡麵。）」前面；「書瑀，休息一下。」在「……休息完再改。先吃麵。」後面。
-     沒演到 US2 才是 3-2 滷肉（src/us208_3d.js 的 BOWL，她說「亞洲超市買得到八角。」那句後面）；4-2 煎蛋不算（盤子，不是碗）。
+     沒演到 US2 才是 3-2 滷肉（src/us208_3d.js 的 BOWL，兩支選項會合的地方（label e 後面，盛出來吃的時候；第 5 點 ca08e848c））；4-2 煎蛋不算（盤子，不是碗）。
      字和 us208_3d.js 那一行相同（這個檔先載入，引用不到那邊）；aa516：tests/aa516_sis_b14_unit.js 逐句對稿用 */
   const BOWL=Object.assign(IF(G=>typeof SISB14!=='undefined'&&!!SISB14.bowlDue&&SISB14.bowlDue(G),nar('（她把自己的碗放在你面前，換她用你上次帶來的那一個。）')),{set:{SIS14_BOWL:true},aa516:true});
   EV.push({ id:'ev_us2_kitchen', title:'退回的報告', participants:[S5], location:'us_shared', trigger:'seat', once:true, background:'blur',
