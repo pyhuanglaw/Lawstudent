@@ -176,7 +176,7 @@ const POOL=(function(){
     Y3secret:G=>/^Y3/.test(tid(G)||'')&&has(Y,'SHARED_SECRET'), Y4metCJ:G=>/^Y4/.test(tid(G)||'')&&has(C,'FIRST_MET'), Y4metYT:G=>/^Y4/.test(tid(G)||'')&&has(Y,'FIRST_MET'),
     qjqNo:G=>S.qState(G,'PQ_QJQ')==='declined' };
   S.WHEN=WHEN;
-  S.nextLine=function(G,id){ const r=small(G,id), once=r.once||{}; for(const e of ((L[id]&&L[id].talk)||[])){ if(once[e.t]) continue; const w=e.when==='secret'?has(id,'SHARED_SECRET'):(WHEN[e.when]?WHEN[e.when](G):false); if(w) return e; } return null; };
+  S.nextLine=function(G,id){ const r=small(G,id), once=r.once||{}; for(const e of ((L[id]&&L[id].talk)||[])){ if(once[e.t]||(e.old&&once[e.old])) continue;   /* old：稿改過的原句（舊存檔說過舊的那一句＝照算說過，第二批以後）*/ const w=e.when==='secret'?has(id,'SHARED_SECRET'):(WHEN[e.when]?WHEN[e.when](G):false); if(w) return e; } return null; };
   const sayAny=async(GM,who,t)=>{ if(/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t,{expr:'smile'}); };
   S.smallTalk=async function(GM,who,id){ const G=GM.G, r=small(G,id), T=T_(G), tid0=T?T.id:'none', nm=typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id;
     const act=fresh=>{ if(typeof SOCIAL!=='undefined'&&SOCIAL.activity){ SOCIAL.activity(id,'chat'); if(fresh) SOCIAL.activity(id,'chatNew'); } };

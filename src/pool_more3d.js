@@ -311,7 +311,7 @@ const POOL_MORE=(function(){
   FLOW[ZY]=[
     gradScene(ZY,'Y3S2','yzyGrad','campus'),
     async(GM,who)=>{ const G=GM.G; if(q(G,'PQ_YZY')||!inTerm(G,'Y2S1')||week(G)!==15||!P.canOpen(G)) return false; if(!(G.flags.YZY_ASKME||(fam(ZY)&&G.zone==='library_hall'))) return false;   /* 5-4：大二上期末前一週（選了「我問你，你答」，或有點熟以上在總圖）*/
-      await P.offer(GM,who,ZY,'PQ_YZY',{ask:'ask',opts:'askOpts',no:'askNo',accept:async GM2=>{ const G2=GM2.G; await P.run(GM2,ZY,L[ZY].quiz); quick(GM2,'PQ_YZY'); P.seg(G2,ZY,'quiz'); R_(G2).yzyQuiz=G2.day; }}); return true; },
+      await P.offer(GM,who,ZY,'PQ_YZY',{ask:'ask',opts:'askOpts',no:'askNo',accept:async GM2=>{ const G2=GM2.G; await P.run(GM2,ZY,L[ZY].quiz); if(typeof INV!=='undefined') INV.addContact(G2,ZY); quick(GM2,'PQ_YZY'); P.seg(G2,ZY,'quiz'); R_(G2).yzyQuiz=G2.day; }}); return true; },   /* 稿沒寫哪裡交換聯絡方式；「考完那天晚上私訊」要有＝問完問題那一場交換（回報請 AA 確認）*/
     async(GM,who)=>{ const G=GM.G; if(has(ZY,'SHARED_SECRET')||!fam(ZY)||small(G,ZY).day===G.day) return false; if(!(ti(G)>1||(tid(G)==='Y1S2'&&week(G)>=6))) return false;   /* 秘密：大一下第 6 週起 */
       await P.secretScene(GM,ZY,L[ZY].secret); return true; },
     async(GM,who)=>{ const G=GM.G, R=R_(G); if(contact(G,ZY)||G.zone!=='campus'||!S.rideDue(G)||R.yzyFace===G.day) return false;   /* 5-3：沒有聯絡方式＝在校園當面（這週六晚上）*/
@@ -480,12 +480,16 @@ const POOL_MORE=(function(){
       if(shift&&F.JR_HANDOVER){ R.cordN=(R.cordN|0)+1; if(R.cordN%3===1) t=L[M].cordDuty; }
       if(!t&&R.jrCopier!=null&&G.day>R.jrCopier){ R.copierN=(R.copierN|0)+1; if(R.copierN%3===1) t=L[M].copierDuty; }
       if(!t||!GM.say) return; GM.sceneBegin(); try{ await GM.say(null,t); } finally { GM.sceneEnd(); } };
+    S.fafuExtra=extra;   /* 測試用 */
     if(typeof w0==='function') STORY.fafuWatch=async function(GM){ try{ if(GM&&GM.G&&STORY.fafuWatchable(GM.G)&&GM.G.hour<12&&law(GM.G)) await extra(GM,false); }catch(e){ console.warn('POOL_MORE fafu',e); } return w0.apply(this,arguments); };
     if(typeof s0==='function') STORY.fafuShift=async function(GM){ try{ if(GM&&GM.G&&STORY.fafuShiftable(GM.G)&&law(GM.G)) await extra(GM,true); }catch(e){ console.warn('POOL_MORE fafu',e); } return s0.apply(this,arguments); };
     STORY._poolFafu=true; }
-  /* 大四下法律實習（AA_441；AA_499 4-5）：每週那一句之後，三次輪流多一句承恩（第 3、7、11 次出席；認識承恩）*/
-  if(typeof CLS!=='undefined'&&Array.isArray(CLS.OFFSITE_AFTER)&&!CLS._poolSce){ CLS.OFFSITE_AFTER.push((G,it,line)=>{ if(!it||!it.c||it.c.id!=='legal_practice'||!line||!P.met(G,SC)) return null;
-      const R=typeof CLS.rec==='function'?CLS.rec(G):null, n=R&&R.attend?(R.attend.legal_practice|0):0, k=[2,6,10].indexOf(n); return k>=0?L[SC].practice[k]:null; }); CLS._poolSce=true; }
+  /* 大四下法律實習（AA_441；AA_499 4-5）：每週那一句之後，三次輪流多一句承恩（一學期三次：第 3、7、11 次出席起，那一天有旁白的第一次；認識承恩）*/
+  S.PRACTICE_AT=[2,6,10];   /* 出席以前已經去過幾次 */
+  S.practiceLine=function(G,it,line){ if(!it||!it.c||it.c.id!=='legal_practice'||!line||!P.met(G,SC)||!L[SC]) return null;
+    const C=typeof CLS!=='undefined'&&typeof CLS.rec==='function'?CLS.rec(G):null, n=C&&C.attend?(C.attend.legal_practice|0):0, R=R_(G), k=R.sceP|0;
+    if(k>=S.PRACTICE_AT.length||n<S.PRACTICE_AT[k]) return null; R.sceP=k+1; return L[SC].practice[k]; };
+  if(typeof CLS!=='undefined'&&Array.isArray(CLS.OFFSITE_AFTER)&&!CLS._poolSce){ CLS.OFFSITE_AFTER.push((G,it,line)=>S.practiceLine(G,it,line)); CLS._poolSce=true; }
   /* 事件裡加的句子（成發、系籃、哲 3）*/
   const evById=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
   const metIf=id=>({custom:G=>typeof POOL!=='undefined'&&POOL.met(G,id)});
