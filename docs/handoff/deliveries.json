@@ -15206,6 +15206,58 @@
    "task": "PERF-SINGLESIDE-GLB-1025",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-27 23:0x UTC】e6da67e38（合併 fe4d31a86）"
+  },
+  {
+   "id": "DL-LW2-DOOR-P2",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ccc329672",
+   "msg": "ACK",
+   "what": "ANIM-DOOR-OPEN-1027（A21）第二階段：門板真的轉開（門上零件跟著轉、門後暗底卡）、推門 0.45 秒 busy、連按只推一次；BB-C 開門三點（118 巷「進〇〇」算門、林家乾麵開放式、總圖正面自動門、走出校門不是門）；door_open_unit 41 項",
+   "task": "ANIM-DOOR-OPEN-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:1x UTC】8531a71ab（合併 562a5ead9）；door_open_phase2_1027.patch 原樣套用"
+  },
+  {
+   "id": "DL-LW2-WZCAT-HOLD",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ccc329672",
+   "msg": "ACK",
+   "what": "WZ-CAT-LIFE-1023（J13）：WZCAT.hold('lie')／release()——所長回來那一場貓固定趴在圓椅上（AA_493 第 3 節第一選擇）；wz_cat_walk_unit 29 項",
+   "task": "WZ-CAT-LIFE-1023",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:1x UTC】8531a71ab（合併 562a5ead9）：wzcat_hold_1027.patch 原樣套用；wzlines3d.js 開演前 hold、演完 release；wz_events.js 拿掉白天備用句、只留原句；aa420、aa493 第 4 項跟著改"
+  },
+  {
+   "id": "DL-LW2-D40-Q",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ccc329672",
+   "msg": "ACK",
+   "what": "FIT-3D-BODY-1027（D40）第二階段給使用者的選擇題（docs/art-rebuild/second_ai/D40_第二階段_給使用者的選擇題.md：身形要不要變、幾階開始、體能掉了退不退、先看圖）",
+   "task": "FIT-3D-BODY-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:1x UTC】文件留在 LAWWW2 分支；改主角外觀＝使用者決定（D111），LAWWW-C 在回報裡直接問使用者；使用者沒回答前第二階段不動（D99 人物美術凍結）"
+  },
+  {
+   "id": "DL-AA-494",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b3ecc563c",
+   "msg": "ACK",
+   "what": "AA_494 女主角主動約你：七位的門檻（日常第 3／5 階、校外第 6 階、交往中）、頻率（一週全部最多 3 則、一天 1 則、女朋友優先）、改天／不了／答應、時間（日常前一晚、校外週三晚上）、不約的時期與優先順序（劇情＞心意邀約＞以安公法讀書會＞這一份）、心願地點不主動約、各人地點表與台詞",
+   "task": "HEROINE-ASKS-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:1x UTC】outbox f6c1b8b17；LAWWW-C 實作中（src/heroine_asks3d.js）"
   }
  ],
  "ignored": [
