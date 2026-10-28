@@ -35541,6 +35541,33 @@
     "ack": "自領"
    },
    "next": "【LAWWW-C 2026-10-28 13:5x UTC】登記（LAWWW2 13:53 說 patch 寫好、測完另外交）；交件後 LAWWW 套 patch 跑 lightmap 相關＋全部 Node"
+  },
+  {
+   "id": "MEMO-NO-EVID-1028",
+   "title": "筆記頁「日誌」出現 ev_xxx 事件代號：沒有標題的事件演完，events3d.js 用 ev.id 當日誌（events.js 39 個標題空白的事件）",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_522 第 8 節子代理回報（10-28 14:1x）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "演完任何一個沒有標題的事件後打開筆記頁",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "子代理回報：標題空白的事件會把 id 寫進日誌",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "沒有標題的事件不寫日誌、舊存檔裡的 ev_ 代號不顯示；tests/memo_no_evid_unit.js",
+    "receiver": "BB",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-28 14:2x UTC】LAWWW-C 在 memoid-1028 512508b9e 改好（memo_no_evid 4 項 ALL PASS，修改前 FAILED 4）；開發分支這一輪全部 Node 跑完就合併"
   }
  ]
 }
