@@ -3518,7 +3518,7 @@
   {
    "task": "NPC-STORY-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "4545c239e",
+   "sha": "b70bed855",
    "files": [
     "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
     "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
@@ -3529,7 +3529,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "pool 第二批（同屆四位＋馬佳蓉）"
+   "note": "pool 第二批（同屆四位＋馬佳蓉）；b70bed855 第 8 節後補：芯慈公車沒回那一句、豆干「一塊」"
   },
   {
    "task": "NPC-STORY-1028",
@@ -3756,7 +3756,7 @@
   {
    "task": "HEROINE-LIFE-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "c9899bed9",
+   "sha": "b70bed855",
    "files": [
     "docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md"
    ],
@@ -3766,7 +3766,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "系列最後一份；沒有新的 3D、事件"
+   "note": "系列最後一份；沒有新的 3D、事件；b70bed855 第 9 節：手機第五輪實作時定的七件（第 6 點尾聲前那一停加一句旁白）"
   },
   {
    "task": "SIS-LEAD-1021",
