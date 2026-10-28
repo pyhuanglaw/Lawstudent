@@ -322,9 +322,9 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('2-1. 宿營已經認識以安：照原稿（「（第一排。以安轉過頭，……）」、說話的人是以安）',J(H.said.map(x=>x.t))===J(lt(X))&&H.said[1].who===NM(AN)&&H.said[1].who!=='坐第一排的女生',J(H.said.map(x=>[x.who,x.t]))); });
 
   await sec('2-2',async()=>{ const C=L().xc.copy, d=TD('Y1S2',7,3);
-    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'library_hall'); if(o.an!==false) metAN(); if(o.xc!==false) metXC(); pos(10.35,2.65,0); return H.G; };
+    const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'library_hall'); if(o.an!==false) metAN(); if(o.xc!==false) metXC(); pos(10.35,2.05,0); return H.G; };
     setup(d,12.5); const a=sched(AN), x=sched(XC);
-    check('2-2. 大一下第 7～9 週週一、三、四、五中午：以安、芯慈的作息在總圖一樓的影印機前（看得到兩個人站在那裡）',!!a&&a.zone==='library_hall'&&!!x&&x.zone==='library_hall'&&Math.hypot(a.at[0]-10.35,a.at[1]-2.65)<1&&Math.hypot(x.at[0]-10.35,x.at[1]-2.65)<1,J([a,x].map(q=>q&&[q.zone,q.at])));
+    check('2-2. 大一下第 7～9 週週一、三、四、五中午：以安、芯慈的作息在總圖一樓的影印機前（看得到兩個人站在那裡）',!!a&&a.zone==='library_hall'&&!!x&&x.zone==='library_hall'&&Math.hypot(a.at[0]-10.35,a.at[1]-2.05)<1&&Math.hypot(x.at[0]-10.35,x.at[1]-2.05)<1,J([a,x].map(q=>q&&[q.zone,q.at])));
     check('2-2. 走到影印機前（12:10～13:00、兩個人都認識）＝演',ready('ev_xc_copy'));
     const no=[];
     setup(TD('Y1S2',7,2),12.5); if(ready('ev_xc_copy')||(sched(AN)||{}).zone==='library_hall') no.push('週二（以安在 118 巷）');

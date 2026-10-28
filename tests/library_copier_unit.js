@@ -36,8 +36,8 @@ function islands(n,lv){ const a=n.toWorld(0,0), b=n.toWorld(n.cols-1,n.rows-1); 
 { const z=loadZone('library_hall'); const sp=z.spawn||{x:0,z:6.6};
   const F=LIBRARY_LAYOUT.furniture.find(f=>f.type==='copier'); check('配置有影印機', !!F, JSON.stringify(F&&[F.x,F.z,F.ry,F.nav]));
   check('影印機的位置擋住（中心）', !E.canStand(F.x,F.z,0.05,0));
-  for(const p of [[10.35,2.35],[10.35,2.95]]) check('影印機前的站位站得住 '+JSON.stringify(p), E.canStand(p[0],p[1],0.32,0));
-  for(const p of [[10.35,2.35],[10.35,2.95]]){ const r=both([sp.x,sp.z,0],[p[0],p[1],0]); check('從入口走到影印機前 '+JSON.stringify(p), r.ok, fmt(r)); }
+  for(const p of [[10.35,2.35],[10.35,1.75]]) check('影印機前的站位站得住 '+JSON.stringify(p), E.canStand(p[0],p[1],0.32,0));
+  for(const p of [[10.35,2.35],[10.35,1.75]]){ const r=both([sp.x,sp.z,0],[p[0],p[1],0]); check('從入口走到影印機前 '+JSON.stringify(p), r.ok, fmt(r)); }
   const desk=E.interactables.find(i=>i.label==='服務台'); const r2=both([sp.x,sp.z,0],[desk.x,desk.z,0]); check('服務台的點照樣走得到', r2.ok, fmt(r2));
   const ev=E.interactables.find(i=>i.elevator&&(i.lv|0)===0); const r3=both([sp.x,sp.z,0],[ev.x,ev.z,0]); check('一樓電梯的點照樣走得到', r3.ok, fmt(r3));
   const c=islands(E.levels?E.levels[0]:E.nav,0); check('一樓沒有小孤島（只有一塊可站的地方，或其他塊都很大）', c.slice(1).every(q=>q.n>200), '區塊 '+c.length+'：'+JSON.stringify(c.slice(0,4)));
