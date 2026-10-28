@@ -1,0 +1,22 @@
+{
+ "linze_day_1": {
+  "dark": 0.0084,
+  "lum": 125.8,
+  "formal": true
+ },
+ "linze_day_2": {
+  "dark": 0.0126,
+  "lum": 172.1,
+  "formal": true
+ },
+ "linze_night_1": {
+  "dark": 0.0191,
+  "lum": 26.4,
+  "formal": true
+ },
+ "linze_night_2": {
+  "dark": 0.0194,
+  "lum": 26.2,
+  "formal": true
+ }
+}

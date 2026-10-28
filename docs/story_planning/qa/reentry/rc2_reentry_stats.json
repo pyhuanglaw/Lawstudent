@@ -1,0 +1,82 @@
+{
+ "linze_day_1": {
+  "dark": 0.0091,
+  "lum": 125.8,
+  "formal": true
+ },
+ "linze_day_2": {
+  "dark": 0.0215,
+  "lum": 120.9,
+  "formal": true
+ },
+ "classroom_day_1": {
+  "dark": 0.0812,
+  "lum": 89.8,
+  "formal": true
+ },
+ "classroom_day_2": {
+  "dark": 0.0775,
+  "lum": 89.7,
+  "formal": true
+ },
+ "linze_202_day_1": {
+  "dark": 0.02,
+  "lum": 100.1,
+  "formal": true
+ },
+ "linze_202_day_2": {
+  "dark": 0.0199,
+  "lum": 100.5,
+  "formal": true
+ },
+ "wancai_multi_day_1": {
+  "dark": 0.0037,
+  "lum": 105.0,
+  "formal": true
+ },
+ "wancai_multi_day_2": {
+  "dark": 0.0037,
+  "lum": 104.6,
+  "formal": true
+ },
+ "linze_night_1": {
+  "dark": 0.0198,
+  "lum": 98.8,
+  "formal": true
+ },
+ "linze_night_2": {
+  "dark": 0.0207,
+  "lum": 96.2,
+  "formal": true
+ },
+ "classroom_night_1": {
+  "dark": 0.1097,
+  "lum": 82.9,
+  "formal": true
+ },
+ "classroom_night_2": {
+  "dark": 0.1078,
+  "lum": 82.2,
+  "formal": true
+ },
+ "linze_202_night_1": {
+  "dark": 0.0259,
+  "lum": 92.0,
+  "formal": true
+ },
+ "linze_202_night_2": {
+  "dark": 0.0256,
+  "lum": 91.9,
+  "formal": true
+ },
+ "wancai_multi_night_1": {
+  "dark": 0.0088,
+  "lum": 96.3,
+  "formal": true
+ },
+ "wancai_multi_night_2": {
+  "dark": 0.0088,
+  "lum": 96.8,
+  "formal": true
+ }
+}
