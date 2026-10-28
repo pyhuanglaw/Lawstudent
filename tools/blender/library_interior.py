@@ -276,7 +276,7 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, dirv, mat):
     def piece(pa, pb, ya, yb):
         nonlocal k
         if pb - pa < 0.01 or yb - ya < 0.01: return
-        pr = {'dir': dirv, 'lmhide': 'up,down'}   # 光照烘焙（LIB-HALL-LM-1028）：牆頂、牆底（上下樓層的牆段接在一起、窗台蓋住）不分像素
+        pr = {'dir': dirv, 'lmhide': 'up,down,' + ('N,S' if axis == 'z' else 'E,W')}   # 光照烘焙（LIB-HALL-LM-1028）：牆段的頂面、底面、兩端（和上下樓層、門窗上下那一段、轉角的牆接在一起）不分像素——這些面夾在兩段牆中間，烘出來是黑的，牆段正面在接縫是 T 形接頭，畫的時候露出一點一點的縫就看得到（男一舍門廳 DORM-HALL-LM-1028 第一次正式烘焙）
         if axis == 'z': box(f'{prefix}_WALL_{k}', mat, at - T / 2, at + T / 2, ya, yb, pa, pb, parent, props=pr)
         else: box(f'{prefix}_WALL_{k}', mat, pa, pb, ya, yb, at - T / 2, at + T / 2, parent, props=pr)
         k += 1

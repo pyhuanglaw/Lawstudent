@@ -285,6 +285,32 @@ os.makedirs(os.path.dirname(os.path.abspath(LM)), exist_ok=True)
 day = bake('day', SKY, SUN[2], 1.0, DAYL); save(wb(day, 'day'), LM + '_day.png')
 night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night.png')
 
+# ---- 5b. 夾在零件中間、烘出來全黑的面（白天、晚上兩張都 < 0.003：完全照不到光，只有被包住的面會這樣）：和看不到的面一樣，UV 收到同一個物件最大那一面的中心 ----
+# 為什麼（LIB-HALL-LM-1028）：方塊拼起來的牆、台座，兩塊接在一起的那一面夾在中間烘成黑的；正面在接縫是 T 形接頭（一邊有頂點、一邊沒有），
+# 畫的時候接縫露出一點一點的縫，就看得到後面黑的那一面——男一舍門廳第一次正式烘焙，門框上方一條條點狀黑線。收到最大那一面的中心以後，縫裡看到的是牆的顏色
+def collapse_black(day, night, thr=0.003):
+    n_all = 0
+    for o in objs:
+        me = o.data; hs = HID[o.name]
+        bm = bmesh.new(); bm.from_mesh(me); uv = bm.loops.layers.uv['LM']; bm.faces.ensure_lookup_table()
+        vis = [f for f in bm.faces if f.index not in hs]
+        if len(vis) < 2: bm.free(); continue
+        def val(f):
+            cu = sum((l[uv].uv for l in f.loops), Vector((0, 0))) / len(f.loops)
+            x = min(RES - 1, max(0, int(cu.x * RES))); y = min(RES - 1, max(0, int(cu.y * RES)))
+            return max(float(day[y, x].max()), float(night[y, x].max()))
+        big = max(vis, key=lambda f: f.calc_area())
+        if val(big) < thr: bm.free(); continue
+        c = sum((l[uv].uv for l in big.loops), Vector((0, 0))) / len(big.loops); n = 0
+        for f in vis:
+            if f is not big and val(f) < thr:
+                for l in f.loops: l[uv].uv = c
+                n += 1
+        if n: bm.to_mesh(me); n_all += n
+        bm.free()
+    print('black faces collapsed', n_all, flush=True)
+collapse_black(day, night)
+
 # ---- 6. 清掉烘焙用的節點、UV：LM 排第二（TEXCOORD_1）、原本的 UV 當作用中 ----
 for m in bpy.data.materials:
     if m.node_tree:
