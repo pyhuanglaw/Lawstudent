@@ -15,6 +15,7 @@
 // 修改前（只拿掉這次 src 的改動：git archive 出 b73f6745c〔AA_520 第 10 節做完、AA_521 還沒動〕的 src、tests、lib、index.html，白名單、這支測試用新的；AA521_DOCREPO 指這個 repo 實際跑過）：
 //   FAILED 15、PASS 7（PASS＝讀稿、白名單、日子對星期、大一上照現有、何俊朗「範圍外沒有」〔沒有新句子＝一句都沒有〕、新的局沒有 CZ_VET_PHOTO、經濟系不傳；
 //   第 0～5 段找不到 ECONFR／ECONFR_LINES 丟例外中斷、第 6 段舊存檔丟例外）。修改後 ALL PASS（45 項）。
+// 全部 Node 單元測試（tests/*_unit.js，這一批的成果 ab255e0c9，2026-10-28）：729 支、結束碼不是 0 的 0 支。舊測試沒有改（tests/y1_bb_items_unit.js 只載 story3d.js 那幾支、不載 econfr3d.js，照舊測大一上的鍵）。
 // 用法：node tests/aa521_econ_friends_unit.js（在沒有 .git 的目錄跑，設環境變數 AA521_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
