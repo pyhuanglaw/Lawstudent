@@ -1381,7 +1381,7 @@
    "id": "WIP-LAWWW-SUPPORT519-1028",
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "7eedab1ea、69b691e5a",
    "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
    "files": [
@@ -1390,7 +1390,8 @@
    "todo": "AA_519 配角第二批（＋第 8 節麵店四件）：新測試 aa519_support2（94 項）、店員按鈕最後才算、HXH_SUBJECT 面板名稱、舊測試照新稿改到第四批（做中）",
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 12:20／12:44（AA_519 873b670c0、d75cd0228，DL-AA-519、519B）"
+   "source": "AA-C 2026-10-28 12:20／12:44（AA_519 873b670c0、d75cd0228，DL-AA-519、519B）",
+   "closedBy": "7d63a0aa4（合併子代理 cf503ee42；aa519_support2 95 項 ALL PASS）"
   },
   {
    "id": "WIP-LAWWW-PROF522-1028",
