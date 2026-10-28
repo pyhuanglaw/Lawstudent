@@ -122,24 +122,30 @@ const inDoc=t=>DOC.indexOf(t)>=0;
   /* ===================== 1 宥辰 ===================== */
   await sec('1-1',()=>{ check('1-1. characters.js 的 personality 補一句「在錄音室待過一年」',CHARACTERS[YC].personality==='考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好；在錄音室待過一年',CHARACTERS[YC].personality); });
 
-  await sec('1-3',async()=>{ const SPLIT='ev_an_report_split';
-    /* 法律系開局 9/16（第 3 週週二）：第 3 週週四的民總是第二天的劇情課；第 4 週週四那一堂已經有周教授借書（loans3d.js L1，課堂中）＋以安的報告分工（下課）＝往後一週 */
-    const fr=(w,h,o)=>{ o=o||{}; fresh(TD('Y1S1',w,4),h,'classroom',o.flags); if(o.split) H.G.events.done[SPLIT]=1; if(o.met) SOCIAL.remember(YC,'FIRST_MET',''); return CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); };
+  await sec('1-3',async()=>{ const SPLIT='ev_an_report_split', NEW={MAIN_D1:-13,LAW_START_DAY:-18};   /* 新局＝story3d.js startLawWeek1 寫的兩個旗標 */
+    /* 新局（8/29 搬進宿舍、主線第一天 9/3 週三）：第 1 週週四的民總是第二天的劇情課；第 2 週週四下課＝學姊問家聚（ev_sis_fam_hall2：收過邀請、沒在走廊問過的才有）→ 那樣的話第 3 週。
+       舊存檔（9/17 開局，沒有 MAIN_D1）：第 3 週週四是劇情課；第 4 週週四＝周教授借書（loans3d.js L1，課堂中）＋以安的報告分工（下課）→ 第 5 週 */
+    const fr=(w,h,o)=>{ o=o||{}; fresh(TD('Y1S1',w,4),h,'classroom',Object.assign({},o.old?{}:NEW,o.flags||{})); if(o.split) H.G.events.done[SPLIT]=1; if(o.met) SOCIAL.remember(YC,'FIRST_MET','');
+      if(o.sisInv) H.G.msgs.push({th:'p:heroine_05',from:'heroine_05',text:'（家聚的邀請）',tag:'sis_fam_inv',day:H.G.day-2,h:21}); return CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); };
     const due=(w,o)=>{ const x=fr(w,13.5,o); return !!x&&S().ycMeetDue(H.G,x); };
-    { const x=fr(3,13.5); check('1-3. 第 3 週週四（開局第二天）的民總是劇情課（CLS.storyClass）＝不演',!!x&&CLS.storyClass(H.G,x)&&!S().ycMeetDue(H.G,x)); }
-    { const x=fr(4,13.5); check('1-3. 第 4 週週四的民總：周教授借書（L1）＋以安的報告分工已經在這一堂＝不演（S.classBusy；同一堂下課只演一件）',!!x&&S().classBusy(H.G,x)&&!S().ycMeetDue(H.G,x)); }
-    check('1-3. 以安在第 4 週分工過了＝第 5 週週四的民總（13:20，第一堂他在、沒有別的戲的下午必修）要演',due(5,{split:true}));
-    check('1-3. 第 4 週沒上到（以安的分工移到第 5 週）＝第 5 週不演、第 6 週演',!due(5)&&due(6));
-    check('1-3. 第 1 週、已經認識（週五先在公館遇到）、已經演過＝不演',!due(1)&&!due(5,{split:true,met:true})&&!due(5,{split:true,flags:{YC_MEET:1}}));
-    { fresh(TD('Y1S1',4,1),9.5,'classroom'); const x=CLS.dayItems(H.G).find(q=>q.c.id==='const_1'); check('1-3. 上午的課（憲法）不演',!!x&&!S().ycMeetDue(H.G,x)); }
-    /* 以安的報告分工照舊在第 4 週下課（宥辰的下課事件沒有搶走那一堂）*/
-    { const x=fr(4,13.4); const n={name:NM(AN),charId:AN,obj:{position:{x:0,y:0,z:0}},pose:'sit'}; GM.npc[AN]=n; E.npcs.push(n); at(x.day,x.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,x); E.npcs.length=0; GM.npc={}; check('1-3. 第 4 週下課照舊是以安的報告分工（宥辰的沒有搶）',!!H.G.events.done[SPLIT]&&!H.G.events.done.ev_yc_meet_after); }
+    { const x=fr(1,13.5); check('1-3. 新局：第 1 週週四的民總是劇情課（CLS.storyClass）＝不演',!!x&&CLS.storyClass(H.G,x)&&!S().ycMeetDue(H.G,x)); }
+    check('1-3. 新局：第 2 週週四的民總（13:20，第 2 週起第一堂他在的下午必修）要演',due(2));
+    { const x=fr(2,13.5,{flags:{SIS_W1:true},sisInv:true}); check('1-3. 新局：第 2 週那一堂下課是學姊問家聚（收過邀請、沒在走廊問過）＝不演，第 3 週演',!!x&&S().classBusy(H.G,x)&&!S().ycMeetDue(H.G,x)&&due(3,{flags:{SIS_W1:true},sisInv:true})); }
+    { const x=fr(2,13.5,{flags:{SIS_W1:true,SIS_FAM_HALL:true},sisInv:true}); check('1-3. 新局：學姊已經在走廊問過（SIS_FAM_HALL）＝第 2 週照演',!!x&&!S().classBusy(H.G,x)&&S().ycMeetDue(H.G,x)); }
+    { const x=fr(3,13.5,{old:true}); check('1-3. 舊存檔：第 3 週週四（開局第二天）的民總是劇情課＝不演',!!x&&CLS.storyClass(H.G,x)&&!S().ycMeetDue(H.G,x)); }
+    { const x=fr(4,13.5,{old:true}); check('1-3. 舊存檔：第 4 週週四＝周教授借書（L1）＋以安的報告分工已經在這一堂＝不演（S.classBusy；同一堂下課只演一件）',!!x&&S().classBusy(H.G,x)&&!S().ycMeetDue(H.G,x)); }
+    check('1-3. 舊存檔：以安在第 4 週分工過了＝第 5 週演；第 4 週沒上到（分工移到第 5 週）＝第 5 週不演、第 6 週演',due(5,{old:true,split:true})&&!due(5,{old:true})&&due(6,{old:true}));
+    check('1-3. 第 1 週、已經認識（週五先在公館遇到）、已經演過＝不演',!due(1)&&!due(2,{met:true})&&!due(2,{flags:{YC_MEET:1}}));
+    { fresh(TD('Y1S1',4,1),9.5,'classroom',NEW); const x=CLS.dayItems(H.G).find(q=>q.c.id==='const_1'); check('1-3. 上午的課（憲法）不演',!!x&&!S().ycMeetDue(H.G,x)); }
+    /* 以安的報告分工照舊在第 4 週下課（宥辰的沒有搶走那一堂）*/
+    { const x=fr(4,13.4,{old:true}); const n={name:NM(AN),charId:AN,obj:{position:{x:0,y:0,z:0}},pose:'sit'}; GM.npc[AN]=n; E.npcs.push(n); at(x.day,x.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,x); E.npcs.length=0; GM.npc={};
+      check('1-3. 舊存檔第 4 週下課照舊是以安的報告分工（宥辰的沒有搶）',!!H.G.events.done[SPLIT]&&!H.G.events.done.ev_yc_meet_after); }
     /* 他晚十分鐘到：那一堂上課前、上課十分鐘內座位空著 */
-    fr(5,13.4,{split:true}); const a=STORY.classmateClass(CHARACTERS[YC],H.G); at(TD('Y1S1',5,4),13.5+0.05); const b=STORY.classmateClass(CHARACTERS[YC],H.G);
-    SOCIAL.remember(YC,'FIRST_MET',''); at(TD('Y1S1',5,4),13.4); const c=STORY.classmateClass(CHARACTERS[YC],H.G);
+    fr(2,13.4); const a=STORY.classmateClass(CHARACTERS[YC],H.G); at(TD('Y1S1',2,4),13.5+0.05); const b=STORY.classmateClass(CHARACTERS[YC],H.G);
+    SOCIAL.remember(YC,'FIRST_MET',''); at(TD('Y1S1',2,4),13.4); const c=STORY.classmateClass(CHARACTERS[YC],H.G);
     check('1-3. 認識的那一堂他晚十分鐘到（上課前不在教室、上課十分鐘以後在）；認識以後照常（上課前就在）',!a&&!!b&&b.cls&&!!c,J([a,b&&b.from,c&&c.from]));
     /* 課堂那一句後面（CLS.IN_CLASS，所有到期的鉤子照順序）＋下課 */
-    const run=async k=>{ const x=fr(5,13.4,{split:true}); at(x.day,13.5); H.said=[]; H.opts=[]; H.picks=[k]; const fs0=CLS.IN_CLASS.filter(q=>q.due&&q.due(H.G,x)); for(const f of fs0) await f(GM,x);
+    const run=async k=>{ const x=fr(2,13.4); at(x.day,13.5); H.said=[]; H.opts=[]; H.picks=[k]; const fs0=CLS.IN_CLASS.filter(q=>q.due&&q.due(H.G,x)); for(const f of fs0) await f(GM,x);
       const inClass=H.said.map(s=>s.t); H.said=[]; at(x.day,x.t1); await CLS.afterClassEvent(GM,x); return {inClass,after:H.said.map(s=>(s.who?s.who+'：':'')+s.t),f:fs0.length===1&&!!fs0[0].sup497,x}; };
     const M=L().yc.meet; let r=await run(0);
     check('1-3. 課堂中（IN_CLASS，有 due；那一堂只有這一段）：「（上課十分鐘，後門開了一條縫。……）」「（小聲）講到哪了？」三個選項',r.f&&r.inClass[0]===M.open[0][1]&&r.inClass[1]===M.open[1][1]&&J(H.opts[0])===J(M.opts),J(r.inClass));
@@ -149,8 +155,8 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('1-3. 選（把筆記推過去）：三句（「我背起來了」、你那一條沒抄完）＋同一段下課；有聯絡方式',r.inClass.includes(M.r[1][2][1])&&r.after.length===2&&INV.hasContact(H.G,YC)&&H.G.flags.YC_OWE_SONG===true);
     r=await run(2);
     check('1-3. 選「剛開始。」：他趴下去；下課「下課了？……你人很好，沒叫我。」「賴宥辰。……」；不交換聯絡方式、沒有 YC_OWE_SONG',r.inClass.includes(M.r[2][1][1])&&J(r.after)===J(M.after3.map(([w,t])=>NM(YC)+'：'+t))&&!INV.hasContact(H.G,YC)&&!H.G.flags.YC_OWE_SONG,J(r.after));
-    check('1-3. 演過以後不再演（同一堂、下一週）',!S().ycMeetDue(H.G,r.x)&&(at(TD('Y1S1',6,4),13.5),!S().ycMeetDue(H.G,CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'))));
-    check('1-3. 學期中的快轉看得到這一堂有戲（semff3d.js classEventful）',typeof SEMFF==='undefined'||!SEMFF.classEventful||(()=>{ fresh(TD('Y1S1',6,4),9,'dorm'); const x=CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); return !!SEMFF.classEventful(H.G,x); })()); });
+    check('1-3. 演過以後不再演（同一堂、下一週）',!S().ycMeetDue(H.G,r.x)&&(at(TD('Y1S1',3,4),13.5),!S().ycMeetDue(H.G,CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'))));
+    check('1-3. 學期中的快轉看得到這一堂有戲（semff3d.js classEventful）',typeof SEMFF==='undefined'||!SEMFF.classEventful||(()=>{ fresh(TD('Y1S1',2,4),9,'dorm',NEW); const x=CLS.dayItems(H.G).find(q=>q.c.id==='civ_general'); return !!SEMFF.classEventful(H.G,x); })()); });
 
   await sec('1-4',async()=>{ const SG=L().yc.songs, day=n=>S().songDay(SG.find(r=>r.n===n));
     const want={1:'2026-03-06',2:'2026-04-03',3:'2026-05-01',4:'2026-09-11',5:'2026-10-02',6:'2026-12-04',7:'2027-03-05',8:'2027-05-07',9:'2027-10-01',10:'2028-03-03',11:'2028-10-06',12:'2029-03-02',13:'2029-06-01'};

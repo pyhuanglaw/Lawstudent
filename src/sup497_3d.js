@@ -82,16 +82,18 @@ const SUP497=(function(){
   S.ycMeetDue=function(G,it){ if(!law(G)||!it||!it.c||it.exam||it.c.kind!=='required'||!(it.t0>=12)) return false; if(it.term!=='Y1S1'||(it.week|0)<2||it.c.id!=='civ_general') return false;
     if(typeof CLS!=='undefined'&&CLS.storyClass&&CLS.storyClass(G,it)) return false;   /* 第二天的民總是劇情課（story3d.js，不走 CLS 的上課流程）：法律系開局＝下一週的民總才演 */
     const F=G.flags||{}; if(F.YC_MEET!=null||has(YC,'FIRST_MET')) return false; if(typeof STORY!=='undefined'&&STORY.youchenAway&&STORY.youchenAway(it)) return false; return !S.classBusy(G,it); };
-  /* 這一堂已經有別的戲＝往後一週（自己排：同一堂下課只演一件，classes3d.js afterClassEvent；以安的主線先）。例：法律系開局第 4 週週四的民總＝周教授借書（loans3d.js L1，課堂中）
-     ＋以安的報告分工（ev_an_report_split 下課，第 4 週沒上到＝第 5 週）→ 宥辰在第 5 週（或第 6 週）。只看事件寫死的條件（課、考試、學期、週、星期、一次），不看當下誰在場 */
+  /* 這一堂已經有別的戲＝往後一週（自己排：同一堂下課只演一件，classes3d.js afterClassEvent；主線、女主角的先）。例：新局第 2 週週四的民總下課＝學姊問家聚（ev_sis_fam_hall2，
+     沒在走廊問過的）→ 第 3 週；舊存檔（9/17 開局）第 4 週週四＝周教授借書（loans3d.js L1，課堂中）＋以安的報告分工（ev_an_report_split 下課）→ 第 5 週。
+     看事件寫死的條件（課、考試、學期、週（carryTo）、星期、一次）＋前置條件（EVENTS.cond(prereq)），不看當下的區域、時間、誰在場（快轉判斷的時候還沒進教室）*/
   S.classBusy=function(G,it){ if(!G||!it||!it.c) return false; const safe=f=>{ try{ return !!f(); }catch(e){ return false; } };
     if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)&&CLS.IN_CLASS.some(f=>f&&!f.sup497&&typeof f.due==='function'&&safe(()=>f.due(G,it)))) return true;
     if(typeof STORY_EVENTS==='undefined') return false; const wd=wdOf(it.day);
     return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;
       if(!(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&safe(()=>e.afterClass(it))))) return false;
       if(e.afterExam?e.afterExam!==it.exam:!!it.exam) return false; if(e.once&&done(G,e.id)) return false;
-      if(e.term&&[].concat(e.term).indexOf(it.term)<0) return false; if(e.weeks&&e.weeks.indexOf(it.week)<0) return false; if(e.weekday&&[].concat(e.weekday).indexOf(wd)<0) return false;
-      return true; }); };
+      if(e.term&&[].concat(e.term).indexOf(it.term)<0) return false; if(e.weekday&&[].concat(e.weekday).indexOf(wd)<0) return false;
+      if(e.weeks){ if(e.carryTo!=null?(it.week<Math.min.apply(null,e.weeks)||it.week>e.carryTo):e.weeks.indexOf(it.week)<0) return false; }
+      return !(typeof EVENTS!=='undefined'&&EVENTS.cond&&e.prereq)||safe(()=>EVENTS.cond(e.prereq,{})); }); };
   /* 那一堂他晚十分鐘到（story3d.js classmateClass：作息從上課十分鐘起）*/
   S.ycLate=(G,it)=>!!G&&!!it&&S.ycMeetDue(G,it);
   const MEET_IN={ id:'ev_yc_meet_in', participants:[], title:'', background:'blur', dialogue:[], noMeet:[YC] };
