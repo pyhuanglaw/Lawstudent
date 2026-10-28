@@ -543,7 +543,7 @@
    "status": "進行中",
    "task": "NPC-STORY-1028",
    "src": "使用者直接對 AA-C（帳號 C）說，2026-10-28 01:1x UTC",
-   "checked": "2026-10-28 AA-C：LAWWW 已登記 NPC-STORY-1028（使用者對 LAWWW-C 選「全部留著，每個都補故事」、要支線任務），我原本請登記的 LAW-NPC-REWORK-1028 撤回、併進去；路人分科系 CROWD-DEPTS-1028 已交 AA_495（5d7bd4040）；pool 20 位盤點回來了，其他三份還在跑"
+   "checked": "2026-10-28 05:2x AA-C：AA 的部分都交了（AA_496 盤點、AA_497 五位配角、AA_498～501 二十位同學、AA_502 203 室友）；開發分支已有 AA_496 第 9 節（bfe8dfad6）、AA_498（70ceae0ed＋5fe5dc2c0）、AA_502（f26164cea）；AA_497、AA_499～501 等 LAWWW；第五節「品質標準」使用者還沒補"
   },
   {
    "id": "UA-AA-1028-52",
