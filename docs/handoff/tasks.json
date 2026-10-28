@@ -34841,6 +34841,27 @@
    },
    "next": "【LAWWW-C 2026-10-28 07:2x UTC】子代理開工（worktree，基準 86986abdf；稿 c444f0757（含第 5 節伴手禮、第 6 節日本視訊三句／前任／禁用句型））；做完合併、全部 Node、BB 看畫面；私密場景接 COMPANY-PRIV-1028 的機制",
    "note": ""
+  },
+  {
+   "id": "KX-MOOT3-1028",
+   "title": "可昕最後一場模擬法庭（AA_514 第 1 節：KX_WATCH 旗標補記、11/28 私訊約、12/4 政大 2D 場、沒來的兩則）＋嘉義予樂家動態（第 2 節：AA_505 7-3 第 4、5 則中間加 1/29 那則）",
+   "area": "Y3S1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "AA_514（企劃線 964d01175；outbox 3621b61ad）；AA 自查今天新稿「下次」「再告訴你」沒有下文的（同 AA_356 做法）",
+   "first": {
+    "term": "Y2S1",
+    "week": 7,
+    "earliest": "大二上可昕第一次模擬法庭以後選「下次我去看。」",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 07:2x UTC】等手上四個子代理其中一個交件再派；改 feed_y2s1／y2s2 的 KX_WATCH set、新增 12/4 出遊＋2D 場；白名單加 AA_514 964d01175",
+   "note": ""
   }
  ]
 }

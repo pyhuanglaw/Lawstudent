@@ -15635,6 +15635,19 @@
    "task": "NPC-POOL-ART-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-28 07:2x UTC】整合進開發分支 971db04b9（patch＋GLB）；相關 Node 全過、全部 Node 在跑；BB 看畫面；要我接的：heroine_circle.js PEOPLE[] 傳 props（麵店阿姨 apron／ladle／bandage）——等私密選項＋大四圈子子代理合併後做（它在改 heroine_circle.js）"
+  },
+  {
+   "id": "DL-AA-514",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "964d01175",
+   "msg": "ACK",
+   "what": "AA_514 可昕兩件沒有下文的補上：①最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30 政大；AA_505／506 7-2 選「下次我去看。」要記 KX_WATCH；11/28 21:00 私訊約、回「去。」／「那天不行。」到 12/4 12:00；2D classroom_small「政大・模擬法庭教室」三選一 KX_MOOT3='came'；沒來 21:30 兩則 'missed'）②嘉義予樂家：AA_505 7-3 第 4、5 則中間加 1/29（五）19:30 動態；outbox 3621b61ad",
+   "task": "HEROINE-LIFE-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 07:2x UTC】收到；排進下一個空出的子代理（KX-MOOT3-1028）"
   }
  ],
  "ignored": [
