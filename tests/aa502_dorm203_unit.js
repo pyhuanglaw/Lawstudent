@@ -1,5 +1,6 @@
 // AA_502 203 室友日常（DORM203-MATES-1028 第二部分；USER_WANTS X123；使用者 2026-10-28 01:3x「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」）——不需要瀏覽器。
-//   稿：企劃線 claude/magical-albattani-bk7b4n 4071fdb9a docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md（git show 對稿；拿不到＝第 0 項 FAIL）
+//   稿：企劃線 claude/magical-albattani-bk7b4n d13ab3ab7 docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md（git show 對稿；拿不到＝第 0 項 FAIL）
+//     （第一輪對 4071fdb9a；第二輪 d13ab3ab7＝AA-C 回 LAWWW-C 的 8 點，稿多了第 6 節「實作時定的」，3-2、3-5、3-6、第 4 節改名那一列改了）
 //   0  新檔載得到；index.html：rom1016_3d.js → data/dorm203_lines.js → dorm203_3d.js → bbpack_events.js；
 //      遊戲裡的每一句（旁白、台詞、選項、群組訊息）都在稿裡、一字不差、說話的人對；反過來，稿第 1～4 節的每一句遊戲裡都有
 //   1  作息（第 1 節，STORY.dormWho／r203Plan）：平日 07:00 柏翰在、07:30 不在；阿哲 08:35 在、08:45 不在；週五 22:30 阿哲還沒回來、23:00 回來；
@@ -11,12 +12,21 @@
 //   6  3-7 不在房間：隔天一句旁白（只有隔天）；3-1 結果照 25、3-5 也記 R203_SHIRT；他們自己不在＝什麼都沒有；3-6 不補
 //   7  群組（第 4 節）：照日子、名稱、一週最多兩次、rt_ 不算手機上限；大二以後兩則
 //   8  舊存檔（第 5 節第 6 點）：已經過了的週不補；群組在讀檔當天建立、以前的訊息不補；沒有 DORM_FOUR 什麼都沒有
-// 修改前（開發分支 2de1047e1：把這個檔放進那一版的程式跑過，AA502_GIT_DIR 指到這個 repo 對稿）：FAILED 37、PASS 18、結束碼 1——
+//   9  第二輪（稿第 6 節，2026-10-28 AA-C 定）：3-2 柏翰「明天考試」；3-5 柏翰不在、阿哲自己答、借完就出門（22:00 回來）；3-6 暑假只剩祐廷和阿凱的新旁白、阿凱那句、膠帶放進抽屜；
+//      暑假 203 只剩阿凱、9/6 才搬；群組 6/15 不改名、9/6 21:00 改「203（舊生）」（第一輪 6/15 就改過的存檔不再改）；ev_dorm_late_kai 23:30 以後、四人房那一行照誰在床上；
+//      ev_kai_late_screen 台詞不動、演的那一晚阿凱到 03:30（演之前今晚會演＝也到 03:30；演過以後只有那一晚）；手機朋友頁的阿凱照新作息（週二、四到 08:00，其他天到 10:30、上舖寫睡覺）
+// 第一輪修改前（開發分支 2de1047e1：把第一輪的這個檔放進那一版的程式跑過，AA502_GIT_DIR 指到這個 repo 對稿 4071fdb9a）：FAILED 37、PASS 18、結束碼 1——
 //   第 0 項新檔、index.html、對稿（兩個方向）3 項 FAIL；
 //   第 1 項作息 13 項 FAIL（平日 07:00 柏翰、06:45 起床、08:35 阿哲、週五 22:30 阿哲、平日 02:00 阿凱上床、阿凱第一節、週六、週日、考試週兩項、颱風天、寒假、鑰匙那天）；
 //   第 4 項六件小事「該演」的 9 項 FAIL（事件不存在）；第 2、3、4、5、6、7、8 項接著因為沒有 DORM203 丟例外。
 //   舊程式剛好也對的 18 項：拿得到稿；週六 19～22 阿哲不在、考完那晚 21:30 阿哲不在、6/14 四個人在與 6/15 只剩阿凱、沒有 DORM_FOUR、大二 312；第 4 項「不演」的 12 項（事件不存在）。
-// 用法：node tests/aa502_dorm203_unit.js（對稿要 git 拿得到 4071fdb9a；在別的資料夾跑舊版：AA502_GIT_DIR=<有這個 commit 的 repo>）
+// 第二輪修改前（開發分支 a57127ab4＝第一輪的程式：把這個檔放進那一版跑過，AA502_GIT_DIR 指到這個 repo 對稿 d13ab3ab7）：FAILED 25、PASS 136、結束碼 1——
+//   第 0 項對稿兩個方向 2 項 FAIL（3-2、3-5、3-6 的舊句子不在新稿；新稿的句子遊戲裡沒有）；
+//   第 4 項 3-5「去哪？」1 項、第 7 項 6/15 不改名、大一一整年 18 則 2 項 FAIL（照新稿改了的第一輪測試：柏翰「（沒有抬頭）會。」拿掉、「203（舊生）」改到大二 9/6，稿第 6 節第 1、7 點）；
+//   第 9 項 20 項 FAIL：3-2 柏翰、3-5 柏翰不在、借完出門兩項、球衣也出門、3-6 新稿、群組 6/15 與 9/6 兩項、ev_dorm_late_kai 23:30、四人房那一行五項、阿凱 03:30 三項、朋友頁三項；
+//   第 9 項舊程式也對的 9 項（回歸）：3-5 演之前阿哲在、沒演照作息、暑假只剩阿凱、第一輪改過名的存檔、ev_kai_late_screen 台詞、找得到會演的晚上、演過以後別的晚上 02:00、週五 02:00、洗衣間／寒假／沒有 DORM_FOUR。
+// 修改後：ALL PASS（161 項）
+// 用法：node tests/aa502_dorm203_unit.js（對稿要 git 拿得到 d13ab3ab7；在別的資料夾跑舊版：AA502_GIT_DIR=<有這個 commit 的 repo>）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -26,7 +36,7 @@ try{ load('src/data/dorm_room_layout.js','DORM_ROOM'); }catch(e){ err+=String(e)
 try{ ok=load('src/data/dorm203_lines.js','DORM203_LINES')&&load('src/dorm203_3d.js','DORM203'); }catch(e){ err+=' '+String(e); }
 const X=()=>typeof DORM203!=='undefined'?DORM203:null, LL=()=>typeof DORM203_LINES!=='undefined'?DORM203_LINES:null;
 let DOC='';
-try{ DOC=cp.execSync('git show 4071fdb9a:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+try{ DOC=cp.execSync('git show d13ab3ab7:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 const NAME={kai:'阿凱',zhe:'阿哲',classmate_bohan:'柏翰',yu:'Alison'};
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. （丟例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 /* 假的生人物、坐下、走路（同 tests/dorm_mates_live_unit.js；E.moveTo 先記下來，測試決定走到了沒有）*/
@@ -68,7 +78,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
   /* ================= 0 載入、index.html、對稿 ================= */
   await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=html.indexOf('src/rom1016_3d.js'), b=html.indexOf('src/data/dorm203_lines.js'), c=html.indexOf('src/dorm203_3d.js'), d=html.indexOf('src/data/bbpack_events.js');
     check('0. 新檔載得到（DORM203_LINES、DORM203）；index.html：rom1016_3d.js → data/dorm203_lines.js → dorm203_3d.js（兩個新檔相鄰）→ bbpack_events.js（順序；中間可以有別的新模組，例 heroine_asks；bbpack3d 緊接 GAME.boot 由 bbpack_unit 查）',ok&&!!X()&&!!L&&a>0&&b>a&&c>b&&d>c&&html.slice(b,c).split('<script').length===2,err); });
-  await sec(0,()=>{ check('0. 拿得到稿（git show 4071fdb9a）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0,'長度 '+DOC.length);
+  await sec(0,()=>{ check('0. 拿得到稿（git show d13ab3ab7；有第 6 節「實作時定的」）',DOC.length>1000&&DOC.indexOf('## 4. 203 群組')>0&&DOC.indexOf('## 6. 實作時定的')>0,'長度 '+DOC.length);
     if(!L||!DOC){ for(const n of ['0. 遊戲裡的每一句都在稿裡','0. 反過來：稿第 1～4 節的每一句遊戲裡都有']) check(n,false,!L?'沒有 DORM203_LINES':'拿不到稿'); return; }
     const bad=[], inDoc=t=>DOC.indexOf(t)>=0;
     /* 遊戲 → 稿：每一句都在稿裡；說話的人對（「名字：」接在前面，或在那個人的表裡）*/
@@ -220,7 +230,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     room('2025-11-27',23.1); knowAll(); t=await runEv('ev_r203_supper',['（吃）']); check('4. 3-3 選（吃）：沒有 KAI_COUNTED',!H.G.flags.KAI_COUNTED&&t.includes('（四個人吃完，阿哲把袋子綁好。垃圾是阿凱拿去丟的。）'));
     room('2025-11-27',23.1); knowAll(); t=await runEv('ev_r203_supper',['肩膀濕了']); check('4. 選「阿凱，你的肩膀濕了。」也記 KAI_COUNTED',H.G.flags.KAI_COUNTED===true&&t.includes('咦，是阿凱去的？……阿凱，謝啦！'));
     room('2026-02-23',22.6); knowAll(); t=await runEv('ev_r203_gifts',['什麼都沒帶']); check('4. 3-4 選「……我什麼都沒帶。」：柏翰的貢丸；最後阿凱「……我下次帶別的。」',t.includes('沒關係。貢丸很多。')&&t[t.length-1]==='……我下次帶別的。',J(t.slice(-3)));
-    room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['去哪？']); check('4. 3-5 選「去哪？」：麵店團還有 Alison，然後一樣借（接「拿去。」那一段）、R203_SHIRT',H.G.flags.R203_SHIRT===true&&t.includes('麵店團啦！……還有 Alison。好，你知道就好。')&&t.includes('（沒有抬頭）會。'),J(t.slice(3)));
+    room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['去哪？']); check('4. 3-5 選「去哪？」：麵店團還有 Alison，然後一樣借（接「拿去。」那一段）、R203_SHIRT（第二輪：「拿去。」那一段照新稿，阿哲自己答「……會。」）',H.G.flags.R203_SHIRT===true&&t.includes('麵店團啦！……還有 Alison。好，你知道就好。')&&t.includes('……會。（他沒有脫下來。）'),J(t.slice(3)));
     room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['球衣']); check('4. 選「你穿你的球衣就好。」：沒有 R203_SHIRT',!H.G.flags.R203_SHIRT&&t.includes('……也對。（他換了三件，最後穿了球衣出門。）'));
     room('2026-06-14',23.1); knowAll(); t=await runEv('ev_r203_last',['幫他一起撕']); check('4. 3-6 選（幫他一起撕）：柏翰把燈關了一半',t.includes('（你們兩個蹲在地上撕了十分鐘。柏翰把燈關了一半，留你們那一邊的。）')); });
 
@@ -295,9 +305,9 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     check('7. 大一上第 15 週週日（12/14）20:00 阿凱「所以垃圾今天誰倒」、20:30「我倒了」',day(T('所以垃圾今天誰倒'))==='2025-12-14'&&Math.abs(T('所以垃圾今天誰倒').h-20)<0.05&&Math.abs(T('我倒了').h-20.5)<0.05);
     check('7. 大一下第 1 週（開學前一天 2/22 21:00）阿哲「明天大家幾點到」「我帶雞腳」',day(T('明天大家幾點到'))==='2026-02-22'&&day(T('我帶雞腳'))==='2026-02-22');
     check('7. 大一下第 9 週（4/20）柏翰「今天晚上十一點熄燈。期中。」、23:01 阿哲的照片',day(T('今天晚上十一點熄燈。期中。'))==='2026-04-20'&&day(T('（照片：黑暗中一支手機的燈照著筆記）'))==='2026-04-20'&&Math.abs(T('（照片：黑暗中一支手機的燈照著筆記）').h-(23+1/60))<0.05);
-    check('7. 搬出 203 那天（6/15）：阿哲「203 解散」「（貼圖）」，阿凱改名「203（舊生）」',day(T('203 解散'))==='2026-06-15'&&!!T('（貼圖）')&&!!T(L.group.outRename.text)&&PHONE.rec(H.G).groups.r203.name==='203（舊生）');
+    check('7. 搬出 203 那天（6/15）：阿哲「203 解散」「（貼圖）」；這一天不改名（第二輪：「203（舊生）」改到大二 9/6，見第 9 項）',day(T('203 解散'))==='2026-06-15'&&!!T('（貼圖）')&&!g.some(m=>/203（舊生）/.test(m.text))&&PHONE.rec(H.G).groups.r203.name==='203（不要再忘記帶鑰匙）');
     check('7. 3-1（這一局祐廷在房間但事件沒演＝missed）隔天照樣傳冷氣那一則',day(T(L.group.ac[0].text))==='2025-09-17');
-    check('7. 大一一整年 19 則（9/1 四、鑰匙四＋改名、冷氣隔天一、垃圾二、開學前二、期中二、搬出二＋改名）；tag 都是 rt_r203_ 開頭（例行訊息，不算手機的頻率上限）、都不用回（沒有 ask）',g.length===19&&g.every(m=>/^rt_r203_/.test(m.tag||'')&&!m.ask),g.length);
+    check('7. 大一一整年 18 則（9/1 四、鑰匙四＋改名、冷氣隔天一、垃圾二、開學前二、期中二、搬出二；第二輪「203（舊生）」改到大二 9/6）；tag 都是 rt_r203_ 開頭（例行訊息，不算手機的頻率上限）、都不用回（沒有 ask）',g.length===18&&g.every(m=>/^rt_r203_/.test(m.tag||'')&&!m.ask),g.length);
     { const R=X().rec(H.G), by={}; for(const k in R.g) if(typeof R.g[k]==='number'){ const w=R.g[k]-(CALENDAR.dateOf(R.g[k]).wd-1); by[w]=(by[w]||0)+1; } check('7. 同一週最多兩次',Object.values(by).every(n=>n<=2),J(R.g)); }
     sweep('2027-11-19',22.5,'2027-11-19',23.2,0.1); const a=grp().filter(m=>K(m.day)==='2027-11-19').map(m=>[m.from,m.text]);
     check('7. 大二以後：2027-11-19 23:00 阿凱「所以阿哲還好嗎」、柏翰「還好。我在旁邊。」',J(a)===J([['kai','所以阿哲還好嗎'],['classmate_bohan','還好。我在旁邊。']]),J(a));
@@ -314,6 +324,76 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     sweep('2025-10-10',21,'2025-10-23',0,1); check('8. 之後的照常：3-2（10/22）不在房間＝missed',R.ev.light==='missed');
     room('2025-09-16',22.55,{DORM_FOUR:false}); knowAll(); sweep('2025-09-16',22.55,'2025-09-20',0,1); check('8. 沒有 DORM_FOUR（兩人房的舊存檔）：沒有紀錄、沒有群組',!H.G.flags.R203&&!PHONE.inGroup(H.G,'r203'));
     room('2026-10-07',22.75,{ROOM_Y2:D('2026-09-06')}); knowAll(); X().phone(H.G); check('8. 大二才第一次讀到：不建 203 群組（203 的時期已經過了）',!H.G.flags.R203&&!PHONE.inGroup(H.G,'r203')); });
+
+  /* ================= 9 第二輪：稿第 6 節（AA-C 2026-10-28 回 LAWWW-C 的 8 點）================= */
+  const OLDN='阿凱 把群組名稱改成「203（舊生）」';
+  await sec(9,async()=>{ let t;
+    /* 第 5 點：3-2 柏翰那句 */
+    room('2025-10-22',23.1); knowAll(); t=await runEv('ev_r203_light',['檯燈']);
+    check('9. 3-2（第 5 點）：柏翰「我要睡了。明天考試。」（民總 13:20 考；原本「明天八點考試」）',t[1]==='我要睡了。明天考試。'&&H.said[1].id==='classmate_bohan'&&!t.includes('我要睡了。明天八點考試。'),J(t.slice(0,2)));
+    /* 第 7 點：3-5 柏翰週六在總圖，阿哲自己答 */
+    room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['拿去']); const e5=EV('ev_r203_shirt');
+    check('9. 3-5（第 7 點）：「會不會太正式？」→（他看著鏡子，自己點了點頭。）→ 阿哲「……會。（他沒有脫下來。）」；柏翰不在場、沒有他的句子（原本柏翰「（沒有抬頭）會。」）',
+      J(t.slice(-3))===J(['會不會太正式？','（他看著鏡子，自己點了點頭。）','……會。（他沒有脫下來。）'])&&H.said[H.said.length-1].id==='zhe'&&H.said[H.said.length-2].who===null&&!H.said.some(x=>x.id==='classmate_bohan')&&!t.includes('（沒有抬頭）會。')&&!!e5&&J(e5.participants)===J(['zhe']),J({t:t.slice(-3),p:e5&&e5.participants}));
+    /* 第 4 點：借完就出門（三個選項都是），19:00～22:00 照作息在西門町、22:00 回來 */
+    room('2026-05-23',16.9); knowAll(); live(); live(17.02); const z0=GM.npc.zhe; if(z0) arrive(z0); H.G.hour=17.1;
+    check('9. 3-5 那天：演之前阿哲在房間（17:00 開門回來、坐好）',!!z0&&who().includes('zhe'));
+    await runEv('ev_r203_shirt',['拿去']); walks=[]; live(17.11); const wz=walks.find(q=>q.n===z0);
+    check('9. 3-5（第 4 點）演完：阿哲起身走向門口（借完就出門）',!!wz&&wz.z>2.5,J(wz&&[wz.x,wz.z]));
+    const out1=[17.5,18.5,20,21.9].map(h=>{ H.G.hour=h; return who().includes('zhe'); }); H.G.hour=22.1; const back1=who().includes('zhe');
+    check('9. 之後 17:30、18:30（出門了）、20:00、21:54（西門町）都不在；22:00 回來',out1.every(x=>!x)&&back1,J([out1,back1]));
+    room('2026-05-23',17.1); knowAll(); const ctl=[17.5,18.5].map(h=>{ H.G.hour=h; return who().includes('zhe'); });
+    check('9. 對照：那天沒演（祐廷沒看到）＝照作息 17:00～19:00 在房間',ctl.every(x=>x),J(ctl));
+    room('2026-05-30',17.1); knowAll(); await runEv('ev_r203_shirt',['球衣']); H.G.hour=17.5; const j1=who().includes('zhe'); H.G.hour=22.1; const j2=who().includes('zhe');
+    check('9. 選「你穿你的球衣就好。」也一樣（他最後穿了球衣出門）：17:30 不在、22:00 回來',!j1&&j2,J([j1,j2]));
+    /* 第 1 點：3-6 最後一晚的新稿 */
+    room('2026-06-14',23.1); knowAll(); t=await runEv('ev_r203_last',['週日宵夜照舊']);
+    check('9. 3-6（第 1 點）：旁白「紙箱疊到天花板，都是阿哲和柏翰的……」、阿凱「暑假只剩我們兩個。用不到了。」、膠帶「放進自己的抽屜」（原本「這個要撕乾淨，不然扣押金。」「放進自己的紙箱」）',
+      t[0]==='（紙箱疊到天花板，都是阿哲和柏翰的。阿凱蹲在地上，在撕書桌底下那一截國界膠帶。）'&&t[1]==='暑假只剩我們兩個。用不到了。'&&H.said[1].id==='kai'&&t.includes('（他把撕下來的膠帶捲成一團，沒有丟，放進自己的抽屜。）')&&!t.includes('這個要撕乾淨，不然扣押金。')&&!t.some(x=>/放進自己的紙箱/.test(x)),J(t.slice(0,5)));
+    check('9. 暑假 203 只剩祐廷和阿凱（6/15 阿哲、柏翰搬出；阿凱照原本 18:00～08:00）、9/5 還在；9/6 搬去 312（ROOM_Y2）以後阿凱不在（第一輪就是這樣，回歸）',
+      J(whoAt('2026-07-15',23))===J(['kai'])&&J(whoAt('2026-09-05',23))===J(['kai'])&&J(whoAt('2026-09-06',23,{ROOM_Y2:D('2026-09-06')}))===J([]));
+    /* 第 1 點：群組 6/15 不改名、9/6 21:00 改「203（舊生）」*/
+    room('2026-06-14',20); knowAll(); sweep('2026-06-14',20,'2026-06-16',0,0.5); const g15=grp().filter(m=>K(m.day)==='2026-06-15').map(m=>[m.from||'',m.text]);
+    check('9. 群組（第 1 點）：搬出 203 那天（6/15）阿哲「203 解散」「（貼圖）」、不改名，群組名還是「203」',J(g15)===J([['zhe','203 解散'],['zhe','（貼圖）']])&&PHONE.rec(H.G).groups.r203.name==='203',J([g15,PHONE.rec(H.G).groups.r203&&PHONE.rec(H.G).groups.r203.name]));
+    sweep('2026-09-06',20,'2026-09-06',21.5,0.05); const g96=grp().filter(m=>K(m.day)==='2026-09-06');
+    check('9. 大二 9/6 晚上（阿凱搬去別棟那天）21:00：系統一行「阿凱 把群組名稱改成「203（舊生）」」、群組名改成「203（舊生）」',g96.length===1&&g96[0].text===OLDN&&!g96[0].from&&Math.abs(g96[0].h-21)<0.06&&/^rt_r203_/.test(g96[0].tag||'')&&PHONE.rec(H.G).groups.r203.name==='203（舊生）',J(g96.map(m=>[m.h,m.text,m.tag])));
+    room('2026-06-14',20); knowAll(); sweep('2026-06-14',20,'2026-06-16',0,0.5); { const R=X().rec(H.G); R.outName=true; PHONE.rec(H.G).groups.r203.name='203（舊生）'; }
+    sweep('2026-09-06',20,'2026-09-06',21.5,0.25); check('9. 第一輪（f26164cea）6/15 就改過名的存檔：9/6 不再改一次（回歸）',!grp().some(m=>K(m.day)==='2026-09-06')&&PHONE.rec(H.G).groups.r203.name==='203（舊生）');
+    /* 第 8 點：ev_dorm_late_kai 23:30 以後、四人房那一行照誰在床上 */
+    room('2025-10-08',23.2); knowAll(); const lk0=evCheck('ev_dorm_late_kai'); H.G.hour=23.6; const lk1=evCheck('ev_dorm_late_kai');
+    check('9. ev_dorm_late_kai（第 8 點）：23:30 以後——10/8（三）23:12 不演、23:36 可以（原本 23:00 起）',J(EV('ev_dorm_late_kai').time)===J([23.5,26])&&!lk0&&lk1,J([EV('ev_dorm_late_kai').time,lk0,lk1]));
+    const late=async(k,h)=>{ room(k,h); knowAll(); return (await runEv('ev_dorm_late_kai',['去睡啦']))[0]; };
+    const KF=['（頭沒回）欸，你回來了。我這個 bug 追到第三小時。','在等編譯，你先洗澡。'];
+    const l1=await late('2025-10-08',23.75), l2=await late('2025-10-20',24+10/60), l3=await late('2025-10-20',23+40/60), l4=await late('2025-10-20',25.2);
+    check('9. 四人房那一行：平日 23:45 阿哲、柏翰都上床了＝「（阿哲和柏翰都上床了。柏翰戴著耳塞。）」',l1==='（阿哲和柏翰都上床了。柏翰戴著耳塞。）',l1);
+    check('9. 考試週 00:10（阿哲 00:00 上床、柏翰 00:30 才回來）＝「（阿哲已經上床了。柏翰的床還是空的。）」',l2==='（阿哲已經上床了。柏翰的床還是空的。）',l2);
+    check('9. 考試週 23:40（阿哲還在書桌前、柏翰還沒回來）＝都不在床上，不說（第一句就是阿凱）',KF.includes(l3),l3);
+    check('9. 考試週 01:12（柏翰 01:00 上床）＝兩個都在',l4==='（阿哲和柏翰都上床了。柏翰戴著耳塞。）',l4);
+    { const aw=STORY.awayOnDate; STORY.awayOnDate=(id,G)=>id==='zhe'?true:aw(id,G); let l5; try{ l5=await late('2025-10-08',23.75); } finally { STORY.awayOnDate=aw; }
+      check('9. 只有柏翰在床上（阿哲那天不在宿舍）：稿沒寫＝不說',KF.includes(l5),l5); }
+    /* 第 8 點：ev_kai_late_screen 台詞不動、演的那一晚阿凱到 03:30 */
+    { const e=EV('ev_kai_late_screen');
+      check('9. ev_kai_late_screen（第 8 點）：台詞不改（第一句、四人房那一句照舊）',e.dialogue[0].text==='凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'&&e.dialogue[1].text==='（阿哲已經睡了，柏翰戴著耳塞。）');
+      const cand=[]; for(let d=D('2025-09-07');d<=D('2025-09-21');d++){ const T=CALENDAR.termOf(d); if(!T||T.id!=='Y1S1'||!e.weeks.includes(T.week)||!e.weekday.includes(wdOf(d))) continue; room(K(d),22); if(e.prereq.custom(H.G)) cand.push(d); }
+      check('9. 找得到這個事件會演的晚上（大一上第 2～3 週、週日～週四、隔天早上有課）',cand.length>=2,J(cand.map(K)));
+      const d1=cand[0], d2=cand[1];
+      room(K(d1),25.9); knowAll(); const a1=who().includes('kai'); H.G.hour=26.4; const a2=who().includes('kai');
+      check('9. 還沒演過、今晚去睡演的就是它（'+K(d1)+'）：02:00 以後阿凱還在書桌前（01:54、02:24 都在；原本 02:00 上床）',a1&&a2,J([a1,a2]));
+      let inEv=null; const sy=GM.say; GM.say=async(w,tx)=>{ if(inEv==null) inEv=who().includes('kai'); return sy(w,tx); };
+      H.G.hour=27; try{ H.said=[]; H.picks=['戴耳塞']; await EVENTS.run(e); } finally { GM.say=sy; }   /* 睡著以後 03:00 演（story3d.js 的 nightEvent：G.hour＝27）*/
+      check('9. 03:00 演的時候阿凱在書桌前；事件記下那一晚（kaiScreenDay）',inEv===true&&H.G.flags.kaiScreenDay===d1&&!!H.G.events.done.ev_kai_late_screen,J({inEv,ks:H.G.flags.kaiScreenDay,d1}));
+      const b1=[27.25,27.6].map(h=>{ H.G.hour=h; return who().includes('kai'); });
+      check('9. 演完：那一晚 03:15 阿凱還在、03:36 上床了（到 03:30）',b1[0]&&!b1[1],J(b1));
+      at(K(d2),26.4); const b2=who().includes('kai'); check('9. 只有那一晚：之後的晚上（'+K(d2)+'，事件的條件也對）照平常 02:00 上床',!b2);
+      room('2025-09-12',26.4); knowAll(); check('9. 對照：事件不會演的晚上（9/12 週五）照平常 02:00 上床（回歸）',!who().includes('kai')); }
+    /* 第 8 點：手機朋友頁的阿凱照新作息 */
+    const WT=w=>!w?'':(w.away?w.away:((PLACES.names[w.zone]||w.zone)+(w.act?'（'+w.act+'，到 '+w.until+'）':'')));   /* 同 game3d.js 的 whereText（手機「朋友」的「現在大概在」）*/
+    const wk=(k,h,f)=>{ room(k,h,Object.assign({afternoonDone:true},f||{})); knowAll(); return WT(STORY.whereIs(GM,'kai')); }, P=PLACES.names.dorm;
+    const f1=wk('2025-10-06',22), f2=wk('2025-10-07',22), f3=wk('2025-10-08',9), f4=wk('2025-10-09',7.5), f5=wk('2025-10-09',22), f6=wk('2025-10-10',22), f7=wk('2025-10-19',15), f8=wk('2025-10-12',21.5), f9=wk('2026-01-20',22), f10=wk('2025-10-07',22,{DORM_FOUR:false}), f11=wk('2025-10-08',9,{DORM_FOUR:false});
+    check('9. 手機朋友頁（第 8 點）：週一晚上 22:00＝「…（在書桌前，到 08:00）」（隔天週二第一節）；週二晚上＝到 10:30（原本每天都「到 08:00」）',f1===P+'（在書桌前，到 08:00）'&&f2===P+'（在書桌前，到 10:30）',J([f1,f2]));
+    check('9. 週三 09:00 阿凱在上舖睡覺＝「…（睡覺，到 10:30）」（原本 08:00 以後就沒有）；週四 07:30 第一節前在書桌前＝到 08:00',f3===P+'（睡覺，到 10:30）'&&f4===P+'（在書桌前，到 08:00）',J([f3,f4]));
+    check('9. 隔天放假（10/10 國慶）＝到 10:30；週五晚上＝到 13:00（週六下午才出門）；週日下午＝到隔天 10:30',f5===P+'（在書桌前，到 10:30）'&&f6===P+'（在書桌前，到 13:00）'&&f7===P+'（在書桌前，到 10:30）',J([f5,f6,f7]));
+    check('9. 週日 21:30 在洗衣間照作息表（不寫宿舍）；寒假照原本（到 08:00）；沒有 DORM_FOUR 照原本（到 08:00、早上沒有）',f8.indexOf(P)!==0&&/坐著，到 22:00/.test(f8)&&f9===P+'（在書桌前，到 08:00）'&&f10===P+'（在書桌前，到 08:00）'&&f11.indexOf(P)!==0,J([f8,f9,f10,f11])); });
 
   H.done();
 })();

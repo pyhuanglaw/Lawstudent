@@ -141,8 +141,8 @@ const day=k=>STORY.dayOfKey(k);
   check('E5. 有宿營（CAMP_Y1）的局 8/31 備用迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d831,G)===false&&ACTIVITIES.on(wel,d831,{flags:{}})===true);
   { fresh(); G.flags.introDone=true; G.flags.DORM_FOUR=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_typhoon_noodles_y1'));
     check('E10. 四人房的颱風夜（AA_208 2-3）：柏翰「（在讀張教授寄來的講義）……第二十頁了。」（AA_372 第 17 項：10/12 群組說第十二頁）、阿哲「（拿走一包泡麵）我出熱水。」',said.some(t=>/柏翰：（在讀張教授寄來的講義）……第二十頁了。$/.test(t))&&said.includes('阿哲：（拿走一包泡麵）我出熱水。'),said.slice(0,4).join(' / '));
-    said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
-    check('E11. 四人房的阿凱深夜（AA_208 2-4）：「（阿哲已經睡了，柏翰戴著耳塞。）」',said[0]==='（阿哲已經睡了，柏翰戴著耳塞。）',said.slice(0,2).join(' / '));
+    said=[]; G.hour=23.75; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));   /* 2026-10-28：AA_502 第 6 節第 8 點，這個事件改成 23:30 以後（原本 23:00）、四人房那一行照誰在床上——用 23:45（9/17 週三，阿哲、柏翰 23:30 都上床了）；原本在 21:12 直接演 */
+    check('E11. 四人房的阿凱深夜（AA_208 2-4）：「（阿哲和柏翰都上床了。柏翰戴著耳塞。）」——2026-10-28 改：AA_502 第 6 節第 8 點（AA-C）四人房那一行照誰在床上，兩個都在＝這一句（原本一律「（阿哲已經睡了，柏翰戴著耳塞。）」；只有阿哲、都不在的版本在 tests/aa502_dorm203_unit.js 第 9 項）',said[0]==='（阿哲和柏翰都上床了。柏翰戴著耳塞。）',said.slice(0,2).join(' / '));
     fresh(); G.flags.introDone=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
     check('E12. 沒有四人房的舊局不加',!said.some(t=>/柏翰戴著耳塞/.test(t))); }
   // ---------- J 9/2 國文沛珊、通識明軒（BB_168 2-1、3-1；BB_177 第 10、12 節）----------
