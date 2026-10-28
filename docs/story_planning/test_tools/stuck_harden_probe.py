@@ -207,9 +207,11 @@ async def main():
                 n_inj = sum(1 for k in ks if INJ in k)
                 run.check('注入的那一段也演完了（測試那一句的 promise 有回來、sceneEnd）', bool(done_t), json.dumps({'injDone': done_t, 'shown': n_inj, 'cover': cover}, ensure_ascii=False))
                 if cover:
-                    first = next((i for i, k in enumerate(ks) if INJ in k), None)
-                    back = first is not None and any(INJ in k for k in ks[first + 1:]) and any(INJ not in k for k in ks[first + 1:])
-                    run.check('被蓋的那一句演完以後放回去（測試那一句出現兩次，中間是正式劇情）', back, json.dumps(ks, ensure_ascii=False)[:600])
+                    # 正式劇情演的時候記到「有一句被蓋」（coverWho），正式劇情演完以後測試那一句再出現＝放回去了。
+                    # 測試那一句第一次出現常常在同一格就被蓋掉，50 ms 一次的紀錄在 1 fps 的沙盒看不到（BB-C 10-28 sh_carrel_force：只記到「正式→測試」兩筆，第一筆就帶 cover）——不要求它出現兩次
+                    off = next((i for i, x in enumerate(log) if INJ not in x['k'] and x.get('cover')), None)
+                    back = off is not None and any(INJ in x['k'] for x in log[off + 1:])
+                    run.check('被蓋的那一句演完以後放回去（正式劇情演的時候記到被蓋、演完以後測試那一句再出現）', back, json.dumps(ks, ensure_ascii=False)[:600])
             else:
                 run.note('沒有注入（決定開演那一刻 busy %s、鎖 %s 層）' % (inj and inj.get('busy'), inj and inj.get('depth')))
                 if OVERLAP == 'inject': run.check('inject：決定開演那一刻已經鎖住（新版預期；舊版會注入）', bool(inj) and inj.get('injected') is False and (inj.get('busy') or inj.get('depth', 0) > 0), json.dumps(inj, ensure_ascii=False))
