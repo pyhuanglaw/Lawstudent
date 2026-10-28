@@ -1172,7 +1172,7 @@
    "id": "WIP-LAWWW-AA513-1028",
    "role": "LAWWW",
    "task": "HEROINE-LIFE-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "4eccd41a0、6027802c8",
    "branch": "worktree-agent-a977d867acf4da7c2（子代理；D113 備份 wip_backup/aa513_1028.bundle）",
    "files": [
@@ -1181,7 +1181,8 @@
    "todo": "AA_513（a2e4bf196）阿凱說子晴四句改私訊、以安和媽媽窗邊路過字幕",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28（AA_513）；使用者 X122★"
+   "source": "AA-C 2026-10-28（AA_513）；使用者 X122★",
+   "closedBy": "bb87d2f7b（合併子代理 925c0f2ee；aa513 等相關 10 支 ALL PASS）"
   }
  ]
 }
