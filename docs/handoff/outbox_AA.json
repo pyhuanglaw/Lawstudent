@@ -3816,7 +3816,7 @@
   {
    "task": "COMPANY-PRIV-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "6bc3cd784",
+   "sha": "0e46fdc7e",
    "files": [
     "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
    ],
@@ -3826,7 +3826,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項"
+   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項；0e46fdc7e 第 14 節後補（擋下的不算次數、七天不重算）"
   },
   {
    "task": "CIRCLE3D-Y4-1028",
