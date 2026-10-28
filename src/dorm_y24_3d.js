@@ -41,7 +41,7 @@
    存檔：G.flags.RY24＝{walk:{房間:{i,day,used}}, talk:{'房間:人物':[說過的鍵]}, tday:{'房間:人物':第幾天}, after:{'房間:人物':第幾次}, ev:{鍵:演的那一天}, g:{鍵:排進手機的那一天},
      miss:{鍵:不在房間的那一晚／3-1 旁白說了的那一天}（第 5 節）}；
      第一次用到才建（舊存檔沒有＝照常，每一格缺的補 {}）。旗標照稿：R312_SUPPER、R507_ZHE、R409_LAST（true）。沒有新的鎖（不需要 LOADLOCKS）。
-   測試：node tests/aa517_dorm_y24_unit.js */
+   測試：node tests/aa517_dorm_y24_unit.js（第 6 項＝AA_517 第 5 節的四件；第 0 項對稿兩個方向含第 5 節第 4 點）*/
 'use strict';
 const DORMY24=(function(){
   const S={};
