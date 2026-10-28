@@ -1,0 +1,37 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index c3e1b74f9..824b7caee 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1400,7 +1403,22 @@ const Z3 = (function(){
+   function condVis(o,fn){ let shown=true; Object.defineProperty(o,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!!(G&&fn(G)); },set(v){ shown=!!v; }}); }   /* 照條件顯示（同 traceVis，每一格問）*/
+   function catBowlOn(G){ const F=G.flags||{}; return F.WZ_CAT_FOUND!=null&&!(typeof PARK!=='undefined'&&PARK.catGone&&PARK.catGone(G)); }
+   function traceVis(o,id){ let shown=true; Object.defineProperty(o,'visible',{configurable:true,get(){ const G=typeof GAME!=='undefined'&&GAME.G; return shown&&!!(G&&typeof SIDEQ!=='undefined'&&SIDEQ.traceOn&&SIDEQ.traceOn(G,id)); },set(v){ shown=!!v; }}); }
+-  function attachRoomGLB(z,g0,fb,root){ root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)) TK.bounce(o.material,0.5,0.5); } });   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
++  /* 室內光照貼圖（INTERIOR-AAA-REVIEW-1028 P1，LAWWW2-C；tools/blender/env_second/lightbake/bake_room.py 用 Cycles 烘焙）：GLB 場景的 extras.lightmap＝{day,night,intensity}。
++     有第二套 UV（uv1）的網格：材質接 lightMap（白天、晚上兩張照時段混合）；間接光已經烘焙在貼圖裡，所以這些材質不吃半球光，方向光只留 LM_DIRK（人物在地上還有影子）。
++     人物、沒有烘焙的東西照舊吃原本的光。原因：室內只有一盞方向光＋半球光，沒有反彈光、接觸陰影，整間平均亮、東西像貼在地上（docs/art-rebuild/second_ai/INTERIOR_AAA_REVIEW_1028.md）*/
++  const LM_DIRK=0.3, lmTex={};
++  function lmLoad(url){ if(!lmTex[url]){ const t=new THREE.TextureLoader().load(url); t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; t.channel=1; lmTex[url]=t; } return lmTex[url]; }
++  function lmMixAt(h){ h=((h%24)+24)%24; if(h>=6.8&&h<17.0) return 0; if(h>=18.6||h<5.6) return 1; return h>=17.0?(h-17.0)/1.6:(6.8-h)/1.2; }   /* 0＝白天那張、1＝晚上那張（17:00～18:36、05:36～06:48 慢慢換）*/
++  const LM_MAPS=THREE.ShaderChunk.lights_fragment_maps.replace('vec4 lightMapTexel = texture2D( lightMap, vLightMapUv );','vec4 lightMapTexel = mix( texture2D( lightMap, vLightMapUv ), texture2D( lmNight, vLightMapUv ), lmMix );');
++  function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set();
++    root.traverse(o=>{ if(!o.isMesh||!o.geometry||!o.geometry.attributes.uv1) return;
++      for(const m of [].concat(o.material)){ if(!m||done.has(m)||!m.isMeshStandardMaterial) continue; done.add(m); m.lightMap=day; m.lightMapIntensity=spec.intensity||Math.PI*2;
++        const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,U);
++          sh.fragmentShader='uniform sampler2D lmNight; uniform float lmMix; uniform float lmDirK;\n'+sh.fragmentShader.replace('#include <lights_fragment_begin>','#include <lights_fragment_begin>\nreflectedLight.directDiffuse *= lmDirK; reflectedLight.directSpecular *= lmDirK;\n#if defined( RE_IndirectDiffuse )\nirradiance = vec3( 0.0 );\n#endif').replace('#include <lights_fragment_maps>',LM_MAPS); };
++        const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomLM'; }; m.needsUpdate=true; } });
++    const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); U.lmMix.value=lmMixAt(E&&E.hour!=null?E.hour:12); }; U.lmMix.value=lmMixAt(typeof GAME!=='undefined'&&GAME.G?GAME.G.hour:12);
++    z.lightmapped=done.size; return done.size; }
++  function attachRoomGLB(z,g0,fb,root){ const LMS=root.userData&&root.userData.lightmap; root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; if(o.material&&/ceiling/.test(o.material.name)&&!LMS) TK.bounce(o.material,0.5,0.5); } });   /* 有光照貼圖：天花板的亮已經烘焙進去，不另外加自發光 */   /* 天花板：和 room() 的天花板一樣帶自發光 */ g0.add(root); root.updateMatrixWorld(true); const nw=[];
+     root.traverse(o=>{ const m=/^TRACE_(SQ\d+)/.exec(o.name); if(m) traceVis(o,m[1]); });   /* 痕跡（見 traceVis）*/
+     root.traverse(o=>{ if(o.name==='WZ_CATBOWL') condVis(o,catBowlOn); });   /* 一盞前院的貓碗（ART-WZ6，AA_420 第 9 節）：找到貓以後（WZ_CAT_FOUND）、收養以前（PARK.catGone）*/
+     const glassy=[];   /* 本來就半透明的牆面材質（玻璃、紗窗）：不放進淡出清單（淡出邏輯每格會把不透明度設回 1，玻璃會變成不透明的灰板），改成窗的零件：固定透明、牆淡出時一起藏（和 Café 室內一樣）*/
+@@ -1410,7 +1428,7 @@ const Z3 = (function(){
+     /* 窗外的景（白天／夜景貼圖、隨時段變色，room() 的 applyTime 照舊換）：從備用模型的窗框組裡拿出來，放到正式模型的玻璃外面 0.3 m（放大一點：斜著看窗洞也看不到外面的空白）；牆淡出時一起藏（不然鏡頭在牆外時會擋住房間）*/
+     const wp=[]; if(z.wins) for(const w of z.wins){ const part=w.parent; const ent=z.winParts&&z.winParts.find(p=>p.obj===part); const d=ent?ent.dir:new THREE.Vector3(1,0,0); w.position.addScaledVector(d,-0.42); w.scale.set(1.35,1.4,1); if(w.material.uniforms&&w.material.uniforms.sxy) w.material.uniforms.sxy.value.set(1.35,1.4); part.remove(w); g0.add(w); wp.push({obj:w,at:ent?ent.at:w.position.clone(),dir:d}); }
+     for(const o of glassy) wp.push({obj:o,at:o.userData.center,dir:o.userData.dir,partition:!!o.userData.partition});
+-    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; }
++    fb.visible=false; z.walls.length=0; for(const w of nw) z.walls.push(w); z.winParts=wp; z.formal=true; if(LMS) roomLightmap(z,root,LMS); }
+   // ---------- 萬才館大廳／研討室 ----------
+   // 萬才館（室內兩層樓）：src/wancai3d.js（萬才館第三階段，D42；一樓大廳的座標和 v9.3 一樣）
+   // ---------- 總圖閱覽室 ----------
