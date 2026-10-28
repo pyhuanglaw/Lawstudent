@@ -3669,6 +3669,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW-C 03:05 的 12 項（AA_502、AA_503 實作時子代理判斷的地方）；HEROINE-LIFE-1028 的部分也在這個 commit"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "010515370",
+   "files": [
+    "docs/story_planning/AA_506_女主角自己的生活_大二下與暑假.md",
+    "docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大三起分臺灣／日本／美國路線，每學期一份",
+   "next": "LAWWW：AA_506 第 0 節先修六件（子晴兩個遊戲分清楚＋Q4-L1 改字、學姊游泳池與暑假法圖、可昕 C17「全台灣」、沛珊 P4b／4/17 作廢、語彤 2027-07-09 生日、AA_505 四處）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大二下＋暑假（2027-02～09）；沛珊消失期間沒有動態、9/4 台南一則；可昕非交往也看得到模擬法庭與高雄實習"
   }
  ],
  "items": [
