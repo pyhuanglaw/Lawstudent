@@ -58,7 +58,8 @@ const FEED=(function(){
   /* 去沒去（照片、回覆的兩個版本）*/
   S.WENT={
     kxBbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME&&G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq!=null),   /* K3「來我們這邊。」而且中秋烤肉有去（她在你旁邊）*/
-    kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null)   /* 予樂的宵夜你有去 */
+    kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null),   /* 予樂的宵夜你有去 */
+    kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); }   /* 12/3 交完報告那晚開車去政大（ev_kexin_birthday_y1；AA_503 d13ab3ab7 第 12 節第 3 點）*/
   };
   S.COND={
     anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在麵店團群組爆料（story3d.js an_rules_grp）*/
@@ -81,7 +82,7 @@ const FEED=(function(){
     if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9; return R; };
   S.post=id=>{ for(const s of SETS()) for(const p of s.posts||[]) if(p.id===id) return p; return null; };
   S.dmOf=id=>{ for(const s of SETS()) for(const q of s.dms||[]) if(q.id===id) return {q,term:s.term}; return null; };
-  S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆 */
+  S.txt=(x,v)=>x&&typeof x==='object'?(x[v||'no']!=null?x[v||'no']:x.no):x;   /* 兩個版本的照片／回覆／私訊問的那一句（可昕第 6 則）*/
   S.line=(G,l)=>l&&typeof l==='object'&&l.if?((S.COND[l.if]&&S.COND[l.if](G))?l.yes:l.no):l;
   /* ---------- 動態：這一則出不出（空字串＝出）---------- */
   S.blocked=function(G,p,w){ if(!hasContact(G,p.who)) return 'contact'; if(p.who==='kexin'&&S.kxCool(G)) return 'cool'; if(!S.stageOk(G,p.who,p.st)) return 'stage';
@@ -124,11 +125,11 @@ const FEED=(function(){
   S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.txt(p.pic,it.v);
     let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(p.say)+'</div>':'');
     if(!it.r){ const B=['<button class="btn" data-fd="'+esc(it.id+'|heart')+'">（按愛心）</button>'];
-      if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(p.cm[0])+'</button>');
-      if(S.dmOk(G,p)) B.push('<button class="btn" data-fd="'+esc(it.id+'|dm')+'">（私訊問一句）'+HINT+esc(p.dm[0])+'</div></button>');
+      if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(S.txt(p.cm[0],it.v))+'</button>');
+      if(S.dmOk(G,p)) B.push('<button class="btn" data-fd="'+esc(it.id+'|dm')+'">（私訊問一句）'+HINT+esc(S.txt(p.dm[0],it.v))+'</div></button>');
       h+='<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+B.join('')+'</div>'; }
     else if(it.r==='heart') h+='<div class="muted" style="margin-top:6px">♥ 你按了愛心。</div>';
-    else { const L=it.r==='cm'?p.cm:p.dm; h+='<div style="margin-top:6px"><div class="muted">'+(it.r==='cm'?'你留言：':'你私訊問：')+esc(L[0])+'</div>'+L.slice(1).map(r=>'<div><b>'+esc(nm)+'</b>：'+esc(S.txt(r,it.v))+'</div>').join('')
+    else { const L=it.r==='cm'?p.cm:p.dm; h+='<div style="margin-top:6px"><div class="muted">'+(it.r==='cm'?'你留言：':'你私訊問：')+esc(S.txt(L[0],it.v))+'</div>'+L.slice(1).map(r=>'<div><b>'+esc(nm)+'</b>：'+esc(S.txt(r,it.v))+'</div>').join('')
       +'<button class="btn" style="margin-top:6px" data-msg="'+esc(p.who)+'">看私訊</button></div>'; }
     return h+'</div>'; };
   S.html=function(G){ if(!G) return ''; S.rec(G); const L=S.visible(G); S.markSeen(G);
@@ -142,7 +143,7 @@ const FEED=(function(){
   S.respond=function(G,id,kind){ if(!G||!['heart','cm','dm'].includes(kind)) return null; const R=S.rec(G), it=R.items.find(i=>i.id===id), p=S.post(id); if(!it||!p||it.r) return null;
     const now=nowOf(G), t=abs(it.day,it.h); if(t>now||now-t>=S.KEEP*24) return null; if(kind==='cm'&&!p.cm) return null; if(kind==='dm'&&!S.dmOk(G,p)) return null;
     it.r=kind; const out=[];
-    if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:L[0]}); m.fd=id; m.fk=kind; out.push(m);
+    if(kind!=='heart'&&typeof PHONE!=='undefined'){ const L=kind==='cm'?p.cm:p.dm, th='p:'+p.who; const m=PHONE.post(G,{th,from:'player',who:null,text:S.txt(L[0],it.v)}); m.fd=id; m.fk=kind; out.push(m);
       for(const r of L.slice(1)){ const tx=S.txt(r,it.v); if(tx) out.push(PHONE.post(G,{th,from:p.who,text:tx})); }
       if(PHONE.markSeen) PHONE.markSeen(G,th); }   /* 她的回覆動態頁上就看得到：不再算未讀 */
     S.fam(G,p.who); return {item:it,out}; };

@@ -128,11 +128,11 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('K4：讀書時間算進期末準備（兩個小時＝那一科 +2）、時間往後兩小時、記 VIDEO_STUDY',(R1[c]||0)-(R0[c]||0)===2&&((G.stats&&G.stats.study)||0)-st0===2&&Math.abs(G.hour-23)<0.05&&SOCIAL.has('kexin','VIDEO_STUDY'),JSON.stringify({c,before:R0[c]||0,after:R1[c],hour:G.hour}));
     run(23,23.9); check('K4：去了就沒有書桌的照片',!G.msgs.some(x=>x.tag==='kx_video_photo'));
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,1); run(20.3,23.1);
-    const ph=G.msgs.filter(x=>x.tag==='kx_video_photo').map(x=>x.text); check('K4：「今天不行。」→「好。我自己讀，讀完傳照片給你。」、23:00「我自己讀了。你欠我一次。」（書桌的照片 AA_503 9-3 改成可昕的動態第 8 則，tests/aa503_feed_unit.js）、沒有視訊',kx().some(x=>x.text==='好。我自己讀，讀完傳照片給你。')&&JSON.stringify(ph)===JSON.stringify(['我自己讀了。你欠我一次。'])&&!OUT.get(G,'kx_video'),JSON.stringify(ph));
+    const ph=G.msgs.filter(x=>x.tag==='kx_video_photo').map(x=>x.text); check('K4：「今天不行。」→「好。我自己讀，讀完傳照片給你。」、23:00 書桌的照片「我自己讀了。你欠我一次。」、沒有視訊',kx().some(x=>x.text==='好。我自己讀，讀完傳照片給你。')&&JSON.stringify(ph)===JSON.stringify(['📷（她的書桌）','我自己讀了。你欠我一次。'])&&!OUT.get(G,'kx_video'),JSON.stringify(ph));
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,23.1); m=ask(); const exp=PHONE.answer(G,m.ask.id,0);
-    check('K4：沒回＝21:45 以後不能再回、23:00 一樣傳那一句（照片改成動態）',exp===null&&G.msgs.filter(x=>x.tag==='kx_video_photo').length===1&&G.flags.KX_VIDEO==='none');
+    check('K4：沒回＝21:45 以後不能再回、23:00 一樣傳照片',exp===null&&G.msgs.filter(x=>x.tag==='kx_video_photo').length===2&&G.flags.KX_VIDEO==='none');
     fresh(D,19.9,'dorm',{dating_kexin:true}); run(19.9,20.1); m=ask(); G.hour=20.3; PHONE.answer(G,m.ask.id,0); run(20.3,20.4); const q2=OUT.get(G,'kx_video'); G.hour=21; q2.state='missed'; OUT.onMissed(GM,q2); run(21,23.1);
-    check('K4：答應了但沒接（今天先不要）＝23:00 一樣傳那一句（照片改成動態）',G.msgs.filter(x=>x.tag==='kx_video_photo').length===1);
+    check('K4：答應了但沒接（今天先不要）＝23:00 一樣傳照片',G.msgs.filter(x=>x.tag==='kx_video_photo').length===2);
     fresh(D,19.9,'dorm',{}); run(19.9,23.5); check('K4：沒有在交往（dating_kexin 沒設）＝沒有',!ask()); }
   /* ---------- 舊存檔：KX_BDAY[1] 搬到 KX_DEC3[1]（BB_95 9-6 改版的「影響」）---------- */
   { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const a=src.indexOf('  function migrate(s){'), b=src.indexOf('  function ls(){',a);
