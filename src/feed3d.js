@@ -71,10 +71,11 @@ const FEED=(function(){
   /* 可昕：分開以後一學期（分開那天到下一個學期第 1 週，同 V6EX.coolUntil）*/
   const nextTerm=d=>{ if(typeof V6EX!=='undefined'&&V6EX.coolUntil) return V6EX.coolUntil(d); let cur=null; for(let x=d;x>d-200;x--){ const t=CALENDAR.termOf(x); if(t){ cur=t.id; break; } }
     for(let x=d+1;x<d+400;x++){ const t=CALENDAR.termOf(x); if(t&&t.id!==cur&&t.week===1) return x; } return null; };
-  S.endDay=function(G,id){ if(typeof V6EX!=='undefined'&&V6EX.endDay){ const d=V6EX.endDay(G,id); if(d!=null) return d; }
-    const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,id):null, H=(R&&R.history)||[]; for(let i=H.length-1;i>=0;i--) if(H[i]&&H[i].ev==='end'&&H[i].day!=null) return H[i].day;
-    const F=G.flags||{}; return id==='kexin'&&typeof F.KX_ENDED_ON==='number'?F.KX_ENDED_ON:null; };
-  S.kxCool=function(G){ if(dating(G,'kexin')) return false; if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,'kexin')) return true; const d=S.endDay(G,'kexin'); if(d==null) return false; const u=nextTerm(d); return u!=null&&G.day>=d&&G.day<u; };
+  /* 最近一次分開的那一天（ROM 的紀錄 history 的 end，同 V6EX.endDay；直接讀，不用 ROM.get——它會替沒有紀錄的人建一筆空的）*/
+  S.endDay=function(G,id){ const F=G.flags||{}, R=F.romance&&F.romance[id], H=(R&&R.history)||[]; for(let i=H.length-1;i>=0;i--) if(H[i]&&H[i].ev==='end'&&H[i].day!=null) return H[i].day;
+    return id==='kexin'&&typeof F.KX_ENDED_ON==='number'?F.KX_ENDED_ON:null; };
+  S.kxCool=function(G){ const F=G.flags||{}; if(dating(G,'kexin')||(!F.EX_kexin&&F.KX_ENDED_ON==null)) return false; if(typeof INV!=='undefined'&&INV.cool&&INV.cool(G,'kexin')) return true;
+    const d=S.endDay(G,'kexin'); if(d==null) return false; const u=nextTerm(d); return u!=null&&G.day>=d&&G.day<u; };
   /* ---------- 存檔 ---------- */
   S.rec=function(G){ const F=G.flags||(G.flags={}); let R=F.FEED; if(!R||typeof R!=='object') R=F.FEED={start:G.day,items:[],done:{},dm:{},seen:-1e9};
     if(typeof R.start!=='number') R.start=G.day; if(!Array.isArray(R.items)) R.items=[]; if(!R.done||typeof R.done!=='object') R.done={}; if(!R.dm||typeof R.dm!=='object') R.dm={}; if(typeof R.seen!=='number') R.seen=-1e9; return R; };
