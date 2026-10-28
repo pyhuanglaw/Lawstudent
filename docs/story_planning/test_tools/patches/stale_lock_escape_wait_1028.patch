@@ -1,5 +1,14 @@
 --- a/tests/stale_lock_escape.py	2026-10-28 06:25:50.170854692 +0000
-+++ b/tests/stale_lock_escape.py	2026-10-28 06:25:50.185050507 +0000
++++ b/tests/stale_lock_escape.py	2026-10-28 06:51:26.189388426 +0000
+@@ -2,7 +2,7 @@
+ [前置／捷徑] 讀一個宿舍的存檔，直接呼叫 GAME.sceneBegin()＋過場鏡頭、不接 sceneEnd，做出和使用者除錯畫面一樣的狀態。
+ 要通過：①10 秒內不放開（正常演出中的停頓不能被打斷）②超過 10 秒：除錯面板寫出是誰開的那一段、選單的「讀取」讀得進去、讀完能走
+ ③有對話在演的時候不算卡住 ④卡住的紀錄留在瀏覽器（fatiao3d_stuck，讀檔以後還在，匯出存檔帶 _stuck）。舊版（沒有這個保底）：②的讀取會被「劇情還在進行」擋下來。"""
+-import asyncio, json, sys
++import asyncio, json, sys, time
+ sys.path.insert(0, 'tests')
+ from playwright.async_api import async_playwright
+ import playlib as L
 @@ -31,10 +31,16 @@
          s1 = await pg.evaluate("({stale:GAME.D.stale,busy:GAME.E.player.busy,depth:GAME.D.busyDepth,cam:GAME.E.cam.mode})")
          print('① 6 秒', s1)
@@ -7,11 +16,11 @@
 -        await pg.wait_for_timeout(6500)
 +        # 卡住的計時（game3d.js staleCheck）每一格最多算 0.5 秒：SwiftShader 每秒 1～2 格時，遊戲算滿 10 秒要 15～20 秒真實時間。
 +        # 原本固定再等 6.5 秒（共 12.5 秒）在慢的沙盒會太早量（BB-C 10-28 v9.10.12：12.5 秒 stale false，之後讀檔照樣讀得進去）；改成最多再等 54 秒、標成卡住就停，印出實際花了多久、幾格
-+        f0 = await pg.evaluate("GAME.E.frame|0"); t_wait = 6.0
++        f0 = await pg.evaluate("GAME.E.frame|0"); t1 = time.time()
 +        for i in range(108):
 +            if await pg.evaluate("!!GAME.D.stale"): break
-+            await pg.wait_for_timeout(500); t_wait += 0.5
-+        print('② 標成卡住：%.1f 秒真實時間、%d 格' % (t_wait, (await pg.evaluate("GAME.E.frame|0")) - f0 + 0))
++            await pg.wait_for_timeout(500)
++        print('② 標成卡住：開始卡住以後約 %.1f 秒真實時間（6 秒＋%.1f 秒）、後半段 %d 格' % (6 + time.time() - t1, time.time() - t1, (await pg.evaluate("GAME.E.frame|0")) - f0))
          s2 = await pg.evaluate("({stale:GAME.D.stale,busy:GAME.E.player.busy,dbg:document.getElementById('mdbg').textContent,hudR:getComputedStyle(document.getElementById('hudR')).opacity})")
          scene = [l for l in s2['dbg'].split('\n') if l.startswith('SCENE')]
 -        print('② 12.5 秒', {k: s2[k] for k in ('stale', 'busy', 'hudR')}, scene)
