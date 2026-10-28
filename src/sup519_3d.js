@@ -171,7 +171,7 @@ const SUP519=(function(){
       if(m&&m.ans===0&&X&&F.HXH_SUBJECT==null&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.HXH_OUT)&&now(G)<T(X.thu,15.5)) OUT.plan(G,{id:S.HXH_OUT,ev:'ev_hxh_subject',day:X.thu,h:15,late:0.5,place:'心理系實驗室',title:'當受試者（筱涵）',travel:'走過去約 10 分鐘',travelH:1/6});
       return; }
     const t=termOf(G.day); if(!t||t.id!=='Y2S1'||t.week>S.HXH_W[1]) return; if(!fam('npc_huangxh')||!contact(G,'npc_huangxh')) return;
-    for(const w of [t.week,t.week+1]){ if(w<S.HXH_W[0]||w>S.HXH_W[1]) continue; const mon=termDay('Y2S1',w,1); if(mon==null||now(G)>=T(mon,21)) continue;
+    for(const w of [t.week,t.week+1]){ if(w<S.HXH_W[0]||w>S.HXH_W[1]) continue; const mon=termDay('Y2S1',w,1); if(mon==null||now(G)>=T(mon+1,21)) continue;   /* 手機規則晚一點才跑（21:00 以後、隔天）＝照 21:00 補上；過了一天＝這一週不補（S.at）*/
       const items=[{th:'p:npc_huangxh',from:'npc_huangxh',text:HX.ask,ask:{id:S.HXH_ASK,until:T(mon+3,14.75),opts:[{t:HX.yes},{t:HX.no,say:[{from:'npc_huangxh',text:HX.noReply}]}]}}];
       if(S.at(G,mon,21,items,S.HXH_ASK)) R.hxh={mon,thu:mon+3}; return; } };
   const ln=([w,t])=>w==null?{speaker:null,text:t}:{speaker:w,text:t};
@@ -223,8 +223,8 @@ const SUP519=(function(){
   S.tripDay=function(d){ const a=DK(S.TRIP[0]), b=DK(S.TRIP[1]); return a!=null&&b!=null&&d!=null&&d>=a&&d<=b; };
   S.tripBlocks=(G,o)=>law(G)&&!!o&&S.tripDay(o.day)&&((/麵店/.test(o.place||'')&&!/麵舖/.test(o.place||''))||(o.goto&&o.goto.zone==='noodle')||/阿鳳麵店/.test(o.title||''));
   /* 語彤那一週在總圖（照她 4/19 那則的回覆「我在總圖。期中考，店剛好也沒開。」）：顧店的兩個時段（週二晚上、週六早上）換總圖；放在作息最前面 */
-  S.SCHED_YT=[{days:[2,4],from:17.5,to:20.5,zone:'library',act:'read',dates:[S.TRIP],note:'AA_519 第 8 節第 4 點：2029-04-19～25 阿姨出國、店沒開，語彤那一週在總圖（顧店的時段）'},
-    {days:[6],from:9,to:12,zone:'library',act:'read',dates:[S.TRIP],note:'AA_519 第 8 節第 4 點：同上，週六早上的備料不去'}];
+  S.SCHED_YT=[{days:[2,4],from:17.5,to:20.5,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：2029-04-19～25 阿姨出國、店沒開，語彤那一週在總圖（顧店的時段）'},
+    {days:[6],from:9,to:12,zone:'library',act:'read',dates:[S.TRIP],pri:true,note:'AA_519 第 8 節第 4 點：同上，週六早上的備料不去'}];   /* pri：比寫了 terms 的顧店作息優先（週六早上那一筆有 terms）*/
   S.applySched=function(){ if(S._sched||typeof CHARACTERS==='undefined'||!CHARACTERS.heroine_03) return 0; const L0=CHARACTERS.heroine_03.daily_schedule||(CHARACTERS.heroine_03.daily_schedule=[]);
     for(let i=S.SCHED_YT.length-1;i>=0;i--) L0.unshift(Object.assign({},S.SCHED_YT[i],{dates:S.SCHED_YT[i].dates.map(x=>x.slice()),aa519:true})); S._sched=true; return S.SCHED_YT.length; };
   /* 麵店團：那一週本來有麵店日（STORY.noodleDay 原本的判斷）＝4/23（一）21:00 群組四則 */
