@@ -135,13 +135,13 @@ const SUP497=(function(){
      答應＝掛「順手的事」（SIDEQ：手機「今天」那一格、期限那一週的週五、拒絕不扣分）；那一週任何一天 12:10～12:20 到霖澤館一樓＝做完（YC_ELEVATOR）。
      「我等一下有課。」＝他再錄三天（和地下室散場第 ② 個回答對得上）；答應了、過期沒去＝那個週五 23:00 他傳「錄到了。……」 */
   S.QID='YQ_ELEV';
-  S.ELEV_AT={x:4.6,z:-4.3};   /* 霖澤館一樓電梯門前（linze_layout.js elevator：門在 z −3.2、叫車鈕 z −3.9）*/
+  S.ELEV_AT={x:3.2,z:-4.1};   /* 霖澤館一樓電梯門的西側（linze_layout.js elevator：門在 z −3.2、叫車鈕 (4.6,−3.9)）；LAWWW2 4e0b212f8：原本 (4.6,−4.3) 離叫車鈕 0.4 m＝人擋在玩家按電梯的地方，改到離按鈕 1.4 m、朝 +x 看電梯門 */
   S.qRec=G=>typeof SIDEQ!=='undefined'&&SIDEQ.get?SIDEQ.get(G,S.QID):null;
   S.qState=G=>{ const r=S.qRec(G); return r?r.state:null; };
   S.fri=d=>{ let x=d; while(wdOf(x)!==5) x++; return x; };
   S.elevAskDue=function(G){ if(!law(G)||S.qState(G)||!inTerm(G,'Y2S1')||week(G)<6||week(G)>9) return false; const w=wdOf(G.day); if(w<1||w>4) return false; const h=hr(G); if(h<15+10/60||h>=18) return false;   /* 週一～週四（期限是那一週的週五：開口以後至少還有一天的 12:10）*/
     return dmOK(G,YC)&&sent(G,'yc_song_5')&&(typeof SIDEQ==='undefined'||!SIDEQ.openIds||SIDEQ.openIds(G).length<SIDEQ.MAX); };
-  S.ELEV_ASK={ id:'ev_yc_elev_ask', title:'霖澤館的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur', near:{x:4.6,z:-4.3,r:3},
+  S.ELEV_ASK={ id:'ev_yc_elev_ask', title:'霖澤館的電梯', participants:[YC], location:'linze', trigger:'auto', once:true, background:'blur', near:{x:3.2,z:-4.1,r:3},
     prereq:{custom:G=>S.elevAskDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns((L.yc.elev||{}).open).concat([{choice:[{text:(L.yc.elev||{}).opts[0],set:{YC_ELEV_ASK:'yes'},goto:'y'},{text:(L.yc.elev||{}).opts[1],set:{YC_ELEV_ASK:'no'},goto:'n'}]},
       {label:'n'}],lns((L.yc.elev||{}).no),[{goto:'end'},{label:'y'},{label:'end'}]),
@@ -226,9 +226,9 @@ const SUP497=(function(){
       :(w==null&&t.indexOf('那個女生')>=0?[ln(w,t,{unless:XCM}),ln(w,swapGirl(t),{if:XCM})]:[ln(w,t)])))) };
   /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、中午 12:10～13:00；兩個人都認識才演（旁白寫了名字）。
      兩個人的作息（characters.js 最前面那一筆）：這三週的週一、三、四、五中午站在影印機前，演過就不來（週二中午以安在 118 巷＝不排、不演；週四 13:20 民總，13:05 起在教室）*/
-  S.COPY_AT={x:8.0,z:2.6};   /* 總圖一樓服務台南邊（library_layout.js 的 desk (7.8,4.4)）；影印機的實體物件：LAWWW2 */
+  S.COPY_AT={x:10.35,z:2.65};   /* 總圖一樓東牆邊的影印機 (11.4,2.6) 前面（LAWWW2 4e0b212f8 library_layout.js copier；兩個人站 (10.35,2.35／2.95) 朝 +x；原本 (8.0,2.6) 擠到服務台客人站的地方）*/
   S.copyDue=G=>law(G)&&inTerm(G,'Y1S2')&&week(G)>=7&&week(G)<=9&&[1,3,4,5].indexOf(wdOf(G.day))>=0&&!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day))&&hr(G)>=12+10/60&&hr(G)<13&&met(G,AN)&&xcMet(G)&&!done(G,'ev_xc_copy');
-  S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:8.0,z:2.6,r:2.2},
+  S.COPY={ id:'ev_xc_copy', title:'影印機', participants:[XC,AN], noMeet:[AN,XC], location:'library_hall', trigger:'auto', once:true, background:'blur', near:{x:10.35,z:2.65,r:2.2},
     prereq:{custom:G=>S.copyDue(G)&&!!(GMr&&GMr.E&&GMr.E.player&&(GMr.E.player.lv|0)===0)},
     dialogue:lns(L.xc.copy.open).concat([{choice:L.xc.copy.opts.map((t,k)=>({text:t,goto:'c'+(k+1)}))}],
       ...L.xc.copy.r.map((R,k)=>[{label:'c'+(k+1)}].concat(lns(R),k===0?[{set:{XC_COPY:true}}]:(k===2?[{set:{XC_RPS:true}}]:[]),[{goto:'end'}])),[{label:'end'}]) };
