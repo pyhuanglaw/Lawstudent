@@ -427,7 +427,7 @@ async def m_bbq(c):
                    js="for(const id of %s) MET(id); PHONE.join(G,'noodle_team','麵店團');" % json.dumps(know),
                    why='bbq：第 5 週週六（%s）14:30 宿舍；回過阿哲「去。」（BBQ_YES）、在麵店團群組；%s語彤' % (sat, '認識' if yt else '不認識'))
     run.note('中秋烤肉出遊：%s' % json.dumps(await pg.evaluate("(OUT.get(GAME.G,'bbq')||null)"), ensure_ascii=False))
-    n0 = await mark(c); t0 = time.time()
+    n0 = 0; t0 = time.time()   # BB-C 01:2x：讀檔時「出發」提示就跳出來、load_new 裡的 drain 已經按了出發，烤肉在這之前就演完了——第一版從這裡才開始記＝一句都沒有；改成從頭記
     while time.time() - t0 < 900 and not c.late():
         s = await L.state(pg)
         if s['dlg'] or s['choices']: await drain(c, pref=['出發'], secs=400)
