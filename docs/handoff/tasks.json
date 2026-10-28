@@ -34553,6 +34553,27 @@
     "receiver": "LAWWW",
     "ack": "未派"
    }
+  },
+  {
+   "id": "PHONE-AUTO-ENTER-1028",
+   "title": "換區域途中（推門演完到新區域換好、變黑、載入）不自動打開手機",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "BB-C 2026-10-28 02:2x relsuite_562 touch_flow_wenzhou「進入 Café」FAIL 的可能原因之二（推門 A21 演完把 busy 還原、接著換區域，那幾秒 phoneAuto 只看 busy／paused）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "有待回覆的訊息時走進有門的地方",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 02:3x UTC】a13d98eaa：S.phoneAuto 多看 GM.isEntering()；tests/phone_auto_unit.js 加一項；放進 v9.10.12 rc2；BB 的 tfw_timeline 會分出 FAIL 真正的原因（測試時間差或這個）",
+   "sha": "a13d98eaa"
   }
  ]
 }
