@@ -317,7 +317,8 @@ const R2Y4A_EVENTS=(function(){
       {choice:[{text:'「兩碗不夠。我去便利商店。」',goto:'a'},{text:'「我打給阿凱。」',goto:'b'},{text:'（坐下來吃）',goto:'c'}]},
       {label:'a'},{if:{flags:['JOB_CVS']},goto:'a2'},nar('（貨架上只剩海鮮口味。）'),{goto:'e'},   /* 做過便利商店夜班（AA_289 3-4；打工系統還沒有：JOB_CVS 先當作沒有）*/
       {label:'a2'},nar('（店長在櫃台下面留了三碗。）'),{speaker:'店長',text:'今年要三碗吧？'},{goto:'e'},
-      {label:'b'},{speaker:'阿凱（電話）',text:'我還有二十包。你大一吃掉的那些，我補回來了。'},nar('（十分鐘後，他抱著一箱泡麵上樓。）'),{goto:'e'},
+      /* 下一行第二句：AA_519 第 10 節第 2 點（企劃線 e5835610d），接大三「……泡麵，他說他不想再吃了。」——這一箱是還你的（tests/aa519_support2_unit.js 第 0 段查）*/
+      {label:'b'},{speaker:'阿凱（電話）',text:'我還有二十包。你大一吃掉的那些，我補回來了。'},{speaker:'阿凱（電話）',text:'……我自己不吃。去年就不吃了。'},nar('（十分鐘後，他抱著一箱泡麵上樓。）'),{goto:'e'},
       {label:'c'},nar('（你們各吃一碗。十點，燈真的熄了。柏翰把手機的手電筒對著天花板。）'),
       {label:'e'},{set:{TYPHOON_Y4:'noodle'}} ] });
 

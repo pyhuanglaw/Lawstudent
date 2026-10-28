@@ -94,7 +94,7 @@ const ytEnt=()=>STORY.schedEnt(CHARACTERS.heroine_03,H.G);
 const minding=()=>{ const e=ytEnt(); return !!e&&e.zone==='noodle'&&e.act==='help'; };
 
 /* ---------- 讀稿 ---------- */
-const SHA='169130daf', DOCF='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md';
+const SHA='e5835610d', DOCF='docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md';
 const gitShow=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"'+f+'"',{cwd:process.env.AA519_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
 const DOC=gitShow(SHA,DOCF);
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+a.length):-1; return S.slice(i,j<0?S.length:j); };
@@ -107,7 +107,7 @@ const S2=part('## 2. 陳助教','## 3. '), S21=part('### 2-1','### 2-2',S2), S22
 const S3=part('## 3. 兩點半 Café','## 4. '), S31=part('### 3-1','### 3-2',S3), S32=part('### 3-2','### 3-3',S3), S33=part('### 3-3','### 3-4',S3), S34=part('### 3-4',null,S3);
 const S4=part('## 4. 黃筱涵','## 5. '), S41=part('### 4-1','### 4-2',S4), S42=part('### 4-2',null,S4);
 const S5=part('## 5. 阿凱','## 6. '), S51=part('### 5-1','### 5-2',S5), S52=part('### 5-2','### 5-3',S5), S53=part('### 5-3','### 5-4',S5), S54=part('### 5-4',null,S5);
-const S6=part('## 6. ','## 7. '), S7=part('## 7. ','## 8. '), S8=part('## 8. ','## 9. '), S9=part('## 9. ',null);
+const S6=part('## 6. ','## 7. '), S7=part('## 7. ','## 8. '), S8=part('## 8. ','## 9. '), S9=part('## 9. ','## 10. '), S10=part('## 10. ',null);   /* 第 10 節（e5835610d）：Café 點餐以外不收緊、大四颱風夜加一句 */
 const S91=part('1. **颱風夜','2. **日本路線',S9), S92=part('2. **日本路線','3. **2027-06-04',S9), S93=part('3. **2027-06-04','4. 註解',S9), S94=part('4. 註解',null,S9);   /* 第 9 節（169130daf）四點 */
 const pairDoc=(w,t,nm)=>w==null?t:((nm&&nm[w])||w)+'：'+t;   /* 遊戲的 [說話的人, 字] → 稿的「> 說話的人：字」 */
 const NM={zhe:'阿哲',yu:'Alison',heroine_03:'語彤',npc_huangxh:'黃筱涵',npc_ta_chen:'陳助教'};
@@ -116,7 +116,9 @@ const NM={zhe:'阿哲',yu:'Alison',heroine_03:'語彤',npc_huangxh:'黃筱涵',n
 /* ===================== 0 讀稿、載入 ===================== */
 await sec('0',async()=>{
   const A=(()=>{ try{ return (JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]).find(q=>q.path===DOCF)||null; }catch(e){ return null; } })();
-  check('0. 讀稿（git show '+SHA+'）：九節都讀得到（第 8 節＝實作時定的麵店四件；第 9 節＝實作時定的四點：颱風夜、日本路線腳踏車、Café 櫃台、註解）',DOC.length>8000&&[S1,S2,S3,S4,S5,S6,S7,S8,S9].every(s=>s.length>200)&&S8.includes('實作時定的')&&!S8.includes('## 9. ')&&S9.includes('實作時定的')&&[S91,S92,S93,S94].every(s=>s.length>20),J({len:DOC.length,s9:[S91,S92,S93,S94].map(s=>s.length)}));
+  check('0. 讀稿（git show '+SHA+'）：九節都讀得到（第 8 節＝實作時定的麵店四件；第 9 節＝實作時定的四點：颱風夜、日本路線腳踏車、Café 櫃台、註解）',DOC.length>8000&&[S1,S2,S3,S4,S5,S6,S7,S8,S9].every(s=>s.length>200)&&S8.includes('實作時定的')&&!S8.includes('## 9. ')&&S9.includes('實作時定的')&&!S9.includes('## 10. ')&&[S91,S92,S93,S94].every(s=>s.length>20),J({len:DOC.length,s9:[S91,S92,S93,S94].map(s=>s.length)}));
+  { const q10=quotes(S10), ev=(typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[]).find(e=>e.id==='ev_y4_typhoon_noodle'), D_=ev?ev.dialogue:[], i=D_.findIndex(l=>l&&l.text==='我還有二十包。你大一吃掉的那些，我補回來了。'), nx=i>=0?D_[i+1]:null;
+    check('0. 第 10 節（e5835610d）：大四颱風夜（r2y4a_events.js T4a）阿凱「我還有二十包。…」後面緊接稿上那一句（阿凱（電話）「……我自己不吃。去年就不吃了。」），再接「（十分鐘後，他抱著一箱泡麵上樓。）」；第 10 節第 1 點 Café 不收緊＝程式不用改',S10.includes('不收緊')&&q10.length===1&&q10[0]==='阿凱：……我自己不吃。去年就不吃了。'&&!!nx&&nx.speaker==='阿凱（電話）'&&nx.text==='……我自己不吃。去年就不吃了。'&&!!D_[i+2]&&/十分鐘後，他抱著一箱泡麵上樓/.test(D_[i+2].text||''),J({q10,i,nx,n2:D_[i+2]})); }
   check('0. 劇情匯入白名單：AA_519 那一筆 sha '+SHA+'、approved、AA-C 定稿、任務 NPC-STORY2-1028',!!A&&A.sha===SHA&&A.status==='approved'&&/AA-C/.test(A.approvedBy||'')&&A.task==='NPC-STORY2-1028',J(A));
   const sc=f=>html.indexOf('<script src="'+f), iL=sc('src/data/aa519_lines.js'), iS=sc('src/sup519_3d.js');
   const BEFORE=['src/story3d.js','src/eat3d.js','src/noodle_closed3d.js','src/y34b3d.js','src/r2y4b3d.js','src/jobs3d.js','src/multirel3d.js','src/msg3d.js','src/data/msg_pool.js','src/heard3d.js','src/hcircle3d.js','src/invites3d.js','src/outings3d.js','src/phone3d.js','src/r3_3d.js'];
