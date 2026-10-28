@@ -77,7 +77,7 @@ const ENCOUNTERS={
     {who:'heroine_02',spot:'D02',why:'她坐在書店門口的長椅上，手上一本電影書，旁邊放著一張票根。',days:[6],from:13,to:17,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S2'],weeks:[3,11],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D02_ZR',away:'在松菸看電影',
       lines:{acq:['你也來松菸？','我剛看完早場。在等下一場。'],friend:['早場的人很少。我一個人坐一整排。','下一場四點。你要不要也看？不看也沒關係。'],dating:['你怎麼在這裡？','下一場還有一個小時。陪我坐一下就好。']},
       ex:{apart_life:['嗨。這裡的書店很好，你慢慢逛。']},src:'BB_213 1、2'},
-    {who:'heroine_05',spot:'D11',why:'她坐在北投圖書館的木頭陽台上，桌上攤著一本書和計畫本。',days:[6],from:10,to:15,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],weeks:[6],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_SIS',away:'在北投圖書館',
+    {who:'heroine_05',spot:'D11',why:'她坐在北投圖書館的木頭陽台上，桌上攤著一本書和計畫本。',days:[6],from:10,to:15,termFrom:{Y3S1:13},terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],weeks:[6],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_SIS',away:'在北投圖書館',
       lines:{acq:['學弟。你也來北投？','我每個月來這裡讀一次書。這裡比法圖安靜。'],friend:['這裡的位子要早點來，我九點就到了。','你要坐的話，我旁邊還有一個。'],dating:['你怎麼也在北投？','我還要讀一個小時。讀完一起去泡腳。']},
       ex:{apart_talk:['學弟。我讀完這一章就走。']},src:'BB_213 1、2（大四上在美國，BB_204 4c）'},
     {who:'classmate_peishan',spot:'D08',why:'她在企鵝館門口，數著一排戴黃帽子的小孩。',days:[6],from:9,to:13,terms:['Y1S2'],weeks:[9],stageMin:'ACQUAINTANCE',busy:'short',join:true,exAsAcq:true,memo:'ENC_D08_PS',away:'帶課輔班去動物園',

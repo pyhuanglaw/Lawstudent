@@ -29,7 +29,9 @@ const part=(a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.ind
 const rows=t=>t.split('\n').filter(l=>/^\|/.test(l.trim())&&!/^\|\s*-/.test(l.trim())).map(l=>l.trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim()));
 const orig=s=>s.replace(/（原句）$/,'').trim();
 const monTab=t=>{ const o={}; for(const r of rows(t)) if(/^\d{1,2}$/.test(r[0])) (o[+r[0]]=o[+r[0]]||[]).push(r[1]); return o; };
-const X1=monTab(part('### 1-1','### 1-2')), X2=monTab(part('### 1-2','## 2.'));
+/* AA_507 0-2 第 5 點（企劃線 e4fbd0192，AA-C 10-28）：她 2/11 就離開英國、不上新學期——1-1 表 1 月第二句、2 月第一句照 AA_507 換（其他照 AA_457）*/
+const FIX507_UK=[['這學期的課表出來了。週三整天都是片。','一月要考試。考完我想去北邊看一次雪。'],['剩三個禮拜。我開始數了。','剩十天。我開始數了。']];
+const X1=monTab(FIX507_UK.reduce((x,[a,b])=>x.split(a).join(b),part('### 1-1','### 1-2'))), X2=monTab(part('### 1-2','## 2.'));
 const N=o=>Object.values(o).reduce((a,L)=>a+L.length,0);
 const YA=[], YB=[]; let Y5=''; for(const r of rows(part('## 2.','## 3.'))){ if(/^[1-4]$/.test(r[0])){ YA[+r[0]-1]=orig(r[1]); YB[+r[0]-1]=orig(r[2]); } if(/^5/.test(r[0])) Y5=r[1]+'|'+r[2]; }
 const FK={情人節:'vday',三月十四:'white',七夕:'qixi',她的生日:'bday',聖誕:'xmas'}, X3={}; for(const r of rows(part('## 3.','## 3-1.'))) if(FK[r[0]]) X3[FK[r[0]]]=r[1];   /* 第 3 節的表（3-1 節的表多一欄「她在哪」，另外讀）*/

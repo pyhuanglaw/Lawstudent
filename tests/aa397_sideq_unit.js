@@ -34,7 +34,8 @@ const inPark=()=>{ const L=WZ_PARK_LAYOUT.area.back; E.player.obj.position.x=(L.
 let doc='', doc400='', doc408=''; try{ doc408=cp.execSync('git show 29e41dd8:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'}); doc=cp.execSync('git show 8f1701b23:"docs/story_planning/AA_397_店員的支線_順手的事.md"',{cwd:H.ROOT,encoding:'utf8'})+doc408
   +cp.execSync('git show 30bf21de8:"docs/story_planning/AA_404_店員的支線_第二批.md"',{cwd:H.ROOT,encoding:'utf8'})+cp.execSync('git show f923751c:"docs/story_planning/AA_405_店員的支線_第三批.md"',{cwd:H.ROOT,encoding:'utf8'})
     +cp.execSync('git show b0b80a54:"docs/story_planning/AA_408_店員支線補字_回LAWWW實作問題.md"',{cwd:H.ROOT,encoding:'utf8'})
-    +cp.execSync('git show ee0d6b70d:"docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"',{cwd:H.ROOT,encoding:'utf8'});   /* AA_465 第 2 節：貓的第 6 張照片換字 */   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
+    +cp.execSync('git show ee0d6b70d:"docs/story_planning/AA_465_法律系大四下讀一遍_畢業那一週的家人群組_子晴的貓_八學期總清單.md"',{cwd:H.ROOT,encoding:'utf8'})   /* AA_465 第 2 節：貓的第 6 張照片換字 */
+    +cp.execSync('git show 33189103b:"docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md"',{cwd:H.ROOT,encoding:'utf8'});   /* AA_498 第 1 節：SQ16 借車名單裡和 pool 撞名的兩個名字換成黃惠玲、鄭文彬 */   /* 第二、三批（SQ10～SQ20）的稿也在 SIDEQ.LINES 裡：逐字對稿在 tests/aa404_sideq_unit.js（AA_408 第 6 節的缺字在 b0b80a54）*/ doc400=cp.execSync('git show ce4f34378:"docs/story_planning/AA_400_子晴的測試版_HOOK_ZQ_GAME.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 /* ---- 0 ---- */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 kx_khh3d.js 後面',ok&&!!X()&&/kx_khh3d\.js\?v=[^"]+"><\/script>\n<script src="src\/sideq3d\.js\?v=[^"]+"><\/script>/.test(html),err);

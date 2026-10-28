@@ -29,10 +29,11 @@ let doc=''; try{ doc=cp.execSync('git show e81a1afe1:"docs/story_planning/AA_393
 try{ doc+='\n'+cp.execSync('git show d94d259ec:"docs/story_planning/AA_442_國外學期盤點_日本出發前五週_住家裡的家人群組.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_442 第 3 節改了提示那一句（「你禮拜六走，對吧。」）*/
 try{ doc+='\n'+cp.execSync('git show 5f54b6545:"docs/story_planning/AA_470_學姊第十二批_三種玩家總檢查_大一暑假到大四寒假補七場.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_470 4-5 加了 7/10 那一則 */
 try{ doc+='\n'+cp.execSync('git show a4f530c11:"docs/story_planning/AA_490_回LAWWW_學姊第十二批三件_法圖午休改週五_書推過去_讀書會撞期.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_490 4-2 換了 5/29 的第二句（SIS-B12-FIX-1027）*/
+try{ doc+='\n'+cp.execSync('git show 31a4c4002:"docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}   /* AA_508 0-2 第 3 點：4/17 改第三章第一頁、7/10 改第三章寫到一半 */
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. 新檔載得到、index.html 接在 sis_qixi3d.js 後面',ok1&&ok2&&!!X()&&/sis_qixi3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_jp_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_jp3d\.js\?v=[^"]+"><\/script>/.test(html));
   const all=J(SISJP_EVENTS)+J(SISJP_LINES), q=[...all.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISJP_LINES).flat().flatMap(x=>typeof x==='string'?[x]:(x&&x.L)||[]));
-  const OK=['📷（一張手寫的便條：那邊三月還冷。外套不要收進行李箱最下面。）','📷（行李箱，上面放著那件外套）','（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）'];   /* 照片：稿只寫「她傳便條的照片」「文字版」——程式寫的照片說明；交往版的便條＝稿「便條換成『…』」套朋友版那一行的寫法 */
+  const OK=['📷（一張手寫的便條：那邊三月還冷。外套不要收進行李箱最下面。）','📷（行李箱，上面放著那件外套）','（便條只有一句：「那邊三月還冷。外套我放了一件在你背包裡，不要問。」）',...(doc.includes('7/10「第五章寫到一半。」改「第三章寫到一半。」')&&doc.includes('七月每天三點下雨。第五章寫到一半。')?['七月每天三點下雨。第三章寫到一半。']:[])];   /* 7/10：AA_470 4-5 原句＋AA_508 0-2 第 3 點只換後半句（兩份稿都要讀得到）；照片：稿只寫「她傳便條的照片」「文字版」——程式寫的照片說明；交往版的便條＝稿「便條換成『…』」套朋友版那一行的寫法 */
   const notIn=[...new Set(q)].filter(t=>doc.indexOf(t)<0&&!OK.includes(t));
   check('0. 每一句台詞、選項都在稿裡（一字不差；照片說明兩則除外）',!!doc&&!notIn.length,J(notIn));
   check('0. SISY23.preTalk 包了這一層（_sisjp），sis_b4 那一層還在（_sisb4）',!!SISY23.preTalk._sisjp&&!!SISY23.preTalk._sisb4); });
@@ -53,7 +54,7 @@ await sec(1,async()=>{ fresh('2028-03-22',20); H.at('2028-03-22',21); ph();
 /* ---- 2 ---- */
 await sec(2,()=>{ fresh('2028-03-24',10); walk(D('2028-03-24'),D('2028-08-04')); const M=th().filter(m=>/^sisjp_m_/.test(m.tag||'')&&/^（照片/.test(m.text));
   check('2. 九則照順序、各一次：4/3、4/17、5/1、5/15、5/29、6/12、6/26、7/10（AA_470 4-5 加的）、7/24',J(M.map(m=>keyOf(m.day)))===J(['2028-04-03','2028-04-17','2028-05-01','2028-05-15','2028-05-29','2028-06-12','2028-06-26','2028-07-10','2028-07-24'])&&H.G.flags.SIS_JP_MSG===9,J(M.map(m=>keyOf(m.day))));
-  check('2. 臺灣週一 20:00＝遊戲時鐘（人在日本）21:00；照片＋那一句',M.every(m=>m.h===21&&CALENDAR.dateOf(m.day).wd===1)&&th().some(m=>m.text==='第四章。……說好拍給你看。'),J(M.map(m=>m.h)));
+  check('2. 臺灣週一 20:00＝遊戲時鐘（人在日本）21:00；照片＋那一句',M.every(m=>m.h===21&&CALENDAR.dateOf(m.day).wd===1)&&th().some(m=>m.text==='第三章。……說好拍給你看。'),J(M.map(m=>m.h)));
   fresh('2028-04-01',10); OUT.plan(H.G,{id:'t_busy',ev:'ev_x',day:D('2028-04-03'),h:21,place:'x',title:'x',travel:'',travelH:0}); walk(D('2028-04-01'),D('2028-04-05'));
   const m0=th().find(m=>m.tag==='sisjp_m_0'); check('2. 4/3 21:00 已經有出遊：順延到週二 4/4 同一時間',!!m0&&keyOf(m0.day)==='2028-04-04'&&m0.h===21,J(m0)); });
 /* ---- 3 ---- */

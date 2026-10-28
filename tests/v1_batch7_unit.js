@@ -105,7 +105,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('K1b：「晚一點可以嗎？」＝她回「那九點？你來吃第二輪。」、隔天 21:00',!!o&&o.h===21&&o.day===W6MON+1&&r1.includes('那九點？你來吃第二輪。'),JSON.stringify(o));
     ask(2); const r2=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text); const F2=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(W6MON+2,8,'campus',F2); G.msgs=msgs; G.phone=ph; run(8,13);
     const crown=G.msgs.filter(x=>x.tag==='kx_yule_crown');
-    check('K1b：「這週不行」＝她回「好，那下週換你請。」、不排出遊；後天中午傳予樂戴紙巾皇冠的照片',r2.includes('好，那下週換你請。')&&!OUT.get(G,'kx_yule')&&crown.length===1&&crown[0].day===W6MON+2&&crown[0].text==='📷（予樂戴著用紙巾做的皇冠）',JSON.stringify(crown.map(x=>[x.day,x.text])));
+    check('K1b：「這週不行」＝她回「好，那下週換你請。」、不排出遊；予樂戴紙巾皇冠的照片不再私訊（AA_503 9-3：改成可昕的動態第 3 則，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',r2.includes('好，那下週換你請。')&&!OUT.get(G,'kx_yule')&&crown.length===0,JSON.stringify(crown.map(x=>[x.day,x.text])));
     /* 演出 */
     fresh(W6MON+1,19,'dorm',{NCCU_VISITED:true}); OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:W6MON+1,h:19.5,place:'政大',title:'去政大見予樂',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發','所以我來政大','哪一科','週末換妳'];
     await tickOut(); const L=lines();
@@ -134,7 +134,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     const F1=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(SAT-1,8,'campus',F1); G.msgs=msgs; G.phone=ph; G.outings=[o]; run(8,20.5); const k=G.msgs.find(x=>x.tag==='kx_bbq_ask');
     check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
     { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
-      check('K3：「妳去妳們系的。」＝週六晚上她傳烤玉米的照片＋「我們的玉米比較好。」',JSON.stringify(c)==='["📷（烤玉米）","我們的玉米比較好。"]',JSON.stringify(c)); }
+      check('K3：「妳去妳們系的。」＝不再私訊烤玉米的照片（AA_503 9-3：改成可昕的動態第 2 則「我們的玉米比較好。」，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',c.length===0,JSON.stringify(c)); }
     const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',Object.assign({ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（v1_batch12 測）*/ if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
     let L=await playBBQ({},null,[]);
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));

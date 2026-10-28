@@ -11,7 +11,8 @@
    - 路人沒有名字，不會是有名字的角色（有名字的人只照作息出現，見 story3d.js）。
    - 教學館室內：時段照那一間教室今天的課（CLS.dayItems）和演講（ACTIVITIES）。上課前 20 分鐘在門口等，開始時走進教室、找空位坐下
      （變成那堂課的同學，下課時和大家一起走出去，classes3d.js syncRooms）；下課後 10 分鐘有人從教室出來、在門口聊一下，再走向出口。
-   - 溫州街小公園（AA_283，S.parkSpots）：每個人各自的位置、坐的位子、繞圈的路線（spot.people）；點了說一句（PARK.bindTap）。測試：node tests/wz_park_people_unit.js */
+   - 溫州街小公園（AA_283，S.parkSpots）：每個人各自的位置、坐的位子、繞圈的路線（spot.people）；點了說一句（PARK.bindTap）。測試：node tests/wz_park_people_unit.js
+   - 路人分科系（AA_495，CROWD-DEPTS-1028）：校園、總圖、社科圖、體育館、公館的路人是「X系的學生」、點了聽一句；兩個人的對話；教學館門口通識、必修的對話（下面 S.dept…，句子在 src/data/crowd_depts.js）。測試：node tests/crowd_depts_unit.js */
 'use strict';
 const CROWD=(function(){
   const S={};
@@ -57,7 +58,7 @@ const CROWD=(function(){
     for(const L of Ls) for(const w of (L.waitSpots||[])){ const r=L.rooms.find(q=>q.id===w.room); if(!r) continue; const ex=L.entrance.exit;
       out.push({ id:L.id+'_'+w.room, zone:L.id, lv:w.lv|0, label:L.name+' '+w.room+' 門口', c:[w.x,w.z], spread:[1.0,0.45], door:insideDoor(r), doorLv:r.lv|0, road:[ex.x,ex.z-0.7], roadLv:0, seatRoom:w.room, mix:true,
         slots(G){ const o=[]; if(typeof CLS!=='undefined') for(const it of CLS.dayItems(G)){ if(it.room.zone!==this.zone||it.room.room!==this.seatRoom) continue;
-            o.push({key:'pre|'+it.key,cls:it.key,t0:it.t0-1/3,t1:it.t0,n:[2,4],pose:'idle',talk:0.5,enter:'road',leave:'seat'}); o.push({key:'post|'+it.key,t0:it.t1,t1:it.t1+1/6,n:[2,4],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
+            o.push({key:'pre|'+it.key,cls:it.key,t0:it.t0-1/3,t1:it.t0,n:[2,4],pose:'idle',talk:0.5,enter:'road',leave:'seat',course:it.c}); o.push({key:'post|'+it.key,t0:it.t1,t1:it.t1+1/6,n:[2,4],pose:'talk',talk:0.8,enter:'door',leave:'road',course:it.c}); }   /* course：AA_495 第 3、4 節（通識、法律系必修的門口）*/
           if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.list){ if(a.zone!==this.zone||a.room!==this.seatRoom||!ACTIVITIES.on(a,G.day,G)) continue; const k='act:'+a.id+':'+G.day;
             o.push({key:'pre|'+k,cls:k,t0:a.t0-0.25,t1:a.t0,n:[3,6],pose:'talk',talk:0.6,enter:'road',leave:'seat'}); o.push({key:'post|'+k,t0:a.t1,t1:a.t1+0.25,n:[3,6],pose:'talk',talk:0.8,enter:'door',leave:'road'}); }
           return o.sort((p,q)=>p.t0-q.t0); } }); }
@@ -200,24 +201,145 @@ const CROWD=(function(){
     return [lobby,court,pe,b1,arena]; };
   /* 體育館路人「聽一句」（AA_489 第 4 節，AA-C 2026-10-27 定稿，句子照抄；使用者 X108「體育館不管哪裡都沒有人」）：
      每個人一句；同一次進來（GM.enterN＋區域）不重複，一種人的句子用完了其他人就不說；照區域輪（下一次進來從下一句開始：G.flags.gymHear＝{種類: 從第幾句}）。
-     散步的人、1F 長椅上的人沒有句子（AA 沒寫）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。*/
+     散步的人、1F 長椅上的人：AA_489 沒寫句子；AA_495（路人分科系）起是「體」的系（電機、醫學），說那個系的句子（S.deptGymOne）。B1 健身房的人（跑步機、深蹲架、啞鈴、重訓椅、墊子）＝運動的人；體育老師說話時用課堂上的稱呼。
+     AA_495「體育館加三句」（AA-C 2026-10-28，句子照抄）跟這 13 句一起輪：羽球場、籃球場、場邊各多一句，說的人是那個系的學生（W：那一句的說話的人；空的＝照 who）。*/
   S.GYM_HEAR={ desk_1f:{who:'工讀生',L:['學生證給我刷一下。','羽球場現場的只剩晚上那一面，要的話先登記。']},
-    badminton:{who:'打球的人',L:['剛剛那顆是界內吧？','再一局就好，我十點有課。']},
+    badminton:{who:'打球的人',L:['剛剛那顆是界內吧？','再一局就好，我十點有課。','剛剛那顆，我們系的規則是界內。'],W:[null,null,'外文系的學生']},
     pe_student:{who:'同學',L:['老師說期末要考發球。','我的拍線斷了，誰有多一支？']},
     pe_teacher:{who:'老師',L:['熱身兩圈，跑完到網子這邊集合。']},
     desk_b1:{who:'櫃台阿姨',L:['毛巾自己帶，器材用完擦一下。']},
     fit:{who:'運動的人',L:['你還要用嗎？我輪一組。','今天練腿。明天走樓梯會很好笑。']},
-    basketball:{who:'打球的人',L:['三對三，輸的下場。','傳球啦！']},
-    rest:{who:'看球的人',L:['我們系明天比賽，先來看場地。']} };
+    basketball:{who:'打球的人',L:['三對三，輸的下場。','傳球啦！','明天系盃。我們只求不要輸太多。'],W:[null,null,'化學系的學生']},   /* 化學系的學生（系隊外套：外觀給 LAWWW2）*/
+    rest:{who:'看球的人',L:['我們系明天比賽，先來看場地。','我們系每次比賽都來好多人，加油的比打球的多。'],W:[null,'醫學系的學生']} };
   S.gymHearKind=(spot,role)=>spot&&spot.gym==='b1'&&['treadmill','rack','dumbbell','bench','mat'].includes(role)?'fit':(spot&&spot.gym==='lobby'&&role!=='desk_1f'?null:role);
   let gymVisit=null;
-  S.gymBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n) return; const k=S.gymHearKind(this,p&&p.role), H=k&&S.GYM_HEAR[k]; if(!H) return;
+  S.gymBind=function(GM,n,p){ const G=GM&&GM.G; if(!G||!n) return; const k=S.gymHearKind(this,p&&p.role), H=k&&S.GYM_HEAR[k]; if(!H){ if(S.deptGymOne) S.deptGymOne(GM,this,n,p); return; }   /* 大廳散步的人、長椅上的人：AA_495 的系 */
     const vk=(GM.enterN|0)+':'+G.zone; if(!gymVisit||gymVisit.key!==vk) gymVisit={key:vk,used:{},start:{}};
     const F=G.flags||(G.flags={}), R=F.gymHear||(F.gymHear={}); if(gymVisit.start[k]==null){ gymVisit.start[k]=R[k]|0; R[k]=((R[k]|0)+1)%H.L.length; }   /* 這一次從第幾句開始；下一次從下一句 */
     const u=gymVisit.used[k]|0; if(u>=H.L.length) return; gymVisit.used[k]=u+1;
-    const t=H.L[(gymVisit.start[k]+u)%H.L.length], who=k==='pe_teacher'&&n.name?n.name:(k==='desk_b1'&&n.name?n.name:H.who);
+    const i=(gymVisit.start[k]+u)%H.L.length, t=H.L[i], w=H.W&&H.W[i], who=w||(k==='pe_teacher'&&n.name?n.name:(k==='desk_b1'&&n.name?n.name:H.who));
+    if(w){ n.name=w; n.dept=w.replace(/系的學生$/,''); }   /* AA_495 那三句：說的人是那個系的學生 */
     n.hear={who,t}; n.talkLabel='聽一句'; n.talk=()=>S.overhear(GM,n,[{who,t}]); };
   S.SPOTS.push(...S.gymSpots());
+  /* ===== 路人分科系（AA_495，AA-C 2026-10-28 定稿，句子照抄；CROWD-DEPTS-1028、USER_WANTS X120；句子在 src/data/crowd_depts.js）=====
+     使用者 10-28：「路人也是 一堆 上課坐在後排的 路上遇到的 有必要嗎 都沒有別的系的學生 當台大只有法律系嗎」。
+     - 一個人一句（第 1 節）：校園（椰）、總圖和社科圖（圖）、體育館（體）、公館（館）的路人生出來時照地點抽一個系（同一群人先把那個地點的系輪一遍再重複；同一天同一群人是同一些系），
+       名字＝「電機系的學生」（說話的人的名字，和體育館的「打球的人」同一種寫法；遊戲沒有頭上的名牌，點了以後對話框上的名字）。
+       點了聽一句：照時段選欄（考試 → 開學 → 寒暑假 → 晚上 → 平常；那個系沒寫的欄用平常；寒暑假只出寫了「寒暑假」的系）；
+       輪法照 AA_489 第 4 節（體育館）：同一次進來（GM.enterN＋區域）同一個系同一欄的句子不重複、用完了其他人就不說；下一次進來從下一句開始（G.flags.deptHear）。
+       旁白寫「他」「她」的句子只給男生、女生（extraSpec：偶數＝女生）。旁白先出、再出那一句（第 0-3 節）。走路的人點了先停下來、面向你，說完再繼續走（第 5 節）。
+       誰：story3d.js 用 GM.spawnExtra 生的走路的人（進區域時，S.enter 的最後）、共同教學館門口（校園）的人、體育館大廳散步的人和長椅上的人。
+       這些人在按鈕上最後才算（yieldIt，engine3d.js nearestInteractable）：旁邊有別的互動點（出口、座位、公告欄）或別的人（有名字的同學）時不擋——路人很多，不能讓「進入○○」「和小安說話」變成「聽一句」。
+     - 兩個人的對話（第 2 節）：一個地點同時只放一組、一段一天聽一次（G.flags.deptTalkDay）；點了照順序出整段，說話的人是那一個。
+       椰、館＝兩個走路的人一起走（第二個人跟著第一個：beh buddy）；圖＝相鄰的兩個空位一起坐（總圖大廳 2F、3F 閱覽區、社科圖，開館時；第 15 組：工讀的人站在座位旁邊）；
+       體＝1F 場邊的長椅一起坐（開館時、不是典禮的日子、一層 16 個人放得下）。
+       那個時段沒有對話的地點用「平常」那幾段（寒暑假除外）。
+     - 教學館教室門口（第 3、4 節；indoorSpots 的 pre|、post|）：通識（courses.js kind:'general'）各系混著，法律系必修（kind:'required'，經濟系那一年的必修除外）都是法律系；
+       最後走進教室的兩個（三個）人出那一段（等的人照順序走進去：S.goTime）。霖澤館 201、萬才館的教室門口沒有等的人（indoorSpots 只有共同、博雅、普通），那裡的第 4 節還沒有。
+     - 經濟系那一年（Y0）照同一套。沒有載入 crowd_depts.js（測試）＝照舊。測試：node tests/crowd_depts_unit.js */
+  const DP=()=>typeof CROWD_DEPTS!=='undefined'?CROWD_DEPTS:null;
+  S.deptPlace=zone=>{ const D=DP(); return (D&&D.ZONES[zone])||null; };
+  S.deptName=id=>id+'系的學生';
+  S.npcSex=n=>{ const u=n&&n.obj&&n.obj.userData, sp=u&&(u.buildSpec||u.spec); return (sp&&sp.sex)||null; };
+  /* 時段（第 0-2 節）：exam＝期中、期末週；open＝學期第 1～2 週；brk＝沒有學期；eve＝18:00 以後（到清晨 6 點）*/
+  S.deptFlags=function(G){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, h=hr(G); return {T,exam:!!(T&&T.exam),open:!!(T&&T.week<=2),brk:!T,eve:h>=18||h<6,rain:G.weather==='rain'||G.weather==='typhoon'}; };
+  S.deptCol=function(G){ const f=S.deptFlags(G); return f.exam?'考試':(f.open?'開學':(f.brk?'寒暑假':(f.eve?'晚上':'平常'))); };
+  /* 這個地點、這個時段會出現的系（圖資只在總圖；寒暑假只有寫了寒暑假那一欄的）*/
+  S.deptPool=function(G,zone){ const D=DP(), pl=S.deptPlace(zone); if(!D||!pl) return []; const brk=S.deptCol(G)==='寒暑假';
+    return D.DEPTS.filter(d=>d.at.includes(pl)&&(!d.mainLib||!!D.MAIN_LIB[zone])&&(!brk||!!d.L['寒暑假'])); };
+  /* 一群人（salt）的第 k 個人的系：照日期＋區域＋salt 洗牌，先把各系輪一遍再重複 */
+  S.deptPick=function(G,zone,salt,k,pool){ pool=pool||S.deptPool(G,zone); if(!pool.length) return null; const r=prng(hash('dept|'+zone+'|'+salt+'|'+G.day)), a=pool.slice();
+    for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a[(k|0)%a.length]; };
+  /* 稿上的一句 → 旁白（開頭的括號）＋那一句（「」裡面）；旁白寫「他」「她」＝只給男生／女生 */
+  S.deptSteps=function(raw,who){ const m=String(raw).match(/^(（[^）]*）)?「([\s\S]*)」$/); if(!m) return [{who:null,t:String(raw)}]; const out=[]; if(m[1]) out.push({who:null,t:m[1]}); out.push({who,t:m[2]}); return out; };
+  S.deptSex=raw=>/^（他/.test(raw)?'m':(/^（她/.test(raw)?'f':null);
+  /* 對話那一格（A：…／B：…）→ 一句一句；by＝第幾個人（A＝0）*/
+  S.deptTalkSteps=function(d,names){ return String(d).split('／').map(s=>{ const m=s.match(/^([ABC])：([\s\S]*)$/), i=m?'ABC'.indexOf(m[1]):-1; return m?{by:i,who:(names&&names[i])||null,t:m[2]}:{by:-1,who:null,t:s}; }); };
+  S.deptSpeakers=d=>Math.max(...S.deptTalkSteps(d,[]).map(s=>s.by))+1;
+  /* 同一次進來（AA_489 第 4 節的輪法）：start＝這一次每一種從第幾句開始（第一次用到時讀 G.flags.deptHear、往下推一句），used＝這一次用過的 */
+  let deptVisit=null;
+  const dVisit=GM=>{ const vk=(GM.enterN|0)+':'+GM.G.zone; if(!deptVisit||deptVisit.key!==vk) deptVisit={key:vk,start:{},used:{}}; return deptVisit; };
+  const dStart=(GM,key,len)=>{ const V=dVisit(GM), F=GM.G.flags||(GM.G.flags={}), R=F.deptHear||(F.deptHear={}); if(V.start[key]==null){ V.start[key]=(R[key]|0)%len; R[key]=((R[key]|0)+1)%len; } return V.start[key]; };
+  /* 這個系的人（性別 sex）這一次說哪一句：照時段選欄；同一欄這一次用過的不再用、旁白的性別要對；都用完了＝null（這個人不說）*/
+  S.deptLine=function(GM,d,sex){ const c0=S.deptCol(GM.G), col=d.L[c0]?c0:'平常', L=d.L[col]||[]; if(!L.length) return null; const key=d.id+':'+col, st=dStart(GM,key,L.length), V=dVisit(GM), used=V.used[key]||(V.used[key]=[]);
+    for(let u=0;u<L.length;u++){ const i=(st+u)%L.length; if(used.includes(i)) continue; const sx=S.deptSex(L[i]); if(sx&&sx!==sex) continue; used.push(i); return L[i]; } return null; };
+  /* 點了：走路的人先停下來、面向你（照原本的路線點，說完往同一個點繼續走）；一起走的人一起停 */
+  S.deptHold=function(GM,n,on){ const E=GM.E; if(!n||!n.obj) return;
+    if(on){ n._dHold={face:n.faceYaw}; if(n.beh==='route'){ if(n.path&&n.path.length){ n.path=null; n.onArrive=null; const w=n.waypoints; if(w&&w.length) n.ri=((n.ri|0)-1+w.length)%w.length; } n.timer=1e9; }
+      n.speed=0; if(n.pose==='walk'||n.pose==='run') n.pose=n.idlePose||'idle'; const P=E&&E.player&&E.player.obj&&E.player.obj.position; if(P&&!n.frozen&&!n.seat) n.faceYaw=Math.atan2(P.x-n.obj.position.x,P.z-n.obj.position.z); }
+    else if(n._dHold){ const h=n._dHold; n._dHold=null; if(n.beh==='route') n.timer=0.3; n.faceYaw=h.face==null?null:h.face; } };
+  S.deptHear=async function(GM,ppl,steps){ if(!GM||!GM.G||(GM.D&&GM.D.active)) return false; const hold=[];
+    for(const m of ppl){ if(!m) continue; if(m.beh==='buddy'&&m.buddy&&!hold.includes(m.buddy)) hold.push(m.buddy); if(!hold.includes(m)) hold.push(m); }
+    for(const m of hold) S.deptHold(GM,m,true);
+    try{ GM.sceneBegin(); try{ const E=GM.E, P=E&&E.player, f=steps.find(s=>s.obj)||{obj:ppl[0]&&ppl[0].obj}; if(GM.face&&P&&f.obj) GM.face(P,f.obj.position.x,f.obj.position.z);
+        for(const s of steps) await GM.say(s.who?{name:s.who,obj:s.obj}:null,s.t); } finally { GM.sceneEnd(); } }
+    finally { for(const m of hold) S.deptHold(GM,m,false); }
+    return true; };
+  /* 一個人一句：名字＝那個系的學生；這一次輪到句子才能點（聽一句）。o.yield：旁邊有互動點時不擋 */
+  S.deptOne=function(GM,n,d,sex,o){ if(!n||!d) return null; const nm=S.deptName(d.id); n.dept=d.id; n.name=nm; if(o&&o.yield) n.yieldIt=true; const raw=S.deptLine(GM,d,sex); if(!raw) return n;
+    const st=S.deptSteps(raw,nm); n.deptLine=raw; n.hear={who:nm,t:st[st.length-1].t}; n.talkLabel='聽一句'; n.talk=()=>S.deptHear(GM,[n],st.map(s=>({who:s.who,t:s.t,obj:s.who?n.obj:null}))); return n; };
+  /* 兩個（三個）人的對話：點誰都是整段；聽完了這一天不再出（一段一天一次），兩個人都不能再點 */
+  S.deptUntalk=n=>{ for(const m of (n&&n.deptPair)||[n]){ if(m){ m.talk=null; m.talkLabel=null; } } };
+  S.deptPairTalk=function(GM,ppl,conv,id,names){ ppl.forEach((m,i)=>{ m.name=names[i]; m.dept=names[i].replace(/系的學生$/,''); m.deptTalk=id; m.deptPair=ppl; m.talkLabel='聽一句';
+      m.talk=async()=>{ const steps=S.deptTalkSteps(conv.d,names).map(s=>({who:s.who,t:s.t,obj:s.by>=0&&ppl[s.by]?ppl[s.by].obj:null})); const done=await S.deptHear(GM,ppl,steps);
+        if(done){ const G=GM.G, F=G.flags||(G.flags={}); (F.deptTalkDay||(F.deptTalkDay={}))[id]=G.day; S.deptUntalk(m); } }; }); };
+  /* 選一段：照輪的順序（G.flags.deptHear 的 talk:…），這一次放過的、今天聽過的跳過 */
+  S.deptTalkPick=function(GM,key,list,pre){ if(!list||!list.length) return null; const G=GM.G, H=(G.flags&&G.flags.deptTalkDay)||{}, k='talk:'+key, st=dStart(GM,k,list.length), V=dVisit(GM), used=V.used[k]||(V.used[k]=[]);
+    for(let u=0;u<list.length;u++){ const c=list[(st+u)%list.length], id=pre+c.n; if(used.includes(id)||H[id]===G.day) continue; used.push(id); return c; } return null; };
+  S.closingSoon=(G,zone)=>{ if(typeof PLACES==='undefined'||!PLACES.isOpen||!PLACES.hours||!PLACES.hours[zone]) return false; const h=hr(G); return PLACES.isOpen(zone,h,G.day)&&!PLACES.isOpen(zone,h+0.5,G.day); };
+  /* 第 2 節：這個地點、這個時段的對話（圖資的只在總圖）；沒有就用「平常」那幾段（寒暑假除外）*/
+  S.deptTalksAt=function(G,place,zone){ const D=DP(); if(!D) return []; const f=S.deptFlags(G), col=S.deptCol(G);
+    const ok=w=>w==='考試、晚上'?(f.exam&&f.eve):(w==='晚上（閉館前 30 分鐘）'?(f.eve&&S.closingSoon(G,zone)):(w==='平常（下雨）'?(col==='平常'&&f.rain):w===col));
+    const at=D.TALKS.filter(c=>c.at===place&&(!c.who.includes('圖資')||!!D.MAIN_LIB[zone]));
+    const L=at.filter(c=>ok(c.when)); return L.length||col==='寒暑假'?L:at.filter(c=>c.when==='平常'); };
+  /* 第 3、4 節：這一堂課、上課前／下課後的對話；有特別寫的週次（第 1 週、第 6～7 週、考試、第 13 週以後、最後一週、考試前一週）先用，沒有就用「平常」*/
+  S.deptDoorTalks=function(G,c,ph,list,T){ const w=T.week; const ok=x=>{ switch(x.when){ case '第 1 週': return w===1; case '第 6～7 週': return w>=6&&w<=7; case '考試': return !!T.exam; case '第 13 週以後': return w>=13; case '最後一週': return T.exam==='final';
+        case '考試前一週': { const T7=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day+7):null; return !T.exam&&!!(T7&&T7.id===T.id&&T7.exam); } } return false; };
+    const L=list.filter(x=>x.ph===ph&&(!x.course||x.course==='通識'||x.course===c.id)), sp=L.filter(x=>x.when!=='平常'&&ok(x)); return sp.length?sp:L.filter(x=>x.when==='平常'); };
+  /* 椰、館：兩個走路的人一起走（第一個照原本的路線，其他人跟著；站得住的位置放在旁邊）*/
+  S.deptWalkPair=function(GM,walkers,k){ const E=GM.E, L=walkers[0]; if(!L||walkers.length<k) return null; const P=L.obj.position, lv=L.lv|0, spots=[];
+    for(let i=1;i<k;i++){ const s=1+0.5*(i-1); let p=null; for(const [dx,dz] of [[0.85,0],[-0.85,0],[0,0.85],[0,-0.85],[0.6,0.6],[-0.6,-0.6],[0.6,-0.6],[-0.6,0.6]]){ const x=+(P.x+dx*s).toFixed(2), z=+(P.z+dz*s).toFixed(2); if(E.canStand&&!E.canStand(x,z,0.3,lv)) continue; p=[x,z]; break; } if(!p) return null; spots.push(p); }
+    const out=walkers.slice(0,k); out.slice(1).forEach((f,i)=>{ const p=spots[i]; if(E.placeAt) E.placeAt(f,p[0],p[1],lv); else f.obj.position.set(p[0],f.obj.position.y,p[1]);
+      f.beh='buddy'; f.buddy=L; f.side=i%2?-1:1; f.followOff=0.85+0.45*Math.floor(i/2); f.waypoints=null; f.path=null; f.onArrive=null; f.frozen=false; f.pose=f.idlePose='idle'; }); return out; };
+  /* 圖、體：相鄰的兩個空位（同一排、同一個方向、隔 0.8～1.75 m）；stand＝一個位子＋旁邊站的地方（第 15 組）。體育館只用 1F 球場這邊的位子（大廳的長椅留給玩家）。
+     從座位表後面往前找（劇情用的固定位子都在前面）；劇情寫死的位子不坐（DEPT_KEEP：總圖大廳 0、1＝小安「總圖的下午」，library3d.js；社科圖 16＝r3_3d.js SK12）；
+     坐下的人有 seat：作息（populateSchedule）、約出去（INV.pairSeats）、樓上的自習區都會避開 */
+  S.DEPT_KEEP={library_hall:[0,1],soclib:[16]};
+  S.DEPT_SIT={library_hall:1,library:1,soclib:1,gym:1};   /* 一起坐的對話放在哪些區域：總圖大廳（2F 自習區）、總圖 3F 閱覽區、社科圖、體育館 1F。B1 自習室、5F 書庫、研究小間有自己的人（LB1、LUP）和討論室的劇情站位，不放 */
+  S.deptSeatPair=function(GM,zone,stand){ const E=GM.E, G=GM.G, seats=(E.zone&&E.zone.seats)||[], N=seats.length; if(!N) return null; const near=(a,b)=>Math.hypot(a.x-b.x,a.z-b.z), keep=(S.DEPT_KEEP[zone]||[]).map(i=>seats[i]);
+    const busy=st=>!!st.taken||E.npcs.some(n=>{ const q=n.seat||n.seatTarget||(n.obj&&n.obj.position); return !!q&&(n.lv|0)===(st.lv|0)&&near(q,st)<0.45; })||!!(E.player&&E.player.seat&&near(E.player.seat,st)<0.45);
+    const ok=st=>(zone!=='gym'||st.z<11)&&!keep.includes(st)&&!st.label&&!busy(st)&&!!S.seatSide(E,st), yd=(a,b)=>Math.abs(Math.atan2(Math.sin((b.yaw||0)-(a.yaw||0)),Math.cos((b.yaw||0)-(a.yaw||0))));
+    const o=Math.floor(prng(hash('dseat|'+zone+'|'+G.day))()*Math.max(1,Math.floor(N/2)));   /* 照日期換一點位置（都在後半段開始找）*/
+    for(let u=0;u<N;u++){ const a=seats[((N-1-o-u)%N+N)%N]; if(!ok(a)) continue; if(stand) return [a,S.seatSide(E,a)];
+      const fx=Math.sin(a.yaw||0), fz=Math.cos(a.yaw||0), b=seats.find(b=>b!==a&&(b.lv|0)===(a.lv|0)&&yd(a,b)<0.1&&near(a,b)>0.8&&near(a,b)<1.75&&Math.abs((b.x-a.x)*fx+(b.z-a.z)*fz)<0.15&&ok(b)); if(b) return [a,b]; }
+    return null; };
+  S.deptSpawn=function(GM,spec,x,z,lv,yaw,pose,seat){ const E=GM.E; if(typeof CHAR==='undefined'||typeof STORY==='undefined'||!STORY.extraSpec||!E.addNPC) return null; const o=CHAR.build(STORY.extraSpec(spec)); o.position.set(x,0,z); o.rotation.y=yaw||0;
+    return E.addNPC({obj:o,name:'',beh:'idle',pose,idlePose:pose,frozen:true,isExtra:true,lv:lv|0,seat:seat||undefined,deptSeat:true}); };
+  /* 進區域（S.enter 的最後；story3d.js 的路人都生好了）：兩個人的對話、走路的人一人一句 */
+  S.deptEnter=function(GM,zone){ const D=DP(), E=GM&&GM.E, G=GM&&GM.G; if(!D||!E||!G||!E.npcs) return; const pl=D.ZONES[zone]; if(!pl) return; const h=hr(G);
+    const walkers=E.npcs.filter(n=>n&&n.isExtra&&n.beh==='route'&&!n.crowd&&!n.name&&!n.talk&&!n.clerk&&!n.fairCrowd);   /* GM.spawnExtra 的走路的人（社博的新生、店員、有名字的人不算）*/
+    let used=[]; const open=pl==='圖'?(!!S.DEPT_SIT[zone]&&(typeof PLACES==='undefined'||!PLACES.isOpen||PLACES.isOpen(zone,h,G.day))):(pl==='體'?(zone==='gym'&&E.npcs.length+2<=16&&(()=>{ const H=S.gymHours(G); return !!H&&h>=H[0]&&h<H[1]&&!(typeof GY3!=='undefined'&&GY3.ceremonyDay&&GY3.ceremonyDay(G)); })()):true);   /* 體育館一層最多 16 個完整人物（手機效能，gym_crowd_unit）：放不下兩個人就不放 */
+    const conv=open?S.deptTalkPick(GM,pl,S.deptTalksAt(G,pl,zone),'t'):null;
+    if(conv){ const id='t'+conv.n, names=conv.who.map(S.deptName);
+      if(pl==='椰'||pl==='館'){ const ppl=S.deptWalkPair(GM,walkers,conv.who.length); if(ppl){ used=ppl; ppl.forEach(m=>{ m.yieldIt=true; }); S.deptPairTalk(GM,ppl,conv,id,names); } }
+      else { const stand=conv.who.includes('圖資'), sp=S.deptSeatPair(GM,zone,stand); if(sp){ const base=900+((G.day*7)%30)*2, pose=pl==='體'?'sit':'read', mk=(st,i)=>S.deptSpawn(GM,base+i*3,st.x,st.z,st.lv,st.yaw,pose,{x:st.x,z:st.z,yaw:st.yaw||0,lv:st.lv|0});
+          const ppl=stand?[S.deptSpawn(GM,base,sp[1][0],sp[1][1],sp[0].lv,Math.atan2(sp[0].x-sp[1][0],sp[0].z-sp[1][1]),'idle',null),mk(sp[0],1)]:[mk(sp[0],0),mk(sp[1],1)];   /* 第 15 組：A（圖資，工讀）站在座位旁邊、面向 B */
+          if(ppl.every(Boolean)) S.deptPairTalk(GM,ppl,conv,id,names); } } }
+    walkers.filter(n=>!used.includes(n)).forEach((n,k)=>{ const d=S.deptPick(G,zone,'walk',k); if(d) S.deptOne(GM,n,d,S.npcSex(n),{yield:true}); }); };
+  /* crowd3d 的一群人（S.giveLines 之後）：教學館門口＝第 3、4 節；校園的門口（共同教學館）＝一人一句。自己有句子的地點（女舍、法服、小公園、體育館）不加 */
+  S.deptGroup=function(GM,spot,slot,npcs){ const D=DP(); if(!D||!GM||!GM.G||spot.lines||spot.people||!npcs.length) return; const G=GM.G;
+    if(spot.seatRoom){ S.deptDoor(GM,spot,slot,npcs); return; }
+    if(!S.deptPlace(spot.zone)) return;
+    npcs.forEach((n,k)=>{ const d=S.deptPick(G,spot.zone,spot.id+'|'+slot.key,n.deptK!=null?n.deptK:k); if(d) S.deptOne(GM,n,d,n.deptSex,{yield:true}); }); };
+  S.deptDoor=function(GM,spot,slot,npcs){ const D=DP(), G=GM.G, c=slot.course, T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!D||!c||!T) return;
+    const ph=/^pre\|/.test(slot.key)?'pre':'post', ge=c.kind==='general', law=c.kind==='required'&&!/^Y0/.test(T.id); if(!ge&&!law) return;   /* 經濟系那一年的必修、選修、演講：照舊 */
+    const pool=D.DEPTS.filter(d=>!d.mainLib); npcs.forEach((n,k)=>{ const id=law?'法律':S.deptPick(G,spot.zone+'|door',spot.id+'|'+slot.key,n.deptK!=null?n.deptK:k,pool).id; n.dept=id; n.name=S.deptName(id); });   /* 通識各系混著、必修都是法律系 */
+    const conv=S.deptTalkPick(GM,(law?'law:':'ge:')+ph,S.deptDoorTalks(G,c,ph,law?D.LAW:D.GE,T),law?'l':'g'); if(!conv) return;
+    const k=S.deptSpeakers(conv.d); if(npcs.length<k) return; const ppl=npcs.slice(-k);   /* 最後走進教室的那幾個 */
+    S.deptPairTalk(GM,ppl,conv,(law?'l':'g')+conv.n,law?ppl.map(()=>S.deptName('法律')):conv.who.map(S.deptName)); };
+  /* 體育館大廳散步的人、長椅上的人（S.gymBind）：體的系 */
+  S.deptGymOne=function(GM,spot,n,p){ if(!DP()||!spot||spot.gym!=='lobby'||!p||(p.role!=='walker'&&p.role!=='bench')) return; const ks=String(p.key||'').split('|'), d=S.deptPick(GM.G,spot.zone,spot.id+'|'+(ks[1]||''),+ks[2]||0);
+    if(d) S.deptOne(GM,n,d,typeof p.spec==='number'?(p.spec%2===0?'f':'m'):S.npcSex(n),{yield:true}); };
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定（spot.people：每個人的位置由那個地點自己排，小公園）*/
   S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); if(spot.people) return spot.people(G,slot,r); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*(slot.fixed?1:((typeof STORY!=='undefined'&&STORY.CROWD_X)||1)));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）；fixed：攤位的社員這種固定人數的不加倍 */ const out=[]; const base=1000+Math.floor(r()*500);
@@ -267,9 +389,11 @@ const CROWD=(function(){
       const slv=fromDoor?(byDoor?(spot.doorLv|0):(spot.roadLv!=null?spot.roadLv:lv)):lv;   /* 室內：從教室門口（教室那一層）或建築出口（一樓）出來 */
       o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv,home:{x:p.x,z:p.z,yaw:p.yaw,pose:p.pose}});
       if(slot.cls){ n.crowdCls=slot.cls; n.crowdIdx=k; }   /* 等這一堂課的人：classes3d.js 的 syncRooms 把他算進這堂課的人數（不會多排人從大門進來）；第 k 個人照 S.goTime 走進教室 */
+      n.deptK=k; n.deptSex=p.spec%2===0?'f':'m';   /* AA_495：這一群人的第幾個、性別（extraSpec 偶數＝女生）*/
       if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
     S.giveLines(GM,spot,slot,npcs);
+    try{ S.deptGroup(GM,spot,slot,npcs); }catch(e){ console.warn('CROWD.deptGroup',e); }   /* AA_495：路人的系、教室門口的對話 */
     live[spot.id]={slotKey:slot.key,npcs,n:grp.length}; }
   /* 點了可以聽一句的路人（spot.lines(G,slot)＝這個時段的句子；一句給一個人，allTalk＝每個人都是同一串）*/
   S.giveLines=function(GM,spot,slot,npcs){ if(!spot.lines) return []; const L=spot.lines(GM.G,slot)||[]; const out=[];
@@ -300,7 +424,7 @@ const CROWD=(function(){
   S.GO_LEAD=1/6;
   S.goTime=(slot,k,n)=>slot.t1-S.GO_LEAD+(k+0.5)*S.GO_LEAD/Math.max(1,n);
   function goIn(GM,spot,slot,L){ const h=hr(GM.G), E=GM.E; let used=null;
-    for(const n of L.npcs.slice()){ if(n.crowdIdx==null||h<S.goTime(slot,n.crowdIdx,L.n||L.npcs.length)) continue; L.npcs.splice(L.npcs.indexOf(n),1); if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null;
+    for(const n of L.npcs.slice()){ if(n.crowdIdx==null||h<S.goTime(slot,n.crowdIdx,L.n||L.npcs.length)) continue; L.npcs.splice(L.npcs.indexOf(n),1); if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null; if(n.deptPair) S.deptUntalk(n);   /* AA_495：一起說話的人有一個走進去了，那一段就不能點 */
       used=used||new Set(); if(toSeat(GM,spot,slot.cls,n,used)) continue; walkAwayCrowd(GM,spot,n,'seat'); } }
   /* ---------- 等的人、聊天的人的小動作（CROWD-CLASS-ARRIVE-1027：「一坨人都不會動」）----------
      每個人每 4～10 秒（真實時間）換一個小動作，只用現有的動畫：轉頭看旁邊的人／和他聊兩句（talk）、手插口袋／拿出來、轉身換個方向（慢慢轉）、偶爾走一兩步再站好（離原本的位置 0.8 m 以內）、回到原本的樣子。
@@ -329,7 +453,8 @@ const CROWD=(function(){
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); }
       else if(slot&&slot.cls&&live[spot.id]&&!instant) goIn(GM,spot,slot,live[spot.id]); } }   /* 上課前 10 分鐘起分批走進教室 */
   /* 進到區域（story3d.js 的 populate 最後呼叫）：照現在的時間直接排好 */
-  S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true); };
+  S.enter=function(GM,zoneId){ for(const k in live) delete live[k]; pend.length=0; zoneNow=zoneId; lastH=GM.G.hour; sync(GM,true);
+    try{ S.deptEnter(GM,zoneId); }catch(e){ console.warn('CROWD.deptEnter',e); } };   /* AA_495：story3d.js 生好的路人（走路的人）一人一句、兩個人的對話 */
   /* 玩家坐著上完課、聽完演講（classes3d.js 的 keepCrowd）：時間是待在這裡過完的，不算「時間跳了」——正在走出去的同學照樣走完（2026-10-13 審查：原本下一次 tick 會把他們一起拿掉）*/
   S.keep=function(G){ lastH=G.hour; };
   /* 轉暗、時間過去以後（classes3d.js：提早坐下上課，先等到上課時間）：照新的時間直接重排門口的人（和「時間跳了」一樣；玩家在黑畫面裡沒看到中間那段）*/

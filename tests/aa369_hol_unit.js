@@ -63,7 +63,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('H1. 沒有交往：沒有那則私訊',!TH('p:heroine_01').some(m=>m.tag==='va10_dm_heroine_01')); }
   // ===== H2 白色情人節、H3 阿哲 =====
   { const src=fs.readFileSync(path.join(ROOT,'src/data/r2y3b_events.js'),'utf8');
-    check('H2. 2028 白色情人節（沒送過那一版）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。」；沒有「我在臺中」「理由欄我寫了」',src.includes("text:'二月十四號那天，我在讀書。……你也沒說什麼。'")&&src.includes("text:'（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。'")&&!src.includes('我在臺中，你在臺北')&&!src.includes('理由欄我寫了'));
+    check('H2. 2028 白色情人節（沒送過那一版）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。」（AA_508 0-2 第 8 點換掉禁用句型）；沒有「我在臺中」「理由欄我寫了」',src.includes("text:'二月十四號那天，我在讀書。……你也沒說什麼。'")&&src.includes("text:'（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。'")&&!src.includes("text:'（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。'")&&!src.includes('我在臺中，你在臺北')&&!src.includes('理由欄我寫了'));
     check('H3. 大三下期末飯阿哲：「大四了欸。」「暑假我回高雄，書帶回去讀。」',J(TERMEND_LINES.POOL.Y3S2.zhe)===J(['大四了欸。','暑假我回高雄，書帶回去讀。']),J(TERMEND_LINES.POOL.Y3S2.zhe)); }
   // ===== H4 同行的人 =====
   { fresh(D('2026-08-24'),6,'dorm',{}); R('kai','FAM'); R('heroine_03','FAM'); R('yu','FAM'); VAC.signup(G,'C05@Y1','yes'); said=[]; picks=[0,0];
@@ -169,7 +169,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const t2=[pr('npc_fangyt','2027-07-31'),pr('npc_fangyt','2027-08-01'),pr('npc_fangyt','2027-08-04'),pr('npc_fangyt','2027-08-05')];
     check('L2. T02 方奕廷 8/1～8/4 在日本（短期出門、手機照常）',t2[0].here===true&&t2[1].kind==='trip'&&t2[1].signal===true&&t2[2].kind==='trip'&&t2[3].here===true,J(t2));
     const t3=[pr('heroine_04','2028-07-02'),pr('heroine_04','2028-07-03'),pr('heroine_04','2028-07-07'),pr('heroine_04','2028-07-08')];
-    check('L2. T03 子晴 7/3～7/7 在曼谷（同阿凱）',t3[0].here===true&&t3[1].kind==='trip'&&t3[1].away==='在曼谷'&&t3[2].kind==='trip'&&t3[3].here===true,J(t3)); }
+    check('L2. T03 子晴 7/3～7/7 在曼谷（同阿凱）；7/2 那天是 AA_508 0-2 第 4 點的「回家住一陣子」（6/12～7/2）',t3[0].here===false&&t3[0].kind==='home'&&t3[1].kind==='trip'&&t3[1].away==='在曼谷'&&t3[2].kind==='trip'&&t3[3].here===true,J(t3)); }
   // ===== L3 出國期間的訊息池不分目的地、星期、季節 =====
   { const M=VAC_DATA.TRIP_MSG.gf, P=id=>[].concat(...M[id].pool.map(x=>typeof x==='function'?x({events:{done:{}}}):x)).concat(M[id].mid), all=[].concat(P('kexin'),P('heroine_01'),P('heroine_04'),P('heroine_05'));
     check('L3. 可昕「這個週末記得視訊」「高雄今天出大太陽。你那邊呢」；子晴「你那邊幾點 我這邊還沒睡」；學姊「我今天在法圖待到閉館。你那邊現在幾點。」',
