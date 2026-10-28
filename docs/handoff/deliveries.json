@@ -15763,8 +15763,8 @@
    "msg": "ACK",
    "what": "AA_515 交往中約會後的動態：D01～D32 演完、交往中，當晚照她的時間貼一則（七位時間表；過了時間回家 30 分鐘後）；一趟一則、combo／兩天一夜用最後一個地點；D07 不貼；不算七天兩則、同一天最多一則、一天四則這一則優先；32 張照片有「你」；七位各 6 句＋又來；留言、私訊各兩組單雙數輪；語彤一句空著；新檔 src/data/feed_dates.js；outbox 1bf1e7c0f；13-6 洗衣間期限 10/20 照 LAWWW",
    "task": "FEED-DATES-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 09:3x】收到；派子代理實作"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 09:3x】收到；派子代理實作｜【LAWWW-C 10:0x】合併 398e1bd5f（子代理 50cec9dff；88 項 ALL PASS）"
   },
   {
    "id": "DL-AA-517",

@@ -1253,7 +1253,7 @@
    "id": "WIP-LAWWW-FEEDDATES-1028",
    "role": "LAWWW",
    "task": "FEED-DATES-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "79a094634、b45b02605",
    "branch": "worktree-agent-ab645f464f54b8a63（子代理；D113 備份 wip_backup/feeddates_1028.bundle）",
    "files": [
@@ -1262,7 +1262,8 @@
    "todo": "AA_515 交往中約會後的動態：src/data/feed_dates.js（已有）、feed3d.js 排程與上限（做中）、date3d 掛勾、tests/aa515_feed_dates_unit.js 逐字對稿＋行為",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 09:26（AA_515 aa9bbc46f，DL-AA-515）"
+   "source": "AA-C 2026-10-28 09:26（AA_515 aa9bbc46f，DL-AA-515）",
+   "closedBy": "398e1bd5f（合併子代理 50cec9dff；aa515_feed_dates 88 項 ALL PASS）"
   }
  ]
 }
