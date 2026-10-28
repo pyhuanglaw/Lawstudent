@@ -1,0 +1,21 @@
+--- a/tests/stale_lock_escape.py	2026-10-28 06:25:50.170854692 +0000
++++ b/tests/stale_lock_escape.py	2026-10-28 06:25:50.185050507 +0000
+@@ -31,10 +31,16 @@
+         s1 = await pg.evaluate("({stale:GAME.D.stale,busy:GAME.E.player.busy,depth:GAME.D.busyDepth,cam:GAME.E.cam.mode})")
+         print('① 6 秒', s1)
+         if s1['stale'] or not s1['busy']: fails.append('① 6 秒就放開了')
+-        await pg.wait_for_timeout(6500)
++        # 卡住的計時（game3d.js staleCheck）每一格最多算 0.5 秒：SwiftShader 每秒 1～2 格時，遊戲算滿 10 秒要 15～20 秒真實時間。
++        # 原本固定再等 6.5 秒（共 12.5 秒）在慢的沙盒會太早量（BB-C 10-28 v9.10.12：12.5 秒 stale false，之後讀檔照樣讀得進去）；改成最多再等 54 秒、標成卡住就停，印出實際花了多久、幾格
++        f0 = await pg.evaluate("GAME.E.frame|0"); t_wait = 6.0
++        for i in range(108):
++            if await pg.evaluate("!!GAME.D.stale"): break
++            await pg.wait_for_timeout(500); t_wait += 0.5
++        print('② 標成卡住：%.1f 秒真實時間、%d 格' % (t_wait, (await pg.evaluate("GAME.E.frame|0")) - f0 + 0))
+         s2 = await pg.evaluate("({stale:GAME.D.stale,busy:GAME.E.player.busy,dbg:document.getElementById('mdbg').textContent,hudR:getComputedStyle(document.getElementById('hudR')).opacity})")
+         scene = [l for l in s2['dbg'].split('\n') if l.startswith('SCENE')]
+-        print('② 12.5 秒', {k: s2[k] for k in ('stale', 'busy', 'hudR')}, scene)
++        print('② 標成卡住以後', {k: s2[k] for k in ('stale', 'busy', 'hudR')}, scene)
+         if not s2['stale']: fails.append('② 超過 10 秒沒有標成卡住')
+         if not scene or 'stuckHere' not in scene[0]: fails.append('② 除錯面板沒有寫出是誰開的那一段')
+         # ④ 卡住的紀錄留在瀏覽器（讀檔也不會不見）、匯出存檔帶 _stuck：使用者上傳存檔就看得到是哪一段（BUG-MOVEOUT-STUCK-1018）
