@@ -16,7 +16,8 @@
 //   以前的「芷若寄出去了。……」；稿上 87 句有 25 句沒有）、第 1 段 1 項（20 句）、第 5 段 12 項（AA_506、AA_507 的都沒有）。修改後 ALL PASS
 // 第四輪（AA_508、AA_509 @ 28f981438，HEROINE-LIFE-1028）改的：heard_lines.js 多了那兩份的閒聊前一句 7 句、手機 15 句——第 0 段的句數 66→88、SPEC 加 AA_508／AA_509（對稿要有那兩份）；
 //   第 1 段的句數 31→38（新的 7 句一樣照 from／until 逐句查，都過）。那兩份的「沒有漏掉」、手機的時間與條件在 tests/aa508_509_feed_unit.js 第 6 段。
-//   第四輪加句子以後、這裡還沒改的時候實際跑：FAILED 2（第 0 段：SPEC 沒有 AA_508／AA_509、88 句；第 1 段：38 句）。改了以後 ALL PASS
+//   第四輪加句子以後、這裡還沒改的時候實際跑：FAILED 2（第 0 段：SPEC 沒有 AA_508／AA_509、88 句；第 1 段：38 句）。改了以後 ALL PASS。
+//   改過的這一份對開發分支 76a171c87 的 src（第三輪，66 句、閒聊前一句 31 句）實際跑：FAILED 2（第 0 段 66 句、第 1 段 31 句）
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');

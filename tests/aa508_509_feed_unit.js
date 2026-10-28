@@ -20,8 +20,11 @@
 //   7  出遊途中貼的（AA_506 第 9 節）：C12 京都語言課（8/9～8/27）途中以安「京都：祐廷」那一則——途中時鐘是當地時間、記是哪一趟；回來那一刻起再留七天、可以回；
 //      不是途中貼的照七天；卡住的那一趟最多留 60 天；舊存檔
 //   8  舊存檔：YT6_WITH 是這一版才記的——之前就選過的沒有那則私訊（回報）；第三輪的存檔（items 沒有 tr）照七天
-// 修改前（開發分支 76a171c87：沒有 feed_y3s2.js、feed_y4s1.js，feed3d.js、heard3d.js、heard_lines.js 是第三輪的；src、index.html、白名單換回 76a171c87 實際跑過）：
-//   FAILED 見檔尾的紀錄（寫在 H.done 之前的註解）。修改後 ALL PASS。用法：node tests/aa508_509_feed_unit.js
+// 修改前（開發分支 76a171c87：沒有 feed_y3s2.js、feed_y4s1.js，feed3d.js、heard3d.js、heard_lines.js 是第三輪的；src、index.html、白名單換回 76a171c87 實際跑過）：FAILED 26——
+//   第 0 段 12 項（載入與順序、SETS 只有五個學期、則數、id 231 個、兩份對稿沒有資料、表下面的另一版兩項、AA_510 0-1 三處、AA_509 0-1 四處、白名單還是 4c3dc1491／691a26400、2D 短場）、
+//   第 1～5、8 段各 1 項（沒有資料就停）、第 6 段 4 項（第四輪的句子 0 句、稿上 22 句沒有、閒聊前一句 0 句、例外）、
+//   第 7 段 4 項（京都那一則照臺灣 21:00 出、沒有記是哪一趟；回來沒有記 back；回來以後已經不在動態裡、不能回；途中貼的二十天後不在）。
+//   修改後 ALL PASS（99 項）。用法：node tests/aa508_509_feed_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -422,6 +425,5 @@ await sec('8',async()=>{ if(!HAS2()){ check('8. 舊存檔',false,'沒有資料')
   const D821=DK('2028-08-21'); fresh(D821,19,{}); who('heroine_03','FRIEND'); SOCIAL.remember('heroine_03','YT6_ASK_AUNT','Y6-L8'); walk(D821,21);
   check('8. 這一版以前就聊過 Y6-L8（只有記憶 YT6_ASK_AUNT、沒有 YT6_WITH）：分不出選了哪一句，8/21 那則不傳（x:need；回報）',!tagged('yt_ask_aunt').length&&R().dm.yt_ask_aunt==='x:need',J(R().dm.yt_ask_aunt)); });
 
-/* 修改前（開發分支 76a171c87 的 src、index.html、白名單，這一版的測試）實際跑的結果見檔頭；這裡不寫死 */
 H.done();
 })();
