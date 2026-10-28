@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
+   [--dayemit 材質名=強度,...（只在白天那一張發光、晚上不亮：天窗）] [--points x,y,z,W[,r,g,b];...（點光源）] [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -27,6 +27,9 @@ RES = int(arg('--res', '1024')); SAMPLES = int(arg('--samples', '64')); SCALE = 
 EMIT = {}
 for kv in (arg('--emit', '') or '').split(','):
     if '=' in kv: k, v = kv.split('='); EMIT[k] = float(v)
+DAYEMIT = {}   # 只在白天那一張發光的材質（總圖大廳的天窗 LIB-HALL-LM-1028：屋頂整片包黑殼，天光只能從天窗那一塊發光面進來；晚上天窗是暗的）
+for kv in (arg('--dayemit', '') or '').split(','):
+    if '=' in kv: k, v = kv.split('='); DAYEMIT[k] = float(v)
 HIDE = re.compile(arg('--hide', r'glass')) if arg('--hide', 'glass') else None
 NOLM = re.compile(arg('--nolm', r'ceil_light')) if arg('--nolm', 'ceil_light') else None
 SKY = float(arg('--sky', '1.0')); NIGHTSKY = float(arg('--nightsky', '0.03'))
@@ -183,16 +186,22 @@ to_sun = Vector((to_sun_game.x, -to_sun_game.z, to_sun_game.y))
 so.rotation_euler = to_sun.to_track_quat('Z', 'Y').to_euler()
 
 # 日光燈：在燈具的位置放真的面光源（發光的網格本身也亮，但 Cycles 從很小的發光面取樣很吵：10-28 第一次烘焙牆上一塊一塊的）
-# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m）
+# --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
+# --points x,y,z,W[,r,g,b]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）
 AREAS = []
 for spec in (arg('--lights', '') or '').split(';'):
     if not spec.strip(): continue
-    v = [float(t) for t in spec.split(',')]; x0, x1, z0, z1, y, nx, nz, Wt = v[:8]; lsx, lsz = (v[8], v[9]) if len(v) >= 10 else (1.2, 0.3)
+    v = [float(t) for t in spec.split(',')]; x0, x1, z0, z1, y, nx, nz, Wt = v[:8]; lsx, lsz = (v[8], v[9]) if len(v) >= 10 else (1.2, 0.3); col = tuple(v[10:13]) if len(v) >= 13 else (1.0, 0.97, 0.92)
     for i in range(int(nx)):
         for j in range(int(nz)):
             x = x0 + (x1 - x0) * (i + 0.5) / nx; z = z0 + (z1 - z0) * (j + 0.5) / nz
-            ld = bpy.data.lights.new(f'fx{i}_{j}', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = lsx; ld.size_y = lsz; ld.energy = Wt; ld.color = (1.0, 0.97, 0.92)
+            ld = bpy.data.lights.new(f'fx{i}_{j}', 'AREA'); ld.shape = 'RECTANGLE'; ld.size = lsx; ld.size_y = lsz; ld.energy = Wt; ld.color = col
             lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y - 0.01)); AREAS.append(lo)   # 朝下（Blender 的面光源朝 −Z）
+for spec in (arg('--points', '') or '').split(';'):
+    if not spec.strip(): continue
+    v = [float(t) for t in spec.split(',')]; x, y, z, Wt = v[:4]; col = tuple(v[4:7]) if len(v) >= 7 else (1.0, 0.85, 0.7)
+    ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = 0.06
+    lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y)); AREAS.append(lo)
 print('area lights', len(AREAS), flush=True)
 
 # 房間外殼（--shell 開著的方向，用逗號分開：N＝遊戲 −z、S＝+z、E＝+x、W＝−x，例：S＝窗在 +z 那一面）：烘焙時才有、不輸出的黑色厚板，
@@ -231,6 +240,10 @@ def bake(tag, sky_strength, sun_energy, emit_scale, lamp_scale=1.0):
                 if k in m.name:
                     b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
                     if b: b.inputs['Emission Strength'].default_value = v * emit_scale
+            for k, v in DAYEMIT.items():
+                if k in m.name:
+                    b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
+                    if b: b.inputs['Emission Strength'].default_value = v if tag == 'day' else 0.0
     bpy.ops.object.select_all(action='DESELECT')
     for o in objs: o.select_set(True)
     bpy.context.view_layer.objects.active = objs[0]
@@ -276,7 +289,7 @@ night = bake('night', NIGHTSKY, 0.0, 1.0); save(wb(night, 'night'), LM + '_night
 for m in bpy.data.materials:
     if m.node_tree:
         for n in [x for x in m.node_tree.nodes if x.name == 'LM_target']: m.node_tree.nodes.remove(n)
-    for k, v in EMIT.items():
+    for k, v in list(EMIT.items()) + list(DAYEMIT.items()):
         if k in m.name and m.node_tree:
             b = next((x for x in m.node_tree.nodes if x.type == 'BSDF_PRINCIPLED'), None)
             if b: b.inputs['Emission Strength'].default_value = 1.0
@@ -292,7 +305,7 @@ for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
 if arg('--drop'):
     _drop = re.compile(arg('--drop'))
     for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
-json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'wb': WB,
+json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'dayemit': DAYEMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'points': arg('--points'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
 if URL: sc['lightmap'] = {'day': URL + '_day.webp', 'night': URL + '_night.webp', 'intensity': math.pi * SCALE}

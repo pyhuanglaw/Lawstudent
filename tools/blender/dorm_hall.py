@@ -227,8 +227,15 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
 # ---------------- 有開口的牆：沿 x（z 固定）或沿 z（x 固定），開口＝[(a,b,ya,yb)]；外牆叫 WALL_（淡出），走廊的牆不叫 ----------------
 _wk = [0]
 def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th=None, lmh=None):
-    """lmh：看不到的面（bake_room.py 的 lmhide；例 'N,up'＝牆背面朝北：後面是沒做模型的寢室；牆頂在天花板上面）——光照貼圖不分像素（DORM-HALL-LM-1028）"""
+    """lmh：看不到的面（bake_room.py 的 lmhide；例 'N,up'＝牆背面朝北：後面是沒做模型的寢室；牆頂在天花板上面）——光照貼圖不分像素（DORM-HALL-LM-1028）。
+    每一段的頂面、底面、兩端（和下一段、門上那一段、轉角的牆接在一起的面）也一律不分像素：這些面夾在兩段牆中間，烘出來是黑的；
+    牆段的正面在接縫處只有一邊有頂點（T 形接頭），遊戲裡畫的時候接縫會露出一點一點的縫，看到後面黑的端面——第一次正式烘焙時門框上方一條一條的點狀黑線。
+    不分像素的面取同一個物件最大那一面中間的光（bake_room.py），露出來也是牆的顏色；門洞、窗洞的側面也一起用這個值（12～20 cm 寬，看不出來）"""
     th = th or T; holes = sorted(holes); cur = a0
+    toks = [t for t in (lmh or '').split(',') if t]
+    for t in ('up', 'down') + (('E', 'W') if axis == 'x' else ('N', 'S')):
+        if t not in toks: toks.append(t)
+    lmh = ','.join(toks)
     def piece(pa, pb, ya, yb):
         if pb - pa < 0.01 or yb - ya < 0.01: return
         _wk[0] += 1; nm = f'{prefix}_{"WALL_" if dirv else "iw_"}{_wk[0]}'; pr = dict({'dir': dirv} if dirv else {}, **({'lmhide': lmh} if lmh else {})) or None
