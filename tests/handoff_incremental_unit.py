@@ -133,6 +133,15 @@ expect('二 前進後水位線＝c4、舊的寫進 history', ok and WM['roles'][
 # outbox 欄位缺、狀態不合法
 bad = I.outbox_problems({'role': 'BB', 'entries': [{'task': 'AB-65', 'sha': c3[:8], 'state': '做完了'}]}, TASKS)
 expect('三 outbox 狀態不是 WIP／已交付／已整合／已測試／已驗收、缺欄位 → 異常', bad and any('state' in b for b in bad) and any('files' in b for b in bad), bad)
+# outbox 的 task 寫「ID（說明）」、或說明文字但同一個 commit 有交付登記對到總表任務 → 不算異常；開頭不是總表的 ID、也沒有交付登記 → 異常
+OBX = lambda t, sha: {'role': 'LAWWW2', 'entries': [{'task': t, 'branch': 'l2', 'sha': sha, 'files': ['a.md'], 'state': '已交付', 'next': '整合', 'noDirectIntegrate': False, 'receiver': 'LAWWW', 'ack': 'SENT'}]}
+expect('三 outbox task「AB-65（說明）」「AB-65 第二版」→ 開頭是總表的 ID，不算異常', not I.outbox_problems(OBX('AB-65（B08）', c3[:8]), TASKS) and not I.outbox_problems(OBX('AB-65 第二版', c3[:8]), TASKS))
+bad = I.outbox_problems(OBX('AB-650（說明）', c3[:8]), TASKS) + I.outbox_problems(OBX('AB-65X', c3[:8]), TASKS)
+expect('三 outbox task 開頭不是總表的 ID（AB-650、AB-65X）→ 異常（不做包含判斷）', len(bad) == 2, bad)
+DVX = {'deliveries': [{'id': 'DL-X', 'task': 'AB-65', 'sha': c3[:9]}], 'ignored': []}
+expect('三 outbox task 是說明文字，同一個 commit 有交付登記對到總表任務 → 不算異常', not I.outbox_problems(OBX('貓趴在圓椅上（hold）', c3[:8]), TASKS, DVX))
+DVY = {'deliveries': [{'id': 'DL-Y', 'task': 'NOPE-1', 'sha': c3[:9]}], 'ignored': []}
+expect('三 交付登記的任務也不在總表 → 照樣異常', I.outbox_problems(OBX('貓趴在圓椅上（hold）', c3[:8]), TASKS, DVY))
 # 歷史改寫：水位線的 commit 不在分支上
 git(d, 'checkout', '-q', '-b', 'rewritten', c1)
 commit(d, 'c.md', '改寫後')

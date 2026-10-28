@@ -760,7 +760,7 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "branch": "aopen-1027 第二輪（wip_backup/aopen_r2_1027.bundle）",
-   "sha": "f642d440f",
+   "sha": "6c65b866f、f642d440f",
    "files": [
     "wip_backup/aopen_r2_1027.bundle"
    ],
@@ -792,7 +792,7 @@
    "role": "LAWWW",
    "task": "JP-AIR-RESUME-1027",
    "branch": "x58-e08-1027 第四輪（wip_backup/x58_jpresume_1027.bundle）",
-   "sha": "673e13527",
+   "sha": "6c65b866f、673e13527",
    "files": [
     "wip_backup/x58_jpresume_1027.bundle"
    ],
@@ -860,7 +860,7 @@
    "role": "LAWWW",
    "task": "CLUBFAIR-REAL-1027",
    "branch": "y1fb-1027（wip_backup/y1fb_1027.bundle）",
-   "sha": "6c65b866f",
+   "sha": "5cf5f5cd6、6c65b866f",
    "files": [
     "wip_backup/y1fb_1027.bundle"
    ],
@@ -876,11 +876,11 @@
    "role": "LAWWW",
    "task": "HOME-PROMISE-1027",
    "branch": "homepromise-1027（wip_backup/homepromise_1027.bundle）",
-   "sha": "d874aa740",
+   "sha": "5cf5f5cd6、d874aa740",
    "files": [
     "wip_backup/homepromise_1027.bundle"
    ],
-   "state": "已取消",
+   "state": "取消",
    "remaining": "答應媽媽回家（AA_488 961a3a8a0）：記約定、週末提醒、撞約三選一、沒回去的反應；子代理做中，前提 d874aa740（還沒有新 commit 時 bundle 不存在）",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑全部 Node 再合",
    "noDirectIntegrate": true,
@@ -925,7 +925,7 @@
    "role": "LAWWW",
    "task": "HEROINE-ASKS-1028",
    "branch": "hask-1028（本機分支；wip_backup/hask_1028.bundle）",
-   "sha": "32024ec13",
+   "sha": "23a57d326、32024ec13",
    "files": [
     "src/heroine_asks3d.js",
     "src/data/heroine_asks.js",
@@ -934,8 +934,7 @@
     "src/game3d.js",
     "src/date3d.js",
     "index.html",
-    "tests/heroine_asks_unit.js",
-    "wip_backup/hask_1028.bundle"
+    "tests/heroine_asks_unit.js"
    ],
    "state": "已整合",
    "remaining": "她們主動約你（AA_494）：tests/heroine_asks_unit.js 23 項 ALL PASS（修改前第 0 項 FAIL）；全部 Node 測試在跑（hask worktree），過了就合進開發分支",
@@ -949,11 +948,9 @@
    "role": "LAWWW",
    "task": "DORM203-MATES-1028",
    "branch": "worktree-agent-a5cfdbee05c9d4a53（子代理 worktree；D113 備份 wip_backup/dorm203_1028.bundle）",
-   "sha": "3b1a96854",
+   "sha": "a1f0566c6、3b1a96854",
    "files": [
-    "src/dorm203_3d.js",
-    "src/data/dorm203_lines.js",
-    "tests/aa502_dorm203_unit.js"
+    "wip_backup/dorm203_1028.bundle"
    ],
    "state": "WIP",
    "remaining": "AA_502 203 室友日常（作息、閒聊、六件小事、群組）；子代理做中，開工要先快轉到開發分支",
@@ -966,11 +963,9 @@
    "role": "LAWWW",
    "task": "HEROINE-LIFE-1028",
    "branch": "worktree-agent-a6a20749aede20b50（子代理 worktree；D113 備份 wip_backup/feed_1028.bundle）",
-   "sha": "12ea31123",
+   "sha": "a1f0566c6、12ea31123",
    "files": [
-    "src/feed3d.js",
-    "src/data/feed_y1s1.js",
-    "tests/aa503_feed_unit.js"
+    "wip_backup/feed_1028.bundle"
    ],
    "state": "WIP",
    "remaining": "AA_503 手機的部分：動態頁、七位大一上的動態、講自己的事的私訊、可昕四則改動態（子代理做中）；3D 圈子、別人說起她另外做",
@@ -983,11 +978,9 @@
    "role": "LAWWW",
    "task": "NPC-STORY-1028",
    "branch": "worktree-agent-af513e95a1675ca1c（子代理 worktree；D113 備份 wip_backup/pool498_1028.bundle）",
-   "sha": "9b3a1f10a",
+   "sha": "04abd01ef、f5dddfb4e",
    "files": [
-    "src/pool3d.js",
-    "src/data/pool_story.js",
-    "tests/aa498_pool_unit.js"
+    "wip_backup/pool498_1028.bundle"
    ],
    "state": "WIP",
    "remaining": "AA_498 法律系同學二十位：改名六位＋借車名單兩個、共同做法 2-1～2-10、二十位地點表（修三位永遠不出現）、第一批五位（曾靖雯、黃郁婷、林采潔、鄭元碩、邱家齊）；子代理 02:3x 開工",

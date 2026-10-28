@@ -15388,6 +15388,32 @@
    "task": "HEROINE-LIFE-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 02:2x UTC】outbox 705495026；大一下以後每學期一份"
+  },
+  {
+   "id": "DL-LW2-FAIR-PERF",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d26af3065",
+   "msg": "ACK",
+   "what": "FAIR-PERF-1027：社博那天校園效能量測報告（舊局 9/30 vs 平常 10/02、中／高畫質、兩個鏡頭；顧攤的人全部／35 m 內／拿掉）——判斷超標，建議照距離藏顧攤的人",
+   "task": "FAIR-STAFF-LOD-1027",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 02:4x UTC】量測報告（docs/art-rebuild/second_ai/test_shots/fair_perf_1027/），建議由 DL-LW2-FAIR-LOD e0d50873f 實作、已在開發分支；報告本身不進遊戲"
+  },
+  {
+   "id": "DL-LW2-X14-R2",
+   "date": "2026-10-27",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e55f18585",
+   "msg": "ACK",
+   "what": "PERF-ZONE-ENTER-1018 X14 第二輪：prewarm 黑畫面時先讀編譯結果（Café→溫州街淡入後最長一格 5.1～5.3→3.2～3.4）",
+   "task": "PERF-ZONE-ENTER-1018",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 02:4x UTC】增量核對發現沒接（outbox 第 177 筆），現在接；v9.10.12 候選已凍結，下一版"
   }
  ],
  "ignored": [
@@ -19269,6 +19295,74 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-TEX-DEDUP",
    "reason": "PERF-TEX-DEDUP-1027 的 WIP 檢查點，最後交件是 DL-LW2-TEX-DEDUP（LAWWW-C 10-27 23:0x 分類）"
+  },
+  {
+   "sha": "297822def",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "室內光照烘焙工具 bake_room.py 的 WIP 檢查點（201 示範用，未交件）（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "038fe55b1",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "INTERIOR-AAA-REVIEW-1028",
+   "reason": "室內美術檢討文件（使用者 10-28 01:5x 要求的檢討；改善計畫照批交件）（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "41881c481",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 記錄使用者 P0（UA-LAWWW2-1028-01）、羽球第四版與社博帳篷 seeThrough 暫停的交接紀錄（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "1aba3ec42",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "BADMINTON-CLIP-1027",
+   "reason": "羽球第四版（腳步 IK、球 2 倍＋殘影）的 WIP 檢查點，還沒交件（INTERIOR-AAA-REVIEW 期間暫停）（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "e4ead25d1",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-DOOR-P2",
+   "reason": "A21 開門第二階段的 WIP 檢查點，最後交件 ccc329672（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "cadd4d543",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "J13 貓走動、A21 開門、D40 體態的評估排期回覆（給 LAWWW-C 10-27 18:0x 的派工）（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "1fc6de645",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-CLUBFAIR",
+   "reason": "CLUBFAIR-REAL-1027 的 WIP 檢查點，最後交件 1c537e9c9（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "7e1cd225a",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-US-APT-CLOSET",
+   "reason": "US-APT-CLOSET-1027 v3 的 WIP 檢查點，最後交件 f64e0e6d3（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "7946893be",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-X14-R2",
+   "reason": "X14 換區域卡的 WIP 檢查點（D113），最後交件 e55f18585（LAWWW-C 10-28 02:4x 分類）"
+  },
+  {
+   "sha": "9c8ca069b",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "README-1028",
+   "reason": "README 照 v9.10.11 改寫；同內容由 AA-C 經使用者授權推上 main 9227bf81e、開發分支 e9e7758b0 合併回來（README.md 和開發分支一字不差）（LAWWW-C 10-28 02:4x 分類）"
   }
  ]
 }
