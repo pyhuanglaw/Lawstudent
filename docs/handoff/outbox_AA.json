@@ -3857,6 +3857,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "補 AA_503 第 0 節「交往中約會後的動態，台詞之後的批次寫」——LAWWW 子代理 03:5x 記沒做的那一類"
+  },
+  {
+   "task": "DORM203-MATES-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ced552c17",
+   "files": [
+    "docs/story_planning/AA_517_宿舍大二到大四_312_507_409房間日常.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_517 大二 312／大三 507／大四 409 房間日常（背景室友走進來的旁白、阿哲 312 和柏翰 312／507／409 房間閒聊、三件小事 R312_SUPPER 11/19、R507_ZHE 5/30、R409_LAST 退宿前一晚＋203（舊生）群組兩則）；作息照 S.dormMates 不改",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X123 延伸：AA_502 只有大一 203，大二以後房間有人但沒有房間裡的話"
   }
  ],
  "items": [
