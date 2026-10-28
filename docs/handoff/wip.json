@@ -1312,6 +1312,21 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 10:08（AA_517 第 5 節 4e703821a，DL-AA-517B）",
    "closedBy": "63ca2383f（合併子代理 f9cea16d9；aa517 161 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-PRIVAUNT-1028",
+   "role": "LAWWW",
+   "task": "PRIV-AUNT-1028",
+   "state": "WIP",
+   "sha": "7579b6506、c7e707b65",
+   "branch": "worktree-agent-a8ce61cce91c0e4f9（子代理；D113 備份 wip_backup/privaunt_1028.bundle）",
+   "files": [
+    "wip_backup/privaunt_1028.bundle"
+   ],
+   "todo": "AA_503 第 14 節後補第 6、7 點：麵店只有阿姨＝語彤所有私密的照出（S.PLACE_EXCEPT）、auntIn 看 3D 的阿姨（HCIRCLE.labelIn）做了；測試接著改（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 11:41（AA_503 5ec2fe771，DL-AA-PRIVQ4）"
   }
  ]
 }
