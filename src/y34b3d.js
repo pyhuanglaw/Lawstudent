@@ -269,7 +269,7 @@ const Y34B=(function(){
     if(F.SIS_RIDE_ASK==='airport'&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport_wait')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport_wait',ev:'ev_sis_airport_wait',day:go,h:8.5,late:0.5,place:'桃園機場第二航廈・出境大廳',title:'到機場送學姊',travel:'機場捷運約 1 小時',travelH:1,hours:2,alarm:true,back:'回到台北。'});
     if(F.SIS_RIDE_ASK==='yes'&&F.SIS_RIDE==null&&NOW(G)<T(go,8)){ const k=S.sisRideKind(G); F.SIS_RIDE=k;
-      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'學妹',text:'我也要！'}],'y4_sis_ride_family');
+      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'宜蓁',text:'我也要！'}],'y4_sis_ride_family');
       else at(G,G.day,G.hour+0.1,[DM('heroine_05','……你確定？到機場要一個多小時，還要上高速公路。'),ME('heroine_05','確定。'),DM('heroine_05','……好。')],'y4_sis_ride_two'); }
     if(F.SIS_RIDE&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:go,h:8,late:0.5,place:'學姊家樓下',title:'載學姊去機場',travel:'',travelH:0,hours:3,alarm:true,back:'回到台北。'});   /* 08:00 出發，開車去機場 */
@@ -277,7 +277,7 @@ const Y34B=(function(){
     /* US0（台灣、日本路線；8/3 09:00 台灣＝美東 8/2 21:00）*/
     if(!US(G)&&NOW(G)>=T(u0,9)&&!sent(G,'y4_us0')&&G.day<=u0+2){ F.US0_AT=T(u0,9);
       if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。'),DM('heroine_05','這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
-      else at(G,u0,tzH(G,u0,9),[GSIS('到了。天空很大。'),GKEV('學姊妳可以多講兩個字'),GSIS('這裡的天空很大，大家保重。')],'y4_us0'); }
+      else at(G,u0,tzH(G,u0,9),[GSIS('到了。天空很大。'),GKEV('天空有多大 拍給我們看啦'),GSIS('（照片：停車場上面的天空）'),GSIS('大家保重。')],'y4_us0'); }   /* AA_497 5-4：「學姊多講兩個字」只留第一次，第 2、3 則換成這三則 */
     if(sent(G,'y4_us0')&&!F.REPLIED_US0&&F.US0_AT!=null&&NOW(G)<F.US0_AT+72){ const mine=(G.msgs||[]).some(m=>m.from==='player'&&(m.th==='p:heroine_05'||m.th==='g:family_law')&&T(m.day,m.h)>=F.US0_AT);
       if(mine){ F.REPLIED_US0=true; remember('heroine_05','REPLIED_US0','到了'); } }   /* 回了（回覆不另寫字：在那個對話串傳任何一句都算；AA_355 第 2 節照用）*/
     /* M6：8/3 起每天一張照片（只在家族群組；美國路線沒有）；週日六題爭論，之後「今天不吵」 */

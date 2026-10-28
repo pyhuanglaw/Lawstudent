@@ -111,7 +111,7 @@ const REL_LINES=(function(){
       wenzhou:{R:'他拍了二十張貓，說要做成遊戲素材。'} } },
   classmate_mingxuan:{   /* 江明軒（1-6）。BB_169 a4ccf909 第 6 節 M-1～M-7（道別 FRIEND、meet 照留） */
     up:{ FAMILIAR:{l:['「欸，你知道公館哪裡影印比較便宜嗎？我講義印太多了。」']}, FRIEND:{l:['「欸，我傳一個東西給你。」','（你的手機震了一下：「公館便宜好吃.xlsx」）','「我自己整理的，不要外流喔。」']}, CLOSE_FRIEND:{l:['「最近家教有點累。」']} },
-    bye:{base:[{if:tutorNight,l:['「我去家教了，掰。」']},{l:['「好，下次見。」']}],FRIEND:['「下次我請。……一顆滷蛋。」'],CLOSE_FRIEND:['「欸，聊太久了，我要跑了。」']},
+    bye:{base:[{if:tutorNight,l:['「我去家教了，掰。」']},{l:['「好，下次見。」']}],CLOSE_FRIEND:['「欸，聊太久了，我要跑了。」']},   /* AA_497 4-6：明軒的滷蛋只留 M1 宵夜、M2 推滷蛋、德文「不是滷蛋」——朋友階的道別「下次我請。……一顆滷蛋。」拿掉（朋友階照 base）*/
     contact:{base:'江明軒（系籃）',FRIEND:'明軒'},
     meet:{ cafe:{A:'一小時整，他站起來。',F:'一小時過了，他沒有站起來。',R:'他這次沒說只能待一小時。你們待了兩小時。'},
       library:{A:'他在看漫畫，翻頁翻得很慢。',F:'他在看漫畫，翻頁翻得很慢。',R:[{if:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY'),t:'他沒有拿漫畫出來。'},{t:'他在看漫畫，翻頁翻得很慢。'}]},

@@ -412,7 +412,8 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-16 C4 阿哲的機車：11/19（五）21:00 的訊息在 r2y3a3d.js；回了的（記 ZHE_SCOOTER）＝之後第一次在麵店遇到阿哲（11/23 起的週二、週四 17:30～20:30）---------- */
   const SCOOTER={ id:'ev_zhe_scooter', title:'阿哲的機車', participants:['zhe'], location:'noodle', trigger:'auto', once:true, background:'blur', npcNear:'zhe', nearDist:3, weekday:[2,4], time:[17.5,20.5],
     prereq:{memory:[{npc:'zhe',tag:'ZHE_SCOOTER'}],custom:G=>{ const d=D('2027-11-23'); return d!=null&&G.day>=d; }},
-    dialogue:[ {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},
+    dialogue:[ {if:{flagIs:{YU_C4:'visit'}},speaker:null,text:'（Alison 坐在旁邊剝橘子，剝好了也沒有吃。）'},   /* AA_497 3-5：11/19 23:40 Alison 的私訊回「我明天去看他。」（YU_C4 visit；src/sup497_3d.js）＝開頭多一句旁白 */
+      {speaker:'zhe',text:'修車行估了價。對方照估價付了。'},
       {speaker:'zhe',expression:'smile',text:'（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。'} ] };
 
   /* ---------- 2-Y3-17 語彤事件 14「續約」（LEGAL_REVIEW_REQUIRED：只寫租約到期前受保護、續約是雙方談的）：11/24（三）14:30 麵店；RENT_RENEWED 一律記（story3d.js S.y3Facts）---------- */

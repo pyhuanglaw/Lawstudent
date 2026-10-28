@@ -1,4 +1,5 @@
 // AA_470 學姊第十二批：三種玩家總檢查，大一暑假到大四寒假補七場（企劃線 5f54b6545，AA-B 2026-10-25 18:1x；SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
+// 2026-10-28 改（AA_497 第 5 節，企劃線 7a38216ca）：Kevin 動物影片第 6 則（10/26）換成他自己的事、2027-03-08 學妹在群組問考古題那一段拿掉（改宜蓁私訊）、gradPost「學姊多講兩個字」換掉、家族的學妹叫宜蓁——第 0、2、6 項照新的寫（新句子在 tests/aa497_supporting_unit.js 對 AA_497 的稿）。
 // 台詞逐字對 AA_470（從企劃線 git show 讀稿、解析「誰：台詞」與選項）。三種存檔：交往中、朋友（認識、熟悉／朋友以上、沒交往）、沒認識（沒有 met_sis）。
 //   0  讀稿；新檔載得到、index.html 接在 sis_b11_3d.js 後面；第 3 節每一句、每個選項都在遊戲裡（{稱呼}＝學弟／名字兩版），遊戲裡每一句都在稿裡；人物頁七個記憶
 //   1  12-1 學生證：7/6～7/31 平日 9～17 總圖閱覽區找她說話先演（SISY23.preTalk 鏈）；稱呼兩版；選項；熟悉 +1、信任 +1、SIS_BORROWED_CARD；窗口外、沒認識、前任、不熟不演；第 21 天 21:00 私訊兩則
@@ -73,10 +74,13 @@ await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf
   check('0. index.html：data/sis_b12_events.js → sis_b12_3d.js 接在 sis_b11_3d.js 後面、GAME.boot() 前面',/src\/sis_b11_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/sis_b12_events\.js\?v=[^"]+"><\/script>\n<script src="src\/sis_b12_3d\.js\?v=[^"]+"><\/script>/.test(html)&&at2('src/sis_b12_3d.js')<at2('<script>GAME.boot();</script>')&&at2('src/sis_b12_3d.js')>at2('src/family_xmas3d.js')&&at2('src/sis_b12_3d.js')>at2('src/y34b3d.js'));
   const mine=new Set(gameTexts().map(t=>String(t).replace(/^「|」$/g,''))), Q=quotes(S3);
   const lost=Q.filter(q=>q.t.indexOf('{稱呼}')>=0?!(mine.has(q.t.replace('{稱呼}','學弟'))&&mine.has(q.t.replace('{稱呼}','{name}'))):!mine.has(q.t)).map(q=>q.who+'：'+q.t);
-  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版）',Q.length>=120&&!lost.length,J(lost));
+  /* 2026-10-28 改：AA_497 第 5 節（企劃線 7a38216ca；tests/aa497_supporting_unit.js 5-2、5-4）換掉、拿掉的 AA_470 句子：Kevin 動物影片第 6 則（10/26）、2027-03-08 學妹在群組問考古題那一段（改成宜蓁私訊）、gradPost「學姊多講兩個字」 */
+  const AA497_OUT=new Set(['Kevin：📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）','Kevin：學姊這次有看完嗎','學姊：有。牠到最後都沒醒。','家族的學妹：請問民總的考古題在哪裡🙏','學姊：置頂第二個資料夾。去年的我也放進去了。','Kevin：學姊回得比我快','Kevin：我還在找置頂在哪','Kevin：學姊多講兩個字','學姊：恭喜畢業。']);
+  check('0. 第 3 節每一句（'+Q.length+' 句，誰：台詞）都在遊戲裡（{稱呼}＝「學弟」「{name}」兩版；AA_497 換掉的 '+AA497_OUT.size+' 句除外、而且真的不在遊戲裡）',Q.length>=120&&!lost.filter(x=>!AA497_OUT.has(x)).length&&[...AA497_OUT].every(x=>lost.includes(x)),J(lost.filter(x=>!AA497_OUT.has(x))));
   const O=optsOf(S3), G0=new Set(gameTexts().map(t=>String(t))), lostO=O.filter(o=>!G0.has(o)&&!G0.has(o.replace(/^「|」$/g,'')));
   check('0. 第 3 節每個選項（'+O.length+' 個）都在遊戲裡',O.length>=25&&!lostO.length,J(lostO));
-  const EXTRA=['「妳大一的時候呢？」','「妳以前不睡覺？」'];   /* 交往中祐廷的選項用「妳」（AA_470 第 2 節稱呼）*/
+  const EXTRA=['「妳大一的時候呢？」','「妳以前不睡覺？」',   /* 交往中祐廷的選項用「妳」（AA_470 第 2 節稱呼）*/
+    '家聚吃什麼 不要再吃咖哩了','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'];   /* AA_497 5-4 換上的句子（對 AA_497 的稿：tests/aa497_supporting_unit.js）*/
   const notIn=[...new Set(gameTexts())].filter(t=>!EXTRA.includes(t)&&doc.indexOf(String(t).replace(/^學弟。/,'{稱呼}。').replace(/^\{name\}。(你的學生證|坐。)/,'{稱呼}。$1'))<0);
   check('0. 遊戲裡這一批的每一句、選項、群組句都在稿裡（一字不差；交往中「妳」兩個選項除外）',!!doc&&!notIn.length,J(notIn));
   const ML=SOCIAL.MEMORY_LABEL||{};
@@ -107,14 +111,13 @@ await sec(1,async()=>{
 /* ---- 2 12-2 ---- */
 await sec(2,()=>{ const want=[['2026-09-07',['新學期！！下禮拜新的學弟妹進群組','置頂的東西 老人們先整理一下','置頂的筆記我換過了。去年的錯字也改了。','學姊連錯字都改']],
     ['2026-09-14',['歡迎新學弟妹！！（貼圖）','上面那位是溫學姊 碩一 有問題問她 她回很快','學姊好🙏','學妹好。先問你們的直屬，問不到再問我。']],
-    ['2026-10-26',['📹（一隻貓趴在鍵盤上睡著，螢幕上一整排 j）','期中加油各位','收到。','學姊這次有看完嗎','有。牠到最後都沒醒。']],
-    ['2027-03-08',['請問民總的考古題在哪裡🙏','置頂第二個資料夾。去年的我也放進去了。','學姊回得比我快','我還在找置頂在哪']]];
+    ['2026-10-26',['家聚吃什麼 不要再吃咖哩了','期中加油各位','收到。']]];   /* AA_497 5-4：影片第 6 則換成他自己的事、跟著影片的兩句拿掉；5-2：2027-03-08 那一段拿掉（宜蓁改私訊）*/
   fresh('2026-09-06',20,'none'); for(const [k] of want){ at(k,20.5); ph(); at(k,21.2); ph(); at(k,22); ph(); }
   const got=want.map(([k],i)=>byTag('sisb12_fam2_'+i));
-  check('2. 沒認識學姊、在家族群組：四則照稿、照日子 21:00、在「法律系直屬家族」群組',got.every((M,i)=>J(M.map(m=>m.text))===J(want[i][1])&&M.every(m=>m.th==='g:family_law'&&keyOf(m.day)===want[i][0]&&m.h>=21&&m.h<21.25&&!m.ask)),J(got.map(M=>M.map(m=>keyOf(m.day)+' '+m.h+' '+m.text))));
-  check('2. 說話的人：Kevin／溫學姊／家族的學妹（family_junior，第一次出現在 9/14）',got[1][2].from==='family_junior'&&got[1][2].name==='家族的學妹'&&got[0][0].from==='kevin'&&got[0][0].name==='Kevin'&&got[0][2].from===ID&&got[3][0].from==='family_junior',J(got[1].map(m=>[m.from,m.name])));
+  check('2. 沒認識學姊、在家族群組：三則（AA_497 拿掉 2027-03-08 那一則）照稿、照日子 21:00、在「法律系直屬家族」群組',got.every((M,i)=>J(M.map(m=>m.text))===J(want[i][1])&&M.every(m=>m.th==='g:family_law'&&keyOf(m.day)===want[i][0]&&m.h>=21&&m.h<21.25&&!m.ask)),J(got.map(M=>M.map(m=>keyOf(m.day)+' '+m.h+' '+m.text))));
+  check('2. 說話的人：Kevin／溫學姊／家族的學妹（family_junior，第一次出現在 9/14；AA_497 5-2 起叫「宜蓁」）',got[1][2].from==='family_junior'&&got[1][2].name==='宜蓁'&&got[0][0].from==='kevin'&&got[0][0].name==='Kevin'&&got[0][2].from===ID,J(got[1].map(m=>[m.from,m.name])));
   const n0=(H.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length; at('2026-10-26',23); ph(); ph();
-  check('2. 不重傳',(H.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length===n0&&n0===17);
+  check('2. 不重傳',(H.G.msgs||[]).filter(m=>/^sisb12_fam2_/.test(m.tag||'')).length===n0&&n0===11);
   fresh('2026-09-06',20,'friend',{},{grp:false}); for(const [k] of want){ at(k,21.5); ph(); }
   check('2. 不在家族群組：沒有',!(H.G.msgs||[]).some(m=>/^sisb12_fam2_/.test(m.tag||''))); });
 
@@ -185,7 +188,7 @@ await sec(5,async()=>{
 /* ---- 6 12-6 ---- */
 await sec(6,async()=>{ const g6=D('2028-06-03'), a=D('2028-07-10'), d=D('2028-07-13');
   fresh('2028-06-03',12,'none'); ph(); const e0=byTag('sisb12_grad').length; at(g6,13); ph(); const M=byTag('sisb12_grad'), m=M.find(x=>x.ask);
-  check('6. 6/3（六）13:00 群組（沒認識的也收到）：Kevin 學士服照片、「我畢業了！！！」、「恭喜。」、「學姊多講兩個字」、「恭喜畢業。」；選項「學長恭喜！」',e0===0&&J(M.map(x=>x.text))===J(['（照片：學士服，站在霖澤館門口，比了一個 V）','我畢業了！！！','恭喜。','學姊多講兩個字','恭喜畢業。'])&&M[0].h===13&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['學長恭喜！']),J(M));
+  check('6. 6/3（六）13:00 群組（沒認識的也收到）：Kevin 學士服照片、「我畢業了！！！」、「恭喜。」、（AA_497 5-4 換）「學姊 八月國考 妳幫我集氣一次就好」「好。日子跟我說。」；選項「學長恭喜！」',e0===0&&J(M.map(x=>x.text))===J(['（照片：學士服，站在霖澤館門口，比了一個 V）','我畢業了！！！','恭喜。','學姊 八月國考 妳幫我集氣一次就好','好。日子跟我說。'])&&M[0].h===13&&!!m&&J(m.ask.opts.map(o=>o.t))===J(['學長恭喜！']),J(M));
   PHONE.answer(H.G,'sisb12_grad',0); const last=TH('g:family_law').slice(-2).map(x=>x.text);
   check('6. 「學長恭喜！」→ Kevin「學弟明年換你！！」',J(last)===J(['學長恭喜！','學弟明年換你！！']),J(last));
   fresh('2028-06-03',12,'friend',{},{route:'JP'}); H.G.flags.JP_DEPARTED=D('2028-03-25'); at(g6,15); ph(); const J6=byTag('sisb12_grad');

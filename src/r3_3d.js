@@ -183,7 +183,7 @@ const R3=(function(){
      C 她回來以後（FRIEND 以上、她知道你的計畫）：要考 2/3 筆試的 1/8 21:00 → 1/9 19:00 研究室，其他 2/20 21:00 → 2/21 19:00；B 演過的不再演；
      D 要考 2/3 筆試的（FRIEND 以上）：交往中或雙方都單身＝2/3 08:30 考場門口當面（S.noteDue；在家的時候借 STORY.y4HomeDue），其他＝2/2 21:00 照片 */
   const SIS='heroine_05', W=M(SIS);
-  const GK=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), GW=t=>({th:'g:family_law',from:SIS,name:'溫學姊',text:t}), GJ=t=>({th:'g:family_law',from:'family_junior',name:'家族的學妹',text:t});
+  const GK=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), GW=t=>({th:'g:family_law',from:SIS,name:'溫學姊',text:t}), GJ=t=>({th:'g:family_law',from:'family_junior',name:'宜蓁',text:t});   /* AA_497 5-2：家族的學妹統一叫宜蓁 */
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   const partners=G=>typeof ROM!=='undefined'&&ROM.partners?ROM.partners(G):LOVE.filter(x=>dating(G,x));
   /* 要考 2/3 筆試：台灣路線（未決定也算）、Y4_PATH 'grad'、推甄沒上（AA_327 的 Y4_PUSH／GRAD_ADMIT 還沒有＝當作沒上，同 events.js 跨年大四的單字卡）*/
