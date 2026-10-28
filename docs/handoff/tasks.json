@@ -35487,6 +35487,33 @@
     "ack": "自領"
    },
    "next": "【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node"
+  },
+  {
+   "id": "SIS-B16-1028",
+   "title": "AA_523 學姊第十六批：回臺灣以後的最後半年（交往中五場、朋友、家族、挽回中、九件兌現、十五處改字；上班日 2029-07-02）",
+   "area": "Y4S2",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "AA-C 0d7b5388b（AA_523，SIS-LEAD-1021，USER_WANTS C25）",
+   "first": {
+    "term": "Y4S1",
+    "week": 17,
+    "earliest": "大四上 2028-12-24 中午（交往中，滷肉飯）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md @ 0d7b5388b",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "台詞逐字對稿（雙向）、稿給 BB 的測試項目、舊存檔不壞、全部 Node 0 失敗",
+    "receiver": "BB",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-28 13:4x UTC】AA_523 交了（DL-AA-523）；派子代理；新體育館游泳池 2D 背景請 BB 跟使用者要；下一版 v9.10.14"
   }
  ]
 }
