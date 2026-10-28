@@ -1047,7 +1047,7 @@
    "id": "WIP-LAWWW-CIRCLE3D-1028",
    "task": "HEROINE-CIRCLE3D-1028",
    "state": "WIP",
-   "sha": "3c83e6583、8f5d97476",
+   "sha": "a06030c92、0007404d9",
    "branch": "worktree-agent-a49a6f354b158e257（子代理；D113 備份 wip_backup/circle3d_1028.bundle）",
    "files": [
     "wip_backup/circle3d_1028.bundle"
@@ -1061,11 +1061,10 @@
    "id": "WIP-LAWWW-AA497-1028",
    "task": "NPC-STORY-1028",
    "state": "WIP",
-   "sha": "1f7793612、6eaac8008",
+   "sha": "a06030c92、332294ab4",
    "branch": "worktree-agent-afa95ee54a355c76f（子代理；D113 備份 wip_backup/aa497_1028.bundle）",
    "files": [
-    "wip_backup/aa497_1028.bundle",
-    "wip_backup/aa497_1028_untracked.tar.gz"
+    "wip_backup/aa497_1028.bundle"
    ],
    "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）；05:3x 子代理還沒 commit 新的，未追蹤的兩個新檔（src/data/sup497_lines.js、src/sup497_3d.js）另外打包 aa497_1028_untracked.tar.gz",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
@@ -1077,7 +1076,7 @@
    "task": "HEROINE-LIFE-1028",
    "role": "LAWWW",
    "state": "WIP",
-   "sha": "1f7793612、a2b2ae1ea",
+   "sha": "a06030c92、7f9e4098d",
    "branch": "worktree-agent-aeda78924a70beebf（子代理第四輪；D113 備份 wip_backup/feed4_1028.bundle）",
    "files": [
     "wip_backup/feed4_1028.bundle"
