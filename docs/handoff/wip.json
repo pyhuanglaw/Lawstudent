@@ -1360,6 +1360,51 @@
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:02／12:07（AA_503 38a74680d、f6069e42d，DL-AA-PRIVQ5、Q6）",
    "closedBy": "e4552c35e（合併子代理 e779fad44；company_priv 78、heroine_circle3d 69、aa422 177 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-YULE520-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "WIP",
+   "sha": "0ba34bc27、42efe1bb4",
+   "branch": "worktree-agent-ae63bec8a13035b99（子代理；D113 備份 wip_backup/yule520_1028.bundle）",
+   "files": [
+    "wip_backup/yule520_1028.bundle"
+   ],
+   "todo": "AA_520 予樂自己的線：白名單、實作、tests/aa520 做中（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:33（AA_520 481dd8238，DL-AA-520）"
+  },
+  {
+   "id": "WIP-LAWWW-SUPPORT519-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "WIP",
+   "sha": "0ba34bc27、a104c54e2",
+   "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
+   "files": [
+    "wip_backup/support519_1028.bundle"
+   ],
+   "todo": "AA_519 配角第二批（＋第 8 節麵店四件 d75cd0228）：白名單登記，實作做中（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:20／12:44（AA_519 873b670c0、d75cd0228，DL-AA-519、519B）"
+  },
+  {
+   "id": "WIP-LAWWW-PROF522-1028",
+   "role": "LAWWW",
+   "task": "NPC-STORY2-1028",
+   "state": "WIP",
+   "sha": "0ba34bc27、11c7dde44",
+   "branch": "worktree-agent-ae2be6e676a121eb9（子代理；D113 備份 wip_backup/prof522_1028.bundle）",
+   "files": [
+    "wip_backup/prof522_1028.bundle"
+   ],
+   "todo": "AA_522 教授的研究室：白名單登記，實作做中（做中）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 12:43（AA_522 fcc93126e，DL-AA-522）"
   }
  ]
 }
