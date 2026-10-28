@@ -15412,8 +15412,8 @@
    "msg": "ACK",
    "what": "PERF-ZONE-ENTER-1018 X14 第二輪：prewarm 黑畫面時先讀編譯結果（Café→溫州街淡入後最長一格 5.1～5.3→3.2～3.4）",
    "task": "PERF-ZONE-ENTER-1018",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 02:4x UTC】增量核對發現沒接（outbox 第 177 筆），現在接；v9.10.12 候選已凍結，下一版"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 02:5x UTC】55ac1fe67（patch 原樣套用；zone_prewarm_unit ⑪ 修改前 3 FAIL、修改後 ALL PASS）；BB 在瀏覽器（電腦模式）Café↔溫州街來回看淡入後停不停；v9.10.13"
   }
  ],
  "ignored": [
