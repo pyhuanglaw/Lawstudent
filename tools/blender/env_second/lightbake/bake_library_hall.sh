@@ -36,4 +36,6 @@ python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lb" "$OUTDIR/library
 cp "$TMP/lb.json" "$OUTDIR/library_interior_lm.json"
 [ "$OUTDIR" = "assets/models/env" ] && mv "$OUTDIR/library_interior_lm.json" tools/blender/env_second/lightbake/library_interior_lm.json
 rm -rf "$TMP"
+# 烘完自己檢查（lm_probe.py）：重點位置的亮度不能低於下限（白天、晚上；約是校正版的一半）。第一次校正烘焙二樓木地板、一樓天花板、樓梯踏面整面全黑，log 的平均亮度看不出來
+python3 tools/blender/env_second/lightbake/lm_probe.py "$OUTDIR/library_interior.glb" "$OUTDIR/library_interior_lm" '[["1F 門廳地板",0,0,4.0,"up",0.6,0.2],["中間那一跑第 6 階踏面",0,1.0,-2.14,"up",0.4,0.2],["平台",0,2.5,-6.8,"up",0.5,0.2],["1F 西翼地板",-8.4,0,0.4,"up",0.2,0.18],["1F 東翼地板",8.4,0,-2.0,"up",0.2,0.2],["2F 西翼自習區地板",-8.4,5.0,-5.3,"up",0.3,0.25],["2F 東翼地板",8.4,5.0,-4.0,"up",0.4,0.3],["2F 連廊地板",0,5.0,0.4,"up",0.5,0.3],["1F 西翼天花板（樓板底面）",-8.4,4.7,-2.0,"down",0.08,0.08]]'
 echo "done: $OUTDIR/library_interior.glb + library_interior_lm_day/night.webp"
