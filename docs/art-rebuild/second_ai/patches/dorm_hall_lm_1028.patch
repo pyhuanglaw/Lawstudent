@@ -148,17 +148,24 @@ index 000000000..0c2395aa7
 +  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 +})();
 diff --git a/tools/blender/dorm_hall.py b/tools/blender/dorm_hall.py
-index bc785d1f4..73a09c7e7 100644
+index bc785d1f4..2851ecbb0 100644
 --- a/tools/blender/dorm_hall.py
 +++ b/tools/blender/dorm_hall.py
-@@ -226,11 +226,12 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
+@@ -226,11 +226,19 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
  
  # ---------------- 有開口的牆：沿 x（z 固定）或沿 z（x 固定），開口＝[(a,b,ya,yb)]；外牆叫 WALL_（淡出），走廊的牆不叫 ----------------
  _wk = [0]
 -def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th=None):
 +def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th=None, lmh=None):
-+    """lmh：看不到的面（bake_room.py 的 lmhide；例 'N,up'＝牆背面朝北：後面是沒做模型的寢室；牆頂在天花板上面）——光照貼圖不分像素（DORM-HALL-LM-1028）"""
++    """lmh：看不到的面（bake_room.py 的 lmhide；例 'N,up'＝牆背面朝北：後面是沒做模型的寢室；牆頂在天花板上面）——光照貼圖不分像素（DORM-HALL-LM-1028）。
++    每一段的頂面、底面、兩端（和下一段、門上那一段、轉角的牆接在一起的面）也一律不分像素：這些面夾在兩段牆中間，烘出來是黑的；
++    牆段的正面在接縫處只有一邊有頂點（T 形接頭），遊戲裡畫的時候接縫會露出一點一點的縫，看到後面黑的端面——第一次正式烘焙時門框上方一條一條的點狀黑線。
++    不分像素的面取同一個物件最大那一面中間的光（bake_room.py），露出來也是牆的顏色；門洞、窗洞的側面也一起用這個值（12～20 cm 寬，看不出來）"""
      th = th or T; holes = sorted(holes); cur = a0
++    toks = [t for t in (lmh or '').split(',') if t]
++    for t in ('up', 'down') + (('E', 'W') if axis == 'x' else ('N', 'S')):
++        if t not in toks: toks.append(t)
++    lmh = ','.join(toks)
      def piece(pa, pb, ya, yb):
          if pb - pa < 0.01 or yb - ya < 0.01: return
 -        _wk[0] += 1; nm = f'{prefix}_{"WALL_" if dirv else "iw_"}{_wk[0]}'; pr = {'dir': dirv} if dirv else None
@@ -166,7 +173,7 @@ index bc785d1f4..73a09c7e7 100644
          if axis == 'z': box(nm, mat, at - th / 2, at + th / 2, ya, yb, pa, pb, parent, props=pr)
          else: box(nm, mat, pa, pb, ya, yb, at - th / 2, at + th / 2, parent, props=pr)
      for (ha, hb, hy0, hy1) in holes:
-@@ -238,10 +239,10 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th
+@@ -238,10 +246,10 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th
          piece(cur, ha, y0, y1); piece(ha, hb, y0, min(y1, max(y0, hy0))); piece(ha, hb, max(y0, min(y1, hy1)), y1); cur = hb   # 開口在這一段的上面或下面：整段照畫，不超出 y0～y1（原本會長出這一段以外的牆，和另一段疊在一起閃：樓梯井北牆的腰牆疊到白牆，BUG-COPLANAR-DEV）
      piece(cur, a1, y0, y1)
  
@@ -180,7 +187,7 @@ index bc785d1f4..73a09c7e7 100644
  
  DOOR_W, DOOR_H = 0.9, 2.1
  def door_holes(lv, side, y0):
-@@ -280,13 +281,14 @@ def window(prefix, parent, axis, at, a, b, ya, yb, inward):
+@@ -280,13 +288,14 @@ def window(prefix, parent, axis, at, a, b, ya, yb, inward):
          quad(f'{prefix}_glass', MAT['glass'], [(a, ya, at), (b, ya, at), (b, yb, at), (a, yb, at)], parent, tile=1.0)
  
  # ================================================================ 1. 地板、天花板、日光燈
@@ -201,7 +208,7 @@ index bc785d1f4..73a09c7e7 100644
  def tube(prefix, parent, x, y, z, along='x'):
      w, d = (1.25, 0.16) if along == 'x' else (0.16, 1.25)
      # 吸頂日光燈（燈座 6 cm、燈管）：名字含 WALL_、dir 朝下——鏡頭雙指拉到最遠、往上拖到最陡、比燈高的時候和牆一樣藏起來（從上面看是浮著的白條）；
-@@ -300,23 +302,27 @@ tube('L1_tw', L1, 0.0, RY, (WL['z0'] + WL['z1']) / 2, 'z')
+@@ -300,23 +309,27 @@ tube('L1_tw', L1, 0.0, RY, (WL['z0'] + WL['z1']) / 2, 'z')
  
  # ================================================================ 2. 牆（走廊兩側＝內牆；兩端、門廳正面、樓梯間北牆＝外牆，淡出）
  # 一樓
@@ -238,7 +245,7 @@ index bc785d1f4..73a09c7e7 100644
  dado_wall('L1_endW', L1, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[1, 0, 0])
  dado_wall('L1_endE', L1, 'z', CO['x1'] + T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[-1, 0, 0])
  # 二樓走廊北邊、樓梯間上方的樑（A 跑上方是欄杆）
-@@ -359,16 +365,33 @@ for i, (x, lv, side) in enumerate(((-5.25, 1, 'N'), (11.05, 1, 'S'), (-10.9, 0,
+@@ -359,16 +372,33 @@ for i, (x, lv, side) in enumerate(((-5.25, 1, 'N'), (11.05, 1, 'S'), (-10.9, 0,
  
  # ================================================================ 5. 樓梯（A 跑實心、平台實心、B 跑懸在儲藏室上面、兩跑中間的牆、扶手、二樓欄杆）
  AX0, AX1, BX0, BX1 = WL['x0'], MW['x0'], MW['x1'], WL['x1']   # 畫面上的踏階寬到牆邊（導航的 A、B 範圍窄一點：x 0.2 m 對齊格子）
@@ -276,7 +283,7 @@ index bc785d1f4..73a09c7e7 100644
  # 兩跑中間的實心牆（到二樓地板再高 1 m）＋牆頂收邊
  mh = Y1 + 1.0
  wall_cut('L0_mid_lo', L0, 'z', (MW['x0'] + MW['x1']) / 2, A['z0'], A['z1'], 0.0, 1.1, [], MAT['dado'], th=MW['x1'] - MW['x0'])
-@@ -408,6 +431,60 @@ def chair(prefix, parent, x, y, z, yaw):
+@@ -408,6 +438,60 @@ def chair(prefix, parent, x, y, z, yaw):
          cyl(f'{prefix}_lr_{sx}', MAT['steel'], (sx, 0.425, 0.17), (sx, 0.425, -0.2), 0.009, g, seg=6)
      return g
  
@@ -337,7 +344,7 @@ index bc785d1f4..73a09c7e7 100644
  for i, f in enumerate(L['furniture']):
      y = Y1 if f['lv'] else 0.0; P = L1 if f['lv'] else L0; pre = ('L1_' if f['lv'] else 'L0_') + f['type'] + f'_{i}'; ry = f.get('ry', 0.0)
      t = f['type']
-@@ -501,6 +578,25 @@ for i, f in enumerate(L['furniture']):
+@@ -501,6 +585,25 @@ for i, f in enumerate(L['furniture']):
          for k, c in enumerate(('red', 'green')): rbox(f'{pre}_led_{k}', MAT[c], (0.11 + k * 0.035, 1.17, 0.201), (0.015, 0.015, 0.004), g)
          dw = abs((LB['z1'] if f['lv'] == 0 else CO['z0']) - f['z'])   # 到背後那面牆的距離
          wquad(pre + '_cups', 'cups', (0, 1.52, -dw + 0.012), 0.42, 0.42 * (590 - 482) / 424, '+z', g)
@@ -363,7 +370,7 @@ index bc785d1f4..73a09c7e7 100644
      elif t == 'longTable':   # 長桌（木桌面、鐵腳、橫桿）＋塑膠椅；桌上疊著的書、攤開的筆記本和筆、筆袋、保溫瓶（有人在這裡讀書）
          x, z, w, dd = f['x'], f['z'], f['w'], f['d']
          rbox(pre + '_top', MAT['wood'], (x, y + 0.74, z), (w, 0.04, dd), P, bevel=0.01, seg=2)
-@@ -535,6 +631,8 @@ for i, f in enumerate(L['furniture']):
+@@ -535,6 +638,8 @@ for i, f in enumerate(L['furniture']):
          g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
          box(pre + '_seat', MAT['wood'], -f['w'] / 2, f['w'] / 2, 0.42, 0.46, -f['d'] / 2, f['d'] / 2, g, bevel=0.01)
          for sx in (-1, 1): box(f'{pre}_leg_{sx}', MAT['steel'], sx * (f['w'] / 2 - 0.12) - 0.025, sx * (f['w'] / 2 - 0.12) + 0.025, 0.0, 0.42, -f['d'] * 0.45, f['d'] * 0.45, g)
@@ -372,7 +379,7 @@ index bc785d1f4..73a09c7e7 100644
  
  # ================================================================ 6b. 交誼廳的牆上、天花板、地毯（ART-DORM-LOUNGE-1021；都不在走路的地方，不動導航）
  LZ = LB['z1']; EX = CO['x1']   # 南牆（窗、販賣機那一面）、東牆（電視那一面）的牆面
-@@ -590,6 +688,95 @@ for nm, (cx_, cz_, sx_, sz_) in (('n', ((rx0 + rx1) / 2, rz0 + rb / 2, rx1 - rx0
+@@ -590,6 +695,95 @@ for nm, (cx_, cz_, sx_, sz_) in (('n', ((rx0 + rx1) / 2, rz0 + rb / 2, rx1 - rx0
                                   ('w', (rx0 + rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb)), ('e', (rx1 - rb / 2, (rz0 + rz1) / 2, rb, rz1 - rz0 - 2 * rb))):
      rbox(f'L0_rug_edge_{nm}', MAT['paper'], (cx_, 0.0075, cz_), (sx_, 0.015, sz_), L0)
  
@@ -406,10 +413,10 @@ index bc785d1f4..73a09c7e7 100644
 +    rbox(f'L0_d104_shoe_{k}', MAT['white'], (cx, y0 + 0.8, kz + s * 0.02), (0.09, 0.26, 0.1), P, rot=rt, bevel=0.025)
 +    rbox(f'L0_d104_sole_{k}', MAT['rubber'], (cx, y0 + 0.8, kz - s * 0.035), (0.1, 0.28, 0.025), P, rot=rt, bevel=0.008)
 +    cyl(f'L0_d104_lace_{k}', MAT['white'], (kx, y0 + 1.0, kz), (cx, y0 + 0.93, kz), 0.004, P, seg=4)
-+x, y0, zs, s, P = dface('r202')   # 202：社團的貼紙（大小、顏色不一）
++x, y0, zs, s, P = dface('r202')   # 202：社團的貼紙（大小、顏色不一）。單獨一塊 L1_deco_r202（join_by_material 不和別的合）：大四住 409＝這一扇門（dorm3d.js 的 HOMES.y4.rep），遊戲那一年把它藏起來，自己的門上不留別人的貼紙
 +for k, (dx, dy, w_, h_, m, t_) in enumerate(((-0.18, 1.5, 0.1, 0.1, 'red', 0.2), (0.05, 1.62, 0.14, 0.07, 'yellow', -0.1), (0.2, 1.38, 0.08, 0.08, 'green', 0.0),
 +                                             (-0.05, 1.25, 0.12, 0.05, 'blue', 0.15), (0.12, 1.12, 0.07, 0.07, 'white', -0.3), (-0.22, 1.08, 0.09, 0.06, 'paper2', 0.05))):
-+    sheet(f'L1_d202_st_{k}', m, x + dx, y0 + dy, zs, s, w_, h_, P, t_)
++    sheet(f'L1_deco_r202_st_{k}', m, x + dx, y0 + dy, zs, s, w_, h_, P, t_)
 +x, y0, zs, s, P = dface('r206')   # 206：門上掛著「今天不在」的牌子（木牌、兩條掛繩、一個掛勾）
 +rbox('L1_d206_board', MAT['wood'], (x, y0 + 1.42, zs + s * 0.012), (0.26, 0.12, 0.012), P, rot=(0, 0, 0.03))
 +for k, dx in enumerate((-0.1, 0.1)): cyl(f'L1_d206_cord_{k}', MAT['black'], (x + dx, y0 + 1.48, zs + s * 0.012), (x, y0 + 1.6, zs + s * 0.008), 0.003, P, seg=4)
@@ -468,17 +475,21 @@ index bc785d1f4..73a09c7e7 100644
  # ---------------- 同一層、同材質的物件合併（減少 draw call；外牆照方向分組：一起淡出）----------------
  def flatten(level_root):
      for g in [o for o in level_root.children if o.type == 'EMPTY']:
-@@ -602,23 +789,33 @@ def flatten(level_root):
+@@ -602,23 +796,38 @@ def flatten(level_root):
          if ch.type == 'MESH' and (ch.location.length > 1e-6 or any(abs(v) > 1e-6 for v in ch.rotation_euler)):
              ch.data.transform(ch.matrix_basis); ch.matrix_basis.identity()
  
 +_HN = {(0, 0, -1): 'N', (0, 0, 1): 'S', (1, 0, 0): 'E', (-1, 0, 0): 'W', (0, 1, 0): 'U', (0, -1, 0): 'D'}
  def join_by_material(level_root, prefix):
-+    """同一層、同材質合成一個網格；光照烘焙的 lm（光照貼圖分多少）、lmhide（哪個方向的面看不到）不同的分開合，合完照樣帶著（DORM-HALL-LM-1028）"""
++    """同一層、同材質合成一個網格；光照烘焙的 lm（光照貼圖分多少）、lmhide（哪個方向的面看不到）不同的分開合，合完照樣帶著（DORM-HALL-LM-1028）。
++    {prefix}_deco_<門的 id>_ 開頭的（某一扇門上的東西）自己合成一塊 {prefix}_deco_<id>_<材質>：遊戲照年級藏起來（dorm3d.js）"""
      groups = {}
      for ob in list(level_root.children):
          if ob.type != 'MESH': continue
 +        lm = ob.get('lm'); lh = ob.get('lmhide'); lh = None if lh is None else (lh if isinstance(lh, str) else tuple(int(round(v)) for v in lh))
++        dm = re.match(prefix + r'_deco_([A-Za-z0-9]+)_', ob.name)
++        if dm:
++            groups.setdefault(('deco_' + dm.group(1), ob.data.materials[0].name, lm, lh), []).append(ob); continue
          if 'WALL_' in ob.name:
              dv = ob.get('dir'); dv = list(dv) if dv is not None else [0, 0, 1]
 -            groups.setdefault(('wall' + ''.join('%+d' % round(v) for v in dv), ob.data.materials[0].name), []).append(ob); ob['fadedir'] = dv; continue
@@ -488,14 +499,16 @@ index bc785d1f4..73a09c7e7 100644
 +        groups.setdefault((None, ob.data.materials[0].name, lm, lh), []).append(ob)
 +    for (fg, mname, lm, lh), obs in groups.items():
          if len(obs) < 2 and not fg: continue
-         dirv = list(obs[0]['fadedir']) if fg else None
+-        dirv = list(obs[0]['fadedir']) if fg else None
++        wall = bool(fg) and fg.startswith('wall')
++        dirv = list(obs[0]['fadedir']) if wall else None
          bm = bmesh.new()
          for ob in obs: bm.from_mesh(ob.data)
          mat = obs[0].data.materials[0]
          for ob in obs: bpy.data.meshes.remove(ob.data)
 -        mesh_obj(f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}', bm, mat, level_root, props={'dir': dirv} if fg else None)
-+        pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}), **({'lmhide': lh if isinstance(lh, str) else list(lh)} if lh is not None else {}))
-+        nm = (f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh.replace(",", "") if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
++        pr = dict({'dir': dirv} if wall else {}, **({'lm': lm} if lm is not None else {}), **({'lmhide': lh if isinstance(lh, str) else list(lh)} if lh is not None else {}))
++        nm = (f'{prefix}_WALL_{fg}_{mname}' if wall else f'{prefix}_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh.replace(",", "") if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
 +        mesh_obj(nm, bm, mat, level_root, props=pr or None)
  bpy.context.view_layer.update()
 +# 純色的小東西合成一個頂點色材質（和霖澤館大廳 LOBBY-VC-1028 一樣：每個材質各畫一次；發光、金屬、有貼圖的照舊）

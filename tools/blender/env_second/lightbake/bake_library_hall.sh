@@ -28,6 +28,8 @@ POINTS=${POINTS#;}
   --lm "$TMP/lb" --url assets/models/env/library_interior_lm --res "$RES" --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
   --sun "${SUN:-200,45,2.2}" --sky "${SKY:-0.15}" --dayemit "lb_skylight=${SKYLIGHT:-3}" --daywb "${DAYWB:-0.85,0.8,0.72}" --lights "$LIGHTS" --points "$POINTS" --smooth 1 --shell S,W,N
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/lb" "$OUTDIR/library_interior_lm" 90
+# 後處理（LM-SEAM-1028，lm_fix_hidden.py）：沒分像素、夾在中間烘成全黑的面改接旁邊看得到的面的光——牆段 T 形接頭露縫時看不出來，門洞、樓梯間開口的側面也是牆的亮度
+/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/library_interior.glb" --out "$OUTDIR/library_interior.glb" --lm "$OUTDIR/library_interior_lm"
 cp "$TMP/lb.json" "$OUTDIR/library_interior_lm.json"
 [ "$OUTDIR" = "assets/models/env" ] && mv "$OUTDIR/library_interior_lm.json" tools/blender/env_second/lightbake/library_interior_lm.json
 rm -rf "$TMP"

@@ -24,6 +24,8 @@ LIGHTS="$LIGHTS;-13.5,13.5,0,0,6.81,9,1,13,$T1;0,0,-3.9,-3.9,6.81,1,1,13,0.06,1.
   --lm "$TMP/dh" --url assets/models/env/dorm_hall_lm --res "$RES" --samples "$SAMPLES" --hide "glass|_deco_" --nolm "$NOLM" --drop BAKEONLY \
   --sun 165,52,2.2 --sky "${SKY:-0.4}" --daywb 0.95,0.93,0.88 --lights "$LIGHTS" --smooth 1 --shell N,S,E,W
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/dh" "$OUTDIR/dorm_hall_lm" 90
+# 後處理（LM-SEAM-1028，lm_fix_hidden.py）：沒分像素、夾在中間烘成全黑的面改接旁邊看得到的面的光——牆段 T 形接頭露縫時看不出來，門洞、樓梯間開口的側面也是牆的亮度
+/opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/dorm_hall.glb" --out "$OUTDIR/dorm_hall.glb" --lm "$OUTDIR/dorm_hall_lm"
 cp "$TMP/dh.json" "$OUTDIR/dorm_hall_lm.json"
 [ "$OUTDIR" = "assets/models/env" ] && mv "$OUTDIR/dorm_hall_lm.json" tools/blender/env_second/lightbake/dorm_hall_lm.json
 rm -rf "$TMP"
