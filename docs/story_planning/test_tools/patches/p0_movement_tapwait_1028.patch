@@ -1,0 +1,15 @@
+--- a/tests/p0_movement.py	2026-10-28 03:24:58.791730095 +0000
++++ b/tests/p0_movement.py	2026-10-28 03:24:58.805637822 +0000
+@@ -54,6 +54,12 @@
+                 await cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':230,'y':400}]}); await pg.wait_for_timeout(60); await cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+                 await pg.wait_for_timeout(2500); p5=await pos(pg)
+                 check('霖澤館前：點地面 → 走過去', dist(p4,p5)>0.3, f'{p5}')
++                # 等點地面那段路走完再開事件：SwiftShader 1～4 fps 時 2.5 秒還在半路，事件鎖住前又走了約 0.5 m，被算成「事件中搖桿推得動」
++                # （BB-C 10-28 v9.10.12 rc3 記錄版：事件前還有 path、走了 0.54 m；事件開始以後推搖桿移動 0.00 m）
++                for i in range(40):
++                    if not await pg.evaluate("!!(GAME.E.player.path&&GAME.E.player.path.length)"): break
++                    await pg.wait_for_timeout(250)
++                await pg.wait_for_timeout(300); p5=await pos(pg)
+                 # 對話（阿哲／任一 NPC 或事件）→ 結束 → 恢復移動
+                 await pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_bike_flat'))"); await pg.wait_for_timeout(2500)
+                 busy=await pg.evaluate("GAME.E.player.busy||GAME.D.active"); check('事件中玩家鎖定', busy)
