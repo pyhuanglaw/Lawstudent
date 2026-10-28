@@ -908,15 +908,16 @@
    "role": "LAWWW",
    "task": "NPC-STORY-1028",
    "branch": "worktree-agent-a33958931414f6a65（子代理 worktree；D113 備份 wip_backup/aa496_fixes_1028.bundle）",
-   "sha": "eb441d10d",
+   "sha": "838d78c29",
    "files": [
     "tests/aa496_fixes_unit.js"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_496 第 9 節第 1～4、6 點（子代理做中；開工時基準誤在 main，已請它快轉到開發分支 095cf15ae）",
    "next": "每 15～20 分鐘更新 bundle（D113）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28（X119）"
+   "source": "使用者 10-28（X119）",
+   "closedBy": "bfe8dfad6"
   },
   {
    "id": "WIP-LAWWW-HASK-1028",

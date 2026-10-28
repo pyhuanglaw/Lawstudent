@@ -3208,6 +3208,30 @@
    "approvedBy": "AA-C 定稿（使用者 10-27 對 AA-C 選 C＝逐一決定，UA-AA-1027-49；D109）",
    "task": "ACCEPTSOPEN-C-1027",
    "note": "LAWWW-C 10-27 登記（手抄，照 AA_331 的例子）：romance3d.js、multirel3d.js、multirel_lines.js、zr_last3d.js、r2y3b3d.js、r2y4b3d.js 等（子代理 aopen-1027，合併 fb8d27888；tests/aa474_acceptsopen_unit.js 用 git show 020f695a3 逐字對）"
+  },
+  {
+   "path": "docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md",
+   "sha": "b3ecc563c",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 00:0x 對 LAWWW-C 的要求，UA-LAWWW-1028-01）",
+   "task": "HEROINE-ASKS-1028",
+   "note": "LAWWW-C 10-28 登記（手抄）：src/data/heroine_asks.js 110 句；tests/heroine_asks_unit.js 用 git show b3ecc563c 逐字對（合併 23a57d326）"
+  },
+  {
+   "path": "docs/story_planning/AA_496_法律系NPC盤點_文件寫了vs玩得到_分類_斷線清單.md",
+   "sha": "dea54d89e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 直接對 AA-C 的 NPC 人物重整，UA-AA-1028-51）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 登記（手抄）：第 9 節（阿哲「欸，你還沒進群組？我拉你。」、法服的社長等標籤）；子代理 aa496，合併 bfe8dfad6；tests/aa496_fixes_unit.js 用 git show dea54d89e 對"
+  },
+  {
+   "path": "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md",
+   "sha": "ad67d327b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；使用者 10-28 要 AA 挑 3～5 位直接改）",
+   "task": "NPC-STORY-1028",
+   "note": "LAWWW-C 10-28 登記：目前只用第 1-2 節宥辰的出席表（合併 bfe8dfad6）；其他部分接的時候改用更正版 7a38216ca"
   }
  ]
 }

@@ -15282,8 +15282,8 @@
    "msg": "ACK",
    "what": "AA_496 法律系 NPC 盤點（文件寫了 vs 玩得到、分類、斷線清單）；第 9 節先修：BH4_DONE、XC1_STICKY、XC5_RECONCILE、ZHE4_FINAL 斷線、尾聲阿哲與 Alison 各自回收句、麵店團群組補救（阿哲「欸，你還沒進群組？我拉你。」）、宥辰出席表、「社長」標籤全名；改名表等 AA_498",
    "task": "NPC-STORY-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；第 9 節第 1～4、6 點派子代理（worktree，D113 檢查點）；第 5 點等 AA_498"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；第 9 節第 1～4、6 點派子代理（worktree，D113 檢查點）；第 5 點等 AA_498｜【LAWWW-C 02:2x】第 9 節第 1～4、6 點合進 bfe8dfad6（子代理 838d78c29；tests/aa496_fixes_unit.js 修改前 22 項 FAIL）；第 5 點改名表照 AA_498 另外接"
   },
   {
    "id": "DL-AA-497",
