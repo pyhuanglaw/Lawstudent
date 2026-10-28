@@ -34285,17 +34285,20 @@
    "id": "NPC-PRUNE-1028",
    "title": "法律系的名字同學少而有記憶點：20 個沒故事的（UNFAMILIAR_POOL pool_1～20）拿掉名字變路人；AA 挑少數幾個補成有個性、有小故事、會主動傳訊息的配角；已有劇情的配角無聊的重寫；舊存檔怎麼淡出",
    "owner": "AA",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
    "source": "使用者 10-28 00:5x 對 LAWWW-C（UA-LAWWW-1028-03；USER_WANTS X119）",
-   "next": "【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：名單（留誰、拿掉誰）、留下來的每人一條小故事＋主動訊息、舊存檔淡出；LAWWW 照名單改 characters.js、課堂與偶遇的名單、舊存檔遷移",
+   "next": "【LAWWW-C 2026-10-28 01:0x UTC】取消：使用者選「全部留著，每個都補故事」（UA-LAWWW-1028-05），改成 NPC-STORY-1028｜【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：名單（留誰、拿掉誰）、留下來的每人一條小故事＋主動訊息、舊存檔淡出；LAWWW 照名單改 characters.js、課堂與偶遇的名單、舊存檔遷移",
    "xai": {
     "spec": "使用者原話＋LAWWW 做法（UA-LAWWW-1028-04，待使用者確認）",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "玩家記得住遇到的每一個有名字的同學；沒故事的不再有名字",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "replacedBy": "NPC-STORY-1028",
+   "authorizedBy": "使用者（UA-LAWWW-1028-05）",
+   "reason": "使用者 10-28 01:0x 選「全部留著，每個都補故事」（UA-LAWWW-1028-05），不拿掉名字"
   },
   {
    "area": "Y1S1",
@@ -34320,6 +34323,33 @@
     "spec": "使用者原話",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "校園、通識課、體育館看得出各系的學生",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "NPC-STORY-1028",
+   "title": "法律系 20 個名字同學（UNFAMILIAR_POOL pool_1～20）每人補個性、一條小故事、會主動傳的訊息、有記憶點的閒聊；已有劇情的配角無聊的重寫（使用者選「全部留著，每個都補故事」；不能攻略，但有支線任務：請你幫忙、邀你去社團…）",
+   "area": "Y1S1",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-28 00:5x（UA-LAWWW-1028-03）、01:0x 選擇題答案（UA-LAWWW-1028-05）；USER_WANTS X119；01:0x「他們可以不能攻略 但有支線任務阿 例如請我幫忙什麼 邀請我去社團」（UA-LAWWW-1028-06）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一週上課遇到同學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:0x UTC】派 AA-C：20 人分批（每批幾人、玩家最早遇到的先寫，D81）；每人：個性與外觀關鍵字、和誰熟、一條小故事（幾場、哪一學期）、主動訊息、閒聊；LAWWW 照稿接（characters.js、事件、手機訊息）；LAWWW2 看外觀要不要配合個性調（D59 角色美術由 LAWWW 驗收）",
+   "xai": {
+    "spec": "使用者原話＋選擇題答案",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "玩家記得住遇到的每一個有名字的同學（每人有個性、故事、會主動傳訊息）",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
