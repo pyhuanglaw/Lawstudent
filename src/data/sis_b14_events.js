@@ -1,4 +1,4 @@
-/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588 → cf7d5fa94 第 7 節 → 3cd10909b 第 8 節；任務 SIS-B14-1028、SIS-B14-AAFIX-1028、SIS-LEAD-1021、D111、USER_WANTS C25）的台詞與事件 =====
+/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588 → cf7d5fa94 第 7 節 → 3cd10909b 第 8 節 → d6f8621ac 第 8 節第 3 點；任務 SIS-B14-1028、SIS-B14-AAFIX-1028、SIS-LEAD-1021、D111、USER_WANTS C25）的台詞與事件 =====
    台詞照稿一字不改（D100、D109）。接線在 src/sis_b14_3d.js。
    改在現有事件裡的句子寫在各自的檔，那幾行都帶 aa516:true（tests/aa516_sis_b14_unit.js 逐句對稿用；遊戲不讀這個欄位）：
      第 1 節：r2y4b_events.js g6（1-1）、r2y4a3d.js 12/20 戀人版私訊的截圖（1-2，R2Y4A.PICKUP_SHOT）、r2y4b_events.js 大峽谷才交往的第一次視訊開頭（1-3）、
@@ -6,7 +6,8 @@
      2-2 h1～h9：r2y4b_events.js ev_sis_video_gf；第 3 節 t4～t7：r2y4b_events.js ev_sis_video；
      4-3 初雪那一句：r2y4a_events.js ev_us_first_snow；4-5 離開那天那一句：r2y4a_events.js ev_us_leave；
      第 5 節 9/2 交換生群組：src/data/us_blank_lines.js 的 GRP（照那張表的格式補一列）；
-     第 8 節（3cd10909b）：第 1 點那一句旁白在 src/us208_3d.js（七場共用的 BOWL）、第 2 點 h9 記 SIS14_RIGHT 在 r2y4b_events.js、那一句旁白在 r2y4a_events.js ev_sis_pickup。
+     第 8 節（3cd10909b）：第 1 點那一句旁白（第 3 點 d6f8621ac 定位置）在 r2y4a_events.js ev_us2_kitchen（「（她把麵分到兩個碗。）」後面）和 src/us208_3d.js 3-2 滷肉（第一句旁白後面）的 BOWL、
+       第 2 點 h9 記 SIS14_RIGHT 在 r2y4b_events.js、那一句旁白在 r2y4a_events.js ev_sis_pickup。
    說話的人：她的 id（交往中 SOCIAL.displayName 自己會換成「書瑀」，AA_411 第 2 節）。 */
 'use strict';
 const SISB14_LINES={
@@ -30,7 +31,7 @@ const SISB14_LINES={
   leaveBook:'（你的背包裡多了一本她的書。比你自己的三本都重。）',
   /* 1-3 大峽谷才交往的第一次女朋友視訊開頭（r2y4b_events.js，這裡只是對照）*/
   canyonOpen:'峽谷回來以後，第一次這樣打給你。',
-  /* 第 8 節第 1 點 有 SIS14_US_CURRY 的，之後第一次 208 的場景開頭（src/us208_3d.js 的 BOWL，這裡只是對照）*/
+  /* 第 8 節第 1 點 有 SIS14_US_CURRY 的，之後第一次有吃東西的 208 場景（第 3 點：9/13 US2 分碗那一句後面，沒演到＝3-2 滷肉第一句旁白後面；r2y4a_events.js、src/us208_3d.js 的 BOWL，這裡只是對照）*/
   bowl:'（她把自己的碗放在你面前，換她用你上次帶來的那一個。）',
   /* 第 8 節第 2 點 h9 選「我會去接妳。」（SIS14_RIGHT）的 12/23 接機戀人版第一句旁白前面（r2y4a_events.js ev_sis_pickup，這裡只是對照）*/
   right:'（你站在出口的右邊。）' };
