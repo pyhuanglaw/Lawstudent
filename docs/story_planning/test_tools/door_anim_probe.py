@@ -110,8 +110,13 @@ async def can_walk(pg, cdp, run, tag):
     if s['dlg'] or s['choices'] or s['busy']:
         run.note('%s：還有對話「%s」→ 點完再推搖桿' % (tag, (s.get('dtext') or '')[:30]))
         await L.advance_dialogs(pg, cdp, run, lambda s: not s['dlg'] and not s['choices'] and not s['busy'], max_steps=40)
-    moved, n, s = await L.push_until(pg, cdp, 0, -60, 0.3, max_pushes=3, ms=1200)
-    run.check('%s：推搖桿走得動' % tag, moved >= 0.3, '%.2f m／%d 次 %s' % (moved, n, s['zone']))
+    # 先往前推；走不動（例：舊路書房進門面對桌子）就像玩家一樣換方向（後、左、右）——BB-C 10-28 door_r2 12：往前推 0.00 m＝撞桌子
+    tried = []
+    for dx, dy, nm in ((0, -60, '前'), (0, 60, '後'), (-60, 0, '左'), (60, 0, '右')):
+        moved, n, s = await L.push_until(pg, cdp, dx, dy, 0.3, max_pushes=2 if nm != '前' else 3, ms=1200)
+        tried.append('%s %.2f m' % (nm, moved))
+        if moved >= 0.3: break
+    run.check('%s：推搖桿走得動' % tag, moved >= 0.3, '%s（%s）' % ('、'.join(tried), s['zone']))
 
 
 async def main():
@@ -126,6 +131,13 @@ async def main():
         await L.load_state(pg, st, quiet_events=QUIET, quiet_phone=True); await pg.wait_for_timeout(4000); await L.close_panels(pg, cdp)
         s = await L.advance_dialogs(pg, cdp, run, lambda s: not s['dlg'] and not s['choices'] and not s['busy'], max_steps=40)
         R = {}
+        if os.environ.get('ONLY') == 'book':   # 只跑舊路書房（單按＋連按兩下）：BB-C 10-28 door_r2 12 重驗
+            if await quick(pg, cdp, run, 'gongguan', '公館商圈'):
+                R['book_one'] = await door(pg, cdp, run, 'bookstore', '進入舊路書房', 'push', '12a_進入舊路書房（按一下）'); await can_walk(pg, cdp, run, '12a')
+                lab = (await L.state(pg))['interact']; run.note('12a：進門以後互動鍵「%s」（落腳點 (0,4) 在「看看法律書與文具」(0,4.05) 半徑 1.1 裡）' % lab)
+                R['book_out'] = await door(pg, cdp, run, 'gongguan', '離開', 'push', '12b_離開舊路書房')
+                R['book_dbl'] = await door(pg, cdp, run, 'bookstore', '進入舊路書房', 'push', '12c_進入舊路書房（連按兩下）', double=True); await can_walk(pg, cdp, run, '12c')
+            run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False)); await b.close(); sys.exit(run.finish())
         R['dorm_out'] = await door(pg, cdp, run, 'dorm_hall', None, 'push', '01_走出房間'); await can_walk(pg, cdp, run, '01')
         R['hall_out'] = await door(pg, cdp, run, 'campus', None, 'push', '02_離開宿舍'); await can_walk(pg, cdp, run, '02')
         if await quick(pg, cdp, run, 'campus', '台大校園（霖澤館前）'):
