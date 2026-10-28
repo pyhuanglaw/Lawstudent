@@ -4058,7 +4058,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2026-10-19')&&!!G.flags.ROOM_Y2},
     dialogue:[ {speaker:null,text:'（柏翰在讀許教授的講義。阿哲已經在煮第二包了。）'},   /* AA_313 5-3：大二阿哲、柏翰是 312 的室友，颱風天也在房間 */
       {phone:'kai',text:'我要過去'},{phoneMe:'kai',text:'外面在下雨'},{phone:'kai',text:'下雨又怎樣 泡麵我都買了'},{phone:'kai',text:'就當這週的宵夜提早'},{phoneMe:'kai',text:'今天是週一'},{phone:'kai',text:'所以咧 颱風天誰管星期幾'},
-      {advance:1/3},{speaker:null,text:'（二十分鐘後，阿凱全身濕，抱著一箱泡麵站在門口。）'},
+      {advance:1/3},{speaker:null,text:'（二十分鐘後，阿凱全身濕，站在門口，手上這次是一袋滷味。）'},   /* AA_519 5-3：颱風夜不要三年同一個畫面（大一照原句；大三 r2y3a_events.js 是兩杯熱豆漿）*/
       {choice:[{text:'（遞毛巾）',goto:'a'},{text:'「你可以傳訊息就好。」',goto:'b'},{text:'（拍照傳給方奕廷）',if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},goto:'c'}]},
       {label:'a'},{speaker:'kai',text:'先擦箱子啦，泡麵濕掉就完了。'},{goto:'end'},
       {label:'b'},{speaker:'kai',text:'傳訊息你又不會下來。'},{goto:'end'},
@@ -4072,8 +4072,9 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'宿舍旁的滷味攤',bg:'gongguan_luwei'},
       {if:{custom:G=>!(G.flags.KAI_SUP_N>0)},goto:'first'},
       {speaker:null,text:'（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'},
-      {pick:{flag:'KAI_SUP_LINE',from:G=>{ const L=['今天我多夾了一顆貢丸。','新室友說我話很多。……真的很多嗎？','這週你們考什麼？……算了，先吃。'];
-        const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, f2=t&&(t.id!=='Y2S1'||t.week>=13); if(f2&&G.flags.KAI_F2==='went') L.push('（打開筆電）你看，我的作業會頂嘴了。');   /* AA_328：只給 F2 去過的玩家 */ const n=(G.flags.KAI_SUP_N|0)-1; return [L[((n%L.length)+L.length)%L.length]]; }}},
+      {pick:{flag:'KAI_SUP_LINE',from:G=>{ const tid=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):((typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day))||{}).id, y2s1=tid==='Y2S1'||!tid;   /* AA_519 5-2（企劃線 d75cd0228）：大二上（含寒假）照舊三句輪，「新室友」那句只出一次、第二次起換「我說話很多，他說還好。」；大二下起換成三句新的輪 */
+        const L=y2s1?['今天我多夾了一顆貢丸。',G.flags.KAI_SUP_ROOMIE!=null?'我說話很多，他說還好。':'新室友說我話很多。……真的很多嗎？','這週你們考什麼？……算了，先吃。']:['新室友說我話很多。……他現在也話很多了。','今天的貢丸我數了，比上次少一顆。','下學期我要投實習。……你們法律系的，實習要穿西裝嗎？'];
+        const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, f2=t&&(t.id!=='Y2S1'||t.week>=13); if(y2s1&&f2&&G.flags.KAI_F2==='went') L.push('（打開筆電）你看，我的作業會頂嘴了。');   /* AA_328：只給 F2 去過的玩家（大二上；大二下起換成那三句，作業頂嘴的事在資工系館前 AA_519 5-1）*/ const n=(G.flags.KAI_SUP_N|0)-1, s=L[((n%L.length)+L.length)%L.length]; if(s==='新室友說我話很多。……真的很多嗎？') G.flags.KAI_SUP_ROOMIE=G.day; return [s]; }}},
       {speaker:'kai',text:'{flag:KAI_SUP_LINE}'},{goto:'end'},
       {label:'first'},{speaker:null,text:'（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）'},
       {speaker:'kai',text:'你的我幫你夾了。豆干、海帶、王子麵。'},{speaker:'kai',text:'你大一每次都點這三樣，對吧？'},

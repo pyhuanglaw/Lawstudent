@@ -182,6 +182,32 @@ const SUP519=(function(){
   S.TA_PASS='2028-06-20';
   S.taPhone=function(G){ if(!met('npc_ta_chen')) return; S.at(G,DK(S.TA_PASS),21,(TA.pass||[]).map(t=>({th:'p:npc_ta_chen',from:'npc_ta_chen',text:t})),'aa519_ta_pass'); };
 
+  /* ======================= 第 5 節 阿凱（大二以後）======================= */
+  const KAI=L.kai||{};
+  /* 5-1：大二～大四每學期週五 17:00～18:00 資工系館前（遊戲沒有資工系館：醉月湖南岸的長椅，抱著筆電坐著；同子晴那幾列的「資工系館前＝校園」）。
+     大二上第 3～15 週照現有和子晴同框（heroine_circle.js c505_4_3、c505_4_3b：子晴的作息、阿凱跟著她，不另外排）；其他學期一個人（作息補一筆，放在最前面）*/
+  S.KAI_TERMS=['Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
+  S.KAI_SCHED={days:[5],from:17,to:18,zone:'campus',act:'sit',seatAt:[-29,-99.96],terms:S.KAI_TERMS.slice(),noHoliday:true,label:'資工系館前',aa519:true,note:'AA_519 5-1：大二下～大四每學期週五 17:00～18:00 資工系館前（遊戲沒有資工系館：醉月湖南岸東邊那張長椅），一個人抱著筆電坐著'};
+  S.applyKai=function(){ if(S._kai||typeof CHARACTERS==='undefined'||!CHARACTERS.kai) return 0; const L0=CHARACTERS.kai.daily_schedule||(CHARACTERS.kai.daily_schedule=[]); L0.unshift(Object.assign({},S.KAI_SCHED,{days:S.KAI_SCHED.days.slice(),seatAt:S.KAI_SCHED.seatAt.slice(),terms:S.KAI_SCHED.terms.slice()})); S._kai=true; return 1; };
+  /* 現在是不是他在資工系館前的那一個小時（說話照 5-1 的表）*/
+  S.kaiAtCs=function(G){ if(!law(G)||G.zone!=='campus'||G.weekday!==5) return false; const h=hr(G); if(h<17||h>=18) return false; const t=termOf(G.day); if(!t) return false;
+    return S.KAI_TERMS.includes(t.id)||(t.id==='Y2S1'&&t.week>=3&&t.week<=15); };
+  const K5_AT=()=>{ const d=DK('2028-11-22'); return d==null?null:T(d,23+40/60); };   /* K5（r3_3d.js S.kaiK5：2028-11-22 23:40）*/
+  S.k5Done=G=>!!G.flags.KAI_K5||(K5_AT()!=null&&now(G)>=K5_AT());
+  S.KAI_ON={ y2s1:G=>termAt(G.day)==='Y2S1', y2s2_bot:G=>termAt(G.day)==='Y2S2'&&has('kai','KAI_BOT'), y3s1:G=>termAt(G.day)==='Y3S1', y3s2:G=>termAt(G.day)==='Y3S2',
+    y4s1_pre:G=>termAt(G.day)==='Y4S1'&&!S.k5Done(G), y4s1_k5:G=>termAt(G.day)==='Y4S1'&&S.k5Done(G), y4s2:G=>termAt(G.day)==='Y4S2' };
+  S.kaiK5Line=G=>{ const R=(KAI.rows||[]).find(r=>r.k==='y4s1_k5'), M=(R&&R.k5)||{}; return M[G.flags.KAI_K5]||M.none; };   /* KAI_K5：write／bug／company／awake／none（沒回＝none）*/
+  S.KAI_ROWS=(KAI.rows||[]).map(r=>({k:r.k,on:S.KAI_ON[r.k]||(()=>false),t:r.k5?S.kaiK5Line:r.t}));
+  S.kaiTalk=function(G,id,r,nm){ if(!S.kaiAtCs(G)) return null; const o=S.daily(G,'kai',S.KAI_ROWS,KAI.shorts); if(!o||!o.t) return null; r.day=G.day; r.last='__aa519'; return {say:'「'+o.t+'」',fresh:!!o.fresh}; };
+  /* 5-4：一般聊天池（msg_pool.js 是產生器的檔，不手改）kai「寫作業 好難」：大四起「寫 code 好難」，畢業以後「上班好難」（畢業以後沒有學期中：那一則照樣可以回）*/
+  S.KAI_HW='寫作業 好難';
+  S.kaiHw=G=>{ if(!law(G)) return null; if(G.flags.GRADUATED) return KAI.hwPg; return S.yearOf(G)>=4?KAI.hw4:null; };
+  S.msgPick=function(pk0,self,args){ const [G,id,topic]=args; if(id!=='kai'||topic!=='chat'||!G||!G.flags) return pk0.apply(self,args);
+    const P=typeof MSG_POOL!=='undefined'&&MSG_POOL.people&&MSG_POOL.people.kai, E0=P&&(P.replies||[]).find(e=>e&&e.topic==='chat'&&Array.isArray(e.msgs)&&e.msgs.length===1&&e.msgs[0]===S.KAI_HW);
+    const v=S.kaiHw(G); if(!E0||!v) return pk0.apply(self,args); const t0=E0.tags; if(G.flags.GRADUATED) E0.tags=(t0||[]).filter(t=>t!=='學期中');
+    let e; try{ e=pk0.apply(self,args); } finally{ E0.tags=t0; }
+    return e===E0?Object.assign({},E0,{msgs:[v]}):e; };
+
   /* ---------- 8-3 麵店的 2D 事件那一天：阿姨那幾列擲骰當成功 ---------- */
   let AUNT_EVS=null;
   S.auntEvs=function(){ if(AUNT_EVS) return AUNT_EVS; const set=new Set(); if(typeof STORY_EVENTS==='undefined') return set; const N=S.noodleEvs();
@@ -209,7 +235,8 @@ const SUP519=(function(){
 
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;
-    S.applySched();
+    S.applySched(); S.applyKai();
+    if(typeof MSG!=='undefined'&&MSG&&MSG.pick&&!MSG._aa519){ const pk0=MSG.pick; MSG.pick=function(){ return S.msgPick(pk0,this,[].slice.call(arguments)); }; MSG._aa519=true; }   /* 5-4 */
     if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HXH_EV.id)) STORY_EVENTS.push(S.HXH_EV);   /* 4-2 */
     if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.psy_lab) OUT.BG.psy_lab={label:'心理系・實驗室',image:null};   /* 4-2：沒有圖＝深色底＋地點字幕（BB 要圖）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL&&!SOCIAL.MEMORY_LABEL.HXH_SUBJECT) SOCIAL.MEMORY_LABEL.HXH_SUBJECT=HX.mem||'當過她的受試者';   /* 4-2 人物頁 */
@@ -221,7 +248,8 @@ const SUP519=(function(){
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
       if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週麵店團不排 */
-      if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); STORY.SMALL_DAILY.npc_huangxh=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.HXH_ROWS); }   /* 2-2、4-1 */
+      if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); STORY.SMALL_DAILY.npc_huangxh=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.HXH_ROWS);   /* 2-2、4-1 */
+        STORY.SMALL_DAILY.kai=(G,id,r,nm)=>S.kaiTalk(G,id,r,nm); }   /* 5-1：週五資工系館前那一個小時 */
       if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('SUP519.phone',e); } });
       if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); });
       if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); return false; }); }

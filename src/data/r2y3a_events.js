@@ -249,7 +249,8 @@ const R2Y3A_EVENTS=(function(){
   const and=(...cs)=>({custom:(G,GM)=>cs.every(c=>typeof EVENTS==='undefined'||EVENTS.cond(c))});
   const TY_NOODLE={ id:'ev_typhoon_y3_noodle', title:'泡麵之夜', participants:['kai'], location:'dorm', trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>on(G,'2027-10-13',20,23)&&stAt(G,'kai','FAMILIAR')&&typeof CALENDAR!=='undefined'&&!!CALENDAR.typhoon&&CALENDAR.typhoon(G.day)},
-    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱抱著一箱泡麵站在門口，雨衣在滴水。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},
+    dialogue:[ {speaker:null,text:'（二十分鐘後，阿凱站在門口，雨衣在滴水，手上兩杯熱豆漿。……泡麵，他說他不想再吃了。柏翰在靠窗那張桌子念書，看了一眼，戴上耳塞。）'},   /* AA_519 5-3：颱風夜不要三年同一個畫面 */
+      {if:{flags:['TYPHOON_Y2_KAI']},speaker:null,text:'（阿凱說：「去年也是我。」）'},   /* AA_519 5-3：大二颱風那晚有來的（events.js ev_y2_typhoon_kai 記 TYPHOON_Y2_KAI）＝開頭多一句 */
       {if:ZQF,speaker:null,text:'（阿凱把筆電架在你的書桌上，打視訊給子晴。）'},
       {if:ZQF,speaker:'heroine_04',name:'子晴（視訊）',text:'颱風天最適合修 bug。沒人會來吵我。'},
       {if:ZQF,speaker:'kai',text:'我們在吵妳。'},
