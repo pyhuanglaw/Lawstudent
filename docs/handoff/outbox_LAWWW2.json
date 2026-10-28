@@ -4108,7 +4108,7 @@
    "sha": "d5e28e291",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
+   "ack": "ACTIONED",
    "task": "LM-SEAM-1028",
    "files": [
     "assets/models/env/classroom_201.glb",
@@ -4120,9 +4120,9 @@
     "tools/blender/env_second/lightbake/lm_fix_hidden.py",
     "docs/art-rebuild/second_ai/test_shots/lm_seam_1028/README.md"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "iPhone 實機沒測；男一舍走廊北牆和樓梯間牆接頭的縫（要改建模，另開一項）；朝建築外面烘成全黑的面、露在外面本來就很暗的縫照舊；細小零件照舊即時光（RT-NIGHT-1028 另提）",
-   "next": "LAWWW-C：git checkout d5e28e291 -- 六個 GLB（程式不用改）；BB：201 窗框、門中間的壓條，202 後牆",
+   "next": "LAWWW-C 13:54Z ACK、13:59Z 已整合（開發分支 96e535901：六個 GLB；lightmap／room_ceiling／nav 相關 20 支 0 失敗；換檔前全部 Node 730 支 0 失敗；company_priv 那 4 項 LAWWW-C 那邊有企劃線 f6069e42d、沒問題）；下一版 v9.10.14；BB：201 窗框、門中間的壓條，202 後牆，萬才館柱子，男一舍門洞",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）：之前交的 201、202、霖澤館大廳、萬才館（大廳＋二樓、多功能教室）＋男一舍門廳的光照貼圖接縫和全黑的面；lm_fix_hidden.py 第六版（不用重烘，只改第二套 UV）；交件前抓到第三～五版的退步（202 後牆暗影、霖澤館地板朝外的切邊變黑、男一舍門洞裡的牆變暗）並修掉；男一舍門廳換掉已整合的第三版；男一舍走廊和樓梯間牆接頭的縫沒修（要改建模）；相關 16 支 Node ALL PASS（rooms_glb、x78_rooms、linze／wancai／dorm_hall_lightmap、room_ceiling、nav_buildings、door_open、seat_fold、aa509_s0、宿舍六支）；company_priv_unit 4 項 FAIL 和這包無關（拿掉六個 GLB 一樣，我這邊缺企劃分支 commit f6069e42d）"
   }
  ]
