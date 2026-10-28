@@ -15336,6 +15336,32 @@
    "task": "NPC-STORY-1028",
    "integration": "未整合",
    "note": "【LAWWW-C 2026-10-28 01:5x UTC】接 AA_497 時用這一版"
+  },
+  {
+   "id": "DL-AA-500",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d043110ae",
+   "msg": "ACK",
+   "what": "AA_500 法律系同學第三批（大二六位，2028-06 畢業；日本路線那一場改私訊）：蔡宗霖、劉晏如、楊書豪、葉晨希、游振宇、蕭乃文（筆記被網拍，著作權 LEGAL_REVIEW_REQUIRED）",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3"
+  },
+  {
+   "id": "DL-AA-501",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "17d57eff3",
+   "msg": "ACK",
+   "what": "AA_501 法律系同學第四批（大三四位，2027-06 畢業）：洪珮瑜、施孟儒（系籃三選一終於有人回應、畢業交記分板）、廖芸萱、嚴守誠；第 5 節十五位的 personality 表補進 characters.js",
+   "task": "NPC-STORY-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 01:5x UTC】outbox 60d6be1d3；二十位全部寫完（AA_498～501）"
   }
  ],
  "ignored": [
