@@ -29,6 +29,7 @@
 //   「沒做」拿掉那一句（其他照舊，原因照新規則寫）。加句子以後、這裡還沒改的時候實際跑：FAILED 3（這三項）；改了以後 ALL PASS。
 // AA_513（AA-C 2026-10-28，a2e4bf196）改的只有第 6 段：「沒做」裡阿凱 AA_508、AA_509 那兩句的原因改「改私訊，AA_513 第 1 節」，多一項查 1-3（y34b3d.js S.KAI_ROW）、1-4（heard_lines.js）真的在遊戲裡。
 //   這一項對開發分支 44e8ff8b7 的 src 實際跑 FAIL（沒有 KAI_ROW、沒有 1-4 那一組），改完 ALL PASS。
+// 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028）：sis4f 留言回「他說要三匙。我沒給。」——第 0 節對稿時照 AA_518 換（AA518_ROW）。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -126,14 +127,16 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
     HAS2()&&J(cnt(SET.Y3S2))===J([7,7,7,7,4,5,4])&&SET.Y3S2.dms.length===1&&(SET.Y3S2.events||[]).length===1&&J(cnt(SET.Y4S1))===J([6,5,5,5,4,4,4])&&SET.Y4S1.dms.length===0,J([cnt(SET.Y3S2),cnt(SET.Y4S1)]));
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
   check('0. 七個學期的 id 都不重複（動態 44＋47＋38＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0；大二上 38＝AA_514 加的 kx4bc）',ids.length===307&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
+  /* 2026-10-28 AA_518 第 4-4 改的（企劃線 973dd1b74，SIS-B15-1028；對 AA_518 的稿在 tests/aa518_sis_b15_unit.js）：sis4f 留言回「他說要三匙。我沒給。」（對齊陳助教那一句）*/
+  const AA518_T=new Set(['他說要三匙。我沒給。']), AA518_ROW={sis4f:e=>{ e.cm=[e.cm[0],'他說要三匙。我沒給。']; }};
   for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t));
+    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!AA518_T.has(t));
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
     const rows=rowsOf(md), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when);
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA518_ROW[e.id]) AA518_ROW[e.id](e);   /* AA_518 改的 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&(nw?base(p.say):p.say)===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)

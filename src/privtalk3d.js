@@ -119,7 +119,7 @@ const PRIVTALK=(function(){
     {key:'zz_after',cat:'感情',topic:'子晴、芷若分開以後',who:['heroine_04','heroine_02'],kind:'pre',gate:'edit',desc:'src/multirel3d.js S.zzPreTalk（子晴第一次「嗨。」、之後各一句、可以重新開始那一天她先說；sub＝first／chat／restart）、吧檯的芷若第一句「你要點什麼？」（ZZ_AFTER.first）',
       note:'這一次不演（照常說話、點餐）；沒有期限：等了 7 天照演'},
     /* ---- 第 3 項 學姊說要去美國交換（同芷若的交換申請；期限 11/9）---- */
-    {key:'sis_us_told',cat:'還沒公開',topic:'學姊美國交換',who:'heroine_05',kind:'pre',gate:'wrap',ev:'ev_sis_us_told',due:'2027-11-09',desc:'src/sis_y2y3_3d.js SISY23.preTalkEv（大三上 11/1～11/9 晚上在法圖、Café 第一次找她說話，說話前接演）',
+    {key:'sis_us_told',cat:'還沒公開',topic:'學姊美國交換',who:'heroine_05',kind:'pre',gate:'wrap',ev:'ev_sis_us_told',due:'2027-11-09',pub:G=>typeof SISB15!=='undefined'&&!!SISB15.heardUS&&SISB15.heardUS(G),   /* AA_518 4-1：聽過 S4-Lx 或 S5-L1 的玩家，不算私密（S.privAt）*/desc:'src/sis_y2y3_3d.js SISY23.preTalkEv（大三上 11/1～11/9 晚上在法圖、Café 第一次找她說話，說話前接演）',
       note:'有人＝這一次照常說話；有期限 11/9：那天照演；都沒演照原本 11/11 私訊、11/12 總圖門口的台階'},
     /* ---- 第 4 項 沛珊說和柏翰分開了 ---- */
     {key:'ps_split',cat:'感情',topic:'沛珊和柏翰',who:'classmate_peishan',kind:'event',gate:'prereq',ev:'ev_peishan_split',due:evDue,desc:'src/data/events.js「我們上週分開了」（大二上第 6 週平日 12:10～12:40 霖澤館，走到她旁邊就演）',
@@ -199,7 +199,7 @@ const PRIVTALK=(function(){
   S.clear=function(G,key,id,sub){ const W=G&&G.flags&&G.flags.PRIVWAIT; if(W&&typeof W==='object') delete W[S.wk(key,id,sub)]; };
   const prune=(W,G)=>{ for(const k in W){ if(typeof W[k]!=='number'||G.day-W[k]>400) delete W[k]; } };   /* 太舊的（沒演到就過了期限的）拿掉 */
   /* 那一段算不算私密（清單上的 from／until）*/
-  S.privAt=function(G,e){ if(!e) return true; if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
+  S.privAt=function(G,e){ if(!e) return true; if(e.pub&&e.pub(G)) return false;   /* pub：那個玩家已經知道（清單上那一項自己判斷，AA_518 4-1）＝不算私密 */ if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
   /* 旁邊有她的人（except 的人不算）*/
   S.exceptOf=(e,id)=>!e||!e.except?null:Array.isArray(e.except)?e.except:(e.except[id]||null);   /* except：陣列＝這一筆都不算；物件＝依人物（{她的 id:[不算的人]}，後補第 5 點）*/
   /* 依人物＋區域（後補第 6 點，企劃線 5ec2fe771）：語彤在麵店，阿姨對她所有私密的都不算（清單每一筆、旁白、第 7 項交往中那一版）；旁邊還有別的圈子同伴照擋；別的區域照舊 */
