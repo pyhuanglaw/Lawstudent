@@ -16,8 +16,11 @@
 //   6  第 6 節可昕 9/16 21:10 兩則（p:kexin），23:30 予樂那幾則接在後面；分開了沒有
 //   7  舊存檔：沒有新旗標、沒有 YL_PH、沒有 msgs 照常跑、不丟例外；新的局沒有預先寫 YL_*；跳過一大段時間（存檔停在很久以前）不補一堆
 //   8  給 BB（稿第 9 節）：立繪三種表情夠用（只用 neutral、smile）；不用 3D（出遊 2D、沒有 3D 當面的入口）；霖澤館 201 的 2D 背景等 BB 要圖（scene_bg_keys PENDING）
-// 修改前（只拿掉這次 src 的改動：src/yule3d.js、src/data/yule_lines.js 不在、src/heard3d.js、src/data/heard_lines.js、index.html 換回開發分支 38594a3d8；白名單、這支測試用新的）：
-//   （數字見下面「修改前」那一行，跑完填）
+// 修改前（只拿掉這次 src 的改動：git archive 出 src、tests、lib、index.html、白名單，src/yule3d.js、src/data/yule_lines.js 刪掉，src/heard3d.js、src/data/heard_lines.js、index.html
+//   換回開發分支 38594a3d8；白名單、這支測試用新的；AA520_DOCREPO 指這個 repo 實際跑過）：FAILED 36、PASS 10
+//   （PASS＝讀稿、白名單、日子對星期、「不該有／照舊」那一類：被抓包不傳、原有八則照原本的條件、八則都在、3/27 在 kx_yule 後面、23:54 以後不能回、新的局沒有 YL_*、經濟系不傳；
+//    第 0 段、第 4 段找不到 YULE_LINES 丟例外中斷、第 7 段舊存檔丟例外（沒有 YULE））。修改後 ALL PASS（57 項）。
+// 照 AA_520 改的舊測試：tests/aa503_others_unit.js（h503_yule 三則、items 第 4 欄的稿、句數 121→123）、tests/scene_bg_keys_unit.js（PENDING 加 linze_201）。
 // 用法：node tests/aa520_yule_unit.js（在沒有 .git 的目錄跑，設環境變數 AA520_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
