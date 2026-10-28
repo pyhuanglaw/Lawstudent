@@ -11,6 +11,7 @@
  ],
  "sky": 1.0,
  "nightsky": 0.03,
+ "shell": "S",
  "objects": [
   "linze_202_ceiling",
   "linze_202_desktops",
