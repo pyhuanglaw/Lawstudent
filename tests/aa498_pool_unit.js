@@ -327,6 +327,8 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   check('8. 少一則就開口；同學的順手的事也算在 SIDEQ.openIds（店員的那一則現在不能再出）',SIDEQ.openIds(H.G).includes('PQ_ZJW')&&SIDEQ.openIds(H.G).length===2&&(SIDEQ.Q.SQTEST={shop:'x',title:'x',avail:()=>true},!SIDEQ.canOffer(H.G,'SQTEST')),J(SIDEQ.openIds(H.G))); delete SIDEQ.Q.SQTEST;
   check('8. 新的互動點只有互動點（男一舍門廳「領包裹」、交誼廳的冰箱與紙條、霖澤館一樓「看補給的桌子」、穿堂「看穿堂的照片」）',['領包裹','把箱子放進交誼廳的冰箱','看交誼廳的冰箱','看桌上的紙條','看補給的桌子','看穿堂的照片'].every(t=>fs.readFileSync(path.join(H.ROOT,'src/pool3d.js'),'utf8').indexOf("label:'"+t+"'")>0));
   const ih=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
-  check('8. index.html：pool_story.js、pool3d.js 在 story3d.js、sideq3d.js 之後、bbpack_events.js 前面；bbpack3d.js 緊接 GAME.boot()',sc.indexOf('src/data/pool_story.js')>sc.indexOf('src/sideq3d.js')&&sc.indexOf('src/pool3d.js')===sc.indexOf('src/data/pool_story.js')+1&&sc.indexOf('src/data/bbpack_events.js')===sc.indexOf('src/pool3d.js')+1&&/src\/bbpack3d\.js[^"]*"><\/script>\s*<script>GAME\.boot\(\);/.test(ih)); });
+  /* heroine_asks.js → heroine_asks3d.js → bbpack_events.js 緊接（tests/heroine_asks_unit.js 查）：pool 的兩個檔放在 heroine_asks 前面（rom1016_3d.js 後面）*/
+  const ix=f=>sc.indexOf(f);
+  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 照舊緊接 bbpack_events.js；bbpack3d.js 緊接 GAME.boot()',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/data/bbpack_events.js')===ix('src/heroine_asks3d.js')+1&&/src\/bbpack3d\.js[^"]*"><\/script>\s*<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });
 H.done();
 }

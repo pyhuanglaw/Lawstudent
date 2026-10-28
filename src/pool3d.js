@@ -209,7 +209,7 @@ const POOL=(function(){
     after:(G,GM)=>{ const r=S.qRec(G,'PQ_YT1'); if(!r||r.state!=='open') return; if(typeof INV!=='undefined') INV.addContact(G,Y); S.finishQ(GM&&GM.G===G?GM:{G},'PQ_YT1',r); } };
   S.packDue=GM=>{ const G=GM&&GM.G, r=G&&S.qRec(G,'PQ_YT1'); if(!r||r.state!=='open'||r.step!=='pack'||G.day!==r.packDay||G.zone!=='wancai') return false; const h=hr(G); return h>=19&&h<21; };
   /* 隔天霖澤館一樓：補給的桌子（幫了＝她塞一包；沒幫、過期＝阿哲在發）*/
-  S.ytTableDue=G=>{ const r=S.qRec(G,'PQ_YT1'); if(!r||G.zone!=='linze') return false; const d0=r.packDay!=null?r.packDay:r.day; return G.day===d0+1&&['done','declined','lapsed'].includes(r.state); };
+  S.ytTableDue=G=>{ const r=S.qRec(G,'PQ_YT1'); if(!r||G.zone!=='linze') return false; const d0=r.packDay!=null?r.packDay:r.day; const st=r.state==='open'&&r.by!=null&&G.day>r.by?'lapsed':r.state; return G.day===d0+1&&['done','declined','lapsed'].includes(st); };   /* 答應了沒去、還沒被 SIDEQ.lapse 改成過期的：一樣算沒幫 */
   S.ytTableLine=G=>S.qState(G,'PQ_YT1')==='done'?L[Y].tableYes:L[Y].tableNo;
   /* 5-5 郁婷：迎新報到桌（大二上第 1 週週三 08:30，霖澤館一樓，2D）*/
   S.yt2Day=()=>termDay('Y2S1',1,3);
@@ -412,8 +412,8 @@ const POOL=(function(){
     if(STORY.populate&&!STORY._poolPopulate){ const p0=STORY.populate; STORY.populate=function(zoneId,GM){ const r=p0.apply(this,arguments); try{ S.populate(zoneId,GM); }catch(e){ console.warn('POOL.populate',e); } return r; }; STORY._poolPopulate=true; }
     if(STORY.interact&&!STORY._poolInteract){ const o0=STORY.interact; STORY.interact=async function(it,GM){ if(it&&it.poolAct) return S.interact(it,GM); return o0.apply(this,arguments); }; STORY._poolInteract=true; } }
   /* 林采潔 新生導覽版：導覽走完（CLS.attendActivity）以後 */
-  if(typeof CLS!=='undefined'&&CLS.attendActivity&&!CLS._poolTour){ const a0=CLS.attendActivity; CLS.attendActivity=async function(GM,a){ const r=await a0.apply(this,arguments);
-      try{ if(a&&a.id==='lib_tour_y1s1'&&GM&&GM.G&&S.tourMeetDue(GM.G)&&typeof EVENTS!=='undefined'&&EVENTS.run){ S.bind(GM); await EVENTS.run(S.TOUR_EV); } }catch(e){ console.warn('POOL tour',e); } return r; }; CLS._poolTour=true; }
+  if(typeof CLS!=='undefined'&&CLS.attendActivity&&!CLS._poolTour){ const a0=CLS.attendActivity; CLS.attendActivity=Object.assign(async function(GM,a){ const r=await a0.apply(this,arguments);
+      try{ if(a&&a.id==='lib_tour_y1s1'&&GM&&GM.G&&S.tourMeetDue(GM.G)&&typeof EVENTS!=='undefined'&&EVENTS.run){ S.bind(GM); await EVENTS.run(S.TOUR_EV); } }catch(e){ console.warn('POOL tour',e); } return r; },a0); CLS._poolTour=true; }   /* Object.assign(…,a0)：保留前面包過的記號（clubfair3d.js 的 _fair、fit3d.js 的 _fit）*/
   S.wrapAnon();
   return S;
 })();
