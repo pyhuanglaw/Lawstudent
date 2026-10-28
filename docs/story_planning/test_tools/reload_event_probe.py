@@ -15,6 +15,10 @@ EV = os.environ.get('EV', 'ev_bike_flat')
 ST = """(()=>{ const D=GAME.D, E=GAME.E, ch=document.getElementById('choices'); return {running:(typeof EVENTS!=='undefined'?EVENTS.running:null)||null, depth:D.busyDepth|0, dlg:!!D.active,
   txt:((document.getElementById('dlgName').textContent||'')+'｜'+(D.full||'')).slice(0,60), ch:(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].map(b=>b.textContent.slice(0,20)):[],
   busy:!!E.player.busy, zone:GAME.G.zone, day:GAME.G.day, hour:+(+GAME.G.hour).toFixed(2), loadGen:(typeof GAME.loadGen==='number')?GAME.loadGen:null}; })()"""
+VIS = """(()=>{ const t=document.getElementById('title3'), a=document.getElementById('letterT'), b=document.getElementById('letterB'), cs=e=>e?getComputedStyle(e):null;
+  const tv=!!t&&cs(t).display!=='none'&&cs(t).visibility!=='hidden'&&+cs(t).opacity>0.05&&(t.textContent||'').trim().length>0;
+  return {adv:typeof ADV!=='undefined'&&!!ADV.active, title:tv, titleTxt:t?(t.textContent||'').trim().slice(0,30):'', letter:Math.max(a?a.getBoundingClientRect().height:0,b?b.getBoundingClientRect().height:0),
+    depth:GAME.D.busyDepth|0, running:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, busy:!!GAME.E.player.busy}; })()"""
 LOG = """(()=>{ window.__rl=[]; let last=''; setInterval(()=>{ try{ const D=GAME.D; const k=D.active?((document.getElementById('dlgName').textContent||'')+'｜'+(D.full||'')).slice(0,80):''; if(k&&k!==last) window.__rl.push({t:Math.round(performance.now()),k}); last=k; }catch(e){} },50); })()"""
 
 async def click_through(pg, cdp, secs, until=None):
@@ -57,6 +61,9 @@ async def main():
         await L.load_state(pg, other, quiet_events=True, quiet_phone=True); await pg.wait_for_timeout(3000)
         a0 = await pg.evaluate(ST); run.note('讀檔 3 秒後 %s（loadGen %s → %s）' % (json.dumps(a0, ensure_ascii=False), g0, a0['loadGen']))
         run.check('讀進來是另一份（宿舍、21:00）', a0['zone'] == 'dorm', json.dumps(a0, ensure_ascii=False))
+        vis = await pg.evaluate(VIS); run.note('讀檔後畫面：%s' % json.dumps(vis, ensure_ascii=False)); await run.shot(pg, 'reload_after')
+        run.check('LOADGEN-LOCKS：讀檔後馬上 EVENTS.running＝null（不用點）', not vis['running'], json.dumps(vis, ensure_ascii=False))
+        run.check('LOADGEN-LOCKS：讀檔後 ADV.active＝false、標題卡和黑邊不見、busyDepth＝0', (not vis['adv']) and (not vis['title']) and vis['letter'] < 2 and vis['depth'] == 0, json.dumps(vis, ensure_ascii=False))
         n0 = await pg.evaluate("window.__rl.length")
         a1 = await click_through(pg, cdp, 60)
         old = await pg.evaluate("window.__rl.slice(%d)" % n0)

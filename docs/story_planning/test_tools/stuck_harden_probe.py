@@ -54,6 +54,10 @@ DBG = """(()=>{ const D=GAME.D, E=GAME.E, P=E.player, ch=document.getElementById
     ch:(ch&&!ch.classList.contains('hide'))?[...ch.querySelectorAll('button')].map(b=>b.textContent.slice(0,20)):[], busy:!!P.busy, zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(3), day:GAME.G.day,
     it:(it&&!it.classList.contains('hide'))?(document.getElementById('interactLabel').textContent||''):'', fade:!!(f&&f.classList.contains('on')), path:!!(P.path&&P.path.length), stale:!!D.stale,
     adv:typeof ADV!=='undefined'&&!!ADV.active, x:+P.obj.position.x.toFixed(2), z:+P.obj.position.z.toFixed(2), lv:P.lv|0 }; })()"""
+VIS = """(()=>{ const t=document.getElementById('title3'), a=document.getElementById('letterT'), b=document.getElementById('letterB'), cs=e=>e?getComputedStyle(e):null;
+  const tv=!!t&&cs(t).display!=='none'&&cs(t).visibility!=='hidden'&&+cs(t).opacity>0.05&&(t.textContent||'').trim().length>0;
+  return {adv:typeof ADV!=='undefined'&&!!ADV.active, title:tv, titleTxt:t?(t.textContent||'').trim().slice(0,30):'', letter:Math.max(a?a.getBoundingClientRect().height:0,b?b.getBoundingClientRect().height:0),
+    depth:GAME.D.busyDepth|0, running:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, busy:!!GAME.E.player.busy}; })()"""
 REL = """(()=>{ const LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; LV('heroine_03',45,30,0); LV('classmate_bohan',45,30,0); return STORY.knows('heroine_03',GAME.G); })()"""
 
 
@@ -166,6 +170,10 @@ async def main():
             if lg0 is not None or lg1 is not None:   # LOAD-GEN-ABORT-1028（LAWWW-C c1e7a32d7）以後才有
                 run.check('LOAD-GEN：讀檔前後 GAME.loadGen 加一（%s → %s）' % (lg0, lg1), lg0 is not None and lg1 is not None and lg1 >= lg0 + 1)
                 run.check('LOAD-GEN：讀進來以後舊的對話框、選項收掉了（不用點）', not a0['dlg'] and not a0['ch'], json.dumps(a0, ensure_ascii=False))
+                vis = await pg.evaluate(VIS)   # LOADGEN-LOCKS-1028（LAWWW-C 8de0993cd）第 3 點：2D、標題卡、黑邊、鎖
+                run.note('讀檔後畫面：%s' % json.dumps(vis, ensure_ascii=False))
+                run.check('LOADGEN-LOCKS：讀檔後 ADV.active＝false（2D 沒有蓋著）、標題卡和黑邊不見、busyDepth＝0', (not vis['adv']) and (not vis['title']) and vis['letter'] < 2 and vis['depth'] == 0, json.dumps(vis, ensure_ascii=False))
+                await run.shot(pg, 'reload_after')
             else:
                 run.note('這一版沒有 GAME.loadGen（LOAD-GEN-ABORT-1028 以前）')
             n0 = await pg.evaluate("window.__bbLog.length")
