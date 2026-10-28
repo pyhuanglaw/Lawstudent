@@ -3801,7 +3801,7 @@
   {
    "task": "HEROINE-LIFE-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "964d01175",
+   "sha": "9bca0f407",
    "files": [
     "docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md"
    ],
@@ -3811,7 +3811,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "自查今天新稿的懸著的承諾（同 AA_356 做法），只有可昕兩件沒下文"
+   "note": "自查今天新稿的懸著的承諾（同 AA_356 做法），只有可昕兩件沒下文；9bca0f407 第 4 節：nccu_food、晨希叫子晴改字、晨希大四兩句改錄音私訊"
   },
   {
    "task": "COMPANY-PRIV-1028",
