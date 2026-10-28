@@ -10,6 +10,8 @@
 //   7  舊存檔：讀檔那個月開始（那個月的第一個週六過了＝同月下一個週六），過去的月份不補、讀檔當下不一次排一堆
 //   8  沒交往：沒有格子
 // 修改前（開發分支 2eba2fab）：沒有 pg_dates.js、pgdates3d.js——每一節照樣跑（用空的替身），全部 FAIL（第 1 節讀稿那兩項除外）。用法：node tests/aa367_pg_dates_unit.js
+// 2026-10-28 AA_523 第 6-5 點改的（企劃線 0d7b5388b，SIS-B16-1028）：學姊 2029-06 那一句「論文送進圖書館了。……」（早於 6/20「交了。」）換成 AA_523 第 6 節 6-5 那一列「改成」的那一句——
+//   讀稿以後，學姊 2029-06 那一格照 AA_523 6-5 換（同 tools/story/import_pg_dates.py；多一項查換了、舊句子真的是那一句）；第 1、5 項照換過的稿比（檢查沒有拿掉）
 require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -33,6 +35,10 @@ check('0. 載入 pg_dates.js、pgdates3d.js；102 個事件（每一格一個）
 let doc=''; try{ doc=cp.execFileSync('git',['-C',process.env.PG_DOC_REPO||H.ROOT,'show',SHA+':'+SRC],{encoding:'utf8'}); }catch(e){ doc=''; }
 const DOC={}, SECT={}; { let who=null; for(const l of doc.split('\n')){ const m=l.match(/^## (\d)\. .*（(\w+)）\s*$/); if(m){ who='123456'.includes(m[1])?m[2]:null; if(who) SECT[who]=[]; continue; } if(l.startsWith('## ')){ who=null; continue; }
     if(!who) continue; SECT[who].push(l); const r=l.match(/^\| (20\d\d-\d\d) \| 「(.*)」(（[^）]*）)? \|$/); if(r) (DOC[who]||(DOC[who]=[])).push({ym:r[1],line:r[2],note:(r[3]||'').replace(/[（）]/g,'')}); } }
+/* AA_523 6-5（企劃線 0d7b5388b）：學姊 2029-06 那一格換成第 6 節 6-5 那一列「改成」欄的那一句（稿上原本那一句要以「論文送進圖書館了。」開頭）*/
+let doc523=''; try{ doc523=cp.execFileSync('git',['-C',process.env.AA523_DOCREPO||process.env.PG_DOC_REPO||H.ROOT,'show','0d7b5388b:docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md'],{encoding:'utf8'}); }catch(e){ doc523=''; }
+const R65={}; { const row=doc523.split('\n').find(l=>l.startsWith('| 6-5 |'))||'', c=row.split('|').map(x=>x.trim()), m=/^「([^」]+)」/.exec(c[4]||''), cell=(DOC.heroine_05||[]).find(r=>r.ym==='2029-06');
+  R65.ok=!!m&&/2029-06/.test(c[3]||'')&&!!cell&&cell.line.startsWith('論文送進圖書館了。'); R65.old=cell&&cell.line; if(R65.ok){ R65.line=m[1]; cell.line=m[1]; } }
 const docLine=(id,ym)=>((DOC[id]||[]).find(r=>r.ym===ym)||{}).line;
 /* ---------- 存檔 ---------- */
 const fresh=(key,h,flags,who)=>{ const G=H.fresh(key,h,'dorm',Object.assign({MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));
@@ -50,6 +56,8 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
   await sec('1',async()=>{
     check('1. 讀得到企劃線 '+SHA+' 的 AA_367',doc.length>1000&&doc.includes('## 0. 共通規格'));
     check('1. 稿：六位的月份表一共 102 句',SIX.every(id=>DOC[id])&&SIX.reduce((n,id)=>n+DOC[id].length,0)===102,SIX.map(id=>(DOC[id]||[]).length).join(','));
+    { const d=(PG_DATES.six.heroine_05||[]).find(x=>x.ym==='2029-06');
+      check('1. AA_523 6-5（0d7b5388b）：學姊 2029-06 那一格照第 6 節 6-5 換成「'+R65.line+'」；稿上舊的那一句（「論文送進圖書館了。……」）不在資料裡',R65.ok&&R65.line==='修正本改完了。這禮拜印，下禮拜交。'&&!!d&&d.line===R65.line&&d.line!==R65.old,JSON.stringify(R65)); }
     const bad=[]; for(const id of SIX) for(const r of (DOC[id]||[])){ const d=(PG_DATES.six[id]||[]).find(x=>x.ym===r.ym); if(!d||d.line!==r.line) bad.push(id+' '+r.ym+' 資料');
       const ev=STORY_EVENTS.find(e=>e.id==='ev_pg_date_'+id+'_'+r.ym), ln=ev&&ev.dialogue.find(l=>l.speaker===id); if(!ln||ln.text!==r.line) bad.push(id+' '+r.ym+' 事件'); }
     for(const id of SIX) if((PG_DATES.six[id]||[]).length!==(DOC[id]||[]).length) bad.push(id+' 數量');
