@@ -130,8 +130,32 @@ for o in objs:
     bmesh.update_edit_mesh(o.data)
 # 間隔＝貼圖的 4 個像素（FRACTION：最後輸出的比例）。原本用預設的 SCALED（間隔乘上 UV 的大小）：average_islands_scale 之後 UV 是公尺的大小，
 # 間隔變成幾十個像素，島只佔整張貼圖的 6～9%（10-28 量的：202 每公尺 8～11 個像素、201 2～9 個）
-try: bpy.ops.uv.pack_islands(margin_method='FRACTION', margin=4.0 / RES, rotate=True)
-except TypeError: bpy.ops.uv.pack_islands(margin=4.0 / RES, rotate=True)
+def pack(px_margin):
+    try: bpy.ops.uv.pack_islands(margin_method='FRACTION', margin=px_margin / RES, rotate=True)
+    except TypeError: bpy.ops.uv.pack_islands(margin=px_margin / RES, rotate=True)
+def packed_max():
+    """排好以後看得到的面的光照座標最大值（> 1＝排不進一張貼圖）"""
+    bpy.ops.object.mode_set(mode='OBJECT'); m = 0.0
+    for o in objs:
+        hs = HID[o.name]; d = o.data.uv_layers['LM'].data; buf = np.empty(len(d) * 2, dtype=np.float32); d.foreach_get('uv', buf); buf = buf.reshape(-1, 2)
+        keep = np.ones(len(d), dtype=bool)
+        for pg in o.data.polygons:
+            if pg.index in hs: keep[pg.loop_start:pg.loop_start + pg.loop_total] = False
+        if keep.any(): m = max(m, float(buf[keep].max()))
+    bpy.ops.object.mode_set(mode='EDIT'); return m
+# 排不進一張貼圖時（島很多、貼圖小：每個島 4 個像素的間隔加起來超過整張），Blender 不會報錯，排出來比 0～1 大，超出的部分烘不到、整張全黑
+# （10-28 總圖大廳 512 校正烘焙、男一舍門廳 256 試烘：day lm mean 0.0）。間隔減半重排，到 1 個像素還排不下就整個縮進 0～1，並且大聲印出來
+for pm in (4.0, 2.0, 1.0):
+    pack(pm); mx = packed_max()
+    if mx <= 1.0001: break
+    print(f'WARNING UV 排不進一張貼圖（間隔 {pm:g} 像素，最大 {mx:.2f}）', flush=True)
+if mx > 1.0001:
+    bpy.ops.object.mode_set(mode='OBJECT')
+    for o in objs:
+        d = o.data.uv_layers['LM'].data; buf = np.empty(len(d) * 2, dtype=np.float32); d.foreach_get('uv', buf); d.foreach_set('uv', buf / mx)
+    print(f'WARNING 間隔 1 個像素也排不下：整個縮成 1/{mx:.2f}（貼圖太小，--res 加大）', flush=True)
+    bpy.ops.object.mode_set(mode='EDIT')
+print('uv pack margin', pm, 'max', round(mx, 4), flush=True)
 bpy.ops.object.mode_set(mode='OBJECT')
 for o in objs:
     hs = HID[o.name]
