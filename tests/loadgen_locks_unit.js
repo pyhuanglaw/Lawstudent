@@ -2,12 +2,13 @@
 //   起因：LOAD-GEN-ABORT-1028（c1e7a32d7）讀檔時舊劇情凍住（sleep、走路、對話框、選單永遠不 resolve，不會在新的一局接著演、寫旗標——這一點照舊）；
 //   可是凍住的流程永遠走不到自己的 finally，finally 才放開的鎖就一直留著：closed2_3d.js 的 busy（讀檔以後阿姨諮詢再也不開始）、
 //   EVENTS.running（之後每一個 EVENTS.run 一進去就 return＝劇情事件全死）、ADV 一直開著（EVENTS.tick 不跑、2D 蓋在畫面上）、其他四十個模組同寫法。
-//   做法：各模組宣告鎖的那一行登記 globalThis.LOADLOCKS（放開的函式；不靠 game3d.js 先載入，Node 測試一樣）；game3d.js applySave 換 G 之前 loadRelease()：
-//   跑登記的放開、清劇情走路（walks）、EVENTS.running／_playerSeated／_preMet、ADV.end、黑邊、日期卡、SOCIAL.feelOn；手機（phoneThread）、存檔選單（saveMenu）的等待也照世代（舊的不醒）。
-//   沒有讀檔＝一個位元組都不變（登記只在讀檔時跑；鎖照舊擋重複進入）。
+//   做法：各模組宣告鎖的下一行登記 globalThis.LOADLOCKS['模組:鎖']＝只把旗標設回初始值的函式（不靠 game3d.js 先載入，Node 測試一樣；同一個鍵＝同一個檔載兩次不累積）；
+//   game3d.js applySave 換 G 之前 loadRelease()：跑登記的放開、清劇情走路（walks）、EVENTS.running／_playerSeated／_preMet、ADV.end、黑邊、日期卡、SOCIAL.feelOn；
+//   手機（phoneThread）、存檔選單（saveMenu）的等待也照世代（舊的不醒）。沒有讀檔＝什麼都不變（登記只在讀檔時跑；鎖照舊擋重複進入）。
 //   1 靜態：掃 src/——finally、.finally、.catch 裡才放開的模組狀態（模組層宣告的 let、S.／X.／E.／全大寫模組的屬性、Set、計數）每一個都要登記（或在下面白名單寫原因）；
-//     模組層的 let busy／xxxBusy／playing／running／resuming／forcing／leaving、S.busy／S._busy／S.running／S.playing 一律要登記
-//   2 game3d.js：applySave 換 G（G=s）之前叫 loadRelease()；loadRelease 跑 LOADLOCKS（一個出錯不影響其他）、walks、EVENTS、ADV、黑邊、日期卡、feelOn；phoneThread、saveMenu 讀檔以後不醒
+//     模組層的 let busy／xxxBusy／playing／running／resuming／forcing／leaving、S.busy／S._busy／S.running／S.playing 一律要登記；鍵不重複；登記的內容只有「名字=false／null／0」「名字.clear()」
+//   2 game3d.js：applySave 換 G（G=s）之前叫 loadRelease()；loadRelease 跑 LOADLOCKS（一個出錯不影響其他）、walks、EVENTS、ADV、黑邊、日期卡、feelOn；busyDepth、busyWho 一起歸零；
+//     phoneThread、saveMenu 讀檔以後不醒；同一個模組載兩次登記不累積
 //   3 阿姨諮詢（BB 的 sh_reload_lg3）：演到一半（對話框開著）讀別的檔——舊的不接著演、點了也不演、不寫旗標（LOAD-GEN 照舊）；再讀阿姨到期的檔——CLOSED2.tick 重新開始、演完
 //   4 EVENTS.run 開場的 sleep 中間讀檔（pool3d.js S.AUTO 包著＝模組鎖＋EVENTS.running 都佔著）：讀檔以後 EVENTS.run 別的事件照演、POOL.tick 重新開始；舊的那一次永遠不寫
 //   5 每一個登記的放開都跑得動、真的放開（載得到的模組全部跑一次）
@@ -38,9 +39,10 @@ const NAME='[A-Za-z_$][\\w$]*(?:\\.[A-Za-z_$][\\w$]*|\\[[^\\]\\n]*\\])*';
 function releases(s){ const out=[]; const re=/\bfinally\s*([({])|\.catch\s*\(/g; let m;
   while((m=re.exec(s))){ const open=m[1]||'(', a=m.index+m[0].length-1, b=match(s,a,open,open==='{'?'}':')'); if(b<0) continue; const body=s.slice(a+1,b), line=s.slice(0,m.index).split('\n').length; let q;
     const ra=new RegExp('(?<![\\w$.\\]])('+NAME+')\\s*=(?![=>])\\s*(false|null|0|undefined|[A-Za-z_$][\\w$]*(?:\\[[^\\]\\n]*\\])?)?','g');
-    while((q=ra.exec(body))){ if(q[2]===undefined) continue; const lit=/^(false|null|0|undefined)$/.test(q[2]); out.push({name:q[1],how:lit?'='+q[2]:'還原',line}); }
+    while((q=ra.exec(body))){ if(q[2]===undefined||q[2]==='true') continue; const lit=/^(false|null|0|undefined)$/.test(q[2]); out.push({name:q[1],how:lit?'='+q[2]:'還原',line}); }   /* =true（例：.catch 裡記「這次失敗了」）不是放開 */
     const rd=new RegExp('('+NAME+')\\.(delete|clear)\\(','g'); while((q=rd.exec(body))) out.push({name:q[1],how:'.'+q[2],line});
     const rm=new RegExp('('+NAME+')--','g'); while((q=rm.exec(body))) out.push({name:q[1],how:'--',line}); }
+  for(const r of out) r.name=r.name.replace(/\[[^\]]*\]/g,'[]');   /* ON['節日']、S._x[id]：字串已經換成空白，鍵寫 [] */
   return out; }
 /* 模組層（兩格縮排那一行）宣告的 let／var 名字、const X=new Set／Map／WeakSet */
 function modDecl(raw){ const names=new Set();
@@ -49,42 +51,43 @@ function modDecl(raw){ const names=new Set();
     for(const m of s.matchAll(/\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*new\s+(?:Set|Map|WeakSet|WeakMap)\b/g)) names.add(m[1]); }
   return names; }
 const isModState=(name,decl)=>{ const root=name.split(/[.[]/)[0]; if(name.indexOf('.')<0&&name.indexOf('[')<0) return decl.has(root); return /^(S|S_|X|E)$/.test(root)||/^[A-Z][A-Z0-9_]+$/.test(root)||(decl.has(root)&&!/^(G|F|GM|R|r|q|c|s|e|k|n|P|A)$/.test(root)); };
-/* 讀檔時放開的登記：(globalThis.LOADLOCKS=globalThis.LOADLOCKS||[]).push(()=>{ … }); 一行 */
-const REG=/\(globalThis\.LOADLOCKS=globalThis\.LOADLOCKS\|\|\[\]\)\.push\(\(\)=>\{(.*?)\}\);/g;
+/* 讀檔時放開的登記（一行）：(globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['模組:鎖']=()=>{ 旗標=初始值; … };
+   鍵＝同一個檔在 Node 測試載兩次只留一個（重複登記不累積）；內容只能是「名字=false／null／0」「名字.clear()」——不叫遊戲邏輯、不碰舊流程 */
+const REG=/\(globalThis\.LOADLOCKS=globalThis\.LOADLOCKS\|\|\{\}\)\['[^'\n]*'\]=\(\)=>\{(.*?)\};/g;
 const regBodies=raw=>[...strip(raw).matchAll(REG)].map(m=>m[1]);
+const regKeys=raw=>[...raw.matchAll(/\(globalThis\.LOADLOCKS=globalThis\.LOADLOCKS\|\|\{\}\)\['([^'\n]*)'\]=/g)].map(m=>m[1]);
 const covers=(bodies,name)=>{ const e=name.replace(/[.$[\]]/g,x=>'\\'+x); const re=new RegExp('(?<![\\w$.])'+e+'\\s*(=(?!=)|\\.clear\\()'); return bodies.some(b=>re.test(b)); };
+const flagsOnly=b=>b.split(';').map(x=>x.trim()).filter(Boolean).every(x=>new RegExp('^'+NAME+'\\s*=\\s*(false|null|0)$').test(x)||new RegExp('^'+NAME+'\\.clear\\(\\)$').test(x));
 /* 不必登記的（原因）：都在下面一一列出；新的鎖不在這裡＝要登記 */
 const ALLOW={
   'src/bike3d.js opts_walked':'同步：try 只包 B.mount（沒有 await），不會凍在中間',
+  'src/bike3d.js loading':'腳踏車模型下載（不是劇情流程，下載失敗才清）',
   'src/classes3d.js E._tourMove':'只包 GM.enter：applySave 先等換區域（entering）結束才換世代，enter 一定走完 finally',
   'src/cracktalk3d.js _G':'同步：S.an1…S.zq 都不 await',
   'src/dorm203_3d.js S._kl':'同步：EVENTS.sleepEvent／check 不 await',
   'src/feed3d.js S.pgStopIn':'同步：PG.nextStop 不 await',
   'src/feed3d.js S.pgJumping':'包 PG.jumpTo 這個呼叫本身：回傳（不管是不是 Promise）就減回去，不等劇情',
-  "src/fest3d.js ON['節日']":'同步：INV.replyPick 不 await',
+  'src/fest3d.js ON[]':'同步：INV.replyPick 不 await（ON[\'節日\']）',
   'src/game3d.js entering':'applySave 先等換區域結束（entering＝false）才換世代',
   'src/hcircle3d.js guard':'同步的遞迴防護',
-  'src/hcircle3d.js S._loading':'模型下載中（不是劇情流程，下載完一定 finally）',
-  'src/pool3d.js S._loading':'模型下載中（不是劇情流程，下載完一定 finally）',
   'src/invites3d.js arrivingIv':'WeakSet，裝的是舊 G 的邀約物件：讀進來的新 G 是新的物件，對不到',
   'src/msg3d.js S._herOf':'同步：S.pick 不 await',
   'src/us_blank3d.js USL.SUM':'同步：USL.tick 回傳就還原（不等 Promise）',
-  'src/zr_uk3d.js S._t2':'同步：MSG.send 不 await',
-  'src/badminton_clip3d.js S.busy':'—'   /* 佔位：下面 COVERED 會先檢查有沒有登記；有登記就不看白名單 */
+  'src/zones3d.js E.renderSkip':'換區域的預熱（enter 裡；applySave 先等換區域結束，不照世代、一定走完 finally）',
+  'src/zr_uk3d.js S._t2':'同步：MSG.send 不 await'
 };
-delete ALLOW['src/badminton_clip3d.js S.busy'];
 /* game3d.js 自己放開的（applySave／loadRelease）：events3d.js、story3d.js 的這幾個 */
 const CENTRAL={'src/events3d.js X.running':'EVENTS.running=null','src/events3d.js X._preMet':'EVENTS._preMet=null','src/events3d.js X._playerSeated':'EVENTS._playerSeated=false','src/story3d.js S._sleeping':'STORY._sleeping=false'};
 const LOCKNAME=/^(busy|[a-z]\w*Busy|playing|running|resuming|forcing|leaving)$/;
-await0();
-async function await0(){ /* 只是讓上面的宣告先完成 */ }
 
 (async()=>{
 await sec(1,()=>{
   const files=fs.readdirSync(path.join(ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>'src/'+f);
   const g3=strip(SRC); const relBody=(()=>{ const a=g3.indexOf('function loadRelease(){'); if(a<0) return ''; const b=match(g3,g3.indexOf('{',a),'{','}'); return g3.slice(a,b); })(), apBody=(()=>{ const a=g3.indexOf('async function applySave(s){'); return a<0?'':g3.slice(a,match(g3,g3.indexOf('{',a),'{','}')); })();
-  const miss=[], seen=new Set(), allowUsed=new Set(); let nReg=0, nRel=0, nLock=0;
+  const miss=[], seen=new Set(), allowUsed=new Set(), keyAt={}, dupKeys=[], notFlags=[]; let nReg=0, nRel=0, nLock=0;
   for(const f of files){ const raw=fs.readFileSync(path.join(ROOT,f),'utf8'), s=strip(raw), decl=modDecl(raw), regs=regBodies(raw); nReg+=regs.length;
+    for(const k of regKeys(raw)){ if(keyAt[k]) dupKeys.push(k+'（'+keyAt[k]+'、'+f+'）'); else keyAt[k]=f; }
+    for(const b of regs) if(!flagsOnly(b)) notFlags.push(f+'：'+b.trim());
     for(const r of releases(s)){ if(!isModState(r.name,decl)) continue; const key=f+' '+r.name; if(seen.has(key)) continue; seen.add(key); nRel++;
       if(covers(regs,r.name)) continue;
       if(CENTRAL[key]){ if(relBody.indexOf(CENTRAL[key])>=0||apBody.indexOf(CENTRAL[key])>=0) continue; miss.push(key+'（要在 game3d.js loadRelease／applySave 放開：'+CENTRAL[key]+'）'); continue; }
@@ -95,11 +98,14 @@ await sec(1,()=>{
       for(const m of sl.matchAll(/\blet\s+([^;]*)/g)) for(const part of m[1].split(',')){ const q=part.trim().match(/^([A-Za-z_$][\w$]*)\s*=\s*false$/); if(q&&LOCKNAME.test(q[1])){ nLock++; const key=f+' '+q[1]; if(!covers(regs,q[1])&&!miss.some(x=>x.indexOf(key+'（')===0)) miss.push(key+'（模組層的鎖：宣告的那一行要登記 LOADLOCKS）'); } }
       for(const m of sl.matchAll(/^ {2}(S\.(?:busy|_busy|running|playing))\s*=\s*false\s*;/g)){ nLock++; const key=f+' '+m[1]; if(!covers(regs,m[1])&&!miss.some(x=>x.indexOf(key+'（')===0)) miss.push(key+'（模組層的鎖：要登記 LOADLOCKS）'); } } }
   check('1. 掃 src/：finally／.finally／.catch 裡才放開的模組狀態、模組層的鎖，每一個都有登記讀檔放開（LOADLOCKS）、由 game3d.js 放開、或在白名單寫了原因',!miss.length&&nRel>60&&nLock>40,'放開 '+nRel+' 個、模組層的鎖 '+nLock+' 個、登記 '+nReg+' 行；沒登記：'+J(miss));
+  check('1. 登記的鍵全 src/ 不重複（重複＝後載入的蓋掉前一個，那一個鎖讀檔時不放開）',!dupKeys.length&&Object.keys(keyAt).length===nReg,J(dupKeys));
+  check('1. 登記的內容只有「名字=false／null／0」「名字.clear()」（只放開旗標：不叫遊戲邏輯、不 resolve 舊流程）',!notFlags.length&&nReg>0,J(notFlags));
   const stale=Object.keys(ALLOW).filter(k=>!allowUsed.has(k)); if(stale.length) console.log('NOTE 白名單有已經不在的項目（程式改了；可以拿掉）：'+J(stale));
   /* 掃描本身會抓：拿一段假的模組（finally 放開、沒登記）要報出來；登記了就不報 */
   const fake="const ZZ=(function(){ const S={};\n  let busy=false;\n  S.tick=function(GM){ if(busy) return false; busy=true; S.go(GM).finally(()=>{ busy=false; }); return true; };\n  return S; })();\n";
-  const r1=releases(strip(fake)).filter(r=>isModState(r.name,modDecl(fake))).map(r=>r.name), reg1=fake.replace('  let busy=false;\n','  let busy=false; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||[]).push(()=>{ busy=false; });\n');
+  const r1=releases(strip(fake)).filter(r=>isModState(r.name,modDecl(fake))).map(r=>r.name), reg1=fake.replace('  let busy=false;\n',"  let busy=false;\n  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['zz:busy']=()=>{ busy=false; };\n");
   check('1. 掃描抓得到：假的模組 let busy＋.finally 放開、沒登記＝報出來；登記了＝不報',J(r1)===J(['busy'])&&!covers(regBodies(fake),'busy')&&covers(regBodies(reg1),'busy'),J(r1));
+  check('1. 掃描抓得到：登記裡叫了函式（S.release()、GM.sceneEnd()）＝不算「只放開旗標」',flagsOnly('busy=false; S.staged=null; running.clear();')&&!flagsOnly('busy=false; S.release();')&&!flagsOnly('GM.sceneEnd();'));
 });
 
 /* ======================= 共用：假的 game3d（對話框、世代、sleep）＋抽出來的 applySave ======================= */
@@ -207,13 +213,14 @@ await sec(2,async()=>{
   const ai=AP.indexOf('GM.loadGen=(GM.loadGen|0)+1;'), ri=AP.indexOf('loadRelease();'), gi=AP.indexOf('G=s; GM.G=G;');
   check('2. applySave：世代加一以後、換 G（G=s）之前叫 loadRelease()',ai>0&&ri>ai&&gi>ri,J({ai,ri,gi}));
   check('2. game3d.js 有 loadRelease（GM.loadRelease）',!!mk.release);
+  check('2. applySave：劇情鎖的層數和誰開的（busyDepth、busyWho）一起歸零',/D\.busyDepth=0; D\.busyWho\.length=0;/.test(AP.slice(gi)));
   if(mk.release){
-    const log=[]; (globalThis.LOADLOCKS=globalThis.LOADLOCKS||[]).push(()=>{ log.push('a'); throw new Error('測試：這一個出錯'); }); globalThis.LOADLOCKS.push(()=>{ log.push('b'); });
+    const log=[]; const LL=(globalThis.LOADLOCKS=globalThis.LOADLOCKS||{}); LL['測試:a']=()=>{ log.push('a'); throw new Error('測試：這一個出錯'); }; LL['測試:b']=()=>{ log.push('b'); };
     walks.add({ent:{},finish(){}}); EVENTS.running='ev_x'; EVENTS._playerSeated=true; EVENTS._preMet={heroine_01:false};
     let ended=0; const aEnd=ADV.end; ADV.active=true; ADV.end=function(){ ended++; return aEnd.apply(this,arguments); };
     DOM.title3.style.opacity='1'; SOCIAL.feelOn=true; lbox.length=0;
     const cw=console.warn; console.warn=()=>{}; try{ mk.release(); } finally { console.warn=cw; ADV.end=aEnd; }
-    globalThis.LOADLOCKS.splice(globalThis.LOADLOCKS.length-2,2);
+    delete LL['測試:a']; delete LL['測試:b'];
     check('2. loadRelease：跑 LOADLOCKS（一個丟例外，後面的照跑）',log.join('')==='ab',J(log));
     check('2. loadRelease：清掉劇情走路（walks）、EVENTS.running／_playerSeated／_preMet',walks.size===0&&EVENTS.running==null&&EVENTS._playerSeated===false&&EVENTS._preMet==null,J({w:walks.size,r:EVENTS.running}));
     check('2. loadRelease：ADV 收掉（2D 不留在畫面上、EVENTS.tick 不被擋）、黑邊收掉、日期卡藏起來、關係提示不再記（SOCIAL.feelOn）',ended===1&&!ADV.active&&lbox.includes(false)&&+DOM.title3.style.opacity===0&&SOCIAL.feelOn===false,J({ended,lbox,op:DOM.title3.style.opacity,feel:SOCIAL.feelOn}));
@@ -236,27 +243,33 @@ await sec(2,async()=>{
     const a=GMx.saveMenu(); m.close(); const ra=await settled(a,500);
     const b=GMx.saveMenu(); GMx.loadGen++; m.close(); const rb=await settled(b,500);
     check('2. saveMenu：平常關掉存檔選單就回到家裡的選單；從存檔選單讀檔（世代加一）＝舊的不醒',ra==='resolved'&&rb==='pending',J({ra,rb})); }
-  /* 羽球短片：讀檔以後停在那裡（不播完、不還原位置、不 sceneEnd）、登記的放開把球拍、跳過鈕收掉 */
-  const bc=fs.readFileSync(path.join(ROOT,'src/badminton_clip3d.js'),'utf8');
-  check('2. 羽球短片（BADCLIP）：時間軸照世代（讀檔以後不播完、不往下演），登記的放開會收掉短片留下的東西（S._abort）',/const g=GM\.loadGen/.test(bc)&&/GM\.loadGen!==g/.test(bc)&&/S\._abort=/.test(bc)&&/LOADLOCKS[^\n]*S\._abort\(\)[^\n]*S\.busy=false/.test(bc));
+  /* 同一個檔在 Node 載兩次：登記用同一個鍵＝只留一個（不累積） */
+  { const LL=(globalThis.LOADLOCKS=globalThis.LOADLOCKS||{}); const raw=fs.readFileSync(path.join(ROOT,'src/y3fill3d.js'),'utf8'), i=raw.indexOf("['y3fill3d:busy']");
+    const line=i<0?'':raw.slice(raw.lastIndexOf('\n',i)+1,raw.indexOf('\n',i)); const keep=LL['y3fill3d:busy'], n0=Object.keys(LL).length;
+    const inst=()=>vm.runInThisContext('(function(){ let busy=true; '+line+'\n return ()=>busy; })')();   /* 這個模組那一行原文，包在一個模組範圍裡跑＝載一次 */
+    let a=null, b=null, err=''; try{ a=inst(); b=inst(); }catch(e){ err=String(e).slice(0,160); }
+    const n1=Object.keys(LL).length; if(LL['y3fill3d:busy']) LL['y3fill3d:busy'](); const after=[a&&a(),b&&b()];
+    if(keep) LL['y3fill3d:busy']=keep; else delete LL['y3fill3d:busy'];
+    check('2. 同一個模組載兩次：登記用同一個鍵，只留最後載的那一個（不累積），讀檔放開的是現在用的那一份',!!line&&!err&&n1===n0+(keep?0:1)&&J(after)===J([true,false]),J({err,n0,n1,after})); }
 });
 
 /* ======================= 5 每一個登記的放開都跑得動、真的放開 ======================= */
 await sec(5,async()=>{
-  const more=['src/data/free_trips.js','src/freetrip3d.js','src/econff3d.js','src/data/retake_home.js','src/fit3d.js','src/data/group_events.js','src/group3d.js','src/jobs3d.js','src/data/jp_events.js','src/jp3d.js','src/kxdrift3d.js','src/lab5f3d.js','src/multirel3d.js',
-    'src/psresults3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/rom1016_3d.js','src/sis_b9_3d.js','src/sis_b10_3d.js','src/sis_b11_3d.js','src/sis_grad3d.js','src/twfill3d.js','src/us208_3d.js','src/us_life3d.js','src/us_blank3d.js',
-    'src/v6ex3d.js','src/vacfill3d.js','src/wzcat3d.js','src/wzlines3d.js','src/y1fill3d.js','src/y2b3d.js','src/y2r2_3d.js','src/y34b3d.js','src/y3fill3d.js','src/zq_testbuild3d.js','src/zrzq3d.js','src/cracktalk3d.js','src/fest3d.js','src/bbpack3d.js','src/b1story3d.js','src/badminton_clip3d.js','src/feed3d.js'];
+  const more=['src/data/free_trips.js','src/freetrip3d.js','src/econff3d.js','src/data/retake_home.js','src/fit3d.js','src/data/group_events.js','src/group3d.js','src/data/wz_jobs.js','src/jobs3d.js','src/data/jp_events.js','src/jp3d.js','src/kxdrift3d.js','src/lab5f3d.js','src/multirel3d.js',
+    'src/psresults3d.js','src/data/r2y3a_events.js','src/r2y3a3d.js','src/data/r2y3b_events.js','src/r2y3b3d.js','src/rom1016_3d.js','src/sis_b9_3d.js','src/sis_b10_3d.js','src/sis_b11_3d.js','src/sis_grad3d.js','src/twfill3d.js','src/us208_3d.js','src/data/us_life_events.js','src/us_life3d.js','src/data/us_blank_lines.js','src/us_blank3d.js',
+    'src/data/v6ex_lines.js','src/v6ex3d.js','src/data/vacfill_events.js','src/vacfill3d.js','src/wzcat3d.js','src/wzlines3d.js','src/y1fill3d.js','src/y2b3d.js','src/y2r2_3d.js','src/y34b3d.js','src/y3fill3d.js','src/zq_testbuild3d.js','src/zrzq3d.js','src/data/cracktalk_lines.js','src/cracktalk3d.js','src/fest3d.js','src/bbpack3d.js','src/b1story3d.js','src/badminton_clip3d.js','src/feed3d.js'];
   const cw=console.warn; console.warn=()=>{}; for(const f of more){ if(loadErr[f]) continue; try{ L3(f); }catch(e){ loadErr[f]=String(e).slice(0,120); } } console.warn=cw;
-  const L=globalThis.LOADLOCKS||[]; let bad=[]; for(const f of L){ try{ f(); }catch(e){ bad.push(String(e).slice(0,120)); } }
-  const regFiles=fs.readdirSync(path.join(ROOT,'src')).filter(f=>/\.js$/.test(f)&&/LOADLOCKS/.test(fs.readFileSync(path.join(ROOT,'src',f),'utf8'))).length;
-  check('5. 登記的放開全部跑一次：沒有一個丟例外（模組沒載到的不算，見下面）',L.length>=40&&!bad.length,'登記 '+L.length+' 個（有登記的檔 '+regFiles+' 個）；例外：'+J(bad)+'；沒載到：'+J(Object.keys(loadErr)));
+  const L=Object.values(globalThis.LOADLOCKS||{}); let bad=[]; for(const [k,f] of Object.entries(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){ bad.push(k+' '+String(e).slice(0,120)); } }
+  const srcKeys=[].concat(...fs.readdirSync(path.join(ROOT,'src')).filter(f=>/\.js$/.test(f)).map(f=>regKeys(fs.readFileSync(path.join(ROOT,'src',f),'utf8')))), regFiles=new Set(srcKeys.map(k=>k.split(':')[0])).size;
+  const notRun=srcKeys.filter(k=>!(globalThis.LOADLOCKS||{})[k]); if(notRun.length) console.log('NOTE 這個測試沒載到（或載入條件不成立）的登記：'+J(notRun));
+  check('5. 登記的放開全部跑一次：沒有一個丟例外（模組沒載到的不算，見下面）',L.length>=50&&!bad.length,'登記 '+L.length+' 個（有登記的檔 '+regFiles+' 個）；例外：'+J(bad)+'；沒載到：'+J(Object.keys(loadErr)));
   /* 看得到的鎖：先佔住，loadRelease（或直接跑登記）以後要放開 */
   const X=(n)=>{ try{ return vm.runInThisContext('typeof '+n+'!=="undefined"?'+n+':null'); }catch(e){ return null; } };
   const T=[['BADCLIP','busy',true],['ECONFF','busy',true],['PG','busy',true],['JOBS','running',true],['EXCH','_busy',true],['VAC','away',true],['OUT','fromHome',true],['STORY','_jumping',true],['STORY','_llOut',true],['STORY','_slOut',true],['CLOSED2','staged',{room:'x',id:'y'}],['CLOSED2','_iv',true],['CLOSED2','_ex',true]];
   const got={}; for(const [m,k,v] of T){ const o=X(m); if(o) o[k]=v; }
   if(X('VAC')&&X('VAC')._fly) X('VAC')._fly.add('q1');
   const wz=X('WZCAT'); if(wz&&wz.hold) wz.hold('lie');
-  for(const f of L){ try{ f(); }catch(e){} }
+  for(const f of Object.values(globalThis.LOADLOCKS||{})){ try{ f(); }catch(e){} }
   for(const [m,k] of T){ const o=X(m); got[m+'.'+k]=o?o[k]:'（沒載到）'; }
   if(X('VAC')) got['VAC._fly.size']=X('VAC')._fly?X('VAC')._fly.size:'—'; if(wz) got['WZCAT.held']=wz.held?wz.held():'—';
   const notFree=Object.keys(got).filter(k=>got[k]!=='（沒載到）'&&!!got[k]&&got[k]!=='—');
