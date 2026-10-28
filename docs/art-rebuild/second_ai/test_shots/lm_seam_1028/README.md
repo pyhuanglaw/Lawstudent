@@ -13,7 +13,7 @@
   - 不拉亮：露在外面、本來就很暗的縫（附近沒有同方向的面）。
   - 「全黑」要整面每一處都黑（中心、角、邊的中點，大的面再加一張格子），不是只看中心。
 - **狀態**：`READY_FOR_ART_REVIEW`（建築、場景只有使用者能標 `ART_APPROVED`）。程式不用改。
-- **怎麼套**：`git checkout SHA -- `＋下面六個檔：
+- **怎麼套**：`git checkout d5e28e291 -- `＋下面六個檔：
   - `assets/models/env/classroom_201.glb`
   - `assets/models/env/second_ai/linze_202.glb`
   - `assets/models/env/linze_interior.glb`

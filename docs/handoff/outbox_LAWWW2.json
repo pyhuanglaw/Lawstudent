@@ -4102,6 +4102,28 @@
    "remaining": "iPhone 實機沒測；陽光位置固定；細小零件照舊即時光（晚上比旁邊亮，RT-NIGHT-1028 另提）；自己房門口的鞋架固定在 203（原本就這樣）",
    "next": "LAWWW-C 13:01Z 已整合（開發分支 217e655bd：patch＋dorm_hall.glb＋兩張光照貼圖；dorm_hall_lightmap、room_ceiling、nav_buildings、宿舍相關 17 支 0 失敗）；下一版 v9.10.14，BB 看門廳白天晚上、進兩次、大四 409 那年 202 的貼紙；dorm_hall.glb 之後由 LM-SEAM-1028 換成接縫工具第四版的",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）第六包：男一舍門廳擺設（門上的東西照各扇門的旁白、消防栓箱、滅火器、出口燈、緊急照明、包裹架、傘架、洗衣籃、樓梯平台壁燈）＋光照烘焙；dorm_layout.js 八筆、dorm3d.js prop＋大四藏起 202 的貼紙；一起修：走廊北牆和樓梯間的牆疊面（同方向疊面 50→7）、牆段 T 形接頭露縫看到烘成黑的端面（新工具 lm_fix_hidden.py，之前交的四間 LM-SEAM-1028 接著套）；dorm_hall_lightmap_unit（新，拿掉 dorm3d.js 改動 FAIL）、room_ceiling、nav_buildings、宿舍相關 36 支 ALL PASS；進兩次 OK；填滿率 52.3%；draw call 多 0～13%"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "d5e28e291",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "LM-SEAM-1028",
+   "files": [
+    "assets/models/env/classroom_201.glb",
+    "assets/models/env/second_ai/linze_202.glb",
+    "assets/models/env/linze_interior.glb",
+    "assets/models/env/wancai_interior.glb",
+    "assets/models/env/second_ai/wancai_multi.glb",
+    "assets/models/env/dorm_hall.glb",
+    "tools/blender/env_second/lightbake/lm_fix_hidden.py",
+    "docs/art-rebuild/second_ai/test_shots/lm_seam_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "iPhone 實機沒測；男一舍走廊北牆和樓梯間牆接頭的縫（要改建模，另開一項）；朝建築外面烘成全黑的面、露在外面本來就很暗的縫照舊；細小零件照舊即時光（RT-NIGHT-1028 另提）",
+   "next": "LAWWW-C：git checkout d5e28e291 -- 六個 GLB（程式不用改）；BB：201 窗框、門中間的壓條，202 後牆",
+   "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）：之前交的 201、202、霖澤館大廳、萬才館（大廳＋二樓、多功能教室）＋男一舍門廳的光照貼圖接縫和全黑的面；lm_fix_hidden.py 第六版（不用重烘，只改第二套 UV）；交件前抓到第三～五版的退步（202 後牆暗影、霖澤館地板朝外的切邊變黑、男一舍門洞裡的牆變暗）並修掉；男一舍門廳換掉已整合的第三版；男一舍走廊和樓梯間牆接頭的縫沒修（要改建模）；相關 16 支 Node ALL PASS（rooms_glb、x78_rooms、linze／wancai／dorm_hall_lightmap、room_ceiling、nav_buildings、door_open、seat_fold、aa509_s0、宿舍六支）；company_priv_unit 4 項 FAIL 和這包無關（拿掉六個 GLB 一樣，我這邊缺企劃分支 commit f6069e42d）"
   }
  ]
 }

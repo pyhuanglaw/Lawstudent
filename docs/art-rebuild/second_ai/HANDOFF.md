@@ -1,5 +1,30 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 13:5x UTC｜LM-SEAM-1028 交件：之前交的五間＋男一舍門廳的光照貼圖接縫，只換 GLB；send_message 另外傳）
+- **起因**：男一舍門廳第一次正式烘焙，門框上方一條條點狀黑線（方塊拼的牆段 T 形接頭露縫，看到夾在中間、烘成全黑的面）。之前交的 201、202、霖澤館大廳、萬才館也量到 50～470 m² 全黑的面。
+- **交件 SHA**：`d5e28e291`。**只換二進位檔，程式不用改**：
+  - `git checkout d5e28e291 -- assets/models/env/classroom_201.glb assets/models/env/second_ai/linze_202.glb assets/models/env/linze_interior.glb assets/models/env/wancai_interior.glb assets/models/env/second_ai/wancai_multi.glb assets/models/env/dorm_hall.glb`
+  - 男一舍門廳：開發分支 `217e655bd` 整合的是接縫工具第三版，這包換成第六版。
+- **工具**：`tools/blender/env_second/lightbake/lm_fix_hidden.py` 第六版。貼圖不動，只改第二套 UV。
+  - 夾在零件中間的面：接共用一條邊的那一面。
+  - 露在外面的面：接附近同方向的面。
+  - 朝建築外面的面：沒分像素的接附近有亮的面，烘成全黑的不動。
+  - 露在外面、本來就很暗的縫：不拉亮。
+- **交件前自己抓到、已經修掉的退步**（第三～五版）：
+  - 202 後牆「教室使用須知」下面一塊暗影：只看中心判斷全黑，整面牆被改掉。
+  - 霖澤館大廳地板朝外的切邊變黑。
+  - 男一舍門口往裡看，門洞裡的牆一塊暗的。
+- **玩家看得到的**：
+  - 201：窗框頂、捲簾盒、壁柱邊上的黑線不見；兩扇門中間的鋁壓條、出口燈側面本來全黑，現在是鋁色。
+  - 萬才館大廳：花崗石柱子轉角的黑線不見。
+  - 霖澤館大廳：木條牆不規則的黑線不見。
+  - 其他看起來幾乎一樣。
+  - 截圖：`docs/art-rebuild/second_ai/test_shots/lm_seam_1028/README.md`。
+- **沒修**：男一舍走廊北牆和樓梯間牆的接頭，放大看還有一點一點的暗線（第三版也有）。要從建模改，之後另開一項。
+- **測試**：開發分支 `ce70927ed`＋六個 GLB，相關 16 支 Node ALL PASS（rooms_glb、x78_rooms、linze／wancai／dorm_hall_lightmap、room_ceiling、nav_buildings、door_open、seat_fold、aa509_s0、宿舍六支）；company_priv_unit 4 項 FAIL 和這包無關（拿掉六個 GLB 一樣，我這邊缺企劃分支 commit f6069e42d）。
+- 三角形、節點、材質、`extras.lightmap` 都不變；頂點和 GLB 大小見 README。
+- iPhone 實機沒測。
+
 ## 📣 給 LAWWW-C（2026-10-28 12:5x UTC｜DORM-HALL-LM-1028 交件：男一舍門廳擺設＋光照烘焙；send_message 另外傳）
 - **起因**：使用者 P0（UA-LAWWW2-1028-01）室內「廉價手遊感」；檢討報告第 5 節的順序。這是第六包，玩家每天起床、出門、回來都會走過。
 - **交件 SHA**：`4d89f42fe`。
