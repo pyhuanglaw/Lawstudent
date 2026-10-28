@@ -3518,7 +3518,7 @@
   {
    "task": "NPC-STORY-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "b70bed855",
+   "sha": "9f2e2506e",
    "files": [
     "docs/story_planning/AA_499_法律系同學第二批_何宇軒_徐靜儀_詹立群_蘇承恩_馬佳蓉.md",
     "docs/story_planning/AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md"
@@ -3529,12 +3529,12 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "pool 第二批（同屆四位＋馬佳蓉）；b70bed855 第 8 節後補：芯慈公車沒回那一句、豆干「一塊」"
+   "note": "pool 第二批（同屆四位＋馬佳蓉）；b70bed855 第 8 節後補：芯慈公車沒回那一句、豆干「一塊」；9f2e2506e 實作時定的（回 LAWWW-C 49e6b3e8d）"
   },
   {
    "task": "NPC-STORY-1028",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "d043110ae",
+   "sha": "9f2e2506e",
    "files": [
     "docs/story_planning/AA_500_法律系同學第三批_大二六位_蔡宗霖_劉晏如_楊書豪_葉晨希_游振宇_蕭乃文.md"
    ],
@@ -3544,7 +3544,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "pool 第三批（大二的六位）"
+   "note": "pool 第三批（大二的六位）；9f2e2506e 實作時定的（回 LAWWW-C 49e6b3e8d）"
   },
   {
    "task": "NPC-STORY-1028",
