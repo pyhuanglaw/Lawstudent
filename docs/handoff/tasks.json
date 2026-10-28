@@ -35130,6 +35130,80 @@
     "ack": "DELIVERED"
    },
    "next": "【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（P3，排在 X125 室內後面）；LAWWW2 交件後 LAWWW 合併、BB 瀏覽器看 22:31 騎樓"
+  },
+  {
+   "id": "LOBBY-VC-1028",
+   "title": "霖澤館一樓大廳 11 個純色材質合成一個頂點色材質 lz_vc（網格 78→67、材質 32→22）：大廳第二版的 draw call 增加幅度從 22～34% 降到 12～25%",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "LAWWW2-C 自領（X125 室內第四包的效能收尾；交件 2026-10-28 09:24）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進霖澤館一樓大廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】整合 2c338366d（只換 linze_interior.glb＋兩張光照貼圖）；linze_lightmap、nav_buildings ALL PASS；room_ceiling 照舊 FAIL 1（LOBBY-CEIL-1028）；BB 看大廳畫面",
+   "xai": {
+    "spec": "LAWWW2 README test_shots/linze_lobby_v2_1028 效能一節",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "外觀和第二版一樣、draw call 降",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "WANCAI-LM-1028",
+   "title": "萬才館室內照霖澤館大廳的做法做光照烘焙（樓梯只做看得到的面、止滑條自己的材質、lm 分組；bake_wancai.sh）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "LAWWW2-C 自領（X125 室內提升的下一間；WIP 5ae9e8559）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進萬才館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】LAWWW2 做中；排在 LOBBY-CEIL-1028 後面（v9.10.13 擋件先修）",
+   "xai": {
+    "spec": "X125 室內檢討（038fe55b1）＋大廳第二版的做法",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "同角度改前改後截圖、draw call 數字、相關 Node 通過",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   }
+  },
+  {
+   "id": "FEED-DATES-1028",
+   "title": "交往中約會後的動態（AA_515）：正式校外約會 D01～D32 演完、交往中，當晚照她的時間在動態頁貼一則有「你」的照片（以安 21:30…子晴 00:30）；一趟一則、D07 不貼、又來那一句、留言私訊單雙數兩組；新檔 src/data/feed_dates.js，由 date3d 排進 FEED",
+   "area": "Y1S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "AA_515（企劃線 aa9bbc46f；outbox 1bf1e7c0f）；補 AA_503 第 0 節「約會之後她自己貼一則」（X122★）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次和交往中的她正式校外約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（feed_dates.js＋date3d 掛勾＋tests/aa515_feed_dates_unit.js 逐字對稿）；合併後全部 Node、BB 瀏覽器照 AA_515 第 5 節"
   }
  ]
 }

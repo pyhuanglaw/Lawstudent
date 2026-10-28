@@ -15739,6 +15739,32 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 09:1x】整合 ac2ab0ae9；linze_lightmap、nav_buildings、linze_5f／office／upper、wancai_semb ALL PASS；BB 看畫面；ART_APPROVED 只有使用者"
+  },
+  {
+   "id": "DL-LW2-LOBBYVC",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "bfe39116c",
+   "msg": "ACK",
+   "what": "LOBBY-VC-1028 大廳 11 個純色材質合成頂點色材質 lz_vc（網格 78→67、材質 32→22；draw call 入口 117→104、中間 115→105、樓梯 114→101）；只換 linze_interior.glb＋白天／晚上光照貼圖",
+   "task": "LOBBY-VC-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 09:3x】整合 2c338366d；linze_lightmap、nav_buildings ALL PASS；room_ceiling 照舊 FAIL 1（吊燈，LOBBY-CEIL-1028）"
+  },
+  {
+   "id": "DL-AA-515",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "aa9bbc46f",
+   "msg": "ACK",
+   "what": "AA_515 交往中約會後的動態：D01～D32 演完、交往中，當晚照她的時間貼一則（七位時間表；過了時間回家 30 分鐘後）；一趟一則、combo／兩天一夜用最後一個地點；D07 不貼；不算七天兩則、同一天最多一則、一天四則這一則優先；32 張照片有「你」；七位各 6 句＋又來；留言、私訊各兩組單雙數輪；語彤一句空著；新檔 src/data/feed_dates.js；outbox 1bf1e7c0f；13-6 洗衣間期限 10/20 照 LAWWW",
+   "task": "FEED-DATES-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 09:3x】收到；派子代理實作"
   }
  ],
  "ignored": [
