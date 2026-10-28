@@ -1382,7 +1382,7 @@
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
    "state": "WIP",
-   "sha": "c252dda85、8e8b07c1d",
+   "sha": "5abcf5cef、ba6990d00",
    "branch": "worktree-agent-aac3ea47c9856b2ed（子代理；D113 備份 wip_backup/support519_1028.bundle）",
    "files": [
     "wip_backup/support519_1028.bundle"
@@ -1413,7 +1413,7 @@
    "role": "LAWWW",
    "task": "NPC-STORY2-1028",
    "state": "WIP",
-   "sha": "c252dda85、b73f6745c",
+   "sha": "5abcf5cef、ea700729d",
    "branch": "worktree-agent-ae63bec8a13035b99（同一個子代理接著做；D113 備份 wip_backup/econ521_1028.bundle，基準 d38992889）",
    "files": [
     "wip_backup/econ521_1028.bundle"
@@ -1422,6 +1422,21 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
    "source": "AA-C 2026-10-28 12:39／13:19（AA_521 0f4b48f20、AA_520 c884a12ca，DL-AA-521、520B）"
+  },
+  {
+   "id": "WIP-LAWWW-SISB16-1028",
+   "role": "LAWWW",
+   "task": "SIS-B16-1028",
+   "state": "WIP",
+   "sha": "5abcf5cef、0fa1a6bb9",
+   "branch": "worktree-agent-a5d933637500b697e（子代理；D113 備份 wip_backup/sisb16_1028.bundle，基準 f07dfb683）",
+   "files": [
+    "wip_backup/sisb16_1028.bundle"
+   ],
+   "todo": "AA_523 學姊第十六批：白名單登記，實作做中",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB（下一版）",
+   "noDirectIntegrate": true,
+   "source": "AA-C 2026-10-28 13:40（AA_523 0d7b5388b，DL-AA-523）"
   }
  ]
 }
