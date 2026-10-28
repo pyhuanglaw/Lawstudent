@@ -1,6 +1,8 @@
 """BB-C 10-28：NPC 站位的畫面＋照常觸發（LAWWW-C 07:55，開發分支 60805aa78＝LAWWW2 4e0b212f8 的站位）。
   MODE=copier：總圖一樓影印機 (11.4,2.6)；大一下第 7 週星期一 12:12，以安 (10.35,2.35)、芯慈 (10.35,2.95) 站在影印機前（兩個人都認識才演 ev_xc_copy）
   MODE=elev  ：霖澤館一樓電梯；大二上第 6 週星期一 15:15，宥辰 (3.2,-4.1)（原本 (4.6,-4.3) 擋在叫車鈕前）；ev_yc_elev_ask 照常觸發
+  MODE=fridge／table／photo：NPC-POOL-ART-1028 的男一舍交誼廳冰箱（家齊箱子那一步）、霖澤館補給桌（郁婷補給包第二天）、霖澤館穿堂照片（大二下第 15 週一～三）——
+    物件在不在、三張截圖、觸控走到互動點按下去（旁白）、按完走得動；補給桌另外看電梯還按得到
 做法（不是 iPhone：Playwright 手機橫向模擬、SwiftShader）：
   【前置】使用者存檔（day 14）改日期、時間、區域；關掉條件事件；【捷徑】用遊戲的 API 補前置（認識、聯絡方式、歌的私訊排程），存成快照再讀
   ① 人有沒有在那個位置、朝哪裡（朝 +x＝看著機器／電梯）、身體離家具的阻擋多遠；拍三張（入口、中距離、近看）
@@ -27,6 +29,21 @@ CFG = {
                targets=[('搭電梯', 4.6, -3.9, 0.7)], away=(6.0, 2.5),
                prep="""()=>{ const G=GAME.G, id='classmate_youchen', r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,30); r.trust=Math.max(r.trust||0,10); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'linze');
                    INV.addContact(G,id); SUP497.songs(G); return {due:!!SUP497.elevAskDue(G), stage:SOCIAL.stage(id), contact:!!INV.hasContact(G,id), song5:!!PHONE.sent(G,'yc_song_5'), q:SUP497.qState(G), sideq:(typeof SIDEQ!=='undefined'&&SIDEQ.openIds)?SIDEQ.openIds(G):null}; }"""),
+  # NPC-POOL-ART-1028（LAWWW2-C 35b26938c、LAWWW-C 971db04b9）劇情那天才擺／才開的實體物件：沒有站位的 NPC，看物件、按互動、看旁白
+  'fridge': dict(term='Y1S1', wk=6, wd=6, hour=21.6, zone='dorm_hall', ev=None, who=[],
+                 views=[(None, None, None), (5.4, 5.3, 0.8), (7.3, 5.6, 0.6)], look=(6.52, 7.43),
+                 targets=[], act=('把箱子放進交誼廳的冰箱', 7.3, 6.7, 0.6), obj=None,
+                 prep="""()=>{ const G=GAME.G; if(!G.side||typeof G.side!=='object') G.side={}; G.side.PQ_QJQ={state:'open',step:'fridge',day:G.day-1,satDay:G.day-1,picked:G.day,by:G.day+1};
+                   return {due:!!POOL.qjqFridgeDue(Object.assign({},G,{zone:'dorm_hall'})), rec:G.side.PQ_QJQ}; }"""),
+  'table': dict(term='Y1S1', wk=7, wd=2, hour=12.3, zone='linze', ev=None, who=[],
+                views=[(6.6, 4.0, None), (5.6, 3.2, 0.8), (4.6, 2.3, 0.6)], look=(4.6, 1.05),
+                targets=[('搭電梯', 4.6, -3.9, 0.7)], act=('看補給的桌子', 4.6, 2.05, 0.7), obj='bldg.linze_supply_table',
+                prep="""()=>{ const G=GAME.G; if(!G.side||typeof G.side!=='object') G.side={}; G.side.PQ_YT1={state:'done',day:G.day-1,packDay:G.day-1,by:G.day-1};
+                  return {due:!!POOL.ytTableDue(Object.assign({},G,{zone:'linze'})), rec:G.side.PQ_YT1}; }"""),
+  'photo': dict(term='Y2S2', wk=15, wd=1, hour=12.3, zone='campus', ev=None, who=[],
+                views=[(34, -100, 1.0), (33.5, -106.5, 0.8), (33, -109, 0.6)], look=(33, -112),
+                targets=[], act=('看穿堂的照片', 33, -110, 0.8), obj=None,
+                prep="""()=>({due:!!POOL.expoDue(Object.assign({},GAME.G,{zone:'campus'}))})"""),
 }[MODE]
 DAY_FIND = """([term,wk,wd])=>{ for(let d=-400; d<2600; d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term||t.week!==wk) continue; const dt=CALENDAR.dateOf(d); if((dt.wd%7)!==(wd%7)) continue; if(CALENDAR.holiday&&CALENDAR.holiday(d)) continue; return {d, wd:dt.wd===7?0:dt.wd, key:dt.key}; } return null; }"""
 NPCS = """(ids)=>{ const E=GAME.E, P=E.player.obj.position; return ids.map(id=>{ const n=E.npcs.find(m=>m.charId===id||m.id===id); if(!n) return {id, here:false};
@@ -76,6 +93,13 @@ async def main():
             cl = await pg.evaluate(CLEAR, [n['x'], n['z'], n['lv']])
             run.check('①%s 身體離家具的阻擋 %.2f m（> 0.25＝不穿模）' % (nm, cl), cl > 0.25, str(cl))
         # 三張：入口、中距離、近看（玩家觸控走過去，鏡頭轉向她們）
+        if CFG.get('obj'):
+            got = False
+            for _ in range(40):
+                got = await pg.evaluate("k=>!!(GAME.E.zone&&GAME.E.zone.group&&GAME.E.zone.group.getObjectByName(k))", CFG['obj'])
+                if got: break
+                await pg.wait_for_timeout(500)
+            run.check('①那天才擺的物件（%s）在場景裡' % CFG['obj'], got)
         for k, (vx, vz, near) in enumerate(CFG['views']):
             if near is not None:
                 ok = await L.go_to(pg, cdp, run, vx, vz, near, '看站位 %d' % k, max_s=240)
@@ -99,6 +123,44 @@ async def main():
                     if s['ch']: await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const b=bs.find(x=>/取消|算了|不用|關閉|離開/.test(x.textContent))||bs[bs.length-1]; if(b) b.click(); })()")
                     elif s['dlg']: await L.tap(pg, cdp, '#dlg')
                     await pg.wait_for_timeout(800)
+        if CFG.get('act'):
+            lab, tx, tz, near = CFG['act']
+            ok = await L.go_to(pg, cdp, run, tx, tz, near, lab, max_s=300)
+            s = await pg.evaluate(ST)
+            if lab not in s['it']:   # 最近的不是它：在範圍裡找一個「最近的互動＝它」的站位（同 door_anim_probe）
+                sp = await pg.evaluate("""([lab])=>{ const E=GAME.E, P=E.player.obj.position, it=E.interactables.find(i=>i.label===lab&&!i.hidden); if(!it) return null; const x0=P.x,z0=P.z; let best=null;
+                  for(let r=0.2;r<=(it.radius||1.2)&&!best;r+=0.2) for(let k=0;k<16&&!best;k++){ const a=k*Math.PI/8, x=it.x+Math.cos(a)*r, z=it.z+Math.sin(a)*r; if(!E.canStand(x,z,0.32,E.player.lv|0)) continue; P.set(x,P.y,z); if(E.nearestInteractable()===it) best=[+x.toFixed(2),+z.toFixed(2)]; }
+                  P.set(x0,P.y,z0); return best; }""", [lab])
+                run.note('「%s」不是最近的互動（%s）；範圍裡找到的站位 %s' % (lab, s['it'], sp))
+                if sp: ok = await L.go_to(pg, cdp, run, sp[0], sp[1], 0.12, lab + '（站位）', max_s=200); s = await pg.evaluate(ST)
+            run.check('②觸控走到「%s」，按鈕是它' % lab, lab in s['it'], J(s))
+            await run.shot(pg, 'act_before')
+            lines = []
+            await pg.evaluate("(()=>{ window.__TO=[]; const el=document.getElementById('toast'); if(!el) return; let last=''; new MutationObserver(()=>{ const t=(el.textContent||'').trim(); if(t&&t!==last){ last=t; window.__TO.push(t.slice(0,60)); } }).observe(el,{childList:true,subtree:true,characterData:true,attributes:true}); })()")
+            if lab in s['it']:
+                await L.tap(pg, cdp, '#interact'); t0 = time.time()
+                while time.time() - t0 < 90:
+                    s = await pg.evaluate(ST)
+                    if s['ch']:
+                        run.note('選項：%s' % J(s['ch'])); await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const b=bs.find(x=>!x.classList.contains('dim'))||bs[0]; if(b) b.click(); })()"); await pg.wait_for_timeout(800); continue
+                    if s['dlg']:
+                        if not lines or lines[-1] != s['txt']: lines.append(s['txt'])
+                        if len(lines) == 1: await run.shot(pg, 'act_line1')
+                        await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                    if lines and not s['busy'] and not s['depth']: break
+                    if not lines and time.time() - t0 > 20: break
+                    await pg.wait_for_timeout(500)
+            run.note('按下去的旁白：%s' % J(lines[:10]))
+            tst = await pg.evaluate("window.__TO||[]")
+            run.check('②按下去有旁白或提示', bool(lines) or bool(tst), J({'lines': lines[:3], 'toast': tst}))
+            moved, n, sx = await L.push_until(pg, cdp, 0, 60, 0.3, max_pushes=3, ms=1200)
+            if moved < 0.3: moved, n, sx = await L.push_until(pg, cdp, 0, -60, 0.3, max_pushes=2, ms=1200)
+            run.check('②按完推搖桿走得動', moved >= 0.3, '%.2f m' % moved)
+            await run.shot(pg, 'act_after')
+        if not CFG.get('ev'):
+            run.check('沒有 JS 例外', not errs, J(errs[:3]))
+            print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
+            await b.close(); sys.exit(run.finish())
         # ③ 打開條件事件，走開再走回來
         await pg.evaluate("(()=>{ EVENTS.onEnter=window.__EVO.a; EVENTS.tick=window.__EVO.b; })()")
         run.setup('[捷徑] 還原條件事件（EVENTS.onEnter／tick），走開再走回來')
