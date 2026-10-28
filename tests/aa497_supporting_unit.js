@@ -1,4 +1,4 @@
-// AA_497 五位配角改稿（企劃線 7a38216ca；任務 NPC-STORY-1028、USER_WANTS X119）：宥辰、芯慈、Alison、明軒、Kevin——不需要瀏覽器。
+// AA_497 五位配角改稿（企劃線 60fc3b9a3＝7a38216ca＋第 8 節；任務 NPC-STORY-1028、USER_WANTS X119）：宥辰、芯慈、Alison、明軒、Kevin——不需要瀏覽器。
 //   0  稿：src/data/sup497_lines.js 每一句、改在各檔的句子都在稿裡（一字不差；地下室照 BB_70 7b、大四兩則照 BB_113）；稿的每一句（> 那幾行、表格）都在遊戲裡
 //   1  宥辰：1-1 personality；1-3 認識（課堂那一句後面＋下課；晚十分鐘到）；1-4 週五的歌 13 則（日子、私訊／班群、回覆、輪流、曾靖雯那一句、第 13 則）；
 //      1-5 電梯（順手的事：開口、期限、12:10 做完、婉拒、過期那一則）；1-6 地下室（邀請、出發、站哪裡、電梯那一句、立群、散場三個回答、沒去的錄影、五年後）；
@@ -9,12 +9,16 @@
 //   4  明軒：4-1 B1 版 M1、作息、提示；4-2 傘、咖啡、位子、M2；4-3 德文（INV 約 B1 討論室）；4-4 存摺；4-5 閒聊；4-6 梗（哈哈、滷蛋、CP 值）
 //   5  Kevin：5-2 交棒（9/14 揪、回「去。」、9/17 家聚、KV_HANDOVER、沒去 9/18、宜蓁私訊、群組那一段拿掉、宜蓁改名＋讀檔）；5-3 國考、錯題本、事務所；5-4 梗
 //   6  陳助教；7 舊存檔（過了的不補、沒有記號照「沒選」）
-// 修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 的 git 讀）：PASS 2、FAIL 46——
+//   8  第 8 節（AA-C 回 LAWWW-C 7bd68b7cf 的問題）：2-1 還沒認識以安的旁白與名字（在 2-1 節）；芯慈追劇八處換句、照留五處；明軒的滷蛋；學妹改名佳穎、姊姊宜蓁不動
+// 第一輪修改前（開發分支 ff9f54209，2026-10-28 開工時；git archive 那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 的 git 讀）：PASS 2、FAIL 46——
 //   36 節沒有 SUP497／SUP497_LINES，丟例外中斷（0a、0b、1-3～1-11、2-1～2-9、3-1～3-7、4-1～4-5、5-2～5-4、7）；
 //   直接 FAIL 的 10 項：新檔、index.html 沒有；稿的 195 行「>」遊戲都沒有；1-1 personality 沒有「在錄音室待過一年」；1-5 沒有兩場；3-8「三個社團」（兩項）；
 //   4-6 fit3d 當面的「哈哈」、明軒朋友階道別的滷蛋；6 陳助教大一、大二週二上午還在教室。
 //   本來就對的 2 項：0 讀得到稿；6 三個社團的社長標籤已經是全名（AA_496 時改的）。
-// 修改後：ALL PASS。用法：node tests/aa497_supporting_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 AA497_DOCREPO＝這個 repo 的目錄）
+// 第二輪（第 8 節）修改前（開發分支 a8cba7618＝已經有第一輪；同樣 git archive 那一版放進這支測試真的跑過）：PASS 259、FAIL 24——
+//   0a 遊戲的句子不在新稿（第一輪的句子在；新稿的「佳穎」遊戲裡沒有）、0b 稿的「佳穎」遊戲裡沒有；2-1 還沒認識以安的旁白與名字兩項＋一節丟例外（沒有 day1Pre）；
+//   5-2 六項、5-3 兩項、7 一項（學妹還叫宜蓁）；8 十項（追劇八處、滷蛋、清單、佳穎都還是舊的）。本來就對的：照留的五處追劇、M1／M2／德文的滷蛋、姊姊叫宜蓁。
+// 修改後：ALL PASS（284 項）。用法：node tests/aa497_supporting_unit.js（稿用 git show 讀：在沒有 .git 的目錄跑時，設環境變數 AA497_DOCREPO＝這個 repo 的目錄）
 require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -55,13 +59,15 @@ const NM=id=>SOCIAL.displayName(id);
 
 /* ---------- 讀稿 ---------- */
 const git=(sha,f)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+sha+':"docs/story_planning/'+f+'"',{cwd:process.env.AA497_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const DOC=git('7a38216ca','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'), BB70=git('7a38216ca','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('7a38216ca','BB_113_BB角色的同行聊天與手機小事池.md');
+const DOC0=git('b70bed855','AA_497_五位配角改稿_宥辰_芯慈_Alison_明軒_Kevin.md'),   /* b70bed855＝60fc3b9a3＋第 8 節後補（芯慈公車沒回那一句、豆干量詞）*/ BB70=git('60fc3b9a3','BB_70_日常與邀約_芷若_子晴_溫學姊_配角.md'), BB113=git('60fc3b9a3','BB_113_BB角色的同行聊天與手機小事池.md');
+const DOC=DOC0.split('宜蓁').join('佳穎');   /* 第 8 節第 5 點：學妹改名「佳穎」（稿的 5-2、5-3 還寫宜蓁；整份稿只有學妹叫宜蓁）*/
+const S8=(()=>{ const i=DOC0.indexOf('## 8.'); return i<0?'':DOC0.slice(i); })();   /* 第 8 節原文（換句的新舊兩邊都要在這裡）*/
 const part=(doc,a,b)=>{ const i=doc.indexOf(a); if(i<0) return ''; const j=b?doc.indexOf(b,i+1):-1; return doc.slice(i,j<0?doc.length:j); };
 const B7B=part(BB70,'## 7b.','## 7c.');
 const inDoc=t=>DOC.indexOf(t)>=0;
 
 (async()=>{
-  check('0. 讀稿：AA_497（7a38216ca）、BB_70 7b、BB_113',DOC.length>15000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0);
+  check('0. 讀稿：AA_497（60fc3b9a3，有第 8 節）、BB_70 7b、BB_113',S8.length>500&&DOC.length>15000&&B7B.length>500&&BB113.indexOf('週五的歌')>=0);
   check('0. 新檔載得到：src/data/sup497_lines.js、src/sup497_3d.js（index.html 在 bbpack3d.js 後面、GAME.boot() 前面）',!!S()&&!!L()&&!loadErr.length,loadErr.join('｜'));
   { const h=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=h.indexOf('src/data/sup497_lines.js'), b=h.indexOf('src/sup497_3d.js');
     check('0. index.html：bbpack3d.js → data/sup497_lines.js → sup497_3d.js → GAME.boot()',a>h.indexOf('src/bbpack3d.js')&&b>a&&b<h.indexOf('GAME.boot()')); }
@@ -81,11 +87,11 @@ const inDoc=t=>DOC.indexOf(t)>=0;
       '（聽出來的人會笑。）':'BB_70 7b「聽出來的人會笑」（旁白）',
       '（照片）':'2-6 第一列「拍給你。（照片）」（訊息分兩則）',
       '筆記第 7 頁的圖畫反了。我改好了，拍給你。':'2-6 第一列（同上）',
-      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','宜蓁':'5-2「家族的學妹統一叫宜蓁」','總圖 B1 討論室':'介面的字' };
+      '走出總圖。':'4-1「「走到校門口」改「走出總圖」」（原句的句號照舊）','宥辰：霖澤館的電梯':'順手的事的標題（介面的字）','總圖 B1 討論室':'介面的字' };
     const QUOTED=t=>inDoc('「'+t+'」')||(/^「[^「」]+」$/.test(t)&&inDoc(t.slice(1,-1)));   /* 手機的回覆選項：稿寫成「…」，遊戲的按鈕不加引號；閒聊（SMALLTALK 的寫法是「…」）稿寫成「> 芯慈：…」 */
     const bad=[...new Set(out)].filter(t=>!(inDoc(t)||B7B.indexOf(t)>=0||BB113.indexOf(t)>=0||QUOTED(t)||DERIVED[t]));
-    check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 7a38216ca／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
-    const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/宜蓁|總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
+    check('0a. sup497_lines.js 每一句（台詞、旁白、選項、手機訊息）都在稿裡：AA_497 60fc3b9a3（學妹照第 8 節第 5 點叫佳穎）／BB_70 7b／BB_113（一字不差；推導的 '+Object.keys(DERIVED).length+' 句另外列）',out.length>350&&!bad.length,out.length+' 句；不在稿裡：'+J(bad));
+    const dv=Object.keys(DERIVED).filter(t=>t.length>4&&!/總圖 B1|順手/.test(t)).filter(t=>!out.includes(t));
     check('0a. 推導的句子都真的用到（沒有多餘的例外）',!dv.length,J(dv));
     check('0a. 地下室那一場照 BB_70 7b：邀請、三個站位的那一句、散場的問題和三個回答一字不差',['週六晚上八點。公館。地下室。不用買票，有捐款箱。','……前排。好。不能出錯了。','站這裡最好，看得到所有人的臉。','一千二。夠付場地費。你顧得很好。','聽得出來是哪裡嗎？','對。法律系唯一有節奏的地方。','我錄了三天。要等到沒有人的時候，才錄得到那一聲。','萬才館太安靜。我要錄的是吵。','那首用霖澤館電梯做的歌，版權是我自己的。我查過了。'].every(t=>B7B.indexOf(t)>=0&&out.includes(t)));
     check('0a. 大四的兩則照 BB_113 原句（第 1-8 節「之後接 BB_113 原句」）',BB113.indexOf(L().yc.deal.y4a)>=0&&BB113.indexOf(L().yc.deal.y4b)>=0&&inDoc(L().yc.deal.y4a)&&inDoc(L().yc.deal.y4b));
@@ -102,7 +108,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('0a. 改在現有事件裡的句子（語 2、慈 6、語 4、M2、11/23、沛珊 n1、DJ、Kevin 的群組）都在遊戲裡、也都在稿裡（一字不差）',!mb.length,J(mb)); });
 
   /* ===== 0 稿 → 遊戲：稿的每一句（> 那幾行）都在遊戲裡 ===== */
-  await sec('0b',()=>{ const ALL=[L()?JSON.stringify(L()):''].concat(['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js','src/data/characters.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8'))).join('\n');
+  await sec('0b',()=>{ const ALL=[L()?JSON.stringify(L()):''].concat(['src/data/events.js','src/data/r2y3b_events.js','src/y2r2_3d.js','src/data/r2y3a_events.js','src/data/multirel_lines.js','src/story3d.js','src/data/sis_b12_events.js','src/y34b3d.js','src/data/y1fill_events.js','src/data/characters.js','src/data/needed_msgs.js'].map(f=>fs.readFileSync(path.join(H.ROOT,f),'utf8'))).join('\n');   /* needed_msgs：第 8 節後補 xc_drama 沒回那兩句（b70bed855）*/
     const lines=[]; for(const raw of DOC.split('\n')){ const m=/^\s*>\s*(.+)$/.exec(raw); if(!m) continue; let t=m[1].trim(); if(/^（/.test(t)){ lines.push(t); continue; } const k=t.indexOf('：'); if(k>0&&k<10) lines.push(t.slice(k+1)); }
     const doc2=lines.filter(t=>!/^[-\s]*$/.test(t)&&!/^AA-C|^依據|^使用者|^寫「|^-/.test(t)&&t.length>1);
     /* 稿的 > 行有兩處是說明（不是台詞）：開頭的說明區塊 */
@@ -301,7 +307,9 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     const first=(k,flags)=>{ fresh(D(k),8.9,'classroom',Object.assign({},NEWG,flags||{})); return CLS.dayItems(H.G).filter(q=>q.c.kind==='required'&&!q.exam)[0]||null; };
     let it=first('2025-09-01');
     check('2-1. 新局 9/1（一）第 1 週第一堂必修（憲法）上課前：演（課前事件，CLS.beforeClassEvent 真的挑到它）',!!it&&it.c.id==='const_1'&&e.beforeClass(it)&&(await (async()=>{ H.said=[]; await CLS.beforeClassEvent(GM,it); return !!H.G.events.done.ev_xc_day1; })()));
-    check('2-1. 旁白為主、沒有選項；照稿五行（以安「妳好，我是沈以安。」、芯慈「……吳芯慈。」）',J(H.said.map(x=>x.t))===J(lt(X))&&!H.opts.length,J(H.said.map(x=>x.t)));
+    const pre=[L().xc.day1Pre].concat(lt(X).slice(1));
+    check('2-1. 還沒認識以安（新局 9/1）：旁白「（第一排。一個坐得很直的女生轉過頭，……）」（第 8 節第 2 點）、其餘照稿；沒有選項',J(H.said.map(x=>x.t))===J(pre)&&!H.said[0].t.includes('以安')&&!H.opts.length,J(H.said.map(x=>x.t)));
+    check('2-1. 還沒認識以安：她那一句說話的人顯示「坐第一排的女生」；說了「妳好，我是沈以安。」以後最後一句旁白才用「以安」',H.said[1].who==='坐第一排的女生'&&H.said[1].t==='妳好，我是沈以安。'&&H.said[4].t.indexOf('以安')>=0&&L().xc.day1Who==='坐第一排的女生',J(H.said.map(x=>[x.who,x.t])));
     check('2-1. 只是看到：不算認識以安、芯慈（noMeet）',!SOCIAL.has(AN,'FIRST_MET')&&!SOCIAL.has(XC,'FIRST_MET'));
     it=first('2025-09-01',null); H.G.events.done.ev_xc_day1=1; check('2-1. 一次（演過不再演）',!EVENTS.check(e,{chain:true}));
     { fresh(D('2025-09-08'),8.9,'classroom',NEWG); const x=CLS.dayItems(H.G).find(q=>q.c.kind==='required'); check('2-1. 第 2 週不演',!!x&&!e.beforeClass(x)); }
@@ -309,7 +317,9 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     { fresh(D('2025-09-17'),8,'classroom'); check('2-1. 舊存檔（9/17 開局）：第 1 週在開局以前，不演',!CLS.dayItems(H.G).some(q=>q.week===1)); }
     /* 宿營已經認識芯慈：「那個女生」改「芯慈」 */
     fresh(D('2025-09-01'),8.9,'classroom',NEWG); metXC(); await play('ev_xc_day1');
-    check('2-1. 宿營已經認識芯慈：「那個女生」改「芯慈」（兩句旁白）',J(H.said.map(x=>x.t))===J(lt(X).map(t=>t.split('那個女生').join('芯慈')))&&lt(X).filter(t=>t.indexOf('那個女生')>=0).length===2,J(H.said.map(x=>x.t))); });
+    check('2-1. 宿營已經認識芯慈：「那個女生」改「芯慈」（兩句旁白）',J(H.said.map(x=>x.t))===J(pre.map(t=>t.split('那個女生').join('芯慈')))&&lt(X).filter(t=>t.indexOf('那個女生')>=0).length===2,J(H.said.map(x=>x.t)));
+    fresh(D('2025-09-01'),8.9,'classroom',NEWG); metAN(); await play('ev_xc_day1');
+    check('2-1. 宿營已經認識以安：照原稿（「（第一排。以安轉過頭，……）」、說話的人是以安）',J(H.said.map(x=>x.t))===J(lt(X))&&H.said[1].who===NM(AN)&&H.said[1].who!=='坐第一排的女生',J(H.said.map(x=>[x.who,x.t]))); });
 
   await sec('2-2',async()=>{ const C=L().xc.copy, d=TD('Y1S2',7,3);
     const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'library_hall'); if(o.an!==false) metAN(); if(o.xc!==false) metXC(); pos(8.0,2.6,0); return H.G; };
@@ -614,31 +624,31 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('5-2. 回「去。」＝排進行程：9/17 18:30 118 巷的定食店（時間到問出發）',!!q&&q.day===h&&q.h===18.5&&q.ev==='ev_kv_handover'&&q.place==='118 巷・定食店',J(q));
     const run=async k=>{ fresh(h,18.5,'l118'); joinFam(); await play('ev_kv_handover',[k]); return H.said.map(x=>(x.who?x.who+'：':'')+x.t); };
     let r=await run(0);
-    check('5-2. 開場：定食店、Kevin「學弟，這是宜蓁。……」、宜蓁「學、學長好。」、Kevin「考古題的資料夾，……交給你。」；三個選項',J(r.slice(0,4))===J(K.hand.open.map(([w,t])=>(w==='kv'?'Kevin：':w==='yz'?'宜蓁：':'')+t))&&J(H.opts[0])===J(K.hand.opts),J(r.slice(0,4)));
+    check('5-2. 開場：定食店、Kevin「學弟，這是佳穎。……」（第 8 節第 5 點）、佳穎「學、學長好。」、Kevin「考古題的資料夾，……交給你。」；三個選項',K.hand.open[1][1]==='學弟，這是佳穎。你的直屬學妹。……對，你現在是學長了。'&&J(r.slice(0,4))===J(K.hand.open.map(([w,t])=>(w==='kv'?'Kevin：':w==='yz'?'佳穎：':'')+t))&&J(H.opts[0])===J(K.hand.opts),J(r.slice(0,4)));
     const reps=[r.slice(4)]; for(const k of [1,2]){ reps.push((await run(k)).slice(4)); }
     check('5-2. 三個回答各自 Kevin 的一句；記 KV_HANDOVER',J(reps)===J(K.hand.r.map(x=>x.map(t=>'Kevin：'+t)))&&H.G.flags.KV_HANDOVER===true,J(reps));
-    check('5-2. 背景 dark（118 巷的定食店在 2D）、宜蓁與 Kevin 用名字（PORTRAIT_ONLY：不是 CHARACTERS 的人物）',ev('ev_kv_handover').background==='dark'&&NM(KVID)==='Kevin'&&NM(YZID)==='宜蓁');
+    check('5-2. 背景 dark（118 巷的定食店在 2D）、佳穎與 Kevin 用名字（PORTRAIT_ONLY：不是 CHARACTERS 的人物）',ev('ev_kv_handover').background==='dark'&&NM(KVID)==='Kevin'&&NM(YZID)==='佳穎'&&K.junior==='佳穎');
     /* 沒去 */
     { fresh(h,22,'dorm'); joinFam(); ruleAt(h+1,20); ruleAt(h+1,21.05); const a=byTag('kv_hand_missed'); fresh(h,22,'dorm',{KV_HANDOVER:true}); joinFam(); ruleAt(h+1,21.05);
       check('5-2. 沒去：9/18 21:00 Kevin 在群組貼「考古題資料夾交給學弟了 有問題找他」；去了＝沒有',a.length===1&&a[0].text===K.missed&&a[0].th==='g:family_law'&&!byTag('kv_hand_missed').length); }
-    /* 宜蓁私訊（2027-03-08；去了、沒去都傳）*/
+    /* 佳穎私訊（2027-03-08；去了、沒去都傳）*/
     for(const went of [true,false]){ const d=D('2027-03-08'); fresh(d,20,'dorm',went?{KV_HANDOVER:true}:{}); joinFam(); ruleAt(d,20.5); ruleAt(d,21.05); const m2=byTag('kv_yz_ask');
-      check('5-2. 2027-03-08 宜蓁私訊祐廷「學長，民總的考古題在資料夾的哪裡？」（'+(went?'去了':'沒去')+'）；回「（傳給她）」→「謝謝學長！！」；對話框標題「宜蓁」',m2.length===1&&m2[0].th==='p:'+YZID&&m2[0].text===K.yz.ask&&J(askOpts('kv_yz'))===J([K.yz.opt])&&PHONE.title(H.G,'p:'+YZID)==='宜蓁'&&(answer('kv_yz',0),texts('p:'+YZID).slice(-1)[0]===K.yz.rep),J(m2)); }
-    { const d=D('2027-03-08'); fresh(d,20,'dorm'); ruleAt(d,21.05); check('5-2. 不在家族群組：宜蓁沒有你的帳號、不傳',!byTag('kv_yz_ask').length); }
+      check('5-2. 2027-03-08 佳穎私訊祐廷「學長，民總的考古題在資料夾的哪裡？」（'+(went?'去了':'沒去')+'）；回「（傳給她）」→「謝謝學長！！」；對話框標題「佳穎」',m2.length===1&&m2[0].th==='p:'+YZID&&m2[0].text===K.yz.ask&&J(askOpts('kv_yz'))===J([K.yz.opt])&&PHONE.title(H.G,'p:'+YZID)==='佳穎'&&(answer('kv_yz',0),texts('p:'+YZID).slice(-1)[0]===K.yz.rep),J(m2)); }
+    { const d=D('2027-03-08'); fresh(d,20,'dorm'); ruleAt(d,21.05); check('5-2. 不在家族群組：佳穎沒有你的帳號、不傳',!byTag('kv_yz_ask').length); }
     check('5-2. 原本 2027-03-08 家族群組學妹問考古題那一段拿掉',!SISB12_LINES.fam2.some(x=>x.day==='2027-03-08')&&!noCmt('src/data/sis_b12_events.js').includes('請問民總的考古題在哪裡🙏'));
     const NAMES=['src/sis_b12_3d.js','src/r3_3d.js','src/y34b3d.js'].map(noCmt).join('\n');
-    check('5-2. 家族的學妹（family_junior）全部叫宜蓁（不再有「家族的學妹」「學妹」）',!/from:'family_junior',name:'(家族的學妹|學妹)'/.test(NAMES)&&/from:'family_junior',name:'宜蓁'/.test(NAMES));
-    { const s={msgs:[{th:'g:family_law',from:YZID,name:'家族的學妹',text:'學姊好🙏'},{th:'g:family_law',from:KVID,name:'Kevin',text:'x'}],phone:{q:[{day:1,h:1,items:[{th:'g:family_law',from:YZID,name:'學妹',text:'我也要！'}]}]}};
-      const n=S().migrate(s); check('5-2. 讀舊存檔：手機裡的學妹（已經收到的、排著的）名字換成宜蓁',n===2&&s.msgs[0].name==='宜蓁'&&s.phone.q[0].items[0].name==='宜蓁'&&s.msgs[1].name==='Kevin'); } });
+    check('5-2. 家族的學妹（family_junior）全部叫佳穎（第 8 節第 5 點；不再有「家族的學妹」「學妹」「宜蓁」）',!/from:'family_junior',name:'(家族的學妹|學妹|宜蓁)'/.test(NAMES)&&(NAMES.match(/from:'family_junior',name:'佳穎'/g)||[]).length===3);
+    { const s={msgs:[{th:'g:family_law',from:YZID,name:'家族的學妹',text:'學姊好🙏'},{th:'g:family_law',from:KVID,name:'Kevin',text:'x'},{th:'g:family_law',from:YZID,name:'宜蓁',text:'學長加油🙏'},{th:'p:sister',from:'sister',name:'宜蓁',text:'這週又加班'}],phone:{q:[{day:1,h:1,items:[{th:'g:family_law',from:YZID,name:'學妹',text:'我也要！'}]}]}};
+      const n=S().migrate(s); check('5-2. 讀舊存檔：手機裡的學妹（已經收到的、排著的；開發版叫「宜蓁」的也是）名字換成佳穎；姊姊宜蓁（from sister）不動',n===3&&s.msgs[0].name==='佳穎'&&s.msgs[2].name==='佳穎'&&s.phone.q[0].items[0].name==='佳穎'&&s.msgs[1].name==='Kevin'&&s.msgs[3].name==='宜蓁',J(s)); } });
 
   await sec('5-3',async()=>{ const K=L().kv;
     const grp=(k,h)=>{ const d=D(k); fresh(d,h-1,'dorm'); joinFam(); ruleAt(d,h-0.5); ruleAt(d,h+0.05); return d; };
     let d=grp('2028-09-22',21); let m=thread('g:family_law').filter(x=>x.tag==='kv_bar1');
     check('5-3. 2028 年 9 月（一試放榜那一週）家族群組：「一試過了！！！」「二試十月 大家幫我集氣」',J(m.map(x=>[x.name,x.text]))===J(K.bar1.map(t=>['Kevin',t])));
     d=grp('2028-12-15',21); m=thread('g:family_law').filter(x=>x.tag==='kv_bar2');
-    check('5-3. 2028 年 12 月（二試放榜）：Kevin 三則、學姊「明年。」、宜蓁「學長加油🙏」',J(m.map(x=>[x.name,x.text]))===J(K.bar2.map(t=>['Kevin',t]).concat([['溫學姊',K.bar2Sis],['宜蓁',K.bar2Yz]])),J(m.map(x=>[x.name,x.text])));
+    check('5-3. 2028 年 12 月（二試放榜）：Kevin 三則、學姊「明年。」、佳穎「學長加油🙏」',J(m.map(x=>[x.name,x.text]))===J(K.bar2.map(t=>['Kevin',t]).concat([['溫學姊',K.bar2Sis],['佳穎',K.bar2Yz]])),J(m.map(x=>[x.name,x.text])));
     d=grp('2029-12-14',21); m=thread('g:family_law').filter(x=>x.tag==='kv_bar3'); check('5-3. 2029 年 12 月：「上了！！！！」「各位 我是律師了（還要受訓）」',J(m.map(x=>x.text))===J(K.bar3));
-    d=grp('2030-10-01',21); m=thread('g:family_law').filter(x=>x.tag==='kv_firm'); check('5-3. 2030-10-01（第一份工作那一天）：「各位 我們事務所在找實習生」「家族的人優先」「宜蓁 說妳」',J(m.map(x=>x.text))===J(K.firm));
+    d=grp('2030-10-01',21); m=thread('g:family_law').filter(x=>x.tag==='kv_firm'); check('5-3. 2030-10-01（第一份工作那一天）：「各位 我們事務所在找實習生」「家族的人優先」「佳穎 說妳」',J(m.map(x=>x.text))===J(K.firm)&&K.firm[2]==='佳穎 說妳');
     { fresh(D('2028-09-22'),20,'dorm'); ruleAt(D('2028-09-22'),21.05); check('5-3. 不在家族群組：收不到',!byTag('kv_bar1').length); }
     const book=flags=>{ const b=D('2029-03-11'); fresh(b,20,'dorm',flags); joinFam(); ruleAt(b,20.5); ruleAt(b,21.05); return byTag('kv_book'); };
     m=book({Y4_PATH:'bar'});
@@ -683,10 +693,55 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     /* 舊存檔收過舊版本的訊息：新的不再發（不留兩份）*/
     { const d=TD('Y2S2',3,3); fresh(d,20,'dorm'); fam(YU); contact(YU); H.G.needed={shown:{yu_clubs:d-7}}; ruleAt(d,21.1); const a=!byTag('yu_quit').length;
       const e=D('2027-03-08'); fresh(e,20,'dorm'); joinFam(); H.G.msgs.push({th:'g:family_law',from:YZID,name:'家族的學妹',text:'請問民總的考古題在哪裡🙏',day:e,h:20.9}); ruleAt(e,21.1); const b=!byTag('kv_yz_ask').length;
-      check('7. 舊存檔收過舊的「這學期我只剩兩個社團了……」＝不發退社三則；收過群組裡學妹問考古題＝宜蓁不再私訊',a&&b,J([a,b])); }
-    /* 宜蓁改名：讀檔換字（game3d.js migrate 叫 SUP497.migrate；同 Alison 改名的做法）*/
+      check('7. 舊存檔收過舊的「這學期我只剩兩個社團了……」＝不發退社三則；收過群組裡學妹問考古題＝佳穎不再私訊',a&&b,J([a,b])); }
+    /* 學妹改名佳穎：讀檔換字（game3d.js migrate 叫 SUP497.migrate；同 Alison 改名的做法）*/
     { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); const s={msgs:[{from:YZID,name:'家族的學妹',text:'學姊好🙏'}]}; const n1=S().migrate(s), n2=S().migrate(s);
-      check('7. 宜蓁改名：game3d.js 讀檔（migrate）叫 SUP497.migrate；換一次就好（第二次 0 筆）',/SUP497\.migrate\(s\)/.test(g)&&n1===1&&n2===0&&s.msgs[0].name==='宜蓁'); } });
+      check('7. 學妹改名佳穎：game3d.js 讀檔（migrate）叫 SUP497.migrate；換一次就好（第二次 0 筆）',/SUP497\.migrate\(s\)/.test(g)&&n1===1&&n2===0&&s.msgs[0].name==='佳穎'); } });
+
+  /* ===================== 8 第 8 節（企劃線 60fc3b9a3，AA-C 回 LAWWW-C 7bd68b7cf）：芯慈追劇減量、明軒的滷蛋、學妹改名佳穎（2-1 在上面 2-1 節）===================== */
+  await sec('8',async()=>{ const in8=t=>S8.indexOf(t)>=0;
+    /* [檔, 舊句, 新句]：新舊兩邊都照第 8 節原文；遊戲檔（註解拿掉）只有新句。msg_pool、eat_lines 是產生器重產的（tools/msg/build_pool.py、tools/eat/import_eat_lines.py 的 FIX）*/
+    const SW=[
+      ['src/data/events.js','你抽到芯慈的禮物：一張劇單。','你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。'],
+      ['src/data/needed_msgs.js','那部劇大結局了。你不准爆雷。','永和的公車今天提早到了。……我多讀了一章。'],
+      ['src/data/noodle_table.js','昨天追劇追到兩點。……麵來了再叫我。','昨天讀書讀到兩點。……麵來了再叫我。'],
+      ['src/data/msg_pool.js','在追劇，這集好扯。','在讀書。等我一章。'],
+      ['src/data/encounters.js','我來看一個劇的特展。周邊買太多了，在對收據。','我來看一個設計展。周邊買太多了，在對收據。'],
+      ['src/data/encounters.js','她和高中同學在一間茶樓的窗邊，拿著手機比對一部韓劇的截圖。','她和高中同學在一間茶樓的窗邊，兩個人在對一份旅遊的帳。'],
+      ['src/data/eat_lines.js','剛好。我昨天看了一部劇，沒有人可以講。','剛好。我昨天把筆記重抄了一遍，沒有人可以講。'],
+      ['src/data/wz_jobs.js','她手機在放劇：「這是一部很重要的劇。」','她把耳機拿下來：「我在等永和的末班車。……沒等到。」'],
+      ['src/data/group_events.js','好。請你吃滷蛋。一顆。','好。請你吃一碗大的。'],
+      ['src/data/group_events.js','（他把一顆滷蛋夾到你碗裡。）','（他把一碗大碗的乾麵推到你面前。）'],
+      ['src/data/group_events.js','冠軍那天欠的。一顆。','冠軍那天欠的。大碗。'],
+      ['src/group3d.js','回來請你吃滷蛋。一顆。','回來請你吃一碗大的。'],
+      ['src/data/msg_pool.js','一家多一顆滷蛋 哈哈','一家多送一碗湯 哈哈'] ];
+    const bad=SW.filter(([f,a,b])=>{ const t=noCmt(f); return !(in8(a)&&in8(b)&&t.includes(b)&&!t.includes(a)); }).map(x=>x[0]+'：'+x[2]);
+    check('8. 第 3、4 點換句（'+SW.length+' 句）：新舊兩邊都是第 8 節原文；遊戲裡只有新句（註解不算）',S8.length>0&&!bad.length,J(bad));
+    /* 資料真的是新句（不是只有字串在檔裡）*/
+    { const xd=NEEDED_MSGS.list.find(e=>e.id==='xc_drama'); fresh(TD('Y2S1',14,7),21,'dorm');
+      check('8. needed_msgs xc_drama：訊息、回覆、她回三句照稿換（「恭喜？」「謝謝。很少發生。」）；沒回的那一句照第 8 節後補（b70bed855）「上次公車那則，你沒回。」「……沒關係。那班車隔天又誤點了。」',J([xd.msg,xd.reply,xd.resp,xd.miss])===J([['永和的公車今天提早到了。……我多讀了一章。'],'恭喜？',['謝謝。很少發生。'],['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']])&&in8('「恭喜？」')&&in8('「謝謝。很少發生。」')&&DOC0.indexOf('> 芯慈：上次公車那則，你沒回。')>=0&&DOC0.indexOf('> 芯慈：……沒關係。那班車隔天又誤點了。')>=0&&J(STORY.neededMissFor(H.G,xd,XC))===J(['上次公車那則，你沒回。','……沒關係。那班車隔天又誤點了。']),J(xd)); }
+    { const P=MSG_POOL.people, xc=P[XC].replies.map(e=>J(e.msgs)), mx=P[MX].replies.map(e=>J(e.msgs));
+      check('8. 回覆池（產生器重產）：芯慈「在讀書。等我一章。」、明軒「在比兩家便當」「一家多送一碗湯 哈哈」',xc.includes(J(['在讀書。等我一章。']))&&!xc.includes(J(['在追劇，這集好扯。']))&&mx.includes(J(['在比兩家便當','一家多送一碗湯 哈哈']))&&!mx.some(t=>t.includes('滷蛋'))); }
+    check('8. 一起吃（產生器重匯）：芯慈朋友以上「剛好。我昨天把筆記重抄了一遍，沒有人可以講。」',(EAT_LINES.together[XC].FRI||[]).some(x=>x[1]==='剛好。我昨天把筆記重抄了一遍，沒有人可以講。')&&!JSON.stringify(EAT_LINES).includes('我昨天看了一部劇'));
+    { const e=ENCOUNTERS.find?ENCOUNTERS.find(x=>x.who===XC&&x.spot==='D18'):null; const all=JSON.stringify(ENCOUNTERS);
+      check('8. 偶遇：松菸 D02「我來看一個設計展。……」、九份 D18 why「……兩個人在對一份旅遊的帳。」',all.includes('我來看一個設計展。周邊買太多了，在對收據。')&&(!e||e.why==='她和高中同學在一間茶樓的窗邊，兩個人在對一份旅遊的帳。')&&!/劇的特展|韓劇的截圖/.test(all)); }
+    check('8. 麵店長桌、溫州街打工、聖誕禮物照稿換',JSON.stringify(NOODLE_TABLE).includes('昨天讀書讀到兩點。……麵來了再叫我。')&&JSON.stringify(WZ_JOBS_DATA).includes('她把耳機拿下來：「我在等永和的末班車。……沒等到。」')&&STORY_EVENTS.some(e=>(e.dialogue||[]).some(l=>l&&l.text==='你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。')));
+    /* 照留：慈 3、慈 6、R1、尾聲、大一的 y1fill */
+    { const t=[['慈 3','她眼睛亮起來，講了十分鐘的劇情。然後停住：','src/data/events.js'],['慈 6','昨天晚上追劇追到兩點。……那部劇真的很好看。','src/data/r2y3b_events.js'],['R1','我跟妳說一部劇。','src/data/events.js'],
+        ['尾聲','我在會計師事務所做法遵。昨天追劇追到三點，今天早上差點起不來。','src/data/postgrad_lines.js'],['大一 y1fill','最近在追《檔案室的燈》。','src/data/y1fill_events.js']].filter(([n,s,f])=>!noCmt(f).includes(s)).map(x=>x[0]);
+      check('8. 追劇照留的五處：慈 3、慈 6、R1、尾聲、大一的 y1fill',!t.length,J(t)); }
+    /* 明軒的滷蛋 */
+    { await play('ev_mx_egg_y3'); check('8. ev_mx_egg_y3：「（他把一碗大碗的乾麵推到你面前。）」「冠軍那天欠的。大碗。」',J(H.said.map(x=>x.t))===J(['（他把一碗大碗的乾麵推到你面前。）','冠軍那天欠的。大碗。']),J(H.said.map(x=>x.t))); }
+    check('8. 公館一百元清單（明軒寫的）：「滷蛋另外算。」改「豆干另外算。」、量詞「一塊」（第 8 節後補 b70bed855）；旗標名 MX_EGG* 不改',STORY.MX_FM1.rows[1][3]==='豆干另外算。阿姨有時候多給一塊，這個不能算進排名。'&&in8('「滷蛋」改「豆干」')&&DOC0.indexOf('「阿姨有時候多給一顆」改「阿姨有時候多給一塊」')>=0&&!JSON.stringify(STORY.MX_FM1).includes('滷蛋')&&/MX_EGG_PAID/.test(noCmt('src/data/group_events.js'))&&/MX_EGG_JP/.test(noCmt('src/group3d.js')));
+    check('8. 明軒的滷蛋只留 M1「他有念啦」那一晚、M2 推滷蛋、德文「不是滷蛋」',noCmt('src/data/events.js').includes('然後請你一顆滷蛋。')&&noCmt('src/y2r2_3d.js').includes('（明軒把自己碗裡的滷蛋，推到你碗裡。）')&&L().mx.german.scene.some(x=>x[1].endsWith('……不是滷蛋。')));
+    /* 學妹改名佳穎：family_junior 全部換；姊姊宜蓁不動 */
+    { const files=fs.readdirSync(path.join(H.ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>'src/'+f).concat(fs.readdirSync(path.join(H.ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>'src/data/'+f));
+      const SIS_OK=/^src\/(home3d|jpprep3d|vacfill3d)\.js$|^src\/data\/(vacfill_events|jpprep_events)\.js$/;
+      const where=files.filter(f=>noCmt(f).includes('宜蓁')), bad=where.filter(f=>!SIS_OK.test(f));
+      check('8. 學妹改名佳穎（第 8 節第 5 點）：遊戲裡（註解不算）「宜蓁」只剩姊姊（家裡、寒暑假、日本行前），學妹那幾處都換了',!bad.length&&where.length>0,J({bad,where}));
+      check('8. 佳穎：交棒那一場、報到桌的旁白（AA_498）、她私訊的對話框、群組名字都是佳穎',L().kv.junior==='佳穎'&&noCmt('src/data/pool_story.js').includes('（排在隊伍中間的，是佳穎。她看到你，比你還緊張。）')&&NM('family_junior')==='佳穎'&&!(PORTRAIT_ONLY.family_junior.alias||[]).includes('宜蓁'));
+      const home=noCmt('src/home3d.js'), vf=noCmt('src/data/vacfill_events.js');
+      check('8. 祐廷的姊姊照舊叫宜蓁（home3d.js 的 SIS、寒暑假的對話框；讀檔不換 from sister 的）',/SIS=\{name:'宜蓁'\}/.test(home)&&(vf.match(/speaker:'宜蓁',name:'宜蓁'/g)||[]).length>=7&&(()=>{ const s={msgs:[{th:'p:sister',from:'sister',name:'宜蓁',text:'x'}]}; S().migrate(s); return s.msgs[0].name==='宜蓁'; })()); } });
 
   H.done();
 })();

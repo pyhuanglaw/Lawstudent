@@ -269,7 +269,7 @@ const Y34B=(function(){
     if(F.SIS_RIDE_ASK==='airport'&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport_wait')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport_wait',ev:'ev_sis_airport_wait',day:go,h:8.5,late:0.5,place:'桃園機場第二航廈・出境大廳',title:'到機場送學姊',travel:'機場捷運約 1 小時',travelH:1,hours:2,alarm:true,back:'回到台北。'});
     if(F.SIS_RIDE_ASK==='yes'&&F.SIS_RIDE==null&&NOW(G)<T(go,8)){ const k=S.sisRideKind(G); F.SIS_RIDE=k;
-      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'宜蓁',text:'我也要！'}],'y4_sis_ride_family');
+      if(k==='family') at(G,G.day,G.hour+0.05,[GKEV('我也要去！我坐後面！'),{th:'g:family_law',from:'family_junior',name:'佳穎',text:'我也要！'}],'y4_sis_ride_family');
       else at(G,G.day,G.hour+0.1,[DM('heroine_05','……你確定？到機場要一個多小時，還要上高速公路。'),ME('heroine_05','確定。'),DM('heroine_05','……好。')],'y4_sis_ride_two'); }
     if(F.SIS_RIDE&&F.SIS_SENDOFF==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y4_sis_airport')&&NOW(G)<T(go,8.5))
       OUT.plan(G,{id:'y4_sis_airport',ev:'ev_sis_airport',day:go,h:8,late:0.5,place:'學姊家樓下',title:'載學姊去機場',travel:'',travelH:0,hours:3,alarm:true,back:'回到台北。'});   /* 08:00 出發，開車去機場 */

@@ -15291,12 +15291,12 @@
    "from": "AA-C",
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "ad67d327b",
+   "sha": "b70bed855",
    "msg": "ACK",
    "what": "AA_497 五位配角改稿：宥辰（BB_70 7b 地下室、BB_113 週五的歌定稿、認識、電梯、重修、樂團合約）、芯慈（以安同框兩場、慈 3 B1 入口＋提示＋補救、她爸爸那一場接慈 6、主動約人照年份變多）、Alison（保證認識、YU2_PICK 後果、大二下早餐接語 4、C6 後果、阿哲車禍那晚、大四上法圖）、明軒（M1 B1 入口＋提示、喜歡以安三個徵兆接 M2、德文、存摺）、Kevin（大二上交棒、宜蓁、國考結局、錯題本、換掉「多講兩個字」和動物影片）；第 7 節接線清單與測試",
    "task": "NPC-STORY-1028",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；女主角主動約（X118★）以後接；第 7 節三處（Alison「三個社團」約 9 處、明軒 CP 值、明軒滷蛋）改完列給 AA；【LAWWW-C 10-28 06:3x】照 7a38216ca 合進開發分支 7bd68b7cf（子代理 00638abdb）：五位配角第 1～6 節（芯慈 2-9 追劇、明軒 4-6 滷蛋只拿掉一部分，其餘問 AA；Kevin 5-1 3D 等 X63）；BB 瀏覽器跑稿第 7 節"
+   "note": "【LAWWW-C 2026-10-28 01:4x UTC】outbox 6cd97dc02；女主角主動約（X118★）以後接；第 7 節三處（Alison「三個社團」約 9 處、明軒 CP 值、明軒滷蛋）改完列給 AA；【LAWWW-C 10-28 06:3x】照 7a38216ca 合進開發分支 7bd68b7cf（子代理 00638abdb）：五位配角第 1～6 節（芯慈 2-9 追劇、明軒 4-6 滷蛋只拿掉一部分，其餘問 AA；Kevin 5-1 3D 等 X63）；BB 瀏覽器跑稿第 7 節；【LAWWW-C 10-28 06:4x】AA 回 60fc3b9a3（第 8 節：2-1 認識以安前不叫名字、芯慈追劇八處換句、明軒滷蛋、學妹改名佳穎＝只換學妹）→ 原本的子代理續做，做完改白名單 60fc3b9a3；【LAWWW-C 10-28 07:2x】第 8 節四件合進開發分支（子代理 417129b1f），白名單 AA_497＝60fc3b9a3；剩 xc_drama 沒回那句、豆干量詞問 AA；【LAWWW-C 07:3x】第 8 節後補（b70bed855：xc_drama 沒回兩句、豆干「一塊」）做進 5cfd3be74，白名單 AA_497＝b70bed855"
   },
   {
    "id": "DL-AA-498",
@@ -15569,7 +15569,7 @@
    "what": "AA_510 女主角自己的生活（大四下＋畢業那年夏天）；0-1 AA_509 三處更正（可昕第四年、晨希社課、芷若倫敦貓「房東」）；0-2 開發分支現有的七件；outbox cf2139c67",
    "task": "HEROINE-LIFE-1028",
    "integration": "已整合待測試",
-   "note": "【LAWWW-C 2026-10-28 05:2x UTC】0-2 第 1～6 點 3341aa74d（第 7 點不用改）；手機第四輪子代理改用 28f981438 的 AA_508／509；AA_510 手機下一輪"
+   "note": "【LAWWW-C 2026-10-28 05:2x UTC】0-2 第 1～6 點 3341aa74d（第 7 點不用改）；手機第四輪子代理改用 28f981438 的 AA_508／509；AA_510 手機下一輪；【LAWWW-C 10-28 07:1x】手機動態、別人說起她照 28f981438 合進 7ef49cc84（子代理第五輪 e08e8780a）；3D 圈子在 CIRCLE3D-Y4-1028 子代理"
   },
   {
    "id": "DL-AA-511",
@@ -15577,12 +15577,12 @@
    "from": "AA-C",
    "account": "C",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "c9899bed9",
+   "sha": "b70bed855",
    "msg": "ACK",
    "what": "AA_511 女主角自己的生活：畢業以後到 2030（七位各三～四則動態，接到 2034 尾聲那一句）；新規則：畢業以後篇跳時間時，動態從玩家停下來那一刻起留七天；HEROINE-LIFE-1028 寫完（AA_503～511）；outbox 4c2082189",
    "task": "HEROINE-LIFE-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 2026-10-28 05:2x UTC】排手機第五輪（AA_510＋AA_511＋跳時間的保留規則），第四輪合併以後派"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 05:2x UTC】排手機第五輪（AA_510＋AA_511＋跳時間的保留規則），第四輪合併以後派；【LAWWW-C 10-28 07:1x】AA_511 畢業以後 26 則動態＋跳時間不過期（從停下來起留七天）合進 7ef49cc84（子代理 e08e8780a）；白名單 AA_511＝c9899bed9；【LAWWW-C 07:3x】第 9 節（b70bed855）七件照子代理，第 6 點尾聲前旁白做進 5cfd3be74，白名單 AA_511＝b70bed855"
   },
   {
    "id": "DL-LW2-INTERIOR3",
@@ -15596,6 +15596,71 @@
    "task": "INTERIOR-AAA-REVIEW-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 2026-10-28 05:3x UTC】十個二進位檔 ca50d6ab5；Node 11 支 ALL PASS；BB 看畫面（v9.10.13 待測）；建築場景 ART_APPROVED 只有使用者"
+  },
+  {
+   "id": "DL-AA-512",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c444f0757",
+   "msg": "ACK",
+   "what": "AA_512 學姊第十三批：她自己的事當面演八場（13-1 交棒那晚、13-2 家族吃咖哩、13-3 論文卡住走椰林、13-4 6/2 公館蛋糕二選一、13-5 日本路線 6/2 視訊、13-6 美國挽回中洗衣間、13-7 12/28 歡迎回來家聚、13-8 大四下新體育館門口）＋說了沒發生九件；feed_y3s1 學姊第 1 則改「又煮了。」；outbox 94540f5a6；574720913 加第 5 節：伴手禮兌現（美國路線 CAME_BACK_TOGETHER、1/3 與 1/6 還在交往：1/3 私訊、1/6 臺北家裡蘋果奶油、1/7 媽媽三則；SIS13_GIFT）；outbox ab66e46b1；c444f0757 加第 6 節：日本路線視訊三句在 12/23 接機戀人版兌現（SIS_JP_COAT、SIS_JP_FIRST）、前任 4-1 重新開始答應那次多一句、4-1 禁用句型改句；outbox 634a5b84b（學姊說了沒發生清單清完）",
+   "task": "SIS-LEAD-1021",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 07:0x UTC】收到；等手上子代理空出一個派人接（SIS-B13-1028）；r2y4a_events:275 伴手禮那句回 AA：之後沒有學姊再見祐廷媽媽的場合，要 AA 定"
+  },
+  {
+   "id": "DL-AA-513",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a2e4bf196",
+   "msg": "ACK",
+   "what": "AA_513 女主角生活稿對照開發分支 e89f2a537（AA_497 190 句、AA_498 168 句、AA_502 68 句全部在；AA_503～509 少的都在 heard_lines「沒做」）；第 1 節阿凱說子晴四句改成他的私訊（11/27、10/27、5/20 發表會照片後、12/15）；第 2 節以安和媽媽在公館窗邊的路過字幕（大一上、大一下第 10 週週五 18～21，AN_MOM_SEEN）；outbox a3d3b7119",
+   "task": "HEROINE-LIFE-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 07:2x UTC】派子代理（worktree）做第 1、2 節，heard_lines／heard3d／y34b3d.zqKaiPhone＋三支測試的「沒做」對照表"
+  },
+  {
+   "id": "DL-LW2-NPCPOOLART",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "35b26938c",
+   "msg": "ACK",
+   "what": "NPC-POOL-ART-1028：二十位同學十一位的配件（12 個 GLB）、props3d sit 規則、靖雯保溫瓶放長椅、振宇後背包、男一舍公用冰箱（dorm_hall.glb）、霖澤館考前補給桌（linze_supply_table.glb，互動點南移）；patch npc_pool_art_1028.patch；記帳 ac6653068；截圖 test_shots/npc_pool_art_1028/README.md",
+   "task": "NPC-POOL-ART-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 07:2x UTC】整合進開發分支 971db04b9（patch＋GLB）；相關 Node 全過、全部 Node 在跑；BB 看畫面；要我接的：heroine_circle.js PEOPLE[] 傳 props（麵店阿姨 apron／ladle／bandage）——等私密選項＋大四圈子子代理合併後做（它在改 heroine_circle.js）"
+  },
+  {
+   "id": "DL-AA-514",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "964d01175",
+   "msg": "ACK",
+   "what": "AA_514 可昕兩件沒有下文的補上：①最後一場模擬法庭（大三上 2027-12-04 週六 14:00～16:30 政大；AA_505／506 7-2 選「下次我去看。」要記 KX_WATCH；11/28 21:00 私訊約、回「去。」／「那天不行。」到 12/4 12:00；2D classroom_small「政大・模擬法庭教室」三選一 KX_MOOT3='came'；沒來 21:30 兩則 'missed'）②嘉義予樂家：AA_505 7-3 第 4、5 則中間加 1/29（五）19:30 動態；outbox 3621b61ad",
+   "task": "HEROINE-LIFE-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-C 2026-10-28 07:2x UTC】收到；排進下一個空出的子代理（KX-MOOT3-1028）"
+  },
+  {
+   "id": "DL-LW2-HLIFEPROPS",
+   "date": "2026-10-28",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "73fbfc4ae",
+   "msg": "ACK",
+   "what": "HEROINE-LIFE-NPC3D-1028：圈子標籤同伴十六位的配件（patch hlife_props_1028.patch：PEOPLE[] props、hcircle3d specOf 傳 props；GLB name_pin、mug、lawbook）；記帳 3df0554a7；畫面 test_shots/hlife_props_1028/README.md",
+   "task": "HEROINE-LIFE-NPC3D-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 2026-10-28 07:3x UTC】整合進開發分支 4ca1077aa；相關 Node 全過；BB 看畫面（同框時同伴的配件）"
   }
  ],
  "ignored": [
@@ -19594,6 +19659,13 @@
    "kind": "wip",
    "task": "NPC-POOL-ART-1028",
    "reason": "LAWWW2 霖澤館一樓「考前補給包」桌子（supply_table.py → linze_supply_table.glb；pool3d.js 只在劇情那一天擺）的 WIP，還沒交件（LAWWW-C 10-28 06:0x 分類）"
+  },
+  {
+   "sha": "3903df115",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPCPOOLART",
+   "reason": "LAWWW2 NPC-POOL-ART-1028 的 Blender 腳本 prop_pool.py＋量身資料 WIP，交件 35b26938c 的祖先（LAWWW-C 10-28 07:2x 分類）"
   }
  ]
 }

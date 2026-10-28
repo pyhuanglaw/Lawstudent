@@ -47,7 +47,7 @@ const SISB12=(function(){
   const wd=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).wd:0;
   const inDays=(G,a,b)=>{ const x=D(a), y=D(b); return x!=null&&y!=null&&G.day>=x&&G.day<=y; };
   /* 家族群組的一則（k＝Kevin、s＝學姊、j＝家族的學妹；同 r3_3d.js 的 GK／GW／GJ）*/
-  const WHO={k:{from:'kevin',name:'Kevin'},s:{from:ID,name:'溫學姊'},j:{from:'family_junior',name:'宜蓁'}};   /* AA_497 5-2：家族的學妹統一叫宜蓁 */
+  const WHO={k:{from:'kevin',name:'Kevin'},s:{from:ID,name:'溫學姊'},j:{from:'family_junior',name:'佳穎'}};   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎 */
   const g=([w,t])=>Object.assign({th:'g:family_law',text:t},WHO[w]);
   const r=([w,t])=>Object.assign({text:t},WHO[w]);   /* 選項回覆（PHONE.answer 補 th）*/
   const dm=t=>({th:'p:'+ID,from:ID,text:t});

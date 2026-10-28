@@ -4,7 +4,7 @@
    staff[店].line5Alt＝{when,t,reply}：上次點的東西符合 when 時，第 5 次那一句換成 t、祐廷回 reply（AA_336 A4，只有便利商店）。程式：src/eat3d.js */
 'use strict';
 const EAT_LINES={
- "source": "AA_329（企劃 724d7703）＋AA_336 第 A 節（企劃 724d7703）",
+ "source": "AA_329（企劃 724d7703）＋AA_336 第 A 節（企劃 724d7703）＋AA_497 第 8 節第 3 點換一句（企劃 60fc3b9a3）",
  "open": "（你端著餐盤走過去。）",
  "closeRecycle": "（吃完，你們一起把盤子拿去回收。）",
  "closeDoor": "（吃完，你們在店門口分開。）",
@@ -438,7 +438,7 @@ const EAT_LINES={
    "FRI": [
     [
      "classmate_xinci",
-     "剛好。我昨天看了一部劇，沒有人可以講。"
+     "剛好。我昨天把筆記重抄了一遍，沒有人可以講。"
     ],
     [
      "classmate_xinci",

@@ -15,7 +15,7 @@
            2-5 慈 6（r2y3b_events.js）＋沒演到的私訊；2-6 她約（INV.offer）；2-7 讀書會（INV 約 B1 討論室）；2-8 挑一本筆記（房間物品）；2-9 閒聊
    3 Alison 3-1 第 3 週保證認識；3-2 YU2_PICK（events.js）；3-3 一個人的早餐＋語 4（r2y3b_events.js）；3-4 退社；3-5 車禍那晚；3-6 C6 的後果；3-7 法圖＋尾聲
    4 明軒  4-1 B1 版 M1、提示；4-2 傘、咖啡、位子＋M2 那一句（y2r2_3d.js）；4-3 德文（INV 約 B1 討論室）；4-4 存摺；4-5 閒聊
-   5 Kevin 5-2 交棒（OUT 出遊 9/17 18:30，118 巷的定食店）、宜蓁私訊；5-3 國考、錯題本、事務所；5-4 梗（sis_b12_events.js、y34b3d.js、story3d.js、y1fill_events.js）
+   5 Kevin 5-2 交棒（OUT 出遊 9/17 18:30，118 巷的定食店）、佳穎私訊（第 8 節第 5 點：學妹改名，原本叫宜蓁）；5-3 國考、錯題本、事務所；5-4 梗（sis_b12_events.js、y34b3d.js、story3d.js、y1fill_events.js）
    測試：node tests/aa497_supporting_unit.js */
 'use strict';
 const SUP497=(function(){
@@ -69,7 +69,7 @@ const SUP497=(function(){
   const say1=(id,t)=>({from:id,text:t});
   /* 台詞 [誰, 字] → 事件引擎的一行 */
   const SP={yc:YC,xc:XC,an:AN,yu:YU,mx:MX,zhe:ZHE,dad:'芯慈的爸爸',kv:'npc_kevin',yz:YZ};
-  const NM={kv:'Kevin',yz:'宜蓁'};
+  const NM={kv:'Kevin',yz:L.kv.junior||'佳穎'};
   const ln=(w,t,x)=>Object.assign(w==null?{speaker:null,text:t}:(w==='player'?{speaker:'player',text:t}:Object.assign({speaker:SP[w]||w,text:t},NM[w]?{name:NM[w]}:{})),x||{});
   const lns=(A,x)=>(A||[]).map(([w,t])=>ln(w,t,x));
   const plan=(G,o)=>typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,o.id)?OUT.plan(G,o):false;
@@ -215,11 +215,15 @@ const SUP497=(function(){
   /* ===================================================================== 2 芯慈 ===================================================================== */
   const xcMet=G=>has(XC,'FIRST_MET');
   /* 2-1 開學那天（以安同框 1）：大一上第 1 週第一堂必修、上課前（課前事件；新局＝9/1（一）的憲法，玩家沒去就是第 1 週下一堂去上的必修）。一次、只是看到（noMeet：不算認識兩個人）。
-     照稿：旁白直接寫「以安」（新局玩家 9/4 第二天才正式認識她；慈 3「開學第一天」、慈 5「開學那天」對得上）。宿營已經認識芯慈的，「那個女生」改「芯慈」。舊存檔（9/17 開局）沒有第 1 週＝不演 */
+     新局玩家 9/4 第二天才正式認識以安：還沒認識＝照第 8 節第 2 點（旁白不叫她「以安」、名字顯示「坐第一排的女生」）；慈 3「開學第一天」、慈 5「開學那天」對得上。宿營已經認識芯慈的，「那個女生」改「芯慈」。舊存檔（9/17 開局）沒有第 1 週＝不演 */
   const XCM={custom:G=>xcMet(G)}, swapGirl=t=>t.split('那個女生').join('芯慈');
+  /* 第 8 節第 2 點（企劃線 60fc3b9a3）：還沒認識以安（FIRST_MET）＝第一句旁白不叫她「以安」、她那一句的名字顯示「坐第一排的女生」；她說了「妳好，我是沈以安。」以後（最後一句旁白）才用「以安」；宿營就認識的照原稿 */
+  const ANM={memory:[{npc:AN,tag:'FIRST_MET'}]};
   S.DAY1={ id:'ev_xc_day1', title:'第一排', participants:[AN,XC], noMeet:[AN,XC], location:'any', trigger:'class', once:true, background:'blur',
     beforeClass:it=>{ const G=curG(); return !!G&&law(G)&&!!it&&!!it.c&&it.c.kind==='required'&&!it.exam&&it.term==='Y1S1'&&it.week===1; },
-    dialogue:[].concat(...(L.xc.day1||[]).map(([w,t])=>w==null&&t.indexOf('那個女生')>=0?[ln(w,t,{unless:XCM}),ln(w,swapGirl(t),{if:XCM})]:[ln(w,t)])) };
+    dialogue:[].concat(...(L.xc.day1||[]).map(([w,t],k)=>k===0?[ln(w,t,{if:ANM}),ln(null,L.xc.day1Pre,{unless:ANM})]
+      :(w==='an'?[ln(w,t,{if:ANM}),ln(w,t,{unless:ANM,name:L.xc.day1Who})]
+      :(w==null&&t.indexOf('那個女生')>=0?[ln(w,t,{unless:XCM}),ln(w,swapGirl(t),{if:XCM})]:[ln(w,t)])))) };
   /* 2-2 影印機（以安同框 2）：大一下期中考前一週（稿寫第 9 週＝期中考的第二週；照「期中考前一週」到第 9 週都算）、總圖一樓的影印機、中午 12:10～13:00；兩個人都認識才演（旁白寫了名字）。
      兩個人的作息（characters.js 最前面那一筆）：這三週的週一、三、四、五中午站在影印機前，演過就不來（週二中午以安在 118 巷＝不排、不演；週四 13:20 民總，13:05 起在教室）*/
   S.COPY_AT={x:8.0,z:2.6};   /* 總圖一樓服務台南邊（library_layout.js 的 desk (7.8,4.4)）；影印機的實體物件：LAWWW2 */
@@ -344,13 +348,13 @@ const SUP497=(function(){
     { const d=termDay('Y4S1',10,3); if(d!=null&&dmOK(G,MX)){ const items=L.mx.bank.msg.map(M); items[items.length-1].ask=askOf('mx_bank',L.mx.bank.opts.map(([t,r])=>({t,say:[say1(MX,r)]}))); S.at(G,MX,d,22,items,'mx_bank'); } } };   /* 4-4 大四上第 10 週 22:00（LAWWW 排週三）*/
 
   /* ===================================================================== 5 Kevin ===================================================================== */
-  /* 5-2 交棒：9/14 21:10 家族群組 Kevin 揪（回「去。」才演）→ 9/17（四）18:30 118 巷的定食店（2D）；沒去＝9/18 21:00 群組一句。宜蓁問考古題改成私訊祐廷（2027-03-08 21:00）*/
+  /* 5-2 交棒：9/14 21:10 家族群組 Kevin 揪（回「去。」才演）→ 9/17（四）18:30 118 巷的定食店（2D）；沒去＝9/18 21:00 群組一句。佳穎問考古題改成私訊祐廷（2027-03-08 21:00）*/
   S.HAND='2026-09-17';
   const KVg=t=>gm('family_law',KV,'Kevin',t), YZg=t=>gm('family_law',YZ,L.kv.junior,t), SISg=t=>gm('family_law',SIS,'溫學姊',t);
   S.kvPhone=function(G){ const F=G.flags, A=L.kv; if(!law(G)) return; const fam_=inGrp(G,'family_law');
     { const d=DK('2026-09-14'), h=DK(S.HAND); if(d!=null&&h!=null&&fam_&&!F.KV_HAND_ASKED&&G.day>=d-1&&G.day<=h){ if(PHONE.at(G,d,21+10/60,[KVg(A.invite)].map((x,i,a)=>i===a.length-1?Object.assign(x,{ask:askOf('kv_hand',[{t:A.go,hand:true}],{until:T(h,18)})}):x),'kv_hand_ask')) F.KV_HAND_ASKED=G.day; } }
     { const h=DK(S.HAND); if(h!=null&&fam_&&!F.KV_HANDOVER&&now(G)>=T(h+1,21)&&G.day<=h+2&&!sent(G,'kv_hand_missed')) PHONE.at(G,h+1,21,[KVg(A.missed)],'kv_hand_missed'); }   /* 沒去 */
-    { const d=DK('2027-03-08'), old=(G.msgs||[]).some(m=>m&&m.th==='g:family_law'&&m.from===YZ&&/考古題在哪裡/.test(m.text||'')); if(d!=null&&fam_&&!old) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}])})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（宜蓁從家族群組拿到你的帳號）；舊存檔已經在群組問過（舊的那一段）＝不再私訊 */
+    { const d=DK('2027-03-08'), old=(G.msgs||[]).some(m=>m&&m.th==='g:family_law'&&m.from===YZ&&/考古題在哪裡/.test(m.text||'')); if(d!=null&&fam_&&!old) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}])})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（佳穎從家族群組拿到你的帳號）；舊存檔已經在群組問過（舊的那一段）＝不再私訊 */
     /* 5-3 國考（日期照考選部當年公告的月份；LAWWW 排：一試放榜 9 月、二試放榜 12 月）*/
     if(fam_){ S.at(G,KV,DK('2028-09-22'),21,A.bar1.map(KVg),'kv_bar1',{noContact:true});
       S.at(G,KV,DK('2028-12-15'),21,A.bar2.map(KVg).concat([SISg(A.bar2Sis),YZg(A.bar2Yz)]),'kv_bar2',{noContact:true});
@@ -371,7 +375,7 @@ const SUP497=(function(){
   /* 尾聲（2034）：宥辰「五年後」那一句（BB_70 7b；YC_GIG 多一句）、Alison 法圖（YU_Y4_LIB，接在「一個人吃滷肉飯」後面）——postgrad3d.js S.epiLine 叫 */
   S.epiYc=G=>[[YC,L.yc.gig.epi]].concat(G.flags&&G.flags.YC_GIG?[[YC,L.yc.gig.epiGig]]:[]);
   S.epiYuLib=G=>G&&G.flags&&G.flags.YU_Y4_LIB?[[YU,L.yu.lib.epi]]:[];
-  /* 讀檔：家族的學妹統一叫宜蓁（舊存檔存下的「家族的學妹」「學妹」帳號名稱換字；同 Alison 改名的做法）*/
+  /* 讀檔：家族的學妹統一叫佳穎（AA_497 第 8 節第 5 點；舊存檔存下的「家族的學妹」「學妹」、開發版的「宜蓁」帳號名稱換字；只看 from＝family_junior，姊姊宜蓁（家人群組）不動；同 Alison 改名的做法）*/
   S.migrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const fx=m=>{ if(m&&typeof m==='object'&&m.from===YZ&&m.name!==L.kv.junior){ m.name=L.kv.junior; n++; } };
     if(Array.isArray(s.msgs)) s.msgs.forEach(fx); const P=s.phone; if(P&&typeof P==='object'&&Array.isArray(P.q)) for(const q of P.q){ fx(q); if(q&&Array.isArray(q.items)) q.items.forEach(fx); }
     return n; };
@@ -383,7 +387,7 @@ const SUP497=(function(){
 
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){
-    if(typeof PORTRAIT_ONLY!=='undefined'){ if(!PORTRAIT_ONLY[KV]) PORTRAIT_ONLY[KV]={id:KV,name:'Kevin',alias:[],gender:'m'}; if(!PORTRAIT_ONLY[YZ]) PORTRAIT_ONLY[YZ]={id:YZ,name:L.kv.junior,alias:[],gender:'f'}; }   /* 手機的對話串名字（不在 CHARACTERS；同 sideq3d.js 的一一八茶飲）；沒有 alias：家裡的姊姊也叫宜蓁，不能把 speaker '宜蓁' 對到學妹 */
+    if(typeof PORTRAIT_ONLY!=='undefined'){ if(!PORTRAIT_ONLY[KV]) PORTRAIT_ONLY[KV]={id:KV,name:'Kevin',alias:[],gender:'m'}; if(!PORTRAIT_ONLY[YZ]) PORTRAIT_ONLY[YZ]={id:YZ,name:L.kv.junior,alias:[],gender:'f'}; }   /* 手機的對話串名字（不在 CHARACTERS；同 sideq3d.js 的一一八茶飲）；沒有 alias：學妹叫佳穎（AA_497 第 8 節第 5 點；家裡的姊姊叫宜蓁，兩個不能混） */
     /* 寫在 src/data/characters.js 的（note 都寫 AA_497 第幾節）：1-1 personality「在錄音室待過一年」、第 6 節陳助教；
        演這幾場時人在那裡的作息（看得到人、人物線索對得上；演過就不來）：1-5 宥辰在霖澤館一樓電梯前、2-2 以安和芯慈在總圖一樓影印機前、2-3 芯慈 00:00～00:15 在 B1、
        2-4 芯慈那天在霖澤館門口、3-3 Alison 在傅鐘旁的長椅（118 巷作息後面）、3-7 Alison 在法圖二樓（118 巷作息後面）、4-1 明軒在 B1、4-2 (b) 以安期中考週下午在總圖三樓 */

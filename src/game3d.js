@@ -12,7 +12,8 @@ const GAME = (function(){
   GM.bindSystems=bindSystems;
   GM.defaults=defaults;
   // ---------- 小工具 ----------
-  const sleep=ms=>new Promise(r=>setTimeout(r,GM.turbo?Math.min(ms,120):ms));
+  GM.loadGen=0;   /* 讀檔世代（LOAD-GEN-ABORT-1028，BB-C 10-28 sh_reload）：applySave 加一；舊的劇情流程在 sleep、走路到達這類等待醒來時世代不同＝不 resolve，停在那裡不往下演、不寫旗標進新的一局 */
+  const sleep=ms=>{ const g=GM.loadGen; return new Promise(r=>setTimeout(()=>{ if(GM.loadGen===g) r(); },GM.turbo?Math.min(ms,120):ms)); };
   GM.sleep=sleep;
   function fmtTime(h){ const hh=Math.floor(h%24), mm=Math.floor((h%1)*60); return (hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm; }
   GM.fmtTime=fmtTime;
@@ -146,7 +147,7 @@ const GAME = (function(){
     if(opt.pos) pos=opt.pos; if(opt.look) look=opt.look; if(E.indoor&&E.zone.bounds){ const b=E.zone.bounds; pos.x=Math.max(-b.w/2+0.35,Math.min(b.w/2-0.35,pos.x)); pos.z=Math.max(-b.d/2+0.35,Math.min(b.d/2-0.35,pos.z)); const cb=E.zone.camBox; if(cb&&cb.x) pos.x=Math.max(cb.x[0],Math.min(cb.x[1],pos.x)); if(cb&&cb.z) pos.z=Math.max(cb.z[0],Math.min(cb.z[1],pos.z)); pos.y=Math.min(pos.y,(E.zone.camMaxY!==undefined?E.zone.camMaxY:3.0)+(E.levels?E.navOf(E.player.lv).y0:0)); }   /* 室內運鏡不超過天花板（階梯教室、多樓層：zone.camMaxY、加上所在樓層的地板高度）*/ E.cinematic(pos,look); if(opt.snap){ E.camera.position.copy(pos); E.cam.look=look.clone(); } }
   GM.cine=cine;
   // ---------- 移動輔助 ----------
-  function walkTo(ent,x,z,opts){ opts=opts||{}; return new Promise(res=>{ if(GM.turbo){ E.placeAt(ent,x,z,opts.lv); ent.path=null; res(true); return; } ent.run=!!opts.run; let w=null; const finish=(v)=>{ if(w){ walks.delete(w); w=null; } res(v); };
+  function walkTo(ent,x,z,opts){ opts=opts||{}; const g=GM.loadGen; return new Promise(res=>{ if(GM.turbo){ E.placeAt(ent,x,z,opts.lv); ent.path=null; res(true); return; } ent.run=!!opts.run; let w=null; const finish=(v)=>{ if(w){ walks.delete(w); w=null; } if(GM.loadGen===g) res(v); };   /* 走路中間讀檔（GM.loadGen 變了）＝走到了也不 resolve：舊劇情不在新的一局接著演 */
     const ok=E.moveTo(ent,x,z,()=>finish(true),opts.lv); if(!ok){ E.placeAt(ent,x,z,opts.lv); finish(false); return; }
     w={ent,x,z,lv:opts.lv,ax:ent.obj.position.x,az:ent.obj.position.z,stall:0,total:0,finish}; walks.add(w); }); }   // opts.lv：目的地在哪一層（多樓層區域）
   /* 保險（v9.3 第二十五批）：劇情的自動走路如果被擋住（家具、比人窄的縫）——**遊戲時間**連續 4 秒沒有前進 0.25 m，或走超過 90 秒——就直接放到目的地，劇情不會永遠停住。
@@ -327,7 +328,7 @@ const GAME = (function(){
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     if(typeof POOL!=='undefined'&&POOL.migrate){ try{ POOL.migrate(s); }catch(e){ console.warn('POOL.migrate',e); } }
-    if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2：家族的學妹統一叫宜蓁（舊存檔存下的「家族的學妹」「學妹」帳號名稱換字；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
+    if(typeof SUP497!=='undefined'&&SUP497.migrate){ try{ SUP497.migrate(s); }catch(e){ console.warn('SUP497.migrate',e); } }   /* AA_497 5-2、第 8 節第 5 點：家族的學妹統一叫佳穎（舊存檔存下的「家族的學妹」「學妹」「宜蓁」帳號名稱換字；姊姊宜蓁不動；同 Alison 改名的做法）*/   /* AA_498 第 1 節改名（撞到主要人物的六位）：舊存檔存下的舊名換新名；第一批五位說過秘密的記成「沒選」（2-10）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
@@ -363,6 +364,7 @@ const GAME = (function(){
     s=firstMetMigrate(s,raw);   /* 舊存檔的女主角初遇：先備份再改（AA_120 7-4 第 7 點、D61）*/
     /* 換區域的淡出淡入還沒結束時 enter() 會直接略過：先等它結束再讀檔，否則存檔內容換掉了、人卻沒移過去（下次自動存檔會把這一區的座標記在另一區名下）*/
     for(let i=0;i<200&&entering;i++) await new Promise(r=>setTimeout(r,50)); if(entering) throw new Error('正在切換場景，請稍後再讀取');
+    GM.loadGen=(GM.loadGen|0)+1; if(D.active||D.resolve){ D.active=false; D.resolve=null; D.typing=false; const db=$('dlg'); if(db) db.classList.add('hide'); } { const cb=$('choices'); if(cb){ cb.classList.add('hide'); cb.innerHTML=''; } }   /* LOAD-GEN-ABORT-1028：舊的對話框、選項收掉（舊劇情等的那一句、那個選單永遠不 resolve＝不會在新的一局接著演）；世代加一＝舊流程的 sleep、走路到達不再醒 */
     G=s; GM.G=G; bindSystems(); E.player.busy=false; E.endCinematic(); D.busyDepth=0; D.busyWho.length=0; GM.chooseReset(); if(typeof STORY!=='undefined'){ STORY._sleeping=false; STORY._resume=null; } D.stale=false; staleT=0; GM.titleIdle=false; hideHUD(false); GM.running=true; E.hour=G.hour; E.weather=G.weather; E.setWeather(G.weather); const sp=G.pos?{x:G.pos.x,z:G.pos.z,yaw:G.pos.yaw,lv:G.pos.lv|0}:undefined;   /* 多樓層（v9.4）：舊存檔沒有 lv＝一樓 */ await enter(G.zone,sp,{fromLoad:true}); setGoal(G.goal||'—',G.goalDest); updateHUD(); if(G.flags.companion==='an'&&STORY.resumeWalk) STORY.resumeWalk(GM); if(G.flags.CAMP_Y1_ON&&!G.flags.CAMP_Y1&&STORY.campY1) void STORY.campY1(GM,{resume:true}); else if(G.zone==='dorm'&&G.flags.LAW_MOVEIN_DAY!=null&&G.day===G.flags.LAW_MOVEIN_DAY&&!G.flags.KAI_MOVEIN&&STORY.lawMoveIn) void STORY.lawMoveIn(GM,{resume:true}); }   /* 宿營中途存的檔：從下一段接著演（CAMP-L1）*/
   GM.applySave=applySave;
   function exportText(){ return btoa(unescape(encodeURIComponent(JSON.stringify(snapshot())))); }

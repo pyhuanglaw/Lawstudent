@@ -1390,7 +1390,7 @@ const STORY_EVENTS=[
       {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:'zhe',expression:'laugh',text:'冷掉了，但很好吃。'},
       {if:{flagIs:{XMAS_FROM:'classmate_bohan'}},speaker:null,text:'你抽到柏翰的禮物：一疊考古題。'},
       {if:{flagIs:{XMAS_FROM:'classmate_bohan'},custom:G=>XMAS_HERE(G).includes('heroine_01')},speaker:'heroine_01',expression:'neutral',text:'沒收。'},
-      {if:{flagIs:{XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的禮物：一張劇單。'},
+      {if:{flagIs:{XMAS_FROM:'classmate_xinci'}},speaker:null,text:'你抽到芯慈的禮物：一本空白的筆記本，第一頁的格線已經畫好了。'}   /* AA_497 第 8 節第 3 點（企劃線 60fc3b9a3）：追劇減量，劇單換筆記本 */,
       {if:{flagIs:{XMAS_FROM:'classmate_xinci'}},speaker:'classmate_xinci',expression:'smile',text:'十二部。看完跟我說。'},
       {if:{flagIs:{XMAS_FROM:'yu'}},speaker:null,text:'你抽到 Alison 的禮物：一個巨大的玩偶。'},
       {if:{flagIs:{XMAS_FROM:'yu'}},speaker:'yu',expression:'smile',text:'我一個人在家的時候抱的那種。……送你。'},
