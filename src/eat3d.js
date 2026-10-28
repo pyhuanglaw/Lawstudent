@@ -40,8 +40,18 @@ const EAT=(function(){
     if(key==='公館的便利商店'){ try{ if(typeof JOBS!=='undefined'&&JOBS.at&&JOBS.at(G,'cvs')) return null; }catch(e){} }
     return T; };
   S.count=function(G,key){ const R=S.rec(G); return (R.n[key]|0)+(key==='兩點半 Café'?(+flags(G).CAFE_VISITS||0):0); };   /* Café：芷若在班時點的（CAFE_VISITS）也算 */
-  /* 店員的名字：表上的 who 去掉括號。兩點半 Café 2027-06-04 起芷若不在班的時候是學妹小婷（6/3 是芷若最後一個班，AA_375 第 1 項；牆上班表 B 版「晚上那幾格，換成了小婷的名字」）*/
-  S.staffName=function(G,key,t){ if(key==='兩點半 Café'&&G&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d=STORY.dayOfKey('2027-06-04'); if(d!=null&&G.day>=d) return '小婷'; } return String((t&&t.who)||'店員').replace(/（.*?）/g,''); };
+  /* 店員的名字：表上的 who 去掉括號。兩點半 Café 2027-06-04 起（6/3 是芷若最後一個班，AA_375 第 1 項）照班表：
+     芷若原本的班站櫃台的是學妹小婷（牆上班表 B 版「晚上那幾格，換成了小婷的名字」），其他時間是老闆——誰站櫃台，誰說點餐那兩句
+     （AA_519 第 9 節第 3 點，企劃線 169130daf；字在 src/sup519_3d.js S.staffOnX、3D 的店員 SUP519.clerkSpec 讀同一個 S.cafeXt）。原本 6/4 起一律小婷 */
+  S.CAFE_XT_FROM='2027-06-04';
+  /* 芷若原本的班：她作息裡 barista 的那幾格（沒有限定日期、學期的兩筆：週一到週五 19:00～22:00、週一三五 11:00～15:00）。只看星期幾、幾點——她人在不在、那一天有沒有上班都一樣
+     （大三下只排週三、四晚上那一筆是她回來以後少排的、大一上週五下午那一筆只在大一上，都不算）*/
+  S.zrSlot=function(G){ if(!G) return false; const C=typeof CHARACTERS!=='undefined'&&CHARACTERS?CHARACTERS.heroine_02:null, L=(C&&C.daily_schedule)||[];
+    const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).wd%7:G.weekday, h=(((+G.hour||0)%24)+24)%24;
+    return L.some(e=>!!e&&e.act==='barista'&&e.zone==='cafe'&&!e.dates&&!e.terms&&Array.isArray(e.days)&&e.days.includes(wd)&&h>=e.from&&h<e.to); };
+  /* 現在站 Café 櫃台的是小婷嗎（2027-06-04 起、芷若原本的班）*/
+  S.cafeXt=function(G){ if(!G||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey(S.CAFE_XT_FROM); return d!=null&&G.day>=d&&S.zrSlot(G); };
+  S.staffName=function(G,key,t){ if(key==='兩點半 Café'&&S.cafeXt(G)) return '小婷'; return String((t&&t.who)||'店員').replace(/（.*?）/g,''); };
   const who=(t,G,key)=>({name:S.staffName(G,key,t)});
   /* 阿鳳麵店：語彤在顧店（作息 act:'help'）＝第 5 次那一句換她說 */
   S.yutongMinding=function(GM){ const G=GM.G, n=GM.npc&&GM.npc.heroine_03; if(!n||n.leaving||G.zone!=='noodle'||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS.heroine_03,G); return !!(e&&e.zone==='noodle'&&e.act==='help'); };
