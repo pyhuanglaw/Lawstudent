@@ -75,8 +75,8 @@ if(MD){ const md=MD.split('\n'), sec=t=>{ const i=md.findIndex(l=>l.startsWith(t
   const dd=D?D.DEPTS:[], bad1=[]; for(const x of ds){ const y=dd.find(q=>q.id===x.id); if(!y){ bad1.push('缺 '+x.id); continue; } if(J(y.at)!==J(x.at)||!!y.mainLib!==x.mainLib||(y.look||null)!==x.look) bad1.push(x.id+' 在哪裡／外觀'); if(J(y.L)!==J(x.L)) bad1.push(x.id+' 句子'); }
   check('0. 第 1 節：20 個系、在哪裡、每一欄的句子都和稿一樣（順序、字都一樣）',ds.length===20&&dd.length===20&&!bad1.length,J(bad1).slice(0,300));
   const all1=dd.flatMap(d=>Object.values(d.L).flat()); check('0. 第 1 節的每一句都原樣出現在稿上（連括號、「」）',all1.length>=50&&all1.every(t=>MD.includes(t)),String(all1.length));
-  const rt=all1.filter(t=>{ const st=C?C.deptSteps(t,'x'):[]; const sp=st[st.length-1]; return !(st.length&&(st.length===1?'「'+sp.t+'」'===t:st[0].t+'「'+sp.t+'」'===t)); });
-  check('0. 播的時候：旁白（開頭的括號）＋「」裡面那一句，接回去＝稿上那一句（一字不差，只拿掉外面的「」）',!rt.length&&!!C,J(rt).slice(0,200));
+  const rt=all1.filter(t=>{ const st=C&&C.deptSteps?C.deptSteps(t,'x'):[]; const sp=st[st.length-1]; return !(st.length&&(st.length===1?'「'+sp.t+'」'===t:st[0].t+'「'+sp.t+'」'===t)); });
+  check('0. 播的時候：旁白（開頭的括號）＋「」裡面那一句，接回去＝稿上那一句（一字不差，只拿掉外面的「」）',all1.length>=50&&!!C&&typeof C.deptSteps==='function'&&!rt.length,J(rt).slice(0,200));
   const G3=C&&C.GYM_HEAR, gl=gym.map(([a,w,t])=>{ const k=/籃球場/.test(a)?'basketball':(/場邊/.test(a)?'rest':(/羽球場/.test(a)?'badminton':null)); const H=G3&&G3[k], i=H?H.L.indexOf(t):-1; return i>=0&&H.W&&H.W[i]===w; });
   check('0. 體育館加三句：三句都在 CROWD.GYM_HEAR 那一區（羽球場、籃球場、場邊），說的人照稿（外文系、化學系、醫學系的學生）；全部 16 句',gym.length===3&&gl.every(Boolean)&&!!G3&&Object.values(G3).reduce((a,h)=>a+h.L.length,0)===16,J(gym));
   const r2=rows('## 2.'), t2=D?D.TALKS:[], b2=r2.filter(r=>{ const y=t2.find(q=>q.n===+r[0]); return !y||y.at!==r[1]||y.when!==r[2]||J(y.who)!==J(r[3].replace(/（[^）]*）$/,'').split('、').map(s=>s.replace(/（.*）$/,'')))||y.d!==r[4]; }).map(r=>r[0]);
@@ -148,7 +148,9 @@ await blk('4. 校園',async()=>{
   const exit=E.interactables.find(it=>it.exit&&!it.hidden), one=E.npcs.find(n=>n.talk&&n.yieldIt&&n.beh==='route');
   if(exit&&one){ E.player.lv=0; E.player.obj.position.set(exit.x,0,exit.z); one.obj.position.set(exit.x+0.3,0,exit.z); const near=E.nearestInteractable();
     let far=null; for(let k=0;k<400&&!far;k++){ const x=-110+k*0.5, z=-7; E.player.obj.position.set(x,0,z); if(E.interactables.some(it=>!it.hidden&&Math.hypot(it.x-x,it.z-z)<(it.radius||1.8)+0.1)) continue; one.obj.position.set(x+0.5,0,z); const r=E.nearestInteractable(); if(r&&r.npc===one) far=r; }
-    check('4. 走路的人走到出口旁邊：按鈕還是「'+exit.label+'」（不擋）；旁邊沒有互動點時才是「聽一句」',!!near&&near===exit&&!!far&&far.label==='聽一句',J([near&&near.label,far&&far.label])); }
+    check('4. 走路的人走到出口旁邊：按鈕還是「'+exit.label+'」（不擋）；旁邊沒有互動點時才是「聽一句」',!!near&&near===exit&&!!far&&far.label==='聽一句',J([near&&near.label,far&&far.label]));
+    let nm=null; if(far){ const P=E.player.obj.position, an=E.addNPC({obj:CHAR.build({id:'an',sex:'f'}),name:'沈以安',talk:()=>{},talkLabel:'和小安說話',lv:0}); an.obj.position.set(P.x-1.6,0,P.z); one.obj.position.set(P.x+0.4,0,P.z); nm=E.nearestInteractable(); E.removeNPC(an); }
+    check('4. 走路的人比有名字的同學近：按鈕還是「和小安說話」（路人最後才算）',!!nm&&nm.label==='和小安說話',nm&&nm.label); }
   else check('4. 校園有出口、有點得到的走路的人',false); }
 });
 // ---------- 5. 公館 ----------
