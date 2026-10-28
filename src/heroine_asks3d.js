@@ -70,6 +70,7 @@ const HASK=(function(){
   const wishLocs=()=>{ const out=new Set(); if(typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.wishOf) for(const h of DATE.HEROINES){ const w=DATE.wishOf(h); if(w) out.add(w); } return out; };   /* 心願地點（誰的都一樣）永遠不主動約（AA_494 0-1）*/
   /* 今天（day0）可以傳的那幾則 */
   S.candidates=function(G,day0,redo){ const out=[], R=S.rec(G), W=wishLocs(), now=abs(G.day,G.hour%24);   /* redo＝{id,k}：改天的那一次不看「多久約一次」*/
+    if(typeof TERMEND!=='undefined'&&TERMEND.window&&TERMEND.window(Object.assign({},G,{day:day0}))) return out;   /* 心意邀約的窗口裡：傳的那一天也不傳（約的那一天在 S.block 擋）*/
     for(const id of ((typeof DATE!=='undefined'&&DATE.HEROINES)||[])){ const p=P(id); if(!p) continue; const dat=dating(G,id), sn=S.stage(G,id), s=R.st[id]||{};
       if(!dat&&sn<3) continue;
       if(redo&&redo.id!==id) continue; const rd=k=>!!redo&&redo.k===k;

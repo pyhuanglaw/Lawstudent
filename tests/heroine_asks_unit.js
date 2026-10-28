@@ -10,7 +10,7 @@
 //   7  心願地點從來不出現在她的邀約裡
 //   8  連續兩次「不了」以後暫停（交往前 4 週）；「改天」＝3 天後同一個地點再約一次（只再一次），不打開自己選時間
 //   9  個人：子晴週末兩點以前不約；芷若沒班 20:00 傳、上班 22:40 傳；語彤的麵店＝問一聲（here），答應回「好。……我跟阿姨說。」
-// 修改前（開發分支 634fe607a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL，接著丟例外、結束碼 1。用法：node tests/heroine_asks_unit.js
+// 修改前（開發分支 f534dcc4a）：沒有 src/heroine_asks3d.js——第 0 項 FAIL、結束碼 1。用法：node tests/heroine_asks_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
@@ -64,7 +64,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
 /* ---- 4 心意邀約的窗口 ---- */
 { const w=TERMEND.windowOf('Y1S1'); const G=fresh(CALENDAR.dateOf(w.from).key,9); for(const id of ['heroine_01','heroine_03']) friend(id);
   for(let d=w.from;d<=w.to;d++) day(d);
-  check('4. 學期末心意邀約的窗口（'+CALENDAR.dateOf(w.from).key+'～'+CALENDAR.dateOf(w.to).key+'）：一則都沒有',sent().length===0,J(sent())); }
+  check('4. 學期末心意邀約的窗口（'+CALENDAR.dateOf(w.from).key+'～'+CALENDAR.dateOf(w.to).key+'）：一則都沒有（窗口最後一天也不傳隔天的）',sent().length===0,J(sent())); }
 
 /* ---- 5 學姊筆試以前 ---- */
 { const G=fresh('2025-09-22',9); friend('heroine_05',STAGE5); const d0=G.day; for(let d=d0;d<d0+21;d++) day(d);
@@ -106,7 +106,7 @@ const thread=id=>(H.G.msgs||[]).filter(m=>PHONE.th(m)==='p:'+id);
 /* ---- 9 個人 ---- */
 { const G=fresh('2025-09-27',9); friend('heroine_04'); const e={place:'cafe'}, v={h:[13]}; const sat=G.day;
   check('9. 子晴：週六 13:00 不約（在睡覺）、15:30 可以',HASK.dailyOk(G,'heroine_04',e,v,sat,13)===false&&HASK.dailyOk(G,'heroine_04',e,v,sat,15.5)===true); }
-{ const G=fresh('2025-09-22',9); friend('heroine_02'); let wk=null, off=null; for(let d=G.day;d<G.day+7;d++){ at(d,9); if(HASK.works(G,'heroine_02',d)) wk=wk==null?d:wk; else off=off==null?d:off; }
+{ const G=fresh('2025-09-22',9); friend('heroine_02'); let wk=null, off=null; const d0=G.day; for(let d=d0;d<d0+7;d++){ at(d,9); if(HASK.works(G,'heroine_02',d)) wk=wk==null?d:wk; else off=off==null?d:off; }
   check('9. 芷若：上班的日子 22:40 傳、沒班 20:00 傳',wk!=null&&off!=null&&Math.abs(HASK.sendH(G,'heroine_02',wk)-(22+40/60))<1e-9&&HASK.sendH(G,'heroine_02',off)===20,J({wk,off})); }
 { const G=fresh('2025-09-22',9); friend('heroine_03'); const d0=G.day; let x=null; for(let d=d0;d<d0+28&&!x;d++){ day(d); x=sent().find(q=>q.id==='heroine_03'&&q.place==='noodle'); }
   if(x){ const m=G.msgs.find(q=>q.ask&&q.ask.id===x.ask); PHONE.answer(G,x.ask,0); const last=thread('heroine_03').slice(-1)[0];
