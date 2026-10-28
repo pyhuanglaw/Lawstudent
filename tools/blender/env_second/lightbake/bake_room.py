@@ -73,6 +73,20 @@ objs = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons)
 for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
+# 疊在一起、方向相反的面（lib2.single_side 給「開口的零件」補的反面：位置和正面一樣、繞向相反）：烘焙以前拿掉。
+# 為什麼（LIB-HALL-LM-1028）：光線從正面一出發就打到疊在同一個位置的反面，整面烘成全黑——總圖大廳的二樓木地板、一樓天花板（樓板底面）、屋頂、
+# 幾面牆、舊的樓梯踏面（每一階方塊互相貼著，算成開口的零件）。有光照貼圖的物件用不到反面（反面的光照貼圖一樣是黑的），
+# 而且 lm_fix_hidden.py 接頂點的時候本來就把它們併掉了（GLB 的三角形數和沒補反面一樣），所以輸出的網格不變，只是烘焙對了。之前交的房間都沒有用 single_side
+def drop_backfaces(o):
+    bm = bmesh.new(); bm.from_mesh(o.data); seen = {}; kill = []
+    for f in bm.faces:
+        k = tuple(sorted((round(v.co.x, 4), round(v.co.y, 4), round(v.co.z, 4)) for v in f.verts))
+        g = seen.get(k)
+        if g is not None and g.normal.dot(f.normal) < -0.99: kill.append(f)
+        elif g is None: seen[k] = f
+    if kill: bmesh.ops.delete(bm, geom=kill, context='FACES'); bm.to_mesh(o.data); o.data.update()
+    bm.free(); return len(kill)
+print('back faces dropped', sum(drop_backfaces(o) for o in objs), flush=True)
 # 同一個材質不能一部分有光照貼圖、一部分沒有：遊戲的 roomLightmap 是照材質接 lightMap 的，沒有 uv1 的網格會整個取到貼圖 (0,0) 那一點（變暗）。
 # 例：201 的鋼材 cls_steel 同時給椅子的鋼管（幾千個小島，不烘）和門框（看得到，要烘）用。
 # 這種材質自動複製一份給不烘的物件用（名字後面加 _rt＝即時光）；不同物件本來就各畫一次，draw call 不會變多

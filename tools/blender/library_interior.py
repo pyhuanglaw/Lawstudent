@@ -172,14 +172,14 @@ def cyl(name, mat, a, b, r, parent=None, seg=10, props=None, r2=None):
     bm.normal_update(); box_uv(bm, 1.0)
     return mesh_obj(name, bm, mat, parent, props)
 
-def prism(name, mat, pts, x0, x1, parent=None):
+def prism(name, mat, pts, x0, x1, parent=None, props=None):
     """沿 x 擠出的多邊形（輪廓 pts＝[(z,y),…]，遊戲座標）：樓梯中間的斜頂矮牆"""
     bm = bmesh.new(); a = [bm.verts.new(g2b(x0, y, z)) for (z, y) in pts]; b = [bm.verts.new(g2b(x1, y, z)) for (z, y) in pts]
     bm.faces.new(a); bm.faces.new(list(reversed(b)))
     n = len(pts)
     for i in range(n): bm.faces.new([a[i], a[(i + 1) % n], b[(i + 1) % n], b[i]])
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.normal_update(); box_uv(bm, mat.get('tile', 1.0))
-    return mesh_obj(name, bm, mat, parent)
+    return mesh_obj(name, bm, mat, parent, props)
 
 # ---------------- 植物（葉片卡）----------------
 def leaf_cards(name, mat, cards, parent):
@@ -347,6 +347,12 @@ quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (
 sx0, sx1, sz0, sz1 = V['x0'] + 0.3, V['x1'] - 0.3, U['band']['z1'] + 0.4, D / 2 - 0.4
 quad('L1_skylight', MAT['sky'], [(sx0, RY - 0.03, sz0), (sx1, RY - 0.03, sz0), (sx1, RY - 0.03, sz1), (sx0, RY - 0.03, sz1)], L1)
 for i in range(1, 6): xm = sx0 + (sx1 - sx0) * i / 6; box(f'L1_skybeam_{i}', MAT['frame'], xm - 0.05, xm + 0.05, RY - 0.12, RY - 0.02, sz0, sz1, L1)
+# 中庭（大樓梯上方）的天窗＋天窗樑上的筒燈（LIB-HALL-LM-1028）：原本只有門廳上方有天窗，大樓梯上方是整片屋頂，光照烘焙以後踏面幾乎全黑。
+# 白天天光從這裡下來；晚上天窗是暗的，靠兩側樑上的六盞筒燈往下照（下面「晚上的燈」）
+cx0, cx1, cz0, cz1 = -S['railX'] + 0.3, S['railX'] - 0.3, CO['z0'] + 0.5, CO['z1'] - 0.4
+quad('L1_skylight_core', MAT['sky'], [(cx0, RY - 0.03, cz0), (cx1, RY - 0.03, cz0), (cx1, RY - 0.03, cz1), (cx0, RY - 0.03, cz1)], L1)
+CORE_BEAMS = [cx0 + (cx1 - cx0) * i / 4 for i in range(1, 4)]
+for i, xm in enumerate(CORE_BEAMS): box(f'L1_skybeam_core_{i}', MAT['frame'], xm - 0.05, xm + 0.05, RY - 0.12, RY - 0.02, cz0, cz1, L1)
 for sx in (-1, 1):
     for i in range(2):
         for j in range(4):
@@ -449,17 +455,20 @@ for sx in (-1, 1):
     cyl(f'L0_gate_barrier_rail_{sx}', MAT['steel'], (a, 1.02, GT['z']), (b, 1.02, GT['z']), 0.025, L0)
 
 # ---------------- 中央大樓梯（帝國式）：中間那一跑往北、平台、兩側往南；每一階一塊石材＋止滑條；中間的斜頂矮牆、外側玻璃欄板 ----------------
+# 光照貼圖（LIB-HALL-LM-1028）：每一階只做一塊 R＋2 cm 厚的石材（原本每一階從地板疊到踏面，正面一大半夾在下一階後面，光照貼圖的像素一半分給看不到的地方，踏面每階不到兩個像素）；
+# 底下是一塊實心的斜頂量體（中間那一跑直接落在一樓地板上），兩側比踏階內縮 3 mm（同一個平面會閃）；踏階、量體的光照貼圖密度 1.4 倍（踏面 28 cm 深，原本只分到兩個像素）
 for k in range(C['risers']):
     top = (k + 1) * R; zb = C['z1'] - k * TR; za = zb - TR
-    box(f'L0_c_step_{k}', MAT['step'], C['x0'], C['x1'], 0, top, za, zb, L0, bevel=0.012, props={'lmhide': 'down,N'})   # 北面被上一階蓋住
+    box(f'L0_c_step_{k}', MAT['step'], C['x0'], C['x1'], top - R - 0.02, top, za, zb, L0, bevel=0.012, props={'lmhide': 'down,N', 'lm': 1.4})   # 北面被上一階蓋住
     box(f'L0_c_nosing_{k}', MAT['frame'], C['x0'], C['x1'], top - 0.012, top + 0.003, zb - 0.045, zb, L0)   # 踏面前緣＝南邊
+prism('L0_c_body', MAT['step'], [(C['z1'] - 0.02 * TR / R, 0.0), (C['z0'], 0.0), (C['z0'], C['risers'] * R - 0.02)], C['x0'] + 0.003, C['x1'] - 0.003, L0, props={'lmhide': 'up,down,N', 'lm': 1.4})   # 斜頂埋在踏階裡、北面貼著平台
 box('L0_landing', MAT['step'], LD['x0'], LD['x1'], 0, LD['y'], LD['z0'], LD['z1'], L0, bevel=0.012, props={'lmhide': 'down,N,E,W'})   # 北面貼著北牆、東西兩面貼著核心
 # 兩側那一跑：懸空的樓梯（踏階＋斜的樓梯板，底下看得到），一樓那一側用矮花台圍起來（樓梯底下是室內植栽，走不進去：導航上那裡是樓梯的格子，高度接不上）
 SLOPE = (Y1 - LD['y']) / (SD['z1'] - SD['z0'])
 for si, sd in enumerate(S['sides']):
     for k in range(SD['risers']):
         top = LD['y'] + (k + 1) * R; za = SD['z0'] + k * TR; zb = za + TR
-        box(f'L0_s{si}_step_{k}', MAT['step'], sd['x0'], sd['x1'], top - R - 0.02, top, za, zb, L0, bevel=0.01, props={'lmhide': 'down,S'})   # 底面、南面埋在樓梯板裡
+        box(f'L0_s{si}_step_{k}', MAT['step'], sd['x0'], sd['x1'], top - R - 0.02, top, za, zb, L0, bevel=0.01, props={'lmhide': 'down,S', 'lm': 1.4})   # 底面、南面埋在樓梯板裡
         box(f'L0_s{si}_nosing_{k}', MAT['frame'], sd['x0'], sd['x1'], top - 0.012, top + 0.003, za, za + 0.045, L0)   # 踏面前緣＝北邊
     prism(f'L0_s{si}_slab', MAT['slab'], [(SD['z0'], LD['y'] - 0.32), (SD['z0'], LD['y']), (SD['z1'], Y1), (SD['z1'], Y1 - 0.32)], sd['x0'] + 0.003, sd['x1'] - 0.003, L0)   # 樓梯板（底面粉光）；兩側比踏階內縮 3 mm（原本側面和踏階側面同一個平面）
     xo = sd['x1'] if sd['x0'] < 0 else sd['x0']; xi = sd['x0'] if sd['x0'] < 0 else sd['x1']   # xo：靠中間那一側（矮牆那一側）；xi：靠外側（核心牆）
@@ -879,6 +888,11 @@ for k, x in enumerate((NW[0] - 0.15, NW[1] + 0.15)):   # 平台北牆、大窗�
     cyl(f'L0_landlamp_WALL_cup_{k}', MAT['brass'], (x, LD['y'] + 1.9, zw + 0.13), (x, LD['y'] + 2.12, zw + 0.13), 0.055, L0, seg=14, r2=0.1, props={'dir': [0, 0, 1]})
     cyl(f'L0_landlamp_WALL_glow_{k}', MAT['lampglow'], (x, LD['y'] + 2.12, zw + 0.13), (x, LD['y'] + 2.125, zw + 0.13), 0.09, L0, seg=14, props={'dir': [0, 0, 1]})
     cyl(f'L0_landlamp_WALL_arm_{k}', MAT['brass'], (x, LD['y'] + 2.0, zw + 0.02), (x, LD['y'] + 2.0, zw + 0.11), 0.012, L0, seg=8, props={'dir': [0, 0, 1]})
+for i in (0, 2):   # 中庭天窗兩側的樑上各三盞筒燈（往下照大樓梯、平台；燈裝在屋頂，不會擋到二樓連廊上的跟隨鏡頭）。位置和 bake_library_hall.sh 的 CORE 燈一致
+    xm = CORE_BEAMS[i]
+    for j, zc in enumerate((-7.0, -4.6, -2.2)):
+        cyl(f'L1_corespot_can_{i}_{j}', MAT['frame'], (xm, RY - 0.30, zc), (xm, RY - 0.12, zc), 0.09, L1, seg=12)
+        cyl(f'L1_corespot_glow_{i}_{j}', MAT['lampglow'], (xm, RY - 0.305, zc), (xm, RY - 0.30, zc), 0.075, L1, seg=12)
 for i in range(4):   # 連廊樓板底下（一樓大廳、閘門到大樓梯中間）的崁燈
     x = -3.6 + i * 2.4; zc = (U['band']['z0'] + U['band']['z1']) / 2; yb = Y1 - ST - 0.005
     quad(f'L0_banddown_{i}', MAT['light'], [(x - 0.14, yb, zc - 0.14), (x + 0.14, yb, zc - 0.14), (x + 0.14, yb, zc + 0.14), (x - 0.14, yb, zc + 0.14)], L0)
