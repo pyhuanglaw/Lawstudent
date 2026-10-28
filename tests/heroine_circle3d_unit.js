@@ -25,7 +25,8 @@
 //   8  對稿（git show 6bc3cd784）；第 2 點學姊和陳助教 1/12 起、12/29 和 1/5 不排（那兩晚不在 3D）；第 3 點總圖門口照現在；第 4 點子晴騎樓延到 6/27、6/28 起換阿凱那一列；
 //      第 5 點語彤暑假在麵店：進門坐長桌最裡面靠廚房、客人（站著的玩家、走進來的客人）＝站到長桌那一頭門口那一側、客人坐下＝坐回去、那一列結束走開
 //   7 的學姊那一項改成 12/29、1/5 不成立；6 的 story3d.js 掛勾改成 offerInvite 問 S.privOk、COMPANY 回傳 id（S.companyOf）
-//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，2026-10-28）：見 PRIV-AAFIX-1028 的 commit 訊息
+//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 5、PASS 58
+//   （FAIL＝6 的 story3d.js 掛勾、7 的學姊 12/29、8 的第 2、4、5 點；PASS＝8 的對稿、第 3 點照現在，其他原本的）。修改後 ALL PASS（63 項）。
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -41,7 +42,7 @@ const DOCS0={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一
 const ALLOW=(()=>{ try{ return JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]; }catch(e){ return []; } })();
 const allowOf=k=>ALLOW.find(q=>q.path===DOCS0[k][0]);
 const DOCS={}; for(const k in DOCS0){ const e=allowOf(k); DOCS[k]=[DOCS0[k][0],(e&&e.status==='approved'&&e.sha)?String(e.sha):DOCS0[k][1]]; }
-const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:process.env.PRIV_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };   /* PRIV_GIT_DIR：在別的資料夾跑舊版時，對稿用這個 repo */
 const DOC={}; for(const k in DOCS) DOC[k]=show(DOCS[k][1],DOCS[k][0]);
 /* 稿上的圈子表：{doc,sec:'4-1',k,heard,when,who,where}；說明（- 開頭）另外收 */
 const TABLE=[], NOTES={};
