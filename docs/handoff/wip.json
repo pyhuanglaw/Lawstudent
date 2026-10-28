@@ -1269,7 +1269,7 @@
    "id": "WIP-LAWWW-DORMY24-1028",
    "role": "LAWWW",
    "task": "DORM-Y24-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "43f1be811、e03318a54",
    "branch": "worktree-agent-a41ee188242228165（子代理；D113 備份 wip_backup/dormy24_1028.bundle）",
    "files": [
@@ -1278,7 +1278,8 @@
    "todo": "AA_517 宿舍大二到大四：背景室友旁白、房間閒聊、三件小事、旗標；tests/aa517 逐字對稿＋行為（做中）",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node、SHA 給 BB（下一版）",
    "noDirectIntegrate": true,
-   "source": "AA-C 2026-10-28 09:29（AA_517 ced552c17，DL-AA-517）"
+   "source": "AA-C 2026-10-28 09:29（AA_517 ced552c17，DL-AA-517）",
+   "closedBy": "4bd186657（合併子代理 6b2086e2c；aa517 104 項 ALL PASS）"
   }
  ]
 }

@@ -15776,8 +15776,8 @@
    "msg": "ACK",
    "what": "AA_517 宿舍大二到大四（312 學弟、507 兩位、409 兩位）：背景室友走進來的旁白、房間閒聊（阿哲 6＋之後、柏翰三間各 5＋之後）、三件小事（312 四份滷味 11/19、507 阿哲借筆記 5/30、409 最後一晚 退宿前一晚）、旗標 R312_SUPPER／R507_ZHE／R409_LAST；作息不改；outbox 31192a44c",
    "task": "DORM-Y24-1028",
-   "integration": "未整合",
-   "note": "【LAWWW-C 09:3x】收到；派子代理實作"
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 09:3x】收到；派子代理實作｜【LAWWW-C 10:1x】合併 4bd186657（子代理 6b2086e2c；104 項 ALL PASS）"
   },
   {
    "id": "DL-AA-PRIVQ3",
@@ -15817,6 +15817,19 @@
    "task": "LOBBY-CEIL-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 10:1x】v9.10.13 rc1 12e6190dd；room_ceiling、linze_lightmap、nav_buildings ALL PASS；開發分支等全部 Node 跑完再套"
+  },
+  {
+   "id": "DL-AA-515B",
+   "date": "2026-10-28",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "aec3d3d67",
+   "msg": "ACK",
+   "what": "AA_515 第 6 節（回 LAWWW-C 398e1bd5f 三問）：同一天約會動態每人各算、擠掉的不挪、畢業以後不開放（第 4 節那點劃掉）、照稿以外先定的照用；outbox 3cacd8eef",
+   "task": "FEED-DATES-1028",
+   "integration": "已整合待測試",
+   "note": "【LAWWW-C 10:1x】f284b25cb（aa515 89 項 ALL PASS）"
   }
  ],
  "ignored": [

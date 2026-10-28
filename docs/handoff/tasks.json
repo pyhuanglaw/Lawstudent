@@ -35101,7 +35101,7 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    },
-   "next": "【LAWWW-C 2026-10-28 10:1x UTC】LAWWW2 e29fde3c5（中庭六盞吊燈發光條拿掉朝上那一面；測試沒改）進 v9.10.13 rc1 12e6190dd；room_ceiling ALL PASS；開發分支等全部 Node 跑完再套｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（09:3x，DELIVERED）：吊燈換材質名字或讓 room_ceiling 分出吊燈，和 LOBBY-VC 一起交；LAWWW 合併後跑 room_ceiling＋全部 Node，綠了才凍結 v9.10.13 候選｜【09:4x】LAWWW2 bfe39116c（LOBBY-VC）沒處理吊燈，room_ceiling 照舊 FAIL 1；子代理在 15fca7b48 也看到一樣的"
+   "next": "【LAWWW-C 10:1x】開發分支 bbed51f0c 也套了（room_ceiling ALL PASS）｜【LAWWW-C 2026-10-28 10:1x UTC】LAWWW2 e29fde3c5（中庭六盞吊燈發光條拿掉朝上那一面；測試沒改）進 v9.10.13 rc1 12e6190dd；room_ceiling ALL PASS；開發分支等全部 Node 跑完再套｜【LAWWW-C 2026-10-28 09:3x UTC】已通知 LAWWW2（09:3x，DELIVERED）：吊燈換材質名字或讓 room_ceiling 分出吊燈，和 LOBBY-VC 一起交；LAWWW 合併後跑 room_ceiling＋全部 Node，綠了才凍結 v9.10.13 候選｜【09:4x】LAWWW2 bfe39116c（LOBBY-VC）沒處理吊燈，room_ceiling 照舊 FAIL 1；子代理在 15fca7b48 也看到一樣的"
   },
   {
    "id": "ZQ-ARCADE-SEAT-1028",
@@ -35203,14 +35203,14 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 10:0x UTC】合併 398e1bd5f（子代理 50cec9dff）：feed_dates.js、feed3d.js FEED.dateDone／datePost、date3d.js settle／settleOvernight 呼叫 S.feedPost；tests/aa515_feed_dates_unit.js 88 項 ALL PASS（改前 FAILED 15）；feed 六支、date 十四支 ALL PASS；下一版（v9.10.13 候選不含）；問 AA：同一天一則是七位合算還是各算、擠掉的是不出還是往後、畢業以後約會系統不能預約（AA_128 11-1）所以這一種畢業後不會出；BB 照 AA_515 第 5 節｜【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（feed_dates.js＋date3d 掛勾＋tests/aa515_feed_dates_unit.js 逐字對稿）；合併後全部 Node、BB 瀏覽器照 AA_515 第 5 節"
+   "next": "【LAWWW-C 2026-10-28 10:1x UTC】AA_515 第 6 節（aec3d3d67）f284b25cb：同一天每人各算（兩位各約一場＝兩則都出）、擠掉的不挪、畢業以後不開放；aa515 89 項 ALL PASS（改前 FAILED 3）｜【LAWWW-C 2026-10-28 10:0x UTC】合併 398e1bd5f（子代理 50cec9dff）：feed_dates.js、feed3d.js FEED.dateDone／datePost、date3d.js settle／settleOvernight 呼叫 S.feedPost；tests/aa515_feed_dates_unit.js 88 項 ALL PASS（改前 FAILED 15）；feed 六支、date 十四支 ALL PASS；下一版（v9.10.13 候選不含）；問 AA：同一天一則是七位合算還是各算、擠掉的是不出還是往後、畢業以後約會系統不能預約（AA_128 11-1）所以這一種畢業後不會出；BB 照 AA_515 第 5 節｜【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（feed_dates.js＋date3d 掛勾＋tests/aa515_feed_dates_unit.js 逐字對稿）；合併後全部 Node、BB 瀏覽器照 AA_515 第 5 節"
   },
   {
    "id": "DORM-Y24-1028",
    "title": "宿舍大二到大四的房間日常（AA_517）：312／507／409 背景室友走進來的旁白（每人輪流、同一天不重複，不加 3D 人物）；房間閒聊（阿哲 6 句＋之後、柏翰三間各 5 句＋之後，一天一句新的）；三件小事（312 四份滷味 大二上 11/19 23:00、507 阿哲上來借筆記 大三下 5/30 23:30＋舊生群組、409 最後一晚 退宿前一晚 23:00＋舊生群組）；旗標 R312_SUPPER、R507_ZHE、R409_LAST",
    "area": "Y2S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_517（企劃線 ced552c17；outbox 31192a44c）；X123 203 室友的日常延伸到大二以後（AA_502 只有大一）",
    "first": {
@@ -35223,7 +35223,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（照 AA_502 的做法、S.dormMates）；409 最後一晚的日期照宿舍退宿日；合併後全部 Node、BB 瀏覽器"
+   "next": "【LAWWW-C 2026-10-28 10:1x UTC】合併 4bd186657（子代理 6b2086e2c）：dorm_y24_lines.js、dorm_y24_3d.js、story3d.js 四個掛勾；aa517 104 項 ALL PASS（改前 FAILED 13）；dorm 十支、畢業後篇八支 ALL PASS；409 最後一晚＝2029-06-27 23:00（退宿日 6/28）、柏翰那一晚例外在書桌前；AA 四問（重感冒那晚、沛珊分開只在群組、美國 2-4 第 1 列四週、不在房間要不要補）已轉；下一版；BB 瀏覽器｜【LAWWW-C 2026-10-28 09:3x UTC】派子代理實作（照 AA_502 的做法、S.dormMates）；409 最後一晚的日期照宿舍退宿日；合併後全部 Node、BB 瀏覽器"
   },
   {
    "id": "RELEASE-91013",
