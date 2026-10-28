@@ -1,0 +1,40 @@
+PASS 遊戲載入
+  [  40.4s] 幀率 1.30 格／秒 → 真實時間上限放大 1.2 倍（走路 484 秒、等劇情 346 秒）
+PASS 標題畫面有「開始新的一天」
+  [ 171.7s] 幀率 0.80 格／秒 → 真實時間上限放大 1.9 倍（走路 787 秒、等劇情 562 秒）
+PASS 第一天宿舍開場結束、恢復控制、目標是讀案例或睡覺  goal=目標：讀（或不讀）明天的案例，然後睡覺 {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "走出房間", "hour": 21.2, "stand": true, "camYaw": -2.743, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1012, "paused": false}
+PASS 宿舍有「坐在書桌前」  {'x': -2.04, 'z': -0.098, 'r': 1, 'label': '坐在書桌前', 'lv': None, 'y': None}
+  [ 171.9s] 「書桌」途中：phone 開著（遊戲暫停），先關掉
+  [ 213.6s] 到達「書桌」附近（0.58 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，42 秒
+PASS 走到書桌（點地面／搖桿）
+PASS 書桌旁出現「坐在書桌前」
+PASS 坐下讀完案例（選「認真讀完」）、恢復控制  readCase=full
+  [ 262.0s] 到達「床」附近（0.21 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，35 秒
+PASS 走到床邊（點地面／搖桿）
+PASS 床邊出現「睡覺」
+  [ 295.3s] 第二天開場時間 13.06（13:05＝13.08；12:30 以後空下來 1.5 秒劇情就會帶進 201）
+PASS 睡覺後到第二天 13:05 霖澤館前、阿哲對話結束、目標是進霖澤館上課  day=2 goal=目標：進入霖澤館上課（13:20） {"zone": "campus", "x": 26, "z": -90, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "好啦好啦。", "choices": 0, "interact": "", "hour": 13.06, "stand": true, "camYaw": 1.017, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1316, "paused": false}
+  [ 378.2s] 到達「霖澤館門口」附近（0.28 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，80 秒
+PASS 走到霖澤館門口（點地面／搖桿）
+PASS 門口出現「進入霖澤館」
+PASS 進到霖澤館大廳、目標是上二樓到 201 教室  goal=目標：上二樓，到 201 教室上課
+  [ 495.6s] 到達「201 教室門口（二樓）」附近（0.15 m）：點地面 3 次、轉鏡頭 1 次、搖桿 0 次，110 秒
+PASS 走樓梯上二樓、走到 201 教室門口（點地面／搖桿）
+PASS 門口出現「進入 201 階梯教室」
+PASS 上課劇情自己走到座位坐下、教授開口（正常速度）  {"zone": "classroom", "x": -0.75, "z": -1.7, "ry": 3.14, "busy": true, "pose": "sit", "path": 0, "dlg": true, "dtext": "", "choices": 0, "interact": "", "hour": 13.35, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0.6, "lv": 0, "frame": 1831, "paused": false}
+PASS 沒有用到「卡住後放到目的地」的保險  fallbacks=0
+PASS 上完課（classDone）、恢復控制、目標是走出霖澤館  {'done': True, 'ans': 'good'} goal=目標：走出霖澤館
+  [ 838.3s] 到達「教室後門」附近（0.18 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，113 秒
+PASS 下課後走到教室後門（點地面／轉鏡頭／搖桿）
+PASS 後門出現「離開教室」
+PASS 離開教室 → 霖澤館二樓（第 1 層）  {"zone": "linze", "x": -2, "z": -6, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "進入 201 階梯教室", "hour": 15.31, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 2176, "paused": false}
+  [ 927.2s] 到達「霖澤館大廳出口（走樓梯下一樓）」附近（0.21 m）：點地面 6 次、轉鏡頭 0 次、搖桿 0 次，81 秒
+PASS 走樓梯下一樓、走到「走出霖澤館」
+PASS 出口出現「走出霖澤館」
+PASS 走出霖澤館、回到校園、恢復控制  goal=目標：走出霖澤館 {"zone": "campus", "x": 30, "z": -107.4, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "還有——你剛剛那個，很帥。", "choices": 0, "interact": "", "hour": 15.44, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 2390, "paused": false}
+PASS 用選單存到欄位 1
+PASS 重新整理後載入
+PASS 標題「讀取」欄位 1：天數、地點、上課與讀案例的進度一樣  {'day': 2, 'zone': 'campus', 'hour': 15.44, 'classDone': True, 'readCase': 'full'} → {'day': 2, 'zone': 'campus', 'hour': 15.45, 'classDone': True, 'readCase': 'full'}
+PASS 讀檔後搖桿走得動  {"zone": "campus", "x": 30.66, "z": -107.4, "ry": 1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 15.45, "stand": true, "camYaw": 4.713, "fallbacks": 0, "y": 0.9, "lv": 0, "frame": 35, "paused": false} 推了 1 次、走了 124.41 m
+PASS 沒有 JS 例外  []
+ALL PASS

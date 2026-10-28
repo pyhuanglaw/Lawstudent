@@ -1,0 +1,37 @@
+  [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）
+PASS 霖澤館前（教室出口）：搖桿上 → 位置改變  {'x': 34, 'z': -97.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -89.95, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿右 → 移動／轉向  {'x': 26.56, 'z': -89.95, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前（教室出口）：搖桿左 → 移動／轉向  {'x': 32.14, 'z': -89.95, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前：推到底 → 跑  {'x': 32.14, 'z': -80.65, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館前：點地面 → 走過去  {'x': 31.98, 'z': -78.98, 'yaw': -0.1, 'pose': 'walk', 'busy': False, 'cam': 'follow'}
+PASS 事件中玩家鎖定
+PASS 事件中搖桿不移動  {'x': 31.56, 'z': -74.73, 'yaw': -0.1, 'pose': 'idle', 'busy': True, 'cam': 'follow'}
+PASS 對話結束後 busy 解除  {'x': 31.56, 'z': -74.73, 'yaw': -0.1, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 對話結束後移動恢復  {'x': 31.56, 'z': -74.73, 'yaw': -0.1, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 31.56, 'z': -65.43, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 讀檔後移動仍正常  {'x': 31.56, 'z': -65.43, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 31.56, 'z': -57.99, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿上 → 位置改變  {'x': 34, 'z': -99.6, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -92.16, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿右 → 移動／轉向  {'x': 26.56, 'z': -92.16, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 霖澤館門口（台階下）：搖桿左 → 移動／轉向  {'x': 34, 'z': -92.16, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿上 → 位置改變  {'x': 34, 'z': -101, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -95.42, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿右 → 移動／轉向  {'x': 26.56, 'z': -95.42, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿左 → 移動／轉向  {'x': 32.14, 'z': -95.42, 'yaw': 1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿上 → 位置改變  {'x': 34, 'z': -98, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34, 'z': -90.56, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿右 → 移動／轉向  {'x': 26.56, 'z': -90.56, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 校園預設出生點：搖桿左 → 移動／轉向  {'x': 34, 'z': -90.56, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿上 → 位置改變  {'x': 20, 'z': 54, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 20, 'z': 44.7, 'yaw': 3.14, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿右 → 移動／轉向  {'x': 27.44, 'z': 44.7, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 宿舍門口：搖桿左 → 移動／轉向  {'x': 21.86, 'z': 44.7, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿上 → 位置改變  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -63, 'z': 16.04, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿右 → 移動／轉向  {'x': -55.66, 'z': 16.04, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館麵店門口：搖桿左 → 移動／轉向  {'x': -63.1, 'z': 16.04, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.4, 'z': 15.83, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -21.34, 'z': 15.83, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -28.78, 'z': 15.83, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -21.56, 'yaw': -0.0, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿右 → 移動／轉向  {'x': -9.94, 'z': -21.56, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 校門外：搖桿左 → 移動／轉向  {'x': -2.5, 'z': -21.56, 'yaw': 1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 34.32, 'z': -1, 'yaw': -1.57, 'pose': 'run', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿右 → 移動／轉向  {'x': 35.34, 'z': -4.65, 'yaw': -3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+PASS 溫州街：搖桿左 → 移動／轉向  {'x': 35.34, 'z': 0.93, 'yaw': -0.0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+console: ['warning: 星期和日期對不上，照行事曆改： 4 → 3', 'warning: THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently']
+RESULT: ALL PASS

@@ -1,0 +1,42 @@
+PASS 一般網址：遊戲載入
+  [前置／捷徑] 讀檔到溫州街主巷 (30,−1) 17:30，關掉條件事件
+PASS 三個正式模型都接上（公寓、日式宿舍、街道細節）
+PASS 套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）  {"wzApt": {"n": 29, "formal": 29, "dyn": 29, "shown": 0}, "wzJp": {"n": 2, "formal": 2, "dyn": 2, "shown": 0}, "wzProp": {"n": 12, "formal": 12, "dyn": 12, "shown": 0}, "wzPark": {"n": 28, "formal": 28, "dyn": 28, "shown": 0}}
+PASS 標記的套件物件都接上正式模型、外觀全部藏起來  {"wzApt": {"n": 29, "formal": 29, "dyn": 29, "shown": 0}, "wzJp": {"n": 2, "formal": 2, "dyn": 2, "shown": 0}, "wzProp": {"n": 12, "formal": 12, "dyn": 12, "shown": 0}, "wzPark": {"n": 28, "formal": 28, "dyn": 28, "shown": 0}}
+PASS 29 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2、W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）  ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "C1", "C2", "F1", "F2", "F3", "F4", "N1", "N2", "N3", "N4", "S1", "S2", "S3", "S4", "W0", "W1", "W2"]
+PASS 29 棟都接上正式模型（userData.formal）  {"A1": true, "A2": true, "A3": true, "A4": true, "A5": true, "B1": true, "B2": true, "B3": true, "B4": true, "B5": true, "B6": true, "B7": true, "F1": true, "F2": true, "F3": true, "F4": true, "W0": true, "C1": true, "S1": true, "S2": true, "S3": true, "S4": true, "C2": true, "N1": true, "N2": true, "N3": true, "N4": true, "W1": true, "W2": true}
+PASS 套件公寓的外觀全部藏起來  {}
+PASS 沒有標記的建築沒有被藏起來（2026-10-10 起溫州街的公寓連遠景都換成正式模型，沒有標記的只剩少數；有的話不能被藏）  [0, 0]
+PASS v5：沒有 SIGN_FACE／VSIGN_FACE（招牌是設計稿貼圖），也就沒有 wz_signs_atlas  []
+PASS v6c：店內景深卡換成立體淺店內（沒有 INTERIOR_FACE_；8 家店各兩盞店內燈）  {"cards": [], "lamps": 16, "sf": 5}
+PASS 亮燈的窗：晚上發光、白天不發光  {"day": {"lit": 0, "tube": 0.2, "sign": 0.25}, "night": {"lit": 1.9, "tube": 1.3, "sign": 1.1}, "pillarSeeThrough": true}
+PASS 燈箱招牌（wz_signs_lit）：晚上比白天亮  {"day": {"lit": 0, "tube": 0.2, "sign": 0.25}, "night": {"lit": 1.9, "tube": 1.3, "sign": 1.1}, "pillarSeeThrough": true}
+PASS 騎樓柱子有樹幹透視（擋住玩家時網點透空）  {"day": {"lit": 0, "tube": 0.2, "sign": 0.25}, "night": {"lit": 1.9, "tube": 1.3, "sign": 1.1}, "pillarSeeThrough": true}
+PASS 門牌、6 個桿號牌、路牌兩面、路名牌兩面、小公園名牌都有 canvas 字（每個 GLB 合成一張 atlas；名牌 2026-10-16 起在小公園的 GLB 裡）  {"PLATE_FACE_door": true, "PLATE_FACE_pole0": true, "PLATE_FACE_pole1": true, "PLATE_FACE_pole2": true, "PLATE_FACE_pole3": true, "PLATE_FACE_pole4": true, "PLATE_FACE_pole5": true, "PLATE_FACE_roadname_a": true, "PLATE_FACE_roadname_b": true, "PLATE_FACE_roadsign_a": true, "PLATE_FACE_roadsign_b": true, "PLATE_FACE_parksign": true}
+PASS 路燈燈罩、玄關燈、紙拉門：晚上亮、白天暗  [{"lens": 0, "genkan": 0.15, "shoji": 0}, {"lens": 2.2, "genkan": 1.6, "shoji": 0.7}]
+PASS 電線桿有樹幹透視  true
+  [  52.2s] 看得到的光暈 sprite：6 個（路燈、Café…，套件的光暈不屬於被藏起來的物件）；正式模型的光暈合成網格：wz_jphouse_glb_glows 1、wz_park_glb_glows 4、wenzhou_street_glb_glows 56
+PASS 機車（v2 多車型）：套件機車整組藏起來、換成正式模型（台數相同、至少 6 款、至少 5 種車殼顏色、每段近／遠兩層）  {"kitScooters": 35, "kitHidden": true, "lods": 6, "placed": 35, "kinds": 9, "colors": 21, "pick": {"S6": 2, "S1B": 5, "S7": 4, "S4": 1, "S1A": 11, "S5": 2, "S2": 6, "S1B_D": 1, "S5_H": 3}, "levelsOK": true}
+PASS （自我檢查）故意打開 B5 的套件外觀時，會被數到  1
+PASS 純色零件都合成頂點色材質（門、雨遮、鋁框、鐵件、窗簾、曬的衣服…沒有剩下原本的單獨材質）  {"old": [], "vc": {"wenzhou_street_glb:wz_vc_metal": true, "wenzhou_street_glb:wz_vc_matte": true, "wenzhou_street_glb:wz_vc_matte[inst]": false, "wenzhou_street_glb:wz_vc_metal[inst]": false, "wz_jphouse_glb:wz_vc_matte[inst]": false, "wz_jphouse_glb:wz_vc_matte": true, "wz_jphouse_glb:wz_vc_metal": true, "wz_props_glb:wz_vc_metal": true, "wz_props_glb:wz_vc_matte": true, "wz_props_glb:wz_vc_matte[inst]": false, "wz_props_glb:wz_vc_metal[inst]": false, "wz_park_glb:wz_vc_matte": true, "wz_park_glb:wz_vc_metal": true}, "win": {"wz_room_lit[merged]": {"meshes": 1, "count": 1}, "wz_stain": {"meshes": 1, "count": 325}}}
+PASS 頂點色合併的網格（不是 instancing）會投影、instancing 的不投影  {"wenzhou_street_glb:wz_vc_metal": true, "wenzhou_street_glb:wz_vc_matte": true, "wenzhou_street_glb:wz_vc_matte[inst]": false, "wenzhou_street_glb:wz_vc_metal[inst]": false, "wz_jphouse_glb:wz_vc_matte[inst]": false, "wz_jphouse_glb:wz_vc_matte": true, "wz_jphouse_glb:wz_vc_metal": true, "wz_props_glb:wz_vc_metal": true, "wz_props_glb:wz_vc_matte": true, "wz_props_glb:wz_vc_matte[inst]": false, "wz_props_glb:wz_vc_metal[inst]": false, "wz_park_glb:wz_vc_matte": true, "wz_park_glb:wz_vc_metal": true}
+PASS 窗戶：所有的窗共用一個窗框原型（一個 InstancedMesh）；窗內是兩個原型（扇數對得上），或亮燈的窗內合成一個網格、沒亮燈的進頂點色  {"wz_room_lit[merged]": {"meshes": 1, "count": 1}, "wz_stain": {"meshes": 1, "count": 325}}
+  [  76.7s] 一般網址：同一個鏡頭（藏起路人）的 draw call／三角形 {"lane_east": {"calls": 277, "tris": 416157}, "lane_west": {"calls": 236, "tris": 342599}, "arcade": {"calls": 264, "tris": 364242}}
+PASS 效能：三個鏡頭的 draw call ≤ 310、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 的目標）  {"lane_east": {"calls": 277, "tris": 416157}, "lane_west": {"calls": 236, "tris": 342599}, "arcade": {"calls": 264, "tris": 364242}}
+PASS 一般網址：沒有 JS 錯誤
+PASS ?nobldg：遊戲載入
+  [前置／捷徑] 讀檔到溫州街主巷 (30,−1) 17:30，關掉條件事件
+PASS ?nobldg：沒有載入正式模型
+PASS 套件物件都有標記（公寓 29、宿舍＋院牆 2、街道細節 12、小公園 28＝擴大版的備用外觀：草地 2、樹 5、長椅 4、路燈 2、涼亭等 11、花籬 4；?nobldg 的小公園單一網格已合併）  {"wzApt": {"n": 29, "formal": 0, "dyn": 0, "shown": 8}, "wzJp": {"n": 2, "formal": 0, "dyn": 0, "shown": 2}, "wzProp": {"n": 12, "formal": 0, "dyn": 0, "shown": 4}, "wzPark": {"n": 19, "formal": 0, "dyn": 0, "shown": 8}}
+PASS ?nobldg：標記的套件物件都沒有 dyn（照舊參加靜態合併）、沒有接正式模型  {"wzApt": {"n": 29, "formal": 0, "dyn": 0, "shown": 8}, "wzJp": {"n": 2, "formal": 0, "dyn": 0, "shown": 2}, "wzProp": {"n": 12, "formal": 0, "dyn": 0, "shown": 4}, "wzPark": {"n": 19, "formal": 0, "dyn": 0, "shown": 8}}
+PASS ?nobldg：機車照舊直接放在區域裡（沒有另外分組）
+PASS 29 棟套件公寓都有棟號（A1–A5、B1–B7、C1、C2、W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）  ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "C1", "C2", "F1", "F2", "F3", "F4", "N1", "N2", "N3", "N4", "S1", "S2", "S3", "S4", "W0", "W1", "W2"]
+PASS ?nobldg：套件公寓照舊參加靜態合併（不是 dyn、沒有接正式模型）  {"A1": {"formal": false, "dyn": false, "kitVisible": 3}, "A2": {"formal": false, "dyn": false, "kitVisible": 0}, "A3": {"formal": false, "dyn": false, "kitVisible": 3}, "A4": {"formal": false, "dyn": false, "kitVisible": 3}, "A5": {"formal": false, "dyn": false, "kitVisible": 2}, "B1": {"formal": false, "dyn": false, "kitVisible": 0}, "B2": {"formal": false, "dyn": false, "kitVisible": 2}, "B3": {"formal": false, "dyn": false, "kitVisible": 3}, "B4": {"formal": false, "dyn": false, "kitVisible": 0}, "B5": {"formal": false, "dyn": false, "kitVisible": 4}, "B6": {"formal": false, "dyn": false, "kitVisible": 2}, "B7": {"formal": false, "dyn": false, "kitVisible": 0}, "F1": {"formal": false, "dyn": false, "kitVisible": 0}, "F2": {"formal": false, "dyn": false, "kitVisible": 0}, "F3": {"formal": false, "dyn": false, "kitVisible": 0}, "F4": {"formal": false, "dyn": false, "kitVisible": 0}, "W0": {"formal": false, "dyn": false, "kitVisible": 0}, "C1": {"formal": false, "dyn": false, "kitVisible": 0}, "S1": {"formal": false, "dyn": false, "kitVisible": 0}, "S2": {"formal": false, "dyn": false, "kitVisible": 0}, "S3": {"formal": false, "dyn": false, "kitVisible": 0}, "S4": {"formal": false, "dyn": false, "kitVisible": 0}, "C2": {"formal": false, "dyn": false, "kitVisible": 0}, "N1": {"formal": false, "dyn": false, "kitVisible": 0}, "N2": {"formal": false, "dyn": false, "kitVisible": 0}, "N3": {"formal": false, "dyn": false, "kitVisible": 0}, "N4": {"formal": false, "dyn": false, "kitVisible": 0}, "W1": {"formal": false, "dyn": false, "kitVisible": 0}, "W2": {"formal": false, "dyn": false, "kitVisible": 0}}
+PASS ?nobldg：整區有合併過的網格（套件外觀在裡面）  54
+PASS 沒有標記的建築沒有被藏起來（2026-10-10 起溫州街的公寓連遠景都換成正式模型，沒有標記的只剩少數；有的話不能被藏）  [1, 0]
+  [ 122.9s] ?nobldg：同一個鏡頭（藏起路人）的 draw call／三角形 {"lane_east": {"calls": 239, "tris": 267168}, "lane_west": {"calls": 184, "tris": 218432}, "arcade": {"calls": 226, "tris": 223478}}
+PASS ?nobldg：沒有 JS 錯誤
+PASS 導航格：正式模型＝程序化版＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou），其他完全相同  [[236, 120, 2492024661, 21756], [236, 120, 2492024661, 21756, 6], [236, 120, 2032118715, 21740]]
+PASS 鏡頭碰撞方塊：完全相同  28 vs 28 個
+PASS 互動點（位置、半徑、名稱）：完全相同  36 vs 36 個
+ALL PASS
