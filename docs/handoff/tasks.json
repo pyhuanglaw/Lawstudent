@@ -34789,6 +34789,34 @@
    },
    "next": "【LAWWW-C 2026-10-28 06:3x UTC】兩件同一個子代理（worktree，基準 c701f8b5e）：A 私密入口共用判斷＋清單、B AA_509／510 x-1 加列；做完合併、全部 Node、BB 看畫面",
    "note": ""
+  },
+  {
+   "id": "BOOKSTORE-EXIT-SHOP-1028",
+   "title": "書店門口按互動鍵出的是櫃台買書選單、不是「離開書店」：櫃台互動點 {x:0,z:4.05,r:1.1} 蓋住出口 (0,4.6) r1.5；出口點走不到（卡在 z 4.07）、進門落腳點 (0,4) 在櫃台範圍裡；出口範圍 56 個站得住的點只有 14 個出「離開書店」",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 2026-10-28 06:58（door_anim_probe ONLY=book；v9.10.11 c8b9659e5 和 v9.10.12 一樣，不是回歸）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進公館的書店再出來",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 06:5x UTC】D108 區域配置歸 LAWWW2：櫃台互動點移到桌子前（BB 建議 (0,2.2)）或縮半徑、或落腳點往裡退；改完跑 tests/reachability_all.py 書店那一段的 Node 版（或請 BB 跑），BB 在 v9.10.13 的 6a 驗",
+   "note": "",
+   "xai": {
+    "spec": "BB-C 06:58 訊息（數字、座標）；zones3d.js 書店區域",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "站在門口中間、推搖桿走到門口，互動鍵都是「離開書店」；櫃台在桌子前照常能買；進門落腳點不在櫃台範圍",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
