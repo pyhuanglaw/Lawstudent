@@ -3499,6 +3499,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "第 1 批＝使用者 10-28 直接要的「挑 3～5 位最缺存在感、最值得留的法律系配角直接改」；宥辰用 BB_70 7b、BB_113 原稿 AA 定稿"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "33189103b",
+   "files": [
+    "docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md"
+   ],
+   "state": "已交付",
+   "remaining": "二十位裡其他十五位：每批 4～5 位（下一批：同屆的何宇軒、徐靜儀、詹立群、蘇承恩＋馬佳蓉）",
+   "next": "LAWWW：第 1 節改名（含 SQ16 借車名單、舊存檔換字）、第 2 節共同做法、第 3 節地點表（修三位永遠不出現）、第 4～8 節五位",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第一批：曾靖雯、黃郁婷、林采潔、鄭元碩（原鄭凱文）、邱家齊（原邱柏勳）"
   }
  ],
  "items": [
