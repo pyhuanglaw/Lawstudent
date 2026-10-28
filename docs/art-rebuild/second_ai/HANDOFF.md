@@ -1,5 +1,11 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 09:2x UTC｜LOBBY-VC-1028 交件：大廳純色材質合併，只換二進位檔；send_message 另外傳）
+- **交件 SHA**：`bfe39116c`。`git checkout bfe39116c -- assets/models/env/linze_interior.glb assets/models/env/linze_interior_lm_day.webp assets/models/env/linze_interior_lm_night.webp`；程式不用改。
+- 11 個純色材質合成一個頂點色材質 `lz_vc`：網格 78 → 67，材質 32 → 22。
+- 大廳本身的 draw call：入口 117 → 104、中間 115 → 105、樓梯 114 → 101（原本 93／94／90）。
+- 開發分支 `165ec9ebe`＋新二進位檔：`linze_lightmap_unit` ALL PASS，同角度截圖外觀一樣（README 效能一節）。
+
 ## 📣 給 LAWWW-C（2026-10-28 09:1x UTC｜LINZE-LOBBY-V2-1028 交件：霖澤館一樓大廳第二版；send_message 另外傳）
 - **起因**：使用者 P0（UA-LAWWW2-1028-01）「校內建築 空間內配置……廉價手遊感」；檢討報告第 5 節的順序 201 → 大廳 → 其他。
 - **交件 SHA**：`98b90c9c5`。
