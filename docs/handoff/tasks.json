@@ -35466,7 +35466,7 @@
    "title": "之前交的 201、202、霖澤館大廳、萬才館的光照貼圖有 60～470 m² 全黑的面（牆段 T 形接頭露縫）：套 lm_fix_hidden.py 後處理，只換 GLB",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "LAWWW2-C DORM-HALL-LM-1028 交件訊息（12:55）",
    "first": {
@@ -35486,7 +35486,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-28 13:5x UTC】LAWWW2 交件 d5e28e291（六個 GLB：classroom_201、linze_202、linze_interior、wancai_interior、wancai_multi、dorm_hall；工具 lm_fix_hidden 第六版只改第二套 UV、貼圖不變）；開發分支這一輪全部 Node 跑完就換檔、跑 lightmap 相關＋全部 Node｜【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node"
+   "next": "【LAWWW-C 2026-10-28 14:0x UTC】合進開發分支 96e535901（六個 GLB）；lightmap／room_ceiling／nav 相關 20 支 0 失敗；開發分支 9ffa01251（AA_521 合併後）全部 Node 730 支 0 失敗；BB：201、萬才館、霖澤館大廳、男一舍門廳的黑線｜【LAWWW-C 2026-10-28 13:5x UTC】LAWWW2 交件 d5e28e291（六個 GLB：classroom_201、linze_202、linze_interior、wancai_interior、wancai_multi、dorm_hall；工具 lm_fix_hidden 第六版只改第二套 UV、貼圖不變）；開發分支這一輪全部 Node 跑完就換檔、跑 lightmap 相關＋全部 Node｜【LAWWW-C 2026-10-28 13:0x UTC】登記；LAWWW2 交只換 GLB 的包，LAWWW 換檔跑 linze_lightmap、wancai_lightmap、room_ceiling＋全部 Node"
   },
   {
    "id": "SIS-B16-1028",
