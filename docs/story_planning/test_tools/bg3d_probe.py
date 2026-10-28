@@ -22,10 +22,12 @@ SHOTS = [('cafe_window', 'cafe', 15.0, (3.2, -2.5), {}), ('cafe_closed', 'cafe',
          # BB-C 10-28 13:2x：LAWWW-C P3 linze_201（AA_520 予樂「演講那一晚」10/20 19:00，霖澤館 201 階梯教室）：第 5 排後面往講台看
          ('linze_201', 'classroom', 19.2, (0.0, 5.6), {}),
          # BB-C 10-28 13:4x：LAWWW-C P3 AA_523 1-4 新體育館游泳池（5/12 週六 07:00；鍵暫名 gym_pool）：B1 池邊（gym_layout.js b1.pool：池子 z −21～−3.5、池邊到 z −0.2）往北看整個池子
-         ('gym_pool', 'gym_b1', 7.0, (0.0, -1.6), {})]
+         ('gym_pool', 'gym_b1', 7.0, (0.0, -1.6), {}),
+         # BB-C 10-28 15:0x：LAWWW-C gym_gate（AA_523 1-4 看完游泳出來，5/12 早上八點多）：校園的體育館門口 (74, 59.4)（gym_layout.js exit.spawn），站在門口北邊往南看
+         ('gym_gate', 'campus', 8.2, (74.0, 51.0), {})]
 # 有寫的才用：第幾層、第一張的鏡頭方向（鏡頭在玩家的 (sin yaw, cos yaw) 那一側；看西＝π/2、看北＝0、看東＝−π/2）、天氣（沒寫＝晴天）
 EXTRA = {'putong_empty': {'lv': 0, 'yaw': 1.5708}, 'boya_201': {'lv': 1, 'yaw': 1.5708}, 'law_courtyard': {'lv': 0, 'yaw': 0.0},
-         'us_c_door': {'lv': 0, 'yaw': -1.5708, 'wx': 'rain'}, 'linze_201': {'lv': 0, 'yaw': 0.0}, 'gym_pool': {'lv': 0, 'yaw': 0.0}}
+         'us_c_door': {'lv': 0, 'yaw': -1.5708, 'wx': 'rain'}, 'linze_201': {'lv': 0, 'yaw': 0.0}, 'gym_pool': {'lv': 0, 'yaw': 0.0}, 'gym_gate': {'lv': 0, 'yaw': 3.1416}}
 ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]
 CLEAN = """(on=>{ for(const el of document.body.children){ if(el.tagName==='CANVAS'||el.querySelector('canvas')) continue; if(on){ el.dataset.bbHide=el.style.visibility||'-'; el.style.visibility='hidden'; } else if(el.dataset.bbHide){ el.style.visibility=el.dataset.bbHide==='-'?'':el.dataset.bbHide; delete el.dataset.bbHide; } } const p=GAME.E.player&&GAME.E.player.obj; if(p) p.visible=!on; })"""
 async def closephone(pg):
