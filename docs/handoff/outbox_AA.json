@@ -3468,6 +3468,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "AA_494（USER_WANTS X118★）"
+  },
+  {
+   "task": "CROWD-DEPTS-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5d7bd4040",
+   "files": [
+    "docs/story_planning/AA_495_路人分科系_各系的人說的話_走過聽到的對話_通識課前後.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW 照第 5 節接：路人抽系、頭上名字、一人一句（照 AA_489 輪法）、兩人對話、通識課／法律系必修門口；外觀給 LAWWW2 看",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "二十個系、每系 1～4 句照時段；走過聽到的對話 18 組；通識課門口 11 組；法律系必修門口 5 組；體育館加 3 句"
   }
  ],
  "items": [
