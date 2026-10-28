@@ -1073,7 +1073,7 @@ const STORY = (function(){
   /* 事件包的掛勾（10-20 起，1B／1C／第 2、3 輪各自一個檔案，不必每一批都改 story3d.js）：TICKS＝每 0.5 秒（S.tick，在 1A-05 之後、在家判斷之前）、PHONE_RULES＝手機規則、
      WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
   S.COMPANY=[];   /* fn(G,id,n,GM)→true＝她旁邊有她的人（S.offerInvite 不出邀約、priv 選項；src/hcircle3d.js）*/
-  S.schedFor=schedFor; S.walkRoutesOf=z=>walkRoutes[z]||[];   /* src/hcircle3d.js：她現在該不該在這一區（同進區域生成那一套）、同伴配對結束以後回去走的路線 */
+  S.schedInZone=schedFor; S.walkRoutesOf=z=>walkRoutes[z]||[];   /* src/hcircle3d.js：她現在該不該在這一區（schedFor(id,區域,G)，同進區域生成那一套）、同伴配對結束以後回去走的路線（不叫 schedFor：tests/v3_p4_han3_unit.js 用 STORY.schedFor&&… 判斷沒有這個函式）*/
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[]; S.PRE_TALK=[];   /* PRE_TALK：認識的人說話前先說一句（fn(GM,who,id)，例：書卷獎公告以後以安「名單上有你。理由？」，src/honor3d.js）*/
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
   /* 收拾的時刻（AA_123 2-3）：分開以後一週內都沒做的玩家，一週後補一句旁白，也設 CLEANUP_DONE=true，不卡劇情（ROM.cleanupLate）。

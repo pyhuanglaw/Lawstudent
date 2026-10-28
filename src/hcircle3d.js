@@ -73,7 +73,7 @@ const HCIRCLE=(function(){
   S.entOf=function(id,G){ if(guard.has(id)||typeof STORY==='undefined'||!STORY.schedEnt||!isChar(id)) return null; guard.add(id); try{ return STORY.schedEnt(CHARACTERS[id],G); } finally { guard.delete(id); } };
   /* 她照作息在那一區、那個動作，而且照進區域生成的規則該出現（schedFor：presence、舊劇情人物的 afternoonDone、跟著玩家走的不算）*/
   S.heroEnt=function(r,G){ const e=S.entOf(r.who,G); if(!e||e.zone==null) return null; if(r.zone&&e.zone!==r.zone) return null; if(r.act&&e.act!==r.act) return null;
-    if(typeof STORY!=='undefined'&&STORY.schedFor){ if(guard.has(r.who)) return null; guard.add(r.who); try{ if(!STORY.schedFor(r.who,e.zone,G)) return null; } finally { guard.delete(r.who); } }
+    if(typeof STORY!=='undefined'&&STORY.schedInZone){ if(guard.has(r.who)) return null; guard.add(r.who); try{ if(!STORY.schedInZone(r.who,e.zone,G)) return null; } finally { guard.delete(r.who); } }
     return e; };
   /* 必修課上課前（cls）：她那一堂（classmateClass：from＝上課前 15 分鐘）上課前 10 分鐘到下課；pm＝下午的課；wkFrom＝第幾週起 */
   S.clsOk=function(r,G,e){ if(!e||e.act!=='class'||!e.cls) return false; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||(r.terms&&!r.terms.includes(T.id))) return false;
