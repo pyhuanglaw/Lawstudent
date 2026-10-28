@@ -34395,7 +34395,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:5x UTC】AA_505 大二上＋寒假交了（62849944b，DL-AA-505；含 AA_503／504 更正三處）；AA_503 用 62849944b（已轉手機子代理）；AA_504、505 等手機子代理合進來以後同一套接｜【LAWWW-C 2026-10-28 02:4x UTC】AA_504 大一下＋暑假交了（bf50e9825，DL-AA-504）；AA_503 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉手機子代理；AA_504 等手機子代理合進來以後同一套接；予樂老家 AA 定嘉義、D30 不動（AA_504 用 ef783aa61）｜【LAWWW-C 2026-10-28 02:2x UTC】AA_503 大一上交了（c6c93432d，DL-AA-503）：動態頁、圈子同框、七位各自的事；LAWWW 接（v9.10.13 以後分批）；3D 人物派 LAWWW2（HEROINE-LIFE-NPC3D-1028）｜【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
+   "next": "【LAWWW-C 2026-10-28 03:0x UTC】AA_503 手機的部分合進開發分支 481c039c7（子代理 a962ff0a6，稿 62849944b）：動態頁、七位大一上 44 則動態、10 則私訊、可昕四則改動態；aa503_feed_unit（修改前 FAILED 55）；沒做：3D 圈子、別人說起她、Kevin 12/15 群組、予樂私訊、203 阿凱那一句；子代理問的 3 點（可昕四則、12/3 報告、爬五次）問 AA｜【LAWWW-C 2026-10-28 02:5x UTC】AA_505 大二上＋寒假交了（62849944b，DL-AA-505；含 AA_503／504 更正三處）；AA_503 用 62849944b（已轉手機子代理）；AA_504、505 等手機子代理合進來以後同一套接｜【LAWWW-C 2026-10-28 02:4x UTC】AA_504 大一下＋暑假交了（bf50e9825，DL-AA-504）；AA_503 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉手機子代理；AA_504 等手機子代理合進來以後同一套接；予樂老家 AA 定嘉義、D30 不動（AA_504 用 ef783aa61）｜【LAWWW-C 2026-10-28 02:2x UTC】AA_503 大一上交了（c6c93432d，DL-AA-503）：動態頁、圈子同框、七位各自的事；LAWWW 接（v9.10.13 以後分批）；3D 人物派 LAWWW2（HEROINE-LIFE-NPC3D-1028）｜【LAWWW-C 2026-10-28 01:2x UTC】派 AA-C 規劃（每位一份：她的圈子、每學期她自己的事、玩家怎麼知道）；LAWWW 接（作息裡和朋友同框、動態／訊息、別人的閒聊）",
    "xai": {
     "spec": "AA_503（c6c93432d）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -34409,7 +34409,7 @@
    "title": "203 四人房的室友要像室友：人在房間裡時間到了阿哲、柏翰、阿凱自己開門進來、23:30 爬上舖（不用出去再進來）；之後照 AA 的 203 日常（早上、週末、房間閒聊、四個人的小事）接",
    "area": "Y1S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-28 01:3x 對 LAWWW-C「203 四人宿舍，認識阿凱、阿哲、柏翰 但我室友根本只有阿凱 第一天之後」（UA-LAWWW-1028-09；USER_WANTS X123）",
    "first": {
@@ -34422,7 +34422,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:0x UTC】AA_502 交了（4071fdb9a，DL-AA-502）：作息表、房間閒聊、六件小事、203 群組；接在 S.dormWho 上｜【LAWWW-C 2026-10-28 01:5x UTC】第一部分做好（本 commit）：story3d.js S.dormWho（誰、幾點，進房間和待在房間裡同一份）、S.dormSpawn、S.dormLive（refreshSchedule 每 3 秒）——人在房間裡時間到了阿哲 22:00、柏翰 22:30 從門口走進來坐下，23:30 走到自己的梯子（爬上舖），阿凱 8:00 出門；跳時間超過 15 分鐘直接坐好／拿掉；經濟系阿勳一樣。tests/dorm_mates_live_unit.js（改前第 0 項 FAIL、丟例外；改後 ALL PASS），相關 20 支 ALL PASS。不在 v9.10.12（候選 562a5ead9），下一版。第二部分等 AA 的 203 日常（NPC-STORY-1028 第一批）｜【LAWWW-C 2026-10-28 01:3x UTC】查到：阿哲 22:00～23:30、柏翰 22:30～23:30（AA_208 2-4），只在進房間那一刻判斷（story3d.js zone build）；阿凱 18:00～8:00。LAWWW 先做「時間到自己進門、上床」；AA 的 203 日常併進 NPC-STORY-1028 第一批（阿哲、柏翰先）；放 v9.10.13",
+   "next": "【LAWWW-C 2026-10-28 03:0x UTC】第二部分 AA_502 合進開發分支 f26164cea（子代理 276474dea）：作息、走進來的旁白、房間閒聊、六件小事、203 群組、後果；aa502_dorm203_unit 132 項（修改前 FAILED 37）；子代理判斷的 8 點、和現有事件衝突的 3 處（ev_dorm_late_kai「阿哲已經睡了」、ev_kai_late_screen 凌晨三點、手機朋友頁阿凱的位置）問 AA；BB 佇列 6a｜【LAWWW-C 2026-10-28 02:0x UTC】AA_502 交了（4071fdb9a，DL-AA-502）：作息表、房間閒聊、六件小事、203 群組；接在 S.dormWho 上｜【LAWWW-C 2026-10-28 01:5x UTC】第一部分做好（本 commit）：story3d.js S.dormWho（誰、幾點，進房間和待在房間裡同一份）、S.dormSpawn、S.dormLive（refreshSchedule 每 3 秒）——人在房間裡時間到了阿哲 22:00、柏翰 22:30 從門口走進來坐下，23:30 走到自己的梯子（爬上舖），阿凱 8:00 出門；跳時間超過 15 分鐘直接坐好／拿掉；經濟系阿勳一樣。tests/dorm_mates_live_unit.js（改前第 0 項 FAIL、丟例外；改後 ALL PASS），相關 20 支 ALL PASS。不在 v9.10.12（候選 562a5ead9），下一版。第二部分等 AA 的 203 日常（NPC-STORY-1028 第一批）｜【LAWWW-C 2026-10-28 01:3x UTC】查到：阿哲 22:00～23:30、柏翰 22:30～23:30（AA_208 2-4），只在進房間那一刻判斷（story3d.js zone build）；阿凱 18:00～8:00。LAWWW 先做「時間到自己進門、上床」；AA 的 203 日常併進 NPC-STORY-1028 第一批（阿哲、柏翰先）；放 v9.10.13",
    "xai": {
     "spec": "AA_208 第 2 節；使用者原話；AA 補的 203 日常（NPC-STORY-1028 第一批）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -34596,7 +34596,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
+   "next": "【LAWWW-C 2026-10-28 03:0x UTC】201 v2 示範整合進開發分支 7b90397a4（DL-LW2-201V2）；READY_FOR_ART_REVIEW，等使用者看；其他室內等使用者看過 201 再推（LAWWW2）｜【LAWWW-C 2026-10-28 02:3x UTC】LAWWW2 檢討文件 038fe55b1、光照烘焙工具 WIP 297822def、201 示範進行中。溫州街公園卡點（WZ-PARK-POCKET-1028，v9.10.12 唯一阻塞）請 LAWWW2 插在中間先修；改善計畫的每一批交件時附改前改後遊戲截圖（D38 第 8 點），LAWWW 接、BB 測；建築與場景的 ART_APPROVED 只有使用者能標",
    "xai": {
     "spec": "使用者原話；LAWWW2 的檢討文件 038fe55b1（INTERIOR-AAA-REVIEW-1028）",
     "branch": "claude/focused-cray-c9uwvw",

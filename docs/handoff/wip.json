@@ -952,11 +952,12 @@
    "files": [
     "wip_backup/dorm203_1028.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_502 203 室友日常（作息、閒聊、六件小事、群組）；子代理做中，開工要先快轉到開發分支",
    "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 3b1a96854，子代理另有 story3d.js、dorm203_lines.js 未 commit，已提醒 commit）；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 01:3x（X123）"
+   "source": "使用者 10-28 01:3x（X123）",
+   "closedBy": "f26164cea（合併 276474dea）"
   },
   {
    "id": "WIP-LAWWW-FEED-1028",
@@ -967,11 +968,12 @@
    "files": [
     "wip_backup/feed_1028.bundle"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "AA_503 手機的部分：動態頁、七位大一上的動態、講自己的事的私訊、可昕四則改動態（子代理做中）；3D 圈子、別人說起她另外做",
    "next": "每 15～20 分鐘更新 bundle（D113；02:3x 更新到 12ea31123）；AA 更正 74916d73b（芷若冬季菜單、語彤受試者、子晴練習賽）已轉給子代理；做完跑相關 Node 再合",
    "noDirectIntegrate": true,
-   "source": "使用者 10-28 01:2x（X122★）"
+   "source": "使用者 10-28 01:2x（X122★）",
+   "closedBy": "481c039c7（合併 a962ff0a6）"
   },
   {
    "id": "WIP-LAWWW-POOL498-1028",
