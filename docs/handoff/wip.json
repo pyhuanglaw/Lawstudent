@@ -1061,7 +1061,7 @@
   {
    "id": "WIP-LAWWW-AA497-1028",
    "task": "NPC-STORY-1028",
-   "state": "WIP",
+   "state": "已整合",
    "sha": "cfaed12ef、9e2aa7295",
    "branch": "worktree-agent-afa95ee54a355c76f（子代理；D113 備份 wip_backup/aa497_1028.bundle）",
    "files": [
@@ -1070,7 +1070,8 @@
    "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）；06:17 子代理做到 Alison 3-1～3-8 測試",
    "next": "子代理做完回報 → LAWWW 合併、全部 Node",
    "noDirectIntegrate": true,
-   "role": "LAWWW"
+   "role": "LAWWW",
+   "closedBy": "7bd68b7cf（合併子代理 00638abdb 進開發分支；tests/aa497_supporting_unit.js 269 項 ALL PASS，子代理在 ff9f54209 跑 PASS 2／FAIL 46；改過的 18 支舊測試合併後全過）"
   },
   {
    "id": "WIP-LAWWW-FEED4-1028",
