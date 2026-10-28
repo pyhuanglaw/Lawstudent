@@ -7,7 +7,7 @@
 //   4  13-4 公館的蛋糕：6/2 18:30～20:30 走近她（near 她）、朋友以上、臺灣美國路線、現有 6/2 那場沒演；第一次見陳助教的三句；SIS13_CAKE
 //   5  13-5 日本路線：傳「生日快樂」＝那一句先不回、22:00（當地）視訊；接起來演、SIS13_JP_BDAY；沒接＝照現有那一句；22:00 以後才傳照舊；臺灣朋友、日本交往中照舊
 //   6  13-6 洗衣間：美國挽回中、10/8～10/20 21:00～22:00 人在社區；不改挽回數值；三句短招呼（SMALLTALK：照順序、各一次；交往中沒有）
-//   7  13-7 歡迎回來：12/26 21:00 群組＋「去。」→ 12/28 18:30；美國路線多一個選項；沒認識的在這裡認識
+//   7  13-7 歡迎回來：12/26 20:30 群組（AA_516 1-5，企劃線 a9b87c588：原本 21:00，和交往中的跨年私訊錯開）＋「去。」→ 12/28 18:30；美國路線多一個選項；沒認識的在這裡認識
 //   8  13-8 新體育館門口：5/7～5/10 週一～四 08:00～08:40、朋友以上沒交往；兩組選項、SIS13_POOL；作息在門口
 //   9  第 2 節第 1 點（第 7 節第 9 點改）：2027-05-20 佳穎私訊（有 SIS_OLD_NOTES）→「（把學姊的筆記傳給她）」→ SIS_NOTES_PASSED → 5/21 21:00 學姊兩則；3/8 那則不加選項
 //  10  第 2 節第 3、4 點：修正本 7/15 → 7/20、SIS_THESIS_COPY；慶祝 SIS_US_CELEB → 7/29 買鎖以後那一段
@@ -65,7 +65,7 @@ const place=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; };
 const expire=()=>{ for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); };   /* 出遊過了時間＝missed（遊戲裡是 OUT.tick，每 0.5 秒）*/
 
 /* ---------- 讀稿 ---------- */
-const SHA='0e02591e4',   /* 10-28 08:4x：AA 加第 7 節（實作時定的；前面各節沒改）；之前 c444f0757 */
+const SHA='a9b87c588',   /* 10-28 09:5x：AA_516 1-5 改 13-7 的時間（21:00 → 20:30；其他沒改）；之前 0e02591e4（08:4x AA 加第 7 節）、c444f0757 */
      SHA0='c444f0757', DOCF='docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA512_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
@@ -223,8 +223,8 @@ await sec(6,async()=>{ const e6=ev('ev_sis13_laundry'), d=D('2028-10-10');
 /* ---- 7 13-7 歡迎回來 ---- */
 await sec(7,async()=>{ const a=D('2028-12-26'), d=D('2028-12-28');
   check('7. 日子：2028-12-26 週二、12-28 週四',CALENDAR.dateOf(a).wd===2&&CALENDAR.dateOf(d).wd===4);
-  fresh(a,20,'none',{},{route:'JP'}); phAt(a,21.2); const M=byTag('sisb13_welcome_ask');
-  check('7. 12/26 21:00 家族群組：Kevin 兩則（照稿）＋「去。」（沒認識、日本路線也有）',J(M.map(m=>m.text))===J(['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'])&&M.every(m=>m.from==='kevin'&&m.th==='g:family_law')&&J(askOpts('sisb13_welcome_ask'))===J(['去。']),J(M));
+  fresh(a,20,'none',{},{route:'JP'}); phAt(a,20.45); const M0=byTag('sisb13_welcome_ask').length; phAt(a,20.55); const M=byTag('sisb13_welcome_ask');
+  check('7. 12/26 20:30 家族群組（AA_516 1-5：20:29 還沒有）：Kevin 兩則（照稿）＋「去。」（沒認識、日本路線也有）',M0===0&&J(M.map(m=>m.text))===J(['學姊回來了！！','禮拜四家聚 歡迎回來 118 巷那家'])&&M.every(m=>m.from==='kevin'&&m.th==='g:family_law'&&m.h>=20.5&&m.h<20.75)&&J(askOpts('sisb13_welcome_ask'))===J(['去。'])&&/\*\*約\*\*：12\/26（二）\*\*20:30\*\* 家族群組/.test(DOC),J(M));
   answer('sisb13_welcome_ask',0); ph(); const q=OUT.get(H.G,'sisb13_welcome');
   check('7. 回「去。」→ 排 12/28（四）18:30「118 巷・定食店」',!!q&&q.day===d&&q.h===18.5&&q.place==='118 巷・定食店'&&q.ev==='ev_sis13_welcome',J(q));
   at(d,18.4); await goOut('sisb13_welcome',[1]);

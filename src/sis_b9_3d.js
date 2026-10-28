@@ -52,7 +52,7 @@ const SISB9=(function(){
     await EVENTS.runLines(ev.dialogue,ev); return true; };
   /* ---------------- 1-3、1-1 的「傘帶了。」---------------- */
   const twAt=(G,day,h,items,tag)=>{ if(day==null) return false; return PHONE.at(G,day,h+tz(G,day),items,tag); };   /* 臺灣時間 → 遊戲時鐘 */
-  S.books=function(G){ const F=G.flags; if(!law(G)||isEx(G)||!F.SIS_BOOK) return;
+  S.books=function(G){ const F=G.flags; if(!law(G)||isEx(G)||!F.SIS_BOOK) return; if(route(G)==='US') return;   /* AA_516 1-12（企劃線 a9b87c588）：美國路線不送書的照片、不寄書（她人就在同一個社區）*/
     if(F.SIS_BOOK==='law'){ const d=D('2028-09-18'); if(d!=null&&G.day>=d&&G.day<=d+2) twAt(G,d,9.05,L.bookLaw.map(dm),'sisb9_book_law'); }
     if(F.SIS_BOOK==='novel'){ const d=D('2028-11-20'); if(d!=null&&G.day>=d&&G.day<=d+2) twAt(G,d,9.05,L.bookNovel.map(dm),'sisb9_book_novel'); }
     if(F.SIS_BOOK==='both'){ const a=D('2028-08-14'), b=D('2028-08-20'), r=D('2028-09-04');

@@ -430,11 +430,12 @@ const date=id=>H.date(id);
     check('GC1 10/7「路線我排好了。上車。」；五個摘要日（10/10 是「她回頭把手伸給你」）；10/13「第四章，我本來想在這裡寫完。」；不是告白；10/14「里程表多了一千兩百哩」', has('（她靠在租來的車旁邊，手上拿著一張列印的地圖。）')&&has('路線我排好了。上車。')&&has('（沙漠裡的加油站，她買了兩瓶很大的水。）')&&has('（她在步道上走得比你快。走到一半，她回頭把手伸給你。）')&&has('（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）')&&has('第四章，我本來想在這裡寫完。')&&has('嗯。今天不寫。')&&has('（車還回去的時候，里程表多了一千兩百哩。）')&&!H.said.some(s=>/我喜歡/.test(s.t)));
     const r1=SOCIAL.rel('heroine_05');
     check('2-Y4-56 US_CANYON；算 2 次正式約會；她和祐廷的戀愛各 +2；GC3 沒有說出口的條列', H.G.flags.US_CANYON===true&&(DATE.log(H.G,'heroine_05').count|0)===c0+2&&(r1.rom|0)===rom0+2&&(r1.npcRom|0)===nr0+2&&!H.said.some(s=>/^(一|二|三)，|三件事/.test(s.t))); }
-  { fresh('2028-10-07',8,'dorm',{MET_LONG:true},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; at('2028-10-07',9.1);
-    check('GC2 挽回中：秋假兩個摘要日', S.usFallDue(H.G)===1);
-    H.said=[]; await S.usFall(GM,1); at('2028-10-08',9.1); await S.usFall(GM,S.usFallDue(H.G));
+  /* AA_516 第 1 節 1-11（企劃線 a9b87c588）：兩個摘要日 10/7、10/8 改 10/9、10/10（美國的秋假 10/9～10/13，us_life3d.js S.CAL.fall）；字不改 */
+  { fresh('2028-10-07',8,'dorm',{MET_LONG:true},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; at('2028-10-07',9.1); const old7=S.usFallDue(H.G); at('2028-10-08',9.1); const old8=S.usFallDue(H.G); at('2028-10-09',9.1);
+    check('GC2 挽回中：秋假兩個摘要日（AA_516 1-11：10/9 起；10/7、10/8 沒有）', S.usFallDue(H.G)===1&&old7==null&&old8==null);
+    H.said=[]; await S.usFall(GM,1); at('2028-10-10',9.1); await S.usFall(GM,S.usFallDue(H.G));
     check('GC2 「秋假。社區的停車場空了一半。」「何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。」（沒有 MET_LONG＝只有後半）；沒有邀約', has('秋假。社區的停車場空了一半。')&&has('何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。')&&!S.usFallDue(H.G)&&!th('p:heroine_05').length);
-    fresh('2028-10-08',9.1,'dorm',{US_FALL_1:1},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; H.said=[]; await S.usFall(GM,2);
+    fresh('2028-10-10',9.1,'dorm',{US_FALL_1:1},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; H.said=[]; await S.usFall(GM,2);
     check('GC2 沒有 MET_LONG：「你把三門課的閱讀都讀完了。」', has('你把三門課的閱讀都讀完了。')&&!has('何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。')); }
   { fresh('2028-09-27',20,'dorm',{},'TW'); H.FRIEND('heroine_05'); date('heroine_05'); at('2028-09-27',21); phone();
     check('2-Y4-56 不是美國路線：沒有（台灣、日本路線見 2-Y4-57）', !OUT.get(H.G,'y4_us_canyon')&&!th('p:heroine_05').includes('機票我看好了，飛到鳳凰城，在那邊租車。')); }

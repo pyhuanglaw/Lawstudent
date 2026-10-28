@@ -514,8 +514,9 @@ const R2Y4B=(function(){
       const L=[SISP('十月有一個禮拜的秋假。我想開車去大峽谷。'),SISP('機票我看好了，飛到鳳凰城，在那邊租車。'),SISP('……你坐副駕，負責放音樂。')];
       L[2].ask={id:'y4_us_canyon',until:T(d7,6),opts:[{t:'好。',say:[{from:'heroine_05',text:'好。我訂兩張。'}]},{t:'妳開那麼遠不累嗎？',say:[{from:'heroine_05',text:'所以才要你放音樂。'}]}]};
       if(PHONE.at(G,d,atH(G,d,21),L,'y4_us_canyon')) plan(G,{id:'y4_us_canyon',ev:'ev_us_canyon',day:d7,h:6,late:1,must:true,place:'社區門口',title:'秋假：大峽谷',travel:'',travelH:0,back:'回到社區。'}); } };   /* 交往中，約了就會去：兩個回答都記行事曆 */
-  S.usFallDue=G=>{ const d7=DK('2028-10-07'); if(d7==null||route(G)!=='US'||dating(G,'heroine_05')||!knows('heroine_05',G)||!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return null;   /* 挽回中、挽回不成：兩個摘要日 */
+  S.usFallDue=G=>{ const d7=DK(S.US_FALL_DAY); if(d7==null||route(G)!=='US'||dating(G,'heroine_05')||!knows('heroine_05',G)||!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return null;   /* 挽回中、挽回不成：兩個摘要日 */
     if(G.day===d7&&hh(G)>=9&&!G.flags.US_FALL_1) return 1; if(G.day===d7+1&&hh(G)>=9&&!G.flags.US_FALL_2) return 2; return null; };
+  S.US_FALL_DAY='2028-10-09';   /* AA_516 1-11（企劃線 a9b87c588）：原本 10/7、10/8——美國的秋假是 10/9～10/13（us_life3d.js S.CAL.fall）；改 10/9、10/10，字不改 */
   S.usFall=async function(GM,n){ const G=GM.G; G.flags['US_FALL_'+n]=G.day;
     await scene(GM,async()=>{ await GM.say(null,n===1?'秋假。社區的停車場空了一半。':(G.flags.MET_LONG?'何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。':'你把三門課的閱讀都讀完了。')); }); return true; };   /* AA 稿這兩句沒有括號，照原樣 */
   S.canyonAfter=function(G,kind){ if(typeof DATE!=='undefined'&&DATE.log){ const L=DATE.log(G,'heroine_05'); L.count=(L.count|0)+2; if(kind==='tw'){ L.wish=true; L.wishKnown=true; } }   /* 算 2 次正式約會（台灣路線也算她的心願地點）*/
@@ -543,13 +544,20 @@ const R2Y4B=(function(){
   S.SA_V_SETS=3; S.SA_V_NARR='（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）';   /* T3 三組用完以後只有這一行旁白（大峽谷邀約照現在的條件接在後面）*/
   /* AA_392 第 1-3 節：交往中的六組視訊（ev_sis_video_gf），照順序、各一次；from＝那一組最早的週日（中秋、冬令時間、感恩節、回臺灣那幾週），還沒到就那一週只有旁白；
      canyon＝臺灣路線 10/13 大峽谷才交往的不演（中秋那組）*/
-  S.SA_VD=[{from:'2028-08-13'},{from:'2028-09-03'},{from:'2028-10-01',canyon:false},{from:'2028-11-05'},{from:'2028-11-26'},{from:'2028-12-10'}];
+  S.SA_VD=[{from:'2028-08-13',canyon:false},{from:'2028-09-03',canyon:false},{from:'2028-10-01',canyon:false},{from:'2028-11-05'},{from:'2028-11-26'},{from:'2028-12-10'}];   /* AA_516 1-3（企劃線 a9b87c588）：大峽谷才交往的，開始交往以前的 g1、g2、g3 都算演過（原本只有中秋 g3 不演、10/22 從 g1「到這邊一個禮拜了。」開始）*/
+  /* AA_516 2-2（企劃線 a9b87c588）：再補九組 h1～h9——gset 7～15（S.SA_VH0＋第幾組；6＝旁白照舊，舊存檔排好的旁白不會變成 h1）。每組照「從哪一天起」、到了以後第一個週日演、一組只演一次（S.SA_VD 那一套的做法）；
+     那一週 g 組也到期＝先演 g 組（h 那一組順延）；canyon:false＝大峽谷才交往的不演（1-3：h1～h3 算演過；h4 那一週她在峽谷）。加了以後二十週裡剩五週是旁白：8/6、8/27、9/10、10/8、10/29 */
+  S.SA_VH=[{from:'2028-08-20',canyon:false},{from:'2028-09-17',canyon:false},{from:'2028-09-24',canyon:false},{from:'2028-10-15',canyon:false},{from:'2028-10-22'},{from:'2028-11-12'},{from:'2028-11-19'},{from:'2028-12-03'},{from:'2028-12-17'}];
+  S.SA_VH0=7;
+  /* AA_516 第 3 節（企劃線 a9b87c588）：朋友（T3）v0～v2 用完以後再補四組 t4～t7——set 4～7（3＝旁白照舊）；照「從哪一天起」、到了以後第一個週日演、一組一次，結尾照舊接大峽谷邀約（inv）*/
+  S.SA_VT=[{from:'2028-09-17'},{from:'2028-10-22'},{from:'2028-11-19'},{from:'2028-12-17'}];
+  S.SA_VT0=4;
   S.SA_VG_NARR='（視訊。她那邊是週六晚上。你們講到她那邊快十二點，她說要睡了，鏡頭又開了三分鐘才關。）';
   S.SA_T2=[{L:['論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。','你大四上的課排得怎樣？'],O:[{t:'還好，不算太滿。'},{t:'很滿。'}]},
     {L:['今天第一次在這邊開車。這邊紅燈可以右轉，我在路口停了很久，後面一直按喇叭。','你最近有在開車嗎？'],O:[{t:'有，週末開。'},{t:'沒有。'}]},
     {L:['圖書館我待到十二點。旁邊的人讀到兩點，我先走了。','你研究所的事，決定了嗎？不用現在回答。'],O:[{t:'決定了。',if:G=>!!G.flags.Y4_PATH},{t:'還在想。'}]},
     {L:['這邊的人問我還好嗎，我都說還好。','……你那邊呢？'],O:[{t:'還好。'},{t:'其實有點累。'}]}];   /* 她問了要有回覆按鈕；她不再回（一來一回就停）*/
-  S.saOn=G=>law(G)&&route(G)!=='US'&&knows('heroine_05',G)&&stageAt('heroine_05','ACQUAINTANCE')&&!isEx(G,'heroine_05');   /* 和學姊分手過：沒有訊息池、沒有邀約；交往中也排（AA_392 第 1 節：女朋友的每週視訊＋T1、SA_X 照片，saGf）*/
+  S.saOn=G=>law(G)&&route(G)!=='US'&&knows('heroine_05',G)&&stageAt('heroine_05','ACQUAINTANCE')&&!isEx(G,'heroine_05')&&contact(G,'heroine_05');   /* AA_516 1-7（企劃線 a9b87c588）：要有她的聯絡方式（INV.hasContact）才送私訊、才排視訊；家族群組的照片（y34b3d.js）照常 */   /* 和學姊分手過：沒有訊息池、沒有邀約；交往中也排（AA_392 第 1 節：女朋友的每週視訊＋T1、SA_X 照片，saGf）*/
   /* 每週一格（k＝第幾週，8/6 那一週＝0）：週日 08:00 決定這一週是哪一段；T1、T2 的訊息臺灣週一 09:00（11/5 起 10:00；手機訊息不撞課），T3 視訊臺灣週日 10:00（她那邊週六晚上，AA_378 S2：原本週一 09:00 撞必修強制執行法）*/
   S.saChecks=function(){ if(S._sac) return S._sac; const out=[]; const a=DK('2028-08-06'), b=DK('2028-12-17'), w=DK('2028-11-05'); if(a==null||b==null) return out;
     for(let d=a;d<=b;d+=7) out.push({day:d,h:8,vDay:d,vH:10,mDay:d+1,mH:d>=w?10:9}); return (S._sac=out); };
@@ -578,6 +586,9 @@ const R2Y4B=(function(){
     if(last.length===2&&last.every(miss)){ const tag='y4_sa_gskip_'+k; PHONE.at(G,c.vDay,c.vH,[SISP('這週我先不打了。你有空打給我。')],tag); R.log.push({k,kind:'gskip',tag}); return; }
     let g=R.g|0; while(g<S.SA_VD.length&&S.SA_VD[g].canyon===false&&F.SIS_GF_CANYON!=null) g++;
     let set=S.SA_VD.length; if(g<S.SA_VD.length&&c.vDay>=saFrom(S.SA_VD[g].from)){ set=g; g++; } R.g=g;
+    if(R.gh==null){ let h0=0; while(h0<S.SA_VH.length&&saFrom(S.SA_VH[h0].from)<c.vDay) h0++; R.gh=h0; }   /* 這一套第一次排（新的局 8/6；舊存檔、大峽谷才交往的＝排的那一週以前就該演的 h 組不補，不往後擠——不然 h9「最後一通」會擠出 12/17）*/
+    if(set===S.SA_VD.length){ let h=R.gh|0; while(h<S.SA_VH.length&&S.SA_VH[h].canyon===false&&F.SIS_GF_CANYON!=null) h++;   /* AA_516 2-2：g 組沒有到期的那一週＝h 組（照順序、到了才演）*/
+      if(h<S.SA_VH.length&&c.vDay>=saFrom(S.SA_VH[h].from)){ set=S.SA_VH0+h; h++; } R.gh=h; }
     const tag='y4_sa_g_'+k; plan(G,{id:tag,ev:'ev_sis_video_gf',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和書瑀視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,gset:set}}); R.log.push({k,kind:'gvideo',tag,set}); };
   S.sisGfSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_g_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.gset:S.SA_VD.length; };
   S.sisGfThanksPhoto=G=>{ const R=S.saRec(G); return R.log.some(e=>e.kind==='x'&&e.x===4&&PHONE.sent(G,e.tag)&&(G.msgs||[]).some(m=>m.tag===e.tag&&(m.day<G.day||(m.day===G.day&&m.h<=G.hour)))); };   /* V5：那一週已經收到感恩節照片（SA_X 第 5 則）*/
@@ -591,7 +602,9 @@ const R2Y4B=(function(){
       if(R.tier===1||R.tier===2){ if(k%2) continue; const p=saPick(G,R,R.tier,c.mDay); if(!p) continue;   /* T1、T2：兩週一則（第 0、2、4……格＝8/7、8/21……12/11）*/
         if(p.t2!=null){ const it=S.SA_T2[p.t2], tag='y4_sa_t2_'+k; R.i2++; const L=it.L.map(t=>SISP(t)); L[L.length-1].ask={id:tag,until:T(c.mDay+7,0),opts:it.O.filter(o=>!o.if||o.if(G)).map(o=>({t:o.t}))}; PHONE.at(G,c.mDay,c.mH,L,tag); R.log.push({k,kind:'t2',tag}); }
         else { const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag,x:p.x}); } }
-      else { const tag='y4_sa_v_'+k; R.vset=Math.min(R.i3|0,S.SA_V_SETS); R.i3=(R.i3|0)+1; plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,set:R.vset}}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
+      else { const tag='y4_sa_v_'+k; R.vset=Math.min(R.i3|0,S.SA_V_SETS); R.i3=(R.i3|0)+1;
+        if(R.vset===S.SA_V_SETS){ const t=R.t3|0; if(t<S.SA_VT.length&&c.vDay>=saFrom(S.SA_VT[t].from)){ R.vset=S.SA_VT0+t; R.t3=t+1; } }   /* AA_516 第 3 節：v0～v2 用完以後 t4～t7（照順序、到了才演；沒到的那一週照舊旁白）*/
+        plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,set:R.vset}}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
   S.SA_S_SETS=3;   /* AA_395 2-1 短視訊三組 */
   S.sisShortSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_s_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.sset:0; };
   S.sisVideoSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.set:0; };

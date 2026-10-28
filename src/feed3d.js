@@ -109,7 +109,7 @@ const FEED=(function(){
     anJP:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP',   /* 日本路線（11/18 志願表截止時和以安交往；AA_507 1-3 第 7 則、AA_508 1-3 第 4、7 則）*/
     /* 語彤 8/22 問阿姨的 2D 短場演過（8/21 私訊回「好。」、出遊那一趟 done；AA_508 3-3 第 7 則）*/
     ytAunt:G=>{ const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'aa508_yt_aunt'):null; return !!(q&&q.state==='done')||!!(G.events&&G.events.done&&G.events.done.ev_aa508_yt_aunt!=null); },
-    sisUS:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'   /* 美國路線（和學姊同一班出發、人在美國；AA_509 5-3 第 1～3 則照片加「你」）*/
+    sisUS:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&dating(G,'heroine_05')   /* 美國路線（和學姊同一班出發、人在美國；AA_509 5-3 第 1～3 則照片加「你」）；AA_516 1-4（企劃線 a9b87c588）：而且交往中才是「你的」那一版，挽回中、挽回不成看一般版 */
   };
   /* 和她 st 以上（認識、照 SOCIAL.stage 的順序；同 vac3d.js 的 atLeast）*/
   S.atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage||!SOCIAL.has||!SOCIAL.has(id,'FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };

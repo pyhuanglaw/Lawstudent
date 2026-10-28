@@ -376,7 +376,9 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-57 學姊在美國的視訊（T3；她那邊週日 21:00＝臺灣週一早上）：三組輪換；9/30 以前最後一次視訊、條件到了＝約大峽谷（AA_253 10-2）---------- */
   { id:'ev_sis_video', title:'視訊', participants:['heroine_05'], location:'any', trigger:'outing', background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {if:{custom:G=>R().sisVideoSet(G)===0},goto:'v0'},{if:{custom:G=>R().sisVideoSet(G)===1},goto:'v1'},{if:{custom:G=>R().sisVideoSet(G)>=3},goto:'vn'},   /* AA_378 S1：三組各一次，之後只有一行旁白 */
+      {if:{custom:G=>R().sisVideoSet(G)===0},goto:'v0'},{if:{custom:G=>R().sisVideoSet(G)===1},goto:'v1'},
+      {if:{custom:G=>R().sisVideoSet(G)===4},goto:'t4'},{if:{custom:G=>R().sisVideoSet(G)===5},goto:'t5'},{if:{custom:G=>R().sisVideoSet(G)===6},goto:'t6'},{if:{custom:G=>R().sisVideoSet(G)===7},goto:'t7'},   /* AA_516 第 3 節（企劃線 a9b87c588）：v0～v2 用完以後再補四組（R().SA_VT：9/17、10/22、11/19、12/17 起；口氣是朋友，講她自己的事）*/
+      {if:{custom:G=>R().sisVideoSet(G)>=3},goto:'vn'},   /* AA_378 S1：三組各一次，之後只有一行旁白 */
       {speaker:'heroine_05',text:'你那邊是早上吧。……我這邊剛下雨。'},
       {speaker:'heroine_05',text:'今天沒什麼事。……只是想打給你。'},
       {speaker:'heroine_05',text:'好。下禮拜同一個時間。'},{goto:'inv'},
@@ -386,6 +388,22 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
       {label:'v1'},{speaker:'heroine_05',text:'（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。'},
       {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
+      {label:'t4'},{speaker:'heroine_05',text:'研究小間隔壁的人，每天都比我早到。',aa516:true},{speaker:'heroine_05',text:'今天我比他早了十分鐘。……他看到我，愣了一下。',aa516:true},
+      {choice:[{text:'「妳贏了。」',goto:'t4a',aa516:true},{text:'「你們有說話嗎？」',goto:'t4b',aa516:true}]},
+      {label:'t4a'},{speaker:'heroine_05',text:'嗯。明天他會更早。',aa516:true},{goto:'inv'},
+      {label:'t4b'},{speaker:'heroine_05',text:'沒有。點頭。這樣剛好。',aa516:true},{goto:'inv'},
+      {label:'t5'},{speaker:'heroine_05',text:'葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'……我寄了一片回去。應該快到了。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
+      {choice:[{text:'「寄給誰？」',goto:'t5a',aa516:true},{text:'「拍給我看。」',goto:'t5b',aa516:true}]},
+      {label:'t5a'},{speaker:'heroine_05',text:'到了你就知道。',aa516:true},{goto:'inv'},
+      {label:'t5b'},{speaker:null,text:'（她把鏡頭轉向窗外：一棵紅的樹。）',aa516:true},{speaker:'heroine_05',text:'這棵。',aa516:true},{goto:'inv'},
+      {label:'t6'},{speaker:'heroine_05',text:'感恩節，同學的媽媽要請我吃飯。',aa516:true},{speaker:'heroine_05',text:'我在練習說謝謝。英文的，要說得像真的。',aa516:true},
+      {choice:[{text:'「說一次給我聽。」',goto:'t6a',aa516:true},{text:'「妳本來就說得很真。」',goto:'t6b',aa516:true}]},
+      {label:'t6a'},{speaker:null,text:'（她說了一次。很標準。）',aa516:true},{speaker:'heroine_05',text:'……這樣可以嗎。',aa516:true},{goto:'inv'},
+      {label:'t6b'},{speaker:'heroine_05',text:'中文的才是。',aa516:true},{goto:'inv'},
+      {label:'t7'},{speaker:'heroine_05',text:'最後一通。下週六回去。',aa516:true},{speaker:'heroine_05',text:'回去以後，這個時間我應該在睡覺。',aa516:true},
+      {choice:[{text:'「回來見。」',goto:'t7a',aa516:true},{text:'「那換我打給妳。」',goto:'t7b',aa516:true}]},
+      {label:'t7a'},{speaker:'heroine_05',text:'嗯。回去見。',aa516:true},{goto:'inv'},
+      {label:'t7b'},{speaker:'heroine_05',text:'……白天打。我會醒著。',aa516:true},{goto:'inv'},
       {label:'vn'},{speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR */
       {label:'inv'},{unless:{custom:G=>R().sisInviteDue(G)},end:true},
       {speaker:'heroine_05',text:'十月有一個禮拜的秋假。我想開車去大峽谷。'},
@@ -398,6 +416,8 @@ const R2Y4B_EVENTS=(function(){
      沒到那一組的週次、用完以後只有一行旁白；沒接＝outingMissed「你在忙。下週。」（連兩週沒接，第三週她不打，r2y4b3d.js saGf）---------- */
   { id:'ev_sis_video_gf', title:'視訊', participants:['heroine_05'], location:'any', trigger:'outing', background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
+      /* AA_516 1-3（企劃線 a9b87c588）：臺灣路線 10/13 大峽谷才交往的（SIS_GF_CANYON），開始交往後第一次女朋友視訊開頭多一句（一次；src/sis_b14_3d.js canyonOpenDue）*/
+      {if:{custom:G=>typeof SISB14!=='undefined'&&SISB14.canyonOpenDue(G)},speaker:'heroine_05',text:'峽谷回來以後，第一次這樣打給你。',set:{SIS14_CANYON_OPEN:true},aa516:true},
       /* AA_512 第 2 節第 6、9 點（企劃線 c444f0757）：開頭多的話（條件在 src/sis_b13_3d.js；aa512：tests/aa512_sis_b13_unit.js 對稿）——
          除夕電話問過「妳會想家嗎？」的，第四十天那一週（9/10）的視訊；上一次 g3 選「我這邊也還沒吃。」、g2 選「那是好問題的意思嗎？」的，下一次視訊 */
       {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.day40Video(G)},speaker:'heroine_05',text:'你之前問我會不會想家。……會。今天第四十天。',set:{SIS13_DAY40:'video'},aa512:true},
@@ -407,6 +427,10 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>typeof SISB13!=='undefined'&&SISB13.g2Due(G)},speaker:'heroine_05',text:'我去了。聊了半小時。……原來那真的是好問題。',set:{SIS13_G2_SAID:true},aa512:true},
       {if:{custom:G=>R().sisGfSet(G)===0},goto:'g1'},{if:{custom:G=>R().sisGfSet(G)===1},goto:'g2'},{if:{custom:G=>R().sisGfSet(G)===2},goto:'g3'},
       {if:{custom:G=>R().sisGfSet(G)===3},goto:'g4'},{if:{custom:G=>R().sisGfSet(G)===4},goto:'g5'},{if:{custom:G=>R().sisGfSet(G)===5},goto:'g6'},
+      /* AA_516 2-2（企劃線 a9b87c588）：h1～h9（R().SA_VH，gset 7～15；6＝旁白照舊）*/
+      {if:{custom:G=>R().sisGfSet(G)===7},goto:'h1'},{if:{custom:G=>R().sisGfSet(G)===8},goto:'h2'},{if:{custom:G=>R().sisGfSet(G)===9},goto:'h3'},
+      {if:{custom:G=>R().sisGfSet(G)===10},goto:'h4'},{if:{custom:G=>R().sisGfSet(G)===11},goto:'h5'},{if:{custom:G=>R().sisGfSet(G)===12},goto:'h6'},
+      {if:{custom:G=>R().sisGfSet(G)===13},goto:'h7'},{if:{custom:G=>R().sisGfSet(G)===14},goto:'h8'},{if:{custom:G=>R().sisGfSet(G)===15},goto:'h9'},
       {speaker:null,text:'（視訊。她那邊是週六晚上。你們講到她那邊快十二點，她說要睡了，鏡頭又開了三分鐘才關。）'},{end:true},   /* R().SA_VG_NARR */
       {label:'g1'},{speaker:'heroine_05',text:'到這邊一個禮拜了。'},{speaker:'heroine_05',text:'房間的書桌，比研究室那張還小。'},
       {choice:[{text:'「給我看。」',goto:'g1a'},{text:'「妳吃飯了嗎？」',goto:'g1b'}]},
@@ -431,10 +455,47 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「妳有說謝謝嗎？」',goto:'g5a'},{text:'「白飯好吃嗎？」',goto:'g5b'}]},
       {label:'g5a'},{speaker:'heroine_05',text:'說了三次。第三次她抱了我一下。'},{end:true},
       {label:'g5b'},{speaker:'heroine_05',text:'是電鍋煮的。……我差點哭。沒有，沒哭。'},{end:true},
-      {label:'g6'},{speaker:'heroine_05',text:'二十三號早上到。'},{speaker:'heroine_05',text:'機場的班次我傳給你了。'},
+      {label:'g6'},{speaker:'heroine_05',text:'二十三號晚上八點落地。',aa516:true},{speaker:'heroine_05',text:'班次，回去前傳給你。',aa516:true},   /* AA_516 1-1（企劃線 a9b87c588）：原本「二十三號早上到。」「機場的班次我傳給你了。」和接機（12/23 20:30 入境大廳、12/20 那一則）對不上 */
       {choice:[{text:'「我去接妳。」',goto:'g6a'},{text:'「要我帶什麼？」',goto:'g6b'}]},
       {label:'g6a'},{speaker:'heroine_05',text:'好。……我會在出口那邊找你。'},{end:true},
-      {label:'g6b'},{speaker:'heroine_05',text:'外套。我的那件在行李最下面。'} ],
+      {label:'g6b'},{speaker:'heroine_05',text:'外套。我的那件在行李最下面。'},{end:true},
+      /* ---- AA_516 2-2 h1～h9（台詞照稿；h5 選「好吃嗎？」記 SIS14_CURRY_PROMISE＝2-5 12/31 她家的咖哩）---- */
+      {label:'h1'},{speaker:'heroine_05',text:'這邊的雞蛋，盒子上的日期是月份寫在前面。',aa516:true},{speaker:'heroine_05',text:'我第一次看反了，以為過期了，丟掉一盒。',aa516:true},
+      {choice:[{text:'「妳丟了一整盒？」',goto:'h1a',aa516:true},{text:'「下次看清楚。」',goto:'h1b',aa516:true}]},
+      {label:'h1a'},{speaker:'heroine_05',text:'十八顆。……我現在每天早上吃兩顆，補回來。',aa516:true},{end:true},
+      {label:'h1b'},{speaker:'heroine_05',text:'嗯。我寫在計畫本最前面了。',aa516:true},{end:true},
+      {label:'h2'},{speaker:'heroine_05',text:'這邊的游泳池是五十公尺的。',aa516:true},{speaker:'heroine_05',text:'我游一趟，中間要停一次。在臺灣不用。',aa516:true},
+      {choice:[{text:'「會習慣的。」',goto:'h2a',aa516:true},{text:'「那就停一次。」',goto:'h2b',aa516:true}]},
+      {label:'h2a'},{speaker:'heroine_05',text:'嗯。救生員已經記得我了。……他說我每天都是第一個。',aa516:true},{end:true},
+      {label:'h2b'},{speaker:'heroine_05',text:'……好。停一次，不算輸。',aa516:true},{end:true},
+      {label:'h3'},{speaker:'heroine_05',text:'研討課的同學，都叫我 Shu。',aa516:true},{speaker:'heroine_05',text:'書瑀太難念了。他們念了三次，我說 Shu 就好。',aa516:true},
+      {choice:[{text:'「那我也叫妳 Shu？」',goto:'h3a',aa516:true},{text:'「Shu 很好聽。」',goto:'h3b',aa516:true}]},
+      {label:'h3a'},{speaker:'heroine_05',text:'不要。……你叫原本那個。',aa516:true},{end:true},
+      {label:'h3b'},{speaker:'heroine_05',text:'嗯。可是回去以後，就沒有人這樣叫了。',aa516:true},{end:true},
+      {label:'h4'},{speaker:'heroine_05',text:'這邊的葉子全紅了。',aa516:true},{speaker:'heroine_05',text:'我寄了一個東西回去。……不要問，到了就知道。',aa516:true},   /* 10/26 楓葉書籤（ev_sis_maple）前面 */
+      {choice:[{text:'「給我一個提示。」',goto:'h4a',aa516:true},{text:'「好。我等。」',goto:'h4b',aa516:true}]},
+      {label:'h4a'},{speaker:'heroine_05',text:'很輕。……好，提示結束。',aa516:true},{end:true},
+      {label:'h4b'},{speaker:'heroine_05',text:'嗯。',aa516:true},{end:true},
+      {label:'h5'},{speaker:'heroine_05',text:'宿舍廚房的鍋子太薄了，咖哩會黏底。',aa516:true},{speaker:'heroine_05',text:'我今天站在旁邊攪了四十分鐘。',aa516:true},
+      {choice:[{text:'「好吃嗎？」',set:{SIS14_CURRY_PROMISE:true},goto:'h5a',aa516:true},{text:'「換一個鍋子。」',goto:'h5b',aa516:true}]},   /* 2-5：回臺灣以後 12/31 中午她家（src/sis_b14_3d.js）*/
+      {label:'h5a'},{speaker:'heroine_05',text:'好吃。……下次回去，用家裡的鍋子煮給你。',aa516:true},{end:true},
+      {label:'h5b'},{speaker:'heroine_05',text:'鍋子很貴。……我再攪四十分鐘就好。',aa516:true},{end:true},
+      {label:'h6'},{speaker:'heroine_05',text:'第四章第一節，教授在旁邊寫了一個字。',aa516:true},{speaker:null,text:'（她把螢幕轉過來：紅色的，「好」。）',aa516:true},
+      {choice:[{text:'「跟第二章一樣。」',goto:'h6a',aa516:true},{text:'「恭喜。」',goto:'h6b',aa516:true}]},   /* 「第二章旁邊寫了一個字：好」是 AA_508 0-1 的事；沒有那段記憶的玩家照用（稿 2-2）*/
+      {label:'h6a'},{speaker:'heroine_05',text:'……你記得。嗯，一樣。',aa516:true},{end:true},
+      {label:'h6b'},{speaker:'heroine_05',text:'還有三節。……先恭喜這一節。',aa516:true},{end:true},
+      {label:'h7'},{speaker:'heroine_05',text:'宿舍的烘衣機壞了一台。大家都在排隊。',aa516:true},{speaker:'heroine_05',text:'我帶論文下去排。排到的時候，剛好寫完一段。',aa516:true},
+      {choice:[{text:'「效率很好。」',goto:'h7a',aa516:true},{text:'「衣服乾了嗎？」',goto:'h7b',aa516:true}]},
+      {label:'h7a'},{speaker:'heroine_05',text:'嗯。烘衣機壞掉的那一台，我希望它不要修。',aa516:true},{end:true},
+      {label:'h7b'},{speaker:'heroine_05',text:'……還沒。我又要下去一次。',aa516:true},{end:true},
+      {label:'h8'},{speaker:'heroine_05',text:'下雪了。這次積起來了。',aa516:true},{speaker:null,text:'（她把鏡頭轉向窗外：路燈下，白的。）',aa516:true},{speaker:'heroine_05',text:'你沒看過雪吧。',aa516:true},   /* 對齊 1-8、1-9（家族群組 12/3、12/6 的照片）*/
+      {choice:[{text:'「沒有。」',goto:'h8a',aa516:true},{text:'「看過，在合歡山。」',goto:'h8b',aa516:true}]},
+      {label:'h8a'},{speaker:'heroine_05',text:'那我拍給你。……有腳印的那種。',aa516:true},{end:true},   /* 家族群組 12/6（三）的照片就是 1-9 那一張（不另外送）*/
+      {label:'h8b'},{speaker:'heroine_05',text:'……那不一樣。這邊是一整片。',aa516:true},{end:true},
+      {label:'h9'},{speaker:'heroine_05',text:'最後一通了。',aa516:true},{speaker:'heroine_05',text:'下禮拜六，就不用開鏡頭了。',aa516:true},
+      {choice:[{text:'「我會去接妳。」',goto:'h9a',aa516:true},{text:'「還是開一下。」',goto:'h9b',aa516:true}]},
+      {label:'h9a'},{speaker:'heroine_05',text:'嗯。……出口那邊，你站右邊。我出來先看右邊。',aa516:true},{end:true},
+      {label:'h9b'},{speaker:'heroine_05',text:'……好。在車上開。你開車，我拍你。',aa516:true} ],
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.post(G,{th:'p:heroine_05',from:'heroine_05',text:'你在忙。下週。',tag:'y4_sa_gmiss_'+((q.sa&&q.sa.k)|0)}); } },
   /* ---------- 2-Y4-57 台灣、日本路線：學姊在美國，秋假大峽谷（告白；AA_253 10-2、10-3）。10/7 早上桃園起飛 → 10/13 日落 → 10/14 起飛、10/15 晚上回到臺北 ---------- */
   { id:'ev_sis_canyon', title:'秋假：大峽谷', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
