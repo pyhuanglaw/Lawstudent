@@ -34953,7 +34953,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 09:4x UTC】AA_503 第 14 節後補（0e46fdc7e）合併 eadb542e5（子代理 20cbaaba6）：3 擋下來沒演的不算知情次數（MREL 狀態還原；只有次數的那一次也擋、第 8 天照算＋旁白）、4 出選項不清等待（只有選了或開演才清）；company_priv 65 項 ALL PASS（改前 FAILED 8）；舊說明的 PRIVTALK.ASK_AA 已換成 S.DECIDED＋S.LATER；問 AA：語彤在麵店打工時阿姨永遠在旁邊，她的知情場景只能在麵店演＝一定等 7 天再照演＋旁白；BB 瀏覽器 priv 三支｜【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
+   "next": "【LAWWW-C 2026-10-28 09:4x UTC】後補第 5 點（AA 19b4307eb：語彤在麵店，阿姨不算旁邊有人；只有阿姨＝照演、不加旁白，還有別的同伴照擋）f8983c393：knows_talk except 依人物 {heroine_03:[hc_ayi]}；company_priv 66 項 ALL PASS（拿掉改動 FAILED 2）；白名單 AA_503 → 19b4307eb｜【LAWWW-C 2026-10-28 09:4x UTC】AA_503 第 14 節後補（0e46fdc7e）合併 eadb542e5（子代理 20cbaaba6）：3 擋下來沒演的不算知情次數（MREL 狀態還原；只有次數的那一次也擋、第 8 天照算＋旁白）、4 出選項不清等待（只有選了或開演才清）；company_priv 65 項 ALL PASS（改前 FAILED 8）；舊說明的 PRIVTALK.ASK_AA 已換成 S.DECIDED＋S.LATER；問 AA：語彤在麵店打工時阿姨永遠在旁邊，她的知情場景只能在麵店演＝一定等 7 天再照演＋旁白；BB 瀏覽器 priv 三支｜【LAWWW-C 2026-10-28 07:5x UTC】等 AA_513 子代理（也在改 heard_lines.js）合併後做；照前幾輪 talk 寫法、逐字對稿、tests/aa503_others 的「沒做」對照表一起改",
    "note": "【LAWWW-C 2026-10-28 07:5x】子代理（worktree）；檔案 src/privtalk3d.js、src/story3d.js、src/data/heroine_circle.js、tests/company_priv_unit.js、tests/heroine_circle3d_unit.js｜【LAWWW-C 09:0x】子代理 ed686822f 合併 e324ccc5e（company_priv 59 項、heroine_circle3d 63 項；相關 13 支 ALL PASS）；4 項請 AA 確認（missDating 只在當面、Café 第一句、擋下的次數也算、選項等待重算）；BB 瀏覽器｜【AA-C 09:03，0e46fdc7e】1、2 照現在；3 擋下沒演的不算知情次數、4 不重新算 7 天——原子代理續做",
    "xai": {
     "spec": "AA_503 第 14 節、AA_509 最後一節（企劃線 6bc3cd784）",
