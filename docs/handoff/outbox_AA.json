@@ -3903,6 +3903,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "C25 學姊第十五批（學校裡）；盤點 scratchpad/inv10（eed58ad5c）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "873b670c0",
+   "files": [
+    "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md"
+   ],
+   "state": "已交付",
+   "remaining": "予樂（下一批）",
+   "next": "LAWWW：AA_519 麵店阿姨（櫃台換阿姨中年底模、3D 說話照時期表、店名由來 AUNT_NAME、吃好一點／送小菜換句、ANNIVERSARY_23→ANNIV23、刪 JOB_NOODLE 那幾句、一百元清單改）、陳助教（年級、論文第五章、照學年閒聊、6/16 heard、6/20 私訊）、Café（櫃台老闆、說話表、打工台詞、拉花 2D、小婷點餐、小禾、heard_lines:25 接上）、黃筱涵（照學年、受試者 2D HXH_SUBJECT）、阿凱（週五資工系館前、說話表含 KAI_K5 回聲、宵夜三句、颱風兩年改、宜蘭、聊天池照年級）、第 6 節（立衡 3/31→4/7、方奕廷照學年、予樂重複介紹）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "X119 第二批；盤點 scratchpad/inv11（64e12da0e）"
   }
  ],
  "items": [
