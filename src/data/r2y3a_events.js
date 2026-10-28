@@ -507,7 +507,6 @@ const R2Y3A_EVENTS=(function(){
       {if:NGF_YT,speaker:'heroine_03',text:'我在這裡坐了一個小時。只是坐著。'},
       {if:GF_YT,speaker:'heroine_03',text:'她叫我今天不要去。……我第一個想到的是你。第二個想到的是，我不知道週四晚上要幹嘛。'},
       {if:GF_YT,speaker:'heroine_03',text:'所以我先來這裡坐。等你下課。'},
-      {if:{flags:['JOB_NOODLE']},speaker:'heroine_03',text:'……你週二來切蔥，週四來陪我發呆。很忙喔。'},
       {choice:[{text:'「那就坐著。我陪妳。」',set:{YT_EV13_SEEN:'sat'},goto:'y1'},{text:'「去溫州街走走？」',set:{YT_EV13_SEEN:'walk'},goto:'y2'},{text:'「妳要不要寫點什麼？」',set:{YT_EV13_SEEN:'write'},goto:'y3'}]},
       {label:'y1'},{speaker:null,text:'（兩個人坐到閉館。走出總圖時她說：）'},{advance:toH(22)},{speaker:'heroine_03',text:'好安靜。我平常這時候在切蔥。'},
         {if:GF_YT,speaker:'heroine_03',text:'下禮拜四也這樣。'},{goto:'end'},

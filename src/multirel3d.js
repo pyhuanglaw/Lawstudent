@@ -313,7 +313,7 @@ const MREL=(function(){
      src/hcircle3d.js HCIRCLE.labelIn＝她那幾列現在成立，同 3D 生不生阿姨那一套）。原本 19:00 以後＝在（AA_425 第 1 節「阿姨 19:00 才來」），3D 的阿姨卻 17:30～20:30 站在店裡：
      18:00～19:00 那一場她問「阿姨呢？」，阿姨就在旁邊。3D 的時間不改（圈子表照舊）。沒有 HCIRCLE（只載 multirel3d.js 的測試）＝不在。
      第 8 點（企劃線 f6069e42d）：大二下以後每學期也有阿姨那一列（c503_14_1～5）；最後那三句（阿姨，我等一下自己收…）照原本 19:00 以後出＝C.auntLate */
-  S.auntIn=G=>typeof HCIRCLE!=='undefined'&&!!HCIRCLE&&typeof HCIRCLE.labelIn==='function'&&!!HCIRCLE.labelIn(G,'hc_ayi','noodle');
+  S.auntIn=G=>typeof HCIRCLE!=='undefined'&&!!HCIRCLE&&((typeof HCIRCLE.labelIn==='function'&&!!HCIRCLE.labelIn(G,'hc_ayi','noodle'))||(typeof HCIRCLE.auntAway==='function'&&!HCIRCLE.auntAway(G)));   /* AA_519 第 8 節第 1 點（d75cd0228）：語彤顧店的時段阿姨一定在廚房（店開著＝在；過年店休、出國那一週＝不在，才有「阿姨呢？」「去買東西。」）*/
   S.zrShiftEnd=function(G){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[ZR]; if(!c||typeof STORY==='undefined'||!STORY.schedEnt) return null; const e=STORY.schedEnt(c,G); return e&&e.zone==='cafe'&&e.act==='barista'?(+e.to||22):null; };
   S.playDisc=async function(GM,x,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.pend[x]; if(!p) return false; const y=p.y, D=L().DISC[x]; if(!D){ delete R.pend[x]; return false; }
     delete R.pend[x]; const prev=S.prevKnown(G,x,y), broke=S.brokeFor(G,x,y);

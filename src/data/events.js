@@ -1347,7 +1347,7 @@ const STORY_EVENTS=[
   /* 16 週制（AA_198 第 2 節第 1 點、AA_204 第 1 節 @4048e3ec）：改到 12/24（三）18:30 麵店，照出遊（OUT：story3d.js 的 xmas_y1，開始後 15 分鐘還沒到＝沒去）；原本第 17 週週三中午霖澤館一樓 */
   { id:'ev_xmas_exchange', title:'聖誕交換禮物', participants:[], location:'any', trigger:'outing', once:true, keep:'fixed', background:'blur', hours:2,
     prereq:{custom:(G,GM)=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&XMAS_HERE(G).length>0},
-    dialogue:[ {scene:'阿鳳麵店'},{speaker:null,text:'（麵店最裡面那張桌子。老闆娘多拿了兩張椅子過來。）'},{if:{custom:G=>XMAS_HERE(G).includes('heroine_03')},speaker:null,text:'（語彤今天沒班，坐在客人這一邊。）'},{speaker:null,text:'（禮物先疊在桌子中間，吃完再抽。）'},
+    dialogue:[ {scene:'阿鳳麵店'},{speaker:null,text:'（麵店最裡面那張桌子。阿姨多拿了兩張椅子過來。）'},{if:{custom:G=>XMAS_HERE(G).includes('heroine_03')},speaker:null,text:'（語彤今天沒班，坐在客人這一邊。）'},{speaker:null,text:'（禮物先疊在桌子中間，吃完再抽。）'},
       {speaker:null,text:'你帶來的禮物是——'},
       {choice:[{text:'一本小筆記本',set:{XMAS_GIFT:'notebook'}},{text:'一包咖啡豆',set:{XMAS_GIFT:'coffee'}},{text:'一張手寫卡片',set:{XMAS_GIFT:'card'}}]},
       {pick:{flag:'XMAS_TO',from:G=>XMAS_HERE(G)}},
@@ -1451,7 +1451,7 @@ const STORY_EVENTS=[
     consequences:{flags:{NYE_DONE:'roof',NYE_Y1:'roof'},memo:'跨年：宿舍頂樓'} },
   { id:'ev_nye_dinner', title:'跨年', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
-      {speaker:null,text:'（十二月三十一日，晚上七點。麵店比平常擠，老闆娘把門口那張桌子也搬了進來。）'},
+      {speaker:null,text:'（十二月三十一日，晚上七點。麵店比平常擠，阿姨把門口那張桌子也搬了進來。）'},   /* AA_519 1-1：不再寫「老闆娘」（旁白第一次寫「阿姨（阿鳳）」：src/sup519_3d.js S.narName）*/
       {speaker:'zhe',text:'先點小菜。豆干、海帶、滷蛋，還有什麼？'},
       {speaker:'yu',text:'我要乾麵。……不對，今天好冷，我要湯的。'},
       {speaker:'classmate_bohan',text:'十點半出發，到市府站差不多十一點。'},
@@ -1695,7 +1695,7 @@ const STORY_EVENTS=[
   { id:'ev_revisit_y1_noodle', retired:'使用者 2026-10-17 取消重訪日（AA_249：改成學期末聚餐與寒暑假邀約，跟 HOLIDAY-SYS 一起做）：停用，舊存檔的 REVISIT_Y1 留著、不再讀', title:'重訪日', participants:['zhe'], location:'noodle', trigger:'auto', priority:8, term:['Y1S2'], time:[18,22], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1&&!G.flags.dating_kexin&&typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')},
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-      {speaker:null,text:'（期末最後一科考完。長桌已經併好了，阿姨多送了一盤小菜。）'},
+      {speaker:null,text:'（期末最後一科考完。長桌已經併好了。）'},{speaker:null,text:'（阿姨多放了一碟燙青菜，說是煮多了。）'},   /* AA_519 1-3：送小菜的旁白第二處＝第 1 句（拆成兩句：前面那半句照舊）*/
       {speaker:'zhe',text:'欸暑假誰在臺北？我七月一號就回高雄了。'},
       {speaker:'yu',text:'我七月要去營隊當隊輔，兩個禮拜。'},
       {speaker:'yu',text:'誰要來探班？'},
@@ -1870,7 +1870,7 @@ const STORY_EVENTS=[
   /* 大一下的期末最後一頓（交接包 v2 C19：AA_71 2-13，同一段原文；只一次）。大一上那一個 id 不改（舊存檔 events.done 相容）*/
   { id:'ev_term_last_meal_y1s2', title:'期末最後一頓', participants:[], location:'noodle', trigger:'enter', term:['Y1S2'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S2','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
-    dialogue:[ {speaker:null,text:'（大一最後一科考完。長桌又併起來了。）'},{speaker:null,text:'（阿姨這次多送了兩盤小菜。）'},{speaker:'阿姨',text:'一年了。吃好一點。'} ],   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字（大一上 ev_term_last_meal 照舊）*/
+    dialogue:[ {speaker:null,text:'（大一最後一科考完。長桌又併起來了。）'},{speaker:null,text:'（每個人的湯碗裡，都多了兩顆餛飩。）'},{speaker:'阿姨',text:'一年了。……今天的湯，算我的。'} ],   /* AA_519 1-3：送小菜第三處＝第 2 句；「吃好一點」只留大一上那一次 */   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字（大一上 ev_term_last_meal 照舊）*/
     consequences:{memo:'大一下期末最後一頓（阿鳳麵店）'} },
   /* 可昕 K2 她第一次來台大（BB_95 9-3）：第 6 週週五 20:00 她傳「這次換我去台大。我先去找品妤，你四點來社科院門口。」（AA_313 第 2 節第 8 列），週六 16:00 在社科院門口（story3d.js 的 phoneRules；出遊）。
      最小版本（BB_95 第 9 節）：依序換背景——社科院門口（她和品妤；品妤第一次出現＝重新介紹自己，之前遇過＝「你來了。」）→ 霖澤館前（假設題三選一）→ 椰林大道（旁白帶過去公館吃晚餐）。
@@ -3811,7 +3811,7 @@ const STORY_EVENTS=[
       {label:'end'},{set:{YT_NYE_CALL_Y2:true}} ] },
   { id:'ev_term_last_meal_y2s1', title:'期末最後一頓（大二上）', participants:[], location:'noodle', trigger:'enter', term:['Y2S1'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y2S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
-    dialogue:[ {speaker:null,text:'（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）'},{speaker:null,text:'（阿姨端出一盤小菜，放在正中間，沒說話。）'},{speaker:'阿姨',text:'吃好一點。'},   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字，後面三句照舊 */
+    dialogue:[ {speaker:null,text:'（大二上最後一科考完。長桌的位子，大家已經不用講就會坐。）'},{speaker:null,text:'（桌上多了一碟小黃瓜。沒有人點。）'},{if:{custom:G=>G.weather==='rain'||G.weather==='typhoon'},speaker:'阿姨',text:'吃完再走。外面在下雨。'},{unless:{custom:G=>G.weather==='rain'||G.weather==='typhoon'},speaker:'阿姨',text:'吃完再走。'},   /* AA_519 1-3：送小菜第四處＝第 3 句；「吃好一點」換掉（不下雨的那一版：「吃完再走。」）*/   /* AA_467 第 1 節（企劃線 5bbd16ab1）：前三句換字，後面三句照舊 */
       {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||!!G.flags.YU_ZHE_TOLD},speaker:null,text:'（Alison 和阿哲坐在一起。）'},
       {if:EV_KNOWS('heroine_01'),speaker:null,text:'（以安在手帳上寫：「大二上：完成」。）'},
       {if:EV_KNOWS('heroine_03'),speaker:'heroine_03',expression:'smile',text:'今天阿姨叫我坐下來吃。'} ],
@@ -4631,7 +4631,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:()=>fam('heroine_02')},speaker:'heroine_04',text:'（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'},
     {label:'r1_end'},
     {advance:G=>Math.max(0,21-(G.hour%24))},
-    {speaker:null,text:'（九點。阿姨把最後一盤小菜放在長桌中間，說是送的。）'},
+    {speaker:null,text:'（九點。）'},{speaker:null,text:'（阿姨把滷蛋切成兩半，一人一半。）'},   /* AA_519 1-3：送小菜第五處＝第 4 句（「九點。」照舊，拆成兩句）*/
     {speaker:'zhe',text:'下禮拜四，一樣。'},
     {set:{R1_SEEN:'table'}},{rel:{zhe:{fam:1}}},
     {if:{custom:()=>fam('heroine_01')},rel:{heroine_01:{fam:1}}},{if:{custom:()=>fam('yu')},rel:{yu:{fam:1}}},{if:{custom:()=>fam('heroine_03')},rel:{heroine_03:{fam:1}}},

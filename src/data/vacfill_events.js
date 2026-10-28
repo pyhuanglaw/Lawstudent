@@ -93,7 +93,7 @@ const VACFILL_LINES={
   y1s_0805:{ms:['我媽今天問你是誰。','我說是一起讀書的人。……她說好。']},
   y1s_0828:{narr:'（姊姊把你的房間當倉庫，堆了三箱書。）',sis:'台南的房子太小。先放你這裡。……你開學就不用了吧？'},
   /* 大二寒假：1/14（四）21:00 麵店團群組（1/16 麵店長桌）、1/22（五）姊姊 */
-  y2w_0114:{ms:[['zhe','寒假還有誰在臺北'],['heroine_03','我在。店裡'],['yu','我！！']],yes:'我也在。',narr:'（長桌只坐了一半。阿姨多送了一盤小菜：「人少，吃多一點。」）'},
+  y2w_0114:{ms:[['zhe','寒假還有誰在臺北'],['heroine_03','我在。店裡'],['yu','我！！']],yes:'我也在。',narr:'（長桌只坐了一半。）',narr2:'（阿姨沒說話，在你碗裡多放了一匙肉燥。）'},   /* AA_519 1-3：送小菜第七處＝第 6 句（「阿姨沒說話」：原本那一句「人少，吃多一點。」拿掉；「長桌只坐了一半。」照舊，拆成兩句）*/
   y2w_0122:{ms:['我 2/3 回去','媽說你又在睡'],no:'沒有。',noSay:'她說你會這樣講'},
   /* 大二暑假：7/8（四）家人群組（照片的字在 VACFILL_UI）*/
   y2s_0708:{ms:[['dad','颱風。'],['mom','你那邊有颱風？'],['dad','這邊叫颱風。']]},
@@ -257,7 +257,7 @@ const VACFILL_EVENTS=(function(){
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},
       dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y1s_0828.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y1s_0828.sis} ] , after:noMemo('ev_vf_y1s_0828') },
     { id:'ev_vf_y2w_0116', title:'阿鳳麵店', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr} ] },
+      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},{speaker:null,text:X.y2w_0114.narr2} ] },
     { id:'ev_vf_y3w_0108', title:'參創', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
       dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr} ] }
   ];

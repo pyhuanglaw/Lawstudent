@@ -3389,11 +3389,11 @@
   },
   {
    "path": "docs/story_planning/AA_519_配角第二批_麵店阿姨_陳助教_Café_黃筱涵_阿凱.md",
-   "sha": "873b670c0",
+   "sha": "d75cd0228",
    "status": "approved",
    "approvedBy": "AA-C 定稿（D109；USER_WANTS X119）",
    "task": "NPC-STORY2-1028",
-   "note": "子代理實作中（WIP）：配角第二批——第 1 節麵店阿姨（阿鳳）、第 2 節陳助教、第 3 節兩點半 Café、第 4 節黃筱涵、第 5 節阿凱大二以後、第 6 節順手修、第 7 節新旗標；tests/aa519_support2_unit.js 照 873b670c0 雙向逐字對稿"
+   "note": "子代理實作中（WIP）：配角第二批——第 1 節麵店阿姨（阿鳳）、第 2 節陳助教、第 3 節兩點半 Café、第 4 節黃筱涵、第 5 節阿凱大二以後、第 6 節順手修、第 7 節新旗標、第 8 節麵店四件（d75cd0228）；tests/aa519_support2_unit.js 照 d75cd0228 雙向逐字對稿"
   }
  ]
 }
