@@ -17,8 +17,8 @@
 //   8  第 1～12 項：1 芷若×子晴自己說（旁邊只有對方本人照演）、2 分開以後（子晴「嗨。」、吧檯的芷若）、3 學姊美國交換（11/9）、4 沛珊和柏翰分開（第 6 週週五）、5 明軒的事（9/5）、
 //      6 語彤租約的選項不擋、7 交往中那一版改說一般版（階梯 extraIf／linesIf、招呼、回覆、沒回那一句；沒有一般版照演；不記等待）、8 子晴爸爸的階梯不擋、9 Q7 兩場開頭的旁白、
 //      10 前任那兩句擋（其他招呼不擋）、11 到場就演的不改、12 例外只限三組（假的圈子＋真的圈子：麵店的阿姨）
-//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 28、PASS 30
-//   （FAIL＝第 0 段改寫的 3 項〔呼叫的地方、定案紀錄、對稿：舊白名單 d13ab3ab7 沒有第 14 節〕、第 7 段 13 項、第 8 段 12 項；PASS＝第 0～6 段原本的 28 項、第 8 段「不擋」的第 6、8 項）。修改後 ALL PASS（58 項）。
+//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 29、PASS 30
+//   （FAIL＝第 0 段改寫的 3 項〔呼叫的地方、定案紀錄、對稿：舊白名單 d13ab3ab7 沒有第 14 節〕、第 7 段 14 項、第 8 段 12 項；PASS＝第 0～6 段原本的 28 項、第 8 段「不擋」的第 6、8 項）。修改後 ALL PASS（59 項）。
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');
@@ -296,6 +296,14 @@ await sec('7. (k) 分開以後子晴第一次「嗨。」（沒有期限）',asy
 /* (l) 舊存檔：沒有 PRIVWAIT、PRIVWAIT 壞掉 */
 await sec('7. (l) 舊存檔：沒有 PRIVWAIT、PRIVWAI',async()=>{ fresh(TD('Y1S1',6,1),15,'campus'); const before=H.G.flags.PRIVWAIT; crowd('heroine_03',true); const a=PRIVTALK.ok(H.G,'heroine_03','yt_mom_ask'), w=W('yt_mom_ask','heroine_03'); H.G.flags.PRIVWAIT='壞掉'; const b=PRIVTALK.ok(H.G,'heroine_03','yt_mom_ask');
     check('7. 舊存檔沒有 G.flags.PRIVWAIT：第一次擋下來才建；壞掉的（不是物件）重新建',before===undefined&&a===false&&w===H.G.day&&b===false&&typeof H.G.flags.PRIVWAIT==='object'&&H.G.flags.PRIVWAIT['yt_mom_ask|heroine_03']===H.G.day,J({before,a,w,b,pw:H.G.flags.PRIVWAIT})); });
+/* (m) 期限表：有期限的每一筆到期那天；沒有期限的＝null（照 7 天）*/
+await sec('7. (m) 期限表',async()=>{ const B=PRIVTALK.byKey, due=(k,d)=>{ fresh(d,15,'campus'); return PRIVTALK.dueOf(H.G,B[k],[].concat(B[k].who)[0]); };
+  const wk1=TD('Y2S1',1,3), bt=due('ps_bterm',wk1), T=d=>CALENDAR.termOf(d)||{};
+  const want={zq_dad_q8:TD('Y2S2',14,5),zq_dad_q8b:DK('2027-10-08'),ps_retake_ev:TD('Y2S1',5,5),zr_exch_ev:TD('Y1S2',15,6),zr_exch_applied:DK('2026-12-27'),ps_split:TD('Y2S1',6,5),sis_us_told:DK('2027-11-09'),an_mx:DK('2027-09-05')};
+  const bad=Object.keys(want).filter(k=>due(k,DK('2026-10-01'))!==want[k]).map(k=>k+':'+due(k,DK('2026-10-01')));
+  const none=['invite','opt_priv','tell_now','tell_later','knows_talk','knows_cafe','knows_echo','zq_dad_pre','ps_retake_lad','zr_exch_ask','zr_exch_lad','yt_mom_lad','yt_mom_ask','zz_told_zr','zz_told_zq','zz_after','ex_an_other','ex_yt_an'].filter(k=>due(k,DK('2026-10-01'))!==null);
+  check('7. 期限表：Q8＝大二下第 14 週週五、Q8b＝10/8、P3＝大二上第 5 週週五、Z4＝大一下第 15 週週六、Z7＝12/27、沛珊和柏翰＝第 6 週週五、學姊美國交換＝11/9、明軒＝9/5、沛珊「對一次」＝那學期第一週最後一天；其他沒有期限（照 7 天）',
+    !bad.length&&!none.length&&bt!=null&&T(bt).id==='Y2S1'&&T(bt).week===1&&(T(bt+1).week|0)!==1,J({bad,none,bt:bt!=null&&CALENDAR.dateOf(bt).key})); });
 
 /* ---------- 8 第 1～12 項 ---------- */
 /* 第 1 項 芷若×子晴自己說 */
