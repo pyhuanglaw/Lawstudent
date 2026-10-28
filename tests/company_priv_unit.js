@@ -27,6 +27,9 @@
 //      語彤被打擾（dist／distant：第一次、第二次旁邊有人都不算）、只有次數的那一次等了 7 天（STORY.talkCharacter：第一句旁白、照常說話、算一次）、類似的（可昕收回以後的 w）
 //   修改前（開發分支 6d1863024＝上一輪合併以後：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 8、PASS 57
 //   （FAIL＝3 的學姊一般見面、7 (e) 不重算、9 的 6 項〔對稿：舊白名單 6bc3cd784 沒有後補〕；PASS＝其他原本的 57 項）。修改後 ALL PASS（65 項）。
+// 第 14 節後補第 5 點（AA 09:34 回 LAWWW-C 09:33，企劃線 19b4307eb）：語彤在麵店，阿姨不算「旁邊有人」——清單 knows_talk 的 except 依人物 {heroine_03:['hc_ayi']}（S.exceptOf）：
+//   9  第 5 點：麵店的發現（kind noodle）旁邊只有阿姨＝照演、不記等待；阿姨＋別的同伴＝擋（記等待、發現留著）；打擾（kind talk）只有阿姨＝算第一次，阿姨＋別人＝不算；對稿多三句、LATER 5 項
+//   修改前（只拿掉 src/privtalk3d.js 的改動，白名單、測試用新的，2026-10-28 09:4x）：FAILED 2（9 對稿 LATER 5 項、9 第 5 點）；修改後 ALL PASS（66 項）
 //   全部 Node 單元測試（15fca7b48＝合併開發分支 8a62128a5 以後，2026-10-28）：721 支、失敗 1——room_ceiling_unit（linze_interior.glb 的 ceiling、light_panel 有 12／70 個三角形不是單面朝下：
 //   開發分支 ac2ab0ae9 霖澤館大廳第二版的 GLB，這一輪沒有動；只讀 GLB，不載 src）。
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
@@ -417,7 +420,8 @@ await sec('8. 第 12 項 真的圈子：麵店的阿姨（HCIRCLE.w',async()=>{ 
 await sec('9. 對稿：第 14 節後補',async()=>{ const L=(HAS()&&PRIVTALK.LATER)||[];
   check('9. 對稿（白名單上 AA_503 那一版有第 14 節後補）：第 3 項「擋下來沒演的不算」「只有真的演出來的才算一次」、第 4 項「不重新算」「7 天從這一項第一次被擋那天起算，到第 8 天照演」；PRIVTALK.LATER 4 項、REF2＝0e46fdc7e',
     /### 14-後補/.test(DOC503)&&DOC503.includes('**擋下來沒演的不算**')&&DOC503.includes('只有真的演出來的才算一次')&&DOC503.includes('**不重新算**')&&DOC503.includes('7 天從這一項第一次被擋那天起算，到第 8 天照演')
-    &&L.length===4&&L.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/0e46fdc7e/.test(PRIVTALK.REF2||''),J({sha:SHA503,n:L.length})); });
+    &&DOC503.includes('語彤在麵店，阿姨不算「旁邊有人」')&&DOC503.includes('只有阿姨在的時候照演，不加旁白。')&&DOC503.includes('旁邊還有別的圈子同伴的，照規則擋。')
+    &&L.length===5&&L.every((x,i)=>x.n===i+1&&x.desc&&x.decided&&x.impl)&&/0e46fdc7e/.test(PRIVTALK.REF2||'')&&/19b4307eb/.test(PRIVTALK.REF2||''),J({sha:SHA503,n:L.length})); });
 /* 學姊：知情對話以後（phase talked），一般見面的次數 meets（兩次以後，下一次見面演結果）*/
 const sisTalked=(d,meets)=>{ fresh(d,16,'lawlib'); E.zone={roomAt:()=>null,seats:[]}; for(const id of ['heroine_05','heroine_01']){ H.CLOSE(id); SOCIAL.meet(id,'lawlib'); H.date(id); }
   return (MREL.rec(H.G).st.heroine_05={y:'heroine_01',n:1,day:H.G.day-20,phase:'talked',meets:meets|0,intent:'unsure',talkDay:H.G.day-10}); };
@@ -441,6 +445,15 @@ await sec('9. 第 3 項 語彤被打擾（dist）',async()=>{ const st=ytWaiting
   check('9. 第 3 項（語彤被打擾）：旁邊有人＝擋下來，不算打擾（dist、distant 不動）、記等待；她一個人＝算第一次（疏遠）、清掉；第二次旁邊有人＝還是不算（不會變 2、不演結果 D）；她一個人＝第二次，演結果 D',
     a1===null&&J(t1)===J([0,false])&&w1===d0&&a2===null&&J(t2)===J([1,true])&&w2===null&&a3===null&&J(t3)===J([1,true])&&w3===d0+2&&!!a4&&a4.abort===true&&t4===2,J({a1,t1,w1,a2,t2,w2,a3,t3,w3,a4:!!a4,t4})); });
 /* 只有次數的那一次，等了 7 天：照算，第一句旁白，接著照常說話（STORY.talkCharacter 整段）*/
+/* 第 5 點（AA 19b4307eb）：語彤在麵店，阿姨不算旁邊有人——麵店的發現（kind noodle：她在麵店顧店、玩家走進去）、打擾（kind talk）；旁邊還有別的同伴照擋 */
+await sec('9. 第 5 點 語彤在麵店：阿姨不算旁邊有人',async()=>{ let d=null; for(let w=2;w<=15&&d==null;w++){ const x=TD('Y1S1',w,2); fresh(x,18,'noodle'); if(MREL.ytShift&&MREL.ytShift(H.G)) d=x; }
+  const setDisc=()=>{ fresh(d,18,'noodle'); E.zone={roomAt:()=>null,seats:[]}; for(const id of ['heroine_03','heroine_01']){ H.CLOSE(id); SOCIAL.meet(id,'noodle'); H.date(id); } MREL.rec(H.G).pend.heroine_03={y:'heroine_01',day:H.G.day-1,h:0}; };
+  setDisc(); crowd('heroine_03',['hc_ayi']); const a1=MREL.meetAction(H.G,'heroine_03','noodle'), w1=W('knows_talk','heroine_03');
+  setDisc(); crowd('heroine_03',['hc_ayi','npc_huangxh']); const a2=MREL.meetAction(H.G,'heroine_03','noodle'), w2=W('knows_talk','heroine_03'), p2=!!MREL.rec(H.G).pend.heroine_03;
+  const st=ytWaiting('2027-10-12'), P=()=>[st.dist|0,!!st.distant]; crowd('heroine_03',['hc_ayi']); const a3=MREL.meetAction(H.G,'heroine_03','talk'), t3=P(), w3=W('knows_talk','heroine_03');
+  const sj=ytWaiting('2027-10-12'), Q=()=>[sj.dist|0,!!sj.distant]; crowd('heroine_03',['hc_ayi','npc_huangxh']); const a4=MREL.meetAction(H.G,'heroine_03','talk'), t4=Q(), w4=W('knows_talk','heroine_03');
+  check('9. 第 5 點（語彤在麵店）：麵店的發現，旁邊只有阿姨＝照演（不擋、不記等待）；阿姨＋別的同伴＝擋（記等待、發現留著）；打擾也一樣：只有阿姨＝算第一次，阿姨＋別人＝不算',
+    d!=null&&!!a1&&w1==null&&a2===null&&w2!=null&&p2&&a3===null&&J(t3)===J([1,true])&&w3==null&&a4===null&&J(t4)===J([0,false])&&w4!=null,J({d,a1:!!a1,w1,a2,w2,p2,a3,t3,w3,a4,t4,w4})); });
 await sec('9. 第 3 項 只有次數的那一次，等了 7 天',async()=>{ const st=sisTalked('2027-10-12',0), d0=H.G.day, n=npc('heroine_05'); crowd('heroine_05',['npc_ta_chen']);
   H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m1=st.meets, w1=W('knows_talk','heroine_05'), nn1=noNarr();
   day(d0+7); H.said=[]; H.picks=['就這樣']; await STORY.talkCharacter('heroine_05',n); const m8=st.meets, nf=narrFirst(), w8=W('knows_talk','heroine_05'), s8=said();

@@ -64,8 +64,8 @@ const PRIVTALK=(function(){
     {key:'tell_later',cat:'坦白有別人',who:['heroine_05','heroine_04','heroine_02','heroine_03','kexin'],kind:'opt',gate:'priv',desc:'src/multirel3d.js STORY.TALK_OPTS（S.confLaterFor：「（下次見面，自己跟她講…的事）」；交往中才有；privKey tell_later）',
       note:'選項不出；沒有期限'},
     /* ---- 她知情以後那幾場 ---- */
-    {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
-      note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）'},
+    {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',except:{heroine_03:KNOW.ytMom},desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
+      note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）；語彤旁邊只有阿姨（hc_ayi）＝照演、不加旁白（後補第 5 點）'},
     {key:'knows_cafe',cat:'她知情以後',who:'heroine_02',kind:'pre',gate:'wrap',desc:'src/multirel3d.js：吧檯的芷若（MREL.FLOW.heroine_02.meet kind cafe）',
       note:'這一次不演（照常點餐）；冷靜期一天一次，下一次她一個人時演；等了 7 天照演'},
     {key:'knows_echo',cat:'她知情以後',who:['heroine_01','heroine_05'],kind:'pre',gate:'wrap',desc:'src/story3d.js S.twoHeartsEcho（1A-02 攤牌以後第一次說話那一句；只在 S.twoHeartsEchoDue 的時候問）',
@@ -158,14 +158,15 @@ const PRIVTALK=(function(){
     {n:11,desc:'到場就演的知情場景（MREL.dueAuto）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',decided:'不改。地點本來就排在有阿姨、同事的地方。',impl:'不改'},
     {n:12,desc:'旁邊的人本來就知道的（語彤和阿姨談媽媽、芷若和子晴談交換申請）',decided:'例外，照出。只限這幾組：語彤和阿姨（媽媽的事）、芷若和子晴（交換申請）、第 1 項的對方本人。',
       impl:'清單的 except：yt_mom_lad、yt_mom_ask＝阿姨（hc_ayi）；zr_exch_ev、zr_exch_applied、zr_exch_ask、zr_exch_lad＝子晴；zz_told_*、zz_f3_told＝對方本人（STORY.COMPANY 回傳旁邊那幾個人的 id：HCIRCLE.withNow）'}];
-  /* 第 14 節後補（AA 2026-10-28 09:03 回 LAWWW-C 問的 4 點，企劃線 0e46fdc7e）：1、2 照現在；3、4 改 */
-  S.REF2='AA_503 第 14 節後補（企劃線 claude/magical-albattani-bk7b4n 0e46fdc7e，AA-C 2026-10-28）';
+  /* 第 14 節後補（AA 2026-10-28 09:03 回 LAWWW-C 問的 4 點，企劃線 0e46fdc7e）：1、2 照現在；3、4 改；第 5 點（09:33 問，19b4307eb）：語彤在麵店，阿姨不算旁邊有人 */
+  S.REF2='AA_503 第 14 節後補（企劃線 claude/magical-albattani-bk7b4n 0e46fdc7e；第 5 點 19b4307eb，AA-C 2026-10-28）';
   S.LATER=[
     {n:1,desc:'第 7 項：交往中版本的「沒回訊息那一句」（missDating）只在當面說',decided:'旁邊有人時改說一般版，照 LAWWW 現在的做法；「手機不受影響」那半句可以忽略。',impl:'不改（STORY.DATING_QUIET）'},
     {n:2,desc:'第 2 項：芷若在 Café 櫃台的第一句「你要點什麼？」',decided:'一起擋，照 LAWWW；旁邊有人，這次照常點餐，不演。',impl:'不改（清單 zz_after，sub first）'},
     {n:3,desc:'知情場景的次數（學姊一般見面、語彤被打擾）',decided:'擋下來沒演的不算。只有真的演出來的才算一次。',
       impl:'清單 knows_talk、knows_cafe：擋下來＝MREL 算的時候動到的她那一段流程（MREL.st）、學姊一般見面的紀錄（MREL.sm）還原（S.mrelSnap／S.mrelBack）；只有次數的那一次也算知情的見面（旁邊有人＝擋、記等待，等了 7 天照算＋開頭旁白）；只動到學姊一般見面那一筆＝旁邊有人不記'},
-    {n:4,desc:'選項出現了玩家沒選，下次又被擋',decided:'不重新算。7 天從這一項第一次被擋那天起算，到第 8 天照演。',impl:'S.ok 放行時不清等待（選項出來了不算演）；只有 S.lead（選了那一個、那一段開始演）才清'}];
+    {n:4,desc:'選項出現了玩家沒選，下次又被擋',decided:'不重新算。7 天從這一項第一次被擋那天起算，到第 8 天照演。',impl:'S.ok 放行時不清等待（選項出來了不算演）；只有 S.lead（選了那一個、那一段開始演）才清'},
+    {n:5,desc:'語彤在麵店：阿姨永遠在旁邊，她的知情場景只會在麵店演（照第 3、4 項＝一定等滿 7 天）',decided:'阿姨不算「旁邊有人」：阿姨本來就知道語彤的事，那幾場本來就排在麵店。只有阿姨在＝照演、不加旁白；旁邊還有別的圈子同伴＝照規則擋。',impl:'清單 knows_talk 的 except 依人物：{heroine_03:[\'hc_ayi\']}（S.exceptOf）'}];
   /* 第 9 項：不擋，對話最前面加一句旁白（載入時接上，不管旁邊有沒有人）*/
   S.SCENE_LEAD=[{ev:'ev_ziqing_lab_letter',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'},{ev:'ev_ziqing_dad_sorry',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'}];
 
@@ -180,7 +181,8 @@ const PRIVTALK=(function(){
   /* 那一段算不算私密（清單上的 from／until）*/
   S.privAt=function(G,e){ if(!e) return true; if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
   /* 旁邊有她的人（except 的人不算）*/
-  S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=(e&&e.except)||null; if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };
+  S.exceptOf=(e,id)=>!e||!e.except?null:Array.isArray(e.except)?e.except:(e.except[id]||null);   /* except：陣列＝這一筆都不算；物件＝依人物（{她的 id:[不算的人]}，後補第 5 點）*/
+  S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=S.exceptOf(e,id); if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };
   /* 期限（第幾天；沒有＝null）*/
   S.evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(q=>q&&q.id===id)||null:null;
   S._evDue={};
