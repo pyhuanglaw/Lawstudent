@@ -48,6 +48,17 @@
 //   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/privtalk3d.js、src/hcircle3d.js、src/multirel3d.js、src/data/multirel_lines.js 換回開發分支 1db6e495c，
 //   對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 8、PASS 65（FAIL＝8 第 12 項真的圈子〔「約她去…」被阿姨擋〕、9 對稿〔LATER 5 項〕、10 的 6 項〔對稿、(A) 強制、(A) 第 7 項、(A) 真的圈子、
 //   (B) auntIn〔沒有 HCIRCLE.labelIn〕、(B) 3D 的阿姨在那一場〔舊的 19:00 規則 18:12 問「阿姨呢？」＝BB 測出的〕〕；PASS＝原本的 64 項、10 (B) 阿姨不在那一場）。修改後 ALL PASS（73 項）
+// 第 14 節後補第 8、9 點（PRIV-AUNT-1028 第二輪：AA 回 LAWWW-C 12:02、12:07，企劃線 38a74680d、f6069e42d）：
+//   第 8 點第 1 項 交往中那一版照說（上一輪 S.PLACE_EXCEPT 已經這樣）；第 2 項 廚房那位就是阿姨（src/hcircle3d.js S.kitchen：語彤顧店、阿姨不在＝店員也不出現；
+//   阿姨不在的時候阿姨的話不說：src/eat3d.js EAT.staffAway〔老樣子那一句〕、src/story3d.js noodleScene〔阿姨請的那一碗等阿姨在〕）；第 3 項 大二下以後每學期阿姨那一列（c503_14_1～5）、
+//   最後那三句照原本 19:00 以後出（src/multirel3d.js C.auntLate）；第 9 點：只在語彤人在麵店的時候套用、五個學期走近時聽到的句子。
+//   9  對稿：PRIVTALK.LATER 9 項；10 對稿：最後那三句看 auntIn 或 auntLate；10 (B) 18:12 阿姨在＝沒有「阿姨呢？」也還沒有最後那三句，19:30 那一場才有
+//   11 對稿（第 8、9 點的字、第 9 點的表＝c503_14_1～5 逐字、LATER 第 8、9 項、REF2、auntLate）；① 交往中那一版（真的圈子：大四下 c503_14_5 擲到那一天 18:30）；
+//      ② 廚房（沒擲到 18:12 店員和阿姨都不在＋「阿姨呢？」、擲到＝只有阿姨、17:00／20:36／語彤不在／走開＝店員在；點餐老樣子那一句、阿姨請的那一碗）；
+//      ③ 每學期擲到那一天 18:30 labelIn、那一場沒有「阿姨呢？」也還沒有那三句，19:30 有；沒擲到＝「阿姨呢？」；2029-09 以後、畢業那年夏天沒有
+//   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/hcircle3d.js、src/data/heroine_circle.js、src/eat3d.js、src/story3d.js、src/multirel3d.js、
+//   src/data/multirel_lines.js、src/privtalk3d.js 換回開發分支 0c10b1b43，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 6、PASS 72
+//   （FAIL＝9 對稿〔LATER 7 項〕、10 (B) 18:12 那一場〔舊的有最後那三句〕、11 對稿、11 ①〔沒有 c503_14_5〕、11 ②〔沒有 HCIRCLE.auntOut〕、11 ③；PASS＝原本的 71 項、11 ③ 2029-09 以後沒有）。修改後 ALL PASS（78 項）
 // 用法：node tests/company_priv_unit.js（對稿要 git 拿得到白名單上 AA_503 那一版；在別的資料夾跑舊版：PRIV_GIT_DIR=<有這個 commit 的 repo>）
 'use strict';
 const H=require('./pg_harness.js');

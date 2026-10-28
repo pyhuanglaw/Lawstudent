@@ -27,6 +27,14 @@
 //   7 的學姊那一項改成 12/29、1/5 不成立；6 的 story3d.js 掛勾改成 offerInvite 問 S.privOk、COMPANY 回傳 id（S.companyOf）
 //   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 5、PASS 58
 //   （FAIL＝6 的 story3d.js 掛勾、7 的學姊 12/29、8 的第 2、4、5 點；PASS＝8 的對稿、第 3 點照現在，其他原本的）。修改後 ALL PASS（63 項）。
+// 第四輪（PRIV-AUNT-1028 第二輪：AA_503 第 14 節後補第 8、9 點，企劃線 f6069e42d——白名單上 AA_503 那一版）：
+//   0  對稿多讀第 14 節後補第 9 點的表（| 學期 | 走近時聽到 |，五列：sec '14-後補9'）＝一共 107 列，雙向照舊
+//   9  大二下以後每學期阿姨那一列（c503_14_1～5）：句子逐字、做法同 c503_6_2；每一學期週二 18:30（大二下、大三上週四也是）擲到＝成立、沒擲到＝不成立（她照樣顧店）、大三下起週四不成立；
+//      大三上第 15 週週四（12/16 以後）不成立；寒暑假、畢業那年夏天、大五上下、大四下 4/24（阿姨第一次出國，dates 跳過 4/19～4/25）沒有；
+//      廚房那位就是阿姨（3D）：語彤顧店、阿姨沒擲到＝店員也不在（auntOut）；擲到＝阿姨換掉店員；語彤不在、走開、約來吃的客人、17:00、20:36＝店員在；待在店裡時間跨過、語彤進出跟著變；店員先藏、阿姨後到＝交給阿姨
+//   修改前（只拿掉這一次 src 的改動：git archive 這一版的 src、tests、index.html、白名單，把 src/hcircle3d.js、src/data/heroine_circle.js、src/eat3d.js、src/story3d.js、src/multirel3d.js、
+//   src/data/multirel_lines.js、src/privtalk3d.js 換回開發分支 0c10b1b43，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28 實際跑）：FAILED 5、PASS 61
+//   （FAIL＝0 稿→遊戲、ref〔後補第 9 點五列沒有〕、9 對稿、9 每一學期、9 例外〔沒有 c503_14_1〕；PASS＝原本的 61 項）。修改後 ALL PASS（69 項）
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
