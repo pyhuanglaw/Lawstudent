@@ -109,12 +109,14 @@ for o in objs:   # 自訂屬性 lm：這個物件的島整個縮放（之後一�
 # 現在這些面不參加排版（排版前取消選取），排完以後都放到同一個物件最大那一面的中心（取那一點的光；面積是 0，烘焙不會寫）。整個物件都看不到的照舊參加排版。
 def hidden_faces(o):
     d = o.get('dir'); dv = Vector((d[0], -d[2], d[1])) if d is not None and len(d) == 3 else None   # 遊戲座標 → Blender
-    h = o.get('lmhide'); hs_side = isinstance(h, str) and h == 'side'   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）；
+    h = o.get('lmhide'); hs_side = isinstance(h, str) and 'side' in h.split(',')   # 自訂屬性 lmhide：朝這個方向（遊戲座標）的面看不到（例：樓板上面被地板蓋住 [0,1,0]；霖澤館大廳 10-28）；
     hv = Vector((h[0], -h[2], h[1])) if h is not None and not isinstance(h, str) and len(h) == 3 else None   # 'side'＝所有側面（地板方塊的四邊：埋在牆裡或在玻璃外面，烘出來是天空的顏色）
+    # 字串也可以寫好幾個方向，用逗號分開：side、up、down、N（遊戲 −z）、S、E、W（例：男一舍走廊的牆 'N,up'＝背面是沒做模型的寢室、牆頂在天花板上面；DORM-HALL-LM-1028）
+    hvs = [Vector(v) for t, v in (('up', (0, 0, 1)), ('down', (0, 0, -1)), ('N', (0, 1, 0)), ('S', (0, -1, 0)), ('E', (1, 0, 0)), ('W', (-1, 0, 0))) if isinstance(h, str) and t in h.split(',')]
     nm = o.name.lower(); mw = o.matrix_world.to_3x3(); hs = set()
     for f in o.data.polygons:
         nrm = (mw @ f.normal).normalized()
-        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5) or (hv is not None and nrm.dot(hv) > 0.5) or (hs_side and abs(nrm.z) < 0.5): hs.add(f.index)
+        if (dv is not None and nrm.dot(dv) < -0.3 and not ('ceil' in nm and nrm.z < -0.5)) or (('floor' in nm or 'plat' in nm) and nrm.z < -0.5) or ('ceil' in nm and nrm.z > 0.5) or (hv is not None and nrm.dot(hv) > 0.5) or (hs_side and abs(nrm.z) < 0.5) or any(nrm.dot(v) > 0.5 for v in hvs): hs.add(f.index)
     return hs if len(hs) < len(o.data.polygons) else set()
 HID = {o.name: hidden_faces(o) for o in objs}
 print('hidden faces', sum(len(v) for v in HID.values()), flush=True)

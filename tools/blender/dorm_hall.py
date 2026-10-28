@@ -227,7 +227,7 @@ L0 = group('L0_root', root); L1 = group('L1_root', root)
 # ---------------- 有開口的牆：沿 x（z 固定）或沿 z（x 固定），開口＝[(a,b,ya,yb)]；外牆叫 WALL_（淡出），走廊的牆不叫 ----------------
 _wk = [0]
 def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th=None, lmh=None):
-    """lmh：牆背面的朝向（遊戲座標）——後面是沒做模型的寢室、舍監室，看不到，光照貼圖不分像素（DORM-HALL-LM-1028）"""
+    """lmh：看不到的面（bake_room.py 的 lmhide；例 'N,up'＝牆背面朝北：後面是沒做模型的寢室；牆頂在天花板上面）——光照貼圖不分像素（DORM-HALL-LM-1028）"""
     th = th or T; holes = sorted(holes); cur = a0
     def piece(pa, pb, ya, yb):
         if pb - pa < 0.01 or yb - ya < 0.01: return
@@ -281,8 +281,9 @@ def window(prefix, parent, axis, at, a, b, ya, yb, inward):
         quad(f'{prefix}_glass', MAT['glass'], [(a, ya, at), (b, ya, at), (b, yb, at), (a, yb, at)], parent, tile=1.0)
 
 # ================================================================ 1. 地板、天花板、日光燈
-box('L0_floor', MAT['floor'], CO['x0'], CO['x1'], -0.1, 0.0, CO['z0'], LB['z1'], L0, props={'lm': 1.3, 'lmhide': 'side'})   # lm、lmhide：光照貼圖分給這一面的比例、看不到的面（DORM-HALL-LM-1028；地板的底面照名字自動不分）
-box('L1_floor', MAT['floor'], CO['x0'], CO['x1'], Y1 - ST, Y1, CO['z0'], CO['z1'], L1, props={'lm': 1.3, 'lmhide': 'side'})
+box('L0_floor', MAT['floor'], CO['x0'], CO['x1'], -0.1, 0.0, CO['z0'], CO['z1'], L0, props={'lm': 1.3, 'lmhide': 'side,down'})   # 走廊。lm、lmhide：光照貼圖分給這一面的比例、看不到的面（DORM-HALL-LM-1028；地板的底面照名字自動不分）
+box('L0_floor_s', MAT['floor'], LB['x0'] - 2.0, CO['x1'], -0.1, 0.0, CO['z1'], LB['z1'], L0, props={'lm': 1.3, 'lmhide': 'side,down'})   # 門廳、交誼廳＋舍監室窗口後面 2 m（從窗口看得到）；原本整片到西牆（舍監室、洗衣間沒做模型，看不到），佔了光照貼圖地板那一塊的四分之一
+box('L1_floor', MAT['floor'], CO['x0'], CO['x1'], Y1 - ST, Y1, CO['z0'], CO['z1'], L1, props={'lm': 1.3, 'lmhide': 'side,down'})
 box('L1_slab_south', MAT['plaster'], CO['x0'], CO['x1'], Y1 - ST, Y1 - 0.02, CO['z1'], LB['z1'], L1, props={'lm': 0.05})   # 一樓門廳、交誼廳上方的樓板（二樓的寢室，看不到上面；底面在一樓天花板上面，也看不到：光照貼圖幾乎不分）
 HC = H0 - 0.01   # 一樓天花板比樓板底面低 1 cm：原本和二樓樓板（L1_floor、L1_slab_south）的底面同高，從一樓往上看會閃（BUG-COPLANAR-DEV，tools/glb_coplanar.py）
 quad('L0_ceiling', MAT['ceiling'], [(CO['x0'], HC, CO['z0']), (CO['x1'], HC, CO['z0']), (CO['x1'], HC, LB['z1']), (CO['x0'], HC, LB['z1'])], L0, props={'lm': 0.35})   # 鏡頭在天花板下面往下看，很少看到：光照貼圖少分
@@ -301,24 +302,24 @@ tube('L1_tw', L1, 0.0, RY, (WL['z0'] + WL['z1']) / 2, 'z')
 
 # ================================================================ 2. 牆（走廊兩側＝內牆；兩端、門廳正面、樓梯間北牆＝外牆，淡出）
 # 一樓
-dado_wall('L0_N_w', L0, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], 0, H0, door_holes(0, 'N', 0), lmh=[0, 0, -1])
-dado_wall('L0_N_e', L0, 'x', CO['z0'] - T / 2, MW['x0'], CO['x1'], 0, H0, door_holes(0, 'N', 0), lmh=[0, 0, -1])
-dado_wall('L0_S_w', L0, 'x', CO['z1'] + T / 2, CO['x0'], LB['x0'], 0, H0, door_holes(0, 'S', 0), lmh=[0, 0, 1])
-dado_wall('L0_lobbyW', L0, 'z', LB['x0'] - T / 2, CO['z1'], LB['z1'], 0, H0, [(2.4, 4.0, 1.05, 2.05)], lmh=[-1, 0, 0])          # 門廳西牆（舍監室窗口）
+dado_wall('L0_N_w', L0, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], 0, H0, door_holes(0, 'N', 0), lmh='N,up')
+dado_wall('L0_N_e', L0, 'x', CO['z0'] - T / 2, MW['x0'], CO['x1'], 0, H0, door_holes(0, 'N', 0), lmh='N,up')
+dado_wall('L0_S_w', L0, 'x', CO['z1'] + T / 2, CO['x0'], LB['x0'], 0, H0, door_holes(0, 'S', 0), lmh='S,up')
+dado_wall('L0_lobbyW', L0, 'z', LB['x0'] - T / 2, CO['z1'], LB['z1'], 0, H0, [(2.4, 4.0, 1.05, 2.05)], lmh='W,up')          # 門廳西牆（舍監室窗口）
 dado_wall('L0_front', L0, 'x', LB['z1'] + T / 2, LB['x0'], LG['x1'], 0, H0, [(-1.0, 1.0, 0, 2.5), (7.4, 9.4, 1.0, 2.5), (10.4, 12.4, 1.0, 2.5)], dirv=[0, 0, -1])
 dado_wall('L0_endW', L0, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], 0, H0, [(-0.8, 0.8, 1.0, 2.5)], dirv=[1, 0, 0])
 dado_wall('L0_endE', L0, 'z', CO['x1'] + T / 2, CO['z0'], LB['z1'], 0, H0, [(-0.5, 0.5, 0, DOOR_H + 0.05)], dirv=[-1, 0, 0])
 # 樓梯間：東西兩側的牆（到屋頂）、北牆（平台的窗；外牆）
 # 二樓那段停在二樓走廊北牆的背面（原本一路到 z −1.4，和二樓走廊北牆的牆頭疊在一起：上樓梯時看得到一條白牆、灰綠腰牆交替閃，BUG-COPLANAR-DEV）
 for nm, x in (('wellW', WL['x0'] - T / 2), ('wellE', WL['x1'] + T / 2)):
-    bk = [-1, 0, 0] if nm == 'wellW' else [1, 0, 0]   # 樓梯間兩側牆的外面是寢室
+    bk = 'W,up' if nm == 'wellW' else 'E,up'   # 樓梯間兩側牆的外面是寢室；牆頂在屋頂下面看不到
     dado_wall('L0_' + nm, L0, 'z', x, WL['z0'], WL['z1'], 0, Y1, [], lmh=bk)
     wall_cut('L0_' + nm + '_up', L0, 'z', x, WL['z0'], CO['z0'] - T, Y1, RY, [], MAT['plaster'], lmh=bk)
 dado_wall('L0_wellN', L0, 'x', WL['z0'] - T / 2, WL['x0'] - T, WL['x1'] + T, 0, RY, [(-0.9, 0.9, LD['y'] + 0.9, LD['y'] + 2.4)], dirv=[0, 0, 1])
 # 二樓
-dado_wall('L1_N_w', L1, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], Y1, RY - Y1, door_holes(1, 'N', Y1), lmh=[0, 0, -1])
-dado_wall('L1_N_e', L1, 'x', CO['z0'] - T / 2, WL['x1'], CO['x1'], Y1, RY - Y1, door_holes(1, 'N', Y1), lmh=[0, 0, -1])
-dado_wall('L1_S', L1, 'x', CO['z1'] + T / 2, CO['x0'], CO['x1'], Y1, RY - Y1, door_holes(1, 'S', Y1), lmh=[0, 0, 1])
+dado_wall('L1_N_w', L1, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], Y1, RY - Y1, door_holes(1, 'N', Y1), lmh='N,up')
+dado_wall('L1_N_e', L1, 'x', CO['z0'] - T / 2, WL['x1'], CO['x1'], Y1, RY - Y1, door_holes(1, 'N', Y1), lmh='N,up')
+dado_wall('L1_S', L1, 'x', CO['z1'] + T / 2, CO['x0'], CO['x1'], Y1, RY - Y1, door_holes(1, 'S', Y1), lmh='S,up')
 dado_wall('L1_endW', L1, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[1, 0, 0])
 dado_wall('L1_endE', L1, 'z', CO['x1'] + T / 2, CO['z0'], CO['z1'], Y1, RY - Y1, [(-0.8, 0.8, Y1 + 1.0, Y1 + 2.5)], dirv=[-1, 0, 0])
 # 二樓走廊北邊、樓梯間上方的樑（A 跑上方是欄杆）
@@ -381,6 +382,10 @@ for k in range(A['risers']):
     top = (k + 1) * R; z1 = A['z1'] - k * TR
     box(f'L0_A_nose_{k}', MAT['nosing'], AX0 + 0.05, AX1 - 0.05, top - 0.004, top + 0.004, z1 - 0.07, z1 - 0.02, L0)
 quad('L0_landing_top', MAT['stair'], [(AX0, LD['y'], LD['z1']), (BX1, LD['y'], LD['z1']), (BX1, LD['y'], LD['z0']), (AX0, LD['y'], LD['z0'])], L0)
+# 平台北牆、窗上面的壁燈（燈座＋日光燈管；DORM-HALL-LM-1028：6.9 m 高的樓梯間原本只靠二樓天花板一支燈，烘出來平台和 A 跑很暗）
+# 名字含 WALL_、dir 朝下：和天花板的日光燈一樣，鏡頭比燈高的時候藏起來（tests/room_ceiling_unit.js：2 m 以上的燈具要單面朝下或在 WALL_ 朝下的群組裡）
+box('L0_landlamp_WALL_fixture', MAT['fixture'], -0.62, 0.62, LD['y'] + 2.62, LD['y'] + 2.72, WL['z0'], WL['z0'] + 0.14, L0, props={'dir': [0, -1, 0]})
+box('L0_landlamp_WALL_tube', MAT['tube'], -0.57, 0.57, LD['y'] + 2.595, LD['y'] + 2.62, WL['z0'] + 0.06, WL['z0'] + 0.1, L0, props={'dir': [0, -1, 0]})
 for k in range(B['risers']):
     top = LD['y'] + (k + 1) * R; z0 = B['z0'] + k * TR
     box(f'L0_B_nose_{k}', MAT['nosing'], BX0 + 0.05, BX1 - 0.05, top - 0.004, top + 0.004, z0 + 0.02, z0 + 0.07, L0)
@@ -442,8 +447,9 @@ def _ext(pre, f, y, P):
     box(pre + '_tag', MAT['white'], x - 0.04, x + 0.04, y + 0.3, y + 0.4, z + s * 0.074, z + s * 0.078, P)
 
 def _parcels(pre, f, y, P):
-    """門廳的包裹架：不鏽鋼四層架，放著大小不一的紙箱（封箱膠帶）、白色包裹袋（沒有字，D77）"""
-    x, z, w, d, h = f['x'], f['z'], f['w'], f['d'], f['h']
+    """門廳的包裹架：不鏽鋼四層架，放著大小不一的紙箱（封箱膠帶）、白色包裹袋（沒有字，D77）。w＝寬（左右）、d＝深；正面朝 +z，照 ry 轉"""
+    g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, f.get('ry', 0.0))
+    x, z, w, d, h = 0.0, 0.0, f['w'], f['d'], f['h']; y, P = 0.0, g
     for sx in (-1, 1):
         for sz in (-1, 1):
             px, pz = x + sx * (w / 2 - 0.02), z + sz * (d / 2 - 0.02)
@@ -799,7 +805,7 @@ def join_by_material(level_root, prefix):
         mat = obs[0].data.materials[0]
         for ob in obs: bpy.data.meshes.remove(ob.data)
         pr = dict({'dir': dirv} if fg else {}, **({'lm': lm} if lm is not None else {}), **({'lmhide': lh if isinstance(lh, str) else list(lh)} if lh is not None else {}))
-        nm = (f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
+        nm = (f'{prefix}_WALL_{fg}_{mname}' if fg else f'{prefix}_{mname}') + (f'_lm{lm:g}' if lm is not None else '') + (f'_h{lh.replace(",", "") if isinstance(lh, str) else _HN.get(lh, "x")}' if lh is not None else '')
         mesh_obj(nm, bm, mat, level_root, props=pr or None)
 bpy.context.view_layer.update()
 # 純色的小東西合成一個頂點色材質（和霖澤館大廳 LOBBY-VC-1028 一樣：每個材質各畫一次；發光、金屬、有貼圖的照舊）
