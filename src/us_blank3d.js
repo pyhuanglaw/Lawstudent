@@ -176,7 +176,8 @@ const US_BLANK=(function(){
 
   /* ======================= AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的開頭多一句旁白 ======================= */
   S.patchLurou=function(){ const e=evOf('ev_us208_lurou'); if(!e||!Array.isArray(e.dialogue)||e.usbPatched) return false;
-    e.dialogue.splice(1,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」的下一句 */
+    const i=e.dialogue.findIndex(l=>!!l&&l.speaker===null&&typeof l.text==='string'&&!l.if&&!l.unless);   /* 第一句沒有條件的旁白：前面那一句有條件的（us208_3d.js 七場共用的 BOWL，AA_516 第 8 節第 1 點）不算 */
+    e.dialogue.splice(i<0?1:i+1,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」的下一句 */
   S.patchLurou();
 
   /* ======================= 每 0.5 秒（STORY.TICKS）：8/15 的摘要 ======================= */
