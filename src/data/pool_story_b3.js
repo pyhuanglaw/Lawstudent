@@ -11,6 +11,8 @@ const POOL_STORY_B3=(function(){
   const TZ='pool_2', LY='pool_5', SH='pool_8', CX='pool_11', ZY='pool_14', NW='pool_17';
   const tz=by(TZ), ly=by(LY), sh=by(SH), cx=by(CX), zy=by(ZY), nw=by(NW), cj=by('pool_1');
   const knows=id=>({custom:G=>typeof POOL!=='undefined'&&POOL.met(G,id)});
+  const noC=id=>({custom:G=>!(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,id))});   /* 還沒有他的聯絡方式（AA 9f2e2506e 當場交換的那幾句：已經有的不說、不換）*/
+  const EXC=id=>({if:noC(id),call:G=>{ if(typeof INV!=='undefined') INV.addContact(G,id); }});   /* 交換聯絡方式（手機會跳「加了…的聯絡方式」）*/
   const LINES={
     /* ===== 第 1 節 蔡宗霖（pool_2）===== */
     [TZ]:{
@@ -76,7 +78,7 @@ const POOL_STORY_B3=(function(){
       greet:['「時間到。……沒事，習慣了。」','（他看了一下錶，對你點頭，走得很快。）','「你今天走得比上次慢十秒。」'],
       /* 3-3 順手的事：第一次上台（大一下第 8～12 週；秘密在這裡說）*/
       ask:[ sh('這週六辯論社的社內賽，二辯感冒了。社長叫我上。'), sh('其實……我很怕上台。所以我一直當計時。'), sh('你可以來坐第一排嗎？我需要一張看得到的臉。') ],
-      askOpts:['「我去。」','「那天我有事。」'], askNo:[ sh('好。我自己去。') ],
+      askOpts:['「我去。」','「那天我有事。」'], askNo:[ sh('好。我自己去。'), Object.assign(sh('……手機給我。講完跟你說。'),{if:noC(SH)}), EXC(SH) ],   /* 「手機給我。」＋交換：AA_500 實作時定的第 1 節（AA 9f2e2506e）*/
       debate:[ {scene:'博雅 201',bg:'boya_201'}, N('（台上，他的手一直在桌子底下握著那個計時器。）'), N('（輪到他。他站起來，看了第一排一眼。）'),
         {choice:[{text:'（對他點頭）',set:{YSH_UP:'nod'},goto:'a'},{text:'（比一個「慢一點」的手勢）',set:{YSH_UP:'slow'},goto:'b'},{text:'（看手機，假裝不緊張）',set:{YSH_UP:'phone'},goto:'c'}]},
         L('a'), N('（他講完了三分鐘。計時器響的時候，他停在一個句子的中間，然後把那個句子講完。）'), Object.assign(N('（下台的時候，Alison 在台下大喊：「超時半句！」）'),{if:knows('yu')}), GO('e'),
@@ -94,6 +96,7 @@ const POOL_STORY_B3=(function(){
 
     /* ===== 第 4 節 葉晨希（pool_11）===== */
     [CX]:{
+      roachHi:[ cx('社辦那隻，我用衛生紙包起來丟了。'), cx('……你和晏如站在走廊的樣子，很像在罰站。') ],   /* AA_500 實作時定的第 2 節（AA 9f2e2506e）：晏如選「我也怕蟑螂。」、那時已經認識晨希（LYR_CX）＝下一次和晨希說話的第一句，一次（src/pool_more3d.js FLOW[CX] 第一個）*/
       meet:[ N('（萬才館旁邊的長椅，一個女生抱著吉他，一直彈同兩個和弦。第三個和弦，每次都卡住。）'), N('（她看到你，手停了。）'), cx('……很難聽嗎？'),
         MEET(CX), cx('葉晨希，大二。吉他社。萬才館那邊晚上很安靜，彈錯也沒人聽到。'), cx('……除了你。') ],
       talk:[ {t:'「吉他袋很重。可是背著它走在路上，會覺得自己很會彈。」',when:'met'}, {t:'「子晴換和弦，手指像沒有動一樣。我看了一學期，還是看不出來。」',when:'Y1S1'},

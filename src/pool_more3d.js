@@ -12,8 +12,8 @@
    ■ 加在別人那裡的：吉他社兩次成發（晏如、晨希）、系籃比賽三場（孟儒）＋大四下那一場、哲 3 阿哲一句、柏翰推甄面試之後宇軒那一場、柏翰一句閒聊（影印機）、
      曾靖雯一句閒聊（器材組）、法服值班的旁白（影印機、延長線）、大四下法律實習每週那一句之後（承恩，三次）、麵店團群組（阿哲轉貼孟儒的照片）、班級群組（立群的錄音、沛珊回）。
    ■ 畢業：大三的四位＝大二下第 16 週、大二的六位＝大三下第 16 週（同第一批邱家齊「大二下第 16 週（他畢業那一週）」）；日本路線那一週在日本＝改私訊。
-   沒做（稿上有、遊戲裡沒有地方接）：承恩 4-5 實習說明會那一句旁白（遊戲裡沒有大三上的實習說明會）、承恩 4-1「一起去旁聽」（稿沒寫那一場的台詞）、
-     晏如 2-3「我也怕蟑螂」以後晨希多一句（稿第 4 節沒有那一句；記了 LYR_CX）。回報列出。
+   AA 9f2e2506e「實作時定的」（POOL-AAFIX-1028）：立群「我也想學。」、書豪「那天我有事。」當場交換聯絡方式（已經有的不說、不換）；承恩 4-1「一起去旁聽」補一場 2D（S.AUDIT_EV）；
+     承恩 4-5 說明會那一句不做、改成實習第四句（認識曾靖雯、有她的聯絡方式）；晏如 2-3「我也怕蟑螂」以後晨希第一句（LYR_CX，FLOW[CX] 第一個，一次）。
    測試：node tests/aa499_501_pool_unit.js */
 'use strict';
 const POOL_MORE=(function(){
@@ -177,6 +177,14 @@ const POOL_MORE=(function(){
   S.COUNTER_EV={id:'ev_pool_nw_counter',title:'B1 的櫃台',participants:[],location:'library_b1',trigger:'enter',background:'blur',once:true,dialogue:[{speaker:null,text:L[NW]?L[NW].counter:''}],
     prereq:{custom:G=>!!R_(G).nwLeft&&!abroad(G)&&law(G)},after:G=>{ G.flags.NW_BOOK=true; }};
   EV.push(S.COUNTER_EV);
+  /* 4-1「我也想旁聽別的系。」（SCE_AUDIT）：一起去旁聽（AA_499 實作時定的第 2 節，AA 9f2e2506e）——大一上第 6 週起、上課的學期（不是假日）的週二 14:00～16:00，
+     走到社科院門口（SL3.DOOR＝校園社科院正面的門）他在等；一次，記 SCE_AUDIT_WENT、人物頁一筆；演完到 16:00（下課）*/
+  S.auditDue=G=>{ const t=P.termOf(G); return law(G)&&!!G.flags.SCE_AUDIT&&!G.flags.SCE_AUDIT_WENT&&P.met(G,SC)&&!!t&&!(t.id==='Y1S1'&&t.week<6)&&G.weekday===2&&hr(G)>=14&&hr(G)<16&&!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday&&CALENDAR.holiday(G.day)); };
+  S.AUDIT_EV={id:'ev_pool_sce_audit',title:'一起去旁聽',participants:[SC],location:'campus',trigger:'auto',once:true,background:'blur',
+    near:typeof SL3!=='undefined'&&SL3.DOOR?{x:SL3.DOOR.x,z:SL3.DOOR.z,r:3}:{x:0,z:0,r:0},
+    prereq:{custom:G=>S.auditDue(G)},
+    dialogue:((L[SC]&&L[SC].audit)||[]).concat([{advance:G=>Math.max(0,16-hr(G))}],(L[SC]&&L[SC].auditOut)||[],[{set:{SCE_AUDIT_WENT:true}},{call:G=>{ if(L[SC]&&L[SC].deedAudit) P.addDeed(G,SC,L[SC].deedAudit); }}])};
+  EV.push(S.AUDIT_EV);
   if(typeof STORY_EVENTS!=='undefined') for(const e of EV) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
   P.AUTO.push(GM=>S.courtDue(GM)?S.COURT_EV:null);
   P.AUTO.push(GM=>S.pushNear(GM)?S.PUSH_EV:null);
@@ -293,6 +301,8 @@ const POOL_MORE=(function(){
   S.acceptYcx=GM=>{ const G=GM.G, to=termEnd('Y1S2'); P.openQ(GM,'PQ_YCX','beat',{n:0,by:to!=null&&to>G.day?to:G.day+60}); };
   const offerYcx=(GM,who)=>P.offer(GM,who,CX,'PQ_YCX',{ask:'ask',opts:'askOpts',no:'askNo',accept:S.acceptYcx});
   FLOW[CX]=[
+    async(GM,who)=>{ const G=GM.G, R=R_(G); if(!G.flags.LYR_CX||R.cxRoach!=null||!L[CX]||!L[CX].roachHi) return false;   /* AA 9f2e2506e：晏如選「我也怕蟑螂。」、那時已經認識晨希＝下一次說話第一句換成這兩句，一次；之後照平常（這一次算今天那一句閒聊）*/
+      R.cxRoach=G.day; small(G,CX).day=G.day; await P.run(GM,CX,L[CX].roachHi); return true; },
     gradScene(CX,'Y3S2','ycxGrad','campus'),
     async(GM,who)=>{ const G=GM.G, r=P.qRec(G,'PQ_YCX'), R=R_(G); if(!r||r.state!=='open'||G.zone!=='campus'||![1,3].includes(G.weekday)||hr(G)<21||R.ycxLast===G.day||r.day===G.day) return false;   /* 4-3：之後三個社課的晚上（週一或週三 21:00 以後）*/
       const n=r.n|0; await P.run(GM,CX,L[CX].beats[n]); R.ycxLast=G.day; r.n=n+1;
@@ -485,10 +495,10 @@ const POOL_MORE=(function(){
     if(typeof s0==='function') STORY.fafuShift=async function(GM){ try{ if(GM&&GM.G&&STORY.fafuShiftable(GM.G)&&law(GM.G)) await extra(GM,true); }catch(e){ console.warn('POOL_MORE fafu',e); } return s0.apply(this,arguments); };
     STORY._poolFafu=true; }
   /* 大四下法律實習（AA_441；AA_499 4-5）：每週那一句之後，三次輪流多一句承恩（一學期三次：第 3、7、11 次出席起，那一天有旁白的第一次；認識承恩）*/
-  S.PRACTICE_AT=[2,6,10];   /* 出席以前已經去過幾次 */
+  S.PRACTICE_AT=[2,6,10,13];   /* 出席以前已經去過幾次；第四句（AA 9f2e2506e）＝認識曾靖雯、有她的聯絡方式才有（沒有就停在第三句，之後有了再出）*/
   S.practiceLine=function(G,it,line){ if(!it||!it.c||it.c.id!=='legal_practice'||!line||!P.met(G,SC)||!L[SC]) return null;
     const C=typeof CLS!=='undefined'&&typeof CLS.rec==='function'?CLS.rec(G):null, n=C&&C.attend?(C.attend.legal_practice|0):0, R=R_(G), k=R.sceP|0;
-    if(k>=S.PRACTICE_AT.length||n<S.PRACTICE_AT[k]) return null; R.sceP=k+1; return L[SC].practice[k]; };
+    if(k>=S.PRACTICE_AT.length||n<S.PRACTICE_AT[k]) return null; if(k===3&&!(P.met(G,ZJW)&&contact(G,ZJW))) return null; R.sceP=k+1; return L[SC].practice[k]; };
   if(typeof CLS!=='undefined'&&Array.isArray(CLS.OFFSITE_AFTER)&&!CLS._poolSce){ CLS.OFFSITE_AFTER.push((G,it,line)=>S.practiceLine(G,it,line)); CLS._poolSce=true; }
   /* 事件裡加的句子（成發、系籃、哲 3）*/
   const evById=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id===id)||null:null;
