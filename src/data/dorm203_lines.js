@@ -39,8 +39,8 @@ const DORM203_LINES=(function(){
         after:[nar('（他把耳塞拿下來一邊，對你點頭。）'),{text:'明天早上我會先走。燈我會關。'}] },
       kai:{ rows:[   /* 阿凱補三句（他原本的房間句照舊：三句說完就是原本的）*/
           {k:'k1',term:'Y1S1',t:'冷氣遙控器我收在抽屜裡。不然他們兩個會一直搶。'},
-          {k:'k2',term:'Y1S1',after:10,t:'上次宵夜是我下去拿的。……沒事，我只是說一下。',counted:'k2c'},   /* 3-3 KAI_COUNTED 以後這一句不出現，換成 k2c */
-          {k:'k2c',term:'Y1S1',after:10,needFlag:'KAI_COUNTED',t:'上次宵夜，你說了謝謝。……沒事，我只是說一下。'},
+          {k:'k2',term:'Y1S1',after:10,t:'上次宵夜是我下去拿的。……沒事，我只是說一下。',counted:'k2c'},   /* 3-3 宵夜那晚算到他（R203_SUPPER_KAI）以後這一句不出現，換成 k2c（AA_502 第 6 節第 9 點：不看 KAI_COUNTED）*/
+          {k:'k2c',term:'Y1S1',after:10,needFlag:'KAI_COUNTED',need:'supper',t:'上次宵夜，你說了謝謝。……沒事，我只是說一下。'},
           {k:'k3',term:'Y1S2',t:'你們三個都念法律，晚上講話我有一半聽不懂。我就當在聽廣播。'} ] } },
     /* 第 3 節：四個人的小事（STORY_EVENTS 的 dialogue 寫法）*/
     ev:{
@@ -73,7 +73,7 @@ const DORM203_LINES=(function(){
         say('zhe','柏翰，謝啦！你訂的那份是辣的。'),
         say(BH,'……我沒有訂。'),
         nar('（阿凱把傘掛好，坐回電腦前面，沒有說話。）'),
-        {choice:[{text:'「謝謝阿凱。」',set:{KAI_COUNTED:true},goto:'thx'},{text:'（吃）',goto:'eat'},{text:'「阿凱，你的肩膀濕了。」',set:{KAI_COUNTED:true},goto:'wet'}]},
+        {choice:[{text:'「謝謝阿凱。」',set:{KAI_COUNTED:true,R203_SUPPER_KAI:true},goto:'thx'},{text:'（吃）',set:{R203_SUPPER_KAI:false},goto:'eat'},{text:'「阿凱，你的肩膀濕了。」',set:{KAI_COUNTED:true,R203_SUPPER_KAI:true},goto:'wet'}]},   /* R203_SUPPER_KAI：宵夜那晚有沒有算到他（2-3 那一句只看這個，AA_502 第 6 節第 9 點）*/
         {label:'thx'},say('kai','（沒有回頭）……喔。不會。'),nar('（他打字的聲音停了一下，又繼續。）'),{goto:'end'},
         {label:'eat'},nar('（四個人吃完，阿哲把袋子綁好。垃圾是阿凱拿去丟的。）'),{goto:'end'},
         {label:'wet'},say('kai','雨很小。'),say('zhe','咦，是阿凱去的？……阿凱，謝啦！'),say('kai','……嗯。'),

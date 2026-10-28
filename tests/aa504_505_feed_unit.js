@@ -1,4 +1,4 @@
-// 手機「動態」與「她講自己的事」的私訊：大一下＋暑假（AA_504，企劃線 62849944b）、大二上＋寒假（AA_505，企劃線 010515370 更正版）；HEROINE-LIFE-1028，
+// 手機「動態」與「她講自己的事」的私訊：大一下＋暑假（AA_504，企劃線 62849944b）、大二上＋寒假（AA_505，企劃線 795fbecfd 更正版：010515370 四處、第 9 節）；HEROINE-LIFE-1028，
 // 使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★——不需要瀏覽器。
 //   src/data/feed_y1s2.js、src/data/feed_y2s1.js（台詞）、src/feed3d.js（FEED，三個學期一起）；可昕 kx2_late、kx2_azalea 改動態；語彤放榜以後麵店阿姨請客（story3d.js noodleScene）。
 //   0  載得到、index.html 順序；對稿兩個方向——①遊戲裡每一句都在稿裡（git show，一字不差）②稿的每一列動態（七位的 X-3 表：時間、階段、照片、她的一句、留言、私訊問）
@@ -14,13 +14,15 @@
 // 修改前（開發分支 a57127ab4：沒有 feed_y1s2.js、feed_y2s1.js，kx2_late、kx2_azalea 還在手機小事；src、index.html 換回 a57127ab4 實際跑過）：
 //   FAILED 15——第 0 段 7 項（載入與順序、SETS 只有大一上、則數、id、兩份對稿、AA_505 舊句）、第 1 段 5 項（那幾則都沒有）、第 2、3、4 段各 1 項（沒有資料就停）；
 //   kx2_late、kx2_azalea 還在手機小事那一項由 tests/v2_b9_unit.js 第 10 項查。修改後 ALL PASS。用法：node tests/aa504_505_feed_unit.js
+// 第三輪（AA_505 第 9 節，企劃線 795fbecfd：芷若第 4 則改 12/11「送出去了。」、子晴那句跟著改）修改前（開發分支 5df39fd7d 的 src、index.html 實際跑過）：FAILED 5——
+//   第 0 段 3 項（Y2S1 ① 牛皮紙信封那三句不在 795fbecfd、② zr4c、舊句子那一項）、第 4 段 2 項（12/11 動態第 4 則、私訊問「哪裡？」→「英國。這次真的按了。」）。修改後 ALL PASS
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
 const DOC={Y1S2:{spec:'docs/story_planning/AA_504_女主角自己的生活_大一下與暑假.md',sha:'62849944b',suf:'b',yHi:2026,yLo:2026},
-           Y2S1:{spec:'docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md',sha:'010515370',suf:'c',yHi:2026,yLo:2027}};
-const OLD505='62849944b';   /* AA_505 第一版（e05e87992 改了以安 1/27、010515370 改了四處）*/
+           Y2S1:{spec:'docs/story_planning/AA_505_女主角自己的生活_大二上與寒假.md',sha:'795fbecfd',suf:'c',yHi:2026,yLo:2027}};
+const OLD505='62849944b';   /* AA_505 第一版（e05e87992 改了以安 1/27、010515370 改了四處、795fbecfd 第 9 節改了芷若第 4 則和子晴那一句）*/
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
 for(const [f,n] of [['src/data/needed_msgs.js',['NEEDED_MSGS']],['src/data/feed_y1s1.js',['FEED_Y1S1']],['src/data/feed_y1s2.js',['FEED_Y1S2']],['src/data/feed_y2s1.js',['FEED_Y2S1']],['src/feed3d.js',['FEED']],['src/data/heard_lines.js',['HEARD_LINES']],['src/heard3d.js',['HEARD']]]){
@@ -102,8 +104,8 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
       const same=!!p&&p.who===e.who&&p.st===e.st&&J(p.pic)===J(e.pic)&&p.say===e.say&&J(p.cm)===J(e.cm)&&J(p.dm)===J(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id); }
     check('0. '+term+' ② 稿的動態表 '+rows.length+' 列，每一列都在遊戲裡（時間、階段、照片、她的一句、留言、私訊問一字不差）',rows.length===S.posts.length&&!wrong.length,J(wrong.slice(0,10)));
-    /* 稿上星期寫錯的列（照日期做，回報 AA）：AA_505 以安第 6 則「2/8（日）」——2027-02-08 是週一（2026 年的 2/8 才是週日）*/
-    const WD_KNOWN={Y1S2:[],Y2S1:['1-6 2/8（日）15:00（台中）']};
+    /* 稿上星期寫錯的列（照日期做）：AA_505 以安第 6 則原本寫「2/8（日）」，795fbecfd 第 9 節第 1 點改成「（一）」——現在都對得上 */
+    const WD_KNOWN={Y1S2:[],Y2S1:[]};
     check('0. '+term+' 稿上的日期和星期對得上（'+rows.length+' 列；寫錯的照日期：'+(WD_KNOWN[term].join('、')||'沒有')+'）',J(wd)===J(WD_KNOWN[term]),J(wd));
     /* ② 稿 → 遊戲：私訊的每一句、每一個選項 */
     const Q=dmQuotes(md), all=new Set(L), optT=new Set(); for(const q of S.dms) if(q.ask) for(const o of q.ask.opts) optT.add(o.t);
@@ -111,9 +113,10 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i1=sc('src/data/feed_
     check('0. '+term+' ② 稿的私訊 '+Q.lines.length+' 句、選項 '+Q.opts.length+' 個都在遊戲裡（阿姨那一句＝麵店）',Q.lines.length>=(term==='Y1S2'?25:12)&&Q.opts.length>=6&&!missL.length&&!missO.length,J({n:[Q.lines.length,Q.opts.length],missL,missO}));
     if(term==='Y1S2') check('0. Y1S2 稿裡唯一一句不是手機的旁白（公館窗邊）列在沒做：3D 的旁白不在這一輪',J(Q.nar)===J(['公館一間店的窗邊，以安和那個穿套裝的女人面對面坐著。這次說話的是對面的人，以安一直在點頭。']),J(Q.nar)); }
   /* AA_505 更正（e05e87992、010515370）以前的句子 */
-  const GONE=['截圖：第四關的地圖，只有線條','第四關','好快。','寒假沒事做','四月。','然後站了一個小時。','灰色的海，一個穿厚外套的中年女人的背影','看得懂漢字。'];
+  const GONE=['截圖：第四關的地圖，只有線條','第四關','好快。','寒假沒事做','四月。','然後站了一個小時。','灰色的海，一個穿厚外套的中年女人的背影','看得懂漢字。',
+    '一個牛皮紙信封，寄件人那一欄寫著她的名字','寄出去了。','英國。這次真的寄了。'];   /* 795fbecfd 第 9 節第 2 點：芷若第 4 則改 12/11「送出去了。」*/
   const src=fs.existsSync(path.join(H.ROOT,'src/data/feed_y2s1.js'))?fs.readFileSync(path.join(H.ROOT,'src/data/feed_y2s1.js'),'utf8'):'';
-  check('0. AA_505 更正前（'+OLD505+'）的舊句子不在遊戲裡（子晴第四關、芷若「四月。」、語彤阿姨站了一個小時、以安「看得懂漢字。」）',old505.length>1000&&!!src&&GONE.every(t=>old505.includes(t)&&!doc.Y2S1.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
+  check('0. AA_505 更正前（'+OLD505+'）的舊句子不在遊戲裡（子晴第四關、芷若「四月。」、語彤阿姨站了一個小時、以安「看得懂漢字。」、芷若 12/10 牛皮紙信封「寄出去了。」）',old505.length>1000&&!!src&&GONE.every(t=>old505.includes(t)&&!doc.Y2S1.includes(t)&&!src.includes(t)),J(GONE.filter(t=>src.includes(t)))); });
 
 /* ---------- 1 階段、聯絡方式、時間、舊存檔 ---------- */
 sec('1',()=>{ const W2WED=TDt('Y1S2',2,3);
@@ -222,11 +225,12 @@ sec('4b',()=>{ if(!HAS()||!SET.Y1S2) return;
   fresh(TDt('Y1S2',1,1),10,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); ROM.end(H.G,'kexin','apart_talk'); walk(TDt('Y1S2',3,7),23,{step:1});
   check('4. 大一下第 1 週分開：這一學期可昕的動態不出現（x:cool）',FEED.kxCool(H.G)===true&&R().done.kx1b==='x:cool'&&R().done.kx2b==='x:cool',J([R().done.kx1b,R().done.kx2b])); });
 sec('4c',()=>{ if(!HAS()||!SET.Y2S1) return;
-  /* 芷若 12/10、1/28：沒演過 Z4 也看得到動態；私訊照舊只給 Z4 的（story3d.js zr_z7_msg／zr_z7b）*/
-  const D1210=DK('2026-12-10'); fresh(D1210,21); who('heroine_02','FRIEND'); walk(D1210+1,0.5,{rules:true,step:0.25});
-  const noZ4=!!item('zr4c')&&!(H.G.msgs||[]).some(m=>m.tag==='zr_z7_msg');
-  fresh(D1210,21); who('heroine_02','FRIEND'); H.G.events.done.ev_zhiruo_secret=1; walk(D1210+1,0.5,{rules:true,step:0.25});
-  check('4. AA_505：沒演過 Z4＝12/10 22:07 芷若的動態第 4 則有、23:59 的私訊沒有；演過 Z4＝動態照樣有、私訊也有',noZ4&&!!item('zr4c')&&(H.G.msgs||[]).some(m=>m.tag==='zr_z7_msg'),J({noZ4}));
+  /* 芷若 12/11、1/28：沒演過 Z4 也看得到動態；私訊照舊只給 Z4 的（story3d.js zr_z7_msg 12/10 23:59／zr_z7b）。AA_505 第 9 節第 2 點：動態是 12/11 22:07 貼的 */
+  const D1210=DK('2026-12-10'); fresh(D1210,21); who('heroine_02','FRIEND'); walk(D1210+1,22.5,{rules:true,step:0.25});
+  const z4=item('zr4c'), noZ4=!!z4&&z4.day===D1210+1&&Math.abs(z4.h-(22+7/60))<0.01&&!(H.G.msgs||[]).some(m=>m.tag==='zr_z7_msg')&&HT().includes('（照片：申請系統的截圖，最下面一行「已送出」，時間是前一天的 23:59）')&&HT().includes('<div>送出去了。</div>');
+  fresh(D1210,21); who('heroine_02','FRIEND'); H.G.events.done.ev_zhiruo_secret=1; walk(D1210+1,22.5,{rules:true,step:0.25});
+  check('4. AA_505：沒演過 Z4＝12/11 22:07 芷若的動態第 4 則（申請系統的截圖、「送出去了。」）有、12/10 23:59 的私訊沒有；演過 Z4＝動態照樣有、私訊也有',noZ4&&!!item('zr4c')&&(H.G.msgs||[]).some(m=>m.tag==='zr_z7_msg'),J({noZ4,z4}));
+  if(HAS()) FEED.respond(H.G,'zr4c','dm'); check('4. AA_505：第 4 則私訊問「哪裡？」→「英國。這次真的按了。」',J(th('heroine_02').slice(-2).map(m=>m.text))===J(['哪裡？','英國。這次真的按了。']),J(th('heroine_02').slice(-2).map(m=>m.text)));
   const D128=DK('2027-01-28'); fresh(D128,20); who('heroine_02','FRIEND'); walk(D128,22.5,{rules:true,step:0.25});
   check('4. AA_505：沒演過 Z4＝1/28 22:07 動態第 6 則（「五月。」）有、21:00 學校那一關的私訊沒有',!!item('zr6c')&&J(post('zr6c').dm)===J(['什麼時候知道？','五月。'])&&!(H.G.msgs||[]).some(m=>m.tag==='zr_z7b'));
   /* 沛珊：第 2、4、7、11、14 週各一則、字越來越少、12/18 以後沒有 */

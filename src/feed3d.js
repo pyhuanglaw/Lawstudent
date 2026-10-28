@@ -1,6 +1,7 @@
 /* ===== 手機「動態」（AA_503 第 1 節，企劃線 d13ab3ab7；HEROINE-LIFE-1028，使用者 2026-10-28 01:2x「可攻略女主角 感覺都沒有自己的生活」，USER_WANTS X122★）=====
    她貼自己的事（照片＋一句），像限時動態；加上她私訊你講她自己的事（不約你、不回你，只是跟你說）。資料一學期一份，加進 SETS：
-     src/data/feed_y1s1.js（大一上，AA_503）、feed_y1s2.js（大一下＋暑假，AA_504）、feed_y2s1.js（大二上＋寒假，AA_505）。id 全部不重複（大一下的加 b、大二上的加 c）。
+     src/data/feed_y1s1.js（大一上，AA_503）、feed_y1s2.js（大一下＋暑假，AA_504）、feed_y2s1.js（大二上＋寒假，AA_505）、
+     feed_y2s2.js（大二下＋暑假，AA_506）、feed_y3s1.js（大三上＋寒假，AA_507）。id 全部不重複（大一下的加 b、大二上 c、大二下 d、大三上 e）。
    ■ 動態頁（手機「訊息」旁邊那一頁，game3d.js 的 renderPhone 叫 FEED.html）：
      - 誰：有聯絡方式的人（INV.hasContact）。保留七天（S.KEEP），最新的在上面。
      - 提示：新的只在「動態」頁籤上亮一個小點（S.newCount）；不跳通知、不算未讀、不算在私訊的頻率上限裡（動態不在 G.msgs）。
@@ -20,12 +21,20 @@
    ■ 分開以後一學期（INV.cool 那段：分開那天到下一個學期第 1 週）：可昕把你設成不看動態——她的動態不出、私訊不傳；之後照朋友的階段再出現。
      V6EX.COOL_IDS 沒有可昕（照 AA_351，INV.cool 對她永遠是 false），所以這裡自己用同一段期間算（ROM 的分開那天＋V6EX.coolUntil）。
      其他六位在 INV.cool 期間：動態照常（稿只寫可昕），私訊照 V6EX 每兩則送一則（'dp' 那一類）。
+   ■ 大二下、大三上（AA_506、AA_507，企劃線 31a4c4002）加的：
+     - 照片裡的 {name}＝玩家的名字（G.name；以安大二下第 7 則「京都：{name}」，S.pic）。
+     - 去沒去 WENT：anC12（報了 C12 京都語言課、和以安 FAMILIAR 以上＝同班那一版，同 vac_activities.js 的 AN_C12）、
+       zqNamed（回過 needed_msgs zq_name「『存檔點』。」：包住 STORY.neededAnswered 記 ZQ_NAME_REPLIED；舊存檔看訊息）、anJP（日本路線，STORY.route）。
+     - 一個月最多幾則（那一份的 capMonth，S.monthCap）：沛珊大三上（台南）一個月最多一則；照那一則的日期算同一個月已經出的（R.done 'p'，各學期的都算）。超過＝'x:month'。
+     - 語彤 2027-07-09 生日（那一份的 ytBday，S.ytBdayTick）：12:00 麵店團群組 Alison／不在群組、FAMILIAR 以上＝她的私訊放系統字，選項「傳一句生日快樂」（home3d.js 2026、r2y3b3d.js 2028 的做法）。
    ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天}；舊存檔沒有＝從那一天開始。
-   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js */
+     G.flags.ZQ_NAME_REPLIED（子晴 zq_name 回過）、YT_BDAY_Y2（2027 生日回了「生日快樂。」）。
+   測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js */
 'use strict';
 const FEED=(function(){
   const S={};
-  const SETS=()=>[typeof FEED_Y1S1!=='undefined'?FEED_Y1S1:null,typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null,typeof FEED_Y2S1!=='undefined'?FEED_Y2S1:null].filter(Boolean);
+  const SETS=()=>[typeof FEED_Y1S1!=='undefined'?FEED_Y1S1:null,typeof FEED_Y1S2!=='undefined'?FEED_Y1S2:null,typeof FEED_Y2S1!=='undefined'?FEED_Y2S1:null,
+    typeof FEED_Y2S2!=='undefined'?FEED_Y2S2:null,typeof FEED_Y3S1!=='undefined'?FEED_Y3S1:null].filter(Boolean);
   S.SETS=SETS;
   S.KEEP=7;
   S.CAP={heroine:{n:2,days:7},other:{n:1,days:14},day:4};
@@ -62,8 +71,16 @@ const FEED=(function(){
     kxBbq:G=>!!(G.flags&&G.flags.KX_BBQ_COME&&G.events&&G.events.done&&G.events.done.ev_mid_autumn_bbq!=null),   /* K3「來我們這邊。」而且中秋烤肉有去（她在你旁邊）*/
     kxYule:G=>!!(G.flags&&G.flags.yulePassDay!=null),   /* 予樂的宵夜你有去 */
     kxDec3:G=>{ const F=G.flags||{}; return !!(F.KX_DEC3_VISIT||(F.KX_DEC3&&F.KX_DEC3[1]==='visit')); },   /* 12/3 交完報告那晚開車去政大（ev_kexin_birthday_y1；AA_503 d13ab3ab7 第 12 節第 3 點）*/
-    anWent:G=>(G.invites||[]).some(iv=>iv&&iv.who==='heroine_01'&&iv.state==='done')||!!(G.dateLog&&G.dateLog.heroine_01&&(G.dateLog.heroine_01.count|0)>0)   /* 和以安一起去過：INV 任一地點見到了，或校外約會（AA_505 1-3 第 3 則）*/
+    anWent:G=>(G.invites||[]).some(iv=>iv&&iv.who==='heroine_01'&&iv.state==='done')||!!(G.dateLog&&G.dateLog.heroine_01&&(G.dateLog.heroine_01.count|0)>0),   /* 和以安一起去過：INV 任一地點見到了，或校外約會（AA_505 1-3 第 3 則）*/
+    /* 報了 C12 京都語言課（還在京都＝'yes'、回來了＝'done'；沒去＝'missed' 不算）而且和以安 FAMILIAR 以上（同班那一版，vac_activities.js 的 AN_C12：她只有大二暑假在京都）（AA_506 1-3 第 7 則）*/
+    anC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return (st==='yes'||st==='done')&&S.atLeast('heroine_01','FAMILIAR'); },
+    zqNamed:G=>S.zqNamed(G),   /* 回過子晴的 needed_msgs zq_name「『存檔點』。」（AA_506 4-3 第 6 則）*/
+    anJP:G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'   /* 日本路線（11/18 志願表截止時和以安交往；AA_507 1-3 第 7 則）*/
   };
+  /* 和她 st 以上（認識、照 SOCIAL.stage 的順序；同 vac3d.js 的 atLeast）*/
+  S.atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.stage||!SOCIAL.has||!SOCIAL.has(id,'FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
+  /* 子晴 zq_name 回過沒有：STORY.neededAnswered 記 ZQ_NAME_REPLIED（檔尾包住）；舊存檔看訊息（ask id 'need_<日>_zq_name' 回過）*/
+  S.zqNamed=G=>!!(G&&G.flags&&G.flags.ZQ_NAME_REPLIED)||(G&&G.msgs||[]).some(m=>m&&m.ask&&/_zq_name$/.test(m.ask.id||'')&&m.ans!=null);
   S.COND={
     anRulesGroup:G=>!!(G.flags&&G.flags.AN_DORM_RULES==='group'),   /* 10/14 Alison 在麵店團群組爆料（story3d.js an_rules_grp）*/
     zrAskedDrink:G=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','ASKED_HER_DRINK'),   /* 問過她自己喝什麼（events.js Z3：熱可可加一份濃縮）*/
@@ -95,7 +112,14 @@ const FEED=(function(){
     const R=S.rec(G), t=abs(w.day,w.h), hero=S.isHeroine(p.who), C=hero?S.CAP.heroine:S.CAP.other;
     if(R.items.filter(i=>i.who===p.who&&abs(i.day,i.h)<=t&&t-abs(i.day,i.h)<C.days*24).length>=C.n) return 'week';
     if(R.items.filter(i=>i.day===w.day).length>=S.CAP.day) return 'day';
+    if(S.monthCap(G,p,w)) return 'month';
     return ''; };
+  /* 一個月最多幾則（那一份的 capMonth：沛珊大三上，AA_507 6-3）：照那一則的日期，同一個月已經出的（R.done 'p'，各學期的都算；items 只留十五天，所以不看 items）*/
+  S.setOf=p=>{ for(const s of SETS()) if((s.posts||[]).includes(p)) return s; return null; };
+  const ym=d=>{ const x=CALENDAR.dateOf(d); return x.y*100+x.m; };
+  S.monthCap=function(G,p,w){ const s=S.setOf(p), n=s&&s.capMonth&&s.capMonth[p.who]; if(!n) return false; const R=S.rec(G), k=ym(w.day); let c=0;
+    for(const s2 of SETS()) for(const q of s2.posts||[]){ if(q===p||q.who!==p.who||R.done[q.id]!=='p') continue; const wq=S.when(G,q.t,s2.term); if(wq&&ym(wq.day)===k) c++; }
+    return c>=n; };
   S.decide=function(G,p,w){ const R=S.rec(G); if(w.day<R.start||abs(w.day,w.h)<nowOf(G)-S.KEEP*24){ R.done[p.id]='old'; return false; }
     const why=S.blocked(G,p,w); if(why){ R.done[p.id]='x:'+why; return false; }
     const it={id:p.id,who:p.who,day:w.day,h:+w.h.toFixed(3)}; if(p.went&&S.WENT[p.went]) it.v=S.WENT[p.went](G)?'yes':'no'; R.items.push(it); R.done[p.id]='p'; return true; };
@@ -117,6 +141,7 @@ const FEED=(function(){
       for(const q of s.dms||[]){ if(R.dm[q.id]) continue; const w=S.when(G,q.t,s.term); if(!w||abs(w.day,w.h)>now) continue; due.push({q,w,term:s.term}); } }
     due.sort((a,b)=>abs(a.w.day,a.w.h)-abs(b.w.day,b.w.h)); let n=0;
     for(const x of due){ if(x.p){ if(S.decide(G,x.p,x.w)) n++; } else S.sendDm(G,x.q,x.w,x.term); }   /* 照時間的先後：一天四則、每人一週兩則照先貼的算 */
+    S.ytBdayTick(G);
     if(R.items.length) R.items=R.items.filter(i=>now-abs(i.day,i.h)<=15*24);   /* 只留十五天（配角十四天一則要看得到前一則；畫面只顯示七天）*/
     return n; };
   /* ---------- 畫面 ---------- */
@@ -128,7 +153,8 @@ const FEED=(function(){
   S.whenText=function(G,day,h){ const today=G.day+Math.floor((+G.hour||0)/24), d=CALENDAR.dateOf(day); return (day===today?'今天':(day===today-1?'昨天':d.m+'/'+d.d))+' '+hhmm(h); };
   S.dmOk=(G,p)=>!!p.dm&&(!p.dmIf||!!(S.COND[p.dmIf]&&S.COND[p.dmIf](G)));
   const HINT='<div style="font-size:12px;opacity:.75;line-height:1.3;margin-top:2px">';
-  S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.txt(p.pic,it.v);
+  S.pic=(G,p,v)=>String(S.txt(p.pic,v)==null?'':S.txt(p.pic,v)).replace('{name}',(G&&G.name)||'祐廷');   /* 照片裡的 {name}＝玩家的名字（AA_506 以安第 7 則「京都：」後面是你的名字）*/
+  S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.pic(G,p,it.v);
     let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(p.say)+'</div>':'');
     if(!it.r){ const B=['<button class="btn" data-fd="'+esc(it.id+'|heart')+'">（按愛心）</button>'];
       if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(S.txt(p.cm[0],it.v))+'</button>');
@@ -142,7 +168,7 @@ const FEED=(function(){
     if(!L.length) return '<div class="item muted">最近七天沒有動態。</div>';
     return '<div class="list">'+L.map(it=>S.card(G,it)).join('')+'</div><div class="item muted" style="margin-top:8px">動態只留七天。</div>'; };
   /* 私訊對話串裡，回動態的那一句標是哪一則（game3d.js threadHTML）*/
-  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=p.say||('照片：'+S.txt(p.pic,it&&it.v));
+  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=p.say||('照片：'+S.pic(G,p,it&&it.v));
     return ' · 動態「'+esc(s.length>14?s.slice(0,13)+'…':s)+'」'; };
   /* ---------- 回應 ---------- */
   S.fam=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.activity) return null; if(SOCIAL.ACT&&!SOCIAL.ACT.feed) SOCIAL.ACT.feed={fam:1}; return SOCIAL.activity(id,'feed'); };
@@ -161,6 +187,13 @@ const FEED=(function(){
   S.ytTreatOf=()=>{ for(const s of SETS()) if(s.ytTreat) return s.ytTreat; return null; };
   S.ytTreatDue=function(G){ const T=S.ytTreatOf(), R=G&&G.flags&&G.flags.FEED; return !!(T&&R&&R.dm&&R.dm[T.after]==='sent'&&!R.ytTreat); };
   S.ytTreatDone=function(G){ const R=S.rec(G); R.ytTreat=G.day; };
+  /* 語彤 2027-07-09 生日（AA_506 3-2 第 4 點；那一份的 ytBday）：照 home3d.js 2026、r2y3b3d.js 2028 那兩則——12:00、當天 24:00 以前（睡過整天就沒有）；
+     麵店團群組 Alison「今天語彤生日！」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放系統字；按鈕「傳一句生日快樂」→ 她回、記 flag */
+  S.ytBdayTick=function(G){ if(typeof PHONE==='undefined'||!PHONE.at||!PHONE.sent) return; const now=nowOf(G);
+    for(const s of SETS()){ const B=s.ytBday; if(!B) continue; const d=dayOfKey(B.day); if(d==null||now<abs(d,B.h)||now>=abs(d+1,0)||PHONE.sent(G,B.tag)) continue;
+      const reply={from:'heroine_03',text:B.reply}, opt={t:B.opt,post:B.post,say:[reply],set:{[B.flag]:true}};
+      if(PHONE.inGroup&&PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,B.h,[{th:'g:noodle_team',from:'yu',text:B.group,ask:{id:B.tag,until:abs(d+1,0),opts:[Object.assign({},opt,{say:[Object.assign({th:'g:noodle_team'},reply)]})]}}],B.tag);
+      else if(S.atLeast('heroine_03','FAMILIAR')) PHONE.at(G,d,B.h,[{th:'p:heroine_03',text:B.sys,ask:{id:B.tag,until:abs(d+1,0),opts:[opt]}}],B.tag); } };
   S.holdAt=(G,id)=>{ const R=G&&G.flags&&G.flags.FEED, hd=R&&R.hold&&R.hold[id]; return hd!=null&&nowOf(G)<hd?hd:null; };
   /* 可昕的視訊（9-2 第 3 點）：照現有視訊讀書（ev_kexin_video_study）那一套——讀哪一科、兩個小時算兩次自學；台詞只有開頭、結尾那兩句 */
   S.VIDEO_EV=(function(){ const V=(typeof FEED_Y1S1!=='undefined'&&FEED_Y1S1.video)||{}; const base=()=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_kexin_video_study')||null:null;
@@ -173,6 +206,8 @@ const FEED=(function(){
   if(typeof SOCIAL!=='undefined'&&SOCIAL.ACT&&!SOCIAL.ACT.feed) SOCIAL.ACT.feed={fam:1};   /* 回動態：熟悉 +1（同一個人一天一次）*/
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.tick(G));
   if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
+  /* 子晴 zq_name 回了（phone3d.js 回 need 選項時叫 STORY.neededAnswered）：記 ZQ_NAME_REPLIED（大二下第 6 則兩個版本，S.WENT.zqNamed）*/
+  if(typeof STORY!=='undefined'&&typeof STORY.neededAnswered==='function'&&!STORY._feedNeed){ const on=STORY.neededAnswered; STORY.neededAnswered=function(G,m,o){ if(o&&o.need==='zq_name'&&G&&G.flags) G.flags.ZQ_NAME_REPLIED=true; return on.apply(this,arguments); }; STORY._feedNeed=true; }
   if(typeof MSG!=='undefined'&&typeof MSG.replyAt==='function'&&!MSG._feedHold){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ const r=r0.apply(this,arguments); const hd=S.holdAt(G,id);
       if(hd!=null&&r&&r.day!=null&&abs(r.day,r.h)<hd){ const d=Math.floor(hd/24); return Object.assign({},r,{day:d,h:hd-d*24,late:false,after:true}); } return r; }; MSG._feedHold=true; }
   return S;
