@@ -9,6 +9,8 @@
      大四下（Y4S2）後面沒有學期：'Y4S2:end'＝6/3（這一學期最後一天），要到暑假結束的寫日期（AA_510 那幾句寫 2029-09-02）。
    ■ AA_513（AA-C 2026-10-28，a2e4bf196）：阿凱說子晴那四句改成他的私訊（phone，條件 kaiZq；5/20 那一句在 src/y34b3d.js S.zqKaiPhone）；
      pass → STORY.TICKS：以安和媽媽在公館窗邊的路過字幕（S.pass；店門口的位置 S.GG_DOORS）。存檔：G.flags.AN_MOM_SEEN＝{學期:那一天}。
+   ■ AA_520（AA-C 2026-10-28，481dd8238，予樂自己的線）：phone 的 ask（最後一則可以回：h509_yule 的三個選項，S.askOf）、COND.yuleOwn（yule＋和可昕沒有鬧翻）；
+     h503_yule 後面兩句照原本的條件。予樂自己的事（十四則、演講那一晚、23:55、1/12、可昕 9/16）在 src/yule3d.js（tests/aa520_yule_unit.js）。
    測試：node tests/aa503_others_unit.js、node tests/aa508_509_feed_unit.js（第 6 段：AA_508、AA_509 的別人說起她）、node tests/aa510_511_feed_unit.js（AA_510 的別人說起她、第五輪補的曾靖雯、阿凱）、
      node tests/aa513_unit.js（阿凱的私訊、窗邊字幕） */
 'use strict';
@@ -47,6 +49,8 @@ const HEARD=(function(){
     econGroup:G=>inGrp(G,'econ_friends')&&hasContact(G,'kexin'),
     /* 予樂（只有立繪的人物，沒有 contacts 那一筆）：手機裡已經有她（kxdrift3d.js 的 yuleContact 同一個認法），或去過予樂的宵夜（見過她：ev_kexin_yule_pass）*/
     yule:G=>{ const F=G.flags||{}, D=(G.events&&G.events.done)||{}; return F.yulePassDay!=null||!!D.ev_kexin_yule_pass||(typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,'yule'))||(G.msgs||[]).some(m=>m&&m.th==='p:yule'); },
+    /* 予樂自己的事（AA_520 第 1 節）：yule＋和可昕沒有鬧翻（src/yule3d.js YULE.kxOk）；h509_yule 的選項用這個（沒有 YULE＝沒有選項，照原本兩則）*/
+    yuleOwn:G=>S.COND.yule(G)&&typeof YULE!=='undefined'&&!!YULE.kxOk&&YULE.kxOk(G),
     /* 沒報 C12 京都語言課（AA_506 1-4 Alison 那句「7 月，沒報 C12 的玩家」）：VAC 的報名不是 yes／done */
     noC12:G=>{ const st=typeof VAC!=='undefined'&&VAC.state?VAC.state(G,'C12@Y2'):null; return !(st==='yes'||st==='done'); },
     /* 芯慈和以安和好以後（AA_507 1-4「第 13 週以後，和好以後」）：慈 5「對答案」演過（近、遠兩版都記 XC5_RECONCILE，r2y3a_events.js），
@@ -81,8 +85,14 @@ const HEARD=(function(){
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return 0; const R=S.rec(G), t=now(G); let n=0;
     for(const e of L.phone||[]){ if(R.ph[e.id]) continue; const w0=S.when(e.at); if(!w0||w0.h==null||abs(w0.day,w0.h)>t+24) continue; const w=S.loc(G,w0), t0=abs(w.day,w.h); if(t<t0) continue;   /* 一天以後的先不算時差 */
       if(t-t0>S.LATE){ R.ph[e.id]='x:late'; continue; } if(!condOk(G,e.cond)){ R.ph[e.id]='x:'+e.cond; continue; }
-      PHONE.at(G,w.day,w.h,e.items.map(([from,name,text])=>({th:e.th,from,name,text})),'heard_'+e.id); R.ph[e.id]='sent'; n++; }
+      const M=e.items.map(([from,name,text])=>({th:e.th,from,name,text}));   /* items 第 4 欄（有的話）＝那一句的稿（例：'AA_520 2'），遊戲不讀 */
+      if(e.ask&&M.length&&condOk(G,e.ask.cond)) M[M.length-1].ask=S.askOf(G,e.ask,M[M.length-1]);
+      PHONE.at(G,w.day,w.h,M,'heard_'+e.id); R.ph[e.id]='sent'; n++; }
     return n; };
+  /* ask：最後一則可以回（AA_520 第 5 節 h509_yule）。cond＝那個條件成立才有選項（不成立照原本那幾則）；until＝回覆期限（同 at 的寫法，臺灣時間；人在國外換當地，S.loc）；
+     opts：[{t, r:[對方回的幾則（說的人同最後一則）], set:{旗標:值}}] */
+  S.askOf=function(G,a,last){ const u=a.until?S.when(a.until):null, ul=u&&u.h!=null?S.loc(G,u):null;
+    const o={id:a.id,opts:(a.opts||[]).map(x=>({t:x.t,say:(x.r||[]).map(text=>({from:last.from,name:last.name,text})),set:Object.assign({},x.set)}))}; if(ul) o.until=abs(ul.day,ul.h); return o; };
   /* ---------- pass：路過字幕（AA_513 第 2 節：以安和媽媽在公館窗邊）---------- */
   /* 公館南側店面街十五間店的門口：src/zones3d.js 公館（const FZ=19；店門互動點 z＝FZ+2＝21；店面從 x＝−68 起照 shops 的寬度 w 排、前 8 間後面各多 1.2 m，
      門口在每一間的 x0＋w/2＝zones3d.js 的 ix——麵店 −63〔y34b3d.js NOODLE_DOOR 同一點〕、茶行、書店、便利商店的互動點，輪轉單車「找車行老闆」−0.3）。
