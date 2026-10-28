@@ -129,6 +129,9 @@ const PROPS = (function(){
   const recorderGlb=heldGlb('prop.recorder','recorder',0.06,-0.014), coolerBag=heldGlb('prop.cooler_bag','cooler_bag',0.075,-0.01,[0,0,Math.PI/2]);
   const novelGlb=heldGlb('prop.novel','novel',0.055,-0.03), notebookQ=heldGlb('prop.notebook_q','notebook_q',0.07,-0.024), handoutsGlb=heldGlb('prop.handouts','handouts',0.09,-0.018);
   const audioCable=heldGlb('prop.audio_cable','audio_cable',0.075,-0.01,[0,0,Math.PI/2]), ladleGlb=heldGlb('prop.ladle','ladle',0.075,-0.01,[0,0,Math.PI/2]);
+  /* 標籤同伴（HEROINE-LIFE-NPC3D-1028：固定路人底模＋配件）：Café 店員的名牌別在圍裙（apron）胸口——位置照下面 apron() 的胸片（spine 座標：中心 (0,0.2,0)、上半徑 0.14、下 0.16、高 0.24）算：
+     y 0.26、往人物左邊轉 0.3 rad，貼在胸片表面；老闆的馬克杯；學姊同學的厚法典 */
+  const namePin=boneGlb('prop.name_pin','name_pin'), mugGlb=heldGlb('prop.mug','mug',0.07,-0.012,[0,0,Math.PI/2]), lawbookGlb=heldGlb('prop.lawbook','lawbook',0.07,-0.046);
   const DEF={
     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
@@ -156,6 +159,9 @@ const PROPS = (function(){
     audio_cable:{bone:'leftLowerArm',make:audioCable,sit:'hide'},
     ladle:{bone:'rightLowerArm',make:ladleGlb,sit:'hide'},
     bandage:{bone:'leftHand',make:bandageGlb,pos:[0,0,0]},
+    name_pin:{bone:'spine',make:namePin,pos:[-0.0431,0.26,-0.1395],rot:[0.083,0.3,0]},
+    mug:{bone:'rightLowerArm',make:mugGlb,sit:'hide'},
+    lawbook:{bone:'leftLowerArm',make:lawbookGlb},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

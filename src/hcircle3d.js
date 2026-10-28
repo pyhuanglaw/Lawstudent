@@ -191,7 +191,7 @@ const HCIRCLE=(function(){
     S.unpair(hn); standMove(GM,hn,spot,null,quietFor(GM,hn,refresh),at[2]||0); };
   /* 標籤同伴：固定的路人底模（spec.id＝標籤 id，不進無名路人池；模型還沒下載完先藏起來）*/
   S.specOf=function(cid){ const p=PEOPLE[cid]; if(!p) return null; const ix=Object.keys(PEOPLE).indexOf(cid); const base=typeof STORY!=='undefined'&&STORY.extraSpec?STORY.extraSpec(900+ix*2+(p.sex==='m'?1:0)):{};
-    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{}); };
+    return Object.assign(base,{id:cid,name:p.label,sex:p.sex,model:p.model},p.height?{height:p.height}:{},p.props?{props:p.props.map(q=>typeof q==='object'?Object.assign({},q):q)}:{}); };   /* props：配件（HEROINE-LIFE-NPC3D-1028，LAWWW2-C）*/
   S._loading={}; S._failed={};
   S.modelWait=function(n){ const m=n&&n.hcModel; if(!m||typeof CHAR==='undefined'||!CHAR.isDegraded||!n.obj) return;
     if(CHAR.isDegraded(n.obj)){ if(S._failed[m]){ const u=n.obj.userData; u.wantModel=null; if(u.degradedHidden){ for(const ch of n.obj.children) ch.visible=true; u.degradedHidden=false; } n.hidden=false; n._hcWait=false; return; }

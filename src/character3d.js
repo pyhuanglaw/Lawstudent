@@ -156,7 +156,7 @@ const CHAR = (function(){
   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
   /* 身上帶著的東西（包、吉他、資料夾、圍裙、安全帽…；眼鏡、耳環、髮圈不算）先拿下來，回傳還原的函式（BADCLIP-BAG-1027：使用者 10-27 22:4x「打羽球男主角還背著背包什麼意思」）。
      還原照原本的開關：原本沒設過的（propOn 沒有這一項）拿掉設定、照原本看不看得到；還原時傳現在的人物（中途換過模型 C.upgrade 的話是新的那一個）*/
-  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos','camera_film','thermos_silver','sports_drink','recorder','cooler_bag','novel','notebook_q','handouts','audio_cable','ladle'];   /* 後面十個：同學、麵店阿姨的隨身道具（NPC-POOL-ART-1028）*/
+  C.CARRY=['backpack','tote','guitar','bag_yu','folder','apron','helmet','foodmap','thermos','camera_film','thermos_silver','sports_drink','recorder','cooler_bag','novel','notebook_q','handouts','audio_cable','ladle','mug','lawbook'];   /* 後面十二個：同學、標籤同伴的隨身道具（NPC-POOL-ART-1028、HEROINE-LIFE-NPC3D-1028）*/
   C.carryOff=function(h){ const u=h&&h.userData; if(!u||!u.props) return ()=>{}; const was=[];
     for(const k of C.CARRY){ const o=u.props[k]; if(!o) continue; const on=u.propOn&&Object.prototype.hasOwnProperty.call(u.propOn,k)?u.propOn[k]:undefined; was.push([k,on,o.visible]); C.setProp(h,k,false); }
     return h2=>{ const x=h2||h, v=x&&x.userData; if(!v) return; for(const [k,on,vis] of was){ if(on!==undefined){ C.setProp(x,k,on); continue; } if(v.propOn) delete v.propOn[k]; const o=v.props&&v.props[k]; if(o) o.visible=vis; } }; };
