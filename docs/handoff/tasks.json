@@ -35304,6 +35304,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 11:0x UTC】合併 63ca2383f（子代理 f9cea16d9）：第 5 節四件＋5-後補（07709b4c6：睡著算「在」另一版、補旁白醒來也算）；aa517 161 項 ALL PASS；dorm、cold_week、peishan、alison、sleep 相關 ALL PASS；3-2 群組照第 4 點 00:00（AA 要 23:50 改台詞檔 at）；下一版；BB 瀏覽器｜【LAWWW-C 2026-10-28 10:2x UTC】派子代理（dorm_y24_3d.js、dorm_y24_lines.js、tests/aa517 逐字對稿；白名單 AA_517 → 4e703821a）；下一版"
+  },
+  {
+   "id": "SIS-B14-AAFIX-1028",
+   "title": "AA_516 第 8 節（3cd10909b，新內容懸著的承諾自查）：①4-1「……下次你用我的碗。」有 SIS14_US_CURRY 的，之後第一次 208 場景（ev_us208_memo～lastweek，哪場先演就哪場）開頭一句旁白「（她把自己的碗放在你面前，換她用你上次帶來的那一個。）」一次 ②h9 選「我會去接妳。」記 SIS14_RIGHT，12/23 接機戀人版第一句旁白前加「（你站在出口的右邊。）」",
+   "area": "Y4S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "AA_516 第 8 節（企劃線 3cd10909b；outbox 44f7421fe）",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國路線交往中 9/2 208 咖哩以後第一次 208 場景",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
   }
  ]
 }
