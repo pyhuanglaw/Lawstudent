@@ -10,7 +10,7 @@ GLB → Blender Cycles 烘焙「光照貼圖」（只有光、不含顏色：直
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in <房間.glb> --out <輸出.glb> --lm <輸出前綴（不含 _day.png）> --url <遊戲裡的路徑前綴>
    [--res 1024] [--samples 64] [--emit 材質名=強度,...] [--hide 材質名或物件名的正規式（烘焙時當作不存在：玻璃）]
    [--sun 方位角,仰角,強度（白天的太陽，遊戲座標的羅盤方位）] [--sky 1.0] [--nightsky 0.03] [--scale 2.0] [--keep-instances]
-   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）]
+   [--nolm 正規式（不做光照貼圖、照舊即時光的物件：發光的燈面；烘焙時照樣看得到、照樣發光）] [--lights …（見下面）] [--daylights 1.0（白天那一張的燈乘多少）] [--daywb r,g,b] [--nightwb r,g,b]（白平衡） [--smooth 像素] [--uvonly（只排 UV、不烘焙）] [--shell 窗那一面（N/S/E/W，見下面）] [--drop 正規式（只在烘焙時擋光、不輸出的物件）]
 物件的自訂屬性 lm（GLB extras）：光照貼圖分給它的比例（1＝照面積平均；小東西、天花板上的東西 0.2～0.5）；lmhide＝[x,y,z]：朝這個方向的面看不到、不分像素（'side'＝所有側面）。
 之後用系統的 python3 把 _day.png／_night.png 轉成 WebP（lightbake/to_webp.py），放到 --url 指的位置。
 --scale：貼圖存 (光/π)/scale（8 位元存不下太亮的地方），遊戲的 lightMapIntensity＝π×scale（寫進 <prefix>.json）。
@@ -285,6 +285,11 @@ for o in bpy.data.objects:
         if len(uv) and uv[0].name != 'LM': uv.active = uv[0]; uv[0].active_render = True
 bpy.data.objects.remove(so)
 for o in SHELL: bpy.data.objects.remove(o)   # 外殼只在烘焙時用
+# --drop 正規式：模型裡只在烘焙時擋光、不輸出的物件（名字合這個正規式；也要放進 --nolm，不分光照貼圖）。例：男一舍門廳（DORM-HALL-LM-1028）四面都有窗、外殼不能包，
+# 沒做模型的寢室、舍監室、洗衣間外面用 BAKEONLY_ 板子擋住天光（不然天光從那幾塊空間漏進門縫、舍監室窗口）
+if arg('--drop'):
+    _drop = re.compile(arg('--drop'))
+    for o in [o for o in bpy.data.objects if _drop.search(o.name)]: bpy.data.objects.remove(o)
 json.dump({'scale': SCALE, 'intensity': math.pi * SCALE, 'res': RES, 'samples': SAMPLES, 'emit': EMIT, 'sun': SUN, 'sky': SKY, 'nightsky': NIGHTSKY, 'shell': arg('--shell'), 'daylights': DAYL, 'lights': arg('--lights'), 'wb': WB,
            'objects': [o.name for o in objs]}, open(LM + '.json', 'w'), ensure_ascii=False, indent=1)
 URL = arg('--url')   # 遊戲裡光照貼圖的路徑前綴（例：assets/models/env/classroom_201_lm）→ 寫進 GLB 場景的 extras.lightmap，遊戲的 attachRoomGLB 看到就自動接
