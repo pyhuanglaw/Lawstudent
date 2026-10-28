@@ -1,4 +1,5 @@
-// AA_516 學姊第十四批：她在美國的五個月（企劃線 a9b87c588，AA-C 2026-10-28；任務 SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
+// AA_516 學姊第十四批：她在美國的五個月（企劃線 a9b87c588 → cf7d5fa94 第 7 節：4-3 結帳那句改「……我的也舊了。順便。」、日本路線沒有 2-3；AA-C 2026-10-28；任務 SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
+// 第 7 節（cf7d5fa94）修改前（只拿掉 sis_b14_events.js 那一句的改動，白名單、測試用新的）：FAILED 3（第 0 段雙向對稿兩項、第 7 段 4-3 逐字）；修改後 ALL PASS。
 // 台詞逐字對稿（git show a9b87c588：第 2～5 節的「>」、選項、說明裡的「」；第 1 節表格「改成」那一欄；兩個方向）。
 // 玩家：A 臺灣交往中、B 日本交往中、C 臺灣朋友（T3）、D 沒見過她（1-6）、E 美國交往中、F 美國沒交往（挽回中）。
 //   0  讀稿、新檔載得到、index.html 順序；稿 → 遊戲（每一句、每個選項、說明裡的「」、第 1 節改成的字）、遊戲 → 稿（新檔每一句＋各檔帶 aa516 的行＋改字）；第 1 節換掉的舊句不在遊戲裡
@@ -72,7 +73,7 @@ const stepOf=id=>{ const L=LADDER&&LADDER.byTerm&&LADDER.byTerm.Y4S1&&LADDER.byT
 const lad=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const st=stepOf(id); if(!st) throw new Error('沒有閒聊階梯 '+id); await STORY.ladPlay(GM,ID,ID,st); };
 
 /* ---------- 讀稿 ---------- */
-const SHA='a9b87c588', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
+const SHA='cf7d5fa94', DOCF='docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA516_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
 const S1=part('## 1. 修正','## 2. '), BODY=part('## 2. ','## 6. ');   /* 第 1 節（表）、第 2～5 節（台詞）*/

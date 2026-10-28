@@ -1,4 +1,4 @@
-/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588；任務 SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）的台詞與事件 =====
+/* ===== 學姊第十四批：她在美國的五個月（AA_516，企劃線 a9b87c588 → cf7d5fa94 第 7 節；任務 SIS-B14-1028、SIS-LEAD-1021、D111、USER_WANTS C25）的台詞與事件 =====
    台詞照稿一字不改（D100、D109）。接線在 src/sis_b14_3d.js。
    改在現有事件裡的句子寫在各自的檔，那幾行都帶 aa516:true（tests/aa516_sis_b14_unit.js 逐句對稿用；遊戲不讀這個欄位）：
      第 1 節：r2y4b_events.js g6（1-1）、r2y4a3d.js 12/20 戀人版私訊的截圖（1-2，R2Y4A.PICKUP_SHOT）、r2y4b_events.js 大峽谷才交往的第一次視訊開頭（1-3）、
@@ -85,7 +85,7 @@ const SISB14_EVENTS=(function(){
         N('（她挑了三件，你試了三件。最後買的是第一件。）'),
         SIS('第一件。我一開始就知道。'),
         N('（結帳的時候，她手上也多了一件。）'),
-        SIS('我說過，我的也換。'),
+        SIS('……我的也舊了。順便。'),   /* AA_516 第 7 節第 1 點（cf7d5fa94）：選「好。週六。」的玩家沒聽過她說「我的也換」 */
         {set:{SIS14_COAT:true}} ] },   /* 外套的錢稿沒寫：不扣（LAWWW 定）*/
     /* ---------- 4-4 第四十天選「我過去。」→ 當晚 22:30（當地）C 棟門口（2D，出遊 0.5 小時，不用移動）---------- */
     { id:'ev_sis14_day40', title:'兩把傘', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
