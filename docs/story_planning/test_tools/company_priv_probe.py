@@ -193,15 +193,16 @@ async def talk(pg, cdp, run, who, rid, tag, pick=None, max_s=300):
     return r
 
 
-async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=420, redo=None):
+async def approach_talk(pg, cdp, run, who, rid, avoid, tag, pick=None, max_s=600, redo=None):
     """像玩家一樣走到她旁邊（她可能在走動：每一輪重新看她在哪）到按鈕變成「和她說話」再按；按了沒反應、或先演了別的事件就再說一次（最多三次）"""
     t0 = time.time(); n = 0; tries = 0
     while time.time() - t0 < max_s and tries < 3:
         g = await pg.evaluate("([a,b])=>__CPF.target(a,b)", [who, avoid])
+        if n >= 2 and g and not g['ok'] and g['d'] > 3: run.note('%s：第 %d 輪前她在 (%s,%s)、離 %s m、%s' % (tag, n + 1, g['hx'], g['hz'], g['d'], g['beh']))
         if not g: run.note('%s：她不在這一區' % tag); return None
         if not g['ok']:
             n += 1
-            await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：她旁邊（第 %d 輪）' % (tag, n), max_s=100, stop=lambda s, w=g['want']: s['interact'].startswith(w))
+            await L.go_to(pg, cdp, run, g['tx'], g['tz'], 0.55, '%s：她旁邊（第 %d 輪）' % (tag, n), max_s=(100 if n <= 2 else 18), stop=lambda s, w=g['want']: s['interact'].startswith(w))   # BB-C 10-28 priv_event_r2：她一直在走，走到舊的點她已經離 6～8 m；第 3 輪起每 18 秒重新看她在哪（追著走）
             await pg.wait_for_timeout(500)
             g2 = await pg.evaluate("([a,b])=>__CPF.target(a,b)", [who, avoid])
             if g2 and not g2['ok']: run.note('%s：到了以後按鈕是「%s」（要「%s」），離她 %s m、她 %s' % (tag, g2['lab'], g2['want'], g2['d'], g2['beh']))   # BB-C 10-28 priv_event 一個人那段 9 輪都沒說到話：記下來看是她走開了還是按鈕被別的東西搶走
