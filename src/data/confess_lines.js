@@ -41,7 +41,8 @@ const CONFESS_LINES={
     preexamFlag:'SIS_DECLINED_PREEXAM',
     prerank:G=>G.flags&&G.flags.SIS_DECLINED_PRERANK?['還沒放榜啦。……我說過的，等放榜。']:['……謝謝你。','考完了，可是還沒放榜。我現在每天都在想那個數字。','等放榜好不好？放榜以後，你再跟我說一次。'],
     prerankFlag:'SIS_DECLINED_PRERANK',
-    yes:G=>typeof SISB4!=='undefined'&&SISB4.restartYes&&SISB4.restartYes(G)?['你做到了。','……我也想好了。','這次，我選你。']   /* AA_386 4-2（BB_122 9-2 答應的版本；企劃線 e848154a）；AA_398 第 47 列不數件數：分開以後、演過 ev_sis_three_conditions、重新開始的那一次 */
+    yes:G=>typeof SISB4!=='undefined'&&SISB4.restartYes&&SISB4.restartYes(G)?['你做到了。','……我也想好了。','其他的，想了很久。……沒有了。','這次，我選你。']   /* AA_386 4-2（BB_122 9-2 答應的版本；企劃線 e848154a）；AA_398 第 47 列不數件數：分開以後、演過 ev_sis_three_conditions、重新開始的那一次。
+       AA_512 6-2（企劃線 c444f0757）：4-1「其他的，我還沒想好。想好了告訴你。」在這裡兌現——「……我也想好了。」和「這次，我選你。」中間加「其他的，想了很久。……沒有了。」；第一次答應照舊 */
       :['……我知道。','其實我也是。考試那時候就有一點了，只是那時候不想想這個。'].concat(G.flags&&(G.flags.SIS_DECLINED_PREEXAM||G.flags.SIS_DECLINED_PRERANK)?['你上次說的，我有記得。']:[]).concat(['好。']),
     decide:(G,t,k)=>typeof SISB4!=='undefined'&&SISB4.rebuildReady&&SISB4.rebuildReady(G)?'yes':DATE.confessDecide(G,'heroine_05'),   /* AA_386 4-2：三件事以後第二次正式校外約會的結尾告白＝答應（她說好的那天）；其他照 DATE.confessDecide */
     notYet:['……謝謝你。可是我還沒想好。','不是你不好。我想再多認識你一點。'], notYetFlag:'SIS_NOT_YET' },

@@ -95,7 +95,7 @@ const SISB4_EVENTS=(function(){
   const THREE=[
     {if:{custom:G=>caught(G)},speaker:ID,text:'我不要再從別人那裡聽到你的事。'},   /* 被發現退回朋友的 */
     {unless:{custom:G=>caught(G)},speaker:ID,text:'有事先跟我說。不要讓我自己猜。'},   /* 其他分開的 */
-    SIS('還有，我要時間。不是一週，是我說好的那天。'),
+    SIS('還有，我要時間。等到我說好的那天。'),   /* AA_512 6-3（企劃線 c444f0757）：禁用句型（口氣表 0-3「不是X，是Y」）改字；原「還有，我要時間。不是一週，是我說好的那天。」；記憶面板「她說：等她說好的那天」不用改 */
     SIS('……其他的，我還沒想好。想好了告訴你。'),
     {choice:[{text:'「好。」',goto:'tc_a'},{text:'「我等妳。」',goto:'tc_b'}]},
     {label:'tc_a'},SIS('嗯。'),{goto:'tc_end'},

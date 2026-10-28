@@ -596,6 +596,12 @@ const R2Y4A_EVENTS=(function(){
       {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */
       IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她走過來，抱住你。）')),
       IF(PV('lover'),nar('（很久，她才放開。）')),
+      /* AA_512 6-1（企劃線 c444f0757）：日本路線視訊的三句在戀人版兌現（ev_sis_jp_video 選的時候記 SIS_JP_COAT、SIS_JP_FIRST；兩個人版、家族共乘、那一通沒接的都不加）。
+         (a) 外套：J3「咬了一口外套。」＋交往版的便條（SIS_JP_NOTE_GF）；aa512：tests/aa512_sis_b13_unit.js 對稿 */
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（你穿的是三月她塞進你背包的那件外套。）'),{aa512:true})),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（她退開一步，拉起你的袖口，翻過來看。）'),{aa512:true})),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(sis('……鹿咬的是這裡。'),{aa512:true})),
+      IF(G=>PV('lover')(G)&&!!G.flags.SIS_JP_COAT,Object.assign(nar('（袖口內側，一排很淡的齒痕。你自己都忘了是哪一邊。）'),{aa512:true})),
       {scene:'車上',bg:'car_night'},
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
       {unless:{custom:G=>!!G.flags.SIS_MAPLE&&G.flags.SIS_MAPLE_MSG==='got'},goto:'mp_e'},   /* AA_395 2-2：有書籤、傳過「書籤收到了。」的才有下面這一段 */
@@ -605,12 +611,16 @@ const R2Y4A_EVENTS=(function(){
       sis('……不行，看前面。'),
       sis('美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。'),
       sis('我想吃滷肉飯。現在。'),
+      IF(G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='secret',Object.assign(sis('……七月說要保密的，就是這個。'),{aa512:true})),   /* AA_512 6-1 (b)：J4「妳決定。」（先保密）*/
       IF(PV('family'),{speaker:'Kevin',text:'學姊妳今天話好多！'}),   /* Kevin 在後座 */
       IF(PV('lover'),sis('……還有，我想你。')),   /* AA_398 第 35 列 */
-      {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',goto:'c'}]},
+      {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',unless:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'c'},
+        {text:'「麵店？說好的。」',if:{custom:G=>PV('lover')(G)&&G.flags.SIS_JP_FIRST==='noodle'},goto:'nd',aa512:true}]},   /* AA_512 6-1 (c)：J4「麵店。」（第一天就去）＝第三個選項換成這一個；其他兩個照舊 */
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
       {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。不要再說明天。」（r2y4a3d.js；AA_398 第 36 列）*/
-      {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),
+      {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),{goto:'e'},
+      {label:'nd'},Object.assign(sis('……對。第一天。'),{aa512:true}),Object.assign(nar('（你們開回公館。麵店的鐵門拉下一半，阿姨看到你，又把門拉上去。）'),{aa512:true}),
+      Object.assign(nar('（阿姨端了兩碗麵，又多放一碗滷肉飯在她面前。她先吃滷肉飯。）'),{aa512:true}),
       {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });
 

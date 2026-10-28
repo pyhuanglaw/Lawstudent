@@ -622,7 +622,10 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('5-2. 不在家族群組：沒有',!setup({fam:false}).length);
     setup(); answer('kv_hand',0); const q=OUT.get(H.G,'kv_hand');
     check('5-2. 回「去。」＝排進行程：9/17 18:30 118 巷的定食店（時間到問出發）',!!q&&q.day===h&&q.h===18.5&&q.ev==='ev_kv_handover'&&q.place==='118 巷・定食店',J(q));
-    const run=async k=>{ fresh(h,18.5,'l118'); joinFam(); await play('ev_kv_handover',[k]); return H.said.map(x=>(x.who?x.who+'：':'')+x.t); };
+    /* 2026-10-28 AA_512 13-1（企劃線 c444f0757）：交棒那一晚學姊也在——她那幾句（開場那句旁白後面、交棒以後的書單；SISB13_HAND）在 tests/aa512_sis_b13_unit.js 對 AA_512 的稿，
+       這裡只看 AA_497 的句子（拿掉 AA_512 那幾句以後順序、內容照舊）*/
+    const AA512H=new Set(typeof SISB13_HAND!=='undefined'?SISB13_HAND.open.concat(SISB13_HAND.after).map(l=>l.text).filter(Boolean):[]);
+    const run=async k=>{ fresh(h,18.5,'l118'); joinFam(); await play('ev_kv_handover',[k]); return H.said.filter(x=>!AA512H.has(x.t)).map(x=>(x.who?x.who+'：':'')+x.t); };
     let r=await run(0);
     check('5-2. 開場：定食店、Kevin「學弟，這是佳穎。……」（第 8 節第 5 點）、佳穎「學、學長好。」、Kevin「考古題的資料夾，……交給你。」；三個選項',K.hand.open[1][1]==='學弟，這是佳穎。你的直屬學妹。……對，你現在是學長了。'&&J(r.slice(0,4))===J(K.hand.open.map(([w,t])=>(w==='kv'?'Kevin：':w==='yz'?'佳穎：':'')+t))&&J(H.opts[0])===J(K.hand.opts),J(r.slice(0,4)));
     const reps=[r.slice(4)]; for(const k of [1,2]){ reps.push((await run(k)).slice(4)); }

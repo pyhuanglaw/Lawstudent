@@ -35,6 +35,10 @@ const sec=(name,fn)=>{ try{ fn(); }catch(e){ check(name+'（例外）',false,Str
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const doc={Y2S2:show(SHA,DOC.Y2S2.spec),Y3S1:show(SHA,DOC.Y3S1.spec)}, old={Y2S2:show(OLD,DOC.Y2S2.spec),Y3S1:show(OLD,DOC.Y3S1.spec)};
+/* 2026-10-28 AA_512 13-2「連帶」、第 4 節第 5 點（企劃線 c444f0757）：feed_y3s1 學姊第 1 則她的一句「第二次。」改「又煮了。」（5/9 家族在她新家吃的那一鍋已經是第二次）——
+   那一格照 AA_512 的「→」右邊比；新句子要在 AA_512 裡（tests/aa512_sis_b13_unit.js 也查）*/
+const DOC512=show('c444f0757','docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md');
+const AA512_SAY={sis1e:['第二次。','又煮了。']}, AA512_OK=id=>{ const x=AA512_SAY[id]; return !!x&&DOC512.indexOf('「'+x[0]+'」→「'+x[1]+'」')>=0; };
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
@@ -108,11 +112,11 @@ sec('0',()=>{ const sc=f=>html.indexOf('<script src="'+f), i3=sc('src/data/feed_
   for(const term of ['Y2S2','Y3S1']){ const S=SET[term], md=doc[term];
     if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
-    const L=strs(S), bad=L.filter(t=>!md.includes(t)), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);
+    const L=strs(S), bad=L.filter(t=>!md.includes(t)&&!(term==='Y3S1'&&Object.keys(AA512_SAY).some(id=>AA512_SAY[id][1]===t&&AA512_OK(id)))), vp=S.posts.filter(p=>typeof p.pic==='object').map(p=>p.id);   /* AA_512 改的那一句在 AA_512 裡 */
     check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+SHA+'，一字不差；'+L.length+' 句；兩個版本的照片 '+(vp.join('、')||'沒有')+' 在 ② 對）',L.length>=(term==='Y2S2'?200:190)&&!bad.length&&J(vp)===J(term==='Y2S2'?['an7d']:[]),J({bad:bad.slice(0,8),vp}));
     /* ② 稿 → 遊戲：動態表每一列 */
     const rows=rowsOf(md), wrong=[], wd=[], went={};
-    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when);
+    for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when); if(AA512_SAY[e.id]&&e.say===AA512_SAY[e.id][0]&&AA512_OK(e.id)) e.say=AA512_SAY[e.id][1];   /* AA_512 改字 */
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(e.went) went[e.id]=e.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null;
       const same=!!p&&p.who===e.who&&p.st===e.st&&C(p.pic)===C(e.pic)&&p.say===e.say&&C(p.cm)===C(e.cm)&&C(p.dm)===C(e.dm)&&p.went===e.went&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;

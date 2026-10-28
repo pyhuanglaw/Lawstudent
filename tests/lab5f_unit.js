@@ -29,7 +29,7 @@ const door=()=>({label:LINZE_UPPER_LAYOUTS['4f'].stairs.up.label,look:LINZE_UPPE
 (async()=>{
 await sec(0,()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
   check('0. src/lab5f3d.js 載得到、index.html 有接（在 loans3d.js 前面）',ok&&!!X()&&html.indexOf('src/lab5f3d.js')>0&&html.indexOf('src/lab5f3d.js')<html.indexOf('src/loans3d.js'),err);
-  const e=(CHARACTERS[SIS].daily_schedule||[]).find(q=>q.zone==='linze_5f');
+  const e=(CHARACTERS[SIS].daily_schedule||[]).find(q=>q.zone==='linze_5f'&&!/^AA_512/.test(q.note||''));   /* 2026-10-28 AA_512（企劃線 c444f0757）多兩筆 linze_5f：13-3 那兩天 17:00～18:00、交往中週一三晚上（tests/aa512_sis_b13_unit.js）；這裡看 AA_399 那一筆 */
   check('0. 學姊的作息：週一～週四 12:20～14:00 研究室（spot sis_desk、2026-09-01～2029-05-31）',!!e&&J(e.days)==='[1,2,3,4]'&&Math.abs(e.from-(12+20/60))<1e-9&&e.to===14&&e.spot==='sis_desk'&&J(e.dates)===J([['2026-09-01','2029-05-31']]),J(e));
   check('0. OUT.STAGE 有 LAB5 的換場；OUT.bg 包了一層',!!X()&&Array.isArray(OUT.STAGE)&&OUT.STAGE.includes(X().outingStage)&&OUT._lab5Bg===true);
   const src=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
