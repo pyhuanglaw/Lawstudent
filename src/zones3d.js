@@ -1407,13 +1407,20 @@ const Z3 = (function(){
   function lmLoad(url){ if(!lmTex[url]){ const t=new THREE.TextureLoader().load(url); t.flipY=false; t.colorSpace=THREE.SRGBColorSpace; t.channel=1; lmTex[url]=t; } return lmTex[url]; }
   function lmMixAt(h){ h=((h%24)+24)%24; if(h>=6.8&&h<17.0) return 0; if(h>=18.6||h<5.6) return 1; return h>=17.0?(h-17.0)/1.6:(6.8-h)/1.2; }   /* 0＝白天那張、1＝晚上那張（17:00～18:36、05:36～06:48 慢慢換）*/
   const LM_MAPS=THREE.ShaderChunk.lights_fragment_maps.replace('vec4 lightMapTexel = texture2D( lightMap, vLightMapUv );','vec4 lightMapTexel = mix( texture2D( lightMap, vLightMapUv ), texture2D( lmNight, vLightMapUv ), lmMix );');
-  function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set();
+  /* 快取的 GLB 每次進區域都是 c.scene.clone(true)：網格是新的、材質是同一批（clone 不複製材質）。接過光照貼圖的材質記在 lmWired（材質 → 它的 uniform）：
+     再進一次只換這一次的白天／晚上貼圖、照時段更新同一組 uniform，不再包一層 onBeforeCompile——包兩層＝lmNight 等 uniform 宣告兩次、shader 編不過、
+     那個網格整個不畫（BB-C 10-28 10:0x：霖澤館大廳第二次進去地板沒紋理、沙發長椅不見、NPC 坐在空氣上；201、202、多功能教室同一段程式）*/
+  const lmWired=new WeakMap();
+  function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set(), Us=new Set([U]);
     root.traverse(o=>{ if(!o.isMesh||!o.geometry||!o.geometry.attributes.uv1) return;
       for(const m of [].concat(o.material)){ if(!m||done.has(m)||!m.isMeshStandardMaterial) continue; done.add(m); m.lightMap=day; m.lightMapIntensity=spec.intensity||Math.PI*2;
+        const U0=lmWired.get(m); if(U0){ U0.lmNight.value=U.lmNight.value; Us.add(U0); continue; }   /* 已經接過（快取的 GLB 再進一次）：不再包一層 */
+        lmWired.set(m,U);
         const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,U);
           sh.fragmentShader='uniform sampler2D lmNight; uniform float lmMix; uniform float lmDirK;\n'+sh.fragmentShader.replace('#include <lights_fragment_begin>','#include <lights_fragment_begin>\nreflectedLight.directDiffuse *= lmDirK; reflectedLight.directSpecular *= lmDirK;\n#if defined( RE_IndirectDiffuse )\nirradiance = vec3( 0.0 );\n#endif').replace('#include <lights_fragment_maps>',LM_MAPS); };
         const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomLM'; }; m.needsUpdate=true; } });
-    const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); U.lmMix.value=lmMixAt(E&&E.hour!=null?E.hour:12); }; U.lmMix.value=lmMixAt(typeof GAME!=='undefined'&&GAME.G?GAME.G.hour:12);
+    const mix=h=>{ const v=lmMixAt(h); for(const u of Us) u.lmMix.value=v; };   /* 這一次用到的每一組 uniform（新接的、之前接過的）都照時段 */
+    const up0=z.update; z.update=function(dt,E){ if(up0) up0.call(this,dt,E); mix(E&&E.hour!=null?E.hour:12); }; mix(typeof GAME!=='undefined'&&GAME.G?GAME.G.hour:12);
     z.lightmapped=done.size; return done.size; }
   /* 室內鏡頭在牆外時（牆淡出）看到的背景（INTERIOR-AAA-REVIEW-1028 P2，LAWWW2-C）：房間外 m 公尺一圈暗色的殼（只從裡面看得到、不受光、不吃霧），鏡頭在牆外也看不到天空
      （v1：鏡頭從側面的走道往前看，牆淡出的那一邊整片淺藍色的天空，教室像飄在天上）。鏡頭最多在牆外 4.4 m（跟隨距離），殼在 7 m：永遠在鏡頭後面，不會擋住房間。

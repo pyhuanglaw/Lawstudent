@@ -4,6 +4,9 @@
 //      有第二套 UV 的材質接 lightMap、外牆的材質是複製以後才接（clone 不會帶 onBeforeCompile）、天花板不再加 TK.bounce（亮度已經烘焙進去）、
 //      沒有第二套 UV 的不動、zone.update 照時段換白天／晚上那張（12 點 0、20 點 1、17:48 一半）。
 //   3. 沒有 extras.lightmap 的 GLB（萬才館室內也走 attachFormal）：照舊——天花板 TK.bounce、沒有 lightMap。
+//   4. 快取的 GLB 進兩次（LOBBY-REENTRY-1028，BB-C 10-28 10:0x：大廳第二次進去地板沒紋理、沙發長椅不見）：遊戲真正的流程每次 c.scene.clone(true)＝材質共用；
+//      第二次接光照貼圖不能再包一層 onBeforeCompile（包兩層＝uniform 宣告兩次、shader 編不過、網格不畫）；第二次進去的 zone.update 照時段改到 shader 用的那一組 uniform。
+//      修改前（只拿掉 zones3d.js 的改動，4bd186657）：第 4 段 FAIL 1（lmNight 宣告 2 次）；修改後 ALL PASS。
 // 用法：node tests/linze_lightmap_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -62,6 +65,18 @@ const find=(z,nm)=>{ let o=null; z.group.traverse(c=>{ if(!o&&c.name===nm&&c.isM
     const at=h=>{ z.update(1/30,{hour:h}); return +sh.uniforms.lmMix.value.toFixed(3); };
     check('12:00 用白天那張（0）', at(12)===0, ''+at(12)); check('20:00 用晚上那張（1）', at(20)===1, ''+at(20)); check('17:48 一半', at(17.8)===0.5, ''+at(17.8));
     check('zone.update 照舊更新電梯（原本的 update 有接著呼叫）', (()=>{ let called=false; const u=z.elev.update; z.elev.update=function(dt){ called=true; return u.call(this,dt); }; z.update(1/30,{hour:12}); z.elev.update=u; return called; })());
+  }
+  /* 4. 快取的 GLB 進兩次：同一個 root（ASSETS 快取），building3d 每次 clone(true) */
+  { const root=fakeGLB(true), orig=ASSETS.loadOne; ASSETS.loadOne=(k)=>k==='bldg.linze_interior'?Promise.resolve({scene:root}):orig.call(ASSETS,k);
+    const enter=async()=>{ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES.linze.build(E); E.zone=z; await new Promise(r=>setTimeout(r,0)); return z; };
+    const z1=await enter(), z2=await enter(); ASSETS.loadOne=orig;
+    const f1=find(z1,'L0_floor'), f2=find(z2,'L0_floor'), shared=!!(f1&&f2&&f1.material===f2.material);
+    const sh={uniforms:{},fragmentShader:'#include <lights_fragment_begin>\n#include <lights_fragment_maps>\n'}; if(f2) f2.material.onBeforeCompile(sh,null);
+    const decl=(sh.fragmentShader.match(/uniform sampler2D lmNight/g)||[]).length;
+    check('4. 快取的 GLB 進兩次：地板材質共用（clone(true)）、第二次也接上 lightMap', shared&&!!f2.material.lightMap&&z2.formalInfo&&z2.formalInfo.lightmapped===4, JSON.stringify({shared,lm:z2.formalInfo&&z2.formalInfo.lightmapped}));
+    check('4. 第二次進去 onBeforeCompile 只包一層：lmNight 只宣告一次（兩次＝shader 編不過、網格不畫）', decl===1, decl+' 次');
+    z2.update(1/30,{hour:20.5}); const n=sh.uniforms.lmMix&&sh.uniforms.lmMix.value; z2.update(1/30,{hour:12}); const d=sh.uniforms.lmMix&&sh.uniforms.lmMix.value;
+    check('4. 第二次進去的 zone.update 照時段改到 shader 用的那一組（20:30＝1、12:00＝0）', n===1&&d===0, JSON.stringify({n,d}));
   }
   { const z=await build(false);
     const c=find(z,'L1_ceiling'), fl=find(z,'L0_floor');
