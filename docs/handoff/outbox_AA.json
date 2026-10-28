@@ -3545,6 +3545,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "pool 第三批（大二的六位）"
+  },
+  {
+   "task": "NPC-STORY-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "17d57eff3",
+   "files": [
+    "docs/story_planning/AA_501_法律系同學第四批_大三四位_洪珮瑜_施孟儒_廖芸萱_嚴守誠.md"
+   ],
+   "state": "已交付",
+   "remaining": "AA 這邊二十位都寫完（AA_498～501）＋五位配角（AA_497）；剩 LAWWW 實作、AA 實作後在遊戲裡讀",
+   "next": "LAWWW：AA_501 四位；系籃三選項回應；personality 表補進 characters.js",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "pool 第四批（大三的四位），二十位完"
   }
  ],
  "items": [
