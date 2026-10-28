@@ -3812,6 +3812,36 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "自查今天新稿的懸著的承諾（同 AA_356 做法），只有可昕兩件沒下文"
+  },
+  {
+   "task": "COMPANY-PRIV-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6bc3cd784",
+   "files": [
+    "docs/story_planning/AA_503_女主角自己的生活_大一上_動態頁_圈子_她的事.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_503 第 14 節 ASK_AA 12 項（擋 1～5、10 的兩句；不擋 6、8、11；7 改一般版；9 加走廊旁白；12 例外三組）＋共同保底：沒有期限的私密項目等 7 天等不到她一個人，第 8 天起照演、開頭旁白「（她跟旁邊的人說了一聲，走到你這邊。）」",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項"
+  },
+  {
+   "task": "CIRCLE3D-Y4-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6bc3cd784",
+   "files": [
+    "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW：AA_509 最後一節大四圈子六項（學姊週五從 2029-01-12、子晴騎樓那一列延到 6/27、語彤暑假坐長桌最裡面；其他照現在）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW-C d55f3aff1 要 AA 定的 18 項"
   }
  ],
  "items": [
