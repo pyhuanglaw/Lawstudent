@@ -4532,7 +4532,7 @@ const STORY_EVENTS_V11=[
         {if:CU(G=>NOTE(G,'zhou_88')),choice:[{text:'「看他有沒有合理注意的可能。」',goto:'y4a'},{text:'「看情況。」',goto:'y4b'},{text:'「我還是不太確定。」',goto:'y4c'}]},
         Object.assign({if:CU(G=>!ZNOTES(G))},Z('四年了，你才來我研究室。')),{goto:'y4z'},
         {label:'y4a'},Z('對。你那時候是用問的。','smile'),{goto:'y4z'},{label:'y4b'},Z('……法律系四年，你學會了這三個字。'),{goto:'y4z'},{label:'y4c'},Z('很好。不確定的人比較會去查。','smile'),
-        {label:'y4z'},Z('專題的題目，挑一個你大一就想不通的。'),Z('想不通，才寫得下去。'),{consequences:ZOFF('大四去研究室'),mem:[{npc:'prof_zhou',tag:'ZHOU_Y4',note:'大四去了周教授的研究室'}]},
+        {label:'y4z'},Z('專題的題目，挑一個你大一就想不通的。'),Z('想不通，才寫得下去。'),{consequences:ZOFF('大四去研究室'),mem:[{npc:'prof_zhou',tag:'ZHOU_Y4'}]},   /* 人物面板的名稱「大四去了周教授的研究室」在 social3d.js MEMORY_LABEL（不另寫備註，免得重複）*/
         {label:'end'} ] },
     { id:'ev_prof_lin_after', term:['Y3S1'], title:'下課後', participants:['prof_lin'], location:'classroom', trigger:'interact', priority:6, cooldown_days:6, weekday:[2], time:[11.8,12.6], background:'blur',
       dialogue:[ Object.assign({if:CU(G=>LA(G)%4===0)},L('「你剛剛那題——」','smile')),Object.assign({if:CU(G=>LA(G)%4===1)},L('你上課皺眉頭的那一題——','smile')),Object.assign({if:CU(G=>LA(G)%4===2)},L('剛剛那個證人的例子——','smile')),Object.assign({if:CU(G=>LA(G)%4===3)},L('你筆記抄到一半停下來的地方——','smile')),

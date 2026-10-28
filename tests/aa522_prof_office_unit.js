@@ -16,7 +16,7 @@
 //   4  第 4 節：陳教授的閒聊換句（不說來研究室聊）、黃教授那句照舊、過時的註解拿掉
 //   5  舊存檔：沒有 notes、沒有新旗標、旗標壞掉都不丟例外；大一上原本兩題有筆記＝問過；許教授大一兩題有 GRAD_SCHOOL_DISCUSSION／book_xu＝問過
 //   （法律題庫 legal_qbank.js、exam_bank.js 這一批沒有動：交付時用 git diff 核對，不寫成這裡的檢查——之後題庫照正常程序更新時這支測試不該失敗）
-// 修改前（只拿掉這次 src 的改動：src/data/events.js、src/story3d.js 回到開發分支 ccf06cc69；白名單、這支測試用新的；git archive 那一版放進暫存目錄真的跑過，稿從這個 repo 讀：AA522_DOCREPO）：
+// 修改前（只拿掉這次 src 的改動：src/data/events.js、src/story3d.js、src/social3d.js 回到開發分支 ccf06cc69；白名單、這支測試用新的；git archive 那一版放進暫存目錄真的跑過，稿從這個 repo 讀：AA522_DOCREPO）：
 //   FAILED 66、PASS 19（PASS＝讀稿三項、白名單、修改前就有的「現有」句和選項、日曆（第 11 週週一、年級）這類事實，和「照舊／不該有」那一類：週四時段、地點、冷卻、classAnswerPlus 兩項、
 //   大二下到大四上週四不演、新五題沒有條號、許教授地點冷卻、暑假大一的題、林教授 3-1 題庫照舊、大四上的旁白「沒有」兩項、舊存檔不丟例外；
 //   FAIL＝修改前沒有 ev_prof_lin_office／ev_prof_lin_nod、周教授只有大一的兩題、閒聊和 talkProf 還是「週三下午」、許教授不照年級、林教授 3-1 開頭不換、週二下午不在萬才館、陳教授舊句）；
@@ -203,7 +203,8 @@ await sec('1-3',async()=>{
   check('1-3. 一則 zhou_* 筆記都沒有：（翻大綱）→「四年了，你才來我研究室。」→ 最後兩句；沒有選項',J(none)===J([D13.q[0],D13.q[2],D13.q[3],D13.q[4]])&&noOpt===0,J(none));
   fresh(D,15.5); H.G.notes=[{id:'zhou_154'}]; const other=await run(Z);
   check('1-3. 有別的 zhou_* 筆記、沒有 zhou_88：兩種的第一句都不說，直接接最後兩句',J(other)===J([D13.q[0],D13.q[3],D13.q[4]]),J(other));
-  check('1-3. 記 mem ZHOU_Y4（大四去了周教授的研究室）；一次（之後不再演）',SOCIAL.has('prof_zhou','ZHOU_Y4')&&J(H.G.flags.ZHOU_ASKED)===J({Y4S2:['y4']})&&(at(D+7,15.5),ok(Z))===false,J(H.G.flags.ZHOU_ASKED));
+  const memL=(/記 `mem\('ZHOU_Y4'\)`：([^。\n]+)。/.exec(S13)||[])[1]||null;
+  check('1-3. 記 mem ZHOU_Y4；人物面板的名稱＝稿上那一句「'+memL+'」（social3d.js MEMORY_LABEL，備註不重複）；一次（之後不再演）',!!memL&&SOCIAL.has('prof_zhou','ZHOU_Y4')&&!!SOCIAL.MEMORY_LABEL&&SOCIAL.MEMORY_LABEL.ZHOU_Y4===memL&&SOCIAL.describe('prof_zhou').includes(memL)&&!SOCIAL.describe('prof_zhou').includes(memL+'（')&&J(H.G.flags.ZHOU_ASKED)===J({Y4S2:['y4']})&&(at(D+7,15.5),ok(Z))===false,J([H.G.flags.ZHOU_ASKED,SOCIAL.describe('prof_zhou')]));
   fresh(D,15.5); const r2=enter('wancai'); const t2=r2.ids.includes('prof_zhou')&&await r2.talk('prof_zhou'); const s2=said();
   check('1-3. 那天專題下課後他照課表在萬才館，走過去和他說話就是這一場',r2.ids.includes('prof_zhou')&&t2&&s2[0]===D13.q[0]&&s2.includes(D13.q[3]),J([r2.ids,s2]));
 });
