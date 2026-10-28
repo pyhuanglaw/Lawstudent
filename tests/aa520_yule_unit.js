@@ -149,6 +149,8 @@ await sec(1,async()=>{ const b=S3B['3-4'], d=D(b.date), h=hOf(b.hm), n=b.base.le
   const got=(o,fn)=>{ fresh(d,h-0.5,o); if(fn) fn(); phAt(d,h+0.05); return txt('yl_officer').length; };
   const dating=got({kx:'dating'}), friend=got({kx:'friend'}), noMet=got({kx:'dating',met:false});
   check('1. 交往中、沒交往過（朋友）照傳；沒見過予樂（沒有宵夜、手機裡沒有她）不傳',dating===n&&friend===n&&noMet===0,J({dating,friend,noMet}));
+  const viaHeard=got({kx:'dating',met:false},()=>{ H.G.flags.HEARD={said:{},day:{},ph:{h503_yule:'sent'}}; }), viaOwn=got({kx:'dating',met:false},()=>{ H.G.flags.YL_PH={yl_run:'sent'}; }), viaX=got({kx:'dating',met:false},()=>{ H.G.flags.YL_PH={yl_run:'x:late'}; });
+  check('1. 手機裡有她：她傳過的（原有八則、她自己的事）送出過就算——手機 200 則的上限把那幾則擠掉也一樣；沒送出過的（x:）不算',viaHeard===n&&viaOwn===n&&viaX===0,J({viaHeard,viaOwn,viaX}));
   const ex=got({kx:'ex'}); const xr=(H.G.flags.YL_PH||{}).yl_officer;
   check('1. 和可昕分開了（ROM.end）：不傳，之後條件成立也不補（記 x:cond）',ex===0&&xr==='x:cond',J({ex,xr}));
   /* 從分開那天起：之前的照傳 */
@@ -285,6 +287,8 @@ await sec(5,async()=>{ const d=D(H509_DAY), h=hOf(H509_HM), dR=D(RPT_DAY), hR=hO
   /* 1/12 報告 */
   const rep=(flags,kx)=>{ fresh(dR,hR-0.5,{kx:kx||'dating',flags}); phAt(dR,hR-1/60); const e=txt('yl_report').length; phAt(dR,hR); return {e,m:byTag('yl_report').map(m=>[m.day,Math.round(m.h*60),m.text])}; };
   const a0=rep({YL_RPT:'ask'}), a1=rep({YL_RPT:'ask',YL_ROOM:true}), n1=rep({YL_RPT:'up'}), n2=rep({YL_RPT:'night'}), n3=rep({}), nx=rep({YL_RPT:'ask'},'ex');
+  fresh(dR,hR-0.5,{kx:'dating',met:false,flags:{YL_RPT:'ask'}}); phAt(dR,hR); const cut=txt('yl_report').length;   /* 11/7 選了①、之後手機裡她的訊息都被擠掉（沒有宵夜那一筆）*/
+  check('5. 1/12：11/7 選了①的，之後手機裡她的訊息被擠掉也照送（見過她那時已經成立，只看和可昕）',cut===4,J(cut));
   const W=extra=>S5_0112.concat(extra).map(t=>[dR,Math.round(hR*60),t]);
   check('5. 1/12（五）22:00 只有選①的：三則＋「'+S5_NOROOM[0]+'」（沒有 YL_ROOM）／「'+S5_ROOM[0]+'」（有）；②③沒回、分開了都沒有',a0.e===0&&J(a0.m)===J(W(S5_NOROOM))&&J(a1.m)===J(W(S5_ROOM))&&!n1.m.length&&!n2.m.length&&!n3.m.length&&!nx.m.length,J({a0,a1,n1,nx}));
   /* 美國路線：11/7 人在美國，照當地時間；期限也是 */

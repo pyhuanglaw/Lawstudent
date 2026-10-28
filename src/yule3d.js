@@ -2,9 +2,11 @@
    台詞、事件在 src/data/yule_lines.js（YULE_LINES、YULE_EVENTS，照稿一字不差）。第 2 節（原有八則）照舊在 src/data/heard_lines.js 由 HEARD 送：
      h503_yule 後面兩句（同一組、同樣的條件）；h509_yule 第二則的選項（heard3d.js 的 ask；選項只給 S.kxOk 的玩家：HEARD.COND.yuleOwn）。
    ■ 第 1 節 誰收得到（第 3～6 節新的都照這個；原有八則照原本的 HEARD.COND.yule）：S.ownOk＝法律系、HEARD.COND.yule（見過她或手機裡有她）＋S.kxOk（和可昕沒有鬧翻）：
-       被抓包（對質過：romance.kexin 是 friend_after_catch／paused、最近的分開是被發現的那幾種 MREL.caughtBefore、舊存檔 EX_kexin_REASON 'caught'）＝一律不傳；
+       被抓包（對質過：romance.kexin 是 friend_after_catch／paused、有一次分開是被發現的那幾種〔同 MREL.caughtBefore 的判斷〕、舊存檔 EX_kexin_REASON 'caught'）＝一律不傳（之後重新交往也一樣）；
        交往中、沒交往過（朋友）＝照傳；分開了（ROM.end：EX_kexin）＝從分開那天起不傳——慢慢分手以後已經照朋友的（KXDRIFT.frOn）從照朋友的下一學期第一天起照傳
        （照朋友那天在寒暑假＝前一學期的下一個，同 KXDRIFT.r7From；照朋友那天在大四下＝沒有下一學期，不傳）。可昕的那一則（第 6 節）：手機裡有可昕＋S.kxOk。
+       見過她（S.yuleCond）：HEARD.COND.yule，或她傳過的那幾則（YL_PH、HEARD 的 p:yule）送出過——手機只留 200 則，擠掉了也算手機裡有她。
+       已經在進行的（演講邀請以後的出遊和 21:40、11/7 選①以後的 1/12 報告）只再看 S.kxOk（見過她在那時已經成立）。
    ■ 第 3 節 她自己的事（YULE_LINES.own，十三則＋第 5 節 1/12 的報告）：到了時間（臺灣時間；人在國外換當地時間，HEARD.loc）就送一次；晚三天以上不補（同 HEARD.LATE）；
        到的時候條件不成立＝這一則不送（記 x:原因，之後條件成立也不補）。{if:鍵} 那幾則照 S.IF。
    ■ 第 4 節 演講那一晚：10/14（四）22:00 邀請（回覆期限 10/20 18:00；記 YL_LEC）→ ①'listen' 10/20（三）18:50 霖澤館 201、②'eat' 20:15 阿鳳麵店（OUT.plan，出遊 ADV
@@ -50,7 +52,10 @@ const YULE=(function(){
     if(F['dating_'+KX]===true) return true;
     if(!(F['EX_'+KX]||(R&&R.status==='ex'))) return true;   /* 沒交往過（朋友）*/
     const f=S.frFrom(G); return f!=null&&(d!=null?d:G.day)>=f; };
-  S.yuleCond=G=>{ const H=HR(); return !!(H&&H.COND&&H.COND.yule&&H.COND.yule(G)); };
+  /* 見過她或手機裡有她（HEARD.COND.yule）；她自己的事、原有八則傳過一則以上也算手機裡有她（那幾則被手機 200 則的上限擠掉也一樣）*/
+  S.yuleCond=G=>{ const H=HR(); if(H&&H.COND&&H.COND.yule&&H.COND.yule(G)) return true; const F=G.flags||{};
+    if(F.YL_PH&&typeof F.YL_PH==='object'&&Object.values(F.YL_PH).includes('sent')) return true;
+    const P=F.HEARD&&F.HEARD.ph; return !!(P&&H&&H.L&&(H.L.phone||[]).some(e=>e.th==='p:'+YL&&P[e.id]==='sent')); };
   S.ownOk=(G,d)=>law(G)&&S.yuleCond(G)&&S.kxOk(G,d);
 
   /* ---------------- 條件那幾則（YULE_LINES 的 {if:鍵}）---------------- */
@@ -69,7 +74,7 @@ const YULE=(function(){
   /* ---------------- 第 3 節（＋第 5 節 1/12）她自己的事 ---------------- */
   S.own=function(G){ const R=S.rec(G); let n=0;
     for(const e of L.own||[]){ if(R[e.id]) continue; const w=S.due(G,e.at); if(!w) continue; if(w==='late'){ R[e.id]='x:late'; continue; }
-      if(!S.ownOk(G,w.tw)){ R[e.id]='x:cond'; continue; } if(e.need&&!(S.NEED[e.need]&&S.NEED[e.need](G))){ R[e.id]='x:'+e.need; continue; }
+      if(!(e.need?law(G)&&S.kxOk(G,w.tw):S.ownOk(G,w.tw))){ R[e.id]='x:cond'; continue; } if(e.need&&!(S.NEED[e.need]&&S.NEED[e.need](G))){ R[e.id]='x:'+e.need; continue; }   /* need（1/12 報告）：選項是她傳的，見過她已經成立，只看和可昕 */
       PHONE.at(G,w.day,w.h,S.texts(G,e.t).map(YM),e.id); R[e.id]='sent'; n++; }
     return n; };
 
@@ -85,8 +90,8 @@ const YULE=(function(){
     if(R[A.id]!=='sent') return;
     const u=S.untilAbs(G); if(F.YL_LEC==null&&u!=null&&now(G)>u) F.YL_LEC='no';   /* 沒回＝同③ */
     const o=S.OUTS[F.YL_LEC], d=S.when(B.at), day=d?d.day:null; let q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'yl_lecture'):null;
-    if(o&&!q&&day!=null&&typeof OUT!=='undefined'&&OUT.plan&&now(G)<abs(day,o.h+o.late)&&S.ownOk(G)){ OUT.plan(G,Object.assign({day},o)); q=OUT.get(G,'yl_lecture'); }
-    if(q&&q.state==='planned'&&!S.ownOk(G)) q.state='cancelled';   /* 那之前和可昕鬧翻了＝不演 */
+    if(o&&!q&&day!=null&&typeof OUT!=='undefined'&&OUT.plan&&now(G)<abs(day,o.h+o.late)&&S.kxOk(G)){ OUT.plan(G,Object.assign({day},o)); q=OUT.get(G,'yl_lecture'); }
+    if(q&&q.state==='planned'&&!S.kxOk(G)) q.state='cancelled';   /* 那之前和可昕鬧翻了＝不演（見過她：邀請送出的時候已經成立，之後不再看）*/
     /* 4-4 21:40 */
     if(R[B.id]) return; const w=S.due(G,B.at); if(!w) return; if(w==='late'){ R[B.id]='x:late'; return; }
     let first=B.t[0];
@@ -94,7 +99,7 @@ const YULE=(function(){
       if(q&&q.state==='planned') q.state='missed';   /* 21:40 還沒出發（人在家 OUT.tick 不跑的時候）＝沒到 */
       first=B.miss[F.YL_LEC]; }
     else if(F.YL_LEC!=='no') return;
-    if(!S.ownOk(G,w.tw)){ R[B.id]='x:cond'; return; }
+    if(!S.kxOk(G,w.tw)){ R[B.id]='x:cond'; return; }
     PHONE.at(G,w.day,w.h,[first].concat(B.t.slice(1)).map(YM),B.id); R[B.id]='sent'; };
 
   /* ---------------- 第 5 節 11/7 23:55 ---------------- */
