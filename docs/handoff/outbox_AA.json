@@ -3719,6 +3719,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大三下＋暑假（2028-02～09）；AA_506、AA_507 本體請用 31a4c4002 的版本；芷若 9/2 出發認識以上都有一則"
+  },
+  {
+   "task": "HEROINE-LIFE-1028",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3120ac77a",
+   "files": [
+    "docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md",
+    "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
+    "docs/story_planning/AA_507_女主角自己的生活_大三上與寒假.md"
+   ],
+   "state": "已交付",
+   "remaining": "大四下（2029-02-19～畢業）一份；之後各路線的延畢學期另議",
+   "next": "LAWWW：AA_509 第 0-1 節（AA_507／508 四處）、第 0-2 節九件（學姊論文第四章兩句、語彤 7/9 第二十二個、以安週四麵店與總圖三樓、讀書會順序、語彤法律課、子晴國定假日休、溫州街學姊 12/23、沛珊寒假代課再早餐店、小問題）＋第 1～7 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大四上＋寒假（2028-09～2029-02）；AA_506～508 本體請用 3120ac77a 的版本"
   }
  ],
  "items": [
