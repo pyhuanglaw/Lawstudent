@@ -1042,6 +1042,32 @@
    "noDirectIntegrate": true,
    "source": "使用者 10-28 01:2x（X122★）",
    "closedBy": "923e81d20（合併子代理 95e41cb8f 進開發分支，aa506_507_feed_unit 58 項 ALL PASS）"
+  },
+  {
+   "id": "WIP-LAWWW-CIRCLE3D-1028",
+   "task": "HEROINE-CIRCLE3D-1028",
+   "state": "WIP",
+   "sha": "8f5d97476",
+   "branch": "worktree-agent-a49a6f354b158e257（子代理；D113 備份 wip_backup/circle3d_1028.bundle）",
+   "files": [
+    "wip_backup/circle3d_1028.bundle"
+   ],
+   "todo": "女主角的圈子在 3D：with 同伴、一定同框、走近時聽到、第一次介紹、二十位同學在這裡認識；AA_503～508 各節 x-1",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node、BB 看畫面",
+   "noDirectIntegrate": true
+  },
+  {
+   "id": "WIP-LAWWW-AA497-1028",
+   "task": "NPC-STORY-1028",
+   "state": "WIP",
+   "sha": "6eaac8008",
+   "branch": "worktree-agent-afa95ee54a355c76f（子代理；D113 備份 wip_backup/aa497_1028.bundle）",
+   "files": [
+    "wip_backup/aa497_1028.bundle"
+   ],
+   "todo": "AA_497 五位配角改稿（宥辰、芯慈、Alison、明軒、Kevin；7a38216ca）",
+   "next": "子代理做完回報 → LAWWW 合併、全部 Node",
+   "noDirectIntegrate": true
   }
  ]
 }
