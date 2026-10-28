@@ -13,7 +13,9 @@
 //      之後找他說話不再演他自己的認識那一場；其他人只記下介紹過
 //   5  旁邊有人：同伴在旁邊＝不出「約她去…」、priv（告白）選項，交換聯絡方式照常；同伴不在＝照常
 //   6  其他：標籤同伴的底模都在 ASSETS、性別對、不和二十位同學撞、彼此不重複；story3d.js、multirel3d.js 的掛勾
-// 修改前（開發分支 ff9f54209：沒有 heroine_circle.js、hcircle3d.js；把這支測試放進那一版實際跑過）：見檔尾的紀錄（FAILED 數）。修改後 ALL PASS。
+// 修改前（開發分支 ff9f54209 的乾淨 checkout（git worktree --detach）放進這支測試實際跑，2026-10-28）：FAILED 13、PASS 2
+//   （PASS＝六份稿讀得到、稿上的表一共 90 列；FAIL＝0 載入與 index.html、稿→遊戲、ref、遊戲→稿 4 項，1～5 各 1 項「沒有 HCIRCLE」，
+//    6 標籤同伴、story3d.js 掛勾、multirel3d.js priv、白名單 note 4 項）。修改後 ALL PASS（50 項）。
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
