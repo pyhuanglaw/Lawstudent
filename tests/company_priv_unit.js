@@ -58,7 +58,8 @@ const nextId=(G,id)=>{ const st=STORY.ladNext(G,id); return st?st.id:null; };
 /* ---------- 0 載入、清單、呼叫的地方 ---------- */
 await sec('0',async()=>{ const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=f=>html.indexOf('<script src="'+f);
   const iP=sc('src/privtalk3d.js'), iC=sc('src/hcircle3d.js'), iM=sc('src/multirel3d.js'), iS=sc('src/story3d.js'), iY=sc('src/data/y2b_events.js'), iR=sc('src/data/r2y3a_events.js'), iB=sc('src/data/bbpack_events.js');
-  check('0. 載得到；index.html：privtalk3d.js 在 hcircle3d.js、multirel3d.js、story3d.js、y2b／r2y3a 的事件以後，bbpack_events.js 前面',!errs.length&&HAS()&&iP>iC&&iP>iM&&iP>iS&&iP>iY&&iP>iR&&iB>iP&&iC>0,J(errs));
+  const later=['src/y2r2_3d.js','src/data/zrzq_events.js','src/zrzq3d.js','src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/v6ex_lines.js','src/v6ex3d.js'].filter(f=>!(sc(f)>0&&sc(f)<iP));   /* 第三輪包的那幾個模組（芷若×子晴、學姊、前任、以安明軒）要先載 */
+  check('0. 載得到；index.html：privtalk3d.js 在 hcircle3d.js、multirel3d.js、story3d.js、y2b／r2y3a 的事件、y2r2、芷若×子晴、學姊大二大三、前任的模組以後，bbpack_events.js 前面',!errs.length&&HAS()&&iP>iC&&iP>iM&&iP>iS&&iP>iY&&iP>iR&&iB>iP&&iC>0&&!later.length,J({errs,later}));
   const fn=typeof STORY.privNow==='function'&&typeof STORY.crowdNow==='function';
   let a=null, b=null; if(fn){ fresh('2025-10-07',12.5,'campus'); a=STORY.privNow(H.G,'heroine_03'); crowd('heroine_03',true); b=STORY.privNow(H.G,'heroine_03'); }
   check('0. STORY.privNow(G,id,n,GM)：COMPANY 任一個說旁邊有人＝false（crowdNow 是反面）',fn&&a===true&&b===false&&STORY.crowdNow(H.G,'heroine_03')===true,J({fn,a,b}));
