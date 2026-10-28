@@ -56,20 +56,32 @@ async def main():
             await pg.evaluate("(()=>{ const s=GAME.snapshot(); s.savedAt=Date.now(); localStorage.setItem('fatiao3d_slot_1',JSON.stringify(s)); })()")
             run.setup('[前置] 存檔欄位 1＝同一份使用者存檔改到宿舍 21:00')
             st = copy.deepcopy(SAVE); st.pop('_stuck', None)
-            d = await pg.evaluate("(()=>{ let d=GAME.G.day; while(CALENDAR.dateOf(d).wd!==6) d++; return {d, wd:6}; })()")
-            st.update(day=d['d'], weekday=6, hour=19.5, zone='dorm', pos=None); st['home'] = {'at': True, 'day': d['d']}
+            if MODE == 'home':
+                d = await pg.evaluate("(()=>{ let d=GAME.G.day; while(CALENDAR.dateOf(d).wd!==6) d++; return {d, wd:6}; })()")
+                st.update(day=d['d'], weekday=6, hour=19.5, zone='dorm', pos=None); st['home'] = {'at': True, 'day': d['d']}
+            else:   # 寒假住家裡（breakRound）：有沒開過的要回的訊息＝家裡自動打開手機（HOME.askAuto → GM.phoneThread，D103）
+                d = await pg.evaluate("(()=>{ const G=GAME.G; for(let d=G.day+30; d<G.day+400; d++){ const B=HOME.lawBreak(Object.assign({},G,{day:d,hour:14})); if(B&&B.kind==='winter'&&d>B.from+2&&!(CALENDAR.holiday&&CALENDAR.holiday(d))){ const w=CALENDAR.dateOf(d).wd; return {d, wd:w===7?0:w, key:CALENDAR.dateOf(d).key, B:B.key}; } } return null; })()")
+                run.note('寒假的一天：%s' % J(d))
+                st.update(day=d['d'], weekday=d['wd'], hour=14.0, zone='dorm', pos=None); st['home'] = {'at': True, 'day': d['d']}
+                st.setdefault('msgs', []).append({'th': 'p:heroine_01', 'from': 'heroine_01', 'name': '小安', 'text': '寒假有回家嗎？', 'day': d['d'], 'h': 13.9, 'iv': None, 'who': None,
+                                                  'ask': {'id': 'bb_lg4_ask', 'opts': [{'t': '有，在家。'}, {'t': '（晚點再回）'}]}, 'tag': 'bb_lg4_ask'})
+                run.setup('[前置] 寒假 %s 14:00 住家裡；【捷徑】一則以安要回的訊息（沒開過）＝家裡會自動打開手機' % d['key'])
             await L.load_state(pg, st, quiet_events=False, quiet_phone=True)
             run.setup('[前置] 使用者存檔改成週六 19:30 在臺北的家（home.at）')
-            s = await wait_for(pg, lambda s: any(c.startswith('存檔') for c in s['ch']), 60)
-            run.note('家裡的選單：%s' % J(s)); await run.shot(pg, 'home_menu')
-            run.check('前置：家裡的選單出來（有「存檔」）', any(c.startswith('存檔') for c in s['ch']), J(s))
+            if MODE == 'home':
+                s = await wait_for(pg, lambda s: any(c.startswith('存檔') for c in s['ch']), 60)
+                run.note('家裡的選單：%s' % J(s)); await run.shot(pg, 'home_menu')
+                run.check('前置：家裡的選單出來（有「存檔」）', any(c.startswith('存檔') for c in s['ch']), J(s))
+            else:
+                s = await wait_for(pg, lambda s: s['phone'], 90)
+                run.note('家裡自動打開手機：%s' % J(s)); await run.shot(pg, 'home_phone')
+                run.check('前置：在家、劇情中（depth≥1）、手機自動打開（phoneThread 在等）', s['phone'] and s['home'] and s['depth'] >= 1, J(s))
             g0 = s['loadGen']
             if MODE == 'home':
                 await click_choice(pg, '存檔'); await pg.wait_for_timeout(1200)
             else:
-                await click_choice(pg, '看手機'); await pg.wait_for_timeout(1500)
-                s1 = await pg.evaluate(ST); run.check('前置：選「看手機」手機開著', s1['phone'], J(s1))
                 await pg.evaluate("(()=>{ const b=document.getElementById('btnMenu'); if(b) b.click(); })()"); await pg.wait_for_timeout(1200)
+                run.setup('手機開著時按 ☰（DOM click：手機面板可能蓋住按鈕）')
             s1 = await pg.evaluate(ST); run.note('存檔選單：%s' % J(s1))
             run.check('前置：選單（存檔分頁）打得開', s1['menu'], J(s1))
             ok = await slot_load_ui(pg, run, 'ui')

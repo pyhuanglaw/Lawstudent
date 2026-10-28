@@ -1,0 +1,79 @@
+diff --git a/tests/flow_invite_phone.py b/tests/flow_invite_phone.py
+index 18b5a6ffe..0e8e2546e 100644
+--- a/tests/flow_invite_phone.py
++++ b/tests/flow_invite_phone.py
+@@ -3,7 +3,8 @@
+   （舊版 rel 12＋7、第一天在阿鳳麵店一起吃過麵＝SHARED_MEAL 記憶，story3d.js 記的）；關掉條件事件（這個測試不測劇情，避免其他事件插進來）。
+ A. 手機「朋友」→ 阿哲「約」→ 選「去阿鳳麵店吃飯」→「今天 19:00」→ 旁白「阿哲答應了」；手機「今天」列出約好的；「訊息」有一則。
+ B. 手機「跳過時間」選「等到晚上」→ 在約好的時間前 10 分鐘停下來（18:50）。
+-C. 手機「地點」→ 阿鳳麵店（快速前往）→ 阿哲已經坐在店裡等 → 自己走過去、按「和阿哲說話」→ 見面：時間過了 45 分鐘、邀約變成見到了、訊息「和阿哲在阿鳳麵店」。
++C. 手機「地點」→ 阿鳳麵店（快速前往）→ 阿哲已經坐在店裡等 → 兩個人都在店裡＝見面自己開始（不用走過去、不用按「和阿哲說話」；使用者 10-21 23:2x，invites3d.js S.autoStart）→ 見面：時間過了 45 分鐘、邀約變成見到了、訊息「和阿哲在阿鳳麵店」。
++   （BB-C 10-27：原本寫「自己走過去按說話」，10-21 以後走過去的途中就自動見面了，這一段照現在的規則改。）
+ 用法：python3 tests/flow_invite_phone.py URL [輸出資料夾]"""
+ import asyncio, json, sys
+ from playwright.async_api import async_playwright
+@@ -91,11 +92,14 @@ async def main():
+         run.check('阿哲已經坐在店裡等', bool(zhe) and zhe['seat'], json.dumps(zhe))
+         await run.shot(pg, 'C_noodle')
+         h0 = s['hour']
+-        ok = await L.go_to(pg, cdp, run, zhe['x'], zhe['z'] + 0.9, 0.6, '阿哲旁邊') if zhe else False
+-        s = await L.state(pg)
+-        run.check('自己走到阿哲旁邊、出現「和阿哲說話」', ok and '阿哲' in s['interact'], json.dumps(s, ensure_ascii=False))
+-        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
+-        for _ in range(14):
++        # 兩個都在場＝直接開始（使用者 10-21 23:2x「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」；S.autoStart）：站著不動、不按說話，等見面自己開始
++        started = None
++        for _ in range(60):
++            q = await L.state(pg)
++            if q['busy'] or q['dlg']: started = q; break
++            await pg.wait_for_timeout(500)
++        run.check('不用走過去、不用按「和阿哲說話」：兩個人都在店裡＝見面自己開始', bool(started), json.dumps(started or q, ensure_ascii=False))
++        for _ in range(20):
+             q = await L.state(pg)
+             if not q['busy'] and not q['dlg'] and not q['choices']: break
+             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(1200)
+diff --git a/tests/flow_trip_date.py b/tests/flow_trip_date.py
+index 5f75f9475..21df1aa1d 100644
+--- a/tests/flow_trip_date.py
++++ b/tests/flow_trip_date.py
+@@ -3,7 +3,7 @@ A. DL-06B：[前置] 讀檔到公館、捷運公館站入口旁（週六 14:00
+    九份的 2D 畫面（底圖 d18_base_dusk）→ 選第一個能做的 → 回去 → 回公館。檢查：回到公館、G.places.free.D18＝1、時間往後、扣了車資、沒有 JS 錯誤。
+ B. DATE-S3／S6：[前置] 和語彤交往中、有她的聯絡方式（讀檔時設旗標）；[前置] 用 INV.flow 開「約人」的選單（等同手機朋友頁按「約」，手機面板的點法另外測）→
+    像玩家一樣點：去校外… → 淡水金色水岸 → 明天 → 15:00 出發 → 就這樣約 → 她的「答應（交往中）」那一句。
+-   [前置] 把時間撥到隔天 14:58（等出發提示；不用 turbo、不瞬移）→「現在要出發嗎？」→ 出發 → 淡水的 2D 畫面、她的抵達句 → 點兩個互動點 → 差不多了 → 收尾句 → 回程。
++   [前置] 把時間撥到隔天 14:58（等出發提示；不用 turbo、不瞬移）→ 提早出發「現在出發」（出發前一小時內，UX-INV-GO-1023）或 15:00「現在要出發嗎？」→ 出發 → 淡水的 2D 畫面、她的抵達句 → 點兩個互動點 → 差不多了 → 收尾句 → 回程。
+    檢查：正式校外約會 1 次（G.dateLog.heroine_03.count）、DATED_1、行程 done、記得點過的互動點、沒有 JS 錯誤。
+ 用法：python3 tests/flow_trip_date.py http://127.0.0.1:8765/index.html [輸出資料夾]"""
+ import asyncio, json, sys
+@@ -97,7 +97,9 @@ async def main():
+         run.setup('把時間撥到隔天 14:58（等出發提示）')
+         await pg.evaluate("(()=>{ const G=GAME.G; G.day+=1; G.weekday=(G.weekday+1)%7; G.hour=14.97; GAME.E.hour=G.hour; })()")
+         got = await pick(pg, cdp, '出發', tries=90)
+-        run.check('15:00 前後跳出「現在要出發嗎？」、點「出發」', bool(got) and got.startswith('出發'), str(got))
++        # BB-C 10-27：14:58 在出發前一小時內＝先跳「提早出發」那一個選單（UX-INV-GO-1023，date3d.js S.early：「現在出發」／「到時間再說」），
++        # 和 15:00 的「現在要出發嗎？」（S.prompt：「出發」／改時間／今天不去了）哪一個先出來都算；點到的要是出發那一項
++        run.check('15:00 前後跳出出發的選單（提早出發「現在出發」或到時間「出發」）、點出發', bool(got) and '出發' in got and '再說' not in got and '不去' not in got, str(got))
+         lines = []
+         for _ in range(80):   # 交通標題卡、地點字幕、抵達句：一路點對話，直到出現互動點的選單
+             s = await L.state(pg)
+@@ -108,7 +110,9 @@ async def main():
+             await pg.wait_for_timeout(500)
+         await run.shot(pg, 'tamsui_arrive')
+         rec = await pg.evaluate("(((GAME.G.dateMemory||{}).heroine_03||{}).D13||{}).recent||[]")
+-        run.check('到了淡水：她的抵達句有播（dateMemory 記了抵達那一池；看到的台詞記在說明）', any(str(k).startswith('arrive.') for k in rec), json.dumps({'recent': rec, 'seen': lines}, ensure_ascii=False))
++        # 第一次去這個地點＝演 arrive.first（date3d.js S.arriveLine：不經過 pickSet，所以 recent 不會記）；之後才從 dating／normal 池子挑、記進 recent
++        first = await pg.evaluate("((((((DATE_LINES.loc||{}).D13||{}).lines||{}).heroine_03||{}).arrive||{}).first||{}).lines||[]).map(l=>l&&l.text).filter(Boolean)")
++        run.check('到了淡水：她的抵達句有播（第一次＝arrive.first 的句子出現在畫面；之後＝dateMemory 記了抵達那一池）', any(str(k).startswith('arrive.') for k in rec) or (first and any(t in lines for t in first)), json.dumps({'recent': rec, 'first': first, 'seen': lines}, ensure_ascii=False))
+         for _ in range(2):
+             got = await pick(pg, cdp, lambda t: next((k for k, x in enumerate(t) if '差不多' not in x and '就這樣回去' not in x), -1))
+             await talk_until_choices(pg, cdp)
+@@ -121,7 +125,7 @@ async def main():
+             elif s['dlg']: await L.tap(pg, cdp, '#dlg')
+             await pg.wait_for_timeout(500)
+         st = await pg.evaluate("({log:(GAME.G.dateLog||{}).heroine_03, trip:(GAME.G.trips||[]).slice(-1)[0], dated:!!GAME.G.flags.DATED_1_heroine_03, mem:((GAME.G.dateMemory||{}).heroine_03||{}).D13, zone:GAME.G.zone})")
+-        run.check('約會結束：正式校外約會 1 次、DATED_1、行程 done、記得點過的兩個互動點', st['log'] and st['log'].get('count') == 1 and st['dated'] and st['trip']['status'] == 'done' and len((st['mem'] or {}).get('picks', [])) == 2, json.dumps(st, ensure_ascii=False)[:400])
++        run.check('約會結束：正式校外約會 1 次、DATED_1、行程 done、記得點過的兩個互動點', st['log'] and st['log'].get('count') == 1 and st['dated'] and st['trip']['status'] == 'done' and len((st['mem'] or {}).get('picks', [])) == 2, json.dumps(st, ensure_ascii=False)[:1500])
+         await run.shot(pg, 'date_back')
+         run.check('沒有 JS 錯誤', not errs, '; '.join(errs[:5]))
+         await b.close()
+de75d3106 v9.10.11 發布紀錄：main c8b9659e5（PR #17），Pages run 40595623389 22:34:37 UTC 成功；遊戲檔案＝rc2 6aebbb4d8＋版本字樣；RELEASE-91011、AN-MEAL-STUCK、AN-INVITE-NONE 已驗收；USER_WANTS X112 在遊戲裡；CLAUDE.md 線上版本；BB 測試佇列 5n（學姊第十二批修正）

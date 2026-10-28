@@ -1,0 +1,44 @@
+diff --git a/src/data/wz_park_layout.js b/src/data/wz_park_layout.js
+index cbeb2e90c..a091ccf32 100644
+--- a/src/data/wz_park_layout.js
++++ b/src/data/wz_park_layout.js
+@@ -7,7 +7,7 @@
+    blocks：導航阻擋 [x, z, 寬(x), 深(z)] 或圓 [x, z, r]（type:'circle'）。seats：{x,z,yaw,label}（yaw＝面向的方向，atan2(dx,dz)）。
+    interact：AA_164 5-4 的互動點（label 與 kind；文字由 AA-B 寫、LAWWW-B 接）。season：材質依季節切換的物件名稱前綴（模型裡的節點名稱）。 */
+ const WZ_PARK_LAYOUT = {
+-  version: 3,   // v2（LAWWW2-B 07:3x）：公布欄、直飲台 yaw 改 π（正面朝主巷）；v3（LAWWW2-C 2026-10-27，B08／PARK-ENTRY-B-1027）：遊戲場往北 1.5 m、入口 B 的步道改走遊戲場南邊
++  version: 3,   // v3.1（LAWWW2-C 2026-10-28，WZ-SHRINE-TRAP-1028）：遊戲場的導航阻擋只擋有遊具的南邊 2.9 m、土地公供桌擋起來（版本號不變：wz_park_unit 第 1 項照 v3）；v2（LAWWW2-B 07:3x）：公布欄、直飲台 yaw 改 π（正面朝主巷）；v3（LAWWW2-C 2026-10-27，B08／PARK-ENTRY-B-1027）：遊戲場往北 1.5 m、入口 B 的步道改走遊戲場南邊
+   area: {
+     front: {x0: 20.2, x1: 31.8, z0: 5.0, z1: 17.0},
+     back: {x0: 8.4, x1: 36.0, z0: 17.0, z1: 29.0, cut: {x1: 11.8, z0: 21.0}},   // cut＝扣掉 F1 的角
+@@ -57,8 +57,9 @@ const WZ_PARK_LAYOUT = {
+   ],
+   blocks: [
+     {type: 'circle', x: 26.0, z: 21.2, r: 1.75},
+-    [14.6, 25.2, 3.6, 3.6], [15.2, 20.9, 5.2, 3.6], [32.6, 24.8, 4.0, 1.8],
+-    [34.6, 20.4, 1.0, 4.8], [12.8, 28.1, 1.2, 1.0], [22.0, 6.3, 1.6, 0.4], [29.9, 6.3, 0.6, 0.6], [31.0, 9.6, 0.7, 2.6],
++    [14.6, 25.2, 3.6, 3.6], [15.2, 20.55, 5.2, 2.9], [32.6, 24.8, 4.0, 1.8],   // 遊戲場只擋有遊具的南邊 2.9 m（z 19.1～22.0；溜滑梯、搖搖馬、沙坑都在 z 21.72 以南），北邊 0.7 m 是平的橡膠地墊、走得過去
++    //   （WZ-SHRINE-TRAP-1028，LAWWW2-C：v3 整塊 3.6 m 都擋，北緣 22.7 和涼亭西南柱子 23.5 之間只剩一排站得住，往涼亭西側、土地公的路斷了、涼亭西側變成死角；模型不用改）
++    [34.6, 20.4, 1.0, 4.8], [12.8, 28.1, 1.2, 1.0], [12.55, 27.3, 1.3, 0.7], [22.0, 6.3, 1.6, 0.4],   // 土地公廟前的供桌（x 12.44～13.16、z 27.26～27.62：原本沒擋，人會穿過去）＋供桌和 F1 牆之間那一小塊（只站得下、走不出來） [29.9, 6.3, 0.6, 0.6], [31.0, 9.6, 0.7, 2.6],
+     [23.6, 9.0, 0.7, 1.6], [28.4, 9.0, 0.7, 1.6], [19.2, 21.4, 0.7, 1.6], [29.6, 26.6, 1.6, 0.7],
+     {type: 'circle', x: 21.3, z: 13.6, r: 0.5}, {type: 'circle', x: 30.7, z: 13.4, r: 0.5},
+     {type: 'circle', x: 20.4, z: 27.6, r: 0.45}, {type: 'circle', x: 31.4, z: 28.0, r: 0.45},
+diff --git a/tests/wz_park_unit.js b/tests/wz_park_unit.js
+index 66fe0ffd1..411a486e2 100644
+--- a/tests/wz_park_unit.js
++++ b/tests/wz_park_unit.js
+@@ -29,6 +29,13 @@ check('2. 入口段步道 (26,8)、主園區環狀步道 (26,17.6)、往入口 B
+ { const r=walk([5.75,15],[23.6,18.4]); check('2. 從北巷經入口 B 走到老樹的環狀步道（B08：原本遊戲場的導航阻擋把 B 步道整段擋住，只走得到入口 B 裡面那一小塊）',r.ok,r.reason||'');
+   const p=E.pathTo(5.75,15,0,23.6,18.4,0)||[]; let len=0, a=[5.75,15]; for(const q of p){ len+=Math.hypot(q[0]-a[0],q[1]-a[1]); a=q; }
+   check('2. 入口 B 到老樹走 B 步道（不繞北巷、主巷：路線 30 m 以內）',p.length>0&&len<30,len.toFixed(1)+' m'); }
++/* 2b. 土地公（WZ-SHRINE-TRAP-1028，BB-C relsuite 562a5ead9、LAWWW-C P1）：v3 遊戲場的導航阻擋整塊 3.6 m（北緣 22.7），和涼亭西南柱子之間只剩一排站得住——
++   原本經遊戲場北邊、涼亭西側到土地公的路斷了，涼亭西側那條變成死角（站進去自己走不出來）。修好：遊戲場只擋有遊具的南邊 2.9 m（北緣 22.0），供桌和 F1 牆之間那一小塊擋起來。
++   修改前：涼亭西側 (12.65,26.65) 走不到、走不出來，死角 2 個 */
++{ const r=walk(LANE,[12.65,26.65]); check('2b. 從主巷經遊戲場北邊、涼亭西側走到土地公前面 (12.65,26.65)（reachability_all 選的站位）',r.ok,r.reason?r.reason+'@'+r.x+','+r.z:''); }
++check('2b. 遊戲場北邊的通道（z 22.75）站得住、供桌（12.8,27.45）擋住',E.canStand(15.0,22.75,0.32,0)&&E.canStand(13.6,22.9,0.32,0)&&!E.canStand(12.8,27.45,0.1,0));
++{ const bad=[]; for(let x=11.5;x<=18.01;x+=0.5) for(let q=21.5;q<=28.51;q+=0.5){ if(!E.canStand(x,q,0.32,0)) continue; const r=walk([x,q],[26,17.6]); if(!r.ok) bad.push(x+','+q); }
++  check('2b. 涼亭、土地公、遊戲場北邊一帶（x 11.5～18、z 21.5～28.5 每 0.5 m）站得住的點都走得回老樹前（沒有死角）',!bad.length,bad.join(' ')); }
+ check('3. 擋住的：樹圍座椅中心、涼亭、遊戲場、北側花籬、入口兩側花籬',!E.canStand(26,21.2,0.1,0)&&!E.canStand(14.6,25.2,0.1,0)&&!E.canStand(15.2,19.4,0.1,0)&&!E.canStand(24,28.7,0.1,0)&&!E.canStand(21.4,5.4,0.1,0)&&!E.canStand(30.6,5.4,0.1,0));
+ check('3. 西北角（巷底那棟 F1，x<11.8、z>21）不能走；公園外面（z 30、x 37）不能走',!E.canStand(10,24,0.1,0)&&!E.canStand(26,30.5,0.1,0)&&!E.canStand(37,22,0.1,0));
+ { const seats=E.interactables.filter(i=>i.seat&&i.x>8&&i.x<37&&i.z>5&&i.z<30); const want=L.seats;
+562a5ead9 合併整合分支 int-lw2-1028a（LAWWW2 開門第二階段＋WZCAT.hold／release，ccc329672）
