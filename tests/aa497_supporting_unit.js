@@ -653,6 +653,37 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     { const e=SISB12_LINES.fam2.find(x=>x.day==='2026-10-26'); check('5-4. 第 6 則（2026-10-26）換成「家聚吃什麼 不要再吃咖哩了」；「期中加油各位」「收到。」照留',!!e&&J(e.L)===J([['k',K.vids[3]],['k','期中加油各位'],['s','收到。']]),J(e&&e.L)); }
     check('5-4. 民法第 184 條（侵權行為）的那一則條號照實',K.vids[1].includes('民法第一百八十四條')); });
 
+  /* ===================== 6 陳助教 ===================== */
+  await sec('6',async()=>{ const TA='npc_ta_chen';
+    const w=(t,wk,wd,h)=>{ fresh(TD(t,wk,wd),h,'classroom'); return STORY.schedEnt(CHARACTERS[TA],H.G); };
+    const a=w('Y1S1',5,2,10.5), b=w('Y2S1',5,2,10.5), c=w('Y3S1',5,2,10.5), p=w('Y1S1',5,3,15);
+    check('6. 陳助教：大一、大二週二上午不在教室助教位（拿掉）；大三上照舊；平日下午照舊在總圖',!(a&&a.zone==='classroom')&&!(b&&b.zone==='classroom')&&!!c&&c.zone==='classroom'&&c.act==='ta'&&!!p&&p.zone==='library',J([a,b,c,p].map(x=>x&&x.zone)));
+    check('6. 法服、吉他社、即興劇社的社長：說話人標籤寫全名（「法服的社長」「吉他社社長」「即興劇社社長」，不寫「社長」）',!/speaker:'社長'|name:'社長'/.test(['src/story3d.js','src/data/events.js'].map(noCmt).join('\n'))&&STORY.fafuLead({day:TD('Y1S1',5,1)})==='法服的社長'); });
+
+  /* ===================== 7 舊存檔 ===================== */
+  await sec('7',async()=>{
+    /* 已經過了的不補 */
+    const past=[];
+    { fresh(TD('Y1S2',3,4),13.5,'classroom'); const x=CLS.dayItems(H.G).find(q=>q.c.kind==='required'&&q.t0>=12); if(x&&S().ycMeetDue(H.G,x)) past.push('1-3 認識（大一下）'); }
+    { fresh(TD('Y1S1',5,1),12.3,'campus',NEWG); const it=CLS.dayItems(H.G).find(q=>q.c.kind==='required'&&q.room&&q.room.zone==='classroom'); if(it){ CLS.rec(H.G).done[it.key]=1; at(it.day,it.t1+0.1); if(EVENTS.check(ev('ev_yu_meet_w3'))) past.push('3-1 保證認識（第 5 週）'); } }
+    { const d=D('2026-10-05'); fresh(d,20,'dorm'); joinFam(); ruleAt(d,21.2); if(byTag('kv_hand_ask').length||byTag('kv_hand_missed').length) past.push('5-2 家聚的揪、沒去那一句（10/5 才讀）'); }
+    { const d=TD('Y2S2',5,1); fresh(d,20,'dorm'); fam(XC); contact(XC); ruleAt(d,21.1); if(byTag('xc_fix').length) past.push('2-3 補救（第 5 週才讀）'); }
+    { const d=D('2027-04-30'); fresh(d,17.75,'campus'); fam(XC); pos(34,-109,0); if(ready('ev_xc_dad')) past.push('2-4 爸爸（過了那一天）'); }
+    { const d=TD('Y2S2',4,3); fresh(d,20,'dorm'); fam(YU); contact(YU); ruleAt(d,21.1); if(byTag('yu_quit').length) past.push('3-4 退社（下一週才讀）'); }
+    check('7. 已經過了的場景、訊息不補（1-3、2-3、2-4、3-1、3-4、5-2）',!past.length,J(past));
+    /* 記號沒有的照「沒選」：各節已經測過（2-5 沒有 XC_*、3-2 沒有 YU2_PICK、3-3 沒有 YU_BKF、3-5 沒有 YU_C4、4-2 沒有 MX_UMB、1-6 沒有 YC_GIG）——這裡再跑一次舊存檔的旗標全空 */
+    { fresh(D('2028-05-04'),19.2,'noodle'); fam(XC); await play('ev_xinci_first_place',[0]); const r=H.said.map(x=>x.t), i=r.indexOf('一點都不好玩。'); const a=r[i+1]==='我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。';
+      fresh(D('2028-03-08'),8.6,'campus'); await play('ev_yu_alone_breakfast',[0]); const b=H.said[1]&&!Object.values(L().yu.bkf.yu4).includes(H.said[1].t);
+      fresh(D('2027-11-23'),19,'noodle'); await play('ev_zhe_scooter',[0]); const c=H.said[0]&&H.said[0].t!==L().yu.c4.scooter;
+      check('7. 舊存檔沒有新記號（XC_RPS、XC_DAD_*、YU_BKF、YU_C4）：慈 6、語 4、阿哲的機車照原本',a&&b&&c,J([a,b,c])); }
+    /* 舊存檔收過舊版本的訊息：新的不再發（不留兩份）*/
+    { const d=TD('Y2S2',3,3); fresh(d,20,'dorm'); fam(YU); contact(YU); H.G.needed={shown:{yu_clubs:d-7}}; ruleAt(d,21.1); const a=!byTag('yu_quit').length;
+      const e=D('2027-03-08'); fresh(e,20,'dorm'); joinFam(); H.G.msgs.push({th:'g:family_law',from:YZID,name:'家族的學妹',text:'請問民總的考古題在哪裡🙏',day:e,h:20.9}); ruleAt(e,21.1); const b=!byTag('kv_yz_ask').length;
+      check('7. 舊存檔收過舊的「這學期我只剩兩個社團了……」＝不發退社三則；收過群組裡學妹問考古題＝宜蓁不再私訊',a&&b,J([a,b])); }
+    /* 宜蓁改名：讀檔換字（game3d.js migrate 叫 SUP497.migrate；同 Alison 改名的做法）*/
+    { const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); const s={msgs:[{from:YZID,name:'家族的學妹',text:'學姊好🙏'}]}; const n1=S().migrate(s), n2=S().migrate(s);
+      check('7. 宜蓁改名：game3d.js 讀檔（migrate）叫 SUP497.migrate；換一次就好（第二次 0 筆）',/SUP497\.migrate\(s\)/.test(g)&&n1===1&&n2===0&&s.msgs[0].name==='宜蓁'); } });
+
   check('修改前（ff9f54209）FAIL 數：見檔頭',true);
   H.done();
 })();

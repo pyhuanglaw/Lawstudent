@@ -298,7 +298,7 @@ const SUP497=(function(){
       ...L.yu.bkf.r.map((R,k)=>[{label:'b'+(k+1)}].concat(lns(R),[{goto:'end'}])),[{label:'end'}]) };
   /* 3-4、3-5、3-6、3-7 的手機 */
   S.yuPhone=function(G){ const F=G.flags, Y=t=>dm(YU,t);
-    { const d=termDay('Y2S2',3,3); if(d!=null&&dmOK(G,YU)){ const items=L.yu.quit.msg.map(Y); items[items.length-1].ask=askOf('yu_quit',L.yu.quit.opts.map(([t,r])=>({t,say:[say1(YU,r)]}))); S.at(G,YU,d,21,items,'yu_quit'); } }   /* 3-4 大二下第 3 週週三 21:00（她說禮拜三晚上空下來）*/
+    { const d=termDay('Y2S2',3,3), old=!!(G.needed&&G.needed.shown&&G.needed.shown.yu_clubs!=null); if(d!=null&&dmOK(G,YU)&&!old){ const items=L.yu.quit.msg.map(Y); items[items.length-1].ask=askOf('yu_quit',L.yu.quit.opts.map(([t,r])=>({t,say:[say1(YU,r)]}))); S.at(G,YU,d,21,items,'yu_quit'); } }   /* 3-4 大二下第 3 週週三 21:00（她說禮拜三晚上空下來）；舊存檔已經收過舊的「你猜我退了哪一個？」（needed_msgs yu_clubs）＝不再發（不留兩份）*/
     { const d=DK('2027-11-19'); if(d!=null&&sent(G,'y3_c4')&&dmOK(G,YU)){ const items=L.yu.c4.msg.map(Y); items[items.length-1].ask=askOf('yu_c4',L.yu.c4.opts.map(([t,R],k)=>({t,say:R.map(r=>say1(YU,r)),set:{YU_C4:['visit','her','leave'][k]}}))); S.at(G,YU,d,23+40/60,items,'yu_c4'); } }   /* 3-5 C4 阿哲那則之後，當晚 23:40 */
     { const d0=F.YU_C6_DAY, v=F.YU_C6; if(d0!=null&&v&&dmOK(G,YU)&&!sent(G,'y3_yu_c6_bear')){ const A=L.yu.c6, rows=v==='pay'||v==='open'?A.soft:(v==='rule'?A.rule:A.teacher); S.at(G,YU,d0+14,21,rows.map(Y),'yu_c6_after'); } }   /* 3-6 C6 之後第 14 天 21:00（照走的那一路：要學弟賠／把帳攤開＝第 1 列、社團的規則＝第 2 列、其他＝第 3 列；r2y3b3d.js 原本 7 天後那一則熊拿掉，舊存檔收過熊的不再收）*/
     { const d=DK('2028-10-14'); if(d!=null&&route(G)==='US'&&abroad(G,d)&&dmOK(G,YU)) S.at(G,YU,d,15,L.yu.lib.us.map(Y),'yu_lib_us'); }   /* 3-7 美國路線：臺灣時間 15:00 */
@@ -350,7 +350,7 @@ const SUP497=(function(){
   S.kvPhone=function(G){ const F=G.flags, A=L.kv; if(!law(G)) return; const fam_=inGrp(G,'family_law');
     { const d=DK('2026-09-14'), h=DK(S.HAND); if(d!=null&&h!=null&&fam_&&!F.KV_HAND_ASKED&&G.day>=d-1&&G.day<=h){ if(PHONE.at(G,d,21+10/60,[KVg(A.invite)].map((x,i,a)=>i===a.length-1?Object.assign(x,{ask:askOf('kv_hand',[{t:A.go,hand:true}],{until:T(h,18)})}):x),'kv_hand_ask')) F.KV_HAND_ASKED=G.day; } }
     { const h=DK(S.HAND); if(h!=null&&fam_&&!F.KV_HANDOVER&&now(G)>=T(h+1,21)&&G.day<=h+2&&!sent(G,'kv_hand_missed')) PHONE.at(G,h+1,21,[KVg(A.missed)],'kv_hand_missed'); }   /* 沒去 */
-    { const d=DK('2027-03-08'); if(d!=null&&fam_) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}])})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（宜蓁從家族群組拿到你的帳號）*/
+    { const d=DK('2027-03-08'), old=(G.msgs||[]).some(m=>m&&m.th==='g:family_law'&&m.from===YZ&&/考古題在哪裡/.test(m.text||'')); if(d!=null&&fam_&&!old) S.at(G,YZ,d,21,[dm(YZ,A.yz.ask,{ask:askOf('kv_yz',[{t:A.yz.opt,say:[say1(YZ,A.yz.rep)]}])})],'kv_yz_ask',{noContact:true}); }   /* 去了、沒去都傳（宜蓁從家族群組拿到你的帳號）；舊存檔已經在群組問過（舊的那一段）＝不再私訊 */
     /* 5-3 國考（日期照考選部當年公告的月份；LAWWW 排：一試放榜 9 月、二試放榜 12 月）*/
     if(fam_){ S.at(G,KV,DK('2028-09-22'),21,A.bar1.map(KVg),'kv_bar1',{noContact:true});
       S.at(G,KV,DK('2028-12-15'),21,A.bar2.map(KVg).concat([SISg(A.bar2Sis),YZg(A.bar2Yz)]),'kv_bar2',{noContact:true});
