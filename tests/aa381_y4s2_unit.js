@@ -30,6 +30,7 @@ const D=POSTGRAD_LINES.DELAYED;
   // ---- 2. 手機（不在現場的人）----
   for(const route of ['JP',null]){ const G=H.fresh('2029-06-02',11.6,'campus',Object.assign({PS_RECONNECT:true},route?{EXCHANGE_ROUTE:route}:{})); H.FAMILIAR('classmate_peishan'); H.FAMILIAR('heroine_02'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05');
     await H.run('grad'); for(const h of [12.1,12.6,13.1,21.1]){ H.at('2029-06-02',h); PG.rules(GM); PHONE.tick(G); }
+    H.at('2029-06-03',5.2); PG.rules(GM); PHONE.tick(G);   /* 芷若的票根：AA_510 0-2 第 4 點改 6/3 05:07（英國 6/2 22:07）*/
     const d=!!route, tag=d?'交換延畢':'臺灣路線';
     check('2. '+tag+'：沛珊卡片'+(d?'「我學生說要送穿學士服的人卡片。……我拍給你。」「恭喜！」':'照舊'),d?H.msgs('p:classmate_peishan').join('|').endsWith(D.peishan.slice(1).join('|')):H.msgs('p:classmate_peishan').includes('畢業快樂！'),JSON.stringify(H.msgs('p:classmate_peishan')));
     check('2. '+tag+'：芷若票根'+(d?'「恭喜。今天下午替你看了一部。」':'照舊'),d?H.msgs('p:heroine_02').includes(D.zhiruo[1]):H.msgs('p:heroine_02').includes('畢業快樂。今天下午替你看了一部。'),JSON.stringify(H.msgs('p:heroine_02')));
