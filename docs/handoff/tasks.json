@@ -34643,7 +34643,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 05:5x UTC】BB-C deploy_check（main 乾淨 checkout）ALL PASS、發布後 relsuite 剩下 8 支 ALL PASS（05:54）；線上字樣未由 AI 確認（沙盒連不到 github.io）；霖澤館前 fps 對照 BB 跑中｜【LAWWW-C 2026-10-28 04:5x UTC】發布：main d5ca27b89（PR #18），Pages run 40634003965 04:46:30 成功；遊戲檔案＝rc3b d6694cad0＋版本字樣（發布樹 96358789f，Node 689 支 0 失敗）；BB-C GO（七支門檻全過，04:32）；發布後開發分支還原 4933cdf0f、合併 main a89810165。剩：BB 在 main 跑 deploy_check（LAWWW 沙盒連不到 github.io）、門檻以外的 relsuite 剩下項目——結果回來改已驗收"
+   "next": "【LAWWW-C 2026-10-28 05:5x UTC】BB-C deploy_check（main 乾淨 checkout）ALL PASS、發布後 relsuite 剩下 8 支 ALL PASS（05:54）；線上字樣未由 AI 確認（沙盒連不到 github.io）；霖澤館前 fps 對照 BB 跑中｜【LAWWW-C 2026-10-28 04:5x UTC】發布：main d5ca27b89（PR #18），Pages run 40634003965 04:46:30 成功；遊戲檔案＝rc3b d6694cad0＋版本字樣（發布樹 96358789f，Node 689 支 0 失敗）；BB-C GO（七支門檻全過，04:32）；發布後開發分支還原 4933cdf0f、合併 main a89810165。剩：BB 在 main 跑 deploy_check（LAWWW 沙盒連不到 github.io）、門檻以外的 relsuite 剩下項目——結果回來改已驗收",
+   "evidence": "main d5ca27b89（PR #18 合併）；GitHub Pages run 40634003965 04:46:30 UTC 成功；PR head＝發布樹 96358789f＝候選 rc3b d6694cad0＋版本字樣；LAWWW 發布前檢查：候選 562a5ead9、rc3 乾淨 worktree 全部 Node 689 支 0 失敗、HV-15 題目漏收 0；BB-C GO（10-28 04:32，rc3b：發布門檻七支 ALL PASS）；發布後 BB-C main d5ca27b89 乾淨 checkout deploy_check ALL PASS（04:56）、relsuite 補跑 8 支 ALL PASS（05:54）；線上網址沒有從雲端打開核對（沙盒 proxy 403）。紀錄 docs/RELEASES.md v9.10.12"
   },
   {
    "id": "NPC-POOL-ART-1028",
