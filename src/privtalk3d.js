@@ -120,6 +120,13 @@ const PRIVTALK=(function(){
       note:'這一次不說；沒有期限：等了 7 天照說。其他第一次見面的招呼（zqFirst、zrFirst、sisLaw／sisRA、kxFirst）不擋'},
     {key:'ex_yt_an',cat:'講到祐廷現在的人',topic:'前任第一次見面',who:'heroine_03',kind:'pre',gate:'wrap',flag:'V6EX_YT_AN',desc:'src/v6ex3d.js V6EX.preLine ytAfterAn「嗯。……她會讓你說理由的。」（之後和以安交往，語彤只說一次）',
       note:'這一次不說；等了 7 天照說'},
+    /* ---- AA_512 學姊第十三批（PRIV-SIS13-1028；AA-C 08:29、AA_512 第 7 節）：擋研究室的晚上、13-3 走一圈（期限 12/7）、13-6 洗衣間；不擋 13-8 游完泳、13-6 三句短招呼 ---- */
+    {key:'sis13_lab_eve',cat:'交往中才有的互動',topic:'學姊研究室的晚上',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_lab_eve',desc:'src/data/sis_b13_events.js 2-5「七點以後。……你準時。」（交往中，週一、三 19:00～21:30 霖澤館 5F 研究室，走進去就演）',
+      note:'旁邊有人＝這一次不演；沒有期限（第 8 天起照演、開頭旁白）'},
+    {key:'sis13_walk',cat:'還沒公開',topic:'學姊爸爸的剪報',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_walk',due:'2027-12-07',desc:'src/data/sis_b13_events.js 13-3 出來走一圈（2027-12-06～07 17:00～18:00 霖澤館穿堂門口 7 m）',
+      note:'旁邊有人＝這一次不演；期限 12/7（AA 08:29）：那天照演、開頭旁白'},
+    {key:'sis13_laundry',cat:'感情',topic:'學姊美國洗衣間（挽回中）',who:'heroine_05',kind:'event',gate:'prereq',ev:'ev_sis13_laundry',due:'2028-10-20',desc:'src/data/sis_b13_events.js 13-6 洗衣間（美國路線、沒交往，2028-10-08～20 21:00～22:00 社區戶外）',
+      note:'旁邊有人＝這一次不演；那一段最後一天 10/20 當期限（稿沒寫期限；AA 確認）'},
     /* ---- 3D 說話裡沒有入口的（寫明在哪裡；之後加入口就用這個 key 問 PRIVTALK.ok）---- */
     {key:'sis_oral',cat:'還沒公開',topic:'學姊口試結果',who:'heroine_05',kind:'none',gate:'none',from:'2029-05-29',until:'2029-05-30',
       desc:'沒有 3D 入口：結果在 5/29 16:00～18:00 研究室走廊的出遊（y34b3d.js M9，2D）、家族群組、電話（ev_sis_defense_call）；她 5/29 08～18 點不在 3D（characters.js）'},

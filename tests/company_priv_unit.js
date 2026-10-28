@@ -30,7 +30,7 @@ const errs=[];
 for(const [f,n] of [['src/sideq3d.js',['SIDEQ']],['src/data/needed_msgs.js',['NEEDED_MSGS']],['src/data/y2b_events.js',['Y2B_EVENTS']],['src/y2r2_3d.js',['Y2R2']],['src/data/r2y3a_events.js',['R2Y3A_EVENTS']],
   ['src/data/zrzq_events.js',['ZRZQ_LINES','ZRZQ_FILM','ZRZQ_TOLINES','ZRZQ_EVENTS']],['src/zrzq3d.js',['ZRZQ']],['src/data/sis_y2y3_events.js',['SISY23_LINES','SISY23_EVENTS']],['src/sis_y2y3_3d.js',['SISY23']],
   ['src/data/multirel_lines.js',['MULTIREL_LINES']],['src/multirel3d.js',['MREL']],['src/data/v6ex_lines.js',['V6EX_LINES']],['src/v6ex3d.js',['V6EX']],['src/data/pool_story.js',['POOL_STORY']],['src/pool3d.js',['POOL']],
-  ['src/data/heroine_circle.js',['HCIRCLE_DATA']],['src/hcircle3d.js',['HCIRCLE']],['src/privtalk3d.js',['PRIVTALK']]]){
+  ['src/data/sis_b13_events.js',['SISB13_LINES','SISB13_HAND','SISB13_EVENTS']],['src/sis_b13_3d.js',['SISB13']],['src/data/heroine_circle.js',['HCIRCLE_DATA']],['src/hcircle3d.js',['HCIRCLE']],['src/privtalk3d.js',['PRIVTALK']]]){   /* sis_b13：PRIV-SIS13-1028 那三筆要接得上 */
   try{ if(fs.existsSync(path.join(H.ROOT,f))) loadG(f,n); else errs.push('沒有 '+f); }catch(e){ errs.push(f+'：'+(e&&e.message||e)); } }
 const HAS=()=>typeof PRIVTALK!=='undefined'&&!!PRIVTALK.LIST;
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ').slice(0,300)); } };
