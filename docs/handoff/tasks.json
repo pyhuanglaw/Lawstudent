@@ -34623,7 +34623,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 04:1x UTC】72fd4bdd2：engine3d.js 點地面記 P.tapPref（點的位置、區域、樓層），推搖桿清掉；nearestInteractable 在好幾個範圍裡時取離點的位置最近、點的位置也在它範圍裡的；tests/tap_pref_unit.js；BB 佇列 6a（v9.10.13）"
+   "next": "【LAWWW-C 2026-10-28 04:0x UTC】72fd4bdd2：engine3d.js 點地面記 P.tapPref（點的位置、區域、樓層），推搖桿清掉；nearestInteractable 在好幾個範圍裡時取離點的位置最近、點的位置也在它範圍裡的；tests/tap_pref_unit.js；BB 佇列 6a（v9.10.13）"
   }
  ]
 }
