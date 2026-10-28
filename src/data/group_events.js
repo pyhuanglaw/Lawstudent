@@ -122,7 +122,7 @@ const GROUP_EVENTS=(function(){
       {speaker:'zhe',text:'（很久）……'},
       {speaker:'zhe',text:'有事。我很緊張。'},
       {mem:[{npc:'zhe',tag:'ZHE_SAID_IT',note:''}]},
-      {choice:[{text:'「嗯。我在。」',set:{ZHE4_FINAL:'here'},goto:'a'},{text:'「你要不要跟你爸說你很緊張？」',set:{ZHE4_FINAL:'dad'},goto:'b'},{text:'（什麼都不說，坐著）',set:{ZHE4_FINAL:'sit'},goto:'c'}]},   /* ZHE4_FINAL＝哲 4 選了哪一個（AA_496 第 9 節第 1 點；當面、視訊版都記）：尾聲照現在讀的值（有值＝「冠軍賽那晚欠你們的」那一句，postgrad3d.js）*/
+      {choice:[{text:'「嗯。我在。」',goto:'a'},{text:'「你要不要跟你爸說你很緊張？」',goto:'b'},{text:'（什麼都不說，坐著）',goto:'c'}]},
       {label:'a'},{if:isDown,speaker:null,text:'（他點頭，把紅茶喝完，再去買兩瓶。兩個人坐到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},
       {unless:isDown,if:notJP,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
       {if:isJP,speaker:null,text:'（他把紅茶喝完。你們講到臺灣十二點半。你這邊已經一點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* AA_377 第 2 項：日本版照當地時間（臺灣 4/28 23:00＝日本 4/29 0:00）*/

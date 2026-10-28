@@ -357,8 +357,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   /* AA_343 D1（改了這一項的期待值）：交往中一律有；2/14 沒送（現在所有玩家）＝「不是回禮」那一版（AA_369 H2 改字：2/14 她在臺北、「理由欄」不說出口）*/
   fresh('2028-03-13',21.1,'dorm'); date('heroine_01'); ct('heroine_01'); rules(); { const q=OUT.get(G,'y3_an_white'); check('WD. D1 2/14 沒送（現在所有玩家）：交往中一律有 3/13 21:00 私訊、3/14 18:00 公館', PHONE.sent(G,'y3_an_white')&&!!q&&q.day===D('2028-03-14')&&q.h===18); }
   picks=[0]; await run('ev_an_white_day');
-  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號那天，我在讀書。……你也沒說什麼。','（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。','嗯。……打開以前先猜。'];   /* AA_508 0-2 第 8 點：第三句換掉禁用句型 */
-    check('WD. D1 沒送過（AA_369 H2）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）回禮要先收到才算。……這個，是我自己想送。」（AA_508 0-2 第 8 點）；沒有「我在臺中」「理由欄」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!said.some(x=>/我在臺中|理由欄/.test(x.t)), JSON.stringify(said.map(x=>x.t))); }
+  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號那天，我在讀書。……你也沒說什麼。','（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。','嗯。……打開以前先猜。'];
+    check('WD. D1 沒送過（AA_369 H2）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。」；沒有「我在臺中」「理由欄」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!said.some(x=>/我在臺中|理由欄/.test(x.t)), JSON.stringify(said.map(x=>x.t))); }
   fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true,EXCHANGE_ROUTE:'JP'}); date('heroine_01'); ct('heroine_01'); rules(); check('WD. 日本路線：沒有 3/14', !OUT.get(G,'y3_an_white'));
   fresh('2028-04-13',20.5,'dorm'); date('heroine_01'); rules(); const fv=OUT.get(G,'y3_an_far_video');
   check('WD2. 交往中：4/13 21:00 視訊（日本 22:00；AA_377 第 19 項，她 22:30 以後不回；10 分鐘沒接＝沒接）', !!fv&&fv.h===21&&Math.abs(fv.late-1/6)<1e-9&&fv.verb==='接起來'&&fv.place==='視訊');

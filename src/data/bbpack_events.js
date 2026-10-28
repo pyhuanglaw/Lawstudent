@@ -533,7 +533,7 @@ const BBPACK_EVENTS=(function(){
      手機筆記（AA_117）：前三行自動填好，玩家選「請求什麼」；有 U_SALE（民總那一堂的理解）多一個選項。阿凱自在 +2。
      「那問誰」：去過法服（LAWCLUB_SAT_VISITS ≥1）＝「週六法服。」→ 第 7 週週六 9:00～12:00 走進萬才館（ev_kai_keyboard_fafu）；沒去＝12:30 阿凱私訊兩句（BBPACK.phone）。
      沒去過法服＝「我問學長。」→ 當晚 23:00 家族群組 Kevin 三句（BB_70 8b）、23:05 阿凱私訊「你們法律系的人原來要查這麼久」（BBPACK.phone）。三種結尾都記 KAI_KEYBOARD（記憶，BBPACK.kaiKb）。
-     BB_154 檔頭（2026-10-18）：2-3「學姊是法服社長，這天她值班」作廢——大一的週六法服是現任社長帶（AA_238 2-1、2-2；story3d.js S.fafuLead），學姊那幾句換成社長說（字不改）。說話人標籤寫全名「法服的社長」（AA_496 第 9 節第 6 點：「社長」法服、吉他社、即興劇社共用）；旁白的「社長」照舊。
+     BB_154 檔頭（2026-10-18）：2-3「學姊是法服社長，這天她值班」作廢——大一的週六法服是現任社長帶（AA_238 2-1、2-2；story3d.js S.fafuLead），學姊那幾句換成社長說（字不改）。
      「我問直屬學長。」：直屬只有學姊一個（企劃線 e627d7475），BB_70 8b 寫「問學長：家族的大二學長 Kevin」——這裡用「我問學長。」*/
   const KBA=v=>FI('KAI_KB_ASK',v);
   EV.push({ id:'ev_kai_keyboard', title:'', participants:['kai'], location:'dorm', trigger:'auto', once:true, term:['Y1S2'], weeks:[6,7], weekday:[1,2,3,4], time:[22,24], background:'blur',
@@ -554,15 +554,15 @@ const BBPACK_EVENTS=(function(){
   EV.push({ id:'ev_kai_keyboard_fafu', title:'', participants:['kai'], location:'wancai', trigger:'auto', once:true, term:['Y1S2'], weeks:[7], weekday:[6], time:[9,12], background:'blur', portraitLater:true,
     prereq:{flagIs:{KAI_KB_ASK:'fafu'}},
     dialogue:[ nar('阿凱抱著鍵盤坐下。社長看了一眼少掉的那一顆。'),
-      say('法服的社長','三件事。'),
-      say('法服的社長','一，賣場的頁面、你們的對話，先截圖存起來。'),
-      say('法服的社長','二，賣家如果是店家，網購收到七天內，可以直接退。'),
-      say('法服的社長','三，超過七天，或賣家是個人：東西跟說好的不一樣，可以要求退錢，或少付一點。'),
-      say('法服的社長','少一顆鍵，退整台可能太多。少付一點，比較合理。'),
-      say('法服的社長','你們已經跟賣家說了。很好。發現了要馬上說。'),
-      say('法服的社長','我們是學生，只能講方向。要確定的話，帶著截圖找律師。'),
+      say('社長','三件事。'),
+      say('社長','一，賣場的頁面、你們的對話，先截圖存起來。'),
+      say('社長','二，賣家如果是店家，網購收到七天內，可以直接退。'),
+      say('社長','三，超過七天，或賣家是個人：東西跟說好的不一樣，可以要求退錢，或少付一點。'),
+      say('社長','少一顆鍵，退整台可能太多。少付一點，比較合理。'),
+      say('社長','你們已經跟賣家說了。很好。發現了要馬上說。'),
+      say('社長','我們是學生，只能講方向。要確定的話，帶著截圖找律師。'),
       say('kai','你們法律系的人原來要查這麼久'),
-      say('法服的社長','……三分鐘。'),
+      say('社長','……三分鐘。'),
       nar('回宿舍的路上，你在手機筆記寫了一行。'),
       me('下次我要自己講得出來。'),
       {call:G=>{ const b=B(); if(b) b.kaiKb(G); }} ] });

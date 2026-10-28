@@ -452,19 +452,13 @@ const INV=(function(){
   S.seatMeet=async function(GM,seat){ const G=GM.G; if(!seat) return false; for(const iv of (G.invites||[])){ if(iv.state!=='accepted'||iv.day!==G.day||!iv.waitSeat||(iv.waitSeat.lv|0)!==(seat.lv|0)) continue;
       if(Math.hypot(iv.waitSeat.x-seat.x,iv.waitSeat.z-seat.z)>1.8) continue; const n=S.npcOf(GM,iv.who); if(!n) continue; iv.waitSeat=null; await S.meet(GM,iv,n); return true; } return false; };
   /* ---------- 對方約你、臨時改約（給事件用；內容由 AA、BB 寫，使用者批准後才放）---------- */
-  S.offer=function(G,who,pid,day,h,text,at){ S.rec(G); const P=S.place(pid); if(!P) return null; if(S.cool(G,who)) return null;   /* 分開以後一個學期，她那一方的邀約不發（AA_434 4-3）*/ G.invSeq=(G.invSeq|0)+1;
+  S.offer=function(G,who,pid,day,h,text){ S.rec(G); const P=S.place(pid); if(!P) return null; if(S.cool(G,who)) return null;   /* 分開以後一個學期，她那一方的邀約不發（AA_434 4-3）*/ G.invSeq=(G.invSeq|0)+1;
     const iv={id:'iv'+G.invSeq,who,place:pid,zone:P.zone,day,h:+h.toFixed(3),state:'offered',accepted:false,by:'npc',label:nameOf(who)+'約你去'+P.name}; G.invites.push(iv);
-    const t=text||(nameOf(who)+'約你'+when(G,day,h)+P.verb.replace(/^去/,'去')+'。'); if(at){ S.msgAt(G,who,t,at.day,at.h); const M=G.msgs.find(m=>m.day===at.day&&m.h===+(at.h%24).toFixed(2)&&m.who===who&&m.text===t&&!m.iv); if(M) M.iv=iv.id; } else S.msg(G,who,t,iv); return iv; };   /* at＝{day,h}：訊息放在那個時間（她主動約你：前一天晚上傳的，睡過、跳過照原本的時間，src/heroine_asks3d.js）*/
-  /* 回覆對方的邀約以後（S.answer）：fn(G,iv,ans,res)；回傳 {noFlow:true}＝改天不打開「自己選時間」（她主動約你的那幾則：她 3 天後會再約，HEROINE-ASKS-1028）*/
-  S.ON_ANSWER=[];
-  /* 你那個時間有沒有約（約了別人、校外約會、自己的考試）；這個人那個時間照作息在哪（給 src/heroine_asks3d.js：她本來就在那裡的邀約）*/
-  S.mineAt=(G,day,h,stay)=>!!(clash(G,null,day,h,stay)||tripAt(G,day,h,stay)||myExam(G,day,h,stay));
-  S.entAt=(G,id,day,h)=>entAt(G,id,day,h);
+    S.msg(G,who,text||(nameOf(who)+'約你'+when(G,day,h)+P.verb.replace(/^去/,'去')+'。'),iv); return iv; };
   /* 回覆對方的邀約：yes＝答應（時間衝突時照樣改天）、later＝改天（玩家另外選時間，走一般的 decide）、no＝不了（不扣分） */
   S.answer=function(G,ivId,ans){ const iv=S.byId(G,ivId); if(!iv||iv.state!=='offered') return null; const nm=nameOf(iv.who), P=S.place(iv.place);
-    const hook=r=>{ for(const f of S.ON_ANSWER){ let x=null; try{ x=f(G,iv,ans,r); }catch(e){ console.warn('INV.ON_ANSWER',e); } if(x&&x.noFlow) r.noFlow=true; } return r; };
-    if(ans==='yes'){ if(clash(G,null,iv.day,iv.h,P.stay,iv)||tripAt(G,iv.day,iv.h,P.stay)){ S.msg(G,null,'那個時間你已經約了別人。',iv); return hook({res:'mine'}); }   /* 校外約會那段時間也一樣（BUG-DATE-OVERLAP-1021）*/ iv.state='accepted'; iv.accepted=true; S.msg(G,iv.who,'答應了：'+when(G,iv.day,iv.h)+'，'+P.name+'（'+nm+'）。',iv); return hook({res:'accept'}); }
-    iv.state='declined'; S.msg(G,iv.who,ans==='later'?'你跟'+nm+'說改天。':'你跟'+nm+'說這次不了。',iv); return hook({res:ans}); };
+    if(ans==='yes'){ if(clash(G,null,iv.day,iv.h,P.stay,iv)||tripAt(G,iv.day,iv.h,P.stay)){ S.msg(G,null,'那個時間你已經約了別人。',iv); return {res:'mine'}; }   /* 校外約會那段時間也一樣（BUG-DATE-OVERLAP-1021）*/ iv.state='accepted'; iv.accepted=true; S.msg(G,iv.who,'答應了：'+when(G,iv.day,iv.h)+'，'+P.name+'（'+nm+'）。',iv); return {res:'accept'}; }
+    iv.state='declined'; S.msg(G,iv.who,ans==='later'?'你跟'+nm+'說改天。':'你跟'+nm+'說這次不了。',iv); return {res:ans}; };
   /* 臨時改約：to＝{day,h} 新的時間；null＝這次取消 */
   S.change=function(G,ivId,to,text){ const iv=S.byId(G,ivId); if(!iv||(iv.state!=='accepted'&&iv.state!=='going')) return null; const P=S.place(iv.place);
     iv.prev={day:iv.day,h:iv.h}; iv.state='changed'; iv.accepted=false; iv.to=to||null;

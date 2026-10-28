@@ -379,7 +379,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'b1'},{speaker:null,text:'（他看著那扇刷卡的門很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
       {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{goto:'end'},
       {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
-      {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')),{set:{BH4_DONE:true}} ] };   /* BH4_DONE＝翰 4 演完（AA_496 第 9 節第 1 點）：推甄面試「我是真的想知道」那一版（r2y4a_events.js）、尾聲 bh4（postgrad3d.js）讀它；舊存檔沒有＝照沒演過 */
+      {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')) ] };
 
   /* ---------- 2-Y3-15 校慶（大三版）：11/13（六）10:00～16:00 椰林大道，和大二同一個帳篷。法服成員＝攤位版；不是＝路過版。學姊那段只在 12:00～12:30；不改 GRANDMA_TREE_Y2 ---------- */
   const GM_Y2={custom:G=>!!(G.flags&&G.flags.GRANDMA_TREE_Y2)};
@@ -463,10 +463,10 @@ const R2Y3A_EVENTS=(function(){
       {unless:{memory:[{npc:'classmate_xinci',tag:'ECON_TOGETHER'}]},speaker:null,text:'（她們把考卷攤在中間，一題一題對下去。）'},
       {goto:'end'},
       {label:'e1'},{speaker:'heroine_01',text:'我看一下。……你錯的地方跟我一樣。'},
-      {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、兩人和好（近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
+      {label:'end'},{set:{CI5:'near'}} ] };
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],
     prereq:{custom:G=>ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
-    dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far',XC5_RECONCILE:true}} ] };
+    dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far'}} ] };
 
   /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */
   const TUTOR={ id:'ev_kexin_tutor_practice', title:'學弟妹的練習對象', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

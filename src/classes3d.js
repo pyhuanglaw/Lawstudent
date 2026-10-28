@@ -179,9 +179,7 @@ const CLS=(function(){
     const known=typeof STORY==='undefined'||!STORY.knows||STORY.knows(r.who);   /* BB_170 第 11、32 列：還沒認識的同學（例：開學第一週的沛珊、明軒、以安）顯示「同學」，認識以後才顯示名字 */
     const nm=!known?'同學':((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(r.who):((CHARACTERS[r.who]||{}).name||'同學')); return act?nm+r.text:nm+'：「'+r.text+'」'; };
   S.rot=(it,n)=>(((it.day+it.week)%n)+n)%n;   /* 輪流的序號：經濟系那一年的日子是負數，% 會變負的、取不到句子（BB_218：2024-09-04 微積分、體育「老師：undefined」）*/
-  /* 宥辰不在的那一堂（AA_497 1-2：12:00 以前的必修只在考試前後，STORY.youchenAway）：他那一句照舊，說話人改「同學」（不具名同學，'class'）*/
-  S.reactAs=(r,it)=>r&&typeof STORY!=='undefined'&&STORY.YOUCHEN&&r.who===STORY.YOUCHEN&&STORY.youchenAway&&STORY.youchenAway(it)?Object.assign({},r,{who:'class'}):r;
-  const pickReact=(arr,it)=>{ const ok=(arr||[]).map(r=>S.reactAs(r,it)).filter(r=>reactOK(r,it.day)); return ok.length?S.reactLine(ok[S.rot(it,ok.length)]):''; };
+  const pickReact=(arr,it)=>{ const ok=(arr||[]).filter(r=>reactOK(r,it.day)); return ok.length?S.reactLine(ok[S.rot(it,ok.length)]):''; };
   /* 一週兩格的課（大三上的民訴甲上、刑訴；AA_103）：這一堂是那一週的第幾格（照星期排）、前面的格子是不是都放假 */
   S.slotOrder=function(it){ const ss=(it.c.slots||[]).slice().sort((a,b)=>a.wd-b.wd||String(a.block).localeCompare(String(b.block))); return {i:ss.indexOf(it.slot),ss}; };
   S.earlierSlotsOff=function(it){ const o=S.slotOrder(it); if(o.i<1||typeof CALENDAR==='undefined') return false; const wd=it.slot.wd; return o.ss.slice(0,o.i).every(q=>q.wd!==wd&&CALENDAR.holiday(it.day-(wd-q.wd))); };
@@ -251,7 +249,7 @@ const CLS=(function(){
     await recall(null);
     const i=await GM.choose(opts.map(o=>({t:o.text}))); const res=opts[i]&&opts[i].result; if(res) await GM.say(null,res);
     if(ob.record) R.disc[ob.record]=i;
-    for(const q0 of (ob.replies||[])){ const q=S.reactAs(q0,it); if(!reactOK(q,it.day)) continue; await GM.say(null,S.reactLine(q)); await recall(q0.who); }   /* reactAs：宥辰不在的那一堂＝「同學」（同上）*/
+    for(const q of (ob.replies||[])){ if(!reactOK(q,it.day)) continue; await GM.say(null,S.reactLine(q)); await recall(q.who); }
     if(ob.close) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ob.close);
     if(G.flags) for(const u of (ob.understand||[])) G.flags[u]=true; };
   /* 翹課的轉述（AA_104 4-2「同學偶爾會在群組吐槽他沒來（一行，不是懲罰）」、AA_119 第 0 節第 4 點「群組裡一句轉述，不補演」）：
