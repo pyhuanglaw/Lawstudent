@@ -7,14 +7,16 @@
 //   2. 時段欄：考試 → 開學 → 寒暑假 → 晚上 → 平常；那個系沒寫的欄用平常；旁白先出、再出那一句；旁白寫「他」「她」的只給男生／女生
 //   3. 輪法（AA_489 第 4 節）：同一次進來同一欄不重複、用完了其他人不說；下一次進來從下一句開始
 //   4. 校園：走路的人（story3d.js 的 GM.spawnExtra）名字＝X系的學生、點了聽一句（先停下來面向你、說完往同一個點繼續走）；兩個人一起走的對話
-//      （同時只有一組、點了整段、說話的人對、一天聽一次）；走路的人旁邊有出口時不擋「進入○○」
+//      （同時只有一組、點了整段、說話的人對、一天聽一次）；路人在按鈕上最後才算（旁邊有出口、有名字的同學時不擋「進入○○」「和小安說話」）
 //   5. 公館：館的系、館的對話（晚上、考試週的晚上）
-//   6. 圖書館：總圖大廳相鄰兩個空位一起坐（第 5 組）；閉館前 30 分鐘工讀的人（圖資）站在座位旁邊（第 15 組）；社科圖沒有圖資
+//   6. 圖書館：總圖大廳相鄰兩個空位一起坐（第 5 組）；閉館前 30 分鐘工讀的人（圖資）站在座位旁邊（第 15 組）；社科圖沒有圖資；劇情寫死的位子不坐
 //   7. 教學館門口：通識（ge_film_y1s1）上課前各系混著、第 3 節（第 1 週、平常、第 6～7 週三個人、下課後、第 13 週以後）；
 //      法律系必修（大一經濟學原理，普通 101）都是法律系、第 4 節（第 1 週、平常、考試前一週、下課後）；選修、演講照舊
 //   8. 體育館：16 句一起輪（AA_495 那三句說的人是外文系、化學系、醫學系的學生）；大廳散步的人、長椅上的人＝電機、醫學；1F 場邊的長椅兩個人的對話；寒暑假沒有系
 //   9. 經濟系那一年（Y0）：校園的路人一樣有系、有句子；通識門口一樣；經濟系的必修門口照舊
-// 修改前（開發分支 095cf15ae）：第 0～9 項 FAIL（沒有 crowd_depts.js、路人沒有系、點不了；體育館 13 句）。用法：node tests/crowd_depts_unit.js
+// 修改前（開發分支 095cf15ae，在那個版本的 src、index.html 上真的跑過）：26 項 FAIL——第 0 項（沒有 crowd_depts.js、對稿全部對不到、體育館 13 句）8 項、第 1～9 項都 FAIL
+//   （路人沒有系、點不了、沒有對話、教學館門口沒有名字和對話）；修改前也 PASS 的 5 項是前提（讀得到稿、測試用的日子、walkRoutes）和照舊的部分（選修門口、寒假的體育館）。
+// 用法：node tests/crowd_depts_unit.js（第 0 項用 git show 讀 AA 的稿；讀不到先 git fetch origin claude/magical-albattani-bk7b4n）
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -52,7 +54,6 @@ const STSRC=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const WR=(
 function enter(id,G,walkers){ GAME.G=G; build(id); G.zone=id; let xi=0; if(walkers&&WR&&WR[id]){ const rs=WR[id]; for(let i=0;i<walkers;i++) spawnExtra(STORY.extraSpec(xi++),rs[i%rs.length]); }
   const GM=mkGM(G); if(C) C.enter(GM,id); return GM; }
 const termDay=(id,week,wd)=>{ for(let d=-420;d<1700;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===id&&t.week===week&&CALENDAR.dateOf(d).wd===wd&&!CALENDAR.holiday(d)) return d; } return null; };
-const ex=()=>E.npcs.filter(n=>n.isExtra&&n.beh!=='buddy'&&n.beh==='route'&&!n.crowd);
 const deptOf=n=>{ const m=String(n.name||'').match(/^(.+)系的學生$/); return m?m[1]:null; };
 const byId=id=>D&&D.DEPTS.find(d=>d.id===id);
 const linesOf=(d,col)=>{ const x=byId(d); return x?(x.L[col]||x.L['平常']||[]):[]; };
