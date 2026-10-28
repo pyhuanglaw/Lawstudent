@@ -3280,6 +3280,14 @@
    "approvedBy": "AA-C 定稿（D109；使用者 10-28「全部留著，每個都補故事」「他們可以不能攻略 但有支線任務阿」）",
    "task": "NPC-STORY-1028",
    "note": "LAWWW-C 10-28 登記：法律系同學二十位共同做法＋第一批五位（子代理 e21e3f37c，合併時登記）"
+  },
+  {
+   "path": "docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md",
+   "sha": "31a4c4002",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；HEROINE-LIFE-1028，USER_WANTS X122★）",
+   "task": "HEROINE-LIFE-1028",
+   "note": "LAWWW-C 10-28 登記：第 0-2 節開發分支對齊（閒聊階梯學姊招呼週次走 import_ladder.py 的 _fix_greet）；手機動態、同框接的時候另外登記"
   }
  ]
 }
