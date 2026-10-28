@@ -71,12 +71,17 @@ for o in bpy.data.objects:
     if o.type == 'MESH' and hidden(o): o.hide_render = True   # 玻璃：烘焙時當作不存在（窗外的光直接進來）
 print('bake objects', len(objs), flush=True)
 # 同一個材質不能一部分有光照貼圖、一部分沒有：遊戲的 roomLightmap 是照材質接 lightMap 的，沒有 uv1 的網格會整個取到貼圖 (0,0) 那一點（變暗）。
-# 例：202 的頂點色材質 vc 同時給收邊條、書包、天花板格子用——要嘛全部烘、要嘛全部放進 --nolm
-OBJS = set(objs); mine = {m for o in objs for m in mats(o)}
-shared = sorted({m for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons) and o not in OBJS and not hidden(o) for m in mats(o)} & mine)
-if shared:
-    print('ERROR 這些材質一部分物件有光照貼圖、一部分沒有（--nolm 要一起加或一起拿掉）：', shared,
-          [o.name for o in bpy.data.objects if o.type == 'MESH' and any(m in shared for m in mats(o))], flush=True); sys.exit(1)
+# 例：201 的鋼材 cls_steel 同時給椅子的鋼管（幾千個小島，不烘）和門框（看得到，要烘）用。
+# 這種材質自動複製一份給不烘的物件用（名字後面加 _rt＝即時光）；不同物件本來就各畫一次，draw call 不會變多
+OBJS = set(objs); mine = {m for o in objs for m in mats(o)}; split = {}
+for o in bpy.data.objects:
+    if o.type != 'MESH' or not len(o.data.polygons) or o in OBJS or hidden(o): continue
+    for sl in o.material_slots:
+        m = sl.material
+        if m and m.name in mine:
+            if m.name not in split: split[m.name] = m.copy(); split[m.name].name = m.name + '_rt'
+            sl.material = split[m.name]
+if split: print('split materials（不烘的物件用 _rt 的複製）', sorted(split), flush=True)
 
 # ---- 3. 第二套 UV（LM）：智慧展開＋所有物件一起排進同一張貼圖 ----
 for o in objs:

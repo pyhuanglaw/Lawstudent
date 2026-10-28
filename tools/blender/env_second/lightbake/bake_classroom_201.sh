@@ -5,9 +5,10 @@
 # 燈：天花板 24 盞 T5 格柵燈具（4×6，1.2×0.6，對齊 0.6 m 的天花板格子；classroom_201.py 的 LX、LZ）的位置放面光源（每盞 30 W），發光面本身不烘（NOLM 的 ceil_light）；
 # 白天：天空＋太陽（方位 250°、仰角 35°，西牆的窗）；晚上：只有燈＋一點夜空。玻璃烘焙時當作不存在（--hide glass）。
 set -e
-# 不烘的（照舊即時光）：發光面＋細小零件（書包等道具、鋼管、鋁條、黑色零件、收邊、止滑條、天花板格子、格柵、燈具外殼、冷氣、窗框、出口燈；同一個材質的要一起放）。
-# 10-28 LIGHTBAKE-UV-FIX：原本小零件也烘，幾千個小島把貼圖擠掉，牆、地板只剩每公尺 2～9 個像素；現在 12～17 個（lightbake/uv_fill.py 量）
-NOLM='ceil_light|props|^PROPS$|steel|doorframe|alu|doorpull|black|doorvis|cap|wainjoint|rubber|grid|louvre|_fix|_ac|frame|exit'
+# 不烘的（照舊即時光）：發光面＋小島很多、看起來差不多的零件（椅子和桌子的鋼管、桌上的東西、天花板的格柵、輕鋼架、冷氣、天花板上的小東西、台階的鋁條和止滑條）。
+# 10-28 LIGHTBAKE-UV-FIX：原本小零件也烘，幾千個小島把貼圖擠掉，牆、地板只剩每公尺 2～9 個像素；現在 11～15 個（lightbake/uv_fill.py 量）。
+# 牆上看得到的零件（門框、公告欄的框、收邊）照舊烘：第一次重烘把它們也拿掉，照即時光反而變淡、和牆不一致（例：公告欄的框從深色變成淺灰）
+NOLM='ceil_light|seats_steel|^PROPS$|WALL_ceil_louvre|WALL_ceil_props|desks_steel|WALL_ceil_ac|WALL_ceil_grid|nosing_alu|nosing_rubber'
 SAMPLES=${1:-512}
 TMP=$(mktemp -d)
 /opt/blenv/bin/python tools/blender/classroom_201.py -- --out "$TMP/classroom_201_plain.glb"
