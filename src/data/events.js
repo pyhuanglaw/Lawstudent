@@ -4501,15 +4501,16 @@ const STORY_EVENTS_V11=[
       zGreet=G=>G.flags&&G.flags.classAnswerPlus?'plus':(zFirst(G,'Y1S2')?'y1s2':(zFirst(G,'Y2S1')?'y2s1':'else')),
       CU=f=>({custom:f}), Z=(t,ex)=>({speaker:'prof_zhou',expression:ex||'neutral',text:t}), ZOFF=n=>({prof:{prof_zhou:{kind:'office',delta:2,note:n}}}),
       LA=G=>(G.events&&G.events.done&&G.events.done.ev_prof_lin_after)|0, LO=G=>(G.events&&G.events.done&&G.events.done.ev_prof_lin_office)|0,
-      L=(t,ex)=>({speaker:'prof_lin',expression:ex||'neutral',text:t});
+      L=(t,ex)=>({speaker:'prof_lin',expression:ex||'neutral',text:t}),
+      BGD=()=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg('prof_door'):'blur';   /* AA_522 第 7 節：周教授、林教授研究室的 2D 背景共用 prof_door（研究室門口；getter：圖後來才登錄也拿得到）*/
     return [
-    { id:'ev_prof_zhou_office', title:'周教授的研究室', participants:['prof_zhou'], location:'wancai', trigger:'interact', priority:6, cooldown_days:6, weekday:[1,4], time:[15.2,16.5], background:'blur', term:['Y1S1','Y1S2','Y2S1','Y4S2'],   /* AA_376 #19：大三不演；大四下只有 1-3 那一次（週一）*/
+    { id:'ev_prof_zhou_office', title:'周教授的研究室', participants:['prof_zhou'], location:'wancai', trigger:'interact', priority:6, cooldown_days:6, weekday:[1,4], time:[15.2,16.5], get background(){ return BGD(); }, term:['Y1S1','Y1S2','Y2S1','Y4S2'],   /* AA_376 #19：大三不演；大四下只有 1-3 那一次（週一）*/
       prereq:CU(G=>zY4(G)?(G.weekday===1&&WK(G)===11&&zLeft(G)>0):(G.weekday===4&&zLeft(G)>0)),
       dialogue:[ {if:CU(zY4),goto:'y4'},
         Object.assign({if:CU(G=>zGreet(G)==='plus')},Z('「你上次答得不錯。有問題？」')),Object.assign({if:CU(G=>zGreet(G)==='y1s2')},Z('債總了。民總讀完了嗎？')),Object.assign({if:CU(G=>zGreet(G)==='y2s1')},Z('債總二上完，你們大四才會再遇到我。有問題？')),Object.assign({if:CU(G=>zGreet(G)==='else')},Z('「有問題就問。沒問題就回去讀。」')),
         {choice:[{text:'「老師，錯誤的『無過失』要怎麼判斷？」',if:CU(G=>zCan(G,'q88')),consequences:{prof:{prof_zhou:{kind:'office',delta:3,note:'問無過失'}},note:{id:'zhou_88',title:'周教授：無過失的判斷','body':'看表意人有沒有「合理的注意可能」：能不能發現、有沒有時間改、金額落差多大。'},knowledge:{qid:null}},goto:'q'},{text:'「老師推薦一本書？」',if:CU(G=>zCan(G,'book')),consequences:{prof:{prof_zhou:{kind:'office',delta:2,note:'問推薦書'}},note:{id:'zhou_book',title:'周教授推薦','body':'老師推薦的那本民法總則教科書——「先讀例題，再讀本文」。'}},goto:'book'},
           {text:'「老師，代理人自己越權簽約，本人要負責嗎？」',if:CU(G=>zCan(G,'agency')),consequences:Object.assign(ZOFF('問越權代理'),{note:{id:'zhou_169',title:'周教授：越權代理',body:'本人自己的行為讓人相信有代理權、或知道有人以他的名義卻不反對，要負責；對方明知或可得而知就不保護。'}}),goto:'agency'},
-          {text:'「店家寄價目表給我，我回信說要買，契約成立了嗎？」',if:CU(G=>zCan(G,'offer')),consequences:Object.assign(ZOFF('問價目表'),{note:{id:'zhou_154',title:'周教授：價目表',body:'寄價目表，法律上不當作要約。你回信說要買，那一封才是要約。店家回你「好」，契約才成立。'}}),goto:'offer'},
+          {text:'「店家寄價目表給我，我回信說要買，契約成立了嗎？」',if:CU(G=>zCan(G,'offer')),consequences:Object.assign(ZOFF('問價目表'),{note:{id:'zhou_154',title:'周教授：價目表',body:'寄價目表，法律上不當作要約。你回信說要買，那一封才是要約。店家回你『好』，契約才成立。'}}),goto:'offer'},
           {text:'「室友出國，我幫他繳了電費。可以跟他要回來嗎？」',if:CU(G=>zCan(G,'gestio')),consequences:Object.assign(ZOFF('問無因管理'),{note:{id:'zhou_176',title:'周教授：幫室友繳電費',body:'他沒有拜託你，你也沒有義務。這叫無因管理。繳電費對他有利，也不違反他的意思。你付的錢，可以請他還。'}}),goto:'gestio'},
           {text:'「債務不履行到底有幾種？」',if:CU(G=>zCan(G,'types')),consequences:Object.assign(ZOFF('問債務不履行'),{note:{id:'zhou_types',title:'周教授：三種債務不履行',body:'給付不能、給付遲延、不完全給付。三種的效果不一樣。考試不會問你有幾種。會給你一個故事，問你是哪一種。'}}),goto:'types'},
           {text:'「借錢的人十幾年沒還，還要得回來嗎？」',if:CU(G=>zCan(G,'prescr')),consequences:Object.assign(ZOFF('問時效'),{note:{id:'zhou_125',title:'周教授：時效',body:'請求權的消滅時效，一般是十五年。時效完成以後，對方可以拒絕給付。可以拒絕，債還在。他自己還了，就不能說他不知道時效過了，再要回去。'}}),goto:'prescr'},
@@ -4518,7 +4519,7 @@ const STORY_EVENTS_V11=[
         /* LEGAL_REVIEW_REQUIRED（AA_522 1-2，大一上：表見代理；台詞沒寫條號）*/
         {label:'agency'},{call:G=>zMark(G,'agency')},Z('看本人自己做了什麼。他有沒有讓別人以為那個人有代理權？明明知道有人用他的名義，他有沒有出來反對？'),Z('還要看對方。對方明知道沒有代理權，或是稍微注意一下就會知道，就不保護。'),{goto:'end'},
         /* LEGAL_REVIEW_REQUIRED（AA_522 1-2，大一下債總一：價目表不是要約；台詞沒寫條號）*/
-        {label:'offer'},{call:G=>zMark(G,'offer')},Z('寄價目表，法律上不當作要約。你回信說要買，那一封才是要約。'),Z('店家回你「好」，契約才成立。'),{goto:'end'},
+        {label:'offer'},{call:G=>zMark(G,'offer')},Z('寄價目表，法律上不當作要約。你回信說要買，那一封才是要約。'),Z('店家回你『好』，契約才成立。'),{goto:'end'},
         /* LEGAL_REVIEW_REQUIRED（AA_522 1-2，大一下債總一：無因管理的費用償還；台詞沒寫條號）*/
         {label:'gestio'},{call:G=>zMark(G,'gestio')},Z('他沒有拜託你，你也沒有義務。這叫無因管理。'),Z('繳電費對他有利，也不違反他的意思。你付的錢，可以請他還。'),{goto:'end'},
         /* LEGAL_REVIEW_REQUIRED（AA_522 1-2，大二上債總二：債務不履行的三種；台詞沒寫條號）*/
@@ -4537,7 +4538,7 @@ const STORY_EVENTS_V11=[
       dialogue:[ Object.assign({if:CU(G=>LA(G)%4===0)},L('「你剛剛那題——」','smile')),Object.assign({if:CU(G=>LA(G)%4===1)},L('你上課皺眉頭的那一題——','smile')),Object.assign({if:CU(G=>LA(G)%4===2)},L('剛剛那個證人的例子——','smile')),Object.assign({if:CU(G=>LA(G)%4===3)},L('你筆記抄到一半停下來的地方——','smile')),
         {if:{knowledge:[{qid:'Q001',min:'confused'}]},speaker:'prof_lin',expression:'neutral',text:'「很多人第一年都以為刑訴只是抓壞人。等你看過一個無罪判決，就會懂。」'},{legal:{context:'classmate',by:'prof_lin',pick:{prefer:'confused'},quiet:false}},
         Object.assign({if:CU(G=>LA(G)===0)},L('「來研究室也可以。週二下午。」')),Object.assign({unless:CU(G=>LA(G)===0)},L('下週見。')) ], consequences:{prof:{prof_lin:{kind:'office',delta:2,note:'下課後問問題'}}} },
-    { id:'ev_prof_lin_office', term:['Y3S1'], title:'林教授的研究室', participants:['prof_lin'], location:'wancai', trigger:'interact', priority:6, cooldown_days:7, max_times:3, weekday:[2], time:[14,16.5], background:'blur', prereq:{events:['ev_prof_lin_after']},
+    { id:'ev_prof_lin_office', term:['Y3S1'], title:'林教授的研究室', participants:['prof_lin'], location:'wancai', trigger:'interact', priority:6, cooldown_days:7, max_times:3, weekday:[2], time:[14,16.5], get background(){ return BGD(); }, prereq:{events:['ev_prof_lin_after']},
       dialogue:[ L('你來了。'),Object.assign({if:CU(G=>LO(G)===0)},L('上次下課你問的那題，我回去又想了一下。')),{legal:{context:'office',by:'prof_lin',pick:{prefer:'confused'},quiet:false}},
         Object.assign({if:CU(G=>LO(G)===0)},L('我念書的時候也讀不懂判決。後來讀到一份寫錯的，對照著看，才讀懂其他的。')),Object.assign({if:CU(G=>LO(G)===1)},L('無罪判決要讀到最後。最後那幾段，通常寫得最小心。')),Object.assign({if:CU(G=>LO(G)>=2)},L('你大四如果選判決研討，我們還會見面。不選也沒關係。','smile')) ],
       consequences:{prof:{prof_lin:{kind:'office',delta:2,note:'研究室問問題'}}} },
