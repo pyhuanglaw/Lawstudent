@@ -21,6 +21,12 @@
 //      語彤的法律課、子晴 6/28 起週五公館和阿凱一起走（畢業以後篇照樣成立）、學姊 12/23 以後（寒假）、5/29 以後週五和陳助教；story3d.js 的 offerInvite 問 STORY.privNow
 //   修改前（開發分支 c701f8b5e：git archive 那一版的 src、tests、index.html、白名單，放進這支測試實際跑，2026-10-28）：FAILED 7、PASS 46
 //   （FAIL＝稿→遊戲、ref、story3d.js 問 privNow、白名單 note、7 的兩列找不到成立的時候與例外）。修改後 ALL PASS（58 項）。
+// 第三輪（PRIV-AAFIX-1028：AA_509 最後一節「實作時定的：大四的圈子」，企劃線 6bc3cd784）：
+//   8  對稿（git show 6bc3cd784）；第 2 點學姊和陳助教 1/12 起、12/29 和 1/5 不排（那兩晚不在 3D）；第 3 點總圖門口照現在；第 4 點子晴騎樓延到 6/27、6/28 起換阿凱那一列；
+//      第 5 點語彤暑假在麵店：進門坐長桌最裡面靠廚房、客人（站著的玩家、走進來的客人）＝站到長桌那一頭門口那一側、客人坐下＝坐回去、那一列結束走開
+//   7 的學姊那一項改成 12/29、1/5 不成立；6 的 story3d.js 掛勾改成 offerInvite 問 S.privOk、COMPANY 回傳 id（S.companyOf）
+//   修改前（開發分支 68944901f：git archive 那一版的 src、index.html、白名單，放進這支測試實際跑，對稿 PRIV_GIT_DIR＝這個 repo，2026-10-28）：FAILED 5、PASS 58
+//   （FAIL＝6 的 story3d.js 掛勾、7 的學姊 12/29、8 的第 2、4、5 點；PASS＝8 的對稿、第 3 點照現在，其他原本的）。修改後 ALL PASS（63 項）。
 // 用法：node tests/heroine_circle3d_unit.js
 'use strict';
 const H=require('./pg_harness.js');
@@ -36,7 +42,7 @@ const DOCS0={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一
 const ALLOW=(()=>{ try{ return JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[]; }catch(e){ return []; } })();
 const allowOf=k=>ALLOW.find(q=>q.path===DOCS0[k][0]);
 const DOCS={}; for(const k in DOCS0){ const e=allowOf(k); DOCS[k]=[DOCS0[k][0],(e&&e.status==='approved'&&e.sha)?String(e.sha):DOCS0[k][1]]; }
-const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
+const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:process.env.PRIV_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };   /* PRIV_GIT_DIR：在別的資料夾跑舊版時，對稿用這個 repo */
 const DOC={}; for(const k in DOCS) DOC[k]=show(DOCS[k][1],DOCS[k][0]);
 /* 稿上的圈子表：{doc,sec:'4-1',k,heard,when,who,where}；說明（- 開頭）另外收 */
 const TABLE=[], NOTES={};
@@ -281,7 +287,9 @@ await sec('6',async()=>{ const D=HD(), P=D.PEOPLE, A=fs.readFileSync(path.join(H
   const bad=[]; const seen=new Set(); for(const id in P){ const p=P[id], m=new RegExp("'"+p.model.replace('.','\\.')+"':\\s*\\{[^\\n]*sex:'"+p.sex+"'").test(A); if(!m) bad.push(id+':'+p.model+' 不在 ASSETS 或性別不對'); if(pool.has(p.model)) bad.push(id+':和同學撞'); if(seen.has(p.model)) bad.push(id+':重複'); seen.add(p.model); }
   check('6. 標籤同伴（'+Object.keys(P).length+' 位）：底模在 ASSETS、性別對、不和二十位同學撞、彼此不重複',Object.keys(P).length>=17&&!bad.length,J(bad));
   const st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8'), mr=fs.readFileSync(path.join(H.ROOT,'src/multirel3d.js'),'utf8');
-  check('6. story3d.js：schedEnt 問 SCHED_WITH（pri 之後）、populateSchedule 在 pairUp 之前跑 PRE_PAIR、pairUp 跳過 noPair、offerInvite 問 STORY.privNow（＝COMPANY，COMPANY-PRIV-1028）',/ent\.pri&&hit\(ent\)\) return actEnt\(ent\);[^\n]*\n\s*if\(S\.SCHED_WITH/.test(st)&&/S\.PRE_PAIR\)\{[^\n]*\n\s*pairUp\(zoneId,GM\); \}/.test(st)&&/!n\.paired&&!n\.noPair&&/.test(st)&&/const crowd=!S\.privNow\(G,id,n,GM\)/.test(st)&&/S\.crowdNow=function\(G,id,n,GM\)\{[^\n]*S\.COMPANY\.some/.test(st)&&/!\(crowd&&o\.priv\)/.test(st));
+  check('6. story3d.js：schedEnt 問 SCHED_WITH（pri 之後）、populateSchedule 在 pairUp 之前跑 PRE_PAIR、pairUp 跳過 noPair、offerInvite 每個選項問 S.privOk（PRIVTALK.ok；沒有 PRIVTALK＝STORY.privNow＝COMPANY，COMPANY-PRIV-1028）；COMPANY 可以回傳旁邊那幾個人的 id（S.companyOf，PRIV-AAFIX-1028）',/ent\.pri&&hit\(ent\)\) return actEnt\(ent\);[^\n]*\n\s*if\(S\.SCHED_WITH/.test(st)&&/S\.PRE_PAIR\)\{[^\n]*\n\s*pairUp\(zoneId,GM\); \}/.test(st)&&/!n\.paired&&!n\.noPair&&/.test(st)
+    &&/S\.privOk\(G,id,'invite',GM,n\)/.test(st)&&/!\(pk\(o\)&&!S\.privOk\(G,id,pk\(o\),GM,n\)\)/.test(st)&&/S\.privOk=\(G,id,key,GM,n\)=>[^\n]*PRIVTALK\.ok\(G,id,key,GM\):S\.privNow\(G,id,n,GM\)/.test(st)
+    &&/S\.companyOf=function\(G,id,n,GM\)\{[^\n]*S\.COMPANY/.test(st)&&/S\.crowdNow=function\(G,id,n,GM,except\)\{[^\n]*S\.companyOf/.test(st));
   check('6. multirel3d.js：告白的兩個一次性選項標 priv',(mr.match(/priv:true,run:/g)||[]).length===2);
   const AL=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files||[];
   const badA=Object.keys(DOCS).filter(k=>{ const e=AL.find(q=>q.path===DOCS[k][0]); return !e||String(e.sha)!==DOCS[k][1]||e.status!=='approved'||!e.approvedBy||!/HEROINE-CIRCLE3D-1028/.test(e.note||'')||((k==='AA_509'||k==='AA_510')&&(!/CIRCLE3D-Y4-1028/.test(e.note||'')||String(e.sha)!=='28f981438')); });
@@ -322,11 +330,45 @@ await sec('7',async()=>{ if(!HAS()){ check('7. HCIRCLE',false,'沒有 HCIRCLE');
     check('7. 子晴 6/28 起週五 22:00 公館和阿凱（2029-07-06，畢業以後篇）：一定同框、兩個人都生在公館、阿凱跟著她一起走',on===true&&!!zq&&!!kai&&kai.beh==='buddy'&&kai.buddy===zq&&dist(zq,kai)<1.5,J({on,zq:!!zq,kai:kai&&kai.beh})); }
   /* (f) 學姊和陳助教：12/23 以後（寒假）、5/29 以後的週五，一定同框；之前不成立 */
   { const q=(rid,k)=>{ const r=Rw(rid); fresh(DK(k),19,'gongguan'); return HCIRCLE.on(r,H.G); };
-    const a=q('c509_5_1','2028-12-29'), b=q('c509_5_1','2029-01-12'), c=q('c509_5_1','2028-12-22'), d=q('c510_5_1','2029-06-01'), e=q('c510_5_1','2029-05-25'), g=q('c510_5_1','2029-08-03');
-    check('7. 學姊週五和陳助教：12/29、1/12 成立（12/22 還在美國以前不成立）；5/29 以後 6/1、8/3 成立（5/25 不成立）',a&&b&&!c&&d&&!e&&g,J({a,b,c,d,e,g})); }
+    const a=q('c509_5_1','2028-12-29'), a2=q('c509_5_1','2029-01-05'), b=q('c509_5_1','2029-01-12'), c=q('c509_5_1','2028-12-22'), d=q('c510_5_1','2029-06-01'), e=q('c510_5_1','2029-05-25'), g=q('c510_5_1','2029-08-03');
+    check('7. 學姊週五和陳助教：1/12 起成立（12/22 還在美國、12/29、1/5 不排，AA_509 實作時定的第 2 點）；5/29 以後 6/1、8/3 成立（5/25 不成立）',!a&&!a2&&b&&!c&&d&&!e&&g,J({a,a2,b,c,d,e,g})); }
   /* (g) 照 1-1 的兩列：只是指向那一列（沒有自己的同框，句子同那一列）*/
   { const a=Rw('c509_3_1'), b=Rw('c510_3_1');
     check('7. 「照 1-1 第二列」「照 1-1」：ref、句子＝以安那一列、不另外排（不在 BY_WHO）',a.ref&&b.ref&&a.heardFrom==='c509_1_2'&&b.heardFrom==='c510_1_1'&&J(a.lines)===J(Rw('c509_1_2').lines)&&J(b.lines)===J(Rw('c510_1_1').lines)&&!(HCIRCLE.BY_WHO.heroine_03||[]).some(r=>r===a||r===b)); } });
+
+/* ---------- 8 第三輪（PRIV-AAFIX-1028：AA_509 最後一節「實作時定的：大四的圈子」，企劃線 6bc3cd784）---------- */
+await sec('8',async()=>{ if(!HAS()){ check('8. HCIRCLE',false); return; }
+  const Rw=id=>R(id)||{}; const SPEC509='docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md', D509=show('6bc3cd784',SPEC509);
+  check('8. 對稿：AA_509 6bc3cd784 最後一節的六項（學姊 2029-01-12、12/29 和 1/5 不排；總圖門口 17:50～18:10 第 10～16 週；子晴騎樓到 6/27、6/28 起阿凱；語彤坐長桌最裡面靠廚房、客人進來站在長桌那一頭門口那一側）',
+    /## 實作時定的：大四的圈子/.test(D509)&&D509.includes('從 **2029-01-12** 開始')&&D509.includes('12/29 接著 12/28 家聚，1/5 時差還沒好，都不排')&&D509.includes('17:50～18:10、第 10～16 週，不綁 Y7-L5')
+    &&D509.includes('到 **6/27** 為止')&&D509.includes('6/28 起換 `AA_510` 那一列（週五，阿凱）')&&D509.includes('坐在長桌最裡面、靠廚房的那個位子')&&D509.includes('站在長桌那一頭、門口那一側'),'長度 '+D509.length);
+  /* 第 2 點：學姊和陳助教 1/12 起；12/29、1/5 那兩晚她不在 3D（她原本的週五公館）*/
+  { const ent5=k=>{ fresh(DK(k),19,'gongguan'); const e=ent('heroine_05'); return e?{zone:e.zone,act:e.act,away:e.away||null}:null; };
+    const a=ent5('2028-12-29'), b=ent5('2029-01-05'), c=ent5('2029-01-12'), d=ent5('2029-01-19');
+    check('8. 第 2 點：學姊 12/29、1/5 的週五晚上不排（不在 3D、「在家」）；1/12 起週五公館和陳助教（同框）',!!a&&a.zone==null&&a.away==='在家'&&!!b&&b.zone==null&&!!c&&c.zone==='gongguan'&&!!d&&d.zone==='gongguan'
+      &&(fresh(DK('2029-01-12'),19,'gongguan'),HCIRCLE.on(Rw('c509_5_1'),H.G))===true&&(fresh(DK('2029-01-05'),19,'gongguan'),HCIRCLE.on(Rw('c509_5_1'),H.G))===false,J({a,b,c,d})); }
+  /* 第 3 點：總圖門口照現在 */
+  { const r=Rw('c509_3_2'); check('8. 第 3 點：語彤媽媽在總圖門口照現在（17:50～18:10、第 10～16 週、不綁 Y7-L5 的條件；總圖大廳門廳、校園的總圖門口兩個站位）',r.from===17+50/60&&r.to===18+10/60&&J(r.weeks)===J([10,11,12,13,14,15,16])&&!r.cond&&(r.spot||[]).length===2&&r.spot.every(s=>s[0]==='library_hall'||s[0]==='campus')); }
+  /* 第 4 點：子晴騎樓延到大四下 6/27，6/28 起換阿凱那一列 */
+  { const on=(k,h)=>{ fresh(DK(k),h||22.5,'gongguan'); return HCIRCLE.on(Rw('c509_4_1'),H.G); };
+    const a=on('2028-10-11'), b=on('2029-01-24'), c=on('2029-03-14'), d=on('2029-06-27'), e=on('2029-06-28'), f=on('2029-06-29');
+    const e1=(fresh(DK('2029-06-27'),22.5,'gongguan'),ent('heroine_04')), e2=(fresh(DK('2029-06-28'),22.5,'gongguan'),ent('heroine_04'));
+    const k=(fresh(DK('2029-06-29'),22.5,'gongguan'),HCIRCLE.on(Rw('c510_4_1'),H.G)), k0=(fresh(DK('2029-06-22'),22.5,'gongguan'),HCIRCLE.on(Rw('c510_4_1'),H.G));
+    check('8. 第 4 點：子晴騎樓（一個人）大四上、寒假、大四下都成立，到 6/27 為止（6/27 的作息＝騎樓插座旁邊）；6/28 起不成立、作息照原本；6/29（週五）起和阿凱那一列（6/22 還沒）',
+      a&&b&&c&&d&&!e&&!f&&!!e1&&e1.hc==='c509_4_1'&&e1.act==='linger'&&!!e2&&e2.hc!=='c509_4_1'&&e2.zone==='gongguan'&&k===true&&k0===false,J({a,b,c,d,e,f,e1:e1&&e1.hc,e2:e2&&[e2.hc,e2.act],k,k0})); }
+  /* 第 5 點：語彤暑假在麵店——坐長桌最裡面、靠廚房；客人進來站在長桌那一頭、門口那一側 */
+  { const r=Rw('c510_3_2'), d=DK('2029-06-07'); const ndl=[]; for(let i=0;i<3;i++){ const x=-3+i*3; for(const s of [-1,1]) ndl.push({x,z:0.5+s*0.8,yaw:s>0?Math.PI:0}); }   /* zones3d.js 麵店：三張桌子 x＝−3／0／3、z＝0.5，椅子 z＝−0.3／1.3 */
+    fresh(d,18,'noodle'); const on=HCIRCLE.on(r,H.G); stage('noodle',ndl); E.zone.spawn={x:0,z:3.5}; STORY._bindGM(GM); HCIRCLE.bind(GM);
+    const yt=GM.spawnCharacter('heroine_03',2.6,-3.6,{yaw:-Math.PI/2}); yt.frozen=true; E.player.obj.position={x:0,y:0,z:3.4};
+    HCIRCLE.arrange(GM,false); const s0=yt.seat&&{x:yt.seat.x,z:yt.seat.z}, p0=yt.pose;   /* 進區域那一刻：坐著 */
+    HCIRCLE.arrange(GM,true); const s1=!!yt.seat, at1={x:yt.obj.position.x,z:yt.obj.position.z}, y1=yt.obj.rotation.y;   /* 玩家站著（剛進門）＝客人：站起來 */
+    E.player.seat=E.zone.seats[0]; HCIRCLE.arrange(GM,true); const s2=yt.seat&&{x:yt.seat.x,z:yt.seat.z};   /* 玩家坐下了：坐回去 */
+    const cu=GM.spawnNPC('npc_cust',{name:''},0,3.4,{}); cu.isExtra=true; HCIRCLE.arrange(GM,true); const s3=!!yt.seat;   /* 別的客人走進來（還沒坐下）：又站起來 */
+    cu.seat=E.zone.seats[1]; HCIRCLE.arrange(GM,true); const s4=!!yt.seat;
+    let away=false; const wa=STORY.walkAway; STORY.walkAway=(g,n)=>{ if(n===yt) away=true; n.leaving=true; return true; }; try{ set(d,20.6,'noodle'); HCIRCLE.arrange(GM,true); } finally{ STORY.walkAway=wa; }
+    check('8. 第 5 點：語彤暑假週四在麵店（c510_3_2）：進門那一刻坐在長桌最裡面、靠廚房的位子（x=3、z=−0.3）讀書；客人（剛進門還站著的玩家、走進來的客人）＝站在長桌那一頭、門口那一側（x 4.15、z 1.1，面向門口）；客人都坐下＝坐回去；20:30 那一列結束照作息走開',
+      on&&!!s0&&s0.x===3&&Math.abs(s0.z+0.3)<1e-9&&p0==='read'&&!s1&&Math.abs(at1.x-4.15)<0.01&&Math.abs(at1.z-1.1)<0.01&&Math.abs(y1-Math.atan2(0-4.15,3.5-1.1))<0.01&&!!s2&&s2.x===3&&Math.abs(s2.z+0.3)<1e-9&&!s3&&s4&&away,
+      J({on,s0,p0,s1,at1,y1,s2,s3,s4,away})); } });
 
 H.done();
 })();

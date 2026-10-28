@@ -42,6 +42,10 @@ const MREL=(function(){
   const rom=id=>typeof SOCIAL!=='undefined'&&SOCIAL.rel?(+SOCIAL.rel(id).npcRom||0):0;
   const wdOf=d=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(d).wd%7:0;
   const evDone=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
+  /* 旁邊有她的人（COMPANY-PRIV-1028，清單 src/privtalk3d.js）：問清單上那一筆（PRIVTALK.ok：等了 7 天、到期那天照出，AA_503 第 14 節共同的保底）；
+     privLead＝那一段開始演（旁邊還有人＝先一句旁白，清掉等待）。sub＝同一筆裡的哪一段（各自等）*/
+  const privOk=(G,x,GM,k,sub)=>typeof PRIVTALK==='undefined'||!PRIVTALK.ok||PRIVTALK.ok(G,x,k,GM,sub);
+  const privLead=async(GM,k,x,sub)=>{ if(typeof PRIVTALK!=='undefined'&&PRIVTALK.lead) await PRIVTALK.lead(GM,k,x,sub); };
 
   /* ---------- 存檔 ---------- */
   S.FLAGS=['YT_CONFESSED','YT_PROMISED','YT_BROKE_PROMISE','YT_LIED','OPEN_OK','YT_HONEST','YT_DODGED','YT_INTENT'];
@@ -794,11 +798,18 @@ const MREL=(function(){
     return typeof SOCIAL==='undefined'||!SOCIAL.STAGES||SOCIAL.STAGES.indexOf(SOCIAL.stage(x))>=SOCIAL.STAGES.indexOf('FRIEND'); };
   S.zzRefusing=(G,x)=>(x===ZQ||x===ZR)&&G.flags&&G.flags.ZQ_ZR_ENDED_DAY!=null&&!dating(G,x)&&!S.zzCanRestart(G,x);
   /* 分手以後：子晴第一次在校園遇到「嗨。」（走過去）＝這次不聊；芷若的第一句在吧檯（點餐那一邊，talkCharacter 那一層）；之後閒聊各一句；可以重新開始的那一天她先說（AA_227 6-6）*/
-  S.zzPreTalk=async function(GM,who,id){ const G=GM.G, F=G.flags||{}, Z=S.rec(G).zz, A=L().ZZ_AFTER; if(F.ZQ_ZR_ENDED_DAY==null||(id!==ZQ&&id!==ZR)||dating(G,id)) return false; const o=Z.o||(Z.o={});
-    if(id===ZQ&&!o.first_heroine_04){ o.first_heroine_04=G.day; await S.run(GM,id,A.first[id],{}); return 'abort'; }
-    if(!o['chat_'+id]&&G.day>(o['first_'+id]!=null?o['first_'+id]:F.ZQ_ZR_ENDED_DAY)){ o['chat_'+id]=G.day; await S.say(GM,who||S.who(G,id),A.chat[id],{}); return true; }
-    if(!o['restart_'+id]&&S.zzCanRestart(G,id)){ o['restart_'+id]=G.day; await S.run(GM,id,A.restart[id],{}); return true; }
-    return false; };
+  /* 這一次說話要演哪一段（只讀）：'first'＝子晴第一次「嗨。」、'chat'＝之後各一句、'restart'＝可以重新開始那一天她先說；沒有＝null */
+  S.zzPreDue=function(G,id){ const F=G.flags||{}, Z=S.rec(G).zz; if(F.ZQ_ZR_ENDED_DAY==null||(id!==ZQ&&id!==ZR)||dating(G,id)) return null; const o=Z.o||{};
+    if(id===ZQ&&!o.first_heroine_04) return 'first';
+    if(!o['chat_'+id]&&G.day>(o['first_'+id]!=null?o['first_'+id]:F.ZQ_ZR_ENDED_DAY)) return 'chat';
+    if(!o['restart_'+id]&&S.zzCanRestart(G,id)) return 'restart';
+    return null; };
+  /* 旁邊有她的人（AA_503 第 14 節第 2 項「子晴、芷若分開以後第一次說話：擋」，清單 zz_after）：這一次不演、照常說話；等了 7 天照演（開頭一句旁白）*/
+  S.zzPreTalk=async function(GM,who,id){ const G=GM.G, Z=S.rec(G).zz, A=L().ZZ_AFTER, k=S.zzPreDue(G,id); if(!k||!privOk(G,id,GM,'zz_after',k)) return false; const o=Z.o||(Z.o={});
+    await privLead(GM,'zz_after',id,k);
+    if(k==='first'){ o.first_heroine_04=G.day; await S.run(GM,id,A.first[id],{}); return 'abort'; }
+    if(k==='chat'){ o['chat_'+id]=G.day; await S.say(GM,who||S.who(G,id),A.chat[id],{}); return true; }
+    o['restart_'+id]=G.day; await S.run(GM,id,A.restart[id],{}); return true; };
   S.zzStartHook=function(G,x){ const F=G.flags||{}; if(F.ZQ_ZR_ENDED_DAY==null||(x!==ZQ&&x!==ZR)||F.RESTART_WITH) return; F.RESTART_WITH=x; S.rec(G).zz.tellAt=T(G.day,(+G.hour||0)+0.25); S.rec(G).zz.tellWho=x; };   /* 重新交往的那一位自己告訴另一位（BB_194 22-3）*/
   S.zzCap=function(G){ const F=G.flags||{}; if(!F.RESTART_WITH||typeof SOCIAL==='undefined'||!SOCIAL.rel) return; const o=F.RESTART_WITH===ZQ?ZR:ZQ, r=SOCIAL.rel(o); if((+r.npcRom||0)>=30) r.npcRom=29; };   /* 另一位：戀愛停在第 4 階以下 */
   S.zzTick=function(G){ if(!law(G)) return null; const Z=S.rec(G).zz, t=now(G);
@@ -905,19 +916,18 @@ const MREL=(function(){
   if(typeof STORY!=='undefined'){
     if(Array.isArray(STORY.TICKS)) STORY.TICKS.push(S.tick);
     if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(S.phone);
-    /* 旁邊有她的人（COMPANY-PRIV-1028，清單 src/privtalk3d.js）：子晴爸爸那一句、沛珊「對一次」這一次不說，等她一個人 */
-    const privOk=(G,x,GM,k)=>typeof PRIVTALK==='undefined'||!PRIVTALK.ok||PRIVTALK.ok(G,x,k,GM);
-    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(async(GM,who,id)=>{ const G=GM.G; if(!law(G)) return; if(id===ZQ&&S.zqDadDue(G)&&privOk(G,ZQ,GM,'zq_dad_pre')) await S.zqDadSay(GM,who);
-      const st=S.st(G,id); if(st&&id===PS&&st.result==='B'&&st.bTerm&&typeof CALENDAR!=='undefined'){ const T0=CALENDAR.termOf(G.day); if(T0&&T0.week===1&&!st.bTerm[T0.id]&&privOk(G,PS,GM,'ps_bterm')){ st.bTerm[T0.id]=G.day; await S.run(GM,PS,RL(PS).result.Bterm,{}); } }   /* 每學期第一週她提一次「對一次」*/ });
-    if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confLaterFor(G,id); if(!y) return []; return [{t:S.confLaterOpt(G,id,y),priv:true,run:async()=>S.confLater(G,id,y)}]; });   /* AA_429：系統選項，下次見面演 */
-    if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confessAny(G,id); if(!y) return []; const p=pres(G,id); if(!p.here) return []; return [{t:S.CONFESS_OPT[id],priv:true,run:async(GM)=>S.confess(GM,id,y)}]; });   /* priv：私密的話題——她旁邊有她的人時不出（女主角的圈子，AA_503 第 2 節；story3d.js offerInvite、src/hcircle3d.js）*/
+    /* 旁邊有她的人（COMPANY-PRIV-1028，清單 src/privtalk3d.js）：子晴爸爸那一句、沛珊「對一次」這一次不說，等她一個人（等了 7 天／到期那天照說，開頭一句旁白：privLead）*/
+    if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(async(GM,who,id)=>{ const G=GM.G; if(!law(G)) return; if(id===ZQ&&S.zqDadDue(G)&&privOk(G,ZQ,GM,'zq_dad_pre')){ await privLead(GM,'zq_dad_pre',ZQ); await S.zqDadSay(GM,who); }
+      const st=S.st(G,id); if(st&&id===PS&&st.result==='B'&&st.bTerm&&typeof CALENDAR!=='undefined'){ const T0=CALENDAR.termOf(G.day); if(T0&&T0.week===1&&!st.bTerm[T0.id]&&privOk(G,PS,GM,'ps_bterm')){ st.bTerm[T0.id]=G.day; await privLead(GM,'ps_bterm',PS); await S.run(GM,PS,RL(PS).result.Bterm,{}); } }   /* 每學期第一週她提一次「對一次」*/ });
+    if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confLaterFor(G,id); if(!y) return []; return [{t:S.confLaterOpt(G,id,y),priv:true,run:async()=>S.confLater(G,id,y),privKey:'tell_later'}]; });   /* AA_429：系統選項，下次見面演 */
+    if(Array.isArray(STORY.TALK_OPTS)) STORY.TALK_OPTS.push((G,id)=>{ const y=S.confessAny(G,id); if(!y) return []; const p=pres(G,id); if(!p.here) return []; return [{t:S.CONFESS_OPT[id],priv:true,run:async(GM)=>S.confess(GM,id,y),privKey:'tell_now'}]; });   /* priv：私密的話題——她旁邊有她的人時不出（女主角的圈子，AA_503 第 2 節；story3d.js offerInvite、src/hcircle3d.js）；privKey＝清單上那一筆（各自等 7 天）*/
     if(!STORY._mrelTalk&&STORY.talkCharacter){ const t0=STORY.talkCharacter; STORY.talkCharacter=async function(id,n){ const GM=S._gm, G=GM&&GM.G;
         if(G&&law(G)&&S.IDS.includes(id)){ try{
           const cafe=n&&n.staff==='cafe';
           if(cafe&&id===ZR){ const st=S.st(G,ZR); const a=st&&S.FLOW.heroine_02.meet(G,st,'cafe'); if(a){ let r; GM.sceneBegin({adv:id}); try{ r=await a.run(GM); } finally{ GM.sceneEnd(); } if(r!=='left') return; }
-            const Z=S.rec(G).zz.o||{}; if(G.flags.ZQ_ZR_ENDED_DAY!=null&&!Z.first_heroine_02&&!dating(G,ZR)){ (S.rec(G).zz.o||(S.rec(G).zz.o={})).first_heroine_02=G.day; GM.sceneBegin({adv:id}); try{ await S.run(GM,ZR,L().ZZ_AFTER.first[ZR],{}); } finally{ GM.sceneEnd(); } } }
+            const Z=S.rec(G).zz.o||{}; if(G.flags.ZQ_ZR_ENDED_DAY!=null&&!Z.first_heroine_02&&!dating(G,ZR)&&privOk(G,ZR,GM,'zz_after','first')){ (S.rec(G).zz.o||(S.rec(G).zz.o={})).first_heroine_02=G.day; GM.sceneBegin({adv:id}); try{ await privLead(GM,'zz_after',ZR,'first'); await S.run(GM,ZR,L().ZZ_AFTER.first[ZR],{}); } finally{ GM.sceneEnd(); } } }   /* 分開以後第一句（AA_503 第 14 節第 2 項：旁邊有她的人＝這一次不說，照常點餐）*/
           else if(!cafe&&!(typeof INV!=='undefined'&&INV.meetable&&INV.meetable(G,id))){ const kind=G.zone==='noodle'&&id===YT?'noodle':'talk'; let a=S.meetAction(G,id,kind); if(!a&&kind==='noodle') a=S.meetAction(G,id,'talk');
-            if(!a&&(id===ZQ||id===ZR)&&G.flags.ZQ_ZR_ENDED_DAY!=null&&!dating(G,id)){ const o=(S.rec(G).zz.o||{}); if(!o['first_'+id]&&id===ZQ) a={abort:true,run:async GM2=>{ await S.zzPreTalk(GM2,S.who(G,id),id); }}; }
+            if(!a&&(id===ZQ||id===ZR)&&G.flags.ZQ_ZR_ENDED_DAY!=null&&!dating(G,id)){ const o=(S.rec(G).zz.o||{}); if(!o['first_'+id]&&id===ZQ&&privOk(G,ZQ,GM,'zz_after','first')) a={abort:true,run:async GM2=>{ await S.zzPreTalk(GM2,S.who(G,id),id); }}; }   /* 旁邊有她的人＝這一次不演「嗨。」、照常說話（AA_503 第 14 節第 2 項）*/
             if(a){ GM.sceneBegin({adv:id}); try{ await a.run(GM); } finally{ GM.sceneEnd(); } if(a.abort) return; } } }catch(e){ console.warn('MREL talk',e); } }
         return t0.apply(this,arguments); }; STORY._mrelTalk=true; }
     if(Array.isArray(STORY.PRE_TALK)) STORY.PRE_TALK.push(async(GM,who,id)=>{ const G=GM.G; if(law(G)&&(id===ZQ||id===ZR)&&G.flags.ZQ_ZR_ENDED_DAY!=null) await S.zzPreTalk(GM,who,id); });

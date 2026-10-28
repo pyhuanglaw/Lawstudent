@@ -701,8 +701,9 @@ const Y2R2=(function(){
     /* 2-Y2-22 「幫她」三個選項：有 RENT_CONSULTATION、到 6/2 為止、麵店或總圖 */
     if(id==='heroine_03'&&(ytShop(G)||/^library/.test(G.zone||''))&&mem('heroine_03','RENT_CONSULTATION')&&G.day<=d('k14')){ const H=F.YT_HELP_PICKED||{};
       [['job','要不要我問問看有沒有打工？'],['lend','需要的話，我可以先借妳。'],['info','我找了一些資料。']].forEach(([k,t])=>{ if(!H[k]) out.push({t,run:async(GM,who)=>S.ytHelp(GM,who,k,t)}); }); }
-    /* 2-Y2-18 以安「明軒的事……」：聽說以後到 9/5、一次；和以安交往中而且明軒知道的不會有這件事 */
-    if(id==='heroine_01'&&F.MX_HEARD&&!F.AN_MX_ASKED&&G.day<=d('an_end')&&!mxKnows(G)) out.push({t:'明軒的事……',run:async(GM,who)=>{ G.flags.AN_MX_ASKED=true; GM.sceneBegin(); try{ await GM.say(who,'他問了，我答了。我們還是朋友。'); } finally { GM.sceneEnd(); } }});
+    /* 2-Y2-18 以安「明軒的事……」：聽說以後到 9/5、一次；和以安交往中而且明軒知道的不會有這件事。
+       priv（AA_503 第 14 節第 5 項，企劃線 6bc3cd784：擋）：她旁邊有她的人時不出，清單 src/privtalk3d.js 的 an_mx（期限 9/5：那天照出，選了先一句旁白）*/
+    if(id==='heroine_01'&&F.MX_HEARD&&!F.AN_MX_ASKED&&G.day<=d('an_end')&&!mxKnows(G)) out.push({t:'明軒的事……',priv:true,privKey:'an_mx',run:async(GM,who)=>{ G.flags.AN_MX_ASKED=true; GM.sceneBegin(); try{ await GM.say(who,'他問了，我答了。我們還是朋友。'); } finally { GM.sceneEnd(); } }});
     return out; };
   S.ytDutyChat=async function(GM,who){ const G=GM.G, F=G.flags, me={name:G.name||'祐廷'}; GM.sceneBegin();
     try{ await GM.say(who,'來的人多嗎？'); await GM.say(me,'一個阿伯講了十分鐘，大家都在翻六法。'); await GM.say(who,'他是不是一直講他兒子？'); await GM.say(me,'妳怎麼知道？');

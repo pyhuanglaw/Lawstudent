@@ -557,9 +557,10 @@ const STORY = (function(){
     while(st&&(S.LAD_CUT.has(st.id)||(S.LADDER_SKIP[st.id]&&S.LADDER_SKIP[st.id](G))||(st.skipIf&&ladIf(st.skipIf))||(st.skipAfterWeek!=null&&wkNow>st.skipAfterWeek)||(so.ladSeen&&so.ladSeen[st.id]))){ so.ladder[K]=(so.ladder[K]|0)+1; st=L.steps[so.ladder[K]]; }   /* ladSeen：事件接事件的過場已經演過這一層（AA_293 第 2 節：可昕交往前 T1～T6），3D 搭話時不重播 */   /* skipAfterWeek（ladder README，BB-C 2026-10-17）：過了第 N 週還沒推進的那一層直接算過 */   /* skipIf（AA 2026-10-16）：條件成立＝這一層直接算過（記層數、不播、不算今天推進）——if 用 notMemory 會讓階梯永遠卡住 */
     if(!st) return null;
     if(L.context==='date'||st.dateOnly){ if(!mode||(st.dateOnly&&st.dateOnly!==mode)) return null; if(!(G.flags&&G.flags.dating_kexin)&&id==='kexin') return null; }
-    if(S.LADDER_HOLD[st.id]&&!S.LADDER_HOLD[st.id](G)) return null;   /* 企劃說「那件事件做好以前不要開這一層」的（AA_186：語彤 Y5-L6 等續約事件 14）*/
     const W=S.LADDER_WEEK_IF[st.id]; const stc=W&&ladIf({if:W.if})?Object.assign({},st,{week:W.week}):st;
-    return ladCtxOk(G,stc,id)?st:null; };
+    if(!ladCtxOk(G,stc,id)) return null;   /* 情境（週次、地點、時間…）先看：LADDER_HOLD 只在這一層真的要播的時候問（PRIVTALK 擋下來的那一天才記，AA_503 第 14 節共同的保底）*/
+    if(S.LADDER_HOLD[st.id]&&!S.LADDER_HOLD[st.id](G)) return null;   /* 企劃說「那件事件做好以前不要開這一層」的（AA_186：語彤 Y5-L6 等續約事件 14）*/
+    return st; };
   S.LADDER_HOLD={'Y5-L6':G=>!!(G.flags&&G.flags.RENT_RENEWED),
     /* Alison「在一起」以後才說的兩層（AA_211 第 1 節第 3 點：ev_yu_together 演過，或 12/19 以後）：資料的週次 16 週制改成 [14,18]，日期條件放程式 */
     'A3-L6':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19'),
@@ -586,7 +587,11 @@ const STORY = (function(){
   S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
     'A4-L5':{'「妳跟我講話好像也是。」':[{if:{flags:['dating_heroine_01']},reply:'真的？……跟你講話本來就不用敬語啊。'}]},
     'A4-L7':{'「讀書會可以先交給 Alison。」':[{if:{flags:['dating_heroine_01']},reply:'嗯。……還有你，半年見不到。'}]}};   /* ROM-1017（AA-C b39f0bb9）＋AA_255 改稿（ladder_aa_y2s2 的 note，25e89f6e）：和以安交往中的回覆；key 換成新的選項 */
-  S.ladReply=function(st,ch){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(ladIf(r)) return r.reply; return ch.reply; };
+  /* 旁邊有她的人時，交往中的那一版改說一般版（AA_503 第 14 節第 7 項，企劃線 6bc3cd784；src/privtalk3d.js 登記）：fn(G,x,id,ctx,kind)→true＝這一套這一次不用（說一般版）。
+     kind：'linesIf'、'extraIf'（閒聊階梯那一層，ctx＝那一層）、'greet'（招呼的 when，ctx＝招呼的資料）、'reply'（選項的回覆，ctx＝那個選項）、'miss'（沒回訊息那一句，ctx＝那一則；只在有一般版的時候問）*/
+  S.DATING_QUIET=[];
+  const datingQuiet=(G,x,id,ctx,kind)=>!!G&&S.DATING_QUIET.some(f=>{ try{ return !!f(G,x,id,ctx,kind); }catch(e){ console.warn('STORY.DATING_QUIET',e); return false; } });
+  S.ladReply=function(st,ch,G,id){ const R=(S.LADDER_REPLY_IF[st.id]||{})[ch.t]; if(R) for(const r of R) if(!(G&&datingQuiet(G,r,id,ch,'reply'))&&ladIf(r)) return r.reply; return ch.reply; };
   /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)},'週四店裡現在是工讀生':{test:G=>S.ytEv13(G)&&!!(G.flags&&G.flags.RENT_RENEWED)},
     '我要去搭客運回台中了':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
@@ -607,13 +612,13 @@ const STORY = (function(){
   S.LADDER_CHOICE_IF['A7-L5']={'「妳媽媽後來呢？」':{flagIs:{AN_CHOICE:['here','video']}},'「妳媽媽知道嗎？」':{custom:G=>!(G&&G.flags&&['here','video'].includes(G.flags.AN_CHOICE))}};   /* AA_296 2-3-1 ①：美國路線她打來的視訊（AN_CHOICE video）也是聽她當面說完，當成 here 那一類 */
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
-    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
+    const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(datingQuiet(G,w,id,g,'greet')) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
     const B=(g.base||[]).filter(t=>ladGreetOk(G,t)); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(((G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length)+B.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
   /* linesIf／extraIf 的一套：情境 key（week、term、weekday、time、location、weather、weekParity、dayMin、locTime）照 ladCtxOk 檢查，其他（if、unless、或直接寫的條件）交給 EVENTS.cond。
      2026-10-16 AA-B 驗收：原本整套丟給 EVENTS.cond，它不認得 week 就忽略＝永遠成立（以安大一下第 3 週就說「杜鵑花謝了」）*/
   const LAD_CTX=['week','term','weekday','time','location','weather','weekParity','dayMin','locTime'];
-  const ladAlt=(G,x,id)=>{ if(!G) return ladIf(x); const ctx={}, rest={}; for(const k in x){ if(k==='lines') continue; if(LAD_CTX.includes(k)) ctx[k]=x[k]; else rest[k]=x[k]; } if(Object.keys(ctx).length&&!ladCtxOk(G,ctx,id)) return false; if(rest.if&&rest.if.events) rest.if=Object.assign({},rest.if,{events:rest.if.events.map(e=>S.LADDER_EVENT_ALIAS[e]||e)}); return Object.keys(rest).length?ladIf(rest):true; };
+  const ladAlt=(G,x,id,st,kind)=>{ if(!G) return ladIf(x); if(kind&&datingQuiet(G,x,id,st,kind)) return false;   /* 交往中的那一套、旁邊有她的人＝這次說一般版（S.DATING_QUIET）*/ const ctx={}, rest={}; for(const k in x){ if(k==='lines') continue; if(LAD_CTX.includes(k)) ctx[k]=x[k]; else rest[k]=x[k]; } if(Object.keys(ctx).length&&!ladCtxOk(G,ctx,id)) return false; if(rest.if&&rest.if.events) rest.if=Object.assign({},rest.if,{events:rest.if.events.map(e=>S.LADDER_EVENT_ALIAS[e]||e)}); return Object.keys(rest).length?ladIf(rest):true; };
   /* 法服的民眾服務（AA_132 F2、AA_140 G03／G47）：單週週六 9～12、第 3 週起、考試週停。day 那一週（還沒過的週六）起第一個值班的週六：{day, thisWeek}；十六週內沒有＝null（例：大一上第 16 週以後＝考試週＋七週寒假，下一次是大一下第 3 週）*/
   /* 日期字串 → 第幾天（'2026-02-14'）；找不到＝null。結果快取 */
   const dayKeyCache={}; S.dayOfKey=function(k){ if(k in dayKeyCache) return dayKeyCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=-420;d<2200;d++){ if(CALENDAR.dateOf(d).key===k){ r=d; break; } }   /* 從 2024 年 8 月起（經濟系大一 Y0 是負的天數，v0）*/ dayKeyCache[k]=r; return r; };
@@ -756,10 +761,10 @@ const STORY = (function(){
         if(it.lead) await sayIt(it.lead); else await GM.say(null,it.t); if(y1||it.lead) await GM.say(null,y1?'（社長點頭，回到圓桌。）':'（學長點頭，回到圓桌。）'); }
     } finally { GM.sceneEnd(); }
     await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
-  S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
-  S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; const preMem=[]; { const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); if(alt&&alt.mem) preMem.push(alt.mem); for(const x of (st.extraIf||[])) if(x.mem&&ladAlt(G,x,id)) preMem.push(x.mem); }   /* 播之前先決定（extraIf 的 notMemory 就是自己的記憶）*/
+  S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id,st,'extraIf')) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
+  S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; const preMem=[]; { const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id,st,'linesIf')); if(alt&&alt.mem) preMem.push(alt.mem); for(const x of (st.extraIf||[])) if(x.mem&&ladAlt(G,x,id,st,'extraIf')) preMem.push(x.mem); }   /* 播之前先決定（extraIf 的 notMemory 就是自己的記憶）*/
     for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t,{expression:typeof l==='object'&&l?l.e:undefined});
-    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch); for(const t of [].concat(rp||[])) await GM.say(who,t); }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
+    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch,G,id); for(const t of [].concat(rp||[])) await GM.say(who,t); }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
     /* 沛珊的聯絡方式（AA_310 第 7 節，AA-C 10-20 14:40）：沒有宿營、也沒去 8/31 迎新的局（9/17 開局的舊存檔）拿不到——第一次聊到她（P-L1）還沒有聯絡方式就加 */
     if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'……我加你好不好？上課的筆記可以互傳。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);
@@ -832,14 +837,16 @@ const STORY = (function(){
     if(!L.length) return SOCIAL.rel(id).talked>=3; return !!(r&&r.once)&&L.every(e=>r.once[e.t]); };
   /* 當面約、交換聯絡方式（talkCharacter 和舊的 talkAn／talkZhe／talkSis／talkKai／talkYu 共用；使用者 2026-10-15：「有手機可以約人，見到本人反而不能約？」——以安、阿哲等走舊的對話，原本沒有這個選單）*/
   S.offerInvite=async function(GM,id,n,who){ const G=GM.G, c=CHARACTERS[id]; if(!c||typeof INV==='undefined') return; who=who||{name:SOCIAL.npcName(id),obj:n&&n.obj,charId:id}; { const her=c.gender==='f'?'她':'他', O=[];   /* 當面約（使用者第 3 點；src/invites3d.js）：「認識」就可以，不用聯絡方式（AA_124 1-7）*/
-      const crowd=!S.privNow(G,id,n,GM);   /* 旁邊有她的人（女主角的圈子，AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」；src/hcircle3d.js）：不出「約她去…」、priv 的一次性選項（告白）；交換聯絡方式照常 */
-      if(!crowd&&INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')) O.push({t:'約'+her+'去…',hint:INV.kxGF&&INV.kxGF(G,id)?'約會：選地點、日期、時間':'Café、總圖、吃飯、散步',k:'inv'});
+      /* 旁邊有她的人（女主角的圈子，AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」；src/hcircle3d.js）：不出「約她去…」、priv 的一次性選項（告白）；交換聯絡方式照常。
+         每一個選項問清單上自己那一筆（S.privOk＝PRIVTALK.ok：等了 7 天、到期那天照出，AA_503 第 14 節共同的保底）；選了＝S.privLead（旁邊還有人＝先一句旁白）*/
+      const pk=o=>o&&o.priv?(typeof o.privKey==='string'?o.privKey:'opt_priv'):null;
+      if(INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')&&S.privOk(G,id,'invite',GM,n)) O.push({t:'約'+her+'去…',hint:INV.kxGF&&INV.kxGF(G,id)?'約會：選地點、日期、時間':'Café、總圖、吃飯、散步',k:'inv'});
       /* 保底的「交換聯絡方式」（AA_124 1-7 第 2 點）：到「有點熟」以後還沒有聯絡方式的人；對方的一句照 INVITE_DATA.exchange（還沒寫的人用旁白）*/
       if(INV.canInvite(G,id)&&!INV.hasContact(G,id)&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR')) O.push({t:'交換聯絡方式',k:'ex'});
-      for(const f of S.TALK_OPTS){ try{ for(const o of (f(G,id,GM)||[])) if(o&&o.run&&!(crowd&&o.priv)) O.unshift(Object.assign({k:'talk'},o)); }catch(e){ console.warn('STORY.TALK_OPTS',e); } }   /* 一次性的對話選項（STORY.TALK_OPTS.push(fn)：fn(G,id,GM) 回傳 [{t,hint,run:async(GM,who,n)}]；例：AA_325 語彤「禮拜六法服第一次值班。」、以安「明軒的事……」）*/
+      for(const f of S.TALK_OPTS){ try{ for(const o of (f(G,id,GM)||[])) if(o&&o.run&&!(pk(o)&&!S.privOk(G,id,pk(o),GM,n))) O.unshift(Object.assign({k:'talk',pk:pk(o)},o)); }catch(e){ console.warn('STORY.TALK_OPTS',e); } }   /* 一次性的對話選項（STORY.TALK_OPTS.push(fn)：fn(G,id,GM) 回傳 [{t,hint,run:async(GM,who,n)}]；priv（＋privKey＝清單的 key）＝私密；例：AA_325 語彤「禮拜六法服第一次值班。」、以安「明軒的事……」）*/
       if(O.length){ O.push({t:'就這樣'}); const k=await GM.choose(O); const o=O[k]||{};
-        if(o.k==='talk'&&o.run) await o.run(GM,who,n);
-        else if(o.k==='inv') await INV.flow(GM,id,n,true);
+        if(o.k==='talk'&&o.run){ if(o.pk) await S.privLead(GM,o.pk,id); await o.run(GM,who,n); }
+        else if(o.k==='inv'){ await S.privLead(GM,'invite',id); await INV.flow(GM,id,n,true); }
         else if(o.k==='ex'){ const L=((typeof INVITE_DATA!=='undefined'&&INVITE_DATA.exchange)||{})[id]||[{narr:'（你們交換了聯絡方式。）'}]; for(const l of L){ if(l.say) await GM.say(who,l.say); else await GM.say(null,l.narr); } INV.addContact(G,id); GM.toast&&GM.toast('加了'+SOCIAL.displayName(id)+'的聯絡方式'); } } } };
   /* 子晴 Q4 錯過的玩家（AA_360 第 4 節，第②級；使用者 10-17 回 BB-LOGIC-16）：Q4 只剩比賽那個週六（第 8 週，events.js）——她不會為了祐廷再坐一次。
      大一下第 9～11 週第一次和她說話（問過比賽 ARGUED_ABOUT_CAREER、沒有 CONTEST_DAY），開頭多她一句；記 G.flags.CONTEST_HEARD（那一天），只一次。
@@ -1077,11 +1084,16 @@ const STORY = (function(){
   let roomY2Busy=false, eveBusy=false, teBusy=false;
   /* 事件包的掛勾（10-20 起，1B／1C／第 2、3 輪各自一個檔案，不必每一批都改 story3d.js）：TICKS＝每 0.5 秒（S.tick，在 1A-05 之後、在家判斷之前）、PHONE_RULES＝手機規則、
      WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
-  S.COMPANY=[];   /* fn(G,id,n,GM)→true＝她旁邊有她的人（S.offerInvite 不出邀約、priv 選項；src/hcircle3d.js）*/
+  S.COMPANY=[];   /* fn(G,id,n,GM)→true＝她旁邊有她的人；也可以回傳旁邊那幾個人的 id（陣列，空的＝沒有；src/hcircle3d.js 回傳陣列，例外的那幾組才認得出是誰）*/
   /* 私密的東西現在可以出嗎（COMPANY-PRIV-1028；AA 2026-10-28 06:14 定案，AA_503 第 13 節第 3 點）：她旁邊有她的人（S.COMPANY 任一個說是）＝false，這一次不出、不演、不前進，等她一個人。
-     各入口都問這一個（清單：src/privtalk3d.js 的 PRIVTALK.LIST）；GM 不給＝現在綁的那一個 */
-  S.crowdNow=function(G,id,n,GM){ GM=GM||GM_ref; return S.COMPANY.some(f=>{ try{ return !!f(G,id,n,GM); }catch(e){ console.warn('STORY.COMPANY',e); return false; } }); };
-  S.privNow=(G,id,n,GM)=>!S.crowdNow(G,id,n,GM);
+     各入口都問這一個（清單：src/privtalk3d.js 的 PRIVTALK.LIST；等了 7 天、到期那天照演也在那裡）；GM 不給＝現在綁的那一個。
+     except＝不算「旁邊有人」的人（AA_503 第 14 節第 12 項、第 1 項：本來就知道的那幾組；回傳 true〔不知道是誰〕的不能例外）*/
+  S.companyOf=function(G,id,n,GM){ GM=GM||GM_ref; const out=[]; for(const f of S.COMPANY){ try{ const r=f(G,id,n,GM); if(Array.isArray(r)){ for(const x of r) out.push(x); } else if(r) out.push('*'); }catch(e){ console.warn('STORY.COMPANY',e); } } return out; };
+  S.crowdNow=function(G,id,n,GM,except){ return S.companyOf(G,id,n,GM).some(x=>!(except&&except.includes(x))); };
+  S.privNow=(G,id,n,GM,except)=>!S.crowdNow(G,id,n,GM,except);
+  /* 各入口問清單上那一筆（PRIVTALK.ok：等了 7 天、到期那天照出）；沒有 PRIVTALK（只載 story3d.js 的測試）＝只看旁邊有沒有人。privLead＝那一段開始演：旁邊還有人＝先一句旁白，清掉等待 */
+  S.privOk=(G,id,key,GM,n)=>typeof PRIVTALK!=='undefined'&&PRIVTALK.ok?PRIVTALK.ok(G,id,key,GM):S.privNow(G,id,n,GM);
+  S.privLead=async(GM,key,id)=>{ if(typeof PRIVTALK!=='undefined'&&PRIVTALK.lead) await PRIVTALK.lead(GM,key,id); };
   S.schedInZone=schedFor; S.walkRoutesOf=z=>walkRoutes[z]||[];   /* src/hcircle3d.js：她現在該不該在這一區（schedFor(id,區域,G)，同進區域生成那一套）、同伴配對結束以後回去走的路線（不叫 schedFor：tests/v3_p4_han3_unit.js 用 STORY.schedFor&&… 判斷沒有這個函式）*/
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[]; S.PRE_TALK=[];   /* PRE_TALK：認識的人說話前先說一句（fn(GM,who,id)，例：書卷獎公告以後以安「名單上有你。理由？」，src/honor3d.js）*/
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
@@ -1513,7 +1525,9 @@ const STORY = (function(){
   /* 那一則沒回的那一句（AA_179 第 4 節、BB_97 11-2：每一則各一句；交往中換 missDating；miss:null＝不提；missUnless＝那件事已經發生就不說）*/
   S.neededMissFor=function(G,e,who){ if(!e) return (NEEDED_MSGS.miss||{})[who]||null; if(e.miss===null) return null; try{ if(e.missUnless&&e.missUnless(G)) return null; }catch(err){}
     const v=S.neededVar(G,e);   /* 依條件換的版本也可以有自己的 miss（AA_428 §2 第 6 點：zq_game 沒試玩過的那一版）*/
-    if(e.missDating&&G.flags&&G.flags['dating_'+who]) return e.missDating; return v.miss||e.miss||(NEEDED_MSGS.miss||{})[who]||null; };
+    const gen=v.miss||e.miss||(NEEDED_MSGS.miss||{})[who]||null;
+    if(e.missDating&&G.flags&&G.flags['dating_'+who]) return gen&&datingQuiet(G,e,who,e,'miss')?gen:e.missDating;   /* 見面時旁邊有她的人＝說一般版；沒有一般版的照說（AA_503 第 14 節第 7 項）*/
+    return gen; };
   S.neededMissLine=function(G,id){ if(typeof NEEDED_MSGS==='undefined'||!G.needed) return null; const N=S.neededRec(G); const now=needAbs(G.day,G.hour);
     if(N.missLast[id]!=null&&now-N.missLast[id]<14*24) return null;
     for(let i=N.batches.length-1;i>=0;i--){ const b=N.batches[i]; const it=b.ids.find(x=>x[1]===id); if(!it||b.ans.includes(it[0])||b.said[id]) continue;
@@ -3670,7 +3684,8 @@ const STORY = (function(){
   S.twoHeartsPick=function(G){ const F=G.flags, pick=F.TWO_HEARTS_PICK; if(!pick) return; const other=pick==='heroine_05'?'heroine_01':'heroine_05'; F.TWO_HEARTS_DAY=G.day;
     if(typeof ROM!=='undefined'&&ROM.end(G,other,'two_hearts')){ const R=ROM.get(G,other); R.by='her'; R.endedDay=G.day; R.discovered=G.day; } };   /* BB_204 第 3 節：ended、by her、DISCOVERED、ENDED_DAY */
   S.TWO_HEARTS_ECHO={heroine_05:'那天的事，我不會再提。可是我記得。',heroine_01:'那天的事，我不會再問了。'};
-  S.twoHeartsEcho=async function(GM,id,who){ const G=GM.G, F=G.flags; if(F.TWO_HEARTS_PICK!==id||F.TWO_HEARTS_ECHO||F.TWO_HEARTS_DAY==null||G.day<=F.TWO_HEARTS_DAY||F['dating_'+id]!==true) return false;
+  S.twoHeartsEchoDue=(G,id)=>{ const F=(G&&G.flags)||{}; return F.TWO_HEARTS_PICK===id&&!F.TWO_HEARTS_ECHO&&F.TWO_HEARTS_DAY!=null&&G.day>F.TWO_HEARTS_DAY&&F['dating_'+id]===true; };   /* 這一次說話要說那一句嗎（只讀；src/privtalk3d.js 只在要說的時候問旁邊有沒有人）。S.twoHeartsDue 是 11/10 法圖相遇那一場，不一樣 */
+  S.twoHeartsEcho=async function(GM,id,who){ const G=GM.G, F=G.flags; if(!S.twoHeartsEchoDue(G,id)) return false;
     F.TWO_HEARTS_ECHO=true; await GM.say(who,S.TWO_HEARTS_ECHO[id],{expr:'neutral'}); return true; };   /* 之後第一次說話（攤牌那天以後），只一次；後來分手了就不說 */
   /* ---------- 1A-04 主線 6　感冒的那一週（AA_315；AA_12 主線 6、AA_180 2-5、BB_98 2-4／9-4、AA_121 CG-5；台詞照 AA_315 第 3 節，不改字）----------
      第 2 節：10/23 起床那一刻判斷——交往中（可昕也算）、語彤／阿哲／以安／子晴／學姊／（有 SUNDAY_SUPPER 的）阿凱好朋友以上、在麵店團而且阿哲／Alison／柏翰好朋友以上，任一項＝一般版：
