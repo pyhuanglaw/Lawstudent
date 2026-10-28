@@ -34630,7 +34630,7 @@
    "title": "發布 v9.10.12（候選 rc3b d6694cad0＝562a5ead9＋土地公陷阱、換區域不開手機、touch_flow 修正、公園阻擋移回註解前面、p0 測試等路走完）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "source": "LAWWW-C 10-28（使用者 10-27 晚上回報的 X104～X117 修正進候選）",
    "first": {
@@ -34643,7 +34643,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 04:5x UTC】發布：main d5ca27b89（PR #18），Pages run 40634003965 04:46:30 成功；遊戲檔案＝rc3b d6694cad0＋版本字樣（發布樹 96358789f，Node 689 支 0 失敗）；BB-C GO（七支門檻全過，04:32）；發布後開發分支還原 4933cdf0f、合併 main a89810165。剩：BB 在 main 跑 deploy_check（LAWWW 沙盒連不到 github.io）、門檻以外的 relsuite 剩下項目——結果回來改已驗收"
+   "next": "【LAWWW-C 2026-10-28 05:5x UTC】BB-C deploy_check（main 乾淨 checkout）ALL PASS、發布後 relsuite 剩下 8 支 ALL PASS（05:54）；線上字樣未由 AI 確認（沙盒連不到 github.io）；霖澤館前 fps 對照 BB 跑中｜【LAWWW-C 2026-10-28 04:5x UTC】發布：main d5ca27b89（PR #18），Pages run 40634003965 04:46:30 成功；遊戲檔案＝rc3b d6694cad0＋版本字樣（發布樹 96358789f，Node 689 支 0 失敗）；BB-C GO（七支門檻全過，04:32）；發布後開發分支還原 4933cdf0f、合併 main a89810165。剩：BB 在 main 跑 deploy_check（LAWWW 沙盒連不到 github.io）、門檻以外的 relsuite 剩下項目——結果回來改已驗收"
   },
   {
    "id": "NPC-POOL-ART-1028",
