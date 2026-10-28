@@ -10,14 +10,15 @@
 //   5  （BB 第 5 條）語彤：一句是空的（只有照片）；子晴：00:30（隔天凌晨）、沒有句號、她回的拆成兩則（留言、私訊）
 //   6  七位的時間（真的約會）；分開（回到臺北）的時候已經過了她的時間＝回到家 30 分鐘後（分開那一刻＝OUT.go 的回程走完，DATE.backAt 一樣）；剛好、差一分鐘
 //   7  一趟一則：兩天一夜 D31＋D32（照片用清境、回到臺北那一晚貼）、兩天一夜一個地點；同一趟再叫不再排；當天兩個地點用最後一個
-//   8  同一天最多一則約會動態：兩位交往中的同一天、同一位同一天兩趟、子晴凌晨那一則（照貼出來的那一天算）
+//   8  同一天最多一則約會動態：兩位交往中的同一天、同一位同一天兩趟（先排的出、後面 x:dateday、不佔序號）；「同一天」照約會的那一天——
+//      子晴凌晨 00:30 那一則、過了午夜才分開的那一則算前一天那一場，不擋隔天另一場約會的那一則
 //   9  一天四則：前面已經四則照樣貼（優先）；排好以後那一天別人的動態先算它的位子（往後擠；沒有約會時那一則照出）；貼了以後照算
-//   10 沒交往不貼（第 6 階也不貼）；排好以後、貼出來以前分開了不貼；經濟系不排；舊存檔以前的約會不補
+//   10 沒交往不貼（第 6 階也不貼）；排好以後、貼出來以前分開了不貼；分開以後已經貼出來的留著；經濟系不排；舊存檔以前的約會不補
 //   11 回應：按愛心她不回、留言她回（進私訊、標「動態「…」」）、私訊問一句她答；一則只回一次；熟悉 +1（同一個人一天一次）
 //   12 只留七天；十五天以後動態頁的 items 清掉、私訊對話串還認得那一則；舊存檔（FEED 沒有 dq、dt、dtTrip）；排好還沒貼的存讀檔以後照貼；畢業以後篇跳時間的途中貼的記 tr＝'pg'
 // 修改前（開發分支 53c13dcc0：沒有 src/data/feed_dates.js、FEED.dateDone，date3d.js 結算不叫 FEED；src、tests、index.html、白名單用 git archive 53c13dcc0 拿出來，
 //   把這支測試放進去、SPEC_GIT_DIR 指這個 repo 實際跑過）：FAILED 15、PASS 2——第 0 段「載得到、index.html 順序」「?v=」2 項，第 0～12 段各 1 項（沒有 FEED.dateDone／FEED_DATES 就停）；
-//   當時就過的 2 項是白名單 AA_515（LAWWW-C 53c13dcc0 已登記）、讀得到稿。修改後 ALL PASS（87 項，約 1 秒）。
+//   當時就過的 2 項是白名單 AA_515（LAWWW-C 53c13dcc0 已登記）、讀得到稿。修改後 ALL PASS（88 項，約 1 秒）。
 //   另外在同一份程式上各拿掉一條規則實際跑過（測試抓得到）：七天兩則照數 dt_ → 第 4 段 1 項 FAIL；一天四則不先佔位子（S.dtHold）→ 第 9 段 1 項 FAIL；同一天不擋第二則 → 第 8 段 5 項 FAIL。
 // 用法：node tests/aa515_feed_dates_unit.js（證明修改前會失敗時，舊程式放在別的資料夾，SPEC_GIT_DIR＝這個 repo）
 'use strict';
@@ -276,6 +277,8 @@ await sec('10',async()=>{ need(); setup('2025-10-04',8,[]); const d=H.G.day;
   check('10. 交往中約會：排了',!!dq(r2.trip));
   at(d+2,20); H.G.flags.dating_heroine_01=false; tickAt(d+2,21.5); tickAt(d+2,23.9);
   check('10. 排好以後、21:30 以前分開了：不貼（x:dating）',!dts().length&&R().dtTrip[r2.trip]==='x:dating',J(R().dtTrip));
+  H.G.flags.dating_heroine_01=true; const r5=await goDate(AN,['D03'],d+4,13); postAt(expect(AN,d+4,r5.end),'dt_an_1'); at(d+5,10); H.G.flags.dating_heroine_01=false; tickAt(d+6,12);
+  check('10. 分開以後：已經貼出來的照七天規則留著，不收回（稿第 4 節）',!!item('dt_an_1')&&FEED.visible(H.G).some(i=>i.id==='dt_an_1')&&/手帳上劃掉一個。/.test(FEED.html(H.G)));
   setup('2025-10-04',8,[KX],{stage:'econ'}); const t={trip:'TE1',who:KX,locs:['D02'],day:H.G.day,depart:13,back:17,transport:'mrt',departed:true,status:'done',spots:['D02.pond']};
   DATE.complete(H.G,t);
   check('10. 經濟系那一年不排（動態頁只在法律系）',FEED.dateDone(H.G,DATE.trip(H.G,'TE1'),T(H.G.day,17))===null);
