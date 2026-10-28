@@ -11,7 +11,9 @@
 //   8  分開以後一學期，可昕的動態不出現、私訊不傳；之後照朋友再出現
 //   9  可昕的四則改成動態、一定出：玉米（去了＝照片裡有你的手）、紙皇冠（去過／沒去的回覆）、酸辣湯餃、書桌照；原本的私訊照片不再傳
 //   10 畫面：最新的在上面、只顯示七天、小點（新的動態）、看過就熄；動態不算未讀
-// 修改前（開發分支 a1f0566c6）：（見下面「修改前」那一行；用法：node tests/aa503_feed_unit.js）
+// 修改前（開發分支 a1f0566c6：沒有 src/feed3d.js、src/data/feed_y1s1.js，可昕四則照舊「拒絕或沒去才私訊」；src、index.html 換回 a1f0566c6 實際跑過）：
+//   FAILED 55、PASS 2（「動態不在 G.msgs」「答應了還沒去＝先等」兩項本來就成立）——第 0～8、10 段全部 FAIL（沒有 FEED、沒有動態頁籤、沒有私訊）；
+//   第 9 段：玉米、紙皇冠照舊私訊（kx_bbq_corn、kx_yule_crown）、酸辣湯餃、書桌照的私訊還帶照片、四則都沒有動態＝FAIL。修改後 ALL PASS。用法：node tests/aa503_feed_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -244,5 +246,4 @@ sec('10',()=>{ fresh(TD(13,5),8); who('heroine_03','ACQ'); who('classmate_peisha
   HT(); walk(TD(15,4),22); FEED.respond(H.G,'an5','cm');   /* 以安沒有聯絡方式：沒有 an5 */
   check('10. 沒有她的聯絡方式：動態頁上沒有她',!HT().includes('民總。剩六張。')); });
 
-console.log('修改前（開發分支 a1f0566c6，沒有 src/feed3d.js、src/data/feed_y1s1.js）：見檔頭');
 H.done();
