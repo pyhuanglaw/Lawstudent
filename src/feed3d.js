@@ -51,7 +51,7 @@
    ■ 交往中約會後的動態（AA_515，企劃線 aa9bbc46f；資料 src/data/feed_dates.js，不在 SETS 裡、不排日期）：和她的正式校外約會（date3d.js，D01～D32）演完、那時候交往中，
      date3d.js 的 S.settle、S.settleOvernight 叫 S.dateDone 排一則，當晚照她的時間貼（照片裡有「你」）。細節在下面「交往中約會後的動態」那一段。
    ■ 存檔：G.flags.FEED＝{start, items:[{id, who, day, h, v, r, tr, back}], done:{動態 id:'p'|'old'|'x:原因'}, dm:{私訊 id:'sent'|'old'|'x:原因'}, seen, hold:{人物:絕對時間}, ytTreat:阿姨請的那一天,
-     dq:[排好還沒貼的約會動態], dt:{約會動態 id:{who, loc, s, g, trip}}, dtTrip:{行程 id:約會動態 id|'x:原因'}}；舊存檔沒有＝從那一天開始（dq、dt、dtTrip 沒有＝空的，S.rec 補）。
+     dq:[排好還沒貼的約會動態], dt:{約會動態 id:{who, loc, s, g, trip, b}}, dtTrip:{行程 id:約會動態 id|'x:原因'}}；舊存檔沒有＝從那一天開始（dq、dt、dtTrip 沒有＝空的，S.rec 補）。
      tr：出遊途中貼的＝那一趟的 id；畢業以後篇跳時間＝'pg'。
      G.flags.ZQ_NAME_REPLIED（子晴 zq_name 回過）、YT_BDAY_Y2（2027 生日回了「生日快樂。」）、YT6_WITH（語彤 Y6-L8 選「我可以陪妳問。」）、YT_AUNT_DM（8/21 私訊選了哪一個）。
    測試：node tests/aa503_feed_unit.js、node tests/aa504_505_feed_unit.js、node tests/aa506_507_feed_unit.js、node tests/aa508_509_feed_unit.js、node tests/aa510_511_feed_unit.js、node tests/aa515_feed_dates_unit.js */
@@ -235,7 +235,7 @@ const FEED=(function(){
     if(!W) return no('data'); if(abs(w.day,w.h)<nowOf(G)-S.KEEP*24) return no('old');   /* 睡過、跳時間超過七天（同 S.decide）*/
     if(!hasContact(G,e.who)) return no('contact'); if(!dating(G,e.who)) return no('dating');   /* 貼出來以前分開了 */
     if(S.dtBaseDone(R,e.base)) return no('dateday');   /* 同一天（約會的那一天）最多一則約會動態 */
-    const mine=Object.keys(R.dt).filter(k=>R.dt[k]&&R.dt[k].who===e.who), n=mine.length+1, k=mine.filter(k=>+R.dt[k].s>=0).length;   /* n＝她第幾則約會動態；k＝前面用了幾次輪替（又來不算）*/
+    const mine=Object.keys(R.dt).filter(k=>R.dt[k]&&R.dt[k].who===e.who), n=mine.length+1, k=mine.filter(x=>+R.dt[x].s>=0).length;   /* n＝她第幾則約會動態；k＝前面用了幾次輪替（又來不算）*/
     const id='dt_'+W.pre+'_'+n, s=e.again?-1:k%W.say.length, g=n%2?1:2;
     const it={id,who:e.who,day:w.day,h:+w.h.toFixed(3)}; { const q=S.tripNow(G); if(q) it.tr=q.id; else if(S.pgJumping>0) it.tr=S.PG_TR; }   /* 同 S.decide：出遊途中、畢業以後篇跳時間的途中貼的照那兩種留法 */
     R.items.push(it); R.dt[id]={who:e.who,loc:e.loc,s,g,trip:e.trip,b:e.base}; R.dtTrip[e.trip]=id; return true; };

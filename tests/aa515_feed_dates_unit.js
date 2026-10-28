@@ -16,7 +16,9 @@
 //   11 回應：按愛心她不回、留言她回（進私訊、標「動態「…」」）、私訊問一句她答；一則只回一次；熟悉 +1（同一個人一天一次）
 //   12 只留七天；十五天以後動態頁的 items 清掉、私訊對話串還認得那一則；舊存檔（FEED 沒有 dq、dt、dtTrip）；排好還沒貼的存讀檔以後照貼；畢業以後篇跳時間的途中貼的記 tr＝'pg'
 // 修改前（開發分支 53c13dcc0：沒有 src/data/feed_dates.js、FEED.dateDone，date3d.js 結算不叫 FEED；src、tests、index.html、白名單用 git archive 53c13dcc0 拿出來，
-//   把這支測試放進去、SPEC_GIT_DIR 指這個 repo 實際跑過）：FAILED ?（待填）。修改後 ALL PASS。
+//   把這支測試放進去、SPEC_GIT_DIR 指這個 repo 實際跑過）：FAILED 15、PASS 2——第 0 段「載得到、index.html 順序」「?v=」2 項，第 0～12 段各 1 項（沒有 FEED.dateDone／FEED_DATES 就停）；
+//   當時就過的 2 項是白名單 AA_515（LAWWW-C 53c13dcc0 已登記）、讀得到稿。修改後 ALL PASS（87 項，約 1 秒）。
+//   另外在同一份程式上各拿掉一條規則實際跑過（測試抓得到）：七天兩則照數 dt_ → 第 4 段 1 項 FAIL；一天四則不先佔位子（S.dtHold）→ 第 9 段 1 項 FAIL；同一天不擋第二則 → 第 8 段 5 項 FAIL。
 // 用法：node tests/aa515_feed_dates_unit.js（證明修改前會失敗時，舊程式放在別的資料夾，SPEC_GIT_DIR＝這個 repo）
 'use strict';
 const H=require('./pg_harness.js');
