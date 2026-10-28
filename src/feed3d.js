@@ -193,7 +193,7 @@ const FEED=(function(){
   const HINT='<div style="font-size:12px;opacity:.75;line-height:1.3;margin-top:2px">';
   S.pic=(G,p,v)=>String(S.txt(p.pic,v)==null?'':S.txt(p.pic,v)).replace('{name}',(G&&G.name)||'祐廷');   /* 照片裡的 {name}＝玩家的名字（AA_506 以安第 7 則「京都：」後面是你的名字）*/
   S.card=function(G,it){ const p=S.post(it.id); if(!p) return ''; const nm=S.name(G,p.who), pic=S.pic(G,p,it.v);
-    let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(p.say)+'</div>':'');
+    let h='<div class="item feedItem"><div class="phrow"><b>'+esc(nm)+'</b><span class="muted">'+esc(S.whenText(G,it.day,it.h))+'</span></div><div class="feedPic">（照片：'+esc(pic)+'）</div>'+(p.say?'<div>'+esc(S.txt(p.say,it.v))+'</div>':'');   /* 她的一句也可以分兩版（AA_508 以安第 4 則：日本路線「三個了。」，ce6e87a99）*/
     const says=L=>L.slice(1).map(r=>S.txt(r,it.v)).filter(x=>x!=null&&x!=='');   /* 兩個版本句數不同：沒有的那一版是 ''（子晴大三下第 3 則）*/
     if(!it.r){ const B=['<button class="btn" data-fd="'+esc(it.id+'|heart')+'">（按愛心）</button>'];
       if(p.cm) B.push('<button class="btn" data-fd="'+esc(it.id+'|cm')+'">'+esc(S.txt(p.cm[0],it.v))+'</button>');
@@ -207,7 +207,7 @@ const FEED=(function(){
     if(!L.length) return '<div class="item muted">最近七天沒有動態。</div>';
     return '<div class="list">'+L.map(it=>S.card(G,it)).join('')+'</div><div class="item muted" style="margin-top:8px">動態只留七天。</div>'; };
   /* 私訊對話串裡，回動態的那一句標是哪一則（game3d.js threadHTML）*/
-  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=p.say||('照片：'+S.pic(G,p,it&&it.v));
+  S.refLabel=function(G,m){ if(!m||!m.fd) return ''; const p=S.post(m.fd); if(!p) return ''; const it=S.rec(G).items.find(i=>i.id===m.fd); const s=S.txt(p.say,it&&it.v)||('照片：'+S.pic(G,p,it&&it.v));
     return ' · 動態「'+esc(s.length>14?s.slice(0,13)+'…':s)+'」'; };
   /* ---------- 回應 ---------- */
   S.fam=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.activity) return null; if(SOCIAL.ACT&&!SOCIAL.ACT.feed) SOCIAL.ACT.feed={fam:1}; return SOCIAL.activity(id,'feed'); };

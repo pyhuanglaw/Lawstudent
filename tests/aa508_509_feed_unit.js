@@ -29,7 +29,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SHA='28f981438', OLD508='4c3dc1491', OLD509='691a26400';
+const SHA='28f981438', SHA508='ce6e87a99', OLD508='4c3dc1491', OLD509='691a26400';   /* AA_508 用 ce6e87a99（AA 第 9 節：以安第 4 則日本路線「三個了。」，其他照 28f981438）；AA_509 照 28f981438 */
 const DOC={Y3S2:{spec:'docs/story_planning/AA_508_女主角自己的生活_大三下與暑假.md',suf:'f',yHi:2028,yLo:2028,aa:'AA_508'},
            Y4S1:{spec:'docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md',suf:'g',yHi:2028,yLo:2029,aa:'AA_509'}};
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -42,7 +42,7 @@ const SET={Y3S2:typeof FEED_Y3S2!=='undefined'?FEED_Y3S2:null,Y4S1:typeof FEED_Y
 const sec=async(name,fn)=>{ try{ await fn(); }catch(e){ check(name+'（例外）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' | ').slice(0,240)); } };
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
-const doc={Y3S2:show(SHA,DOC.Y3S2.spec),Y4S1:show(SHA,DOC.Y4S1.spec)}, old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
+const doc={Y3S2:show(SHA508,DOC.Y3S2.spec),Y4S1:show(SHA,DOC.Y4S1.spec)}, mid508=show(SHA,DOC.Y3S2.spec), old={Y3S2:show(OLD508,DOC.Y3S2.spec),Y4S1:show(OLD509,DOC.Y4S1.spec)};
 
 /* ---------- 共用 ---------- */
 const DK=k=>PG.DK(k);
@@ -123,16 +123,16 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   const ids=[]; for(const S of (HAS()?FEED.SETS():[])){ for(const p of S.posts) ids.push('p:'+p.id); for(const q of S.dms) ids.push('d:'+q.id); }
   check('0. 七個學期的 id 都不重複（動態 44＋47＋37＋40＋41＋41＋33、私訊 10＋7＋3＋1＋1＋1＋0）',ids.length===306&&new Set(ids).size===ids.length,J([ids.length,ids.filter((x,i)=>ids.indexOf(x)!==i)]));
   for(const term of ['Y3S2','Y4S1']){ const S=SET[term], md=doc[term];
-    if(!S||!md){ check('0. '+term+' 對稿（'+SHA+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
+    if(!S||!md){ check('0. '+term+' 對稿（'+(term==='Y3S2'?SHA508:SHA)+'）',false,!md?'git fetch origin claude/magical-albattani-bk7b4n':'沒有資料'); continue; }
     /* ① 遊戲 → 稿 */
     const L=strs(S), bad=L.filter(t=>!md.includes(t));
-    check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+SHA+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
+    check('0. '+term+' ① 遊戲裡每一句都在稿裡（'+(term==='Y3S2'?SHA508:SHA)+'，一字不差；'+L.length+' 句）',L.length>=(term==='Y3S2'?200:160)&&!bad.length,J(bad.slice(0,8)));
     /* ② 稿 → 遊戲：動態表每一列（表下面才寫的另一版：比一般的那一版）*/
     const rows=rowsOf(md), wrong=[], wd=[], went={};
     for(const r of rows){ const e=expectRow(term,r), p=S.posts.find(x=>x.id===e.id), w=whenOf(term,r.when);
       if(!w||!w.wdOk) wd.push(r.sec+'-'+r.n+' '+r.when); if(p&&p.went) went[p.id]=p.went;
       const got=p&&HAS()?FEED.when(H.G||{flags:{}},p.t,term):null, nw=p&&NOTE_WENT[p.id];
-      const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&p.say===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)
+      const same=!!p&&p.who===e.who&&p.st===e.st&&C(nw?base(p.pic):p.pic)===C(e.pic)&&(nw?base(p.say):p.say)===e.say&&C(nw?base(p.cm):p.cm)===C(e.cm)&&C(nw?base(p.dm):p.dm)===C(e.dm)
         &&(nw?p.went===nw:p.went===e.went)&&!!got&&!!w&&got.day===w.day&&Math.abs(got.h-w.h)<1e-6;
       if(!same) wrong.push(e.id+(p?'':'（沒有）')); }
     const wantW=term==='Y3S2'?{an4f:'anJP',an7f:'anJP',yt7f:'ytAunt',zq3f:'zqNamed'}:{sis1g:'sisUS',sis2g:'sisUS',sis3g:'sisUS'};
@@ -146,10 +146,11 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
       (term==='Y3S2'?Q.lines.length===5&&Q.opts.length===2&&Q.narr.length===4&&J(evT)===J(Q.narr):Q.lines.length===0&&Q.opts.length===0&&Q.narr.length===0)&&!missL.length&&!missO.length,J({n:[Q.lines.length,Q.opts.length,Q.narr.length],missL,missO,evT})); }
   /* 表下面寫的另一版（日本路線、陪她去的、美國路線）*/
   const P=id=>post(id)||{}, m8=doc.Y3S2||'', m9=doc.Y4S1||'';
-  const v8=[[P('an4f').pic&&P('an4f').pic.yes,'三個名字，最後一個是你'],[P('an7f').dm&&P('an7f').dm[1]&&P('an7f').dm[1].yes,'留著。你的名字在最下面。'],[P('yt7f').dm&&P('yt7f').dm[1]&&P('yt7f').dm[1].yes,'你在。你聽到了。']];
-  check('0. AA_508 表下面的另一版：以安第 4 則日本路線照片（三個名字，最後一個是你）、第 7 則「留著。你的名字在最下面。」、語彤第 7 則陪她去的「你在。你聽到了。」、也看得到（stIf）',
+  const v8=[[P('an4f').pic&&P('an4f').pic.yes,'三個名字，最後一個是你'],[P('an4f').say&&P('an4f').say.yes,'三個了。'],[P('an7f').dm&&P('an7f').dm[1]&&P('an7f').dm[1].yes,'留著。你的名字在最下面。'],[P('yt7f').dm&&P('yt7f').dm[1]&&P('yt7f').dm[1].yes,'你在。你聽到了。']];
+  check('0. AA_508 表下面的另一版：以安第 4 則日本路線照片（三個名字，最後一個是你）與一句「三個了。」、第 7 則「留著。你的名字在最下面。」、語彤第 7 則陪她去的「你在。你聽到了。」、也看得到（stIf）',
     m8.includes('第 4 則照片是三個名字，最後一個是你')&&m8.includes('第 7 則私訊問的回答改「留著。你的名字在最下面。」')&&m8.includes('陪她去的玩家也看得到，私訊問的回答改「你在。你聽到了。」')
-    &&v8[0][0]==='手帳新的一頁「日本　和誰去」，下面三個名字，最後一個是你'&&v8[1][0]===v8[1][1]&&v8[2][0]===v8[2][1]&&P('yt7f').stIf==='ytAunt',J(v8.map(x=>x[0])));
+    &&v8[0][0]==='手帳新的一頁「日本　和誰去」，下面三個名字，最後一個是你'&&v8[1][0]===v8[1][1]&&v8[2][0]===v8[2][1]&&v8[3][0]===v8[3][1]&&P('yt7f').stIf==='ytAunt'
+    &&m8.includes('她的一句改「三個了。」')&&P('an4f').say.no==='兩個了。',J(v8.map(x=>x[0])));   /* 以安第 4 則日本路線的一句：AA_508 1-3 說明、第 9 節（ce6e87a99）*/
   const S9=['sis1g','sis2g','sis3g'].map(id=>P(id).pic||{});
   check('0. AA_509 學姊第 1～3 則美國路線照片加「你」：照稿的「池邊多一雙拖鞋」「多一個碗」「對面多一台筆電」，接在一般那張後面、寫「是你的」',
     m9.includes('第 1 則池邊多一雙拖鞋，第 2 則多一個碗，第 3 則對面多一台筆電')&&['sis1g','sis2g','sis3g'].every((id,i)=>S9[i].yes===S9[i].no+'，'+COMPOSED[id]+'——是你的'),J(S9));
@@ -162,9 +163,9 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), i5=sc('src
   /* AA_509 0-1 改 AA_508 的四處：4c3dc1491 就改好了（28f981438 的 AA_508 和 4c3dc1491 一字不差）*/
   const four=['宿舍的書桌，一個日本帶回來的便當盒','還沒。想留到開學，大家都在的時候。','（阿姨先說「沒什麼好講的」。然後一直講到很晚。）','……不能說。她說要先給我媽聽。','謝謝。……公園那隻貓，幫我看一下。'];
   check('0. AA_509 0-1 改 AA_508 的四處（以安第 6 則、語彤短場與第 7 則、芷若第 7 則、學姊章數）在 '+OLD508+' 就改好了、28f981438 的 AA_508 一樣；遊戲裡照新的',
-    !!old.Y3S2&&old.Y3S2===doc.Y3S2&&four.every(t=>m8.includes(t)&&src.includes(t))&&!m8.includes('2029 年還在寫第三章'),J(four.filter(t=>!src.includes(t))));
+    !!old.Y3S2&&old.Y3S2===mid508&&four.every(t=>m8.includes(t)&&src.includes(t))&&!m8.includes('2029 年還在寫第三章'),J(four.filter(t=>!src.includes(t))));
   const allow=JSON.parse(fs.readFileSync(path.join(H.ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, sh=k=>(allow.find(e=>e.path.indexOf('docs/story_planning/'+k+'_')===0)||{}).sha;
-  check('0. 白名單：AA_508、AA_509＝28f981438（AA_510 0-1 更正）；AA_506＝691a26400（第 9 節出遊途中）',sh('AA_508')===SHA&&sh('AA_509')===SHA&&sh('AA_506')==='691a26400',J({AA_506:sh('AA_506'),AA_508:sh('AA_508'),AA_509:sh('AA_509')}));
+  check('0. 白名單：AA_508＝ce6e87a99（第 9 節實作時定的）、AA_509＝28f981438（AA_510 0-1 更正）；AA_506＝691a26400（第 9 節出遊途中）',sh('AA_508')===SHA508&&sh('AA_509')===SHA&&sh('AA_506')==='691a26400',J({AA_506:sh('AA_506'),AA_508:sh('AA_508'),AA_509:sh('AA_509')}));
   const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_aa508_yt_aunt'):null;
   check('0. 語彤 8/22 的 2D 短場接進 STORY_EVENTS（出遊事件、深色底、一小時、第一格「阿鳳麵店・長桌」noodle_table）',!!ev&&ev.trigger==='outing'&&ev.background==='dark'&&ev.hours===1&&ev.dialogue[0].bg==='noodle_table'&&ev.dialogue.slice(1).every(d=>d.speaker===null),J(ev&&ev.dialogue[0])); });
 
@@ -303,7 +304,7 @@ await sec('5',async()=>{ if(!HAS2()){ check('5. 稿的測試建議',false,'沒�
   /* 以安第 4 則日本路線三個名字、第 7 則 */
   const D618=DK('2028-06-18'); fresh(D618,20.5,{EXCHANGE_ROUTE:'JP'}); who('heroine_01','FRIEND'); walk(D618,21.1); const h4=HT();
   fresh(D618,19.5); who('heroine_01','FRIEND'); walk(D618,20.1); const h4t=HT();
-  check('5. 以安第 4 則（6/18）：日本路線＝「下面三個名字，最後一個是你」（當地 21:00）；臺灣路線＝「下面兩個日文名字」；她的一句、留言照舊',h4.includes('下面三個名字，最後一個是你')&&!h4.includes('兩個日文名字')&&h4t.includes('下面兩個日文名字')&&h4.includes('兩個了。')&&h4.includes('日本的朋友？'),J({jp:item('an4f')}));
+  check('5. 以安第 4 則（6/18）：日本路線＝「下面三個名字，最後一個是你」（當地 21:00）、她的一句「三個了。」（AA_508 第 9 節 ce6e87a99）；臺灣路線＝「下面兩個日文名字」「兩個了。」；留言照舊',h4.includes('下面三個名字，最後一個是你')&&!h4.includes('兩個日文名字')&&h4t.includes('下面兩個日文名字')&&h4.includes('三個了。')&&!h4.includes('兩個了。')&&h4t.includes('兩個了。')&&!h4t.includes('三個了。')&&h4.includes('日本的朋友？')&&h4t.includes('日本的朋友？'),J({jp:item('an4f')}));
   const an7=(route)=>{ const D=DK('2028-08-27'); fresh(D,20.5,route?{EXCHANGE_ROUTE:route}:{}); who('heroine_01','CLOSE'); walk(D,21.1); FEED.respond(H.G,'an7f','dm'); return th('heroine_01').slice(-2).map(x=>x.text); };
   const a7j=an7('JP'), a7t=an7('TW'), a7n=an7(null);
   check('5. 以安第 7 則（8/27）私訊問「日本那一頁呢？」：日本路線「留著。你的名字在最下面。」；臺灣路線、沒定「留著。我又加了一個名字。」',J(a7j)===J(['日本那一頁呢？','留著。你的名字在最下面。'])&&J(a7t)===J(['日本那一頁呢？','留著。我又加了一個名字。'])&&J(a7n)===J(a7t),J({a7j,a7t}));
