@@ -4139,7 +4139,7 @@ const SMALLTALK={
     {t:'「實習的公司在西門町。下班走出來，整條街都是別人的歌。」',term:['Y4S1'],once:true},{t:'「畢業以後應該不用再早起了。……這四年我好像也沒早起過。」',term:['Y4S2'],once:true}],
   classmate_peishan:[{t:'「我今天旁聽了倫理學。」',term:['Y1S1','Y1S2','Y2S1']}/* AA_259 (b) 第 5 點：只到大二上 */,{t:'「萬才館的研討室，下午都沒人。你可以去那裡讀書。」',if:{notFlags:['lawclub']}}],   /* AA_369 第 4 節：法服沒有週三讀書會（口氣表 0-3）*/
   npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term',if:{custom:G=>!(typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey('2028-07-01'))}},   /* AA_357 2-2 第 6 點：他 2028 畢業（2028-07 起在嘉義）以後不說 */{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
-  npc_huangxh:['「心理系的統計比你們的民法可怕。」',{t:'「語彤最近很累，你有注意到嗎？」',if:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}}],
+  npc_huangxh:[],   /* AA_519 4-1（企劃線 d75cd0228）：原本一句撐四年，改成照學年一年兩句（「語彤最近很累」只在大一、大二；src/data/aa519_lines.js hxh.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
   npc_ta_chen:[],   /* AA_519 2-2（企劃線 d75cd0228）：原本兩句撐四年，改成照學年一年兩句（src/data/aa519_lines.js ta.years，src/sup519_3d.js 登記 STORY.SMALL_DAILY）*/
   prof_zhou:['「有問題可以來研究室。週三下午我都在。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'],   /* AA_120 7-1 第 4 項：那是書不是電影；上過她的課以後 */prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}},term:['Y1S1','Y1S2']}]/* AA_375 第 20 項：只在大一說 */,prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的新聞，每天都有。有興趣可以來研究室聊。」'],
   kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */

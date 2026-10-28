@@ -155,6 +155,29 @@ const SUP519=(function(){
   S.smallYear=function(G,id,r,nm,rows){ if(!law(G)||r.day===G.day) return null; const o=S.daily(G,id,rows,null,{alt:true}); if(!o) return null; r.day=G.day;
     if(o.weather){ r.last='__greet'; return {narr:'（'+nm+'跟你打了個招呼，聊了兩句天氣。）',fresh:true}; }
     r.last=o.t; return {say:'「'+o.t+'」',fresh:true}; };
+  /* 4-1 筱涵：一年兩句（大三第二句「語彤最近比較好了」要認識語彤）；「語彤最近很累，你有注意到嗎？」只在大一、大二出（認識語彤），排在那一年兩句後面 */
+  const HX=L.hxh||{};
+  S.HXH_ROWS=(()=>{ const Y=HX.years||{}, yt=()=>met('heroine_03'), out=[];
+    for(const y of [1,2,3,4]){ (Y[y]||[]).forEach((t,i)=>{ const needYt=y===3&&i===1; out.push({k:'y'+y+'_'+i,on:G=>S.yearOf(G)===y&&(!needYt||yt()),t}); });
+      if((y===1||y===2)&&HX.tired) out.push({k:'y'+y+'_tired',on:G=>S.yearOf(G)===y&&yt(),t:HX.tired}); }
+    return out; })();
+  /* 4-2 當受試者：大二上第 8～12 週、和筱涵有點熟以上、有她的聯絡方式＝週一 21:00 她私訊（一次）；「好。」＝週四 15:00 心理系實驗室（2D，出遊 0.5 小時）；「那天不行。」＝「好。下一個。」 */
+  const fam=id=>typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+  const contact=(G,id)=>typeof INV!=='undefined'&&!!INV.hasContact&&INV.hasContact(G,id);
+  const termDay=(t,w,wd)=>typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay(t,w,wd):null;
+  S.HXH_W=[8,12]; S.HXH_ASK='aa519_hxh_ask'; S.HXH_OUT='aa519_hxh';
+  S.hxhPhone=function(G){ const R=S.rec(G), F=G.flags;
+    if(sent(G,S.HXH_ASK)){ const m=typeof PHONE!=='undefined'&&PHONE.byAsk?PHONE.byAsk(G,S.HXH_ASK):null, X=R.hxh;   /* 回「好。」：排週四 15:00 */
+      if(m&&m.ans===0&&X&&F.HXH_SUBJECT==null&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,S.HXH_OUT)&&now(G)<T(X.thu,15.5)) OUT.plan(G,{id:S.HXH_OUT,ev:'ev_hxh_subject',day:X.thu,h:15,late:0.5,place:'心理系實驗室',title:'當受試者（筱涵）',travel:'走過去約 10 分鐘',travelH:1/6});
+      return; }
+    const t=termOf(G.day); if(!t||t.id!=='Y2S1'||t.week>S.HXH_W[1]) return; if(!fam('npc_huangxh')||!contact(G,'npc_huangxh')) return;
+    for(const w of [t.week,t.week+1]){ if(w<S.HXH_W[0]||w>S.HXH_W[1]) continue; const mon=termDay('Y2S1',w,1); if(mon==null||now(G)>=T(mon,21)) continue;
+      const items=[{th:'p:npc_huangxh',from:'npc_huangxh',text:HX.ask,ask:{id:S.HXH_ASK,until:T(mon+3,14.75),opts:[{t:HX.yes},{t:HX.no,say:[{from:'npc_huangxh',text:HX.noReply}]}]}}];
+      if(S.at(G,mon,21,items,S.HXH_ASK)) R.hxh={mon,thu:mon+3}; return; } };
+  const ln=([w,t])=>w==null?{speaker:null,text:t}:{speaker:w,text:t};
+  S.HXH_EV={ id:'ev_hxh_subject', title:'當受試者', participants:['npc_huangxh'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[{scene:'心理系的實驗室',bg:'psy_lab'}].concat((HX.scene||[]).map(ln),[{choice:(HX.opts||[]).map((o,i)=>({text:o.t,goto:'o'+i}))}],
+      ...(HX.opts||[]).map((o,i)=>[{label:'o'+i}].concat((o.say||[]).map(ln),[{goto:'e'}])),[{label:'e'},{set:{HXH_SUBJECT:true}},{mem:[{npc:'npc_huangxh',tag:'HXH_SUBJECT',note:''}]}]) };
   /* 2-3：2028-06-20（二）口試；21:00 認識他的人收到他的私訊（他第一次私訊玩家；不用回）*/
   S.TA_PASS='2028-06-20';
   S.taPhone=function(G){ if(!met('npc_ta_chen')) return; S.at(G,DK(S.TA_PASS),21,(TA.pass||[]).map(t=>({th:'p:npc_ta_chen',from:'npc_ta_chen',text:t})),'aa519_ta_pass'); };
@@ -187,6 +210,9 @@ const SUP519=(function(){
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;
     S.applySched();
+    if(typeof STORY_EVENTS!=='undefined'&&!STORY_EVENTS.some(e=>e&&e.id===S.HXH_EV.id)) STORY_EVENTS.push(S.HXH_EV);   /* 4-2 */
+    if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.psy_lab) OUT.BG.psy_lab={label:'心理系・實驗室',image:null};   /* 4-2：沒有圖＝深色底＋地點字幕（BB 要圖）*/
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL&&!SOCIAL.MEMORY_LABEL.HXH_SUBJECT) SOCIAL.MEMORY_LABEL.HXH_SUBJECT=HX.mem||'當過她的受試者';   /* 4-2 人物頁 */
     if(typeof HCIRCLE!=='undefined'&&HCIRCLE){
       if(HCIRCLE.spawnLabel&&!HCIRCLE._aa519){ const sp0=HCIRCLE.spawnLabel; HCIRCLE.spawnLabel=function(GM,cid){ const n=sp0.apply(this,arguments); try{ S.afterSpawnLabel(GM,cid,n); }catch(e){ console.warn('SUP519.spawnLabel',e); } return n; };
         const r0=HCIRCLE.roll; HCIRCLE.roll=function(r,G){ try{ if(S.auntRow(r)&&S.auntEvDay(G)) return true; }catch(e){} return r0.apply(this,arguments); };   /* 8-3 */
@@ -195,7 +221,7 @@ const SUP519=(function(){
         HCIRCLE._aa519=true; } }
     if(typeof STORY!=='undefined'){
       if(STORY.noodleDay&&!S._nd0){ S._nd0=STORY.noodleDay; STORY.noodleDay=function(day){ if(S.tripDay(day)) return false; return S._nd0.apply(this,arguments); }; }   /* 8-4：那一週麵店團不排 */
-      if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); }   /* 2-2 */
+      if(STORY.SMALL_DAILY){ STORY.SMALL_DAILY.npc_ta_chen=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.TA_ROWS); STORY.SMALL_DAILY.npc_huangxh=(G,id,r,nm)=>S.smallYear(G,id,r,nm,S.HXH_ROWS); }   /* 2-2、4-1 */
       if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>{ try{ S.phone(G); }catch(e){ console.warn('SUP519.phone',e); } });
       if(Array.isArray(STORY.PRE_PAIR)) STORY.PRE_PAIR.push((zoneId,GM)=>{ S.bind(GM); });
       if(Array.isArray(STORY.TICKS)) STORY.TICKS.push((GM)=>{ S.bind(GM); return false; }); }
@@ -207,7 +233,7 @@ const SUP519=(function(){
     if(typeof INVITE_DATA!=='undefined'&&INVITE_DATA&&Array.isArray(INVITE_DATA.places)){ const P=INVITE_DATA.places.find(p=>p&&p.id==='noodle'); if(P&&!P._aa519){ const av0=P.avail; P.avail=(G,day)=>!S.tripDay(day)&&(!av0||av0(G,day)); P._aa519=true; } }   /* 8-4：那一週不排新的麵店邀約（INV：「阿鳳麵店那個時間沒開。」改天）*/
   };
   /* ---------- 手機（STORY.PHONE_RULES）---------- */
-  S.phone=function(G){ if(!law(G)) return; S.tripPhone(G); S.taPhone(G); };
+  S.phone=function(G){ if(!law(G)) return; S.tripPhone(G); S.taPhone(G); S.hxhPhone(G); };
   S.wire();
   return S;
 })();
