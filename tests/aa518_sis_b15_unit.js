@@ -1,5 +1,7 @@
 // AA_518 學姊第十五批：學校裡的平常日子（企劃線 973dd1b74，AA-C 2026-10-28；任務 SIS-B15-1028、SIS-LEAD-1021、D111、USER_WANTS C25）——不需要瀏覽器。
-// 台詞逐字對稿（git show 973dd1b74：第 1～3 節的「>」、選項、→ 同一行的回覆、說明裡的「」；第 4 節表「改成」那一欄；兩個方向）。
+// 第 6 節（0e21cccde，LAWWW-C 改：★17 有 YOUPAY 的大二上邀約、飯桌第二句、大二下邀約；22 大三上朋友版飯桌第一句「面試的事，今天不講。」；稿 SHA 改 0e21cccde、ladder.js 來源標籤跟著重產）修改前（只拿掉 src 的改動：data/termend_lines.js、termend3d.js、data/ladder.js；白名單、測試用新的）：FAILED 4、PASS 172
+//   （FAIL＝4-2 ladder 來源標籤、4-8／4-10／4-11 大三上第一句兩項、第 6 節 ★17）；修改後 ALL PASS（176 項）。
+// 台詞逐字對稿（git show 0e21cccde（第 1～5 節和 973dd1b74 相同）：第 1～3 節的「>」、選項、→ 同一行的回覆、說明裡的「」；第 4 節表「改成」那一欄；兩個方向）。
 // 四種玩家：A 交往中、B 朋友以上（朋友）、C 認識、有點熟（熟悉）、D 沒見過（沒有 met_sis／SIS_W1／FIRST_MET）。
 //   0  讀稿、新檔載得到、index.html 順序、白名單；稿 → 遊戲（每一句、每個選項、說明裡的「」）、遊戲 → 稿（新檔每一句＋改字）；第 4 節換掉的舊句不在遊戲裡
 //   1  第 1 節九場：事件（地點、時段、走近她、一次）、那一天她的作息在那裡（交往中週三晚上讓給法圖）、C 走近演（逐字、兩個選項）、A 多的那一句、D／別的日子／前任以外照稿、
@@ -64,10 +66,10 @@ const LL=()=>typeof LAWLIB_LAYOUT!=='undefined'?LAWLIB_LAYOUT:null;
 const inDiscA=()=>{ place(-5.4,-5.4); her(-4.6,-6.0); };   /* 走進法圖討論室 A（北側那一排房間）、她坐在裡面 */
 
 /* ---------- 讀稿 ---------- */
-const SHA='973dd1b74', DOCF='docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md';
+const SHA='0e21cccde', DOCF='docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA518_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b,src)=>{ const S=src==null?DOC:src, i=S.indexOf(a); if(i<0) return ''; const j=b?S.indexOf(b,i+1):-1; return S.slice(i,j<0?S.length:j); };
-const S1=part('## 1. 寒暑假補九場','## 2. '), S2=part('## 2. 家族讀書會','## 3. '), S3=part('## 3. 說了沒發生的','## 4. '), S4=part('## 4. 前後對不上的','## 5. '), S5=part('## 5. 給 LAWWW、BB',null);
+const S1=part('## 1. 寒暑假補九場','## 2. '), S2=part('## 2. 家族讀書會','## 3. '), S3=part('## 3. 說了沒發生的','## 4. '), S4=part('## 4. 前後對不上的','## 5. '), S5=part('## 5. 給 LAWWW、BB','## 6. ');   /* 0e21cccde 起第 5 節後面多了第 6 節（實作時定的）*/
 const BODY=S1+'\n'+S2+'\n'+S3;
 const qtext=s=>/^（/.test(s)?s:s.slice(s.indexOf('：')+1);   /* 「> 學姊：…」→ 那一句；「> （…）」→ 旁白整句 */
 const QUOTES=BODY.split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
@@ -346,11 +348,21 @@ await sec(4,async()=>{
   /* 4-7、4-8、4-10、4-11 */
   { const TL=TERMEND_LINES; fresh('2027-01-15',18,'fam'); const y3fam=resolveL(TL.POOL.Y3S1.heroine_05,H.G); fresh('2027-01-15',18,'friend'); const y3fri=resolveL(TL.POOL.Y3S1.heroine_05,H.G);
     check('4. 4-7 大一下「暑假我在總圖。」、大二上「寒假我在總圖。」；大二下「暑假我在法圖，寫報告。」不改',TL.POOL.Y1S2.heroine_05[1]==='暑假我在總圖。'&&TL.POOL.Y2S1.heroine_05[1]==='寒假我在總圖。'&&TL.POOL.Y2S2.heroine_05[0]==='暑假我在法圖，寫報告。'&&(ROW['4-7']||{toQ:[]}).toQ.includes('暑假我在總圖。'),J([TL.POOL.Y1S2.heroine_05,TL.POOL.Y2S1.heroine_05]));
-    check('4. 4-8、4-10、4-11 大三上：「明年夏天，我申請了美國的交換。下個月面試。」「論文第二章，卡住的那一段過了。」；朋友以上第三句「……收到信那天，我打給你。」、有點熟沒有',
-      J(y3fam)===J(['明年夏天，我申請了美國的交換。下個月面試。','論文第二章，卡住的那一段過了。'])&&J(y3fri)===J(['明年夏天，我申請了美國的交換。下個月面試。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J({y3fam,y3fri}));
+    check('4. 4-8、4-10、4-11（第 6 節第 22 點：飯桌第一句換「面試的事，今天不講。」）大三上：「面試的事，今天不講。」「論文第二章，卡住的那一段過了。」；朋友以上第三句「……收到信那天，我打給你。」、有點熟沒有',
+      J(y3fam)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。'])&&J(y3fri)===J(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J({y3fam,y3fri}));
     check('4. 4-10 邀約那一句（termend_lines.js 朋友版大三上）：「我在等美國那邊的結果。」換成「明年夏天，我申請了美國的交換。下個月面試。」',TL.FRIEND.heroine_05.genByTerm.Y3S1==='期末考完了嗎？明年夏天，我申請了美國的交換。下個月面試。……吃飯的時候不要問。',TL.FRIEND.heroine_05.genByTerm.Y3S1);
     fresh('2028-01-14',18.5,'friend'); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{te:{term:'Y3S1',who:ID,kind:'friend'}});
-    check('4. 4-11 朋友版期末飯（話題三句）：說到「……收到信那天，我打給你。」',seq(['明年夏天，我申請了美國的交換。下個月面試。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); }
+    check('4. 4-11 朋友版期末飯（話題三句）：說到「……收到信那天，我打給你。」',seq(['面試的事，今天不講。','論文第二章，卡住的那一段過了。','……收到信那天，我打給你。']),J(said())); }
+  /* 第 6 節（0e21cccde，LAWWW-C 12:5x 問、AA 定）★17：大二上期末飯「這一頓我請」和「說好你請」矛盾——只改有 YOUPAY 的 */
+  { const TL=TERMEND_LINES, S6=part('## 6. 實作時定的',null), yp={flags:{SIS15_YOUPAY:true}}, np={flags:{}}, rs=(v,G)=>typeof v==='function'?v(G):v, gB=TL.FRIEND[ID].genByTerm, gT=TL.GF[ID].tableByTerm.Y2S1;
+    check('6. 讀得到第 6 節（★17、22、其他照現在）',S6.indexOf('### ★17')>=0&&S6.indexOf('### 22')>=0&&S6.indexOf('### 其他子代理的解讀：全部照現在')>=0&&S6.indexOf('> 面試的事，今天不講。')>=0,J({n:S6.length}));
+    check('6. ★17 有 YOUPAY：大二上邀約「期末考完了嗎？我研究室今天沒人。法圖旁邊那家。」、女朋友版飯桌第二句「……第三次他說可以。」、大二下邀約「期末考完了嗎？法圖旁邊那家，這次我請。」（三句都在第 6 節的「>」）；沒有 YOUPAY 照舊（「……我請你。」「……這一頓我請。」「……這次你請。」）；收尾兩行照現在',
+      rs(gB.Y2S1,yp)==='期末考完了嗎？我研究室今天沒人。法圖旁邊那家。'&&rs(gB.Y2S1,np)==='期末考完了嗎？我研究室今天沒人。法圖旁邊那家，我請你。'
+      &&resolveL(gT,yp)[1]==='……第三次他說可以。'&&resolveL(gT,np)[1]==='……第三次他說可以。這一頓我請。'
+      &&rs(gB.Y2S2,yp)==='期末考完了嗎？法圖旁邊那家，這次我請。'&&rs(gB.Y2S2,np)==='期末考完了嗎？法圖旁邊那家，這次你請。'
+      &&S6.indexOf('> 期末考完了嗎？我研究室今天沒人。法圖旁邊那家。')>=0&&S6.indexOf('> ……第三次他說可以。')>=0&&S6.indexOf('> 期末考完了嗎？法圖旁邊那家，這次我請。')>=0
+      &&J(resolveL(TL.GF[ID].lastByTerm.Y2S1,yp))===J([{narr:'（結帳的時候，她站在旁邊沒有動。）'},'……說好你請。']),
+      J({y1:rs(gB.Y2S1,yp),t:resolveL(gT,yp),y2:rs(gB.Y2S2,yp)})); }
   /* 4-9 */
   check('4. 4-9 characters.js 學姊 contradictions「財經法學組」（不是公法組）',/財經法學組/.test(CHARACTERS[ID].contradictions)&&!/公法組/.test(CHARACTERS[ID].contradictions),CHARACTERS[ID].contradictions);
   /* 4-12 */
