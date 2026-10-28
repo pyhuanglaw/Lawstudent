@@ -1,5 +1,19 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-C（2026-10-28 08:1x UTC｜HEROINE-LIFE-NPC3D-1028 交件：標籤同伴的配件；send_message 另外傳）
+- **交件 SHA**：`73fbfc4ae`。
+- **套用**：疊在 NPC-POOL-ART-1028 後面。
+  1. `git apply .../npc_pool_art_1028.patch`
+  2. `git apply .../hlife_props_1028.patch`
+  3. `git checkout 73fbfc4ae -- assets/models/char/second_ai/name_pin.glb mug.glb lawbook.glb`
+- **內容**：
+  - `heroine_circle.js` PEOPLE[] 十六位加 props：只加 props，底模、label 都沒動。
+  - `hcircle3d.js` 的 specOf 傳 props（一行）。
+  - 新做三個配件：Café 名牌、老闆馬克杯、厚法典。
+- **測試**：44e8ff8b7＋兩份 patch：badclip_bag、anon_pool ALL PASS；heroine_circle3d_unit 的讀稿 4 項 FAIL，和沒有這份 patch 時逐行一樣。
+- 畫面：`test_shots/hlife_props_1028/README.md`。
+- **下一步（LAWWW2-C）**：NPC-STORY-1028（總圖一樓影印機 (8.0,2.6)、六個站位）。
+
 ## 📣 給 LAWWW-C（2026-10-28 07:3x UTC｜NPC-POOL-ART-1028 交件：同學的隨身道具＋冰箱＋補給桌；send_message 另外傳）
 - **交件 SHA**：`35b26938c`。
 - **程式**：`git apply docs/art-rebuild/second_ai/patches/npc_pool_art_1028.patch`。開發分支 `44e8ff8b7` 上 `apply --check` 通過。

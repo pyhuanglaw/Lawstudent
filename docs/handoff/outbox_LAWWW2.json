@@ -3972,6 +3972,25 @@
    "remaining": "衣服類（格子襯衫、系服、系學會外套、藍白拖）、趴著睡、鯊魚夾：D99 不做；計時器、耳機、撥片鑰匙圈、延長線、公路車、飯糰包裝紙、穿堂照片展還沒做；heroine_circle.js 的 PEOPLE[] 要支援 props，阿姨的圍裙＋湯杓＋繃帶才看得到；iPhone 實機沒測",
    "next": "LAWWW-C：git apply patch（44e8ff8b7 上 apply --check 通過）＋git checkout 35b26938c -- 二進位檔；跑回歸。LAWWW2-C 接著 HEROINE-LIFE-NPC3D-1028（標籤同伴的配件）、NPC-STORY-1028（總圖影印機、站位檢查）",
    "note": "十二個道具 GLB（相機、法服名牌照底模身體量過）＋props3d DEF 的 sit（hide／only）＋pool_story 十一位的 props＋靖雯傅鐘長椅的保溫瓶＋男一舍冰箱＋霖澤館一樓補給桌（互動點南移 (4.6,2.05)）；READY_FOR_ART_REVIEW（配件 BB、場景使用者）；開發分支 44e8ff8b7＋patch：Node 5 支 ALL PASS，aa497／aa498／aa502 的讀稿檢查 FAIL 數和沒有 patch 時一樣"
+  },
+  {
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "73fbfc4ae",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "HEROINE-LIFE-NPC3D-1028",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/hlife_props_1028.patch",
+    "assets/models/char/second_ai/name_pin.glb",
+    "assets/models/char/second_ai/mug.glb",
+    "assets/models/char/second_ai/lawbook.glb",
+    "docs/art-rebuild/second_ai/test_shots/hlife_props_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "圍裙是現成的硬圍裙（走路大腿露出來）；後背包背帶用預設路徑沒有逐一量身體；iPhone 實機沒測",
+   "next": "LAWWW-C：先套 npc_pool_art_1028.patch，再套 hlife_props_1028.patch＋三個 GLB；LAWWW2-C 接 NPC-STORY-1028（總圖影印機、站位）",
+   "note": "十七位標籤同伴：底模不換，十六位加配件（Café 圍裙＋名牌、老闆馬克杯、阿姨圍裙＋湯杓＋繃帶、學姊同學法典／資料夾＋後背包、托特包後背包換色、吉他袋）；heroine_circle.js PEOPLE[] 只加 props；READY_FOR_ART_REVIEW（BB）；44e8ff8b7＋兩份 patch：badclip_bag、anon_pool ALL PASS，heroine_circle3d_unit 讀稿 4 項 FAIL 和沒有 patch 時逐行一樣"
   }
  ]
 }
