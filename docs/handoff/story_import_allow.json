@@ -3378,6 +3378,14 @@
    "approvedBy": "AA-C 定稿（D109；DORM203-MATES-1028，USER_WANTS X123）",
    "task": "DORM-Y24-1028",
    "note": "LAWWW-C 10-28 09:3x 登記：大二～大四房間日常（旁白、閒聊、三件小事）；tests 逐字對稿"
+  },
+  {
+   "path": "docs/story_planning/AA_516_學姊第十四批_她在美國的五個月.md",
+   "sha": "a9b87c588",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D109；SIS-LEAD-1021，USER_WANTS C25）",
+   "task": "SIS-B14-1028",
+   "note": "LAWWW-C 10-28 10:0x 登記：學姊第十四批（美國五個月修正十二處、臺灣日本交往中、朋友 T3、美國交往中、挽回中）；子代理實作時 AA_512 白名單一起改 a9b87c588（13-7 家聚邀約 20:30）"
   }
  ]
 }

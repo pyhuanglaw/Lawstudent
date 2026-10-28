@@ -35244,6 +35244,26 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-28 10:0x UTC】候選基準 3dbe4ad2e（本機分支 rel-91013-base）；全部 Node 721 支只剩 room_ceiling（吊燈）；BB 讀檔鎖兩支 ALL PASS；HV-15：check_orphans 88（＝v9.10.12）、看板停住 115、check_lines 可能抄錯 528（v9.10.12 506）；等 LAWWW2 吊燈 → rc1＝基準＋吊燈 → bundle wip_backup/rel91013_rc1.bundle → BB 發布門檻（第五節＋LOADGEN 第 4 點、newGameAbort、大廳畫面）→ 發布樹＋版本字樣 → PR"
+  },
+  {
+   "id": "SIS-B14-1028",
+   "title": "學姊第十四批（AA_516）接進遊戲：她在美國的五個月——第 1 節修前後對不上十二處（g6 班次改晚上八點＋12/20 班機截圖、大峽谷 10/13 才交往的、feed WENT.sisUS 要美國路線＋交往中、AA_512 13-7 家聚邀約 12/26 改 20:30、接機家族版按鈕要 met、saOn 要聯絡方式、家族群組雪對齊 12/2、usFall 改 10/9～10、美國路線不送 SIS_BOOK 照片…）；第 2 節臺灣日本交往中（8/3 22:00 電話、週日視訊 h1～h9、10/26 等你考完、h5 12/31 她家煮）；第 3 節朋友 T3 t4～t7；第 4 節美國交往中（9/1～9/2 208 咖哩、SU-L6 煎蛋、SU-L7 挑外套＋12/2 初雪、第四十天兩把傘、SU-L8 12/16 旁白）；第 5 節挽回中 9/2 交換生群組",
+   "area": "Y4S1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "AA_516（企劃線 a9b87c588；outbox 648307197）；C25 學姊才是真正的女主角（SIS-LEAD-1021）",
+   "first": {
+    "term": "Y3S2",
+    "week": 16,
+    "earliest": "大三下學姊出發去美國前後（2028-08）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 10:0x UTC】派子代理實作（稿裡第 1 節有 file:line；測試寫死的句子一起改；白名單 AA_516、AA_512 → a9b87c588）；合併後全部 Node、BB 瀏覽器；下一版"
   }
  ]
 }
