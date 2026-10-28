@@ -19968,6 +19968,34 @@
    "kind": "covered",
    "coveredBy": "DL-LW2-WANCAILM",
    "reason": "LAWWW2 萬才館擺設＋光照的 WIP，交件 69bf6b2e4 的祖先（LAWWW-C 10-28 10:3x 分類）"
+  },
+  {
+   "sha": "5a5c8b218",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 男一舍門廳光照的 WIP（門廳擺設＋光照烘焙第一版（試烘）），還沒交件（LAWWW-C 10-28 11:4x 分類）"
+  },
+  {
+   "sha": "433ffb388",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 男一舍門廳光照的 WIP（包裹架搬位置、樓梯平台壁燈、地板切兩塊、正式烘焙重跑），還沒交件（LAWWW-C 10-28 11:4x 分類）"
+  },
+  {
+   "sha": "b1d60f05f",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 男一舍門廳光照的 WIP（README 草稿、patch；outbox 的 WANCAI-LM 改已整合），還沒交件（LAWWW-C 10-28 11:4x 分類）"
+  },
+  {
+   "sha": "5e02adddd",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "DORM-HALL-LM-1028",
+   "reason": "LAWWW2 男一舍門廳光照的 WIP（走廊北牆和樓梯間的牆不疊在同一個平面、重烘），還沒交件（LAWWW-C 10-28 11:4x 分類）"
   }
  ]
 }

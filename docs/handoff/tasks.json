@@ -35352,6 +35352,33 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "DORM-HALL-LM-1028",
+   "title": "男一舍門廳（dorm_hall）照霖澤館大廳、萬才館的做法做擺設＋光照烘焙（dorm_hall.py、dorm_layout 擺設八筆、門上的東西照各扇門的旁白、bake_dorm_hall.sh；新測試 dorm_hall_lightmap_unit）",
+   "area": "Y1S1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "LAWWW2-C 自領（X125 室內提升，萬才館之後的下一間；WIP 5a5c8b218）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次回宿舍走進男一舍門廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "X125 室內檢討（038fe55b1）＋大廳第二版、萬才館的做法",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "同角度改前改後截圖、draw call 數字、dorm_hall_lightmap_unit 和相關 Node 通過、同一個工作階段進兩次畫面一樣",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "next": "【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
   }
  ]
 }
