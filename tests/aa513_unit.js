@@ -15,7 +15,7 @@
 //   第 0 段 5 項（遊戲裡沒有 AA_513、兩個方向 0 句、HEARD_LINES.src、白名單、「沒做」還寫先空著）、第 1 段 7 項（三組私訊、條件、晚三天、PHONE_RULES、美國路線）、
 //   第 2 段 5 項（「不了。」、「去。」卻沒到、從子晴那邊到場、舊存檔貓、舊版本排好的）、第 3、4 段各 1 項（沒有 HEARD.pass、HEARD.GG_DOORS 就停）；
 //   當時就過的 5 項是現狀的保護（載得到、稿四塊、隔天的私訊、去了沒有照片、日本路線）。修改後 ALL PASS（34 項）。
-//   第 3 段「那兩個週五以安的作息」：只把 src/data/characters.js 換回改之前（大一下沒有「和媽媽吃晚餐」）實際跑 FAIL 1（大一下 19:00、20:45 在校園 wander），改完 PASS。用法：node tests/aa513_unit.js
+//   第 3 段「那兩個週五以安的作息」：只把 src/data/characters.js 換回改之前（大一下沒有「和媽媽吃晚餐」）實際跑 FAIL 1（大一下 19:00 在校園 wander、20:45 沒有作息），改完 PASS。用法：node tests/aa513_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
