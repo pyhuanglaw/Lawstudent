@@ -5,11 +5,11 @@
        日本路線 8/2 人在日本、沒有送機＝沒有（稿 2-4）。
    - 2-3 等你考完：有 10/25 那則便條（r2y4a3d.js y4_push_note）、到那時還沒自己傳訊息給她（MSG「傳訊息」那一天沒有傳給她：G.msgChat.sent）：
        交往中 10/26（四）13:00、朋友 21:00；兩個回覆；記 SIS14_EXAM_WAIT（'gf'／'friend'）。自己先傳過的＝她照 MSG 那幾版回，不另外送。
-   - 2-5 h5 選「好吃嗎？」（SIS14_CURRY_PROMISE，r2y4b_events.js）：12/30（六）21:00 私訊 → 回「好。」→ 12/31（日）12:00 她家（出遊 2 小時）；那時已經不在交往＝不演。
+   - 2-5 h5 選「好吃嗎？」（SIS14_CURRY_PROMISE，r2y4b_events.js）：12/30（六）21:00 私訊（規則晚跑到的照 21:00 補，回覆開到 12/31 11:30）→ 回「好。」→ 12/31（日）12:00 她家（出遊 2 小時）；那時已經不在交往＝不演。
    - 4-1 美國路線交往中、人在美國：9/1（五）21:00（當地）私訊兩則（兩個回覆都去）→ 9/2（六）14:00 C 棟 208（出遊 2 小時；2D C 棟 208）。
    - 4-2、4-3、4-5 閒聊階梯（src/data/ladder.js 的 SU-L6／SU-L7／SU-L8；選項沒有寫記憶）：STORY.ladReply 包一層，看選的是哪一個——
-       SU-L6「明天早上我來煮。」＝隔天 07:00 208 的廚房（遲到 10 分鐘內算到；沒到＝07:15 私訊兩則、SIS14_EGGS 'missed'）；
-       SU-L7「好。週六。」＝那一週的週六 10:00 草原超市旁邊那家店（選的那天是週六 10:00 以前＝當天；其他＝下一個週六；12/16 離開以後沒有）；
+       SU-L6「明天早上我來煮。」＝隔天 07:00 208 的廚房（遲到 10 分鐘內算到；沒到＝07:15 私訊兩則、SIS14_EGGS 'missed'；隔天她不在＝12/16 離開、11/11 一早去芝加哥，不排）；
+       SU-L7「好。週六。」＝那一週的週六 10:00 草原超市旁邊那家店（選的那天是週六、09:40 以前＝當天；其他＝下一個週六；那個週六她在芝加哥（11/11）＝再下一個；12/16 離開以後沒有）；
        SU-L8「那這次超重什麼？」（她回「書。三本。第四本你幫我拿。」）＝記 SIS14_BOOK4，12/16 離開那天（ev_us_leave）開頭多一句旁白。
    - 4-4 第四十天的私訊（src/sis_b13_3d.js sisb13_day40）選「我過去。」＝當晚 22:30（當地）C 棟門口（出遊 0.5 小時，不用移動）。
    - 1-3 大峽谷才交往的（SIS_GF_CANYON）第一次女朋友視訊開頭那一句：S.canyonOpenDue（r2y4b_events.js 問）。
@@ -67,7 +67,7 @@ const SISB14=(function(){
   S.HOME_OUT={id:'sisb14_curry_home',ev:'ev_sis14_curry_home',h:12,late:0.5,place:'學姊的新家',title:'書瑀家的咖哩（中午）',travel:'捷運 約 30 分鐘',travelH:0.5,hours:2,back:'回到住的地方。'};   /* 車程同 AA_512 13-2 */
   S.homeOk=G=>law(G)&&route(G)!=='US'&&S.dating(G)&&!!G.flags.SIS14_CURRY_PROMISE;
   S.home=function(G){ const F=G.flags, a=D(S.HOME.ask), d=D(S.HOME.day), tag='sisb14_curry_home_ask'; if(a==null||d==null||G.day<a||G.day>d) return;
-    if(!sent(G,tag)&&G.day===a&&now(G)>=T(a,21)&&S.homeOk(G)&&contact(G)){ const m=dm(L.curryHome); m.ask={id:tag,until:T(d,11.5),opts:[{t:L.curryHomeGo,set:{SIS14_CURRY_HOME_GO:true}}]}; PHONE.at(G,a,21,[m],tag); }   /* 回「好。」才演 */
+    if(!sent(G,tag)&&now(G)>=T(a,21)&&now(G)<T(d,11.5)&&S.homeOk(G)&&contact(G)){ const m=dm(L.curryHome); m.ask={id:tag,until:T(d,11.5),opts:[{t:L.curryHomeGo,set:{SIS14_CURRY_HOME_GO:true}}]}; PHONE.at(G,a,21,[m],tag); }   /* 回「好。」才演 */
     if(F.SIS14_CURRY_HOME_GO===true&&F.SIS14_CURRY_HOME==null){ const q=outGet(G,S.HOME_OUT.id);
       if(!S.homeOk(G)){ if(q&&q.state==='planned') q.state='cancelled'; }   /* 12/31 已經不在交往＝不演 */
       else if(now(G)<T(d,S.HOME_OUT.h+S.HOME_OUT.late)) plan(G,Object.assign({},S.HOME_OUT,{day:d})); } };
@@ -77,7 +77,7 @@ const SISB14=(function(){
   S.US1_OUT={id:'sisb14_us_curry',ev:'ev_sis14_us_curry',h:14,late:0.5,place:'C 棟 208',title:'C 棟 208（書瑀的咖哩）',travel:'走路 約 5 分鐘',travelH:1/12,hours:2,back:'回到社區。'};   /* 同 us208_3d.js 的出遊 */
   S.usOk=G=>law(G)&&route(G)==='US'&&S.dating(G)&&inUS(G);
   S.us1=function(G){ const F=G.flags, a=D(S.US1.ask), d=D(S.US1.day), tag='sisb14_us_curry_ask'; if(a==null||d==null||G.day<a||G.day>d) return;
-    if(!sent(G,tag)&&G.day===a&&now(G)>=T(a,21)&&S.usOk(G)){ const M=(L.usCurry||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,S.US1_OUT.h),opts:(L.usCurryOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS14_US_CURRY_GO:true}}))}; PHONE.at(G,a,21,M,tag); }   /* 兩個回覆都去；沒回＝不排 */
+    if(!sent(G,tag)&&now(G)>=T(a,21)&&now(G)<T(d,S.US1_OUT.h)&&S.usOk(G)){ const M=(L.usCurry||[]).map(dm); M[M.length-1].ask={id:tag,until:T(d,S.US1_OUT.h),opts:(L.usCurryOpts||[]).map(o=>Object.assign(reply(o),{set:{SIS14_US_CURRY_GO:true}}))}; PHONE.at(G,a,21,M,tag); }   /* 兩個回覆都去；沒回＝不排 */
     if(F.SIS14_US_CURRY_GO===true&&F.SIS14_US_CURRY==null&&S.usOk(G)&&now(G)<T(d,S.US1_OUT.h+S.US1_OUT.late)) plan(G,Object.assign({},S.US1_OUT,{day:d})); };
 
   /* ---------------- 4-2、4-3、4-5 閒聊階梯的選項 ---------------- */

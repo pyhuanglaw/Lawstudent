@@ -89,6 +89,19 @@ const unq=t=>String(t).replace(/^「|」$/g,'');
 /* 第 1 節的表：| 1-x | 哪裡 | 現在 | 改成 | */
 const ROW={}; for(const l of S1.split('\n')){ const c=l.split('|').map(x=>x.trim()); if(/^1-\d+$/.test(c[1]||'')) ROW[c[1]]={now:inl(c[3]).filter(x=>!/^（/.test(x)||/^（照片/.test(x)),to:inl(c[4]).filter(x=>!/^（/.test(x)||/^（照片/.test(x))}; }
 
+/* 稿裡寫在說明句、手機訊息裡的（從稿讀；測試拿這些比遊戲，不拿遊戲的 SISB14_LINES 比遊戲）*/
+const one=(re,src)=>{ const m=re.exec(src==null?BODY:src); return m?m.slice(1):[]; };
+const quotesOf=t=>String(t).split('\n').map(l=>/^\s*>\s*(.+)$/.exec(l)).filter(Boolean).map(m=>qtext(m[1].trim()));
+const DX={
+  canyonOpen:(ROW['1-3']||{to:[]}).to[0],
+  callMiss:one(/22:40 私訊「([^」]+)」/)[0],
+  examGf:quotesOf(part('- **交往中**','- 「考完了。」',part('### 2-3','### 2-4'))),
+  examFriend:quotesOf(part('- **朋友**','- 「考完了。」',part('### 2-3','### 2-4'))),
+  curryHome:one(/21:00 私訊：「([^」]+)」/,part('### 2-5','## 3.'))[0],
+  usCurry:quotesOf(part('- 9/1（五）21:00','- 「好。」',part('### 4-1','### 4-2'))),
+  eggsMiss:one(/07:15 私訊「([^」]+)」「([^」]+)」/),
+  snowCoat:one(/開頭多一句旁白：「([^」]+)」/,part('### 4-3','### 4-4'))[0],
+  leaveBook:quotesOf(part('### 4-5','## 5.'))[0] };
 /* 遊戲這一批的字：新檔（SISB14_LINES、SISB14_EVENTS）＋各檔帶 aa516 的行（事件的台詞、選項）＋改字（12/20 的截圖、家族群組三句、9/2 交換生群組）*/
 const strDeep=(v,out)=>{ if(v==null) return out; if(typeof v==='string'){ out.push(v); return out; } if(Array.isArray(v)){ v.forEach(x=>strDeep(x,out)); return out; } if(typeof v==='object') for(const k in v) strDeep(v[k],out); return out; };
 const evTexts=(L,pick)=>{ const A=[]; for(const l of (L||[])){ if(typeof l.text==='string'&&pick(l)) A.push(l.text); if(l.choice) for(const c of l.choice) if(pick(c)||pick(l)) A.push(c.text); } return A; };
@@ -124,7 +137,10 @@ await sec(0,()=>{ const a=s=>html.indexOf(s);
   check('0. 第 1 節「改成」那一欄（1-1 兩句、1-2 截圖、1-3、1-8、1-9、1-10）都在遊戲裡',to.length===7&&to.every(t=>GS.has(t)),J(to.filter(t=>!GS.has(t))));
   const old=['1-1','1-8','1-9','1-10'].map(k=>ROW[k]&&ROW[k].now).flat().filter(Boolean), live=new Set(STORY_EVENTS.map(e=>evTexts(e.dialogue,()=>true)).flat().concat(Y34B.M6_QUIET,Object.values(Y34B.M6_WED).flat()));
   check('0. 第 1 節「現在」那一欄換掉的（g6 兩句、家族群組三句）不在遊戲裡',old.length===5&&old.every(t=>!live.has(t)),J(old.filter(t=>live.has(t))));
-  check('0. 新的事件都是出遊（電話、視訊、私訊約好的 2D）：沒有 3D 當面的入口（PRIVTALK 不用登記）',SISB14_EVENTS.length===6&&SISB14_EVENTS.every(e=>e.trigger==='outing'&&!e.near&&!e.prereq),J(SISB14_EVENTS.map(e=>e.id+':'+e.trigger))); });
+  const EVS=typeof SISB14_EVENTS!=='undefined'?SISB14_EVENTS:[];
+  check('0. 新的事件都是出遊（電話、視訊、私訊約好的 2D）：沒有 3D 當面的入口（PRIVTALK 不用登記）',EVS.length===6&&EVS.every(e=>e.trigger==='outing'&&!e.near&&!e.prereq),J(EVS.map(e=>e.id+':'+e.trigger)));
+  const LX=typeof SISB14_LINES!=='undefined'?SISB14_LINES:{}, keys=Object.keys(DX);
+  check('0. 稿裡手機那幾則、說明裡的句子（'+keys.join('、')+'）讀得到，SISB14_LINES 一字不差',keys.every(k=>DX[k]&&DX[k].length)&&DX.examGf.length===2&&DX.examFriend.length===1&&DX.usCurry.length===2&&DX.eggsMiss.length===2&&keys.every(k=>J(LX[k])===J(DX[k])),J({DX,LX:keys.map(k=>LX[k])})); });
 
 /* ---- 1 第 1 節 ---- */
 await sec(1,async()=>{
@@ -141,8 +157,8 @@ await sec(1,async()=>{
   check('1. 1-3 大峽谷才交往（SIS_GF_CANYON）：大峽谷那一週不排；10/22 是 h5（gset 11，不是 g1）、10/29 旁白、11/5 g4、之後照日期（h6 11/12、h7 11/19、g5 11/26、h8 12/3、g6 12/10、h9 12/17）',H.G.flags.SIS_GF_CANYON!=null&&J(C)===J(['2028-10-22:11','2028-10-29:6','2028-11-05:3','2028-11-12:12','2028-11-19:13','2028-11-26:4','2028-12-03:14','2028-12-10:5','2028-12-17:15']),J(C));
   { const F0=Object.assign({},H.G.flags); await vidGf('2028-10-22',11,[1],{SIS_GF_CANYON:F0.SIS_GF_CANYON}); const s1=said(); const flag=H.G.flags.SIS14_CANYON_OPEN;
     const q={id:'y4_sa_g_t2',ev:'ev_sis_video_gf',day:D('2028-10-29'),h:10,late:1,place:'視訊',verb:'接起來',title:'視訊',travel:'',travelH:0,sa:{k:12,gset:6}}; OUT.rec(H.G).push(Object.assign({state:'planned',ask:null},q)); at('2028-10-29',10); await goOut(q.id); const s2=said();
-    check('1. 1-3 開始交往後第一次女朋友視訊：開頭「峽谷回來以後，第一次這樣打給你。」→ h5；記 SIS14_CANYON_OPEN；下一次（10/29）沒有',s1[0]===SISB14_LINES.canyonOpen&&s1[1]==='宿舍廚房的鍋子太薄了，咖哩會黏底。'&&flag===true&&!s2.includes(SISB14_LINES.canyonOpen),J({s1,s2})); }
-  await vidGf('2028-10-22',11,[1]); check('1. 1-3 不是大峽谷才交往的：沒有那一句',said()[0]==='宿舍廚房的鍋子太薄了，咖哩會黏底。'&&!has(SISB14_LINES.canyonOpen),J(said()));
+    check('1. 1-3 開始交往後第一次女朋友視訊：開頭「峽谷回來以後，第一次這樣打給你。」→ h5；記 SIS14_CANYON_OPEN；下一次（10/29）沒有',s1[0]===DX.canyonOpen&&s1[1]==='宿舍廚房的鍋子太薄了，咖哩會黏底。'&&flag===true&&!s2.includes(DX.canyonOpen),J({s1,s2})); }
+  await vidGf('2028-10-22',11,[1]); check('1. 1-3 不是大峽谷才交往的：沒有那一句',said()[0]==='宿舍廚房的鍋子太薄了，咖哩會黏底。'&&!has(DX.canyonOpen),J(said()));
   /* 1-4 */
   const W=FEED.WENT.sisUS; const w1=W({flags:{EXCHANGE_ROUTE:'US',dating_heroine_05:true}}), w2=W({flags:{EXCHANGE_ROUTE:'US'}}), w3=W({flags:{EXCHANGE_ROUTE:'US',EX_heroine_05:true}}), w4=W({flags:{EXCHANGE_ROUTE:'TW',dating_heroine_05:true}});
   check('1. 1-4 動態 WENT.sisUS：美國路線而且交往中＝「你的」那一版；挽回中、挽回不成、臺灣路線＝一般版',w1===true&&w2===false&&w3===false&&w4===false,J([w1,w2,w3,w4]));
@@ -185,7 +201,7 @@ await sec(2,async()=>{ const d=D('2028-08-03'), B=blk(part('### 2-1','### 2-2'))
   for(const k of [1,2]){ fresh(d,21.5,'dating',{SIS_SENDOFF:'airport'}); ph(); at(d,21.9); await goOut('sisb14_call0803',[k]);
     check('2. 機場等她（airport）也有；選項 '+(k+1)+'：'+B.opts[k].o,J(said())===J(want(B,k)),J(said())); }
   fresh(d,20.5,'dating',{SIS_SENDOFF:'family'}); ph(); at(d,22.6); expire(); at(d,23); PHONE.tick(H.G); const m1=TH('p:'+ID).filter(m=>m.tag==='sisb14_call0803_miss');   /* 23:00 才看：照原本的時間補進去（PHONE.tick 15 分鐘以上）*/
-  check('2. 22:30 還沒接：22:40 私訊「打了。你在忙。……群組見。」；SIS14_CALL0803 missed',m1.length===1&&m1[0].text===SISB14_LINES.callMiss&&Math.abs(m1[0].h-(22+40/60))<0.02&&H.G.flags.SIS14_CALL0803==='missed',J(m1));
+  check('2. 22:30 還沒接：22:40 私訊「打了。你在忙。……群組見。」；SIS14_CALL0803 missed',m1.length===1&&m1[0].text===DX.callMiss&&Math.abs(m1[0].h-(22+40/60))<0.02&&H.G.flags.SIS14_CALL0803==='missed',J(m1));
   fresh(d,20.5,'dating',{SIS_SENDOFF:'family'}); ph(); phAt(d,22.6); at(d,22.7); PHONE.tick(H.G);
   check('2. 人在家（OUT.tick 不跑）：過了 22:30 規則自己記沒接、22:40 那一則',H.G.flags.SIS14_CALL0803==='missed'&&OUT.get(H.G,'sisb14_call0803').state==='missed'&&byTag('sisb14_call0803_miss').length===1);
   fresh(d,23,'dating',{SIS_SENDOFF:'family'}); ph(); check('2. 第一次跑規則已經 23:00（整段在別的劇情裡）：照沒接（22:40 那一則）',!OUT.get(H.G,'sisb14_call0803')&&byTag('sisb14_call0803_miss').length===1&&H.G.flags.SIS14_CALL0803==='missed');
@@ -213,12 +229,12 @@ await sec(3,async()=>{
 await sec(4,async()=>{ const a=D('2028-10-25'), d=D('2028-10-26');
   const setup=(kind,fl)=>{ fresh(a,20.5,kind,Object.assign({Y4_PATH:'grad'},fl||{})); phAt(a,21.1); return PHONE.sent(H.G,'y4_push_note'); };
   const n1=setup('dating'); phAt(d,12.9); const e0=byTag('sisb14_exam').length; phAt(d,13.05); const M=byTag('sisb14_exam');
-  check('4. 交往中：10/25 便條（多「考完傳訊息。我這邊是晚上，我等。」）→ 10/26（四）13:00「考完了嗎。」「……我這邊一點。說好等的。」＋兩個回覆；12:54 還沒有；記 SIS14_EXAM_WAIT gf',n1&&txt('p:'+ID).includes('考完傳訊息。我這邊是晚上，我等。')&&CALENDAR.dateOf(d).wd===4&&e0===0&&J(M.map(m=>m.text))===J(SISB14_LINES.examGf)&&M.every(m=>m.h>=13&&m.h<13.25)&&J(askOpts('sisb14_exam'))===J(['考完了。','還不知道考得怎樣。'])&&H.G.flags.SIS14_EXAM_WAIT==='gf',J(M));
+  check('4. 交往中：10/25 便條（多「考完傳訊息。我這邊是晚上，我等。」）→ 10/26（四）13:00「考完了嗎。」「……我這邊一點。說好等的。」＋兩個回覆；12:54 還沒有；記 SIS14_EXAM_WAIT gf',n1&&txt('p:'+ID).includes('考完傳訊息。我這邊是晚上，我等。')&&CALENDAR.dateOf(d).wd===4&&e0===0&&J(M.map(m=>m.text))===J(DX.examGf)&&M.every(m=>m.h>=13&&m.h<13.25)&&J(askOpts('sisb14_exam'))===J(['考完了。','還不知道考得怎樣。'])&&H.G.flags.SIS14_EXAM_WAIT==='gf',J(M));
   answer('sisb14_exam',0); const r0=txt('p:'+ID).slice(-1)[0]; setup('dating'); phAt(d,13.05); answer('sisb14_exam',1); const r1=txt('p:'+ID).slice(-1)[0];
   check('4. 「考完了。」→「好。……那我去睡了。」；「還不知道考得怎樣。」→「不知道是對的。……睡了。」',r0==='好。……那我去睡了。'&&r1==='不知道是對的。……睡了。',J([r0,r1]));
   setup('friend'); phAt(d,13.05); const f0=byTag('sisb14_exam').length; phAt(d,20.9); const f1=byTag('sisb14_exam').length; phAt(d,21.05); const F=byTag('sisb14_exam');
-  check('4. 朋友（推甄便條朋友版）：13:00 沒有、21:00「考完了嗎。」＋兩個回覆；SIS14_EXAM_WAIT friend',f0===0&&f1===0&&J(F.map(m=>m.text))===J(SISB14_LINES.examFriend)&&J(askOpts('sisb14_exam'))===J(['考完了。','還不知道考得怎樣。'])&&H.G.flags.SIS14_EXAM_WAIT==='friend',J(F));
-  answer('sisb14_exam',1); const fr=txt('p:'+ID).slice(-1)[0]; check('4. 朋友版兩個回覆都是「嗯。辛苦了。」',fr==='嗯。辛苦了。'&&SISB14_LINES.examFriendOpts.every(o=>o.r==='嗯。辛苦了。'));
+  check('4. 朋友（推甄便條朋友版）：13:00 沒有、21:00「考完了嗎。」＋兩個回覆；SIS14_EXAM_WAIT friend',f0===0&&f1===0&&J(F.map(m=>m.text))===J(DX.examFriend)&&J(askOpts('sisb14_exam'))===J(['考完了。','還不知道考得怎樣。'])&&H.G.flags.SIS14_EXAM_WAIT==='friend',J(F));
+  answer('sisb14_exam',1); const fr=txt('p:'+ID).slice(-1)[0]; check('4. 朋友版兩個回覆都是「嗯。辛苦了。」',fr==='嗯。辛苦了。'&&BODY.indexOf('- 「考完了。」→「嗯。辛苦了。」')>0&&BODY.indexOf('- 「還不知道考得怎樣。」→「嗯。辛苦了。」')>0);
   setup('dating'); at(d,11); H.G.msgChat=Object.assign(H.G.msgChat||{},{sent:{[ID]:d}}); phAt(d,13.05); phAt(d,21.05); const s0=byTag('sisb14_exam').length;
   setup('dating',{Y4_PATH:'bar'}); phAt(d,13.05); const s1=byTag('sisb14_exam').length;
   check('4. 那天自己先傳過訊息給她（MSG）＝沒有；沒有 10/25 便條（不是推甄）＝沒有',s0===0&&s1===0&&!H.G.flags.SIS14_EXAM_WAIT,J([s0,s1])); });
@@ -227,13 +243,15 @@ await sec(4,async()=>{ const a=D('2028-10-25'), d=D('2028-10-26');
 await sec(5,async()=>{ const a=D('2028-12-30'), d=D('2028-12-31'), B=blk(part('### 2-5','## 3.'));
   check('5. 日子：12/30 週六、12/31 週日；稿 2-5 讀得到（三句、兩個選項）',CALENDAR.dateOf(a).wd===6&&CALENDAR.dateOf(d).wd===7&&B.pre.length===3&&B.opts.length===2,J(B));
   fresh(a,20.5,'dating',{SIS14_CURRY_PROMISE:true}); phAt(a,20.95); const m0=byTag('sisb14_curry_home_ask').length; phAt(a,21.05); const M=byTag('sisb14_curry_home_ask');
-  check('5. h5 選過「好吃嗎？」、交往中：12/30 21:00 私訊「明天中午，我家。……鍋子洗好了。」＋「好。」（20:57 還沒有）',m0===0&&J(M.map(m=>m.text))===J([SISB14_LINES.curryHome])&&J(askOpts('sisb14_curry_home_ask'))===J(['好。']),J(M));
+  check('5. h5 選過「好吃嗎？」、交往中：12/30 21:00 私訊「明天中午，我家。……鍋子洗好了。」＋「好。」（20:57 還沒有）',m0===0&&J(M.map(m=>m.text))===J([DX.curryHome])&&J(askOpts('sisb14_curry_home_ask'))===J(['好。']),J(M));
   answer('sisb14_curry_home_ask',0); ph(); const q=OUT.get(H.G,'sisb14_curry_home');
   check('5. 回「好。」→ 12/31（日）12:00「學姊的新家」出遊 2 小時',!!q&&q.day===d&&q.h===12&&q.hours===2&&q.place==='學姊的新家'&&q.ev==='ev_sis14_curry_home',J(q));
   at(d,11.4); await goOut('sisb14_curry_home',[0]); const s0=said(), bg=ev('ev_sis14_curry_home').dialogue[0];
   check('5. 演（「好吃。」）：照稿逐字；底圖照 AA_512 13-2（學姊的新家）；記 SIS14_CURRY_HOME',J(s0)===J(want(B,0))&&bg.bg==='sis_new_home'&&bg.scene==='學姊的新家'&&H.G.flags.SIS14_CURRY_HOME===true,J(s0));
   fresh(a,21.05,'dating',{SIS14_CURRY_PROMISE:true}); ph(); answer('sisb14_curry_home_ask',0); ph(); at(d,11.4); await goOut('sisb14_curry_home',[1]);
   check('5. 演（（再一碗））：照稿逐字',J(said())===J(want(B,1)),J(said()));
+  fresh(d,8,'dating',{SIS14_CURRY_PROMISE:true}); ph(); const bf=byTag('sisb14_curry_home_ask'); answer('sisb14_curry_home_ask',0); ph(); const qb=OUT.get(H.G,'sisb14_curry_home');
+  check('5. 規則晚跑到（12/31 08:00 才第一次跑）：照 12/30 21:00 補那一則，回「好。」照排 12:00',bf.length===1&&bf[0].day===a&&Math.abs(bf[0].h-21)<0.02&&!!qb&&qb.day===d&&qb.h===12,J({bf,qb}));
   fresh(a,21.05,'dating',{SIS14_CURRY_PROMISE:true}); ph(); phAt(d,12); const nr=!OUT.get(H.G,'sisb14_curry_home');
   fresh(a,21.05,'dating'); ph(); const np=!byTag('sisb14_curry_home_ask').length;
   us(a,21.05,'dating',{SIS14_CURRY_PROMISE:true,US_RETURNED:D('2028-12-23')}); ph(); const nu=!byTag('sisb14_curry_home_ask').length;
@@ -258,7 +276,7 @@ await sec(7,async()=>{
   { const a=D('2028-09-01'), d=D('2028-09-02'); const B=blk(part('- 9/2（六）14:00，208','- 記 `SIS14_US_CURRY`'));
     check('7. 4-1 日子：9/1 週五、9/2 週六；稿讀得到 208 那四句',CALENDAR.dateOf(a).wd===5&&CALENDAR.dateOf(d).wd===6&&B.pre.length===4,J(B));
     us(a,20.5,'dating'); phAt(a,20.95); const m0=byTag('sisb14_us_curry_ask').length; phAt(a,21.05); const M=byTag('sisb14_us_curry_ask');
-    check('7. 4-1 9/1 21:00（當地）私訊「第一週，活下來了。」「明天下午，208。我煮咖哩。」＋兩個回覆',m0===0&&J(M.map(m=>m.text))===J(SISB14_LINES.usCurry)&&J(askOpts('sisb14_us_curry_ask'))===J(['好。','我帶什麼？']),J(M));
+    check('7. 4-1 9/1 21:00（當地）私訊「第一週，活下來了。」「明天下午，208。我煮咖哩。」＋兩個回覆',m0===0&&J(M.map(m=>m.text))===J(DX.usCurry)&&J(askOpts('sisb14_us_curry_ask'))===J(['好。','我帶什麼？']),J(M));
     answer('sisb14_us_curry_ask',1); ph(); const r=txt('p:'+ID).slice(-1)[0], q=OUT.get(H.G,'sisb14_us_curry');
     check('7. 4-1「我帶什麼？」→「碗。我這邊只有一個。」；排 9/2（六）14:00 C 棟 208 出遊 2 小時',r==='碗。我這邊只有一個。'&&!!q&&q.day===d&&q.h===14&&q.hours===2&&q.place==='C 棟 208',J({r,q}));
     at(d,13.8); await goOut('sisb14_us_curry'); check('7. 4-1 演：照稿四句（208 的廚房、超重兩公斤、碗）；記 SIS14_US_CURRY',J(said())===J(want(B,0))&&H.G.flags.SIS14_US_CURRY===true,J(said()));
@@ -273,7 +291,7 @@ await sec(7,async()=>{
     for(const k of [0,1]){ if(k){ us(d0,19,'dating'); await lad('SU-L6',[0]); } at(d0+1,6.8); await goOut('sisb14_eggs',[k]);
       check('7. 4-2 演（'+B.opts[k].o+'）：照稿逐字（七點、煮吧、回覆、十八顆蛋少了四顆）；記 SIS14_EGGS',J(said())===J(want(B,k))&&H.G.flags.SIS14_EGGS===true,J(said())); }
     us(d0,19,'dating'); await lad('SU-L6',[0]); at(d0+1,7.2); expire(); at(d0+1,7.6); PHONE.tick(H.G); const mm=byTag('sisb14_eggs_miss');   /* 07:36 才看：照原本的時間補進去 */
-    check('7. 4-2 沒到（07:10 以後）：07:15 私訊「三顆。吃完了。」「……第四顆留給你。」；SIS14_EGGS missed',J(mm.map(m=>m.text))===J(SISB14_LINES.eggsMiss)&&mm.every(m=>Math.abs(m.h-7.25)<0.02)&&H.G.flags.SIS14_EGGS==='missed',J(mm));
+    check('7. 4-2 沒到（07:10 以後）：07:15 私訊「三顆。吃完了。」「……第四顆留給你。」；SIS14_EGGS missed',J(mm.map(m=>m.text))===J(DX.eggsMiss)&&mm.every(m=>Math.abs(m.h-7.25)<0.02)&&H.G.flags.SIS14_EGGS==='missed',J(mm));
     us(d0,19,'dating'); await lad('SU-L6',[1]); const r1=said().slice(-1)[0];
     us('2028-11-10',20,'dating'); await lad('SU-L6',[0]); const chi=OUT.get(H.G,'sisb14_eggs');
     check('7. 4-2「不能只買半盒？」＝不排；隔天一早她去芝加哥（11/10 選）＝不排',r1==='不行。我問過了。'&&!chi,J({r1,chi})); }
@@ -284,7 +302,7 @@ await sec(7,async()=>{
     at(q.day,9.5); await goOut('sisb14_coat'); check('7. 4-3 演：照稿逐字（外套、三件、第一件、她手上也多了一件）；記 SIS14_COAT',J(said())===J(want(B,0))&&H.G.flags.SIS14_COAT===true,J(said()));
     const coat=Object.assign({},H.G.flags); us('2028-12-02',20,'dating',{SIS14_COAT:true}); await runEv('ev_us_first_snow',[1]); const sn=said();
     us('2028-12-02',20,'dating'); await runEv('ev_us_first_snow',[1]); const sn0=said();
-    check('7. 4-3 12/2 初雪：有 SIS14_COAT＝開頭「（你穿著那件外套。她也是。）」，接原本那句；沒有＝照舊',coat.SIS14_COAT===true&&sn[0]===SISB14_LINES.snowCoat&&sn[1]==='（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'&&!sn0.includes(SISB14_LINES.snowCoat),J({sn:sn.slice(0,2),sn0:sn0.slice(0,1)}));
+    check('7. 4-3 12/2 初雪：有 SIS14_COAT＝開頭「（你穿著那件外套。她也是。）」，接原本那句；沒有＝照舊',coat.SIS14_COAT===true&&sn[0]===DX.snowCoat&&sn[1]==='（她坐在台階最上面一階，旁邊放著兩杯熱可可。你坐下的時候，她把一杯推過來。）'&&!sn0.includes(DX.snowCoat),J({sn:sn.slice(0,2),sn0:sn0.slice(0,1)}));
     const sat=async(k,h)=>{ us(k,h,'dating'); await lad('SU-L7',[1]); const x=OUT.get(H.G,'sisb14_coat'); return x?keyOf(x.day):null; };
     const c8=await sat('2028-11-08',15), c18a=await sat('2028-11-18',9), c18b=await sat('2028-11-18',15);
     check('7. 4-3 那一週的週六：11/8（三）選＝11/11 她在芝加哥、順延 11/18；週六 09:00 選＝當天；週六 15:00 選＝下一個週六',c8==='2028-11-18'&&c18a==='2028-11-18'&&c18b==='2028-11-25',J([c8,c18a,c18b]));
@@ -301,7 +319,7 @@ await sec(7,async()=>{
   /* 4-5 */
   { us('2028-11-29',15,'dating'); await lad('SU-L8',[0]); const rp=said().slice(-1)[0], f=H.G.flags.SIS14_BOOK4; await runEv('ev_us_leave'); const lv=said();
     us('2028-11-29',15,'dating'); await lad('SU-L8',[1]); const f1=H.G.flags.SIS14_BOOK4; await runEv('ev_us_leave'); const lv1=said();
-    check('7. 4-5 SU-L8「那這次超重什麼？」（「書。三本。第四本你幫我拿。」）→ 12/16 離開那天開頭「（你的背包裡多了一本她的書。比你自己的三本都重。）」；選另一個＝沒有',rp==='書。三本。第四本你幫我拿。'&&f===true&&lv[0]===SISB14_LINES.leaveBook&&f1==null&&!lv1.includes(SISB14_LINES.leaveBook),J({rp,lv:lv.slice(0,2),lv1:lv1.slice(0,1)})); }
+    check('7. 4-5 SU-L8「那這次超重什麼？」（「書。三本。第四本你幫我拿。」）→ 12/16 離開那天開頭「（你的背包裡多了一本她的書。比你自己的三本都重。）」；選另一個＝沒有',rp==='書。三本。第四本你幫我拿。'&&f===true&&lv[0]===DX.leaveBook&&f1==null&&!lv1.includes(DX.leaveBook),J({rp,lv:lv.slice(0,2),lv1:lv1.slice(0,1)})); }
   /* 閒聊階梯的回覆照舊（包一層不改字）*/
   { const st=stepOf('SU-L6'); const r=STORY.ladReply(st,st.choices[0],{flags:{}},'kai'); check('7. STORY.ladReply 包一層：回覆照舊、別人的閒聊不記',r===st.choices[0].reply); } });
 
@@ -317,7 +335,7 @@ await sec(8,async()=>{ const d=D('2028-09-02');
 /* ---- 9 舊存檔 ---- */
 await sec(9,async()=>{ let ok=true, err='';
   try{ for(const [k,h,kind,route] of [['2028-08-03',22,'dating'],['2028-10-26',13.1,'friend'],['2028-12-30',21.1,'dating'],['2028-09-01',21.1,'dating','US'],['2028-09-11',22.6,'dating','US']]){
-      const G=route==='US'?us(k,h,kind):fresh(k,h,kind); delete G.msgChat; ph(); X().phone(G); }
+      const G=route==='US'?us(k,h,kind):fresh(k,h,kind); delete G.msgChat; ph(); if(!X()) throw new Error('沒有 SISB14'); X().phone(G); }
     X().phone({flags:{},stage:'law',day:D('2028-08-03'),hour:22,msgs:[]}); X().onAnswer(H.G,null,null); X().onLad(H.G,null,null,ID); X().onLad({flags:{}},{id:'SU-L6'},{t:'「明天早上我來煮。」'},ID); }
   catch(e){ ok=false; err=String(e&&e.stack||e).split('\n').slice(0,2).join(' / '); }
   check('9. 舊存檔（沒有 SIS14_*、沒有 msgChat、SIS_AB 沒有 gh／t3）照常跑、不丟例外',ok,err);
