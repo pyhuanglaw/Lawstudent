@@ -13,6 +13,7 @@
 //      回了「去。」卻沒到（過了 14:30 沒出發、出發前選「不去了」）＝21:30 三則（前面多「你說要來的。」）、missed
 //   5  予樂家（AA_514 第 2 節）：kx4bc 1/29（五）19:30、認識、照片、她的一句、留言、私訊問一字照稿；在可昕第 4、5 則中間；1/18、1/29、2/10 三則都出（只認識）、七天內不超過兩則；
 //      19:29 還沒有、19:30 有；留言、私訊問的回覆
+//   6  稿第 3 節給 BB 的測試建議（同一個存檔整條走）：大二下 4/10 選「下次我去看。」→ 11/28 21:00 收到約 →「去。」12/4 演、came／「那天不行。」21:30 兩則；沒選過＝都沒有
 // 修改前（開發分支 6f0612275：沒有 kx_moot3 兩個檔、KX_WATCH、kx4bc；src、index.html、白名單換回 6f0612275 實際跑過）：見回報（FAILED 幾項）。修改後 ALL PASS。
 // 用法：node tests/aa514_kx_moot3_unit.js
 'use strict';
@@ -116,8 +117,9 @@ await sec('1',async()=>{
   for(const [d,id,nm] of [[W11,'kx_moot','大二上第 11 週週六 22:30 輸了'],[D410,'kx_win','大二下 4/10 22:30 贏了']]){
     const r=[0,1,2].map(k=>run(d,id,k));
     check('1. '+nm+'：選「下次我去看。」＝KX_WATCH true；選另外兩個＝沒有',r.every(x=>x.m)&&r[0].w===undefined&&r[1].w===undefined&&r[2].w===true,J(r)); }
-  const r2=run(D410,'kx_win',2,{KX_WATCH:true,KX_MOOT_DM:'watch'});
-  check('1. 兩次都選：還是 true（只記一次）',r2.m&&r2.w===true,J(r2)); });
+  /* 同一個存檔：大二上選「下次我去看。」，大二下 4/10 又選一次 */
+  const a=run(W11,'kx_moot',2); at(D410,21); tickF(); walkF(D410,22.6); const m2=(H.G.msgs||[]).find(x=>x.tag==='aa503_kx_win'&&x.ask); if(m2) PHONE.answer(H.G,m2.ask.id,2);
+  check('1. 同一個存檔兩次都選（大二上輸的那晚、大二下贏的那晚）：KX_WATCH 還是 true（只記一次，旗標不是次數）',a.w===true&&!!m2&&H.G.flags.KX_WATCH===true&&H.G.flags.KX_MOOT_DM==='watch'&&H.G.flags.KX_WIN_DM==='watch',J({a,m2:!!m2,w:H.G.flags.KX_WATCH})); });
 
 /* ======================= 2 11/28 21:00 的邀約、誰有 ======================= */
 await sec('2',async()=>{
@@ -190,5 +192,17 @@ await sec('5',async()=>{
   fresh(DK('2027-01-14'),8); rel(KX,'FRIEND'); const log=new Map(); for(let t=T(DK('2027-01-14'),8);t<=T(DK('2027-02-12'),0);t+=0.5){ const dd=Math.floor(t/24); at(dd,t-dd*24); tickF(); for(const i of FEED.rec(H.G).items) if(!log.has(i.id)) log.set(i.id,i); }
   const kx=[...log.values()].filter(i=>i.who===KX).sort((a,b)=>T(a.day,a.h)-T(b.day,b.h)); let worst=0; for(const i of kx){ const c2=kx.filter(j=>T(j.day,j.h)<=T(i.day,i.h)&&T(i.day,i.h)-T(j.day,j.h)<7*24).length; worst=Math.max(worst,c2); }
   check('5. 朋友走 1/14～2/11：可昕 1/18、1/29、2/10 三則都出（各在不同週、七天內不超過兩則；第 5 則要朋友）',J(kx.map(i=>i.id))===J(['kx4c','kx4bc','kx5c'])&&worst<=2&&J(kx.map(i=>CALENDAR.dateOf(i.day).key))===J(['2027-01-18','2027-01-29','2027-02-10']),J(kx.map(i=>[i.id,FEED.rec(H.G).done[i.id]]))); });
+
+/* ======================= 6 稿第 3 節給 BB 的測試建議（同一個存檔從大二下 4/10 一路走到大三上 12/4）======================= */
+await sec('6',async()=>{
+  const D410=DK('2027-04-10');
+  const chain=async(k,reply)=>{ fresh(D410,21); rel(KX,'FRIEND'); walkF(D410,22.6); const m=(H.G.msgs||[]).find(x=>x.tag==='aa503_kx_win'&&x.ask); if(m) PHONE.answer(H.G,m.ask.id,k);
+    go(DA,20.98); go(DA,21); const inv=!!askMsg(); if(inv&&reply!=null) PHONE.answer(H.G,ASK,reply); rules(); let came=null;
+    if(reply===0){ at(DM,13+10/60); const q=q0(); H.said=[]; H.picks=[1]; if(q) await OUT.go(GM,q); came=said(); }
+    go(DM,21.6); return {inv,came,miss:texts(MISS),f:H.G.flags.KX_MOOT3}; };
+  let r=await chain(2,0);
+  check('6. 大二下 4/10 選「下次我去看。」→ 11/28 21:00 收到約；回「去。」→ 12/4 演、記 came、21:30 沒有私訊',r.inv&&!!r.came&&seq(r.came,NAR.concat(SAW,OPT_R[1],CLOSE))&&r.f==='came'&&!r.miss.length,J({inv:r.inv,f:r.f,miss:r.miss}));
+  r=await chain(2,1); check('6. 回「那天不行。」→ 12/4 21:30 兩則、missed',r.inv&&J(r.miss)===J(MISSED)&&r.f==='missed',J(r));
+  r=await chain(0,null); check('6. 沒選過「下次我去看。」（4/10 選「恭喜！」）→ 11/28 沒有約、12/4 21:30 也沒有',!r.inv&&!r.miss.length&&r.f==null,J(r)); });
 H.done();
 })();
