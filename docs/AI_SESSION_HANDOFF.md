@@ -230,6 +230,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 13 | **回報使用者「接班確認」**（第 6 節格式：含值班狀態、對帳結果、異常） | `duty verify` 結束碼寫進去；有異常照實寫 |
 | 14 | **立刻接續未完成工作**，不用使用者再說「開工」 | `python3 tools/handoff/check_handoff.py queue --owner <職位>`（D81 順序）；D87 自主連續；**D95：回合結束前保存、讀通知，佇列還有可做的就 send_later 自己接續，回報不是結束**；**D96：一回合連續做多項、send_later 同時最多一個、有背景通知就不排、批次回報** |
 
+- **HV-21（2026-10-28）分支定期唯讀稽核**（使用者 01:4x，D114）：接班第 9 步和交班存快照前，值班 LAWWW 跑 `python3 tools/handoff/branch_audit.py --write`（只讀；淺層 clone 會報錯，先 `git fetch --unshallow origin`），結果 commit＋push。整理規則：保留四崗位在用、保留 WIP 沒整合完，內容全部在 main 的列清理候選，決定寫在 `docs/handoff/BRANCH_INVENTORY.md` 的「整理紀錄」。`check_handoff.py check` 超過 24 小時會提醒。
 - **HV-20（2026-10-27）duty sync 擋舊登記**：sync 只收比 duty.json 新的登記、讀之前先對 GitHub；LAWWW 只收已經**重新** `duty register` 的職位，沒登記的留給上一任（記 no-handoff），不要手改 duty.json 去「補」。印「[略過] <職位>」＝那個職位還沒重新登記，請它登記，不是工具壞了。
 
 - **第 4、7、8 步一律加 `--ref origin/<RULE_SOURCE>`**：那時還沒合併（第 11 步才合併），從 RULE_SOURCE 讀才是最新的值班狀態與總表；LAWWW 合併以後在自己的分支 `duty register`，其他職位登記時照樣加 `--ref`。
@@ -713,6 +714,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-21** | 2026-10-28 | **分支定期唯讀稽核（D114）**：`tools/handoff/branch_audit.py`（只讀：fetch、比對，不刪不推；淺層 clone 不給清單）。分類：保留｜主線、保留｜崗位在用（duty.json）、保留｜WIP 沒整合完（wip.json）、保留｜main 沒有的內容、清理候選（整條在 main、或每個 commit 的內容 main 都有、或改過的檔案 main 一字不差）。時機：發布前後、換班（接班第 9 步、交班存快照前）、值班期間每天至少一次（`check_handoff.py check` 超過 24 小時提醒）。值班 LAWWW 整理、在 BRANCH_INVENTORY.md「整理紀錄」寫決定和 SHA；雲端刪不了別的分支就只標記（D85 第 8 點）。回歸測試 `tests/branch_audit_unit.py` | 使用者 10-28 01:4x「定期做一次唯讀稽核，再由開發 AI 整理……」 | tools/handoff/branch_audit.py、check_handoff.py check、BRANCH_INVENTORY.md、本檔第 4 節、CLAUDE.md D88 第 7 點 | （本次 commit） |
 | **HV-20** | 2026-10-27 | **duty sync 擋舊登記（HV-20，工具擋、不靠記得）**：sync 只收比 duty.json 現在那一筆新的職位登記（since 比較），讀之前先對 GitHub（ls-remote）、本機的遠端分支不是最新就先 fetch；舊檔一律印「[略過]」不收。起因兩次事故：10-23 LAWWW-B 的本機遠端分支沒 fetch，讀到三個職位上一次交班的檔；10-27 帳號 C 的 LAWWW2、BB 交班時沒用 duty handoff 改自己的 duty_<職位>.json（一直寫 state on），C 回來 sync 時被當成「C 值班中」。**人要做的兩件**：①職位交班一定要跑 `duty handoff`（只寫交接檔不算）；②接班時每個職位都要自己 `duty register`（上一任沒交班加 `--user-ok`），LAWWW 只 sync 已重新登記的，沒登記的照舊留給上一任、記 no-handoff。回歸測試：`python3 tests/handoff_duty_sim.py stale`（兩個事故情境；舊工具 0／2、新工具 2／2） | 使用者 10-27「這個要寫入多帳號交班共用規則確認如何避免」 | tools/handoff/duty_state.py sync、tests/handoff_duty_sim.py、本檔第 4 節第 12 步與第 5 節、CLAUDE.md 跨帳號接班 | （本次 commit） |
 | **HV-19** | 2026-10-27 | **子代理一開工就推檢查點、每 15～20 分鐘備份一次（D113）**；**沒交班的帳號照實記錄**：使用者指示接班時 `duty register --user-ok` 記 no-handoff，duty.json anomalies 寫各職位最後 commit、停住時間、遺失了什麼、誰重做；第 1 節、第 12 節寫「沒有交班」 | 使用者 10-27「上一班來不及交班，現在由帳號 C 接班。」「你要紀錄上個帳號沒有交班 你接手以免之後亂掉」「可以再補一條：子代理一開工就先推一個檢查點……」 | CLAUDE.md D113、PROJECT_DECISIONS D113、本檔第 1、12、13 節、duty.json | （本次 commit） |
 | **HV-17** | 2026-10-18 | **第四個帳號 D**（使用者「我可能會開第四個帳號」「要讓四個帳號都知道怎麼回來，不一定是誰交給誰，可能很隨機」）：A、B、C、D 四個帳號任意方向輪值、不限次數、不照順序；帳號 D 的工作階段叫 LAWWW-D、LAWWW2-D、AA-D、BB-D（第 7.9～7.12 節啟動提示詞）；上一任一律看 `duty.json` 登記鏈；回來一律說「我回來了，請同步 GitHub 最新進度，接續工作。」；工具 duty_state.ACCOUNTS 加 D、duty.json accountState D＝unused | 使用者 10-18 12:4x 對 LAWWW-C | CLAUDE.md 開頭、本檔第 0a、4、5、7、8 節、tools/handoff | （本 commit） |

@@ -34428,6 +34428,48 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BRANCH-AUDIT-1028",
+   "title": "分支定期唯讀稽核＋開發 AI 整理（保留四崗位在用、保留 WIP 沒整合完、完全併入 main 的列清理候選）：發布前後、換班、每天至少一次",
+   "area": "OPS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "使用者 10-28 01:4x 對 LAWWW-C（UA-LAWWW-1028-10；USER_WANTS X124；D114）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "開發流程（玩家看不到）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:3x UTC】tools/handoff/branch_audit.py（只讀；淺層 clone 報錯）、tests/branch_audit_unit.py（ALL PASS）、check_handoff check 24 小時提醒、BRANCH_INVENTORY.md 稽核一節；第一次 01:2x：25 條＝主線 1、崗位在用 4、main 沒有的內容 6、清理候選 14（雲端刪不了別的分支：只標記）。之後每次發布前後、換班、每天至少一次（重複性工作，任務一直是進行中）"
+  },
+  {
+   "id": "README-1028",
+   "title": "README.md 照 v9.10.11 改寫（使用者 10-28 01:1x 授權 AA-C 直接合進 main；只改 README.md，遊戲檔案不動）",
+   "area": "OPS",
+   "owner": "AA",
+   "status": "已驗收",
+   "priority": "P3",
+   "source": "使用者 10-28 01:1x 對 AA-C「readme 能不能由你修改 她現在是好前面的版本」「正等 LAWWW 合進 main 授權你」（UA-AA-1028-52）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "GitHub 首頁（玩家看不到遊戲內）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-28 01:4x UTC】AA-C 推上 main 9227bf81e（父＝v9.10.11 c8b9659e5，只改 README.md；Pages run 40614017388）；開發分支 e9e7758b0 合併 main 回來（README 用 main 的）。結案",
+   "sha": "9227bf81e",
+   "evidence": "main 9227bf81e（只改 README.md：git diff c8b9659e5 9227bf81e --stat 只有 README.md）；GitHub Pages run 40614017388；使用者授權（UA-AA-1028-52）"
   }
  ]
 }
