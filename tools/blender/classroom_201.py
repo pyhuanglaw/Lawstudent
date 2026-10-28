@@ -146,7 +146,7 @@ def img_mat(name, path, rough=0.6, emit=0.0):
 
 MAT = {
     'tile':   L.pbr('cls_floor', 'large_floor_tiles_02', tile=1.8, sat=0.2, contrast=0.5, target='#b4b3ae', normal=0.35),   # 60 cm 灰地磚（貼圖一張 3×3 塊）
-    'stage':  L.pbr('cls_stage', 'laminate_floor_02', tile=1.2, target='#6c5442', normal=0.4),                              # 講台區木地板（和 202 一樣深）
+    'stage':  L.pbr('cls_stage', 'laminate_floor_02', tile=1.2, target='#cdb594', normal=0.4),                              # 講台區木地板：淺色（UA-LAWWW2-1023-03 永久規則：整個遊戲不要深色木地板；目標色 #cdb594＝宿舍四人房。10-28 第一版 #6c5442 是深色，scan_floors.py 標 DARK）
     'riser':  L.pbr('cls_riser', 'painted_plaster_wall', tile=1.5, target='#86827b', contrast=0.5, normal=0.3, maps=('diff', 'nor')),
     'wall':   L.pbr('cls_wall', 'painted_plaster_wall', tile=2.5, target='#e2ded5', contrast=0.4, normal=0.3, maps=('diff', 'nor')),
     'wain':   L.pbr('cls_wain', 'walnut_veneer', tile=1.0, target='#5c4434', normal=0.35),                                 # 木腰牆（直紋）

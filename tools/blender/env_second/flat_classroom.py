@@ -178,7 +178,7 @@ class Room(K.Shop):
         if self.lec:
             # 木紋長桌（201 也是深色桌）：10-21 BB-C「坐下的鏡頭裡桌面幾乎是黑的、木紋看不出來」→ 從 #5b4738 調亮到中等的胡桃色，比椅面（#9a7350）深一點
             M['desk'] = L.pbr(f'{rid}_desk', 'fine_grained_wood', tile=1.2, target='#7e6048', contrast=1.0, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.4)
-            M['front'] = L.pbr(f'{rid}_front', 'laminate_floor_02', tile=2.4, target='#7a5c43', contrast=0.9, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.4)   # 講台區的木地板
+            M['front'] = L.pbr(f'{rid}_front', 'laminate_floor_02', tile=2.4, target='#cdb594', contrast=0.9, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.4)   # 講台區的木地板：淺色（UA-LAWWW2-1023-03 永久規則：整個遊戲不要深色木地板；目標色和宿舍四人房一樣 #cdb594。10-28 以前是 #7a5c43，scan_floors.py 標 DARK）
         else:
             M['carpet'] = L.pbr(f'{rid}_carpet', 'dirty_carpet', tile=1.0, sat=0.25, target='#56616b', contrast=0.9, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.95)   # 方塊地毯
             carpet_sheen(M['carpet'])
