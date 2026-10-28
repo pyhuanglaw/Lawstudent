@@ -53,9 +53,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 「分數不夠的人呢？」→ 愣住、那句、臉色、翰 4 伏筆',L.slice(3).join('|')==='他愣住。|……分數不夠，就跟不上。|他自己聽到這句話，臉色變了一下。'&&SOCIAL.has('classmate_bohan','ASKED_LOW_SCORE'),JSON.stringify(L));
   GM.npc={}; E.npcs=[];
   // 阿哲轉述
-  const zh={obj:{position:{x:1,y:0,z:0}},lv:0}; fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'no'}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); tick(); await wait(); L=norm(lines());
+  const NDL=termDay('Y1S1',4,4);   /* 已經在麵店團（做過哲 1）：沒有的話＝錯過長桌，麵店遇到阿哲先演麵店團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late），這裡要看的是阿哲轉述那一句 */
+  const zh={obj:{position:{x:1,y:0,z:0}},lv:0}; fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'no',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); tick(); await wait(); L=norm(lines());
   check('3. 沒被邀：第 7 週麵店阿哲「柏翰組了一個菁英小組。我沒被邀。」',L[0]==='柏翰組了一個菁英小組。我沒被邀。',JSON.stringify(L));
-  fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'higher'}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); check('3. 被邀的不聽這句',!tick()); GM.npc={}; E.npcs=[];
+  fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'higher',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); check('3. 被邀的不聽這句',!tick()); GM.npc={}; E.npcs=[];
   // 4. 以安新 8
   const PA=ACTIVITIES.list.find(a=>a.id==='public_law_group'), thu7=termDay('Y2S1',7,4);
   check('4. 公法讀書會大二上第 7 週週四有',ACTIVITIES.on(PA,thu7));
