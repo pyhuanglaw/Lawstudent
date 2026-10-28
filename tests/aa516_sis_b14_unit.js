@@ -16,6 +16,9 @@
 // 修改前（開發分支 67a602cd0：那一版的 index.html、src/、tests/、lib/ 放進這支測試真的跑過，稿從這個 repo 讀：AA516_DOCREPO）：FAILED 81、PASS 13
 //   （PASS＝讀稿、日子、「不該有／照舊」那一類：2-1 沒交往等都沒有、舊的旁白、自己先傳過、4-2 另一個選項、交往中沒有群組那一則、新的局沒有 SIS14_*；
 //    第 5 節、第 7 節 4-3 找不到新事件、丟例外中斷）。修改後 ALL PASS（105 項）。
+// 全部 Node 單元測試（tests/*_unit.js，這一批的成果 7510f9279，2026-10-28）：723 支，結束碼不是 0 的 1 支＝tests/room_ceiling_unit.js（霖澤館大廳吊燈，已知、和這一批無關）。
+// 照 AA_516 第 1 節改的舊測試：aa392_sis_b6（1-1 g6、1-3）、r2y4a_events（1-2）、r2y4b_events（1-11）、aa464_y4s1（1-8～1-10）、aa508_509_feed（1-4）、aa512_sis_b13（1-5，稿 a9b87c588）；
+//   第 5 節：aa424_us_blank（9/2）；2D 背景：scene_bg_keys（PENDING 兩個）。
 // 用法：node tests/aa516_sis_b14_unit.js（在沒有 .git 的目錄跑，設環境變數 AA516_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
