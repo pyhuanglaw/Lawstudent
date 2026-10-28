@@ -35311,7 +35311,7 @@
    "title": "AA_516 第 8 節（3cd10909b，新內容懸著的承諾自查）：①4-1「……下次你用我的碗。」有 SIS14_US_CURRY 的，之後第一次 208 場景（ev_us208_memo～lastweek，哪場先演就哪場）開頭一句旁白「（她把自己的碗放在你面前，換她用你上次帶來的那一個。）」一次 ②h9 選「我會去接妳。」記 SIS14_RIGHT，12/23 接機戀人版第一句旁白前加「（你站在出口的右邊。）」",
    "area": "Y4S1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "AA_516 第 8 節（企劃線 3cd10909b；outbox 44f7421fe）",
    "first": {
@@ -35324,7 +35324,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-28 11:3x UTC】AA 第 8 節第 3 點（d6f8621ac）：碗那句只放有吃東西的 208 場景——先 9/13 ev_us2_kitchen、沒演到才 3-2 ev_us208_lurou，接在第一句旁白後面（分兩個碗那支接在那句後面）；派子代理改｜【LAWWW-C 2026-10-28 11:3x UTC】合併 b89971426（子代理 f1f6717cf）：us208_3d.js 七場第一句 BOWL（SISB14.bowlDue、SIS14_BOWL 一次）、ev_sis_pickup 戀人版「你站在出口的右邊」（SIS14_RIGHT）；aa516 120 項 ALL PASS（改前 FAILED 10）；問 AA：US2 算不算第一次 208、碗那句放進門那一句後面？；下一版｜【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
+   "next": "【LAWWW-C 2026-10-28 12:0x UTC】碗的位置（AA_516 第 8 節第 3 點 d6f8621ac）合進開發分支 64e12da0e（子代理 a47c12b56）：先 US2「那就寫妳。」分碗那句後面、沒演到才 3-2 滷肉第一句旁白後面、其他六場拿掉、只一次（SIS14_BOWL）；aa516 124 項 ALL PASS（修改前 FAILED 9）、相關 34 支 0 失敗；全部 Node 背景跑中；子代理解讀四點轉 AA（US2 另外兩支、3-2 順序、4-2 煎蛋、都沒演到）；BB：US2 三支、沒去 US2 的 3-2｜【LAWWW-C 2026-10-28 11:3x UTC】AA 第 8 節第 3 點（d6f8621ac）：碗那句只放有吃東西的 208 場景——先 9/13 ev_us2_kitchen、沒演到才 3-2 ev_us208_lurou，接在第一句旁白後面（分兩個碗那支接在那句後面）；派子代理改｜【LAWWW-C 2026-10-28 11:3x UTC】合併 b89971426（子代理 f1f6717cf）：us208_3d.js 七場第一句 BOWL（SISB14.bowlDue、SIS14_BOWL 一次）、ev_sis_pickup 戀人版「你站在出口的右邊」（SIS14_RIGHT）；aa516 120 項 ALL PASS（改前 FAILED 10）；問 AA：US2 算不算第一次 208、碗那句放進門那一句後面？；下一版｜【LAWWW-C 2026-10-28 11:2x UTC】派子代理（白名單 AA_516 → 3cd10909b、tests/aa516 加兩件）；下一版"
   },
   {
    "id": "PRIV-AUNT-1028",
@@ -35379,6 +35379,33 @@
     "ack": "自領"
    },
    "next": "【LAWWW-C 2026-10-28 11:4x UTC】登記（incr 看到 LAWWW2 的 WIP 5a5c8b218、433ffb388、b1d60f05f、5e02adddd 沒有任務）；LAWWW2 交件後 LAWWW 合併、跑 dorm_hall_lightmap＋nav_buildings＋全部 Node；下一版 v9.10.14；BB：門廳進兩次、白天晚上看"
+  },
+  {
+   "id": "SIS-B15-1028",
+   "title": "AA_518 學姊第十五批：學校裡的平常日子（大一～大三在臺灣）——寒暑假補九場（認識以上，總圖／法圖位置觸發接 2D）、家族讀書會四次（大三週四 19～21 法圖討論室，Kevin 前一天揪，D 也能認識她）、說了沒發生十件、前後對不上十五處",
+   "area": "Y1S2",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "AA-C 973dd1b74（AA_518，SIS-LEAD-1021，USER_WANTS C25）",
+   "first": {
+    "term": "Y1S1",
+    "week": 19,
+    "earliest": "大一寒假 2026-01-14 週三下午走進總圖寒假閱覽區（認識學姊以上）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/story_planning/AA_518_學姊第十五批_學校裡的平常日子.md @ 973dd1b74",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "台詞逐字對稿（雙向）、第 5 節 BB 測試六項、舊存檔不壞、全部 Node 0 失敗",
+    "receiver": "BB",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-28 12:0x UTC】AA_518 交了（DL-AA-518）；派子代理照第 1～5 節做（開發分支 64e12da0e 為底）；合併後相關測試＋全部 Node；下一版 v9.10.14；BB 照第 5 節六項"
   }
  ]
 }
