@@ -1,6 +1,6 @@
 // 她們主動約你（HEROINE-ASKS-1028；AA_494 b3ecc563c；使用者 2026-10-28 00:0x「為什麼都要我主動約女生 如果變熟好感度高 他們不能自己約我嗎 戶外景點也可阿」「超沒有互動感」）——不需要瀏覽器。
 //   src/data/heroine_asks.js（地點、時間、台詞）、src/heroine_asks3d.js（HASK）；INV.offer 的 at、INV.ON_ANSWER、PHONE.ON_ANSWER、DATE.settle 的 acceptInvite
-//   0  載得到、index.html 在 bbpack3d.js 後面；每一句都在 AA_494 稿裡（一字不差）；心願地點不在任何一位的校外表裡
+//   0  載得到、index.html 在 story3d.js 以後、事件包（bbpack_events.js）前面；每一句都在 AA_494 稿裡（一字不差）；心願地點不在任何一位的校外表裡
 //   1  以安朋友（第 3 階）：兩週內收到一則總圖或 Café 的邀約；訊息在前一天 21:30（睡過也照這個時間）；答應→排進行程（INV accepted、by npc）→她回「好。我記在手帳上了。」
 //   2  同一週四位都夠格：一週最多 3 則、一天最多 1 則
 //   3  考試週（第 8 週）、考前一週（第 7 週）沒有
@@ -17,7 +17,7 @@ const {check,GM}=H, J=JSON.stringify;
 let ok=true, err='';
 try{ for(const [f,n] of [['src/data/heroine_asks.js','HASK_DATA'],['src/heroine_asks3d.js','HASK']]){ const s=fs.readFileSync(path.join(H.ROOT,f),'utf8').replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); } }catch(e){ ok=false; err=String(e&&e.message||e); }
 const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8');
-check('0. 載得到；index.html：bbpack3d.js → data/heroine_asks.js → heroine_asks3d.js → GAME.boot()',ok&&typeof HASK!=='undefined'&&/bbpack3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/heroine_asks\.js\?v=[^"]+"><\/script>\n<script src="src\/heroine_asks3d\.js\?v=[^"]+"><\/script>\n<script>GAME\.boot\(\);/.test(html),err);
+check('0. 載得到；index.html：data/heroine_asks.js → heroine_asks3d.js 在 story3d.js 以後、事件包（bbpack）前面',ok&&typeof HASK!=='undefined'&&/<script src="src\/data\/heroine_asks\.js\?v=[^"]+"><\/script>\n<script src="src\/heroine_asks3d\.js\?v=[^"]+"><\/script>\n<script src="src\/data\/bbpack_events\.js/.test(html)&&html.indexOf('src/story3d.js')<html.indexOf('src/heroine_asks3d.js'),err);
 if(!ok){ H.done(); }
 let doc=''; try{ doc=cp.execSync('git show b3ecc563c:"docs/story_planning/AA_494_女主角主動約你_七位的門檻頻率地點時間台詞.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){}
 { const bad=[]; let n=0; for(const [id,p] of Object.entries(HASK_DATA.people)){ const L=[p.later,p.no,p.yes].concat(Object.values(p.yesBy||{})); for(const e of p.daily.concat(p.out)) for(const v of ['pre','dat']) if(e[v]) L.push(e[v].line); for(const t of L){ n++; if(!doc.includes(t)) bad.push(id+'：'+t); } }
