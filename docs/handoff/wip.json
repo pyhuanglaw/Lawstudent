@@ -1494,7 +1494,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "b179ed93b",
+   "sha": "61c63ce81",
    "branch": "aa525-promises（子代理；D113 備份 wip_backup/aa525_1030.bundle，基準 6cee635ed）",
    "files": [
     "wip_backup/aa525_1030.bundle"
@@ -1509,7 +1509,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "d01cd442e",
+   "sha": "55732a7e9",
    "branch": "aa524-promises（子代理；D113 備份 wip_backup/aa524_1030.bundle，基準 6cee635ed）",
    "files": [
     "wip_backup/aa524_1030.bundle"
@@ -1518,6 +1518,36 @@
    "next": "v9.10.14 發布後合：先合這條再合 AA_525，ladder.js／date_lines.js／date_wish.js 衝突不要手解，兩邊工具都合進來以後重跑匯入；index.html 兩個新檔都接、bbpack／aa498 順序檢查兩個都允許",
    "noDirectIntegrate": true,
    "source": "DL-AA-524；LAWWW-B 10-30 02:1x 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AOPEN-R2-1030",
+   "role": "LAWWW",
+   "task": "ACCEPTSOPEN-C-1027",
+   "state": "WIP",
+   "sha": "409bac20f",
+   "branch": "aopen-r2（子代理；D113 備份 wip_backup/aopen_r2_1030.bundle，基準 9bc01f480）",
+   "files": [
+    "wip_backup/aopen_r2_1030.bundle"
+   ],
+   "todo": "AA_481／483／482（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_481／483／482；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-L118R2-1030",
+   "role": "LAWWW",
+   "task": "LANE118-SHOP-STORY-1020",
+   "state": "WIP",
+   "sha": "bc1f1f6b3",
+   "branch": "l118-r2（子代理；D113 備份 wip_backup/l118_r2_1030.bundle，基準 9bc01f480）",
+   "files": [
+    "wip_backup/l118_r2_1030.bundle"
+   ],
+   "todo": "AA_480（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_480；LAWWW-B 10-30 派子代理"
   }
  ]
 }
