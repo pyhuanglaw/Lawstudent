@@ -965,9 +965,21 @@ CLASSJS = """(()=>{ const E=GAME.E, Z=E.zone, F=Z&&Z.seatFold; const v=E.npcs.fi
     fallback:((Z&&Z.lectFurn)||[]).map(g=>g.visible), formal:!!(Z&&Z.formal)}; })()"""
 
 
+async def drain_free(pg, cdp, secs=360):
+    t0 = time.time(); idle = 0
+    while time.time() - t0 < secs:   # 開局：點對話、選第一個，到可以自由走動（連續 6 次沒有對話、選單、忙）
+        s = await L.state(pg)
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); idle = 0; await pg.wait_for_timeout(500); continue
+        if s['choices']: await L.tap(pg, cdp, '#choices button'); idle = 0; await pg.wait_for_timeout(900); continue
+        if s['busy']: idle = 0; await pg.wait_for_timeout(700); continue
+        idle += 1
+        if idle >= 6 and await pg.evaluate("!!(GAME.G&&GAME.running)"): break
+        await pg.wait_for_timeout(800)
+
+
 async def boyaecon(pg, cdp, run):
     # 經濟系第一堂經原（博思 101，2024-09-09）：標題「從經濟系大一開始」（?y0）→ 照事件接事件的流程站著、點對話（選第一個），走到 9/9 那一堂
-    u = URL + ('&' if '?' in URL else '?') + 'y0'
+    u = URL + ('&' if '?' in URL else '?') + 'y0' + ('&nofastecon' if os.environ.get('BOYA_FULL') else '')
     await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
     vis = await pg.evaluate("(()=>{ const b=document.getElementById('btnNewEcon'); return b?{t:b.textContent.trim(),vis:!!b.offsetParent}:null; })()")
     run.check('前置：標題有「從經濟系大一開始」（網址 ?y0）', bool(vis) and vis['vis'], J(vis))
@@ -976,6 +988,13 @@ async def boyaecon(pg, cdp, run):
     run.note('9/9 那一堂：%s' % J(it))
     run.check('前置：9/9 經濟學原理在博思 101', bool(it) and it['zone'] == 'boya' and '101' in str(it.get('room')), J(it))
     if not it: return
+    if os.environ.get('BOYA_FULL'):   # BB-B 16:0x：預設的「事件接事件」（ECONFF.short）把 cls 那幾步都 cut 掉，9/9 經原不演、不會進博思；?nofastecon 舊流程才會上那一堂
+        await drain_free(pg, cdp)
+        await P.jump(pg, cdp, run, '2024-09-09', it['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='?nofastecon 舊流程：同一份進度跳到 9/9 上課前 30 分鐘')
+        await P.phone_tab(pg, cdp, 'today')
+        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", it['key'])
+        run.note('手機「今天」那一堂的按鈕：%s' % bt)
+        if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % it['key'])
     n0 = await P.say_hook(pg); t0 = time.time(); cap = None; cap2 = None; seen_boya = None; done = False
     while time.time() - t0 < 2400:
         c = await pg.evaluate("(k=>({zone:GAME.G.zone, day:GAME.G.day, h:+GAME.G.hour, done:!!(CLS.rec(GAME.G).done||{})[k]}))", it['key'])
