@@ -36458,8 +36458,8 @@
    "title": "博思教學館室內光照烘焙＋照 202 v2 換家具與天花板（boya_interior：101／102 階梯教室、走廊；經濟系第一堂經原在博思 101）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 測（博思 101／102 白天晚上、坐下起身椅面掀起放下、經濟系第一堂經原在 101 照常上課、進兩次）；n19 兩點（講桌桌面、講台牆斜影）b659056c6 已整合，BB 重看",
+   "status": "已驗收",
+   "next": "已驗收（10-30 23:3x）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36481,15 +36481,16 @@
     "ack": "ACTIONED"
    },
    "notes": "【14:1x】LAWWW2 交件 5552cb6eb：GLB 1.32→4.51 MB＋日夜光照、翻椅 132 張、T5 格柵；boya_lecture_furn_1030.patch（teach3d 備用方塊桌椅進 lecture_furniture、接 Z3.seatFold）；READY_FOR_ART_REVIEW ｜ D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）",
-   "sha": "a63eb8072"
+   "sha": "a63eb8072",
+   "evidence": "BB-B n22_soclib_lm＋n22_boya ALL PASS（fdac7f6e2，BB_218 69b33d656，30 張截圖逐張看）：博思 101／102 光照 41 個、132 張翻椅掀起放下正常、講台牆沒有斜黑影（n19 兩點修好）、講桌桌面 #5c5953、進出兩次照樣接上"
   },
   {
    "id": "SOCLIB-LM-1030",
    "title": "社科院圖書館室內光照烘焙（soclib_interior；經濟系那一年念書、經濟系朋友在社科圖遇得到 ECON-FRIENDS-SOCLIB-1030）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "BB 在瀏覽器看社科院圖書館白天／晚上光照（荷葉燈、天窗、窗框影子）、博思 101／102 講台牆斜影沒了、講桌桌面",
+   "status": "已驗收",
+   "next": "已驗收（10-30 23:3x）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36510,7 +36511,8 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
+   "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）",
+   "evidence": "BB-B n22_soclib_lm＋n22_boya ALL PASS（fdac7f6e2，BB_218 69b33d656，30 張截圖逐張看）：社科院圖書館 10/15 11:00、20:30 六個固定鏡頭 12 張沒有黑塊接縫、晚上暖白、8 個網格有光照、沒有純黑材質"
   },
   {
    "id": "NOODLE-LM-1030",
