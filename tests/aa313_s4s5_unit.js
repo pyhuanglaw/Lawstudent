@@ -163,7 +163,7 @@ const SRC=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
   { const S=SRC('src/story3d.js'), xs=ev('ev_xinci_second').dialogue, beach=evTexts('ev_va03_beach'), m=STORY_EVENTS.find(e=>e.id==='ev_va03_beach');
     check('5-5. 海邊：柏翰那句改旁白「（柏翰站在離浪最遠的地方，鞋子拿在手上。）」',beach.includes('（柏翰站在離浪最遠的地方，鞋子拿在手上。）')&&!beach.includes('冬天的海大概十八度。')&&m.dialogue.find(l=>l.text==='（柏翰站在離浪最遠的地方，鞋子拿在手上。）').speaker===null);
     check('5-6. 大二拆箱的便利貼：刪「……她改得對。」（旁白不替玩家下結論）',S.includes("'她改了你的筆記。'")&&!S.includes('她改得對'));
-    check('5-6. 慈 3（溫州街便利商店）開頭旁白加「（她背包還背著，手機上是叫車的畫面。）」',xs[1]&&xs[1].text==='（她背包還背著，手機上是叫車的畫面。）'&&xs[1].speaker===null);
+    check('5-6. 慈 3（溫州街便利商店）開頭旁白：AA_547 2-1 新稿「（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）」（原本 AA_313 5-6 的「叫車」那一句，新稿沒有）',xs[0]&&xs[0].text==='（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）'&&xs[0].speaker===null);
     check('5-5. 美術館之後柏翰的一句：暫代「美術館那張長椅，我下個月還會去坐。」（不說「阿哲問的話，就說我在總圖」）',J(ENCOUNTERS.school.ENC_D06_BH.lines)===J(['美術館那張長椅，我下個月還會去坐。']));
     { const ops=['ev_zhe_w1_dorm','ev_zhe_w1_meet'].map(id=>choiceTexts(id).filter(t=>/麵店/.test(t)));
       check('5-3. 開學第一週阿哲問吃什麼：選項「校門對面那排有一間麵店，便宜，份量也夠。」（阿鳳麵店在公館那排店面；AA_389 第 6 點照逐場表）',ops.every(o=>J(o)===J(['「校門對面那排有一間麵店，便宜，份量也夠。」'])),J(ops)); }

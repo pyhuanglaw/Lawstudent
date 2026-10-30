@@ -44,10 +44,12 @@ GM.money=function(n){ G.money+=n; };
   const at=(day,hh,know)=>{ fresh(day,hh,'cvs'); G.weekday=wdOf(day); const k0=STORY.knows; STORY.knows=id=>know; try{ return EVENTS.check(X); } finally { STORY.knows=k0; } };
   check('2. 事件：第 14 週週一 00:30 便利商店、認識芯慈＝會演；不認識、23:30、第 19 週以後不演',at(mon,24.5,true)&&!at(mon,24.5,false)&&!at(mon,23.5,true)&&!at(termDay('Y2S2',1,1),24.5,true));
   const play=async(pick)=>{ fresh(mon,24.5,'cvs'); meet('classmate_xinci'); SOCIAL.remember('classmate_xinci','LENT_NOTES',''); said=[]; opts=[]; picks=[pick]; await EVENTS.run(X); return L0(); };   /* AA_374 第 10 項：借過她筆記的玩家照原句（沒借過的另外在 tests/aa374_y2s1_unit.js）*/
+  /* AA_547 2-1（D116）：慈 3 換成「凌晨的便利商店」——取代「第二名」那三支 */
+  const J=JSON.stringify;
   let L=await play(0);
-  check('3. 開場、她說三年的第二名、「你的比我想的好。」；「妳有跟她說過嗎？」→「說什麼？『妳好，我是三年的第二名』？」「她笑，很短。」「不要。」；XINCI_SECOND',L.includes('芯慈：聯合模考的排名貼在牆上。她第一，我第二。三年。')&&L.includes('芯慈：（很平靜）我借你的筆記，是想知道第一名以外的人，筆記怎麼寫。……你的比我想的好。')&&L.slice(-3).join('｜')==='芯慈：說什麼？『妳好，我是三年的第二名』？｜她笑，很短。｜芯慈：不要。'&&SOCIAL.has('classmate_xinci','XINCI_SECOND'),JSON.stringify(L));
-  L=await play(1); check('3. 「這部劇在演什麼？」→ 十分鐘的劇情、「十二點四十了，我要回去了，明天早八。」（AB65-3（AA_211 附錄 A 芯慈一列）；原本「十二點四十。我今天比了十八個小時，…」）',L.includes('芯慈：啊。我講太多了。')&&L.includes('芯慈：十二點四十了，我要回去了，明天早八。')&&!L.some(t=>/十八個小時/.test(t)));
-  L=await play(2); check('3. 「第二名也很厲害。」→「她把咖啡蓋子蓋好。」「……我知道啦。」「（她拿起咖啡，揮了一下手就走了。）」（AA_428 §2 第 5 點：拿掉第一句「我知道。」和「……好啦，我知道。」；AB65-3（AA_211 附錄 A 芯慈一列）原本「可是第二名是用來跟第一名比的。」）',L.slice(-3).join('｜')==='她把咖啡蓋子蓋好。｜芯慈：……我知道啦。｜（她拿起咖啡，揮了一下手就走了。）'&&!L.includes('芯慈：我知道。'),JSON.stringify(L.slice(-4)));
+  check('3. 慈 3「凌晨的便利商店」（AA_547 2-1，逐字）：開場旁白、「你也還沒睡。」「我在算財管的作業。……」；「妳家也是做這個的嗎？」→「不是。我爸媽都是律師。」「我從小在他們的會議室寫功課。……」；記 XINCI_NIGHT；沒有排名、第二名',J(L)===J(['（B1 自習室關燈以後，她在便利商店等一杯熱拿鐵。）','芯慈：你也還沒睡。','芯慈：我在算財管的作業。……我喜歡數字對起來的那一下。','芯慈：不是。我爸媽都是律師。','芯慈：我從小在他們的會議室寫功課。法律聽得很熟，可是我比較喜歡這個。'])&&SOCIAL.has('classmate_xinci','XINCI_NIGHT')&&X.title==='凌晨的便利商店',JSON.stringify(L));
+  L=await play(1); check('3. 「什麼時候開始喜歡的？」→「國中。我幫我媽對過一次事務所的帳。」「對起來的時候，好像整間辦公室都安靜了。」',J(L.slice(-2))===J(['芯慈：國中。我幫我媽對過一次事務所的帳。','芯慈：對起來的時候，好像整間辦公室都安靜了。']),JSON.stringify(L));
+  L=await play(2); check('3. （陪她等咖啡）→「（咖啡好了。她把第二杯推過來。）」「多按了一杯。不要浪費。」',J(L.slice(-2))===J(['（咖啡好了。她把第二杯推過來。）','芯慈：多按了一杯。不要浪費。']),JSON.stringify(L.slice(-3)));
   const xd=NEEDED_MSGS.list.find(x=>x.id==='xc_drama'); check('4. 主線 4「那部劇大結局了」：慈 3 以後才有',!xd.cond({events:{done:{}}})&&xd.cond({events:{done:{ev_xinci_second:1}}}));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

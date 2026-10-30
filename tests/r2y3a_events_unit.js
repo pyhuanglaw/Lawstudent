@@ -55,9 +55,9 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 (async()=>{
   // ===== 0. 登記、接線 =====
   const IDS=['ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_fangyt_mountain','ev_y3_welcome','ev_y3_first_meal','ev_zhe_captain','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_ziqing_dad_stuck',
-    'ev_typhoon_y3_noodle','ev_typhoon_y3_family','ev_kexin_call_helper','ev_kexin_call_helper2','ev_crimpro_court_visit','ev_xinci_bad_line','ev_an_admin_court','ev_bohan_third_floor','ev_fair_booth_y3','ev_fair_booth_y3_pass','ev_zhe_scooter',
+    'ev_typhoon_y3_noodle','ev_typhoon_y3_family','ev_kexin_call_helper','ev_kexin_call_helper2','ev_crimpro_court_visit','ev_an_admin_court','ev_bohan_third_floor','ev_fair_booth_y3','ev_fair_booth_y3_pass','ev_zhe_scooter',
     'ev_yt_lease_renew','ev_yt_lease_retell','ev_xinci_an_answers','ev_xinci_an_answers_far','ev_kexin_tutor_practice','ev_kexin_juniors_dinner','ev_kexin_juniors_video','ev_yt_thursday_free','ev_kexin_xmas_y3','ev_kexin_kn_call_y3','ev_kexin_valentine_y3'];
-  check('0. 34 個事件都在 STORY_EVENTS、id 不重複',IDS.every(i=>STORY_EVENTS.filter(e=>e.id===i).length===1)&&R2Y3A_EVENTS.length===IDS.length,IDS.filter(i=>STORY_EVENTS.filter(e=>e.id===i).length!==1).join(','));
+  check('0. 33 個事件都在 STORY_EVENTS、id 不重複（慈 4 ev_xinci_bad_line 照 AA_547 拿掉）',IDS.every(i=>STORY_EVENTS.filter(e=>e.id===i).length===1)&&R2Y3A_EVENTS.length===IDS.length&&!STORY_EVENTS.some(e=>e.id==='ev_xinci_bad_line'),IDS.filter(i=>STORY_EVENTS.filter(e=>e.id===i).length!==1).join(','));
   check('0. 掛勾：STORY.PHONE_RULES、STORY.TICKS、STORY.WAKE_AT、CLS.IN_CLASS 都有這一包',STORY.PHONE_RULES.some(f=>/S\.phone\(G,GM\)/.test(String(f)))&&STORY.TICKS.some(f=>/S\.tick\(GM,dt\)/.test(String(f)))&&STORY.WAKE_AT.some(f=>/S\.wakeAt\(G\)/.test(String(f)))&&CLS.IN_CLASS.some(f=>/S\.crClass/.test(String(f))));
   check('0. index.html 照順序載入：story3d.js、classes3d.js、y2b_events.js 之後、GAME.boot() 之前',(()=>{ const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const a=h.indexOf('src/data/r2y3a_events.js'), b=h.indexOf('src/r2y3a3d.js'), g=h.indexOf('GAME.boot()');
     return a>0&&b>a&&b<g&&a>h.indexOf('src/story3d.js')&&a>h.indexOf('src/data/y2b_events.js')&&b>h.indexOf('src/classes3d.js')&&b>h.indexOf('src/data/syllabus.js'); })());
@@ -353,20 +353,10 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   zheBack();
   fresh('2027-10-19',9,'classroom'); await inClass('2027-10-19'); run('2027-11-22',9,9); { const {r}=await inClass('2027-11-23'); check('11. H3 都沒去：第 12 週「旁聽作業，還有幾位沒交。」；CRIMPRO_HW none；第 13 週沒有發回',r&&has('林老師：旁聽作業，還有幾位沒交。')&&G.flags.CRIMPRO_HW==='none'&&!(await inClass('2027-11-30')).r); }
 
-  // ===== 12. 2-Y3-12 慈 4「很爛的那一句」 =====
+  // ===== 12. 2-Y3-12 慈 4「很爛的那一句」：AA_547 第 2 節整場拿掉（D116；芯慈和以安沒有吵過架）=====
   fresh('2027-10-19',21,'dorm'); R('yu','FAM'); run('2027-10-19',21.25,21.75);
-  check('12. 10/19 21:30 Alison 三則（避開 21:00 的刑訴群組）＋兩個回覆',JSON.stringify(txt('p:yu'))===JSON.stringify(['yu:欸 芯慈跟以安吵架了','yu:吵很大','yu:你明天中午在A館嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_ci4_yu').ask.opts.map(o=>o.t))===JSON.stringify(['在。','怎麼了？']));
-  ans('y3_ci4_yu',1); check('12. 「怎麼了？」→「我也不知道 她們在討論室 我在門外」',txt('p:yu').slice(-1)[0]==='yu:我也不知道 她們在討論室 我在門外');
-  fresh('2027-10-19',21,'dorm'); run('2027-10-19',21.25,21.75); check('12. 和 Alison 不到 FAMILIAR：沒有這三則',!PHONE.sent(G,'y3_ci4_yu'));
-  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); { const e=STORY.schedEnt(CHARACTERS.classmate_xinci,G); check('12. 作息：10/20 12:10～12:40 芯慈在霖澤館二樓走廊',!!e&&e.zone==='linze'&&e.at[3]===1); }
-  { const B=ev('ev_xinci_bad_line'); npc('classmate_xinci',1.2,-5.2,1); me(0,-5,1);
-    check('12. 在二樓、她在走廊：可以演；一樓不演；12:45 不演；不到 FAMILIAR 不演',EVENTS.check(B)&&(()=>{ me(0,-5,0); const a=!EVENTS.check(B); me(0,-5,1); to('2027-10-20',12.75); const b=!EVENTS.check(B); to('2027-10-20',12.3); R('classmate_xinci','ACQ'); const c=!EVENTS.check(B); R('classmate_xinci','FAM'); return a&&b&&c; })()); }
-  SOCIAL.remember('classmate_xinci','XINCI_SECOND',''); await play('ev_xinci_bad_line',[0]);
-  { const W=['你聽說了吧。','你知道第二名的事。所以你大概懂。','我跟她說，「妳什麼都不用努力就有」。','那句話很爛。我說的時候就知道很爛。','（很久）……我只是想讓她也痛一次。','要。','（她說得很快。）','可是還不是現在。現在道歉，我會一邊道歉一邊想她會怎麼回。'];
-    check('12. X1 有 XINCI_SECOND：「你知道第二名的事。所以你大概懂。」；X2 沒去過讀書會＝沒有「她對自己比對別人嚴」；道歉那一支（逐字）；CI4 sorry',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「妳要跟她道歉嗎？」','「妳也很累。」'])&&G.flags.CI4==='sorry',JSON.stringify(all())); }
-  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); G.acts={att:{['public_law_group@'+D('2026-03-05')]:{h:20,end:'full'}}}; await play('ev_xinci_bad_line',[0]);
-  check('12. 加入過公法讀書會：「她對自己比對別人嚴。」→（芯慈愣住。）「……我知道。」（她看著窗外。）「所以那句話更爛。」；CI4 strict',opts[0][0]==='「她對自己比對別人嚴。」'&&has('（芯慈愣住。）')&&has('……我知道。')&&has('（她看著窗外。）')&&has('所以那句話更爛。')&&G.flags.CI4==='strict');
-  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); await play('ev_xinci_bad_line',[1]); check('12. 「妳也很累。」→（她轉頭看你，沒說話。過了一下：）「……嗯。」；CI4 tired（AA_343 B6：旁白第二人稱）',has('（她轉頭看你，沒說話。過了一下：）')&&!has('（她轉頭看他，沒說話。過了一下：）')&&has('……嗯。')&&G.flags.CI4==='tired');
+  check('12. 10/19 21:30 Alison 不再傳「芯慈跟以安吵架了」三則（AA_547）',!PHONE.sent(G,'y3_ci4_yu')&&!txt('p:yu').some(t=>/吵架/.test(t)));
+  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); { const e=STORY.schedEnt(CHARACTERS.classmate_xinci,G); check('12. 10/20 中午芯慈不再站在霖澤館二樓走廊（慈 4 的作息拿掉）、沒有 ev_xinci_bad_line',!(e&&e.zone==='linze'&&e.at&&e.at[3]===1)&&!ev('ev_xinci_bad_line')); }
 
   // ===== 13. 2-Y3-13 以安新 14「她選了行政法院」 =====
   fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM');
@@ -458,11 +448,14 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   to('2027-11-30',18.5); { const A=ev('ev_xinci_an_answers'), F=ev('ev_xinci_an_answers_far'); npc('heroine_01',2,0,0); npc('classmate_xinci',2.8,0,0); me(2.4,1,0);
     check('18. 走近（npcNear 兩個人）＝近的版本；第 12 週不演；21:00 以後不演；不認識芯慈不演',EVENTS.check(A)&&(()=>{ to('2027-11-23',18.5); const a=!EVENTS.check(A); to('2027-11-30',21.1); const b=!EVENTS.check(A); to('2027-11-30',18.5); return a&&b; })());
     check('18. 只進三樓（enter、作息在同一區）＝遠遠看到',F.trigger==='enter'&&EVENTS.check(F)); }
-  SOCIAL.remember('classmate_xinci','ECON_TOGETHER',''); await play('ev_xinci_an_answers',[0]);
-  { const W=['第三題妳比我好。','（停了一下）……嗯。','對了。補習班那個第二名，是妳吧。吳芯慈。','……妳記得？','一直都記得。開學那天，我假裝不記得。','我每次看排名，都先找那個名字。我怕她追上來。','（很久，然後笑出來）……我們兩個都很笨。','（轉頭看祐廷）大一你陪我讀經濟。這次換我們陪你對刑訴。','我看一下。……你錯的地方跟我一樣。'];
-    check('18. X1、X2 有 ECON_TOGETHER：全文＋「這次換我們陪你對刑訴。」＋「好。第二題我錯了。」（逐字）；CI5 near',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「好。第二題我錯了。」'])&&G.flags.CI5==='near',JSON.stringify(all())); }
-  fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers');
-  check('18. 沒有 ECON_TOGETHER：收尾旁白「（她們把考卷攤在中間，一題一題對下去。）」',has('（她們把考卷攤在中間，一題一題對下去。）')&&!has('（轉頭看祐廷）大一你陪我讀經濟。這次換我們陪你對刑訴。')&&opts.length===0);
+  /* AA_547 2-3（D116）：慈 5 新寫——分工抄筆記，取代「補習班那個第二名」 */
+  await play('ev_xinci_an_answers',[0]);
+  { const W=['（以安和芯慈在對刑訴的考古題。你坐下來的時候，她們剛好對到第三題。）','第三題，妳的整理比我的清楚。我可以抄嗎？','可以。第五題妳的條文比我記得細，換我抄。','（兩個人同時把筆記推到中間。）','……我們分工好了。','可以。你負責第七題。'];
+    check('18. 慈 5（AA_547 2-3，逐字）：開場五句＋「我可以加入嗎？」→「可以。你負責第七題。」；三個選項；CI5 near、XC5_RECONCILE（開始一起讀書）；沒有補習班、排名',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「我可以加入嗎？」','「妳們開學就坐在一起了吧。」','（聽她們對）'])&&G.flags.CI5==='near'&&G.flags.XC5_RECONCILE===true&&!any(/補習班|排名|第二名/),JSON.stringify(all())); }
+  fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers',[1]);
+  check('18. 「妳們開學就坐在一起了吧。」→ 以安「第一排。她把課表推過來給我看。……我那時候想，這個人好細心。」',has('第一排。她把課表推過來給我看。……我那時候想，這個人好細心。'));
+  fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers',[2]);
+  check('18. （聽她們對）→「（對到第十題，三個人都錯了同一題。芯慈笑出來。）」',has('（對到第十題，三個人都錯了同一題。芯慈笑出來。）'));
   fresh('2027-11-30',18.5,'library'); ['heroine_01','classmate_xinci'].forEach(meet); await play('ev_xinci_an_answers_far');
   check('18. X3 只進三樓沒走近：一句旁白；記 CI5 far；之後走近照樣演近的版本',JSON.stringify(all())===JSON.stringify(['（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'])&&G.flags.CI5==='far'&&(()=>{ npc('heroine_01',2,0,0); npc('classmate_xinci',2.8,0,0); me(2.4,1,0); return EVENTS.check(ev('ev_xinci_an_answers'))&&!EVENTS.check(ev('ev_xinci_an_answers_far')); })());
 

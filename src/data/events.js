@@ -4748,7 +4748,7 @@ const Y4_EVENTS=(function(){
     {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃麵先。'},
     /* AA_524 A1：餞行（y34b3d.js fw_b）或閒聊階梯 A5-L8 說了「回來第一碗我請。」（AN_FIRST_BOWL）——以安在場：放在語彤「吃麵先。」之後；沒有語彤那幾句的放在阿哲第一句之後（上面）*/
     {if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:null,text:'（以安把菜單推到你面前，指甲在「滷蛋」那一格敲了兩下。）'},{if:{custom:G=>all('heroine_01','heroine_03')()&&!!G.flags.AN_FIRST_BOWL},speaker:'heroine_01',text:'說好的。'},
-    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'……好。妳說。'},
+    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'好。……是上次那部嗎？我看了兩集。'},   /* AA_547 第 4 節（原本「……好。妳說。」）*/
     {unless:{custom:G=>TW(G)&&fam('yu')},goto:'r1_late'},
     {speaker:'yu',text:'欸，你一直在臺灣。這半年發生什麼事？'},
     {choice:[{text:'「語彤每個禮拜四都去市場訪問。我跟過幾次。」',if:{custom:G=>!!G.flags.YT_T1},goto:'r1_yt'},   /* 1B-13 週四的田野（AA_322 YT_T1）*/
@@ -4811,7 +4811,7 @@ Array.prototype.push.apply(STORY_EVENTS,Y4_EVENTS);
     {t:'「國考讀書會的考古題，我排到七月了。」',term:['Y4S2'],if:after('2029-03-01'),once:true},
     {t:'「研究所九月開學。國考在那之前。時間剛好。」',term:['Y4S2'],once:true});
   SMALLTALK.classmate_xinci.push(
-    {t:'「經濟系的課跟法律系的撞了一堂，我改修晚上那一班。」',term:['Y2S1'],if:{events:['ev_xinci_double']},once:true},
+    {t:'「財金系的課跟法律系的撞了一堂，我改修晚上那一班。」',   /* AA_547 第 4 節 */term:['Y2S1'],if:{events:['ev_xinci_double']},once:true},
     {t:'「我每天早上七點的公車。永和過來要四十分鐘。」',term:['Y2S1'],if:{notEvents:['ev_xinci_double']},once:true},
     {t:'「上禮拜的筆記我做了兩份，一份給以安。……她沒有要，是我自己給的。」',term:['Y2S1'],once:true},
     {t:'「週四晚上我借了一間討論室。你要來的話，我多印一份。」',term:['Y2S2'],once:true},

@@ -57,7 +57,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     L=await go({P4B_SEEN:true},[3,2]);
     check('慈 2：有 P4B_SEEN 的玩家：「上次問你，你只笑。這次是第三章，你總要說了吧。」（不問「你怎麼這麼熟」）',L.includes('吳芯慈：上次問你，你只笑。這次是第三章，你總要說了吧。')&&!L.some(t=>/你怎麼這麼熟/.test(t)),JSON.stringify(L));
     L=await go({},[2]);
-    check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ 會計師那句 → 謝謝）、沒有 ECON_TOGETHER',L.includes('吳芯慈：我爸說法律系畢業沒有第二專長會餓死。他是會計師。')&&L[L.length-1]==='吳芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
+    check('慈 2：原本的三個選項照舊（「妳為什麼要雙主修？」→ AA_547 兩句「我喜歡財金。……」「……我爸媽都是律師。……」→ 謝謝）、沒有 ECON_TOGETHER',L.includes('吳芯慈：我喜歡財金。看財報比看小說好看。')&&L.includes('吳芯慈：……我爸媽都是律師。他們說，念我喜歡的就好。')&&!L.some(t=>/會計師|會餓死/.test(t))&&L[L.length-1]==='吳芯慈：謝謝。我要繼續讀了。'&&!SOCIAL.has('classmate_xinci','ECON_TOGETHER'),JSON.stringify(L)); }
   /* ---------- 語彤 6 房東來過了（C12；AA_11 事件 6）---------- */
   { const e=ev('ev_yutong_landlord'); check('語彤 6：事件在',!!e);
     if(e){ const at=(term,w,wd,h)=>{ const d=wk(term,w,wd); fresh(d,h,'noodle'); return EVENTS.check(e); };

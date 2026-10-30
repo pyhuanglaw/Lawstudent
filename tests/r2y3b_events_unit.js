@@ -267,7 +267,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-05-04',19.2,'noodle'); R('classmate_xinci','FAM'); R('zhe','FRI'); here('classmate_xinci');
   check('X6-0. 5/4 19:00 芯慈在麵店（作息）：可以演', EVENTS.check(ev('ev_xinci_first_place'))&&(STORY.schedEnt(CHARACTERS.classmate_xinci,G)||{}).zone==='noodle');
   picks=[1]; await run('ev_xinci_first_place');
-  check('X6-1. 當面「以安不在的這學期，我第一次考第一。」…；「哪一部劇？」→「你要聽嗎？」＋阿哲兩碗；XINCI_FIRST（記憶＋旗標）', has('以安不在的這學期，我第一次考第一。')&&has('我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。')&&has('（她講了十分鐘。阿哲吃完了兩碗。）')&&SOCIAL.has('classmate_xinci','XINCI_FIRST')&&G.flags.XINCI_FIRST===true);
+  check('X6-1. 慈 6「暑期實習」（AA_547 2-4，D116）：「我申請了國際所的暑期實習。台灣分所。」「……錄取了。金融那一組。」；「為什麼是金融那一組？」→「因為那裡的合約，數字跟條文一樣多。」；沒有第一名、改輔系；XINCI_FIRST（記憶＋旗標）', has('我申請了國際所的暑期實習。台灣分所。')&&has('……錄取了。金融那一組。')&&has('因為那裡的合約，數字跟條文一樣多。')&&!has('以安不在的這學期，我第一次考第一。')&&!has('我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。')&&SOCIAL.has('classmate_xinci','XINCI_FIRST')&&G.flags.XINCI_FIRST===true);
   check('X6-2. 任何一版：沒有「不是因為要逃避什麼」', !JSON.stringify(ev('ev_xinci_first_place').dialogue).includes('逃避'));
   fresh('2028-05-04',22,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); R('classmate_xinci','FAM'); date('heroine_01'); rules(); const xv=OUT.get(G,'y3_xc_video');
   check('X6. 日本路線：5/4 臺灣 21:40＝日本 22:40 視訊（人在日本：遊戲時鐘＝日本時間，AA_341 J-S13）', !!xv&&Math.abs(xv.h-(22+40/60))<1e-6&&xv.place==='視訊');
@@ -592,8 +592,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   await zqDinner(['先不說','好。']);
   check('Q15-Q5. D10 第二次、先不說：「我喜歡你。講完了。」換成「我上次講的，沒有收回。……換你。」；「好。」→ 交往', has('我上次講的，沒有收回。……換你。')&&!has('我喜歡你。講完了。')&&G.flags.dating_heroine_04===true&&!G.flags.ZQ_Q15, JSON.stringify(said.map(x=>x.t)));
 
-  { const M=SOCIAL.MEMORY_LABEL, W={XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在晨思鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'以安不在的那學期，她第一次考第一'};
-    check('D13 人物面板名稱照 AA_343 第 5 節（四項）', Object.keys(W).every(k=>M[k]===W[k]), JSON.stringify(Object.keys(W).map(k=>M[k]))); }
+  { const M=SOCIAL.MEMORY_LABEL, W={XUN_PATH:'去聽了他在經濟系的報告',YU4_SAT:'在晨思鐘旁邊陪她吃完早餐，兩個人都沒講話',ZHIRUO_MET_YU:'跟她說，戲院倒數第三排那個女生是 Alison',XINCI_FIRST:'她申請上國際所的暑期實習，金融那一組'};   /* AA_547 2-4 改 */
+    check('D13 人物面板名稱照 AA_343 第 5 節（四項；XINCI_FIRST 照 AA_547）', Object.keys(W).every(k=>M[k]===W[k]), JSON.stringify(Object.keys(W).map(k=>M[k]))); }
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

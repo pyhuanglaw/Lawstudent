@@ -29,6 +29,8 @@ const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 let DOC='';
 try{ DOC=cp.execSync('git show 30e7b0311:"docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+/* AA_547 2-6（企劃線 e9504c889；使用者 10-30 19:2x 點選）改了芯慈的人物頁、個性那一行（AA_543 還沒跟著改）：新句在 X547 裡也算在稿裡，被取代的舊列另外列 */
+let X547=''; try{ X547=cp.execSync('git -c core.quotepath=false show e9504c889:"docs/story_planning/AA_547_芯慈新個性_各場怎麼改.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ X547=''; }
 /* 一份存檔：日子、旗標；camp＝宿營認識的人（FIRST_MET note camp）*/
 const save=(key,flags,camp)=>{ const G=H.fresh(key,20,'dorm',Object.assign({introDone:true},flags||{})); for(const id of (camp||[])) SOCIAL.remember(id,'FIRST_MET','camp'); return G; };
 const L=id=>W().lines(H.G,id);
@@ -42,7 +44,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ph=g.slice(g.indexOf('function personHTML'),g.indexOf('function friendsHTML'));
     check('0. personHTML：WHOIS.desc 換個性那一行、WHOIS.lines 一行一句「· 」，放在「現在大概在」和個性中間',/WHOIS\.desc\(G,id,desc0\)/.test(ph)&&/WHOIS\.lines\(G,id\)/.test(ph)&&/現在大概在：'\+esc\(wt\)\+'<\/div>':''\)\+\(who\.length\?[^\n]*'<div>· '\+esc\(x\)\+'<\/div>'[^\n]*\+'<div>'\+esc\(desc\)/.test(ph)); });
 
-  await sec(0,()=>{ check('0. 拿得到稿（git show 30e7b0311＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）＋第 6 節經濟系那一年；有第 1、2、3、4、5 節）',DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
+  await sec(0,()=>{ check('0. 拿得到稿（git show 30e7b0311＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）＋第 6 節經濟系那一年；有第 1、2、3、4、5 節）＋AA_547（e9504c889，有 2-6）',X547.indexOf('### 2-6')>0&&DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
     if(!DOC||!W()) return;
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
     const COMPOSED=new Set(['室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。',   /* 柏翰沒有 DORM_FOUR：1-3「從有的那一年寫起」*/
@@ -53,11 +55,11 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
       classmate_bohan:{room:['大一同住 203，他比你先搬進去。','室友：大一 203、大二 312。','室友：大一 203、大二 312、大三 507。','四年都是室友：203、312、507、409。','室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。']}};
     const bad=[];
     for(const id of Object.keys(W().R)) for(const r of W().R[id]){ const ts=typeof r.t==='function'?((FN[id]||{})[r.id]||['（沒列）'+r.id]):[r.t];
-      for(const t of ts){ if(COMPOSED.has(t)) continue; if(DOC.indexOf(t)<0) bad.push(id+' '+r.id+' '+t); } }
+      for(const t of ts){ if(COMPOSED.has(t)) continue; if(DOC.indexOf(t)<0&&X547.indexOf(t)<0) bad.push(id+' '+r.id+' '+t); } }
     check('0. 遊戲 → 稿：每一行一字不差（柏翰沒有 203 的三句照 1-3 組，列在 COMPOSED）',bad.length===0,bad.join('｜'));
     /* 稿 → 遊戲：第 1、2 節表格「顯示」那一欄（括號開頭的說明、群組名那一句除外）都在遊戲裡 */
     const all=new Set(); for(const id of Object.keys(W().R)) for(const r of W().R[id]) for(const t of (typeof r.t==='function'?((FN[id]||{})[r.id]||[]):[r.t])) all.add(t);
-    const SUPERSEDED=new Set(['大三當上系籃隊長。']);   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）*/
+    const SUPERSEDED=new Set(['大三當上系籃隊長。','雙主修經濟。她說是家裡要的。','原本雙主修經濟，大三下改成輔系。']);   /* 5-1：單獨的隊長那一行不要了（併進系籃那一行）；AA_547 2-6：芯慈雙主修那一行換、改輔系那一行拿掉 */
     const miss=[]; const s12=DOC.slice(DOC.indexOf('## 1. 法律系'),DOC.indexOf('## 3. 個性那一行'));
     for(const ln of s12.split('\n')){ const m=ln.match(/^\| [^|]+ \| (.+) \|$/); if(!m) continue; let c=m[1].trim(); if(c==='顯示'||/^-+$/.test(c)) continue;
       c=c.replace(/^（把上一行換成）/,''); if(/<br>/.test(c)){ for(const x of c.split('<br>')){ const q=x.match(/「(.+?)」$/); if(q&&!all.has(q[1])) miss.push(q[1]); } continue; }
@@ -67,10 +69,10 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     check('0. 稿 → 遊戲：5-1 合併的三行照稿',all.has('宿營同一小隊，第一天就認識了。去程的遊覽車上，他坐你旁邊。')&&all.has('室友：大一 203、大二 312。大三起他搬去別間。')&&all.has('打系籃，17 號。大三當上隊長。')&&DOC.indexOf('宿營同一小隊，第一天就認識了。去程的遊覽車上，他坐你旁邊。')>0&&DOC.indexOf('室友：大一 203、大二 312。大三起他搬去別間。')>0&&DOC.indexOf('打系籃，17 號。大三當上隊長。')>0); });
 
   await sec(0,()=>{ const P=id=>CHARACTERS[id].personality;
-    const want={zhe:'總是笑著、講義氣；吃過一次的店都記得',classmate_xinci:'筆記做得像印刷；私下追劇追到凌晨',classmate_youchen:'考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好',kai:'不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」',
+    const want={zhe:'總是笑著、講義氣；吃過一次的店都記得',classmate_xinci:'筆記做得像印刷；雙主修財金；穿得俐落、跟大人說話不怯場；私下追劇追到凌晨',   /* 芯慈照 AA_547 2-6 */classmate_youchen:'考前才出現；晚上在公館當 DJ；對法條的記憶力出奇好',kai:'不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」',
       econ_pinyu:'可昕大一的室友。最毒舌、不帶表情、會算；打工是補習班櫃台',npc_fangyt:'愛爬山、講植物講不停',npc_huangxh:'問問題很直接'};
     const bad=Object.keys(want).filter(id=>P(id)!==want[id]);
-    check('0. 第 3 節個性那一行（characters.js）：阿哲、芯慈、宥辰、阿凱、品妤、方奕廷、筱涵照稿；Alison 平常那段「精力旺盛；吉他社、辯論社、系學會都有她」',bad.length===0&&P('yu')==='精力旺盛；吉他社、辯論社、系學會都有她',J(bad.map(id=>[id,P(id)])));
+    check('0. 第 3 節個性那一行（characters.js）：阿哲、芯慈（AA_547 2-6）、宥辰、阿凱、品妤、方奕廷、筱涵照稿；Alison 平常那段「精力旺盛；吉他社、辯論社、系學會都有她」',bad.length===0&&P('yu')==='精力旺盛；吉他社、辯論社、系學會都有她',J(bad.map(id=>[id,P(id)])));
     check('0. 第 3 節：柏翰、明軒、阿勳、韋綸、唐睿的個性照舊',P('classmate_bohan').length>0&&P('classmate_mingxuan').length>0&&P('econ_zhengxun').length>0&&P('econ_weilun').length>0&&P('econ_tangrui').length>0); });
 
   /* ===== 第 1 節：新遊戲大一上第 1 週，阿哲那一頁 ===== */
@@ -141,8 +143,10 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     save('2027-03-10',{ZHE3:false},['zhe']); done('ev_zhe_game_y2'); check('6. 演過 ev_zhe_game_y2、還沒當隊長：「打系籃，17 號。」',has('zhe','打系籃，17 號。'),J(L('zhe')));
     save('2025-09-11',{noodleTableDay:D('2025-09-11')}); H.G.hour=19; check('6. 群組那天 21:00 以前還沒建：沒有群組那一行',!L('zhe').some(t=>/群組/.test(t)),J(L('zhe')));
     save('2026-10-20',{PEISHAN_BOHAN_SPLIT:true},['classmate_bohan']); check('6. 柏翰：沛珊分開以後只有「大一下他和沛珊在一起過，大二上分開了。」',has('classmate_bohan','大一下他和沛珊在一起過，大二上分開了。')&&!has('classmate_bohan','大一下，他和沛珊在一起了。'),J(L('classmate_bohan')));
-    save('2028-04-10',{},['classmate_xinci']); done('ev_xinci_double'); check('6. 芯慈：雙主修',has('classmate_xinci','雙主修經濟。她說是家裡要的。')); done('ev_xinci_first_place');
-    check('6. 芯慈：大三下第一次考第一那一場以後「原本雙主修經濟，大三下改成輔系。」（雙主修那一行換掉）',has('classmate_xinci','原本雙主修經濟，大三下改成輔系。')&&!has('classmate_xinci','雙主修經濟。她說是家裡要的。'),J(L('classmate_xinci')));
+    /* AA_547 2-6：雙主修那一行換、改輔系拿掉；新加「爸媽都是律師」（她說過＝TALKED_FAMILY）、慈 6 以後的暑期實習 */
+    save('2028-04-10',{},['classmate_xinci']); done('ev_xinci_double'); check('6. 芯慈：雙主修財金（AA_547 2-6）；還沒聽她說過爸媽＝沒有律師那一行',has('classmate_xinci','雙主修財金。她說看財報比看小說好看。')&&!L('classmate_xinci').some(t=>/律師/.test(t)),J(L('classmate_xinci')));
+    SOCIAL.remember('classmate_xinci','TALKED_FAMILY',''); done('ev_xinci_first_place');
+    check('6. 芯慈：她說過爸媽（TALKED_FAMILY）＝「爸媽都是律師，在永和開事務所。」；慈 6 以後「大三下，她申請上國際所的暑期實習，金融那一組。」；雙主修那一行照留、沒有改輔系',has('classmate_xinci','爸媽都是律師，在永和開事務所。')&&has('classmate_xinci','大三下，她申請上國際所的暑期實習，金融那一組。')&&has('classmate_xinci','雙主修財金。她說看財報比看小說好看。')&&!L('classmate_xinci').some(t=>/輔系|第一/.test(t)),J(L('classmate_xinci')));
     save('2025-10-20',{}); check('6. 阿凱大一：「大一的室友，搬宿舍那天認識的。」',has('kai','大一的室友，搬宿舍那天認識的。'));
     save('2026-10-20',{ROOM_Y2:D('2026-09-06')}); check('6. 阿凱大二（搬進第二個房間以後）：換「大一的室友。大二他搬去別棟。」',has('kai','大一的室友。大二他搬去別棟。')&&!has('kai','大一的室友，搬宿舍那天認識的。'),J(L('kai'))); });
 

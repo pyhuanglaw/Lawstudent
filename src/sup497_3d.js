@@ -235,15 +235,20 @@ const SUP497=(function(){
   /* 2-3 慈 3：B1 二十四小時自習室的版本（events.js 的 ev_xinci_second 照舊在便利商店；兩個版本只演一個）、提示、補救 */
   S.SECOND_B1=null;   /* 載入時照 ev_xinci_second 組（S.buildSecond）*/
   S.secondDone=G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1')||done(G,'ev_xinci_second_day');
+  /* 第三個選項和它那一支換掉（AA_547 第 3 節：B1、Café 兩個版本各自的第三個選項）*/
+  const swapC=(D,opt,lines)=>{ const ci=D.findIndex(l=>l&&Array.isArray(l.choice)); if(ci>=0) D[ci]=Object.assign({},D[ci],{choice:D[ci].choice.map((o,k)=>k===2?Object.assign({},o,{text:opt}):o)});
+    const a=D.findIndex(l=>l&&l.label==='c'), b=D.findIndex(l=>l&&l.label==='end'); if(a>=0&&b>a) D.splice(a+1,b-a-1,...lns(lines)); };
   S.buildSecond=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.slice(), N0=D.findIndex(l=>l&&l.speaker===null&&/^（B1 自習室關燈以後/.test(l.text||''));   /* AA_547 2-1 新稿的第一句旁白 */
-    const B1=D.map(l=>Object.assign({},l)); if(N0>=0) B1.splice(N0,1,ln(null,L.xc.secondB1[0]),ln(null,L.xc.secondB1[1]));
-    for(const l of B1) if(l&&typeof l.text==='string'&&l.text.indexOf('十二點四十了')===0) l.text=L.xc.secondB1End;   /* B1 的版本早一點：「十二點半了」*/
+    const B1=D.map(l=>Object.assign({},l)); if(N0>=0) B1.splice(N0,1,ln(null,L.xc.secondB1[0]),ln(null,L.xc.secondB1[1]));   /* AA_547 3-1：開頭原本兩句，接「你也還沒睡。」那兩句 */
+    swapC(B1,L.xc.secondB1Walk.opt,L.xc.secondB1Walk.r);
     return { id:'ev_xinci_second_b1', title:base.title, participants:[XC], location:'library_b1', trigger:'auto', term:base.term.slice(), weeks:base.weeks.slice(), weekday:base.weekday.slice(), time:[0,0.25], once:true, near:{npc:XC,r:4}, background:'blur',
       prereq:{custom:G=>xcOld()&&!!STORY.knows&&STORY.knows(XC,G)&&!S.secondDone(G)}, dialogue:B1 }; };
-  /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約）：第一句旁白換 fix.open、拿掉「你也還沒睡。」（白天）、最後加「四點半了。我要去上財管。」，記 XINCI_NIGHT（AA_547 2-1 照便利商店那一場改；AA 還沒給這一版專用的句子）*/
+  /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約；AA_547 3-2）：開頭 fix.open＋「你來了。」「我剛算完財管的作業。……」、第三個選項「（坐下來）」、最後「四點半了。我要去上財管。」，記 XINCI_NIGHT */
   S.buildDay=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.map(l=>Object.assign({},l)), N0=D.findIndex(l=>l&&l.speaker===null&&/^（B1 自習室關燈以後/.test(l.text||''));
-    if(N0>=0) D.splice(N0,1,ln(null,L.xc.fix.open)); const mi=D.findIndex(l=>l&&l.text==='你也還沒睡。'); if(mi>=0) D.splice(mi,1);
-    const ei=D.findIndex(l=>l&&l.label==='end'); if(ei>=0) D.splice(ei+1,0,{speaker:XC,expression:'neutral',text:L.xc.fix.end});
+    if(N0>=0) D.splice(N0,1,ln(null,L.xc.fix.open));
+    for(const l of D){ if(l&&l.text==='你也還沒睡。') l.text=L.xc.fix.come; else if(l&&/^我在算財管的作業。/.test(l.text||'')) l.text=L.xc.fix.calc; }
+    swapC(D,L.xc.fix.sit.opt,L.xc.fix.sit.r);
+    const ei=D.findIndex(l=>l&&l.label==='end'); if(ei>=0) D.splice(ei+1,0,ln('xc',L.xc.fix.end));
     return { id:'ev_xinci_second_day', title:base.title, participants:[XC], location:'any', trigger:'meet', once:true, background:'blur', dialogue:D }; };
   const xcOld=()=>typeof XCROM!=='undefined'&&!!XCROM.OLD;   /* 慈 3、慈 6 舊的「第二名」「第一名」先關（D116，src/xcrom3d.js S.OLD）*/
   S.secondPhone=function(G){ const F=G.flags; if(!xcOld()) return;
