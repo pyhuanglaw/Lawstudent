@@ -64,6 +64,14 @@ const CONFESS_LINES={
   /* 沛珊：AA_223 第 4 節（52702c92）。重考期間（大二上第 7 週～放榜）不走一般告白（不出現選項）。
      使用者 2026-10-17「沛珊重考期間應該要直接消失，大家都聯絡不到她」（BB_194 §19）：重考期沒有見面、沒有心意邀約；原本要另外接的特別場面（BB_119 1b-1～1b-3）
      和 AA_223 第 4 節的重考期婉拒句都作廢（AA_360 第 5 節）。hideIf 照舊：PEISHAN_RETAKE 而且在大二上第 7 週～大二下（只改這段註解，行為不變）*/
+  classmate_xinci:{ src:'AA_537 第 4 節 @2f523e21a',   /* XINCI-ROMANCE-1030（使用者 X139）：告白只在學期末（termend3d.js walkHome 用 choice、yes、notYet；others 的後兩行在 termend_lines.js HEART.classmate_xinci.othersTail）*/
+    say:['你約我出來，是有事要講吧。……我今天沒有排別的。'],
+    choice:[{t:'「我喜歡妳。」'},{t:'「我們可以不只是朋友嗎？」'},{t:'「我喜歡妳。妳不用現在回答。」'}],
+    yes:['……你說完了嗎。',{who:'narr',text:'（她把杯子轉了半圈，又轉回來。）'},'我本來以為，這件事我會先想好。','……我沒有想好。可是好。'],
+    notYet:['我還沒想好。想好了，我會先跟你說。','這不是拒絕。你不要聽成拒絕。'], notYetFlag:'XC_NOT_YET',
+    unwilling:['……謝謝你。','我現在沒辦法回答。不是因為你。'],
+    others:['你現在有在跟誰交往嗎。',{who:'narr',text:'（她沒等你回答。）'},'我不想當第二個。這句話很爛，可是是真的。'],
+    hideIf:G=>!(typeof XCROM!=='undefined'&&XCROM.allGates(G)) },   /* G1～G10 沒全過（含跟以安交往過）＝不出（沛珊重考期同一種做法）*/
   classmate_peishan:{ src:'AA_223 第 4 節 @52702c92',
     say:['今天謝謝你約我。……你要講什麼嗎？'],
     choice:[{t:'「我喜歡妳。」'},{t:'「我們可以不只是朋友嗎？」'},{t:'「我喜歡妳。妳不用現在回答。」'}],

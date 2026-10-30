@@ -3633,7 +3633,7 @@
    "status": "approved",
    "approvedBy": "AA-B 定稿（D109）",
    "task": "XINCI-ROMANCE-1030",
-   "note": "LAWWW-B 10-30：芯慈第二份（使用者 X139 芯慈可以交往）。第 1～3 節由 tools/date/import_date_lines.py 匯入 src/data/date_lines.js（一般台詞十一個 key、128 點喜好、15 句不喜歡、八個常去地點）；第 4、5 節（期末飯、節日）手寫進 termend_lines.js／fest 那幾檔，台詞一字照稿"
+   "note": "LAWWW-B 10-30：芯慈第二份（使用者 X139 芯慈可以交往）。第 1～3 節由 tools/date/import_date_lines.py 匯入 src/data/date_lines.js（一般台詞十一個 key、128 點喜好、15 句不喜歡、八個常去地點）；第 4、5 節（期末飯、節日）手寫進 termend_lines.js／fest 那幾檔，台詞一字照稿；10-30 16:2x 第 7 節（學期末告白欄位 HEART／NOPE）在 5ba143d2c：手寫進 src/data/termend_lines.js（第 1～3 節和 508568ae5 一字不差，匯入結果不變）"
   }
  ]
 }

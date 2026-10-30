@@ -46,7 +46,8 @@ const TERMEND=(function(){
     heroine_02:G=>fl(G,'YT_HONEST','heroine_02')&&(DATE.log(G,'heroine_02').count|0)>=6&&seen(G,['ev_zhiruo_film_night','ev_zhiruo_early_show','ev_zhiruo_applied']),   /* 看過 Z5 或 Z7 */
     heroine_05:G=>fl(G,'YT_HONEST','heroine_05')&&romOf('heroine_05')>=75,
     heroine_01:G=>fl(G,'YT_HONEST','heroine_01')&&romOf('heroine_01')>=77,
-    kexin:G=>romOf('kexin')>=85&&!fl(G,'YT_LIED','kexin') };
+    kexin:G=>romOf('kexin')>=85&&!fl(G,'YT_LIED','kexin'),
+    classmate_xinci:G=>typeof XCROM!=='undefined'&&XCROM.acceptsOpen(G) };   /* 芯慈不接受多段（AA_537 5-5；使用者還沒回，開關在 src/xcrom3d.js XCROM.CFG.noOpen）*/
   S.openOk=(G,x,y)=>!!(G.flags&&G.flags.OPEN_OK&&G.flags.OPEN_OK[x]&&G.flags.OPEN_OK[x][y]);
   S.knownOthers=(G,id)=>typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).filter(p=>!S.openOk(G,id,p)):[];
   /* 她當時願意（DATE.willing 的條件，知情那一項改看上面的表）*/
@@ -59,6 +60,7 @@ const TERMEND=(function(){
     return {ok:true}; };
   /* 告白的條件（BB_203 第 5 節 303fe766）：C1 她的戀愛 < 30、C2 正式約會不到 4 次或沒有心願地點＝還沒到；C4～C10 她當時願意（DATE.willing）；學姊筆試前、放榜前婉拒 */
   S.cond=function(G,id){ if(DATE.HOLD&&DATE.HOLD[id]) return {ok:false,why:'hold'};
+    if(id==='classmate_xinci'&&!(typeof XCROM!=='undefined'&&XCROM.heartOk(G))) return {ok:false,why:'xc'};   /* 芯慈（XINCI-ROMANCE-1030）：G1～G10 沒全過＝不發、也不傳 NOPE（AA_537b 第 7 節）*/
     const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):{}, L=DATE.log(G,id);
     if((+r.npcRom||0)<S.ROM_MIN) return {ok:false,why:'rom'}; if((L.count|0)<4) return {ok:false,why:'count'}; if(!L.wish) return {ok:false,why:'wish'};
     const ww=S.willing(G,id); if(!ww.ok) return {ok:false,why:ww.why};
@@ -299,10 +301,16 @@ const TERMEND=(function(){
     const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t})));
     const start=()=>{ const K=S.knownOthers(G,who); const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&K.length){ const O=G.flags.OPEN_OK||(G.flags.OPEN_OK={}), M=O[who]||(O[who]={}); for(const y of K) M[y]=true; } return ok; };   /* 知情還發的邀約，答應＝她同意祐廷同時和那些人交往（OPEN_OK，BB_194 §6）*/
     const again=Rt.think[who]!=null;   /* 第二次（上次選了「讓我想想」）*/
+    /* 她先問「你現在有在跟誰交往嗎。」（芯慈，AA_537b 第 7 節）：有別的交往對象＝接 others 後兩行、不交往（這學期的告白結束）；沒有＝祐廷自動「沒有。」*/
+    const me={name:G.name||'祐廷'}, others=()=>typeof XCROM!=='undefined'&&XCROM.othersNow?XCROM.othersNow(G,who):[];
+    const afterAsk=async()=>{ if(typeof XCROM!=='undefined'&&XCROM.asked) XCROM.asked(G); if(others().length){ await run(GM,who,h.othersTail||[]); R.result='others'; return false; } await GM.say(me,h.noOther||'沒有。'); return true; };
+    if(k<3&&h.askFirst){ await run(GM,who,[h.askFirst]); if(!await afterAsk()) return 'others';
+      if(h.decideYes&&typeof DATE!=='undefined'&&DATE.confessDecide&&DATE.confessDecide(G,who)!=='yes'){ await run(GM,who,D&&D.notYet||[]); if(D&&D.notYetFlag) G.flags[D.notYetFlag]={day:G.day,term}; Rt.think[who]=term; R.result='notYet'; return 'notYet'; } }   /* 玩家先說：她的戀愛到 YES_LINE（75）才答應，沒到＝「我還沒想好……」（AA_537 第 4 節 notYet），下學期她用第二次的邀約再約 */
     if(k<3){ if(!start()) return 'blocked'; const yes=again&&h.yes2?h.yes2:(h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]));   /* 第二次玩家先說：她上次已經先說過，換 yes2（AA_254 第 0 節第 7 點）*/
       if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
       await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
     await run(GM,who,again?h.she2:h.she);
+    if(h.sheAsks&&!await afterAsk()) return 'others';   /* 她先說的最後一句就是那個問題 */
     const a=await GM.choose((h.answer||Lx.ANSWER).map(t=>({t})));   /* 沛珊大四上：「從今天開始認識。」／「……讓我想一下。」*/
     if(a===0){ if(!start()) return 'blocked'; (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };

@@ -12,7 +12,7 @@
 const DATE=(function(){
   const S={};
   const D=()=>typeof DATE_DATA!=='undefined'?DATE_DATA:{locations:{},points:{points:{}},heroineIds:{}};
-  S.HEROINES=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
+  S.HEROINES=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin','classmate_xinci'];   /* 芯慈：XINCI-ROMANCE-1030（使用者 X139「芯慈可攻略 但要很難達成」；AA_537，門檻在 src/xcrom3d.js）*/
   /* 舊存檔：補欄位、不改已有的；不追溯以前的出遊、CG、告白 */
   S.rec=function(G){ if(!G) return null; if(!G.dateLog||typeof G.dateLog!=='object') G.dateLog={}; if(!Array.isArray(G.trips)) G.trips=[]; if(!Array.isArray(G.groupTrips)) G.groupTrips=[]; if(!G.dateMemory||typeof G.dateMemory!=='object') G.dateMemory={};
     if(G.flags&&typeof G.flags==='object'&&(!G.flags.DATE_OVERNIGHT||typeof G.flags.DATE_OVERNIGHT!=='object')) G.flags.DATE_OVERNIGHT={};   /* 兩天一夜住過幾次（AA_359 第 4 節；舊存檔＝{}）*/
@@ -22,7 +22,9 @@ const DATE=(function(){
   S.log=function(G,id){ S.rec(G); const L=G.dateLog[id]||(G.dateLog[id]={count:0,wishKnown:false,wish:false,byLoc:{},cancels:[],last:null});
     if(!L.byLoc) L.byLoc={}; if(!Array.isArray(L.cancels)) L.cancels=[]; return L; };
   S.loc=id=>D().locations[id]||null;
-  S.wishOf=id=>{ const L=D().locations; for(const k in L) if(L[k].wishOf===id) return k; return null; };   /* 七位各一個專屬心願地點（AA_128 第 6 節） */
+  S.WISH_X={classmate_xinci:'D04'};   /* 地點表（date_locations.js，匯入的）以外加的心願地點：芯慈＝D04 西門町電影院（AA_537 5-1）*/
+  S.WISH_KIND={classmate_xinci:'evening'};   /* 心願那一場要是這一種（芯慈：晚上場，她想看一次午夜場）*/
+  S.wishOf=id=>{ if(S.WISH_X[id]) return S.WISH_X[id]; const L=D().locations; for(const k in L) if(L[k].wishOf===id) return k; return null; };   /* 七位各一個專屬心願地點（AA_128 第 6 節） */
   /* 心願地點的名字（人物頁的提示）：沛珊大三起不上來，同一個心願事件改在「台南・美術館」（AA_349 K3；hometown3d.js 的 HV.museum）*/
   S.WISH_AWAY={classmate_peishan:'台南・美術館'};
   S.wishName=function(G,id){ if(S.WISH_AWAY[id]&&S.noNorthOn(G,id,G.day)) return S.WISH_AWAY[id]; const w=S.loc(S.wishOf(id)); return w?w.name:null; };
@@ -57,9 +59,9 @@ const DATE=(function(){
     const st=S.stageNum(id);
     if(st<5) out.rom=fr<3?{pct:0,hint:''}:bar({npcRom:30});
     else if(st===5){ const b=bar({npcRom:55,rom:30}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
-    else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, c=Math.min(4,L.count|0);
-      const pct=(c/4+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
-      const hint=c<4?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
+    else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, NC=S.COUNT_NEED[id]||4, c=Math.min(NC,L.count|0);   /* 芯慈要 6 次（AA_537 G9）*/
+      const pct=(c/NC+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
+      const hint=c<NC?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
       out.rom={pct,hint}; }
     return out; };
 
@@ -67,7 +69,7 @@ const DATE=(function(){
   S.complete=function(G,t){ S.rec(G); const c=S.counts(t); if(!c.ok) return Object.assign({counted:false},c);
     if(G.trips.some(x=>x.trip===t.trip&&x.counted)) return {counted:false,why:'這一趟已經算過'};
     const L=S.log(G,t.who); L.count++; for(const l of t.locs) L.byLoc[l]=(L.byLoc[l]|0)+1;
-    const w=S.wishOf(t.who); const wish=!!w&&t.locs.includes(w); if(wish){ L.wish=true; L.wishKnown=true; }
+    const w=S.wishOf(t.who); const wish=!!w&&t.locs.includes(w)&&(!S.WISH_KIND[t.who]||t.kind===S.WISH_KIND[t.who]); if(wish){ L.wish=true; L.wishKnown=true; }
     L.last={trip:t.trip,day:t.day}; const rec=Object.assign({},t,{counted:true,wish}); const i=G.trips.findIndex(x=>x.trip===t.trip); if(i>=0) G.trips[i]=rec; else G.trips.push(rec);
     return {counted:true,count:L.count,wish}; };
   /* 一群人去（AA_128 1-2）：另外記，不計數；讓人物記得「上次大家一起去過」 */
@@ -104,11 +106,13 @@ const DATE=(function(){
   /* 學姊分開以後重新開始（AA_386 第 4 節，src/sis_b4_3d.js）：分開過＝{done（這一次分開演過 ev_sis_three_conditions）, dates（那以後的正式校外約會次數）, ready}；沒分開過、別人＝null（照一般條件）*/
   S.rebuildOf=(G,id)=>id==='heroine_05'&&typeof SISB4!=='undefined'&&SISB4.rebuild?SISB4.rebuild(G):null;
   S.rebuildConfess=(G,id)=>{ const r=S.rebuildOf(G,id); return !!(r&&r.ready); };
+  S.COUNT_NEED={classmate_xinci:6};   /* 告白要的正式約會次數（一般 4；芯慈 6，AA_537 G9）*/
   S.canConfess=function(G,id){ if(S.HOLD[id]) return {ok:false,why:'hold',note:S.HOLD[id]};
+    if(id==='classmate_xinci'&&!(typeof XCROM!=='undefined'&&XCROM.allGates(G))) return {ok:false,why:'xc'};   /* 芯慈：G1～G10（src/xcrom3d.js）*/
     const L=S.log(G,id), st=S.stageNum(id), rb=S.rebuildOf(G,id);
     if(st<6) return {ok:false,why:'stage',stage:st};
     if(rb){ if(!rb.done) return {ok:false,why:'rebuild'}; if(rb.dates<2) return {ok:false,why:'count',count:rb.dates}; }   /* AA_386 第 4 節：分開過的學姊——演過 ev_sis_three_conditions（SIS_REBUILD）才會再出現告白；之後兩次正式校外約會（不要求四次，AA_128 3-3、BB_122 9-2）*/
-    else if(L.count<4) return {ok:false,why:'count',count:L.count};
+    else if(L.count<(S.COUNT_NEED[id]||4)) return {ok:false,why:'count',count:L.count};
     if(!L.wish) return {ok:false,why:'wish'};
     const w=S.willing(G,id); if(!w.ok) return {ok:false,why:w.why}; if(id==='heroine_05'&&S.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&S.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
   /* 人物頁的進度提示（AA_128 3-2；不寫數字） */
@@ -629,7 +633,7 @@ const DATE=(function(){
      答應還是還沒（BB_191 第 10 節 @f3ae0e82，不擲骰）：她願意時，她的戀愛（npcRom）到她的答應線（YES_LINE；第 6 階是 55，AA 可以調）＝答應，沒到＝還沒；
      「還沒」兩次以後的那一次（第三次告白）一定答應（仍然願意、仍是第 6 階）；「還沒」不扣數值、不改階段；
      學姊研究所筆試以前（decline:'preexam'）＝婉拒、記 preexamFlag，一樣不鎖線（筆試前再說還是婉拒）。台詞一律照交付的定稿，這裡不寫字 */
-  S.YES_LINE={heroine_04:62,classmate_peishan:65,heroine_03:68,heroine_02:68,heroine_05:70,heroine_01:72};
+  S.YES_LINE={heroine_04:62,classmate_peishan:65,heroine_03:68,heroine_02:68,heroine_05:70,heroine_01:72,classmate_xinci:75};   /* 芯慈 75（AA_537 第 4 節）*/
   S.confessDecide=function(G,id){ const L=S.log(G,id); if((L.notYetN|0)>=2) return 'yes'; const line=S.YES_LINE[id]; if(line==null) return 'yes'; const CD=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(CD&&!CD.notYet) return 'yes';   /* 沒有「還沒」台詞的人（語彤：YT_NOT_YET 作廢）＝答應 */
     const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):null; return r&&(+r.npcRom||0)>=line?'yes':'notYet'; };
   /* 這一趟有沒有吃東西的互動點（AA_223 第 3 節：餐廳、小吃、甜點、飲料都算；只逛、只玩扭蛋不算）：子晴告白的第一句 */
@@ -679,6 +683,7 @@ const DATE=(function(){
     L.notYet={day:G.day,count:L.count|0};
     if(res==='preexam'||res==='prerank'){ await run(CV(D[res],G,t,k)); const fl=D[res+'Flag']; if(fl) G.flags[fl]=G.day; return res; }   /* 學姊：筆試前／放榜前婉拒，不鎖線 */
     if(res==='unwilling'){ await run(CV(D.unwilling,G,t,k)); return 'unwilling'; }
+    if(res==='others'){ await run(CV(D.others,G,t,k)); return 'others'; }   /* 芯慈：告白當下祐廷有交往對象（AA_537 第 4 節；學期末那一條在 termend3d.js walkHome）*/
     L.notYetN=(L.notYetN|0)+1; L.notYet.n=L.notYetN; await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]={n:L.notYetN,day:G.day}; return 'notYet'; };
   /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
   S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)||S.spotOff(G,p.id)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
