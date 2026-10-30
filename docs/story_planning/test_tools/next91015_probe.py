@@ -196,6 +196,14 @@ async def door_to(pg, cdp, run, to, label, max_s=200):
     return False
 
 
+NDLDIAG = """(T=>{ const G=GAME.G, o={}; const f=(k,fn)=>{ try{ o[k]=fn(); }catch(e){ o[k]='err:'+e.message; } };
+  f('h',()=>+(+G.hour).toFixed(2)); f('noodleDay',()=>STORY.noodleDay(G.day)); f('inGroup',()=>PHONE.inGroup(G,'noodle_team')); f('ndlTalkDay',()=>G.flags.ndlTalkDay===G.day);
+  f('due',()=>STORY.ndlTalkDue(G)); f('dueIgnoreOther',()=>STORY.ndlTalkDue(G,false)); f('otherDue',()=>STORY.ndlOtherDue?STORY.ndlOtherDue(G):null);
+  f('pick',()=>{ const p=STORY.ndlTalkPick(G); return p?{k:p.k,i:p.i,who:p.e&&p.e.who||null,first:p.e&&p.e.dialogue&&p.e.dialogue[0]&&String(p.e.dialogue[0].text||'').slice(0,30)}:null; });
+  f('here',()=>T.map(id=>[id,STORY.ndlHere(G,id),STORY.knows?STORY.knows(id,G):null])); f('stage',()=>G.stage||'law'); f('abroad',()=>!!G.flags.abroad);
+  f('evRunning',()=>!!(typeof EVENTS!=='undefined'&&EVENTS.running)); f('n',()=>(G.flags.ndlTalkN||null)); return o; })"""
+
+
 async def noodle(pg, cdp, run):
     st, d = await P.base(pg, SAVE, '2025-09-30', 17.9, 'gongguan'); await P.load(pg, cdp, st, quiet=False)
     run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）17:54 公館' % (d['key'], d['term'], d['week']))
@@ -209,6 +217,7 @@ async def noodle(pg, cdp, run):
         n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day")
         ok = await door_to(pg, cdp, run, 'noodle', tag)
         await pg.wait_for_timeout(1500); pres0 = await pg.evaluate(PRESENT); await run.shot(pg, 'noodle_%s_in' % tag)
+        diag = await pg.evaluate(NDLDIAG, TEAM); run.note('%s 進門後閒聊條件：%s' % (tag, J(diag)))
         talk_pres = None; t0 = time.time(); talked = False
         while time.time() - t0 < 60:
             s = await P.ts(pg)
