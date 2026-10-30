@@ -10,8 +10,8 @@ MODE（環境變數）：
   rooms   ROOM-MAP-LABELS-1030：普通、博思、共同教學館、法律系館A／B 的小地圖、大地圖標出教室門號；今天要上課的那間金色「★ 門號」。
           字畫在 canvas 上，看截圖；另外讀 ROOMMAP.labels 對照。
   cafewin CAFE-WINDOW-LIVE-1030：兩點半 Café 往門口那一側的窗，白天 10:30、晚上 20:30 各拍四個方向；走出去再走進來同一個鏡頭再拍一次。
-  noodle  NDL-PRESENT-1030：麵店日 9/30（二）17:55 從公館走進阿鳳麵店（【捷徑】加入麵店團、認識四位）：長桌閒聊開口的人都真的坐在店裡（3D 有這個人）；
-          10/2（四）20:40 再走進去：麵店團都走了（作息 20:30），不演閒聊（使用者 04:3x「出現麵店團的人對話 但根本沒有在遊戲內出現」）。
+  noodle  NDL-PRESENT-1030：麵店日 9/30（二）17:55 從公館走進阿鳳麵店（【捷徑】加入麵店團、認識四位）＝第一次，麵店團成團事件先演（開口的人要在店裡，店員也算）；
+          下一個麵店日 10/2（四）18:00 再走進去：長桌閒聊開口的人都真的坐在店裡；10/7（二）20:40 走進去：麵店團都走了（作息 20:30），不演閒聊（使用者 04:3x「出現麵店團的人對話 但根本沒有在遊戲內出現」）。
   cafe2   L118-CAFE2-STUDY-1030：慢讀咖啡（118 巷）桌位寫「坐下讀書」、吧檯高腳椅不算；坐下 → 「讀書」→ 讀完時間有走、讀書次數有加。
   invite  INVITE-MENU-1030／AA_535：手機「約」以安、學姊：第一層照分類（念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…／出去玩…／算了），每一層最多 8 列；
           念書有總圖、慢讀咖啡、法圖；喝咖啡有兩點半 Café、一盞、慢讀；運動有羽球、晨跑；出去玩照地區分；灰掉的有小字原因。
@@ -183,7 +183,7 @@ async def cafewin(pg, cdp, run):
 
 
 TEAM = ['zhe', 'yu', 'classmate_bohan', 'classmate_xinci']
-PRESENT = """(()=>GAME.E.npcs.filter(n=>n.obj&&!n.hidden&&n.charId).map(n=>({id:n.charId, name:n.name||null, nm:(typeof SOCIAL!=='undefined'&&SOCIAL.npcName)?SOCIAL.npcName(n.charId):null, sit:!!n.seat})))()"""
+PRESENT = """(()=>GAME.E.npcs.filter(n=>n.obj&&!n.hidden).map(n=>({id:n.charId||null, name:n.name||null, nm:(n.charId&&typeof SOCIAL!=='undefined'&&SOCIAL.npcName)?SOCIAL.npcName(n.charId):null, sit:!!n.seat})))()"""   # 店員（阿姨）沒有 charId 也算在場
 
 
 async def door_to(pg, cdp, run, to, label, max_s=200):
@@ -202,8 +202,8 @@ async def noodle(pg, cdp, run):
     await P.prep(pg, cdp, run, """(T=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); for(const id of T.concat(['heroine_03','heroine_01'])){ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); } G.flags.met_yu=true;
         return {inGroup:PHONE.inGroup(G,'noodle_team'), noodleDay:STORY.noodleDay(G.day)}; })(%s)""" % J(TEAM), quiet=False, label='加入麵店團、認識阿哲、Alison、柏翰、芯慈')
     snap = await P.snapshot(pg)
-    for tag, key, hh, want in (('1800', '2025-09-30', 17.9, True), ('2040', '2025-10-02', 20.6, False)):
-        if tag != '1800': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=snap, quiet=False)
+    for tag, key, hh, want in (('0930', '2025-09-30', 17.9, 'first'), ('1002', '2025-10-02', 17.9, True), ('1007_2040', '2025-10-07', 20.6, False)):   # 9/30 第一次＝麵店團成團事件先演（ndlOtherDue），長桌閒聊看下一個麵店日
+        if tag != '0930': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=None, quiet=False)   # 同一份進度（演過的事件留著）
         it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
         if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
         n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day")
@@ -222,15 +222,18 @@ async def noodle(pg, cdp, run):
         for q in pres: names |= {q['name'], q['nm']}
         team_here = sorted({q['id'] for q in pres0 if q['id'] in TEAM})
         run.note('%s 進門：%s｜店裡的人 %s｜閒聊開始時店裡 %s｜說了 %s' % (tag, ok, J(pres0), J(talk_pres), J(lines)))
-        if want:
-            speak = [l for l in lines if l[0] and l[0] not in ('祐廷', '你') and not l[0].startswith('（')]
-            missing = sorted({l[0] for l in speak if l[0] not in names})
+        speak = [l for l in lines if l[0] and l[0] not in ('祐廷', '你') and not l[0].startswith('（')]
+        missing = sorted({l[0] for l in speak if l[0] not in names})
+        if want == 'first':
             run.check('9/30（二）18:00 走進麵店：麵店團有人坐在店裡（3D）', ok and len(team_here) >= 1, J(team_here))
-            run.check('9/30（二）18:00：長桌閒聊有演', ndl, J(lines[:6]))
-            run.check('9/30（二）18:00：閒聊裡開口的每一個人都真的在店裡（3D 有這個人）', ndl and not missing, J({'missing': missing, 'names': sorted(x for x in names if x)}))
+            run.check('9/30（二）：這一段開口的每一個人都在店裡（3D 有這個人，店員也算）', not missing, J({'missing': missing, 'names': sorted(x for x in names if x), 'lines': lines[:6]}))
+        elif want:
+            run.check('10/2（四）18:00 走進麵店：麵店團有人坐在店裡（3D）', ok and len(team_here) >= 1, J(team_here))
+            run.check('10/2（四）18:00：長桌閒聊有演', ndl, J(lines[:6]))
+            run.check('10/2（四）18:00：閒聊裡開口的每一個人都真的在店裡（3D 有這個人）', ndl and not missing, J({'missing': missing, 'names': sorted(x for x in names if x)}))
         else:
-            run.check('10/2（四）20:40 走進麵店：麵店團四位都不在（作息 20:30 走）', ok and not team_here, J(team_here))
-            run.check('10/2（四）20:40：沒有長桌閒聊（人不在就不演）', not ndl, J(lines[:6]))
+            run.check('10/7（二）20:40 走進麵店：麵店團四位都不在（作息 20:30 走）', ok and not team_here, J(team_here))
+            run.check('10/7（二）20:40：沒有長桌閒聊（人不在就不演）', not ndl, J(lines[:6]))
         await run.shot(pg, 'noodle_%s_after' % tag)
 
 
