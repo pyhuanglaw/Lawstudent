@@ -371,6 +371,87 @@ def plastic_chair(side, u, v):
     for du in (-0.16, 0.16): met.cyl(W3(side, u + du, 0.44, v + 0.2), W3(side, u + du * 0.9, 0.6, v + 0.235), 0.009, seg=5)
 
 
+def make_jacket_tex(path):
+    """椅背外套的貼圖（X140 SK02-LINE-JACKET-1030）：左半＝外套身體（衣領 → 背後 → 下襬，1024 px／m），右半＝兩隻袖子。
+    和祐廷 VRM 的 JACKET_ECON 同一件（tools/jacket_econ.py）：深藍、羅紋＋兩條米白細線、背後「CIU」「ECON」（不能有臺大、NTU、真實校徽）。"""
+    from PIL import Image as PI, ImageDraw as PD, ImageFont as PF
+    S = 1024; im = PI.new('RGB', (S, S), JK_NAVY); d = PD.Draw(im); R = random.Random(140)
+    for _ in range(9000):                                                          # 布紋：很淡的雜點
+        x, y = R.randrange(S), R.randrange(S); c = R.choice((-6, -4, 4, 6)); d.point((x, y), fill=tuple(max(0, min(255, k + c)) for k in JK_NAVY))
+    def rib(x0, x1, y0, y1, lines):
+        d.rectangle([x0, y0, x1, y1], fill=JK_RIB)
+        for x in range(x0, x1, 4): d.line([x, y0, x, y1], fill=tuple(k - 6 for k in JK_RIB))
+        for ly in lines: d.rectangle([x0, ly - 2, x1, ly + 2], fill=JK_LINE)
+    L_ = JK_PATH_LEN
+    rib(0, 511, 0, int(0.05 * S), [])                                              # 衣領（座位那一側往下摺的那一段）
+    rib(0, 511, int((L_ - 0.05) * S), int(L_ * S), [int((L_ - 0.022) * S), int((L_ - 0.030) * S)])   # 下襬
+    for xs in (512, 768): rib(xs, xs + 255, int((JK_SLEEVE_LEN - 0.05) * S), int(JK_SLEEVE_LEN * S), [int((JK_SLEEVE_LEN - 0.022) * S), int((JK_SLEEVE_LEN - 0.030) * S)])   # 袖口
+    serif = '/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf'
+    for s, px, cy in (('CIU', 34, JK_TEXT_T - 0.035), ('ECON', 60, JK_TEXT_T + 0.025)):   # 背後的字（從背後看：u 往右）
+        f = PF.truetype(serif, px); x0, y0, x1, y1 = f.getbbox(s); d.text((256 - (x1 - x0) / 2 - x0, cy * S - (y1 - y0) / 2 - y0), s, fill=JK_TEXT, font=f)
+    os.makedirs(os.path.dirname(path), exist_ok=True); im.save(path)
+    return path
+
+
+JK_NAVY, JK_RIB, JK_LINE, JK_TEXT = (46, 58, 88), (35, 44, 68), (232, 227, 214), (236, 232, 220)
+JK_PATH_LEN, JK_SLEEVE_LEN, JK_TEXT_T = 0.74, 0.5, 0.25   # 外套身體沿著垂掛路線的長度（m）、袖子長、背後的字中心離衣領多遠
+
+
+def jacket_chair(side, cu, v, parent):
+    """椅背上的系外套 JACKET_CHAIR（X140；AA 定：回宿舍掛椅背、大二起一直掛）：衣領跨過椅背上緣往座位那一側摺下來一點，
+    背面（印「CIU ECON」）朝走道垂到椅背下面，兩隻袖子從肩膀垂在背面兩側。遊戲預設藏起來（zones3d 照劇情顯示）；烘焙時不算（--hide ^JACKET_）。"""
+    mat = img_mat('dorm_jacket_chair', make_jacket_tex(os.path.join(TEXGEN, 'dorm_jacket_chair.png')), rough=0.9); mat.use_backface_culling = False
+    g = B.group('JACKET_CHAIR', parent, {'kind': 'jacket_chair', 'unit': 'L2', 'note': '祐廷的經濟系系外套（掛在椅背）'})
+    sgn = 1 if side == 'L' else -1                                                   # v（離牆）往走道 → 世界 x 的方向
+    # 椅背（plastic_chair 匯出後量的）：0.024 厚的板子，下緣 0.585 m、上緣 0.925 m；中心 v＝v+0.29（下）→ v+0.249（上）——往座位那邊斜
+    yb0, yt = 0.585, 0.925
+    vout = lambda h: v + 0.302 - (h - yb0) * 0.1206                                  # 椅背朝走道那一面
+    vin = lambda h: vout(h) - 0.024
+    # 垂掛路線（v＝離牆、h＝高度），從座位那一側的衣領 → 跨過上緣 → 沿椅背背面 → 椅背下面垂直掛著
+    path = [(vin(yt) - 0.025, yt - 0.075), (vin(yt) - 0.022, yt - 0.03), (vin(yt) - 0.012, yt + 0.01), ((vin(yt) + vout(yt)) / 2, yt + 0.02),
+            (vout(yt) + 0.012, yt + 0.01), (vout(yt) + 0.022, yt - 0.025)]
+    for k in range(1, 7):
+        h = yt - 0.025 - (yt - 0.025 - yb0) * k / 6; path.append((vout(h) + 0.022, h))
+    for h in (0.5, 0.42, 0.35): path.append((path[-1][0] + 0.004, h))
+    tl = [0.0]
+    for a, b in zip(path, path[1:]): tl.append(tl[-1] + math.hypot(b[0] - a[0], b[1] - a[1]))
+    sc = JK_PATH_LEN / tl[-1]
+    bm = bmesh.new(); uvl = bm.loops.layers.uv.new('UVMap'); NA = 14; rows = []
+    for (d0, h0), t in zip(path, tl):
+        row = []
+        for i in range(NA + 1):
+            s = i / NA; a = (s - 0.5) * (0.5 if h0 > yt - 0.06 else 0.52)
+            sag = max(0.0, abs(a) - 0.2) * 0.55 if h0 > yt - 0.1 else 0.0          # 肩膀超出椅背寬度的地方往下垂
+            wav = 0.006 * math.sin(a * 31 + h0 * 7) * (1 if h0 < yb0 + 0.05 else 0.4)   # 下面那段有皺褶
+            dd = d0 + wav + (0.012 if abs(a) > 0.2 else 0.0)
+            row.append((bm.verts.new(g2b(*W3(side, cu + a, h0 - sag, dd))), s, t * sc))
+        rows.append(row)
+    for r0, r1 in zip(rows, rows[1:]):
+        for i in range(NA):
+            f = bm.faces.new((r0[i][0], r0[i + 1][0], r1[i + 1][0], r1[i][0]))
+            for lp, (_, s, t) in zip(f.loops, (r0[i], r0[i + 1], r1[i + 1], r1[i])): lp[uvl].uv = (0.5 - s * 0.5 if sgn > 0 else s * 0.5, 1 - t)   # 從走道看背面：L 側看的人的右手邊是 −u
+    # 袖子：肩膀（背面、比上緣低 6 cm）垂到 0.40 m，扁的管子（貼著背面那一層）
+    for k, sa in enumerate((-1, 1)):
+        N_, M_ = 8, 10; ring = []
+        for j in range(M_ + 1):
+            q = j / M_; h = (yt - 0.06) * (1 - q) + 0.40 * q; a = sa * (0.225 + 0.03 * q - 0.02 * math.sin(math.pi * q))
+            dd = vout(max(h, yb0)) + 0.022 + 0.035 + 0.01 * q; r = 0.052 - 0.01 * q
+            rr = []
+            for i in range(N_ + 1):
+                ph = 2 * math.pi * i / N_
+                rr.append((bm.verts.new(g2b(*W3(side, cu + a + r * math.cos(ph), h, dd + 0.45 * r * math.sin(ph)))), i / N_, q * JK_SLEEVE_LEN))
+            ring.append(rr)
+        for r0, r1 in zip(ring, ring[1:]):
+            for i in range(N_):
+                f = bm.faces.new((r0[i][0], r0[i + 1][0], r1[i + 1][0], r1[i][0]))
+                for lp, (_, s, t) in zip(f.loops, (r0[i], r0[i + 1], r1[i + 1], r1[i])): lp[uvl].uv = (0.5 + 0.25 * k + 0.25 * s, 1 - t)
+    bm.normal_update()
+    ob = B.mesh_obj('JACKET_CHAIR_cloth', bm, mat, g); L.smooth_mesh(ob, angle=1.2)
+    c = W3(side, cu, (yt + 0.35) / 2, vout(0.64))
+    LAYOUT['jacket_chair'] = {'node': 'JACKET_CHAIR', 'unit': 'L2', 'x': round(c[0], 3), 'y': round(c[1], 3), 'z': round(c[2], 3),
+                              'note': '祐廷（L2）書桌椅的椅背；每一年都是 L2 同一張椅子。遊戲預設藏起來，劇情決定顯示（X140；AA：回宿舍掛椅背、大二起一直掛）'}
+
+
 def laptop(G, side, lu, Y, vb=0.17):
     lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y, Y + 0.015, vb + 0.03, vb + 0.27)
     lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y + 0.015, Y + 0.215, vb, vb + 0.02)   # 螢幕上緣 0.975 m：層架底板在 1.00 m（10-30 以前 1.00，剛好頂到；使用者「書桌上東西不要重疊」）
@@ -436,6 +517,7 @@ def loft(uid, side, ua, ub, sets):
     wht.cyl(W3(side, ur, RISE * NST, dd * 0.6), W3(side, ur, 1.5, dd * 0.6), 0.014, seg=8); tf.cyl(W3(side, ur, 1.5, dd * 0.6), W3(side, ur, 2.05, dd * 0.6), 0.014, seg=8)
     cu_ = (k0 + 0.45 + k1) / 2
     plastic_chair(side, cu_, 0.86)
+    if uid == 'L2' and not ONLY: jacket_chair(side, cu_, 0.86, root)   # 祐廷的椅子：系外套（預設藏）
     lbox(it, side, ust + 0.03, ub - 0.03, 0.0, 0.12, VD - dd + 0.03, VD - 0.02, fn='cbox', hexcol='#e8e2d4')                      # 最下面一格：鞋盒
     for j in range(2): lbox(it, side, ub - 0.38 + j * 0.13, ub - 0.27 + j * 0.13, 0.0, 0.03, VD + 0.1, VD + 0.36, fn='cbox', hexcol={'R1': '#5a5f66', 'R2': '#202225', 'L1': '#3e5a48', 'L2': '#2f4f6b'}[uid])   # 拖鞋
     for m in (tf, tr, ts):
@@ -804,7 +886,7 @@ for side, ms in walls.items():
 def keep(ob):
     p = ob
     while p is not None:
-        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'Y205_', 'NAMETAG_')) or p.name == 'WALL_bath_w_sign': return True
+        if p.name.startswith(('ROOMMATE_', 'LOFT_', 'BEDDING_', 'Y203_', 'Y412_', 'Y312_', 'Y507_', 'Y409_', 'Y205_', 'NAMETAG_', 'JACKET_')) or p.name == 'WALL_bath_w_sign': return True
         p = p.parent
     return False
 
