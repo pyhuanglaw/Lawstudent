@@ -110,7 +110,8 @@ GXO, GZO = (0.0, 0.1) if TROF else (XI0, ZI0)
 def trof(x, z): return (round(0.6 * round(x / 0.6), 3), round(0.4 + 0.6 * round((z - 0.4) / 0.6), 3))
 if TROF:
     M['trof'] = L.flat('tb_troffer', '#ecebe7', rough=0.5); M['louvre'] = L.flat('tb_louvre', '#d3d6d9', rough=0.3, metal=0.35)
-    for _k in ('trof', 'louvre'): M[_k].use_backface_culling = True
+    M['lectop'] = L.flat('tb_lectern_top', '#5c5953', rough=0.5)
+    for _k in ('trof', 'louvre', 'lectop'): M[_k].use_backface_culling = True
 def ceiling(lv, y, rects):
     for (x0, x1, z0, z1) in rects:
         if x1 - x0 < 0.05 or z1 - z0 < 0.05: continue
@@ -292,7 +293,7 @@ for r in J['rooms']:
         if r.get('lectern'):
             lc = r['lectern']; wd = mk(lv, 'wood')
             wd.box(lc['x'] - lc['w'] / 2, lc['x'] + lc['w'] / 2, Y, Y + 1.05, lc['z'] - lc['d'] / 2, lc['z'] + lc['d'] / 2)
-            mk(lv, 'dark').box(lc['x'] - lc['w'] / 2 - 0.05, lc['x'] + lc['w'] / 2 + 0.05, Y + 1.05, Y + 1.1, lc['z'] - lc['d'] / 2 - 0.05, lc['z'] + lc['d'] / 2 + 0.05)
+            mk(lv, 'lectop' if TROF else 'dark').box(lc['x'] - lc['w'] / 2 - 0.05, lc['x'] + lc['w'] / 2 + 0.05, Y + 1.05, Y + 1.1, lc['z'] - lc['d'] / 2 - 0.05, lc['z'] + lc['d'] / 2 + 0.05)   # 博思：深灰美耐板（BB-B n19「講台往座位那幾張講桌桌面很深、接近黑」：原本 tb_dark #26282b）
         wz = r['z1'] if up < 0 else r['z0']                                                          # 講台那一面牆（外牆的內面）
         wz_in = wz                                                                                   # 房間的邊界就是牆的內面（z1＝D/2−T/2）
         if r.get('board'):

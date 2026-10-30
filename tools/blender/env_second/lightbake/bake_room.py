@@ -225,7 +225,7 @@ so.rotation_euler = to_sun.to_track_quat('Z', 'Y').to_euler()
 
 # 日光燈：在燈具的位置放真的面光源（發光的網格本身也亮，但 Cycles 從很小的發光面取樣很吵：10-28 第一次烘焙牆上一塊一塊的）
 # --lights x0,x1,z0,z1,y,nx,nz,W[,sx,sz[,r,g,b]]（可以重複，用 ; 分開）：x0..x1 × z0..z1 的格子中心、高 y，nx×nz 盞，每盞 W 瓦，燈的大小 sx×sz（預設 1.2×0.3 m），顏色（預設日光燈 1,0.97,0.92；檯燈偏暖）
-# --points x,y,z,W[,r,g,b]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）
+# --points x,y,z,W[,r,g,b[,半徑]]（用 ; 分開）：點光源（壁燈、往上打的燈；總圖大廳 LIB-HALL-LM-1028）；半徑預設 0.06 m（影子很硬），補光用大一點（0.4～0.6）
 AREAS = []
 for spec in (arg('--lights', '') or '').split(';'):
     if not spec.strip(): continue
@@ -238,7 +238,7 @@ for spec in (arg('--lights', '') or '').split(';'):
 for spec in (arg('--points', '') or '').split(';'):
     if not spec.strip(): continue
     v = [float(t) for t in spec.split(',')]; x, y, z, Wt = v[:4]; col = tuple(v[4:7]) if len(v) >= 7 else (1.0, 0.85, 0.7)
-    ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = 0.06
+    ld = bpy.data.lights.new('pt', 'POINT'); ld.energy = Wt; ld.color = col; ld.shadow_soft_size = v[7] if len(v) >= 8 else 0.06   # 第 8 個數＝光源半徑（影子的軟硬；BOYA-LM-1030 燈具下方的補光原本 6 cm，講桌在後牆、地上打出一塊硬影子）
     lo = bpy.data.objects.new(ld.name, ld); sc.collection.objects.link(lo); lo.location = Vector((x, -z, y)); AREAS.append(lo)
 print('area lights', len(AREAS), flush=True)
 
