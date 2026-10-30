@@ -118,19 +118,46 @@ const MSG=(function(){
   const y0In=(G,a,b)=>inDates(G,a,b);
   S.y0Pool=function(G){ const Y=Y0(); if(!Y) return []; const V=Y.variants.filter(v=>y0In(G,v.from,v.to)).sort((a,b)=>(DK(a.to)-DK(a.from))-(DK(b.to)-DK(b.from))).map(v=>v.variant);   /* 範圍短的（期末）先 */
     const out=[]; for(const t of ['chat','share_cat','share_food','share_notes','night']){ for(const v of V){ const L=Y.replies.filter(e=>e.topic===t&&e.variant===v); if(L.length){ out.push(...L); break; } } } return out; };   /* 同一個話題：這個時期最具體的那一版；都沒有就不出（AA_301 第 1 節）*/
-  S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有'}; }
-    if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有'};
+  S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有',quiet:true}; }
+    if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有',quiet:true};   /* quiet：手機畫面不寫這一句（經濟系那一年還沒有這個功能，不是她的原因；game3d.js threadHTML）*/
     const sisAdded=id==='heroine_05'&&!!(G.flags&&G.flags.SIS_CONTACTED)&&hasContact(G,id);   /* MSG-SIS-EARLY-1027（AA_485 第 4 節）：學姊加了好友（9/3 她接受交友邀請＝SIS_CONTACTED）起就開，還沒在現實見過也一樣 */
-    if(!sisAdded&&(!met(G,id)||!hasContact(G,id))) return {ok:false,why:'還沒有聯絡方式'};
+    if(!sisAdded&&!hasContact(G,id)) return {ok:false,why:S.noContactWhy(G,id),noContact:true};   /* 原因照約人那一句（INVITE_DATA.why：再熟一點／可以當面問，PHONE-UNIFY-1030）*/
+    if(!sisAdded&&!met(G,id)) return {ok:false,why:'還沒見過面'};
     const pr=presence(G,id); if(pr&&pr.here===false&&(pr.kind==='before'||pr.kind==='after')) return {ok:false,why:'聯絡不上'};
     if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
-    if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
+    /* 子晴：原本要演過 Q6（ev_ziqing_secret_game）才開——2026-10-30 使用者「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」：七位女生見過、有聯絡方式就開（PHONE-UNIFY-1030）。
+       Q6 以前不出講到她的遊戲的句子（S.zqSpoil：還不知道她在做遊戲）*/
     if(id==='heroine_05'){ const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }   /* AA_485 第 4 節：不用等第 2 階，加了好友就是事務版（直屬學姊，事務上的訊息本來就該回）；閒聊照舊（第 3 階、雙方單身）*/
     if(id==='classmate_peishan'&&inDates(G,'2026-12-18','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };
+  /* ---------- 訊息頁的聯絡人（PHONE-UNIFY-1030；使用者 2026-10-30「很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一」）----------
+     原本「傳訊息」只在已經有的一對一對話串裡：她沒先傳過訊息，訊息頁根本點不到她。現在訊息頁上面列出聯絡人，點了就開那個人的對話串（沒有對話串也開空的），裡面有「傳訊息」。 */
+  /* 沒有聯絡方式的原因：照約人那一句（INVITE_DATA.why，AA_124 1-7 第 4 點；有點熟以後當面聊天多一個「交換聯絡方式」，story3d.js offerInvite）*/
+  S.noContactWhy=function(G,id){ const W=(typeof INVITE_DATA!=='undefined'&&INVITE_DATA.why)||{}, c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], pr=c&&c.gender==='f'?'她':'他';
+    const L=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES?SOCIAL.STAGES:null, st=typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage(id):null, ask=!!L&&L.indexOf(st)>=L.indexOf('FAMILIAR');
+    const t=ask?W.noContactAsk:W.noContact; return t?String(t).replace(/\{pr\}/g,pr):'還沒有聯絡方式'; };
+  /* 子晴的遊戲（Q6 ev_ziqing_secret_game「她在做的東西」、或記憶 PLAYTESTED）：演過以前不出講到她的遊戲的句子（回覆池 A 層放假版「（截圖：她的遊戲新的一關）」；第二批新年快樂 R「只有第一則」照原本的標籤）*/
+  S.zqQ6=G=>evDone(G,'ev_ziqing_secret_game')||(typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED'))||!!(G.flags&&G.flags.PLAYTESTED);
+  S.zqSpoil=(G,id,e)=>id==='heroine_04'&&!!e&&/她的遊戲/.test((e.msgs||[]).join('／'))&&!S.zqQ6(G);
+  S.msgsOf=(G,id,e)=>id==='heroine_04'&&(e.tags||[]).some(g=>/^看過 Q6 才用；沒看過：只有第一則$/.test(g))&&!S.zqQ6(G)?(e.msgs||[]).slice(0,1):(e.msgs||[]);
+  /* 傳得到、但劇情上回得不一樣的，在對話裡寫一行說明（照劇情保留的擋法：沛珊重考那一段只顯示已送達、學姊事務版、芷若在英國當朋友一週回一兩次）*/
+  S.openNote=function(G,id,o){ o=o||S.open(G,id); if(!o||!o.ok) return ''; if(o.mode==='silent') return '她最近都沒有回訊息。傳了只會顯示「已送達」。';
+    if(o.mode==='business') return '學姊現在只回事務上的訊息（變成朋友、而且你們都單身以後，才會跟你閒聊）。';
+    if(o.mode==='uk'&&o.uk==='friend') return '她在英國，一週回一兩次（臺灣時間週三、週日晚上）。'; return ''; };
+  /* 聯絡人清單：七位女生在最前面，再來是其他認識、有聯絡方式的人（ids＝手機「朋友」的 knownIds，照那個順序）。
+     有聯絡方式＝列出、點得開（傳不了的寫原因：分開以後、只寄明信片…）；七位女生見過、還沒有聯絡方式＝灰著、寫怎麼拿到；沒見過、也傳不到的不列（還不認識）。
+     經濟系那一年只列傳得到的（交往中的可昕）。回傳 [{id, th, has, ok, sent, why, gray}] */
+  S.contactRows=function(G,ids){ ids=Array.isArray(ids)?ids:[]; const law=(G.stage||'law')==='law', out=[], seen=new Set();
+    for(const id of ROMANTIC.concat(ids)){ if(seen.has(id)) continue; seen.add(id);
+      const has=hasContact(G,id), o=S.open(G,id)||{}, known=ids.includes(id)||met(G,id);
+      if(!law){ if(!o.ok) continue; } else if(!has){ if(!ROMANTIC.includes(id)||!known) continue; } else if(!known&&!o.ok) continue;
+      const sent=!!o.ok&&S.sentToday(G,id);
+      out.push({id,th:'p:'+id,has,ok:!!o.ok,sent,why:o.ok?(sent?'今天傳過了':''):(o.quiet?'':(o.why||'')),gray:!has}); }
+    return out; };
+  S.ROMANTIC=ROMANTIC;
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
@@ -257,7 +284,7 @@ const MSG=(function(){
   /* 芷若 2027-06-04～09-02 不上班（AA_375 第 1 項；STORY.zrNoShift）：回訊息不照上班作息、不說下班和店裡客人的那幾句（「下班回來都這個時間」「怎麼跟客人介紹」）*/
   const zrOff=G=>typeof STORY!=='undefined'&&!!STORY.zrNoShift&&STORY.zrNoShift(G);
   const zrShiftLine=(G,id,e)=>id==='heroine_02'&&zrOff(G)&&/下班|客人|吧檯/.test((e.msgs||[]).join('／'));
-  const usable=(G,id,e,ctx)=>!zrShiftLine(G,id,e)&&!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
+  const usable=(G,id,e,ctx)=>!zrShiftLine(G,id,e)&&!S.zqSpoil(G,id,e)&&!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
   S.pick=function(G,id,topic,sub,ctx){ ctx=Object.assign({},ctx||{}); const R=S.rec(G), o=S.open(G,id); ctx.mode=o.mode; const tier=S.tier(G,id);
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
@@ -364,7 +391,7 @@ const MSG=(function(){
   /* 第二批的標籤（AA_257 寫在句子後面括號裡的） */
   const TAG2=[[/^過年(；初三 15:00 以後才回)?$/,G=>S.lunarNY(G)],[/^1\/1，大一、大二$/,G=>isMD(G,1,1)&&yearNow(G)>=1&&yearNow(G)<=2],
     [/^(\d{1,2})\/(\d{1,2})$/,(G,m)=>isMD(G,+m[1],+m[2])],[/^2025、2026，Café 有班$/,G=>calY(G)===2025||calY(G)===2026],
-    [/^看過 Q6 才用；沒看過：只有第一則$/,()=>true],   /* 子晴的私訊本來就要 Q6 以後才開 */
+    [/^看過 Q6 才用；沒看過：只有第一則$/,()=>true],   /* 照用；沒看過 Q6 只送第一則（S.msgsOf，PHONE-UNIFY-1030：子晴的私訊不再等 Q6）*/
     [/^(阿姨扭到手|筆試前一天|分開以後|國考前)$/,(G,m,e)=>e.cond!=null]];   /* 這幾個是「事」的名字，和 cond 同一件 */
   const tag2Ok=(G,id,e,tag)=>{ for(const [re,f] of TAG2){ const m=String(tag).match(re); if(m) return f(G,m,e); } return S.tagOk(G,id,tag); };
   const usable2=(G,id,e)=>!e.disabled&&!e.noReply&&(e.msgs||[]).length>0&&!(e.flags||[]).some(f=>!(G.flags&&G.flags[f]))&&(e.tags||[]).every(g=>tag2Ok(G,id,e,g));
@@ -412,7 +439,7 @@ const MSG=(function(){
     const pre=topic==='night'||(e&&e.travel)?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));   /* 旅行、出國那一版（AA_369 第 7 節第 5 題）不接開頭句：明軒在德國不說「剛家教完」 */
     if(pre) for(const t of pre.msgs) items.push({th,from:id,name:nm,text:t});
     else if(at.late&&!(e&&e.noWake)){ const wl=at.ukWake?['我剛起床。']:S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }   /* 芷若在英國：她那邊半夜傳的，起床先回「我剛起床。」（BB_178 1-E）*/
-    if(e&&!(at.late&&topic==='night')){ const L=e.msgs.concat(S.addMsgs(G,id,e)); const ask=S.askOpts(G,id,e,nm,ctx);
+    if(e&&!(at.late&&topic==='night')){ const L=S.msgsOf(G,id,e).concat(S.addMsgs(G,id,e)); const ask=S.askOpts(G,id,e,nm,ctx);
       L.forEach((t,i)=>{ const it={th,from:id,name:nm,text:t}; if(i===L.length-1&&ask) it.ask=ask; items.push(it); }); }
     if(!items.length) items.push({th,from:id,name:nm,text:'（貼圖）'});
     if(e&&e.variant==='芷若在英國') R.once[id+':zr_uk:'+S.zrUkKey(G)]=G.day;   /* 一段期間只播一次 */

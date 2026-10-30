@@ -73,6 +73,10 @@ const PLACES={
       L1&&['linze','霖澤館（大廳）',L1],['classroom','霖澤館 201 教室',null],['wancai','萬才館（大廳）',{x:0,z:5,yaw:Math.PI}],LL&&['lawlib','法律學院圖書館',LL],LB&&['library_hall','總圖書館（大廳）',LB],SC&&['soclib','社科院圖書館',SC],
       ['gongguan','公館商圈',{x:0,z:-30,yaw:Math.PI}],['gongguan','捷運公館站',{x:-35.6,z:13.2,yaw:0}],['noodle','阿鳳麵店',{x:0,z:3.4,yaw:Math.PI}],['cvs','日日便利',{x:0,z:3.4,yaw:Math.PI}],['bookstore','舊路書房',{x:0,z:4,yaw:Math.PI}],
       ['wenzhou','溫州街',{x:20,z:0,yaw:-Math.PI/2}],['lane118','118 巷',{x:0,z:47.6,yaw:Math.PI}],['cafe','兩點半 Café',{x:0,z:5,yaw:Math.PI}],['dorm','宿舍',{x:0,z:2.5,yaw:Math.PI}]].filter(Boolean); },
+  /* 一個區域在哪一棟、哪一條街（PHONE-UNIFY-1030）：樓上樓層、房間、店面對到它的那一棟／那條街（霖澤館 3F→linze、總圖 B1→library_hall、118 巷的店→lane118、溫州街的店→wenzhou、宿舍 205→dorm_hall）；
+     其他照原樣。用在：手機「朋友」直接過去的開放時間（那一棟關門＝進不去）、休學退宿以後不回台大、路程的時間（classes3d.js travelMinutes 沒有那一區的位置時照那一棟算）*/
+  base(z){ z=String(z||''); if(/^l118_/.test(z)) return 'lane118'; if(/^wz_/.test(z)) return 'wenzhou'; if(z==='library'||/^library_/.test(z)) return 'library_hall'; if(z==='dorm'||/^dorm_/.test(z)) return 'dorm_hall';
+    if(/^(linze|wancai|gym|gongtong|boya|putong|us_lawlib)_/.test(z)) return z.replace(/_[^_]+$/,''); return z; },
   /* 「已知」的地點（D54 ①）：開學第三週的大一生本來就知道的地方（校園、上課的教室、圖書館、宿舍、公館、溫州街、便利商店）；
      特定的店（麵店、書店、Café）自己走去過一次才會出現在清單上，留給探索去發現 */
   known0:{campus:1,linze:1,classroom:1,wancai:1,lawlib:1,soclib:1,library_hall:1,library:1,gongguan:1,cvs:1,wenzhou:1,lane118:1,dorm:1,dorm_hall:1,gym:1},   /* gym：體育課（必修）的新體育館，一開始就知道 */   /* 118 巷：法學院後門那條巷子，一開始就知道（使用者 2026-10-20「118巷也要可及時到達吧手機地圖那邊」，X65；落點＝從霖澤館後門走過去的出生點）*/
