@@ -36224,8 +36224,8 @@
    "title": "SK02 經濟系系外套：系辦助理「那個轉系的」改成重考的說法（AA）；選「穿去霖澤館上課」要真的穿上（LAWWW2 外套外觀＋椅背外套；LAWWW 接上那一次霖澤館的課穿著）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
-   "next": "已進開發分支（postrel-1030 合併 b576263b6、改名 ba315523b）→ BB 測（下一版）",
+   "status": "已驗收",
+   "next": "—",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36239,7 +36239,8 @@
    },
    "source": "使用者 10-30 05:1x 兩則（X140）",
    "authorized": "使用者",
-   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:2x】AA-B 07:19：收進衣櫃／阿勳代領不穿、領的那天就穿照子代理；房間物件 wear 版分大一「天冷的時候，你還是會穿去上課。」／大二起「大一冷的時候常穿，現在一直掛在椅背上。」（68eb35bca）；postrel 4a4b0cd4a 全部 Node 760／0 ｜ 【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
+   "notes": "【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ 【07:2x】AA-B 07:19：收進衣櫃／阿勳代領不穿、領的那天就穿照子代理；房間物件 wear 版分大一「天冷的時候，你還是會穿去上課。」／大二起「大一冷的時候常穿，現在一直掛在椅背上。」（68eb35bca）；postrel 4a4b0cd4a 全部 Node 760／0 ｜ 【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ ",
+   "evidence": "BB-B n15_jacket2 ALL PASS（開發分支 17ae7a0ab 以後）：三個選項都在、選穿去上課→身上穿著、回宿舍掛椅背、隔天 201 穿著、阿哲那句有（BB_218）；tests/sk02_jacket_wear_unit.js、v1_sk01_unit.js"
   },
   {
    "id": "ECON-FRIENDS-SOCLIB-1030",
