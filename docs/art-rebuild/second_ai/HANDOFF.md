@@ -1,17 +1,20 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 13:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 15:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **正在做：BOYA-LM-1030 博思教學館室內**（LAWWW-B 10-30 派工，D99 經濟系那一年第一優先；`test_shots/boya_lm_1030/README.md`）。`WORK_IN_PROGRESS`。
-  - 已完成：`teach_interior.py`（101／102 長桌、翻椅 SEATPANS；T5 格柵燈具）、`lightbake/bake_boya.sh`、`patches/boya_lecture_furn_1030.patch`（teach3d.js：藏起備用方塊桌椅、空位椅面掀起來）、改前截圖、改前效能、三次 64 取樣試烘焙。
-  - 正在跑：512 取樣正式烘焙（測試樹 scratchpad/bywt＝開發 dd8b216c0＋這一包；**GLB、光照貼圖還沒進我的分支**，烘完才 commit）。
-  - 還沒做：改後截圖、改後效能、全部 Node、README 收尾、交件。
-  - 接手：在開發分支的 checkout 上複製這三個檔（teach_interior.py、bake_boya.sh、patch），套 patch，`bash tools/blender/env_second/lightbake/bake_boya.sh`（512 取樣約半小時）。
-- **派工佇列（LAWWW-B 10-30，照順序）**：BOYA-LM-1030 → SOCLIB-LM-1030（社科院圖書館光照烘焙）→ NOODLE-LM-1030（麵店光照烘焙）。ART-ZR-PS-3D-1022（芷若、沛珊 3D）排在三間之後，博思交件時先回報進度。
+- **剛交：BOYA-LM-1030 博思教學館室內**（`test_shots/boya_lm_1030/README.md`；`READY_FOR_ART_REVIEW`）：101／102 長桌、翻椅做進模型＋T5 格柵燈具＋光照烘焙；`patches/boya_lecture_furn_1030.patch`（teach3d.js＋兩支測試）。全部 Node 771／0、遊戲內翻椅檢查 ALL PASS。等 LAWWW-B ACK。
+- **下一件：SOCLIB-LM-1030 社科院圖書館光照烘焙**（`soclib_interior.py`），再來 NOODLE-LM-1030 麵店。ART-ZR-PS-3D-1022（芷若、沛珊 3D）排在三間之後。
 - **已交、已整合（10-30）**：D115 改名美術字＋博思名牌外框（f75d60a4c）、X133 草皮第一版（f75d60a4c）、法律學院圖書館光照（6e3a95623）、多功能教室 v2（95da49eab）、LIB-HALL-LM／RT-NIGHT（bbe0c9469）。
 - **等使用者回答**（X133 規劃稿第四節）：草皮形狀、總圖門口台階、樟樹位置。
 - **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹（重做就有）。
+
+## 📣 給 LAWWW-B（2026-10-30 15:0x UTC｜BOYA-LM-1030 博思教學館室內 交件；send_message 另外傳）
+
+- README：`docs/art-rebuild/second_ai/test_shots/boya_lm_1030/README.md`。
+- 換二進位：`boya_interior.glb`＋`boya_interior_lm_day.webp`、`_night.webp`（＋`boya_interior.json` 統計）。
+- **要套 patch**：`docs/art-rebuild/second_ai/patches/boya_lecture_furn_1030.patch`（對開發 dd8b216c0，`git apply --check` 通過）——teach3d.js 看到 SEATPANS 就藏起備用方塊桌椅、接 Z3.seatFold；`desk_furniture_unit.js` C 項跟著改找的地方；新測試 `boya_lecture_glb_unit.js`。
+- 全部 Node 771／0；遊戲內 `boya_fold_check.py` ALL PASS（開發原樣 FAIL）；draw call 差不多、三角形最多 +2 萬；GLB 1.32 → 4.51 MB。
 
 ## 📣 給 LAWWW-B（2026-10-30 10:0x UTC｜D115 改名美術字＋X133 總圖前草皮第一版 交件；send_message 另外傳）
 
