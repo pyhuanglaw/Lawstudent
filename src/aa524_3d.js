@@ -66,10 +66,10 @@ const AA524=(function(){
     let d=m.day, n=0; while(n<2){ d++; if(CALENDAR.dateOf(d).wd%7===4) n++; }
     for(let k=0;k<10&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d);k++) d+=7;
     R.y5d=d; return d; };
-  S.y5=function(G){ if(!has('heroine_03','YT_TEN_MINUTES')&&rec(G).y5d==null) return false; if(PHONE.sent(G,'aa524_y5')) return false; const d=S.y5Day(G); if(d==null) return false;
+  S.y5=function(G){ const R0=G.flags.AA524; if(!has('heroine_03','YT_TEN_MINUTES')&&!(R0&&R0.y5d!=null)) return false; if(PHONE.sent(G,'aa524_y5')) return false; const d=S.y5Day(G); if(d==null) return false;
     if(now(G)<T(d,21)||now(G)>=T(d,21+40/60)||!contact(G,'heroine_03')) return false; if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false;
     const L=S.L.y5; PHONE.at(G,d,21,[{th:'p:heroine_03',from:'heroine_03',text:L.msg,ask:{id:'aa524_y5',until:T(d,21+40/60),opts:[{t:L.go,say:[]},{t:L.no,say:[{from:'heroine_03',text:L.noR}]}]}}],'aa524_y5'); return true; };
-  S.y5Due=function(G){ const R=rec(G); if(R.y5!=null||R.y5d==null||G.day!==R.y5d||(+G.hour||0)>=23||typeof PHONE==='undefined'||!PHONE.byAsk) return false; const m=PHONE.byAsk(G,'aa524_y5'); return !!m&&m.ans===0; };
+  S.y5Due=function(G){ const R=G&&G.flags&&G.flags.AA524; if(!R||R.y5!=null||R.y5d==null||G.day!==R.y5d||(+G.hour||0)>=23||typeof PHONE==='undefined'||!PHONE.byAsk) return false; const m=PHONE.byAsk(G,'aa524_y5'); return !!m&&m.ans===0; };
   S.y5Door=async function(GM){ const G=GM.G; if(!S.y5Due(G)) return false; const R=rec(G); R.y5=G.day;
     GM.sceneBegin(); try{ const h=+G.hour||0; if(h<21+50/60&&GM.advance) GM.advance(21+50/60-h); for(const x of S.L.y5.scene) await say(GM,x); } finally { GM.sceneEnd(); } return true; };
   S.phone=function(G){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; for(const f of [S.z3,S.z6,S.y5]){ try{ f(G); }catch(e){ console.warn('AA524 phone',e); } } };
