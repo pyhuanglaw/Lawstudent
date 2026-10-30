@@ -1,4 +1,4 @@
-// 校外單獨約會的預約與衝突檢查（DATE-S3；src/date3d.js 的 DATE.check／canAsk／menu／pickWhen／tick、invites3d.js 的「去校外…」）：AA_128 4-1、4-3。用法：node tests/date_book_unit.js
+// 校外單獨約會的預約與衝突檢查（DATE-S3；src/date3d.js 的 DATE.check／canAsk／menu／pickWhen／tick、invites3d.js 的「出去玩…」）：AA_128 4-1、4-3。用法：node tests/date_book_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -14,7 +14,7 @@ const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotat
 const GM={get G(){ return G; },E,D:{active:false},npc:{},
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
-  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))})); const want=picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
@@ -75,9 +75,9 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true;
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約'];
   const tb=await DATE.menu(GM,'heroine_03',null); const q=tb&&OUT.get(G,'date_'+tb.trip);
-  check('5. 選單：只列有底圖、有台詞的地點（淡水 D13、九份 D18、動物園 D08、烏來 D20 有；陽明山夜景 D15、石門水庫 D22 的底圖 10-23 補進來＝也列；2026-10-21 32 個地點台詞全部匯入以後）',opts[0].includes('淡水金色水岸')&&opts[0].includes('九份老街')&&opts[0].includes('臺北市立動物園')&&opts[0].includes('烏來')&&opts[0].includes('陽明山夜景')&&opts[0].includes(DATE.loc('D22').name),opts[0].join('/'));
-  check('5. 日期：今天起 7 天＋算了',opts[1].length===8&&/^今天/.test(opts[1][0])&&/^明天/.test(opts[1][1]),opts[1].join('/'));
-  check('5. 時間：半日的出發時間（09:00～15:00）＋換一天＋算了',opts[2].includes('15:00 出發')&&opts[2].includes('換一天'),opts[2].join('/'));
+  check('5. 選單：只列有底圖、有台詞的地點（淡水 D13、九份 D18、動物園 D08、烏來 D20 有；陽明山夜景 D15、石門水庫 D22 的底圖 10-23 補進來＝也列；2026-10-21 32 個地點台詞全部匯入以後）',opts[0].all.includes('淡水金色水岸')&&opts[0].all.includes('九份老街')&&opts[0].all.includes('臺北市立動物園')&&opts[0].all.includes('烏來')&&opts[0].all.includes('陽明山夜景')&&opts[0].all.includes(DATE.loc('D22').name),opts[0].all.join('/'));   /* 分層（INVITE-MENU-1030）：all＝每一類展開；opts[1]＝海邊那一類 */
+  check('5. 日期：今天起 7 天＋算了',opts[2].length===8&&/^今天/.test(opts[2][0])&&/^明天/.test(opts[2][1]),opts[2].join('/'));
+  check('5. 時間：半日的出發時間（09:00～15:00）＋換一天＋算了',opts[3].includes('15:00 出發')&&opts[3].includes('換一天'),opts[3].join('/'));
   check('5. 確認的摘要寫：對象、地點、日期、出發、交通、預計花費、回程',said.some(s=>/和.*去淡水金色水岸：明天.*15:00 出發.*單程約.*預計花費.*回到台大/.test(s.t)),said.map(s=>s.t).join(' | '));
   check('5. 約好了：行程 booked、排進出遊（行事曆）、日期是明天',tb&&tb.ok&&tb.day===day+1&&!!q&&q.dateTrip===tb.trip,JSON.stringify(q));
   // 選了不能選的時間：提示、再選一次
@@ -98,8 +98,8 @@ const ADV2=global.ADV; ADV2.active=false;
   const r7=await DATE.move(GM,qm,tm); check('7. 改時間「選別的日期和時間」→ 明天 10:00：行程與行事曆都更新、重新提醒',r7==='moved'&&tm.day===day+1&&tm.depart===10&&qm.day===day+1&&Math.abs(qm.h-(10+DATE.travel('D13').minutes/60))<1e-9&&tm.reminded===false,JSON.stringify(tm));
   // ---------- 8 INV.flow 的入口 ----------
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; opts=[]; picks=['算了'];
-  await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「去校外…」（還沒到第 5 階＝灰掉）',opts[0].includes('去校外…'),opts[0].join('/'));
-  fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「去校外…」',!opts[0].includes('去校外…'),opts[0].join('/'));
+  await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「出去玩…」（還沒到第 5 階＝灰掉）',opts[0].includes('出去玩…'),opts[0].join('/'));
+  fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「出去玩…」',!opts[0].includes('出去玩…'),opts[0].join('/'));
   // ---------- 9 她的句子（DATE-S6；date_lines.js 白名單匯入）----------
   check('9. date_lines.js 來自匯入白名單（BB_128＠ab9d70fe0（10-27 AA_475 第 1、3 節；之前 a1bc53f4c 10-24 AA_447 芷若「是A，不是B」；之前 a5b936a69 AA_439 禁用句；之前 efe575813 AA_436 學姊數東西四句；之前 1ced2f8b3 AA_432 可昕出發句、e78814663 AA_426 第 6 節「……開玩笑的」重訪句改掉；之前 967b4273a AA_426 心願改稿、ffd7eef8 AA_398 學姊不數件數、3229ad05）、AA_127＠482c7f6e9（10-27 AA_475 第 1 節；之前 967b4273a AA_426 以安「理由：」歸零；之前 345234b3）——10-22 換版 10816dd5、10-23 AA_389 第 7 點改放鴿子兩句再換，舊版 741e94f1／5e910dd2 會把 AA_295、AA_313 改過的句子蓋回；date_prefs 兩個檔＠5e910dd2）',/白名單/.test(DATE_LINES.source)&&/BB_128[^＋]*@ab9d70fe0/.test(DATE_LINES.source)&&/AA_127[^＋]*@482c7f6e9/.test(DATE_LINES.source)&&DATE_LINES.source.includes('date_prefs_bb.json@5e910dd2')&&Object.keys(DATE_LINES.lines).length===7,DATE_LINES.source);
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);
@@ -116,7 +116,7 @@ const ADV2=global.ADV; ADV2.active=false;
   check('9. 有台詞、沒底圖的地點（D22 暫時拿掉底圖）不列在約會清單；放回去＝列；烏來 D20 有底圖、有台詞＝列（32 個地點台詞全部匯入以後，2026-10-21）',!!DATE_LINES.loc.D22&&no22&&!!b22&&DATE.listable('D22')&&!!DATE_LINES.loc.D20&&DATE.listable('D20')); }
   DATE_LINES.loc.D09={lines:{}};   /* 測交通偏好用：假裝貓空的台詞到了 */
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
-  check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[1]&&/（她想這樣去）/.test(opts[1][0])&&/捷運/.test(opts[1][0]),JSON.stringify(opts[1]));
+  check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[2]&&/（她想這樣去）/.test(opts[2][0])&&/捷運/.test(opts[2][0]),JSON.stringify(opts[2]));   /* opts[1]＝「山・溫泉・夜景」那一類（INVITE-MENU-1030）*/
   check('9. 玩家改開車：約成、她說「改交通」那一句（不扣分）',tc&&tc.transport==='car'&&lines().some(x=>/坐你的車也可以/.test(x)),lines().join(' | '));
   // 改時間、第三次、取消、放鴿子
   fresh(day,9,'dorm',{}); const tm2=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day,depart:15}); const tr2=DATE.trip(G,tm2.trip), qm2=OUT.get(G,'date_'+tm2.trip);

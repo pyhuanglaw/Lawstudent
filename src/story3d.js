@@ -865,7 +865,7 @@ const STORY = (function(){
       /* 旁邊有她的人（女主角的圈子，AA_503 第 2 節「旁邊有人的時候：她的邀約、私密的話題不出」；src/hcircle3d.js）：不出「約她去…」、priv 的一次性選項（告白）；交換聯絡方式照常。
          每一個選項問清單上自己那一筆（S.privOk＝PRIVTALK.ok：等了 7 天、到期那天照出，AA_503 第 14 節共同的保底）；選了＝S.privLead（旁邊還有人＝先一句旁白）*/
       const pk=o=>o&&o.priv?(typeof o.privKey==='string'?o.privKey:'opt_priv'):null;
-      if(INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')&&S.privOk(G,id,'invite',GM,n)) O.push({t:'約'+her+'去…',hint:INV.kxGF&&INV.kxGF(G,id)?'約會：選地點、日期、時間':'Café、總圖、吃飯、散步',k:'inv'});
+      if(INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')&&S.privOk(G,id,'invite',GM,n)) O.push({t:'約'+her+'去…',hint:'念書、吃飯、喝咖啡、散步、運動'+(typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.HEROINES.includes(id)?'、出去玩':''),k:'inv'});   /* INVITE-MENU-1030：當面也能約校外（AA_535 第 2 節的分類名稱；可昕交往中也照這一份）*/
       /* 保底的「交換聯絡方式」（AA_124 1-7 第 2 點）：到「有點熟」以後還沒有聯絡方式的人；對方的一句照 INVITE_DATA.exchange（還沒寫的人用旁白）*/
       if(INV.canInvite(G,id)&&!INV.hasContact(G,id)&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR')) O.push({t:'交換聯絡方式',k:'ex'});
       for(const f of S.TALK_OPTS){ try{ for(const o of (f(G,id,GM)||[])) if(o&&o.run&&!(pk(o)&&!S.privOk(G,id,pk(o),GM,n))) O.unshift(Object.assign({k:'talk',pk:pk(o)},o)); }catch(e){ console.warn('STORY.TALK_OPTS',e); } }   /* 一次性的對話選項（STORY.TALK_OPTS.push(fn)：fn(G,id,GM) 回傳 [{t,hint,run:async(GM,who,n)}]；priv（＋privKey＝清單的 key）＝私密；例：AA_325 語彤「禮拜六法服第一次值班。」、以安「明軒的事……」）*/
@@ -3645,7 +3645,7 @@ const STORY = (function(){
     if(!F.met_sis){ await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }   /* AA_379：閱覽室、大廳自習區 9/4 以後找她說話＝ev_sis_w1（上面 EVENTS.onInteract），原本那一行旁白（說這裡不能講話）拿掉 */
     SOCIAL.talkedTo('heroine_05'); if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj);
     if(typeof SISY23!=='undefined'&&SISY23.preTalk) await SISY23.preTalk(GM);   /* AA_379 2-3、2-6：大二下第 5～10 週、大三上 11/1～11/9 第一次找她說話，接在前面演，演完照常閒聊（src/sis_y2y3_3d.js）*/
-    if(await relUp(GM,'heroine_05',n)){ GM.sceneEnd(); return; } if(F.met_sis&&G.zone==='cafe'&&await sisCafe(GM,n)){ GM.sceneEnd(); return; }
+    if(await relUp(GM,'heroine_05',n)){ GM.sceneEnd(); return; } if(F.met_sis&&G.zone==='cafe'&&await sisCafe(GM,n)){ if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_05',n); GM.sceneEnd(); return; }   /* Café 晚上那一段（sisCafe）照舊，演完多「約她去…」（INVITE-MENU-1030 C，使用者 10-30「學姊也不能約她」：19:00 以後原本直接結束，走不到 offerInvite）*/
     if(!(await S.ladderTalk(GM,n,'heroine_05'))){ const w=typeof SISB16!=='undefined'&&SISB16.winterLine?SISB16.winterLine(G):null; if(w){ await GM.say(n,w); } else { const l=['判決要看事實，不要只背結論。','法圖九點四十五關門。我都待到最後。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。'].filter((t,i)=>i>0||!(typeof SOCIAL!=='undefined'&&SOCIAL.playerYear&&SOCIAL.playerYear()>=2)); await GM.say(n,l[(Math.random()*l.length)|0]); } }   /* AA_523 6-15：大四寒假（2028-12-25～2029-02-18）換六句輪流（src/sis_b16_3d.js S.winterLine）*/   /* 閒聊階梯（BB_130）優先；AA_263 (b) 第 4 點：「判決要看事實」是學姊對大一學弟講的，大二起不用 */ if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_05',n); GM.sceneEnd(); }
   /* 室友阿凱的宿舍事件（BB_130 第 6 節；LADDER.kaiDorm K-D1～6；使用者 2026-10-15 試玩回報：室友要有故事——打電動、吵架、和好）：
      K-D1 晚上找他說話（週日～四 21～24、一週一次）＝一起打一場；K-D2 第二次以上、打完已經 23 點以後＝一場變三場（時間到 02:00；選「八點。」隔天早上精力 −10）；

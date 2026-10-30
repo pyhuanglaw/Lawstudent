@@ -39,21 +39,44 @@ const SISG=(function(){
      婉拒不扣分；婉拒句四句輪流（G.flags.SISG_DECL）。散步的婉拒照 invites.js 原本那一句（AA_284 1-3），在這之前就回了 */
   S.CAP_PLACES=['cafe','noodle','brunch','teahouse','wenzhou','gym_badminton','run_avenue'];   /* 羽球、晨跑（AA_417 3-3：筆試以前照現有的 rule，和其他不讀書的邀約一起算上限）*/
   S.DECLINE=['「這學期我在準備研究所，晚上大多在圖書館。……約我沒關係，我只是真的沒空。」','「等我考完，你再約一次。」','「今天不行。刑訴在等我。」','「這週的時間用完了。下週再問我。」'];
+  /* AA_535 第 1 節（INVITE-OPTS-1030，AA-B 定稿 dbd49dca7；第②級）放寬：第 1～9 週不設上限（w，她自己的規則照舊）；第 10～13 週一週一次（p＋週次；原本兩週一次）；
+     第 14 週～筆試照舊婉拒（off），但她一定提「一起念書」（S.DECLINE_OFF 兩句輪流＋選項「那一起念書。」，S.studyOffer）；念書（總圖、慢讀咖啡）一直不算次數；
+     校外：第 10～13 週和校內共用那一週的一次、只能約半天（S.tripWhy、S.halfOnly，date3d.js），第 14 週起照舊婉拒（S.DATE_NO.off）*/
   S.capBucket=function(G,day,h){ if(!law(G)||!S.preExam(day,h)) return null; const t=term(day);
-    if(t&&t.id==='Y1S1') return t.week<=9?'w'+t.week:(t.week<=13?'p'+(t.week<=11?10:12):'off');
+    if(t&&t.id==='Y1S1') return t.week<=9?'w'+t.week:(t.week<=13?'p'+t.week:'off');
     const r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S1'):null; return r&&day>r.to?'off':null; };   /* 寒假到筆試：都婉拒 */
   const lunch=(pid,day,h)=>{ const P=typeof INV!=='undefined'&&INV.place?INV.place(pid):null, wd=wdOf(day); return !!P&&P.kind==='meal'&&wd>=1&&wd<=5&&h>=12&&h<13; };
   const awayAt=(G,day,h)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS[ID],Object.assign({},G,{day,hour:h,weekday:wdOf(day),invites:[]})); return !!e&&e.zone==null; };
-  S.capUsed=function(G,day,h){ const b=S.capBucket(G,day,h); if(!b||b==='off') return false;
-    return (G.invites||[]).some(iv=>iv.who===ID&&S.CAP_PLACES.includes(iv.place)&&['accepted','going','done','missed'].includes(iv.state)&&!lunch(iv.place,iv.day,iv.h)&&S.capBucket(G,iv.day,iv.h)===b); };
+  S.capUsed=function(G,day,h,skipTrip){ const b=S.capBucket(G,day,h); if(!b||b==='off') return false;
+    return (G.invites||[]).some(iv=>iv.who===ID&&S.CAP_PLACES.includes(iv.place)&&['accepted','going','done','missed'].includes(iv.state)&&!lunch(iv.place,iv.day,iv.h)&&S.capBucket(G,iv.day,iv.h)===b)
+      ||(G.trips||[]).some(t=>t&&t.who===ID&&t.trip!==skipTrip&&t.status!=='cancelled'&&S.capBucket(G,t.day,+t.depart||0)===b); };   /* 校外約會也算那一週的一次（AA_535 1-2）*/
   S.declineLine=function(G){ const F=G.flags||(G.flags={}), n=F.SISG_DECL|0; F.SISG_DECL=n+1; return S.DECLINE[n%S.DECLINE.length]; };
+  S.DECLINE_OFF=['「這陣子只剩念書的時間。……一起念的話可以。」','「考前我不出去。總圖的話，我在。」'];   /* AA_535 1-3：第 14 週～筆試，兩句輪流（G.flags.SISG_DECL2）*/
+  S.offLine=function(G){ const F=G.flags||(G.flags={}), n=F.SISG_DECL2|0; F.SISG_DECL2=n+1; return S.DECLINE_OFF[n%S.DECLINE_OFF.length]; };
   S.inviteCap=function(G,c){ if(!c||!c.r||c.postExam||!S.CAP_PLACES.includes(c.pid)||(c.r.res!=='accept'&&c.r.res!=='resched')) return null;
-    const b=S.capBucket(G,c.day,c.h); if(!b) return null;
+    const b=S.capBucket(G,c.day,c.h); if(!b||/^w/.test(b)) return null;   /* 第 1～9 週不設上限（AA_535 1-2）*/
     if(lunch(c.pid,c.day,c.h)&&!awayAt(G,c.day,c.h)) return null;
     if(b!=='off'&&!S.capUsed(G,c.day,c.h)) return null;
-    return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };
-  /* 校外約會（DATE.menu）：第 1～9 週照一般條件；第 10～13 週婉拒「等我考完。」；第 14 週～筆試（capBucket 'off'）換一句（AA_339 第 4 題）*/
-  S.dateDecline=function(G){ const b=S.capBucket(G,G.day,G.hour); return !!b&&!/^w/.test(b); };
+    if(b==='off') return {res:'decline',why:'exam',lines:[S.offLine(G)],alt:null,study:true};   /* 說完接「那一起念書。」（invites3d.js 的 flow → S.studyOffer）*/
+    return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };   /* 第 10～13 週：這一週用過了（四句輪流；「這週的時間用完了。下週再問我。」在這裡才合）*/
+  /* 「那一起念書。」（AA_535 1-3）：系統替你約同一個時間的念書地點——平日總圖、週末而且慢讀開著＝慢讀咖啡；那個時間都不行＝照一般「改天」算總圖的下一個空檔。她答應的那一句 S.STUDY_YES；「不用了。」什麼都不發生 */
+  S.STUDY_YES='「好。我帶刑訴。……你不要跟我講話，傳訊息。」';
+  S.STUDY_OPTS=['那一起念書。','不用了。'];
+  S.studyAt=function(G,W){ if(typeof INV==='undefined'||!INV.place) return null; const wk=[1,2,3,4,5].includes(wdOf(W.day)), ok=pid=>{ const P=INV.place(pid); return !!P&&(!P.show||P.show(G,ID))&&INV.freeAt(G,ID,P,W.day,W.h); };
+    if(!wk&&ok('slowread')) return {pid:'slowread',day:W.day,h:W.h}; if(ok('library')) return {pid:'library',day:W.day,h:W.h};
+    const L=INV.place('library'), a=L?INV.nextFree(G,ID,L,W.day,W.h):null; return a?{pid:'library',day:a.day,h:a.h}:null; };
+  S.studyOffer=async function(GM,W,who,n){ const G=GM.G; const k=await GM.choose(S.STUDY_OPTS.map(t=>({t}))); if(k!==0) return null;
+    const at=S.studyAt(G,W); if(!at){ await GM.say(null,'這幾天找不到一起念書的時間。'); return null; } const P=INV.place(at.pid), now=!!W.now&&at.day===G.day&&Math.abs(at.h-W.h)<1e-6&&!!n;
+    const iv=INV.accept(G,ID,at.pid,at.day,at.h,{now,by:'player'}); await GM.say(who,S.STUDY_YES); await GM.say(null,now?'你們一起'+P.verb+'。':'約好 '+INV.when(G,at.day,at.h)+'，'+P.name+'。');
+    if(now&&n){ if(GM.standUp) GM.standUp(n); n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; };
+  S.preExamStudy=(G,c)=>!!c&&S.capBucket(G,c.day,c.h)==='off';   /* 第 14 週～筆試約念書（慢讀）：她答應的那一句也是 S.STUDY_YES（AA_535 4-2）*/
+  /* 校外約會（DATE.menu）：第 1～9 週照一般條件；第 10～13 週和校內共用那一週的一次、只能約半天（S.halfOnly、S.tripWhy；AA_535 1-2，原本婉拒「等我考完。」）；第 14 週～筆試（capBucket 'off'）照舊婉拒（AA_339 第 4 題）*/
+  S.dateDecline=function(G){ return S.capBucket(G,G.day,G.hour)==='off'; };
+  S.halfOnly=function(G){ return /^p/.test(S.capBucket(G,G.day,G.hour)||''); };
+  S.tripWhy=function(G,o){ if(!o||o.who!==ID) return ''; const b=S.capBucket(G,o.day,+o.depart||0); if(!b||/^w/.test(b)) return '';
+    if(b==='off') return '她考試前不出去';
+    if(o.kind&&o.kind!=='half'&&o.kind!=='evening') return '考試前只能約半天';
+    return S.capUsed(G,o.day,+o.depart||0,o.skip)?'這週已經約過她了':''; };
   S.DATE_NO={p:'等我考完。',off:'校外的話，等我考完。……考完我想去很遠的地方。'};
   S.dateNo=async function(GM,n){ const G=GM.G, t=S.capBucket(G,G.day,G.hour)==='off'?S.DATE_NO.off:S.DATE_NO.p, nm=S.who().name;
     if(n) await GM.say({name:nm,obj:n.obj,charId:ID},t); else { if(typeof PHONE!=='undefined') PHONE.post(G,P5(t)); await GM.say({name:nm+'（手機）',charId:ID},t); if(GM.phoneBadge) GM.phoneBadge(); } };

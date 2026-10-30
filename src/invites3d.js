@@ -47,7 +47,7 @@ const INV=(function(){
   const WK=['日','一','二','三','四','五','六'];
   /* 和這個人約好、還沒到（或正在一起走過去）的那一筆 */
   S.booked=(G,id)=>(G.invites||[]).filter(iv=>iv.who===id&&(iv.state==='accepted'||iv.state==='going')&&(iv.day>G.day||(iv.day===G.day&&iv.h+((S.place(iv.place)||{}).stay||1)>G.hour%24))).sort((a,b)=>a.day-b.day||a.h-b.h)[0]||null;
-  S.whyNot=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他', W=D().why||{};
+  S.whyNot=function(G,id,o){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return '不能約'; const pr=c.gender==='f'?'她':'他', W=D().why||{};   /* o.face：當面約（不用聯絡方式，AA_124 1-7；INVITE-MENU-1030 當面也能約校外：DATE.canAsk 傳進來）*/
     if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
     const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
     if(!pres.here&&pres.kind==='unreachable') return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):pr)+'沒有回覆。';   /* 沛珊消失期（BB_205 第 3 節）*/
@@ -59,7 +59,7 @@ const INV=(function(){
     if(!pres.here&&pres.kind!=='taipei'&&!((pres.kind==='home'||pres.kind==='city')&&hvOk(G,id))&&!tc) return fmtWhy(pres.kind==='after'?W.graduated:((pres.kind==='absent'||pres.kind==='abroad')?W.abroad:W.away),{pr})||'這學期不在學校';   /* abroad：characters.js absentDates 的交換（以安 3/25～8/5 在日本、學姊 8/2～12/23 在美國）＝「{pr}這學期在國外。」（AA_341 J-S16）；city：沛珊大三起在台南（AA_282）*/
     const b=S.booked(G,id); if(b) return fmtWhy(W.booked,{when:'週'+WK[wdOf(G,b.day)]+' '+hh(b.h),place:(S.place(b.place)||{}).name||''});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return W.stranger||'還不太熟';
-    if(!S.hasContact(G,id)) return fmtWhy(stageOk(id,'FAMILIAR')?W.noContactAsk:W.noContact,{pr});
+    if(!(o&&o.face)&&!S.hasContact(G,id)) return fmtWhy(stageOk(id,'FAMILIAR')?W.noContactAsk:W.noContact,{pr});
     return ''; };
   const stageOk=(id,min)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return true; const L=SOCIAL.STAGES||[]; return L.indexOf(SOCIAL.stage(id))>=L.indexOf(min); };
   /* 關係夠不夠去這個地方：階段到了，或是已經一起做過這件事（那個地方會留下的記憶，例如一起吃過飯 SHARED_MEAL）——
@@ -95,7 +95,8 @@ const INV=(function(){
   const live=iv=>iv.state==='accepted'||iv.state==='going'||iv.state==='offered'||iv.state==='changed';
   const clash=(G,who,day,h,stay,skip)=>(G.invites||[]).find(iv=>iv!==skip&&live(iv)&&iv.day===day&&(iv.who===who||who==null)&&Math.abs(iv.h-h)<Math.max(stay,(S.place(iv.place)||{}).stay||1)+0.25);
   /* 這個時間可不可以（不看關係）：開著、沒和別人約、作息沒事、不是半夜 */
-  const hoursOf=(G,P,day)=>P.hoursBy?([0,6].includes(wdOf(G,day))?P.hoursBy.we:P.hoursBy.wk):P.hours;   /* hoursBy：平日、週末不同（羽球平日 12:00～21:00、週末 9:00～17:00，AA_126 6-6）*/
+  const hoursOf=(G,P,day)=>{ if(P.hoursFrom&&typeof PLACES!=='undefined'&&PLACES.windowsOf){ const ws=PLACES.windowsOf(P.hoursFrom,day); if(ws!==undefined) return ws&&ws[0]?ws[0]:[99,0]; }   /* hoursFrom：照 places.js 那一區的開放時間（法圖：學期中平日 08:10～21:45、週末 09:10～17:00，寒暑假另外；AA_535b 2-1）*/
+    return P.hoursBy?([0,6].includes(wdOf(G,day))?P.hoursBy.we:P.hoursBy.wk):P.hours; };   /* hoursBy：平日、週末不同（羽球平日 12:00～21:00、週末 9:00～17:00，AA_126 6-6）*/
   const winOk=(G,P,day,h)=>{ const hr=hoursOf(G,P,day); return (!P.days||P.days.includes(wdOf(G,day)))&&(!P.avail||P.avail(G,day))&&(!hr||(h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6)); };   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
   const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
   const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
@@ -115,7 +116,7 @@ const INV=(function(){
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
     if(clash(G,null,day,h,P.stay)||tripAt(G,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人（校外約會也算，BUG-DATE-OVERLAP-1021）；改天的時間跳過約會那段 */
     const other=clash(G,id,day,h,P.stay); if(other) return {res:'resched',why:'booked',alt:S.nextFree(G,id,P,day,other.h+((S.place(other.place)||{}).stay||1))};
-    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5) return {res:'resched',why:'closed',alt:S.nextFree(G,id,P,day,h+0.5)};
+    if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5) return {res:'resched',why:'closed',day,alt:S.nextFree(G,id,P,day,h+0.5)};
     const b=busyAt(G,id,day,h,P.stay); if(b){ const end=b.to<=24?b.to:b.to-24; return {res:'resched',why:'busy',act:b.act,alt:S.nextFree(G,id,P,day,end>h?end:h+0.5)}; }
     return {res:'accept'}; };
   /* ---------- 個性（INVITE_DATA.people；AA_70 第 2 節＋BB_121、BB_70，2026-10-14 第②級）----------
@@ -222,6 +223,7 @@ const INV=(function(){
       if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return done(out); } }
     if(P.sport&&r.res==='accept'){ let v=p.acc&&p.acc[P.id]; if(typeof v==='function') v=v(G,c);   /* A＝有點熟、R＝朋友以上（交往中、曖昧也算朋友以上：照 SOCIAL.stage，和地點的門檻同一把尺）*/
       const sb=typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.STAGES?(SOCIAL.STAGES.indexOf(S.stageOf(G,id))>=SOCIAL.STAGES.indexOf('FRIEND')?'R':'A'):c.band, L=v==null?null:(Array.isArray(v)?v:(v[sb]||null)); if(L){ out.lines=L.slice(); return done(out); } if((D().sportPlain||[]).includes(id)){ out.lines=['（他答應了。）']; return done(out); } }   /* 一起運動（AA_417 第 3 節）：答應照 §3 的 acc（優先於 AA_415 的一般句；第一次去也用這一句，子晴、可昕第一次的那句在見面時說＝firstAt）；男生朋友沒有這一句＝旁白「（他答應了。）」*/
+    if(!RPL.includes(P.id)&&!P.sport){ const own=r.res==='accept'?((c.first&&tb('first'))||tb('acc')):(r.res==='resched'&&(r.why==='busy'||r.why==='booked')?tb('plan'):null); if(own){ out.lines=own.slice(); return done(out); } }   /* AA_415 表沒有的地點（慢讀咖啡，AA_535 4-2）：照那個地點自己的 first／acc／plan，不借表上不限地點的一般句 */
     const pk=S.replyPick(G,id,c,tb);   /* AA_415（D14-T9）：照階段、地點、時間、來過沒選一句；沒有表的人＝null */
     if(pk&&pk.row){ out.lines=pk.lines; if(pk.alt!==undefined) out.alt=pk.alt; return done(out,pk.row.id); }
     if(r.res==='accept'){ const L=(c.first&&tb('first'))||tb('acc'); if(L&&!(pk&&pk.governs&&S.replyRow(id,L))) out.lines=L.slice(); }   /* 表上這一階沒有句子＝照原本的 acc、first；
@@ -246,7 +248,7 @@ const INV=(function(){
     if(r.why==='rain') return (D().why||{}).rain||'下雨了，不能晨跑。';   /* 晨跑：下雨不能約（AA_126 6-6）*/
     if(r.why==='mine') return '你那個時間已經約了別人。'+(alt?'改成 '+alt+'？':'');
     if(r.why==='booked') return nm+'那個時間已經跟人約了。'+(alt?'問你 '+alt+' 可不可以。':'');
-    if(r.why==='closed') return P.name+'那個時間沒開。'+(alt?nm+'問 '+alt+' 可不可以。':'');
+    if(r.why==='closed') return (S.offWhy(G,P,r.day!=null?r.day:G.day)||P.name+'那個時間沒開')+'。'+(alt?nm+'問 '+alt+' 可不可以。':'');   /* 公休日寫「慢讀咖啡週二休。」（AA_535 4-1）*/
     if(r.why==='busy') return nm+'那時候'+(ACTN[r.act]||'有事')+'。'+(alt?'問你 '+alt+' 可不可以。':'');
     if(r.why==='rel'||r.why==='partner') return S.placeWhy(G,id,P)||(nm+'客氣地說下次吧。');
     if(r.why==='away'){ const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{}; return pr.kind==='unreachable'?nm+'沒有回覆。':pr.kind==='home'?nm+(pr.keep?'在'+pr.home+'老家念書':'寒暑假回'+pr.home+'了')+'，不在臺北。':pr.kind==='trip'?nm+pr.away+'，不在臺北。':pr.kind==='city'&&pr.city&&!pr.lost?nm+'在'+pr.city+'，不在臺北。':nm+'這學期不在學校。'; }   /* city：沛珊大三起在台南（AA_282 第 1 節：她不來臺北）；還沒重新聯絡上的不寫在哪 */   /* AA_276：回老家的期間約不到臺北的地點 */   /* 沛珊消失期：聯絡不到（BB_205 第 3 節）*/
@@ -281,7 +283,7 @@ const INV=(function(){
     if(P.id==='gym_badminton'){ const r=DY.gym=DY.gym||{}; if(!Array.isArray(r.seen)) r.seen=[]; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:((G.weekday|0)||7), wk=G.day-(wd-1);
       if(r.wk!==wk){ r.wk=wk; r.wkN=0; r.seen=[]; } if((r.wkN|0)<2){ r.wkN=(r.wkN|0)+1; r.fit=Math.min(100,(r.fit|0)+1); } r.fitDay=G.day; r.sportDay=G.day; }   /* 和 gym3d.js 的打羽球同一套 */
     else if(P.id==='run_avenue'){ const r=DY.gym=DY.gym||{}; r.sportDay=G.day; } };
-  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ SOCIAL.MEMORY_LABEL.SPORT_BADMINTON=SOCIAL.MEMORY_LABEL.SPORT_BADMINTON||'一起打羽球'; SOCIAL.MEMORY_LABEL.SPORT_RUN=SOCIAL.MEMORY_LABEL.SPORT_RUN||'一起晨跑'; }   /* 人物頁的記憶名稱 */
+  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ SOCIAL.MEMORY_LABEL.SPORT_BADMINTON=SOCIAL.MEMORY_LABEL.SPORT_BADMINTON||'一起打羽球'; SOCIAL.MEMORY_LABEL.SPORT_RUN=SOCIAL.MEMORY_LABEL.SPORT_RUN||'一起晨跑'; SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER=SOCIAL.MEMORY_LABEL.SLOWREAD_TOGETHER||'一起在慢讀咖啡念書'; }   /* 慢讀（AA_535 4-1）*/   /* 人物頁的記憶名稱 */
   /* 羽球小短片（BADMINTON-CLIP-1027，使用者 X106「跟陳羽彤打羽球也只是對話帶過? 不能做個小短片?」；演出 AA_485 第 2 節；src/badminton_clip3d.js）：
      和這個人第一次一起打（之前沒有一筆 done 的羽球邀約）＝完整版三個鏡頭，之後只演鏡頭 2；可以跳過。最後一個鏡頭那一句（BADCLIP.LINES：以安、語彤、學姊、沛珊）只在完整版演完、沒跳過時說。
      人在新體育館（G.zone==='gym'）才演；短片要看到 3D，演的時候先收 ADV、演完照原本的樣子開回來。*/
@@ -317,7 +319,7 @@ const INV=(function(){
       else { if(lines&&lines.length){ for(const t of lines) await GM.say(who,t); } else if(P.scene) await P.scene(GM,iv,who); /* 地點自己的見面（茶席：AA_167，src/wzlines3d.js）*/ else if(ml) await GM.say(/^「/.test(ml)?who:null,ml); else await GM.say(null,'你和'+nm+P.verb.replace(/^去/,'在')+'。');
         { const FA=FAof(); if(FA) await S.playLines(GM,who,FA); } }   /* 第一次和她（他）去那個地方：在那裡多說的（BB_158 的 first：點完餐、脫鞋、老闆娘說的三分四十秒）*/
       if(!P.ownMeal){ await GM.fade(true); GM.advance(P.stay); await GM.fade(false); } GM.caption('',[P.name,nm,'（'+(P.stay>=1?P.stay+' 小時':Math.round(P.stay*60)+' 分鐘')+'）'].join('・'),2600);   /* ownMeal：地點的 scene 自己點餐、走時間（Pasta 118 照 L118.order，AA_480 第 5 節）*/
-      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
+      if(typeof SOCIAL!=='undefined'){ if(SOCIAL.remember) SOCIAL.remember(iv.who,P.memory,P.name); if(SOCIAL.activity){ SOCIAL.activity(iv.who,P.sport?'sport':({cafe:'cafe',library:'library',noodle:'meal',wenzhou:'walk',brunch:'meal',teahouse:'cafe',slowread:'library'}[P.id]||(P.kind==='meal'?'meal':'cafe'))); if(iv.by==='npc') SOCIAL.activity(iv.who,'acceptInvite'); } else if(SOCIAL.adjust) SOCIAL.adjust(iv.who,{fam:2}); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum(iv.who)>=3&&iv.who!=='kexin'){ const DY=G.daily||(G.daily={}), k='romAlone_'+iv.who; if(DY[k]!==G.day){ DY[k]=G.day; SOCIAL.adjust(iv.who,{npcRom:1,rom:1}); } }   /* 校園單獨約出來（AA_128 1-1）：她的戀愛 +1、祐廷的戀愛 +1，同一個人一天一次；AA_243 第 1 節（BB_199 P0-1 方案 A）：從朋友（第 3 階）開始，不是第 5 階 */   /* AA_124 1-2：照地點（Café、總圖、吃飯、溫州街）；對方約的又赴約，信任 +1 */
       if(sp) S.sportAfter(G,iv.who,P);   /* 子晴、可昕：自在 +3、她的戀愛 +3（AA_126 6-3）；羽球＝打羽球的體能 */
       if(typeof WISH!=='undefined'&&WISH.meetMention) await WISH.meetMention(GM,iv,who);   /* 心願：聊天提到（DATE-C4、C5；src/wish3d.js）——見面那一段演完、道別以前，條件到了說一次 */
@@ -493,33 +495,84 @@ const INV=(function(){
   S.todayLines=function(G){ return (G.invites||[]).filter(iv=>(iv.state==='accepted'||iv.state==='going')&&iv.day===G.day).sort((a,b)=>a.h-b.h).map(iv=>(iv.state==='going'?'現在':hh(iv.h))+'　'+iv.label); };
   S.upcoming=function(G){ return (G.invites||[]).filter(iv=>iv.state==='accepted'&&(iv.day>G.day||(iv.day===G.day&&iv.h+0.75>G.hour%24))).sort((a,b)=>a.day-b.day||a.h-b.h); };
   /* 約的時間的選項：在一起的時候「現在一起過去」；今天還沒過的固定時間；明天 */
+  S.timesOf=(G,P,day)=>P.timesBy?([0,6].includes(wdOf(G,day))?P.timesBy.we:P.timesBy.wk):(P.times||D().times);   /* timesBy：平日、週末不同的時間（慢讀咖啡：平日 12:10、15:30，週末多 10:00、14:00；AA_535 4-1）*/
   S.timeOptions=function(G,together,P){ const out=[]; const h=G.hour%24;
     if(P&&P.when) return (P.when(G,together)||[]).map(q=>Object.assign({t:q.now?'現在一起過去':when(G,q.day,q.h)},q));   /* 只有某些日子的地點（溫州街的茶席：每月第三個週日下午，src/wzlines3d.js）：日子、時間由那個地點給 */
-    if(P&&P.times){ const hr=P.hours||[0,24]; if(together&&h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6) out.push({t:'現在一起過去',now:true,day:G.day,h});   /* 只有固定時間的地點（晨跑 06:30～07:30，AA_126 6-6）：今天還沒過的、明天的那幾個時間 */
-      for(const t of P.times) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of P.times) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return out; }
+    if(P&&(P.times||P.timesBy)){ const hr=P.hours||[0,24]; if(together&&h>=hr[0]-1e-6&&h+P.stay<=hr[1]+1e-6) out.push({t:'現在一起過去',now:true,day:G.day,h});   /* 只有固定時間的地點（晨跑 06:30～07:30，AA_126 6-6）：今天還沒過的、明天的那幾個時間 */
+      for(const t of S.timesOf(G,P,G.day)) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of S.timesOf(G,P,G.day+1)) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return out; }
     if(together&&h<21.5) out.push({t:'現在一起過去',now:true,day:G.day,h});
     for(const t of D().times) if(t>h+0.4) out.push({t:'今天 '+hh(t),day:G.day,h:t}); for(const t of [12+10/60,19]) out.push({t:'明天 '+hh(t),day:G.day+1,h:t}); return out; };
   /* ---------- 約人的流程（當面：story3d.js 的 talkCharacter；手機：game3d.js 的「朋友」）：去哪裡 → 什麼時候 → 對方的回答 → 改天就問要不要那個時間 ---------- */
   /* 期末時段裡約成的吃飯＝期末的飯（AA_268 第 1 節）：標 iv.te、系統字、其他還沒回的期末邀約自動婉拒 */
   S.teMark=function(GM,iv,id,P,W){ const G=GM.G, te=iv&&typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null; if(!te||!te.kind) return false;
     iv.te={term:te.w.id,kind:te.kind}; TERMEND.playerPicked(G,iv); if(GM.toast) GM.toast(te.kind==='gf'?TERMEND_LINES.SYS_GF:TERMEND_LINES.SYS_TE,4200); return true; };
+  /* ---------- 「約她去…」的清單分層（INVITE-MENU-1030，使用者 10-30 04:2x「學姊也不能約她 其他活動 請幫我檢查統一每個可攻略角色約她的選項要更多 如果太多就分階層」）----------
+     第一層照分類，一層最多約 8 列；一類只有一個＝直接列那一項（不多一層）；一類一個都沒有＝不列；整類都約不了＝灰掉、小字寫第一個原因（選了說原因、再選一次）。
+     分類名稱照 AA_535 第 2 節（INVITE-OPTS-1030，AA-B 定稿）：念書／吃飯／喝咖啡、喝茶／散步／運動／出去玩（校外，不寫「約會」）／這個時候才有（節日、茶席、去她的城市、視訊這類有時間的）。
+     地點的分類：P.cats（可以放兩類：慢讀咖啡＝念書＋喝咖啡、喝茶；一盞的茶席＝喝咖啡、喝茶＋這個時候才有），沒有就照 zone（總圖＝念書）、kind（meal 吃飯、walk 散步、sport 運動、其他＝喝咖啡、喝茶）。系統字，不是台詞 */
+  S.CATS=[{id:'study',t:'念書'},{id:'meal',t:'吃飯'},{id:'sit',t:'喝咖啡、喝茶'},{id:'walk',t:'散步'},{id:'sport',t:'運動'}];
+  S.CAT_OF={teahouse_ceremony:['sit','when']};
+  S.catsOf=P=>{ const L=P.cats||S.CAT_OF[P.id]||[P.cat||(/^library/.test(String(P.zone||''))?'study':({meal:'meal',walk:'walk',sport:'sport'}[P.kind]||'sit'))]; const ok=L.filter(c=>c==='when'||S.CATS.some(x=>x.id===c)); return ok.length?ok:['sit']; };
+  S.catOf=P=>S.catsOf(P)[0];
+  S.OUT_LABEL='出去玩…'; S.WHEN_LABEL='這個時候才有';
+  S.STAY_MENU={stay:true};   /* menuTree 的 pick 回傳它＝說完原因、留在同一層再選 */
+  const BACK={back:true};
+  /* 分層選單（INV.flow、DATE.menu 共用）：nodes＝[{t, hint, dim, why, items:[…]}（一類）| 一項]。回傳選到的那一項（null＝算了）；
+     pick(x)：選到一項時先問（回傳 S.STAY_MENU＝留在同一層；其他＝結束，回傳值就是結果）。一類寫「名稱…」、小字列裡面約得到的名稱；下一層最後一列「返回」*/
+  S.menuTree=async function(GM,nodes,pick,o){ o=o||{};
+    const norm=L=>{ const out=[]; for(const x of L||[]){ if(!x) continue; if(!x.items){ out.push(x); continue; } const it=norm(x.items); if(!it.length) continue; if(it.length===1){ out.push(it[0]); continue; }
+        const live=it.filter(q=>!q.dim); out.push(Object.assign({},x,{items:it,dim:!live.length,hint:live.length?(x.hint!=null?x.hint:live.map(q=>q.short||q.t).join('、')):(it[0].hint||it[0].why||''),why:live.length?null:(it[0].why||it[0].hint||'')})); }
+      return out; };
+    const leaves=x=>x.items?[].concat(...x.items.map(leaves)):[x.t];
+    const level=async(L,sub)=>{ for(;;){ const opts=L.map(x=>x.items?{t:x.t+'…',hint:x.hint||'',dim:!!x.dim,sub:leaves(x)}:{t:x.t,hint:x.hint||'',dim:!!x.dim}); opts.push({t:sub?'返回':(o.cancel||'算了')});   /* sub：這一類裡面每一項的名稱（畫面不用；測試照名稱找到那一類）*/
+        const k=await GM.choose(opts); if(!(k>=0&&k<L.length)) return sub?BACK:null; const x=L[k];
+        if(x.items){ if(x.dim){ await GM.say(null,String(x.why||x.hint||'').replace(/([^。！？」）])$/,'$1。')); continue; } const r=await level(x.items,true); if(r===BACK) continue; return r; }
+        const r=pick?await pick(x):x; if(r===S.STAY_MENU) continue; return r; } };
+    return level(norm(nodes),false); };
+  /* 可昕交往中（法律系那幾年，kxGF）約校內（INVITE-MENU-1030 D；原本只有羽球、晨跑）：答應句接得上的地點才列——AA_415 表（法律系、交往中那一階：那個地點的，或不限地點、沒有條件的一般句 kx20）
+     或 INVITE_DATA.people.kexin.acc；羽球、晨跑照舊（AA_417 3-2）。沒交往照舊（她在政大：不用這個清單約）。kxPlaceLine：'own'＝那個地點自己的句子、'general'＝只有一般句、null＝沒有（不列）*/
+  S.kxPlaceLine=function(G,P){ if(!P) return null; const R=RP(), rows=(R&&R.kexin)||[], ok=r=>r.k==='acc'&&!r.off&&!r.apart&&(!r.sec||r.sec==='law')&&Array.isArray(r.st)&&r.st[0]<=7&&r.st[1]>=7&&!r.cond&&!r.when;
+    let v=(((D().people||{}).kexin||{}).acc||{})[P.id]; if(typeof v==='function') v=v(G,{}); if(v!=null||rows.some(r=>ok(r)&&(r.tags||[]).includes(P.id))) return 'own';
+    return rows.some(r=>ok(r)&&!(r.tags||[]).length)?'general':null; };
+  S.kxPlaceOk=(G,P)=>!!P&&(!!P.sport||!!S.kxPlaceLine(G,P));
+  /* 今天、明天以外的日子（INVITE-MENU-1030 F：學姊平日白天在總圖，今天、明天的時間都撞「她就在總圖」）：時間清單最後「其他日子…」＝之後 2～7 天選一天、再選時間（照校外約會 DATE.pickWhen）。
+     那個地方那個時間沒開的灰掉（小字寫原因）；她那時候有沒有空照 decide（改天、婉拒照原本的回法）。地點自己給日子的（茶席 P.when）沒有這一項 */
+  S.MORE_TIMES=[10,12+10/60,15.5,17.5,19,21];
+  S.dayLabel=(G,day)=>{ const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day):null; return (d&&d.m?d.m+'/'+d.d:'第 '+day+' 天')+'（週'+WK[wdOf(G,day)]+'）'; };
+  S.moreDays=G=>{ const out=[]; for(let k=2;k<=7;k++) out.push(G.day+k); return out; };
+  S.slotOpen=(G,P,day,h)=>h>=(P.hours&&P.hours[0]<8?P.hours[0]:8)-1e-6&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h);
+  S.pickDay=async function(GM,id,P){ const G=GM.G; for(;;){ const days=S.moreDays(G); const di=await GM.choose(days.map(d=>({t:S.dayLabel(G,d)})).concat([{t:'返回'}])); if(!(di>=0&&di<days.length)) return null; const day=days[di];
+      const rows=(P.times||P.timesBy?S.timesOf(G,P,day):S.MORE_TIMES).map(h=>({h,ok:S.slotOpen(G,P,day,h)})), no=S.offWhy(G,P,day)||P.name+'那個時間沒開';
+      for(;;){ const ti=await GM.choose(rows.map(r=>({t:hh(r.h),hint:r.ok?'':no,dim:!r.ok})).concat([{t:'換一天'}])); if(!(ti>=0&&ti<rows.length)) break; const r=rows[ti];
+        if(!r.ok){ await GM.say(null,no+'。'); continue; } return {t:when(G,day,r.h),day,h:r.h}; } } };
+  S.offWhy=(G,P,day)=>P&&Array.isArray(P.off)&&P.off.includes(wdOf(G,day))?P.name+'週'+WK[wdOf(G,day)]+'休':'';   /* 公休日（慢讀咖啡週二休，AA_535 4-1）*/
   S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
     const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
-    const PL=(kxGF(G,id)?D().places.filter(Q=>Q.sport):D().places.filter(()=>!t7)).filter(Q=>!Q.show||Q.show(G,id)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕在政大：不約台大校園裡的地點，只有「去校外…」；一起運動（羽球、晨跑）可以：她下山來，羽球場用祐廷台大的帳號預約（AA_417 3-2）*/
+    const far=!n&&typeof STORY!=='undefined'&&!!STORY.reachable&&!STORY.reachable(id,G);   /* INVITE-MENU-1030 E：手機約、她今天不在臺北（沛珊大三起在台南、寒暑假在老家）＝校內的地點不列（比照 T7a；原本照列、每一個都回「不在臺北」）*/
+    const PL=(t7||far?[]:D().places.filter(Q=>!kxGF(G,id)||S.kxPlaceOk(G,Q))).filter(Q=>!Q.show||Q.show(G,id)); let k, P=null;   /* show：還沒開放的地點不列（茶席，src/wzlines3d.js）*/   /* 可昕交往中：答應句接得上的校內地點都可以約（她從政大下來；羽球場用祐廷台大的帳號預約，AA_417 3-2）*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/
-    const dOk=typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.HEROINES.includes(id)&&!together;   /* 校外約會（DATE-S3，AA_128 4-1）：女主角的清單最後多一個「去校外…」；約不到時選了寫原因 */
+    const dOk=typeof DATE!=='undefined'&&DATE.HEROINES&&DATE.HEROINES.includes(id);   /* 校外約會（DATE-S3，AA_128 4-1）：女主角的清單多一個「去校外…」；當面也可以（INVITE-MENU-1030 B：原本當面一律沒有）；約不到時灰掉、選了寫原因 */
     const hv=!n&&typeof HV!=='undefined'&&typeof HOMETOWN_LINES!=='undefined'&&HV.offer?HV.offer(G,id):null;   /* 寒暑假她在高雄／台中（AA_276 第 1-1、5 節）：「我去高雄找妳？」 */
     const vd=!n&&typeof HV!=='undefined'&&HV.videoOffer?HV.videoOffer(G,id):null;   /* 沛珊交往中、她在台南：「視訊？」（AA_349 K5；晚上 21:00～22:30、一週最多兩次）*/
-    for(;;){ const opts=PL.map(Q=>({t:Q.verb,hint:S.placeWhy(G,id,Q)})); if(dOk){ const ca=DATE.canAsk(G,id); opts.push({t:'去校外…',hint:ca.ok?'約會：選地點、日期、時間':ca.why,dim:!ca.ok}); } const hvIdx=hv?opts.length:-1; if(hv){ const HL=HOMETOWN_LINES[HV.key?HV.key(G,id):id]||HOMETOWN_LINES[id]; opts.push({t:HL.ask,hint:hv.ok?'當天來回　'+HL.travel:hv.why,dim:!hv.ok}); }   /* 沛珊在台南那一組（HV.key，AA_328 3-09）*/
-      const vdIdx=vd?opts.length:-1; if(vd){ const VL=(HOMETOWN_LINES[HV.key(G,id)]||{}).video||{}; opts.push({t:VL.ask||'視訊？',hint:vd.ok?vd.hint:vd.why,dim:!vd.ok}); }
-      const fsIdx=opts.length, fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null; if(fsO) opts.push(fsO);   /* 約她過節（AA_416，fest3d.js）：她的節日前後，清單最後多一個「約她過節：…」；約不到的灰掉、選了說原因 */
-      opts.push({t:'算了'});   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
-      k=await GM.choose(opts); if(dOk&&k===PL.length) return DATE.menu(GM,id,n); if(k===hvIdx) return HV.ask(GM,id); if(k===vdIdx) return HV.video(GM,id); if(fsO&&k===fsIdx){ if(fsO.dim){ await GM.say(null,fsO.hint+'。'); continue; } return FEST.ask(GM,id,n); } if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why);
-      { const ps=S.partnerBlock(G,id,PL[k])&&(((D().people||{})[id]||{}).partnerSay||{})[PL[k].id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); } }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
-    const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
-    k=await GM.choose(to); if(k>=T.length) return null; const W=Object.assign({},T[k]);
+    const fsO=typeof FEST!=='undefined'&&FEST.flowOpt?FEST.flowOpt(G,id,n,together):null;   /* 約她過節（AA_416，fest3d.js）：她的節日前後多一個「約她過節：…」；約不到的灰掉、選了說原因 */
+    const leafOf=Q=>{ const w=S.placeWhy(G,id,Q); return {t:Q.verb,short:Q.name,hint:w,dim:!!w,P:Q}; };   /* 約不到的地方寫原因（AA_125 第 1 節），選了就說原因、再選一次 */
+    const nodes=S.CATS.map(C=>({t:C.t,items:PL.filter(Q=>S.catsOf(Q).includes(C.id)).map(leafOf)}));
+    if(dOk){ const ca=DATE.canAsk(G,id,n?{face:true}:null); nodes.push({t:S.OUT_LABEL,hint:ca.ok?'選地點、日期、時間':ca.why,dim:!ca.ok,go:'date'}); }   /* 出去玩（AA_535 第 2 節：不寫「約會」）；當面不用聯絡方式 */
+    const sp=[]; if(hv){ const HL=HOMETOWN_LINES[HV.key?HV.key(G,id):id]||HOMETOWN_LINES[id]; sp.push({t:HL.ask,hint:hv.ok?'當天來回　'+HL.travel:hv.why,dim:!hv.ok,go:'hv'}); }   /* 沛珊在台南那一組（HV.key，AA_328 3-09）*/
+    if(vd){ const VL=(HOMETOWN_LINES[HV.key(G,id)]||{}).video||{}; sp.push({t:VL.ask||'視訊？',hint:vd.ok?vd.hint:vd.why,dim:!vd.ok,go:'vd'}); }
+    if(fsO) sp.push(Object.assign({},fsO,{go:'fest'}));
+    for(const Q of PL) if(S.catsOf(Q).includes('when')) sp.push(leafOf(Q));   /* 有日期的地點（一盞的茶席：每月第三個週日）*/
+    nodes.push({t:S.WHEN_LABEL,items:sp});   /* 這個時候才有（AA_535 第 2 節）：過節、茶席、去她的城市、視訊；有才出現，只有一個就直接列 */
+    const x=await S.menuTree(GM,nodes,async x=>{ if(x.P){ const why=S.placeWhy(G,id,x.P); if(!why) return x; await GM.say(null,why);
+        { const ps=S.partnerBlock(G,id,x.P)&&(((D().people||{})[id]||{}).partnerSay||{})[x.P.id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
+        return S.STAY_MENU; }
+      if(x.go==='fest'&&x.dim){ await GM.say(null,x.hint+'。'); return S.STAY_MENU; } return x; });
+    if(!x) return null; if(x.go==='date') return DATE.menu(GM,id,n); if(x.go==='hv') return HV.ask(GM,id); if(x.go==='vd') return HV.video(GM,id); if(x.go==='fest') return FEST.ask(GM,id,n);
+    P=x.P; let W=null;
+    for(;;){ const T=S.timeOptions(G,together,P); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const more=!P.when, to=T.map(q=>({t:q.t})); if(more) to.push({t:'其他日子…',hint:'之後 7 天內選一天'}); to.push({t:'算了'});
+      k=await GM.choose(to); if(more&&k===T.length){ const w=await S.pickDay(GM,id,P); if(!w) continue; W=Object.assign({},w); break; } if(!(k>=0&&k<T.length)) return null; W=Object.assign({},T[k]); break; }
     const NC=typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.inviteAdjust?NOODLE_CLOSED.inviteAdjust(G,id,W):null; if(NC) W.h=NC.h;   /* 麵店過年店休那一週約語彤（AA_333 C）：排到 18:00 以後、答應的那一句換掉 */
     const r=S.personal(G,id,P,W.day,W.h,Object.assign(S.decide(G,id,P.id,W.day,W.h),n?{face:true}:{})), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
     const te=typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null;   /* 期末時段裡約吃飯＝期末的飯（BB_203 第 1 節第 13 點、AA_268）*/
@@ -534,6 +587,7 @@ const INV=(function(){
       if(here){ await S.startTogether(GM,iv,n); return iv; }   /* 直接開始（S.accept 已經是 accepted、時間＝現在）*/
       if(W.now&&n){ if(GM.standUp) GM.standUp(n); n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; }   /* 坐著被約「現在一起過去」：先起身再跟（使用者 2026-10-16 試玩：Café 約吃麵，以安坐姿懸空跟著走）*/
     if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r));
+    if(r.study&&typeof SISG!=='undefined'&&SISG.studyOffer) return SISG.studyOffer(GM,W,who,n);   /* 學姊第 14 週～筆試婉拒以後「那一起念書。」（AA_535 1-3）*/
     if(r.res==='here') return null;   /* 她已經在那裡：玩家直接去（以安的總圖、芷若上班時的 Café、學姊平日的總圖、語彤週二週四的麵店）*/
     if(r.res==='resched'&&r.alt){ const Q=S.place(r.alt.place||P.id); const kk=await GM.choose([{t:'好，就 '+when(G,r.alt.day,r.alt.h)+(Q.id!==P.id?'（'+Q.name+'）':'')},{t:'下次再說'}]);
       if(kk===0){ const iv=S.accept(G,id,Q.id,r.alt.day,r.alt.h,{by:'player'}); await GM.say(null,'約好 '+when(G,r.alt.day,r.alt.h)+'，'+Q.name+'。'); S.teMark(GM,iv,id,Q,r.alt); return iv; } }

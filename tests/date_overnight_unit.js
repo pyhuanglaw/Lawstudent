@@ -19,7 +19,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
   money(d){ G.money+=d; }, toast(t){ toasts.push(t); },
   say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t,day:G&&G.day,h:G&&G.hour}); },
-  choose:async o=>{ const T=o.map(q=>q.t||q.text); opts.push(T); if(picks.length){ const w=picks[0]; if(typeof w==='number'){ picks.shift(); return w; } const k=T.findIndex(x=>x.includes(w)); if(k>=0){ picks.shift(); return k; } } return 0; }};
+  choose:async o=>{ const T=o.map(q=>q.t||q.text); T.all=[].concat(...o.map(q=>q.sub||[q.t||q.text])); opts.push(T); if(picks.length){ const w=picks[0]; if(typeof w==='number'){ picks.shift(); return w; } const k=T.findIndex(x=>x.includes(w)); if(k>=0){ picks.shift(); return k; } const g=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(w))); if(g>=0){ if(o[g].dim) picks.shift(); return g; } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ } return 0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,flags)=>{ G={v:3,day,hour,zone:'dorm',weekday:wdOf(day),weather:'clear',energy:70,money:20000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; bgs=[]; toasts=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
@@ -68,7 +68,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     let c=DATE.check(G,{who:'heroine_03',locs:['D28'],day:sat,depart:9,kind:'overnight'}); check('1. 第 5 階：DATE.check 不行、寫原因（要第 6 階或交往中）',!c.ok&&/第 6 階/.test(c.why),c.why);
     const b=DATE.book(G,{who:'heroine_03',locs:['D28'],day:sat,depart:9,kind:'overnight'}); check('1. 第 5 階：直接預約也擋',!b.ok&&!(G.trips||[]).length,J(b));
     picks=['算了']; await DATE.menu(GM,'heroine_03',null); const L0=DATE.loc('D28').name;
-    check('1. 第 5 階的約會清單：沒有「兩天一夜…」、沒有臺南（D28～D32 不列）；臺中、嘉義（一日）照列',!opts[0].some(x=>/兩天一夜/.test(x))&&!opts[0].includes(L0)&&opts[0].includes(DATE.loc('D26').name)&&opts[0].includes(DATE.loc('D27').name),opts[0].join('/'));
+    check('1. 第 5 階的約會清單：沒有「兩天一夜…」、沒有臺南（D28～D32 不列）；臺中、嘉義（一日）照列',!opts[0].some(x=>/兩天一夜/.test(x))&&!opts[0].all.includes(L0)&&opts[0].all.includes(DATE.loc('D26').name)&&opts[0].all.includes(DATE.loc('D27').name),opts[0].all.join('/'));   /* all：分層的一類展開（INVITE-MENU-1030）*/
     setRel('heroine_03',S6); opts=[]; picks=['兩天一夜…','算了','算了']; await DATE.menu(GM,'heroine_03',null);
     const ov=opts[1]||[]; check('1. 第 6 階：多一個「兩天一夜…」；裡面是 D26～D32（有底圖、有台詞的；D32 清境的底圖 abad2fa0），沒有淡水',opts[0].includes('兩天一夜…')&&['D26','D27','D28','D29','D30','D31','D32'].every(k=>ov.includes(DATE.loc(k).name))&&ov.length===8&&!ov.includes(DATE.loc('D13').name),J(opts.slice(0,2)));
     check('1. 第 6 階的主清單照樣沒有臺南（只在「兩天一夜…」裡）',!opts[0].includes(L0),opts[0].join('/'));
