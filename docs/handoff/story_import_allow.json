@@ -3618,6 +3618,14 @@
    "approvedBy": "AA-B 定稿（D109）",
    "task": "AA531-US-FIX-1030",
    "note": "子代理登記（AA531-US-FIX-1030，10-30）：美國交換（D99 第三優先）。程式：src/lane118.js（人在國外不揪 118 午餐）、src/us_life3d.js＋src/data/us_life_events.js（以安、語彤、子晴、沛珊在臺灣的伴侶各五樣、勞動節 9/3 21:00 一則、上課每門十二句、us_comp／us_intro 最後一堂）、src/cracktalk3d.js＋src/data/cracktalk_lines.js（沛珊 ps3 國外的月份不算、子晴 zq2 國外版選項）、src/fest3d.js（以安生日美國自動排視訊、可昕七夕美國只演 usl_qixi）、src/data/r2y4b_events.js＋src/r2y4b3d.js（大峽谷 10/9、10/11 補句、朋友版週日視訊七句輪流）、src/sis_b16_3d.js＋src/data/sis_b16_events.js（挽回中的美國招呼）；src/data/ladder.js 由 tools/ladder/import_ladder.py 讀這一版加 7-3 那一句；src/data/msg_pool.js 由 tools/msg/build_pool.py → to_js.py 加語彤國外版。10-30 換 41ec9a6ac（第 8 節實作問答：8-1 以安 8/26 第二則、12/23 以安／子晴／沛珊三則、德國同學是女生、期末考可以翻書；8-2 語彤「店裡的時間」生效＝src/msg3d.js S.atShop；8-3 以安、沛珊、語彤四句國外版＝tools/msg/build_pool.py、build_msg2.py 重產 msg_pool.js、msg2_pool.js）。10-30 再換 a28201f61（8-5：語彤 MSG2 兩句國外版的回問；「打給我」那一句的電話＝回覆池的 calls，src/msg3d.js S.planCall 排 OUT 電話、演 ev_msg2_heroine_03_ok_abroad）。測試 node tests/aa531_us_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md",
+   "sha": "c9f6dd6cb",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "SIS-LEAD-1021",
+   "note": "子代理登記（LAWWW-B 的 sis-lead-539，10-30）：學姊重讀（AA_470 之後的空白、重複）。1-1 美國路線 12/24 期末飯換句（src/data/termend_lines.js 學姊 invByTerm.Y4S1）；1-2 有研究室以前（約的那一天 ≦ 2026-09-21）交往版晨跑換句、1-3 學生證停掉的暑假（約的那一天 2026-06-30～09-20）總圖改約慢讀下午三點、第 2 節三種通用邀約各四句輪流、同一句四週內不重複（src/data/heroine_asks.js 學姊的 alt／noCard／noLab，src/heroine_asks3d.js S.pickVar）；1-4 美國 208 私訊第二、三次換句（src/us208_3d.js 的 dmMore、S.dmText）；1-5 日本 5/29 換句（src/data/sis_jp_events.js）；3-1 朋友版六則私訊、3-2 家族群組三則（src/data/sis_aa539_lines.js、src/sis_aa539_3d.js；7/20 那一則改下午 14:00 傳）。1-6（AA_527 四處）不做。台詞一字照稿；tests/aa539_sis_reread_unit.js 逐句對稿。"
   }
  ]
 }
