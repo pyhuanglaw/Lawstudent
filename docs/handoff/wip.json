@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "c1658d38c",
+   "sha": "99c7be7d5",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1584,7 +1584,7 @@
    "role": "LAWWW",
    "task": "AA529-ECON-FIX-1030",
    "state": "WIP",
-   "sha": "6909f43bf",
+   "sha": "1a40e3e14",
    "branch": "aa529-econ（子代理；D113 備份 wip_backup/aa529_1030.bundle，基準 acc883b3e）",
    "files": [
     "wip_backup/aa529_1030.bundle"
