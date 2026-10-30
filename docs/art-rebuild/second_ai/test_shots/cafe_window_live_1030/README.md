@@ -28,6 +28,7 @@
   - 人數照時段：平常 4 個；22:00～7:00 或低畫質 2 個；1:00～6:00 沒有人。
   - 鏡頭到前牆外時和街景一起藏。
 - **測試**：`tests/cafe_street_live_unit.js`（新）。檢查換算位置、裁切平面在玻璃和入口之間、`winParts` 拿掉畫的街景、路人路線都在玻璃外、材質複製、`TK.setNight`、載入失敗的備用。改前 10 項 FAIL，改後 ALL PASS。
+- 全部 Node：測試樹（開發 4df154b26＋DORM203＋系外套＋床欄透空＋這一包）**738 支 0 失敗**。
 - patch 在遠端 `postrel-1030`（3808792fe）上做；開發 `modest-rubin`（647dc5c6d）上 `git apply --check` 通過；和 `jacket_econ_1030`、`cine_seethru_1030` 依序套也通過。
 
 ## 二、改前改後（同角度；左＝改前、右＝改後）

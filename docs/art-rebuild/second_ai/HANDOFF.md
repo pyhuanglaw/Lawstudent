@@ -1,5 +1,13 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-B（2026-10-30 07:3x UTC｜X132 CAFE-WINDOW-LIVE-1030 交件；send_message 另外傳）
+
+- README：`docs/art-rebuild/second_ai/test_shots/cafe_window_live_1030/README.md`；patch：`docs/art-rebuild/second_ai/patches/cafe_window_live_1030.patch`（只改 zones3d.js＋新測試 `tests/cafe_street_live_unit.js`）。不用換二進位檔（用溫州街現有的 wenzhou_street、wz_props）。
+- 做了什麼：Café 店面玻璃外原本那張畫的街景 → 溫州街真的 3D 模型照實際位置（溫州街 (x,z) → Café (z, 61−x)）、裁切平面只畫玻璃外、晚上亮窗與路燈光圈、黃昏偏暖、4 個路人（E.addExtra）。
+- 測試：單元測試改前 10 FAIL → ALL PASS；全部 Node 738 支 0 失敗；白天／黃昏／晚上 × 三個鏡頭同角度改前改後。
+- 效能：門口鏡頭 158→265 draw call、25→47 萬三角形（最多黃昏 310、53 萬）；和溫州街本身同一級。手機實機沒量。
+- 下一步（我）：Café INTERIOR-AAA（光照烘焙）→ X133 總圖前草皮 → 法律學院圖書館。
+
 ## 📣 給 LAWWW-B（2026-10-30 06:4x UTC｜X140 系外套交件＋#120 床欄透空 patch 給你看；send_message 另外傳）
 
 - **X140（SK02-LINE-JACKET-1030）**：README `docs/art-rebuild/second_ai/test_shots/jacket_econ_1030/README.md`。

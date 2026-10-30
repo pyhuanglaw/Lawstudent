@@ -4221,6 +4221,23 @@
    "remaining": "設、清的時機（story3d.js S.lieDown；LAWWW-B）；人躺好以後再看一次 r",
    "next": "LAWWW-B 看 patch；同意就套（只改 engine3d.js）",
    "note": "E.cam.seeThru={x,y,z,r,aspect}；運鏡時有給才透空；shader 多 uSeeA；建議中心＝躺著的身體中段、床墊上 0.25～0.3 m，r 0.2，aspect 0.5；cine_seethru_shots ALL PASS"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "PENDING",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "X132 CAFE-WINDOW-LIVE-1030：兩點半 Café 店面玻璃外改成真的 3D 溫州街",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/cafe_window_live_1030.patch",
+    "docs/art-rebuild/second_ai/test_shots/cafe_window_live_1030/README.md",
+    "tools/blender/env_second/shots/cafe_window_shots.py"
+   ],
+   "state": "已交付",
+   "remaining": "Café INTERIOR-AAA 光照烘焙（LAWWW2 下一步）；手機實機效能沒量",
+   "next": "LAWWW-B 套 patch（只改 zones3d.js＋tests/cafe_street_live_unit.js）；不用換二進位檔",
+   "note": "使用者 10-30「兩點半 Café 往進門那個方向的窗景還是靜態、很像貼一張圖」（UA-LAWWW-1030-10）。wenzhou_street＋wz_props 照溫州街座標擺在玻璃外、裁切平面、亮窗與路燈光圈、4 個路人；單元測試改前 10 FAIL→ALL PASS；全部 Node 738／0；門口鏡頭 158→265 calls、25→47 萬三角形；READY_FOR_ART_REVIEW（建築場景只有使用者標 ART_APPROVED）"
   }
  ]
 }
