@@ -348,7 +348,7 @@ async def invite(pg, cdp, run):
         run.note('%s 第一層：%s' % (nm, J(top)))
         tl = [o['t'] for o in (top or [])]
         run.check('%s：第一層照分類（念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…）＋「算了」' % nm, bool(top) and all(c in tl for c in ('念書…', '吃飯…', '喝咖啡、喝茶…', '散步…', '運動…')) and tl[-1] == '算了', J(tl))
-        run.check('%s：第一層不超過 8 列' % nm, bool(top) and len(top) <= 8, len(top or []))
+        run.check('%s：第一層不超過 8 列' % nm, bool(top) and len(top) <= 8, str(len(top or [])))
         dims = [o for o in (top or []) if o['dim']]
         run.check('%s：灰掉的分類有小字寫原因' % nm, all(o['hint'] for o in dims), J(dims))
         subs = {}
