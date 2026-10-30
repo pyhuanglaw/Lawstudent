@@ -46,3 +46,23 @@
 ![晚上 20:30](libhall_02_night.webp)
 
 - **測試**：和總圖大廳有關的 Node 三支都過（`library_hall_lightmap_unit.js`、`library_b1_unit.js`、`singleside_interiors_unit.js`）；測試樹＝開發 `ade6ef271`＋前一包＋這一包。只換二進位（GLB＋兩張光照貼圖），模型、三角形數不變，不用改程式。
+
+## 3. 宿舍四人房（`assets/models/env/second_ai/dorm_room4.glb`＋三張光照貼圖：白天、晚上、熄燈）
+
+- **掃描**（朝室內、被壓扁）：開發分支原樣 21.0 m²（左牆靠門那一半、右牆靠窗那一半，各 10.5 m²）→ **重烘 0 m²**。
+- **重烘以後的模型和開發分支一樣**：158 個節點、127 個網格、19,144 個三角形、42 個材質。
+- **看得到的差別小**：
+  - 左牆上半原本一塊偏灰的漸層，重烘以後和旁邊一樣亮：左牆鏡頭改到約 4% 像素。
+  - 右牆、整間的鏡頭不到 1%：那兩面牆下半大多在床、書桌、衣櫃後面。
+- **重烘要注意**：
+  - 這間用到 `tools/blender/env_second/textures/floor_tiles_06`（洗手間地板）。開發分支沒有這份烘焙用的原始貼圖，第一次在開發分支的測試樹烘不起來。
+  - 要從 `claude/funny-albattani-iawshm` 複製進去（LAWWW-B 10-30 21:37：留在這個分支就好，遊戲不讀）。
+- 鏡頭（`tools/blender/env_second/shots/dorm4_lm_shots.py`）：①左牆靠門那一半 ②右牆靠窗那一半 ③從門口看整間。
+
+![白天 14:00](dorm4_01_day.webp)
+
+![晚上 20:30](dorm4_02_night.webp)
+
+- **測試**：用到 `dorm_room4` 的 Node 八支全過。
+  - `dorm_lightmap_unit`、`room_ceiling_unit`、`dorm_seethru_unit`、`v0_dorm_props_unit`、`dorm_205_unit`、`dorm_y3_items_unit`、`room_y4_unit`、`jacket_econ_unit`。
+  - 只換二進位（GLB＋三張光照貼圖），不用改程式。
