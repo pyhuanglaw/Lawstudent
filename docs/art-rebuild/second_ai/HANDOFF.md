@@ -4,9 +4,10 @@
 
 - **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **LM-COLLAPSE-1030**：法圖已整合；總圖大廳已整合（c1f95420a→4470ef1a9）；**正在做宿舍四人房**（重烘輸出 `scratchpad/dorm4_out`；開發分支沒有 `env_second/textures/floor_tiles_06` 等 11 種貼圖，已從我的分支複製進測試樹）；再來 201（`bake_classroom_201.sh` 沒有跑 `lm_fix_hidden.py`，重烘時要注意）。
-- **NAV-LIBHALL-ISLAND-1030 已交（cfb70a5fd，`patches/libhall_island_1030.patch`）**（P2，LAWWW-B 21:27）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
+- **NAV-LIBHALL-ISLAND-1030 已交、已整合（cfb70a5fd，`patches/libhall_island_1030.patch`；LAWWW-B 21:37）**（P2）：總圖大廳一樓約 (5.85,-8.4) 2 格導航孤島（換回舊 GLB 也一樣）；改 `library_layout.js` 阻擋接回大塊或封掉；`tests/library_copier_unit.js` 有 FAIL 就 exit 1（原本 FAIL 也 exit 0）；跑 `nav_buildings_unit`。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
+- **重烘要從 `claude/funny-albattani-iawshm` 拿烘焙用的原始貼圖**（LAWWW-B 21:37 同意留在這裡、不搬進開發分支：遊戲不讀）：`tools/blender/env_second/textures/` 底下 asphalt_02、castle_brick_02_white、concrete_floor_painted、floor_tiles_06、grass_ground、large_sandstone_blocks、linoleum_brown、red_brick_03、snow_02、white_sandstone_bricks、withered_grass 這 11 種開發分支沒有（宿舍四人房的 `floor_tiles_06` 就是因為這樣第一次烘不起來）。在開發分支的測試樹重烘以前，先把這些資料夾複製進去。
 - **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt`、`scratchpad/devclean` 都在開發 ade6ef271。
 - **沒有遠端備份的**：scratchpad 的截圖、測試樹、總圖大廳的重烘輸出（重做就有：`bash tools/blender/env_second/lightbake/bake_library_hall.sh 512`）。
 

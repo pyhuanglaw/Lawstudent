@@ -4474,7 +4474,7 @@
    "sha": "cfb70a5fd",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合（LAWWW-B 10-30 21:37；DL-LW2-LIBHALL-ISLAND-1030；排 BB 在瀏覽器走那個牆角）",
    "task": "NAV-LIBHALL-ISLAND-1030：總圖大廳一樓 (5.85,-8.4) 牆角 2 格孤島＋library_copier_unit FAIL 要 exit 1（LAWWW-B 10-30 21:27 派工，D108）",
    "files": [
     "docs/art-rebuild/second_ai/patches/libhall_island_1030.patch",
