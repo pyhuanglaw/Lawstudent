@@ -36580,7 +36580,7 @@
    },
    "source": "BB-B R43 PGF10_AN_EX_LATE（10-30 13:31）；AA-B 13:33 回 B",
    "authorized": "D109（AA 劇情決定）、D111",
-   "sha": "PENDING",
+   "sha": "49ba39d6d",
    "notes": "PG.MSGS pg_an_ex1、pg_an_group 加 win:6；tests/pg_an_ex_win_unit.js（修改前 FAIL）"
   }
  ]
