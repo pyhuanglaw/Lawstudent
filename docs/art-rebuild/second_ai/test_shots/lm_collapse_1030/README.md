@@ -66,3 +66,26 @@
 - **測試**：用到 `dorm_room4` 的 Node 八支全過。
   - `dorm_lightmap_unit`、`room_ceiling_unit`、`dorm_seethru_unit`、`v0_dorm_props_unit`、`dorm_205_unit`、`dorm_y3_items_unit`、`room_y4_unit`、`jacket_econ_unit`。
   - 只換二進位（GLB＋三張光照貼圖），不用改程式。
+
+## 4. 法律系館A 201 階梯教室（`assets/models/env/classroom_201.glb`＋兩張光照貼圖）
+
+- **掃描**（朝室內、被壓扁）：開發分支原樣 5.8 m²（西牆下緣兩小塊）→ **重烘 0 m²**。
+- **重烘以後的模型和開發分支一樣**：63 個節點、62 個網格、62,232 個三角形、32 個材質。
+- **看得到的差別小**：西牆木護牆板的明暗稍微不一樣，三個鏡頭改到 3～8% 像素。
+- 201 的烘焙腳本（`bake_classroom_201.sh`）沒有跑 `lm_fix_hidden.py`（比 `lm_fix_hidden.py` 早），這次照原本的流程，沒有加。
+- 鏡頭（`tools/blender/env_second/shots/c201_lm_shots.py`）：①講台西側 ②第二排西側 ③從後門口看整間。
+
+![白天 14:00](c201_01_day.webp)
+
+![晚上 20:30](c201_02_night.webp)
+
+- **測試**：用到 `classroom_201` 的 Node 三支全過（`room_ceiling_unit`、`room_rtnight_unit`、`seat_fold_unit`）。只換二進位（GLB＋兩張光照貼圖），不用改程式。
+
+## 總結（四間）
+
+| 房間 | 朝室內被壓扁（開發 → 重烘） | 看得到的差別 |
+|---|---|---|
+| 法律學院圖書館 | 91.4 → 0 m² | 小（東牆大多在櫃子、書架後面；<1.1%） |
+| 總圖大廳 | 83.2 → 0 m² | **明顯**（東西兩面灰泥牆的斜黑三角不見了；2～10%） |
+| 宿舍四人房 | 21.0 → 0 m² | 小（左牆上半偏灰漸層；4%） |
+| 201 | 5.8 → 0 m² | 小（西牆護牆板明暗；3～8%） |
