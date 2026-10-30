@@ -5,7 +5,8 @@
 //   0  讀稿、白名單、新檔、index.html 順序；新句都在稿裡；舊句不在 src/
 //   A1～A14 以安、Z1～Z11 芷若、Y1～Y9 語彤（各節的編號照稿）
 //   99 舊存檔：沒有新旗標照常跑、不丟例外、不重發
-// 修改前（開發分支 6cee635ed，乾淨 worktree）：FAIL（沒有 src/aa524_3d.js、新句不在、舊句還在）；修改後 ALL PASS。用法：node tests/aa524_promises_unit.js
+// 修改前（開發分支 6cee635ed，乾淨 worktree 放進這支測試真的跑過）：FAILED 68、PASS 42——34 條每一條至少一項 FAIL（沒有 src/aa524_3d.js、新句不在、舊句還在、旗標不記）；
+//   PASS 的是「沒有旗標＝照舊」「不該演的不演」那一類。修改後 ALL PASS（122 項）。用法：node tests/aa524_promises_unit.js
 'use strict';
 require('./alison.js');
 const H=require('./pg_harness.js');
@@ -104,7 +105,7 @@ await sec(0,()=>{
   check('0. 劇情匯入白名單有 AA_524（sha '+SHA+'、approved、HEROINE-LIFE-1028）',A.length===1&&A[0].sha===SHA&&A[0].status==='approved'&&A[0].task==='HEROINE-LIFE-1028',J(A.map(e=>({sha:e.sha,status:e.status,task:e.task}))));
   check('0. 新檔載得到（AA524）；全部的檔載入沒有錯誤',!loadErr.length&&!!X(),J(loadErr));
   const a=s=>html.indexOf(s);
-  check('0. index.html：sup497_3d.js → aa524_3d.js → GAME.boot()',/src\/sup497_3d\.js\?v=[^"]+"><\/script>\n<script src="src\/aa524_3d\.js\?v=[^"]+"><\/script>/.test(html)&&a('src/aa524_3d.js')>0&&a('src/aa524_3d.js')<a('<script>GAME.boot();</script>'));
+  check('0. index.html：aa524_3d.js 在它包的模組（feed3d、noodle_closed3d、termend3d、date3d、story3d、sup497_3d）之後、GAME.boot() 之前',/<script src="src\/aa524_3d\.js\?v=[^"]+"><\/script>/.test(html)&&['src/feed3d.js','src/noodle_closed3d.js','src/termend3d.js','src/date3d.js','src/story3d.js','src/sup497_3d.js'].every(f=>a(f)>0&&a(f)<a('src/aa524_3d.js'))&&a('src/aa524_3d.js')<a('<script>GAME.boot();</script>'));
   const left=[]; for(const t of OLD) for(const [f,s] of srcAll) if(s.indexOf(t)>=0) left.push(f+'：'+t);
   check('0. 換掉的舊句不在 src/（'+OLD.length+' 句）',!left.length,J(left));
   check('0. 掛上去了：STORY.ladReply、TERMEND.walkHome、DATE.arriveLine／spotLine／playSet、NOODLE_CLOSED.door、FEED.WENT.zrEarly',!!STORY._aa524Lad&&!!(TERMEND.walkHome&&TERMEND.walkHome._aa524)&&!!(DATE.arriveLine&&DATE.arriveLine._aa524)&&!!(DATE.spotLine&&DATE.spotLine._aa524)&&!!(DATE.playSet&&DATE.playSet._aa524)&&!!(NOODLE_CLOSED.door&&NOODLE_CLOSED.door._aa524)&&typeof FEED.WENT.zrEarly==='function');
