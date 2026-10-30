@@ -11,6 +11,8 @@
 //      進房間的劇情（STORY.onEnter）在站好以後才叫一次；小睡：黑幕裡放回梯子前、時間照跳；睡著被叫醒以外的保底（S.tick）也會放回梯子前
 //   ⑦ 沒有 sleep_scene 的房間（或不在宿舍房間）照舊：不走去梯子、不爬、醒來在門口 (0, 2.4)
 //   ⑧ 讀檔中途（爬到一半）：LOADLOCKS 放開床的狀態、熄燈、GM.onBlack；人在床上時存檔存梯子前
+//   ⑨ 床欄透空（LAWWW2-B #120，engine3d.js 的 E.cam.seeThru）：躺下（S.lieDown）才設——中心＝躺著的身體中段、床墊上 0.28 m、r 0.2、aspect 0.5；
+//      爬梯子時沒有；醒來躺在床上有；爬下來、保底（S.tick）、小睡醒來、換區域（S.populate）、讀檔（LOADLOCKS）都清掉。修改前（ca39039fe）⑨ 八項 FAIL 6 項（從來不設；「爬梯子沒有」「爬下來沒有」本來就過）
 // 修改前（postrel-1030）：沒有 STORY.sleepSceneOf（第 1 項就失敗）。用法：node tests/dorm_sleep_scene_unit.js
 const vm=require('vm'), fs=require('fs'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -37,7 +39,7 @@ function mkGM(o){ o=o||{}; const G={day:o.day||6,weekday:(3+(o.day||6)-1)%7,hour
     placeAt(ent,x,z){ ent.obj.position.x=x; ent.obj.position.z=z; ent.obj.position.y=0; },prePose(){},applyTime(h){ this.exposure=this.toneK; this.applied=(this.applied|0)+1; },endCinematic(){ this.cam.mode='follow'; },setWeather(){},addNPC(n){ this.npcs.push(n); return n; },canStand:()=>true};
   if(o.lightsOff){ E.zone.lightsOff=k=>{ E.zone.lk=k; (E.zone.lks=E.zone.lks||[]).push(k); }; }
   const gm={G,E,npc:{},extras:[],D:{active:false,busyDepth:0},loadGen:0,turbo:false,frames:[],cams:[],fades:[],enters:[],walks:[],log:[],depth:0,onEnterN:0};
-  const frame=tag=>gm.frames.push({tag,x:P.obj.position.x,y:P.obj.position.y,z:P.obj.position.z,yaw:P.obj.rotation.y,pose:P.pose,cam:E.cam.mode,dark:STORY._dark||0,toneK:E.toneK,busy:P.busy,bed:!!STORY._bed,eyes:!!P.obj.userData.eyesShut});
+  const frame=tag=>gm.frames.push({tag,x:P.obj.position.x,y:P.obj.position.y,z:P.obj.position.z,yaw:P.obj.rotation.y,pose:P.pose,cam:E.cam.mode,dark:STORY._dark||0,toneK:E.toneK,busy:P.busy,bed:!!STORY._bed,eyes:!!P.obj.userData.eyesShut,see:E.cam.seeThru?Object.assign({},E.cam.seeThru):null});
   gm.sleep=async ms=>{ if(gm.hang) await new Promise(()=>{}); frame('sleep'); if(gm.onSleep) await gm.onSleep(); };
   gm.fade=async on=>{ gm.fades.push(on); frame(on?'fade1':'fade0'); if(gm.hang) await new Promise(()=>{}); if(on&&gm.onBlack){ const cb=gm.onBlack; gm.onBlack=null; cb(); } };   /* 和 game3d.js 的 fade 一樣：全黑以後做一次 onBlack */
   gm.walkTo=async(ent,x,z)=>{ gm.walks.push([x,z]); ent.obj.position.x=x; ent.obj.position.z=z; ent.obj.position.y=0; frame('walk'); return true; };
@@ -56,6 +58,8 @@ function mkGM(o){ o=o||{}; const G={day:o.day||6,weekday:(3+(o.day||6)-1)%7,hour
 const realOnEnter=STORY.onEnter; STORY.onEnter=async function(z,gm){ gm.onEnterN++; gm.onEnterAt=gm.frames.length; };   /* 只數叫了幾次、什麼時候叫（真的 onEnter 要整個遊戲）*/
 const SC=SC0, A=SC.approach, ST=SC.steps, L=SC.lie;
 const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.y,L.mattress_top_y);
+const SEE={x:(L.feet[0]+L.head[0])/2,y:L.mattress_top_y+0.28,z:(L.feet[2]+L.head[2])/2,r:0.2,aspect:0.5};   /* ⑨ LAWWW2-B #120 建議：身體中段、床墊上 0.25～0.3 m、r 0.2、aspect 0.5 */
+const seeOK=s=>!!s&&near(s.x,SEE.x,1e-6)&&near(s.y,SEE.y,1e-6)&&near(s.z,SEE.z,1e-6)&&near(s.r,SEE.r,1e-9)&&near(s.aspect,SEE.aspect,1e-9);
 (async()=>{
   /* ===== ①～⑥：晚上 22:00 在 203（第 6 天＝9/22 週一）選「睡到明天早上」===== */
   { const gm=mkGM({day:6,hour:22}); const d0=gm.G.day; const want=STORY.bedOptions(gm.G)[0];
@@ -87,20 +91,30 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
     check('⑥ 最後站在梯子前（approach、地板高度、站姿、面向房間）',near(P.obj.position.x,A[0])&&near(P.obj.position.z,A[1])&&P.obj.position.y===0&&P.pose==='idle'&&near(P.obj.rotation.y,Math.atan2(A[0]-s0[0],A[1]-s0[2]),1e-6),JSON.stringify(P.obj.position)+' '+P.pose);
     check('⑥ 不卡住：busy、場景深度、劇情鎖（S._sleeping）、床的狀態、熄燈、GM.onBlack 都放開，曝光回到 1，跟隨鏡頭',!P.busy&&gm.depth===0&&!STORY._sleeping&&!STORY._bed&&!STORY._bedBusy&&(STORY._dark||0)===0&&gm.E.toneK===1&&!gm.onBlack&&gm.E.cam.mode==='follow',`busy ${P.busy} depth ${gm.depth} sleeping ${STORY._sleeping} bed ${!!STORY._bed} toneK ${gm.E.toneK} cam ${gm.E.cam.mode}`);
     check('⑥ 進房間的劇情（STORY.onEnter）叫一次，而且在人站好以後',gm.onEnterN===1&&gm.onEnterAt>=Fr.length-1-2&&!inBed(Fr[gm.onEnterAt-1]||{}),'onEnter '+gm.onEnterN+' 次，第 '+gm.onEnterAt+'／'+Fr.length+' 格');
-    const es=gm.enterSave; check('⑥ 醒來時進房間那一次存檔（GM.enter 內，人躺在床上）＝存梯子前，不是床上',!!es&&es.pose==='lie'&&!!es.bed&&near(es.bed.x,A[0],0.01)&&near(es.bed.z,A[1],0.01)&&es.bed.y===0,JSON.stringify(es)); }
+    const es=gm.enterSave; check('⑥ 醒來時進房間那一次存檔（GM.enter 內，人躺在床上）＝存梯子前，不是床上',!!es&&es.pose==='lie'&&!!es.bed&&near(es.bed.x,A[0],0.01)&&near(es.bed.z,A[1],0.01)&&es.bed.y===0,JSON.stringify(es));
+    /* ⑨ 床欄透空 */
+    const upF=Fr.slice(0,lie0<0?Fr.length:lie0).filter(f=>f.pose==='climb');
+    check('⑨ 爬梯子的時候沒有床欄透空（E.cam.seeThru 是空的）',upF.length>0&&upF.every(f=>!f.see),upF.filter(f=>f.see).length+' 格有');
+    const lyAll=Fr.slice(0,Fr.findIndex(f=>f.tag==='entered')).filter(f=>inBed(f)&&f.cam==='cinematic');
+    check('⑨ 躺下以後（睡覺鏡頭）：床欄透空，中心＝身體中段 ('+SEE.x.toFixed(3)+', '+SEE.y.toFixed(2)+', '+SEE.z.toFixed(3)+')、床墊上 0.28 m、r 0.2、aspect 0.5（橫的）',lyAll.length>=3&&lyAll.every(f=>seeOK(f.see)),JSON.stringify(lyAll[0]&&lyAll[0].see));
+    check('⑨ 醒來躺在床上（進房間、淡入以前）：床欄照樣透空',afterEnter.length&&inBed(afterEnter[0])&&seeOK(afterEnter[0].see),JSON.stringify(afterEnter[0]&&afterEnter[0].see));
+    const dnF=afterEnter.filter(f=>f.pose==='climbdown');
+    check('⑨ 爬下來（不躺了）：透空收掉；站好以後回到跟隨鏡頭也是空的',dnF.length>0&&dnF.every(f=>!f.see)&&gm.E.cam.seeThru==null,dnF.filter(f=>f.see).length+' 格有；最後 '+JSON.stringify(gm.E.cam.seeThru)); }
   /* ===== ⑤ 有熄燈光照貼圖（z.lightsOff）：用它、不動曝光 ===== */
   { const gm=mkGM({day:6,hour:22,lightsOff:true}); const z0=gm.E.zone; await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm));
     check('⑤ 區域有 z.lightsOff（LAWWW2 的熄燈光照貼圖）：叫 lightsOff 一路到 1、曝光不動',z0.lk===1&&z0.lks.length>=3&&gm.E.toneK===1,'lks '+(z0.lks||[]).map(v=>v.toFixed(2)).join(','));
     check('⑧ 人在床上時存檔＝存梯子前（STORY.bedSavePos）',(()=>{ const p=STORY.bedSavePos(gm); return p&&near(p.x,A[0],0.01)&&near(p.z,A[1],0.01)&&p.y===0&&p.lv===0; })(),JSON.stringify(STORY.bedSavePos(gm)));
-    gm.E.player.busy=false; STORY.tick(gm,0.5);
-    check('⑥ 保底：人還躺在床上、沒有在演、玩家空下來（S.tick）＝放回梯子前、開燈',!STORY._bed&&gm.E.player.pose==='idle'&&near(gm.E.player.obj.position.x,A[0])&&z0.lk===0,gm.E.player.pose+' lk '+z0.lk); }
+    const see0=gm.E.cam.seeThru&&Object.assign({},gm.E.cam.seeThru); gm.E.player.busy=false; STORY.tick(gm,0.5);
+    check('⑥ 保底：人還躺在床上、沒有在演、玩家空下來（S.tick）＝放回梯子前、開燈',!STORY._bed&&gm.E.player.pose==='idle'&&near(gm.E.player.obj.position.x,A[0])&&z0.lk===0,gm.E.player.pose+' lk '+z0.lk);
+    check('⑨ 躺著時有透空；保底放回梯子前（S.tick → bedClear）以後清掉',seeOK(see0)&&gm.E.cam.seeThru==null,JSON.stringify(see0)+' → '+JSON.stringify(gm.E.cam.seeThru)); }
   /* ===== ⑥ 小睡（白天 09:30 小睡 1 小時）：爬上去、黑幕裡放回梯子前、時間照跳 ===== */
   { const gm=mkGM({day:6,hour:9.5,pick:opts=>opts.findIndex(q=>/小睡 1 小時/.test(q.t))}); await STORY.interact({sleep:true},gm); const Fr=gm.frames;
     const b1=Fr.findIndex((f,i)=>f.tag==='fade1'&&f.dark===1);
     check('⑥ 小睡：先爬上床躺好、熄燈',Fr.some(f=>f.pose==='climb')&&b1>=0&&inBed(Fr[b1]),'b1 '+b1);
     const P=gm.E.player;
     check('⑥ 小睡：時間照跳（10:30）、醒來站在梯子前（黑幕裡放回去）、沒有卡住',near(gm.G.hour,10.5,1e-6)&&near(P.obj.position.x,A[0])&&near(P.obj.position.z,A[1])&&P.pose==='idle'&&!P.busy&&gm.depth===0&&!STORY._bed&&gm.E.toneK===1&&!gm.onBlack,`hour ${gm.G.hour} ${JSON.stringify(P.obj.position)} ${P.pose}`);
-    check('⑥ 小睡醒來：淡入的那一格已經站在梯子前（不是在床上）',(()=>{ const f=Fr.find((q,i)=>i>b1&&q.tag==='fade0'); return f&&f.pose==='idle'&&near(f.x,A[0]); })()); }
+    check('⑥ 小睡醒來：淡入的那一格已經站在梯子前（不是在床上）',(()=>{ const f=Fr.find((q,i)=>i>b1&&q.tag==='fade0'); return f&&f.pose==='idle'&&near(f.x,A[0]); })());
+    check('⑨ 小睡：躺著的時候透空、黑幕裡放回梯子前以後清掉（淡入那一格已經沒有）',seeOK(Fr[b1].see)&&(()=>{ const f=Fr.find((q,i)=>i>b1&&q.tag==='fade0'); return f&&!f.see; })()&&gm.E.cam.seeThru==null); }
   /* ===== ⑦ 沒有 sleep_scene 的房間：照舊 ===== */
   { delete U.sleep_scene; const gm=mkGM({day:6,hour:22}); await STORY.interact({sleep:true},gm);
     const we=gm.enters.find(e=>e.zone==='dorm');
@@ -116,7 +130,10 @@ const inBed=f=>f.pose==='lie'&&near(f.x,L.feet[0])&&near(f.z,L.feet[2])&&near(f.
     gm.hang=false; gm.loadGen++; await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});   /* 讀檔（applySave）一定換區域 */
     const P=gm.E.player; check('⑧ 讀進來以後：站著（不是 climb／lie）、不是 busy、沒有床的狀態',P.pose==='idle'&&!STORY._bed&&!STORY._bedBusy,P.pose);
     void pr; }
-  { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; gm.onBlack=STORY.bedOnBlack; for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
+  { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const s1=gm.E.cam.seeThru&&Object.assign({},gm.E.cam.seeThru); await gm.enter('campus',{x:20,z:54,yaw:0},{});
+    check('⑨ 躺著的時候換到別的區域（S.populate）：透空清掉',seeOK(s1)&&gm.E.cam.seeThru==null,JSON.stringify(s1)+' → '+JSON.stringify(gm.E.cam.seeThru)); }
+  { const gm=mkGM({day:6,hour:22}); await STORY._bedFx.goToBed(gm,STORY.sleepSceneOf(gm)); const k0=gm.E.toneK; gm.onBlack=STORY.bedOnBlack; const s2=gm.E.cam.seeThru&&Object.assign({},gm.E.cam.seeThru); for(const f of Object.values(globalThis.LOADLOCKS||{})) f();
+    check('⑨ 熄燈以後讀檔（LOADLOCKS）：透空清掉',seeOK(s2)&&gm.E.cam.seeThru==null,JSON.stringify(s2)+' → '+JSON.stringify(gm.E.cam.seeThru));
     await gm.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{fromLoad:true});
     check('⑧ 熄燈以後讀檔：換區域時（S.populate 第一行）曝光還原（0.18 → 1）',near(k0,0.18,1e-6)&&gm.E.toneK===1,k0+' → '+gm.E.toneK);
     let ok=true; try{ gm.fade(true); }catch(e){ ok=false; } await new Promise(r=>setTimeout(r,5));
