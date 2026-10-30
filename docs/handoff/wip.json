@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "3679551fc",
+   "sha": "4ecc3039c",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1599,7 +1599,7 @@
    "role": "LAWWW",
    "task": "AA532-VAC-FIX-1030",
    "state": "WIP",
-   "sha": "d63a2f066",
+   "sha": "7f75195ab",
    "branch": "aa532-vac（子代理；D113 備份 wip_backup/aa532_1030.bundle，基準 d531b973f）",
    "files": [
     "wip_backup/aa532_1030.bundle"
@@ -1614,7 +1614,7 @@
    "role": "LAWWW",
    "task": "DORM-SLEEP-VISUAL-1030",
    "state": "WIP",
-   "sha": "29d50fc12",
+   "sha": "6d5c9d6f9",
    "branch": "dorm-sleep（子代理；D113 備份 wip_backup/dormsleep_1030.bundle，基準 5b48dc350）",
    "files": [
     "wip_backup/dormsleep_1030.bundle"
@@ -1629,7 +1629,7 @@
    "role": "LAWWW",
    "task": "INVITE-OPTS-1030",
    "state": "WIP",
-   "sha": "05a1033a7",
+   "sha": "aa5733bc0",
    "branch": "invite-menu（子代理；D113 備份 wip_backup/invite_1030.bundle，基準 c1658d38c）",
    "files": [
     "wip_backup/invite_1030.bundle"
@@ -1659,7 +1659,7 @@
    "role": "LAWWW",
    "task": "PHONE-UNIFY-1030",
    "state": "WIP",
-   "sha": "8e7937587",
+   "sha": "91339e04b",
    "branch": "phone-unify（子代理；D113 備份 wip_backup/phone_1030.bundle，基準 1ebb95122）",
    "files": [
     "wip_backup/phone_1030.bundle"
@@ -1674,7 +1674,7 @@
    "role": "LAWWW",
    "task": "AA529-ECON-FIX-1030",
    "state": "WIP",
-   "sha": "d7af2bcd0",
+   "sha": "86cb892cc",
    "branch": "aa-followup-1030（子代理；D113 備份 wip_backup/aafollow_1030.bundle，基準 3679551fc）",
    "files": [
     "wip_backup/aafollow_1030.bundle"
