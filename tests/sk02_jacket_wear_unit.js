@@ -58,11 +58,11 @@ const lz=it=>!!(it&&it.room&&(it.room.zone==='classroom'||it.room.via==='linze')
 const items=d=>CLS.dayItems(G,d);
 const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
 (async()=>{
-  check('0. ev_sk02_jacket 的「（穿去霖澤館上課）」記 ECON_JACKET wear（規則用的就是這個值）',(()=>{ const e=ev('ev_sk02_jacket'); const c=e&&e.dialogue.find(l=>l.choice); const o=c&&c.choice.find(q=>q.text==='（穿去霖澤館上課）'); return !!o&&o.set&&o.set.ECON_JACKET==='wear'; })());
+  check('0. ev_sk02_jacket 的「（穿去法律系館A上課）」記 ECON_JACKET wear（規則用的就是這個值）',(()=>{ const e=ev('ev_sk02_jacket'); const c=e&&e.dialogue.find(l=>l.choice); const o=c&&c.choice.find(q=>q.text==='（穿去法律系館A上課）'); return !!o&&o.set&&o.set.ECON_JACKET==='wear'; })());
   /* ===== 1. 系辦選「穿去霖澤館上課」===== */
   const mon4=termDay('Y1S1',4,1);
-  fresh(mon4,15.5,'campus',{SK01_DAY:2,SK02_DM_DAY:mon4,MET_XUN:true}); at(15.4,-85); picks=['穿去霖澤館']; EVENTS.tick(0.1); await wait();
-  check('1. 前提：系辦三選一選了「穿去霖澤館上課」（ECON_JACKET wear、SK02_DAY＝今天）',G.flags.ECON_JACKET==='wear'&&G.flags.SK02_DAY===mon4,JSON.stringify(opts[opts.length-1]));
+  fresh(mon4,15.5,'campus',{SK01_DAY:2,SK02_DM_DAY:mon4,MET_XUN:true}); at(15.4,-85); picks=['穿去法律系館A']; EVENTS.tick(0.1); await wait();
+  check('1. 前提：系辦三選一選了「穿去法律系館A上課」（ECON_JACKET wear、SK02_DAY＝今天）',G.flags.ECON_JACKET==='wear'&&G.flags.SK02_DAY===mon4,JSON.stringify(opts[opts.length-1]));
   tick(); check('1. 事件一結束（S.tick）：身上穿著系外套（JACKET_ECON 顯示、後背包往外放）',worn()&&E.player.obj.bp.scale.x>1,'calls '+JSON.stringify(CHAR.calls));
   go('dorm_hall'); check('1. 走回宿舍走廊（還沒進房間）：還穿著',worn());
   go('dorm'); check('1. 進自己的房間（S.populate）：脫下來、掛在椅背（JACKET_CHAIR 顯示）',!worn()&&chair());
@@ -74,7 +74,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   const s1=JSON.stringify(G);
   G.day=d1; G.weekday=wdOf(d1); G.hour=7.5; go('dorm'); check('2. 那天早上在房間：外套掛在椅背',!worn()&&chair());
   go('dorm_hall'); check('2. 出房間：穿上（領外套以後第一次霖澤館的課）',worn());
-  go('campus'); go('classroom'); check('2. 坐在霖澤館 201 上課：穿著（使用者回報的那一次課）',worn());
+  go('campus'); go('classroom'); check('2. 坐在法律系館A 201 上課：穿著（使用者回報的那一次課）',worn());
   { const it=items(d1).find(lz); said=[]; await CLS.beforeClassEvent(GM,it); check('2. 上課前阿哲：「你是經濟系派來的臥底嗎？」',lines().includes('阿哲：你是經濟系派來的臥底嗎？'),JSON.stringify(lines())); }
   tick(); check('2. 阿哲說完（ev_sk02_spy 那天）：照樣穿著',worn()&&G.events.last.ev_sk02_spy===d1);
   G.day=d2; G.weekday=wdOf(d2); go('campus'); check('2. 阿哲說過以後，隔天又有霖澤館的課（第 '+d2+' 天，還不冷）：不穿（掛回椅背）',!worn());

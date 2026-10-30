@@ -250,7 +250,7 @@ await sec(4,async()=>{
   check('4. SQ08 象棋阿伯「貓？我每天帶一點魚乾。牠比我準時。」、蘇姨「我中午會放一碗水。……牠不吃我的飯，只喝水。」、貼表（你把表貼在公布欄的角落，用了四個圖釘。）',X().LINES.SQ08.ask.abo==='貓？我每天帶一點魚乾。牠比我準時。'&&X().LINES.SQ08.ask.su==='我中午會放一碗水。……牠不吃我的飯，只喝水。'&&X().LINES.SQ08.post==='（你把表貼在公布欄的角落，用了四個圖釘。）');
   fresh('2027-10-03',12,'l118_noodle'); know('六張犁麵舖',4); PHONE.join&&PHONE.join(H.G,'noodle_team'); SOCIAL.remember('zhe','FIRST_MET',''); await shop('六張犁麵舖',[0,1]); const r5=R('SQ05');
   set('2027-10-04',13,'linze'); const due=X().signDue({G:H.G,E}); set('2027-10-04',13,'campus'); const notL=X().signDue({G:H.G,E}); H.said=[]; set('2027-10-04',13,'linze'); await EVENTS.run(X().SIGN_EV);
-  check('4. SQ05 答應的隔天 12:00～18:00 在霖澤館：（你下課經過霖澤館一樓，阿哲把卡片塞給你。）（在別的地方不演）',!!r5&&(!r5.zhe||(due&&!notL&&has('（你下課經過A館一樓，阿哲把卡片塞給你。）')&&!!r5.signed)),J({zhe:r5&&r5.zhe,due,notL}));
+  check('4. SQ05 答應的隔天 12:00～18:00 在霖澤館：（你下課經過霖澤館一樓，阿哲把卡片塞給你。）（在別的地方不演）',!!r5&&(!r5.zhe||(due&&!notL&&has('（你下課經過法律系館A一樓，阿哲把卡片塞給你。）')&&!!r5.signed)),J({zhe:r5&&r5.zhe,due,notL}));
 });
 H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

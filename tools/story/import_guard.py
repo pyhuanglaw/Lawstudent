@@ -61,7 +61,27 @@ def read_fix(s):
 # 虛構校名（WORLD-RENAME-1030，D115，使用者 2026-10-30）：讀稿時照 docs/WORLD_NAMING.md 換名，規則和企劃線換稿用的同一支
 # tools/rename/world_names.py（JSON：text／lines／reply…＝口語、scene／title／place…＝正式；markdown：台詞口語、旁白字幕正式；查證出處句不換）。
 # 企劃線已經換過名的稿再換一次不會變；舊 commit 的稿（白名單上還沒換名的版本）匯進來也是新名字。
+# 工具判斷錯、AA 定的更正（AA-B 10-30 07:55，企劃線 21dc4c3dd 稿上已改）：旁白、照片描述、行程地點寫正式名；人物說的、手機訊息用口語。
+# 舊 commit 的稿照工具換完以後，這幾句再照 AA 的定稿換（遊戲照定稿的字）。
+WORLD_FIX = [
+    ('（你下課經過A館一樓，阿哲把卡片塞給你。）', '（你下課經過法律系館A一樓，阿哲把卡片塞給你。）'),   # AA_408:78 旁白
+    ('禮拜六畢業典禮 法律系館A門口拍照 家族都來', '禮拜六畢業典禮 A館門口拍照 家族都來'),   # AA_518:196 Kevin 群組訊息
+    ('B館的社辦，一排吉他靠在牆上', '法律系館B的社辦，一排吉他靠在牆上'),   # AA_503:287 照片描述
+    ('A館前，五個穿學士服的人', '法律系館A前，五個穿學士服的人'),   # AA_504:278 照片描述
+    ('A館 201 的最後一排', '法律系館A 201 的最後一排'),   # AA_505:153 照片描述
+]
+
+
 def world(s):
+    if not isinstance(s, str):
+        return s
+    r = _world(s)
+    for a, b in WORLD_FIX:   # 兩邊互不包含，換過的不會再被換
+        r = r.replace(a, b)
+    return r
+
+
+def _world(s):
     if not isinstance(s, str):
         return s
     import json as _json, os as _os, sys as _sys
