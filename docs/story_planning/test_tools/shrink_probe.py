@@ -137,27 +137,30 @@ async def mode_a(pg, cdp, run):
     run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）12:00 校園' % (d['key'], d['term'], d['week']))
     pre = await pg.evaluate("(()=>({grp:!!(PHONE.rec(GAME.G).groups||{}).noodle_team, tableDay:GAME.G.flags.noodleTableDay, knowsZhe:STORY.knows?STORY.knows('zhe',GAME.G):null, classAnswer:GAME.G.flags.classAnswer, DORM_FOUR:GAME.G.flags.DORM_FOUR||null}))()")
     run.note('使用者存檔：%s' % J(pre))
-    r = await invite(pg, cdp, run, '「好。」')
-    if not r: return
-    info, st1, l1 = r
-    run.check('選「好。」：阿哲「六點半，店門口。」、ZHE_NOODLE_INV＝yes', st1['inv'] == 'yes' and any(l[1] == '六點半，店門口。' for l in l1), J(st1))
-    PLANJS = "(()=>{ const q=(GAME.G.outings||[]).find(o=>o.id==='zhe_first_table'); return q?{h:q.h, place:q.place, title:q.title, state:q.state, now:+(+GAME.G.hour).toFixed(2)}:null; })()"
-    plan = None; t0 = time.time()
-    while time.time() - t0 < 180:   # 出遊是 S.tick 在下課那一場演完以後才排（story3d.js），先等它排好再查（n20_shrink_a2 下課當下就查＝太早）
-        plan = await pg.evaluate(PLANJS)
-        if plan: break
-        await drain(pg, cdp, secs=8); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
-    run.check('排好出遊：18:30 阿鳳麵店「第一次併桌」（下課以後排好）', bool(plan) and abs(plan['h'] - 18.5) < 0.01 and plan['place'] == '阿鳳麵店', J(plan))
-    n0 = await P.say_hook(pg); t0 = time.time()
-    while time.time() - t0 < 3000:   # 等到第一次併桌演完（或 20:30 還沒演）：SwiftShader 慢，15:10 → 18:30 要很久（a2 1500 秒不夠，七句在等 21:00 的時候才演）
-        if await pg.evaluate("(()=>{ const D=GAME.G.events.done||{}; return !!D.ev_zhe_long_table_out||GAME.G.hour>=20.5; })()"): break
-        await P.wait_play(pg, cdp, 24, max_s=60, picks=['出發'], run=None, tag='first_table')
-    lines = await P.said(pg, n0); got = [l[1] for l in lines if l[1] in FIRST_TABLE]
-    run.note('18:30 之後說的：%s' % J(lines[:14])); await run.shot(pg, 'a_after_table')
-    run.check('18:30 出遊「第一次併桌」七句照順序', got == FIRST_TABLE, J({'got': got, 'n': len(got)}))
-    run.check('「第一次併桌」演過（ev_zhe_long_table_out done）、哲 1 那場（ev_zhe_long_table）不再演', await pg.evaluate("(()=>{ const D=GAME.G.events.done||{}; return !!D.ev_zhe_long_table_out&&!D.ev_zhe_long_table; })()"), '')
-    g = await group_at_21(pg, cdp, run, 'A 答應', '阿哲建立了群組「法一吃飯」，把你加了進來。')
-    await scan_old(pg, cdp, run, 'A', lines)
+    if os.environ.get('TAIL_ONLY'):   # a3 跑到作息表那一行當掉：只補跑 D（麵店日、作息表）和 E2（舊存檔），A 那一段 a3 已經 PASS
+        run.note('TAIL_ONLY：只跑 D、E2（A 那一段看 n20_shrink_a3）'); lines = []
+    else:
+        r = await invite(pg, cdp, run, '「好。」')
+        if not r: return
+        info, st1, l1 = r
+        run.check('選「好。」：阿哲「六點半，店門口。」、ZHE_NOODLE_INV＝yes', st1['inv'] == 'yes' and any(l[1] == '六點半，店門口。' for l in l1), J(st1))
+        PLANJS = "(()=>{ const q=(GAME.G.outings||[]).find(o=>o.id==='zhe_first_table'); return q?{h:q.h, place:q.place, title:q.title, state:q.state, now:+(+GAME.G.hour).toFixed(2)}:null; })()"
+        plan = None; t0 = time.time()
+        while time.time() - t0 < 180:   # 出遊是 S.tick 在下課那一場演完以後才排（story3d.js），先等它排好再查（n20_shrink_a2 下課當下就查＝太早）
+            plan = await pg.evaluate(PLANJS)
+            if plan: break
+            await drain(pg, cdp, secs=8); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
+        run.check('排好出遊：18:30 阿鳳麵店「第一次併桌」（下課以後排好）', bool(plan) and abs(plan['h'] - 18.5) < 0.01 and plan['place'] == '阿鳳麵店', J(plan))
+        n0 = await P.say_hook(pg); t0 = time.time()
+        while time.time() - t0 < 3000:   # 等到第一次併桌演完（或 20:30 還沒演）：SwiftShader 慢，15:10 → 18:30 要很久（a2 1500 秒不夠，七句在等 21:00 的時候才演）
+            if await pg.evaluate("(()=>{ const D=GAME.G.events.done||{}; return !!D.ev_zhe_long_table_out||GAME.G.hour>=20.5; })()"): break
+            await P.wait_play(pg, cdp, 24, max_s=60, picks=['出發'], run=None, tag='first_table')
+        lines = await P.said(pg, n0); got = [l[1] for l in lines if l[1] in FIRST_TABLE]
+        run.note('18:30 之後說的：%s' % J(lines[:14])); await run.shot(pg, 'a_after_table')
+        run.check('18:30 出遊「第一次併桌」七句照順序', got == FIRST_TABLE, J({'got': got, 'n': len(got)}))
+        run.check('「第一次併桌」演過（ev_zhe_long_table_out done）、哲 1 那場（ev_zhe_long_table）不再演', await pg.evaluate("(()=>{ const D=GAME.G.events.done||{}; return !!D.ev_zhe_long_table_out&&!D.ev_zhe_long_table; })()"), '')
+        g = await group_at_21(pg, cdp, run, 'A 答應', '阿哲建立了群組「法一吃飯」，把你加了進來。')
+        await scan_old(pg, cdp, run, 'A', lines)
     # D 麵店日（讀資料：每一天 STORY.noodleDay、四人 18:00 的作息）
     terms = ['Y1S1', 'Y1S2', 'Y2S1', 'Y2S2']
     nd1 = await pg.evaluate(NDLDAYS, terms); snap = await P.snapshot(pg); await P.load(pg, cdp, snap); nd2 = await pg.evaluate(NDLDAYS, terms)
@@ -185,7 +188,7 @@ async def mode_a(pg, cdp, run):
     run.check('不是麵店日：四個人 18:00 都不在麵店', not wrong, J(wrong[:6]))
     run.check('麵店日：18:00 至少有一個人在麵店', all(any(z == 'noodle' for z in x['at']) for x in sc if x['ndl']), J([x for x in sc if x['ndl']][:4]))
     elsew = [x for x in sc if x['ndl'] and not all(z == 'noodle' for z in x['at'])]
-    run.note('麵店日不在麵店的（特定作息蓋過麵店那一筆，AA_542 第 5 節「特定作息優先」）：%s' % J(elsew[:10], 2000))
+    run.note('麵店日不在麵店的（特定作息蓋過麵店那一筆，AA_542 第 5 節「特定作息優先」）：%s' % J(elsew[:10]))
     # E2 舊存檔
     for key, want in (('2025-10-01', '法一吃飯'), ('2027-03-10', '法二吃飯')):
         st, d = await P.base(pg, SAVE, key, 15.0, 'campus'); await P.load(pg, cdp, st)
