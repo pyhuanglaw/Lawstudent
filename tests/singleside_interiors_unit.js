@@ -4,6 +4,8 @@
 //   1. 社科圖、總圖大廳、便利商店的材質除了玻璃都是單面（glTF doubleSided false）；玻璃照舊雙面；
 //   2. 開口的零件補了反面（每個三角形都有反過來的分身）：總圖的葉片卡（室內樹、盆栽）；社科圖的天井、竹子；便利商店的牆面；
 //      （總圖的樓梯踏面原本也在這裡：LIB-HALL-LM-1028 大樓梯改成每階一塊實心石材，烘焙前也拿掉了有光照貼圖的物件的反面——踏面現在是封閉的零件，不需要反面。）
+//   2b. 社科圖的天井（SOCLIB-LM-1030 光照烘焙以後）：有光照貼圖的物件烘焙前拿掉反面（bake_room.py 的 drop_backfaces：反面的光照貼圖是黑的），
+//      留下來的要是從閱覽室看得到的那一面——井壁朝井裡、井口收邊朝下；朝外、朝上的那一面在天花板上面，看不到。拿錯一面，從下面看天窗整圈井壁不見。
 //   3. 原本就單面的天花板（朝下：鏡頭超過天花板高度時看得穿，剖面視角）沒有補朝上的那一面——第一次試便利商店，從高處看整片擋住；
 //   4. 背面看不到的沒有補：社科圖的書、便利商店架上的商品（三角形數和改前一樣；便利商店只多端架促銷牌的背面 8 個）；
 //   5. 便利商店端架的 4 張促銷牌有背面（BB-B 10-25：材質改單面以後，從貨架另一頭看促銷牌整片不見；只給促銷牌補一片反面，商品貼圖集照舊單面）。
@@ -25,9 +27,17 @@ const GL={ soclib:load('assets/models/env/second_ai/soclib_interior.glb'), libra
 
 for(const [k,G] of Object.entries(GL)){ const ds=G.mats.filter(m=>m.doubleSided&&!/glass/.test(m.name)).map(m=>m.name), gl=G.mats.filter(m=>/glass/.test(m.name));
   check('1. '+k+'：除了玻璃都單面（'+G.mats.length+' 個材質）；玻璃照舊雙面', !ds.length&&gl.every(m=>m.doubleSided), ds.length?'雙面：'+ds.slice(0,8).join(' '):gl.map(m=>m.name).join(' ')); }
-const P2=[['總圖 葉片卡',GL.library,/^lb_leaf_/],['社科圖 天井',GL.soclib,/^soclib_lightwell$/],['便利商店 牆面',GL.cvs,/^cvs_wall$/]];
+const P2=[['總圖 葉片卡',GL.library,/^lb_leaf_/],['便利商店 牆面',GL.cvs,/^cvs_wall$/]];
 const r2=P2.map(([n,G,re])=>{ const [ok,nt]=paired(G,re); return [n,ok,nt]; });
 check('2. 開口的零件有反面（至少一半的三角形有反過來的分身；封閉的部分不需要）', r2.every(([,ok,nt])=>nt>0&&ok>=nt*0.5), r2.map(([n,ok,nt])=>n+' '+ok+'/'+nt).join('  '));
+{ const sl=fs.readFileSync(path.join(ROOT,'src/data/soclib_layout.js'),'utf8'), SK=JSON.parse(sl.slice(sl.indexOf('{',sl.indexOf('SOCLIB_LAYOUT')),sl.lastIndexOf('}')+1)).skylights;
+  let wallIn=0, wallOut=0, down=0, up=0, far=0;
+  for(const x of GL.soclib.prims){ if(x.mat!=='soclib_lightwell') continue; const p=x.p, P=GL.soclib.acc(p.attributes.POSITION), I=p.indices!=null?GL.soclib.acc(p.indices):null, n=(I?I.length:P.length/3)/3, v=(t,k)=>{ const i=I?I[t*3+k]:t*3+k; return [P[i*3],P[i*3+1],P[i*3+2]]; };
+    for(let t=0;t<n;t++){ const a=v(t,0), b=v(t,1), c=v(t,2), u=[b[0]-a[0],b[1]-a[1],b[2]-a[2]], w=[c[0]-a[0],c[1]-a[1],c[2]-a[2]], nm=[u[1]*w[2]-u[2]*w[1], u[2]*w[0]-u[0]*w[2], u[0]*w[1]-u[1]*w[0]], cx=(a[0]+b[0]+c[0])/3, cz=(a[2]+b[2]+c[2])/3;
+      const s_=SK.reduce((m,q)=>Math.hypot(cx-q.x,cz-q.z)<Math.hypot(cx-m.x,cz-m.z)?q:m, SK[0]); if(Math.hypot(cx-s_.x,cz-s_.z)>s_.r+0.3){ far++; continue; }
+      if(Math.abs(nm[1])>0.5*Math.hypot(nm[0],nm[1],nm[2])){ if(nm[1]<0) down++; else up++; } else if(nm[0]*(cx-s_.x)+nm[2]*(cz-s_.z)<0) wallIn++; else wallOut++; } }
+  const [ok,nt]=paired(GL.soclib,/^soclib_lightwell$/);
+  check('2b. 社科圖的天井（光照烘焙以後拿掉反面）：留下來的是看得到的那一面（井壁朝井裡、井口收邊朝下）、'+SK.length+' 個天窗', nt>0&&ok===0&&wallIn>0&&down>0&&!wallOut&&!up&&!far, '井壁朝裡 '+wallIn+'、朝外 '+wallOut+'；收邊朝下 '+down+'、朝上 '+up+'；離天窗太遠 '+far+'；有反面 '+ok+'/'+nt); }
 const [cok,cnt]=paired(GL.cvs,/^cvs_ceiling$/), ceil=GL.cvs.mats.find(m=>m.name==='cvs_ceiling');
 check('3. 便利商店的天花板沒有補朝上的那一面（照舊單面朝下，高處看得穿）', ceil&&!ceil.doubleSided&&cnt>0&&cok===0, 'cvs_ceiling '+cok+'/'+cnt);
 check('4. 社科圖的書、便利商店的商品沒有補反面（三角形數：44,362、47,172＋促銷牌背面 8）', tris(GL.soclib,/^soclib_books$/)===44362&&tris(GL.cvs,/^cvs_goods_atlas$/)===47180, tris(GL.soclib,/^soclib_books$/)+' / '+tris(GL.cvs,/^cvs_goods_atlas$/));

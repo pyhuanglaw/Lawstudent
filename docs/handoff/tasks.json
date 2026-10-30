@@ -36460,7 +36460,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "已整合待測試",
-   "next": "BB 測（博思 101／102 白天晚上、坐下起身椅面掀起放下、經濟系第一堂經原在 101 照常上課、進兩次）",
+   "next": "BB 測（博思 101／102 白天晚上、坐下起身椅面掀起放下、經濟系第一堂經原在 101 照常上課、進兩次）；n19 兩點（講桌桌面、講台牆斜影）b659056c6 已整合，BB 重看",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36489,8 +36489,8 @@
    "title": "社科院圖書館室內光照烘焙（soclib_interior；經濟系那一年念書、經濟系朋友在社科圖遇得到 ECON-FRIENDS-SOCLIB-1030）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
+   "status": "已整合待測試",
+   "next": "BB 在瀏覽器看社科院圖書館白天／晚上光照（荷葉燈、天窗、窗框影子）、博思 101／102 講台牆斜影沒了、講桌桌面",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -36509,7 +36509,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
     "receiver": "LAWWW",
-    "ack": "自領"
+    "ack": "ACTIONED"
    },
    "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   },
@@ -36723,6 +36723,34 @@
     "ack": "ACK"
    },
    "notes": "芯慈的線（XINCI-ROMANCE-1030）已關、暫停；人物頁三行（第二名、第一次考第一、改輔系）在 AA 清單裡；芯慈爸爸會計師為什麼雙主修經濟不主修會計＝AA 問使用者"
+  },
+  {
+   "id": "LM-COLLAPSE-1030",
+   "title": "光照烘焙工具 collapse_black 的舊 bug（只看面的中心）重烘舊房間：法律學院圖書館 91 m²（東牆兩層）、總圖大廳 83、宿舍四人房 21（左右牆）、201 6（LAWWW2 lm_squash_scan.py 掃出；Café、霖澤、202、宿舍大廳、萬才館沒有）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "NOODLE-LM-1030 做完以後，依序重烘法律學院圖書館 → 總圖大廳 → 宿舍四人房 → 201（每間 20～40 分鐘、大小不變）→ LAWWW 整合 → BB 看",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上進總圖大廳、宿舍 203、201",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 10-30 18:11 交件訊息第 3 點",
+   "authorized": "D108、D111（LAWWW 排序）",
+   "xai": {
+    "spec": "tools/blender/env_second/lightbake/lm_squash_scan.py 掃描結果",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "lm_squash_scan 朝室內看得到的面壓扁 0 m²；改前改後同鏡頭",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
