@@ -32,7 +32,7 @@ async def rooms(pg, d):
     for k, kk in ROOMS:
         dd = await pg.evaluate("STORY.dayOfKey(%s)" % J(kk))
         if dd <= d: fl[k] = dd
-    if 'ROOM_Y4' in fl: fl.update({'ROOM_Y4_ITEMS': [], 'BOX_KEPT_Y4': None})
+    if 'ROOM_Y4' in fl: fl.update({'ROOM_Y4_ITEMS': [], 'BOX_KEPT_Y4': None, 'Y4_PATH': 'grad'})   # 1A-08「大四要怎麼過？」大三下期末就選過（存檔跳過去沒演，進房間會先補演，旁白照規則不說）
     if 'ROOM_Y3' in fl: fl.update({'ROOM_Y3_ITEMS': [], 'ROOM_Y3_DISCARD': None})
     return fl
 
