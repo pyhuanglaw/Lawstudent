@@ -36606,7 +36606,7 @@
    },
    "source": "BB-B n15_ndlread（10/21 noodleDay false 但四人在店裡）；AA-B 14:25 回 A、14:30 照建議＋h504 改句（AA_504 da3e72727）",
    "authorized": "D109、D111",
-   "sha": "PENDING",
+   "sha": "1e3ffbb0e",
    "notes": "story3d hit() 支援 noExam；S.ndlExamDue／ndlExamAyi；四支測試日期改到非考試週（aa503、aa527_528、aa_followup_1030、noodle_table_1027）；ndl_present_unit 第 7 項；白名單 AA_504 → da3e72727"
   }
  ]
