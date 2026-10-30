@@ -10,7 +10,7 @@
 //   17 期末河堤「那場演講。」只給 5/7 回過她「講者最後問…」的玩家　18 芷若大一下期末飯 22:00　19 總圖十點關、22:10　23 阿勳、品妤「在活大吃午餐」　24 大一下「這半年」　25、26 可昕不比輸贏
 //   第 6 節（企劃線 bdab2f42，AA 22:0x 答比輸贏清單＋十二題）：6-1 可昕不比（互考「兩個都對。……走，山下那攤。」、6/29「明年再各說一科」、經濟系 r7「上次是我請的」、p2b「好，聽你的」）；
 //   6-2 第 3 題天文館（黑板、觀察、開頭旁白）、第 4 題「上學期期中那個空的保溫瓶」、第 7 題語彤「禮拜五。打烊以後」、第 8 題視訊互考「……下次見面，山下那攤。」、第 10 題大二上「這一年多」、
-//   第 11 題麵店團春假旅行（人物線索）、第 12 題小福（對照：第一輪 #23 已改）
+//   第 11 題和同學春假旅行（人物線索）、第 12 題小福（對照：第一輪 #23 已改）
 // 修改前（開發分支 73ce13de）：上面每一項都會失敗（標「對照」的照樣通過）；第 6 節的檢查在 y1b c27e8ad8 上失敗（對照照樣通過）。用法：node tests/aa373_y1s2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -221,7 +221,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const y2=await dbt(termDay('Y2S1',3,3));
     check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在A館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在A館這一年多都自在。']),J(y2));
     const at=(key,h,id)=>{ fresh(D(key),h,'campus',{}); const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.away; };
-    check('第 6-2 節第 11 題. 4/3 08:00 出發～4/4 16:30 回來：Alison、阿哲、以安的人物線索「麵店團春假旅行」；4/2、4/4 晚上不是',['yu','zhe','heroine_01'].every(id=>at('2026-04-03',12,id)==='麵店團春假旅行'&&at('2026-04-04',10,id)==='麵店團春假旅行'&&at('2026-04-04',18,id)!=='麵店團春假旅行'&&at('2026-04-02',12,id)!=='麵店團春假旅行'),J(['yu','zhe','heroine_01'].map(id=>[at('2026-04-03',12,id),at('2026-04-04',10,id),at('2026-04-04',18,id)])));
+    check('第 6-2 節第 11 題. 4/3 08:00 出發～4/4 16:30 回來：Alison、阿哲、以安的人物線索「和同學春假旅行」；4/2、4/4 晚上不是',['yu','zhe','heroine_01'].every(id=>at('2026-04-03',12,id)==='和同學春假旅行'&&at('2026-04-04',10,id)==='和同學春假旅行'&&at('2026-04-04',18,id)!=='和同學春假旅行'&&at('2026-04-02',12,id)!=='和同學春假旅行'),J(['yu','zhe','heroine_01'].map(id=>[at('2026-04-03',12,id),at('2026-04-04',10,id),at('2026-04-04',18,id)])));
     const badEv=STORY_EVENTS.filter(e=>(e.stage||'law')!=='econ'&&!e.retired&&!(e.term&&e.term.every(t=>/^Y0|^Y1S1$/.test(t)))&&J(e.dialogue||[]).includes('小松'));
     const badSch=Object.keys(CHARACTERS).filter(id=>(CHARACTERS[id].daily_schedule||[]).some(x=>/小松/.test(x.away||x.label||'')&&!(x.terms&&x.terms.every(t=>/^Y0|^Y1S1$/.test(t)))));
     check('第 6-2 節第 12 題（對照：第一輪 #23 已經改好，這裡確認沒有漏的）. 大一下以後玩家看得到的「小松」都改成「學活」（大一上照舊）：法律系的事件、作息的人物線索都沒有大一下以後的「小松」',!badEv.length&&!badSch.length,J({badEv:badEv.map(e=>e.id),badSch})); }

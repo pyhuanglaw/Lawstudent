@@ -68,7 +68,7 @@ const NAME=id=>SOCIAL.displayName(id);
   run(d330,21.5,21.75);
   check('1. 21:30 可昕兩則（大二版，AA_336 C8）、之後才問', txt('p:kexin').slice(-2).join('|')==='kexin:春假。今年也開車？|kexin:行程表做好了。……這次吃的只有一頁。'&&GROUP.springPending(G), JSON.stringify(txt('p:kexin').slice(-2)));
   picks=['麵店團']; const started=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
-  check('1. 三選一（S.tick 掛勾）：麵店團／可昕／留宿舍／晚一點', started===true&&JSON.stringify(opts[0])===JSON.stringify(['春假：跟麵店團出去','春假：和可昕開車旅行','春假：留在宿舍','晚一點再決定']), JSON.stringify(opts[0]));
+  check('1. 三選一（S.tick 掛勾）：麵店團／可昕／留宿舍／晚一點', started===true&&JSON.stringify(opts[0])===JSON.stringify(['春假：跟阿哲他們出去','春假：和可昕開車旅行','春假：留在宿舍','晚一點再決定']), JSON.stringify(opts[0]));
   { const q=OUT.get(G,'ndl_trip_y2s2');
     check('1. 選麵店團：SPRING_Y2 noodle、4/4 08:00 出遊（回家取車）', G.flags.SPRING_Y2==='noodle'&&!!q&&q.day===SD.trip&&q.h===8&&q.ev==='ev_spring_y2_noodle'&&q.travelH===0.5, JSON.stringify(q)); }
   run(d330,22,22.25); run(SD.d0,21.5,21.75);
@@ -231,7 +231,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('6. L1 麵店：Alison「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); run(l25,20,20.75); check('6. 2/25 21:00 以前還是「最後一學期」', PHONE.title(G,'g:noodle_team')==='最後一學期');
   run(l25,21,21.25);
-  check('6. L2 2/25 21:00 改回「麵店團」＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='麵店團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「麵店團」。）','zhe:改回來了','zhe:Alison 說很難過']));
+  check('6. L2 2/25 21:00 改回「法四吃飯」（AA_542 2-1）＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='法四吃飯'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「法四吃飯」。）','zhe:改回來了','zhe:Alison 說很難過']));
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); G.hour=19.5; ev('ev_last_term_first_dinner').outingMissed(G,GM,{}); run(l22,21.5,21.75);
   check('6. 沒去：LAST_TERM_DINNER missed、21:30 群組照片', G.flags.LAST_TERM_DINNER==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（長桌上的碗，跟大一的時候一樣多。）');
   fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在麵店團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));

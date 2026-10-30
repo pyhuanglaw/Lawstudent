@@ -297,7 +297,7 @@ const date=id=>H.date(id);
     check('1B-20 12/12 語彤的班（她在店裡）：「週四，二十三週年。你要來。」', !a&&b&&has('週四，二十三週年。你要來。')); GM.npc={}; }
   fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'none'}); H.FRIEND('heroine_03'); H.FAMILIAR('yu'); H.FAMILIAR('heroine_05'); SOCIAL.remember('heroine_03','SHARED_MEAL','她端來的乾麵');
   check('1B-20 12/14 18:45～ 在麵店＝演', S.a23Due(H.G)); H.said=[]; H.cgs=[]; await S.a23Run(GM);
-  check('Y1 Alison「這兩個位子」、阿哲「今天剛好是週四」、阿姨「明年也是。」、最後一碗「乾麵，加滷蛋。」、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('今天剛好是週四。……以後不是週四也一樣，不用約，來就有人。')&&has('（舉起湯勺）明年也是。')&&has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
+  check('Y1 Alison「這兩個位子」、阿哲「今天剛好是週四」、阿姨「明年也是。」、最後一碗「乾麵，加滷蛋。」、CG-8、「這次我帶了兩把傘。」、強制下雨；ANNIVERSARY_23', has('（坐下）第四年了。這兩個位子，本來就是我們的。')&&has('……以後也一樣。想吃麵就來，遇到就一起坐。')&&has('（舉起湯勺）明年也是。')&&has('（把最後一碗放在你面前）乾麵，加滷蛋。')&&has('我記得。我記得每個人第一次點什麼。')&&H.cgs.includes('cg_anniversary_23')&&has('這次我帶了兩把傘。')&&has('週年快樂。')&&H.G.weather==='rain'&&H.G.flags.ANNIV23==='there'&&SOCIAL.has('heroine_03','ANNIVERSARY_23'));
   { fresh('2028-12-14',18.9,'noodle'); H.FRIEND('heroine_03'); date('heroine_03'); await S.a23Run(GM);
     check('Y3 和語彤交往中：媽媽多一句、「這把是我們的。」；最後一碗一定給你（沒有備註＝招牌乾麵那句）', has('……他也很少講話。你們兩個怎麼聊天的？')&&has('（撐開另一把）這把是我們的。')&&has('招牌乾麵。你第一次來一定是點這個，大家都是。')&&!has('這次我帶了兩把傘。')); }
   { fresh('2028-12-14',18.9,'noodle',{rain_umbrella:'share'}); H.FRIEND('heroine_03'); date('kexin'); await S.a23Run(GM);

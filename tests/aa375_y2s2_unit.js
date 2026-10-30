@@ -217,8 +217,8 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 4 節：AA_342 第 2-2 節（大二下的七則補稿）=====
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };
-    check('AA_342. 2/25（四）大二下第一次的週四麵店：「（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）」',!!a&&J(evTexts(a))===J(['（大二下第一次的週四麵店。阿姨說，過年胖了的人自己知道。）'])&&okIn(a,'2027-02-25',18)&&!okIn(a,'2027-02-24',18));
-    check('AA_342. 4/8（四）春假回來第一次週四麵店：「（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）」',!!b&&J(evTexts(b))===J(['（春假回來的第一個週四。長桌的人，每個人都在講自己這幾天去了哪裡。）'])&&okIn(b,'2027-04-08',18)&&!okIn(b,'2027-04-15',18));
+    check('AA_342. 2/25（四）大二下第一次的週四麵店：「（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）」',!!a&&J(evTexts(a))===J(['（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'])&&okIn(a,'2027-02-25',18)&&!okIn(a,'2027-02-24',18));
+    check('AA_342. 4/8（四）春假回來第一次週四麵店：「（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）」',!!b&&J(evTexts(b))===J(['（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'])&&okIn(b,'2027-04-08',18)&&!okIn(b,'2027-04-15',18));
     fresh('2027-03-06',9,'dorm'); said=[]; const t1=Y2R2.fillTick?Y2R2.fillTick(GM):false; await new Promise(r=>setImmediate(r)); const s1=lines(); said=[]; const t1b=Y2R2.fillTick?Y2R2.fillTick(GM):false;
     fresh('2027-05-20',12,'dorm'); said=[]; Y2R2.fillTick&&Y2R2.fillTick(GM); await new Promise(r=>setImmediate(r)); const s2=lines();
     check('AA_342. 3/6（六）、5/20（四）摘要日的旁白各說一次',t1===true&&J(s1)===J(['（大二下的第二週。你終於記住了這學期的課表：週二要跑法律系館B。）'])&&t1b===false&&J(s2)===J(['（五月。宿舍走廊開始有人在討論暑假要去哪裡。）']),J([t1,s1,t1b,s2]));

@@ -152,7 +152,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   at('2027-03-25',18); picks=[2]; await run('ev_kexin_two_circles');
   check('T1. 見過麵店團、K3 說了女朋友：「上次是烤肉，這次是麵。」、沒有介紹選項；予樂「司機你們都認識了。……今天換他當客人。」（AA_519 第 6 節，不再說「這是很好笑的司機。」）；綽號三選一；「麵店分店」群組', has('上次是烤肉，這次是麵。')&&opts.length===1&&opts[0].length===3&&has('司機你們都認識了。……今天換他當客人。')&&!has('這是很好笑的司機。')&&has('「麵店分店」。不准改。')&&PHONE.inGroup(G,'noodle_branch')&&G.flags.KX_CIRCLES_MET===true, JSON.stringify(opts));
   fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[1,0]; await run('ev_kexin_two_circles');
-  check('T2. K3 沒去、介紹「木柵大學法律」：「你們就是麵店團？」；阿哲、Alison 不知道她是女友；記 KX_MET_NOODLE_TEAM；沒有 YL_IMPRESSION＝可昕「這是我的司機。」', has('你們就是麵店團？我聽了一年半。')&&!ROM.knowsGF(G,'zhe')&&!ROM.knowsGF(G,'yu')&&G.flags.KX_MET_NOODLE_TEAM===true&&has('這是我的司機。'));
+  check('T2. K3 沒去、介紹「木柵大學法律」：「你們就是麵店團？」；阿哲、Alison 不知道她是女友；記 KX_MET_NOODLE_TEAM；沒有 YL_IMPRESSION＝可昕「這是我的司機。」', has('你們就是他一直講的那群人？我聽了一年半。')&&!ROM.knowsGF(G,'zhe')&&!ROM.knowsGF(G,'yu')&&G.flags.KX_MET_NOODLE_TEAM===true&&has('這是我的司機。'));
   check('B3. 介紹「木柵大學法律」：旁白「（可昕看了你一眼，沒說什麼。）」（不是可昕說話）', said.some(s=>s.who===null&&s.t==='（可昕看了你一眼，沒說什麼。）'));
   fresh('2027-03-21',21.1,'dorm'); date('kexin'); rules(); answer('y2_kx_circles',0); rules(); at('2027-03-25',18); picks=[0,0]; await run('ev_kexin_two_circles');
   check('T2b. 介紹「我女朋友」：阿哲「……喔。」、在場的人知道', has('……喔。')&&ROM.knowsGF(G,'zhe')&&!has('你都不講！'));

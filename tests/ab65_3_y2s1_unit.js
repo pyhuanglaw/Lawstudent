@@ -72,8 +72,8 @@ await sec(3,async()=>{
   check('3. 系籃選「記分」：以安在觀眾席喊「（在觀眾席喊）十七號四犯了！」',L.includes('（以安坐在觀眾席第一排。）')&&L.includes('（在觀眾席喊）十七號四犯了！'),J(L));
   const yt=texts(ev('ev_yu_together'));
   /* 2026-10-28 改：AA_497 3-2 在「他說『沒事啦，就在一起啊』」前面多了三句照 YU2_PICK 的條件句（tests/aa497_supporting_unit.js 3-2），這裡的 texts 不看條件，改用前後相鄰判斷 */
-  const yi=yt.indexOf('反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。');
-  check('3. 在一起：Alison「反正就這樣。以後週二、四吃完，他說要陪我走去捷運站。」接旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」',yi>0&&/^（看了一眼正在跟阿姨點菜的阿哲）/.test(yt[yi-1])&&yt[yi+1]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&!yt.some(t=>/我都有人一起回家了/.test(t)),J(yt));
+  const yi=yt.indexOf('反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。');
+  check('3. 在一起：Alison「反正就這樣。以後在麵店吃完，他說要陪我走去捷運站。」接旁白「（阿哲端著兩碗麵走過來，她馬上坐正。）」',yi>0&&/^（看了一眼正在跟阿姨點菜的阿哲）/.test(yt[yi-1])&&yt[yi+1]==='（阿哲端著兩碗麵走過來，她馬上坐正。）'&&!yt.some(t=>/我都有人一起回家了/.test(t)),J(yt));
   const lm=texts(ev('ev_term_last_meal_y2s1'));
   check('3. 期末最後一頓：語彤「今天阿姨叫我坐下來吃。」',lm.includes('今天阿姨叫我坐下來吃。')&&!lm.some(t=>/不用端/.test(t)),J(lm));
   const fp=texts(ev('ev_fair_booth_y2_pass'));

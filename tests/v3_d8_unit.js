@@ -56,7 +56,7 @@ GM.money=function(n){ G.money+=n; };
   check('2. 台詞裡沒有人直接說出法律答案（不出現「可以剪」「是妳的」「條文」以外的結論字）',!r.L.some(t=>/可以剪|是妳的|可以吃/.test(t.replace('我可以吃嗎？',''))));
   // 3. 哲 2 手機
   fresh(d12,19,'campus',{}); R('zhe',...LV.FRI); run(19,20.6); const zm=TH('p:zhe').filter(m=>m.tag==='zhe2_msg');
-  check('3. 11/12 20:15 祐廷的訊息自動送出「今天週四，你沒去麵店？」（AA-B 682d911f）',TH('p:zhe').some(m=>m.from==='player'&&m.text==='今天週四，你沒去麵店？'&&Math.abs(m.h-20.25)<0.06));
+  check('3. 11/12 20:15 祐廷的訊息自動送出「你最近下課都跑好快，在忙什麼？」（AA-B 682d911f）',TH('p:zhe').some(m=>m.from==='player'&&m.text==='你最近下課都跑好快，在忙什麼？'&&Math.abs(m.h-20.25)<0.06));
   check('3. 11/12 20:30 阿哲（朋友）私訊「沒事啦，在練球」，可以回「我去找你。」',zm.length===1&&zm[0].text==='沒事啦，在練球'&&zm[0].ask&&zm[0].ask.opts[0].t==='我去找你。'&&Math.abs(zm[0].h-20.5)<0.06,JSON.stringify(zm));
   PHONE.answer(G,'zhe2_go',0); run(20.65,20.75); const o=OUT.get(G,'zhe2_court');
   check('3. 回「我去找你。」＝出發選單「籃球場 21:00」（2D ev_zhe_court_y2）',!!o&&o.h===21&&o.ev==='ev_zhe_court_y2',JSON.stringify(o));
@@ -65,7 +65,7 @@ GM.money=function(n){ G.money+=n; };
   // 4. 三種幫法
   const Z=ev('ev_zhe_court_y2'); const court=async(pick)=>{ fresh(d12,21,'campus',{}); R('zhe',...LV.FRI); said=[]; opts=[]; picks=[pick]; await EVENTS.run(Z); return L0(); };
   let c=await court(0); check('4. 「我筆記借你。」→「你的筆記？……字好醜。」「他還是收下了。」；記 LENT_NOTES_Y2',c.slice(0,3).join('｜')==='阿哲：（籃球場，一個人投籃）教授說，期末再沒過，我就要重修。｜阿哲：重修的時間跟練球撞。｜阿哲：（投進）……沒事啦。'&&c.includes('阿哲：你的筆記？……字好醜。')&&c.includes('他還是收下了。')&&G.flags.LENT_NOTES_Y2===true&&SOCIAL.has('zhe','LENT_NOTES_Y2'),JSON.stringify(c));
-  c=await court(1); check('4. 「我陪你念。週二週四，麵店念完再吃。」→「你要陪我念？」「他停了一下。」「……好。我請。」；記 STUDIED_WITH_ZHE',c.includes('阿哲：你要陪我念？')&&c.includes('他停了一下。')&&c.includes('阿哲：……好。我請。')&&SOCIAL.has('zhe','STUDIED_WITH_ZHE')&&G.flags.ZHE2==='study');
+  c=await court(1); check('4. 「我陪你念。念完再去吃麵。」→「你要陪我念？」「他停了一下。」「……好。我請。」；記 STUDIED_WITH_ZHE',c.includes('阿哲：你要陪我念？')&&c.includes('他停了一下。')&&c.includes('阿哲：……好。我請。')&&SOCIAL.has('zhe','STUDIED_WITH_ZHE')&&G.flags.ZHE2==='study');
   c=await court(2); check('4. 「這個你要自己來。」→「嗯。我知道。」「他又投了一球。」「……你講話跟我爸一樣。」；沒有記憶、不扣分',c.includes('阿哲：嗯。我知道。')&&c.includes('他又投了一球。')&&c.includes('阿哲：……你講話跟我爸一樣。')&&G.flags.ZHE2==='self'&&!G.flags.LENT_NOTES_Y2);
   // 5. 不回
   const K=ev('ev_zhe_court_skip'); const sk=(day,flags)=>{ fresh(day,18,'noodle',flags); GM.npc.zhe={obj:{position:{x:0,y:0,z:0}},lv:0}; E.npcs=[GM.npc.zhe]; return EVENTS.check(K); };

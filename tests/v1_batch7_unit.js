@@ -99,7 +99,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('K1b：第 6 週第一個平日 15:30 可昕傳「明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。」，三個回覆（原文）',!!m&&m.text==='明天晚上有空嗎？我們系上有人揪宵夜，予樂一直說要看你本人。'&&Math.abs(m.h-15.5)<0.06&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好，我開車過去。","我明天七點有事，晚一點可以嗎？","這週不行，下週換我請。"]',JSON.stringify(m&&m.ask.opts.map(o=>o.t)));   /* AA_207 附錄 §2：沒加入麵店團（或隔天不是麵店日）＝「我明天七點有事，晚一點可以嗎？」 */
     { let dN=STORY.termDay('Y1S1',6,1); while(!(CALENDAR.dateOf(dN).wd>=1&&CALENDAR.dateOf(dN).wd<=5&&!CALENDAR.holiday(dN)&&STORY.noodleDay(dN+1))) dN++;   /* 第 6 週起第一個「隔天是麵店日」的平日 */
       fresh(dN,8,'campus',{NCCU_VISITED:true}); PHONE.join(G,'noodle_team','麵店團'); run(8,16); const mg=G.msgs.find(x=>x.tag==='kx_yule_ask');
-      check('K1b：在麵店團群組、隔天是麵店日＝第二個回覆「我七點跟麵店團吃飯，晚一點可以嗎？」（AA_207 附錄 §2）',CALENDAR.termOf(dN).week<=8&&!!mg&&mg.ask.opts[1].t==='我七點跟麵店團吃飯，晚一點可以嗎？',JSON.stringify(mg&&mg.ask.opts.map(o=>o.t))); }
+      check('K1b：在吃飯群組、隔天是麵店日，第二個回覆照樣「我明天七點有事，晚一點可以嗎？」（AA_542 第 3 節拿掉「我七點跟麵店團吃飯」那個版本；原本 AA_207 附錄 §2）',CALENDAR.termOf(dN).week<=8&&!!mg&&mg.ask.opts[1].t==='我明天七點有事，晚一點可以嗎？',JSON.stringify(mg&&mg.ask.opts.map(o=>o.t))); }
     ask(0); let o=OUT.get(G,'kx_yule'); check('K1b：「好，我開車過去。」＝隔天 19:30 去木柵大學',!!o&&o.day===W6MON+1&&o.h===19.5,JSON.stringify(o));
     ask(1); o=OUT.get(G,'kx_yule'); const r1=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);
     check('K1b：「晚一點可以嗎？」＝她回「那九點？你來吃第二輪。」、隔天 21:00',!!o&&o.h===21&&o.day===W6MON+1&&r1.includes('那九點？你來吃第二輪。'),JSON.stringify(o));

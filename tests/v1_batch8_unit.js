@@ -93,7 +93,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const NYE=termDay(18,3); check('跨年：第 18 週週三＝2025-12-31',CALENDAR.dateOf(NYE).key==='2025-12-31');
     const ask=(pick,setup)=>{ fresh(NYE-7,20,'campus',{dating_kexin:true}); if(setup) setup(); run(20,21.2); const m=G.msgs.find(x=>x.tag==='kx_nye_ask'); if(pick!=null) PHONE.answer(G,m.ask.id,pick); run(21.2,21.4); return m; };
     const m=ask(null);
-    check('跨年：一週前（12/24）21:00 可昕問「跨年要不要來高雄？這邊河邊人比較少。」（AA_276 第 3 節），兩個回覆（原文）',!!m&&m.day===NYE-7&&m.text==='跨年要不要來高雄？這邊河邊人比較少。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我想在臺北跟麵店團跨年。"]');
+    check('跨年：一週前（12/24）21:00 可昕問「跨年要不要來高雄？這邊河邊人比較少。」（AA_276 第 3 節），兩個回覆（原文）',!!m&&m.day===NYE-7&&m.text==='跨年要不要來高雄？這邊河邊人比較少。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我想在臺北跟阿哲他們跨年。"]');
     const toNye=(h)=>{ const F0=Object.assign({},G.flags), ms=G.msgs, ph=G.phone, soc=G.social, ev=G.events; fresh(NYE,h||20,'dorm',F0); G.msgs=ms; G.phone=ph; G.social=soc; SOCIAL.bind(G); G.events=ev; run(h||20,(h||20)+0.1); };
     ask(0); check('跨年：「好。」＝KX_NYE {1:river}',JSON.stringify(G.flags.KX_NYE)==='{"1":"river"}'&&!G.flags.KX_NYE_PICK);
     toNye(20); let o=OUT.get(G,'nye'); check('跨年（高雄）：12/31 23:30 高雄・愛河邊（高鐵約一個半小時，AA_276 第 3 節）',!!o&&o.ev==='ev_nye_river'&&o.h===23.5&&o.day===NYE&&o.place==='高雄・愛河邊'&&o.travelH===1.5&&o.title==='去高雄跨年（高鐵約一個半小時）',JSON.stringify(o));
@@ -104,7 +104,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     ask(0); toNye(20); { const o1=OUT.get(G,'nye'); o1.state='missed'; OUT.onMissed(GM,o1); const qc1=OUT.get(G,'kx_nye_call_y1');
       check('跨年（高雄）答應了沒出發：KX_NYE[1]＝missed、00:05 她打來（演出來的電話，AA_313 第 2 節第 15 列、2-3 B；原本什麼都沒有）',G.flags.KX_NYE[1]==='missed'&&!!qc1&&qc1.day===NYE+1&&Math.abs(qc1.h-5/60)<1e-6&&qc1.ev==='ev_kexin_nye_missed_call'&&qc1.verb==='接起來',JSON.stringify(qc1)); }
     ask(1); const r=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text);
-    check('跨年：「我想在臺北跟麵店團跨年。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
+    check('跨年：「我想在臺北跟阿哲他們跨年。」＝她回「好。那你幫我跟阿哲說新年快樂。」、KX_NYE {1:roof}（不扣分）',r.includes('好。那你幫我跟阿哲說新年快樂。')&&G.flags.KX_NYE[1]==='roof');
     toNye(20); o=OUT.get(G,'nye'); check('跨年（頂樓）：12/31 23:40 宿舍頂樓（AA_204 2-3）',!!o&&o.ev==='ev_nye_roof'&&Math.abs(o.h-(23+40/60))<1e-6,JSON.stringify(o));
     G.hour=23.6; picks=['出發']; await OUT.tick(GM); let L2=lines();
     check('跨年（頂樓）：AA 的群戲（「我們就說有看到。」）＋零點前一分鐘她的視訊「三、二、一——」、訊號慢一秒、「……你那邊卡了一秒啦。新年快樂。」（AA_207 §5／BB_167 SC4 第 33 列）；沒見過她的阿哲喊「木柵大學的那位，新年快樂！」',L2[0]==='（十一點四十，男生宿舍頂樓。風很大。信義區那邊的天空，亮了一塊。）'&&L2.includes('……我們就說有看到。')&&L2.includes('三、二、一——')&&L2.includes('……你那邊卡了一秒啦。新年快樂。')&&L2.includes('木柵大學的那位，新年快樂！'),JSON.stringify(L2));
@@ -121,7 +121,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{}),cafe:at(le.day,18,{noodleTableDay:9},'cafe'),later:at(le.day+1,19,{noodleTableDay:9}),late:at(le.day,22.5,{noodleTableDay:9})};
     check('A22：最後一科考完以後傍晚進麵店才有（考完前一天、沒有麵店團、不是麵店、22:00 以後：沒有；隔天還有）',r.after&&!r.before&&!r.noTeam&&!r.cafe&&r.later&&!r.late,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); await EVENTS.run(e);
-    check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
+    check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。阿哲在群組喊了一聲。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
   /* ---------- 交接包 v2 C19：大一下的期末最後一頓（同一段原文，另一個 id）---------- */
   { fresh(250,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S2','final'); const tm=le&&CALENDAR.termOf(le.day); const e=ev('ev_term_last_meal_y1s2');
     check('C19：大一下最後一科期末考考完在第 16 週（16 週制）',!!le&&tm&&tm.id==='Y1S2'&&tm.week===16,JSON.stringify(le));

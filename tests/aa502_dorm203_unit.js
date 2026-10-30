@@ -41,6 +41,7 @@ try{ ok=load('src/data/dorm203_lines.js','DORM203_LINES')&&load('src/dorm203_3d.
 const X=()=>typeof DORM203!=='undefined'?DORM203:null, LL=()=>typeof DORM203_LINES!=='undefined'?DORM203_LINES:null;
 let DOC='';
 try{ DOC=cp.execSync('git show 7ad5fee84:"docs/story_planning/AA_502_203室友日常_阿哲_柏翰_阿凱.md"',{cwd:process.env.AA502_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+DOC=require('./alison.js').ndl(DOC);   /* AA_542（NOODLE-TEAM-SHRINK-1030）：麵店團的字照 tools/story/ndl542_fix.json 換（遊戲照它改了）；只換這一張表，不動這支原本的 Alison／校名讀法 */
 const NAME={kai:'阿凱',zhe:'阿哲',classmate_bohan:'柏翰',yu:'Alison'};
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. （丟例外）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' | ')); } };
 /* 假的生人物、坐下、走路（同 tests/dorm_mates_live_unit.js；E.moveTo 先記下來，測試決定走到了沒有）*/
@@ -234,7 +235,7 @@ const knowAll=()=>{ for(const id of ['kai','zhe','classmate_bohan']){ H.rel(id,2
     room('2025-11-27',23.1); knowAll(); t=await runEv('ev_r203_supper',['（吃）']); check('4. 3-3 選（吃）：沒有 KAI_COUNTED',!H.G.flags.KAI_COUNTED&&t.includes('（四個人吃完，阿哲把袋子綁好。垃圾是阿凱拿去丟的。）'));
     room('2025-11-27',23.1); knowAll(); t=await runEv('ev_r203_supper',['肩膀濕了']); check('4. 選「阿凱，你的肩膀濕了。」也記 KAI_COUNTED',H.G.flags.KAI_COUNTED===true&&t.includes('咦，是阿凱去的？……阿凱，謝啦！'));
     room('2026-02-23',22.6); knowAll(); t=await runEv('ev_r203_gifts',['什麼都沒帶']); check('4. 3-4 選「……我什麼都沒帶。」：柏翰的貢丸；最後阿凱「……我下次帶別的。」',t.includes('沒關係。貢丸很多。')&&t[t.length-1]==='……我下次帶別的。',J(t.slice(-3)));
-    room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['去哪？']); check('4. 3-5 選「去哪？」：麵店團還有 Alison，然後一樣借（接「拿去。」那一段）、R203_SHIRT（第二輪：「拿去。」那一段照新稿，阿哲自己答「……會。」）',H.G.flags.R203_SHIRT===true&&t.includes('麵店團啦！……還有 Alison。好，你知道就好。')&&t.includes('……會。（他沒有脫下來。）'),J(t.slice(3)));
+    room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['去哪？']); check('4. 3-5 選「去哪？」：麵店團還有 Alison，然後一樣借（接「拿去。」那一段）、R203_SHIRT（第二輪：「拿去。」那一段照新稿，阿哲自己答「……會。」）',H.G.flags.R203_SHIRT===true&&t.includes('吃飯啦！大家都在。……還有 Alison。好，你知道就好。')&&t.includes('……會。（他沒有脫下來。）'),J(t.slice(3)));
     room('2026-05-23',17.1); knowAll(); t=await runEv('ev_r203_shirt',['球衣']); check('4. 選「你穿你的球衣就好。」：沒有 R203_SHIRT',!H.G.flags.R203_SHIRT&&t.includes('……也對。（他換了三件，最後穿了球衣出門。）'));
     room('2026-06-14',23.1); knowAll(); t=await runEv('ev_r203_last',['幫他一起撕']); check('4. 3-6 選（幫他一起撕）：柏翰把燈關了一半',t.includes('（你們兩個蹲在地上撕了十分鐘。柏翰把燈關了一半，留你們那一邊的。）')); });
 

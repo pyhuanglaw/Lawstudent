@@ -56,18 +56,18 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A9 記下哪一天（noodleTableDay）、只一次',G.flags.noodleTableDay===W4THU&&!EVENTS.check(e));
     /* 麵店團群組 */
     run(18.2,20); const gm=G.msgs.filter(m=>m.th==='g:noodle_team');
-    check('A9 之後：加入「麵店團」群組，一則系統訊息（阿哲建立了群組）＋阿哲兩則「以後週二週四 麵店長桌」「有空就來 沒空不用講」（NOODLE-TEAM-WHY-1027，AA_486 1-3），哲 1 那天沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='麵店團'&&gm.length===3&&gm[0].text==='阿哲建立了群組「麵店團」，把你加了進來。'&&!gm[0].from&&gm[1].from==='zhe'&&gm[1].text==='以後週二週四 麵店長桌'&&gm[2].from==='zhe'&&gm[2].text==='有空就來 沒空不用講'&&!gm.some(m=>m.tag&&m.tag.startsWith('rt_zhe_ndl_')),JSON.stringify(gm.map(m=>m.text)));
+    check('A9 之後：加入「法一吃飯」群組（AA_542 2-1），一則系統訊息（阿哲建立了群組）＋阿哲兩則「吃飯用」「誰要吃什麼就喊」（AA_542 2-2），沒有揪',PHONE.inGroup(G,'noodle_team')&&PHONE.rec(G).groups.noodle_team.name==='法一吃飯'&&gm.length===3&&gm[0].text==='阿哲建立了群組「法一吃飯」，把你加了進來。'&&!gm[0].from&&gm[1].from==='zhe'&&gm[1].text==='吃飯用'&&gm[2].from==='zhe'&&gm[2].text==='誰要吃什麼就喊'&&!gm.some(m=>m.tag&&m.tag.startsWith('rt_zhe_ndl_')),JSON.stringify(gm.map(m=>m.text)));
     const pings=[]; let day=W4THU+1;
     for(;day<=W4THU+14;day++){ keepOn(day,7.5,'campus'); run(7.5,23.5,0.1); }
     const ps=G.msgs.filter(m=>m.th==='g:noodle_team'&&m.from==='zhe'&&m.tag&&m.tag.startsWith('rt_zhe_ndl_'));   /* 例行的揪（群組裡阿哲的其他訊息，例如第 5 週的中秋烤肉，不算）*/
     const wds=ps.map(m=>CALENDAR.dateOf(m.day).wd), days=ps.map(m=>m.day);
     const firstNdl=(()=>{ for(let d=W4THU+1;;d++) if(STORY.noodleDay(d)) return d; })();
-    check('A9 之後兩週都沒去：第一個麵店日不揪（上一次是哲 1，有來）；之後每個週二、週四 17:30 阿哲在群組揪，四句輪流（AA 2026-10-14）（週一三五六日沒有、一天一次）',ps.length>=3&&!days.includes(firstNdl)&&ps.every((m,i)=>m.text===['麵店 我揪了','麵店 我先到','今天阿姨有滷蛋','麵店 不用回'][i%4]&&Math.abs(m.h-17.5)<0.11)&&wds.every(w=>w===2||w===4)&&new Set(days).size===days.length,JSON.stringify(ps.map(m=>[m.day,CALENDAR.dateOf(m.day).wd,m.h,m.text])));
+    check('A9 之後兩週都沒去：阿哲不在群組定時揪人（AA_542 2-3 拿掉 17:30 揪人；原本每個週二、週四 17:30 四句輪流）',ps.length===0&&!G.msgs.some(m=>m.th==='g:noodle_team'&&/你最近都沒來/.test(m.text||'')),JSON.stringify(ps.map(m=>[m.day,m.h,m.text])));
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
-    check('A9 放假的週二、週四不揪'+(holTT.length?'（'+holTT.map(d=>CALENDAR.dateOf(d).key).join('、')+'）':'（這兩週沒有放假的週二四：只檢查上課日）'),holTT.every(d=>!days.includes(d))&&ps.every(m=>CALENDAR.kind(m.day)==='term'));
+    void holTT;   /* 放假的週二四不揪：AA_542 起整個不揪，這一項併進上一項 */
     /* 每天的手機小事不被例行訊息擋住 */
     { const D=termDay(10,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）；第 7 週週二有以安新 3 的群組訊息（劇情訊息，那天本來就不加小事）：用第 10 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'public_law','公法讀書會');   /* 讓沛珊的講義照片（公法讀書會群組）條件成立；法服讀書會已停用（AA_218 17-4）*/
-      run(7.5,8); const pick=G.flags.dpPick; check('A9 週二早上已經排了阿哲的例行訊息，每天的手機小事照樣挑（rt_ 不算劇情訊息）',!!pick&&PHONE.rec(G).q.some(q=>q.tag==='rt_zhe_ndl_'+D),JSON.stringify(pick)); } }
+      run(7.5,8); const pick=G.flags.dpPick; check('A9 週二早上每天的手機小事照樣挑（AA_542 起沒有阿哲的例行揪人訊息）',!!pick&&!PHONE.rec(G).q.some(q=>q.tag==='rt_zhe_ndl_'+D),JSON.stringify(pick)); } }
   /* ---------- A10 語 1 ---------- */
   { const e=ev('ev_yu_breakfast'); check('A10 事件存在（ev_yu_breakfast，找 Alison 說話）',!!e&&e.trigger==='interact'&&e.participants[0]==='yu');
     fresh(W4TUE,10,'campus'); npc('yu',0,1); await STORY._v1.talkYu(GM,GM.npc.yu);

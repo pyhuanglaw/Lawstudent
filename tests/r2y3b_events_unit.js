@@ -276,7 +276,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-05-05',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); const nq=OUT.get(G,'y3_an_notice');
   check('N0. 日本路線、交往中：5/5 日本 21:00「明天下午，町公所門口。有一張通知，我想給你看。」；排 5/6 日本 15:00（人在日本：遊戲時鐘＝日本時間，AA_341 J-S13）', txt('p:heroine_01').includes('heroine_01:明天下午，町公所門口。有一張通知，我想給你看。')&&!!nq&&nq.day===D('2028-05-06')&&nq.h===15);
   CG_REGISTRY.cg_japan_notice_heroine01={file:'x'}; picks=[2]; cgs=[]; await run('ev_an_town_notice'); delete CG_REGISTRY.cg_japan_notice_heroine01;
-  check('N1. 交往中：CG-17；三選一；「兩個都有。」→抄進手帳；「這張不用傳給麵店團了。」；AN_TOWN_NOTICE there', cgs.join()==='cg_japan_notice_heroine01'&&has('可是整條街都照做。……這比命令可怕，還是比較好？')&&opts[0].length===3&&has('（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。')&&has('這張不用傳給麵店團了。')&&G.flags.AN_TOWN_NOTICE==='there');
+  check('N1. 交往中：CG-17；三選一；「兩個都有。」→抄進手帳；「這張不用傳到群組了。」；AN_TOWN_NOTICE there', cgs.join()==='cg_japan_notice_heroine01'&&has('可是整條街都照做。……這比命令可怕，還是比較好？')&&opts[0].length===3&&has('（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。')&&has('這張不用傳到群組了。')&&G.flags.AN_TOWN_NOTICE==='there');
   check('N4. 旁白、台詞沒有說這是行政指導', !JSON.stringify(ev('ev_an_town_notice').dialogue.concat(ev('ev_an_town_notice_repair').dialogue)).includes('行政指導'));
   fresh('2028-05-05',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); at('2028-05-06',15.6); OUT.tick(GM); at('2028-05-06',20.1); rules();
   check('N. 交往中沒去：日本 20:00 照片三則；AN_TOWN_NOTICE photo', txt('p:heroine_01').includes('heroine_01:町公所請大家『協力』，沒有罰則，大家都照做。')&&G.flags.AN_TOWN_NOTICE==='photo');

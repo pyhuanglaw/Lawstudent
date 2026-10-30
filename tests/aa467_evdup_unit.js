@@ -32,7 +32,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
 const play=async(id,picks,flags)=>{ H.fresh('2027-01-20',19,'noodle',Object.assign({noodleTableDay:3},flags||{})); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); await EVENTS.run(ev(id)); return H.said.map(s=>s.t); };
 
 (async()=>{
-  check('0. 讀稿（企劃線 AA_467 @'+SHA+'）：大一上原本三句、大一下／大二上的表、三年的零點和結尾',DOC.indexOf('# AA_467')>=0&&ORIG.length===3&&ORIG[0]==='期末最後一科考完。麵店團一定吃一頓。'&&(T1.ev_term_last_meal_y1s2||[]).length===3&&(T1.ev_term_last_meal_y2s1||[]).length===3&&!!T2[2]&&!!T2[3]&&!!T2[4],J({ORIG,T1,T2}));
+  check('0. 讀稿（企劃線 AA_467 @'+SHA+'）：大一上原本三句、大一下／大二上的表、三年的零點和結尾',DOC.indexOf('# AA_467')>=0&&ORIG.length===3&&ORIG[0]==='期末最後一科考完。阿哲在群組喊了一聲。'&&(T1.ev_term_last_meal_y1s2||[]).length===3&&(T1.ev_term_last_meal_y2s1||[]).length===3&&!!T2[2]&&!!T2[3]&&!!T2[4],J({ORIG,T1,T2}));
   if(!DOC){ H.done(); return; }
   /* ======================= 1 期末最後一頓 ======================= */
   await sec(1,async()=>{

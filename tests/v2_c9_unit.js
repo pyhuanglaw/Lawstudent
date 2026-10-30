@@ -44,9 +44,9 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 什麼時候問、有哪些選項 */
   const optsOf=async(o)=>{ setup(o); run(18,23.9); G.day=D.inv2; run(0,23.9); const pend=STORY.springPending(G); picks=['晚一點']; opts=[]; if(pend) await STORY.springPrompt(GM); return {pend,opts:opts[0]||[]}; };
   { setup({dating:true}); run(18,22); check('可昕的訊息還沒到（3/24 22:00）：還不問',!STORY.springPending(G));
-    let r=await optsOf({dating:true}); check('兩個邀約都到了：問；選項＝跟麵店團出去／和可昕開車旅行／留在宿舍／晚一點再決定',r.pend&&JSON.stringify(r.opts)==='["春假：跟麵店團出去","春假：和可昕開車旅行","春假：留在宿舍","晚一點再決定"]',JSON.stringify(r));
+    let r=await optsOf({dating:true}); check('兩個邀約都到了：問；選項＝跟麵店團出去／和可昕開車旅行／留在宿舍／晚一點再決定',r.pend&&JSON.stringify(r.opts)==='["春假：跟阿哲他們出去","春假：和可昕開車旅行","春假：留在宿舍","晚一點再決定"]',JSON.stringify(r));
     check('晚一點再決定：今天不再問，明天同一時間再問',!STORY.springPending(G)&&(G.day++,STORY.springPending(G)));
-    r=await optsOf({}); check('單身、麵店團：沒有可昕那一項',r.pend&&JSON.stringify(r.opts)==='["春假：跟麵店團出去","春假：留在宿舍","晚一點再決定"]',JSON.stringify(r));
+    r=await optsOf({}); check('單身、麵店團：沒有可昕那一項',r.pend&&JSON.stringify(r.opts)==='["春假：跟阿哲他們出去","春假：留在宿舍","晚一點再決定"]',JSON.stringify(r));
     r=await optsOf({dating:true,grp:false}); check('交往中、不在麵店團：沒有麵店團那一項',r.pend&&JSON.stringify(r.opts)==='["春假：和可昕開車旅行","春假：留在宿舍","晚一點再決定"]',JSON.stringify(r)); }
   /* 三種選擇 */
   const choose=async(o,pick)=>{ setup(o); run(18,23.9); G.day=D.inv2; run(0,23.9); picks=[pick]; await STORY.springPrompt(GM); const h0=G.hour; run(h0,h0+0.3); return G; };

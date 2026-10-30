@@ -129,10 +129,10 @@ await sec('A',async()=>{
   fresh('2026-10-14',20); date(YT); ROM.learn(H.G,AN,YT,'test'); at(H.G.day+3,20); breakup(AN,'apart_talk');
   check('A6. 語彤是分開以前就在交往的（多段同時）：不算「之後和別人交往」',!(await pre(AN)).length);
   /* 送機 */
-  const so=ev('ev_an_sendoff').dialogue, i=so.findIndex(l=>l&&l.text==='……到了我傳給麵店團。'), j=so.findIndex(l=>l&&Array.isArray(l.choice)&&l.choice[0]&&l.choice[0].text==='「好。」');
+  const so=ev('ev_an_sendoff').dialogue, i=so.findIndex(l=>l&&l.text==='……到了我傳到群組。'), j=so.findIndex(l=>l&&Array.isArray(l.choice)&&l.choice[0]&&l.choice[0].text==='「好。」');
   fresh('2027-03-25',10); breakup(AN,'apart_talk'); const exOK=i>=0&&EVENTS.cond(so[i].if);
   fresh('2027-03-25',10); const noEx=i>=0&&EVENTS.cond(so[i].if);
-  check('A7. 新 16 送機：「……到了我傳給麵店團。」（AA_437 第 4 節改字，原本「……理由欄，我自己寫。」）在「好。」／揮手那個選項前面、只給前任',i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx,J([i,j]));
+  check('A7. 新 16 送機：「……到了我傳到群組。」（AA_437 第 4 節改字，原本「……理由欄，我自己寫。」）在「好。」／揮手那個選項前面、只給前任',i>=0&&j===i+1&&so[i].speaker===AN&&exOK&&!noEx,J([i,j]));
   /* 新 20 */
   fresh('2029-05-03',10); H.FRIEND(AN); check('A8. 新 20：單身、沒交往過＝Café',Y34B.an20Mode(H.G)==='cafe');
   H.G.flags.EX_heroine_01=true; check('A8. 前任＝麵店長桌那一版',Y34B.an20Mode(H.G)==='noodle');
