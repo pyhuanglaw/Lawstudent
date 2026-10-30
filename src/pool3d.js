@@ -429,7 +429,7 @@ const POOL=(function(){
     const e=ent(G,id); return (e&&e.greetAt)||c.poolPlace||'教室'; };   /* 表上的地點；有兩個地點的人照現在這一筆（邱家齊在校園＝總圖門口、馬佳蓉在社博＝社團博覽會）*/
 
   /* ---------- 2-10 舊存檔：讀檔換名、說過秘密的記成「沒選」---------- */
-  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };
+  S.renameText=function(t){ if(typeof t!=='string') return t; let s=t; for(const id in D.RENAME){ const [a,b]=D.RENAME[id]; if(s.indexOf(a)>=0) s=s.split(a).join(b); } for(const [a,b] of (Array.isArray(D.RENAME_MORE)?D.RENAME_MORE:[])){ if(s.indexOf(a)>=0) s=s.split(a).join(b); } return s; };   /* RENAME_MORE：同一個人改第二次名（AA_527 1-7 pool_19）*/
   S.migrate=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const fx=(o,k)=>{ if(!o||typeof o!=='object') return; const v=o[k]; if(typeof v!=='string') return; const w=S.renameText(v); if(w!==v){ o[k]=w; n++; } };
     const msg=m=>{ if(!m||typeof m!=='object') return; fx(m,'text'); fx(m,'name'); if(m.ask&&Array.isArray(m.ask.opts)) for(const o of m.ask.opts){ fx(o,'t'); if(o&&Array.isArray(o.say)) for(const y of o.say) fx(y,'text'); } };
     if(Array.isArray(s.msgs)) s.msgs.forEach(msg); const P=s.phone; if(P&&typeof P==='object'){ if(Array.isArray(P.q)) for(const q of P.q){ msg(q); if(q&&Array.isArray(q.items)) q.items.forEach(msg); } if(P.groups&&typeof P.groups==='object') for(const k in P.groups) fx(P.groups[k],'name'); }

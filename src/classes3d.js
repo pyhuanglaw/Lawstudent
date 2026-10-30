@@ -902,7 +902,7 @@ const CLS=(function(){
   /* 校外上課（教室 OFF：大四下「法律實習或法律扶助實務」，courses.js rooms.OFF offsite）：沒有 3D 的地點——2D 出門、時間跳到下課、記出席（同服務學習的做法）。
      那一天有旁白的（OFFSITE_LINES：fn(G,it)→一句或 null；例：AA_342 4-2 第 4 週 3/13，twfill3d.js）就說那一句。COURSE-PRACTICE-Y4-1024 */
   S.OFFSITE_LINES=[];
-  S.OFFSITE_AFTER=[];   /* 那一句之後多說的旁白：fn(G,it,line)→一句、幾句或 null（例：AA_499 4-5 法扶實習的承恩，src/pool_more3d.js）*/
+  S.OFFSITE_AFTER=[];   /* 那一句之後多說的旁白：fn(G,it,line)→一句、幾句或 null（例：AA_499 4-5 法扶實習的維倫，src/pool_more3d.js）*/
   S.goOffsite=async function(GM,it,o){ o=o||{}; const G=GM.G, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
     if(S.status(G,it)==='missed'){ GM.toast(c.name+'已經快結束了，現在去不算出席。',3600); return false; }
     let line=null; for(const f of S.OFFSITE_LINES){ try{ line=f(G,it)||line; }catch(e){ console.warn('CLS.OFFSITE_LINES',e); } }

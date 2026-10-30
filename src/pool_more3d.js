@@ -10,10 +10,10 @@
    ■ 邀你（不是順手的事）：廣播社錄音、河堤夜騎、哲學咖啡館、半夜的刑法讀書會（兩場）＝有聯絡方式私訊、沒有＝當面；答應＝出遊。
    ■ 手機（STORY.PHONE_RULES）：各人表上的那幾則都是劇情的（不算上限）；晨希偶爾的錄音是閒聊型（二十位加起來一週一則、同一人一個月一則、考試週不送）。沒交換聯絡方式不送。
    ■ 加在別人那裡的：吉他社兩次成發（晏如、晨希）、系籃比賽三場（孟儒）＋大四下那一場、哲 3 阿哲一句、柏翰推甄面試之後宇軒那一場、柏翰一句閒聊（影印機）、
-     曾靖雯一句閒聊（器材組）、法服值班的旁白（影印機、延長線）、大四下法律實習每週那一句之後（承恩，三次）、麵店團群組（阿哲轉貼孟儒的照片）、班級群組（立群的錄音、沛珊回）。
+     曾靖雯一句閒聊（器材組）、法服值班的旁白（影印機、延長線）、大四下法律實習每週那一句之後（維倫，三次）、麵店團群組（阿哲轉貼孟儒的照片）、班級群組（立群的錄音、沛珊回）。
    ■ 畢業：大三的四位＝大二下第 16 週、大二的六位＝大三下第 16 週（同第一批邱家齊「大二下第 16 週（他畢業那一週）」）；日本路線那一週在日本＝改私訊。
-   AA 9f2e2506e「實作時定的」（POOL-AAFIX-1028）：立群「我也想學。」、書豪「那天我有事。」當場交換聯絡方式（已經有的不說、不換）；承恩 4-1「一起去旁聽」補一場 2D（S.AUDIT_EV）；
-     承恩 4-5 說明會那一句不做、改成實習第四句（認識曾靖雯、有她的聯絡方式）；晏如 2-3「我也怕蟑螂」以後晨希第一句（LYR_CX，FLOW[CX] 第一個，一次）。
+   AA 9f2e2506e「實作時定的」（POOL-AAFIX-1028）：立群「我也想學。」、書豪「那天我有事。」當場交換聯絡方式（已經有的不說、不換）；維倫 4-1「一起去旁聽」補一場 2D（S.AUDIT_EV）；
+     維倫 4-5 說明會那一句不做、改成實習第四句（認識曾靖雯、有她的聯絡方式）；晏如 2-3「我也怕蟑螂」以後晨希第一句（LYR_CX，FLOW[CX] 第一個，一次）。
    測試：node tests/aa499_501_pool_unit.js */
 'use strict';
 const POOL_MORE=(function(){
@@ -136,11 +136,11 @@ const POOL_MORE=(function(){
 
   /* ---------- 順手的事（SIDEQ 登記）---------- */
   Object.assign(P.QUEST,{ PQ_HYX1:{who:H,title:'何宇軒：陪他去研究室'}, PQ_HYX2:{who:H,title:'何宇軒：一百份判決'}, PQ_JY:{who:J,title:'徐靜儀：新聞裡的一句話'},
-    PQ_LQ:{who:LQ,title:'詹立群：試教'}, PQ_SCE:{who:SC,title:'蘇承恩：週六的課輔'}, PQ_JR:{who:M,title:'馬佳蓉：影印機'}, PQ_TZL:{who:TZ,title:'蔡宗霖：二手書'},
+    PQ_LQ:{who:LQ,title:'詹立群：試教'}, PQ_SCE:{who:SC,title:'蘇維倫：週六的課輔'}, PQ_JR:{who:M,title:'馬佳蓉：影印機'}, PQ_TZL:{who:TZ,title:'蔡宗霖：二手書'},
     PQ_LYR:{who:LY,title:'劉晏如：社辦的蟑螂'}, PQ_YSH:{who:SH,title:'楊書豪：第一次上台'}, PQ_YCX:{who:CX,title:'葉晨希：打拍子'}, PQ_YZY:{who:ZY,title:'游振宇：問我問題'},
     PQ_HPY:{who:PY,title:'洪珮瑜：當一次她媽媽'}, PQ_SMR:{who:MR,title:'施孟儒：早上六點的球場'} });
   Object.assign(P.HINT,{ PQ_HYX1:{office:r=>md(r.outDay)+'（三）15:00 陪宇軒去敲周老師研究室的門（霖澤館）'}, PQ_HYX2:{cases:r=>md(r.outDay)+'（四）19:00～21:00 到總圖 B1 討論室幫宇軒讀判決'},
-    PQ_LQ:{teach:r=>md(r.outDay)+'（四）19:00 到普通教學館的空教室，當立群的國中生'}, PQ_SCE:{tutor:r=>md(r.outDay)+'（六）10:00 陪承恩去社福中心的課輔'},
+    PQ_LQ:{teach:r=>md(r.outDay)+'（四）19:00 到普通教學館的空教室，當立群的國中生'}, PQ_SCE:{tutor:r=>md(r.outDay)+'（六）10:00 陪維倫去社福中心的課輔'},
     PQ_TZL:{books:r=>md(r.outDay)+'（六）14:00 幫宗霖把書搬去舊路書房寄賣'}, PQ_YSH:{debate:r=>md(r.outDay)+'（六）14:00 博雅 201，坐第一排看書豪上台'},
     PQ_YCX:{beat:r=>'週一或週三 21:00 以後到萬才館旁邊，幫晨希打拍子（'+(r.n|0)+'／3）'}, PQ_SMR:{court:r=>md(r.day0)+'（五）06:00～06:30 到醉月湖東側的籃球場幫系籃佔場'} });
   P.register();
@@ -248,9 +248,9 @@ const POOL_MORE=(function(){
     async(GM,who)=>{ const G=GM.G; if(q(G,'PQ_LQ')||!inTerm(G,'Y1S2')||week(G)<11||week(G)>13||!fam(LQ)||!P.canOpen(G)) return false;   /* 3-3：大一下第 11～13 週 */
       await P.offer(GM,who,LQ,'PQ_LQ',{ask:'ask',opts:'askOpts',no:'askNo',accept:S.acceptLq}); return true; } ];
 
-  /* ===== 蘇承恩（AA_499 第 4 節）===== */
+  /* ===== 蘇維倫（AA_499 第 4 節）===== */
   S.acceptSce=GM=>{ const G=GM.G; if(typeof INV!=='undefined') INV.addContact(G,SC); const d=nextWd(G,6); P.openQ(GM,'PQ_SCE','tutor',{outDay:d,by:d});
-    planOut(G,{id:'pool_sce_tutor_'+d,ev:'ev_pool_sce_tutor',day:d,h:10,place:'社福中心',title:'蘇承恩：週六的課輔（社福中心 10:00）',travel:'公車 約 20 分鐘',travelH:1/3}); };
+    planOut(G,{id:'pool_sce_tutor_'+d,ev:'ev_pool_sce_tutor',day:d,h:10,place:'社福中心',title:'蘇維倫：週六的課輔（社福中心 10:00）',travel:'公車 約 20 分鐘',travelH:1/3}); };
   S.nextMonthWeek1=G=>{ const q0=dateOf(G.day); let d=G.day+1; while(dateOf(d).m===q0.m) d++; while(dateOf(d).wd!==1) d++; return d; };   /* 下個月第一週（第一個週一）*/
   FLOW[SC]=[
     async(GM,who)=>{ const G=GM.G; if(has(SC,'SHARED_SECRET')||!fam(SC)||G.zone!=='soclib'||q(G,'PQ_SCE')==='open'||small(G,SC).day===G.day) return false; if(!(ti(G)>1||(tid(G)==='Y1S2'&&week(G)>=8))) return false;   /* 秘密：大一下第 8 週起（做過 4-3 的，秘密在 4-3 裡說）*/
@@ -402,7 +402,7 @@ const POOL_MORE=(function(){
       story(G,LQ,termDay('Y1S2',15,3),21,[L[LQ].result].concat(v?[v]:[]),'pool_lq_result'); segSent(G,LQ,'result','pool_lq_result'); }
     { const d=termDay('Y3S1',8,3); if(d!=null&&PHONE.inGroup(G,'law_class')&&!sent(G,'pool_lq_grp')){ const items=[{th:'g:law_class',from:YC,text:L[LQ].grp}]; if(S.psHere(G)) items.push({th:'g:law_class',from:PS,text:L[LQ].grpPs}); atTW(G,d,22,items,'pool_lq_grp'); } }   /* 大三上第 8 週，班級群組 */
     { story(G,LQ,DK('2029-09-03'),18,[L[LQ].y2029].concat(F.LQ_STU==='sleep'?[L[LQ].y2029Sleep]:[]),'pool_lq_2029'); segSent(G,LQ,'y2029','pool_lq_2029'); }   /* 2029-09 教育實習 */
-    /* 蘇承恩 */
+    /* 蘇維倫 */
     story(G,SC,termDay('Y2S2',2,1),21,L[SC].double,'pool_sce_double'); segSent(G,SC,'double','pool_sce_double');   /* 大二下第 2 週 */
     { const k=F.SCE_KID; let it=null, ask=null;   /* 4-6 結局（2029-09）*/
       if(k==='help') it=L[SC].endHelp; else if(k==='yes') it=L[SC].endYes; else if(k==='learn'){ it=L[SC].endLearn; ask=askOf('pool_sce_end',L[SC].endLearnOpts.map(o=>[o[0],o[1],SC])); }
@@ -428,7 +428,7 @@ const POOL_MORE=(function(){
     /* 葉晨希：偶爾一段錄音（閒聊型：一個月最多一次；YCX_BEAT 以後、她畢業以前；週一、三練習的晚上 22:00）*/
     if(F.YCX_BEAT&&R.ycxBeat!=null&&[1,3].includes(G.weekday)&&hr(G)>=21&&hr(G)<22){ const gd=termEnd('Y3S2'); if(gd==null||G.day<=gd){ const k=(G.day*7+3)%5; if(k<2) P.chat(G,CX,L[CX].rec,'pool_ycx_rec_'+G.day,22); } }
     gradJP(G,CX,L[CX].gradJP,'pool_ycx_gradjp');
-    if(P.met(G,'heroine_04')&&L[CX].recY4a){ story(G,CX,DK('2028-11-15'),22,[L[CX].recY4a],'pool_ycx_y4a'); story(G,CX,DK('2029-05-13'),22,[L[CX].recY4b],'pool_ycx_y4b'); }   /* AA_514 第 4 節第 4 點（AA 9bca0f407）：晨希大四那兩句改成她的錄音私訊（畢業以後、3D 沒有她）；有她的聯絡方式（story 會查）、認識子晴；不用回 */
+    if(P.met(G,'heroine_04')&&L[CX].recY4a){ story(G,CX,DK('2028-11-15'),22,[L[CX].recY4a],'pool_ycx_y4a'); story(G,CX,DK('2029-05-12'),22,[L[CX].recY4b],'pool_ycx_y4b'); }   /* AA_514 第 4 節第 4 點（AA 9bca0f407）：晨希大四那兩句改成她的錄音私訊（畢業以後、3D 沒有她）；有她的聯絡方式（story 會查）、認識子晴；不用回 */
     /* 游振宇 */
     if(contact(G,ZY)&&S.rideDue(G)&&R.yzyFace!==G.day&&dateOf(G.day).wd===4){   /* 5-3：週四 21:00 私訊（有聯絡方式）*/
       const tag='pool_yzy_ride_'+(R.yzyRe!=null?'re':'1'); if(!sent(G,tag)&&story(G,ZY,G.day,21,L[ZY].ride,tag,{ask:askOf(tag,[{t:L[ZY].rideOpts[0]},{t:L[ZY].rideOpts[1],say:[{from:ZY,text:L[ZY].rideNo}]}],{until:(G.day+2)*24+18.5})})){ if(R.yzyRe!=null) R.yzyRe2=G.day; else R.yzyRide=G.day; } }
@@ -495,7 +495,7 @@ const POOL_MORE=(function(){
     if(typeof w0==='function') STORY.fafuWatch=async function(GM){ try{ if(GM&&GM.G&&STORY.fafuWatchable(GM.G)&&GM.G.hour<12&&law(GM.G)) await extra(GM,false); }catch(e){ console.warn('POOL_MORE fafu',e); } return w0.apply(this,arguments); };
     if(typeof s0==='function') STORY.fafuShift=async function(GM){ try{ if(GM&&GM.G&&STORY.fafuShiftable(GM.G)&&law(GM.G)) await extra(GM,true); }catch(e){ console.warn('POOL_MORE fafu',e); } return s0.apply(this,arguments); };
     STORY._poolFafu=true; }
-  /* 大四下法律實習（AA_441；AA_499 4-5）：每週那一句之後，三次輪流多一句承恩（一學期三次：第 3、7、11 次出席起，那一天有旁白的第一次；認識承恩）*/
+  /* 大四下法律實習（AA_441；AA_499 4-5）：每週那一句之後，三次輪流多一句維倫（一學期三次：第 3、7、11 次出席起，那一天有旁白的第一次；認識維倫）*/
   S.PRACTICE_AT=[2,6,10,13];   /* 出席以前已經去過幾次；第四句（AA 9f2e2506e）＝認識曾靖雯、有她的聯絡方式才有（沒有就停在第三句，之後有了再出）*/
   S.practiceLine=function(G,it,line){ if(!it||!it.c||it.c.id!=='legal_practice'||!line||!P.met(G,SC)||!L[SC]) return null;
     const C=typeof CLS!=='undefined'&&typeof CLS.rec==='function'?CLS.rec(G):null, n=C&&C.attend?(C.attend.legal_practice|0):0, R=R_(G), k=R.sceP|0;

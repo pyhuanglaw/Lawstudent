@@ -65,7 +65,7 @@ const KXMOOT3=(function(){
 
   /* ---------- 事件（1-2；trigger 'outing'，由上面排）---------- */
   const say=t=>/^（/.test(t)?{speaker:null,text:t}:{speaker:KX,expression:'neutral',text:t};
-  S.FOOD_RE=/^（政大後門的麵店/; S.FOOD_SCENE='政大・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
+  S.FOOD_RE=/^（山下小吃街的麵店/;   /* AA_527 2-5：旁白對齊字幕（原本「政大後門的麵店」）*/ S.FOOD_SCENE='政大・山下的小吃街';   /* 選「要不要去吃東西？」以後的麵店那段：底圖 nccu_food（地點字幕同 kxdrift3d.js OD_SCENE.nccu）*/
   S.EVENT=!L?null:{ id:S.EV, title:S.TITLE, participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:S.HOURS,
     dialogue:[{scene:L.scene,bg:'classroom_small'}].concat(L.nar.map(say),L.saw.map(say),
       [{choice:L.opts.map((o,i)=>({text:o.t,goto:'km3_'+i}))}],

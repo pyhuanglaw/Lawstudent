@@ -23,8 +23,10 @@ const POOL_STORY=(function(){
   const WD=[1,2,3,4,5], ALL=[0,1,2,3,4,5,6];
 
   /* ---------- 第 1 節 改名（撞到主要人物）：讀檔時換字（src/pool3d.js 的 POOL.migrate）---------- */
-  /* 舊名寫成 \u 跳脫（舊名在 src/ 裡只剩這張換字表；tests/aa498_pool_unit.js 用 grep 查沒有殘留）：邱○○→邱家齊、鄭○○→鄭元碩、施○○→施孟儒、詹○○→詹立群、嚴○○→嚴守誠、杜○○→蘇承恩 */
-  const RENAME={pool_3:['\u90b1\u67cf\u52f3','邱家齊'],pool_6:['\u912d\u51f1\u6587','鄭元碩'],pool_12:['\u65bd\u51a0\u5b87','施孟儒'],pool_16:['\u8a79\u54f2\u744b','詹立群'],pool_18:['\u56b4\u5b50\u5b89','嚴守誠'],pool_19:['\u675c\u5b87\u6046','蘇承恩']};
+  /* 舊名寫成 \u 跳脫（舊名在 src/ 裡只剩這張換字表；tests/aa498_pool_unit.js 用 grep 查沒有殘留）：邱○○→邱家齊、鄭○○→鄭元碩、施○○→施孟儒、詹○○→詹立群、嚴○○→嚴守誠、杜○○→蘇維倫 */
+  const RENAME={pool_3:['\u90b1\u67cf\u52f3','邱家齊'],pool_6:['\u912d\u51f1\u6587','鄭元碩'],pool_12:['\u65bd\u51a0\u5b87','施孟儒'],pool_16:['\u8a79\u54f2\u744b','詹立群'],pool_18:['\u56b4\u5b50\u5b89','嚴守誠'],pool_19:['\u675c\u5b87\u6046','蘇維倫']};
+  /* AA_527 1-7（企劃線 bfede0a62）：pool_19 又從「蘇\u627f\u6069」改「蘇維倫」（撞到使用者刪掉的直屬學弟，口氣表 0-3）——舊存檔裡存下的這個名字也換（寫成 \u 跳脫；邀約那一句只寫名字的「陪○○」一起換）*/
+  const RENAME_MORE=[['\u8607\u627f\u6069','蘇維倫'],['\u966a\u627f\u6069','陪維倫']];
 
   /* ---------- 第 3 節 二十位的地點、樣子、一句話 ----------
      where 的每一筆：days、from、to、zone、act（sit／read／linger／wander）、at／seat／seatAt／near、noHoliday（上課期間、國定假日不算）、desc（在這裡的外觀描述）、label（人物線索的字）。
@@ -299,5 +301,5 @@ const POOL_STORY=(function(){
   };
   /* 林采潔：三個認識的版本共用「你看推理小說嗎？」以後的三個選項（導覽版、教室版）*/
   LINES[C].meetTour=LINES[C].meetTour.concat(LINES[C].meetQ); LINES[C].meetClass=LINES[C].meetClass.concat(LINES[C].meetQ);
-  return {SRC:'AA_498@33189103b',RENAME,PEOPLE,LINES,BATCH1:[Z,Y,C,YS,Q]};
+  return {SRC:'AA_498@33189103b',RENAME,RENAME_MORE,PEOPLE,LINES,BATCH1:[Z,Y,C,YS,Q]};
 })();
