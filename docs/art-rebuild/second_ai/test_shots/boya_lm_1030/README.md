@@ -185,5 +185,6 @@
 
 ### 4. 測試
 
-- 全部 Node：見 `soclib_lm_1030/README.md` 第四節（同一個測試樹，兩包一起）。
+- 全部 Node：**772 支過、0 支 FAIL**（測試樹＝開發 `753e32cd3`＋這一包＋SOCLIB-LM-1030，兩包一起；見 `soclib_lm_1030/README.md` 第四節）。含 `boya_lecture_glb_unit.js`、`room_ceiling_unit.js`、`desk_furniture_unit.js`。
+- 效能：模型、三角形數沒變（講桌桌面只換材質、修 `collapse_black` 只改光照 UV），沒有重量。
 - 只換二進位（`boya_interior.glb`、兩張光照貼圖、`boya_interior.json`），不用改程式、不用套 patch。
