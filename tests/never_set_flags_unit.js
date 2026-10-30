@@ -111,8 +111,8 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
     const G3=fresh('2025-09-18',12.6,'dorm'); G3.stage='econ'; check('3-11. 經濟系那一年不帶（AA_292 不適用本表）',!D2(G3)); }
   /* ② 延到下一次出席：柏翰你考幾分（第 10～11 週 → 到第 15 週）*/
   { const run=async(w,flags)=>{ const G=fresh('2025-11-13',13.3,'classroom',flags); const it=itemOf('Y1S1',w,'civ_general'); setDay(it.day,it.t1); H.said=[]; H.picks=[1]; await CLS.afterClassEvent(GM,it); return G; };
-    let G=await run(13); check('3-12. 第 10～11 週沒去民總：第 13 週去了照樣演「你考幾分」（carryTo 15）',has('你民總幾分？')&&!!G.events.done.ev_bohan_score,JSON.stringify(lines()));
-    G=await run(15); check('3-13. 第 15 週第一次去也演',has('你民總幾分？'));
+    let G=await run(13); check('3-12. 第 10～11 週沒去民總：第 13 週去了照樣演柏翰「第三題」（AA_546 1-2；carryTo 15）',has('民總期中，第三題你怎麼寫？')&&!!G.events.done.ev_bohan_score,JSON.stringify(lines()));
+    G=await run(15); check('3-13. 第 15 週第一次去也演',has('民總期中，第三題你怎麼寫？'));
     G=await run(7); check('3-14. 條件不成立不演：第 7 週（還沒到第 10 週）',!has('你民總幾分？'));
     const e=STORY_EVENTS.find(x=>x.id==='ev_bohan_score'); check('3-15. 事件資料：weeks [10,11]、carryTo 15',JSON.stringify(e.weeks)==='[10,11]'&&e.carryTo===15); }
   /* ② 便利貼第一張：到第 12 週 */

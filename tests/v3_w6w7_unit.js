@@ -40,23 +40,28 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   GM.npc={}; E.npcs=[];
   // 2. 翰 2
   const w7=termDay('Y2S1',7,2), bh={obj:{position:{x:1,y:0,z:0}},lv:0}; const put=()=>{ GM.npc.classmate_bohan=bh; E.npcs=[bh]; at(1.5,0.5); };
-  fresh(w7,18.5,'library',{BOHAN_SCORE:'lower'}); G.stage='law'; put(); check('2. 分數比他低：不邀',!tick());
-  fresh(w7,18.5,'library',{BOHAN_SCORE:'higher'}); G.stage='law'; meet('classmate_bohan'); put(); picks=['「好。」']; tick(); await wait(); L=norm(lines());
-  check('2. 比他高：三句（逐字）＋「好。」→ 每週六 B1 討論室',L[0]==='我在組一個考古題小組。四個人。每週對答案，算分。'&&L[2]==='（看手機的備忘錄）你分數夠。你要不要來。'&&L[3]==='小組每週六下午，總圖 B1 的討論室。對答案、算分、排名。'&&G.flags.BOHAN_GROUP==='yes'&&G.flags.BOHAN_GROUP_DAY===w7,JSON.stringify(L));
+  /* AA_546 1-3（NO-COMPARE-1030，D116）：不看分數，翰 1 演過＋有點熟就邀；「我寫得很慢，可以嗎？」取代「分數不夠的人呢？」 */
+  const BH1=()=>{ G.events.done.ev_bohan_score=1; meet('classmate_bohan'); R('classmate_bohan',25); };
+  fresh(w7,18.5,'library',{BOHAN_SCORE:'told'}); G.stage='law'; meet('classmate_bohan'); R('classmate_bohan',25); put(); check('2. 翰 1 沒演過：不邀',!tick());
+  fresh(w7,18.5,'library',{BOHAN_SCORE:'told'}); G.stage='law'; G.events.done.ev_bohan_score=1; meet('classmate_bohan'); R('classmate_bohan',8); put(); check('2. 還不到有點熟：不邀',!tick());
+  fresh(w7,18.5,'library',{BOHAN_SCORE:'unsure'}); G.stage='law'; BH1(); put(); picks=['「好。」']; tick(); await wait(); L=norm(lines());
+  check('2. 翰 1 演過＋有點熟（翰 1 答什麼都一樣）：三句（逐字）＋「好。」→ 每週六 B1 討論室',L[0]==='我在組一個考古題小組。每週寫一份，寫完互相看怎麼寫。'&&L[1]==='以安說不要。她說她週四有讀書會。'&&L[2]==='你要不要來？'&&L[3]==='小組每週六下午，總圖 B1 的討論室。寫完，一個人講一題。'&&!L.some(t=>/分數|算分|排名/.test(t))&&G.flags.BOHAN_GROUP==='yes'&&G.flags.BOHAN_GROUP_DAY===w7,JSON.stringify(L));
   GM.npc={}; E.npcs=[];
   const sat7=termDay('Y2S1',7,6); G.day=sat7; G.weekday=6; G.zone='dorm'; run(10,10.1); check('2. 週六出發選單 16:00 總圖 B1 討論室',!!OUT.get(G,'bohan_group_'+sat7)&&OUT.get(G,'bohan_group_'+sat7).h===16);
   for(let k=0;k<3;k++){ said=[]; await EVENTS.run(ev('ev_bohan_group_session'));
     if(k===0) check('2. 第 1 次：旁白「（四個人，一張考古題。柏翰按下手機的計時器。）」（AB65-3（AA_211 附錄 A 柏翰一列、第 3 節第 7 點）：第一次補一句旁白）',JSON.stringify(lines())===JSON.stringify(['（四個人，一張考古題。柏翰按下手機的計時器。）']),JSON.stringify(lines()));
     if(k===1) check('2. 第 2 次：沒有旁白',lines().length===0,JSON.stringify(lines())); }
-  check('2. 第三次：「（第二次對完答案，柏翰把分數寫在白板上。你發現自己先找的是自己的名字。）」（AB65-3（AA_211 附錄 A 柏翰一列、第 3 節第 7 點）；原本「你第一次在意一個數字。」）',lines()[0]==='（第二次對完答案，柏翰把分數寫在白板上。你發現自己先找的是自己的名字。）'&&G.flags.BOHAN_GROUP_N===3);
-  fresh(w7,18.5,'library',{BOHAN_SCORE:'higher'}); G.stage='law'; put(); picks=['分數不夠']; tick(); await wait(); L=norm(lines());
-  check('2. 「分數不夠的人呢？」→ 愣住、那句、臉色、翰 4 伏筆',L.slice(3).join('|')==='他愣住。|……分數不夠，就跟不上。|他自己聽到這句話，臉色變了一下。'&&SOCIAL.has('classmate_bohan','ASKED_LOW_SCORE'),JSON.stringify(L));
+  check('2. 第三次：「（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）」（AA_546 1-3；原本「柏翰把分數寫在白板上……先找的是自己的名字」）',lines()[0]==='（寫完，柏翰把每個人的寫法抄在白板上。同一題有四種寫法，都說得通。）'&&G.flags.BOHAN_GROUP_N===3,JSON.stringify(lines()));
+  fresh(w7,18.5,'library',{}); G.stage='law'; BH1(); put(); picks=['寫得很慢']; tick(); await wait(); L=norm(lines());
+  check('2. 「我寫得很慢，可以嗎？」→（他愣了一下。）「……我也是。所以才組的。」；ASKED_SLOW、BOHAN_GROUP slow',L.slice(3).join('|')==='他愣了一下。|……我也是。所以才組的。'&&SOCIAL.has('classmate_bohan','ASKED_SLOW')&&!SOCIAL.has('classmate_bohan','ASKED_LOW_SCORE')&&G.flags.BOHAN_GROUP==='slow',JSON.stringify(L));
+  fresh(w7,18.5,'library',{}); G.stage='law'; BH1(); put(); picks=['「不了。」']; tick(); await wait(); L=norm(lines());
+  check('2. 「不了。」→「好。想來再跟我說。」；沒有劃掉名字',L.slice(-1)[0]==='好。想來再跟我說。'&&!L.some(t=>/劃掉/.test(t))&&G.flags.BOHAN_GROUP==='no',JSON.stringify(L));
   GM.npc={}; E.npcs=[];
   // 阿哲轉述
   const NDL=termDay('Y1S1',4,4);   /* 已經在麵店團（做過哲 1）：沒有的話＝錯過長桌，麵店遇到阿哲先演麵店團的補救（AA_496 第 9 節第 3 點，ev_zhe_group_late），這裡要看的是阿哲轉述那一句 */
-  const zh={obj:{position:{x:1,y:0,z:0}},lv:0}; fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'no',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); tick(); await wait(); L=norm(lines());
-  check('3. 沒被邀：第 7 週麵店阿哲「柏翰組了一個菁英小組。我沒被邀。」',L[0]==='柏翰組了一個菁英小組。我沒被邀。',JSON.stringify(L));
-  fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_SCORE:'higher',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); check('3. 被邀的不聽這句',!tick()); GM.npc={}; E.npcs=[];
+  const zh={obj:{position:{x:1,y:0,z:0}},lv:0}; fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_GROUP:'no',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); tick(); await wait(); L=norm(lines());
+  check('3. 沒去小組：第 7 週麵店阿哲「柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。」（AA_546 1-3；原本「菁英小組。我沒被邀。」）',L[0]==='柏翰組了一個考古題小組。我去了一次。……他講第三題講了四十分鐘。',JSON.stringify(L));
+  fresh(termDay('Y2S1',7,4),18,'noodle',{BOHAN_GROUP:'yes',noodleTableDay:NDL}); G.stage='law'; GM.npc.zhe=zh; E.npcs=[zh]; at(1.5,0.5); check('3. 有去小組的不聽這句',!tick()); GM.npc={}; E.npcs=[];
   // 4. 以安新 8
   const PA=ACTIVITIES.list.find(a=>a.id==='public_law_group'), thu7=termDay('Y2S1',7,4);
   check('4. 公法讀書會大二上第 7 週週四有',ACTIVITIES.on(PA,thu7));

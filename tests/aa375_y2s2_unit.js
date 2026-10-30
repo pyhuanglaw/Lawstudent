@@ -211,7 +211,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 22 項 =====
   { const e=NEEDED_MSGS.list.find(x=>x.id==='zhe_final'); check('22. 阿哲「期末一起讀？」週次 [14,15]（AA_255 第 2 節第 5 點）',!!e&&J(e.w)===J([14,15]),J(e&&e.w)); }
   // ===== 第 23 項 =====
-  { const T=evTexts(ev('ev_bohan_scores')); check('23. 柏翰的表：「（白板上多了一張表：每個人上週讀了幾頁。）」',T.includes('（白板上多了一張表：每個人上週讀了幾頁。）')&&!T.some(t=>/小考的分數/.test(t)),J(T[0]));
+  { const T=evTexts(ev('ev_bohan_scores')); check('23. 柏翰的表（AA_546 1-4 改成只寫自己的目標）：「（白板上多了一張表：每個人寫自己這週要讀到哪裡。）」',T.includes('（白板上多了一張表：每個人寫自己這週要讀到哪裡。）')&&!T.some(t=>/小考的分數|讀了幾頁|差多少/.test(t)),J(T[0]));
     fresh(STORY.termDay('Y2S2',2,4),20.5,'dorm',{STUDYGROUP_LEADER:true}); PHONE.join(G,'law_class','法律系一年級'); run(20.9,21.2); const m=txt('g:law_class');
     check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人這週要讀到哪裡）」',m.includes('（照片：白板上每個人這週要讀到哪裡）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
   // ===== 第 4 節：AA_342 第 2-2 節（大二下的七則補稿）=====
