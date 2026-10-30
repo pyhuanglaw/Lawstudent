@@ -419,7 +419,7 @@ async def jacket(pg, cdp, run):
     await P.prep(pg, cdp, run, "(()=>{ const G=GAME.G; G.flags.SK02_DM_DAY=G.day-1; return {open:STORY.sk02Open(G)}; })()", quiet=False, label='系辦私訊那天（SK02_DM_DAY＝昨天）')
     await P.place_near(pg, run, 16, -85, 7.0, what='社科院大樓正門')
     n0 = await P.say_hook(pg)
-    await L.go_to(pg, cdp, run, 16, -85, 1.2, '社科院正門', max_s=200)
+    await L.go_to(pg, cdp, run, 16, -85, 1.2, '社科院正門', max_s=200, stop=lambda s: s['dlg'] or s['choices'] or s['busy'])   # BB-B 10-30 13:5x：事件 near r=3.5，走到半路就開演；沒給 stop 時 go_to 會自己點掉對話、選第一個（第一次跑選項 []）
     r = await P.dialog(pg, cdp, run, picks=['（穿去法律系館A上課）'], max_s=200, start_s=30, tag='sk02_jacket')
     lines = await P.said(pg, n0)
     run.check('社科院正門：領系外套的事件有演（「外套在這裡」）', any('外套' in l[1] for l in lines), J(lines[:8]))
