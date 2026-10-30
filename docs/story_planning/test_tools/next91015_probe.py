@@ -28,6 +28,8 @@ MODE（環境變數）：
           另外拍社科院系所牌、溫州公園牌（外框變細以後的字）、ADV 背景 ntu_linze（外牆大字）。博思 203 平常關著（SK07 那一晚才開）：直接讀檔進去＝【前置】。
   libla   LIB-LAWN-1030（f75d60a4c，LAWWW-B 09:51）：從椰影大道走到總圖門口；白天 15:00、黃昏 17:50、晚上 20:00 同一個鏡頭（晚上看六盞路燈）；
           中軸南、北各坐一張「坐在總圖前的長椅上」→ 起身走得開；進出總圖兩次，草皮模型還在、石板廣場沒疊上來。
+  lawlib  LAWLIB-LM-1030（6e3a95623，LAWWW-B 10:44，低優先）：法律學院圖書館光照烘焙。14:00、20:30 各拍一樓閱覽區、長桌往南看窗、櫃台入口、二樓書庫、二樓閱覽區
+          （玩家鏡頭；站位＝【捷徑】placeAt）；每張算黑（亮度 <12）和死白（>248）的比例；人站在長桌燈下近拍；走出去回法律系館B 大廳再走進來兩次照樣。
 不是 iPhone：Playwright＋SwiftShader。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 next91015_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, math, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -626,6 +628,55 @@ async def libla(pg, cdp, run):
         run.check('進出總圖第 %d 次：進得去、出得來，草皮模型還在、長椅六張' % k, ok1 and ok2 and a['zone'] == 'campus' and a['glb'] is True and a['plaza'] is False and len(a['seats']) == 6, J({'in': ok1, 'out': ok2, 'lawn': a}))
 
 
+LLSPOTS = [('1f_read', -0.2, 0.0, 0, -0.2, -2.0, '一樓閱覽區（長桌之間）'), ('1f_south', -0.2, 3.4, 0, -0.2, 8.0, '長閱覽桌旁邊往南看窗'),
+           ('counter', 3.2, 6.2, 0, 4.8, 5.3, '櫃台、入口'), ('2f_stacks', -1.6, -3.6, 1, -2.4, -6.0, '二樓書庫'), ('2f_read', 2.4, 4.2, 1, 2.4, 5.8, '二樓閱覽區')]
+
+
+def lum_stats(path):
+    try:
+        from PIL import Image
+        im = Image.open(path).convert('L'); im = im.resize((im.width // 4, im.height // 4)); px = list(im.getdata()); n = len(px)
+        return {'dark': round(sum(1 for v in px if v < 12) / n, 3), 'white': round(sum(1 for v in px if v > 248) / n, 3), 'mean': round(sum(px) / n, 1)}
+    except Exception as e:
+        return {'err': str(e)}
+
+
+async def ll_shot(pg, run, tag, x, z, lv, tx, tz, dist=3.2):
+    p = await pg.evaluate("""(([x,z,lv,tx,tz,dist])=>{ const E=GAME.E; for(const R of [0,0.4,0.8,1.2]){ for(let i=0;i<12;i++){ const a=i*Math.PI/6, px=x+Math.sin(a)*R, pz=z+Math.cos(a)*R; if(E.canStand&&!E.canStand(px,pz,0.3,lv)) continue;
+        E.placeAt(E.player,px,pz,lv); const C=E.cam; C.yaw=Math.atan2(px-tx,pz-tz); C.pitch=0.14; C.distTarget=dist; C.manualT=1e9; return {x:+px.toFixed(2),z:+pz.toFixed(2),lv}; } } return null; })""", [x, z, lv, tx, tz, dist])
+    await pg.wait_for_timeout(3500)
+    f = await run.shot(pg, tag)
+    path = f if isinstance(f, str) and os.path.exists(f) else None
+    if not path:
+        cand = sorted([q for q in os.listdir(OUT) if tag in q], key=lambda q: os.path.getmtime(os.path.join(OUT, q)))
+        path = os.path.join(OUT, cand[-1]) if cand else None
+    st = lum_stats(path) if path else {'err': 'no file'}
+    return p, st
+
+
+async def lawlib(pg, cdp, run):
+    rows = []
+    for hh, tg in ((14.0, 'day'), (20.5, 'night')):
+        st, d = await P.base(pg, SAVE, '2025-09-26', hh, 'lawlib'); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        lm = await pg.evaluate("(()=>{ let n=0, m=0; GAME.E.scene.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const q of ms){ if(q&&q.lightMap){ n++; } } m++; } }); return {lightmapped:n, meshes:m, zone:GAME.G.zone}; })()")
+        run.note('%s：光照貼圖 %s' % (tg, J(lm)))
+        run.check('%s：法律學院圖書館有接到光照貼圖（lightMap 的材質 > 0）' % tg, lm['lightmapped'] > 0, J(lm))
+        for key, x, z, lv, tx, tz, label in LLSPOTS:
+            p, stt = await ll_shot(pg, run, 'lawlib_%s_%s' % (tg, key), x, z, lv, tx, tz)
+            rows.append((tg, key, label, p, stt)); run.note('%s %s：站 %s；亮度 %s' % (tg, label, J(p), J(stt)))
+        p, stt = await ll_shot(pg, run, 'lawlib_%s_person_lamp' % tg, -0.2, -0.9, 0, -0.2, -2.0, dist=2.0)
+        rows.append((tg, 'person', '人站在長桌燈下（近拍）', p, stt))
+    bad = [(r[0], r[2], r[4]) for r in rows if r[4].get('dark', 0) > 0.25 or r[4].get('white', 0) > 0.15]
+    run.check('每張：黑（亮度 <12）不超過 25%、死白（>248）不超過 15%（細節看截圖）', not bad and all('err' not in r[4] for r in rows), J(bad or [(r[0], r[1], r[4]) for r in rows if 'err' in r[4]]))
+    run.check('五個鏡頭白天、晚上都站得到（二樓 lv1）', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
+    for k in (1, 2):
+        ok1 = await door_to(pg, cdp, run, 'wancai', '回法律系館B 大廳（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(4000)
+        ok2 = await door_to(pg, cdp, run, 'lawlib', '再走進法律學院圖書館（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(8000)
+        lm = await pg.evaluate("(()=>{ let n=0; GAME.E.scene.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; for(const q of ms) if(q&&q.lightMap) n++; } }); return {n, zone:GAME.G.zone}; })()")
+        p, stt = await ll_shot(pg, run, 'lawlib_reenter_%d' % k, -0.2, 0.0, 0, -0.2, -2.0)
+        run.check('進出第 %d 次：出得去、進得來，光照貼圖照樣接上、亮度正常' % k, ok1 and ok2 and lm['zone'] == 'lawlib' and lm['n'] > 0 and stt.get('dark', 1) <= 0.25 and stt.get('white', 1) <= 0.15, J({'out': ok1, 'in': ok2, 'lm': lm, 'lum': stt}))
+
+
 async def main():
     run = L.Run('next91015_' + MODE + ('' if VP == 'landscape' else '_' + VP), OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
@@ -637,7 +688,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
