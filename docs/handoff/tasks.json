@@ -36219,6 +36219,28 @@
    "source": "使用者 10-30 05:2x＋day 30 存檔（X142）",
    "authorized": "使用者",
    "notes": ""
+  },
+  {
+   "id": "ROOM-MAP-LABELS-1030",
+   "title": "教學館室內地圖標出每間教室（門號、位置、今天要上課的那間），小地圖與大地圖都看得到",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "子代理（和 BBALL-PRESENT-1030 一起）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上第一次去普通教學館上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 05:2x（X143）",
+   "authorized": "使用者",
+   "notes": ""
   }
  ]
 }

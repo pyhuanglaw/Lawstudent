@@ -1616,6 +1616,15 @@
    "status": "進行中",
    "wants": "X142",
    "task": "BBALL-PRESENT-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-22",
+   "at": "2026-10-30T05:2x",
+   "quote": "教室 應該在地圖顯示 例如普通 101 要能從地圖看的出來 往哪邊是哪間教室 其他教學樓也依樣",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X143",
+   "task": "ROOM-MAP-LABELS-1030"
   }
  ]
 }
