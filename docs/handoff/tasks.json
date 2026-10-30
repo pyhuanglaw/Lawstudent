@@ -34608,7 +34608,8 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "note": "｜【LAWWW-C 09:1x】LINZE-LOBBY-V2-1028（霖澤館一樓大廳第二版，LAWWW2 98b90c9c5）整合 ac2ab0ae9；READY_FOR_ART_REVIEW"
+   "note": "｜【LAWWW-C 09:1x】LINZE-LOBBY-V2-1028（霖澤館一樓大廳第二版，LAWWW2 98b90c9c5）整合 ac2ab0ae9；READY_FOR_ART_REVIEW",
+   "notes": "【LAWWW-B 10-30 03:3x 決定（D111 遊戲總監）】「201 等使用者看過再推其他室內」是 LAWWW-C 定的、不是使用者；使用者 X125 要的是室內全面提升，這幾天不看進度 → 繼續推：宿舍 203 → 兩點半 Café → 法律學院圖書館，每間照舊附同角度改前改後、效能、進兩次；另請 LAWWW2 把已做的七間（201、202、多功能、霖澤館大廳、萬才館、男一舍門廳、總圖大廳）改前改後整理成一節 VISUAL_REVIEW，使用者回來一次看完；ART_APPROVED 照舊只有使用者標 ｜ "
   },
   {
    "id": "TAP-PREF-BED-1028",
@@ -35442,7 +35443,7 @@
    "title": "總圖大廳（library_hall）照霖澤館大廳、萬才館、男一舍門廳的做法做光照烘焙（bake_library_hall.sh；天窗只在白天）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P2",
    "source": "LAWWW2-C 自領（X125 室內提升，男一舍門廳之後的下一間；WIP 9dad133ab）",
    "first": {
@@ -35462,7 +35463,8 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "【LAWWW-C 2026-10-28 12:4x UTC】登記（incr 看到 LAWWW2 的 WIP 9dad133ab、51be20cfe 寫了 LIB-HALL-LM-1028）；LAWWW2 交件後 LAWWW 合併、跑 nav_buildings、flow_library 相關 Node＋全部 Node；下一版"
+   "next": "【LAWWW-C 2026-10-28 12:4x UTC】登記（incr 看到 LAWWW2 的 WIP 9dad133ab、51be20cfe 寫了 LIB-HALL-LM-1028）；LAWWW2 交件後 LAWWW 合併、跑 nav_buildings、flow_library 相關 Node＋全部 Node；下一版",
+   "notes": "【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套"
   },
   {
    "id": "LM-SEAM-1028",
@@ -35524,7 +35526,7 @@
    "title": "室內光照烘焙的房間裡，沒烘焙的細小零件照舊是即時光：晚上比旁邊亮（霖澤館大廳、萬才館、男一舍門廳…）——讓它們晚上跟著暗下來",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P3",
    "source": "LAWWW2-C DORM-HALL-LM-1028／LM-SEAM-1028 交件訊息（remaining：細小零件照舊即時光，RT-NIGHT-1028 另提）",
    "first": {
@@ -35544,7 +35546,8 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "【LAWWW-C 2026-10-28 13:5x UTC】登記（LAWWW2 13:53 說 patch 寫好、測完另外交）；交件後 LAWWW 套 patch 跑 lightmap 相關＋全部 Node"
+   "next": "【LAWWW-C 2026-10-28 13:5x UTC】登記（LAWWW2 13:53 說 patch 寫好、測完另外交）；交件後 LAWWW 套 patch 跑 lightmap 相關＋全部 Node",
+   "notes": "【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套"
   },
   {
    "id": "MEMO-NO-EVID-1028",
@@ -35639,6 +35642,28 @@
    "source": "AA_527（企劃線 bfede0a62，outbox 220b632bf）",
    "authorized": "D109、D111",
    "notes": "第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
+  },
+  {
+   "id": "AA528-FIX-1030",
+   "title": "AA_528（讀 AA_499～502 實作）照改：入口（二十位同學大二起還能第一次說話、佳蓉萬才館值班入口、圈子同框記 FIRST_MET 與晨希吉他社不同時在萬才館、佳蓉「其實……」第 8 週起、乃文 B1 借筆記 NW_BORROW）、時間（宗霖大二下在日本、日本路線畢業私訊一天最多兩人、阿凱上次宵夜第 13 週後）、口氣八句、白名單補 AA_502、AA_498～502 sha 換新",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "和 AA527-FIX-1030 同一個子代理（v9.10.14 發布、AA_524／525 合併以後）",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一起（二十位同學入口、社博、B1）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_528（企劃線 7ad5fee84）",
+   "authorized": "D109、D111",
+   "notes": "入口那一條是「不製造不合理的門檻」（CLAUDE.md 長期規範第 5 點）。AA-READ-1030 到 AA_527＋528 讀完。"
   }
  ]
 }
