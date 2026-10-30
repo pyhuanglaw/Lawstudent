@@ -7,7 +7,9 @@
 //   D  AA_528 第 9 點：佳蓉在萬才館（法律系館B）法服值班認識＝專用版本 meetB（五行照 AA 回覆一字不差；社博那個入口照舊 meet）；
 //      在萬才館認識的，畢業私訊第一則換「（照片：值班桌旁邊那根柱子，底下一個插座）」，第二則照舊；talk「法服的攤位每年都擺在同一個位置。……」照留
 //   （企劃線 bec12db00 的 AA_528 還沒有第 9 點那幾句：這支測試對 AA 回覆的原文；原稿推上來以後可以改成 git show 對稿）
-// 修改前（基準 postrel-1030＝3679551fc；git archive 出 src、lib、index.html，把這支測試放進去跑）：見回報（FAILED 數）。修改後 ALL PASS。
+// 修改前（基準 postrel-1030＝3679551fc；archive 出 src、lib、index.html、tests，把這支測試放進去跑）：FAILED 15（A 2、B 7、C 2、D 4；其餘 11 項是對照組，本來就 PASS）。修改後 ALL PASS（26 項）。
+// 全部 Node 單元測試（tests/*_unit.js，2026-10-30）：743 支、結束碼不是 0 的 0 支。改了期待值的舊測試：aa499_501_pool_unit（第 0 節例外 AA528_9、第 6 節 meetB）、
+//   aa527_528_unit（528-1-2 meetB）、aa503_others_unit（第 3 節第 10 週：演過＝不演、沒演到＝順延）、v0_gather_unit、aa529_econ_unit（第 2 節加查字幕先後）
 // 用法：node tests/aa_followup_1030_unit.js
 'use strict';
 require('./alison.js');
