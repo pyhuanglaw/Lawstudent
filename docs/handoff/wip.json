@@ -1554,7 +1554,7 @@
    "role": "LAWWW",
    "task": "AA527-FIX-1030",
    "state": "WIP",
-   "sha": "741454efe",
+   "sha": "8a715d27d",
    "branch": "aa527-fix（子代理；D113 備份 wip_backup/aa527_1030.bundle，基準 3035cc66b）",
    "files": [
     "wip_backup/aa527_1030.bundle"
