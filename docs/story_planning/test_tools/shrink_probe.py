@@ -75,10 +75,16 @@ async def invite(pg, cdp, run, pick):
     run.note('阿哲約吃麵那一天（termDay Y1S1 第 %s 週週四）：%s' % (2 if info['week1'] else 4, J(info)))
     if not info['item']: run.check('前置：那一天有民總', False, J(info)); return None
     await P.jump(pg, cdp, run, info['key'], info['item']['t0'] - 0.5, zone='campus', pos=None, quiet=False, note='民總上課前 30 分鐘在校園')
-    await P.phone_tab(pg, cdp, 'today')
-    bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", info['item']['key'])
+    bt = None; tries = []
+    for _ in range(4):   # 跳過去以後先有對話（事件開著）時手機打不開：先把對話點完、選項照 pick，再開手機「今天」找「直接去上課」
+        await drain(pg, cdp, picks=[pick, '坐'], secs=60)
+        txt = await P.phone_tab(pg, cdp, 'today')
+        bt = await pg.evaluate("(k=>{ const e=[...document.querySelectorAll('#phoneBody [data-go]')].find(b=>b.dataset.go===k); return e?(e.textContent||'').trim():null; })", info['item']['key'])
+        tries.append({'bt': bt, 'phone': not await pg.evaluate("document.getElementById('phone').classList.contains('hide')"), 'h': await pg.evaluate("+(+GAME.G.hour).toFixed(2)"), 'today': (txt or '')[:160]})
+        if bt: break
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)
     if bt: await L.tap(pg, cdp, '#phoneBody [data-go="%s"]' % info['item']['key'])
-    run.note('手機「今天」：%s' % bt)
+    run.note('手機「今天」：%s；找按鈕的過程：%s' % (bt, J(tries)))
     n0 = await P.say_hook(pg); seen = []; t0 = time.time()
     while time.time() - t0 < 900:
         await drain(pg, cdp, picks=[pick, '坐'], secs=30, seen=seen)
