@@ -151,6 +151,7 @@ const POOL=(function(){
   /* 這一區、這個時間有沒有寫好的認識版本（沒有＝先不能說話）*/
   S.MEETV={};   /* 第二批以後：id → (G,e)⇒這一區、這個時間的認識版本（LINES[id] 的鍵）或 null（src/pool_more3d.js）*/
   S.meetVersion=function(G,id){ if(!OWN.has(id)) return null; const e=ent(G,id); if(!e) return null; const z=G.zone;
+    if(typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(id,G); if(pr&&pr.here===false) return null; }   /* 不在（畢業了、交換出國）＝不能認識（AA_528 1-1：他已經畢業的不能再認識）*/
     if(!B1.has(id)) return S.MEETV[id]?(S.MEETV[id](G,e)||null):null;
     if(id===Z){ if(e.seat==='bell') return 'meetBell'; if(e.act==='class'&&hr(G)>=12) return 'meetClass'; return null; }   /* 教室版「早安。……對，下午了。」：下午的課 */
     if(id===Y) return e.door&&(ti(G)>0||week(G)>=2)?'meet':null;   /* 教室門口（上課前、期中考前一週週三下課）。5-1 寫大一上第 2～4 週：第 1 週不演；第 5 週以後沒有別的認識版本，照同一場演（不然她整條線都沒了）*/
