@@ -32,5 +32,7 @@ async def main():
             for k, a in sorted(agg.items(), key=lambda kv: -kv[1][1])[:6]:
                 print('   %4d 次 %7.0f ms  %s  %s' % (a[0], a[1], ','.join(sorted(a[2]))[:40], k), flush=True)
             print('   最慢：', sorted([x['ms'] for x in r], reverse=True)[:8], flush=True)
+            rt = await pg.evaluate("(()=>{ const z=GAME.E.zone; return z&&z.rtNight!=null?+z.rtNight.toFixed(4):null; })()")
+            if rt is not None: print('   rtNight（晚上沒烘焙的小東西跟著暗的比例）：', rt, flush=True)
         await b.close()
 asyncio.run(main())
