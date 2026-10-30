@@ -339,7 +339,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-12 慈 4「很爛的那一句」：10/20（三）12:10～12:40 霖澤館二樓走廊（作息在 r2y3a3d.js），和芯慈 FAMILIAR 以上、在二樓就演 ---------- */
   const onLv=lv=>(G,GM)=>!GM||!GM.E||!GM.E.player||(GM.E.player.lv|0)===lv;
   const BAD_LINE={ id:'ev_xinci_bad_line', title:'很爛的那一句', participants:['classmate_xinci'], location:'linze', trigger:'auto', once:true, background:'blur', npcPresent:'classmate_xinci',
-    prereq:{custom:(G,GM)=>on(G,'2027-10-20',12+10/60,12+40/60)&&stAt(G,'classmate_xinci','FAMILIAR')&&onLv(1)(G,GM)},
+    prereq:{custom:(G,GM)=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&on(G,'2027-10-20',12+10/60,12+40/60)&&stAt(G,'classmate_xinci','FAMILIAR')&&onLv(1)(G,GM)},   /* XCROM.OLD：D116 先關 */
     dialogue:[ {speaker:'classmate_xinci',text:'你聽說了吧。'},
       {if:{memory:[{npc:'classmate_xinci',tag:'XINCI_SECOND'}]},speaker:'classmate_xinci',text:'你知道第二名的事。所以你大概懂。'},
       {speaker:'classmate_xinci',text:'我跟她說，「妳什麼都不用努力就有」。'},
@@ -461,7 +461,7 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-18 慈 5「對答案」：第 13 週週一～週三 18:00～21:00、週四 18:00～19:45，總圖三樓（兩個人坐同一張桌子；作息在 r2y3a3d.js）。走近＝近的版本；只進三樓＝遠遠看到 ---------- */
   const ANS_TIME=G=>{ const x=hh(G); return G.weekday>=1&&G.weekday<=3?(x>=18&&x<21):(G.weekday===4&&x>=18&&x<19.75); };
   const ANSWERS={ id:'ev_xinci_an_answers', title:'對答案', participants:['heroine_01','classmate_xinci'], location:'library', trigger:'auto', once:true, background:'blur', npcNear:['heroine_01','classmate_xinci'], nearDist:3, term:['Y3S1'], weeks:[13],
-    prereq:{custom:G=>ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5==='near')},
+    prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5==='near')},   /* XCROM.OLD：D116 先關 */
     dialogue:[ {speaker:'heroine_01',text:'第三題妳比我好。'},
       {speaker:'classmate_xinci',text:'（停了一下）……嗯。'},
       {speaker:'heroine_01',text:'對了。補習班那個第二名，是妳吧。吳芯慈。'},
@@ -476,7 +476,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'e1'},{speaker:'heroine_01',text:'我看一下。……你錯的地方跟我一樣。'},
       {label:'end'},{set:{CI5:'near',XC5_RECONCILE:true}} ] };   /* XC5_RECONCILE＝慈 5 演完、兩人和好（近、遠兩版都算，AA_496 第 9 節第 1 點）：尾聲「以安上個月搬家……」那一組讀它（postgrad3d.js）*/
   const ANSWERS_FAR={ id:'ev_xinci_an_answers_far', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:['heroine_01','classmate_xinci'], term:['Y3S1'], weeks:[13],
-    prereq:{custom:G=>ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
+    prereq:{custom:G=>typeof XCROM!=='undefined'&&!!XCROM.OLD&&ANS_TIME(G)&&knows('heroine_01',G)&&knows('classmate_xinci',G)&&!(G.flags&&G.flags.CI5)},
     dialogue:[ {speaker:null,text:'（總圖三樓，靠窗那張桌子。以安和芯慈坐在一起，中間攤著兩份考卷。芯慈笑了一下。）'},{set:{CI5:'far',XC5_RECONCILE:true}} ] };
 
   /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */

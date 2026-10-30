@@ -16,6 +16,10 @@ const XCROM=(()=>{
      這條線用「第二名」撐，先停、不進下一版，等 AA 重寫）：false＝芯慈不在 DATE.HEROINES、沒有心意邀約、告白、半夜訊息、新的時刻、心願午夜場；
      程式留著（tests/xinci_romance_unit.js 用 XCROM.setOn(true) 測），AA 重寫以後照新稿改、再打開 */
   S.ON=false;
+  /* 舊的「第二名」那幾場也先關（D116 遊戲裡的人不跟別人比；同一則否決）：慈 3 ev_xinci_second（＋B1 版、Café 補演、第 11 週提示）、慈 4 ev_xinci_bad_line、
+     慈 5 ev_xinci_an_answers（＋遠版）、慈 6 ev_xinci_first_place（＋日本視訊、錯過那一則）。false＝都不演、配套訊息不發（各支的條件問 XCROM.OLD）；
+     程式和台詞留著，等 AA_547 重寫（芯慈新設定：USER_WANTS X139）；要測舊的那幾場用 XCROM.OLD=true */
+  S.OLD=false;
   const F=G=>(G&&G.flags)||{};
   const done=(G,id)=>!!(G&&G.events&&G.events.done&&G.events.done[id]);
   const mem=(G,tag)=>!!(G&&G.social&&G.social.mem&&(G.social.mem[XC]||[]).some(m=>m.tag===tag));

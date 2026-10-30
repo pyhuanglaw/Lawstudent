@@ -210,7 +210,7 @@ const R2Y3B=(function(){
 
   /* ===================== 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 芯慈在麵店長桌（一天的作息）；日本路線＝21:40 視訊（讀書會 21:30 散了以後）===================== */
   S.SCHED.classmate_xinci=[{days:[4],from:19,to:20,zone:'noodle',act:'eat',terms:['Y3S2'],weeks:[11],dates:[['2028-05-04','2028-05-04']],note:'AA_326 2-Y3-42：慈 6，期中放榜後的第一個週四，麵店長桌'}];
-  S.xcPhone=function(G){ const d=D('2028-05-04'); if(d==null||G.day!==d||!inJP(G)||hh(G)>=lt(G,d,22.25)||outGet(G,'y3_xc_video')||!met(G,'classmate_xinci','FAMILIAR')||!dmOk(G,'classmate_xinci')) return;
+  S.xcPhone=function(G){ const d=D('2028-05-04'); if(!(typeof XCROM!=='undefined'&&XCROM.OLD)||d==null||G.day!==d||!inJP(G)||hh(G)>=lt(G,d,22.25)||outGet(G,'y3_xc_video')||!met(G,'classmate_xinci','FAMILIAR')||!dmOk(G,'classmate_xinci')) return;
     plan(G,{id:'y3_xc_video',ev:'ev_xinci_first_place_video',day:d,h:lt(G,d,21+40/60),late:0.5,place:'視訊',title:'芯慈打視訊來（日本 22:40）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
 
   /* ===================== 2-Y3-43 J2 町公所的一張通知 ===================== */

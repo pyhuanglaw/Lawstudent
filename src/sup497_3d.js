@@ -239,19 +239,20 @@ const SUP497=(function(){
     const B1=D.map(l=>Object.assign({},l)); if(N0>=0){ B1[N0]=ln(null,L.xc.secondB1[0]); B1[N0+1]=ln(null,L.xc.secondB1[1]); }
     for(const l of B1) if(l&&typeof l.text==='string'&&l.text.indexOf('十二點四十了')===0) l.text=L.xc.secondB1End;   /* B1 的版本早一點：「十二點半了」*/
     return { id:'ev_xinci_second_b1', title:base.title, participants:[XC], location:'library_b1', trigger:'auto', term:base.term.slice(), weeks:base.weeks.slice(), weekday:base.weekday.slice(), time:[0,0.25], once:true, near:{npc:XC,r:4}, background:'blur',
-      prereq:{custom:G=>!!STORY.knows&&STORY.knows(XC,G)&&!S.secondDone(G)}, dialogue:B1 }; };
+      prereq:{custom:G=>xcOld()&&!!STORY.knows&&STORY.knows(XC,G)&&!S.secondDone(G)}, dialogue:B1 }; };
   /* 補救的白天版（大二下第 2 週週二 16:00 Café，INV 的約）：前兩句換一句、拿掉「（把手機轉靜音）這部很重要，真的。」、結尾換「四點半了。我要去上經濟。」，記 XINCI_SECOND（她第一次主動約人）*/
   S.buildDay=function(){ const base=evOf('ev_xinci_second'); if(!base) return null; const D=base.dialogue.map(l=>Object.assign({},l)), N0=D.findIndex(l=>l&&l.speaker===null&&/^（芯慈在買咖啡/.test(l.text||''));
     if(N0>=0) D.splice(N0,2,ln(null,L.xc.fix.open)); const mi=D.findIndex(l=>l&&/^（把手機轉靜音）/.test(l.text||'')); if(mi>=0) D.splice(mi,1);
     for(const l of D) if(l&&typeof l.text==='string'&&l.text.indexOf('十二點四十了')===0) l.text=L.xc.fix.end;
     return { id:'ev_xinci_second_day', title:base.title, participants:[XC], location:'any', trigger:'meet', once:true, background:'blur', dialogue:D }; };
-  S.secondPhone=function(G){ const F=G.flags;
+  const xcOld=()=>typeof XCROM!=='undefined'&&!!XCROM.OLD;   /* 慈 3、慈 6 舊的「第二名」「第一名」先關（D116，src/xcrom3d.js S.OLD）*/
+  S.secondPhone=function(G){ const F=G.flags; if(!xcOld()) return;
     { const d=termDay('Y2S1',11,1); if(d!=null&&dmOK(G,XC)&&!S.secondDone(G)) S.at(G,XC,d,24+20/60,L.xc.hint.map(t=>dm(XC,t)),'xc_second_hint'); }   /* 提示：第 11 週週一 00:20（慈 3 的「週一深夜」那一格）*/
     { const D1=done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1'), d=done(G,'ev_xinci_second')?G.events.last.ev_xinci_second:(done(G,'ev_xinci_second_b1')?G.events.last.ev_xinci_second_b1:null);
       if(D1&&d!=null&&dmOK(G,XC)&&inTerm(Object.assign({},G,{day:d}),'Y2S1')) S.at(G,XC,d,25+5/60,L.xc.ask.night.map(t=>dm(XC,t)),'xc_second_night'); }   /* 2-6：慈 3 當晚 01:05 */
     { const mon=termDay('Y2S2',2,1); if(mon!=null&&!S.secondDone(G)&&dmOK(G,XC)&&!F.XC_FIX_ASKED){ const tue=mon+1;   /* 補救：第 15 週還沒演（Y2S1 已經結束）、大二下第 2 週週一 21:00 她約 */
         if(S.at(G,XC,mon,21,[dm(XC,L.xc.fix.ask,{ask:askOf('xc_fix',[{t:L.xc.fix.opts[0],fix:'yes'},{t:L.xc.fix.opts[1],say:[say1(XC,L.xc.fix.no)],set:{XC_FIX:'no'}}],{until:T(tue,15.5)})})],'xc_fix')) F.XC_FIX_ASKED=G.day; } } };
-  S.onFix=function(G,m,o){ if(!m||!m.ask||m.ask.id!=='xc_fix'||!o||o.fix!=='yes'||typeof INV==='undefined'||!INV.accept) return; G.flags.XC_FIX='yes'; const tue=m.day+1;
+  S.onFix=function(G,m,o){ if(!xcOld()||!m||!m.ask||m.ask.id!=='xc_fix'||!o||o.fix!=='yes'||typeof INV==='undefined'||!INV.accept) return; G.flags.XC_FIX='yes'; const tue=m.day+1;
     const iv=INV.accept(G,XC,'cafe',tue,16,{by:'npc'}); if(iv){ iv.ev='ev_xinci_second_day'; iv.label='和'+nameOf(XC)+'約在兩點半 Café'; } };
   /* 2-4 她爸爸（2027-04-23（五）17:30～18:00，霖澤館門口，有點熟以上；一次）；當晚 22:00 私訊 */
   S.DAD_AT={x:34,z:-109};   /* 霖澤館穿堂的門口（zones3d.js：進入霖澤館 (34＋lobby.x, −112＋lobby.z)）*/
@@ -261,7 +262,7 @@ const SUP497=(function(){
       ...L.xc.dad.r.map((R,k)=>[{label:'p'+(k+1)}].concat(lns(R),[{goto:'end'}])),[{label:'end'}]) };
   S.dadPhone=G=>{ const v=G.flags.XC_DAD, d=DK('2027-04-23'); if(v&&d!=null&&dmOK(G,XC)) S.at(G,XC,d,22,[dm(XC,L.xc.dad.night[v])],'xc_dad_night'); };
   /* 2-5 沒演到慈 6（那一小時不在麵店、或那條路線不演）：有點熟以上、有聯絡方式，隔天 12:00 私訊 */
-  S.firstMissPhone=function(G){ const d=DK('2028-05-04'); if(d==null||done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video')||G.flags.XINCI_FIRST) return;
+  S.firstMissPhone=function(G){ const d=DK('2028-05-04'); if(!xcOld()||d==null||done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video')||G.flags.XINCI_FIRST) return;
     if(G.day>=d&&dmOK(G,XC)){ const A=L.xc.first, items=A.miss.map(t=>dm(XC,t)); items[items.length-1].ask=askOf('xc_first_miss',A.missOpts.map(([t,r])=>({t,say:[say1(XC,r)]}))); S.at(G,XC,d+1,12,items,'xc_first_miss'); } };
   /* 2-6 她主動約（照年份變多；都提前一天約，不說「我變了」）*/
   S.askPhone=function(G){ const F=G.flags, A=L.xc.ask;

@@ -332,7 +332,7 @@ const R2Y3B_EVENTS=(function(){
     {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
     {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
   const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
-    prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},
+    prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return typeof XCROM!=='undefined'&&!!XCROM.OLD&&!!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},   /* XCROM.OLD：D116 先關 */
     dialogue:XC_LINES };
   const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'第一名', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'} ].concat(XC_LINES) };
