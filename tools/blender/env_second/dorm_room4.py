@@ -750,7 +750,7 @@ for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, {k: v for k, v in 
 r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
 LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
                       'XUN_BOWLING': {'x': r2['floor_under_bed_spot'][0], 'y': 0.0, 'z': r2['floor_under_bed_spot'][1], 'ry': 0.0, 'note': '書桌下靠衣櫃那一端的地上'},
-                      'BOXES_DESK': {'x': l2['desk_center'][0], 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）'},
+                      'BOXES_DESK': {'x': round(wx('L', 0.47), 3), 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）；箱子深 0.36 m、中心離牆 0.47 m：整疊在層架（深 0.27 m）前面——10-30 以前放在書桌正中間，穿過層架和床板（使用者「書桌上東西不要重疊」）'},
                       'BOXES_FLOOR': {'x': round(l2['seat_approach'][0] + 0.1, 3), 'y': 0.0, 'z': round(l2['desk_u'][0] + 0.35, 3), 'note': '隔天剩的箱子在書桌旁邊的地上'}}
 LAYOUT['player_unit'] = 'L2'
 

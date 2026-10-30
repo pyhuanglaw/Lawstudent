@@ -11,6 +11,8 @@
 # 洗手間朝前牆、右牆那兩面（dorm_bath_outer，貼著房間的牆、看不到；前牆淡出時才看得到斷面）不烘：烘出來每公尺只有 1 個像素、整面灰，照舊即時光＋補光（和改前一樣白）。
 # 每一年不一樣的東西（Y203_／Y412_／Y312_／Y507_／Y409_／Y205_、NAMETAG_、ROOMMATE_KAI：書、筆電、紙箱、海報）烘焙時當作不存在（--hide）：
 #   同一張光照貼圖給五個年級用，不能留下某一年的東西的影子；這些東西照舊即時光（和其他房間的小零件一樣）。被子、枕頭（BEDDING_）大部分時候都在，照樣烘。
+# 白天：天光 ×3（第四輪 ×2 只亮 8%：窗小、捲簾拉下三分之一、對面有樓）、燈開七成（第五輪五成整間偏灰）；白天整體比晚上暗一點、窗邊亮，晚上是暖色的燈。
+# 第三張熄燈（--dark，DORM-SLEEP-VISUAL-1030，使用者「睡覺要真的有畫面」）：室內燈全關，只剩夜空和窗外的路燈；遊戲 z.lightsOff(k) 換過去
 # 細小零件不烘（--nolm，照舊即時光）：燈罩、燈條、頂點色的小東西、鐵管、鍍鉻、黑色零件、吊桿、鏡子、浴簾、門牌。
 set -e
 SAMPLES=${1:-512}
@@ -20,13 +22,15 @@ TMP=$(mktemp -d)
 HIDE='glass|^Y203_|^Y412_|^Y312_|^Y507_|^Y409_|^Y205_|^NAMETAG_|^ROOMMATE_'
 NOLM='tubes|fixtures|dorm_led|dorm_items|dorm_metal|chrome|black|_rod|mirror|shower|sign|bath_outer|BAKEONLY'
 LED='0.03,0.8,1.0,0.88,0.72'; LEDW=${LEDW:-9}
+DARKPT='0.4,2.2,-8.5,450,1.0,0.75,0.45'   # 熄燈那一張：窗外對面人行道的路燈（暖黃、高出房間地板 2.2 m、離窗 5 m）
 LIGHTS="0,0,-1.7,-1.7,2.95,1,1,35,0.4,0.4;0,0,0.7,0.7,2.95,1,1,35,0.4,0.4;1.8,1.8,2.45,2.45,2.95,1,1,10,0.22,0.22"
 for X in 2.585 -2.585; do LIGHTS="$LIGHTS;$X,$X,-2.525,-2.525,1.54,1,1,$LEDW,$LED;$X,$X,-0.1225,-0.1225,1.54,1,1,$LEDW,$LED"; done
 /opt/blenv/bin/python tools/blender/env_second/dorm_room4.py -- --out "$TMP/dorm_room4_plain.glb" --layout "$TMP/layout.json" --bakeblock
 cmp -s "$TMP/layout.json" assets/models/env/second_ai/dorm_room4.layout.json || { echo '配置和 dorm_room4.layout.json 不一樣：先確認改了什麼（導航、座位）'; exit 3; }
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/dorm_room4_plain.glb" --out "$OUTDIR/dorm_room4.glb" \
   --lm "$TMP/d4" --url assets/models/env/second_ai/dorm_room4_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 180,${SUNEL:-55},0 --sky "${SKY:-1.0}" --lights "$LIGHTS" --daylights "${DAYL:-0.8}" --smooth 2 --shell N --drop BAKEONLY
+  --sun 180,${SUNEL:-55},0 --sky "${SKY:-3.0}" --lights "$LIGHTS" --daylights "${DAYL:-0.7}" --smooth 2 --shell N --drop BAKEONLY \
+  --dark --darksky 0.045 --darkpoints "$DARKPT"
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/d4" "$OUTDIR/dorm_room4_lm" 90
 # 後處理（LM-SEAM-1028）：沒分像素、夾在中間烘成全黑的面接旁邊看得到的面的光
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/dorm_room4.glb" --out "$OUTDIR/dorm_room4.glb" --lm "$OUTDIR/dorm_room4_lm"
