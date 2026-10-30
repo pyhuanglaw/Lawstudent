@@ -4114,6 +4114,53 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW-B 03:41 aopen-r2 第 6 點（AA_482 第 2 節最後一點）"
+  },
+  {
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "RENAME-1030",
+   "sha": "8ad5272df",
+   "files": [
+    "docs/WORLD_NAMING.md",
+    "docs/story_planning/00_人物口氣表.md"
+   ],
+   "next": "LAWWW-B：CLAUDE.md 加指向 WORLD_NAMING 的一段；遊戲照第 3 節口語／正式換名",
+   "receiver": "LAWWW",
+   "note": "使用者 10-30 虛構大學更名：唯一命名依據"
+  },
+  {
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "ack": "SENT",
+   "task": "RENAME-1030",
+   "sha": "4618aed21",
+   "files": [
+    "tools/rename/world_names.py",
+    "docs/story_planning/"
+   ],
+   "next": "LAWWW-B：白名單 sha 換成 4618aed21；遊戲用同一套規則（spoken／written）",
+   "receiver": "LAWWW",
+   "note": "企劃稿 B 類 545 檔換名、C 類加註、更名工具"
+  },
+  {
+   "task": "RENAME-1030",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "04e1f2c28",
+   "files": [
+    "docs/story_planning/AA_534_虛構大學更名_盤點與文件修改清單_交接.md"
+   ],
+   "state": "已交付",
+   "remaining": "AA 第四階段驗收（遊戲改完以後）",
+   "next": "LAWWW-B 第 3-3、4 節；BB-B 第 5 節；LAWWW2-B 第 6 節",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "盤點、A／B／C 分類、交接；副本 LAWWW2-B、BB-B"
   }
  ],
  "items": [
