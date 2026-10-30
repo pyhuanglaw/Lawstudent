@@ -131,6 +131,9 @@ const FR=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','clas
     check('B12. 對話串的訊息沒有被改（兩則照舊）',PHONE.thread(H.G,'p:heroine_01').map(m=>m.text).join('/')==='筆記我放你桌上了。/明天見。'); }
   { fresh('2025-11-12',15,'dorm'); H.G.stage='econ'; H.FRIEND('zhe'); const R=MSG.contactRows?MSG.contactRows(H.G,['zhe','kai']):null;
     check('B13. 經濟系那一年：只列傳得到的（阿哲、阿凱不列）',Array.isArray(R)&&!R.some(x=>x.id==='zhe'||x.id==='kai'),J(R)); }
+  { fresh('2025-11-12',15,'dorm'); const X='classmate_youchen'; H.FRIEND(X); H.G.contacts[X]=H.G.day-1; const P=mk(); const R=MSG.contactRows?MSG.contactRows(H.G,P?P.knownIds():[]):null; const t=P?P.threadHTML('p:'+X):'';
+    check('B14. 沒有回覆池的人（同學二十位、老闆…）：不列在「傳訊息給」（傳了也沒有話題）',Array.isArray(R)&&!R.some(x=>x.id===X)&&!!CHARACTERS[X],J(R&&R.map(x=>x.id)));
+    check('B14. 打開那個人的對話串：沒有按了只剩「取消」的「傳訊息」，寫「現在沒有可以傳的話題」',!/data-msgto=/.test(t)&&/現在沒有可以傳的話題/.test(t),t.replace(/<[^>]+>/g,' ').slice(0,160)); }
   /* ================= C 聯絡方式拿不到的路徑（調查）：見過、有點熟以後當面說話的選單有「交換聯絡方式」（AA_124 1-7 保底；INVITE_DATA.exchange 五位都有台詞）================= */
   for(const id of ['heroine_01','heroine_02','heroine_03','heroine_04','classmate_peishan']){ fresh('2025-11-12',15,'campus'); H.FAMILIAR(id); H.picks=['交換聯絡方式'];
     const had=INV.hasContact(H.G,id); let err=''; try{ await STORY.offerInvite(H.GM,id,{obj:{position:{x:0,y:0,z:0}}},{name:id}); }catch(e){ err=e.message; }
