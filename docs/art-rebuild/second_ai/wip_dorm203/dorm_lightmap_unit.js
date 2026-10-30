@@ -3,7 +3,7 @@
 //   有光照貼圖以後燈、窗的光和床底下、牆角的暗都已經烘焙進去，再加自發光會整片發白、影子不見。
 // 檢查（Z3.attachRoomGLB → Z3.attachDormInterior，和 zones3d.js 的 dorm 區域同一個順序；假的房間）：
 //   1. 有光照貼圖：牆、地板、床單接光照貼圖，沒有補光（不是 bounce、emissive 是黑的）。
-//   2. 沒有光照貼圖（舊的 GLB）：照舊補光（不影響以前的樣子）。
+//   2. 沒有光照貼圖（舊的 GLB）：照舊補光（不影響以前的樣子）。烘焙工具複製給不烘物件的材質（名字後面 _rt：洗手間外牆的斷面）也照舊補光。
 //   3. 頂點色的小東西（dorm_items）：自發光一點點（dormVcGlow）照舊；接在原本的 onBeforeCompile 後面、不蓋掉（RT-NIGHT-1028 的 rtK 也包在那裡）。
 //   4. 再進一次（快取的 GLB 每次 clone、材質共用）：dorm_items 不會再包一層。
 //   5. 正式模型 assets/models/env/second_ai/dorm_room4.glb（換成這一包以後）：有 extras.lightmap；每一年不一樣的東西（Y203_…、ROOMMATE_KAI、NAMETAG_）
@@ -42,6 +42,7 @@ check('1. 床單照舊是上舖透視（seeThrough）', !!A.sheet.userData.seeTh
 // 2. 沒有光照貼圖：照舊補光
 const Bm=mats(), rB=room(Bm,false); attach(rB); const wB=wallOf(rB);
 check('2. 沒有光照貼圖的 GLB：照舊補光', !!wB.userData.bounce&&!!Bm.floor.userData.bounce&&!!Bm.sheet.userData.bounce&&!wB.lightMap);
+check('2. 烘焙工具複製給不烘物件的那一份（dorm_wall_rt，洗手間外牆斷面）：照舊補光', (()=>{ const M=mats(), r=room(M,true), rt=new THREE.MeshStandardMaterial({name:'dorm_wall_rt'}); const o=new THREE.Mesh(new THREE.BoxGeometry(2,3,0.1),rt); o.name='dorm_bath_outer'; r.add(o); attach(r); return !!rt.userData.bounce&&!rt.lightMap; })());
 // 3. dorm_items：接在原本的後面
 const C=mats(); C.items.onBeforeCompile=function(sh){ sh.fragmentShader='uniform float rtK;\n'+sh.fragmentShader; }; C.items.customProgramCacheKey=()=>'rt';
 const rC=room(C,true); attach(rC); const sc=compile(C.items);

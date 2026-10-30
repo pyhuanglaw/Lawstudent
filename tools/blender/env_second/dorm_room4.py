@@ -764,6 +764,13 @@ it.cbox(-2.86, -2.62, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-2.86, -2.84, 
 LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.62, 2.82]}, {'id': 'bins', 'x': [-1.4, -0.8], 'z': [3.05, IZ1]},
                      {'id': 'drying_rack', 'x': [RX0 - 0.05, RX1 + 0.05], 'z': [RZ - 0.3, RZ + 0.3]}, {'id': 'bath', 'x': [round(bx0 - bt / 2, 3), IX1], 'z': [round(bz0 - bt / 2, 3), IZ1]}]
 
+# ======================================================================= 只在烘焙時擋光的東西（--bakeblock；bake_dorm_room4.sh 的 --nolm、--drop 都有 BAKEONLY：不分光照貼圖、輸出前刪掉）
+# 窗外的對面大樓＋街道（DORM203-LM-1030）：烘焙場景窗外原本只有天空，接近地平線的天光從北窗直直照進來，落在 5 m 外的門口地上（第二次試烘門口地上整片 1.0、
+# 窗邊才 0.63）。真的 203 在二樓、對面隔著舟山路是一排樓（遊戲的窗景也是紅磚大樓）：對面樓 12～14 m 外、比窗高 7 m（擋住仰角 28° 以下的天空），下面是街道（反光）
+if '--bakeblock' in ARGS:
+    bo = Mesh('BAKEONLY_opposite', L.flat('BAKEONLY_brick', '#8a6b5c', rough=0.9)); bo.box(-16.0, 16.0, -4.0, 9.0, Z0 - 14.0, Z0 - 12.0); bo.finish(root, uv=False)
+    bg_ = Mesh('BAKEONLY_street', L.flat('BAKEONLY_road', '#8c8c88', rough=0.95)); bg_.box(-16.0, 16.0, -4.2, -4.0, Z0 - 12.0, Z0 - 0.1); bg_.finish(root, uv=False)
+
 # ======================================================================= 收尾
 for k, ob in (('wood', wood), ('white', wht), ('metal', met), ('chair', chair), ('led', led)):
     fin(ob, smooth=0.8 if k in ('metal', 'chair') else None, uv=k in ('wood', 'white'))
