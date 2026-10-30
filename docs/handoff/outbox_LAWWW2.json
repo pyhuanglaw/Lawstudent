@@ -4406,6 +4406,49 @@
    "remaining": "人物、家具照即時光；烘焙的太陽不動；生活感擺設沒做；舊房間同一個烘焙 bug（法圖 91 m²、總圖大廳 83、四人房 21、201 6）要重烘才會好，等 LAWWW-B 排",
    "next": "LAWWW-B 換 soclib_interior.glb＋兩張光照貼圖（＋json）、boya_interior.glb＋兩張光照貼圖（＋json），套 soclib_lm_test_1030.patch（只改 tests/singleside_interiors_unit.js）；程式不用改",
    "note": "社科圖：荷葉上照燈 20 圈、筒燈 18 盞、512 取樣；白天平均 0.48、晚上 0.16。烘焙工具 bug（collapse_black 只看面中心）已修：社科圖地板一半、博思 101／102 講台牆的斜影就是它；朝室內壓扁的面 社科圖 330→0 m²、博思 148→56 m²（剩的是真的全黑的面）。講桌桌面 #26282b→#5c5953。招牌板面照舊單面。全部 Node 772／0（第一次 771／1＝singleside 天井，patch 改成 2b）；READY_FOR_ART_REVIEW"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee96b798f",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "NOODLE-LM-1030：阿鳳麵店室內光照烘焙＋不鏽鋼、燈座（LAWWW-B 10-30 派工，INTERIOR-AAA）",
+   "files": [
+    "assets/models/env/second_ai/noodle_interior.glb",
+    "assets/models/env/second_ai/noodle_interior.json",
+    "assets/models/env/second_ai/noodle_interior_lm_day.webp",
+    "assets/models/env/second_ai/noodle_interior_lm_night.webp",
+    "tools/blender/env_second/noodle_interior.py",
+    "tools/blender/env_second/lightbake/bake_noodle.sh",
+    "tools/blender/env_second/lightbake/noodle_interior_lm.json",
+    "tools/blender/env_second/shots/noodle_lm_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/noodle_lm_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "碗、調味罐、桌腳照即時光（晚上偏暖一點）；店面朝東，白天沒有陽光；生活感擺設沒做；天花板的橘色光暈是遊戲本來的即時燈",
+   "next": "LAWWW-B 換 noodle_interior.glb＋兩張光照貼圖（＋json）；不用改程式、不用 patch（attachRoomGLB 自己接）",
+   "note": "日光燈管 6 支×3 顆點光源 17 W、店面天光、512 取樣；煮麵台、湯鍋金屬度 0.6→0.2（原本整片黑）、燈座白色烤漆；晚上從整間橘色變日光燈白光；draw call 不變、三角形 +48；lm_squash_scan 0 m²；全部 Node 775／0；READY_FOR_ART_REVIEW"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ee96b798f",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "LM-COLLAPSE-1030 第一間：法律學院圖書館用修好的 bake_room.py 重烘（LAWWW-B 10-30 18:19 派工，P2）",
+   "files": [
+    "assets/models/env/lawlib_interior.glb",
+    "assets/models/env/lawlib_interior_lm_day.webp",
+    "assets/models/env/lawlib_interior_lm_night.webp",
+    "tools/blender/env_second/lightbake/lm_squash_scan.py",
+    "tools/blender/env_second/shots/lawlib_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/lm_collapse_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "總圖大廳（已重烘，掃描 0 m²，截圖中）→ 宿舍四人房 → 201；樓梯間牆上欄杆影子糊（解析度，另外的工作）",
+   "next": "LAWWW-B 換 lawlib_interior.glb＋兩張光照貼圖；不用改程式",
+   "note": "lm_squash_scan 朝室內看得到的壓扁 91.4→0 m²（剩 12 m² 逐一查過看不到：樓梯 B 底下封住的三角形、入口上方牆的外側）；看得到的差別很小（東牆大部分在期刊櫃、書架後面，五個鏡頭改到的像素 <1.1%）；全部 Node 775／0；模型、三角形數不變"
   }
  ]
 }

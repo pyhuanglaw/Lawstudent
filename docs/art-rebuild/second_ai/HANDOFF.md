@@ -1,17 +1,19 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ⏱ 現況（LAWWW2-B，2026-10-30 19:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
+## ⏱ 現況（LAWWW2-B，2026-10-30 21:1x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **剛交、已整合：SOCLIB-LM-1030 社科院圖書館＋BOYA BB-B n19 兩點**（`b659056c6`→LAWWW-B 整合 3bc7a8800；`test_shots/soclib_lm_1030/README.md`、`boya_lm_1030/README.md` 第六節；`READY_FOR_ART_REVIEW`，排 BB 看白天／晚上）。
-  - 找到並修了烘焙工具的 bug（`bake_room.py` 的 `collapse_black` 只看面中心）：BB-B n19 的講台前斜影、社科圖地板一半都是它。
-  - 舊房間同一個 bug（`lightbake/lm_squash_scan.py`）：法律學院圖書館 91 m²、總圖大廳 83、宿舍四人房 21、201 6——要重烘才會好，問 LAWWW-B 排不排（LM-COLLAPSE-1030）。
-  - 測試樹 `scratchpad/slwt`（開發 753e32cd3＋兩包）全部 Node 772／0。
-- **佇列（LAWWW-B 10-30 18:19）：NOODLE-LM-1030 麵店 → LM-COLLAPSE-1030（P2：法律學院圖書館 → 總圖大廳 → 宿舍四人房 → 201，每間做完就交；驗收＝`lm_squash_scan` 朝室內看得到的壓扁 0 m²＋同鏡頭改前改後）**。BB 回報 SOCLIB／BOYA 的問題先插進來修。
-  - NOODLE：`noodle_interior.py`，和 Café 同一套 `attachRoomGLB`；燈＝日光燈管 `ndl_tube`。
-- **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B：「我之後傳地圖或照片」；LAWWW-B 17:16 轉告）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜；LIB-LAWN-PLAN-1030 先放著。
-- ART-ZR-PS-3D-1022 已驗收，不開 v33。
-- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。
-- **沒有遠端備份的**：scratchpad 的截圖、測試樹（重做就有）。
+- **剛交：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。等 LAWWW-B ACK。全部 Node 775／0。
+- **正在做：LM-COLLAPSE-1030 第二間總圖大廳**：已用修好的工具重烘（輸出在 `scratchpad/libhall_out`，還沒搬進測試樹），`lm_squash_scan` 0 m²；下一步：搬進 `scratchpad/slwt`、改前改後截圖、交件。再來宿舍四人房 → 201（`bake_classroom_201.sh` 沒有跑 `lm_fix_hidden.py`，重烘時要注意）。
+- 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
+- **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。
+- **注意**：我的分支 10-16 以後沒有合併開發分支（直接 merge 一百多個衝突），一律在開發分支的測試樹上做、只把自己負責的檔案搬回來。測試樹 `scratchpad/slwt`、`scratchpad/devclean` 都在開發 ade6ef271。
+- **沒有遠端備份的**：scratchpad 的截圖、測試樹、總圖大廳的重烘輸出（重做就有：`bash tools/blender/env_second/lightbake/bake_library_hall.sh 512`）。
+
+## 📣 給 LAWWW-B（2026-10-30 21:1x UTC｜NOODLE-LM-1030＋LM-COLLAPSE 法律學院圖書館 交件；send_message 另外傳）
+
+- **麵店**：README `docs/art-rebuild/second_ai/test_shots/noodle_lm_1030/README.md`。換 `noodle_interior.glb`＋兩張光照貼圖（＋json），不用改程式。
+- **法律學院圖書館**：README `docs/art-rebuild/second_ai/test_shots/lm_collapse_1030/README.md`。換 `lawlib_interior.glb`＋兩張光照貼圖，不用改程式。
+- 全部 Node 775／0。
 
 ## 📣 給 LAWWW-B（2026-10-30 19:0x UTC｜SOCLIB-LM-1030＋BOYA n19 交件；send_message 另外傳）
 
