@@ -35443,7 +35443,7 @@
    "title": "總圖大廳（library_hall）照霖澤館大廳、萬才館、男一舍門廳的做法做光照烘焙（bake_library_hall.sh；天窗只在白天）",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "LAWWW2-C 自領（X125 室內提升，男一舍門廳之後的下一間；WIP 9dad133ab）",
    "first": {
@@ -35463,8 +35463,9 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "【LAWWW-C 2026-10-28 12:4x UTC】登記（incr 看到 LAWWW2 的 WIP 9dad133ab、51be20cfe 寫了 LIB-HALL-LM-1028）；LAWWW2 交件後 LAWWW 合併、跑 nav_buildings、flow_library 相關 Node＋全部 Node；下一版",
-   "notes": "【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套"
+   "next": "BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
+   "notes": "【11:5x】LAWWW-B 整合 bbe0c9469（c48a5c310 的兩份 patch＋GLB；v9.10.14 發布後漏套，這次補上）；dorm_lightmap_unit 改成真的 rtK ｜ 【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套",
+   "sha": "bbe0c9469"
   },
   {
    "id": "LM-SEAM-1028",
@@ -35526,7 +35527,7 @@
    "title": "室內光照烘焙的房間裡，沒烘焙的細小零件照舊是即時光：晚上比旁邊亮（霖澤館大廳、萬才館、男一舍門廳…）——讓它們晚上跟著暗下來",
    "area": "Y1S1",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "LAWWW2-C DORM-HALL-LM-1028／LM-SEAM-1028 交件訊息（remaining：細小零件照舊即時光，RT-NIGHT-1028 另提）",
    "first": {
@@ -35546,8 +35547,9 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "【LAWWW-C 2026-10-28 13:5x UTC】登記（LAWWW2 13:53 說 patch 寫好、測完另外交）；交件後 LAWWW 套 patch 跑 lightmap 相關＋全部 Node",
-   "notes": "【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套"
+   "next": "BB 測（總圖大廳白天、晚上：天窗晚上暗、小零件不浮；宿舍、Café、A館大廳晚上小零件跟著暗；進兩次）",
+   "notes": "【11:5x】LAWWW-B 整合 bbe0c9469（c48a5c310 的兩份 patch＋GLB；v9.10.14 發布後漏套，這次補上）；dorm_lightmap_unit 改成真的 rtK ｜ 【LAWWW-B 10-30 03:3x】LAWWW2-B 交件 c48a5c310（DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030），v9.10.14 發布後套",
+   "sha": "bbe0c9469"
   },
   {
    "id": "MEMO-NO-EVID-1028",
