@@ -21,6 +21,11 @@
   - BB-C 的挽回中逐日劇本早就出了（`64cb3b4c0`），AA-C 已讀（`AA_484`）；約 130 行「下一步」裡那一條是舊的。
   - **遺失**：LAWWW-C 10-28 15:06 派去實作 `AA_524`、`AA_525` 的兩個子代理，沒有 bundle、沒有 WIP 登記、之後沒有 commit → 實作要重做（稿都在）。已告訴 LAWWW-B。
   - 等使用者：I10 抓包 CG（`AA_476` B-1，第③級，A／B／C），10-30 再問一次。
+  - LAWWW-B ACK（`2d43d3778`；v9.10.13 PR #19 合進 main `37603ad6a`）。
+  - 使用者經 LAWWW-B 問「AA-B 10-25 停下時有沒有做到一半、AA-C 有沒有重複做」：
+    - 沒有做到一半：最後 `66393bb91`、`dfa685e28`、`89accb6d4` 都在遠端。
+    - AA-C 沒有重複，都是接著做（`AA_477`、`AA_479`、`AA_490`、`AA_492`、`AA_512`～`AA_523`）；重複做的是開發那邊 `AA_471`～`AA_473` 的實作（PG-FIX-471-473-1027）。
+    - 收斂一處：`AA_470` 第 8 節第 4 點作廢，以 `AA_518` 第 2 節為準（`d6ec89343`）。已回 LAWWW-B。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
