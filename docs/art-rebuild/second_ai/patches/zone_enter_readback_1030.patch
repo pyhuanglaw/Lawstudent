@@ -1,0 +1,90 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 82ce47142..5c2dd1e3a 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -980,7 +980,8 @@ const Z3 = (function(){
+   const CAFE_NIGHT={cafe_bulb:[0xfff1d6,2.4,1.0],cafe_lampglass:[0xffd49a,1.5,0.3],ext_glass_lit:[0xffd9a0,0.75,0]};
+   /* cafe_int_atlas：溫州街效能第二輪把店內的地板、書、層架、吧台合成一張貼圖集（LAWWW2-B 35513f11）*/
+   const CAFE_BOUNCE={cafe_int_floor:[0.35,0.7],cafe_int_plaster:[0.42,0.85],cafe_int_wood:[0.32,0.65],cafe_int_ceiling:[0.35,0.75],cafe_int_beam:[0.3,0.6],cafe_int_books:[0.4,0.75],cafe_int_shelf:[0.32,0.65],cafe_int_bar:[0.32,0.65],cafe_int_atlas:[0.35,0.7]};   /* 白天店裡也開燈：從玻璃外看得到暖色的店內 */
+-  function cafeCanvas(w,h,draw){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; t.anisotropy=8; return t; }   /* glTF 的 UV：flipY=false */
++  function cafeCanvas(w,h,draw,soft){ const c=document.createElement('canvas'); c.width=w; c.height=h; draw(soft?c.getContext('2d',{willReadFrequently:true}):c.getContext('2d'),w,h); const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; t.anisotropy=8; return t; }   /* glTF 的 UV：flipY=false。soft：畫在 CPU 上（willReadFrequently；wzAtlasFaces 讀平均色不用等 GPU，見那裡的註解） */
++  const wzCanvas=(w,h,draw)=>cafeCanvas(w,h,draw,true);   /* 溫州街、公館、校園的字牌、門牌：只拿來合成 atlas，原本的 CanvasTexture 不會傳上 GPU */
+   const CAFE_SERIF='"Noto Serif TC","Songti TC","Noto Serif CJK TC","Source Han Serif TC",serif', CAFE_SANS='"Noto Sans TC","PingFang TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif';
+   function cafeSignTex(d){ return cafeCanvas(2048,192,(x,w,h)=>{ x.fillStyle=d.bg||'#3b2a1e'; x.fillRect(0,0,w,h); const gr=x.createLinearGradient(0,0,0,h); gr.addColorStop(0,'rgba(255,240,220,0.06)'); gr.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gr; x.fillRect(0,0,w,h);
+       x.strokeStyle='rgba(222,200,160,0.55)'; x.lineWidth=3; x.strokeRect(14,12,w-28,h-24); x.fillStyle=d.color||'#f4ead8'; x.textBaseline='middle'; x.textAlign='center'; x.font='600 118px '+CAFE_SERIF; x.fillText(d.sign||'兩點半 Café',w/2,h*0.5+4);
+@@ -1024,7 +1025,7 @@ const Z3 = (function(){
+   const WZ_NIGHT={wz_signs_lit:[0xffffff,1.1,0.25],   /* 溫州街 v5 的燈箱招牌（設計稿貼圖、emissiveTexture）：晚上亮、白天微亮 */ ext_glass_lit:[0xffcf8f,1.5,0],wz_room_lit:[0xffb866,1.9,0],wz_win_glass_lit:[0xffc070,0.55,0],cafe_bulb:[0xfff1d6,2.2,0.6],wz_tube:[0xffffff,1.3,0.2],jp_lamp:[0xffcf8a,1.6,0.15],jp_shoji:[0xffe2b8,0.7,0],wz_lamp_lens:[0xffe0a0,2.2,0],ck_glass_lit:[0xffd49a,1.0,0],ck_glass:[0xffd49a,1.0,0],ck_pav_dark:[0xffd49a,0.9,0],ck_ceiling:[0xfff2dc,0.04,0.15],ck_bell_lens:[0xfff1d6,1.6,0]};   /* ck_glass_lit：總圖亮燈的窗（約七成，和套件一樣；自發光貼圖由上往下漸暗）；ck_ceiling：拱廊、門廊、屋簷底下白天在陰影裡只有半球光，加一點地面反射上來的光——晚上沒有陽光反射，要比白天暗（第一版晚上 0.3：沒有燈的拱廊天花板整片發亮） */   /* 亮燈的窗（窗簾、房間）、門燈、騎樓日光燈：晚上發光，白天不亮 */   /* ck_bell_lens：傅鐘前面兩盞地燈的燈罩（和套件一樣 1.6） */
+   const WZ_SANS='"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif', WZ_SERIF='"Noto Serif TC","Songti TC",serif';
+   function wzSignTex(d,wM,hM,vertical){ const H=vertical?Math.round(128*hM/wM):128, W=vertical?128:Math.min(1536,Math.round(128*wM/hM));
+-    return cafeCanvas(W,H,(x,w,h)=>{ const bg=vertical?d.vBg:d.bg, band=vertical?d.vBand:d.band; x.fillStyle=bg||'#ffffff'; x.fillRect(0,0,w,h);
++    return wzCanvas(W,H,(x,w,h)=>{ const bg=vertical?d.vBg:d.bg, band=vertical?d.vBand:d.band; x.fillStyle=bg||'#ffffff'; x.fillRect(0,0,w,h);
+       if(band){ x.fillStyle=band; if(vertical) x.fillRect(0,0,w*0.18,h); else x.fillRect(0,h*0.8,w,h*0.2); }
+       const font=d.serif?WZ_SERIF:WZ_SANS; x.fillStyle=(vertical?d.vColor:d.color)||'#222'; x.textAlign='center'; x.textBaseline='middle';
+       if(vertical){ const ch=[...(d.vertical||'')]; const fs=Math.min(w*0.62,(h-30)/Math.max(1,ch.length)*0.8); x.font='bold '+fs+'px '+font; ch.forEach((c,i)=>x.fillText(c,w/2+(band?8:0),h/2+(i-(ch.length-1)/2)*fs*1.25)); return; }
+@@ -1091,11 +1092,11 @@ const Z3 = (function(){
+       list.forEach((s,i)=>{ M4.multiplyMatrices(s.o.matrixWorld,fix); bl.setMatrixAt(i,M4); }); bl.instanceMatrix.needsUpdate=true; bl.computeBoundingSphere(); bl.name='wz_scooter_shadows'; out.add(bl); }
+     scG.visible=false; g.add(out); return list.length; }
+   function wzPlateTex(d,wM,hM){ const vert=hM>wM, S=d.serif?128:96, W=vert?S:Math.round(S*wM/hM), H=vert?Math.round(S*hM/wM):S;   /* 門牌（藍底白字，直式）、告示牌（白底紅字） */
+-    if(d.serif&&!vert) return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h);   /* serif：石材匾額（總圖）：刻字一樣的大字、字距拉開、一圈細的內框（門牌那種粗外框在匾額上像黑色相框） */
++    if(d.serif&&!vert) return wzCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h);   /* serif：石材匾額（總圖）：刻字一樣的大字、字距拉開、一圈細的內框（門牌那種粗外框在匾額上像黑色相框） */
+       x.strokeStyle=d.color||'#222'; x.globalAlpha=0.45; x.lineWidth=2; x.strokeRect(h*0.08,h*0.08,w-h*0.16,h-h*0.16); x.globalAlpha=1;
+       const ch=[...(d.text||'')], fs=Math.round(h*(d.fs||0.6)), span=Math.min(w*0.74,ch.length*fs*1.55);   /* d.fs：字高是板面高的幾倍（行政大樓的檐部匾額比較扁，字放大到 0.72） */ x.font='bold '+fs+'px '+WZ_SERIF; x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
+       ch.forEach((c,i)=>x.fillText(c,w/2-span/2+span*(i+0.5)/ch.length,h*0.53)); });
+-    return cafeCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,Math.min(w*0.04,h*0.16));   /* 外框上限＝板面高的 16%：很扁的長條（博思雨遮名牌 4.8×0.16 m，30:1）原本外框比板面還厚、字被黑邊吃掉。4:1 以內的牌子（門牌、路名牌）和原本一樣；變的只有溫州公園牌（5.2:1）、社科院系所牌（9.5:1）、博思名牌 */ x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
++    return wzCanvas(W,H,(x,w,h)=>{ x.fillStyle=d.bg||'#ffffff'; x.fillRect(0,0,w,h); x.strokeStyle=d.color||'#222'; x.lineWidth=Math.max(3,Math.min(w*0.04,h*0.16));   /* 外框上限＝板面高的 16%：很扁的長條（博思雨遮名牌 4.8×0.16 m，30:1）原本外框比板面還厚、字被黑邊吃掉。4:1 以內的牌子（門牌、路名牌）和原本一樣；變的只有溫州公園牌（5.2:1）、社科院系所牌（9.5:1）、博思名牌 */ x.strokeRect(x.lineWidth,x.lineWidth,w-x.lineWidth*2,h-x.lineWidth*2);
+       x.fillStyle=d.color||'#222'; x.textAlign='center'; x.textBaseline='middle';
+       if(vert){ const ch=[...(d.text||'')], fs=Math.min(w*0.56,h*(d.sub?0.6:0.8)/Math.max(1,ch.length)/1.1); x.font='bold '+fs+'px '+WZ_SANS; ch.forEach((c,i)=>x.fillText(c,w/2,h*0.07+fs*0.62+i*fs*1.1)); if(d.sub){ x.font='bold '+Math.round(Math.min(w*0.3,h*0.14))+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.86); } return; }
+       x.font='bold '+Math.round(h*(d.sub?0.34:0.5))+'px '+WZ_SANS; x.fillText(d.text||'',w/2,h*(d.sub?0.36:0.52)); if(d.sub){ x.font='bold '+Math.round(h*0.26)+'px '+WZ_SANS; x.fillText(d.sub,w/2,h*0.72); } }); }
+@@ -1256,6 +1257,11 @@ const Z3 = (function(){
+     g.dispose(); o.geometry=ng; return true; }
+   /* 把好幾面 canvas 字牌合成一張 atlas（一列一列排、每格留 2 px）、網格合成一個（UV 換到 atlas 裡的那一格）；原本的字牌網格拿掉。
+      userData.atlas.items 記每一格：名稱、在 atlas 裡的位置大小（px）、板面的長寬比（測試用：每一格的字照板面比例、沒有被拉寬） */
++  /* 每一格的平均色（4×4 的 16 個像素加起來）只讀一次（PERF-ZONE-ENTER-1018，LAWWW2-B 2026-10-30）：原本每次進溫州街、Café（窗外的街）、校園都把每一格字牌畫到 4×4 再 getImageData——
++     第一次讀像素要等 GPU 把排在前面的工作都做完（字牌的字、上一個區域的貼圖、shader），SwiftShader 電腦模式量到黑畫面裡停 1.4～3.4 秒（溫州街每次進來都停）。
++     現在：同一張 canvas、或內容一樣（key：板面資料＋大小）的格子用記下來的值；字牌、門牌畫在 CPU 上的 canvas（wzCanvas），讀的時候不經過 GPU。
++     店內景深卡（TK.interiorTex，townkit3d.js 的 canvas，跨區域共用同一張）第一次照舊要讀一次。 */
++  const wzAvgC=new Map();
+   function wzAtlasFaces(root,faces,name,nightI,dayI){ root.updateMatrixWorld(true); const inv=new THREE.Matrix4().copy(root.matrixWorld).invert(); const P=2;
+     const items=faces.map(o=>{ const c=o.material.map.image; o.geometry.computeBoundingBox(); const s=o.geometry.boundingBox.getSize(new THREE.Vector3()); const rot=c.height>c.width;   /* 直的字牌轉 90° 放（全部變成橫條，排得比較密）*/
+       return {o, c, w:c.width, h:c.height, rot, bw:rot?c.height:c.width, bh:rot?c.width:c.height, board:Math.max(s.x,s.z)/Math.max(1e-6,s.y), key:JSON.stringify(Object.assign({},o.userData,{name:0}))+'|'+c.width+'x'+c.height}; });   /* userData.name＝GLTFLoader 放的原始節點名稱（每一面不同），比對內容時不算 */
+@@ -1275,8 +1281,11 @@ const Z3 = (function(){
+     const cv=document.createElement('canvas'); cv.width=AW; cv.height=AH; const cx=cv.getContext('2d');
+     /* 空白處填所有字牌的平均顏色、每一格先往外多畫 P px（邊緣的顏色延伸出去）再畫本體：縮小取樣（mipmap）時不會混到黑色的空白
+       （2026-10-11 社科院匾額：atlas 只有左上角一格，遠一點看整面變成黑的） */
+-    { const sm=document.createElement('canvas'); sm.width=sm.height=4; const sx=sm.getContext('2d'); let r=0,g=0,b=0,n=0;
+-      for(const it of cells){ sx.clearRect(0,0,4,4); sx.drawImage(it.c,0,0,4,4); const d=sx.getImageData(0,0,4,4).data, wt=it.bw*it.bh; for(let i=0;i<64;i+=4){ r+=d[i]*wt; g+=d[i+1]*wt; b+=d[i+2]*wt; n+=wt; } }
++    { let sx=null, r=0,g=0,b=0,n=0;
++      for(const it of cells){ let a=wzAvgC.get(it.c)||wzAvgC.get(it.key), wt=it.bw*it.bh;
++        if(!a){ if(!sx){ const sm=document.createElement('canvas'); sm.width=sm.height=4; sx=sm.getContext('2d',{willReadFrequently:true}); }
++          sx.clearRect(0,0,4,4); sx.drawImage(it.c,0,0,4,4); const d=sx.getImageData(0,0,4,4).data; a=[0,0,0]; for(let i=0;i<64;i+=4){ a[0]+=d[i]; a[1]+=d[i+1]; a[2]+=d[i+2]; } wzAvgC.set(it.c,a); wzAvgC.set(it.key,a); }
++        r+=a[0]*wt; g+=a[1]*wt; b+=a[2]*wt; n+=16*wt; }
+       cx.fillStyle=n?'rgb('+Math.round(r/n)+','+Math.round(g/n)+','+Math.round(b/n)+')':'#808080'; cx.fillRect(0,0,AW,AH); }
+     for(const it of cells){ const k=it.k; it.dw=it.w*k; it.dh=it.h*k; if(!it.rot){ cx.drawImage(it.c,it.x-P,it.y-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,it.x,it.y,it.dw,it.dh); continue; } cx.save(); cx.translate(it.x+it.dh,it.y); cx.rotate(Math.PI/2); cx.drawImage(it.c,-P,-P,it.dw+P*2,it.dh+P*2); cx.drawImage(it.c,0,0,it.dw,it.dh); cx.restore(); }   /* 轉 90°：canvas 的 (cx,cy) → atlas (x+h−cy, y+cx)（h、w 是縮放後的大小）*/
+     const tex=new THREE.CanvasTexture(cv); tex.colorSpace=THREE.SRGBColorSpace; tex.flipY=false; tex.anisotropy=8;
+@@ -1432,8 +1441,16 @@ const Z3 = (function(){
+   /* 只在白天發光的材質（GLB 的 extras.lightmap.dayEmit，材質名字含其中一個字串；bake_room.py 的 --dayemit：總圖大廳的天窗）：烘焙時只有白天那一張發光，
+      遊戲裡原本整晚照樣亮（像一片日光燈）。晚上發光降到 DAY_EMIT_NIGHT、顏色換成夜空的暗藍灰，照 lmMix 混合（和換光照貼圖同一條曲線）。 */
+   const DAY_EMIT_NIGHT=0.04, DAY_EMIT_NC=new THREE.Color(0x1c2230);
+-  function lmMean(t){ try{ const im=t&&t.image; if(!im||!im.width) return 0; const c=document.createElement('canvas'); c.width=c.height=32; const x=c.getContext('2d'); x.drawImage(im,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let s=0,n=0;
++  function lmMean(t){ try{ const im=t&&t.image; if(!im||!im.width) return 0; const c=document.createElement('canvas'); c.width=c.height=32; const x=c.getContext('2d',{willReadFrequently:true}); x.drawImage(im,0,0,32,32); const d=x.getImageData(0,0,32,32).data; let s=0,n=0;
+       for(let i=0;i<d.length;i+=4){ const v=Math.max(d[i],d[i+1],d[i+2])/255; if(v<0.01) continue; s+=v<=0.04045?v/12.92:Math.pow((v+0.055)/1.055,2.4); n++; } return n?s/n:0; }catch(e){ return 0; } }   /* 全黑的（貼圖空白的地方）不算 */
++  /* 平均亮度每個網址只算一次、不卡畫面（PERF-ZONE-ENTER-1018，LAWWW2-B 2026-10-30）：原本每次進房間，貼圖載好就在主執行緒把整張光照貼圖（1024～2048 px）畫到 32×32 再讀像素——
++     畫布在 GPU 上，讀像素要等 GPU 把這張大圖解碼、上傳，連同排在前面的 shader 都做完：SwiftShader 電腦模式量到社科圖淡入那一格停 4.7 秒、Café、麵店、宿舍 1.5～1.7 秒。
++     現在：createImageBitmap 在背景把圖縮成 32×32（瀏覽器另外的執行緒解碼、縮小），再畫到 CPU 上的小畫布讀；同一個網址記下結果，再進來直接用。
++     沒有 createImageBitmap、或它失敗時照舊（lmMean）。 */
++  const lmMeanC=new Map();
++  function lmMeanAsync(t,url){ if(url&&lmMeanC.has(url)) return lmMeanC.get(url); const im=t&&t.image; if(!im||!im.width) return Promise.resolve(0);
++    const p=(typeof createImageBitmap==='function'?createImageBitmap(im,{resizeWidth:32,resizeHeight:32,resizeQuality:'medium'}).then(b=>{ const v=lmMean({image:b}); if(b.close) b.close(); return v; }):Promise.reject()).catch(()=>lmMean(t));
++    if(url) lmMeanC.set(url,p); return p; }
+   function roomLightmap(z,root,spec){ const U={lmNight:{value:lmLoad(spec.night)},lmMix:{value:0},lmDirK:{value:LM_DIRK}}, day=lmLoad(spec.day), done=new Set(), Us=new Set([U]);
+     const RT={rtK:{value:1}}, Rs=new Set([RT]), rdone=new Set(); let kN=RT_NIGHT_DEF, nrt=0;
+     root.traverse(o=>{ if(!o.isMesh||!o.geometry||!o.geometry.attributes.uv1) return;
+@@ -1453,7 +1470,7 @@ const Z3 = (function(){
+         const prev=m.onBeforeCompile; m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); Object.assign(sh.uniforms,RT);
+           sh.fragmentShader='uniform float rtK;\n'+sh.fragmentShader.replace('#include <lights_fragment_maps>','#include <lights_fragment_maps>\nirradiance *= rtK; reflectedLight.directDiffuse *= rtK; reflectedLight.directSpecular *= rtK;'); };
+         const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|roomRT'; }; m.needsUpdate=true; } });
+-    Promise.all([day.userData.ready,U.lmNight.value.userData.ready]).then(([a,b])=>{ const md=lmMean(a), mn=lmMean(b); if(md>0&&mn>0) kN=Math.min(1,Math.max(0.3,mn/md*1.2/0.95)); z.rtNight=kN; });
++    Promise.all([day.userData.ready,U.lmNight.value.userData.ready]).then(([a,b])=>Promise.all([lmMeanAsync(a,spec.day),lmMeanAsync(b,spec.night)])).then(([md,mn])=>{ if(md>0&&mn>0) kN=Math.min(1,Math.max(0.3,mn/md*1.2/0.95)); z.rtNight=kN; });
+     z.rtNight=kN;
+     const mix=h=>{ const v=lmMixAt(h); for(const u of Us) u.lmMix.value=v; for(const r of Rs) r.rtK.value=1+(kN-1)*v;   /* 這一次用到的每一組 uniform（新接的、之前接過的）都照時段 */
+       for(const m of Ds){ m.emissiveIntensity=m.userData.dayEmitI*(1-v*(1-DAY_EMIT_NIGHT)); if(m.userData.dayEmitC) m.color.copy(m.userData.dayEmitC).lerp(DAY_EMIT_NC,v); } };

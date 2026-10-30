@@ -1,0 +1,544 @@
+=== → wenzhou（第 1 站）：GAME.enter 7130 ms；之後 18 秒共 7 格
+  -- 一格 17474 ms，從 enter 開始 6.8 秒起（淡入時）
+       self   6745  (idle) :0
+       self   4942  getShaderInfoLog :0
+       self   1252  getProgramInfoLog :0
+       self    286  (garbage collector) :0
+       self    108  (program) :0
+       incl   6745  (idle) :0
+       incl   6197  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   6197  onFirstUse three.bundle.js:67386
+       incl   6054  step zones3d.js:2083
+       incl   6050  settle zones3d.js:2067
+       incl   4942  getShaderInfoLog :0
+       incl   1252  getProgramInfoLog :0
+       incl    290  frame game3d.js:496
+       incl    286  (garbage collector) :0
+       incl    240  WebGLRenderer.render three.bundle.js:78048
+       incl    240  E.render engine3d.js:515
+       incl    200  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    200  renderObject three.bundle.js:78579
+       incl    200  renderObjects three.bundle.js:78552
+       incl    200  renderScene three.bundle.js:78402
+       incl    194  setProgram three.bundle.js:78794
+  -- 一格 3548 ms，從 enter 開始 -0.5 秒起（黑畫面（enter 還沒結束））
+       self   1292  getImageData :0
+       self    406  (idle) :0
+       self    132  (garbage collector) :0
+       self     62  open zones3d.js:785
+       self     54  hArr engine3d.js:24
+       incl   1330  attachWenzhouModel zones3d.js:1188
+       incl   1302  wzAtlasFaces zones3d.js:1259
+       incl   1293  (anon) zones3d.js:969
+       incl   1292  getImageData :0
+       incl    522  enter game3d.js:212
+       incl    406  (idle) :0
+       incl    348  E.loadZone engine3d.js:188
+       incl    317  build zones3d.js:1290
+       incl    313  buildWenzhou zones3d.js:784
+       incl    136  traverse three.bundle.js:12982
+       incl    132  (garbage collector) :0
+       incl    100  STORY.populate closed2_3d.js:257
+       incl    100  STORY.populate pool3d.js:458
+       incl    100  STORY.populate closed2_3d.js:132
+       incl    100  STORY.populate closed3d.js:67
+       incl    100  STORY.populate wzlines3d.js:468
+  -- 一格 3390 ms，從 enter 開始 3.3 秒起（黑畫面（enter 還沒結束））
+       self   2024  getProgramInfoLog :0
+       self    182  texSubImage2D :0
+       self     94  getShaderInfoLog :0
+       self     24  getProgramParameter :0
+       self     22  applyBoneTransform three.bundle.js:24786
+       incl   2464  WebGLRenderer.render three.bundle.js:78048
+       incl   2464  E.render engine3d.js:515
+       incl   2450  enter game3d.js:212
+       incl   2386  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   2371  setProgram three.bundle.js:78794
+       incl   2152  onFirstUse three.bundle.js:67386
+       incl   2024  getProgramInfoLog :0
+       incl   1257  renderObjects three.bundle.js:78552
+       incl   1257  renderScene three.bundle.js:78402
+       incl   1256  renderObject three.bundle.js:78579
+       incl   1136  WebGLShadowMap.render three.bundle.js:69520
+       incl   1136  SM.render engine3d.js:486
+       incl   1135  renderObject three.bundle.js:69946
+       incl    853  WebGLProgram.getUniforms three.bundle.js:67485
+       incl    197  upload three.bundle.js:66528
+       incl    194  setValueT1 three.bundle.js:65919
+  -- 一格 2518 ms，從 enter 開始 24.2 秒起（淡入後 17.1 秒）
+       self   1808  getProgramInfoLog :0
+       self     44  applyBoneTransform three.bundle.js:24786
+       self     22  update three.bundle.js:64857
+       self     20  multiplyMatrices three.bundle.js:10580
+       self     12  (garbage collector) :0
+       incl   1962  frame game3d.js:496
+       incl   1919  WebGLRenderer.render three.bundle.js:78048
+       incl   1919  E.render engine3d.js:515
+       incl   1858  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   1856  renderObject three.bundle.js:78579
+       incl   1856  renderObjects three.bundle.js:78552
+       incl   1856  renderScene three.bundle.js:78402
+       incl   1854  setProgram three.bundle.js:78794
+       incl   1810  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   1810  onFirstUse three.bundle.js:67386
+       incl   1808  getProgramInfoLog :0
+       incl     69  applyBoneTransform three.bundle.js:24786
+       incl     58  projectObject three.bundle.js:78280
+       incl     52  getVertexPosition three.bundle.js:24680
+       incl     52  computeBoundingSphere three.bundle.js:24605
+=== → cafe（第 2 站）：GAME.enter 7299 ms；之後 18 秒共 18 格
+  -- 一格 6127 ms，從 enter 開始 7.0 秒起（淡入時）
+       self   4472  (idle) :0
+       self     74  (program) :0
+       self     32  (garbage collector) :0
+       self     10  applyBoneTransform three.bundle.js:24786
+       self     10  createImageBitmap :0
+       incl   4472  (idle) :0
+       incl     74  (program) :0
+       incl     56  frame game3d.js:496
+  -- 一格 4587 ms，從 enter 開始 -0.6 秒起（黑畫面（enter 還沒結束））
+       self   2478  getImageData :0
+       self    398  (idle) :0
+       self     52  (garbage collector) :0
+       self     23  multiplyMatrices three.bundle.js:10580
+       self     12  mixamoToVRM character3d.js:58
+       incl   2498  (anon) zones3d.js:1616
+       incl   2492  attachWenzhouModel zones3d.js:1188
+       incl   2482  wzAtlasFaces zones3d.js:1259
+       incl   2478  getImageData :0
+       incl    398  (idle) :0
+       incl    167  enter game3d.js:212
+       incl    114  buildOne character3d.js:367
+       incl    114  C.build character3d.js:349
+       incl    114  STORY.populate pool3d.js:458
+       incl    112  STORY.populate closed3d.js:67
+       incl    112  STORY.populate sideq3d.js:362
+       incl    112  STORY.populate wzlines3d.js:468
+       incl    112  STORY.populate closed2_3d.js:257
+       incl    112  STORY.populate lupstory3d.js:52
+       incl    112  STORY.populate us_life3d.js:289
+       incl    112  STORY.populate clubfair3d.js:95
+  -- 一格 2569 ms，從 enter 開始 22.1 秒起（淡入後 14.8 秒）
+       self   1365  getShaderInfoLog :0
+       self    390  (idle) :0
+       self    314  getProgramInfoLog :0
+       self      2  updateMatrixWorld three.bundle.js:13077
+       self      2  (program) :0
+       incl   1679  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   1679  settle zones3d.js:2067
+       incl   1679  onFirstUse three.bundle.js:67386
+       incl   1679  step zones3d.js:2083
+       incl   1365  getShaderInfoLog :0
+       incl    390  (idle) :0
+       incl    314  getProgramInfoLog :0
+  -- 一格 2020 ms，從 enter 開始 4.1 秒起（黑畫面（enter 還沒結束））
+       self   1545  getImageData :0
+       self     14  (garbage collector) :0
+       self      2  (program) :0
+       self      1  applyMatrix4 three.bundle.js:5239
+       self      0  devAssetReport game3d.js:740
+       incl   1547  (anon) zones3d.js:1456
+       incl   1546  lmMean zones3d.js:1435
+       incl   1545  getImageData :0
+=== → wenzhou（第 3 站）：GAME.enter 6936 ms；之後 18 秒共 8 格
+  -- 一格 12935 ms，從 enter 開始 6.5 秒起（淡入時）
+       self   8112  (idle) :0
+       self   1478  getProgramInfoLog :0
+       self    252  (garbage collector) :0
+       self     70  (program) :0
+       self     25  remapAttributeArray three-vrm.bundle.js:7014
+       incl   8112  (idle) :0
+       incl   1580  frame game3d.js:496
+       incl   1534  WebGLRenderer.render three.bundle.js:78048
+       incl   1534  E.render engine3d.js:515
+       incl   1499  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   1498  renderObject three.bundle.js:78579
+       incl   1498  renderObjects three.bundle.js:78552
+       incl   1498  renderScene three.bundle.js:78402
+       incl   1496  setProgram three.bundle.js:78794
+       incl   1480  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   1480  onFirstUse three.bundle.js:67386
+       incl   1478  getProgramInfoLog :0
+       incl    252  (garbage collector) :0
+       incl     70  (program) :0
+       incl     58  traverse three.bundle.js:12982
+  -- 一格 3339 ms，從 enter 開始 3.1 秒起（黑畫面（enter 還沒結束））
+       self   2022  getProgramInfoLog :0
+       self    231  texSubImage2D :0
+       self    109  getShaderInfoLog :0
+       self     46  applyBoneTransform three.bundle.js:24786
+       self     26  (program) :0
+       incl   2554  WebGLRenderer.render three.bundle.js:78048
+       incl   2554  E.render engine3d.js:515
+       incl   2542  enter game3d.js:212
+       incl   2438  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   2426  setProgram three.bundle.js:78794
+       incl   2260  renderObject three.bundle.js:78579
+       incl   2260  renderObjects three.bundle.js:78552
+       incl   2260  renderScene three.bundle.js:78402
+       incl   2156  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   2156  onFirstUse three.bundle.js:67386
+       incl   2022  getProgramInfoLog :0
+       incl    244  upload three.bundle.js:66528
+       incl    238  setTexture2D three.bundle.js:72010
+       incl    237  setValueT1 three.bundle.js:65919
+       incl    236  uploadTexture three.bundle.js:72358
+       incl    231  texSubImage2D three.bundle.js:71037
+  -- 一格 3000 ms，從 enter 開始 -0.0 秒起（黑畫面（enter 還沒結束））
+       self   1378  getImageData :0
+       self    394  (idle) :0
+       self     87  open zones3d.js:785
+       self     40  applyBoneTransform three.bundle.js:24786
+       self     36  applyMatrix4 three.bundle.js:18747
+       incl   1404  attachWenzhouModel zones3d.js:1188
+       incl   1388  wzAtlasFaces zones3d.js:1259
+       incl   1380  (anon) zones3d.js:969
+       incl   1378  getImageData :0
+       incl    544  enter game3d.js:212
+       incl    394  (idle) :0
+       incl    359  E.loadZone engine3d.js:188
+       incl    346  build zones3d.js:1290
+       incl    342  buildWenzhou zones3d.js:784
+       incl    172  STORY.populate wzlines3d.js:468
+       incl    172  STORY.populate v6ex3d.js:103
+       incl    172  STORY.populate closed2_3d.js:257
+       incl    172  STORY.populate closed2_3d.js:132
+       incl    172  STORY.populate lupstory3d.js:52
+       incl    172  STORY.populate pool3d.js:458
+       incl    172  STORY.populate jobs3d.js:484
+  -- 一格 2259 ms，從 enter 開始 19.6 秒起（淡入後 12.7 秒）
+       self   1783  (idle) :0
+       self      4  multiplyMatrices three.bundle.js:10580
+       self      3  updateMatrixWorld three.bundle.js:13077
+       self      2  projectObject three.bundle.js:78280
+       self      2  updateWorldMatrix three.bundle.js:13126
+       incl   1783  (idle) :0
+=== → noodle（第 4 站）：GAME.enter 6171 ms；之後 18 秒共 26 格
+  -- 一格 4614 ms，從 enter 開始 -1.5 秒起（黑畫面（enter 還沒結束））
+       self   1712  getShaderInfoLog :0
+       self    390  (idle) :0
+       self    138  getProgramInfoLog :0
+       self     38  (program) :0
+       self     30  (garbage collector) :0
+       incl   1853  onFirstUse three.bundle.js:67386
+       incl   1853  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   1828  prewarmRun zones3d.js:2009
+       incl   1712  getShaderInfoLog :0
+       incl    390  (idle) :0
+       incl    138  getProgramInfoLog :0
+       incl    125  enter game3d.js:212
+       incl     70  STORY.populate sideq3d.js:362
+       incl     70  STORY.populate wzlines3d.js:468
+       incl     70  STORY.populate us_life3d.js:289
+       incl     70  STORY.populate v6ex3d.js:103
+       incl     70  STORY.populate closed2_3d.js:257
+       incl     70  STORY.populate clubfair3d.js:95
+       incl     70  STORY.populate lab5f3d.js:87
+       incl     70  STORY.populate closed2_3d.js:132
+       incl     70  STORY.populate jobs3d.js:484
+  -- 一格 3154 ms，從 enter 開始 6.3 秒起（淡入時）
+       self   1686  (idle) :0
+       self    708  getProgramInfoLog :0
+       self     22  applyBoneTransform three.bundle.js:24786
+       self     10  multiplyMatrices three.bundle.js:10580
+       self      4  (garbage collector) :0
+       incl   1686  (idle) :0
+       incl    780  frame game3d.js:496
+       incl    752  WebGLRenderer.render three.bundle.js:78048
+       incl    752  E.render engine3d.js:515
+       incl    724  renderObjects three.bundle.js:78552
+       incl    724  renderScene three.bundle.js:78402
+       incl    724  renderObject three.bundle.js:78579
+       incl    724  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    723  setProgram three.bundle.js:78794
+       incl    712  WebGLProgram.getUniforms three.bundle.js:67485
+       incl    712  onFirstUse three.bundle.js:67386
+       incl    708  getProgramInfoLog :0
+  -- 一格 2854 ms，從 enter 開始 3.3 秒起（黑畫面（enter 還沒結束））
+       self   1354  getImageData :0
+       self    606  getProgramInfoLog :0
+       self     46  (program) :0
+       self     38  texSubImage2D :0
+       self     26  (garbage collector) :0
+       incl   1355  (anon) zones3d.js:1456
+       incl   1355  lmMean zones3d.js:1435
+       incl   1354  getImageData :0
+       incl    712  frame game3d.js:496
+       incl    706  WebGLRenderer.render three.bundle.js:78048
+       incl    706  E.render engine3d.js:515
+       incl    704  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    704  renderObject three.bundle.js:78579
+       incl    704  renderObjects three.bundle.js:78552
+       incl    704  renderScene three.bundle.js:78402
+       incl    702  setProgram three.bundle.js:78794
+       incl    624  WebGLProgram.getUniforms three.bundle.js:67485
+       incl    624  onFirstUse three.bundle.js:67386
+       incl    606  getProgramInfoLog :0
+  -- 一格 1135 ms，從 enter 開始 10.5 秒起（淡入後 4.4 秒）
+       self    880  (idle) :0
+       self      1  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       self      0  multiplyQuaternions three.bundle.js:4571
+       self      0  updateWorldMatrix three.bundle.js:13126
+       self      0  applyMatrix4 three.bundle.js:5239
+       incl    880  (idle) :0
+=== → campus（第 5 站）：GAME.enter 7566 ms；之後 18 秒共 23 格
+  -- 一格 5956 ms，從 enter 開始 11.6 秒起（淡入後 4.1 秒）
+       self   4452  (idle) :0
+       self    151  (garbage collector) :0
+       self     10  applyBoneTransform three.bundle.js:24786
+       self      8  multiplyMatrices three.bundle.js:10580
+       self      6  (program) :0
+       incl   4452  (idle) :0
+       incl    151  (garbage collector) :0
+       incl     50  frame game3d.js:496
+  -- 一格 4324 ms，從 enter 開始 7.3 秒起（淡入時）
+       self   3350  (idle) :0
+       self     12  applyBoneTransform three.bundle.js:24786
+       self      7  (program) :0
+       self      7  updateMatrixWorld three.bundle.js:13077
+       self      5  multiplyMatrices three.bundle.js:10580
+       incl   3350  (idle) :0
+  -- 一格 3594 ms，從 enter 開始 -0.0 秒起（黑畫面（enter 還沒結束））
+       self    392  (idle) :0
+       self    235  applyBoneTransform three.bundle.js:24786
+       self    188  (garbage collector) :0
+       self    136  multiplyMatrices three.bundle.js:10580
+       self    120  Float32BufferAttribute three.bundle.js:17960
+       incl   2019  enter game3d.js:212
+       incl   1003  E.loadZone engine3d.js:188
+       incl    927  build zones3d.js:106
+       incl    732  STORY.populate pool3d.js:458
+       incl    730  STORY.populate sideq3d.js:362
+       incl    730  STORY.populate wzlines3d.js:468
+       incl    730  STORY.populate us_life3d.js:289
+       incl    730  STORY.populate v6ex3d.js:103
+       incl    730  STORY.populate closed2_3d.js:257
+       incl    730  STORY.populate clubfair3d.js:95
+       incl    730  STORY.populate lab5f3d.js:87
+       incl    730  STORY.populate closed2_3d.js:132
+       incl    730  STORY.populate jobs3d.js:484
+       incl    730  STORY.populate closed3d.js:67
+       incl    730  STORY.populate lupstory3d.js:52
+       incl    730  S.populate story3d.js:264
+  -- 一格 1684 ms，從 enter 開始 17.6 秒起（淡入後 10.0 秒）
+       self   1268  (idle) :0
+       self     10  applyBoneTransform three.bundle.js:24786
+       self      6  multiplyMatrices three.bundle.js:10580
+       self      6  updateMatrixWorld three.bundle.js:13077
+       self      6  (garbage collector) :0
+       incl   1268  (idle) :0
+=== → soclib（第 6 站）：GAME.enter 5690 ms；之後 18 秒共 17 格
+  -- 一格 5710 ms，從 enter 開始 5.4 秒起（淡入時）
+       self   3330  getImageData :0
+       self    762  getProgramInfoLog :0
+       self     74  texSubImage2D :0
+       self     50  (program) :0
+       self     46  (garbage collector) :0
+       incl   3331  (anon) zones3d.js:1456
+       incl   3330  lmMean zones3d.js:1435
+       incl   3330  getImageData :0
+       incl    969  frame game3d.js:496
+       incl    922  WebGLRenderer.render three.bundle.js:78048
+       incl    922  E.render engine3d.js:515
+       incl    884  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    884  renderObjects three.bundle.js:78552
+       incl    884  renderScene three.bundle.js:78402
+       incl    884  renderObject three.bundle.js:78579
+       incl    881  setProgram three.bundle.js:78794
+       incl    776  WebGLProgram.getUniforms three.bundle.js:67485
+       incl    776  onFirstUse three.bundle.js:67386
+       incl    762  getProgramInfoLog :0
+       incl     77  uploadTexture three.bundle.js:72358
+       incl     77  upload three.bundle.js:66528
+  -- 一格 4131 ms，從 enter 開始 1.1 秒起（黑畫面（enter 還沒結束））
+       self   1504  getShaderInfoLog :0
+       self   1500  getProgramInfoLog :0
+       self     32  (program) :0
+       self     21  applyBoneTransform three.bundle.js:24786
+       self     21  texSubImage2D :0
+       incl   3024  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   3023  onFirstUse three.bundle.js:67386
+       incl   2915  prewarmRun zones3d.js:2009
+       incl   1504  getShaderInfoLog :0
+       incl   1500  getProgramInfoLog :0
+       incl    252  E.render engine3d.js:515
+       incl    250  WebGLRenderer.render three.bundle.js:78048
+       incl    200  enter game3d.js:212
+       incl    188  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    180  setProgram three.bundle.js:78794
+       incl    170  renderScene three.bundle.js:78402
+       incl    169  renderObjects three.bundle.js:78552
+       incl    168  renderObject three.bundle.js:78579
+       incl     60  frame game3d.js:496
+       incl     52  projectObject three.bundle.js:78280
+  -- 一格 2733 ms，從 enter 開始 11.1 秒起（淡入後 5.4 秒）
+       self   2026  getProgramInfoLog :0
+       self     27  applyBoneTransform three.bundle.js:24786
+       self     20  multiplyMatrices three.bundle.js:10580
+       self      8  updateWorldMatrix three.bundle.js:13126
+       self      8  texSubImage2D :0
+       incl   2140  frame game3d.js:496
+       incl   2090  WebGLRenderer.render three.bundle.js:78048
+       incl   2090  E.render engine3d.js:515
+       incl   2048  renderObjects three.bundle.js:78552
+       incl   2048  renderScene three.bundle.js:78402
+       incl   2046  renderObject three.bundle.js:78579
+       incl   2046  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   2045  setProgram three.bundle.js:78794
+       incl   2028  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   2028  onFirstUse three.bundle.js:67386
+       incl   2026  getProgramInfoLog :0
+       incl     55  getVertexPosition three.bundle.js:24680
+  -- 一格 1962 ms，從 enter 開始 -0.9 秒起（黑畫面（enter 還沒結束））
+       self    398  (idle) :0
+       self     90  (garbage collector) :0
+       self     61  multiplyMatrices three.bundle.js:10580
+       self     52  applyBoneTransform three.bundle.js:24786
+       self     16  updateWorldMatrix three.bundle.js:13126
+       incl    398  (idle) :0
+       incl    348  enter game3d.js:212
+       incl    244  STORY.populate sideq3d.js:362
+       incl    244  STORY.populate wzlines3d.js:468
+       incl    244  STORY.populate us_life3d.js:289
+       incl    244  STORY.populate v6ex3d.js:103
+       incl    244  STORY.populate closed2_3d.js:257
+       incl    244  STORY.populate clubfair3d.js:95
+       incl    244  STORY.populate lab5f3d.js:87
+       incl    244  STORY.populate closed2_3d.js:132
+       incl    244  STORY.populate jobs3d.js:484
+       incl    244  STORY.populate closed3d.js:67
+       incl    244  STORY.populate lupstory3d.js:52
+       incl    244  S.populate story3d.js:264
+       incl    244  STORY.populate pool3d.js:458
+       incl    244  STORY.populate b1story3d.js:109
+=== → campus（第 7 站）：GAME.enter 7307 ms；之後 18 秒共 24 格
+  -- 一格 5116 ms，從 enter 開始 9.9 秒起（淡入後 2.6 秒）
+       self   3936  (idle) :0
+       self     29  (garbage collector) :0
+       self     11  applyBoneTransform three.bundle.js:24786
+       self      8  updateMatrixWorld three.bundle.js:13077
+       self      6  multiplyMatrices three.bundle.js:10580
+       incl   3936  (idle) :0
+       incl     51  frame game3d.js:496
+  -- 一格 3654 ms，從 enter 開始 0.0 秒起（黑畫面（enter 還沒結束））
+       self    424  getImageData :0
+       self    372  (idle) :0
+       self    256  hArr engine3d.js:24
+       self    176  (garbage collector) :0
+       self    144  applyBoneTransform three.bundle.js:24786
+       incl   2030  enter game3d.js:212
+       incl   1017  E.loadZone engine3d.js:188
+       incl    950  build zones3d.js:106
+       incl    497  STORY.populate pool3d.js:458
+       incl    495  STORY.populate sideq3d.js:362
+       incl    495  STORY.populate wzlines3d.js:468
+       incl    495  STORY.populate us_life3d.js:289
+       incl    495  STORY.populate v6ex3d.js:103
+       incl    495  STORY.populate closed2_3d.js:257
+       incl    495  STORY.populate clubfair3d.js:95
+       incl    495  STORY.populate lab5f3d.js:87
+       incl    495  STORY.populate closed2_3d.js:132
+       incl    495  STORY.populate jobs3d.js:484
+       incl    495  STORY.populate closed3d.js:67
+       incl    495  STORY.populate lupstory3d.js:52
+       incl    495  STORY.populate b1story3d.js:109
+  -- 一格 2944 ms，從 enter 開始 7.0 秒起（淡入時）
+       self   2240  (idle) :0
+       self     15  multiplyMatrices three.bundle.js:10580
+       self     12  applyBoneTransform three.bundle.js:24786
+       self      8  updateMatrixWorld three.bundle.js:13077
+       self      5  updateWorldMatrix three.bundle.js:13126
+       incl   2240  (idle) :0
+       incl     64  frame game3d.js:496
+  -- 一格 1802 ms，從 enter 開始 5.0 秒起（黑畫面（enter 還沒結束））
+       self    682  bufferData :0
+       self    612  texSubImage2D :0
+       self     23  applyBoneTransform three.bundle.js:24786
+       self     14  updateMatrixWorld three.bundle.js:13077
+       self     12  multiplyMatrices three.bundle.js:10580
+       incl   1410  WebGLRenderer.render three.bundle.js:78048
+       incl   1410  E.render engine3d.js:515
+       incl   1392  enter game3d.js:212
+       incl    732  projectObject three.bundle.js:78280
+       incl    684  update three.bundle.js:60907
+       incl    684  createBuffer three.bundle.js:60731
+       incl    682  update three.bundle.js:65017
+       incl    682  bufferData :0
+       incl    681  update three.bundle.js:64577
+       incl    658  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    646  setProgram three.bundle.js:78794
+       incl    638  renderObject three.bundle.js:78579
+       incl    638  renderObjects three.bundle.js:78552
+       incl    638  renderScene three.bundle.js:78402
+       incl    622  upload three.bundle.js:66528
+       incl    616  setValueT1 three.bundle.js:65919
+=== → dorm（第 8 站）：GAME.enter 7328 ms；之後 18 秒共 16 格
+  -- 一格 5427 ms，從 enter 開始 7.4 秒起（淡入時）
+       self   2022  (idle) :0
+       self   1230  getProgramInfoLog :0
+       self    878  getShaderInfoLog :0
+       self    132  (garbage collector) :0
+       self     30  getProgramParameter :0
+       incl   2156  frame game3d.js:496
+       incl   2154  E.render engine3d.js:515
+       incl   2152  WebGLRenderer.render three.bundle.js:78048
+       incl   2150  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl   2149  setProgram three.bundle.js:78794
+       incl   2145  renderObject three.bundle.js:78579
+       incl   2145  renderObjects three.bundle.js:78552
+       incl   2145  renderScene three.bundle.js:78402
+       incl   2140  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   2140  onFirstUse three.bundle.js:67386
+       incl   2022  (idle) :0
+       incl   1230  getProgramInfoLog :0
+       incl    878  getShaderInfoLog :0
+       incl    132  (garbage collector) :0
+  -- 一格 4275 ms，從 enter 開始 16.7 秒起（淡入後 9.4 秒）
+       self   3464  (idle) :0
+       self      2  (program) :0
+       self      0  (anon) three-vrm.bundle.js:2297
+       self      0  updateWorldMatrix three.bundle.js:13126
+       self      0  multiplyMatrices three.bundle.js:10580
+       incl   3464  (idle) :0
+  -- 一格 3772 ms，從 enter 開始 0.5 秒起（黑畫面（enter 還沒結束））
+       self   1517  getProgramInfoLog :0
+       self   1314  getShaderInfoLog :0
+       self     30  getProgramParameter :0
+       self     22  (garbage collector) :0
+       self     17  (program) :0
+       incl   2864  onFirstUse three.bundle.js:67386
+       incl   2864  WebGLProgram.getUniforms three.bundle.js:67485
+       incl   2682  prewarmRun zones3d.js:2009
+       incl   1517  getProgramInfoLog :0
+       incl   1314  getShaderInfoLog :0
+       incl    208  WebGLRenderer.render three.bundle.js:78048
+       incl    208  E.render engine3d.js:515
+       incl    206  enter game3d.js:212
+       incl    204  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    203  renderObject three.bundle.js:78579
+       incl    203  renderObjects three.bundle.js:78552
+       incl    203  renderScene three.bundle.js:78402
+       incl    202  setProgram three.bundle.js:78794
+  -- 一格 2913 ms，從 enter 開始 4.4 秒起（黑畫面（enter 還沒結束））
+       self   1288  getImageData :0
+       self    740  getProgramInfoLog :0
+       self     61  texSubImage2D :0
+       self     34  (program) :0
+       self     32  (garbage collector) :0
+       incl   1288  (anon) zones3d.js:1456
+       incl   1288  lmMean zones3d.js:1435
+       incl   1288  getImageData :0
+       incl    868  frame game3d.js:496
+       incl    868  E.render engine3d.js:515
+       incl    867  WebGLRenderer.render three.bundle.js:78048
+       incl    865  renderObject three.bundle.js:78579
+       incl    865  renderObjects three.bundle.js:78552
+       incl    865  renderScene three.bundle.js:78402
+       incl    864  WebGLRenderer.renderBufferDirect three.bundle.js:77607
+       incl    862  setProgram three.bundle.js:78794
+       incl    760  WebGLProgram.getUniforms three.bundle.js:67485
+       incl    760  onFirstUse three.bundle.js:67386
+       incl    740  getProgramInfoLog :0
+       incl     63  upload three.bundle.js:66528
+       incl     62  setValueT1 three.bundle.js:65919
+errs []
