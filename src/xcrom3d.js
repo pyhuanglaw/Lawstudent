@@ -191,7 +191,7 @@ const XCROM=(()=>{
     fixedAfter:{lines:[]},
     closing:{title:'午夜場',lines:[NR('（午夜場散場，捷運已經沒了。你們走到西門站外面等計程車。）'),ME('電影普通。'),ME('……可是我會記得。')],
       choices:[{t:'「我也是。」',reply:[ME('嗯。')]},{t:'「下次再來。」',reply:[ME('好。下次不是午夜場也可以。')]},{t:'（陪她等車）',reply:[NR('（計程車來了。她上車以前，回頭看了你一眼。）')]}]} };
-  S.wireWish=function(){
+  S.wireWish=function(){   /* 記憶 XC_MIDNIGHT 的名稱在 social3d.js MEMORY_LABEL */
     if(typeof WISH!=='undefined'&&WISH.record&&!WISH.record._xc){ const r0=WISH.record; WISH.record=Object.assign(function(G,t,ev){ const r=r0.apply(this,arguments); try{ if(t&&t.who===XC&&G&&G.flags) G.flags.XC_MIDNIGHT_DAY=G.day; }catch(e){} return r; },{_xc:true}); } };
   /* ---------- 接線（載入時一次）---------- */
   /* 打開／關掉整條線：DATE.HEROINES、事件、心願事件一起加或拿掉 */
