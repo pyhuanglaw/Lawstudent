@@ -1481,6 +1481,33 @@
    "status": "進行中",
    "wants": "X127",
    "task": "BUG-SAVE-NEWGAME-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-07",
+   "at": "2026-10-30T04:2x",
+   "quote": "npc要離開一個空間都會卡在門口一直行走 很白癡",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X129",
+   "task": "NPC-STALL-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-08",
+   "at": "2026-10-30T04:2x",
+   "quote": "學姊也不能約她 其他活動 請幫我檢查統一每個可供略腳色約她的選項要更多 如果太多就分階層",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X130",
+   "task": "INVITE-OPTS-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-09",
+   "at": "2026-10-30T04:3x",
+   "quote": "去阿鳳麵店 出現麵店團的人 對話 但根本沒有在遊戲內出現（附存檔 fatiao3d_save_day28_1.json：day 28 21:30 在麵店）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X131",
+   "task": "NDL-PRESENT-1030"
   }
  ]
 }

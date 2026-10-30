@@ -35892,6 +35892,72 @@
     "ack": "ACK"
    },
    "notes": "LAWWW 部分（人物動作、流程）等 LAWWW2 的 layout；203 光照第四輪照舊，兩點半 Café 往後排"
+  },
+  {
+   "id": "NPC-STALL-1030",
+   "title": "NPC 離開空間卡在門口一直走（原地踏步）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "next": "postrel-1030 5b48dc350 → v9.10.14 發布後進開發分支 → BB 瀏覽器測（Café 23:00、教室下課、麵店離開）",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:2x（UA-LAWWW-1030-07，X129）",
+   "authorized": "使用者",
+   "notes": "npc_stall_unit 修改前 FAILED → ALL PASS"
+  },
+  {
+   "id": "INVITE-OPTS-1030",
+   "title": "約她的選項：學姊也約不到其他活動；七位統一、更多、太多就分階層（吃飯／念書／散步／校外…）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "LAWWW 盤點 invites3d／date3d 七位現在約得到什麼 → 統一清單＋分類選單設計 → 新地點答應句請 AA 寫 → 實作",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:2x（UA-LAWWW-1030-08，X130）",
+   "authorized": "使用者",
+   "notes": ""
+  },
+  {
+   "id": "NDL-PRESENT-1030",
+   "title": "阿鳳麵店長桌閒聊：麵店團的人不在場也在講話（只有阿哲有麵店作息；閒聊 17:00～21:00 都演）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "postrel-1030：Alison、柏翰、芯慈麵店日長桌作息（放在作息最後，不蓋掉原本的）＋閒聊只在說話的人都在場時演；AA 確認",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:3x＋存檔 day28（UA-LAWWW-1030-09，X131）",
+   "authorized": "使用者",
+   "notes": ""
   }
  ]
 }
