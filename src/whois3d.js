@@ -101,8 +101,7 @@ const WHOIS=(()=>{
     {c:3,id:'notes',if:G=>mem(G,XC,'LENT_NOTES')&&!xcOld(G),t:'她的筆記借過你。'},   /* 舊開局的第一行已經寫了借筆記，不重複 */
     {c:3,id:'double',if:ev('ev_xinci_double'),t:'雙主修經濟。她說是家裡要的。'},
     {c:3,id:'minor',if:xcFirst,t:'原本雙主修經濟，大三下改成輔系。',rep:['double']},
-    {c:3,id:'second',if:G=>mem(G,XC,'XINCI_SECOND')||!!F(G).XINCI_SECOND,t:'高中補習班，她三年都是第二名。'},
-    {c:3,id:'first',if:G=>!!F(G).XINCI_FIRST||mem(G,XC,'XINCI_FIRST'),t:'大三下，她第一次考了第一。'} ];
+   ];   /* 「高中補習班，她三年都是第二名。」「大三下，她第一次考了第一。」拿掉（D116 不跟別人比；AA_543 1-4 改稿，企劃線 0342b98ec）*/
 
   /* ---------------- 1-5 江明軒 ---------------- */
   const MX='classmate_mingxuan';

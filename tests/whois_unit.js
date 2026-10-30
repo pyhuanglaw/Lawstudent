@@ -28,7 +28,7 @@ const W=()=>typeof WHOIS!=='undefined'?WHOIS:null;
 const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 let DOC='';
-try{ DOC=cp.execSync('git show f726507f7:"docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
+try{ DOC=cp.execSync('git show 0342b98ec:"docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"',{cwd:process.env.WHOIS_GIT_DIR||H.ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore']}); }catch(e){ DOC=''; }
 /* 一份存檔：日子、旗標；camp＝宿營認識的人（FIRST_MET note camp）*/
 const save=(key,flags,camp)=>{ const G=H.fresh(key,20,'dorm',Object.assign({introDone:true},flags||{})); for(const id of (camp||[])) SOCIAL.remember(id,'FIRST_MET','camp'); return G; };
 const L=id=>W().lines(H.G,id);
@@ -42,7 +42,7 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), ph=g.slice(g.indexOf('function personHTML'),g.indexOf('function friendsHTML'));
     check('0. personHTML：WHOIS.desc 換個性那一行、WHOIS.lines 一行一句「· 」，放在「現在大概在」和個性中間',/WHOIS\.desc\(G,id,desc0\)/.test(ph)&&/WHOIS\.lines\(G,id\)/.test(ph)&&/現在大概在：'\+esc\(wt\)\+'<\/div>':''\)\+\(who\.length\?[^\n]*'<div>· '\+esc\(x\)\+'<\/div>'[^\n]*\+'<div>'\+esc\(desc\)/.test(ph)); });
 
-  await sec(0,()=>{ check('0. 拿得到稿（git show f726507f7＝d483ecbbf＋第 5 節實作確認；有第 1、2、3、4、5 節）',DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
+  await sec(0,()=>{ check('0. 拿得到稿（git show 0342b98ec＝d483ecbbf＋第 5 節實作確認＋芯慈兩行拿掉（D116）；有第 1、2、3、4、5 節）',DOC.length>3000&&DOC.indexOf('## 1. 法律系')>0&&DOC.indexOf('## 3. 個性那一行')>0&&DOC.indexOf('## 4. 測試')>0&&DOC.indexOf('### 5-1')>0,'長度 '+DOC.length);
     if(!DOC||!W()) return;
     /* 遊戲 → 稿：每一行（字串）都在稿的表格裡；函式的幾種結果另外列 */
     const COMPOSED=new Set(['室友：大二 312。','室友：大二 312、大三 507。','室友：大二 312、大三 507、大四 409。',   /* 柏翰沒有 DORM_FOUR：1-3「從有的那一年寫起」*/
