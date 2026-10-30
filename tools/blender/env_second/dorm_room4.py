@@ -41,7 +41,8 @@ WIN = (-1.1, 1.1, 0.95, 2.4)                       # 後牆的窗洞 x0,x1,y0,y1
 DOOR = (-0.48, 0.48, 2.1)                          # 前牆的門洞（照舊）
 BATH = dict(x0=0.65, x1=IX1, z0=1.45, z1=IZ1, t=0.1, door=(2.2, 3.0), door_h=2.05)
 # 床桌組：沿牆座標 u（＝z）、離牆距離 v；階梯在 ub 那一端（靠門）
-VD, STW = 0.95, 0.45                               # 床桌組的深度、階梯寬
+VD, STW = 0.95, 0.40                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40，床長多 5 cm）
+STW0 = 0.45                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
 DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床欄頂
 RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
@@ -394,11 +395,11 @@ def loft(uid, side, ua, ub, sets):
     lbox(tf, side, ua, ust, DECK0, DECK1, 0.005, VD - 0.025)
     lbox(tf, side, ua, ust, DECK0 - 0.08, GUARD, VD - 0.025, VD, fn='rbox', r=0.008, seg=1)
     lbox(tf, side, ua + 0.001, ua + 0.026, DECK1, GUARD, 0.005, VD - 0.025)
-    lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.005, 0.47)
+    lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.47, VD - 0.025)   # 床尾（階梯那一端）的擋板在走道那一半；靠牆那一半是上床的開口（階梯從走道往牆邊爬，最上面一階靠牆；10-30 以前擋板在靠牆那一半，人從最上面一階上不了床——DORM-SLEEP-VISUAL-1030）
     for uu in (ua + 0.1, ust - 0.12):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
     sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, 2.32, 0.55), W3(side, ust - 0.035, 2.32, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
-    lbox(ts, side, ua + 0.035, ust - 0.035, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)
+    lbox(ts, side, ua + 0.025, ust - 0.025, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)   # 床墊 1.92～1.95 m（使用者 10-30「床的比例也要注意」：原本 1.85～1.875，祐廷 1.75 m 躺下只剩 10 cm；標準單人床約 1.9 m）
     neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
     if not neat: lbox(tdv, side, ust - 0.5, ust - 0.08, DECK1 + 0.22, DECK1 + 0.3, 0.1, VD - 0.1, fn='soft', r=0.03, seg=2)
@@ -407,7 +408,7 @@ def loft(uid, side, ua, ub, sets):
     lbox(tpw, side, ua + 0.08, ua + 0.46, DECK1 + 0.14, DECK1 + 0.26, 0.15, 0.75, fn='soft', r=0.05, seg=2)
     # ---- 床尾立柱、衣櫃、書桌、層架、LED 燈條
     lbox(wht, side, ua + 0.002, ua + 0.052, 0.0, GUARD, VD, VD + 0.05, fn='rbox', r=0.008, seg=1)
-    w0, w1 = ust - 0.6, ust - 0.005
+    w0, w1 = ub - STW0 - 0.6, ust - 0.005   # 衣櫃左邊照舊（書桌不動）、右邊貼到新的階梯（寬 0.65）
     lbox(wood, side, w0, w1, 0.0, DECK0 - 0.01, 0.005, 0.585); lbox(wood, side, w0 + 0.008, w1 - 0.008, 0.055, DECK0 - 0.022, 0.585, 0.6)
     lbox(wht, side, w0, w1, 0.0, 0.05, 0.585, 0.6); met.cyl(W3(side, w0 + 0.06, 0.7, 0.615), W3(side, w0 + 0.06, 1.15, 0.615), 0.008, seg=6)
     k0, k1 = ua + 0.02, w0 - 0.025
@@ -460,6 +461,17 @@ def loft(uid, side, ua, ub, sets):
                             'floor_under_bed_spot': [round(wx(side, 0.3), 3), round(w0 - 0.35, 3)],
                             'wall_spot_by_desk': {'x': round(wx(side, 0.004), 3), 'y': 1.2, 'z': round((k0 + s0) / 2, 3), 'ry': -math.pi / 2 if side == 'R' else math.pi / 2, 'note': '書桌前、層架旁邊的空牆（社團傳單）'}})
     LAYOUT['blocks'].append({'id': uid, 'x': sorted((round(wx(side, 0), 3), round(wx(side, VD + 0.05), 3))), 'z': [round(ua, 3), round(ub, 3)]})
+    # 睡覺的畫面（DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：遊戲端（LAWWW-B）照這些點做「走到梯子前 → 爬上去 → 躺下 → 熄燈」。座標＝遊戲 dorm 區域座標
+    #   approach＝梯子前的地上（＝sleep）；steps＝四階的踏點（從走道往牆邊爬）；bed_entry＝最上面一階旁邊、上床的那一點（床墊上）；
+    #   lie.head／feet＝躺著的時候頭、腳的位置（枕頭在 ua 那一端；頭朝 −z＝yaw π）；cam＝睡覺時的鏡頭（走道上方，視線越過 2.02 m 的床欄）
+    sx = 1 if side == 'L' else -1; mv = (0.03 + VD - 0.05) / 2; mtop = DECK1 + 0.16; uc_ = (ust + ub) / 2; zc_ = (ua + ust) / 2; r3 = lambda v: round(v, 3)
+    LAYOUT['units'][-1]['sleep_scene'] = {
+        'approach': [r3(wx(side, VD + 0.4)), r3(uc_)],
+        'steps': [[r3(wx(side, VD - (k + 0.5) * (VD / NST))), r3(RISE * (k + 1)), r3(uc_)] for k in range(NST)],
+        'bed_entry': [r3(wx(side, 0.25)), r3(mtop), r3(ust - 0.25)],
+        'lie': {'head': [r3(wx(side, mv)), r3(mtop + 0.1), r3(ua + 0.155)], 'feet': [r3(wx(side, mv)), r3(mtop + 0.05), r3(ua + 1.775)], 'head_dir_yaw': 3.1416, 'mattress_top_y': r3(mtop),
+                'mattress': {'x': sorted([r3(wx(side, 0.03)), r3(wx(side, VD - 0.05))]), 'z': [r3(ua + 0.025), r3(ust - 0.025)]}},
+        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]}}
 
 
 # ---- 每個人的東西
@@ -707,7 +719,7 @@ def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     lbox(G['met'], side, s0 + 0.05, s1 - 0.05, sy0 - 0.03, sy0 - 0.005, 0.12, 0.16); lbox(G['led'], side, s0 + 0.06, s1 - 0.06, sy0 - 0.036, sy0 - 0.03, 0.125, 0.155)
     # 書桌下：登山鞋；衣櫃前：大登山包（深綠）
     for j in range(2): lbox(im, side, k1 - 0.42 + j * 0.13, k1 - 0.31 + j * 0.13, 0.0, 0.12, 0.25, 0.53, fn='crbox', hexcol='#5a4a3a', r=0.03)
-    w0 = ust - 0.6
+    w0 = ub - STW0 - 0.6
     lbox(im, side, w0 + 0.1, w0 + 0.46, 0.0, 0.72, 0.6, 0.86, fn='crbox', hexcol='#2f4a3a', r=0.06); lbox(im, side, w0 + 0.16, w0 + 0.4, 0.42, 0.62, 0.86, 0.9, fn='crbox', hexcol='#3a5a46', r=0.03)
     lbox(im, side, w0 + 0.13, w0 + 0.43, 0.66, 0.76, 0.63, 0.83, fn='crbox', hexcol='#24382c', r=0.03)                       # 背包的頂蓋（第一輪是黑色方塊，太重）
     # 窗台三盆（後牆，和他送給祐廷的那三盆同一種）
