@@ -3253,6 +3253,7 @@ SCENS = SCENS + R42
 # ---------- R43（BB-C 10-27）：PG-FIX-471-473-1027（BB_TEST_QUEUE_1027 第 1 節十項，第二輪更正優先；開發分支 7dacc9463＋60919c7a9，寫的時候看 8df0742f0）----------
 # 規格：AA_471 第 3～7 節、AA_472 第 1～6 節、AA_473、AA_476 A 節（企劃線）。要對的句子照遊戲 8df0742f0 的字（src/data/postgrad_lines.js、home3d.js、faildelay3d.js、zr_uk3d.js、story3d.js、events.js、pg_dates.js）。
 # 全部是最小存檔（load_min：畢業以後＝GRADUATED、PG done grad、MOVED_OUT、HOME_AFTER home；pregrad＝6/2 典禮當天早上）【前置】；讀檔後的關係、交往、群組、國考旗標寫在 js【前置】。
+# BB-B 10-30：R43 的最小存檔＝GAME.defaults（預設和可昕交往中）；不是測可昕的情境都要加 NOKX（PGF2、PGF3、PGF5_NYE_S、PGF9 補了）
 # 畢業以後是「跳到下一件事」：站在傅鐘廣場北緣不動 2 秒，遊戲自己跳（PG.tick）。新步驟 ('pguntil', 日子, 時間[, 最多幾秒])＝照玩家站著讓它跳，直到遊戲日子時間 ≥ 那一刻
 #   （play_until 只比時間、不比日子，跳日子會錯）；中間的對話照 pref、選項照 pref、要回的訊息照 asks、出遊的「出發」照 pref。
 #   到了以後【捷徑】PG.IDLE_MS 調大＝玩家開始走動、不再站著讓它跳（後面的檢查不會被下一跳蓋掉；下一個 pguntil 再調回 2 秒）。('pghold', True)＝同樣調大，讓時間照真的走。
@@ -3339,32 +3340,32 @@ R43 = [
              ('12/13 麵店團照順序：放榜兩行 → 阿哲 → Alison', NOODLED('2030-12-13'), lambda L: isinstance(L, list) and in_order(L, R2G30 + ZHE30 + [YU30]) is None),
              LAND('2030-09-06', 15.0), LAND('2030-12-13', 15.0)]),
   # ② 中秋：住家裡＝20:00 家人群組一組（爸爸照片＋媽媽一句；2030 三則），停一下；不能有 2025 原句、不能有住外面那一版
-  dict(id='PGF2_HOME29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ,
+  dict(id='PGF2_HOME29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2029-09-22', 20.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON29H, noneMsg=MOON25 + MOON29S[:2], msgAt={'我們這邊陰天': ('2029-09-22', 20.0, 0.1)},
        jsok=[('9/22 家人群組（爸爸、媽媽）', HOMED('2029-09-22'), MOON29H), LAND('2029-09-22', 20.0, 0.15, '規格：20:00 停一下')]),
-  dict(id='PGF2_HOME30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ,
+  dict(id='PGF2_HOME30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2030-09-12', 20.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON30H, noneMsg=MOON25 + MOON30S[:2], msgAt={'你每年都這樣講': ('2030-09-12', 20.0, 0.1)},
        jsok=[('9/12 家人群組（爸爸、媽媽）', HOMED('2030-09-12'), MOON30H), LAND('2030-09-12', 20.0, 0.15, '規格：20:00 停一下')]),
   # 住公館套房＝18:00 媽媽兩則、21:00 爸爸（第二輪：停兩次）
-  dict(id='PGF2_SUITE29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ,
+  dict(id='PGF2_SUITE29', minimal=True, key='2029-09-21', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2029-09-22', 21.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON29S, noneMsg=MOON25 + ['我們這邊陰天'], msgAt={'一個人吃不完 你回來拿': ('2029-09-22', 18.0, 0.1), '📷（上海的月亮，旁邊那棟樓蓋好了）': ('2029-09-22', 21.0, 0.1)},
        jsok=[('9/22 家人群組（媽媽兩則、爸爸一則）', HOMED('2029-09-22'), MOON29S), LAND('2029-09-22', 18.0, 0.15, '第一次停'), LAND('2029-09-22', 21.0, 0.15, '第二次停')]),
-  dict(id='PGF2_SUITE30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ,
+  dict(id='PGF2_SUITE30', minimal=True, key='2030-09-11', h=12.0, zone='campus', pos=PGPOS, flags=SUITE, js=PGJ + HOMEJ + NOKX,
        steps=[('pguntil', '2030-09-12', 21.0, 2400)], pref=[], asks={'*': ''},
        wantMsg=MOON30S, noneMsg=MOON25 + ['你每年都這樣講'], msgAt={'放冰箱了': ('2030-09-12', 18.0, 0.1), '明年回去看': ('2030-09-12', 21.0, 0.1)},
        jsok=[('9/12 家人群組（媽媽兩則、爸爸兩則）', HOMED('2030-09-12'), MOON30S), LAND('2030-09-12', 18.0, 0.15, '第一次停'), LAND('2030-09-12', 21.0, 0.15, '第二次停')]),
   # ③ 被當延畢、重修只去兩堂：12/23 晚上 → 12/24 記號 → 12/26（三）09:00 停、旁白兩句（{課名}＝那一門）
-  dict(id='PGF3_NOTE', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=FDF, js=PGJ + FDJS(2),
+  dict(id='PGF3_NOTE', minimal=True, key='2029-12-23', h=20.0, zone='campus', pos=PGPOS, flags=FDF, js=PGJ + FDJS(2) + NOKX,
        steps=[('pguntil', '2029-12-26', 9.0, 2400)], pref=[], asks={'*': ''},
        want=['的重修，出席不到三堂。）', '（證書，要等到六月。）'], none=[NYE_IN, NYE_OUT], cflags=['FAIL_DELAY_CERT'], eqflags={'FAIL_DELAY_CERT': '2030-06'},
        jsok=[('旁白第一句＝FD.lateFill（課名＝不到三堂的那一門）', "(()=>{ try{ const t=FD.lateFill(GAME.G,FD.LINES.lateNote[0]); return (window.__LOG||[]).some(x=>x.t===t)?t:('沒有：'+t); }catch(e){ return 'ERR '+e; } })()",
               lambda x: isinstance(x, str) and not x.startswith(('沒有', 'ERR'))), ('FAIL_DELAY_PASS＝false', "GAME.G.flags.FAIL_DELAY_PASS", False), LAND('2029-12-26', 9.0)]),
   # 證書延到六月（【前置】12/26 那一停已經演過）：2030-05-15 起跳 → 6/17（一）10:00 系辦（日期卡）→ 6/18 以後那一跳出「框裝上了」；整個 6 月不出「第一個禮拜」「八點起床」
 ] + [dict(id='PGF3_CERT%d' % int(reg), minimal=True, key='2030-05-15', h=12.0, zone='campus', pos=PGPOS, flags=dict(FDF, BAR_REG_2030=reg, FAIL_DELAY_PASS=False, FAIL_DELAY_CERT='2030-06'),
-       js=PGJ + FDJS(2) + DONE('fd_late_note'), steps=[('pguntil', '2030-06-17', 10.0, 2400), ('pguntil', '2030-06-18', 0.0, 3600)], pref=[], asks={'*': ''},
+       js=PGJ + FDJS(2) + DONE('fd_late_note') + NOKX, steps=[('pguntil', '2030-06-17', 10.0, 2400), ('pguntil', '2030-06-18', 0.0, 3600)], pref=[], asks={'*': ''},
        want=['（系辦的助教把證書遞給你。）', CERT_TA, FRAME, 'CARD:6/17（一）10:00'], none=[WEEK1, EIGHT, '恭喜。……延了一學期，還是恭喜。'],
        wantMsg=['畢業證書已可領取。', '照片傳給我。我要傳給你爸。'], msgAt={'畢業證書已可領取。': ('2030-06-17', 10.0, 0.1), '照片傳給我。我要傳給你爸。': ('2030-06-17', 12.0, 0.1)},
        jsok=[('「框裝上了」在領證書之後、落在 6/18 以後的那一跳', CERTORD, lambda r: isinstance(r, dict) and r['a'] >= 0 and r['b'] > r['a'] and (r['d'] or '') >= '2030-06-18'), LAND('2030-06-17', 10.0)])
@@ -3408,7 +3409,8 @@ R43 = [
        steps=[('pguntil', '2029-06-02', 13.9, 3600)], pref=['不去了'], asks={'*': ''}, want=ZRV, order=ZRV + [TASSEL], none=ZRV_VOID, cflags=['PG_ZR_VIDEO'], eqflags={'PG_ZR_VIDEO': True},
        jsok=[('視訊那一句演在 10:30 前後（家人那一段）', "(window.__LOG||[]).filter(x=>x.t===%s).map(x=>x.h)" % json.dumps(ZRV[0]), lambda L: bool(L) and all(10.25 <= h <= 10.75 for h in L))]),
   # ⑨ 沛珊交往中：2030-06（台南）那一格＝「說好的，運河一圈。……」（5/26 起跳，6/1（六）10:30）
-  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS,
+  dict(id='PGF9_PS', minimal=True, key='2030-05-26', h=12.0, zone='campus', pos=PGPOS, flags=dict(TW3), js=PGJ + PSJS + NOKX,   # BB-B 10-30：最小存檔預設和可昕交往中＝6/1 被可昕的政大出遊佔走、多重交往選單跳出來（r43_ps 第一次＝探針）
+      
        steps=[('pguntil', '2030-06-01', 12.0, 2400)], pref=['出發'], asks={'*': ''}, want=[PS06], none=[PS04],
        jsok=[LAND('2030-06-01', 8.5, 0.3, '該問「出發」：10:30 減高鐵 1:45、再減 15 分鐘'), ('PG_DATE_classmate_peishan 有 2030-06', "GAME.G.flags.PG_DATE_classmate_peishan||[]", lambda L: isinstance(L, list) and '2030-06' in L)]),
   # ⑩ 學姊前任：6/2 中午「畢業快樂。」→ 19:30 家族群組 Kevin 那一則選「傳一句生日快樂」→ 她只回「謝謝。」
