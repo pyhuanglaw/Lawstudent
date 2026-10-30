@@ -34,7 +34,7 @@
 | v9.10.11 | `c8b9659e5`（PR [pyhuanglaw/Lawstudent#17](https://github.com/pyhuanglaw/Lawstudent/pull/17)；遊戲檔案＝候選 rc2 `6aebbb4d8`＋版本字樣） | 2026-10-27 22:34:37 UTC | v9.10.10 `b9044511` |
 | v9.10.12 | `d5ca27b89`（PR [pyhuanglaw/Lawstudent#18](https://github.com/pyhuanglaw/Lawstudent/pull/18)；遊戲檔案＝發布樹 `96358789f`＝候選 rc3b `d6694cad0`＋版本字樣） | 2026-10-28 04:46:30 UTC（run 40634003965） | v9.10.11 `c8b9659e5` |
 | v9.10.13 | `37603ad6a`（PR [pyhuanglaw/Lawstudent#19](https://github.com/pyhuanglaw/Lawstudent/pull/19)；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣；LAWWW-B 接班完成發布） | 2026-10-30 02:11:54 UTC（run 40990069412） | v9.10.12 `d5ca27b89` |
-| v9.10.14 | （發布中；PR head＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | — | v9.10.13 `37603ad6a` |
+| v9.10.14 | `271cd2305`（PR [pyhuanglaw/Lawstudent#20](https://github.com/pyhuanglaw/Lawstudent/pull/20)；遊戲檔案＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | 2026-10-30 07:52:40 UTC（run 41022443245） | v9.10.13 `37603ad6a` |
 
 ---
 
@@ -48,7 +48,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.14（發布中，2026-10-30 07:5x UTC）——快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不再一直約
+## v9.10.14（2026-10-30 07:49 UTC 合併 `271cd2305`，PR #20；GitHub Pages 部署 run 41022443245 07:52:40 成功）——快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不再一直約
 
 **候選**：開發分支 `b38b112a8`（之後開發分支只多 docs／wip_backup，`git diff b38b112a8 9293c245d -- src tests assets lib` 為空）。
 
@@ -64,6 +64,13 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 **LAWWW 發布前檢查**：
 - 發布樹乾淨 worktree 全部 Node 734 支、失敗 0。
 - check_orphans、check_lines 有跑，列出的是還沒整合的企劃和相近句，沒有這一版該有卻漏掉的。
+
+**發布**：main `271cd2305`（PR #20 的合併 commit；head＝`89fd7612e`＝發布樹＋發布紀錄）。
+
+**發布後**：
+- 合併 main 回開發分支（`23ecdb2ed`）；這次發布樹就是開發分支本身，不用換回開發檔。
+- 下一版的整合分支 postrel-1030 合進開發分支（`b576263b6`），改名接著合進（`ba315523b`）。
+- BB-B 在 main 跑 deploy_check 和剩下的情境（結果補在下面）。
 
 **這版有的（v9.10.13 以後，玩家玩得到的）**：
 - 💾 快速存檔獨立一格（X126）：右上 💾 存到「快速存檔」那一格，不再蓋掉自動存檔。存檔頁可以讀，上一份快速存檔留作備份。
