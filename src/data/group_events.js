@@ -41,7 +41,7 @@ const GROUP_EVENTS=(function(){
       {label:'w'},{if:kn('yu'),speaker:null,text:'（水真的很冷。Alison 在後面笑到蹲下。）'},{goto:'back'},
       {label:'s'},{if:kn('heroine_03'),speaker:null,text:'（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'},
       {label:'back'},{scene:'車上',bg:'car_night'},{speaker:null,text:'（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）'} ],
-    consequences:{memo:'大二的春假：開車載麵店團去小鎮的市場和海邊'},
+    consequences:{memo:'大二的春假：開車載阿哲他們去小鎮的市場和海邊'},
     outingMissed:G=>{ const g=G1(); if(g) g.springPhoto(G); } },
   /* 和可昕的那一趟（BB_97 9-12；AA_324 第 2 節：到了的假設題拿掉，換成她到了以後的一句）。出發、回程照大一那一趟（BB_96 9-5 的流程）。記 KX_TRIP.Y2S2 */
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,

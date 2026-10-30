@@ -485,10 +485,10 @@ const Y2R2=(function(){
   /* ==================== AA_342 第 2-2 節：大二下的空白（第①級；AA-C 定稿，句子照抄；AA_375 第 4 節提醒還沒進遊戲）====================
      「典型玩家」（AA_342 檔首）：在麵店團群組；不設 FRIEND 門檻。週四的麵店＝麵店團的時段（17:30～21:00），只演一次 */
   const ndl=G=>law(G)&&inGroup(G,'noodle_team');
-  EV.push({ id:'ev_y2s2_thu_noodle_first', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[1,2,3], weekday:[4], time:[17.5,21], once:true, background:'blur',   /* 第 1 週 2/25：這學期第一次週四進麵店（第 3 週以前）*/
+  EV.push({ id:'ev_y2s2_thu_noodle_first', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[1,2,3], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 1 週 2/25：這學期第一次週四進麵店（第 3 週以前）*/
     prereq:{custom:ndl},
     dialogue:[ {speaker:null,text:'（大二下第一次在麵店遇到大家。阿姨說，過年胖了的人自己知道。）'} ] });
-  EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7], weekday:[4], time:[17.5,21], once:true, background:'blur',   /* 第 7 週 4/8：春假回來第一次週四進麵店 */
+  EV.push({ id:'ev_y2s2_thu_noodle_spring', title:'', participants:[], location:'noodle', trigger:'enter', term:['Y2S2'], weeks:[7], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'blur',   /* 第 7 週 4/8：春假回來第一次週四進麵店 */
     prereq:{custom:ndl},
     dialogue:[ {speaker:null,text:'（春假回來以後，第一次在麵店遇到大家。每個人都在講自己這幾天去了哪裡。）'} ] });
   S.fillRules=function(G,GM){ if(!law(G)||!hasP()||!G.flags) return;

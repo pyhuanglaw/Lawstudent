@@ -1697,7 +1697,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'雨停的空檔，大家在堤防上排成一排拍照。'},
       {if:EV_KNOWS('yu'),speaker:null,text:'第二天早上，阿哲睡過頭，Alison 在門外敲了五分鐘。'},{unless:EV_KNOWS('yu'),speaker:null,text:'第二天早上，阿哲睡過頭。'},
       {speaker:null,text:'民宿老闆很熱情，每個人多拿了一顆茶葉蛋。'} ],
-    consequences:{memo:'春假：和麵店團去海邊的小鎮（兩天一夜）'},
+    consequences:{memo:'春假：和阿哲他們去海邊的小鎮（兩天一夜）'},
     afterOuting:async(G,GM,q)=>{ if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,q.day+1,16.5); } },
   /* 春假留在宿舍（交接包 v2 C9）：選了留在宿舍的玩家，4/3 白天走進宿舍時出現一次（AA 71186c7）*/
   { id:'ev_spring_dorm_empty_y1', title:'春假', participants:[], location:['dorm','dorm_hall'], trigger:'enter', once:true, background:'freeze',
@@ -1850,7 +1850,7 @@ const STORY_EVENTS=[
     prereq:{flags:['met_yu']},
     dialogue:[ {speaker:null,text:'阿哲出現，帶著兩杯豆漿。'},{speaker:'zhe',expression:'smile',text:'剛好路過。'},{speaker:'yu',expression:'neutral',text:'你宿舍又不在這邊。'},/* AA_209 附錄A §2（阿哲住 203，AA_208）*/{speaker:'zhe',expression:'neutral',text:'……剛好路過。'} ],
     consequences:{stamp:['yu2SoymilkDay']} },
-  { id:'ev_yu_sign_seat', title:'她每次都坐阿哲旁邊', participants:['yu','zhe'], location:'noodle', trigger:'enter', term:['Y1S2'], weeks:[13,14,15], weekday:[2,4], time:[17.5,21], once:true, background:'freeze',
+  { id:'ev_yu_sign_seat', title:'她每次都坐阿哲旁邊', participants:['yu','zhe'], location:'noodle', trigger:'enter', term:['Y1S2'], weeks:[13,14,15], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,21], once:true, background:'freeze',
     prereq:{flags:['met_yu'],custom:G=>G.flags.noodleTableDay!=null&&typeof STORY!=='undefined'&&!!STORY.noodleDay&&STORY.noodleDay(G.day)},
     dialogue:[ {speaker:null,text:'Alison 每次都坐阿哲旁邊。'} ],
     consequences:{stamp:['yu2SeatDay']} },

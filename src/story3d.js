@@ -396,7 +396,7 @@ const STORY = (function(){
     const tp=!!(c&&c.presence&&S.presence(c.id,G).kind==='taipei');   /* 在臺北、不在台大（BB_163）：只用標了 taipei 的那幾筆作息（taipei:'both'＝兩種時候都用）、不跟課表 */
     if(!tp){ const cc=S.classmateClass(c,G); if(cc) return cc; }   /* 同班同學：必修課的時間在那間教室（使用者 2026-10-15：以安也是大一，課要跟我一樣） */
     const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
-    const hit=ent=>{ if(!((ent.termDays&&T&&ent.termDays[T.id])||ent.days).includes(wd)) return false; if(ent.holOff&&hol) return false;   /* termDays：某一學期換星期（以安 D09 大四上 11/12 週日，AA_509 0-2 第 9 點）；holOff：國定假日、春節不在（寒暑假照常，子晴的工作室）*/ let A=null; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; A=a; } else if(ent.actHours) return false;   /* actHours：時間照那個活動的 t0～t1（學姊在社團博覽會：日期、時間都讀 activities.js，SIS-EXPO-PRESENCE-1027）*/   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.noExam&&T&&T.exam) return false;   /* noExam：考試週不在（麵店團考試週不去麵店，AA-B 10-30 14:25 回 A；和 S.noodleDay 同一個 term.exam）*/ { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.notDates&&S.inDates(G,ent.notDates)) return false;   /* notDates：這幾段日子不在（含頭尾；芷若 2027-06-04～09-02 不上班，AA_375 第 1 項）*/ if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.actHours&&A?A.t1:ent.to, from=ent.actHours&&A?A.t0:ent.from;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=from&&hr<to):(hr>=from||hr<to-24); };
+    const hit=ent=>{ if(!((ent.termDays&&T&&ent.termDays[T.id])||ent.days).includes(wd)) return false; if(ent.holOff&&hol) return false;   /* termDays：某一學期換星期（以安 D09 大四上 11/12 週日，AA_509 0-2 第 9 點）；holOff：國定假日、春節不在（寒暑假照常，子晴的工作室）*/ let A=null; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; A=a; } else if(ent.actHours) return false;   /* actHours：時間照那個活動的 t0～t1（學姊在社團博覽會：日期、時間都讀 activities.js，SIS-EXPO-PRESENCE-1027）*/   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.noExam&&T&&T.exam) return false; if(ent.ndlDay&&!S.noodleDay(G.day)) return false;   /* ndlDay：只在麵店日（AA_542 第 5 節；朋友在麵店的作息）*/   /* noExam：考試週不在（麵店團考試週不去麵店，AA-B 10-30 14:25 回 A；和 S.noodleDay 同一個 term.exam）*/ { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.notDates&&S.inDates(G,ent.notDates)) return false;   /* notDates：這幾段日子不在（含頭尾；芷若 2027-06-04～09-02 不上班，AA_375 第 1 項）*/ if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.actHours&&A?A.t1:ent.to, from=ent.actHours&&A?A.t0:ent.from;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=from&&hr<to):(hr>=from||hr<to-24); };
     const L=(c.daily_schedule||[]).filter(ent=>tp?!!ent.taipei:ent.taipei!==true); for(const ent of L) if(ent.pri&&hit(ent)) return actEnt(ent);   /* pri：比有 terms 的作息還優先（學姊在社團博覽會）*/
     if(S.SCHED_WITH&&c&&c.id){ const w=S.SCHED_WITH(c,G,hit,L,T); if(w) return w; }   /* 女主角的圈子（src/hcircle3d.js，HEROINE-CIRCLE3D-1028）：她的作息那一筆帶 with、那一列成立的時候，同伴自己的作息不在那一區＝跟著她（上課、約好的時間、出遊、pri 照舊優先）*/
     for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
@@ -1038,8 +1038,13 @@ const STORY = (function(){
      玩家的「坐下吃麵」坐南側）；進店時已經在吃（先套好坐姿）；19:00 起身走到門口才離開；路人沒有名字（有名字的人照各自的日程）。 */
   const NDL_SEATS=[[-3,-0.3,0],[3,-0.3,0],[-3,1.3,Math.PI],[3,1.3,Math.PI]];
   const NDL_ALL=NDL_SEATS.concat([[0,-0.3,0],[0,1.3,Math.PI]]);   /* 六個位子全部（中間那張桌是阿哲、麵店團常坐的）*/
-  /* 麵店日：上課週（不是考試週、不是國定假日）的週二、週四 */
-  S.noodleDay=function(day){ if(typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(day).wd, t=CALENDAR.termOf(day); return (wd===2||wd===4)&&CALENDAR.kind(day)==='term'&&!!t&&!t.exam; };
+  /* 麵店日（AA_542 第 5 節：麵店團縮小成背景，使用者 10-30 X144）：朋友有時會在麵店，不固定哪幾天。
+     每個上課週從週一到週五挑兩天（學期＋週次當種子，固定挑法，讀檔不會變），兩天裡至少一天是週二或週四（語彤顧店的日子）；
+     考試週、國定假日（挑到就不算、不補）、寒暑假沒有。原本＝每週二、四。測試：node tests/ndl_group_unit.js */
+  const NDL_PAIRS=[[1,2],[1,4],[2,3],[2,4],[2,5],[3,4],[4,5]];
+  S.ndlFirstOfWeek=function(day){ if(!S.noodleDay(day)) return false; const wd=CALENDAR.dateOf(day).wd; for(let k=1;k<wd;k++) if(S.noodleDay(day-k)) return false; return true; };
+  S.ndlPair=function(t){ let h=2166136261; const k=t.id+':'+t.week; for(let i=0;i<k.length;i++){ h^=k.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return NDL_PAIRS[h%NDL_PAIRS.length]; };
+  S.noodleDay=function(day){ if(typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(day).wd, t=CALENDAR.termOf(day); if(!t||t.exam||CALENDAR.kind(day)!=='term') return false; return S.ndlPair(t).includes(wd); };
   /* 朋友的吃飯群組（noodle_team；id 照舊，AA_542 第 2 節：麵店團縮小成背景，使用者 10-30 X144）：
      名字「法一吃飯」，大二、大三、大四上課第一天 12:00 阿哲改名（法二、法三、法四）；畢業以後、延畢的大五停在「法四吃飯」。
      原本傍晚 17:30 的定時揪人（NDL_PINGS）、連三次沒來的追問（AA_469「你最近都沒來 還好嗎」）拿掉（2-3）。測試：node tests/ndl_group_unit.js */
@@ -1099,8 +1104,9 @@ const STORY = (function(){
     return false; };
   S.ndlTalkDue=function(G,other){ const F=G.flags||{}; if((G.stage||'law')!=='law'||G.zone!=='noodle'||!S.noodleDay(G.day)||F.abroad) return false; const hh=h(G); if(hh<17||hh>=21) return false;
     if(F.ndlTalkDay===G.day||typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')||!S.ndlTalkPick(G)) return false;
+    { const t=CALENDAR.termOf(G.day); if(t&&F.ndlTalkWk===t.id+':'+t.week) return false; }   /* 一週最多一則（AA_542 第 4 節：背景就是偶爾聽到）*/
     return other===false?true:!S.ndlOtherDue(G); };
-  S.ndlTalk=async function(GM){ const G=GM.G, F=G.flags, p=S.ndlTalkPick(G); if(!p) return false; F.ndlTalkDay=G.day;
+  S.ndlTalk=async function(GM){ const G=GM.G, F=G.flags, p=S.ndlTalkPick(G); if(!p) return false; F.ndlTalkDay=G.day; { const t=CALENDAR.termOf(G.day); if(t) F.ndlTalkWk=t.id+':'+t.week; }
     const N=F.ndlTalkN&&typeof F.ndlTalkN==='object'?F.ndlTalkN:(F.ndlTalkN={}); if(!p.e.pri) N[p.k]=p.i+1; if(p.e.once){ const O=F.ndlTalkOnce&&typeof F.ndlTalkOnce==='object'?F.ndlTalkOnce:(F.ndlTalkOnce={}); O[p.e.once]=G.day; }
     const here=(p.e.who&&p.e.who.length)?p.e.who:NDL_REGULARS.filter(id=>S.knows(id,G)&&S.ndlHere(G,id));   /* 旁白沒有點名的那幾則：長桌上認識、而且在店裡的麵店團 */
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ if(ADV.preload) ADV.preload(p.e.who||[]); if(ADV.begin) ADV.begin({background:'blur'}); } await EVENTS.runLines(p.e.dialogue||[],{id:'ndl_table_'+p.k+'_'+(p.i+1)}); }
@@ -1108,20 +1114,11 @@ const STORY = (function(){
     if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) for(const id of here) SOCIAL.activity(id,'classmate');
     return true; };
   let ndlTalkBusy=false, ndlTalkSeen=null;
-  /* 考試週的麵店（AA-B 10-30 14:25 回 A）：麵店團考試週各自念書、不去麵店（characters.js 四人的麵店作息排除 term.exam）。
-     玩家在麵店團群組、考試週的週二、四 17:00～21:00 走進麵店：每個考試週第一次進門，阿姨一句（長桌為什麼空著），不用回。測試：node tests/ndl_present_unit.js 第 7 項 */
-  S.NDL_EXAM_AYI='這禮拜考試齁？你們那桌都沒來。';
-  S.ndlExamDue=function(G){ const F=G.flags||{}; if((G.stage||'law')!=='law'||G.zone!=='noodle'||F.abroad||typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(G.day).wd, t=CALENDAR.termOf(G.day);
-    if((wd!==2&&wd!==4)||!t||!t.exam||CALENDAR.kind(G.day)!=='term') return false; const hh=h(G); if(hh<17||hh>=21) return false;
-    if(typeof PHONE==='undefined'||!PHONE.inGroup(G,'noodle_team')) return false;
-    if(typeof HCIRCLE!=='undefined'&&HCIRCLE.row&&HCIRCLE.on){ const r=HCIRCLE.row('c504_3_3'); if(r&&HCIRCLE.on(r,G,'noodle')) return false; }   /* 同一次進門有 AA_504 3-1 第 8～9 週語彤顧店、阿姨幫忙那一場（「我可以煮。／妳坐著。」）就不說（AA-B 14:30）*/
-    return F.ndlExamAyi!==t.id+':'+t.week; };
-  S.ndlExamAyi=async function(GM){ const G=GM.G, t=CALENDAR.termOf(G.day); G.flags.ndlExamAyi=t.id+':'+t.week; await GM.say({name:'阿姨'},S.NDL_EXAM_AYI); };
+  /* 考試週的麵店：麵店團考試週不去麵店（characters.js 四人的麵店作息 noExam，AA-B 10-30 14:25 回 A）。阿姨那一句「這禮拜考試齁？你們那桌都沒來。」AA_542 第 7 節拿掉（沒有固定的日子，長桌空著不奇怪）*/
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:ndlTalkBusy']=()=>{ ndlTalkBusy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.ndlTalkTick=function(GM){ const G=GM.G; if(G.zone!=='noodle'){ ndlTalkSeen=null; return false; } if(ndlTalkBusy) return false;
     const n=GM.enterN|0; if(!ndlTalkSeen||ndlTalkSeen.n!==n) ndlTalkSeen={n,k:0}; if(++ndlTalkSeen.k<4) return false;   /* 走進來以後等兩秒（S.tick 每 0.5 秒一次）*/
     if((typeof EVENTS!=='undefined'&&EVENTS.running)||(typeof ADV!=='undefined'&&ADV.active)) return false;
-    if(S.ndlExamDue(G)){ ndlTalkBusy=true; S.ndlExamAyi(GM).catch(e=>console.warn('NDL_EXAM',e)).finally(()=>{ ndlTalkBusy=false; }); return true; }
     if(!S.ndlTalkDue(G)) return false;
     ndlTalkBusy=true; S.ndlTalk(GM).catch(e=>console.warn('NDL_TALK',e)).finally(()=>{ ndlTalkBusy=false; }); return true; };
   S.noodleOn=function(G){ if(typeof CALENDAR==='undefined') return false; const h=G.hour%24, wd=CALENDAR.dateOf(G.day).wd; return (wd===2||wd===4)&&CALENDAR.kind(G.day)==='term'&&h>=17.5&&h<19; };
@@ -1507,7 +1504,7 @@ const STORY = (function(){
   S.b106d2Done=function(G,id,k){ const F=G.flags; if(k){ if(!F.B106D2_SAID||typeof F.B106D2_SAID!=='object') F.B106D2_SAID={}; F.B106D2_SAID[k]=G.day; } if(!F.B106D2_LAST||typeof F.B106D2_LAST!=='object') F.B106D2_LAST={}; F.B106D2_LAST[id]=G.day; };
   /* BB_105 D4b、BB_106 日常 D1（女舍門口）：麵店團在大一女舍門口集合——以安住在大一女舍（BB_105 5-3a）。遊戲裡沒有這個集合，這裡定成：上課週的週二麵店日（S.noodleDay）19:00
      （D4b 以安「七點。你們遲到兩分鐘。」；給 AA 的問題），以安在臺北、你在麵店團群組、她已經報過名字 */
-  S.fdormGather=function(G){ if(G.weekday!==2||!S.noodleDay(G.day)) return false; const T=CALENDAR.termOf(G.day); if(!T||(T.id!=='Y1S1'&&T.id!=='Y1S2')) return false;
+  S.fdormGather=function(G){ if(!S.ndlFirstOfWeek(G.day)) return false;   /* 這一週第一個麵店日（AA_542 第 5 節；原本＝週二）*/ const T=CALENDAR.termOf(G.day); if(!T||(T.id!=='Y1S1'&&T.id!=='Y1S2')) return false;
     if(!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||!S.anNameTold(G)) return false; const pr=S.presence('heroine_01',G); return !(pr&&pr.here===false); };
   /* 這個人現在照作息不在學校（例：品妤大一下週二、四 18:00～22:00 在補習班櫃台）*/
   S.awayNow=function(id,G){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return false; const pr=S.presence(id,G); if(pr&&pr.here===false) return true; const e=schedEnt(c,G); return !!(e&&e.zone===null); };

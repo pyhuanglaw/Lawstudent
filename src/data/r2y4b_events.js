@@ -158,7 +158,7 @@ const R2Y4B_EVENTS=(function(){
       {scene:'高速公路',bg:'car_night'},
       {speaker:null,text:'（回程的高速公路。後座的人都睡著了。以安沒有睡，一直看窗外。）'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（小聲）……謝謝你開車。'} ],
-    consequences:{memo:'最後一個春假：開車載麵店團去宜蘭'},
+    consequences:{memo:'最後一個春假：開車載阿哲他們去宜蘭'},
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
   /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,

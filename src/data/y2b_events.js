@@ -68,7 +68,7 @@ const Y2B_EVENTS=(function(){
 
   const anAdminHeard=G=>!!(G.needed&&G.needed.shown&&G.needed.shown.an_admin!=null);   /* 大二上「這週的訊息」an_admin 發過＝聽過（story3d.js 的 S.neededRules 記 shown；AA_375 第 17 項）*/
   /* ---- 1B-04 以安新 12「媽媽的晚餐（二）」：大二下第 10～14 週，第一個週二或週四晚上的麵店（週四 20:00 她有公法讀書會：只到 19:30）---- */
-  const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[2,4], time:[17.5,20.5], background:'blur',
+  const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[1,2,3,4,5],ndlDay:true, time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'},custom:G=>knows('heroine_01',G)&&!(G.weekday===4&&((G.hour%24)+24)%24>=19.5)},
     dialogue:[ {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:G=>!anAdminHeard(G)},speaker:'heroine_01',text:'我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'},
       {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:anAdminHeard},speaker:'heroine_01',text:'上次那份公文，你還記得嗎？我後來陪他們寫了申覆。'},   /* AA_375 第 17 項：大二上 an_admin 發過的（聽過）不再當新消息講 */

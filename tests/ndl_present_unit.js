@@ -16,8 +16,8 @@ const at=(key,hh)=>{ H.fresh(key,hh,'noodle',{afternoonDone:true}); PHONE.join(H
 check('0. STORY.ndlHere、STORY.ndlHereAll 存在',typeof STORY.ndlHere==='function'&&typeof STORY.ndlHereAll==='function');
 if(typeof STORY.ndlHere!=='function') H.done();
 // 作息
-{ const bad=[]; for(const id of ['yu','classmate_bohan','classmate_xinci']){ const L=(CHARACTERS[id].daily_schedule||[]).filter(e=>e.zone==='noodle'&&J(e.days)===J([2,4])&&e.from===17.5&&e.to===20.5&&Array.isArray(e.terms)&&e.terms.length===8); if(L.length!==1) bad.push(id); }
-  check('1. Alison、柏翰、芯慈各有一筆麵店日長桌作息（週二、四 17:30～20:30、八個學期）',!bad.length,J(bad)); }
+{ const bad=[]; for(const id of ['yu','classmate_bohan','classmate_xinci']){ const L=(CHARACTERS[id].daily_schedule||[]).filter(e=>e.zone==='noodle'&&e.ndlDay===true&&e.noExam===true&&e.from===17.5&&e.to===20.5&&Array.isArray(e.terms)&&e.terms.length===8); if(L.length!==1) bad.push(id); }
+  check('1. Alison、柏翰、芯慈各有一筆麵店日長桌作息（麵店日 17:30～20:30、八個學期；AA_542 第 5 節：麵店日＝每週不固定兩天，ndlDay；考試週不去 noExam）',!bad.length,J(bad)); }
 // 1.
 { const G=at('2025-09-16',18); const here=TEAM.map(id=>[id,STORY.ndlHere(G,id)]);
   check('1. 9/16（二）18:00：麵店團四位都在店裡',here.every(x=>x[1]),J(here)); check('1. 閒聊照演',STORY.ndlTalkDue(G)); }
@@ -54,9 +54,6 @@ if(typeof STORY.ndlHere!=='function') H.done();
 { const notNoodle=k=>{ const G=at(k,18); return TEAM.filter(id=>{ const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.zone==='noodle'; }); };
   const ex=notNoodle('2025-10-21'), nm=notNoodle('2025-10-14');
   check('7. 期中週 10/21 18:00 四人都不在麵店（作息）；平常 10/14 四人都在',ex.length===0&&nm.length===4,J({exam:ex,normal:nm}));
-  const G=at('2025-10-21',18); const d1=STORY.ndlExamDue(G), talk=STORY.ndlTalkDue(G); H.said=[]; STORY.ndlExamAyi(GM); const said=J(H.said), d2=STORY.ndlExamDue(G);
-  const G2=at('2025-10-23',18); G2.flags.ndlExamAyi=G.flags.ndlExamAyi; const thu=STORY.ndlExamDue(G2);
-  const G3=at('2025-10-21',18); PHONE.leave&&PHONE.leave(G3,'noodle_team'); const G3g=PHONE.inGroup(G3,'noodle_team'); const noGrp=G3g?null:STORY.ndlExamDue(G3);
-  const G4=at('2025-10-14',18), norm=STORY.ndlExamDue(G4);
-  check('7. 10/21 進麵店：阿姨「'+STORY.NDL_EXAM_AYI+'」一次（不演長桌閒聊）；同一個考試週的 10/23 不再說；平常 10/14 沒有',d1===true&&talk===false&&/這禮拜考試齁？你們那桌都沒來。/.test(said)&&d2===false&&thu===false&&norm===false&&(noGrp===null||noGrp===false),J({d1,talk,said,d2,thu,norm,noGrp})); }
+  const G=at('2025-10-21',18); const talk=STORY.ndlTalkDue(G);
+  check('7. 10/21（期中週）進麵店：不演長桌閒聊；阿姨那句「這禮拜考試齁？……」AA_542 第 7 節拿掉（沒有 ndlExamDue）',talk===false&&typeof STORY.ndlExamDue==='undefined'&&typeof STORY.ndlExamAyi==='undefined',J({talk})); }
 H.done();
