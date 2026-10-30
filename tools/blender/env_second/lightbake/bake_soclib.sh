@@ -8,7 +8,7 @@
 #   筒燈＝面光源 0.13 m 見方往下照；荷葉上照燈＝荷葉頂面上方 0.35 m 的點光源（葉子擋住往下的光，只照天花板和四周）；檯燈＝燈頭下方的小面光源（暖色）。
 # 白天：天光＋下午的太陽（方位 200°）從西面、北面的玻璃帷幕進來；圓形天窗（soclib_skylight）只在白天那一張發光（--dayemit）。白天燈照樣開（圖書館）。
 #   亮度（10-30 試烘焙）：第一次天光 0.6、太陽 2.0、天窗 1.0——兩整面 5.6 m 高的玻璃帷幕，白天平均亮度 1.73（其他室內約 0.2），遊戲裡整片過曝 → 天光 0.12、太陽 0.9、天窗 0.4；
-#   白平衡、燈色調白一點（第一次晚上整間偏黃）。
+#   白平衡、燈色調白一點（第一次晚上整間偏黃）；第二次白天磨石子地偏奶油色、晚上偏咖啡色 → 白天 0.88,0.9,0.96、晚上 0.9,0.94,1.04（改前是淺灰地）。
 # --nolm（照舊即時光）：竹書架、長桌、椅子、書（幾千本）、金屬、白色小零件、窗框、發光面、螢幕、招牌板面。
 set -e
 SAMPLES=${1:-512}
@@ -30,7 +30,7 @@ EOF
 )
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/soclib_plain.glb" --out "$OUTDIR/soclib_interior.glb" \
   --lm "$TMP/sl" --url assets/models/env/second_ai/soclib_interior_lm --res "$RES" --samples "$SAMPLES" --hide glass --nolm "$NOLM" \
-  --sun "${SUN:-200,38,0.9}" --sky "${SKY:-0.12}" --dayemit "soclib_skylight=${SKYLIGHT:-0.4}" --daywb 0.95,0.94,0.9 --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell N,W
+  --sun "${SUN:-200,38,0.9}" --sky "${SKY:-0.12}" --dayemit "soclib_skylight=${SKYLIGHT:-0.4}" --daywb 0.88,0.9,0.96 --nightwb 0.9,0.94,1.04 --lights "$LIGHTS" --points "$POINTS" --daylights "${DAYL:-0.9}" --smooth 1 --shell N,W
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/sl" "$OUTDIR/soclib_interior_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/soclib_interior.glb" --out "$OUTDIR/soclib_interior.glb" --lm "$OUTDIR/soclib_interior_lm"
 cp "$TMP/sl.json" tools/blender/env_second/lightbake/soclib_interior_lm.json
