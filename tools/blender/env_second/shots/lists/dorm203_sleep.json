@@ -1,0 +1,85 @@
+{
+ "zone": "dorm",
+ "title": "宿舍 203：睡覺鏡頭、熄燈、梯子",
+ "state": {
+  "stage": "law",
+  "day": 45,
+  "flags": {
+   "KAI_MOVEIN": true
+  }
+ },
+ "views": [
+  {
+   "name": "s_on",
+   "label": "睡覺鏡頭（祐廷 L2）23:00｜燈還開著",
+   "hour": 23,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -0.835,
+    2.75,
+    0.705
+   ],
+   "look": [
+    -2.435,
+    1.85,
+    0.005
+   ],
+   "js": "GAME.E.player.obj.visible=false;"
+  },
+  {
+   "name": "s_off",
+   "label": "睡覺鏡頭（祐廷 L2）23:00｜熄燈（z.lightsOff(1)）",
+   "hour": 23,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -0.835,
+    2.75,
+    0.705
+   ],
+   "look": [
+    -2.435,
+    1.85,
+    0.005
+   ],
+   "js": "GAME.E.player.obj.visible=false;GAME.E.zone.lightsOff&&GAME.E.zone.lightsOff(1);"
+  },
+  {
+   "name": "r_off",
+   "label": "熄燈：整間（窗邊往門口）",
+   "hour": 23,
+   "pos": [
+    0,
+    -2.4
+   ],
+   "yaw": 3.1416,
+   "pitch": 0.38,
+   "js": "GAME.E.zone.lightsOff&&GAME.E.zone.lightsOff(1);"
+  },
+  {
+   "name": "ladder",
+   "label": "梯子和上床的開口（床尾擋板移到走道那一半）14:00",
+   "hour": 14,
+   "pos": [
+    0,
+    2.7
+   ],
+   "eye": [
+    -0.6,
+    1.9,
+    2.3
+   ],
+   "look": [
+    -2.6,
+    1.2,
+    1.0
+   ],
+   "js": "GAME.E.player.obj.visible=false;"
+  }
+ ]
+}

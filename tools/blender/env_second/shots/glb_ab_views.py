@@ -3,6 +3,7 @@
 清單（JSON）：{"zone": "gongguan", "state": {...讀檔用，可省略}, "views": [
    {"name": "arcade", "label": "騎樓往東", "hour": 15, "pos": [x, z], "yaw": 弧度, "pitch": 弧度}          ← 跟隨鏡頭（玩家站 pos，鏡頭在 (sin yaw, cos yaw) 那一側）
    {"name": "lane", "label": "巷子往東", "hour": 17.5, "eye": [x, y, z], "look": [x, y, z], "pos": [x, z]}  ← 固定鏡頭（E.cinematic；pos＝玩家站哪裡，載入附近的東西）
+   每個鏡頭可以加 "js": "…"：拍之前在頁面跑（例：GAME.E.zone.lightsOff(1)）
  ]}
 用法（repo 根目錄開 http server）：
   python3 tools/blender/env_second/shots/glb_ab_views.py <URL> <清單.json> <輸出資料夾> 改前=<網址路徑>:<本機 GLB>[,…] 改後=<網址路徑>:<本機 GLB>[,…]
@@ -51,6 +52,7 @@ async def main():
                     const h=v.hour!=null?v.hour:15; GAME.G.hour=h; E.applyTime(h);
                     if(v.eye){ E.cinematic(new THREE.Vector3(...v.eye),new THREE.Vector3(...v.look)); E.camera.position.set(...v.eye); E.cam.look=new THREE.Vector3(...v.look); E.camera.lookAt(E.cam.look); }
                     else { E.endCinematic&&E.endCinematic(); const C=E.cam; C.mode='follow'; C.yaw=v.yaw; C.pitch=v.pitch!=null?v.pitch:0.25; C.manualT=1e9; } })(%s)""" % json.dumps(v))
+                if v.get('js'): await pg.wait_for_timeout(3000); await pg.evaluate(v['js'])   # 拍之前在頁面跑一段（例：熄燈 GAME.E.zone.lightsOff(1)、藏起玩家；DORM-SLEEP-VISUAL-1030）
                 await pg.wait_for_timeout(9000)
                 await pg.screenshot(path=os.path.join(OUT, '%s_%s.png' % (vname, v['name'])))
                 print(vname, v['name'], errs[-1:], flush=True)
