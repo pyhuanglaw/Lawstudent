@@ -397,6 +397,7 @@ for ob in root.children_recursive:
 # 封閉的殼直接單面；開口的零件（牆面、葉片卡、薄板）補反面，看起來和原本一樣；玻璃照舊雙面；遊戲照名字接手的板面（*_FACE_*）不動網格
 # 開口但背面看不到的不補：書（書背朝走道，後面是書架背板）、天花板（只從下面看）
 _ss = L.single_side(root, keep=r'glass', nodup=r'^(soclib_books|soclib_ceiling|soclib_downlights|soclib_uplights)', skip=lambda ob: 'FACE' in ob.name)
+M['board'].use_backface_culling = True   # 招牌板面照舊單面（10-25 交的就是單面：板面朝閱覽室，從室內看）——lib2 10-27 起「只有 skip 的物件在用的材質照舊雙面」，不寫這行會變雙面（跟著南牆淡出時要畫兩次）
 print('{"single_side": %s}' % json.dumps({k: v for k, v in sorted(_ss.items(), key=lambda kv: -kv[1][1])}, ensure_ascii=False))
 st = L.export(OUT)
 info = dict(st, tris_by_object=dict(sorted(tris.items(), key=lambda kv: -kv[1])), columns=len(J['columns']), skylights=len(J['skylights']), seats=len(J['seats']),

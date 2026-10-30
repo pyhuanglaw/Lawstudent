@@ -347,17 +347,34 @@ if '--dark' in A:
 # ---- 5b. 夾在零件中間、烘出來全黑的面（白天、晚上兩張都 < 0.003：完全照不到光，只有被包住的面會這樣）：和看不到的面一樣，UV 收到同一個物件最大那一面的中心 ----
 # 為什麼（LIB-HALL-LM-1028）：方塊拼起來的牆、台座，兩塊接在一起的那一面夾在中間烘成黑的；正面在接縫是 T 形接頭（一邊有頂點、一邊沒有），
 # 畫的時候接縫露出一點一點的縫，就看得到後面黑的那一面——男一舍門廳第一次正式烘焙，門框上方一條條點狀黑線。收到最大那一面的中心以後，縫裡看到的是牆的顏色
+# 「全黑」要整面每一處都黑（10-30 改，BB-B n19）：原本只看面的中心，大的面中心剛好被東西擋住（貼著牆的講桌、閱覽桌底下）就整面收掉——
+#   博思 101、102 講台那面牆下半個三角形（28 m²）、社科圖地板的一半（330 m²），光照變成對角線那一條拉開來的光（講台前一塊深色的斜影、地板沒有柱子的影子）。
+#   現在和 lm_fix_hidden.py 的 lmmax 一樣：中心、角、邊的中點（往中心縮 20%），面積超過 8 個像素的再加一張格子（往中心縮 10%），取最亮的。
 def collapse_black(day, night, thr=0.003):
     n_all = 0
+    def px(u):
+        x = min(RES - 1, max(0, int(u.x * RES))); y = min(RES - 1, max(0, int(u.y * RES)))
+        return max(float(day[y, x].max()), float(night[y, x].max()))
     for o in objs:
         me = o.data; hs = HID[o.name]
         bm = bmesh.new(); bm.from_mesh(me); uv = bm.loops.layers.uv['LM']; bm.faces.ensure_lookup_table()
         vis = [f for f in bm.faces if f.index not in hs]
         if len(vis) < 2: bm.free(); continue
         def val(f):
-            cu = sum((l[uv].uv for l in f.loops), Vector((0, 0))) / len(f.loops)
-            x = min(RES - 1, max(0, int(cu.x * RES))); y = min(RES - 1, max(0, int(cu.y * RES)))
-            return max(float(day[y, x].max()), float(night[y, x].max()))
+            pts = [l[uv].uv.copy() for l in f.loops]; n_ = len(pts); c = sum(pts, Vector((0, 0))) / n_
+            smp = [c] + [p.lerp(c, 0.2) for p in pts] + [((pts[i] + pts[(i + 1) % n_]) / 2).lerp(c, 0.2) for i in range(n_)]
+            apx = sum(abs((pts[i].x - pts[0].x) * (pts[i + 1].y - pts[0].y) - (pts[i + 1].x - pts[0].x) * (pts[i].y - pts[0].y)) / 2 for i in range(1, n_ - 1)) * RES * RES
+            if apx > 8:
+                k = min(32, int(math.sqrt(apx)) + 1)
+                for i in range(1, n_ - 1):
+                    p0, p1, p2 = pts[0], pts[i], pts[i + 1]
+                    for a in range(k + 1):
+                        for b_ in range(k + 1 - a): q = p0 + (p1 - p0) * (a / k) + (p2 - p0) * (b_ / k); smp.append(c + (q - c) * 0.9)
+            best = 0.0
+            for u in smp:
+                best = max(best, px(u))
+                if best >= thr: break
+            return best
         big = max(vis, key=lambda f: f.calc_area())
         if val(big) < thr: bm.free(); continue
         c = sum((l[uv].uv for l in big.loops), Vector((0, 0))) / len(big.loops); n = 0
