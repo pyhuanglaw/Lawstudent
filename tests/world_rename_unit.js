@@ -66,6 +66,15 @@ ok(/WN\(n\.title\)/.test(game) && /WN\(n\.body\)/.test(game), '4d. 筆記（G.no
   ok(P.worldRen === 1 && G.msgs[0].text === '我在A館等你。' && G.msgs[1].text === '法律系：大二模擬法庭抽籤，法律系館A 201。' && G.msgs[2].text === 'B館一樓。' && P.q[0].text === '我從木柵大學過來。' && P.groups.a.name === '首都帝大法律系',
     '4f. 舊存檔手機：人物「A館」、系統「法律系館A 201」、群組名、還沒送的　' + JSON.stringify([G.msgs.map(m => m.text), P.q[0].text, P.groups.a.name])); }
 
+{ // 出遊：照 outings3d.js 的 S.rec 跑一次舊存檔（BB-B 10-30：G.outings 的 title／place／back 沒換）
+  const out = fs.readFileSync(path.join(ROOT, 'src/outings3d.js'), 'utf8'), m = out.match(/\n  S\.rec=G=>\{[\s\S]*?return G\.outings; \};/);
+  ok(!!m, '4g. outings3d.js 的 S.rec 有舊存檔出遊的一次換名（OUT_WORLDREN）');
+  if (m) { const ctx = { SOCIAL: { worldName: S.worldName }, S: {} }; vm.runInNewContext(m[0].replace(/^\n  S\.rec=/, 'S.rec='), ctx);
+    const G = { flags: {}, outings: [{ title: '去政大找可昕', place: '政大', back: '回到台大。', state: 'planned' }, { title: '家事調查官的演講（霖澤館 201）', place: '霖澤館 201' }] };
+    ctx.S.rec(G); const a = JSON.stringify(G.outings.map(q => [q.title, q.place, q.back || ''])); G.outings[0].title = '去政大找可昕'; ctx.S.rec(G);
+    ok(G.flags.OUT_WORLDREN === 1 && a === JSON.stringify([['去木柵大學找可昕', '木柵大學', '回到首都帝大。'], ['家事調查官的演講（法律系館A 201）', '法律系館A 201', '']]) && G.outings[0].title === '去政大找可昕',
+      '4h. 舊存檔出遊：標題、地點、回程字幕換正式名，只換一次　' + a); } }
+
 /* 5 */
 { require('./alison.js');
   const base = cp.execSync('git -C ' + JSON.stringify(ROOT) + ' log -1 --format=%H 8ad5272df^', { encoding: 'utf8' }).trim();   // 企劃線開始換名以前
