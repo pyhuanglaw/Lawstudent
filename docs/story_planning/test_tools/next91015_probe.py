@@ -717,7 +717,8 @@ async def libla(pg, cdp, run):
 
 
 LLSPOTS = [('1f_read', -0.2, 0.0, 0, -0.2, -2.0, '一樓閱覽區（長桌之間）'), ('1f_south', -0.2, 3.4, 0, -0.2, 8.0, '長閱覽桌旁邊往南看窗'),
-           ('counter', 3.2, 6.2, 0, 4.8, 5.3, '櫃台、入口'), ('2f_stacks', -1.6, -3.6, 1, -2.4, -6.0, '二樓書庫'), ('2f_read', 2.4, 4.2, 1, 2.4, 5.8, '二樓閱覽區')]
+           ('counter', 3.2, 6.2, 0, 4.8, 5.3, '櫃台、入口'), ('2f_stacks', -1.6, -3.6, 1, -2.4, -6.0, '二樓書庫'), ('2f_read', 2.4, 4.2, 1, 2.4, 5.8, '二樓閱覽區'),
+           ('1f_east', 1.0, 0.0, 0, 7.1, 0.0, '一樓東牆（LM-COLLAPSE 重烘）'), ('1f_stair', -2.2, 4.6, 0, -6.2, 4.8, '一樓樓梯兩邊的牆'), ('2f_stair', 0.6, 4.6, 1, -5.6, 5.2, '二樓樓梯口兩邊的牆')]
 
 
 def lum_stats(path):
@@ -756,7 +757,7 @@ async def lawlib(pg, cdp, run):
         rows.append((tg, 'person', '人站在長桌燈下（近拍）', p, stt))
     bad = [(r[0], r[2], r[4]) for r in rows if r[4].get('dark', 0) > 0.25 or r[4].get('white', 0) > 0.15]
     run.check('每張：黑（亮度 <12）不超過 25%、死白（>248）不超過 15%（細節看截圖）', not bad and all('err' not in r[4] for r in rows), J(bad or [(r[0], r[1], r[4]) for r in rows if 'err' in r[4]]))
-    run.check('五個鏡頭白天、晚上都站得到（二樓 lv1）', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
+    run.check('%d 個鏡頭白天、晚上都站得到（二樓 lv1）' % (len(LLSPOTS) + 1), all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
     for k in (1, 2):
         ok1 = await door_to(pg, cdp, run, 'wancai', '回法律系館B 大廳（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(4000)
         ok2 = await door_to(pg, cdp, run, 'lawlib', '再走進法律學院圖書館（第 %d 次）' % k, max_s=150); await pg.wait_for_timeout(8000)
@@ -1070,6 +1071,49 @@ async def soclm(pg, cdp, run):
         await pg.wait_for_timeout(3500); await shot_path(run, pg, 'boya_lectern_%s' % room)
 
 
+NDSPOTS = [('room', 0.0, 3.4, 0, 0.0, -4.0, '門口往裡看（整間）'), ('stove', 0.4, -1.6, 0, -2.0, -3.8, '煮麵台、湯鍋'), ('cab', 2.6, 0.5, 0, 4.6, -3.6, '櫃門那一面'),
+           ('tables', -3.2, 2.6, 0, 3.0, -1.0, '長桌、座位')]
+
+
+def rgb_stats(path):
+    try:
+        from PIL import Image
+        im = Image.open(path).convert('RGB'); im = im.resize((max(1, im.width // 4), max(1, im.height // 4))); px = list(im.getdata()); n = len(px)
+        r, g, b = (sum(q[k] for q in px) / n for k in range(3)); m = max(1.0, (r + g + b) / 3)
+        return {'rgb': [round(r), round(g), round(b)], 'warm': round((r - b) / m, 3), 'bOverR': round(b / max(1.0, r), 3)}
+    except Exception as e:
+        return {'err': str(e)[:80]}
+
+
+async def noodlm(pg, cdp, run):
+    # NOODLE-LM-1030：阿鳳麵店白天 12:00、晚上 20:00（麵店日 2025-09-30，麵店團在店裡的時間）；[前置] 直接讀檔在麵店裡
+    rows = []
+    for hh, tg in ((12.0, 'day'), (20.0, 'night')):
+        st, d = await P.base(pg, SAVE, '2025-09-30', hh, 'noodle'); await P.load(pg, cdp, st); await pg.wait_for_timeout(9000)
+        run.setup('[前置] 使用者存檔改到 %s %s 阿鳳麵店（出生點）' % (d['key'], tg))
+        lm = await pg.evaluate("(()=>{ let n=0, m=0; GAME.E.scene.traverse(o=>{ if(o.isMesh&&o.visible){ m++; const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(q=>q&&q.lightMap)) n++; } }); return {zone:GAME.G.zone, lightmapped:n, meshes:m}; })()")
+        run.check('%s：阿鳳麵店有接到光照貼圖（lightMap 的網格 > 0）' % tg, lm['zone'] == 'noodle' and lm['lightmapped'] > 0, J(lm))
+        ppl = await pg.evaluate("""(()=>{ const E=GAME.E; return (E.npcs||[]).filter(n=>n&&n.obj&&n.obj.visible!==false&&!n.hidden).map(n=>{ const x=n.obj.position.x, z=n.obj.position.z, sit=!!(n.seat||n.pose==='sit'||n.sitting);
+            return {id:n.charId||n.id, x:+x.toFixed(2), z:+z.toFixed(2), sit, ok:sit||!E.canStand||E.canStand(x,z,0.2,n.lv|0)}; }); })()""")
+        run.note('%s 店裡的人：%s' % (tg, J(ppl)))
+        if hh == 20.0:
+            run.check('晚上（麵店日 20:00）：店裡有人（麵店團、阿姨、客人）', len(ppl) > 0, J(ppl))
+        run.check('%s：站著的人都站在走得到的格子上（沒有被新模型擋住、沒有卡在桌子裡）' % tg, all(q['ok'] for q in ppl), J([q for q in ppl if not q['ok']]))
+        for key, x, z, lv, tx, tz, label in NDSPOTS:
+            p, stt = await ll_shot(pg, run, 'noodle_%s_%s' % (tg, key), x, z, lv, tx, tz)
+            cand = sorted([q for q in os.listdir(OUT) if ('noodle_%s_%s' % (tg, key)) in q], key=lambda q: os.path.getmtime(os.path.join(OUT, q)))
+            col = rgb_stats(os.path.join(OUT, cand[-1])) if cand else {'err': 'no file'}
+            rows.append((tg, key, label, p, stt, col)); run.note('%s %s：站 %s；亮度 %s；顏色 %s' % (tg, label, J(p), J(stt), J(col)))
+    bad = [(r[0], r[2], r[4]) for r in rows if r[4].get('dark', 0) > 0.25 or r[4].get('white', 0) > 0.15]
+    run.check('麵店每張：黑（亮度 <12）不超過 25%、死白（>248）不超過 15%（煮麵台、湯鍋不能整片黑；細節看截圖）', not bad and all('err' not in r[4] for r in rows), J(bad))
+    day = {r[1]: r[5] for r in rows if r[0] == 'day'}; night = {r[1]: r[5] for r in rows if r[0] == 'night'}
+    warm = [(k, day[k].get('warm'), night[k].get('warm')) for k in night if 'warm' in night[k] and 'warm' in day.get(k, {})]
+    run.note('白天／晚上的暖色（(R−B)/平均）：%s' % J(warm))
+    run.check('晚上不是整間被染成橘色：每個鏡頭晚上的暖色不比白天多 0.15 以上、B/R ≥ 0.7（日光燈白光；看截圖）',
+              bool(warm) and all(n - dd <= 0.15 for k, dd, n in warm) and all(night[k].get('bOverR', 0) >= 0.7 for k in night), J({'warm': warm, 'bOverR': {k: night[k].get('bOverR') for k in night}}))
+    run.check('鏡頭白天、晚上都站得到', all(r[3] for r in rows), J([(r[0], r[1]) for r in rows if not r[3]]))
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1121,7 +1165,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm, 'noodlm': noodlm}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
