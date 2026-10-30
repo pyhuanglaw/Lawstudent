@@ -1493,14 +1493,14 @@
    "id": "WIP-LAWWW-AA525-1030",
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
-   "state": "WIP",
+   "state": "已交付",
    "sha": "61c63ce81",
    "branch": "aa525-promises（子代理；D113 備份 wip_backup/aa525_1030.bundle，基準 6cee635ed）",
    "files": [
     "wip_backup/aa525_1030.bundle"
    ],
-   "todo": "AA_525 29 條做完（b179ed93b；新測試 aa525_promises 84 項 ALL PASS，基底 62 FAIL；全部 Node 734 支 0 失敗）；白名單加 AA_525 6081f725f；import_ladder／wish／date_lines 加 AA_525 疊改句並重產",
-   "next": "v9.10.14 發布後合：先合 AA_524 再合這條，ladder.js／date_lines.js／date_wish.js 衝突不要手解，合完三個 import 工具重跑；tc_schoolroad 背景等 BB 向使用者要圖",
+   "todo": "AA_525 重做＋AA_526 第 2 節（D15「……好。我記下來。」、3-11 KX.Y3S1 第二句撤回、1-1 ZQ_STICKER3、3-9 擴大到演過 ev_kexin_summer_plan_call、2-1 照舊）；aa525_promises_unit 修改前 FAILED 10 → ALL PASS 92；全部 Node 734／0",
+   "next": "v9.10.14 發布後在 AA_524 之後合；story_import_allow.json 的 AA_526 若 AA_524 也加了要合成一筆（兩筆 approved import_guard 會拒絕）；重跑 import_date_lines.py；SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "DL-AA-525；LAWWW-B 10-30 02:1x 派子代理"
   },
@@ -1509,7 +1509,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "55732a7e9",
+   "sha": "553a63b39",
    "branch": "aa524-promises（子代理；D113 備份 wip_backup/aa524_1030.bundle，基準 6cee635ed）",
    "files": [
     "wip_backup/aa524_1030.bundle"
@@ -1524,7 +1524,7 @@
    "role": "LAWWW",
    "task": "ACCEPTSOPEN-C-1027",
    "state": "WIP",
-   "sha": "409bac20f",
+   "sha": "e2a478f87",
    "branch": "aopen-r2（子代理；D113 備份 wip_backup/aopen_r2_1030.bundle，基準 9bc01f480）",
    "files": [
     "wip_backup/aopen_r2_1030.bundle"
