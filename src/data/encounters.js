@@ -120,7 +120,7 @@ const ENCOUNTERS={
     ENC_D13_KX:{who:'kexin',phone:['淡水那天，邵鈞回去一直問你是誰。']},
     ENC_D06_AN:{who:'heroine_01',lines:['上次在美術館。……你後來有看完那一區嗎？']},
     ENC_D12_YT:{who:'heroine_03',phone:['📷（迪化街的騎樓下，一雙正在包貨的手）','上次那張。']},
-    ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次麵店團一起去。']},
+    ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次叫大家一起去。']},
     ENC_D04_YU:{who:'yu',lines:['欸，上次那件外套，社團學姊最後買了另一件。……對，第三件。']},
     ENC_D06_BH:{who:'classmate_bohan',lines:['美術館那張長椅，我下個月還會去坐。']},   /* AA_313 5-5 的暫代句（AA-C 10-18 改稿找不到；AA_389 第 3 點：拿掉「阿哲問的話，就說我在總圖」的祕密感）*/
     ENC_D04_XC:{who:'classmate_xinci',lines:['上次那張小卡我有排到。']},   /* AA_209 附錄A §2 */

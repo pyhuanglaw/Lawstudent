@@ -263,7 +263,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'p3'},{speaker:'阿姨',text:'找不到就下次帶一張來。'},
       {label:'end'},
       {if:kn('yu'),speaker:'yu',text:'這是最後一頓了。'},
-      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下週二還是麵店。'},   /* AA_71 2-13 */
+      {if:kn('zhe'),speaker:'zhe',text:'這不是最後一頓。下禮拜還是麵店。'},   /* AA_71 2-13 */
       {set:{LAST_MEAL_Y4:'went'}} ],
     consequences:{memo:'期末最後一頓（麵店）'},
     outingMissed:G=>{ const r=R(); if(r) r.lastMealMissed(G); } },
@@ -323,7 +323,7 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_an_ny_sendoff', title:'紐約', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・出境',bg:'airport_departure'},
       {if:{custom:dating('heroine_01')},goto:'gf'},
-      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。大家站成一排。）'},
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},   /* AA_447 1-1：看過 2028-03-25 那一場的（送過機或日本路線一起出發）*/
@@ -335,7 +335,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'f1'},{speaker:'heroine_01',text:'……嗯。'},{speaker:null,text:'（她走進去。）'},{goto:'end'},
       {label:'f2'},{speaker:null,text:'（她走到一半，回頭揮了一下。）'},{goto:'end'},
       {label:'gf'},
-      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+      {unless:sawJP,speaker:null,text:'（桃園機場，出境的門口。大家站成一排。）'},
       {unless:sawJP,speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},   /* 她先跟大家說完，再轉過來；交往版的那幾句是大家看不到的時候說的（不演公開戀情）*/
       {unless:sawJP,if:kn('zhe'),speaker:'zhe',text:'要。'},
       {if:sawJP,speaker:null,text:'（桃園機場，出境的門口。兩年多前送她去日本，也是這個門口。）'},

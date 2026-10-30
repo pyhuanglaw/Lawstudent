@@ -45,7 +45,7 @@ const GROUP=(function(){
     return F.spring2AskAt==null||T(G.day,G.hour)>=F.spring2AskAt; };
   /* 選單（介面文字，照大一的寫法）：跟麵店團出去（在群組才有）／和可昕開車旅行（交往中才有）／留在宿舍／晚一點再決定（隔天同一時間再問）*/
   S.springPrompt=async function(GM){ const G=GM.G, F=G.flags, O=[];
-    if(grp(G)) O.push({t:'春假：跟麵店團出去',hint:'4/4，一天來回（你開車）',k:'noodle'});
+    if(grp(G)) O.push({t:'春假：跟阿哲他們出去',hint:'4/4，一天來回（你開車）',k:'noodle'});
     if(F.dating_kexin) O.push({t:'春假：和可昕開車旅行',hint:'4/3，一天來回',k:'kexin'});
     O.push({t:'春假：留在宿舍',k:'dorm'},{t:'晚一點再決定',hint:'明天再問',k:'later'});
     let i=O.length-1; GM.sceneBegin(); try{ i=await GM.choose(O.map(o=>({t:o.t,hint:o.hint}))); } finally { GM.sceneEnd(); }
@@ -54,7 +54,7 @@ const GROUP=(function(){
      沒去麵店團的群組照片。silent：4/1 以前沒回（'none'，可昕不回）*/
   S.springChoose=function(GM,k,o){ o=o||{}; const G=GM.G, F=G.flags, D=S.springDays(), kx=!!F.dating_kexin, g=grp(G); F.SPRING_Y2=k;
     const KX=(day,h,L,tag)=>PHONE.at(G,day,h,L.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag);
-    if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'臺北的家（先回家取車）',title:'春假：開車載麵店團',travel:'回家取車約 30 分鐘',travelH:0.5,back:'回到台北。'});
+    if(k==='noodle') plan(G,{id:'ndl_trip_y2s2',ev:'ev_spring_y2_noodle',day:D.trip,h:8,place:'臺北的家（先回家取車）',title:'春假：開車載阿哲他們',travel:'回家取車約 30 分鐘',travelH:0.5,back:'回到台北。'});
     if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'木柵大學校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到木柵大學接她',travelH:40/60,back:'送她回木柵大學，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     S.springPick(G,k,o);
@@ -82,7 +82,7 @@ const GROUP=(function(){
   S.springTrain=G=>S.springRiders(G).length>3;
   /* 麵店團出遊那天，去的人作息停掉（AA_375 第 14 項；story3d.js 的 schedEnt 先問這裡）：4/4 07:30～20:00（08:00 出發、一天來回）。柏翰的北投、以安的美術館那天不排 */
   S.tripAway=function(G,id){ const D=S.springDays(); if(!G||D.trip==null||G.day!==D.trip||!S.SPRING_TEAM.includes(id)) return null; const hh=((G.hour%24)+24)%24; if(hh<7.5||hh>=20) return null;
-    if(!S.springGoers(G).includes(id)) return null; return {zone:null,act:'out',away:'和麵店團去市場和海邊',days:[G.weekday],from:7.5,to:20,spring:true}; };
+    if(!S.springGoers(G).includes(id)) return null; return {zone:null,act:'out',away:'和阿哲他們去市場和海邊',days:[G.weekday],from:7.5,to:20,spring:true}; };
   S.springPhoto=G=>{ const D=S.springDays(); if(D.trip!=null&&grp(G)) PHONE.at(G,D.trip,21.5,[{th:NG,from:'yu',text:'📷（海邊。一排人站在堤防上，阿哲在最後面，還是最高。）'}],'y2s2_spring_photo'); };
   S.springPhone=function(G,GM){ const F=G.flags, D=S.springDays(); if(D.inv==null||G.day<D.inv||G.day>D.trip+1) return; const now=T(G.day,G.hour);
     if(grp(G)&&G.day<=D.dl&&now>=T(D.inv,21)){ const Y=msg(NG,'yu'), W=msg(NG,'heroine_03'), B=msg(NG,'classmate_bohan');
@@ -169,8 +169,8 @@ const GROUP=(function(){
     if(G.day<=d&&now>=T(d,17)&&!PHONE.sent(G,'y4_last_term_ask')){ rename(G,'最後一學期'); F.LAST_TERM_RENAMED=true;
       PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓 七點，長桌')],'y4_last_term_ask');
       if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
-    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'麵店團'); F.LAST_TERM_RENAMED=false;
-      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「麵店團」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
+    if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'法四吃飯'); F.LAST_TERM_RENAMED=false;
+      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「法四吃飯」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
   S.lastTermPhoto=G=>{ const d=DK(LT.d); if(G.flags.LAST_TERM_DINNER==null) G.flags.LAST_TERM_DINNER='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[Z('📷（長桌上的碗，跟大一的時候一樣多。）')],'y4_last_term_photo'); };
 
   /* ---------- 掛勾 ---------- */

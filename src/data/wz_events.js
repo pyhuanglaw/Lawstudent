@@ -207,7 +207,7 @@ const WZ_EVENTS=(function(){
 
   /* ========== 第 5 節的單一事件 ========== */
   /* WZ-B3 麵店團來看他穿圍裙（AA_420 7-1）*/
-  L.push(ev('ev_wz_b3','麵店團',{ participants:[ZHE], dialogue:[ N('門口的鈴響了五次。阿哲、Alison、以安、柏翰、芯慈，一個接一個走進來。'),
+  L.push(ev('ev_wz_b3','大家來了',{ participants:[ZHE], dialogue:[ N('門口的鈴響了五次。阿哲、Alison、以安、柏翰、芯慈，一個接一個走進來。'),
     {if:{flags:['ZHE_CALLS_GE']},speaker:ZHE,text:'哥！你真的穿圍裙！'},{unless:{flags:['ZHE_CALLS_GE']},speaker:ZHE,text:'{name}！你真的穿圍裙！'},
     {speaker:ZHE,text:'我以為你騙我們。……拍照拍照。'},
     {speaker:YU,text:'欸他真的會端盤子！我以為他會把蛋打在地上。'},

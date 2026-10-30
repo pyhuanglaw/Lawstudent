@@ -379,7 +379,7 @@ const PG=(function(){
     toAtLeast(GM,T('2030-10-01',21));
     const FR=L().FIRST_RETAKE||{}, items=[{th:'g:noodle_team',from:'player',text:'📷'+(late?(FR[F.RETAKE_STYLE]||Fi.late):Fi.me[S.path(G)])}];   /* AA_331 1a：2029 一試沒過的照 RETAKE_STYLE（cram／home／zhe）；交換延畢沒有＝補習班 */
     for(const [id,ph,t] of Fi.friends) if(S.at(G,id,'FAMILIAR')){ items.push(GR(id,'📷'+ph)); items.push(GR(id,t)); }   /* 認識的人才傳 */
-    if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','麵店團'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
+    if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','法四吃飯'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
     GM.sceneBegin(); try{ await GM.say(null,Fi.narr); } finally { GM.sceneEnd(); }
     F.FIRST_DAY_SEEN=true;
     if(GM.phoneThread) await GM.phoneThread('g:noodle_team');

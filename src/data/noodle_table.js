@@ -37,8 +37,8 @@ const NOODLE_TABLE={
   Y4:[
     {who:['zhe'],if:{term:['Y4S1']},dialogue:[{speaker:'zhe',text:'最後一年了。……不要那個表情，還有一整年。'}]},
     {who:['classmate_xinci'],dialogue:[{speaker:'classmate_xinci',text:'我在想畢業以後要不要搬出來住。……我還沒跟我媽說。'}]},
-    {who:['classmate_bohan'],if:{from:'2029-03-01'},dialogue:[{speaker:'classmate_bohan',text:'國考讀書會的表，我貼在群組了。不想讀的，週四也可以只來吃麵。'}]},
-    {who:['yu'],if:{term:['Y4S2']},dialogue:[{speaker:'yu',text:'欸，畢業以後還是要週二週四吃麵。誰先不來，誰請客。'}]},
+    {who:['classmate_bohan'],if:{from:'2029-03-01'},dialogue:[{speaker:'classmate_bohan',text:'國考讀書會的表，我貼在群組了。不想讀的，也可以只來吃麵。'}]},
+    {who:['yu'],if:{term:['Y4S2']},dialogue:[{speaker:'yu',text:'欸，畢業以後還是要來吃麵。誰先不來，誰請客。'}]},
     {who:[],dialogue:[{speaker:null,text:'牆上的紅紙又多了兩張，寫的是新菜。阿姨說價錢沒變。'}]},
     {who:['zhe'],dialogue:[{speaker:null,text:'阿哲把大家的碗疊起來，拿去櫃台。四年了，他每次都這樣，沒有人叫過他。'}]} ] };
 if(typeof window!=='undefined') window.NOODLE_TABLE=NOODLE_TABLE;

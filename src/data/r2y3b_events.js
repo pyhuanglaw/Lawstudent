@@ -33,7 +33,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('zhe','heroine_01'),speaker:'zhe',text:'這學期以安只吃一個月。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'一個月又三天。三月二十五號的飛機。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'那三月以前每一頓都要來喔。'},
-      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。週二、週四。'},
+      {if:kn('heroine_01','yu'),speaker:'heroine_01',text:'……好。我盡量。'},
       {if:{custom:G=>route(G)==='JP'&&knows('zhe',G)&&knows('heroine_01',G)},speaker:'zhe',text:'（轉向你）你也是。一個月又三天。'},   /* 日本路線多一句 */
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天週二。週四我不在店裡了。'},
       {if:kn('heroine_03','zhe'),speaker:'zhe',text:'她週四有自己的事了。'},
@@ -348,8 +348,8 @@ const R2Y3B_EVENTS=(function(){
       {label:'b'},{speaker:'heroine_01',text:'那沒照做的那一家，鄰居會怎麼看他？'},{goto:'end'},
       {label:'c'},{speaker:'heroine_01',text:'（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。'},
       {label:'end'},
-      {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到麵店團。）'},   /* AA_187 1-5 交往中的結尾 */
-      {speaker:'heroine_01',text:'這張不用傳給麵店團了。'},
+      {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到群組。）'},   /* AA_187 1-5 交往中的結尾 */
+      {speaker:'heroine_01',text:'這張不用傳到群組了。'},
       {set:{AN_TOWN_NOTICE:'there'}} ],   /* 法律：旁白不說這張通知是行政指導（AA_30 J2）*/
     outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
   const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,

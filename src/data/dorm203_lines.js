@@ -92,7 +92,7 @@ const DORM203_LINES=(function(){
         say('zhe','欸，你那件白襯衫可以借我嗎？'),
         say('zhe','……今天晚上有事。沒事啦，就是有事。'),
         {choice:[{text:'「拿去。」',goto:'lend'},{text:'「去哪？」',goto:'where'},{text:'「你穿你的球衣就好。」',goto:'jersey'}]},
-        {label:'where'},say('zhe','麵店團啦！……還有 Alison。好，你知道就好。'),   /* 稿：然後一樣借 → 接「拿去。」那一段 */
+        {label:'where'},say('zhe','吃飯啦！大家都在。……還有 Alison。好，你知道就好。'),   /* 稿：然後一樣借 → 接「拿去。」那一段 */
         {label:'lend'},{set:{R203_SHIRT:true}},nar('（他穿上，在鏡子前面站了很久。）'),say('zhe','會不會太正式？'),nar('（他看著鏡子，自己點了點頭。）'),say('zhe','……會。（他沒有脫下來。）'),{goto:'end'},   /* 第 6 節第 7 點：柏翰週六在總圖，阿哲自己回答 */
         {label:'jersey'},say('zhe','……也對。（他換了三件，最後穿了球衣出門。）'),
         {label:'end'} ],

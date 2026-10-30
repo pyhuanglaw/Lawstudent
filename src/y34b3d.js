@@ -479,7 +479,7 @@ const Y34B=(function(){
   const C=f=>({custom:f});
   const dAn=G=>dating(G,'heroine_01'), xAn=G=>exOf(G,'heroine_01'), hookAn=G=>G.flags.HOOK_AN_SENDOFF!=null;
   const team=G=>inGrp(G,'noodle_team');
-  const TEAM=[ {speaker:null,text:'（桃園機場，出境的門口。麵店團站成一排。）'},
+  const TEAM=[ {speaker:null,text:'（桃園機場，出境的門口。大家站成一排。）'},
     {speaker:'heroine_01',text:'（看了一下手錶）你們不用全部都來的。'},
     {if:C(()=>met('zhe')),speaker:'zhe',text:'要。'},
     {if:C(G=>JP(G)&&met('zhe')),speaker:'zhe',text:'兩個人都要傳照片'},
@@ -763,9 +763,9 @@ const Y34B=(function(){
     {if:C(()=>met('heroine_05')),speaker:null,text:'（語彤把手機給大家看。）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
-    {speaker:'zhe',text:'阿姨，三年前我說，我們週二週四都會來。'},
+    {speaker:'zhe',text:'阿姨，三年前我說，我們會常來。'},
     {speaker:'zhe',text:'我們有做到喔。（停了一下）……大部分有。'},
-    {speaker:'zhe',text:'今天剛好是週四。……以後不是週四也一樣，不用約，來就有人。'},
+    {speaker:'zhe',text:'……以後也一樣。想吃麵就來，遇到就一起坐。'},
     {speaker:'阿姨',text:'（舉起湯勺）明年也是。'},
     {speaker:'zhe',text:'我大一第一次來，點的是乾麵。'},
     {speaker:'阿姨',text:'你點的是餛飩湯，你記錯了。'},
