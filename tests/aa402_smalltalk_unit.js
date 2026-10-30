@@ -9,7 +9,7 @@ const cp=require('child_process');
 const {check}=H, J=JSON.stringify;
 const D=k=>STORY.dayOfKey(k);
 let doc=''; try{ doc=cp.execSync('git show 235cf61ac:"docs/story_planning/AA_402_柏翰芯慈大二起的閒聊_SMALLTALK.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-const AA497=new Set(['「永和到這裡要換一次車。我在車上可以看完一章。」','「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」','「以安的手帳跟我用的是同一款。我們兩個都沒說。」','「最後一堂課，我坐第一排。以安坐我旁邊。」',   /* AA_497 2-9 新加的四句 */
+const AA497=new Set(['「財金系的課跟法律系的撞了一堂，我改修晚上那一班。」'/* AA_547 第 4 節（原本「經濟系的課…」）*/,'「永和到這裡要換一次車。我在車上可以看完一章。」','「這學期雙主修的課沒有撞堂。……我把那一格空下來了。」','「以安的手帳跟我用的是同一款。我們兩個都沒說。」','「最後一堂課，我坐第一排。以安坐我旁邊。」',   /* AA_497 2-9 新加的四句 */
   '「以安不在，她的位子一直空著。我想把書放上去，又沒放。」','「國考跟研究所，我兩個都報了。本來想先實習再說的。」']);   /* AA_497 2-9 換掉的兩句 */
 const NEW=id=>SMALLTALK[id].filter(e=>typeof e==='object'&&e.term&&!/^Y1/.test(e.term[0]));
 check('0. 每一句都在稿裡（一字不差；AA_497 換的、加的句子不算這份稿）',!!doc&&[...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)).every(e=>doc.indexOf(e.t)>=0),J([...NEW('classmate_bohan'),...NEW('classmate_xinci')].filter(e=>!AA497.has(e.t)&&doc.indexOf(e.t)<0).map(e=>e.t)));
@@ -34,7 +34,7 @@ for(const [id,term,lines] of [
 { const L=termRun('classmate_bohan','Y4S2'); const o=once(L,'「國考讀書會的考古題，我排到七月了。」');
   check('2. 柏翰「國考讀書會的考古題…」：2029-03-01 以後',o.length===1&&o[0].day>=D('2029-03-01'),J(o)); }
 { const L=termRun('classmate_xinci','Y2S1'), L2=termRun('classmate_xinci','Y2S1',{},G=>{ G.events.done.ev_xinci_double=1; });
-  check('2. 芯慈大二上：沒有雙主修＝「永和過來要四十分鐘。」；有＝「改修晚上那一班。」',once(L,'「我每天早上七點的公車。永和過來要四十分鐘。」').length===1&&!once(L,'「經濟系的課跟法律系的撞了一堂，我改修晚上那一班。」').length&&once(L2,'「經濟系的課跟法律系的撞了一堂，我改修晚上那一班。」').length===1); }
+  check('2. 芯慈大二上：沒有雙主修＝「永和過來要四十分鐘。」；有＝「財金系的課……改修晚上那一班。」（AA_547 第 4 節）',once(L,'「我每天早上七點的公車。永和過來要四十分鐘。」').length===1&&!once(L,'「財金系的課跟法律系的撞了一堂，我改修晚上那一班。」').length&&once(L2,'「財金系的課跟法律系的撞了一堂，我改修晚上那一班。」').length===1); }
 { const E='「以安不在，她的位子一直空著。我想把書放上去，又沒放。」';   /* AA_497 2-9 換的句子 */
   const L=termRun('classmate_xinci','Y3S2'), L2=termRun('classmate_xinci','Y3S2',{EXCHANGE_ROUTE:'JP'}); const o=once(L,E);
   check('2. 芯慈「以安不在…」：3/25 以後；日本路線不說',o.length===1&&o[0].day>=D('2028-03-25')&&!once(L2,E).length,J(o)); }
