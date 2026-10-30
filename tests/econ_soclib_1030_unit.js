@@ -4,7 +4,7 @@
 //   0  讀稿、白名單（1a65846c5 approved）、新檔載得到、index.html 順序；稿 → 遊戲（第 2 節四張表的每一句與 when、四組打招呼、旁白、館員那一句、第 0 節兩句自我介紹）、
 //      遊戲 → 稿（ECONFR_SOCLIB 的每一句都在稿上；唐睿、韋綸的自我介紹＝events.js 現有那一句〔S.tangIntro／S.wlIntro〕）；第 1 節作息表每一列的時間、label 在稿上
 //   1  第 1 節作息（STORY.schedEnt）：每一列的學期、星期、時段在社科圖、label 照稿；時段外、別的星期、別的學期不在；品妤大一下週二週四照舊補習班；
-//      阿勳大三下 3/22 以前在、以後不在；唐睿只在品妤也在的晚上；韋綸只有考試週（calendar.js 的 exam）週四；大一上一個都不在；家豪不出現；
+//      阿勳大三下 3/22 以前在、以後不在、週三擲到 D2 的 15:20～15:45 照現有在社科院門口；唐睿只在品妤也在的晚上；韋綸只有考試週（calendar.js 的 exam）週四；大一上一個都不在；家豪不出現；
 //      寒暑假、國定（校定）假日一個都不在；每一筆都在社科圖的開館時間內
 //   2  走進社科圖（STORY.populate，真的座位 SL3.seatsOf）：第 4 節測試清單——大二上週一 19:30 品妤在長桌（SK12 那張，座位 16）；大三上週二 20:00、大三下週三 20:00
 //      品妤、唐睿同時在、不同位子（不同桌）；考試週週四 19:30 韋綸在（另一張長桌）；寒暑假、國定假日一個都不在
@@ -12,8 +12,9 @@
 //      前傳那一句之後出一次；一天最多一句、說完換打招呼輪流（本人＋館員那一句、照順序）；這一學期沒說完的不帶到下一學期；阿勳 MET_XUN、唐睿 tangIntro、韋綸 wlIntro；
 //      阿勳大三下 3/22 以前那一句、3/22 以後那一句在別處（校園）說一次；品妤 SK12 那四天不接；不新增訊息、邀約、事件
 //   4  舊存檔：沒有 ECON_SL、ECON_SL 壞掉都不丟例外
-// 修改前（3808792fe：git worktree 出這個 commit，只放進這支測試和新的白名單，ECONSL_DOCREPO 指這個 repo 實際跑過）：FAILED 52、PASS 13
-//   （PASS＝讀稿、作息表的時間在稿上、大一上不在、家豪不出現、寒暑假與假日不在、韋綸非考試週不在等「本來就不在」的項目；第 0、3 段找不到 ECONSL／ECONFR_SOCLIB）。修改後 ALL PASS（65 項）。
+// 修改前（3808792fe：git archive 出這個 commit 的 src、lib、index.html、tests，只換上這支測試和新的白名單，ECONSL_DOCREPO 指這個 repo 實際跑過）：FAILED 51、PASS 24
+//   （PASS＝讀稿五項、白名單〔用新的〕、作息表在稿上、三個前提，以及「本來就不在／照現有」的項目：表外時段、大一上、補習班、唐睿跟著品妤、家豪、寒暑假、假日、開館時間、
+//   點不到人所以「沒有自我介紹那一套」「不新增訊息」、校園照現有、SK12 不說閒聊）。修改後 ALL PASS（75 項）。
 // 用法：node tests/econ_soclib_1030_unit.js（在沒有 .git 的目錄跑，設環境變數 ECONSL_DOCREPO＝這個 repo 的目錄）
 'use strict';
 require('./alison.js');
@@ -60,11 +61,12 @@ const enter=(zone)=>{ const G=H.G; G.zone=zone; G.social=G.social||{};
   GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const ob=mkObj(); ob.position.set(x,0,z); const n={obj:ob,id,charId:id,beh:'idle',pose:(o||{}).pose,seat:(o||{}).seat||null,lv:0,name:id}; E.npcs.push(n); GM.npc[id]=n; talks[id]=(o&&o.talk)||(nn=>STORY.talkCharacter(id,nn)); return n; };
   GM.spawnNPC=(id,spec,x,z,o)=>{ const n=GM.spawnCharacter(id,x,z,o); talks[id]=o&&o.talk; return n; }; GM.removeNPC=id=>{ delete GM.npc[id]; }; GM.spawnExtra=()=>{}; GM.spawnRider=()=>{}; GM.knownIds=()=>[];
   warns.length=0; STORY.populate(zone,GM);
-  return {ids:Object.keys(GM.npc),seat:id=>GM.npc[id]&&GM.npc[id].seat,talk:async id=>{ H.said=[]; H.opts=[]; H.picks=['就這樣','就這樣','就這樣']; const f=talks[id]; if(!f) return null; await f(GM.npc[id]); await settle(); return H.said.map(s=>s.t); }}; };
+  return {ids:Object.keys(GM.npc),seat:id=>GM.npc[id]&&GM.npc[id].seat,talk:async id=>{ H.said=[]; H.opts=[]; H.picks=['就這樣','就這樣','就這樣']; const f=talks[id]; if(!f) return [];   /* 不在場＝什麼都沒說（修改前：每一項照樣算 FAIL，不在中途丟例外）*/ await f(GM.npc[id]); await settle(); return H.said.map(s=>s.t); }}; };
 /* 不經過 populate：直接放一個人在玩家旁邊、點他說話（同一天反覆點、換日子用）*/
 const talkNow=async(id)=>{ const ob=mkObj(); const n={obj:ob,id,charId:id,beh:'idle',pose:'read',seat:{x:0,z:0,yaw:0},lv:0,name:id}; GM.npc[id]=n; H.said=[]; H.opts=[]; H.picks=['就這樣','就這樣','就這樣'];
   await STORY.talkCharacter(id,n); await settle(); return H.said.map(s=>s.t); };
 const metHas=id=>SOCIAL.has(id,'FIRST_MET');
+const OWNS=(G,id,first)=>X()?X().owns(G,id,first):null;   /* 修改前沒有 ECONSL＝null（算 FAIL，不丟例外）*/
 
 /* ---------- 讀稿 ---------- */
 const SHA='1a65846c5', DOCF='docs/story_planning/AA_536_經濟系同學在社科院圖書館_作息與台詞.md';
@@ -273,14 +275,14 @@ await sec('3',async()=>{
     check('3. 韋綸：大二那一句（大二上沒說，大二下照樣可以說）→ 打招呼 → 大三那一句',J(a)===J([T('econ_weilun','Y2')])&&J(b)===J([P('econ_weilun').greet[0]])&&J(c)===J([T('econ_weilun','Y3')]),J([a,b,c])); }
   /* SK12 */
   { fresh('2027-12-21',20,'soclib',{MET_PINYU:true,SK12:true}); SOCIAL.remember('econ_pinyu','FIRST_MET','');
-    check('3. 品妤 SK12 那四天（12/20～23）在社科圖：這裡不接（照事件；閒聊不出）',!!X()&&X().owns(G0(),'econ_pinyu',false)===false&&['2027-12-20','2027-12-22','2027-12-23'].every(k=>{ at(k,20); return X().owns(G0(),'econ_pinyu',false)===false; }));
+    check('3. 品妤 SK12 那四天（12/20～23）在社科圖：這裡不接（照事件；閒聊不出）',OWNS(G0(),'econ_pinyu',false)===false&&['2027-12-20','2027-12-22','2027-12-23'].every(k=>{ at(k,20); return OWNS(G0(),'econ_pinyu',false)===false; }));
     at('2027-12-21',20); const s=await talkNow('econ_pinyu');
     check('3. （同上）點她不會說社科圖的閒聊、旁白',!s.some(t=>P('econ_pinyu').talk.some(e=>e.t===t)||t===L.narr),J(s));
     at('2027-12-27',20);
-    check('3. SK12 那週以後（12/27）照常接',X().owns(G0(),'econ_pinyu',false)===true); }
+    check('3. SK12 那週以後（12/27）照常接',OWNS(G0(),'econ_pinyu',false)===true); }
   /* 社科圖以外，其他三個人照現有 */
   { fresh(dayOfTerm('Y2S1',1),12,'campus',{MET_PINYU:true,MET_XUN:true}); for(const id of IDS) SOCIAL.remember(id,'FIRST_MET','');
-    const own=IDS.filter(id=>X().owns(H.G,id,false));
+    const own=IDS.filter(id=>OWNS(H.G,id,false));
     check('3. 社科圖以外（大二上的校園）：四個人都不接（照現有）',!own.length,J(own)); }
 });
 
