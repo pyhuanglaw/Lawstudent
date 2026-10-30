@@ -12,6 +12,7 @@
 //      6-5 4/25～6/7 拆兩張
 // 修改前（基準 acc883b3e＝v9.10.14 候選 b38b112a8 的遊戲檔：git archive 出 src、tests、lib、index.html，這支測試用新的，AA529_DOCREPO 指這個 repo）：
 //   FAILED 25、PASS 14（PASS＝讀稿、對照組、長版／E20 不加、7/16 有群組才收到等；第 2、3 節找不到 STORY.zoulaMigrate／zoulaGather 丟例外中斷）。修改後 ALL PASS（46 項）。
+// （2026-10-30 AA-FOLLOWUP-1030：AA_529 第⑤點——第 2 節的旁白改在地點字幕「在公館的路口散了。」之後（events.js afterBack），這一項加查字幕先後；第⑦點等見 tests/aa_followup_1030_unit.js）
 // 全部 Node 單元測試（tests/*_unit.js，2026-10-30）：735 支、結束碼不是 0 的 0 支。改了期待值的舊測試：econ_ff_unit（日期卡 28→29 句）、v0_gather_unit（最後一句是「回家的路上」）、rom1016_unit（K7 第 4 頁照 AA_529）。
 // 用法：node tests/aa529_econ_unit.js（在沒有 .git 的目錄跑，設環境變數 AA529_DOCREPO＝這個 repo 的目錄）
 'use strict';
@@ -69,7 +70,7 @@ const NEW65=quotes(S65)[0];
     const G=econ('2024-10-15',17,{},{zone:'campus'}); check('2. 前提：30 分鐘版（ECONFF.short）、10/15 17:00 還沒有「走啦」',ECONFF.short(G)&&!PHONE.inGroup(G,'econ_friends'));
     setAt(d15,17.6); ph(); const q=OUT.get(G,'y0_gather'); check('2. 17:30 排了聚會（OUT y0_gather）',!!q&&q.state==='planned');
     H.said=[]; capsAt.length=0; H.picks=['假裝沒看到']; setAt(d15,18.75); await OUT.go(GM,q); const L=H.said.map(s=>s.t);
-    check('2. 聚會演完、回家的路上：最後一句旁白「'+narr+'」（在「她走進女舍以前」之後；AA_529 第⑤點：在地點字幕「在公館的路口散了。」之後）',L[L.length-1]===narr&&L[L.length-2]==='（她走進女舍以前，回頭揮了一下手。）'&&capsAt.length===1&&capsAt[0][0]==='在公館的路口散了。'&&capsAt[0][1]===L.length-1&&G.flags.Y0_ZOULA==='gather',J([L.slice(-3),capsAt]));
+    check('2. 聚會演完、回家的路上：最後一句旁白「'+narr+'」（在「她走進女舍以前」之後；AA_529 第⑤點：在地點字幕「在公館的路口散了。」之後）',L[L.length-1]===narr&&L[L.length-2]==='（她走進女舍以前，回頭揮了一下手。）'&&capsAt.filter(c=>c[0]==='在公館的路口散了。').length===1&&capsAt.find(c=>c[0]==='在公館的路口散了。')[1]===L.length-1&&G.flags.Y0_ZOULA==='gather',J([L.slice(-3),capsAt]));
     check('2. 群組建好了（「走啦」），系統一則照原本 P2 的字',PHONE.inGroup(G,'econ_friends')&&PHONE.title(G,'g:econ_friends')==='走啦'&&sys==='系統：'+STORY.ZOULA_SYS);
     const t0=T(G.day,G.hour); PHONE.tick(G); const M=thr('g:econ_friends');
     check('2. 系統一則＋三則：照稿、照順序、說的人（韋綸、品妤、韋綸）、時間＝聚會演完（10/15 22:20 左右）',M.length===4&&M[0].text===STORY.ZOULA_SYS&&!M[0].from&&three.every((l,i)=>{ const [who,t]=sp(l), m=M[i+1]; return m&&m.text===t&&PHONE.who(m)===who; })&&M.every(m=>m.day===d15&&Math.abs(m.h-(22+1/3))<0.02)&&M.every(m=>m.tag==='econ_friends_new'),J(M.map(m=>[PHONE.who(m),m.text,m.day===d15,m.h])));
