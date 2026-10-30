@@ -10,6 +10,14 @@
 
 ## 交接（最新）——工作階段隨時可能因額度中斷（D45 緊急保存規則）
 
+**現況（帳號 B LAWWW-B，2026-10-30 07:4x UTC；帳號 B 七天額度已到警示 allowed_warning，2026-11-06 02:00 UTC 重置——隨時可能被切斷）**
+- 線上：v9.10.13（`37603ad6a`）。**v9.10.14 候選 `b38b112a8`（開發分支）**：快速存檔獨立一格、開新遊戲前備份、經濟系那一年不揪人等；等 BB-B 的 GO（relsuite15，預計 07:30 以後）；GO 才照帳號 C 的發布流程發布（release-tree commit → PR → 還原 → main 合回）。
+- **下一版整合分支 `postrel-1030`（本機；頂端 `dcf33a4e0`）**：不在遠端的正式位置（`origin/postrel-1030` 是 05:3x 誤推、停在 3808792fe 的舊版，清理候選），**完整內容在開發分支 `wip_backup/postrel_1030.bundle`**（`git fetch wip_backup/postrel_1030.bundle postrel-1030:postrel-1030`）。已合：AA_524～529、532／533、535／535b、536、531（含第 8 節、8-5）、538；宿舍睡覺畫面＋DORM203 光照、系外套穿上＋椅背、床欄透空、手機統一（直接過去、聯絡人）、約她選單分層、系籃（晴天球場有人、下雨改體育館）、教室名牌、經濟系同學在社科圖、Café 窗景 3D、NPC 卡門口、麵店團在場、快速存檔、備份保留。全部 Node：`4a4b0cd4a` 760／0（之後只加系外套房間兩句、Café 窗景，各自相關測試過）。
+- **v9.10.14 發布以後**：postrel-1030 合進開發分支 → 全部 Node → 派 BB 測 → 下一版。
+- **還在做（子代理，本機分支，D113 bundle 在 wip_backup）**：`world-rename-1030`（WORLD-RENAME-1030，D115 改虛構校名館名；基準 22b164d64；做完合進 postrel，跑 `tools/rename/scan_game.py --summary` 給 AA）。
+- 待 AA：芯慈可攻略（AA_537／537b）排在下一版合完以後實作。
+- 接手第一步：`check_handoff.py duty find` → 讀本節 → 從 bundle 取 postrel-1030、world-rename-1030 → 看 BB-B 的 BB_218 有沒有 GO。
+
 **交班（帳號 B LAWWW-B，2026-10-17 02:40 UTC，使用者正式換班）**：交出 `d11fc9d1`（之後只有交班紀錄 commit），快照 `docs/handoff/snapshots/2026-10-17T0240Z_B_LAWWW.json`；六類 A～F 在 `docs/HANDOFF_GAP_MATRIX.md` 第 1 節。沒有合併 main、沒有發布（線上 v9.9.1 `6d5c3279`）。下一班第一步：接班十四步後先做 QA-HANDOFF-B1（整套單元測試＋沒跑完的瀏覽器流程）。
 
 值班登記：帳號 B｜LAWWW-B｜session_01DvRVNNnivf7da7qqWuGmw6｜分支 claude/modest-rubin-2lyp7g｜接班基準 origin/claude/confident-ritchie-8rwh7t 的 c8b3eab（合併 commit 450ffdb）｜2026-10-15 23:02 UTC
