@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "22b164d64",
+   "sha": "ca39039fe",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1704,7 +1704,7 @@
    "role": "LAWWW",
    "task": "AA531-US-FIX-1030",
    "state": "WIP",
-   "sha": "492c39bd7",
+   "sha": "ca39039fe",
    "branch": "aa531-us（子代理；D113 備份 wip_backup/aa531_1030.bundle，基準 2eeb91a85）",
    "files": [
     "wip_backup/aa531_1030.bundle"
@@ -1758,6 +1758,36 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "系籃下雨改體育館；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-RENAME-1030",
+   "role": "LAWWW",
+   "task": "WORLD-RENAME-1030",
+   "state": "WIP",
+   "sha": "8c8c22dac",
+   "branch": "world-rename-1030（子代理；D113 備份 wip_backup/rename_1030.bundle，基準 22b164d64）",
+   "files": [
+    "wip_backup/rename_1030.bundle"
+   ],
+   "todo": "真實校名館名改虛構名（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "真實校名館名改虛構名；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-JACKET-1030",
+   "role": "LAWWW",
+   "task": "SK02-LINE-JACKET-1030",
+   "state": "WIP",
+   "sha": "96a4c5ef6",
+   "branch": "jacket-econ-1030（子代理；D113 備份 wip_backup/jacket_1030.bundle，基準 ca39039fe）",
+   "files": [
+    "wip_backup/jacket_1030.bundle"
+   ],
+   "todo": "系外套穿上與床欄透空（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "系外套穿上與床欄透空；LAWWW-B 10-30 派子代理"
   }
  ]
 }
