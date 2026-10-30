@@ -147,7 +147,7 @@ const WISH=(function(){
   S.sayInvite=async function(GM,id,lines,n){ const D=DT(); for(const ln of lines){ if(!ln||ln.who==='note') continue; if(ln.who==='narr'){ const tx=S.fill(ln.text); await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); } else await D.sayLines(GM,id,[S.fill(ln.text)],n); } };   /* 旁白不傳到手機 */
 
   /* ---------- 4. 那一天（date3d.js 的 S.scene：心願本人第一次去她的心願地點）---------- */
-  S.due=function(G,t){ const D=DT(); if(!D||!t||t.kind==='overnight'||!S.HEROINES_OK(t.who)) return false; const loc=(t.locs||[])[0], ev=S.ev(t.who); if(!ev||S.held(t.who)||ev.loc!==loc||D.wishOf(t.who)!==loc) return false; return !S.done(G,t.who); };
+  S.due=function(G,t){ const D=DT(); if(!D||!t||t.kind==='overnight'||!S.HEROINES_OK(t.who)||(D.wishTripOk&&!D.wishTripOk(t))) return false;   /* 芯慈：只有午夜場（DATE.MIDNIGHT）才是心願那一場 */ const loc=(t.locs||[])[0], ev=S.ev(t.who); if(!ev||S.held(t.who)||ev.loc!==loc||D.wishOf(t.who)!==loc) return false; return !S.done(G,t.who); };
   S.HEROINES_OK=id=>!!(DT()&&(DT().HEROINES||[]).includes(id));
   S.spot=async function(GM,t,ev,pid,who){ const G=GM.G, id=t.who, H=ev.hotspots[pid], li=S.pickIf(G,id,H.linesIf); await S.say(GM,id,li?li.lines:H.lines,who); if(H.memory) S.mem(id,H.memory); if(H.choices&&H.choices.length) await S.choose(GM,id,H.choices,who); };
   S.closing=async function(GM,t,ev,who){ const G=GM.G, id=t.who, C=ev.closing||{}, li=S.pickIf(G,id,C.linesIf); let L=((li?li.lines:C.lines)||[]).slice();
@@ -172,6 +172,7 @@ const WISH=(function(){
       if(spots.length===3&&HS.length>3&&D.speak) await D.speak(GM,id,'enough',t,{obj:null}); }   /* 第三個互動點之後她說一句「差不多了」（不分地點的句子，同一般約會）*/
     t.spots=spots; const m=D.mem(G,id,loc); m.last=spots.slice(); for(const p of spots) if(!m.picks.includes(p)) m.picks.push(p);
     if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(id,{fam:1}); t.status='cancelled'; if(!(D.speak&&await D.speak(GM,id,'leaveEarly',t,{obj:null}))) await GM.say(who,'……就這樣？'); return {counted:false}; }   /* 一個都沒做就走：同一般約會（不算次數、心願還沒完成，下次再去還是心願事件）*/
+    if(ev.fixedAfter){ const lf=(D.fixedOf&&D.fixedOf(loc))||null; await S.say(GM,id,ev.fixedAfter.lines||[],who); if(GM.advance) GM.advance(((ev.fixedAfter.minutes!=null?ev.fixedAfter.minutes:(lf&&lf.minutes))|0)/60); if(lf&&(lf.cost|0)>0&&GM.money) GM.money(-(lf.cost|0),L.name+' '+lf.label); }   /* 互動點之後的固定活動（芯慈的午夜場：先吃宵夜、選片，再看電影；AA_537b 8-2）*/
     await S.closing(GM,t,ev,who);   /* 收尾：心願場景，第一次一定播 */
     S.record(G,t,ev);
     return D.settle(GM,t,spots,pts,visits,m0); };   /* 結算照 AA_128 5-3（正式校外約會＋第一次心願的加成：DATE.settle 的 firstWish）*/

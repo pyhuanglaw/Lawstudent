@@ -169,11 +169,35 @@ const XCROM=(()=>{
   S.onAnswer=function(G,m,o){ if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
   S.phone=function(G){ for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.anBreak,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
   S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
+  /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
+     mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。
+     互動點只有 D04 的大廳、小吃（分鐘數、費用照 D04 一般約會），電影在互動點之後（fixedAfter）。演完記 XC_MIDNIGHT_DAY（隔天睡到十點）*/
+  const ME=t=>({who:XC,text:t}), NR=t=>({who:'narr',text:t});
+  const OTHERS=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'].map(id=>'dating_'+id);
+  S.WISH_EV={ id:'wish_'+XC, loc:'D04', title:'午夜場', source:'AA_537b 8-2', char:XC,
+    wish:'她每個禮拜六晚上都在西門町看七點那一場，一個人。她想看一次午夜場，可是一個人去，散場以後沒有捷運，她會覺得怪。',
+    rule:'慈 6 以後（XC_BLANK，G8）才約；兩個人都單身才約（她只接受一對一）；交往以後也可以去，算心願完成。',
+    record:{flag:'WISH_DONE_'+XC,memory:{tag:'XC_MIDNIGHT',text:'西門町的午夜場，散場以後沒有捷運'},album:'午夜場的票根兩張，日期印的是星期日（過了十二點）'},
+    herInvite:{if:{dateStage:{min:5},flags:['XC_BLANK'],notFlags:OTHERS},rule:'AA_537b 8-2',perTerm:1,message:{weekday:[5],time:[40/60,50/60]},dateWeekday:[6],dateTime:22.5,
+      lines:[ME('明天晚上，西門町的午夜場。'),ME('……我提前一天問了。你可以說不。')],accept:[ME('好。我買票。你不要遲到，午夜場不等人。')],decline:[ME('好。那我自己去。……不對，我不會自己去。')]},
+    playerInvite:{known:[ME('午夜場？……你記得。'),ME('好。散場以後沒有捷運，你要想好怎麼回去。')],unknown:[ME('西門町，晚上那一場？……你怎麼知道我想去。'),ME('好。')]},
+    arrive:{narr:'十一點半的西門町。店都還亮著，街上的人比白天少一半。',lines:[ME('我每個禮拜六都來這裡看電影。……都是晚上七點那一場。'),ME('午夜場，第一次。')]},
+    hotspots:{
+      'D04.lobby':{name:'電影院大廳（選午夜場的片）',minutes:20,cost:0,like:'like',lines:[ME('午夜場只有兩部。一部恐怖片，一部我沒聽過。')],
+        choices:[{t:'「看恐怖片。」',reply:[ME('好。……我先說，我會閉眼睛。')]},{t:'「看沒聽過的那部。」',reply:[ME('好。不知道結局的比較好看。……我以前不會這樣說。')]},{t:'「妳選。」',reply:[ME('我選了，你會不會覺得無聊。……算了，我選。')]}]},
+      'D04.snack':{name:'開演前的小吃攤（先買宵夜）',minutes:20,cost:80,like:'like',lines:[ME('散場是兩點。那時候什麼都關了。'),ME('所以要先吃。這是計畫。')],
+        choices:[{t:'「妳連這個都排了。」',reply:[ME('……嗯。可是只排到這裡。後面沒有排。')]},{t:'「我請。」',reply:[ME('好。下次換我。……我會記得是哪一次。')]}]} },
+    fixedAfter:{lines:[]},
+    closing:{title:'午夜場',lines:[NR('（午夜場散場，捷運已經沒了。你們走到西門站外面等計程車。）'),ME('電影普通。'),ME('……可是我會記得。')],
+      choices:[{t:'「我也是。」',reply:[ME('嗯。')]},{t:'「下次再來。」',reply:[ME('好。下次不是午夜場也可以。')]},{t:'（陪她等車）',reply:[NR('（計程車來了。她上車以前，回頭看了你一眼。）')]}]} };
+  S.wireWish=function(){ if(typeof DATE_WISH!=='undefined'&&DATE_WISH.events&&!DATE_WISH.events[XC]) DATE_WISH.events[XC]=S.WISH_EV;
+    if(typeof WISH!=='undefined'&&WISH.record&&!WISH.record._xc){ const r0=WISH.record; WISH.record=Object.assign(function(G,t,ev){ const r=r0.apply(this,arguments); try{ if(t&&t.who===XC&&G&&G.flags) G.flags.XC_MIDNIGHT_DAY=G.day; }catch(e){} return r; },{_xc:true}); } };
   /* ---------- 接線（載入時一次）---------- */
   S.wire=function(){ if(S._wired) return; S._wired=true;
     if(typeof STORY_EVENTS!=='undefined') for(const e of S.EVENTS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e);
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
-    if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k)); };
+    if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
+    S.wireWish(); };
   S.wire();
   return S;
 })();

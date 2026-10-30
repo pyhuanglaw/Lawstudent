@@ -8,6 +8,7 @@
 //   4  AA_537b 第 1～3 節（date_lines.js）：十一個 key、128 點喜好、15 句不喜歡、八個常去地點，逐字對稿
 //   5  第 2 段：慈 6 那一場最後「空白的週三下午」（3-5，G8 XC_BLANK）、沒和以安和好多一句（3-6）
 //   6  第 2 段：3-1 大二上麵店補問（G2）、3-2 大二下半夜提醒（G3）、3-5 後補（大四上第 6 週週三）
+//  11  心願午夜場：DATE_WISH 登記、22:30 出發 02:30 回來（只這一場）、只有午夜場算心願、她週五 00:40 主動約、那一場照稿、隔天睡到十點
 //  10  G5 半夜訊息：十六則逐字、每週一則（週三／週日輪流、00:30～01:30）、A→B、B3／B8、30 分鐘內回才算、mention、線關上不傳、交往換 L、大二下第 6 週那一則
 //   9  第 2 節：和以安分開那晚 01:10（過了 G3、G4）「今天的劇很難看。」「我看完了。」
 //   8  第 2 段：3-3 G4b 補演的玩家大二下第 8 週週三 00:30 的電話（接＝XC_CALL1、不接＝隔天早上「打錯了。」）
@@ -50,7 +51,7 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), a=s=>html.indexOf(s);
     check('0. index.html：xcrom3d.js 在 date3d.js、termend3d.js、story3d.js 以後、GAME.boot() 以前',a('src/xcrom3d.js')>Math.max(a('src/date3d.js'),a('src/termend3d.js'),a('src/story3d.js'))&&a('src/xcrom3d.js')<a('GAME.boot()'));
     check('0. 兩個開關集中在 XCROM.CFG（使用者還沒回：G10 跟以安交往過就不開、不接受多段＝照 AA 的建議先開著）',J(X().CFG)===J({noAnEx:true,noOpen:true}));
-    check('0. DATE.HEROINES 有芯慈；YES_LINE 75；心願地點 D04、要晚上場；告白要 6 次正式約會',DATE.HEROINES.includes(XC)&&DATE.YES_LINE[XC]===75&&DATE.wishOf(XC)==='D04'&&DATE.WISH_KIND[XC]==='evening'&&DATE.COUNT_NEED[XC]===6);
+    check('0. DATE.HEROINES 有芯慈；YES_LINE 75；心願地點 D04、要午夜場（DATE.MIDNIGHT）；告白要 6 次正式約會',DATE.HEROINES.includes(XC)&&DATE.YES_LINE[XC]===75&&DATE.wishOf(XC)==='D04'&&!!DATE.MIDNIGHT[XC]&&DATE.MIDNIGHT[XC].loc==='D04'&&DATE.COUNT_NEED[XC]===6);
     const C=CONFESS_LINES[XC];
     check('0. confess_lines（AA_537 第 4 節）：say、三句、yes、notYet、unwilling、others 照稿；notYetFlag XC_NOT_YET',!!C&&C.notYetFlag==='XC_NOT_YET'&&[].concat(C.say,C.yes,C.notYet,C.unwilling,C.others).every(x=>DOC537.includes(typeof x==='string'?x:x.text))&&C.yes.length===4&&C.others.length===3&&C.choice.length===3,'');
     const Hx=TERMEND_LINES.HEART[XC];
@@ -213,6 +214,32 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('10. 交往以後換 L 層（「我在看劇。你要不要也打開……」起照順序）',L0.length>=2&&L0[0]===N.NIGHT_L[0]&&L0[1]===N.NIGHT_L[1],J(L0));
     const dw=STORY.termDay('Y2S2',6,3); H.fresh(CALENDAR.dateOf(dw).key,0.5,'dorm',{introDone:true,XC_NIGHT:1}); H.G.contacts={[XC]:1}; H.G.events.done.ev_xinci_second=1; H.G.hour=0.8; STORY.phoneRules(GM); PHONE.tick(H.G);
     check('10. 大二下第 6 週還不到 2 次：週三 00:45「你應該睡了吧。」（不用回）',(H.G.msgs||[]).some(x=>x.tag==='xcn_wake'&&x.text===N.WAKE&&!x.ask)); });
+
+  /* ===== 第 11 節：心願那一場＝午夜場（AA_537b 8-2；AA-B 16:31 同意擴充約會系統到 02:30）===== */
+  await sec(11,async()=>{ const DOC8=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), E=DATE_WISH.events[XC];
+    const strs=[]; const w=x=>{ if(Array.isArray(x)) x.forEach(w); else if(x&&typeof x==='object'){ if(typeof x.text==='string') strs.push(x.text); if(typeof x.narr==='string') strs.push(x.narr); for(const k in x) if(k!=='text'&&k!=='narr') w(x[k]); } };
+    w([E.herInvite.lines,E.herInvite.accept,E.herInvite.decline,E.playerInvite,E.arrive,E.hotspots,E.closing]);
+    const bad=strs.filter(t=>!DOC8.includes(t.replace(/^（|）$/g,'')));
+    check('11. 心願事件登記進 DATE_WISH（wish_classmate_xinci，D04，「午夜場」）；herInvite、playerInvite、arrive、兩個點、closing 每一句都在稿裡；record 照稿',!!E&&E.loc==='D04'&&E.title==='午夜場'&&strs.length>=20&&!bad.length&&E.record.flag==='WISH_DONE_classmate_xinci'&&E.record.memory.tag==='XC_MIDNIGHT'&&DOC8.includes(E.record.memory.text)&&!E.mention,J(bad));
+    const sat=D('2028-05-20'); H.fresh('2028-05-19',12,'dorm',{introDone:true,XC_BLANK:true}); H.G.contacts={[XC]:1}; SOCIAL.remember(XC,'FIRST_MET','camp'); Object.assign(SOCIAL.rel(XC),{fam:65,trust:50,comf:45,npcRom:40,rom:20});
+    const c19=DATE.check(H.G,{who:XC,locs:['D04'],day:sat,depart:18,transport:'mrt'}), c22=DATE.check(H.G,{who:XC,locs:['D04'],day:sat,depart:22.5,transport:'mrt'}), cp=DATE.check(H.G,{who:'classmate_peishan',locs:['D04'],day:sat,depart:22.5,transport:'mrt'});
+    check('11. 約得出來：芯慈 D04 22:30 出發、02:30 回來（一般人 22:30 照舊「回來會超過 23:30」）',c22.ok&&c22.plan.back===26.5&&c19.ok&&!cp.ok,J([c22.why,c22.plan&&c22.plan.back,cp.why]));
+    check('11. 只有午夜場才是心願那一場：18:00 那一趟不是（WISH.due false）、22:30 是',WISH.due(H.G,{who:XC,locs:['D04'],depart:22.5,kind:'evening'})===true&&WISH.due(H.G,{who:XC,locs:['D04'],depart:18,kind:'evening'})===false);
+    /* 她主動約：週五 00:40 */
+    H.G.day=D('2028-05-19'); H.G.hour=0.7; H.G.weekday=5; WISH.phone(H.G); PHONE.tick(H.G); const m=(H.G.msgs||[]).filter(x=>/^wish_ask_classmate_xinci/.test(x.tag||''));
+    check('11. 她主動約（第 5 階以上＋XC_BLANK、兩個人都單身）：週五 00:40「明天晚上，西門町的午夜場。」「……我提前一天問了。你可以說不。」',J(m.map(x=>x.text))===J(['明天晚上，西門町的午夜場。','……我提前一天問了。你可以說不。'])&&!!m[1].ask,J(m.map(x=>[x.h,x.text])));
+    PHONE.answer(H.G,m[1].ask.id,0); WISH.phone(H.G); const tr=(H.G.trips||[]).find(t=>t.who===XC&&t.status==='booked');
+    check('11. 答應＝「好。我買票。你不要遲到，午夜場不等人。」、排好週六 22:30 出發的那一趟',(H.G.msgs||[]).some(x=>x.text==='好。我買票。你不要遲到，午夜場不等人。')&&!!tr&&tr.day===sat&&tr.depart===22.5&&tr.back===26.5,J(tr));
+    H.fresh('2028-05-19',0.7,'dorm',{introDone:true,XC_BLANK:true,dating_heroine_04:true}); H.G.contacts={[XC]:1}; SOCIAL.remember(XC,'FIRST_MET','camp'); Object.assign(SOCIAL.rel(XC),{fam:65,trust:50,comf:45,npcRom:40,rom:20}); H.G.weekday=5; WISH.phone(H.G); PHONE.tick(H.G);
+    check('11. 你在跟別人交往：她不約（她只接受一對一）',!(H.G.msgs||[]).some(x=>/^wish_ask_classmate_xinci/.test(x.tag||'')));
+    /* 那一場 */
+    H.fresh('2028-05-20',22.75,'campus',{introDone:true,XC_BLANK:true}); SOCIAL.remember(XC,'FIRST_MET','camp'); Object.assign(SOCIAL.rel(XC),{fam:65,trust:50,comf:45,npcRom:40,rom:20});
+    const t={trip:9,who:XC,locs:['D04'],day:sat,depart:22.5,back:26.5,kind:'evening',transport:'mrt',status:'going',spots:[],departed:true};
+    H.said=[]; H.picks=['選午夜場的片','看沒聽過的那部','先買宵夜','我請','下次再來']; H.G.money=5000; const r=await WISH.scene(GM,{dateTrip:9},t);
+    const T2=T(); check('11. 演出來：開場旁白「（十一點半的西門町……）」、兩句、選片、宵夜、電影以後散場「（午夜場散場，捷運已經沒了……）」「電影普通。」「……可是我會記得。」→「下次再來。」',T2.includes('（十一點半的西門町。店都還亮著，街上的人比白天少一半。）')&&T2.includes('午夜場只有兩部。一部恐怖片，一部我沒聽過。')&&T2.includes('好。不知道結局的比較好看。……我以前不會這樣說。')&&T2.includes('好。下次換我。……我會記得是哪一次。')&&T2.indexOf('（午夜場散場，捷運已經沒了。你們走到西門站外面等計程車。）')>T2.indexOf('好。下次換我。……我會記得是哪一次。')&&T2.indexOf('好。下次不是午夜場也可以。')>T2.indexOf('……可是我會記得。'),J(T2));
+    check('11. 時間：互動點 40 分＋電影 120 分＝散場在凌晨一點多（G.hour > 25）；記 WISH_DONE、XC_MIDNIGHT、XC_MIDNIGHT_DAY（隔天睡到十點：STORY.lateWake）',H.G.hour>25&&H.G.hour<26.5&&H.G.flags.WISH_DONE_classmate_xinci===true&&SOCIAL.has(XC,'XC_MIDNIGHT')&&H.G.flags.XC_MIDNIGHT_DAY===sat&&STORY.lateWake(H.G)===true,J([H.G.hour,H.G.flags.XC_MIDNIGHT_DAY]));
+    const bo=STORY.bedOptions(H.G), mo=bo.find(o=>o.kind==='morning'||/明天/.test(o.t));
+    check('11. 床的選單：「睡到明天…」是十點（hint 有 10:00）',!!mo&&/10:00/.test(J(mo)),J(bo.slice(0,2))); });
 
   H.done();
 })();
