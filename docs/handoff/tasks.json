@@ -36454,7 +36454,7 @@
    "title": "博思教學館室內光照烘焙＋照 202 v2 換家具與天花板（boya_interior：101／102 階梯教室、走廊；經濟系第一堂經原在博思 101）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "next": "LAWWW2 做（照 INTERIOR_AAA_REVIEW_1028 P1 光照＋P5 燈具；layout、座位、碰撞不動）→ 交件 → LAWWW 整合 → BB 測",
    "priority": "P1",
    "first": {
@@ -36474,7 +36474,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "自領"
    },
    "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   },
@@ -36503,7 +36503,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、layout 不變、效能",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "自領"
    },
    "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   },
@@ -36532,7 +36532,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "同鏡頭改前改後白天晚上、座位不變、效能",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "自領"
    },
    "notes": "D99 第一優先經濟系那一年玩家最常待的室內，還沒有光照貼圖（10-30 盤點：GLB 的 extras.lightmap）"
   }
