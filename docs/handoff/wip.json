@@ -1569,7 +1569,7 @@
    "role": "LAWWW",
    "task": "PROMISES-REDO-1030",
    "state": "WIP",
-   "sha": "4ecc3039c",
+   "sha": "2eeb91a85",
    "branch": "postrel-1030（子代理；D113 備份 wip_backup/postrel_1030.bundle，基準 5457e7c95）",
    "files": [
     "wip_backup/postrel_1030.bundle"
@@ -1614,7 +1614,7 @@
    "role": "LAWWW",
    "task": "DORM-SLEEP-VISUAL-1030",
    "state": "WIP",
-   "sha": "6d5c9d6f9",
+   "sha": "bdfebc82f",
    "branch": "dorm-sleep（子代理；D113 備份 wip_backup/dormsleep_1030.bundle，基準 5b48dc350）",
    "files": [
     "wip_backup/dormsleep_1030.bundle"
@@ -1674,7 +1674,7 @@
    "role": "LAWWW",
    "task": "AA529-ECON-FIX-1030",
    "state": "WIP",
-   "sha": "86cb892cc",
+   "sha": "6428cf7e8",
    "branch": "aa-followup-1030（子代理；D113 備份 wip_backup/aafollow_1030.bundle，基準 3679551fc）",
    "files": [
     "wip_backup/aafollow_1030.bundle"
