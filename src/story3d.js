@@ -3216,11 +3216,11 @@ const STORY = (function(){
   S.sleepJumpMode=G=>!!((typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G))||(typeof PG!=='undefined'&&PG.bedOptions&&PG.bedOptions(G)));   /* 「睡覺＝到下一件事」（S.bedOptions 同一個判斷）*/
   /* 熄燈的程度 k（0＝照原本、1＝熄燈）：z.lightsOff 優先；沒有就壓曝光。k 回到 0＝曝光還原成原本的值 */
   let darkSave=null;
-  S.roomDark=function(GM,k){ const E=GM&&GM.E, z=E&&E.zone; k=Math.max(0,Math.min(1,+k||0)); S._dark=k;
-    if(z&&typeof z.lightsOff==='function'){ try{ z.lightsOff(k); }catch(e){ console.warn('lightsOff',e); } return k; }
-    if(!E) return k; if(k>0){ if(!darkSave) darkSave={E,k0:E.toneK}; E.toneK=(darkSave.k0||1)*(1-S.DARK_MAX*k); }
-    else if(darkSave){ darkSave.E.toneK=darkSave.k0; darkSave=null; }
-    if(E.applyTime) try{ E.applyTime(E.hour); }catch(e){} return k; };
+  S.roomDark=function(GM,k){ const E=GM&&GM.E, z=E&&E.zone, lm=!!z&&typeof z.lightsOff==='function'; k=Math.max(0,Math.min(1,+k||0)); S._dark=k;
+    if(lm){ try{ z.lightsOff(k); }catch(e){ console.warn('lightsOff',e); } }
+    if(k>0&&!lm&&E){ if(!darkSave) darkSave={E,k0:E.toneK}; E.toneK=(darkSave.k0||1)*(1-S.DARK_MAX*k); }
+    else if(darkSave){ darkSave.E.toneK=darkSave.k0; darkSave=null; }   /* 開燈、或熄燈途中正式模型（有光照貼圖）才載好：曝光還原 */
+    if(E&&!lm&&E.applyTime) try{ E.applyTime(E.hour); }catch(e){} return k; };
   async function darkTo(GM,k1,sec){ const k0=S._dark||0, n=GM.turbo?1:Math.max(2,Math.round(sec*12)); for(let i=1;i<=n;i++){ S.roomDark(GM,k0+(k1-k0)*i/n); await GM.sleep(sec*1000/n); } }
   /* 沿直線移到 to=(x,y,z)（踏點、上床點）：緩進緩出，一階一個節奏；GM.sleep 照讀檔世代（讀檔＝停住不往下）*/
   async function bedTween(GM,o,to,sec){ const p=o.position, x0=p.x, y0=p.y, z0=p.z, n=GM.turbo?1:Math.max(2,Math.round(sec*25));
