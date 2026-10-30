@@ -88,7 +88,7 @@ const SUP497=(function(){
   S.classBusy=function(G,it){ if(!G||!it||!it.c) return false; const safe=f=>{ try{ return !!f(); }catch(e){ return false; } };
     if(typeof CLS!=='undefined'&&Array.isArray(CLS.IN_CLASS)&&CLS.IN_CLASS.some(f=>f&&!f.sup497&&typeof f.due==='function'&&safe(()=>f.due(G,it)))) return true;
     if(typeof STORY_EVENTS==='undefined') return false; const wd=wdOf(it.day);
-    return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;
+    return STORY_EVENTS.some(e=>{ if(!e||e===S.MEET_AFTER||e.classAlso||e.retired||e.off||(e.stage||'law')!==(G.stage||'law')) return false;   /* classAlso（阿哲約吃麵，AA_542 1-1）接在別的後面演，不佔這一堂 */
       if(!(e.afterClass===it.c.id||(typeof e.afterClass==='function'&&safe(()=>e.afterClass(it))))) return false;
       if(e.afterExam?e.afterExam!==it.exam:!!it.exam) return false; if(e.once&&done(G,e.id)) return false;
       if(e.term&&[].concat(e.term).indexOf(it.term)<0) return false; if(e.weekday&&[].concat(e.weekday).indexOf(wd)<0) return false;

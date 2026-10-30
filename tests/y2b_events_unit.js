@@ -104,8 +104,8 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('M1. 從「我寫了一頁流程……」開始；三選一；「她常常對。很煩。」；記 TALKED_FAMILY、AN_MAP', said[0].t==='我寫了一頁流程，用白話寫的。拿給我媽看。'&&opts[0].length===3&&has('她常常對。很煩。')&&G.flags.AN_MAP==='right'&&SOCIAL.has('heroine_01','TALKED_FAMILY'));
   fresh('2027-04-27',18,'noodle'); R('heroine_01','FAM'); date('heroine_01'); picks=[0]; await run('ev_an_mother_map');
   check('M2. 沒有新 10：先「家教的學生……被駁回了」、補記 AN_TUTOR_FAMILY；交往中最後多一句', said[0].t==='我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'&&G.flags.AN_TUTOR_FAMILY===1&&said[said.length-1].t==='你不要跟我媽說我說她很煩。');
-  fresh('2027-04-29',19.5,'noodle'); R('heroine_01','FAM'); check('M3. 週四 19:30 才去：不演', !EVENTS.check(mm));
-  at('2027-04-29',19); check('M3. 週四 19:00：演', EVENTS.check(mm));
+  fresh('2027-05-06',19.5,'noodle'); R('heroine_01','FAM'); check('M3. 週四（5/6，那一週的麵店日；AA_542 起麵店日每週不固定兩天）19:30 才去：不演', !EVENTS.check(mm));
+  at('2027-05-06',19); check('M3. 週四（5/6）19:00：演', EVENTS.check(mm));
   at('2027-06-01',18); check('M. 第 15 週以後：不演', !EVENTS.check(mm));
 
   // ---------- 1B-05 子晴 Q8 ----------

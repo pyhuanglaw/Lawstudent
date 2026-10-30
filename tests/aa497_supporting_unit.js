@@ -158,7 +158,7 @@ const inDoc=t=>DOC.indexOf(t)>=0;
     check('1-3. 認識的那一堂他晚十分鐘到（上課前不在教室、上課十分鐘以後在）；認識以後照常（上課前就在）',!a&&!!b&&b.cls&&!!c,J([a,b&&b.from,c&&c.from]));
     /* 課堂那一句後面（CLS.IN_CLASS，所有到期的鉤子照順序）＋下課 */
     const run=async k=>{ const x=fr(2,13.4); at(x.day,13.5); H.said=[]; H.opts=[]; H.picks=[k]; const fs0=CLS.IN_CLASS.filter(q=>q.due&&q.due(H.G,x)); for(const f of fs0) await f(GM,x);
-      const inClass=H.said.map(s=>s.t); H.said=[]; at(x.day,x.t1); await CLS.afterClassEvent(GM,x); return {inClass,after:H.said.map(s=>(s.who?s.who+'：':'')+s.t),f:fs0.length===1&&!!fs0[0].sup497,x}; };
+      const inClass=H.said.map(s=>s.t); H.said=[]; at(x.day,x.t1); H.G.events.done.ev_zhe_noodle_invite=x.day; await CLS.afterClassEvent(GM,x); return {inClass,after:H.said.map(s=>(s.who?s.who+'：':'')+s.t),f:fs0.length===1&&!!fs0[0].sup497,x}; };   /* 同一堂下課阿哲約吃麵（AA_542 1-1，classAlso）接在宥辰後面演：這裡只看宥辰那一段，先當作約過了 */
     const M=L().yc.meet; let r=await run(0);
     check('1-3. 課堂中（IN_CLASS，有 due；那一堂只有這一段）：「（上課十分鐘，後門開了一條縫。……）」「（小聲）講到哪了？」三個選項',r.f&&r.inClass[0]===M.open[0][1]&&r.inClass[1]===M.open[1][1]&&J(H.opts[0])===J(M.opts),J(r.inClass));
     check('1-3. 選「意思表示。」：「（小聲）八十六條到九十八條那一段？……好。」＋旁白（第八十八條）；下課「賴宥辰。……」「剛剛那一下救了我。……手機給我。」；記 YC_OWE_SONG、交換聯絡方式、認識',

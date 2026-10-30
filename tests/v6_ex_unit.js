@@ -164,7 +164,7 @@ await sec('B',async()=>{
 
 /* ======================= T 麵店團 ======================= */
 await sec('T',async()=>{
-  const tue=D('2026-10-20');   /* 大二上第 7 週週二（麵店日）*/
+  const tue=(()=>{ for(let d=D('2026-10-19');d<D('2026-10-24');d++) if(STORY.noodleDay(d)) return d; return D('2026-10-20'); })(), nnd=(()=>{ for(let d=D('2026-10-19');d<D('2026-10-24');d++) if(!STORY.noodleDay(d)) return d; return tue+1; })();   /* 大二上第 7 週的麵店日、不是麵店日的平日（AA_542 第 5 節：每週不固定兩天）*/
   const team=()=>{ PHONE.join(H.G,'noodle_team','麵店團'); for(const id of ['zhe','yu']) SOCIAL.remember(id,'FIRST_MET',''); };
   fresh('2026-10-14',20); team(); date(AN); ROM.learn(H.G,'zhe',AN,'test'); ROM.learn(H.G,'yu',AN,'test'); ROM.learn(H.G,'classmate_bohan',AN,'test');
   at(tue,18); H.G.zone='noodle'; clear(); await tick();
@@ -174,8 +174,8 @@ await sec('T',async()=>{
   check('T2. 他們還不知道：不演',!H.said.length);
   fresh('2026-10-14',20); date(AN); ROM.learn(H.G,'zhe',AN,'test'); SOCIAL.remember('zhe','FIRST_MET',''); at(tue,18); H.G.zone='noodle'; clear(); await tick();
   check('T3. 不在麵店團（沒有群組）：不演',!H.said.length);
-  fresh('2026-10-14',20); team(); date(AN); ROM.learn(H.G,'zhe',AN,'test'); at(tue+1,18); H.G.zone='noodle'; clear(); await tick();
-  check('T4. 不是麵店日（週三）：不演',!H.said.length);
+  fresh('2026-10-14',20); team(); date(AN); ROM.learn(H.G,'zhe',AN,'test'); at(nnd,18); H.G.zone='noodle'; clear(); await tick();
+  check('T4. 不是麵店日：不演',!H.said.length);
   fresh('2026-09-20',20); team(); date(YT); ROM.learn(H.G,'zhe',YT,'test'); ROM.end(H.G,YT,'apart_talk'); ROM.cleanup(H.G); date(AN); ROM.learn(H.G,'zhe',AN,'test');
   at(tue,18); H.G.zone='noodle'; clear(); await tick();
   check('T5. 和同一個朋友圈的另一個人開始（前任也是他們知道的）：阿哲「大家都是大人了。……麵還是一樣好吃。」',J(said())===J(['大家都是大人了。……麵還是一樣好吃。']),J(said()));
@@ -183,7 +183,7 @@ await sec('T',async()=>{
   fresh('2026-10-16',20); SOCIAL.remember('classmate_bohan','FIRST_MET',''); INV.addContact(H.G,'classmate_bohan'); date(AN); ROM.learn(H.G,'classmate_bohan',AN,'test'); ROM.end(H.G,AN,'apart_talk');   /* 週五分開 */
   const NOTE='這兩堂的筆記。……你這幾天應該沒在聽。', mon=D('2026-10-19');   /* 10/19（一）是假日（calendar.js）；tue＝10/20（二）*/
   at(mon,13); STORY.phoneRules(GM); PHONE.tick(H.G); const m1=H.msgs('p:classmate_bohan').includes(NOTE);
-  at(tue,12); STORY.phoneRules(GM); PHONE.tick(H.G); const m2=H.msgs('p:classmate_bohan').includes(NOTE);
+  at(D('2026-10-20'),12); STORY.phoneRules(GM); PHONE.tick(H.G); const m2=H.msgs('p:classmate_bohan').includes(NOTE);   /* 10/20（二）：tue 改成麵店日以後不一定是週二 */
   check('T6. 柏翰：週一放假、週二 12:10 以前不傳',CALENDAR.kind(mon)==='holiday'&&!m1&&!m2);
   at(tue,12.25); STORY.phoneRules(GM); PHONE.tick(H.G);
   check('T6. 下一個上課日（週二）12:10：「這兩堂的筆記。……你這幾天應該沒在聽。」、只一則',H.msgs('p:classmate_bohan').filter(t=>t===NOTE).length===1,J(H.msgs('p:classmate_bohan')));

@@ -73,6 +73,7 @@ await sec(2,async()=>{
     check('2c. 大三上刑訴第 7 週（作業）有劇情段、第 6 週沒有',!!cr&&X().classEventful(H.G,cr)==='inclass'&&!!cr6&&!X().classEventful(H.G,cr6),J([cr&&cr.key,cr6&&cr6.key]));
     H.G.flags.CRIMPRO_W7=D('2027-10-19'); check('2c. 刑訴第 7 週講過了（CRIMPRO_W7）＝沒有劇情段',!X().classEventful(H.G,cr)); }
   fresh('2025-09-21',22); reset(); { const wk=[]; for(let d=D('2025-09-22');d<=D('2025-09-28');d++) wk.push(...CLS.dayItems(H.G,d)); const cg=wk.find(q=>q.c.id==='civ_general');
+    H.G.flags.noodleTableDay=D('2025-09-11');   /* 舊局第 4 週週四民總下課是阿哲約吃麵（AA_542 1-1，classAlso）：這一項只看 L1，先當作群組早就有了（不約）*/
     check('2c. 大一上民總第 4 週（L1 借書那一句）有劇情段；知道 L1 以後沒有',!!cg&&X().classEventful(H.G,cg)==='inclass'&&(LOANS.know(H.G,'L1'),!X().classEventful(H.G,cg)),cg&&cg.key); }
   // 2d 答應的當面約：約前 30 分鐘（床的鬧鐘）
   fresh('2025-10-12',22); reset(); H.FAMILIAR('zhe'); { const iv=INV.make?null:null; const d=D('2025-10-14'); H.G.invites.push({id:'iv_t1',who:'zhe',place:'noodle',zone:'noodle',day:d,h:19,state:'accepted',accepted:true,by:'player',label:'和阿哲約在麵店'});

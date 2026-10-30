@@ -46,9 +46,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」Alison「你宿舍又不在這邊。」（AA_209）阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','Alison：你宿舍又不在這邊。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
     E.player.obj.position.x=0; E.player.obj.position.z=0; GM.npc={}; }
   /* ② 麵店 */
-  { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };
-    const r={tue:at(14,2,18),thu:at(15,4,20.5),wk16:at(16,4,20.5),wed:at(14,3,18),w13:at(12,2,18),late:at(14,2,21.2),noTeam:at(14,2,18,{noTeam:true}),notMet:at(14,2,18,{notMet:true}),gg:at(14,2,18,{zone:'gongguan'})};
-    check('② 麵店：大一下第 13～15 週的麵店日（週二、週四；AA-C 11:23 往前補一週，第 16 週期末不放）17:30–21:00 走進麵店；麵店團、認識 Alison 才有（週三、第 13 週、21:12、沒有麵店團、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wk16&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
+  { const ND=(w,k)=>{ const L=[]; for(let wd=1;wd<=5;wd++){ const d=termDay('Y1S2',w,wd); if(d!=null&&STORY.noodleDay(d)) L.push(wd); } return L[k|0]!=null?L[k|0]:L[0]; }, NN=w=>{ for(let wd=1;wd<=5;wd++){ const d=termDay('Y1S2',w,wd); if(d!=null&&!STORY.noodleDay(d)) return wd; } return 3; };   /* AA_542 第 5 節：麵店日每週不固定兩天 */
+    const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };
+    const r={tue:at(14,ND(14,0),18),thu:at(15,ND(15,1),20.5),wk16:at(16,4,20.5),wed:at(14,NN(14),18),w13:at(12,ND(12,0),18),late:at(14,ND(14,0),21.2),noTeam:at(14,ND(14,0),18,{noTeam:true}),notMet:at(14,ND(14,0),18,{notMet:true}),gg:at(14,ND(14,0),18,{zone:'gongguan'})};
+    check('② 麵店：大一下第 13～15 週的麵店日（AA_542 起每週不固定兩天；AA-C 11:23 往前補一週，第 16 週期末不放）17:30–21:00 走進麵店；在群組、認識 Alison 才有（不是麵店日、第 12 週、21:12、沒有群組、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wk16&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
     at(14,2,18); await EVENTS.run(eB); check('② 台詞：（Alison 每次都坐阿哲旁邊。）只有一句、沒有選項',JSON.stringify(lines())==='["Alison 每次都坐阿哲旁邊。"]'&&!opts.length&&G.flags.yu2SeatDay===G.day,JSON.stringify(lines())); }
   /* 吉他社大一下 */
   { const M=w=>termDay('Y1S2',w,1);
