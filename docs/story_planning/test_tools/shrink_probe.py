@@ -107,8 +107,12 @@ async def invite(pg, cdp, run, pick):
 
 
 async def group_at_21(pg, cdp, run, tag, sys_text):
-    await P.wait_play(pg, cdp, 21.05, max_s=1500, picks=['出發'], run=run, tag=tag)
-    await pg.wait_for_timeout(3000); g = await pg.evaluate(GRP); run.note('%s 21:00 群組：%s' % (tag, J(g)))
+    ok = False; t0 = time.time()
+    while time.time() - t0 < 3600 and not ok:   # b2：1500 秒還沒走到 21:05（SwiftShader 慢），群組那三格是在 21:00 以前查的；給到 60 分鐘，查的時候記遊戲時間
+        ok = await P.wait_play(pg, cdp, 21.05, max_s=300, picks=['出發'], run=run, tag=tag)
+    hh = await pg.evaluate("(()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2))()")
+    run.check('%s：前置——照玩家等到 21:05（現在 %s）' % (tag, hh), ok, hh)
+    await pg.wait_for_timeout(3000); g = await pg.evaluate(GRP); run.note('%s 21:00 群組（%s）：%s' % (tag, hh, J(g)))
     texts = [m['text'] for m in g['msgs']]
     run.check('%s：21:00 群組建好，名字「法一吃飯」' % tag, g['joined'] and g['name'] == '法一吃飯', J({k: g[k] for k in ('joined', 'name', 'gday', 'tableDay')}))
     run.check('%s：系統訊息「%s」' % (tag, sys_text), sys_text in texts, J(texts[:6]))
