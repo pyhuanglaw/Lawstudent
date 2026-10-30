@@ -41,7 +41,8 @@ WIN = (-1.1, 1.1, 0.95, 2.4)                       # 後牆的窗洞 x0,x1,y0,y1
 DOOR = (-0.48, 0.48, 2.1)                          # 前牆的門洞（照舊）
 BATH = dict(x0=0.65, x1=IX1, z0=1.45, z1=IZ1, t=0.1, door=(2.2, 3.0), door_h=2.05)
 # 床桌組：沿牆座標 u（＝z）、離牆距離 v；階梯在 ub 那一端（靠門）
-VD, STW = 0.95, 0.45                               # 床桌組的深度、階梯寬
+VD, STW = 0.95, 0.40                               # 床桌組的深度、階梯寬（10-30 DORM203-LM-1030：0.45→0.40，床長多 5 cm）
+STW0 = 0.45                                        # 原本的階梯寬：書桌、衣櫃的位置照舊用這個算（座位、走近點、導航不動），衣櫃往階梯那邊寬 5 cm 補縫
 DECK0, DECK1, GUARD = 1.56, 1.60, 2.02             # 床板底、床板頂、床欄頂
 RISE, NST = 0.32, 4                                # 階梯：四階、每階 32 cm（頂 1.28），再一步上床
 # 誰用哪一組（AA_208 第 4 節，AA 分支 65978067）：柏翰先到、用靠窗那組；「門口那張床是你的」＝祐廷在左前；阿凱的書桌在祐廷對面（遙控器放在兩張書桌中間）
@@ -154,8 +155,8 @@ def lbox(m, side, u0, u1, y0, y1, v0, v1, fn='box', **kw):
 
 
 # ======================================================================= 房間：地板、天花板、燈
-Mesh('dorm_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root)
-ce = Mesh('dorm_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False)
+Mesh('dorm_floor', M['floor']).box(X0, X1, -0.02, 0.0, Z0, Z1).finish(root, props={'lm': 1.3, 'lmhide': 'side,down'})   # lm、lmhide：光照烘焙（DORM203-LM-1030，bake_dorm_room4.sh）分給地板多一點；地板方塊的四邊埋在牆裡、底面看不到
+ce = Mesh('dorm_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(root, uv=False, props={'lm': 0.35})   # 天花板：玩家鏡頭往下看，幾乎看不到
 tb = Mesh('dorm_tubes', M['tube']); fx = Mesh('dorm_fixtures', M['fixture'])
 for (cx, cz, r) in ((0.0, -1.7, 0.24), (0.0, 0.7, 0.24), (1.8, 2.45, 0.13)):     # 圓形吸頂燈（照片）：外殼＋乳白燈罩；最後一盞在洗手間
     fx.add_bm(L.lathe([(r, 0.0), (r, -0.035), (r - 0.02, -0.045), (0.0, -0.045)], seg=24), Matrix.Translation(g2b(cx, H - 0.002, cz)))
@@ -372,16 +373,16 @@ def plastic_chair(side, u, v):
 
 def laptop(G, side, lu, Y, vb=0.17):
     lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y, Y + 0.015, vb + 0.03, vb + 0.27)
-    lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y + 0.015, Y + 0.24, vb, vb + 0.02)
-    lbox(G['lcd'], side, lu - 0.16, lu + 0.16, Y + 0.03, Y + 0.23, vb + 0.02, vb + 0.026)
+    lbox(G['blk'], side, lu - 0.17, lu + 0.17, Y + 0.015, Y + 0.215, vb, vb + 0.02)   # 螢幕上緣 0.975 m：層架底板在 1.00 m（10-30 以前 1.00，剛好頂到；使用者「書桌上東西不要重疊」）
+    lbox(G['lcd'], side, lu - 0.16, lu + 0.16, Y + 0.03, Y + 0.205, vb + 0.02, vb + 0.026)
 
 
-def desk_lamp(G, side, u, Y, v=0.12):
-    """檯燈：底座、兩節臂、燈罩、燈泡（燈泡材質 dorm_lamp_bulb 一直亮）"""
+def desk_lamp(G, side, u, Y, v=0.12, du=1.0):
+    """檯燈：底座、兩節臂、燈罩、燈泡（燈泡材質 dorm_lamp_bulb 一直亮）；du＝手臂往 +u（1）或 −u（−1）彎"""
     G['met'].cyl(W3(side, u, Y, v), W3(side, u, Y + 0.02, v), 0.07, seg=14)
-    sweep(G['met'], [W3(side, u, Y + 0.02, v), W3(side, u + 0.03, Y + 0.32, v + 0.05), W3(side, u + 0.1, Y + 0.42, v + 0.22)], 0.009, seg=5)
-    G['blk'].cyl(W3(side, u + 0.1, Y + 0.44, v + 0.22), W3(side, u + 0.1, Y + 0.35, v + 0.26), 0.03, seg=12, r2=0.08)
-    G['led'].sphere(W3(side, u + 0.1, Y + 0.37, v + 0.25), 0.026, seg=10, rings=6)
+    sweep(G['met'], [W3(side, u, Y + 0.02, v), W3(side, u + 0.03 * du, Y + 0.32, v + 0.05), W3(side, u + 0.1 * du, Y + 0.42, v + 0.22)], 0.009, seg=5)
+    G['blk'].cyl(W3(side, u + 0.1 * du, Y + 0.44, v + 0.22), W3(side, u + 0.1 * du, Y + 0.35, v + 0.26), 0.03, seg=12, r2=0.08)
+    G['led'].sphere(W3(side, u + 0.1 * du, Y + 0.37, v + 0.25), 0.026, seg=10, rings=6)
 
 
 def loft(uid, side, ua, ub, sets):
@@ -394,11 +395,11 @@ def loft(uid, side, ua, ub, sets):
     lbox(tf, side, ua, ust, DECK0, DECK1, 0.005, VD - 0.025)
     lbox(tf, side, ua, ust, DECK0 - 0.08, GUARD, VD - 0.025, VD, fn='rbox', r=0.008, seg=1)
     lbox(tf, side, ua + 0.001, ua + 0.026, DECK1, GUARD, 0.005, VD - 0.025)
-    lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.005, 0.47)
+    lbox(tf, side, ust - 0.025, ust, DECK1, GUARD, 0.47, VD - 0.025)   # 床尾（階梯那一端）的擋板在走道那一半；靠牆那一半是上床的開口（階梯從走道往牆邊爬，最上面一階靠牆；10-30 以前擋板在靠牆那一半，人從最上面一階上不了床——DORM-SLEEP-VISUAL-1030）
     for uu in (ua + 0.1, ust - 0.12):
         tr.cyl(W3(side, uu, GUARD - 0.02, VD - 0.012), W3(side, uu, H, VD - 0.012), 0.009, seg=8); tr.cyl(W3(side, uu, H - 0.004, VD - 0.012), W3(side, uu, H - 0.012, VD - 0.012), 0.03, seg=12)
     sweep(tf, bend([W3(side, ust - 0.035, DECK1 + 0.05, 0.55), W3(side, ust - 0.035, 2.32, 0.55), W3(side, ust - 0.035, 2.32, 0.88), W3(side, ust - 0.035, GUARD - 0.03, 0.88)], r=0.07), 0.016, seg=8)
-    lbox(ts, side, ua + 0.035, ust - 0.035, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)
+    lbox(ts, side, ua + 0.025, ust - 0.025, DECK1, DECK1 + 0.16, 0.03, VD - 0.05, fn='soft', r=0.04, seg=2)   # 床墊 1.92～1.95 m（使用者 10-30「床的比例也要注意」：原本 1.85～1.875，祐廷 1.75 m 躺下只剩 10 cm；標準單人床約 1.9 m）
     neat = sets.get('203') == 'bohan'
     lbox(tdv, side, ua + 0.5, ust - 0.06, DECK1 + 0.1, DECK1 + 0.24, 0.02, VD - 0.04, fn='soft', r=0.05, seg=2)
     if not neat: lbox(tdv, side, ust - 0.5, ust - 0.08, DECK1 + 0.22, DECK1 + 0.3, 0.1, VD - 0.1, fn='soft', r=0.03, seg=2)
@@ -407,7 +408,7 @@ def loft(uid, side, ua, ub, sets):
     lbox(tpw, side, ua + 0.08, ua + 0.46, DECK1 + 0.14, DECK1 + 0.26, 0.15, 0.75, fn='soft', r=0.05, seg=2)
     # ---- 床尾立柱、衣櫃、書桌、層架、LED 燈條
     lbox(wht, side, ua + 0.002, ua + 0.052, 0.0, GUARD, VD, VD + 0.05, fn='rbox', r=0.008, seg=1)
-    w0, w1 = ust - 0.6, ust - 0.005
+    w0, w1 = ub - STW0 - 0.6, ust - 0.005   # 衣櫃左邊照舊（書桌不動）、右邊貼到新的階梯（寬 0.65）
     lbox(wood, side, w0, w1, 0.0, DECK0 - 0.01, 0.005, 0.585); lbox(wood, side, w0 + 0.008, w1 - 0.008, 0.055, DECK0 - 0.022, 0.585, 0.6)
     lbox(wht, side, w0, w1, 0.0, 0.05, 0.585, 0.6); met.cyl(W3(side, w0 + 0.06, 0.7, 0.615), W3(side, w0 + 0.06, 1.15, 0.615), 0.008, seg=6)
     k0, k1 = ua + 0.02, w0 - 0.025
@@ -460,6 +461,17 @@ def loft(uid, side, ua, ub, sets):
                             'floor_under_bed_spot': [round(wx(side, 0.3), 3), round(w0 - 0.35, 3)],
                             'wall_spot_by_desk': {'x': round(wx(side, 0.004), 3), 'y': 1.2, 'z': round((k0 + s0) / 2, 3), 'ry': -math.pi / 2 if side == 'R' else math.pi / 2, 'note': '書桌前、層架旁邊的空牆（社團傳單）'}})
     LAYOUT['blocks'].append({'id': uid, 'x': sorted((round(wx(side, 0), 3), round(wx(side, VD + 0.05), 3))), 'z': [round(ua, 3), round(ub, 3)]})
+    # 睡覺的畫面（DORM-SLEEP-VISUAL-1030，使用者 10-30「睡覺要真的有畫面」）：遊戲端（LAWWW-B）照這些點做「走到梯子前 → 爬上去 → 躺下 → 熄燈」。座標＝遊戲 dorm 區域座標
+    #   approach＝梯子前的地上（＝sleep）；steps＝四階的踏點（從走道往牆邊爬）；bed_entry＝最上面一階旁邊、上床的那一點（床墊上）；
+    #   lie.head／feet＝躺著的時候頭、腳的位置（枕頭在 ua 那一端；頭朝 −z＝yaw π）；cam＝睡覺時的鏡頭（走道上方，視線越過 2.02 m 的床欄）
+    sx = 1 if side == 'L' else -1; mv = (0.03 + VD - 0.05) / 2; mtop = DECK1 + 0.16; uc_ = (ust + ub) / 2; zc_ = (ua + ust) / 2; r3 = lambda v: round(v, 3)
+    LAYOUT['units'][-1]['sleep_scene'] = {
+        'approach': [r3(wx(side, VD + 0.4)), r3(uc_)],
+        'steps': [[r3(wx(side, VD - (k + 0.5) * (VD / NST))), r3(RISE * (k + 1)), r3(uc_)] for k in range(NST)],
+        'bed_entry': [r3(wx(side, 0.25)), r3(mtop), r3(ust - 0.25)],
+        'lie': {'head': [r3(wx(side, mv)), r3(mtop + 0.1), r3(ua + 0.155)], 'feet': [r3(wx(side, mv)), r3(mtop + 0.05), r3(ua + 1.775)], 'head_dir_yaw': 3.1416, 'mattress_top_y': r3(mtop),
+                'mattress': {'x': sorted([r3(wx(side, 0.03)), r3(wx(side, VD - 0.05))]), 'z': [r3(ua + 0.025), r3(ust - 0.025)]}},
+        'cam': {'eye': [r3(wx(side, mv) + sx * 1.6), 2.75, r3(zc_ + 0.7)], 'look': [r3(wx(side, mv)), 1.85, r3(zc_)]}}
 
 
 # ---- 每個人的東西
@@ -472,8 +484,8 @@ def yuting203(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     for j, c in enumerate(['#2f6db0', '#f2f0ea', '#c23f35']): lbox(im, side, sm + 0.02 + j * 0.06, sm + 0.07 + j * 0.06, sy0 + 0.018, sy0 + 0.3, 0.03, 0.27, fn='cbox', hexcol=c)   # 講義夾
     lbox(im, side, k1 - 0.36, k1 - 0.1, Y, Y + 0.06, 0.08, 0.36, fn='cbox', hexcol='#8e1d1d')                        # 六法
     laptop(G, side, k0 + 0.66, Y)
-    lbox(im, side, k0 + 0.9, k0 + 1.08, Y, Y + 0.01, 0.35, 0.52, fn='cbox', hexcol='#f4f1e8')                        # 攤開的筆記本
-    lbox(im, side, k1 - 0.06, k1 + 0.0, Y, Y + 0.1, 0.42, 0.48, fn='cbox', hexcol='#2f6d8a')                        # 馬克杯
+    lbox(im, side, k0 + 0.02, k0 + 0.2, Y, Y + 0.01, 0.35, 0.52, fn='cbox', hexcol='#f4f1e8')                        # 攤開的筆記本（書桌左前；10-30 以前在 k0+0.9，和黃金葛的盆子疊在一起）
+    lbox(im, side, k1 - 0.06, k1 + 0.0, Y, Y + 0.1, 0.21, 0.27, fn='cbox', hexcol='#2f6d8a')                        # 馬克杯（右後、計時器旁邊；10-30 以前在前緣，和黃金葛的藤疊在一起）
     lbox(im, side, k1 - 0.55, k1 - 0.12, 0.0, 0.62, 0.06, 0.3, fn='crbox', hexcol='#24324a', r=0.03)                 # 行李箱（立在書桌下）
     lbox(G['met'], side, k1 - 0.4, k1 - 0.27, 0.62, 0.66, 0.15, 0.2)
 
@@ -487,22 +499,22 @@ def yuting412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
 
 def kai203(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     G = ig('ROOMMATE_KAI', {'year': '203', 'who': 'kai'}); im, bk = G['it'], G['blk']
-    for (du, w_, dv) in ((0.5, 0.5, 0.0), (1.0, 0.48, 0.03)):                                                         # 雙螢幕（右邊那台往前 3 cm、不重疊）
+    for (du, w_, dv) in ((0.5, 0.5, 0.2), (1.0, 0.48, 0.23)):                                                         # 雙螢幕（右邊那台往前 3 cm、不重疊）；整組在層架（深 0.27 m）前面——10-30 以前貼牆放，螢幕上緣 1.18 m 穿過 1.00 m 的層架底板
         lbox(bk, side, k0 + du - w_ / 2, k0 + du + w_ / 2, Y + 0.1, Y + 0.42, 0.1 + dv, 0.125 + dv); lbox(G['lcd'], side, k0 + du - w_ / 2 + 0.012, k0 + du + w_ / 2 - 0.012, Y + 0.112, Y + 0.408, 0.125 + dv, 0.131 + dv)
         lbox(bk, side, k0 + du - 0.02, k0 + du + 0.02, Y + 0.012, Y + 0.12, 0.08 + dv, 0.1 + dv); lbox(bk, side, k0 + du - 0.1, k0 + du + 0.1, Y, Y + 0.012, 0.04 + dv, 0.2 + dv)
-    lbox(bk, side, k0 + 0.5, k0 + 0.95, Y, Y + 0.02, 0.32, 0.47); lbox(im, side, k0 + 1.02, k0 + 1.08, Y, Y + 0.02, 0.36, 0.46, fn='cbox', hexcol='#d9d6cf')   # 鍵盤、滑鼠
+    lbox(bk, side, k0 + 0.5, k0 + 0.95, Y, Y + 0.02, 0.45, 0.58); lbox(im, side, k0 + 1.02, k0 + 1.08, Y, Y + 0.02, 0.47, 0.57, fn='cbox', hexcol='#d9d6cf')   # 鍵盤、滑鼠（螢幕往前以後跟著往前）
     lbox(bk, side, k1 - 0.3, k1 - 0.08, 0.0, 0.46, 0.04, 0.5, fn='rbox', r=0.01, seg=1)                                # 電腦主機（書桌下）
     lbox(G['led'], side, k1 - 0.29, k1 - 0.09, 0.4, 0.405, 0.5, 0.503)                                                  # 主機前面的燈條
-    sweep(bk, [W3(side, k0 + 1.02 + 0.2, Y + 0.44, 0.12), W3(side, k0 + 1.02 + 0.2, Y + 0.56, 0.115), W3(side, k0 + 1.02 + 0.2, Y + 0.44, 0.11)], 0.014, seg=6)   # 掛在螢幕上的耳機
+    sweep(bk, [W3(side, k0 + 1.02 + 0.2, Y + 0.44, 0.32), W3(side, k0 + 1.02 + 0.2, Y + 0.56, 0.315), W3(side, k0 + 1.02 + 0.2, Y + 0.44, 0.31)], 0.014, seg=6)   # 掛在螢幕上的耳機
     lbox(im, side, k0 + 0.05, k0 + 0.25, Y, Y + 0.05, 0.4, 0.58, fn='cbox', hexcol='#d65a3a'); lbox(im, side, k1 - 0.06, k1, Y, Y + 0.12, 0.45, 0.51, fn='cbox', hexcol='#2f6db0')   # 零食、飲料
 
 
 def zhe203(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     G = ig('Y203_ZHE', {'year': '203', 'who': 'zhe'}); im = G['it']
     painted(im, lambda: im.sphere(W3(side, k1 - 0.3, 0.12, 0.32), 0.12, seg=14, rings=9), '#c4692e')                   # 籃球（書桌下）
-    lbox(im, side, k0 + 0.45, k0 + 0.8, Y, Y + 0.2, 0.06, 0.32, fn='cbox', hexcol='#b9a37f')                            # 一箱零食（開著，上面露出包裝）
-    for j, c in enumerate(['#e0b95b', '#c23f35', '#2f6db0', '#3e7a52']): lbox(im, side, k0 + 0.48 + j * 0.075, k0 + 0.54 + j * 0.075, Y + 0.2, Y + 0.27, 0.1 + j * 0.03, 0.2 + j * 0.03, fn='cbox', hexcol=c)
-    fx_, fv = k1 - 0.2, 0.25                                                                                           # 桌上型電風扇（從高雄帶來的）：底座、立柱、圓形扇罩
+    lbox(im, side, k0 + 0.45, k0 + 0.8, Y, Y + 0.16, 0.06, 0.32, fn='cbox', hexcol='#b9a37f')                           # 一箱零食（開著，上面露出包裝）；矮一點：包裝頂在 0.98 m，不穿過 1.00 m 的層架底板（10-30）
+    for j, c in enumerate(['#e0b95b', '#c23f35', '#2f6db0', '#3e7a52']): lbox(im, side, k0 + 0.48 + j * 0.075, k0 + 0.54 + j * 0.075, Y + 0.16, Y + 0.22, 0.1 + j * 0.03, 0.2 + j * 0.03, fn='cbox', hexcol=c)
+    fx_, fv = k1 - 0.2, 0.4   # 層架（深 0.27 m）前面；10-30 以前 0.25，扇罩貼著層架的前緣                                                                                           # 桌上型電風扇（從高雄帶來的）：底座、立柱、圓形扇罩
     G['met'].cyl(W3(side, fx_, Y, fv), W3(side, fx_, Y + 0.03, fv), 0.1, seg=14); G['met'].cyl(W3(side, fx_, Y + 0.03, fv), W3(side, fx_, Y + 0.25, fv), 0.015, seg=8)
     painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.02), W3(side, fx_, Y + 0.38, fv + 0.1), 0.17, seg=20), '#e8eef0')
     painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.1), W3(side, fx_, Y + 0.38, fv + 0.102), 0.15, seg=20), '#9aa5ad')
@@ -516,7 +528,7 @@ def bohan203(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     books_row(im, side, sm + 0.02, s1 - 0.025, sy0 + 0.018, 0.04, tall=0.28, neat=True, cols=['#8e1d1d', '#e3d9c2'])
     for j, c in enumerate(['#2f6db0', '#3e7a52', '#c23f35', '#e0b95b', '#5a4a6a']):                                     # 一疊考古題資料夾（平放）
         lbox(im, side, k0 + 0.05, k0 + 0.36, Y + j * 0.025, Y + (j + 1) * 0.025 - 0.002, 0.08, 0.32, fn='cbox', hexcol=c)
-    desk_lamp(G, side, k1 - 0.18, Y)
+    desk_lamp(G, side, k1 - 0.06, Y, v=0.16, du=-1.0)   # 層架右邊、書桌最右端，手臂往書桌那邊彎、燈罩在層架前面（10-30 以前在 k1−0.18：在層架下面，手臂穿過層架的側板）
     lbox(im, side, k0 + 0.5, k0 + 0.78, Y, Y + 0.035, 0.3, 0.5, fn='cbox', hexcol='#2f4f6b')                             # 攤開的課本
     for j in range(3): lbox(im, side, k0 + 0.82 + j * 0.02, k0 + 0.83 + j * 0.02, Y, Y + 0.01, 0.32, 0.47, fn='cbox', hexcol=['#202225', '#2f6db0', '#c23f35'][j])   # 排好的筆
     lbox(im, side, k1 - 0.32, k1 - 0.26, Y, Y + 0.02, 0.45, 0.49, fn='cbox', hexcol='#e8873a')                           # 耳塞盒
@@ -528,7 +540,7 @@ def tangrui412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
         lbox(im, side, k0 + 0.05 + j * 0.02, k0 + 0.35 + j * 0.02, Y + j * 0.012, Y + (j + 1) * 0.012, 0.1 + j * 0.03, 0.31 + j * 0.03, fn='cbox', hexcol=c)
     lbox(im, side, k0 + 0.5, k0 + 0.92, Y, Y + 0.008, 0.28, 0.5, fn='cbox', hexcol='#f6f3ea')                            # 攤開的那本
     uc = (ua + ust) / 2                                                                                                 # 掛在床欄外面的戲服（衣架勾在床欄上）
-    sweep(G['met'], [W3(side, uc, GUARD - 0.06, VD - 0.04), W3(side, uc, GUARD + 0.03, VD - 0.02), W3(side, uc, GUARD + 0.03, VD + 0.02), W3(side, uc, GUARD - 0.08, VD + 0.03)], 0.006, seg=5)
+    sweep(G['met'], [W3(side, uc, GUARD - 0.03, VD - 0.045), W3(side, uc, GUARD + 0.035, VD - 0.035), W3(side, uc, GUARD + 0.035, VD + 0.02), W3(side, uc, GUARD - 0.08, VD + 0.03)], 0.006, seg=5)   # 勾在床欄板後面先往上、越過板頂（2.02）再勾出來（10-30 以前斜著穿過板頂）
     lbox(im, side, uc - 0.26, uc + 0.26, GUARD - 0.12, GUARD - 0.1, VD + 0.012, VD + 0.03, fn='cbox', hexcol='#6b6f75')
     lbox(im, side, uc - 0.24, uc + 0.24, 1.05, GUARD - 0.12, VD + 0.01, VD + 0.045, fn='crbox', hexcol='#7a2f3a', r=0.012)
 
@@ -536,7 +548,7 @@ def tangrui412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
 def weilun412(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     G = ig('Y412_WEILUN', {'year': '412', 'who': 'weilun'}); im = G['it']
     hx = k1 - 0.3                                                                                                        # 腳踏車安全帽（桌上）
-    painted(im, lambda: im.ell(W3(side, hx, Y + 0.02, 0.32), 0.15, 0.12, 0.13, seg=16, rings=8), '#2b6cb0')
+    painted(im, lambda: im.ell(W3(side, hx, Y + 0.09, 0.32), 0.15, 0.11, 0.13, seg=16, rings=8), '#2b6cb0')   # 球心 Y+0.09、高 0.11：底在桌板裡 2 cm（桌板 3 cm 厚），10-30 以前球心 Y+0.02，下面 10 cm 從書桌底下露出來
     lbox(im, side, hx - 0.15, hx + 0.15, Y, Y + 0.02, 0.2, 0.44, fn='cbox', hexcol='#202225')
     for j, (c, h) in enumerate((('#3a3f46', 0.06), ('#d6cdb8', 0.05), ('#5d7f9f', 0.07), ('#8c3b47', 0.05))):            # 椅子上堆的衣服
         lbox(im, side, cu - 0.2 + j * 0.02, cu + 0.18 - j * 0.03, 0.455 + j * 0.05, 0.455 + j * 0.05 + h, 0.7 + j * 0.02, 1.02 - j * 0.03, fn='crbox', hexcol=c, r=0.02)
@@ -563,9 +575,9 @@ def zhe312(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     """阿哲（L1）：籃球已經滾到門口（AA_208 7-1「阿哲的籃球已經滾到門口了」）、一箱零食、從高雄帶來的電風扇"""
     R = random.Random('zhe312'); G = ig('Y312_ZHE', {'year': '312', 'who': 'zhe'}); im = G['it']
     painted(im, lambda: im.sphere((-0.66, 0.12, 3.14), 0.12, seg=14, rings=9), '#c4692e')                            # 門口左邊（垃圾桶和門框中間，不擋路）
-    lbox(im, side, k0 + 0.45, k0 + 0.8, Y, Y + 0.2, 0.06, 0.32, fn='cbox', hexcol='#b9a37f')
-    for j, c in enumerate(['#e0b95b', '#2f6db0', '#c23f35']): lbox(im, side, k0 + 0.48 + j * 0.09, k0 + 0.55 + j * 0.09, Y + 0.2, Y + 0.26, 0.12 + j * 0.03, 0.22 + j * 0.03, fn='cbox', hexcol=c)
-    fx_, fv = k1 - 0.2, 0.25
+    lbox(im, side, k0 + 0.45, k0 + 0.8, Y, Y + 0.16, 0.06, 0.32, fn='cbox', hexcol='#b9a37f')   # 矮一點（同 203）
+    for j, c in enumerate(['#e0b95b', '#2f6db0', '#c23f35']): lbox(im, side, k0 + 0.48 + j * 0.09, k0 + 0.55 + j * 0.09, Y + 0.16, Y + 0.22, 0.12 + j * 0.03, 0.22 + j * 0.03, fn='cbox', hexcol=c)
+    fx_, fv = k1 - 0.2, 0.4   # 層架（深 0.27 m）前面；10-30 以前 0.25，扇罩貼著層架的前緣
     G['met'].cyl(W3(side, fx_, Y, fv), W3(side, fx_, Y + 0.03, fv), 0.1, seg=14); G['met'].cyl(W3(side, fx_, Y + 0.03, fv), W3(side, fx_, Y + 0.25, fv), 0.015, seg=8)
     painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.02), W3(side, fx_, Y + 0.38, fv + 0.1), 0.17, seg=20), '#e8eef0')
     painted(im, lambda: im.cyl(W3(side, fx_, Y + 0.38, fv + 0.1), W3(side, fx_, Y + 0.38, fv + 0.102), 0.15, seg=20), '#9aa5ad')
@@ -581,7 +593,7 @@ def bohan_y(year):
         books_row(im, side, sm + 0.02, s1 - 0.025, sy0 + 0.018, 0.04, tall=0.28, neat=True, cols=['#8e1d1d', '#e3d9c2'], rng=R)
         nf = {'312': 5, '507': 6, '409': 7}[year]                                                                      # 考古題資料夾一年比一年多
         for j in range(nf): lbox(im, side, k0 + 0.05, k0 + 0.36, Y + j * 0.025, Y + (j + 1) * 0.025 - 0.002, 0.08, 0.32, fn='cbox', hexcol=['#2f6db0', '#3e7a52', '#c23f35', '#e0b95b', '#5a4a6a', '#2f4f6b', '#d6cdb8'][j])
-        desk_lamp(G, side, k1 - 0.18, Y)
+        desk_lamp(G, side, k1 - 0.06, Y, v=0.16, du=-1.0)   # 層架右邊、書桌最右端，手臂往書桌那邊彎、燈罩在層架前面（10-30 以前在 k1−0.18：在層架下面，手臂穿過層架的側板）
         lbox(im, side, k0 + 0.5, k0 + 0.78, Y, Y + 0.035, 0.3, 0.5, fn='cbox', hexcol='#2f4f6b')
         for j in range(3): lbox(im, side, k0 + 0.82 + j * 0.02, k0 + 0.83 + j * 0.02, Y, Y + 0.01, 0.32, 0.47, fn='cbox', hexcol=['#202225', '#2f6db0', '#c23f35'][j])
         if year == '409': lbox(im, side, ua + 0.5, ua + 0.56, DECK1 + 0.24, DECK1 + 0.26, 0.24, 0.28, fn='cbox', hexcol='#e8873a')   # 枕頭旁邊（被子上）的耳塞盒
@@ -608,7 +620,7 @@ def fresh_y(year):
         G = ig(f'Y{year}_FRESH', {'year': year, 'who': 'fresh'})
         handbook(G, side, ua, ust)
         carton(G, side, k1 - 0.5, k1 - 0.08, 0.0, 0.38, 0.1, 0.48)                                                    # 書桌下
-        if year == '312': carton(G, side, k0 + 0.5, k0 + 0.92, Y, Y + 0.3, 0.08, 0.42)                                 # 書桌上
+        if year == '312': carton(G, side, k0 + 0.5, k0 + 0.92, Y, Y + 0.22, 0.08, 0.42)                                # 書桌上（高 0.22：頂在 0.98 m，不穿過 1.00 m 的層架底板；10-30 以前 0.3）
         laptop(G, side, k0 + 1.1, Y) if year == '409' else None
         lbox(G['it'], side, s0 + 0.03, s0 + 0.2, sy0 + 0.018, sy0 + 0.25, 0.04, 0.24, fn='cbox', hexcol='#d6cdb8')       # 架上只有一疊新課本
     return fn
@@ -628,9 +640,9 @@ def soph_y(year):
 def peer507(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     """別系的同屆（R2，背景）：一台螢幕＋鍵盤、一疊 A4 影印、掛在椅背的外套"""
     R = random.Random('peer507'); G = ig('Y507_PEER', {'year': '507', 'who': 'peer'}); im, bk = G['it'], G['blk']
-    lbox(bk, side, k0 + 0.55, k0 + 1.05, Y + 0.1, Y + 0.4, 0.1, 0.125); lbox(G['lcd'], side, k0 + 0.562, k0 + 1.038, Y + 0.112, Y + 0.388, 0.125, 0.131)
-    lbox(bk, side, k0 + 0.78, k0 + 0.82, Y + 0.012, Y + 0.12, 0.08, 0.1); lbox(bk, side, k0 + 0.7, k0 + 0.9, Y, Y + 0.012, 0.04, 0.2)
-    lbox(bk, side, k0 + 0.58, k0 + 1.0, Y, Y + 0.02, 0.32, 0.46)
+    lbox(bk, side, k0 + 0.55, k0 + 1.05, Y + 0.1, Y + 0.4, 0.3, 0.325); lbox(G['lcd'], side, k0 + 0.562, k0 + 1.038, Y + 0.112, Y + 0.388, 0.325, 0.331)   # 螢幕在層架前面（同阿凱，10-30）
+    lbox(bk, side, k0 + 0.78, k0 + 0.82, Y + 0.012, Y + 0.12, 0.28, 0.3); lbox(bk, side, k0 + 0.7, k0 + 0.9, Y, Y + 0.012, 0.24, 0.4)
+    lbox(bk, side, k0 + 0.58, k0 + 1.0, Y, Y + 0.02, 0.45, 0.59)
     for j in range(4): lbox(im, side, k0 + 0.06 + j * 0.004, k0 + 0.27 + j * 0.004, Y + j * 0.006, Y + (j + 1) * 0.006, 0.1 + j * 0.01, 0.4 + j * 0.01, fn='cbox', hexcol='#f6f3ea')
     books_row(im, side, s0 + 0.03, sm - 0.02, sy0 + 0.018, 0.04, tall=0.27, rng=R)
     lbox(im, side, cu - 0.21, cu + 0.21, 0.55, 0.95, 1.1, 1.14, fn='crbox', hexcol='#4a4f57', r=0.015)                 # 外套
@@ -707,7 +719,7 @@ def fang205(side, k0, k1, s0, s1, sm, sy0, ust, ub, ua, cu, Y):
     lbox(G['met'], side, s0 + 0.05, s1 - 0.05, sy0 - 0.03, sy0 - 0.005, 0.12, 0.16); lbox(G['led'], side, s0 + 0.06, s1 - 0.06, sy0 - 0.036, sy0 - 0.03, 0.125, 0.155)
     # 書桌下：登山鞋；衣櫃前：大登山包（深綠）
     for j in range(2): lbox(im, side, k1 - 0.42 + j * 0.13, k1 - 0.31 + j * 0.13, 0.0, 0.12, 0.25, 0.53, fn='crbox', hexcol='#5a4a3a', r=0.03)
-    w0 = ust - 0.6
+    w0 = ub - STW0 - 0.6
     lbox(im, side, w0 + 0.1, w0 + 0.46, 0.0, 0.72, 0.6, 0.86, fn='crbox', hexcol='#2f4a3a', r=0.06); lbox(im, side, w0 + 0.16, w0 + 0.4, 0.42, 0.62, 0.86, 0.9, fn='crbox', hexcol='#3a5a46', r=0.03)
     lbox(im, side, w0 + 0.13, w0 + 0.43, 0.66, 0.76, 0.63, 0.83, fn='crbox', hexcol='#24382c', r=0.03)                       # 背包的頂蓋（第一輪是黑色方塊，太重）
     # 窗台三盆（後牆，和他送給祐廷的那三盆同一種）
@@ -738,7 +750,7 @@ for uid, side, ua, ub, sets in UNITS: loft(uid, side, ua, ub, {k: v for k, v in 
 r2 = next(u for u in LAYOUT['units'] if u['id'] == 'R2'); l2 = next(u for u in LAYOUT['units'] if u['id'] == 'L2')
 LAYOUT['v0_props'] = {'XUN_DESK': {'x': r2['desk_center'][0], 'y': 0.76, 'z': r2['desk_center'][1], 'ry': math.pi / 2, 'note': '阿勳的書桌（R2）'},
                       'XUN_BOWLING': {'x': r2['floor_under_bed_spot'][0], 'y': 0.0, 'z': r2['floor_under_bed_spot'][1], 'ry': 0.0, 'note': '書桌下靠衣櫃那一端的地上'},
-                      'BOXES_DESK': {'x': l2['desk_center'][0], 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）'},
+                      'BOXES_DESK': {'x': round(wx('L', 0.47), 3), 'y': 0.76, 'z': l2['desk_center'][1], 'note': 'E01 紙箱疊在祐廷的書桌上（AA_208 第 6 節）；箱子深 0.36 m、中心離牆 0.47 m：整疊在層架（深 0.27 m）前面——10-30 以前放在書桌正中間，穿過層架和床板（使用者「書桌上東西不要重疊」）'},
                       'BOXES_FLOOR': {'x': round(l2['seat_approach'][0] + 0.1, 3), 'y': 0.0, 'z': round(l2['desk_u'][0] + 0.35, 3), 'note': '隔天剩的箱子在書桌旁邊的地上'}}
 LAYOUT['player_unit'] = 'L2'
 
@@ -756,8 +768,20 @@ for x_ in (RX0, RX1):
     met.cyl((x_, 0.0, RZ - 0.27), (x_, 1.1, RZ), 0.008, seg=5); met.cyl((x_, 0.0, RZ + 0.27), (x_, 1.1, RZ), 0.008, seg=5)
 for (y_, dz) in ((1.1, 0.0), (0.85, -0.1), (0.85, 0.1)): met.cyl((RX0, y_, RZ + dz), (RX1, y_, RZ + dz), 0.006, seg=5)
 it.cbox(-2.3, -2.0, 0.62, 1.1, RZ - 0.015, RZ + 0.015, '#e6e0d2'); it.cbox(-1.95, -1.8, 0.7, 1.1, RZ - 0.115, RZ - 0.085, '#4a6c8c')
+# 大家共用的東西（DORM203-LM-1030；四個年級、經濟系那年都一樣）：洗手間門口的吸水腳踏墊（走道上、平的，不擋路）；門左邊角落靠牆的掃把和畚箕
+bmat = Mesh('dorm_bathmat', L.flat('dorm_bathmat', '#7f8b92', rough=0.97)); soft_box(bmat, 0.1, 0.58, 0.0, 0.012, 2.33, 2.87, r=0.005, seg=1); fin(bmat, uv=False, props={'lm': 0.6})
+met.cyl((-2.79, 0.06, 3.12), (-2.84, 1.22, 3.27), 0.011, seg=6)                                                                      # 掃把：鋁管＋塑膠頭＋刷毛
+it.cbox(-2.86, -2.72, 0.02, 0.1, 3.05, 3.19, '#2f6f8f'); it.cbox(-2.85, -2.73, 0.0, 0.03, 3.06, 3.18, '#c9b98a')
+it.cbox(-2.86, -2.62, 0.0, 0.015, 3.24, 3.36, '#2f6f8f'); it.cbox(-2.86, -2.84, 0.015, 0.2, 3.24, 3.36, '#2f6f8f')                    # 畚箕（立在牆角）
 LAYOUT['blocks'] += [{'id': 'shoe_cabinet', 'x': [IX0, round(IX0 + 0.36, 3)], 'z': [1.62, 2.82]}, {'id': 'bins', 'x': [-1.4, -0.8], 'z': [3.05, IZ1]},
                      {'id': 'drying_rack', 'x': [RX0 - 0.05, RX1 + 0.05], 'z': [RZ - 0.3, RZ + 0.3]}, {'id': 'bath', 'x': [round(bx0 - bt / 2, 3), IX1], 'z': [round(bz0 - bt / 2, 3), IZ1]}]
+
+# ======================================================================= 只在烘焙時擋光的東西（--bakeblock；bake_dorm_room4.sh 的 --nolm、--drop 都有 BAKEONLY：不分光照貼圖、輸出前刪掉）
+# 窗外的對面大樓＋街道（DORM203-LM-1030）：烘焙場景窗外原本只有天空，接近地平線的天光從北窗直直照進來，落在 5 m 外的門口地上（第二次試烘門口地上整片 1.0、
+# 窗邊才 0.63）。真的 203 在二樓、對面隔著舟山路是一排樓（遊戲的窗景也是紅磚大樓）：對面樓 12～14 m 外、比窗高 7 m（擋住仰角 28° 以下的天空），下面是街道（反光）
+if '--bakeblock' in ARGS:
+    bo = Mesh('BAKEONLY_opposite', L.flat('BAKEONLY_brick', '#8a6b5c', rough=0.9)); bo.box(-16.0, 16.0, -4.0, 9.0, Z0 - 14.0, Z0 - 12.0); bo.finish(root, uv=False)
+    bg_ = Mesh('BAKEONLY_street', L.flat('BAKEONLY_road', '#8c8c88', rough=0.95)); bg_.box(-16.0, 16.0, -4.2, -4.0, Z0 - 12.0, Z0 - 0.1); bg_.finish(root, uv=False)
 
 # ======================================================================= 收尾
 for k, ob in (('wood', wood), ('white', wht), ('metal', met), ('chair', chair), ('led', led)):

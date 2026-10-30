@@ -321,18 +321,19 @@ def staple(t, x0, x1, y0, y1, z0, z1): solid(t, 'c_staple', lambda: t.box(x0, x1
 # ---- 一疊大二的筆記：書桌左前（大二的民總課本、相簿那一堆的前面），三本 B5 疊著，每本轉一點點
 g, t = item('notes_y2')
 for k, (key, rot, dx, dz) in enumerate((('note_a', 0.02, 0.0, 0.0), ('note_b', -0.05, 0.006, -0.008), ('note_c', 0.07, -0.004, 0.006))):
-    y0, y1 = Y + k * 0.006, Y + (k + 1) * 0.006; cxz = (-2.518 + dx, -0.807 + dz)
+    y0, y1 = Y + k * 0.006, Y + (k + 1) * 0.006; cxz = (-2.518 + dx, -0.827 + dz)   # 10-30 往後 2 cm（DORM203-LM-1030）：前面那一疊 A4 才放得進筆電和這疊中間
     n0 = len(t.bm.verts); t.tbox(cxz[0] - 0.091, cxz[0] + 0.091, y0, y1, cxz[1] - 0.1285, cxz[1] + 0.1285, key, 'pages', bottom=key)
     t.bm.verts.ensure_lookup_table(); spin([t.bm.verts[i] for i in range(n0, len(t.bm.verts))], cxz[0], cxz[1], rot)
 t.finish(g)
 # ---- 學姊研究計畫的第二段（印出來的，兩頁、訂書針）：疊在筆記上
 g, t = item('sis_plan')
-desk_sheet(t, 'paper_back', (-2.484, -0.792), 0.205, 0.292, Y + 0.0186, rot=-0.16); desk_sheet(t, 'sis_plan', (-2.478, -0.798), 0.205, 0.292, Y + 0.0192, rot=-0.13)   # 不插進大二的民總課本（x −2.65 以後）
-staple(t, -2.599, -2.597, Y + 0.0195, Y + 0.0205, -0.706, -0.694); t.finish(g)
+desk_sheet(t, 'paper_back', (-2.484, -0.812), 0.205, 0.292, Y + 0.0186, rot=-0.16); desk_sheet(t, 'sis_plan', (-2.478, -0.818), 0.205, 0.292, Y + 0.0192, rot=-0.13)   # 不插進大二的民總課本（x −2.65 以後）
+staple(t, -2.599, -2.597, Y + 0.0195, Y + 0.0205, -0.726, -0.714); t.finish(g)
 # ---- 書桌前緣那一疊（A4 橫放，長邊沿 x；不碰筆電 z −0.47）：最下面學姊給的文章 → 東京講義 → 謄本影本（大四）→ 田野筆記影本（大四）
-PILE = (-2.435, -0.552)   # 長邊沿 x、圖的上面朝牆；z 夾在大三的筆記（到 −0.666）和筆電（從 −0.47 起）中間，最歪的那張角落塞進筆電下 3 cm
-g, t = item('article'); desk_sheet(t, 'article', PILE, 0.196, 0.282, Y + 0.0004, rot=0.03); staple(t, -2.5695, -2.5575, Y + 0.0006, Y + 0.0010, -0.6322, -0.6302); t.finish(g)
-g, t = item('vac_C11'); desk_sheet(t, 'c11', (PILE[0] - 0.008, PILE[1] + 0.004), 0.196, 0.282, Y + 0.0011, rot=-0.06); t.finish(g)
+PILE = (-2.435, -0.578)   # 10-30（DORM203-LM-1030，使用者「書桌上東西不要重疊」）：往後 2.6 cm、每張只轉一點點——原本最歪的那張角落插進筆電的底座 3 cm；現在 z −0.68～−0.476（筆記到 −0.692、筆電從 −0.47）
+_PILE_OLD = (-2.435, -0.552)   # 長邊沿 x、圖的上面朝牆；z 夾在大三的筆記（到 −0.666）和筆電（從 −0.47 起）中間，最歪的那張角落塞進筆電下 3 cm
+g, t = item('article'); desk_sheet(t, 'article', PILE, 0.196, 0.282, Y + 0.0004, rot=0.02); staple(t, -2.5695, -2.5575, Y + 0.0006, Y + 0.0010, -0.6582, -0.6562); t.finish(g)
+g, t = item('vac_C11'); desk_sheet(t, 'c11', (PILE[0] - 0.008, PILE[1] + 0.003), 0.196, 0.282, Y + 0.0011, rot=-0.025); t.finish(g)
 # ---- 「測試版　不准外流」的隨身碟、首爾的交通卡：筆電前面（坐下來手放的地方）
 g, t = item('zq_usb'); ux, uz, ua = -2.372, -0.385, 0.55   # 前緣那一疊紙的角到 z −0.414：不壓在隨身碟上
 vs = solid(t, 'c_usb', lambda: t.box(ux - 0.027, ux + 0.016, Y, Y + 0.008, uz - 0.009, uz + 0.009)) + solid(t, 'c_usbmetal', lambda: t.box(ux + 0.016, ux + 0.028, Y + 0.0015, Y + 0.0065, uz - 0.006, uz + 0.006))
@@ -439,10 +440,10 @@ solid(t, 'c_metal', lambda: ([t.cyl(a, b, 0.0015, seg=5) for a, b in zip(ring[:-
 card(t, (kx + 0.006, ky - 0.052, kz - 0.002), RZ, UPY, 0.016, 0.012, 'tag', tilt=0.1); t.finish(g)
 # 書桌前緣那一疊的上面兩張：謄本影本（透明夾）、田野筆記影本
 g, t = item('land', 'Y4')
-desk_sheet(t, 'land', (PILE[0] + 0.006, PILE[1] + 0.002), 0.196, 0.282, Y + 0.0018, rot=0.07)
-desk_sheet(t, 'plastic', (PILE[0] + 0.006, PILE[1] + 0.002), 0.204, 0.29, Y + 0.0021, rot=0.07); t.finish(g)
+desk_sheet(t, 'land', (PILE[0] + 0.006, PILE[1] + 0.002), 0.196, 0.282, Y + 0.0018, rot=0.025)
+desk_sheet(t, 'plastic', (PILE[0] + 0.006, PILE[1] + 0.002), 0.204, 0.29, Y + 0.0021, rot=0.025); t.finish(g)
 g, t = item('field', 'Y4')
-desk_sheet(t, 'field', (PILE[0] - 0.004, PILE[1] + 0.008), 0.196, 0.282, Y + 0.0026, rot=-0.12); staple(t, -2.560, -2.548, Y + 0.0029, Y + 0.0034, -0.6425, -0.6405); t.finish(g)
+desk_sheet(t, 'field', (PILE[0] - 0.004, PILE[1] + 0.003), 0.196, 0.282, Y + 0.0026, rot=-0.03); staple(t, -2.560, -2.548, Y + 0.0029, Y + 0.0034, -0.6685, -0.6665); t.finish(g)
 # 便利商店的塑膠袋：衣櫃前的地上（床桌組的範圍，走不到），裝了別的東西鼓鼓的，提把垂在旁邊
 g, t = item('cold', 'Y4'); bcx, bcz = -2.14, 0.70
 bm2 = bmesh.new(); bmesh.ops.create_uvsphere(bm2, u_segments=12, v_segments=8, radius=1.0)

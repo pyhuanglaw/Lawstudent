@@ -1,0 +1,40 @@
+{
+ "scale": 2.0,
+ "intensity": 6.283185307179586,
+ "res": 1024,
+ "samples": 512,
+ "emit": {},
+ "sun": [
+  160.0,
+  35.0,
+  2.0
+ ],
+ "sky": 1.0,
+ "nightsky": 0.03,
+ "shell": "S",
+ "objects": [
+  "WALL_E_print",
+  "WALL_E_trim",
+  "WALL_E_wain",
+  "WALL_E_wall",
+  "WALL_N_door",
+  "WALL_N_print",
+  "WALL_N_trim",
+  "WALL_N_wain",
+  "WALL_N_wall",
+  "WALL_S_curtain",
+  "WALL_S_frame",
+  "WALL_S_trim",
+  "WALL_S_wain",
+  "WALL_S_wall",
+  "WALL_W_board",
+  "WALL_W_print",
+  "WALL_W_trim",
+  "WALL_W_wain",
+  "WALL_W_wall",
+  "wancai_multi_carpet",
+  "wancai_multi_ceiling",
+  "wancai_multi_floorm",
+  "wancai_multi_woodparts"
+ ]
+}
