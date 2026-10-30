@@ -12,7 +12,8 @@
 //   6. 阿哲、明軒下雨那一筆：站在體育館一樓走廊（站得住、離大廳走路的人 0.8 m 以上），阿哲面向參加點、明軒面向東邊（沿著走廊）。
 //   7. （另一個 node 行程：真的 story3d.js）作息：下雨的練球日阿哲、明軒在 gym（每一個練球日的開頭、中間、結尾）；晴天照舊在球場那一筆；一次定整場；
 //      週四、國定假日、第 4 週、大一下、時段外下雨不在體育館。參加：體育館「去練球」→ 旁白固定是走廊那一句、不佔晴天輪的那一格；17:30 以前參加＝參加的那一刻定。
-// 修改前（850bd28d8）：FAIL 40 項（沒有下雨的備案：球場照樣有人、提示照舊、體育館沒有參加點、阿哲明軒在球場、旁白照順序）。用法：node tests/bball_rain_unit.js
+// 修改前（850bd28d8）：42 項裡 FAIL 29 項（沒有下雨的備案：下雨照樣球場有人、提示照舊、體育館沒有參加點、阿哲明軒在球場、旁白照順序輪）；PASS 的 13 項是晴天、非練球日、國定假日「照舊」的那幾項。
+// 用法：node tests/bball_rain_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
