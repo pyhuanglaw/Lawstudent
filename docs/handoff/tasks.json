@@ -36075,6 +36075,28 @@
     "ack": "SENT"
    },
    "notes": ""
+  },
+  {
+   "id": "BADCLIP-FOLLOW-1030",
+   "title": "羽球短片：一起走過去（follow）的人被引擎拉回玩家身邊，沒有隔著網子打",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "postrel-1030：badminton_clip3d.js 演出期間 beh follow→idle、演完還原；engine3d.js follow／buddy 遇 frozen 不動；單元測試；BB 瀏覽器用 day 29 存檔重現",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次和人約羽球",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 04:5x＋存檔 day29（X135）",
+   "authorized": "使用者",
+   "notes": ""
   }
  ]
 }
