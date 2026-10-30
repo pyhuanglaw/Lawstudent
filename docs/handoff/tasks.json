@@ -36146,6 +36146,28 @@
     "ack": "SENT"
    },
    "notes": ""
+  },
+  {
+   "id": "SK02-LINE-JACKET-1030",
+   "title": "SK02 經濟系系外套：系辦助理「那個轉系的」改成重考的說法（AA）；選「穿去霖澤館上課」要真的穿上（LAWWW2 外套外觀＋椅背外套；LAWWW 接上那一次霖澤館的課穿著）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "AA 給新句 → LAWWW 改 events.js；LAWWW2 交外套外觀 → LAWWW 接 ECON_JACKET wear 那一次上課穿",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "法律系大一上第 4～7 週去經濟系系辦領外套（玩過經濟系前傳）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 05:1x 兩則（X140）",
+   "authorized": "使用者",
+   "notes": ""
   }
  ]
 }
