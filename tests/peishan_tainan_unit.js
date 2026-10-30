@@ -31,7 +31,7 @@ const GM={get G(){ return G; },E,D:{active:false},npc:{},
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(a,b){ caps.push(b); },sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},money(n){ G.money+=n; },syncWeekday(){},
   spawnCharacter(id,x,z){ const n={id,charId:id,obj:{position:{x,y:0,z},rotation:{y:0}},lv:0}; GM.npc[id]=n; return n; },removeNPC(id){ delete GM.npc[id]; },
-  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))})); const want=picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const D=k=>STORY.dayOfKey(k);
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,stage:'law',weekday:wdOf(day),weather:'clear',energy:70,money:9000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m,introDone:true,afternoonDone:true,classDone:true,metAn:true,MET_ZHE:true},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
@@ -121,7 +121,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     fresh(D('2028-01-10'),12,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID);
     check('4. 大三寒假：「我去台中找妳？」（台中那一組）', HV.key(G,ID)===ID&&!!HV.offer(G,ID)&&HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台中找妳？');
     fresh(d,12,'dorm',{}); date(ID); C(ID); picks=['算了']; opts=[]; await INV.flow(GM,ID,null,false);
-    check('4. 交往中：約她的清單有「我去台南找妳？」、也有「視訊？」（AA_349 K5）', (opts[0]||[]).includes('我去台南找妳？')&&(opts[0]||[]).includes('視訊？'), JSON.stringify(opts[0]));
+    check('4. 交往中：約她的清單有「我去台南找妳？」、也有「視訊？」（AA_349 K5；INVITE-MENU-1030：兩個都有＝放在「特別的…」那一類）', (opts[0].all||opts[0]).includes('我去台南找妳？')&&(opts[0].all||opts[0]).includes('視訊？'), JSON.stringify(opts[0].all||opts[0]));
     // 校外約會（DATE）：她不上來（AA_282 第 6 節第 1 點；AA_349 K3）——北部的地點全部約不到（臺北、新北、基隆、桃園、宜蘭……）；字照 K11
     fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID);
     const c1=DATE.check(G,{who:ID,locs:['D06'],day:d+3,depart:10}), c2=DATE.check(G,{who:ID,locs:['D13'],day:d+3,depart:10}), w0=typeof DATE.noTaipei==='function'?DATE.noTaipei(G,ID,d+3,'D06'):null;
@@ -223,12 +223,12 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   // K3 玩家主動約（校外約會的清單）＋ K11 灰掉的北部地點寫「她現在在台南。」
   { const d=termDay('Y3S1',8,2); fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=60; SOCIAL.rel(ID).rom=35; said=[]; opts=[]; picks=['臺北市立美術館','台南・美術館',0];
     const day=await DATE.menu(GM,ID,null); const L0=opts[0]||[], q=OUT.rec(G).find(x=>x.hv&&x.hv.museum);
-    check('7. K11 校外約會的清單：北部的地點選了＝「她在台南。要見她，得去台南。」；清單多一個「台南・美術館」', L0.includes('臺北市立美術館')&&L0.includes('台南・美術館')&&has('她在台南。要見她，得去台南。'), JSON.stringify(L0));
+    check('7. K11 校外約會的清單：北部的地點選了＝「她在台南。要見她，得去台南。」（INVITE-MENU-1030 分層：北部那幾類整類灰掉、選了說同一句）；清單多一個「台南・美術館」（外縣市一日那一類）', (L0.all||L0).includes('臺北市立美術館')&&(L0.all||L0).includes('台南・美術館')&&has('她在台南。要見她，得去台南。'), JSON.stringify(L0.all||L0));
     check('7. K3 玩家主動約、她還不知道：「美術館？為什麼是美術館？」「……好。我一直想去。」；排去台南（美術館）', has('美術館？為什麼是美術館？')&&has('……好。我一直想去。')&&!!q&&q.ev==='ev_hv_ps_tn'&&q.day===day&&q.hv.key===ID+'@台南', JSON.stringify(q));
     fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=35; DATE.knowWish(G,ID); said=[]; picks=['台南・美術館',0]; await DATE.menu(GM,ID,null);
     check('7. K3 已經知道：「美術館？……你記得。」「好。這件事，我會記很久。」', has('美術館？……你記得。')&&has('好。這件事，我會記很久。'));
     const hk=[]; const ch0=GM.choose; GM.choose=async o=>{ hk.push(o.map(x=>[x.t,x.hint])); return o.length-1; }; await DATE.menu(GM,ID,null); GM.choose=ch0;
-    check('7. K11 清單上灰掉的北部地點的說明：「她現在在台南。」', (hk[0]||[]).some(x=>x[0]==='臺北市立美術館'&&x[1]==='她現在在台南。'), JSON.stringify(hk[0])); }
+    check('7. K11 清單上灰掉的北部地點的說明：「她現在在台南。」（分層：整類灰掉的那一類小字寫這一句）', (hk[0]||[]).some(x=>x[0]==='臺北市：看展・電影…'&&x[1]==='她現在在台南。'), JSON.stringify(hk[0])); }
   // K4 台南的學期末飯、P6 公開課（OUT.AFTER）也推進一層；同一天最多一層
   { const d=termDay('Y3S1',16,5); fresh(d,21,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID); const k=ID+'@Y3S1'; said=[];
     await OUT.runAfter(GM,{id:'te_Y3S1',ev:'ev_termend_dinner',te:{term:'Y3S1',who:ID,kind:'heart'}},null);

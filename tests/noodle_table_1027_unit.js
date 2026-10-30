@@ -16,7 +16,7 @@ let ok=true, err=''; try{ let src=fs.readFileSync(path.join(H.ROOT,'src/data/noo
 let ytOn=true; global.MREL={ytShift:()=>ytOn};
 const meet=(...ids)=>{ for(const id of ids){ SOCIAL.remember(id,'FIRST_MET',''); if(id==='yu') H.G.flags.met_yu=true; } };
 const ALL=['zhe','yu','classmate_bohan','classmate_xinci','heroine_03','heroine_01'];
-const at=(key,hh,o)=>{ o=o||{}; H.fresh(key,hh,'noodle',o.flags); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); meet(...(o.know||ALL)); return H.G; };
+const at=(key,hh,o)=>{ o=o||{}; H.fresh(key,hh,'noodle',Object.assign({afternoonDone:true},o.flags)); if(o.group!==false) PHONE.join(H.G,'noodle_team','麵店團'); meet(...(o.know||ALL)); return H.G; };   /* afternoonDone：第二天下午以後（阿哲、Alison 才有作息；NDL-PRESENT-1030 閒聊要人在店裡）*/
 const text=e=>(e.dialogue||[]).map(l=>l.text);
 const play=async()=>{ H.said=[]; const r=await STORY.ndlTalk(GM); return {r,L:H.said.map(s=>s.t)}; };
 const D=k=>STORY.dayOfKey(k);
@@ -48,7 +48,7 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 
 /* 2. 什麼時候演 */
 { const G=at('2025-09-16',17.5); check('2. 9/16（二，Y1S1 第 3 週）17:30 在麵店、在群組：要演',STORY.ndlTalkDue(G));
-  G.hour=16.9; check('2. 16:54：還不演',!STORY.ndlTalkDue(G)); G.hour=21; check('2. 21:00：不演',!STORY.ndlTalkDue(G)); G.hour=20.9; check('2. 20:54：演',STORY.ndlTalkDue(G));
+  G.hour=16.9; check('2. 16:54：還不演',!STORY.ndlTalkDue(G)); G.hour=21; check('2. 21:00：不演',!STORY.ndlTalkDue(G)); G.hour=20.9; check('2. 20:54：麵店團 20:30 都走了＝不演（NDL-PRESENT-1030：人不在不講話）',!STORY.ndlTalkDue(G)); G.hour=20.4; check('2. 20:24：人還在＝演',STORY.ndlTalkDue(G));
   G.zone='campus'; check('2. 不在麵店：不演',!STORY.ndlTalkDue(G)); G.zone='noodle';
   at('2025-09-17',18); check('2. 9/17（三）不是麵店日：不演',!STORY.ndlTalkDue(H.G));
   at('2025-09-16',18,{group:false}); check('2. 不在麵店團群組：不演',!STORY.ndlTalkDue(H.G));
@@ -57,7 +57,7 @@ check('0. 旁白不加括號',!Object.values(NOODLE_TABLE).some(L=>L.some(e=>e.d
 
 /* 3. 照順序輪 */
 { const days=['2025-09-16','2025-09-18','2025-09-23','2025-09-25','2025-09-30','2025-10-02','2025-10-07','2025-10-09','2025-10-14'], seq=[]; let flags=null, soc=null;
-  for(const k of days){ H.fresh(k,18,'noodle',Object.assign({},flags||{})); if(soc){ H.G.social=soc; SOCIAL.bind(H.G); } PHONE.join(H.G,'noodle_team','麵店團'); meet(...ALL); const {L}=await play(); seq.push(L[0]); flags=H.G.flags; soc=H.G.social; }
+  for(const k of days){ H.fresh(k,18,'noodle',Object.assign({afternoonDone:true},flags||{})); if(soc){ H.G.social=soc; SOCIAL.bind(H.G); } PHONE.join(H.G,'noodle_team','麵店團'); meet(...ALL); const {L}=await play(); seq.push(L[0]); flags=H.G.flags; soc=H.G.social; }
   const first=SPEC.Y1.map(x=>x[0]);
   check('3. 每個麵店日一則，照順序 1→8，用完從頭輪（第 9 個麵店日又是第 1 則）',J(seq)===J(first.slice(0,4).concat(['欸，下禮拜系籃練球，你來不來？'],first.slice(5),[first[0]])),J(seq)); }
 { at('2025-09-16',18,{know:['zhe','yu','classmate_bohan','heroine_03']}); H.G.flags.ndlTalkN={Y1:3}; const {L}=await play();

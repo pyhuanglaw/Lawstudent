@@ -207,7 +207,8 @@ const TERMEND=(function(){
     const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
     if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
     else { await GM.say(null,P.open||'（'+(other?P.name:(spec.placeName||P.name||''))+'。）');
-      if(kind==='gf'){ const tb=spec.tableByTerm&&spec.tableByTerm[te.term]; await run(GM,who,lines(tb!=null?tb:spec.table,G)); await talk(2); }   /* 飯桌一句每學期不一樣（AA_352）；沒寫的學期照 table */
+      if(kind==='gf'){ const tb=spec.tableByTerm&&spec.tableByTerm[te.term]; await run(GM,who,lines(tb!=null?tb:spec.table,G)); if(tb==null&&spec.tableFlag&&G.flags[spec.tableFlag]==null) G.flags[spec.tableFlag]=G.day; await talk(2); }   /* 飯桌一句每學期不一樣（AA_352）；沒寫的學期照 table。tableFlag：聽過 table 那一句（AA_524 Y1 語彤「我媽問你……」）*/
+      else if(kind==='friend'&&spec.openByTerm&&spec.openByTerm[te.term]&&!(R.picked&&R.picked.by==='player')){ await run(GM,who,lines(spec.openByTerm[te.term],G)); await talk(3); }   /* 開場之後多一句（AA_524 A6 以安大一上「（她點了菜單上最便宜的那一個。）」）：她約的才有，玩家自己約的不演 */
       else if(kind==='heart'){ await talk(2); if(!other) await run(GM,who,lines(spec.table,G)); }
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
@@ -279,10 +280,12 @@ const TERMEND=(function(){
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg(PL.bg):'dark',right:{charId:'kexin',expression:'smile'}});
     await GM.say(null,PL.open);
     if(typeof FAV!=='undefined'&&FAV.kexinDate) await FAV.kexinDate(GM,te,{name:nm('kexin'),charId:'kexin'});   /* 帶給她的那一杯（巷口茶飲，src/foodfav3d.js，AA_410）：開頭、她的第一句之前 */
+    const XA=(Lx.KX_EXTRA&&Lx.KX_EXTRA[te.term])||{}; if(XA.open) await run(GM,'kexin',lines(XA.open,G));   /* AA_525 3-10：飯桌一開始（美國路線大四上「第一碗。說好我請。」）*/
     if(K.first){ const ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_revisit_y1_kexin'):null; if(ev&&typeof EVENTS!=='undefined'&&EVENTS.runLines) await EVENTS.runLines(ev.dialogue,ev); if(ev&&typeof ev.after==='function') ev.after(G); }   /* BB_167 4-3：八段回憶挑一段（REVISIT_Y1 照記，大四主線 10 讀）*/
     else { await run(GM,'kexin',lines(K.table,G)); const A0=Lx.KX_ASK&&Lx.KX_ASK[te.term], A=typeof A0==='function'?A0(G):A0;   /* AA_401：table 兩句後面的二選一 */
       if(Array.isArray(A)&&A.length&&GM.choose){ const k=await GM.choose(A.map(o=>({t:o.t}))), o=A[k]||A[0]; await run(GM,'kexin',o.r);
         if(o.khh){ const KH=G.flags.KX_KHH||(G.flags.KX_KHH={}); KH[o.khh[0]]=o.khh[1]; } if(o.y5) G.flags.KX_Y5_CALL=o.y5; } }
+    if(XA.end) await run(GM,'kexin',lines(XA.end,G));   /* AA_525 3-1、3-2：飯桌最後（大三上聖誕的禮物、第二頁；美國路線大四上的摩天輪）*/
     await GM.say(null,PL.close); (G.flags.KX_TERMEND||(G.flags.KX_TERMEND={}))[te.term]=G.day; S.rec(G,te.term).kx=G.day; return true; };
   S.missed=function(GM,q){ const G=GM.G, te=q&&q.te; if(!te||te.kind!=='kexin'||typeof PHONE==='undefined') return; const Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!PL) return;
     PHONE.at(G,G.day,Math.max(G.hour,q.h+0.75),PL.miss.map(t=>({th:'p:kexin',from:'kexin',text:t})),'te_kx_miss_'+te.term); };   /* 沒去：她傳「我在河堤（正門）等了一下」「你還好嗎」（AA_250 9-2）*/

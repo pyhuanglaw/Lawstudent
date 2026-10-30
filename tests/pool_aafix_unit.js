@@ -1,9 +1,9 @@
 // POOL-AAFIX-1028：AA 9f2e2506e「實作時定的」五件（AA_499、AA_500；任務 NPC-STORY-1028、USER_WANTS X119）——不需要瀏覽器。
 //   1 立群 3-2「我也想學。」：還沒有他的聯絡方式＝「手機給我。錄好傳你。」＋交換、一週後的私訊送得到；已經有＝不說、不重複交換
 //   2 書豪 3-3「那天我有事。」：還沒有＝「……手機給我。講完跟你說。」＋交換、週六晚上那則送得到；已經有＝不說
-//   3 承恩 4-1 一起去旁聽（ev_pool_sce_audit）：社科院門口（SL3.DOOR）、大一上第 6 週起的週二 14:00～16:00、選過「我也想旁聽別的系。」、認識、沒去過；
+//   3 維倫 4-1 一起去旁聽（ev_pool_sce_audit）：社科院門口（SL3.DOOR）、大一上第 6 週起的週二 14:00～16:00、選過「我也想旁聽別的系。」、認識、沒去過；
 //     2D 照稿、兩個選項、演完 16:00、SCE_AUDIT_WENT、人物頁「陪他旁聽過一堂社工系的課」、一次
-//   4 承恩 4-5 法扶實習第四句：第 14 次出席起；認識曾靖雯而且有她的聯絡方式才有（沒有就不出、之後有了再出）
+//   4 維倫 4-5 法扶實習第四句：第 14 次出席起；認識曾靖雯而且有她的聯絡方式才有（沒有就不出、之後有了再出）
 //   5 晨希：晏如選「我也怕蟑螂。」、那時已經認識晨希（LYR_CX）＝下一次和晨希說話第一句換成兩句，一次；那時還不認識＝不換
 // 修改前（bb87d2f7b，暫時 worktree 實跑）：FAILED 9——1 兩項（沒有那一句、私訊送不到）、2 兩項（同上）、3 沒有這個事件（其餘跳過）、4 三項、5 第一句沒換。
 // 修改後：ALL PASS。用法：node tests/pool_aafix_unit.js
@@ -75,7 +75,7 @@ await sec('2 書豪',async()=>{
   check('2. 週六晚上那則照稿（「講完了。超時半句。」）——現在送得到',sat!=null&&m.includes('講完了。超時半句。'),J({sat,m}));
   fresh(d2,12.3,'campus'); meet(SH); rel(SH,25,3); INV.addContact(H.G,SH); spawn(SH); await talk(SH,['那天我有事']);
   check('2. 已經有他的聯絡方式：只說「好。我自己去。」',has('好。我自己去。')&&!has('……手機給我。講完跟你說。'),J(said())); });
-await sec('3 承恩旁聽',async()=>{
+await sec('3 維倫旁聽',async()=>{
   const ev=STORY_EVENTS.find(e=>e.id==='ev_pool_sce_audit');
   check('3. 一起去旁聽：STORY_EVENTS 有 ev_pool_sce_audit（校園、auto、一次）；觸發點＝社科院門口 SL3.DOOR、半徑 3',!!ev&&ev.location==='campus'&&ev.trigger==='auto'&&ev.once===true&&typeof SL3!=='undefined'&&!!ev.near&&ev.near.x===SL3.DOOR.x&&ev.near.z===SL3.DOOR.z&&ev.near.r===3,J(ev&&ev.near));
   if(!ev) return;
@@ -85,14 +85,14 @@ await sec('3 承恩旁聽',async()=>{
   check('3. 條件：大一上第 6 週起的週二 14:00～16:00（16:00 不含）、選過「我也想旁聽別的系。」、認識、沒去過；之後的學期也可以；第 5 週、週三、13:57、16:00、沒選、不認識、去過＝不演',
     r.w6&&r.w6b&&r.y2&&!r.w5&&!r.wed&&!r.h1357&&!r.h16&&!r.noFlag&&!r.noMeet&&!r.went,J(r));
   fresh(TD('Y1S1',6,2),14.2,'campus'); meet(SC); H.G.flags.SCE_AUDIT=true; H.said=[]; H.opts=[]; H.picks=['哪裡像']; await EVENTS.run(ev);
-  check('3. 2D 照稿：社科院三樓的大教室、個案紀錄、筆記上那一行；選「哪裡像？」→ 他寫的那一句（另一支不出）；接「（下課。走出社科院的時候，他才開口。）」、承恩「下週我還會來。…」',
-    has('（社科院三樓的大教室。你和承恩坐在最後一排，前面都是社工系的學生。）')&&has('（台上的老師在講個案紀錄：「寫下他說的話。你覺得他是什麼人，先不要寫。」）')&&has('（承恩在筆記上寫了一行字，推過來：「跟證人筆錄有點像。」）')
-    &&has('（他想了一下，寫：「都要照他說的寫。……可是這邊的人，寫完會再回去看他。」）')&&!has('（他把那一行劃掉，重寫了一次，寫得比較工整。）')&&has('（下課。走出社科院的時候，他才開口。）')&&whoOf('下週我還會來。你不用陪我。……今天，謝謝。')==='蘇承恩',J(said()));
+  check('3. 2D 照稿：社科院三樓的大教室、個案紀錄、筆記上那一行；選「哪裡像？」→ 他寫的那一句（另一支不出）；接「（下課。走出社科院的時候，他才開口。）」、維倫「下週我還會來。…」',
+    has('（社科院三樓的大教室。你和維倫坐在最後一排，前面都是社工系的學生。）')&&has('（台上的老師在講個案紀錄：「寫下他說的話。你覺得他是什麼人，先不要寫。」）')&&has('（維倫在筆記上寫了一行字，推過來：「跟證人筆錄有點像。」）')
+    &&has('（他想了一下，寫：「都要照他說的寫。……可是這邊的人，寫完會再回去看他。」）')&&!has('（他把那一行劃掉，重寫了一次，寫得比較工整。）')&&has('（下課。走出社科院的時候，他才開口。）')&&whoOf('下週我還會來。你不用陪我。……今天，謝謝。')==='蘇維倫',J(said()));
   check('3. 演完：16:00、SCE_AUDIT_WENT、人物頁「陪他旁聽過一堂社工系的課」；之後不再演',Math.abs(H.G.hour-16)<0.05&&H.G.flags.SCE_AUDIT_WENT===true&&deeds(SC).includes('陪他旁聽過一堂社工系的課')&&!ev.prereq.custom(H.G),J({h:H.G.hour,d:deeds(SC)}));
   fresh(TD('Y1S1',8,2),15,'campus'); meet(SC); H.G.flags.SCE_AUDIT=true; H.said=[]; H.opts=[]; H.picks=['點頭']; await EVENTS.run(ev);
   check('3. 選「（點頭）」→「（他把那一行劃掉，重寫了一次，寫得比較工整。）」；15:00 開始的也到 16:00',has('（他把那一行劃掉，重寫了一次，寫得比較工整。）')&&!has('（他想了一下，寫：「都要照他說的寫。……可是這邊的人，寫完會再回去看他。」）')&&Math.abs(H.G.hour-16)<0.05,J({s:said(),h:H.G.hour})); });
-await sec('4 承恩第四句',async()=>{
-  const PMx=PM(); const line4='（承恩的手機亮了一下。他看了一眼，小聲說：「……靖雯傳早安。現在下午三點。」）';
+await sec('4 維倫第四句',async()=>{
+  const PMx=PM(); const line4='（維倫的手機亮了一下。他看了一眼，小聲說：「……靖雯傳早安。現在下午三點。」）';
   check('4. 實習第四句在 practice[3]、第 14 次出席起（PRACTICE_AT[3]＝13）',!!PMx&&(L(SC).practice||[])[3]===line4&&PMx.PRACTICE_AT[3]===13,J(PMx&&PMx.PRACTICE_AT));
   if(!PMx) return;
   const hadCLS=typeof CLS!=='undefined'; const C0=hadCLS?CLS.rec:null; let N=0; const stub=()=>({attend:{legal_practice:N}});

@@ -187,6 +187,7 @@ const Y2R2=(function(){
       {if:BV('class'),scene:'政大・系上的小教室',bg:'classroom_small'},{if:BV('shop'),scene:'政大・山下的小吃街',bg:'nccu_food'},
       {if:{custom:G=>G.flags._y2BdV==='two'||G.flags._y2BdV==='drive'},scene:'政大・校門口',bg:'nccu_gate'},
       {if:BV('gg'),scene:'公館',bg:'gongguan'},   /* 沒回予樂、MSG-2 選「妳來公館」：21:00 公館（AA_338 第 2 節）*/
+      {if:{custom:G=>G.flags._y2BdV!=='gg'&&!!G.flags.KX_TASSEL_PROMISE},speaker:null,text:'（政大門口的流蘇開了。白白的一整片。）'},   /* AA_525 3-7（K-9）：大一下 K2-L6 選「明年我們一起看。」（KX_TASSEL_PROMISE）＝到政大的版本開頭一句 */
       {if:BV('class'),speaker:null,text:'（系上小教室的燈關著。予樂、邵鈞、詹靖躲在桌子後面。可昕推門進來，燈亮。）'},
       {if:BV('class'),speaker:'kexin',expression:'surprised',text:'……你們。'},
       {if:BV('class'),speaker:'kexin',expression:'teasing',text:'你也是。你什麼時候跟予樂變成同一國的？'},
@@ -384,7 +385,7 @@ const Y2R2=(function(){
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL==='stayed'},speaker:'heroine_02',expression:'laugh',text:'……你好笨。電話費。'},
       {if:{custom:G=>G.flags.ZR_ADMIT_CALL!=='stayed'},speaker:null,text:'（她把吧檯擦了一遍，沒有看你。）'},
       {speaker:'heroine_02',expression:'neutral',text:'九月我就走了。五個多月。'},   /* AA_375 第 2 項：「四個月」→「五個多月」（她 9/2～2/12 不在台灣）*/
-      {choice:[{text:'「五個多月很快。」',goto:'d1'},{text:'「我去看妳。」',goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
+      {choice:[{text:'「五個多月很快。」',goto:'d1'},{text:'「我去看妳。」',set:{ZR_VISIT_PROMISE:true},goto:'d2'},{text:'「妳的點法，我會記得。」',if:{memory:[{npc:'heroine_02',tag:'ASKED_HER_DRINK'}]},goto:'d3'}]},
       {label:'d1'},{speaker:'heroine_02',expression:'smile',text:'五個多月欸。……好啦，你這樣講我比較安心。'},{goto:'end'},
       {label:'d2'},{speaker:'heroine_02',expression:'neutral',text:'機票很貴。'},{speaker:'player',text:'我存。'},{speaker:'heroine_02',expression:'smile',text:'……好。那我排一部電影，等你來一起看。'},{goto:'end'},
       {label:'d3'},{speaker:'heroine_02',expression:'smile',text:'……我回來再做給你喝。不要讓新店員做。'},{goto:'end'},
@@ -452,8 +453,9 @@ const Y2R2=(function(){
       {speaker:null,text:'（她看向觀眾席，找到你，比了一個拍手的手勢。）'},
       {if:{custom:G=>dating(G,'heroine_04')},speaker:null,text:'（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）'},   /* AA_338 第 3 節「看過 Q5」*/
       {if:{custom:G=>dating(G,'heroine_04')},speaker:'heroine_04',expression:'smile',text:'第二張。明年還有第三張。'},
+      {if:{custom:G=>dating(G,'heroine_04')},set:{ZQ_STICKER3:true}},   /* AA_526 第 2 節 1-1（企劃線 4ada43291）：聽過「明年還有第三張」＝2028 Q12 的第三張（y34b3d.js S.zq3rd）*/
       {label:'end'} ],
-    after:G=>{ G.flags.ZQ_SHOW2='came'; } });
+    after:G=>{ G.flags.ZQ_SHOW2='came'; if(G.flags.ZQ_STICKER3==null) G.flags.ZQ_STICKER3=false; } });   /* AA_526：演過、沒聽過那一句（「去年的份。」那一支、went 但沒交往）＝false；舊存檔沒有這個旗標＝y34b3d.js 照「演過、大一 Q5 去過、現在交往中」算 */
   /* 2-Y2-22 語彤事件 11：6/3（四）17:30～19:30 走進麵店（沒去＝6/17）*/
   const ytBf=G=>dating(G,'heroine_03');
   /* AA_375 第 21 項：補演（6/17 17:30）和語彤的學期末的飯（週四 19:00 麵店，termend 的出遊 te_Y2S2／te_gf_Y2S2_heroine_03）互斥——排了期末飯的那天，補演改隔天 */
@@ -517,7 +519,7 @@ const Y2R2=(function(){
         if(F.KX_K9==='yes'&&!outGet(G,'y2r2_k9')&&now(G)<abs(m,17.75)) plan(G,{id:'y2r2_k9',ev:'ev_kexin_good_class',day:m,h:17.5,late:0.25,place:'公館河濱',title:'公館河濱（可昕）',travel:'走過去約 15 分鐘',travelH:0.25,back:'回到台大。'});
         const q=outGet(G,'y2r2_k9'), met=done(G,'ev_kexin_good_class');
         if(!met&&win(G,m,21,2)&&sent(G,'y2r2_k9_ask')&&!sent(G,'y2r2_k9_msg')){ const L=[]; if(q&&q.state==='missed') L.push(K('我等了二十分鐘。'));
-          L.push(K('我找到一門上課不想滑手機的課。'),K('老師講規則怎麼改變人的行為。罰款高一點，大家就真的慢下來嗎？'),KASK('📷（她的筆記，畫了一條路和一張罰單）',{id:'y2r2_k9_msg',opts:[{t:'會嗎？',say:[{from:'kexin',text:'有些人會。有些人換一條路。'}]},{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……下次講給你聽。'}]}]}));
+          L.push(K('我找到一門上課不想滑手機的課。'),K('老師講規則怎麼改變人的行為。罰款高一點，大家就真的慢下來嗎？'),KASK('📷（她的筆記，畫了一條路和一張罰單）',{id:'y2r2_k9_msg',opts:[{t:'會嗎？',say:[{from:'kexin',text:'有些人會。有些人換一條路。'}]},{t:'妳很喜歡這門課。',say:[{from:'kexin',text:'嗯。……講不清楚。'}]}]}));
           at(G,m,21,L,'y2r2_k9_msg'); if(!F.KX_K9||F.KX_K9==='yes') F.KX_K9=F.KX_K9==='yes'?'missed':'none'; merge(G,'KX_DIR',{Y2:'rules'}); } } }
     /* --- 2-Y2-04 中秋：她的那一段 --- */
     { const a=d('ma0'), m=d('ma'); if(kx(G)&&a!=null&&m!=null){ const met=!!F.KX_MET_NOODLE_TEAM, q=outGet(G,'y2_midautumn'), went=done(G,'ev_y2_midautumn');

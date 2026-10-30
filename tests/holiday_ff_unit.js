@@ -68,13 +68,13 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // H2-5 沒有選項的訊息也停（X58，使用者 10-18 15:4x；原本不停、跳完才說「收到 N 則」）；跳之前就在的要回訊息不再停
   fresh('2026-01-07',10,'dorm');
   { PHONE.at(G,D('2026-01-08'),20,[{th:'p:zhe',from:'zhe',text:'測試：沒有選項的一則'}],'t_plain'); PHONE.post(G,{th:'p:zhe',from:'zhe',text:'測試：跳之前就在的問句',ask:{id:'t_old',opts:[{t:'好'}]}});
-    picks=['過三天']; await HOME.ffMenu(GM,'dorm');
-    check('H2-5. 沒有選項的訊息（X58）：1/8 20:00 停下來打開手機（對話列表、「跳過」）；跳之前就在的問句不另外停；關掉以後照樣跳到 1/10 08:30',phoneCalls.length===1&&phoneCalls[0].skip&&phoneCalls[0].day===D('2026-01-08')&&Math.abs(phoneCalls[0].hour-20)<1e-6&&G.day===D('2026-01-10')&&Math.abs(G.hour-8.5)<1e-6&&msg('t_plain').length===1,lbl(now())+' '+JSON.stringify(phoneCalls)); }
+    picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const pc=phoneCalls.filter(x=>!(x.day===D('2026-01-08')&&Math.abs(x.hour-22)<1e-6));   /* AA_532 第 4 節：留宿舍的寒假週四（1/8）也有家人群組——20:00 和這一則同時到（同一次停），22:00 爸爸「？」多停一次，那一次不算 */
+    check('H2-5. 沒有選項的訊息（X58）：1/8 20:00 停下來打開手機（對話列表、「跳過」）；跳之前就在的問句不另外停；關掉以後照樣跳到 1/10 08:30',pc.length===1&&pc[0].skip&&pc[0].day===D('2026-01-08')&&Math.abs(pc[0].hour-20)<1e-6&&G.day===D('2026-01-10')&&Math.abs(G.hour-8.5)<1e-6&&msg('t_plain').length===1,lbl(now())+' '+JSON.stringify(phoneCalls)); }
   // H2-6 當面約的邀請（INV.offer）也算要回的
   fresh('2026-01-07',10,'dorm'); meet('zhe');
   { HOME.STOPS.push(function tStop(Gx,n){ if(Gx.day===D('2026-01-08')&&Gx.hour>=14&&!Gx.flags.T_OFFER){ Gx.flags.T_OFFER=1; INV.offer(Gx,'zhe','noodle',D('2026-01-09'),19); } return null; });
-    picks=['過三天']; await HOME.ffMenu(GM,'dorm'); HOME.STOPS.pop();
-    check('H2-6. 當面約的邀請（offered）：1/8 14 點多停下來打開手機',phoneCalls.length===1&&phoneCalls[0].day===D('2026-01-08')&&phoneCalls[0].hour>=14&&phoneCalls[0].hour<15.01,JSON.stringify(phoneCalls)); }
+    picks=['過三天']; await HOME.ffMenu(GM,'dorm'); HOME.STOPS.pop(); const pc=phoneCalls.filter(x=>x.th!=='g:home');   /* AA_532 第 4 節：週四家人群組那兩次不算 */
+    check('H2-6. 當面約的邀請（offered）：1/8 14 點多停下來打開手機',pc.length===1&&pc[0].day===D('2026-01-08')&&pc[0].hour>=14&&pc[0].hour<15.01,JSON.stringify(phoneCalls)); }
   // H2-7 住家裡：家裡的選單前自動打開沒開過的要回訊息（一次）
   fresh('2026-01-12',9,'dorm'); atHome(); PHONE.post(G,{th:'p:zhe',from:'zhe',text:'測試：在家收到的問句',ask:{id:'t_home',opts:[{t:'好'}]}});
   { let menus=0; const ch=GM.choose; GM.choose=async o=>{ menus++; return o.findIndex(q=>(q.t||q.text)==='回宿舍住'); }; await HOME.loop(GM); GM.choose=ch;
@@ -83,8 +83,8 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   /* ================= H1：停點 ================= */
   fresh('2029-01-10',10,'dorm');
   check('H1-1. 大四寒假的表（AA_327 2-Y4-23～29）：2/12 12:00 除夕、2/13 11:00 初一、2/18 17:00 開學前一天',JSON.stringify(ptsOf('2029-01-10'))===JSON.stringify(['02-12@12:eve','02-13@11:cny','02-18@17:back']),JSON.stringify(ptsOf('2029-01-10')));
-  { const out=[]; for(const [k,e] of [['Y1W','2026-02-16'],['Y2W','2027-02-05'],['Y3W','2028-01-25'],['Y4W','2029-02-12']]){ const de=D(e); fresh(e,8,'dorm'); atHome(); const a=HOME.breakNext(G); G.hour=12; const b=HOME.breakNext(G); out.push([k,lbl(a),lbl(b),a===Tm(de,12)&&b===Tm(de+1,11)]); }
-    check('H1-2. 每個寒假：除夕 12:00、初一 11:00 一定停（大一～大四都查一次；人在家）',out.every(x=>x[3]),JSON.stringify(out)); }
+  { const out=[]; for(const [k,e,eve] of [['Y1W','2026-02-16'],['Y2W','2027-02-05',1],['Y3W','2028-01-25'],['Y4W','2029-02-12',1]]){ const de=D(e); fresh(e,8,'dorm'); atHome(); const a=HOME.breakNext(G); G.hour=12; const b=HOME.breakNext(G); G.hour=18.5; const c=HOME.breakNext(G); out.push([k,lbl(a),lbl(b),a===Tm(de,12)&&(eve?b===Tm(de,18.5)&&c===Tm(de+1,11):b===Tm(de+1,11))]); }   /* AA_532 2-1：2027、2029 除夕 18:30 年夜飯也停 */
+    check('H1-2. 每個寒假：除夕 12:00、初一 11:00 一定停（大一～大四都查一次；人在家；2027、2029 中間多停除夕 18:30 年夜飯）',out.every(x=>x[3]),JSON.stringify(out)); }
   { const out=[]; for(const e of ['2026-02-16','2027-02-05','2028-01-25','2029-02-12']){ fresh(e,12,'dorm'); out.push([e,lbl(HOME.breakNext(G)),HOME.breakNext(G)===Tm(D(e),17)]); }
     check('H1-3. 除夕 12:00 人在宿舍：下一個停在 17:00（媽媽「飯快好了。」回家吃年夜飯），不會直接跳到初一',out.every(x=>x[2]),JSON.stringify(out)); }
   fresh('2028-01-25',12,'dorm'); G.hour=17.25; check('H1-3. 17:15 在宿舍＝HOME.eveDue（回家）',HOME.eveDue(G));
@@ -92,7 +92,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2028-01-25',20.5,'dorm'); atHome(); G.flags.FAMILY_LAND_Y1='lawyer';
   { const jo={ff:true}; await HOME.breakJump(GM,Tm(D('2028-02-20'),12),jo);
     check('H1-4. 主線 9：除夕 20:30 在家快轉，停在初一 07:30（事件到了，why＝event），家裡那一輪就演 ev_family_land_y3',jo.why==='event'&&G.day===D('2028-01-26')&&Math.abs(G.hour-7.5)<1e-6&&!!HOME.breakEvent(G)&&HOME.breakEvent(G).id==='ev_family_land_y3',jo.why+' '+lbl(now())); }
-  fresh('2028-01-26',11.5,'dorm'); G.flags.FAMILY_LAND_Y1='lawyer';
+  fresh('2028-01-26',11.5,'dorm'); G.flags.FAMILY_LAND_Y1='lawyer'; STORY.phoneRules(GM); PHONE.tick(G);   /* 初一 11:30 以前該收的先收（AA_532 2-2 初一 08:00 家人群組；不收的話跳的第一個小時補進來會停，X58）*/
   { const ok0=HOME.mustEvs(G).includes('ev_family_land_y3'), jo={ff:true}; await HOME.breakJump(GM,Tm(D('2028-01-26'),20),jo);
     check('H1-4. 跳之前已經成立、還沒演的事件不再停（不然每跳一次停一次）：初一 11:30 在宿舍跳到 20:00',ok0&&jo.why==null&&Math.abs(G.hour-20)<1e-6,jo.why+' '+lbl(now())); }
   // H1-5 事件包登記的 STORY.WAKE_AT（睡著也會醒來）＝快轉也停；HOME.STOPS 照舊
@@ -114,7 +114,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // H1-8 大四寒假從成績那天一路快轉（住家裡）：成績 → 1/17 → 1/24 → 除夕 → 初一 → 2/18 12:00
   fresh('2029-01-08',8.5,'dorm',{Y4_PATH:'bar'}); atHome();
   { const seq=[]; for(let i=0;i<12&&HOME.ffOpts(G);i++){ picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'home'); seq.push(lbl(now())); }
-    check('H1-8. 大四寒假住家裡一路「到下一個有事的日子」：1/17 18:30 → 1/24 18:30 → 2/12 12:00 → 2/13 11:00 → 2/18 12:00（快轉的上限）',JSON.stringify(seq)===JSON.stringify(['1/17 18:30','1/24 18:30','2/12 12:00','2/13 11:00','2/18 12:00']),JSON.stringify(seq)); }
+    check('H1-8. 大四寒假住家裡一路「到下一個有事的日子」：1/17 18:30 → 1/24 18:30 → 2/12 12:00 → 2/12 18:30（年夜飯）→ 2/13 11:00 → 2/18 12:00（快轉的上限）',JSON.stringify(seq)===JSON.stringify(['1/17 18:30','1/24 18:30','2/12 12:00','2/12 18:30','2/13 11:00','2/18 12:00']),JSON.stringify(seq)); }   /* AA_532 2-1：除夕 18:30 年夜飯也停 */
 
   /* ================= H3：朋友回老家、回臺北 ================= */
   // 大二寒假：柏翰 1/9 17:00、以安 2/1 15:00（FAMILIAR＝私訊）、柏翰 2/19 20:00、阿哲 2/20 19:00、以安 2/21 18:00
@@ -151,7 +151,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2026-01-12',10,'dorm'); noodle();
   { picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm');
     check('6-3-1. 大一寒假：1/12 快轉停在 1/14 18:30，日期卡下面「（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）」（X58：中間停在訊息的卡在前面，看最後一張；這一句只出一次）',G.day===D('2026-01-14')&&Math.abs(G.hour-18.5)<1e-6&&cards[cards.length-1][1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）'&&cards.filter(x=>x[1]==='（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）').length===1,JSON.stringify(cards));
-    let r1=null; onPhone=async()=>{ r1=PHONE.answer(G,'hol63_y1w_zhe',0); }; picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('hol63_y1w_zhe')), m=PHONE.byAsk(G,'hol63_y1w_zhe');   /* X58：找看得到阿哲那則的那一次 */
+    let r1=null; onPhone=async()=>{ r1=r1||PHONE.answer(G,'hol63_y1w_zhe',0); };   /* AA_532 第 4 節：1/15（四）20:00 家人群組、22:00 爸爸「？」也會停——回到的那一次留著 */ picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls.find(x=>x.pend.includes('hol63_y1w_zhe')), m=PHONE.byAsk(G,'hol63_y1w_zhe');   /* X58：找看得到阿哲那則的那一次 */
     check('6-3-2. 1/15 21:00 麵店團，阿哲「高雄今天二十六度」「台北的人在幹嘛」＋「讀書。」「睡覺。」；快轉停在那一刻打開手機',JSON.stringify(msg('hol63_y1w_zhe'))===JSON.stringify(['g:noodle_team|zhe:高雄今天二十六度','g:noodle_team|zhe:台北的人在幹嘛'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['讀書。','睡覺。'])&&!!c&&c.day===D('2026-01-15')&&c.hour>=21,JSON.stringify([msg('hol63_y1w_zhe'),phoneCalls]));
     check('6-3-2. 停下來的時候回「讀書。」→ 阿哲「騙人」',!!r1&&r1.out.map(x=>x.from+':'+x.text).join('|')==='player:讀書。|zhe:騙人',JSON.stringify(r1&&r1.out.map(x=>x.text))); }
   fresh('2026-01-15',21.5,'dorm'); noodle(); runTo('2026-01-15',21.75); { const r=PHONE.answer(G,'hol63_y1w_zhe',1); check('6-3-2. 回「睡覺。」→ 阿哲「這才對」',!!r&&r.out.map(x=>x.text).join('|')==='睡覺。|這才對'); }
@@ -192,7 +192,7 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2028-07-16',10,'dorm',{EXCHANGE_ROUTE:'JP'}); check('6-3-7. 日本路線 7/18 人在日本：大三暑假那一天不停',!HOLFF.stops(G,now()).includes(Tm(D('2028-07-18'),18.5)));
   // 6-3-9 大三暑假 8/12（AA_345 H3）：台灣路線照 Y4_PATH 兩版；日本路線（8/5 回來住家裡）是 jp3d.js 的 s_0812（用同一個 HOLFF.y3sPath），這裡不排；美國路線 8/2 起在國外
   { const r=[]; for(const [p,want] of [['bar','（八月。你把大四要走的那條路寫在紙上，下面列了要讀的書。列到第三頁。）'],['other','（八月。你把大四要走的那條路寫在紙上，下面列了要讀的書。列到第三頁。）'],['undecided','（八月。你把大四可以走的路寫在紙上：國考、研究所。兩個都畫了問號。）']]){
-      fresh('2028-08-10',10,'dorm',{Y4_PATH:p,EXCHANGE_ROUTE:'TW'}); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); r.push([p,lbl(now()),cards[0]&&cards[0][1],lbl(now())==='8/12 18:30'&&cards[0]&&cards[0][1]===want]); }
+      fresh('2028-08-10',10,'dorm',{Y4_PATH:p,EXCHANGE_ROUTE:'TW'}); picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); const cz=cards[cards.length-1]; r.push([p,lbl(now()),cz&&cz[1],lbl(now())==='8/12 18:30'&&!!cz&&cz[1]===want]); }   /* 最後一張（AA_532 第 4 節：8/10（四）家人群組那一次停的卡在前面）*/
     check('6-3-9. 台灣路線 8/12 18:30：選好了（國考、實習…）「（八月。你把大四要走的那條路寫在紙上，下面列了要讀的書。列到第三頁。）」／還沒決定「（八月。…兩個都畫了問號。）」',r.every(x=>x[3]),JSON.stringify(r));
     fresh('2028-08-10',10,'dorm',{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); const jp=HOLFF.stops(G,now()).includes(Tm(D('2028-08-12'),18.5));
     fresh('2028-08-10',10,'dorm',{EXCHANGE_ROUTE:'US',Y4_PATH:'bar'}); const us=HOLFF.stops(G,now()).includes(Tm(D('2028-08-12'),18.5));

@@ -104,7 +104,7 @@ const SUP519=(function(){
      其他時間是老闆（3D）；點餐那兩句誰站櫃台誰說（EAT.staffName、S.staffOnX 讀同一個 EAT.cafeXt）。待在店裡跨過班表的時間＝當場換人（S.cafeCounterSync：STORY.TICKS、點餐那一刻）*/
   S.cafeCounter=G=>!!G&&typeof EAT!=='undefined'&&!!EAT&&typeof EAT.cafeXt==='function'&&!!EAT.cafeXt(G)?'hc_xt':'hc_boss';
   S.clerkLabel=(kind,G)=>kind==='cafe'?S.cafeCounter(G||curG()):S.CLERK_LABEL[kind];
-  S.clerkSpec=function(kind,G){ const cid=S.clerkLabel(kind,G); if(!cid||typeof HCIRCLE==='undefined'||!HCIRCLE||!HCIRCLE.specOf) return null; const sp=HCIRCLE.specOf(cid); if(!sp) return null;
+  S.clerkSpec=function(kind,G){ const cid=S.clerkLabel(kind,G); if(!cid||typeof HCIRCLE==='undefined'||!HCIRCLE||!HCIRCLE.specOf) return null; const sp=HCIRCLE.specOf(cid,G||curG()); if(!sp) return null;
     sp.id='clerk_'+kind; sp.aa519Who=cid; if(sp.model&&typeof ASSETS!=='undefined'&&ASSETS.loadOne&&ASSETS.has&&!ASSETS.has(sp.model)){ try{ ASSETS.loadOne(sp.model).catch(()=>{}); }catch(e){} }   /* 模型還沒下載：先載（到了由 game3d.js upgradeModels 換上）*/
     return sp; };
   S.TALK={noodle:{name:'阿姨',fn:(GM,n)=>S.auntTalk(GM,n)},cafe:{name:'老闆',fn:(GM,n)=>S.bossTalk(GM,n)}};

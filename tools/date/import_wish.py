@@ -62,6 +62,25 @@ if not any((x.get('note') or '').startswith('大一的收尾') for x in c.get('l
     c['linesIf'] = [{'if': {'unless': {'termFrom': 'Y2S1'}}, 'lines': [L[0]] + [{'who': 'heroine_01', 'text': t} for t in new3] + [L[-1]],
                      'note': '大一的收尾（AA_127 1-5「大一的版本」，2026-10-17 AA-C：前三句換成這兩句；旁白、選項照用。wish_aa.json 沒轉，import_wish.py 照原稿加）'}]
 
+# ---- 1b. AA_525 1-5（企劃線修正稿，白名單上的 commit；AA-C 定稿）：子晴交往中（Q12 以前）的結尾「那座橋，我回去要畫一次。……畫好再給你看。」→「那座橋，我回去要畫一次。」
+#      （2027-01-09 第三關的橋接得上，不用再說「給你看」）。整句相同才換；wish_bb.json 下一版自己改好了就跳過 ----
+A525 = G.approved_files(ALLOW, SP + 'AA_525_')
+SRC525 = ''
+if A525:
+    P525, S525 = next(iter(A525.items()))
+    ok, why = G.allowed(P525, S525, ALLOW)
+    if not ok:
+        sys.exit('拒絕匯入：' + why)
+    md525 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S525}:{P525}'], text=True))
+    OLD5, NEW5 = '那座橋，我回去要畫一次。……畫好再給你看。', '那座橋，我回去要畫一次。'
+    if '改原句：「' + NEW5 + '」' not in md525:
+        sys.exit(f'AA_525@{S525} 裡找不到 1-5 的「改原句」：{NEW5}')
+    hit = [x for e in EV['heroine_04']['closing'].get('ending') or [] for x in e.get('lines') or [] if x.get('text') in (OLD5, NEW5)]
+    if len(hit) != 1:
+        sys.exit(f'AA_525 1-5：子晴結尾「{OLD5}」有 {len(hit)} 句（應該是 1 句）')
+    hit[0]['text'] = NEW5
+    SRC525 = f'＋{os.path.basename(P525)[:6]}@{S525}（子晴結尾 1 句）'
+
 # ---- 2. 逐句對原稿（台詞、旁白、選項的字；說明欄不算）----
 SKIP = ('wish', 'rule', 'note', 'where', 'context', 'source', 'title', 'hotspotsTitle', 'scene', 'repeat', 'costNote', 'likeNote', 'album', 'code', 'name', 'memory', 'record')
 def all_text(o, path=''):
@@ -109,7 +128,7 @@ for k, (rx, why) in RULES.items():
     if bad:
         hold[k] = {'why': why, 'lines': bad}
 
-out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p][:8]}' for p in FILES.values()),
+out = {'source': '白名單 ' + '＋'.join(f'{os.path.basename(p)}@{APPROVED[p][:8]}' for p in FILES.values()) + SRC525,
        'verify': {'miss': miss, 'freeVisited': extra}, 'hold': hold, 'events': EV}
 js = ('/* 校外約會的心願事件（DATE-C4、DATE-C5；AA_127 第 1、2 節、BB_128 第 3 節；date_system/wish/）。產生器：tools/date/import_wish.py（不要手改）。'
       '來源：' + out['source'] + '。hold＝和現行人物設定衝突、先不播的人（衝突的句子在 hold[id].lines，給 AA 改）。接線：src/wish3d.js */\n'

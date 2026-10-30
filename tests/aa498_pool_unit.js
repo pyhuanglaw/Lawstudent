@@ -23,7 +23,7 @@ require('./alison.js');
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
-const SRC='56ed354e9', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
+const SRC='7ad5fee84', DOCF='docs/story_planning/AA_498_法律系同學二十位_共同做法_改名_第一批五位.md';
 const Z='pool_7', Y='pool_4', C='pool_1', YS='pool_6', Q='pool_3';
 if(process.argv[2]==='child'){ child(); }
 else main();
@@ -98,7 +98,7 @@ await sec(0,()=>{ check('0. pool_story.js、pool3d.js 載得到；第一批五�
 
 /* ---------- 1 改名 ---------- */
 const OLDN=['\u90b1\u67cf\u52f3','\u912d\u51f1\u6587','\u65bd\u51a0\u5b87','\u8a79\u54f2\u744b','\u56b4\u5b50\u5b89','\u675c\u5b87\u6046'];   /* 六個舊名（pool_3、6、12、16、18、19）：寫成 \u 跳脫，grep 舊名不會找到這個測試 */
-await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施孟儒',pool_16:'詹立群',pool_18:'嚴守誠',pool_19:'蘇承恩'};
+await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施孟儒',pool_16:'詹立群',pool_18:'嚴守誠',pool_19:'蘇維倫'};   /* pool_19：AA_527 1-7 再改「蘇維倫」（企劃線 bfede0a62；舊存檔「蘇○○」也換，tests/aa527_528_unit.js）*/
   check('1. 六位改名（第 1 節）',Object.keys(NEW).every(id=>CHARACTERS[id].name===NEW[id]),J(Object.keys(NEW).map(id=>CHARACTERS[id].name)));
   check('1. 輪轉單車（SQ16）的借車名單：黃惠玲、鄭文彬（和 pool 撞名的兩個）',J(SIDEQ.LINES.SQ16.names)===J(['陳品叡','黃惠玲','張宇翔','劉思妤','鄭文彬']),J(SIDEQ.LINES.SQ16.names));
   const hits=[]; const scan=dir=>{ for(const f of fs.readdirSync(path.join(H.ROOT,dir))){ const p=path.join(dir,f), st=fs.statSync(path.join(H.ROOT,p)); if(st.isDirectory()){ if(!/node_modules|repro_/.test(f)) scan(p); continue; } if(!/\.(js|py|html|json)$/.test(f)||st.size>8e6) continue; const s=fs.readFileSync(path.join(H.ROOT,p),'utf8'); for(const n of OLDN) if(s.indexOf(n)>=0) hits.push(p+':'+n); } };
@@ -108,7 +108,7 @@ await sec(1,()=>{ const NEW={pool_3:'邱家齊',pool_6:'鄭元碩',pool_12:'施�
   const old={msgs:[{th:'p:pool_6',text:OLDN[1]+'：洗出來再給你',ask:{opts:[{t:'問'+OLDN[0],say:[{text:OLDN[2]+'說好'}]}]}}],phone:{q:[{items:[{text:OLDN[3]+'的音響'}]}],groups:{g1:{name:OLDN[4]+'讀書會'}}},
     outings:[{title:'和'+OLDN[5]+'去社福中心',place:'社科院'}],invites:[{label:OLDN[0]+'的魚丸'}],social:{mem:{pool_3:[{tag:'FIRST_MET',note:'dorm_hall'},{tag:'ADJUST',note:'幫'+OLDN[0]+'領箱子'}]}},memo:[{t:'遇到'+OLDN[1]}],notes:[{title:OLDN[4],body:OLDN[4]+'的刑法筆記'}],goal:'找'+OLDN[3],flags:{}};
   const n1=P()?P().migrate(old):0, s1=J(old);
-  check('1. 讀檔換字（POOL.migrate）：存下的舊名都換成新名',n1>=11&&!OLDN.some(t=>s1.indexOf(t)>=0)&&s1.indexOf('鄭元碩：洗出來再給你')>=0&&s1.indexOf('問邱家齊')>=0&&s1.indexOf('施孟儒說好')>=0&&s1.indexOf('詹立群的音響')>=0&&s1.indexOf('嚴守誠讀書會')>=0&&s1.indexOf('和蘇承恩去社福中心')>=0&&old.goal==='找詹立群',n1+' '+s1.slice(0,300));
+  check('1. 讀檔換字（POOL.migrate）：存下的舊名都換成新名',n1>=11&&!OLDN.some(t=>s1.indexOf(t)>=0)&&s1.indexOf('鄭元碩：洗出來再給你')>=0&&s1.indexOf('問邱家齊')>=0&&s1.indexOf('施孟儒說好')>=0&&s1.indexOf('詹立群的音響')>=0&&s1.indexOf('嚴守誠讀書會')>=0&&s1.indexOf('和蘇維倫去社福中心')>=0&&old.goal==='找詹立群',n1+' '+s1.slice(0,300));
   check('1. 換過的再讀一次不變；資料壞掉不丟例外',P().migrate(old)===0&&J(old)===s1&&P().migrate(null)===0&&P().migrate({msgs:{},phone:null,outings:[null],social:{mem:{pool_3:null}}})===0);
   const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'), i=g.indexOf('function migrate(s)'), j=g.indexOf('function ls()');
   check('1. game3d.js 的 migrate（讀檔、匯入都走這裡）叫 POOL.migrate',i>0&&j>i&&g.slice(i,j).indexOf('POOL.migrate(s)')>0); });
@@ -322,7 +322,7 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   check('8. 沒說過話的人不進朋友頁（game3d.js knownIds：B 層＝ACQUAINTANCE／FRIEND；看過三次的 RECOGNIZABLE 不算）',/if\(c\.social_layer==='B'\) return \['ACQUAINTANCE','FRIEND'\]\.includes\(SOCIAL\.reveal\(id\)\);/.test(g));
   check('8. 人物頁：B 層用 POOL.pageDesc（一句話；朋友＝personality）＋做過的事（POOL.deedsHTML）',/POOL\.pageDesc\(id\)/.test(g)&&/POOL\.deedsHTML\(id,G\)/.test(g));
   fresh(TD('Y1S1',6,2),14,'bookstore'); meet(C); check('8. 人物頁一句話（認識以後、心事說出來以前）：中性的一句「常在舊路書房看推理小說的同學」（AA_498「實作時定的」第 4 點，照 AA_120）；說出來以後換回「在寫一篇兇手是律師的推理小說」',P().pageDesc(C)==='常在舊路書房看推理小說的同學'&&(SOCIAL.remember(C,'SHARED_SECRET',''),P().pageDesc(C)==='在寫一篇兇手是律師的推理小說'));
-  check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學妹」「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學妹|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
+  check('8. 何宇軒、葉晨希、詹立群也是：說出來以前「常在總圖問助教問題的同學」「背吉他袋的學姊」（AA_528 第 3 節：她大祐廷一屆）「常幫人搬音響的同學」',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|')==='常在總圖問助教問題的同學|背吉他袋的學姊|常幫人搬音響的同學',['pool_10','pool_11','pool_16'].map(id=>P().pageDesc(id)).join('|'));
   check('8. 沒有回答選項的「……你呢？」不再出現（其他十五位照舊自我介紹）',!/。……你呢？」'\)/.test(fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8')));
   /* 順手的事和店員的一起算（SIDEQ.MAX）*/
   fresh(TD('Y1S2',3,2),6.75,'campus'); meet(Z); rel(Z,25,3); SIDEQ.rec(H.G).SQ01={state:'open',step:'wait',day:H.G.day,term:'Y1S2'}; SIDEQ.rec(H.G).SQ03={state:'open',step:'x',day:H.G.day,term:'Y1S2'}; spawn(Z); await talk(Z,[0]);
@@ -333,6 +333,6 @@ await sec(8,async()=>{ const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js')
   const ih=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), sc=[...ih.matchAll(/<script src="([^"?]+)/g)].map(m=>m[1]);
   /* heroine_asks.js → heroine_asks3d.js → bbpack_events.js 緊接（tests/heroine_asks_unit.js 查）：pool 的兩個檔放在 heroine_asks 前面（rom1016_3d.js 後面）*/
   const ix=f=>sc.indexOf(f);
-  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）*/
+  check('8. index.html：pool_story.js、pool3d.js（緊接）在 story3d.js、sideq3d.js、classes3d.js、outings3d.js 之後、bbpack_events.js 前面；heroine_asks3d.js 在 bbpack_events.js 前面（中間可以有 dorm203、heard）；bbpack3d.js 緊接 GAME.boot()（中間可以是 AA_497 的兩支）',ix('src/data/pool_story.js')>Math.max(ix('src/story3d.js'),ix('src/sideq3d.js'),ix('src/classes3d.js'),ix('src/outings3d.js'))&&ix('src/pool3d.js')===ix('src/data/pool_story.js')+1&&ix('src/pool3d.js')<ix('src/data/bbpack_events.js')&&ix('src/heroine_asks3d.js')>=0&&ix('src/heroine_asks3d.js')<ix('src/data/bbpack_events.js')&&/src\/bbpack3d\.js[^"]*"><\/script>\s*(<script src="src\/data\/sup497_lines\.js[^"]*"><\/script>\s*<script src="src\/sup497_3d\.js[^"]*"><\/script>\s*)?(<script src="src\/aa524_3d\.js[^"]*"><\/script>\s*)?<script>GAME\.boot\(\);/.test(ih),J(sc.slice(-8))); });   /* 2026-10-28 改：bbpack3d.js 和 GAME.boot() 中間可以是 AA_497 的兩支（data/sup497_lines.js、sup497_3d.js；tests/aa497_supporting_unit.js）；2026-10-30：再接 AA_524 的 aa524_3d.js（tests/aa524_promises_unit.js）*/
 H.done();
 }

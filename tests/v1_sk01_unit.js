@@ -75,7 +75,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.zone='campus'; G.hour=15.5; at(33,-97); check('5. 不在社科院門口＝不觸發',!tick());
   const s1=JSON.stringify(G);
   at(15.4,-85); picks=['穿去霖澤館']; tick(); await wait(); L=lines();
-  const w2=['你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。','系辦助理：學號給我。……這個學號，不在我們系的名單上了耶。','祐廷：我現在是法律系的。','系辦助理：……喔，那個轉系的。外套在這裡，等你快一年了。'];
+  const w2=['你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。','系辦助理：學號給我。……這個學號，不在我們系的名單上了耶。','祐廷：我重考了。現在念法律系。','系辦助理：……喔，重考的那個。外套在這裡，等你快一年了。'];
   check('5. 社科院大樓正門（東面，X75 搬到霖澤館西南）→ 系辦四句（逐字；阿勳不在旁邊＝沒有他那句）',JSON.stringify(L)===JSON.stringify(w2),JSON.stringify(L));
   check('5. 三個按鈕',JSON.stringify(opts[opts.length-1])===JSON.stringify(['（穿去霖澤館上課）','（送給阿勳）','（收進衣櫃）']),JSON.stringify(opts));
   check('5. ①穿去上課：ECON_JACKET wear、SOC_WRONG_BUILDING、SK02_DAY、15 分鐘',G.flags.ECON_JACKET==='wear'&&G.flags.SOC_WRONG_BUILDING&&G.flags.SK02_DAY===mon4&&Math.abs(G.hour-15.75)<1e-6);
@@ -114,7 +114,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const jk=()=>STORY.roomItemList(G).filter(r=>r[0]==='經濟系的系外套').map(r=>[].concat(r[1]));
   check('13. 房間：第 8 週阿勳代領＝「口袋裡還夾著阿勳那張紙條。」',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。口袋裡還夾著阿勳那張紙條。']]),JSON.stringify(jk()));
   G.flags.SK02_W8=null; G.flags.ECON_JACKET='closet'; check('13. 房間：③收進衣櫃',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。摺好的，還沒穿過。','領的時候，系辦助理說它等你快一年了。']]),JSON.stringify(jk()));
-  G.flags.ECON_JACKET='wear'; check('13. 房間：①穿去上課',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。你穿去霖澤館一次，阿哲說你是臥底。','……之後就掛在椅背上了。']]),JSON.stringify(jk()));
+  G.flags.ECON_JACKET='wear'; G.flags.ROOM_Y2=null; check('13. 房間：①穿去上課（大一，AA-B 10-30 07:19）',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。天冷的時候，你還是會穿去上課。']]),JSON.stringify(jk()));
+  G.flags.ROOM_Y2=1; check('13. 房間：①穿去上課（大二起）',JSON.stringify(jk())===JSON.stringify([['經濟系的系外套。大一冷的時候常穿，現在一直掛在椅背上。']]),JSON.stringify(jk())); G.flags.ROOM_Y2=null;
   G.flags.ECON_JACKET='xun'; check('13. 房間：②送給阿勳＝沒有',!jk().length);
   delete G.flags.ECON_JACKET; check('13. 房間：沒有系外套的劇情＝沒有',!jk().length);
   // 12. P4d 第二句

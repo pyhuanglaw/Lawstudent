@@ -89,7 +89,8 @@ p.add('course', 'R', ['（照片：兩頁筆記）', '第二頁右下角那段�
 p.copy('course', 'R', 'L', '同 R')
 p.add('share_cat', 'A', ['（兔子「收到」）'])
 p.add('share_cat', 'R', ['哪裡的貓？'], ask=ASK(O('溫州街', ['好。']), O('宿舍旁邊', ['好。'])))
-p.add('share_cat', 'L', ['下次一起去看。'])
+p.add('share_cat', 'L', ['下次一起去看。'], ['祐廷在臺灣'])   # AA_531 8-3（企劃線 41ec9a6ac）：「在臺灣才成立的話」，祐廷在國外（美國、日本）用下一行
+p.add('share_cat', 'L', ['回來以後一起去看。'], ['祐廷在國外'], src='AA_531 8-3 在國外的版本')
 p.add('share_food', 'A', ['看起來很好吃。'])
 p.add('share_food', 'R', ['那家我手帳有寫。'])
 p.copy('share_food', 'R', 'L', '同 R')
@@ -123,7 +124,8 @@ p.add('chat', 'R', ['（照片：總圖三樓的窗外）'],
       addIf={'tag': '下雨天', 'msgs': ['下雨了。'], 'text': '下雨天加一則「下雨了。」'})
 p.add('chat', 'R', ['剛收完店。'], ['收店後'])
 p.add('chat', 'R', ['陪我媽看電視。'], ['晚上、在家'])
-p.add('chat', 'L', ['在店裡。阿姨問你怎麼沒來。'], ['店裡的時間'])
+p.add('chat', 'L', ['在店裡。阿姨問你怎麼沒來。'], ['店裡的時間', '祐廷在臺灣'])   # AA_531 3-3（企劃線 475f55fe6；8-2 41ec9a6ac：「店裡的時間」＝她的作息在麵店顧店，src/msg3d.js S.atShop）：祐廷在國外不用這一句（「怎麼沒來」在臺灣才成立）；美國版在下一行
+p.add('chat', 'L', ['在店裡。阿姨問你美國有沒有麵。'], ['店裡的時間', '美國路線'], src='AA_531 3-3 在國外的版本')
 p.add('share_cat', 'A', ['（照片：另一隻貓，在麵店門口）'])
 p.copy('share_cat', 'A', 'R', '同 A，加「這隻每天都來。」', add_msgs=['這隻每天都來。'])
 p.copy('share_cat', 'R', 'L', '同 R')
@@ -363,7 +365,7 @@ p = P('heroine_04', '高子晴', 'BB_178 2', BB_L)
 p.rules = {
     'replyFree': None,
     'noReplyText': '回覆時間：22～24 點最活躍；早上不回，下午兩點才醒。大四她在工作室上班（`BB_163` 第 2 節）：平日白天不回，下班以後回。',
-    'openText': bb_open('Q6 以後（測試她的遊戲，她要了帳號，`BB_70` 2-1）', 'Q6 以前沒有她的私訊，不開'),
+    'openText': '什麼時候開：加了好友以後就開（PHONE-UNIFY-1030）；講到她遊戲的兩則 Q6 以後才出。',   # AA_538 4-1（b9d816288）取代 BB_178 的「Q6 以後」
     'habitText': '手機習慣：一句拆好幾則；不解釋，直接丟截圖、一個問號；插座貓貼圖（她自己畫的那隻）。',
     'wakeLine': ['早', '剛看到'],
     'otherText': ['開放：Q6 以後（0-1）。', '延到隔天：「早」／「剛看到」。',
@@ -406,6 +408,13 @@ p.sit('chat', ['剛跟芷若視訊完', '她那邊才下午'], '芷若在英國'
 p.add('share_cat', 'A', ['（插座貓的貼圖）'])
 p.add('share_food', 'A', ['那個看起來很辣'])
 p.add('share_notes', 'A', ['我看三行就睏了'])
+# AA_538 4-2（b9d816288）：子晴分享的 A 層各補兩則（PHONE-UNIFY-1030；「看起來很油」「我要」同一回合）
+p.add('share_cat', 'A', ['哪裡拍的'], src='AA_538 4-2')
+p.add('share_cat', 'A', ['牠尾巴好短'], src='AA_538 4-2')
+p.add('share_food', 'A', ['這間在哪'], src='AA_538 4-2')
+p.add('share_food', 'A', ['看起來很油', '我要'], src='AA_538 4-2')
+p.add('share_notes', 'A', ['字好小'], src='AA_538 4-2')
+p.add('share_notes', 'A', ['你們的筆記都長這樣喔'], src='AA_538 4-2')
 p.add('share_cat', 'R', ['牠在看你', '牠要你的飯'])
 p.add('share_food', 'R', ['這個要加辣', '不加辣不能吃'])
 p.add('share_notes', 'R', ['拍給我幹嘛', '好啦我看了', '看不懂'])
@@ -560,7 +569,8 @@ p.add('share_cat', 'R', ['牠坐得好端正，像在上課。'])
 p.add('share_food', 'R', ['你吃這個喔。要吃青菜啦。'])
 p.add('share_notes', 'R', ['這頁老師講好快，我只抄到一半。'])
 p.add('share_cat', 'L', ['牠跟你好像，都在發呆。'])
-p.add('share_food', 'L', ['下次換我帶你去吃早餐。我家的。'])
+p.add('share_food', 'L', ['下次換我帶你去吃早餐。我家的。'], ['祐廷在臺灣'])   # AA_531 8-3（企劃線 41ec9a6ac）：祐廷在國外（美國、日本）用下一行
+p.add('share_food', 'L', ['你回來，換我帶你去吃早餐。我家的。'], ['祐廷在國外'], src='AA_531 8-3 在國外的版本')
 p.add('share_notes', 'L', ['你在念書喔？我也在。', '（照片：她桌上的書和一杯豆漿）'])
 p.add('night', 'R', ['晚安。我也要關燈了。'])
 p.add('night', 'R', ['晚安。', '（照片：收好的包包）'])
@@ -785,7 +795,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98', 'AA_393': 'e81a1afe1', 'AA_531': 'a28201f61', 'AA_538': 'b9d816288'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

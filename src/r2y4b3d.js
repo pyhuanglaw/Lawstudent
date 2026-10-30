@@ -181,7 +181,8 @@ const R2Y4B=(function(){
   S.kxPlanTable=G=>!!G.flags.KX_STUDY_PLAN;   /* 共用的讀書計畫表（2-Y4-13 K21 寫的，沒去也記）*/
   const kxBdaySet=S.kxBdaySet=(G,v)=>{ G.flags.KX_BDAY_Y4=v; G.flags.KX_BDAY=Object.assign({},G.flags.KX_BDAY||{},{4:v}); };
   const kxBdayPhone=G=>{ const d23=DK(KB.d23), d24=d23+1, d25=d23+2, F=G.flags; if(d23==null||G.day<d23||G.day>d25+1||!dating(G,'kexin')) return;
-    if(at(G,KB.d23,21)&&G.day<=d24) PHONE.at(G,d23,atH(G,d23,21),[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。',{ask:{id:'y4_kx_bday',until:T(d24,24),opts:[{t:'好。'}]}})],'y4_kx_bday');
+    if(at(G,KB.d23,21)&&G.day<=d24){ const ask={ask:{id:'y4_kx_bday',until:T(d24,24),opts:[{t:'好。'}]}};   /* AA_525 3-3（K-4）：大三生日說「第三個明年說。」（KX_WISH3）的多兩句（回覆掛在最後一則）*/
+      PHONE.at(G,d23,atH(G,d23,21),F.KX_WISH3?[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。'),P_('kexin','第三個願望。去年說今年說。'),P_('kexin','我們兩個都考過。',ask)]:[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。',ask)],'y4_kx_bday'); }
     if(G.day>=d25&&F.KX_BDAY_Y4==null&&PHONE.sent(G,'y4_kx_bday')){ const q=outGet(G,'y4_kx_bday'); if(q&&q.state==='planned') return; kxBdaySet(G,'none');
       PHONE.at(G,d25,atH(G,d25,21),[P_('kexin','昨天我生日。我知道我說不要慶祝。'),P_('kexin','可是我還是等了一天。')],'y4_kx_bday_none'); } };   /* 什麼都沒做：隔天兩句（她這學期的那一句）*/
   S.kxBdayDue=G=>{ const d=DK(KB.d24); return d!=null&&G.day===d&&hh(G)>=9&&hh(G)<23&&dating(G,'kexin')&&G.flags.KX_BDAY_Y4==null&&!outGet(G,'y4_kx_bday')&&(G.flags.KX_BDAY4_ASK==null||now(G)>=G.flags.KX_BDAY4_ASK)&&PHONE.sent(G,'y4_kx_bday'); };
@@ -239,15 +240,15 @@ const R2Y4B=(function(){
   /* ===================== 2-Y4-46 七月最後一次的心意邀約（7/13 21:00 邀約、7/14）===================== */
   S.JULY={
     heroine_01:{inv:['明天晚上有空嗎。','六點半，同一家。……手帳我帶著。'],h:18.5,place:'eatery',placeName:'公館巷子裡她知道的小店',
-      last:[{narr:'（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）'},'我寫完了。這次我不等下一次。','你回答。'],friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。'},
+      last:[{narr:'（她把手帳翻到最後一頁，推到你面前。那一行字的下面，寫滿了。）'},'我寫完了。這次我不等下一次。','你回答。'],friend:'好。……八月四號，你考試加油。',friendNo:'好。……九月見。',friendK:'……八月四號，你考試加油。',friendNoK:'……九月見。'},
     heroine_03:{inv:['明天打烊以後，你來店裡。','我煮。'],h:21,place:'noodle_closed',placeName:'麵店（打烊以後）',
-      last:['你上次說要想。我等到現在。','……我還是想坐你旁邊。'],friend:'好。考完來吃麵，算我的。',friendNo:'好。下次來吃麵，算我的。'},
+      last:['你上次說要想。我等到現在。','……我還是想坐你旁邊。'],friend:'好。考完來吃麵，算我的。',friendNo:'好。下次來吃麵，算我的。',friendK:'考完來吃麵，算我的。',friendNoK:'下次來吃麵，算我的。'},
     heroine_05:{inv:['明天晚上，同一家。','我請。'],h:18.5,place:'eatery_lib',placeName:'法圖旁邊的簡餐',
-      last:['六月那天說的，我不想再往後排了。','你說吧。我聽。'],friend:'好。考完告訴我結果。',friendNo:'好。有什麼事，再告訴我。'},
+      last:['六月那天說的，我不想再往後排了。','你說吧。我聽。'],lastK:['六月那天說的，我不想再往後排了。'],friend:'好。考完告訴我結果。',friendNo:'好。有什麼事，再告訴我。',friendK:'考完告訴我結果。',friendNoK:'有什麼事，再告訴我。'},
     heroine_04:{inv:['明天 宵夜','最後一次問你喔'],h:21,place:'yexiao',placeName:'公館宵夜',
-      last:['我這次不跑了。','換你。'],friend:'好啦。那你考完我請宵夜，朋友那種。',friendNo:'好啦。那下次宵夜我請，朋友那種。'},
+      last:['我這次不跑了。','換你。'],friend:'好啦。那你考完我請宵夜，朋友那種。',friendNo:'好啦。那下次宵夜我請，朋友那種。',friendK:'那你考完我請宵夜，朋友那種。',friendNoK:'那下次宵夜我請，朋友那種。'},
     classmate_peishan:{inv:['明天晚上有空嗎？','我在台中。……六點半，我家附近那間簡餐。你來的話，我去車站接你。'],h:18.5,place:'eatery',placeName:'台中・她家附近的簡餐',taichung:true,
-      last:['這是我最後一次問。','你想好了嗎？'],friend:'好。……那我以後還可以問你別的問題嗎？'} };
+      last:['這是我最後一次問。','你想好了嗎？'],friend:'好。……那我以後還可以問你別的問題嗎？',friendK:'……那我以後還可以問你別的問題嗎？'} };   /* friendK／friendNoK：知情對話後面接朋友那一句，拿掉開頭的「好。」「好啦。」（祐廷沒有說「我們還是朋友。」，AA_481 4-1）；lastK：學姊她先說、她知道＝只說第一句（AA_481 4-3）*/
   const JD='2029-07-14';
   S.julyWho=function(G){ if(typeof TERMEND==='undefined'||!TERMEND.rec) return null; const th=TERMEND.rec(G).think||{}; return Object.keys(S.JULY).find(id=>th[id]==='Y4S2'&&!G.flags['HEART_LAST_'+id])||null; };   /* 畢業那天傍晚（沛珊：6/8 台南）選「讓我想想」的那一位 */
   S.julyOk=function(G,id){ if(typeof TERMEND==='undefined'||!TERMEND.heartWhy) return false; try{ return TERMEND.heartWhy(G,id,TERMEND.windowOf?TERMEND.windowOf('Y4S2'):null)===true; }catch(e){ return false; } };   /* C1～C10、5-3（BB_203 5-5）*/
@@ -270,11 +271,11 @@ const R2Y4B=(function(){
     const start=()=>{ const K=TERMEND.knownOthers?TERMEND.knownOthers(G,id):[]; const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,id):((F['dating_'+id]=true),true);
       if(ok&&K.length){ const O=F.OPEN_OK||(F.OPEN_OK={}), M=O[id]||(O[id]={}); for(const y of K) M[y]=true; } if(ok) (F.confessed||(F.confessed={}))[id]=G.day; return ok; };
     let res;
-    const friend=async()=>{ await play(GM,id,[(F.BAR_REG!==true&&J.friendNo)?J.friendNo:J.friend]); F['HEART_FRIEND_'+id]=true; F['HEART_LAST_'+id]=true; res='friend'; };   /* 「沒報國考」＝8/4 國考沒有報名（BAR_REG 不是 true）*/
+    const friend=async(kn)=>{ const no=F.BAR_REG!==true&&J.friendNo, ln=kn?(no?J.friendNoK:J.friendK):(no?J.friendNo:J.friend); if(kn!=='promise') await play(GM,id,[ln||(no?J.friendNo:J.friend)]); F['HEART_FRIEND_'+id]=true; F['HEART_LAST_'+id]=true; res='friend'; };   /* 「沒報國考」＝8/4 國考沒有報名（BAR_REG 不是 true）*/
     if(typeof MREL!=='undefined'&&MREL.knowsOther&&MREL.knowsOther(G,id)){   /* AA_474 3b：她知道祐廷正在和別人交往＝先演她那一節的知情對話（說出來＝KNOW.say，沒有就 q；先不說＝她七月那幾句接 KNOW.she）；學姊算第二次 */
-      if(k>=3) await play(GM,id,J.last);
+      if(k>=3) await play(GM,id,J.lastK||J.last);   /* AA_481 4-3：學姊只說「六月那天說的，我不想再往後排了。」就接「{她}知道嗎？」*/
       const r=await MREL.knowGate(GM,id,{said:k<3,again:true,term:'Y4S2',at:'july',start});
-      if(r==='yes') res=k<3?'yes':'sheSaid'; else await friend(); }   /* 不交往＝朋友那一句、HEART_LAST（最後一次：承諾以後沒有下一次）*/
+      if(r==='yes') res=k<3?'yes':'sheSaid'; else await friend(r==='promise'?'promise':true); }   /* 不交往＝HEART_LAST（最後一次：承諾以後沒有下一次）；AA_481 4-1：朋友那一句拿掉開頭的「好。」「好啦。」；4-2：說要分手、說要跟她講（promise）＝演完她那一句就結束，不接朋友那一句（HEART_LAST、HEART_FRIEND 照記）*/
     else if(k<3){ start(); await play(GM,id,h.yes2||[]); res='yes'; }   /* 第二次、七月：她上一次已經先說過（AA_254 第 0 節第 7 點）*/
     else { await play(GM,id,J.last); const a=await GM.choose(['「好。」','「我們還是朋友。」'].map(t=>({t})));
       if(a===0){ start(); res='sheSaid'; }
@@ -334,15 +335,16 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-54 多段感情：畢業前（5/21）、畢業後一年內（2030-05-25）、尾聲的座位（U5）===================== */
   S.TELL={
-    heroine_01:{loc:'萬才館研討室外的走廊',loc30:'麵店，兩人桌',lines:['……多久了？',{narr:'（你回答以後，她點了一下頭，沒有再問。）'},'我們先當朋友。']},
-    heroine_03:{loc:'麵店打烊以後，她在櫃台後面剝蒜頭',lines:['……嗯。',{narr:'（很久以後）'},'蒜頭剝完了。','我們……先不要了。']},
+    heroine_01:{loc:'萬才館研討室外的走廊',loc30:'麵店，兩人桌',lines:['……多久了？',{narr:'（你回答以後，她點了一下頭，沒有再問。）'},'我要想一下。這個禮拜先不要約。']},
+    heroine_03:{loc:'麵店打烊以後，她在櫃台後面剝蒜頭',lines:['……嗯。',{narr:'（很久以後）'},'蒜頭剝完了。','……我要想。你先回去。']},
     heroine_02:{loc:'約好的視訊（她在英國，那邊下午）',loc30:'打烊後的 Café',lines:['……嗯。','我先掛了。……我會寫一張明信片給你。寫完才寄。'],last30:'……今天先這樣。我收店了。'},
-    heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','……我還以為你要問社課的事。','我不要這樣。我們先當朋友。']},
-    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究單位樓下',lines:['……口試前一週。','口試以後才知道的話，我會很生氣。……現在也有一點。','我們先當朋友。我需要時間。'],first30:'……你特地在樓下等我，就是要講這個。',first30n:2},   /* 2030：first30 換掉講口試的前兩句（原本是一整句）*/
-    classmate_peishan:{loc:'電話（她在台南）',lines:['……你特地打來說這個。','……我想要的不是這樣。','我會想一下。想完，我們還是朋友。']},
-    kexin:{loc:'政大山下的小吃店',loc30:'她家樓下',lines:['……你說完了？',{narr:'（她把筷子放下。）'},'……我們先回到朋友。','今天你先走。']} };   /* AA_350 R0b（企劃線 cae5cc76）：「謝謝你（自己）說／講」七位換句，結果不變 */   /* C 表（以安、語彤照 AA_127 5-4；BB 的五位照 BB_164 第 2 節，裁定 #31、#33、#48）*/
+    heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','……我還以為你要問社課的事。','我要想一下啦。想完我會找你。']},
+    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究單位樓下',lines:['……口試前一週。','口試以後才知道的話，我會很生氣。……現在也有一點。','我需要時間。口試完再說。'],first30:'……你特地在樓下等我，就是要講這個。',first30n:2,last30:'我需要時間。……我會再找你。'},   /* 2030：first30 換掉講口試的前兩句（原本是一整句）；last30＝2030 沒有口試（AA_482 第 4 節）*/
+    classmate_peishan:{loc:'電話（她在台南）',lines:['……你特地打來說這個。','……所以你現在是兩邊都要？','我可以想一下嗎？想完我打給你。']},   /* AA_483 第 2-3 節（BB-C 審稿後，取代 AA_482 第 4 節沛珊那一列）*/
+    kexin:{loc:'政大山下的小吃店',loc30:'她家樓下',lines:['……你說完了？',{narr:'（她把筷子放下。）'},'……我要想。','今天你先走。']} };   /* AA_482 第 4 節：七位的收尾只改最後一句（芷若不改）＝當場不決定（acceptsOpen 使用者 10-27 回答 C 打開以後，坦白照她們自己的條件，不再一律退回朋友）*/   /* AA_350 R0b（企劃線 cae5cc76）：「謝謝你（自己）說／講」七位換句，結果不變 */   /* C 表（以安、語彤照 AA_127 5-4；BB 的五位照 BB_164 第 2 節，裁定 #31、#33、#48）*/
   S.multiPreDue=G=>{ const P=partners(G); if(P.length<2||G.flags.MULTI_PRE!=null) return false; if(typeof ROM==='undefined'||!ROM.knowsOf) return true; return P.some(x=>P.some(y=>y!==x&&!(y==='kexin'?ROM.knowsGF(G,x):ROM.knowsOf(G,x,y)))); };   /* 至少一位還不知道 */
-  /* 坦白＝她們退回朋友（acceptsOpen 都是 false），重新開始的等待減半：2 週，學姊 3 週（AA_185 0b）。不是前任 */
+  /* 退回朋友（舊的 2-Y4-54「坦白」：acceptsOpen 都是 false 時寫的；重新開始的等待減半 2 週、學姊 3 週，AA_185 0b）。
+     AA_482 第 2 節（使用者 10-27 回答 C 以後）：tellScene 不再呼叫（坦白照她們自己的條件，MREL.tellQuiet）；這個函式留給已經退回朋友的舊存檔、別的檔案的判斷（status friend_after_catch）*/
   S.toFriend=function(G,id){ const F=G.flags; if(F['dating_'+id]!==true&&!dating(G,id)) return false; F['dating_'+id]=false; if(typeof ROM==='undefined') return true; const R=ROM.get(G,id); R.status='friend_after_catch'; R.restartDay=G.day+(id==='heroine_05'?21:14);
     R.history.push({ev:'end',at:ROM.when(G),day:G.day,how:'told'}); const H=ROM.rec(G); for(let i=H.length-1;i>=0;i--) if(H[i].id===id&&H[i].to==null){ H[i].to=ROM.when(G); H[i].how='told'; break; }
     for(const p of partners(G)) ROM.learn(G,id,p,'yt_told'); return true; };
@@ -351,21 +353,35 @@ const R2Y4B=(function(){
     return keep; };
   S.multiPre=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（典禮那天，她們都會來。）');
       const k=await GM.choose([{t:'「先跟她們說清楚。」'},{t:'「選一個人。」'},{t:'「先不想。」'}]);
-      if(k===0){ F.MULTI_PRE='tell'; F.MULTI_TELL29={list:partners(G),from:G.day+1}; }
+      if(k===0){ F.MULTI_PRE='tell'; F.MULTI_TELL29={list:S.tellList(G),from:G.day+1}; }
       else if(k===1){ const id=await S.pickOne(GM,2029); F.MULTI_PRE='pick:'+id; }
       else F.MULTI_PRE='later'; });   /* 先不想：不演被發現（U5）；典禮兩段伴侶戲分開演（postgrad3d.js gradScene）*/
     return true; };
-  S.multiY5Due=G=>partners(G).length>=2&&G.flags.MULTI_Y5==null;
-  S.multiY5=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（畢業快一年了。手機裡，兩個對話框都停在「晚安」。）');
+  S.multiY5Due=G=>partners(G).length>=2&&G.flags.MULTI_Y5==null&&!S.allAgree(G);   /* AA_482 第 3 節：都同意的（每一位都知道其他每一位、也都接受了）沒有這一場 */
+  S.CN=['','一','兩','三','四','五','六','七'];
+  S.multiY5=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（畢業快一年了。手機裡，'+(S.CN[partners(G).length]||partners(G).length)+'個對話框都停在「晚安」。）');   /* 照伴侶人數換（AA_482 第 3 節：兩位＝兩個，三位＝三個）*/
       const k=await GM.choose([{t:'「選一個人。」'},{t:'「跟她們說實話。」'},{t:'（不選）'}]);
       if(k===0){ const id=await S.pickOne(GM,2030); F.MULTI_Y5='pick:'+id; }
-      else if(k===1){ F.MULTI_Y5='tell'; F.MULTI_TELL30={list:partners(G),from:G.day+1}; }
+      else if(k===1){ F.MULTI_Y5='tell'; F.MULTI_TELL30={list:S.tellList(G),from:G.day+1}; }
       else { F.MULTI_Y5='none'; F.EPI_SEAT_EMPTY=true; } });   /* 不選：不演被發現、不扣數值；尾聲祐廷旁邊空著 */
     return true; };
   S.tellScene=async function(GM,id,y30){ const G=GM.G, C=S.TELL[id]; if(!C||!dating(G,id)) return false; const A=adv();
     let L=C.lines.slice(); if(y30&&C.first30) L.splice(0,C.first30n||1,C.first30); if(y30&&C.last30) L[L.length-1]=C.last30;
     await scene(GM,async()=>{ if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('',(y30&&C.loc30)||C.loc,2600); await play(GM,id,L); });
-    S.toFriend(G,id); return true; };
+    S.tellRec(G,id,((G.flags[y30?'MULTI_TELL30':'MULTI_TELL29'])||{}).list); return true; };
+  /* AA_482 第 1～2 節：伴侶＝ROM.partners；都同意＝每一位伴侶 x 對每一位別的伴侶 y 都有 OPEN_OK[x][y]。
+     說的對象（MULTI_TELL29／30.list）只排「還沒和每一位別的伴侶都 OPEN_OK」的那幾位；那一場演完＝祐廷先坦白（MREL.tellQuiet：tellBy、YT_CONFESSED、disc、冷靜期），
+     之後照她自己那一套（談話、結果 A／B／C／D；接不接受照 AA_474 第 1 節）。沒有 MREL（只載這個檔的測試）＝只記她知道、YT_CONFESSED */
+  S.openOk=(G,x,y)=>!!(G.flags&&G.flags.OPEN_OK&&G.flags.OPEN_OK[x]&&G.flags.OPEN_OK[x][y]);
+  S.notAgreed=(G,x)=>partners(G).filter(y=>y!==x&&!S.openOk(G,x,y));
+  S.allAgree=G=>{ const P=partners(G); return P.length>=2&&P.every(x=>!S.notAgreed(G,x).length); };
+  S.tellList=G=>partners(G).filter(x=>S.notAgreed(G,x).length>0);
+  S.ZZ_PAIR={heroine_04:'heroine_02',heroine_02:'heroine_04'};
+  S.tellRec=function(G,id,list){ const o=S.ZZ_PAIR[id];
+    if(o&&(dating(G,o)||(Array.isArray(list)&&list.includes(o)))){ S.toFriend(G,id); return null; }   /* list：選的那一刻排的名單（另一位那一場先演完、已經離開的也算）*/
+    const ys=S.notAgreed(G,id); if(!ys.length) return null;   /* 子晴＋芷若都是伴侶：照 AA_474 第 2 節兩人都離開，不變（AA_482 第 2 節）——照原本的退回朋友，各自那一場演完就結束 */
+    if(typeof MREL!=='undefined'&&MREL.tellQuiet) return MREL.tellQuiet(G,id,ys);
+    const F=G.flags, C=F.YT_CONFESSED||(F.YT_CONFESSED={}), M=C[id]||(C[id]={}); for(const y of ys){ if(typeof ROM!=='undefined'&&ROM.tellBy) ROM.tellBy(G,id,y); M[y]=G.day; } return null; };
   const tellSteps=(tag,key)=>[0,1,2,3,4,5,6].map(i=>({id:'r2y4b_'+tag+'_'+i,at:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i,21):Infinity; },until:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i+7,24):Infinity; },
     cond:G=>{ const M=G.flags[key]; return !!M&&Array.isArray(M.list)&&!!M.list[i]&&dating(G,M.list[i]); },run:GM=>S.tellScene(GM,GM.G.flags[key].list[i],tag==='tell30')}));   /* 當週一位一場（每天晚上 21:00 一位）*/
 
@@ -496,13 +512,21 @@ const R2Y4B=(function(){
   /* 尾聲：不選（EPI_SEAT_EMPTY）＝她們都在場、照朋友版那一句；祐廷旁邊空著；CG-10 只有共通圖；桌上不放伴侶那一樣 */
   S.seatView=function(G){ const F=Object.assign({},G.flags), Rm={}; for(const id of LOVE){ if(F['dating_'+id]===true) F['dating_'+id]=false; } const R0=G.flags.romance||{}; for(const id in R0){ Rm[id]=Object.assign({},R0[id]); if(Rm[id].status==='dating') Rm[id].status='none'; } F.romance=Rm; return Object.assign({},G,{flags:F}); };
   S.SEAT_EMPTY='（你旁邊的位子一直空著。沒有人問。）';
+  /* 尾聲：都同意（兩位以上，AA_482 第 3 節、AA_327 2-Y4-54 第 2 節 D 表加的一列）＝右手邊＝在一起最久的那一位（這一段交往開始的那一天最早；同一天照 PG.PARTNER_ORDER），
+     左手邊＝下一位，第三位起坐在對面；CG-10 只放共通圖；桌上每一位的那一樣都放（照右、左、對面）；她們各自說伴侶版那一句（epiLine 不用改）；CG-10 之後一句旁白 */
+  S.SEAT_BOTH='（你左右兩邊都有人。她們隔著你說話，像認識很久了。）';
+  S.startDay=(G,id)=>{ if(typeof MREL!=='undefined'&&MREL.sinceDay) return MREL.sinceDay(G,id); const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,id):null; return R&&typeof R.sinceDay==='number'?R.sinceDay:1e9; };
+  S.seatOrder=G=>{ const PO=(typeof PG!=='undefined'&&PG.PARTNER_ORDER)||[], ix=id=>{ const i=PO.indexOf(id); return i<0?PO.length+LOVE.indexOf(id):i; };
+    return partners(G).slice().sort((a,b)=>(S.startDay(G,a)-S.startDay(G,b))||(ix(a)-ix(b))); };
+  S.epiSeats=G=>{ if(!G||!G.flags||G.flags.EPI_SEAT_EMPTY||!S.allAgree(G)) return null; const o=S.seatOrder(G); return {right:o[0],left:o[1],across:o.slice(2)}; };
   S.patchEpilogue=function(){ if(typeof PG==='undefined'||PG._r2y4b) return false; PG._r2y4b=true;
     const wrap=(k,f)=>{ const o=PG[k]; if(typeof o!=='function') return; PG[k]=function(G){ return f.call(this,o,G,[].slice.call(arguments,1)); }; };
-    wrap('epiPartner',(o,G,a)=>G&&G.flags&&G.flags.EPI_SEAT_EMPTY?null:o.apply(PG,[G].concat(a)));
-    wrap('epiCg',(o,G,a)=>G&&G.flags&&G.flags.EPI_SEAT_EMPTY?'cg_reunion_window_table':o.apply(PG,[G].concat(a)));   /* 只有共通圖（不放伴侶、也不放阿凱的圖層）*/
+    wrap('epiPartner',(o,G,a)=>{ if(G&&G.flags&&G.flags.EPI_SEAT_EMPTY) return null; const st=S.epiSeats(G); return st?st.right:o.apply(PG,[G].concat(a)); });   /* 都同意＝右手邊那一位（AA_482 第 3 節）*/
+    wrap('epiPartners',(o,G,a)=>{ const st=S.epiSeats(G); return st?[st.right,st.left].concat(st.across):o.apply(PG,[G].concat(a)); });   /* 桌上的東西：右、左、對面 */
+    wrap('epiCg',(o,G,a)=>G&&G.flags&&(G.flags.EPI_SEAT_EMPTY||S.epiSeats(G))?'cg_reunion_window_table':o.apply(PG,[G].concat(a)));   /* 只有共通圖（不放伴侶、也不放阿凱的圖層；都同意＝一張圖層只畫得下右手邊一個人，不挑一位）*/
     wrap('epiLine',(o,G,a)=>o.apply(PG,[G&&G.flags&&G.flags.EPI_SEAT_EMPTY?S.seatView(G):G].concat(a)));
     wrap('epiPresent',(o,G,a)=>o.apply(PG,[G&&G.flags&&G.flags.EPI_SEAT_EMPTY?S.seatView(G):G].concat(a)));
-    if(Array.isArray(PG.EPI_AFTER_CG)) PG.EPI_AFTER_CG.push(async GM=>{ if(GM.G.flags.EPI_SEAT_EMPTY) await GM.say(null,S.SEAT_EMPTY); });   /* 接在 ③ CG-10 之後 */
+    if(Array.isArray(PG.EPI_AFTER_CG)) PG.EPI_AFTER_CG.push(async GM=>{ if(GM.G.flags.EPI_SEAT_EMPTY) await GM.say(null,S.SEAT_EMPTY); else if(S.epiSeats(GM.G)) await GM.say(null,S.SEAT_BOTH); });   /* 接在 ③ CG-10 之後（都同意＝同一個位置的那一句）*/
     if(Array.isArray(PG.EPI_AFTER_ITEMS)) PG.EPI_AFTER_ITEMS.push(async GM=>{ const G=GM.G; if(route(G)!=='US'||!G.flags.MET_LONG) return;   /* 2-Y4-55：美國路線、有 MET_LONG（何俊朗 1 演過）*/
       await GM.say(null,'（你把長桌的合照傳給一個人。過了一下，手機亮了。）'); await GM.say({name:'何俊朗（手機）'},'看到你們的合照了。下次來香港，我帶你去吃。'); });
     return true; };
@@ -542,6 +566,11 @@ const R2Y4B=(function(){
     {from:'2028-11-24',L:['（照片：一盤火雞，旁邊一小碗白飯）','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。']},{from:'2028-12-04',L:['（照片：計畫本十二月那一頁）','最後一格寫的是回臺灣。']}];
   S.SA_X_DAYS=14;   /* 最早那天起兩週內才能出（AA 確認 LAWWW 23:10 的解讀）；個別的寫 days */
   S.SA_V_SETS=3; S.SA_V_NARR='（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）';   /* T3 三組用完以後只有這一行旁白（大峽谷邀約照現在的條件接在後面）*/
+  /* AA_531 7-4（企劃線 475f55fe6）：旁白那幾週（二十週有十三週同一句）改七句輪流——照順序、不和上一週同一句；第 7 句（暖氣）11/6 冬令時間以後的週日才進。
+     句子在 r2y4b_events.js ev_sis_video 的 vn（七行，條件照 S.sisVNarr）；排的時候記在出遊的 sa.narr（0～6），舊存檔排好的沒有＝第 1 句（原句）*/
+  S.SA_VN_N=7; S.SA_VN_WINTER='2028-11-06';
+  S.saVNarrNext=(R,day)=>{ const n=day>=saFrom(S.SA_VN_WINTER)?S.SA_VN_N:S.SA_VN_N-1, last=R.vnLast==null?-1:(R.vnLast|0); let i=(last+1)%n; if(i===last) i=(i+1)%n; R.vnLast=i; return i; };
+  S.sisVNarr=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q&&q.sa.narr!=null?q.sa.narr|0:0; };
   /* AA_392 第 1-3 節：交往中的六組視訊（ev_sis_video_gf），照順序、各一次；from＝那一組最早的週日（中秋、冬令時間、感恩節、回臺灣那幾週），還沒到就那一週只有旁白；
      canyon＝臺灣路線 10/13 大峽谷才交往的不演（中秋那組）*/
   S.SA_VD=[{from:'2028-08-13',canyon:false},{from:'2028-09-03',canyon:false},{from:'2028-10-01',canyon:false},{from:'2028-11-05'},{from:'2028-11-26'},{from:'2028-12-10'}];   /* AA_516 1-3（企劃線 a9b87c588）：大峽谷才交往的，開始交往以前的 g1、g2、g3 都算演過（原本只有中秋 g3 不演、10/22 從 g1「到這邊一個禮拜了。」開始）*/
@@ -604,7 +633,8 @@ const R2Y4B=(function(){
         else { const L=p.t1!=null?S.SA_T1[p.t1]:S.SA_X[p.x].L, tag=(p.t1!=null?'y4_sa_t1_':'y4_sa_x_')+k; if(p.t1!=null) R.i1++; else R.ix=p.x+1; PHONE.at(G,c.mDay,c.mH,L.map(t=>SISP(t)),tag); R.log.push({k,kind:p.t1!=null?'t1':'x',tag,x:p.x}); } }
       else { const tag='y4_sa_v_'+k; R.vset=Math.min(R.i3|0,S.SA_V_SETS); R.i3=(R.i3|0)+1;
         if(R.vset===S.SA_V_SETS){ const t=R.t3|0; if(t<S.SA_VT.length&&c.vDay>=saFrom(S.SA_VT[t].from)){ R.vset=S.SA_VT0+t; R.t3=t+1; } }   /* AA_516 第 3 節：v0～v2 用完以後 t4～t7（照順序、到了才演；沒到的那一週照舊旁白）*/
-        plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa:{k,set:R.vset}}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
+        const sa={k,set:R.vset}; if(R.vset===S.SA_V_SETS&&!(typeof OUT!=='undefined'&&OUT.get&&OUT.get(G,tag))) sa.narr=S.saVNarrNext(R,c.vDay);   /* AA_531 7-4：旁白那一週輪到第幾句 */
+        plan(G,{id:tag,ev:'ev_sis_video',day:c.vDay,h:c.vH,late:1,place:'視訊',verb:'接起來',title:'和學姊視訊（她那邊週六晚上）',travel:'',travelH:0,back:'視訊結束。',sa}); R.log.push({k,kind:'video',tag}); } } };   /* 每週視訊：三組各一次，之後 set 3＝只有旁白 */
   S.SA_S_SETS=3;   /* AA_395 2-1 短視訊三組 */
   S.sisShortSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_s_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.sset:0; };
   S.sisVideoSet=G=>{ const q=typeof OUT!=='undefined'?OUT.rec(G).filter(x=>/^y4_sa_v_/.test(x.id)&&x.sa).sort((a,b)=>b.day-a.day).find(x=>x.day<=G.day):null; return q?q.sa.set:0; };

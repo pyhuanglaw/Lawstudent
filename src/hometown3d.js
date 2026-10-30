@@ -60,6 +60,7 @@ const HV=(function(){
        第一次去就是 1/14 的：下一次先演 first（港邊），again 第一輪跳過夜市、從下雨開始，輪完一圈夜市照常回來 */
     const P=(G.flags.HV_PRE||{})[k]; if(P&&P.v&&n>(P.at|0)){ const s=1+C.again.findIndex(a=>a.key===P.v); let r=n-1; if(s>=1&&s>=(P.at|0)&&r>=s) r++; return seq(r); }
     return seq(n); };
+  S.schoolroadDue=(G,key,n0,v)=>{ const C=L(key), F=G.flags||{}; return !!(C&&C.schoolroad)&&n0>0&&v!=='first'&&v!=='keep'&&F.PS_SCHOOLROAD!=null&&F.PS_SCHOOLROAD!=='walked'; };   /* AA_525 2-2：送行說過、還沒走過、第二次以後 */
   S.play=async function(GM,q){ const G=GM.G, hv=q&&q.hv, id=hv&&hv.id, key=(hv&&hv.key)||id, C=L(key); if(!C) return false; const dt=dating(G,id), v=S.pickVariant(G,id,hv.keep&&!!C.keep,key);
     if(C.fare&&GM.money) GM.money(-C.fare,'交通');   /* 高鐵來回（出發的時候付）*/
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg((v==='keep'?C.keep.pick:C.pick).bg):'dark'});
@@ -70,12 +71,13 @@ const HV=(function(){
     if(mu) await S.museum(GM,id,C.museum);
     else {
       if(v!=='first'&&C.museum&&S.knownDue(G,id)) await S.museumKnown(GM,id,C.museum);   /* 聊天提到（AA_349 K3：大三起在去台南那天「再去」接人以後）*/
-      const P=v==='first'?C.first:C.again.find(a=>a.key===v); await place(GM,P); await play(GM,id,P.lines); if(dt&&P.dating) await play(GM,id,P.dating);
+      const sr=S.schoolroadDue(G,key,n0,v), P=sr?C.schoolroad:(v==='first'?C.first:C.again.find(a=>a.key===v)); await place(GM,P); await play(GM,id,P.lines); if(dt&&P.dating) await play(GM,id,P.dating);   /* sr：AA_525 2-2 沛珊國中上學那條路 */
+      if(sr){ G.flags.PS_SCHOOLROAD='walked'; (G.flags.HV_PRE||(G.flags.HV_PRE={}))[key]={v:'schoolroad',at:n0}; }
       const O=(P.opts||[]).filter(o=>!o.dating||dt); if(O.length){ const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'}))); await GM.say({name:G.name||'祐廷'},O[k].t); await play(GM,id,O[k].say); }
       if(typeof C.extra==='function') await play(GM,id,C.extra(G)||[]); }   /* 那一組自己多的一段（台南：沒交往的玩家當面看孩子的作業，AA_328 3-19 裁定 25）*/
     await mrel(GM,id,q,v);
     await S.ladder(GM,id);   /* 私下約接著聊一層閒聊階梯（AA_282 第 3 節；AA_349 K4：去台中那一天也算）*/
-    toEvening(GM); await beforeSend(GM,q); { const fx=x=>typeof x==='function'?x(G,n0):x, sn=fx(C.send.narr); if(sn) await GM.say(null,sn); await play(GM,id,fx(dt?C.send.dating:C.send.other)); }   /* 送行句可以照日子換（沛珊：考上台南以前／以後）、照第幾次換（n0＝這一趟以前去過幾次；沛珊台南 AA_447 1-2）*/
+    toEvening(GM); await beforeSend(GM,q); { const fx=x=>typeof x==='function'?x(G,n0):x, sn=fx(C.send.narr); if(sn) await GM.say(null,sn); const sl=fx(dt?C.send.dating:C.send.other); await play(GM,id,sl); for(const [t,f] of (C.sendFlag||[])) if((sl||[]).includes(t)&&G.flags[f]==null) G.flags[f]=G.day; }   /* sendFlag：AA_525 2-2 說了「下次來，我帶你去……」記 PS_SCHOOLROAD */   /* 送行句可以照日子換（沛珊：考上台南以前／以後）、照第幾次換（n0＝這一趟以前去過幾次；沛珊台南 AA_447 1-2）*/
     const N=G.flags.HV_N||(G.flags.HV_N={}); N[key]=n0+1; (G.flags.HV_LAST||(G.flags.HV_LAST={}))[key]=G.day;
     if(C.visitsFlag) G.flags[C.visitsFlag]=N[key];
     if(mu) (G.flags.HV_PRE||(G.flags.HV_PRE={}))[key]={v:'museum',at:n0};   /* 美術館那一趟算進去過幾次（之後的接人是 pickAgain），不佔「第一次／再去」的順位（照 HV_PRE 的算法：下一次演它本來那一版）*/

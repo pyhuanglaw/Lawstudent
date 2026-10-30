@@ -411,8 +411,12 @@ const R2Y4A=(function(){
   S.pc2Opts=function(G,c){ const P=PC2(), used=G.flags.ZR_REPLY2||[]; return P.replies.filter(o=>!used.includes(o.id)&&!(o.fromCard&&D(c.key)<D(o.fromCard))&&!(o.id==='ticket'&&exOf(G,'heroine_02'))); };   /* 每個選項整年各用一次；戲院那句三月以後、分開過的不出 */
   S.pc2CanReply=(G,c)=>!S.pc2Rec(G).sent[c.key]&&now(G)<c.end&&S.pc2Opts(G,c).length>0;   /* 回寄選單開到下一張寄到以前 */
   S.pc2Pending=function(G){ const R=S.pc2Rec(G); return S.pc2Cards(G).filter(c=>!R.read[c.key]||S.pc2CanReply(G,c)); };
+  S.zrToldBefore=function(G,c){ const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'heroine_02'):null, a=D('2029-05-21'), d=D(c.key); if(a==null||d==null) return false; const inW=x=>typeof x==='number'&&x>=a&&x<=d;
+    if(Object.values((((G.flags||{}).YT_CONFESSED)||{}).heroine_02||{}).some(inW)) return true;   /* AA_482 第 2 節以後坦白不再當場退回朋友（MREL.tellQuiet 只記 YT_CONFESSED、進冷靜期）：那一週對她坦白過就算 */
+    return !!R&&Array.isArray(R.history)&&R.history.some(h=>h&&h.ev==='end'&&h.how==='told'&&inW(h.day)); };   /* AA_524 Z9；舊存檔（坦白當場退回朋友）照 ROM history */
   const zrLate=G=>{ const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'heroine_02'):null, a=D('2028-08-26'); return !!R&&R.sinceDay!=null&&a!=null&&R.sinceDay>=a; };   /* 8/26 才交往的（BB_119 3-2）第一張照 AA_258 第 5 節：不加熱可可那一行 */
   S.pc2Lines=function(G,c){ const P=PC2(), R=S.pc2Rec(G), L=[], prev=P.cards[c.i-1], pr=prev&&R.sent[prev.key];
+    if(c.told&&S.zrToldBefore(G,c)) return [{n:c.told}];   /* AA_524 Z9：寄到以前在 5/21 那一週和她坦白過（r2y4b3d.js S.tellScene → ROM history how:'told'）＝背面只有那一行 */
     if(pr){ const o=P.replies.find(x=>x.id===pr); if(o) L.push({q:o.next}); }   /* 回寄過＝下一張的第一行 */
     for(const t of c.text) L.push({q:t});
     if(c.gf&&dating(G,'heroine_02')&&!zrLate(G)) L.push({q:c.gf});

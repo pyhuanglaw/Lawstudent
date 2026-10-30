@@ -18,7 +18,7 @@ const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotat
 const GM={get G(){ return G; },E,D:{active:false},npc:{},
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
-  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))})); const want=picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
@@ -223,17 +223,17 @@ GM.money=function(n){ G.money+=n; };
     check('12. 前置：20:30 以安的心意邀約還沒回',!!askX&&PHONE.askOpen(G,askX));
     G.day=D('2025-12-19'); G.weekday=5; G.hour=10; const W={day:G.day,h:18.5};
     check('12. 判斷：時段裡吃飯＝期末飯（芯慈＝朋友、以安＝心意）；咖啡、時段外＝不是',(TERMEND.playerInvite(G,'classmate_xinci',P[nIdx],W)||{}).kind==='friend'&&(TERMEND.playerInvite(G,'heroine_01',P[nIdx],W)||{}).kind==='heart'&&TERMEND.playerInvite(G,'classmate_xinci',P[cIdx],W)===null&&TERMEND.playerInvite(G,'classmate_xinci',P[nIdx],{day:D('2025-12-01'),h:18.5})===null);
-    let toasts=[]; const t0=GM.toast; GM.toast=t=>toasts.push(t); said=[]; picks=[nIdx,0]; const iv=await INV.flow(GM,'classmate_xinci',null,false); GM.toast=t0;
+    let toasts=[]; const t0=GM.toast; GM.toast=t=>toasts.push(t); said=[]; picks=[P[nIdx].verb,0]; const iv=await INV.flow(GM,'classmate_xinci',null,false); GM.toast=t0;
     const R=G.termend.Y1S1, xm=(G.msgs||[]).filter(m=>m.th==='p:heroine_01').map(m=>(m.from||'')+':'+m.text);
     check('12. 約芯慈吃麵＝期末的飯：系統字「這是這學期的期末飯。」、R.picked by player',!!iv&&iv.te&&iv.te.kind==='friend'&&toasts.includes('這是這學期的期末飯。')&&R.picked&&R.picked.who==='classmate_xinci'&&R.picked.by==='player',JSON.stringify([iv,toasts,R.picked]));
     check('12. 以安還沒回的心意邀約自動婉拒：祐廷「這次我有約了，開學見。」＋她 AA_254 的婉拒句',xm.includes('player:這次我有約了，開學見。')&&askX.ans!=null&&xm[xm.length-1]==='heroine_01:'+TERMEND_LINES.HEART.heroine_01.decline,JSON.stringify(xm.slice(-3)));
     check('12. 這學期接過了：再約吃飯照一般吃飯',TERMEND.playerInvite(G,'heroine_01',P[nIdx],W)===null);
     said=[]; picks=[]; await INV.meet(GM,iv,null); check('12. 見面＝整場期末飯（一對一的開場、收尾）',lines().some(t=>t.includes('靠牆的兩人桌'))||lines().some(t=>t.includes('靠窗的兩人座')),JSON.stringify(lines().slice(0,3)));
     fresh(D('2025-12-19'),10,'campus',{}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30; ROM.get(G,'heroine_01').status='ended'; G.flags.CLEANUP_DONE=false; G.flags.cleanupDue=G.day+3;   /* 分開以後一週內（ROM.end 會設 cleanupDue；V6-S4：過了一週就算收拾過，tests/cleanup_unit.js）*/
-    said=[]; picks=[nIdx,0]; const iv2=await INV.flow(GM,'heroine_01',null,false);
+    said=[]; picks=[P[nIdx].verb,0]; const iv2=await INV.flow(GM,'heroine_01',null,false);
     check('12. 分手、還不能重新開始：她婉拒「這學期不了。謝謝你約我。」',iv2===null&&lines().some(t=>t.includes('這學期不了。謝謝你約我。')),JSON.stringify(lines()));
     fresh(D('2025-12-19'),10,'campus',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30;
-    toasts=[]; GM.toast=t=>toasts.push(t); said=[]; picks=[nIdx,0]; const iv3=await INV.flow(GM,'heroine_01',null,false); GM.toast=t0;
+    toasts=[]; GM.toast=t=>toasts.push(t); said=[]; picks=[P[nIdx].verb,0]; const iv3=await INV.flow(GM,'heroine_01',null,false); GM.toast=t0;
     check('12. 女朋友：期末約會「這是這學期的期末約會。」、不佔名額',!!iv3&&iv3.te&&iv3.te.kind==='gf'&&toasts.includes('這是這學期的期末約會。')&&!((G.termend||{}).Y1S1||{}).picked,JSON.stringify([iv3,toasts])); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
@@ -278,9 +278,9 @@ GM.money=function(n){ G.money+=n; };
   { const gfDin=async(who,term,_d,flags)=>{ fresh(TERMEND.windowOf(term).from+2,19,'campus',flags||{}); G.stage='law'; meet(who); R(who,70,60,50); G.flags['dating_'+who]=true; said=[]; picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_'+term+'_'+who,te:{term,who,kind:'gf'}}); return said.map(x=>x.t); };
     const has=(L,a)=>a.every(t=>L.includes(t)), T=k=>D(k);
     const a=await gfDin('heroine_01','Y2S1',T('2027-01-14')), a0=await gfDin('heroine_01','Y1S2',T('2026-06-15'));
-    check('15. AA_352 以安大二上「寒假東京那兩個禮拜，我晚上十點打給你。……」；大一下照原本「這學期的手帳……」',has(a,['寒假東京那兩個禮拜，我晚上十點打給你。……你那邊是九點，剛好。'])&&!a.includes('這學期的手帳，很多頁都寫到你。……你不准翻。')&&a0.includes('這學期的手帳，很多頁都寫到你。……你不准翻。'),JSON.stringify(a));
+    check('15. AA_352 以安大二上「寒假東京那兩個禮拜，時差一個小時。……」（AA_524 A3 改原句）；大一下照原本「這學期的手帳……」',has(a,['寒假東京那兩個禮拜，時差一個小時。……你那邊比較早，我知道。'])&&!a.includes('這學期的手帳，很多頁都寫到你。……你不准翻。')&&a0.includes('這學期的手帳，很多頁都寫到你。……你不准翻。'),JSON.stringify(a));
     const y=await gfDin('heroine_03','Y2S2',T('2027-06-17')), y1=await gfDin('heroine_03','Y2S1',T('2027-01-14'));
-    check('15. 語彤大二下「（她把兩碗麵推過來。她那碗多了一把蔥。）」（旁白）「……今天想吃蔥。」；大二上照寒假那句',has(y,['（她把兩碗麵推過來。她那碗多了一把蔥。）','……今天想吃蔥。'])&&y1.includes('我媽問你寒假要不要來吃年菜。……我說我問問看。'),JSON.stringify(y));
+    check('15. 語彤大二下「（她把兩碗麵推過來。她那碗多了一把蔥。）」（旁白）「……今天想吃蔥。」；大二上照寒假那句（AA_524 Y1：大二上換「我媽又問年菜了。……我說再等等。」）',has(y,['（她把兩碗麵推過來。她那碗多了一把蔥。）','……今天想吃蔥。'])&&y1.includes('我媽又問年菜了。……我說再等等。'),JSON.stringify(y));
     const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));
     check('15. 學姊大四上（12/23 才回國）「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」（AA_363 第 4 節，原本「回來三個禮拜……」）；沒有「今天我沒帶計畫本出門。」',has(s5,['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'])&&!s5.includes('回來三個禮拜，時差還沒調好。')&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
     const z=await gfDin('heroine_02','Y3S2',T('2028-06-15'));

@@ -17,7 +17,7 @@ const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotat
 const GM={get G(){ return G; },E,D:{active:false},npc:{},
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
-  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(Object.assign(o.map(q=>q.t||q.text),{all:[].concat(...o.map(q=>q.sub||[q.t||q.text]))})); const want=picks.shift(); if(typeof want==='string'){ let k=o.findIndex(q=>(q.t||q.text).includes(want)); if(k<0){ k=o.findIndex(q=>(q.sub||[]).some(s=>s.includes(want))); if(k>=0&&!o[k].dim) picks.unshift(want); } /* INVITE-MENU-1030 分層：要選的名稱在某一類裡（選項的 sub）＝先選那一類，這個 pick 留給下一層（那一類整個灰掉＝和原本選到灰掉的那一項一樣，用掉這個 pick）*/ return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
@@ -88,7 +88,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2026-07-10',20,{dating_kexin:true}); R('kexin',40,30,30); G.contacts.kexin=G.day-200; picks=['我去高雄找妳？',0]; await INV.flow(GM,'kexin',null,false);
     check('7. 交往中答應：「你要來？……好。幾點的車，我去接你。」',said0().includes('你要來？……好。幾點的車，我去接你。'),J(said0().slice(-2)));
     const q2=OUT.rec(G).find(x=>x.hv&&x.hv.id==='kexin'); said=[]; G.flags.HV_N={kexin:3}; G.day=q2.day; G.hour=10.5; await HV.play(GM,q2);
-    check('7. 交往中第四次（河邊）：多一句「……下次住一晚啦。」；送上車是「開學我就上去了。」',said0().includes('……下次住一晚啦。')&&said0().includes('開學我就上去了。……到時候換你來接我。'),J(said0()));
+    check('7. 交往中第四次（河邊）：多一句「……下次住一晚啦。」；送上車是「開學我就上去了。台北見。」（AA_525 3-8 K-10 改句）',said0().includes('……下次住一晚啦。')&&said0().includes('開學我就上去了。台北見。'),J(said0()));
     law('2026-07-10',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=G.day-200; G.flags.dating_classmate_peishan=true;
     picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q3=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
     said=[]; opts=[]; picks=['常笑']; G.day=q3.day; G.hour=10.5; await HV.play(GM,q3); const o3=opts[opts.length-1]||[];

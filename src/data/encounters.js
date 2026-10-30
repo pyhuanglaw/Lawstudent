@@ -90,7 +90,7 @@ const ENCOUNTERS={
        企劃線 aca122d2（AA-C 照 AA_188 口語審、BB-C 口氣審 b13052e5；週次：以安 D09 第 10 週、阿哲 D25 第 14、15 週——第 16 週是期末考週）。
        第二批的地方遠，每一列都是「某一學期的某一個週末」一次。 ---- */
     {who:'heroine_01',spot:'D09',why:'她和公法讀書會的人坐在茶館最裡面那一桌，桌上攤著一張時間表。',days:[6],termDays:{Y4S1:[0]},from:15,to:19,terms:['Y2S1','Y2S2','Y3S1','Y4S1'],weeks:[10],stageMin:'FAMILIAR',busy:'short',join:false,memo:null,away:'和讀書會在貓空',
-      lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','下次讀書會你要不要來旁聽？時間我再傳給你。'],friend:['{name}？Alison 剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','七點我下山。你等我，我們一起搭纜車。']},src:'AA_162 8、8-1、8-5'},
+      lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','讀書會在山上的茶館，一個月一次。'],friend:['{name}？Alison 剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','我們讀到七點。……你不用等，先下山。']},src:'AA_162 8、8-1、8-5'},
     {who:'heroine_03',spot:'D18',why:'她跟在一位老師後面，在訪問一位擦香爐的阿嬤。',days:[6],from:10,to:17,terms:['Y3S1','Y3S2'],weeks:[12],stageMin:'ACQUAINTANCE',busy:'yes',busyLine:'（她看到你，點了一下頭，繼續聽阿嬤說話。）',join:false,memo:'ENC_D18_YT',away:'在九份做田野',lines:{},src:'AA_162 8、8-1（她在工作，只點頭；之後在學校說一句）'},
     {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],termWeeks:{Y2S2:[15]}/* AA_375 第 4 項：大二下 5/29（六）14:00 系籃在新體育館比賽，外澳只在第 15 週 6/5；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
       lines:{acq:['欸！你也來外澳？下來啊！','水很冷！……超冷。下來就知道。'],friend:['哥！我們差一個人推板子。你來！','你不會衝浪？我也不會啊，我們都在被浪打。快下來！']},src:'AA_162 8、8-1、8-5'},
@@ -146,7 +146,8 @@ const ENCOUNTERS={
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},
     ENC_D24_SIS:{who:'heroine_05',lines:['礁溪那天以後，我媽問了你好幾次。我跟她說你很好。']},
     ENC_D20_PS:{who:'classmate_peishan',lines:['烏來那天回去，有個小孩寫作文寫到你。']},
-    ENC_D25_ZR:{who:'heroine_02',place:['cafe'],lines:['外澳那卷底片洗出來了。有一張你在角落，我拿給你。']}
+    ENC_D25_ZR:{who:'heroine_02',place:['cafe'],lines:['外澳那卷底片洗出來了。有一張你在角落，我拿給你。']},
+    ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次那部片。……結局我猜錯了。']}   /* AA_524 Z11：西門偶遇「今天的片，下次在 Café 說。」（enc_walk.js）——照 ENC_D02_ZR 的做法，下一次在 Café 說 */
   },
   /* 人物頁「記得的事」的字 */
   labels:{ENC_D04_ZR:'在西門町的電影院門口遇到她',ENC_D12_ZQ:'在大稻埕碼頭遇到她',ENC_D06_SIS:'在美術館遇到學姊',ENC_D12_PS:'在迪化街的舊書店門口遇到她',ENC_D13_KX:'在淡水遇到她',

@@ -104,7 +104,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const ps=CHARACTERS.classmate_peishan, at=(wk,wd,h)=>{ fresh(termDay('Y1S2',wk,wd),h,'wenzhou',{}); return STORY.schedEnt(ps,G)||{}; };
     const A=[[5,2,16],[5,4,17.5],[9,2,16.5],[15,4,17.9]].map(x=>at(...x).zone), B=[[5,1,16.5],[5,5,18.5],[4,2,16.5],[16,2,16.5]].map(x=>at(...x).zone);
     check('6. 沛珊作息：大一下第 5～15 週週二、四 16:00～18:00 在溫州街（課輔班）',A.every(z=>z==='wenzhou'),J(A));
-    check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週、第 16 週的週二照舊在總圖',B.every(z=>z==='library'),J(B));
+    check('6. 對照：週一、五 16～19 照舊在總圖；第 4 週週二照舊在總圖；第 16 週週二（4/6～6/14 和柏翰那一段）＝總圖大廳二樓自習區（AA_527 2-5，原本三樓閱覽區）',J(B)===J(['library','library','library','library_hall']),J(B));
     const T=evText('ev_peishan_tutoring'); check('6. 溫州街課輔班（P3b）：「喔，是你。我在這裡當志工。一週兩天。」',T.includes('喔，是你。我在這裡當志工。一週兩天。')&&!T.some(t=>/一週三天/.test(t)),J(T.slice(0,2)));
     const L3=LADDER.byTerm.Y1S2.classmate_peishan.steps.find(s=>s.id==='P2-L3');
     check('6. 閒聊階梯 P2-L3：「我在溫州街的課輔班當志工。一週兩天。」',!!L3&&L3.lines[0]==='我在溫州街的課輔班當志工。一週兩天。',L3&&L3.lines[0]);
@@ -208,8 +208,8 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     check('第 6-1 節. 經濟系 ev_y0_r7：「宵夜你請。……上次是我請的。」（不比分數）',r7.includes('宵夜你請。……上次是我請的。')&&!r7.some(t=>/分數比較低/.test(t)),J(r7.filter(t=>/宵夜/.test(t))));
     check('第 6-1 節. 經濟系 ev_y0_p2b：「那是我的第一次，不是你的。……好，聽你的。」（不是「算你贏」）',p2b.includes('那是我的第一次，不是你的。……好，聽你的。')&&!p2b.some(t=>/算你贏/.test(t)),J(p2b.filter(t=>/第一次，不是你的/.test(t))));
     const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
-    check('第 6-1 節. 對照（照留）：大二成績打賭「你輸了。」「我輸了。」「上次你請。這次你也會請。」「成績那一攤，你請。說好的。」；休學在家比早起；「那今天宵夜誰請？」「好，那下週換你請。」',
-      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&/今天算你贏/.test(src('src/data/retake_home.js'))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes('好，那下週換你請。')); }
+    check('第 6-1 節. 對照（照留）：大二成績打賭「你輸了。」「我輸了。」「上次你請。這次你也會請。」「成績那一攤，你請。說好的。」；休學在家比早起；「那今天宵夜誰請？」；可昕 K1b「好，那下週換你請。」AA_525 3-11 改「好。」（2026-10-30 AA_525 改稿，企劃線 6081f725f：tests/aa525_promises_unit.js）',
+      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&/今天算你贏/.test(src('src/data/retake_home.js'))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes("{t:'這週不行，下週換我請。',set:{KX_YULE:'no'},say:[K('好。')]}")); }
   { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, ob=((w6.obs||{}).options||[]).find(o=>o.text==='看旁邊的人'), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6']||[];
     check('第 6-2 節第 3 題. 通識第 6 週：黑板「（本週在天文館）」（不是「（本週晚上在操場）」）；觀察「看旁邊的人」＝「宥辰仰著頭，一直到燈亮都沒有說話。」；開頭旁白「（這堂課移到天文館。）」',
       (w6.board||[])[1]==='（本週在天文館）'&&!(w6.board||[]).some(t=>/操場/.test(t))&&!!ob&&ob.result==='宥辰仰著頭，一直到燈亮都沒有說話。'&&!!pre[0]&&pre[0][1]==='（這堂課移到天文館。）',J([w6.board,ob,pre]));

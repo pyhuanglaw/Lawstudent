@@ -318,7 +318,7 @@ const date=id=>H.date(id);
     at('2028-12-14',19.5); H.G.zone='campus'; check('1B-20 19:30 還沒到＝電話帶到場', S.a23CallDue(H.G)); H.said=[]; H.entered=[]; await S.a23Bring(GM);
     check('1B-20 電話「你在哪？大家都到了。」（語彤 FAMILIAR 以上＝語彤打）→ 到長桌 → 演', H.said.some(s=>s.t==='你在哪？大家都到了。'&&/語彤|陳語彤/.test(s.who||''))&&H.entered.includes('noodle')&&H.G.flags.ANNIV23==='there'); }
   { fresh('2028-12-14',6,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_03'); date('kexin'); PHONE.join(H.G,'noodle_team','麵店團'); at('2028-12-14',6.5); H.G.zone='us_apartment'; phone();
-    check('Y2 美國路線：當地 06:30 群組滿座的照片、「美國那兩個 下次補吃」；可昕「23 號回來，第一碗我請。」', th('g:noodle_team').includes('（一張滿座的照片）')&&th('g:noodle_team').includes('美國那兩個 下次補吃')&&th('p:kexin').includes('23 號回來，第一碗我請。')&&H.G.flags.ANNIV23==='remote');
+    check('Y2 美國路線：當地 06:30 群組滿座的照片、「美國那兩個 阿姨說照片也算」（AA_524 Y7 改原句）；可昕「23 號回來，第一碗我請。」', th('g:noodle_team').includes('（一張滿座的照片）')&&th('g:noodle_team').includes('美國那兩個 阿姨說照片也算')&&th('p:kexin').includes('23 號回來，第一碗我請。')&&H.G.flags.ANNIV23==='remote');
     at('2028-12-24',19); H.G.zone='noodle'; check('1B-20 回來以後第一次去麵店：阿姨', S.a23AuntDue(H.G)); await run('ev_noodle_23rd_missed'); check('1B-20 「你錯過了，明年再來。」', has('你錯過了，明年再來。')&&!S.a23AuntDue(H.G)); }
   /* ===== 1B-21 ===== */
   fresh('2028-10-18',20,'dorm',{Y4_PATH:'bar'}); date('kexin'); at('2028-10-18',21); phone(); const m23=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y4_kx23');

@@ -75,7 +75,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這
     check('1. AA_443 第 3 節（範圍更正）：寒暑假維持不發；用到的是學期中卻住家裡',DOC443.indexOf('寒暑假維持現在（不發）')>=0&&DOC443.indexOf('學期中、人卻住家裡')>=0);
     G=lawG('2026-07-16',20.05,{home:true,lbreak:'Y1S'}); rules(); check('1. 法律系放假住家裡（breakMode，暑假）的週四：不發（AA_443 第 3 節：寒暑假維持現在）',HOME.breakMode(G)&&!homeGrp(G.day).length&&!(H.G.msgs||[]).some(m=>m.th==='g:home'));
     G=lawG('2026-01-29',20.05,{home:true,lbreak:'Y1W'}); rules(); check('1. 法律系放假住家裡（寒假）：不發',HOME.breakMode(G)&&!homeGrp(G.day).length);
-    G=lawG('2026-07-16',20.05); rules(); check('1. 放假留宿舍：照舊沒有（放假中原本就不發）',!homeGrp(G.day).length);
+    G=lawG('2026-07-16',20.05); rules(); check('1. 放假留宿舍：AA_532 第 4 節（企劃線 ade80d22f）起照常發，同學期中那一套（問「會回去／這週不回」；原本放假整段不發）',tagged('home_ask_'+G.day).length===1&&J(optsOf('home_ask_'+G.day))===J(['會回去','這週不回'])&&!tagged('home_live_'+G.day).length);
     G=lawG('2026-10-15',20.05); rules(); check('1. 學期中住宿舍：照舊問「會回去／這週不回」',tagged('home_ask_'+G.day).length===1&&J(optsOf('home_ask_'+G.day))===J(['會回去','這週不回'])&&!tagged('home_live_'+G.day).length);
     const pg=k=>{ const G=lawG(k,20.05,{home:true,flags:{MOVED_OUT:true}}); return G; };
     G=pg('2029-03-01'); rules(); const i4=0;   /* AA_466：新的存檔從第 1 則開始 */

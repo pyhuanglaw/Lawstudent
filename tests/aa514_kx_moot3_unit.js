@@ -21,7 +21,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SHA='9bca0f407',   /* 10-28 08:3x：AA 加第 4 節（麵店底圖 nccu_food、晨希兩件），前三節和 964d01175 一樣 */
+const SHA='bfede0a62',   /* 10-30 AA_527 2-5（AA-B）：麵店那句旁白改「（山下小吃街的麵店。……）」、晨希大四下錄音 5/12；10-28 08:3x：AA 加第 4 節（麵店底圖 nccu_food、晨希兩件），前三節和 964d01175 一樣 */
      SHA0='964d01175', SPEC='docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md';
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
 const errs=[];
@@ -62,7 +62,7 @@ const NAR=['（政大的模擬法庭教室。法官席坐著三個學長姊，�
   '（宣判的時候，她們那一組贏了。她只點了一下頭。）','（散場以後，她在教室門口等。法袍已經脫了，掛在手上。）'];
 const SAW=['我看到你了。最後一排，左邊數來第三個。','講到第二個爭點的時候。……差點忘詞。'];
 const OPTS=['「妳講得很好。」','「我有坐最後一排。」','「要不要去吃東西？」'];
-const OPT_R=[['我知道。……第二個爭點那裡，不要再提了。'],['最後一排沒用。你太好認了。'],['要。我餓死了。','（政大後門的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）']];
+const OPT_R=[['我知道。……第二個爭點那裡，不要再提了。'],['最後一排沒用。你太好認了。'],['要。我餓死了。','（山下小吃街的麵店。她吃得很快，一句話都沒說，吃完才抬頭。）']];
 const CLOSE=['大四不比了。這是最後一場。','……你有來。好。'];
 const MISSED=['贏了。','大四不比了。這是最後一場。'], NOSHOW='你說要來的。';
 const MEM_LABEL='她最後一場模擬法庭，你坐最後一排';
@@ -88,7 +88,7 @@ await sec('0',async()=>{
   const P=typeof FEED_Y2S1!=='undefined'?FEED_Y2S1.posts.find(p=>p.id==='kx4bc'):null;
   if(!P) bad.push('沒有 kx4bc'); else [P.pic,P.say].concat(P.cm||[],P.dm||[]).forEach(T_);
   check('0. ① 遊戲裡每一句（私訊、回覆鍵、旁白、她的話、選項、地點字幕、人物頁、第 4b 則）都在稿裡（'+SHA+'，一字不差）',!bad.length,J(bad));
-  { const e=ev(EV), d=e?e.dialogue:[], i=d.findIndex(l=>l&&typeof l.text==='string'&&/^（政大後門的麵店/.test(l.text)), pre=i>0?d[i-1]:null, bgs=d.slice(0,i).filter(l=>l&&l.bg).map(l=>l.bg);
+  { const e=ev(EV), d=e?e.dialogue:[], i=d.findIndex(l=>l&&typeof l.text==='string'&&/^（山下小吃街的麵店/.test(l.text)), pre=i>0?d[i-1]:null, bgs=d.slice(0,i).filter(l=>l&&l.bg).map(l=>l.bg);
     check('0. 第 4 節第 2 點：選「要不要去吃東西？」以後的麵店那段換底圖 nccu_food（那一句前面一行換）；教室那段照舊 classroom_small',i>0&&!!pre&&pre.bg==='nccu_food'&&bgs[0]==='classroom_small',J({i,pre,bgs})); }
   /* ② 稿 → 遊戲：第 1 節 */
   const s1=doc.slice(doc.indexOf('## 1. '),doc.indexOf('## 2. ')); const lines=[], nars=[], opts=[];

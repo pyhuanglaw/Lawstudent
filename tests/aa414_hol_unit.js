@@ -58,6 +58,7 @@ let money=[]; GM.money=(n,why)=>{ money.push([n,why]); H.G.money+=n; };
     for(const k in ANYTHOL_LINES){ const v=ANYTHOL_LINES[k]; if(k==='grp') v.forEach(x=>T(x[1])); else if(Array.isArray(v)) v.forEach(T); else T(v); }
     for(const e of ANYTHOL_EVENTS) for(const l of e.dialogue){ if(l.text!==undefined) T(l.text); if(l.scene!==undefined) T(l.scene); if(l.name!==undefined) T(l.name); for(const c of (l.choice||[])) T(c.text); }
     for(const a of X().HOL) T(a.out.title);
+    { const A524=new Set(['（指了一下對岸）去年想帶你去的地方，在那邊。','山坡上那一排房子。','……今年從這裡看就好。']); for(let i=bad.length-1;i>=0;i--) if(A524.has(bad[i])) bad.splice(i,1); }   /* 2026-10-30 AA_524 Y4（企劃線 8fd10848d）在 2029 河濱加的三句：tests/aa524_promises_unit.js 對 AA_524 的稿 */
     check('0. 每一句台詞、選項、地點字幕、私訊、群組、出遊標題都在稿裡（一字不差）',!bad.length,J(bad)); }
   { const bad=[]; for(const e of ANYTHOL_EVENTS){ const Ls=new Set(e.dialogue.filter(l=>l.label).map(l=>l.label)); for(const l of e.dialogue){ if(l.goto&&!Ls.has(l.goto)) bad.push(e.id+':'+l.goto); for(const c of (l.choice||[])) if(c.goto&&!Ls.has(c.goto)) bad.push(e.id+':'+c.goto); } }
     check('0. 每一個 goto 都有 label',!bad.length,J(bad)); }

@@ -28,7 +28,7 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H, J=JSON.stringify;
-const SHA510='28f981438', SHA511='b70bed855';   /* AA_511：b70bed855＝c9899bed9＋第 9 節（實作時定的七件，第 1～8 節沒動）*/
+const SHA510='28f981438', SHA511='bfede0a62';   /* AA_511：bfede0a62＝AA_527 1-5 改芷若 zr3i 私訊收尾（AA-B 10-30）*/   /* AA_511：b70bed855＝c9899bed9＋第 9 節（實作時定的七件，第 1～8 節沒動）*/
 const SPEC510='docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md', SPEC511='docs/story_planning/AA_511_女主角自己的生活_畢業以後到2030.md',
       SPEC509='docs/story_planning/AA_509_女主角自己的生活_大四上與寒假.md';
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };

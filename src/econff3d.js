@@ -110,7 +110,8 @@ const ECONFF=(()=>{
     ['2025-02-22','2025-03-09','（晚上九點讀不下去的時候，她會說：「下樓。十分鐘。」兩個人走到便利商店，看一下外面的燈，再回來。）'],   /* AA_348 新句（RH-O1 3/1）*/
     ['2025-03-10','2025-04-02','（三月。她開始把每天讀完的範圍寫在一張紙上，貼在倒數日曆旁邊。）'],   /* AA_368 H2（企劃線 e55fda50）：原本一句 3/13～4/22，3/16 的停點就講四月二日——拆兩張，四月二日那句 4/3 起 */
     ['2025-04-03','2025-04-22','（四月二日，牆上的倒數撕到一百。那個禮拜，媽媽燉了雞湯。她那碗多一隻雞腿。）'],   /* AA_348 新句（ev_y0_r5 4/2、RH-L3 4/12）*/
-    ['2025-04-25','2025-06-07','（五月，書桌旁邊多了一台電風扇。考前一個月，兩個人說好，去報一個衝刺班。）'],
+    ['2025-04-25','2025-05-18','（每天早上，還是比誰先坐到桌子前面。這個月的早餐，大部分是你請的。）'],   /* AA_529 6-5：原本一張 4/25～6/7，拆兩段；這張接 2/14「每天早上，比誰先坐到桌子前面。輸的人請早餐。」*/
+    ['2025-05-19','2025-06-07','（五月，書桌旁邊多了一台電風扇。考前一個月，兩個人說好，去報一個衝刺班。）'],
     ['2025-06-09','2025-06-11','（衝刺班，早上九點到晚上九點，每天。中午、晚上訂便當，一個小時下課一次。）'],   /* AA_308 第 5 節：原本 6/9～6/23 一句，拆三句（中間演 RH-C2、RH-C3）*/
     ['2025-06-13','2025-06-16','（隔天又待到九點。再隔天，傍晚又想回家了。）'],
     ['2025-06-18','2025-06-23','（那個禮拜，你們又早走了三次。）'],
@@ -120,7 +121,22 @@ const ECONFF=(()=>{
     ['2025-07-19','2025-07-23',G=>({sea:'（星期六，你搭早上八點的客運南下。那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。）',shop:'（星期六，你搭早上的客運南下。巷子裡那家店很小。她點了兩份一樣的，說這樣才公平。）',sleep:'（星期六，雨下了一整天。你睡到下午三點，醒來的時候，她剛好傳來一張窗外下雨的照片。）'})[G&&G.flags&&G.flags.E35_PLAN]||null],   /* AA_348 第 5 節第 2 項：7/19 考完的約定（ev_y0_e35s 30 分鐘版剪掉了），照 E35_PLAN 三種；沒有約定就不出 ；BB218-P3 ①：原本 7/15 起，7/19（六）以前的跳就講「星期六，你搭…」——從 7/19 起 */
     ['2025-07-26','2025-08-12','（後來，你們每天晚上講電話。分數的事，沒有人再提。）'],
     ['2025-08-14','2025-08-21','（你把經濟系的課本裝進紙箱。民法那本，留在書桌上。）']];
-  S.cardLine=function(G,d0,d1){ if(!S.short(G)||d1-d0<2) return null; const r=S.rec(G), k0=d0+1, k1=d1-1;
+  /* AA_529 第 3 節：兩張永遠出不來的（10/16 那一跳不到兩天：10/16 00:00 停在可昕「明天去總圖念書吧」；7/12～7/13 被 AA_440 新加的 7/13 對發票切開）——
+     掛在那一天第一張日期卡下面（10/17 14:40、7/13 10:00 那兩張原本空白的）。要換了日子的那一張才算（同一天再停一次不出卡）；上面 CARDS 的同一句照留（隔得夠遠的跳照樣在那裡出，同一句只出一次）*/
+  S.PIN=[['2024-10-17','（十月十六日晚上，你們在總圖三樓念微積分。她看了五分鐘，還在第一行。）'],
+    ['2025-07-13','（對答案。數學，你從第一題重新對了一次，全對。考完，她回高雄過暑假。）']];
+  /* AA_529 第 5 節：長頸鹿鑰匙圈（story3d.js 記 Y0_KEY_CARD='due'，30 分鐘版 E20、E20b、信箱那則都剪了）：之後第一張日期卡下面加兩句（休學在家那一段的日期卡＝home3d.js y0Jump）；
+     沒有日期卡就掛在那天的起床（home3d.js S.sleep → S.keyWake）。出過記那一天（不再出）。
+     那張卡本來就有一句的（例：12/20→12/31 那一跳是「十二月二十日，期末考考完了……」，X53）照留、兩句接在後面（「加」兩句；一行一句，<br> 分開）*/
+  S.KEY_LINES=['（十二月底，可昕拿給你一個小紙袋。裡面是一個長頸鹿鑰匙圈，脖子很短。）','（她說聖誕節那天忘了給。你把它掛在家裡的鑰匙上。）'];
+  S.keyDue=G=>!!(G&&G.flags&&G.flags.Y0_KEY_CARD==='due');
+  S.keyWake=async function(GM){ const G=GM.G; if(!S.keyDue(G)) return false; G.flags.Y0_KEY_CARD=G.day; for(const l of S.KEY_LINES) await GM.say(null,l); return true; };
+  S.cardLine=function(G,d0,d1){ if(!S.short(G)) return null; const t=S.cardLine1(G,d0,d1);
+    if(S.keyDue(G)&&S.on2(G)){ G.flags.Y0_KEY_CARD=G.day; return [t].concat(S.KEY_LINES).filter(Boolean).join('<br>'); }   /* 幾句一張卡（home3d.js y0Jump 照 <br> 的數目放久一點）*/
+    return t; };
+  S.cardLine1=function(G,d0,d1){ const r=S.rec(G);
+    if(d1>d0) for(const [k,t] of S.PIN){ if(DK(k)===d1&&!r.lines.includes(t)){ r.lines.push(t); return t; } }
+    if(d1-d0<2) return null; const k0=d0+1, k1=d1-1;
     for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/
   /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
   S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'), c=DK('2024-12-13'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true;
@@ -156,12 +172,12 @@ const ECONFF=(()=>{
     return n; };
   const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
-  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null;
-    const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); };
+  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null, qn=0;
+    const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); if(qn&&GM.phoneBadge) GM.phoneBadge(); };   /* qn：途中收到、不停的（quiet）——跳完紅點要亮 */
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
       if(Math.abs(t-Math.round(t))<1e-6&&typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }   /* 住宿舍的月份也照月匯（BUG-ECON-OCT-ALLOWANCE-1021：原本只有搬回家以後的 HOME.y0Jump 會匯，10/1 那筆一直沒匯，到 10/31 搬家才照在家的 5,000 匯）*/
-      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('ECONFF phone',e); }
-        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0){ paid(); return 'msg'; } } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
+      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ const n=(o&&o.length)|0, k=PHONE.loud?PHONE.loud(o).length:n; got+=k; qn+=n-k; }); }catch(e){ console.warn('ECONFF phone',e); }
+        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0){ paid(); return 'msg'; } } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續；quiet 的不停（經濟系社團群組三則，AA_529 第⑦點：收進手機、有紅點就好）*/
     setT(G,E,day,h); paid(); return 'ok'; };
   async function sitIn(GM,it){ const E=GM.E, P=E.player; const room=it.room&&it.room.room; const seats=((E.zone&&E.zone.seats)||[]).filter(q=>!room||q.room===room);
     const free=seats.filter(q=>!GM.freeSeat||GM.freeSeat(q)===q); const st=free[Math.floor(free.length/2)]||seats[0]; if(st&&GM.sitAt) GM.sitAt(P,st); return {st,free}; }
@@ -177,7 +193,7 @@ const ECONFF=(()=>{
     const ok=EVENTS.check(e)||(EVENTS.cond&&EVENTS.cond(e.prereq)&&e.trigger!=='outing');
     if(!ok) return false; await EVENTS.run(e); return true; }
   /* 跳的途中收到的訊息：最新那一則要回的（沒有就最新那一則）在哪一段對話（AA_300 第 6 節）*/
-  S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const m=P.length?P[P.length-1]:((G.msgs||[]).filter(x=>x.from!=='player').slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };
+  S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const O=(G.msgs||[]).filter(x=>x.from!=='player'), m=P.length?P[P.length-1]:(O.filter(x=>!x.quiet).slice(-1)[0]||O.slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };   /* 不停的那幾則（quiet，AA_529 第⑦點）同一刻收到：打開讓它停下來的那一段 */
   S.busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['econff3d:busy']=()=>{ S.busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;

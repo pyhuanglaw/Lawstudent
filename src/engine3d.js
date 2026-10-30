@@ -325,6 +325,19 @@ const E3 = (function(){
     const o=ent.obj.position; return {ok:false,reason:'timeout',x:+o.x.toFixed(2),z:+o.z.toFixed(2)}; };
   E.unstick=function(ent,maxR){ if(!ent) return false; const lv=ent.lv|0, n=navOf(lv); if(!n) return false; const o=ent.obj.position; if(standL(o.x,o.z,0.3,lv)) return false; const nf=n.nearestFree(o.x,o.z,maxR||16); if(!nf) return false; // 找一個四周也能站的格子
     let best=null; const [cx,cz]=n.toCell(o.x,o.z); for(let r=1;r<=(maxR||16)&&!best;r++){ for(let dz=-r;dz<=r&&!best;dz++) for(let dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dz))!==r) continue; const [wx,wz]=n.toWorld(cx+dx,cz+dz); if(standL(wx,wz,0.3,lv)){ best=[wx,wz]; break; } } } if(!best) best=nf; o.x=best[0]; o.z=best[1]; o.y=n.heightAt(o.x,o.z); console.warn('unstick →',best); return true; };
+  /* NPC 走路卡住（使用者 2026-10-30 04:2x：「npc要離開一個空間都會卡在門口一直行走 很白癡」，NPC-STALL-1030）：
+     沿路線走、被牆／門框／家具擋住時原本一直播走路、原地踏步，沒有任何保底（玩家有 stallStop，NPC 沒有）。
+     連續 E.NPC_STALL 秒（遊戲時間）幾乎沒前進（每一格走不到該走距離的 15%）：
+       ①離路線終點 E.NPC_STALL_NEAR 以內（離開的人卡在門口、走去座位卡在旁邊）＝當作到了：清路線、照常呼叫 onArrive（離開的人＝出門；STORY.leaveTouch 當下移除）；
+       ②要離開的人（beh leave）在遠處卡住＝重新找一次路（只一次），還是卡＝站好、記 n.stalled（鏡頭看不到時才移除，見 story3d.js）；
+       ③其他＝放掉路線、站好（不原地踏步）。回傳 true＝這一格不再走 */
+  E.NPC_STALL=1.2; E.NPC_STALL_NEAR=3.5;
+  function npcStall(n){ const P=n.path, o=n.obj.position; n._stall=0; if(!P||!P.length) return false; const end=P[P.length-1], rem=Math.hypot(end[0]-o.x,end[1]-o.z);
+    const arrive=()=>{ n.path=null; n.stalled=true; n.pose=n.idlePose&&n.idlePose!=='walk'&&n.idlePose!=='run'?n.idlePose:'idle'; n.speed=0; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } return true; };
+    if(rem<E.NPC_STALL_NEAR) return arrive();
+    if(n.beh==='leave'||n.leaving){ if(!n._repath){ n._repath=true; const f=n.onArrive; if(E.moveTo(n,end[0],end[1],f,n.lv|0)) return false; } n.path=null; n.onArrive=null; n.stalled=true; n.pose='idle'; n.speed=0; return true; }   /* 遠處卡住、重找也卡：站好，鏡頭看不到時才移除（story3d.js refreshSchedule 的 n.stalled&&!vis），不在玩家眼前消失 */
+    n.path=null; n.onArrive=null; n.pose=n.idlePose&&n.idlePose!=='walk'&&n.idlePose!=='run'?n.idlePose:'idle'; n.speed=0; return true; }
+  E.npcStall=npcStall;
   E.moveTo=function(ent,x,z,onArrive,lv){ if(!navOf(ent.lv|0)){ ent.path=[[x,z]]; ent.onArrive=onArrive; return true; } const p=E.pathTo(ent.obj.position.x,ent.obj.position.z,ent.lv|0,x,z,lv===undefined||lv===null?(ent.lv|0):lv); if(p&&p.length){ ent.path=p; ent.onArrive=onArrive; return true; } ent.path=null; return false; };   // lv：目標在哪一層（多樓層區域；不給＝同一層）
   const _fr=new THREE.Frustum(), _frM=new THREE.Matrix4(), _frS=new THREE.Sphere();
   /* 這一格看得到嗎（鏡頭視錐＋和 NPC 一樣的距離 LOD）：不是 NPC 的會動的人（路上騎腳踏車的人，bike3d.js B.rider）用。
@@ -362,8 +375,9 @@ const E3 = (function(){
           n.lv=E.player.lv|0; }
         else { n.mount0=null; o.position.set(sx,P.position.y+PS.y*k,sz); o.rotation.set(0,sy,P.rotation.z); n.pose='sit'; n.idlePose='sit'; n.speed=0; n.lv=E.player.lv|0; } } }
     else if(n.beh==='follow'&&E.player&&E.player.riding&&!n.noRide&&(!E.rideMode||E.rideMode(n)==='ride')&&(E.player.speed||0)<0.2&&Math.hypot(E.player.obj.position.x-o.position.x,E.player.obj.position.z-o.position.z)<3.0){ n.beh='passenger'; n.path=null; n.mountT=0; n.mount0=null; if(E.onRide) E.onRide(n,true); }   /* 一起走的人：你騎著車停在她旁邊（3 m 內、停下來），她自己走到後座坐上去（AA_137 第 5 節）；沒裝載妹墊、不願意的人照舊走路（rideMode）*/
-    else if((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy)){ if(followStep(n,dt)) moving=true; }
-    else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35); stepEntity(n,dx/d,dz/d,stepSp(sp,d,dt),dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp; } }
+    else if(((n.beh==='follow'&&E.player)||(n.beh==='buddy'&&n.buddy))&&!n.frozen){ if(followStep(n,dt)) moving=true; }   /* frozen（過場把人定在某一點，例：羽球短片）＝不跟著走（BADCLIP-FOLLOW-1030）*/
+    else if(n.path){ const t=n.path[0]; const dx=t[0]-o.position.x, dz=t[1]-o.position.z; const d=Math.hypot(dx,dz); if(wpReached(n,d,0.3,dt)){ n.path.shift(); n._stall=0; if(!n.path.length){ n.path=null; if(n.onArrive){ const f=n.onArrive; n.onArrive=null; f(n); } } } else { const sp=n.run?4.0:(n.walkSpeed||1.35), x0=o.position.x, z0=o.position.z, ss=stepSp(sp,d,dt); stepEntity(n,dx/d,dz/d,ss,dt); moving=true; n.pose=n.run?'run':'walk'; n.speed=sp;
+        if(ss*dt>1e-4){ const mv=Math.hypot(o.position.x-x0,o.position.z-z0); n._stall=mv<ss*dt*0.15?(n._stall||0)+dt:0; if(n._stall>E.NPC_STALL&&npcStall(n)) moving=false; } } }
     else if(n.beh==='wander'&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ const wp=w[(Math.random()*w.length)|0]; E.moveTo(n,wp[0]+(Math.random()-0.5)*1.5,wp[1]+(Math.random()-0.5)*1.5,null,wp[2]); n.timer=4+Math.random()*8; } }
     else if(n.beh==='route'&&!n.path&&n.timer<=0&&!n.frozen){ const w=n.waypoints; if(w&&w.length){ n.ri=((n.ri||0)+1)%w.length; const wp=w[n.ri]; E.moveTo(n,wp[0],wp[1],null,wp[2]); n.timer=n.pauseAt?1+Math.random()*3:0; } }
     if(!moving&&(n.pose==='walk'||n.pose==='run')){ n.pose=n.beh==='follow'?'idle':(n.idlePose||'idle'); if(n.beh==='follow') n.idlePose='idle'; n.speed=0; }   /* 跟著你走的人停下來是站著（原本退回作息的坐姿：使用者 2026-10-16「我停下來她就恢復坐姿」）*/
@@ -379,19 +393,24 @@ const E3 = (function(){
   // ---------- 樹幹透視 ----------
   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
   // 只作用在 userData.seeThrough 的材質（大王椰子、行道樹樹幹、電線桿）。用 shader 判斷，所以區域合併過的靜態網格也適用。
-  const ST={uSeeP:{value:new THREE.Vector3(-1e4,-1e4,0)},uSeeR:{value:0}}; const _stA=new THREE.Vector3(), _stB=new THREE.Vector3(), _stS=new THREE.Vector2();
-  const ST_GLSL='uniform vec3 uSeeP; uniform float uSeeR;\nconst float ST_B[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);\nvoid main() {\n'+
-    '\tif(uSeeR>0.0){ float stF=0.0; if(gl_FragCoord.z<uSeeP.z){ vec2 stV=gl_FragCoord.xy-uSeeP.xy; float stD=length(vec2(stV.x*2.0,stV.y))/uSeeR; stF=0.85*smoothstep(1.0,0.75,stD); }\n'+
+  const ST={uSeeP:{value:new THREE.Vector3(-1e4,-1e4,0)},uSeeR:{value:0},uSeeA:{value:2}}; const _stA=new THREE.Vector3(), _stB=new THREE.Vector3(), _stS=new THREE.Vector2();
+  const ST_GLSL='uniform vec3 uSeeP; uniform float uSeeR; uniform float uSeeA;\nconst float ST_B[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);\nvoid main() {\n'+
+    '\tif(uSeeR>0.0){ float stF=0.0; if(gl_FragCoord.z<uSeeP.z){ vec2 stV=gl_FragCoord.xy-uSeeP.xy; float stD=length(vec2(stV.x*uSeeA,stV.y))/uSeeR; stF=0.85*smoothstep(1.0,0.75,stD); }\n'+
     '\t\tstF=max(stF,smoothstep(1.7,0.8,length(vViewPosition)));\n'+
     '\t\tif(stF>0.0){ int stI=int(mod(gl_FragCoord.x,4.0))*4+int(mod(gl_FragCoord.y,4.0)); if((ST_B[stI]+0.5)/16.0<stF) discard; } }\n';
   function patchSeeThrough(m){ if(!m||m.userData._st||!(m.isMeshStandardMaterial||m.isMeshPhysicalMaterial||m.isMeshLambertMaterial||m.isMeshPhongMaterial)) return; m.userData._st=true; const prev=m.onBeforeCompile;
-    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSeeP=ST.uSeeP; sh.uniforms.uSeeR=ST.uSeeR; sh.fragmentShader=sh.fragmentShader.replace('void main() {',ST_GLSL); };
-    const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|seeThrough1'; }; m.needsUpdate=true; }
+    m.onBeforeCompile=function(sh,r){ if(prev) prev.call(this,sh,r); sh.uniforms.uSeeP=ST.uSeeP; sh.uniforms.uSeeR=ST.uSeeR; sh.uniforms.uSeeA=ST.uSeeA; sh.fragmentShader=sh.fragmentShader.replace('void main() {',ST_GLSL); };
+    const pk=m.customProgramCacheKey; m.customProgramCacheKey=function(){ return (pk?pk.call(this):'')+'|seeThrough2'; }; m.needsUpdate=true; }
   E.patchSeeThrough=patchSeeThrough;
   function updateSeeThrough(){ const P=E.player; if(!P||E.cam.mode!=='follow'||(E.indoor&&!(E.zone&&E.zone.seeThru))){ ST.uSeeR.value=0; return; }   /* 室內：區域有 seeThru 才用（法律學院圖書館的書架，走道很窄）*/
     const o=P.obj.position; _stA.set(o.x,o.y+0.9,o.z).project(camera); if(_stA.z>1||_stA.z<-1){ ST.uSeeR.value=0; return; }
     renderer.getDrawingBufferSize(_stS); _stB.set(o.x,o.y+1.75,o.z).project(camera); const top=_stB.y; _stB.set(o.x,o.y+0.05,o.z).project(camera); const ph=Math.abs(top-_stB.y)*0.5*_stS.y; // 玩家在畫面上的高度（像素）
-    ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); }
+    ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,ph*0.62); ST.uSeeA.value=2; }
+  /* 固定運鏡（劇情鏡頭、睡覺）也可以指定透空的地方（DORM-SLEEP-VISUAL-1030：躺在上舖時床欄擋住人）：E.cam.seeThru={x,y,z,r,aspect}——
+     世界座標的中心；r＝橢圓的半高佔畫面高度的比例（預設 0.22）；aspect＝橢圓橫向的壓縮（預設 2＝直立的橢圓，和跟隨鏡頭一樣；躺著的人給 0.5＝橫的）。
+     只作用在 userData.seeThrough 的材質（宿舍的床架 seethru_dorm_frame_white、被子…）；室內要區域有 seeThru。沒給就和原本一樣（運鏡時不透空）。設、清由劇情負責 */
+  function cineSeeThrough(){ const f=E.cam.seeThru; if(!f||(E.indoor&&!(E.zone&&E.zone.seeThru))){ ST.uSeeR.value=0; return; } camera.updateMatrixWorld(); _stA.set(f.x,f.y,f.z).project(camera); if(_stA.z>1||_stA.z<-1){ ST.uSeeR.value=0; return; }
+    renderer.getDrawingBufferSize(_stS); ST.uSeeP.value.set((_stA.x*0.5+0.5)*_stS.x,(_stA.y*0.5+0.5)*_stS.y,_stA.z*0.5+0.5); ST.uSeeR.value=Math.max(20,(f.r||0.22)*_stS.y); ST.uSeeA.value=f.aspect||2; }
   E.seeThrough=ST;
   /* 跟隨鏡頭的位置：從 target（頭）往 (yaw, pitch) 退 dist0。擋到建築碰撞盒（E.colliders）或玩家那一層的隔間牆（zone.camCols[lv]：教學館，
      2026-10-13 LAWWW2 審查——原本室內沒有鏡頭碰撞，鏡頭跑到隔間牆後面時整個畫面是那面牆）就拉近到牆前 0.35 m（最近 0.7 m）；
@@ -421,7 +440,7 @@ const E3 = (function(){
     C.swing=best; if(!best) return 0; const st=Math.sign(best)*Math.min(Math.abs(best),1.3*dt); C.yaw+=st; if(C.ctl) C.swingAcc=(C.swingAcc||0)+st; return st; }
   E.autoSwing=autoSwing;
   const _lookPt=new THREE.Vector3();
-  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); ST.uSeeR.value=0; return; }
+  function updateCamera(dt){ const C=E.cam; const P=E.player; if(C.mode==='cinematic'&&C.cine){ const s=C.cine; camera.position.lerp(s.pos,Math.min(1,dt*2.4)); C.look=C.look||new THREE.Vector3(); C.look.lerp(s.look,Math.min(1,dt*2.4));   /* 原本 dt*4（約 0.25 秒就轉過去）：轉太快會暈（使用者 2026-10-15），放慢一點 */ slabClip(C.look,camera.position,0.9); camera.lookAt(C.look); if(E.zone&&E.zone.fadeWalls){ E.zone.fadeWalls(camera,P.obj.position); hideFaded(); } updateLevelVis(); cineSeeThrough(); return; }
     C.dist+=(C.distTarget-C.dist)*Math.min(1,dt*4); if(C.manualT>0) C.manualT-=dt; C.target.lerp(tmpV2.copy(P.obj.position).add(tmpV3.set(0,1.45,0)),Math.min(1,dt*7));
     /* 往下走樓梯時鏡頭抬高（戶外：萬才館大樓梯；萬才館第二階段的真實玩家測試抓到）：鏡頭在玩家背後 2.7 m 高，往下走的時候平台邊緣擋住下面的台階，
        畫面上看不到要走去的地方（點下面的台階會點到平台、又走回去）。前方 3～5.5 m 的地面比腳下低超過 0.4 m 時，俯角最多加 0.32（約 18°），平順地變化；室內維持原本的鏡頭 */

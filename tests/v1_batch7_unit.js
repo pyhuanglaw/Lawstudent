@@ -76,7 +76,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('選「妳推薦哪一家？」：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」（AA_372 第 7 項：她才開學兩個禮拜）',L.includes('山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。'));
     check('小吃街三個選項；選她推薦的：「好，信任導遊。」＋「（她點了兩碗。和搬宿舍那天同一家。）」（AA_313 第 2 節第 5 列）、K1_ORDER=hers',JSON.stringify(opts[2])===JSON.stringify(['（吃她推薦的）','（自己挑一家）','「妳幫我點。」'])&&L.includes('好，信任導遊。')&&L.includes('（她點了兩碗。和搬宿舍那天同一家。）')&&!L.includes('她點了兩碗酸辣湯餃。')&&G.flags.K1_ORDER==='hers',JSON.stringify(opts[2]));
     check('memo「開學後第一次去政大」（AA_313 第 2 節第 5 列：8/30 搬宿舍是第一次）',STORY_EVENTS.find(e=>e.id==='ev_kexin_tour_nccu').consequences.memo==='開學後第一次去政大');
-    check('停車場結尾：最後一句「下次你來，我們吃山上那家。」（AA_372 第 7 項：「選宵夜」8/30 講過）；「……這是分工，不是命令。」拿掉（AA_372 第 6 節第 7 題，企劃線 7fca0df5）',L[L.length-1]==='下次你來，我們吃山上那家。'&&!L.includes('……這是分工，不是命令。'),JSON.stringify(L.slice(-2)));
+    check('停車場結尾：最後一句「下次你來，我們吃山下那家。」（AA_372 第 7 項：「選宵夜」8/30 講過；AA_525 3-5「山上」→「山下」）；「……這是分工，不是命令。」拿掉（AA_372 第 6 節第 7 題，企劃線 7fca0df5）',L[L.length-1]==='下次你來，我們吃山下那家。'&&!L.includes('……這是分工，不是命令。'),JSON.stringify(L.slice(-2)));
     check('影響：NCCU_VISITED、可昕的記憶 OUR_SHOP_FIRST；影子的回答不記（沒有別的旗標）',G.flags.NCCU_VISITED===true&&SOCIAL.has('kexin','OUR_SHOP_FIRST')&&!Object.keys(G.flags).some(k=>/SHADOW|K1_SHADOW/.test(k)));
     check('時間：13:30 出發、14:00 抵達、演 3 小時 → 17:00；「回到台大。」',Math.abs(G.hour-17)<0.01&&caps[caps.length-1]==='回到台大。',JSON.stringify({h:G.hour,last:caps[caps.length-1]}));
     check('只一次（出遊 done、事件演過）',OUT.get(G,'kx_tour').state==='done'&&G.events.done.ev_kexin_tour_nccu===1);
@@ -105,7 +105,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('K1b：「晚一點可以嗎？」＝她回「那九點？你來吃第二輪。」、隔天 21:00',!!o&&o.h===21&&o.day===W6MON+1&&r1.includes('那九點？你來吃第二輪。'),JSON.stringify(o));
     ask(2); const r2=G.msgs.filter(x=>x.th==='p:kexin'&&x.from==='kexin').map(x=>x.text); const F2=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(W6MON+2,8,'campus',F2); G.msgs=msgs; G.phone=ph; run(8,13);
     const crown=G.msgs.filter(x=>x.tag==='kx_yule_crown');
-    check('K1b：「這週不行」＝她回「好，那下週換你請。」、不排出遊；予樂戴紙巾皇冠的照片不再私訊（AA_503 9-3：改成可昕的動態第 3 則，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',r2.includes('好，那下週換你請。')&&!OUT.get(G,'kx_yule')&&crown.length===0,JSON.stringify(crown.map(x=>[x.day,x.text])));
+    check('K1b：「這週不行」＝她回「好。」（AA_525 3-11：原「好，那下週換你請。」）、不排出遊；予樂戴紙巾皇冠的照片不再私訊（AA_503 9-3：改成可昕的動態第 3 則，去沒去都出，tests/aa503_feed_unit.js 第 9 段）',r2.includes('好。')&&!r2.includes('好，那下週換你請。')&&!OUT.get(G,'kx_yule')&&crown.length===0,JSON.stringify(crown.map(x=>[x.day,x.text])));
     /* 演出 */
     fresh(W6MON+1,19,'dorm',{NCCU_VISITED:true}); OUT.plan(G,{id:'kx_yule',ev:'ev_kexin_yule_pass',day:W6MON+1,h:19.5,place:'政大',title:'去政大見予樂',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發','所以我來政大','哪一科','週末換妳'];
     await tickOut(); const L=lines();

@@ -164,8 +164,10 @@ const Y34B=(function(){
     if(!JP(G)){ if(NOW(G)>=T(d19,21)&&NOW(G)<T(d20,14.5)) at(G,d19,G.day===d19?Math.max(21,G.hour):G.hour,[DM('heroine_04','明天兩點，資工系館一樓。一百個人'),DM('heroine_04','……你會來吧')],'y3_zq_q12_ask');   /* BB_98 第 10 節 */
       if(sent(G,'y3_zq_q12_ask')&&F.ZQ_Q12_SEEN==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_zq_q12')&&NOW(G)<T(d20,14.75))
         OUT.plan(G,{id:'y3_zq_q12',ev:'ev_ziqing_q12',day:d20,h:14,late:0.75,place:'資工系館一樓展示廳',title:'子晴的發表會',travel:'走路 約 10 分鐘',travelH:1/6,hours:2});
-      if(F.ZQ_Q12_SEEN==='missed'&&!sent(G,'y3_zq_q12_miss')) at(G,d20,21,[DM('heroine_04','（照片：製作名單）')],'y3_zq_q12_miss'); }   /* 沒去：當晚 21:00 製作名單的照片，沒有 CG */
+      if(F.ZQ_Q12_SEEN==='missed'&&!sent(G,'y3_zq_q12_miss')) at(G,d20,21,[DM('heroine_04','（照片：製作名單）')].concat(S.zq3rd(G)?[DM('heroine_04','📷（一張插座貓貼紙，貼在她的筆電上）'),DM('heroine_04','第三張 先貼我這')]:[]),'y3_zq_q12_miss'); }   /* AA_525 1-1：交往中、ZQ_SHOW2 came 的，照片後面多兩則 */   /* 沒去：當晚 21:00 製作名單的照片，沒有 CG */
     else if(NOW(G)>=T(d20,tzH(G,d20,21))&&!sent(G,'y3_zq_q12_kai')&&F.ZQ_Q12_SEEN==='online') at(G,d20,G.day===d20?Math.max(tzH(G,d20,21),G.hour):G.hour,[DM('kai','子晴的製作名單。')],'y3_zq_q12_kai'); };   /* 日本路線：電話之後阿凱傳製作名單的特寫（人在日本＝當地時間，AA_341 J-S13）*/
+  S.zq3rd=G=>{ if(!dating(G,'heroine_04')) return false; const v=G.flags.ZQ_STICKER3; if(v===true) return true; if(v===false) return false;   /* AA_525 1-1（Z-1）：大二下成發「第二張。明年還有第三張。」的第三張；AA_526 第 2 節：只給聽過那一句的（ZQ_STICKER3，「去年的份。」那一支不補）*/
+    return done(G,'ev_ziqing_show2')&&['clap','came','half'].includes(G.flags.ZQ_SHOW); };   /* 舊存檔（沒有 ZQ_STICKER3）：演過 ev_ziqing_show2、去過大一的 Q5（y2r2_3d.js q5Went）、現在交往中＝算聽過 */
   S.zqCallDue=G=>{ const d=D('zq'); return law(G)&&JP(G)&&d!=null&&G.day===d&&G.hour>=tzH(G,d,21)&&G.hour<tzH(G,d,24)&&G.flags.ZQ_Q12_SEEN==null&&fam('heroine_04'); };   /* 台灣 21:00＝日本 22:00（AA_341 J-S13）*/
   S.zqCall=GM=>{ const F=GM.G.flags; if(F.ZQ_Q12==null) F.ZQ_Q12=S.zqGame(GM.G); return play('ev_ziqing_q12_call')(GM); };   /* 電話一律《九點以後》那一句（S.zqGame；AA_341 J-S18「依 ZQ_Q12 分兩版」AA_360 第 1 節作廢）。Q12_CALL 貓那句留著不刪：只有舊存檔已經記了 cat 才會用到 */
   /* 收不到子晴 5/19 那則的玩家（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊（AA_337 第 5 節，新寫）。跟阿凱不熟的沒有入口；
@@ -360,7 +362,7 @@ const Y34B=(function(){
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
       at(G,d,22.5,[{th:'p:kexin',who:null,text:'（你傳了一張長桌的照片給可昕。）'},DM('kexin','人好多。'),DM('kexin','……下次帶我去。人少的時候。')],'y4_a23_kx_photo');   /* 和可昕交往、她沒見過麵店團（AA_337 第 3 節）：系統字＋她兩句 */
     if(US(G)&&F.ANNIV23==null&&NOW(G)>=T(d,tzH(G,d,19.5))){ F.ANNIV23='remote'; remember('heroine_03','ANNIVERSARY_23','聽說');   /* 美國路線：遠端版（AA_181 2-5、BB_99 9-0b）*/
-      if(fam('heroine_03')&&inGrp(G,'noodle_team')) at(G,d,tzH(G,d,19.5),[{th:'g:noodle_team',from:'heroine_03',text:'（一張滿座的照片）'},GZ('美國那兩個 下次補吃')],'y4_a23_us');
+      if(fam('heroine_03')&&inGrp(G,'noodle_team')) at(G,d,tzH(G,d,19.5),[{th:'g:noodle_team',from:'heroine_03',text:'（一張滿座的照片）'},GZ('美國那兩個 阿姨說照片也算')],'y4_a23_us');
       if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你說了四年的麵。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
   S.a23AuntDue=G=>{ const r=D('usRet'); return law(G)&&US(G)&&G.flags.ANNIV23==='remote'&&!G.flags.ANNIV23_AUNT&&r!=null&&G.day>=r&&G.zone==='noodle'; };
   /* ================= 1B-21 可昕 K23 ================= */
@@ -489,7 +491,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
     {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
-    {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',goto:'fw_b'}]},
+    {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',set:{AN_FIRST_BOWL:true},goto:'fw_b'}]},
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
     {label:'fw_a'},{speaker:'heroine_01',text:'嗯。……八月見。'},{goto:'fw_end'},
     {label:'fw_b'},{speaker:'heroine_01',text:'好。我要加滷蛋。'},{goto:'fw_end'},
@@ -607,6 +609,9 @@ const Y34B=(function(){
     {if:C(()=>mem('heroine_04','CLAPPED')),speaker:null,text:'拍手：{name}'},
     {speaker:null,text:'音樂：吉他社的學妹'},   /* AA_363 R8：每個玩家的名單都有（配樂是她自己的進度，使用者 10-17「她自己決定」）；ZQ_MUSIC_CREDIT 照樣記（y2b_events.js、y2b3d.js），名單不再看它 */
     {if:C(nine),speaker:null,text:'謝謝：爸爸'},
+    /* AA_525 1-1（Z-1）：大二下成發「第二張。明年還有第三張。」——交往中、ZQ_SHOW2 came 的，製作名單之後（兩個版本都有）*/
+    {if:C(G=>S.zq3rd(G)),speaker:null,text:'（她從口袋拿出一張插座貓貼紙，貼在你手機殼上。和前兩張排在一起。）'},
+    {if:C(G=>S.zq3rd(G)),speaker:'heroine_04',text:'第三張。說好的。'},
     {unless:C(nine),goto:'q_cat'},
     {speaker:null,text:'（發表結束，觀眾散去。試玩機前坐著一個穿西裝的人，在玩《九點以後》。是她爸爸。週六，他一早就從家裡過來了。）'},
     {speaker:null,text:'（他玩得很慢。玩到最後一關，玩了四次。第五次，他過了。）'},
@@ -747,6 +752,7 @@ const Y34B=(function(){
     {speaker:null,text:'（麵店牆上，二十年那張泛黃的紅紙旁邊，多了一張新的：「感謝各位二十三年來的照顧。明年繼續煮。」）'},
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
     {speaker:null,text:'（阿姨一碗一碗煮，語彤端，工讀生在洗碗。語彤的媽媽坐在角落，對每個人說：「我女兒很少講話，她今天講太多了。」）'},
+    {if:C(G=>ytDt(G)&&G.flags.YT_MOM_ASKED!=null),speaker:'語彤的媽媽',text:'問了好幾年，終於看到人了。'},   /* AA_524 Y1：交往中、學期末約會聽過「我媽問你……」其中一句（termend3d.js 記 YT_MOM_ASKED）——她媽媽第一次看到你 */
     {if:C(ytDt),speaker:'語彤的媽媽',text:'……他也很少講話。你們兩個怎麼聊天的？'},
     {if:C(()=>met('yu')),speaker:null,text:'（Alison 進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
     {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）第四年了。這兩個位子，本來就是我們的。'},   /* AA_378 #6：麵店團 2025-09 才開始（到 2028-12 是第四年）*/
