@@ -36733,7 +36733,7 @@
    "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P2",
-   "next": "法律學院圖書館 ee96b798f 已整合（91.4→0 m²；看得到的差別 <1.1% 像素）；總圖大廳已重烘、截圖後交 → 宿舍四人房 → 201",
+   "next": "法律學院圖書館 ee96b798f、總圖大廳 c1f95420a 已整合（83.2→0 m²）→ 宿舍四人房 → 201；BB 看總圖大廳東西兩面牆",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -36779,6 +36779,34 @@
     "branch": "claude/modest-rubin-2lyp7g",
     "acceptance": "經濟系那一年人物頁沒有回頭看的句子；AA 給的現在式那幾句照稿",
     "receiver": "BB",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "NAV-LIBHALL-ISLAND-1030",
+   "title": "總圖大廳一樓有 2 格的小孤島（約 (5.85,-8.4)）：tests/library_copier_unit.js「一樓沒有小孤島」FAIL，但測試結束碼是 0，全部 Node 一直算它通過（v9.3 #31：比人窄的縫留下的孤島，滑進去就出不來）",
+   "area": "SCENE",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "LAWWW2（D108 場景導航）：找出 (5.85,-8.4) 那兩格是哪個家具或牆的縫，改 library_layout 的阻擋讓它跟大塊相連或整個封掉；library_copier_unit 改成有 FAIL 就 exit 1；跑 nav_buildings_unit、reachability",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一次進總圖大廳",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 10-30 21:2x 整合 LM-COLLAPSE 總圖大廳時發現（換回舊 GLB 也一樣，跟光照無關）",
+   "authorized": "D108",
+   "xai": {
+    "spec": "tests/library_copier_unit.js、tools/dev_scratch/nav_islands.py",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "library_copier_unit ALL PASS 且有 FAIL 時 exit 1；nav_buildings_unit ALL PASS",
+    "receiver": "LAWWW",
     "ack": "SENT"
    }
   }

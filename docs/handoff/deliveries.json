@@ -16337,6 +16337,19 @@
    "task": "NOODLE-LM-1030",
    "integration": "已整合待測試",
    "note": "【LAWWW-B 21:0x ACK】只拿 7 個資產檔（登記 03ecc90d1）；lightmap／room 相關 Node 7 支 ALL PASS；BB 排測"
+  },
+  {
+   "id": "DL-LW2-LMCOLLAPSE-LIBHALL-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c1f95420a",
+   "msg": "ACK",
+   "what": "LM-COLLAPSE-1030 第二間：總圖大廳重烘（library_interior.glb＋兩張光照；朝室內壓扁 83.2→0 m²，東西兩面牆的斜黑三角不見）",
+   "task": "LM-COLLAPSE-1030",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 21:2x 只拿 3 個資產檔；library／lightmap 相關 Node 58 支 ALL PASS（library_copier_unit 一樓 2 格小孤島 FAIL＝換回舊 GLB 也一樣、結束碼 0，另開 NAV-LIBHALL-ISLAND-1030）"
   }
  ],
  "ignored": [
