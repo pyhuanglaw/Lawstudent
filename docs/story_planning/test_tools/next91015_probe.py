@@ -214,7 +214,7 @@ async def noodle(pg, cdp, run):
     await P.prep(pg, cdp, run, """(T=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); for(const id of T.concat(['heroine_03','heroine_01'])){ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); } G.flags.met_yu=true;
         return {inGroup:PHONE.inGroup(G,'noodle_team'), noodleDay:STORY.noodleDay(G.day)}; })(%s)""" % J(TEAM), quiet=False, label='加入麵店團、認識阿哲、Alison、柏翰、芯慈')
     snap = await P.snapshot(pg)
-    for tag, key, hh, want in (('0930', '2025-09-30', 17.9, 'first'), ('1002', '2025-10-02', 17.9, 'yutong'), ('1007', '2025-10-07', 17.9, True), ('1009_2040', '2025-10-09', 20.6, False)):   # 10/2 有語彤的事件（閒聊讓給它，一天一件）；10/7 才看長桌閒聊   # 9/30 第一次＝麵店團成團事件先演（ndlOtherDue），長桌閒聊看下一個麵店日
+    for tag, key, hh, want in (('0930', '2025-09-30', 17.9, 'first'), ('1002', '2025-10-02', 17.9, 'yutong'), ('1007', '2025-10-07', 17.9, True), ('1009_2040', '2025-10-09', 20.6, False), ('1014', '2025-10-14', 17.9, True)):   # 10/14：dd8b216c0 以後再看一次沒有別的事件的麵店日   # 10/2 有語彤的事件（閒聊讓給它，一天一件）；10/7 才看長桌閒聊   # 9/30 第一次＝麵店團成團事件先演（ndlOtherDue），長桌閒聊看下一個麵店日
         if tag != '0930': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=None, quiet=False)   # 同一份進度（演過的事件留著）
         it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
         if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
@@ -256,9 +256,10 @@ async def noodle(pg, cdp, run):
         elif want == 'yutong':
             run.check('10/2（四）：語彤的麵店事件開口的人都在店裡', not missing, J({'missing': missing, 'lines': lines[:6]}))
         elif want:
-            run.check('10/7（二）18:00 走進麵店：麵店團有人坐在店裡（3D）', ok and len(team_here) >= 1, J(team_here))
-            run.check('10/7（二）18:00：長桌閒聊有演', ndl, J(lines[:6]))
-            run.check('10/7（二）18:00：閒聊裡開口的每一個人都真的在店裡（3D 看得到這個人）', ndl and not missing, J({'missing': missing, 'names': sorted(x for x in names if x), 'hidden': hid}))
+            dd = '%s/%s' % (key[5:7].lstrip('0'), key[8:10].lstrip('0'))
+            run.check('%s 18:00 走進麵店：麵店團有人坐在店裡（3D）' % dd, ok and len(team_here) >= 1, J(team_here))
+            run.check('%s 18:00：長桌閒聊有演（有人沒生出來時，他說話的那則不演、換別則）' % dd, ndl, J({'lines': lines[:6], 'team3d': team_here}))
+            run.check('%s 18:00：閒聊裡開口的每一個人都真的在店裡（3D 看得到這個人）' % dd, ndl and not missing, J({'missing': missing, 'names': sorted(x for x in names if x), 'hidden': hid}))
         else:
             run.check('10/9（四）20:40 走進麵店：麵店團四位都不在（作息 20:30 走）', ok and not team_here, J(team_here))
             run.check('10/9（四）20:40：沒有長桌閒聊（人不在就不演）', not ndl, J(lines[:6]))
