@@ -72,10 +72,10 @@ const HEARD=(function(){
   let GMr=null; S.bind=gm=>{ if(gm) GMr=gm; return GMr; };
   const npcOf=(GM,id)=>{ if(!GM||!id) return null; if(typeof EVENTS!=='undefined'&&EVENTS.npcOf){ try{ const n=EVENTS.npcOf(id); if(n) return n; }catch(e){} } return (GM.npc&&GM.npc[id])||null; };
   S.herNear=function(G,about,who,GM){ if(!G||!about) return false; GM=GM||GMr;
+    const n=GM&&GM.G===G?npcOf(GM,about):null, p=n&&!n.hidden&&!n.leaving&&n.obj&&n.obj.position;   /* 3D：先看人（便宜），再看圈子表 */
+    if(p){ const pl=GM.E&&GM.E.player, q=pl&&pl.obj&&pl.obj.position; if(q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(p.x-q.x,p.z-q.z)<=S.NEAR_R) return true;
+      const w=who&&npcOf(GM,who); if(w&&(n._hcWith===who||w._hcWith===about||n.paired===w||w.paired===n||n.buddy===w||w.buddy===n||n.chatWith===w||w.chatWith===n)) return true; }
     if(who&&typeof HCIRCLE!=='undefined'&&HCIRCLE&&typeof HCIRCLE.rowsIn==='function'){ try{ for(const r of HCIRCLE.rowsIn(G,G.zone)){ const ids=[r.who].concat(r.with||[]); if(ids.includes(about)&&ids.includes(who)) return true; } }catch(e){ console.warn('HEARD.herNear',e); } }
-    const n=GM&&GM.G===G?npcOf(GM,about):null, p=n&&!n.hidden&&!n.leaving&&n.obj&&n.obj.position; if(!p) return false;
-    const pl=GM.E&&GM.E.player, q=pl&&pl.obj&&pl.obj.position; if(q&&(n.lv|0)===(pl.lv|0)&&Math.hypot(p.x-q.x,p.z-q.z)<=S.NEAR_R) return true;
-    const w=who&&npcOf(GM,who); if(w&&(n._hcWith===who||w._hcWith===about||n.paired===w||w.paired===n||n.buddy===w||w.buddy===n||n.chatWith===w||w.chatWith===n)) return true;
     return false; };
   /* ---------- talk：閒聊前面先說一句 ---------- */
   S.talkDue=function(G,id,GM){ if(!law(G)) return null; const R=S.rec(G); if(R.day[id]===G.day) return null;
