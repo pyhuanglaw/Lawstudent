@@ -35692,7 +35692,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": "【AA-B 04:10】AA_529 經濟系交（企劃線 881029f98）；AA_531 美國、AA_532 寒暑假接著交。第 1 點（可昕主動約沒擋 econ）LAWWW 已修 b38b112a8 進 v9.10.14；第 2～6 點排 AA529-ECON-FIX-1030 ｜ "
+   "notes": "【AA-B 04:13】AA_531 美國交（475f55fe6）→ AA531-US-FIX-1030；AA_532 寒暑假接著 ｜ 【AA-B 04:10】AA_529 經濟系交（企劃線 881029f98）；AA_531 美國、AA_532 寒暑假接著交。第 1 點（可昕主動約沒擋 econ）LAWWW 已修 b38b112a8 進 v9.10.14；第 2～6 點排 AA529-ECON-FIX-1030 ｜ "
   },
   {
    "id": "AA530-PG-CONFESS-1030",
@@ -35819,6 +35819,28 @@
    "source": "AA_529（企劃線 881029f98）",
    "authorized": "D99、D109、D111",
    "notes": "第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
+  },
+  {
+   "id": "AA531-US-FIX-1030",
+   "title": "AA_531 美國交換：①lane118 人在美國照樣揪 118 午餐（14 次）→ 在國外不發、其他阿哲揪人同查；②和臺灣的人交往中四個半月幾乎沒聯絡 → 以安、語彤、子晴、沛珊各五樣（七夕、中秋、視訊、12/23）；③國外版三處（沛珊 ps3 不算國外月份、子晴 zq2 選項、語彤阿姨）；④勞動節烤肉 9/3 21:00 一則（交往中學姊私訊／挽回中社區信）；⑤上課每門再四句、us_comp 期末報告與 us_intro 期末考各一場；⑥大峽谷 10/9、10/11 補句；⑦小的四處（以安 9/15 生日視訊自動排、可昕七夕只留 usl_qixi、挽回中 greetUS 換句、學姊週日視訊旁白七句輪流）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "next": "aa527-fix 子代理交件後派子代理（D99 第三優先：美國交換）",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上美國交換出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_531（企劃線 475f55fe6）",
+   "authorized": "D99、D109、D111",
+   "notes": "挽回中「她不私訊」照設計不改（AA）"
   }
  ]
 }
