@@ -2,7 +2,7 @@
 
 ## ⏱ 現況（LAWWW2-B，2026-10-30 21:1x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
-- **剛交：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。等 LAWWW-B ACK。全部 Node 775／0。
+- **剛交、已整合：NOODLE-LM-1030 麵店＋LM-COLLAPSE-1030 第一間（法律學院圖書館）**（`ee96b798f`→LAWWW-B 整合 2c65d66f1；`test_shots/noodle_lm_1030/README.md`、`test_shots/lm_collapse_1030/README.md`）。樓梯間欄杆影子糊：LAWWW-B 先不排（D99 只記錄）。
 - **正在做：LM-COLLAPSE-1030 第二間總圖大廳**：已用修好的工具重烘（輸出在 `scratchpad/libhall_out`，還沒搬進測試樹），`lm_squash_scan` 0 m²；下一步：搬進 `scratchpad/slwt`、改前改後截圖、交件。再來宿舍四人房 → 201（`bake_classroom_201.sh` 沒有跑 `lm_fix_hidden.py`，重烘時要注意）。
 - 已交、已整合：SOCLIB-LM-1030＋BOYA n19（3bc7a8800）。
 - **X133 第二版等使用者的地圖或照片**（使用者 10-30 16:5x 回 LAWWW-B）：第一版照舊在遊戲裡（f75d60a4c），第二版不要再猜。

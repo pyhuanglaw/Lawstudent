@@ -4412,7 +4412,7 @@
    "sha": "ee96b798f",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合 2c65d66f1（LAWWW-B 10-30 21:03；DL-LW2-NOODLELM-1030；麵店排 BB 看白天晚上；法圖記已整合）",
    "task": "NOODLE-LM-1030：阿鳳麵店室內光照烘焙＋不鏽鋼、燈座（LAWWW-B 10-30 派工，INTERIOR-AAA）",
    "files": [
     "assets/models/env/second_ai/noodle_interior.glb",
@@ -4435,7 +4435,7 @@
    "sha": "ee96b798f",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "",
+   "ack": "ACK＋已整合 2c65d66f1（LAWWW-B 10-30 21:03；DL-LW2-NOODLELM-1030；麵店排 BB 看白天晚上；法圖記已整合）",
    "task": "LM-COLLAPSE-1030 第一間：法律學院圖書館用修好的 bake_room.py 重烘（LAWWW-B 10-30 18:19 派工，P2）",
    "files": [
     "assets/models/env/lawlib_interior.glb",
