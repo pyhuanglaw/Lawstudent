@@ -115,7 +115,9 @@
 - 新 `tests/library_hall_lightmap_unit.js`（這包）、`tests/room_rtnight_unit.js`（RT-NIGHT）：開發 `c76d0cb69`＋兩份 patch＋三個二進位檔 ALL PASS。
 - **`tests/singleside_interiors_unit.js` 第 2 項要跟著改**（這個 patch 裡已經改了）：原本檢查「總圖樓梯踏面有反面」，這包大樓梯改成每階一塊實心石材、烘焙前也拿掉了有光照貼圖物件的反面，踏面現在是封閉的零件（每條邊兩個面），不需要反面。只拿掉那一個檢查，其他（葉片卡、社科圖天井、便利商店牆面）照舊。
 - 開發 `c76d0cb69`＋兩份 patch＋三個二進位檔：`tests/` **725 支 Node 測試 0 失敗**。
-- 「進兩次」（`shots/lm_reentry.py`）：見下。
+- **進兩次**（`shots/lm_reentry.py`：同一次遊戲裡晚上 20:30 進總圖大廳、出去到校園、再進來；兩份 patch 都套）：兩次都接上光照貼圖的材質 28 個、包了 `rtK` 的 30 個、看得到的網格 378 個；shader 錯誤 0、JS 錯誤 0；兩次同角度截圖只有人物待機、目的地光圈不一樣。霖澤館大廳同樣兩次都是 43／12／156，0 錯誤。
+
+![進兩次：左＝第一次、中＝第二次、右＝差異（只有人物待機和光圈）](reentry_1st_2nd.jpg)
 - 沒跑：`flow_library_floors.py`、`flow_library_scene.py`（瀏覽器流程）、整套回歸、iPhone 實機。
 
 ## 缺點、還沒做到的

@@ -1,5 +1,19 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-B（2026-10-30 03:xx UTC｜LIB-HALL-LM-1028＋RT-NIGHT-1028 交件；send_message 另外傳）
+- **上一任 LAWWW2-C 的兩個 WIP，我收尾交件**。交件 SHA＝這個 commit（outbox 第 206、207 筆）。v9.10.14 凍結中：照你說的在獨立工作樹先套。
+- **怎麼套**（開發 `c76d0cb69` 上兩份 `apply --check` 都過）：
+  1. `git apply docs/art-rebuild/second_ai/patches/library_hall_lm_1028.patch`（多了 `tests/singleside_interiors_unit.js`：大樓梯改實心石材、烘焙前拿掉了反面，踏面不再需要反面，只拿掉那一項檢查）
+  2. `git apply docs/art-rebuild/second_ai/patches/rt_night_1028.patch`（`src/zones3d.js` 的 `Z3.roomLightmap`；新 `tests/room_rtnight_unit.js`）
+  3. `git checkout <這個 commit> -- assets/models/env/library_interior.glb assets/models/env/library_interior_lm_day.webp assets/models/env/library_interior_lm_night.webp tools/blender/env_second/lightbake/bake_room.py tools/blender/env_second/lightbake/bake_library_hall.sh tools/blender/env_second/lightbake/lm_probe.py tools/blender/env_second/lightbake/library_interior_lm.json`
+- **測試**：開發 `c76d0cb69`＋兩份 patch＋二進位檔：全部 Node 725 支 0 失敗；`library_hall_lightmap_unit`、`room_rtnight_unit`（開發 FAILED 9）ALL PASS；進兩次（新工具 `shots/lm_reentry.py`）總圖、霖澤館 0 錯誤。
+- **效能**（總圖大廳一樓、二樓各兩個方向）：fps 看不出變慢、draw call −4～+3%、三角形 +3～8%。
+- **晚上**：總圖閘門、服務台小東西跟著地板暗；天窗晚上暗（兩包都要套）；萬才館、男一舍門廳幾乎一樣。
+- **缺點**：總圖光照貼圖解析度偏低（填滿率 28.7%、地板 9 px/m，男一舍是 18）；近看影子比較糊。之後可分兩張或 2048。
+- README：`test_shots/library_hall_lm_1028/README.md`、`test_shots/rt_night_1028/README.md`。`READY_FOR_ART_REVIEW`；iPhone 實機沒測；BB-B 驗畫面。
+- **另外兩個美術決定**（你 02:20 問）：夏天傍晚窗景維持；體育館大廳木格柵波紋記成已知，排進 INTERIOR-AAA 體育館那一輪（`b0604a236`）。
+- **下一步（LAWWW2-B）**：照 INTERIOR-AAA-REVIEW-1028 第 5 節推下一間室內；暫停中的羽球第四版、社博帳篷 seeThrough 照舊暫停。
+
 ## ✅ 接班：2026-10-30 02:1x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜分支 `claude/funny-albattani-iawshm`
 - **使用者原話**：「上個帳號來不及交班 你現在要接班 查的到他做到哪邊和代辦事項嗎 有什麼他正在做沒有放上github的? 我也會通知這個帳號其他AI上線 你接班後先跟其他AI訊息聯絡測試」
 - **上一任沒交班**：LAWWW2-C（帳號 C，`session_015BuNi47yLUt5PviELapMNj`，分支 `claude/focused-cray-c9uwvw`）還登記在值班；最後 push `4b1fcc458`（10-28 15:27Z）。照使用者明確指示接班：`duty register --user-ok`（工具記 no-handoff 異常）。

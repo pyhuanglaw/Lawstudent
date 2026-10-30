@@ -44,4 +44,5 @@
   4. 回傳的接光照貼圖材質數不把小東西算進去。
   5. 天窗：12:00 照原本亮、20:00 降到 4%、換暗的夜空色；再進一次不會越乘越暗；不包 `rtK`；GLB 沒寫 `dayEmit` 的晚上照舊亮。
 - 開發分支 `c76d0cb69`＋這個 patch＋`library_hall_lm_1028.patch`＋總圖的模型和光照貼圖：`tests/` 725 支 Node 測試 0 失敗（含 `linze_lightmap_unit`、`room_ceiling_unit`、`nav_buildings_unit`、`library_hall_lightmap_unit`）。
+- **進兩次**（`shots/lm_reentry.py`，晚上 20:30）：總圖大廳、霖澤館大廳第一次和第二次進去，包了 `rtK` 的材質數一樣（30、12）、接光照貼圖的一樣（28、43）、shader 錯誤 0、JS 錯誤 0（截圖見 `library_hall_lm_1028/reentry_1st_2nd.jpg`）。
 - 沒跑：瀏覽器流程測試、整套回歸、iPhone 實機。

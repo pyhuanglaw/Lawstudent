@@ -4124,6 +4124,40 @@
    "remaining": "iPhone 實機沒測；男一舍走廊北牆和樓梯間牆接頭的縫（要改建模，另開一項）；朝建築外面烘成全黑的面、露在外面本來就很暗的縫照舊；細小零件照舊即時光（RT-NIGHT-1028 另提）",
    "next": "LAWWW-C 13:54Z ACK、13:59Z 已整合（開發分支 96e535901：六個 GLB；lightmap／room_ceiling／nav 相關 20 支 0 失敗；換檔前全部 Node 730 支 0 失敗；company_priv 那 4 項 LAWWW-C 那邊有企劃線 f6069e42d、沒問題）；下一版 v9.10.14；BB：201 窗框、門中間的壓條，202 後牆，萬才館柱子，男一舍門洞",
    "note": "使用者 P0 室內美術（UA-LAWWW2-1028-01）：之前交的 201、202、霖澤館大廳、萬才館（大廳＋二樓、多功能教室）＋男一舍門廳的光照貼圖接縫和全黑的面；lm_fix_hidden.py 第六版（不用重烘，只改第二套 UV）；交件前抓到第三～五版的退步（202 後牆暗影、霖澤館地板朝外的切邊變黑、男一舍門洞裡的牆變暗）並修掉；男一舍門廳換掉已整合的第三版；男一舍走廊和樓梯間牆接頭的縫沒修（要改建模）；相關 16 支 Node ALL PASS（rooms_glb、x78_rooms、linze／wancai／dorm_hall_lightmap、room_ceiling、nav_buildings、door_open、seat_fold、aa509_s0、宿舍六支）；company_priv_unit 4 項 FAIL 和這包無關（拿掉六個 GLB 一樣，我這邊缺企劃分支 commit f6069e42d）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "LIB-HALL-LM-1028",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/library_hall_lm_1028.patch（library_layout.js、library3d.js、library_interior.py、LICENSES.md、新 tests/library_hall_lightmap_unit.js、tests/singleside_interiors_unit.js 拿掉總圖樓梯踏面那一項）",
+    "assets/models/env/library_interior.glb、library_interior_lm_day.webp、library_interior_lm_night.webp",
+    "tools/blender/env_second/lightbake/bake_room.py、bake_library_hall.sh、lm_probe.py、library_interior_lm.json（開發分支還沒有這幾支）",
+    "docs/art-rebuild/second_ai/test_shots/library_hall_lm_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "光照貼圖解析度偏低（填滿率 28.7%、地板 9 px/m；之後可分兩張或 2048，要先量手機記憶體）；瀏覽器流程測試 flow_library_floors／flow_library_scene、整套回歸、iPhone 實機沒跑；三樓閱覽室沒動",
+   "next": "LAWWW-B 在獨立工作樹套 patch＋checkout 二進位檔（v9.10.14 發布後合）；BB-B 畫面驗收（白天、晚上、第一次和第二次進去）",
+   "note": "上一任 LAWWW2-C 的 WIP（4b1fcc458），LAWWW2-B 10-30 收尾：開發 c76d0cb69 上兩份 patch apply --check 過；全部 Node 725 支 0 失敗；效能 fps 看不出變慢、draw call −4～+3%、三角形 +3～8%；進兩次（lm_reentry.py）0 錯誤；和 RT-NIGHT-1028 一起套晚上天窗才會暗"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "RT-NIGHT-1028",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/rt_night_1028.patch（src/zones3d.js 的 Z3.roomLightmap：rtK、dayEmit；新 tests/room_rtnight_unit.js）",
+    "docs/art-rebuild/second_ai/test_shots/rt_night_1028/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "瀏覽器流程測試、整套回歸、iPhone 實機沒跑",
+   "next": "LAWWW-B 和 LIB-HALL-LM-1028 一起套；BB-B 看晚上四個大廳",
+   "note": "上一任 LAWWW2-C 寫的 patch，LAWWW2-B 10-30 收尾：room_rtnight_unit 開發 FAILED 9 → ALL PASS；晚上 20:30 四個大廳同角度（總圖閘門等小東西跟著地板暗，萬才館、男一舍幾乎一樣）；進兩次 0 錯誤；改的是 zones3d.js（不是 engine3d／story3d／us3d）"
   }
  ]
 }
