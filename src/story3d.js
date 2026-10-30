@@ -261,7 +261,7 @@ const STORY = (function(){
   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
   /* 路人的數量（使用者 2026-10-17 P0：「路人數量要再加倍」）：走路的路人、騎車的人、公共建築門口的人流都乘這個；畫質 low／medium 照舊再打折（qf）*/
   S.CROWD_X=2;
-  S.populate=function(zoneId,GM){ if(S._bed||darkSave) S.bedClear(GM,'state');   /* 換區域（包括睡醒換房間那一次：onLoaded 再躺回去）：床的狀態、熄燈清掉（DORM-SLEEP-1030）*/ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId,GM.E&&GM.E.q&&GM.E.q.level);   /* 換區域：路人底模的池子輪一次（畫質低＝少載一點）*/ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&(F.afternoonDone||(key==='sis'&&S.sisEarly(G)))) n.until=to; };
+  S.populate=function(zoneId,GM){ if(S._bed||darkSave) S.bedClear(GM,'state');   /* 換區域（包括睡醒換房間那一次：onLoaded 再躺回去）：床的狀態、熄燈清掉（DORM-SLEEP-1030）*/ if(GM&&GM.E&&GM.E.cam) GM.E.cam.seeThru=null;   /* 睡覺鏡頭的床欄透空（#120）：換區域一定清掉；醒來躺回床上的那一次由 onLoaded 的 S.lieDown 再設 */ S.jacketSync(GM);   /* 系外套：進宿舍房間＝掛椅背、出去＝今天要穿就穿上（SK02-LINE-JACKET-1030）*/ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId,GM.E&&GM.E.q&&GM.E.q.level);   /* 換區域：路人底模的池子輪一次（畫質低＝少載一點）*/ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&(F.afternoonDone||(key==='sis'&&S.sisEarly(G)))) n.until=to; };
     /* 週末回家的第二個入口：校門口（AA_134 第 3 節「宿舍或校門口的『回家』選項」；AA-B 2026-10-16 確認，時段同宿舍：週五 17:00～週日 21:30）。
        位置在校門內側、從公館進校園的出生點 (-119,0) 旁邊（站得住、走得到、不和「走出校門」(-126,0) 半徑 3 重疊；scratchpad gate_check 用 Node 的校園導航格量過）*/
     if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});
@@ -1142,7 +1142,7 @@ const STORY = (function(){
   S.CLEANUP_LINE='（你把那件事放好了。）';
   S.cleanupTick=function(GM){ const G=GM.G; if(cleanupBusy||typeof ROM==='undefined'||!ROM.cleanupLate||!ROM.cleanupLate(G)) return false;
     cleanupBusy=true; ROM.cleanup(G); Promise.resolve(GM.say(null,S.CLEANUP_LINE)).catch(e=>console.warn('STORY.cleanupTick',e)).finally(()=>{ cleanupBusy=false; }); return true; };
-  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return; S.leaveTouch(GM); if(S._bed&&!S._bedBusy&&!(GM.isEntering&&GM.isEntering())) S.bedClear(GM);   /* 保底（DORM-SLEEP-1030）：人還在床上、沒有在演、玩家空下來＝放回梯子前、開燈 */   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
+  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; S.jacketSync(GM);   /* 系外套（SK02-LINE-JACKET-1030）：選完「穿去霖澤館上課」、換日以後照規則；在演、對話中也照樣跑（只看狀態有沒有變）*/ if(E.player.busy||GM.D.active||S._sleeping) return; S.leaveTouch(GM); if(S._bed&&!S._bedBusy&&!(GM.isEntering&&GM.isEntering())) S.bedClear(GM);   /* 保底（DORM-SLEEP-1030）：人還在床上、沒有在演、玩家空下來＝放回梯子前、開燈 */   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
@@ -1488,6 +1488,39 @@ const STORY = (function(){
   /* SK02 沒去系辦：第 8 週以後第一次回到男生宿舍門廳，櫃台叫住你、阿勳替你領了，附一張紙條（BB_106 SK02「沒去時」，旁白 BB-B 66cf3ed4）。外套當作收進衣櫃；沒有「走錯棟」（不記 SOC_WRONG_BUILDING）*/
   S.sk02W8Due=function(G){ const F=G.flags; if(G.zone!=='dorm_hall'||F.SK02_DM_DAY==null||F.ECON_JACKET||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id==='Y1S1'&&t.week>=8; };
   S.sk02W8=async function(GM){ const G=GM.G, F=G.flags; F.ECON_JACKET='closet'; F.SK02_W8=G.day; GM.sceneBegin(); try{ await GM.say(null,'宿舍櫃台叫住你：『有你的東西。一個經濟系的學生放的。』'); await GM.say({name:'阿勳的紙條'},'你的過去，我幫你領了。'); } finally { GM.sceneEnd(); } GM.memo('阿勳替你去系辦領了經濟系的系外套'); };
+  /* ===== 經濟系系外套穿在身上（SK02-LINE-JACKET-1030；使用者 10-30「我選了穿去霖澤上課 結果我的衣服在遊戲裡面也沒換」）=====
+     模型：祐廷 VRM 的 JACKET_ECON（CHAR.setJacket）、宿舍 L2 椅背的 JACKET_CHAIR（z.setJacketChair）——LAWWW2-B b84ce8d27。
+     規則（AA 劇情總監 10-30 05:0x 回 LAWWW-B：系外套冷天穿（大一））：
+       · 有外套＝ECON_JACKET 是 JACKET_OWN 裡的值。①「穿去霖澤館上課」＝'wear'。②送給阿勳（'xun'）、沒去領：沒有，身上、椅背都沒有。
+         ③收進衣櫃、第 8 週阿勳代領（'closet'）：房間物件寫「摺好的，還沒穿過」，照那句收在衣櫃裡——不穿、椅背也沒有（LAWWW 子代理的判斷，請 AA 確認；要改只改 JACKET_OWN）。
+       · 今天要穿（S.jacketDue）：領外套那天（選完就穿上）；領外套以後下一次霖澤館的課（ev_sk02_spy 阿哲「臥底」那天必穿：七天內還沒演＝有霖澤館課的日子都穿，
+         七天內都沒有霖澤館的課＝之後第一個有霖澤館課的日子）；大一上、大一下「最高溫 ≤20°C」的上課日（S.jacketCold）。大二起不穿。
+       · 人在宿舍房間（dorm）＝脫下來掛在椅背；離開房間（宿舍走廊、校園……）＝今天要穿就穿著，不穿就掛在椅背。
+     狀態全部從存檔原本就有的欄位推（ECON_JACKET、SK02_DAY、events.done／last 的 ev_sk02_spy、day、zone）：沒有新的存檔欄位，舊存檔照規則推。
+     套用：S.jacketSync——換區域（S.populate，讀檔也會換區域）、S.tick（約每 30 格：選完外套、換日）；換成正式模型時 CHAR.upgrade 會把外套帶過去。測試：node tests/sk02_jacket_wear_unit.js */
+  S.JACKET_OWN=['wear'];
+  S.jacketOwn=G=>!!(G&&G.flags&&S.JACKET_OWN.includes(G.flags.ECON_JACKET)&&(G.stage||'law')==='law');
+  /* 「最高溫 ≤20°C」：遊戲裡還沒有每天的氣溫資料（天氣只有晴、陰、雨，換日時隨機；calendar.js 沒有氣溫）。
+     TODO（SK02-LINE-JACKET-1030，問 AA）：有每天最高溫的資料以後改成「最高溫 ≤20」。先用大一上第 10 週起（11/3）到大一下第 5 週（3/29）當冷天——LAWWW-B 給的替代，不自己編氣象 */
+  S.jacketCold=function(G,day){ if(typeof CALENDAR==='undefined'||!CALENDAR.termOf) return false; const t=CALENDAR.termOf(day); return !!t&&((t.id==='Y1S1'&&t.week>=10)||(t.id==='Y1S2'&&t.week<6)); };
+  const jkItems=(G,day)=>{ try{ return typeof CLS!=='undefined'&&CLS.dayItems?CLS.dayItems(G,day)||[]:[]; }catch(e){ return []; } };
+  const jkLinze=it=>!!(it&&it.room&&(it.room.zone==='classroom'||it.room.via==='linze'));   /* 霖澤館的課：201（classroom，ev_sk02_spy 看的就是它）、202（linze_202，從霖澤館進去）*/
+  let jkMemo=null;
+  S.jacketDue=function(G){ if(!S.jacketOwn(G)) return false; const F=G.flags, sk=F.SK02_DAY, ev=G.events||{}, done=!!(ev.done&&ev.done.ev_sk02_spy), last=ev.last&&ev.last.ev_sk02_spy;
+    const key=[G.day,F.ECON_JACKET,sk,done,last,G.stage].join('|'); if(jkMemo&&jkMemo.G===G&&jkMemo.key===key) return jkMemo.v;   /* 同一天同一個狀態算一次（S.tick 約每 30 格叫）*/
+    let v=false;
+    if(sk!=null&&G.day===sk) v=true;   /* 領外套那天：選了「穿去霖澤館上課」就穿上 */
+    else if(last!=null&&last===G.day) v=true;   /* 阿哲說「臥底」的那天 */
+    else if(sk!=null&&G.day>sk&&!done){ if(G.day<=sk+7) v=jkItems(G,G.day).some(jkLinze);   /* 七天內（ev_sk02_spy 的窗口）還沒演：有霖澤館課的日子都穿（翹了那一堂，下一堂照樣穿去）*/
+      else { let first=null; for(let d=sk+1;d<=sk+60&&first==null;d++) if(jkItems(G,d).some(jkLinze)) first=d; v=first===G.day; } }   /* 七天內都沒有霖澤館的課：之後第一個有霖澤館課的日子 */
+    if(!v){ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; v=!!t&&(t.id==='Y1S1'||t.id==='Y1S2')&&S.jacketCold(G,G.day)&&jkItems(G,G.day).length>0; }   /* 大一冷天的上課日；大二起不穿 */
+    jkMemo={G,key,v}; return v; };
+  S.jacketState=function(G){ if(!S.jacketOwn(G)) return {own:false,wear:false,chair:false}; const wear=G.zone!=='dorm'&&S.jacketDue(G); return {own:true,wear,chair:!wear}; };
+  S.jacketSync=function(GM){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!G.flags||!E) return null; let st=null;
+    try{ st=S.jacketState(G); const P=E.player, u=P&&P.obj&&P.obj.userData;
+      if(u&&typeof CHAR!=='undefined'&&CHAR.setJacket&&!!u.jacket!==st.wear) CHAR.setJacket(P.obj,st.wear);   /* 重建過的模型 u.jacket 是空的＝外套藏著（manifest hide）*/
+      const z=E.zone; if(z&&typeof z.setJacketChair==='function'&&z.jacketChair!==st.chair) z.setJacketChair(st.chair); }
+    catch(e){ console.warn('STORY.jacketSync',e); } return st; };
   S.termDay=termDay;
   /* AA_373 #1（企劃線 a48fe1b7）：學期裡的第 N 週星期 wd——超過學期（16 週制的第 17、18 週＝已經放假）不回傳日子（null）。
      每週固定格（可昕「我們的日子」、明軒的家教）用這個；termDay 本身照舊往後推（上面那段：舊的寫法、舊存檔只有週次的紀錄還在用）。termWeeks＝這學期有幾週 */
@@ -3264,19 +3297,24 @@ const STORY = (function(){
   S.lieDown=function(GM,sc){ const E=GM.E, P=E.player, L=sc.lie, o=P.obj; o.position.x=L.feet[0]; o.position.z=L.feet[2]; o.position.y=L.mattress_top_y!=null?L.mattress_top_y:L.feet[1]-0.05;
     const hd=L.head||L.feet, hy=L.head_dir_yaw!=null?L.head_dir_yaw:Math.atan2(hd[0]-L.feet[0],hd[2]-L.feet[2]); o.rotation.y=hy+Math.PI;
     if(P.seat) P.seat=null; P.pose='lie'; P.idlePose='lie'; P.path=null; P.target=null; P.frozen=true; if(o.userData) o.userData.eyesShut=false; if(E.prePose) try{ E.prePose(P); }catch(e){}
+    if(E.cam) E.cam.seeThru=S.bedSeeThru(sc);   /* 睡覺鏡頭從走道斜上方看上舖，床欄擋住人：躺著的身體中段透空（#120，engine3d.js 的 E.cam.seeThru；起床、換區域、讀檔清掉）*/
     S._bed=Object.assign(S._bed||{},{sc,zone:E.zone,day:GM.G.day}); return true; };
+  /* 床欄透空的中心＝躺著的身體中段（腳和頭的中點）、床墊上 0.28 m；r 0.2、aspect 0.5（橫的橢圓）——LAWWW2-B #120 的建議（中心太低被子也會透掉：床墊上 12 cm 被子透掉、30 cm 幾乎不透）*/
+  S.BED_SEE={up:0.28,r:0.2,aspect:0.5};
+  S.bedSeeThru=function(sc){ const L=sc&&sc.lie; if(!L||!L.feet) return null; const hd=L.head||L.feet, y0=L.mattress_top_y!=null?L.mattress_top_y:L.feet[1]-0.05;
+    return {x:(L.feet[0]+hd[0])/2,y:y0+S.BED_SEE.up,z:(L.feet[2]+hd[2])/2,r:S.BED_SEE.r,aspect:S.BED_SEE.aspect}; };
   /* 站回梯子前（面向房間）*/
   S.bedStand=function(GM,sc){ const E=GM.E, P=E.player, o=P.obj, a=sc.approach, s0=sc.steps[0]; if(o.userData) o.userData.eyesShut=false; P.pose='idle'; P.idlePose='idle'; P.frozen=false; P.path=null;
     if(E.placeAt) E.placeAt(P,a[0],a[1],0); else { o.position.x=a[0]; o.position.z=a[1]; o.position.y=0; } o.rotation.y=Math.atan2(a[0]-s0[0],a[1]-s0[2]); };
   /* 清掉床的狀態、開燈；how：'state'＝只清狀態（換了區域）、'cam'＝站回梯子前並結束運鏡（黑幕裡）、其他＝站回梯子前 */
-  S.bedClear=function(GM,how){ const B=S._bed; S._bed=null; S._bedBusy=false; if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; if(!GM||!GM.E) return false; S.roomDark(GM,0); if(!B) return false;
+  S.bedClear=function(GM,how){ const B=S._bed; S._bed=null; S._bedBusy=false; if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; if(!GM||!GM.E) return false; if(GM.E.cam) GM.E.cam.seeThru=null; S.roomDark(GM,0); if(!B) return false;
     const E=GM.E, P=E.player, same=E.zone===B.zone&&GM.G.zone==='dorm'; if(same&&how!=='state'&&P&&(P.pose==='lie'||P.pose==='climb'||P.pose==='climbdown')) S.bedStand(GM,B.sc); else if(P&&P.obj&&P.obj.userData) P.obj.userData.eyesShut=false;
     if(same&&how==='cam'&&E.endCinematic) E.endCinematic(); return true; };
   function bedOnBlack(){ if(typeof GAME!=='undefined') S.bedClear(GAME,'cam'); }
   function disarmBlack(GM){ if(GM&&GM.onBlack===bedOnBlack) GM.onBlack=null; }   /* 沒有用到的黑幕接口收掉（小睡沒跳成）*/
   S.bedOnBlack=bedOnBlack;
   S.bedSavePos=function(GM){ const B=S._bed; if(!B||!GM||!GM.G||GM.G.zone!=='dorm') return null; const a=B.sc.approach, s0=B.sc.steps[0]; return {x:+a[0].toFixed(2),z:+a[1].toFixed(2),yaw:+Math.atan2(a[0]-s0[0],a[1]-s0[2]).toFixed(3),lv:0,y:0}; };
-  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:bed']=()=>{ S._bed=null; S._bedBusy=false; S._dark=0; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的爬梯子、醒來走不到 finally。曝光：讀檔一定換區域，S.populate 第一行還原（darkSave）；GM.onBlack：game3d.js 的 loadRelease 清掉 */
+  (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['story3d:bed']=()=>{ S._bed=null; S._bedBusy=false; S._dark=0; try{ const E=typeof GAME!=='undefined'&&GAME.E; if(E&&E.cam) E.cam.seeThru=null; }catch(e){} };   /* 床欄透空也放開（讀檔一定換區域，S.populate 也會清）*/   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的爬梯子、醒來走不到 finally。曝光：讀檔一定換區域，S.populate 第一行還原（darkSave）；GM.onBlack：game3d.js 的 loadRelease 清掉 */
   /* 上床：走到梯子前 → 爬 → 躺下 → 熄燈。回傳 true＝人已經躺在床上（S._bed），之後照原本的睡覺 */
   async function goToBed(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps, L=sc.lie; let ok=false; S._bedBusy=true; GM.sceneBegin();
     try{ if(P.seat&&GM.standUp) GM.standUp(P); await GM.walkTo(P,sc.approach[0],sc.approach[1]); const c=S.climbCam(sc); camOn(GM,c); faceTo(P.obj,st[0][0],st[0][2]); P.pose='idle'; await GM.sleep(300);
@@ -3290,7 +3328,7 @@ const STORY = (function(){
   /* 起床：開燈 → 短淡出 → 最上面一階 → 一階一階下來 → 梯子前。在 sceneBegin 裡面叫（外面的 sceneEnd 放回跟隨鏡頭）*/
   async function getUp(GM,sc){ const E=GM.E, P=E.player, T=S.SLEEP_T, st=sc.steps; S._bedBusy=true;
     try{ if(P.obj.userData) P.obj.userData.eyesShut=false; if((S._dark||0)>0) await darkTo(GM,0,0.4); await GM.sleep(300);
-      await GM.fade(true); const top=st[st.length-1]; P.obj.position.x=top[0]; P.obj.position.y=top[1]; P.obj.position.z=top[2]; P.pose='climbdown'; P.idlePose='idle'; P.frozen=false;   /* 下來：走路的樣子（不舉手）*/
+      await GM.fade(true); if(E.cam) E.cam.seeThru=null;   /* 爬下來：不躺了，床欄透空收掉（#120）*/ const top=st[st.length-1]; P.obj.position.x=top[0]; P.obj.position.y=top[1]; P.obj.position.z=top[2]; P.pose='climbdown'; P.idlePose='idle'; P.frozen=false;   /* 下來：走路的樣子（不舉手）*/
       const nx=st.length>1?st[st.length-2]:[sc.approach[0],0,sc.approach[1]]; faceTo(P.obj,nx[0],nx[2]); const c=S.climbCam(sc); camOn(GM,{pos:c.pos,look:[top[0],top[1]+1.0,top[2]]},true); await GM.fade(false);
       for(let i=st.length-2;i>=0;i--){ const s=st[i]; faceTo(P.obj,s[0],s[2]); await bedTween(GM,P.obj,s,T.step); camOn(GM,{pos:c.pos,look:[P.obj.position.x,P.obj.position.y+1.0,P.obj.position.z]}); }
       const a=sc.approach; faceTo(P.obj,a[0],a[1]); await bedTween(GM,P.obj,[a[0],0,a[1]],T.step); }
