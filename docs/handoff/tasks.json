@@ -36644,8 +36644,8 @@
    "title": "手機人物頁補「全名、怎麼認識的、和你的關係」（使用者 10-30「玩這麼久搞不清楚阿哲是誰」）：阿哲先、其他常出現的朋友一起",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "全部 Node 跑完（背景）→ 已整合待測試 → BB 照 AA_543 第 4 節測；AA 回實作時定的 7 處（6 行分類等）",
+   "status": "已整合待測試",
+   "next": "BB 照 AA_543 第 4 節＋5-1（8 行、不擠掉的、合併三行）在瀏覽器看手機人物頁",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36660,14 +36660,14 @@
    "source": "使用者 10-30 14:5x（X145，UA-LAWWW-1030-25）",
    "authorized": "D109、D111",
    "xai": {
-    "spec": "AA_543（企劃線 d483ecbbf）",
+    "spec": "AA_543（企劃線 d483ecbbf；第 5 節 f726507f7）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "人物頁看得到全名、怎麼認識、關係；沒發生的事不先寫",
     "receiver": "LAWWW",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    },
-   "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句",
-   "sha": "f4adf6cb7"
+   "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句；實作 9597ffa34（個性 8 人）、f4adf6cb7（src/whois3d.js 13 人、9/2 搬進 412 記韋綸唐睿 FIRST_MET）、c4fc0d4fe（5-1）、bcec62805；全部 Node 771／1 → 那一支（v0_dorm_props，原始碼順序）修好、whois 53 項 ALL PASS",
+   "sha": "bcec62805"
   },
   {
    "id": "NDL-AUNT-VIS-1030",
