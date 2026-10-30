@@ -1030,6 +1030,46 @@ async def boyaecon(pg, cdp, run):
         run.check('經原上課：有人坐的椅面都放下（busyUp＝0）', bool(cc['fold']) and cc['fold']['busyUp'] == 0, J(cc['fold']))
     run.check('經原上課：魏教授的課堂內容有演（說話的人是魏教授／老師）', bool(cls_lines), J(cls_lines[:4]))
 
+SOC_CAMS = [('door', (-9.0, 1.7, 9.2), (0.0, 1.6, -8.0)), ('sky', (0.0, 1.6, 2.0), (4.0, 5.4, -6.0)), ('north', (6.0, 1.8, 4.0), (-10.0, 1.4, -10.5)),
+            ('west', (8.0, 1.8, -2.0), (-14.5, 1.6, 0.0)), ('lamps', (-12.0, 2.2, 8.0), (6.0, 1.0, -6.0)), ('east', (-6.0, 1.7, -6.0), (14.5, 1.5, 4.0))]
+SOC_CHK = """(()=>{ const E=GAME.E, Z=E.zone; let lm=0, mesh=0, dark=[]; E.scene.traverse(o=>{ if(!o.isMesh||!o.visible) return; mesh++; const ms=Array.isArray(o.material)?o.material:[o.material];
+    if(ms.some(m=>m&&m.lightMap)) lm++; for(const m of ms){ if(m&&m.color&&m.color.getHex()===0) dark.push(o.name||m.name); } });
+  return {zone:GAME.G.zone, formal:!!(Z&&Z.formal), lm, mesh, black:[...new Set(dark)].slice(0,8), h:+(+GAME.G.hour).toFixed(2)}; })()"""
+LECT = """(()=>{ const out={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=Array.isArray(o.material)?o.material:[o.material];
+    for(const m of ms){ if(!m||!m.color) continue; const nm=(m.name||'')+'|'+(o.name||''); if(/lect|podium|desk|講|stage_top|table_top/i.test(nm)) out[nm]='#'+m.color.getHexString(); } });
+  let n5c=0; GAME.E.scene.traverse(o=>{ if(o.isMesh){ const ms=Array.isArray(o.material)?o.material:[o.material]; if(ms.some(m=>m&&m.color&&m.color.getHexString()==='5c5953')) n5c++; } }); return {mats:out, n5c}; })()"""
+
+
+async def soclm(pg, cdp, run):
+    # SOCLIB-LM-1030：社科院圖書館白天（11:00）、晚上（20:30）：[前置] 直接讀檔在社科院圖書館門口；正式模型＋光照貼圖、固定鏡頭（藏玩家）看黑塊、接縫
+    rows = []
+    for hh, tg in ((11.0, '1100'), (20.5, '2030')):
+        st, d = await P.base(pg, SAVE, '2025-10-15', hh, 'soclib'); await P.load(pg, cdp, st)
+        run.setup('[前置] 使用者存檔改到 %s %s 社科院圖書館（出生點）' % (d['key'], tg))
+        for _ in range(80):
+            if await pg.evaluate("GAME.G.zone==='soclib'&&!!GAME.E.zone&&!!GAME.E.zone.formal"): break
+            await pg.wait_for_timeout(500)
+        await pg.wait_for_timeout(3000); ck = await pg.evaluate(SOC_CHK); run.note('%s 社科院圖書館：%s' % (tg, J(ck)))
+        run.check('%s 社科院圖書館：正式模型、有光照貼圖的網格 > 0、沒有純黑（#000000）材質' % tg, ck['zone'] == 'soclib' and ck['formal'] and ck['lm'] > 0 and not ck['black'], J(ck))
+        await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+        for key, e, lk in SOC_CAMS:
+            await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(list(e)), J(list(lk))))
+            await pg.wait_for_timeout(3500); f = await shot_path(run, pg, 'soclib_%s_%s' % (tg, key))
+            whole = lum_stats(f) if f else {'err': 'no file'}; rows.append((tg, key, whole)); run.note('%s %s：%s' % (tg, key, J(whole)))
+    bad = [(r[0], r[1], r[2]) for r in rows if r[2].get('dark', 1) > 0.25 or r[2].get('white', 1) > 0.15]
+    run.check('社科院圖書館固定鏡頭 12 張：黑（<12）不超過 25%、死白（>248）不超過 15%（黑塊、接縫看截圖）', len(rows) == 12 and not bad, J(bad))
+    # 博思：講桌桌面顏色（#5c5953）；101／102 講台牆斜影看 MODE=boya 的 stage 鏡頭（同上一輪的 BOYA_CAMS）
+    st, d = await P.base(pg, SAVE, '2025-10-15', 14.0, 'boya', pos={'x': 0.0, 'z': 6.8, 'yaw': PI, 'lv': 0}); await P.load(pg, cdp, st)
+    run.setup('[前置] 使用者存檔改到 %s 14:00 博思一樓大廳' % d['key'])
+    ck = await boya_wait_formal(pg); le = await pg.evaluate(LECT); run.note('博思講桌材質：%s；正式模型 %s' % (J(le), J({k: ck.get(k) for k in ('formal', 'lm')})))
+    run.check('博思講桌桌面是灰色 #5c5953（有材質是這個顏色）、沒有名字像講桌卻是黑的', le['n5c'] > 0 and not any(v in ('#000000', '#0a0a0a', '#111111') for v in le['mats'].values()), J(le))
+    await pg.evaluate("(()=>{ GAME.E.player.obj.visible=false; })()")
+    for room, sx in (('101', 1), ('102', -1)):   # 講桌近拍（stage 鏡頭再靠近）
+        pos = [-10.6 * sx, 1.9, 5.0]; look = [-12.0 * sx, 1.0, -4.5]
+        await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (J(pos), J(look)))
+        await pg.wait_for_timeout(3500); await shot_path(run, pg, 'boya_lectern_%s' % room)
+
+
 async def boyab4(pg, cdp, run):
     # 法律系 B4 演講（大一下第 11 週週四 19:00 博思 101，ACTIVITIES B4）：預設流程裡看得到博思 101 的地方（LAWWW-B 16:04）。手機「今天」按去聽
     d = await pg.evaluate("(()=>{ const T=CALENDAR.TERMS.find(t=>t.id==='Y1S2'); const a=STORY.dayOfKey(T.start); let d=a+10*7; while(CALENDAR.dateOf(d).wd!==4) d++; return CALENDAR.dateOf(d).key; })()")
@@ -1081,7 +1121,7 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(VP != 'portrait'))
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip, 'bigmap': bigmap, 'bballrain': bballrain, 'renart': renart, 'libla': libla, 'lawlib': lawlib, 'cafe2diag': cafe2diag, 'multiroom': multiroom, 'rtnight': rtnight, 'boya': boya, 'boyaecon': boyaecon, 'boyab4': boyab4, 'soclm': soclm}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
