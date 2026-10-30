@@ -9,6 +9,8 @@
 # 外殼（--shell S,E）：店面（S＝+z）、右牆（E＝+x）有玻璃，天光從這兩面進來；其他包黑殼。
 # --nolm（照舊即時光）：燈泡、燈罩玻璃、植物（葉子、樹皮、土）、黃銅、鋼、黑鐵、電線、白瓷杯盤、蛋糕、傘、印刷品、班表、黑板字、書背（幾千個小零件，分不到像素）；
 #   椅子、凳子、桌子（實例展開後叫 cafe_interior.N_inst：曲面多、小島多，第一次試烘把整張貼圖擠滿，地板只分到 0.08%）。
+# 亮度（10-30 兩輪；遊戲內同角度和沒有光照貼圖的版本比）：第一輪吊燈 28／30／14／18 W、天光 0.5——白天、晚上都比原本暗；
+#   現在吊燈 45／45／22／28 W、天光 0.8、太陽 1.6（仰角 28°）：白天和原本差不多亮，多了店面窗框的陽光影子；晚上吊燈下一圈光、角落暗。
 set -e
 SAMPLES=${1:-512}
 OUTDIR=${2:-assets/models/env/second_ai}
@@ -18,14 +20,14 @@ HIDE='cafe_glass|winglass|lampglass|cafe_bulb|_bulb'
 NOLM='bulb|lampglass|leaf|fern|_pl_|bark|soil|brass|steel|iron|cord|ceramic|cake|umbrella|print|roster|board_face|books|beans|jars|cups|pots|MENU|_inst'
 WARM='1.0,0.78,0.55'
 PT=""
-for p in "4.5,2.13,-2.5" "4.5,2.13,1.5" "0,2.13,1.5" "-4,2.13,2.5"; do PT="$PT;$p,${GLOBEW:-28},$WARM"; done
-for x in -5 -2.5 0; do PT="$PT;$x,2.22,-4.4,${BARW:-30},$WARM"; done
-for x in -4.6 -2.6 2.6 4.6; do PT="$PT;$x,2.27,5.55,${WINW:-14},$WARM"; done
-PT="$PT;-6.55,1.42,4.85,${FLOORW:-18},$WARM"; PT=${PT#;}
+for p in "4.5,2.13,-2.5" "4.5,2.13,1.5" "0,2.13,1.5" "-4,2.13,2.5"; do PT="$PT;$p,${GLOBEW:-45},$WARM"; done
+for x in -5 -2.5 0; do PT="$PT;$x,2.22,-4.4,${BARW:-45},$WARM"; done
+for x in -4.6 -2.6 2.6 4.6; do PT="$PT;$x,2.27,5.55,${WINW:-22},$WARM"; done
+PT="$PT;-6.55,1.42,4.85,${FLOORW:-28},$WARM"; PT=${PT#;}
 /opt/blenv/bin/python tools/blender/env_second/cafe_interior.py -- --out "$TMP/cafe_plain.glb"
 /opt/blenv/bin/python tools/blender/env_second/lightbake/bake_room.py -- --in "$TMP/cafe_plain.glb" --out "$OUTDIR/cafe_interior.glb" \
   --lm "$TMP/cf" --url assets/models/env/second_ai/cafe_interior_lm --res "$RES" --samples "$SAMPLES" --hide "$HIDE" --nolm "$NOLM" \
-  --sun 180,${SUNEL:-28},${SUNW:-1.6} --sky "${SKY:-0.5}" --daywb 0.95,0.88,0.78 --points "$PT" --daylights "${DAYL:-0.8}" --smooth 1 --shell S,E
+  --sun 180,${SUNEL:-28},${SUNW:-1.6} --sky "${SKY:-0.8}" --daywb 0.95,0.88,0.78 --points "$PT" --daylights "${DAYL:-0.8}" --smooth 1 --shell S,E
 python3 tools/blender/env_second/lightbake/to_webp.py "$TMP/cf" "$OUTDIR/cafe_interior_lm" 90
 /opt/blenv/bin/python tools/blender/env_second/lightbake/lm_fix_hidden.py -- --in "$OUTDIR/cafe_interior.glb" --out "$OUTDIR/cafe_interior.glb" --lm "$OUTDIR/cafe_interior_lm"
 cp "$TMP/cf.json" tools/blender/env_second/lightbake/cafe_interior_lm.json
