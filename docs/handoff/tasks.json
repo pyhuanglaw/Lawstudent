@@ -36181,7 +36181,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "已合進 postrel-1030（jacket-econ-1030 6097a8100 → 4a4b0cd4a）→ v9.10.14 後進開發分支 → BB 測（選穿去霖澤上課那次穿著、宿舍椅背、冷天上課日、大二起掛椅背）；外套 READY_FOR_ART_REVIEW（角色美術 LAWWW 驗收：截圖看過，穿著與椅背都對）；3 點轉 AA",
+   "next": "已合進 postrel-1030（jacket-econ-1030 6097a8100 → 4a4b0cd4a）→ v9.10.14 後進開發分支 → BB 測（選穿去霖澤上課那次穿著、宿舍椅背、冷天上課日、大二起掛椅背）；外套 READY_FOR_ART_REVIEW（角色美術 LAWWW 驗收：截圖看過，穿著與椅背都對）；AA 07:19：1、2 照子代理；房間物件兩版句已改（postrel 68eb35bca）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36195,7 +36195,7 @@
    },
    "source": "使用者 10-30 05:1x 兩則（X140）",
    "authorized": "使用者",
-   "notes": "【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
+   "notes": "【07:2x】AA-B 07:19：收進衣櫃／阿勳代領不穿、領的那天就穿照子代理；房間物件 wear 版分大一「天冷的時候，你還是會穿去上課。」／大二起「大一冷的時候常穿，現在一直掛在椅背上。」（68eb35bca）；postrel 4a4b0cd4a 全部 Node 760／0 ｜ 【07:3x】子代理交件：STORY.jacketDue／jacketSync（populate、tick）、C.upgrade 帶外套；不加存檔欄位（從 ECON_JACKET、SK02_DAY、ev_sk02_spy、day、zone 推）；新測試 sk02_jacket_wear_unit 39 項（基準 FAIL 23）；全部 Node 759／0；截圖兩張（霖澤館大廳穿著、203 椅背）｜ 【07:1x】AA-B 07:13：沒有每天的氣溫，用大一上第 10 週～大一下第 6 週的上課日代替，可以 ｜ 【06:4x】LAWWW2-B 交件 b84ce8d27（外套二進位＋patch＋jacket_econ_unit；床欄透空 cine_seethru patch）；派子代理 ｜ 【05:1x】①台詞改好 postrel-1030 4ecc3039c（AA-B 05:04：「我重考了。現在念法律系。」「……喔，重考的那個。……」）；②穿外套規則 AA 定：ev_sk02_spy 那天必穿、大一上下最高溫 ≤20°C 的上課日出門穿、回宿舍掛椅背、大二起一直掛椅背；外套字「首都帝大 經濟」「CIU ECON」→ 等 LAWWW2 外套（JACKET_ECON）與椅背（JACKET_CHAIR，宿舍 203）｜ "
   },
   {
    "id": "ECON-FRIENDS-SOCLIB-1030",
