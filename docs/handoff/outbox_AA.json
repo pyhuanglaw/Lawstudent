@@ -4420,6 +4420,36 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 X145 搞不清楚阿哲是誰"
+  },
+  {
+   "task": "CHAR-WHOIS-1030",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit 之前)",
+   "files": [
+    "docs/story_planning/AA_543_手機人物頁_他跟你_分段稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照稿",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第 5 節：上限 8 行、重要行不擠掉"
+  },
+  {
+   "task": "XINCI-ROMANCE-1030",
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "(本 commit 之前)",
+   "files": [
+    "docs/story_planning/AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-B 照稿",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第 7 節：學期末告白欄位；G10、5-5 等使用者"
   }
  ],
  "items": [

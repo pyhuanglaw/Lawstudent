@@ -194,6 +194,13 @@
     - 舊開局 312 換句。
   - 全套 771 通過，BB 測中。
   - AA_543 個性 8 人已改（9597ffa34，AA 抽查對）；「你們」那一段做中。
+- **16:0x～16:2x（AA-B）**：
+  - AA_543 已實作（f4adf6cb7，whois_unit 50 項）。
+  - AA 補第 5 節（f726507f7）：上限 8 行；全名、認識、室友、叫哥、在一起不擠掉；宿營＋遊覽車、系籃合併。
+  - XINCI-ROMANCE-1030 開工：LAWWW-B 問學期末告白欄位 → AA_537b 第 7 節（5ba143d2c）。
+    - 她會先說；誰先說她都問「你現在有在跟誰交往嗎」，不能騙她。
+    - NOPE knows／low；舊 NOPE 句作廢。
+  - 提醒 LAWWW-B：G10（以安）、5-5（多段）還在等使用者，做成開關。
 
 值班登記：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜分支 claude/magical-albattani-bk7b4n｜接班基準 89accb6d4（快轉合併帳號 B 的 `claude/cool-heisenberg-o8kuqx`）｜2026-10-27
 上一班：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜最後 commit 89accb6d4（2026-10-25 19:43 UTC，讀稿工具存檔）｜**沒有正式交班**（四個帳號 B 的工作階段都停在 10-25 19:2x～19:4x）→ 使用者 10-27 對 AA-C：「上一班來不及交班，現在由帳號 C 接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
