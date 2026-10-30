@@ -273,7 +273,9 @@ async def cafe2(pg, cdp, run):
     run.check('慢讀：吧檯高腳椅不寫「坐下讀書」', all(i['label'] != '坐下讀書' for i in its if i['lift']), J([i for i in its if i['lift']]))
     if not desk: return
     pp = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z]; })()")
-    tg = sorted(desk, key=lambda i: math.hypot(i['x'] - pp[0], i['z'] - pp[1]))[0]
+    free = await pg.evaluate("""(()=>{ const E=GAME.E; return E.interactables.filter(i=>i.seat&&i.label==='坐下讀書').filter(i=>!E.npcs.some(n=>(n.seat&&Math.hypot(n.seat.x-i.seat.x,n.seat.z-i.seat.z)<0.35)||(n.seatTarget&&Math.hypot(n.seatTarget.x-i.seat.x,n.seatTarget.z-i.seat.z)<0.4))&&!i.seat.taken).map(i=>({x:i.x,z:i.z})); })()""")
+    run.note('沒人坐的讀書座位：%s' % J(free))   # cafe2diag：有三個座位客人佔著（nearestInteractable 照規則跳過），探針挑空的
+    tg = sorted(free or desk, key=lambda i: math.hypot(i['x'] - pp[0], i['z'] - pp[1]))[0]
     ap = await pg.evaluate("(([x,z])=>{ const it=GAME.E.interactables.find(i=>i.seat&&Math.abs(i.x-x)<0.01&&Math.abs(i.z-z)<0.01); if(!it||!GAME.seatApproach) return null; const a=GAME.seatApproach(it.seat); return a?[a[0],a[1]]:null; })", [tg['x'], tg['z']])
     run.note('座位 %s 旁邊（GAME.seatApproach）：%s' % (J(tg), J(ap)))
     gx, gz = (ap[0], ap[1]) if ap else (tg['x'], tg['z'])   # 站到椅子旁邊（坐下時走過去的那一點），不是椅子正中間
