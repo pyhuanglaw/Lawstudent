@@ -23,6 +23,7 @@ ROW1 = {'y2': {'zhe': '學弟問我浴室哪一間水比較熱。我教他了。
 TERM = {'y2': 'Y2S1', 'y3': 'Y3S1', 'y4': 'Y4S1'}
 PLATE = {'y2': '312', 'y3': '507', 'y4': '409'}
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
+DIAG = "(()=>{ const X=typeof DORMY24!=='undefined'?DORMY24:null, G=GAME.G; return {walk:X&&X._walk?{t:+X._walk.t.toFixed(3),n:X._walk.n}:null, rec:G.flags.RY24&&G.flags.RY24.walk||null, evc:(G.events&&G.events.count)|0, h:+(+G.hour).toFixed(3), busy:!!GAME.E.player.busy, depth:(GAME.D&&GAME.D.busyDepth)|0, mates:X&&X.mates?X.mates(G,X.room&&X.room(G)):null}; })()"
 DOOR = "(to=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to===to); return it?{x:it.x,z:it.z,lv:it.lv|0,label:it.label}:null; })"
 
 
@@ -65,6 +66,7 @@ async def main():
             d = await P.day_of(pg, [TERM[MODE], 1, 1]); fl = await rooms(pg, d['d'])
             st, d = await P.base(pg, SAVE, [TERM[MODE], 1, 1], 22.67, 'dorm_hall', flags=fl); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → %s（%s 第 1 週週一）22:40 宿舍走廊；旗標 %s' % (d['key'], d['term'], J(fl)))
+            mt = await P.prep(pg, cdp, run, "(()=>{ const o={}; for(const id of ['zhe','classmate_bohan']){ o[id]=SOCIAL.has(id,'FIRST_MET'); if(!o[id]) SOCIAL.meet(id,'dorm'); } return o; })()", label='阿哲、柏翰早就認識（存檔才大一第 9 天；跳到大二不演初見）')
             dr = await pg.evaluate(DOOR, 'dorm'); run.note('房門：%s' % J(dr))
             run.check('前置：房門是 %s' % PLATE[MODE], bool(dr) and PLATE[MODE] in (dr['label'] or ''), J(dr))
             if dr: await P.place_near(pg, run, dr['x'], dr['z'], R=4, lv=dr['lv'], what='房門口')
@@ -72,7 +74,9 @@ async def main():
             for k in (1, 2):
                 n0 = await through(pg, cdp, run, 'dorm', '第 %d 次走進房間' % k)
                 z = await pg.evaluate("GAME.G.zone"); run.check('第 %d 次：走進房間（dorm）' % k, z == 'dorm', str(z))
+                dg0 = await pg.evaluate(DIAG)
                 cs = await walk_lines(pg, n0); w = [t for t in cs if t in WALK[MODE]]
+                run.note('第 %d 次走進來：進門那一刻 %s；10 秒後 %s' % (k, J(dg0), J(await pg.evaluate(DIAG))))
                 run.note('第 %d 次走進來的字幕：%s' % (k, J(cs))); seen.append(w)
                 await run.shot(pg, 'walk%d' % k)
                 run.check('第 1 節 第 %d 次：背景室友那幾句旁白之一（剛好一句）' % k, len(w) == 1, J(cs))
@@ -82,7 +86,12 @@ async def main():
             who = await pg.evaluate("(()=>({h:+GAME.G.hour.toFixed(2), mates:STORY.dormWho?STORY.dormWho(GAME.G):null}))()"); run.note('房間裡：%s' % J(who))
             for cid, want in ROW1[MODE].items():
                 pw = await P.wait_present(pg, cid, 40); run.note('%s：%s' % (cid, J(pw)))
-                r = await P.talk_full(pg, cdp, run, cid, '%s_%s' % (MODE, cid), max_s=240); await run.shot(pg, 'talk_' + cid)
+                nm = '阿哲' if cid == 'zhe' else '許柏翰'; r = None
+                for tr in range(3):   # 按到旁邊的物件（書架的選單「不看了」）＝關掉、再走近一次
+                    r = await P.talk_full(pg, cdp, run, cid, '%s_%s_%d' % (MODE, cid, tr + 1), picks=['不看了'], max_s=240)
+                    if r and any(n == nm for n, _ in r.get('lines', [])): break
+                    run.note('%s 第 %d 次沒有跟他說到話（%s），再走近一次' % (cid, tr + 1, J((r or {}).get('opts', [])[:1])))
+                await run.shot(pg, 'talk_' + cid)
                 run.check('第 2 節 %s 跟%s說話＝「%s」' % (PLATE[MODE], '阿哲' if cid == 'zhe' else '柏翰', want), any(want in t for _, t in (r or {}).get('lines', [])), J(r and r['lines']))
 
         elif MODE == 'sup':
