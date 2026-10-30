@@ -36054,8 +36054,8 @@
    "title": "照臺大校內地圖規劃總圖前草皮",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2：參考校總區平面圖、照片 → 規劃 → 同角度改前改後",
+   "status": "進行中",
+   "next": "LAWWW2 照提案做第一版（中軸 10 m、南北兩塊草皮、北側老樟樹、長椅、路燈；台階先不做）→ 交件 → BB 測；三個問題問使用者（草皮一塊還兩塊、草皮和椰影大道間有沒有路、大門前台階）",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36076,7 +36076,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "notes": "建築、場景 ART_APPROVED 只有使用者標"
+   "notes": "【08:1x】LAWWW2-B 3a3d2bc40 規劃稿（地圖不在 repo，照 D25 位置關係）；LAWWW-B：照提案做、台階先不做、問使用者 ｜ 建築、場景 ART_APPROVED 只有使用者標"
   },
   {
    "id": "WORLD-RENAME-1030",
