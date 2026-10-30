@@ -1,5 +1,5 @@
 // 玩家主動傳訊息（SYS-PHONE-CHAT／MSG-L1；AA_202 第 1～4 節、BB_178 第 0 節）：
-//   A 開放：沒有聯絡方式不開；可昕只有交往中；子晴要 Q6（ev_ziqing_secret_game）；芷若在英國不開；學姊加了好友（或認識）就開、不到朋友是事務版（MSG-SIS-EARLY-1027）；沛珊重考消失期只顯示已送達、不回。
+//   A 開放：沒有聯絡方式不開；可昕只有交往中；子晴有聯絡方式就開（PHONE-UNIFY-1030；原本要 Q6 ev_ziqing_secret_game）；芷若在英國不開；學姊加了好友（或認識）就開、不到朋友是事務版（MSG-SIS-EARLY-1027）；沛珊重考消失期只顯示已送達、不回。
 //   B 話題：在幹嘛、分享一直有；問課只給同一門課的（語彤沒有；芷若只有大一）；晚安 21:30 以後、好朋友以上或 L 層，祐廷和別人交往中而且她知道就不開。
 //   C 一天一次；回覆照作息排時間（有空幾分鐘、上課等下課、以安 22:30 以後隔天早上「昨天睡了。早。」；傳晚安只回那一句）；回問選項接在最後一則。
 //   D 層：A／R／L；L 只給戀愛對象（交往中，或第 5 階以上而且兩人都單身）；同一層輪流用；情況版（放假、深夜）先用；標籤不對不用。
@@ -46,7 +46,7 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
   check('A2. 沒有聯絡方式：不開',!MSG.open(G,'heroine_01').ok,MSG.open(G,'heroine_01').why);
   INV.addContact(G,'heroine_01'); STAGE.heroine_01=1; check('A3. 有聯絡方式：開',MSG.open(G,'heroine_01').ok);
   STAGE.kexin=4; check('A4. 可昕：交往中才開（法律系開場預設交往）',!MSG.open(G,'kexin').ok&&(G.flags.dating_kexin=true,MSG.open(G,'kexin').ok)); G.flags.dating_kexin=false;
-  INV.addContact(G,'heroine_04'); STAGE.heroine_04=2; check('A5. 子晴：Q6 以前沒有她的私訊',!MSG.open(G,'heroine_04').ok); G.events.done.ev_ziqing_secret_game=1; check('A5. Q6 以後開',MSG.open(G,'heroine_04').ok);
+  INV.addContact(G,'heroine_04'); STAGE.heroine_04=2; check('A5. 子晴：有聯絡方式、Q6 以前也開（PHONE-UNIFY-1030，使用者 10-30「很多女生腳色都不能在訊息頁面傳訊息……請統一」；原本 Q6 以前沒有她的私訊）',MSG.open(G,'heroine_04').ok); G.events.done.ev_ziqing_secret_game=1; check('A5. Q6 以後照舊開',MSG.open(G,'heroine_04').ok);
   STAGE.heroine_05=0; check('A6. 學姊：還沒見過、還沒加好友不開',!MSG.open(G,'heroine_05').ok); G.flags.SIS_CONTACTED=true; check('A6. 加了好友（SIS_CONTACTED）、還沒見過：事務版（MSG-SIS-EARLY-1027，AA_485 第 4 節：不用等第 2 階）',MSG.open(G,'heroine_05').mode==='business'); delete G.flags.SIS_CONTACTED;
   STAGE.heroine_05=1; check('A6. 認識（第 1 階）：事務版（原本「不到有點熟不開」，AA_485 第 4 節改成不用等第 2 階）',MSG.open(G,'heroine_05').mode==='business'); STAGE.heroine_05=2; check('A6. 有點熟：事務版',MSG.open(G,'heroine_05').mode==='business'); STAGE.heroine_05=3; check('A6. 朋友、兩人都單身：閒聊版',!MSG.open(G,'heroine_05').mode);
   G.flags.dating_kexin=true; ROM.learn(G,'heroine_05','kexin','test'); check('A6. 祐廷交往中而且她知道：事務版',MSG.open(G,'heroine_05').mode==='business'); G.flags.dating_kexin=false;
