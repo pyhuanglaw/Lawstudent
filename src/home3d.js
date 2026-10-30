@@ -635,8 +635,19 @@ const HOME=(function(){
       if(!CALENDAR.termOf(d)&&!CALENDAR.termOf(d+1)) continue;   /* 只在學期裡（家人群組週四那一套的範圍；畢業以後的中秋在上面那一段，AA_471 第 4 節：2029、2030 兩年各多停一次）*/ if(CALENDAR.fest(d)==='中秋'&&CALENDAR.termOf(d)){ send(d,18,'moon','home_moon_'+d,home); send(d,21,'moonDad','home_moon_dad_'+d,false); }
       if(CALENDAR.typhoon(d+1)){ send(d,20.75,'ty','home_ty_'+d,home); send(d,21,'tyDad','home_ty_dad_'+d,false); }
       if(typeof STORY!=='undefined'&&STORY.dayOfKey&&d+1===STORY.dayOfKey(S.GRAD_KEY)) send(d,21,'gradDad','home_grad_dad_'+d,false); } };   /* AA_465 第 1 節：典禮前一天 21:00 爸爸（法律系＝參加典禮；人在國外、不在家人群組照上面不傳）*/
+  /* 畢業以後的中秋當停點（BUG-PG-MOON-STOP；BB-B 10-30 R43 r43_moon 瀏覽器 FAIL：2029-09-22 住家裡、住公館套房兩種都只停 13:25、23:00，
+     20:00／18:00、21:00 的家人群組照時間補進手機、畫面不停）：畢業以後是 PG 跳時間（src/postgrad3d.js 的 PG.nextStop），這幾則不在 PG.MSGS 裡。
+     回傳下一則還沒發的時間（絕對小時；條件和 S.famDays 那一段一樣）：住家裡 20:00；住外面 18:00 媽媽（人在家＝不發，不停）、21:00 爸爸。測試：node tests/aa471_pg_unit.js 第 4 節 */
+  const moonDays={}; const moonDay=y=>{ if(y in moonDays) return moonDays[y]; let r=null; if(typeof CALENDAR!=='undefined'&&CALENDAR.fest&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d0=STORY.dayOfKey(y+'-09-01'); if(d0!=null) for(let d=d0;d<d0+45;d++){ if(CALENDAR.fest(d)==='中秋'){ r=d; break; } } } return (moonDays[y]=r); };
+  S.moonPgStop=function(G){ if(!G||!G.flags||!G.flags.GRADUATED||typeof PHONE==='undefined'||typeof CALENDAR==='undefined'||!CALENDAR.fest||(G.stage||'law')!=='law'||!PHONE.inGroup(G,'home')||(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))) return null;
+    const now=G.day*24+G.hour, H=S.rec(G), no=Array.isArray(H.famNo)?H.famNo:[], home=S.livesHome(G); let best=null; const cand=t=>{ if(t>now+1e-6&&(best==null||t<best)) best=t; };
+    for(const y in S.FAM_MOON_PG){ const d=moonDay(+y); if(d==null||CALENDAR.termOf(d)||now>=(d+2)*24) continue;
+      if(home){ if(!PHONE.sent(G,'home_moon_pg_'+d)) cand(d*24+20); }
+      else { if(!S.at(G)&&!PHONE.sent(G,'home_moon_'+d)&&!no.includes('home_moon_'+d)) cand(d*24+18); if(!PHONE.sent(G,'home_moon_dad_'+d)&&!no.includes('home_moon_dad_'+d)) cand(d*24+21); } }
+    return best; };
+  S.moonPgReg=()=>{ if(typeof PG!=='undefined'&&Array.isArray(PG.stops)&&!PG.stops.some(f=>f&&f._moonPg)){ const f=G=>S.moonPgStop(G); f._moonPg=true; PG.stops.push(f); } };   /* home3d.js 比 postgrad3d.js 早載入：第一次 phoneRules 時登記 */
   /* 家人群組（週四 20:00）：story3d.js 的 S.phoneRules 每次呼叫 */
-  S.phoneRules=function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!L()) return;
+  S.phoneRules=function(GM){ const G=GM.G; S.moonPgReg(); if(typeof PHONE==='undefined'||!L()) return;
     try{ S.famDays(G); }catch(e){ console.warn('HOME.famDays',e); }   /* AA_458 第 4 節：中秋、颱風假前一晚（住家裡的也有爸爸那一則，所以在住家裡版之前）*/
     if(S.LIVE_GROUP&&S.livesHome(G)){ try{ S.gradLive(G); }catch(e){ console.warn('HOME.gradLive',e); } try{ S.LIVE_GROUP(G); }catch(e){ console.warn('HOME.LIVE_GROUP',e); } return; }   /* AA_465 第 7 節：畢業那一週的週四先換成姊姊那一句 */   /* AA_442 第 1 節：住家裡＝住家裡版（不問、不用回、爸爸不傳「？」；src/jpprep3d.js 登記）*/
     const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, BK=T?null:S.breakGrp(G); if(BK&&S.cnyWeek(G.day)) return;   /* 留宿舍：除夕～初五不傳（爸爸回家吃年夜飯了；AA-B 10-30 05:12 第 5 點）*/ if((!T&&!BK)||(typeof STORY!=='undefined'&&STORY.mainDay?STORY.mainDay(G):G.day)<2) return;   /* BK：AA_532 第 4 節，留宿舍的寒暑假 */
