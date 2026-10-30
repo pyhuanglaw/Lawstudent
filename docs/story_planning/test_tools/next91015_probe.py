@@ -48,8 +48,12 @@ async def phone(pg, cdp, run):
             if not await pg.evaluate("!!GAME.E.player.busy") and await pg.evaluate("GAME.G.zone") != 'wenzhou': break
         await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp)
         z = await pg.evaluate("GAME.G.zone"); nr = await pg.evaluate(NEAR, r['fgo'])
+        goal = await pg.evaluate("(()=>({goal:((document.getElementById('goal')||{}).innerText||'').trim(), find:GAME.G.flags.findWho||null, dest:GAME.G.goalDest||null, guide:((document.getElementById('guideText')||{}).innerText||'').trim()}))()")
         await run.shot(pg, 'go_%d_%s' % (k, r['fgo']))
-        run.check('按「%s」的「%s」→ 到他在的地方（%s），人在附近' % (r['name'], r['fgoT'], w and (w.get('label') or w.get('zone'))), bool(w) and z != 'wenzhou' and bool(nr) and nr['d'] < 25, J({'zone': z, 'where': w, 'near': nr}))
+        follow = goal['find'] == r['fgo'] and '去找' in goal['goal']   # 05789d957：到了人還在 8 m 外＝自動接「帶我去」
+        run.note('%s 到了以後：%s' % (r['name'], J(goal)))
+        run.check('按「%s」的「%s」→ 到他在的地方（%s），人在附近；或人還在 8 m 外就自動接「帶我去」（目標「去找…」）' % (r['name'], r['fgoT'], w and (w.get('label') or w.get('zone'))),
+                  bool(w) and z != 'wenzhou' and bool(nr) and (nr['d'] < 8 or follow), J({'zone': z, 'where': w, 'near': nr, 'goal': goal}))
     await P.load(pg, cdp, snap)
     await P.phone_tab(pg, cdp, 'msg'); ct = await pg.evaluate(CONTACTS); await run.shot(pg, 'contacts')
     run.note('訊息頁聯絡人：%s' % J(ct))
