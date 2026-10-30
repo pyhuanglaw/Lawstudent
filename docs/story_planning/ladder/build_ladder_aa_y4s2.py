@@ -62,7 +62,7 @@ D['characters'][AN] = {'steps': [
          '典禮後的 linesIf、extraIf 刪掉（典禮後沒有自由時間）；skipIf GRAD_DONE：6/2 晚上、6/3 不播未來式。2026-10-17 AA-C 照 AA_263 附錄 A 改稿'},
  {'id':'A8-L7','if':st(AN,'FRIEND'),'week':[12,15],'skipIf':GRAD,
   'lines':['典禮完，九月就是研究所了。','……同一個校園，換一個身分讀書而已。'],
-  'choices':[ch('「研究所在哪裡上課？」','霖澤館。跟現在一樣。……我連路都不用重新記。',rel={'trust':2}),
+  'choices':[ch('「研究所在哪裡上課？」','A館。跟現在一樣。……我連路都不用重新記。',rel={'trust':2}),
              ch('「捨不得大學嗎？」','有一點。大學的學生證，我想留著。')],'rel':{'fam':2,'trust':2},'mem':'AN8_NEXT_SEPT',
   'note':'2026-10-20 AA-C（AA_313）：以安不延畢，原本「證書要等到明年一月」「延畢會很麻煩嗎」（AN8_DIPLOMA）換掉：典禮後九月念法研所；記憶改 AN8_NEXT_SEPT；skipIf GRAD_DONE 照舊'},
  {'id':'A8-L8','if':st(AN,'FRIEND'),'week':[13,15],

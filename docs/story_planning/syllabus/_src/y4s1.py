@@ -86,7 +86,7 @@ COURSES.append(dict(
 COURSES.append(dict(
  id='legal_ethics', name='法律倫理', kind='required', prof=None, prof_label='兼任老師（執業律師）',
  slots=[dict(wd=2, block='pm1')], room='wancai_sem',
- voice='兼任老師（執業律師，Tier 1，不具名）：講話溫和、會說「我也做錯過」（細節都是虛構、去識別的）。萬才館研討室的小班。',
+ voice='兼任老師（執業律師，Tier 1，不具名）：講話溫和、會說「我也做錯過」（細節都是虛構、去識別的）。B館研討室的小班。',
  weeks=[
   dict(w=1, tpl='A', board=['法律倫理','律師、法官、檢察官的界線','你們在法服做過的保密'],
        line='你們在法服做過的保密，今天講為什麼。',

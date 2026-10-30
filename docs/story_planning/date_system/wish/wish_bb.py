@@ -167,7 +167,7 @@ W[S] = dict(
     **{'if': dict(ST5, flags=['SIS_EXAM_DONE'])}, rule='AA_128 4-5', abroadBlock=True, dateWeekday=[5], dateTime=21,
     note='不在美國；口試前、出國前一週不約',
     lines=['週五晚上有空嗎。', '陽明山。你有車。', '……要做什麼，我還沒想好。'],
-    accept=['好。九點，萬才館前面。重點是，我不排了。'],
+    accept=['好。九點，B館前面。重點是，我不排了。'],
     decline=['好。那我先把那一格擦掉。……下次再寫回來。']),
   playerInvite=dict(**{'if': {'flags': ['SIS_EXAM_DONE']}}, known=['……你記得。', '好。重點是，這次我不帶計畫本。'],
                     unknown=['陽明山？晚上？', '……好。我一直想去。你怎麼知道？']),
@@ -176,7 +176,7 @@ W[S] = dict(
   hotspots={
     'D15.rail': dict(name='觀景台的欄杆', minutes=30, cost=0, like='like',
       lines=['重點是——今天沒有重點。'],
-      choices=[C('「找得到萬才館嗎？」', '找不到。……很好，找不到。'),
+      choices=[C('「找得到B館嗎？」', '找不到。……很好，找不到。'),
                C('「那邊是公館。」', '公館的燈比較黃。……原來我每天走的那條路，從這裡看是一條線。'),
                C('（不說話）', '你知道我在想什麼嗎。……我也不知道。很舒服。')]),
     'D15.car': dict(name='車裡（開著車門，聽一首歌）', minutes=20, cost=0, like='like',

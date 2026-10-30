@@ -1,3 +1,5 @@
+> **歷史紀錄（2026-10-30 起）**：本文件裡的「臺大／台大、政大、霖澤館、萬才館、傅鐘、椰林大道、醉月湖、小福、活大……」是當時的寫法，原文照留。遊戲現行名稱以 `docs/WORLD_NAMING.md` 為準（首都帝大、木柵大學、法律系館A／B……）；從這裡抄台詞或地名到遊戲、新企劃以前，先照規範換名。
+
 值班登記：帳號 B｜AA｜session_016ACZaD4oB9tX94WqQR4dkS｜分支 claude/cool-heisenberg-o8kuqx｜接班基準 ea43bd9a0（快轉合併帳號 C 的 `claude/magical-albattani-bk7b4n`）｜2026-10-30 02:1x UTC
 上一班：帳號 C｜AA｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit ea43bd9a0（2026-10-28 15:23 UTC，回 LAWWW-C 15:22、AA_519 第 9 節對稿完成）｜**沒有正式交班** → 使用者 10-30 對 AA-B：「上個帳號來不及交班 你現在要接班」＝第 4 節第 10 步的明確授權（`duty register --user-ok`）。
 接班核對（RULE_SOURCE `origin/claude/adoring-meitner-mqzst8` @ c76d0cb69，`duty find`：值班 C、上一任 B、HV-20、seq 32）：

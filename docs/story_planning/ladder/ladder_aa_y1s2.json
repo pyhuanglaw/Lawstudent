@@ -1,5 +1,5 @@
 {
- "_comment": "大一下（Y1S2）的閒聊階梯：以安（heroine_01）、語彤（heroine_03）→ ladder_aa_y1s2.json。作者：AA-B 2026-10-16。\n原稿說明：../AA_139_閒聊階梯_大一下_以安語彤.md。格式和 ladder_aa.json 完全一樣（欄位：README.md），只差 term＝'Y1S2'。\n依據：交接包_v2_大一下_草稿（以安新 5 宿舍申訴、新 7 和小語吵架＋公法讀書會、早上七點的日文課、杜鵑花「每年同一個位置」；\n語彤 4 阿姨扭到手腕〔期中〕、語彤 6 房東來過了〔第 10 週〕、春節、春假 4/3～4/6）。\n**防卡關**：`if` 只能放階段（stage），事件、記憶的差別一律放 linesIf／extraIf（build 會擋）；有週次的層，週次放寬到第 18 週，太早或太晚的說法用 linesIf 換。\n用法：python3 build_ladder_aa_y1s2.py → ladder_aa_y1s2.json；--check 只檢查。",
+ "_comment": "大一下（Y1S2）的閒聊階梯：以安（heroine_01）、語彤（heroine_03）→ ladder_aa_y1s2.json。作者：AA-B 2026-10-16。\n原稿說明：../AA_139_閒聊階梯_大一下_以安語彤.md。格式和 ladder_aa.json 完全一樣（欄位：README.md），只差 term＝'Y1S2'。\n依據：交接包_v2_大一下_草稿（以安新 5 宿舍申訴、新 7 和小語吵架＋公法讀書會、早上七點的日文課、杜鵑花「每年同一個位置」；\n語彤 4 阿姨扭到手腕〔期中〕、語彤 6 房東來過了〔第 10 週〕、春節、春假 4/3～4/6）。\n**防卡關**：`if` 只能放階段（stage），事件、記憶的差別一律放 linesIf／extraIf（build 會擋）；有週次的層，週次放寬到第 18 週（2026-10-17 AA-C：16 週制，AA_198；學期不會推進到第 17、18 週，放寬只是不卡關，上限不統一），太早或太晚的說法用 linesIf 換。\n用法：python3 build_ladder_aa_y1s2.py → ladder_aa_y1s2.json；--check 只檢查。",
  "term": "Y1S2",
  "characters": {
   "heroine_01": {
@@ -118,11 +118,11 @@
      "choices": [
       {
        "t": "「我幫妳拍？」",
-       "reply": "好啊，要拍到後面的傅鐘喔。"
+       "reply": "好啊，要拍到後面的晨思鐘喔。"
       },
       {
        "t": "「為什麼是這裡？」",
-       "reply": "這邊拍得到傅鐘，比較好認。"
+       "reply": "這邊拍得到晨思鐘，比較好認。"
       }
      ],
      "rel": {

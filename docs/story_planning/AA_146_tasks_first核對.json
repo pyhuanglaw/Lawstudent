@@ -694,7 +694,7 @@
  "V3-B13": {
   "term": "Y2S1",
   "week": 5,
-  "earliest": "大二上第 5 週霖澤館走廊 12～13 點",
+  "earliest": "大二上第 5 週法律系館A走廊 12～13 點",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -710,7 +710,7 @@
  "V3-B15": {
   "term": "Y2S2",
   "week": 1,
-  "earliest": "大二下第 1 週週三晚上萬才館",
+  "earliest": "大二下第 1 週週三晚上法律系館B",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -1274,7 +1274,7 @@
  "V5-B02": {
   "term": "Y4S1",
   "week": 1,
-  "earliest": "告白點 2 椰林大道：M7 後一週",
+  "earliest": "告白點 2 椰影大道：M7 後一週",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2102,7 +2102,7 @@
  "D14-T12": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "K1 第一次開車去政大（第 3 週週六）",
+  "earliest": "K1 第一次開車去木柵大學（第 3 週週六）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2383,7 +2383,7 @@
  "SCN-V3-02": {
   "term": "Y2S1",
   "week": 6,
-  "earliest": "研究室門口（學姊 W7，第 6～9 週）最早；**政大小教室改用 classroom_small、河堤夜景用 riverside**（`AA_145`），這兩項從這裡拿掉",
+  "earliest": "研究室門口（學姊 W7，第 6～9 週）最早；**木柵大學小教室改用 classroom_small、河堤夜景用 riverside**（`AA_145`），這兩項從這裡拿掉",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2391,7 +2391,7 @@
  "SCN-V3-03": {
   "term": "Y2S2",
   "week": 10,
-  "earliest": "**改**：霖澤館 201 改法庭擺法只在模 5 比賽那天（第 10 週週六 5/1）；模 1 抽籤不用",
+  "earliest": "**改**：法律系館A 201 改法庭擺法只在模 5 比賽那天（第 10 週週六 5/1）；模 1 抽籤不用",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2663,7 +2663,7 @@
  "SYS-18": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "K1 導遊：第一次開車去政大（第 3 週週六，`BB_95` 9-1）",
+  "earliest": "K1 導遊：第一次開車去木柵大學（第 3 週週六，`BB_95` 9-1）",
   "mainline": false,
   "confirmed": true,
   "aa": "fix"
@@ -2728,7 +2728,7 @@
  "SCN-KX-01": {
   "term": "Y1S1",
   "week": 3,
-  "earliest": "**已解決**：`AA_112` 開頭的政大場景對應（圖書館→自強十舍樓下的長椅、河堤→政大主要校園的路、大家的河堤→公館河濱、小教室→classroom_small）；台詞不動只換字幕",
+  "earliest": "**已解決**：`AA_112` 開頭的木柵大學場景對應（圖書館→翠嶺十舍樓下的長椅、河堤→木柵大學主要校園的路、大家的河堤→公館河濱、小教室→classroom_small）；台詞不動只換字幕",
   "mainline": false,
   "confirmed": true,
   "aa": "void"

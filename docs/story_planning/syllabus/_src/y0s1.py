@@ -14,7 +14,7 @@ COURSES = []
 COURSES.append(dict(
  id='econ_principles_y0', name='經濟學原理（上）', kind='required', prof='prof_wei',
  slots=[dict(wd=1, block='am')], room='boya_hall',
- voice='魏宏仁（新，經濟系教授，BB 命名）：喜歡用一個數字說一件事；說話慢、愛反問；會記得前排同學的名字。上學期偏個體，下學期偏總體。地點博雅教學館（使用者指定）。',
+ voice='魏宏仁（新，經濟系教授，BB 命名）：喜歡用一個數字說一件事；說話慢、愛反問；會記得前排同學的名字。上學期偏個體，下學期偏總體。地點博思教學館（使用者指定）。',
  weeks=[
   dict(w=1, tpl='A', board=['個體經濟學原理','稀少性：資源有限，想要的無限','所以每一個選擇都有代價'],
        line='經濟學只問一件事：東西不夠的時候，人怎麼選。',
