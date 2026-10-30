@@ -86,7 +86,9 @@ const DATE=(function(){
   S.LOW={};   /* 各人的低潮期判斷 {id:G=>bool}（學姊沒有男朋友、沒有分手後的低潮：使用者 2026-10-17 P0；之後別人有再接） */
   S.willing=function(G,id){ const F=G.flags||{};
     if(S.LOW[id]&&S.LOW[id](G)) return {ok:false,why:'low'};
-    if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'paused'}; if(ROM.knows&&ROM.knows(G,id).length) return {ok:false,why:'knows'}; }
+    if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'paused'};
+      if(ROM.knows){ const K=ROM.knows(G,id).filter(p=>!(F.OPEN_OK&&F.OPEN_OK[id]&&F.OPEN_OK[id][p])), KO=typeof TERMEND!=='undefined'&&TERMEND.KNOWS_OK?TERMEND.KNOWS_OK[id]:null;
+        if(K.length&&!(KO&&KO(G))) return {ok:false,why:'knows'}; } }   /* AA_483 第 1 節第 7 點（七位一樣）：她知道祐廷有別人、她的知情條件（TERMEND.KNOWS_OK）過了＝照樣出告白的選項，進去走知情對話（S.confess → MREL.knowGate）；沒過＝照舊不出 */
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'partner'};
     if(F['dating_'+id]) return {ok:false,why:'dating'};
     return {ok:true}; };
@@ -640,7 +642,7 @@ const DATE=(function(){
     await run(CV(D.say,G,t)); let k=-1; const ch=CV(D.choice,G,t); if(Array.isArray(ch)&&ch.length){ k=await GM.choose(ch.map(q=>({t:q.t}))); await run((ch[k]||{}).say); }
     const res=c.decline?c.decline:(typeof D.unwillingIf==='function'&&D.unwillingIf(G,t)?'unwilling':(typeof D.decide==='function'?D.decide(G,t,k):S.confessDecide(G,id)));   /* unwilling：她當時不願意（AA_223：沛珊重考期等），選項照樣出現、她婉拒、不鎖線 */
     /* AA_474 第 4 節 3b：要開始交往的那一刻她知道祐廷正在和別人交往＝先演她那一節的知情對話（MREL.knowGate；學姊重新開始的告白，AA_386 4-2）：接受＝交往（OPEN_OK）；不交往＝走 L.notYet（她的「還沒」）。
-       現在 S.willing 她知道就不出告白的選項（why 'knows'），這一段要等那一條放寬才走得到 */
+       S.willing 她知道的時候看她的知情條件（AA_483 第 1 節第 7 點：TERMEND.KNOWS_OK 過了才出告白的選項）*/
     if(res==='yes'&&typeof MREL!=='undefined'&&MREL.knowsOther&&MREL.knowsOther(G,id)){ const r=await MREL.knowGate(GM,id,{said:true,at:'confess'}); if(r==='yes') return 'yes'; }
     else if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(CV(D.yes,G,t,k)); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
     L.notYet={day:G.day,count:L.count|0};

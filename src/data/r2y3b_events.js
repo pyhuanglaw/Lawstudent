@@ -459,8 +459,8 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
       {label:'p'},{goto:'pk',if:AN_KNOWS},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
       {label:'pk'},{speaker:'heroine_01',text:'……我知道。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,true); }},{goto:'e'},   /* AA_474 3b：她知道祐廷有別人＝「……我知道。」接 KNOW.say、三個選項（R2Y3B.tanabataKnow）*/
-      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},
-      {if:AN_KNOWS,call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_474 3b：她原本三句接 KNOW.she、三個選項 */
+      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{goto:'hk',if:AN_KNOWS},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},{goto:'e'},
+      {label:'hk'},{speaker:'heroine_01',text:'我喜歡你。'},{call:async(G,GM)=>{ const x=X(); if(x) await x.tanabataKnow(GM,false); }},   /* AA_481 第 1 節：她知道＝只說兩句就接 KNOW.she（「理由我寫在手帳裡」沒答應就沒有下文、「……你不准賴。」和她接著問的打架，都不說）；答應的照原本排 ev_an_notebook */
       {label:'e'} ],
     d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
     d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],
@@ -562,7 +562,8 @@ const R2Y3B_EVENTS=(function(){
     run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
     exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
     noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
-    exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'] };   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
+    exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'],
+    knowsMsg:['我剛剛才知道{她}的事','電話先不打了 我要想一下'] };   /* AA_483 第 1 節第 6 點：回答.exe 傳了、玩家也回了貼紙，之後她才知道祐廷有別人＝原本她打來的時間改傳這兩則（子晴的手機訊息不加句號；{她}＝她知道的那一位，同 KNOW 的寫法）*/   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
   /* ---------- 2-Y3-47 Q15 的兩通電話（AA_296 2-3-1 ②，企劃線 3f406dbc；新寫）：有沒有在一起不再只靠手機回貼紙 ----------
      回了貼紙＝她馬上打來（場面裡選的＝回答.exe 演完接著演；手機回的＝OUT 的電話）；到期限（收到檔案的隔天 21:00）還是沒回＝21:00 她打來（沒接＝原本那一則私訊，r2y3b3d.js 的 q15NoReplyDm）*/
   const NQ={custom:G=>((G.flags||{}).ZQ_Q15||{}).k==='not_question'};

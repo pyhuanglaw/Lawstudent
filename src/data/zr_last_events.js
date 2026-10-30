@@ -52,8 +52,9 @@ const ZRLAST_EVENTS=(function(){
         N('（你抬頭的時候，她看著騎樓外面，沒有看你。）'),
         Z('……一年。'),
         {if:ZR_KNOWS,call:async(G,GM)=>{ const x=X(); if(x) await x.knowBefore(GM); }},   /* AA_474 3b：她知道祐廷正在和別人交往＝「我等妳回來。」之前先演她的知情對話（三問）；交往＝wait、其他＝keep */
-        {goto:'w',if:{custom:G=>(G.flags||{}).ZR_LAST_KNOW==='yes'}},{goto:'k',if:{custom:G=>{ const v=(G.flags||{}).ZR_LAST_KNOW; return !!v&&v!=='yes'; }}},
+        {goto:'wk',if:{custom:G=>(G.flags||{}).ZR_LAST_KNOW==='yes'}},{goto:'k',if:{custom:G=>{ const v=(G.flags||{}).ZR_LAST_KNOW; return !!v&&v!=='yes'; }}},
         {choice:[{text:'「我等妳回來。」',set:{ZR_LAST:'wait'},goto:'w'},{text:'「我先收著。」',set:{ZR_LAST:'keep'},goto:'k'}]},   /* 沒有「還沒」*/
+        {label:'wk'},Y('我等妳回來。'),   /* AA_481 3-1：知情對話答應以後，跳 w 以前祐廷自動說一句（不是選項），「一年。……你說的喔。」才接得上 */
         {label:'w'},N('（她轉過來，把口袋裡那一張票根拿出來，和你那張對在一起。）'),Z('一年。……你說的喔。'),{goto:'end'},   /* 交往（她 9/2 出發，直接開始遠距）：ZRLAST.result */
         {label:'k'},Z('好。……那就先收著。'),N('（她笑了一下，把自己那一張放回口袋。）'),   /* 朋友＝學期末心意邀約的「讓我想想」：ZRLAST.result */
         {label:'end'},N('（她往捷運站走。走到路口，回頭揮了一下手。）'),
