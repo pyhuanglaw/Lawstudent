@@ -172,12 +172,12 @@ const ECONFF=(()=>{
     return n; };
   const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
-  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null;
-    const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); };
+  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null, qn=0;
+    const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); if(qn&&GM.phoneBadge) GM.phoneBadge(); };   /* qn：途中收到、不停的（quiet）——跳完紅點要亮 */
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
       if(Math.abs(t-Math.round(t))<1e-6&&typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }   /* 住宿舍的月份也照月匯（BUG-ECON-OCT-ALLOWANCE-1021：原本只有搬回家以後的 HOME.y0Jump 會匯，10/1 那筆一直沒匯，到 10/31 搬家才照在家的 5,000 匯）*/
-      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('ECONFF phone',e); }
-        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0){ paid(); return 'msg'; } } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
+      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ const n=(o&&o.length)|0, k=PHONE.loud?PHONE.loud(o).length:n; got+=k; qn+=n-k; }); }catch(e){ console.warn('ECONFF phone',e); }
+        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0){ paid(); return 'msg'; } } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續；quiet 的不停（經濟系社團群組三則，AA_529 第⑦點：收進手機、有紅點就好）*/
     setT(G,E,day,h); paid(); return 'ok'; };
   async function sitIn(GM,it){ const E=GM.E, P=E.player; const room=it.room&&it.room.room; const seats=((E.zone&&E.zone.seats)||[]).filter(q=>!room||q.room===room);
     const free=seats.filter(q=>!GM.freeSeat||GM.freeSeat(q)===q); const st=free[Math.floor(free.length/2)]||seats[0]; if(st&&GM.sitAt) GM.sitAt(P,st); return {st,free}; }
@@ -193,7 +193,7 @@ const ECONFF=(()=>{
     const ok=EVENTS.check(e)||(EVENTS.cond&&EVENTS.cond(e.prereq)&&e.trigger!=='outing');
     if(!ok) return false; await EVENTS.run(e); return true; }
   /* 跳的途中收到的訊息：最新那一則要回的（沒有就最新那一則）在哪一段對話（AA_300 第 6 節）*/
-  S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const m=P.length?P[P.length-1]:((G.msgs||[]).filter(x=>x.from!=='player').slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };
+  S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const O=(G.msgs||[]).filter(x=>x.from!=='player'), m=P.length?P[P.length-1]:(O.filter(x=>!x.quiet).slice(-1)[0]||O.slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };   /* 不停的那幾則（quiet，AA_529 第⑦點）同一刻收到：打開讓它停下來的那一段 */
   S.busy=false;
   (globalThis.LOADLOCKS=globalThis.LOADLOCKS||{})['econff3d:busy']=()=>{ S.busy=false; };   /* 讀檔時放開（LOADGEN-LOCKS-1028）：讀檔凍住的舊劇情走不到 finally，只把旗標設回初始值 */
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;

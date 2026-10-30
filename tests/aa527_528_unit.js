@@ -193,8 +193,8 @@ const docRe=(n,re)=>re.test(docOf(n));
 
   await sec('528-1-2',()=>{ let sat=null; for(let k=0;k<12;k++){ const d=TD('Y2S1',1,6)+k*7; fresh(d,10,'wancai'); if(STORY.fafuDuty(H.G)){ sat=d; break; } }
     const v=sat!=null?POOL.meetVersion(H.G,'pool_20'):null, L=POOL_STORY_B2.LINES.pool_20;
-    check('AA_528 1-2：馬佳蓉隔週六萬才館法服值班的時段可以認識（meetDuty）',v==='meetDuty',J({sat:sat&&keyOf(sat),v}));
-    check('AA_528 1-2：用她社博那一場的台詞（「社團博覽會」那一類字眼換成「這裡」）',!!L.meetDuty&&J(L.meetDuty.map(l=>l.text))===J(L.meet.map(l=>l.text&&l.text.split('社團博覽會').join('這裡'))));
+    check('AA_528 1-2：馬佳蓉隔週六萬才館法服值班的時段可以認識（第 9 點起是專用版本 meetB）',v==='meetB',J({sat:sat&&keyOf(sat),v}));
+    check('AA_528 第 9 點（2026-10-30 AA-B 04:55）：萬才館那一場用專用版本 meetB（值班桌、柱子、檯燈），不再借社博那一場（meetDuty 拿掉）；社博的 meet 照舊',!!L.meetB&&!L.meetDuty&&J(L.meetB.map(l=>l.text||null)).indexOf('值班桌')>=0&&J(L.meet.map(l=>l.text||null)).indexOf('帳篷後面')>=0);
     fresh(TD('Y2S1',2,6),10,'wancai'); check('AA_528 1-2：不是值班的週六沒有',STORY.fafuDuty(H.G)||POOL.meetVersion(H.G,'pool_20')===null); });
 
   await sec('528-1-3',()=>{ const r=HCIRCLE.row('c503_7_1'), d=TD('Y1S1',5,3); fresh(d,19.5,'wancai'); const zq=npcAt('heroine_04',0,4), cx=npcAt('pool_11',1,4), ly=npcAt('pool_5',-1,4); cx.talk=()=>{};

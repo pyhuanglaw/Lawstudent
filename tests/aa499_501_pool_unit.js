@@ -2,6 +2,7 @@
 //   （2026-10-28 AA_519 2-1 改：何宇軒「冠廷學長在寫論文的第三章。他說不要問第四章。」→第五章、第六章；對稿兩個方向都認這一組舊字／新字）
 //   （2026-10-30 AA_527／AA_528 改（企劃線 bfede0a62、7ad5fee84；白名單換成 7ad5fee84）：蘇承恩→蘇維倫；大二起還能第一次說話（2、5、7、8）；佳蓉萬才館值班也能認識（6）；
 //    立群秘密一句說完（4）；圈子同框只換名牌、第一場照演（17）。新的條件另外在 tests/aa527_528_unit.js）
+//   （2026-10-30 AA_528 第 9 點（AA-B 04:55 回覆）：佳蓉萬才館值班認識改專用版本 meetB（6）；meetB、gradB 的四句不在 AA_499 稿（0 的例外 AA528_9），逐字對 AA 回覆在 tests/aa_followup_1030_unit.js）
 //   0  稿（雙向、一字不差）：src/data/pool_story_b2.js、b3.js、b4.js 的每一句台詞、旁白、選項、手機訊息、人物頁一行、personality 都在稿裡；
 //      稿上的每一句（對話、旁白、選項、閒聊表、之後的招呼、他的線表上的訊息、「」引的句子）都在遊戲裡——例外逐條寫原因（EXC）
 //   1  接線：十五位都有自己那一套（POOL.owns）、載入順序、社會圖（AA_499 第 6 節第 2 點）、personality（AA_501 第 5 節第 5 點的表）、新的 2D 場景沒有圖＝深色底、
@@ -90,8 +91,11 @@ await sec(0,()=>{ const B={B2:typeof POOL_STORY_B2!=='undefined'?POOL_STORY_B2:n
     '「週五以前還我。」':'AA_500 6-1 房間物品「乃文學姊的民總筆記」：稿沒有寫「看」的句子，用她借你時說的那一句'};
   /* AA_519 2-1（企劃線 d75cd0228，2026-10-28 NPC-STORY2-1028）：陳助教的論文卡在第五章（不再用第三章，和學姊的第三章分開）——何宇軒那一句跟著換（遊戲是新的字，這份稿是舊的字；tests/aa519_support2_unit.js 也查）*/
   const AA519={'「冠廷學長在寫論文的第五章。他說不要問第六章。」':'「冠廷學長在寫論文的第三章。他說不要問第四章。」'}, AA519R={}; for(const a in AA519) AA519R[AA519[a]]=a;
+  /* AA_528 第 9 點（AA-B 2026-10-30 04:55 回覆，LAWWW-B 轉交；任務 AA-FOLLOWUP-1030）：佳蓉在萬才館（法律系館B）值班認識的專用版本 meetB＋畢業照片 gradB——不在 AA_499 稿裡；
+     企劃線 bec12db00 的 AA_528 還沒有這幾句（AA 回覆說原稿已同步，推上來以後改成對稿）。逐字對 AA 回覆：tests/aa_followup_1030_unit.js */
+  const AA528_9=new Set(['（法服值班桌底下，一個女生蹲著，拉著一條很長的延長線。延長線的另一頭繞到柱子後面。）','同學，可以幫我拉一下嗎？插座在那根柱子後面，我一個人拉不到。','（你幫她拉過去，插好。桌上的檯燈亮了一下。）','（照片：值班桌旁邊那根柱子，底下一個插座）']);
   for(const k of ['B2','B3','B4']){ if(!B[k]){ check('0. '+DOCS[k][0]+'：資料檔不存在',false); continue; } const G=[...new Set(strs(B[k]))], d=DOC[k];
-    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0));
+    const bad=G.filter(t=>d.indexOf(t)<0&&!(DERIVED[t]&&d.indexOf(t.replace(/^「|」$/g,''))>=0)&&!(OTHERDOC[t]&&D514.indexOf(t)>=0)&&!(AA519[t]&&d.indexOf(AA519[t])>=0)&&!(k==='B2'&&AA528_9.has(t)));
     check('0. 遊戲 → 稿：'+DOCS[k][0]+' 的每一句台詞、旁白、選項、手機訊息、人物頁一行'+(k==='B4'?'、personality':'')+'都在稿裡（一字不差；例外：房間物品兩句，寫在 DERIVED）',G.length>150&&!bad.length,G.length+' 句；不在稿裡：'+J(bad)); }
   /* 稿 → 遊戲：抽出稿上的每一句 */
   const NOTE=/（(?:原句[^）]*|後[一兩]句是原句|接原句[^）]*|認識[^）]{1,12}|有 `[^）]*|沒有[^）]*)）\s*$/;
@@ -289,7 +293,7 @@ await sec('6 馬佳蓉',async()=>{ fresh(TD('Y1S1',1,1),10,'campus'); const a=AC
   await talk(M,[]);
   check('6. 馬佳蓉 5-1 認識（社團博覽會）：延長線、「……亮了。好。」、她說名字',has('同學，可以幫我拉一下嗎？插座在那棵樹後面，我一個人拉不到。')&&has('……亮了。好。')&&whoOf('馬佳蓉，法服管器材的。這條延長線比我資深。')==='馬佳蓉'&&SOCIAL.has(M,'FIRST_MET'),J(said()));
   const sat=(()=>{ for(let x=TD('Y1S1',3,6);x<TD('Y1S1',16,6);x+=7){ H.G.day=x; if(STORY.fafuDuty(H.G)) return x; } return null; })();
-  fresh(sat,10,'wancai'); check('6. 馬佳蓉：值班的週六在萬才館也能認識（AA_528 1-2：用社博那一場的台詞，meetDuty）',!!P().ent(H.G,M)&&P().meetVersion(H.G,M)==='meetDuty');
+  fresh(sat,10,'wancai'); check('6. 馬佳蓉：值班的週六在萬才館也能認識（AA_528 1-2；第 9 點專用版本 meetB，2026-10-30 原本借社博那一場的 meetDuty）',!!P().ent(H.G,M)&&P().meetVersion(H.G,M)==='meetB');
   /* 5-3 影印機（大一下第 12～15 週，值班的週六 12:00）*/
   const s=(()=>{ for(let x=TD('Y1S2',12,6);x<=TD('Y1S2',15,6);x+=7){ H.G.day=x; if(STORY.fafuDuty(H.G)) return x; } return null; })();
   fresh(s,12.1,'wancai'); meet(M); rel(M,25,3); const e=P().ent(H.G,M); spawn(M); await talk(M,['我幫妳搬']);

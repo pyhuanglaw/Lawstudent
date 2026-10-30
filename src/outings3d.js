@@ -129,6 +129,7 @@ const OUT=(function(){
     await S.runAfter(GM,q,ev);   /* 結尾、分開以前（OUT.AFTER）：畫面還在那裡（可昕在場的還在右邊）*/
     if(kxTail&&ADV.active) ADV.end();
     await GM.fade(true); if(stg&&stg.restore){ try{ await stg.restore(); }catch(e){ console.warn('OUT.STAGE restore',e); } } GM.advance(ev.hours||2); fill(); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||S.backText(G),2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
+    if(typeof ev.afterBack==='function') await ev.afterBack(G,GM,q);   /* 回程的地點字幕之後才接的（例：ev_y0_gather「（回家的路上，手機震了一下。）」排在「在公館的路口散了。」後面，AA_529 第⑤點）；劇情還沒結束（sceneEnd 在 finally）*/
     } finally { GM.sceneEnd(); S.fromHome=false; afterDone.delete(q.id); }
     if(GM.autosave) GM.autosave(); return true; };
   return S;

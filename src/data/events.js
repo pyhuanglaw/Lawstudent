@@ -3016,9 +3016,11 @@ const STORY_EVENTS=[
       {set:{E10_EVE:'went'}},
       /* AA_529 第 2 節：回家的路上建「走啦」（30 分鐘版 P2、P2b 都剪了，原本一般玩家建不起來）；系統一則＋三則在聚會演完那一刻（story3d.js S.zoulaGather）。
          已經在群組裡的（長版 P2、P2b 演過）不重複建、這句旁白也不出 */
-      {call:(G,GM,ev)=>{ if(typeof STORY!=='undefined'&&STORY.zoulaGather) STORY.zoulaGather(G,G.hour+((ev&&ev.hours)||0)); }},
-      {if:{flagIs:{Y0_ZOULA:'gather'}},speaker:null,text:'（回家的路上，手機震了一下。）'} ],
-    afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); } },
+      {call:(G,GM,ev)=>{ if(typeof STORY!=='undefined'&&STORY.zoulaGather) STORY.zoulaGather(G,G.hour+((ev&&ev.hours)||0)); }} ],
+    afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); },
+    /* AA_529 第⑤點（AA-B 2026-10-30 04:55）：先散了，才在回家的路上——「（回家的路上，手機震了一下。）」排在地點字幕「在公館的路口散了。」（OUT 的 back）後面：
+       outings3d.js 回到 3D、出了字幕以後才呼叫 afterBack；等字幕放完（2.4 秒）再說這句。時間（22:20）不動 */
+    afterBack:async(G,GM)=>{ if(!(G.flags&&G.flags.Y0_ZOULA==='gather')) return; if(GM.sleep) await GM.sleep(2400); await GM.say(null,'（回家的路上，手機震了一下。）'); } },
   /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
      第一句旁白照前一晚有沒有去群組聚會（E10_EVE＝'went'；10/15 的聚會一律是「群組裡一整晚都在聊天」——AA_355 第 2 節照用，30 分鐘版不演那幾場）。邀約那則已經在手機上，事件從「隔天晚上，總圖三樓」開始。
      E10_STUDY：先念書＝'study'；漫畫、字典＝'chat'。不答應、或 20:30 還沒到＝小福那一版（ev_y0_e10b）*/
