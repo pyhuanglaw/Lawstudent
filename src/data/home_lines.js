@@ -1,7 +1,7 @@
-/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n 1c341e21 */
+/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2 */
 'use strict';
 const HOME_LINES={
-"source": "claude/magical-albattani-bk7b4n 1c341e21",
+"source": "claude/magical-albattani-bk7b4n ea43bd9a0＋AA_532 ade80d22f＋AA_533 cf0066ed2",
 "group": [
 {
 "who": null,
@@ -146,7 +146,7 @@ const HOME_LINES={
 "mom": "你爸問，你以後當律師，要不要幫他看合約？",
 "opts": [
 {
-"t": "我才大一。"
+"t": "我還在念書。"
 },
 {
 "t": "好，但要收錢。"
@@ -170,6 +170,49 @@ const HOME_LINES={
 8,
 10
 ]
+},
+{
+"n": 9,
+"mom": "你姊說她過年可能要加班。",
+"opts": [
+{
+"t": "出版社也加班？"
+},
+{
+"t": "那年夜飯呢？"
+}
+],
+"dad": "年夜飯一定要回來。",
+"dadOnly": true,
+"winter": true
+},
+{
+"n": 10,
+"mom": "隔壁的阿姨問你有沒有在打工。",
+"opts": [
+{
+"t": "沒有，在讀書。"
+},
+{
+"t": "有在想。"
+}
+],
+"dad": "（點了一下頭）先讀書。",
+"dadOnly": true
+},
+{
+"n": 11,
+"mom": "你的房間我幫你整理了，抽屜沒動。",
+"opts": [
+{
+"t": "謝謝。"
+},
+{
+"t": "……抽屜真的沒動？"
+}
+],
+"dad": "（笑了一下）她動了。",
+"dadOnly": true
 }
 ],
 "sisDinner": [

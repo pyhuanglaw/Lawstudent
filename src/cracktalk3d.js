@@ -288,7 +288,8 @@ const CRACKTALK=(function(){
       if(a===2){ R.streak=(R.streak|0)+1; if(R.streak>=2){ R.streak=0; S.add(G,AN); } } else R.streak=0; } };   /* 中間有一題認真回答＝重新算 */
 
   /* ---------- 1-3 語彤②：每 4 週一次，A 顧店那天 16:30／B 媽媽回診的前一晚（週五 21:00），二選一輪流 ---------- */
-  S.ytShop=(G,d)=>{ const w=wdOf(d); return w===2||(w===4&&!(STORY.ytThuFree&&STORY.ytThuFree(Object.assign({},G,{day:d})))); };   /* 事件 13 以後週四是她自己的 */
+  S.ytShop=(G,d)=>{ if(typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G,d)) return false;   /* AA_532 第 1 節（企劃線 ade80d22f）：麵店過年店休（除夕前 6 天～初三，noodle_closed3d.js）＝沒顧店（原本 2028 除夕她說「今天顧店到九點。」）*/
+    const w=wdOf(d); return w===2||(w===4&&!(STORY.ytThuFree&&STORY.ytThuFree(Object.assign({},G,{day:d})))); };   /* 事件 13 以後週四是她自己的 */
   S.yt2=function(G){ const R=sub(S.src(G),'yt2'), tag=n=>'ct_yt2_'+n;
     if(dating(G,YT)){ if(R.next==null){ const since=(ROM.get(G,YT)||{}).sinceDay; R.next=(since!=null?since:G.day)+28; R.n=0; }
       if(G.day>=R.next&&!abroad(G)&&pres(YT,G).here){ const k=(R.n|0)%2===0?'A':'B', h=hh(G), X=X2.yt2[k];

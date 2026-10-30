@@ -3562,6 +3562,22 @@
    "approvedBy": "AA-B 定稿（D109；USER_WANTS X122）",
    "task": "HEROINE-LIFE-1028",
    "note": "子代理登記（LAWWW-B，10-30）：AA_526 回 AA_524、AA_525 重做的九題。AA_525 部分：D15 子晴「全部我請。」回覆只經 tools/date/import_date_lines.py 重產；3-11 KX.Y3S1 第二句撤回（termend_lines.js 照原句）；1-1 第三張貼紙只給聽過的（ZQ_STICKER3，y2r2_3d.js／y34b3d.js）；3-9 條件改演過 ev_kexin_summer_plan_call（r2y3a_events.js）；2-1 照現在。AA_524 部分另外做。"
+  },
+  {
+   "path": "docs/story_planning/AA_532_D99寒暑假一_過年期間別約_除夕年夜飯_家人群組_她們的放假版.md",
+   "sha": "ade80d22f",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "AA532-VAC-FIX-1030",
+   "note": "子代理登記（AA532-VAC-FIX-1030，10-30）：寒暑假（一）。程式：src/heroine_asks3d.js（除夕前一天～初三不約、放假版句子、芷若校外 yesOut）、src/data/heroine_asks.js、src/cracktalk3d.js（ytShop 看店休）、src/home3d.js（留宿舍放假週四群組）、src/holff3d.js（2027／2029 除夕年夜飯、四年初一家人群組、麵店團初一 2028／2029、以安除夕私訊、元宵、父親節、端午、以安假期計畫 AA_244 第 1 節）、src/data/termend_lines.js（C15 zq_demo、zq_play2）、src/data/vac_activities.js（C12、T03 交往中）、src/data/vacfill_events.js（總圖兩句）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版換「我才大一。」→「我還在念書。」。測試 node tests/aa532_vac_unit.js"
+  },
+  {
+   "path": "docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md",
+   "sha": "cf0066ed2",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（D109）",
+   "task": "AA533-VAC-FIX-1030",
+   "note": "子代理登記（AA533-VAC-FIX-1030，10-30；任務 ID 子代理暫定，總表還沒有這一筆）：寒暑假（二）。程式：src/data/vac_activities.js（TRAVEL.gf 七位 arr、mid、沛珊 firstOnly；C03 以安沒去的上班族大姊三堂；C04 模擬考 Kevin 一句、考完 12:00 私訊；C11 第一次 01-29 最後一晚；C12 茶道老師；C01 diarySay）、src/vac3d.js（choiceElse、msg、C13 女朋友版、C01 第一句後面一句）、src/data/hometown_lines.js（可昕夜市愛河、沛珊公園書店）、src/data/vacfill_events.js（長桌、參創、法圖）、src/home3d.js（快轉旁白分年、晚餐 winter／dadOnly）、src/vacfill3d.js（摘要池不分假期）；src/data/home_lines.js 由 tools/home/import_home_lines.py 讀這一版加晚餐三題。測試 node tests/aa533_vac_unit.js"
   }
  ]
 }

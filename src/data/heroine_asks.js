@@ -7,16 +7,17 @@
      here＝她本來就在那裡（語彤顧店的麵店、週六的溫州街）：只問一聲，答應了玩家直接去（INV 的 here，AA_494 第 3 節）
    out：DATE 的地點；pre＝第 6 階、交往前才有（沒有 pre＝交往中才約）；d＝週六／週日（句子寫的那一天；「這個週末」＝週六）；
      depart＝出發時間（AA_494 0-3：半日 13:00、晚上 18:00、一日 09:00；子晴週末兩點以前不約＝14:00；金瓜石句子寫「九點四十分那一班」＝09:00 出發；學姊碧潭「傍晚」＝15:00）
-   later、no、yes＝玩家選「改天」「不了」「答應」以後她回的那一句；yesBy＝某個地點換一句（語彤的麵店）*/
+   later、no、yes＝玩家選「改天」「不了」「答應」以後她回的那一句；yesBy＝某個地點換一句（語彤的麵店）；yesOut＝校外那一種換一句（AA_532 第 3 節，芷若）
+   vac＝寒暑假的放假版（AA_532 第 3 節，企劃線 ade80d22f，台詞一字不差）：line 換句；h 換時間（學姊放假改下午，照 AA_494 0-3 從 INV.times 挑下午的 15:30）*/
 'use strict';
 const HASK_DATA={
   source:'AA_494 b3ecc563c',
   people:{
     heroine_01:{ send:21.5,
       daily:[
-        {place:'library',th:3,pre:{d:'next',h:[15.5],line:'明天下午三點半，總圖二樓靠窗。我帶憲法筆記，你帶題目。'},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。我幫你留了位子，在我旁邊。'}},
-        {place:'cafe',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我要去 Café 寫報告。你要寫東西的話，一起。'},dat:{d:'next',h:[15.5,17.5],line:'明天 Café。今天不寫報告，就喝咖啡。'}},
-        {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，阿鳳麵店。吃完我要回去寫報告，所以準時。'},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃乾麵。'}},
+        {place:'library',th:3,pre:{d:'next',h:[15.5],line:'明天下午三點半，總圖二樓靠窗。我帶憲法筆記，你帶題目。',vac:{line:'放假的總圖人很少。明天下午三點半，二樓靠窗。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。我幫你留了位子，在我旁邊。'}},
+        {place:'cafe',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我要去 Café 寫報告。你要寫東西的話，一起。',vac:{line:'明天下午我要去 Café 整理上學期的筆記。你要寫東西的話，一起。'}},dat:{d:'next',h:[15.5,17.5],line:'明天 Café。今天不寫報告，就喝咖啡。',vac:{line:'明天 Café。放假，就喝咖啡。'}}},
+        {place:'noodle',th:5,pre:{d:'next',h:[18],line:'明天六點，阿鳳麵店。吃完我要回去寫報告，所以準時。',vac:{line:'明天六點，阿鳳麵店。吃完我要回去讀書，所以準時。'}},dat:{d:'next',h:[19,17.5],line:'明天晚上，阿鳳。我想吃乾麵。'}},
         {place:'wenzhou',th:5,pre:{d:'next',h:[16],line:'我在手帳排了一個「沒有目的」的時段。明天下午四點，溫州街。'},dat:{d:'next',h:[16,15.5],line:'明天下午，溫州街。這次手帳上什麼都沒寫。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天六點半，椰林大道。起得來就來。'},dat:{d:'next',h:[6.5],line:'明天六點半。我在傅鐘前面。'}}],
       out:[
@@ -34,11 +35,11 @@ const HASK_DATA={
         {loc:'D04',pre:{d:'sat',depart:18,line:'這週有一部老片重映。週六晚上七點，西門。……你不要在中間睡著喔。'},dat:{d:'sat',depart:18,line:'週六晚上，西門。老片。我買好兩張了。'}},
         {loc:'D14',pre:{d:'sun',depart:17,line:'週日傍晚要不要去漁人碼頭？聽說橋的燈很好看。'},dat:{d:'sun',depart:17,line:'週日去漁人碼頭。我想看燈亮起來的那一下。'}},
         {loc:'D18',dat:{d:'sat',depart:13,line:'週六去九份。坐客運，我要看山。'}}],
-      later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。' },
+      later:'好啦，那下次。', no:'喔。好啦。', yes:'好！那明天見。', yesOut:'好！那到時候見。' },
     heroine_03:{ send:21+40/60,
       daily:[
         {place:'noodle',th:3,here:true,pre:{d:'next',h:[19,17.5],line:'阿姨說明天有滷牛腱。……她叫我問你要不要來。'},dat:{d:'next',h:[21],line:'明天晚上來店裡。我顧到九點，九點以後一起吃。'}},
-        {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我在總圖寫報告。三樓。……你要來的話，旁邊有位子。'},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。三樓，我旁邊。'}},
+        {place:'library',th:3,pre:{d:'next',h:[15.5,17.5],line:'明天下午我在總圖寫報告。三樓。……你要來的話，旁邊有位子。',vac:{line:'明天下午我在總圖看書。三樓。……你要來的話，旁邊有位子。'}},dat:{d:'next',h:[15.5,17.5],line:'明天下午總圖。三樓，我旁邊。'}},
         {place:'wenzhou',th:5,here:true,pre:{d:'sat',h:[15.5,14],line:'週六下午我在溫州街。你來的話，我們走到公園。'},dat:{d:'sat',h:[15.5,14],line:'週六下午溫州街。我帶你去一家你沒去過的。'}},
         {place:'run_avenue',th:5,pre:{d:'next',h:[6.5],line:'明天早上六點半。跑完我要去備料。'},dat:{d:'next',h:[6.5],line:'明天六點半。跑完一起吃早餐，再去備料。'}}],
       out:[
@@ -58,7 +59,7 @@ const HASK_DATA={
       later:'好 那下次', no:'喔 好', yes:'好 不准遲到' },
     heroine_05:{ send:22.5,
       daily:[
-        {place:'library',th:3,pre:{d:'next',h:[17.5],line:'明天五點以後，總圖三樓。你帶要問的題目。'},dat:{d:'next',h:[17],line:'明天五點，總圖三樓。今天不問題目。'}},
+        {place:'library',th:3,pre:{d:'next',h:[17.5],line:'明天五點以後，總圖三樓。你帶要問的題目。',vac:{h:[15.5],line:'明天下午，總圖三樓。放假了，題目照帶。'}},dat:{d:'next',h:[17],line:'明天五點，總圖三樓。今天不問題目。',vac:{h:[15.5],line:'明天下午，總圖三樓。放假，不問題目。'}}},
         {place:'brunch',th:3,pre:{d:'sun',h:[9],line:'週日九點，半熟。不要遲到。'},dat:{d:'sun',h:[9],line:'週日九點，半熟。你點什麼，我點一樣的。'}},
         {place:'cafe',th:5,pre:{d:'sat',h:[15.5,14],line:'週六下午，Café。帶你的筆記。'},dat:{d:'sat',h:[15.5,14],line:'週六下午，Café。不帶筆記。'}},
         {place:'teahouse',th:5,pre:{d:'sat',h:[14],line:'週六下午兩點，一盞。那一壺，我想再喝一次。'},dat:{d:'sat',h:[15.5,14],line:'週六下午，一盞。這次你點。'}},

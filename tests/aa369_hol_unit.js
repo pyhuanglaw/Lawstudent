@@ -134,8 +134,9 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     check('M4. C03 日子照每年的週二、四：2026 7/7、7/16、7/23；2027 7/8、7/15、7/22；2028 7/11、7/18、7/20',J([days('Y1'),days('Y2'),days('Y3')])===J([['07-07','07-16','07-23'],['07-08','07-15','07-22'],['07-11','07-18','07-20']])&&['Y1','Y2','Y3'].every(yk=>days(yk).every(k=>[2,4].includes(wd(yk,k)))),J([days('Y1'),days('Y2'),days('Y3')]));
     fresh(D('2028-07-11'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y3','yes'); const L3=[];
     for(let i=0;i<3;i++){ const q=OUT.get(G,'vac_C03@Y3_'+i); G.day=q.day; G.hour=19; said=[]; opts=[]; await VAC.outing(GM,q); L3.push({said:lines(),opts:opts.length}); }
-    check('M4. C03 大三（以安在日本）：第一堂只有「（教室裡都是不認識的人。）」、沒有選項；小考、最後一堂沒有她的句子；上完算參加過',J(L3)===J([{said:['（教室裡都是不認識的人。）'],opts:0},{said:[],opts:0},{said:[],opts:0}])&&VAC.state(G,'C03@Y3')==='done',J(L3));
-    { const q=OUT.get(G,'vac_C03@Y3_1'); q.state='planned'; check('M4. 快轉：大三那一場什麼都不演＝不停、記成去過（repSkip 回 \'\'）',VAC.repSkip(G,q)===''); }
+    /* AA_533 2-1（企劃線 cf0066ed2）：以安沒去的三堂加同班的上班族大姊（原本第一堂只有「（教室裡都是不認識的人。）」、小考和最後一堂不演）*/
+    check('M4. C03 大三（以安在日本）：沒有她的句子；AA_533 2-1 起三堂都是上班族大姊（第一堂有選項）；上完算參加過',J(L3.map(x=>[x.said[0],x.opts]))===J([['（教室很小，十二個位子。你旁邊坐著一個上班族大姊，筆記本上已經寫滿了平假名。）',1],['（小考發回來。大姊比你多錯兩題，她把考卷折起來，收進包包。）',0],['（下課的時候，大姊說她下一期要上中級班。）',0]])&&!L3.some(x=>x.said.some(t=>/以安|你也來了/.test(t)))&&VAC.state(G,'C03@Y3')==='done',J(L3));
+    { const q=OUT.get(G,'vac_C03@Y3_1'); q.state='planned'; check('M4. 快轉：大三那一場有大姊的句子（AA_533 2-1）＝第一次去照樣停、演（repSkip 不是 \'\'）',VAC.repSkip(G,q)!==''); }
     fresh(D('2027-07-08'),18,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C03@Y2','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C03@Y2_0'));
     check('M4. C03 大二（以安還在臺北上課）：照大一的稿（「以安坐在第一排正中間」「你也來了。」）',lines().some(t=>t.includes('以安坐在第一排正中間'))&&lines().includes('沈以安：你也來了。'),J(lines()));
     fresh(D('2028-01-17'),7,'dorm',{}); R('heroine_01','FRI'); VAC.signup(G,'C11@Y3','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C11@Y3'));

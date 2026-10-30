@@ -50,7 +50,7 @@ const VACFILL_LINES={
 
   /* ---------- 第 2 節 大二暑假（2027）---------- */
   /* 2-1 6/18（五）21:00 麵店團群組；6/23（三）15:00 語彤 */
-  y2_0618:{ms:[['zhe','放假第一週 大家在幹嘛'],['yu','睡覺！！睡到中午！！'],['classmate_bohan','在總圖。暑假開到五點。'],['zhe','……柏翰你是不是不知道什麼叫放假']],
+  y2_0618:{ms:[['zhe','放假第一週 大家在幹嘛'],['yu','睡覺！！睡到中午！！'],['classmate_bohan','在總圖。暑假人很少。'],['zhe','……柏翰你是不是不知道什麼叫放假']],
     opts:['在家。','在宿舍。','在總圖。'],lib:[['classmate_bohan','三樓。我在窗邊。']],other:[['zhe','好喔']]},
   y2_0623:{ms:['麵店暑假開始賣涼麵了。','阿姨說你上次吃很快。'],yes:'我去吃。',no:'下次。',noSay:'嗯。'},
   /* 2-2 7/24（六）21:30 以安從台中（交往中）*/
@@ -119,7 +119,7 @@ const VACFILL_LINES={
         /* AA_443 第 2 節加寫（企劃線 f93fa3eda）*/ '（中午的巷子很安靜，只有蟬在叫。）','（媽媽把冰箱裡快過期的東西全部煮成一鍋。你們吃了兩天。）','（你幫隔壁的阿伯搬了一箱水。他問你念哪裡。）','（颱風警報。媽媽把陽台的盆栽全部搬進客廳。最後颱風沒有來。）','（你去理髮。理髮師剪得比你說的短。）','（晚上出門倒垃圾。垃圾車的音樂還沒到，巷口已經站了一排人。）','（媽媽的老花眼鏡又找不到了。最後在她頭上。）','（你在房間讀判決。媽媽敲門問你要不要吃西瓜，你說好。她已經切好了。）']},
     dorm:{
       winter:['（宿舍走廊的燈只開了一半。整層樓好像只剩你。）','（宿舍的熱水比平常熱。用的人少。）','（你在交誼廳看電視。舍監經過，問你過年回不回家。）',
-        '（學校的餐廳只開一間。你連吃了三天同一個便當。）','（總圖寒假開到五點。你五點出來的時候，天已經黑了。）','（媽媽傳訊息：「冰箱有你愛吃的。要回來嗎？」）',
+        '（學校的餐廳只開一間。你連吃了三天同一個便當。）','（寒假的總圖人很少。你五點出來的時候，天已經黑了。）','（媽媽傳訊息：「冰箱有你愛吃的。要回來嗎？」）',
         /* AA_443 第 2 節加寫（企劃線 f93fa3eda）*/ '（隔壁房間的門上貼著一張紙：「回家了，開學見」。）','（宿舍的洗衣機只剩一台能用。你排在一個學長後面。）','（公館有幾家店拉下了鐵門，貼著「年後見」。）','（你在書桌前坐了一整天。傍晚站起來的時候，腳是冰的。）','（交誼廳的飲水機壞了。你走到隔壁棟去裝水。）','（晚上的椰林大道沒有人。路燈一盞一盞亮到總圖。）'],
       summer:['（宿舍暑假住的多是外地生。走廊上有人在講你聽不懂的方言。）','（椰林大道的樹蔭下，只有遊客在拍照。）','（你在宿舍讀書，冷氣卡要儲值了。）',
         '（午後雷陣雨。你在總圖門口等雨停，等了半個小時。）','（暑修的學弟妹在宿舍的廚房煮泡麵，問你哪一科比較好過。）','（媽媽傳訊息：「暑假也不回來？……好，那記得吃飯。」）',
@@ -242,7 +242,12 @@ const VACFILL_EVENTS=(function(){
         {if:{custom:G=>!here(G,'zhe')},speaker:null,text:X.y3_0209.backNoZhe} ],   /* 阿哲大三寒假多半在高雄（BB_303 第 3 節）：2/9 他不在臺北＝他的句子拿掉、回程旁白換 */
       after:G=>{ G.flags.VF_Y3_LANTERN='went'; } },
     { id:'ev_vf_y3_0214', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr} ] },
+      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr},
+        /* AA_533 4-3（企劃線 cf0066ed2）*/
+        {speaker:'heroine_05',text:'開學前來借的人，通常是要補上學期的。'},{speaker:'heroine_05',text:'……你是哪一種？'},
+        {choice:[{text:'「補上學期的。」',goto:'aa533_a'},{text:'「預習下學期的。」',goto:'aa533_b'}]},
+        {label:'aa533_a'},{speaker:'heroine_05',text:'（把一本書從書架抽出來，放在你手上）這本。'},{goto:'aa533_end'},
+        {label:'aa533_b'},{speaker:'heroine_05',text:'嗯。那你比我大二的時候好。'},{label:'aa533_end'} ] },
 
     /* ===================== 第 4 節 ===================== */
     /* 大一寒假 1/23 15:00 住家裡：媽媽當面說（留宿舍的是私訊，src/vacfill3d.js）；說完排 1/24 的迪化街 */
@@ -257,9 +262,12 @@ const VACFILL_EVENTS=(function(){
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},
       dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y1s_0828.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y1s_0828.sis} ] , after:noMemo('ev_vf_y1s_0828') },
     { id:'ev_vf_y2w_0116', title:'阿鳳麵店', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},{speaker:null,text:X.y2w_0114.narr2} ] },
+      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},
+        {speaker:null,text:'（語彤端麵過來，順手把你的筷子擺正。）'},{speaker:'heroine_03',text:'寒假人少。阿姨煮得比較慢。'},{speaker:'yu',text:'慢沒關係！我餓到可以等！'},   /* AA_533 4-1：群組說會去的兩個人開口（兩句旁白中間）*/
+        {speaker:null,text:X.y2w_0114.narr2} ] },
     { id:'ev_vf_y3w_0108', title:'參創', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr} ] }
+      dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr},
+        {speaker:'heroine_04',text:'這台是我學長做的。他去年也在這裡排隊，排到最後一個。'},{speaker:'heroine_04',text:'……明年我也要有一台。'} ] }   /* AA_533 4-2 */
   ];
 })();
 /* 元宵的燈會：2D 夜景、人潮（AA_440 3-2）——還沒有圖＝深色底＋地點字幕（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/

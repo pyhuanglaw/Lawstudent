@@ -166,7 +166,11 @@ const VACFILL=(function(){
   S.cardLine=function(G,t,o){ const d=S.sumDue(G); if(d==null||Math.abs(t-T(d,S.SUM_H))>1e-6) return null; return (o&&o.dorm)||!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?X.y3_0219.dorm:X.y3_0219.home; };
 
   /* ===================== 第 5 節 摘要池：醒來的那一天沒有任何一件 ===================== */
-  S.poolNext=function(G,key,place,kind){ const P=((X.POOL||{})[place]||{})[kind]||[]; if(!P.length) return null; const R=S.rec(G), k=key+':'+place, n=R.pool[k]|0; R.pool[k]=n+1; return P[n%P.length]; };
+  /* AA_533 5-2（企劃線 cf0066ed2）：不分假期，同一池（住家裡／留宿舍 × 寒假／暑假）接著上一次往下輪，輪完才從頭（原本 key 帶假期、每個假期從第 1 句重來）。
+     計數 R.pool['*:'+place+':'+kind]；舊存檔沒有＝從舊的各假期計數（'Y1W:home' 一類，同一季的）加起來接下去 */
+  S.poolNext=function(G,key,place,kind){ const P=((X.POOL||{})[place]||{})[kind]||[]; if(!P.length) return null; const R=S.rec(G), k='*:'+place+':'+kind;
+    if(R.pool[k]==null){ let n0=0; const suf=kind==='winter'?'W':'S'; for(const q in R.pool){ const m=/^Y\d([WS]):(.+)$/.exec(q); if(m&&m[1]===suf&&m[2]===place) n0+=R.pool[q]|0; } R.pool[k]=n0; }
+    const n=R.pool[k]|0; R.pool[k]=n+1; return P[n%P.length]; };
   S.poolSay=async function(GM,key,place,kind){ const l=S.poolNext(GM.G,key,place,kind); if(l) await GM.say(null,l); return l; };
   /* 這一天有沒有事：快轉的停點（表上的日子、成績、出遊、當面約、事件包的停點、這個檔的停點）、今天演過的事件、一定要演的事件、今天的出遊、當面約、今天的訊息（已經收到的、排好的）*/
   S.dayBusy=function(GM,day){ const G=GM.G, a=T(day,0), b=T(day+1,0);
