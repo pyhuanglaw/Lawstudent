@@ -137,6 +137,44 @@ async def main():
             w = [v for k, v in s1['wait'].items() if YT in k]
             run.check('只有阿姨在旁邊＝麵店的發現照演（pend 清掉、有說話）、不記等待', pend is None and bool(dl) and not w, J({'pend': pend, 'wait': s1['wait'], 'lines': dl[:4]}))
             await run.shot(pg, 'noodle_end')
+        elif MODE in ('aunt6', 'aunt6x'):
+            # BB-B 10-30（v9.10.14 候選 92e9bca92，PRIV-AUNT-1028 025574629）：AA_503 第 14 節後補第 6 點——麵店只有阿姨（hc_ayi）在語彤旁邊＝「約她去…」和 tell_later 都照出；
+            # aunt6x＝【捷徑】同一天多一個同伴（STORY.COMPANY 加一筆：筱涵 npc_huangxh 在她旁邊，同 company_priv_unit 的 crowd）＝兩個都不出。日子用 company_priv_unit 第 10 段「真的圈子」那一天 2025-09-09 18:12
+            st, _ = await P.base(pg, SAVE, '2025-09-09', 18.2, 'gongguan')
+            await P.load(pg, cdp, st, quiet=True); await pg.evaluate(DL)
+            run.setup('[前置] 使用者存檔 → 2025-09-09（週二）18:12 公館（語彤 18:00 起在麵店顧店）')
+            pr = await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G; G.flags.dating_kexin=false; if(G.flags.romance) delete G.flags.romance.kexin; G.flags.ROMANCE_HISTORY=(G.flags.ROMANCE_HISTORY||[]).filter(r=>r&&r.id!=='kexin');
+                for(const id of ['heroine_03','heroine_01']){ const r=SOCIAL.rel(id); r.fam=Math.max(r.fam||0,65); r.trust=Math.max(r.trust||0,50); r.comf=Math.max(r.comf||0,45); if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,'noodle'); try{ ROM.start(G,id); }catch(e){} }
+                const R=MREL.rec(G); if(R.pend) delete R.pend.heroine_03; if(R.cpend) delete R.cpend.heroine_03; if(G.flags.PRIVWAIT) for(const w in G.flags.PRIVWAIT) if(w.indexOf('|heroine_03')>=0) delete G.flags.PRIVWAIT[w];
+                const y=MREL.confLaterFor(G,'heroine_03'); return {partners:ROM.partners(G), later:y?MREL.confLaterOpt(G,'heroine_03',y):null}; })()""", label='和以安、語彤都交往中（ytTwo 同一套）；沒有待演的發現；清掉語彤的 PRIVWAIT')
+            later = pr.get('later') if isinstance(pr, dict) else None
+            run.check('前置：tell_later 的選項有字（MREL.confLaterOpt）', bool(later), J(pr))
+            if MODE == 'aunt6x':
+                await pg.evaluate("(()=>{ if(window.__BBX) return; window.__BBX=1; STORY.COMPANY.push((G,id)=>id==='heroine_03'?['npc_huangxh']:null); })()")
+                run.setup('[捷徑] STORY.COMPANY 加一筆：語彤旁邊多一個同伴（筱涵 npc_huangxh）')
+            await pg.evaluate(DL)
+            door = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it&&[it.x,it.z,it.label]; })()")
+            await P.events_on(pg)
+            await L.go_to(pg, cdp, run, door[0], door[1], 0.9, door[2] or '麵店的門', max_s=240)
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(6000)
+            z = await pg.evaluate("GAME.G.zone"); run.check('走進麵店', z == 'noodle', str(z))
+            s0 = await pg.evaluate(STATE, YT); who = await pg.evaluate("(()=>{ const n=__BBF.npc('heroine_03'); return n?STORY.companyOf(GAME.G,'heroine_03',n,GAME):null; })()")
+            run.note('麵店裡：%s；companyOf %s' % (J(s0), J(who)))
+            if MODE == 'aunt6':
+                run.check('前置：語彤旁邊只有阿姨（withNow／companyOf＝hc_ayi）', bool(who) and set(who) <= {'hc_ayi'} and 'hc_ayi' in who, J({'withNow': s0['withNow'], 'company': who}))
+            else:
+                run.check('前置：語彤旁邊有阿姨以外的同伴（companyOf 有 npc_huangxh）', bool(who) and 'npc_huangxh' in who, J(who))
+            r, dl = await talk(pg, cdp, run, MODE, picks=['就這樣', '不用了', '先不'])
+            flat = [o for os_ in (r or {}).get('opts', []) for o in os_]
+            inv = any(o.startswith('約她去') for o in flat); tl = bool(later) and later in flat
+            s1 = await pg.evaluate(STATE, YT); run.note('說完：%s' % J(s1))
+            if MODE == 'aunt6':
+                run.check('第 6 點：只有阿姨在＝選單有「約她去…」', inv, J(r and r.get('opts')))
+                run.check('第 6 點：只有阿姨在＝選單有 tell_later「%s」' % later, tl, J(r and r.get('opts')))
+            else:
+                run.check('第 6 點：旁邊有別的同伴＝「約她去…」不出', bool(r and r.get('started')) and not inv, J(r and r.get('opts')))
+                run.check('第 6 點：旁邊有別的同伴＝tell_later 不出', bool(r and r.get('started')) and not tl, J(r and r.get('opts')))
+            await run.shot(pg, MODE + '_end')
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
