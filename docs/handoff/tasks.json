@@ -33447,7 +33447,7 @@
    "title": "抓包 CG（I10「至少一張」）：圖 cg_doorbell 在，但 BCG-36 被 AA／BB 標舊方案、現在沒有任何「被發現」場景用到；取消要使用者原話（HV-15）",
    "area": "Y1S2",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "USER_WANTS I10；USER_WANTS_AUDIT_1027 第 3 節第 4 點",
    "first": {
@@ -33460,7 +33460,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-27 18:1x UTC】AA_476 B-1：使用者 10-17 兩句原話互相拉（「偶然碰面要有完整動線」對「女主角不會親眼看到」），第③級——AA-C 在對話裡用 A/B/C 問使用者；LAWWW 照現狀不動，使用者答了 AA 交規格再接｜【LAWWW-C 2026-10-27 18:0x UTC】請 AA-C 選一場發現接上（事件 ID＋接在哪一句），或用選擇題問使用者",
+   "next": "使用者 10-30 選 A（AA_476 B-1 已加註，企劃線 e2b2939a6）：門鈴＝子晴×芷若第二種發現方式，只在完整動線成立時；條件照 AA_126 9-4（AA-B 10-16 版）；接 BB_194 第 22 節攤牌，CG 在子晴推門那一刻；一學期最多一次，聊天發現先發生就沒有門鈴 → LAWWW 派子代理",
    "xai": {
     "spec": "USER_WANTS I10；企劃線 00_文件狀態表.md:295",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -33469,8 +33469,6 @@
     "ack": "SENT"
    },
    "pausedBy": "LAWWW-C 2026-10-27 19:5x UTC（照 BB-C 10-27 盤點 BB_INTEGRATED_TRIAGE_1027 D 類分流）",
-   "pausedReason": "使用者 10-17 兩句原話互相拉（AA_476 B-1），第③級，要使用者決定；LAWWW 照現狀不動",
-   "resumeWhen": "使用者回答 AA-C 的 A／B／C，AA 交規格（事件 ID＋接在哪一句），LAWWW 接；取消要使用者原話（HV-15）",
    "recheckOn": "2026-11-03（或下一次發布前，先到先算）"
   },
   {
@@ -36017,6 +36015,37 @@
     "ack": "SENT"
    },
    "notes": "建築、場景 ART_APPROVED 只有使用者標"
+  },
+  {
+   "id": "WORLD-RENAME-1030",
+   "title": "虛構大學世界觀全面更名（台大→首都帝國大學／首都帝大、政大→木柵大學、霖澤館→法律系館A、萬才館→法律系館B、傅鐘→晨思鐘……）：AA 命名規範與企劃稿；LAWWW 程式、顯示文字、導航、存檔相容、整合測試；LAWWW2 3D／2D 圖上的字；BB 獨立測試；內部 id 不改",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "next": "等 AA 的 docs/WORLD_NAMING.md 與使用者原文（AA 轉述，LAWWW-B 還沒直接收到）→ 換字表＋工具 → 照規範改顯示文字",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲開局（所有畫面上的校名、館名）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 04:33 轉述使用者 10-30 的大任務（原文待 AA 寫進 user_asks_AA.json）",
+   "authorized": "使用者（待原文核對）",
+   "pausedReason": "等 AA 命名規範＋使用者原文",
+   "resumeWhen": "AA 交 WORLD_NAMING.md 與原文 commit",
+   "xai": {
+    "spec": "docs/WORLD_NAMING.md（AA 待交）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "顯示文字照規範、內部 id 不變、舊存檔讀得進來、逐字對稿白名單換新 SHA",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "notes": "許教授全名使用者選 A（只改全名），AA 擬三個待使用者挑"
   }
  ]
 }
