@@ -208,19 +208,43 @@ NDLDIAG = """(T=>{ const G=GAME.G, o={}; const f=(k,fn)=>{ try{ o[k]=fn(); }catc
   f('evRunning',()=>!!(typeof EVENTS!=='undefined'&&EVENTS.running)); f('n',()=>(G.flags.ndlTalkN||null)); return o; })"""
 
 
+NDLREAD = """(T=>{ const G=GAME.G, E=GAME.E, o={}; const f=(k,fn)=>{ try{ o[k]=fn(); }catch(e){ o[k]='err:'+e.message; } };   // LAWWW-B 13:14 要的讀數：麵店團為什麼沒生出來
+  const P=x=>x==null||['string','number','boolean'].includes(typeof x);
+  const flat=v=>{ if(P(v)) return v; const r={}; for(const k of Object.keys(v)){ const x=v[k]; if(P(x)) r[k]=x; else if(Array.isArray(x)) r[k]=x.length<=6&&x.every(P)?x:'[陣列 '+x.length+']'; else if(typeof x==='object') r[k]=Object.fromEntries(Object.entries(x).filter(([a,b])=>P(b)).slice(0,12)); } return r; };
+  f('h',()=>+(+G.hour).toFixed(2)); f('zone',()=>G.zone);
+  f('schedEnt',()=>T.map(id=>[id, flat(STORY.schedEnt(CHARACTERS[id],G))]));
+  f('seats',()=>E.zone.seats.length);
+  f('seated',()=>E.npcs.filter(n=>n.seat||n.seatTarget).map(n=>[n.id||n.charId||n.name||null,+(n.seat||n.seatTarget).x.toFixed(2),+(n.seat||n.seatTarget).z.toFixed(2),n.seat?'seat':'seatTarget']));
+  f('npcKeys',()=>Object.keys(GAME.npc||{}));
+  f('npcs',()=>E.npcs.map(n=>[n.id||n.charId||n.name||null,n.hidden?'hidden':'',n.seat?'seat':'']));
+  return o; })"""
+NDLR = bool(os.environ.get('NDLREAD'))
+
 async def noodle(pg, cdp, run):
     st, d = await P.base(pg, SAVE, '2025-09-30', 17.9, 'gongguan'); await P.load(pg, cdp, st, quiet=False)
     run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）17:54 公館' % (d['key'], d['term'], d['week']))
     await P.prep(pg, cdp, run, """(T=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); for(const id of T.concat(['heroine_03','heroine_01'])){ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); } G.flags.met_yu=true;
         return {inGroup:PHONE.inGroup(G,'noodle_team'), noodleDay:STORY.noodleDay(G.day)}; })(%s)""" % J(TEAM), quiet=False, label='加入麵店團、認識阿哲、Alison、柏翰、芯慈')
     snap = await P.snapshot(pg)
-    for tag, key, hh, want in (('0930', '2025-09-30', 17.9, 'first'), ('1002', '2025-10-02', 17.9, 'yutong'), ('1007', '2025-10-07', 17.9, True), ('1009_2040', '2025-10-09', 20.6, False), ('1014', '2025-10-14', 17.9, True)):   # 10/14：dd8b216c0 以後再看一次沒有別的事件的麵店日   # 10/2 有語彤的事件（閒聊讓給它，一天一件）；10/7 才看長桌閒聊   # 9/30 第一次＝麵店團成團事件先演（ndlOtherDue），長桌閒聊看下一個麵店日
-        if tag != '0930': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=None, quiet=False)   # 同一份進度（演過的事件留著）
-        it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
-        if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
-        n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day")
-        ok = await door_to(pg, cdp, run, 'noodle', tag)
+    for tag, key, hh, want in (('0930', '2025-09-30', 17.9, 'first'), ('1002', '2025-10-02', 17.9, 'yutong'), ('1007', '2025-10-07', 17.9, True), ('1009_2040', '2025-10-09', 20.6, False), ('1014', '2025-10-14', 17.9, True)) + ((('1016_early', '2025-10-16', 17.3, 'early'), ('1021_load', '2025-10-21', 18.0, 'load')) if NDLR else ()):   # NDLREAD：17:20 從門口走進去等到 18:00、18:00 直接讀檔在店裡   # 10/14：dd8b216c0 以後再看一次沒有別的事件的麵店日   # 10/2 有語彤的事件（閒聊讓給它，一天一件）；10/7 才看長桌閒聊   # 9/30 第一次＝麵店團成團事件先演（ndlOtherDue），長桌閒聊看下一個麵店日
+        if want == 'load':
+            await P.jump(pg, cdp, run, key, hh, zone='noodle', pos=None, snap=None, quiet=False, note='直接讀檔在麵店裡（出生點）')
+            n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day"); ok = True
+        else:
+            if tag != '0930': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=None, quiet=False)   # 同一份進度（演過的事件留著）
+            it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
+            if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
+            n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day")
+            ok = await door_to(pg, cdp, run, 'noodle', tag)
         await pg.wait_for_timeout(1500); pres0 = await pg.evaluate(PRESENT); await run.shot(pg, 'noodle_%s_in' % tag)
+        if NDLR:
+            run.note('%s 讀數（進門／讀檔後 1.5 秒）：%s' % (tag, J(await pg.evaluate(NDLREAD, TEAM))))
+            await pg.wait_for_timeout(20000); run.note('%s 讀數（再 20 秒）：%s' % (tag, J(await pg.evaluate(NDLREAD, TEAM))))
+        if want == 'early':
+            w = await P.wait_play(pg, cdp, 18.05, max_s=600, run=run, tag=tag); pres0 = await pg.evaluate(PRESENT)
+            run.note('%s 17:20 進店站到 18:03（%s）讀數：%s' % (tag, w, J(await pg.evaluate(NDLREAD, TEAM)))); await run.shot(pg, 'noodle_%s_1800' % tag)
+            want = True
+        elif want == 'load': want = True
         diag = await pg.evaluate(NDLDIAG, TEAM); run.note('%s 進門後閒聊條件：%s' % (tag, J(diag)))
         talk_pres = None; t0 = time.time(); talked = False
         while time.time() - t0 < 60:
