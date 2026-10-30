@@ -106,7 +106,7 @@ const POSTGRAD_LINES=(function(){
       fit:['heroine_05','……你怎麼知道。']},
     loverKevin:[[KEVIN,'我們先走了！學弟，蛋糕交給你。']],
     lover:[['heroine_05','……許願要說出來嗎？'],{cg:'cg_this_time_heroine05'},['heroine_05','……不說。這次不排。']],   /* BCG-39 在她閉眼許願那一拍（2026-10-20 登錄：assets/cg/heroine_05/cg_no_plan.webp，企劃線 cg_approved/cg_no_plan_heroine05.webp）*/
-    loverOpts:[{t:'「修正本我陪妳改。」',say:[['heroine_05','今天不改了。明天再說。']]},{t:'「那我也不問。」',say:[['heroine_05','嗯。'],['heroine_05','……可是你可以猜。猜對了我不會說。']]},{t:'（陪她坐著）',say:[[null,'（她把檯燈轉暗一格。蠟燭燒完以前，你們都沒有說話。）']]}],
+    loverOpts:[{t:'「修正本我陪妳改。」',set:{SIS16_REV_PROMISE:true},say:[['heroine_05','今天不改了。明天再說。']]},{t:'「那我也不問。」',say:[['heroine_05','嗯。'],['heroine_05','……可是你可以猜。猜對了我不會說。']]},{t:'（陪她坐著）',say:[[null,'（她把檯燈轉暗一格。蠟燭燒完以前，你們都沒有說話。）']]}],   /* AA_523 1-5（企劃線 0d7b5388b）：選「修正本我陪妳改。」記 SIS16_REV_PROMISE＝6/4 21:00 她私訊、6/5 19:00 研究室（src/sis_b16_3d.js）*/
     exOpts:['傳一句生日快樂','不傳'], exSend:'生日快樂。', exReply:['謝謝。','今天畢業，恭喜你。'],   /* AA_473 第 1 節：中午已經私訊恭喜（THERMOS.ex）的只回第一句「謝謝。」（postgrad3d.js S.rules）*/
     thanks:'謝謝大家。' },   /* 沒去的玩家：第二天家族群組只有她一句 */
   /* 交換延畢（日本、美國路線：2029 年 6 月不畢業，2030 年 1 月才拿證書；postgrad3d.js 的 S.delayed）：6/2 一樣去典禮、穿學士服拍照，大家不說「畢業」（AA_381 第 1 節，企劃線 d14a0388；GRADUATED 旗標照舊，只換字）。

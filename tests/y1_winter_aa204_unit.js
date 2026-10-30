@@ -1,4 +1,5 @@
 // AA_204 大一寒假（27711a39）：12/26 阿哲揪跨年、海邊；12/29 海邊一日遊；跨年四段（麵店、管制線、頂樓、群組）＋交往中（以安跑步、語彤電話）；返鄉回臺北訊息；ZHE_SNACK_Y1——不需要瀏覽器。用法：node tests/y1_winter_aa204_unit.js
+// （2026-10-28 AA_519 1-1（企劃線 d75cd0228，NPC-STORY2-1028）：跨年麵店那一句旁白的「老闆娘」改「阿姨」（不再用「老闆娘」）——第 3 項照新字查、「老闆娘」不在）
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -50,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   G.day=nye; G.hour=12; STORY.phoneRules(GM); const q=OUT.get(G,'nye');
   check('3. 「我去」＝19:00 麵店（ev_nye_dinner）',!!q&&q.ev==='ev_nye_dinner'&&q.h===19);
   G.hour=19; said=[]; picks=[0,0]; await EVENTS.run(ev('ev_nye_dinner')); L=lines();
-  check('3. 麵店→「（九點半，芯慈先站起來。）」→ 一起去 → 以安（不到 FRIEND）先回宿舍 → 管制線旁白（不認識明軒）→ 頂樓 →「……我們就說有看到」',L.some(t=>t.includes('老闆娘把門口那張桌子也搬了進來'))&&L.includes('（九點半，芯慈先站起來。）')&&L.some(t=>t.includes('我先回宿舍了。新年快樂。'))&&L.includes('（前面的人說，再過去要排一個小時。）')&&!L.some(t=>t.includes('明軒'))&&L.some(t=>t.includes('……我們就說有看到'))&&G.flags.NYE_Y1==='roof',JSON.stringify(L));
+  check('3. 麵店→「（九點半，芯慈先站起來。）」→ 一起去 → 以安（不到 FRIEND）先回宿舍 → 管制線旁白（不認識明軒）→ 頂樓 →「……我們就說有看到」',L.some(t=>/阿姨(（阿鳳）)?把門口那張桌子也搬了進來/.test(t))&&!L.some(t=>t.includes('老闆娘'))&&L.includes('（九點半，芯慈先站起來。）')&&L.some(t=>t.includes('我先回宿舍了。新年快樂。'))&&L.includes('（前面的人說，再過去要排一個小時。）')&&!L.some(t=>t.includes('明軒'))&&L.some(t=>t.includes('……我們就說有看到'))&&G.flags.NYE_Y1==='roof',JSON.stringify(L));
   check('3. 頂樓：以安不在（不到 FRIEND）＝沒有她的「新年快樂。」',!L.some(t=>/沈以安：新年快樂/.test(t)));
   G.hour=24.3; STORY.phoneRules(GM); PHONE.tick(G);
   check('3. 00:12 群組：Alison「上半截的煙火🎆」；00:05 芯慈「新年快樂。我在家看電視倒數。」；以安沒上頂樓＝私訊「新年快樂。」',txt('g:noodle_team').includes('yu:上半截的煙火🎆')&&txt('g:noodle_team').includes('classmate_xinci:新年快樂。我在家看電視倒數。')&&txt('p:heroine_01').includes('heroine_01:新年快樂。'));

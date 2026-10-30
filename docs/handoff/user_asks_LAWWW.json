@@ -1438,6 +1438,193 @@
    "kind": "原話",
    "status": "進行中",
    "task": "TAKEOVER-B-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-02",
+   "at": "2026-10-30T02:1x",
+   "quote": "你上次也是來不及交班由C交班 你上次有什麼做到一半的東西? 另一個帳號重複做了嗎 你查一下 也請其他AI查一下",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "TAKEOVER-B-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-03",
+   "at": "2026-10-30T02:2x",
+   "quote": "接下來你自己安排有什麼規劃要做還沒做的 主動安排你自己和其他AI的工作 我會有好一陣子不看你們在幹嘛",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "task": "TAKEOVER-B-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-04",
+   "at": "2026-10-30T03:0x",
+   "quote": "（AI解讀）使用者 02:2x「接下來你自己安排有什麼規劃要做還沒做的 主動安排你自己和其他AI的工作」＝恢復 LAWWW-C 時暫停、等「使用者說要繼續」的 ACCEPTSOPEN-C-1027 第二輪（aopen-1027 f642d440f）與 LANE118-SHOP-STORY-1020 第二輪（l118story-1027 44d3800fb）",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "delegatedBy": "UA-LAWWW-1030-03",
+   "status": "進行中",
+   "task": "TAKEOVER-B-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-05",
+   "at": "2026-10-30T03:5x",
+   "quote": "新增的快速存檔 要在哪裡找到? 看起來沒有存在存檔欄位1-3 是在自動存檔那個嗎 → 選擇題：「獨立快速存檔格（建議）」",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X126"
+  },
+  {
+   "id": "UA-LAWWW-1030-06",
+   "at": "2026-10-30T04:0x",
+   "quote": "你現在放到自動存檔 我重新開遊戲 就被第一天蓋掉了 完全讀不到",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X127",
+   "task": "BUG-SAVE-NEWGAME-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-07",
+   "at": "2026-10-30T04:2x",
+   "quote": "npc要離開一個空間都會卡在門口一直行走 很白癡",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X129",
+   "task": "NPC-STALL-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-08",
+   "at": "2026-10-30T04:2x",
+   "quote": "學姊也不能約她 其他活動 請幫我檢查統一每個可供略腳色約她的選項要更多 如果太多就分階層",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X130",
+   "task": "INVITE-OPTS-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-09",
+   "at": "2026-10-30T04:3x",
+   "quote": "去阿鳳麵店 出現麵店團的人 對話 但根本沒有在遊戲內出現（附存檔 fatiao3d_save_day28_1.json：day 28 21:30 在麵店）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X131",
+   "task": "NDL-PRESENT-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-10",
+   "at": "2026-10-30T04:4x",
+   "quote": "2點半咖啡看出去窗景 進門那個方向 還是非動態 很像貼一張圖",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X132",
+   "task": "CAFE-WINDOW-LIVE-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-11",
+   "at": "2026-10-30T04:4x",
+   "quote": "請依照台大校內地圖 規劃 總圖前草皮",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X133",
+   "task": "LIB-LAWN-PLAN-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-12",
+   "at": "2026-10-30T04:4x",
+   "quote": "慢讀咖啡為什麼不能念書 也沒有NPC去念書 也不能約NPC",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X134",
+   "task": "L118-CAFE2-STUDY-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-13",
+   "at": "2026-10-30T04:5x",
+   "quote": "羽球影片超白癡 沈以安 直接跑到我面前 沒有隔著網子打（附存檔 fatiao3d_save_day29.json：day 29 18:27 新體育館，和以安約羽球、一起走過去）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X135",
+   "task": "BADCLIP-FOLLOW-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-14",
+   "at": "2026-10-30T04:5x",
+   "quote": "有些朋友可以看他在哪直接過去 有些只能導航 請統一 都能選 直接過去",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X136",
+   "task": "PHONE-UNIFY-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-15",
+   "at": "2026-10-30T04:5x",
+   "quote": "很多女生腳色都不能在訊息頁面傳訊息!!!!!!講很多次了 請統一",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X137",
+   "task": "PHONE-UNIFY-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-16",
+   "at": "2026-10-30T05:0x",
+   "quote": "（選擇題）AA 轉述的虛構大學全面更名要不要照 docs/WORLD_NAMING.md 改遊戲畫面上的名字 → 「Yes, change them (Recommended)」：v9.10.14 發布、這一批修正合完以後改，存檔相容",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X138",
+   "task": "WORLD-RENAME-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-17",
+   "at": "2026-10-30T05:0x",
+   "quote": "芯慈可攻略 但要很難達成 請AA規劃",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X139",
+   "task": "XINCI-ROMANCE-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-18",
+   "at": "2026-10-30T05:1x",
+   "quote": "去經濟系辦拿東西 怎麼說我轉系 我是重考欸",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X140",
+   "task": "SK02-LINE-JACKET-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-19",
+   "at": "2026-10-30T05:1x",
+   "quote": "我選了穿去霖澤上課 結果我的衣服在遊戲裡面也沒換",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X140",
+   "task": "SK02-LINE-JACKET-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-20",
+   "at": "2026-10-30T05:1x",
+   "quote": "經濟系以前的同學 要能夠在社科院圖書館遇到吧",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X141",
+   "task": "ECON-FRIENDS-SOCLIB-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-21",
+   "at": "2026-10-30T05:2x",
+   "quote": "系藍練團時間到 根本球場空的（附存檔 fatiao3d_save_day30_1.json：2025-10-16 週四 17:45 籃球場邊）",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X142",
+   "task": "BBALL-PRESENT-1030"
+  },
+  {
+   "id": "UA-LAWWW-1030-22",
+   "at": "2026-10-30T05:2x",
+   "quote": "教室 應該在地圖顯示 例如普通 101 要能從地圖看的出來 往哪邊是哪間教室 其他教學樓也依樣",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X143",
+   "task": "ROOM-MAP-LABELS-1030"
   }
  ]
 }

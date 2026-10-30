@@ -40,11 +40,24 @@ const EAT=(function(){
     if(key==='公館的便利商店'){ try{ if(typeof JOBS!=='undefined'&&JOBS.at&&JOBS.at(G,'cvs')) return null; }catch(e){} }
     return T; };
   S.count=function(G,key){ const R=S.rec(G); return (R.n[key]|0)+(key==='兩點半 Café'?(+flags(G).CAFE_VISITS||0):0); };   /* Café：芷若在班時點的（CAFE_VISITS）也算 */
-  /* 店員的名字：表上的 who 去掉括號。兩點半 Café 2027-06-04 起芷若不在班的時候是學妹小婷（6/3 是芷若最後一個班，AA_375 第 1 項；牆上班表 B 版「晚上那幾格，換成了小婷的名字」）*/
-  S.staffName=function(G,key,t){ if(key==='兩點半 Café'&&G&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d=STORY.dayOfKey('2027-06-04'); if(d!=null&&G.day>=d) return '小婷'; } return String((t&&t.who)||'店員').replace(/（.*?）/g,''); };
+  /* 店員的名字：表上的 who 去掉括號。兩點半 Café 2027-06-04 起（6/3 是芷若最後一個班，AA_375 第 1 項）照班表：
+     芷若原本的班站櫃台的是學妹小婷（牆上班表 B 版「晚上那幾格，換成了小婷的名字」），其他時間是老闆——誰站櫃台，誰說點餐那兩句
+     （AA_519 第 9 節第 3 點，企劃線 169130daf；字在 src/sup519_3d.js S.staffOnX、3D 的店員 SUP519.clerkSpec 讀同一個 S.cafeXt）。原本 6/4 起一律小婷 */
+  S.CAFE_XT_FROM='2027-06-04';
+  /* 芷若原本的班：她作息裡 barista 的那幾格（沒有限定日期、學期的兩筆：週一到週五 19:00～22:00、週一三五 11:00～15:00）。只看星期幾、幾點——她人在不在、那一天有沒有上班都一樣
+     （大三下只排週三、四晚上那一筆是她回來以後少排的、大一上週五下午那一筆只在大一上，都不算）*/
+  S.zrSlot=function(G){ if(!G) return false; const C=typeof CHARACTERS!=='undefined'&&CHARACTERS?CHARACTERS.heroine_02:null, L=(C&&C.daily_schedule)||[];
+    const wd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day).wd%7:G.weekday, h=(((+G.hour||0)%24)+24)%24;
+    return L.some(e=>!!e&&e.act==='barista'&&e.zone==='cafe'&&!e.dates&&!e.terms&&Array.isArray(e.days)&&e.days.includes(wd)&&h>=e.from&&h<e.to); };
+  /* 現在站 Café 櫃台的是小婷嗎（2027-06-04 起、芷若原本的班）*/
+  S.cafeXt=function(G){ if(!G||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d=STORY.dayOfKey(S.CAFE_XT_FROM); return d!=null&&G.day>=d&&S.zrSlot(G); };
+  S.staffName=function(G,key,t){ if(key==='兩點半 Café'&&S.cafeXt(G)) return '小婷'; return String((t&&t.who)||'店員').replace(/（.*?）/g,''); };
   const who=(t,G,key)=>({name:S.staffName(G,key,t)});
   /* 阿鳳麵店：語彤在顧店（作息 act:'help'）＝第 5 次那一句換她說 */
   S.yutongMinding=function(GM){ const G=GM.G, n=GM.npc&&GM.npc.heroine_03; if(!n||n.leaving||G.zone!=='noodle'||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS.heroine_03,G); return !!(e&&e.zone==='noodle'&&e.act==='help'); };
+  /* 店員（阿姨）現在不在店裡：阿鳳麵店語彤在顧店、阿姨不在（廚房那位就是阿姨，PRIV-AUNT-1028 第二輪；AA_503 第 14 節後補第 8 點，企劃線 f6069e42d：src/hcircle3d.js HCIRCLE.auntOut）——
+     阿姨說的那幾句不說（老樣子那一句；第 5 次那一句語彤在顧店本來就換她說）。沒有 HCIRCLE＝照舊 */
+  S.staffAway=function(GM,key){ return key==='阿鳳麵店'&&typeof HCIRCLE!=='undefined'&&!!HCIRCLE&&typeof HCIRCLE.auntOut==='function'&&!!HCIRCLE.auntOut(GM,'noodle'); };
   const HEAT=item=>/微波/.test(item);   /* 便利商店要加熱的（現在只有微波義大利麵）*/
   S.ALT_TEST={'沒加熱':item=>!HEAT(item)};   /* 表上的「點全熟」「點小碗」不做（AA_336 A1：沒有大碗小碗、全熟半熟的點餐步驟，老樣子用主句）*/
   S.sameLine=function(T,last){ const a=T.alt, f=a&&S.ALT_TEST[a.when]; return f&&f(String(last||''))?a.t:T.same; };
@@ -58,7 +71,7 @@ const EAT=(function(){
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
-    if(k===names.length){ const t=S.sameLine(T,last); if(t) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說 */
+    if(k===names.length){ const t=S.sameLine(T,last); if(t&&!S.staffAway(GM,key)) await GM.say(who(T,G,key),t); return same; }   /* 沒有回答＝不說；阿姨不在店裡（麵店語彤在顧店、阿姨去買東西）＝不說 */
     return k>names.length?k-1:k; };
   /* 沒有經過 S.choose 就點了（118 巷熟客「老樣子」選「好」，lane118.js）：點餐那一刻照樣記下來，「一起吃」照那一刻判斷 */
   S.atNow=function(G,key){ S._at={key,day:G.day,hour:G.hour}; };

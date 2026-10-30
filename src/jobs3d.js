@@ -136,7 +136,8 @@ const JOBS=(function(){
     if(pre) await S.play(GM,[pre]); if(L){ await say(GM,L.line[0],L.line[1]);
       G.flags[S.ITEM_FLAG[L.item]]=G.day; if(GM.toast){ const r=D().room[L.item]; if(r) GM.toast('（'+r[0]+'）',2800); } }
     j.gone=why||'quit'; j.quit=G.day; j.pendLeave=false; j.left=G.day; if(GM.autosave) GM.autosave(); return true; };
-  S.quit=async function(GM,k){ await S.leave(GM,k,'quit',[shop(k).boss,D().quitLine]); };
+  S.quitLine=k=>(D().quitLines&&D().quitLines[k])||D().quitLine;   /* Café 的離職那一句（AA_519 3-2）*/
+  S.quit=async function(GM,k){ await S.leave(GM,k,'quit',[shop(k).boss,S.quitLine(k)]); };
 
   // ---------- 一班 ----------
   S.SHIFT_EV=[];      /* 事件：async fn(GM,k,n,ctx)（三段工作之後、薪水之前；四條故事線，src/wzlines3d.js）*/
@@ -197,7 +198,9 @@ const JOBS=(function(){
      → 她在班上的一句（Café 打烊之後＝芷若、書店整理書架之後＝沛珊，輪流）→ 小事件（at:'end'）→ 書店「（你借了一本書回去。）」→ 薪水 784（toast）。
      小事件：第一班演第一件，之後每上兩班演下一件（j.xev＝{done:[id], at:第幾班}）；那一件要的人不在＝等下一個她在的班（沛珊 2026-12-16 以後不會再來：藍色的書跳過）。
      誰在班上：芷若＝Café 兩個班都在，2027-06-04～2028-02（她最後一個班到英國回來，AA_369、AA_431 2-1）、2028-09 以後不在；沛珊＝書店週六的班，到 2026-12-16。
-     沒寫的照沒有：上週沒去那一句、放假的私訊、出國回來那一段、離開的時候（辭職照 AA_289「有空回來看看」）。國定假日不加倍（AA_431：四小時 784 元）*/
+     沒寫的照沒有：上週沒去那一句、放假的私訊、出國回來那一段、離開的時候（辭職照 AA_289「有空回來看看」）。國定假日不加倍（AA_431：四小時 784 元）。
+     AA_519 3-2（企劃線 d75cd0228）：Café 補上第一班（D().first.cafe，第一班開始）、沒去（x.cafe.miss，下一班開始）、放假（D().brk.cafe.dm：放假第一天 12:00 一則私訊，這個假照舊先停）、
+     出國回來（D().back.cafe；「先不了。」＝離職那一句）、離職（D().quitLines.cafe）；打工第 4 班以後打烊時一次的拉花（src/sup519_3d.js，S.SHIFT_EV，CAFE_LATTE_TRY）*/
   S.withOn=function(G,k,d){ const X=D().x&&D().x[k]; if(!X||!X.with) return false;
     if(X.with==='zr'){ const a=DK('2027-06-04'), b=DK('2028-02-29'), c=DK('2028-09-01'); if(a!=null&&d>=a&&d<=b) return false; if(c!=null&&d>=c) return false; return true; }
     if(X.with==='ps'){ const e=DK('2026-12-16'); return wdOf(d)===6&&(e==null||d<=e); } return false; };
@@ -216,6 +219,8 @@ const JOBS=(function(){
       if(G.hour<H0[0]){ if(GM.fade) await GM.fade(true); GM.advance(H0[0]-G.hour); if(GM.fade) await GM.fade(false); }
       const end=T(d,H0[1]), seg=Math.max(0,(end-now(G))/3);
       if(k==='books'){ const e1=DK('2026-12-16'); if(wdOf(d)===6&&wth) j.psSeen=d; else if(wdOf(d)===6&&e1!=null&&d>e1&&j.psSeen!=null&&!j.psGone){ j.psGone=d; await say(GM,X.gone[0],X.gone[1]); } }
+      if(n===1&&D().first&&D().first[k]) await S.play(GM,D().first[k]);   /* 第一班（Café：AA_519 3-2）*/
+      if(j.missPend&&X.miss){ await S.play(GM,X.miss[(j.missN|0)%X.miss.length]); j.missN=(j.missN|0)+1; }   /* 上次沒去（Café：AA_519 3-2）*/
       const ev=S.xEvent(G,k,j,n,d), E=j.xev; const playEv=async()=>{ E.done.push(ev.id); E.at=n; await S.play(GM,ev.lines); };
       if(ev&&ev.at==='start') await playEv();
       for(let i=0;i<X.segs.length;i++){ const sg=X.segs[i]; await say(GM,null,(j.skill|0)>=5?sg.exp:sg.nov);
@@ -335,9 +340,10 @@ const JOBS=(function(){
       const contact=(j.shifts|0)>=1;
       const b=S.breakAt(G,G.day); if(b&&!j.back&&!S.away(G,G.day)&&j.brk[b.key]==null){
         if(!contact) j.brk[b.key]='stop';   /* 還沒有聯絡方式：這個假先停 */
-        else if(!D().brk[k]) j.brk[b.key]='stop';   /* Café、書店：放假的私訊沒有寫（AA_431）＝這個假先停 */
+        else if(!D().brk[k]) j.brk[b.key]='stop';   /* 書店、便利商店：放假的私訊沒有寫（AA_431）＝這個假先停 */
+        else if(D().brk[k].dm){ j.brk[b.key]='stop'; const tag='jobbrk_'+k+'_'+b.key; if(!PHONE.sent(G,tag)) PHONE.at(G,b.from,12,[{th,from:id,text:D().brk[k].dm}],tag); }   /* Café（AA_519 3-2）：老闆只有一句、不問來不來＝這個假照舊先停 */
         else { const tag='jobbrk_'+k+'_'+b.key, B=D().brk[k]; if(!PHONE.sent(G,tag)) PHONE.at(G,b.from,12,[{th,from:id,text:B.ask,ask:{id:tag,until:T(b.to+1,0),opts:[{t:'來。',say:[{th,from:id,text:B.go}],set:{['WZJOB_BRK_'+k]:b.key+':go'}},{t:'放假先停。',say:[{th,from:id,text:B.stop}],set:{['WZJOB_BRK_'+k]:b.key+':stop'}}]}}],tag); } }
-      if(j.ask3&&contact&&!j.back){ j.ask3=false; const tag='job3_'+k+'_'+G.day; PHONE.at(G,G.day,Math.max(G.hour,12),[{th,from:id,text:D().stillAsk,ask:{id:tag,opts:[{t:'（繼續做）',post:false},{t:'（辭職）',post:false,say:[{th,from:id,text:D().quitLine}],set:{['WZJOB_QUIT_'+k]:G.day}}]}}],tag); } } };
+      if(j.ask3&&contact&&!j.back){ j.ask3=false; const tag='job3_'+k+'_'+G.day; PHONE.at(G,G.day,Math.max(G.hour,12),[{th,from:id,text:D().stillAsk,ask:{id:tag,opts:[{t:'（繼續做）',post:false},{t:'（辭職）',post:false,say:[{th,from:id,text:S.quitLine(k)}],set:{['WZJOB_QUIT_'+k]:G.day}}]}}],tag); } } };
 
   // ---------- 走進店裡：出國回來那一句、當面問「還要做嗎？」、私訊辭職的離開 ----------
   S.ENTER=[];   /* 事件包：{due(G,k)→true＝要演, run:async (GM,k)}（例：線一 1-5 結果、線二 2-6 搬走以後蘇姨那一句）*/
@@ -348,7 +354,7 @@ const JOBS=(function(){
     if(j&&!j.gone&&j.back&&!D().back[k]){ j.back=false; return false; }   /* Café、書店：出國回來沒有寫那一段＝照原本的班表 */
     if(j&&!j.gone&&j.back){ const B=D().back[k]; let c=1; GM.sceneBegin(); try{ await S.play(GM,B.lines); c=await GM.choose([{t:'「回來做。」'},{t:'「先不了。」'}]); } finally { GM.sceneEnd(); }
       if(c===0){ j.back=false; GM.sceneBegin(); try{ if(!await S.apply(GM,k)){ j.day=[]; } } finally { GM.sceneEnd(); } }
-      else { j.back=false; GM.sceneBegin(); try{ await S.leave(GM,k,'quit',B.no); } finally { GM.sceneEnd(); } }
+      else { j.back=false; GM.sceneBegin(); try{ await S.leave(GM,k,'quit',B.no||[shop(k).boss,S.quitLine(k)]); } finally { GM.sceneEnd(); } }   /* Café 沒有另外的一句：離職那一句（AA_519 3-2）*/
       return true; }
     if(j&&!j.gone&&j.ask3&&(j.shifts|0)===0){ j.ask3=false; let c=0; GM.sceneBegin(); try{ await say(GM,shop(k).boss,D().stillAsk); c=await GM.choose([{t:'（繼續做）'},{t:'（辭職）'}]); if(c===1) await S.quit(GM,k); } finally { GM.sceneEnd(); } return true; }
     for(const e of S.ENTER){ try{ if(e.due(G,k)){ await e.run(GM,k); return true; } }catch(err){ console.warn('JOBS.ENTER',err); } }

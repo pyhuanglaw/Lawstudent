@@ -153,7 +153,8 @@ const MREL=(function(){
     C.recent=()=>{ const d=S.lastMeet(G,x); return !!y&&d>=G.day-7&&d>=S.sinceDay(G,y); };   /* {最近一次}（BB_194 13-1）*/
     C.lastWeek=()=>{ const d=S.lastMeet(G,x), wd=(wdOf(G.day)+6)%7; return !!y&&d>=G.day-wd&&d>=S.sinceDay(G,y); };   /* 這禮拜（週一起）*/
     C.cry=()=>x===KX&&S.durDays(G,KX)>=365&&(evDone(G,'ev_kexin_anniversary_y1')||evDone(G,'ev_kexin_anniversary_yn'));   /* 交往一年以上＋週年演過（AA_227 5-2）*/
-    C.auntIn=()=>(+G.hour||0)>=19;   /* 阿姨在店裡：19:00 以後來（買東西回來了）；之前＝去買東西（AA_425 第 1 節：不綁星期幾）*/
+    C.auntIn=()=>S.auntIn(G);   /* 阿姨在店裡：看 3D 的阿姨在不在麵店（AA_503 第 14 節後補第 7 點，5ec2fe771；S.auntIn）——在＝不問「阿姨呢？」；不在＝「阿姨呢？」「去買東西。」。原本 19:00 以後（AA_425 第 1 節）*/
+    C.auntLate=()=>S.auntIn(G)&&(((+G.hour||0)%24)+24)%24>=19;   /* 最後「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓）：阿姨在店裡、照原本 19:00 以後才出（AA_503 第 14 節後補第 8 點，企劃線 f6069e42d；19:00 以前阿姨在＝不問「阿姨呢？」，也還不收）*/
     C.said=()=>!!c.said; C.prevTold=()=>!!c.prevTold; C.eating=()=>S.FOOD_LOCS.includes(c.loc);
     C.slip=()=>!!c.slip; C.slipYu=()=>c.slip==='yu'; C.second=()=>!!c.second;
     C.overlap=()=>!!y&&c.prevDay!=null&&S.sinceDay(G,y)<=c.prevDay;
@@ -308,6 +309,11 @@ const MREL=(function(){
     const A=S.DISC_AT[x]||[]; if(kind==='noodle'||(x===YT&&kind==='talk')) return x===YT&&G.zone==='noodle'&&S.ytShift(G);
     return A.includes(kind); };
   S.ytShift=G=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[YT], e=c&&typeof STORY!=='undefined'&&STORY.schedEnt?STORY.schedEnt(c,G):null; return !!(e&&e.zone==='noodle'); };
+  /* 麵店的阿姨在不在店裡（PRIV-AUNT-1028；AA_503 第 14 節後補第 7 點，企劃線 5ec2fe771，BB-C 11:41 測出）：看 3D——阿姨的 3D 人物現在在不在麵店（圈子表 c503_6_2 那幾列：
+     src/hcircle3d.js HCIRCLE.labelIn＝她那幾列現在成立，同 3D 生不生阿姨那一套）。原本 19:00 以後＝在（AA_425 第 1 節「阿姨 19:00 才來」），3D 的阿姨卻 17:30～20:30 站在店裡：
+     18:00～19:00 那一場她問「阿姨呢？」，阿姨就在旁邊。3D 的時間不改（圈子表照舊）。沒有 HCIRCLE（只載 multirel3d.js 的測試）＝不在。
+     第 8 點（企劃線 f6069e42d）：大二下以後每學期也有阿姨那一列（c503_14_1～5）；最後那三句（阿姨，我等一下自己收…）照原本 19:00 以後出＝C.auntLate */
+  S.auntIn=G=>typeof HCIRCLE!=='undefined'&&!!HCIRCLE&&((typeof HCIRCLE.labelIn==='function'&&!!HCIRCLE.labelIn(G,'hc_ayi','noodle'))||(typeof HCIRCLE.auntAway==='function'&&!HCIRCLE.auntAway(G)));   /* AA_519 第 8 節第 1 點（d75cd0228）：語彤顧店的時段阿姨一定在廚房（店開著＝在；過年店休、出國那一週＝不在，才有「阿姨呢？」「去買東西。」）*/
   S.zrShiftEnd=function(G){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[ZR]; if(!c||typeof STORY==='undefined'||!STORY.schedEnt) return null; const e=STORY.schedEnt(c,G); return e&&e.zone==='cafe'&&e.act==='barista'?(+e.to||22):null; };
   S.playDisc=async function(GM,x,o){ o=o||{}; const G=GM.G, R=S.rec(G), p=R.pend[x]; if(!p) return false; const y=p.y, D=L().DISC[x]; if(!D){ delete R.pend[x]; return false; }
     delete R.pend[x]; const prev=S.prevKnown(G,x,y), broke=S.brokeFor(G,x,y);

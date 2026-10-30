@@ -16207,6 +16207,32 @@
    "task": "NPC-STORY2-1028",
    "integration": "已整合待測試",
    "note": "【LAWWW-C 15:3x】LAWWW-C 自己改（r2y4a_events.js 一句、白名單 AA_519 改 e5835610d；aa519_support2 修改前 FAILED 1、修改後 ALL PASS），下一版 v9.10.14 給 BB"
+  },
+  {
+   "id": "DL-LW2-LIBHALL-LM-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c48a5c310",
+   "msg": "ACK",
+   "what": "總圖大廳正式光照烘焙（LIB-HALL-LM-1028，LAWWW2-C 的 WIP 收尾）：patch library_hall_lm_1028.patch（library_layout 十筆擺設、library3d 一行、library_interior.py、LICENSES、新 library_hall_lightmap_unit、singleside 拿掉總圖踏面反面一項）＋GLB／日夜光照貼圖＋四支烘焙工具",
+   "task": "LIB-HALL-LM-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-B 03:3x ACK】v9.10.14 發布後在獨立工作樹套（和 RT-NIGHT 一起）；LAWWW2 自測全部 Node 725／0、進兩次 0 錯誤、效能 draw call −4～+3%；缺點：光照貼圖填滿率 28.7%、地板 9 px/m；沒跑 flow_library_floors／scene；READY_FOR_ART_REVIEW"
+  },
+  {
+   "id": "DL-LW2-RTNIGHT-1030",
+   "date": "2026-10-30",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "c48a5c310",
+   "msg": "ACK",
+   "what": "室內光照貼圖晚上：Z3.roomLightmap 沒烘焙的小零件晚上乘 rtK、天窗 dayEmit 晚上暗（rt_night_1028.patch、新 room_rtnight_unit）",
+   "task": "RT-NIGHT-1028",
+   "integration": "未整合",
+   "note": "【LAWWW-B 03:3x ACK】和 LIB-HALL-LM 一起套；room_rtnight_unit 開發 FAILED 9 → ALL PASS"
   }
  ],
  "ignored": [

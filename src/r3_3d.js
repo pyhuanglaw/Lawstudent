@@ -249,10 +249,11 @@ const R3=(function(){
       const m2=PHONE.byAsk(G,'r3_sis_father_re');
       if(PHONE.sent(G,'r3_sis_father_re')&&(!m2||m2.ans==null)&&t>=T(d17,21)&&t<T(d17+3,0)&&!PHONE.sent(G,'r3_sis_father_none')) PHONE.at(G,d17,21,[W('我們吃完了。我爸說下次。')],'r3_sis_father_none'); } };
   S.fatherMissed=function(G,q){ if(G.flags.SIS_FATHER_GO==='cancel'||!q) return; PHONE.at(G,q.day,19.5,[W('我們吃完了。我爸說下次。')],'r3_sis_father_miss'); };   /* 19:30 還沒到：不記 MET_SIS_FATHER */
-  /* 2-7c 她自己放的一天假：4/27 21:00 三選一（回覆到 4/28 09:00）→ 4/28 河堤 10:00／貓空 13:00（出遊）／「哪裡都不去」＝12:00、21:00 兩則；沒回＝16:00 河邊的照片 */
+  /* 2-7c 她自己放的一天假：4/27 21:00 三選一（回覆到 4/28 09:00）→ 4/28 河堤 10:00／貓空 13:00（出遊）／「哪裡都不去」＝12:00、21:00 兩則；沒回＝16:00 河邊的照片。
+     AA_523 5-3（企劃線 0d7b5388b）：2/14 電話選「開學以後，我們再補一天。」（SIS_VDAY_MAKEUP）的＝那一則換成三句、不給選項，直接排河堤 10:00（src/sis_b16_3d.js S.dayOffMakeup）*/
   const dayOffMark=G=>{ G.flags.SIS_DAY_OFF=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!has(SIS,'SIS_DAY_OFF')) SOCIAL.remember(SIS,'SIS_DAY_OFF',''); };
   S.dayOff=function(G){ const F=G.flags, d27=D('2029-04-27'); if(d27==null||!dating(G,SIS)||typeof OUT==='undefined') return; const d28=d27+1, t=now(G); if(t<T(d27,21)||t>=T(d28+1,6)) return;
-    if(!PHONE.sent(G,'r3_sis_dayoff')&&t<T(d28,9)&&contact(G,SIS)) PHONE.at(G,d27,21,[W('明天我不寫論文。'),Object.assign(W('……你排。去哪裡都可以。'),{ask:{id:'r3_sis_dayoff',until:T(d28,9),opts:[
+    if(!PHONE.sent(G,'r3_sis_dayoff')&&t<T(d28,9)&&contact(G,SIS)&&!(typeof SISB16!=='undefined'&&SISB16.dayOffMakeup&&SISB16.dayOffMakeup(G,d27))) PHONE.at(G,d27,21,[W('明天我不寫論文。'),Object.assign(W('……你排。去哪裡都可以。'),{ask:{id:'r3_sis_dayoff',until:T(d28,9),opts:[
         {t:'河堤，騎腳踏車。',say:[{from:SIS,text:'好。……我騎很慢。不要等我。'},ME('要等。')],set:{SIS_DAY_OFF_PLAN:'river'}},
         {t:'貓空，喝茶。',say:[{from:SIS,text:'好。纜車上不談論文。'}],set:{SIS_DAY_OFF_PLAN:'tea'}},
         {t:'哪裡都不去。妳睡到中午。',say:[{from:SIS,text:'……這是最難的選項。'}],set:{SIS_DAY_OFF_PLAN:'sleep'}}]}})],'r3_sis_dayoff');

@@ -3,6 +3,7 @@
 //   大四上：W 迎新、T 颱風、M 中秋、P 再問一次、E 語彤 15b、U／IV 推甄、F 校慶、H 交棒、S 語彤 16、X 聖誕、Z 芷若第二輪明信片、B 回來、K 可昕 K21／K22、I 可昕的實習。
 //   寒假：A 學姊接機、XK 可昕聖誕、GR 期末成績、KH 高雄、EX 以安考前一晚＋筆試、Y 除夕、V 情人節。
 // 修改前：沒有這些事件（第 0 項 FAIL，之後全部不跑）。用法：node tests/r2y4a_events_unit.js
+// AA_519 1-3（NPC-STORY2-1028，企劃線 d75cd0228）改了 X1：阿姨「考完了，吃好一點。」→「最後一個冬天的期末。……吃完再走。」、送小菜的旁白第八處＝「（阿姨多放了一碟燙青菜，說是煮多了。）」
 // AA_370（企劃線 a1dc3e61，2026-10-21）改了期待的三項：R1 回國入境大廳（M5：見過媽媽的版本、九點是旁白）、M3 中秋（M7：可昕沒見過麵店團改私訊）、Z2（M1：8/20 不再要地址）——細測在 tests/aa370_us_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -189,7 +190,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-21',21.1,'dorm',TWF({XMAS_GIFT:'notebook'})); join('noodle_team','麵店團'); R('yu','FAM'); rules(); const qx=OUT.get(G,'y4_xmas');
   check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 麵店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 麵店 一百五以內'&&!!qx&&qx.h===19);
   at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
-  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
+  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨（AA_519 1-3）「最後一個冬天的期末。……吃完再走。」（不再是「考完了，吃好一點。」）、送小菜的旁白「（阿姨多放了一碟燙青菜，說是煮多了。）」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('最後一個冬天的期末。……吃完再走。')&&!has('考完了，吃好一點。')&&has('（阿姨多放了一碟燙青菜，說是煮多了。）')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
   fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',21.6); rules();
   check('X2. 美國路線：沒有邀約；21:30 照片（AA_370 第 6 節第 8 題：照臺灣時間；那時人在回臺灣的路上，12/21 23:55 起飛）', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
 
@@ -373,7 +374,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('A1. AA_345 F2：兩個人版入境大廳先一句旁白「（她推著行李推車走出來。看到你，停了一下。）」；登錄的 BCG-34 是夏天版（沒有 redrawn）＝不放', said[0]&&said[0].t==='（她推著行李推車走出來。看到你，停了一下。）'&&said[0].who===null&&!cgs.includes('cg_airport_pickup_heroine05')&&!has('（她一出來就看到你。推車停在原地，她走過來，抱住你。）'), JSON.stringify(lines().slice(0,2)));
   check('A1. 兩個人版：12/23 20:30 入境大廳；車上「我剛到美國那天，你回得很快。……謝謝。」「這次我一直講。」「美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。」「我想吃滷肉飯。現在。」；「公館那家？」；PICKED_HER_UP', !!qp&&Math.abs(qp.h-20.5)<1e-6&&has('我剛到美國那天，你回得很快。……謝謝。')&&has('這次我一直講。你可以轉頭。')&&has('美國的雞蛋，很難吃。圖書館的咖啡機，很難喝。')&&has('我想吃滷肉飯。現在。')&&has('對。就那家。')&&!has('學姊妳今天話好多！')&&!has('……還有，我想你。')&&SOCIAL.has('heroine_05','PICKED_HER_UP')&&G.flags.SIS_PICKUP==='two');
   PK(); R('heroine_05','FRI'); date('heroine_05'); rules(); const a2g=txt('g:family_law'), a2d=txt('p:heroine_05'); const qp2=OUT.get(G,'y4_sis_pickup'); at('2028-12-23',19.6); picks=[1]; said=[]; await OUT.go(GM,qp2);
-  check('A2. 戀人版：群組只說「這週六回來。」；私訊「這週六，晚上八點。你來。」；入境大廳兩句旁白「（她一出來就看到你。……抱住你。）」「（很久，她才放開。）」；夏天版 BCG-34 不放；最後「……還有，我想你。」', JSON.stringify(a2g)===JSON.stringify(['heroine_05:這週六回來。'])&&JSON.stringify(a2d)===JSON.stringify(['heroine_05:這週六，晚上八點。你來。'])&&!!qp2&&said[0]&&said[0].t==='（她一出來就看到你。推車停在原地，她走過來，抱住你。）'&&said[1]&&said[1].t==='（很久，她才放開。）'&&!cgs.includes('cg_airport_pickup_heroine05')&&has('……還有，我想你。')&&has('我一直講。你可以轉頭。')&&G.flags.SIS_PICKUP==='lover', JSON.stringify(lines().slice(0,3)));
+  check('A2. 戀人版：群組只說「這週六回來。」；私訊「這週六，晚上八點。你來。」（AA_516 第 1 節 1-2：前面多一張「📷（截圖：班機時間，桃園 20:05 抵達）」）；入境大廳兩句旁白「（她一出來就看到你。……抱住你。）」「（很久，她才放開。）」；夏天版 BCG-34 不放；最後「……還有，我想你。」', JSON.stringify(a2g)===JSON.stringify(['heroine_05:這週六回來。'])&&JSON.stringify(a2d)===JSON.stringify(['heroine_05:📷（截圖：班機時間，桃園 20:05 抵達）','heroine_05:這週六，晚上八點。你來。'])&&!!qp2&&said[0]&&said[0].t==='（她一出來就看到你。推車停在原地，她走過來，抱住你。）'&&said[1]&&said[1].t==='（很久，她才放開。）'&&!cgs.includes('cg_airport_pickup_heroine05')&&has('……還有，我想你。')&&has('我一直講。你可以轉頭。')&&G.flags.SIS_PICKUP==='lover', JSON.stringify(lines().slice(0,3)));
   at('2028-12-24',11.1); rules(); check('A2. 「先回家睡覺。」→ 隔天「滷肉飯。今天。不要再說明天。」（私訊）', has('……好。明天。明天一定。')&&txt('p:heroine_05').includes('heroine_05:滷肉飯。今天。不要再說明天。'));
   { const cg0=ADV.cg; ADV.cg=function(id){ const r=cg0.call(this,id); if(r) said.push({who:'CG',t:id}); return r; }; CG_REGISTRY.cg_airport_pickup_heroine05.redrawn=true;
     PK(); R('heroine_05','FRI'); SOCIAL.remember('heroine_05','DROVE_HER',''); rules(); answer('y4_pickup_two',0); rules(); at('2028-12-23',19.6); picks=[2]; said=[]; await OUT.go(GM,OUT.get(G,'y4_sis_pickup')); const t1=said.slice(0,2).map(s=>s.t);

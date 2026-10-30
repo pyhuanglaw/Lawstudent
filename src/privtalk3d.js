@@ -35,6 +35,12 @@
        choiceIf＝階梯那一層的一個選項（STORY.LADDER_CHOICE_IF）；prereq＝事件（STORY_EVENTS 的 prereq.custom）；evChoice＝事件裡的一個選項（那個選項的 if.custom）；none＝3D 說話裡沒有入口（寫明在哪裡）。
      每一筆：desc＝入口在哪；note＝旁邊有人時怎麼辦、期限（desc、note 是給人看的說明，不進遊戲）；due＝期限（有寫的照到期那天，沒寫的照 7 天）；except＝本來就知道的人（第 12 項、第 1 項）。
      選項的「等了 7 天照出」都從這一項第一次被擋那天算：出來了玩家沒選、下次又被擋，不重新算（後補第 4 項）。
+   ■ 依人物＋區域不算「旁邊有人」的人（S.PLACE_EXCEPT；PRIV-AUNT-1028：第 14 節後補第 6 點，企劃線 5ec2fe771，BB-C 11:41 在 v9.10.13 rc2 測出、AA-C 定）：
+       語彤在麵店（G.zone noodle），阿姨（hc_ayi）對她所有私密的都不算——知情場景、「約她去…」、「（下次見面，自己跟她講…的事）」，第 7 項交往中那一版、開頭的旁白也一樣（都走 S.crowd）；
+       旁邊還有別的圈子同伴＝照擋（第 12 項那句「約她去…照擋」只限這個時候）。不一筆一筆加：S.crowd 把清單那一筆的 except 和這個地方的合起來（S.exceptAt）；
+       麵店以外照舊（只看那一筆的 except：媽媽的事 yt_mom_*、knows_talk）。第 7 點（「今天很忙喔？」那一段的 auntIn 看阿姨的 3D）在 src/multirel3d.js S.auntIn、src/hcircle3d.js S.labelIn。
+       第 8、9 點（PRIV-AUNT-1028 第二輪，企劃線 f6069e42d）：交往中那一版照說＝上面這一條已經涵蓋；廚房那位就是阿姨（src/hcircle3d.js S.kitchen）、大二下以後每學期阿姨那一列（heroine_circle.js c503_14_1～5）、
+       最後那三句 19:00 以後（src/multirel3d.js C.auntLate）：S.LATER 第 8、9 項。
    ■ S.held、S.passed、S.narrated：最近幾次擋下來、放行、說了旁白的（除錯、測試用，不存檔）。測試：node tests/company_priv_unit.js */
 'use strict';
 const PRIVTALK=(function(){
@@ -55,17 +61,17 @@ const PRIVTALK=(function(){
   S.LIST=[
     /* ---- 約會（「約她去…」）＋各檔標 priv 的一次性選項 ---- */
     {key:'invite',cat:'約會',who:'*',kind:'opt',gate:'offerInvite',desc:'src/story3d.js S.offerInvite「約她去…」（交往中的可昕＝「約會：選地點、日期、時間」）',
-      note:'這一次選單沒有「約她去…」；交換聯絡方式照常；她一個人的時候照常有；沒有期限：等了 7 天照出（選了先一句旁白）'},
+      note:'這一次選單沒有「約她去…」；交換聯絡方式照常；她一個人的時候照常有；沒有期限：等了 7 天照出（選了先一句旁白）；語彤在麵店、旁邊只有阿姨＝照出（後補第 6 點，S.PLACE_EXCEPT）'},
     {key:'opt_priv',cat:'各檔的私密選項',who:'*',kind:'opt',gate:'offerInvite',desc:'src/story3d.js S.offerInvite（STORY.TALK_OPTS 回傳的選項標 priv:true、沒有寫 privKey 的）',
       note:'這一次不出，選項的條件還在，她一個人的時候出；等了 7 天照出'},
     /* ---- 坦白有別人（ROM.tellBy）---- */
     {key:'tell_now',cat:'坦白有別人',who:['heroine_01','classmate_peishan'],kind:'opt',gate:'priv',desc:'src/multirel3d.js STORY.TALK_OPTS（S.confessAny：「我有件事要跟妳講。」／「那我也跟妳講一件事。」→ ROM.tellBy；privKey tell_now）',
       note:'選項不出；沒有期限（她一個人的時候出；等了 7 天照出）'},
     {key:'tell_later',cat:'坦白有別人',who:['heroine_05','heroine_04','heroine_02','heroine_03','kexin'],kind:'opt',gate:'priv',desc:'src/multirel3d.js STORY.TALK_OPTS（S.confLaterFor：「（下次見面，自己跟她講…的事）」；交往中才有；privKey tell_later）',
-      note:'選項不出；沒有期限'},
+      note:'選項不出；沒有期限；語彤在麵店、旁邊只有阿姨＝照出（後補第 6 點，S.PLACE_EXCEPT）'},
     /* ---- 她知情以後那幾場 ---- */
     {key:'knows_talk',cat:'她知情以後',who:MR,kind:'pre',gate:'wrap',except:{heroine_03:KNOW.ytMom},desc:'src/multirel3d.js 包 STORY.talkCharacter 的那一層：MREL.meetAction（kind talk／noodle）＝和她說話時演的發現、冷靜、挽回、結果',
-      note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）；語彤旁邊只有阿姨（hc_ayi）＝照演、不加旁白（後補第 5 點）'},
+      note:'這一次不演、不前進、不算次數（AA_503 第 14 節後補第 3 項：學姊一般見面〔meets、MREL.sisMet〕、語彤被打擾〔dist〕，擋下來沒演的不算），照常說話；流程沒有期限，下次她一個人時演、算；等了 7 天照演、照算（開頭旁白）；語彤旁邊只有阿姨（hc_ayi）＝照演、不加旁白（後補第 5 點；第 6 點起麵店裡她所有私密的都一樣，S.PLACE_EXCEPT）'},
     {key:'knows_cafe',cat:'她知情以後',who:'heroine_02',kind:'pre',gate:'wrap',desc:'src/multirel3d.js：吧檯的芷若（MREL.FLOW.heroine_02.meet kind cafe）',
       note:'這一次不演（照常點餐）；冷靜期一天一次，下一次她一個人時演；等了 7 天照演'},
     {key:'knows_echo',cat:'她知情以後',who:['heroine_01','heroine_05'],kind:'pre',gate:'wrap',desc:'src/story3d.js S.twoHeartsEcho（1A-02 攤牌以後第一次說話那一句；只在 S.twoHeartsEchoDue 的時候問）',
@@ -113,7 +119,7 @@ const PRIVTALK=(function(){
     {key:'zz_after',cat:'感情',topic:'子晴、芷若分開以後',who:['heroine_04','heroine_02'],kind:'pre',gate:'edit',desc:'src/multirel3d.js S.zzPreTalk（子晴第一次「嗨。」、之後各一句、可以重新開始那一天她先說；sub＝first／chat／restart）、吧檯的芷若第一句「你要點什麼？」（ZZ_AFTER.first）',
       note:'這一次不演（照常說話、點餐）；沒有期限：等了 7 天照演'},
     /* ---- 第 3 項 學姊說要去美國交換（同芷若的交換申請；期限 11/9）---- */
-    {key:'sis_us_told',cat:'還沒公開',topic:'學姊美國交換',who:'heroine_05',kind:'pre',gate:'wrap',ev:'ev_sis_us_told',due:'2027-11-09',desc:'src/sis_y2y3_3d.js SISY23.preTalkEv（大三上 11/1～11/9 晚上在法圖、Café 第一次找她說話，說話前接演）',
+    {key:'sis_us_told',cat:'還沒公開',topic:'學姊美國交換',who:'heroine_05',kind:'pre',gate:'wrap',ev:'ev_sis_us_told',due:'2027-11-09',pub:G=>typeof SISB15!=='undefined'&&!!SISB15.heardUS&&SISB15.heardUS(G),   /* AA_518 4-1：聽過 S4-Lx 或 S5-L1 的玩家，不算私密（S.privAt）*/desc:'src/sis_y2y3_3d.js SISY23.preTalkEv（大三上 11/1～11/9 晚上在法圖、Café 第一次找她說話，說話前接演）',
       note:'有人＝這一次照常說話；有期限 11/9：那天照演；都沒演照原本 11/11 私訊、11/12 總圖門口的台階'},
     /* ---- 第 4 項 沛珊說和柏翰分開了 ---- */
     {key:'ps_split',cat:'感情',topic:'沛珊和柏翰',who:'classmate_peishan',kind:'event',gate:'prereq',ev:'ev_peishan_split',due:evDue,desc:'src/data/events.js「我們上週分開了」（大二上第 6 週平日 12:10～12:40 霖澤館，走到她旁邊就演）',
@@ -157,16 +163,30 @@ const PRIVTALK=(function(){
     {n:10,desc:'前任第一次見面那一句（v6ex3d.js preLine）',decided:'講到祐廷現在的人的兩句擋：anOther「理由我懂。不用解釋。」、ytAfterAn「嗯。……她會讓你說理由的。」；其他第一次見面的招呼不擋：zqFirst、zrFirst、sisLaw／sisRA、kxFirst。',impl:'清單 ex_an_other、ex_yt_an'},
     {n:11,desc:'到場就演的知情場景（MREL.dueAuto）、裂縫談話（cracktalk3d.js：語彤「人到三樓就演」）',decided:'不改。地點本來就排在有阿姨、同事的地方。',impl:'不改'},
     {n:12,desc:'旁邊的人本來就知道的（語彤和阿姨談媽媽、芷若和子晴談交換申請）',decided:'例外，照出。只限這幾組：語彤和阿姨（媽媽的事）、芷若和子晴（交換申請）、第 1 項的對方本人。',
-      impl:'清單的 except：yt_mom_lad、yt_mom_ask＝阿姨（hc_ayi）；zr_exch_ev、zr_exch_applied、zr_exch_ask、zr_exch_lad＝子晴；zz_told_*、zz_f3_told＝對方本人（STORY.COMPANY 回傳旁邊那幾個人的 id：HCIRCLE.withNow）'}];
-  /* 第 14 節後補（AA 2026-10-28 09:03 回 LAWWW-C 問的 4 點，企劃線 0e46fdc7e）：1、2 照現在；3、4 改；第 5 點（09:33 問，19b4307eb）：語彤在麵店，阿姨不算旁邊有人 */
-  S.REF2='AA_503 第 14 節後補（企劃線 claude/magical-albattani-bk7b4n 0e46fdc7e；第 5 點 19b4307eb，AA-C 2026-10-28）';
+      impl:'清單的 except：yt_mom_lad、yt_mom_ask＝阿姨（hc_ayi）；zr_exch_ev、zr_exch_applied、zr_exch_ask、zr_exch_lad＝子晴；zz_told_*、zz_f3_told＝對方本人（STORY.COMPANY 回傳旁邊那幾個人的 id：HCIRCLE.withNow）；語彤在麵店，阿姨對她所有私密的都不算（後補第 6 點：S.PLACE_EXCEPT），「約她去…」照擋只限旁邊還有別的圈子同伴'}];
+  /* 第 14 節後補（AA 2026-10-28 09:03 回 LAWWW-C 問的 4 點，企劃線 0e46fdc7e）：1、2 照現在；3、4 改；第 5 點（09:33 問，19b4307eb）：語彤在麵店，阿姨不算旁邊有人；
+     第 6、7 點（BB-C 11:41 測出、LAWWW-C 問，5ec2fe771）：麵店只有阿姨在，「約她去…」和 tell_later 也照出；「今天很忙喔？」那一段的 auntIn 看阿姨的 3D；
+     第 8、9 點（LAWWW-C 12:02、12:07 問，38a74680d、f6069e42d）：交往中那一版照說、廚房那位就是阿姨、大二下以後每學期阿姨那一列（PRIV-AUNT-1028 第二輪）*/
+  S.REF2='AA_503 第 14 節後補（企劃線 claude/magical-albattani-bk7b4n 0e46fdc7e；第 5 點 19b4307eb；第 6、7 點 5ec2fe771；第 8 點 38a74680d、第 9 點 f6069e42d，AA-C 2026-10-28）';
   S.LATER=[
     {n:1,desc:'第 7 項：交往中版本的「沒回訊息那一句」（missDating）只在當面說',decided:'旁邊有人時改說一般版，照 LAWWW 現在的做法；「手機不受影響」那半句可以忽略。',impl:'不改（STORY.DATING_QUIET）'},
     {n:2,desc:'第 2 項：芷若在 Café 櫃台的第一句「你要點什麼？」',decided:'一起擋，照 LAWWW；旁邊有人，這次照常點餐，不演。',impl:'不改（清單 zz_after，sub first）'},
     {n:3,desc:'知情場景的次數（學姊一般見面、語彤被打擾）',decided:'擋下來沒演的不算。只有真的演出來的才算一次。',
       impl:'清單 knows_talk、knows_cafe：擋下來＝MREL 算的時候動到的她那一段流程（MREL.st）、學姊一般見面的紀錄（MREL.sm）還原（S.mrelSnap／S.mrelBack）；只有次數的那一次也算知情的見面（旁邊有人＝擋、記等待，等了 7 天照算＋開頭旁白）；只動到學姊一般見面那一筆＝旁邊有人不記'},
     {n:4,desc:'選項出現了玩家沒選，下次又被擋',decided:'不重新算。7 天從這一項第一次被擋那天起算，到第 8 天照演。',impl:'S.ok 放行時不清等待（選項出來了不算演）；只有 S.lead（選了那一個、那一段開始演）才清'},
-    {n:5,desc:'語彤在麵店：阿姨永遠在旁邊，她的知情場景只會在麵店演（照第 3、4 項＝一定等滿 7 天）',decided:'阿姨不算「旁邊有人」：阿姨本來就知道語彤的事，那幾場本來就排在麵店。只有阿姨在＝照演、不加旁白；旁邊還有別的圈子同伴＝照規則擋。',impl:'清單 knows_talk 的 except 依人物：{heroine_03:[\'hc_ayi\']}（S.exceptOf）'}];
+    {n:5,desc:'語彤在麵店：阿姨永遠在旁邊，她的知情場景只會在麵店演（照第 3、4 項＝一定等滿 7 天）',decided:'阿姨不算「旁邊有人」：阿姨本來就知道語彤的事，那幾場本來就排在麵店。只有阿姨在＝照演、不加旁白；旁邊還有別的圈子同伴＝照規則擋。',impl:'清單 knows_talk 的 except 依人物：{heroine_03:[\'hc_ayi\']}（S.exceptOf）；第 6 點起麵店裡她所有私密的都照 S.PLACE_EXCEPT'},
+    {n:6,desc:'麵店只有阿姨在：「約她去…」和 tell_later 被阿姨擋（BB-C 11:41 在 v9.10.13 rc2 測出：2025-09-09 週二 18:12 麵店，語彤旁邊只有阿姨，知情場景照第 5 點照演，演完的選單沒有「約她去…」「（下次見面，自己跟她講…的事）」）',
+      decided:'第 5 點「阿姨不算旁邊有人」包含麵店裡所有私密的選項：知情場景、「約她去…」、「（下次見面，自己跟她講…的事）」（語彤打工的時段阿姨幾乎都在，擋了就等於麵店永遠約不到她）；第 12 項那句「約她去…照擋」只限旁邊還有別的圈子同伴的時候。',
+      impl:'S.PLACE_EXCEPT（S.crowd 依人物＋區域：語彤、G.zone noodle、阿姨 hc_ayi，和清單那一筆的 except 合起來，S.exceptAt）——清單每一筆、開頭的旁白（S.lead）、第 7 項交往中那一版（S.wireDating）都走 S.crowd；麵店以外照舊'},
+    {n:7,desc:'multirel_lines.js 語彤《等我下班一下》「今天很忙喔？」那一段的 auntIn（原本 19:00 以後＝阿姨在，AA_425 第 1 節）：3D 的阿姨 17:30～20:30 站在店裡（圈子表 c503_6_2 那幾列），週二、四 18:00～19:00 那一場她問「阿姨呢？」「去買東西。」，阿姨就站在旁邊（BB-C 11:41）',
+      decided:'auntIn 改看阿姨的 3D 人物現在在不在麵店（圈子表 c503_6_2 那幾列）：在＝不問「阿姨呢？」；不在＝「阿姨呢？」「去買東西。」。3D 的時間不改。',
+      impl:'src/multirel3d.js C.auntIn＝S.auntIn：HCIRCLE.labelIn(G,"hc_ayi","noodle")（她那幾列現在成立，和 3D 生不生阿姨〔S.arrange 照 S.rowsIn〕同一套）或 !HCIRCLE.auntAway(G)——AA_519 第 8 節第 1 點（企劃線 d75cd0228）起語彤顧店的時段阿姨一定在廚房：店開著＝阿姨在（那一天沒擲到、3D 沒有生標籤的阿姨也一樣，廚房那位就是她）；過年店休（NOODLE_CLOSED）、2029-04-19～25 出國那一週才不在，才有「阿姨呢？」「去買東西。」；阿姨後面那三句（「阿姨，我等一下自己收。」「好啦，你們年輕人。」（阿姨先上樓））第 8 點起看 C.auntLate（阿姨在店裡、19:00 以後）；圈子表、3D 的時間不改'},   /* 說明字照現在的做法改（AA_519 第 9 節第 4 點，LAWWW 改；原本只寫 labelIn）*/
+    {n:8,desc:'第 6、7 點的細節（LAWWW-C 12:02 問）：語彤在麵店、旁邊只有阿姨，交往中那一版（第 7 項）；3D 的阿姨沒來的時候廚房那位無名的店員還在；大二下以後圈子表沒有阿姨那一列（auntIn 永遠不在）；最後那三句 17:30 起阿姨在就出',
+      decided:'交往中那一版的句子照說（第 14 節第 7 項的「改說一般版」不套用）。廚房那位就是阿姨：阿姨不在店裡的時候（那天沒擲到的三成、17:30 以前、20:30 以後），廚房那位也不出現，這樣「阿姨呢？」「去買東西。」才對得上。大二下以後也要有阿姨那一列：週二、四 17:30～20:30 在麵店，同 c503_6_2 的做法，每學期都有（到 2029-09 畢業以後篇以前）。「阿姨，我等一下自己收。」「好啦，你們年輕人。」照原本 19:00 以後出。',
+      impl:'交往中那一版：S.PLACE_EXCEPT（第 6 點已經這樣，S.wireDating 走 S.crowd）；廚房：src/hcircle3d.js S.KITCHEN、S.kitchen（S.arrange 最後問：語彤顧店〔S.minding〕、阿姨那幾列不成立＝店員 hidden；阿姨在＝阿姨換掉店員；語彤不在＝店員照常），阿姨不在時阿姨說的話不說（S.auntOut → src/eat3d.js EAT.staffAway：老樣子那一句；src/story3d.js noodleScene 阿姨請的那一碗等阿姨在）；每學期一列：src/data/heroine_circle.js c503_14_1～5；最後那三句：src/multirel3d.js C.auntLate'},
+    {n:9,desc:'第 8 點的範圍（廚房那位不出現是不是任何時候都套用）、大二下以後補的那幾列走近時聽到的句子（LAWWW-C 12:07 問）',
+      decided:'「廚房那位不出現」只在語彤人在麵店的時候套用；語彤不在的平常時段，店員照常在，玩家照常吃麵。走近時聽到一學期一組（大二下、大三上、大三下、大四上、大四下）；那學期語彤週二、四晚上不在麵店的就不加。',
+      impl:'S.kitchen 只看語彤在這一區顧店（她的 3D 人物、照作息 noodle／help；邀約一起來吃的客人身分不算）；c503_14_1～5 的 heard 照第 9 點的表逐字（五個學期她週二晚上都在麵店，五列都加；週四照作息不在的學期只有週二成立）'}];
   /* 第 9 項：不擋，對話最前面加一句旁白（載入時接上，不管旁邊有沒有人）*/
   S.SCENE_LEAD=[{ev:'ev_ziqing_lab_letter',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'},{ev:'ev_ziqing_dad_sorry',text:'（她把吉他放下，朝門外偏了一下頭。你們走到社辦外面的走廊。）'}];
 
@@ -179,10 +199,14 @@ const PRIVTALK=(function(){
   S.clear=function(G,key,id,sub){ const W=G&&G.flags&&G.flags.PRIVWAIT; if(W&&typeof W==='object') delete W[S.wk(key,id,sub)]; };
   const prune=(W,G)=>{ for(const k in W){ if(typeof W[k]!=='number'||G.day-W[k]>400) delete W[k]; } };   /* 太舊的（沒演到就過了期限的）拿掉 */
   /* 那一段算不算私密（清單上的 from／until）*/
-  S.privAt=function(G,e){ if(!e) return true; if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
+  S.privAt=function(G,e){ if(!e) return true; if(e.pub&&e.pub(G)) return false;   /* pub：那個玩家已經知道（清單上那一項自己判斷，AA_518 4-1）＝不算私密 */ if(e.until){ const u=DK(e.until); if(u!=null&&G.day>=u) return false; } if(e.from){ const f=DK(e.from); if(f!=null&&G.day<f) return false; } return true; };
   /* 旁邊有她的人（except 的人不算）*/
   S.exceptOf=(e,id)=>!e||!e.except?null:Array.isArray(e.except)?e.except:(e.except[id]||null);   /* except：陣列＝這一筆都不算；物件＝依人物（{她的 id:[不算的人]}，後補第 5 點）*/
-  S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=S.exceptOf(e,id); if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };
+  /* 依人物＋區域（後補第 6 點，企劃線 5ec2fe771）：語彤在麵店，阿姨對她所有私密的都不算（清單每一筆、旁白、第 7 項交往中那一版）；旁邊還有別的圈子同伴照擋；別的區域照舊 */
+  S.PLACE_EXCEPT=[{who:'heroine_03',zone:'noodle',except:['hc_ayi']}];
+  S.placeExcept=function(G,id){ let o=null; if(!G) return o; for(const q of S.PLACE_EXCEPT) if(q.who===id&&q.zone===G.zone) o=(o||[]).concat(q.except); return o; };
+  S.exceptAt=function(G,e,id){ const a=S.exceptOf(e,id), b=S.placeExcept(G,id); return a&&b?a.concat(b):(a||b); };   /* 清單那一筆的＋這個地方的 */
+  S.crowd=function(G,id,e,GM){ if(typeof STORY==='undefined') return false; const ex=S.exceptAt(G,e,id); if(STORY.crowdNow) return !!STORY.crowdNow(G,id,null,GM,ex); return !!(STORY.privNow&&!STORY.privNow(G,id,null,GM)); };
   /* 期限（第幾天；沒有＝null）*/
   S.evOf=id=>typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(q=>q&&q.id===id)||null:null;
   S._evDue={};

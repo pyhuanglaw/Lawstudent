@@ -33,7 +33,8 @@
 | v9.10.10 | `b9044511`（PR [pyhuanglaw/Lawstudent#16](https://github.com/pyhuanglaw/Lawstudent/pull/16)；遊戲檔案＝候選 `661423a71`，開發分支之後只多 docs／wip_backup） | 2026-10-25 15:33:37 UTC（run 40207307491） | `f10d2701`（v9.10.9） |
 | v9.10.11 | `c8b9659e5`（PR [pyhuanglaw/Lawstudent#17](https://github.com/pyhuanglaw/Lawstudent/pull/17)；遊戲檔案＝候選 rc2 `6aebbb4d8`＋版本字樣） | 2026-10-27 22:34:37 UTC | v9.10.10 `b9044511` |
 | v9.10.12 | `d5ca27b89`（PR [pyhuanglaw/Lawstudent#18](https://github.com/pyhuanglaw/Lawstudent/pull/18)；遊戲檔案＝發布樹 `96358789f`＝候選 rc3b `d6694cad0`＋版本字樣） | 2026-10-28 04:46:30 UTC（run 40634003965） | v9.10.11 `c8b9659e5` |
-| v9.10.13 | （發布中；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣，PR 合併後補 SHA） | — | v9.10.12 `d5ca27b89` |
+| v9.10.13 | `37603ad6a`（PR [pyhuanglaw/Lawstudent#19](https://github.com/pyhuanglaw/Lawstudent/pull/19)；遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣；LAWWW-B 接班完成發布） | 2026-10-30 02:11:54 UTC（run 40990069412） | v9.10.12 `d5ca27b89` |
+| v9.10.14 | （發布中；PR head＝發布樹 `9293c245d`＝候選 `b38b112a8`＋版本字樣） | — | v9.10.13 `37603ad6a` |
 
 ---
 
@@ -47,17 +48,49 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.13（2026-10-28 發布中，PR 與部署結果發布後補上）——她們主動約你、法律系同學二十位的故事、女主角自己的生活（手機動態）、室友自己進門、學姊第十三批、霖澤館大廳第二版、讀檔不再卡住
+## v9.10.14（發布中，2026-10-30 07:5x UTC）——快速存檔獨立一格、開新遊戲前先備份、經濟系那一年可昕不再一直約
+
+**候選**：開發分支 `b38b112a8`（之後開發分支只多 docs／wip_backup，`git diff b38b112a8 9293c245d -- src tests assets lib` 為空）。
+
+**發布樹**：`9293c245d`＝候選＋index.html 版本字樣（`?v=9.10.14`×277、標題「版本 v9.10.14（2026-10-30）」）。
+
+**BB 判定**：暫定 GO（BB-B 07:36，BB_218 `2b44483c6`；Playwright 手機模擬、SwiftShader，不是 iPhone）。
+- 存檔 ①～⑤（快速存檔、開新遊戲三個按鈕、備份上限）過；修正前 `92e9bca92` 照預期 FAIL。
+- 經濟系可昕不主動約過；修正前 `007000868` 照預期 FAIL。
+- relsuite15（TESTING.md 第五節 release_suite＋save_compat，05:07～07:26）765 PASS、1 FAIL：touch_flow_wenzhou「和沈以安的對話有內容並結束」。BB 判定是測試時機（D103 手機自己打開剛好落在按之前），單獨重跑兩次 ALL PASS。save_compat_v7、save_compat_live（v9.10.13 的存檔 → 這一版）PASS。
+- **還沒驗、發布後 BB 照跑**：AA_515～523 的情境、R43、libhall、R44，約 4～5 小時。有問題就修、重新發布。
+- **為什麼用暫定 GO 先發**：這版修使用者 10-30 回報的 P0「開新遊戲把自動存檔蓋掉、完全讀不到」；帳號 B 七天額度已到警示，等完整 GO 可能來不及。
+
+**LAWWW 發布前檢查**：
+- 發布樹乾淨 worktree 全部 Node 734 支、失敗 0。
+- check_orphans、check_lines 有跑，列出的是還沒整合的企劃和相近句，沒有這一版該有卻漏掉的。
+
+**這版有的（v9.10.13 以後，玩家玩得到的）**：
+- 💾 快速存檔獨立一格（X126）：右上 💾 存到「快速存檔」那一格，不再蓋掉自動存檔。存檔頁可以讀，上一份快速存檔留作備份。
+- 開新遊戲前先備份（X127）：開新遊戲（三個按鈕）以前，先把目前的進度存成備份，最多留 3 份。存檔頁多一區「備份」，可以讀回來。
+  - 使用者 10-30 那一次被蓋掉的自動存檔救不回來，這一版以後不會再發生。
+- 經濟系那一年可昕不主動約你（AA_529 第 1 點）。原本會約 8～13 次，台詞、地點還是政大那一套，她在高雄或衝刺班也會約。
+
+**這版沒有的（已做好、在下一版的整合分支 postrel-1030）**：
+- 宿舍睡覺有畫面、熄燈光照；
+- 系外套穿上；
+- 手機每個朋友都能「直接過去」、訊息頁七位女生都能傳；
+- 約她選單分層、慢讀咖啡；
+- 系籃練球有人、下雨改體育館；
+- 教室名牌、經濟系同學在社科圖、Café 窗景 3D、NPC 不再卡門口、麵店團真的在店裡、美國交換修正、改名（進行中）。
+- 下一版發布前由 BB 測。
+
+## v9.10.13（2026-10-30 02:09 UTC 合併 `37603ad6a`，PR #19；GitHub Pages 部署 run 40990069412 02:11:54 成功）——她們主動約你、法律系同學二十位的故事、女主角自己的生活（手機動態）、室友自己進門、學姊第十三批、霖澤館大廳第二版、讀檔不再卡住
 
 **候選**：rc2＝`da50fbdc1`＝rc1 `12e6190dd`＋LOBBY-REENTRY-1028（`0d00c28b5`：光照貼圖第二次進區域不再包一層 onBeforeCompile；src/zones3d.js＋tests/linze_lightmap_unit.js）。rc1＝開發分支 `3dbe4ad2e`（10-28 09:5x，PRIV 後補第 5 點、check_orphans 修正以後）＋LAWWW2 LOBBY-CEIL-1028 `e29fde3c5`（中庭吊燈發光條拿掉朝上那一面；tools/blender/linze_interior.py＋linze_interior.glb＋兩張光照貼圖）。rc1 NO-GO：BB 門檻 ③ 霖澤館大廳第二次進去地板沒紋理、沙發長椅不見（快取的 GLB clone(true) 共用材質，光照貼圖每進一次再包一層 → uniform 宣告兩次 → shader 編不過）。bundle：wip_backup/rel91013_rc1.bundle、rel91013_rc2.bundle。
 
-**發布**：main（PR 合併後補）（PR 的 head＝發布樹（發布後補 SHA）：遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣（index.html `?v=9.10.13` 、標題「版本 v9.10.13（2026-10-28）」）、劇情匯入白名單也用 rc2 那一份）；回復目標＝v9.10.12 `d5ca27b89`。
+**發布**：main `37603ad6a`（PR #19 的合併 commit；LAWWW-C 10-28 15:31 推了發布樹 `c76d0cb69` 以後帳號 C 額度用完、PR 沒開，LAWWW-B 10-30 接班後照這份紀錄完成：PR 的 head＝`b6c3b471e`＝發布樹＋接班登記（只動 docs/handoff））（發布樹 `c76d0cb69`：遊戲檔案＝候選 rc2 `da50fbdc1`＋版本字樣（index.html `?v=9.10.13` 、標題「版本 v9.10.13（2026-10-28）」）、劇情匯入白名單也用 rc2 那一份）；回復目標＝v9.10.12 `d5ca27b89`。
 
 **BB 判定**：GO（BB-C 10-28 15:29）。TESTING.md 第五節 relsuite（11:43～15:17）750 PASS、1 FAIL＝touch_flow_wenzhou「坐下」，判定是測試時機、不是坐下壞了：release_suite.sh 第 6 行規定的安靜時單獨重跑（rc2_tfw_alone，測試原封不動）ALL PASS；對照（rc2_tfw_bbphone，按「坐」前照玩家點「收起來」）ALL PASS；原因是 S.phoneAuto（D103）停下 1.5 秒就打開可昕那則待回的訊息，suite 那一次剛好在座位前打開，「坐」按在手機上（qa/relsuite_rc2/flow_05_sit.png）。玩家一開始就會走到的 flow_main_day12（1120 秒）、flow_dorm_hall、flow_classes、flow_class_real、p0_movement、reachability_all、joystick_direction、zone_transitions、deploy_check 都 ALL PASS。門檻 ① LOADGEN 第 4 點（家裡存檔選單、手機開著讀檔）＋② newGameAbort：rc1 ALL PASS（rc2 只多 zones3d.js roomLightmap＋單元測試，沒重跑）；③ 霖澤館大廳、201、202、多功能教室進兩次，白天晚上：rc2 8／8 PASS（rc1 白天、晚上都重現）；④ PRIV 等七天第 1／3／8 天照設計。沒測：iPhone 真機。紀錄：BB_218、qa/relsuite_rc2、qa/reentry（BB 分支 c6ce046de）。
 
-**LAWWW 發布前檢查**：開發分支 `3dbe4ad2e` 以前全部 Node 721 支只差 room_ceiling 1 支（大廳吊燈，rc1 修好）；rc2 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；發布樹全部 Node （發布樹跑完補）；HV-15（10-28 09:5x）：check_orphans 程式沒提到的素材 88（＝v9.10.12；工具改成 GLB 的 extras 裡寫的檔名也算有用到，原本誤報 201、202、多功能教室 5 張光照貼圖）、看板停住 115（都有恢復條件）、白名單核准但程式沒提到或任務停著 24；check_lines 可能抄錯 528（v9.10.12 506，多的是新台詞的條件版本，例：阿凱不住男一舍的文旦那句「你來吃」是稿裡寫的另一個版本，不擋發布）；題目漏收 0（企劃線 `c8f794db5` 重新匯出 399 題，只有來源那一行不同）。
+**LAWWW 發布前檢查**：開發分支 `3dbe4ad2e` 以前全部 Node 721 支只差 room_ceiling 1 支（大廳吊燈，rc1 修好）；rc2 乾淨 worktree 全部 Node 721 支、失敗 0（8 分鐘）；發布樹全部 Node 沒有另外跑（發布樹＝rc2＋只改 index.html 的版本字樣，`git diff da50fbdc1 c76d0cb69 -- src tests assets index.html lib` 只有 262 個 `?v=` 和標題）；HV-15（10-28 09:5x）：check_orphans 程式沒提到的素材 88（＝v9.10.12；工具改成 GLB 的 extras 裡寫的檔名也算有用到，原本誤報 201、202、多功能教室 5 張光照貼圖）、看板停住 115（都有恢復條件）、白名單核准但程式沒提到或任務停著 24；check_lines 可能抄錯 528（v9.10.12 506，多的是新台詞的條件版本，例：阿凱不住男一舍的文旦那句「你來吃」是稿裡寫的另一個版本，不擋發布）；題目漏收 0（企劃線 `c8f794db5` 重新匯出 399 題，只有來源那一行不同）。
 
-**發布後**：（發布後補）
+**發布後**：開發分支換回開發的遊戲檔案（`33788277a`，樹＝`2e57a23cd`）、合併 main 回開發分支（`92e9bca92`）；BB-B 在 main 跑 deploy_check 和 BB-C 的發布後補跑清單（結果補在下面）。
 
 **這版有的（v9.10.12 以後，玩家玩得到的）**：
 - 使用者 10-28 說的：

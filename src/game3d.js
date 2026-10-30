@@ -1,7 +1,7 @@
 /* ===== 遊戲層：狀態、時間、UI、互動、對話演出、鏡頭運鏡、存檔 ===== */
 'use strict';
 const GAME = (function(){
-  const SAVE_VER=2; const KEY_AUTO='fatiao3d_auto', KEY_SLOT='fatiao3d_slot_', KEY_BACKUP='fatiao3d_backup', KEY_SET='fatiao3d_settings';
+  const SAVE_VER=2; const KEY_AUTO='fatiao3d_auto', KEY_QUICK='fatiao3d_quick', KEY_SLOT='fatiao3d_slot_', KEY_BACKUP='fatiao3d_backup', KEY_SET='fatiao3d_settings';
   const WEEK=['週日','週一','週二','週三','週四','週五','週六'];
   const $=id=>document.getElementById(id);
   let E=null; let G=null; let S={quality:'medium',joystick:true,volume:0.6,textSpeed:2,fps:false,guide:true};
@@ -337,6 +337,20 @@ const GAME = (function(){
   GM.autosave=autosave;
   /* 不可逆的轉換之前先備份（CLAUDE.md 存檔規則第 9 點；例：經濟系 8/31 換到法律系，AA_154 2-4b 第 4 點）：寫 fatiao3d_backup，另外寫一份之後不會被蓋掉的 fatiao3d_backup_<key> */
   GM.backupNow=function(label,key){ const s=snapshot(); s.backupLabel=label||''; const ok=write(KEY_BACKUP,s); if(key) write(KEY_BACKUP+'_'+key,s); return ok; };
+  /* 開新遊戲前先備份（使用者 2026-10-30 04:0x：「你現在放到自動存檔 我重新開遊戲 就被第一天蓋掉了 完全讀不到」，BUG-SAVE-NEWGAME-1030）：
+     開新遊戲的第一次自動存檔會蓋掉原本的自動存檔（以前不備份）——先把自動存檔、快速存檔各寫一份不會被蓋掉的 fatiao3d_backup_new_<savedAt>（同一份不重寫）。
+     最多留 NEW_KEEP 份：超過就刪進度最少（day 最小，同天刪舊的）那一份，連按幾次開新遊戲也不會把真正的進度擠掉。備份寫不進去（空間不足）＝先問玩家要不要照樣開新遊戲 */
+  const NEW_KEEP=3, KEY_NEWBK=KEY_BACKUP+'_new_';
+  function backupKeys(){ const st=ls(); const out=[]; if(!st) return out; try{ for(let i=0;i<st.length;i++){ const k=st.key(i); if(k&&(k===KEY_BACKUP||k.indexOf(KEY_BACKUP+'_')===0)) out.push(k); } }catch(e){} return out; }
+  function backupList(){ return backupKeys().map(k=>[k,read(k)]).filter(([k,b])=>b&&typeof b==='object'&&typeof b.day==='number').sort((a,b)=>(+b[1].savedAt||0)-(+a[1].savedAt||0)); }
+  function backupBeforeNew(){ let fail=false;
+    for(const key of [KEY_AUTO,KEY_QUICK]){ const s=read(key); if(!s||typeof s!=='object'||typeof s.day!=='number') continue; const k=KEY_NEWBK+(s.savedAt||Date.now()); if(read(k)) continue;
+      s.backupLabel=(key===KEY_QUICK?'快速存檔':'自動存檔')+'（開新遊戲前）'; if(!write(k,s)) fail=true; }
+    const L=backupKeys().filter(k=>k.indexOf(KEY_NEWBK)===0).map(k=>[k,read(k)||{}]); L.sort((a,b)=>((+a[1].day||0)-(+b[1].day||0))||((+a[1].savedAt||0)-(+b[1].savedAt||0)));
+    const st=ls(); while(L.length>NEW_KEEP){ const [k]=L.shift(); try{ st.removeItem(k); }catch(e){} }
+    if(fail&&typeof confirm==='function'&&!confirm('沒辦法備份原本的進度（瀏覽器空間不足）。\n仍要開新遊戲嗎？原本的自動存檔會被蓋掉。')) return false;
+    return true; }
+  GM.backupBeforeNew=backupBeforeNew; GM.backupList=backupList;
   function saveSlot(i){ const prev=read(KEY_SLOT+i); if(prev) write(KEY_BACKUP,prev); const ok=write(KEY_SLOT+i,snapshot()); toast(ok?'已存到欄位 '+i:'存檔失敗（瀏覽器儲存不可用）'); renderSlots(); }
   /* 舊存檔的女主角初遇（AA_120 7-4 第 7 點，使用者 2026-10-13 批准）：舊版的一般自我介紹已經記了 FIRST_MET、她的相遇事件卻一次都沒播過——
      這筆 FIRST_MET 改標成「一般招呼」（GREETED），相遇事件就當還沒見過（不會永久錯過）；熟悉度、其他紀錄都不動。
@@ -387,7 +401,10 @@ const GAME = (function(){
   function parseImport(t){ t=t.trim(); let obj=null; try{ obj=JSON.parse(t); }catch(e){ try{ obj=JSON.parse(decodeURIComponent(escape(atob(t)))); }catch(e2){ throw new Error('無法解析：不是 JSON 也不是匯出的文字格式'); } } const err=validate(obj); if(err) throw new Error(err); if(obj&&obj._stuck) delete obj._stuck; if(obj&&obj._busy) delete obj._busy; return obj; }
   GM.parseImport=parseImport; GM.exportText=exportText;
   const dayLab=d=>typeof SOCIAL!=='undefined'&&SOCIAL.dayLabel?SOCIAL.dayLabel(d):'第 '+d+' 天';   /* 筆記、日誌的日期（9/11），不是「第 -379 天」（經濟系那一年 day 是負的，2026-10-17 瀏覽器實測）*/
-  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); box.appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); } }
+  function renderSlots(){ const box=$('saveSlots'); box.innerHTML=''; const auto=read(KEY_AUTO); const mk=(label,s,onSave,onLoad,into)=>{ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+label+'</b> '+(s?((typeof STORY!=='undefined'&&STORY.dayTitle?STORY.dayTitle(s):'第 '+s.day+' 天')+' '+fmtTime(s.hour)+' · '+((s.home&&s.home.at?'臺北的家':(Z3.ZONES[s.zone]?Z3.ZONES[s.zone].name:s.zone)))+' · '+s.name+'<div class="muted">'+new Date(s.savedAt).toLocaleString()+'</div>'):'<span class="muted">（空）</span>'); const row=document.createElement('div'); row.className='row2'; row.style.marginTop='8px'; if(onSave){ const b=document.createElement('button'); b.className='btn'; b.textContent='存檔'; b.onclick=onSave; row.appendChild(b); } if(s){ const b=document.createElement('button'); b.className='btn pri'; b.textContent='讀取'; b.onclick=onLoad; row.appendChild(b); } d.appendChild(row); (into||box).appendChild(d); }; mk('自動存檔',auto,null,()=>loadFrom(auto)); const quick=read(KEY_QUICK); mk('快速存檔（右上 💾）',quick,null,()=>loadFrom(quick));   /* 只有讀取：存＝右上 💾（這一格不放「存檔」鈕，第一個「存檔」照舊是欄位 1）*/ for(let i=1;i<=3;i++){ const s=read(KEY_SLOT+i); mk('欄位 '+i,s,()=>saveSlot(i),()=>loadFrom(s)); }
+    /* 備份（BUG-SAVE-NEWGAME-1030）：瀏覽器裡全部的 fatiao3d_backup*（開新遊戲前、欄位覆蓋前、匯入前、經濟系最後一天…），新的在上面，只有讀取；放在另一個框（#saveBackups），#saveSlots 的按鈕照舊 */
+    let bx=$('saveBackups'); if(!bx&&box.parentNode){ bx=document.createElement('div'); bx.id='saveBackups'; bx.className='list'; box.parentNode.insertBefore(bx,box.nextSibling); } if(bx){ bx.innerHTML=''; const L=backupList();
+      if(L.length){ const h=document.createElement('div'); h.className='muted'; h.style.margin='14px 0 6px'; h.textContent='備份（開新遊戲、覆蓋欄位、匯入之前自動留的；讀取＝從那裡接著玩）'; bx.appendChild(h); for(const [k,b] of L) mk('備份：'+(b.backupLabel||(k===KEY_BACKUP?'上一次覆蓋前':'備份')),b,null,()=>loadFrom(b),bx); } } }
   async function loadFrom(s){ if(D.busyDepth>0&&!D.stale&&$('titleScreen').classList.contains('hide')){ toast('劇情還在進行，結束後再讀檔',3200); return; }   if(!$('titleScreen').classList.contains('hide')) await waitChars();   /* 從標題畫面讀檔：主要角色還在背景下載就先等（boot 的開遊戲加速）*/   /* 遊戲中劇情演到一半不能讀檔（讀了舊的劇情流程會接著演到新存檔）；標題畫面照常 */ try{ closeMenu(); $('titleScreen').classList.add('hide'); await applySave(s); toast('已讀取'); }catch(e){ toast('讀取失敗：'+e.message,3500); } }
   // ---------- 選單 ----------
   let menuOpen=false;
@@ -405,7 +422,7 @@ const GAME = (function(){
     /* 筆記的第一頁（AA_12 0-3 第 3 點）：祐廷自己的一行字，四年改寫四次，舊的劃掉。NOTE_PAGE1＝改寫到第幾次（沒有＝開學那一行）；第一次改寫在沛珊的三段論（BB_95 3-5）。措辭需法律審查（LEGAL_REVIEW_REQUIRED）*/
     { const P1=['遇到問題 → 找條文。','遇到問題 → 先問：誰、向誰、依據什麼、請求什麼。'], k=Math.min(P1.length-1,Math.max(0,G.flags.NOTE_PAGE1|0)); const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>第一頁</b>'+P1.slice(0,k+1).map((t,i)=>i<k?'<div class="muted"><s>'+t+'</s></div>':'<div>'+t+'</div>').join(''); box.appendChild(d); }
     { const h=typeof EAT!=='undefined'&&EAT.notesHTML?EAT.notesHTML(G,dayLab):''; if(h){ const d=document.createElement('div'); d.className='item'; d.innerHTML=h; box.appendChild(d); } }   /* 吃過的（src/eat3d.js，AA_329 第 2 節）*/
-    if(!G.notes.length&&!G.memo.length){ const m=document.createElement('div'); m.className='muted'; m.textContent='還沒有其他筆記。上課、讀書、和人聊天都會留下紀錄。'; box.appendChild(m); } for(const n of G.notes){ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+n.title+'</b><div>'+n.body+'</div><div class="muted">'+dayLab(n.day)+'</div>'; box.appendChild(d); } if(G.memo.length){ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>日誌</b>'+G.memo.slice(-8).map(m=>'<div>· '+dayLab(m.day)+'：'+(typeof STORY!=='undefined'&&STORY.memoText?STORY.memoText(G,m):m.t)+'</div>').join(''); box.appendChild(d); } }
+    if(!G.notes.length&&!G.memo.length){ const m=document.createElement('div'); m.className='muted'; m.textContent='還沒有其他筆記。上課、讀書、和人聊天都會留下紀錄。'; box.appendChild(m); } for(const n of G.notes){ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>'+n.title+'</b><div>'+n.body+'</div><div class="muted">'+dayLab(n.day)+'</div>'; box.appendChild(d); } if(G.memo.length){ const d=document.createElement('div'); d.className='item'; d.innerHTML='<b>日誌</b>'+(typeof STORY!=='undefined'&&STORY.memoShown?STORY.memoShown(G):G.memo).slice(-8).map(m=>'<div>· '+dayLab(m.day)+'：'+(typeof STORY!=='undefined'&&STORY.memoText?STORY.memoText(G,m):m.t)+'</div>').join(''); box.appendChild(d); } }
   function knownIds(){ return Object.keys(CHARACTERS).filter(id=>{ const c=CHARACTERS[id]; if(c.social_layer==='B') return ['ACQUAINTANCE','FRIEND'].includes(SOCIAL.reveal(id));   /* 不熟的同學：說過話的才算（AA_498 2-2：「被生成 3 次以後外觀描述進朋友頁」拿掉）*/ return SOCIAL.has(id,'FIRST_MET')||G.flags['met_'+id]||(['zhe','kai','prof_zhou'].includes(id)&&(G.stage||'law')==='law')||!!(G.contacts&&G.contacts[id]!=null)||(id==='kexin'&&!!G.flags.dating_kexin); }); }   /* 阿哲、阿凱、周教授開場就熟只在法律系（經濟系那一年不列，BB-C 10-18 BUG-ECON-FRIENDS）。有聯絡方式的人也算認識：遠距女友可昕從開局就在交往、沒有「第一次見面」的紀錄（使用者 2026-10-16：朋友清單沒有可昕）*/
   GM.knownIds=knownIds;   // 認識的人（人物頁、大地圖的人物線索共用）
   function whereText(id){ const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w) return ''; if(w.away) return w.away; return (typeof PLACES!=='undefined'&&PLACES.names[w.zone]||w.zone)+(w.act?'（'+w.act+'，到 '+w.until+'）':''); }
@@ -591,7 +608,7 @@ const GAME = (function(){
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
     const pid=th.startsWith('p:')?th.slice(2):null, why=pid&&typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,pid):'x', canInv=!!pid&&!why&&INV.hasContact(G,pid)&&INV.canInvite(G,pid);   /* 一對一的對話裡也可以約（約人和訊息放在一起：使用者 2026-10-15）*/
     const mo=pid&&typeof MSG!=='undefined'?MSG.open(G,pid):null, msgBtn=mo&&mo.ok?(MSG.sentToday(G,pid)?'<span class="muted" style="font-size:12px;align-self:center">今天傳過了</span>':'<button class="btn" data-msgto="'+escH(pid)+'">傳訊息</button>'):(mo&&mo.show&&mo.why?'<span class="muted" style="font-size:12px;align-self:center">'+escH(mo.why)+'</span>':'');   /* 經濟系重考期可昕住在家裡：「她就在家裡。直接去講。」（AA_301）*/   /* 玩家主動傳訊息（SYS-PHONE-CHAT，src/msg3d.js）*/
-    const gAct=th.startsWith('g:')&&Array.isArray(PHONE.GROUP_ACTS)?PHONE.GROUP_ACTS.findIndex(a=>a.th===th&&a.show(G)):-1;   /* 群組裡的「約」（PHONE.GROUP_ACTS：{th, label, show(G), run(GM)}；麵店團的早午餐，src/wzlines3d.js）*/
+    const gAct=(th.startsWith('g:')||th.startsWith('p:'))&&Array.isArray(PHONE.GROUP_ACTS)?PHONE.GROUP_ACTS.findIndex(a=>a.th===th&&a.show(G)):-1;   /* 群組裡的「約」（PHONE.GROUP_ACTS：{th, label, show(G), run(GM)}；麵店團的早午餐，src/wzlines3d.js）；一對一的對話串也讀（AA_518 第 3 節第 5 點「（傳一張照片給她）」，src/sis_b15_3d.js）*/
     let h='<div class="item phrow thHead"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+msgBtn+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+(gAct>=0?'<button class="btn pri" data-gact="'+gAct+'">'+escH(PHONE.GROUP_ACTS[gAct].label)+'</button>':'')+'</div>';
     if(mo&&mo.ok&&phoneMsgPick===pid&&!MSG.sentToday(G,pid)){ const tp=MSG.topics(G,pid); h+='<div class="item"><div class="muted">傳什麼？</div><div class="row2" style="gap:6px;flex-wrap:wrap;margin-top:6px">'+(phoneMsgShare?MSG.PHOTOS.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|share|'+q.k)+'">'+escH(q.t)+'</button>').join(''):tp.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|'+q.k)+'">'+escH(q.t)+'</button>').join(''))+'<button class="btn" data-msgt="'+escH(pid+'|cancel')+'">取消</button></div></div>'; }
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(sysT(m))+'</div>';
@@ -635,12 +652,14 @@ const GAME = (function(){
   GM.phoneBadge=phoneBadge;
   GM.phoneIsOpen=()=>!!phoneOpen;
   /* 快速存檔、匯出（使用者 2026-10-27「可以有快速存檔按鍵嗎」「快速匯出」，QUICK-SAVE-EXPORT-1027）：右上 💾 一按打開兩個按鈕。
-     存檔＝自動存檔那一格（讀取選單的「自動存檔」）；劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
+     存檔＝自己的「快速存檔」一格（fatiao3d_quick；使用者 2026-10-30 選「獨立快速存檔格」，QUICK-SLOT-1030：原本存在自動存檔那一格，下一次自動存檔就蓋掉）；
+     存之前把上一份快速存檔備份到 fatiao3d_backup（同 saveSlot）；選單存檔頁在「自動存檔」下面一格讀得到。劇情進行中不存——存在劇情中途，讀回來會從中途重演（AN-MEAL-STUCK-1027 就是這樣），請玩家按匯出。
      匯出＝和「選單 → 存檔 → 匯出 → 下載」同一個檔（含 _stuck、_busy），任何時候都能按：卡住時回報用。 */
   function quickSave(){ if(!G||!E.player||GM.titleIdle) return false;
     if(D.busyDepth>0){ toast('劇情進行中，結束後再存。卡住的話按「匯出存檔檔案」傳給開發。',3800); return false; }
-    autosave(); const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
-    toast('已存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):''),2400); return true; }
+    const prev=read(KEY_QUICK); if(prev) write(KEY_BACKUP,prev); if(!write(KEY_QUICK,snapshot())){ toast('存檔失敗（瀏覽器儲存不可用）'); return false; }
+    const dd=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(G.day):null, h=((G.hour%24)+24)%24, p2=n=>String(n).padStart(2,'0');
+    toast('已快速存檔'+(dd?'：'+dd.m+'/'+dd.d+' '+p2(Math.floor(h))+':'+p2(Math.floor((h%1)*60)):'')+'（選單 → 存檔 →「快速存檔」讀取）',2800); if($('saveSlots')&&menuOpen) renderSlots(); return true; }
   GM.quickSave=quickSave;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
     const userClosePhone=()=>{ if(G&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined)){ toast('先回覆。'); return; } closePhone(); };   /* 一定要回的訊息（ask.must）沒回之前，玩家按關閉不會關 */
@@ -664,11 +683,11 @@ const GAME = (function(){
     $('btnImport').onclick=()=>{ $('exportBox').classList.add('hide'); $('importBox').classList.remove('hide'); $('importMsg').textContent=''; };
     $('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $('importText').value=r.result; }; r.readAsText(f); };
     $('btnImportGo').onclick=async()=>{ try{ const obj=parseImport($('importText').value); const cur=read(KEY_AUTO); if(cur) write(KEY_BACKUP,cur); write(KEY_AUTO,obj); $('importMsg').textContent='匯入成功，已備份原本進度。'; await loadFrom(obj); }catch(err){ $('importMsg').textContent='匯入失敗：'+err.message; } };
-    $('btnNew').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
+    $('btnNew').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
     /* 開局二選一（2026-10-18 使用者：「下一個版本開始就可以選擇要不要玩經濟系前傳，也可以選直接玩法律系」）：btnNew＝經濟系前傳（原本的預設）、btnNewLaw＝直接法律系大一（回顧 → 8/22 宿營 → 搬宿舍）*/
-    if($('btnNewLaw')) $('btnNewLaw').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM,{law:true}); };
+    if($('btnNewLaw')) $('btnNewLaw').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM,{law:true}); };
     if($('btnNewEcon')){ if(/[?&]y0\b/.test(location.search)) $('btnNewEcon').classList.remove('hide');   /* 經濟系開局（交接包 v0）：v0 做完以前只在網址 ?y0 出現（D81：開局照舊）*/
-      $('btnNewEcon').onclick=async()=>{ A3.start(); await waitChars(); if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
+      $('btnNewEcon').onclick=async()=>{ A3.start(); await waitChars(); if(!backupBeforeNew()) return; if(G) newGameAbort(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
     $('btnContinue').onclick=async()=>{ A3.start(); const s=read(KEY_AUTO); if(!s){ toast('沒有自動存檔'); return; } await waitChars(); GM.running=true; await loadFrom(s); };
     $('btnLoadMenu').onclick=()=>{ A3.start(); if(!G){ G=defaults(); GM.G=G; } openMenu('save'); };
     $('rotate').onclick=()=>$('rotate').classList.remove('want');

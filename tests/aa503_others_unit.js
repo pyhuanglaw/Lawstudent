@@ -26,6 +26,12 @@
 //   「沒做」裡阿凱大二上（AA_505）、大三上（AA_507）兩句的原因改「改私訊，AA_513 第 1 節」，並查稿上 1-1、1-2 那兩組私訊真的在遊戲裡（時間、p:kai、kaiZq、一字不差）。
 //   加句子以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段：AA_513 的 9 句找不到稿、112 句）；改過的這一份對開發分支 44e8ff8b7 的 src 實際跑：FAILED 2（103 句、改私訊那一項）；
 //   改了以後 ALL PASS。功能（送到、條件、時差）在 tests/aa513_unit.js。
+// AA_520（AA-C 2026-10-28，481dd8238，予樂自己的線；NPC-STORY2-1028）改的：h503_yule 後面加兩句（items 第 4 欄 'AA_520 2'＝那兩句的稿）——第 0 段 SPEC 加 AA_520、
+//   每一句照第 4 欄找稿、句數 121→123；第 4 段 h503_yule 三則。加句子以後、這裡還沒改的時候實際跑：FAILED 2（第 0 段兩句找不到稿、第 4 段 h503_yule 多兩則）；改了以後 ALL PASS。
+//   予樂自己的事（第 3～6 節）、h509_yule 的選項在 tests/aa520_yule_unit.js。
+// （2026-10-28 AA_519 3-3（企劃線 d75cd0228，NPC-STORY2-1028）：「沒做」清單裡小婷、新來的工讀生（小禾）那幾句改成 Café 點餐以後一句接上（src/data/aa519_lines.js cafe.heard，不在 heard_lines.js）——這裡只改原因的字，查法照舊；那幾句在 tests/aa519_support2_unit.js 查）
+// 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis 改字（「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」、2029-01-13 起），
+//   src 照 h508_cx_zq（AA_514）的做法寫 'AA_523 6-3'——第 0 段 SPEC 加 AA_523（句數照舊 123）。改了以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段那一句找不到稿）；改了以後 ALL PASS。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -38,7 +44,9 @@ const SPEC={AA_503:['docs/story_planning/AA_503_女主角自己的生活_大一�
   AA_510:['docs/story_planning/AA_510_女主角自己的生活_大四下與畢業那年夏天.md','28f981438'],
   /* AA_513（a2e4bf196）：阿凱說子晴四句改私訊（heard_lines.js phone 的 1-1、1-2、1-4）；以安窗邊的字幕（pass）在 tests/aa513_unit.js 對稿 */
   AA_513:['docs/story_planning/AA_513_女主角生活稿對照_阿凱四句改私訊_以安窗邊旁白.md','a2e4bf196'],
-  AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407']};   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
+  AA_523:['docs/story_planning/AA_523_學姊第十六批_回臺灣以後的最後半年.md','0d7b5388b'],   /* AA_523 第 6 節 6-3：陳助教 h509_ta_sis 改字（src 'AA_523 6-3'）；時間在 tests/aa508_509_feed_unit.js 第 6 段、tests/aa523_sis_b16_unit.js 第 6 節 */
+  AA_514:['docs/story_planning/AA_514_新稿懸著的承諾自查_可昕最後一場模擬法庭.md','9bca0f407'],   /* AA_514 第 4 節第 3 點：晨希叫子晴不加「學姊」（h507_cx_zq、h508_cx_zq 改字，src 'AA_514 4'）*/
+  AA_520:['docs/story_planning/AA_520_予樂自己的線_辦活動的人不在照片裡.md','481dd8238']};   /* AA_520 第 2 節：h503_yule 後面兩句（items 第 4 欄 'AA_520 2'）；其他在 tests/aa520_yule_unit.js */
 const show=(sha,f)=>{ try{ return cp.execSync('git show '+sha+':"'+f+'"',{cwd:H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ return ''; } };
 const DOC={}; for(const k in SPEC) DOC[k]=show(SPEC[k][1],SPEC[k][0]);
 const loadG=(f,names)=>{ let s=fs.readFileSync(path.join(H.ROOT,f),'utf8'); for(const n of names) s=s.replace(new RegExp('^const '+n+'\\s*=','m'),'globalThis.'+n+'='); vm.runInThisContext(s,{filename:f}); };
@@ -64,9 +72,9 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   check('0. 載得到；index.html：heard_lines.js → heard3d.js 在 story3d.js、noodle_table.js、dorm203_3d.js 以後，bbpack_events.js 前面',!errs.length&&iL>iD&&iH>iL&&iB>iH&&iH>iS&&iH>iN&&iD>0,J(errs));
   const L=HL(), all=[]; for(const e of L.talk) all.push([srcOf(e),e.t,e.id]); for(const e of L.kai203) all.push([srcOf(e),e.t,e.id]);
   for(const k in L.noodle) for(const e of L.noodle[k]) for(const d of e.dialogue) all.push([srcOf(e),d.text,e.once]);
-  for(const e of L.phone) for(const it of e.items) all.push([srcOf(e),it[2],e.id]);
+  for(const e of L.phone) for(const it of e.items) all.push([it[3]?String(it[3]).split(' ')[0]:srcOf(e),it[2],e.id]);   /* items 第 4 欄＝那一句另外的稿（AA_520 第 2 節 h503_yule 後面兩句）*/
   const bad=all.filter(([s,t])=>!DOC[s]||!DOC[s].includes(t));
-  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196，一字不差；'+all.length+' 句）',all.length===121&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
+  check('0. 遊戲裡每一句都在它那一份稿裡（AA_503 d13ab3ab7、AA_504 62849944b、AA_505 795fbecfd、AA_506／AA_507 31a4c4002、AA_508／AA_509／AA_510 28f981438、AA_513 a2e4bf196、AA_520 481dd8238、AA_523 0d7b5388b，一字不差；'+all.length+' 句）',all.length===123&&Object.values(DOC).every(d=>d.length>1000)&&!bad.length,J(bad.slice(0,6)));
   /* 稿上的「別人說起她」（X-4）每一句 */
   const got=new Set(all.map(x=>x[1])), heard=[];
   for(const k of ['AA_503','AA_504','AA_505','AA_506','AA_507']){ let on=false, last=''; for(const l of (DOC[k]||'').split('\n')){ if(/^### \d+-4\. 別人說起她/.test(l)){ on=true; continue; } if(/^(### |## |---)/.test(l)){ on=false; continue; } if(!on) continue; let m;
@@ -79,12 +87,12 @@ await sec('0',async()=>{ const sc=f=>html.indexOf('<script src="'+f), iD=sc('src
   const NOT_DONE={
     '子晴學姊回來看社課，第一件事是去數導線。':'改字（不叫學姊），AA_514 第 4 節第 3 點',
     '以安每次都比我早到一點點。我開始懷疑她住在教室裡。':'曾靖雯（AA_498 已有）','語彤在社工系的課坐第一排。':'蘇承恩（已有）','子晴說我彈得太快。我說她講話太快。':'劉晏如（已有）',
-    '學姊說我的比較好。她自己的那杯，冬天一直有人點。……沒有在菜單上的那杯。':'小婷（不是 3D 人物）',
-    '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷（不是 3D 人物）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',
+    '學姊說我的比較好。她自己的那杯，冬天一直有人點。……沒有在菜單上的那杯。':'小婷：AA_519 3-3 接上（Café 點餐以後一句，src/data/aa519_lines.js cafe.heard；不在 heard_lines.js，tests/aa519_support2_unit.js 查）',
+    '學姊帶新人的時候，講話變慢。帶我的時候沒有。':'小婷：AA_519 3-3 接上（同上）','民總最後一排那個社會系的學姊，都不講話。可是她的筆記比我們少一半，都是重點。':'大一的學妹（3D 標籤人物）','子晴不去實驗室。她說她要做自己的東西。……我覺得她做得到。':'改私訊，AA_513 第 1 節',
     /* 第三輪：AA_506、AA_507 */
-    '學姊把吧檯的抽屜整理好了。她排錯的那張班表，她帶走了。':'小婷（不是 3D 人物）',
-    '學姊現在來當客人。她都坐窗邊，可是我一忙，她就一直看吧檯。':'新來的工讀生（3D 標籤人物）',
-    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（3D 標籤人物）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節'};
+    '學姊把吧檯的抽屜整理好了。她排錯的那張班表，她帶走了。':'小婷：AA_519 3-3 接上（同上）',
+    '學姊現在來當客人。她都坐窗邊，可是我一忙，她就一直看吧檯。':'新來的工讀生（2027-06-04 起叫小禾）：AA_519 3-3 接上（同上）',
+    '學姊每個月傳一次訊息，問店裡的貓。……她沒有問我。':'新來的工讀生（小禾）：AA_519 3-3 接上（同上；字照 AA_509 0-2 改「問公園的貓」）','子晴學姊拿走我的毯子了。……她說借，可是她已經睡了一個月。':'改私訊，AA_513 第 1 節'};
   const miss=heard.filter(([k,w,t])=>!got.has(t)&&!NOT_DONE[t]), extra=Object.keys(NOT_DONE).filter(t=>!heard.some(x=>x[2]===t)||got.has(t));
   check('0. 稿上「別人說起她」'+heard.length+' 句：'+heard.filter(x=>got.has(x[2])).length+' 句在遊戲裡、'+Object.keys(NOT_DONE).length+' 句列在沒做（pool_*、小婷、大一的學妹、新來的工讀生、本來就有的；阿凱大二上和大三上改私訊，AA_513 第 1 節），沒有漏掉',heard.length>=74&&!miss.length&&!extra.length,J({miss,extra}));
   /* 「改私訊，AA_513 第 1 節」的那幾句：AA_513 稿的那一塊（標題寫的是哪一份的 4-4、哪一天幾點；「> 阿凱：…」那幾行）真的在遊戲裡（heard_lines.js phone） */
@@ -190,7 +198,8 @@ await sec('4',async()=>{ if(!HAS()){ check('4. 手機',false,'沒有 HEARD'); re
   /* 予樂：見過予樂（予樂的宵夜）才有 */
   const W11=TDt('Y1S1',11,4); fresh(W11,23,{}); run(W11,23.8); const y0=msgs('h503_yule').length;
   fresh(W11,23,{yulePassDay:TDt('Y1S1',6,3)}); run(W11,23.5); const y1=msgs('h503_yule').length; run(W11,23.8);
-  check('4. AA_503：予樂（見過她：去過予樂的宵夜）第 11 週週四 23:40「可昕的報告被誇了 她嘴上說還好 其實開心到睡不著」（p:yule）；沒見過予樂＝沒有',y0===0&&y1===0&&J(msgs('h503_yule').map(m=>[m.th,m.from,m.text]))===J([['p:yule','yule','可昕的報告被誇了 她嘴上說還好 其實開心到睡不著']])&&PHONE.title(H.G,'p:yule')==='予樂',J(msgs('h503_yule')));
+  /* AA_520 第 2 節（481dd8238）：後面加兩句（同一組、同樣的條件；那兩句的稿在 AA_520，tests/aa520_yule_unit.js 逐字對）*/
+  check('4. AA_503：予樂（見過她：去過予樂的宵夜）第 11 週週四 23:40「可昕的報告被誇了 她嘴上說還好 其實開心到睡不著」（p:yule）＋AA_520 第 2 節後面兩句；沒見過予樂＝沒有',y0===0&&y1===0&&J(msgs('h503_yule').map(m=>[m.th,m.from,m.text]))===J([['p:yule','yule','可昕的報告被誇了 她嘴上說還好 其實開心到睡不著'],['p:yule','yule','我的也被講了 老師說我很敢講'],['p:yule','yule','……我在想這是不是好話']])&&PHONE.title(H.G,'p:yule')==='予樂',J(msgs('h503_yule')));
   const D722=DK('2026-07-22'); fresh(D722,21,{yulePassDay:1}); run(D722,22.1);
   check('4. AA_504：予樂 7/22 22:00 兩則（她搭高鐵走的那晚）',J(msgs('h504_yule').map(m=>m.text))===J(['可昕的媽媽煮了一桌 可昕一直叫她不要再煮了','她在家跟在學校差好多']));
   const S11=TDt('Y2S1',11,6); fresh(S11,23,{}); H.G.events.done.ev_kexin_yule_pass=1; run(S11,23.9);

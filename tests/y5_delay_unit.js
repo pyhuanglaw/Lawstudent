@@ -207,8 +207,10 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
   { const okIf=(id,t)=>{ const e=(SMALLTALK[id]||[]).find(x=>typeof x==='object'&&x.t===t); return !!e&&(!e.if||EVENTS.cond(e.if)); };
     grad('2029-07-02',20,{}); const k1=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z1=okIf('zhe','「系籃週五練球，來坐也可以。」'), z2=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
     H.fresh('2029-03-01',10,'dorm',{}); const k0=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z0=okIf('zhe','「系籃週五練球，來坐也可以。」'), z3=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
-    H.fresh('2028-05-01',10,'dorm',{}); const f0=okIf('npc_fangyt','「森林系的野外實習，下週去溪頭。」'); H.fresh('2028-09-01',10,'dorm',{}); const f1=okIf('npc_fangyt','「森林系的野外實習，下週去溪頭。」');
-    check('G5. 2-2 過時的閒聊：畢業以後阿凱不說「宿舍網路又斷了」、阿哲「系籃週五練球」換成「總圖 B1 的冷氣，比去年冷。」；方奕廷 2028 畢業以後不說「森林系的野外實習」',
+    /* 2026-10-28 AA_519 第 6 節改：方奕廷「森林系的野外實習，下週去溪頭。」每學期一次同一句 → 照學年三句（大一溪頭、大二奧萬大、大三嘉義），大四以後（2028-07 起他在嘉義）一句都不說 */
+    const FY=['「下週去溪頭。……第一次上山，我帶了太多襪子。」','「這學期去奧萬大。樣區要自己找。」','「畢業專題的樣區在嘉義。……我可能會留在那邊。」'];
+    H.fresh('2028-05-01',10,'dorm',{}); const f0=okIf('npc_fangyt',FY[2])&&!okIf('npc_fangyt',FY[0])&&!okIf('npc_fangyt',FY[1]); H.fresh('2028-09-01',10,'dorm',{}); const f1=FY.some(t=>okIf('npc_fangyt',t));
+    check('G5. 2-2 過時的閒聊：畢業以後阿凱不說「宿舍網路又斷了」、阿哲「系籃週五練球」換成「總圖 B1 的冷氣，比去年冷。」；方奕廷 2028 畢業以後不說野外實習（AA_519 第 6 節：照學年的三句，大三那句到 2028-06）',
       !k1&&!z1&&z2&&k0&&z0&&!z3&&f0&&!f1,[k1,z1,z2,k0,z0,z3,f0,f1].join(',')); }
   // ===== G5 模擬：日本、美國各一次，大五上從 9/2 一路「跳到下一件事」到 12/23（AA_357 第 6 節「測試」）=====
   const Y5LINES=new Set(Array.isArray(PG.CARDS_DELAY)?PG.CARDS_DELAY.map(r=>r[3]):[]);

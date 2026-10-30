@@ -2,7 +2,7 @@
    BB-B BB_301 用遊戲的函式一天一天列出美國篇 143 天，沒有任何為那天寫的事的日子：交往中 10 天、挽回中 21 天。AA 定：全部補，每一天一小段。
    台詞在 src/data/us_blank_lines.js（US_BLANK_LINES，照 AA 原文）；這裡是時間、條件、手機、出遊、REPAIR、掛勾。不改 us_life3d.js／us208_3d.js／r2y4a3d.js：都是包一層或讀它們的函式。
    「交往中」＝當天 dating_heroine_05；「挽回中」＝美國路線、不是交往中（BB_204 第 4 節，同 USL）。時間都是當地時間（同 USL、R2Y4A）。
-   第 1 節 挽回中的週六 10:00：學姊在交換生群組（g:us_exchange）一則，16 個週六；三個回法：
+   第 1 節 挽回中的週六 10:00：學姊在交換生群組（g:us_exchange）一則，16 個週六（AA_516 第 5 節補 9/2，共 17 個）；三個回法：
           在群組回＝REPAIR +1（R2Y4A.repairAdd：一週最多 +1，用抵達後第幾週算，和 US2「還沒。」、芝加哥的邀約、US3 合起來算）；（私訊她）＝已讀不回、不加（同日本路線 jp3d.js）；（不回）＝沒有。
           別人接的那一句：她、群組裡的旁白跟著回覆一起出；何俊朗的要見過他才有（回的當下看 MET_LONG）。11/11 那一則只有玩家沒有去芝加哥（US_CHICAGO 'missed'）；
           12/9 那一則 12/2 初雪重新交往的（US_RESTART）也有，回了不加 REPAIR（已經沒有挽回了）。這一則開著到下一個週六 10:00（ask.until）。
@@ -14,7 +14,8 @@
           AA_453 1-2：8/26 早上學姊的七夕（sis_qixi3d.js 的週六市集 sisqx_2028）排了或演了＝8/25 21:00 那一則換句（S.qxOn）；七夕演過的，圖書館的第一句換句（us_blank_lines.js 的 QX）。
           9/9 上午（08:00～12:00）在公寓「洗衣機」那裡選「洗衣服」才演（社區的洗衣間）；快轉停在 9/9 11:00。
           「洗衣服」平常也可以做（40 分鐘、不加數值，同宿舍洗衣間 closed3d.js）；「只看看」＝原本「看」的字（AA_287）。
-          AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）。
+          AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的，開頭（第一句旁白後面）多一句「（你認得那包八角。）」（patchLurou，改 ev_us208_lurou 的 dialogue）；
+          AA_516 第 8 節第 5 點（ca08e848c）的碗那一句（us208_3d.js 的 BOWL）在兩支選項會合的地方（label e 後面，盛出來吃的時候），不在開頭：這一句照 AA_424 原本的位置。
    第 4 節 8/15 迎新週第二天的摘要（每個人都有）：那天第一次出門（人在美國、不在公寓）就演；快轉跳過 8/15 18:00 的，跳完演（包住 USL.jump）；還沒演就又快轉的，那一次快轉以前先演（AA_450 1-3）。
    第 5 節 11/11 交往中、沒有去芝加哥（US_CHICAGO 'missed'：「這週不行。」、沒回、沒趕上巴士）：日期卡＋21:00 私訊（兩個回覆，她已讀不回）。
    存檔：G.flags.USB_*（群組回法 USB_GRP_<月日>、約的回覆 USB_SAT_<月日>、迎新摘要 USB_ORIENT）、G.flags.USB_REC={grp:{月日:回的那天}}（REPAIR 算過了）；舊存檔沒有＝空的。
@@ -176,7 +177,7 @@ const US_BLANK=(function(){
 
   /* ======================= AA_412 3-2 滷肉：有 US_ASIAN_MARKET 的開頭多一句旁白 ======================= */
   S.patchLurou=function(){ const e=evOf('ev_us208_lurou'); if(!e||!Array.isArray(e.dialogue)||e.usbPatched) return false;
-    e.dialogue.splice(1,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」的下一句 */
+    e.dialogue.splice(1,0,{if:{custom:()=>has(S5,'US_ASIAN_MARKET')},speaker:null,text:X.LUROU_EXTRA}); e.usbPatched=true; return true; };   /* 第一句「（還沒進門就聞到了。醬油、八角，還有一點焦味。）」的下一句（AA_516 第 8 節第 5 點 ca08e848c：碗那一句在兩支選項會合的地方，不影響這裡）*/
   S.patchLurou();
 
   /* ======================= 每 0.5 秒（STORY.TICKS）：8/15 的摘要 ======================= */
