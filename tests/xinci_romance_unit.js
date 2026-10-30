@@ -1,4 +1,4 @@
-// 吳芯慈可以交往（很難）：XINCI-ROMANCE-1030（使用者 2026-10-30 X139「芯慈可攻略 但要很難達成 請AA規劃」；AA_537 企劃線 2f523e21a、AA_537b 5ba143d2c）——不需要瀏覽器。
+// 吳芯慈可以交往（很難）：XINCI-ROMANCE-1030（使用者 2026-10-30 X139「芯慈可攻略 但要很難達成 請AA規劃」；AA_537 企劃線 2f523e21a、AA_537b 86659bbc1）——不需要瀏覽器。
 //   第 1 段（告白）＋第 4 段（一）（AA_537b 約會台詞）：
 //   0  src/xcrom3d.js 載得到、index.html；兩個開關（G10 以安、多段）在 XCROM.CFG；DATE.HEROINES、YES_LINE 75、心願 D04（晚上場）、告白要 6 次；confess_lines、termend_lines 的字照稿
 //   1  門檻 G1～G10：每一道單獨拿掉＝心意邀約不發（也不傳 NOPE）；全過＝發；最早大三下（慈 6 以後）；跟以安交往過＝不發（開關關掉＝發）
@@ -27,7 +27,7 @@ const D=k=>STORY.dayOfKey(k);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,3).join(' / ')); } };
 const T=()=>H.said.map(s=>s.t);
 const doc=(sha,file)=>{ try{ return cp.execSync('git show '+sha+':"docs/story_planning/'+file+'"',{cwd:process.env.XC_GIT_DIR||H.ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){ return ''; } };
-const DOC537=doc('2f523e21a','AA_537_吳芯慈可攻略_很難_路線企劃.md'), DOC537b=doc('5ba143d2c','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
+const DOC537=doc('2f523e21a','AA_537_吳芯慈可攻略_很難_路線企劃.md'), DOC537b=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md');
 /* 全部門檻都過的存檔（大三下期末 2028-06-10，時段 6/8～6/18）*/
 const full=(over,key)=>{ const G=H.fresh(key||'2028-06-10',20,'campus',{introDone:true,XC_NIGHT:6,XC5_RECONCILE:true,XC_SAMEDAY:true,XC_BLANK:true});
   G.events.done.ev_xinci_notes=1; G.events.done.ev_xinci_first_place=1; (G.contacts||(G.contacts={}))[XC]=D('2025-10-20');
@@ -90,6 +90,15 @@ const walk=async(picks,term)=>{ H.said=[]; H.opts=[]; H.picks=picks.slice(); ret
     check('3. 她知道祐廷在和子晴交往（knowsRel）＝不發、傳 NOPE.knows（{nope:knows}）',!!h&&h.nope==='knows',J(h));
     X().CFG.noOpen=false; const h2=heart(); X().CFG.noOpen=true;
     check('3. 多段的開關打開（使用者如果說可以）：她的知情條件（KNOWS_OK）過＝照發',h2===true,J(h2)); });
+
+  /* ===== 第 3b 節：交往中的期末飯（AA_537b 8-1）、學期末飯桌換句（8-0）===== */
+  await sec('3b',()=>{ const DOC8=doc('86659bbc1','AA_537b_吳芯慈_第二份_約會台詞_校外地點_期末飯_節日.md'), g=TERMEND_LINES.GF[XC], Hx=TERMEND_LINES.HEART[XC];
+    check('3b. 8-0：心意那一頓的飯桌換「我今天點了一道沒吃過的。……你不要笑。」（舊的「我今天沒帶書出門」不在）',Hx.table==='我今天點了一道沒吃過的。……你不要笑。'&&DOC8.includes('> 芯慈：我今天點了一道沒吃過的。……你不要笑。')&&!fs.readFileSync(path.join(H.ROOT,'src/data/termend_lines.js'),'utf8').includes('我今天沒帶書出門'));
+    check('3b. 8-1 GF：巷口家常菜 18:00、table 兩句連著說、提前一天 21:00；邀約一般版／美國路線大四上版照稿',!!g&&g.placeName==='巷口家常菜'&&g.h===18&&g.inviteDayBefore===21&&J(g.table)===J(['下學期的週三下午，我先空著。','你不用回答。我只是先說。'])&&g.table.every(t=>DOC8.includes('> 芯慈：'+t))&&DOC8.includes('> 芯慈：'+g.invite({day:D('2028-06-10'),flags:{}}))&&DOC8.includes('> 芯慈：你回來了。明天晚上吃飯。……我提前一天約了。'));
+    full(G=>{ G.flags['dating_'+XC]=true; }, '2028-06-08'); H.G.hour=0; const w=TERMEND.windowOf('Y3S2'); TERMEND.plan(H.G,w);
+    let sentAt=null; for(let d=w.from;d<=w.to&&sentAt==null;d++) for(const h of [12,20.9,21.05,23]){ H.G.day=d; H.G.hour=h; TERMEND.phone(GM); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.tag==='te_gf_Y3S2_'+XC); if(m){ sentAt=[d,h,m.text]; break; } }
+    const dd=((H.G.termend.Y3S2||{}).gfDay||{})[XC];
+    check('3b. 交往中：期末飯那天的前一天 21:00 收到她的邀約（不是當天 12:00）',!!sentAt&&dd!=null&&sentAt[0]===dd-1&&sentAt[1]>=21&&sentAt[2]==='明天考完，晚上吃飯。……我提前一天約了。',J([sentAt,dd])); });
 
   /* ===== 第 4 節：AA_537b 第 1～3 節 ===== */
   await sec(4,()=>{ const L=DATE_LINES.lines[XC], K=['accept','acceptDating','cancel','flaked','move','move3','transport','depart','enough','leaveEarly','noPair'];
