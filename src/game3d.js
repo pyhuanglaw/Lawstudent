@@ -302,6 +302,7 @@ const GAME = (function(){
     else if(!course){ await say(null,'你把這週的筆記重新整理了一遍。沒有新的東西，但腦袋清楚了一些。'); break; }
     else break;
     }
+    { const nl=typeof STORY!=='undefined'&&STORY.studyNarr?STORY.studyNarr(GM):null; if(nl) await say(null,nl); }   /* 讀完那個地方的一句旁白（慢讀咖啡四句輪流，AA_535 第 3 節；src/slowread3d.js）*/
     }
   GM.studySession=studySession;
   // ---------- 存檔 ----------
