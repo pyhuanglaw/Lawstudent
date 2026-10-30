@@ -4176,6 +4176,38 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW-B 04:37 ① a、c（慢讀）、d＋04:41 X134"
+  },
+  {
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "ECON-FRIENDS-SOCLIB-1030",
+   "sha": "1a65846c5",
+   "files": [
+    "docs/story_planning/AA_536_經濟系同學在社科院圖書館_作息與台詞.md"
+   ],
+   "next": "LAWWW-B：照 AA_536 第 4 節",
+   "note": "回 LAWWW-B 04:57（X141）"
+  },
+  {
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "state": "已交付",
+   "remaining": "",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "task": "RENAME-1030",
+   "sha": "a76fb3308",
+   "files": [
+    "tools/rename/world_names.py",
+    "docs/WORLD_NAMING.md",
+    "docs/story_planning/"
+   ],
+   "next": "LAWWW-B：白名單 sha 用 a76fb3308",
+   "note": "合 BB-B 4beff0754（28c98b25f）＋工具修正：臺灣大學生不換、真實查證出處還原、使用者原文整份還原"
   }
  ],
  "items": [
