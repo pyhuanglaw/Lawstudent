@@ -42,12 +42,17 @@ const HOME=(function(){
   S.dinnerPick=function(G){ let D=(L()||{}).dinner||[];const H=S.rec(G), T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
     const sisHome=firstWeekend(G), okSis=d=>!(sisHome&&/你姊說/.test(d.mom||''));   /* AA_140 G49：「你姊說她下個月回來。」姊姊在家的週末不問 */
     const home=S.livesHome&&S.livesHome(G), D0=D; D=D0.filter(d=>!(home&&S.DINNER_SKIP.includes(d.mom)));
-    const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
-    const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(((G.day+Object.keys(H.ate).length)%pool.length)+pool.length)%pool.length]; };   /* 經濟系那一年 G.day 是負的：取正的餘數 */
+    const okWin=d=>!d.winter||S.winterBeforeEve(G.day);   /* AA_533 5-3：第一題只在寒假（12 月～除夕前）*/
+    const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&okWin(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
+    const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&okWin(d)); if(!pool.length) return null; return pool[(((G.day+Object.keys(H.ate).length)%pool.length)+pool.length)%pool.length]; };   /* 經濟系那一年 G.day 是負的：取正的餘數 */
+  /* AA_533 5-3：12 月～除夕前（同一個寒假的除夕還沒到）；爸爸在家＝除夕前 3 天～初五（同 jpprep3d.js 的 dadHome，2029 他待到元宵）*/
+  S.winterBeforeEve=function(day){ if(typeof CALENDAR==='undefined'||!CALENDAR.dateOf||!CALENDAR.holiday) return false; const m=CALENDAR.dateOf(day).m; if(m===12) return true; if(m!==1&&m!==2) return false; for(let x=day+1;x<=day+60;x++) if(CALENDAR.holiday(x)==='除夕') return CALENDAR.dateOf(x).m<=2; return false; };
+  S.dadHome=function(day){ if(typeof JPPREP!=='undefined'&&JPPREP.dadHome) return !!JPPREP.dadHome(day); if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return false; for(let x=day-5;x<=day+3;x++) if(CALENDAR.holiday(x)==='除夕') return true; return false; };
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
     { const late=S.lateDinner?S.lateDinner(G):null; if(late) await GM.say(null,late); else { await GM.say(null,firstWeekend(G)?'（晚餐。媽媽煮了一桌，姊姊也回來了。）':'（晚餐。媽媽煮了一桌。）'); { const x=S.grpDinner(G); if(x) await GM.say(null,x); } } }   /* 「回來了沒」回了現在回去、過了 20:00 才到＝「（媽媽把菜熱了一次。）」，沒有晚餐旁白（AA_488 第 3-2 節）*/ await GM.say(MOM,d.mom);   /* 爸爸長期在上海工作，家裡只有媽媽（AA_298 第 8 節）*/   /* 這週四群組說了月餅、湯圓、點心……、回了「會回去」＝多一句旁白（AA_458 1-5）*/
     const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));
-    if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（媽媽')); else await GM.say(MOM,d.dad); if(d.dadAct) await GM.say(null,'（媽媽'+d.dadAct.replace(/給他$/,'給你')+'）');   /* 收尾改媽媽（AA_138 2026-10-18；欄位名 dad 照舊）*/
+    if(d.dadOnly){ if(S.dadHome(G.day)){ if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（爸爸')); else await GM.say(DAD,d.dad); } }   /* AA_533 5-3：新加的三題，爸爸那一句只在爸爸在家的時候出（在上海＝不出，不改成媽媽說）*/
+    else if(/^（.*）$/.test(d.dad)) await GM.say(null,d.dad.replace(/^（/,'（媽媽')); else await GM.say(MOM,d.dad); if(d.dadAct) await GM.say(null,'（媽媽'+d.dadAct.replace(/給他$/,'給你')+'）');   /* 收尾改媽媽（AA_138 2026-10-18；欄位名 dad 照舊）*/
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
     GM.advance(1); };
   /* 在家睡覺：隔天早上在家醒來（08:30）；早上一句 */
@@ -269,10 +274,23 @@ const HOME=(function(){
   S.BREAK_SKIP_DORM={winter:['寒假的宿舍。走廊的燈只開一半。','年前，宿舍的公告欄貼了一張紅紙：除夕到初三，餐廳不開。','初二。宿舍的餐廳沒開，你在便利商店買了一份年菜便當。','寒假的最後一週。室友一個一個回來，走廊又有了腳步聲。'],
     summer:['暑假的宿舍。蟬叫得比上課鐘還準時。','七月。冷氣卡要儲值了，你一次加了一千。','八月。颱風那一晚，宿舍停電，整層樓的人都跑到走廊吹風。','暑假的最後幾天。新生的家長推著行李車，從樓下經過。']};
   S.BREAK_SKIP_DORM_EXTRA={winter:'棉被從櫃子裡拿出來，就沒再收回去。',summer:'洗衣間的烘衣機排了三個人。你決定明天再來。'};
+  /* AA_533 5-1（企劃線 cf0066ed2）：大二起照那一年（四格的挑法、EXTRA 照舊；大一照上面）。美國路線 8/2 出發以前照大三暑假那一列 */
+  S.BREAK_SKIP_Y={
+    Y2W:['寒假的早上。姊姊的房間空著，媽媽每天還是開窗。','年前，媽媽叫你去頂樓收衣服。風很大，晾衣夾掉了兩個。','過年的幾天，親戚問的換成：交女朋友了沒。','寒假的最後一週。你把上學期的考卷整理成一疊，用迴紋針夾起來。'],
+    Y3W:['寒假的早上。你七點就醒了，鬧鐘還沒響。','年前，爸爸從上海寄回來一箱水果，箱子上的字是簡體的。','過年的幾天，親戚問的換成：要不要考研究所。','寒假的最後一週。手帳上這學期的格子，比上學期多。'],
+    Y4W:['寒假的早上。你起床的時候，媽媽已經把早餐放在書桌旁邊。','年前，你把考古題一年一年排好，排到書桌放不下。','過年的幾天，親戚沒有問什麼。大概是看你的臉色。','寒假的最後一週。書桌上的燈，每天開到十二點。'],
+    Y2S:['暑假的第一週。你把上學期的課本搬回家，媽媽問你要不要賣掉。','七月。巷口的冰店排隊排到隔壁。','八月。颱風假那天，你在家把冰箱裡的東西吃完了。','暑假的最後幾天。新宿舍的鑰匙寄到家裡，媽媽幫你收著。'],
+    Y3S:['暑假的第一週。你把大三的筆記放進一個新的紙箱，寫上「大三」。','七月。你每天下午去總圖，回家的時候天還很亮。','八月。颱風來以前，媽媽把陽台的盆栽都搬進客廳。','暑假的最後幾天。你把書桌重新擦了一次。']};
+  S.BREAK_SKIP_DORM_Y={
+    Y2W:['寒假的宿舍。浴室的熱水要放很久才熱。','年前，舍監在每一扇門上貼了一張春節的公告。','初二。整層樓只剩你和隔壁那間，你們在走廊點頭。','寒假的最後一週。有人提早搬回來，箱子擋在樓梯口。'],
+    Y3W:['寒假的宿舍。你把書桌搬到靠窗的那一邊，下午比較亮。','年前，宿舍的洗衣機只剩一台能用。','初二。便利商店的年菜便當賣完了，你買了兩個飯糰。','寒假的最後一週。室友傳訊息說他明天回來，叫你先幫他把窗戶打開。'],
+    Y4W:['寒假的宿舍。409 只剩你一個，連冰箱的聲音都聽得到。','年前，柏翰回家以前，把他的檯燈借給你。','初二。你在交誼廳看了一整天的考古題，電視沒有開。','寒假的最後一週。柏翰回來了，把檯燈拿回去，又放回你桌上。'],
+    Y2S:['暑假的宿舍。整條走廊的門都開著，大家在比誰的電風扇比較大。','七月。宿舍的熱水器修了三天，你洗了三天冷水澡。','八月。颱風假，宿舍的人都待在交誼廳看新聞。','暑假的最後幾天。你把房間的東西裝箱，準備搬到新的寢室。'],
+    Y3S:['暑假的宿舍。蚊子比去年多。','七月。圖書館的冷氣比宿舍強，你每天待到閉館。','八月。颱風那一晚，你在宿舍把明年的課表排了兩次。','暑假的最後幾天。最後一次搬寢室，箱子比你想的少。']};
   S.breakSkipLine=function(G,t0,t1,o){ o=o||{}; const H=S.rec(G), B=S.lawBreak(G); if(!B) return null; const k=o.dorm?'bskipD':'bskip'; if(!H[k]||H[k].key!==B.key) H[k]={key:B.key,n:0,last:-1}; const R=H[k]; let i=S.breakSkipIdx(G,Math.floor((t0+t1)/48),B);
     if(i===2&&o.dorm&&B.kind==='winter'){ const e=S.eveDay(B); if(e!=null&&Math.floor((t1-1e-6)/24)<=e) i=1; }   /* BB 退件 HOLFF-EVE-NARR：宿舍「初二。……年菜便當」只給初一、初二才停的；停在除夕（17:00 回家那一站）用「年前」那句（照跳過那段的中間日挑，除夕 12:00→17:00 會挑到初二）*/
     if(i<0) return null; if(i===R.last){ if(R.extra) return null; R.extra=true; R.n++; return (o.dorm?S.BREAK_SKIP_DORM_EXTRA:S.BREAK_SKIP_EXTRA)[B.kind]; }
-    R.last=i; R.n++; return (o.dorm?S.BREAK_SKIP_DORM:S.BREAK_SKIP)[B.kind][i]; };
+    R.last=i; R.n++; return ((o.dorm?S.BREAK_SKIP_DORM_Y:S.BREAK_SKIP_Y)[B.key]||(o.dorm?S.BREAK_SKIP_DORM:S.BREAK_SKIP)[B.kind])[i]; };   /* AA_533 5-1：大二起照那一年 */
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
   const hasJob=G=>(typeof JOBS!=='undefined'&&JOBS.at?!!JOBS.at(G,'tutor'):!!(G.flags&&G.flags.JOB_TUTOR))||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));   /* 家教看 JOBS.at（停了、會考以後＝沒有，AA_163 第 2 節）；沒有 JOBS（舊的測試環境）照 JOB_TUTOR */
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };

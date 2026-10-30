@@ -242,7 +242,12 @@ const VACFILL_EVENTS=(function(){
         {if:{custom:G=>!here(G,'zhe')},speaker:null,text:X.y3_0209.backNoZhe} ],   /* 阿哲大三寒假多半在高雄（BB_303 第 3 節）：2/9 他不在臺北＝他的句子拿掉、回程旁白換 */
       after:G=>{ G.flags.VF_Y3_LANTERN='went'; } },
     { id:'ev_vf_y3_0214', title:'法圖', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr} ] },
+      dialogue:[ {scene:'法圖'}, {speaker:null,text:X.y3_0212.narr},
+        /* AA_533 4-3（企劃線 cf0066ed2）*/
+        {speaker:'heroine_05',text:'開學前來借的人，通常是要補上學期的。'},{speaker:'heroine_05',text:'……你是哪一種？'},
+        {choice:[{text:'「補上學期的。」',goto:'aa533_a'},{text:'「預習下學期的。」',goto:'aa533_b'}]},
+        {label:'aa533_a'},{speaker:'heroine_05',text:'（把一本書從書架抽出來，放在你手上）這本。'},{goto:'aa533_end'},
+        {label:'aa533_b'},{speaker:'heroine_05',text:'嗯。那你比我大二的時候好。'},{label:'aa533_end'} ] },
 
     /* ===================== 第 4 節 ===================== */
     /* 大一寒假 1/23 15:00 住家裡：媽媽當面說（留宿舍的是私訊，src/vacfill3d.js）；說完排 1/24 的迪化街 */
@@ -257,9 +262,12 @@ const VACFILL_EVENTS=(function(){
       prereq:{custom:G=>win(G,'2026-08-28',18,'2026-08-30',0)},
       dialogue:[ {scene:'臺北的家'}, {speaker:null,text:X.y1s_0828.narr}, {speaker:'宜蓁',name:'宜蓁',text:X.y1s_0828.sis} ] , after:noMemo('ev_vf_y1s_0828') },
     { id:'ev_vf_y2w_0116', title:'阿鳳麵店', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},{speaker:null,text:X.y2w_0114.narr2} ] },
+      dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'}, {speaker:null,text:X.y2w_0114.narr},
+        {speaker:null,text:'（語彤端麵過來，順手把你的筷子擺正。）'},{speaker:'heroine_03',text:'寒假人少。阿姨煮得比較慢。'},{speaker:'yu',text:'慢沒關係！我餓到可以等！'},   /* AA_533 4-1：群組說會去的兩個人開口（兩句旁白中間）*/
+        {speaker:null,text:X.y2w_0114.narr2} ] },
     { id:'ev_vf_y3w_0108', title:'參創', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-      dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr} ] }
+      dialogue:[ {scene:'參創生活園區',bg:'d03_base_afternoon'}, {speaker:null,text:X.y3w_0106.narr},
+        {speaker:'heroine_04',text:'這台是我學長做的。他去年也在這裡排隊，排到最後一個。'},{speaker:'heroine_04',text:'……明年我也要有一台。'} ] }   /* AA_533 4-2 */
   ];
 })();
 /* 元宵的燈會：2D 夜景、人潮（AA_440 3-2）——還沒有圖＝深色底＋地點字幕（MISSING_EXTERNAL_ART，等 BB 跟使用者要）*/

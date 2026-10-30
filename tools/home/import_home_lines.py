@@ -53,9 +53,25 @@ if a532_sha:
         for d in dinner:
             for o in d['opts']:
                 if o['t'] == '我才大一。': o['t'] = m532.group(1)
+# AA_533 5-3（AA-B 定稿 D109）：在家吃晚餐的題目再加三個（媽媽一句、兩個選項、爸爸一句）。n 接在後面（9、10、11）；
+# winter＝第一題只在寒假（12 月～除夕前）；dadOnly＝爸爸那一句只在爸爸在家的時候出（他在上海＝不出；home3d.js S.dinner）
+A533 = 'docs/story_planning/AA_533_D99寒暑假二_出國旅遊和她_活動卡的人_回她的縣市_快轉旁白分年.md'
+a533_sha = _approved(_allow, 'docs/story_planning/AA_533').get(A533)
+if a533_sha:
+    ok, why = _allowed(A533, a533_sha, _allow)
+    if not ok: raise SystemExit(why)
+    a533 = alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{a533_sha}:{A533}'], text=True))
+    s533 = a533[a533.index('### 5-3'):]; s533 = s533[:s533.find('\n## ')]
+    rows = [l for l in s533.splitlines() if l.startswith('| ') and not l.startswith('| 媽媽')]
+    n0 = max(d['n'] for d in dinner)
+    for i, l in enumerate(rows):
+        mom, optc, dad = [c.strip() for c in l.strip().strip('|').split('|')]
+        d = {'n': n0 + 1 + i, 'mom': mom, 'opts': [{'t': t} for t in q(optc)], 'dad': dad, 'dadOnly': True}
+        if i == 0 and '第一題只在寒假' in s533: d['winter'] = True
+        dinner.append(d)
 reply = section('群組')
 rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(1)), 'no': q(re.search(r'「這週不回」→ 媽媽：(.*?)；', reply).group(1)), 'none': q(re.search(r'不回 → 爸爸(?:（[^）]*）)?兩小時後：(.*)$', reply, re.M).group(1))}
-out = {'source': REF.replace('origin/', '') + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
+out = {'source': REF.replace('origin/', '') + ' ' + sha + (('＋AA_532 ' + a532_sha) if a532_sha else '') + (('＋AA_533 ' + a533_sha) if a533_sha else ''),'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
 dst = os.path.join(ROOT, 'src', 'data', 'home_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：' + out['source'] + ' */\n')
