@@ -47,7 +47,7 @@ _allow = _load(ROOT); a532_sha = _approved(_allow, 'docs/story_planning/AA_532')
 if a532_sha:
     ok, why = _allowed(A532, a532_sha, _allow)
     if not ok: raise SystemExit(why)
-    a532 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{a532_sha}:{A532}'], text=True)
+    a532 = alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{a532_sha}:{A532}'], text=True))
     m532 = re.search(r'「我才大一。」.*?改成「([^」]+)」', a532, re.S)
     if m532:
         for d in dinner:

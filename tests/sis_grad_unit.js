@@ -198,12 +198,14 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
   await sec('G3',async()=>{
     const d21=K('2026-01-21'), d26=K('2026-01-26'), d31=K('2026-01-31'), d2=K('2026-02-02'), d3=K('2026-02-03'), d4=K('2026-02-04'), d5=K('2026-02-05');
     fresh(d21,10,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI(); joinFam(); const stops=[];
-    const ff=async()=>{ picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); stops.push(Tm(G.day,G.hour)); tick(); };
+    const famStop=()=>G.weekday===4&&PHONE.pending(G).some(m=>m.ask.id==='home_ask_'+G.day);   /* AA_532 第 4 節：留宿舍的寒假週四 20:00 也有家人群組（要回的＝快轉停一次）；那一次接著跳 */
+    const ff1=async()=>{ for(let k=0;k<6;k++){ picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); if(!famStop()) break; } };
+    const ff=async()=>{ await ff1(); stops.push(Tm(G.day,G.hour)); tick(); };
     await ff(); check('G3. 快轉 → 1/24～1/27 不停（AA_360 2-1：不再由她約，1/26 沒有私訊、沒有出遊）→ 1/31 21:00 家族群組',stops[0]===Tm(d31,21)&&!her().length&&!OUT.get(G,'sisg_low_night')&&fam().some(m=>m.text==='學姊後天考試！！大家幫學姊集氣'),JSON.stringify(stops));
     await ff(); check('G3. → 2/2 17:30「考完了」（一起念過書就有；沒有那一晚也有）',stops[1]===Tm(d2,17.5)&&her().some(m=>m.text==='考完了'),JSON.stringify(stops));
     await ff(); check('G3. → 2/3 21:00 邀去買計畫本',stops[2]===Tm(d3,21)&&!!ask('sisg_planner_ask'),JSON.stringify(stops));
     answer('sisg_planner_ask',0); tick(); await ff(); check('G3. 答應 → 2/4 出發去文具店之前停',stops[3]>Tm(d4,8)&&stops[3]<=Tm(d4,14)-0.25-0.25&&!!OUT.get(G,'sisg_new_planner'),JSON.stringify(stops));
-    fresh(d21,10,'dorm',{SIS_W1:true}); FAM(); const st2=[]; for(let i=0;i<2;i++){ picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'dorm'); st2.push(Tm(G.day,G.hour)); tick(); }
+    fresh(d21,10,'dorm',{SIS_W1:true}); FAM(); const st2=[]; for(let i=0;i<2;i++){ await ff1(); st2.push(Tm(G.day,G.hour)); tick(); }
     check('G3. 沒解鎖、不在家族群組：1/26～2/4 都不停（直接到 2/5 的摘要日）',st2[0]===Tm(d5,18.5),JSON.stringify(st2.map(t=>[Math.floor(t/24)-d21,t%24])));
     { fresh(d26,17.6,'dorm',{SIS_STUDY:true}); const w=STORY.lawWakeAt(G); fresh(d3,19,'dorm',{SIS_STUDY:true}); const w2=STORY.lawWakeAt(G);
       check('G3. 宿舍睡著也會醒來：2/3 21:00（STORY.WAKE_AT；只有 SIS_STUDY 也會）；1/26 18:00 不再醒來（AA_360 2-1）',w!==18&&w2===21,w+' '+w2); }

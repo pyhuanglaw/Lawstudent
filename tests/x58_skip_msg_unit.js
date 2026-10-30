@@ -42,7 +42,8 @@ const freshJP=(key,h)=>{ const G=H.fresh(key,h,'jp_hub',{EXCHANGE_ROUTE:'JP',EXC
   // A3 要回的照樣停（回歸）、跳之前就在的問句不再停
   { H.fresh('2026-01-07',10,'dorm'); reset(); PHONE.post(H.G,{th:'p:zhe',from:'zhe',text:'測試：跳之前就在的問句',ask:{id:'x58_old',opts:[{t:'好'}]}}); seenN=othersN();
     PHONE.at(H.G,D('2026-01-08'),9,[{th:'p:zhe',from:'zhe',text:'測試：要回的',ask:{id:'x58_ask',opts:[{t:'好'}]}}],'x58_a3'); H.picks=['過三天']; await HOME.ffMenu(GM,'dorm');
-    check('A3. 要回的訊息照舊停在收到的那一刻（1/8 09:00）；跳之前就在的問句不另外停；之後接著跳到 1/10 08:30',calls.length===1&&calls[0].t===T(D('2026-01-08'),9)&&now()===T(D('2026-01-10'),8.5),JSON.stringify(calls.map(c=>lbl(c.t)))); }
+    const cs=calls.filter(c=>c.t!==T(D('2026-01-08'),20)&&c.t!==T(D('2026-01-08'),22));   /* AA_532 第 4 節：留宿舍的寒假週四（1/8）20:00 家人群組、22:00 爸爸「？」也停，那兩次不算 */
+    check('A3. 要回的訊息照舊停在收到的那一刻（1/8 09:00）；跳之前就在的問句不另外停；之後接著跳到 1/10 08:30',cs.length===1&&cs[0].t===T(D('2026-01-08'),9)&&now()===T(D('2026-01-10'),8.5),JSON.stringify(calls.map(c=>lbl(c.t)))); }
   // A4 放假住家裡「睡覺」：明天 07:30 的出遊（從家裡出發，06:45 要停）——半夜 23:00 一則
   { H.fresh('2026-01-12',22,'dorm'); atHome(); reset(); const d=H.G.day; OUT.plan(H.G,{id:'x58_out',ev:'ev_vac_key',day:d+1,h:7.5,late:0.5,place:'臺北車站',title:'測試的出遊',travel:'捷運約 20 分鐘',travelH:1/3,silent:true});
     msg(d,23,'測試：半夜的訊息','x58_a4'); const nx=HOME.breakNext(H.G); let menus=0, t2=null;

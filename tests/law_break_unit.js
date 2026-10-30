@@ -80,6 +80,8 @@ GM.money=function(n){ G.money+=n; };
     const m14=(G.msgs||[]).find(m=>m.text==='測試：1/14 22:30 的訊息');
     check('6. 過三天：中間的 1/14 22:30 訊息照時間收進來；1/15 的出遊先停（字卡寫「宿舍」、沒有 2D 背景、宿舍版旁白 AA_183 4-b「年前，宿舍的公告欄…」）',!!m14&&m14.day===D('2026-01-14')&&G.day===D('2026-01-15')&&G.hour<15&&cards.length===1&&cards[0][1]==='宿舍'&&advN===0&&!lines().some(t=>/家裡|媽媽/.test(t))&&lines().includes('年前，宿舍的公告欄貼了一張紅紙：除夕到初三，餐廳不開。'),JSON.stringify([cards,G.day-D('2026-01-15'),G.hour,lines()]));
     OUT.get(G,'t_lb_out').state='missed'; picks=['過一週']; cards=[]; await HOME.ffMenu(GM,'dorm');
+    check('6. 過一週：1/15（四）20 點多先停在家人群組（要回的；AA_532 第 4 節：留宿舍的寒假也有）',G.day===D('2026-01-15')&&G.hour>=20&&G.hour<21.01&&(G.msgs||[]).some(m=>m.ask&&m.ask.id==='home_ask_'+D('2026-01-15')),JSON.stringify([G.day-D('2026-01-15'),G.hour]));
+    picks=['過一週']; cards=[]; await HOME.ffMenu(GM,'dorm');
     check('6. 過一週：1/20 18:30（摘要日）先停',G.day===D('2026-01-20')&&Math.abs(G.hour-18.5)<1e-6,JSON.stringify([G.day-D('2026-01-20'),G.hour]));
     picks=['不用了']; const d0=G.day; await HOME.ffMenu(GM,'dorm'); check('6. 不用了：時間不動',G.day===d0&&Math.abs(G.hour-18.5)<1e-6); }
   // 7. 住家裡：回家 → 家裡的選單 → 快轉一路到放假最後一天 → 回宿舍住
