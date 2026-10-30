@@ -1554,7 +1554,7 @@
    "role": "LAWWW",
    "task": "AA527-FIX-1030",
    "state": "WIP",
-   "sha": "8a715d27d",
+   "sha": "e04c683f4",
    "branch": "aa527-fix（子代理；D113 備份 wip_backup/aa527_1030.bundle，基準 3035cc66b）",
    "files": [
     "wip_backup/aa527_1030.bundle"
@@ -1578,6 +1578,36 @@
    "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
    "noDirectIntegrate": true,
    "source": "發布後合併（AA_524＋525＋l118-r2＋aopen-r2＋合併修正）；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AA529-1030",
+   "role": "LAWWW",
+   "task": "AA529-ECON-FIX-1030",
+   "state": "WIP",
+   "sha": "0dcdece9a",
+   "branch": "aa529-econ（子代理；D113 備份 wip_backup/aa529_1030.bundle，基準 acc883b3e）",
+   "files": [
+    "wip_backup/aa529_1030.bundle"
+   ],
+   "todo": "AA_529 第 2～6 點（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_529 第 2～6 點；LAWWW-B 10-30 派子代理"
+  },
+  {
+   "id": "WIP-LAWWW-AA532-1030",
+   "role": "LAWWW",
+   "task": "AA532-VAC-FIX-1030",
+   "state": "WIP",
+   "sha": "4c81ef7df",
+   "branch": "aa532-vac（子代理；D113 備份 wip_backup/aa532_1030.bundle，基準 d531b973f）",
+   "files": [
+    "wip_backup/aa532_1030.bundle"
+   ],
+   "todo": "AA_532 寒暑假（LAWWW-B 10-30 子代理）",
+   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "noDirectIntegrate": true,
+   "source": "AA_532 寒暑假；LAWWW-B 10-30 派子代理"
   }
  ]
 }
