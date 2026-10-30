@@ -35722,6 +35722,28 @@
     "ack": "ACK"
    },
    "notes": "很少人走到，排在 D99 之後（AA）"
+  },
+  {
+   "id": "QUICK-SLOT-1030",
+   "title": "快速存檔獨立一格：💾 存到 fatiao3d_quick（不被自動存檔蓋掉），選單存檔頁與標題讀取看得到、可讀取；自動存檔、欄位 1～3 不變",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "next": "postrel-1030 實作＋單元測試，v9.10.14 發布後進開發分支，BB 瀏覽器測",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲開始就能按 💾",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 03:5x 選擇題（UA-LAWWW-1030-05，USER_WANTS X126）",
+   "authorized": "使用者",
+   "notes": "延續 QUICK-SAVE-EXPORT-1027（X115）"
   }
  ]
 }
