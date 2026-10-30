@@ -317,13 +317,21 @@ const R2Y3B_EVENTS=(function(){
     outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
 
   /* ---------- 2-Y3-42 慈 6「暑期實習」（AA_547 2-4 新寫，D116：原本「第一名」、改輔系、隔天「排名出來了。我第一。」都拿掉）：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
+  const XON={custom:()=>typeof XCROM!=='undefined'&&!!XCROM.ON};   /* 芯慈戀愛線開關（src/xcrom3d.js）*/
   const XC_LINES=[ {speaker:'classmate_xinci',text:'我申請了國際所的暑期實習。台灣分所。'},
     {speaker:'classmate_xinci',expression:'smile',text:'……錄取了。金融那一組。'},
     {choice:[{text:'「恭喜！」',goto:'a'},{text:'「為什麼是金融那一組？」',goto:'b'},{text:'「妳爸媽怎麼說？」',goto:'c'}]},
     {label:'a'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我想做的就是這個。'},{goto:'end'},
     {label:'b'},{speaker:'classmate_xinci',text:'因為那裡的合約，數字跟條文一樣多。'},{goto:'end'},
     {label:'c'},{speaker:'classmate_xinci',expression:'laugh',text:'我媽說：那家樓下的咖啡很好喝。'},
-    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST（id 照舊）＝慈 6 演過：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+    {label:'end'},
+    /* AA_548 3-5（G8「週六晚上」，取代「空白的週三下午」）：芯慈戀愛線打開（XCROM.ON）才有；選「我可以一起嗎？」記 XC_BLANK，另外兩個＝大四上第 6 週週六她再傳一則（xcrom3d.js blankAgain）*/
+    {if:XON,speaker:'classmate_xinci',text:'實習是週一到週五。'},{if:XON,speaker:'classmate_xinci',text:'週六晚上，我還是會去西門町，看七點那一場。'},
+    {if:XON,choice:[{text:'「我可以一起嗎？」',set:{XC_BLANK:true},goto:'s1'},{text:'「妳一個人看嗎？」',goto:'s2'},{text:'「好好實習。」',goto:'s3'}]},{goto:'fin'},
+    {label:'s1'},{speaker:'classmate_xinci',text:'……可以。不要遲到。'},{goto:'fin'},
+    {label:'s2'},{speaker:'classmate_xinci',text:'一直都是。'},{goto:'fin'},
+    {label:'s3'},{speaker:'classmate_xinci',text:'嗯。'},
+    {label:'fin'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST（id 照舊）＝慈 6 演過：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
   const XC={ id:'ev_xinci_first_place', title:'暑期實習', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
     prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return typeof XCROM!=='undefined'&&!!XCROM.OLD&&!!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},   /* XCROM.OLD：D116 先關 */
     dialogue:XC_LINES };

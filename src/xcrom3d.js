@@ -41,11 +41,10 @@ const XCROM=(()=>{
       G3:!!(l118&&l118.H7c!=null),   /* 「她今天要換。」（lane118.js H7c）*/
       G4:(mem(G,'XINCI_NIGHT')||mem(G,'XINCI_SECOND'))&&(f.XC_FIX!=='yes'||!!f.XC_CALL1),   /* 慈 3 半夜的便利商店；走 Café 補演（XC_FIX）的要多過 3-3 那通電話（XC_CALL1）*/
       G5:(f.XC_NIGHT|0)>=6,   /* 半夜回她訊息 6 次（她傳的 30 分鐘內）*/
-      G6:!!f.XC5_RECONCILE,   /* 慈 5 她跟以安和好 */
+      G6:!!f.XC5_RECONCILE,   /* 慈 5「對答案」演過＝開始一起讀書（AA_548 第 1 節；沒演到＝大三下第 3 週總圖三樓補一次，S.EV_G6）*/
       G7:!!f.XC_SAMEDAY,   /* 「沒有提前一天」：她第一次當天約你，你答應 */
-      G8:(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))&&!!f.XC_BLANK,   /* 慈 6＋「空白的週三下午」選「那我來填。」*/
-      G9:S.numbers(G),
-      G10:!(S.CFG.noAnEx&&S.anDated(G)) }; };
+      G8:(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))&&!!f.XC_BLANK,   /* 慈 6「暑期實習」以後「週六晚上」選「我可以一起嗎？」（AA_548 3-5；大四上第 6 週週六再問一次）*/
+      G9:S.numbers(G) }; };   /* 舊 G10「跟以安交往過就不開」拿掉（AA_548 第 1 節；使用者選照樣可以開）*/
   S.allGates=G=>{ if(!S.ON) return false; const g=S.gates(G); return Object.keys(g).every(k=>g[k]); };
   /* 心意邀約發不發（AA_537b 第 7 節：G1～G8 都過、G9 數值、G10；人在國外那一學期沒有）——termend3d.js S.cond 一開始問；沒過＝不發、也不傳 NOPE 那一句 */
   S.heartOk=function(G){ if(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G)) return false; return S.allGates(G); };
@@ -63,19 +62,30 @@ const XCROM=(()=>{
   const contact=G=>typeof INV!=='undefined'&&!!INV.hasContact&&!!INV.hasContact(G,XC);
   const P=t=>({th:'p:'+XC,from:XC,text:t});
   const due=(G,d,h,late)=>d!=null&&now(G)>=T(d,h)&&now(G)<T(d,h)+(late==null?6:late);   /* 到了那個時間、還沒過太久（快轉跳過很久的不補）*/
-  /* 3-1 G2 的補問：大二上第 3 週麵店長桌（麵店日、她在），慈 2 兩個都沒記（TALKED_FAMILY、ECON_TOGETHER）才有 */
-  S.EV_G2={ id:'ev_xc_g2_dad', title:'', participants:[XC], location:'noodle', trigger:'auto', term:['Y2S1'], weeks:[3], ndlDay:true, time:[17.5,21], once:true, npcPresent:XC, background:'blur',
-    prereq:{custom:G=>law(G)&&!mem(G,'TALKED_FAMILY')&&!mem(G,'ECON_TOGETHER')},
-    dialogue:[ {speaker:XC,text:'我爸是會計師。……算了，沒什麼。'},
-      {choice:[{text:'「妳爸怎麼了？」',goto:'a'},{text:'（不問）',goto:'end'}]},   /* 稿寫「玩家點她，選項」：大家都在長桌，旁白之後直接出選項（LAWWW-B 10-30 告訴 AA）*/
-      {label:'a'},{speaker:XC,text:'他說，法律系畢業沒有第二專長會餓死。'},{speaker:XC,text:'……所以我有第二專長。'},{mem:[{npc:XC,tag:'TALKED_FAMILY',note:'她爸爸是會計師'}]},
+  /* 3-1 G2 的補問（AA_548 3-1）：大二上第 3 週，巷口家常菜（l118_home；她那一週平日 18:00～19:30 在那裡吃飯，S.SCHED），慈 2 兩個都沒記（TALKED_FAMILY、ECON_TOGETHER）才有 */
+  S.g2Done=G=>mem(G,'TALKED_FAMILY')||mem(G,'ECON_TOGETHER');
+  S.EV_G2={ id:'ev_xc_g2_dad', title:'', participants:[XC], location:'l118_home', trigger:'auto', term:['Y2S1'], weeks:[3], weekday:[1,2,3,4,5], time:[18,19.5], once:true, npcPresent:XC, background:'blur',   /* id 照舊（舊存檔記過的）*/
+    prereq:{custom:G=>law(G)&&!S.g2Done(G)},
+    dialogue:[ {speaker:XC,text:'我昨天又在幫我媽對帳。……算了，你不會想聽。'},
+      {choice:[{text:'「我想聽。」',goto:'a'},{text:'（不問）',goto:'end'}]},
+      {label:'a'},{speaker:XC,text:'我爸媽都是律師。事務所的帳，我從國中就在對。'},{speaker:XC,text:'……所以我雙主修財金。是我自己要的。'},{mem:[{npc:XC,tag:'TALKED_FAMILY',note:'她爸媽都是律師，雙主修財金是她自己要的'}]},
       {label:'end'} ] };
+  /* G6 補一次（AA_548 第 2 節）：慈 5 沒演到的，大三下第 3 週週一～三 18:00～21:00 總圖三樓（以安、芯慈都在，S.SCHED）；看到就算、不用選，記 XC5_RECONCILE */
+  S.EV_G6={ id:'ev_xc_g6_makeup', title:'對答案', participants:[], location:'library', trigger:'enter', once:true, background:'blur', npcZone:[AN,XC], term:['Y3S2'], weeks:[3], weekday:[1,2,3], time:[18,21],
+    prereq:{custom:G=>law(G)&&!F(G).XC5_RECONCILE&&!(typeof STORY!=='undefined'&&STORY.abroad&&STORY.abroad(G))},
+    dialogue:[ {speaker:null,text:'（以安和芯慈在對民訴的考古題。以安在日本以前的最後幾個禮拜。）'},
+      {speaker:XC,text:'第三題，妳的寫法比我的清楚。我抄。'},{speaker:AN,text:'第六題換我抄妳的表。'},{speaker:XC,text:'（對你）你要加入嗎？你負責第八題。'},
+      {set:{XC5_RECONCILE:true}} ] };
   /* 3-2 G3 的提醒：大二下第 10 週週四 00:40，還沒過 G3（沒選過「她今天要換。」）、有她的聯絡方式 */
   S.G3_REMIND=['巷口那間家常菜，我還是點番茄炒蛋。','上次說想換。你沒有記。','……我也沒有。晚安。'];
   S.g3Remind=function(G){ const d=TD('Y2S2',10,4); if(!law(G)||!due(G,d,0+40/60)||sent(G,'xc_g3_remind')||!contact(G)||S.gates(G).G3) return; PHONE.at(G,d,40/60,S.G3_REMIND.map(P),'xc_g3_remind'); };
-  /* 3-5 後補：慈 6 那天沒選「那我來填。」（另外兩個）＝大四上第 6 週週三 14:00 她再傳一次；回「我來填。」照樣記 XC_BLANK */
-  S.blankAgain=function(G){ const d=TD('Y4S1',6,3), f=F(G); if(!law(G)||!due(G,d,14)||sent(G,'xc_blank_again')||f.XC_BLANK||!contact(G)||!(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))) return;
-    PHONE.at(G,d,14,[Object.assign(P('週三下午還是空的。'),{ask:{id:'xc_blank_again',until:T(d+2,0),opts:[{t:'我來填。',set:{XC_BLANK:true}}]}})],'xc_blank_again'); };
+  /* 3-5 後補（AA_548 3-5）：慈 6 那天「週六晚上」沒選「我可以一起嗎？」＝大四上第 6 週週六 14:00 她再傳一則；回「我也去。」照樣記 XC_BLANK，那天 19:00 排一次 D04 約會（一般約會，不是心願的午夜場）*/
+  S.BLANK_AGAIN='今天晚上七點，西門町。……我還是一個人。';
+  S.blankAgain=function(G){ const d=TD('Y4S1',6,6), f=F(G); if(!law(G)||!due(G,d,14)||sent(G,'xc_blank_again')||f.XC_BLANK||!contact(G)||!(done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video'))) return;
+    PHONE.at(G,d,14,[Object.assign(P(S.BLANK_AGAIN),{ask:{id:'xc_blank_again',until:T(d,18),opts:[{t:'我也去。',set:{XC_BLANK:true}}]}})],'xc_blank_again'); };
+  S.onBlank=function(G,m,o){ if(!m||!m.ask||m.ask.id!=='xc_blank_again'||!o||typeof DATE==='undefined'||!DATE.check||!DATE.book) return; const tr=DATE.travel&&DATE.travel('D04');
+    const tH=tr?tr.minutes/60:0.5;   /* 七點那一場：提早 15 分鐘到（19:00 才到，回程會超過約會的 23:30 上限）*/
+    for(const dep of [19-tH-0.25,19-tH-0.5]){ const o2={who:XC,locs:['D04'],day:m.day,depart:dep,kind:'evening'}, c=DATE.check(G,o2); if(c&&c.ok){ DATE.book(G,Object.assign(o2,{by:'npc'})); return; } } };
   /* 3-4 G7「沒有提前一天」：慈 5 以後的第一個週三（大三上第 14 週起）15:00 她當天約；沒答應（或答應了沒到）＝大三下第 6 週週三再約一次（第三則換「……再破例一次。」；
      日本路線大三下在日本＝改大四上第 2 週週三，AA_537 1-1）。兩次都沒答應：這條線關上（G7 不會過）。答應＝當天 18:00 巷口家常菜（出遊，ev_xc_sameday）*/
   S.G7_MSG=['今天晚上有空嗎。','我知道我說過吃飯要提前一天。','……今天想破例。'];
@@ -107,44 +117,43 @@ const XCROM=(()=>{
     if(f.XC_CALL1_MISS!=null&&!sent(G,'xc_call1_miss')&&now(G)>=T(d,8.5)&&now(G)<T(d+2,0)) PHONE.at(G,Math.max(d,G.day),Math.max(8.5,(G.day>d?G.hour%24:8.5)),[P('打錯了。')],'xc_call1_miss'); };
   S.EV_CALL1={ id:'ev_xc_call1', title:'她第一次打電話來', participants:[XC], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'電話'},
-      {speaker:XC,text:'……你還沒睡。'},{speaker:XC,text:'我在看一部劇。女主角考了第二名，哭了一整集。'},{speaker:XC,text:'我覺得很蠢。可是我也哭了。'},{speaker:XC,text:'你不用說什麼。我只是想講出來。'},
-      {speaker:null,text:'（她講到一點半。你們掛電話的時候，她說了「晚安」，又說了一次。）'},
+      {speaker:XC,text:'……你還沒睡。'},{speaker:XC,text:'我在看一部劇。女主角一個人把整間公司的帳對完，哭了一整集。'},{speaker:XC,text:'我覺得很蠢。可是我也哭了。'},{speaker:XC,text:'你不用說什麼。我只是想講出來。'},
+      {speaker:null,text:'（她講到一點半。掛電話的時候，她說了「晚安」，又說了一次。）'},
       {set:{XC_CALL1:true}} ],
     outingMissed:G=>{ if(G&&G.flags&&G.flags.XC_CALL1_MISS==null) G.flags.XC_CALL1_MISS=S.callDay(); } };
   /* 第 2 節「和以安分開那晚 01:10」那一則：使用者 10-30 選「照樣可以開」以後 AA-B 17:18「拿掉，不換」——不做 */
   /* ---------- G5 半夜訊息（AA_537 第 1 節「G5 的訊息從哪裡來」、AA_537b 第 9 節 8acf3b308）----------
      慈 3（或 3-3 電話）以後每週一則：週三或週日（一週週三、一週週日輪流）00:30～01:30；照順序輪、用完從頭（八則一輪＝同一則八週內不重複）。
-     A＝慈 5 以前、B＝慈 5（和以安和好）以後；B3 慈 6 以後不傳（她改輔系了）、B8 要慈 6 以後。交往以後換 L 層（AA_537 5-2）。
-     30 分鐘內回任何一個選項＝XC_NIGHT +1（PHONE.ON_ANSWER）；沒回不扣分。快轉停在這一則（不是 quiet）。線關上（G6 沒過、G7 兩次沒答應、3-3 沒接）以後不傳。
+     A＝慈 3 以後、慈 5 以前，B＝慈 5（開始一起讀書）以後（AA_548 第 5 節換了 A3、A4、A5、A7、A8、B1、B3、B8；B3、B8 不再看慈 6）。交往以後換 L 層（AA_537 5-2）。
+     30 分鐘內回任何一個選項＝XC_NIGHT +1（PHONE.ON_ANSWER）；沒回不扣分。快轉停在這一則（不是 quiet）。線關上（G7 兩次沒答應、3-3 沒接）以後不傳。
      心願 mention（AA_537b 8-2）：大三上起、交往前第 4 階以上的第一則，那一週用 mention 代替（不佔順序）。 */
   const B_=(t,o)=>({t:o[0],r:o[1]});
   S.NIGHT_A=[
     {k:'A1',m:['你還沒睡吧。','我把民法的筆記重抄了一次。第一次抄的，字太醜。'],o:[['多醜？','醜到我自己看不懂。'],['妳的字已經很工整了。','那是你沒看過第一版。'],['快睡。','抄完這頁。']]},
     {k:'A2',m:['我在看劇。女主角一直在等一個人回訊息。','……我覺得她應該先睡。'],o:[['那妳呢？','我在看劇，不算等。'],['哪一部？','說了你也不會看。……好啦，我傳給你。'],['她會等到嗎？','還剩四集。我等一下告訴你。']]},
-    {k:'A3',m:['今天經濟學的小考，我第二名。','不用安慰我。我只是說出來。'],o:[['第二名很好啊。','大家都這樣說。'],['第一名是誰？','不是以安。她沒修這堂。……我為什麼要講這個。'],['嗯。','……謝謝。這樣剛好。']]},
-    {k:'A4',m:['我爸又問我，寒假要不要去事務所。','我說要考慮。這是我第一次跟他說要考慮。'],o:[['那妳想去嗎？','不知道。這是第一次不知道。'],['考慮很好啊。','嗯。他聽起來不覺得好。'],['去看看也沒關係。','你講得好像很簡單。……可能真的很簡單。']]},
-    {k:'A5',m:['最後一班捷運，我跑到月台，門剛好關上。','……結果下一班才是最後一班。'],o:[['所以有趕上？','有。我白跑了。'],['妳也會用跑的？','會。很少。'],['到家說一聲。','到了。……你怎麼還沒睡。']]},
+    {k:'A3',m:['今天財管的小考，最後一題我算了三次才對起來。','對起來的時候，我在考場笑出來。'],o:[['監考沒看到吧？','看到了。他也笑了。'],['妳真的很喜歡數字。','嗯。數字不會繞路。'],['恭喜。','謝謝。……還沒改。可是我知道對了。']]},   /* AA_548 第 5 節 */
+    {k:'A4',m:['我媽問我寒假要不要去事務所幫忙對帳。','我說好。……我好像是全家唯一喜歡對帳的人。'],o:[['妳爸媽呢？','他們喜歡吵架。法庭上的那種。'],['那很好啊。','嗯。我也覺得。'],['對帳有什麼好玩？','對起來的那一下。你沒試過。']]},
+    {k:'A5',m:['最後一班公車，我跑到站牌，車剛好開走。','……結果下一班才是最後一班。'],o:[['所以有趕上？','有。我白跑了。'],['妳也會用跑的？','會。很少。'],['到家說一聲。','到了。……你怎麼還沒睡。']]},
     {k:'A6',m:['你還沒睡吧。','我發現我的筆記，有一半是寫給別人看的。'],o:[['寫給誰？','不知道。寫給想像中會來借的人。'],['那另一半？','另一半是寫給以後的我。她比較好說話。'],['我就是來借的那個。','嗯。你是真的那個。']]},
-    {k:'A7',m:['我在看第八集。','男主角說：「我沒有在比，是你一直在比。」','……我把它暫停了。'],o:[['妳在比嗎？','……晚安。'],['繼續看啊。','等一下。我想一下再看。'],['這句很好。','這句很爛。可是很準。']]},
-    {k:'A8',m:['今天在總圖，以安坐我斜對面。','我們都沒抬頭。……兩個小時。'],o:[['妳們都在讀書。','嗯。我們很會讀書。'],['要不要跟她說話？','說什麼。'],['誰贏了？','沒有比。……好，有一點。']]} ];
+    {k:'A7',m:['我在看第八集。','男主角說：「我不是不想選，是每一個都想要。」','……我把它暫停了。我也是這樣。'],o:[['妳想要什麼？','財金跟法律。兩個都要。'],['繼續看啊。','等一下。我想一下再看。'],['這句很好。','這句很爛。可是很準。']]},
+    {k:'A8',m:['今天在總圖，以安坐我斜對面。','她讀到一半，把她的條文筆記推過來。我把我的表推過去。……兩個小時，都沒說話，一直在換。'],o:[['妳們很有默契。','嗯。我們很會讀書。'],['她的筆記好嗎？','好。很細。我抄了三頁。'],['下次叫我。','好。你帶你的經原筆記。']]} ];
   S.NIGHT_B=[
-    {k:'B1',m:['你還沒睡吧。','以安今天傳了一張補習班的舊照片給我。我們兩個站最旁邊。'],o:[['好懷念？','好醜。兩個都是。'],['妳們現在好多了。','嗯。好一點了。'],['傳給我看。','不要。']]},
+    {k:'B1',m:['你還沒睡吧。','以安傳了一張照片給我。開學第一天，我們坐第一排，兩個人都在抄課表。'],o:[['好懷念？','嗯。那天她的螢光筆借我。'],['誰拍的？','阿哲。他坐我們後面。'],['傳給我看。','不要。']]},
     {k:'B2',m:['我今天沒有排讀書，去西門町看了一部電影。七點那一場。','一個人。'],o:[['好看嗎？','普通。可是我坐到字幕跑完。'],['下次叫我。','……我會考慮。'],['一個人也很好。','嗯。我也這麼覺得。只是說出來有點奇怪。']]},
-    {k:'B3',noAfter6:true,m:['經濟系那邊的課，我這學期少修了一門。','我爸還不知道。'],o:[['什麼時候要說？','等我想好怎麼說。可能要很久。'],['妳想好了嗎？','想好了。只是還沒說。'],['這是妳的事。','嗯。……謝謝你這樣說。']]},
+    {k:'B3',m:['財金那邊，我這學期多修了一門投資學。','我媽說我瘋了。可是她說的時候在笑。'],o:[['妳撐得住嗎？','撐得住。我排好了。'],['為什麼要多修？','因為我想。'],['妳媽說得對。','……你跟她一國。']]},   /* AA_548：不再看「改輔系」*/
     {k:'B4',m:['你還沒睡吧。','我在算一題，算了三次，三次答案都不一樣。','我決定去睡。'],o:[['明天再算。','好。明天的我比較聰明。'],['哪一題？','說了你也睡不著。晚安。'],['第四次會對。','你根本不知道。……好，第四次。']]},
     {k:'B5',m:['巷口那家今天換了新菜。','我點了。……還可以。'],o:[['是什麼？','三杯杏鮑菇。下次你點。'],['下次也換。','不一定。今天只是剛好。'],['好吃嗎？','還可以。……還可以的意思是好吃。']]},
     {k:'B6',m:['你還沒睡吧。','我把明天要穿的衣服排好了。排了三套。'],o:[['明天有什麼事？','沒有。這就是問題。'],['選中間那套。','你又沒看到。……好，中間那套。'],['快睡。','三套都很好。好，睡。']]},
     {k:'B7',m:['期末考完，我想去一個沒有排的地方。','還沒想到是哪裡。'],o:[['陽明山？','可以考慮。……你看，我又在排了。'],['到時候再說。','嗯。到時候再說。這句話我很少說。'],['我想到再跟妳說。','好。我等。']]},
-    {k:'B8',after6:true,m:['今天以安問我，大四要不要一起讀書。','我說好。說完才發現，我沒有想第二名的事。'],o:[['那很好。','嗯。很好。'],['妳們會一起考第一。','……那是什麼意思。好，我懂。'],['我也可以一起嗎？','你要先問以安。……我說好。']]} ];
+    {k:'B8',m:['今天以安問我，大四要不要一起讀書。','我說好。我們連螢光筆的顏色都講好了。'],o:[['那很好。','嗯。很好。'],['什麼顏色？','她黃色，我藍色。……不要問為什麼。'],['我也可以一起嗎？','你要先問以安。……我說好。']]} ];   /* AA_548：慈 5 以後就可以（原本要慈 6）*/
   S.NIGHT_L=['我在看劇。你要不要也打開，我們一起按播放。','今天的筆記我多寫了一頁。不是給你的。好吧，有一段是。','我發現我現在吃飯不太提前約了。你有發現嗎。','你睡了嗎。沒睡的話，回我一個字就好。',
     '今天以安問我最近怎麼樣。我說很好。我說的是真的。','巷口家常菜的老闆娘問你是誰。我說是常客。','我把週三下午寫成『空白』。你看到不要改。','晚安。這是今天第二次說。'];   /* AA_537 5-2：交往以後，她 00:30 以後才傳，句子完整（msg3d.js ROMANTIC 另外加）*/
   S.MENTION={k:'wish',m:['我想看一次午夜場。一個人去好像有點怪。'],o:[['我陪妳。','……你說的喔。'],['哪一部？','不知道。午夜場放什麼，我就看什麼。'],['（不回）',null]]};
   S.WAKE='你應該睡了吧。';   /* G5 那一列：大二下第 6 週還不到 2 次＝00:45 這一則（不用回）*/
   const xc6=G=>done(G,'ev_xinci_first_place')||done(G,'ev_xinci_first_place_video');
   S.nightStart=G=>done(G,'ev_xinci_second')||done(G,'ev_xinci_second_b1')||done(G,'ev_xinci_second_day')||!!F(G).XC_CALL1;
-  /* 線關上：G6 沒過（慈 5 那一週過了還沒和好）、G7 兩次都沒答應、3-3 沒接 */
+  /* 線關上：G7 兩次都沒答應、3-3 沒接（AA_548：舊的「G6 沒和好就關」拿掉——她們沒有吵過，慈 5 沒演到另外補一次）*/
   S.closed=function(G){ const f=F(G); if(f.XC_CALL1_MISS!=null) return true;
-    if(!f.XC5_RECONCILE){ const d=TD('Y3S1',14,1); if(d!=null&&G.day>=d) return true; }
     if(f.XC_G7_1&&f.XC_G7_1!=='go'&&f.XC_G7_2&&f.XC_G7_2!=='go'&&!f.XC_SAMEDAY) return true;
     if(sent(G,'xc_g7_2')&&!f.XC_SAMEDAY){ const d2=f.XC_G7_DAY2; if(d2!=null&&G.day>d2+1) return true; }
     return false; };
@@ -171,9 +180,10 @@ const XCROM=(()=>{
   /* 大二下第 6 週還不到 2 次：週三 00:45「你應該睡了吧。」（不用回） */
   S.wake=function(G){ const f=F(G), d=TD('Y2S2',6,3); if(!law(G)||!hasP()||!contact(G)||!S.nightStart(G)||S.closed(G)||!due(G,d,0.75,1)||sent(G,'xcn_wake')||(f.XC_NIGHT|0)>=2) return; PHONE.at(G,d,0.75,[P(S.WAKE)],'xcn_wake'); };
   /* 30 分鐘內回＝XC_NIGHT +1 */
-  S.onAnswer=function(G,m,o){ if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
+  S.onAnswer=function(G,m,o){ if(m&&m.ask&&m.ask.id==='xc_blank_again'){ try{ S.onBlank(G,m,o); }catch(e){ console.warn('XCROM.onBlank',e); } return; }
+    if(!m||!m.ask||!/^xcn_/.test(m.ask.id)||!o||o.noCount) return; const sentAt=T(m.day,m.h), at=now(G); if(at-sentAt<=0.5+1e-6){ const f=F(G); f.XC_NIGHT=(f.XC_NIGHT|0)+1; } };
   S.phone=function(G){ if(!S.ON) return; for(const f of [S.g3Remind,S.blankAgain,S.g7,S.call1,S.night,S.wake]){ try{ f(G); }catch(e){ console.warn('XCROM.phone',e); } } };
-  S.EVENTS=[S.EV_G2,S.EV_SAMEDAY,S.EV_CALL1];
+  S.EVENTS=[S.EV_G2,S.EV_G6,S.EV_SAMEDAY,S.EV_CALL1];
   /* ---------- 心願那一場：午夜場（AA_537b 8-2，企劃線 86659bbc1；DATE_WISH 的格式，同沛珊 D06）----------
      mention 不放在這裡（在半夜訊息，S.MENTION）：見面時不說。herInvite：交往前第 5 階以上＋XC_BLANK、兩個人都單身（交往中可以），一學期一次，週五 00:40 傳、約週六 22:30 出發（23:30 開演；DATE.MIDNIGHT）。
      互動點只有 D04 的大廳、小吃（分鐘數、費用照 D04 一般約會），電影在互動點之後（fixedAfter）。演完記 XC_MIDNIGHT_DAY（隔天睡到十點）*/
@@ -207,7 +217,13 @@ const XCROM=(()=>{
   S.wire=function(){ if(S._wired) return; S._wired=true;
     if(typeof STORY!=='undefined'&&Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push(G=>S.phone(G));
     if(typeof PHONE!=='undefined'&&Array.isArray(PHONE.ON_ANSWER)) PHONE.ON_ANSWER.push((G,m,o,k)=>S.onAnswer(G,m,o,k));
-    S.wireWish(); S.setOn(S.ON); };
+    S.wireWish(); S.wireSched(); S.setOn(S.ON); };
+  /* AA_548 新加的兩個地方要有人在（只在線打開、條件成立時；放在最前面＝蓋過同時段的一般作息）：3-1 巷口家常菜、G6 補一次的總圖三樓 */
+  S.SCHED=[
+    [XC,{days:[1,2,3,4,5],from:18,to:19.5,zone:'l118_home',act:'eat',terms:['Y2S1'],weeks:[3],noHoliday:true,if:{custom:G=>S.ON&&!S.g2Done(G)},label:'在巷口家常菜吃飯',note:'AA_548 3-1：G2 補問'}],
+    [XC,{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S2'],weeks:[3],if:{custom:G=>S.ON&&!F(G).XC5_RECONCILE},note:'AA_548 第 2 節：G6 補一次（和以安對民訴考古題）'}],
+    [AN,{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S2'],weeks:[3],if:{custom:G=>S.ON&&!F(G).XC5_RECONCILE},note:'AA_548 第 2 節：G6 補一次（和芯慈對民訴考古題）'}] ];
+  S.wireSched=function(){ if(typeof CHARACTERS==='undefined') return; for(const [id,e] of S.SCHED){ const c=CHARACTERS[id]; if(!c) continue; c.daily_schedule=c.daily_schedule||[]; if(!c.daily_schedule.includes(e)) c.daily_schedule.unshift(e); } };
   S.wire();
   return S;
 })();

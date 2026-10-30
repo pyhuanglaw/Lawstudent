@@ -36197,7 +36197,7 @@
    "area": "STORY",
    "owner": "AA",
    "status": "暫停",
-   "next": "等 AA 重寫（AA 在列遊戲裡所有「第二名」相關的地方、問使用者新方向）。已做的程式留著、關著（XCROM.ON false，99259120e 之後那一批）：告白、門檻、3-1～3-4、半夜訊息、午夜場、約會台詞；3-5／3-6（加在慈 6）已還原；【LAWWW-B 10-30 19:0x】舊的「第二名」四場也先關（XCROM.OLD false，D116「違反的內容不進下一版」）：慈 3 ev_xinci_second（＋B1、Café 補演、第 11 週提示）、慈 4 ev_xinci_bad_line、慈 5 ev_xinci_an_answers（＋遠版）、慈 6 ev_xinci_first_place（＋日本視訊、錯過那一則）；慈 1 借筆記、慈 2 雙主修、AA_497 的第一排／影印機／爸爸／讀書會的表照舊（等 AA_547 判斷）",
+   "next": "AA_548（企劃線 265cca815）程式接好（門檻 G1～G9、G6 補一次、3-1／3-3／3-5、others、半夜訊息八則；xinci_romance_unit ALL PASS），XCROM.ON 照舊 false：等使用者對 AA 點選 4a（告白時她問不問）、4b（知道你有別人接不接受），AA 回了再打開 → BB 測整條線",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36816,9 +36816,9 @@
    "title": "芯慈新個性 AA_547（使用者 10-30 19:2x 點選「照這份寫」；USER_WANTS X148）：開學第一排、影印機、慈 2、爸爸接她、事務所、寒暑假、畢業以後、個性、人物頁改；慈 3／5／6 新寫；慈 4、Alison「吵架了」、改輔系、隔天「我第一」、msg2「第二名也是名」拿掉",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "46e36f86b 程式做完（XCROM.OLD 打開）；寫死舊句的測試修正中；AA 給慈 3 B1 版、Café 補演版的專用句、確認「四點半了。我要去上財管。」位置；→ BB 測",
+   "next": "46e36f86b＋ccbb72422 照 AA_547 第 2～4 節做完（13 支測試照新稿改，全部 Node 過）→ BB n25_xinci547",
    "first": {
     "term": "Y1S1",
     "week": 1,
