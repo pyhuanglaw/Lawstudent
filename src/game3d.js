@@ -573,7 +573,8 @@ const GAME = (function(){
     if(!up.length) return vac+'<div class="item muted">目前沒有公告的演講或活動。看到海報、公告欄的活動，會列在這裡。</div>';
     const W=['日','一','二','三','四','五','六'], PL=PLACE_LIST(); let h=vac;
     for(const {a,k} of up){ const d=CALENDAR.dateOf(G.day+k); const when=(k===0?'今天':k===1?'明天':d.m+'/'+d.d+'（'+W[d.wd%7]+'）')+' '+ACTIVITIES.hhmm(a.t0)+'–'+ACTIVITIES.hhmm(a.t1);
-      const where=a.roomName||(PLACES.names&&PLACES.names[a.zone])||''; const pl=PL.find(q=>q[0]===a.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[a.zone]));
+      const pa=k===0&&ACTIVITIES.placeOf?ACTIVITIES.placeOf(a,G):a;   /* 今天的下雨場（系籃練球下雨＝新體育館一樓走廊，BBALL-RAIN-1030）：地點、「前往」換成體育館 */
+      const where=pa.roomName||(PLACES.names&&PLACES.names[pa.zone])||''; const pl=PL.find(q=>q[0]===pa.zone)||PL.find(q=>q[0]==='campus'&&q[1]===(PLACES.names&&PLACES.names[pa.zone]));
       h+='<div class="item phrow"><div>'+esc(a.title)+'<div class="muted">'+esc(when)+(where?'・'+esc(where):'')+'</div></div>'+(pl&&!(k===0&&G.hour%24>=a.t1)?'<button class="btn" data-place="'+esc(pl[0]+'|'+pl[1])+'">前往</button>':'')+'</div>'; }
     return h; }
   /* 校園裡的人：照作息的位置（linger 的 at、傅鐘的長椅）挑最近的校園快速地點；不知道確切位置就用第一個（霖澤館前），到了再用「帶我去」 */
