@@ -33,6 +33,7 @@
 // 2026-10-28 AA_523 第 6-3 點改的（企劃線 0d7b5388b，SIS-B16-1028）：陳助教 h509_ta_sis 改字（「書瑀回來休息了兩個禮拜，才來吃飯。她說美國的麵都太軟。」、2029-01-13 起），
 //   src 照 h508_cx_zq（AA_514）的做法寫 'AA_523 6-3'——第 0 段 SPEC 加 AA_523（句數照舊 123）。改了以後、這裡還沒改的時候實際跑：FAILED 1（第 0 段那一句找不到稿）；改了以後 ALL PASS。
 'use strict';
+require('./alison.js');   // 讀企劃稿照匯入工具同一套換（Alison、虛構校名、麵店團 ndl542、不跟別人比 nocmp：D116／AA_546）
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H, J=JSON.stringify;
@@ -154,10 +155,10 @@ await sec('2',async()=>{ if(!HAS()||typeof DORM203==='undefined'){ check('2. 203
   let x=await go('tell',SAT+1,21);
   check('2. AA_503 第 11 節：練習賽私訊選「他沒講。」（ZQ_PRACTICE tell）→ 下一次在 203 阿凱「子晴叫你恭喜我？……喔。好。謝謝。」、記 KAI_COUNTED',x.r===true&&J(x.s)===J(['子晴叫你恭喜我？……喔。好。謝謝。'])&&H.G.flags.KAI_COUNTED===true,J(x));
   H.said=[]; const again=await DORM203.kaiTalk(GM,kai); at(SAT+2,21); H.said=[]; await DORM203.kaiTalk(GM,kai); const nx=said();
-  check('2. 同一天一句（AA_502 的三句也算在一起）；隔天接著「系上那個練習賽，子晴第三。她一直說下次要贏我。」',again===false&&J(nx)===J(['系上那個練習賽，子晴第三。她一直說下次要贏我。']),J({again,nx}));
-  for(const f of ['third','sticker',null]){ x=await go(f,SAT+1,21); check('2. 選「'+(f==='third'?'妳第三也很強。':f==='sticker'?'（貼圖）':'沒有那則私訊')+'」：沒有恭喜那一句、沒有 KAI_COUNTED（說的是「系上那個練習賽……」）',J(x.s)===J(['系上那個練習賽，子晴第三。她一直說下次要贏我。'])&&!H.G.flags.KAI_COUNTED,J(x)); }
+  check('2. 同一天一句（AA_502 的三句也算在一起）；隔天接著「系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。」',again===false&&J(nx)===J(['系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。']),J({again,nx}));
+  for(const f of ['third','sticker',null]){ x=await go(f,SAT+1,21); check('2. 選「'+(f==='third'?'妳第三也很強。':f==='sticker'?'（貼圖）':'沒有那則私訊')+'」：沒有恭喜那一句、沒有 KAI_COUNTED（說的是「系上那個練習賽……」）',J(x.s)===J(['系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。'])&&!H.G.flags.KAI_COUNTED,J(x)); }
   x=await go(null,SAT,17.5); const pre=x.s; x=await go(null,SAT,18.5);
-  check('2. 「系上那個練習賽……」第 11 週週六 18:00（練習賽、子晴第 3 則動態）以後才說；之前是 AA_502 的句子',!pre.includes('系上那個練習賽，子晴第三。她一直說下次要贏我。')&&J(x.s)===J(['系上那個練習賽，子晴第三。她一直說下次要贏我。']),J({pre,s:x.s}));
+  check('2. 「系上那個練習賽……」第 11 週週六 18:00（練習賽、子晴第 3 則動態）以後才說；之前是 AA_502 的句子',!pre.includes('系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。')&&J(x.s)===J(['系上那個練習賽，子晴第三。她跑來問我那題怎麼寫，問了一個小時。']),J({pre,s:x.s}));
   fresh(SAT+1,21,F4); meet('kai'); H.said=[]; await DORM203.kaiTalk(GM,kai); check('2. 不認識子晴：阿凱不講子晴',!said().some(t=>/子晴/.test(t)),J(said()));
   /* 大一下第 9 週 */
   const W9=TDt('Y1S2',9,2); fresh(W9,21,F4); meet('kai','heroine_04'); const R=HEARD.rec(H.G); R.said.h503_kai_third=1; H.said=[]; await DORM203.kaiTalk(GM,kai); const w9=said();
@@ -206,12 +207,12 @@ await sec('4',async()=>{ if(!HAS()){ check('4. 手機',false,'沒有 HEARD'); re
   const D722=DK('2026-07-22'); fresh(D722,21,{yulePassDay:1}); run(D722,22.1);
   check('4. AA_504：予樂 7/22 22:00 兩則（她搭高鐵走的那晚）',J(msgs('h504_yule').map(m=>m.text))===J(['可昕的媽媽煮了一桌 可昕一直叫她不要再煮了','她在家跟在學校差好多']));
   const S11=TDt('Y2S1',11,6); fresh(S11,23,{}); H.G.events.done.ev_kexin_yule_pass=1; run(S11,23.9);
-  check('4. AA_505：予樂第 11 週週六 23:50 兩則（可昕「輸了。」那晚）',J(msgs('h505_yule').map(m=>m.text))===J(['可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份','我好怕她']));
+  check('4. AA_505：予樂第 11 週週六 23:50 兩則（可昕「輸了。」那晚）',J(msgs('h505_yule').map(m=>m.text))===J(['可昕輸了以後回宿舍 一句話都沒講 直接開始寫下一份','她好認真']));
   /* 品妤：「走啦」群組 */
   const W6=TDt('Y1S1',6,2); fresh(W6,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(W6,21.4);
   check('4. AA_503：品妤第 6 週週二 21:20 在「走啦」群組「可昕上禮拜貼她們系的烤肉。她烤的玉米全部是焦的。」',J(msgs('h503_pinyu').map(m=>[m.th,m.name,m.text]))===J([['g:econ_friends','品妤','可昕上禮拜貼她們系的烤肉。她烤的玉米全部是焦的。']]));
   const W12=TDt('Y2S1',12,2); fresh(W12,21,{}); PHONE.join(H.G,'econ_friends','走啦'); run(W12,21.4);
-  check('4. AA_505：品妤第 12 週週二 21:20「可昕說她模擬法庭輸給一個大三的。……」',J(msgs('h505_pinyu').map(m=>m.text))===J(['可昕說她模擬法庭輸給一個大三的。她講的時候一直在笑，你知道那代表她很生氣。']));
+  check('4. AA_505：品妤第 12 週週二 21:20「可昕說她模擬法庭輸給一個大三的。……」',J(msgs('h505_pinyu').map(m=>m.text))===J(['可昕說她模擬法庭沒過。她講的時候一直在笑，你知道那代表她很在意。']));
   fresh(W12,21,{}); run(W12,21.4); check('4. 不在「走啦」群組：沒有',!msgs('h505_pinyu').length);
   /* 接在 STORY.PHONE_RULES */
   fresh(D620,20,{}); PHONE.join(H.G,'family_law','法律系家族'); at(D620,21.1); STORY.phoneRules(GM); PHONE.tick(H.G); check('4. 接在 STORY.PHONE_RULES（每次手機規則都跑）',msgs('h504_kevin').length===4); });

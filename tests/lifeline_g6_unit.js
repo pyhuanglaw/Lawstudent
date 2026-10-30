@@ -41,7 +41,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('6-2 R1 在家的選單那一輪（trigger home）、10:00 她到（9:59 還沒）',ev('ev_y0_r1').trigger==='home'&&!a&&b,J([a,b]));
     await EVENTS.run(ev('ev_y0_r1')); const L=lines();
     check('6-2 R1 開頭「（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）」、場景「祐廷家・你的房間」（AA_306：在房間書桌念書）、台詞照用',L[0]==='（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'&&L.includes('杜可昕：如果憲法是一間餐廳，第七條是什麼菜？')&&J(ev('ev_y0_r1').dialogue).includes('祐廷家・你的房間')&&!J(ev('ev_y0_r1').dialogue).includes('博思'),J(L.slice(0,3))); }
-  check('6-2 S1、S2 改字：「你又比我早起。……今天早餐我請。」「你讀到哪了？……三章？我才讀到第二章。」；不再有「我是去上課」「剛上完會計」',J(STORY.RS[0].t)===J(['「你又比我早起。……今天早餐我請。」'])&&STORY.RS[1].t[1]==='「你讀到哪了？……三章？我才讀到第二章。」'&&!J(ev('ev_y0_rs').dialogue).includes('去上課')&&!J(ev('ev_y0_rs').dialogue).includes('會計'));
+  check('6-2 S1、S2 改字：「你又比我早起。……今天早餐我請。」「你讀到哪了？……三章？好，我也要到第三章。」；不再有「我是去上課」「剛上完會計」',J(STORY.RS[0].t)===J(['「你又比我早起。……今天早餐我請。」'])&&STORY.RS[1].t[1]==='「你讀到哪了？……三章？好，我也要到第三章。」'&&!J(ev('ev_y0_rs').dialogue).includes('去上課')&&!J(ev('ev_y0_rs').dialogue).includes('會計'));
   check('6-3 RP 最早 2/15',STORY.RP[0][0]==='2025-02-15');
   { econ(d15,7.5,'campus',{},false); G.home={at:false}; check('6-2 不在家的時候，讀書日的 R 不會在外面演',!EVENTS.check(ev('ev_y0_rs'))); }
   /* 衝刺班（AA_298 第 1 節取代 AA_224 6-4：另一間補習班、6/8 當面報名（RH-C0）、6/9～7/9 每天 09:00～21:00）*/

@@ -194,7 +194,7 @@ sec('3',()=>{ if(!HAS()||!SET.Y1S2){ check('3. 私訊',false,'沒有資料'); re
     check('3. 語彤（很熟）2/3 17:00 第 4 則、21:00 看海三則（在沙灘上坐了很久），選第 '+(k+1)+' 個 → YT_SEA_DM '+flag,!!item('yt4c')&&J(tagged('yt_sea').slice(0,3))===J(['帶阿姨去看海了。','她說很冷。','然後在沙灘上坐了很久。'])&&J(got)===J(want)&&H.G.flags.YT_SEA_DM===flag,J(got)); }
   const W11=TDt('Y2S1',11,6);
   for(const [k,flag,want] of [[0,'can',['我知道。……你不用安慰我。']],[1,'good',['很好。好到我很生氣。']],[2,'watch',['不要。你在我會看你。……好啦，下次。']]]){ fresh(W11,21); who('kexin','FRIEND'); walk(W11,22.6); const got=answer('kx_moot',k);
-    check('3. 可昕（朋友）大二上第 11 週週六 22:30 模擬法庭輸了，選第 '+(k+1)+' 個 → KX_MOOT_DM '+flag,J(tagged('kx_moot').slice(0,3))===J(['輸了。','對方的律師是大三的。','……我下次要贏他。'])&&J(got)===J(want)&&H.G.flags.KX_MOOT_DM===flag,J(got)); }
+    check('3. 可昕（朋友）大二上第 11 週週六 22:30 模擬法庭輸了，選第 '+(k+1)+' 個 → KX_MOOT_DM '+flag,J(tagged('kx_moot').slice(0,3))===J(['輸了。','對方的律師是大三的。','……我下次要寫得更好。'])&&J(got)===J(want)&&H.G.flags.KX_MOOT_DM===flag,J(got)); }
   fresh(W11,21); who('kexin','ACQ'); walk(W11,23); check('3. 可昕只認識：沒有模擬法庭那一則',!tagged('kx_moot').length); });
 
 /* ---------- 4 稿的測試建議 ---------- */

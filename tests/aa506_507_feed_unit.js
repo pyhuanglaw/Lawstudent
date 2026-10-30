@@ -209,7 +209,7 @@ sec('3',()=>{ if(!HAS()||!SET.Y3S1){ check('3. 英國時差',false,'沒有資料
 sec('4',()=>{ if(!HAS()||!SET.Y2S2||!SET.Y3S1){ check('4. 私訊',false,'沒有資料'); return; }
   const D410=DK('2027-04-10');
   for(const [k,flag,want] of [[0,'congrats',['嗯。……我等一下再開心。現在先睡。']],[1,'senior',['他這次當法官。他說我講太快。']],[2,'watch',['好。你坐最後一排，不要讓我看到。']]]){ fresh(D410,21); who('kexin','FRIEND'); walk(D410,22.4); const b=tagged('kx_win').length; walk(D410,22.6); const got=answer('kx_win',k);
-    check('4. 可昕（朋友）4/10 22:30 模擬法庭第二場「贏了。」三則，選第 '+(k+1)+' 個 → KX_WIN_DM '+flag,b===0&&J(tagged('kx_win').slice(0,3))===J(['贏了。','對方是大一的。……不算。','算啦。贏了就是贏了。'])&&J(got)===J(want)&&H.G.flags.KX_WIN_DM===flag,J(got)); }
+    check('4. 可昕（朋友）4/10 22:30 模擬法庭第二場「贏了。」三則，選第 '+(k+1)+' 個 → KX_WIN_DM '+flag,b===0&&J(tagged('kx_win').slice(0,3))===J(['贏了。','對方是大一的。他們的書狀寫得很好。','我們的也是。'])&&J(got)===J(want)&&H.G.flags.KX_WIN_DM===flag,J(got)); }
   fresh(D410,21,{dating_kexin:true}); rel('kexin','ACQ'); contact('kexin'); walk(D410,23); check('4. 可昕交往中（只有認識的分數）：也有',tagged('kx_win').length===3,J(R().dm.kx_win));
   fresh(D410-32,12); who('kexin','ACQ'); walk(D410+1,14,{step:0.5}); check('4. 可昕沒有交往、只認識：沒有私訊（x:stage），動態第 1、2 則照樣看得到',!tagged('kx_win').length&&R().dm.kx_win==='x:stage'&&R().done.kx1d==='p'&&R().done.kx2d==='p',J({dm:R().dm.kx_win,kx1d:R().done.kx1d,kx2d:R().done.kx2d}));
   /* 學姊 2/7 10:00（交往中，不用回）*/

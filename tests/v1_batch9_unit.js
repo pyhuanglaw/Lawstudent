@@ -6,7 +6,7 @@
 //   校慶攤：學姊「那是物權。你們大二才上。」（v1_batch4_unit 檢查）。
 //   A13 中秋烤肉（AA 2026-10-14）：沒有麵店團群組＝「大家借了一個烤肉架」；「你被分到顧火。火一直熄。」；只記 MIDAUTUMN_Y1，關係數值不變、沒有 SHARED_MEAL。
 //   A15 考完的宵夜（AA 2026-10-14）：民總期中考那天 20:30 公館滷味攤（出遊）；有麵店團群組＝考完阿哲在群組「考完了 滷味」；沒有＝G1 最後阿哲當面問「晚上滷味，來不來？」；
-//     明軒認識才有「明軒從來不念書，成績出來一定比我高。我恨他。」；SAW_HIM_STUDY 多一個選項「……他有念啦。」→ 瞪一眼、請一顆滷蛋；柏翰、芯慈、Alison 都認識才有吵第三題；不去不扣分。
+//     明軒認識才有「明軒說他沒念。……我不信，他筆記比我多。」；SAW_HIM_STUDY 多一個選項「……他有念啦。」→ 瞪一眼、請一顆滷蛋；柏翰、芯慈、Alison 都認識才有吵第三題；不去不扣分。
 //   A16 翰 1（AA 2026-10-14）：第 10 週民總下課（第 10 週沒去的話第 11 週）；三個選項；「（告訴他分數）」只有旁白「你說了分數。」（畫面上沒有數字），
 //     比他高／低照民總準備程度（很好＝高）；TOLD_SCORE、ASKED_BACK、BOHAN_SCORE；沒見過他先自我介紹；只一次。
 //   A17 以安新 4：第 10 週週五 18:00–21:30 不在學校，人物線索「和媽媽吃晚餐」；其他天照舊。
@@ -102,7 +102,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const sup=async(setup,pk,go)=>{ fresh(midDay,20,'campus',{}); if(setup) setup(); OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:midDay,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travel:'走過去約 10 分鐘',travelH:1/6}); G.hour=20.4; picks=[go===false?'不去了':'出發'].concat(pk||[]); await tickOut(); return lines(); };
     L=await sup(null); check('A15 只認識阿哲：滷味攤前對答案、「不要跟我講第二題。」；沒有明軒那句、沒有吵第三題',caps.includes('公館・滷味攤')&&JSON.stringify(L)===JSON.stringify(['公館的滷味攤前，大家在對答案。','有人只想吃，不想對：「不要跟我講第二題。」']),JSON.stringify({L,caps}));
     L=await sup(()=>SOCIAL.remember('classmate_mingxuan','FIRST_MET',''));
-    check('A15 認識明軒：阿哲「明軒從來不念書，成績出來一定比我高。我恨他。」；沒有 SAW_HIM_STUDY 不出現選項',L.includes('明軒從來不念書，成績出來一定比我高。我恨他。')&&!opts.some(o=>o.includes('「……他有念啦。」')),JSON.stringify(L));
+    check('A15 認識明軒：阿哲「明軒說他沒念。……我不信，他筆記比我多。」；沒有 SAW_HIM_STUDY 不出現選項',L.includes('明軒說他沒念。……我不信，他筆記比我多。')&&!opts.some(o=>o.includes('「……他有念啦。」')),JSON.stringify(L));
     L=await sup(()=>{ SOCIAL.remember('classmate_mingxuan','FIRST_MET',''); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); },['他有念啦']);
     check('A15 有 SAW_HIM_STUDY：多一個選項「……他有念啦。」→ 明軒瞪你一眼、請你一顆滷蛋',opts.some(o=>o.includes('「……他有念啦。」'))&&L.includes('明軒瞪了你一眼。')&&L.includes('然後請你一顆滷蛋。'),JSON.stringify(L));
     L=await sup(()=>{ G.flags.met_yu=true; for(const id of ['classmate_bohan','classmate_xinci']) SOCIAL.remember(id,'FIRST_MET',''); });

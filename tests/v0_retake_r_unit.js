@@ -51,9 +51,9 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   L=await runEv('ev_y0_rs');
   check('3. 第一次＝S1「你又比我早起。……今天早餐我請。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早起。……今天早餐我請。')&&L.includes('我昨天想一題想到睡不著。等一下要跟你吵。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
   const s3=keep(); G.day=K('2025-04-01'); G.weekday=wdOf(G.day); G.hour=12.4; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？我才讀到第二章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？我才讀到第二章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
+  check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？好，我也要到第三章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？好，我也要到第三章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
   back(s3); G.day=K('2025-03-28')+7; G.weekday=wdOf(G.day); G.hour=10.2; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 週五也一樣輪流（她沒有課了）：S2',L.includes('你讀到哪了？……三章？我才讀到第二章。'),JSON.stringify(L));
+  check('3. 週五也一樣輪流（她沒有課了）：S2',L.includes('你讀到哪了？……三章？好，我也要到第三章。'),JSON.stringify(L));
   // 4. R5
   study('2025-04-02',9.9); check('4. 4/2 09:54：她還沒到',!EVENTS.check(ev('ev_y0_r5'))); G.hour=10.1; G.events.done.ev_y0_r1=1;
   check('4. 10:06：R5',EVENTS.check(ev('ev_y0_r5'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r5');

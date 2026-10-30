@@ -66,7 +66,7 @@ GM.money=function(n){ G.money+=n; };
   PHONE.answer(G,'vac_ask_C05@Y1',0); STORY.phoneRules(GM); PHONE.tick(G);
   check('5. 去：「好 我拉你進群」、家人群組媽媽「機票多少？我轉給你。」、8/24 06:00 出發',txt('p:kai').includes('kai:好 我拉你進群')&&txt('g:home').includes('mom:機票多少？我轉給你。')&&!!OUT.get(G,'vac_C05@Y1')&&OUT.get(G,'vac_C05@Y1').h===6);
   G.day=D('2026-08-24'); G.hour=6; meet('heroine_01'); G.flags.dating_heroine_01=true; said=[]; cards=[]; picks=[0,1]; await VAC.outing(GM,OUT.get(G,'vac_C05@Y1')); L=lines();
-  check('5. 日本整段：機場「裡面是空的。回來會滿。」→ 秋葉原（玻璃櫃）→ 飯糰「……喔，你就是我室友。」→ 最後一晚「不要排博物館。」以外的那句 → 8/28 18:00',L.some(t=>t.includes('裡面是空的。回來會滿。'))&&L.some(t=>t.includes('我沒考第一名。'))&&L.some(t=>t.includes('……喔，你就是我室友。'))&&L.some(t=>t.includes('他會一直問哪裡可以吃。'))&&G.day===D('2026-08-28')&&VAC.state(G,'C05@Y1')==='done',JSON.stringify(L.slice(-4)));
+  check('5. 日本整段：機場「裡面是空的。回來會滿。」→ 秋葉原（玻璃櫃）→ 飯糰「……喔，你就是我室友。」→ 最後一晚「不要排博物館。」以外的那句 → 8/28 18:00',L.some(t=>t.includes('裡面是空的。回來會滿。'))&&L.some(t=>t.includes('我存到一半，拿去買了一台二手鍵盤。'))&&L.some(t=>t.includes('……喔，你就是我室友。'))&&L.some(t=>t.includes('他會一直問哪裡可以吃。'))&&G.day===D('2026-08-28')&&VAC.state(G,'C05@Y1')==='done',JSON.stringify(L.slice(-4)));
   check('5. 交往中（以安）：8/24 08:00「到了傳一張照片。一張就好。」',txt('p:heroine_01').includes('heroine_01:到了傳一張照片。一張就好。'));
   check('5. 字卡寫「日本」',cards.some(c=>c[1]==='日本'));
   fresh(D('2026-08-28'),20.9,'dorm',{}); G.stage='law'; meet('kai'); run(20.9,21.2); check('5. 沒去：8/28 21:00 阿凱「📷（秋葉原的街…）」「買到了」',txt('p:kai').includes('kai:買到了'));

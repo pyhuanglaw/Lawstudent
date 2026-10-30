@@ -396,7 +396,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   check('14. B7 標題「四樓的樓梯間」（id 不變）',ev('ev_bohan_third_floor').title==='四樓的樓梯間'&&ev('ev_bohan_third_floor').location==='linze_4f');
   { const M=SOCIAL.MEMORY_LABEL, W={MOUNTAIN_DAY:'跟他去爬山，看了那棵一千歲的紅檜',FANG_KNOWS_ECON:'跟他說，自己換過一次跑道',DAD_PLAYS:'她爸爸在玩她做的遊戲，卡在第三關',BOHAN_HONEST:'他說了為什麼每天念六小時',FIELD_NOTES_IDEA:'跟她說，田野的訪問可以整理成她自己的東西'};
     check('14. B10 人物面板名稱照 AA_343 第 5 節（五項）',Object.keys(W).every(k=>M[k]===W[k]),JSON.stringify(Object.keys(W).map(k=>M[k]))); }
-  G.events.done.ev_bohan_scores=1; run('2027-11-18',21.5,21.75); check('14. B2 柏翰接讀書會（沒有 STUDYGROUP_LEADER、演過 ev_bohan_scores）：11/18 21:40「分數表我拿掉了。人有沒有回來，再說。」',txt('p:classmate_bohan').slice(-1)[0]==='classmate_bohan:分數表我拿掉了。人有沒有回來，再說。');
+  G.events.done.ev_bohan_scores=1; run('2027-11-18',21.5,21.75); check('14. B2 柏翰接讀書會（沒有 STUDYGROUP_LEADER、演過 ev_bohan_scores）：11/18 21:40「白板那張表我還留著。這學期換成大家輪流寫。」',txt('p:classmate_bohan').slice(-1)[0]==='classmate_bohan:白板那張表我還留著。這學期換成大家輪流寫。');
   fresh('2027-11-09',12.5,'linze',{STUDYGROUP_LEADER:true}); R('classmate_bohan','FAM'); G.events.done.ev_bohan_scores=1; G.events.done.ev_bohan_third_floor=1; run('2027-11-18',21.5,21.75); check('14. 祐廷接了讀書會：沒有那一則',!PHONE.sent(G,'y3_bohan_w11'));
 
   // ===== 15. 2-Y3-15 校慶（大三版） =====

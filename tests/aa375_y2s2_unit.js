@@ -213,7 +213,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
   // ===== 第 23 項 =====
   { const T=evTexts(ev('ev_bohan_scores')); check('23. 柏翰的表：「（白板上多了一張表：每個人上週讀了幾頁。）」',T.includes('（白板上多了一張表：每個人上週讀了幾頁。）')&&!T.some(t=>/小考的分數/.test(t)),J(T[0]));
     fresh(STORY.termDay('Y2S2',2,4),20.5,'dorm',{STUDYGROUP_LEADER:true}); PHONE.join(G,'law_class','法律系一年級'); run(20.9,21.2); const m=txt('g:law_class');
-    check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人上週讀的頁數）」',m.includes('（照片：白板上每個人上週讀的頁數）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
+    check('23. 祐廷接的版本：柏翰在全班群組貼「（照片：白板上每個人這週要讀到哪裡）」',m.includes('（照片：白板上每個人這週要讀到哪裡）')&&!m.some(t=>/分數分布圖/.test(t)),J(m)); }
   // ===== 第 4 節：AA_342 第 2-2 節（大二下的七則補稿）=====
   { const a=ev('ev_y2s2_thu_noodle_first'), b=ev('ev_y2s2_thu_noodle_spring');
     const okIn=(e,k,h)=>{ fresh(k,h,'noodle'); PHONE.join(G,'noodle_team','麵店團'); return !!e&&EVENTS.check(e); };

@@ -158,7 +158,7 @@ sec('4',()=>{ const SAT=TD(10,6);
 
 /* ---------- 5 子晴 ---------- */
 sec('5',()=>{ const SAT=TD(11,6);
-  for(const [k,want,flag,post] of [[0,['欸 你幫我恭喜他 我講不出口'],'tell','他沒講。'],[1,['第三就是第三','下次'],'third','妳第三也很強。'],[2,[],'sticker','（貼圖：插座貓）']]){
+  for(const [k,want,flag,post] of [[0,['欸 你幫我恭喜他 他那題寫得好漂亮'],'tell','他沒講。'],[1,['謝謝','下次換我教他一題'],'third','妳第三也很強。'],[2,[],'sticker','（貼圖：插座貓）']]){
     fresh(SAT,17); who('heroine_04','FRIEND'); walk(SAT,23.6); const m=dm('zq_practice'); const n=th('heroine_04').length; if(m) PHONE.answer(H.G,m.ask.id,k); const L=th('heroine_04').slice(n);
     check('5. 子晴練習賽（第 11 週週六）：18:00 第 3 則「第三」、23:30 私訊三則；選「'+(m?m.ask.opts[k].t:'?')+'」→ ZQ_PRACTICE '+flag,!!item('zq3')&&!!m&&Math.abs(m.h-23.5)<0.02&&J(th('heroine_04').filter(x=>x.tag==='aa503_zq_practice').map(x=>x.text))===J(['你室友第一','他都沒講？','……他真的很不會講'])
       &&H.G.flags.ZQ_PRACTICE===flag&&L[0].from==='player'&&L[0].text===post&&J(L.slice(1).map(x=>x.text))===J(want)&&!H.G.flags.KAI_COUNTED,J(L.map(x=>[x.from,x.text]))); } });

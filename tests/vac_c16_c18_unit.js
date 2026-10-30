@@ -137,7 +137,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     check('6. 實習津貼記進生活費：8 週結束那天 18:00 以後一次入帳＝196 元 × 8 小時 × 40 天＝62,720 元（只入一次）',pay===62720&&(VAC.rec(G).paid||{})['C17@Y2']===62720&&toasts.some(t=>t.includes('62720')),String(pay));
     run(18.6,18.8); check('6. 只入一次',G.money-m0===62720);
     G.hour=22; said=[]; opts=[]; picks=[1]; await VAC.outing(GM,kq); L=lines();
-    check('6. 可昕的視訊：「你們那邊也是週五交東西喔？」「我們律師一直說，結論放第一段。」→「妳寫幾份了？」「六份。你呢？……不要說比我多。」',L.some(t=>/：你們那邊也是週五交東西喔？$/.test(t))&&L.some(t=>/：我們律師一直說，結論放第一段。$/.test(t))&&JSON.stringify(opts[0])===JSON.stringify(['「我們律師也這樣講。」','「妳寫幾份了？」'])&&L.some(t=>/：六份。你呢？……不要說比我多。$/.test(t)),JSON.stringify(L)); });
+    check('6. 可昕的視訊：「你們那邊也是週五交東西喔？」「我們律師一直說，結論放第一段。」→「妳寫幾份了？」「六份。你呢？……多寫的那幾份，借我看。」',L.some(t=>/：你們那邊也是週五交東西喔？$/.test(t))&&L.some(t=>/：我們律師一直說，結論放第一段。$/.test(t))&&JSON.stringify(opts[0])===JSON.stringify(['「我們律師也這樣講。」','「妳寫幾份了？」'])&&L.some(t=>/：六份。你呢？……多寫的那幾份，借我看。$/.test(t)),JSON.stringify(L)); });
   await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; VAC.rec(G).score={'C04W@Y2':{test:'toefl',n:80,day:D('2027-02-02')}}; reg('C17@Y2'); for(const q of workQ('C17@Y2')) VAC.repDone(G,q);
     check('6. 沒有交往：最後一天以後沒有可昕的視訊',!OUT.get(G,'vac_C17@Y2_kx'));
     G.day=D('2027-08-13'); const m0=G.money; run(18.5,18.6); check('6. 快轉跳過的上班日也算天數（40 天都算）',G.money-m0===62720,String(G.money-m0)); });
