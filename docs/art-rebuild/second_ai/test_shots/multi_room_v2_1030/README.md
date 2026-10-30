@@ -58,7 +58,7 @@
 ## 四、測試、效能
 
 - **配置**：`wancai_multi.layout.json` 和開發分支一模一樣（逐欄比對）。產生器的導航檢查、座位檢查：32 個座位都有走近點、沒有問題。
-- **全部 Node**：（跑完補）
+- **全部 Node**（測試樹＝開發 `f75d60a4c`＋法律學院圖書館烘焙＋這一包；企劃線已 fetch）：**768 支過、0 支 FAIL**。
 - **效能**（`tools/shots/interior_review/survey.py` 同一個玩家鏡頭，14:00，SwiftShader 量的，手機實機沒有量）：
 
 | 方向 | draw call | 三角形 |

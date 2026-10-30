@@ -10,7 +10,8 @@
 - **之前交的**：X140 系外套（b84ce8d27）、#120 床欄透空 patch、X132 Café 窗外 3D 街（已合進 postrel dcf33a4e0）、Café 光照烘焙（53153491e）、DORM203（postrel 5720bf53c）。
 - **等使用者回答**（X133 規劃稿第四節）：草皮形狀、總圖門口台階、樟樹位置。回答以後照地圖調整第二版。
 - **法律學院圖書館 INTERIOR-AAA（D111 第三間）**：光照烘焙已交（LAWLIB-LM-1030，`test_shots/lawlib_lm_1030/README.md`；`bake_lawlib.sh`）。
-- **下一步**：萬才館多功能教室換家具（LAWWW-B 佇列）；X133 第二版等使用者回答。
+- **萬才館多功能教室 v2**（MULTI-ROOM-V2-1030，`test_shots/multi_room_v2_1030/README.md`）：已交。注意 `flat_classroom.py` 開發分支是 10-22 換回的舊版（沒有 202 v2），我這邊是 v2＋改名。
+- **下一步**：等 LAWWW-B 派工；X133 第二版等使用者回答。
 - CG 78 張查過舊校名：沒有（RENAME_ART_LIST 第四節）；BB 組的校園 2D 背景只看了縮圖。
 - **開發分支的 `tests/home_unit.js` 本來就 FAIL 2**（改名以後題目還寫「政大」，程式出「木柵大學」）：不是我的，回報 LAWWW-B。
 - **沒有遠端備份的**：只有本機暫存的截圖（scratchpad），重拍就有。

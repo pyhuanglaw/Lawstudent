@@ -4321,6 +4321,29 @@
    "remaining": "人物、書、書架鐵件、椅子照即時光；太陽固定在下午；生活感擺設、牆面材質這一輪沒做",
    "next": "LAWWW-B 換 lawlib_interior.glb＋兩張光照貼圖（不用改程式，attachFormal 自己接）",
    "note": "一樓十八片燈、二樓長條燈、八盞桌燈、南面下午的太陽；全部 Node 768／0（fetch 企劃線以後）；draw call 175～296 差不多、三角形變少；READY_FOR_ART_REVIEW"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "PENDING",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "MULTI-ROOM-V2-1030：法律系館B（萬才館）多功能教室 v2 換家具＋天花板（VISUAL_REVIEW 26.3；LAWWW-B 佇列）",
+   "files": [
+    "assets/models/env/second_ai/wancai_multi.glb",
+    "assets/models/env/second_ai/wancai_multi.json",
+    "assets/models/env/second_ai/wancai_multi.layout.json",
+    "assets/models/env/second_ai/wancai_multi_lm_day.webp",
+    "assets/models/env/second_ai/wancai_multi_lm_night.webp",
+    "tools/blender/env_second/flat_classroom.py",
+    "tools/blender/env_second/lightbake/bake_flat_rooms.sh",
+    "tools/blender/env_second/lightbake/wancai_multi_lm.json",
+    "docs/art-rebuild/second_ai/test_shots/multi_room_v2_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "生活感擺設照舊（10-20 版）；鐵件、人物照即時光；窗戶照舊",
+   "next": "LAWWW-B 換 wancai_multi.glb＋兩張光照貼圖（layout 和開發分支一模一樣；不用改程式）",
+   "note": "塑膠椅一體成形殼、單人桌封邊腳墊、0.6 m 輕鋼架＋T5 格柵燈、白牆調暗、重烘；19k→41k 三角形；draw call 75→80；全部 Node 768／0；flat_classroom.py 用我這邊的 v2 版（開發分支是 10-22 換回的舊版＋改名），名字已同步；READY_FOR_ART_REVIEW"
   }
  ]
 }
