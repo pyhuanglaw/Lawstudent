@@ -112,7 +112,12 @@ async def mode_law(pg, cdp, run):
 async def mode_econ(pg, cdp, run):
     u = URL + ('&' if '?' in URL else '?') + 'y0'
     await pg.goto(u); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()"); await pg.goto(u); await L.wait_loaded(pg); await pg.wait_for_timeout(1500); await P.init(pg)
+    if await pg.evaluate("(()=>{ const r=document.getElementById('rotate'); return !!r&&r.classList.contains('want'); })()"):   # 直向：先點掉「請把手機轉成橫向（或直接點這裡繼續直向遊玩）」——第一次跑就是這一下被它吃掉，沒開局（n21_titledbg）
+        await L.tap(pg, cdp, '#rotate'); await pg.wait_for_timeout(800)
     await L.tap(pg, cdp, '#btnNewEcon'); await pg.wait_for_timeout(2000)
+    st0 = await pg.evaluate("(()=>({stage:GAME.G&&GAME.G.stage, key:GAME.G&&CALENDAR.dateOf(GAME.G.day).key, title:!document.getElementById('titleScreen').classList.contains('hide')}))()")
+    run.check('前置：按「從經濟系大一開始」真的開局（stage econ、標題收起來）', st0['stage'] == 'econ' and not st0['title'], J(st0))
+    if st0['stage'] != 'econ': return
     t0 = time.time(); moved = None; last = 0; trail = []
     while time.time() - t0 < 2700:   # 照玩家（同 next91015 boyaecon 走到 9/9 的那個迴圈）：點對話、選項用 P.pick_of（不選變暗的，婉拒那一類優先）、手機收起來
         s = await P.ts(pg)
