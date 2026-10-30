@@ -52,27 +52,45 @@ const ROOMMAP=(function(){
   const GOLD='#ffd88a', TXT='#eaf3f6', LINE='rgba(16,18,22,0.92)';
   const overlap=(a,b)=>a[0]<b[2]&&a[2]>b[0]&&a[1]<b[3]&&a[3]>b[1];
   /* 小地圖：game3d.js 的 drawMinimap 在 x.restore() 以後呼叫（字不跟著地圖轉：位置照旋轉算、字正著寫）。
-     nav、cx、cz、scale＝drawMinimap 那一套（玩家所在那一格、一格幾像素）；yaw＝E.cam.yaw（地圖轉的角度）。回傳畫了哪些（測試用）*/
+     nav、cx、cz、scale＝drawMinimap 那一套（玩家所在那一格、一格幾像素）；yaw＝E.cam.yaw（地圖轉的角度）。回傳畫了哪些（測試用）。
+     名牌的位置：房間正中間在小地圖裡＝寫在正中間；不在（小地圖只看得到附近幾公尺）＝寫在那一間離玩家最近、看得到的那一角（往裡 1.2 m）——走廊上看得出兩邊各是哪一間。
+     門口那一型（霖澤館、萬才館）寫在門口。不蓋住玩家的箭頭、互相不重疊、超出小地圖就不寫；今天的那一間先排 */
   S.drawMini=function(x,nav,cx,cz,scale,yaw,W,H,G,zone,lv){ if(!x||!nav) return []; const L=S.labels(G,zone,lv); if(!L.length) return [];
-    const c=Math.cos(yaw||0), s=Math.sin(yaw||0), px=W/2, py=H/2, M=4, fs=Math.max(15,Math.round(Math.min(W,H)*0.125)), boxes=[], drawn=[];
-    const pos=q=>{ const u=((q.x-nav.ox)/nav.cell-cx-0.5)*scale, v=((q.z-nav.oz)/nav.cell-cz-0.5)*scale; return [px+u*c-v*s, py+u*s+v*c]; };
-    const L2=L.map(q=>{ const [sx,sy]=pos(q); return {q,sx,sy,d:Math.hypot(sx-px,sy-py)}; }).sort((a,b)=>(b.q.today?1:0)-(a.q.today?1:0)||a.d-b.d);
-    x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round';
-    for(const r of L2){ const t=(r.q.today?'★':'')+r.q.mini; x.font='bold '+fs+'px sans-serif'; const tw=x.measureText(t).width, th=fs;
-      const b=[r.sx-tw/2-2,r.sy-th/2-1,r.sx+tw/2+2,r.sy+th/2+1]; if(b[0]<M||b[2]>W-M||b[1]<M||b[3]>H-M) continue; if(boxes.some(o=>overlap(b,o))) continue; boxes.push(b);
-      x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(t,r.sx,r.sy); x.fillStyle=r.q.today?GOLD:TXT; x.fillText(t,r.sx,r.sy); drawn.push({id:r.q.id,text:t,x:r.sx,y:r.sy,box:b,today:!!r.q.today}); }
+    const c=Math.cos(yaw||0), s=Math.sin(yaw||0), px=W/2, py=H/2, M=4, fs=Math.max(15,Math.round(Math.min(W,H)*0.125)), drawn=[];
+    const boxes=[[px-11,py-11,px+11,py+11]];   /* 玩家的箭頭 */
+    const pos=(wx,wz)=>{ const u=((wx-nav.ox)/nav.cell-cx-0.5)*scale, v=((wz-nav.oz)/nav.cell-cz-0.5)*scale; return [px+u*c-v*s, py+u*s+v*c]; };
+    const pw=[nav.ox+(cx+0.5)*nav.cell, nav.oz+(cz+0.5)*nav.cell];   /* 玩家（所在那一格的中心）*/
+    const clamp=(v,a,b)=>a>b?(a+b)/2:Math.max(a,Math.min(b,v));
+    const cands=q=>{ const out=[[q.x,q.z]]; const r=q.room; if(r){ const ix=Math.min(1.2,(r.x1-r.x0)/2), iz=Math.min(1.2,(r.z1-r.z0)/2); out.push([clamp(pw[0],r.x0+ix,r.x1-ix),clamp(pw[1],r.z0+iz,r.z1-iz)]); } return out; };
+    const L2=L.map(q=>{ const [sx,sy]=pos(q.x,q.z); return {q,d:Math.hypot(sx-px,sy-py)}; }).sort((a,b)=>(b.q.today?1:0)-(a.q.today?1:0)||a.d-b.d);
+    x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round'; x.font='bold '+fs+'px sans-serif';
+    for(const r of L2){ const t=(r.q.today?'★':'')+r.q.mini, tw=x.measureText(t).width, th=fs; let hit=null;
+      for(const [wx,wz] of cands(r.q)){ const [sx,sy]=pos(wx,wz), b=[sx-tw/2-2,sy-th/2-1,sx+tw/2+2,sy+th/2+1]; if(b[0]<M||b[2]>W-M||b[1]<M||b[3]>H-M) continue; if(boxes.some(o=>overlap(b,o))) continue; hit={sx,sy,b}; break; }
+      if(!hit) continue; boxes.push(hit.b);
+      x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(t,hit.sx,hit.sy); x.fillStyle=r.q.today?GOLD:TXT; x.fillText(t,hit.sx,hit.sy); drawn.push({id:r.q.id,text:t,x:hit.sx,y:hit.sy,box:hit.b,today:!!r.q.today}); }
     x.restore(); return drawn; };
-  /* 大地圖：guide3d.js 的 drawMap 在畫入口以前呼叫（S＝世界座標轉畫面；free＝drawMap 那一套「這一塊還空著就佔用」）。
-     字：配置的名字去掉館名；今天的那一間「★ 101（階梯教室）　13:20 憲法（上）」——太擠先拿掉課名、再只寫門號，還是擠就不寫（今天的那一間一定寫）*/
+  /* 大地圖：guide3d.js 的 drawMap 在畫入口以前呼叫（toS＝世界座標轉畫面；free＝drawMap 那一套「這一塊還空著就佔用」）。
+     字：配置的名字去掉館名（「101（階梯教室）」）；今天的那一間金色「★ 101」、下面一行小字「13:20 憲法（上）」。
+     放不下（比那一間在畫面上窄、或和旁邊的名牌太近）就先拿掉第二行、再只寫門號；還是和別的字重疊就不寫（今天的那一間一定寫門號）*/
+  const F1=b=>(b?'700 ':'600 ')+'14px "Noto Sans TC","PingFang TC",sans-serif', F2='12px "Noto Sans TC","PingFang TC",sans-serif';
   S.drawBig=function(x,toS,G,zone,lv,free){ if(!x||!toS) return []; const L=S.labels(G,zone,lv); if(!L.length) return []; const drawn=[];
-    const ord=L.slice().sort((a,b)=>(b.today?1:0)-(a.today?1:0));
+    const P=L.map(q=>{ const [u,w]=toS(q.x,q.z); let avail=Infinity; const r=q.room;
+      if(r){ const xs=[[r.x0,r.z0],[r.x1,r.z0],[r.x0,r.z1],[r.x1,r.z1]].map(c=>toS(c[0],c[1])[0]); avail=Math.max(...xs)-Math.min(...xs)-6; }   /* 那一間在畫面上的寬 */
+      return {q,u,w,avail}; });
+    for(const p of P){ for(const o of P){ if(o===p) continue; if(Math.abs(o.w-p.w)<20) p.avail=Math.min(p.avail,2*Math.abs(o.u-p.u)-8); } }   /* 同一列旁邊的名牌：一半的距離 */
+    const ord=P.slice().sort((a,b)=>(b.q.today?1:0)-(a.q.today?1:0));
     x.save(); x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round';
-    for(const q of ord){ const [u,w]=toS(q.x,q.z); const star=q.today?'★ ':'';
-      const tries=[star+q.text+(q.today?'　'+hhmm(q.today.t0)+' '+q.today.name:''), star+q.text, star+(q.num||q.mini)];
-      let t=null; for(const c of tries){ x.font=(q.today?'700 ':'600 ')+'14px "Noto Sans TC","PingFang TC",sans-serif'; const tw=x.measureText(c).width; if(!free||free(u,w,tw,17)){ t=c; break; } }
-      if(t==null&&q.today) t=tries[2]; if(t==null) continue;
-      x.font=(q.today?'700 ':'600 ')+'14px "Noto Sans TC","PingFang TC",sans-serif'; x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(t,u,w); x.fillStyle=q.today?GOLD:'#d9eef2'; x.fillText(t,u,w);
-      drawn.push({id:q.id,text:t,x:u,y:w,today:!!q.today}); }
+    const meas=(f,t)=>{ x.font=f; return x.measureText(t).width; };
+    for(const p of ord){ const q=p.q, star=q.today?'★ ':'';
+      const tries=q.today?[{l1:star+q.text,l2:hhmm(q.today.t0)+' '+q.today.name},{l1:star+q.text},{l1:star+(q.num||q.mini)}]:[{l1:q.text},{l1:q.num||q.mini}];
+      for(const t of tries) t.w=Math.max(meas(F1(q.today),t.l1),t.l2?meas(F2,t.l2):0);
+      let pick=tries.find(t=>t.w<=p.avail)||tries[tries.length-1];
+      const ok=t=>!free||free(p.u,p.w+(t.l2?8:0),t.w,t.l2?34:17);
+      if(!ok(pick)){ const i=tries.indexOf(pick); pick=tries.slice(i+1).find(ok)||null; }
+      if(!pick&&q.today) pick=tries[tries.length-1]; if(!pick) continue;
+      const y1=pick.l2?p.w-1:p.w; x.font=F1(q.today); x.lineWidth=3.5; x.strokeStyle=LINE; x.strokeText(pick.l1,p.u,y1); x.fillStyle=q.today?GOLD:'#d9eef2'; x.fillText(pick.l1,p.u,y1);
+      if(pick.l2){ x.font=F2; x.lineWidth=3; x.strokeText(pick.l2,p.u,p.w+16); x.fillStyle='#f4e2bb'; x.fillText(pick.l2,p.u,p.w+16); }
+      drawn.push({id:q.id,text:pick.l1+(pick.l2?'｜'+pick.l2:''),l1:pick.l1,l2:pick.l2||'',x:p.u,y:p.w,today:!!q.today}); }
     x.restore(); return drawn; };
   return S;
 })();
