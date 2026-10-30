@@ -4158,6 +4158,31 @@
    "remaining": "瀏覽器流程測試、整套回歸、iPhone 實機沒跑",
    "next": "LAWWW-B 10-30 03:26 ACK：登記 DL-LW2-LIBHALL-LM-1030／DL-LW2-RTNIGHT-1030，v9.10.14 發布後在獨立工作樹套；BB-B 03:24 ACK 畫面驗收（排在 release_suite 後，結果寫 BB_218）",
    "note": "上一任 LAWWW2-C 寫的 patch，LAWWW2-B 10-30 收尾：room_rtnight_unit 開發 FAILED 9 → ALL PASS；晚上 20:30 四個大廳同角度（總圖閘門等小東西跟著地板暗，萬才館、男一舍幾乎一樣）；進兩次 0 錯誤；改的是 zones3d.js（不是 engine3d／story3d／us3d）"
+  },
+  {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "（本 commit）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "",
+   "task": "DORM203-LM-1030＋DORM-SLEEP-VISUAL-1030（場景那一半）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/dorm203_lm_1030.patch",
+    "assets/models/env/second_ai/dorm_room4.glb",
+    "assets/models/env/second_ai/dorm_room4_lm_day.webp",
+    "assets/models/env/second_ai/dorm_room4_lm_night.webp",
+    "assets/models/env/second_ai/dorm_room4_lm_dark.webp",
+    "assets/models/env/second_ai/dorm_room4.layout.json",
+    "assets/models/env/second_ai/prop_pothos.glb",
+    "assets/models/env/second_ai/dorm_y2_items.glb",
+    "assets/models/env/second_ai/dorm_y3_items.glb",
+    "assets/models/env/second_ai/aa_support/v0_dorm_props.glb",
+    "docs/art-rebuild/second_ai/test_shots/dorm203_lm_1030/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "人物爬梯、躺下、睡覺流程（LAWWW-B）；熄燈時半球光、方向光也降（LAWWW-B）",
+   "next": "LAWWW-B 套 patch＋換二進位檔（開發 ba7c0726d 上 apply 通過；和 rt_night、library_hall_lm 三包依序也通過）",
+   "note": "使用者 X125（室內）＋X128（10-30 04:2x：睡覺要有畫面、床的比例、室友書桌上東西不要重疊）。宿舍四人房光照烘焙（白天北窗天光、晚上吸頂燈＋床下 LED、熄燈第三張）；床墊 1.85→1.92 m、床尾擋板移到走道那一半；sleep_scene（梯子、上床點、躺位、鏡頭）；五個年份四張書桌不重疊（螢幕、紙箱、檯燈、零食箱、安全帽、黃金葛、拆箱物件）；全部 Node 736 支 0 失敗；進兩次 0 錯誤；READY_FOR_ART_REVIEW"
   }
  ]
 }

@@ -1,5 +1,18 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 📣 給 LAWWW-B（2026-10-30 05:3x UTC｜DORM203-LM-1030＋DORM-SLEEP-VISUAL-1030 場景那一半 交件；send_message 另外傳）
+
+- **README**：`docs/art-rebuild/second_ai/test_shots/dorm203_lm_1030/README.md`。
+- **patch**：`docs/art-rebuild/second_ai/patches/dorm203_lm_1030.patch`。最新開發 `ba7c0726d` 上 apply 通過；和 rt_night、library_hall_lm 三包依序也通過。
+- **二進位**：
+  - `dorm_room4.glb`、三張光照貼圖（day／night／dark）、`dorm_room4.layout.json`
+  - `prop_pothos.glb`、`dorm_y2_items.glb`、`dorm_y3_items.glb`、`aa_support/v0_dorm_props.glb`
+- **測試**：全部 Node 736 支 0 失敗；dorm_lightmap_unit 開發 FAILED 9 → ALL PASS；進兩次 0 錯誤。
+- **還沒的**（LAWWW-B）：
+  - 人物爬梯、躺下、睡覺流程。
+  - 熄燈時把半球光、方向光降下來（沒烘焙的小東西偏亮）。
+- **之後的佇列**：X140 系外套（JACKET_ECON、JACKET_CHAIR）→ Café＋X132 窗景 → X133 總圖前草皮 → 法律學院圖書館。
+
 ## 🔴 使用者新指示（2026-10-30 04:2x UTC，直接對 LAWWW2-B 說；P0）
 
 - **原話**：「繼續做，第四輪好了給我看 我覺得宿舍玩加上去睡覺要真的有畫面 不然從頭到尾都是站在門口說睡完覺 很沒有真實感 床的比例也要注意 每個室友書桌上東西不要重疊」
