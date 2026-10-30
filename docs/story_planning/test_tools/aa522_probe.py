@@ -79,7 +79,8 @@ async def main():
             r1 = await P.talk_full(pg, cdp, run, 'prof_xu', MODE + '_1', max_s=300); await run.shot(pg, MODE + '_1')
             run.check('第 2 節：第一次見面＝%s的自我介紹「%s」' % ('大一' if MODE == 'xu1' else '大三', XU_INTRO[MODE]), any(XU_INTRO[MODE] in t for t in lines(r1)), J(r1 and r1['lines']))
             run.check('第 2 節：別的年級的自我介紹不出', not any(w in t for t in lines(r1) for k, w in XU_INTRO.items() if k != MODE), J(r1 and r1['lines']))
-            await P.jump(pg, cdp, run, await pg.evaluate("CALENDAR.dateOf(%d).key" % (d['d'] + 7)), 14.5, zone='wancai', pos=None, note='下週一（冷卻 3 天已過）')
+            nk = await pg.evaluate("(d=>{ let x=d+7; for(let i=0;i<6&&CALENDAR.holiday(x);i++) x+=7; return {key:CALENDAR.dateOf(x).key, skipped:(x-d)/7-1}; })(%d)" % d['d'])   # BB-B 10-30：2025-09-29 是教師節補假（國定假日許教授不在研究室），跳過假日的週一
+            await P.jump(pg, cdp, run, nk['key'], 14.5, zone='wancai', pos=None, note='下一個不是假日的週一（冷卻 3 天已過；跳過 %d 個假日週一）' % nk['skipped'])
             await P.wait_present(pg, 'prof_xu', 60)
             r2 = await P.talk_full(pg, cdp, run, 'prof_xu', MODE + '_2', max_s=300); await run.shot(pg, MODE + '_2')
             run.check('第 2 節：之後的招呼＝「%s」' % XU_AGAIN[MODE], any(XU_AGAIN[MODE] in t for t in lines(r2)), J(r2 and r2['lines']))
