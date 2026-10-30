@@ -36637,6 +36637,35 @@
     "ack": "SENT"
    },
    "notes": "程式範圍：約 40 個檔用到 noodle_team 群組（287 處）；events.js 67 處麵店"
+  },
+  {
+   "id": "CHAR-WHOIS-1030",
+   "title": "手機人物頁補「全名、怎麼認識的、和你的關係」（使用者 10-30「玩這麼久搞不清楚阿哲是誰」）：阿哲先、其他常出現的朋友一起",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "next": "AA 寫每位常出現朋友的一句（全名、怎麼認識、關係；照認識程度、事件分段）→ LAWWW 接 game3d.js personHTML → BB 測",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次打開手機人物頁",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-30 14:5x（X145，UA-LAWWW-1030-25）",
+   "authorized": "D109、D111",
+   "xai": {
+    "spec": "AA 稿（待交）",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "人物頁看得到全名、怎麼認識、關係；沒發生的事不先寫",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "notes": "阿哲＝張哲維（ev_zhe_w1_meet 最後一句才報全名）；personHTML 目前只有 personality 一句"
   }
  ]
 }
