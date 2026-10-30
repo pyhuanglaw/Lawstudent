@@ -145,11 +145,14 @@ const WHOIS=(()=>{
     {c:3,id:'supper',if:G=>mem(G,'kai','SUNDAY_SUPPER'),t:'搬走以後，週日還是會一起吃宵夜。'} ];
 
   /* ---------------- 2 經濟系那年（玩過 PLAYED_Y0／從法律系開始：那一年發生在遊戲開始以前，人照樣記得你）、其他 ---------------- */
-  const y0=f('PLAYED_Y0'), noY0=G=>!y0(G);
+  /* 經濟系那一年本身（stage econ，從開局到轉法律系）：下面「那年的室友、住了兩個月」「回到法律系以後」都是回頭看的寫法，那一年還沒過完就先不顯示（AA_543 第 0 節「沒發生的不先寫」；
+     BB-B 10-30 BUG-WHOIS-ECONYEAR-1030：PLAYED_Y0 到 Y1 宿營才記，經濟系那年原本走 noY0 那幾列）。經濟系當下的寫法等 AA 給；宿營同一小隊等宿營過了才寫 */
+  const econNow=G=>!!G&&G.stage==='econ';
+  const y0=G=>!econNow(G)&&f('PLAYED_Y0')(G), noY0=G=>!econNow(G)&&!f('PLAYED_Y0')(G);
   R.econ_zhengxun=[
     {c:1,id:'name',t:'盧正勳，大家叫他阿勳。經濟系。'},
     {c:2,id:'room',if:y0,t:'你經濟系那年的室友，男宿 412，住了兩個月。'},
-    {c:2,id:'camp',if:G=>y0(G)&&!!F(G).ECON_CAMP_DONE,t:'經濟系宿營同一小隊。'},
+    {c:2,id:'camp',if:G=>(y0(G)||econNow(G))&&!!F(G).ECON_CAMP_DONE,t:'經濟系宿營同一小隊。'},
     {c:2,id:'room0',if:noY0,t:'你經濟系那年的室友。回到法律系以後，他傳訊息來：「是我，阿勳。」'},
     {c:3,id:'treat',if:G=>F(G).A3_TREAT===true,t:'你退宿那天，他幫你封箱。'},
     {c:3,id:'why',if:f('E24C_REASON'),t:'他問過你，為什麼要重考。'},

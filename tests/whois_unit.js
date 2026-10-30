@@ -113,6 +113,9 @@ const done=(id,n)=>{ H.G.events.done[id]=n||1; (H.G.events.last||(H.G.events.las
   await sec(5,()=>{ const d1=STORY.y0Day1(); const G=H.fresh(CALENDAR.dateOf(d1+1).key,18,'dorm',{E01_DONE:true,E01_NIGHT:'unpack',E01_MORNING:true}); G.stage='econ'; SOCIAL.bind(G);
     const before=['econ_weilun','econ_tangrui'].map(id=>SOCIAL.has(id,'FIRST_MET')); const r=STORY.y0Tick(GM);
     check('5. 9/2 17:00 以後回 412（E412_MOVEIN）：韋綸、唐睿記 FIRST_MET（note dorm）；朋友清單的條件（SOCIAL.has FIRST_MET）成立',r===true&&!!G.flags.E412_MOVEIN&&J(before)===J([false,false])&&SOCIAL.has('econ_weilun','FIRST_MET')&&SOCIAL.has('econ_tangrui','FIRST_MET')&&!!G.flags.met_econ_weilun&&!!G.flags.met_econ_tangrui,J([r,before]));
+    { const xs=['econ_zhengxun','econ_weilun','econ_tangrui','econ_pinyu'].map(id=>[id,WHOIS.lines(G,id)]);
+      check('5. 經濟系那一年本身（stage econ，BB-B BUG-WHOIS-ECONYEAR-1030）：沒有「回到法律系以後」「那年的室友」「住了兩個月」「宿營同一小隊」（宿營還沒去）這些回頭看的列',xs.every(([id,a])=>!a.some(t=>/回到法律系以後|那年的室友|住了兩個月|宿營同一小隊|走啦」群組/.test(t))),J(xs));
+      G.flags.ECON_CAMP_DONE=true; check('5. 經濟系宿營過了：阿勳「經濟系宿營同一小隊。」',WHOIS.lines(G,'econ_zhengxun').includes('經濟系宿營同一小隊。'),J(WHOIS.lines(G,'econ_zhengxun'))); delete G.flags.ECON_CAMP_DONE; }
     const g=fs.readFileSync(path.join(H.ROOT,'src/game3d.js'),'utf8'); check('5. knownIds 認 FIRST_MET（朋友清單）',/function knownIds\(\)\{[^\n]*SOCIAL\.has\(id,'FIRST_MET'\)/.test(g)); });
 
   /* ===== 第 6 節：最多 8 行、不擠掉的、換說法 ===== */

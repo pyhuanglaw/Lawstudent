@@ -36752,6 +36752,34 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-WHOIS-ECONYEAR-1030",
+   "title": "經濟系那一年（stage econ）阿勳、韋綸、唐睿、品妤的人物頁照「法律系開局」寫：「回到法律系以後……」；就算改對，「住了兩個月」「宿營同一小隊」「你經濟系那年」也是那一年還沒過完就先寫（BB-B n21_whois_econ3，BB_218 881c60d12）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "程式（LAWWW-B 19:2x）：whois3d.js 經濟系那一年不顯示回頭看的列（y0／noY0 都排除 stage econ），宿營同一小隊等 ECON_CAMP_DONE；whois_unit 第 5 節兩項（修改前 FAIL、修改後 PASS）。經濟系當下的寫法（現在式，例：「你的室友，男宿 412。」）等 AA 給（已問）→ 接上 → BB n21_whois_econ4 重看",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開局 9/2 韋綸、唐睿搬進 412 以後打開人物頁",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 10-30 19:08 訊息",
+   "authorized": "D99 第一項（經濟系完整流程）、AA_543 第 0 節",
+   "xai": {
+    "spec": "AA_543 第 0 節、第 2 節",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "acceptance": "經濟系那一年人物頁沒有回頭看的句子；AA 給的現在式那幾句照稿",
+    "receiver": "BB",
+    "ack": "SENT"
+   }
   }
  ]
 }
