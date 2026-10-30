@@ -33,6 +33,8 @@ UI = """(()=>{ const pick=id=>{ const e=document.getElementById(id); if(!e) retu
   return ['clockZ','clockT','nextClass','goal','guideText','interactLabel','title3','caption','toast','bmTitle','bmSub','bmInfo'].map(pick).filter(Boolean); })()"""
 INTER = "(()=>(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>({label:i.label||'',x:i.x,z:i.z,lv:i.lv|0,to:i.exit&&i.exit.to||null})))()"
 BODY = "(()=>document.body.innerText||'')()"
+# 站到門口旁邊（0.4～1.0 m；bbplay 的 placeNear 最少 2 m，門的互動半徑走不到）
+PLACE = """(([x,z,lv])=>{ const E=GAME.E, P=E.player; lv=lv|0; for(const R of [0.5,0.8,1.0,0.3]){ for(let i=0;i<16;i++){ const a=i*Math.PI/8, px=x+Math.sin(a)*R, pz=z+Math.cos(a)*R; if(E.canStand&&!E.canStand(px,pz,0.3,lv)) continue; E.placeAt(P,px,pz,lv); P.path=null; P.obj.rotation.y=Math.atan2(x-px,z-pz); return {x:+px.toFixed(2),z:+pz.toFixed(2),R}; } } E.placeAt(P,x,z,lv); P.path=null; return {x,z,R:0}; })"""
 
 
 class Find:
@@ -85,9 +87,11 @@ async def save_page(pg, cdp, run, F, tag, do_save=True):
 
 
 async def big_map(pg, cdp, run, F, tag):
-    if not await pg.evaluate("(()=>{ const b=document.getElementById('btnBigMap'); return !!b&&!!b.offsetParent; })()"):
-        run.note('%s：看不到大地圖按鈕' % tag); return None
-    await L.tap(pg, cdp, '#btnBigMap'); await pg.wait_for_timeout(1500)
+    if await pg.evaluate("(()=>{ const b=document.getElementById('btnBigMap'); return !!b&&!!b.offsetParent; })()"): await L.tap(pg, cdp, '#btnBigMap')
+    elif await pg.evaluate("(()=>{ const b=document.getElementById('minimap'); return !!b&&!!b.offsetParent; })()"): await L.tap(pg, cdp, '#minimap')   # 導引「點右上角的小地圖」
+    else: run.note('%s：看不到大地圖按鈕、也看不到小地圖' % tag); return None
+    await pg.wait_for_timeout(1500)
+    if not await pg.evaluate("(()=>{ const b=document.getElementById('bigmap'); return !!b&&!!b.offsetParent; })()"): run.note('%s：按了大地圖沒有打開' % tag); await run.shot(pg, '%s_bigmap_fail' % tag); return None
     F.ui('%s 大地圖' % tag, await pg.evaluate(UI))
     lst = await pg.evaluate("(document.getElementById('mapList')||{}).innerText||''"); F.text('%s 大地圖清單' % tag, lst, written=True)
     run.note('%s 大地圖：%s' % (tag, J(lst[:400])))
@@ -113,7 +117,7 @@ async def views(pg, cdp, run, F):
         for it in inter: F.text('%s 互動清單' % nm, it['label'], written=True)
         doors = [it for it in inter if it['to']][:6]
         for k, it in enumerate(doors):
-            await pg.evaluate("([x,z,R,lv])=>__BBF.placeNear(x,z,R,lv)", [it['x'], it['z'], 0.8, it['lv']]); await pg.wait_for_timeout(1800)
+            await pg.evaluate(PLACE, [it['x'], it['z'], it['lv']]); await pg.wait_for_timeout(1800)
             u = [x for x in await pg.evaluate(UI) if x['id'] == 'interactLabel']; F.ui('%s 門口' % nm, u)
             run.note('%s 門口 %s → %s：畫面上「%s」%s' % (nm, it['label'], it['to'], u and u[0]['t'], '（被截）' if u and (u[0]['over'] or u[0]['off']) else ''))
             if k < 3: await run.shot(pg, 'v_%s_door%d' % (zone, k))
