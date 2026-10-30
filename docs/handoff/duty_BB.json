@@ -1,10 +1,10 @@
 {
  "role": "BB",
- "account": "C",
- "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
- "branch": "claude/wonderful-mayer-7fm9g6",
- "since": "2026-10-27T17:21Z",
+ "account": "B",
+ "session": "session_01J1g2TPcPzWrihXSY2WvseV",
+ "branch": "claude/elegant-brown-fcos7n",
+ "since": "2026-10-30T02:08Z",
  "state": "on",
- "sinceSha": "2109de7b",
+ "sinceSha": "383ad861",
  "userOk": true
 }
