@@ -18,7 +18,7 @@ URL, OUT, SAVEF = sys.argv[1], sys.argv[2], sys.argv[3]
 SAVE = json.load(open(SAVEF, encoding='utf-8'))
 MODE = os.environ.get('MODE', 'law')
 J = lambda o: json.dumps(o, ensure_ascii=False)
-CAMP = """ const G=GAME.G, F=G.flags; G.social=G.social||{}; G.social.mem=G.social.mem||{}; const M=G.social.mem.zhe||(G.social.mem.zhe=[]); const fm=M.find(x=>x.tag==='FIRST_MET'); if(fm) fm.note='camp'; else M.push({tag:'FIRST_MET',note:'camp',day:G.day});
+CAMP = """ G.social=G.social||{}; G.social.mem=G.social.mem||{}; const M=G.social.mem.zhe||(G.social.mem.zhe=[]); const fm=M.find(x=>x.tag==='FIRST_MET'); if(fm) fm.note='camp'; else M.push({tag:'FIRST_MET',note:'camp',day:G.day});
   F.CAMP_BUS='zhe'; F.DORM_FOUR=true; F.ZHE_CALLS_GE=true; """
 LAYOUT = """(()=>{ const pb=document.getElementById('phoneBody'), w=pb&&pb.querySelector('.whois'); if(!w) return {whois:false};
   const r=w.getBoundingClientRect(), bs=[...pb.querySelectorAll('button')].map(b=>b.getBoundingClientRect()).filter(b=>b.width>0);
@@ -56,7 +56,7 @@ def lay_ok(run, tag, o):
 async def state(pg, cdp, run, key, js, label):
     st, d = await P.base(pg, SAVE, key, 15.0, 'campus'); await P.load(pg, cdp, st)
     run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）15:00 校園' % (d['key'], d['term'], d['week']))
-    if js: await P.prep(pg, cdp, run, "(()=>{ %s return {DORM_FOUR:GAME.G.flags.DORM_FOUR||null, CAMP_BUS:GAME.G.flags.CAMP_BUS||null, YU_ZHE_TOLD:GAME.G.flags.YU_ZHE_TOLD||null}; })()" % js, label=label)
+    if js: await P.prep(pg, cdp, run, "(()=>{ const G=GAME.G, F=G.flags; %s return {DORM_FOUR:GAME.G.flags.DORM_FOUR||null, CAMP_BUS:GAME.G.flags.CAMP_BUS||null, YU_ZHE_TOLD:GAME.G.flags.YU_ZHE_TOLD||null}; })()" % js, label=label)
     await pg.wait_for_timeout(2500)
 
 
