@@ -1,0 +1,50 @@
+BUG-22	A		第二天早上的課不排、以安叫住不卡：flow_main_day12（第一、二天主線）L2326-2329（bac2e55df）28 PASS、發布前清單 L2534（d7f40ce91）、L3786-3788（3acaf8bea）、L3910-3912（661423a71）都 PASS。iPhone 實機另歸使用者
+PERF-BOOT	C		開遊戲加速：要單獨限速量標題出現時間（tests/boot_fast.py、loading_portrait.py），不是劇情流程；iPhone 體感歸使用者
+START-WEEK	B	①	照真實校曆開局：L611（f72a2a21）已走到 8/31；①補 9/1 開學、9/2 茶會、9/3～9/4 主線
+NO-UGLY	A		不准退化成醜模型（含換區域晚到的模型）：L1409-1411（364dabe0）PERF-NPC-POOL 38 項，8 次換區域都沒有露出方塊人、路人沒有一直藏著
+HOLIDAY-SYS	A		16 週制與寒暑假：L98-99（86f50db8）flow_law_break ALL PASS；L596-603（e0a48b60）七個假期快轉到開學 ALL PASS。「邀約看所在地」的人物資料缺口另由 HOLIDAY-PRESENCE-1021 追
+HANDOFF-ABC	D		交接制度、工具、文件，不是遊戲功能
+ART-GYM-BG1	D		2D 背景（體育館典禮）＝場景美術，任務自己寫等使用者
+V1-BB175	B	⑩Y1S1	大一上手機小事 22 則改字
+ART-SCOOTER2	D		機車模型＝場景美術；功能 wz_street_integration（L1353-1356）、reachability_all（L3788）已 PASS，street_props_integration BB_218 沒跑
+V1-BB171	B	⑩Y1S1	大一跨年五則私訊、Kevin 照片、阿凱頂樓（12/31～1/1）
+V1-BB168	B	①	大一上 BB 人物改稿（開局第一二週、茶會、階梯口語）
+BUG-MAPBLACK	D		iPhone 才會出現的黑畫面（貼圖記憶體）；模擬器測試 map_canvas_leak／dorm_start_memory LAWWW 已過，真機歸使用者
+BUG-WZFLICKER	D		疊面閃爍要真機看（SwiftShader 靜態截圖看不出閃，L632、L715）；任務自己寫等使用者 iPhone
+BUG-INVITE-WEEKEND	B	⑦	當面約人一次，看開場句「你等一下有空嗎？」／「你明天有空嗎？」和時間選項一致
+BUG-FOLLOWSIT	C		一起走的人停下來是站姿：要當面約以安去麵店、沛珊去總圖，途中停下截圖；L1027-1040 學姊一起走 PASS，但沒記姿勢
+BUG-GOALSTALE	B	⑩Y1S1	阿哲麵店 18:30 過了以後目標改「他還在等，20:30 前到」
+ART-GG-SIGNS	D		公館招牌＝場景美術
+V1-INV-WORDING	B	⑦	邀約台詞定稿（第 78 項，BB_218 沒跑）：⑦約每一位時對字
+BUG-CHOICE-LAYOUT	A		選項多時的版面：L1077-1080（9cf16124）橫向地點選單第一個按鈕在畫面裡、下面捲得動 PASS；L2546-2547（v9.10.7 發布樹）便利商店六個選項橫直向都點得到 PASS
+BUG-MEET-NOSEAT	A		約去總圖兩人坐下才開始：L1008（4326d91c～c51e4b72）兩人並排坐下自己開始；L1015、L1104-1106（9cf16124）現在一起過去也坐下
+BUG-LIGHTBAND	C		半透明直條：要在總圖大廳、舊路書房各截幾個方向看直條還在不在（靜態截圖看得出來）
+BUG-SLOTJUMP	A		時段用完跳下一個時段：L1976-1978、L1991-1993（fff3f8998）下午讀完跳到 18:00、晚上排滿變灰「這個晚上已經排滿了（1／1）」PASS
+BUG-FRIENDS-KEXIN	B	①	法律系開局打開手機「朋友」看有可昕（經濟系那條 L157、L842 已看到她在列表）
+SYS-PHONE-CHAT	A		玩家主動傳訊息：L840（2b25a509）傳「在幹嘛」可昕照寒假所在地回；L1653-1667（9f9e13cc）五個時差情境 MX 全 PASS（可昕、阿凱）。其他人物的回覆池由 msg_chat_unit 逐字涵蓋
+BUG-LIB-PILLAR	A		總圖柱子碰撞：任務要跑的 flow_library_floors（L2519 d7f40ce91、L3788 3acaf8bea）、reachability_all（L2455、L3788）都 PASS
+BUG-OUTLET-SEAT	C		閱覽室插座事件改成坐下才演：是隨機權重事件，要多坐幾次才碰得到
+BUG-CAM-ELEV	B	⑫	閱覽室電梯車廂裡四方向截圖（levels_no_sky L2791 只量天空像素）
+ART-BIKES2-INT	D		腳踏車模型＝場景美術；功能測試同 ART-SCOOTER2
+BUG-FOLLOW-WAVE	B	⑦	一起走到目的地的人不揮手
+BUG-OUTING-STUCK	B	②	可昕「再去走走」演完回台大不卡、閒聊在 2D 播（經濟系那一年）
+BUG-SEAT-OCCUPIED	A		有人坐的位子不出「坐下」：L1387、L1401（364dabe0）交誼廳有人坐的沙發不出選單、改坐另一張；L2664-2668（f472cee48）博雅有人坐的位子按不到、遊戲是對的；長椅位置 campus_layout_nav L2443-2444 PASS
+BUG-PARK-SEATS	B	⑪	溫州街小公園長椅、圓椅坐下截圖
+BUG-COPLANAR-DEV	C		開發組 GLB 疊面：要跑 campus_glb_integration、interior_glb_integration 並截圖；會不會閃要真機
+BUG-TEA-SEIZA	C		一盞跪坐姿勢：L1084、L1360 只確認坐得下、位置對，沒有判姿勢；坐下近拍一張
+BUG-SWING-SEAT	B	⑪	小公園鞦韆（20:00 以後）坐下截圖
+BUG-GYM-SEATS	B	⑫	體育館大廳、場邊長椅、看台坐下截圖
+ART-CAFE-FLOOR	D		Café 地板材質＝場景美術
+CAMP-L1	B	①	宿營開局：L611（f72a2a21）、L849-856（72560881）宿營到 8/29 PASS；9/1 阿哲宿營版、9/2 茶會、家族群組要在①補看
+ART-CG-ECONCAMP	B	②	經濟系宿營 E15 用 CG 帶過（CG 已核）：②看那一拍有 CG
+REL-NEXT	D		發布管理項目，稽核寫改由 REL-9103 追蹤、可結案
+AB-65	D		AA 的改稿總項（企劃交付），實作在 LAWWW 子任務
+AB-66	D		BB 的經濟系改稿交付（企劃），實作在 V0-REWRITE-L
+VAC-L1	B	③	假期活動卡報名、衝突、整段出遊（L596 只走快轉，沒報名活動）
+VAC-X2	B	⑤	日本路線 3/25 出發
+VAC-B3	D		寒暑假 2D 背景（場景美術），只剩 train_day 沒有事件用
+HOL-NYE-Y2	B	⑩Y2S1	大二～大四跨年台詞（每年 12/31）
+HOL-VA	B	③	AA 六位的假期台詞（麵店過年店休等）
+MSG-2	C		第二批話題（謝謝、生日快樂、還好嗎、新年快樂）各要事件旗標或特定日子才出現
+AA-103-SP	B	⑧	刑訴第 15 週特別課那一句（大三上）
+Y3S1-XMAS	B	⑩Y3S1	大三上聖誕寄到英國的那一箱

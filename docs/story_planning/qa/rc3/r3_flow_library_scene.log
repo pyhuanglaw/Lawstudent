@@ -1,0 +1,21 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：第 2 天（星期四）15:40、和小安約好去總圖（plan=library、companion=an）、校園總圖門廊前面 (82,0)
+PASS [前置] 小安跟在旁邊（follow）  {"beh": "follow"}
+  [  53.0s] 到達「總圖門口（門口正前方）」附近（0.14 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，16 秒
+PASS 走到總圖門口：按鈕是「進入總圖書館」（不是和小安說話）  進入總圖書館
+PASS 進入總圖大廳；目標提示「上二樓的自習區」；小安跟著進來  目標「上二樓的自習區（跟小安一起）」；小安 {"beh": "follow", "x": 0.3232056605173279, "z": 7.653459038850225}
+  [ 129.3s] 到達「一樓電梯門口」附近（0.13 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，62 秒
+PASS 電梯：和小安約好在二樓，3F 閱覽區先不能去（看得懂的說明）、選「不搭了」走出來  選項「3F 閱覽區和小安約好在二樓自習區」；說明「和小安約好在二樓的自習區讀書，先到二樓。」
+  [ 255.6s] 到達「大樓梯中間的平台」附近（0.31 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，107 秒
+PASS 走到大樓梯中間的平台（2.5 m），劇情還沒開始  {"zone": "library_hall", "x": 0.01, "z": -6.71, "ry": 3.29, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "和她說話", "hour": 15.9, "stand": true, "camYaw": 2.515, "fallbacks": 0, "y": 2.5, "lv": 0, "frame": 436, "paused": false}
+  [ 306.0s] 從平台點地面 3 次
+PASS 走上二樓就開始「總圖的下午」  {"zone": "library_hall", "x": -1.06, "z": 0.59, "ry": 4.76, "busy": true, "pose": "walk", "path": 2, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 15.95, "stand": true, "camYaw": 2.515, "fallbacks": 0, "y": 5, "lv": 1, "frame": 515, "paused": false}
+  [ 359.6s] 走到座位、坐下花了 54 秒（實際時間）；走路保險 0 次
+PASS 兩個人走到二樓西側靠窗的長桌、面對面坐下（劇情的兩個座位、二樓 5.0 m）  {"pp": "sit", "py": 5, "plv": 1, "px": -10.17, "pz": 2.2, "ap": "sit", "ay": 5, "ax": -10.17, "az": 3.8, "sA": {"x": -10.174999999999999, "z": 2.2, "yaw": 0, "lv": 1}, "sB": {"x": -10.174999999999999, "z": 3.8, "yaw": 3.141592653589793, "lv": 1}, "dlg": false, "fb": 0, "done": false}
+PASS 「總圖的下午」結束：afternoonDone、companion 清掉、時間到黃昏、目標換成晚上的事  {"afternoonDone": true, "companion": null, "goal": "今晚去公館吃點東西，或回宿舍", "hour": 17.704888666666672}
+PASS 站起來、還在二樓、站得住  {"zone": "library_hall", "x": -10.92, "z": 2.2, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（小聲）你的聯絡方式給我。筆記我拍給你。", "choices": 0, "interact": "坐下讀書", "hour": 17.7, "stand": true, "camYaw": 1.314, "fallbacks": 0, "y": 5, "lv": 1, "frame": 736, "paused": false}
+  [ 530.5s] 到達「連廊（劇情之後）」附近（0.31 m）：點地面 2 次、轉鏡頭 1 次、搖桿 1 次，105 秒
+PASS 劇情之後走得動（走到連廊）
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）
+PASS 沒有 JS 例外  []
+ALL PASS

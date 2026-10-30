@@ -267,7 +267,7 @@ async def meet(p, run, base, sid, out):
 async def note23(p, run, base, sid, out):
     """2/2 21:00 起：等她的便條出現（不睡覺，時間自己走），手機回第一個選項，看她回什麼"""
     res = out.setdefault(sid, {}); same = sid == 'NOTE23_SAME'
-    js = ("(()=>{ PHONE.postAt(GAME.G,{th:'p:heroine_05',from:'heroine_05',text:'📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）',tag:'y4_push_note'},STORY.dayOfKey('2028-10-25'),21); })()" if same else None)
+    js = ("(()=>{ PHONE.postAt(GAME.G,{th:'p:heroine_05',from:'heroine_05',text:'（便條：「你可以。」）',tag:'y4_push_note'},STORY.dayOfKey('2028-10-25'),21); })()" if same else None)
     b, pg, cdp, errs = await launch_load(p, run, base, '2029-02-02', 21.0, 'dorm', flags={'Y4_PATH': 'grad', 'Y4_PUSH': 'fail', 'dating_heroine_01': True}, extra_js=js,
                                          label=sid + ('（前置：10/25 那張已收到＝手機放一則 tag y4_push_note；和以安交往中＝便條是照片版）' if same else '（沒收過 10/25 那張；和以安交往中）'))
     try:
@@ -285,12 +285,13 @@ async def note23(p, run, base, sid, out):
         st = await pg.evaluate(STATE); res['at'] = st
         ms = [m for m in await pg.evaluate(SISMSG) if m['d'] >= '2029-02-01']; res['msgs'] = ms
         say('   %s 學姊對話串（2/1 以後）：%s' % (sid, json.dumps(ms, ensure_ascii=False)))
-        want = '📷（一張手寫的便條：同上。）' if same else '📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'
+        want = '📷（一張手寫的便條：同上。）' if same else '📷（一張手寫的便條：你可以。）'   # BB-B 10-23：AA_398 第 38 列
         note = [m for m in ms if m['tag'] == 'r3_sis_note_photo']
         run.check('%s：2/2 21:00 的便條＝「%s」' % (sid, want), len(note) == 1 and note[0]['text'] == want and note[0]['d'] == '2029-02-02' and abs(note[0]['h'] - 21) < 0.05, json.dumps(note, ensure_ascii=False)[:300])
-        run.check('%s：手機上的回覆按鈕＝「%s」「謝謝。」' % (sid, '同上。' if same else '三件都一樣。'), bool(note) and note[0]['ask'] == ['同上。' if same else '三件都一樣。', '謝謝。'], json.dumps(note[0]['ask'] if note else None, ensure_ascii=False))
+        run.check('%s：手機上的回覆按鈕＝「%s」「謝謝。」' % (sid, '同上。' if same else '只有一句。'), bool(note) and note[0]['ask'] == ['同上。' if same else '只有一句。', '謝謝。'], json.dumps(note[0]['ask'] if note else None, ensure_ascii=False))
         after = [m['text'] for m in ms if m['d'] >= '2029-02-02' and m['tag'] != 'r3_sis_note_photo']
-        run.check('%s：用手機回第一個 → 她回「對。」' % sid, got and ('同上。' if same else '三件都一樣。') in after and '對。' in after, json.dumps(after, ensure_ascii=False)[:300])
+        rep = '對。' if same else '一句就夠了。'   # BB-B 10-23：AA_398 第 38 列（「同上。」那一支照舊「對。」）
+        run.check('%s：用手機回第一個 → 她回「%s」' % (sid, rep), got and ('同上。' if same else '只有一句。') in after and rep in after, json.dumps(after, ensure_ascii=False)[:300])
         await run.shot(pg, '%s_end' % sid)
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])

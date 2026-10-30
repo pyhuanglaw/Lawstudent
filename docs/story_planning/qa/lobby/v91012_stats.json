@@ -1,0 +1,34 @@
+{
+ "day_entrance": {
+  "dark": 0.0195,
+  "lum": 133.1
+ },
+ "day_middle": {
+  "dark": 0.0,
+  "lum": 140.4
+ },
+ "day_middle_w": {
+  "dark": 0.0114,
+  "lum": 136.7
+ },
+ "day_stairs": {
+  "dark": 0.0,
+  "lum": 142.5
+ },
+ "night_entrance": {
+  "dark": 0.0222,
+  "lum": 93.4
+ },
+ "night_middle": {
+  "dark": 0.0,
+  "lum": 105.8
+ },
+ "night_middle_w": {
+  "dark": 0.0084,
+  "lum": 99.7
+ },
+ "night_stairs": {
+  "dark": 0.0,
+  "lum": 81.9
+ }
+}

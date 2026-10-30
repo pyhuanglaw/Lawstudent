@@ -1,0 +1,7 @@
+# 線 8：開發分支 fff3f8998（lw16:8798）。第 46 項學期中快轉（fff3f8998 也有，最先）→ 第 49 項每個時段一件主要的事（DEC-SLOTS-1018，SL49_*）
+ff46b semff_probe.py FF46_WEEK,FF46_NEXT,FF46_MSG,FF46_MEET,FF46_NOW,FF46_WINTER
+sl49 semff_probe.py SL49_NOTES,SL49_JUMP,SL49_CLASS,SL49_OUT,SL49_EXAM,SL49_EAT,SL49_MEET
+sl49b semff_probe.py SL49_JUMP,SL49_CLASS,SL49_EAT
+sl49c semff_probe.py SL49_MEET   # 13:5x 加：到 Café 沒自己開始見面——記到達時間、小安在不在；要說話才開始＝遊戲問題
+sl49d semff_probe.py SL49_JUMP   # 14:0x 加：字幕改用畫面上的 #caption 記（skipTo 叫內部 GM.caption）
+sl49e semff_probe.py SL49_MEET   # 14:4x 加：前置補 afternoonDone（小安才會照作息出現）

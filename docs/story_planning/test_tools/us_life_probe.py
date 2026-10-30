@@ -20,20 +20,29 @@ HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; if(
   const oc=ADV.cg; ADV.cg=function(id){ try{ window.__LOG.push({n:'CG',t:'CG:'+id, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return oc.apply(this,arguments); };
   const ot=GAME.toast; GAME.toast=function(x){ try{ window.__LOG.push({n:'TOAST',t:'TOAST:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ot.apply(this,arguments); };
   if(GAME.caption){ const ocp=GAME.caption; GAME.caption=function(x){ try{ window.__LOG.push({n:'CAPTION',t:'CAPTION:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ocp.apply(this,arguments); }; } })()"""   # 2026-10-21 AA370：提示（亞洲超市公休）、字幕（208 的門關著）也記
+DRAIN_ASKS = {}
 async def drain(pg, cdp, pref=None, secs=120):
     t0 = time.time()
     while time.time() - t0 < secs:
         s = await L.state(pg)
         if s['choices']:
-            c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().includes(t)); if(e) break; } e=e||bs.find(x=>/不|晚一點|之後/.test(x.textContent))||bs[bs.length-1]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20))]; })(%s)" % json.dumps(pref or []))
+            # BB-B 21:1x：點之前先 scrollIntoView——橫向畫面、對話框還在時 #choices 只剩 206 px、超過的選項在框外（SQ08 便利商店六個選項的「不用了」點不到，cvs_menu4.py）
+            # BB-B 10-23 19:4x：偏好開頭「1:」＝這一次 drain 只選一次（SQ39_SQ08：便利商店買完會再問一次，「小罐貓罐頭」每次都對得到，連買 36 罐、選單一路開到別的區域）
+            w = [t[2:] if t.startswith('1:') else t for t in (pref or [])]
+            c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null, k=-1; for(let i=0;i<w.length;i++){ e=bs.find(x=>x.textContent.trim().includes(w[i])); if(e){ k=i; break; } } e=e||bs.find(x=>/不|晚一點|之後/.test(x.textContent))||bs[bs.length-1]; try{ e.scrollIntoView({block:'nearest'}); }catch(_){} const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20)),k]; })(%s)" % json.dumps(w))
+            if pref is not None and c[4] >= 0 and pref[c[4]].startswith('1:'): pref = [x for i, x in enumerate(pref) if i != c[4]]
             await L.touch_tap(cdp, c[0], c[1]); say('   ▶', c[2], '（選項：%s）' % ' / '.join(c[3]))
             await pg.wait_for_timeout(900); continue
         if s['dlg']:
             if MID['n'] < 3 and MID['run'] and any(k in (s.get('dtext') or '') for k in MID['keys']):
                 MID['n'] += 1; await MID['run'].shot(pg, 'mid_%s_%d' % (MID['id'], MID['n']))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if await phone_open(pg):   # BB-B 10-23：手機自己打開時人物也是 busy，原本先等 busy＝手機永遠不收（US370_k23 卡在 09:02）
+            # BB-B 10-25 07:5x：臺灣學期中的快轉（semff3d.js S.menu）停在要回的訊息＝自己打開手機、關掉就接著跳（D103）＝先照 ffloop 的 asks 回，再關（R37_ABS_* 原本直接關掉＝沒回就跳到 4/10）
+            if DRAIN_ASKS and await pg.evaluate("PHONE.pending(GAME.G).length"): await answer(pg, cdp, DRAIN_ASKS)
+            if await phone_open(pg): await close_phone(pg)
+            continue
         if s['busy']: await pg.wait_for_timeout(600); continue
-        if await phone_open(pg): await close_phone(pg); continue
         await pg.wait_for_timeout(1000); s = await L.state(pg)
         if not (s['dlg'] or s['choices'] or s['busy']): return True
     return False
@@ -43,13 +52,19 @@ async def close_phone(pg):
     await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(500)
 async def answer(pg, cdp, rules):
     """要回覆的訊息：打開手機 → 訊息 → 點那個對話串 → 點選項（照玩家）。rules：{ask id 前綴: 選項開頭}"""
-    pend = await pg.evaluate("(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()")
+    PEND = "(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()"
+    QDUE = "(()=>{ const G=GAME.G, P=PHONE.rec(G), t=G.day*24+G.hour; return (P.q||[]).some(x=>x&&x.day!=null&&x.day*24+(+x.h||0)<=t+0.02); })()"
+    pend = await pg.evaluate(PEND)
+    for _ in range(8):   # BB-B 10-25 07:4x：臺灣學期中的快轉（semff3d.js）停在訊息的時間，訊息要等下一次手機規則（0.5 秒）才送到；原本馬上讀＝空的、沒回就再快轉（R37_ABS_*）
+        if pend or not await pg.evaluate(QDUE): break
+        await pg.wait_for_timeout(800); pend = await pg.evaluate(PEND)
     done = False
     for m in pend:
-        want = next((v for k, v in rules.items() if m['id'].startswith(k)), None)
+        want = next((v for k, v in rules.items() if k != '*' and m['id'].startswith(k)), None)
+        if want is None and '*' in rules and m['opts']: want = m['opts'][0]   # BB-B 10-24 23:0x（AA-B：逐日劇本的邀約都沒回）：'*'＝其他要回的都選第一個
         if want is None: continue
         k = next((i for i, t in enumerate(m['opts']) if t.startswith(want)), None)
-        if k is None: say('   手機：%s 沒有「%s」選項（%s）' % (m['id'], want, m['opts'])); bad.append('%s 沒有選項「%s」' % (m['id'], want)); rules.pop(next(kk for kk in rules if m['id'].startswith(kk))); continue
+        if k is None: say('   手機：%s 沒有「%s」選項（%s）' % (m['id'], want, m['opts'])); bad.append('%s 沒有選項「%s」' % (m['id'], want)); rules.pop(next((kk for kk in rules if kk != '*' and m['id'].startswith(kk)), None), None); continue
         if not await phone_open(pg): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
         await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"msg\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
         c = await pg.evaluate("(th=>{ const e=[...document.querySelectorAll('#phoneBody [data-th]')].find(b=>b.dataset.th===th); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(m['th']))
@@ -57,20 +72,27 @@ async def answer(pg, cdp, rules):
         c = await pg.evaluate("(a=>{ const e=[...document.querySelectorAll('#phoneBody [data-ask]')].find(b=>b.dataset.ask===a); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })(%s)" % json.dumps('%s|%d' % (m['id'], k)))
         if not c: say('   手機：找不到 %s 的按鈕' % m['id']); bad.append('手機介面找不到 %s「%s」的按鈕' % (m['id'], want)); continue
         await L.touch_tap(cdp, c[0], c[1]); say('   手機回覆 %s：「%s」（訊息「%s」）' % (m['id'], c[2], m['text'][:20])); await pg.wait_for_timeout(1200)
-        rules.pop(next(kk for kk in rules if m['id'].startswith(kk)), None); done = True
+        rules.pop(next((kk for kk in rules if kk != '*' and m['id'].startswith(kk)), None), None); done = True   # BB-B 10-25 00:5x：'*' 選中的沒有前綴可以拿掉（原本 next() 沒預設值 → StopIteration，劇本 8/5 就中斷）
     if await phone_open(pg): await close_phone(pg)
     return done
 async def set_h(pg, run, h, why):
     await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % h); run.setup('[捷徑] 時鐘撥到 %.2f（%s）' % (h, why)); await pg.wait_for_timeout(1500)
 async def play_until(pg, cdp, run, h, sc, secs=420):
     """遊戲時間照走到 h；中間有對話照選項偏好、有要回的訊息照 rules、出遊「出發」"""
-    t0 = time.time(); last = None
-    while time.time() - t0 < secs:
+    t0 = time.time(); last = None; sn0 = None; lim = secs
+    # BB-B 10-23 19:1x：負載 25 時遊戲時間每 420 秒只走 0.2～0.35 小時（FOOD51、ZR43、REB 都是「等不到」＝腳本 FAIL）。
+    # 看了 90 秒以後照實際速度估還要多久，上限往後延（最多 2400 秒）；遊戲時間沒在走（卡住）就不延，照原本的上限判失敗
+    while time.time() - t0 < lim:
         sn = await pg.evaluate(SNAP)
         if sn['h'] >= h: return True
+        if sn0 is None: sn0 = (time.time(), sn['h'], sn.get('key'))
+        el = time.time() - sn0[0]
+        if el > 90 and sn.get('key') == sn0[2] and sn['h'] > sn0[1] + 0.01:
+            need = (h - sn['h']) / ((sn['h'] - sn0[1]) / el)
+            lim = max(lim, min(2400, (time.time() - t0) + need + 60))
         s = await L.state(pg)
+        if sc.get('asks') and not s['dlg'] and not s['choices'] and await answer(pg, cdp, sc['asks']): continue   # BB-B 10-23：要回的訊息先回（手機自己打開＝busy，原本先 drain 就不回）
         if s['dlg'] or s['choices'] or s['busy']: await drain(pg, cdp, pref=sc.get('pref', []) + ['出發', '接起來'], secs=180); continue
-        if sc.get('asks') and await answer(pg, cdp, sc['asks']): continue
         if await phone_open(pg): await close_phone(pg)
         if last and sn['h'] == last['h'] and time.time() - t0 > 30: pass
         last = sn; await pg.wait_for_timeout(2500)
@@ -104,7 +126,12 @@ CHK = """(a=>{ const G=GAME.G, F=G.flags, LOG=window.__LOG||[]; const msgs=(G.ms
   o.pl={x:+GAME.E.player.obj.position.x.toFixed(1),z:+GAME.E.player.obj.position.z.toFixed(1)}; o.zone=G.zone; o.dup={}; const seen={}; let prev=null; for(const x of LOG){ if(prev&&prev.t===x.t&&prev.n===x.n){ prev=null; continue; } seen[x.t]=(seen[x.t]||0)+1; prev=x; }   /* 同一句 events3d 和 GM.say 各記一次（相鄰），不算重演 */ for(const t of a.once) o.dup[t]=seen[t]||0;
   o.money=(GAME.G.money|0)-(window.__M0|0); o.fade=(()=>{ const f=document.getElementById('fade'); return f?getComputedStyle(f).opacity:'?'; })(); return o; })(%s)"""
 async def verify(pg, run, sc):
-    a = {'flags': sc.get('cflags', []), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
+    # BB-B 10-24 03:5x：eqflags 的旗標也要讀（zr43r2 的 ZR43_SEEN／GF／LATE 只寫 eqflags、沒寫 cflags＝讀到 {}，判 FAIL；遊戲的送機事件有演完、after 會記）
+    a = {'flags': list(dict.fromkeys(list(sc.get('cflags', [])) + list(sc.get('eqflags', {}).keys()))), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
+    for _ in range(10):   # BB-B 10-23：黑幕淡出中（US370_lake 0.94，截圖已經沒有黑幕）＝等它淡完再看，最多 5 秒
+        fo = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return f?+getComputedStyle(f).opacity:0; })()")
+        if fo <= 0.05: break
+        await pg.wait_for_timeout(500)
     o = await pg.evaluate(CHK % json.dumps(a)); txt = o['lines'] + o['msgTexts']; probs = []
     for w in sc.get('want', []):
         if not any(w in t for t in txt): probs.append('應該有「%s」，沒有' % w)
@@ -162,10 +189,10 @@ GRP = "PHONE.join(G,'noodle_team','麵店團');"
 ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
 async def talk(pg, cdp, run, who):
     """走到那個人旁邊、按「和○○說話」（真的操作），演完"""
-    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))
+    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))   # BB-B 10-24 16:4x：不看 obj.visible（engine3d.js 鏡頭外的人物每一格設成 false）
     if not p: say('   ⚠ 這裡沒有 %s' % who); bad.append('找不到 %s（不在這個區域）' % who); return False
     if not await L.go_to(pg, cdp, run, p[0], p[1], 1.4, who, max_s=120): say('   ⚠ 走不到 %s' % who); bad.append('走不到 %s' % who); return False
-    for k in range(4):
+    for k in range(25):   # BB-B 17:5x：互動鈕要等下一格（負載 25 時 3 秒以上）
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if '說話' in lab: break
         await pg.wait_for_timeout(800)
@@ -173,7 +200,7 @@ async def talk(pg, cdp, run, who):
     await drain(pg, cdp, pref=['聊', '說'], secs=150); return True
 async def ff_bed(pg, cdp, run, want_key, want_h):
     """床 →「快轉」→「到下一個有事的日子」（真的操作），停下來的日期時間要是 want_key want_h（±0.75 小時）"""
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('快轉：走不到床'); return False
     for k in range(4):
         await close_phone(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
@@ -199,7 +226,7 @@ async def use(pg, cdp, run, pat):
     it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
     if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
     if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
-    for k in range(4):
+    for k in range(25):   # BB-B 10-23 16:5x：負載 25 時一格要 3 秒以上（0.3 fps），互動鈕下一格才出來；原本只等 3.2 秒就按（FOOD51_KX_*「按鈕「」」、什麼都沒買）＝等到 20 秒
         lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
         if lab: break
         await pg.wait_for_timeout(800)
@@ -214,13 +241,50 @@ ALONE = "G.flags.US1='alone'; LV('heroine_05',50,40,35);"
 BED = "(()=>{ const s=US3.SPAWN.us_apartment_bed; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
 PLAT = "(()=>{ const s=US_APARTMENT_LAYOUT.spawns.fromOutside; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
 STOPS = []
-async def bed_menu(pg, cdp, run):
+async def go_home(pg, cdp, run):
+    """BB-B 10-23：這一區沒有床（例：上完課停在美國校園）＝走到回公寓／回宿舍的出口按下去（照玩家）"""
+    it = await pg.evaluate("(()=>{ const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&((i.exit&&/us_apartment|us_outside|dorm/.test(String(i.exit.to||'')))||/公寓|回宿舍|回家/.test(i.label||''))); const i=its[0]; return i?[i.x,i.z,i.label||'']:null; })()")
+    if not it: return False
+    if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): return False
+    say('   回去：%s' % it[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(3000); await drain(pg, cdp, secs=120); return True
+BEDLIKE = ('睡', '快轉', '再撐', '在家休息')
+async def bed_menu(pg, cdp, run, pref=None):
     """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
-    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
-    for k in range(4):
-        await close_phone(pg); await pg.wait_for_timeout(600); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        if (await L.state(pg))['choices']: break
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z,it.radius||1.8]:null; })()")
+    for _ in range(2):   # 這一區沒有床＝先回去（最多兩段：校園 → 社區 → 公寓）
+        if bed: break
+        if not await go_home(pg, cdp, run): break
+        bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    near = min(0.8, (bed[2] if bed and len(bed) > 2 else 1.8) * 0.7) if bed else 0.8   # BB-B 18:2x：日本宿舍的床半徑 0.6 m，停在 0.8 m 互動鈕不會出來
+    if not bed: say('   ⚠ 這一區沒有床'); bad.append('走不到床'); return []
+    if not await L.go_to(pg, cdp, run, bed[0], bed[1], near, '床'):
+        # BB-B 10-23 19:4x：負載高時日本宿舍（jp_room）的小房間走不到床（B7_EVE_MISS）→【捷徑】直接放到床邊（半徑以內、站得住的格子），再試一次；還是不行才算問題
+        ok = await pg.evaluate("(([x,z,r])=>{ const E=GAME.E, P=E.player; for(const d of [r*0.5,r*0.7,0.4]) for(let a=0;a<8;a++){ const px=x+Math.cos(a*Math.PI/4)*d, pz=z+Math.sin(a*Math.PI/4)*d; if(!E.nav||E.nav.free(px,pz)){ if(E.placeAt) E.placeAt(P,px,pz,0); else P.obj.position.set(px,0,pz); return [px,pz]; } } return null; })(%s)" % json.dumps([bed[0], bed[1], bed[2] if len(bed) > 2 else 1.0]))
+        if run: run.setup('[捷徑] 走不到床：直接放到床邊 %s' % json.dumps(ok))
+        if not ok: say('   ⚠ 走不到床'); bad.append('走不到床'); return []
+        await pg.wait_for_timeout(2500)
+    # BB-B 10-23 16:4x：畫面上已經有別的選項或對話（「出發：七夕」剛跳出來、床邊的包裹「拆／先不拆」）＝先演完再按床——原本照樣按互動鈕的位置，
+    #   劇情中互動鈕不收觸控，手指落到疊在那裡的選項（QX27_LAST 按到「晚一點」、錯過七夕）；QX26_GO 按完床是一段對話、床的選單是空的就中斷
+    taps = 0
+    for k in range(40):
+        s = await L.state(pg)
+        if s['choices']:
+            cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+            if any(w in c for c in cs for w in BEDLIKE): break
+            say('   床邊先有別的選項：先選（%s）' % ' / '.join(x[:16] for x in cs)); await drain(pg, cdp, pref=pref or [], secs=150); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue   # 對話一句一句翻（床邊的那一段可能先說一句才出選單：只翻、不替它選）
+        if taps >= 4: break
+        await close_phone(pg); await pg.wait_for_timeout(600)
+        s = await L.state(pg)
+        if s['choices'] or s['dlg']: continue
+        for _ in range(25):   # BB-B 18:1x：互動鈕要等下一格才出來（負載 25 時 3 秒以上；B7_MSGS 日本宿舍按了四次都是空的）
+            if (await L.state(pg))['interact']: break
+            await pg.wait_for_timeout(800)
+        await L.tap(pg, cdp, '#interact'); taps += 1; await pg.wait_for_timeout(1500)
+        for _ in range(40):   # BB-B 18:2x：日本宿舍的「睡覺」先切到據點（jp_hub），選單要再過幾格才出來（每秒不到 1 格時 15 秒都還沒有）＝按了以後等到選單或對話出現（最多約 60 秒）再看
+            s_ = await L.state(pg)
+            if s_['choices'] or s_['dlg']: break
+            await pg.wait_for_timeout(1500)
     cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
     sn = await pg.evaluate(SNAP); say('   床的選單 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(x[:22] for x in cs))); return cs
 async def tap_start(pg, cdp, start):
@@ -228,7 +292,7 @@ async def tap_start(pg, cdp, start):
     if not c: return None
     await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); return c[2]
 async def bedpick(pg, cdp, run, start, sc, want_only=None):
-    cs = await bed_menu(pg, cdp, run)
+    cs = await bed_menu(pg, cdp, run, sc.get('pref'))
     if want_only is not None:
         got = [x for x in cs]
         if any(not any(x.startswith(w) for w in want_only) for x in got): bad.append('%s：床的選單應該只有 %s，實際 %s' % (sc['id'], want_only, got))
@@ -239,11 +303,47 @@ async def bedpick(pg, cdp, run, start, sc, want_only=None):
     return True
 async def ff_once(pg, cdp, run, sc):
     """床 →「快轉」→「到下一個有事的日子」；回傳停下來的 SNAP"""
-    cs = await bed_menu(pg, cdp, run)
+    try:   # BB-B 10-23 15:5x：有出遊「該出發了」（OUT.due）＝先等「出發」跳出來，不開床（QX28_US 9:00 市集：一停下來就又開床快轉，錯過）；同一個最多等三次
+        due = await pg.evaluate("(()=>{ const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(GAME.G):null; return q?q.id:null; })()")
+    except Exception: due = None
+    if due:
+        k = sc.setdefault('_duewait', {}); k[due] = k.get(due, 0) + 1
+        if k[due] <= 3:
+            say('   ⏩ %s 該出發了：先等「出發」跳出來（第 %d 次），不開床' % (due, k[due]))
+            for _ in range(12):   # BB-B 16:4x：提醒是遊戲每 0.5 秒檢查一次才跳，drain 看到畫面空著就回來了（QX27_LAST 三次都沒等到）＝先等選項或對話出來（最多約 18 秒）
+                s_ = await L.state(pg)
+                if s_['choices'] or s_['dlg']: break
+                await pg.wait_for_timeout(1500)
+            await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+            return await pg.evaluate(SNAP)
+    cs = await bed_menu(pg, cdp, run, sc.get('pref'))
+    # BB-B 10-23 15:5x：床邊已經寫「約好的時間」＝約就在眼前，玩家會睡到被叫醒或撐著等，不會再快轉（原本再按快轉就跳過約：QX26/27/28、B6_SEND_AIR_D）
+    if cs and any('約好的時間' in c for c in cs) and any(c.startswith('快轉') for c in cs):
+        nap = next((c for c in cs if c.startswith('睡一下') and '約好的時間' in c), None)
+        safe = [c for c in cs if (c.startswith('小睡') or c.startswith('睡到')) and '約好的時間' not in c]   # 睡了不會超過約好的時間的（最長的那個）。BB-B 10-25 06:4x：「睡到明天早上（07:30）」也算（約在隔天 09:00 的 R35_QX 原本每次只撐 10 分鐘、撐 12 小時）
+        if nap: t = await tap_start(pg, cdp, '睡一下'); say('   ▶ 床：%s（約好的時間到了會叫醒）' % nap[:30])
+        elif safe: t = await tap_start(pg, cdp, safe[-1][:6]); say('   ▶ 床：%s（不超過約好的時間）' % safe[-1][:24])
+        else: t = await tap_start(pg, cdp, '再撐一下'); say('   ▶ 床：再撐一下（約好的時間就快到了，不快轉）'); await pg.wait_for_timeout(6000)
+        await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s（等約好的時間）' % (sn['key'], sn['h'], sn['zone']))
+        await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+        if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+        return sn
+    if cs and not any(c.startswith('快轉') for c in cs):   # BB-B 15:5x：隔天一早有課（「會錯過」）或在家裡的床（睡覺／在家休息／回宿舍）沒有快轉＝照玩家：睡到明天早上／睡覺（B6_IV1、B6_IV2_*）
+        alt = next((c for c in cs if c.startswith('睡到明天早上')), None) or next((c for c in cs if c.startswith('睡覺')), None)
+        if alt:
+            await tap_start(pg, cdp, alt[:6]); say('   ▶ 床：%s（沒有快轉）' % alt[:24]); await pg.wait_for_timeout(2500)
+            sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s（睡到早上）' % (sn['key'], sn['h'], sn['zone']))
+            await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+            if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+            return sn
     if not await tap_start(pg, cdp, '快轉'): bad.append('%s：床的選單沒有「快轉」（%s）' % (sc['id'], cs)); return None
-    t = await tap_start(pg, cdp, '到下一個有事的日子')
+    t = await tap_start(pg, cdp, '到下一個有事的日子') or await tap_start(pg, cdp, '到下一個有事')   # BB-B 10-25 07:2x：臺灣學期中的快轉（semff3d.js）叫「到下一個有事的時候有劇情、要回的訊息、約好的事就停…」
     if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None
     await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
+    try:   # BB-B 10-23 S3_LAKE：快轉停在出遊開始的那一刻，「出發」沒有跳出來、再快轉就錯過——停下來的時候記下該出發的出遊和畫面上的選項
+        dg = await pg.evaluate("(()=>{ const G=GAME.G, q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null, pl=(typeof OUT!=='undefined'?OUT.rec(G):[]).filter(x=>x.state==='planned').map(x=>x.id+'@'+CALENDAR.dateOf(x.day).key+' '+x.h); return {due:q?q.id:null, planned:pl.slice(0,6), choices:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,14)), h:+G.hour.toFixed(3)}; })()")
+        if dg.get('due') or dg.get('choices'): say('   ⏩ 停下來：%s' % json.dumps(dg, ensure_ascii=False)[:400])
+    except Exception as e: say('   ⏩ 停下來（記錄失敗 %r）' % e)
     await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
     if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
     return sn
@@ -252,8 +352,16 @@ async def go_class(pg, cdp, run, sc):
     ok = await use(pg, cdp, run, '^去上課'); return ok
 async def ffloop(pg, cdp, run, sc, until_key, until_h, n=30):
     """一直快轉到 until；中間有「去上課」就去上課（玩家會去）"""
+    global DRAIN_ASKS; DRAIN_ASKS = sc.get('asks') or {}   # drain 遇到手機自己打開時照這個回（見 drain）
+    await pg.evaluate("(()=>{ if(typeof STORY!=='undefined'&&STORY.tick&&!STORY.__bbTick){ const t0=STORY.tick; STORY.tick=function(){ window.__ST=(window.__ST|0)+1; return t0.apply(this,arguments); }; STORY.__bbTick=1; } })()")   # 數 STORY.tick 跑了幾次（不改行為）
     for i in range(n):
-        await pg.wait_for_timeout(3000); await drain(pg, cdp, pref=sc.get('pref', []), secs=90)   # 醒來、停下來以後先站幾秒（玩家會看一下）：讓遊戲有機會開始那一刻的事件（r_us_life 第一次：04:30 一醒來就按床快轉，時差那一段沒機會演）
+        # BB-B 10-23 17:3x：停下來以後等遊戲的劇情檢查（STORY.tick，每 30 格一次）至少跑過一次再看——手機訊息、出遊提醒都在那裡發。
+        #   負載 25 時 30 格要 100 秒以上，原本只等 3 秒就再快轉：QX28_US 8/25 17:00 停下來是為了她的訊息，訊息還沒發就又快轉到 9/4（真機 30 格不到 1 秒）
+        st0 = await pg.evaluate("window.__ST|0")
+        for _ in range(50):
+            await pg.wait_for_timeout(3000)
+            if (await pg.evaluate("window.__ST|0")) > st0: break
+        await pg.wait_for_timeout(1500); await drain(pg, cdp, pref=sc.get('pref', []), secs=90)   # 醒來、停下來以後先站幾秒（玩家會看一下）：讓遊戲有機會開始那一刻的事件（r_us_life 第一次：04:30 一醒來就按床快轉，時差那一段沒機會演）
         sn = await pg.evaluate(SNAP)
         if (sn['key'], sn['h']) >= (until_key, until_h): return True
         cls = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.uslClass&&!i.hidden); return it?it.label:null; })()")
@@ -318,10 +426,10 @@ SCENS = [
   dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
        steps=[('sleep',), ('ffloop', '2028-12-23', 9.3)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05', '阿姨好。……上次的鳳梨酥，很好吃。', '（九點。廚房裡有粥的味道。你回來了。）'], none=['伯母好。……我是書瑀。'], msgAt={'📷（每個人手上的禮物，都很眼熟。）': ('2028-12-22', 21.5, 0.1)}, cflags=['US_TRIP_DONE', 'US1']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
   # ===== AA370-US-FIX-1021（AA_370 第 5 節、LAWWW 20:23；開發分支 d22748f5 起）=====
-  # K23 和可昕：10/18 當地 09:00 三則（視訊各自說）→ 回「改天。」→「好。那週六晚上九點，你那邊早上九點。」→ 10/21 08:45「接起來：和可昕視訊」→ 視訊：「我要考律師。從現在開始準備。」
+  # K23 和可昕：10/18 當地 09:00 三則（視訊各自說；第一則 AA_378 改成「你的那條路，現在走到哪了？」，BB-B 10-23 跟上）→ 回「改天。」→「好。那週六晚上九點，你那邊早上九點。」→ 10/21 08:45「接起來：和可昕視訊」→ 視訊：「我要考律師。從現在開始準備。」
   dict(id='US370_k23', key='2028-10-18', h=8.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + ALONE + PLAT,
        steps=[('until', 9.3), ('ffloop', '2028-10-21', 9.6)], asks={'y4_kx23': '改天。'}, pref=['接起來', '「（照實說自己的選擇）」', '出發'],
-       wantMsg=['大四要走哪條路，你決定了嗎？不用現在說。', '週五晚上七點，你那邊是早上。我們視訊，各自說。', '好。那週六晚上九點，你那邊早上九點。'], want=['我要考律師。從現在開始準備。'], cflags=['KX23_CALL']),
+       wantMsg=['你的那條路，現在走到哪了？不用現在說。', '週五晚上七點，你那邊是早上。我們視訊，各自說。', '好。那週六晚上九點，你那邊早上九點。'], want=['我要考律師。從現在開始準備。'], cflags=['KX23_CALL']),
   # 湖邊（交往中）：8/5 17:30「傍晚去湖邊走走。……走路十五分鐘。」→ 18:30 出發：湖邊 →「台灣這時候，天快亮了。」（不是吃宵夜）
   dict(id='US370_lake', key='2028-08-05', h=17.2, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
        steps=[('until', 19.6, 900)], pref=['出發：湖邊', '出發'], wantMsg=['傍晚去湖邊走走。……走路十五分鐘。'], want=['台灣這時候，天快亮了。'], none=['台灣這時候，已經在吃宵夜了。'], cflags=['US_LAKE_FIRST']),
@@ -373,7 +481,7 @@ async def bedhas(pg, cdp, run, sub, sc):
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
     if sn['h'] < 21: await set_h(pg, run, 22.0, '晚上才能睡整晚')
-    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>(i.sleep||i.label==='睡覺')&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); return False
     for k in range(4):
         await close_phone(pg); await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)

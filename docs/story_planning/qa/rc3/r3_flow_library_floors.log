@@ -1,0 +1,38 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：星期六 10:00（第 8 天）、校園總圖門廊前面 (82,0)、晴天
+  [  44.3s] 「總圖門口」途中：phone 開著（遊戲暫停），先關掉
+  [  56.3s] 到達「總圖門口」附近（0.08 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，17 秒
+PASS 「進入總圖書館」→ 總圖大廳
+PASS 在總圖大廳一樓的門廳（第 0 層、地面）、站得住；不會一進來就跳出「離開總圖」  {"zone": "library_hall", "x": 0, "z": 6.6, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.03, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 70, "paused": false}
+  [  92.4s] 到達「樓層簡介（走過入口閘門）」附近（0.22 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+PASS 走過入口閘門、走到大樓梯前的樓層簡介
+PASS 樓層簡介：寫得出 3F 閱覽區怎麼去  「總圖書館 樓層簡介：1F 大廳、服務台、期刊報紙、新書展示；2F 自習區、研究小間；3F 閱覽區（從二樓東側的樓梯間，或搭電梯）；5F 書庫是自然科學（搭電梯；」
+  [ 204.5s] 到達「二樓自習區（走大樓梯）」附近（0.17 m）：點地面 2 次、轉鏡頭 1 次、搖桿 0 次，98 秒
+PASS 走大樓梯上二樓：經過平台（2.5 m）、側邊那一跑（3–4.8 m）、到二樓自習區（第 1 層、5.0 m）  平台取樣 16、側邊 25；{"zone": "library_hall", "x": -8.43, "z": 1.36, "ry": 4.96, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.18, "stand": true, "camYaw": 8.083, "fallbacks": 0, "y": 5, "lv": 1, "frame": 322, "paused": false}
+  [ 260.1s] 到達「自習區的座位」附近（0.28 m）：點地面 11 次、轉鏡頭 0 次、搖桿 1 次，52 秒
+PASS 走到自習區的座位（出現「坐下讀書」）
+PASS 走過去坐下（坐姿、在二樓 5.0 m、選項有「讀書」，再選「讀 1 小時」）  {"zone": "library_hall", "x": -8.07, "z": 2.2, "ry": 0, "busy": true, "pose": "sit", "path": 0, "dlg": false, "dtext": "", "choices": 5, "interact": "", "hour": 10.26, "stand": false, "camYaw": 8.083, "fallbacks": 0, "y": 5, "lv": 1, "frame": 441, "paused": false, "texts": ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 10:46", "趴著睡一下：1 小時睡到 11:16", "起身"]}
+PASS 讀完書（時間過了約 1 小時）、站起來、站得住（還在二樓）  10.26 → 11.26；{"zone": "library_hall", "x": -8.07, "z": 1.45, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你把〈刑法總則（一）〉的筆記整理了一遍。", "choices": 0, "interact": "坐下讀書", "hour": 11.26, "stand": true, "camYaw": 8.083, "fallbacks": 0, "y": 5, "lv": 1, "frame": 493, "paused": false}
+  [ 361.9s] 到達「二樓東側的樓梯間」附近（0.26 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，74 秒
+PASS 從自習區走連廊到東側的樓梯間（不用下樓）
+PASS 「樓梯間：往 3F 閱覽區」→ 閱覽室
+PASS 在閱覽室（library 區域）門口、站得住；前面的門是樓梯間  {"zone": "library", "x": 0, "z": 7, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你把〈刑法總則（一）〉的筆記整理了一遍。", "choices": 0, "interact": "樓梯間：下樓（2F 自習區、1F 大廳）", "hour": 12.07, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 619, "paused": false}
+  [ 423.4s] 到達「閱覽室的電梯門口」附近（0.21 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，51 秒
+PASS 走到閱覽室東側的電梯門口（出現「搭電梯」）
+PASS 電梯：選「4F–6F 書庫」按不亮（說明書庫在整理），還在選單裡  4 樓的書庫這學期在整理，按鈕按不亮
+PASS 電梯：選「1F 大廳、出口」→ 換到總圖大廳、車廂在一樓、走出車廂（第 0 層、地面、電梯門口）  {"zone": "library_hall", "x": 10.4, "z": -3.45, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你把〈刑法總則（一）〉的筆記整理了一遍。", "choices": 0, "interact": "", "hour": 12.14, "stand": true, "camYaw": -1.443, "fallbacks": 0, "y": 0, "lv": 0, "frame": 852, "paused": false, "elev": {"cx": 10.4, "outZ": -3.6, "lv": 0, "open": false}}
+PASS 出來就站在大廳的電梯門口（「搭電梯」）
+PASS 大廳的電梯：選「2F 自習區」→ 看得到車廂往上 → 到二樓（第 1 層、5.0 m）  {"zone": "library_hall", "x": 10.4, "z": -3.48, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "你把〈刑法總則（一）〉的筆記整理了一遍。", "choices": 0, "interact": "", "hour": 12.15, "stand": true, "camYaw": -1.445, "fallbacks": 0, "y": 5, "lv": 1, "frame": 972, "paused": false}
+PASS 在總圖大廳二樓存檔：存檔記錄區域、樓層（lv=1）、位置與高度  {"k": "fatiao3d_slot_3", "pos": {"x": 10.4, "z": -3.48, "yaw": 3.142, "lv": 1, "y": 5}}
+PASS 重新整理
+PASS 讀檔：回到總圖大廳二樓（第 1 層、5.0 m）  {"zone": "library_hall", "x": 10.4, "z": -3.48, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "搭電梯", "hour": 12.15, "stand": true, "camYaw": 6.284, "fallbacks": 0, "y": 5, "lv": 1, "frame": 30, "paused": false}
+  [ 662.3s] 到達「連廊」附近（0.11 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，106 秒
+PASS 讀檔之後走得動（走到連廊，還在二樓）  {"zone": "library_hall", "x": 2.1, "z": 0.36, "ry": 5.09, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.24, "stand": true, "camYaw": 8.202, "fallbacks": 0, "y": 5, "lv": 1, "frame": 173, "paused": false}
+PASS 路人走大樓梯上下樓（240 秒內高度變化 ≥ 2 m）  [[0.3333333333333333, 2.5], [0, 0]]  16 秒
+  [ 741.1s] 到達「一樓出口（走大樓梯下來）」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，63 秒
+PASS 從二樓走大樓梯下一樓、走過閘門到出口（經過平台、第 0 層、地面）  平台取樣 18；{"zone": "library_hall", "x": 0.01, "z": 7.64, "ry": 6.21, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "離開總圖", "hour": 12.34, "stand": true, "camYaw": 8.202, "fallbacks": 0, "y": 0, "lv": 0, "frame": 324, "paused": false}
+PASS 離開總圖 → 回到校園
+PASS 回到校園：總圖門廊前面、站得住  {"zone": "campus", "x": 80, "z": 0, "ry": -1.57, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 12.34, "stand": true, "camYaw": 1.571, "fallbacks": 0, "y": 0, "lv": 0, "frame": 333, "paused": false}
+PASS 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）  0
+PASS 沒有 JS 例外  []
+ALL PASS

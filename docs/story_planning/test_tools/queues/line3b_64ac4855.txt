@@ -1,0 +1,7 @@
+# 線 3b：開發分支 64ac4855（lw7:8776；含 b32ee2c4、75101a10）：學姊七夕（D111 先）→ LAWWW-B 08:09 第 2～4 件 → 08:26 第 6、7 件；等線 2 跑完
+qx1023 zrlast_probe.py QX26_GO,QX26_NO,QX27_LAST,QX27_MET,QX28_US,QX28_TW,QX28_TWMISS,QX_NODATE,QX_KX
+zs1023 zrlast_probe.py ZS_GO,ZS_NO,ZS_LATE,ZS_NOHOOK,ZS_STUB
+usj0803 zrlast_probe.py USJ_0803
+kx29 zrlast_probe.py KX29_BDAY,KX28_BDAY
+invgo zrlast_probe.py INV_GO,INV_WALK,INV_PHONE
+book zrlast_probe.py BOOK_NO,BOOK_OLD

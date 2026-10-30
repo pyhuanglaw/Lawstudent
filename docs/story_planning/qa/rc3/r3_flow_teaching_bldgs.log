@@ -1,0 +1,49 @@
+PASS 遊戲載入
+  [前置／捷徑] 讀檔：第 3 天（9/19 週五）10:00，椰林大道上、傅鐘東邊 (-30,3)
+PASS 校園有共同教學館的門口（行政大樓東邊、正門朝椰林大道）  {"x": 2, "z": 22.8, "r": 1.6, "label": "共同教學館", "lv": 0, "y": null}
+  [ 110.7s] 到達「共同教學館正門」附近（0.20 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，67 秒
+PASS 自己走到正門（點地面，沒有瞬移）、出現「共同教學館」按鈕  {"zone": "campus", "x": 1.82, "z": 22.71, "ry": 1.29, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "共同教學館", "hour": 10.05, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0, "lv": 0, "frame": 111, "paused": false}
+PASS 站在建築外面（不在牆裡）  {"zone": "campus", "x": 1.82, "z": 22.71, "ry": 1.29, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "共同教學館", "hour": 10.05, "stand": true, "camYaw": 4.712, "fallbacks": 0, "y": 0, "lv": 0, "frame": 111, "paused": false}
+PASS 按「共同教學館」（今天這裡沒有課）：直接走進館裡（大廳、站得住）  {"zone": "gongtong", "x": 0, "z": 4.8, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.06, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 123, "paused": false}
+PASS 共 101 是階梯教室：座位資料（第 2 排、高 0.6 m）  {"x": 5.95, "z": 0.75, "yaw": 0, "y": 0.6, "kind": "lecture"}
+  [ 153.7s] 到達「共 101 第 2 排的座位後面」附近（0.10 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，28 秒
+PASS 自己走進共 101（講台那一端的門、側邊台階）、站在第 2 排的平台上、出現「坐下」  {"zone": "gongtong", "x": 5.85, "z": 0.17, "ry": 1.66, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 10.11, "stand": true, "camYaw": 6.153, "fallbacks": 0, "y": 0.6, "lv": 0, "frame": 217, "paused": false}
+PASS 坐在 101 的座位上（沒有課：坐一下、讀書可以選）  pose=sit ["坐一下，看看四周時間 +20 分鐘", "讀書選讀多久（1～3 小時只算一次）。用掉上午 1 次（還剩 0）", "趴著睡一下：30 分鐘睡到 10:37", "趴著睡一下：1 小時睡到 11:07", "起身"]
+PASS 起身後站在教室裡（站得住，不在桌子裡）  pose=idle {"zone": "gongtong", "x": 5.95, "z": 0.15, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下", "hour": 10.45, "stand": true, "camYaw": 6.153, "fallbacks": 0, "y": 0.6, "lv": 0, "frame": 251, "paused": false}
+  [ 269.9s] 到達「二樓走廊」附近（0.22 m）：點地面 3 次、轉鏡頭 2 次、搖桿 0 次，106 秒
+PASS 自己走上樓梯到二樓走廊（第 1 層、4.2 m）  {"zone": "gongtong", "x": -0.09, "z": 0.8, "ry": -5.87, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.65, "stand": true, "camYaw": 9.778, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 554, "paused": false}
+  [ 291.2s] 到達「二樓自習區（兩排桌子中間的走道）」附近（0.21 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，21 秒
+PASS 走到二樓自習區、出現「坐下讀書（自習區）」  {"zone": "gongtong", "x": -7.79, "z": 4.35, "ry": -7.87, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "坐下讀書（自習區）", "hour": 10.7, "stand": true, "camYaw": 9.778, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 627, "paused": false}
+  [ 413.2s] 到達「一樓出口」附近（0.12 m）：點地面 6 次、轉鏡頭 1 次、搖桿 0 次，121 秒
+PASS 自己走下樓、走到出口（出現「走出共同教學館」）  {"zone": "gongtong", "x": -0.04, "z": 6.09, "ry": -5.9, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "走出共同教學館", "hour": 10.92, "stand": true, "camYaw": 9.656, "fallbacks": 0, "y": 0, "lv": 0, "frame": 984, "paused": false}
+PASS 走出去：回到校園共同教學館的正門前、面向椰林大道、不會一出來就跳出「共同教學館」  {"zone": "campus", "x": 2, "z": 20.6, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.93, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 995, "paused": false}
+PASS 大地圖的地名「共同教學館」在建築的位置 (2,33)  ["共同教學館", 2, 33]
+PASS 點小地圖打開大地圖
+  [前置／捷徑] 讀檔：第 3 天 10:00，宿舍房間
+PASS 手機「地點」：有共同教學館、寫大約幾分鐘  打開整張地圖（也可以點右上角的小地圖）知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。台大校園北 ↑118 巷霖澤館萬才館社科圖博雅・普通椰林大道校門總圖共同女一舍宿舍・體育館公館溫州街你在這裡可以前往現在不能去點地圖上的地方，下面會出現可以前往的地點。全部地點台大校園（霖澤館前）約 15 分鐘前往椰林大道・傅鐘約 10 分鐘前往校門口約 15 分鐘前往共同教學館約 5 
+PASS 手機「活動」分頁：這幾天的演講與活動都列出來（沒有的話寫「目前沒有公告的演講或活動」）  ["總圖新生導覽"] ／ 總圖新生導覽今天 15:30–16:20・總圖大廳前往
+PASS 點「前往」
+PASS 到校園、站在共同教學館門口前（站得住、不在建築裡）  {"zone": "campus", "x": 2, "z": 21.4, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "共同教學館", "hour": 10.09, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1023, "paused": false}
+PASS 時間有過（照距離約 5 分鐘，不是瞬間）  5.4 分鐘
+PASS 門口出現「共同教學館」按鈕  共同教學館
+  [ 560.6s] 到達「椰林大道（從門口走回去）」附近（0.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，108 秒
+PASS 從門口自己走回椰林大道（不會卡在門口）  {"zone": "campus", "x": 2, "z": 4, "ry": -3.91, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.17, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1143, "paused": false}
+PASS 點「總圖書館（大廳）」的「前往」
+PASS 到總圖大廳、站得住  {"zone": "library_hall", "x": 0, "z": 6.6, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10.34, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1153, "paused": false}
+  [前置／捷徑] 讀檔：舊存檔的位置在共同教學館裡 (2,33)（這裡在 2026-10-13 之前就是一棟無名系館）
+PASS 讀檔後移到建築外面站得住的地方（牆圍起來的本體外面；正面的拱廊下可以）  {"zone": "campus", "x": -3.25, "z": 27.75, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 10, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1161, "paused": false}
+  [前置／捷徑] 讀檔：第 3 天 17:30，校門口 (-112,0)
+PASS 校園有大一女舍 A 棟（傳達室）的門口  {"x": -108, "z": 59.2, "r": 1.6, "label": "大一女舍 A 棟（傳達室）", "lv": 0, "y": null}
+  [ 750.4s] 到達「大一女舍 A 棟門口」附近（0.02 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，155 秒
+PASS 從校門自己走到大一女舍 A 棟門口、出現按鈕  {"zone": "campus", "x": -108, "z": 59.18, "ry": 0.07, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "大一女舍 A 棟（傳達室）", "hour": 17.62, "stand": true, "camYaw": 3.209, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1348, "paused": false}
+PASS 按門口：寫「男賓止步」、傳達室在 A 棟、可以在門口的長椅等  大一女舍 A 棟。傳達室在這一棟。女生宿舍，男賓止步——要找人，可以在門口的長椅等。
+  [ 780.3s] 到達「天橋下（A、B 之間）」附近（0.00 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，25 秒
+PASS 走過 A、B 兩棟之間（2 樓天橋下面）  {"zone": "campus", "x": -93, "z": 74, "ry": 0.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 17.66, "stand": true, "camYaw": 3.209, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1410, "paused": false}
+  [ 889.7s] 到達「門口的長椅前」附近（0.00 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，107 秒
+PASS 走到門口的長椅、出現「坐在大一女舍門口的長椅（等人）」  坐在大一女舍門口的長椅（等人）
+PASS 坐下後有「坐一下」可以等  ["坐一下，看看四周時間 +20 分鐘", "起身"]
+PASS 等了一段時間（時間有過）、起身後站得住  17.74 → 18.08
+PASS 手機「地點」→ 大一女舍（門口）
+PASS 到大一女舍門口前、站得住、不在建築裡  {"zone": "campus", "x": -93, "z": 56, "ry": 0, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "", "choices": 0, "interact": "", "hour": 18.42, "stand": true, "camYaw": 3.142, "fallbacks": 0, "y": 0, "lv": 0, "frame": 1559, "paused": false}
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,36 @@
+# 線 4：開發分支 bc1c8cd0b（lw8:8778）。第 9 項 SIS-NO-THREE（P0、學姊＝D111 最先）→ 深色地板第二批 → 學姊七夕重跑 → 線 3b 剩下的
+s3a zrlast_probe.py S3_CAFE_A,S3_CAFE_F,S3_CAFE_R,S3_CAFE_C,S3_FAMDIN,S3_M2_CURRY,S3_M2_SLEEP,S3_M2_TELL,S3_M2_NONE,S3_M3,S3_MEM
+s3a2 zrlast_probe.py S3_MEM
+floor2 shots1023_probe.py FLOOR2_wz_teishoku,FLOOR2_us_apartment,FLOOR2_us_shared,FLOOR2_wz_teahouse,FLOOR2_jp_room,FLOOR2_l118_cafe2,FLOOR2_bookstore,FLOOR2_wancai_sema,FLOOR2_wz_brunch,FLOOR2_gym_arena,FLOOR2_linze_202
+s3b zrlast_probe.py S3_US0_TWO,S3_US0_FAM,S3_PUSH,S3_EXAMNOTE,S3_BARNOTE,S3_PICK_FAM,S3_PICK_LOVER,S3_LAKE,S3_SF1
+floor3 shots1023_probe.py FLOOR3_gym_court
+s3lake zrlast_probe.py S3_LAKE2,S3_LAKE,S3_SF1,S3_PICK_FAM,S3_PICK_LOVER
+s3lake3 zrlast_probe.py S3_LAKE3
+s3pick zrlast_probe.py S3_PICK_FAM,S3_PICK_LOVER
+s3pick2 zrlast_probe.py S3_PICK_FAM
+# s9_adv2（移到線 10 的 s9_name：新樹 5eab98d39 一起驗稱呼修正）
+s9_adv aa386_probe.py ADV_GRAD,ADV_PICK,ADV_PICK_DATE,ADV_PICK_B,ADV_PICK_DATE_E,ADV_Y4_TW,ADV_Y4_US_DATE,ADV_Y4_TW_DATE,ADV_Y4_REDATE,REB_EARLY,REB_OK,REB_CAUGHT
+s9_note aa378_probe.py NOTE23_SAME,NOTE23_NEW
+qx1023b zrlast_probe.py QX26_GO,QX26_NO,QX27_LAST,QX27_MET,QX28_US,QX28_TW,QX28_TWMISS,QX_NODATE,QX_KX
+qx1023c zrlast_probe.py QX26_GO,QX27_LAST,QX28_US,QX28_TW
+qx1023d zrlast_probe.py QX26_GO,QX27_LAST   # BB-B 16:4x：床邊先有選項／對話時先演完再按床（QX27 按到「晚一點」、QX26 床的選單空的）
+qx1023e zrlast_probe.py QX28_US   # BB-B 16:5x：一開始站在床邊（原本門口、走到床逾時）
+qx1023f zrlast_probe.py QX28_US   # BB-B 17:3x：快轉停下以後等 STORY.tick 跑過一次（訊息還沒發就再快轉）
+s9_rebdates aa386c_probe.py REB_DATES,REB_NO41
+s9_rebdates2 aa386c_probe.py REB_DATES,REB_NO41   # BB-B 18:28：sleep_night 白天先「睡到傍晚」（半天約會 11:00 結束後一直小睡）
+s9_rebno41 aa386c_probe.py REB_NO41
+us_kexin us_life_probe.py USD_kexin
+us_kexin_alarm us_life_probe.py USD_kexin_alarm
+zs1023 zrlast_probe.py ZS_GO,ZS_NO,ZS_LATE,ZS_NOHOOK,ZS_STUB
+usj0803 zrlast_probe.py USJ_0803
+kx29 zrlast_probe.py KX29_BDAY,KX28_BDAY
+invgo zrlast_probe.py INV_GO,INV_WALK,INV_PHONE
+book zrlast_probe.py BOOK_NO,BOOK_OLD
+zrlast zrlast_probe.py ZL_WAIT,ZL_KEEP,ZL_NO,ZL_NOREPLY,ZL_LATE,ZL_JP,ZL_US,ZL_CUP,ZL_TAKEN,ZL_AGAIN_KEEP,ZL_AGAIN_GIVE,ZL_AGAIN_TAKEN,ZL_FANG,ZL_FANG_NOCALL
+us370c us_life_probe.py US370_bizChat,US370_kxMoon,US370_asiaMon,US370_asiaNight,US370_asiaSun,US370_where208,US370_awake
+us370_k23b us_life_probe.py US370_k23,US370_egg,US370_lake,US370_long
+usmarket usmarket_probe.py -
+wzshop wzshop_probe.py -
+aa386 aa386_probe.py -
+aa386c aa386c_probe.py -
+s3lake3b zrlast_probe.py S3_LAKE3

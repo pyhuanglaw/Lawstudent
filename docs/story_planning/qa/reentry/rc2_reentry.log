@@ -1,0 +1,31 @@
+PASS day：遊戲載入（新的頁面＝這一組的第 1 次真的是第一次進去）
+  [前置／捷徑] [前置] 使用者存檔（校園，13.0 時）；關掉條件事件；之後用 GAME.enter 進出
+  [  65.4s] linze day 第 1 次進去：formal True、黑 0.91%、亮度 125.8 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_day_1.png
+  [  89.1s] linze day 第 2 次進去：formal True、黑 2.15%、亮度 120.9 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_day_2.png
+PASS linze day：第二次進去和第一次一樣（亮度 125.8→120.9、黑 0.91%→2.15%）、正式模型都掛上  [{"dark": 0.0091, "lum": 125.8, "formal": true}, {"dark": 0.0215, "lum": 120.9, "formal": true}]
+  [ 114.5s] classroom day 第 1 次進去：formal True、黑 8.12%、亮度 89.8 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_classroom_day_1.png
+  [ 135.5s] classroom day 第 2 次進去：formal True、黑 7.75%、亮度 89.7 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_classroom_day_2.png
+PASS classroom day：第二次進去和第一次一樣（亮度 89.8→89.7、黑 8.12%→7.75%）、正式模型都掛上  [{"dark": 0.0812, "lum": 89.8, "formal": true}, {"dark": 0.0775, "lum": 89.7, "formal": true}]
+  [ 155.0s] linze_202 day 第 1 次進去：formal True、黑 2.00%、亮度 100.1 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_202_day_1.png
+  [ 174.9s] linze_202 day 第 2 次進去：formal True、黑 1.99%、亮度 100.5 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_202_day_2.png
+PASS linze_202 day：第二次進去和第一次一樣（亮度 100.1→100.5、黑 2.00%→1.99%）、正式模型都掛上  [{"dark": 0.02, "lum": 100.1, "formal": true}, {"dark": 0.0199, "lum": 100.5, "formal": true}]
+  [ 192.8s] wancai_multi day 第 1 次進去：formal True、黑 0.37%、亮度 105.0 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_wancai_multi_day_1.png
+  [ 210.4s] wancai_multi day 第 2 次進去：formal True、黑 0.37%、亮度 104.6 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_wancai_multi_day_2.png
+PASS wancai_multi day：第二次進去和第一次一樣（亮度 105.0→104.6、黑 0.37%→0.37%）、正式模型都掛上  [{"dark": 0.0037, "lum": 105.0, "formal": true}, {"dark": 0.0037, "lum": 104.6, "formal": true}]
+PASS night：遊戲載入（新的頁面＝這一組的第 1 次真的是第一次進去）
+  [前置／捷徑] [前置] 使用者存檔（校園，20.5 時）；關掉條件事件；之後用 GAME.enter 進出
+  [ 278.5s] linze night 第 1 次進去：formal True、黑 1.98%、亮度 98.8 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_night_1.png
+  [ 299.0s] linze night 第 2 次進去：formal True、黑 2.07%、亮度 96.2 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_night_2.png
+PASS linze night：第二次進去和第一次一樣（亮度 98.8→96.2、黑 1.98%→2.07%）、正式模型都掛上  [{"dark": 0.0198, "lum": 98.8, "formal": true}, {"dark": 0.0207, "lum": 96.2, "formal": true}]
+  [ 323.1s] classroom night 第 1 次進去：formal True、黑 10.97%、亮度 82.9 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_classroom_night_1.png
+  [ 343.1s] classroom night 第 2 次進去：formal True、黑 10.78%、亮度 82.2 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_classroom_night_2.png
+PASS classroom night：第二次進去和第一次一樣（亮度 82.9→82.2、黑 10.97%→10.78%）、正式模型都掛上  [{"dark": 0.1097, "lum": 82.9, "formal": true}, {"dark": 0.1078, "lum": 82.2, "formal": true}]
+  [ 363.7s] linze_202 night 第 1 次進去：formal True、黑 2.59%、亮度 92.0 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_202_night_1.png
+  [ 382.3s] linze_202 night 第 2 次進去：formal True、黑 2.56%、亮度 91.9 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_linze_202_night_2.png
+PASS linze_202 night：第二次進去和第一次一樣（亮度 92.0→91.9、黑 2.59%→2.56%）、正式模型都掛上  [{"dark": 0.0259, "lum": 92.0, "formal": true}, {"dark": 0.0256, "lum": 91.9, "formal": true}]
+  [ 401.2s] wancai_multi night 第 1 次進去：formal True、黑 0.88%、亮度 96.3 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_wancai_multi_night_1.png
+  [ 418.7s] wancai_multi night 第 2 次進去：formal True、黑 0.88%、亮度 96.8 → /tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dyn/reentry/rc2_wancai_multi_night_2.png
+PASS wancai_multi night：第二次進去和第一次一樣（亮度 96.3→96.8、黑 0.88%→0.88%）、正式模型都掛上  [{"dark": 0.0088, "lum": 96.3, "formal": true}, {"dark": 0.0088, "lum": 96.8, "formal": true}]
+PASS 沒有 JS 例外  []
+SHA da50fbdc1 TAG rc2
+ALL PASS

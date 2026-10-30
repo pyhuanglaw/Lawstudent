@@ -1,0 +1,12 @@
+# 線 8：lw16 @ 9c71e004a（port 8798）——清單第 57～60 項（LAWWW-B 10-23 17:30 派；負載低時開）
+lab57 zrlast_probe.py LAB57_LOW,LAB57_FRIEND,LAB57_LOVER,LAB57_1500,LAB57_FRI,LAB57_US
+lab57r zrlast_probe.py LAB57_LOW,LAB57_FRIEND,LAB57_LOVER,LAB57_1500,LAB57_FRI,LAB57_US   # BB-B 18:2x：NEAR 先試半徑以內（門半徑 0.6 m，原本放在 0.8 m）
+sy60a zrlast_probe.py SY60_LADDER,SY60_TEA_D,SY60_TEA_F,SY60_TEA_EX,SY60_HOOK_D,SY60_HOOK_F
+ff46w semff_probe.py FF46_WINTER   # BB-B 19:0x：WINTER（擋 v9.10.7）插到 57～60 前面；semff 的床改成等互動鈕、等選單、照半徑停
+sy60a2 zrlast_probe.py SY60_TEA_D,SY60_TEA_F,SY60_TEA_EX,SY60_LADDER   # LADDER：檢查改成台詞資料照原文＋標題才換； BB-B 18:3x：sy60a 18:19 開始時還是舊的 NEAR，點餐按鈕空的；重跑三個 TEA
+sy60b zrlast_probe.py SY60_STUDY_D,SY60_STUDY_F,SY60_BTN_D,SY60_BTN_F,SY60_BTN_EX
+sy60a3 zrlast_probe.py SY60_TEA_D,SY60_TEA_F,SY60_TEA_EX   # BB-B 19:3x：TEA 改大一下（她在茶飲的常客時段只到大一下）、等她 300 秒
+sy60b2 zrlast_probe.py SY60_STUDY_D,SY60_STUDY_F,SY60_BTN_D,SY60_BTN_F,SY60_BTN_EX
+lab59a zrlast_probe.py LAB59_DESK_CAMPUS,LAB59_DESK_DORM_D,LAB59_XMAS_DORM,LAB59_XMAS_HOME
+lab59b zrlast_probe.py LAB59_PLAN_CAMPUS,LAB59_DESKS_DORM_D,LAB59_DEF_CAMPUS,LAB59_BDAY_DORM_D
+lab59c zrlast_probe.py LAB59_APART_CAMPUS,LAB59_APART_DORM_D   # BB-B 18:4x：第 59 項的分開談話（2029-05-30 17:00；apartSchedule 排）

@@ -44,11 +44,13 @@ NPC = """(ids=>{ const n=(GAME.E.npcs||[]).find(x=>x&&ids.some(id=>x.charId===id
 LAB = "(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()"
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}
-JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': {'$day': '2028-02-20'}, 'JP_DEPARTED': {'$day': '2028-03-25'}, 'JP_RETURNED': {'$day': '2028-08-05'}, 'AN_SENDOFF': 'together'}
+# BB-B 10-23（LAWWW-B 09:10 查出）：原本預先設了 JP_RETURNED／US_RETURNED＝遊戲當成「已經回臺灣」，時差換算整段沒跑。
+#   遊戲只在真的回國那一刻才記（jp3d.js:373、exchange3d.js returnHome）；人在國外＝出發了、還沒有 JP_RETURNED／US_RETURNED（jp3d.js:56、us_life3d.js:48）
+JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': {'$day': '2028-02-20'}, 'JP_DEPARTED': {'$day': '2028-03-25'}, 'JP_RETURNED': None, 'AN_SENDOFF': 'together'}
 # 2026-10-22 08:3x（候選 364dabe0 第一輪 17 個 FAIL 全是前置不足）：使用者存檔停在 9/3（主線第一天），沒有 afternoonDone——以安（LEGACY_IDS）要 afternoonDone 才照作息出現；
 # 也沒有 Y4_PATH——日本路線讀檔後先演「大四要怎麼過？」（8/5 返台那晚，在家），腳本在它演到一半時開手機，走不進 Café。大四的情境一律補上「早就過了的主線」：
 BASEF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'Y4_PATH': 'bar'}
-USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': {'$day': '2028-08-02'}, 'US_RETURNED': {'$day': '2028-12-23'}}
+USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': {'$day': '2028-08-02'}, 'US_RETURNED': None}
 
 
 async def opts(pg):
@@ -329,9 +331,10 @@ async def send_chat(pg, cdp, run, pid, label):
     return {'ok': bool(c) and bool(mine), 'n0': n0, 'st': st, 'q': q, 'mine': mine, 'tops': tops}
 
 
-async def wait_reply(pg, cdp, run, pid, n0, max_s, label):
-    """時間照走等她回（不跳過時間）；max_s 秒還沒回，就手機「跳過時間」到下一段再看"""
-    cond = "(GAME.G.msgs||[]).slice(%d).some(m=>m.th==='p:%s'&&m.from===%s)" % (n0, pid, json.dumps(pid))
+async def wait_reply(pg, cdp, run, pid, n0, max_s, label, want=None):
+    """時間照走等她回（不跳過時間）；max_s 秒還沒回，就手機「跳過時間」到下一段再看。
+    want＝傳的時候排進佇列的那一則回覆的最後一句（BB-B 10-23：MX_TW2340 先收到她的週年預告，原本一收到她的任何一則就停）"""
+    cond = "(GAME.G.msgs||[]).slice(%d).some(m=>m.th==='p:%s'&&m.from===%s%s)" % (n0, pid, json.dumps(pid), ('&&String(m.text||"")===' + json.dumps(want, ensure_ascii=False)) if want else '')
     ok, ch = await wait_for(pg, cdp, run, cond, max_s=max_s, label=label)
     how = '時間照走'
     if not ok:
@@ -346,9 +349,20 @@ def her(got):
     return [m['t'] for m in got]
 
 
-async def one_send(pg, cdp, run, res, sid, pid, max_s=240):
+def reply_of(R):
+    """BB-B 10-23：她「回這一則」的那幾句＝傳的時候排進 MSG 佇列的回覆（send.q，tag 空的第一筆），而且真的收到了。
+    原本把傳出去以後她傳的每一則都當回覆：MX_TW2340 先收到交往週年的預告（「下禮拜二。第四年。……」），被當成回覆。"""
+    got = R['got']; T = her(got)
+    q = [x for x in (R['send'].get('q') or []) if not x.get('tag') and x.get('texts')]
+    if q and all(w in T for w in q[0]['texts']):
+        m = next(m for m in got if m['t'] == q[0]['texts'][0]); return q[0]['texts'], m.get('d'), m.get('h')
+    return T, (got[0]['d'] if got else None), (got[0]['h'] if got else None)
+
+
+async def one_send(pg, cdp, run, res, sid, pid, max_s=600):   # BB-B 10-23：240 → 600 秒（MX_JP2340 回覆排在 23:48，240 秒遊戲時間還沒走到）
     s = await send_chat(pg, cdp, run, pid, sid)
-    ok, got, how = await wait_reply(pg, cdp, run, pid, s['n0'], max_s, sid) if s['ok'] else (False, [], '沒傳成')
+    q = [x for x in (s.get('q') or []) if not x.get('tag') and x.get('texts')]
+    ok, got, how = await wait_reply(pg, cdp, run, pid, s['n0'], max_s, sid, want=(q[0]['texts'][-1] if q else None)) if s['ok'] else (False, [], '沒傳成')
     st = await pg.evaluate(STATE); tz = await pg.evaluate(TZQ + "(%d)" % st['day'])
     r = {'send': s, 'got': got, 'how': how, 'end': st, 'tz': tz}; res.setdefault('sends', {})[pid] = r
     say('   %s %s 回（%s）：%s' % (sid, pid, how, J(got, 400)))
@@ -379,7 +393,7 @@ async def s_mx(p, run, base, sid, out):
         res['pool'] = pool; say('   %s 回覆池（深夜／祐廷在國外）：%s' % (sid, J(pool, 600)))
         for pid in who:
             R = await one_send(pg, cdp, run, res, sid, pid)
-            t = her(R['got']); hh = R['got'][0]['h'] if R['got'] else None; dd = R['got'][0]['d'] if R['got'] else None
+            t, dd, hh = reply_of(R)
             run.check('%s：手機傳得出「在幹嘛」給 %s' % (sid, pid), R['send']['ok'], J(R['send'], 300))
             if not R['send']['ok']: continue
             if sid == 'MX_US1136':
@@ -426,6 +440,17 @@ async def s_fy_f3(p, run, base, sid, out):
     finally: await finish_page(run, sid, res, errs, b)
 
 
+DIAG_PC2 = """(()=>{ const G=GAME.G, E=GAME.E, S=STORY; const P=R2Y4A.pc2Pending(G);
+  const out={zone:G.zone, day:G.day, h:G.hour, pend:P.map(c=>[c.key,c.zone]), its:(E.interactables||[]).length, desk:!!(E.interactables||[]).find(i=>i.deskStudy),
+    home:typeof HOME!=='undefined'&&HOME.at?HOME.at(G):null, trip:typeof TRIP!=='undefined'&&TRIP.at?TRIP.at(G):null, busy:!!(GAME.busy||GAME.G.busy), nT:(S.TICKS||[]).length};
+  window.__PC2D={hits:{}, y4:0, exch:0, calls:0};
+  if(!S.__pc2wrap){ S.__pc2wrap=true; S.TICKS.forEach((f,i)=>{ S.TICKS[i]=function(GM,dt){ const r=f(GM,dt); window.__PC2D.calls++; if(r) window.__PC2D.hits[i]=(window.__PC2D.hits[i]||0)+1; return r; }; });
+    const y0=S.y4Tick; S.y4Tick=function(){ const r=y0.apply(this,arguments); if(r) window.__PC2D.y4++; return r; };
+    if(typeof EXCH!=='undefined'&&EXCH.tick){ const e0=EXCH.tick; EXCH.tick=function(){ const r=e0.apply(this,arguments); if(r) window.__PC2D.exch++; return r; }; } }
+  try{ R2Y4A.pc2Place(GAME); out.manual=!!(E.interactables||[]).find(i=>i.zrPostcard2); }catch(e){ out.manualErr=String(e); }
+  return out; })()"""
+
+
 async def pc_apr(p, run, base, sid, res, from_fy):
     pf = dict(TWF, **BASEF)   # 大四下：Y4_PATH 早就選過了（不然讀檔先演「大四要怎麼過？」）
     if not from_fy: pf.update({'FANG_F3': None, 'FANG_F3_DAY': None, 'ZR_FY': None, 'ZZ': None})
@@ -441,10 +466,32 @@ async def pc_apr(p, run, base, sid, res, from_fy):
         await pg.wait_for_timeout(3000)
         it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
         res['it'] = it
-        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J(it))
+        if not it:   # BB-B 10-23 第二次診斷：再等 20 秒（每 2 秒看一次）、看畫面狀態，再直接叫 R2Y4A.tick 一次
+            seen = None
+            for k in range(10):
+                await pg.wait_for_timeout(2000)
+                seen = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
+                if seen: break
+            res['diag0'] = {'after_wait': seen, 'waited_s': 3 + 2 * (k + 1), 'state': await L.state(pg)}
+            if not seen:
+                res['diag'] = await pg.evaluate(DIAG_PC2.replace("try{ R2Y4A.pc2Place(GAME);", "try{ out.tickRet=R2Y4A.tick(GAME,0.5); out.afterTick=!!(E.interactables||[]).find(i=>i.zrPostcard2); R2Y4A.pc2Place(GAME);"))
+                await pg.wait_for_timeout(4000); res['diag2'] = await pg.evaluate("window.__PC2D||null")
+            it = seen or it
+        run.check('%s：宿舍書桌旁有「明信片」' % sid, bool(it), J({'it': it, 'diag0': res.get('diag0'), 'diag': res.get('diag'), 'diag2': res.get('diag2')}, 1400))
         if not it: return
         await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=120)
-        n0 = await log_len(pg); lab = await pg.evaluate(LAB); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        lab = await pg.evaluate(LAB); tried = [['go_to 0.6', lab]]
+        if '明信片' not in (lab or ''):   # BB-B 10-23：互動鈕是「坐在書桌前」＝明信片被書桌蓋住？在明信片四周找一個會出「明信片」的位置（找得到＝腳本走的位置不對；八個方向都找不到＝玩家讀不到）
+            import math as _m
+            for k in range(9):
+                tx, tz = (it[0], it[1]) if k == 0 else (it[0] + 0.45 * _m.cos(k * _m.pi / 4), it[1] + 0.45 * _m.sin(k * _m.pi / 4))
+                await L.go_to(pg, cdp, run, tx, tz, 0.15, '明信片旁 %d' % k, max_s=60); await pg.wait_for_timeout(800)
+                lab = await pg.evaluate(LAB); pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
+                tried.append([k, pp, lab])
+                if '明信片' in (lab or ''): break
+        res['reach'] = tried; say('   %s 走到明信片：%s' % (sid, J(tried, 600)))
+        run.check('%s：站得到一個互動鈕是「明信片」的位置（書桌旁；不然玩家讀不到）' % sid, '明信片' in (lab or ''), J(tried, 700))
+        n0 = await log_len(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         ch = await drive(pg, cdp, run, picks=['（先不回）'], max_s=150, label=sid)
         T = texts(await log_since(pg, n0)); res['said'] = [lab, T, ch]
         await run.shot(pg, '%s_after' % sid)
@@ -473,8 +520,54 @@ async def s_fy_pc_no(p, run, base, sid, out):
     await pc_apr(p, run, base, sid, out.setdefault(sid, {}), False)
 
 
-ORDER = ['MX_US1136', 'MX_JP0036', 'MX_US0200', 'MX_JP2340', 'MX_TW2340', 'FY_F3', 'FY_PC', 'FY_PC_NO']
-FN = dict({k: s_mx for k in MXS}, FY_F3=s_fy_f3, FY_PC=s_fy_pc, FY_PC_NO=s_fy_pc_no)
+# BB-B 10-23 11:0x：LAWWW-B a89f1815b 修了明信片的位置（宿舍 d.x+0.35；美國公寓改放 (2.85,-1.8)），請加測美國公寓那幾張（2028-09～12，美國路線、她在美國）
+async def pc_us(p, run, base, sid, res, key):
+    pf = dict(USF, **BASEF); pf['Y4_PATH'] = 'other'
+    b, pg, cdp, errs, r = await launch(p, run, base, key, 12.6, 'us_apartment', preflags=pf, rels={ZR: 'FRIEND'}, label=sid + '（美國路線、人在美國；%s 12:36 公寓）' % key)
+    try:
+        await pg.evaluate(HOOK2)
+        pre = await pg.evaluate("""(k=>{ const G=GAME.G, R=R2Y4A.pc2Rec(G); const L=[]; for(const c of R2Y4A.pc2Cards(G)){ if(c.key<k){ R.read[c.key]=STORY.dayOfKey(c.key); G.flags.ZR_POSTCARD2=G.flags.ZR_POSTCARD2||[]; if(!G.flags.ZR_POSTCARD2.includes(c.m)) G.flags.ZR_POSTCARD2.push(c.m); L.push(c.key); } }
+          R.first=R.first||STORY.dayOfKey('2028-09-22'); return {read:L, pending:R2Y4A.pc2Pending(G).map(c=>c.key+'@'+c.zone), abroad:!!STORY.abroad(G), route:STORY.route(G)}; })(%s)""" % json.dumps(key))
+        run.setup('[前置] %s：%s 以前的當成讀過：%s → 剩下 %s（abroad %s、路線 %s）' % (sid, key, pre.get('read'), pre.get('pending'), pre.get('abroad'), pre.get('route')))
+        it = None
+        for k in range(30):   # 11:1x：容器重開後 load 14，24 秒內沒放出來（第一次 9 秒就有）＝最多等 60 秒；還沒有就記狀態、直接叫 R2Y4A.tick 一次（同 FY_PC 第二次診斷）
+            await pg.wait_for_timeout(2000)
+            it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.zrPostcard2&&!i.hidden); return it?[it.x,it.z,it.label]:null; })()")
+            if it: break
+        res['waited_s'] = 2 * (k + 1)
+        if not it:
+            res['diag'] = await pg.evaluate(DIAG_PC2.replace("try{ R2Y4A.pc2Place(GAME);", "try{ out.tickRet=R2Y4A.tick(GAME,0.5); out.afterTick=!!(E.interactables||[]).find(i=>i.zrPostcard2); R2Y4A.pc2Place(GAME);"))
+            res['state'] = await L.state(pg)
+        res['it'] = it; run.check('%s：公寓裡有「明信片」（等了 %d 秒）' % (sid, res['waited_s']), bool(it), J({'it': it, 'pre': pre, 'diag': res.get('diag'), 'state': res.get('state')}, 1200))
+        if not it: return
+        # 第一次（11:0x）只等 150 秒：畫面 0.4 fps，人還在往臥室的走道走就停了（截圖 03_PC_US9_at）＝腳本；改成最多 420 秒、沒到再點一次
+        lab = ''
+        for k in range(2):
+            await L.go_to(pg, cdp, run, it[0], it[1], 0.6, '明信片', max_s=420); await pg.wait_for_timeout(800)
+            lab = await pg.evaluate(LAB)
+            if '明信片' in (lab or ''): break
+        pp = await pg.evaluate("[+GAME.E.player.obj.position.x.toFixed(2),+GAME.E.player.obj.position.z.toFixed(2)]")
+        res['reach'] = [pp, lab]; await run.shot(pg, '%s_at' % sid)
+        run.check('%s：走得到、互動鈕是「明信片」' % sid, '明信片' in (lab or ''), J({'pos': pp, 'lab': lab, 'it': it}, 400))
+        if '明信片' not in (lab or ''): return
+        card = await pg.evaluate("(k=>{ const c=R2Y4A.pc2Cards(GAME.G).find(c=>c.key===k); if(!c) return []; const o=[]; const w=v=>{ if(typeof v==='string'){ if(v.length>=6) o.push(v); } else if(Array.isArray(v)) v.forEach(w); else if(v&&typeof v==='object') Object.values(v).forEach(w); }; w(c); return o; })(%s)" % json.dumps(key))
+        n0 = await log_len(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        ch = await drive(pg, cdp, run, picks=['（先不回）'], max_s=150, label=sid)
+        T = texts(await log_since(pg, n0)); res['said'] = [lab, T, ch]; await run.shot(pg, '%s_after' % sid)
+        hit = [c for c in card if any(c in t or t in c for t in T if len(t) >= 6)]
+        rd = await pg.evaluate("(k=>{ const R=R2Y4A.pc2Rec(GAME.G); return !!(R.read&&R.read[k]!=null); })(%s)" % json.dumps(key))
+        run.check('%s：按下去讀得到那一張（卡上的字出現、記成讀過）' % sid, bool(hit) and rd, J({'hit': hit[:3], 'read': rd, 'said': T[:8], 'card': card[:4]}, 700))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+@guard
+async def s_pc_us9(p, run, base, sid, out): await pc_us(p, run, base, sid, out.setdefault(sid, {}), '2028-09-22')
+@guard
+async def s_pc_us12(p, run, base, sid, out): await pc_us(p, run, base, sid, out.setdefault(sid, {}), '2028-12-15')
+
+
+ORDER = ['MX_US1136', 'MX_JP0036', 'MX_US0200', 'MX_JP2340', 'MX_TW2340', 'FY_F3', 'FY_PC', 'FY_PC_NO', 'PC_US9', 'PC_US12']
+FN = dict({k: s_mx for k in MXS}, FY_F3=s_fy_f3, FY_PC=s_fy_pc, FY_PC_NO=s_fy_pc_no, PC_US9=s_pc_us9, PC_US12=s_pc_us12)
 
 
 async def main():

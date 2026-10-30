@@ -1,0 +1,18 @@
+# 線 6：開發分支 d23380d5e（lw14:8794）。LAWWW-B 清單 BB_SIS_B6_1023.md 第 38～42 項：順手的事（系統＋SQ01/02/03/08）、公園的貓被子晴收養、總圖借書、跨年認識判斷、Alison 大二探班
+sq38 zrlast_probe.py SQ38_KNOW4,SQ38_HELP,SQ38_NO,SQ38_DAYONCE,SQ38_MAX2,SQ38_LAPSE
+sq39a zrlast_probe.py SQ39_SQ01,SQ39_SQ01_CURT,SQ39_SQ01_NONE,SQ39_SQ03
+sq39ar zrlast_probe.py SQ39_SQ03   # BB-B 17:0x：先放到冰菓室窗口旁【捷徑】（負載高走 7 m 逾時）
+sq39br zrlast_probe.py SQ39_SQ08   # BB-B 17:5x：公布欄、象棋、喝茶先放到旁邊【捷徑】
+sq39ar2 zrlast_probe.py SQ39_SQ03   # BB-B 17:5x：zrlast 的 usep 也等互動鈕 20 秒（sq39ar／sq39br 還是舊的 3.2 秒）
+sq39br2 zrlast_probe.py SQ39_SQ08
+sq39br3 zrlast_probe.py SQ39_SQ08   # BB-B 18:3x：sq39br2 17:58 開始時還是舊的 NEAR（公布欄、涼亭象棋按鈕空的）
+sq39c zrlast_probe.py SQ39_SQ04,SQ39_SQ05,SQ39_SQ06,SQ39_SQ07   # BB-B 18:1x：第 39 項 SQ04～SQ07（原本沒寫）
+sq39br4 zrlast_probe.py SQ39_SQ08   # BB-B 19:4x：每次結帳只買一罐（drain 的「1:」偏好）；原本連買 36 罐、選單開到溫州街
+sq39c2 zrlast_probe.py SQ39_SQ04,SQ39_SQ06,SQ39_SQ07
+sq39b zrlast_probe.py SQ39_SQ02,SQ39_SQ08
+cat40 zrlast_probe.py CAT40_COLD,CAT40_NIGHT_B,CAT40_NIGHT_A,CAT40_STRANGER,CAT40_PHOTO_D,CAT40_PHOTO_F
+loan41a zrlast_probe.py LOAN41_NONE,LOAN41_L1,LOAN41_MAX2,LOAN41_DUE,LOAN41_LATE_LEAVE,LOAN41_LATE_RET
+loan41b zrlast_probe.py LOAN41_L2_KNOW,LOAN41_L2_BACK,LOAN41_L3_KNOW,LOAN41_L3_BACK_A,LOAN41_L3_BACK_B,LOAN41_L4_KNOW,LOAN41_L4_BACK,LOAN41_L4_UK
+ny42 zrlast_probe.py NY42_Y3_KNOW_GO,NY42_Y3_STRANGER_GO,NY42_Y3_KNOW_MISS,NY42_Y3_STRANGER_MISS,NY42_Y4_KNOW_GO,NY42_Y4_STRANGER_GO,NY42_Y4_KNOW_MISS,NY42_Y4_STRANGER_MISS
+al42 zrlast_probe.py AL42_GO,AL42_GO_Y1,AL42_MISS
+sq38r zrlast_probe.py SQ38_DAYONCE   # 16:2x 加：第二家店先放到窗口旁（原本走不到＝沒驗到）

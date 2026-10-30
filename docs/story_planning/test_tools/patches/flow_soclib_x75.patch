@@ -1,0 +1,30 @@
+diff --git a/tests/flow_soclib.py b/tests/flow_soclib.py
+index 831473a2e..81b4d5376 100644
+--- a/tests/flow_soclib.py
++++ b/tests/flow_soclib.py
+@@ -65,7 +65,9 @@ async def main():
+         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98, 'yaw': 1.57}, 'flags': BASE_FLAGS})
+         await pg.wait_for_timeout(3500)
+         d = await L.find_it(pg, '進入社科院圖書館')
+-        run.check('校園有「進入社科院圖書館」（新社科院圖書館的南牆、中庭那一面、一樓；ART-01）', bool(d) and abs(d['x'] - 101) < 0.6 and abs(d['z'] + 69.3) < 0.6, json.dumps(d, ensure_ascii=False))
++        # X75（SOCSCI-PLACE-1020）社科院整組搬到霖澤館西南：門的位置改讀遊戲的 SOCSCI_LAYOUT.libDoor（已經是校園座標；soclib3d.js 的 DOOR 用同一份），不寫死 X75 以前的 (101,-69.3)
++        door = await pg.evaluate("(()=>{ const d=SOCSCI_LAYOUT.libDoor, o=SOCSCI_LAYOUT.libOut; return {x:d.x, z:d.z, ox:o.x, oz:o.z}; })()")
++        run.check('校園有「進入社科院圖書館」，位置＝SOCSCI_LAYOUT.libDoor（新社科院圖書館的門、一樓；ART-01、X75）', bool(d) and abs(d['x'] - door['x']) < 0.6 and abs(d['z'] - door['z']) < 0.6, json.dumps({'it': d, 'libDoor': door}, ensure_ascii=False))
+         ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '社科院正門')
+         s = await L.state(pg)
+         run.check('自己走到社科院正門（點地面，沒有瞬移）、出現「進入社科院圖書館」', ok and s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
+@@ -125,11 +127,12 @@ async def main():
+         run.check('自己走回閘門外、走到出口、出現「離開圖書館（回社科院前）」', ok and s['interact'].startswith('離開圖書館'), json.dumps(s, ensure_ascii=False))
+         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
+         s = await L.state(pg)
+-        run.check('回到校園社科院圖書館門前（中庭）、站得住、不會一出來又跳出「進入社科院圖書館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 101, s['z'] + 67.6) < 1.0 and not s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
++        run.check('回到校園社科院圖書館門前（SOCSCI_LAYOUT.libOut）、站得住、不會一出來又跳出「進入社科院圖書館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - door['ox'], s['z'] - door['oz']) < 1.0 and not s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
+         await run.shot(pg, 'E_back_campus')
++        # 回程照舊走到法學院廣場 (60,-92)：不要停在霖澤館前——大一上第 1～6 週第一次站在 (33,-97) 10 m 內會演阿勳的「對面的舊系館」（ev_sk01_soc），F 的手機前往會被擋下來（BB-B 10-25 實測）
+         ok = await L.go_to(pg, cdp, run, 60, -92, 1.2, '法學院廣場（往霖澤館走）')
+         s = await L.state(pg)
+-        run.check('從門口自己走回法學院廣場（不會卡在門口）', ok and s['stand'], json.dumps(s, ensure_ascii=False))
++        run.check('從門口自己走回法學院廣場（不會卡在門口、沒有跳出劇情）', ok and s['stand'] and not s['dlg'], json.dumps(s, ensure_ascii=False))
+         # ---------- F：手機「地點」→ 社科院圖書館 ----------
+         h0 = s['hour']
+         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)

@@ -1,0 +1,7 @@
+# v9.10.11 候選 f54a35ec4（BB-C 10-27 接班後重跑；R42 應 PASS）
+r42_new zrlast_probe.py R42_JP_PG_HOME,R42_YT_2030
+trx_dating8 zrlast_probe.py TRX_US_DATING3
+r42yt_new zrlast_probe.py R42_YT_2030J
+trx_alone8 zrlast_probe.py TRX_US_ALONE3
+r42yt_new2 zrlast_probe.py R42_YT_2030J
+relsuite_f54 relsuite_run.py f54a35ec4:

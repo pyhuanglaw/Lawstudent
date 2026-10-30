@@ -1,0 +1,48 @@
+PASS 遊戲載入
+  [前置／捷徑] [前置] 讀使用者存檔（day 14）：新體育館 1F 入口 18.80；heroine_03 有點熟、有聯絡方式；之前沒一起打過羽球
+  [前置／捷徑] [捷徑] INV.accept：今天 19.0 和 heroine_03 約在新體育館羽球場（＝手機約好了）
+PASS 約好了（accepted）
+  [  36.0s] 開演以前的配件：{"t":35339.699999999255,"ents":{"P1":{"props":{"backpack":{"vis":true,"own":true,"carry":true,"d":0.02}},"pose":"idle","propOn":null}}}
+  [  36.0s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.803, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  37.2s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  37.6s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.805, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  38.4s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.807, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  39.2s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.809, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  40.1s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.81, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  40.5s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.811, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  40.9s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.812, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  41.3s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.813, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  41.7s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.814, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  42.1s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.815, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  42.5s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.816, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  42.9s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.817, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  43.7s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.819, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  44.6s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.82, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  45.0s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.821, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  45.4s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.822, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  46.4s] {"depth": 2, "dlg": false, "txt": "", "busy": true, "frozen": false, "zone": "gym", "hour": 18.823, "clip": true, "cuts": 0, "seen": false, "iv": "done", "ch": [], "skipBtn": false}
+  [  46.5s] {"depth": 3, "dlg": false, "txt": "", "busy": true, "frozen": true, "zone": "gym", "hour": 18.823, "clip": true, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": true}
+  [  51.2s] 按「跳過」：True
+  [  51.8s] {"depth": 2, "dlg": true, "txt": "（你們", "busy": true, "frozen": false, "zone": "gym", "hour": 18.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  53.5s] {"depth": 2, "dlg": true, "txt": "（你們打了一個小時。球場的燈很亮，地板吱吱響。）", "busy": true, "frozen": false, "zone": "gym", "hour": 18.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  55.3s] {"depth": 2, "dlg": false, "txt": "（你們打了一個小時。球場的燈很亮，地板吱吱響。）", "busy": true, "frozen": false, "zone": "gym", "hour": 19.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  55.7s] {"depth": 2, "dlg": true, "txt": "（打完，你們", "busy": true, "frozen": false, "zone": "gym", "hour": 19.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  57.8s] {"depth": 2, "dlg": true, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": true, "frozen": false, "zone": "gym", "hour": 19.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  59.8s] {"depth": 0, "dlg": false, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": false, "frozen": false, "zone": "gym", "hour": 19.823, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  60.5s] 鏡頭切換：[{"t": 0, "cam": [-0.0, 3.58, 22.43]}, {"t": 98, "cam": [5.5, 5.8, 1.3]}]
+PASS 短片有演（BADCLIP.busy 出現過）  17
+PASS 跳過：按得到「跳過」
+PASS 演出中記到祐廷和對手（P1、partner）  ['P1', 'partner']
+  [  60.5s] 開演以前身上的包：{"P1": ["backpack"], "partner": []}
+PASS 演出中兩個人身上都沒有包（每 200 ms 一格）
+PASS 眼鏡、耳環、髮圈等不是包的配件照舊
+PASS 演完照原本還原（包回到身上；坐著的不算）  post 31 筆
+  [  60.5s] 演完的 propOn：{"P1": {}, "partner": {}}
+PASS 跳過：沒有說短片後面那一句（BADCLIP.LINES）  ……你說不笑的。
+PASS 跳過：按了以後短片很快結束（開演到結束 < 第一個鏡頭＋6 秒；完整版要 13 秒以上）  開演到結束 5452.800000000745 ms
+PASS 沒有卡住（busyDepth 0、玩家不忙、沒有凍住）  {"depth": 0, "dlg": false, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": false, "frozen": false, "zone": "gym", "hour": 19.825, "clip": false, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+PASS 推搖桿走得動  1.57 m／1 次
+PASS 約好的那一場結束（iv done）  done
+PASS 頁面記錄沒出錯  None
+PASS 沒有 JS 例外  []
+ALL PASS

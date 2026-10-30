@@ -533,11 +533,13 @@ async def s_expo_y2(p, run, base, sid, out):
         run.check('EXPO_Y2：走進博雅教學館（%s）' % (it[3] if it else '找不到門'), ok, json.dumps(st, ensure_ascii=False))
         n0 = len(await pg.evaluate("window.__LOG||[]")); joined = False; t0 = time.time()
         while time.time() - t0 < 420 and not joined:
-            seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+            seat = await pg.evaluate(FREE101)
             if not seat:
                 labels = await pg.evaluate("(GAME.E.interactables||[]).slice(0,40).map(i=>i.label+(i.seat?'@'+(i.seat.room||''):''))"); res['labels'] = labels
                 run.check('EXPO_Y2：博雅 101 有座位可以坐', False, json.dumps(labels, ensure_ascii=False)[:600]); break
-            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); near = await pg.evaluate(NEAR_IT)
+            if not (near and near[1]): res.setdefault('skipped', []).append([seat[:2], near]); await pg.evaluate("(p=>{ window.__TRIED=(window.__TRIED||[]).concat([p]); })(%s)" % json.dumps(seat[:2])); continue   # 走到了，互動鈕不是「坐下」（剛被聽眾坐走）＝換一個位子
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
             ops = await opts(pg); res.setdefault('seat_menus', []).append(ops)
             k = next((i for i, o in enumerate(ops) if o.startswith('聽演講：交換學生甄選說明會')), None)
             if k is not None: await tap_idx(pg, cdp, k); joined = True; break
@@ -576,12 +578,130 @@ async def s_data(p, run, base, sid, out):
     await close(b)
 
 
+# BB-B 10-24 10:3x（EXPO_DBG／EXPO_DBG2）：說明會 12:20 起 30 個聽眾從門口進來入座，門口附近的位子先被坐走；
+#   GAME.E.nearestInteractable 會跳過有人坐（n.seat）的位子，所以站在那裡互動鈕是藏著的（遊戲對，腳本一直挑同一個有人的位子＝腳本錯）。
+#   改：只挑沒人坐、沒人正要去坐（seatTarget）、替身沒佔（taken）、還沒試過的位子；走到以後互動鈕要是「坐下」才按，不是就換一個
+FREE101 = ("(()=>{ const E=GAME.E, P=E.player.obj.position, T=window.__TRIED||[]; const occ=st=>E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35)||E.npcs.some(n=>n.seatTarget&&Math.hypot(n.seatTarget.x-st.x,n.seatTarget.z-st.z)<0.4); "
+           "const L=(E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden&&!i.seat.taken&&!occ(i.seat)&&!T.some(t=>Math.hypot(t[0]-i.x,t[1]-i.z)<0.2)); "
+           "L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length]:null; })()")
+NEAR_IT = "(()=>{ try{ const it=GAME.E.nearestInteractable(); return it?[it.label,!!it.seat]:null; }catch(e){ return null; } })()"
+
+
+# BB-B 10-24 03:5x：清單第 86 項①（BB 事件包第 2 輪，bbpack_r2；開發分支 23bba7c8d 起）：交換展坐哪一區的句子
+#   日本區＋見過日文班（JP_MET）＋上過日文（attend.japanese_1）＝采蓁兩句；美國區＝明軒一句；台灣區＝明軒一句；認識明軒＝門口兩句（每一種都有）
+EXPO86 = {
+  'EXPO86_JP': ('（坐到日本那一區）', [('采蓁', '欸，日文課的！你也想去日本？'), ('采蓁', '獸醫系走不開。……可是看看也好。')], {'JP_MET': True}, True),
+  'EXPO86_US': ('（坐到美國那一區）', [('classmate_mingxuan', '美國區。……我坐這裡，不代表付得起。')], {}, False),
+  'EXPO86_TW': ('（坐到台灣那一區）', [('classmate_mingxuan', '你只是來聽聽？……我也是。聽聽不用錢。')], {}, False),
+  'EXPO86_LATE': ('（坐到台灣那一區）', [('classmate_mingxuan', '你只是來聽聽？……我也是。聽聽不用錢。')], {}, False),
+}
+# BB-B 10-24 11:5x：12:20 開始以後才坐下＝坐下那一刻 actTrack 記了 EXPO_Y2『in』→ onceDone（once:true＋stateOf 有 partial）→ canJoin false，選單沒有「聽演講」（Node 重現，chk/expo_once.js；v9.10.7 線上也有）。
+#   EXPO86_JP／US／TW 改成 11:45 讀檔、開始前（12:05～12:20）坐下＝現在走得通的路，驗台詞；EXPO86_LATE 照舊 11:57 讀檔、開始以後才坐下＝這個 bug 的證據（修好以前 FAIL）
+EXPO86_H = {'EXPO86_LATE': 11.95}
+MX_DOOR = [('classmate_mingxuan', '我想去。……交換要先存錢，我算過了。'), ('classmate_mingxuan', '要再多教兩個家教學生。')]
+
+
+async def s_expo86(p, run, base, sid, out):
+    res = out.setdefault(sid, {}); pk, want, flags, jp = EXPO86[sid]
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', EXPO86_H.get(sid, 11.75), 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), flags=flags,
+                                    label=sid + '（認識以安、柏翰、明軒；%s）' % ('見過日文班、【前置】日文（上）出席 3 次' if jp else '沒修日文'))
+    try:
+        if jp: await pg.evaluate("(()=>{ const R=CLS.rec(GAME.G); R.attend=R.attend||{}; R.attend.japanese_1=3; return R.attend.japanese_1; })()")
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        await quick_go(pg, cdp, 'campus|博雅教學館'); ok, it = await enter_door(pg, cdp, run, 'boya', sid); st = await pg.evaluate(STATE); res['enter'] = [st, it]
+        run.check('%s：走進博雅教學館（%s）' % (sid, it[3] if it else '找不到門'), ok, json.dumps(st, ensure_ascii=False))
+        n0 = len(await pg.evaluate("window.__LOG||[]")); joined = False; t0 = time.time()
+        while time.time() - t0 < 420 and not joined:
+            seat = await pg.evaluate(FREE101)
+            if not seat: run.check('%s：博雅 101 有座位可以坐' % sid, False, ''); break
+            await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); near = await pg.evaluate(NEAR_IT)
+            if not (near and near[1]): res.setdefault('skipped', []).append([seat[:2], near]); await pg.evaluate("(p=>{ window.__TRIED=(window.__TRIED||[]).concat([p]); })(%s)" % json.dumps(seat[:2])); continue   # 走到了，互動鈕不是「坐下」（剛被聽眾坐走）＝換一個位子
+            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+            ops = await opts(pg); res.setdefault('seat_menus', []).append(ops)
+            k = next((i for i, o in enumerate(ops) if o.startswith('聽演講：交換學生甄選說明會')), None)
+            if k is not None: await tap_idx(pg, cdp, k); joined = True; break
+            if ops: k2 = next((i for i, o in enumerate(ops) if o.startswith(('不坐了', '算了', '站起來'))), len(ops) - 1); await tap_idx(pg, cdp, k2)
+            await pg.wait_for_timeout(15000)
+        if joined:
+            ok2, ch = await wait_for(pg, cdp, run, "!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_exchange_expo_y2)&&!(typeof ADV!=='undefined'&&ADV.active)", max_s=240, picks=[pk], label=sid)
+            await drive(pg, cdp, run, max_s=30, label=sid)
+            log = (await pg.evaluate("window.__LOG||[]"))[n0:]; res['log'] = log; res['country'] = await pg.evaluate("GAME.G.flags.EXPO_COUNTRY||null")
+            nm = await pg.evaluate("({m:SOCIAL.displayName('classmate_mingxuan')})")
+            sp = [('classmate_mingxuan' if (x.get('id') or x['n']) in ('classmate_mingxuan', nm['m']) else (x.get('id') or x['n']), x['t']) for x in log if x['n'] not in ('［選項］', '［字幕］')]
+            miss = [w for w in MX_DOOR + want if not any(t == w[1] and (n == w[0] or w[0] == '采蓁') for n, t in sp)]
+            run.check('%s：選「%s」（EXPO_COUNTRY＝%s）；明軒門口兩句＋這一區的句子逐字' % (sid, pk, res['country']), ok2 and not miss, json.dumps({'miss': miss, 'tail': sp[-10:]}, ensure_ascii=False)[:600])
+            if not jp: run.check('%s：沒修日文＝沒有采蓁那兩句' % sid, not any(t.startswith('欸，日文課的') for _, t in sp), '')
+        else: run.check('%s：101 坐下有「聽演講：交換學生甄選說明會」%s' % (sid, '（12:20 開始以後才坐下）' if sid == 'EXPO86_LATE' else ''), False, json.dumps(res.get('seat_menus'), ensure_ascii=False)[:400])
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
+# BB-B 10-24 09:4x：EXPO86 三種都「101 坐下選單是空的」——查是腳本還是遊戲（不是驗收項目，只記狀態＋截圖）
+async def s_expo_dbg(p, run, base, sid, out):
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', 11.95, 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), label=sid + '【除錯】')
+    PROBE = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player.obj.position; const ib=document.getElementById('interact');
+      const near=(E.interactables||[]).filter(i=>i&&!i.hidden).map(i=>({l:i.label, d:+Math.hypot(i.x-P.x,i.z-P.z).toFixed(2), seat:i.seat?String(i.seat.room||'')+(i.seat.taken?'/taken':''):'', npc:i.npc||'', lv:i.lv|0})).sort((a,b)=>a.d-b.d).slice(0,6);
+      const ch=document.getElementById('choices'); const t=document.getElementById('toast');
+      return {h:+(+G.hour).toFixed(3), zone:G.zone, lv:E.player.lv|0, sit:!!E.player.seat, ib:ib?[ib.textContent.trim(), ib.classList.contains('hide')||getComputedStyle(ib).display==='none']:null, near,
+        ch:ch?[ch.classList.contains('hide'), [...ch.querySelectorAll('button')].map(b=>b.textContent.trim())]:null, toast:t?t.textContent.trim():null, adv:typeof ADV!=='undefined'&&!!ADV.active,
+        act:(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.atSeat)?(ACTIVITIES.atSeat(G,G.zone,'101')||null):'noapi'}; })()"""
+    try:
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        await quick_go(pg, cdp, 'campus|博雅教學館'); ok, it = await enter_door(pg, cdp, run, 'boya', sid)
+        run.check('%s：走進博雅教學館' % sid, ok, '')
+        seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,L.length,i.label]:null; })()")
+        res['seat'] = seat; say('   座位', json.dumps(seat, ensure_ascii=False))
+        await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2])
+        res['before'] = await pg.evaluate(PROBE); say('   點之前', json.dumps(res['before'], ensure_ascii=False)[:900])
+        await run.shot(pg, sid + '_before') if hasattr(run, 'shot') else None
+        await L.tap(pg, cdp, '#interact'); res['after'] = []
+        for k in range(12):
+            await pg.wait_for_timeout(500); st = await pg.evaluate(PROBE); res['after'].append(st)
+            say('   +%.1fs' % ((k + 1) * 0.5), json.dumps({x: st[x] for x in ('h', 'sit', 'ib', 'ch', 'toast', 'adv')}, ensure_ascii=False)[:500])
+        await run.shot(pg, sid + '_after') if hasattr(run, 'shot') else None
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
+# BB-B 10-24 09:5x：EXPO_DBG 看到「離座位 0.53 m、互動鈕藏起來」（#interact hide、標籤還是「看看博雅 101 階梯教室」）。
+#   分開看：玩家 busy／對話框 D.active／D.busyDepth／選單、nearestInteractable 是哪一個、座位 y 和玩家 y、站到互動點正上方（【捷徑】）以後會不會出現
+async def s_expo_dbg2(p, run, base, sid, out):
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs = await launch(p, run, base, '2027-03-18', 11.95, 'campus', rels=(('heroine_01', 'FAM'), ('classmate_bohan', 'FAM'), ('classmate_mingxuan', 'FAM')), label=sid + '【除錯】')
+    PROBE = """(()=>{ const G=GAME.G, E=GAME.E, P=E.player, pp=P.obj.position, ib=document.getElementById('interact'), D=GAME.D||{};
+      const seats=(E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden).map(i=>({d:+Math.hypot(i.x-pp.x,i.z-pp.z).toFixed(2), y:i.y, sy:i.seat.y, lv:i.lv, r:i.radius, taken:!!i.seat.taken})).sort((a,b)=>a.d-b.d).slice(0,3);
+      let ni=null; try{ const it=E.nearestInteractable(); ni=it?(it.label+(it.seat?'@seat':'')):null; }catch(e){ ni='ERR '+e; }
+      return {h:+(+G.hour).toFixed(3), busy:!!P.busy, plv:P.lv|0, py:+pp.y.toFixed(2), dActive:!!D.active, dBusy:D.busyDepth|0, sitting:!!P.seat, ibHide:ib?ib.classList.contains('hide'):null, ibLabel:ib?ib.textContent.trim():null, nearest:ni, seats}; })()"""
+    try:
+        await drive(pg, cdp, run, max_s=30, label=sid)
+        await quick_go(pg, cdp, 'campus|博雅教學館'); ok, it = await enter_door(pg, cdp, run, 'boya', sid)
+        run.check('%s：走進博雅教學館' % sid, ok, '')
+        res['in_door'] = await pg.evaluate(PROBE); say('   進門', json.dumps(res['in_door'], ensure_ascii=False)[:700])
+        seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const L=(GAME.E.interactables||[]).filter(i=>i&&i.seat&&String(i.seat.room)==='101'&&!i.hidden&&!i.seat.taken); L.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=L[0]; return i?[i.x,i.z,i.lv|0,i.y==null?null:i.y]:null; })()")
+        res['seat'] = seat; say('   座位', json.dumps(seat))
+        await L.go_to(pg, cdp, run, seat[0], seat[1], 0.8, '101 的座位', max_s=150, lv=seat[2]); await pg.wait_for_timeout(1500)
+        res['walked'] = await pg.evaluate(PROBE); say('   走到旁邊', json.dumps(res['walked'], ensure_ascii=False)[:700])
+        await pg.evaluate("GAME.updateInteract&&GAME.updateInteract()"); res['walked2'] = await pg.evaluate(PROBE); say('   叫一次 updateInteract', json.dumps(res['walked2'], ensure_ascii=False)[:500])
+        await run.shot(pg, sid + '_walked')
+        run.setup('[捷徑] %s：主角放到座位互動點正上方（看互動鈕會不會出現；不是玩家做得到的事）' % sid)
+        await pg.evaluate("(([x,z])=>{ const E=GAME.E; if(E.placeAt) E.placeAt(E.player,x,z); else E.player.obj.position.set(x,E.player.obj.position.y,z); })(%s)" % json.dumps(seat[:2])); await pg.wait_for_timeout(1500)
+        res['placed'] = await pg.evaluate(PROBE); say('   放到互動點上', json.dumps(res['placed'], ensure_ascii=False)[:700])
+        await run.shot(pg, sid + '_placed')
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
 ORDER = ['CAFE_0607', 'INV_GUEST', 'INV_SHIFT', 'ADMIT', 'ADMIT_DATE', 'ADMIT_AFTER', 'TERM_GF', 'TERM_GF_EARLY', 'ZQ_DAD', 'SPRING_CAR', 'DATA',
-         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2']
+         'ZR_TEN', 'MSG_BH', 'MSG_GRP', 'MSG_KAI', 'ZQ_0604', 'SUM_0306', 'SUM_0520', 'NOODLE_THU', 'NOODLE_SPRING', 'EXPO_Y2'] + list(EXPO86) + ['EXPO_DBG', 'EXPO_DBG2']
 FN = {'CAFE_0607': s_cafe, 'INV_GUEST': s_inv, 'INV_SHIFT': s_inv, 'ADMIT': s_admit, 'ADMIT_DATE': s_admit, 'ADMIT_AFTER': s_admit,
       'TERM_GF': s_termgf, 'TERM_GF_EARLY': s_termgf, 'ZR_TEN': s_termgf, 'ZQ_DAD': s_zqdad, 'SPRING_CAR': s_spring, 'DATA': s_data,
       'MSG_BH': s_msgs, 'MSG_GRP': s_msgs, 'MSG_KAI': s_msgs, 'ZQ_0604': s_msgs, 'SUM_0306': s_sum, 'SUM_0520': s_sum,
       'NOODLE_THU': s_noodle, 'NOODLE_SPRING': s_noodle, 'EXPO_Y2': s_expo_y2}
+FN.update({k: s_expo86 for k in EXPO86}); FN['EXPO_DBG'] = s_expo_dbg; FN['EXPO_DBG2'] = s_expo_dbg2
 
 
 async def main():

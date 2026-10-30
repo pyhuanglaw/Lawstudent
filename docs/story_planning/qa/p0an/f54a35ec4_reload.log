@@ -1,0 +1,74 @@
+  [前置／捷徑] [前置] iv13 改回 going、16:47 已經在麵店裡（＝進門那一刻的自動存檔）
+  [  35.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.822, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  35.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.824, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  36.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.828, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  36.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.83, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  37.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.833, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  37.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.837, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  38.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.84, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  38.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.842, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  39.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.845, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  39.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.849, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  39.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.851, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  40.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.854, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  40.8s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.858, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  41.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.86, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  41.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.864, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  42.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.867, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  42.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.869, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  43.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.872, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  43.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.876, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  44.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.878, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  44.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.881, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  44.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.885, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  45.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.888, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  45.8s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.89, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  46.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.894, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  46.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.897, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  47.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.899, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  47.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.903, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  48.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.906, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  48.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.908, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  49.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.912, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  49.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.915, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  49.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.919, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  50.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.921, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  50.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.924, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  51.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.928, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  51.8s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.931, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  52.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.933, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  52.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.935, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  53.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.936, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  53.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.94, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  54.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.942, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  54.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.946, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  55.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.949, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  55.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.951, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  55.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.954, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  56.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.956, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  56.8s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.959, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  57.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.963, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  57.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.966, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  58.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.97, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  58.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.972, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  59.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.975, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  59.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.978, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  60.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.982, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  60.5s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.984, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  60.9s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.987, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  61.4s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.991, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  61.8s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.993, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  62.3s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 16.996, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  62.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  63.2s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.003, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  63.7s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.006, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  64.1s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.009, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  64.6s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.012, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  65.0s] {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.014, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+  [  74.1s] 結束 {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.02, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}} → 8 秒後 {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.073, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+PASS 沒有卡在對話（12 秒以上沒有對話框、沒有選項、還在忙）  {"depth": 0, "dlg": false, "txt": "｜", "ch": [], "busy": false, "zone": "noodle", "hour": 17.014, "iv": "going", "it": "離開麵店", "an": {"beh": "follow", "d": 0.6}}
+FAIL iv13 不再是 going（約好的那一場有結束）  going
+FAIL 她沒有一直跟著（beh 不是 follow）  {"beh": "follow", "d": 0.6}
+PASS 沒有 JS 例外  []
+SHA f54a35ec4 MODE reload
+FAILED: iv13 不再是 going（約好的那一場有結束）, 她沒有一直跟著（beh 不是 follow）

@@ -43,7 +43,7 @@
    "quote": "有缺的CG有哪些 如果是單純場景的 給我提示詞 一次10組 有要放人物的再緩緩 我不會馬上給你 你給我後繼續其他工作",
    "kind": "原話",
    "confirmed": true,
-   "status": "進行中",
+   "status": "規則（永久）",
    "task": "BG-MISSING-1021",
    "src": "BB-C 對話",
    "note": "第 92 組（daab8c29）已給、使用者交 10 張（4 張已收檔 fcdc576d、5 張只在對話裡、1 張不用）；第 93 組 10 張 13:2x 已給",
@@ -55,7 +55,7 @@
    "quote": "你等等給我下一批的只需要純文字提示詞 有要附圖片生成的 不是純文字描述的 先等下一批",
    "kind": "原話",
    "confirmed": true,
-   "status": "進行中",
+   "status": "規則（永久）",
    "task": "BG-3DSHOT-1021",
    "src": "BB-C 對話",
    "note": "下一批（第 93 組）只放純文字的；要附遊戲截圖的（us_shared_kitchen、us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby）另外一批，等使用者要",
@@ -80,6 +80,39 @@
    "task": "RELEASE-9106-TEST",
    "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
    "note": "P0 換班口令（CLAUDE.md）：兩條測試線停止、結果寫 BB_218、BB_00 交班紀錄＋全部待辦、duty_BB.json handed-off＋快照、commit＋push。未完成的 RELEASE-9106-TEST 第 4～14 項、BB119-Y4-1017、USD_kexin 重跑、AA283-PARK-1021 見 BB_00"
+  },
+  {
+   "id": "UA-BB-1027-01",
+   "at": "2026-10-27T17:2x",
+   "quote": "以後都跟我說中文",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "規則（永久）",
+   "src": "BB-C 對話（使用者直接對 BB-C 說；之前 BB-C 回覆夾英文，使用者兩次要求）",
+   "note": "所有對使用者的回覆、回報、測試結果一律繁體中文（CLAUDE.md 和使用者合作的規則 1）；接手的 BB 照做",
+   "wants": "X103"
+  },
+  {
+   "id": "UA-BB-1027-02",
+   "at": "2026-10-27T17:2x",
+   "quote": "你負責統籌工作 包括其他AI的工作 每個段落可以跟我說做了什麼 但不要停下來等我 也跟他們說不要等我就不做事 我不會一直來看",
+   "kind": "轉述",
+   "confirmed": true,
+   "status": "規則（永久）",
+   "src": "使用者對 LAWWW-C 說，LAWWW-C 17:22 轉給 BB-C",
+   "note": "BB 每段做完寫交接檔／outbox、跟使用者說做了什麼，不停下來等使用者點頭；需要使用者決定的才問（選擇題）",
+   "wants": "X98"
+  },
+  {
+   "id": "UA-BB-1027-03",
+   "at": "2026-10-27T22:4x",
+   "quote": "打羽球男主角還背著背包什麼意思",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "在遊戲裡",
+   "src": "使用者直接問 BB-C",
+   "note": "v9.10.12（main d5ca27b89，2026-10-28 04:46 UTC 發布）有：BB-C 05069d928 瀏覽器驗 7 種 PASS（以安、語彤、男生朋友、第二次、跳過、手機約；短片裡兩個人都沒背包、演完包回來），候選 562a5ead9／rc3b d6694cad0 這段程式沒動。已修 056851057、待 BB 瀏覽器驗（5p：以安、語彤、男生朋友各一次看三個鏡頭；工具 test_tools/badclip_bag_probe.py）。羽球小短片（badminton_clip3d.js）祐廷、對手背著包打球＝缺漏；BB-C 22:4x 回答並轉 LAWWW-C（BUG-BADCLIP-BACKPACK-1027）；LAWWW-C 修成 CHAR.carryOff（056851057，tests/badclip_bag_unit.js），驗收照 BB_TEST_QUEUE_1027 5p：以安、語彤、男生朋友各一次看三個鏡頭",
+   "wants": "X117"
   }
  ]
 }

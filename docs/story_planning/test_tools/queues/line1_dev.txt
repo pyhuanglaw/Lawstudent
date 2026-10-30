@@ -1,0 +1,10 @@
+# 第一條線：開發分支 36d84def（含 36ff04ed 床鬧鐘修好、AA387-S10-1022）；us370 第一輪在 c555a31d 跑完 USG_depart（PASS）後容器重開中斷，剩下的照這裡
+us370 us_life_probe.py US370_addr,US370_asiaMon,US370_asiaNight,US370_asiaSun,US370_awake,US370_bizChat,US370_egg,US370_eggAlone,US370_k23,US370_kxMoon,US370_lake,US370_long,US370_q14,US370_where208,US370_whereChi
+us370_k23b us_life_probe.py US370_k23,US370_egg,US370_lake,US370_long
+us_kexin us_life_probe.py USD_kexin
+us_kexin_alarm us_life_probe.py USD_kexin_alarm
+zrlast zrlast_probe.py -
+usmarket usmarket_probe.py -
+wzshop wzshop_probe.py -
+aa386 aa386_probe.py -
+aa386c aa386c_probe.py -

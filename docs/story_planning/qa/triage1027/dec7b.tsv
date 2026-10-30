@@ -1,0 +1,50 @@
+CG-APPROVED-MISSING-1021	B	④	兩張 CG 接進遊戲：L849-856（72560881）登記、圖讀得到 PASS；只差劇情裡出現：美國篇學姊交往中 SF2 出 BCG-48（④）、尾聲不選出共通圖（⑥）
+PERF-CROWD-LOD-1021	A		路人遠距離換低面數：L1776-1782、L1893-1899（9f9e13cc）椰林大道 28 m／30 m 切換、不閃 PASS；L2941-3006（2b3a99cdd）Café、總圖 3F、博雅講座 PASS，舊版 FAIL；iPhone 實機另計
+AA370-US-FIX-1021	C		美國篇時差／人在哪：L1547-1598 USG_depart、US370_addr／q14／whereChi／eggAlone PASS；US370_k23、egg、lake、long 是腳本問題沒結論；USD_kexin（可昕週年視訊）L1536 仍 FAIL、L2623 列舊待驗
+BACKLOG-A7-WZPARK-COPLANAR	B	⑪	溫州街小公園走一圈看涼亭樑、神龕、步道、公布欄有沒有閃（數字已 11→0）
+AA372-Y1S1-FIX-1021	B	⑩Y1S1	AA_372 大一上「知道太早／重複／作廢設定」修正（照第 5 節測）
+BUG-NAV-LAMPPOST-1021	A		燈柱擋得住人：L951-963（ae968ffb 起）BUG-NAV-LAMPPOST PASS、椰林大道光圈 PASS
+AA373-Y1S2-FIX-1021	B	⑩Y1S2	AA_373 大一下修正（我們的日子不排暑假、沛珊 4/6、可昕不比較四處）
+AA374-Y2S1-FIX-1021	B	⑩Y2S1	AA_374 大二上（宿舍 312、博覽會柏翰、交往中沒有分手、小語那則 9/16 前、12/17 回筆記）
+BUG-HOME-FAMGROUP-NEGIDX-1021	B	①	新遊戲 9/4 20:00 手機「家人」群組有「這週回來吃飯嗎」
+BG-CAMP-NIGHT-TRAIL-1021	B	①	法律系宿營 8/22 21:30 夜遊用調暗的步道圖（要不要出新圖 BB 決定）
+BUG-NOTEBOOK-ADVBTN-1021	B	①	劇情播著時打開筆記本，「紀錄」「略過對話」不浮在上面（L860 找到，修好後沒看）
+BUG-PG-REG2030-MIGRATE-1021	B	⑥	交換延畢 2030 報名問題錯過→存檔→讀檔，仍是不報名
+AA375-Y2S2-FIX-1021	B	⑩Y2S2	AA_375 大二下（芷若 6/3 最後一班、6/4 起吧檯小婷、錄取事件期限、子晴爸爸訊息）
+BUG-CAFE-FLOOR-MIRROR-1021	D		Café 地板鏡面反光＝場景材質（使用者看）
+BUG-INTERMS-PARTNER-1021	B	⑦	和沛珊分手以後手機聊天回得到 L 檔、小語 solo 旁白照 partnerOn（內部判斷，玩家看得到的只有這兩處）
+AA376-Y3S1-FIX-1021	B	⑩Y3S1	AA_376 大三上（語彤週四總圖三樓、舊課堂 retired）
+AA377-Y3S2-FIX-1021	B	⑩Y3S2	AA_377 大三下三條路線（台灣路線跟 ⑩Y3S2；日本比較行政法、哲 4 視訊跟 ⑤；芷若週四 22:00 期末約會）
+BUG-DATE-FARE-DOUBLE-1021	B	⑨	校外約會車資只扣一次來回（臺南 2,800＋住宿 2,500）
+BUG-DATE-EXAMWEEK-DAY-1021	B	⑨	考試週約不到一日遊 D24～D27
+BUG-DATE-OVERLAP-1021	B	⑨	約好校外約會那天不能再被排進別的約
+DATE-T7A-HOMETOWN-1021	B	⑨	她人在台中時手機的「約」只列 D26
+BUG-PG-RETURN-TEXT-1021	A		畢業後出遊演完字幕「回到家。」：L1330、L1413（364dabe0）PASS
+US-MARKET-CROWD-1021	A		美國超市街車流、路人：L1314-1319 364dabe0 FAIL → rc2 9c74f08d PASS
+BUG-KX-OD-SKIPALL-1021	B	⑥	畢業以後交往中，在 3D 裡走一下再看可昕的固定格還在
+AA378-Y4S1-FIX-1021	A		AA_378 第 7 節六項：L1321-1324（364dabe0）#1 以安、#4 Café 新店員、#12 美國 12/23、#15＋S5 Q14、#3 女朋友期末約會 PASS；L984-994（e11007d4）S3 便條 PASS；L1087（9cf16124）學姊八場鬧鐘 PASS
+SIS-B12-1025	B	⑦	學姊第十二批七場、說了沒發生五處、家族四場（10-27 才合進開發分支，還沒有瀏覽器紀錄）
+UI-TODAY-DATE-DEPART-1021	B	⑨	兩天一夜當天手機「今天」寫出發時間
+PG-ASKAT-HOME-1021	A		畢業後住家裡的固定格出發時間：L1313（364dabe0）PG-ASKAT-HOME PASS（pghome2）
+BUG-SIS-STUDY-COMPANION-1021	A		總圖讀書不變成跟著走：L1007-1040 SCHED、NOW、MISS PASS；L1098（9cf16124）LIB_HERE PASS；WALK_ARRIVE 修好 f9d60c63
+AA379-SIS-W1-LIB-1021	A		閱覽室直接認識學姊：L996-1005（c2ec6681）MEET_USER、MEET_LIB、MEET_KNOWN PASS
+INV-BOTH-PRESENT-1021	A		兩個人都在就開始：L1007-1040（be8c1b0e、7da537dc、c2ec6681）SCHED、NOW、MISS、麵店 PASS；L1098（9cf16124）LIB_HERE PASS；TEA L1026（95dc42a0）PASS
+AA380-RENAME-ALISON-1021	A		小語改 Alison：L1310-1312（rc2）舊存檔 PASS；新遊戲演到 8/29 共 2162 段對話、手機、筆記都沒有「小語」
+PERF-NPC-POOL-1022	A		換區域路人一次換一個：L1409-1411（364dabe0）PASS（38 項）
+BUG-INV-NOODLE-PAIR-1022	A		約在麵店坐對面：L1007-1040（c2ec6681）麵店 PASS；一盞兩個坐墊 L1080-1082（9cf16124）PASS
+AA381-Y4S2-FIX-1021	B	⑩Y4S2	交換延畢 6/2 典禮那天的 15 句、語彤大四下週四總圖三樓：L1108 只讀碼核對，瀏覽器沒跑
+BUG-ADV-CHOICES-LANDSCAPE-1022	A		橫向十項選單：L1012 找到；L1016-1017（be8c1b0e）第一排點得到；L1078-1081（9cf16124）PASS
+BUG-INV-LIB-HERE-1022	A		在閱覽室當面約「現在一起過去」：L1017（be8c1b0e）FAIL → b1549751；L1098（9cf16124）PASS
+AA379-SIS-LATE-W1-1022	A		晚到版認識學姊：L1129-1151（154c639e）AA_379 §4 W1_LATE PASS
+AA382-PG-FIX-1022	C		畢業以後清查：§4 看海六種 L1204-1225（d606741b）、L1331（rc2）79 項 PASS；只差 aa382b（交換延畢撥穗、卡片、大五上每月一格）、aa382c（7/7 K26、7/5 老地方、可昕三格、明軒尾聲）——腳本寫好沒結果
+AA383-BB0400-1022	B	⑩Y1S1	以安第 8 週回台中、韋綸球賽三句、沛珊 D4 9/22 私訊
+AA372-S7-TAICHUNG-WEEKEND-1022	B	⑩Y1S1	以安第 4／8／12 週末、沛珊單數週末回台中：手機的約只列 D26、前一天在臺北約要擋
+BUG-JP-SLEEP-MIDNIGHT-1022	B	⑤	日本路線週末快轉過半夜再睡覺不多睡一天
+ART-VAC-AIRPORT-1021	D		3D 機場＝場景美術
+US-MS-NIGHT-1021	D		美國街道路燈光圈＝場景美術
+BB106-L389-1022	B	⑦	可昕來台大那幾天，見面前社科院門口遇到可昕和品妤
+ART-TONE-NEUTRAL-1022	D		全遊戲色調映射＝整體畫面美術（使用者看）；L1332 只量了亮度
+BUG-SIS-PRE94-PRESENCE-1022	A		學姊 9/1 起照作息：L1198-1201 找到；L1403（364dabe0）PASS
+ART-CEIL-LAWWW-ROOMS-1022	A		最遠最陡看得進房間：L1893-1894（9f9e13cc）CEIL 28 項 PASS（201、男宿門廳、霖澤館 2F、萬才館 2F 等）；外觀美術另歸使用者
+ZZ-MSGPOOL-LINE-1022	B	⑦	芷若×子晴交往中、好朋友的回覆池句子（zrzq L1497-1507 只驗劇情，沒看回覆池）
+ZZ-FANG-EV2-DECLINED-1022	B	⑦	芷若婉拒方奕廷以後，他「還好嗎」兩列回覆

@@ -1,0 +1,19 @@
+diff --git a/tests/playlib.py b/tests/playlib.py
+index aa4222570..2f03aeb24 100644
+--- a/tests/playlib.py
++++ b/tests/playlib.py
+@@ -56,6 +56,13 @@ async def launch(p, landscape=True):
+     ctx = await b.new_context(viewport=vp, device_scale_factor=1, has_touch=True, is_mobile=True, user_agent=UA)
+     pg = await ctx.new_page(); cdp = await ctx.new_cdp_session(pg); errs = []
+     pg.on('pageerror', lambda e: errs.append(str(e)))
++    _bbh = os.environ.get('BB_DLG_HOOK'); _bbl = os.environ.get('BB_DLG_LOG')
++    if not _bbh and os.path.exists('/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dlg_on.json'):
++        _cfg = json.load(open('/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/bbtest/dlg_on.json', encoding='utf-8')); _bbh, _bbl = _cfg.get('hook'), _cfg.get('log')
++    if _bbh and _bbl:   # BB 本機：台詞對照紀錄（不提交）
++        await ctx.add_init_script(path=_bbh)
++        _f = open(_bbl, 'a', encoding='utf-8')
++        pg.on('console', lambda m: (_f.write(m.text[6:] + '\n'), _f.flush()) if m.text.startswith('BBDLG ') else None)
+     return b, ctx, pg, cdp, errs
+ 
+ 
+e6e75fd59 白名單：加 AA_280@02ed9b0a（118 巷店家、菜單、常客、午餐揪人；使用者 02:2x 要放進 v9.10）

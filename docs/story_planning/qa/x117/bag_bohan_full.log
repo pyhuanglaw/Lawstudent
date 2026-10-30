@@ -1,0 +1,34 @@
+PASS 遊戲載入
+  [前置／捷徑] [前置] 讀使用者存檔（day 14）：新體育館 1F 入口 18.80；classmate_bohan 有點熟、有聯絡方式；之前沒一起打過羽球
+  [前置／捷徑] [捷徑] INV.accept：今天 19.0 和 classmate_bohan 約在新體育館羽球場（＝手機約好了）
+PASS 約好了（accepted）
+  [  33.9s] 開演以前的配件：{"t":33300.10000000149,"ents":{"P1":{"props":{"backpack":{"vis":true,"own":true,"carry":true,"d":0.02}},"pose":"idle","propOn":null}}}
+  [  33.9s] {"depth": 0, "dlg": false, "txt": "", "busy": false, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 0, "seen": false, "iv": "accepted", "ch": [], "skipBtn": false}
+  [  35.9s] {"depth": 2, "dlg": true, "txt": "", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 0, "seen": false, "iv": "done", "ch": [], "skipBtn": false}
+  [  40.0s] {"depth": 2, "dlg": true, "txt": "「我現在每天記讀書時數。……昨天四小時二十分。」", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 0, "seen": false, "iv": "done", "ch": [], "skipBtn": false}
+  [  42.5s] {"depth": 2, "dlg": true, "txt": "「我想調一下", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 0, "seen": false, "iv": "done", "ch": [], "skipBtn": false}
+  [  45.1s] {"depth": 2, "dlg": false, "txt": "「我想調一下我的時間表。」", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": true, "cuts": 1, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  48.0s] {"depth": 3, "dlg": false, "txt": "「我想調一下我的時間表。」", "busy": true, "frozen": true, "zone": "gym", "hour": 18.804, "clip": true, "cuts": 2, "seen": true, "iv": "done", "ch": [], "skipBtn": true}
+  [  51.2s] {"depth": 3, "dlg": false, "txt": "「我想調一下我的時間表。」", "busy": true, "frozen": true, "zone": "gym", "hour": 18.804, "clip": true, "cuts": 3, "seen": true, "iv": "done", "ch": [], "skipBtn": true}
+  [  60.2s] {"depth": 3, "dlg": false, "txt": "「我想調一下我的時間表。」", "busy": true, "frozen": true, "zone": "gym", "hour": 18.804, "clip": true, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": true}
+  [  66.3s] {"depth": 2, "dlg": true, "txt": "", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  68.2s] {"depth": 2, "dlg": true, "txt": "（你們打了一個小時。球場的燈很亮，地板吱吱響。）", "busy": true, "frozen": false, "zone": "gym", "hour": 18.804, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  70.2s] {"depth": 2, "dlg": false, "txt": "（你們打了一個小時。球場的燈很亮，地板吱吱響。）", "busy": true, "frozen": false, "zone": "gym", "hour": 19.804, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  70.6s] {"depth": 2, "dlg": true, "txt": "", "busy": true, "frozen": false, "zone": "gym", "hour": 19.804, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  72.4s] {"depth": 2, "dlg": true, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": true, "frozen": false, "zone": "gym", "hour": 19.804, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  73.7s] {"depth": 0, "dlg": false, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": false, "frozen": false, "zone": "gym", "hour": 19.806, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+  [  74.9s] 鏡頭切換：[{"t": 0, "cam": [-0.0, 3.58, 22.43]}, {"t": 929, "cam": [5.5, 5.8, 1.3]}, {"t": 6055, "cam": [8.2, 2.2, -11.2]}, {"t": 14947, "cam": [5, 1.5, -12.7]}]
+PASS 短片有演（BADCLIP.busy 出現過）  63
+PASS 完整版：三個鏡頭（鏡頭切換 ≥3；鏡頭 3 裡面可能再切一次）  4
+PASS 演出中記到祐廷和對手（P1、partner）  ['P1', 'partner']
+  [  74.9s] 開演以前身上的包：{"P1": ["backpack"], "partner": ["backpack"]}
+PASS 演出中兩個人身上都沒有包（每 200 ms 一格）
+PASS 眼鏡、耳環、髮圈等不是包的配件照舊
+PASS 演完照原本還原（包回到身上；坐著的不算）  post 37 筆
+  [  74.9s] 演完的 propOn：{"P1": {}, "partner": {}}
+PASS 沒有卡住（busyDepth 0、玩家不忙、沒有凍住）  {"depth": 0, "dlg": false, "txt": "（打完，你們坐在場邊喝水，誰都不想先站起來。）", "busy": false, "frozen": false, "zone": "gym", "hour": 19.808, "clip": false, "cuts": 4, "seen": true, "iv": "done", "ch": [], "skipBtn": false}
+PASS 推搖桿走得動  1.17 m／1 次
+PASS 約好的那一場結束（iv done）  done
+PASS 頁面記錄沒出錯  None
+PASS 沒有 JS 例外  []
+ALL PASS

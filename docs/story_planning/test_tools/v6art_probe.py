@@ -61,9 +61,13 @@ async def pinch_in(pg, cdp, cx=470, cy=210):
 
 
 async def drag_v(pg, cdp, down=True, n=2, cx=470):
+    # BB-B 10-23：往下拖原本從 y=90 起手，201 教室俯角完全沒變（往上拖從 y=330 起手就有變）＝起手點落在畫面上方的 UI 上；改從畫面中段起手，並記下起手點是什麼元素
     for _ in range(n):
-        y0, y1 = (90, 330) if down else (330, 90)
+        y0, y1 = (130, 375) if down else (330, 90)
+        el = await pg.evaluate("(([x,y])=>{ const e=document.elementFromPoint(x,y); return e?(e.id||e.tagName)+(e.className&&typeof e.className==='string'?'.'+e.className.split(' ')[0]:''):null; })(%s)" % json.dumps([cx, y0]))
+        DRAG_AT.append(el)
         await L.drag(pg, cdp, cx, y0, cx, y1, steps=12); await pg.wait_for_timeout(400)
+DRAG_AT = []
 
 
 async def hide_hud(pg, on=True):
@@ -87,7 +91,7 @@ async def s_ceil(p, run, out):
                 if z != zone: run.check('%s：進得去（%s）' % (name, zone), False, z); continue
                 r['def'] = await pg.evaluate(CAM); p0 = await run.shot(pg, '%s_%s_def' % (TAG, zone)); r['def']['white'] = white_frac(p0)
                 await pinch_in(pg, cdp); await drag_v(pg, cdp, down=True); await pg.wait_for_timeout(2500)
-                r['far'] = await pg.evaluate(CAM); p1 = await run.shot(pg, '%s_%s_far' % (TAG, zone)); r['far']['white'] = white_frac(p1)
+                r['far'] = await pg.evaluate(CAM); r['far']['dragAt'] = DRAG_AT[-2:]; p1 = await run.shot(pg, '%s_%s_far' % (TAG, zone)); r['far']['white'] = white_frac(p1)
                 await drag_v(pg, cdp, down=False, n=3); await pg.wait_for_timeout(2500)
                 r['flat'] = await pg.evaluate(CAM); p2 = await run.shot(pg, '%s_%s_flat' % (TAG, zone)); r['flat']['white'] = white_frac(p2)
                 say('   %s %s：預設 %s｜最遠最陡 %s｜最遠最平 %s' % (TAG, name, J(r['def'], 200), J(r['far'], 200), J(r['flat'], 200)))
@@ -205,9 +209,9 @@ async def s_gg(p, run, out):
 
 # ---------------------------------------------------------------- 第 12 項 遠距離路人
 LOD_SPOTS = {'avenue_mid': (-40, 0, 1.5708), 'avenue_gate': (-104, 0, 1.5708)}
-SAMPLE = """(()=>{ const E=GAME.E, cam=E.camera, C=CHAR; const out=[];
-  for(const n of E.npcs){ if(!n.isExtra||!n.obj) continue; const o=n.obj, u=o.userData||{}; const d=Math.hypot(cam.position.x-o.position.x,cam.position.z-o.position.z); out.push([n.id, +d.toFixed(1), !!u.isFar, !!u.farLOD, o.visible!==false]); }
-  for(const x of E.extras){ const rd=x.rider; if(!rd||!x.obj) continue; const u=rd.userData||{}; const d=Math.hypot(cam.position.x-x.obj.position.x,cam.position.z-x.obj.position.z); out.push(['ride:'+(x.id||''), +d.toFixed(1), !!u.isFar, !!u.farLOD, x.obj.visible!==false]); }
+SAMPLE = """(()=>{ const E=GAME.E, cam=E.camera, C=CHAR; const out=[];   /* BB-B 10-23：路人沒有 n.id（全部是 null＝不同的人被當成同一個，「閃」算錯）→ 用 obj.uuid */
+  for(const n of E.npcs){ if(!n.isExtra||!n.obj) continue; const o=n.obj, u=o.userData||{}; const d=Math.hypot(cam.position.x-o.position.x,cam.position.z-o.position.z); out.push([n.id||n.charId||o.uuid, +d.toFixed(1), !!u.isFar, !!u.farLOD, o.visible!==false]); }
+  for(const x of E.extras){ const rd=x.rider; if(!rd||!x.obj) continue; const u=rd.userData||{}; const d=Math.hypot(cam.position.x-x.obj.position.x,cam.position.z-x.obj.position.z); out.push(['ride:'+(x.id||x.obj.uuid), +d.toFixed(1), !!u.isFar, !!u.farLOD, x.obj.visible!==false]); }
   return {t:performance.now(), rows:out, has:!!C.setFar, off:!!C.farOff}; })()"""
 
 

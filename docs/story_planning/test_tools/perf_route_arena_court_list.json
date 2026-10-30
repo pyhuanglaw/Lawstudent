@@ -1,0 +1,20 @@
+[
+ {
+  "name": "gym_arena_court",
+  "state": {
+   "zone": "gym_arena",
+   "day": 20,
+   "hour": 14,
+   "stage": "law",
+   "pos": {
+    "x": 0.0,
+    "z": 15.6,
+    "yaw": 0
+   }
+  },
+  "yaws": [
+   0,
+   3.1416
+  ]
+ }
+]

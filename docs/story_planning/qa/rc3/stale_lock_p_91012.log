@@ -1,0 +1,8 @@
+③ 對話中 12.5 秒 {'stale': False, 'dlg': True}
+① 6 秒 {'stale': False, 'busy': True, 'depth': 1, 'cam': 'cinematic'}
+② 標成卡住：9.5 秒真實時間、19 格
+② 標成卡住以後 {'stale': True, 'busy': True, 'hudR': '1'} ['SCENE  depth=1 STALE by=stuckHere (eval at evaluate (:370:30), <anonymous>:1:77)']
+④ 卡住的紀錄 [{"at": "2026-10-28T06:50", "v": "v9.10.12（2026-10-28）", "day": 8, "hour": 21.81, "zone": "dorm", "depth": 1, "by": ["stuckHere (eval at evaluate (:370:30), <anonymous>:1:77)"], "cover": null, "ff": false, "evr": null}]
+② 讀檔以後 {'busy': False, 'depth': 0, 'stale': False, 'cam': 'follow', 'zone': 'dorm'}
+errs []
+PASS

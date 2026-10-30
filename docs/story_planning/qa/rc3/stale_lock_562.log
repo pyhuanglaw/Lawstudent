@@ -1,0 +1,7 @@
+③ 對話中 12.5 秒 {'stale': False, 'dlg': True}
+① 6 秒 {'stale': False, 'busy': True, 'depth': 1, 'cam': 'cinematic'}
+② 12.5 秒 {'stale': False, 'busy': True, 'hudR': '1'} ['SCENE  depth=1 by=stuckHere (eval at evaluate (:370:30), <anonymous>:1:77)']
+④ 卡住的紀錄 []
+② 讀檔以後 {'busy': False, 'depth': 0, 'stale': False, 'cam': 'follow', 'zone': 'dorm'}
+errs []
+FAIL ② 超過 10 秒沒有標成卡住；④ 卡住的紀錄沒有留在瀏覽器（fatiao3d_stuck）

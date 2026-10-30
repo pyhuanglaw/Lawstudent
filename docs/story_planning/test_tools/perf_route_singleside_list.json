@@ -1,0 +1,8 @@
+[
+ {"name": "soclib", "state": {"zone": "soclib", "day": 20, "hour": 14, "stage": "law"}},
+ {"name": "library_hall", "state": {"zone": "library_hall", "day": 20, "hour": 14, "stage": "law"}},
+ {"name": "cvs", "state": {"zone": "cvs", "day": 20, "hour": 14, "stage": "law"}},
+ {"name": "gym_1f", "state": {"zone": "gym", "day": 20, "hour": 14, "stage": "law"}},
+ {"name": "gym_b1", "state": {"zone": "gym_b1", "day": 20, "hour": 14, "stage": "law"}},
+ {"name": "gym_arena", "state": {"zone": "gym_arena", "day": 20, "hour": 14, "stage": "law"}}
+]
