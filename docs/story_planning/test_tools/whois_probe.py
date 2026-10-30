@@ -180,10 +180,17 @@ async def mode_econ(pg, cdp, run):
         return w
     fl1, o1 = await cp('econ_9月', want1)
     run.note('第一個檢查點：%s；%s' % (J(fl1), J(o1)))
-    seen = {'camp': None, 'zoula': None}; t2 = time.time(); last2 = 0
+    seen = {'camp': None, 'zoula': None}; t2 = time.time(); last2 = 0; hid = 0
+    await L.close_panels(pg, cdp); await L.phone_away(pg, cdp); await pg.wait_for_timeout(1500)   # econ5：看完人物頁手機還開著，時間停在 9/13 19:33 四十分鐘
     while time.time() - t2 < 2400:   # 照玩家往下玩到 10/19 退宿（Y0_MOVED_OUT），途中宿營過了、進「走啦」群組各看一次（WHOIS.lines）
         s = await P.ts(pg)
+        if time.time() - last2 > 120: last2 = time.time(); run.note('經濟系往下玩：%s；畫面 %s' % (J(await pg.evaluate(FL)), J({k: s[k] for k in ('dlg', 'txt', 'phone', 'busy', 'running')})))
         if s['ch']: k, _ = P.pick_of(s['ch'], []); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1000); continue
+        if s['dlg'] and not s['txt']:   # 對話狀態開著、對話框沒顯示（手機裡的對話、被面板蓋住）：先把面板收起來
+            hid += 1
+            if s['phone'] or hid % 5 == 0: await L.close_panels(pg, cdp); await L.phone_away(pg, cdp)
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+        hid = 0
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
         await L.phone_away(pg, cdp)
         fl = await pg.evaluate(FL)
@@ -194,7 +201,6 @@ async def mode_econ(pg, cdp, run):
         if fl['zoula'] and seen['zoula'] is None:
             L2 = await pg.evaluate(API, ids); seen['zoula'] = [fl['key'], L2]
             run.check('進「走啦」群組以後（%s）：韋綸「「走啦」群組是他建的。」、品妤「「走啦」群組裡也有她。」' % fl['key'], '「走啦」群組是他建的。' in L2[1] and '「走啦」群組裡也有她。' in L2[3], J(L2))
-        if time.time() - last2 > 120: last2 = time.time(); run.note('經濟系往下玩：%s' % J(fl))
         await pg.wait_for_timeout(1200)
     fl2 = await pg.evaluate(FL); run.note('往下玩停在：%s；宿營那一點 %s；走啦那一點 %s' % (J(fl2), J(seen['camp'] and seen['camp'][0]), J(seen['zoula'] and seen['zoula'][0])))
     run.check('前置：照玩家玩到 10/19 退宿（Y0_MOVED_OUT）', fl2['moved'], J(fl2))
