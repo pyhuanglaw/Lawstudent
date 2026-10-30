@@ -439,6 +439,11 @@ const GAME = (function(){
     if(!w||!w.zone){ toast(nm+(w&&w.away?'：'+w.away:'現在沒有固定的行程，不知道在哪'),3200); return false; }
     G.flags.findWho=id; setGoal('去找'+nm+'（'+whereText(id)+'）',{zone:w.zone,npc:id,name:'去找'+nm}); toast('目標：去找'+nm+'。地圖上有路線',2600); return true; }
   GM.findPerson=findPerson;
+  /* 直接過去以後人還不在眼前（校園裡「走走」的人沒有確切位置，落在快速地點；BB-B 10-30 實測落在 138 m 外）：自動接「帶我去」，地圖畫路線、方向提示指過去（PHONE-UNIFY-1030）*/
+  GM.FGO_NEAR=8;
+  function goFollow(id){ if(!G) return false; const w=STORY.whereIs&&STORY.whereIs(GM,id); if(!w||w.zone!==G.zone) return false; const n=GM.npc[id], p=E.player&&E.player.obj;
+    if(n&&n.obj&&p&&Math.hypot(n.obj.position.x-p.position.x,n.obj.position.z-p.position.z)<=GM.FGO_NEAR) return false; return findPerson(id); }
+  GM.goFollow=goFollow;
   /* 「帶我去」找到人了（和他說話）：恢復原本的目標（今天的課表；沒有課表系統就自由行動）*/
   function foundPerson(n){ const w=G.flags.findWho; if(!w||!n) return; if(n.charId!==w&&n.id!==w&&CID[n.id]!==w) return; G.flags.findWho=null; if(typeof CLS!=='undefined'&&CLS.setGoal&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else setGoal('自由行動',null); }
   GM.foundPerson=foundPerson;
@@ -519,7 +524,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-invgo]').forEach(b=>b.onclick=async()=>{ const iv=(G.invites||[]).find(x=>String(x.id)===b.dataset.invgo); if(iv&&typeof INV!=='undefined'&&INV.goNow) await INV.goNow(GM,iv); });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
-    body.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.fgo, fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(fg&&fg.pl) await quickGo(fg.pl,{force:true}); else { toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); renderPhone(); } });   /* 手機「朋友」的直接過去（PHONE-UNIFY-1030）：按的時候照他現在在哪重算（手機開著的時候他可能已經走了）；沒去過也可以 */
+    body.querySelectorAll('[data-fgo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.fgo, fg=friendGo(id,STORY.whereIs&&STORY.whereIs(GM,id),PLACE_LIST()); if(fg&&fg.pl){ await quickGo(fg.pl,{force:true}); goFollow(id); } else { toast(fg&&fg.why?'不能直接過去：'+fg.why:'現在不知道人在哪'); renderPhone(); } });   /* 手機「朋友」的直接過去（PHONE-UNIFY-1030）：按的時候照他現在在哪重算（手機開著的時候他可能已經走了）；沒去過也可以 */
     body.querySelectorAll('[data-pmapsvg]').forEach(sv=>sv.onclick=e=>{ if(typeof PLACEMAP==='undefined') return; const r=sv.getBoundingClientRect(), V=PLACEMAP.VB; if(!r.width) return; const id=PLACEMAP.pick(V[0]+(e.clientX-r.left)/r.width*V[2],V[1]+(e.clientY-r.top)/r.height*V[3],sv.dataset.pmapsvg.split(',')); if(!id) return; phonePin=phonePin===id?null:id; renderPhone(); });   /* 地點地圖（src/placemap3d.js）：整張圖都可以點，選最近的圖釘（BB-B 10-23：圖釘太小、相鄰的會點錯）*/
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
