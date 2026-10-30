@@ -3,7 +3,8 @@
 ## ⏱ 現況（LAWWW2-B，2026-10-30 08:0x UTC；帳號 B 七天額度已到警示，隨時可能被切斷——接手的先讀這一段）
 
 - **已交**：X140 系外套（b84ce8d27）、#120 床欄透空 patch（給 LAWWW-B 看）、X132 Café 窗外 3D 街（f11f2ccb0；已合進 postrel dcf33a4e0）、DORM203（postrel 5720bf53c）、**Café 光照烘焙（CAFE-LM-1030，本次交件，見下一段）**。
-- **下一步**：X133 總圖前草皮（LIB-LAWN-PLAN-1030）：照 D23 的校總區平面圖、同角度改前改後 → 法律學院圖書館 INTERIOR-AAA → 萬才館多功能教室換家具。
+- **X133 總圖前草皮**：規劃稿已交（3a3d2bc40，`test_shots/lib_lawn_plan_1030/README.md`；send_message 給 LAWWW-B，問使用者三件事：草皮形狀、台階、樟樹位置）。**下一步**：沒回答前照提案做第一版——Blender GLB（草皮、中軸鋪面、路緣、長椅、路燈、老樟樹、預設藏的聖誕樹節點）＋zones3d patch（換掉 `ground(g,17,36,…,78.5,0,…)` 那片石板廣場、加導航阻擋）＋`tools/blender/env_second/shots/lib_lawn_shots.py` 同角度改前改後。
+- **再之後**：法律學院圖書館 INTERIOR-AAA → 萬才館多功能教室換家具。
 - **沒有遠端備份的**：只有本機暫存的截圖（scratchpad），重拍就有。
 
 ## 📣 給 LAWWW-B（2026-10-30 08:0x UTC｜CAFE-LM-1030 兩點半 Café 光照烘焙交件；send_message 另外傳）
