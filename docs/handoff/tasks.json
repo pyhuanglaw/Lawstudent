@@ -36195,8 +36195,8 @@
    "title": "吳芯慈可攻略、要很難達成：AA 規劃感情線（門檻、時間線、事件、告白條件、多段感情規則、和現有設定一致）→ LAWWW 實作",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "v9.10.14 發布、postrel-1030 合進開發分支以後實作（AA_537 第 7 節要加的地方；AA_537b 約會台詞、128 點喜好、八個常去地點、termend、節日）→ BB 測；兩張 CG 由 BB 向使用者要",
+   "status": "進行中",
+   "next": "開工條件到了（v9.10.14 已發布、postrel-1030 已合進開發分支）。LAWWW 分四段：①告白（S.HEROINES、canConfess G1～G10、YES_LINE 75、confess_lines 含 others、hideIf、心願 D04）②新時刻 3-1～3-6＋G5 半夜訊息 XC_NIGHT ③交往以後（msg L、ROMANTIC、以安、她爸爸、MREL 不接受、尾聲）④AA_537b（約會台詞、地點、期末飯、節日）→ BB 測；兩張 CG 由 BB 向使用者要",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -36211,7 +36211,7 @@
    "source": "使用者 10-30（X139）；AA_537（企劃線 2f523e21a 版）＋AA_537b（508568ae5）",
    "authorized": "使用者",
    "xai": {
-    "spec": "AA_537（2f523e21a）＋AA_537b（508568ae5）",
+    "spec": "AA_537（企劃線 2f523e21a）＋AA_537b（508568ae5）",
     "branch": "claude/cool-heisenberg-o8kuqx",
     "acceptance": "AA_537 第 7 節＋各節測試",
     "receiver": "LAWWW",
