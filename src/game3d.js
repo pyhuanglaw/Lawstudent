@@ -76,7 +76,7 @@ const GAME = (function(){
   let hudRwT='';
   function updateHUD(){ if(!G) return; hudDay=G.day; hudHr=G.hour; syncWeekday(); { const dd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day+Math.floor(G.hour/24)):null; $('clockT').textContent=(dd?dd.m+'/'+dd.d+' ':'')+WEEK[dd&&typeof dd.wd==='number'?((dd.wd%7)+7)%7:G.weekday]+' '+fmtTime(G.hour); }   /* 過了午夜（G.hour≥24）日期顯示隔天，星期也跟著顯示隔天（原本日期換了、星期還是前一天）*/   /* 日期（使用者 2026-10-15：遊戲裡就寫今天幾月幾號，不需要點開手機）*/ const zn=(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?'臺北的家':(Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone); $('clockZ').textContent=zn;   /* 在臺北的家：右上角寫臺北的家（BB-C 10-18 BUG-HOME-HUDZONE）*/ $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); { const mt='$'+G.money; $('money').textContent=mt; if(hudRwT!==mt){ const w=$('hudR').offsetWidth; if(w>0){ hudRwT=mt; $('ui').style.setProperty('--hudRw',w+'px'); } } } }   /* 直向「現在可以上課…」那一列的寬度照右邊金額、手機、選單那一組的實際寬度（index.html 的 --hudRw；BB 10-21 17:25 HUD 尾巴被金額蓋住）：金額變了才量 */
   GM.updateHUD=updateHUD;
-  function fade(on){ const f=$('fade'); f.classList.toggle('on',on); return sleep(on?480:500); }
+  function fade(on){ const f=$('fade'); f.classList.toggle('on',on); return sleep(on?480:500).then(()=>{ if(on&&GM.onBlack){ const cb=GM.onBlack; GM.onBlack=null; try{ cb(); }catch(e){ console.warn('GM.onBlack',e); } } }); }   /* GM.onBlack：下一次畫面全黑時做一次（宿舍睡覺 DORM-SLEEP-1030：小睡、經濟系「睡覺＝到下一件事」在黑幕裡把人從床上放回梯子前；讀檔時 story3d.js 的 LOADLOCKS 清掉）*/
   GM.fade=fade;
   function letterbox(on){ const h=on?'8%':'0'; $('letterT').style.height=h; $('letterB').style.height=h; }
   GM.letterbox=letterbox;
@@ -97,8 +97,8 @@ const GAME = (function(){
     return new Promise(res=>{ if(D.active&&D.resolve){ sayStack.push({who:D.who,text:D.sayText,opts:D.sayOpts||{},res:D.resolve,depth:D.sayDepth|0,by:D.sayBy}); D.coverWho=by; console.warn('一句話還沒點，另一段的話蓋上來，演完會放回去',{under:D.sayBy,over:by}); }
       showLine(who,text,opts,res,false,by); }); }
   function showLine(who,text,opts,res,restored,by){ D.active=true; D.resolve=res; D.sayText=text; D.sayOpts=opts; D.sayDepth=D.busyDepth; D.sayBy=by; const box=$('dlg'); box.classList.remove('hide'); overFade(box); $('dlgName').textContent=who?(who.name||who):''; $('dlgName').style.display=who?'block':'none'; D.full=subst(text); D.shown=restored?D.full.length:0; D.typing=!restored; $('dlgText').textContent=restored?D.full:''; $('dlgNext').style.visibility=restored?'visible':'hidden'; const spd=S.textSpeed>=9?9999:(S.textSpeed===1?18:(S.textSpeed===2?32:60)); D.cps=spd; // 說話者姿態與表情
-      if(who&&who.obj){ if(opts.expr) CHAR.setExpr(who.obj,opts.expr); if(who.pose!=='sit'&&who.pose!=='read'&&!opts.keepPose){ who.pose='talk'; who._talkPose=true; } if(E.player&&who.obj!==E.player.obj){ who.lookAt=E.player.obj.position; who._sayLook=true; } }
-      if(opts.me&&E.player){ E.player.pose='talk'; }
+      if(who&&who.obj){ if(opts.expr) CHAR.setExpr(who.obj,opts.expr); if(who.pose!=='sit'&&who.pose!=='read'&&who.pose!=='lie'&&!opts.keepPose){ who.pose='talk'; who._talkPose=true; } if(E.player&&who.obj!==E.player.obj){ who.lookAt=E.player.obj.position; who._sayLook=true; } }
+      if(opts.me&&E.player&&E.player.pose!=='lie'){ E.player.pose='talk'; }   /* 躺在床上說話（睡著以後的事件）：不站起來（DORM-SLEEP-1030）*/
       if(typeof ADV!=='undefined'&&ADV.active){ const EXPR={normal:'neutral',smile:'smile',laugh:'laugh',surprise:'surprised',worried:'sad',shy:'embarrassed'}; if(who&&who.charId) ADV.speaker(who.charId,opts.expression||(opts.expr?EXPR[opts.expr]:undefined));   /* opts.expression：立繪表情檔名（閒聊階梯的 e）*/ else ADV.speaker(who?'player':null); if(!restored) ADV.log(who?(who.name||''):'',D.full); }
       D.who=who; if(typeof ADV!=='undefined'&&ADV.active&&ADV.skip) setTimeout(()=>{ if(D.resolve===res){ D.typing=false; dlgAdvance(); } },40); }   /* 略過對話（ADV.skip）：一路翻到下一個選項；放回去的那一句（restored）已經整句顯示 */
   function sayRestore(){ if(D.active||chooseCur||!sayStack.length||sayStack[sayStack.length-1].depth<D.busyDepth) return; const q=sayStack.pop(); if(typeof ADV!=='undefined'&&ADV.active&&ADV.narrate) ADV.narrate(!q.who); showLine(q.who,q.text,q.opts,q.res,true,q.by); }
@@ -157,7 +157,7 @@ const GAME = (function(){
   function updateWalks(dt){ for(const w of Array.from(walks)){ const p=w.ent.obj.position; w.total+=dt; if(Math.hypot(p.x-w.ax,p.z-w.az)>0.25){ w.ax=p.x; w.az=p.z; w.stall=0; } else w.stall+=dt;
       if(w.stall>4||w.total>90){ GM.walkFallbacks=(GM.walkFallbacks||0)+1; console.warn('walkTo 卡住 → 放到目的地',w.ent===E.player?'player':(w.ent.name||'npc'),[+p.x.toFixed(2),+p.z.toFixed(2)],'→',[w.x,w.z]); E.placeAt(w.ent,w.x,w.z,w.lv); w.ent.path=null; w.ent.onArrive=null; if(w.ent.pose==='walk'||w.ent.pose==='run') w.ent.pose=w.ent.idlePose||'idle'; w.finish(true); } } }
   GM.walkTo=walkTo;
-  function face(ent,x,z){ const o=ent.obj||ent; o.rotation.y=Math.atan2(x-o.position.x,z-o.position.z); }
+  function face(ent,x,z){ if(ent&&ent.pose==='lie') return; const o=ent.obj||ent; o.rotation.y=Math.atan2(x-o.position.x,z-o.position.z); }   /* 躺在床上的人不轉（宿舍睡覺 DORM-SLEEP-1030：root 在腳的位置，轉了整個人會甩出床外；睡著以後的事件 EVENTS.run 會叫 face）*/
   GM.face=face;
   function sitAt(ent,seat){ const o=ent.obj; if(seat.lv!==undefined&&E.levels) E.setLv(ent,seat.lv); o.position.set(seat.x,0,seat.z); o.position.y=(seat.y!=null?seat.y:E.heightAt(seat.x,seat.z,ent.lv|0))+(seat.lift||0);   /* 多樓層：座位的高度（階梯教室每一排不一樣高）；lift＝比一般椅子高多少（吧檯高腳椅，QA-W1）*/ o.rotation.y=seat.yaw||0; o.userData.sitFeet=seat.y==null&&!seat.lift&&!seat.floor; o.userData.sitFloor=seat.floor||0;   /* floor＝坐墊高度：跪坐（茶屋的和室、緣側）*/ /* 坐在地面高度的椅子（長椅、Café）：小腿往前伸讓腳踩在地上（character3d.js 的 sitFeet）；階梯教室的座位不伸 */ ent.pose='sit'; ent.idlePose='sit'; ent.path=null; ent.frozen=true; ent.seat=seat; if(E.prePose) E.prePose(ent); }   /* 先套好坐姿（坐下前不會先站一幀）*/
   // 起身：放到椅子旁「半徑 0.3 也站得住」的位置（側邊 → 另一側 → 前方 → 後方，距離 0.75/1.0/1.3），都不行就找最近合法格；否則會發生「有走路動畫但走不動」
@@ -305,7 +305,7 @@ const GAME = (function(){
     }
   GM.studySession=studySession;
   // ---------- 存檔 ----------
-  function snapshot(){ const P=E.player.obj.position; return Object.assign({},G,{pos:{x:+P.x.toFixed(2),z:+P.z.toFixed(2),yaw:+E.player.obj.rotation.y.toFixed(3),lv:E.player.lv|0,y:+P.y.toFixed(2)},hour:+G.hour.toFixed(3),savedAt:Date.now(),v:SAVE_VER}); }
+  function snapshot(){ const P=E.player.obj.position, bp=typeof STORY!=='undefined'&&STORY.bedSavePos?STORY.bedSavePos(GM):null; if(bp) return Object.assign({},G,{pos:bp,hour:+G.hour.toFixed(3),savedAt:Date.now(),v:SAVE_VER});   /* 躺在宿舍床上（DORM-SLEEP-1030）：存梯子前站著的位置（床上的位置讀回來會落在床底下）*/ return Object.assign({},G,{pos:{x:+P.x.toFixed(2),z:+P.z.toFixed(2),yaw:+E.player.obj.rotation.y.toFixed(3),lv:E.player.lv|0,y:+P.y.toFixed(2)},hour:+G.hour.toFixed(3),savedAt:Date.now(),v:SAVE_VER}); }
   function validate(s){ if(!s||typeof s!=='object') return '不是有效的存檔物件'; if(typeof s.v!=='number') return '缺少版本欄位'; if(s.v>SAVE_VER) return '存檔來自較新的版本（v'+s.v+'），本版無法讀取'; if(typeof s.day!=='number'||typeof s.hour!=='number') return '日期／時間欄位損毀'; if(!Z3.ZONES[s.zone]) return '未知的地點：'+s.zone; if(!s.flags||typeof s.flags!=='object') return '旗標欄位損毀'; return null; }
   function migrate(s){ const d=defaults(s.name); s.energy=100;   /* DL-02：體力拿掉了，舊存檔的體力一律當 100 */ for(const k in d){ if(s[k]===undefined||s[k]===null) s[k]=d[k]; } for(const k in d.rel){ if(s.rel[k]===undefined) s.rel[k]=d.rel[k]; } if(s.v<2){ s.social=null; s.events=null; s.legal=null; }
     /* Café 點餐次數（BB_95 2-2，交接包 v1）：舊存檔點過但沒有計數＝當作點過一次（不然芷若會再自我介紹一次）；已經有計數的不動，讀幾次都一樣 */
