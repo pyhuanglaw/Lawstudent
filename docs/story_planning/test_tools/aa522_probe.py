@@ -72,7 +72,9 @@ async def main():
             if MODE == 'xu3': fl = {'ROOM_Y2': await pg.evaluate("STORY.dayOfKey('2026-09-06')"), 'ROOM_Y3': await pg.evaluate("STORY.dayOfKey('2027-09-05')"), 'ROOM_Y3_ITEMS': [], 'ROOM_Y3_DISCARD': None}
             st, d = await P.base(pg, SAVE, key, 14.5, 'wancai', flags=fl); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → %s（%s 第 %s 週週一）14:30 萬才館' % (d['key'], d['term'], d['week']))
-            pre = await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G, so=G.social||{}; const had=SOCIAL.has('prof_xu','FIRST_MET'); if(had&&so.mem&&so.mem.prof_xu) so.mem.prof_xu=so.mem.prof_xu.filter(m=>m.tag!=='FIRST_MET'); return {had, now:SOCIAL.has('prof_xu','FIRST_MET'), office:!!STORY.profOffice('prof_xu',G)}; })()""", label='還沒見過許教授（有 FIRST_MET 就拿掉）')
+            pre = await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G, so=G.social||{}; const had=SOCIAL.has('prof_xu','FIRST_MET'); if(had&&so.mem&&so.mem.prof_xu) so.mem.prof_xu=so.mem.prof_xu.filter(m=>m.tag!=='FIRST_MET');
+                if(%s){ if(!SOCIAL.has('heroine_05','FIRST_MET')) SOCIAL.meet('heroine_05','lawlib'); G.flags.met_sis=G.flags.met_sis||true; }
+                return {had, now:SOCIAL.has('prof_xu','FIRST_MET'), office:!!STORY.profOffice('prof_xu',G), sis:SOCIAL.has('heroine_05','FIRST_MET')}; })()""" % ('true' if MODE == 'xu3' else 'false'), label='還沒見過許教授（有 FIRST_MET 就拿掉）' + ('；認識學姊（大三的第二題「溫書瑀學姊是老師的學生？」要認識學姊才有；只有一題的話問完就不再觸發，看不到之後的招呼）' if MODE == 'xu3' else ''))
             run.check('第 8 節第 1 點：週一 14:00～16:00 是許教授的研究室時間（STORY.profOffice）', bool(pre) and pre.get('office'), J(pre))
             xw = await P.wait_present(pg, 'prof_xu', 60); run.note('許教授：%s' % J(xw))
             run.check('第 8 節第 1 點：許教授在萬才館', bool(xw) and not xw['hidden'], J(xw))
