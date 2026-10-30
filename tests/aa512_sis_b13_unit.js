@@ -69,7 +69,7 @@ const place=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; };
 const expire=()=>{ for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); };   /* 出遊過了時間＝missed（遊戲裡是 OUT.tick，每 0.5 秒）*/
 
 /* ---------- 讀稿 ---------- */
-const SHA='a9b87c588',   /* 10-28 09:5x：AA_516 1-5 改 13-7 的時間（21:00 → 20:30；其他沒改）；之前 0e02591e4（08:4x AA 加第 7 節）、c444f0757 */
+const SHA='bfede0a62',   /* 10-30 AA_527（AA-B）：第 2 節第 3 點「一本／另一本」、13-1「你是{name}吧。」；10-28 09:5x：AA_516 1-5 改 13-7 的時間（21:00 → 20:30；其他沒改）；之前 0e02591e4（08:4x AA 加第 7 節）、c444f0757 */
      SHA0='c444f0757', DOCF='docs/story_planning/AA_512_學姊第十三批_她自己的事當面演_說了沒發生九件.md';
 let DOC=''; try{ DOC=cp.execSync('git -c core.quotepath=false show '+SHA+':"'+DOCF+'"',{cwd:process.env.AA512_DOCREPO||H.ROOT,encoding:'utf8',maxBuffer:1<<24}); }catch(e){ DOC=''; }
 const part=(a,b)=>{ const i=DOC.indexOf(a); if(i<0) return ''; const j=b?DOC.indexOf(b,i+1):-1; return DOC.slice(i,j<0?DOC.length:j); };
@@ -280,7 +280,7 @@ await sec(9,async()=>{ const d=D('2027-03-08'), d20=D('2027-05-20'), d21=D('2027
 /* ---- 10 第 2 節第 3、4 點 ---- */
 await sec(10,async()=>{ const a=D('2029-07-15'), d=D('2029-07-20');
   fresh(a,20,'friend'); SOCIAL.remember(ID,'SIS6_FATHER_COPY','S5-L5'); phAt(a,21.1); const M=byTag('sisb13_thesis_ask');
-  check('10. 3 有 SIS6_FATHER_COPY：7/15（日）21:00 三則，選項「要。」「不用了，給更需要的人。」',J(M.map(m=>m.text))===J(['修正本印好了。','第一本給我爸了。他放在辦公室書架最上面。','第二本。……你說過要的。'])&&J(askOpts('sisb13_thesis_ask'))===J(['要。','不用了，給更需要的人。'])&&CALENDAR.dateOf(a).wd===7,J(M));
+  check('10. 3 有 SIS6_FATHER_COPY：7/15（日）21:00 三則，選項「要。」「不用了，給更需要的人。」',J(M.map(m=>m.text))===J(['修正本印好了。','一本給我爸了。他放在辦公室書架最上面。','另一本。……你說過要的。'])&&J(askOpts('sisb13_thesis_ask'))===J(['要。','不用了，給更需要的人。'])&&CALENDAR.dateOf(a).wd===7,J(M));
   answer('sisb13_thesis_ask',0); ph(); const q=OUT.get(H.G,'sisb13_thesis');
   check('10. 3「要。」→「週五晚上，公館。我放在陳助教那桌。」；排 7/20（五）18:30 公館',txt('p:'+ID).slice(-1)[0]==='週五晚上，公館。我放在陳助教那桌。'&&!!q&&q.day===d&&q.h===18.5&&CALENDAR.dateOf(d).wd===5,J(q));
   at(d,18.3); await goOut('sisb13_thesis'); check('10. 3 演：「（桌上一本裝訂好的論文，封面上寫著你的名字。）」「簽名不用。……我寫了一句在第一頁。你回家再看。」；SIS_THESIS_COPY',seq(['（桌上一本裝訂好的論文，封面上寫著你的名字。）','簽名不用。……我寫了一句在第一頁。你回家再看。'])&&H.G.flags.SIS_THESIS_COPY===true,J(said()));
