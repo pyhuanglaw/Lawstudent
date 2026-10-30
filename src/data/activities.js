@@ -78,7 +78,12 @@ const ACTIVITIES={
     {id:'moot_4',skip:()=>true,title:'模擬法庭・演練',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[8],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_4',desc:'學姊當法官的演練。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
+    /* rain：下雨的週五改到新體育館一樓走廊（BBALL-RAIN-1030，AA 劇情總監 10-30 05:40 定案；回使用者 X142「系籃練球時間到 根本球場空的」的後續）——
+       照遊戲那天 17:30 的天氣一次定整場（ACTIVITIES.rainy；雨停不算）。下雨場：球場沒有人、路人也不打球（crowd3d.js S.bballSpot），球場的集合點只剩 hint（系統字，AA 原句）；
+       阿哲、明軒 17:30～19:00 在體育館大廳靠球場那一面的走道（characters.js 下雨那一筆）；參加點在那裡（classes3d.js addActSpots），旁白固定用 narr 第 4 句（narr:3＝走廊練運球那句）。
+       roomName：手機「活動」那一場寫哪裡（game3d.js eventsHTML）。spot 在大廳西段（西邊開口和中間閘門之間、公告欄前面）*/
     {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:5,t0:17.5,t1:19,
+     rain:{zone:'gym',roomName:'新體育館一樓走廊',spot:{x:-5.1,z:13.8,lv:0,label:'系籃練球'},hint:'下雨，系籃今天在新體育館走廊練體能。',narr:3},
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',
            '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']}
@@ -88,6 +93,18 @@ const ACTIVITIES={
     for(const k in A){ if(!k.startsWith(p)||!A[k]) continue; if(A[k].end==='in'&&k===p+G.day) continue; return true; } return false; },   /* 今天這一場「正坐在裡面」（end:'in'）不算去過：開始以後才進去坐下，actTrack 先記 in，選單還要有「聽演講」（BUG-ACT-ONCE-LATE-1024，BB-B 10-24：EXPO_Y2 12:26 坐下沒有選項）*/
   /* 這個區域今天有集合點的活動 */
   spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day,G)); },
+  /* 下雨的備案（a.rain：系籃練球下雨的週五改到新體育館一樓走廊，BBALL-RAIN-1030）：今天這一場是不是下雨場。
+     照那天開始時間（t0＝17:30）的天氣一次定整場：t0 以後第一次問的時候記下 G.weather（rain、typhoon＝下雨），之後整場照記的——中途雨停、中途下雨都不改。
+     t0 以前還沒定：先照現在的天氣回答（集合點、手機寫哪裡），不記；lock＝現在就定（開始前 15 分鐘起就能參加：參加的那一刻照當下的天氣定，classes3d.js attendActivity）。
+     存檔：G.acts.wx[活動 id]＝{day, rain}（只留最近一場）。舊存檔沒有＝第一次問的時候照當下的天氣記。今天沒有這一場、沒有 rain 的活動＝false */
+  rainy(a,G,lock){ if(typeof a==='string') a=ACTIVITIES.list.find(q=>q.id===a); if(!a||!a.rain||!G||!ACTIVITIES.on(a,G.day,G)) return false;
+    const r=G.acts&&G.acts.wx&&G.acts.wx[a.id]; if(r&&r.day===G.day) return !!r.rain;
+    const now=G.weather==='rain'||G.weather==='typhoon'; if(!(G.hour>=a.t0)&&!lock) return now;
+    const A=ACTIVITIES.rec(G); if(!A.wx||typeof A.wx!=='object') A.wx={}; A.wx[a.id]={day:G.day,rain:now}; return now; },
+  /* 每一格（classes3d.js 的 tick）：t0 一到就定——玩家不在球場、也不在體育館，也照 17:30 的天氣記（之後才走過去，看到的是 17:30 定的那一場）*/
+  rainLock(G){ if(!G) return; for(const a of ACTIVITIES.list) if(a.rain&&G.hour>=a.t0) ACTIVITIES.rainy(a,G); },
+  /* 今天這一場在哪裡：下雨場換成 a.rain 的區域、地點名稱、集合點 */
+  placeOf(a,G){ return a&&a.rain&&ACTIVITIES.rainy(a,G)?{zone:a.rain.zone,roomName:a.rain.roomName,spot:a.rain.spot}:{zone:a&&a.zone,roomName:a&&a.roomName,spot:a&&a.spot}; },
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
   canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
