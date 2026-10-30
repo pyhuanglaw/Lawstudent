@@ -1514,8 +1514,8 @@
    "files": [
     "wip_backup/aa524_1030.bundle"
    ],
-   "todo": "AA_524 說了沒發生（上一班帳號 C 派的子代理成果沒 push 遺失，重做）",
-   "next": "子代理做完回報 → LAWWW 合併、相關測試、全部 Node、SHA 給 BB",
+   "todo": "AA_524 34 條做完（d01cd442e；新測試 aa524_promises 122 項 ALL PASS，基底 68 FAIL；全部 Node 734 支 0 失敗）；白名單加 AA_524 8fd10848d；import_ladder／date_lines 加 AA_524 段並重產；新檔 src/aa524_3d.js",
+   "next": "v9.10.14 發布後合：先合這條再合 AA_525，ladder.js／date_lines.js／date_wish.js 衝突不要手解，兩邊工具都合進來以後重跑匯入；index.html 兩個新檔都接、bbpack／aa498 順序檢查兩個都允許",
    "noDirectIntegrate": true,
    "source": "DL-AA-524；LAWWW-B 10-30 02:1x 派子代理"
   }
