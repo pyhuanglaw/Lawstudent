@@ -10,6 +10,14 @@ MODE（環境變數）：
   rooms   ROOM-MAP-LABELS-1030：普通、博思、共同教學館、法律系館A／B 的小地圖、大地圖標出教室門號；今天要上課的那間金色「★ 門號」。
           字畫在 canvas 上，看截圖；另外讀 ROOMMAP.labels 對照。
   cafewin CAFE-WINDOW-LIVE-1030：兩點半 Café 往門口那一側的窗，白天 10:30、晚上 20:30 各拍四個方向；走出去再走進來同一個鏡頭再拍一次。
+  noodle  NDL-PRESENT-1030：麵店日 9/30（二）17:55 從公館走進阿鳳麵店（【捷徑】加入麵店團、認識四位）：長桌閒聊開口的人都真的坐在店裡（3D 有這個人）；
+          10/2（四）20:40 再走進去：麵店團都走了（作息 20:30），不演閒聊（使用者 04:3x「出現麵店團的人對話 但根本沒有在遊戲內出現」）。
+  cafe2   L118-CAFE2-STUDY-1030：慢讀咖啡（118 巷）桌位寫「坐下讀書」、吧檯高腳椅不算；坐下 → 「讀書」→ 讀完時間有走、讀書次數有加。
+  invite  INVITE-MENU-1030／AA_535：手機「約」以安、學姊：第一層照分類（念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…／出去玩…／算了），每一層最多 8 列；
+          念書有總圖、慢讀咖啡、法圖；喝咖啡有兩點半 Café、一盞、慢讀；運動有羽球、晨跑；出去玩照地區分；灰掉的有小字原因。
+  jacket  SK02-LINE-JACKET-1030：社科院正門領系外套選「（穿去法律系館A上課）」→ 身上真的穿著（JACKET_ECON 看得到）、截圖；回宿舍房間脫下掛椅背（JACKET_CHAIR）；
+          下一次 201 的課（手機「直接去上課」）穿著、阿哲「你是經濟系派來的臥底嗎？」。【捷徑】SK02_DM_DAY（系辦私訊那天）。
+  badclip BADCLIP-FOLLOW-1030：當面約以安「約她去…」→ 運動 → 羽球 →「現在一起過去」（她跟著走）→ 短片期間她在網子另一邊（北半場），不是跑到玩家面前。
 不是 iPhone：Playwright＋SwiftShader。用法：LW_TESTS=<工作樹>/tests MODE=<上面> python3 next91015_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio, re, math, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -162,13 +170,274 @@ async def cafewin(pg, cdp, run):
     run.check('Café：拍完（窗景要看截圖：白天、晚上、進兩次）', True, '')
 
 
+TEAM = ['zhe', 'yu', 'classmate_bohan', 'classmate_xinci']
+PRESENT = """(()=>GAME.E.npcs.filter(n=>n.obj&&!n.hidden&&n.charId).map(n=>({id:n.charId, name:n.name||null, nm:(typeof SOCIAL!=='undefined'&&SOCIAL.npcName)?SOCIAL.npcName(n.charId):null, sit:!!n.seat})))()"""
+
+
+async def door_to(pg, cdp, run, to, label, max_s=200):
+    it = await pg.evaluate("(to=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to===to); return it?[it.x,it.z,it.label]:null; })", to)
+    if not it: run.note('%s：找不到往 %s 的門' % (label, to)); return False
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=max_s); await L.tap(pg, cdp, '#interact')
+    for _ in range(40):
+        await pg.wait_for_timeout(1000)
+        if await pg.evaluate("GAME.G.zone") == to: return True
+    return False
+
+
+async def noodle(pg, cdp, run):
+    st, d = await P.base(pg, SAVE, '2025-09-30', 17.9, 'gongguan'); await P.load(pg, cdp, st, quiet=False)
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）17:54 公館' % (d['key'], d['term'], d['week']))
+    await P.prep(pg, cdp, run, """(T=>{ const G=GAME.G; PHONE.join(G,'noodle_team','麵店團'); for(const id of T.concat(['heroine_03','heroine_01'])){ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); } G.flags.met_yu=true;
+        return {inGroup:PHONE.inGroup(G,'noodle_team'), noodleDay:STORY.noodleDay(G.day)}; })(%s)""" % J(TEAM), quiet=False, label='加入麵店團、認識阿哲、Alison、柏翰、芯慈')
+    snap = await P.snapshot(pg)
+    for tag, key, hh, want in (('1800', '2025-09-30', 17.9, True), ('2040', '2025-10-02', 20.6, False)):
+        if tag != '1800': await P.jump(pg, cdp, run, key, hh, zone='gongguan', snap=snap, quiet=False)
+        it = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.exit&&i.exit.to==='noodle'); return it?[it.x,it.z]:null; })()")
+        if it: await P.place_near(pg, run, it[0], it[1], 5.0, what='阿鳳麵店門口')
+        n0 = await P.say_hook(pg); day = await pg.evaluate("GAME.G.day")
+        ok = await door_to(pg, cdp, run, 'noodle', tag)
+        await pg.wait_for_timeout(1500); pres0 = await pg.evaluate(PRESENT); await run.shot(pg, 'noodle_%s_in' % tag)
+        talk_pres = None; t0 = time.time(); talked = False
+        while time.time() - t0 < 60:
+            s = await P.ts(pg)
+            if s['dlg'] or s['ch']:
+                if talk_pres is None: talk_pres = await pg.evaluate(PRESENT); await run.shot(pg, 'noodle_%s_talk' % tag)
+                r = await P.dialog(pg, cdp, run, max_s=120, tag='noodle_%s' % tag); talked = True
+            if await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day) and not (await P.ts(pg))['dlg']: break
+            await pg.wait_for_timeout(1500)
+        lines = await P.said(pg, n0); ndl = await pg.evaluate("(d=>GAME.G.flags.ndlTalkDay===d)", day)
+        pres = talk_pres or pres0; names = set()
+        for q in pres: names |= {q['name'], q['nm']}
+        team_here = sorted({q['id'] for q in pres0 if q['id'] in TEAM})
+        run.note('%s 進門：%s｜店裡的人 %s｜閒聊開始時店裡 %s｜說了 %s' % (tag, ok, J(pres0), J(talk_pres), J(lines)))
+        if want:
+            speak = [l for l in lines if l[0] and l[0] not in ('祐廷', '你') and not l[0].startswith('（')]
+            missing = sorted({l[0] for l in speak if l[0] not in names})
+            run.check('9/30（二）18:00 走進麵店：麵店團有人坐在店裡（3D）', ok and len(team_here) >= 1, J(team_here))
+            run.check('9/30（二）18:00：長桌閒聊有演', ndl, J(lines[:6]))
+            run.check('9/30（二）18:00：閒聊裡開口的每一個人都真的在店裡（3D 有這個人）', ndl and not missing, J({'missing': missing, 'names': sorted(x for x in names if x)}))
+        else:
+            run.check('10/2（四）20:40 走進麵店：麵店團四位都不在（作息 20:30 走）', ok and not team_here, J(team_here))
+            run.check('10/2（四）20:40：沒有長桌閒聊（人不在就不演）', not ndl, J(lines[:6]))
+        await run.shot(pg, 'noodle_%s_after' % tag)
+
+
+async def cafe2(pg, cdp, run):
+    st, d = await P.base(pg, SAVE, '2025-09-27', 14.0, 'l118_cafe2'); await P.load(pg, cdp, st); await pg.wait_for_timeout(3000)
+    run.setup('[前置] 使用者存檔改到 %s 14:00 慢讀咖啡（118 巷）' % d['key'])
+    its = await pg.evaluate("(()=>GAME.E.interactables.filter(i=>i.seat).map(i=>({x:+i.x.toFixed(2),z:+i.z.toFixed(2),label:i.label,study:!!i.study,lift:!!(i.seat&&i.seat.lift)})))()")
+    run.note('慢讀的座位：%s' % J(its)); await run.shot(pg, 'cafe2_in')
+    desk = [i for i in its if i['label'] == '坐下讀書']
+    run.check('慢讀：至少兩個座位寫「坐下讀書」', len(desk) >= 2, J(its))
+    run.check('慢讀：吧檯高腳椅不寫「坐下讀書」', all(i['label'] != '坐下讀書' for i in its if i['lift']), J([i for i in its if i['lift']]))
+    if not desk: return
+    pp = await pg.evaluate("(()=>{ const p=GAME.E.player.obj.position; return [p.x,p.z]; })()")
+    tg = sorted(desk, key=lambda i: math.hypot(i['x'] - pp[0], i['z'] - pp[1]))[0]
+    await L.go_to(pg, cdp, run, tg['x'], tg['z'], 0.6, '坐下讀書的座位', max_s=200, stop=lambda s: s['interact'].startswith('坐下讀書'))
+    lab = (await P.ts(pg))['lab']; run.check('走到桌位旁：按鈕是「坐下讀書」', lab.startswith('坐下讀書'), lab)
+    st0 = await pg.evaluate("(()=>({study:GAME.G.stats.study|0, h:+GAME.G.hour, day:GAME.G.day}))()")
+    await L.tap(pg, cdp, '#interact'); menus = []; picked = []; t0 = time.time(); seated_shot = False
+    while time.time() - t0 < 240:
+        s = await P.ts(pg)
+        if s['ch']:
+            T = [o['t'] for o in s['ch']]; menus.append(T)
+            if not seated_shot: await run.shot(pg, 'cafe2_seat_menu'); seated_shot = True
+            k = next((i for i, o in enumerate(s['ch']) if o['t'].startswith('讀書') and not o['dim']), None)
+            if k is None: k = next((i for i, o in enumerate(s['ch']) if '小時' in o['t'] and not o['dim']), None)
+            now = await pg.evaluate("GAME.G.stats.study|0")
+            if now > st0['study']: k = next((i for i, o in enumerate(s['ch']) if re.match(r'^(站起來|起身|離開|就這樣|算了)', o['t'])), None)
+            if k is None: k = next((i for i, o in enumerate(s['ch']) if not o['dim']), 0)
+            picked.append(s['ch'][k]['t']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+        if s['busy'] or s['depth'] > 0: await pg.wait_for_timeout(600); continue
+        if await pg.evaluate("GAME.G.stats.study|0") > st0['study']: break
+        await pg.wait_for_timeout(1000)
+    st1 = await pg.evaluate("(()=>({study:GAME.G.stats.study|0, h:+GAME.G.hour, day:GAME.G.day}))()"); await run.shot(pg, 'cafe2_after')
+    run.note('選單 %s；選了 %s；前 %s 後 %s' % (J(menus), J(picked), J(st0), J(st1)))
+    run.check('坐下以後選單有「讀書」（沒有變暗）', any(any(t.startswith('讀書') for t in m) for m in menus), J(menus[:2]))
+    run.check('讀完：讀書次數加了、時間走了', st1['study'] > st0['study'] and (st1['day'] > st0['day'] or st1['h'] - st0['h'] >= 0.9), J([st0, st1]))
+
+
+def lab_hint(o):
+    t = o['t']; return t
+
+
+CHOICES = """(()=>{ const ch=document.getElementById('choices'); if(!ch||ch.classList.contains('hide')) return null; return [...ch.querySelectorAll('button')].map(b=>{ const h=b.querySelector('.hint'); const all=(b.textContent||'').trim(), hint=h?(h.textContent||'').trim():''; return {t:hint?all.slice(0,all.length-hint.length).trim():all, hint, dim:b.classList.contains('dim')}; }); })()"""
+
+
+async def wait_choices(pg, cdp, max_s=20):
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        c = await pg.evaluate(CHOICES)
+        if c: return c
+        s = await P.ts(pg)
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+        await pg.wait_for_timeout(600)
+    return None
+
+
+async def pick_text(pg, cdp, opts, t):
+    k = next((i for i, o in enumerate(opts) if o['t'] == t), None)
+    if k is None: k = next((i for i, o in enumerate(opts) if o['t'].startswith(t)), None)
+    if k is None: return False
+    await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1300); return True
+
+
+async def invite(pg, cdp, run):
+    st, d = await P.base(pg, SAVE, '2025-09-29', 12.3, 'campus'); await P.load(pg, cdp, st)
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）12:18 校園' % (d['key'], d['term'], d['week']))
+    await P.prep(pg, cdp, run, """(()=>{ const G=GAME.G, o={}; for(const id of ['heroine_01','heroine_05']){ if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); Object.assign(SOCIAL.rel(id),{fam:45,trust:30,comf:20,npcRom:35,rom:10}); G.contacts=G.contacts||{}; if(G.contacts[id]==null) G.contacts[id]=G.day-1; o[id]={stage:SOCIAL.stage(id),can:INV.canInvite(G,id)}; } return o; })()""",
+                 label='以安、學姊：認識、有聯絡方式、熟（好朋友那一階）')
+    snap = await P.snapshot(pg)
+    for cid, nm in (('heroine_01', '以安'), ('heroine_05', '學姊')):
+        await P.load(pg, cdp, snap); await P.phone_tab(pg, cdp, 'friends')
+        sel = '#phoneBody [data-inv="%s"]' % cid
+        if not await pg.evaluate("s=>!!document.querySelector(s)", sel):
+            run.check('%s：手機「朋友」有「約」' % nm, False, ''); continue
+        await L.tap(pg, cdp, sel); top = await wait_choices(pg, cdp); await run.shot(pg, 'inv_%s_top' % cid)
+        run.note('%s 第一層：%s' % (nm, J(top)))
+        tl = [o['t'] for o in (top or [])]
+        run.check('%s：第一層照分類（念書…／吃飯…／喝咖啡、喝茶…／散步…／運動…）＋「算了」' % nm, bool(top) and all(c in tl for c in ('念書…', '吃飯…', '喝咖啡、喝茶…', '散步…', '運動…')) and tl[-1] == '算了', J(tl))
+        run.check('%s：第一層不超過 8 列' % nm, bool(top) and len(top) <= 8, len(top or []))
+        dims = [o for o in (top or []) if o['dim']]
+        run.check('%s：灰掉的分類有小字寫原因' % nm, all(o['hint'] for o in dims), J(dims))
+        subs = {}
+        for cat in [o['t'] for o in (top or []) if o['t'].endswith('…') and not o['dim']]:
+            cur = await pg.evaluate(CHOICES)
+            if not cur or not await pick_text(pg, cdp, cur, cat): run.note('%s：按不到 %s' % (nm, cat)); continue
+            sub = await wait_choices(pg, cdp, 10) or []; subs[cat] = sub
+            await run.shot(pg, 'inv_%s_%s' % (cid, len(subs)))
+            if cat == '出去玩…':
+                deep = {}
+                for reg in [o['t'] for o in sub if o['t'].endswith('…') and not o['dim']][:3]:
+                    cur = await pg.evaluate(CHOICES)
+                    if not cur or not await pick_text(pg, cdp, cur, reg): continue
+                    deep[reg] = [o['t'] for o in (await wait_choices(pg, cdp, 10) or [])]
+                    cur = await pg.evaluate(CHOICES)
+                    if cur: await pick_text(pg, cdp, cur, '返回')
+                run.note('%s 出去玩的地區：%s' % (nm, J(deep)))
+                run.check('%s：出去玩…第二層照地區分（有「…」的子分類），每一層最多 8 列' % nm, any(o['t'].endswith('…') for o in sub) and len(sub) <= 8 and all(len(v) <= 8 for v in deep.values()), J({'sub': [o['t'] for o in sub], 'deep': deep}))
+            cur = await pg.evaluate(CHOICES)
+            if cur and not await pick_text(pg, cdp, cur, '返回'): run.note('%s：%s 沒有「返回」' % (nm, cat))
+            await wait_choices(pg, cdp, 8)
+        run.note('%s 第二層：%s' % (nm, J({k: [(o['t'], o['dim'], o['hint'][:30]) for o in v] for k, v in subs.items()})))
+        def has(cat, words): return all(any(w in o['t'] for o in subs.get(cat, [])) for w in words)
+        if cid == 'heroine_01':
+            run.check('以安：念書…有總圖、慢讀咖啡、法圖', has('念書…', ('總圖', '慢讀', '法')), J([o['t'] for o in subs.get('念書…', [])]))
+            run.check('以安：喝咖啡、喝茶…有兩點半 Café、一盞、慢讀', has('喝咖啡、喝茶…', ('兩點半', '一盞', '慢讀')), J([o['t'] for o in subs.get('喝咖啡、喝茶…', [])]))
+            run.check('以安：運動…有羽球、晨跑', has('運動…', ('羽球', '晨跑')), J([o['t'] for o in subs.get('運動…', [])]))
+        run.check('%s：每一個第二層都不超過 8 列' % nm, all(len(v) <= 8 for v in subs.values()), J({k: len(v) for k, v in subs.items()}))
+        live = [k for k, v in subs.items() if any(not o['dim'] and o['t'] != '返回' for o in v)]
+        run.check('%s：至少三類約得到（不是只剩一兩個）' % nm, len(live) >= 3, J(live))
+        cur = await pg.evaluate(CHOICES)
+        if cur: await pick_text(pg, cdp, cur, '算了')
+        await pg.wait_for_timeout(1500); await L.close_panels(pg, cdp)
+
+
+JK = """(()=>{ const P=GAME.E.player, u=P.obj.userData; let on=null, n=0; if(u&&u.model) u.model.traverse(o=>{ if(o.name==='JACKET_ECON'){ n++; let v=o.visible, q=o.parent; while(v&&q){ v=q.visible; q=q.parent; } on=v; } });
+  let chair=null; const z=GAME.E.zone; if(z){ chair=z.jacketChair==null?null:!!z.jacketChair; } return {zone:GAME.G.zone, on, n, uj:u?!!u.jacket:null, chair, state:STORY.jacketState?STORY.jacketState(GAME.G):null, flag:GAME.G.flags.ECON_JACKET||null}; })()"""
+
+
+async def jacket(pg, cdp, run):
+    d = await P.day_of(pg, {'from': '2025-09-29', 'wd': [1, 2, 3, 4, 5]})
+    st, d = await P.base(pg, SAVE, d['key'], 15.2, 'campus'); await P.load(pg, cdp, st, quiet=False)
+    run.setup('[前置] 使用者存檔改到 %s（%s 第 %s 週）15:12 校園' % (d['key'], d['term'], d['week']))
+    await P.prep(pg, cdp, run, "(()=>{ const G=GAME.G; G.flags.SK02_DM_DAY=G.day-1; return {open:STORY.sk02Open(G)}; })()", quiet=False, label='系辦私訊那天（SK02_DM_DAY＝昨天）')
+    await P.place_near(pg, run, 16, -85, 7.0, what='社科院大樓正門')
+    n0 = await P.say_hook(pg)
+    await L.go_to(pg, cdp, run, 16, -85, 1.2, '社科院正門', max_s=200)
+    r = await P.dialog(pg, cdp, run, picks=['（穿去法律系館A上課）'], max_s=200, start_s=30, tag='sk02_jacket')
+    lines = await P.said(pg, n0)
+    run.check('社科院正門：領系外套的事件有演（「外套在這裡」）', any('外套' in l[1] for l in lines), J(lines[:8]))
+    run.check('選項有「（穿去法律系館A上課）」並選了', '（穿去法律系館A上課）' in r['picked'], J(r['opts']))
+    await pg.wait_for_timeout(4000); j1 = await pg.evaluate(JK)
+    await pg.evaluate("(()=>{ const C=GAME.E.cam; C.distTarget=2.6; C.pitch=0.1; C.manualT=1e9; })()"); await pg.wait_for_timeout(2500); await run.shot(pg, 'jacket_on_campus')
+    run.check('領完：身上穿著系外套（JACKET_ECON 看得到）', j1['on'] is True, J(j1))
+    snap = await P.snapshot(pg)
+    s2 = json.loads(json.dumps(snap)); s2['zone'] = 'dorm'; s2['pos'] = None; s2['hour'] = 21.0
+    await P.load(pg, cdp, s2); await pg.wait_for_timeout(6000); j2 = await pg.evaluate(JK); await run.shot(pg, 'jacket_dorm_room')
+    run.setup('[前置] 同一份進度到宿舍房間 21:00')
+    run.check('回宿舍房間：身上脫下來、椅背掛著（JACKET_CHAIR）', j2['on'] is False and j2['chair'] is True, J(j2))
+    nx = await pg.evaluate("""(()=>{ const G=GAME.G; for(let d=G.day+1; d<=G.day+8; d++){ const it=(CLS.dayItems(G,d)||[]).find(q=>q.room&&q.room.zone==='classroom'&&!q.exam); if(it) return {d, key:CALENDAR.dateOf(d).key, t0:it.t0, name:it.c&&it.c.name, cid:it.c&&it.c.id}; } return null; })()""")
+    run.note('下一次 201 的課：%s' % J(nx))
+    if not nx: run.check('七天內有 201 的課', False, ''); return
+    await P.jump(pg, cdp, run, nx['key'], nx['t0'] - 0.75, zone='dorm', pos=None, snap=snap, quiet=False, note='上課前 45 分鐘在宿舍')
+    j3 = await pg.evaluate(JK); run.note('出門前（宿舍）：%s' % J(j3))
+    await P.phone_tab(pg, cdp, 'today')
+    bt = await pg.evaluate("(()=>{ const e=document.querySelector('#phoneBody [data-go]'); return e?(e.textContent||'').trim():null; })()")
+    n1 = await P.say_hook(pg)
+    if bt: await L.tap(pg, cdp, '#phoneBody [data-go]')
+    t0 = time.time(); shot = False; j4 = None
+    while time.time() - t0 < 300:
+        s = await P.ts(pg)
+        z = await pg.evaluate("GAME.G.zone")
+        if z == 'classroom' and not shot: await pg.wait_for_timeout(1500); j4 = await pg.evaluate(JK); await run.shot(pg, 'jacket_201'); shot = True
+        if s['ch']:
+            k, _ = P.pick_of(s['ch'], ['坐中間', '坐']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
+        if s['dlg']:
+            if '臥底' in s['txt']: await run.shot(pg, 'jacket_spy_line')
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
+        if shot and await pg.evaluate("GAME.G.hour") > nx['t0'] + 0.3: break
+        await pg.wait_for_timeout(1500)
+    lines = await P.said(pg, n1); run.note('上課那一段：手機按鈕「%s」；%s' % (bt, J(lines[:12])))
+    run.check('201 上課：身上穿著系外套', bool(j4) and j4['on'] is True, J(j4))
+    run.check('201 上課前：阿哲「你是經濟系派來的臥底嗎？」', any('臥底' in l[1] for l in lines), J(lines[:12]))
+
+
+async def badclip(pg, cdp, run):
+    hit = None
+    for key in ('2025-09-29', '2025-09-30', '2025-10-01', '2025-10-02', '2025-10-03'):
+        for hh in (12.2, 15.2, 16.5):
+            st, d = await P.base(pg, SAVE, key, hh, 'campus'); await P.load(pg, cdp, st)
+            w = await pg.evaluate(WHERE, 'heroine_01')
+            if w and not w['away'] and w['zone'] == 'campus':
+                hit = (key, hh, w); break
+        if hit: break
+    run.note('以安在的地方：%s' % J(hit))
+    if not hit: run.check('找到以安有空、在校園附近的時間', False, ''); return
+    st, d = await P.base(pg, SAVE, hit[0], hit[1], hit[2]['zone']); await P.load(pg, cdp, st, quiet=False)
+    await P.prep(pg, cdp, run, """(()=>{ const id='heroine_01'; if(!SOCIAL.has(id,'FIRST_MET')) SOCIAL.remember(id,'FIRST_MET',''); Object.assign(SOCIAL.rel(id),{fam:45,trust:30,comf:20,npcRom:35,rom:10}); return {stage:SOCIAL.stage(id), can:INV.canInvite(GAME.G,id)}; })()""", quiet=False, label='以安熟（好朋友那一階）')
+    run.setup('[前置] %s %.2f 時 %s（以安在這一區）' % (hit[0], hit[1], hit[2]['zone']))
+    pres = await P.wait_present(pg, 'heroine_01', 60)
+    r = await P.talk_full(pg, cdp, run, 'heroine_01', 'badclip_invite', picks=['約她去', '運動', '新體育館', '去新體育館', '羽球', '現在一起過去'], max_s=400)
+    run.note('約她：%s' % J(r and {'opts': r['opts'], 'picked': r['picked']}))
+    picked = (r or {}).get('picked') or []
+    run.check('當面約以安：選到「約她去…」→ 運動 → 羽球 →「現在一起過去」', any('約她去' in p for p in picked) and any('羽球' in p for p in picked) and any('現在一起過去' in p for p in picked), J(picked))
+    fol = await P.who(pg, 'heroine_01'); run.note('約完以安：%s' % J(fol))
+    run.check('約完：以安跟著走（beh follow）', bool(fol) and fol['beh'] == 'follow', J(fol))
+    inn = await door_to(pg, cdp, run, 'gym', '走到新體育館', max_s=500)
+    run.check('和以安一起走進新體育館', inn and await pg.evaluate("GAME.G.zone") == 'gym', await pg.evaluate("GAME.G.zone"))
+    samples = []; t0 = time.time(); clip = False; shots = 0; idle0 = time.time(); walked = False
+    while time.time() - t0 < 360:
+        g = await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player.obj.position, n=E.npcs.find(m=>m.charId==='heroine_01'&&!m.hidden); const c=!!E.zone&&!!E.scene.getObjectByName('badclip');
+            return {zone:GAME.G.zone, clip:c, p:[+P.x.toFixed(2),+P.z.toFixed(2)], h:n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2)]:null, beh:n?n.beh||null:null, frozen:n?!!n.frozen:null}; })()""")
+        if g['clip']:
+            clip = True; samples.append(g)
+            if shots < 3 and len(samples) in (2, 6, 12): await run.shot(pg, 'badclip_%d' % len(samples)); shots += 1
+            await pg.wait_for_timeout(500); continue
+        if clip and not g['clip']: break
+        s = await P.ts(pg)
+        if s['ch']:
+            k, _ = P.pick_of(s['ch'], ['現在一起過去', '好']); await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(900); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); idle0 = time.time(); continue
+        if not walked and time.time() - idle0 > 40:   # 進門 40 秒沒開始：像玩家一樣走到羽球場、按互動
+            walked = True; await L.go_to(pg, cdp, run, 0.0, -7.5, 1.2, '羽球場邊', max_s=150)
+            if (await P.ts(pg))['lab']: await L.tap(pg, cdp, '#interact')
+        await pg.wait_for_timeout(1000)
+    run.note('短片期間位置（%d 筆）：%s' % (len(samples), J(samples[:40])))
+    run.check('跟著走到新體育館、羽球短片有演', clip, J(samples[:2]))
+    ok = [x for x in samples if x['h'] and x['p']]
+    bad = [x for x in ok if not (x['h'][1] < -11.2 < x['p'][1]) or math.hypot(x['h'][0] - x['p'][0], x['h'][1] - x['p'][1]) < 3]
+    run.check('短片期間以安一直在網子另一邊（北半場，玩家在南半場，相距 3 m 以上），沒有跑到玩家面前', bool(ok) and not bad, J(bad[:5]))
+
+
 async def main():
     run = L.Run('next91015_' + MODE, OUT); os.makedirs(OUT, exist_ok=True)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         pg.on('dialog', lambda d: asyncio.ensure_future(d.accept()))
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()"); await P.init(pg)
-        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin}[MODE](pg, cdp, run)
+        await {'phone': phone, 'bball': bball, 'rooms': rooms, 'cafewin': cafewin, 'noodle': noodle, 'cafe2': cafe2, 'invite': invite, 'jacket': jacket, 'badclip': badclip}[MODE](pg, cdp, run)
         run.check('沒有 JS 例外', not errs, J(errs[:3]))
         print('SHA', os.environ.get('SHA', '?'), 'MODE', MODE)
         await b.close()
