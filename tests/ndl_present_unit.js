@@ -41,4 +41,13 @@ if(typeof STORY.ndlHere!=='function') H.done();
   G.zone='campus'; const away=STORY.ndlHere(G,'classmate_bohan'); G.zone='noodle';
   EVENTS.npcOf=o; STORY._popZone=z0;
   check('5. 麵店生過人以後：阿哲在 3D＝在；柏翰作息在麵店但 3D 沒有＝不在（阿哲＋柏翰那一則不演）；不在麵店照舊看作息',sched===true&&zhe===true&&bo===false&&pair===false&&away===true,J({sched,zhe,bo,pair,away})); }
+// 6. 麵店團先拿位子（BB-B 10-30 n15_ndlread：客人 ×4 先坐滿，柏翰、芯慈沒位子沒生出來）：作息在麵店、還沒在店裡的幾位就留幾個空位
+{ const days=[]; for(const k of ['2025-09-30','2025-10-02','2025-10-14','2025-10-16','2025-10-07','2025-10-21']){ const G=at(k,18); if(STORY.noodleCount(G)>=4) days.push(k); }
+  const k=days[0]||'2025-10-14'; const G=at(k,18), E=GM.E, seats=[]; for(let i=0;i<3;i++){ const x=-3+i*3; for(const sg of [-1,1]) seats.push({x,z:0.5+sg*0.8,yaw:sg>0?Math.PI:0}); }
+  const z0=E.zone, c0=global.CHAR, o0=EVENTS.npcOf, n0=E.npcs; E.zone=Object.assign({},z0,{seats}); E.npcs=[]; E.addNPC=E.addNPC||(n=>{ E.npcs.push(n); return n; }); const addOrig=E.addNPC; E.addNPC=n=>{ E.npcs.push(n); return n; };
+  global.CHAR=Object.assign({},c0||{},{build:()=>({position:{set(){}},rotation:{}})});
+  const zhe={id:'zhe',seat:{x:0,z:-0.3}}, yu={id:'yu',seat:{x:0,z:1.3}}; E.npcs.push(zhe,yu); EVENTS.npcOf=id=>id==='zhe'?zhe:id==='yu'?yu:null; E.player.obj.position={x:0,y:0,z:3};
+  STORY.noodleRegulars(GM,true); const cust=E.npcs.filter(n=>n.ndlRegular).length, freeLeft=seats.filter(st=>!E.npcs.some(n=>{ const q=n.seat||n.seatTarget; return q&&Math.hypot(q.x-st.x,q.z-st.z)<0.3; })).length;
+  E.zone=z0; E.npcs=n0; E.addNPC=addOrig; global.CHAR=c0; EVENTS.npcOf=o0;
+  check('6. 客人 4 位的麵店日（'+k+'，阿哲、Alison 已坐中間）：客人只坐 2 個、留 2 個空位給柏翰、芯慈',STORY.noodleCount(G)>=4&&cust===2&&freeLeft===2,J({day:k,count:STORY.noodleCount(G),cust,freeLeft})); }
 H.done();

@@ -35978,7 +35978,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BB 測：找沒有別的麵店事件的麵店日（例 10/14）18:00，閒聊開口的人都看得到；人沒生出來的那則不演",
+   "next": "BB 測：9/30、10/14、10/16 18:00 進麵店，柏翰、芯慈都坐在店裡、客人只剩兩位；17:30 以前進店，客人走進來不搶麵店團的位子",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -35992,7 +35992,7 @@
    },
    "source": "使用者 10-30 04:3x＋存檔 day28（UA-LAWWW-1030-09，X131）",
    "authorized": "使用者",
-   "notes": "【11:5x】BB-B n15 觀察：9/30、10/2 柏翰、芯慈作息在麵店但店裡六個位子被那天的事件、客人坐滿沒生出來，ndlHere 照樣算在 → 麵店生過人以後只認 3D 真的有的人（S._popZone）；ndl_present_unit 第 5 項 ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ ndl_present_unit 修改前 FAILED → ALL PASS"
+   "notes": "【14:2x】BB n15_ndlread：沒生出來的日子是客人 ×4 先坐滿（客人比 populateSchedule 先生）→ 麵店客人先留空位給作息在麵店、還沒在店裡的麵店團（noodleRegulars need／free）；走過去的客人 seatTarget 也算有人；ndl_present_unit 第 6 項（修改前 FAIL）、noodle_regulars_unit ALL PASS ｜ 【11:5x】BB-B n15 觀察：9/30、10/2 柏翰、芯慈作息在麵店但店裡六個位子被那天的事件、客人坐滿沒生出來，ndlHere 照樣算在 → 麵店生過人以後只認 3D 真的有的人（S._popZone）；ndl_present_unit 第 5 項 ｜ 【07:5x】v9.10.14 發布後 postrel-1030 合進開發分支（b576263b6）＋改名（ba315523b）｜ ndl_present_unit 修改前 FAILED → ALL PASS"
   },
   {
    "id": "CAFE-WINDOW-LIVE-1030",
