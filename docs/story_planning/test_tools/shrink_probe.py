@@ -108,7 +108,7 @@ async def invite(pg, cdp, run, pick):
 
 async def group_at_21(pg, cdp, run, tag, sys_text):
     ok = False; t0 = time.time()
-    while time.time() - t0 < 3600 and not ok:   # b2：1500 秒還沒走到 21:05（SwiftShader 慢），群組那三格是在 21:00 以前查的；給到 60 分鐘，查的時候記遊戲時間
+    while time.time() - t0 < int(os.environ.get('GRP_WAIT', '3600')) and not ok:   # b3 沒答應那一條 3600 秒只走到 20:04（15:10 起，沒有出遊可以快轉）：GRP_WAIT 可以放寬。b2：1500 秒還沒走到 21:05（SwiftShader 慢），群組那三格是在 21:00 以前查的；給到 60 分鐘，查的時候記遊戲時間
         ok = await P.wait_play(pg, cdp, 21.05, max_s=300, picks=['出發'], run=run, tag=tag)
     hh = await pg.evaluate("(()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2))()")
     run.check('%s：前置——照玩家等到 21:05（現在 %s）' % (tag, hh), ok, hh)
