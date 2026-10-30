@@ -46,7 +46,7 @@ async def main():
         dd = await P.jump(pg, cdp, run, '2029-03-28', 20.67, zone='dorm', pos=None, snap=sn, note='同一份進度')
         planned = await pg.evaluate("(()=>(GAME.G.outings||[]).filter(q=>q&&q.ev==='ev_sis_y4_desks').map(q=>({id:q.id,d:CALENDAR.dateOf(q.day).key,h:q.h,state:q.state})))()")
         run.note('排好的書桌夜：%s' % J(planned))
-        await P.events_on(pg)
+        await P.events_on(pg); n0s = await P.say_hook(pg)
         t0 = time.time(); seen = []; picked = []; opts = []
         while time.time() - t0 < 900:
             s = await P.ts(pg)
@@ -57,10 +57,10 @@ async def main():
                 await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
             if s['phone']: await L.phone_away(pg, cdp); continue
-            if any('論文還是要先寫完' in x[1] for x in seen) and not s['busy']: break
+            if (any('論文還是要先寫完' in x[1] for x in seen) or await pg.evaluate("(([n,s])=>(window.__SAY||[]).slice(n).some(x=>x.t.indexOf(s)>=0))", [n0s, '論文還是要先寫完'])) and not s['busy']: break
             if s['h'] >= 23.9 or s['day'] > dd['d']: break
             await pg.wait_for_timeout(1500)
-        lines = [x[1] for x in P.clean(seen)]
+        lines = [x[1] for x in P.clean(seen)] + [t for _, t in await P.said(pg, n0s)]
         f = await pg.evaluate("(()=>({job:GAME.G.flags.SIS16_JOB_A==null?null:GAME.G.flags.SIS16_JOB_A, n:GAME.G.flags.SIS_DESK_NIGHTS|0, done:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_sis16_job)}))()")
         run.note('3/28：選項 %s；選了 %s；台詞 %s；%s；%s' % (J(opts), J(picked), J(lines), J(f), J(await P.clock(pg))))
         await run.shot(pg, 'desk328')

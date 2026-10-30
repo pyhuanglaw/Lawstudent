@@ -82,14 +82,14 @@ async def main():
             who = await pg.evaluate("(()=>({h:+GAME.G.hour.toFixed(2), mates:STORY.dormWho?STORY.dormWho(GAME.G):null}))()"); run.note('房間裡：%s' % J(who))
             for cid, want in ROW1[MODE].items():
                 pw = await P.wait_present(pg, cid, 40); run.note('%s：%s' % (cid, J(pw)))
-                r = await P.talk_to(pg, cdp, run, cid, '%s_%s' % (MODE, cid), max_s=240); await run.shot(pg, 'talk_' + cid)
+                r = await P.talk_full(pg, cdp, run, cid, '%s_%s' % (MODE, cid), max_s=240); await run.shot(pg, 'talk_' + cid)
                 run.check('第 2 節 %s 跟%s說話＝「%s」' % (PLATE[MODE], '阿哲' if cid == 'zhe' else '柏翰', want), any(want in t for _, t in (r or {}).get('lines', [])), J(r and r['lines']))
 
         elif MODE == 'sup':
             key = '2026-11-19'; d = await P.day_of(pg, key); fl = await rooms(pg, d['d'])
             st, d = await P.base(pg, SAVE, key, 22.83, 'dorm', flags=fl); await P.load(pg, cdp, st)
             run.setup('[前置] 使用者存檔 → %s（大二上第 %s 週週四）22:50 312；旗標 %s' % (key, d['week'], J(fl)))
-            await P.events_on(pg)
+            await P.events_on(pg); n0s = await P.say_hook(pg)
             t0 = time.time(); got = False
             while time.time() - t0 < 480:
                 s = await P.ts(pg)
@@ -98,7 +98,7 @@ async def main():
                 await pg.wait_for_timeout(1500)
             run.check('3-1 23:00 在 312：四份滷味照玩家站著就演', got, J(await P.ts(pg)))
             r = await P.dialog(pg, cdp, run, ['「（把自己那份的豆干分給學弟）」'], max_s=240, tag='sup312', shots=True) if got else {'lines': [], 'opts': []}
-            tx = [t for _, t in r['lines']]
+            tx = [t for _, t in r['lines']] + [t for _, t in await P.said(pg, n0s)]
             for w in ('（阿哲提著一袋滷味進門。他把袋子打開，分成四份。）', '學弟，你的。', '……以前是阿凱下去拿。', '對啊。現在換我了。', '（學弟又說了一次謝謝。這次比較小聲。）'):
                 run.check('3-1 有「%s」' % w, w in tx, J(tx))
             f = await pg.evaluate("GAME.G.flags.R312_SUPPER==null?null:GAME.G.flags.R312_SUPPER"); run.check('3-1 記 R312_SUPPER', bool(f), J(f))

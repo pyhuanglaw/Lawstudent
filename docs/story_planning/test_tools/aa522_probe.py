@@ -41,7 +41,7 @@ async def main():
             run.setup('[前置] 使用者存檔 → %s（民總第一堂那一週的週四，大一上第 %s 週）15:24 萬才館%s' % (d['key'], d['week'], '' if wk['ca'] else '；【捷徑】classAnswer＝none（存檔沒有）'))
             civ = await pg.evaluate("!!STORY.civ1Week(GAME.G)"); run.check('前置：這一天在民總第一堂那一週（STORY.civ1Week）', civ, J(civ))
             zw = await P.wait_present(pg, 'prof_zhou', 60); run.note('周教授：%s' % J(zw))
-            r = await P.talk_to(pg, cdp, run, 'prof_zhou', 'zhou_w1', max_s=300); await run.shot(pg, 'zhou_w1')
+            r = await P.talk_full(pg, cdp, run, 'prof_zhou', 'zhou_w1', max_s=300); await run.shot(pg, 'zhou_w1')
             run.check('第 9 節第 1 點：那一週研究室不演（沒有研究室的選項）', bool(r) and not any(o in Z_Q.values() for o in flat(r)), J(r and r.get('opts')))
             run.check('第 9 節第 1 點：先說 talkProf 第一週那兩句之一（答得好「今天回答得不錯。下週……」／沒讀「案例要讀。下週我還會點人。」）', any(any(w in t for w in Z_W1) for t in lines(r)), J(r and r['lines']))
             asked = []; day = d['d']
@@ -49,7 +49,7 @@ async def main():
                 day += 7; dd = await P.jump(pg, cdp, run, await pg.evaluate("CALENDAR.dateOf(%d).key" % day), 15.4, zone='wancai', pos=None, note='下一個週四（第 %d 次去）' % k)
                 await P.wait_present(pg, 'prof_zhou', 60)
                 left = [q for q in Z_Q if q not in asked]
-                r = await P.talk_to(pg, cdp, run, 'prof_zhou', 'zhou_%d' % k, picks=[Z_Q[q] for q in left], max_s=300); await run.shot(pg, 'zhou_%d' % k)
+                r = await P.talk_full(pg, cdp, run, 'prof_zhou', 'zhou_%d' % k, picks=[Z_Q[q] for q in left], max_s=300); await run.shot(pg, 'zhou_%d' % k)
                 op = flat(r); pk = (r or {}).get('picked', [])
                 if left:
                     run.check('1-2 第 %d 次：研究室演了（有選項），還沒問的 %s 都在、問過的 %s 不在' % (k, J(left), J(asked)),
@@ -75,12 +75,12 @@ async def main():
             run.check('第 8 節第 1 點：週一 14:00～16:00 是許教授的研究室時間（STORY.profOffice）', bool(pre) and pre.get('office'), J(pre))
             xw = await P.wait_present(pg, 'prof_xu', 60); run.note('許教授：%s' % J(xw))
             run.check('第 8 節第 1 點：許教授在萬才館', bool(xw) and not xw['hidden'], J(xw))
-            r1 = await P.talk_to(pg, cdp, run, 'prof_xu', MODE + '_1', max_s=300); await run.shot(pg, MODE + '_1')
+            r1 = await P.talk_full(pg, cdp, run, 'prof_xu', MODE + '_1', max_s=300); await run.shot(pg, MODE + '_1')
             run.check('第 2 節：第一次見面＝%s的自我介紹「%s」' % ('大一' if MODE == 'xu1' else '大三', XU_INTRO[MODE]), any(XU_INTRO[MODE] in t for t in lines(r1)), J(r1 and r1['lines']))
             run.check('第 2 節：別的年級的自我介紹不出', not any(w in t for t in lines(r1) for k, w in XU_INTRO.items() if k != MODE), J(r1 and r1['lines']))
             await P.jump(pg, cdp, run, await pg.evaluate("CALENDAR.dateOf(%d).key" % (d['d'] + 7)), 14.5, zone='wancai', pos=None, note='下週一（冷卻 3 天已過）')
             await P.wait_present(pg, 'prof_xu', 60)
-            r2 = await P.talk_to(pg, cdp, run, 'prof_xu', MODE + '_2', max_s=300); await run.shot(pg, MODE + '_2')
+            r2 = await P.talk_full(pg, cdp, run, 'prof_xu', MODE + '_2', max_s=300); await run.shot(pg, MODE + '_2')
             run.check('第 2 節：之後的招呼＝「%s」' % XU_AGAIN[MODE], any(XU_AGAIN[MODE] in t for t in lines(r2)), J(r2 and r2['lines']))
             run.note('兩次的選項：%s ／ %s' % (J(r1 and r1.get('opts')), J(r2 and r2.get('opts'))))
 

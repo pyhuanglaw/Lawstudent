@@ -22,7 +22,7 @@ REL = """(([id,v,date])=>{ const G=GAME.G; for(const k in G.flags) if(k.indexOf(
 
 
 async def play(pg, cdp, run, picks, stop_txt, max_s=600, day=None):
-    t0 = time.time(); seen = []; picked = []; opts = []
+    t0 = time.time(); seen = []; picked = []; opts = []; n0s = await P.say_hook(pg)
     while time.time() - t0 < max_s:
         s = await P.ts(pg)
         if s['txt'] and (not seen or seen[-1] != [s['name'], s['txt']]): seen.append([s['name'], s['txt']])
@@ -31,9 +31,9 @@ async def play(pg, cdp, run, picks, stop_txt, max_s=600, day=None):
             await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
         if s['phone']: await L.phone_away(pg, cdp); continue
-        if any(stop_txt in x[1] for x in seen) and not s['busy']: break
+        if (any(stop_txt in x[1] for x in seen) or await pg.evaluate("(([n,s])=>(window.__SAY||[]).slice(n).some(x=>x.t.indexOf(s)>=0))", [n0s, stop_txt])) and not s['busy']: break
         await pg.wait_for_timeout(1500)
-    return [x[1] for x in P.clean(seen)], opts, picked
+    return [x[1] for x in P.clean(seen)] + [t for _, t in await P.said(pg, n0s)], opts, picked
 
 
 async def main():
@@ -63,7 +63,7 @@ async def main():
                 await L.go_to(pg, cdp, run, sw['x'], sw['z'] + 1.5, 1.2, '學姊旁邊', max_s=240, lv=sw['lv'], stop=lambda s: s['dlg'] or s['choices'] > 0)
             lines, opts, picked = await play(pg, cdp, run, ['「那邊真的什麼都沒有？」'], '有風。還有一台腳踏車', max_s=180)
             if not lines:   # 走到旁邊沒有自己開始＝照玩家按「和她說話」
-                r = await P.talk_to(pg, cdp, run, SIS, 'chishang_talk', picks=['「那邊真的什麼都沒有？」'], max_s=240); lines = [t for _, t in (r or {}).get('lines', [])]; opts = (r or {}).get('opts', [])
+                r = await P.talk_full(pg, cdp, run, SIS, 'chishang_talk', picks=['「那邊真的什麼都沒有？」'], max_s=240); lines = [t for _, t in (r or {}).get('lines', [])]; opts = (r or {}).get('opts', [])
             run.note('台詞 %s；選項 %s' % (J(lines), J(opts))); await run.shot(pg, 'chishang')
             for w in ('池上。……上禮拜去的。', '想看一個什麼都沒有的地方。看完了，回來讀書。', '有風。還有一台腳踏車，是租的。'):
                 run.check('AA_518 1-4 有「%s」' % w, w in lines, J(lines))

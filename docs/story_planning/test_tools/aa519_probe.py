@@ -186,12 +186,12 @@ async def main():
             pre = await pg.evaluate("""(id=>{ const e=STORY_EVENTS.find(x=>x&&x.id===id)||{}; const G=GAME.G; return {title:e.title, done:!!(G.events&&G.events.done&&G.events.done[id]), typhoon:!!CALENDAR.typhoon(G.day), room:G.flags.ROOM_Y2, h:+G.hour.toFixed(2), zone:G.zone, n0:(G.msgs||[]).length}; })(%s)""" % J(ev))
             run.note('前置：%s' % J(pre))
             run.check('9-1 標題＝%s' % ('滷味之夜' if MODE == 'ty2' else '豆漿之夜'), pre['title'] == ('滷味之夜' if MODE == 'ty2' else '豆漿之夜'), J(pre['title']))
-            await P.events_on(pg)
+            await P.events_on(pg); n0s = await P.say_hook(pg)
             got = await wait_event(pg, cdp, ev, max_s=420)
             run.check('事件 %s 照玩家站在宿舍就開始' % ev, got, J(await P.ts(pg)))
             r = await P.dialog(pg, cdp, run, ['（遞毛巾）', '喝掉阿凱的豆漿', '「一人一杯。」'], max_s=300, tag=MODE, shots=True) if got else {'lines': [], 'opts': []}
             post = await pg.evaluate("""(([id,n0])=>{ const G=GAME.G; return {done:!!(G.events&&G.events.done&&G.events.done[id]), flag:G.flags.TYPHOON_Y2_KAI==null?null:G.flags.TYPHOON_Y2_KAI, msgs:(G.msgs||[]).slice(n0).map(m=>m.text)}; })(%s)""" % J([ev, pre['n0']]))
-            txt = said(r) + post['msgs']; opts = [o for os_ in r.get('opts', []) for o in os_]
+            txt = said(r) + post['msgs'] + [t for _, t in await P.said(pg, n0s)]; opts = [o for os_ in r.get('opts', []) for o in os_]
             run.note('事件後：%s' % J(post)); await run.shot(pg, MODE + '_end')
             if MODE == 'ty2':
                 for w in ('手上這次是一袋滷味', '先擦頭啦，滷味又不會跑。', '各分到一些'):
@@ -213,7 +213,7 @@ async def main():
             await P.place_near(pg, run, -29, -99.96, R=9, what='資工系館前（醉月湖南岸長椅）')
             kw = await P.wait_present(pg, 'kai', 60); run.note('阿凱：%s' % J(kw))
             run.check('5-1 週五 17:00～18:00 阿凱在資工系館前（離長椅 2 m 內）', bool(kw) and not kw['hidden'] and abs(kw['x'] + 29) < 2 and abs(kw['z'] + 99.96) < 2, J(kw))
-            r = await P.talk_to(pg, cdp, run, 'kai', 'kai5', max_s=300); await run.shot(pg, 'kai5')
+            r = await P.talk_full(pg, cdp, run, 'kai', 'kai5', max_s=300); await run.shot(pg, 'kai5')
             run.check('第 7 節第 6 項：K5 選「先修 bug。」＝「你說先修 bug。……修好那天晚上，我睡了十個小時。」', any('修好那天晚上，我睡了十個小時' in t for t in said(r)), J(r and r['lines']))
 
         elif MODE == 'tapass':

@@ -289,3 +289,27 @@ def cap_spans(log):
             if out and out[-1][0] == e['t'] and out[-1][2] is None: continue
             out.append([e['t'], e['ms'], end, e['h']])
     return out
+
+
+# BB-B 10-30：每一句 GAME.say（事件的台詞、店員、教授都走這裡）原文照記。對話框輪詢在打字途中就點掉的話只看得到半句（「先擦頭」）、兩個字的短句（「坐。」）會整句漏掉；
+# 檢查台詞改看這一份（say_hook 回傳現在的長度當起點，said 拿起點以後的 [名字, 句子]）。只記不改，遊戲照常
+SAYHOOK = """(()=>{ if(!window.__SAYH){ window.__SAYH=1; window.__SAY=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__SAY.push({n:(w&&w.name)||(typeof w==='string'?w:''), t:String(t||'')}); }catch(e){} return s0.apply(this,arguments); }; } return window.__SAY.length; })()"""
+
+
+async def say_hook(pg):
+    return await pg.evaluate(SAYHOOK)
+
+
+async def said(pg, n0=0):
+    return [[x['n'], x['t']] for x in (await pg.evaluate("window.__SAY||[]"))[n0:]]
+
+
+async def talk_full(pg, cdp, run, cid, tag, picks=(), max_s=480):
+    """talk_to＋lines 補上 GAME.say 的原文（半句、漏掉的短句都補齊；原本的 lines 照留）"""
+    n0 = await say_hook(pg)
+    r = await talk_to(pg, cdp, run, cid, tag, picks, max_s)
+    s = await said(pg, n0)
+    if s: run.note('%s：GAME.say 記到 %s' % (tag, J(s)))
+    if r is not None: r['lines'] = list(r.get('lines', [])) + s
+    elif s: r = {'lines': s, 'opts': [], 'picked': [], 'started': True, 'label': None}
+    return r

@@ -83,7 +83,7 @@ async def main():
             run.check('AA_520 4-1 ②：予樂回「好 八點十五 阿鳳」', '好 八點十五 阿鳳' in t2, J(t2[-4:]))
             run.check('AA_520 4-1 ②：記 YL_LEC＝eat', f['YL_LEC'] == 'eat', J(f))
             await P.jump(pg, cdp, run, '2027-10-20', 19.83, zone='dorm', pos=None, note='照時間過到那一天（同一份進度）')
-            await P.events_on(pg)
+            await P.events_on(pg); n0s = await P.say_hook(pg)
             t0 = time.time(); seen = []; picked = []
             while time.time() - t0 < 900:
                 s = await P.ts(pg)
@@ -93,9 +93,9 @@ async def main():
                     await P.tap_choice(pg, cdp, k); await pg.wait_for_timeout(1200); continue
                 if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(650); continue
                 if s['phone']: await L.phone_away(pg, cdp); continue
-                if any('雞排' in x[1] for x in seen[-2:]) or s['h'] >= 22.5: break
+                if any('雞排' in x[1] for x in seen[-2:]) or await pg.evaluate("(([n,s])=>(window.__SAY||[]).slice(n).some(x=>x.t.indexOf(s)>=0))", [n0s, '雞排']) or s['h'] >= 22.5: break
                 await pg.wait_for_timeout(1500)
-            lines = [x[1] for x in P.clean(seen)]
+            lines = [x[1] for x in P.clean(seen)] + [t for _, t in await P.said(pg, n0s)]
             run.note('10/20：選了 %s；台詞 %s；%s' % (J(picked), J(lines), J(await P.clock(pg))))
             await run.shot(pg, 'lec_noodle')
             run.check('AA_520 4-2b 阿鳳麵店「我都點了。你吃我的。」', '我都點了。你吃我的。' in lines, J(lines))
