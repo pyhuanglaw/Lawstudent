@@ -3650,8 +3650,17 @@ async def pguntil(pg, cdp, run, sc, key, h, secs=1800):
     while time.time() - t0 < secs:
         sn = await pg.evaluate(SNAP)
         if (sn['key'], sn['h']) >= (key, h):
+            # BB-B 10-30（r43_fd）：到站的那一刻就調大 IDLE_MS，那一站要演的（PG.STEPS 的 run：12/26 旁白、6/17 系辦）還沒演就被擋掉了。
+            # 到站以後照玩家再站一下：有對話就點完；時間又往前跳（> 0.2 小時）或 8 秒沒有東西演就停
+            land = (sn['key'], sn['h']); quiet = time.time(); t1 = time.time()
+            while time.time() - t1 < 60:
+                s = await L.state(pg); sn2 = await pg.evaluate(SNAP)
+                if sn2['key'] != land[0] or sn2['h'] - land[1] > 0.2: break
+                if s['dlg'] or s['choices'] or s['busy']: await B['drain'](pg, cdp, pref=sc.get('pref', []), secs=120); quiet = time.time(); continue
+                if time.time() - quiet > 8: break
+                await pg.wait_for_timeout(1000)
             await pg.evaluate("(()=>{ if(typeof PG!=='undefined') PG.IDLE_MS=1e9; })()")
-            run.setup('[捷徑] %s：到了 %s %.2f，不再站著讓它跳（PG.IDLE_MS 調大＝玩家開始走動）' % (sc['id'], sn['key'], sn['h'])); return True
+            run.setup('[捷徑] %s：到了 %s %.2f（站一下讓那一站演完），不再站著讓它跳（PG.IDLE_MS 調大＝玩家開始走動）' % (sc['id'], sn['key'], sn['h'])); return True
         s = await L.state(pg); cur = (sn['key'], sn['h'])
         if cur != last or s['dlg'] or s['choices'] or s['busy']: last = cur; since = time.time()
         elif time.time() - since > 600:
