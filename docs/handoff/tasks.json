@@ -35625,7 +35625,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa527-fix 2637ea798 合進 postrel-1030 → v9.10.14 發布後進開發分支 → BB 測",
+   "next": "aa-followup-1030 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -35639,7 +35639,7 @@
    },
    "source": "AA_527（企劃線 bfede0a62，outbox 220b632bf）",
    "authorized": "D109、D111",
-   "notes": "【LAWWW-B 04:5x】子代理做完 2637ea798（89 項 ALL PASS、基準 FAILED 73、全部 Node 734／0）；13 個細節轉 AA ｜ 第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
+   "notes": "【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【LAWWW-B 04:5x】子代理做完 2637ea798（89 項 ALL PASS、基準 FAILED 73、全部 Node 734／0）；13 個細節轉 AA ｜ 第 4 節許教授全名要問使用者（A 只改全名／B 連姓改／C 不改），由 AA 問；這項不等它。AA_499～502 那一組 AA 另交。"
   },
   {
    "id": "AA528-FIX-1030",
@@ -35803,7 +35803,7 @@
    "area": "STORY",
    "owner": "LAWWW",
    "status": "已實作待整合",
-   "next": "aa529-econ c15a6fd55 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
+   "next": "aa-followup-1030 合進 postrel-1030 → v9.10.14 後進開發分支 → BB 測",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -35817,7 +35817,7 @@
    },
    "source": "AA_529（企劃線 881029f98）",
    "authorized": "D99、D109、D111",
-   "notes": "【05:0x】子代理做完（46 項、基準 FAILED 25、全部 Node 735／0）；7 點轉 AA ｜ 第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
+   "notes": "【05:5x】aa-followup-1030 b2bc2dea3 交件：AA_529⑤聚會旁白排在回程字幕後、⑦社團三則 quiet（PHONE.loud，各快轉不停）、AA_527-2 h504 第 9 週起順延（weekFrom）、AA_528-9 佳蓉 meetB／gradB；新測試 aa_followup_1030_unit 26 項（基準 FAILED 15）；全部 Node 743／0；5 個細節轉 AA 確認 ｜ 【05:0x】子代理做完（46 項、基準 FAILED 25、全部 Node 735／0）；7 點轉 AA ｜ 第 1 點已修 b38b112a8（v9.10.14）。USER_WANTS X27 寫成「預設版用日期卡、長版有場景」（AA）"
   },
   {
    "id": "AA531-US-FIX-1030",
