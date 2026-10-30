@@ -30,7 +30,7 @@ for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/data/msg_kx_
   'src/data/sis_y2y3_events.js','src/sis_y2y3_3d.js','src/data/sis_b4_events.js','src/sis_b4_3d.js','src/data/sis_qixi_events.js','src/sis_qixi3d.js','src/data/sis_jp_events.js','src/sis_jp3d.js',
   'src/data/sis_b12_events.js','src/sis_b12_3d.js','src/data/sis_aa539_lines.js','src/sis_aa539_3d.js','src/data/heroine_asks.js','src/heroine_asks3d.js']) L3(f);
 const git=(ref,p)=>{ try{ return cp.execSync('git -c core.quotepath=false show '+ref+':"'+p+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:1<<26}); }catch(e){ return ''; } };
-const A539='docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md', SHA='90d0a41d0';
+const A539='docs/story_planning/AA_539_學姊重讀_AA470之後_空白與重複.md', SHA='4fe297d9c';   /* 10-30 09:1x 換 4fe297d9c：只多 5-1 的見面前旁白（AA-B 補稿）*/
 const doc=git(SHA,A539), docLines=doc.split('\n');
 const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h, keyOf=d=>CALENDAR.dateOf(d).key, wdOf=d=>CALENDAR.dateOf(d).wd%7;
 const at=(d,h)=>{ const G=H.G; G.day=typeof d==='number'?d:D(d); G.hour=h; G.weekday=wdOf(G.day); };
@@ -221,7 +221,7 @@ await sec('3-1',async()=>{
   const th0=(H.G.msgs||[]).filter(m=>m.th==='p:'+ID).map(m=>(m.from==='player'?'你':'她')+'：'+m.text), iv=(H.G.invites||[]).find(q=>q.who===ID&&q.place==='library');
   check('3-1. 回「我在附近。」：她「'+C720_YES+'」；當天 15:30 總圖的邀約（她約的 by npc、已答應），見面那一次是 12-1（iv.ev）',th0.slice(-2).join('｜')==='你：我在附近。｜她：'+C720_YES&&!!iv&&keyOf(iv.day)==='2026-07-20'&&iv.h===15.5&&iv.by==='npc'&&iv.state==='accepted'&&iv.ev==='ev_sis_borrowed_card'&&H.G.flags.SIS539_SR===iv.id,J({th:th0.slice(-3),iv}));
   let L1=[]; if(iv){ at('2026-07-20',15.5); H.G.zone='library_hall'; H.said=[]; H.opts=[]; H.picks=[0,0]; await INV.meet(GM,iv,null); L1=H.said.map(s=>s.t); rules(); }
-  check('3-1. 見面：先「（你走上三樓。她坐在靠窗的位子。）」（AA-B 09:11 第 4 點的退路：見面在總圖大廳那一層），再直接演 12-1（「（總圖三樓靠窗的位子。…）」「…你的學生證，借我一下。」），不演一般的總圖見面；演完記 12-1、補 SIS_CARD_DAY（第 21 天的私訊）',L1[0]==='（你走上三樓。她坐在靠窗的位子。）'&&L1[1]==='（總圖三樓靠窗的位子。她面前疊著五本書，最上面夾著一張手寫的書單。）'&&L1.some(t=>/你的學生證，借我一下。$/.test(t))&&!L1.some(t=>/^你和.*在總圖/.test(t))&&!!(H.G.events.done.ev_sis_borrowed_card)&&H.G.flags.SIS_CARD_DAY===D('2026-07-20')&&!!iv&&iv.state==='done',J({L:L1.slice(0,3),card:H.G.flags.SIS_CARD_DAY,st:iv&&iv.state}));
+  check('3-1. 見面：先「（你走上三樓。她坐在靠窗的位子。）」（AA_539 5-1，4fe297d9c；見面在總圖大廳那一層；稿裡有這句：'+String(doc.includes('（你走上三樓。她坐在靠窗的位子。）'))+'），再直接演 12-1（「（總圖三樓靠窗的位子。…）」「…你的學生證，借我一下。」），不演一般的總圖見面；演完記 12-1、補 SIS_CARD_DAY（第 21 天的私訊）',doc.includes('（你走上三樓。她坐在靠窗的位子。）')&&L1[0]==='（你走上三樓。她坐在靠窗的位子。）'&&L1[1]==='（總圖三樓靠窗的位子。她面前疊著五本書，最上面夾著一張手寫的書單。）'&&L1.some(t=>/你的學生證，借我一下。$/.test(t))&&!L1.some(t=>/^你和.*在總圖/.test(t))&&!!(H.G.events.done.ev_sis_borrowed_card)&&H.G.flags.SIS_CARD_DAY===D('2026-07-20')&&!!iv&&iv.state==='done',J({L:L1.slice(0,3),card:H.G.flags.SIS_CARD_DAY,st:iv&&iv.state}));
   /* 約好以後、見面以前 12-1 自己先演了＝照一般的見面 */
   fresh('2026-07-20',9,'friend'); at('2026-07-20',9); rules(); at('2026-07-20',14.2); rules(); PHONE.answer(H.G,'sis539_fdm_0',0); const iv2=(H.G.invites||[]).find(q=>q.who===ID&&q.place==='library');
   H.G.events.done.ev_sis_borrowed_card=1; H.G.flags.SIS_CARD_DAY=H.G.day; at('2026-07-20',14.5); rules();
